@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing segments
- * 
+ *
  * @author matthieu
  *
  */
@@ -39,7 +39,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	/**
 	 * Common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param segment
@@ -77,33 +77,29 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	/**
 	 * Constructor for previewable
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPoints
 	 *            endpoints
 	 */
-	public DrawSegment3D(EuclidianView3D a_view3D,
-			ArrayList<GeoPointND> selectedPoints) {
+	public DrawSegment3D(EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints) {
 
-		super(a_view3D, selectedPoints,
-				new GeoSegment3D(a_view3D.getKernel().getConstruction()));
+		super(a_view3D, selectedPoints, new GeoSegment3D(a_view3D.getKernel().getConstruction()));
 		setDrawMinMax(0, 1);
 	}
 
 	@Override
 	protected Coords[] calcPoints() {
 		GeoSegmentND seg = (GeoSegmentND) getGeoElement();
-		return new Coords[] { seg.getStartInhomCoords(),
-				seg.getEndInhomCoords() };
+		return new Coords[] {seg.getStartInhomCoords(), seg.getEndInhomCoords()};
 	}
 
 	@Override
 	protected void setStartEndPoints(Coords p1, Coords p2) {
 		super.setStartEndPoints(p1, p2);
 
-		radius = getLineThickness() * PlotterBrush.LINE3D_THICKNESS
-				/ getView3D().getScale();
+		radius = getLineThickness() * PlotterBrush.LINE3D_THICKNESS / getView3D().getScale();
 
 		for (int i = 1; i <= 3; i++) {
 			if (p1.get(i) < p2.get(i)) {
@@ -118,11 +114,10 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
-        if (dontExtend) {
-            enlargeBounds(min, max, boundsMin, boundsMax);
-        } else {
-            enlargeBounds(min, max, boundsMin, boundsMax, radius);
-        }
-    }
-
+		if (dontExtend) {
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		} else {
+			enlargeBounds(min, max, boundsMin, boundsMax, radius);
+		}
+	}
 }

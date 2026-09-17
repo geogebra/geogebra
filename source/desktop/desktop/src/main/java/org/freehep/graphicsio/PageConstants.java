@@ -10,15 +10,14 @@ import java.util.Map;
  * This class defines a set of constants which describe a page. Convenience
  * objects are provided for various margins, orientations, rescaling, and
  * standard page sizes.
- * 
+ *
  * @author Charles Loomis
  * @author Mark Donszelmann
  * @version $Id: PageConstants.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
 public class PageConstants {
 
-	private PageConstants() {
-	}
+	private PageConstants() {}
 
 	// Orientation
 	public static final String ORIENTATION = "Orientation";
@@ -29,8 +28,10 @@ public class PageConstants {
 
 	public static final String BEST_FIT = "Best Fit";
 
-	public final static String[] getOrientationList() {
-		return new String[] { PORTRAIT, LANDSCAPE, /* BEST_FIT */ };
+	public static final String[] getOrientationList() {
+		return new String[] {
+			PORTRAIT, LANDSCAPE, /* BEST_FIT */
+		};
 	}
 
 	// Page Sizes
@@ -55,8 +56,7 @@ public class PageConstants {
 	public static final String LEDGER = "Ledger";
 
 	public static final String[] getSizeList() {
-		return new String[] { INTERNATIONAL, A4, LETTER, A3, LEGAL, A5, A6,
-				EXECUTIVE, LEDGER };
+		return new String[] {INTERNATIONAL, A4, LETTER, A3, LEGAL, A5, A6, EXECUTIVE, LEDGER};
 	}
 
 	public static final Dimension getSize(String size) {
@@ -72,6 +72,7 @@ public class PageConstants {
 	}
 
 	private static final Map sizeTable = new HashMap();
+
 	static {
 		sizeTable.put(INTERNATIONAL, new Dimension(595, 791));
 		sizeTable.put(A3, new Dimension(842, 1191));
@@ -94,6 +95,7 @@ public class PageConstants {
 	public static final String LARGE = "Large";
 
 	private static final Map marginTable = new HashMap();
+
 	static {
 		marginTable.put(SMALL, new Insets(20, 20, 20, 20));
 		marginTable.put(MEDIUM, new Insets(30, 30, 30, 30));

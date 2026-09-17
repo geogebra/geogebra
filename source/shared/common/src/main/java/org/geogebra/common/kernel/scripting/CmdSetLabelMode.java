@@ -31,7 +31,7 @@ public class CmdSetLabelMode extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,21 +44,21 @@ public class CmdSetLabelMode extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
-			GeoElement[] arg = resArgs(c);
-			if (arg[1].isGeoNumeric()) {
+			case 2:
+				GeoElement[] arg = resArgs(c);
+				if (arg[1].isGeoNumeric()) {
 
-				GeoElement geo = arg[0];
+					GeoElement geo = arg[0];
 
-				geo.setLabelMode((int) ((GeoNumeric) arg[1]).getDouble());
-				geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
+					geo.setLabelMode((int) ((GeoNumeric) arg[1]).getDouble());
+					geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
 
-				return arg;
-			}
-			throw argErr(c, arg[1]);
+					return arg;
+				}
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

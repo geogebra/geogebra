@@ -34,8 +34,10 @@ public class HitDetector {
 	private ArrayList<GeoElement> hitPointOrBoundary;
 	private ArrayList<GeoElement> hitFilling;
 	private ArrayList<GeoElement> hitLabel;
+
 	@Weak
 	private final EuclidianView ev;
+
 	private Hits hits;
 
 	public HitDetector(EuclidianView ev) {
@@ -62,8 +64,7 @@ public class HitDetector {
 			if (d.isEuclidianVisible()) {
 				if (d.hit(p.x, p.y, hitThreshold)) {
 					GeoElement geo = d.getGeoElement();
-					hitMask = hitMask || (geo.isMask() || geo.isMeasurementTool())
-							&& !ev.hasSpotlight();
+					hitMask = hitMask || (geo.isMask() || geo.isMeasurementTool()) && !ev.hasSpotlight();
 
 					if (geo.getLastHitType() == HitType.ON_BOUNDARY) {
 						hitPointOrBoundary.add(geo);
@@ -109,8 +110,7 @@ public class HitDetector {
 		}
 		for (int i = hits.size() - 1; i >= 0; i--) {
 			GeoElement geo = hits.get(i);
-			if (geo.getLayer() < maxlayer || (hitMask && !geo.isMask() && !geo
-					.isMeasurementTool())) {
+			if (geo.getLayer() < maxlayer || (hitMask && !geo.isMask() && !geo.isMeasurementTool())) {
 				hits.remove(i);
 			}
 		}
@@ -165,7 +165,7 @@ public class HitDetector {
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
-	 * 
+	 *
 	 * @param rect
 	 *            rectangle
 	 */
@@ -177,7 +177,7 @@ public class HitDetector {
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
-	 * 
+	 *
 	 * @param rect
 	 *            rectangle
 	 * @param filter
@@ -190,7 +190,9 @@ public class HitDetector {
 
 		for (Drawable d : ev.getAllDrawableList()) {
 			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && geo.isSelectionAllowed(ev) && filter.test(geo)
+			if (geo.isEuclidianVisible()
+					&& geo.isSelectionAllowed(ev)
+					&& filter.test(geo)
 					&& !hits.contains(geo)
 					&& d.intersectsRectangle(rect)) {
 				d.setPartialHitClip(rect);
@@ -209,7 +211,7 @@ public class HitDetector {
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
-	 * 
+	 *
 	 * @param rect
 	 *            selection area
 	 */
@@ -243,7 +245,7 @@ public class HitDetector {
 
 	/**
 	 * Update hits based on cursor position and event type
-	 * 
+	 *
 	 * @param p
 	 *            position
 	 * @param type

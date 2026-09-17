@@ -48,7 +48,6 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 	 */
 	public CmdSurfaceCartesian(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
@@ -63,119 +62,131 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 			throw argNumErr(c);
 		}
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoFunction
-					|| arg[0] instanceof GeoCurveCartesian
-					|| arg[0] instanceof GeoPoly
-					|| arg[0] instanceof GeoConicND)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = new GeoElement[1];
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoFunction
+								|| arg[0] instanceof GeoCurveCartesian
+								|| arg[0] instanceof GeoPoly
+								|| arg[0] instanceof GeoConicND)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+					GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = manager3D.surfaceOfRevolution(
-						(Path) arg[0], (GeoNumberValue) arg[1],
-						null);
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof ParametricCurve)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoLineND)) {
-				GeoElement[] ret = new GeoElement[1];
-
-				ret[0] = manager3D.surfaceOfRevolution(
-						(ParametricCurve) arg[0],
-						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			}
-			if ((ok[0] = arg[0] instanceof Parametrizable)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoLineND)) {
-				GeoElement[] ret = new GeoElement[1];
-
-				ret[0] = manager3D.surfaceOfRevolution(
-						(Parametrizable) arg[0], (GeoNumberValue) arg[1],
-						(GeoLineND) arg[2]);
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		case 7:
-			// create local variables and resolve arguments
-			// Surface[(1;a;b),a,0,pi,b,0,pi]
-			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 }, info);
-			if ((ok[0] = arg[0] instanceof VectorNDValue)
-
-					&& (ok[1] = arg[1] instanceof GeoNumeric)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3] instanceof GeoNumberValue)
-					&& (ok[4] = arg[4] instanceof GeoNumeric)
-					&& (ok[5] = arg[5] instanceof GeoNumberValue)
-					&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
-				int dim = ((VectorNDValue) arg[0]).getDimension();
-				GeoNumberValue[] coords = new GeoNumberValue[dim];
-				ExpressionNode exp = c.getArgument(0);
-				for (int i = 0; i < dim; i++) {
-					kernel.getAlgebraProcessor();
-					ExpressionNode cx = VectorArithmetic
-							.computeCoord(exp, i);
-					AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
-							false);
-					cons.removeFromConstructionList(nx);
-					coords[i] = nx.getNumber();
+					ret[0] = manager3D.surfaceOfRevolution((Path) arg[0], (GeoNumberValue) arg[1], null);
+					ret[0].setLabel(c.getLabel());
+					return ret;
 				}
-				GeoElement[] ret = new GeoElement[1];
-				ret[0] = surfaceCartesian3D(c.getLabel(),
-						exp, coords,
-						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
-						(GeoNumberValue) arg[3], (GeoNumeric) arg[4],
-						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]);
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		case 9:
-			// create local variables and resolve arguments
-			arg = resArgsLocalNumVar(c, new int[] { 3, 6 }, new int[] { 4, 7 }, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3] instanceof GeoNumeric)
-					&& (ok[4] = arg[4] instanceof GeoNumberValue)
-					&& (ok[5] = arg[5] instanceof GeoNumberValue)
-					&& (ok[6] = arg[6] instanceof GeoNumeric)
-					&& (ok[7] = arg[7] instanceof GeoNumberValue)
-					&& (ok[8] = arg[8] instanceof GeoNumberValue)) {
-				GeoElement[] ret = new GeoElement[1];
-				GeoNumberValue[] coords = new GeoNumberValue[] {
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2] };
-				ret[0] = surfaceCartesian3D(c.getLabel(),
-						null, coords, (GeoNumeric) arg[3],
-						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
-						(GeoNumeric) arg[6], (GeoNumberValue) arg[7],
-						(GeoNumberValue) arg[8]);
-				return ret;
-			}
+				throw argErr(c, getBadArg(ok, arg));
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof ParametricCurve)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoLineND)) {
+					GeoElement[] ret = new GeoElement[1];
 
-			throw argErr(c, getBadArg(ok, arg));
+					ret[0] = manager3D.surfaceOfRevolution(
+							(ParametricCurve) arg[0], (GeoNumberValue) arg[1], (GeoLineND) arg[2]);
+					ret[0].setLabel(c.getLabel());
+					return ret;
+				}
+				if ((ok[0] = arg[0] instanceof Parametrizable)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoLineND)) {
+					GeoElement[] ret = new GeoElement[1];
 
-		default:
-			throw argNumErr(c);
+					ret[0] = manager3D.surfaceOfRevolution(
+							(Parametrizable) arg[0], (GeoNumberValue) arg[1], (GeoLineND) arg[2]);
+					ret[0].setLabel(c.getLabel());
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
+			case 7:
+				// create local variables and resolve arguments
+				// Surface[(1;a;b),a,0,pi,b,0,pi]
+				arg = resArgsLocalNumVar(c, new int[] {1, 4}, new int[] {2, 5}, info);
+				if ((ok[0] = arg[0] instanceof VectorNDValue)
+						&& (ok[1] = arg[1] instanceof GeoNumeric)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumberValue)
+						&& (ok[4] = arg[4] instanceof GeoNumeric)
+						&& (ok[5] = arg[5] instanceof GeoNumberValue)
+						&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
+					int dim = ((VectorNDValue) arg[0]).getDimension();
+					GeoNumberValue[] coords = new GeoNumberValue[dim];
+					ExpressionNode exp = c.getArgument(0);
+					for (int i = 0; i < dim; i++) {
+						kernel.getAlgebraProcessor();
+						ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
+						AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
+						cons.removeFromConstructionList(nx);
+						coords[i] = nx.getNumber();
+					}
+					GeoElement[] ret = new GeoElement[1];
+					ret[0] = surfaceCartesian3D(
+							c.getLabel(),
+							exp,
+							coords,
+							(GeoNumeric) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3],
+							(GeoNumeric) arg[4],
+							(GeoNumberValue) arg[5],
+							(GeoNumberValue) arg[6]);
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
+			case 9:
+				// create local variables and resolve arguments
+				arg = resArgsLocalNumVar(c, new int[] {3, 6}, new int[] {4, 7}, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumeric)
+						&& (ok[4] = arg[4] instanceof GeoNumberValue)
+						&& (ok[5] = arg[5] instanceof GeoNumberValue)
+						&& (ok[6] = arg[6] instanceof GeoNumeric)
+						&& (ok[7] = arg[7] instanceof GeoNumberValue)
+						&& (ok[8] = arg[8] instanceof GeoNumberValue)) {
+					GeoElement[] ret = new GeoElement[1];
+					GeoNumberValue[] coords = new GeoNumberValue[] {
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue) arg[2]
+					};
+					ret[0] = surfaceCartesian3D(
+							c.getLabel(),
+							null,
+							coords,
+							(GeoNumeric) arg[3],
+							(GeoNumberValue) arg[4],
+							(GeoNumberValue) arg[5],
+							(GeoNumeric) arg[6],
+							(GeoNumberValue) arg[7],
+							(GeoNumberValue) arg[8]);
+					return ret;
+				}
+
+				throw argErr(c, getBadArg(ok, arg));
+
+			default:
+				throw argNumErr(c);
 		}
 	}
 
-	private GeoElement surfaceCartesian3D(String label, ExpressionNode point,
-			GeoNumberValue[] coords, GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
-			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo) {
-		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons,
-				point, coords,
-				new GeoNumeric[] { uVar, vVar },
-				new GeoNumberValue[] { uFrom, vFrom },
-				new GeoNumberValue[] { uTo, vTo });
+	private GeoElement surfaceCartesian3D(
+			String label,
+			ExpressionNode point,
+			GeoNumberValue[] coords,
+			GeoNumeric uVar,
+			GeoNumberValue uFrom,
+			GeoNumberValue uTo,
+			GeoNumeric vVar,
+			GeoNumberValue vFrom,
+			GeoNumberValue vTo) {
+		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(
+				cons,
+				point,
+				coords,
+				new GeoNumeric[] {uVar, vVar},
+				new GeoNumberValue[] {uFrom, vFrom},
+				new GeoNumberValue[] {uTo, vTo});
 		algo.getSurface().setLabel(label);
 		return algo.getSurface();
 	}
@@ -199,5 +210,4 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 
 		return newXYZ;
 	}
-
 }

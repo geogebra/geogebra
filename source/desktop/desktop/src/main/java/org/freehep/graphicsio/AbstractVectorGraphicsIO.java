@@ -58,8 +58,7 @@ import org.freehep.util.images.ImageUtilities;
  */
 public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 
-	private static final String rootKey = AbstractVectorGraphicsIO.class
-			.getName();
+	private static final String rootKey = AbstractVectorGraphicsIO.class.getName();
 
 	public static final String EMIT_WARNINGS = rootKey + ".EMIT_WARNINGS";
 
@@ -132,21 +131,19 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *            true if writeGraphicsRestore() should be called when this
 	 *            graphics context is disposed of.
 	 */
-	protected AbstractVectorGraphicsIO(Dimension size,
-			boolean doRestoreOnDispose) {
+	protected AbstractVectorGraphicsIO(Dimension size, boolean doRestoreOnDispose) {
 		super();
 
 		this.size = size;
 		this.component = null;
 		this.doRestoreOnDispose = doRestoreOnDispose;
 
-		deviceClip = (size != null
-				? new Rectangle(0, 0, size.width, size.height) : null);
+		deviceClip = (size != null ? new Rectangle(0, 0, size.width, size.height) : null);
 		userClip = null;
 		currentTransform = new AffineTransform();
 		currentComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
-		currentStroke = new BasicStroke(1.0f, BasicStroke.CAP_SQUARE,
-				BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
+		currentStroke =
+				new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
 
 		super.setColor(Color.BLACK);
 		super.setBackground(Color.BLACK);
@@ -176,23 +173,20 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *            true if writeGraphicsRestore() should be called when this
 	 *            graphics context is disposed of.
 	 */
-	protected AbstractVectorGraphicsIO(Component component,
-			boolean doRestoreOnDispose) {
+	protected AbstractVectorGraphicsIO(Component component, boolean doRestoreOnDispose) {
 		super();
 
 		this.size = component.getSize();
 		this.component = component;
 		this.doRestoreOnDispose = doRestoreOnDispose;
 
-		deviceClip = (size != null
-				? new Rectangle(0, 0, size.width, size.height) : null);
+		deviceClip = (size != null ? new Rectangle(0, 0, size.width, size.height) : null);
 		userClip = null;
 		GraphicsConfiguration gc = component.getGraphicsConfiguration();
-		currentTransform = (gc != null) ? gc.getDefaultTransform()
-				: new AffineTransform();
+		currentTransform = (gc != null) ? gc.getDefaultTransform() : new AffineTransform();
 		currentComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER);
-		currentStroke = new BasicStroke(1.0f, BasicStroke.CAP_SQUARE,
-				BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
+		currentStroke =
+				new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
 
 		super.setFont(component.getFont());
 		super.setBackground(component.getBackground());
@@ -211,8 +205,8 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 *            true if writeGraphicsRestore() should be called when this
 	 *            graphics context is disposed of.
 	 */
-	protected AbstractVectorGraphicsIO(AbstractVectorGraphicsIO graphics,
-			boolean doRestoreOnDispose) {
+	protected AbstractVectorGraphicsIO(
+			AbstractVectorGraphicsIO graphics, boolean doRestoreOnDispose) {
 		super(graphics);
 		this.doRestoreOnDispose = doRestoreOnDispose;
 
@@ -220,8 +214,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		component = graphics.component;
 
 		deviceClip = new Rectangle(graphics.deviceClip);
-		userClip = (graphics.userClip != null) ? new Area(graphics.userClip)
-				: null;
+		userClip = (graphics.userClip != null) ? new Area(graphics.userClip) : null;
 		currentTransform = new AffineTransform(graphics.currentTransform);
 		currentComposite = graphics.currentComposite;
 		currentStroke = graphics.currentStroke;
@@ -383,54 +376,77 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 
 	/* 5.3. Images */
 	@Override
-	public boolean drawImage(Image image, int x, int y,
-			ImageObserver observer) {
+	public boolean drawImage(Image image, int x, int y, ImageObserver observer) {
 		int imageWidth = image.getWidth(observer);
 		int imageHeight = image.getHeight(observer);
-		return drawImage(image, x, y, x + imageWidth, y + imageHeight, 0, 0,
-				imageWidth, imageHeight, null, observer);
-	}
-
-	@Override
-	public boolean drawImage(Image image, int x, int y, int width, int height,
-			ImageObserver observer) {
-		int imageWidth = image.getWidth(observer);
-		int imageHeight = image.getHeight(observer);
-		return drawImage(image, x, y, x + width, y + height, 0, 0, imageWidth,
-				imageHeight, null, observer);
-	}
-
-	@Override
-	public boolean drawImage(Image image, int x, int y, int width, int height,
-			Color bgColor, ImageObserver observer) {
-		int imageWidth = image.getWidth(observer);
-		int imageHeight = image.getHeight(observer);
-		return drawImage(image, x, y, x + width, y + height, 0, 0, imageWidth,
-				imageHeight, bgColor, observer);
-	}
-
-	@Override
-	public boolean drawImage(Image image, int x, int y, Color bgColor,
-			ImageObserver observer) {
-		int imageWidth = image.getWidth(observer);
-		int imageHeight = image.getHeight(observer);
-		return drawImage(image, x, y, x + imageWidth, y + imageHeight, 0, 0,
-				imageWidth, imageHeight, bgColor, observer);
-	}
-
-	@Override
-	public boolean drawImage(Image image, int dx1, int dy1, int dx2, int dy2,
-			int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
-		return drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null,
+		return drawImage(
+				image,
+				x,
+				y,
+				x + imageWidth,
+				y + imageHeight,
+				0,
+				0,
+				imageWidth,
+				imageHeight,
+				null,
 				observer);
 	}
 
 	@Override
-	public boolean drawImage(Image image, AffineTransform xform,
+	public boolean drawImage(
+			Image image, int x, int y, int width, int height, ImageObserver observer) {
+		int imageWidth = image.getWidth(observer);
+		int imageHeight = image.getHeight(observer);
+		return drawImage(
+				image, x, y, x + width, y + height, 0, 0, imageWidth, imageHeight, null, observer);
+	}
+
+	@Override
+	public boolean drawImage(
+			Image image, int x, int y, int width, int height, Color bgColor, ImageObserver observer) {
+		int imageWidth = image.getWidth(observer);
+		int imageHeight = image.getHeight(observer);
+		return drawImage(
+				image, x, y, x + width, y + height, 0, 0, imageWidth, imageHeight, bgColor, observer);
+	}
+
+	@Override
+	public boolean drawImage(Image image, int x, int y, Color bgColor, ImageObserver observer) {
+		int imageWidth = image.getWidth(observer);
+		int imageHeight = image.getHeight(observer);
+		return drawImage(
+				image,
+				x,
+				y,
+				x + imageWidth,
+				y + imageHeight,
+				0,
+				0,
+				imageWidth,
+				imageHeight,
+				bgColor,
+				observer);
+	}
+
+	@Override
+	public boolean drawImage(
+			Image image,
+			int dx1,
+			int dy1,
+			int dx2,
+			int dy2,
+			int sx1,
+			int sy1,
+			int sx2,
+			int sy2,
 			ImageObserver observer) {
-		drawRenderedImage(
-				ImageUtilities.createRenderedImage(image, observer, null),
-				xform);
+		return drawImage(image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null, observer);
+	}
+
+	@Override
+	public boolean drawImage(Image image, AffineTransform xform, ImageObserver observer) {
+		drawRenderedImage(ImageUtilities.createRenderedImage(image, observer, null), xform);
 		return true;
 	}
 
@@ -441,10 +457,9 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 
 	// NOTE: not tested yet!!!
 	@Override
-	public void drawRenderableImage(RenderableImage image,
-			AffineTransform xform) {
-		drawRenderedImage(image.createRendering(
-				new RenderContext(new AffineTransform(), getRenderingHints())),
+	public void drawRenderableImage(RenderableImage image, AffineTransform xform) {
+		drawRenderedImage(
+				image.createRendering(new RenderContext(new AffineTransform(), getRenderingHints())),
 				xform);
 	}
 
@@ -476,8 +491,17 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @return true if successful
 	 */
 	@Override
-	public boolean drawImage(Image image, int dx1, int dy1, int dx2, int dy2,
-			int sx1, int sy1, int sx2, int sy2, Color bgColor,
+	public boolean drawImage(
+			Image image,
+			int dx1,
+			int dy1,
+			int dx2,
+			int dy2,
+			int sx1,
+			int sy1,
+			int sx2,
+			int sy2,
+			Color bgColor,
 			ImageObserver observer) {
 		try {
 			int srcX = Math.min(sx1, sx2);
@@ -487,14 +511,14 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			int width = Math.abs(dx2 - dx1);
 			int height = Math.abs(dy2 - dy1);
 
-			if ((srcX != 0) || (srcY != 0)
+			if ((srcX != 0)
+					|| (srcY != 0)
 					|| (srcWidth != image.getWidth(observer))
 					|| (srcHeight != image.getHeight(observer))) {
 				// crop the source image
-				ImageFilter crop = new CropImageFilter(srcX, srcY, srcWidth,
-						srcHeight);
-				image = Toolkit.getDefaultToolkit().createImage(
-						new FilteredImageSource(image.getSource(), crop));
+				ImageFilter crop = new CropImageFilter(srcX, srcY, srcWidth, srcHeight);
+				image = Toolkit.getDefaultToolkit()
+						.createImage(new FilteredImageSource(image.getSource(), crop));
 				MediaTracker mediaTracker = new MediaTracker(new Panel());
 				mediaTracker.addImage(image, 0);
 				try {
@@ -505,12 +529,12 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			}
 
 			boolean flipHorizontal = (dx2 < dx1) ^ (sx2 < sx1); // src flipped
-																// and not dest
-																// flipped or
-																// vice versa
+			// and not dest
+			// flipped or
+			// vice versa
 			boolean flipVertical = (dy2 < dy1) ^ (sy2 < sy1); // <=> source
-																// flipped XOR
-																// dest flipped
+			// flipped XOR
+			// dest flipped
 
 			double tx = (flipHorizontal) ? (double) dx2 : (double) dx1;
 			double ty = (flipVertical) ? (double) dy2 : (double) dy1;
@@ -521,9 +545,9 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			sy = flipVertical ? -1 * sy : sy;
 
 			writeImage(
-					ImageUtilities.createRenderedImage(image, observer,
-							bgColor),
-					new AffineTransform(sx, 0, 0, sy, tx, ty), bgColor);
+					ImageUtilities.createRenderedImage(image, observer, bgColor),
+					new AffineTransform(sx, 0, 0, sy, tx, ty),
+					bgColor);
 			return true;
 		} catch (IOException e) {
 			handleException(e);
@@ -573,8 +597,8 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		}
 	}
 
-	protected abstract void writeImage(RenderedImage image,
-			AffineTransform xform, Color bkg) throws IOException;
+	protected abstract void writeImage(RenderedImage image, AffineTransform xform, Color bkg)
+			throws IOException;
 
 	/**
 	 * Clears rectangle by painting it with the backgroundColor.
@@ -630,8 +654,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			}
 
 			// create glyph
-			GlyphVector gv = font.createGlyphVector(getFontRenderContext(),
-					string);
+			GlyphVector gv = font.createGlyphVector(getFontRenderContext(), string);
 
 			// draw it
 			drawGlyphVector(gv, (float) x, (float) y);
@@ -645,8 +668,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 		}
 	}
 
-	protected abstract void writeString(String string, double x, double y)
-			throws IOException;
+	protected abstract void writeString(String string, double x, double y) throws IOException;
 
 	/**
 	 * Use the transformation of the glyphvector and draw it
@@ -661,8 +683,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	}
 
 	@Override
-	public void drawString(AttributedCharacterIterator iterator, float x,
-			float y) {
+	public void drawString(AttributedCharacterIterator iterator, float x, float y) {
 
 		// TextLayout draws the iterator as glyph vector
 		// thats why we use it only in the case of TEXT_AS_SHAPES,
@@ -678,16 +699,14 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			// initial attributes, we us TextAttribute.equals() rather
 			// than Font.equals() because using Font.equals() we do
 			// not get a 'false' if underline etc. is changed
-			Map/* <TextAttribute, ?> */ attributes = font.getAttributes();
+			Map /* <TextAttribute, ?> */ attributes = font.getAttributes();
 
 			// stores all characters which are written with the same font
 			// if font is changed the buffer will be written and cleared
 			// after it
 			StringBuffer sb = new StringBuffer();
 
-			for (char c = iterator
-					.first(); c != AttributedCharacterIterator.DONE; c = iterator
-							.next()) {
+			for (char c = iterator.first(); c != AttributedCharacterIterator.DONE; c = iterator.next()) {
 
 				// append c if font is not changed
 				if (attributes.equals(iterator.getAttributes())) {
@@ -699,12 +718,10 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 
 					// change the x offset for the next drawing
 					// FIXME: change y offset for vertical text
-					TextLayout tl = new TextLayout(sb.toString(), attributes,
-							getFontRenderContext());
+					TextLayout tl = new TextLayout(sb.toString(), attributes, getFontRenderContext());
 
 					// calculate real width
-					x = x + Math.max(tl.getAdvance(),
-							(float) tl.getBounds().getWidth());
+					x = x + Math.max(tl.getAdvance(), (float) tl.getBounds().getWidth());
 
 					// empty sb
 					sb = new StringBuffer();
@@ -806,8 +823,8 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	public void rotate(double theta) {
 		currentTransform.rotate(theta);
 		try {
-			writeTransform(new AffineTransform(Math.cos(theta), Math.sin(theta),
-					-Math.sin(theta), Math.cos(theta), 0, 0));
+			writeTransform(new AffineTransform(
+					Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), 0, 0));
 		} catch (IOException e) {
 			handleException(e);
 		}
@@ -859,25 +876,22 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param transform
 	 *            to be written
 	 */
-	protected abstract void writeTransform(AffineTransform transform)
-			throws IOException;
+	protected abstract void writeTransform(AffineTransform transform) throws IOException;
 
 	/**
 	 * Clears any existing transformation and sets the a new one. The default
 	 * implementation calls writeTransform using the inverted affine transform
 	 * to calculate it.
-	 * 
+	 *
 	 * new version by Calixte Denizet fixes eg writing output from JLaTeXMath to
 	 * PDF
 	 *
 	 * @param transform
 	 *            to be written
 	 */
-	protected void writeSetTransform(AffineTransform transform)
-			throws IOException {
+	protected void writeSetTransform(AffineTransform transform) throws IOException {
 		try {
-			AffineTransform deltaTransform = new AffineTransform(
-					oldTransform.createInverse());
+			AffineTransform deltaTransform = new AffineTransform(oldTransform.createInverse());
 			deltaTransform.concatenate(transform);
 			writeTransform(deltaTransform);
 		} catch (NoninvertibleTransformException e) {
@@ -1117,8 +1131,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			int currentCap = -1, currentJoin = -1;
 			float currentWidth = -1, currentLimit = -1, currentDashPhase = -1;
 			float[] currentDashArray = null;
-			if ((currentStroke != null)
-					&& (currentStroke instanceof BasicStroke)) {
+			if ((currentStroke != null) && (currentStroke instanceof BasicStroke)) {
 				BasicStroke cs = (BasicStroke) currentStroke;
 				currentCap = cs.getEndCap();
 				currentJoin = cs.getLineJoin();
@@ -1214,8 +1227,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * @param phase
 	 *            of the dash pattern
 	 */
-	abstract protected void writeDash(float[] dash, float phase)
-			throws IOException;
+	protected abstract void writeDash(float[] dash, float phase) throws IOException;
 	// {
 	// // for backward compatibility
 	// double[] dd = new double[dash.length];
@@ -1339,8 +1351,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	@Override
 	public FontRenderContext getFontRenderContext() {
 		// NOTE: not sure?
-		return new FontRenderContext(new AffineTransform(1, 0, 0, -1, 0, 0),
-				true, true);
+		return new FontRenderContext(new AffineTransform(1, 0, 0, -1, 0, 0), true, true);
 	}
 
 	/**
@@ -1525,8 +1536,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	}
 
 	@Override
-	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints,
-			boolean close) {
+	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints, boolean close) {
 		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
 		if (nPoints > 0) {
 			path.moveTo((float) xPoints[0], (float) yPoints[0]);
@@ -1583,14 +1593,12 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 */
 	protected void overLine(String text, Font font, float x, float y) {
 		TextLayout layout = new TextLayout(text, font, getFontRenderContext());
-		float width = Math.max(layout.getAdvance(),
-				(float) layout.getBounds().getWidth());
+		float width = Math.max(layout.getAdvance(), (float) layout.getBounds().getWidth());
 
 		GeneralPath path = new GeneralPath();
-		path.moveTo(x,
-				y + (float) layout.getBounds().getY() - layout.getAscent());
-		path.lineTo(x + width, y + (float) layout.getBounds().getY()
-				- layout.getAscent() - layout.getAscent());
+		path.moveTo(x, y + (float) layout.getBounds().getY() - layout.getAscent());
+		path.lineTo(
+				x + width, y + (float) layout.getBounds().getY() - layout.getAscent() - layout.getAscent());
 		draw(path);
 	}
 }

@@ -21,5 +21,4 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 /**
  * {@code Property} with an icon that can be toggled. {@code BooleanProperty} with associated icon.
  */
-public interface ToggleableIconProperty extends BooleanProperty, IconAssociatedProperty {
-}
+public interface ToggleableIconProperty extends BooleanProperty, IconAssociatedProperty {}

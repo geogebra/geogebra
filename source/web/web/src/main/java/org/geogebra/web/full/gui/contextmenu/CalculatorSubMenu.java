@@ -62,10 +62,10 @@ public final class CalculatorSubMenu extends AriaMenuBar {
 		factory = new ContextMenuItemFactory();
 		embedManager = app.getEmbedManager();
 		ExamType examType = ExamType.byName(app.getAppletParameters().getParamFeatureSet());
-		restrictions = examType == null ? Set.of()
-				: examType.createRestrictions().getDisabledSubApps();
+		restrictions = examType == null ? Set.of() : examType.createRestrictions().getDisabledSubApps();
 		appOrExamModeName = examType == null
-				? GeoGebraConstants.SUITE_APPCODE : examType.name().toLowerCase(Locale.ROOT);
+				? GeoGebraConstants.SUITE_APPCODE
+				: examType.name().toLowerCase(Locale.ROOT);
 		if (embedManager != null) {
 			if (!app.isByCS() || examType != ExamType.BAYERN_GR) {
 				addItem(SuiteSubApp.GRAPHING);
@@ -75,38 +75,37 @@ public final class CalculatorSubMenu extends AriaMenuBar {
 			addItem(SuiteSubApp.CAS);
 			addItem(SuiteSubApp.PROBABILITY);
 			if (app.isByCS() && examType != ExamType.BAYERN_GR) {
-				addItemWithButton(AppDescription.get(SuiteSubApp.SCIENTIFIC).getNameKey(),
-						BOARD_URL + "/taschenrechner", () -> embedManager
-								.addCalcWithPreselectedApp(WTR_APPCODE, SCIENTIFIC_APPCODE));
+				addItemWithButton(
+						AppDescription.get(SuiteSubApp.SCIENTIFIC).getNameKey(),
+						BOARD_URL + "/taschenrechner",
+						() -> embedManager.addCalcWithPreselectedApp(WTR_APPCODE, SCIENTIFIC_APPCODE));
 			} else {
 				addItem(SuiteSubApp.SCIENTIFIC);
 			}
 
 			if (app.isByCS()) {
 				if (examType == null || examType == ExamType.BAYERN_GR) {
-					addItemWithButton("Grafikrechner (Bayern)",
+					addItemWithButton(
+							"Grafikrechner (Bayern)",
 							BOARD_URL + "/grafikrechnerbayern",
-							() -> embedManager.addCalcWithPreselectedApp(BAYERN_GRAPHING_APPCODE,
-									GeoGebraConstants.GRAPHING_APPCODE));
+							() -> embedManager.addCalcWithPreselectedApp(
+									BAYERN_GRAPHING_APPCODE, GeoGebraConstants.GRAPHING_APPCODE));
 				}
 			}
 		}
 	}
 
-	private void addItemWithButton(String itemText, String url,
-			Scheduler.ScheduledCommand cmd) {
+	private void addItemWithButton(String itemText, String url, Scheduler.ScheduledCommand cmd) {
 		FlowPanel itemHolder = new FlowPanel();
 		itemHolder.addStyleName("itemWithButton");
 
-		Label text = BaseWidgetFactory.INSTANCE.newPrimaryText(
-				app.getLocalization().getMenu(itemText), "text");
+		Label text =
+				BaseWidgetFactory.INSTANCE.newPrimaryText(app.getLocalization().getMenu(itemText), "text");
 		text.addClickHandler(event -> cmd.execute());
 		itemHolder.add(text);
 
-		if (!GlobalScope.isExamActive(app)
-				&& !(app.getLAF() instanceof BundleLookAndFeel)) {
-			IconSpec newTabIcon = app.getGeneralIconResource()
-					.getImageResource(GeneralIcon.NEW_TAB);
+		if (!GlobalScope.isExamActive(app) && !(app.getLAF() instanceof BundleLookAndFeel)) {
+			IconSpec newTabIcon = app.getGeneralIconResource().getImageResource(GeneralIcon.NEW_TAB);
 			StandardButton newTabButton = new StandardButton(newTabIcon, "", 24, 24);
 			newTabButton.addFastClickHandler(event -> Browser.openWindow(url));
 			itemHolder.add(newTabButton);
@@ -122,9 +121,9 @@ public final class CalculatorSubMenu extends AriaMenuBar {
 			return;
 		}
 		AppDescription description = AppDescription.get(subApp);
-		addItem(factory.newAriaMenuItem((ResourcePrototype) null,
+		addItem(factory.newAriaMenuItem(
+				(ResourcePrototype) null,
 				app.getLocalization().getMenu(description.getNameKey()),
-				() -> embedManager.addCalcWithPreselectedApp(appOrExamModeName,
-						subApp.appCode)));
+				() -> embedManager.addCalcWithPreselectedApp(appOrExamModeName, subApp.appCode)));
 	}
 }

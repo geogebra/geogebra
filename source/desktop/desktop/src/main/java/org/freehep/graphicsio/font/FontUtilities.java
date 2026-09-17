@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -25,8 +25,7 @@ import org.freehep.graphics2d.font.Lookup;
 
 public class FontUtilities {
 
-	private FontUtilities() {
-	}
+	private FontUtilities() {}
 
 	// public static List getAllAvailableFonts() {
 	// return Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -34,6 +33,7 @@ public class FontUtilities {
 	// }
 
 	private static final Properties windowsFonts = new Properties();
+
 	static {
 		// Looks like Unicode MS makes thinner characters
 		// List fontNames = getAllAvailableFonts();
@@ -89,13 +89,13 @@ public class FontUtilities {
 		public void showString(Font font, String string) throws IOException;
 	}
 
-	private static final CharTable STANDARD_CHAR_TABLES[] = { null,
-			Lookup.getInstance().getTable("Symbol"),
-			Lookup.getInstance().getTable("Zapfdingbats") };
+	private static final CharTable STANDARD_CHAR_TABLES[] = {
+		null, Lookup.getInstance().getTable("Symbol"), Lookup.getInstance().getTable("Zapfdingbats")
+	};
 
-	private static final Font STANDARD_FONT[] = { null,
-			new Font("Symbol", Font.PLAIN, 10),
-			new Font("ZapfDingbats", Font.PLAIN, 10), };
+	private static final Font STANDARD_FONT[] = {
+		null, new Font("Symbol", Font.PLAIN, 10), new Font("ZapfDingbats", Font.PLAIN, 10),
+	};
 
 	/**
 	 * Shows a String and switches the encoding (and font) everytime the unicode
@@ -104,12 +104,11 @@ public class FontUtilities {
 	 * these three encodings contain the unicode character, an undefined
 	 * character is used.
 	 */
-	public static void showString(Font font, String string,
-			CharTable latinTable, ShowString device) throws IOException {
+	public static void showString(Font font, String string, CharTable latinTable, ShowString device)
+			throws IOException {
 
 		if (latinTable == null) {
-			throw new RuntimeException(
-					"FontUtilities.showString(...): latinTable cannot be 'null'");
+			throw new RuntimeException("FontUtilities.showString(...): latinTable cannot be 'null'");
 		}
 
 		STANDARD_FONT[0] = font;
@@ -126,19 +125,16 @@ public class FontUtilities {
 			// find out suitable table and encoding of this character
 			// try last table first
 			int table = lastTable;
-			char encoding = (char) STANDARD_CHAR_TABLES[table]
-					.toEncoding(chars[i]);
+			char encoding = (char) STANDARD_CHAR_TABLES[table].toEncoding(chars[i]);
 			// no success -> try all other tables
 			if (encoding == 0) {
 				table = -1;
 				do {
 					table++;
 					if (table != lastTable) { // we already checked that
-						encoding = (char) STANDARD_CHAR_TABLES[table]
-								.toEncoding(chars[i]);
+						encoding = (char) STANDARD_CHAR_TABLES[table].toEncoding(chars[i]);
 					}
-				} while ((encoding == 0)
-						&& (table < STANDARD_CHAR_TABLES.length - 1));
+				} while ((encoding == 0) && (table < STANDARD_CHAR_TABLES.length - 1));
 			}
 			if (encoding == 0) {
 				table = lastTable;

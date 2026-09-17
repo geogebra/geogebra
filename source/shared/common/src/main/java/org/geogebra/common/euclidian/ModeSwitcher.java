@@ -41,40 +41,40 @@ public class ModeSwitcher {
 	public void switchMode(int newMode) {
 		EmbedManager embedManager = app.getEmbedManager();
 		switch (newMode) {
-		case EuclidianConstants.MODE_CAMERA:
-			app.getGuiManager().loadWebcam();
-			return;
+			case EuclidianConstants.MODE_CAMERA:
+				app.getGuiManager().loadWebcam();
+				return;
 
-		case EuclidianConstants.MODE_AUDIO:
-			getDialogManager().showAudioInputDialog();
-			break;
+			case EuclidianConstants.MODE_AUDIO:
+				getDialogManager().showAudioInputDialog();
+				break;
 
-		case EuclidianConstants.MODE_VIDEO:
-			getDialogManager().showVideoInputDialog();
-			break;
+			case EuclidianConstants.MODE_VIDEO:
+				getDialogManager().showVideoInputDialog();
+				break;
 
-		case EuclidianConstants.MODE_PDF:
-			getDialogManager().showPDFInputDialog();
-			break;
+			case EuclidianConstants.MODE_PDF:
+				getDialogManager().showPDFInputDialog();
+				break;
 
-		case EuclidianConstants.MODE_GRASPABLE_MATH:
-			if (embedManager != null) {
-				embedManager.openGraspableMTool();
-			}
-			break;
+			case EuclidianConstants.MODE_GRASPABLE_MATH:
+				if (embedManager != null) {
+					embedManager.openGraspableMTool();
+				}
+				break;
 
-		case EuclidianConstants.MODE_EXTENSION:
-			getDialogManager().showEmbedDialog();
-			break;
+			case EuclidianConstants.MODE_EXTENSION:
+				getDialogManager().showEmbedDialog();
+				break;
 
-		case EuclidianConstants.MODE_RULER:
-		case EuclidianConstants.MODE_PROTRACTOR:
-		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
-			measurementController.toggleActiveTool(newMode);
-			break;
+			case EuclidianConstants.MODE_RULER:
+			case EuclidianConstants.MODE_PROTRACTOR:
+			case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+				measurementController.toggleActiveTool(newMode);
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 

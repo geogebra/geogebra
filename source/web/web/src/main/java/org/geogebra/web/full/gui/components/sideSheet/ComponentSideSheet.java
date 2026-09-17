@@ -44,11 +44,13 @@ public final class ComponentSideSheet extends FlowPanel implements SetLabels {
 	public void close(Runnable callback) {
 		removeStyleName("animateIn");
 		addStyleName("animateOut");
-		CSSEvents.runOnAnimation(() -> {
-			this.removeFromParent();
-			callback.run();
-		},
-		getElement(), "animateOut");
+		CSSEvents.runOnAnimation(
+				() -> {
+					this.removeFromParent();
+					callback.run();
+				},
+				getElement(),
+				"animateOut");
 	}
 
 	/**

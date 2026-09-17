@@ -47,8 +47,7 @@ public class DrawSymbolic extends Drawable {
 		GeoElementND twinGeo = symbolic.getTwinGeo();
 		if (twinGeo == null) {
 			twinDrawable = null;
-		} else if (twinDrawable != null
-				&& twinDrawable.getGeoElement() == twinGeo) {
+		} else if (twinDrawable != null && twinDrawable.getGeoElement() == twinGeo) {
 			twinDrawable.update();
 		} else {
 			if (twinDrawable instanceof RemoveNeeded) {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,7 +36,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Manage layout related stuff.
- * 
+ *
  * @author Florian Sonner
  */
 public class LayoutD extends Layout {
@@ -54,7 +54,7 @@ public class LayoutD extends Layout {
 
 	/**
 	 * Initialize the layout component.
-	 * 
+	 *
 	 * @param appd
 	 *            Application
 	 */
@@ -70,11 +70,11 @@ public class LayoutD extends Layout {
 
 	/**
 	 * Add a new dock panel to the list of known panels.
-	 * 
+	 *
 	 * Attention: This method has to be called as early as possible in the
 	 * application life cycle (e.g. before loading a file, before constructing
 	 * the ViewMenu).
-	 * 
+	 *
 	 * @param dockPanel dock panel
 	 */
 	public void registerPanel(DockPanelD dockPanel) {
@@ -83,7 +83,7 @@ public class LayoutD extends Layout {
 
 	/**
 	 * Apply a new perspective.
-	 * 
+	 *
 	 * @param perspective perspective
 	 */
 	@Override
@@ -91,8 +91,7 @@ public class LayoutD extends Layout {
 
 		// ignore axes & grid settings for the document perspective
 
-		app.getGuiManager()
-				.setToolBarDefinition(perspective.getToolbarDefinition());
+		app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
 
 		app.setShowToolBar(perspective.getShowToolBar());
 		app.setShowToolBarHelpNoUpdate(perspective.getShowToolBarHelp());
@@ -105,8 +104,7 @@ public class LayoutD extends Layout {
 		app.setShowDockBar(perspective.getShowDockBar(), false);
 
 		// change the dock panel layout
-		dockManager.applyPerspective(perspective.getSplitPaneData(),
-				perspective.getDockPanelData());
+		dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
 
 		// apply ev settings after focus on view
 		boolean changed = setEVsettingsFromPerspective(app, perspective);
@@ -139,10 +137,8 @@ public class LayoutD extends Layout {
 		Perspective perspective = new Perspective();
 
 		// get the information about the split panes
-		DockSplitPane.TreeReader spTreeReader = new DockSplitPane.TreeReader(
-				app);
-		perspective
-				.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
+		DockSplitPane.TreeReader spTreeReader = new DockSplitPane.TreeReader(app);
+		perspective.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
 
 		// get the information about the dock panels
 		DockPanelD[] panels = dockManager.getPanels();
@@ -154,8 +150,7 @@ public class LayoutD extends Layout {
 			if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
 				DockSplitPane parent = panels[i].getParentSplitPane();
 				if (parent != null) {
-					if (parent
-							.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+					if (parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
 						panels[i].setEmbeddedSize(panels[i].getWidth());
 					} else {
 						panels[i].setEmbeddedSize(panels[i].getHeight());
@@ -170,15 +165,13 @@ public class LayoutD extends Layout {
 		// definition should
 		// be read first by the loading algorithm.
 		Arrays.sort(dockPanelInfo, (o1, o2) -> {
-			int diff = o2.getEmbeddedDef().length()
-					- o1.getEmbeddedDef().length();
+			int diff = o2.getEmbeddedDef().length() - o1.getEmbeddedDef().length();
 			return diff;
 		});
 
 		perspective.setDockPanelData(dockPanelInfo);
 
-		perspective.setToolbarDefinition(
-				((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
+		perspective.setToolbarDefinition(((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
 		perspective.setShowGrid(ev.getShowGrid());
@@ -197,7 +190,7 @@ public class LayoutD extends Layout {
 	/**
 	 * Checks if the given component is in an external window. Used for key
 	 * dispatching.
-	 * 
+	 *
 	 * @param component component
 	 * @return whether the given component is in an external window. Used for
 	 *         key dispatching.
@@ -274,5 +267,4 @@ public class LayoutD extends Layout {
 	public JComponent getRootComponent() {
 		return dockManager == null ? null : dockManager.getRoot();
 	}
-
 }

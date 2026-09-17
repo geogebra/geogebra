@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Cauchy[0,1,x]
- * 
+ *
  * @author Michael
  */
 public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
@@ -40,7 +40,7 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 	private GeoFunction ret; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a
@@ -50,8 +50,8 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoCauchyDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			BooleanValue cumulative) {
+	public AlgoCauchyDF(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, BooleanValue cumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -107,16 +107,14 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			en = en.subtract(x0).divide(g.abs()).atan().divide(Math.PI)
-					.plus(0.5);
+			en = en.subtract(x0).divide(g.abs()).atan().divide(Math.PI).plus(0.5);
 
 			// old hack:
 			// command = "1/pi atan((x-("+x0+"))/abs("+g+"))+0.5";
 
 		} else {
 
-			en = g.abs().divide(g.square().plus(en.subtract(x0).square())
-					.multiply(Math.PI));
+			en = g.abs().divide(g.square().plus(en.subtract(x0).square()).multiply(Math.PI));
 
 			// old hack:
 			// command = "1/pi abs("+g+")/(("+g+")^2+(x-("+x0+"))^2)";
@@ -126,7 +124,5 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 		tempFun.initFunction();
 
 		ret.setFunction(tempFun);
-
 	}
-
 }

@@ -1,7 +1,6 @@
 package com.himamis.retex.renderer.share;
 
 public enum ArrayTypes {
-
 	ARRAY,
 
 	EQNARRAY,

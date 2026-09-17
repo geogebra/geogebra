@@ -61,8 +61,7 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 	 * {@link org.geogebra.common.main.OptionType} that should be selected
 	 * @param tabData {@link TabData} including title and panel widget
 	 */
-	public ComponentTab(AppW appW, String ariaLabel, int initialTab,
-			TabData... tabData) {
+	public ComponentTab(AppW appW, String ariaLabel, int initialTab, TabData... tabData) {
 		this.appW = appW;
 		this.loc = appW.getLocalization();
 		this.ariaLabel = ariaLabel;
@@ -107,8 +106,7 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 
 		initPanelContainer();
 		fillTabList(tabList, tabData);
-		new FocusableWidget(AccessibilityGroup.SETTINGS_TAB_BUTTON,
-				null, tabList) {
+		new FocusableWidget(AccessibilityGroup.SETTINGS_TAB_BUTTON, null, tabList) {
 			@Override
 			protected void focus(Widget widget) {
 				for (int i = 0; i < tabList.getWidgetCount(); i++) {
@@ -135,16 +133,14 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 	}
 
 	private void buildHeaderWithScrollIndicator(FlowPanel wrapPanel, FlowPanel tabList) {
-		left = buildScrollButton(KeyboardResources.INSTANCE
-				.keyboard_arrowLeft_black(), "left");
-		left.addFastClickHandler(source ->
-				scrollPanel.setHorizontalScrollPosition(getLeftScroll75Percent()));
+		left = buildScrollButton(KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), "left");
+		left.addFastClickHandler(
+				source -> scrollPanel.setHorizontalScrollPosition(getLeftScroll75Percent()));
 		left.setVisible(false);
 
-		right = buildScrollButton(KeyboardResources.INSTANCE
-				.keyboard_arrowRight_black(), "right");
-		right.addFastClickHandler(source ->
-				scrollPanel.setHorizontalScrollPosition(getRightScroll75Percent()));
+		right = buildScrollButton(KeyboardResources.INSTANCE.keyboard_arrowRight_black(), "right");
+		right.addFastClickHandler(
+				source -> scrollPanel.setHorizontalScrollPosition(getRightScroll75Percent()));
 		right.setVisible(false);
 
 		wrapPanel.add(left);
@@ -198,13 +194,15 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 
 	private int getLeftScroll75Percent() {
 		int scroll75 = (int) (scrollPanel.getOffsetWidth() * 0.75);
-		return Math.max(scrollPanel.getMinimumHorizontalScrollPosition(),
+		return Math.max(
+				scrollPanel.getMinimumHorizontalScrollPosition(),
 				scrollPanel.getHorizontalScrollPosition() - scroll75);
 	}
 
 	private int getRightScroll75Percent() {
 		int scroll75 = (int) (scrollPanel.getOffsetWidth() * 0.75);
-		return Math.min(scrollPanel.getMaximumHorizontalScrollPosition(),
+		return Math.min(
+				scrollPanel.getMaximumHorizontalScrollPosition(),
 				scrollPanel.getHorizontalScrollPosition() + scroll75);
 	}
 
@@ -235,8 +233,7 @@ public final class ComponentTab extends FlowPanel implements SetLabels {
 	 */
 	private void fadeTab(int tabIdx, String animationName, int opacity, Visibility visibility) {
 		panelContainer.getWidget(tabIdx).addStyleName(animationName);
-		Dom.addEventListener(panelContainer.getWidget(tabIdx).getElement(), "animationend",
-				e -> {
+		Dom.addEventListener(panelContainer.getWidget(tabIdx).getElement(), "animationend", e -> {
 			panelContainer.getWidget(tabIdx).removeStyleName(animationName);
 			panelContainer.getWidget(tabIdx).getElement().getStyle().setOpacity(opacity);
 			panelContainer.getWidget(tabIdx).getElement().getStyle().setVisibility(visibility);

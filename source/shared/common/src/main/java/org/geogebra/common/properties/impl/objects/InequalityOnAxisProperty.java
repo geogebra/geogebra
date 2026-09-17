@@ -25,7 +25,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class InequalityOnAxisProperty  extends AbstractValuedProperty<Boolean>
+public class InequalityOnAxisProperty extends AbstractValuedProperty<Boolean>
 		implements BooleanProperty {
 	private final InequalityProperties inequality;
 

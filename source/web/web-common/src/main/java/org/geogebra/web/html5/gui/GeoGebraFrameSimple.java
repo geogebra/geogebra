@@ -43,15 +43,15 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param articleElement
 	 *            article with parameters
 	 */
-	public GeoGebraFrameSimple(GeoGebraElement articleElement, AppletParameters parameters,
-			CASFactory factory) {
+	public GeoGebraFrameSimple(
+			GeoGebraElement articleElement, AppletParameters parameters, CASFactory factory) {
 		super(null, articleElement, parameters);
 		this.casFactory = factory;
 	}
 
 	@Override
-	protected AppW createApplication(GeoGebraElement article,
-			AppletParameters parameters, GLookAndFeelI laf) {
+	protected AppW createApplication(
+			GeoGebraElement article, AppletParameters parameters, GLookAndFeelI laf) {
 		return new AppWsimple(article, parameters, this, false);
 	}
 
@@ -63,8 +63,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 */
 	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags, CASFactory factory) {
 		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
-			AppletParameters parameters = new AppletParameters(
-					new DOMAttributeProvider(geoGebraElement.getElement()));
+			AppletParameters parameters =
+					new AppletParameters(new DOMAttributeProvider(geoGebraElement.getElement()));
 			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement, parameters, factory);
 			LoggerW.startLogger(parameters);
 			inst.createSplash();
@@ -79,8 +79,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 *            callback
 	 * @param factory CAS factory
 	 */
-	public static void renderArticleElement(AttributeProvider el, JsConsumer<Object> clb,
-			CASFactory factory) {
+	public static void renderArticleElement(
+			AttributeProvider el, JsConsumer<Object> clb, CASFactory factory) {
 		AppletParameters parameters = new AppletParameters(el);
 		GeoGebraElement element = GeoGebraElement.as(el.getElement());
 		new GeoGebraFrameSimple(element, parameters, factory)
@@ -110,7 +110,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	@Override
 	protected void initSize() {
 		app.buildApplicationPanel(); // in webSimple we need to init the size
-										// before we load file
+		// before we load file
 	}
 
 	@Override

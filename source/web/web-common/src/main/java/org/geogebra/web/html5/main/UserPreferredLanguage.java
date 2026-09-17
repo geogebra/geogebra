@@ -34,7 +34,7 @@ public class UserPreferredLanguage {
 
 	/**
 	 * Gets user preferred language in a specific order
-	 * 
+	 *
 	 * @param app {@link AppW}
 	 * @return the preferred language.
 	 */
@@ -48,10 +48,9 @@ public class UserPreferredLanguage {
 			}
 		}
 
-		Promise<String> storedLang = app.getLAF() == null
-				? Promise.resolve((String) null) : app.getLAF().loadLanguage();
-		return storedLang.then(lang ->
-				Promise.resolve(getFallbackLanguage(lang, app, loggedIn)));
+		Promise<String> storedLang =
+				app.getLAF() == null ? Promise.resolve((String) null) : app.getLAF().loadLanguage();
+		return storedLang.then(lang -> Promise.resolve(getFallbackLanguage(lang, app, loggedIn)));
 	}
 
 	private static String getFallbackLanguage(String lang, AppW app, boolean loggedIn) {
@@ -60,7 +59,8 @@ public class UserPreferredLanguage {
 		}
 
 		String urlLang = app.getAppletParameters().getDataParamApp()
-				? new URLSearchParams(DomGlobal.location.search).get("lang") : "";
+				? new URLSearchParams(DomGlobal.location.search).get("lang")
+				: "";
 
 		if (!StringUtil.empty(urlLang) && !loggedIn) {
 			return urlLang;
@@ -76,7 +76,7 @@ public class UserPreferredLanguage {
 
 	/**
 	 * Translates an element recursively using data-trans-key attribute.
-	 * 
+	 *
 	 * @param app  {@link AppW}
 	 * @param selector HTML element to translate.
 	 */
@@ -94,8 +94,7 @@ public class UserPreferredLanguage {
 			if (child != null && child.nodeType == Node.ELEMENT_NODE) {
 				HTMLElement childEl = Js.uncheckedCast(child);
 				if (childEl.hasAttribute(DATA_TRANS_KEY)) {
-					childEl.textContent = app.getLocalization()
-							.getMenu(childEl.getAttribute(DATA_TRANS_KEY));
+					childEl.textContent = app.getLocalization().getMenu(childEl.getAttribute(DATA_TRANS_KEY));
 				} else {
 					translate(app, childEl);
 				}

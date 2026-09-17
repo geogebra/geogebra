@@ -43,14 +43,12 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 	 * @param line2
 	 *            second line
 	 */
-	public AlgoOrthoLineLineLine(Construction cons, String label,
-			GeoLineND line1, GeoLineND line2) {
+	public AlgoOrthoLineLineLine(Construction cons, String label, GeoLineND line1, GeoLineND line2) {
 		super(cons, line1);
 		this.line2 = line2;
 
 		setInputOutput(
-				new GeoElement[] { (GeoElement) line1, (GeoElement) line2 },
-				new GeoElement[] { getLine() });
+				new GeoElement[] {(GeoElement) line1, (GeoElement) line2}, new GeoElement[] {getLine()});
 
 		// compute line
 		compute();
@@ -65,19 +63,14 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 	@Override
 	protected void setOriginAndDirection2() {
 		Coords o2 = line2.getPointInD(3, 0).getInhomCoordsInSameDimension();
-		direction2 = line2.getPointInD(3, 1).getInhomCoordsInSameDimension()
-				.sub(o2);
-		Coords[] points = CoordMatrixUtil.nearestPointsFromTwoLines(origin1,
-				direction1, o2, direction2);
+		direction2 = line2.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
+		Coords[] points =
+				CoordMatrixUtil.nearestPointsFromTwoLines(origin1, direction1, o2, direction2);
 		origin = points[0];
-
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LinePerpendicularToAandB",
-				line1.getLabel(tpl), line2.getLabel(tpl));
-
+		return getLoc().getPlain("LinePerpendicularToAandB", line1.getLabel(tpl), line2.getLabel(tpl));
 	}
-
 }

@@ -25,7 +25,7 @@ public class EuclidianController3DForExport extends EuclidianController3D {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -43,5 +43,4 @@ public class EuclidianController3DForExport extends EuclidianController3D {
 	protected void resetToolTipManager() {
 		// no need
 	}
-
 }

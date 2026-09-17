@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -84,17 +84,16 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 	@Test
 	void testOneVariableToBernsteinPolynomial() {
 		Polynomial polynomial = new Polynomial(getKernel(), "y");
-		BernsteinPolynomial<?> bernsteinPolynomial = from1DPolynomial(polynomial, 0, 2,
-				new BoundsRectangle(0, 1, 0, 1),
-				new BernsteinBuilder1Var());
+		BernsteinPolynomial<?> bernsteinPolynomial = from1DPolynomial(
+				polynomial, 0, 2, new BoundsRectangle(0, 1, 0, 1), new BernsteinBuilder1Var());
 		assertEquals("y\u00B2 + y (1 - y)", bernsteinPolynomial.toString());
 	}
 
 	@Test
 	void testToString() {
 		newBernsteinPolynomialPolynomialFrom("3x^3 + 2x^2 + x - 1=0");
-		assertEquals("5x\u00B3 + x\u00B2 (1 - x) - 2x (1 - x)\u00B2 - (1 - x)\u00B3",
-				bernstein1D.toString());
+		assertEquals(
+				"5x\u00B3 + x\u00B2 (1 - x) - 2x (1 - x)\u00B2 - (1 - x)\u00B3", bernstein1D.toString());
 	}
 
 	@Test
@@ -102,8 +101,8 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 		bernsteinShouldBe("2x\u00B2", 0, 0, 2);
 		bernsteinShouldBe("4x\u00B2 + 2x (1 - x)", 0, 2, 2);
 		bernsteinShouldBe("6x\u00B2 + 6x (1 - x) + 2(1 - x)\u00B2", 2, 2, 2);
-		bernsteinShouldBe("14x\u00B3 + 22x\u00B2 (1 - x) + 17x (1 - x)\u00B2"
-				+ " + 5(1 - x)\u00B3", 5, 2, 3, 4);
+		bernsteinShouldBe(
+				"14x\u00B3 + 22x\u00B2 (1 - x) + 17x (1 - x)\u00B2" + " + 5(1 - x)\u00B3", 5, 2, 3, 4);
 		bernsteinShouldBe("6x + 2(1 - x)", 2, 4);
 		bernsteinShouldBe("20x\u00B2 + 10x (1 - x) + 2(1 - x)\u00B2", 2, 6, 12);
 	}
@@ -116,17 +115,14 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 
 	private void new1DFromCoeffs(double... coeffs) {
 		BernsteinBuilder1Var builder = new BernsteinBuilder1Var();
-		bernstein1D =
-				builder.build(coeffs, coeffs.length - 1,
-						'x', view.getXmin(), view.getXmax()
-				);
+		bernstein1D = builder.build(coeffs, coeffs.length - 1, 'x', view.getXmin(), view.getXmax());
 	}
 
 	@Disabled
 	@Test
 	void testSpit() {
-		double[] bcoeffs = new double[]{2, 8, 12, 7};
-		bernstein1D = new BernsteinPolynomial1D(bcoeffs, 'x' , 0, 1);
+		double[] bcoeffs = new double[] {2, 8, 12, 7};
+		bernstein1D = new BernsteinPolynomial1D(bcoeffs, 'x', 0, 1);
 		Log.debug("Original: " + bernstein1D);
 		BernsteinPolynomial1D[] splits = bernstein1D.split();
 		Log.debug("splits[0]: " + splits[0]);
@@ -183,8 +179,7 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 	 * @param limits of the result polynomial.
 	 * @return the {@link BernsteinPolynomial1D} instance if possible, null otherwise.
 	 */
-	BernsteinPolynomial1D bernsteinPolynomial1DFrom(GeoElement geo,
-			BoundsRectangle limits) {
+	BernsteinPolynomial1D bernsteinPolynomial1DFrom(GeoElement geo, BoundsRectangle limits) {
 		Polynomial polynomial = null;
 		if (geo instanceof GeoFunction) {
 			Function function = ((GeoFunction) geo).getFunction();
@@ -199,21 +194,37 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 		}
 
 		if (polynomial != null) {
-			return from1DPolynomial(polynomial, polynomial.degree('x'),
-					polynomial.degree('y'), limits, new BernsteinBuilder1Var());
+			return from1DPolynomial(
+					polynomial,
+					polynomial.degree('x'),
+					polynomial.degree('y'),
+					limits,
+					new BernsteinBuilder1Var());
 		}
 		return null;
 	}
 
-	static BernsteinPolynomial1D from1DPolynomial(Polynomial polynomial, int degreeX, int degreeY,
-			BoundsRectangle limits, BernsteinBuilder1Var builder1D) {
+	static BernsteinPolynomial1D from1DPolynomial(
+			Polynomial polynomial,
+			int degreeX,
+			int degreeY,
+			BoundsRectangle limits,
+			BernsteinBuilder1Var builder1D) {
 		if (degreeY == 0) {
-			return builder1D.build(coeffsFromPolynomial(polynomial, degreeX, 'x'),
-					degreeX, 'x', limits.getXmin(), limits.getXmax());
+			return builder1D.build(
+					coeffsFromPolynomial(polynomial, degreeX, 'x'),
+					degreeX,
+					'x',
+					limits.getXmin(),
+					limits.getXmax());
 		}
 
-		return builder1D.build(coeffsFromPolynomial(polynomial, degreeY, 'y'),
-				degreeY, 'y', limits.getYmin(), limits.getYmax());
+		return builder1D.build(
+				coeffsFromPolynomial(polynomial, degreeY, 'y'),
+				degreeY,
+				'y',
+				limits.getYmin(),
+				limits.getYmax());
 	}
 
 	static double[] coeffsFromPolynomial(Polynomial polynomial, int degree, char variableName) {
@@ -230,23 +241,25 @@ class BernsteinPolynomial1DTest extends BaseUnitTest {
 
 	@Test
 	void fromBernsteinCoeffsAndEvaluateTest() {
-		double[] bcoeffs = new double[]{-1.249537290002337, 1309.3947866399963, -4486.193381840081,
-				-3484.6701577602, -24953.272458240237};
+		double[] bcoeffs = new double[] {
+			-1.249537290002337,
+			1309.3947866399963,
+			-4486.193381840081,
+			-3484.6701577602,
+			-24953.272458240237
+		};
 		BernsteinPolynomial1D b1var =
-				new BernsteinPolynomial1D(bcoeffs, 'y', -1.109999999999992,
-						24.590000000000035);
+				new BernsteinPolynomial1D(bcoeffs, 'y', -1.109999999999992, 24.590000000000035);
 		assertEquals(35.34367034905276, b1var.evaluate(0.03572502751646012), 0);
-
 	}
 
 	@Test
 	void fromBernsteinCoeffsAndEvaluateTest2() {
-		double[] bcoeffs = new double[]{875587.7265609629, 3385621.343408652, 6254666.393772185,
-				5854819.663562266, 2110186.88663777};
+		double[] bcoeffs = new double[] {
+			875587.7265609629, 3385621.343408652, 6254666.393772185, 5854819.663562266, 2110186.88663777
+		};
 		BernsteinPolynomial1D b1var =
-				new BernsteinPolynomial1D(bcoeffs, 'y', -1.109999999999992,
-						24.590000000000035);
+				new BernsteinPolynomial1D(bcoeffs, 'y', -1.109999999999992, 24.590000000000035);
 		assertEquals(874834.279891417, b1var.evaluate(0.07935519337284117), 0);
-
 	}
 }

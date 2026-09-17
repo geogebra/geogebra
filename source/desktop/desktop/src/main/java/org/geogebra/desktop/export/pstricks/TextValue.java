@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -61,8 +61,10 @@ public class TextValue extends JTextField implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// Accept only numerical characters
 		char c = e.getKeyChar();
-		if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE)
-				|| (c == KeyEvent.VK_DELETE) || (c == '.'))) {
+		if (!(Character.isDigit(c)
+				|| (c == KeyEvent.VK_BACK_SPACE)
+				|| (c == KeyEvent.VK_DELETE)
+				|| (c == '.'))) {
 			if (c != '-' || !ALLOW_NEGATIVE) {
 				e.consume();
 			} else if (getText().indexOf('-') != -1 || getCaretPosition() != 0) {
@@ -74,7 +76,6 @@ public class TextValue extends JTextField implements KeyListener {
 		else if (c == '.' && getText().indexOf('.') != -1) {
 			e.consume();
 		}
-
 	}
 
 	@Override

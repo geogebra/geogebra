@@ -56,8 +56,7 @@ public class AlgoFitImplicit extends AlgoElement {
 	 * @param arg
 	 *            order of implicit polynomial to fit
 	 */
-	public AlgoFitImplicit(Construction cons, String label, GeoList pointlist,
-			GeoNumberValue arg) {
+	public AlgoFitImplicit(Construction cons, String label, GeoList pointlist, GeoNumberValue arg) {
 		super(cons);
 
 		this.pointlist = pointlist;
@@ -118,8 +117,7 @@ public class AlgoFitImplicit extends AlgoElement {
 				return;
 			}
 
-			SingularValueDecomposition svd = new SingularValueDecomposition(
-					M);
+			SingularValueDecomposition svd = new SingularValueDecomposition(M);
 
 			V = svd.getV();
 

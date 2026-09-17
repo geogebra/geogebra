@@ -30,8 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoPolarPoint extends AlgoPolarPointND {
 
 	/** Creates new AlgoPolarLine */
-	public AlgoPolarPoint(Construction cons, String label, GeoConicND c,
-			GeoLineND line) {
+	public AlgoPolarPoint(Construction cons, String label, GeoConicND c, GeoLineND line) {
 		super(cons, label, c, line);
 	}
 
@@ -45,5 +44,4 @@ public class AlgoPolarPoint extends AlgoPolarPointND {
 	public final void compute() {
 		c.polarPoint((GeoLine) line, (GeoPoint) polar);
 	}
-
 }

@@ -31,7 +31,7 @@ public class CmdRandomElement extends CmdOneListFunction {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,7 +45,7 @@ public class CmdRandomElement extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String label, GeoList b, EvalInfo info) {
+	protected final GeoElement doCommand(String label, GeoList b, EvalInfo info) {
 		AlgoRandomElement algo = new AlgoRandomElement(cons, b);
 		GeoElement element = algo.getElement();
 		initSymbolicMode(element, info);

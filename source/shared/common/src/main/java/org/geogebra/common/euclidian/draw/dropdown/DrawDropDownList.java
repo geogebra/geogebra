@@ -42,7 +42,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Draw a GeoList containing drawable objects
- * 
+ *
  * @author Markus Hohenwarter
  */
 public final class DrawDropDownList extends CanvasDrawable
@@ -71,7 +71,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	/**
 	 * Creates new drawable list
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param geoList
@@ -85,8 +85,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		dropDown = new DropDownList(view.getApplication(), this);
 		scroller = new OptionScroller(dropDown);
 		model = new DropDownModel(getLabelFont(), geoList);
-		drawOptions = new DrawOptions(this, model, view,
-				scroller);
+		drawOptions = new DrawOptions(this, model, view, scroller);
 
 		drawSelected = new DrawSelectedItem();
 		update();
@@ -107,8 +106,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	@Override
 	public void update() {
 		isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
-		int fontSize = (int) (view.getFontSize()
-				* geoList.getFontSizeMultiplier());
+		int fontSize = (int) (view.getFontSize() * geoList.getFontSizeMultiplier());
 		setLabelFontSize(fontSize);
 		if (!geo.isSelectionAllowed(view)) {
 			setOptionsVisible(false);
@@ -156,7 +154,8 @@ public final class DrawDropDownList extends CanvasDrawable
 			return false;
 		}
 
-		return super.hit(x, y, hitThreshold) || drawSelected.isOpenButtonHit(x, y)
+		return super.hit(x, y, hitThreshold)
+				|| drawSelected.isOpenButtonHit(x, y)
 				|| isOptionsHit(x, y);
 	}
 
@@ -179,8 +178,12 @@ public final class DrawDropDownList extends CanvasDrawable
 			labelGap = 0;
 		}
 		int totalWidth = labelSize.getX() + getPreferredWidth() + labelGap;
-		return AwtFactory.getPrototype().newRectangle(boxLeft + boxWidth - totalWidth, yLabel,
-				labelSize.getX() + drawOptions.getMaxItemWidth() + labelGap, getTotalHeight());
+		return AwtFactory.getPrototype()
+				.newRectangle(
+						boxLeft + boxWidth - totalWidth,
+						yLabel,
+						labelSize.getX() + drawOptions.getMaxItemWidth() + labelGap,
+						getTotalHeight());
 	}
 
 	@Override
@@ -193,14 +196,15 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		g2.setPaint(GColor.LIGHT_GRAY);
 		highlightLabel(g2, latexLabel);
-		g2.setPaint(geoList.usesDisabledStyle(null)
-				? GeoGebraColorConstants.NEUTRAL_500 : geoList.getObjectColor());
+		g2.setPaint(
+				geoList.usesDisabledStyle(null)
+						? GeoGebraColorConstants.NEUTRAL_500
+						: geoList.getObjectColor());
 
 		// Draw the selected line
 		int textBottom;
 		if (seLatex) {
-			textBottom = boxTop
-					+ (boxHeight - selectedDimension.getHeight()) / 2;
+			textBottom = boxTop + (boxHeight - selectedDimension.getHeight()) / 2;
 		} else {
 			textBottom = alignTextToBottom(boxTop, boxHeight, selectedText);
 		}
@@ -217,13 +221,11 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	private void initScreenLocation() {
 		if (!geoList.hasScreenLocation() && boxWidth != 0) {
-			geoList.setScreenLocation(Math.min(xLabel, boxLeft),
-					Math.min(yLabel, boxTop));
+			geoList.setScreenLocation(Math.min(xLabel, boxLeft), Math.min(yLabel, boxTop));
 		}
 	}
 
-	private int alignTextToBottom(int top, int height,
-			String text) {
+	private int alignTextToBottom(int top, int height, String text) {
 		int base = (height + getTextDescent(text)) / 2;
 		return top + base + (height - base) / 2;
 	}
@@ -241,31 +243,31 @@ public final class DrawDropDownList extends CanvasDrawable
 		} else {
 			boolean latex = isLatexString(text);
 			if (latex) {
-				drawLatex(g2, geo0, getLabelFont(), text, xLabel,
-						getCaptionY(true, labelSize.y));
+				drawLatex(g2, geo0, getLabelFont(), text, xLabel, getCaptionY(true, labelSize.y));
 			} else {
 				int textBottom = getCaptionY(false, labelSize.y);
-				g2.setPaint(geoList.usesDisabledStyle(null)
-						? GeoGebraColorConstants.NEUTRAL_500 : geoList.getObjectColor());
+				g2.setPaint(
+						geoList.usesDisabledStyle(null)
+								? GeoGebraColorConstants.NEUTRAL_500
+								: geoList.getObjectColor());
 				g2.setFont(getLabelFont());
-				EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-						xLabel, textBottom, false);
+				EuclidianStatic.drawIndexedString(
+						view.getApplication(), g2, text, xLabel, textBottom, false);
 			}
 		}
 	}
 
 	@Override
 	public int getCaptionY(boolean latex, int height) {
-		return latex ? boxTop + (boxHeight - height) / 2
+		return latex
+				? boxTop + (boxHeight - height) / 2
 				: boxTop + (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
 	}
 
 	@Override
 	protected void highlightLabel(GGraphics2D g2, boolean latex) {
-		if (geo.isLabelVisible() && isHighlighted() && latex
-				&& !geo.hasDynamicCaption()) {
-			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2,
-					labelSize.x, labelSize.y);
+		if (geo.isLabelVisible() && isHighlighted() && latex && !geo.hasDynamicCaption()) {
+			g2.fillRect(xLabel, boxTop + (boxHeight - labelSize.y) / 2, labelSize.x, labelSize.y);
 		} else {
 			super.highlightLabel(g2, latex);
 		}
@@ -281,13 +283,11 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		GeoElement geoItem = geoList.getSelectedElement();
 		if (geoItem != null && GeoList.needsLatex(geoItem)) {
-			selectedText = geoItem.toLaTeXString(false,
-					StringTemplate.latexTemplate);
+			selectedText = geoItem.toLaTeXString(false, StringTemplate.latexTemplate);
 			seLatex = true;
 		} else {
 			// realTemplate: make sure Sequence((t,t),t,1,5) works
-			selectedText = geoList.getItemDisplayString(geoItem,
-					StringTemplate.realTemplate);
+			selectedText = geoList.getItemDisplayString(geoItem, StringTemplate.realTemplate);
 			seLatex = isLatexString(selectedText);
 		}
 		GGraphics2D g2 = view.getTempGraphics2D(getLabelFont());
@@ -296,12 +296,12 @@ public final class DrawDropDownList extends CanvasDrawable
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);
 	}
 
-	private GDimension drawSelectedText(GGraphics2D g2, int left, int top,
-			boolean draw) {
+	private GDimension drawSelectedText(GGraphics2D g2, int left, int top, boolean draw) {
 		GFont font = getLabelFont();
 
 		if (seLatex) {
-			return draw ? drawLatex(g2, geoList, font, selectedText, left, top)
+			return draw
+					? drawLatex(g2, geoList, font, selectedText, left, top)
 					: measureLatex(geoList, font, selectedText, false);
 		}
 
@@ -312,12 +312,11 @@ public final class DrawDropDownList extends CanvasDrawable
 		final int w = (int) layout.getBounds().getWidth();
 
 		if (draw) {
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					selectedText, left, top, false);
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2, selectedText, left, top, false);
 		}
 
-		return AwtFactory.getPrototype().newDimension(w,
-				(int) Math.round(layout.getDescent() + layout.getAscent()));
+		return AwtFactory.getPrototype()
+				.newDimension(w, (int) Math.round(layout.getDescent() + layout.getAscent()));
 	}
 
 	private int getTriangleControlWidth() {
@@ -334,12 +333,11 @@ public final class DrawDropDownList extends CanvasDrawable
 				+ getTriangleControlWidth();
 
 		int maxItemWidth = drawOptions.getMaxItemWidth();
-		return (isOptionsVisible() && maxItemWidth > selectedWidth)
-				? maxItemWidth : selectedWidth;
+		return (isOptionsVisible() && maxItemWidth > selectedWidth) ? maxItemWidth : selectedWidth;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The whole width of the widget including the label.
 	 */
 	public int getTotalWidth() {
@@ -347,7 +345,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The height of the combo including the label
 	 */
 	public int getTotalHeight() {
@@ -357,7 +355,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	/**
 	 * Returns if mouse is hit the options or not.
-	 * 
+	 *
 	 * @param x
 	 *            mouse x coordinate
 	 * @param y
@@ -370,7 +368,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	/**
 	 * Called when mouse is over options to highlight item.
-	 * 
+	 *
 	 * @param x
 	 *            mouse x-coordinate
 	 * @param y
@@ -382,7 +380,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	/**
 	 * Called when user presses down the mouse on the widget.
-	 * 
+	 *
 	 * @param x
 	 *            Mouse x coordinate.
 	 * @param y
@@ -398,8 +396,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	private void toggleOptions(int x, int y) {
 		DrawDropDownList opened = view.getOpenedComboBox();
-		if ((opened == null || !opened.isOptionsHit(x, y))
-				&& drawSelected.isOpenButtonHit(x, y)) {
+		if ((opened == null || !opened.isOptionsHit(x, y)) && drawSelected.isOpenButtonHit(x, y)) {
 			boolean visible = isOptionsVisible();
 			if (!visible) {
 				// make sure keyboard controls work for the dropdown
@@ -450,13 +447,13 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	/**
 	 * Gets DrawList for geo. No type check.
-	 * 
+	 *
 	 * @param app
 	 *            The current application.
 	 * @param geo
 	 *            The geo we like to get the DrawList for.
 	 * @return The DrawList for the geo element;
-	 * 
+	 *
 	 */
 	public static @Nullable DrawDropDownList asDrawable(App app, GeoElement geo) {
 		DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
@@ -481,7 +478,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if list when draw as combo, is selected.
 	 */
 	public boolean isSelected() {

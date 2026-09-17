@@ -30,17 +30,17 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * 2D view for plane.
- * 
+ *
  * @author Mathieu
  *
  */
-public final class EuclidianViewForPlaneW extends EuclidianViewW implements
-        EuclidianViewForPlaneInterface {
+public final class EuclidianViewForPlaneW extends EuclidianViewW
+		implements EuclidianViewForPlaneInterface {
 
 	private int panelID;
 
 	/**
-	 * 
+	 *
 	 * @param euclidianViewPanel
 	 *            view panel
 	 * @param ec
@@ -52,9 +52,12 @@ public final class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 * @param panelID
 	 *            id of the view
 	 */
-	public EuclidianViewForPlaneW(EuclidianPanelWAbstract euclidianViewPanel,
-	        EuclidianController ec, ViewCreator plane,
-	        EuclidianSettings settings, int panelID) {
+	public EuclidianViewForPlaneW(
+			EuclidianPanelWAbstract euclidianViewPanel,
+			EuclidianController ec,
+			ViewCreator plane,
+			EuclidianSettings settings,
+			int panelID) {
 		super(euclidianViewPanel, ec, EVNO_GENERAL, settings);
 		this.panelID = panelID;
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
@@ -85,7 +88,7 @@ public final class EuclidianViewForPlaneW extends EuclidianViewW implements
 	// }
 
 	/**
-	 * 
+	 *
 	 * @return dock panel
 	 */
 	@Override
@@ -105,5 +108,4 @@ public final class EuclidianViewForPlaneW extends EuclidianViewW implements
 	public int getViewID() {
 		return panelID;
 	}
-
 }

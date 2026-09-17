@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algorithm for conic vertices
- * 
+ *
  * @author Markus
  */
 public class AlgoVertexConic extends AlgoElement {
@@ -69,7 +69,7 @@ public class AlgoVertexConic extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param c
@@ -96,7 +96,7 @@ public class AlgoVertexConic extends AlgoElement {
 
 	/**
 	 * create the vertices
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 */
@@ -130,7 +130,7 @@ public class AlgoVertexConic extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return array of conic vertices
 	 */
 	public GeoPointND[] getVertex() {
@@ -139,7 +139,7 @@ public class AlgoVertexConic extends AlgoElement {
 
 	/**
 	 * set the coords of the i-th vertex
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @param x
@@ -154,46 +154,46 @@ public class AlgoVertexConic extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			temp1 = c.halfAxes[0] * eigenvec[0].getX();
-			temp2 = c.halfAxes[0] * eigenvec[0].getY();
-			setCoords(0, b.getX() - temp1, b.getY() - temp2);
-			setCoords(1, b.getX() + temp1, b.getY() + temp2);
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				temp1 = c.halfAxes[0] * eigenvec[0].getX();
+				temp2 = c.halfAxes[0] * eigenvec[0].getY();
+				setCoords(0, b.getX() - temp1, b.getY() - temp2);
+				setCoords(1, b.getX() + temp1, b.getY() + temp2);
 
-			temp1 = c.halfAxes[1] * eigenvec[1].getX();
-			temp2 = c.halfAxes[1] * eigenvec[1].getY();
-			setCoords(2, b.getX() - temp1, b.getY() - temp2);
-			setCoords(3, b.getX() + temp1, b.getY() + temp2);
-			break;
+				temp1 = c.halfAxes[1] * eigenvec[1].getX();
+				temp2 = c.halfAxes[1] * eigenvec[1].getY();
+				setCoords(2, b.getX() - temp1, b.getY() - temp2);
+				setCoords(3, b.getX() + temp1, b.getY() + temp2);
+				break;
 
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			temp1 = c.halfAxes[0] * eigenvec[0].getX();
-			temp2 = c.halfAxes[0] * eigenvec[0].getY();
-			setCoords(0, b.getX() - temp1, b.getY() - temp2);
-			setCoords(1, b.getX() + temp1, b.getY() + temp2);
-			// third and fourth vertex undefined
-			vertex[2].setUndefined();
-			vertex[3].setUndefined();
-			break;
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+				temp1 = c.halfAxes[0] * eigenvec[0].getX();
+				temp2 = c.halfAxes[0] * eigenvec[0].getY();
+				setCoords(0, b.getX() - temp1, b.getY() - temp2);
+				setCoords(1, b.getX() + temp1, b.getY() + temp2);
+				// third and fourth vertex undefined
+				vertex[2].setUndefined();
+				vertex[3].setUndefined();
+				break;
 
-		case GeoConicNDConstants.CONIC_PARABOLA:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			setCoords(0, b.getX(), b.getY());
+			case GeoConicNDConstants.CONIC_PARABOLA:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+				setCoords(0, b.getX(), b.getY());
 
-			// other vertex undefined
-			vertex[1].setUndefined();
-			vertex[2].setUndefined();
-			vertex[3].setUndefined();
-			break;
+				// other vertex undefined
+				vertex[1].setUndefined();
+				vertex[2].setUndefined();
+				vertex[3].setUndefined();
+				break;
 
-		default:
-			// no vertex defined
-			vertex[0].setUndefined();
-			vertex[1].setUndefined();
-			vertex[2].setUndefined();
-			vertex[3].setUndefined();
+			default:
+				// no vertex defined
+				vertex[0].setUndefined();
+				vertex[1].setUndefined();
+				vertex[2].setUndefined();
+				vertex[3].setUndefined();
 		}
 	}
 
@@ -201,9 +201,6 @@ public class AlgoVertexConic extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("VertexOfA", "Vertex of %0",
-				c.getLabel(tpl));
-
+		return getLoc().getPlainDefault("VertexOfA", "Vertex of %0", c.getLabel(tpl));
 	}
-
 }

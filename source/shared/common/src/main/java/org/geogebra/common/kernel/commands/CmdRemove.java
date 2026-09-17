@@ -25,14 +25,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Remove[ &lt;List&gt;, &lt;List&gt; ]
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-06
  */
 public class CmdRemove extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,21 +47,18 @@ public class CmdRemove extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
+					AlgoRemove algo = new AlgoRemove(cons, c.getLabel(), (GeoList) arg[0], (GeoList) arg[1]);
 
-				AlgoRemove algo = new AlgoRemove(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

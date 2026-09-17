@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Returns the harmonic mean for a list of numbers
  */
-
 public class AlgoRootMeanSquare extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -43,8 +42,7 @@ public class AlgoRootMeanSquare extends AlgoElement {
 	 * @param inputList
 	 *            numbers
 	 */
-	public AlgoRootMeanSquare(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoRootMeanSquare(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -105,5 +103,4 @@ public class AlgoRootMeanSquare extends AlgoElement {
 
 		result.setValue(Math.sqrt(sum / size));
 	}
-
 }

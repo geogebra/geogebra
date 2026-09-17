@@ -33,8 +33,8 @@ class GeoSymbolicNoCasTests extends BaseUnitTest {
 	void shouldRejectResetDefinition() {
 		GeoSymbolic symbolic = newSymbolic("x + 1");
 
-		IllegalStateException exception = assertThrows(IllegalStateException.class,
-				symbolic::resetDefinition);
+		IllegalStateException exception =
+				assertThrows(IllegalStateException.class, symbolic::resetDefinition);
 
 		assertThat(exception.getMessage(), containsString("resetDefinition"));
 		assertThat(exception.getMessage(), containsString("missing definition"));
@@ -44,8 +44,8 @@ class GeoSymbolicNoCasTests extends BaseUnitTest {
 	void shouldRejectSetDefinitionNull() {
 		GeoSymbolic symbolic = newSymbolic("x + 1");
 
-		IllegalStateException exception = assertThrows(IllegalStateException.class,
-				() -> symbolic.setDefinition(null));
+		IllegalStateException exception =
+				assertThrows(IllegalStateException.class, () -> symbolic.setDefinition(null));
 
 		assertThat(exception.getMessage(), containsString("setDefinition"));
 		assertThat(exception.getMessage(), containsString("missing definition"));
@@ -57,8 +57,8 @@ class GeoSymbolicNoCasTests extends BaseUnitTest {
 		GeoNumeric numeric = add("a = 1");
 		GeoNumeric dependent = add("b = 2 * a");
 
-		IllegalStateException exception = assertThrows(IllegalStateException.class,
-				() -> symbolic.set(dependent));
+		IllegalStateException exception =
+				assertThrows(IllegalStateException.class, () -> symbolic.set(dependent));
 
 		assertThat(exception.getMessage(), containsString("reuseDefinition"));
 		assertThat(exception.getMessage(), containsString("missing definition"));

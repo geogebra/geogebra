@@ -63,6 +63,4 @@ public interface SerializationAdapter {
 	String operatorFromTo(String operator, String from, String to);
 
 	String hyperbolic(String baseName);
-
-
 }

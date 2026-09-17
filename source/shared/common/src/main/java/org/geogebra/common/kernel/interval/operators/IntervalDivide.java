@@ -135,8 +135,7 @@ public class IntervalDivide {
 		}
 
 		Interval legacyNumerator = toLegacy(numerator);
-		Interval legacyDivisor = divisor.isConnected()
-				? connectedInterval(divisor) : toLegacy(divisor);
+		Interval legacyDivisor = divisor.isConnected() ? connectedInterval(divisor) : toLegacy(divisor);
 
 		if (legacyDivisor.hasZero()) {
 			return divideByZeroContainingDivisor(legacyNumerator, legacyDivisor);
@@ -176,8 +175,8 @@ public class IntervalDivide {
 			return fromLegacy(dividePositiveBy(numerator, divisor));
 		}
 
-		throw new IllegalStateException("Unhandled zero-containing divisor case: "
-				+ numerator + " / " + divisor);
+		throw new IllegalStateException(
+				"Unhandled zero-containing divisor case: " + numerator + " / " + divisor);
 	}
 
 	private Interval divideSingletonPositiveInfinity(Interval divisor) {
@@ -204,18 +203,17 @@ public class IntervalDivide {
 		}
 
 		if (divisor.highEquals(0)) {
-			return divideNegativeByNegativeWithZeroAsHigh(prev(numerator.getHigh()
-					/ divisor.getLow()));
+			return divideNegativeByNegativeWithZeroAsHigh(prev(numerator.getHigh() / divisor.getLow()));
 		}
 
 		if (hasZeroInBetween(divisor)) {
-			return legacyInverted(next(numerator.getHigh() / divisor.getHigh()),
+			return legacyInverted(
+					next(numerator.getHigh() / divisor.getHigh()),
 					prev(numerator.getHigh() / divisor.getLow()));
 		}
 
 		if (divisor.lowEquals(0)) {
-			return new Interval(Double.NEGATIVE_INFINITY,
-					next(numerator.getHigh() / divisor.getHigh()));
+			return new Interval(Double.NEGATIVE_INFINITY, next(numerator.getHigh() / divisor.getHigh()));
 		}
 
 		if (divisor.getLow() > 0) {
@@ -228,8 +226,8 @@ public class IntervalDivide {
 		if (divisor.lowEquals(Double.POSITIVE_INFINITY)) {
 			return new Interval(prev(numerator.getLow() / divisor.getLow()), 0);
 		}
-		return new Interval(prev(numerator.getLow() / divisor.getLow()),
-				next(numerator.getHigh() / divisor.getHigh()));
+		return new Interval(
+				prev(numerator.getLow() / divisor.getLow()), next(numerator.getHigh() / divisor.getHigh()));
 	}
 
 	private Interval dividePositiveBy(Interval numerator, Interval divisor) {
@@ -238,12 +236,12 @@ public class IntervalDivide {
 		}
 
 		if (divisor.highEquals(0)) {
-			return new Interval(Double.NEGATIVE_INFINITY,
-					next(numerator.getLow() / divisor.getLow()));
+			return new Interval(Double.NEGATIVE_INFINITY, next(numerator.getLow() / divisor.getLow()));
 		}
 		if (hasZeroInBetween(divisor)) {
-			return legacyInverted(next(numerator.getLow() / divisor.getLow()), prev(
-					numerator.getLow() / divisor.getHigh()));
+			return legacyInverted(
+					next(numerator.getLow() / divisor.getLow()),
+					prev(numerator.getLow() / divisor.getHigh()));
 		}
 		if (divisor.lowEquals(0)) {
 			return dividePositiveByNegativeWithZeroAsHigh(numerator.getLow(), divisor.getHigh());
@@ -255,10 +253,10 @@ public class IntervalDivide {
 
 		if (divisor.isNegative()) {
 			if (numerator.highEquals(Double.POSITIVE_INFINITY)) {
-				return new Interval(Double.NEGATIVE_INFINITY,
-						next(numerator.getLow() / divisor.getLow()));
+				return new Interval(Double.NEGATIVE_INFINITY, next(numerator.getLow() / divisor.getLow()));
 			}
-			return new Interval(prev(numerator.getHigh() / divisor.getHigh()),
+			return new Interval(
+					prev(numerator.getHigh() / divisor.getHigh()),
 					next(numerator.getLow() / divisor.getLow()));
 		}
 		return undefined();
@@ -276,16 +274,16 @@ public class IntervalDivide {
 		if (divisor.lowEquals(Double.NEGATIVE_INFINITY)) {
 			return new Interval(0, next(numerator.getLow() / divisor.getHigh()));
 		}
-		return new Interval(prev(numerator.getHigh() / divisor.getLow()),
-				next(numerator.getLow() / divisor.getHigh()));
+		return new Interval(
+				prev(numerator.getHigh() / divisor.getLow()), next(numerator.getLow() / divisor.getHigh()));
 	}
 
 	private Interval dividePositiveByPositive(Interval numerator, Interval divisor) {
 		if (divisor.lowEquals(Double.POSITIVE_INFINITY)) {
 			return new Interval(prev(numerator.getLow() / divisor.getLow()), 0);
 		}
-		return new Interval(prev(numerator.getLow() / divisor.getHigh()),
-				next(numerator.getHigh() / divisor.getLow()));
+		return new Interval(
+				prev(numerator.getLow() / divisor.getHigh()), next(numerator.getHigh() / divisor.getLow()));
 	}
 
 	// just for the notation of the paper
@@ -309,11 +307,11 @@ public class IntervalDivide {
 		if (divisor.isPositive()) {
 			if (numerator.lowEquals(Double.NEGATIVE_INFINITY)) {
 				if (divisor.highEquals(Double.POSITIVE_INFINITY)) {
-					return new Interval(Double.NEGATIVE_INFINITY,
-							next(numerator.getHigh() / divisor.getLow()));
+					return new Interval(
+							Double.NEGATIVE_INFINITY, next(numerator.getHigh() / divisor.getLow()));
 				}
-				return new Interval(Double.NEGATIVE_INFINITY,
-						next(numerator.getHigh() / divisor.getHigh()));
+				return new Interval(
+						Double.NEGATIVE_INFINITY, next(numerator.getHigh() / divisor.getHigh()));
 			}
 
 			double low = prev(numerator.getLow() / divisor.getLow());

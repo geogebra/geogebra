@@ -37,7 +37,7 @@ import org.gwtproject.user.client.ui.Widget;
  *
  */
 public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
-        implements EuclidianPanelWAbstract {
+		implements EuclidianPanelWAbstract {
 
 	/**
 	 * default width of this panel
@@ -54,18 +54,19 @@ public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstra
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param viewId
 	 *            view ID
-	 * 
+	 *
 	 */
 	public EuclidianDockPanelForPlaneW(App app, int viewId) {
-		super(viewId, // view id
-			ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
-			true, // style bar?
-			false);
+		super(
+				viewId, // view id
+				ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
+				true, // style bar?
+				false);
 
 		this.app = (AppWFull) app;
 		this.setEmbeddedSize(DEFAULT_WIDTH);
@@ -78,7 +79,7 @@ public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstra
 
 	/**
 	 * set the view attached
-	 * 
+	 *
 	 * @param view
 	 *            euclidian view
 	 */
@@ -107,7 +108,7 @@ public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstra
 	}
 
 	/**
-	 * 
+	 *
 	 * @return view attached in this panel
 	 */
 	public EuclidianViewForPlaneW getView() {
@@ -131,13 +132,20 @@ public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstra
 
 	@Override
 	public DockPanelData createInfo() {
-		return new DockPanelData(id, getToolbarString(), visible,
-				false, showStyleBar, new Rectangle(frameBounds),
-				embeddedDef, embeddedSize, view.getFromPlaneString());
+		return new DockPanelData(
+				id,
+				getToolbarString(),
+				visible,
+				false,
+				showStyleBar,
+				new Rectangle(frameBounds),
+				embeddedDef,
+				embeddedSize,
+				view.getFromPlaneString());
 	}
 
 	@Override
-    public ResourcePrototype getIcon() {
+	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics_extra();
 	}
 
@@ -149,19 +157,14 @@ public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstra
 	@Override
 	public void calculateEnvironment() {
 		view.getEuclidianController().calculateEnvironment();
-
 	}
 
 	@Override
 	public void resizeView(int width, int height) {
 
-		final EuclidianSettings settings = app.getSettings()
-				.getEuclidianForPlane(
-						view.getCompanion().getPlane()
-								.getLabelSimple());
-		settings.setPreferredSize(
-				AwtFactory.getPrototype()
-				.newDimension(width, height));
+		final EuclidianSettings settings =
+				app.getSettings().getEuclidianForPlane(view.getCompanion().getPlane().getLabelSimple());
+		settings.setPreferredSize(AwtFactory.getPrototype().newDimension(width, height));
 
 		view.synCanvasSize();
 		view.doRepaint2();
@@ -171,5 +174,4 @@ public final class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstra
 	protected ResourcePrototype getViewIcon() {
 		return null;
 	}
-
 }

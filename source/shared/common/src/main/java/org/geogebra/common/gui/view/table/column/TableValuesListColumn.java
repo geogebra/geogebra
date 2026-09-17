@@ -64,4 +64,3 @@ public class TableValuesListColumn extends AbstractTableValuesColumn {
 		return super.getInputValue(row);
 	}
 }
-

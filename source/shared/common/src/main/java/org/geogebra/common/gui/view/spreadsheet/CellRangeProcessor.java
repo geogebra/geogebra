@@ -22,13 +22,13 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.spreadsheet.core.Direction;
 
 /**
- * 
+ *
  * Utility class with methods for processing cell ranges (e.g inserting rows,
  * creating lists of cells). Typical usage is via the instance of this class
  * created by the constructor of MyTable.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class CellRangeProcessor {
 
@@ -59,12 +59,10 @@ public class CellRangeProcessor {
 		boolean modified;
 		if (insertLeft) {
 			modified = shiftColumnsRight(column1);
-			table.getCellFormatHandler().shiftFormats(column1, 1,
-					Direction.Right);
+			table.getCellFormatHandler().shiftFormats(column1, 1, Direction.Right);
 		} else {
 			modified = shiftColumnsRight(column2 + 1);
-			table.getCellFormatHandler().shiftFormats(column2 + 1, 1,
-					Direction.Right);
+			table.getCellFormatHandler().shiftFormats(column2 + 1, 1, Direction.Right);
 		}
 		table.repaint();
 		return modified;
@@ -78,11 +76,9 @@ public class CellRangeProcessor {
 	 * @return whether a modification happened
 	 */
 	public boolean deleteColumns(int column1, int column2) {
-		table.getCopyPasteCut().delete(column1, 0, column2,
-				tableModel.getHighestUsedRow());
+		table.getCopyPasteCut().delete(column1, 0, column2, tableModel.getHighestUsedRow());
 		boolean modified = shiftColumnsLeft(column2 + 1, column2 - column1 + 1);
-		table.getCellFormatHandler().shiftFormats(column2 + 1,
-				column2 - column1 + 1, Direction.Left);
+		table.getCellFormatHandler().shiftFormats(column2 + 1, column2 - column1 + 1, Direction.Left);
 		table.repaint();
 		return modified;
 	}
@@ -98,8 +94,7 @@ public class CellRangeProcessor {
 					continue;
 				}
 
-				String newLabel = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column + 1, row);
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column + 1, row);
 				geo.setLabel(newLabel);
 				modified = true;
 			}
@@ -119,8 +114,7 @@ public class CellRangeProcessor {
 					continue;
 				}
 
-				String newLabel = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column - shiftAmount, row);
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column - shiftAmount, row);
 				geo.setLabel(newLabel);
 				modified = true;
 			}
@@ -145,8 +139,7 @@ public class CellRangeProcessor {
 			table.getCellFormatHandler().shiftFormats(row1, 1, Direction.Down);
 		} else {
 			modified = shiftRowsDown(row2 + 1);
-			table.getCellFormatHandler().shiftFormats(row2 + 1, 1,
-					Direction.Down);
+			table.getCellFormatHandler().shiftFormats(row2 + 1, 1, Direction.Down);
 		}
 		table.repaint();
 		return modified;
@@ -160,11 +153,9 @@ public class CellRangeProcessor {
 	 * @return whether a modification happened
 	 */
 	public boolean deleteRows(int row1, int row2) {
-		table.getCopyPasteCut().delete(0, row1,
-				tableModel.getHighestUsedColumn(), row2);
+		table.getCopyPasteCut().delete(0, row1, tableModel.getHighestUsedColumn(), row2);
 		boolean modified = shiftRowsUp(row2 + 1, row2 - row1 + 1);
-		table.getCellFormatHandler().shiftFormats(row2 + 1, row2 - row1 + 1,
-				Direction.Up);
+		table.getCellFormatHandler().shiftFormats(row2 + 1, row2 - row1 + 1, Direction.Up);
 		table.repaint();
 		return modified;
 	}
@@ -180,8 +171,7 @@ public class CellRangeProcessor {
 				if (geo == null) {
 					continue;
 				}
-				String newLabel = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column, row + 1);
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column, row + 1);
 				geo.setLabel(newLabel);
 				modified = true;
 			}
@@ -201,13 +191,11 @@ public class CellRangeProcessor {
 				if (geo == null) {
 					continue;
 				}
-				String newLabel = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column, row - shiftAmount);
+				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(column, row - shiftAmount);
 				geo.setLabel(newLabel);
 				modified = true;
 			}
 		}
 		return modified;
 	}
-
 }

@@ -44,8 +44,8 @@ class DrawPolyLineTest extends BaseEuclidianControllerTest {
 		ec.selectAndShowSelectionUI(poly);
 		dragStart(150, 50);
 		dragEnd(250, 350);
-		assertEquals("Polyline((1, -1), (5, -7), (5, -1))",
-				poly.getDefinition(StringTemplate.testTemplate));
+		assertEquals(
+				"Polyline((1, -1), (5, -7), (5, -1))", poly.getDefinition(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -55,12 +55,11 @@ class DrawPolyLineTest extends BaseEuclidianControllerTest {
 		ec.selectAndShowSelectionUI(poly);
 		click(150, 50);
 		click(150, 50);
-		assertEquals("Polyline((1, -1), (3, -2), (5, -1))",
-				poly.getDefinition(StringTemplate.testTemplate));
+		assertEquals(
+				"Polyline((1, -1), (3, -2), (5, -1))", poly.getDefinition(StringTemplate.testTemplate));
 		click(150, 100);
 		click(150, 100);
-		assertEquals("Polyline((1, -1), (5, -1))",
-				poly.getDefinition(StringTemplate.testTemplate));
+		assertEquals("Polyline((1, -1), (5, -1))", poly.getDefinition(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -77,5 +76,4 @@ class DrawPolyLineTest extends BaseEuclidianControllerTest {
 		getDrawable(poly).draw(g2);
 		assertEquals(List.of(4.0, 10.0), widths);
 	}
-
 }

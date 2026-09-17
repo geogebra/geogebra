@@ -1,26 +1,17 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
- *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
 
 package org.geogebra.ggbjdk.sun.awt.geom;
@@ -29,137 +20,134 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 
 final class Order0 extends Curve {
-    private double x;
-    private double y;
+	private double x;
+	private double y;
 
-    public Order0(double x, double y) {
-        super(INCREASING);
-        this.x = x;
-        this.y = y;
-    }
+	public Order0(double x, double y) {
+		super(INCREASING);
+		this.x = x;
+		this.y = y;
+	}
 
-    @Override
+	@Override
 	public int getOrder() {
-        return 0;
-    }
+		return 0;
+	}
 
-    @Override
+	@Override
 	public double getXTop() {
-        return x;
-    }
+		return x;
+	}
 
-    @Override
+	@Override
 	public double getYTop() {
-        return y;
-    }
+		return y;
+	}
 
-    @Override
+	@Override
 	public double getXBot() {
-        return x;
-    }
+		return x;
+	}
 
-    @Override
+	@Override
 	public double getYBot() {
-        return y;
-    }
+		return y;
+	}
 
-    @Override
+	@Override
 	public double getXMin() {
-        return x;
-    }
+		return x;
+	}
 
-    @Override
+	@Override
 	public double getXMax() {
-        return x;
-    }
+		return x;
+	}
 
-    @Override
+	@Override
 	public double getX0() {
-        return x;
-    }
+		return x;
+	}
 
-    @Override
+	@Override
 	public double getY0() {
-        return y;
-    }
+		return y;
+	}
 
-    @Override
+	@Override
 	public double getX1() {
-        return x;
-    }
+		return x;
+	}
 
-    @Override
+	@Override
 	public double getY1() {
-        return y;
-    }
+		return y;
+	}
 
-    @Override
+	@Override
 	public double getXforY(double y) {
-        return y;
-    }
+		return y;
+	}
 
-    @Override
+	@Override
 	public double getTforY(double y) {
-        return 0;
-    }
+		return 0;
+	}
 
-    @Override
+	@Override
 	public double getXforT(double t) {
-        return x;
-    }
+		return x;
+	}
 
-    @Override
+	@Override
 	public double getYforT(double t) {
-        return y;
-    }
+		return y;
+	}
 
-    @Override
+	@Override
 	public double dXforT(double t, int deriv) {
-        return 0;
-    }
+		return 0;
+	}
 
-    @Override
+	@Override
 	public double dYforT(double t, int deriv) {
-        return 0;
-    }
+		return 0;
+	}
 
-    @Override
+	@Override
 	public double nextVertical(double t0, double t1) {
-        return t1;
-    }
+		return t1;
+	}
 
-    @Override
+	@Override
 	public int crossingsFor(double x, double y) {
-        return 0;
-    }
+		return 0;
+	}
 
-    @Override
+	@Override
 	public boolean accumulateCrossings(Crossings c) {
-        return (x > c.getXLo() &&
-                x < c.getXHi() &&
-                y > c.getYLo() &&
-                y < c.getYHi());
-    }
+		return (x > c.getXLo() && x < c.getXHi() && y > c.getYLo() && y < c.getYHi());
+	}
 
-    @Override
+	@Override
 	public void enlarge(Rectangle2D r) {
-        r.add(x, y);
-    }
+		r.add(x, y);
+	}
 
-    @Override
+	@Override
 	public Curve getSubCurve(double ystart, double yend, int dir) {
-        return this;
-    }
+		return this;
+	}
 
-    @Override
+	@Override
 	public Curve getReversedCurve() {
-        return this;
-    }
+		return this;
+	}
 
-    @Override
+	@Override
 	public int getSegment(double coords[]) {
-        coords[0] = x;
-        coords[1] = y;
+		coords[0] = x;
+		coords[1] = y;
 		return GPathIterator.SEG_MOVETO;
-    }
+	}
 }

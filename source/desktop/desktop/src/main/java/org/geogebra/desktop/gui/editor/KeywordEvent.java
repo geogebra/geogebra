@@ -2,18 +2,17 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
-// This code has been written initially for Scilab (http://www.scilab.org/).
 
 package org.geogebra.desktop.gui.editor;
 
@@ -21,7 +20,7 @@ import java.util.EventObject;
 
 /**
  * Used to handle an event generated on a keyword
- * 
+ *
  * @author Calixte DENIZET
  */
 public class KeywordEvent extends EventObject {
@@ -35,7 +34,7 @@ public class KeywordEvent extends EventObject {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param source
 	 *            the Object where the event occurred
 	 * @param event
@@ -47,8 +46,7 @@ public class KeywordEvent extends EventObject {
 	 * @param length
 	 *            the length of the keyword
 	 */
-	public KeywordEvent(Object source, EventObject event, int type, int start,
-			int length) {
+	public KeywordEvent(Object source, EventObject event, int type, int start, int length) {
 		super(source);
 		this.start = start;
 		this.length = length;

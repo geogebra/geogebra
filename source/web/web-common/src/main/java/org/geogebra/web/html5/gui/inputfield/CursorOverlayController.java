@@ -41,8 +41,8 @@ import elemental2.dom.Touch;
 import elemental2.dom.TouchEvent;
 import jsinterop.base.Js;
 
-public class CursorOverlayController implements TextFieldController,
-		LongTouchTimer.LongTouchHandler {
+public class CursorOverlayController
+		implements TextFieldController, LongTouchTimer.LongTouchHandler {
 
 	private final AppW app;
 	private final AutoCompleteTextFieldW textField;
@@ -57,8 +57,8 @@ public class CursorOverlayController implements TextFieldController,
 	 * @param textField to have the overlay.
 	 * @param main widget of the textfield.
 	 */
-	public CursorOverlayController(AutoCompleteTextFieldW textField, FlowPanel main,
-			TextFieldController defaultController) {
+	public CursorOverlayController(
+			AutoCompleteTextFieldW textField, FlowPanel main, TextFieldController defaultController) {
 		this.app = textField.getApplication();
 		this.textField = textField;
 		this.main = main;
@@ -88,33 +88,28 @@ public class CursorOverlayController implements TextFieldController,
 		textField.addBlurHandler(evt -> removeCursor());
 		textField.updateInputBoxAlign();
 		final Element element = textField.getInputElement();
-		app.getGlobalHandlers().addEventListener(element, "touchstart",
-				this::preventNativeSelection);
+		app.getGlobalHandlers().addEventListener(element, "touchstart", this::preventNativeSelection);
 
-		app.getGlobalHandlers().addEventListener(main.getElement(), "touchstart",
-				this::unselectOverlay);
+		app.getGlobalHandlers()
+				.addEventListener(main.getElement(), "touchstart", this::unselectOverlay);
 
-		app.getGlobalHandlers().addEventListener(main.getElement(), "touchstart",
-				e -> {
-					if (cursorOverlay.hasFakeSelection()) {
-						return;
-					}
-					TouchEvent touchEvent = Js.uncheckedCast(e);
-					if (touchEvent.touches.length > 0) {
-						Touch touch = touchEvent.touches.item(0);
-						double x = touch.clientX;
-						double y = touch.clientY;
-						LongTouchManager.getInstance().scheduleTimer(this, (int) x, (int) y, 200);
-					}
-				});
+		app.getGlobalHandlers().addEventListener(main.getElement(), "touchstart", e -> {
+			if (cursorOverlay.hasFakeSelection()) {
+				return;
+			}
+			TouchEvent touchEvent = Js.uncheckedCast(e);
+			if (touchEvent.touches.length > 0) {
+				Touch touch = touchEvent.touches.item(0);
+				double x = touch.clientX;
+				double y = touch.clientY;
+				LongTouchManager.getInstance().scheduleTimer(this, (int) x, (int) y, 200);
+			}
+		});
 
-		app.getGlobalHandlers().addEventListener(main.getElement(), "touchend",
-				e -> {
-						CancelEventTimer.cancelMouseEvent();
-						LongTouchManager.getInstance().cancelTimer();
-
-				});
-
+		app.getGlobalHandlers().addEventListener(main.getElement(), "touchend", e -> {
+			CancelEventTimer.cancelMouseEvent();
+			LongTouchManager.getInstance().cancelTimer();
+		});
 	}
 
 	private void preventNativeSelection(Event event) {
@@ -168,8 +163,7 @@ public class CursorOverlayController implements TextFieldController,
 	@Override
 	public void setFont(GFont font) {
 		defaultController.setFont(font);
-		Dom.setImportant(cursorOverlay.getElement().getStyle(), "font-size",
-				font.getSize() + "px");
+		Dom.setImportant(cursorOverlay.getElement().getStyle(), "font-size", font.getSize() + "px");
 	}
 
 	@Override
@@ -198,23 +192,23 @@ public class CursorOverlayController implements TextFieldController,
 			}
 		}
 		switch (keyCode) {
-		case GWTKeycodes.KEY_BACKSPACE:
-			textField.onBackSpace();
-			break;
-		case GWTKeycodes.KEY_LEFT:
-			textField.onArrowLeft();
-			break;
-		case GWTKeycodes.KEY_RIGHT:
-			textField.onArrowRight();
-			break;
-		case GWTKeycodes.KEY_UP:
-			textField.handleUpArrow();
-			break;
-		case GWTKeycodes.KEY_DOWN:
-			textField.handleDownArrow();
-			break;
-		default:
-			break;
+			case GWTKeycodes.KEY_BACKSPACE:
+				textField.onBackSpace();
+				break;
+			case GWTKeycodes.KEY_LEFT:
+				textField.onArrowLeft();
+				break;
+			case GWTKeycodes.KEY_RIGHT:
+				textField.onArrowRight();
+				break;
+			case GWTKeycodes.KEY_UP:
+				textField.handleUpArrow();
+				break;
+			case GWTKeycodes.KEY_DOWN:
+				textField.handleDownArrow();
+				break;
+			default:
+				break;
 		}
 	}
 

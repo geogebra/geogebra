@@ -44,7 +44,6 @@ public class TraceModel extends BooleanOptionModel {
 		Traceable geo = getTraceableAt(index);
 		geo.setTrace(value);
 		geo.updateRepaint();
-
 	}
 
 	@Override

@@ -34,14 +34,13 @@ import jsinterop.base.Js;
 public class FileDropHandlerW {
 	/**
 	 * Register file drop handlers for the canvas of this application
-	 * 
+	 *
 	 * @param ce
 	 *            Element that listens to the drop events
 	 * @param app
 	 *            application
 	 */
-	protected static void registerDropHandler(Element ce, AppW app,
-			GlobalHandlerRegistry list) {
+	protected static void registerDropHandler(Element ce, AppW app, GlobalHandlerRegistry list) {
 		if (ce == null) {
 			return;
 		}
@@ -69,8 +68,8 @@ public class FileDropHandlerW {
 			if (dt.files.length > 0) {
 				File fileToHandle = dt.files.getAt(0);
 
-				//at first this tries to open the fileToHandle as image,
-				//if not possible, try to open as ggb or ggt.
+				// at first this tries to open the fileToHandle as image,
+				// if not possible, try to open as ggb or ggt.
 				if (!app.openFileAsImage(fileToHandle)) {
 					app.openFile(fileToHandle);
 				}
@@ -86,7 +85,7 @@ public class FileDropHandlerW {
 		final StringConsumer handler;
 		if (dt.type.startsWith("image/")) {
 			String ext = dt.type.split("[/+]")[1];
-			handler = s -> app.imageDropHappened("drop." + ext , s);
+			handler = s -> app.imageDropHappened("drop." + ext, s);
 		} else if (dt.type.equals("text/plain")) {
 			handler = s -> CopyPasteW.pastePlainText(app, s);
 		} else if (dt.type.equals("application/x-latex")
@@ -105,5 +104,4 @@ public class FileDropHandlerW {
 			return null;
 		});
 	}
-
 }

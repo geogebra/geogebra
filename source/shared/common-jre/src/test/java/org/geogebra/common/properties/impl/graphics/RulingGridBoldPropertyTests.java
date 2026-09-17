@@ -29,8 +29,8 @@ class RulingGridBoldPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupNotesApp();
-		RulingGridBoldProperty rulingGridBoldProperty = new RulingGridBoldProperty(
-				getLocalization(), getEuclidianSettings());
+		RulingGridBoldProperty rulingGridBoldProperty =
+				new RulingGridBoldProperty(getLocalization(), getEuclidianSettings());
 
 		rulingGridBoldProperty.setValue(true);
 		assertTrue(rulingGridBoldProperty.getValue());
@@ -42,37 +42,41 @@ class RulingGridBoldPropertyTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@EnumSource(value = BackgroundType.class, names = {
-			"SQUARE_SMALL",
-			"SQUARE_BIG",
-			"RULER",
-	})
+	@EnumSource(
+			value = BackgroundType.class,
+			names = {
+				"SQUARE_SMALL",
+				"SQUARE_BIG",
+				"RULER",
+			})
 	void testBackgroundTypesWithAvailableBoldProperty(BackgroundType backgroundType) {
 		setupNotesApp();
-		RulingGridBoldProperty rulingGridBoldProperty = new RulingGridBoldProperty(
-				getLocalization(), getEuclidianSettings());
+		RulingGridBoldProperty rulingGridBoldProperty =
+				new RulingGridBoldProperty(getLocalization(), getEuclidianSettings());
 		getEuclidianSettings().setBackgroundType(backgroundType);
 
 		assertTrue(rulingGridBoldProperty.isAvailable());
 	}
 
 	@ParameterizedTest
-	@EnumSource(value = BackgroundType.class, names = {
-			"NONE",
-			"ELEMENTARY12",
-			"ELEMENTARY12_HOUSE",
-			"ELEMENTARY34",
-			"MUSIC",
-			"SVG",
-			"ELEMENTARY12_COLORED",
-			"ISOMETRIC",
-			"POLAR",
-			"DOTS",
-	})
+	@EnumSource(
+			value = BackgroundType.class,
+			names = {
+				"NONE",
+				"ELEMENTARY12",
+				"ELEMENTARY12_HOUSE",
+				"ELEMENTARY34",
+				"MUSIC",
+				"SVG",
+				"ELEMENTARY12_COLORED",
+				"ISOMETRIC",
+				"POLAR",
+				"DOTS",
+			})
 	void testBackgroundTypesWithUnavailableBoldProperty(BackgroundType backgroundType) {
 		setupNotesApp();
-		RulingGridBoldProperty rulingGridBoldProperty = new RulingGridBoldProperty(
-				getLocalization(), getEuclidianSettings());
+		RulingGridBoldProperty rulingGridBoldProperty =
+				new RulingGridBoldProperty(getLocalization(), getEuclidianSettings());
 		getEuclidianSettings().setBackgroundType(backgroundType);
 
 		assertFalse(rulingGridBoldProperty.isAvailable());

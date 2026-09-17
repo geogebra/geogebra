@@ -42,7 +42,8 @@ public final class ExamControllerIntegrationW {
 	 * integration.
 	 * @param examControllerDelegate The {@code ExamController} delegate.
 	 */
-	public static void setup(@NonNull SuiteScope suiteScope,
+	public static void setup(
+			@NonNull SuiteScope suiteScope,
 			@NonNull ExamControllerDelegate examControllerDelegate,
 			@NonNull RestrictionsControllerDelegate restrictionsControllerDelegate) {
 		examControllerIntegration = new ExamControllerIntegration(
@@ -61,9 +62,7 @@ public final class ExamControllerIntegrationW {
 	public static void activate(AppWFull app) {
 		assert examControllerIntegration != null;
 		assert geoElementPropertiesFactory != null;
-		List<Restrictable> restrictables = List.of(
-				app, app.getEuclidianView1(), app.getConfig()
-		);
+		List<Restrictable> restrictables = List.of(app, app.getEuclidianView1(), app.getConfig());
 		examControllerIntegration.activate(
 				app,
 				app.getLocalization(),

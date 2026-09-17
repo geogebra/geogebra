@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoDilate extends AlgoTransformation {
@@ -42,7 +42,7 @@ public class AlgoDilate extends AlgoTransformation {
 
 	/**
 	 * Creates new labeled enlarge geo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -54,15 +54,14 @@ public class AlgoDilate extends AlgoTransformation {
 	 * @param S
 	 *            dilation center
 	 */
-	AlgoDilate(Construction cons, String label, GeoElement A, GeoNumberValue r,
-			GeoPointND S) {
+	AlgoDilate(Construction cons, String label, GeoElement A, GeoNumberValue r, GeoPointND S) {
 		this(cons, A, r, S);
 		outGeo.setLabel(label);
 	}
 
 	/**
 	 * Creates new unlabeled enlarge geo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param A
@@ -72,8 +71,7 @@ public class AlgoDilate extends AlgoTransformation {
 	 * @param S
 	 *            dilation center
 	 */
-	public AlgoDilate(Construction cons, GeoElement A, GeoNumberValue r,
-			GeoPointND S) {
+	public AlgoDilate(Construction cons, GeoElement A, GeoNumberValue r, GeoPointND S) {
 		super(cons);
 		this.r = r;
 		this.S = S;
@@ -116,7 +114,7 @@ public class AlgoDilate extends AlgoTransformation {
 
 	/**
 	 * Returns the resulting GeoElement
-	 * 
+	 *
 	 * @return the resulting GeoElement
 	 */
 	@Override
@@ -154,19 +152,21 @@ public class AlgoDilate extends AlgoTransformation {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		String sLabel = S == null ? cons.getOrigin().toValueString(tpl)
-				: S.getLabel(tpl);
-		return getLoc().getPlainDefault("ADilatedByFactorBfromC",
-				"%0 dilated by factor %1 from %2", inGeo.getLabel(tpl),
-				rgeo.getLabel(tpl), sLabel);
-
+		String sLabel = S == null ? cons.getOrigin().toValueString(tpl) : S.getLabel(tpl);
+		return getLoc()
+				.getPlainDefault(
+						"ADilatedByFactorBfromC",
+						"%0 dilated by factor %1 from %2",
+						inGeo.getLabel(tpl),
+						rgeo.getLabel(tpl),
+						sLabel);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return point coords for dilate
 	 */
 	protected Coords getPointCoords() {
@@ -184,12 +184,10 @@ public class AlgoDilate extends AlgoTransformation {
 		} else {
 			super.transformLimitedConic(a, b);
 		}
-
 	}
 
 	@Override
 	public double getAreaScaleFactor() {
 		return r.getDouble() * r.getDouble();
 	}
-
 }

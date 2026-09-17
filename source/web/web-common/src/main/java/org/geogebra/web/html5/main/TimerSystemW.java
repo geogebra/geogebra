@@ -26,20 +26,20 @@ public class TimerSystemW {
 	/**
 	 * delay between two timer performs
 	 */
-	final public static int MAIN_LOOP_DELAY = 16;
+	public static final int MAIN_LOOP_DELAY = 16;
 
 	/**
 	 * loops to wait before performing a repaint
 	 */
-	final public static int EUCLIDIAN_LOOPS = 0; // no wait, repaint every loop
+	public static final int EUCLIDIAN_LOOPS = 0; // no wait, repaint every loop
 
-	final public static int ALGEBRA_LOOPS = 5;
+	public static final int ALGEBRA_LOOPS = 5;
 
-	final public static int SPREADSHEET_LOOPS = ALGEBRA_LOOPS;
+	public static final int SPREADSHEET_LOOPS = ALGEBRA_LOOPS;
 
-	final public static int REPAINT_FLAG = 0;
+	public static final int REPAINT_FLAG = 0;
 
-	final public static int SLEEPING_FLAG = -1;
+	public static final int SLEEPING_FLAG = -1;
 
 	/*
 	 * public static int euclidianMillis = 34; // = 30 FPS, half of screen Hz
@@ -57,7 +57,7 @@ public class TimerSystemW {
 
 	/**
 	 * Create new timer system
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -91,7 +91,7 @@ public class TimerSystemW {
 
 	/**
 	 * suggests views to repaint
-	 * 
+	 *
 	 * @return whether at least one view needed repaint
 	 */
 	boolean suggestRepaint() {
@@ -117,7 +117,6 @@ public class TimerSystemW {
 			} else if (browserSkipped == 0) {
 				browserSkipped = time;
 			}
-
 		}
 	}
 

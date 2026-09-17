@@ -39,7 +39,8 @@ public final class RememberedFontFamilyHandler
 
 	@Override
 	public boolean supports(@NonNull GeoElement geo) {
-		return geo instanceof GeoInlineText || geo instanceof GeoMindMapNode
+		return geo instanceof GeoInlineText
+				|| geo instanceof GeoMindMapNode
 				|| geo instanceof GeoInlineTable;
 	}
 

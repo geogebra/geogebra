@@ -34,7 +34,8 @@ public final class VlaanderenExamRestrictions extends Restrictions {
 
 	/** Constructs the restrictions for Vlaanderen exam. */
 	public VlaanderenExamRestrictions() {
-		super(Set.of(CAS, SCIENTIFIC),
+		super(
+				Set.of(CAS, SCIENTIFIC),
 				GRAPHING,
 				null,
 				null,
@@ -55,12 +56,25 @@ public final class VlaanderenExamRestrictions extends Restrictions {
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-		CommandNameFilter nameFilter = new CommandNameFilter(true,
-				Commands.Derivative, Commands.NDerivative, Commands.Integral,
-				Commands.ImplicitDerivative, Commands.IntegralSymbolic, Commands.IntegralBetween,
-				Commands.NIntegral, Commands.Solve, Commands.SolveQuartic, Commands.SolveODE,
-				Commands.SolveCubic, Commands.Solutions, Commands.NSolve, Commands.NSolveODE,
-				Commands.NSolutions, Commands.CSolve, Commands.CSolutions);
+		CommandNameFilter nameFilter = new CommandNameFilter(
+				true,
+				Commands.Derivative,
+				Commands.NDerivative,
+				Commands.Integral,
+				Commands.ImplicitDerivative,
+				Commands.IntegralSymbolic,
+				Commands.IntegralBetween,
+				Commands.NIntegral,
+				Commands.Solve,
+				Commands.SolveQuartic,
+				Commands.SolveODE,
+				Commands.SolveCubic,
+				Commands.Solutions,
+				Commands.NSolve,
+				Commands.NSolveODE,
+				Commands.NSolutions,
+				Commands.CSolve,
+				Commands.CSolutions);
 		return Set.of(nameFilter);
 	}
 

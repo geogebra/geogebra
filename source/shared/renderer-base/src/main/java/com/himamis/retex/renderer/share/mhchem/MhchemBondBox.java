@@ -60,8 +60,7 @@ public class MhchemBondBox extends Box {
 	private final double thickness;
 	private final double space;
 
-	public MhchemBondBox(int n, int pos, double axis, double th, double space,
-			double width) {
+	public MhchemBondBox(int n, int pos, double axis, double th, double space, double width) {
 		this.n = n;
 		this.pos = pos;
 		this.thickness = th;

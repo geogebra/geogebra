@@ -35,7 +35,8 @@ public enum DoubleOperation {
 		protected double evalDouble(double num1, double num2) {
 			return num1 + num2;
 		}
-	}, MINUS {
+	},
+	MINUS {
 		@Override
 		protected BigDecimal evalDecimal(BigDecimal num1, BigDecimal num2) {
 			return num1.subtract(num2);
@@ -45,7 +46,8 @@ public enum DoubleOperation {
 		protected double evalDouble(double num1, double num2) {
 			return num1 - num2;
 		}
-	}, MULTIPLY {
+	},
+	MULTIPLY {
 		@Override
 		protected BigDecimal evalDecimal(BigDecimal num1, BigDecimal num2) {
 			return num1.multiply(num2);
@@ -55,7 +57,8 @@ public enum DoubleOperation {
 		protected double evalDouble(double num1, double num2) {
 			return num1 * num2;
 		}
-	}, DIVIDE {
+	},
+	DIVIDE {
 		@Override
 		protected BigDecimal evalDecimal(BigDecimal num1, BigDecimal num2) {
 			return num1.divide(num2, MathContext.DECIMAL128);
@@ -65,7 +68,8 @@ public enum DoubleOperation {
 		protected double evalDouble(double num1, double num2) {
 			return num1 / num2;
 		}
-	}, INT_POWER {
+	},
+	INT_POWER {
 		@Override
 		protected BigDecimal evalDecimal(BigDecimal num1, BigDecimal num2) {
 			// limit precision here for very high powers

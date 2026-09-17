@@ -49,7 +49,6 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 		compute();
 		conic.setLabel(label);
-
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { L };
+		input = new GeoElement[] {L};
 		setOnlyOutput(conic);
 
 		setDependencies(); // done by AlgoElement
@@ -83,21 +82,22 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (L.size() == 3) {
-			conic.setCoeffs(getCoeff(0, 0),
-					getCoeff(0, 1) + getCoeff(1, 0), getCoeff(1, 1),
+			conic.setCoeffs(
+					getCoeff(0, 0),
+					getCoeff(0, 1) + getCoeff(1, 0),
+					getCoeff(1, 1),
 					getCoeff(0, 2) + getCoeff(2, 0),
-					getCoeff(1, 2) + getCoeff(2, 1), getCoeff(2, 2));
+					getCoeff(1, 2) + getCoeff(2, 1),
+					getCoeff(2, 2));
 		} else if (L.size() == 6) {
-			conic.setCoeffs(getCoeff(0), getCoeff(3), getCoeff(1), getCoeff(4),
-					getCoeff(5), getCoeff(2));
+			conic.setCoeffs(getCoeff(0), getCoeff(3), getCoeff(1), getCoeff(4), getCoeff(5), getCoeff(2));
 		} else {
 			conic.setUndefined();
 		}
 	}
 
 	private double getCoeff(int i, int j) {
-		return L.get(i).isGeoList()
-				? ((GeoList) L.get(i)).get(j).evaluateDouble() : Double.NaN;
+		return L.get(i).isGeoList() ? ((GeoList) L.get(i)).get(j).evaluateDouble() : Double.NaN;
 	}
 
 	private double getCoeff(int i) {
@@ -105,11 +105,9 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("ConicFromCoeffListA", "Conic from %0",
-				L.getLabel(tpl));
+		return getLoc().getPlainDefault("ConicFromCoeffListA", "Conic from %0", L.getLabel(tpl));
 	}
-
 }

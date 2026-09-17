@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * AreParallel[&lt;Line&gt;, &lt;Line&gt;]
- * 
+ *
  * @author Simon Weitzhofer 3rd of may 2012
  *
  */
@@ -36,7 +36,7 @@ public class CmdAreParallel extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -58,14 +58,11 @@ public class CmdAreParallel extends CommandProcessor {
 				throw argErr(c, arg[1]);
 			}
 
-			AlgoAreParallel algo = new AlgoAreParallel(cons, c.getLabel(),
-					arg[0], arg[1]);
+			AlgoAreParallel algo = new AlgoAreParallel(cons, c.getLabel(), arg[0], arg[1]);
 
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argNumErr(c);
-
 	}
-
 }

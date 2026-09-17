@@ -1,7 +1,7 @@
 /*
  * Created on Jul 6, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -22,7 +22,7 @@ package edu.uci.ics.jung.algorithms.scoring;
 public interface VertexScorer<V, S> {
 	/**
 	 * Returns the algorithm's score for this vertex.
-	 * 
+	 *
 	 * @return the algorithm's score for this vertex
 	 */
 	public S getVertexScore(V v);

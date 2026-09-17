@@ -127,9 +127,9 @@ public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 		app.getActiveEuclidianView().getSettings().reset();
 		app.getActiveEuclidianView().getSettings().setShowAxes(false, false);
 
-		app.getActiveEuclidianView().getSettings().setCoordSystem(0, 0, 50, 50,
-				true);
-		app.getActiveEuclidianView().getSettings()
+		app.getActiveEuclidianView().getSettings().setCoordSystem(0, 0, 50, 50, true);
+		app.getActiveEuclidianView()
+				.getSettings()
 				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_OFF);
 		app.getSettings().endBatch();
 		ec.setLastMouseUpLoc(null);
@@ -172,12 +172,9 @@ public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 		for (String label : getApp().getGgbApi().getAllObjectNames()) {
 			GeoElement geo = lookup(label);
 			if (geo.isEuclidianVisible() == visible) {
-				assertTrue(i < desc.length,
-						"Extra element: "
-								+ geo.toString(StringTemplate.editTemplate));
+				assertTrue(i < desc.length, "Extra element: " + geo.toString(StringTemplate.editTemplate));
 
-				assertEquals(desc[i],
-						geo.toString(StringTemplate.editTemplate));
+				assertEquals(desc[i], geo.toString(StringTemplate.editTemplate));
 				i++;
 			}
 		}
@@ -185,8 +182,7 @@ public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 	}
 
 	protected void checkContentLabels(String... labels) {
-		assertEquals(Arrays.asList(labels),
-				Arrays.asList(getApp().getGgbApi().getAllObjectNames()));
+		assertEquals(Arrays.asList(labels), Arrays.asList(getApp().getGgbApi().getAllObjectNames()));
 	}
 
 	protected GeoImage createImage() {
@@ -203,5 +199,4 @@ public class BaseEuclidianControllerTest extends BaseAppTestSetup {
 	protected Drawable getDrawable(GeoElement geo) {
 		return (Drawable) getApp().getActiveEuclidianView().getDrawableND(geo);
 	}
-
 }

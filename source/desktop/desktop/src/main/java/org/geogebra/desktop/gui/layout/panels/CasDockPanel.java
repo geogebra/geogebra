@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,27 +38,26 @@ public class CasDockPanel extends NavigableDockPanel {
 	 *            application
 	 */
 	public CasDockPanel(AppD app) {
-		super(App.VIEW_CAS, // view id
+		super(
+				App.VIEW_CAS, // view id
 				"CAS", // view title phrase
 				getDefaultToolbar(), // toolbar string
 				true, // style bar?
 				3, // menu order
 				'K' // ctrl-shift-K
-		);
+				);
 
 		this.appCas = app;
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((GuiManagerD) appCas.getGuiManager()).getCasView()
-				.getCASStyleBar();
+		return ((GuiManagerD) appCas.getGuiManager()).getCasView().getCASStyleBar();
 	}
 
 	@Override
 	protected JComponent getViewPanel() {
-		return ((GuiManagerD) appCas.getGuiManager()).getCasView()
-				.getCASViewComponent();
+		return ((GuiManagerD) appCas.getGuiManager()).getCasView().getCASViewComponent();
 	}
 
 	private static String getDefaultToolbar() {

@@ -30,5 +30,4 @@ public class EditorLibrary implements EntryPoint {
 		library = new JlmEditorLib();
 		CreateLibrary.exportLibrary(new JlmEditorApi(library));
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,8 +39,8 @@ import org.gwtproject.user.client.DOM;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 
-public final class ComponentComboBox extends FlowPanel implements SetLabels,
-		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
+public final class ComponentComboBox extends FlowPanel
+		implements SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final AppW appW;
 	private final AutoCompleteTextFieldW inputTextField;
 	private Label label;
@@ -103,13 +103,13 @@ public final class ComponentComboBox extends FlowPanel implements SetLabels,
 	}
 
 	private void initController(Supplier<List<String>> items) {
-		controller = new DropDownComboBoxController(appW, comboBoxProperty, this, items,
-				labelTextKey, this::onClose, null);
+		controller = new DropDownComboBoxController(
+				appW, comboBoxProperty, this, items, labelTextKey, this::onClose, null);
 		controller.addChangeHandler(() -> updateSelectionText(getSelectedText()));
 		controller.setPopupID(controlsID);
 		controller.setFocusAnchor(inputTextField.getInputElement());
-		controller.addHighlightingListener(id ->
-				AriaHelper.setActiveDescendant(inputTextField.getTextBox(), id));
+		controller.addHighlightingListener(
+				id -> AriaHelper.setActiveDescendant(inputTextField.getTextBox(), id));
 		inputTextField.setUpDownArrowHandler(controller);
 		updateSelectionText(getSelectedText());
 	}
@@ -200,10 +200,8 @@ public final class ComponentComboBox extends FlowPanel implements SetLabels,
 	 * Add mouse over/ out handlers.
 	 */
 	private void addHoverHandlers() {
-		inputTextField.getTextBox()
-				.addMouseOverHandler(event -> addStyleName("hoverState"));
-		inputTextField.getTextBox()
-				.addMouseOutHandler(event -> removeStyleName("hoverState"));
+		inputTextField.getTextBox().addMouseOverHandler(event -> addStyleName("hoverState"));
+		inputTextField.getTextBox().addMouseOutHandler(event -> removeStyleName("hoverState"));
 	}
 
 	private void addFieldKeyAndPointerHandler() {
@@ -245,8 +243,7 @@ public final class ComponentComboBox extends FlowPanel implements SetLabels,
 
 	private void setExpanded(boolean expanded) {
 		if (expanded) {
-			controller.setSelectedOption(controller.possibleSelectedIndex(
-					inputTextField.getText()));
+			controller.setSelectedOption(controller.possibleSelectedIndex(inputTextField.getText()));
 			controller.showAsComboBox();
 			AriaHelper.setAriaExpanded(inputTextField.getTextBox(), true);
 			Scheduler.get().scheduleDeferred(() -> inputTextField.setFocus(true));

@@ -25,7 +25,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class NavigationBarPlayButtonProperty extends AbstractValuedProperty<Boolean>
-	implements BooleanProperty, SettingsDependentProperty {
+		implements BooleanProperty, SettingsDependentProperty {
 	private final App app;
 	private final int viewID;
 	private final EuclidianSettings evSettings;
@@ -36,8 +36,8 @@ public class NavigationBarPlayButtonProperty extends AbstractValuedProperty<Bool
 	 * @param app application
 	 * @param viewID euclidian view ID
 	 */
-	public NavigationBarPlayButtonProperty(Localization localization, App app, int viewID,
-			EuclidianSettings settings) {
+	public NavigationBarPlayButtonProperty(
+			Localization localization, App app, int viewID, EuclidianSettings settings) {
 		super(localization, "PlayButton");
 		this.evSettings = settings;
 		this.app = app;
@@ -46,16 +46,16 @@ public class NavigationBarPlayButtonProperty extends AbstractValuedProperty<Bool
 
 	@Override
 	protected void doSetValue(Boolean value) {
-		ConstructionProtocolNavigation cpn = app.getGuiManager()
-				.getConstructionProtocolNavigation(viewID);
+		ConstructionProtocolNavigation cpn =
+				app.getGuiManager().getConstructionProtocolNavigation(viewID);
 		cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 		app.setUnsaved();
 	}
 
 	@Override
 	public Boolean getValue() {
-		ConstructionProtocolNavigation cpn = app.getGuiManager()
-				.getConstructionProtocolNavigation(viewID);
+		ConstructionProtocolNavigation cpn =
+				app.getGuiManager().getConstructionProtocolNavigation(viewID);
 		return cpn == null || cpn.isPlayButtonVisible();
 	}
 

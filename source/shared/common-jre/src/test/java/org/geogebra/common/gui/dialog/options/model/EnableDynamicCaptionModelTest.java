@@ -38,7 +38,7 @@ class EnableDynamicCaptionModelTest extends BaseUnitTest {
 	void setupModel() {
 		model = new EnableDynamicCaptionModel(null, getApp());
 		point = add("A=(1,1)");
-		GeoElement[] geos = new GeoElement[]{point};
+		GeoElement[] geos = new GeoElement[] {point};
 		model.setGeos(geos);
 	}
 

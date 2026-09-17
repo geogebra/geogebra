@@ -27,7 +27,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 public class GLFactoryJre extends GLFactory {
 
 	@Override
-	final public GLBuffer newBuffer() {
+	public final GLBuffer newBuffer() {
 		return new GLBufferJre();
 	}
 

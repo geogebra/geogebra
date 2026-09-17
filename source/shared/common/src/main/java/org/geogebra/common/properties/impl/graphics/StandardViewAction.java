@@ -32,8 +32,7 @@ public class StandardViewAction extends AbstractActionableProperty
 	 * @param localization localization
 	 * @param euclidianView euclidean view
 	 */
-	public StandardViewAction(Localization localization,
-			EuclidianViewInterfaceCommon euclidianView) {
+	public StandardViewAction(Localization localization, EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "StandardView");
 		this.euclidianView = euclidianView;
 	}

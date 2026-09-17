@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Types of MOW backgrounds. *
- * 
+ *
  * @author laszlo
  *
  */
@@ -71,7 +71,7 @@ public enum BackgroundType {
 	/**
 	 * Ordered list of ruling options used for the settings
 	 */
-	final public static List<BackgroundType> rulingOptions =
+	public static final List<BackgroundType> rulingOptions =
 			Collections.unmodifiableList(Arrays.asList(
 					BackgroundType.NONE,
 					BackgroundType.RULER,
@@ -109,7 +109,7 @@ public enum BackgroundType {
 
 	/**
 	 * Converts int to enum
-	 * 
+	 *
 	 * @param v
 	 *            the int value to convert to.
 	 * @return the converted enum.

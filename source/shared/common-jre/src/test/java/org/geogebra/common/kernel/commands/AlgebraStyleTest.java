@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -76,8 +76,7 @@ class AlgebraStyleTest extends BaseUnitTest {
 		}
 
 		private ExpressionChecker checkEdit(String expectVal, String expectEditor) {
-			check(def, expectEditor.replace(" * ", "*"),
-					StringTemplate.editorTemplate, false);
+			check(def, expectEditor.replace(" * ", "*"), StringTemplate.editorTemplate, false);
 			return check(def, expectVal, StringTemplate.editTemplate, false);
 		}
 
@@ -85,12 +84,11 @@ class AlgebraStyleTest extends BaseUnitTest {
 			check(def, s, StringTemplate.giacTemplate, true);
 		}
 
-		private ExpressionChecker check(String def, String expect, StringTemplate tpl,
-				boolean val) {
-			GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
-					false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
-					null);
-			String res = val ? geo[0].toValueString(tpl)
+		private ExpressionChecker check(String def, String expect, StringTemplate tpl, boolean val) {
+			GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(
+					def, false, TestErrorHandler.INSTANCE, new EvalInfo(true, true), null);
+			String res = val
+					? geo[0].toValueString(tpl)
 					: geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
 			assertEquals(expect, res);
 			return this;
@@ -102,38 +100,36 @@ class AlgebraStyleTest extends BaseUnitTest {
 
 	private static void checkRows(String def, DescriptionMode mode) {
 		EvalInfo evalInfo = new EvalInfo(true);
-		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
-				false, TestErrorHandler.INSTANCE, evalInfo, null);
-		assertEquals(mode,
-				el[0].getDescriptionMode());
+		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(
+				def, false, TestErrorHandler.INSTANCE, evalInfo, null);
+		assertEquals(mode, el[0].getDescriptionMode());
 		el[0].toString(StringTemplate.defaultTemplate);
-		assertEquals(mode,
-				el[0].getDescriptionMode());
+		assertEquals(mode, el[0].getDescriptionMode());
 	}
 
 	// TODO change to
 	//  checkEquationValue(String def, EquationLinear.Type/Quadrid equationForm,
 	//  String expectedValue)
-	private static String checkEquation(String def,
-			QuadraticEquationRepresentable.Form form, String check) {
-		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
-				false, TestErrorHandler.INSTANCE, false, null);
+	private static String checkEquation(
+			String def, QuadraticEquationRepresentable.Form form, String check) {
+		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(
+				def, false, TestErrorHandler.INSTANCE, false, null);
 		((GeoConicND) el[0]).setEquationForm(form);
-		assertEquals(TestStringUtil.unicode(check),
-				el[0].toValueString(StringTemplate.defaultTemplate));
+		assertEquals(
+				TestStringUtil.unicode(check), el[0].toValueString(StringTemplate.defaultTemplate));
 		return el[0].getLabelSimple();
 	}
 
 	// TODO change to
 	//  checkEquationValueAfterReload(String def, EquationLinear.Type/Quadrid equationForm,
 	//  String expectedValue)
-	private static void checkEquationReload(String def, QuadraticEquationRepresentable.Form mode,
-			String check) {
+	private static void checkEquationReload(
+			String def, QuadraticEquationRepresentable.Form mode, String check) {
 		String label = checkEquation(def, mode, check);
 		app.setXML(app.getXML(), true);
 		GeoElement reloaded = app.getKernel().lookupLabel(label);
-		assertEquals(TestStringUtil.unicode(check),
-				reloaded.toValueString(StringTemplate.defaultTemplate));
+		assertEquals(
+				TestStringUtil.unicode(check), reloaded.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Override
@@ -201,13 +197,12 @@ class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	void checkEquationExplicit() {
-		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT,
-				"x^2 + 4y^2 = 1");
-		checkEquation("x^2+4*y^2-y+x*y=x +x -1",
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT, "x^2 + 4y^2 = 1");
+		checkEquation(
+				"x^2+4*y^2-y+x*y=x +x -1",
 				QuadraticEquationRepresentable.Form.EXPLICIT,
 				"x^2 + x y + 4y^2 - 2x - y = -1");
-		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.EXPLICIT,
-				"-x^2 - 2x = -1");
+		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.EXPLICIT, "-x^2 - 2x = -1");
 	}
 
 	@Test
@@ -215,31 +210,36 @@ class AlgebraStyleTest extends BaseUnitTest {
 		// ellipse: fallback to explicit
 		checkNonParabolaFallback(QuadraticEquationRepresentable.Form.VERTEX);
 		// three actual parabolas
-		checkEquation("-x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX,
-				"y = -(x + 1)^2 +2");
-		checkEquation("x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX,
-				"y = (x - 1)^2");
-		checkEquation("y^2=y +y -1+x", QuadraticEquationRepresentable.Form.VERTEX,
-				"(x - 0) = (y - 1)^2");
+		checkEquation(
+				"-x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX, "y = -(x + 1)^2 +2");
+		checkEquation("x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX, "y = (x - 1)^2");
+		checkEquation(
+				"y^2=y +y -1+x", QuadraticEquationRepresentable.Form.VERTEX, "(x - 0) = (y - 1)^2");
 	}
 
 	@Test
 	void checkEquationSpecific() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.SPECIFIC,
-				"x^2 / 1 + y^2 / 0.25 = 1");
+		checkEquation(
+				"x^2+4*y^2=1", QuadraticEquationRepresentable.Form.SPECIFIC, "x^2 / 1 + y^2 / 0.25 = 1");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", QuadraticEquationRepresentable.Form.SPECIFIC,
+		checkEquation(
+				"x^2-4*y^2=2x+2y+1",
+				QuadraticEquationRepresentable.Form.SPECIFIC,
 				"(x - 1)^2 / 1.75 - (y + 0.25)^2 / 0.44 = 1");
 		// double line
-		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.SPECIFIC,
+		checkEquation(
+				"-x^2=x +x -1",
+				QuadraticEquationRepresentable.Form.SPECIFIC,
 				"(-x - 2.41) (-x + 0.41) = 0");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC,
-				"x^2 = -2x - y + 1");
-		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC,
-				"y^2 = 2x + y - 1");
-		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC,
+		checkEquation(
+				"-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC, "x^2 = -2x - y + 1");
+		checkEquation(
+				"y^2=x +x -1+y", QuadraticEquationRepresentable.Form.SPECIFIC, "y^2 = 2x + y - 1");
+		checkEquation(
+				"(x+y)^2=x +x -1+y",
+				QuadraticEquationRepresentable.Form.SPECIFIC,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
@@ -247,77 +247,95 @@ class AlgebraStyleTest extends BaseUnitTest {
 	void checkEquationConicform() {
 		checkNonParabolaFallback(QuadraticEquationRepresentable.Form.CONICFORM);
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.CONICFORM,
-				"-(y - 2) = (x + 1)^2");
-		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.CONICFORM,
+		checkEquation(
+				"-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.CONICFORM, "-(y - 2) = (x + 1)^2");
+		checkEquation(
+				"y^2=x +x -1+y",
+				QuadraticEquationRepresentable.Form.CONICFORM,
 				"2(x - 0.38) = (y - 0.5)^2");
-		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.CONICFORM,
+		checkEquation(
+				"(x+y)^2=x +x -1+y",
+				QuadraticEquationRepresentable.Form.CONICFORM,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	void checkEquationParametric() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.PARAMETRIC,
+		checkEquation(
+				"x^2+4*y^2=1",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (0, 0) + (cos(t), 0.5 sin(t))");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", QuadraticEquationRepresentable.Form.PARAMETRIC,
-				"X = (1, -0.25) + (" + Unicode.PLUSMINUS
-						+ " 1.32 cosh(t), 0.66 sinh(t))");
+		checkEquation(
+				"x^2-4*y^2=2x+2y+1",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
+				"X = (1, -0.25) + (" + Unicode.PLUSMINUS + " 1.32 cosh(t), 0.66 sinh(t))");
 		// parallel lines
-		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.PARAMETRIC,
-				"X = (-1 " + Unicode.PLUSMINUS + " 1.41, 0, 0) + "
-						+ Unicode.lambda + " (0, 1, 0)");
+		checkEquation(
+				"-x^2=x +x -1",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
+				"X = (-1 " + Unicode.PLUSMINUS + " 1.41, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
 		// double line
-		checkEquation("-x^2=x +x +1", QuadraticEquationRepresentable.Form.PARAMETRIC,
+		checkEquation(
+				"-x^2=x +x +1",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (-1, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC,
+		checkEquation(
+				"-x^2-x=x -1+y",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (-1, 2) + (-0.5 t, -0.25 t^2)");
-		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC,
+		checkEquation(
+				"y^2=x +x -1+y",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (0.38, 0.5) + (0.5 t^2, t)");
 		getApp().setRounding("5d");
-		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.PARAMETRIC,
+		checkEquation(
+				"(x+y)^2=x +x -1+y",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (0.8125, -0.0625) + (0.0625 t^2 + 0.125 t, -0.0625 t^2 + 0.125 t)");
 	}
 
 	@Test
 	void checkEquationImplicit() {
 		// ellipse
-		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.IMPLICIT,
-				"x^2 + 4y^2 = 1");
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.IMPLICIT, "x^2 + 4y^2 = 1");
 		// hyperbola
-		checkEquation("x^2-4*y^2=2x+2y+1", QuadraticEquationRepresentable.Form.IMPLICIT,
+		checkEquation(
+				"x^2-4*y^2=2x+2y+1",
+				QuadraticEquationRepresentable.Form.IMPLICIT,
 				"x^2 - 4y^2 - 2x - 2y = 1");
 		// parallel lines
-		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.IMPLICIT,
-				"-x^2 - 2x = -1");
+		checkEquation("-x^2=x +x -1", QuadraticEquationRepresentable.Form.IMPLICIT, "-x^2 - 2x = -1");
 		// double line
-		checkEquation("-x^2=x +x +1", QuadraticEquationRepresentable.Form.IMPLICIT,
-				"-x^2 - 2x = 1");
+		checkEquation("-x^2=x +x +1", QuadraticEquationRepresentable.Form.IMPLICIT, "-x^2 - 2x = 1");
 		// parabolas
-		checkEquation("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT,
-				"-x^2 - 2x - y = -1");
-		checkEquation("y^2=x +x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT,
-				"y^2 - 2x - y = -1");
-		checkEquation("(x+y)^2=x +x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT,
+		checkEquation(
+				"-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT, "-x^2 - 2x - y = -1");
+		checkEquation(
+				"y^2=x +x -1+y", QuadraticEquationRepresentable.Form.IMPLICIT, "y^2 - 2x - y = -1");
+		checkEquation(
+				"(x+y)^2=x +x -1+y",
+				QuadraticEquationRepresentable.Form.IMPLICIT,
 				"x^2 + 2x y + y^2 - 2x - y = -1");
 	}
 
 	@Test
 	void checkEquationReload() {
-		checkEquationReload("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT,
-				"x^2 + 4y^2 = 1");
-		checkEquationReload("-x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX,
-				"y = -(x + 1)^2 +2");
-		checkEquationReload("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.SPECIFIC,
-				"x^2 / 1 + y^2 / 0.25 = 1");
-		checkEquationReload("-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.CONICFORM,
-				"-(y - 2) = (x + 1)^2");
-		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.PARAMETRIC,
+		checkEquationReload(
+				"x^2+4*y^2=1", QuadraticEquationRepresentable.Form.EXPLICIT, "x^2 + 4y^2 = 1");
+		checkEquationReload(
+				"-x^2=x +x -1+y", QuadraticEquationRepresentable.Form.VERTEX, "y = -(x + 1)^2 +2");
+		checkEquationReload(
+				"x^2+4*y^2=1", QuadraticEquationRepresentable.Form.SPECIFIC, "x^2 / 1 + y^2 / 0.25 = 1");
+		checkEquationReload(
+				"-x^2-x=x -1+y", QuadraticEquationRepresentable.Form.CONICFORM, "-(y - 2) = (x + 1)^2");
+		checkEquation(
+				"x^2+4*y^2=1",
+				QuadraticEquationRepresentable.Form.PARAMETRIC,
 				"X = (0, 0) + (cos(t), 0.5 sin(t))");
-		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.IMPLICIT,
-				"x^2 + 4y^2 = 1");
+		checkEquation("x^2+4*y^2=1", QuadraticEquationRepresentable.Form.IMPLICIT, "x^2 + 4y^2 = 1");
 	}
 
 	private static void checkNonParabolaFallback(QuadraticEquationRepresentable.Form mode) {
@@ -333,12 +351,9 @@ class AlgebraStyleTest extends BaseUnitTest {
 	void undefinedNumbersShouldBeQuestionMark() {
 		t("b=1");
 		t("SetValue[b,?]");
-		assertEquals("b = ?",
-				getGeo("b").toString(StringTemplate.editTemplate));
-		assertEquals("b=?", app.getKernel().lookupLabel("b")
-				.toString(StringTemplate.editorTemplate));
-		assertEquals("b=?",
-				app.getKernel().lookupLabel("b").getDefinitionForEditor());
+		assertEquals("b = ?", getGeo("b").toString(StringTemplate.editTemplate));
+		assertEquals("b=?", app.getKernel().lookupLabel("b").toString(StringTemplate.editorTemplate));
+		assertEquals("b=?", app.getKernel().lookupLabel("b").getDefinitionForEditor());
 	}
 
 	private GeoElement getGeo(String string) {
@@ -350,84 +365,75 @@ class AlgebraStyleTest extends BaseUnitTest {
 		t("a = 7");
 		t("f: y = x^3");
 		t("g: y = x^3 + a");
-		assertEquals("f\\mathpunct{:}\\,y = x^{3}",
-				getGeo("f").getLaTeXAlgebraDescription(false,
-						StringTemplate.latexTemplate));
-		assertEquals("f\\mathpunct{:}\\,y = x^{3}",
-				getGeo("f").getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplate));
-		assertEquals(TestStringUtil.unicode("f: y = x^3"),
-				getGeo("f").getDefinitionForInputBar());
-		assertEquals("g\\mathpunct{:}\\,y = x^{3} + a",
-				getGeo("g").getLaTeXAlgebraDescription(false,
-						StringTemplate.latexTemplate));
+		assertEquals(
+				"f\\mathpunct{:}\\,y = x^{3}",
+				getGeo("f").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
+		assertEquals(
+				"f\\mathpunct{:}\\,y = x^{3}",
+				getGeo("f").getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate));
+		assertEquals(TestStringUtil.unicode("f: y = x^3"), getGeo("f").getDefinitionForInputBar());
+		assertEquals(
+				"g\\mathpunct{:}\\,y = x^{3} + a",
+				getGeo("g").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
 		// TODO missing y =
-		assertEquals(TestStringUtil.unicode("g: x^3 + a"),
-				getGeo("g").getDefinitionForInputBar());
+		assertEquals(TestStringUtil.unicode("g: x^3 + a"), getGeo("g").getDefinitionForInputBar());
 
 		t("in:x>a");
-		assertEquals(TestStringUtil.unicode("in: x > a"),
-				getGeo("in").getDefinitionForInputBar());
+		assertEquals(TestStringUtil.unicode("in: x > a"), getGeo("in").getDefinitionForInputBar());
 
 		t("ff: z = y + x^3");
 		t("gg: z = y +x^3 + a");
 		t("hh(x,y) = y +x^3 + a");
-		assertEquals("ff\\mathpunct{:}\\,z = y + x^{3}",
-				getGeo("ff").getLaTeXAlgebraDescription(false,
-						StringTemplate.latexTemplate));
-		assertEquals("gg\\mathpunct{:}\\,z = y + x^{3} + a",
-				getGeo("gg").getLaTeXAlgebraDescription(false,
-						StringTemplate.latexTemplate));
-		assertEquals("hh\\left(x, y \\right)\\, = \\,y + x^{3} + a",
-				getGeo("hh").getLaTeXAlgebraDescription(false,
-						StringTemplate.latexTemplate));
+		assertEquals(
+				"ff\\mathpunct{:}\\,z = y + x^{3}",
+				getGeo("ff").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
+		assertEquals(
+				"gg\\mathpunct{:}\\,z = y + x^{3} + a",
+				getGeo("gg").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
+		assertEquals(
+				"hh\\left(x, y \\right)\\, = \\,y + x^{3} + a",
+				getGeo("hh").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
 	}
 
 	@Test
 	void oneLHSShouldBeDisplayedInLaTeX() {
 		t("a = 7");
 		t("h(x) = a*x");
-		assertEquals("h\\left(x \\right)\\, = \\,a \\; x",
-				getGeo("h").getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.latexTemplate, false));
+		assertEquals(
+				"h\\left(x \\right)\\, = \\,a \\; x",
+				getGeo("h")
+						.getLaTeXAlgebraDescriptionWithFallback(false, StringTemplate.latexTemplate, false));
 		t("hh(x,y) = a*x*y");
-		assertEquals("hh\\left(x, y \\right)\\, = \\,a \\; x \\; y",
-				getGeo("hh").getLaTeXAlgebraDescriptionWithFallback(false,
-						StringTemplate.latexTemplate, false));
-
+		assertEquals(
+				"hh\\left(x, y \\right)\\, = \\,a \\; x \\; y",
+				getGeo("hh")
+						.getLaTeXAlgebraDescriptionWithFallback(false, StringTemplate.latexTemplate, false));
 	}
 
 	@Test
 	void operatorsShouldHaveOneSpace() {
 		t("f(x)=If[3 < x <= 5,x^(2)]");
 		assertEquals(
-				TestStringUtil.unicode(
-						"f(x) = If(3 < x " + Unicode.LESS_EQUAL + " 5, x^2)"),
-
+				TestStringUtil.unicode("f(x) = If(3 < x " + Unicode.LESS_EQUAL + " 5, x^2)"),
 				getGeo("f").getDefinitionForInputBar());
 	}
 
 	@Test
 	void listShouldKeepDefinition() {
 		t("list1 = {x+x=y}");
-		assertEquals("list1 = {x + x = y}",
-				getGeo("list1").getDefinitionForInputBar());
-		assertEquals("x + x = y", ((GeoList) getGeo("list1")).get(0)
-				.getDefinition(StringTemplate.editTemplate));
+		assertEquals("list1 = {x + x = y}", getGeo("list1").getDefinitionForInputBar());
+		assertEquals(
+				"x + x = y", ((GeoList) getGeo("list1")).get(0).getDefinition(StringTemplate.editTemplate));
 		t("list2 = Flatten[{x=y}]");
-		assertEquals("list2 = Flatten({x = y})",
-				getGeo("list2").getDefinitionForInputBar());
-
+		assertEquals("list2 = Flatten({x = y})", getGeo("list2").getDefinitionForInputBar());
 	}
 
 	@Test
 	void singleVarEquationShouldHaveSuggestion() {
 		t("p: z=0");
-		assertEquals("z", StringUtil.join(",",
-				((EquationValue) getGeo("p")).getEquationVariables()));
+		assertEquals("z", StringUtil.join(",", ((EquationValue) getGeo("p")).getEquationVariables()));
 		t("p: x^2+z^2=0");
-		assertEquals("x,z", StringUtil.join(",",
-				((EquationValue) getGeo("p")).getEquationVariables()));
+		assertEquals("x,z", StringUtil.join(",", ((EquationValue) getGeo("p")).getEquationVariables()));
 	}
 
 	/**
@@ -440,8 +446,7 @@ class AlgebraStyleTest extends BaseUnitTest {
 		t("gg(x)=2*ff(x)");
 
 		t("hh(x)=gg(x-1)");
-		assertEquals("2 (x - 1)",
-				getGeo("hh").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("2 (x - 1)", getGeo("hh").toValueString(StringTemplate.defaultTemplate));
 
 		t("a(x, y) = -y^2 - x y + 2y");
 
@@ -453,31 +458,26 @@ class AlgebraStyleTest extends BaseUnitTest {
 
 		assertEquals(
 				TestStringUtil.unicode(
-				"-(x / 2)^2 - x x / 2 + 2x / 2 - (-(1 - x / 2)^2 - x (1 - x / 2) + 2 (1 - x / 2))"),
+						"-(x / 2)^2 - x x / 2 + 2x / 2 - (-(1 - x / 2)^2 - x (1 - x / 2) + 2 (1 - x / 2))"),
 				getGeo("h").toValueString(StringTemplate.defaultTemplate));
-
 	}
 
 	@Test
 	void tooltipsShouldHaveDefaultPrecision() {
 		t("P=(0,1/3)");
-		assertEquals("Point P(0, 0.33)",
-				getGeo("P").getTooltipText(false, true));
+		assertEquals("Point P(0, 0.33)", getGeo("P").getTooltipText(false, true));
 	}
 
 	@Test
 	void definitionShouldContainCommand() {
 		t("text1=TableText[{{1}}]");
-		assertEquals("text1 = TableText({{1}})",
-				getGeo("text1").getDefinitionForInputBar());
+		assertEquals("text1 = TableText({{1}})", getGeo("text1").getDefinitionForInputBar());
 		t("text2=FormulaText[sqrt(x)]");
-		assertEquals("text2 = FormulaText(sqrt(x))",
-				getGeo("text2").getDefinitionForInputBar());
+		assertEquals("text2 = FormulaText(sqrt(x))", getGeo("text2").getDefinitionForInputBar());
 	}
 
 	private void t(String def) {
-		ap.processAlgebraCommandNoExceptionHandling(def, false,
-				TestErrorHandler.INSTANCE, false, null);
+		ap.processAlgebraCommandNoExceptionHandling(def, false, TestErrorHandler.INSTANCE, false, null);
 	}
 
 	@Test
@@ -495,12 +495,10 @@ class AlgebraStyleTest extends BaseUnitTest {
 		assertEquals("Point P", builder.toString());
 		t("Q=Dilate[P,2]");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("Q"), builder);
-		assertEquals("Q = P dilated by factor 2 from (0, 0)",
-				builder.toString());
+		assertEquals("Q = P dilated by factor 2 from (0, 0)", builder.toString());
 		t("R=2*P");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
 		assertEquals("R = 2P", builder.toString());
-
 	}
 
 	@Test
@@ -512,8 +510,7 @@ class AlgebraStyleTest extends BaseUnitTest {
 		assertEquals("Point P", builder.toString());
 		t("Q=Dilate[P,2]");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("Q"), builder);
-		assertEquals("Q = P dilated by factor 2 from (0, 0)",
-				builder.toString());
+		assertEquals("Q = P dilated by factor 2 from (0, 0)", builder.toString());
 		t("R=2*P");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
 		assertEquals("R = 2P", builder.toString());
@@ -590,8 +587,7 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Test
 	void packedGeosShouldHaveJustRHSInEditor() {
 		t("c=Cone[(0,0,0),(0,0,1),5]");
-		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,
-				StringTemplate.editorTemplate);
+		String rhs = getGeo("c").getLaTeXDescriptionRHS(false, StringTemplate.editorTemplate);
 		assertEquals("Cone($point(0,0,0),$point(0,0,1),5)", rhs);
 	}
 
@@ -632,14 +628,12 @@ class AlgebraStyleTest extends BaseUnitTest {
 		assertNotNull(SuggestionStatistics.get(list));
 
 		app.storeUndoInfo();
-		assertEquals(1, app.getKernel().getConstruction()
-				.getUndoManager().getHistorySize());
+		assertEquals(1, app.getKernel().getConstruction().getUndoManager().getHistorySize());
 
 		SuggestionStatistics.get(list).execute(list);
 		assertEquals(6, app.getGgbApi().getObjectNumber());
 
-		assertEquals(2, app.getKernel().getConstruction()
-				.getUndoManager().getHistorySize());
+		assertEquals(2, app.getKernel().getConstruction().getUndoManager().getHistorySize());
 	}
 
 	@Test
@@ -647,14 +641,13 @@ class AlgebraStyleTest extends BaseUnitTest {
 		add("g={1,2}");
 		add("f(x,y)=x+y");
 		GeoElement check = add("f(g)==3");
-		assertEquals("f\\left(g \\right) \\questeq  3",
-				check.getDefinition(StringTemplate.latexTemplate));
+		assertEquals(
+				"f\\left(g \\right) \\questeq  3", check.getDefinition(StringTemplate.latexTemplate));
 	}
 
 	private static void deg(String def, String expect) {
-		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
-				false, TestErrorHandler.INSTANCE,
-				new EvalInfo(true, true).addDegree(true), null);
+		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(
+				def, false, TestErrorHandler.INSTANCE, new EvalInfo(true, true).addDegree(true), null);
 		if (geo[0] instanceof GeoLine) {
 			((GeoLine) geo[0]).setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 		}
@@ -663,9 +656,8 @@ class AlgebraStyleTest extends BaseUnitTest {
 	}
 
 	private static void rad(String def, String expect) {
-		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
-				false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
-				null);
+		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(
+				def, false, TestErrorHandler.INSTANCE, new EvalInfo(true, true), null);
 		String res = geo[0].toValueString(StringTemplate.maxPrecision13);
 		assertEquals(expect, res);
 	}
@@ -705,7 +697,6 @@ class AlgebraStyleTest extends BaseUnitTest {
 		rad("sin(10pi)", "0.000000000000");
 		rad("sin(100pi)", "0.000000000000");
 		rad("sin(1000pi)", "0.000000000000");
-
 	}
 
 	/** GGB-2183 */
@@ -719,8 +710,7 @@ class AlgebraStyleTest extends BaseUnitTest {
 		deg("tan(30+15)", "1.61978");
 		deg("sin(22.5)-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
 		deg("sin(22.5deg)-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
-		deg("sin(22.5" + Unicode.DEGREE_STRING
-				+ ")-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
+		deg("sin(22.5" + Unicode.DEGREE_STRING + ")-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
 		deg("(tan(30)+tan(15))/(1-tan(30)*tan(15))", "1");
 		deg("sin(x)", "sin(x)");
 		deg("sin(pi)", "0");
@@ -785,38 +775,47 @@ class AlgebraStyleTest extends BaseUnitTest {
 
 	@Test
 	void multiplicationShouldNotHaveExtraBrackets() {
-		new ExpressionChecker("3x*5x").checkEdit("3x * 5x", "3 x*5 x")
-				.checkVal("3x * 5x").checkGiac("(((3)*(x))*(5))*(x)");
-		new ExpressionChecker("pi*x").checkEditAndVal(Unicode.pi + " x")
-				.checkGiac("(pi)*(x)");
-		new ExpressionChecker("3*4*x").checkEdit("3 * 4x", "3*4 x")
-				.checkVal("3 * 4x").checkGiac("((3)*(4))*(x)");
-		new ExpressionChecker("3*(4*x)").checkEdit("3 * 4x", "3*4 x")
-				.checkVal("3 * 4x").checkGiac("(3)*((4)*(x))");
+		new ExpressionChecker("3x*5x")
+				.checkEdit("3x * 5x", "3 x*5 x")
+				.checkVal("3x * 5x")
+				.checkGiac("(((3)*(x))*(5))*(x)");
+		new ExpressionChecker("pi*x").checkEditAndVal(Unicode.pi + " x").checkGiac("(pi)*(x)");
+		new ExpressionChecker("3*4*x")
+				.checkEdit("3 * 4x", "3*4 x")
+				.checkVal("3 * 4x")
+				.checkGiac("((3)*(4))*(x)");
+		new ExpressionChecker("3*(4*x)")
+				.checkEdit("3 * 4x", "3*4 x")
+				.checkVal("3 * 4x")
+				.checkGiac("(3)*((4)*(x))");
 		new ExpressionChecker("3*4").checkEdit("3 * 4").checkVal("12").checkGiac("(3)*(4)");
 		t("a1=7");
-		new ExpressionChecker("3a1*x").checkEdit("3a1 x", "3 a1 x")
-				.checkVal("3 * 7 x").checkGiac("((3)*(7))*(x)");
-		new ExpressionChecker("a1*a1*a1*x").checkEdit("a1 a1 a1 x")
-				.checkVal("7 * 7 * 7 x").checkGiac("(((7)*(7))*(7))*(x)");
+		new ExpressionChecker("3a1*x")
+				.checkEdit("3a1 x", "3 a1 x")
+				.checkVal("3 * 7 x")
+				.checkGiac("((3)*(7))*(x)");
+		new ExpressionChecker("a1*a1*a1*x")
+				.checkEdit("a1 a1 a1 x")
+				.checkVal("7 * 7 * 7 x")
+				.checkGiac("(((7)*(7))*(7))*(x)");
 		t("a1=pi");
-		new ExpressionChecker("3a1*x").checkEdit("3a1 x", "3 a1 x")
-				.checkVal("3" + Unicode.pi + " x").checkGiac("((3)*(pi))*(x)");
-		new ExpressionChecker("a1*a1*a1*x").checkEdit("a1 a1 a1 x")
+		new ExpressionChecker("3a1*x")
+				.checkEdit("3a1 x", "3 a1 x")
+				.checkVal("3" + Unicode.pi + " x")
+				.checkGiac("((3)*(pi))*(x)");
+		new ExpressionChecker("a1*a1*a1*x")
+				.checkEdit("a1 a1 a1 x")
 				.checkVal(Unicode.pi + " " + Unicode.pi + " " + Unicode.pi + " x")
 				.checkGiac("(((pi)*(pi))*(pi))*(x)");
 	}
 
 	@Test
 	void labelOrderingTest() {
-		String[] ordered = new String[] { "A", "A1", "A2", "A10", "A1X", "B",
-				"B1", "B2" };
+		String[] ordered = new String[] {"A", "A1", "A2", "A10", "A1X", "B", "B1", "B2"};
 		for (int i = 0; i < ordered.length; i++) {
 			for (int j = 0; j < ordered.length; j++) {
 				assertEquals(
-						Math.signum(GeoElement.compareLabels(ordered[i],
-								ordered[j])),
-						Math.signum(i - j), .1);
+						Math.signum(GeoElement.compareLabels(ordered[i], ordered[j])), Math.signum(i - j), .1);
 			}
 		}
 	}
@@ -845,8 +844,8 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Issue("APPS-7345")
 	void largeNumberInDecimalModeFormatsAsScientific() {
 		getKernel().setPrintDecimals(2);
-		assertEquals("1 " + Unicode.CENTER_DOT + " 10"
-						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+		assertEquals(
+				"1 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
 				getKernel().format(1E16, StringTemplate.defaultTemplate));
 	}
 
@@ -854,8 +853,8 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Issue("APPS-7345")
 	void largeNumberTrailingZerosTrimmed() {
 		getKernel().setPrintDecimals(2);
-		assertEquals("1.5 " + Unicode.CENTER_DOT + " 10"
-						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+		assertEquals(
+				"1.5 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
 				getKernel().format(1.5E16, StringTemplate.defaultTemplate));
 	}
 
@@ -863,8 +862,9 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Issue("APPS-7345")
 	void largeNumberShowsFifteenSignificantDigits() {
 		getKernel().setPrintDecimals(2);
-		assertEquals("9.00719925474099 " + Unicode.CENTER_DOT + " 10"
-						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_5,
+		assertEquals(
+				"9.00719925474099 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_1
+						+ Unicode.SUPERSCRIPT_5,
 				getKernel().format(MyMath.LARGEST_INTEGER, StringTemplate.defaultTemplate));
 	}
 
@@ -872,8 +872,8 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Issue("APPS-7345")
 	void negativeLargeNumberFormatsAsScientific() {
 		getKernel().setPrintDecimals(2);
-		assertEquals("-2 " + Unicode.CENTER_DOT + " 10"
-						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+		assertEquals(
+				"-2 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
 				getKernel().format(-2E16, StringTemplate.defaultTemplate));
 	}
 
@@ -881,8 +881,8 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Issue("APPS-7345")
 	void largeNumberInSignificantFiguresModePreservesTrailingZeros() {
 		getKernel().setPrintFigures(5);
-		assertEquals("1.5000 " + Unicode.CENTER_DOT + " 10"
-						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
+		assertEquals(
+				"1.5000 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_6,
 				getKernel().format(1.5E16, StringTemplate.defaultTemplate));
 	}
 
@@ -890,8 +890,7 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Issue("APPS-7345")
 	void justBelowThresholdNotFormattedAsScientific() {
 		getKernel().setPrintDecimals(2);
-		String result = getKernel().format(
-				MyMath.LARGEST_INTEGER - 1, StringTemplate.defaultTemplate);
+		String result = getKernel().format(MyMath.LARGEST_INTEGER - 1, StringTemplate.defaultTemplate);
 		assertFalse(result.contains(Unicode.CENTER_DOT + ""));
 	}
 
@@ -899,7 +898,6 @@ class AlgebraStyleTest extends BaseUnitTest {
 	@Issue("APPS-7345")
 	void largeNumberInLatexTemplateFormatsCorrectly() {
 		getKernel().setPrintDecimals(2);
-		assertEquals("1.5 \\cdot 10^{16}",
-				getKernel().format(1.5E16, StringTemplate.latexTemplate));
+		assertEquals("1.5 \\cdot 10^{16}", getKernel().format(1.5E16, StringTemplate.latexTemplate));
 	}
 }

@@ -23,8 +23,7 @@ import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public final class GeoGebraJSNativeBridge {
-	private GeoGebraJSNativeBridge() {
-	}
+	private GeoGebraJSNativeBridge() {}
 
 	@JsProperty(name = "GeoGebraJSNativeBridge")
 	public static native GeoGebraJSNativeBridge get();
@@ -74,8 +73,8 @@ public final class GeoGebraJSNativeBridge {
 	 * @param callbackId callback ID
 	 */
 	@JsMethod
-	public native void saveFile(int materialId, String title, String base64,
-			String metaData, int callbackId);
+	public native void saveFile(
+			int materialId, String title, String base64, String metaData, int callbackId);
 
 	/**
 	 * @param title title

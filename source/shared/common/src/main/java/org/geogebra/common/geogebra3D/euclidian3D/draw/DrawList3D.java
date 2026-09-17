@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Class for drawing GeoList (3D part)
- * 
+ *
  * @author matthieu
  *
  */
@@ -33,7 +33,7 @@ public class DrawList3D extends DrawComposite3D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param view3D
 	 *            view
 	 * @param geo

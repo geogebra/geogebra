@@ -98,8 +98,7 @@ public class BernsteinPlotCell implements Splittable<BernsteinPlotCell> {
 		return cells;
 	}
 
-	private BernsteinPlotCell createCell(BernsteinBoundingBox box,
-			BernsteinPolynomial2D polynomial) {
+	private BernsteinPlotCell createCell(BernsteinBoundingBox box, BernsteinPolynomial2D polynomial) {
 		if (polynomial == null) {
 			return null;
 		}

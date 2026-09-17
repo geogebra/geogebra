@@ -44,8 +44,8 @@ public final class AVErrorHandler implements ErrorLogger, AnalyticsErrorLogger {
 	 * @param withSliders
 	 *            whether to allow slider creation without asking
 	 */
-	public AVErrorHandler(RadioTreeItem radioTreeItem, boolean valid, boolean allowSliders,
-			boolean withSliders) {
+	public AVErrorHandler(
+			RadioTreeItem radioTreeItem, boolean valid, boolean allowSliders, boolean withSliders) {
 		this.radioTreeItem = radioTreeItem;
 		this.valid = valid;
 		this.allowSliders = allowSliders;
@@ -54,8 +54,7 @@ public final class AVErrorHandler implements ErrorLogger, AnalyticsErrorLogger {
 
 	@Override
 	public void showError(String msg) {
-		radioTreeItem.errorMessage = valid ? msg
-				: radioTreeItem.loc.getInvalidInputError();
+		radioTreeItem.errorMessage = valid ? msg : radioTreeItem.loc.getInvalidInputError();
 
 		radioTreeItem.commandError = null;
 		radioTreeItem.showCurrentError();
@@ -68,26 +67,25 @@ public final class AVErrorHandler implements ErrorLogger, AnalyticsErrorLogger {
 	}
 
 	@Override
-	public boolean onUndefinedVariables(String string,
-			AsyncOperation<String[]> callback) {
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
 		if (withSliders) {
 			return true;
 		}
 
-		if (!(allowSliders && valid) && this.radioTreeItem.app.getLocalization()
-				.getReverseCommand(getCurrentCommand()) != null) {
-			showCommandError(this.radioTreeItem.app.getLocalization()
-					.getReverseCommand(getCurrentCommand()), null);
+		if (!(allowSliders && valid)
+				&& this.radioTreeItem.app.getLocalization().getReverseCommand(getCurrentCommand())
+						!= null) {
+			showCommandError(
+					this.radioTreeItem.app.getLocalization().getReverseCommand(getCurrentCommand()), null);
 
 			return false;
 		}
-		callback.callback(new String[] { "7" });
+		callback.callback(new String[] {"7"});
 		return false;
 	}
 
 	@Override
-	public void showCommandError(final String command,
-			final String message) {
+	public void showCommandError(final String command, final String message) {
 		this.radioTreeItem.commandError = command;
 		this.radioTreeItem.errorMessage = message;
 		this.radioTreeItem.showCurrentError();
@@ -102,7 +100,7 @@ public final class AVErrorHandler implements ErrorLogger, AnalyticsErrorLogger {
 	@Override
 	public void log(Throwable e) {
 		if (e instanceof MyError || e instanceof ParseException) {
-			Log.warn(e.getLocalizedMessage()) ;
+			Log.warn(e.getLocalizedMessage());
 		} else {
 			Log.debug(e);
 		}

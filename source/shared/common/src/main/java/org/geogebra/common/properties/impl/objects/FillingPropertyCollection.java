@@ -46,33 +46,44 @@ public class FillingPropertyCollection extends AbstractPropertyCollection<Proper
 	 * @param elements geo elements
 	 * @throws NotApplicablePropertyException if the elements do not support filling
 	 */
-	public FillingPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, ImageManager imageManager, List<GeoElement> elements)
+	public FillingPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			ImageManager imageManager,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "Filling");
 		setProperties(Stream.<Property>of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new InverseFillProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillCategoryProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillSymbolProperty(localization, element),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new FillImageProperty(localization, imageManager, element),
-						ImagePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new PatternFillStyleProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new HatchingDistanceProperty(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new HatchingAngleProperty(localization, element),
-						RangePropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new InverseFillProperty(localization, element),
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new FillCategoryProperty(localization, element),
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new FillSymbolProperty(localization, element),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new FillImageProperty(localization, imageManager, element),
+								ImagePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new PatternFillStyleProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new HatchingDistanceProperty(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new HatchingAngleProperty(localization, element),
+								RangePropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

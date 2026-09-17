@@ -48,84 +48,84 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * 3D representation of a {@link GeoElement3D}
- * 
- * 
+ *
+ *
  * <h2>How to create the drawable of a new element</h2>
- * 
+ *
  * We'll call here our new element "GeoNew3D" and create a drawable3D linked to
  * it:
  * <ul>
- * 
+ *
  * <li>It extends {@link Drawable3DCurves} (for points, lines, ...) or
  * {@link Drawable3DSurfaces} (for planes, surfaces, ...)
  * <p>
  * <code>
-         public class DrawNew3D extends ... {
-         </code></li>
+ * public class DrawNew3D extends ... {
+ * </code></li>
  * <li>Create new constructor
  * <p>
  * <code>
-         public DrawNew3D(EuclidianView3D a_view3d, GeoNew3D a_new3D){ <br> &nbsp;&nbsp;
-            super(a_view3d, a_new3D); <br> 
-         }
-         </code></li>
+ * public DrawNew3D(EuclidianView3D a_view3d, GeoNew3D a_new3D){ <br> &nbsp;&nbsp;
+ * super(a_view3d, a_new3D); <br>
+ * }
+ * </code></li>
  * <li>Your IDE will add auto-generated methods :
  * <ul>
  * <li>getPickOrder() : for picking objects order ; use
  * {@link #DRAW_PICK_ORDER_MAX} first
  * <p>
  * <code>
-                  public int getPickOrder() { <br> &nbsp;&nbsp;
-                        return DRAW_PICK_ORDER_MAX; <br> 
-                  }
-              </code></li>
+ * public int getPickOrder() { <br> &nbsp;&nbsp;
+ * return DRAW_PICK_ORDER_MAX; <br>
+ * }
+ * </code></li>
  * <li>for {@link Drawable3DCurves} :
  * <p>
  * <code>
-                public void drawGeometry(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-                       // call the geometry to be drawn <br>
-                }
-                <br>
-                public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-                       // for hidden part, let it empty first <br>
-                }
-                <br>
-                public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-                       // to show the object is picked, let it empty first <br>
-                }
-              </code></li>
+ * public void drawGeometry(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+ * // call the geometry to be drawn <br>
+ * }
+ * <br>
+ * public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+ * // for hidden part, let it empty first <br>
+ * }
+ * <br>
+ * public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+ * // to show the object is picked, let it empty first <br>
+ * }
+ * </code></li>
  * <li>for {@link Drawable3DSurfaces} :
  * <p>
  * <code>
-            public void drawGeometry(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-                    // call the geometry to be drawn <br>
-            }
-            <br>
-            void drawGeometryHiding(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-               // call the geometry that hides other objects <br>&nbsp;&nbsp;
-                   // first sets it to :  <br>&nbsp;&nbsp;
-                   drawGeometry(renderer);      <br>
-            }
-            <br>
-            public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-                // for hidden part, let it empty first   <br>
-            }
-            <br>
-            public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
-                   // to show the object is picked, let it empty first <br>
-            }
-          </code></li>
+ * public void drawGeometry(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+ * // call the geometry to be drawn <br>
+ * }
+ * <br>
+ * void drawGeometryHiding(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+ * // call the geometry that hides other objects <br>&nbsp;&nbsp;
+ * // first sets it to :  <br>&nbsp;&nbsp;
+ * drawGeometry(renderer);      <br>
+ * }
+ * <br>
+ * public void drawGeometryHidden(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+ * // for hidden part, let it empty first   <br>
+ * }
+ * <br>
+ * public void drawGeometryPicked(EuclidianRenderer3D renderer) { <br> &nbsp;&nbsp;
+ * // to show the object is picked, let it empty first <br>
+ * }
+ * </code></li>
  * </ul>
  * </li>
  * </ul>
- * 
+ *
  * <h3>See</h3>
  * <ul>
  * <li>{@link EuclidianView3D#newDrawable(GeoElementND)} to make the drawable be
  * created when the GeoElement is created</li>
  * </ul>
- * 
- * 
+ *
+ *
  * @author ggb3D
  */
 public abstract class Drawable3D extends DrawableND implements CaptionFactory {
@@ -144,17 +144,18 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	private static final int ALPHA_MIN_HIGHLIGHTING = 64;
 	private static final int LIGHT_COLOR = 3 * 127;
-	protected final static double COLOR_SHIFT_SURFACE = 0.75; // 0.2
-	protected final static double COLOR_SHIFT_CURVES = 0.75; // 0.2
-	protected final static double COLOR_SHIFT_POINTS = 0.86; // mostly sqrt(3)/2
-	protected final static double COLOR_SHIFT_NONE = 0;
-	public final static GColor DARKEST_ADDITIVE_COLOR = GColor.newColor(50, 50, 50);
+	protected static final double COLOR_SHIFT_SURFACE = 0.75; // 0.2
+	protected static final double COLOR_SHIFT_CURVES = 0.75; // 0.2
+	protected static final double COLOR_SHIFT_POINTS = 0.86; // mostly sqrt(3)/2
+	protected static final double COLOR_SHIFT_NONE = 0;
+	public static final GColor DARKEST_ADDITIVE_COLOR = GColor.newColor(50, 50, 50);
 
 	/** view3D */
 	private EuclidianView3D m_view3D;
 
 	/** says if it has to be updated */
 	private boolean waitForUpdate;
+
 	private boolean waitForUpdateVisualStyle = true;
 	private boolean waitForUpdateColor = false;
 	private boolean waitForUpdateVisibility = false;
@@ -196,8 +197,9 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	private boolean relevantPickingValues;
 
 	/** (r,g,b,a) vector */
-	protected GColor[] color = new GColor[]{GColor.BLACK, GColor.BLACK};
-	protected GColor[] surfaceColor = new GColor[]{GColor.BLACK, GColor.BLACK};
+	protected GColor[] color = new GColor[] {GColor.BLACK, GColor.BLACK};
+
+	protected GColor[] surfaceColor = new GColor[] {GColor.BLACK, GColor.BLACK};
 	private GColor tmpColor2;
 	protected Trace trace;
 	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
@@ -210,15 +212,15 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	// constants for picking : have to be from 0 to DRAW_PICK_ORDER_MAX-1,
 	// regarding to picking order
 	/** default value for picking order */
-	static final public int DRAW_PICK_ORDER_MAX = 4;
+	public static final int DRAW_PICK_ORDER_MAX = 4;
 	/** picking order value for points */
-	static final public int DRAW_PICK_ORDER_POINT = 0;
+	public static final int DRAW_PICK_ORDER_POINT = 0;
 	/** picking order value for texts */
-	static final public int DRAW_PICK_ORDER_TEXT = 1;
+	public static final int DRAW_PICK_ORDER_TEXT = 1;
 	/** picking order value for path objects (lines, segments, ...) */
-	static final public int DRAW_PICK_ORDER_PATH = 2;
+	public static final int DRAW_PICK_ORDER_PATH = 2;
 	/** picking order value for surface objects (polygons, planes, ...) */
-	static final public int DRAW_PICK_ORDER_SURFACE = 3;
+	public static final int DRAW_PICK_ORDER_SURFACE = 3;
 
 	// type constants
 	/** type for drawing default (GeoList, ...) */
@@ -232,14 +234,12 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/** type for drawing planes, polygons, etc. */
 	public static final int DRAW_TYPE_SURFACES = DRAW_TYPE_CLIPPED_CURVES + 1;
 	/** type for drawing polyhedrons, etc. */
-	public static final int DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED = DRAW_TYPE_SURFACES
-			+ 1;
+	public static final int DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED = DRAW_TYPE_SURFACES + 1;
 	/** type for drawing quadrics, etc. */
-	public static final int DRAW_TYPE_CLOSED_SURFACES_CURVED = DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED
-			+ 1;
+	public static final int DRAW_TYPE_CLOSED_SURFACES_CURVED =
+			DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED + 1;
 	/** type for drawing parametric surfaces, etc., that need clipping */
-	public static final int DRAW_TYPE_CLIPPED_SURFACES = DRAW_TYPE_CLOSED_SURFACES_CURVED
-			+ 1;
+	public static final int DRAW_TYPE_CLIPPED_SURFACES = DRAW_TYPE_CLOSED_SURFACES_CURVED + 1;
 	/** type for drawing texts */
 	public static final int DRAW_TYPE_TEXTS = DRAW_TYPE_CLIPPED_SURFACES + 1;
 	/** type for drawing lists */
@@ -249,6 +249,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/** visibility as intersection curve */
 	protected boolean intersectionCurveVisibility;
+
 	private @Nullable Caption3D caption = null;
 	private GGraphics2D updateLabelGraphics;
 	// /////////////////////////////////////////////////////////////////////////////
@@ -256,7 +257,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * construct the Drawable3D with a link to a_view3D
-	 * 
+	 *
 	 * @param view3D
 	 *            the view linked to this
 	 */
@@ -264,7 +265,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		setView3D(view3D);
 
 		label = newDrawLabel3D(view3D);
-        relevantPickingValues = false;
+		relevantPickingValues = false;
 	}
 
 	protected DrawLabel3D newDrawLabel3D(EuclidianView3D view3D) {
@@ -273,7 +274,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * Call the {@link #update()} method.
-	 * 
+	 *
 	 * @param a_view3D
 	 *            the {@link EuclidianView3D} using this Drawable3D
 	 * @param a_geo
@@ -365,10 +366,10 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if the geo is traced
 	 */
-	final protected boolean hasTrace() {
+	protected final boolean hasTrace() {
 
 		if (createdByDrawList()) {
 			return ((Drawable3D) getDrawListCreator()).hasTrace();
@@ -386,13 +387,12 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if something is recorded in trace
 	 */
-	final protected boolean hasRecordedTrace() {
+	protected final boolean hasRecordedTrace() {
 		if (shouldBePackedForManager()) {
-			return tracesPackingBuffer != null
-					&& !tracesPackingBuffer.isEmpty();
+			return tracesPackingBuffer != null && !tracesPackingBuffer.isEmpty();
 		}
 		return trace != null && !trace.isEmpty();
 	}
@@ -404,12 +404,16 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		if (caption != null) {
 			caption.update();
 			if (updateLabelGraphics == null) {
-				updateLabelGraphics = AwtFactory.getPrototype()
-						.newBufferedImage(1, 1, 1).createGraphics();
+				updateLabelGraphics =
+						AwtFactory.getPrototype().newBufferedImage(1, 1, 1).createGraphics();
 			}
-			label.update(caption,
+			label.update(
+					caption,
 					getView3D().getFontPoint(),
-					getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY(), 0,
+					getLabelPosition(),
+					getLabelOffsetX(),
+					-getLabelOffsetY(),
+					0,
 					updateLabelGraphics);
 		}
 	}
@@ -422,7 +426,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return x offset for the label
 	 */
 	protected float getLabelOffsetX() {
@@ -430,7 +434,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return y offset for the label
 	 */
 	protected float getLabelOffsetY() {
@@ -447,14 +451,14 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/**
 	 * update the drawable when view has changed
 	 */
-	abstract protected void updateForView();
+	protected abstract void updateForView();
 
 	/**
 	 * update the drawable when element has changed
-	 * 
+	 *
 	 * @return true if the update is finished
 	 */
-	abstract protected boolean updateForItSelf();
+	protected abstract boolean updateForItSelf();
 
 	/**
 	 * for logic hitting, we may need an update
@@ -474,14 +478,14 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/**
 	 * @return true if this wait for update
 	 */
-	final public boolean waitForUpdate() {
+	public final boolean waitForUpdate() {
 		return waitForUpdate;
 	}
 
 	/**
 	 * says that the label has to be updated
 	 */
-	final public void setLabelWaitForUpdate() {
+	public final void setLabelWaitForUpdate() {
 		labelWaitForUpdate = true;
 	}
 
@@ -527,17 +531,21 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param updateSurface
 	 *            if surface has to be updated too
 	 */
 	protected void updateGeometriesColor(boolean updateSurface) {
 		updateColors();
-		getView3D().getRenderer().getGeometryManager().updateColorAndLayer(
-				getColor(), Renderer.LAYER_DEFAULT, getGeometryIndex());
+		getView3D()
+				.getRenderer()
+				.getGeometryManager()
+				.updateColorAndLayer(getColor(), Renderer.LAYER_DEFAULT, getGeometryIndex());
 		if (updateSurface) {
-			getView3D().getRenderer().getGeometryManager().updateColorAndLayer(
-					getSurfaceColor(), getLayer(), getSurfaceIndex());
+			getView3D()
+					.getRenderer()
+					.getGeometryManager()
+					.updateColorAndLayer(getSurfaceColor(), getLayer(), getSurfaceIndex());
 		}
 		if (!isVisible()) {
 			setGeometriesVisibility(false);
@@ -560,7 +568,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * set geometry visibility
-	 * 
+	 *
 	 * @param visible
 	 *            geometry visibility flag
 	 */
@@ -570,25 +578,29 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * set geometry visibility with surface
-	 * 
+	 *
 	 * @param visible
 	 *            geometry visibility flag
 	 */
 	protected void setGeometriesVisibilityWithSurface(boolean visible) {
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
-				getSurfaceIndex(), getSurfaceColor().getAlpha(), getLayer());
+		getView3D()
+				.getRenderer()
+				.getGeometryManager()
+				.updateVisibility(visible, getSurfaceIndex(), getSurfaceColor().getAlpha(), getLayer());
 		setGeometriesVisibilityNoSurface(visible);
 	}
 
 	/**
 	 * set geometry visibility with no surface
-	 * 
+	 *
 	 * @param visible
 	 *            geometry visibility flag
 	 */
 	protected void setGeometriesVisibilityNoSurface(boolean visible) {
-		getView3D().getRenderer().getGeometryManager().updateVisibility(visible,
-				getGeometryIndex(), 255, Renderer.LAYER_DEFAULT);
+		getView3D()
+				.getRenderer()
+				.getGeometryManager()
+				.updateVisibility(visible, getGeometryIndex(), 255, Renderer.LAYER_DEFAULT);
 		geometriesSetVisible = visible;
 	}
 
@@ -598,7 +610,6 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 				doRemoveGeometryIndex(index);
 			}
 		}
-
 	}
 
 	protected void doRemoveGeometryIndex(int index) {
@@ -620,12 +631,12 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/**
 	 * @return geometry index
 	 */
-	final public int getGeometryIndex() {
+	public final int getGeometryIndex() {
 		return geomIndex;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current surface index if reusable (if no trace)
 	 */
 	protected int getReusableGeometryIndex() {
@@ -636,7 +647,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		return getGeometryIndex();
 	}
 
-	final protected void setSurfaceIndex(int index) {
+	protected final void setSurfaceIndex(int index) {
 		removeGeometryIndex(surfaceIndex);
 		surfaceIndex = index;
 	}
@@ -656,7 +667,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current surface index if reusable (if no trace)
 	 */
 	public int getReusableSurfaceIndex() {
@@ -669,7 +680,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * get the label position
-	 * 
+	 *
 	 * @return the label position
 	 */
 	public Coords getLabelPosition() {
@@ -678,7 +689,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * get the 3D view
-	 * 
+	 *
 	 * @return the 3D view
 	 */
 	protected EuclidianView3D getView3D() {
@@ -687,7 +698,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * set the 3D view
-	 * 
+	 *
 	 * @param a_view3D
 	 *            the 3D view
 	 */
@@ -697,25 +708,23 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * say if the Drawable3D is visible
-	 * 
+	 *
 	 * @return the visibility
 	 */
 	public boolean isVisible() {
 		boolean visible;
 
 		if (createdByDrawList()) {
-			visible = isCreatedByDrawListVisible()
-					&& ((Drawable3D) getDrawListCreator()).isVisible();
+			visible = isCreatedByDrawListVisible() && ((Drawable3D) getDrawListCreator()).isVisible();
 		} else {
 			visible = true;
 		}
 
 		return visible && hasGeoElementVisible();
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if geo is visible (and defined)
 	 */
 	protected boolean hasGeoElementVisible() {
@@ -725,7 +734,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return geo layer
 	 */
 	public int getLayer() {
@@ -741,59 +750,57 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draw the geometry for not hidden parts
-	 * 
+	 *
 	 * @param renderer
 	 *            the 3D renderer where to draw
 	 */
-	abstract public void drawGeometry(Renderer renderer);
+	public abstract void drawGeometry(Renderer renderer);
 
 	/**
 	 * draw the geometry to show the object is picked (highlighted)
-	 * 
+	 *
 	 * @param renderer
 	 *            the 3D renderer where to draw
 	 */
-	abstract public void drawGeometryHidden(Renderer renderer);
+	public abstract void drawGeometryHidden(Renderer renderer);
 
 	/**
 	 * draw the outline for hidden parts
-	 * 
+	 *
 	 * @param renderer
 	 *            the 3D renderer where to draw
 	 */
-	abstract public void drawOutline(Renderer renderer);
+	public abstract void drawOutline(Renderer renderer);
 
 	/**
 	 * draw the surface for hidden parts (when not transparent)
-	 * 
+	 *
 	 * @param renderer
 	 *            the 3D renderer where to draw
 	 */
-	abstract public void drawNotTransparentSurface(Renderer renderer);
+	public abstract void drawNotTransparentSurface(Renderer renderer);
 
 	/**
 	 * sets the matrix, the pencil and draw the geometry for hidden parts
-	 * 
+	 *
 	 * @param renderer
 	 *            the 3D renderer where to draw
 	 */
 	public void drawHidden(Renderer renderer) {
-		if (isVisible() && getGeoElement()
-				.getLineTypeHidden() != EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
+		if (isVisible()
+				&& getGeoElement().getLineTypeHidden() != EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
 
 			setHighlightingColor();
 
 			setLineTextureHidden(renderer);
 
 			drawGeometryHidden(renderer);
-
 		}
-
 	}
 
 	/**
 	 * draw in export format through renderer
-	 * 
+	 *
 	 * @param exportToPrinter3D
 	 *            exporter
 	 * @param exportSurface
@@ -805,7 +812,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * translate to getter through renderer
-	 * 
+	 *
 	 * @param manager
 	 *            geometry getter manager
 	 * @param exportSurface
@@ -817,41 +824,38 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * set dash texture for lines
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
 	protected void setLineTextureHidden(Renderer renderer) {
-		if (getGeoElement()
-				.getLineTypeHidden() == EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN) {
-			renderer.getTextures()
-					.setDashFromLineType(getGeoElement().getLineType());
+		if (getGeoElement().getLineTypeHidden()
+				== EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN) {
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 		} else {
-			renderer.getTextures()
-					.setDashFromLineTypeHidden(getGeoElement().getLineType());
+			renderer.getTextures().setDashFromLineTypeHidden(getGeoElement().getLineType());
 		}
-
 	}
 
 	/**
 	 * sets the matrix, the pencil and draw the geometry for transparent parts
-	 * 
+	 *
 	 * @param renderer
 	 *            the 3D renderer where to draw
 	 */
-	abstract public void drawTransp(Renderer renderer);
+	public abstract void drawTransp(Renderer renderer);
 
 	/**
 	 * sets the matrix, the pencil and draw the geometry for hiding parts
-	 * 
+	 *
 	 * @param renderer
 	 *            the 3D renderer where to draw
 	 */
-	abstract public void drawHiding(Renderer renderer);
+	public abstract void drawHiding(Renderer renderer);
 
 	/**
 	 * draw for picking, and verify (or not) if pickable
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 * @param intersection
@@ -862,8 +866,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * @return this, or the DrawList that created it, or null if not
 	 *         pickable/visible
 	 */
-	public Drawable3D drawForPicking(Renderer renderer, boolean intersection,
-			PickingType type) {
+	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
 
 		// check pickability
 
@@ -882,14 +885,13 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			}
 
 			drawGeometryForPicking(renderer, type);
-
 		}
 
 		return getDrawablePicked();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the drawable that is really picked (e.g. parent list)
 	 */
 	protected Drawable3D getDrawablePicked() {
@@ -897,7 +899,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param drawableSource
 	 *            drawable at source of picking
 	 * @return the drawable that is really picked (e.g. parent list)
@@ -905,18 +907,16 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	protected Drawable3D getDrawablePicked(Drawable3D drawableSource) {
 
 		if (createdByDrawList()) { // if it is part of a DrawList3D, the list is
-									// picked
-			return ((Drawable3D) getDrawListCreator())
-					.getDrawablePicked(drawableSource);
+			// picked
+			return ((Drawable3D) getDrawListCreator()).getDrawablePicked(drawableSource);
 		}
 
 		return this;
-
 	}
 
 	/**
 	 * draws the geometry for picking (in most case, draws the default geometry)
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 * @param type
@@ -928,7 +928,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draws the geometry for picking an intersection
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
@@ -938,7 +938,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draws the label (if any)
-	 * 
+	 *
 	 * @param renderer
 	 *            3D renderer
 	 */
@@ -948,7 +948,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draws the label for picking it
-	 * 
+	 *
 	 * @param renderer
 	 *            3D renderer
 	 * @return if picking occurred
@@ -959,7 +959,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draws the label (if any)
-	 * 
+	 *
 	 * @param renderer
 	 *            3D renderer
 	 * @param forPicking
@@ -983,8 +983,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * @return true if the label is visible
 	 */
 	protected boolean isLabelVisible() {
-		return getGeoElement() != null && isVisible()
-				&& getGeoElement().isLabelVisible();
+		return getGeoElement() != null && isVisible() && getGeoElement().isLabelVisible();
 	}
 
 	// ///////////////////////////////////////////////////////////////////////////
@@ -992,36 +991,36 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * get picking order
-	 * 
+	 *
 	 * @return the picking order
 	 */
-	abstract public int getPickOrder();
+	public abstract int getPickOrder();
 
 	/**
 	 * say if another object is pickable through this Drawable3D.
-	 * 
+	 *
 	 * @return if the Drawable3D is transparent
 	 */
-	abstract public boolean isTransparent();
+	public abstract boolean isTransparent();
 
-    /**
-     *
-     * @return true if it has relevant values for picking
-     */
-    public boolean hasRelevantPickingValues() {
-        return relevantPickingValues;
-    }
+	/**
+	 *
+	 * @return true if it has relevant values for picking
+	 */
+	public boolean hasRelevantPickingValues() {
+		return relevantPickingValues;
+	}
 
 	/**
 	 * compare this to another Drawable3D with picking
-	 * 
+	 *
 	 * @param d
 	 *            the other Drawable3D
 	 * @param checkPickOrder
 	 *            say if the comparison has to look to pick order
 	 * @return 1 if this is in front, 0 if equality, -1 either
 	 */
-    public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
+	public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
 
 		// Log.debug("\ncheckPickOrder=" + checkPickOrder + "\n" + "zPickNear= "
 		// + (this.zPickNear) + " | zPickFar= " + (this.zPickFar)
@@ -1031,18 +1030,17 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		// + " | relevant= " + (d.hasRelevantPickingValues()) + " ("
 		// + d.getGeoElement() + ") " + d + "\n");
 
-        if (hasRelevantPickingValues() && !d.hasRelevantPickingValues()) {
-            return -1;
-        }
+		if (hasRelevantPickingValues() && !d.hasRelevantPickingValues()) {
+			return -1;
+		}
 
-        if (!hasRelevantPickingValues() && d.hasRelevantPickingValues()) {
-            return 1;
-        }
+		if (!hasRelevantPickingValues() && d.hasRelevantPickingValues()) {
+			return 1;
+		}
 
 		// check if one is transparent and the other not -- ONLY FOR DIFFERENT
 		// PICK ORDERS
-		if (getView3D().getEuclidianController()
-				.checkTransparencyForSortingDrawables()) {
+		if (getView3D().getEuclidianController().checkTransparencyForSortingDrawables()) {
 			if (!this.isTransparent() && d.isTransparent()) {
 				if (checkPickOrder && this.getPickOrder() < d.getPickOrder()) {
 					return -1;
@@ -1064,11 +1062,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			GeoElement otherGeo = d.getGeoElement();
 			// check one (only) is selected
 			if (thisGeo.isSelected() && !otherGeo.isSelected()) {
-						return -1;
-					}
+				return -1;
+			}
 			if (!thisGeo.isSelected() && otherGeo.isSelected()) {
-						return 1;
-					}
+				return 1;
+			}
 		}
 
 		if (DoubleUtil.isRatioEqualTo1(this.zPickNear, d.zPickNear)) {
@@ -1087,10 +1085,8 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			}
 			// check can drag one (only) -- if both points
 			if (geo1.isGeoPoint() && geo2.isGeoPoint()) {
-				boolean thisDraggable = EuclidianController3D.isDraggable(geo1,
-						getView3D());
-				boolean otherDraggable = EuclidianController3D.isDraggable(geo2,
-						getView3D());
+				boolean thisDraggable = EuclidianController3D.isDraggable(geo1, getView3D());
+				boolean otherDraggable = EuclidianController3D.isDraggable(geo2, getView3D());
 				if (thisDraggable && !otherDraggable) {
 					return -1;
 				}
@@ -1125,12 +1121,10 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			// if both are points
 			if (geo1.isGeoPoint() && geo2.isGeoPoint()) {
 				// check if one is on a path and the other not
-				if (geo1.isPointOnPath()
-						&& !geo2.isPointOnPath()) {
+				if (geo1.isPointOnPath() && !geo2.isPointOnPath()) {
 					return -1;
 				}
-				if (!geo1.isPointOnPath()
-						&& geo2.isPointOnPath()) {
+				if (!geo1.isPointOnPath() && geo2.isPointOnPath()) {
 					return 1;
 				}
 				// check if one is the child of the other
@@ -1184,22 +1178,18 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		 * +d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"); }
 		 */
 		return 0;
-
 	}
 
 	/** Comparator for Drawable3Ds */
-	static final public class DrawableComparator
-			implements Comparator<Drawable3D> {
+	public static final class DrawableComparator implements Comparator<Drawable3D> {
 		@Override
 		public int compare(Drawable3D d1, Drawable3D d2) {
 			return d1.comparePickingTo(d2, false);
-
 		}
 	}
 
 	/** Comparator for sets of Drawable3Ds */
-	static final public class SetComparator
-			implements Comparator<TreeSet<Drawable3D>> {
+	public static final class SetComparator implements Comparator<TreeSet<Drawable3D>> {
 		@Override
 		public int compare(TreeSet<Drawable3D> set1, TreeSet<Drawable3D> set2) {
 			/*
@@ -1227,8 +1217,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 */
 	public boolean doHighlighting() {
 		// no highlighting if we're moving something
-		if (getView3D().getEuclidianController()
-				.getMoveMode() != MoveMode.NONE) {
+		if (getView3D().getEuclidianController().getMoveMode() != MoveMode.NONE) {
 			return false;
 		}
 
@@ -1244,15 +1233,15 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/**
 	 * sets the color for drawing and alpha value
 	 */
-	final protected void setHighlightingColor() {
+	protected final void setHighlightingColor() {
 		setDrawingColor(getColor());
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current color (may be highlighted)
 	 */
-	final public GColor getColor() {
+	public final GColor getColor() {
 		if (doHighlighting()) {
 			return color[1];
 		}
@@ -1261,7 +1250,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * sets the renderer drawing color
-	 * 
+	 *
 	 * @param color
 	 *            color
 	 */
@@ -1277,7 +1266,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current surface color (may be highlighted)
 	 */
 	public GColor getSurfaceColor() {
@@ -1303,7 +1292,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return object color for outline
 	 */
 	protected GColor getObjectColorForOutline() {
@@ -1311,7 +1300,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return object color for surface
 	 */
 	private GColor getObjectColorForSurface() {
@@ -1323,8 +1312,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 		if (getView3D().isGrayScaled()) {
 			color[0] = c.createGrayScale();
-		} else if (getView3D().isAdditiveDisplay()
-				&& c.isDarkerThan(DARKEST_ADDITIVE_COLOR)) {
+		} else if (getView3D().isAdditiveDisplay() && c.isDarkerThan(DARKEST_ADDITIVE_COLOR)) {
 			color[0] = DARKEST_ADDITIVE_COLOR.deriveWithAlpha(c.getAlpha());
 		} else {
 			color[0] = c;
@@ -1341,14 +1329,14 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 		if (d > LIGHT_COLOR) { // color is closer to white : darken it
 			distance = Math.sqrt(r * r + g * g + b * b); // euclidian distance
-															// to black
+			// to black
 			tmpColor2 = GColor.BLACK;
 		} else { // color is closer to black : lighten it
 			r = 255 - r;
 			g = 255 - g;
 			b = 255 - b;
 			distance = Math.sqrt(r * r + g * g + b * b); // euclidian distance
-															// to white
+			// to white
 			tmpColor2 = GColor.WHITE;
 		}
 
@@ -1373,8 +1361,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	protected void updateAlpha() {
 		// only used by surfaces
 		// use 1-(1-alpha)^(1/3) because transparent parts are drawn twice
-		int a = (int) (255
-				* (1 - Math.pow(1 - getGeoElement().getAlphaValue(), 1. / 3.)));
+		int a = (int) (255 * (1 - Math.pow(1 - getGeoElement().getAlphaValue(), 1. / 3.)));
 
 		if (a < 0) {
 			a = 0;
@@ -1385,21 +1372,21 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if has alpha that leads to a transparent surface
 	 */
 	protected boolean hasTransparentAlpha() {
 		return getAlpha() > 0 && getAlpha() < 255;
 	}
 
-	abstract protected double getColorShift();
+	protected abstract double getColorShift();
 
 	// ///////////////////////////////////////////////////////////////////////////
 	// links to the GeoElement
 
 	/**
 	 * get the GeoElementInterface linked to the Drawable3D
-	 * 
+	 *
 	 * @return the GeoElement3DInterface linked to
 	 */
 	@Override
@@ -1409,7 +1396,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * set the GeoElement linked to the Drawable3D
-	 * 
+	 *
 	 * @param a_geo
 	 *            the GeoElement
 	 */
@@ -1422,11 +1409,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * add this to the correct lists
-	 * 
+	 *
 	 * @param lists
 	 *            lists
 	 */
-	abstract public void addToDrawable3DLists(Drawable3DLists lists);
+	public abstract void addToDrawable3DLists(Drawable3DLists lists);
 
 	protected void addToDrawable3DLists(Drawable3DLists lists, int type) {
 		lists.getList(type).add(this);
@@ -1434,11 +1421,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * remove this from the correct lists
-	 * 
+	 *
 	 * @param lists
 	 *            lists
 	 */
-	abstract public void removeFromDrawable3DLists(Drawable3DLists lists);
+	public abstract void removeFromDrawable3DLists(Drawable3DLists lists);
 
 	protected void removeFromDrawable3DLists(Drawable3DLists lists, int type) {
 		lists.getList(type).remove(this);
@@ -1464,11 +1451,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/**
 	 * remove preview from GL geometries (used when pack buffers)
 	 */
-    protected void removePreviewFromGL() {
-        removeFromGL();
-        geomIndex = NOT_REUSABLE_INDEX;
-        surfaceIndex = NOT_REUSABLE_INDEX;
-    }
+	protected void removePreviewFromGL() {
+		removeFromGL();
+		geomIndex = NOT_REUSABLE_INDEX;
+		surfaceIndex = NOT_REUSABLE_INDEX;
+	}
 
 	// ////////////////////////////
 	// FOR PREVIEWABLE INTERFACE
@@ -1478,12 +1465,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 */
 	public void disposePreview() {
 		getView3D().remove(this);
-
 	}
 
 	/**
 	 * unused for 3D
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -1497,19 +1483,19 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * set last picking type
-	 * 
+	 *
 	 * @param type
 	 *            picking type
 	 */
-	final public void setPickingType(PickingType type) {
+	public final void setPickingType(PickingType type) {
 		lastPickingType = type;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return last picking type
 	 */
-	final public PickingType getPickingType() {
+	public final PickingType getPickingType() {
 		return lastPickingType;
 	}
 
@@ -1532,7 +1518,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return new trace index for current geometry
 	 */
 	protected TraceIndex newTraceIndex() {
@@ -1541,7 +1527,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draw traces
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 * @param hidden
@@ -1556,12 +1542,10 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		if (hidden) {
 			setLineTextureHidden(renderer);
 		} else {
-			renderer.getTextures()
-					.setDashFromLineType(getGeoElement().getLineType());
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 		}
 
-		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
-				.entrySet()) {
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace.entrySet()) {
 			ArrayList<TraceIndex> indices = settings.getValue();
 			setDrawingColor(settings.getKey().getColor());
 			// Log.debug(indices.size());
@@ -1573,7 +1557,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draws the geometry of the trace index
-	 * 
+	 *
 	 * @param renderer
 	 *            GL renderer
 	 * @param index
@@ -1585,7 +1569,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draws the surface of the trace index
-	 * 
+	 *
 	 * @param renderer
 	 *            GL renderer
 	 * @param index
@@ -1597,7 +1581,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draw traces
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
@@ -1607,8 +1591,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			return;
 		}
 
-		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
-				.entrySet()) {
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace.entrySet()) {
 			ArrayList<TraceIndex> indices = settings.getValue();
 			TraceSettings key = settings.getKey();
 			double a = key.getAlpha();
@@ -1623,7 +1606,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draw traces
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
@@ -1632,8 +1615,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			return;
 		}
 
-		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
-				.entrySet()) {
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace.entrySet()) {
 			ArrayList<TraceIndex> indices = settings.getValue();
 			double a = settings.getKey().getAlpha();
 			if (a > 0 && a < 1) {
@@ -1646,7 +1628,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * draw traces
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
@@ -1656,8 +1638,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			return;
 		}
 
-		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
-				.entrySet()) {
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace.entrySet()) {
 			ArrayList<TraceIndex> indices = settings.getValue();
 			TraceSettings key = settings.getKey();
 			double a = key.getAlpha();
@@ -1668,15 +1649,13 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 				}
 			}
 		}
-
 	}
 
 	/**
 	 * clear trace for view changed
 	 */
-	final protected void clearTraceForViewChanged() {
-		if (getView3D().viewChangedByZoom()
-				|| getView3D().viewChangedByTranslate()) {
+	protected final void clearTraceForViewChanged() {
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()) {
 			clearTraceForViewChangedByZoomOrTranslate();
 		}
 	}
@@ -1701,7 +1680,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/**
 	 * set near/far z values when picked (positive value in direction to the
 	 * eye)
-	 * 
+	 *
 	 * @param zNear
 	 *            nearest value
 	 * @param zFar
@@ -1712,8 +1691,8 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * @param positionOnHitting
 	 *            position on hitting ray
 	 */
-	final public void setZPick(double zNear, double zFar,
-			boolean discardPositive, double positionOnHitting) {
+	public final void setZPick(
+			double zNear, double zFar, boolean discardPositive, double positionOnHitting) {
 		if (needsDiscardZPick(discardPositive, zNear, zFar)) {
 			resetZPick();
 		} else {
@@ -1728,8 +1707,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * @param zFar back hit
 	 * @return whether to discard
 	 */
-	protected boolean needsDiscardZPick(boolean discardPositive,
-			double zNear, double zFar) {
+	protected boolean needsDiscardZPick(boolean discardPositive, double zNear, double zFar) {
 		return discardPositive && (zNear > 0 || zFar > 0);
 	}
 
@@ -1743,7 +1721,8 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		zPickNear = zNear;
 		zPickFar = zFar;
 		relevantPickingValues = !Double.isInfinite(zPickNear)
-				&& !Double.isInfinite(zPickFar) && !Double.isNaN(zPickNear)
+				&& !Double.isInfinite(zPickFar)
+				&& !Double.isNaN(zPickNear)
 				&& !Double.isNaN(zPickFar);
 	}
 
@@ -1765,7 +1744,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return position on hitting ray
 	 */
 	public double getPositionOnHitting() {
@@ -1774,25 +1753,25 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * Note that z are positive in direction to the eye
-	 * 
+	 *
 	 * @return nearest z value from last picking
 	 */
-	final public double getZPickNear() {
+	public final double getZPickNear() {
 		return zPickNear;
 	}
 
 	/**
 	 * Note that z are positive in direction to the eye
-	 * 
+	 *
 	 * @return far z value from last picking
 	 */
-	final public double getZPickFar() {
+	public final double getZPickFar() {
 		return zPickFar;
 	}
 
 	/**
 	 * says if the drawable is hit by the hitting (e.g. ray)
-	 * 
+	 *
 	 * @param hitting
 	 *            e.g. ray
 	 * @return true if hit
@@ -1804,7 +1783,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * called when part of list
-	 * 
+	 *
 	 * @param hitting
 	 *            e.g. ray
 	 * @return true if hit
@@ -1820,13 +1799,13 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	/**
 	 * says if the drawable is hit by the hitting (e.g. ray), checking first if
 	 * visible and pickable
-	 * 
+	 *
 	 * @param hitting
 	 *            e.g. ray
 	 * @param hits
 	 *            storing the drawable if hit
 	 */
-	final public void hitIfVisibleAndPickable(Hitting hitting, Hits3D hits) {
+	public final void hitIfVisibleAndPickable(Hitting hitting, Hits3D hits) {
 		if (isVisible() && getGeoElement().isPickable()) {
 
 			// try to hit label
@@ -1838,12 +1817,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			if (hit(hitting)) {
 				hits.addDrawable3D(this, getPickingType());
 			}
-
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param hitting
 	 *            hitting
 	 * @param hits
@@ -1852,8 +1830,8 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 */
 	protected boolean hitLabel(Hitting hitting, Hits3D hits) {
 		if (isLabelVisible() && hitting.hitLabel(label)) {
-			setZPick(label.getDrawZ(), label.getDrawZ(),
-					hitting.discardPositiveHits(), -label.getDrawZ());
+			setZPick(
+					label.getDrawZ(), label.getDrawZ(), hitting.discardPositiveHits(), -label.getDrawZ());
 			hits.addDrawable3D(this, PickingType.LABEL);
 			return true;
 		}
@@ -1862,7 +1840,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if the label is pickable
 	 */
 	public boolean hasPickableLabel() {
@@ -1875,17 +1853,17 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 *            (x,y,z) min
 	 * @param max
 	 *            (x,y,z) max
-     * @param dontExtend
-     *            set to true if clipped curves/surfaces should not be larger
-     *            than the view itself; and when point radius should extend
-     */
+	 * @param dontExtend
+	 *            set to true if clipped curves/surfaces should not be larger
+	 *            than the view itself; and when point radius should extend
+	 */
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		// nothing done by default
 	}
 
 	/**
 	 * enlarge min and max to boundsMin and boundsMax
-	 * 
+	 *
 	 * @param min
 	 *            (x,y,z) min
 	 * @param max
@@ -1895,8 +1873,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * @param boundsMax
 	 *            (x,y,z) object bounds max
 	 */
-	static protected void enlargeBounds(Coords min, Coords max,
-			Coords boundsMin, Coords boundsMax) {
+	protected static void enlargeBounds(Coords min, Coords max, Coords boundsMin, Coords boundsMax) {
 		for (int i = 0; i < 3; i++) {
 			if (min.val[i] > boundsMin.val[i]) {
 				min.val[i] = boundsMin.val[i];
@@ -1907,35 +1884,35 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		}
 	}
 
-    /**
-     * enlarge min and max to boundsMin and boundsMax
-     *
-     * @param min
-     *            (x,y,z) min
-     * @param max
-     *            (x,y,z) max
-     * @param boundsMin
-     *            (x,y,z) object bounds min
-     * @param boundsMax
-     *            (x,y,z) object bounds max
-     * @param radius
-     *            e.g. line radius
-     */
-    static protected void enlargeBounds(Coords min, Coords max,
-                                        Coords boundsMin, Coords boundsMax, double radius) {
-        for (int i = 0; i < 3; i++) {
-            if (min.val[i] > boundsMin.val[i] - radius) {
-                min.val[i] = boundsMin.val[i] - radius;
-            }
-            if (max.val[i] < boundsMax.val[i] + radius) {
-                max.val[i] = boundsMax.val[i] + radius;
-            }
-        }
-    }
+	/**
+	 * enlarge min and max to boundsMin and boundsMax
+	 *
+	 * @param min
+	 *            (x,y,z) min
+	 * @param max
+	 *            (x,y,z) max
+	 * @param boundsMin
+	 *            (x,y,z) object bounds min
+	 * @param boundsMax
+	 *            (x,y,z) object bounds max
+	 * @param radius
+	 *            e.g. line radius
+	 */
+	protected static void enlargeBounds(
+			Coords min, Coords max, Coords boundsMin, Coords boundsMax, double radius) {
+		for (int i = 0; i < 3; i++) {
+			if (min.val[i] > boundsMin.val[i] - radius) {
+				min.val[i] = boundsMin.val[i] - radius;
+			}
+			if (max.val[i] < boundsMax.val[i] + radius) {
+				max.val[i] = boundsMax.val[i] + radius;
+			}
+		}
+	}
 
 	/**
 	 * enlarge min and max to boundsMin and boundsMax
-	 * 
+	 *
 	 * @param min
 	 *            (x,y,z) min
 	 * @param max
@@ -1943,7 +1920,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * @param coords
 	 *            (x,y,z) object coords
 	 */
-	static public void enlargeBounds(Coords min, Coords max, Coords coords) {
+	public static void enlargeBounds(Coords min, Coords max, Coords coords) {
 		for (int i = 0; i < 3; i++) {
 			if (min.val[i] > coords.val[i]) {
 				min.val[i] = coords.val[i];
@@ -1956,14 +1933,13 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * reduce bounds to clipping cube
-	 * 
+	 *
 	 * @param boundsMin
 	 *            bounds min
 	 * @param boundsMax
 	 *            bounds max
 	 */
-	protected void reduceBounds(Coords boundsMin,
-			Coords boundsMax) {
+	protected void reduceBounds(Coords boundsMin, Coords boundsMax) {
 		Coords[] vertices = getView3D().getClippingCubeDrawable().getVertices();
 		Coords min = vertices[0];
 		Coords max = vertices[7];
@@ -1979,7 +1955,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * add and sub v1+v2 or v1-v2 max values to bounds
-	 * 
+	 *
 	 * @param min
 	 *            (x,y,z) min
 	 * @param max
@@ -1994,10 +1970,10 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 *            first direction radius
 	 * @param r2
 	 *            second direction radius
-	 * 
+	 *
 	 */
-	static protected void enlargeBoundsToDiagonal(Coords min, Coords max,
-			Coords center, Coords v1, Coords v2, double r1, double r2) {
+	protected static void enlargeBoundsToDiagonal(
+			Coords min, Coords max, Coords center, Coords v1, Coords v2, double r1, double r2) {
 		for (int i = 0; i < 3; i++) {
 			double add = Math.abs(v1.val[i] * r1 + v2.val[i] * r2);
 			double sub = Math.abs(v1.val[i] * r1 - v2.val[i] * r2);
@@ -2029,7 +2005,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * Still needed for labels and texts that are not packed
-	 * 
+	 *
 	 * @return true if it should be packed
 	 */
 	public boolean shouldBePacked() {
@@ -2037,7 +2013,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if was created for closed surface (e.g. cube)
 	 */
 	public boolean addedFromClosedSurface() {
@@ -2048,13 +2024,13 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 *
 	 * @return true should be packed for the current geometry manager
 	 */
-	final protected boolean shouldBePackedForManager() {
+	protected final boolean shouldBePackedForManager() {
 		return getView3D().getRenderer().getGeometryManager().packBuffers() && shouldBePacked();
 	}
 
 	/**
 	 * add index to traces (for packed buffer)
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return index or NOT_REUSABLE_INDEX
@@ -2074,7 +2050,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * set visibility as intersection curve
-	 * 
+	 *
 	 * @param visible
 	 *            if visible
 	 */
@@ -2084,7 +2060,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * update visibility as intersection curve
-	 * 
+	 *
 	 */
 	public void updateIntersectionCurveVisibility() {
 		setGeometriesVisibility(intersectionCurveVisibility);
@@ -2099,17 +2075,16 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * setup manager start packing curves (if possible)
-	 * 
+	 *
 	 * @param clipped
 	 *            if curve is clipped
 	 */
-	final protected void setPackCurve(boolean clipped) {
-		getView3D().getRenderer().getGeometryManager().setPackCurve(
-				this, clipped);
+	protected final void setPackCurve(boolean clipped) {
+		getView3D().getRenderer().getGeometryManager().setPackCurve(this, clipped);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return line type (visible)
 	 */
 	public int getLineType() {
@@ -2117,7 +2092,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return line type (hidden)
 	 */
 	public int getLineTypeHidden() {
@@ -2126,14 +2101,13 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 
 	/**
 	 * setup manager start packing surfaces (if possible)
-	 * 
+	 *
 	 * @param clipped
 	 *            true if surface needs clipping
 	 */
-    protected void setPackSurface(boolean clipped) {
-        getView3D().getRenderer().getGeometryManager().setPackSurface(this,
-                clipped);
-    }
+	protected void setPackSurface(boolean clipped) {
+		getView3D().getRenderer().getGeometryManager().setPackSurface(this, clipped);
+	}
 
 	/**
 	 * setup manager start packing surfaces (if possible)

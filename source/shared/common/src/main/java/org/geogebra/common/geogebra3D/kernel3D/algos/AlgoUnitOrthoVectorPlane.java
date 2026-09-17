@@ -24,17 +24,15 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 /**
  *
  * @author ggb3D
- * 
+ *
  *         Calculate the unit ortho vector of a plane (or polygon, ...)
- * 
+ *
  */
 public class AlgoUnitOrthoVectorPlane extends AlgoOrthoVectorPlane {
 
-	AlgoUnitOrthoVectorPlane(Construction cons, String label,
-			GeoCoordSys2D plane) {
+	AlgoUnitOrthoVectorPlane(Construction cons, String label, GeoCoordSys2D plane) {
 
 		super(cons, label, plane);
-
 	}
 
 	// /////////////////////////////////////////////
@@ -44,16 +42,15 @@ public class AlgoUnitOrthoVectorPlane extends AlgoOrthoVectorPlane {
 	protected void updateCoords() {
 		if (plane instanceof GeoPlane3D) {
 			vCoords.setValues(plane.getCoordSys().getEquationVector(), 3); // get
-																			// (a,
-																			// b,
-																			// c)
-																			// from
-																			// ax+by+cz+d=0
+			// (a,
+			// b,
+			// c)
+			// from
+			// ax+by+cz+d=0
 			vCoords.normalize();
 		} else {
 			plane.getCoordSys().getVz().normalized(vCoords);
 		}
-
 	}
 
 	@Override
@@ -61,5 +58,4 @@ public class AlgoUnitOrthoVectorPlane extends AlgoOrthoVectorPlane {
 
 		return Commands.UnitOrthogonalVector;
 	}
-
 }

@@ -23,11 +23,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Reverse a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 16-02-2008
  */
-
 public class AlgoReverse extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -36,7 +35,7 @@ public class AlgoReverse extends AlgoElement {
 
 	/**
 	 * Creates new reverse list algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -76,7 +75,7 @@ public class AlgoReverse extends AlgoElement {
 
 	/**
 	 * Returns the reversed list
-	 * 
+	 *
 	 * @return reversed list
 	 */
 	public GeoList getResult() {
@@ -110,5 +109,4 @@ public class AlgoReverse extends AlgoElement {
 			outputList.add(geo);
 		}
 	}
-
 }

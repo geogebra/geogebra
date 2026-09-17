@@ -26,11 +26,10 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Handles rotated texts
- * 
+ *
  * @author Michael
  *
  */
-
 public class AlgoRotateText extends AlgoElement {
 
 	private GeoText text; // output
@@ -41,7 +40,7 @@ public class AlgoRotateText extends AlgoElement {
 
 	/**
 	 * Creates new unlabeled text rotation algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param args
@@ -80,7 +79,7 @@ public class AlgoRotateText extends AlgoElement {
 
 	/**
 	 * Returns the resulting text
-	 * 
+	 *
 	 * @return resulting text
 	 */
 	public GeoText getResult() {
@@ -101,7 +100,7 @@ public class AlgoRotateText extends AlgoElement {
 
 	/**
 	 * Appends LaTeX command for the rotated text to the string builder.
-	 * 
+	 *
 	 * @param sbuilder
 	 *            string builder
 	 * @param text
@@ -109,8 +108,7 @@ public class AlgoRotateText extends AlgoElement {
 	 * @param degrees
 	 *            rotation algo
 	 */
-	public static void appendRotatedText(StringBuilder sbuilder, GeoText text,
-			double degrees) {
+	public static void appendRotatedText(StringBuilder sbuilder, GeoText text, double degrees) {
 		boolean latex = text.isLaTeX();
 		sbuilder.append("\\rotatebox{");
 		sbuilder.append(degrees); // convert to degrees
@@ -134,5 +132,4 @@ public class AlgoRotateText extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
 }

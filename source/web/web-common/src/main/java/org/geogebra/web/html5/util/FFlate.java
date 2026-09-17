@@ -64,5 +64,4 @@ public final class FFlate {
 	public native Uint8Array strToU8(String str);
 
 	public native String strFromU8(Uint8Array obj);
-
 }

@@ -48,8 +48,8 @@ public final class AlgebraCanvasExporter {
 	 * @param context2d Context
 	 * @param offsetWidth Parent panel width
 	 */
-	public AlgebraCanvasExporter(AlgebraViewW algebraView, CanvasRenderingContext2D context2d,
-			int offsetWidth) {
+	public AlgebraCanvasExporter(
+			AlgebraViewW algebraView, CanvasRenderingContext2D context2d, int offsetWidth) {
 		this.app = algebraView.getApp();
 		this.algebraView = algebraView;
 		this.graphics = new GGraphics2DW(context2d);
@@ -75,12 +75,11 @@ public final class AlgebraCanvasExporter {
 		graphics.setColor(GColor.LIGHT_GRAY);
 		graphics.setStrokeLineWidth(0.5);
 
-		graphics.drawLine(RECTANGLE_WIDTH + left, top,
-				RECTANGLE_WIDTH + left, getVerticalLineLength());
+		graphics.drawLine(RECTANGLE_WIDTH + left, top, RECTANGLE_WIDTH + left, getVerticalLineLength());
 
 		for (int i = 0; i < algebraView.getItemCount(); i++) {
-			graphics.drawLine(left, top + getYCoordinateForItem(i),
-					offsetWidth, top + getYCoordinateForItem(i));
+			graphics.drawLine(
+					left, top + getYCoordinateForItem(i), offsetWidth, top + getYCoordinateForItem(i));
 		}
 	}
 
@@ -117,9 +116,13 @@ public final class AlgebraCanvasExporter {
 	private void drawMarbleOutline(int left, int top, GeoElement geo, TreeItem item, int index) {
 		graphics.setStrokeLineWidth(1);
 		graphics.setColor(geo.getAlgebraColor());
-		graphics.drawRoundRect(left + MARBLE_PADDING_X,
+		graphics.drawRoundRect(
+				left + MARBLE_PADDING_X,
 				top + getYCoordinateForItem(index) + getMarblePaddingY(item),
-				MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE);
+				MARBLE_SIZE,
+				MARBLE_SIZE,
+				MARBLE_SIZE,
+				MARBLE_SIZE);
 	}
 
 	/**
@@ -132,9 +135,13 @@ public final class AlgebraCanvasExporter {
 	 */
 	private void fillMarble(int left, int top, GeoElement geo, TreeItem item, int index) {
 		graphics.setColor(geo.getAlgebraColor().deriveWithAlpha(102));
-		graphics.fillRoundRect(left + MARBLE_PADDING_X,
+		graphics.fillRoundRect(
+				left + MARBLE_PADDING_X,
 				top + getYCoordinateForItem(index) + getMarblePaddingY(item),
-				MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE, MARBLE_SIZE);
+				MARBLE_SIZE,
+				MARBLE_SIZE,
+				MARBLE_SIZE,
+				MARBLE_SIZE);
 	}
 
 	/**
@@ -154,9 +161,11 @@ public final class AlgebraCanvasExporter {
 			item = algebraView.getItem(i);
 			geo = getGeoElement(item);
 			if (geo != null) {
-				drawAlgebraDescription(i, geo, left + RECTANGLE_WIDTH + DESCRIPTION_PADDING_X,
-						top + getYCoordinateForItem(i)
-								+ item.getOffsetHeight() / 2.0 + fontSize / 3.0);
+				drawAlgebraDescription(
+						i,
+						geo,
+						left + RECTANGLE_WIDTH + DESCRIPTION_PADDING_X,
+						top + getYCoordinateForItem(i) + item.getOffsetHeight() / 2.0 + fontSize / 3.0);
 			}
 		}
 	}
@@ -168,7 +177,11 @@ public final class AlgebraCanvasExporter {
 				&& ((RadioTreeItem) item).isLatex()) {
 			Canvas canvas = ((RadioTreeItem) item).getCanvas();
 			HTMLCanvasElement canvasElement = Js.uncheckedCast(canvas.getElement());
-			drawCanvas(canvasElement, item, x, y - item.getOffsetHeight() / 2.0,
+			drawCanvas(
+					canvasElement,
+					item,
+					x,
+					y - item.getOffsetHeight() / 2.0,
 					!((RadioTreeItem) item).shouldBuildItemWithTwoRows());
 
 			if (((RadioTreeItem) item).shouldBuildItemWithTwoRows()) {
@@ -232,15 +245,19 @@ public final class AlgebraCanvasExporter {
 	 * @param y y-Coordinate
 	 * @param center Whether this should be centered or not, depending on if an item has two output rows or not
 	 */
-	private void drawCanvas(HTMLCanvasElement canvas, TreeItem item,
-			double x, double y, boolean center) {
+	private void drawCanvas(
+			HTMLCanvasElement canvas, TreeItem item, double x, double y, boolean center) {
 		double canvasHeight = StringUtil.parseDouble(canvas.getAttribute("height"));
 		double verticalGap = center ? (item.getOffsetHeight() - canvasHeight) / 2.0 : 0;
 
-		graphics.getContext().drawImage(canvas, x - DESCRIPTION_PADDING_X / 2.0,
-				y + verticalGap,
-				StringUtil.parseDouble(canvas.getAttribute("width")) * 0.9,
-				canvasHeight * 0.9);
+		graphics
+				.getContext()
+				.drawImage(
+						canvas,
+						x - DESCRIPTION_PADDING_X / 2.0,
+						y + verticalGap,
+						StringUtil.parseDouble(canvas.getAttribute("width")) * 0.9,
+						canvasHeight * 0.9);
 	}
 
 	private void drawSecondRow(GeoElement geo, TreeItem item, double x, double y) {
@@ -248,28 +265,34 @@ public final class AlgebraCanvasExporter {
 			Canvas canvas = ((RadioTreeItem) item).getOutputPanel().getValCanvas();
 			if (canvas != null) {
 				HTMLCanvasElement canvasElement = Js.uncheckedCast(canvas.getElement());
-				double canvasElementHeight = StringUtil.parseDouble(
-						canvasElement.getAttribute("height"));
+				double canvasElementHeight = StringUtil.parseDouble(canvasElement.getAttribute("height"));
 				double verticalGap = item.getOffsetHeight() / 2.0 - canvasElementHeight;
 
 				graphics.drawString("= ", x, y + verticalGap + canvasElementHeight / 2.0);
-				drawCanvas(canvasElement, item, x + app.getFontSize(),
-						y + verticalGap - app.getFontSize() / 3.0, false);
+				drawCanvas(
+						canvasElement,
+						item,
+						x + app.getFontSize(),
+						y + verticalGap - app.getFontSize() / 3.0,
+						false);
 			} else {
-				String outputText = ((RadioTreeItem) item).getOutputPanel().getValuePanel()
-						.getElement().getInnerText();
+				String outputText =
+						((RadioTreeItem) item).getOutputPanel().getValuePanel().getElement().getInnerText();
 				graphics.drawString("= " + outputText, x, y + item.getOffsetHeight() / 4.0);
 			}
 			return;
 		}
-		graphics.drawString("= " + geo.evaluateDouble(), x,
-				y + item.getOffsetHeight() / 4.0);
+		graphics.drawString("= " + geo.evaluateDouble(), x, y + item.getOffsetHeight() / 4.0);
 	}
 
 	private void drawDefinitionAndValue(GeoElement geo, TreeItem item, double x, double y) {
-		graphics.drawString(geo.getNameAndDefinition(StringTemplate.algebraTemplate),
-				x, y - item.getOffsetHeight() / 4.0);
-		graphics.drawString("= " + geo.toOutputValueString(StringTemplate.algebraTemplate),
-				x, y + item.getOffsetHeight() / 4.0);
+		graphics.drawString(
+				geo.getNameAndDefinition(StringTemplate.algebraTemplate),
+				x,
+				y - item.getOffsetHeight() / 4.0);
+		graphics.drawString(
+				"= " + geo.toOutputValueString(StringTemplate.algebraTemplate),
+				x,
+				y + item.getOffsetHeight() / 4.0);
 	}
 }

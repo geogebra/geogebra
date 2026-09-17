@@ -28,18 +28,17 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * FitLineX of a list. adapted from AlgoListMax
- * 
+ *
  * @author Michael Borcherds
  * @version 14-01-2008
  */
-
 public class AlgoFitLineX extends AlgoElement {
 
 	private GeoList geoList; // input
 	private GeoLine g; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param geoList
@@ -141,8 +140,7 @@ public class AlgoFitLineX extends AlgoElement {
 		// normalize coefficients (copied from
 		// GeoLine.getnormalizedCoefficients())
 		// #5230
-		while (Math.abs(g.x) < 0.5 && Math.abs(g.y) < 0.5
-				&& Math.abs(g.z) < 0.5) {
+		while (Math.abs(g.x) < 0.5 && Math.abs(g.y) < 0.5 && Math.abs(g.z) < 0.5) {
 			g.x *= 2;
 			g.y *= 2;
 			g.z *= 2;
@@ -154,5 +152,4 @@ public class AlgoFitLineX extends AlgoElement {
 			g.z /= 2;
 		}
 	}
-
 }

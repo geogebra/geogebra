@@ -32,5 +32,4 @@ public interface TextStyle extends GeoElementND {
 	 * @return relative font size
 	 */
 	double getFontSizeMultiplier();
-
 }

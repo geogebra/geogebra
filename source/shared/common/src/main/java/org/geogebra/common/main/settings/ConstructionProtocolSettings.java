@@ -45,8 +45,10 @@ public class ConstructionProtocolSettings extends AbstractSettings<ConstructionP
 	/**
 	 * Show the visibility of construction protocol's columns
 	 */
-	private static final boolean[] defaultCpColumnsVisible = { true, true,
-			false, true, false, true, true, false };
+	private static final boolean[] defaultCpColumnsVisible = {
+		true, true, false, true, false, true, true, false
+	};
+
 	private boolean[] cpColumnsVisible = defaultCpColumnsVisible;
 
 	/**
@@ -146,7 +148,7 @@ public class ConstructionProtocolSettings extends AbstractSettings<ConstructionP
 
 	/**
 	 * Copy column visibility settings.
-	 * 
+	 *
 	 * @param cpColumnsVisible
 	 *            columns visibility
 	 */
@@ -165,6 +167,5 @@ public class ConstructionProtocolSettings extends AbstractSettings<ConstructionP
 		}
 
 		settingChanged();
-
 	}
 }

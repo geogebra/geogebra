@@ -27,7 +27,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoElement creating a GeoPolygon3D
- * 
+ *
  * @author ggb3D
  *
  */
@@ -35,7 +35,7 @@ public class AlgoPolygon3D extends AlgoPolygon {
 
 	/**
 	 * Constructor with points
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param label
@@ -45,10 +45,8 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 * @param vertices
 	 *            list of vertices
 	 */
-	public AlgoPolygon3D(Construction cons, String[] label, GeoPointND[] points,
-			GeoList vertices) {
+	public AlgoPolygon3D(Construction cons, String[] label, GeoPointND[] points, GeoList vertices) {
 		this(cons, label, points, true, vertices);
-
 	}
 
 	/**
@@ -63,10 +61,13 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 * @param vertices
 	 *            list of vertices
 	 */
-	public AlgoPolygon3D(Construction cons, String[] labels,
-			GeoPointND[] points, boolean createSegments, GeoList vertices) {
+	public AlgoPolygon3D(
+			Construction cons,
+			String[] labels,
+			GeoPointND[] points,
+			boolean createSegments,
+			GeoList vertices) {
 		super(cons, labels, points, vertices, null, createSegments, null, null);
-
 	}
 
 	/**
@@ -79,15 +80,14 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 * @param polyhedron
 	 *            polyhedron (when segment is part of)
 	 */
-	public AlgoPolygon3D(Construction cons, GeoPointND[] points,
-			boolean createSegments, GeoElement polyhedron) {
+	public AlgoPolygon3D(
+			Construction cons, GeoPointND[] points, boolean createSegments, GeoElement polyhedron) {
 		super(cons, points, null, null, createSegments, polyhedron, null);
-
 	}
 
 	/**
 	 * create the polygon
-	 * 
+	 *
 	 * @param createSegments
 	 *            says if the polygon has to creates its edges (3D only)
 	 */
@@ -123,7 +123,6 @@ public class AlgoPolygon3D extends AlgoPolygon {
 				poly.setUndefined();
 			}
 		}
-
 	}
 
 	@Override
@@ -131,7 +130,5 @@ public class AlgoPolygon3D extends AlgoPolygon {
 		// TODO
 		Log.debug("centroid unimplemented for 3D polys");
 		p.setUndefined();
-
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,8 +37,8 @@ class RequiresBracketsTest extends BaseUnitTest {
 
 		((GeoLine) lookup("eq1")).setToUserForm();
 
-		assertEquals("3x - 1 - (-2 x + 4) = 0",
-				lookup("eq1").toValueString(StringTemplate.algebraTemplate));
+		assertEquals(
+				"3x - 1 - (-2 x + 4) = 0", lookup("eq1").toValueString(StringTemplate.algebraTemplate));
 	}
 
 	@Test
@@ -50,17 +50,14 @@ class RequiresBracketsTest extends BaseUnitTest {
 		add("eq1: f * g = 0");
 		add("eq2: g * f = 0");
 		add("eq3: g * g = 0");
-		List.of("eq0", "eq1", "eq2", "eq3").forEach(label ->
-				((GeoConic) lookup(label)).setToUserForm());
+		List.of("eq0", "eq1", "eq2", "eq3")
+				.forEach(label -> ((GeoConic) lookup(label)).setToUserForm());
 
-		assertEquals("(3x - 1) (3x - 1) = 0",
-				lookup("eq0").toValueString(StringTemplate.algebraTemplate));
-		assertEquals("(3x - 1) x = 0",
-				lookup("eq1").toValueString(StringTemplate.algebraTemplate));
-		assertEquals("x (3x - 1) = 0",
-				lookup("eq2").toValueString(StringTemplate.algebraTemplate));
-		assertEquals("x x = 0",
-				lookup("eq3").toValueString(StringTemplate.algebraTemplate));
+		assertEquals(
+				"(3x - 1) (3x - 1) = 0", lookup("eq0").toValueString(StringTemplate.algebraTemplate));
+		assertEquals("(3x - 1) x = 0", lookup("eq1").toValueString(StringTemplate.algebraTemplate));
+		assertEquals("x (3x - 1) = 0", lookup("eq2").toValueString(StringTemplate.algebraTemplate));
+		assertEquals("x x = 0", lookup("eq3").toValueString(StringTemplate.algebraTemplate));
 	}
 
 	@Test
@@ -70,7 +67,8 @@ class RequiresBracketsTest extends BaseUnitTest {
 
 		add("l1 = a * b");
 
-		assertEquals("{5, (x + 2) * 10, 3 (x + 15), (x + 4) (x + 20)}",
+		assertEquals(
+				"{5, (x + 2) * 10, 3 (x + 15), (x + 4) (x + 20)}",
 				lookup("l1").toValueString(StringTemplate.algebraTemplate));
 	}
 }

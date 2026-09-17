@@ -45,8 +45,7 @@ public class AlgoAxisLength extends AlgoElement {
 	 * @param axisId
 	 *            0 for major, 1 for minor
 	 */
-	public AlgoAxisLength(Construction cons, String label,
-			GeoConicND arg, int axisId) {
+	public AlgoAxisLength(Construction cons, String label, GeoConicND arg, int axisId) {
 		super(cons);
 		this.c = arg;
 		this.axisId = axisId;
@@ -58,8 +57,7 @@ public class AlgoAxisLength extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return axisId == 0 ? Commands.FirstAxisLength
-				: Commands.SecondAxisLength;
+		return axisId == 0 ? Commands.FirstAxisLength : Commands.SecondAxisLength;
 	}
 
 	// for AlgoElement
@@ -84,26 +82,25 @@ public class AlgoAxisLength extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			num.setValue(c.getHalfAxis(axisId));
-			break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				num.setValue(c.getHalfAxis(axisId));
+				break;
 
-		default:
-			num.setUndefined();
+			default:
+				num.setUndefined();
 		}
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		if (axisId == 1) {
-			return getLoc().getPlainDefault("SecondAxisLengthOfA",
-					"Length of %0's semi-minor axis", c.getLabel(tpl));
+			return getLoc()
+					.getPlainDefault(
+							"SecondAxisLengthOfA", "Length of %0's semi-minor axis", c.getLabel(tpl));
 		}
-		return getLoc().getPlainDefault("FirstAxisLengthOfA",
-				"Length of %0's semi-major axis", c.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault("FirstAxisLengthOfA", "Length of %0's semi-major axis", c.getLabel(tpl));
 	}
-
 }

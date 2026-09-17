@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -55,13 +55,14 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 
 	/** show rational exponents as roots */
 	private JCheckBox cbShowRoots;
+
 	private JCheckBox cbShowNavigation;
 
 	private JPanel wrappedPanel;
 
 	/**
 	 * Construct CAS option panel.
-	 * 
+	 *
 	 * @param app application
 	 */
 	public OptionsCASD(AppD app) {
@@ -77,7 +78,7 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 
 	/**
 	 * Initialize the user interface.
-	 * 
+	 *
 	 * <p>Remark: updateGUI() will be called directly after this method
 	 * <p>Remark: Do not use translations here, the option dialog will take care of
 	 *         calling setLabels()
@@ -115,14 +116,14 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 
 	/**
 	 * Update the user interface, ie change selected values.
-	 * 
+	 *
 	 * <p>Remark: Do not call setLabels() here
 	 */
 	@Override
 	public void updateGUI() {
 		casSettings = app.getSettings().getCasSettings();
-		cbTimeout.setSelectedItem(OptionsCAS
-				.getTimeoutOption(casSettings.getTimeoutMilliseconds() / 1000));
+		cbTimeout.setSelectedItem(
+				OptionsCAS.getTimeoutOption(casSettings.getTimeoutMilliseconds() / 1000));
 		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
 		cbShowNavigation.setSelected(app.showConsProtNavigation(App.VIEW_CAS));
 	}
@@ -134,8 +135,7 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 	public void actionPerformed(ActionEvent e) {
 		// change timeout
 		if (e.getSource() == cbTimeout) {
-			casSettings.setTimeoutMilliseconds(
-					((Integer) cbTimeout.getSelectedItem()) * 1000);
+			casSettings.setTimeoutMilliseconds(((Integer) cbTimeout.getSelectedItem()) * 1000);
 		}
 		if (e.getSource() == cbShowNavigation) {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_CAS);
@@ -173,7 +173,6 @@ public class OptionsCASD implements OptionPanelD, ActionListener, SetLabels {
 	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
-
 	}
 
 	@Override

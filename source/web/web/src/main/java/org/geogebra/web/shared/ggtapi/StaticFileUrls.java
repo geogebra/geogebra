@@ -33,5 +33,4 @@ public final class StaticFileUrls {
 	public static String getCallbackUrl() {
 		return STATIC_DIR + CALLBACK_HTML;
 	}
-
 }

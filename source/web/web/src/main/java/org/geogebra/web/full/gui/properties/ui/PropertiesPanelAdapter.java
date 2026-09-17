@@ -98,7 +98,7 @@ public final class PropertiesPanelAdapter {
 	public FlowPanel buildPanel(PropertiesArray props) {
 		FlowPanel panel = new FlowPanel();
 		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(props);
-		for (PropertyView prop: propertyViews) {
+		for (PropertyView prop : propertyViews) {
 			Widget widget = getWidget(prop);
 			panel.add(widget);
 		}
@@ -122,8 +122,7 @@ public final class PropertiesPanelAdapter {
 		int oldLength = widgets.size();
 		Widget ret = createWidget(propertyView);
 		ret.setVisible(propertyView.isVisible());
-		propertyView.setVisibilityUpdateDelegate(() ->
-				ret.setVisible(propertyView.isVisible()));
+		propertyView.setVisibilityUpdateDelegate(() -> ret.setVisible(propertyView.isVisible()));
 		if (oldLength == widgets.size()) {
 			// only add widget if it didn't contribute its parts to the widget list already
 			widgets.add(ret);
@@ -136,26 +135,28 @@ public final class PropertiesPanelAdapter {
 			return null;
 		}
 		if (propertyView instanceof Checkbox checkBoxProperty) {
-			return new ComponentCheckbox(loc, checkBoxProperty,
-					checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
+			return new ComponentCheckbox(
+					loc, checkBoxProperty, checkBoxProperty.getLabel(), checkBoxProperty::setSelected, false);
 		}
 		if (propertyView instanceof ImagePicker imagePicker) {
 			return new ImagePickerPanel(app, imagePicker);
 		}
 		if (propertyView instanceof ConnectedButtonGroup connectedButtonGroup) {
 			return new ComponentConnectedButtonGroup(connectedButtonGroup, widgets);
-
 		}
 		if (propertyView instanceof ButtonWithIcon buttonWithIcon) {
-			IconSpec icon = ((AppWFull) app).getPropertiesIconResource()
-					.getImageResource(buttonWithIcon.getIcon()).withFill(NEUTRAL_700.toString());
-			StandardButton button = new StandardButton(icon,
-					app.getLocalization().getMenu(buttonWithIcon.getLabel()), 24, 24);
+			IconSpec icon = ((AppWFull) app)
+					.getPropertiesIconResource()
+					.getImageResource(buttonWithIcon.getIcon())
+					.withFill(NEUTRAL_700.toString());
+			StandardButton button = new StandardButton(
+					icon, app.getLocalization().getMenu(buttonWithIcon.getLabel()), 24, 24);
 			button.addFastClickHandler(event -> buttonWithIcon.performAction());
-			button.addStyleName(switch (buttonWithIcon.getStyle()) {
-				case BORDERLESS -> "buttonWithIcon";
-				case OUTLINED -> "materialOutlinedButton";
-			});
+			button.addStyleName(
+					switch (buttonWithIcon.getStyle()) {
+						case BORDERLESS -> "buttonWithIcon";
+						case OUTLINED -> "materialOutlinedButton";
+					});
 			return button;
 		}
 		if (propertyView instanceof Slider sliderProperty) {
@@ -171,8 +172,8 @@ public final class PropertiesPanelAdapter {
 			return new DimensionRatioPanel(app, this, dimensionRatioEditor);
 		}
 		if (propertyView instanceof GroupedIconButtonRow groupedIconButtonRow) {
-			return new IconButtonPanel(app, groupedIconButtonRow.getLabel(),
-					groupedIconButtonRow.getIconRowList());
+			return new IconButtonPanel(
+					app, groupedIconButtonRow.getLabel(), groupedIconButtonRow.getIconRowList());
 		}
 		if (propertyView instanceof HorizontalSplitView splitView) {
 			FlowPanel panel = new FlowPanel();
@@ -210,8 +211,7 @@ public final class PropertiesPanelAdapter {
 				tabData[index] = new TabData(tabTitles.get(index), tabContent);
 			}
 			int selectedTabIndex = tabList.getSelectedTabIndex();
-			ComponentTab componentTab = new ComponentTab(app, "Scripting", selectedTabIndex,
-					tabData);
+			ComponentTab componentTab = new ComponentTab(app, "Scripting", selectedTabIndex, tabData);
 			componentTab.addTabChangedListener(index -> {
 				if (tabList.getSelectedTabIndex() != index) {
 					tabList.setSelectedTabIndex(index);
@@ -227,16 +227,16 @@ public final class PropertiesPanelAdapter {
 		}
 		if (propertyView instanceof ExpandableList expandable) {
 			Checkbox leadProperty = expandable.getCheckbox();
-			ComponentExpandableList expandableList = new ComponentExpandableList(app,
-					leadProperty, expandable.getTitle());
+			ComponentExpandableList expandableList =
+					new ComponentExpandableList(app, leadProperty, expandable.getTitle());
 			for (PropertyView prop : expandable.getItems()) {
 				expandableList.addToContent(getWidget(prop));
 			}
 			return expandableList;
 		}
 		if (propertyView instanceof Dropdown dropDownView) {
-			ComponentDropDown dropDown = new ComponentDropDown(app,
-					dropDownView.getPropertyName(), dropDownView, getItemStyler(dropDownView));
+			ComponentDropDown dropDown = new ComponentDropDown(
+					app, dropDownView.getPropertyName(), dropDownView, getItemStyler(dropDownView));
 			dropDown.setFullWidth(true);
 			return dropDown;
 		}
@@ -253,7 +253,9 @@ public final class PropertiesPanelAdapter {
 			// Copy and add null value to enable plus button
 			colors = new ArrayList<>(colors);
 			colors.add(null);
-			ColorChooserPanel colorPanel = new ColorChooserPanel(app, colors,
+			ColorChooserPanel colorPanel = new ColorChooserPanel(
+					app,
+					colors,
 					color -> {
 						boolean handled = false;
 						for (int i = 0; i < colorSelectorRow.getColors().size(); i++) {
@@ -275,8 +277,7 @@ public final class PropertiesPanelAdapter {
 			return colorPanel;
 		}
 		if (propertyView instanceof TextField textField) {
-			ComponentInputField inputField = new ComponentInputField(app, "", "",
-					textField);
+			ComponentInputField inputField = new ComponentInputField(app, "", "", textField);
 			inputField.setDisabled(!textField.isEnabled());
 			return inputField;
 		}
@@ -303,8 +304,8 @@ public final class PropertiesPanelAdapter {
 		Map<Integer, FontProperty.FontFamily> fontFamilies = dropDownView.getFontFamilies();
 		if (!fontFamilies.isEmpty()) {
 			return (item, index) -> {
-				FontProperty.FontFamily font = fontFamilies
-						.getOrDefault(index, FontProperty.FontFamily.ARIAL);
+				FontProperty.FontFamily font =
+						fontFamilies.getOrDefault(index, FontProperty.FontFamily.ARIAL);
 				item.getElement().getStyle().setProperty("fontFamily", font.cssName());
 			};
 		}

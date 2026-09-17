@@ -2,22 +2,22 @@
  * JFugue - API for Music Programming
  * Copyright (C) 2003-2007  David Koelle
  *
- * http://www.jfugue.org 
- * 
+ * http://www.jfugue.org
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *  
+ *
  */
 
 package org.jfugue;
@@ -40,7 +40,7 @@ import javax.sound.midi.Synthesizer;
  * @author David Koelle
  * @version 3.2
  */
-final public class StreamingMidiEventManager {
+public final class StreamingMidiEventManager {
 	private final int CHANNELS = 16;
 	private final int LAYERS = 16;
 	private byte currentTrack = 0;
@@ -62,22 +62,19 @@ final public class StreamingMidiEventManager {
 				if (checkTime != currentTime) {
 					long tempBackTime = currentTime;
 					currentTime = System.currentTimeMillis(); // Do this
-																// again to
-																// get the
-																// most
-																// up-to-date
-																// time
+					// again to
+					// get the
+					// most
+					// up-to-date
+					// time
 
 					// Get any TimerEvents that may have happened in the
 					// intervening time, and execute them
 					for (long time = tempBackTime; time < currentTime; time++) {
-						List<NoteOffTimerEvent> timerEvents = timerMap
-								.get(time);
+						List<NoteOffTimerEvent> timerEvents = timerMap.get(time);
 						if (null != timerEvents) {
 							for (NoteOffTimerEvent event : timerEvents) {
-								channels[event.track].noteOff(
-										event.noteValue,
-										event.decayVelocity);
+								channels[event.track].noteOff(event.noteValue, event.decayVelocity);
 							}
 						}
 						timerMap.put(time, null);
@@ -116,7 +113,7 @@ final public class StreamingMidiEventManager {
 
 	/**
 	 * Sets the current track, or channel, to which new events will be added.
-	 * 
+	 *
 	 * @param track
 	 *            the track to select
 	 */
@@ -127,7 +124,7 @@ final public class StreamingMidiEventManager {
 	/**
 	 * Sets the current layer within the track to which new events will be
 	 * added.
-	 * 
+	 *
 	 * @param layer
 	 *            the track to select
 	 */
@@ -138,7 +135,7 @@ final public class StreamingMidiEventManager {
 	/**
 	 * Advances the timer for the current track by the specified duration, which
 	 * is specified in Pulses Per Quarter (PPQ)
-	 * 
+	 *
 	 * @param duration
 	 *            the duration to increase the track timer
 	 */
@@ -149,7 +146,7 @@ final public class StreamingMidiEventManager {
 	/**
 	 * Sets the timer for the current track by the given time, which is
 	 * specified in Pulses Per Quarter (PPQ)
-	 * 
+	 *
 	 * @param newTime
 	 *            the time at which to set the track timer
 	 */
@@ -159,7 +156,7 @@ final public class StreamingMidiEventManager {
 
 	/**
 	 * Returns the timer for the current track.
-	 * 
+	 *
 	 * @return the timer value for the current track, specified in Pulses Per
 	 *         Quarter (PPQ)
 	 */
@@ -203,23 +200,23 @@ final public class StreamingMidiEventManager {
 	 */
 	public void addEvent(int command, int data1, int data2) {
 		switch (command) {
-		case ShortMessage.PROGRAM_CHANGE:
-			channels[currentTrack].programChange(data1);
-			break;
-		case ShortMessage.CONTROL_CHANGE:
-			channels[currentTrack].controlChange(data1, data2);
-			break;
-		case ShortMessage.CHANNEL_PRESSURE:
-			channels[currentTrack].setChannelPressure(data1);
-			break;
-		case ShortMessage.POLY_PRESSURE:
-			channels[currentTrack].setPolyPressure(data1, data2);
-			break;
-		case ShortMessage.PITCH_BEND:
-			channels[currentTrack].setPitchBend(data1);
-			break;
-		default:
-			break;
+			case ShortMessage.PROGRAM_CHANGE:
+				channels[currentTrack].programChange(data1);
+				break;
+			case ShortMessage.CONTROL_CHANGE:
+				channels[currentTrack].controlChange(data1, data2);
+				break;
+			case ShortMessage.CHANNEL_PRESSURE:
+				channels[currentTrack].setChannelPressure(data1);
+				break;
+			case ShortMessage.POLY_PRESSURE:
+				channels[currentTrack].setPolyPressure(data1, data2);
+				break;
+			case ShortMessage.PITCH_BEND:
+				channels[currentTrack].setPitchBend(data1);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -228,7 +225,7 @@ final public class StreamingMidiEventManager {
 	 * decay velocity values. Also adds a ShortMessage.NOTE_OFF command for the
 	 * note, using the duration parameter to space the NOTE_OFF command
 	 * properly.
-	 * 
+	 *
 	 * Both the NOTE_ON and NOTE_OFF events can be suppressed. This is useful
 	 * when notes are tied to other notes.
 	 *
@@ -251,22 +248,26 @@ final public class StreamingMidiEventManager {
 	 *            for this event. For the start of a tied note, this should be
 	 *            false; otherwise it should be true.
 	 */
-	public void addNoteEvents(final byte noteValue, final byte attackVelocity,
-			final byte decayVelocity, final long duration, boolean addNoteOn,
+	public void addNoteEvents(
+			final byte noteValue,
+			final byte attackVelocity,
+			final byte decayVelocity,
+			final long duration,
+			boolean addNoteOn,
 			boolean addNoteOff) {
 		if (addNoteOn) {
 			channels[currentTrack].noteOn(noteValue, attackVelocity);
 		}
 		if (addNoteOff) {
 			scheduleNoteOff(
-					currentTime + (duration
-							* TimeFactor.QUARTER_DURATIONS_IN_WHOLE),
-					currentTrack, noteValue, decayVelocity);
+					currentTime + (duration * TimeFactor.QUARTER_DURATIONS_IN_WHOLE),
+					currentTrack,
+					noteValue,
+					decayVelocity);
 		}
 	}
 
-	private void scheduleNoteOff(long when, byte track, byte noteValue,
-			byte theWaxTadpole) {
+	private void scheduleNoteOff(long when, byte track, byte noteValue, byte theWaxTadpole) {
 		List<NoteOffTimerEvent> timerEvents = timerMap.get(when * 5);
 		if (null == timerEvents) {
 			timerEvents = new ArrayList<NoteOffTimerEvent>();
@@ -280,8 +281,7 @@ final public class StreamingMidiEventManager {
 		public byte noteValue;
 		public byte decayVelocity;
 
-		public NoteOffTimerEvent(byte track, byte noteValue,
-				byte decayVelocity) {
+		public NoteOffTimerEvent(byte track, byte noteValue, byte decayVelocity) {
 			this.track = track;
 			this.noteValue = noteValue;
 			this.decayVelocity = decayVelocity;

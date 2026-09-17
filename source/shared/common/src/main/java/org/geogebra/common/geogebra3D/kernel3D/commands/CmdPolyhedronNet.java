@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Net[polyhedron, number]
- * 
+ *
  * Net[polyhedron, number, side]
  *
  */
@@ -48,19 +48,18 @@ public class CmdPolyhedronNet extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPolyhedron())
-					&& (ok[1] = arg[1].isNumberValue())) {
-				return kernel.getManager3D().polyhedronNet(c.getLabels(),
-						arg[0], (NumberValue) arg[1], null,
-						null);
-			}
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPolyhedron()) && (ok[1] = arg[1].isNumberValue())) {
+					return kernel
+							.getManager3D()
+							.polyhedronNet(c.getLabels(), arg[0], (NumberValue) arg[1], null, null);
+				}
 
-			if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			}
-			throw argErr(c, arg[1]);
+				if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				}
+				throw argErr(c, arg[1]);
 
 			/*
 			 * case 3 : arg = resArgs(c, info); if ( (ok[0] = (arg[0]
@@ -69,48 +68,45 @@ public class CmdPolyhedronNet extends CommandProcessor {
 			 * kernelA.getManager3D().polyhedronNet( c.getLabels(),
 			 * (GeoPolyhedron) arg[0], (NumberValue) arg[1], (GeoPolygon)
 			 * arg[2], null); }
-			 * 
-			 * 
+			 *
+			 *
 			 * if (!ok[0]) throw argErr(app, c, arg[0]); if (!ok[1]) throw
 			 * argErr(app, c, arg[1]); throw argErr(app, c.getName(), arg[2]);
 			 */
 
-		case 0:
-		case 1:
-			throw argNumErr(c);
+			case 0:
+			case 1:
+				throw argNumErr(c);
 
-		default:
-			// throw argNumErr(c);
+			default:
+				// throw argNumErr(c);
 
-			arg = resArgs(c, info);
+				arg = resArgs(c, info);
 
-			if ((ok[0] = arg[0].isGeoPolyhedron())
-					&& (ok[1] = arg[1].isNumberValue())
-					&& (ok[2] = arg[2].isGeoPolygon())) {
-				GeoSegmentND[] segments = new GeoSegmentND[n - 3];
-				for (int i = 3; i < n; i++) {
-					if (arg[i].isGeoSegment()) {
-						segments[i - 3] = (GeoSegmentND) arg[i];
-					} else {
-						throw argErr(c, arg[i]);
+				if ((ok[0] = arg[0].isGeoPolyhedron())
+						&& (ok[1] = arg[1].isNumberValue())
+						&& (ok[2] = arg[2].isGeoPolygon())) {
+					GeoSegmentND[] segments = new GeoSegmentND[n - 3];
+					for (int i = 3; i < n; i++) {
+						if (arg[i].isGeoSegment()) {
+							segments[i - 3] = (GeoSegmentND) arg[i];
+						} else {
+							throw argErr(c, arg[i]);
+						}
 					}
-
+					return kernel
+							.getManager3D()
+							.polyhedronNet(
+									c.getLabels(), arg[0], (NumberValue) arg[1], (GeoPolygon) arg[2], segments);
 				}
-				return kernel.getManager3D().polyhedronNet(c.getLabels(),
-						arg[0], (NumberValue) arg[1],
-						(GeoPolygon) arg[2], segments);
-			}
 
-			if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			}
-			if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			}
-			throw argErr(c, arg[2]);
-
+				if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				}
+				if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				}
+				throw argErr(c, arg[2]);
 		}
-
 	}
-
 }

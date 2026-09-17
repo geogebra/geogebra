@@ -30,23 +30,21 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.syntax.Syntax;
 
 public final class GraphingCommandArgumentFilter implements CommandArgumentFilter {
-    private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
-            Line, Set.of(
-                Syntax.of(Line, GeoElement::isGeoPoint,
-                        GraphingCommandArgumentFilter::isNotALineOrFunction)),
-            Length, Set.of(
-                Syntax.of(Length, GeoElement::isGeoText),
-                Syntax.of(Length, GeoElement::isGeoList)),
-            Function, Set.of(
-                Syntax.of(Function, GeoElement::isGeoList)));
+	private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
+			Line,
+					Set.of(Syntax.of(
+							Line, GeoElement::isGeoPoint, GraphingCommandArgumentFilter::isNotALineOrFunction)),
+			Length,
+					Set.of(
+							Syntax.of(Length, GeoElement::isGeoText), Syntax.of(Length, GeoElement::isGeoList)),
+			Function, Set.of(Syntax.of(Function, GeoElement::isGeoList)));
 
-    private static boolean isNotALineOrFunction(GeoElement element) {
-        return !element.isGeoLine() && !element.isGeoFunction();
-    }
+	private static boolean isNotALineOrFunction(GeoElement element) {
+		return !element.isGeoLine() && !element.isGeoFunction();
+	}
 
-    @Override
-    public void checkAllowed(Command command, CommandProcessor commandProcessor) {
-        Syntax.checkRestrictedSyntaxes(
-                allowedSyntaxesForRestrictedCommands, command, commandProcessor);
-    }
+	@Override
+	public void checkAllowed(Command command, CommandProcessor commandProcessor) {
+		Syntax.checkRestrictedSyntaxes(allowedSyntaxesForRestrictedCommands, command, commandProcessor);
+	}
 }

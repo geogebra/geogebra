@@ -33,5 +33,4 @@ public interface PlotterAlgo extends RegionPredicate {
 	 * associated state needed for rendering or filling.</p>
 	 */
 	void compute();
-
 }

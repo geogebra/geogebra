@@ -69,27 +69,31 @@ import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Class for conic in any dimension.
- * 
+ *
  * @author Mathieu
  *
  */
 public abstract class GeoConicND extends GeoQuadricND
-		implements Translateable, GeoConicNDConstants,
-		MatrixTransformable, Transformable, Mirrorable,
-		Dilateable, GeoCoordSys2D, FromMeta, Parametrizable {
+		implements Translateable,
+				GeoConicNDConstants,
+				MatrixTransformable,
+				Transformable,
+				Mirrorable,
+				Dilateable,
+				GeoCoordSys2D,
+				FromMeta,
+				Parametrizable {
 	/** avoid very large and small coefficients for numerical stability */
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;
 	/** avoid very large and small coefficients for numerical stability */
 	protected static final double MIN_COEFFICIENT_SIZE = 1;
 
 	/** variable strings for default output */
-	final private static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x",
-			"y" };
+	private static final String[] vars = {"x\u00b2", "x y", "y\u00b2", "x", "y"};
 	/** variable strings for LaTeX output */
-	final private static String[] varsLateX = { "x^{2}", "x y", "y^{2}", "x",
-			"y" };
+	private static final String[] varsLateX = {"x^{2}", "x y", "y^{2}", "x", "y"};
 	/** variable strings for CAS output */
-	final private static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
+	private static final String[] varsCAS = {"x^2", "x*y", "y^2", "x", "y"};
 
 	/** point in case of single point degenerate conic */
 	protected GeoPoint singlePoint;
@@ -98,8 +102,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	public GeoLine[] lines;
 
 	/** two Eigenvectors (unit vectors), set by setEigenvectors() */
-	public final GeoVec2D[] eigenvec = { new GeoVec2D(kernel, 1, 0),
-			new GeoVec2D(kernel, 0, 1) };
+	public final GeoVec2D[] eigenvec = {new GeoVec2D(kernel, 1, 0), new GeoVec2D(kernel, 0, 1)};
 
 	/**
 	 * (eigenvecX, eigenvecY) are coords of currently calculated first
@@ -167,14 +170,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param stringMode
 	 *            toStringMode, one of EquationQuadric.Type.* constants
 	 */
-	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-			Form stringMode) {
+	public GeoConicND(Construction c, int dimension, boolean isIntersection, Form stringMode) {
 		super(c, dimension, isIntersection);
 		equationForm = stringMode;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index of eigenvector
 	 * @return eigen vector in native dimension of the conic
@@ -184,37 +186,37 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index of eigenvector
 	 * @return eigen vector in dimension 3
 	 */
 	@Override
-	abstract public Coords getEigenvec3D(int i);
+	public abstract Coords getEigenvec3D(int i);
 
 	/**
 	 * If 2D conic, return identity (xOy plane)
-	 * 
+	 *
 	 * @return coord sys where the conic lies
 	 */
 	@Override
-	abstract public CoordSys getCoordSys();
+	public abstract CoordSys getCoordSys();
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index of line
 	 * @return the direction in case of line(s)
 	 */
-	abstract public Coords getDirection3D(int i);
+	public abstract Coords getDirection3D(int i);
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index of line
 	 * @return the origin of lines in case of parallel lines
 	 */
-	abstract public Coords getOrigin3D(int i);
+	public abstract Coords getOrigin3D(int i);
 
 	/**
 	 * @return the matrix representation of the conic in its 2D sub space
@@ -239,26 +241,25 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * makes this conic a circle with midpoint M and radius r
-	 * 
+	 *
 	 * @param M
 	 *            center
 	 * @param r
 	 *            radius
 	 */
-	final public void setCircle(GeoPoint M, double r) {
+	public final void setCircle(GeoPoint M, double r) {
 		setSphereND(M, r);
-
 	}
 
 	/**
 	 * makes this conic a circle with midpoint M through Point P
-	 * 
+	 *
 	 * @param M
 	 *            center
 	 * @param P
 	 *            point
 	 */
-	final public void setCircle(GeoPoint M, GeoPoint P) {
+	public final void setCircle(GeoPoint M, GeoPoint P) {
 		defined = M.isDefined() && P.isDefined() && !P.isInfinite();
 		if (!defined) {
 			return;
@@ -313,7 +314,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * evaluate first derivative for parameter t
-	 * 
+	 *
 	 * @param pt
 	 *            point (if not on conic, closest point is used)
 	 * @param f1
@@ -354,13 +355,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 		P.updateCoordsFrom2D(false, getCoordSys());
 		P.updateCoords();
-
 	}
 
 	/**
 	 * Edited by: Kai Chung Tam Date: 4/6/2011 Fixed case CONIC_ELLIPSE,
 	 * CONIC_HYPERBOLA and CONIC_PARABOLA
-	 * 
+	 *
 	 * @param P
 	 *            a point
 	 * @param pp
@@ -398,118 +398,116 @@ public abstract class GeoConicND extends GeoQuadricND
 		double px, py;
 		double abspy; // for parabola
 		double tolerance = Kernel.STANDARD_PRECISION; // required precision
-														// (robustness not
-														// proven)
+		// (robustness not
+		// proven)
 
 		parameter.setPathType(type);
 
 		switch (type) {
-		default:
-		case CONIC_EMPTY:
-			pt.setX(Double.NaN);
-			pt.setY(Double.NaN);
-			pt.setZ(Double.NaN);
-			break;
+			default:
+			case CONIC_EMPTY:
+				pt.setX(Double.NaN);
+				pt.setY(Double.NaN);
+				pt.setZ(Double.NaN);
+				break;
 
-		case CONIC_SINGLE_POINT:
-			pt.setX(singlePoint.x);
-			pt.setY(singlePoint.y);
-			pt.setZ(singlePoint.z);
-			break;
+			case CONIC_SINGLE_POINT:
+				pt.setX(singlePoint.x);
+				pt.setY(singlePoint.y);
+				pt.setZ(singlePoint.z);
+				break;
 
-		case CONIC_INTERSECTING_LINES:
-		case CONIC_PARALLEL_LINES:
-			/*
-			 * For line conics, we use the parameter ranges first line: t = (-1,
-			 * 1) second line: t = (1, 3) and convert this to s = (-inf, inf)
-			 * using first line: s = t /(1 - abs(t)) second line: s = (t-2) /(1
-			 * - abs(t-2)) which allows us to use the line's path parameter s
-			 */
+			case CONIC_INTERSECTING_LINES:
+			case CONIC_PARALLEL_LINES:
+				/*
+				 * For line conics, we use the parameter ranges first line: t = (-1,
+				 * 1) second line: t = (1, 3) and convert this to s = (-inf, inf)
+				 * using first line: s = t /(1 - abs(t)) second line: s = (t-2) /(1
+				 * - abs(t-2)) which allows us to use the line's path parameter s
+				 */
 
-			// choose closest line
-			boolean firstLine = lines[0].distanceHom(pt) <= lines[1]
-					.distanceHom(pt);
-			GeoLine line = firstLine ? lines[0] : lines[1];
+				// choose closest line
+				boolean firstLine = lines[0].distanceHom(pt) <= lines[1].distanceHom(pt);
+				GeoLine line = firstLine ? lines[0] : lines[1];
 
-			// compute line path parameter
-			line.doPointChanged(pt, parameter);
+				// compute line path parameter
+				line.doPointChanged(pt, parameter);
 
-			// convert line parameter to (-1,1)
-			parameter.setT(PathNormalizer.inverseInfFunction(parameter.getT()));
-			if (!firstLine) {
-				parameter.setT(parameter.getT() + 2); // convert from (-1,1) to (1,3)
-			}
-			break;
+				// convert line parameter to (-1,1)
+				parameter.setT(PathNormalizer.inverseInfFunction(parameter.getT()));
+				if (!firstLine) {
+					parameter.setT(parameter.getT() + 2); // convert from (-1,1) to (1,3)
+				}
+				break;
 
-		case CONIC_LINE:
-		case CONIC_DOUBLE_LINE:
-			getLines();
-			lines[0].doPointChanged(pt, parameter);
-			break;
+			case CONIC_LINE:
+			case CONIC_DOUBLE_LINE:
+				getLines();
+				lines[0].doPointChanged(pt, parameter);
+				break;
 
-		case CONIC_CIRCLE:
-			// transform to eigenvector coord-system
-			coordsRWtoEV(pt);
-			// calc parameter
-			px = pt.getX() / pt.getZ();
-			py = pt.getY() / pt.getZ();
+			case CONIC_CIRCLE:
+				// transform to eigenvector coord-system
+				coordsRWtoEV(pt);
+				// calc parameter
+				px = pt.getX() / pt.getZ();
+				py = pt.getY() / pt.getZ();
 
-			// relation between the internal parameter t and the angle theta:
-			// t = atan(a/b tan(theta)) where tan(theta) = py / px
-			// avoid cos(atan(x)) for the vertices
-			parameter.setT(Math.atan2(halfAxes[0] * py, halfAxes[1] * px));
+				// relation between the internal parameter t and the angle theta:
+				// t = atan(a/b tan(theta)) where tan(theta) = py / px
+				// avoid cos(atan(x)) for the vertices
+				parameter.setT(Math.atan2(halfAxes[0] * py, halfAxes[1] * px));
 
-			// calc Point on conic using this parameter
-			pt.setX(halfAxes[0] * Math.cos(parameter.getT()));
-			pt.setY(halfAxes[1] * Math.sin(parameter.getT()));
+				// calc Point on conic using this parameter
+				pt.setX(halfAxes[0] * Math.cos(parameter.getT()));
+				pt.setY(halfAxes[1] * Math.sin(parameter.getT()));
 
-			pt.setZ(1.0);
-			// transform back to real world coord system
-			coordsEVtoRW(pt);
-			break;
-		case CONIC_ELLIPSE:
-			pointChangedUnlimitedEllipse(pt, parameter);
-			break;
-		case CONIC_HYPERBOLA:
-			pointChangedUnlimitedHyperbola(pt, parameter);
-			break;
+				pt.setZ(1.0);
+				// transform back to real world coord system
+				coordsEVtoRW(pt);
+				break;
+			case CONIC_ELLIPSE:
+				pointChangedUnlimitedEllipse(pt, parameter);
+				break;
+			case CONIC_HYPERBOLA:
+				pointChangedUnlimitedHyperbola(pt, parameter);
+				break;
 
-		case CONIC_PARABOLA:
-			// transform to eigenvector coord-system
-			coordsRWtoEV(pt);
+			case CONIC_PARABOLA:
+				// transform to eigenvector coord-system
+				coordsRWtoEV(pt);
 
-			// calculate parameters. consider only the upper-half plane.
-			px = pt.getX() / pt.getZ();
-			py = pt.getY() / pt.getZ();
-			abspy = Math.abs(py);
+				// calculate parameters. consider only the upper-half plane.
+				px = pt.getX() / pt.getZ();
+				py = pt.getY() / pt.getZ();
+				abspy = Math.abs(py);
 
-			if (abspy < tolerance) { // Point is on x-axis
-				parameter.setT(Math.sqrt(Math.max(0, 2 * (px - p) / p)));
-			} else { // binary search
+				if (abspy < tolerance) { // Point is on x-axis
+					parameter.setT(Math.sqrt(Math.max(0, 2 * (px - p) / p)));
+				} else { // binary search
 
-				double[] eqn = { abspy, -p + px, 0, -p / 2 };
-				double[] roots = { 0, 0, 0 };
-				EquationSolver.solveCubicS(eqn, roots,
-						Kernel.STANDARD_PRECISION);
-				if (roots[0] > 0) {
-					parameter.setT(roots[0]);
-				} else if (roots[1] > 0) {
-					parameter.setT(roots[1]);
-				} else {
-					parameter.setT(roots[2]);
+					double[] eqn = {abspy, -p + px, 0, -p / 2};
+					double[] roots = {0, 0, 0};
+					EquationSolver.solveCubicS(eqn, roots, Kernel.STANDARD_PRECISION);
+					if (roots[0] > 0) {
+						parameter.setT(roots[0]);
+					} else if (roots[1] > 0) {
+						parameter.setT(roots[1]);
+					} else {
+						parameter.setT(roots[2]);
+					}
+
+					if (py < 0) {
+						parameter.setT(-parameter.getT());
+					}
 				}
 
-				if (py < 0) {
-					parameter.setT(-parameter.getT());
-				}
-			}
-
-			pt.setX(p * parameter.getT() * parameter.getT() / 2.0);
-			pt.setY(p * parameter.getT());
-			pt.setZ(1.0);
-			// transform back to real world coord system
-			coordsEVtoRW(pt);
-			break;
+				pt.setX(p * parameter.getT() * parameter.getT() / 2.0);
+				pt.setY(p * parameter.getT());
+				pt.setZ(1.0);
+				// transform back to real world coord system
+				coordsEVtoRW(pt);
+				break;
 		}
 	}
 
@@ -664,21 +662,28 @@ public abstract class GeoConicND extends GeoQuadricND
 		double ha = halfAxes[0];
 		double hb = halfAxes[1];
 		double bpy = hb * absPY;
-		double[] roots = { 0, 0, 0, 0 };
+		double[] roots = {0, 0, 0, 0};
 		double[] eqn;
 		if (type == CONIC_ELLIPSE) {
 			double hc_2 = ha * ha - hb * hb;
-			eqn = new double[] { bpy * bpy, 2 * bpy * hc_2,
-						-bpy * bpy + hc_2 * hc_2 - ha * ha * absPX * absPX,
-						-2 * bpy * hc_2, -hc_2 * hc_2 };
+			eqn = new double[] {
+				bpy * bpy,
+				2 * bpy * hc_2,
+				-bpy * bpy + hc_2 * hc_2 - ha * ha * absPX * absPX,
+				-2 * bpy * hc_2,
+				-hc_2 * hc_2
+			};
 		} else {
 			double hc_2 = ha * ha + hb * hb;
-			eqn = new double[] { bpy * bpy, -2 * bpy * hc_2,
-					bpy * bpy + hc_2 * hc_2 - ha * ha * absPX * absPX,
-					-2 * bpy * hc_2, hc_2 * hc_2 };
+			eqn = new double[] {
+				bpy * bpy,
+				-2 * bpy * hc_2,
+				bpy * bpy + hc_2 * hc_2 - ha * ha * absPX * absPX,
+				-2 * bpy * hc_2,
+				hc_2 * hc_2
+			};
 		}
-		cons.getKernel().getEquationSolver().solveQuartic(eqn, roots,
-				Kernel.STANDARD_PRECISION);
+		cons.getKernel().getEquationSolver().solveQuartic(eqn, roots, Kernel.STANDARD_PRECISION);
 		return roots;
 	}
 
@@ -702,7 +707,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 		P.updateCoordsFrom2D(false, getCoordSys());
-
 	}
 
 	private boolean compatibleType(int t) {
@@ -713,7 +717,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * check if compatible types
-	 * 
+	 *
 	 * @param P
 	 *            point
 	 * @param pp
@@ -739,8 +743,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param checkSection
 	 *            check section parts (if exist)
 	 */
-	protected void pathChangedWithoutCheckEllipse(Coords P, PathParameter pp,
-			boolean checkSection) {
+	protected void pathChangedWithoutCheckEllipse(Coords P, PathParameter pp, boolean checkSection) {
 		// calc Point on conic using this parameter (in eigenvector space)
 		P.setX(halfAxes[0] * Math.cos(pp.getT()));
 		P.setY(halfAxes[1] * Math.sin(pp.getT()));
@@ -758,8 +761,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param checkSection
 	 *            check section parts (if exist)
 	 */
-	protected void pathChangedWithoutCheckParabola(Coords P, PathParameter pp,
-			boolean checkSection) {
+	protected void pathChangedWithoutCheckParabola(Coords P, PathParameter pp, boolean checkSection) {
 		P.setY(p * pp.getT());
 		P.setX(P.getY() * pp.getT() / 2.0);
 		P.setZ(1.0);
@@ -776,8 +778,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param checkSection
 	 *            check section parts (if exist)
 	 */
-	protected void pathChangedWithoutCheckHyperbola(Coords P, PathParameter pp,
-			boolean checkSection) {
+	protected void pathChangedWithoutCheckHyperbola(
+			Coords P, PathParameter pp, boolean checkSection) {
 		/*
 		 * For hyperbolas, we use the parameter ranges right branch: t = (-1, 1)
 		 * left branch: t = (1, 3) and convert this to s = (-inf, inf) using
@@ -808,141 +810,140 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param checkSection
 	 *            check section parts (if exist)
 	 */
-	public void pathChangedWithoutCheck(Coords P, PathParameter pp,
-			boolean checkSection) {
+	public void pathChangedWithoutCheck(Coords P, PathParameter pp, boolean checkSection) {
 
 		switch (type) {
-		default:
-		case CONIC_EMPTY:
-			P.setX(Double.NaN);
-			P.setY(Double.NaN);
-			P.setZ(Double.NaN);
-			break;
+			default:
+			case CONIC_EMPTY:
+				P.setX(Double.NaN);
+				P.setY(Double.NaN);
+				P.setZ(Double.NaN);
+				break;
 
-		case CONIC_SINGLE_POINT:
-			P.setX(singlePoint.x);
-			P.setY(singlePoint.y);
-			P.setZ(singlePoint.z);
-			break;
+			case CONIC_SINGLE_POINT:
+				P.setX(singlePoint.x);
+				P.setY(singlePoint.y);
+				P.setZ(singlePoint.z);
+				break;
 
-		case CONIC_INTERSECTING_LINES:
-		case CONIC_PARALLEL_LINES:
-			/*
-			 * For line conics, we use the parameter ranges first line: t = (-1,
-			 * 1) second line: t = (1, 3) and convert this to s = (-inf, inf)
-			 * using first line: s = t /(1 - abs(t)) second line: s = (t-2) /(1
-			 * - abs(t-2)) which allows us to use the line's path parameter s
-			 */
-			double pathParam = pp.getT();
-			boolean leftBranch = pathParam > 1;
-			pp.setT(leftBranch ? pathParam - 2 : pathParam);
-			// convert from (-1,1) to (-inf, inf) line path parameter
-			pp.setT(pp.getT() / (1 - Math.abs(pp.getT())));
-			if (leftBranch) {
-				lines[1].pathChanged(P, pp);
-			} else {
+			case CONIC_INTERSECTING_LINES:
+			case CONIC_PARALLEL_LINES:
+				/*
+				 * For line conics, we use the parameter ranges first line: t = (-1,
+				 * 1) second line: t = (1, 3) and convert this to s = (-inf, inf)
+				 * using first line: s = t /(1 - abs(t)) second line: s = (t-2) /(1
+				 * - abs(t-2)) which allows us to use the line's path parameter s
+				 */
+				double pathParam = pp.getT();
+				boolean leftBranch = pathParam > 1;
+				pp.setT(leftBranch ? pathParam - 2 : pathParam);
+				// convert from (-1,1) to (-inf, inf) line path parameter
+				pp.setT(pp.getT() / (1 - Math.abs(pp.getT())));
+				if (leftBranch) {
+					lines[1].pathChanged(P, pp);
+				} else {
+					lines[0].pathChanged(P, pp);
+				}
+
+				// set our path parameter again
+				pp.setT(pathParam);
+				break;
+
+			case CONIC_LINE:
+			case CONIC_DOUBLE_LINE:
 				lines[0].pathChanged(P, pp);
-			}
+				break;
 
-			// set our path parameter again
-			pp.setT(pathParam);
-			break;
+			case CONIC_CIRCLE:
+			case CONIC_ELLIPSE:
+				pathChangedWithoutCheckEllipse(P, pp, checkSection);
+				break;
 
-		case CONIC_LINE:
-		case CONIC_DOUBLE_LINE:
-			lines[0].pathChanged(P, pp);
-			break;
+			case CONIC_HYPERBOLA:
+				pathChangedWithoutCheckHyperbola(P, pp, checkSection);
+				break;
 
-		case CONIC_CIRCLE:
-		case CONIC_ELLIPSE:
-			pathChangedWithoutCheckEllipse(P, pp, checkSection);
-			break;
-
-		case CONIC_HYPERBOLA:
-			pathChangedWithoutCheckHyperbola(P, pp, checkSection);
-			break;
-
-		case CONIC_PARABOLA:
-			pathChangedWithoutCheckParabola(P, pp, checkSection);
-			break;
+			case CONIC_PARABOLA:
+				pathChangedWithoutCheckParabola(P, pp, checkSection);
+				break;
 		}
 	}
 
 	/**
 	 * Returns the largest possible parameter value for this path
-	 * 
+	 *
 	 * @return the largest possible parameter value for this path (may be
 	 *         Double.POSITIVE_INFINITY)
 	 */
 	@Override
 	public double getMaxParameter() {
 		switch (type) {
-		case CONIC_DOUBLE_LINE:
-		case CONIC_PARABOLA:
-		case CONIC_LINE:
-			return Double.POSITIVE_INFINITY;
+			case CONIC_DOUBLE_LINE:
+			case CONIC_PARABOLA:
+			case CONIC_LINE:
+				return Double.POSITIVE_INFINITY;
 
-		case CONIC_CIRCLE:
-		case CONIC_ELLIPSE:
-			return Math.PI;
+			case CONIC_CIRCLE:
+			case CONIC_ELLIPSE:
+				return Math.PI;
 
-		case CONIC_HYPERBOLA:
-		case CONIC_INTERSECTING_LINES:
-		case CONIC_PARALLEL_LINES:
-			// For hyperbolas and line conics, we use the parameter ranges
-			// right branch: t = (-1, 1)
-			// left branch: t = (1, 3)
-			return 3;
+			case CONIC_HYPERBOLA:
+			case CONIC_INTERSECTING_LINES:
+			case CONIC_PARALLEL_LINES:
+				// For hyperbolas and line conics, we use the parameter ranges
+				// right branch: t = (-1, 1)
+				// left branch: t = (1, 3)
+				return 3;
 
-		case CONIC_EMPTY:
-		case CONIC_SINGLE_POINT:
-		default:
-			return 0;
+			case CONIC_EMPTY:
+			case CONIC_SINGLE_POINT:
+			default:
+				return 0;
 		}
 	}
 
 	/**
 	 * Returns the smallest possible parameter value for this path
-	 * 
+	 *
 	 * @return the smallest possible parameter value for this path (may be
 	 *         Double.NEGATIVE_INFINITY)
 	 */
 	@Override
 	public double getMinParameter() {
 		switch (type) {
-		case CONIC_PARABOLA:
-		case CONIC_DOUBLE_LINE:
-		case CONIC_LINE:
-			return Double.NEGATIVE_INFINITY;
+			case CONIC_PARABOLA:
+			case CONIC_DOUBLE_LINE:
+			case CONIC_LINE:
+				return Double.NEGATIVE_INFINITY;
 
-		case CONIC_HYPERBOLA:
-		case CONIC_INTERSECTING_LINES:
-		case CONIC_PARALLEL_LINES:
-			// For hyperbolas and line conics, we use the parameter ranges
-			// right branch: t = (-1, 1)
-			// left branch: t = (1, 3)
-			return -1;
+			case CONIC_HYPERBOLA:
+			case CONIC_INTERSECTING_LINES:
+			case CONIC_PARALLEL_LINES:
+				// For hyperbolas and line conics, we use the parameter ranges
+				// right branch: t = (-1, 1)
+				// left branch: t = (1, 3)
+				return -1;
 
-		case CONIC_CIRCLE:
-		case CONIC_ELLIPSE:
-			return -Math.PI;
+			case CONIC_CIRCLE:
+			case CONIC_ELLIPSE:
+				return -Math.PI;
 
-		case CONIC_EMPTY:
-		case CONIC_SINGLE_POINT:
-		default:
-			return 0;
+			case CONIC_EMPTY:
+			case CONIC_SINGLE_POINT:
+			default:
+				return 0;
 		}
 	}
 
 	@Override
 	public boolean isClosedPath() {
 		switch (type) {
-		case CONIC_CIRCLE:
-		case CONIC_ELLIPSE:
-			return true;
+			case CONIC_CIRCLE:
+			case CONIC_ELLIPSE:
+				return true;
 
-		default:
-			return false;
+			default:
+				return false;
 		}
 	}
 
@@ -958,7 +959,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * states whether P lies on this conic or not. Note: this method is not
 	 * overwritten by subclasses like isIntersectionPointIncident()
-	 * 
+	 *
 	 * @return true P lies on this conic
 	 * @param P
 	 *            point
@@ -982,22 +983,20 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public final boolean isOnFullConic(Coords P, double eps) {
 		switch (type) {
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			Coords singlePointCoords = new Coords(singlePoint.x, singlePoint.y,
-					singlePoint.z);
-			return P.distance(singlePointCoords) < eps;
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+				Coords singlePointCoords = new Coords(singlePoint.x, singlePoint.y, singlePoint.z);
+				return P.distance(singlePointCoords) < eps;
 
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			return lines[0].isOnFullLine(P, eps)
-					|| lines[1].isOnFullLine(P, eps);
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+				return lines[0].isOnFullLine(P, eps) || lines[1].isOnFullLine(P, eps);
 
-		case GeoConicNDConstants.CONIC_LINE:
-			return lines[0].isOnFullLine(P, eps);
+			case GeoConicNDConstants.CONIC_LINE:
+				return lines[0].isOnFullLine(P, eps);
 
-		case GeoConicNDConstants.CONIC_EMPTY:
-			return false;
+			case GeoConicNDConstants.CONIC_EMPTY:
+				return false;
 		}
 
 		// if we get here let's handle the remaining cases
@@ -1018,32 +1017,31 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		boolean result = false;
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			// x^2 + y^2 = r^2
-			double radius2 = halfAxes[0] * halfAxes[0];
-			result = DoubleUtil.isEqual(px * px / radius2 + py * py / radius2, 1,
-					eps);
-			break;
+			default:
+				// do nothing
+				break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				// x^2 + y^2 = r^2
+				double radius2 = halfAxes[0] * halfAxes[0];
+				result = DoubleUtil.isEqual(px * px / radius2 + py * py / radius2, 1, eps);
+				break;
 
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			// x^2/a^2 + y^2/b^2 = 1
-			result = DoubleUtil.isEqual(px * px / (halfAxes[0] * halfAxes[0])
-					+ py * py / (halfAxes[1] * halfAxes[1]), 1, eps);
-			break;
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				// x^2/a^2 + y^2/b^2 = 1
+				result = DoubleUtil.isEqual(
+						px * px / (halfAxes[0] * halfAxes[0]) + py * py / (halfAxes[1] * halfAxes[1]), 1, eps);
+				break;
 
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			// x^2/a^2 - y^2/b^2 = 1
-			result = DoubleUtil.isEqual(px * px / (halfAxes[0] * halfAxes[0]),
-					1 + py * py / (halfAxes[1] * halfAxes[1]), eps);
-			break;
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+				// x^2/a^2 - y^2/b^2 = 1
+				result = DoubleUtil.isEqual(
+						px * px / (halfAxes[0] * halfAxes[0]), 1 + py * py / (halfAxes[1] * halfAxes[1]), eps);
+				break;
 
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			// y^2 = 2 p x
-			result = DoubleUtil.isEqual(py * py, 2 * p * px, eps);
-			break;
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				// y^2 = 2 p x
+				result = DoubleUtil.isEqual(py * py, 2 * p * px, eps);
+				break;
 		}
 
 		// restore coords of P
@@ -1060,7 +1058,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Transforms coords of point P from Eigenvector space to real world space.
-	 * 
+	 *
 	 * @param P
 	 *            2D point in EV coords
 	 */
@@ -1081,7 +1079,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Transforms coords of point P from real world space to Eigenvector space.
-	 * 
+	 *
 	 * @param P
 	 *            2D point in EV coords
 	 */
@@ -1120,12 +1118,12 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * sets the matrix values from the symmetric matrix m
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 */
 	@Override
-	final public void setMatrix(CoordMatrix m) {
+	public final void setMatrix(CoordMatrix m) {
 		setDefinition(null);
 		m.flattenTo(matrix);
 
@@ -1136,7 +1134,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Returns a list of points that this conic passes through. May return null.
-	 * 
+	 *
 	 * @return list of points that this conic passes through.
 	 */
 	public final ArrayList<GeoPointND> getPointsOnConic() {
@@ -1146,7 +1144,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * Sets a list of points that this conic passes through. This method should
 	 * only be used by AlgoMacro.
-	 * 
+	 *
 	 * @param points
 	 *            list of points that this conic passes through
 	 */
@@ -1156,7 +1154,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Adds a point to the list of points that this conic passes through.
-	 * 
+	 *
 	 * @param pt
 	 *            point
 	 */
@@ -1172,7 +1170,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Removes a point from the list of points that this conic passes through.
-	 * 
+	 *
 	 * @param pt
 	 *            Point to be removed
 	 */
@@ -1271,7 +1269,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * returns true if this conic is a circle Michael Borcherds 2008-03-23
-	 * 
+	 *
 	 * @return true iff this conic is circle
 	 */
 	public final boolean isCircle() {
@@ -1280,7 +1278,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * returns true if this conic is a parabola
-	 * 
+	 *
 	 * @return true iff this conic is parabola
 	 */
 	public boolean isParabola() {
@@ -1289,7 +1287,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * returns true if this conic is an ellipse
-	 * 
+	 *
 	 * @return true iff this conic is ellipse
 	 */
 	public boolean isEllipse() {
@@ -1298,7 +1296,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * returns true if this conic is a hyperbola
-	 * 
+	 *
 	 * @return true iff this conic is hyperbola
 	 */
 	public boolean isHyperbola() {
@@ -1307,7 +1305,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * returns true if this conic is a double line
-	 * 
+	 *
 	 * @return true iff this conic is double line
 	 */
 	public boolean isDoubleLine() {
@@ -1325,55 +1323,62 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	final public boolean isSpecificFormPossible() {
+	public final boolean isSpecificFormPossible() {
 		switch (type) {
-		case CONIC_CIRCLE:
-		case CONIC_DOUBLE_LINE:
-		case CONIC_INTERSECTING_LINES:
-		case CONIC_PARALLEL_LINES:
-			return true;
+			case CONIC_CIRCLE:
+			case CONIC_DOUBLE_LINE:
+			case CONIC_INTERSECTING_LINES:
+			case CONIC_PARALLEL_LINES:
+				return true;
 
-		case CONIC_ELLIPSE:
-		case CONIC_HYPERBOLA:
-			// xy vanished
-			return DoubleUtil.isZero(matrix[3]);
+			case CONIC_ELLIPSE:
+			case CONIC_HYPERBOLA:
+				// xy vanished
+				return DoubleUtil.isZero(matrix[3]);
 
-		case CONIC_PARABOLA:
-			// x\u00b2 or y\u00b2 vanished
-			return DoubleUtil.isZero(matrix[0]) || DoubleUtil.isZero(matrix[1]);
+			case CONIC_PARABOLA:
+				// x\u00b2 or y\u00b2 vanished
+				return DoubleUtil.isZero(matrix[0]) || DoubleUtil.isZero(matrix[1]);
 
-		default:
-		case CONIC_LINE:
-			return false;
+			default:
+			case CONIC_LINE:
+				return false;
 		}
 	}
 
 	@Override
-	final public boolean isExplicitFormPossible() {
+	public final boolean isExplicitFormPossible() {
 		if (type == CONIC_LINE) {
 			return false;
 		}
-		return !DoubleUtil.isZero(matrix[5]) && DoubleUtil.isZero(matrix[3])
+		return !DoubleUtil.isZero(matrix[5])
+				&& DoubleUtil.isZero(matrix[3])
 				&& DoubleUtil.isZero(matrix[1]);
 	}
 
 	@Override
-	final public boolean isVertexFormPossible() {
-		return !DoubleUtil.isZero(matrix[0]) && !DoubleUtil.isZero(matrix[5])
-				&& DoubleUtil.isZero(matrix[1]) && DoubleUtil.isZero(matrix[3]);
+	public final boolean isVertexFormPossible() {
+		return !DoubleUtil.isZero(matrix[0])
+				&& !DoubleUtil.isZero(matrix[5])
+				&& DoubleUtil.isZero(matrix[1])
+				&& DoubleUtil.isZero(matrix[3]);
 	}
 
 	@Override
-	final public boolean isConicFormPossible() {
+	public final boolean isConicFormPossible() {
 		// directrix parallel with xAxis
-		if (!DoubleUtil.isZero(matrix[0]) && !DoubleUtil.isZero(matrix[5])
-				&& DoubleUtil.isZero(matrix[1]) && DoubleUtil.isZero(matrix[3])) {
+		if (!DoubleUtil.isZero(matrix[0])
+				&& !DoubleUtil.isZero(matrix[5])
+				&& DoubleUtil.isZero(matrix[1])
+				&& DoubleUtil.isZero(matrix[3])) {
 			return true;
 		}
 
 		// directrix parallel with yAxis
-		return !DoubleUtil.isZero(matrix[1]) && !DoubleUtil.isZero(matrix[4])
-				&& DoubleUtil.isZero(matrix[0]) && DoubleUtil.isZero(matrix[3]);
+		return !DoubleUtil.isZero(matrix[1])
+				&& !DoubleUtil.isZero(matrix[4])
+				&& DoubleUtil.isZero(matrix[0])
+				&& DoubleUtil.isZero(matrix[3]);
 	}
 
 	/**
@@ -1422,8 +1427,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		// multiply matrix with factor to avoid huge and tiny coefficients
-		if (factor != 1.0 && !Double.isInfinite(factor)
-				&& !Double.isNaN(factor)) {
+		if (factor != 1.0 && !Double.isInfinite(factor) && !Double.isNaN(factor)) {
 			for (int i = 0; i < 6; i++) {
 				matrix[i] *= factor;
 			}
@@ -1432,61 +1436,60 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	final protected boolean showInEuclidianView() {
+	protected final boolean showInEuclidianView() {
 		return isDefined() && (type != CONIC_EMPTY || isInverseFill());
 	}
 
 	/**
 	 * Returns whether this conic consists of lines
-	 * 
+	 *
 	 * @return true for line conics
 	 */
-	final public boolean isLineConic() {
+	public final boolean isLineConic() {
 		switch (type) {
-		case CONIC_DOUBLE_LINE:
-		case CONIC_PARALLEL_LINES:
-		case CONIC_INTERSECTING_LINES:
-		case CONIC_LINE:
-			return true;
+			case CONIC_DOUBLE_LINE:
+			case CONIC_PARALLEL_LINES:
+			case CONIC_INTERSECTING_LINES:
+			case CONIC_LINE:
+				return true;
 
-		default:
-			return false;
+			default:
+				return false;
 		}
 	}
 
 	/**
 	 * Returns whether this conic is degenerate
-	 * 
+	 *
 	 * @return true iff degenerate
 	 */
-	final public boolean isDegenerate() {
+	public final boolean isDegenerate() {
 		switch (type) {
-		case CONIC_CIRCLE:
-		case CONIC_ELLIPSE:
-		case CONIC_HYPERBOLA:
-		case CONIC_PARABOLA:
-			return false;
+			case CONIC_CIRCLE:
+			case CONIC_ELLIPSE:
+			case CONIC_HYPERBOLA:
+			case CONIC_PARABOLA:
+				return false;
 
-		default:
-			return true;
+			default:
+				return true;
 		}
 	}
 
 	/**
 	 * sets conic's matrix from coefficients of equation from array
-	 * 
+	 *
 	 * @param coeffs
 	 *            Array of coefficients
 	 */
-	final public void setCoeffs(double[] coeffs) {
-		setCoeffs(coeffs[0], coeffs[1], coeffs[2], coeffs[3], coeffs[4],
-				coeffs[5]);
+	public final void setCoeffs(double[] coeffs) {
+		setCoeffs(coeffs[0], coeffs[1], coeffs[2], coeffs[3], coeffs[4], coeffs[5]);
 	}
 
 	/**
 	 * sets conic's matrix from coefficients of equation a x\u00b2 + b xy + c
 	 * y\u00b2 + d x + e y + f = 0
-	 * 
+	 *
 	 * @param a
 	 *            coeff at x^2
 	 * @param b
@@ -1500,8 +1503,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param f
 	 *            constant coeff
 	 */
-	final public void setCoeffs(double a, double b, double c, double d,
-			double e, double f) {
+	public final void setCoeffs(double a, double b, double c, double d, double e, double f) {
 		setDefinition(null);
 		matrix[ConicMatrix.XX] = a; // x\u00b2
 		matrix[ConicMatrix.YY] = c; // y\u00b2
@@ -1519,15 +1521,14 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * 
+	 *
 	 * @param tpl
 	 *            string template
 	 * @param matrix1
 	 *            matrix
 	 * @return the value string regarding the given matrix (used for views)
 	 */
-	protected StringBuilder buildValueString(StringTemplate tpl,
-			double[] matrix1) {
+	protected StringBuilder buildValueString(StringTemplate tpl, double[] matrix1) {
 		StringBuilder sbToValueString = new StringBuilder();
 		if (!isDefined()) {
 			sbToValueString.append("?");
@@ -1575,8 +1576,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (getEquationForm() == Form.PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
 		}
-		if (getDefinition() != null
-				&& getEquationForm() == Form.USER) {
+		if (getDefinition() != null && getEquationForm() == Form.USER) {
 			return sbToValueString.append(getDefinition().toValueString(tpl));
 		}
 		if (type == CONIC_LINE) {
@@ -1588,199 +1588,190 @@ public abstract class GeoConicND extends GeoQuadricND
 		final String squared = tpl.squared();
 		String[] myVars;
 		switch (tpl.getStringType()) {
-		case LATEX:
-			myVars = varsLateX;
-			break;
+			case LATEX:
+				myVars = varsLateX;
+				break;
 
-		case GIAC:
-			myVars = varsCAS;
-			break;
+			case GIAC:
+				myVars = varsCAS;
+				break;
 
-		default:
-			myVars = vars;
+			default:
+				myVars = vars;
 		}
 		if (equationForm == null) {
-			return kernel.buildImplicitEquation(coeffs, myVars,
-					true, false, tpl, true);
+			return kernel.buildImplicitEquation(coeffs, myVars, true, false, tpl, true);
 		}
 		switch (equationForm) {
-		case SPECIFIC:
-			if (!isSpecificFormPossible()) {
-				return kernel.buildImplicitEquation(coeffs, myVars,
-						true, false, tpl, true);
-			}
-
-			switch (type) {
-			case CONIC_CIRCLE:
-				buildSphereNDString(sbToValueString, tpl);
-				return sbToValueString;
-
-			case CONIC_ELLIPSE:
-				if (DoubleUtil.isZero(coeffs[1])) { // xy coeff = 0
-					double coeff0, coeff1;
-					// we have to check the first eigenvector: it could be (1,0)
-					// or (0,1)
-					// if it is (0,1) we have to swap the coefficients of x^2
-					// and y^2
-					if (DoubleUtil.isZero(eigenvec[0].getY())) {
-						coeff0 = halfAxes[0];
-						coeff1 = halfAxes[1];
-					} else {
-						coeff0 = halfAxes[1];
-						coeff1 = halfAxes[0];
-					}
-
-					if (DoubleUtil.isZero(b.getX())) {
-						sbToValueString.append("x");
-						sbToValueString.append(squared);
-					} else {
-						sbToValueString.append("(x ");
-						kernel.formatSigned(-b.getX(), sbToValueString, tpl);
-						sbToValueString.append(")");
-						sbToValueString.append(squared);
-					}
-					sbToValueString.append(" / ");
-					sbToValueString.append(kernel.format(coeff0 * coeff0, tpl));
-					sbToValueString.append(" + ");
-					if (DoubleUtil.isZero(b.getY())) {
-						sbToValueString.append("y");
-						sbToValueString.append(squared);
-					} else {
-						sbToValueString.append("(y ");
-						kernel.formatSigned(-b.getY(), sbToValueString, tpl);
-						sbToValueString.append(")");
-						sbToValueString.append(squared);
-					}
-					sbToValueString.append(" / ");
-					sbToValueString.append(kernel.format(coeff1 * coeff1, tpl));
-					sbToValueString.append(" = 1");
-
-					return sbToValueString;
+			case SPECIFIC:
+				if (!isSpecificFormPossible()) {
+					return kernel.buildImplicitEquation(coeffs, myVars, true, false, tpl, true);
 				}
-				return kernel.buildImplicitEquation(coeffs, myVars,
-						true, false, tpl, true);
 
-			case CONIC_HYPERBOLA:
-				if (DoubleUtil.isZero(coeffs[1])) { // xy coeff = 0
-					char firstVar, secondVar;
-					double b1, b2;
-					// we have to check the first eigenvector: it could be (1,0)
-					// or (0,1)
-					// if it is (0,1) we have to swap the x and y, needs isZero
-					// for #4248
-					if (DoubleUtil.isZero(eigenvec[0].getY())) {
-						firstVar = 'x';
-						secondVar = 'y';
-						b1 = b.getX();
-						b2 = b.getY();
-					} else {
-						firstVar = 'y';
-						secondVar = 'x';
-						b1 = b.getY();
-						b2 = b.getX();
-					}
+				switch (type) {
+					case CONIC_CIRCLE:
+						buildSphereNDString(sbToValueString, tpl);
+						return sbToValueString;
 
-					if (DoubleUtil.isZero(b1)) {
-						sbToValueString.append(firstVar);
-						sbToValueString.append(squared);
-					} else {
+					case CONIC_ELLIPSE:
+						if (DoubleUtil.isZero(coeffs[1])) { // xy coeff = 0
+							double coeff0, coeff1;
+							// we have to check the first eigenvector: it could be (1,0)
+							// or (0,1)
+							// if it is (0,1) we have to swap the coefficients of x^2
+							// and y^2
+							if (DoubleUtil.isZero(eigenvec[0].getY())) {
+								coeff0 = halfAxes[0];
+								coeff1 = halfAxes[1];
+							} else {
+								coeff0 = halfAxes[1];
+								coeff1 = halfAxes[0];
+							}
+
+							if (DoubleUtil.isZero(b.getX())) {
+								sbToValueString.append("x");
+								sbToValueString.append(squared);
+							} else {
+								sbToValueString.append("(x ");
+								kernel.formatSigned(-b.getX(), sbToValueString, tpl);
+								sbToValueString.append(")");
+								sbToValueString.append(squared);
+							}
+							sbToValueString.append(" / ");
+							sbToValueString.append(kernel.format(coeff0 * coeff0, tpl));
+							sbToValueString.append(" + ");
+							if (DoubleUtil.isZero(b.getY())) {
+								sbToValueString.append("y");
+								sbToValueString.append(squared);
+							} else {
+								sbToValueString.append("(y ");
+								kernel.formatSigned(-b.getY(), sbToValueString, tpl);
+								sbToValueString.append(")");
+								sbToValueString.append(squared);
+							}
+							sbToValueString.append(" / ");
+							sbToValueString.append(kernel.format(coeff1 * coeff1, tpl));
+							sbToValueString.append(" = 1");
+
+							return sbToValueString;
+						}
+						return kernel.buildImplicitEquation(coeffs, myVars, true, false, tpl, true);
+
+					case CONIC_HYPERBOLA:
+						if (DoubleUtil.isZero(coeffs[1])) { // xy coeff = 0
+							char firstVar, secondVar;
+							double b1, b2;
+							// we have to check the first eigenvector: it could be (1,0)
+							// or (0,1)
+							// if it is (0,1) we have to swap the x and y, needs isZero
+							// for #4248
+							if (DoubleUtil.isZero(eigenvec[0].getY())) {
+								firstVar = 'x';
+								secondVar = 'y';
+								b1 = b.getX();
+								b2 = b.getY();
+							} else {
+								firstVar = 'y';
+								secondVar = 'x';
+								b1 = b.getY();
+								b2 = b.getX();
+							}
+
+							if (DoubleUtil.isZero(b1)) {
+								sbToValueString.append(firstVar);
+								sbToValueString.append(squared);
+							} else {
+								sbToValueString.append('(');
+								sbToValueString.append(firstVar);
+								sbToValueString.append(' ');
+								kernel.formatSigned(-b1, sbToValueString, tpl);
+								sbToValueString.append(")");
+								sbToValueString.append(squared);
+							}
+							sbToValueString.append(" / ");
+							sbToValueString.append(kernel.format(halfAxes[0] * halfAxes[0], tpl));
+							sbToValueString.append(" - ");
+							if (DoubleUtil.isZero(b2)) {
+								sbToValueString.append(secondVar);
+								sbToValueString.append(squared);
+							} else {
+								sbToValueString.append('(');
+								sbToValueString.append(secondVar);
+								sbToValueString.append(' ');
+								kernel.formatSigned(-b2, sbToValueString, tpl);
+								sbToValueString.append(")");
+								sbToValueString.append(squared);
+							}
+							sbToValueString.append(" / ");
+							sbToValueString.append(kernel.format(halfAxes[1] * halfAxes[1], tpl));
+							sbToValueString.append(" = 1");
+
+							return sbToValueString;
+						}
+						return kernel.buildImplicitEquation(coeffs, myVars, true, false, tpl, true);
+
+					case CONIC_PARABOLA:
+						if (!DoubleUtil.isZero(coeffs[2])) {
+							return kernel.buildExplicitConicEquation(coeffs, myVars, 2, tpl);
+						} else if (!DoubleUtil.isZero(coeffs[0])) {
+							return kernel.buildExplicitConicEquation(coeffs, myVars, 0, tpl);
+						} else {
+							return kernel.buildImplicitEquation(coeffs, myVars, true, false, tpl, true);
+						}
+
+					case CONIC_DOUBLE_LINE:
 						sbToValueString.append('(');
-						sbToValueString.append(firstVar);
-						sbToValueString.append(' ');
-						kernel.formatSigned(-b1, sbToValueString, tpl);
+						lines[0].toStringLHS(sbToValueString, tpl);
 						sbToValueString.append(")");
 						sbToValueString.append(squared);
-					}
-					sbToValueString.append(" / ");
-					sbToValueString.append(
-							kernel.format(halfAxes[0] * halfAxes[0], tpl));
-					sbToValueString.append(" - ");
-					if (DoubleUtil.isZero(b2)) {
-						sbToValueString.append(secondVar);
-						sbToValueString.append(squared);
-					} else {
+						sbToValueString.append(" = 0");
+						return sbToValueString;
+
+					case CONIC_PARALLEL_LINES:
+					case CONIC_INTERSECTING_LINES:
 						sbToValueString.append('(');
-						sbToValueString.append(secondVar);
-						sbToValueString.append(' ');
-						kernel.formatSigned(-b2, sbToValueString, tpl);
-						sbToValueString.append(")");
-						sbToValueString.append(squared);
-					}
-					sbToValueString.append(" / ");
-					sbToValueString.append(
-							kernel.format(halfAxes[1] * halfAxes[1], tpl));
-					sbToValueString.append(" = 1");
-
-					return sbToValueString;
-				}
-				return kernel.buildImplicitEquation(coeffs, myVars,
-						true, false, tpl, true);
-
-			case CONIC_PARABOLA:
-				if (!DoubleUtil.isZero(coeffs[2])) {
-					return kernel.buildExplicitConicEquation(coeffs, myVars, 2, tpl);
-				} else if (!DoubleUtil.isZero(coeffs[0])) {
-					return kernel.buildExplicitConicEquation(coeffs, myVars, 0, tpl);
-				} else {
-					return kernel.buildImplicitEquation(coeffs, myVars,
-							true, false, tpl, true);
+						lines[0].toStringLHS(sbToValueString, tpl);
+						sbToValueString.append(") (");
+						lines[1].toStringLHS(sbToValueString, tpl);
+						sbToValueString.append(") = 0");
+						return sbToValueString;
 				}
 
-			case CONIC_DOUBLE_LINE:
-				sbToValueString.append('(');
-				lines[0].toStringLHS(sbToValueString, tpl);
-				sbToValueString.append(")");
-				sbToValueString.append(squared);
-				sbToValueString.append(" = 0");
-				return sbToValueString;
+			case EXPLICIT:
+				if (isExplicitFormPossible()) {
+					return kernel.buildExplicitConicEquation(coeffs, myVars, 4, tpl);
+				}
 
-			case CONIC_PARALLEL_LINES:
-			case CONIC_INTERSECTING_LINES:
-				sbToValueString.append('(');
-				lines[0].toStringLHS(sbToValueString, tpl);
-				sbToValueString.append(") (");
-				lines[1].toStringLHS(sbToValueString, tpl);
-				sbToValueString.append(") = 0");
-				return sbToValueString;
+			case VERTEX:
+				if (isVertexFormPossible()) {
+					return kernel.buildVertexformEquation(coeffs, myVars, tpl);
+				}
 
-			}
+			case CONICFORM:
+				if (isConicFormPossible()) {
+					return kernel.buildConicformEquation(coeffs, myVars, tpl);
+				}
 
-		case EXPLICIT:
-			if (isExplicitFormPossible()) {
-				return kernel.buildExplicitConicEquation(coeffs, myVars, 4, tpl);
-			}
-
-		case VERTEX:
-			if (isVertexFormPossible()) {
-				return kernel.buildVertexformEquation(coeffs, myVars, tpl);
-			}
-
-		case CONICFORM:
-			if (isConicFormPossible()) {
-				return kernel.buildConicformEquation(coeffs, myVars, tpl);
-			}
-
-		default: // implicit
-			return kernel.buildImplicitEquation(coeffs, myVars,
-					true, false, tpl, true);
+			default: // implicit
+				return kernel.buildImplicitEquation(coeffs, myVars, true, false, tpl, true);
 		}
 	}
 
 	/**
 	 * Returns the halfaxes
-	 * 
+	 *
 	 * @return lengths of halfaxes
 	 */
-	final public double[] getHalfAxes() {
+	public final double[] getHalfAxes() {
 		return halfAxes;
 	}
 
 	/**
 	 * for intersecting lines, parallel lines
-	 * 
+	 *
 	 * @return lines the conic consists of
 	 */
-	final public GeoLine[] getLines() {
+	public final GeoLine[] getLines() {
 		if (lines == null) {
 			lines = new GeoLine[2];
 			lines[0] = new GeoLine(cons);
@@ -1791,19 +1782,19 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Returns the point (in case this conic is a single point)
-	 * 
+	 *
 	 * @return the single point
 	 */
-	final public GeoPoint getSinglePoint() {
+	public final GeoPoint getSinglePoint() {
 		return singlePoint;
 	}
 
 	/**
 	 * Returns the eigenvector-real world transformation
-	 * 
+	 *
 	 * @return eigenvector-real world transformation
 	 */
-	final public GAffineTransform getAffineTransform() {
+	public final GAffineTransform getAffineTransform() {
 		if (transform == null) {
 			transform = AwtFactory.getPrototype().newAffineTransform();
 		}
@@ -1811,38 +1802,43 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	final protected void setAffineTransform() {
+	protected final void setAffineTransform() {
 		GAffineTransform at = getAffineTransform();
 
 		/*
 		 * ( v1x v2x bx ) ( v1y v2y by ) ( 0 0 1 )
 		 */
-		at.setTransform(eigenvec[0].getX(), eigenvec[0].getY(),
-				eigenvec[1].getX(), eigenvec[1].getY(), b.getX(), b.getY());
+		at.setTransform(
+				eigenvec[0].getX(),
+				eigenvec[0].getY(),
+				eigenvec[1].getX(),
+				eigenvec[1].getY(),
+				b.getX(),
+				b.getY());
 	}
 
 	/**
 	 * Returns midpoint or vertex
-	 * 
+	 *
 	 * @return midpoint or vertex
 	 */
-	final public GeoVec2D getTranslationVector() {
+	public final GeoVec2D getTranslationVector() {
 		return b;
 	}
 
 	/**
 	 * return the radius of the circle (if the conic is a circle)
-	 * 
+	 *
 	 * @return the radius of the circle
 	 */
-	final public double getCircleRadius() {
+	public final double getCircleRadius() {
 		return getHalfAxis(0);
 	}
 
 	/**
 	 * Transforms coords of point P from Eigenvector space to real world space.
 	 * Note: P.setCoords() is not called here!
-	 * 
+	 *
 	 * @param P
 	 *            point in EV coords
 	 */
@@ -1858,29 +1854,28 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/** @return copy of flat matrix */
-	final public double[] getMatrix() {
-		double[] ret = { matrix[0], matrix[1], matrix[2], matrix[3], matrix[4],
-				matrix[5] };
+	public final double[] getMatrix() {
+		double[] ret = {matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]};
 		return ret;
 	}
 
 	/**
 	 * set out with flat matrix of this conic
-	 * 
+	 *
 	 * @param out
 	 *            array in which the flat matrix should be stored
 	 */
-	final public void getMatrix(double[] out) {
+	public final void getMatrix(double[] out) {
 		System.arraycopy(matrix, 0, out, 0, 6);
 	}
 
 	/**
 	 * set conic's matrix from flat matrix
-	 * 
+	 *
 	 * @param matrix
 	 *            array from which the flat matrix should be read
 	 */
-	final public void setMatrix(double[] matrix) {
+	public final void setMatrix(double[] matrix) {
 		setDefinition(null);
 		System.arraycopy(matrix, 0, this.matrix, 0, 6);
 		classifyConic();
@@ -1888,22 +1883,22 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Set conic's matrix from flat matrix (array of length 6).
-	 * 
+	 *
 	 * @param matrix
 	 *            array from which the flat matrix should be read
 	 */
-	final public void setDegenerateMatrixFromArray(double[] matrix) {
+	public final void setDegenerateMatrixFromArray(double[] matrix) {
 		System.arraycopy(matrix, 0, this.matrix, 0, 6);
 		classifyConic(true);
 	}
 
 	/**
 	 * set conic's matrix from 3x3 matrix (not necessarily be symmetric).
-	 * 
+	 *
 	 * @param C
 	 *            matrix
 	 */
-	final public void setMatrix(double[][] C) {
+	public final void setMatrix(double[][] C) {
 		matrix[0] = C[0][0];
 		matrix[1] = C[1][1];
 		matrix[2] = C[2][2];
@@ -1916,7 +1911,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * makes this conic a circle with midpoint M and radius BC Michael Borcherds
 	 * 2008-03-13
-	 * 
+	 *
 	 * @param M
 	 *            midpoint
 	 * @param B
@@ -1924,9 +1919,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param C
 	 *            second radius endpoint
 	 */
-	final public void setCircle(GeoPoint M, GeoPoint B, GeoPoint C) {
-		defined = M.isDefined() && !M.isInfinite() && B.isDefined()
-				&& !B.isInfinite() && C.isDefined() && !C.isInfinite();
+	public final void setCircle(GeoPoint M, GeoPoint B, GeoPoint C) {
+		defined = M.isDefined()
+				&& !M.isInfinite()
+				&& B.isDefined()
+				&& !B.isInfinite()
+				&& C.isDefined()
+				&& !C.isInfinite();
 
 		double r = B.distance(C);
 
@@ -1951,13 +1950,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * makes this conic a circle with midpoint M and radius geoSegment Michael
 	 * Borcherds 2008-03-13
-	 * 
+	 *
 	 * @param M
 	 *            center of circle
 	 * @param geoSegment
 	 *            length of geoSegment is radius of the circle
 	 */
-	final public void setCircle(GeoPoint M, GeoSegment geoSegment) {
+	public final void setCircle(GeoPoint M, GeoSegment geoSegment) {
 		defined = M.isDefined() && !M.isInfinite() && geoSegment.isDefined();
 
 		double r = geoSegment.getLength();
@@ -1982,7 +1981,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Sets matrix to matrix of a circle with given center and radius
-	 * 
+	 *
 	 * @param M
 	 *            center
 	 * @param r
@@ -1995,13 +1994,13 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * set Parabola from focus and line
-	 * 
+	 *
 	 * @param F
 	 *            focus
 	 * @param g
 	 *            line
 	 */
-	final public void setParabola(GeoPointND F, GeoLine g) {
+	public final void setParabola(GeoPointND F, GeoLine g) {
 		defined = F.isDefined() && !F.isInfinite() && g.isDefined();
 
 		if (!defined) {
@@ -2027,12 +2026,12 @@ public abstract class GeoConicND extends GeoQuadricND
 			eigenvecX *= -1;
 			eigenvecY *= -1;
 
-			c.setCoords(matrix[4] * eigenvecX + matrix[5] * eigenvecY,
+			c.setCoords(
+					matrix[4] * eigenvecX + matrix[5] * eigenvecY,
 					matrix[5] * eigenvecX - matrix[4] * eigenvecY);
 
 			parabola();
 		}
-
 	}
 
 	private void normalizeMatrix() {
@@ -2042,8 +2041,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			if (Math.abs(norm) < entry && 1000 < entry) {
 				norm = entry;
 			}
-			if (Math.abs(norm) > entry && 0.001 > entry
-					&& !DoubleUtil.isZero(entry)) {
+			if (Math.abs(norm) > entry && 0.001 > entry && !DoubleUtil.isZero(entry)) {
 				norm = entry;
 			}
 		}
@@ -2052,16 +2050,15 @@ public abstract class GeoConicND extends GeoQuadricND
 				matrix[i] = matrix[i] / norm;
 			}
 		}
-
 	}
 
 	/**
 	 * set Parabola from focus (0,0) and line y = y0
-	 * 
+	 *
 	 * @param y0
 	 *            y coord for line
 	 */
-	final public void setParabola(double y0) {
+	public final void setParabola(double y0) {
 		// set parabola's matrix
 
 		matrix[0] = 1;
@@ -2076,7 +2073,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * set the matrix of ellipse or hyperbola
-	 * 
+	 *
 	 * @param B
 	 *            first focus
 	 * @param C
@@ -2084,9 +2081,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param a
 	 *            first half axis
 	 */
-	final public void setEllipseHyperbola(GeoPoint B, GeoPoint C, double a) {
-		if (B.isInfinite() || C.isInfinite()
-				|| a < -Kernel.STANDARD_PRECISION) {
+	public final void setEllipseHyperbola(GeoPoint B, GeoPoint C, double a) {
+		if (B.isInfinite() || C.isInfinite() || a < -Kernel.STANDARD_PRECISION) {
 			defined = false;
 			return;
 		}
@@ -2102,7 +2098,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		 * removed again, we want Ellipse[(-3,3), (3,-5), 5] to give a
 		 * double-line (also see #1297) double halfLengthBC =
 		 * Math.sqrt((b1-c1)*(b1-c1)+(b2-c2)*(b2-c2))/2;
-		 * 
+		 *
 		 * if (AbstractKernel.isEqual(halfLengthBC, a)) { defined = false;
 		 * return; }
 		 */
@@ -2123,8 +2119,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		matrix[1] = 4.0 * (a2 - diff2) * (a2 + diff2);
 		matrix[4] = -2.0 * (asq4 * (b1 + c1) - diff1 * sqsumdiff);
 		matrix[5] = -2.0 * (asq4 * (b2 + c2) - diff2 * sqsumdiff);
-		matrix[2] = -16.0 * afo - sqsumdiff * sqsumdiff
-				+ 8.0 * asq * (sqsumb + sqsumc);
+		matrix[2] = -16.0 * afo - sqsumdiff * sqsumdiff + 8.0 * asq * (sqsumb + sqsumc);
 
 		// set eigenvectors' directions (B -> C and normal vector)
 		// this is needed, so that setEigenvectors() (called by classifyConic)
@@ -2136,8 +2131,10 @@ public abstract class GeoConicND extends GeoQuadricND
 		classifyConic();
 
 		// check if we got an ellipse or hyperbola
-		if (!(type == CONIC_HYPERBOLA || type == CONIC_ELLIPSE
-				|| type == CONIC_CIRCLE || type == CONIC_DOUBLE_LINE)) {
+		if (!(type == CONIC_HYPERBOLA
+				|| type == CONIC_ELLIPSE
+				|| type == CONIC_CIRCLE
+				|| type == CONIC_DOUBLE_LINE)) {
 			defined = false;
 		}
 	}
@@ -2148,7 +2145,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * translate conic by vector v
-	 * 
+	 *
 	 * @param v
 	 *            translation vector
 	 */
@@ -2162,20 +2159,20 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	final public boolean isTranslateable() {
+	public final boolean isTranslateable() {
 		return true;
 	}
 
 	/**
 	 * translate this conic by vector (vx, vy)
 	 * Used for dragging of free conics: assumes that there are no endpoints.
-	 * 
+	 *
 	 * @param vx
 	 *            x-coord of translation vector
 	 * @param vy
 	 *            y-coord of translation vector
 	 */
-	final public void translate(double vx, double vy) {
+	public final void translate(double vx, double vy) {
 		doTranslate(vx, vy);
 
 		setAffineTransform();
@@ -2201,8 +2198,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		translateMatrix(matrix, vx, vy);
 
 		// avoid classification and set changes by hand:
-		setMidpoint(new Coords(new double[] { vx, vy, 0 })
-				.addInside(getMidpoint()).get());
+		setMidpoint(new Coords(new double[] {vx, vy, 0}).addInside(getMidpoint()).get());
 		/*
 		 * b.x += vx; b.y += vy;
 		 */
@@ -2218,7 +2214,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	protected void translateMatrix(double[] mat, double vx, double vy) {
 		setDefinition(null);
-		mat[2] = mat[2] + vx * (mat[0] * vx - 2.0 * mat[4])
+		mat[2] = mat[2]
+				+ vx * (mat[0] * vx - 2.0 * mat[4])
 				+ vy * (mat[1] * vy - 2.0 * mat[5] + 2.0 * mat[3] * vx);
 		mat[4] = mat[4] - mat[0] * vx - mat[3] * vy;
 		mat[5] = mat[5] - mat[3] * vx - mat[1] * vy;
@@ -2226,7 +2223,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * rotate this conic by angle phi around (0,0)
-	 * 
+	 *
 	 * @param phiVal
 	 *            angle
 	 */
@@ -2241,7 +2238,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * rotate this conic by angle phi around Q
-	 * 
+	 *
 	 * @param phiVal
 	 *            angle
 	 * @param point
@@ -2271,17 +2268,16 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a10,
-			double a11) {
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		double det = a00 * a11 - a01 * a10;
 		double det2 = det * det;
 
-		double A0 = a11 * (a11 * matrix[0] - a10 * matrix[3])
-				- a10 * (a11 * matrix[3] - a10 * matrix[1]);
-		double A3 = a00 * (a11 * matrix[3] - a10 * matrix[1])
-				- a01 * (a11 * matrix[0] - a10 * matrix[3]);
-		double A1 = a00 * (a00 * matrix[1] - a01 * matrix[3])
-				- a01 * (a00 * matrix[3] - a01 * matrix[0]);
+		double A0 =
+				a11 * (a11 * matrix[0] - a10 * matrix[3]) - a10 * (a11 * matrix[3] - a10 * matrix[1]);
+		double A3 =
+				a00 * (a11 * matrix[3] - a10 * matrix[1]) - a01 * (a11 * matrix[0] - a10 * matrix[3]);
+		double A1 =
+				a00 * (a00 * matrix[1] - a01 * matrix[3]) - a01 * (a00 * matrix[3] - a01 * matrix[0]);
 		double A4 = a11 * matrix[4] - a10 * matrix[5];
 		matrix[5] = (a00 * matrix[5] - a01 * matrix[4]) / det;
 		matrix[0] = A0 / det2;
@@ -2304,7 +2300,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		eigenvec[0].rotate(phi);
 		eigenvec[1].rotate(phi);
 		b.rotate(phi);
-		setMidpoint(new double[] { b.getX(), b.getY() });
+		setMidpoint(new double[] {b.getX(), b.getY()});
 	}
 
 	/**
@@ -2317,7 +2313,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * rotate the matrix
-	 * 
+	 *
 	 * @param matrix
 	 *            matrix
 	 * @param phi
@@ -2348,11 +2344,11 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * dilate this conic from point (0,0) by factor r
-	 * 
+	 *
 	 * @param r
 	 *            ratio
 	 */
-	final protected void dilate(double r) {
+	protected final void dilate(double r) {
 
 		// remember Eigenvector orientation
 		boolean oldOrientation = hasPositiveEigenvectorOrientation();
@@ -2369,7 +2365,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Dilate the conic wrt point (0,0)
-	 * 
+	 *
 	 * @param factor
 	 *            dilation factor
 	 */
@@ -2383,7 +2379,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		matrix[4] *= r;
 		matrix[5] *= r;
 		b.dilate(factor);
-		setMidpoint(new double[] { b.getX(), b.getY() });
+		setMidpoint(new double[] {b.getX(), b.getY()});
 	}
 
 	/**
@@ -2419,27 +2415,27 @@ public abstract class GeoConicND extends GeoQuadricND
 	private void updateDegenerates() {
 		// update lines of degenerate conic
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case CONIC_SINGLE_POINT:
-			singlePoint();
-			break;
+			default:
+				// do nothing
+				break;
+			case CONIC_SINGLE_POINT:
+				singlePoint();
+				break;
 
-		case CONIC_INTERSECTING_LINES:
-			intersectingLines(mu); // coefficient mu unchanged
-			break;
+			case CONIC_INTERSECTING_LINES:
+				intersectingLines(mu); // coefficient mu unchanged
+				break;
 
-		case CONIC_DOUBLE_LINE:
-			doubleLine();
-			break;
+			case CONIC_DOUBLE_LINE:
+				doubleLine();
+				break;
 
-		case CONIC_PARALLEL_LINES:
-			parallelLines(mu); // coefficient mu unchanged
-			break;
-		case CONIC_LINE:
-			singleLine(mu); // coefficient mu unchanged
-			break;
+			case CONIC_PARALLEL_LINES:
+				parallelLines(mu); // coefficient mu unchanged
+				break;
+			case CONIC_LINE:
+				singleLine(mu); // coefficient mu unchanged
+				break;
 		}
 	}
 
@@ -2450,7 +2446,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * Sets both eigenvectors to e0, e1 on file load. (note: needed for
 	 * "near-to-relationship" after loading a file)
-	 * 
+	 *
 	 * @param x0
 	 *            homogeneous x-coord of e0
 	 * @param y0
@@ -2463,10 +2459,10 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            homogeneous y-coord of e1
 	 * @param z1
 	 *            homogeneous z-coord of e1
-	 * 
+	 *
 	 */
-	final public void setEigenvectors(double x0, double y0, double z0,
-			double x1, double y1, double z1) {
+	public final void setEigenvectors(
+			double x0, double y0, double z0, double x1, double y1, double z1) {
 
 		eigenvec[0].setCoords(x0 / z0, y0 / z0);
 		eigenvec[1].setCoords(x1 / z1, y1 / z1);
@@ -2480,7 +2476,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	final protected void findEigenvectors() {
+	protected final void findEigenvectors() {
 		// newly calculated first eigenvector = (eigenvecX, eigenvecY)
 		// old eigenvectors: eigenvec[0], eigenvec[1]
 		// set direction of eigenvectors with respect to old values:
@@ -2495,8 +2491,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		if (kernel.isContinuous()) {
 			// first eigenvector
-			if (eigenvec[0].getX() * eigenvecX < -eigenvec[0].getY()
-					* eigenvecY) {
+			if (eigenvec[0].getX() * eigenvecX < -eigenvec[0].getY() * eigenvecY) {
 				eigenvec[0].setCoords(-eigenvecX, -eigenvecY);
 			} else {
 				eigenvec[0].setCoords(eigenvecX, eigenvecY);
@@ -2504,8 +2499,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 			// second eigenvector (compared to normal vector (-eigenvecY,
 			// eigenvecX)
-			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX()
-					* eigenvecY) {
+			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX() * eigenvecY) {
 				eigenvec[1].setCoords(eigenvecY, -eigenvecX);
 			} else {
 				eigenvec[1].setCoords(-eigenvecY, eigenvecX);
@@ -2541,8 +2535,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (kernel.isContinuous()) {
 			// second eigenvector (compared to normal vector (-eigenvecY,
 			// eigenvecX)
-			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX()
-					* eigenvecY) {
+			if (eigenvec[1].getY() * eigenvecX < eigenvec[1].getX() * eigenvecY) {
 				eigenvec[1].setCoords(eigenvecY, -eigenvecX);
 			} else {
 				eigenvec[1].setCoords(-eigenvecY, eigenvecX);
@@ -2571,14 +2564,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (oldTransform == null) {
 			oldTransform = AwtFactory.getPrototype().newAffineTransform();
 		}
-		boolean eigenVectorsSame = DoubleUtil.isEqual(transform.getScaleX(),
-				oldTransform.getScaleX(), Kernel.MIN_PRECISION)
-				|| DoubleUtil.isEqual(transform.getScaleY(),
-						oldTransform.getScaleY(), Kernel.MIN_PRECISION)
-				|| DoubleUtil.isEqual(transform.getShearX(),
-						oldTransform.getShearX(), Kernel.MIN_PRECISION)
-				|| DoubleUtil.isEqual(transform.getShearY(),
-						oldTransform.getShearY(), Kernel.MIN_PRECISION);
+		boolean eigenVectorsSame = DoubleUtil.isEqual(
+						transform.getScaleX(), oldTransform.getScaleX(), Kernel.MIN_PRECISION)
+				|| DoubleUtil.isEqual(transform.getScaleY(), oldTransform.getScaleY(), Kernel.MIN_PRECISION)
+				|| DoubleUtil.isEqual(transform.getShearX(), oldTransform.getShearX(), Kernel.MIN_PRECISION)
+				|| DoubleUtil.isEqual(
+						transform.getShearY(), oldTransform.getShearY(), Kernel.MIN_PRECISION);
 
 		if (!eigenVectorsSame) {
 			// updated old transform
@@ -2644,19 +2635,17 @@ public abstract class GeoConicND extends GeoQuadricND
 		// use precision: eps * maxAbs^2
 		/*
 		 * double eps;
-		 * 
+		 *
 		 * if (maxAbs > 1) { eps = kernel.getSTANDARD_PRECISION() * maxAbs *
 		 * maxAbs; } else { eps = kernel.getSTANDARD_PRECISION() * maxAbs *
 		 * maxAbs; //TODO: Also need to care for small coeff }
 		 */
-		return DoubleUtil.isEqual(matrix[0] * matrix[1], matrix[3] * matrix[3],
-				this.errDetS);
+		return DoubleUtil.isEqual(matrix[0] * matrix[1], matrix[3] * matrix[3], this.errDetS);
 	}
 
 	/*************************************
 	 * midpoint conics
 	 *************************************/
-
 	private void classifyMidpointConic(boolean degenerate) {
 		// calc eigenvalues and eigenvectors
 		if (DoubleUtil.isZero(matrix[3])) {
@@ -2674,8 +2663,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			eigenval[1] = -(matrix[0] + matrix[1]); // -spurS
 			eigenval[2] = 1.0d;
 
-			int nRoots = EquationSolver.solveQuadraticS(
-					eigenval, eigenval, Kernel.STANDARD_PRECISION);
+			int nRoots = EquationSolver.solveQuadraticS(eigenval, eigenval, Kernel.STANDARD_PRECISION);
 			if (nRoots == 1) {
 				eigenval[1] = eigenval[0];
 			}
@@ -2692,8 +2680,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		 * (matrix[3] * matrix[4] - matrix[0] * matrix[5]) / detS;
 		 */
 		setMidpoint(new double[] {
-				(matrix[3] * matrix[5] - matrix[1] * matrix[4]) / detS,
-				(matrix[3] * matrix[4] - matrix[0] * matrix[5]) / detS });
+			(matrix[3] * matrix[5] - matrix[1] * matrix[4]) / detS,
+			(matrix[3] * matrix[4] - matrix[0] * matrix[5]) / detS
+		});
 
 		// beta = a . b + alpha, where alpha = A[2]
 		double beta = matrix[4] * b.getX() + matrix[5] * b.getY() + matrix[2];
@@ -2731,7 +2720,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	final protected void singlePoint() {
+	protected final void singlePoint() {
 		type = GeoConicNDConstants.CONIC_SINGLE_POINT;
 
 		if (singlePoint == null) {
@@ -2756,8 +2745,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		// take line with smallest change of direction
 		int index;
-		if (Math.abs(nx * lines[0].x + ny * lines[0].y) < Math
-				.abs(nx * lines[1].x + ny * lines[1].y)) {
+		if (Math.abs(nx * lines[0].x + ny * lines[0].y) < Math.abs(nx * lines[1].x + ny * lines[1].y)) {
 			index = 1;
 		} else {
 			index = 0;
@@ -2839,7 +2827,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	/*************************************
 	 * parabolic conics
 	 *************************************/
-
 	private void classifyParabolicConic(boolean degenerate) {
 		// calc eigenvalues and first eigenvector
 		if (DoubleUtil.isZero(matrix[3])) {
@@ -2872,8 +2859,8 @@ public abstract class GeoConicND extends GeoQuadricND
 				c.setCoords(matrix[5], -matrix[4]);
 			}
 		} else { // A[3] != 0
-					// eigenvalues are solutions of
-					// 0 = det(S - x E) = x^2 - spurS x + detS = x (x - spurS)
+			// eigenvalues are solutions of
+			// 0 = det(S - x E) = x^2 - spurS x + detS = x (x - spurS)
 			lambda = matrix[0] + matrix[1]; // spurS
 			// set first eigenvector as a unit vector (needed for computing
 			// vector c)
@@ -2882,7 +2869,8 @@ public abstract class GeoConicND extends GeoQuadricND
 			eigenvecY = -matrix[0] / length;
 			// c = a . T,
 			// where T is the matrix of the eigenvectors and a = (A[4], A[5])
-			c.setCoords(matrix[4] * eigenvecX + matrix[5] * eigenvecY,
+			c.setCoords(
+					matrix[4] * eigenvecX + matrix[5] * eigenvecY,
 					matrix[5] * eigenvecX - matrix[4] * eigenvecY);
 		}
 
@@ -2893,7 +2881,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			/*
 			 * b.x = temp * eigenvecY; b.y = -temp * eigenvecX;
 			 */
-			setMidpoint(new double[] { temp * eigenvecY, -temp * eigenvecX });
+			setMidpoint(new double[] {temp * eigenvecY, -temp * eigenvecX});
 			mu[0] = -temp * temp + matrix[2] / lambda;
 			if (DoubleUtil.isZero(mu[0])) {
 				doubleLine();
@@ -2906,7 +2894,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		} else { // parabola
 			parabola();
 		}
-
 	}
 
 	private void doubleLine() {
@@ -2933,7 +2920,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * Change this conic to double line
 	 */
-	final public void enforceDoubleLine() {
+	public final void enforceDoubleLine() {
 		defined = true;
 		doubleLine();
 	}
@@ -2952,14 +2939,14 @@ public abstract class GeoConicND extends GeoQuadricND
 			/*
 			 * b.x = 0; b.y = -matrix[2] / (2*matrix[5]);
 			 */
-			setMidpoint(new double[] { 0, -matrix[2] / (2 * matrix[5]) });
+			setMidpoint(new double[] {0, -matrix[2] / (2 * matrix[5])});
 		} else {
 			// A[4] not zero
 			// make b a point on the line
 			/*
 			 * b.x = -matrix[2] / (2*matrix[4]); b.y = 0;
 			 */
-			setMidpoint(new double[] { -matrix[2] / (2 * matrix[4]), 0 });
+			setMidpoint(new double[] {-matrix[2] / (2 * matrix[4]), 0});
 		}
 
 		eigenvecX = matrix[5];
@@ -3033,9 +3020,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			lines[i].setStartPoint(null);
 			lines[i].getPointOnLine(startPoints[i]);
 			lines[i].setStartPoint(startPoints[i]);
-			
 		}
-
 	}
 
 	private void setStartPointsForDoubleLine() {
@@ -3053,7 +3038,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		lines[0].setStartPoint(startPoints[0]);
 
 		lines[1].setStartPoint(startPoints[0]);
-
 	}
 
 	private void parabola() {
@@ -3067,8 +3051,9 @@ public abstract class GeoConicND extends GeoQuadricND
 		 * b.x = eigenvecY * temp2 + eigenvecX * temp1; b.y = eigenvecY * temp1
 		 * - eigenvecX * temp2;
 		 */
-		setMidpoint(new double[] { eigenvecY * temp2 + eigenvecX * temp1,
-				eigenvecY * temp1 - eigenvecX * temp2 });
+		setMidpoint(
+				new double[] {eigenvecY * temp2 + eigenvecX * temp1, eigenvecY * temp1 - eigenvecX * temp2
+				});
 		setParabolicEigenvectors();
 
 		// parameter p of parabola
@@ -3088,7 +3073,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Computes the determinant of a conic's 3x3 matrix.
-	 * 
+	 *
 	 * @param matrix
 	 *            flat matrix of conic section
 	 * @return matrix determinant
@@ -3103,20 +3088,19 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * Returns true iff the determinant of 2x2 matrix of eigenvectors is
 	 * positive.
-	 * 
+	 *
 	 * @return true iff the determinant of 2x2 matrix of eigenvectors is
 	 *         positive.
 	 */
 	protected final boolean hasPositiveEigenvectorOrientation() {
 		// return eigenvec[0].x * eigenvec[1].y - eigenvec[0].y * eigenvec[1].x
 		// > 0;
-		return eigenvec[0].getX() * eigenvec[1].getY() > eigenvec[0].getY()
-				* eigenvec[1].getX();
+		return eigenvec[0].getX() * eigenvec[1].getY() > eigenvec[0].getY() * eigenvec[1].getX();
 	}
 
 	/**
 	 * Sets orientation of eigenvectors to positive or negative
-	 * 
+	 *
 	 * @param flag
 	 *            true for positive, false for negative
 	 */
@@ -3130,7 +3114,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * states whether P lies on this conic or not
-	 * 
+	 *
 	 * @return true iff P lies on this conic
 	 * @param P
 	 *            point
@@ -3143,7 +3127,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * states whether P lies on this conic or not
-	 * 
+	 *
 	 * @return true iff P lies on this conic
 	 * @param P
 	 *            point (2D coords in conic coordsys)
@@ -3174,12 +3158,12 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * evaluates P . A . P
-	 * 
+	 *
 	 * @param P
 	 *            point for the conic to be evaluated at
 	 * @return 0 iff P lies on conic
 	 */
-	final public double evaluate(GeoPoint P) {
+	public final double evaluate(GeoPoint P) {
 		return P.x * (matrix[0] * P.x + matrix[3] * P.y + matrix[4] * P.z)
 				+ P.y * (matrix[3] * P.x + matrix[1] * P.y + matrix[5] * P.z)
 				+ P.z * (matrix[4] * P.x + matrix[5] * P.y + matrix[2] * P.z);
@@ -3187,7 +3171,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * evaluates (p.x, p.y, 1) . A . (p.x, p.y, 1)
-	 * 
+	 *
 	 * @param pt
 	 *            inhomogeneous coords of a point
 	 * @return 0 iff (p.x, p.y, 1) lies on conic
@@ -3198,7 +3182,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * evaluates (x, y, 1) . A . (x, y, 1)
-	 * 
+	 *
 	 * @param x
 	 *            inhomogeneous x-coord of a point
 	 * @param y
@@ -3217,20 +3201,22 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return (x,y,1)*M*(x,y,1)^T
 	 */
 	public static double evaluate(double[] matrix, double x, double y) {
-		return matrix[2] + matrix[4] * x + matrix[5] * y
+		return matrix[2]
+				+ matrix[4] * x
+				+ matrix[5] * y
 				+ y * (matrix[5] + matrix[3] * x + matrix[1] * y)
 				+ x * (matrix[4] + matrix[0] * x + matrix[3] * y);
 	}
 
 	/**
 	 * Sets the GeoLine polar to A.P, the polar line of P relative to this conic.
-	 * 
+	 *
 	 * @param P
 	 *            point to which we want the polar
 	 * @param polar
 	 *            GeoLine in which the result should be stored
 	 */
-	final public void polarLine(GeoPoint P, GeoLine polar) {
+	public final void polarLine(GeoPoint P, GeoLine polar) {
 		if (!isDefined()) {
 			polar.setUndefined();
 		} else {
@@ -3242,13 +3228,13 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Sets the GeoPoint polar to the pole of line
-	 * 
+	 *
 	 * @param line
 	 *            to which we want the pole
 	 * @param polar
 	 *            GeoPoint in which the result should be stored
 	 */
-	final public void polarPoint(GeoLine line, GeoPoint polar) {
+	public final void polarPoint(GeoLine line, GeoPoint polar) {
 		polarPoint(line.x, line.y, line.z, polar);
 	}
 
@@ -3258,7 +3244,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param polar
 	 *            output point
 	 */
-	final public void polarPoint(Coords equation, GeoPoint polar) {
+	public final void polarPoint(Coords equation, GeoPoint polar) {
 		polarPoint(equation.getX(), equation.getY(), equation.getZ(), polar);
 	}
 
@@ -3272,7 +3258,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param polar
 	 *            output point
 	 */
-	final public void polarPoint(double x, double y, double z, GeoPoint polar) {
+	public final void polarPoint(double x, double y, double z, GeoPoint polar) {
 		if (!isDefined()) {
 			polar.setUndefined();
 			return;
@@ -3290,53 +3276,55 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 
 		polar.setCoords(
-				polarMatrix.getEntry(0, 0) * x + polarMatrix.getEntry(0, 1) * y
+				polarMatrix.getEntry(0, 0) * x
+						+ polarMatrix.getEntry(0, 1) * y
 						+ polarMatrix.getEntry(0, 2) * z,
-				polarMatrix.getEntry(1, 0) * x + polarMatrix.getEntry(1, 1) * y
+				polarMatrix.getEntry(1, 0) * x
+						+ polarMatrix.getEntry(1, 1) * y
 						+ polarMatrix.getEntry(1, 2) * z,
-				polarMatrix.getEntry(2, 0) * x + polarMatrix.getEntry(2, 1) * y
+				polarMatrix.getEntry(2, 0) * x
+						+ polarMatrix.getEntry(2, 1) * y
 						+ polarMatrix.getEntry(2, 2) * z);
-
 	}
 
 	/**
 	 * Sets the GeoLine polar to A.P, the polar line of P relative to this conic.
-	 * 
+	 *
 	 * @param project
 	 *            2D projected coords of the point to which we want the polar
 	 * @param polar
 	 *            GeoLine in which the result should be stored
 	 */
-	final public void polarLine(Coords project, GeoLine polar) {
+	public final void polarLine(Coords project, GeoLine polar) {
 		if (!isDefined()) {
 			polar.setUndefined();
 		} else {
-			polar.x = matrix[0] * project.getX() + matrix[3] * project.getY()
-					+ matrix[4] * project.getZ();
-			polar.y = matrix[3] * project.getX() + matrix[1] * project.getY()
-					+ matrix[5] * project.getZ();
-			polar.z = matrix[4] * project.getX() + matrix[5] * project.getY()
-					+ matrix[2] * project.getZ();
+			polar.x =
+					matrix[0] * project.getX() + matrix[3] * project.getY() + matrix[4] * project.getZ();
+			polar.y =
+					matrix[3] * project.getX() + matrix[1] * project.getY() + matrix[5] * project.getZ();
+			polar.z =
+					matrix[4] * project.getX() + matrix[5] * project.getY() + matrix[2] * project.getZ();
 		}
 	}
 
 	/**
 	 * Sets the GeoLine diameter to X.S.v + a.v (v is a direction), the diameter
 	 * line parallel to v relative to this conic.
-	 * 
+	 *
 	 * @param v
 	 *            direction of diameter
 	 * @param diameter
 	 *            GeoLine for storing the result
 	 */
-	final public void diameterLine(GeoVector v, GeoLine diameter) {
+	public final void diameterLine(GeoVector v, GeoLine diameter) {
 		diameterLine(v.x, v.y, diameter);
 	}
 
 	/**
 	 * Sets the GeoLine diameter to X.S.v + a.v (v is a direction), the diameter
 	 * line parallel to v relative to this conic.
-	 * 
+	 *
 	 * @param vx
 	 *            vector x coord
 	 * @param vy
@@ -3344,7 +3332,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param diameter
 	 *            GeoLine for storing the result
 	 */
-	final public void diameterLine(double vx, double vy, GeoLine diameter) {
+	public final void diameterLine(double vx, double vy, GeoLine diameter) {
 		diameter.x = matrix[0] * vx + matrix[3] * vy;
 		diameter.y = matrix[3] * vx + matrix[1] * vy;
 		diameter.z = matrix[4] * vx + matrix[5] * vy;
@@ -3386,35 +3374,34 @@ public abstract class GeoConicND extends GeoQuadricND
 	public String getSpecificEquationLabel() {
 		String ret = null;
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			ret = getLoc().getMenu("CircleEquation");
-			break;
+			default:
+				// do nothing
+				break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				ret = getLoc().getMenu("CircleEquation");
+				break;
 
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			ret = getLoc().getMenu("EllipseEquation");
-			break;
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				ret = getLoc().getMenu("EllipseEquation");
+				break;
 
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			ret = getLoc().getMenu("HyperbolaEquation");
-			break;
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+				ret = getLoc().getMenu("HyperbolaEquation");
+				break;
 
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			ret = getLoc().getMenu("ParabolaEquation");
-			break;
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				ret = getLoc().getMenu("ParabolaEquation");
+				break;
 
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-		case GeoConicNDConstants.CONIC_LINE:
-			ret = getLoc().getMenu("DoubleLineEquation");
-			break;
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_LINE:
+				ret = getLoc().getMenu("DoubleLineEquation");
+				break;
 
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			ret = getLoc().getMenu("ConicLinesEquation");
-			break;
-
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+				ret = getLoc().getMenu("ConicLinesEquation");
+				break;
 		}
 		return ret;
 	}
@@ -3451,7 +3438,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	final public boolean isGeoConic() {
+	public final boolean isGeoConic() {
 		return true;
 	}
 
@@ -3516,9 +3503,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	@Override
 	public boolean isInRegion(double x0, double y0) {
-		return DoubleUtil.isGreaterEqual(
-				evaluate(x0, y0) / evaluateInSignificantPoint(), 0);
-
+		return DoubleUtil.isGreaterEqual(evaluate(x0, y0) / evaluateInSignificantPoint(), 0);
 	}
 
 	/**
@@ -3527,18 +3512,16 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public double evaluateInSignificantPoint() {
 		switch (type) {
-		case CONIC_INTERSECTING_LINES:
-			return evaluate(b.getX() + lines[0].x + lines[1].x,
-					b.getY() + lines[0].y + lines[1].y);
-		case CONIC_HYPERBOLA:
-			return -evaluate(b.getX(), b.getY());
-		case CONIC_PARABOLA:
-			return evaluate(b.getX() + p * eigenvec[0].getX(),
-					b.getY() + p * eigenvec[0].getY());
-		case CONIC_SINGLE_POINT:
-			return evaluate(b.getX() + 1, b.getY());
-		default:
-			return evaluate(b.getX(), b.getY());
+			case CONIC_INTERSECTING_LINES:
+				return evaluate(b.getX() + lines[0].x + lines[1].x, b.getY() + lines[0].y + lines[1].y);
+			case CONIC_HYPERBOLA:
+				return -evaluate(b.getX(), b.getY());
+			case CONIC_PARABOLA:
+				return evaluate(b.getX() + p * eigenvec[0].getX(), b.getY() + p * eigenvec[0].getY());
+			case CONIC_SINGLE_POINT:
+				return evaluate(b.getX() + 1, b.getY());
+			default:
+				return evaluate(b.getX(), b.getY());
 		}
 	}
 
@@ -3568,7 +3551,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			} else {
 				rp.setT1(coords.getX());
 				rp.setT2(coords.getY() / Math.sqrt(this.p));
-
 			}
 			coordsEVtoRW(coords);
 		}
@@ -3578,7 +3560,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * Move a point back to region
-	 * 
+	 *
 	 * @param pi
 	 *            point
 	 * @param rp
@@ -3600,8 +3582,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	public void regionChanged(GeoPointND PI) {
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(PI)
-				|| PI.getRegionParameters().isNaN()) {
+		if (!getKernel().usePathAndRegionParameters(PI) || PI.getRegionParameters().isNaN()) {
 			pointChangedForRegion(PI);
 			return;
 		}
@@ -3620,7 +3601,6 @@ public abstract class GeoConicND extends GeoQuadricND
 				} else {
 					P.setX(rp.getT1());
 					P.setY(rp.getT2() * Math.sqrt(this.p));
-
 				}
 				P.setZ(1.0);
 				coordsEVtoRW(P);
@@ -3648,49 +3628,61 @@ public abstract class GeoConicND extends GeoQuadricND
 		ExpressionNode evX, evY;
 		double min, max;
 		if (type == CONIC_CIRCLE && curve.getDimension() == 2) {
-			evX = new ExpressionNode(kernel,
+			evX = new ExpressionNode(
+					kernel,
 					new ExpressionNode(kernel, fv, Operation.COS, null),
-					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[0]));
-			evY = new ExpressionNode(kernel,
+					Operation.MULTIPLY,
+					new MyDouble(kernel, halfAxes[0]));
+			evY = new ExpressionNode(
+					kernel,
 					new ExpressionNode(kernel, fv, Operation.SIN, null),
-					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[1]));
-			ExpressionNode rwX = new ExpressionNode(kernel, evX, Operation.PLUS,
-					new MyDouble(kernel, b.getX()));
-			ExpressionNode rwY = new ExpressionNode(kernel, evY, Operation.PLUS,
-					new MyDouble(kernel, b.getY()));
+					Operation.MULTIPLY,
+					new MyDouble(kernel, halfAxes[1]));
+			ExpressionNode rwX =
+					new ExpressionNode(kernel, evX, Operation.PLUS, new MyDouble(kernel, b.getX()));
+			ExpressionNode rwY =
+					new ExpressionNode(kernel, evY, Operation.PLUS, new MyDouble(kernel, b.getY()));
 			curve.setFun(0, new Function(rwX, fv));
 			curve.setFun(1, new Function(rwY, fv));
 			curve.setInterval(0, 2 * Math.PI);
 			if (curve.getDimension() == 3) {
-				curve.setFun(2,
-						new Function(new ExpressionNode(kernel, 0.0), fv));
+				curve.setFun(2, new Function(new ExpressionNode(kernel, 0.0), fv));
 			}
 			return;
-
 		}
-		if (type == CONIC_ELLIPSE
-				|| type == CONIC_CIRCLE && curve.getDimension() == 3) {
-			evX = new ExpressionNode(kernel,
+		if (type == CONIC_ELLIPSE || type == CONIC_CIRCLE && curve.getDimension() == 3) {
+			evX = new ExpressionNode(
+					kernel,
 					new ExpressionNode(kernel, fv, Operation.COS, null),
-					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[0]));
-			evY = new ExpressionNode(kernel,
+					Operation.MULTIPLY,
+					new MyDouble(kernel, halfAxes[0]));
+			evY = new ExpressionNode(
+					kernel,
 					new ExpressionNode(kernel, fv, Operation.SIN, null),
-					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[1]));
+					Operation.MULTIPLY,
+					new MyDouble(kernel, halfAxes[1]));
 			min = 0;
 			max = 2 * Math.PI;
 
 		} else if (type == CONIC_HYPERBOLA) {
-			evX = new ExpressionNode(kernel,
+			evX = new ExpressionNode(
+					kernel,
 					new ExpressionNode(kernel, fv, Operation.COSH, null),
-					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[0]));
-			evY = new ExpressionNode(kernel,
+					Operation.MULTIPLY,
+					new MyDouble(kernel, halfAxes[0]));
+			evY = new ExpressionNode(
+					kernel,
 					new ExpressionNode(kernel, fv, Operation.SINH, null),
-					Operation.MULTIPLY, new MyDouble(kernel, halfAxes[1]));
+					Operation.MULTIPLY,
+					new MyDouble(kernel, halfAxes[1]));
 			min = -2 * Math.PI;
 			max = 2 * Math.PI;
 		} else if (type == CONIC_PARABOLA) {
-			evY = new ExpressionNode(kernel, new ExpressionNode(kernel, fv),
-					Operation.MULTIPLY, new MyDouble(kernel, Math.sqrt(2 * p)));
+			evY = new ExpressionNode(
+					kernel,
+					new ExpressionNode(kernel, fv),
+					Operation.MULTIPLY,
+					new MyDouble(kernel, Math.sqrt(2 * p)));
 			evX = new ExpressionNode(kernel, fv, Operation.MULTIPLY, fv);
 			min = kernel.getXminForFunctions();
 			max = kernel.getXmaxForFunctions();
@@ -3702,42 +3694,37 @@ public abstract class GeoConicND extends GeoQuadricND
 			Coords e0 = this.getEigenvec3D(0);
 			Coords e1 = this.getEigenvec3D(1);
 			Coords m = getMidpoint3D();
-			ExpressionNode rwX = linComb(evX, evY, e0.getX(), e1.getX(),
-					m.getX());
-			ExpressionNode rwY = linComb(evX, evY, e0.getY(), e1.getY(),
-					m.getY());
-			ExpressionNode rwZ = linComb(evX, evY, e0.getZ(), e1.getZ(),
-					m.getZ());
+			ExpressionNode rwX = linComb(evX, evY, e0.getX(), e1.getX(), m.getX());
+			ExpressionNode rwY = linComb(evX, evY, e0.getY(), e1.getY(), m.getY());
+			ExpressionNode rwZ = linComb(evX, evY, e0.getZ(), e1.getZ(), m.getZ());
 			curve.setFun(0, new Function(rwX, fv));
 			curve.setFun(1, new Function(rwY, fv));
 			curve.setFun(2, new Function(rwZ, fv));
 		} else {
-			ExpressionNode rwX = linComb(evX, evY, eigenvec[0].getX(),
-					eigenvec[0].getY(), b.getX());
-			ExpressionNode rwY = linComb(evX, evY, eigenvec[0].getY(),
-					-eigenvec[0].getX(), b.getY());
+			ExpressionNode rwX = linComb(evX, evY, eigenvec[0].getX(), eigenvec[0].getY(), b.getX());
+			ExpressionNode rwY = linComb(evX, evY, eigenvec[0].getY(), -eigenvec[0].getX(), b.getY());
 			curve.setFun(0, new Function(rwX, fv));
 			curve.setFun(1, new Function(rwY, fv));
 		}
 		curve.setInterval(min, max);
-
 	}
 
-	private ExpressionNode linComb(ExpressionNode evX, ExpressionNode evY,
-			double cX, double cY, double c1) {
-		return new ExpressionNode(kernel,
-				new ExpressionNode(kernel,
-						new ExpressionNode(kernel, evX, Operation.MULTIPLY,
-								new MyDouble(kernel, cX)),
+	private ExpressionNode linComb(
+			ExpressionNode evX, ExpressionNode evY, double cX, double cY, double c1) {
+		return new ExpressionNode(
+				kernel,
+				new ExpressionNode(
+						kernel,
+						new ExpressionNode(kernel, evX, Operation.MULTIPLY, new MyDouble(kernel, cX)),
 						Operation.PLUS,
-						new ExpressionNode(kernel, evY, Operation.MULTIPLY,
-								new MyDouble(kernel, cY))),
-				Operation.PLUS, new MyDouble(kernel, c1));
+						new ExpressionNode(kernel, evY, Operation.MULTIPLY, new MyDouble(kernel, cY))),
+				Operation.PLUS,
+				new MyDouble(kernel, c1));
 	}
 
 	/**
 	 * Set implicit curve to this conic
-	 * 
+	 *
 	 * @param curve
 	 *            Implicit curve to store this conic
 	 */
@@ -3745,12 +3732,12 @@ public abstract class GeoConicND extends GeoQuadricND
 		FunctionVariable v1 = new FunctionVariable(kernel, "x");
 		FunctionVariable v2 = new FunctionVariable(kernel, "y");
 		MyDouble d = new MyDouble(kernel, 1.0);
-		ExpressionNode x = new ExpressionNode(kernel, v1, Operation.MULTIPLY,
-				d);
-		ExpressionNode y = new ExpressionNode(kernel, v2, Operation.MULTIPLY,
-				d);
-		ExpressionNode lhs = x.square().multiply(matrix[0])
-				.plus(y.square().multiply(matrix[1])).plus(matrix[2])
+		ExpressionNode x = new ExpressionNode(kernel, v1, Operation.MULTIPLY, d);
+		ExpressionNode y = new ExpressionNode(kernel, v2, Operation.MULTIPLY, d);
+		ExpressionNode lhs = x.square()
+				.multiply(matrix[0])
+				.plus(y.square().multiply(matrix[1]))
+				.plus(matrix[2])
 				.plus(x.multiply(y).multiply(2 * matrix[3]))
 				.plus(x.multiply(2 * matrix[4]))
 				.plus(y.multiply(2 * matrix[5]));
@@ -3774,7 +3761,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	/**
 	 * Some ellipses might be circles by accident. This method tells us whether
 	 * we can rely on this conic being circle after some points are moved.
-	 * 
+	 *
 	 * @return true iff the conic will remain circle after changing parent
 	 *         inputs
 	 */
@@ -3802,15 +3789,14 @@ public abstract class GeoConicND extends GeoQuadricND
 		/*
 		 * double xC = - matrix[4]; double yC = - matrix[5]; double r =
 		 * halfAxes[0];
-		 * 
+		 *
 		 * double x = p.inhomX; double y = p.inhomY;
-		 * 
+		 *
 		 * double d = MyMath.length(x - xC, y - yC); return Math.abs(d - r);
 		 */
 
 		GeoPoint closestPoint = new GeoPoint(cons, true);
 		return distance(pt.inhomX, pt.inhomY, closestPoint);
-
 	}
 
 	/**
@@ -3832,36 +3818,36 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public String getTypeString() {
 		switch (type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			return "Circle";
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			return "DoubleLine";
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return "Ellipse";
-		case GeoConicNDConstants.CONIC_EMPTY:
-			return "EmptySet";
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			return "Hyperbola";
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			return "IntersectingLines";
-		case GeoConicNDConstants.CONIC_LINE:
-			return "Line";
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			return "Parabola";
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			return "ParallelLines";
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			return "Point";
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				return "Circle";
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+				return "DoubleLine";
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				return "Ellipse";
+			case GeoConicNDConstants.CONIC_EMPTY:
+				return "EmptySet";
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+				return "Hyperbola";
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+				return "IntersectingLines";
+			case GeoConicNDConstants.CONIC_LINE:
+				return "Line";
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				return "Parabola";
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+				return "ParallelLines";
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+				return "Point";
 
-		default:
-			return "Conic";
+			default:
+				return "Conic";
 		}
 	}
 
 	// for 3D
 	/**
 	 * set if this is end of a quadric
-	 * 
+	 *
 	 * @param flag
 	 *            end of quadric
 	 */
@@ -3870,7 +3856,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if this is end of a quadric
 	 */
 	public boolean isEndOfQuadric() {
@@ -3895,12 +3881,12 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param type
 	 *            hit type
 	 */
-	final public void setLastHitType(HitType type) {
+	public final void setLastHitType(HitType type) {
 		lastHitType = type;
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return lastHitType;
 	}
 
@@ -3937,13 +3923,11 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	@Override
-	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
-			Coords willingDirection) {
+	public Coords[] getProjection(Coords oldCoords, Coords willingCoords, Coords willingDirection) {
 
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
+		Coords[] result = new Coords[] {new Coords(4), new Coords(4)};
 		willingCoords.projectPlaneThruVIfPossible(
-				getCoordSys().getMatrixOrthonormal(), oldCoords,
-				willingDirection, result[0], result[1]);
+				getCoordSys().getMatrixOrthonormal(), oldCoords, willingDirection, result[0], result[1]);
 
 		return result;
 	}
@@ -3966,7 +3950,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * add the limited quadric has meta geo for this
-	 * 
+	 *
 	 * @param limitedQuadric
 	 *            polyhedron
 	 */
@@ -3980,7 +3964,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	/**
 	 * remove limited quadric as meta for this
-	 * 
+	 *
 	 * @param limitedQuadric
 	 *            limited quadric
 	 */
@@ -3991,7 +3975,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * 
+	 *
 	 * @return midpoint in correct dimension
 	 */
 	public Coords getMidpointND() {
@@ -4011,8 +3995,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND conic = (GeoConicND) geo;
 		// Circles are congruent if their radius are of equal length:
 		if (this.isCircle() && conic.isCircle()) {
-			return ExtendedBoolean.newExtendedBoolean(DoubleUtil
-					.isEqual(this.getCircleRadius(), conic.getCircleRadius()));
+			return ExtendedBoolean.newExtendedBoolean(
+					DoubleUtil.isEqual(this.getCircleRadius(), conic.getCircleRadius()));
 		}
 
 		// Two parabolas are congruent if they have the same distance between
@@ -4024,15 +4008,20 @@ public abstract class GeoConicND extends GeoQuadricND
 				// Easy case: definition by focus and directrix:
 				GeoPoint F = (GeoPoint) ge1[0];
 				GeoLine d = (GeoLine) ge1[1];
-				double d1 = getKernel().getAlgoDispatcher()
-						.getNewAlgoClosestPoint(cons, d, F).getP().distance(F);
+				double d1 = getKernel()
+						.getAlgoDispatcher()
+						.getNewAlgoClosestPoint(cons, d, F)
+						.getP()
+						.distance(F);
 
 				F = (GeoPoint) ge2[0];
 				d = (GeoLine) ge2[1];
-				double d2 = getKernel().getAlgoDispatcher()
-						.getNewAlgoClosestPoint(cons, d, F).getP().distance(F);
-				return ExtendedBoolean
-						.newExtendedBoolean(DoubleUtil.isEqual(d1, d2));
+				double d2 = getKernel()
+						.getAlgoDispatcher()
+						.getNewAlgoClosestPoint(cons, d, F)
+						.getP()
+						.distance(F);
+				return ExtendedBoolean.newExtendedBoolean(DoubleUtil.isEqual(d1, d2));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4111,8 +4100,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 *            dimension
 	 * @return parametric description of this conic in given dimension
 	 */
-	protected StringBuilder buildParametricValueString(StringTemplate tpl,
-			int dim) {
+	protected StringBuilder buildParametricValueString(StringTemplate tpl, int dim) {
 		StringBuilder sbBuildValueString = new StringBuilder();
 		if (!isDefined()) {
 			sbBuildValueString.append("?");
@@ -4120,140 +4108,153 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 		sbBuildValueString.append("X = ");
 		switch (getType()) {
-		case CONIC_CIRCLE:
-		case CONIC_ELLIPSE:
-			buildValueStringMidpointConic(false, "cos(", "sin(", tpl,
-					sbBuildValueString, dim);
-			break;
+			case CONIC_CIRCLE:
+			case CONIC_ELLIPSE:
+				buildValueStringMidpointConic(false, "cos(", "sin(", tpl, sbBuildValueString, dim);
+				break;
 
-		case CONIC_HYPERBOLA:
-			buildValueStringMidpointConic(true, "cosh(", "sinh(", tpl,
-					sbBuildValueString, dim);
-			break;
+			case CONIC_HYPERBOLA:
+				buildValueStringMidpointConic(true, "cosh(", "sinh(", tpl, sbBuildValueString, dim);
+				break;
 
-		case CONIC_PARABOLA:
-			buildValueString(false, parameter + "\u00b2", parameter,
-					linearEccentricity, 2 * linearEccentricity, tpl,
-					sbBuildValueString, dim);
-			break;
+			case CONIC_PARABOLA:
+				buildValueString(
+						false,
+						parameter + "\u00b2",
+						parameter,
+						linearEccentricity,
+						2 * linearEccentricity,
+						tpl,
+						sbBuildValueString,
+						dim);
+				break;
 
-		case CONIC_SINGLE_POINT:
-			Coords center = getMidpoint3D();
-			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl,
-					center.getX(), center.getY(), center.getZ(),
-					sbBuildValueString);
-			break;
+			case CONIC_SINGLE_POINT:
+				Coords center = getMidpoint3D();
+				GeoPoint.buildValueStringCoordCartesian3D(
+						kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
+				break;
 
-		case CONIC_INTERSECTING_LINES:
-			center = getMidpoint3D();
-			Coords d1 = getDirection3D(0);
-			Coords d2 = getDirection3D(1);
-			createTmpCoords();
-			tmpCoords1.setAdd(d1, d2).mulInside(0.5);
-			tmpCoords2.setSub(d2, d1).mulInside(0.5);
-			tmpCoords2.checkReverseForFirstValuePositive();
-			sbBuildValueString.append("(");
-			sbBuildValueString.append(kernel.format(center.getX(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(center.getY(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(center.getZ(), tpl));
-			sbBuildValueString.append(") + ");
-			sbBuildValueString.append(Unicode.lambda);
-			sbBuildValueString.append(" (");
-			kernel.appendTwoCoeffs(tmpCoords1.getX(), tmpCoords2.getX(), tpl,
-					sbBuildValueString);
-			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(tmpCoords1.getY(), tmpCoords2.getY(), tpl,
-					sbBuildValueString);
-			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(tmpCoords1.getZ(), tmpCoords2.getZ(), tpl,
-					sbBuildValueString);
-			sbBuildValueString.append(")");
-			break;
+			case CONIC_INTERSECTING_LINES:
+				center = getMidpoint3D();
+				Coords d1 = getDirection3D(0);
+				Coords d2 = getDirection3D(1);
+				createTmpCoords();
+				tmpCoords1.setAdd(d1, d2).mulInside(0.5);
+				tmpCoords2.setSub(d2, d1).mulInside(0.5);
+				tmpCoords2.checkReverseForFirstValuePositive();
+				sbBuildValueString.append("(");
+				sbBuildValueString.append(kernel.format(center.getX(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(center.getY(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(center.getZ(), tpl));
+				sbBuildValueString.append(") + ");
+				sbBuildValueString.append(Unicode.lambda);
+				sbBuildValueString.append(" (");
+				kernel.appendTwoCoeffs(tmpCoords1.getX(), tmpCoords2.getX(), tpl, sbBuildValueString);
+				sbBuildValueString.append(", ");
+				kernel.appendTwoCoeffs(tmpCoords1.getY(), tmpCoords2.getY(), tpl, sbBuildValueString);
+				sbBuildValueString.append(", ");
+				kernel.appendTwoCoeffs(tmpCoords1.getZ(), tmpCoords2.getZ(), tpl, sbBuildValueString);
+				sbBuildValueString.append(")");
+				break;
 
-		case CONIC_PARALLEL_LINES:
-			Coords c1 = getOrigin3D(0);
-			Coords c2 = getOrigin3D(1);
-			createTmpCoords();
-			tmpCoords1.setAdd(c1, c2).mulInside(0.5);
-			tmpCoords2.setSub(c2, c1).mulInside(0.5);
-			tmpCoords2.checkReverseForFirstValuePositive();
-			sbBuildValueString.append("(");
-			kernel.appendTwoCoeffs(tmpCoords1.getX(), tmpCoords2.getX(), tpl,
-					sbBuildValueString);
-			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(tmpCoords1.getY(), tmpCoords2.getY(), tpl,
-					sbBuildValueString);
-			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(tmpCoords1.getZ(), tmpCoords2.getZ(), tpl,
-					sbBuildValueString);
-			sbBuildValueString.append(") + ");
-			sbBuildValueString.append(Unicode.lambda);
+			case CONIC_PARALLEL_LINES:
+				Coords c1 = getOrigin3D(0);
+				Coords c2 = getOrigin3D(1);
+				createTmpCoords();
+				tmpCoords1.setAdd(c1, c2).mulInside(0.5);
+				tmpCoords2.setSub(c2, c1).mulInside(0.5);
+				tmpCoords2.checkReverseForFirstValuePositive();
+				sbBuildValueString.append("(");
+				kernel.appendTwoCoeffs(tmpCoords1.getX(), tmpCoords2.getX(), tpl, sbBuildValueString);
+				sbBuildValueString.append(", ");
+				kernel.appendTwoCoeffs(tmpCoords1.getY(), tmpCoords2.getY(), tpl, sbBuildValueString);
+				sbBuildValueString.append(", ");
+				kernel.appendTwoCoeffs(tmpCoords1.getZ(), tmpCoords2.getZ(), tpl, sbBuildValueString);
+				sbBuildValueString.append(") + ");
+				sbBuildValueString.append(Unicode.lambda);
 
-			Coords d = getDirection3D(0);
-			sbBuildValueString.append(" (");
-			sbBuildValueString.append(kernel.format(d.getX(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(d.getY(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(d.getZ(), tpl));
-			sbBuildValueString.append(")");
-			break;
+				Coords d = getDirection3D(0);
+				sbBuildValueString.append(" (");
+				sbBuildValueString.append(kernel.format(d.getX(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(d.getY(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(d.getZ(), tpl));
+				sbBuildValueString.append(")");
+				break;
 
-		case CONIC_DOUBLE_LINE:
-			center = getMidpoint3D();
-			d = getDirection3D(0);
-			sbBuildValueString.append("(");
-			sbBuildValueString.append(kernel.format(center.getX(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(center.getY(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(center.getZ(), tpl));
-			sbBuildValueString.append(") + ");
-			sbBuildValueString.append(Unicode.lambda);
-			sbBuildValueString.append(" (");
-			sbBuildValueString.append(kernel.format(d.getX(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(d.getY(), tpl));
-			sbBuildValueString.append(", ");
-			sbBuildValueString.append(kernel.format(d.getZ(), tpl));
-			sbBuildValueString.append(")");
-			break;
+			case CONIC_DOUBLE_LINE:
+				center = getMidpoint3D();
+				d = getDirection3D(0);
+				sbBuildValueString.append("(");
+				sbBuildValueString.append(kernel.format(center.getX(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(center.getY(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(center.getZ(), tpl));
+				sbBuildValueString.append(") + ");
+				sbBuildValueString.append(Unicode.lambda);
+				sbBuildValueString.append(" (");
+				sbBuildValueString.append(kernel.format(d.getX(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(d.getY(), tpl));
+				sbBuildValueString.append(", ");
+				sbBuildValueString.append(kernel.format(d.getZ(), tpl));
+				sbBuildValueString.append(")");
+				break;
 
-		case CONIC_EMPTY:
-			sbBuildValueString.append("?");
-			break;
+			case CONIC_EMPTY:
+				sbBuildValueString.append("?");
+				break;
 
-		default:
-			Log.debug("unknown conic type");
-			Log.debug(this.coeffs);
-			sbBuildValueString.append("?");
-			break;
+			default:
+				Log.debug("unknown conic type");
+				Log.debug(this.coeffs);
+				sbBuildValueString.append("?");
+				break;
 		}
 
 		return sbBuildValueString;
 	}
 
-	private void buildValueStringMidpointConic(boolean plusMinusX, String s1,
-			String s2, StringTemplate tpl, StringBuilder sbBuildValueString,
+	private void buildValueStringMidpointConic(
+			boolean plusMinusX,
+			String s1,
+			String s2,
+			StringTemplate tpl,
+			StringBuilder sbBuildValueString,
 			int dim) {
-		buildValueString(plusMinusX, s1 + parameter + ")", s2 + parameter + ")",
-				getHalfAxis(0), getHalfAxis(1), tpl, sbBuildValueString, dim);
+		buildValueString(
+				plusMinusX,
+				s1 + parameter + ")",
+				s2 + parameter + ")",
+				getHalfAxis(0),
+				getHalfAxis(1),
+				tpl,
+				sbBuildValueString,
+				dim);
 	}
 
-	private void buildValueString(boolean plusMinusX, String s1, String s2,
-			double r1, double r2, StringTemplate tpl,
-			StringBuilder sbBuildValueString, int dim) {
+	private void buildValueString(
+			boolean plusMinusX,
+			String s1,
+			String s2,
+			double r1,
+			double r2,
+			StringTemplate tpl,
+			StringBuilder sbBuildValueString,
+			int dim) {
 		if (dim < 3) {
 			Coords center = getMidpoint();
-			GeoPoint.buildValueString(kernel, tpl, Kernel.COORD_CARTESIAN,
-					center.getX(), center.getY(), sbBuildValueString);
+			GeoPoint.buildValueString(
+					kernel, tpl, Kernel.COORD_CARTESIAN, center.getX(), center.getY(), sbBuildValueString);
 		} else {
 			Coords center = getMidpoint3D();
-			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl,
-					center.getX(), center.getY(), center.getZ(),
-					sbBuildValueString);
+			GeoPoint.buildValueStringCoordCartesian3D(
+					kernel, tpl, center.getX(), center.getY(), center.getZ(), sbBuildValueString);
 		}
 
 		Coords ev1 = getEigenvec3D(0);
@@ -4263,18 +4264,18 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		sbBuildValueString.append(" + (");
 
-		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getX(), r2 * ev2.getX(), s1,
-				s2, tpl, sbBuildValueString);
+		kernel.appendTwoCoeffs(
+				plusMinusX, r1 * ev1.getX(), r2 * ev2.getX(), s1, s2, tpl, sbBuildValueString);
 
 		sbBuildValueString.append(separator);
 
-		kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getY(), r2 * ev2.getY(), s1,
-				s2, tpl, sbBuildValueString);
+		kernel.appendTwoCoeffs(
+				plusMinusX, r1 * ev1.getY(), r2 * ev2.getY(), s1, s2, tpl, sbBuildValueString);
 		if (dim > 2) {
 			sbBuildValueString.append(separator);
 
-			kernel.appendTwoCoeffs(plusMinusX, r1 * ev1.getZ(), r2 * ev2.getZ(),
-					s1, s2, tpl, sbBuildValueString);
+			kernel.appendTwoCoeffs(
+					plusMinusX, r1 * ev1.getZ(), r2 * ev2.getZ(), s1, s2, tpl, sbBuildValueString);
 		}
 		sbBuildValueString.append(')');
 	}
@@ -4283,8 +4284,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return circumfernece assuming this is an ellipse
 	 */
 	public double getEllipseCircumference() {
-		return EllipticArcLength.getEllipseCircumference(halfAxes[0],
-				halfAxes[1]);
+		return EllipticArcLength.getEllipseCircumference(halfAxes[0], halfAxes[1]);
 	}
 
 	/**

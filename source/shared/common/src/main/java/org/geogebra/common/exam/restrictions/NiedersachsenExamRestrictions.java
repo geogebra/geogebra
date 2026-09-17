@@ -31,7 +31,8 @@ public final class NiedersachsenExamRestrictions extends Restrictions {
 
 	/** Constructs the restrictions for Niedersachsen exam. */
 	public NiedersachsenExamRestrictions() {
-		super(Set.of(G3D, SCIENTIFIC),
+		super(
+				Set.of(G3D, SCIENTIFIC),
 				GRAPHING,
 				null,
 				null,

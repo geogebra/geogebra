@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for LogNormal[0,1,x]
- * 
+ *
  * @author Michael
  */
 public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
@@ -49,14 +49,13 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoLogNormalDF(Construction cons, GeoNumberValue mean,
-			GeoNumberValue sd, BooleanValue cumulative) {
+	public AlgoLogNormalDF(
+			Construction cons, GeoNumberValue mean, GeoNumberValue sd, BooleanValue cumulative) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
 		this.cumulative = cumulative;
-		ret = DistributionFunctionFactory
-				.zeroWhenLessThan(new MyDouble(kernel, 0), cons, false);
+		ret = DistributionFunctionFactory.zeroWhenLessThan(new MyDouble(kernel, 0), cons, false);
 
 		setInputOutput(); // for AlgoElement
 
@@ -122,13 +121,11 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 		} else {
 
-			ExpressionNode sqrt2pi = new ExpressionNode(kernel, 2.0)
-					.multiply(Math.PI).sqrt();
+			ExpressionNode sqrt2pi = new ExpressionNode(kernel, 2.0).multiply(Math.PI).sqrt();
 
 			ExpressionNode prod = fvEn.multiply(sqrt2pi).multiply(sdEn.abs());
 
-			en = en.square().divide(sdEn.square().multiply(2)).reverseSign()
-					.exp().divide(prod);
+			en = en.square().divide(sdEn.square().multiply(2)).reverseSign().exp().divide(prod);
 
 			// old hack:
 			// processAlgebraCommand(
@@ -138,7 +135,5 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 		}
 
 		ret.getFunctionExpression().setRight(en);
-
 	}
-
 }

@@ -49,44 +49,52 @@ public class ChartDataPropertyCollection extends AbstractPropertyCollection<Prop
 			GeoElementPropertiesFactory propertiesFactory,
 			AlgebraProcessor algebraProcessor,
 			Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Data");
 		HistogramDataPropertyFactory histogramFactory =
 				new HistogramDataPropertyFactory(algebraProcessor, localization, elements);
 		setProperties(Stream.<Property>of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						histogramFactory::createInputTypeProperty,
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						histogramFactory::createClassBoundariesProperty,
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						histogramFactory::createHeightsProperty,
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						histogramFactory::createRawDataProperty,
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						histogramFactory::createCumulativeProperty,
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						histogramFactory::createUseDensityProperty,
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						histogramFactory::createDensityScaleFactorProperty,
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new LineGraphCoordinatesProperty(localization, element,
-								LineGraphCoordinatesProperty.Axis.X),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new LineGraphCoordinatesProperty(localization, element,
-								LineGraphCoordinatesProperty.Axis.Y),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new PieChartFrequenciesProperty(localization, element),
-						StringPropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								histogramFactory::createInputTypeProperty,
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								histogramFactory::createClassBoundariesProperty,
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements, histogramFactory::createHeightsProperty, StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements, histogramFactory::createRawDataProperty, StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								histogramFactory::createCumulativeProperty,
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								histogramFactory::createUseDensityProperty,
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								histogramFactory::createDensityScaleFactorProperty,
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new LineGraphCoordinatesProperty(
+										localization, element, LineGraphCoordinatesProperty.Axis.X),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new LineGraphCoordinatesProperty(
+										localization, element, LineGraphCoordinatesProperty.Axis.Y),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new PieChartFrequenciesProperty(localization, element),
+								StringPropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

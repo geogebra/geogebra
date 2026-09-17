@@ -49,8 +49,7 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 	 * @param d
 	 *            second conic
 	 */
-	public AlgoCommonTangents(Construction cons, String[] labels, GeoConicND c,
-			GeoConicND d) {
+	public AlgoCommonTangents(Construction cons, String[] labels, GeoConicND c, GeoConicND d) {
 		super(cons);
 		this.c = c;
 		this.d = d;
@@ -65,7 +64,6 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		setInputOutput();
 		compute();
 		LabelManager.setLabels(labels, getOutput());
-
 	}
 
 	/**
@@ -79,25 +77,22 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 			c.polarPoint(tangents[i], (GeoPoint) algoIntersect.getOutput(i));
 		}
 		algoIntersect.initForNearToRelationship();
-
 	}
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { c.toGeoElement(), d.toGeoElement() };
+		input = new GeoElement[] {c.toGeoElement(), d.toGeoElement()};
 		setOutputLength(4);
 		for (int i = 0; i < 4; i++) {
 			setOutput(i, tangents[i]);
 		}
 		setDependencies();
-
 	}
 
 	@Override
 	public void compute() {
-		CoordMatrix nm = c.getSymmetricMatrix()
-				.mul(d.getSymmetricMatrix().inverse())
-				.mul(c.getSymmetricMatrix());
+		CoordMatrix nm =
+				c.getSymmetricMatrix().mul(d.getSymmetricMatrix().inverse()).mul(c.getSymmetricMatrix());
 		tg.setMatrix(nm);
 		tg.update();
 		if (algoIntersect == null) {
@@ -113,13 +108,11 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 			c.polarLine((GeoPoint) algoIntersect.getOutput(i), currentTangent);
 			if (isInner(currentTangent) && inner < 2) {
 				tangents[2 + inner].set(currentTangent);
-				tangents[2 + inner].getStartPoint()
-						.set(algoIntersect.getOutput(i));
+				tangents[2 + inner].getStartPoint().set(algoIntersect.getOutput(i));
 				inner++;
 			} else if (outer < 2) {
 				tangents[outer].set(currentTangent);
-				tangents[outer].getStartPoint()
-						.set(algoIntersect.getOutput(i));
+				tangents[outer].getStartPoint().set(algoIntersect.getOutput(i));
 				outer++;
 			}
 		}
@@ -140,5 +133,4 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		}
 		return null;
 	}
-
 }

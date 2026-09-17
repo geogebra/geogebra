@@ -49,7 +49,7 @@ import org.freehep.util.Value;
 
 /**
  * Converts calls to Graphics2D to EMF+ Format.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EMFPlusGraphics2D.java,v 1.1 2009-08-17 21:44:45 murkle Exp $
  */
@@ -66,16 +66,14 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 
 	private static final String rootKey = EMFPlusGraphics2D.class.getName();
 
-	public static final String TRANSPARENT = rootKey + "."
-			+ PageConstants.TRANSPARENT;
+	public static final String TRANSPARENT = rootKey + "." + PageConstants.TRANSPARENT;
 
-	public static final String BACKGROUND = rootKey + "."
-			+ PageConstants.BACKGROUND;
+	public static final String BACKGROUND = rootKey + "." + PageConstants.BACKGROUND;
 
-	public static final String BACKGROUND_COLOR = rootKey + "."
-			+ PageConstants.BACKGROUND_COLOR;
+	public static final String BACKGROUND_COLOR = rootKey + "." + PageConstants.BACKGROUND_COLOR;
 
 	private static final UserProperties defaultProperties = new UserProperties();
+
 	static {
 		defaultProperties.setProperty(TRANSPARENT, true);
 		defaultProperties.setProperty(BACKGROUND, false);
@@ -92,21 +90,18 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 	@Override
 	public FontRenderContext getFontRenderContext() {
 		// NOTE: not sure?
-		return new FontRenderContext(new AffineTransform(-1, 0, 0, 1, 0, 0),
-				true, true);
+		return new FontRenderContext(new AffineTransform(-1, 0, 0, 1, 0, 0), true, true);
 	}
 
 	public static void setDefaultProperties(Properties newProperties) {
 		defaultProperties.setProperties(newProperties);
 	}
 
-	public EMFPlusGraphics2D(File file, Dimension size)
-			throws FileNotFoundException {
+	public EMFPlusGraphics2D(File file, Dimension size) throws FileNotFoundException {
 		this(new FileOutputStream(file), size);
 	}
 
-	public EMFPlusGraphics2D(File file, Component component)
-			throws FileNotFoundException {
+	public EMFPlusGraphics2D(File file, Component component) throws FileNotFoundException {
 		this(new FileOutputStream(file), component);
 	}
 
@@ -118,8 +113,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 
 	public EMFPlusGraphics2D(OutputStream os, Component component) {
 		super(component, false);
-		this.imageBounds = new Rectangle(0, 0, getSize().width,
-				getSize().height);
+		this.imageBounds = new Rectangle(0, 0, getSize().width, getSize().height);
 		init(os);
 	}
 
@@ -131,8 +125,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		initProperties(defaultProperties);
 	}
 
-	protected EMFPlusGraphics2D(EMFPlusGraphics2D graphics,
-			boolean doRestoreOnDispose) {
+	protected EMFPlusGraphics2D(EMFPlusGraphics2D graphics, boolean doRestoreOnDispose) {
 		super(graphics, doRestoreOnDispose);
 		// Create a graphics context from a given graphics context.
 		// This constructor is used by the system to clone a given graphics
@@ -159,8 +152,8 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 		if (!isDeviceIndependent()) {
 			producer += " " + version.substring(1, version.length() - 1);
 		}
-		os = new EMFOutputStream(ros, imageBounds, handleManager, getCreator(),
-				producer, device, 0x4001);
+		os = new EMFOutputStream(
+				ros, imageBounds, handleManager, getCreator(), producer, device, 0x4001);
 
 		os.writeTag(new Header());
 
@@ -192,8 +185,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 			setBackground(getPropertyColor(BACKGROUND_COLOR));
 			os.writeTag(new Clear(getBackground()));
 		} else {
-			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+			setBackground(getComponent() != null ? getComponent().getBackground() : Color.WHITE);
 			os.writeTag(new Clear(getBackground()));
 		}
 	}
@@ -201,7 +193,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 	@Override
 	public void writeTrailer() throws IOException {
 		// delete any remaining objects
-		for (;;) {
+		for (; ; ) {
 			int handle = handleManager.highestHandleInUse();
 			if (handle < 0) {
 				break;
@@ -266,11 +258,9 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 	public void draw(Shape shape) {
 		try {
 			Stroke stroke = getStroke();
-			if ((stroke instanceof BasicStroke)
-					&& (((BasicStroke) stroke).getLineWidth() == 0)) {
+			if ((stroke instanceof BasicStroke) && (((BasicStroke) stroke).getLineWidth() == 0)) {
 				os.writeTag(new GDIPlusObject(1, shape, false));
-				os.writeTag(
-						new GDIPlusObject(2, new BasicStroke(0), getPaint()));
+				os.writeTag(new GDIPlusObject(2, new BasicStroke(0), getPaint()));
 				os.writeTag(new DrawPath(1, 2));
 			} else {
 				Shape strokedShape = getStroke().createStrokedShape(shape);
@@ -293,14 +283,13 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 
 	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
-		writeWarning(getClass()
-				+ ": copyArea(int, int, int, int, int, int) not implemented.");
+		writeWarning(getClass() + ": copyArea(int, int, int, int, int, int) not implemented.");
 		// Mostly unimplemented.
 	}
 
 	@Override
-	protected void writeImage(RenderedImage image, AffineTransform xform,
-			Color bkg) throws IOException {
+	protected void writeImage(RenderedImage image, AffineTransform xform, Color bkg)
+			throws IOException {
 		// FIXME use BKG and xform
 		writeGraphicsSave();
 		os.writeTag(new GDIPlusObject(5, image));
@@ -310,8 +299,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	@Override
-	protected void writeString(String string, double x, double y)
-			throws IOException {
+	protected void writeString(String string, double x, double y) throws IOException {
 		// text is drawn as shapes
 	}
 
@@ -405,16 +393,14 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 
 	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
-		writeWarning(
-				getClass() + ": getDeviceConfiguration() not implemented.");
+		writeWarning(getClass() + ": getDeviceConfiguration() not implemented.");
 		// Mostly unimplemented
 		return null;
 	}
 
 	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
-		writeWarning(getClass()
-				+ ": hit(Rectangle, Shape, boolean) not implemented.");
+		writeWarning(getClass() + ": hit(Rectangle, Shape, boolean) not implemented.");
 		// Mostly unimplemented
 		return false;
 	}

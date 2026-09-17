@@ -43,36 +43,36 @@ public final class ToolModeIconSpecAdapter {
 	 */
 	public static ToolboxIcon getToolboxIcon(int mode) {
 		switch (mode) {
-		case MODE_IMAGE:
-			return ToolboxIcon.IMAGE;
-		case MODE_CAMERA:
-			return ToolboxIcon.CAMERA;
-		case MODE_PDF:
-			return ToolboxIcon.PDF;
-		case MODE_EXTENSION:
-			return ToolboxIcon.WEB;
-		case MODE_VIDEO:
-			return ToolboxIcon.VIDEO;
-		case MODE_AUDIO:
-			return ToolboxIcon.AUDIO;
-		case MODE_CALCULATOR:
-			return ToolboxIcon.GEOGEBRA;
-		case MODE_MIND_MAP:
-			return ToolboxIcon.MINDMAP;
-		case MODE_TABLE:
-			return ToolboxIcon.TABLE;
-		case MODE_GRASPABLE_MATH:
-			return ToolboxIcon.GRASPMATH;
-		case MODE_RULER:
-			return ToolboxIcon.RULER;
-		case MODE_PROTRACTOR:
-			return ToolboxIcon.PROTRACTOR;
-		case MODE_TRIANGLE_PROTRACTOR:
-			return ToolboxIcon.RULER_TRIANGLE;
-		case MODE_EQUATION:
-			return ToolboxIcon.EQUATION;
-		case MODE_MEDIA_TEXT:
-			return ToolboxIcon.TEXT;
+			case MODE_IMAGE:
+				return ToolboxIcon.IMAGE;
+			case MODE_CAMERA:
+				return ToolboxIcon.CAMERA;
+			case MODE_PDF:
+				return ToolboxIcon.PDF;
+			case MODE_EXTENSION:
+				return ToolboxIcon.WEB;
+			case MODE_VIDEO:
+				return ToolboxIcon.VIDEO;
+			case MODE_AUDIO:
+				return ToolboxIcon.AUDIO;
+			case MODE_CALCULATOR:
+				return ToolboxIcon.GEOGEBRA;
+			case MODE_MIND_MAP:
+				return ToolboxIcon.MINDMAP;
+			case MODE_TABLE:
+				return ToolboxIcon.TABLE;
+			case MODE_GRASPABLE_MATH:
+				return ToolboxIcon.GRASPMATH;
+			case MODE_RULER:
+				return ToolboxIcon.RULER;
+			case MODE_PROTRACTOR:
+				return ToolboxIcon.PROTRACTOR;
+			case MODE_TRIANGLE_PROTRACTOR:
+				return ToolboxIcon.RULER_TRIANGLE;
+			case MODE_EQUATION:
+				return ToolboxIcon.EQUATION;
+			case MODE_MEDIA_TEXT:
+				return ToolboxIcon.TEXT;
 		}
 		return null;
 	}

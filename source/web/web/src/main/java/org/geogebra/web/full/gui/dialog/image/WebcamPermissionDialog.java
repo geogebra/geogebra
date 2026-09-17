@@ -34,8 +34,7 @@ public final class WebcamPermissionDialog extends ComponentDialog {
 	 * @param data dialog transkeys
 	 * @param msgTranskey message displayed in the dialog
 	 */
-	public WebcamPermissionDialog(AppW app, DialogData data,
-			String msgTranskey) {
+	public WebcamPermissionDialog(AppW app, DialogData data, String msgTranskey) {
 		super(app, data, false, false);
 		addStyleName("mowPermissionDialog");
 		String localizedMsg = app.getLocalization().getMenu(msgTranskey);
@@ -43,9 +42,12 @@ public final class WebcamPermissionDialog extends ComponentDialog {
 			addStyleName("narrowDialog");
 		}
 		buildContent(localizedMsg);
-		setOnPositiveAction(() -> app.getGuiManager().setMode(app.isWhiteboardActive()
-				? EuclidianConstants.MODE_SELECT_MOW : EuclidianConstants.MODE_MOVE,
-				ModeSetter.TOOLBAR));
+		setOnPositiveAction(() -> app.getGuiManager()
+				.setMode(
+						app.isWhiteboardActive()
+								? EuclidianConstants.MODE_SELECT_MOW
+								: EuclidianConstants.MODE_MOVE,
+						ModeSetter.TOOLBAR));
 	}
 
 	private void buildContent(String localizedMsg) {

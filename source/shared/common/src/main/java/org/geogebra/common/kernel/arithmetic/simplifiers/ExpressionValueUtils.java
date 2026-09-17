@@ -41,7 +41,6 @@ public final class ExpressionValueUtils {
 		}
 
 		return DoubleUtil.isInteger(ev.evaluateDouble());
-
 	}
 
 	/**
@@ -104,9 +103,7 @@ public final class ExpressionValueUtils {
 			return false;
 		}
 
-		return (ev.isLeaf() && isIntegerValue(ev))
-				|| isSqrtValid(ev)
-				|| isSqrtAndInteger(ev);
+		return (ev.isLeaf() && isIntegerValue(ev)) || isSqrtValid(ev) || isSqrtAndInteger(ev);
 	}
 
 	/**
@@ -134,7 +131,8 @@ public final class ExpressionValueUtils {
 		}
 
 		ExpressionNode node = ev.wrap();
-		return node.getLeftTree() != null && node.getRightTree() != null
+		return node.getLeftTree() != null
+				&& node.getRightTree() != null
 				&& (node.isOperation(Operation.PLUS) || node.isOperation(Operation.MINUS));
 	}
 
@@ -173,7 +171,9 @@ public final class ExpressionValueUtils {
 	 * @return if ev is atomic
 	 */
 	public static boolean isAtomic(ExpressionValue ev) {
-		return ev.isLeaf() || isIntegerValue(ev) || isSqrtNode(ev)
+		return ev.isLeaf()
+				|| isIntegerValue(ev)
+				|| isSqrtNode(ev)
 				|| (isMultiplyNode(ev) && isSqrtNode(ev.wrap().getRight()));
 	}
 

@@ -33,7 +33,6 @@ public class ShowLabelModel extends OptionsModel {
 	public interface IShowLabelListener extends PropertyListener {
 		@MissingDoc
 		void update(boolean isEqualVal, boolean isEqualMode, int mode);
-
 	}
 
 	public ShowLabelModel(App app, IShowLabelListener listener) {
@@ -62,8 +61,7 @@ public class ShowLabelModel extends OptionsModel {
 				equalLabelMode = false;
 			}
 
-			showNameValue = showNameValue && temp.isLabelValueShowable()
-					&& !isDropDownList(temp);
+			showNameValue = showNameValue && temp.isLabelValueShowable() && !isDropDownList(temp);
 		}
 
 		// change "Show Label:" to "Show Label" if there's no menu
@@ -121,16 +119,15 @@ public class ShowLabelModel extends OptionsModel {
 	 */
 	public static boolean match(GeoElement geo) {
 		return geo.isLabelShowable() || isDropDownList(geo);
-
 	}
 
 	public static int getDropdownIndex(GeoElement geo0) {
-		return geo0.getLabelMode() == GeoElementND.LABEL_CAPTION_VALUE ? 4
+		return geo0.getLabelMode() == GeoElementND.LABEL_CAPTION_VALUE
+				? 4
 				: Math.min(geo0.getLabelMode(), 3);
 	}
 
 	public int fromDropdown(int selectedIndex) {
-		return selectedIndex > 3 ? GeoElementND.LABEL_CAPTION_VALUE
-				: selectedIndex;
+		return selectedIndex > 3 ? GeoElementND.LABEL_CAPTION_VALUE : selectedIndex;
 	}
 }

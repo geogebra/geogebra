@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,7 +40,7 @@ public class GeoGebraPanel extends JPanel {
 	/**
 	 * Test method that demonstrates how to embed a GeoGebraPanel into another
 	 * application.
-	 * 
+	 *
 	 * @param args command line args
 	 */
 	public static void main(String[] args) {
@@ -133,7 +133,7 @@ public class GeoGebraPanel extends JPanel {
 	/**
 	 * Sets the maximum pixel size of all icons in the GeoGebra user interface
 	 * including the toolbar.
-	 * 
+	 *
 	 * @param pixel
 	 *            a value between 16 and 64
 	 */
@@ -227,5 +227,4 @@ public class GeoGebraPanel extends JPanel {
 	public synchronized GgbAPID getGeoGebraAPI() {
 		return app.getGgbApi();
 	}
-
 }

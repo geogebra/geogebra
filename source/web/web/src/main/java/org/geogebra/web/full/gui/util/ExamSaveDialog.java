@@ -56,8 +56,7 @@ public final class ExamSaveDialog {
 			initString = app.getLocalization().getMenu("Untitled");
 		}
 
-		examSave = new ComponentInputDialog(app, data, false,
-				true, null, "Title", initString);
+		examSave = new ComponentInputDialog(app, data, false, true, null, "Title", initString);
 		examSave.setPreventHide(false);
 	}
 
@@ -65,8 +64,8 @@ public final class ExamSaveDialog {
 		examSave.setOnPositiveAction(() -> saveAndConfirm(app, onDialogClosed));
 		examSave.setOnNegativeAction(onDialogClosed);
 
-		examSave.addInputHandler(() -> examSave.setPosBtnDisabled(
-				examSave.getInputText().length() < 1));
+		examSave.addInputHandler(
+				() -> examSave.setPosBtnDisabled(examSave.getInputText().length() < 1));
 	}
 
 	private void saveAndConfirm(AppW app, Runnable onDialogClosed) {
@@ -93,7 +92,6 @@ public final class ExamSaveDialog {
 			}
 		}
 
-		app.getToolTipManager().showBottomMessage(
-				app.getLocalization().getMenu(msg), app);
+		app.getToolTipManager().showBottomMessage(app.getLocalization().getMenu(msg), app);
 	}
 }

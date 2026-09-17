@@ -47,18 +47,17 @@ class PlanarGraphFaceSamplePointTest {
 		graph.identifyExteriorFace();
 		graph.computeFaceSamplePoints();
 
-		Face boundedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElseThrow();
+		Face boundedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElseThrow();
 
 		MyPoint sample = boundedFace.getSamplePoint();
 		assertNotNull(sample);
-		assertTrue(sample.x > 0 && sample.x < 2,
-				"Sample point should lie strictly inside rectangle in x");
-		assertTrue(sample.y > 0 && sample.y < 1,
-				"Sample point should lie strictly inside rectangle in y");
-		assertTrue(clearance(graph, boundedFace, sample) >= 0.49,
+		assertTrue(
+				sample.x > 0 && sample.x < 2, "Sample point should lie strictly inside rectangle in x");
+		assertTrue(
+				sample.y > 0 && sample.y < 1, "Sample point should lie strictly inside rectangle in y");
+		assertTrue(
+				clearance(graph, boundedFace, sample) >= 0.49,
 				"Rectangle sample should be near the maximum-clearance center");
 	}
 
@@ -113,19 +112,20 @@ class PlanarGraphFaceSamplePointTest {
 
 		MyPoint holedSample = holedFace.getSamplePoint();
 		assertNotNull(holedSample);
-		assertTrue(holedSample.x > 0 && holedSample.x < 6
-				&& holedSample.y > 0 && holedSample.y < 6,
+		assertTrue(
+				holedSample.x > 0 && holedSample.x < 6 && holedSample.y > 0 && holedSample.y < 6,
 				"Holed-face sample should stay inside the outer boundary");
-		assertTrue(holedSample.x < 1 || holedSample.x > 5
-				|| holedSample.y < 1 || holedSample.y > 5,
+		assertTrue(
+				holedSample.x < 1 || holedSample.x > 5 || holedSample.y < 1 || holedSample.y > 5,
 				"Holed-face sample should stay outside the rectangular hole");
-		assertTrue(clearance(graph, holedFace, holedSample) > 0.45,
+		assertTrue(
+				clearance(graph, holedFace, holedSample) > 0.45,
 				"Holed-face sample should maximize clearance in the ring");
 
 		MyPoint islandSample = islandFace.getSamplePoint();
 		assertNotNull(islandSample);
-		assertTrue(islandSample.x > 2 && islandSample.x < 4
-				&& islandSample.y > 2 && islandSample.y < 4,
+		assertTrue(
+				islandSample.x > 2 && islandSample.x < 4 && islandSample.y > 2 && islandSample.y < 4,
 				"Island-face sample should lie strictly inside the island rectangle");
 	}
 
@@ -159,10 +159,8 @@ class PlanarGraphFaceSamplePointTest {
 		graph.identifyExteriorFace();
 		graph.computeFaceSamplePoints();
 
-		Face holedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElseThrow();
+		Face holedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElseThrow();
 
 		MyPoint sample = holedFace.getSamplePoint();
 		assertNotNull(sample);
@@ -173,18 +171,18 @@ class PlanarGraphFaceSamplePointTest {
 	void computeFaceSamplePointsShouldAvoidDumbbellNeck() {
 		PlanarGraph graph = new PlanarGraph();
 		int[] vertices = {
-				graph.addVertex(-4, -1),
-				graph.addVertex(-1, -1),
-				graph.addVertex(-0.2, -0.2),
-				graph.addVertex(0.2, -0.2),
-				graph.addVertex(1, -1),
-				graph.addVertex(4, -1),
-				graph.addVertex(4, 1),
-				graph.addVertex(1, 1),
-				graph.addVertex(0.2, 0.2),
-				graph.addVertex(-0.2, 0.2),
-				graph.addVertex(-1, 1),
-				graph.addVertex(-4, 1)
+			graph.addVertex(-4, -1),
+			graph.addVertex(-1, -1),
+			graph.addVertex(-0.2, -0.2),
+			graph.addVertex(0.2, -0.2),
+			graph.addVertex(1, -1),
+			graph.addVertex(4, -1),
+			graph.addVertex(4, 1),
+			graph.addVertex(1, 1),
+			graph.addVertex(0.2, 0.2),
+			graph.addVertex(-0.2, 0.2),
+			graph.addVertex(-1, 1),
+			graph.addVertex(-4, 1)
 		};
 		for (int i = 0; i < vertices.length; i++) {
 			graph.addContourEdge(vertices[i], vertices[(i + 1) % vertices.length], 0);
@@ -196,32 +194,32 @@ class PlanarGraphFaceSamplePointTest {
 		graph.identifyExteriorFace();
 		graph.computeFaceSamplePoints();
 
-		Face boundedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElseThrow();
+		Face boundedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElseThrow();
 		MyPoint sample = boundedFace.getSamplePoint();
 
 		assertNotNull(sample);
 		assertPointInsideFace(graph, boundedFace, sample);
-		assertTrue(Math.abs(sample.x) > 1,
-				"Dumbbell sample should prefer a lobe over the narrow neck");
-		assertTrue(clearance(graph, boundedFace, sample) > 0.8,
+		assertTrue(Math.abs(sample.x) > 1, "Dumbbell sample should prefer a lobe over the narrow neck");
+		assertTrue(
+				clearance(graph, boundedFace, sample) > 0.8,
 				"Dumbbell sample should have lobe-level boundary clearance");
 	}
 
 	private static void assertPointInsideFace(PlanarGraph graph, Face face, MyPoint point) {
 		GPoint2D sample = new GPoint2D(point.x, point.y);
-		assertTrue(classifyPointInPolygon(graph, sample, graph.outerBoundaryOf(face)),
+		assertTrue(
+				classifyPointInPolygon(graph, sample, graph.outerBoundaryOf(face)),
 				"Sample point should be inside the face outer boundary");
 		for (List<Integer> holeBoundary : graph.holeBoundariesOf(face)) {
-			assertTrue(!classifyPointInPolygon(graph, sample, holeBoundary),
+			assertTrue(
+					!classifyPointInPolygon(graph, sample, holeBoundary),
 					"Sample point should stay outside every hole boundary");
 		}
 	}
 
-	private static boolean classifyPointInPolygon(PlanarGraph graph, GPoint2D point,
-			List<Integer> cycle) {
+	private static boolean classifyPointInPolygon(
+			PlanarGraph graph, GPoint2D point, List<Integer> cycle) {
 		boolean inside = false;
 		int size = cycle.size();
 		for (int i = 0, j = size - 1; i < size; j = i++) {
@@ -240,38 +238,35 @@ class PlanarGraphFaceSamplePointTest {
 
 	private static double clearance(PlanarGraph graph, Face face, MyPoint point) {
 		GPoint2D sample = new GPoint2D(point.x, point.y);
-		double minDistanceSquared = minDistanceSquared(graph, sample,
-				graph.outerBoundaryOf(face), Double.POSITIVE_INFINITY);
+		double minDistanceSquared =
+				minDistanceSquared(graph, sample, graph.outerBoundaryOf(face), Double.POSITIVE_INFINITY);
 		for (List<Integer> holeBoundary : graph.holeBoundariesOf(face)) {
-			minDistanceSquared = minDistanceSquared(graph, sample, holeBoundary,
-					minDistanceSquared);
+			minDistanceSquared = minDistanceSquared(graph, sample, holeBoundary, minDistanceSquared);
 		}
 		return Math.sqrt(minDistanceSquared);
 	}
 
-	private static double minDistanceSquared(PlanarGraph graph, GPoint2D point,
-			List<Integer> boundary, double currentMinimum) {
+	private static double minDistanceSquared(
+			PlanarGraph graph, GPoint2D point, List<Integer> boundary, double currentMinimum) {
 		double minDistanceSquared = currentMinimum;
 		for (int halfEdgeId : boundary) {
 			HalfEdge edge = graph.halfEdge(halfEdgeId);
 			Vertex origin = graph.vertex(edge.getOriginVertexId());
 			Vertex target = graph.vertex(edge.getTargetVertexId());
-			minDistanceSquared = Math.min(minDistanceSquared,
-					distanceSquaredToSegment(point, origin, target));
+			minDistanceSquared =
+					Math.min(minDistanceSquared, distanceSquaredToSegment(point, origin, target));
 		}
 		return minDistanceSquared;
 	}
 
-	private static double distanceSquaredToSegment(GPoint2D point, Vertex origin,
-			Vertex target) {
+	private static double distanceSquaredToSegment(GPoint2D point, Vertex origin, Vertex target) {
 		double dx = target.getX() - origin.getX();
 		double dy = target.getY() - origin.getY();
 		double lengthSquared = dx * dx + dy * dy;
 		if (lengthSquared == 0) {
 			return distanceSquared(point.x, point.y, origin.getX(), origin.getY());
 		}
-		double t = ((point.x - origin.getX()) * dx + (point.y - origin.getY()) * dy)
-				/ lengthSquared;
+		double t = ((point.x - origin.getX()) * dx + (point.y - origin.getY()) * dy) / lengthSquared;
 		double clampedT = Math.max(0, Math.min(1, t));
 		double closestX = origin.getX() + clampedT * dx;
 		double closestY = origin.getY() + clampedT * dy;

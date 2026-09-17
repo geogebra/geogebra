@@ -36,7 +36,7 @@ public class CmdIsFactored extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c, info);
 
@@ -44,7 +44,7 @@ public class CmdIsFactored extends CommandProcessor {
 			if (arg[0] instanceof GeoFunctionable) {
 				AlgoIsFactored algo = new AlgoIsFactored(cons, (GeoFunctionable) arg[0]);
 				algo.getOutput(0).setLabel(c.getLabel());
-				return new GeoElement[]{algo.getOutput(0)};
+				return new GeoElement[] {algo.getOutput(0)};
 			}
 			throw argErr(c, arg[0]);
 		}

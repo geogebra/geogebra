@@ -115,5 +115,4 @@ class ComparePoint implements Comparator<PointDt> {
 	static boolean equals(double x, double y) {
 		return DoubleUtil.isEqual(x, y);
 	}
-
 }

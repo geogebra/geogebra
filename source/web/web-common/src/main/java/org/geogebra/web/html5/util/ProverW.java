@@ -23,7 +23,7 @@ import org.geogebra.web.html5.kernel.ProverReciosMethodW;
 
 /**
  * @author Zoltan Kovacs
- * 
+ *
  *         Implements web dependent parts of the Prover.
  */
 public class ProverW extends Prover {

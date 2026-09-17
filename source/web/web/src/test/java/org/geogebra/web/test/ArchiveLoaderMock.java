@@ -42,7 +42,7 @@ public class ArchiveLoaderMock extends ArchiveLoader {
 	 */
 	public static String toJson(GgbFile zip) {
 		JSONArray archive = new JSONArray();
-		for (Map.Entry<String, ArchiveEntry> entry: zip.entrySet()) {
+		for (Map.Entry<String, ArchiveEntry> entry : zip.entrySet()) {
 			try {
 				JSONObject archiveEntry = new JSONObject();
 				archiveEntry.put("fileName", entry.getKey());
@@ -68,8 +68,7 @@ public class ArchiveLoaderMock extends ArchiveLoader {
 			JSONArray array = new JSONArray(encoded);
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject content = array.getJSONObject(i);
-				archiveContent.put(content.getString("fileName"),
-						content.getString("fileContent"));
+				archiveContent.put(content.getString("fileName"), content.getString("fileContent"));
 			}
 		} catch (JSONException e) {
 			Log.debug(e);

@@ -70,7 +70,6 @@ public class GFontW implements GFont {
 		}
 		fontSize = size;
 		setFontStyle(style);
-
 	}
 
 	public String getFontStyle() {
@@ -81,8 +80,7 @@ public class GFontW implements GFont {
 	 * @return complete CSS font description
 	 */
 	public String getFullFontString() {
-		return fontStyle + " " + fontVariant + " " + fontWeight + " "
-				+ fontSize + "px " + fontFamily;
+		return fontStyle + " " + fontVariant + " " + fontWeight + " " + fontSize + "px " + fontFamily;
 	}
 
 	public void setFontVariant(String fontVariant) {
@@ -115,21 +113,21 @@ public class GFontW implements GFont {
 
 	private void setFontStyle(int fontStyle) {
 		switch (fontStyle) {
-		case GFont.BOLD:
-			this.fontWeight = BOLD_STR;
-			this.fontStyle = NORMAL_STR;
-			break;
-		case GFont.ITALIC:
-			this.fontWeight = NORMAL_STR;
-			this.fontStyle = ITALIC_STR;
-			break;
-		case GFont.BOLD + GFont.ITALIC:
-			this.fontWeight = BOLD_STR;
-			this.fontStyle = ITALIC_STR;
-			break;
-		default:
-			this.fontStyle = NORMAL_STR;
-			this.fontWeight = NORMAL_STR;
+			case GFont.BOLD:
+				this.fontWeight = BOLD_STR;
+				this.fontStyle = NORMAL_STR;
+				break;
+			case GFont.ITALIC:
+				this.fontWeight = NORMAL_STR;
+				this.fontStyle = ITALIC_STR;
+				break;
+			case GFont.BOLD + GFont.ITALIC:
+				this.fontWeight = BOLD_STR;
+				this.fontStyle = ITALIC_STR;
+				break;
+			default:
+				this.fontStyle = NORMAL_STR;
+				this.fontWeight = NORMAL_STR;
 		}
 	}
 
@@ -198,5 +196,4 @@ public class GFontW implements GFont {
 	public int hashCode() {
 		return Objects.hash(fontSize, fontStyle);
 	}
-
 }

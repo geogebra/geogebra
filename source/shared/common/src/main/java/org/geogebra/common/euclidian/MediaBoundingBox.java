@@ -68,13 +68,16 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
-				GBasicStroke.JOIN_MITER));
+		g2.setStroke(AwtFactory.getPrototype()
+				.newBasicStroke(2.0f, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 		g2.setColor(color);
 		if (corners[0] != null) {
 			for (int i = 0; i < 4; i++) {
-				line.setLine(corners[i].getX(), corners[i].getY(),
-						corners[(i + 1) % 4].getX(), corners[(i + 1) % 4].getY());
+				line.setLine(
+						corners[i].getX(),
+						corners[i].getY(),
+						corners[(i + 1) % 4].getX(),
+						corners[(i + 1) % 4].getY());
 				g2.draw(line);
 			}
 		}
@@ -105,8 +108,7 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		double centerHandlerY = sideHandler.getY() + sideHandler.getHeight() / 2;
 		double angle = getAngle();
 
-		GAffineTransform transform = createRotateTransformation(centerHandlerX, centerHandlerY,
-				angle);
+		GAffineTransform transform = createRotateTransformation(centerHandlerX, centerHandlerY, angle);
 		drawTransformedHandler(g2, transform, sideHandler);
 	}
 
@@ -123,8 +125,8 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 
 	protected void setHandlerTransformed(int handlerIndex, double x, double y) {
 		corners[handlerIndex] = transform.transform(new GPoint2D(x, y), null);
-		delegate.setHandlerFromCenter(handlerIndex,
-				corners[handlerIndex].getX(), corners[handlerIndex].getY());
+		delegate.setHandlerFromCenter(
+				handlerIndex, corners[handlerIndex].getX(), corners[handlerIndex].getY());
 	}
 
 	protected void updateHandlers() {
@@ -140,8 +142,7 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		setHandlerTransformed(6, width / 2, height);
 		setHandlerTransformed(7, width, height / 2);
 		if (handlers.size() > 8) {
-			setHandlerTransformed(8, width / 2,
-					height + BoundingBox.ROTATION_HANDLER_DISTANCE);
+			setHandlerTransformed(8, width / 2, height + BoundingBox.ROTATION_HANDLER_DISTANCE);
 		}
 	}
 
@@ -178,37 +179,38 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		}
 
 		// evil hackery to get closest rotation handler
-		int cursorIndex = (int) Math.round(4 * (Math.atan2(handler.getDx(), handler.getDy())
-				- geo.getAngle()) / Math.PI) % 4;
+		int cursorIndex = (int) Math.round(
+						4 * (Math.atan2(handler.getDx(), handler.getDy()) - geo.getAngle()) / Math.PI)
+				% 4;
 
 		// I'd need a proper number theoretic remainder, but I have to make do with
 		// Computer Science modulo (there is Math.floorMod in java8)
 		switch ((4 + cursorIndex) % 4) {
-		case 0:
-			return EuclidianCursor.RESIZE_NS;
-		case 1:
-			return EuclidianCursor.RESIZE_NWSE;
-		case 2:
-			return EuclidianCursor.RESIZE_EW;
-		case 3:
-			return EuclidianCursor.RESIZE_NESW;
-		default:
-			return null; // never happens
+			case 0:
+				return EuclidianCursor.RESIZE_NS;
+			case 1:
+				return EuclidianCursor.RESIZE_NWSE;
+			case 2:
+				return EuclidianCursor.RESIZE_EW;
+			case 3:
+				return EuclidianCursor.RESIZE_NESW;
+			default:
+				return null; // never happens
 		}
 	}
 
 	private double getAngle() {
 		GRectangle2D rightTop = handlers.get(2).getBounds2D();
 		GRectangle2D leftTop = handlers.get(1).getBounds2D();
-		double deltaX = rightTop.getX() + rightTop.getWidth() / 2
-				- (leftTop.getX() + leftTop.getWidth() / 2);
-		double deltaY = rightTop.getY() + rightTop.getWidth() / 2
-				- (leftTop.getY() + leftTop.getWidth() / 2);
+		double deltaX =
+				rightTop.getX() + rightTop.getWidth() / 2 - (leftTop.getX() + leftTop.getWidth() / 2);
+		double deltaY =
+				rightTop.getY() + rightTop.getWidth() / 2 - (leftTop.getY() + leftTop.getWidth() / 2);
 		return Math.atan2(deltaY, deltaX);
 	}
 
-	private GAffineTransform createRotateTransformation(double centerX, double centerY,
-			double angle) {
+	private GAffineTransform createRotateTransformation(
+			double centerX, double centerY, double angle) {
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 		t.translate(centerX, centerY);
 		t.rotate(angle);
@@ -216,8 +218,8 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		return t;
 	}
 
-	private void drawTransformedHandler(GGraphics2D g2, GAffineTransform transform,
-			GRectangle2D sideHandler) {
+	private void drawTransformedHandler(
+			GGraphics2D g2, GAffineTransform transform, GRectangle2D sideHandler) {
 		g2.saveTransform();
 		g2.transform(transform);
 		drawSideHandler(g2, sideHandler);

@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The DrawEllipse metafile record represents a call to Graphics.DrawEllipse,
  * which draws the border of an ellipse.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: DrawEllipse.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -31,8 +31,7 @@ public class DrawEllipse extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		DrawEllipse tag = new DrawEllipse();
 		tag.flags = flags;
 		if ((flags & 0x4000) > 0) {
@@ -50,8 +49,7 @@ public class DrawEllipse extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		// No Provision for 16 bit integer values.
 		emf.writeFLOAT(x);
 		emf.writeFLOAT(y);
@@ -61,7 +59,6 @@ public class DrawEllipse extends EMFPlusTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n  rect: (" + x + ", " + y + ", " + w + ", "
-				+ h + ")";
+		return super.toString() + "\n  rect: (" + x + ", " + y + ", " + w + ", " + h + ")";
 	}
 }

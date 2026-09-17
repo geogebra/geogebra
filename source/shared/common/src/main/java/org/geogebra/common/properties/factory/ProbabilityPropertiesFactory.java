@@ -28,19 +28,24 @@ import org.geogebra.common.util.NonNullList;
 
 public class ProbabilityPropertiesFactory extends DefaultPropertiesFactory {
 	@Override
-	public List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	public List<PropertiesArray> createProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		return List.of(createGeneralProperties(app, localization, propertiesRegistry));
 	}
 
 	@Override
-	protected PropertiesArray createGeneralProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
-		return new PropertiesArray("General", localization,
-				registerProperties(propertiesRegistry, NonNullList.of(
-						app.appScope.getLanguageProperty(),
-						new RoundingIndexProperty(app, localization),
-						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
-								app, localization))));
+	protected PropertiesArray createGeneralProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
+		return new PropertiesArray(
+				"General",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						NonNullList.of(
+								app.appScope.getLanguageProperty(),
+								new RoundingIndexProperty(app, localization),
+								app.getPlatform().isMobile()
+										? null
+										: createSaveRestoreSettingsProperties(app, localization))));
 	}
 }

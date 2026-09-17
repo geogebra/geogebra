@@ -67,8 +67,7 @@ public class TextDispatcher {
 	 */
 	protected static String removeUnderscoresAndBraces(String label) {
 		// remove all subscripts
-		return label.replaceAll("_", "").replaceAll("\\{", "").replaceAll("\\}",
-				"");
+		return label.replaceAll("_", "").replaceAll("\\{", "").replaceAll("\\}", "");
 	}
 
 	/**
@@ -91,29 +90,23 @@ public class TextDispatcher {
 	 *            text location
 	 * @return text with the area description
 	 */
-	public GeoElement[] getAreaText(GeoElement conic, GeoNumberValue area,
-			GPoint loc0) {
+	public GeoElement[] getAreaText(GeoElement conic, GeoNumberValue area, GPoint loc0) {
 		// text
-		GeoText text = createDynamicTextForMouseLoc("AreaOfA", "Area of %0",
-				conic, area,
-				loc0);
+		GeoText text = createDynamicTextForMouseLoc("AreaOfA", "Area of %0", conic, area, loc0);
 		if (text == null) {
 			return null;
 		}
 		if (conic.isLabelSet()) {
 			if (!area.isLabelSet()) {
 				area.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCaseUS(loc.getCommand("Area"))
-								+ conic.getLabelSimple()));
+						StringUtil.toLowerCaseUS(loc.getCommand("Area")) + conic.getLabelSimple()));
 			}
-			text.setLabel(removeUnderscoresAndBraces(
-					loc.getMenu("Text") + conic.getLabelSimple()));
+			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text") + conic.getLabelSimple()));
 		}
-		return new GeoElement[] { text };
+		return new GeoElement[] {text};
 	}
 
-	private String descriptionPoints(String type, String default0,
-			GeoPolygon poly) {
+	private String descriptionPoints(String type, String default0, GeoPolygon poly) {
 		// build description text including point labels
 		StringBuilder descText = new StringBuilder();
 
@@ -128,7 +121,8 @@ public class TextDispatcher {
 			boolean allLabelsSet = true;
 			for (int i = 0; i < points.length; i++) {
 				if (points[i].isLabelSet()) {
-					descText.append(" + Name[")
+					descText
+							.append(" + Name[")
 							.append(points[i].getLabel(StringTemplate.defaultTemplate))
 							.append("]");
 				} else {
@@ -144,14 +138,14 @@ public class TextDispatcher {
 					points[i].updateRepaint();
 				}
 			} else {
-				return loc.getPlainDefault(type, default0,
-						"\" + Name["
-								+ poly.getLabel(StringTemplate.defaultTemplate)
-								+ "] + \"");
+				return loc.getPlainDefault(
+						type,
+						default0,
+						"\" + Name[" + poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 			}
 		} else {
-			return loc.getPlainDefault(type, default0, "\" + Name["
-					+ poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
+			return loc.getPlainDefault(
+					type, default0, "\" + Name[" + poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 		}
 
 		return loc.getPlainDefault(type, default0, descText.toString());
@@ -160,9 +154,8 @@ public class TextDispatcher {
 	/**
 	 * Creates a text that shows a number value of geo.
 	 */
-	private GeoText createDynamicText(String type, String default0,
-			GeoElement object,
-			GeoElementND value) {
+	private GeoText createDynamicText(
+			String type, String default0, GeoElement object, GeoElementND value) {
 		// create text that shows length
 		try {
 
@@ -171,24 +164,21 @@ public class TextDispatcher {
 			String descText;
 
 			if (object.isGeoPolygon()) {
-				descText = descriptionPoints(type, default0,
-						(GeoPolygon) object);
+				descText = descriptionPoints(type, default0, (GeoPolygon) object);
 			} else {
-				descText = loc.getPlainDefault(type, default0,
-						"\" + Name["
-								+ object.getLabel(
-										StringTemplate.defaultTemplate)
-								+ "] + \"");
+				descText = loc.getPlainDefault(
+						type,
+						default0,
+						"\" + Name[" + object.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 			}
 
 			// create dynamic text
-			String dynText = "\"" + descText + " = \" + "
-					+ value.getLabel(StringTemplate.defaultTemplate);
+			String dynText =
+					"\"" + descText + " = \" + " + value.getLabel(StringTemplate.defaultTemplate);
 
 			// checkZooming();
 
-			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText,
-					true, true);
+			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText, true, true);
 			return text;
 		} catch (Exception e) {
 			Log.debug(e);
@@ -199,7 +189,7 @@ public class TextDispatcher {
 	/**
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
-	 * 
+	 *
 	 * @param type
 	 *            translation key for type
 	 * @param default0
@@ -212,8 +202,8 @@ public class TextDispatcher {
 	 *            position
 	 * @return text
 	 */
-	protected GeoText createDynamicTextForMouseLoc(String type, String default0,
-			GeoElement object, GeoElementND value, GPoint point) {
+	protected GeoText createDynamicTextForMouseLoc(
+			String type, String default0, GeoElement object, GeoElementND value, GPoint point) {
 
 		GeoText text = createDynamicText(type, default0, object, value);
 		if (text != null) {
@@ -272,10 +262,17 @@ public class TextDispatcher {
 			rwx = ((GeoConicND) object).getTranslationVector().getX();
 			rwy = ((GeoConicND) object).getTranslationVector().getY();
 		}
-		return view.getEuclidianController().createNewPoint(
-				removeUnderscoresAndBraces(loc.getMenu("Point")
-						+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, object, rwx, rwy, 0, false, true);
+		return view.getEuclidianController()
+				.createNewPoint(
+						removeUnderscoresAndBraces(
+								loc.getMenu("Point") + object.getLabel(StringTemplate.defaultTemplate)),
+						false,
+						object,
+						rwx,
+						rwy,
+						0,
+						false,
+						true);
 	}
 
 	/**
@@ -286,11 +283,18 @@ public class TextDispatcher {
 	 * @return text position
 	 */
 	protected GeoPointND getPointForDynamicText(Path object, GPoint loc0) {
-		return view.getEuclidianController().getCompanion().createNewPoint(
-				removeUnderscoresAndBraces(loc.getMenu("Point")
-						+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, object, view.toRealWorldCoordX(loc0.x),
-				view.toRealWorldCoordY(loc0.y), 0, false, false);
+		return view.getEuclidianController()
+				.getCompanion()
+				.createNewPoint(
+						removeUnderscoresAndBraces(
+								loc.getMenu("Point") + object.getLabel(StringTemplate.defaultTemplate)),
+						false,
+						object,
+						view.toRealWorldCoordX(loc0.x),
+						view.toRealWorldCoordY(loc0.y),
+						0,
+						false,
+						false);
 	}
 
 	/**
@@ -305,7 +309,7 @@ public class TextDispatcher {
 	/**
 	 * Creates a text that shows the distance length between geoA and geoB at
 	 * the given startpoint.
-	 * 
+	 *
 	 * @param geoA
 	 *            first geo
 	 * @param geoB
@@ -316,18 +320,19 @@ public class TextDispatcher {
 	 *            distance value
 	 * @return distance text
 	 */
-	public GeoText createDistanceText(GeoElementND geoA, GeoElementND geoB,
-			GeoPointND textCorner, GeoNumeric length) {
+	public GeoText createDistanceText(
+			GeoElementND geoA, GeoElementND geoB, GeoPointND textCorner, GeoNumeric length) {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		// create text that shows length
 		try {
 			String strText;
 			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 			if (useLabels) {
-				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCaseUS(loc.getCommand("Distance"))
+				length.setLabel(
+						removeUnderscoresAndBraces(StringUtil.toLowerCaseUS(loc.getCommand("Distance"))
 								// .toLowerCase(Locale.US)
-								+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
+								+ geoA.getLabel(tpl)
+								+ geoB.getLabel(tpl)));
 				// strText = "\"\\overline{\" + Name["+ geoA.getLabel()
 				// + "] + Name["+ geoB.getLabel() + "] + \"} \\, = \\, \" + "
 				// + length.getLabel();
@@ -343,19 +348,18 @@ public class TextDispatcher {
 				geoA.updateRepaint();
 				geoB.updateRepaint();
 			} else {
-				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCaseUS(loc.getCommand("Distance"))));
+				length.setLabel(
+						removeUnderscoresAndBraces(StringUtil.toLowerCaseUS(loc.getCommand("Distance"))));
 				strText = "\"\"" + length.getLabel(tpl);
 			}
 
 			// create dynamic text
 			// checkZooming();
 
-			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
-					true, true);
+			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText, true, true);
 			if (useLabels) {
-				text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text")
-						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
+				text.setLabel(removeUnderscoresAndBraces(
+						loc.getMenu("Text") + geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 			}
 
 			text.checkVisibleIn3DViewNeeded();
@@ -394,41 +398,36 @@ public class TextDispatcher {
 		if (conic.isGeoConicPart()) {
 
 			Construction cons = kernel.getConstruction();
-			AlgoArcLength algo = new AlgoArcLength(cons, null,
-					(GeoConicPartND) conic);
+			AlgoArcLength algo = new AlgoArcLength(cons, null, (GeoConicPartND) conic);
 			// cons.removeFromConstructionList(algo);
 			GeoNumeric arcLength = algo.getArcLength();
 
-			GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA",
-					"Arc length of %0", conic,
-					arcLength, loc0);
+			GeoText text =
+					createDynamicTextForMouseLoc("ArcLengthOfA", "Arc length of %0", conic, arcLength, loc0);
 			if (text == null) {
 				return null;
 			}
-			text.setLabel(removeUnderscoresAndBraces(
-					loc.getMenu("Text") + conic.getLabelSimple()));
+			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text") + conic.getLabelSimple()));
 			return text.asArray();
 		}
 
 		// standard case: conic
 		// checkZooming();
 
-		GeoNumeric circumFerence = kernel.getAlgoDispatcher()
-				.circumference(null, conic);
+		GeoNumeric circumFerence = kernel.getAlgoDispatcher().circumference(null, conic);
 
 		// text
-		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA",
-				"Circumference of %0", conic,
-				circumFerence, loc0);
+		GeoText text = createDynamicTextForMouseLoc(
+				"CircumferenceOfA", "Circumference of %0", conic, circumFerence, loc0);
 		if (text == null) {
 			return null;
 		}
 		if (conic.isLabelSet()) {
-			circumFerence.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCaseUS(loc.getCommand("Circumference"))
+			circumFerence.setLabel(
+					removeUnderscoresAndBraces(StringUtil.toLowerCaseUS(loc.getCommand("Circumference"))
 							+ conic.getLabel(StringTemplate.defaultTemplate)));
-			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text")
-					+ conic.getLabel(StringTemplate.defaultTemplate)));
+			text.setLabel(removeUnderscoresAndBraces(
+					loc.getMenu("Text") + conic.getLabel(StringTemplate.defaultTemplate)));
 		}
 
 		return text.asArray();
@@ -445,18 +444,15 @@ public class TextDispatcher {
 		GeoNumeric perimeter = kernel.getAlgoDispatcher().perimeter(null, poly);
 
 		// text
-		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
-				"Perimeter of %0", poly,
-				perimeter, mouseLoc);
+		GeoText text =
+				createDynamicTextForMouseLoc("PerimeterOfA", "Perimeter of %0", poly, perimeter, mouseLoc);
 		if (text == null) {
 			return null;
 		}
 		if (poly.isLabelSet()) {
 			perimeter.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCaseUS(loc.getCommand("Perimeter"))
-							+ poly.getLabelSimple()));
-			text.setLabel(removeUnderscoresAndBraces(
-					loc.getMenu("Text") + poly.getLabelSimple()));
+					StringUtil.toLowerCaseUS(loc.getCommand("Perimeter")) + poly.getLabelSimple()));
+			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
 		return text.asArray();
@@ -471,18 +467,16 @@ public class TextDispatcher {
 	 */
 	public GeoElement[] createPerimeterText(GeoPolyLine poly, GPoint mouseLoc) {
 		// text
-		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
-				"Perimeter of %0", poly, poly,
-				mouseLoc);
+		GeoText text =
+				createDynamicTextForMouseLoc("PerimeterOfA", "Perimeter of %0", poly, poly, mouseLoc);
 		if (text == null) {
 			return null;
 		}
 		if (poly.isLabelSet()) {
-			text.setLabel(removeUnderscoresAndBraces(
-					loc.getMenu("Text") + poly.getLabelSimple()));
+			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
-		GeoElement[] ret = { text };
+		GeoElement[] ret = {text};
 		return ret;
 	}
 
@@ -495,8 +489,7 @@ public class TextDispatcher {
 	 *            text location
 	 * @return slope object
 	 */
-	public GeoElement[] createSlopeText(GeoLine line, GeoFunction f,
-			GPoint mouseLoc) {
+	public GeoElement[] createSlopeText(GeoLine line, GeoFunction f, GPoint mouseLoc) {
 		GeoNumeric slope;
 		/*
 		 * if ("de_AT".equals(strLocale)) { slope = kernel.Slope("k", line); }
@@ -509,8 +502,7 @@ public class TextDispatcher {
 		// etc
 		if (kernel.lookupLabel(label) != null) {
 			int i = 1;
-			while (kernel.lookupLabel(
-					i > 9 ? label + "_{" + i + "}" : label + "_" + i) != null) {
+			while (kernel.lookupLabel(i > 9 ? label + "_{" + i + "}" : label + "_" + i) != null) {
 				i++;
 			}
 			label = i > 9 ? label + "_{" + i + "}" : label + "_" + i;
@@ -528,7 +520,7 @@ public class TextDispatcher {
 		}
 		slope.setLabelVisible(true);
 		slope.updateRepaint();
-		GeoElement[] ret = { slope };
+		GeoElement[] ret = {slope};
 		return ret;
 	}
 
@@ -540,8 +532,7 @@ public class TextDispatcher {
 	 * @return text describing distance between points
 	 */
 	public GeoElement createDistanceText(GeoPointND point1, GeoPointND point2) {
-		GeoNumeric length = kernel.getAlgoDispatcher().distance(null, point1,
-				point2);
+		GeoNumeric length = kernel.getAlgoDispatcher().distance(null, point1, point2);
 
 		// set startpoint of text to midpoint of two points
 		GeoPointND midPoint = midpointForDistance(point1, point2);
@@ -553,8 +544,7 @@ public class TextDispatcher {
 	 * point)
 	 */
 	private GeoPointND midpointForDistance(GeoPointND P, GeoPointND Q) {
-		return (GeoPointND) view.getEuclidianController().getCompanion()
-				.midpoint(P, Q);
+		return (GeoPointND) view.getEuclidianController().getCompanion().midpoint(P, Q);
 	}
 
 	/**
@@ -565,12 +555,10 @@ public class TextDispatcher {
 	 * @return text for distance between point and line
 	 */
 	public GeoElement createDistanceText(GeoPointND point, GeoLineND line) {
-		GeoNumeric length = kernel.getAlgoDispatcher().distance(null, point,
-				line);
+		GeoNumeric length = kernel.getAlgoDispatcher().distance(null, point, line);
 
 		// set startpoint of text to midpoint between point and line
-		GeoPointND midPoint = midpointForDistance(point,
-				closestPoint(point, (Path) line));
+		GeoPointND midPoint = midpointForDistance(point, closestPoint(point, (Path) line));
 		return this.createDistanceText(point, line, midPoint, length);
 	}
 
@@ -583,8 +571,7 @@ public class TextDispatcher {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		AlgoClosestPoint cp = kernel.getAlgoDispatcher()
-				.getNewAlgoClosestPoint(cons, g, P);
+		AlgoClosestPoint cp = kernel.getAlgoDispatcher().getNewAlgoClosestPoint(cons, g, P);
 
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return cp.getP();

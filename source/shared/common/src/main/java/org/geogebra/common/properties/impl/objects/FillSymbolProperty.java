@@ -36,8 +36,8 @@ public class FillSymbolProperty extends AbstractValuedProperty<String>
 	 * @param element construction element
 	 * @throws NotApplicablePropertyException if filling is not "symbol"
 	 */
-	public FillSymbolProperty(Localization loc, GeoElement element) throws
-			NotApplicablePropertyException {
+	public FillSymbolProperty(Localization loc, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(loc, "Filling.Symbol");
 		delegate = new FillableDelegate(element);
 	}

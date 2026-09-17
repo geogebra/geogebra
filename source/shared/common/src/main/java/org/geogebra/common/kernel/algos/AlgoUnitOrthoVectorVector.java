@@ -38,8 +38,7 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 	private double length;
 
 	/** Creates new AlgoUnitOrthoVectorVector */
-	public AlgoUnitOrthoVectorVector(Construction cons, String label,
-			GeoVec3D v) {
+	public AlgoUnitOrthoVectorVector(Construction cons, String label, GeoVec3D v) {
 		super(cons);
 		this.v = v;
 		n = new GeoVector(cons);
@@ -94,12 +93,11 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("UnitVectorPerpendicularToA",
-				"Unit vector perpendicular to %0", v.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"UnitVectorPerpendicularToA", "Unit vector perpendicular to %0", v.getLabel(tpl));
 	}
-
 }

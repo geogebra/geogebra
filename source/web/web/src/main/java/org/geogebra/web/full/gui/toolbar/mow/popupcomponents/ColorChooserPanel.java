@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,8 +39,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.SimplePanel;
 
-public final class ColorChooserPanel extends FlowPanel implements SetLabels,
-		ConfigurationUpdateDelegate {
+public final class ColorChooserPanel extends FlowPanel
+		implements SetLabels, ConfigurationUpdateDelegate {
 	private final Consumer<GColor> callback;
 	private GColor activeColor;
 	private FlowPanel activeButton;
@@ -67,8 +67,8 @@ public final class ColorChooserPanel extends FlowPanel implements SetLabels,
 	 * @param callback callback for setting the color for object
 	 * @param labelKey optional label trans key for color palette
 	 */
-	public ColorChooserPanel(AppW appW, List<GColor> colorValues, Consumer<GColor> callback,
-			String labelKey) {
+	public ColorChooserPanel(
+			AppW appW, List<GColor> colorValues, Consumer<GColor> callback, String labelKey) {
 		addStyleName("colorPalette");
 		this.callback = callback;
 		this.appW = appW;
@@ -83,7 +83,10 @@ public final class ColorChooserPanel extends FlowPanel implements SetLabels,
 	 * @param callback callback for setting the color for object
 	 * @param colorProperty {@link ColorSelectorRow}
 	 */
-	public ColorChooserPanel(AppW appW, List<GColor> colorValues, Consumer<GColor> callback,
+	public ColorChooserPanel(
+			AppW appW,
+			List<GColor> colorValues,
+			Consumer<GColor> callback,
 			ColorSelectorRow colorProperty) {
 		this(appW, colorValues, callback, colorProperty.getLabel());
 		this.colorProperty = colorProperty;
@@ -116,8 +119,7 @@ public final class ColorChooserPanel extends FlowPanel implements SetLabels,
 		colorHolder.addStyleName("colorBg");
 		colorHolder.getElement().getStyle().setBackgroundColor(color.toString());
 
-		NoDragImage checkmark = new NoDragImage(
-				MaterialDesignResources.INSTANCE.check_border(), 18);
+		NoDragImage checkmark = new NoDragImage(MaterialDesignResources.INSTANCE.check_border(), 18);
 		checkmark.addStyleName("checkmark");
 
 		colorButton.add(colorHolder);
@@ -155,10 +157,10 @@ public final class ColorChooserPanel extends FlowPanel implements SetLabels,
 		}
 
 		Dom.addEventListener(customColorButton.getElement(), "click", (event) -> {
-				if (!isDisabled()) {
-					((DialogManagerW) appW.getDialogManager()).showColorChooserDialog(activeColor,
-							color -> updateColor(null, color));
-				}
+			if (!isDisabled()) {
+				((DialogManagerW) appW.getDialogManager())
+						.showColorChooserDialog(activeColor, color -> updateColor(null, color));
+			}
 		});
 
 		add(customColorButton);

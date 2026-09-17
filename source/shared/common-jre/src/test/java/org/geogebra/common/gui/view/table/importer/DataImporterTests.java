@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -64,8 +64,8 @@ class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate
 		Kernel kernel = getKernel();
 		tableValuesView = new TableValuesView(kernel);
 		kernel.attach(tableValuesView);
-		tableValuesPoints = TableValuesPointsImpl.create(kernel, kernel.getConstruction(),
-				tableValuesView);
+		tableValuesPoints =
+				TableValuesPointsImpl.create(kernel, kernel.getConstruction(), tableValuesView);
 		kernel.notifyAddAll(tableValuesView);
 		getApp().setUndoRedoMode(UndoRedoMode.GUI);
 		getApp().setUndoActive(true);
@@ -120,7 +120,7 @@ class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate
 		assertEquals("A", tableValuesView.getTableValuesModel().getHeaderAt(0));
 		// The column names for the other columns are not yet used, this will need further
 		// work if we want to support importing column names into the TableValuesView/Model.
-		assertEquals("y_{1}"/*"B"*/, tableValuesView.getTableValuesModel().getHeaderAt(1));
+		assertEquals("y_{1}" /*"B"*/, tableValuesView.getTableValuesModel().getHeaderAt(1));
 		// no points should be created during import
 		assertFalse(tableValuesPoints.arePointsVisible(0));
 		assertFalse(tableValuesPoints.arePointsVisible(1));
@@ -372,7 +372,7 @@ class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate
 
 	@Test
 	void testOverwriteExistingData() {
-		inputData(new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"});
+		inputData(new String[] {"1", "2", "3"}, new String[] {"1", "2", "3"});
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
@@ -391,7 +391,7 @@ class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate
 
 	@Test
 	void testOverwriteExistingDataWithTheSameDimensions() {
-		inputData(new String[]{"1", "3", "5", "7", "9"}, new String[]{"2", "4", "6", "8", "10"});
+		inputData(new String[] {"1", "3", "5", "7", "9"}, new String[] {"2", "4", "6", "8", "10"});
 		assertEquals(5, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
@@ -443,7 +443,7 @@ class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate
 
 	@Test
 	void testReloadRegression() {
-		inputData(new String[]{"1", "2", "3"}, new String[]{"2", "4", "6"});
+		inputData(new String[] {"1", "2", "3"}, new String[] {"2", "4", "6"});
 		assertEquals(3, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
@@ -466,8 +466,8 @@ class DataImporterTests extends BaseAppTestSetup implements DataImporterDelegate
 		assertEquals(10, tableValuesView.getTableValuesModel().getRowCount());
 		assertEquals(2, tableValuesView.getTableValuesModel().getColumnCount());
 
-		tableValuesView.plotRegression(1,
-				new RegressionSpecificationBuilder().getForListSize(10).get(0));
+		tableValuesView.plotRegression(
+				1, new RegressionSpecificationBuilder().getForListSize(10).get(0));
 		GeoElement f = lookup("f");
 		assertEquals("2x", f.toValueString(StringTemplate.defaultTemplate));
 		getApp().setXML(getApp().getXML(), true);

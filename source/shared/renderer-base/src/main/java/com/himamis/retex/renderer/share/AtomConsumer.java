@@ -49,7 +49,7 @@ public interface AtomConsumer {
 
 	/**
 	 * Initialize the consumer
-	 * 
+	 *
 	 * @return true if the consumer must be pushed on the stack
 	 */
 	boolean init(TeXParser tp);
@@ -93,7 +93,7 @@ public interface AtomConsumer {
 	/**
 	 * Useful to handle cases like "\matrix{...}", here we mustn't push a
 	 * RowAtom for the argument
-	 * 
+	 *
 	 * @return true if this consumer is handling macro argument
 	 */
 	boolean isHandlingArg();

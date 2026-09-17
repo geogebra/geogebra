@@ -17,7 +17,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 /**
- * 
+ *
  * Index for a trace occurrence
  *
  */
@@ -37,5 +37,4 @@ public class TraceIndex {
 		this.geom = geom;
 		this.surface = surface;
 	}
-
 }

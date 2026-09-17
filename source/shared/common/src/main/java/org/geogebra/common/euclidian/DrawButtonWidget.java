@@ -54,7 +54,7 @@ public class DrawButtonWidget {
 	private boolean selected;
 	private String text;
 
-	private final static int minSize = 24;
+	private static final int minSize = 24;
 
 	private GFont font;
 	private boolean pressed;
@@ -76,10 +76,10 @@ public class DrawButtonWidget {
 	private double widthCorrection;
 	private boolean latex;
 
-	private final static int MARGIN_VERTICAL = 6 + 5;
-	private final static int MARGIN_HORIZONTAL = 10 + 10;
+	private static final int MARGIN_VERTICAL = 6 + 5;
+	private static final int MARGIN_HORIZONTAL = 10 + 10;
 
-	private final static int DEFAULT_TEXT_HEIGHT = 24;
+	private static final int DEFAULT_TEXT_HEIGHT = 24;
 
 	/**
 	 * @param button
@@ -134,8 +134,8 @@ public class DrawButtonWidget {
 			paint = bg;
 		}
 
-		int arcSize = (int) Math.round(Math.min(getWidth(), getHeight())
-				* styleSettings.getButtonRounding());
+		int arcSize =
+				(int) Math.round(Math.min(getWidth(), getHeight()) * styleSettings.getButtonRounding());
 
 		int shadowSize = 0;
 
@@ -144,19 +144,18 @@ public class DrawButtonWidget {
 		if (styleSettings.getButtonShadows()) {
 			shadowSize = (int) (getHeight() * 0.1);
 			g2.setPaint(paint.slightlyDarker());
-			g2.fillRoundRect(x, y, getWidth() + widthCorrection - 1,
-					getHeight() - 1, arcSize, arcSize);
+			g2.fillRoundRect(x, y, getWidth() + widthCorrection - 1, getHeight() - 1, arcSize, arcSize);
 		}
 
 		if (isSelected() && !pressed) {
 			// Highlight Rectangle for focused Button
-			Drawable.drawHighlightRectangle(g2, x - 1, y - 1,
-					getWidth() + widthCorrection + 1, getHeight() + 1, arcSize);
+			Drawable.drawHighlightRectangle(
+					g2, x - 1, y - 1, getWidth() + widthCorrection + 1, getHeight() + 1, arcSize);
 		}
 		g2.setPaint(paint);
 		g2.setStroke(EuclidianStatic.getDefaultStroke());
-		g2.fillRoundRect(x, y, getWidth() + widthCorrection - 1,
-				getHeight() - 1 - shadowSize, arcSize, arcSize);
+		g2.fillRoundRect(
+				x, y, getWidth() + widthCorrection - 1, getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// Basic border (the same with and without focus)
 		if (geoButton.usesDisabledStyle(null)) {
@@ -167,12 +166,19 @@ public class DrawButtonWidget {
 			if (bg.getContrast(view.getBackgroundCommon()) >= 3.0) {
 				g2.setColor(bg);
 			} else {
-				g2.setColor(view.getBackgroundCommon().getLuminance() > 0.5
-						? GColor.getBorderColorFrom(bg) : GColor.getBrightBorderColorFrom(bg));
+				g2.setColor(
+						view.getBackgroundCommon().getLuminance() > 0.5
+								? GColor.getBorderColorFrom(bg)
+								: GColor.getBrightBorderColorFrom(bg));
 			}
 		}
-		g2.drawRoundRect(x * 1.0, y, getWidth() + widthCorrection - 1,
-				getHeight() - 1 - shadowSize, arcSize, arcSize);
+		g2.drawRoundRect(
+				x * 1.0,
+				y,
+				getWidth() + widthCorrection - 1,
+				getHeight() - 1 - shadowSize,
+				arcSize,
+				arcSize);
 
 		// prepare to draw text
 		if (geoButton.usesDisabledStyle(null)) {
@@ -194,18 +200,23 @@ public class DrawButtonWidget {
 				imgStart = 0;
 				drawSVG(im, g2, getWidth(), imgHeight);
 			} else {
-				g2.drawImage(im, startX, startY, imgWidth, imgHeight,
+				g2.drawImage(
+						im,
+						startX,
+						startY,
+						imgWidth,
+						imgHeight,
 						x + (getWidth() - imgWidth) / 2,
-						y + imgStart, imgWidth, imgHeight);
-
+						y + imgStart,
+						imgWidth,
+						imgHeight);
 			}
 			g2.resetClip();
 		}
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			drawText(g2, imgStart + imgGap + imgHeight, latex, widthCorrection,
-					shadowSize);
+			drawText(g2, imgStart + imgGap + imgHeight, latex, widthCorrection, shadowSize);
 		}
 	}
 
@@ -221,8 +232,7 @@ public class DrawButtonWidget {
 		String caption = getCaption();
 		latex = isLaTeX();
 
-		font = font.deriveFont(geoButton.getFontStyle(),
-				(int) (multiplier * 12));
+		font = font.deriveFont(geoButton.getFontStyle(), (int) (multiplier * 12));
 		GGraphics2D g = view.getTempGraphics2D(font);
 		hasText = geoButton.isLabelVisible() && !caption.isEmpty();
 
@@ -240,33 +250,32 @@ public class DrawButtonWidget {
 		// get dimensions
 		if (hasText) {
 			if (latex) {
-				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), font, caption,
-						getSerif());
+				GDimension d =
+						CanvasDrawable.measureLatex(view.getApplication(), font, caption, getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
-				textLayout = AwtFactory.getPrototype().newTextLayout(caption, font,
-						g.getFontRenderContext());
+				textLayout =
+						AwtFactory.getPrototype().newTextLayout(caption, font, g.getFontRenderContext());
 				aboveBaselineRatio = TextSizeUtil.getAboveBaselineRatio(caption);
 				textHeight = font.getSize();
 				textWidth = textLayout.getAdvance();
 			}
 		}
 		// With fixed size the font are resized if is too big
-		if (mayResize && geoButton.isFixedSize()
+		if (mayResize
+				&& geoButton.isFixedSize()
 				&& ((int) textHeight + imgGap + MARGIN_VERTICAL > getHeight()
-				|| (int) textWidth + MARGIN_HORIZONTAL > getWidth())) {
+						|| (int) textWidth + MARGIN_HORIZONTAL > getWidth())) {
 			resize(g, imgGap, latex);
 			return;
 		}
-		int currentWidth = Math.max((int) (textWidth + MARGIN_HORIZONTAL),
-				minSize);
+		int currentWidth = Math.max((int) (textWidth + MARGIN_HORIZONTAL), minSize);
 		currentWidth = Math.max(currentWidth, imgWidth + MARGIN_HORIZONTAL);
 
 		int currentHeight = (int) textHeight == DEFAULT_TEXT_HEIGHT && imgHeight == 0
-				? DEFAULT_BUTTON_HEIGHT : Math.max((int) (textHeight + imgHeight + imgGap
-				+ MARGIN_VERTICAL), minSize);
+				? DEFAULT_BUTTON_HEIGHT
+				: Math.max((int) (textHeight + imgHeight + imgGap + MARGIN_VERTICAL), minSize);
 
 		// Initial offset for subimage if button has fixed size
 		startX = 0;
@@ -309,19 +318,22 @@ public class DrawButtonWidget {
 		g.saveTransform();
 
 		// center image
-		g.translate(x + (width - im.getWidth() * scale) / 2,
-				y + (height - im.getHeight() * scale) / 2);
+		g.translate(x + (width - im.getWidth() * scale) / 2, y + (height - im.getHeight() * scale) / 2);
 		g.scale(scale, scale);
 
 		// the parameters x and y don't work in desktop for SVGs
 		if (!Objects.equals(lastTintColor, geoButton.getObjectColor())
-			|| !Objects.equals(lastTintImage, geoButton.getImageFileName())) {
+				|| !Objects.equals(lastTintImage, geoButton.getImageFileName())) {
 			tinted = im.tintedSVG(geoButton.getObjectColor(), view::repaintView);
 			lastTintColor = geoButton.getObjectColor();
 			lastTintImage = geoButton.getImageFileName();
 		}
-		g.drawImage(tinted == null || geoButton.getObjectColor() == geoButton.getBackgroundColor()
-				? im : tinted, 0, 0);
+		g.drawImage(
+				tinted == null || geoButton.getObjectColor() == geoButton.getBackgroundColor()
+						? im
+						: tinted,
+				0,
+				0);
 
 		g.restoreTransform();
 	}
@@ -335,14 +347,11 @@ public class DrawButtonWidget {
 
 		path.moveTo(x + r, y);
 		path.lineTo(right - r, y);
-		path.curveTo(right + r * (K - 1), y, right, y + r * (1 - K),
-				right, y + r);
+		path.curveTo(right + r * (K - 1), y, right, y + r * (1 - K), right, y + r);
 		path.lineTo(right, bottom - r);
-		path.curveTo(right, bottom + r * (K - 1), right + r * (K - 1),
-				bottom, right - r, bottom);
+		path.curveTo(right, bottom + r * (K - 1), right + r * (K - 1), bottom, right - r, bottom);
 		path.lineTo(x + r, bottom);
-		path.curveTo(x + r * (1 - K), bottom, x, bottom + r * (K - 1),
-				x, bottom - r);
+		path.curveTo(x + r * (1 - K), bottom, x, bottom + r * (K - 1), x, bottom - r);
 		path.lineTo(x, y + r);
 		path.curveTo(x, y + r * (1 - K), x + r * (1 - K), y, x + r, y);
 
@@ -350,9 +359,9 @@ public class DrawButtonWidget {
 		return path;
 	}
 
-	private void drawText(GGraphics2D g, int imgEnd,
-			boolean latex, double add, int shadowSize) {
-		int xPos = latex ? (int) (x + (getWidth() - textWidth) / 2)
+	private void drawText(GGraphics2D g, int imgEnd, boolean latex, double add, int shadowSize) {
+		int xPos = latex
+				? (int) (x + (getWidth() - textWidth) / 2)
 				: (int) (x + (getWidth() - textLayout.getAdvance() + add) / 2);
 
 		int yPos;
@@ -372,10 +381,21 @@ public class DrawButtonWidget {
 
 			String caption = getCaption();
 
-			app.getDrawEquation().drawEquation(app, geoButton, g, xPos, yPos,
-					caption, font, getSerif(), geoButton.getObjectColor(),
-					geoButton.getBackgroundColor(), false, false,
-					view.getCallBack(geoButton, firstCall));
+			app.getDrawEquation()
+					.drawEquation(
+							app,
+							geoButton,
+							g,
+							xPos,
+							yPos,
+							caption,
+							font,
+							getSerif(),
+							geoButton.getObjectColor(),
+							geoButton.getBackgroundColor(),
+							false,
+							false,
+							view.getCallBack(geoButton, firstCall));
 			firstCall = false;
 		} else {
 			String caption = geoButton.getCaption(StringTemplate.defaultTemplate);
@@ -399,23 +419,20 @@ public class DrawButtonWidget {
 		String caption = getCaption();
 
 		// Reduces the font for attempts
-		int i = GeoText.getFontSizeIndex(
-				geoButton.getFontSizeMultiplier());
+		int i = GeoText.getFontSizeIndex(geoButton.getFontSizeMultiplier());
 		while (i > 0
 				&& (textHeight + imgGap + MARGIN_VERTICAL > getHeight()
-				|| textWidth + MARGIN_HORIZONTAL > getWidth())) {
+						|| textWidth + MARGIN_HORIZONTAL > getWidth())) {
 			i--;
-			font = font.deriveFont(font.getStyle(),
-					(int) (GeoText.getRelativeFontSize(i) * 12));
+			font = font.deriveFont(font.getStyle(), (int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
-				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), font, caption,
-						getSerif());
+				GDimension d =
+						CanvasDrawable.measureLatex(view.getApplication(), font, caption, getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
-				GTextLayout resized = AwtFactory.getPrototype().newTextLayout(caption, font,
-						g.getFontRenderContext());
+				GTextLayout resized =
+						AwtFactory.getPrototype().newTextLayout(caption, font, g.getFontRenderContext());
 				textHeight = resized.getAscent() + resized.getDescent();
 				textWidth = resized.getAdvance();
 			}
@@ -462,7 +479,7 @@ public class DrawButtonWidget {
 
 	/**
 	 * Resizes and moves the button
-	 * 
+	 *
 	 * @param labelRectangle
 	 *            new bounds
 	 */
@@ -477,8 +494,7 @@ public class DrawButtonWidget {
 	 * @return bounds of this button
 	 */
 	public GRectangle getBounds() {
-		return AwtFactory.getPrototype().newRectangle(x, y, getWidth(),
-				getHeight());
+		return AwtFactory.getPrototype().newRectangle(x, y, getWidth(), getHeight());
 	}
 
 	/**
@@ -560,5 +576,4 @@ public class DrawButtonWidget {
 	public GeoElement getButton() {
 		return geoButton;
 	}
-
 }

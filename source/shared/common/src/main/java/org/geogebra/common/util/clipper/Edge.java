@@ -56,15 +56,16 @@ class Edge {
 	Edge nextInSEL;
 	Edge prevInSEL;
 
-	protected final static int SKIP = -2;
+	protected static final int SKIP = -2;
 
-	protected final static int UNASSIGNED = -1;
+	protected static final int UNASSIGNED = -1;
 
-	protected final static double HORIZONTAL = -3.4E+38;
+	protected static final double HORIZONTAL = -3.4E+38;
 
 	/** Edge endpoint. */
 	enum Side {
-		LEFT, RIGHT
+		LEFT,
+		RIGHT
 	}
 
 	static boolean doesE2InsertBeforeE1(Edge e1, Edge e2) {
@@ -78,9 +79,9 @@ class Edge {
 	}
 
 	static boolean slopesEqual(Edge e1, Edge e2) {
-		return DoubleUtil.isEqual(e1.getDelta().getY() * e2.getDelta().getX(),
+		return DoubleUtil.isEqual(
+				e1.getDelta().getY() * e2.getDelta().getX(),
 				e1.getDelta().getX() * e2.getDelta().getY());
-
 	}
 
 	static void swapPolyIndexes(Edge edge1, Edge edge2) {
@@ -102,8 +103,7 @@ class Edge {
 		if (currentY == edge.getTop().getY()) {
 			return edge.getTop().getX();
 		}
-		return edge.getBot().getX()
-				+ edge.deltaX * (currentY - edge.getBot().getY());
+		return edge.getBot().getX() + edge.deltaX * (currentY - edge.getBot().getY());
 	}
 
 	/**
@@ -124,8 +124,7 @@ class Edge {
 			while (!e.bot.equals(e.prev.bot) || e.current.equals(e.top)) {
 				e = e.next;
 			}
-			if (!isEdgeHorizontal(e.deltaX)
-					&& !isEdgeHorizontal(e.prev.deltaX)) {
+			if (!isEdgeHorizontal(e.deltaX) && !isEdgeHorizontal(e.prev.deltaX)) {
 				break;
 			}
 			while (isEdgeHorizontal(e.prev.deltaX)) {
@@ -181,9 +180,9 @@ class Edge {
 		} else if (prev.top.equals(top) && prev.nextInLML == null) {
 			result = prev;
 		}
-		if (result != null && (result.outIdx == Edge.SKIP
-				|| result.nextInAEL == result.prevInAEL
-						&& !result.isHorizontal())) {
+		if (result != null
+				&& (result.outIdx == Edge.SKIP
+						|| result.nextInAEL == result.prevInAEL && !result.isHorizontal())) {
 			return null;
 		}
 		return result;
@@ -193,8 +192,7 @@ class Edge {
 		return direction == Direction.LEFT_TO_RIGHT ? nextInAEL : prevInAEL;
 	}
 
-	boolean isContributing(PolyFillType clipFillType,
-			PolyFillType subjFillType, ClipType clipType) {
+	boolean isContributing(PolyFillType clipFillType, PolyFillType subjFillType, ClipType clipType) {
 
 		PolyFillType pft, pft2;
 		if (polyType == PolyType.SUBJECT) {
@@ -206,99 +204,97 @@ class Edge {
 		}
 
 		switch (pft) {
-		case EVEN_ODD:
-			// return false if a subj line has been flagged as inside a subj
-			// polygon
-			if (windDelta == 0 && windCnt != 1) {
-				return false;
-			}
-			break;
-		case NON_ZERO:
-			if (Math.abs(windCnt) != 1) {
-				return false;
-			}
-			break;
-		case POSITIVE:
-			if (windCnt != 1) {
-				return false;
-			}
-			break;
-		default: // PolyFillType.pftNegative
-			if (windCnt != -1) {
-				return false;
-			}
-			break;
+			case EVEN_ODD:
+				// return false if a subj line has been flagged as inside a subj
+				// polygon
+				if (windDelta == 0 && windCnt != 1) {
+					return false;
+				}
+				break;
+			case NON_ZERO:
+				if (Math.abs(windCnt) != 1) {
+					return false;
+				}
+				break;
+			case POSITIVE:
+				if (windCnt != 1) {
+					return false;
+				}
+				break;
+			default: // PolyFillType.pftNegative
+				if (windCnt != -1) {
+					return false;
+				}
+				break;
 		}
 
 		switch (clipType) {
-		case INTERSECTION:
-			switch (pft2) {
-			case EVEN_ODD:
-			case NON_ZERO:
-				return windCnt2 != 0;
-			case POSITIVE:
-				return windCnt2 > 0;
-			default:
-				return windCnt2 < 0;
-			}
-		case UNION:
-			switch (pft2) {
-			case EVEN_ODD:
-			case NON_ZERO:
-				return windCnt2 == 0;
-			case POSITIVE:
-				return windCnt2 <= 0;
-			default:
-				return windCnt2 >= 0;
-			}
-		case DIFFERENCE:
-			if (polyType == PolyType.SUBJECT) {
+			case INTERSECTION:
 				switch (pft2) {
-				case EVEN_ODD:
-				case NON_ZERO:
-					return windCnt2 == 0;
-				case POSITIVE:
-					return windCnt2 <= 0;
-				default:
-					return windCnt2 >= 0;
+					case EVEN_ODD:
+					case NON_ZERO:
+						return windCnt2 != 0;
+					case POSITIVE:
+						return windCnt2 > 0;
+					default:
+						return windCnt2 < 0;
 				}
-			}
-			switch (pft2) {
-			case EVEN_ODD:
-			case NON_ZERO:
-				return windCnt2 != 0;
-			case POSITIVE:
-				return windCnt2 > 0;
-			default:
-				return windCnt2 < 0;
-			}
-		case XOR:
-			if (windDelta == 0) {
+			case UNION:
 				switch (pft2) {
-				case EVEN_ODD:
-				case NON_ZERO:
-					return windCnt2 == 0;
-				case POSITIVE:
-					return windCnt2 <= 0;
-				default:
-					return windCnt2 >= 0;
+					case EVEN_ODD:
+					case NON_ZERO:
+						return windCnt2 == 0;
+					case POSITIVE:
+						return windCnt2 <= 0;
+					default:
+						return windCnt2 >= 0;
 				}
-			}
-			return true;
+			case DIFFERENCE:
+				if (polyType == PolyType.SUBJECT) {
+					switch (pft2) {
+						case EVEN_ODD:
+						case NON_ZERO:
+							return windCnt2 == 0;
+						case POSITIVE:
+							return windCnt2 <= 0;
+						default:
+							return windCnt2 >= 0;
+					}
+				}
+				switch (pft2) {
+					case EVEN_ODD:
+					case NON_ZERO:
+						return windCnt2 != 0;
+					case POSITIVE:
+						return windCnt2 > 0;
+					default:
+						return windCnt2 < 0;
+				}
+			case XOR:
+				if (windDelta == 0) {
+					switch (pft2) {
+						case EVEN_ODD:
+						case NON_ZERO:
+							return windCnt2 == 0;
+						case POSITIVE:
+							return windCnt2 <= 0;
+						default:
+							return windCnt2 >= 0;
+					}
+				}
+				return true;
 		}
 		return true;
 	}
 
-	boolean isEvenOddAltFillType(PolyFillType clipFillType,
-			PolyFillType subjFillType) {
+	boolean isEvenOddAltFillType(PolyFillType clipFillType, PolyFillType subjFillType) {
 		if (polyType == PolyType.SUBJECT) {
 			return clipFillType == PolyFillType.EVEN_ODD;
 		}
 		return subjFillType == PolyFillType.EVEN_ODD;
 	}
 
-	boolean isEvenOddFillType(PolyFillType clipFillType,
-			PolyFillType subjFillType) {
+	boolean isEvenOddFillType(PolyFillType clipFillType, PolyFillType subjFillType) {
 		if (polyType == PolyType.SUBJECT) {
 			return subjFillType == PolyFillType.EVEN_ODD;
 		}
@@ -329,7 +325,6 @@ class Edge {
 		temp = top.getZ();
 		top.setZ(bot.getZ());
 		bot.setZ(temp);
-
 	}
 
 	/**
@@ -379,5 +374,4 @@ class Edge {
 	private static boolean isEdgeHorizontal(double d) {
 		return MyDouble.exactEqual(d, Edge.HORIZONTAL);
 	}
-
 }

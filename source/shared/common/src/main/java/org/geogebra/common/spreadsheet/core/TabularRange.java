@@ -60,8 +60,8 @@ public final class TabularRange {
 	 * @param maxRow highest row
 	 * @param maxColumn highest column
 	 */
-	public TabularRange(int anchorRow, int anchorColumn, int minRow, int minColumn,
-			int maxRow, int maxColumn) {
+	public TabularRange(
+			int anchorRow, int anchorColumn, int minRow, int minColumn, int maxRow, int maxColumn) {
 		this.anchorColumn = anchorColumn;
 		this.anchorRow = anchorRow;
 		this.minColumn = minColumn;
@@ -201,8 +201,11 @@ public final class TabularRange {
 	 */
 	public boolean isPartialRow() {
 		// entire-column selections use -1 for both row bounds, so require a bounded row first
-		return minRow != -1 && maxRow != -1
-				&& !isSingleCell() && !isContiguousRows() && (maxRow - minRow == 0);
+		return minRow != -1
+				&& maxRow != -1
+				&& !isSingleCell()
+				&& !isContiguousRows()
+				&& (maxRow - minRow == 0);
 	}
 
 	/**
@@ -210,8 +213,11 @@ public final class TabularRange {
 	 */
 	public boolean isPartialColumn() {
 		// entire-row selections use -1 for both column bounds, so require a bounded column first
-		return minColumn != -1 && maxColumn != -1
-				&& !isSingleCell() && !isContiguousColumns() && (maxColumn - minColumn == 0);
+		return minColumn != -1
+				&& maxColumn != -1
+				&& !isSingleCell()
+				&& !isContiguousColumns()
+				&& (maxColumn - minColumn == 0);
 	}
 
 	/**
@@ -308,8 +314,7 @@ public final class TabularRange {
 
 	/** @return true if this range contains no cells */
 	public boolean isEmptyRange() {
-		return minColumn == -1 && maxColumn == -1 && minRow == -1
-				&& maxRow == -1;
+		return minColumn == -1 && maxColumn == -1 && minRow == -1 && maxRow == -1;
 	}
 
 	/**
@@ -393,14 +398,17 @@ public final class TabularRange {
 		if (minColumn == range.minColumn && maxColumn == range.maxColumn) {
 			if ((range.minRow >= minRow && range.minRow <= maxRow + 1)
 					|| (minRow >= range.minRow && minRow <= range.maxRow + 1)) {
-				return TabularRange.range(Math.min(minRow, range.minRow),
-						Math.max(maxRow, range.maxRow), minColumn, maxColumn);
+				return TabularRange.range(
+						Math.min(minRow, range.minRow), Math.max(maxRow, range.maxRow), minColumn, maxColumn);
 			}
 		}
 		if (minRow == range.minRow && maxRow == range.maxRow) {
 			if ((range.minColumn >= minColumn && range.minColumn <= maxColumn + 1)
 					|| (minColumn >= range.minColumn && minColumn <= range.maxColumn + 1)) {
-				return TabularRange.range(minRow, maxRow, Math.min(minColumn, range.minColumn),
+				return TabularRange.range(
+						minRow,
+						maxRow,
+						Math.min(minColumn, range.minColumn),
 						Math.max(maxColumn, range.maxColumn));
 			}
 		}
@@ -412,7 +420,7 @@ public final class TabularRange {
 	 * @param action to run for each (row, column).
 	 */
 	public void forEach(@NonNull TabularRangeAction action) {
-		for (int row = getMinRow(); row <= getMaxRow() ; row++) {
+		for (int row = getMinRow(); row <= getMaxRow(); row++) {
 			for (int column = getMinColumn(); column <= getMaxColumn(); column++) {
 				action.run(row, column);
 			}
@@ -454,12 +462,10 @@ public final class TabularRange {
 	public TabularRange restrictInfiniteRangeTo(int rowCount, int columnCount) {
 		TabularRange ret = this;
 		if (ret.getMinRow() == -1) {
-			ret = new TabularRange(0, ret.getMinColumn(),
-					rowCount - 1, ret.getMaxColumn());
+			ret = new TabularRange(0, ret.getMinColumn(), rowCount - 1, ret.getMaxColumn());
 		}
 		if (ret.getMinColumn() == -1) {
-			ret = new TabularRange(ret.getMinRow(), 0,
-					ret.getMaxRow(), columnCount - 1);
+			ret = new TabularRange(ret.getMinRow(), 0, ret.getMaxRow(), columnCount - 1);
 		}
 		return ret;
 	}
@@ -473,8 +479,7 @@ public final class TabularRange {
 		if (!isFinite() || getWidth() < 1) {
 			return null;
 		}
-		return new TabularRange(getMinRow(), getMinColumn(),
-				getMaxRow(), getMinColumn());
+		return new TabularRange(getMinRow(), getMinColumn(), getMaxRow(), getMinColumn());
 	}
 
 	/**
@@ -486,8 +491,7 @@ public final class TabularRange {
 		if (!isFinite() || getWidth() < 2) {
 			return null;
 		}
-		return new TabularRange(getMinRow(), getMinColumn() + 1,
-				getMaxRow(), getMinColumn() + 1);
+		return new TabularRange(getMinRow(), getMinColumn() + 1, getMaxRow(), getMinColumn() + 1);
 	}
 
 	@Override
@@ -497,7 +501,7 @@ public final class TabularRange {
 
 	@Override
 	public int hashCode() {
-		return Arrays.hashCode(new int[]{minColumn, minRow, maxColumn, maxRow});
+		return Arrays.hashCode(new int[] {minColumn, minRow, maxColumn, maxRow});
 	}
 
 	@Override

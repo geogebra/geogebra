@@ -28,7 +28,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 /**
  * Selection controller for AV
- * 
+ *
  * @author Laszlo
  */
 public final class AVSelectionController {
@@ -76,39 +76,37 @@ public final class AVSelectionController {
 			setLastSelectedGeo(geo);
 		} else {
 			setLastSelectedGeo(null);
-
 		}
 	}
 
 	private void continuousSelect(GeoElement geo) {
 		SortMode sortMode = app.getSettings().getAlgebra().getTreeMode();
 		switch (sortMode) {
-		case LAYER:
-			break;
-		case ORDER:
-			continuous(geo,
-					app.getKernel().getConstruction()
-							.getGeoSetConstructionOrder(),
-					geo.getConstructionIndex() < getLastSelectedGeo()
-							.getConstructionIndex());
-			break;
-		case TYPE:
-			continuous(geo,
-					app.getKernel().getConstruction().getGeoSetLabelOrder(),
-					geo.getLabel(StringTemplate.defaultTemplate)
-							.compareTo(getLastSelectedGeo().getLabel(
-									StringTemplate.defaultTemplate)) < 0);
-			break;
-		case DEPENDENCY:
+			case LAYER:
+				break;
+			case ORDER:
+				continuous(
+						geo,
+						app.getKernel().getConstruction().getGeoSetConstructionOrder(),
+						geo.getConstructionIndex() < getLastSelectedGeo().getConstructionIndex());
+				break;
+			case TYPE:
+				continuous(
+						geo,
+						app.getKernel().getConstruction().getGeoSetLabelOrder(),
+						geo.getLabel(StringTemplate.defaultTemplate)
+										.compareTo(getLastSelectedGeo().getLabel(StringTemplate.defaultTemplate))
+								< 0);
+				break;
+			case DEPENDENCY:
 
-		default:
-			continuousDependent(geo);
+			default:
+				continuousDependent(geo);
 		}
 		setLastMode(SelectMode.Continuous);
 	}
 
-	private void continuous(GeoElement geo0, TreeSet<GeoElement> geoSet,
-			boolean direction) {
+	private void continuous(GeoElement geo0, TreeSet<GeoElement> geoSet, boolean direction) {
 		ensureClearLastSelection();
 
 		GeoElement geoFrom = direction ? geo0 : getLastSelectedGeo();
@@ -132,13 +130,12 @@ public final class AVSelectionController {
 
 		if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
 			boolean direction = geo.getLabel(StringTemplate.defaultTemplate)
-					.compareTo(getLastSelectedGeo()
-							.getLabel(StringTemplate.defaultTemplate)) < 0;
+							.compareTo(getLastSelectedGeo().getLabel(StringTemplate.defaultTemplate))
+					< 0;
 
 			for (GeoElement geo2 : app.getKernel().getConstruction().getGeoSetLabelOrder()) {
 				if ((geo2.isAuxiliaryObject() == aux && aux)
-						|| (geo2.isAuxiliaryObject() == aux
-						&& geo2.isIndependent() == ind)) {
+						|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
 
 					if (direction && geo2.equals(getLastSelectedGeo())) {
 						selecting = !selecting;
@@ -149,8 +146,7 @@ public final class AVSelectionController {
 
 					if (selecting) {
 						selection.toggleSelectedGeo(geo2);
-						nowSelecting = selection.getSelectedGeos()
-								.contains(geo2);
+						nowSelecting = selection.getSelectedGeos().contains(geo2);
 					}
 					if (!direction && geo2.equals(getLastSelectedGeo())) {
 						selecting = !selecting;
@@ -174,12 +170,11 @@ public final class AVSelectionController {
 		if (lastMode != SelectMode.Continuous || lastMode != SelectMode.None) {
 			selection.clearSelectedGeos();
 		}
-
 	}
 
 	/**
 	 * Selecting the GeoElement
-	 * 
+	 *
 	 * @param geo
 	 *            GeoElement to be selected/toggled.
 	 * @param toggle
@@ -221,7 +216,7 @@ public final class AVSelectionController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if a multiselect is happening (with Shift or Control)
 	 */
 	public boolean isMultiSelect() {

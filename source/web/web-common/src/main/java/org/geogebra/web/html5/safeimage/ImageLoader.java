@@ -69,7 +69,8 @@ public class ImageLoader {
 	}
 
 	private boolean isValid(ArchiveEntry imageFile) {
-		return !(hasImage(imageFile.getFileName()) || imageFile.isThumbnail()
+		return !(hasImage(imageFile.getFileName())
+				|| imageFile.isThumbnail()
 				|| !imageFile.getExtension().isImage());
 	}
 
@@ -81,11 +82,9 @@ public class ImageLoader {
 		ArchiveEntry content = SVGUtil.match(imageFile.getExtension())
 				? new ArchiveEntry(imageFile.getFileName(), SVGUtil.fixAndEncode(imageFile.string))
 				: imageFile;
-		imageManager.addExternalImage(imageFile.getFileName(),
-				content);
+		imageManager.addExternalImage(imageFile.getFileName(), content);
 
-		images.put(imageFile.getFileName(),
-				content);
+		images.put(imageFile.getFileName(), content);
 		loadCount++;
 	}
 

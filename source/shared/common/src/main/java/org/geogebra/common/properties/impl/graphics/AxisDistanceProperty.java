@@ -46,9 +46,13 @@ public class AxisDistanceProperty extends NumericPropertyWithSuggestions
 	 * @param label label of the axis
 	 * @param axis the axis for the numbering distance will be set
 	 */
-	public AxisDistanceProperty(Localization localization, EuclidianSettings
-			euclidianSettings, EuclidianViewInterfaceCommon euclidianView,
-			Kernel kernel, String label, int axis) {
+	public AxisDistanceProperty(
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			EuclidianViewInterfaceCommon euclidianView,
+			Kernel kernel,
+			String label,
+			int axis) {
 		super(kernel.getAlgebraProcessor(), localization, label);
 		this.euclidianSettings = euclidianSettings;
 		this.euclidianView = euclidianView;

@@ -78,8 +78,8 @@ public class BoundsRectangle {
 	 * @see EuclidianViewBounds
 	 */
 	public BoundsRectangle(EuclidianViewBounds bounds, double mx, double my) {
-		this(bounds.getXmin() - mx, bounds.getXmax() + mx,
-				bounds.getYmin() - my, bounds.getYmax() + my);
+		this(
+				bounds.getXmin() - mx, bounds.getXmax() + mx, bounds.getYmin() - my, bounds.getYmax() + my);
 	}
 
 	/**

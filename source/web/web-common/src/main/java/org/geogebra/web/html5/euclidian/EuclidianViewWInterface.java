@@ -28,14 +28,14 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * interface for EuclidianViewW / EuclidianView3DW
- * 
+ *
  * @author mathieu
  *
  */
 public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon, HasThumbnailURL {
 
 	/**
-	 * 
+	 *
 	 * @return canvas element
 	 */
 	Element getCanvasElement();
@@ -79,8 +79,8 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon, H
 	 * @param greyscale whether to use greyscale colors
 	 * @return data URL in given format
 	 */
-	String getExportImageDataUrl(double scale, boolean transparent,
-			ExportType format, boolean greyscale);
+	String getExportImageDataUrl(
+			double scale, boolean transparent, ExportType format, boolean greyscale);
 
 	/**
 	 * @param scale export scale
@@ -88,8 +88,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceCommon, H
 	 * @param greyscale whether to use greyscale colors
 	 * @return data URL (PNG)
 	 */
-	String getExportImageDataUrl(double scale, boolean transparent,
-			boolean greyscale);
+	String getExportImageDataUrl(double scale, boolean transparent, boolean greyscale);
 
 	/**
 	 * @param transparency whether to make the background transparent

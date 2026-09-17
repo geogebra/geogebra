@@ -22,10 +22,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoInverseZipf extends AlgoDistribution {
 
 	/**
@@ -38,8 +37,7 @@ public class AlgoInverseZipf extends AlgoDistribution {
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoInverseZipf(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
+	public AlgoInverseZipf(Construction cons, GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 
@@ -50,8 +48,7 @@ public class AlgoInverseZipf extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			int param = (int) a.getDouble();
 			double param2 = b.getDouble();
 			double val = c.getDouble();
@@ -66,5 +63,4 @@ public class AlgoInverseZipf extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

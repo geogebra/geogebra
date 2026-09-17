@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF LogFontW
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: LogFontW.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -44,10 +44,21 @@ public class LogFontW implements EMFConstants {
 
 	private String faceFamily;
 
-	public LogFontW(int height, int width, int escapement, int orientation,
-			int weight, boolean italic, boolean underline, boolean strikeout,
-			int charSet, int outPrecision, int clipPrecision, int quality,
-			int pitchAndFamily, String faceFamily) {
+	public LogFontW(
+			int height,
+			int width,
+			int escapement,
+			int orientation,
+			int weight,
+			boolean italic,
+			boolean underline,
+			boolean strikeout,
+			int charSet,
+			int outPrecision,
+			int clipPrecision,
+			int quality,
+			int pitchAndFamily,
+			String faceFamily) {
 		this.height = height;
 		this.width = width;
 		this.escapement = escapement;

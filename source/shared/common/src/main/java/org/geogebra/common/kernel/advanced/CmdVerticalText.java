@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdVerticalText extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,31 +47,28 @@ public class CmdVerticalText extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0].isGeoText()) {
+			case 1:
+				if (arg[0].isGeoText()) {
 
-				AlgoVerticalText algo = new AlgoVerticalText(cons, c.getLabel(),
-						(GeoText) arg[0]);
+					AlgoVerticalText algo = new AlgoVerticalText(cons, c.getLabel(), (GeoText) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		case 2:
+			case 2:
+				if ((ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoPoint())) {
+					AlgoVerticalText algo =
+							new AlgoVerticalText(cons, c.getLabel(), (GeoText) arg[0], (GeoPointND) arg[1]);
 
-			if ((ok[0] = arg[0].isGeoText())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				AlgoVerticalText algo = new AlgoVerticalText(cons, c.getLabel(),
-						(GeoText) arg[0], (GeoPointND) arg[1]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

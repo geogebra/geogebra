@@ -27,14 +27,14 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Normalize[ &lt;List&gt; ]
- * 
+ *
  * @author Oana Niculaescu
  */
 public class CmdNormalize extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,30 +48,29 @@ public class CmdNormalize extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 		switch (n) {
-		case 0:
-			throw argNumErr(c);
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList()) {
+			case 0:
+				throw argNumErr(c);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList()) {
 
-				GeoElement[] ret = {
-						normalize(c.getLabel(), (GeoList) arg[0]) };
-				return ret;
+					GeoElement[] ret = {normalize(c.getLabel(), (GeoList) arg[0])};
+					return ret;
 
-			} else if (!(arg[0] instanceof VectorValue)) {
-				throw argErr(c, arg[0]);
-			}
+				} else if (!(arg[0] instanceof VectorValue)) {
+					throw argErr(c, arg[0]);
+				}
 
-		default:
+			default:
 
-			// try to create list of points (eg FitExp[])
-			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
-			if (list != null) {
-				GeoElement[] ret = { normalize(c.getLabel(), list) };
-				return ret;
-			}
+				// try to create list of points (eg FitExp[])
+				GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
+				if (list != null) {
+					GeoElement[] ret = {normalize(c.getLabel(), list)};
+					return ret;
+				}
 
-			throw argNumErr(c);
+				throw argNumErr(c);
 		}
 	}
 
@@ -84,5 +83,4 @@ public class CmdNormalize extends CommandProcessor {
 		list2.setLabel(label);
 		return list2;
 	}
-
 }

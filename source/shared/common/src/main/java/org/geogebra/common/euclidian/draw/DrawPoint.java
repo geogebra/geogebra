@@ -39,7 +39,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
+ *
  * @author Markus
  * @version 2011-01-10
  */
@@ -57,10 +57,8 @@ public final class DrawPoint extends SetDrawable {
 	private boolean isVisible;
 	private boolean labelVisible;
 	// for dot and selection
-	private final GEllipse2DDouble circle = AwtFactory.getPrototype()
-			.newEllipse2DDouble();
-	private final GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
-			.newEllipse2DDouble();
+	private final GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
+	private final GEllipse2DDouble circleHighlight = AwtFactory.getPrototype().newEllipse2DDouble();
 
 	private GLine2D line1; // for cross
 	private GLine2D line2;
@@ -68,8 +66,7 @@ public final class DrawPoint extends SetDrawable {
 	private GLine2D line4;
 	private GGeneralPath gp = null;
 
-	private static final GBasicStroke borderStroke = EuclidianStatic
-			.getDefaultStroke();
+	private static final GBasicStroke borderStroke = EuclidianStatic.getDefaultStroke();
 	private static final GBasicStroke highlightStroke = AwtFactory.getPrototype().newBasicStroke(2);
 	private static final GBasicStroke[] fillStrokes = new GBasicStroke[10];
 	private static final GBasicStroke[] emptyStrokes = new GBasicStroke[10];
@@ -80,7 +77,7 @@ public final class DrawPoint extends SetDrawable {
 	private final double[] coords1 = new double[2];
 
 	/**
-	 * 
+	 *
 	 * @param threshold
 	 *            controller threshold
 	 * @return distance threshold to select a point
@@ -91,7 +88,7 @@ public final class DrawPoint extends SetDrawable {
 
 	/**
 	 * Creates new DrawPoint
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param P
@@ -103,7 +100,7 @@ public final class DrawPoint extends SetDrawable {
 
 	/**
 	 * Creates new DrawPoint
-	 * 
+	 *
 	 * @param view
 	 *            View
 	 * @param P
@@ -127,7 +124,7 @@ public final class DrawPoint extends SetDrawable {
 
 		if (gp != null) {
 			gp.reset(); // stop trace being left when (filled diamond) point
-						// moved
+			// moved
 		}
 
 		isVisible = geo.isEuclidianVisible();
@@ -157,7 +154,7 @@ public final class DrawPoint extends SetDrawable {
 
 	/**
 	 * update regarding coords values
-	 * 
+	 *
 	 * @param coords2
 	 *            (x,y) real world coords
 	 */
@@ -177,7 +174,7 @@ public final class DrawPoint extends SetDrawable {
 
 			// point outside screen?
 			if (Double.isNaN(coords[0]) || Double.isNaN(coords[1])) { // fix for
-																		// #63
+				// #63
 				isVisible = false;
 			} else if (coords[0] > view.getWidth() + P.getPointSize()
 					|| coords[0] < -P.getPointSize()
@@ -205,117 +202,111 @@ public final class DrawPoint extends SetDrawable {
 		double root3over2;
 
 		switch (pointStyle) {
-		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-			double xR = coords[0] + pointSize;
-			double yB = coords[1] + pointSize;
+			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+				double xR = coords[0] + pointSize;
+				double yB = coords[1] + pointSize;
 
-			if (gp == null) {
-				gp = AwtFactory.getPrototype().newGeneralPath();
-			}
-			gp.moveTo((xUL + xR) / 2, yUL);
-			gp.lineTo(xUL, (yB + yUL) / 2);
-			gp.lineTo((xUL + xR) / 2, yB);
-			gp.lineTo(xR, (yB + yUL) / 2);
-			gp.closePath();
-			break;
+				if (gp == null) {
+					gp = AwtFactory.getPrototype().newGeneralPath();
+				}
+				gp.moveTo((xUL + xR) / 2, yUL);
+				gp.lineTo(xUL, (yB + yUL) / 2);
+				gp.lineTo((xUL + xR) / 2, yB);
+				gp.lineTo(xR, (yB + yUL) / 2);
+				gp.closePath();
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+				double direction = 1.0;
+				if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
+					direction = -1.0;
+				}
 
-			double direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
-				direction = -1.0;
-			}
+				if (gp == null) {
+					gp = AwtFactory.getPrototype().newGeneralPath();
+				}
+				root3over2 = Math.sqrt(3.0) / 2.0;
+				gp.moveTo(coords[0], coords[1] + direction * pointSize);
+				gp.lineTo(coords[0] + pointSize * root3over2, coords[1] - direction * pointSize / 2);
+				gp.lineTo(coords[0] - pointSize * root3over2, coords[1] - direction * pointSize / 2);
+				gp.lineTo(coords[0], coords[1] + direction * pointSize);
+				gp.closePath();
+				break;
 
-			if (gp == null) {
-				gp = AwtFactory.getPrototype().newGeneralPath();
-			}
-			root3over2 = Math.sqrt(3.0) / 2.0;
-			gp.moveTo(coords[0], coords[1] + direction * pointSize);
-			gp.lineTo(coords[0] + pointSize * root3over2,
-					coords[1] - direction * pointSize / 2);
-			gp.lineTo(coords[0] - pointSize * root3over2,
-					coords[1] - direction * pointSize / 2);
-			gp.lineTo(coords[0], coords[1] + direction * pointSize);
-			gp.closePath();
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+				direction = 1.0;
+				if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
+					direction = -1.0;
+				}
 
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+				if (gp == null) {
+					gp = AwtFactory.getPrototype().newGeneralPath();
+				}
+				root3over2 = Math.sqrt(3.0) / 2.0;
+				gp.moveTo(coords[0] + direction * pointSize, coords[1]);
+				gp.lineTo(coords[0] - direction * pointSize / 2, coords[1] + pointSize * root3over2);
+				gp.lineTo(coords[0] - direction * pointSize / 2, coords[1] - pointSize * root3over2);
+				gp.lineTo(coords[0] + direction * pointSize, coords[1]);
+				gp.closePath();
+				break;
 
-			direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
-				direction = -1.0;
-			}
+			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+				xR = coords[0] + pointSize;
+				yB = coords[1] + pointSize;
 
-			if (gp == null) {
-				gp = AwtFactory.getPrototype().newGeneralPath();
-			}
-			root3over2 = Math.sqrt(3.0) / 2.0;
-			gp.moveTo(coords[0] + direction * pointSize, coords[1]);
-			gp.lineTo(coords[0] - direction * pointSize / 2,
-					coords[1] + pointSize * root3over2);
-			gp.lineTo(coords[0] - direction * pointSize / 2,
-					coords[1] - pointSize * root3over2);
-			gp.lineTo(coords[0] + direction * pointSize, coords[1]);
-			gp.closePath();
-			break;
+				if (line1 == null) {
+					line1 = AwtFactory.getPrototype().newLine2D();
+					line2 = AwtFactory.getPrototype().newLine2D();
+				}
+				if (line3 == null) {
+					line3 = AwtFactory.getPrototype().newLine2D();
+					line4 = AwtFactory.getPrototype().newLine2D();
+				}
+				line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
+				line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
+				line3.setLine((xUL + xR) / 2, yB, xR, (yB + yUL) / 2);
+				line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
-			xR = coords[0] + pointSize;
-			yB = coords[1] + pointSize;
+			case EuclidianStyleConstants.POINT_STYLE_PLUS:
+				xR = coords[0] + pointSize;
+				yB = coords[1] + pointSize;
 
-			if (line1 == null) {
-				line1 = AwtFactory.getPrototype().newLine2D();
-				line2 = AwtFactory.getPrototype().newLine2D();
-			}
-			if (line3 == null) {
-				line3 = AwtFactory.getPrototype().newLine2D();
-				line4 = AwtFactory.getPrototype().newLine2D();
-			}
-			line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
-			line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
-			line3.setLine((xUL + xR) / 2, yB, xR, (yB + yUL) / 2);
-			line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
-			break;
+				if (line1 == null) {
+					line1 = AwtFactory.getPrototype().newLine2D();
+					line2 = AwtFactory.getPrototype().newLine2D();
+				}
+				line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
+				line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_PLUS:
-			xR = coords[0] + pointSize;
-			yB = coords[1] + pointSize;
+			case EuclidianStyleConstants.POINT_STYLE_CROSS:
+				xR = coords[0] + pointSize;
+				yB = coords[1] + pointSize;
 
-			if (line1 == null) {
-				line1 = AwtFactory.getPrototype().newLine2D();
-				line2 = AwtFactory.getPrototype().newLine2D();
-			}
-			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
-			line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
-			break;
+				if (line1 == null) {
+					line1 = AwtFactory.getPrototype().newLine2D();
+					line2 = AwtFactory.getPrototype().newLine2D();
+				}
+				line1.setLine(xUL, yUL, xR, yB);
+				line2.setLine(xUL, yB, xR, yUL);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_CROSS:
-			xR = coords[0] + pointSize;
-			yB = coords[1] + pointSize;
+			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+				break;
 
-			if (line1 == null) {
-				line1 = AwtFactory.getPrototype().newLine2D();
-				line2 = AwtFactory.getPrototype().newLine2D();
-			}
-			line1.setLine(xUL, yUL, xR, yB);
-			line2.setLine(xUL, yB, xR, yUL);
-			break;
-
-		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			break;
-
-		// case EuclidianStyleConstants.POINT_STYLE_DOT:
-		// default:
+			// case EuclidianStyleConstants.POINT_STYLE_DOT:
+			// default:
 		}
 
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
 
 		// selection area
-		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET,
-				highlightDiameter, highlightDiameter);
+		circleHighlight.setFrame(
+				xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET, highlightDiameter, highlightDiameter);
 
 		drawAndUpdateTraceIfNeeded(P.getTrace());
 
@@ -346,8 +337,7 @@ public final class DrawPoint extends SetDrawable {
 			view.toScreenCoords(coords1);
 			double radius = 30;
 			GEllipse2DDouble circleClip = AwtFactory.getPrototype()
-					.newEllipse2DDouble(coords1[0] - radius, coords1[1] - radius,
-							2 * radius, 2 * radius);
+					.newEllipse2DDouble(coords1[0] - radius, coords1[1] - radius, 2 * radius, 2 * radius);
 			g2.setClip(circleClip);
 
 			forceDraw(g2, path1, drawPath1);
@@ -388,58 +378,58 @@ public final class DrawPoint extends SetDrawable {
 			}
 
 			switch (pointStyle) {
-			case EuclidianStyleConstants.POINT_STYLE_PLUS:
-			case EuclidianStyleConstants.POINT_STYLE_CROSS:
-				// draw cross like: X or +
-				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getEmptyStroke(pointSize));
-				g2.draw(line1);
-				g2.draw(line2);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_PLUS:
+				case EuclidianStyleConstants.POINT_STYLE_CROSS:
+					// draw cross like: X or +
+					g2.setPaint(geo.getObjectColor());
+					g2.setStroke(getEmptyStroke(pointSize));
+					g2.draw(line1);
+					g2.draw(line2);
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
-				// draw diamond
-				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getEmptyStroke(pointSize));
-				g2.draw(line1);
-				g2.draw(line2);
-				g2.draw(line3);
-				g2.draw(line4);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+					// draw diamond
+					g2.setPaint(geo.getObjectColor());
+					g2.setStroke(getEmptyStroke(pointSize));
+					g2.draw(line1);
+					g2.draw(line2);
+					g2.draw(line3);
+					g2.draw(line4);
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
-				// draw diamond
-				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getFillStroke(pointSize));
-				g2.draw(gp);
-				g2.fill(gp);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+					// draw diamond
+					g2.setPaint(geo.getObjectColor());
+					g2.setStroke(getFillStroke(pointSize));
+					g2.draw(gp);
+					g2.fill(gp);
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-				// draw a circle
-				g2.setPaint(geo.getObjectColor());
-				g2.setStroke(getEmptyStroke(pointSize));
-				g2.draw(circle);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+					// draw a circle
+					g2.setPaint(geo.getObjectColor());
+					g2.setStroke(getEmptyStroke(pointSize));
+					g2.draw(circle);
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE:
-				g2.setPaint(geo.getObjectColor());
-				g2.fill(circle);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE:
+					g2.setPaint(geo.getObjectColor());
+					g2.fill(circle);
+					break;
 
-			default:
-				// draw a dot
-				g2.setPaint(geo.getObjectColor());
-				g2.fill(circle);
+				default:
+					// draw a dot
+					g2.setPaint(geo.getObjectColor());
+					g2.fill(circle);
 
-				// black stroke
-				g2.setPaint(geo.getShowHideColor(GColor.BLACK));
-				g2.setStroke(borderStroke);
-				g2.draw(circle);
+					// black stroke
+					g2.setPaint(geo.getShowHideColor(GColor.BLACK));
+					g2.setStroke(borderStroke);
+					g2.draw(circle);
 			}
 
 			// label
@@ -469,14 +459,14 @@ public final class DrawPoint extends SetDrawable {
 		int pointStyle = P.getPointStyle();
 
 		switch (pointStyle) {
-		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			g2.setStroke(getEmptyStroke(pointSize));
-			g2.draw(circle);
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+				g2.setStroke(getEmptyStroke(pointSize));
+				g2.draw(circle);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_CROSS:
-		default: // case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			g2.fill(circle);
+			case EuclidianStyleConstants.POINT_STYLE_CROSS:
+			default: // case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+				g2.fill(circle);
 		}
 	}
 
@@ -490,8 +480,7 @@ public final class DrawPoint extends SetDrawable {
 			update();
 		}
 		int threshold = isPreview ? hitThreshold * 2 : hitThreshold;
-		int r = Math.max(pointSize,
-				getSelectionThreshold(threshold));
+		int r = Math.max(pointSize, getSelectionThreshold(threshold));
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
@@ -518,15 +507,15 @@ public final class DrawPoint extends SetDrawable {
 		}
 
 		int selRadius = pointSize + HIGHLIGHT_OFFSET;
-		int minRadius = view.getApplication().getCapturingThreshold(
-				PointerEventType.MOUSE) + SELECTION_RADIUS_MIN;
+		int minRadius =
+				view.getApplication().getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_RADIUS_MIN;
 		if (selRadius < minRadius) {
 			selRadius = minRadius;
 		}
 
-		return AwtFactory.getPrototype().newRectangle(
-				(int) coords[0] - selRadius, (int) coords[1] - selRadius,
-				2 * selRadius, 2 * selRadius);
+		return AwtFactory.getPrototype()
+				.newRectangle(
+						(int) coords[0] - selRadius, (int) coords[1] - selRadius, 2 * selRadius, 2 * selRadius);
 	}
 
 	@Override
@@ -540,13 +529,11 @@ public final class DrawPoint extends SetDrawable {
 	 */
 	private static GBasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9) {
-			return AwtFactory.getPrototype()
-					.newBasicStrokeJoinMitre(pointSize / 2f);
+			return AwtFactory.getPrototype().newBasicStrokeJoinMitre(pointSize / 2f);
 		}
 
 		if (emptyStrokes[pointSize] == null) {
-			emptyStrokes[pointSize] = AwtFactory.getPrototype()
-					.newBasicStrokeJoinMitre(pointSize / 2f);
+			emptyStrokes[pointSize] = AwtFactory.getPrototype().newBasicStrokeJoinMitre(pointSize / 2f);
 		}
 
 		return emptyStrokes[pointSize];
@@ -563,8 +550,7 @@ public final class DrawPoint extends SetDrawable {
 		}
 
 		if (fillStrokes[pointSize] == null) {
-			fillStrokes[pointSize] = AwtFactory.getPrototype()
-					.newBasicStroke(pointSize / 2f);
+			fillStrokes[pointSize] = AwtFactory.getPrototype().newBasicStroke(pointSize / 2f);
 		}
 
 		return fillStrokes[pointSize];
@@ -591,7 +577,7 @@ public final class DrawPoint extends SetDrawable {
 
 	/**
 	 * Draw a point with given size and style for preview.
-	 * 
+	 *
 	 * @param x
 	 *            x-coord.
 	 * @param y
@@ -602,7 +588,7 @@ public final class DrawPoint extends SetDrawable {
 			gp.reset();
 		}
 
-		double[] coords2 = { x, y };
+		double[] coords2 = {x, y};
 		update(coords2, false);
 	}
 
@@ -613,5 +599,4 @@ public final class DrawPoint extends SetDrawable {
 	public void setPreview(boolean isPreview) {
 		this.isPreview = isPreview;
 	}
-
 }

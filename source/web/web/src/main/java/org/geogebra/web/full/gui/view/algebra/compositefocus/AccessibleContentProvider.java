@@ -81,8 +81,7 @@ public final class AccessibleContentProvider {
 
 	private String buildDefinition() {
 		IndexTextBuilder builder = new IndexTextBuilder();
-		AlgebraItem.buildPlainTextItemSimple(geo, builder,
-				style, StringTemplate.defaultTemplate);
+		AlgebraItem.buildPlainTextItemSimple(geo, builder, style, StringTemplate.defaultTemplate);
 		return builder.toString();
 	}
 
@@ -96,11 +95,12 @@ public final class AccessibleContentProvider {
 	 * @return the localized role description string for the current style
 	 */
 	public String getRoleDescription() {
-		String roleDescription = switch (style) {
-			case UNDEFINED -> "undefined";
-			case DEFINITION, VALUE, DESCRIPTION -> style.getTranslationKey();
-			case DEFINITION_AND_VALUE, LINEAR_NOTATION -> DEFINITION.getTranslationKey();
-		};
+		String roleDescription =
+				switch (style) {
+					case UNDEFINED -> "undefined";
+					case DEFINITION, VALUE, DESCRIPTION -> style.getTranslationKey();
+					case DEFINITION_AND_VALUE, LINEAR_NOTATION -> DEFINITION.getTranslationKey();
+				};
 		return loc.getMenu(roleDescription);
 	}
 }

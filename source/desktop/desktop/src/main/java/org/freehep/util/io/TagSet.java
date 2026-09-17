@@ -7,10 +7,10 @@ import java.util.Map;
 /**
  * Class to keep registered Tags, which should be used by the
  * TaggedIn/OutputStream.
- * 
+ *
  * A set of recognized Tags can be added to this class. A concrete
  * implementation of this stream should install all allowed tags.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: TagSet.java,v 1.3 2008-05-04 12:21:54 murkle Exp $
@@ -39,7 +39,7 @@ public class TagSet {
 	/**
 	 * Add a new tag to this set. If the tagID returned is the DEFAULT_TAG, then
 	 * the default handler is set to the given handler.
-	 * 
+	 *
 	 * @param tag
 	 *            tag to be added to set
 	 */
@@ -54,7 +54,7 @@ public class TagSet {
 
 	/**
 	 * Find tag for tagID.
-	 * 
+	 *
 	 * @param tagID
 	 *            tagID to find
 	 * @return correspoding tag or UndefinedTag if tagID is not found.
@@ -69,7 +69,7 @@ public class TagSet {
 
 	/**
 	 * Finds out if Tag for TagID exists.
-	 * 
+	 *
 	 * @param tagID
 	 *            tagID to find
 	 * @return true if corresponding Tag for TagID exists

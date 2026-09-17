@@ -32,7 +32,7 @@ public abstract class ClickEndHandler {
 	/**
 	 * Attaches a handler for MouseUpEvent and a TouchEndEvent to the widget.
 	 * CancelEventTimer is used to prevent duplication of events.
-	 * 
+	 *
 	 * @param w
 	 *            Widget that the handlers are attached to
 	 * @param handler
@@ -40,8 +40,7 @@ public abstract class ClickEndHandler {
 	 * @return registration that makes it possible to remove both mouse and
 	 *         touch handler
 	 */
-	public static HandlerRegistration init(Widget w,
-			final ClickEndHandler handler) {
+	public static HandlerRegistration init(Widget w, final ClickEndHandler handler) {
 		final HandlerRegistration mouseReg = w.addDomHandler(
 				event -> {
 					if (handler.preventDefault) {
@@ -51,10 +50,10 @@ public abstract class ClickEndHandler {
 						event.stopPropagation();
 					}
 					if (!CancelEventTimer.cancelMouseEvent()) {
-						handler.onClickEnd(event.getX(), event.getY(),
-								PointerEventType.MOUSE);
+						handler.onClickEnd(event.getX(), event.getY(), PointerEventType.MOUSE);
 					}
-				}, MouseUpEvent.getType());
+				},
+				MouseUpEvent.getType());
 
 		final HandlerRegistration touchReg = w.addBitlessDomHandler(
 				event -> {
@@ -65,11 +64,11 @@ public abstract class ClickEndHandler {
 						event.stopPropagation();
 					}
 					Touch removedTouch = event.getChangedTouches().get(0);
-					handler.onClickEnd(removedTouch.getClientX(),
-							removedTouch.getClientY(),
-							PointerEventType.TOUCH);
+					handler.onClickEnd(
+							removedTouch.getClientX(), removedTouch.getClientY(), PointerEventType.TOUCH);
 					CancelEventTimer.touchEventOccurred();
-				}, TouchEndEvent.getType());
+				},
+				TouchEndEvent.getType());
 		return HandlerRegistrations.compose(mouseReg, touchReg);
 	}
 
@@ -81,14 +80,13 @@ public abstract class ClickEndHandler {
 	/**
 	 * creates the base version of a ClickEventHandler.
 	 */
-	public ClickEndHandler() {
-	}
+	public ClickEndHandler() {}
 
 	/**
 	 * {@link ClickEndHandler} with preventDefault and stopPropagation set
 	 * explicitly. event.preventDefault() and event.stopPropagation() will also
 	 * be called, if the handling-method is canceled for the event.
-	 * 
+	 *
 	 * @param preventDefault
 	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
@@ -103,7 +101,7 @@ public abstract class ClickEndHandler {
 
 	/**
 	 * Actual handler-method, needs to be overwritten in the instances.
-	 * 
+	 *
 	 * @param x
 	 *            x-coordinate of the event
 	 * @param y
@@ -116,7 +114,7 @@ public abstract class ClickEndHandler {
 	/**
 	 * Set preventDefault explicitly. event.preventDefault() will also be
 	 * called, if the handling-method is canceled for the event.
-	 * 
+	 *
 	 * @param preventDefault
 	 *            whether event.preventDefault() should be called for
 	 *            MouseUpEvents and TouchEndEvents
@@ -128,7 +126,7 @@ public abstract class ClickEndHandler {
 	/**
 	 * Set stopPropagation explicitly. event.stopPropagation() will also be
 	 * called, if the handling-method is canceled for the event.
-	 * 
+	 *
 	 * @param stopPropagation
 	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
@@ -150,8 +148,7 @@ public abstract class ClickEndHandler {
 	 *            whether event.stopPropagation() should be called for
 	 *            MouseUpEvents and TouchEndEvents
 	 */
-	public static void initDefaults(Widget w, boolean preventDefault,
-									boolean stopPropagation) {
+	public static void initDefaults(Widget w, boolean preventDefault, boolean stopPropagation) {
 		init(w, new ClickEndHandler(preventDefault, stopPropagation) {
 
 			@Override

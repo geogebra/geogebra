@@ -38,16 +38,17 @@ public class AccessibleCheckbox implements AccessibleWidget {
 	 * @param view
 	 *            accessibility view
 	 */
-	public AccessibleCheckbox(final GeoBoolean geo,
-			final AccessibilityView view) {
+	public AccessibleCheckbox(final GeoBoolean geo, final AccessibilityView view) {
 		this.checkbox = new CheckBox();
 		this.geo = geo;
 		this.view = view;
 		update();
-		checkbox.addDomHandler(event -> {
-			updateGeoElement();
-			setFocus(true);
-		}, ChangeEvent.getType());
+		checkbox.addDomHandler(
+				event -> {
+					updateGeoElement();
+					setFocus(true);
+				},
+				ChangeEvent.getType());
 	}
 
 	/**
@@ -79,5 +80,4 @@ public class AccessibleCheckbox implements AccessibleWidget {
 	public boolean isCompatible(GeoElement geo) {
 		return true;
 	}
-
 }

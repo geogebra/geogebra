@@ -158,7 +158,7 @@ public abstract class GeoWidget extends GeoElement
 	}
 
 	@Override
-	final public boolean isAlgebraViewEditable() {
+	public final boolean isAlgebraViewEditable() {
 		return !isIndependent();
 	}
 

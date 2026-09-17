@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,6 +36,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * Constants for calculating
 	 */
 	static final int MAX_LEVEL = 20; // Maximal deepness of curve subdivision
+
 	static final double CURVE_DELTA = 2.0; // Width tolerance
 	static final double CORNER_ANGLE = 4.0; // Minimum corner angel
 	static final double CORNER_ZERO = 0.01; // Zero angle
@@ -70,6 +71,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * The temporary pre-calculated values
 	 */
 	double curveDelta;
+
 	double cornerDelta;
 	double zeroDelta;
 
@@ -82,6 +84,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * The temporary indicators
 	 */
 	boolean isMove;
+
 	boolean isFirst;
 	boolean checkMove;
 
@@ -99,44 +102,41 @@ public class DefaultBasicStroke implements GBasicStroke {
 		this(1.0, CAP_SQUARE, JOIN_MITER, 10.0, null);
 	}
 
-	public DefaultBasicStroke(double width, int cap, int join, double miterLimit,
-			double[] dash) {
+	public DefaultBasicStroke(double width, int cap, int join, double miterLimit, double[] dash) {
 		if (width < 0) {
 			// awt.133=Negative width
-			throw new IllegalArgumentException("Negative width awt.133"); //$NON-NLS-1$
+			throw new IllegalArgumentException("Negative width awt.133"); // $NON-NLS-1$
 		}
 		if (cap != CAP_BUTT && cap != CAP_ROUND && cap != CAP_SQUARE) {
 			// awt.134=Illegal cap
-			throw new IllegalArgumentException("Illegal cap awt.134"); //$NON-NLS-1$
+			throw new IllegalArgumentException("Illegal cap awt.134"); // $NON-NLS-1$
 		}
 		if (join != JOIN_MITER && join != JOIN_ROUND && join != JOIN_BEVEL) {
 			// awt.135=Illegal join
-			throw new IllegalArgumentException("Illegal join awt.135"); //$NON-NLS-1$
+			throw new IllegalArgumentException("Illegal join awt.135"); // $NON-NLS-1$
 		}
 		if (join == JOIN_MITER && miterLimit < 1.0) {
 			// awt.136=miterLimit less than 1.0
-			throw new IllegalArgumentException(
-					"miterLimit less than 1.0 awt.136"); //$NON-NLS-1$
+			throw new IllegalArgumentException("miterLimit less than 1.0 awt.136"); // $NON-NLS-1$
 		}
 		if (dash != null) {
 			if (dash.length == 0) {
 				// awt.138=Zero dash length
-				throw new IllegalArgumentException("Zero dash length awt.138"); //$NON-NLS-1$
+				throw new IllegalArgumentException("Zero dash length awt.138"); // $NON-NLS-1$
 			}
-			ZERO: {
+			ZERO:
+			{
 				for (int i = 0; i < dash.length; i++) {
 					if (dash[i] < 0.0) {
 						// awt.139=Negative dash[{0}]
-						throw new IllegalArgumentException(
-								"Negative dash[{0}] awt.139"); //$NON-NLS-1$
+						throw new IllegalArgumentException("Negative dash[{0}] awt.139"); // $NON-NLS-1$
 					}
 					if (dash[i] > 0.0) {
 						break ZERO;
 					}
 				}
 				// awt.13A=All dash lengths zero
-				throw new IllegalArgumentException(
-						"All dash lengths zero awt.13A"); //$NON-NLS-1$
+				throw new IllegalArgumentException("All dash lengths zero awt.13A"); // $NON-NLS-1$
 			}
 		}
 		this.width = width;
@@ -189,7 +189,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * hash.append(miterLimit); if (dash != null) { hash.append(dashPhase); for
 	 * (float element : dash) { hash.append(element); } } return
 	 * hash.hashCode(); }
-	 * 
+	 *
 	 * @Override public boolean equals(Object obj) { if (obj == this) { return
 	 * true; } if (obj instanceof BasicStroke) { BasicStroke bs =
 	 * (BasicStroke)obj; return bs.width == width && bs.cap == cap && bs.join ==
@@ -243,7 +243,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 	/**
 	 * Generates solid stroked shape without dash
-	 * 
+	 *
 	 * @param pathIterator
 	 *            - the PathIterator of source shape
 	 */
@@ -257,39 +257,38 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		while (!pathIterator.isDone()) {
 			switch (pathIterator.currentSegment(coords)) {
-			case GPathIterator.SEG_MOVETO:
-				if (!isClosed) {
-					closeSolidShape();
+				case GPathIterator.SEG_MOVETO:
+					if (!isClosed) {
+						closeSolidShape();
+						isClosed = true;
+					}
+					rp.clean();
+					mx = cx = coords[0];
+					my = cy = coords[1];
+					isMove = true;
+					break;
+				case GPathIterator.SEG_LINETO:
+					addLine(cx, cy, cx = coords[0], cy = coords[1], true);
+					isClosed = false;
+					break;
+				case GPathIterator.SEG_QUADTO:
+					addQuad(cx, cy, coords[0], coords[1], cx = coords[2], cy = coords[3]);
+					isClosed = false;
+					break;
+				case GPathIterator.SEG_CUBICTO:
+					addCubic(
+							cx, cy, coords[0], coords[1], coords[2], coords[3], cx = coords[4], cy = coords[5]);
+					isClosed = false;
+					break;
+				case GPathIterator.SEG_CLOSE:
+					addLine(cx, cy, mx, my, false);
+					addJoin(lp, mx, my, lp.xMove, lp.yMove, true);
+					addJoin(rp, mx, my, rp.xMove, rp.yMove, false);
+					lp.closePath();
+					rp.closePath();
+					lp.appendReverse(rp);
 					isClosed = true;
-				}
-				rp.clean();
-				mx = cx = coords[0];
-				my = cy = coords[1];
-				isMove = true;
-				break;
-			case GPathIterator.SEG_LINETO:
-				addLine(cx, cy, cx = coords[0], cy = coords[1], true);
-				isClosed = false;
-				break;
-			case GPathIterator.SEG_QUADTO:
-				addQuad(cx, cy, coords[0], coords[1], cx = coords[2],
-						cy = coords[3]);
-				isClosed = false;
-				break;
-			case GPathIterator.SEG_CUBICTO:
-				addCubic(cx, cy, coords[0], coords[1], coords[2], coords[3],
-						cx = coords[4], cy = coords[5]);
-				isClosed = false;
-				break;
-			case GPathIterator.SEG_CLOSE:
-				addLine(cx, cy, mx, my, false);
-				addJoin(lp, mx, my, lp.xMove, lp.yMove, true);
-				addJoin(rp, mx, my, rp.xMove, rp.yMove, false);
-				lp.closePath();
-				rp.closePath();
-				lp.appendReverse(rp);
-				isClosed = true;
-				break;
+					break;
 			}
 			pathIterator.next();
 		}
@@ -312,7 +311,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 	/**
 	 * Generates dashed stroked shape
-	 * 
+	 *
 	 * @param pathIterator
 	 *            - the PathIterator of source shape
 	 */
@@ -326,52 +325,50 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		while (!pathIterator.isDone()) {
 			switch (pathIterator.currentSegment(coords)) {
-			case GPathIterator.SEG_MOVETO:
+				case GPathIterator.SEG_MOVETO:
+					if (!isClosed) {
+						closeDashedShape();
+					}
 
-				if (!isClosed) {
-					closeDashedShape();
-				}
-
-				dasher = new Dasher(dash, 0);
-				lp.clean();
-				rp.clean();
-				sp = null;
-				isFirst = true;
-				isMove = true;
-				isClosed = false;
-				mx = cx = coords[0];
-				my = cy = coords[1];
-				break;
-			case GPathIterator.SEG_LINETO:
-				addDashLine(cx, cy, cx = coords[0], cy = coords[1]);
-				break;
-			case GPathIterator.SEG_QUADTO:
-				addDashQuad(cx, cy, coords[0], coords[1], cx = coords[2],
-						cy = coords[3]);
-				break;
-			case GPathIterator.SEG_CUBICTO:
-				addDashCubic(cx, cy, coords[0], coords[1], coords[2],
-						coords[3], cx = coords[4], cy = coords[5]);
-				break;
-			case GPathIterator.SEG_CLOSE:
-				addDashLine(cx, cy, cx = mx, cy = my);
-
-				if (dasher.isConnected() && sp != null) {
-					// Connect current and head segments
-					addJoin(lp, fmx, fmy, sp.xMove, sp.yMove, true);
-					lp.join(sp);
-					addJoin(lp, fmx, fmy, rp.xLast, rp.yLast, true);
-					lp.combine(rp);
-					addCap(lp, smx, smy, lp.xMove, lp.yMove);
-					lp.closePath();
-					dst.append(lp);
+					dasher = new Dasher(dash, 0);
+					lp.clean();
+					rp.clean();
 					sp = null;
-				} else {
-					closeDashedShape();
-				}
+					isFirst = true;
+					isMove = true;
+					isClosed = false;
+					mx = cx = coords[0];
+					my = cy = coords[1];
+					break;
+				case GPathIterator.SEG_LINETO:
+					addDashLine(cx, cy, cx = coords[0], cy = coords[1]);
+					break;
+				case GPathIterator.SEG_QUADTO:
+					addDashQuad(cx, cy, coords[0], coords[1], cx = coords[2], cy = coords[3]);
+					break;
+				case GPathIterator.SEG_CUBICTO:
+					addDashCubic(
+							cx, cy, coords[0], coords[1], coords[2], coords[3], cx = coords[4], cy = coords[5]);
+					break;
+				case GPathIterator.SEG_CLOSE:
+					addDashLine(cx, cy, cx = mx, cy = my);
 
-				isClosed = true;
-				break;
+					if (dasher.isConnected() && sp != null) {
+						// Connect current and head segments
+						addJoin(lp, fmx, fmy, sp.xMove, sp.yMove, true);
+						lp.join(sp);
+						addJoin(lp, fmx, fmy, rp.xLast, rp.yLast, true);
+						lp.combine(rp);
+						addCap(lp, smx, smy, lp.xMove, lp.yMove);
+						lp.closePath();
+						dst.append(lp);
+						sp = null;
+					} else {
+						closeDashedShape();
+					}
+
+					isClosed = true;
+					break;
 			}
 			pathIterator.next();
 		}
@@ -379,7 +376,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 		if (!isClosed) {
 			closeDashedShape();
 		}
-
 	}
 
 	/**
@@ -406,7 +402,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 	/**
 	 * Adds cap to the work path
-	 * 
+	 *
 	 * @param p
 	 *            - the BufferedPath object of work path
 	 * @param x0
@@ -427,35 +423,35 @@ public class DefaultBasicStroke implements GBasicStroke {
 		double y20 = y2 - y0;
 
 		switch (cap) {
-		case CAP_BUTT:
-			p.lineTo(x2, y2);
-			break;
-		case CAP_ROUND:
-			double mx = x10 * CUBIC_ARC;
-			double my = y10 * CUBIC_ARC;
+			case CAP_BUTT:
+				p.lineTo(x2, y2);
+				break;
+			case CAP_ROUND:
+				double mx = x10 * CUBIC_ARC;
+				double my = y10 * CUBIC_ARC;
 
-			double x3 = x0 + y10;
-			double y3 = y0 - x10;
+				double x3 = x0 + y10;
+				double y3 = y0 - x10;
 
-			x10 *= CUBIC_ARC;
-			y10 *= CUBIC_ARC;
-			x20 *= CUBIC_ARC;
-			y20 *= CUBIC_ARC;
+				x10 *= CUBIC_ARC;
+				y10 *= CUBIC_ARC;
+				x20 *= CUBIC_ARC;
+				y20 *= CUBIC_ARC;
 
-			p.cubicTo(x1 + y10, y1 - x10, x3 + mx, y3 + my, x3, y3);
-			p.cubicTo(x3 - mx, y3 - my, x2 - y20, y2 + x20, x2, y2);
-			break;
-		case CAP_SQUARE:
-			p.lineTo(x1 + y10, y1 - x10);
-			p.lineTo(x2 - y20, y2 + x20);
-			p.lineTo(x2, y2);
-			break;
+				p.cubicTo(x1 + y10, y1 - x10, x3 + mx, y3 + my, x3, y3);
+				p.cubicTo(x3 - mx, y3 - my, x2 - y20, y2 + x20, x2, y2);
+				break;
+			case CAP_SQUARE:
+				p.lineTo(x1 + y10, y1 - x10);
+				p.lineTo(x2 - y20, y2 + x20);
+				p.lineTo(x2, y2);
+				break;
 		}
 	}
 
 	/**
 	 * Adds bevel and miter join to the work path
-	 * 
+	 *
 	 * @param p
 	 *            - the BufferedPath object of work path
 	 * @param x0
@@ -470,8 +466,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 *            - the orientation of work path, true if work path lies to the
 	 *            left from source path, false otherwise
 	 */
-	void addJoin(BufferedPath p, double x0, double y0, double x2, double y2,
-			boolean isLeft) {
+	void addJoin(BufferedPath p, double x0, double y0, double x2, double y2, boolean isLeft) {
 		double x1 = p.xLast;
 		double y1 = p.yLast;
 		double x10 = x1 - x0;
@@ -505,32 +500,32 @@ public class DefaultBasicStroke implements GBasicStroke {
 			p.lineTo(x2, y2);
 		} else {
 			switch (join) {
-			case JOIN_BEVEL:
-				p.lineTo(x2, y2);
-				break;
-			case JOIN_MITER:
-				double s1 = x1 * x10 + y1 * y10;
-				double s2 = x2 * x20 + y2 * y20;
-				double x3 = (s1 * y20 - s2 * y10) / sin0;
-				double y3 = (s2 * x10 - s1 * x20) / sin0;
-				double x30 = x3 - x0;
-				double y30 = y3 - y0;
-				double miterLength = Math.sqrt(x30 * x30 + y30 * y30);
-				if (miterLength < miterLimit * w2) {
-					p.lineTo(x3, y3);
-				}
-				p.lineTo(x2, y2);
-				break;
-			case JOIN_ROUND:
-				addRoundJoin(p, x0, y0, x2, y2, isLeft);
-				break;
+				case JOIN_BEVEL:
+					p.lineTo(x2, y2);
+					break;
+				case JOIN_MITER:
+					double s1 = x1 * x10 + y1 * y10;
+					double s2 = x2 * x20 + y2 * y20;
+					double x3 = (s1 * y20 - s2 * y10) / sin0;
+					double y3 = (s2 * x10 - s1 * x20) / sin0;
+					double x30 = x3 - x0;
+					double y30 = y3 - y0;
+					double miterLength = Math.sqrt(x30 * x30 + y30 * y30);
+					if (miterLength < miterLimit * w2) {
+						p.lineTo(x3, y3);
+					}
+					p.lineTo(x2, y2);
+					break;
+				case JOIN_ROUND:
+					addRoundJoin(p, x0, y0, x2, y2, isLeft);
+					break;
 			}
 		}
 	}
 
 	/**
 	 * Adds round join to the work path
-	 * 
+	 *
 	 * @param p
 	 *            - the BufferedPath object of work path
 	 * @param x0
@@ -545,8 +540,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 *            - the orientation of work path, true if work path lies to the
 	 *            left from source path, false otherwise
 	 */
-	void addRoundJoin(BufferedPath p, double x0, double y0, double x2,
-			double y2, boolean isLeft) {
+	void addRoundJoin(BufferedPath p, double x0, double y0, double x2, double y2, boolean isLeft) {
 		double x1 = p.xLast;
 		double y1 = p.yLast;
 		double x10 = x1 - x0;
@@ -602,12 +596,11 @@ public class DefaultBasicStroke implements GBasicStroke {
 			p.cubicTo(x1 - y10, y1 + x10, x3 + y30, y3 - x30, x3, y3);
 			p.cubicTo(x3 - y30, y3 + x30, x2 + y20, y2 - x20, x2, y2);
 		}
-
 	}
 
 	/**
 	 * Adds solid line segment to the work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the start line point
 	 * @param y1
@@ -657,7 +650,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 	/**
 	 * Adds solid quad segment to the work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the first control point
 	 * @param y1
@@ -671,8 +664,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * @param y3
 	 *            - the y coordinate of the third control point
 	 */
-	void addQuad(double x1, double y1, double x2, double y2, double x3,
-			double y3) {
+	void addQuad(double x1, double y1, double x2, double y2, double x3, double y3) {
 		double x21 = x2 - x1;
 		double y21 = y2 - y1;
 		double x23 = x2 - x3;
@@ -762,7 +754,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Subdivides solid quad curve to make outline for source quad segment and
 	 * adds it to work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the first control point
 	 * @param y1
@@ -778,8 +770,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * @param level
 	 *            - the maximum level of subdivision deepness
 	 */
-	void addSubQuad(double x1, double y1, double x2, double y2, double x3,
-			double y3, int level) {
+	void addSubQuad(double x1, double y1, double x2, double y2, double x3, double y3, int level) {
 		double x21 = x2 - x1;
 		double y21 = y2 - y1;
 		double x23 = x2 - x3;
@@ -788,8 +779,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 		double cos = x21 * x23 + y21 * y23;
 		double sin = x21 * y23 - y21 * x23;
 
-		if (level < MAX_LEVEL
-				&& (cos >= 0.0 || (Math.abs(sin / cos) > curveDelta))) {
+		if (level < MAX_LEVEL && (cos >= 0.0 || (Math.abs(sin / cos) > curveDelta))) {
 			double c1x = (x2 + x1) / 2.0;
 			double c1y = (y2 + y1) / 2.0;
 			double c2x = (x2 + x3) / 2.0;
@@ -815,7 +805,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 	/**
 	 * Adds solid cubic segment to the work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the first control point
 	 * @param y1
@@ -833,8 +823,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * @param y4
 	 *            - the y coordinate of the fours control point
 	 */
-	void addCubic(double x1, double y1, double x2, double y2, double x3,
-			double y3, double x4, double y4) {
+	void addCubic(
+			double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
 		double x12 = x1 - x2;
 		double y12 = y1 - y2;
 		double x23 = x2 - x3;
@@ -974,10 +964,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 					double py = t * (t * (t * ay + by) + cy) + y1;
 					double px1 = (xPrev + px) / 2.0;
 					double py1 = (yPrev + py) / 2.0;
-					lp.cubicTo(px1 + mx1, py1 + my1, px1 + mx1, py1 + my1, px
-							+ mx1, py + my1);
-					rp.cubicTo(px1 - mx1, py1 - my1, px1 - mx1, py1 - my1, px
-							- mx1, py - my1);
+					lp.cubicTo(px1 + mx1, py1 + my1, px1 + mx1, py1 + my1, px + mx1, py + my1);
+					rp.cubicTo(px1 - mx1, py1 - my1, px1 - mx1, py1 - my1, px - mx1, py - my1);
 					if (i < rc - 1) {
 						lp.lineTo(px - mx1, py - my1);
 						rp.lineTo(px + mx1, py + my1);
@@ -988,10 +976,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 					my1 = -my1;
 				}
 			} else {
-				lp.cubicTo(x2 + mx1, y2 + my1, x3 + mx4, y3 + my4, x4 + mx4, y4
-						+ my4);
-				rp.cubicTo(x2 - mx1, y2 - my1, x3 - mx4, y3 - my4, x4 - mx4, y4
-						- my4);
+				lp.cubicTo(x2 + mx1, y2 + my1, x3 + mx4, y3 + my4, x4 + mx4, y4 + my4);
+				rp.cubicTo(x2 - mx1, y2 - my1, x3 - mx4, y3 - my4, x4 - mx4, y4 - my4);
 			}
 		} else {
 			addSubCubic(x1, y1, x2, y2, x3, y3, x4, y4, 0);
@@ -1001,7 +987,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Subdivides solid cubic curve to make outline for source quad segment and
 	 * adds it to work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the first control point
 	 * @param y1
@@ -1021,8 +1007,16 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * @param level
 	 *            - the maximum level of subdivision deepness
 	 */
-	void addSubCubic(double x1, double y1, double x2, double y2, double x3,
-			double y3, double x4, double y4, int level) {
+	void addSubCubic(
+			double x1,
+			double y1,
+			double x2,
+			double y2,
+			double x3,
+			double y3,
+			double x4,
+			double y4,
+			int level) {
 		double x12 = x1 - x2;
 		double y12 = y1 - y2;
 		double x23 = x2 - x3;
@@ -1039,10 +1033,12 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		if (level < MAX_LEVEL
 				&& (sin2 != 0.0 || sin3 != 0.0 || sin0 != 0.0)
-				&& (cos2 >= 0.0 || cos3 >= 0.0 || cos0 >= 0.0
+				&& (cos2 >= 0.0
+						|| cos3 >= 0.0
+						|| cos0 >= 0.0
 						|| (Math.abs(sin2 / cos2) > curveDelta)
-						|| (Math.abs(sin3 / cos3) > curveDelta) || (Math
-						.abs(sin0 / cos0) > curveDelta))) {
+						|| (Math.abs(sin3 / cos3) > curveDelta)
+						|| (Math.abs(sin0 / cos0) > curveDelta))) {
 			double cx = (x2 + x3) / 2.0;
 			double cy = (y2 + y3) / 2.0;
 			double lx2 = (x2 + x1) / 2.0;
@@ -1104,16 +1100,14 @@ public class DefaultBasicStroke implements GBasicStroke {
 				my3 = -(y23 * l34 - y34 * l23) * w;
 			}
 
-			lp.cubicTo(x2 + mx2, y2 + my2, x3 + mx3, y3 + my3, x4 + mx4, y4
-					+ my4);
-			rp.cubicTo(x2 - mx2, y2 - my2, x3 - mx3, y3 - my3, x4 - mx4, y4
-					- my4);
+			lp.cubicTo(x2 + mx2, y2 + my2, x3 + mx3, y3 + my3, x4 + mx4, y4 + my4);
+			rp.cubicTo(x2 - mx2, y2 - my2, x3 - mx3, y3 - my3, x4 - mx4, y4 - my4);
 		}
 	}
 
 	/**
 	 * Adds dashed line segment to the work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the start line point
 	 * @param y1
@@ -1190,7 +1184,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 	/**
 	 * Adds dashed quad segment to the work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the first control point
 	 * @param y1
@@ -1204,8 +1198,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * @param y3
 	 *            - the y coordinate of the third control point
 	 */
-	void addDashQuad(double x1, double y1, double x2, double y2, double x3,
-			double y3) {
+	void addDashQuad(double x1, double y1, double x2, double y2, double x3, double y3) {
 
 		double x21 = x2 - x1;
 		double y21 = y2 - y1;
@@ -1303,7 +1296,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 	/**
 	 * Adds dashed cubic segment to the work path
-	 * 
+	 *
 	 * @param x1
 	 *            - the x coordinate of the first control point
 	 * @param y1
@@ -1321,8 +1314,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 	 * @param y4
 	 *            - the y coordinate of the fours control point
 	 */
-	void addDashCubic(double x1, double y1, double x2, double y2, double x3,
-			double y3, double x4, double y4) {
+	void addDashCubic(
+			double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
 
 		double x12 = x1 - x2;
 		double y12 = y1 - y2;
@@ -1518,13 +1511,12 @@ public class DefaultBasicStroke implements GBasicStroke {
 			double t = iter.getNext(pos);
 			return t < 0 ? 0 : (t > 1 ? 1 : t);
 		}
-
 	}
 
 	/**
 	 * DashIterator class provides dashing for particular segment type
 	 */
-	static abstract class DashIterator {
+	abstract static class DashIterator {
 
 		static final double FLATNESS = 1.0;
 
@@ -1538,7 +1530,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 			double getNext(double dashPos) {
 				return dashPos / length;
 			}
-
 		}
 
 		static class Quad extends DashIterator {
@@ -1551,14 +1542,12 @@ public class DefaultBasicStroke implements GBasicStroke {
 			double[] values;
 			double step;
 
-			Quad(double x1, double y1, double x2, double y2, double x3,
-					double y3) {
+			Quad(double x1, double y1, double x2, double y2, double x3, double y3) {
 
 				double nx = x1 + x3 - x2 - x2;
 				double ny = y1 + y3 - y2 - y2;
 
-				int n = (int) (1 + Math.sqrt(0.75
-						* (Math.abs(nx) + Math.abs(ny)) * FLATNESS));
+				int n = (int) (1 + Math.sqrt(0.75 * (Math.abs(nx) + Math.abs(ny)) * FLATNESS));
 				step = 1.0 / n;
 
 				double ax = x1 + x3 - x2 - x2;
@@ -1608,7 +1597,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 				}
 				return t;
 			}
-
 		}
 
 		static class Cubic extends DashIterator {
@@ -1621,16 +1609,15 @@ public class DefaultBasicStroke implements GBasicStroke {
 			double[] values;
 			double step;
 
-			Cubic(double x1, double y1, double x2, double y2, double x3,
-					double y3, double x4, double y4) {
+			Cubic(
+					double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
 
 				double nx1 = x1 + x3 - x2 - x2;
 				double ny1 = y1 + y3 - y2 - y2;
 				double nx2 = x2 + x4 - x3 - x3;
 				double ny2 = y2 + y4 - y3 - y3;
 
-				double max = Math.max(Math.abs(nx1) + Math.abs(ny1),
-						Math.abs(nx2) + Math.abs(ny2));
+				double max = Math.max(Math.abs(nx1) + Math.abs(ny1), Math.abs(nx2) + Math.abs(ny2));
 				int n = (int) (1 + Math.sqrt(0.75 * max) * FLATNESS);
 				step = 1.0 / n;
 
@@ -1687,13 +1674,11 @@ public class DefaultBasicStroke implements GBasicStroke {
 				}
 				return t;
 			}
-
 		}
 
 		double length;
 
 		abstract double getNext(double dashPos);
-
 	}
 
 	/**
@@ -1703,11 +1688,13 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		private static final int bufCapacity = 10;
 
-		static int[] pointShift = { 2, // MOVETO
-				2, // LINETO
-				4, // QUADTO
-				6, // CUBICTO
-				0 }; // CLOSE
+		static int[] pointShift = {
+			2, // MOVETO
+			2, // LINETO
+			4, // QUADTO
+			6, // CUBICTO
+			0
+		}; // CLOSE
 
 		byte[] types;
 		double[] points;
@@ -1752,7 +1739,6 @@ public class DefaultBasicStroke implements GBasicStroke {
 				System.arraycopy(points, 0, tmp, 0, pointSize);
 				points = tmp;
 			}
-
 		}
 
 		boolean isEmpty() {
@@ -1787,8 +1773,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 			points[pointSize++] = yLast = y2;
 		}
 
-		void cubicTo(double x1, double y1, double x2, double y2, double x3,
-				double y3) {
+		void cubicTo(double x1, double y1, double x2, double y2, double x3, double y3) {
 			checkBuf(1, 6);
 			types[typeSize++] = GPathIterator.SEG_CUBICTO;
 			points[pointSize++] = x1;
@@ -1880,28 +1865,31 @@ public class DefaultBasicStroke implements GBasicStroke {
 			for (int i = 0; i < typeSize; i++) {
 				int type = types[i];
 				switch (type) {
-				case GPathIterator.SEG_MOVETO:
-					p.moveTo(points[j], points[j + 1]);
-					break;
-				case GPathIterator.SEG_LINETO:
-					p.lineTo(points[j], points[j + 1]);
-					break;
-				case GPathIterator.SEG_QUADTO:
-					p.quadTo(points[j], points[j + 1], points[j + 2],
-							points[j + 3]);
-					break;
-				case GPathIterator.SEG_CUBICTO:
-					p.curveTo(points[j], points[j + 1], points[j + 2],
-							points[j + 3], points[j + 4], points[j + 5]);
-					break;
-				case GPathIterator.SEG_CLOSE:
-					p.closePath();
-					break;
+					case GPathIterator.SEG_MOVETO:
+						p.moveTo(points[j], points[j + 1]);
+						break;
+					case GPathIterator.SEG_LINETO:
+						p.lineTo(points[j], points[j + 1]);
+						break;
+					case GPathIterator.SEG_QUADTO:
+						p.quadTo(points[j], points[j + 1], points[j + 2], points[j + 3]);
+						break;
+					case GPathIterator.SEG_CUBICTO:
+						p.curveTo(
+								points[j],
+								points[j + 1],
+								points[j + 2],
+								points[j + 3],
+								points[j + 4],
+								points[j + 5]);
+						break;
+					case GPathIterator.SEG_CLOSE:
+						p.closePath();
+						break;
 				}
 				j += pointShift[type];
 			}
 			return p;
 		}
-
 	}
 }

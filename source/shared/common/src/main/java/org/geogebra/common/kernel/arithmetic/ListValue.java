@@ -24,17 +24,17 @@ public interface ListValue extends ExpressionValue {
 
 	/**
 	 * Returns a MyList object.
-	 * 
+	 *
 	 * @return MyList representation of this list
 	 */
 	MyList getMyList();
 
 	/**
 	 * Tries to return this list as an array of double values
-	 * 
+	 *
 	 * @param offset
 	 *            how many elements should be skipped
-	 * 
+	 *
 	 * @return array of double values from this list
 	 */
 	double[] toDouble(int offset);
@@ -55,5 +55,4 @@ public interface ListValue extends ExpressionValue {
 	 * @return true if list is matrix
 	 */
 	boolean isMatrix();
-
 }

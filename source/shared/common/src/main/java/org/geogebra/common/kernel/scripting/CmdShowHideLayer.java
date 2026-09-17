@@ -37,7 +37,7 @@ public class CmdShowHideLayer extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param show
@@ -53,31 +53,31 @@ public class CmdShowHideLayer extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 1:
-			GeoElement[] arg = resArgs(c);
-			if (arg[0] instanceof NumberValue) {
-				int layer = (int) arg[0].evaluateDouble();
-				if (layer < 0 || layer > EuclidianStyleConstants.MAX_LAYERS) {
+			case 1:
+				GeoElement[] arg = resArgs(c);
+				if (arg[0] instanceof NumberValue) {
+					int layer = (int) arg[0].evaluateDouble();
+					if (layer < 0 || layer > EuclidianStyleConstants.MAX_LAYERS) {
+						return arg;
+					}
+					Iterator<GeoElement> it =
+							kernel.getConstruction().getGeoSetLabelOrder().iterator();
+					ArrayList<GeoElement> set = new ArrayList<>();
+					while (it.hasNext()) {
+						GeoElement geo = it.next();
+						if (geo.getLayer() == layer) {
+							geo.setEuclidianVisible(show);
+							set.add(geo);
+						}
+					}
+					GeoElement.updateCascade(set, new TreeSet<>(), true);
+					kernel.notifyRepaint();
 					return arg;
 				}
-				Iterator<GeoElement> it = kernel.getConstruction()
-						.getGeoSetLabelOrder().iterator();
-				ArrayList<GeoElement> set = new ArrayList<>();
-				while (it.hasNext()) {
-					GeoElement geo = it.next();
-					if (geo.getLayer() == layer) {
-						geo.setEuclidianVisible(show);
-						set.add(geo);
-					}
-				}
-				GeoElement.updateCascade(set, new TreeSet<>(), true);
-				kernel.notifyRepaint();
-				return arg;
-			}
-			throw argErr(c, null);
+				throw argErr(c, null);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

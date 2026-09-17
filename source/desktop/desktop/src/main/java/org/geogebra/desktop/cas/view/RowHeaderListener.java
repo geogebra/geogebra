@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,8 +35,7 @@ import org.geogebra.desktop.main.AppD;
  * Handles mouse and key events in row headers of the CAS table
  *
  */
-public class RowHeaderListener extends MouseAdapter
-		implements KeyListener, ListSelectionListener {
+public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener {
 
 	private final CASTableD table;
 	private final JList rowHeader;
@@ -94,11 +93,11 @@ public class RowHeaderListener extends MouseAdapter
 
 		try {
 			RowHeaderRenderer rhr = (RowHeaderRenderer) rowHeader
-					.getCellRenderer().getListCellRendererComponent(rowHeader,
-							(releasedRow + 1) + "", releasedRow, false, false);
+					.getCellRenderer()
+					.getListCellRendererComponent(
+							rowHeader, (releasedRow + 1) + "", releasedRow, false, false);
 			boolean marbleVisible = rhr.getComponent(1).isVisible();
-			if (releasedRow == mousePressedRow && marbleVisible
-					&& !rightClick) {
+			if (releasedRow == mousePressedRow && marbleVisible && !rightClick) {
 				int totalHeight = 0;
 				for (int i = 0; i < releasedRow; i++) {
 					totalHeight += table.getRowHeight(i);
@@ -108,10 +107,8 @@ public class RowHeaderListener extends MouseAdapter
 				// see Ticket #3439, comments 8, 12
 				int marbleTop = table.getRowHeight(releasedRow) / 2 + 4;
 				if (e.getY() > marbleTop + totalHeight - 4
-						&& e.getY() < marbleTop + totalHeight
-								+ app.getScaledIconSize()) {
-					GeoCasCell clickedCell = table
-							.getGeoCasCell(table.rowAtPoint(e.getPoint()));
+						&& e.getY() < marbleTop + totalHeight + app.getScaledIconSize()) {
+					GeoCasCell clickedCell = table.getGeoCasCell(table.rowAtPoint(e.getPoint()));
 					if (table.isEditing()) {
 						table.stopEditing();
 					}
@@ -131,8 +128,7 @@ public class RowHeaderListener extends MouseAdapter
 				rowHeader.setSelectedIndex(releasedRow);
 			}
 			if (rowHeader.getSelectedIndices().length > 0) {
-				RowHeaderPopupMenuD popupMenu = new RowHeaderPopupMenuD(
-						rowHeader, table, app);
+				RowHeaderPopupMenuD popupMenu = new RowHeaderPopupMenuD(rowHeader, table, app);
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}
@@ -153,25 +149,24 @@ public class RowHeaderListener extends MouseAdapter
 		boolean undoNeeded = false;
 
 		switch (e.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_DELETE:
-		case KeyEvent.VK_BACK_SPACE:
-			int[] selRows = rowHeader.getSelectedIndices();
-			undoNeeded = table.getCASView().deleteCasCells(selRows);
-			if (selRows != null && selRows.length > 0) {
-				int row = selRows[0];
-				rowHeader.setSelectedIndex(row);
-			}
-			break;
+			default:
+				// do nothing
+				break;
+			case KeyEvent.VK_DELETE:
+			case KeyEvent.VK_BACK_SPACE:
+				int[] selRows = rowHeader.getSelectedIndices();
+				undoNeeded = table.getCASView().deleteCasCells(selRows);
+				if (selRows != null && selRows.length > 0) {
+					int row = selRows[0];
+					rowHeader.setSelectedIndex(row);
+				}
+				break;
 		}
 
 		if (undoNeeded) {
 			// store undo info
 			table.getApplication().storeUndoInfo();
 		}
-
 	}
 
 	@Override

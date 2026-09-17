@@ -18,8 +18,7 @@ import org.freehep.graphicsio.emf.gdi.PolylineTo16;
  * @author Mark Donszelmann
  * @version $Id: EMFPathConstructor.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
-public class EMFPathConstructor extends QuadToCubicPathConstructor
-		implements EMFConstants {
+public class EMFPathConstructor extends QuadToCubicPathConstructor implements EMFConstants {
 	private EMFOutputStream os;
 
 	private Rectangle imageBounds;
@@ -56,8 +55,11 @@ public class EMFPathConstructor extends QuadToCubicPathConstructor
 		int ix = toUnit(x);
 		int iy = toUnit(y);
 
-		if (wide || (ix < Short.MIN_VALUE) || (ix > Short.MAX_VALUE)
-				|| (iy < Short.MIN_VALUE) || (iy > Short.MAX_VALUE)) {
+		if (wide
+				|| (ix < Short.MIN_VALUE)
+				|| (ix > Short.MAX_VALUE)
+				|| (iy < Short.MIN_VALUE)
+				|| (iy > Short.MAX_VALUE)) {
 			wide = true;
 		}
 
@@ -80,8 +82,8 @@ public class EMFPathConstructor extends QuadToCubicPathConstructor
 	}
 
 	@Override
-	public void cubic(double x1, double y1, double x2, double y2, double x3,
-			double y3) throws IOException {
+	public void cubic(double x1, double y1, double x2, double y2, double x3, double y3)
+			throws IOException {
 		if (!curved && (pointIndex > 0)) {
 			flush();
 		}
@@ -105,8 +107,7 @@ public class EMFPathConstructor extends QuadToCubicPathConstructor
 			if (wide) {
 				os.writeTag(new PolyBezierTo(imageBounds, pointIndex, points));
 			} else {
-				os.writeTag(
-						new PolyBezierTo16(imageBounds, pointIndex, points));
+				os.writeTag(new PolyBezierTo16(imageBounds, pointIndex, points));
 			}
 		} else if (pointIndex == 1) {
 			os.writeTag(new LineTo(points[0]));

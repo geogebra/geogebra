@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,8 +51,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Navigation buttons for the construction protocol
  */
-public class ConstructionProtocolNavigationD
-		extends ConstructionProtocolNavigation
+public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigation
 		implements ActionListener, SettingListener<ConstructionProtocolSettings>, SetLabels {
 
 	private JButton btFirst;
@@ -62,21 +61,24 @@ public class ConstructionProtocolNavigationD
 	private JButton btOpenWindow;
 	/** Button for starting/stopping animation */
 	JButton btPlay;
+
 	private final JLabel lbSteps;
 	/** Delay spinner */
 	JSpinner spDelay;
+
 	private AutomaticPlayer player;
 	/**
 	 * ConstructionProtocolNavigation panel
 	 */
 	private final JPanel implPanel;
+
 	private final LocalizationD loc;
 
 	private JPanel playPanel;
 
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -84,15 +86,15 @@ public class ConstructionProtocolNavigationD
 		super(app, viewID);
 		implPanel = new JPanel();
 		this.loc = app.getLocalization();
-		SpinnerModel model = new SpinnerNumberModel(2, // initial value
+		SpinnerModel model = new SpinnerNumberModel(
+				2, // initial value
 				0.25, // min
 				10, // max
 				0.25); // step
 		spDelay = new JSpinner(model);
 		NumberEditor numEdit = new JSpinner.NumberEditor(spDelay, "#.##");
 		DecimalFormat format = numEdit.getFormat();
-		format.setDecimalFormatSymbols(
-				new DecimalFormatSymbols(Locale.ENGLISH));
+		format.setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.ENGLISH));
 
 		lbSteps = new JLabel();
 
@@ -129,7 +131,7 @@ public class ConstructionProtocolNavigationD
 
 	/**
 	 * Changes animation delay
-	 * 
+	 *
 	 * @param delay
 	 *            delay in seconds
 	 */
@@ -141,7 +143,6 @@ public class ConstructionProtocolNavigationD
 			spDelay.setValue(playDelay);
 		} catch (Exception e) {
 			spDelay.setValue((int) Math.round(playDelay));
-
 		}
 	}
 
@@ -153,14 +154,10 @@ public class ConstructionProtocolNavigationD
 
 		implPanel.removeAll();
 		final AppD appD = (AppD) app;
-		btFirst = new JButton(
-				appD.getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
-		btLast = new JButton(
-				appD.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
-		btPrev = new JButton(
-				appD.getScaledIcon(GuiResourcesD.NAV_REWIND64));
-		btNext = new JButton(
-				appD.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
+		btFirst = new JButton(appD.getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
+		btLast = new JButton(appD.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
+		btPrev = new JButton(appD.getScaledIcon(GuiResourcesD.NAV_REWIND64));
+		btNext = new JButton(appD.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
 
 		btFirst.addActionListener(this);
 		btLast.addActionListener(this);
@@ -183,8 +180,7 @@ public class ConstructionProtocolNavigationD
 
 		spDelay.addChangeListener(e -> {
 			try {
-				playDelay = Double
-						.parseDouble(spDelay.getValue().toString());
+				playDelay = Double.parseDouble(spDelay.getValue().toString());
 			} catch (Exception ex) {
 				playDelay = 2;
 			}
@@ -195,20 +191,16 @@ public class ConstructionProtocolNavigationD
 		playPanel.add(new JLabel("s"));
 
 		btOpenWindow = new JButton();
-		btOpenWindow.setIcon(appD
-				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
+		btOpenWindow.setIcon(appD.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		btOpenWindow.addActionListener(e -> {
 			// app.getGuiManager().showConstructionProtocol();
-			if (!appD.getGuiManager()
-					.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-				appD.getGuiManager().setShowView(true,
-						App.VIEW_CONSTRUCTION_PROTOCOL);
+			if (!appD.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+				appD.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
 			}
 
 			// Checkbox of Construction protocol view will be checked in
 			// view menu
-			((GeoGebraMenuBar) appD.getGuiManager().getMenuBar())
-					.updateCPView(true);
+			((GeoGebraMenuBar) appD.getGuiManager().getMenuBar()).updateCPView(true);
 		});
 		btOpenWindow.setVisible(isConsProtButtonVisible());
 
@@ -230,8 +222,7 @@ public class ConstructionProtocolNavigationD
 			btPlay.setText(loc.getMenu("Play"));
 		}
 		if (btOpenWindow != null) {
-			btOpenWindow.setToolTipText(
-					loc.getPlainTooltip("ConstructionProtocol"));
+			btOpenWindow.setToolTipText(loc.getPlainTooltip("ConstructionProtocol"));
 		}
 	}
 
@@ -282,8 +273,7 @@ public class ConstructionProtocolNavigationD
 			}
 		}
 
-		if (prot != null && ((ConstructionProtocolViewD) prot).getCpPanel()
-				.isVisible()) {
+		if (prot != null && ((ConstructionProtocolViewD) prot).getCpPanel().isVisible()) {
 			prot.scrollToConstructionStep();
 		}
 
@@ -292,7 +282,7 @@ public class ConstructionProtocolNavigationD
 
 	/**
 	 * Make all components enabled / disabled
-	 * 
+	 *
 	 * @param flag
 	 *            whether components should be enabled
 	 */
@@ -325,7 +315,7 @@ public class ConstructionProtocolNavigationD
 
 		/**
 		 * Creates a new player to step through the construction automatically.
-		 * 
+		 *
 		 * @param delay
 		 *            in seconds between steps
 		 */
@@ -374,7 +364,6 @@ public class ConstructionProtocolNavigationD
 		setPlayDelay(settings.getPlayDelay());
 		setConsProtButtonVisible(settings.showConsProtButton());
 		update();
-
 	}
 
 	@Override
@@ -389,15 +378,11 @@ public class ConstructionProtocolNavigationD
 		if (btFirst == null) {
 			return;
 		}
-		btFirst.setIcon(
-				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
-		btLast.setIcon(
-				((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
+		btFirst.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
+		btLast.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
 		btPrev.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.NAV_REWIND64));
-		btNext.setIcon(
-				((AppD) app).getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
-		btOpenWindow.setIcon(((AppD) app)
-				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
+		btNext.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
+		btOpenWindow.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		lbSteps.setFont(((AppD) app).getPlainFont());
 		update();
 	}

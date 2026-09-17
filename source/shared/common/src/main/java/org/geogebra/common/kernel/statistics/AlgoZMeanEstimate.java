@@ -25,8 +25,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoZMeanEstimate extends AlgoElement {
@@ -51,8 +51,8 @@ public class AlgoZMeanEstimate extends AlgoElement {
 	 * @param level
 	 *            level
 	 */
-	public AlgoZMeanEstimate(Construction cons, GeoNumeric mean, GeoNumeric sd,
-			GeoNumeric n, GeoNumeric level) {
+	public AlgoZMeanEstimate(
+			Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
@@ -76,8 +76,8 @@ public class AlgoZMeanEstimate extends AlgoElement {
 	 * @param level
 	 *            level of confidence
 	 */
-	public AlgoZMeanEstimate(Construction cons, String label, GeoList list,
-			GeoNumeric sd, GeoNumeric level) {
+	public AlgoZMeanEstimate(
+			Construction cons, String label, GeoList list, GeoNumeric sd, GeoNumeric level) {
 		super(cons);
 
 		this.list = list;
@@ -182,7 +182,5 @@ public class AlgoZMeanEstimate extends AlgoElement {
 		result.clear();
 		result.addNumber(mean1 - me, null);
 		result.addNumber(mean1 + me, null);
-
 	}
-
 }

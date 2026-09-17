@@ -30,7 +30,7 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -57,24 +57,24 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 	public void setCoords() {
 
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			GeoVec2D b = ((GeoConicND) c).getB();
-			setCoords(b.getX(), b.getY());
-			break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+				GeoVec2D b = ((GeoConicND) c).getB();
+				setCoords(b.getX(), b.getY());
+				break;
 
-		default:
-			// midpoint undefined
-			midpoint.setUndefined();
+			default:
+				// midpoint undefined
+				midpoint.setUndefined();
 		}
 	}
 
 	/**
 	 * set the coords of the midpoint
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -83,5 +83,4 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 	protected void setCoords(double x, double y) {
 		midpoint.setCoords(x, y, 1.0d);
 	}
-
 }

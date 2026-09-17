@@ -39,6 +39,7 @@ public abstract class ScientificFormatAdapter {
 	 * recorded by MaxWidth
 	 */
 	protected int sigDigits;
+
 	protected int maxWidth;
 	protected final boolean sciNote;
 
@@ -93,8 +94,7 @@ public abstract class ScientificFormatAdapter {
 		if (ePos < 0) {
 			return preliminaryResult;
 		}
-		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1))
-				+ 1;
+		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1)) + 1;
 		if (exponent > maxWidth || exponent < -maxWidth + sigDigits + 1) {
 			return preliminaryResult;
 		}
@@ -120,5 +120,4 @@ public abstract class ScientificFormatAdapter {
 		}
 		return result.toString();
 	}
-
 }

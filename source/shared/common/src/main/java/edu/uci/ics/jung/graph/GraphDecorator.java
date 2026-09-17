@@ -35,7 +35,7 @@ public class GraphDecorator<V, E> implements Graph<V, E>, Serializable {
 
 	/**
 	 * Creates a new instance based on the provided {@code delegate}.
-	 * 
+	 *
 	 * @param delegate delegate
 	 */
 	public GraphDecorator(Graph<V, E> delegate) {
@@ -55,8 +55,7 @@ public class GraphDecorator<V, E> implements Graph<V, E>, Serializable {
 	 * @see Hypergraph#addEdge(Object, Collection, EdgeType)
 	 */
 	@Override
-	public boolean addEdge(E edge, Collection<? extends V> vertices,
-			EdgeType edge_type) {
+	public boolean addEdge(E edge, Collection<? extends V> vertices, EdgeType edge_type) {
 		return delegate.addEdge(edge, vertices, edge_type);
 	}
 

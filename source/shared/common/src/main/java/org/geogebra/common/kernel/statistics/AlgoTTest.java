@@ -31,8 +31,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a one sample t-test of a mean.
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoTTest extends AlgoElement {
@@ -63,8 +63,8 @@ public class AlgoTTest extends AlgoElement {
 	 * @param tail
 	 *            one of &lt;,&gt;,=
 	 */
-	public AlgoTTest(Construction cons, String label, GeoList geoList,
-			GeoNumeric hypMean, GeoText tail) {
+	public AlgoTTest(
+			Construction cons, String label, GeoList geoList, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
 		this.geoList = geoList;
 		this.hypMean = hypMean;
@@ -93,8 +93,13 @@ public class AlgoTTest extends AlgoElement {
 	 * @param tail
 	 *            one of &lt;,&gt;,=
 	 */
-	public AlgoTTest(Construction cons, GeoNumeric mean, GeoNumeric sd,
-			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+	public AlgoTTest(
+			Construction cons,
+			GeoNumeric mean,
+			GeoNumeric sd,
+			GeoNumeric n,
+			GeoNumeric hypMean,
+			GeoText tail) {
 		super(cons);
 		this.geoList = null;
 		this.hypMean = hypMean;
@@ -229,8 +234,7 @@ public class AlgoTTest extends AlgoElement {
 
 			try {
 				StatisticalSummaryValues sumStats = new StatisticalSummaryValues(
-						mean.getDouble(), sd.getDouble() * sd.getDouble(),
-						(long) n.getDouble(), -1, -1, -1);
+						mean.getDouble(), sd.getDouble() * sd.getDouble(), (long) n.getDouble(), -1, -1, -1);
 
 				// get the test statistic and p
 				if (tTestImpl == null) {
@@ -251,9 +255,6 @@ public class AlgoTTest extends AlgoElement {
 				Log.debug(e);
 				result.setUndefined();
 			}
-
 		}
-
 	}
-
 }

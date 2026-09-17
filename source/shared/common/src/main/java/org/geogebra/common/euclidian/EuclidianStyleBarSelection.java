@@ -49,8 +49,7 @@ public class EuclidianStyleBarSelection {
 	 */
 	public void restoreDefaultGeoFromConstruction() {
 		if (oldDefaultGeo != null) {
-			oldDefaultGeo = getDefaults()
-					.getDefaultGeo(oldDefaultMode);
+			oldDefaultGeo = getDefaults().getDefaultGeo(oldDefaultMode);
 		}
 	}
 
@@ -61,8 +60,7 @@ public class EuclidianStyleBarSelection {
 		if (oldDefaultGeo != null) {
 			// add oldDefaultGeo to the default map so that the old default
 			// is restored
-			getDefaults().addDefaultGeo(oldDefaultMode,
-					oldDefaultGeo);
+			getDefaults().addDefaultGeo(oldDefaultMode, oldDefaultGeo);
 			oldDefaultGeo = null;
 			oldDefaultMode = null;
 		}
@@ -111,17 +109,12 @@ public class EuclidianStyleBarSelection {
 			return;
 		}
 		Integer type = getDefaultType(mode);
-		if (type.equals(
-				ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX)) {
+		if (type.equals(ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX)) {
 			// add all non-complex default points
-			defaultGeos.add(getDefaults().getDefaultGeo(
-					ConstructionDefaults.DEFAULT_POINT_FREE));
-			defaultGeos.add(getDefaults().getDefaultGeo(
-					ConstructionDefaults.DEFAULT_POINT_ON_PATH));
-			defaultGeos.add(getDefaults().getDefaultGeo(
-					ConstructionDefaults.DEFAULT_POINT_IN_REGION));
-			defaultGeos.add(getDefaults().getDefaultGeo(
-					ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
+			defaultGeos.add(getDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE));
+			defaultGeos.add(getDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_ON_PATH));
+			defaultGeos.add(getDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_IN_REGION));
+			defaultGeos.add(getDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
 		} else {
 			GeoElement geo = getDefaults().getDefaultGeo(type);
 			if (geo != null) {

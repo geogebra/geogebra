@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdRotateText extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,20 +47,17 @@ public class CmdRotateText extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 3:
-		case 2:
-			if ((ok[0] = arg[0].isGeoText())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				AlgoRotateText algo = new AlgoRotateText(cons,
-						(GeoText) arg[0], (GeoNumberValue) arg[1]);
-				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[] { algo.getResult() };
-			}
-			throw argErr(c, ok[0] ? arg[1] : arg[0]);
+			case 3:
+			case 2:
+				if ((ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
+					AlgoRotateText algo = new AlgoRotateText(cons, (GeoText) arg[0], (GeoNumberValue) arg[1]);
+					algo.getResult().setLabel(c.getLabel());
+					return new GeoElement[] {algo.getResult()};
+				}
+				throw argErr(c, ok[0] ? arg[1] : arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

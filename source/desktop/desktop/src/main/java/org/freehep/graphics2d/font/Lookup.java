@@ -1,11 +1,11 @@
-//Copyright 2001-2005 FreeHEP.
+// Copyright 2001-2005 FreeHEP.
 package org.freehep.graphics2d.font;
 
 /**
  * Lookup class provides conversion between different encodings and character
  * tables using character name, encoding index, and unicode. In order to add new
  * tables original code should be modified.
- * 
+ *
  * @author Sami Kama
  * @version $Id: Lookup.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -33,13 +33,12 @@ public class Lookup {
 		tables[5] = new WINLatin();
 		tables[6] = new PDFLatin();
 		tables[7] = new ISOLatin();
-
 	}
 
 	/**
 	 * Converts a name to unicode. This method takes name of the character and
 	 * returns character as a unicode character.
-	 * 
+	 *
 	 * @return requested unicode character.
 	 */
 	public char toUnicode(String name) {
@@ -54,7 +53,7 @@ public class Lookup {
 
 	/**
 	 * Converts a unicode character to name.
-	 * 
+	 *
 	 * @return requested character name.
 	 */
 	public String toName(char uc) {
@@ -69,7 +68,7 @@ public class Lookup {
 
 	/**
 	 * Converts a unicode character to name.
-	 * 
+	 *
 	 * @return requested character name.
 	 */
 	public String toName(Character uc) {
@@ -85,9 +84,9 @@ public class Lookup {
 	/**
 	 * Gives the requested encoding table Valid table names can be requested
 	 * with a call to
-	 * 
+	 *
 	 * @see #getTableNames
-	 * 
+	 *
 	 * @return requested encoding.
 	 */
 	public CharTable getTable(String tableName) {
@@ -102,7 +101,7 @@ public class Lookup {
 
 	/**
 	 * Gives the total number of tables included in the file
-	 * 
+	 *
 	 * @return number of tables
 	 */
 	public int getNumberOfTables() {
@@ -111,7 +110,7 @@ public class Lookup {
 
 	/**
 	 * Gives the names of tables that can be used in a string array.
-	 * 
+	 *
 	 * @return An array of String[] containing the table names
 	 */
 	public String[] getTableNames() {

@@ -77,8 +77,7 @@ class IntervalSetTest {
 		assertAll(
 				() -> assertEquals(IntervalSet.Kind.CONNECTED, set.kind()),
 				() -> assertTrue(set.isConnected()),
-				() -> assertEquals(new Interval(1, 2), set.interval())
-		);
+				() -> assertEquals(new Interval(1, 2), set.interval()));
 	}
 
 	@Test
@@ -89,9 +88,11 @@ class IntervalSetTest {
 
 	@Test
 	void connectedMayUseInfiniteBounds() {
-		assertEquals(new Interval(Double.NEGATIVE_INFINITY, 5),
+		assertEquals(
+				new Interval(Double.NEGATIVE_INFINITY, 5),
 				IntervalSet.connected(Double.NEGATIVE_INFINITY, 5).interval());
-		assertEquals(new Interval(7, Double.POSITIVE_INFINITY),
+		assertEquals(
+				new Interval(7, Double.POSITIVE_INFINITY),
 				IntervalSet.connected(7, Double.POSITIVE_INFINITY).interval());
 	}
 
@@ -102,9 +103,8 @@ class IntervalSetTest {
 		assertAll(
 				() -> assertEquals(IntervalSet.Kind.CONNECTED, set.kind()),
 				() -> assertFalse(set.isWhole()),
-				() -> assertEquals(new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
-				set.interval())
-		);
+				() -> assertEquals(
+						new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY), set.interval()));
 	}
 
 	@Test
@@ -114,8 +114,7 @@ class IntervalSetTest {
 		assertAll(
 				() -> assertEquals(IntervalSet.Kind.INVERTED, set.kind()),
 				() -> assertTrue(set.isInverted()),
-				() -> assertEquals(new Interval(1, 2), set.interval())
-		);
+				() -> assertEquals(new Interval(1, 2), set.interval()));
 	}
 
 	@Test
@@ -181,9 +180,8 @@ class IntervalSetTest {
 		assertEquals("IntervalSet{EMPTY}", IntervalSet.empty().toString());
 		assertEquals("IntervalSet{WHOLE}", IntervalSet.whole().toString());
 		assertEquals("IntervalSet{OVERFLOW}", IntervalSet.overflow().toString());
-		assertEquals("IntervalSet{CONNECTED: [1.0, 2.0]}",
-				IntervalSet.connected(1, 2).toString());
-		assertEquals("IntervalSet{INVERTED: [1.0, 2.0]}",
-				IntervalSet.inverted(1, 2).toString());
+		assertEquals(
+				"IntervalSet{CONNECTED: [1.0, 2.0]}", IntervalSet.connected(1, 2).toString());
+		assertEquals("IntervalSet{INVERTED: [1.0, 2.0]}", IntervalSet.inverted(1, 2).toString());
 	}
 }

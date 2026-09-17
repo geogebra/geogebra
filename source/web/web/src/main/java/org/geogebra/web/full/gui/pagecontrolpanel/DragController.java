@@ -36,11 +36,13 @@ class DragController {
 
 	/** The page which the pointer was down at start. */
 	private PagePreviewCard clicked;
+
 	private final Timer dropAnimTimer;
 	private final AutoScrollTimer autoScroll;
 
 	/** Currently dragged card */
 	private PagePreviewCard dragged;
+
 	private int target;
 
 	/** interface to query the list of cards */
@@ -63,7 +65,7 @@ class DragController {
 
 		/**
 		 * Select the card.
-		 * 
+		 *
 		 * @param card
 		 *            to select.
 		 */
@@ -71,7 +73,7 @@ class DragController {
 
 		/**
 		 * Change the position of two cards.
-		 * 
+		 *
 		 * @param srcIdx
 		 *            the source index (the dragged one)
 		 * @param destIdx
@@ -81,7 +83,7 @@ class DragController {
 
 		/**
 		 * Perform a click on the given page.
-		 * 
+		 *
 		 * @param pageIdx
 		 *            the index of the page to click.
 		 * @param select
@@ -114,7 +116,7 @@ class DragController {
 			this.scroll = scroll;
 			scheduleRepeating(SCROLL_TIME);
 		}
-		
+
 		void checkIfNeeded(int y) {
 			if (y < getApp().getAbsTop() + PagePreviewCard.MARGIN) {
 				start(-2);
@@ -125,10 +127,10 @@ class DragController {
 			}
 		}
 	}
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param slides
 	 *            the cards interface.
 	 * @param app
@@ -157,8 +159,8 @@ class DragController {
 	}
 
 	private int getDropIndex() {
-		return (int) Math.round((double) (dragged.getTop() - PagePreviewCard.MARGIN)
-				/ PagePreviewCard.TOTAL_HEIGHT);
+		return (int) Math.round(
+				(double) (dragged.getTop() - PagePreviewCard.MARGIN) / PagePreviewCard.TOTAL_HEIGHT);
 	}
 
 	private void prepareDragCard() {
@@ -205,7 +207,8 @@ class DragController {
 
 			PagePreviewCard targetCard = cards.cardAt(target);
 			int newTop = PagePreviewCard.computeTop(target + adjustedTarget)
-					- dragged.getTop() + PagePreviewCard.MARGIN;
+					- dragged.getTop()
+					+ PagePreviewCard.MARGIN;
 			setTop(targetCard, newTop);
 		}
 	}
@@ -230,8 +233,8 @@ class DragController {
 	}
 
 	private void findTarget() {
-		double ratio = (double) (dragged.getTop() - dragged.getComputedTop())
-				/ PagePreviewCard.TOTAL_HEIGHT;
+		double ratio =
+				(double) (dragged.getTop() - dragged.getComputedTop()) / PagePreviewCard.TOTAL_HEIGHT;
 		int diff = (int) ((ratio > 0) ? Math.ceil(ratio) : Math.floor(ratio));
 		target = dragged.getPageIndex() + diff;
 	}
@@ -291,8 +294,7 @@ class DragController {
 	 */
 	private int cardIndexAt(int x, int y) {
 		for (PagePreviewCard card : cards.getCards()) {
-			if ((!isValid() || card != dragged)
-					&& card.isHit(x, y)) {
+			if ((!isValid() || card != dragged) && card.isHit(x, y)) {
 				return card.getPageIndex();
 			}
 		}
@@ -333,7 +335,7 @@ class DragController {
 
 	/**
 	 * Called at pointer (mouse or touch) move.
-	 * 
+	 *
 	 * @param y
 	 *            coordinate.
 	 * @param touch
@@ -382,7 +384,6 @@ class DragController {
 			if (isValid()) {
 				cards.clickPage(index(), false);
 			}
-
 		}
 		cancelDrag();
 	}
@@ -410,8 +411,7 @@ class DragController {
 		if (index() >= 0) {
 			boolean moved = index() != getDropIndex();
 			if (moved) {
-				Event evt = new Event(EventType.MOVE_PAGE, null,
-						dragged == null ? "" : dragged.getID());
+				Event evt = new Event(EventType.MOVE_PAGE, null, dragged == null ? "" : dragged.getID());
 				HashMap<String, Object> args = new HashMap<>();
 				args.put("to", getDropIndex());
 				app.dispatchEvent(evt.setJsonArgument(args));

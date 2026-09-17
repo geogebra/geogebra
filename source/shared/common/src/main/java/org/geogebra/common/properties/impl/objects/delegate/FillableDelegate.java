@@ -29,8 +29,11 @@ public class FillableDelegate extends AbstractGeoElementDelegate {
 
 	@Override
 	protected boolean checkIsApplicable(GeoElement element) {
-		return element.isFillable() && !(element instanceof GeoImage
-				|| element instanceof GeoInputBox || element.isGeoQuadric()
-				|| element instanceof ChartStyleGeo || element instanceof GeoButton);
+		return element.isFillable()
+				&& !(element instanceof GeoImage
+						|| element instanceof GeoInputBox
+						|| element.isGeoQuadric()
+						|| element instanceof ChartStyleGeo
+						|| element instanceof GeoButton);
 	}
 }

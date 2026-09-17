@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
 public interface ErrorHandler {
 	/**
 	 * Display the error message to the user
-	 * 
+	 *
 	 * @param msg
 	 *            localized error message
 	 */
@@ -33,7 +33,7 @@ public interface ErrorHandler {
 
 	/**
 	 * Show command help dialog
-	 * 
+	 *
 	 * @param command
 	 *            internal command name
 	 * @param message
@@ -53,15 +53,13 @@ public interface ErrorHandler {
 	 *            function to be called after sliders are created OR declined
 	 *            takes array of Strings, at index 0 should be
 	 *            AlgebraProcessor.CREATE_SLIDER if sliders were created
-	 * 
+	 *
 	 * @return whether callback still needs to be handled
 	 */
-	boolean onUndefinedVariables(String string,
-			AsyncOperation<String[]> callback);
+	boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback);
 
 	/**
 	 * Remove any error messages currently displayed
 	 */
 	void resetError();
-
 }

@@ -63,13 +63,14 @@ public final class ExamStartDialog extends ComponentDialog {
 		if (mayChooseType((AppW) app)) {
 			ArrayList<RadioButtonData<ExamType>> data = new ArrayList<>();
 			for (ExamType region : ExamType.getAvailableValues(localization, app.getConfig())) {
-				String displayName = region.getDisplayName(localization,
-						app.getConfig());
+				String displayName = region.getDisplayName(localization, app.getConfig());
 				data.add(new RadioButtonData<>(displayName, region));
 			}
 			RadioButtonPanel<ExamType> regionPicker = new RadioButtonPanel<>(
-					localization, data, ExamType.GENERIC, (selectedRegion) ->
-				this.selectedRegion = selectedRegion);
+					localization,
+					data,
+					ExamType.GENERIC,
+					(selectedRegion) -> this.selectedRegion = selectedRegion);
 			addDialogContent(regionPicker);
 		} else if (app.isSuite()) {
 			selectedRegion = ((AppWFull) app).getForcedExamType();
@@ -82,8 +83,7 @@ public final class ExamStartDialog extends ComponentDialog {
 	 */
 	public static boolean mayChooseType(AppW app) {
 		String featureSet = app.getAppletParameters().getParamFeatureSet();
-		return app.isSuite()
-				&& (StringUtil.empty(featureSet) || ExamType.CHOOSE.equals(featureSet));
+		return app.isSuite() && (StringUtil.empty(featureSet) || ExamType.CHOOSE.equals(featureSet));
 	}
 
 	@Override

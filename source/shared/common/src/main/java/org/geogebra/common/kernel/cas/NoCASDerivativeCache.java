@@ -34,8 +34,7 @@ public class NoCASDerivativeCache {
 	}
 
 	private void updateDerivative() {
-		ExpressionNode currentExpression = functionable.getFunction()
-				.getExpression();
+		ExpressionNode currentExpression = functionable.getFunction().getExpression();
 		if (currentExpression != lastFunctionExpression) {
 			derivative = functionable.getFunction().getDerivativeNoCAS(1);
 			lastFunctionExpression = currentExpression;

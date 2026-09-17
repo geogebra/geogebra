@@ -89,8 +89,8 @@ public class InputAtom extends Atom implements Row, HasTrueBase {
 		box.setAtom(this);
 		double thickness = 0.07;
 		double space = .5;
-		Box ovalBox = new OvalBox(box, thickness, space, background, background,
-				.3, thickness + space + MIN_INPUT_HEIGHT);
+		Box ovalBox = new OvalBox(
+				box, thickness, space, background, background, .3, thickness + space + MIN_INPUT_HEIGHT);
 		ovalBox.setAtom(this);
 		return ovalBox;
 	}

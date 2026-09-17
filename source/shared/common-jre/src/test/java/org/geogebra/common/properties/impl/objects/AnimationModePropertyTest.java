@@ -32,10 +32,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 class AnimationModePropertyTest extends BaseAppTestSetup {
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Slider(-5, 5, 0.1, 1, 1, false, false, false, false)", // Slider
-			"Point(Circle((0,0), 2))", // Point on circle
-	})
+	@ValueSource(
+			strings = {
+				"Slider(-5, 5, 0.1, 1, 1, false, false, false, false)", // Slider
+				"Point(Circle((0,0), 2))", // Point on circle
+			})
 	void testSuccessfulConstruction(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(input);
@@ -43,15 +44,17 @@ class AnimationModePropertyTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"{1, 2, 3}", // List
-			"x+y=0", // Line
-			"a=5", // Simple number
-	})
+	@ValueSource(
+			strings = {
+				"{1, 2, 3}", // List
+				"x+y=0", // Line
+				"a=5", // Simple number
+			})
 	void testConstructingNotApplicableProperty(String input) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(input);
-		Assertions.assertThrows(NotApplicablePropertyException.class,
+		Assertions.assertThrows(
+				NotApplicablePropertyException.class,
 				() -> new AnimationModeProperty(getLocalization(), geoElement));
 	}
 

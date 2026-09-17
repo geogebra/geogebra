@@ -95,9 +95,12 @@ public class AppConfigDefault extends AbstractAppConfig {
 	 * @return whether app name is one of the unbundled apps
 	 */
 	public static boolean isUnbundled(String appName) {
-		return GRAPHING_APPCODE.equals(appName) || GEOMETRY_APPCODE.equals(appName)
-				|| CAS_APPCODE.equals(appName) || G3D_APPCODE.equals(appName)
-				|| SCIENTIFIC_APPCODE.equals(appName) || SUITE_APPCODE.equals(appName);
+		return GRAPHING_APPCODE.equals(appName)
+				|| GEOMETRY_APPCODE.equals(appName)
+				|| CAS_APPCODE.equals(appName)
+				|| G3D_APPCODE.equals(appName)
+				|| SCIENTIFIC_APPCODE.equals(appName)
+				|| SUITE_APPCODE.equals(appName);
 	}
 
 	/**
@@ -145,12 +148,12 @@ public class AppConfigDefault extends AbstractAppConfig {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[]{0, 1, 2, 3, 4, 5, 10, 15};
+		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
 	}
 
 	@Override
 	public int[] getSignificantFigures() {
-		return new int[]{3, 5, 10, 15};
+		return new int[] {3, 5, 10, 15};
 	}
 
 	@Override

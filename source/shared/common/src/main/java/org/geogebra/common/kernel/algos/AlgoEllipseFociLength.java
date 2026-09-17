@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Ellipse for given foci and first semi-axis length
- * 
+ *
  * @author Markus
  */
 public class AlgoEllipseFociLength extends AlgoConicFociLength {
@@ -42,8 +42,8 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 	 * @param a
 	 *            major halfaxis
 	 */
-	public AlgoEllipseFociLength(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoNumberValue a) {
+	public AlgoEllipseFociLength(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoNumberValue a) {
 		super(cons, label, A, B, a);
 	}
 

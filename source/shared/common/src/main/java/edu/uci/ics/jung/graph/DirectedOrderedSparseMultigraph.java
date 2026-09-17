@@ -1,7 +1,7 @@
 /*
  * Created on Oct 17, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -25,12 +25,11 @@ import edu.uci.ics.jung.graph.util.Pair;
  * that orders its vertex and edge collections according to insertion time.
  */
 @SuppressWarnings("serial")
-public class DirectedOrderedSparseMultigraph<V, E>
-		extends DirectedSparseMultigraph<V, E>
+public class DirectedOrderedSparseMultigraph<V, E> extends DirectedSparseMultigraph<V, E>
 		implements DirectedGraph<V, E>, MultiGraph<V, E> {
 	/**
 	 * Returns a {@code Factory} that creates an instance of this graph type.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type for the graph factory
 	 * @param <E>
@@ -59,8 +58,7 @@ public class DirectedOrderedSparseMultigraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(),
-					new LinkedHashSet<E>()));
+			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(), new LinkedHashSet<E>()));
 			return true;
 		}
 		return false;
@@ -117,5 +115,4 @@ public class DirectedOrderedSparseMultigraph<V, E>
 		incident.addAll(getOutgoing_internal(vertex));
 		return incident;
 	}
-
 }

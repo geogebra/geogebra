@@ -34,9 +34,15 @@ import org.jspecify.annotations.Nullable;
 /** {@code Property} responsible for managing the values of the probability parameters. */
 public final class DistributionParameterProperty extends AbstractNumericProperty
 		implements ProbabilityCalculatorViewDependentProperty {
-	private static final Set<String> CUSTOM_PARAMETER_TRANSLATION_KEYS = Set.of("Median", "Scale",
-			"Distribution.Scale", "Distribution.Shape", "Distribution.Population",
-			"Hypergeometric.population", "Sample", "Hypergeometric.sample");
+	private static final Set<String> CUSTOM_PARAMETER_TRANSLATION_KEYS = Set.of(
+			"Median",
+			"Scale",
+			"Distribution.Scale",
+			"Distribution.Shape",
+			"Distribution.Population",
+			"Hypergeometric.population",
+			"Sample",
+			"Hypergeometric.sample");
 
 	private final ProbabilityCalculatorView probabilityCalculatorView;
 	private final int parameterIndex;
@@ -48,9 +54,11 @@ public final class DistributionParameterProperty extends AbstractNumericProperty
 	 * @param localization localization used for the property label
 	 * @param parameterIndex zero-based index of the distribution parameter
 	 */
-	public DistributionParameterProperty(@NonNull AlgebraProcessor algebraProcessor,
+	public DistributionParameterProperty(
+			@NonNull AlgebraProcessor algebraProcessor,
 			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
-			@NonNull Localization localization, int parameterIndex) {
+			@NonNull Localization localization,
+			int parameterIndex) {
 		super(algebraProcessor, localization, "");
 		this.probabilityCalculatorView = probabilityCalculatorView;
 		this.parameterIndex = parameterIndex;
@@ -58,34 +66,37 @@ public final class DistributionParameterProperty extends AbstractNumericProperty
 
 	@Override
 	public String getName() {
-		String parameterTranslationKey = getParameterTranslationKey(
-				probabilityCalculatorView.getSelectedDist(), parameterIndex);
+		String parameterTranslationKey =
+				getParameterTranslationKey(probabilityCalculatorView.getSelectedDist(), parameterIndex);
 		if (parameterTranslationKey == null) {
 			return "";
 		}
 
 		String parameterName = getLocalization().getMenu(parameterTranslationKey);
-		return CUSTOM_PARAMETER_TRANSLATION_KEYS.contains(parameterTranslationKey) ? parameterName
+		return CUSTOM_PARAMETER_TRANSLATION_KEYS.contains(parameterTranslationKey)
+				? parameterName
 				: getLocalization().getPlainDefault("ParameterA", "Parameter $0", parameterName);
 	}
 
 	private static String getParameterTranslationKey(Dist dist, int parameterIndex) {
-		List<String> parameterTranslationKeys = switch (dist) {
-			case NORMAL, LOGNORMAL -> List.of("Mean.short", "StandardDeviation.short");
-			case STUDENT, CHISQUARE -> List.of("DegreesOfFreedom.short");
-			case F -> List.of("DegreesOfFreedom1.short", "DegreesOfFreedom2.short");
-			case EXPONENTIAL -> List.of(Unicode.lambda + "");
-			case CAUCHY -> List.of("Median", "Scale");
-			case WEIBULL -> List.of("Distribution.Shape", "Scale");
-			case LOGISTIC -> List.of("Mean.short", "Scale");
-			case BETA, GAMMA -> List.of(Unicode.alpha + "", Unicode.beta + "");
-			case BINOMIAL, PASCAL -> List.of("Binomial.number", "Binomial.probability");
-			case POISSON -> List.of("Mean.short");
-			case HYPERGEOMETRIC -> List.of("Distribution.Population", "Hypergeometric.number",
-					"Sample");
-		};
+		List<String> parameterTranslationKeys =
+				switch (dist) {
+					case NORMAL, LOGNORMAL -> List.of("Mean.short", "StandardDeviation.short");
+					case STUDENT, CHISQUARE -> List.of("DegreesOfFreedom.short");
+					case F -> List.of("DegreesOfFreedom1.short", "DegreesOfFreedom2.short");
+					case EXPONENTIAL -> List.of(Unicode.lambda + "");
+					case CAUCHY -> List.of("Median", "Scale");
+					case WEIBULL -> List.of("Distribution.Shape", "Scale");
+					case LOGISTIC -> List.of("Mean.short", "Scale");
+					case BETA, GAMMA -> List.of(Unicode.alpha + "", Unicode.beta + "");
+					case BINOMIAL, PASCAL -> List.of("Binomial.number", "Binomial.probability");
+					case POISSON -> List.of("Mean.short");
+					case HYPERGEOMETRIC ->
+						List.of("Distribution.Population", "Hypergeometric.number", "Sample");
+				};
 		return parameterIndex < parameterTranslationKeys.size()
-				? parameterTranslationKeys.get(parameterIndex) : null;
+				? parameterTranslationKeys.get(parameterIndex)
+				: null;
 	}
 
 	@Override

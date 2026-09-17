@@ -155,8 +155,7 @@ public class Dummy {
 
 	// only for Row-elements
 	public void setPreviousAtom(Dummy prev) {
-		if (el instanceof Row)
-			((Row) el).setPreviousAtom(prev);
+		if (el instanceof Row) ((Row) el).setPreviousAtom(prev);
 	}
 
 	@Override

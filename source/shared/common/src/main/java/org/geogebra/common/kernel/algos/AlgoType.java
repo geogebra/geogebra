@@ -51,7 +51,7 @@ public class AlgoType extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{c};
+		input = new GeoElement[] {c};
 		setOnlyOutput(num);
 		setDependencies();
 	}
@@ -68,5 +68,4 @@ public class AlgoType extends AlgoElement {
 			num.setUndefined();
 		}
 	}
-
 }

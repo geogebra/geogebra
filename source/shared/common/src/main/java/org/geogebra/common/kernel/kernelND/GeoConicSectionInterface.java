@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.kernelND;
 
 /**
  * Interface for conic sections (3D geos)
- * 
+ *
  * @author mathieu
  *
  */
@@ -44,5 +44,4 @@ public interface GeoConicSectionInterface {
 	 * @return end parameter
 	 */
 	double getParameterEnd(int index);
-
 }

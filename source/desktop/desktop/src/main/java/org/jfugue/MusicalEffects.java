@@ -51,8 +51,7 @@ public class MusicalEffects {
 	 * @param numHammers
 	 *            Number of times to repeat each note
 	 */
-	public static Pattern hammerOn(Note note1, Note note2, double duration,
-			int numHammers) {
+	public static Pattern hammerOn(Note note1, Note note2, double duration, int numHammers) {
 		StringBuilder buddy = new StringBuilder();
 		double durationPerHammer = duration / numHammers;
 		buddy.append("[");
@@ -85,8 +84,7 @@ public class MusicalEffects {
 	 * playing. This implementation may require one or more new methods in
 	 * MicrotoneNotation.
 	 */
-	public static Pattern slide(Note note1, Note note2, double duration,
-			int numSteps) {
+	public static Pattern slide(Note note1, Note note2, double duration, int numSteps) {
 		StringBuilder buddy = new StringBuilder();
 		double durationPerStep = duration / numSteps;
 		double freq1 = Note.getFrequencyForNote(note1.getValue());
@@ -94,8 +92,7 @@ public class MusicalEffects {
 		double differencePerStep = (freq2 - freq1) / numSteps;
 
 		for (int i = 0; i < numSteps; i++) {
-			buddy.append(
-					MicrotoneNotation.convertFrequencyToMusicString(freq1));
+			buddy.append(MicrotoneNotation.convertFrequencyToMusicString(freq1));
 			buddy.append("/");
 			buddy.append(durationPerStep);
 			buddy.append(MicrotoneNotation.getResetPitchWheelString());
@@ -109,11 +106,10 @@ public class MusicalEffects {
 
 	/**
 	 * Right now, this is a pass-through to hammerOn()
-	 * 
+	 *
 	 * @see hammerOn
 	 */
-	public static Pattern trill(Note note1, Note note2, double duration,
-			int numSteps) {
+	public static Pattern trill(Note note1, Note note2, double duration, int numSteps) {
 		return hammerOn(note1, note2, duration, numSteps);
 	}
 }

@@ -50,5 +50,4 @@ public interface GeoConicNDConstants extends GeoQuadricNDConstants {
 	int CONIC_PART_SECTOR = 2;
 	/** conic arcs and */
 	int CONIC_PART_ARCS = 3;
-
 }

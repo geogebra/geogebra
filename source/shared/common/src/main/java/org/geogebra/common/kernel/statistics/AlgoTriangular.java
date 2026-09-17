@@ -22,15 +22,14 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoTriangular extends AlgoDistribution {
 
 	/**
 	 * returns cumulative probability less than x for triangular distribution
-	 * 
+	 *
 	 * @param cons
 	 *            cons
 	 * @param a
@@ -44,8 +43,13 @@ public class AlgoTriangular extends AlgoDistribution {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoTriangular(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue mode, GeoNumberValue x, GeoBoolean cumulative) {
+	public AlgoTriangular(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue mode,
+			GeoNumberValue x,
+			GeoBoolean cumulative) {
 		super(cons, a, b, mode, x, cumulative);
 		compute();
 	}
@@ -57,22 +61,26 @@ public class AlgoTriangular extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double A = a.getDouble();
 			double B = b.getDouble();
 			double mode = c.getDouble();
 			double x = d.getDouble();
 
-			if (Double.isNaN(A) || Double.isNaN(B) || Double.isNaN(mode)
-					|| Double.isNaN(x) || Double.isInfinite(A)
-					|| Double.isInfinite(B) || Double.isInfinite(mode)
-					|| Double.isInfinite(x) || mode < A || mode > B) {
+			if (Double.isNaN(A)
+					|| Double.isNaN(B)
+					|| Double.isNaN(mode)
+					|| Double.isNaN(x)
+					|| Double.isInfinite(A)
+					|| Double.isInfinite(B)
+					|| Double.isInfinite(mode)
+					|| Double.isInfinite(x)
+					|| mode < A
+					|| mode > B) {
 				num.setUndefined();
 				return;
 			}
-			boolean pdf = this.isCumulative == null
-					|| this.isCumulative.getBoolean();
+			boolean pdf = this.isCumulative == null || this.isCumulative.getBoolean();
 			if (x <= A) {
 				num.setValue(0);
 			} else if (x >= B) {
@@ -83,12 +91,10 @@ public class AlgoTriangular extends AlgoDistribution {
 			} else {
 				// mode <= x < B
 				double halfDensity = (x - B) / ((B - A) * (mode - B));
-				num.setValue(
-						pdf ? 1 + (x - B) * halfDensity : 2 * halfDensity);
+				num.setValue(pdf ? 1 + (x - B) * halfDensity : 2 * halfDensity);
 			}
 		} else {
 			num.setUndefined();
 		}
 	}
-
 }

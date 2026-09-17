@@ -46,6 +46,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	public static final int INTERSECTION_SECANT_LINE = 5;
 	/** INTERSECTION TYPE: passing line */
 	public static final int INTERSECTION_PASSING_LINE = 6;
+
 	private GeoLineND g; // input
 	private GeoQuadricND q; // input
 	private GeoPoint3D[] D; // D: old points;
@@ -53,11 +54,12 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	protected GeoPoint3D[] P;
 	/** new output points, not yet permuted */
 	protected GeoPoint3D[] Q;
+
 	private int intersectionType;
 	private boolean permuted;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -67,14 +69,13 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	 * @param q
 	 *            quadric
 	 */
-	AlgoIntersectLineQuadric3D(Construction cons, String label, GeoLineND g,
-			GeoQuadric3D q) {
+	AlgoIntersectLineQuadric3D(Construction cons, String label, GeoLineND g, GeoQuadric3D q) {
 		this(cons, g, q);
 		LabelManager.setLabels(label, P); // TODO change to P
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -84,8 +85,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	 * @param q
 	 *            quadric
 	 */
-	AlgoIntersectLineQuadric3D(Construction cons, String[] labels, GeoLineND g,
-			GeoQuadric3D q) {
+	AlgoIntersectLineQuadric3D(Construction cons, String[] labels, GeoLineND g, GeoQuadric3D q) {
 		this(cons, g, q);
 		LabelManager.setLabels(labels, P); // TODO change to P
 	}
@@ -101,7 +101,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param g
@@ -127,8 +127,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		initForNearToRelationship();
 		computeNoPermutation();
 
-		if (cons.getApplication()
-				.fileVersionBefore(5, 0, 281, 0)) {
+		if (cons.getApplication().fileVersionBefore(5, 0, 281, 0)) {
 			// was not permuted at that time
 			permuted = false;
 		} else {
@@ -166,7 +165,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return line input
 	 */
 	GeoLineND getLine() {
@@ -174,7 +173,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return conic input
 	 */
 	GeoQuadricND getQuadric() {
@@ -183,8 +182,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 
 	@Override
 	public final String toString(StringTemplate tpl) {
-		return getLoc().getPlain("IntersectionPointOfAB", q.getLabel(tpl),
-				g.getLabel(tpl));
+		return getLoc().getPlain("IntersectionPointOfAB", q.getLabel(tpl), g.getLabel(tpl));
 	}
 
 	@Override
@@ -219,13 +217,18 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		double u = v1 * Sv1 + v2 * Sv2 + v3 * Sv3;
 		double b = g.getStartInhomCoords().getX() * Sv1
 				+ g.getStartInhomCoords().getY() * Sv2
-				+ g.getStartInhomCoords().getZ() * Sv3 + m[7] * v1 + m[8] * v2
+				+ g.getStartInhomCoords().getZ() * Sv3
+				+ m[7] * v1
+				+ m[8] * v2
 				+ m[9] * v3;
 
 		double w = p1 * (m[0] * p1 + m[4] * p2 + m[5] * p3 + m[7])
 				+ p2 * (m[4] * p1 + m[1] * p2 + m[6] * p3 + m[8])
-				+ p3 * (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9]) + m[7] * p1
-				+ m[8] * p2 + m[9] * p3 + m[3];
+				+ p3 * (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9])
+				+ m[7] * p1
+				+ m[8] * p2
+				+ m[9] * p3
+				+ m[3];
 
 		if (DoubleUtil.isZero(u)) { // no quadratic term
 			if (DoubleUtil.isZero(b)) { // no linear term: 0 t = -w
@@ -256,7 +259,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 				Q[0].setCoords(g.getPointInD(3, t1));
 				Q[1].setCoords(Q[0].getCoords());
 				intersectionType = INTERSECTION_TANGENT_LINE;
-			} else  if (dis > 0) {  // two solutions
+			} else if (dis > 0) { // two solutions
 				dis = Math.sqrt(dis);
 				// For accuracy, if b > 0 then we choose
 				// t1 = -(b+dis) / u
@@ -287,7 +290,6 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		for (int i = 0; i < 2; i++) {
 			checkIsOnLine(Q[i]);
 		}
-
 	}
 
 	private void setPermutation() {
@@ -327,7 +329,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	 * (toSceneInhomCoords.getX() - xRW); y = (toSceneInhomCoords.getY() - yRW);
 	 * lengthSqr = x * x + y * y; if (lengthSqr < mindist) { mindist =
 	 * lengthSqr; minIndex = i; } }
-	 * 
+	 *
 	 * return minIndex; }
 	 */
 
@@ -376,5 +378,4 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		// else: P[0] is defined (or P[1] is undefined): keep as is
 		return super.getOutputForCmdXML(i);
 	}
-
 }

@@ -28,8 +28,7 @@ public class FontStyleNonInputBoxDelegate extends AbstractGeoElementDelegate {
 
 	@Override
 	protected boolean checkIsApplicable(GeoElement element) {
-		return (FontStyleUtil.isInlineWithSupportedFont(element)
-				|| element instanceof TextProperties)
+		return (FontStyleUtil.isInlineWithSupportedFont(element) || element instanceof TextProperties)
 				&& !(element instanceof GeoInputBox);
 	}
 }

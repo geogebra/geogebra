@@ -58,5 +58,4 @@ public class SettingsUpdaterBuilder {
 	public void setPrototype(SettingsUpdater prototype) {
 		this.prototype = prototype;
 	}
-
 }

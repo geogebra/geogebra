@@ -33,7 +33,7 @@ public class CmdAreConcyclic extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -61,15 +61,13 @@ public class CmdAreConcyclic extends CommandProcessor {
 				throw argErr(c, arg[3]);
 			}
 
-			AlgoAreConcyclic algo = new AlgoAreConcyclic(cons, c.getLabel(),
-					(GeoPoint) arg[0], (GeoPoint) arg[1], (GeoPoint) arg[2],
-					(GeoPoint) arg[3]);
+			AlgoAreConcyclic algo = new AlgoAreConcyclic(
+					cons, c.getLabel(), (GeoPoint) arg[0], (GeoPoint) arg[1], (GeoPoint) arg[2], (GeoPoint)
+							arg[3]);
 
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argNumErr(c);
-
 	}
-
 }

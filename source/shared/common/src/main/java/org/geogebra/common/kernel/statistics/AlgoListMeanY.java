@@ -22,11 +22,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Mean of y-coords of a list of Points
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoListMeanY extends AlgoStats2D {
 
 	public AlgoListMeanY(Construction cons, String label, GeoList geoListx) {

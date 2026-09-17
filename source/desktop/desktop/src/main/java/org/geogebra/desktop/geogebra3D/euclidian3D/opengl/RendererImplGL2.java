@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,16 +40,20 @@ import com.jogamp.opengl.glu.GLU;
 
 /**
  * Renderer implementation using GL2 (no shaders)
- * 
+ *
  * @author mathieu
- * 
+ *
  */
-public class RendererImplGL2 extends RendererImpl
-		implements JoglAndGluProvider {
+public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider {
 
-	private static final int[] GL_CLIP_PLANE = { GL2ES1.GL_CLIP_PLANE0,
-			GL2ES1.GL_CLIP_PLANE1, GL2ES1.GL_CLIP_PLANE2, GL2ES1.GL_CLIP_PLANE3,
-			GL2ES1.GL_CLIP_PLANE4, GL2ES1.GL_CLIP_PLANE5 };
+	private static final int[] GL_CLIP_PLANE = {
+		GL2ES1.GL_CLIP_PLANE0,
+		GL2ES1.GL_CLIP_PLANE1,
+		GL2ES1.GL_CLIP_PLANE2,
+		GL2ES1.GL_CLIP_PLANE3,
+		GL2ES1.GL_CLIP_PLANE4,
+		GL2ES1.GL_CLIP_PLANE5
+	};
 	private RendererJogl jogl;
 
 	private GLU glu = new GLU();
@@ -59,9 +63,9 @@ public class RendererImplGL2 extends RendererImpl
 	private int currentDash = Textures.DASH_INIT;
 
 	/** distance camera-near plane */
-	private final static double PERSP_NEAR_MIN = 10;
+	private static final double PERSP_NEAR_MIN = 10;
 	/** perspective near distance */
-	private final double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
+	private final double[] perspNear = {PERSP_NEAR_MIN, PERSP_NEAR_MIN};
 	/** perspective left position */
 	private final double[] perspLeft = new double[2];
 	/** perspective right position */
@@ -78,6 +82,7 @@ public class RendererImplGL2 extends RendererImpl
 	private double[] glassesEyeX1 = new double[2];
 	/** eye position for frustum */
 	private double[] glassesEyeY1 = new double[2];
+
 	private int orthoLeft;
 	private int orthoRight;
 	private int orthoBottom;
@@ -89,20 +94,18 @@ public class RendererImplGL2 extends RendererImpl
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param renderer
 	 *            GL renderer
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param jogl
 	 *            java openGL implementation
 	 */
-	public RendererImplGL2(Renderer renderer, EuclidianView3D view,
-			RendererJogl jogl) {
+	public RendererImplGL2(Renderer renderer, EuclidianView3D view, RendererJogl jogl) {
 		super(renderer, view);
-		Log.debug(
-				"============== Renderer with old GL created (shaders failed)");
+		Log.debug("============== Renderer with old GL created (shaders failed)");
 		this.jogl = jogl;
 		clipPlaneEquations = new double[6][];
 		for (int n = 0; n < 6; n++) {
@@ -115,18 +118,12 @@ public class RendererImplGL2 extends RendererImpl
 	public void setClipPlanes(double[][] minMax) {
 
 		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();
-		setClipPlane(0,
-				mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0])).get());
-		setClipPlane(1,
-				mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1])).get());
-		setClipPlane(2,
-				mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0])).get());
-		setClipPlane(3,
-				mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1])).get());
-		setClipPlane(4,
-				mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0])).get());
-		setClipPlane(5,
-				mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1])).get());
+		setClipPlane(0, mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0])).get());
+		setClipPlane(1, mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1])).get());
+		setClipPlane(2, mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0])).get());
+		setClipPlane(3, mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1])).get());
+		setClipPlane(4, mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0])).get());
+		setClipPlane(5, mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1])).get());
 	}
 
 	private void setClipPlane(int n, double[] equation) {
@@ -139,11 +136,10 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	final protected void updateClipPlanes() {
+	protected final void updateClipPlanes() {
 		if (clipPlanesNeedUpdate && jogl.getGL2() != null) {
 			for (int n = 0; n < 6; n++) {
-				jogl.getGL2().glClipPlane(GL_CLIP_PLANE[n],
-						clipPlaneEquations[n], 0);
+				jogl.getGL2().glClipPlane(GL_CLIP_PLANE[n], clipPlaneEquations[n], 0);
 			}
 			clipPlanesNeedUpdate = false;
 		}
@@ -193,35 +189,43 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void setLightPosition(float[] values) {
-		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
-				GLLightingFunc.GL_POSITION, values,
-				0);
-		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
-				GLLightingFunc.GL_POSITION, values,
-				0);
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0, GLLightingFunc.GL_POSITION, values, 0);
+		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1, GLLightingFunc.GL_POSITION, values, 0);
 	}
 
 	@Override
-	public void setLightAmbientDiffuse(float ambient0, float diffuse0,
-			float ambient1, float diffuse1) {
+	public void setLightAmbientDiffuse(
+			float ambient0, float diffuse0, float ambient1, float diffuse1) {
 
-		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
-				GLLightingFunc.GL_AMBIENT,
-				new float[] { ambient0, ambient0, ambient0, 1.0f }, 0);
-		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT0,
-				GLLightingFunc.GL_DIFFUSE,
-				new float[] { diffuse0, diffuse0, diffuse0, 1.0f }, 0);
+		jogl.getGL2()
+				.glLightfv(
+						GLLightingFunc.GL_LIGHT0,
+						GLLightingFunc.GL_AMBIENT,
+						new float[] {ambient0, ambient0, ambient0, 1.0f},
+						0);
+		jogl.getGL2()
+				.glLightfv(
+						GLLightingFunc.GL_LIGHT0,
+						GLLightingFunc.GL_DIFFUSE,
+						new float[] {diffuse0, diffuse0, diffuse0, 1.0f},
+						0);
 
-		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
-				GLLightingFunc.GL_AMBIENT,
-				new float[] { ambient1, ambient1, ambient1, 1.0f }, 0);
-		jogl.getGL2().glLightfv(GLLightingFunc.GL_LIGHT1,
-				GLLightingFunc.GL_DIFFUSE,
-				new float[] { diffuse1, diffuse1, diffuse1, 1.0f }, 0);
+		jogl.getGL2()
+				.glLightfv(
+						GLLightingFunc.GL_LIGHT1,
+						GLLightingFunc.GL_AMBIENT,
+						new float[] {ambient1, ambient1, ambient1, 1.0f},
+						0);
+		jogl.getGL2()
+				.glLightfv(
+						GLLightingFunc.GL_LIGHT1,
+						GLLightingFunc.GL_DIFFUSE,
+						new float[] {diffuse1, diffuse1, diffuse1, 1.0f},
+						0);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return GL instance
 	 */
 	private GL getGL() {
@@ -241,8 +245,7 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void setColorMaterial() {
-		jogl.getGL2().glColorMaterial(GL.GL_FRONT_AND_BACK,
-				GLLightingFunc.GL_AMBIENT_AND_DIFFUSE);
+		jogl.getGL2().glColorMaterial(GL.GL_FRONT_AND_BACK, GLLightingFunc.GL_AMBIENT_AND_DIFFUSE);
 		getGL().glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 	}
 
@@ -256,15 +259,14 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void setAlphaFunc() {
 		jogl.getGL2().glAlphaFunc(GL.GL_NOTEQUAL, 0); // pixels with alpha=0
-															// are not drawn
+		// are not drawn
 		// jogl.getGL2().glAlphaFunc(GLlocal.GL_GREATER, 0.8f);//pixels with
 		// alpha=0 are not drawn
 	}
 
 	@Override
 	public void setView() {
-		jogl.getGL2().glViewport(0, 0, renderer.getWidth(),
-				renderer.getHeight());
+		jogl.getGL2().glViewport(0, 0, renderer.getWidth(), renderer.getHeight());
 
 		jogl.getGL2().glMatrixMode(GLMatrixFunc.GL_PROJECTION);
 		jogl.getGL2().glLoadIdentity();
@@ -276,12 +278,12 @@ public class RendererImplGL2 extends RendererImpl
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererImpl#
 	 * updateOrthoValues()
 	 */
 	@Override
-	final public void updateOrthoValues() {
+	public final void updateOrthoValues() {
 		orthoLeft = renderer.getLeft();
 		orthoRight = renderer.getRight();
 		orthoBottom = renderer.getBottom();
@@ -293,36 +295,39 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void viewOrtho() {
 
-		jogl.getGL2().glOrtho(orthoLeft, orthoRight, orthoBottom, orthoTop,
-				orthoNear, orthoFar);
+		jogl.getGL2().glOrtho(orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear, orthoFar);
 	}
 
 	@Override
 	public void viewPersp() {
 
-		jogl.getGL2().glFrustum(perspLeft[Renderer.EYE_LEFT],
-				perspRight[Renderer.EYE_LEFT],
-				perspBottom[Renderer.EYE_LEFT],
-				perspTop[Renderer.EYE_LEFT],
-				perspNear[Renderer.EYE_LEFT],
-				perspFar[Renderer.EYE_LEFT]);
-		jogl.getGL2().glTranslated(0, 0,
-				-renderer.eyeToScreenDistance[Renderer.EYE_LEFT]);
+		jogl.getGL2()
+				.glFrustum(
+						perspLeft[Renderer.EYE_LEFT],
+						perspRight[Renderer.EYE_LEFT],
+						perspBottom[Renderer.EYE_LEFT],
+						perspTop[Renderer.EYE_LEFT],
+						perspNear[Renderer.EYE_LEFT],
+						perspFar[Renderer.EYE_LEFT]);
+		jogl.getGL2().glTranslated(0, 0, -renderer.eyeToScreenDistance[Renderer.EYE_LEFT]);
 	}
 
 	@Override
 	public void viewGlasses() {
 
-		jogl.getGL2().glFrustum(
-				perspLeft[renderer.eye] - glassesEyeX1[renderer.eye],
-				perspRight[renderer.eye] - glassesEyeX1[renderer.eye],
-				perspBottom[renderer.eye] - glassesEyeY1[renderer.eye],
-				perspTop[renderer.eye] - glassesEyeY1[renderer.eye],
-				perspNear[renderer.eye],
-				perspFar[renderer.eye]);
-		jogl.getGL2().glTranslated(-renderer.glassesEyeX[renderer.eye],
-				-renderer.glassesEyeY[renderer.eye],
-				-renderer.eyeToScreenDistance[renderer.eye]);
+		jogl.getGL2()
+				.glFrustum(
+						perspLeft[renderer.eye] - glassesEyeX1[renderer.eye],
+						perspRight[renderer.eye] - glassesEyeX1[renderer.eye],
+						perspBottom[renderer.eye] - glassesEyeY1[renderer.eye],
+						perspTop[renderer.eye] - glassesEyeY1[renderer.eye],
+						perspNear[renderer.eye],
+						perspFar[renderer.eye]);
+		jogl.getGL2()
+				.glTranslated(
+						-renderer.glassesEyeX[renderer.eye],
+						-renderer.glassesEyeY[renderer.eye],
+						-renderer.eyeToScreenDistance[renderer.eye]);
 	}
 
 	@Override
@@ -330,9 +335,11 @@ public class RendererImplGL2 extends RendererImpl
 		viewOrtho();
 
 		jogl.getGL2()
-				.glMultMatrixd(new double[] { 1, 0, 0, 0, 0, 1, 0, 0,
-						renderer.obliqueX, renderer.obliqueY, 1, 0, 0, 0, 0,
-						1 }, 0);
+				.glMultMatrixd(
+						new double[] {
+							1, 0, 0, 0, 0, 1, 0, 0, renderer.obliqueX, renderer.obliqueY, 1, 0, 0, 0, 0, 1
+						},
+						0);
 	}
 
 	@Override
@@ -341,15 +348,14 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-	final public void enableTextures() {
+	public final void enableTextures() {
 		getGL().glEnable(GL.GL_TEXTURE_2D);
 	}
 
 	@Override
-	final public void disableTextures() {
+	public final void disableTextures() {
 		// bindTexture(-1);
 		getGL().glDisable(GL.GL_TEXTURE_2D);
-
 	}
 
 	@Override
@@ -381,8 +387,7 @@ public class RendererImplGL2 extends RendererImpl
 		}
 
 		currentDash = index;
-		renderer.getRendererImpl()
-				.bindTexture(renderer.getTextures().getIndex(index));
+		renderer.getRendererImpl().bindTexture(renderer.getTextures().getIndex(index));
 		renderer.setTextureNearest();
 	}
 
@@ -414,7 +419,6 @@ public class RendererImplGL2 extends RendererImpl
 		renderer.getRendererImpl().setCullFaceBack();
 
 		jogl.getGL2().glPolygonMode(GL.GL_BACK, GL2GL3.GL_FILL);
-
 	}
 
 	@Override
@@ -492,8 +496,7 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void updatePerspValues() {
 		for (int i = 0; i < 2; i++) {
-			perspNear[i] = renderer.eyeToScreenDistance[i]
-					- renderer.getVisibleDepth() / 2.0;
+			perspNear[i] = renderer.eyeToScreenDistance[i] - renderer.getVisibleDepth() / 2.0;
 			if (perspNear[i] < PERSP_NEAR_MIN) {
 				perspNear[i] = PERSP_NEAR_MIN;
 			}
@@ -519,7 +522,6 @@ public class RendererImplGL2 extends RendererImpl
 			glassesEyeX1[i] = renderer.glassesEyeX[i] * perspDistratio[i];
 			glassesEyeY1[i] = renderer.glassesEyeY[i] * perspDistratio[i];
 		}
-
 	}
 
 	@Override
@@ -554,14 +556,12 @@ public class RendererImplGL2 extends RendererImpl
 	@Override
 	public void enableLightingOnInit() {
 		enableLighting();
-
 	}
 
 	@Override
 	public void initCulling() {
 		renderer.enableCulling();
 		renderer.getRendererImpl().setCullFaceBack();
-
 	}
 
 	@Override
@@ -703,7 +703,7 @@ public class RendererImplGL2 extends RendererImpl
 	public void setPolygonOffset(float factor, float units) {
 		getGL().glPolygonOffset(factor, units);
 	}
-	
+
 	@Override
 	public void setLayer(int layer) {
 		setPolygonOffset(-layer * 0.05f, -layer * 10);
@@ -801,22 +801,28 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	protected void textureParametersNearest() {
-		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
-				GL.GL_NEAREST);
-		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
-				GL.GL_NEAREST);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NEAREST);
+		getGL().glTexParameterf(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_NEAREST);
 	}
 
 	@Override
 	protected void textureImage2DForBuffer(int width, int height) {
-		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_RGBA, width, height, 0,
-				GL.GL_RGBA, GL.GL_UNSIGNED_BYTE, null);
+		getGL()
+				.glTexImage2D(
+						GL.GL_TEXTURE_2D,
+						0,
+						GL.GL_RGBA,
+						width,
+						height,
+						0,
+						GL.GL_RGBA,
+						GL.GL_UNSIGNED_BYTE,
+						null);
 	}
 
 	@Override
 	protected void renderbufferStorage(int width, int height) {
-		getGL().glRenderbufferStorage(GL.GL_RENDERBUFFER,
-				GL2ES2.GL_DEPTH_COMPONENT, width, height);
+		getGL().glRenderbufferStorage(GL.GL_RENDERBUFFER, GL2ES2.GL_DEPTH_COMPONENT, width, height);
 	}
 
 	@Override
@@ -833,18 +839,17 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	protected void framebuffer(Object colorId, Object depthId) {
-		getGL().glFramebufferTexture2D(GL.GL_FRAMEBUFFER,
-				GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D,
-				(Integer) colorId, 0);
-		getGL().glFramebufferRenderbuffer(GL.GL_FRAMEBUFFER,
-				GL.GL_DEPTH_ATTACHMENT, GL.GL_RENDERBUFFER,
-				(Integer) depthId);
+		getGL()
+				.glFramebufferTexture2D(
+						GL.GL_FRAMEBUFFER, GL.GL_COLOR_ATTACHMENT0, GL.GL_TEXTURE_2D, (Integer) colorId, 0);
+		getGL()
+				.glFramebufferRenderbuffer(
+						GL.GL_FRAMEBUFFER, GL.GL_DEPTH_ATTACHMENT, GL.GL_RENDERBUFFER, (Integer) depthId);
 	}
 
 	@Override
 	protected boolean checkFramebufferStatus() {
-		return getGL().glCheckFramebufferStatus(
-				GL.GL_FRAMEBUFFER) == GL.GL_FRAMEBUFFER_COMPLETE;
+		return getGL().glCheckFramebufferStatus(GL.GL_FRAMEBUFFER) == GL.GL_FRAMEBUFFER_COMPLETE;
 	}
 
 	@Override
@@ -920,8 +925,7 @@ public class RendererImplGL2 extends RendererImpl
 		getDrawList3D().drawNotTransparentSurfacesClosed(renderer);
 		if (getDrawList3D().containsClippedSurfacesInclLists()) {
 			renderer.enableClipPlanesIfNeeded();
-			getDrawList3D()
-					.drawNotTransparentSurfacesClipped(renderer);
+			getDrawList3D().drawNotTransparentSurfacesClipped(renderer);
 			renderer.disableClipPlanesIfNeeded();
 		}
 		setCullFaceBack();

@@ -34,29 +34,28 @@ class PointStylePropertyTests extends BaseAppTestSetup {
 	@Test
 	void testApplicableGeoElement() {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertDoesNotThrow(() -> new PointStyleProperty(
-				getLocalization(), evaluateGeoElement("(1, 2)")));
+		assertDoesNotThrow(
+				() -> new PointStyleProperty(getLocalization(), evaluateGeoElement("(1, 2)")));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"x",
-			"x = 0",
-			"5",
-			"f: x",
-	})
+	@ValueSource(
+			strings = {
+				"x", "x = 0", "5", "f: x",
+			})
 	void testNotApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class, () -> new PointStyleProperty(
-				getLocalization(), evaluateGeoElement(expression)));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new PointStyleProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@Test
 	void testSettingPointStyles() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("(1, 2)");
-		PointStyleProperty pointStyleProperty = assertDoesNotThrow(() ->
-				new PointStyleProperty(getLocalization(), geoPoint));
+		PointStyleProperty pointStyleProperty =
+				assertDoesNotThrow(() -> new PointStyleProperty(getLocalization(), geoPoint));
 
 		pointStyleProperty.setValue(PointStyle.DOT);
 		assertEquals(PointStyle.DOT, pointStyleProperty.getValue());

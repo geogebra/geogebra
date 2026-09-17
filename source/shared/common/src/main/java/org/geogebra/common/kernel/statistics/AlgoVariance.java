@@ -23,19 +23,17 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Variance of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-18
  */
-
 public class AlgoVariance extends AlgoStats1D {
 
 	public AlgoVariance(Construction cons, GeoList geoList) {
 		super(cons, geoList, AlgoStats1D.STATS_VARIANCE);
 	}
 
-	public AlgoVariance(Construction cons, GeoList geoList,
-			GeoList geoList2) {
+	public AlgoVariance(Construction cons, GeoList geoList, GeoList geoList2) {
 		super(cons, geoList, geoList2, AlgoStats1D.STATS_VARIANCE);
 	}
 

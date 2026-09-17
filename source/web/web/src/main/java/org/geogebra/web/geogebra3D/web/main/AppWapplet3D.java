@@ -74,8 +74,12 @@ public class AppWapplet3D extends AppWFull {
 	 * @param device
 	 *            browser or tablet
 	 */
-	public AppWapplet3D(GeoGebraElement element, AppletParameters parameters,
-			GeoGebraFrameFull gf, GLookAndFeel laf, GDevice device) {
+	public AppWapplet3D(
+			GeoGebraElement element,
+			AppletParameters parameters,
+			GeoGebraFrameFull gf,
+			GLookAndFeel laf,
+			GDevice device) {
 		super(element, parameters, 3, laf, device, gf);
 	}
 
@@ -92,8 +96,8 @@ public class AppWapplet3D extends AppWFull {
 		// Window.alert("getEuclidianView3D()");
 		if (this.euclidianView3D == null) {
 			euclidianController3D = App3DW.newEuclidianController3DW(kernel);
-			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D,
-					getSettings().getEuclidian(3));
+			euclidianView3D =
+					App3DW.newEuclidianView3DW(euclidianController3D, getSettings().getEuclidian(3));
 		}
 		return euclidianView3D;
 	}
@@ -106,8 +110,7 @@ public class AppWapplet3D extends AppWFull {
 	@Override
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_EUCLIDIAN3D) {
-			return Browser.supportsWebGL()
-					&& getSettings().getEuclidian(-1).isEnabled();
+			return Browser.supportsWebGL() && getSettings().getEuclidian(-1).isEnabled();
 		}
 		return super.supportsView(viewID);
 	}
@@ -164,9 +167,13 @@ public class AppWapplet3D extends AppWFull {
 	}
 
 	@Override
-	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
-			EuclidianController ec, boolean[] evShowAxes, boolean evShowGrid,
-			int id, EuclidianSettings evSettings) {
+	public EuclidianViewW newEuclidianView(
+			EuclidianPanelWAbstract evPanel,
+			EuclidianController ec,
+			boolean[] evShowAxes,
+			boolean evShowGrid,
+			int id,
+			EuclidianSettings evSettings) {
 		return new EuclidianViewFor3DW(evPanel, ec, id, evSettings);
 	}
 
@@ -193,8 +200,7 @@ public class AppWapplet3D extends AppWFull {
 	public void setCurrentFile(GgbFile file) {
 		super.setCurrentFile(file);
 		if (this.isEuclidianView3Dinited()) {
-			((EuclidianView3DW) getEuclidianView3D())
-					.setCurrentFile(getCurrentFile());
+			((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(getCurrentFile());
 		}
 	}
 
@@ -245,7 +251,6 @@ public class AppWapplet3D extends AppWFull {
 			for (String line : lines) {
 
 				h.addLine(line);
-
 			}
 		} catch (CSVException e) {
 			// TODO Auto-generated catch block

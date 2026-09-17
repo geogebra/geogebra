@@ -94,5 +94,4 @@ public final class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 		// prepare for next record
 		setNext(indices, d);
 	}
-
 }

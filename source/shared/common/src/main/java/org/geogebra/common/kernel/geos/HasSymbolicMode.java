@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Interface for objects with symbolic AV display
- * 
+ *
  * @author Zbynek
  *
  */

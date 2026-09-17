@@ -73,7 +73,7 @@ public class NoDragImage extends Image implements HasResource {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param res
 	 *            SVG or PNG resource
 	 * @return safe URI

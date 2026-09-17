@@ -39,18 +39,23 @@ public class SliderTrackColorPropertyCollection extends AbstractPropertyCollecti
 	 * @param elements list of GeoElements to create properties for
 	 * @throws NotApplicablePropertyException if the property is not applicable to the elements
 	 */
-	public SliderTrackColorPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> elements)
+	public SliderTrackColorPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "");
 		Property[] properties = Stream.<Property>of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SliderTrackColorEnabledProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SliderTrackColorProperty(localization, element),
-						ColorPropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new);
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SliderTrackColorEnabledProperty(localization, element),
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SliderTrackColorProperty(localization, element),
+								ColorPropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new);
 		if (properties.length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

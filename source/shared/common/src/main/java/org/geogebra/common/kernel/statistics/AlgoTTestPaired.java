@@ -29,8 +29,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a paired t-test.
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoTTestPaired extends AlgoElement {
@@ -55,8 +55,8 @@ public class AlgoTTestPaired extends AlgoElement {
 	 * @param tail
 	 *            one of &lt;, &gt; for one-sided test; two-sided otherwise
 	 */
-	public AlgoTTestPaired(Construction cons, String label, GeoList geoList0,
-			GeoList geoList1, GeoText tail) {
+	public AlgoTTestPaired(
+			Construction cons, String label, GeoList geoList0, GeoList geoList1, GeoText tail) {
 		super(cons);
 		this.geoList0 = geoList0;
 		this.geoList1 = geoList1;
@@ -149,7 +149,5 @@ public class AlgoTTestPaired extends AlgoElement {
 			// ArithmeticException
 			Log.debug(e);
 		}
-
 	}
-
 }

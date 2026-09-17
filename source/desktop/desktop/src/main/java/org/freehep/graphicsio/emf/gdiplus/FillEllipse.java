@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The FillEllipse metafile record represents a call to Graphics.FillEllipse,
  * which fills the interior of an ellipse.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: FillEllipse.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -24,8 +24,7 @@ public class FillEllipse extends EMFPlusTag {
 		super(14, 1);
 	}
 
-	public FillEllipse(int penIndex, int brushIndex, float x, float y, float w,
-			float h) {
+	public FillEllipse(int penIndex, int brushIndex, float x, float y, float w, float h) {
 		this();
 		flags = penIndex;
 		this.brushIndex = brushIndex;
@@ -36,8 +35,7 @@ public class FillEllipse extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		FillEllipse tag = new FillEllipse();
 		tag.flags = flags;
 		if ((flags & 0x8000) > 0) {
@@ -60,8 +58,7 @@ public class FillEllipse extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		// FIXME No Provision for 16 bit integer values.
 		emf.writeUINT(brushIndex);
 		emf.writeFLOAT(x);
@@ -75,8 +72,7 @@ public class FillEllipse extends EMFPlusTag {
 		StringBuffer sb = new StringBuffer(super.toString());
 		sb.append("\n  rect: (" + x + ", " + y + ", " + w + ", " + h + ")");
 		sb.append("\n  ");
-		sb.append(brushColor != null ? "brushColor: " + brushColor
-				: "brushIndex: " + brushIndex);
+		sb.append(brushColor != null ? "brushColor: " + brushColor : "brushIndex: " + brushIndex);
 		return sb.toString();
 	}
 }

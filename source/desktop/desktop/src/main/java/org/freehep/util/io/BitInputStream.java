@@ -8,22 +8,22 @@ import java.io.InputStream;
 /**
  * Class to read bits from a Stream, allowing for byte synchronization. Signed,
  * Unsigned, Booleans and Floats can be read.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: BitInputStream.java,v 1.3 2008-05-04 12:22:06 murkle Exp $
  */
 public class BitInputStream extends DecompressableInputStream {
 
-	final protected static int MASK_SIZE = 8;
+	protected static final int MASK_SIZE = 8;
 
-	final protected static int ZERO = 0;
+	protected static final int ZERO = 0;
 
-	final protected static int ONES = ~0;
+	protected static final int ONES = ~0;
 
-	final protected static int[] BIT_MASK = new int[MASK_SIZE];
+	protected static final int[] BIT_MASK = new int[MASK_SIZE];
 
-	final protected static int[] FIELD_MASK = new int[MASK_SIZE];
+	protected static final int[] FIELD_MASK = new int[MASK_SIZE];
 
 	// Generate the needed masks for various bit fields and for
 	// individual bits.
@@ -56,7 +56,7 @@ public class BitInputStream extends DecompressableInputStream {
 
 	/**
 	 * Create a Bit input stream from viven input
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 */
@@ -71,7 +71,7 @@ public class BitInputStream extends DecompressableInputStream {
 	 * A utility method to fetch the next byte in preparation for constructing a
 	 * bit field. There is no protection for this method; ensure that it is only
 	 * called when a byte must be fetched.
-	 * 
+	 *
 	 * @throws IOException
 	 *             if read fails
 	 */
@@ -94,7 +94,7 @@ public class BitInputStream extends DecompressableInputStream {
 	/**
 	 * Read a bit from the input stream and interpret this as a boolean value. A
 	 * 1-bit is true; a 0-bit is false.
-	 * 
+	 *
 	 * @return true if read bit was 1
 	 * @throws IOException
 	 *             if read fails
@@ -109,7 +109,7 @@ public class BitInputStream extends DecompressableInputStream {
 
 	/**
 	 * Read a signed value of n-bits from the input stream.
-	 * 
+	 *
 	 * @param n
 	 *            number of bits to read
 	 * @return value made up of read bits
@@ -128,7 +128,7 @@ public class BitInputStream extends DecompressableInputStream {
 
 	/**
 	 * Read a float value of n-bits from the stream.
-	 * 
+	 *
 	 * @param n
 	 *            number of bits to read
 	 * @return value made up of read bits
@@ -145,7 +145,7 @@ public class BitInputStream extends DecompressableInputStream {
 
 	/**
 	 * Read an unsigned value of n-bits from the input stream.
-	 * 
+	 *
 	 * @param n
 	 *            number of bits to read
 	 * @return value made up of read bits

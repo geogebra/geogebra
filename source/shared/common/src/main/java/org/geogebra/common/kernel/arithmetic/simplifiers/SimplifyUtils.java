@@ -50,8 +50,8 @@ public final class SimplifyUtils {
 	public final Kernel kernel;
 	private final Surds surds;
 	private final ExpressionReducer productReducer;
-	public static final OperationCountChecker plusMinusChecker = new OperationCountChecker(
-			Operation.PLUS, Operation.MINUS);
+	public static final OperationCountChecker plusMinusChecker =
+			new OperationCountChecker(Operation.PLUS, Operation.MINUS);
 
 	/**
 	 * @param kernel {@link Kernel}
@@ -69,8 +69,8 @@ public final class SimplifyUtils {
 	 * @param right tree.
 	 * @return the new node
 	 */
-	public ExpressionNode newNode(@NonNull ExpressionValue left, Operation operation,
-			ExpressionValue right) {
+	public ExpressionNode newNode(
+			@NonNull ExpressionValue left, Operation operation, ExpressionValue right) {
 		return new ExpressionNode(kernel, left, operation, right);
 	}
 
@@ -90,8 +90,8 @@ public final class SimplifyUtils {
 	 */
 	public ExpressionValue newDouble(double value) {
 
-		return new ExpressionNode(kernel,
-				isInteger(value) && !isOutOfSafeRoundRange(value) ? Math.round(value) : value);
+		return new ExpressionNode(
+				kernel, isInteger(value) && !isOutOfSafeRoundRange(value) ? Math.round(value) : value);
 	}
 
 	/**
@@ -100,8 +100,8 @@ public final class SimplifyUtils {
 	 * @param denominator of div
 	 * @return the new node with div.
 	 */
-	public ExpressionNode newDiv(@NonNull ExpressionValue numerator,
-			@NonNull ExpressionValue denominator) {
+	public ExpressionNode newDiv(
+			@NonNull ExpressionValue numerator, @NonNull ExpressionValue denominator) {
 		return newNode(numerator, Operation.DIVIDE, denominator);
 	}
 
@@ -121,9 +121,8 @@ public final class SimplifyUtils {
 	 * @param denominator of div
 	 * @return the new node with div.
 	 */
-
-	public ExpressionNode div(@NonNull ExpressionValue numerator,
-			@NonNull ExpressionValue denominator) {
+	public ExpressionNode div(
+			@NonNull ExpressionValue numerator, @NonNull ExpressionValue denominator) {
 		double valDenominator = denominator.evaluateDouble();
 		if (valDenominator == 1) {
 			return numerator.wrap();
@@ -192,8 +191,11 @@ public final class SimplifyUtils {
 			return node1;
 		}
 		if (v == -1 && node1.getOperation() == Operation.MINUS) {
-			return new ExpressionNode(node1.getKernel(),
-					/* left= */ node1.getRight(), Operation.MINUS, /* right= */ node1.getLeft());
+			return new ExpressionNode(
+					node1.getKernel(),
+					/* left= */ node1.getRight(),
+					Operation.MINUS,
+					/* right= */ node1.getLeft());
 		}
 		if (isIntegerValue(node1) && isInteger(v)) {
 			return newDouble(node1.evaluateDouble() * v).wrap();
@@ -297,8 +299,7 @@ public final class SimplifyUtils {
 		ExpressionNode opLeft = right.wrap().getLeftTree();
 		ExpressionNode opRight = right.wrap().getRightTree();
 		double mul = left.evaluateDouble();
-		return newNode(multiply(opLeft, mul), right.wrap().getOperation(),
-				multiplyR(opRight, mul));
+		return newNode(multiply(opLeft, mul), right.wrap().getOperation(), multiplyR(opRight, mul));
 	}
 
 	private ExpressionValue mulByMinusOneL(ExpressionValue ev) {
@@ -337,8 +338,8 @@ public final class SimplifyUtils {
 		return node.isOperation(Operation.MINUS) ? node.multiplyR(-1) : node;
 	}
 
-	private ExpressionValue mulByMinusOne(ExpressionNode node,
-			ExpressionNode leftNumber, ExpressionValue right) {
+	private ExpressionValue mulByMinusOne(
+			ExpressionNode node, ExpressionNode leftNumber, ExpressionValue right) {
 		Operation operation = node.getOperation();
 		if (Operation.PLUS.equals(operation)) {
 			return newNode(leftNumber, Operation.MINUS, right);
@@ -356,9 +357,8 @@ public final class SimplifyUtils {
 	 * @return the multiplied node
 	 */
 	public ExpressionValue mulByMinusOne(ExpressionNode node) {
-		ExpressionValue result = isIntegerValue(node.getLeft())
-				? mulByMinusOneL(node)
-				: mulByMinusOneR(node);
+		ExpressionValue result =
+				isIntegerValue(node.getLeft()) ? mulByMinusOneL(node) : mulByMinusOneR(node);
 		ExpressionNode rightTree = result.wrap().getRightTree();
 		if (rightTree != null && rightTree.getLeft() instanceof MinusOne) {
 			return rightTree.getRight();
@@ -375,8 +375,7 @@ public final class SimplifyUtils {
 		ExpressionNode leftTree = node.getLeftTree();
 		double leftNumber = leftTree.evaluateDouble();
 
-		if (node.isOperation(Operation.MULTIPLY) && isInteger(leftNumber)
-				&& leftNumber != -1) {
+		if (node.isOperation(Operation.MULTIPLY) && isInteger(leftNumber) && leftNumber != -1) {
 			node.setLeft(newDouble(-leftNumber));
 			return node;
 		}
@@ -462,7 +461,8 @@ public final class SimplifyUtils {
 	 * @return the consugate multiplied by -1.
 	 */
 	public ExpressionNode getMinusConjugate(ExpressionNode node, Operation op) {
-		return newNode(negate(node.getLeftTree()),
+		return newNode(
+				negate(node.getLeftTree()),
 				Operation.inverse(op),
 				node.getRight().wrap().multiplyR(-1));
 	}
@@ -496,8 +496,8 @@ public final class SimplifyUtils {
 	 * @param op the second operand of the operation.
 	 * @return the result.
 	 */
-	public ExpressionValue applyOrLet(ExpressionValue source, Operation operation,
-			ExpressionValue op) {
+	public ExpressionValue applyOrLet(
+			ExpressionValue source, Operation operation, ExpressionValue op) {
 		if (source == null) {
 			return op;
 		}
@@ -539,7 +539,8 @@ public final class SimplifyUtils {
 		ExpressionNode result = null;
 		while (i < list.size()) {
 			ExpressionNode item = list.get(i).wrap();
-			if (isMultiplyNode(item) && isIntegerValue(item.getLeft())
+			if (isMultiplyNode(item)
+					&& isIntegerValue(item.getLeft())
 					&& isSqrtNode(item.getRightTree())) {
 				int amount = getLeftMultiplier(item);
 				addSqrtToSum(item.getRightTree(), sqrtMap, amount);
@@ -604,19 +605,13 @@ public final class SimplifyUtils {
 			ExpressionNode leftTree = node.getLeftTree();
 			ExpressionNode rightTree = node.getRightTree();
 			if (isSqrtNode(leftTree) && isSqrtNode(rightTree)) {
-				return newSqrt(
-						leftTree.getLeft().evaluateDouble()
-								* rightTree.getLeft().evaluateDouble()
-				);
+				return newSqrt(leftTree.getLeft().evaluateDouble() * rightTree.getLeft().evaluateDouble());
 			}
-			if (isMultiplyNode(leftTree) && isSqrtNode(leftTree.getRight()) && isSqrtNode(
-					rightTree)) {
-				ExpressionNode reducedSqrt = newSqrt(
-						leftTree.getRightTree().getLeft().evaluateDouble()
-								* rightTree.getLeft().evaluateDouble());
-				return productReducer.apply(multiply(getSurdsOrSame(reducedSqrt).wrap(),
-						leftTree.getLeftTree()));
-
+			if (isMultiplyNode(leftTree) && isSqrtNode(leftTree.getRight()) && isSqrtNode(rightTree)) {
+				ExpressionNode reducedSqrt = newSqrt(leftTree.getRightTree().getLeft().evaluateDouble()
+						* rightTree.getLeft().evaluateDouble());
+				return productReducer.apply(
+						multiply(getSurdsOrSame(reducedSqrt).wrap(), leftTree.getLeftTree()));
 			}
 		}
 		return value;

@@ -64,8 +64,7 @@ public final class MutableState<T> implements State<T> {
 			return;
 		}
 		this.value = value;
-		List.copyOf(registrations).forEach(registration ->
-				registration.listener.valueChanged(value));
+		List.copyOf(registrations).forEach(registration -> registration.listener.valueChanged(value));
 	}
 
 	@Override

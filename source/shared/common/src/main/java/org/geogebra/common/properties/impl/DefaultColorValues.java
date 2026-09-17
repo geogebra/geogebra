@@ -32,8 +32,7 @@ public final class DefaultColorValues {
 			GColor.newColorRGB(0x388C83),
 			GColor.newColorRGB(0xFFCC02),
 			GColor.newColorRGB(0xE07415),
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED
-	);
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
 
 	/** Bright color values, used in the style bar. */
 	public static final List<GColor> BRIGHT_STYLE_BAR = List.of(
@@ -45,8 +44,7 @@ public final class DefaultColorValues {
 			GColor.WHITE,
 			GColor.newColorRGB(0xFFCC02),
 			GColor.newColorRGB(0xE07415),
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED
-	);
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
 
 	/** Pale color values, commonly used for background color */
 	public static final List<GColor> PALE = List.of(
@@ -57,8 +55,7 @@ public final class DefaultColorValues {
 			GColor.newColorRGB(0xD2E4E2),
 			GColor.newColorRGB(0xFFF2CC),
 			GColor.newColorRGB(0xF5E0D2),
-			GColor.newColorRGB(0xF1D2D8)
-	);
+			GColor.newColorRGB(0xF1D2D8));
 
 	/** Neutral color values, commonly used for text */
 	public static final List<GColor> NEUTRAL = List.of(
@@ -69,9 +66,7 @@ public final class DefaultColorValues {
 			GeoGebraColorConstants.NEUTRAL_500,
 			GeoGebraColorConstants.NEUTRAL_400,
 			GeoGebraColorConstants.NEUTRAL_300,
-			GeoGebraColorConstants.NEUTRAL_200
-	);
+			GeoGebraColorConstants.NEUTRAL_200);
 
-	private DefaultColorValues() {
-	}
+	private DefaultColorValues() {}
 }

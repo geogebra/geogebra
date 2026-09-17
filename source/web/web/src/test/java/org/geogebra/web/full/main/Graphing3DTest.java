@@ -29,5 +29,4 @@ public class Graphing3DTest {
 	public void startApp() {
 		AppMocker.mockApplet(new AppletParameters("3d"));
 	}
-
 }

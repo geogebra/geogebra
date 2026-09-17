@@ -76,14 +76,14 @@ public final class CustomColorDialog extends ComponentDialog {
 			sp.add(minLabel);
 			sp.add(slider);
 			sp.add(maxLabel);
-	
+
 			spinner = new GSpinnerW();
 			spinner.setMinValue(0);
 			spinner.setMaxValue(255);
 			spinner.setStepValue(1);
 			add(sp);
 			add(spinner);
-					
+
 			spinner.addChangeHandler(event -> {
 				slider.setValue(Integer.parseInt(spinner.getValue()));
 				preview.update();
@@ -93,7 +93,7 @@ public final class CustomColorDialog extends ComponentDialog {
 				preview.update();
 			});
 		}
-		
+
 		void setValue(Integer value) {
 			slider.setValue(value);
 			spinner.setValue(value.toString());
@@ -103,7 +103,7 @@ public final class CustomColorDialog extends ComponentDialog {
 			return slider.getValue();
 		}
 	}
-	
+
 	private final class PreviewPanel extends FlowPanel {
 		private final Label title;
 		private final CanvasRenderingContext2D ctx;
@@ -126,7 +126,7 @@ public final class CustomColorDialog extends ComponentDialog {
 
 		/**
 		 * Reset both color rectangles to original color.
-		 * 
+		 *
 		 * @param oColor
 		 *            color for both rectangles
 		 */
@@ -154,7 +154,7 @@ public final class CustomColorDialog extends ComponentDialog {
 
 	/**
 	 * Create new color dialog.
-	 * 
+	 *
 	 * @param app application
 	 * @param data dialog data
 	 * @param listener custom color listener
@@ -163,8 +163,8 @@ public final class CustomColorDialog extends ComponentDialog {
 		super((AppW) app, data, false, true);
 		loc = app.getLocalization();
 		addStyleName("customColor");
-		this.origColor = listener.getSelectedColor() != null
-				? listener.getSelectedColor() : GColor.BLACK;
+		this.origColor =
+				listener.getSelectedColor() != null ? listener.getSelectedColor() : GColor.BLACK;
 		createGUI();
 		setOnPositiveAction(() -> {
 			if (listener != null) {
@@ -172,13 +172,12 @@ public final class CustomColorDialog extends ComponentDialog {
 			}
 		});
 	}
-	
+
 	/**
 	 * @return custom color
 	 */
 	private GColor getColor() {
-		return GColor.newColor(red.getValue(), green.getValue(),
-				blue.getValue());
+		return GColor.newColor(red.getValue(), green.getValue(), blue.getValue());
 	}
 
 	private void createGUI() {
@@ -210,7 +209,7 @@ public final class CustomColorDialog extends ComponentDialog {
 
 	/**
 	 * Show and initialize with a color.
-	 * 
+	 *
 	 * @param color
 	 *            new initial color
 	 */

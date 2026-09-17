@@ -332,6 +332,5 @@ class CMMIB10 extends FontInfo {
 		setMetrics(126, 575, 724, 0, 155);
 
 		setMetrics(196, 319, 694, 0, 450);
-
 	}
 }

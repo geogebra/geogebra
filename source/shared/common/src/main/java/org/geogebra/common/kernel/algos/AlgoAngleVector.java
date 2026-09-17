@@ -64,8 +64,7 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		if (vec.isGeoVector()) {
 			GeoPointND vertex = getStartPoint((GeoVector) vec);
 			if (vertex != null) {
@@ -98,5 +97,4 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 
 		return true;
 	}
-
 }

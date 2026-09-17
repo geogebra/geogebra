@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Returns the construction step of a GeoElement
- * 
+ *
  * @author Markus
  */
 public class AlgoStepObject extends AlgoElement {
@@ -42,8 +42,7 @@ public class AlgoStepObject extends AlgoElement {
 	 * @param inputGeo
 	 *            geo
 	 */
-	public AlgoStepObject(Construction cons, String label,
-			GeoElement inputGeo) {
+	public AlgoStepObject(Construction cons, String label, GeoElement inputGeo) {
 		super(cons);
 		// this.cons=cons;
 		this.inputGeo = inputGeo;
@@ -79,7 +78,7 @@ public class AlgoStepObject extends AlgoElement {
 	}
 
 	@Override
-	final public boolean wantsConstructionProtocolUpdate() {
+	public final boolean wantsConstructionProtocolUpdate() {
 		return true;
 	}
 
@@ -89,5 +88,4 @@ public class AlgoStepObject extends AlgoElement {
 		double step = inputGeo.getConstructionIndex();
 		num.setValue(step + 1);
 	}
-
 }

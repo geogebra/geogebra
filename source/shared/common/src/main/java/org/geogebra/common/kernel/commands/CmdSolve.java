@@ -48,19 +48,18 @@ public class CmdSolve extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) {
 		GeoElement[] args = this.resArgs(c, info);
 		switch (args.length) {
-		case 1:
-			return solve(args[0], null, c, info);
-		case 2:
-			if (type == Commands.PlotSolve) {
-				throw argNumErr(c);
-			}
-			return solve(args[0], args[1], c, info);
+			case 1:
+				return solve(args[0], null, c, info);
+			case 2:
+				if (type == Commands.PlotSolve) {
+					throw argNumErr(c);
+				}
+				return solve(args[0], args[1], c, info);
 		}
 		throw argNumErr(c);
 	}
 
-	private GeoElement[] solve(GeoElement arg, GeoElement hint, Command c,
-			EvalInfo info) {
+	private GeoElement[] solve(GeoElement arg, GeoElement hint, Command c, EvalInfo info) {
 		if (arg.isGeoList() || arg instanceof EquationValue || arg instanceof GeoFunction) {
 			AlgoSolve solve;
 			if (c.getName().equals(CSolve.name()) || c.getName().equals(CSolutions.name())) {

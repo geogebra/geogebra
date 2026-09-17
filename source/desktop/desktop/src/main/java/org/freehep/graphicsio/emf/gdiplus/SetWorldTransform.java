@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  * The SetWorldTransform metafile record represents a change in the
  * Graphics.Transform property, which sets the world transformation matrix of
  * the graphics object.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: SetWorldTransform.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -30,19 +30,21 @@ public class SetWorldTransform extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		SetWorldTransform tag = new SetWorldTransform();
 		tag.flags = flags;
-		tag.transform = new AffineTransform(emf.readFLOAT(), emf.readFLOAT(),
-				emf.readFLOAT(), emf.readFLOAT(), emf.readFLOAT(),
+		tag.transform = new AffineTransform(
+				emf.readFLOAT(),
+				emf.readFLOAT(),
+				emf.readFLOAT(),
+				emf.readFLOAT(),
+				emf.readFLOAT(),
 				emf.readFLOAT());
 		return tag;
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		GDIPlusObject.writeTransform(emf, transform);
 	}
 

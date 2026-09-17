@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -107,16 +107,14 @@ public class PropertiesStyleBarD {
 					Log.error("No icon for" + type);
 				} else {
 					btn.setIcon(icon);
-					btn.setPreferredSize(new Dimension(icon.getIconWidth(),
-							icon.getIconHeight()));
+					btn.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 					btn.addActionListener(e -> propertiesView.setOptionPanel(type));
 					btnGroup.add(btn);
 					toolbar.add(btn);
 					buttonMap.put(type, btn);
 					// mi.setSelected(type ==
 					// propertiesView.getSelectedOptionType());
-					if (type == OptionType.OBJECTS
-							|| type == OptionType.SPREADSHEET) {
+					if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
 						toolbar.addSeparator();
 					}
 				}
@@ -133,16 +131,14 @@ public class PropertiesStyleBarD {
 		this.wrappedPanel.add(toolbar, BorderLayout.NORTH);
 		// this.add(titlePanel, BorderLayout.SOUTH);
 		this.wrappedPanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 0, 0,
-						SystemColor.controlShadow),
-				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.controlLtHighlight)));
+				BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight)));
 		// this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	}
 
 	/**
 	 * create a new properties button if type is compatible
-	 * 
+	 *
 	 * @param type
 	 *            type
 	 * @return new properties button
@@ -168,29 +164,31 @@ public class PropertiesStyleBarD {
 	public void updateGUI() {
 
 		OptionType seltype = propertiesView.getSelectedOptionType();
-		btnOption.setFixedIcon(PropertiesViewD.getTypeIcon(app,
-				propertiesView.getSelectedOptionType()));
-		btnOption.setText(propertiesView.getTypeString(
-				propertiesView.getSelectedOptionType()) + downTriangle);
+		btnOption.setFixedIcon(
+				PropertiesViewD.getTypeIcon(app, propertiesView.getSelectedOptionType()));
+		btnOption.setText(
+				propertiesView.getTypeString(propertiesView.getSelectedOptionType()) + downTriangle);
 
 		buttonMap.get(seltype).setSelected(true);
 
-		buttonMap.get(OptionType.EUCLIDIAN)
+		buttonMap
+				.get(OptionType.EUCLIDIAN)
 				.setVisible(app.getGuiManager().showView(App.VIEW_EUCLIDIAN));
 
-		buttonMap.get(OptionType.EUCLIDIAN2)
+		buttonMap
+				.get(OptionType.EUCLIDIAN2)
 				.setVisible(app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
 
-		buttonMap.get(OptionType.SPREADSHEET)
+		buttonMap
+				.get(OptionType.SPREADSHEET)
 				.setVisible(app.getGuiManager().showView(App.VIEW_SPREADSHEET));
 
-		buttonMap.get(OptionType.CAS)
-				.setVisible(app.getGuiManager().showView(App.VIEW_CAS));
+		buttonMap.get(OptionType.CAS).setVisible(app.getGuiManager().showView(App.VIEW_CAS));
 	}
 
 	/**
 	 * create a new menu item if type is compatible
-	 * 
+	 *
 	 * @param type
 	 *            type
 	 * @return new menu item
@@ -206,7 +204,6 @@ public class PropertiesStyleBarD {
 		}
 
 		return new JMenuItem();
-
 	}
 
 	void buildMenu() {
@@ -232,15 +229,13 @@ public class PropertiesStyleBarD {
 				menu.add(mi);
 				// mi.setSelected(type ==
 				// propertiesView.getSelectedOptionType());
-				if (type == OptionType.OBJECTS
-						|| type == OptionType.SPREADSHEET) {
+				if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
 					menu.addSeparator();
 				}
 			}
 		}
 
 		app.setComponentOrientation(menu);
-
 	}
 
 	/**
@@ -254,22 +249,19 @@ public class PropertiesStyleBarD {
 				button.setToolTipText(propertiesView.getTypeString(type));
 			}
 		}
-
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setObjectsToolTip() {
 
-		objectButton.setToolTipText(
-				propertiesView.getTypeString(OptionType.OBJECTS));
-
+		objectButton.setToolTipText(propertiesView.getTypeString(OptionType.OBJECTS));
 	}
 
 	/**
 	 * sets if object button is enabled
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -291,8 +283,8 @@ public class PropertiesStyleBarD {
 		@Override
 		public JToolTip createToolTip() {
 			tip = super.createToolTip();
-			tip.setBorder(BorderFactory.createCompoundBorder(tip.getBorder(),
-					BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+			tip.setBorder(BorderFactory.createCompoundBorder(
+					tip.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 			return tip;
 		}
@@ -309,7 +301,6 @@ public class PropertiesStyleBarD {
 			}
 			return p;
 		}
-
 	}
 
 	/**
@@ -321,18 +312,15 @@ public class PropertiesStyleBarD {
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			defaultInitialDelay = ToolTipManager.sharedInstance()
-					.getInitialDelay();
+			defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
 			if (preventToolTipDelay) {
 				ToolTipManager.sharedInstance().setInitialDelay(0);
 			}
-
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			ToolTipManager.sharedInstance()
-					.setInitialDelay(defaultInitialDelay);
+			ToolTipManager.sharedInstance().setInitialDelay(defaultInitialDelay);
 		}
 	}
 
@@ -351,5 +339,4 @@ public class PropertiesStyleBarD {
 		d.height = app.getScaledIconSize() + 2 * MARGIN_Y;
 		wrappedPanel.setPreferredSize(d);
 	}
-
 }

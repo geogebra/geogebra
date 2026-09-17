@@ -61,8 +61,11 @@ public class BernsteinImplicitAlgo implements PlotterAlgo {
 	 * @param assembler to make segments as the final result of the algo.
 	 * @param minCellSizeInPixels cell size that should not split further.
 	 */
-	public BernsteinImplicitAlgo(@NonNull EuclidianViewBounds bounds, @NonNull GeoElement curve,
-			@NonNull List<BernsteinPlotCell> cells, @NonNull ContourAssembler assembler,
+	public BernsteinImplicitAlgo(
+			@NonNull EuclidianViewBounds bounds,
+			@NonNull GeoElement curve,
+			@NonNull List<BernsteinPlotCell> cells,
+			@NonNull ContourAssembler assembler,
 			int minCellSizeInPixels) {
 		this.bounds = bounds;
 		this.curve = curve;
@@ -156,17 +159,13 @@ public class BernsteinImplicitAlgo implements PlotterAlgo {
 	}
 
 	private void addToOutput(BernsteinPlotCell currentCell) {
-		BernsteinMarchingConfigProvider provider =
-				new BernsteinMarchingConfigProvider(currentCell);
+		BernsteinMarchingConfigProvider provider = new BernsteinMarchingConfigProvider(currentCell);
 		assembler.add(provider.getMarchingRect(), provider);
-
 	}
 
 	private boolean isBoxSmallEnough(BernsteinBoundingBox box) {
-		double width = Math.abs(bounds.toScreenCoordXd(box.x2())
-				- bounds.toScreenCoordXd(box.x1()));
-		double height =
-				Math.abs(bounds.toScreenCoordYd(box.y1()) - bounds.toScreenCoordYd(box.y2()));
+		double width = Math.abs(bounds.toScreenCoordXd(box.x2()) - bounds.toScreenCoordXd(box.x1()));
+		double height = Math.abs(bounds.toScreenCoordYd(box.y1()) - bounds.toScreenCoordYd(box.y2()));
 		return width <= minCellSizeInPixels || height <= minCellSizeInPixels;
 	}
 }

@@ -35,8 +35,7 @@ public class CurvePlotterStack {
 	 * @param onScreen if first item on screen
 	 * @param eval first evaluation
 	 */
-	public CurvePlotterStack(int length, boolean onScreen,
-			double[] eval) {
+	public CurvePlotterStack(int length, boolean onScreen, double[] eval) {
 		items = new CurvePlotterStackItem[length];
 		for (int i = 0; i < length; i++) {
 			items[i] = new CurvePlotterStackItem();

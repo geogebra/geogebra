@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -83,8 +83,7 @@ class InputTokenizerTest extends TokenizerBaseTest {
 	@Test
 	void testAkakakaaa() {
 		withGeos("a", "k", "aa(x)");
-		shouldBeSplitTo("akakakaaa" , "a", "k", "a", "k", "a",
-				"k", "a", "a", "a");
+		shouldBeSplitTo("akakakaaa", "a", "k", "a", "k", "a", "k", "a", "a", "a");
 	}
 
 	@Test
@@ -125,8 +124,8 @@ class InputTokenizerTest extends TokenizerBaseTest {
 	@Test
 	void testGreekFunctionVars() {
 		withGeos("f(" + Unicode.Delta + "y, y)");
-		shouldBeSplitTo(Unicode.Delta + "y(1 + y)", Unicode.Delta + "y",
-				"(", "1", " ", "+", " ", "y", ")");
+		shouldBeSplitTo(
+				Unicode.Delta + "y(1 + y)", Unicode.Delta + "y", "(", "1", " ", "+", " ", "y", ")");
 	}
 
 	@Test
@@ -162,14 +161,14 @@ class InputTokenizerTest extends TokenizerBaseTest {
 	}
 
 	private void shouldBeSplitTo(String input, String... tokens) {
-		InputTokenizer tokenizer = new InputTokenizer(getKernel(),
-				getApp().getParserFunctions(), input, true);
+		InputTokenizer tokenizer =
+				new InputTokenizer(getKernel(), getApp().getParserFunctions(), input, true);
 		assertEquals(Arrays.asList(tokens), getTokens(tokenizer));
 	}
 
 	private void shouldBeSplitForAV(String input, String... tokens) {
-		InputTokenizer tokenizer = new InputTokenizer(getKernel(),
-				getApp().getParserFunctions(), input, false);
+		InputTokenizer tokenizer =
+				new InputTokenizer(getKernel(), getApp().getParserFunctions(), input, false);
 		assertEquals(Arrays.asList(tokens), getTokens(tokenizer));
 	}
 

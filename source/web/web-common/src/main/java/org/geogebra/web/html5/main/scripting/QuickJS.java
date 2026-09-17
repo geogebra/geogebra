@@ -49,6 +49,7 @@ public class QuickJS {
 
 		@InjectJsInterop
 		public QuickJSHandle global;
+
 		public Function callFunction;
 
 		@JsProperty
@@ -118,12 +119,11 @@ public class QuickJS {
 			vm.setProp(vm.global, "console", console);
 			vm.setProp(vm.global, "ggbApplet", ggbApplet);
 			JsPropertyMap<?> methods = JsObject.of(exportedApi);
-			methods.forEach(method ->
-					addWrappedMethod(ggbApplet, method, bundle, method, vm, converter));
+			methods.forEach(method -> addWrappedMethod(ggbApplet, method, bundle, method, vm, converter));
 			JsPropertyMap<Object> consoleBundle = JsObject.of(DomGlobal.console);
-			Arrays.asList("error", "info", "log", "warn").forEach(method ->
-				addWrappedMethod(console, method, consoleBundle, method, vm, converter)
-			);
+			Arrays.asList("error", "info", "log", "warn")
+					.forEach(
+							method -> addWrappedMethod(console, method, consoleBundle, method, vm, converter));
 			vm.setProp(vm.global, "open", vm.newFunction("", getWindowOpen(converter, vm)));
 			addWrappedMethod(vm.global, "alert", bundle, "showTooltip", vm, converter);
 			return Promise.resolve(vm);
@@ -133,8 +133,8 @@ public class QuickJS {
 	@JsOverlay
 	private static MethodWrapper getWindowOpen(SandboxConverter converter, QuickJSContext vm) {
 		return (sandboxArgs) -> {
-			Object url = sandboxArgs.length > 0 ? converter.fromSandboxObject(sandboxArgs[0], vm)
-					: Js.undefined();
+			Object url =
+					sandboxArgs.length > 0 ? converter.fromSandboxObject(sandboxArgs[0], vm) : Js.undefined();
 			if (url instanceof String && ((String) url).startsWith("https://")) {
 				DomGlobal.window.open((String) url);
 				// do not return the new window handle
@@ -146,9 +146,13 @@ public class QuickJS {
 	}
 
 	@JsOverlay
-	private static void addWrappedMethod(QuickJSHandle sanboxed, String method,
-			JsPropertyMap<Object> bundle, String bundleMethod,
-			QuickJSContext vm, SandboxConverter converter) {
+	private static void addWrappedMethod(
+			QuickJSHandle sanboxed,
+			String method,
+			JsPropertyMap<Object> bundle,
+			String bundleMethod,
+			QuickJSContext vm,
+			SandboxConverter converter) {
 		Function methodFn = (Function) bundle.get(bundleMethod);
 		MethodWrapper methodWrapper = (sandboxArgs) -> {
 			JsArray<Object> realArgs = new JsArray<>();

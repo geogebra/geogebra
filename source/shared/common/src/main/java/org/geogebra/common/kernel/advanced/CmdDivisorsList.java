@@ -23,14 +23,14 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * DivisorsList[number]
- * 
+ *
  * @author zbynek
  *
  */
 public class CmdDivisorsList extends CmdOneNumber {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,5 +43,4 @@ public class CmdDivisorsList extends CmdOneNumber {
 		AlgoDivisorsList algo = new AlgoDivisorsList(cons, label, num);
 		return algo.getResult();
 	}
-
 }

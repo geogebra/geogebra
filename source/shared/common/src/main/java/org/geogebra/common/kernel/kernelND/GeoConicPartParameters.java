@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -28,7 +28,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Parameters for 2D/3D GeoConicPart
- * 
+ *
  * @author mathieu
  *
  */
@@ -51,6 +51,7 @@ public class GeoConicPartParameters {
 	private double arcLength;
 	/** value */
 	public double value;
+
 	private boolean valueDefined;
 
 	private EllipticArcLength ellipticArcLength;
@@ -93,7 +94,7 @@ public class GeoConicPartParameters {
 	 *            other parameters
 	 * @return whether this and other describe same range of same conic type
 	 */
-	final public boolean isEqual(GeoConicPartParameters other) {
+	public final boolean isEqual(GeoConicPartParameters other) {
 		return posOrientation == other.posOrientation
 				&& conicPartType == other.conicPartType
 				&& DoubleUtil.isEqual(paramStart, other.paramStart)
@@ -110,8 +111,8 @@ public class GeoConicPartParameters {
 	 * @param positiveOrientation
 	 *            orientation
 	 */
-	final public void setParameters(boolean isDefined, double start, double end,
-			boolean positiveOrientation) {
+	public final void setParameters(
+			boolean isDefined, double start, double end, boolean positiveOrientation) {
 		posOrientation = positiveOrientation;
 		if (!posOrientation) {
 			// internally we always use positive orientation, i.e. a <= b
@@ -123,8 +124,7 @@ public class GeoConicPartParameters {
 		}
 	}
 
-	private void setParametersKeepOrientation(boolean isDefined,
-			double startParam, double endParam) {
+	private void setParametersKeepOrientation(boolean isDefined, double startParam, double endParam) {
 		setValueDefined(isDefined);
 		if (!isValueDefined()) {
 			value = Double.NaN;
@@ -132,69 +132,67 @@ public class GeoConicPartParameters {
 		}
 		// handle conic types
 		switch (conic.getType()) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			setExtentEllipse(startParam, endParam);
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				setExtentEllipse(startParam, endParam);
 
-			double r = conic.getHalfAxis(0);
-			arcLength = r * paramExtent;
-			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
-				value = arcLength;
-				// area arc = area sector - area triangle
-				area = r * r * (paramExtent - Math.sin(paramExtent)) / 2.0;
-			} else {
-				value = r * r * paramExtent / 2.0; // area
-				area = value; // area
-			}
-			setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
-			break;
-
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			setExtentEllipse(startParam, endParam);
-
-			if (ellipticArcLength == null) {
-				ellipticArcLength = new EllipticArcLength(conic);
-			}
-
-			arcLength = ellipticArcLength.compute(paramStart, paramEnd);
-			area = conic.getHalfAxis(0) * conic.getHalfAxis(1) * paramExtent
-					/ 2.0;
-
-			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
-				value = arcLength;
-			} else {
-				value = area;
-			}
-			setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
-
-			break;
-
-		// a circular arc through 3 points may degenerate
-		// to a segment or two rays
-		case GeoConicNDConstants.CONIC_LINE:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC
-					&& posOrientation) {
-				// length of segment
-				// bugfix Michael Borcherds 2008-05-27
-				GeoPoint startPoint = conic.lines[0].getStartPoint();
-				GeoPoint endPoint = conic.lines[0].getEndPoint();
-				if (startPoint != null && endPoint != null) {
-					value = startPoint.distance(endPoint);
+				double r = conic.getHalfAxis(0);
+				arcLength = r * paramExtent;
+				if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
+					value = arcLength;
+					// area arc = area sector - area triangle
+					area = r * r * (paramExtent - Math.sin(paramExtent)) / 2.0;
 				} else {
-					value = Double.POSITIVE_INFINITY;
-					setValueDefined(false);
-					break;
+					value = r * r * paramExtent / 2.0; // area
+					area = value; // area
 				}
-				// bugfix end
+				setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
+				break;
 
-			} else { // sector or two rays
-				value = Double.POSITIVE_INFINITY; // area or length of rays
-			}
-			setValueDefined(true);
-			break;
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				setExtentEllipse(startParam, endParam);
 
-		default:
-			setValueDefined(false);
+				if (ellipticArcLength == null) {
+					ellipticArcLength = new EllipticArcLength(conic);
+				}
+
+				arcLength = ellipticArcLength.compute(paramStart, paramEnd);
+				area = conic.getHalfAxis(0) * conic.getHalfAxis(1) * paramExtent / 2.0;
+
+				if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
+					value = arcLength;
+				} else {
+					value = area;
+				}
+				setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
+
+				break;
+
+			// a circular arc through 3 points may degenerate
+			// to a segment or two rays
+			case GeoConicNDConstants.CONIC_LINE:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+				if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC && posOrientation) {
+					// length of segment
+					// bugfix Michael Borcherds 2008-05-27
+					GeoPoint startPoint = conic.lines[0].getStartPoint();
+					GeoPoint endPoint = conic.lines[0].getEndPoint();
+					if (startPoint != null && endPoint != null) {
+						value = startPoint.distance(endPoint);
+					} else {
+						value = Double.POSITIVE_INFINITY;
+						setValueDefined(false);
+						break;
+					}
+					// bugfix end
+
+				} else { // sector or two rays
+					value = Double.POSITIVE_INFINITY; // area or length of rays
+				}
+				setValueDefined(true);
+				break;
+
+			default:
+				setValueDefined(false);
 		}
 	}
 
@@ -209,10 +207,10 @@ public class GeoConicPartParameters {
 
 	/**
 	 * Returns arc length / area as appropriate
-	 * 
+	 *
 	 * @return arc length / area as appropriate
 	 */
-	final public double getValue() {
+	public final double getValue() {
 		if (!isValueDefined()) {
 			return Double.NaN;
 		}
@@ -221,10 +219,10 @@ public class GeoConicPartParameters {
 
 	/**
 	 * Returns arc length
-	 * 
+	 *
 	 * @return arc length
 	 */
-	final public double getArcLength() {
+	public final double getArcLength() {
 		if (!isValueDefined()) {
 			return Double.NaN;
 		}
@@ -233,10 +231,10 @@ public class GeoConicPartParameters {
 
 	/**
 	 * Returns the area
-	 * 
+	 *
 	 * @return area
 	 */
-	final public double getArea() {
+	public final double getArea() {
 		if (!isValueDefined()) {
 			return Double.NaN;
 		}
@@ -245,7 +243,7 @@ public class GeoConicPartParameters {
 
 	/**
 	 * Set path parameter for point on ellipse
-	 * 
+	 *
 	 * @param P
 	 *            point
 	 * @param pp
@@ -268,7 +266,7 @@ public class GeoConicPartParameters {
 
 	/**
 	 * Clip path parameter for point on ellipse
-	 * 
+	 *
 	 * @param P
 	 *            point
 	 * @param pp
@@ -303,15 +301,13 @@ public class GeoConicPartParameters {
 
 	/**
 	 * Append arc settings
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 */
 	public void getLimitedPathXML(XMLStringBuilder sb) {
-		sb.startTag("outlyingIntersections")
-				.attr("val", allowOutlyingIntersections).endTag();
-		sb.startTag("keepTypeOnTransform")
-				.attr("val", keepTypeOnGeometricTransform).endTag();
+		sb.startTag("outlyingIntersections").attr("val", allowOutlyingIntersections).endTag();
+		sb.startTag("keepTypeOnTransform").attr("val", keepTypeOnGeometricTransform).endTag();
 	}
 
 	/**
@@ -338,14 +334,10 @@ public class GeoConicPartParameters {
 		double ev0y = conic.getEigenvec(0).getY();
 		double ev1x = conic.getEigenvec(1).getX();
 		double ev1y = conic.getEigenvec(1).getY();
-		double firstVecX = ev0x * Math.cos(paramStart)
-				+ ev1x * Math.sin(paramStart);
-		double firstVecY = ev0y * Math.cos(paramStart)
-				+ ev1y * Math.sin(paramStart);
-		double secondVecX = ev0x * Math.cos(paramEnd)
-				+ ev1x * Math.sin(paramEnd);
-		double secondVecY = ev0y * Math.cos(paramEnd)
-				+ ev1y * Math.sin(paramEnd);
+		double firstVecX = ev0x * Math.cos(paramStart) + ev1x * Math.sin(paramStart);
+		double firstVecY = ev0y * Math.cos(paramStart) + ev1y * Math.sin(paramStart);
+		double secondVecX = ev0x * Math.cos(paramEnd) + ev1x * Math.sin(paramEnd);
+		double secondVecY = ev0y * Math.cos(paramEnd) + ev1y * Math.sin(paramEnd);
 		Coords midPoint = conic.getMidpoint2D();
 		double r = conic.getHalfAxis(1);
 		double vx = (x0 - midPoint.getX()) / r - firstVecX;
@@ -362,17 +354,14 @@ public class GeoConicPartParameters {
 		double py = y0 - b.getY();
 
 		// rotate by -alpha
-		double px2 = px * conic.getEigenvec(0).getX()
-				+ py * conic.getEigenvec(0).getY();
-		py = px * conic.getEigenvec(1).getX()
-				+ py * conic.getEigenvec(1).getY();
+		double px2 = px * conic.getEigenvec(0).getX() + py * conic.getEigenvec(0).getY();
+		py = px * conic.getEigenvec(1).getX() + py * conic.getEigenvec(1).getY();
 
 		// calc parameter
 
 		// relation between the internal parameter t and the angle theta:
 		// t = atan(a/b tan(theta)) where tan(theta) = py / px
-		double arg = Math.atan2(conic.getHalfAxis(0) * py,
-				conic.getHalfAxis(1) * px2);
+		double arg = Math.atan2(conic.getHalfAxis(0) * py, conic.getHalfAxis(1) * px2);
 		if (arg < 0) {
 			arg += Kernel.PI_2;
 		}
@@ -380,7 +369,7 @@ public class GeoConicPartParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param P
 	 *            coords in conic coord sys
 	 * @return true if coords are on path
@@ -392,22 +381,22 @@ public class GeoConicPartParameters {
 		pp.setPathType(conic.type);
 
 		switch (conic.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			setEllipseParameter(P, pp);
-			return pp.t >= 0 && pp.t <= 1;
-
-		// degenerate case: two rays or one segment
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			if (posOrientation) {
-				// segment
-				conic.lines[0].doPointChanged(P, pp);
-
-				// make sure we don't get outside [0,1]
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				setEllipseParameter(P, pp);
 				return pp.t >= 0 && pp.t <= 1;
-			}
-			// two rays
-			return true;
+
+			// degenerate case: two rays or one segment
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+				if (posOrientation) {
+					// segment
+					conic.lines[0].doPointChanged(P, pp);
+
+					// make sure we don't get outside [0,1]
+					return pp.t >= 0 && pp.t <= 1;
+				}
+				// two rays
+				return true;
 		}
 
 		return false;

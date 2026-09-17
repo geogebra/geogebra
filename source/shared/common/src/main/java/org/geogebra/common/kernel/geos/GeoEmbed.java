@@ -42,8 +42,8 @@ public class GeoEmbed extends GeoWidget {
 	private static final double DEFAULT_WIDTH = 800;
 	private static final double DEFAULT_HEIGHT = 600;
 
-	public final static int EMBED_SIZE_THRESHOLD = 100;
-	private final static int MARGINS = 32; // left + right
+	public static final int EMBED_SIZE_THRESHOLD = 100;
+	private static final int MARGINS = 32; // left + right
 	private static final int TOOLBOX_WIDTH = 80;
 	public static final String EXTERNAL_PROTOCOL = "external:";
 
@@ -108,7 +108,7 @@ public class GeoEmbed extends GeoWidget {
 
 	/**
 	 * Center this in a view
-	 * 
+	 *
 	 * @param ev
 	 *            view
 	 */
@@ -123,10 +123,9 @@ public class GeoEmbed extends GeoWidget {
 	 * @param view euclidian view
 	 */
 	public void initDefaultPosition(EuclidianView view) {
-		double width = MyMath.clamp(DEFAULT_WIDTH, EMBED_SIZE_THRESHOLD,
-				view.getWidth() - TOOLBOX_WIDTH - MARGINS);
-		double height =
-				MyMath.clamp(DEFAULT_HEIGHT, EMBED_SIZE_THRESHOLD, view.getHeight() - MARGINS);
+		double width = MyMath.clamp(
+				DEFAULT_WIDTH, EMBED_SIZE_THRESHOLD, view.getWidth() - TOOLBOX_WIDTH - MARGINS);
+		double height = MyMath.clamp(DEFAULT_HEIGHT, EMBED_SIZE_THRESHOLD, view.getHeight() - MARGINS);
 		setContentWidth(width);
 		setContentHeight(height);
 		setSize(width, height);

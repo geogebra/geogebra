@@ -39,8 +39,9 @@ public final class ChartSegmentHatchingDistanceProperty extends AbstractRangePro
 	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartSegmentHatchingDistanceProperty(Localization localization, GeoElement geoElement,
-			ChartSegmentSelection chartSegmentSelection) throws NotApplicablePropertyException {
+	public ChartSegmentHatchingDistanceProperty(
+			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
+			throws NotApplicablePropertyException {
 		super(localization, "Spacing", 5, 50, 5);
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
 			throw new NotApplicablePropertyException(geoElement);
@@ -51,15 +52,16 @@ public final class ChartSegmentHatchingDistanceProperty extends AbstractRangePro
 
 	@Override
 	protected void setValueSafe(Integer value) {
-		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(),
+		chartSegmentSelection.forEachSelectedSegment(
+				chartStyleGeo.getIntervals(),
 				index -> chartStyleGeo.getStyle().setBarHatchDistance(value, index));
 		((GeoElement) chartStyleGeo).updateVisualStyleRepaint(GProperty.HATCHING);
 	}
 
 	@Override
 	public Integer getValue() {
-		return chartSegmentSelection.getFirstValue(chartStyleGeo.getIntervals(),
-				this::getSegmentHatchingDistance);
+		return chartSegmentSelection.getFirstValue(
+				chartStyleGeo.getIntervals(), this::getSegmentHatchingDistance);
 	}
 
 	private int getSegmentHatchingDistance(int index) {
@@ -75,9 +77,9 @@ public final class ChartSegmentHatchingDistanceProperty extends AbstractRangePro
 
 	@Override
 	public boolean isAvailable() {
-		return Boolean.TRUE.equals(
-				chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-						index -> chartStyleGeo.getStyle().getBarFillType(index).isHatch()));
+		return Boolean.TRUE.equals(chartSegmentSelection.getUniformValueOrNull(
+				chartStyleGeo.getIntervals(),
+				index -> chartStyleGeo.getStyle().getBarFillType(index).isHatch()));
 	}
 
 	@Override

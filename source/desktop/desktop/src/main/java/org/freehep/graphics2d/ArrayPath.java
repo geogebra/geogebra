@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
  * This class can be used in a transient way to deal with the drawing or filling
  * of an array of double points as a polyline/polygon. The class implements a
  * shape and comes with an associated iterator.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ArrayPath.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -21,7 +21,6 @@ public class ArrayPath implements Shape {
 	private class ArrayPathIterator implements PathIterator {
 
 		private double[] xPoints, yPoints;
-
 		private double lastX, lastY;
 
 		private int nPoints;
@@ -34,8 +33,8 @@ public class ArrayPath implements Shape {
 
 		private boolean isDone;
 
-		private ArrayPathIterator(double[] xPoints, double[] yPoints,
-				int nPoints, boolean closed, int resolution) {
+		private ArrayPathIterator(
+				double[] xPoints, double[] yPoints, int nPoints, boolean closed, int resolution) {
 			this.xPoints = xPoints;
 			this.yPoints = yPoints;
 			this.nPoints = nPoints;
@@ -59,16 +58,14 @@ public class ArrayPath implements Shape {
 				currentPoint++;
 			}
 
-			if (closed && (currentPoint == nPoints - 1)
-					&& (Math.abs(
-							xPoints[currentPoint] - xPoints[0]) < resolution)
-					&& (Math.abs(
-							yPoints[currentPoint] - yPoints[0]) < resolution)) {
+			if (closed
+					&& (currentPoint == nPoints - 1)
+					&& (Math.abs(xPoints[currentPoint] - xPoints[0]) < resolution)
+					&& (Math.abs(yPoints[currentPoint] - yPoints[0]) < resolution)) {
 				currentPoint++; // skip last point since it is same as first
 			}
 
-			isDone = (closed) ? currentPoint > nPoints
-					: currentPoint >= nPoints;
+			isDone = (closed) ? currentPoint > nPoints : currentPoint >= nPoints;
 		}
 
 		@Override
@@ -79,8 +76,7 @@ public class ArrayPath implements Shape {
 
 			coords[0] = lastX = xPoints[currentPoint];
 			coords[1] = lastY = yPoints[currentPoint];
-			return (currentPoint == 0) ? PathIterator.SEG_MOVETO
-					: PathIterator.SEG_LINETO;
+			return (currentPoint == 0) ? PathIterator.SEG_MOVETO : PathIterator.SEG_LINETO;
 		}
 
 		@Override
@@ -93,8 +89,7 @@ public class ArrayPath implements Shape {
 			lastY = yPoints[currentPoint];
 			coords[0] = (float) lastX;
 			coords[1] = (float) lastY;
-			return (currentPoint == 0) ? PathIterator.SEG_MOVETO
-					: PathIterator.SEG_LINETO;
+			return (currentPoint == 0) ? PathIterator.SEG_MOVETO : PathIterator.SEG_LINETO;
 		}
 
 		@Override
@@ -111,8 +106,8 @@ public class ArrayPath implements Shape {
 
 	private int resolution;
 
-	public ArrayPath(double[] xPoints, double[] yPoints, int nPoints,
-			boolean closed, int resolution) {
+	public ArrayPath(
+			double[] xPoints, double[] yPoints, int nPoints, boolean closed, int resolution) {
 		this.xPoints = xPoints;
 		this.yPoints = yPoints;
 		this.nPoints = nPoints;
@@ -211,7 +206,7 @@ public class ArrayPath implements Shape {
 				transformedYPoints[i] = d.getY();
 			}
 		}
-		return new ArrayPathIterator(transformedXPoints, transformedYPoints,
-				nPoints, closed, resolution);
+		return new ArrayPathIterator(
+				transformedXPoints, transformedYPoints, nPoints, closed, resolution);
 	}
 }

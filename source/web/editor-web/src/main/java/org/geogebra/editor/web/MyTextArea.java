@@ -33,7 +33,7 @@ public class MyTextArea extends FocusWidget {
 
 	/**
 	 * Factory method
-	 * 
+	 *
 	 * @param element
 	 *            textarea element
 	 * @return textarea widget

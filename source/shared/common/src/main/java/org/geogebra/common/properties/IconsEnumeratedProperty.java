@@ -23,13 +23,13 @@ import org.jspecify.annotations.Nullable;
  */
 public interface IconsEnumeratedProperty<V> extends EnumeratedProperty<V> {
 
-    /**
-     * Returns an array with the icon resources. The identifiers are usually
-     * tied to a specific property.
-     *
-     * @return an array of identifiers
-     */
-    PropertyResource[] getValueIcons();
+	/**
+	 * Returns an array with the icon resources. The identifiers are usually
+	 * tied to a specific property.
+	 *
+	 * @return an array of identifiers
+	 */
+	PropertyResource[] getValueIcons();
 
 	/**
 	 * Returns an array of labels with same length as
@@ -37,5 +37,5 @@ public interface IconsEnumeratedProperty<V> extends EnumeratedProperty<V> {
 	 * It is defined only in specific cases, null otherwise.
 	 * @return an array of labels
 	 */
-	String @Nullable[] getToolTipLabels();
+	String @Nullable [] getToolTipLabels();
 }

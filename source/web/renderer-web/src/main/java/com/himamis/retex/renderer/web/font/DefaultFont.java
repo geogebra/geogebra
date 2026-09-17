@@ -56,7 +56,6 @@ public class DefaultFont extends FontW implements FontWrapper {
 	@Override
 	public void addFontLoadedCallback(FontLoadCallback callback) {
 		callback.onFontLoaded(this);
-
 	}
 
 	@Override
@@ -89,5 +88,4 @@ public class DefaultFont extends FontW implements FontWrapper {
 	public int getScale() {
 		return 1;
 	}
-
 }

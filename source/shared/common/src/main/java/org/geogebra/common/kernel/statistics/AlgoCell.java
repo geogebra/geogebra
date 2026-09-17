@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Returns the GeoElement from an object's coordinates in the spreadsheet.
- * 
+ *
  * @author Michael, Markus
  */
 public class AlgoCell extends AlgoElement {
@@ -50,8 +50,7 @@ public class AlgoCell extends AlgoElement {
 	 * @param b
 	 *            row
 	 */
-	public AlgoCell(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoCell(Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -105,7 +104,7 @@ public class AlgoCell extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return cell at given position
 	 */
 	public GeoElement getResult() {
@@ -119,8 +118,7 @@ public class AlgoCell extends AlgoElement {
 			// }
 
 			// check if updateInput has same type
-			if (refObject != null
-					&& refObject.getGeoClassType() == geo.getGeoClassType()) {
+			if (refObject != null && refObject.getGeoClassType() == geo.getGeoClassType()) {
 				geo.set(refObject);
 			} else {
 				geo.setUndefined();
@@ -140,7 +138,7 @@ public class AlgoCell extends AlgoElement {
 		 * object: This will speed up the calls to
 		 * refObject.addToUpdateSetOnly() below, because it will always stop
 		 * propagating up at refObject.
-		 * 
+		 *
 		 * if (refObject != null) { refObject.getAlgoUpdateSet().remove(this); }
 		 */
 
@@ -172,5 +170,4 @@ public class AlgoCell extends AlgoElement {
 		}
 		return inputForUpdateSetPropagation;
 	}
-
 }

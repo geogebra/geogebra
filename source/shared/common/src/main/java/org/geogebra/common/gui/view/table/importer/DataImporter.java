@@ -42,6 +42,7 @@ public final class DataImporter {
 
 	@Weak
 	private DataImporterDelegate delegate;
+
 	private final TableValuesView tableValuesView;
 	private int maxRowCount = 1000;
 	private int maxColumnCount = 100;
@@ -289,8 +290,10 @@ public final class DataImporter {
 	 */
 	private boolean isValidNumber(String value, char decimalSeparator) {
 		String canonicalized = canonicalizeNumber(value, decimalSeparator);
-		// See <a href="https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java#__isValidDouble">Number.java</a>
-		String floatRegex = "^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$";
+		// See <a
+		// href="https://github.com/gwtproject/gwt/blob/main/user/super/com/google/gwt/emul/java/lang/Number.java#__isValidDouble">Number.java</a>
+		String floatRegex =
+				"^\\s*[+-]?(NaN|Infinity|((\\d+\\.?\\d*)|(\\.\\d+))([eE][+-]?\\d+)?[dDfF]?)\\s*$";
 		return canonicalized.matches(floatRegex);
 	}
 
@@ -380,7 +383,11 @@ public final class DataImporter {
 		String[] rawValues;
 		boolean hasValidationIssues;
 
-		Row(int rowNr, boolean isHeader, Double[] values, String[] rawValues,
+		Row(
+				int rowNr,
+				boolean isHeader,
+				Double[] values,
+				String[] rawValues,
 				boolean hasValidationIssues) {
 			this.rowNr = rowNr;
 			this.columnCount = rawValues.length;

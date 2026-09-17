@@ -35,14 +35,14 @@ class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	void setValueShouldUpdate2DMinMaxObjects() {
 		setupApp(SuiteSubApp.GRAPHING);
 		setup2DBounds();
-		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "xmin", getEuclidianView(), MinMaxType.minX);
-		DimensionMinMaxProperty xMaxProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "xmax", getEuclidianView(), MinMaxType.maxX);
-		DimensionMinMaxProperty yMinProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "ymin", getEuclidianView(), MinMaxType.minY);
-		DimensionMinMaxProperty yMaxProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "ymax", getEuclidianView(), MinMaxType.maxY);
+		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "xmin", getEuclidianView(), MinMaxType.minX);
+		DimensionMinMaxProperty xMaxProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "xmax", getEuclidianView(), MinMaxType.maxX);
+		DimensionMinMaxProperty yMinProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "ymin", getEuclidianView(), MinMaxType.minY);
+		DimensionMinMaxProperty yMaxProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "ymax", getEuclidianView(), MinMaxType.maxY);
 
 		xMinProperty.setValue("-7");
 		xMaxProperty.setValue("8");
@@ -67,14 +67,14 @@ class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	void getValueShouldReadCurrentBoundObjects() {
 		setupApp(SuiteSubApp.GRAPHING);
 		setup2DBounds();
-		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "xmin", getEuclidianView(), MinMaxType.minX);
-		DimensionMinMaxProperty xMaxProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "xmax", getEuclidianView(), MinMaxType.maxX);
-		DimensionMinMaxProperty yMinProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "ymin", getEuclidianView(), MinMaxType.minY);
-		DimensionMinMaxProperty yMaxProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "ymax", getEuclidianView(), MinMaxType.maxY);
+		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "xmin", getEuclidianView(), MinMaxType.minX);
+		DimensionMinMaxProperty xMaxProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "xmax", getEuclidianView(), MinMaxType.maxX);
+		DimensionMinMaxProperty yMinProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "ymin", getEuclidianView(), MinMaxType.minY);
+		DimensionMinMaxProperty yMaxProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "ymax", getEuclidianView(), MinMaxType.maxY);
 
 		assertEquals("-10", xMinProperty.getValue());
 		assertEquals("10", xMaxProperty.getValue());
@@ -86,8 +86,8 @@ class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	void invalidValueShouldNotReplaceCurrentObject() {
 		setupApp(SuiteSubApp.GRAPHING);
 		setup2DBounds();
-		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "xmin", getEuclidianView(), MinMaxType.minX);
+		DimensionMinMaxProperty xMinProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "xmin", getEuclidianView(), MinMaxType.minX);
 
 		xMinProperty.setValue("-7");
 		xMinProperty.setValue("1/");
@@ -103,10 +103,10 @@ class DimensionMinMaxPropertyTests extends BaseAppTestSetup {
 	void setValueShouldUpdate3DZObjects() {
 		setupApp(SuiteSubApp.G3D);
 		setup3DBounds();
-		DimensionMinMaxProperty zMinProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "zmin", getEuclidianView3D(), MinMaxType.minZ);
-		DimensionMinMaxProperty zMaxProperty = new DimensionMinMaxProperty(getApp(),
-				getLocalization(), "zmax", getEuclidianView3D(), MinMaxType.maxZ);
+		DimensionMinMaxProperty zMinProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "zmin", getEuclidianView3D(), MinMaxType.minZ);
+		DimensionMinMaxProperty zMaxProperty = new DimensionMinMaxProperty(
+				getApp(), getLocalization(), "zmax", getEuclidianView3D(), MinMaxType.maxZ);
 
 		zMinProperty.setValue("-15");
 		zMaxProperty.setValue("16");

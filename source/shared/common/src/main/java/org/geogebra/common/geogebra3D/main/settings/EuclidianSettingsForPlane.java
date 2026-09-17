@@ -21,7 +21,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
  * Settings for view for plane
- * 
+ *
  * @author mathieu
  *
  */
@@ -32,7 +32,7 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -42,7 +42,7 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 
 	/**
 	 * set transform for plane
-	 * 
+	 *
 	 * @param mirror
 	 *            mirrored
 	 * @param rotate
@@ -51,11 +51,10 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	public void setTransformForPlane(boolean mirror, int rotate) {
 		this.mirror = mirror;
 		this.rotate = rotate;
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if mirrored
 	 */
 	public boolean getMirror() {
@@ -63,7 +62,7 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return rotation angle
 	 */
 	public int getRotate() {
@@ -77,7 +76,7 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 
 	/**
 	 * set these settings created from loading file or not
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -86,11 +85,10 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if these settings created from loading file or not
 	 */
 	public boolean isFromLoadFile() {
 		return isFromLoadFile;
 	}
-
 }

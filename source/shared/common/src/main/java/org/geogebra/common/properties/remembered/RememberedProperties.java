@@ -30,8 +30,8 @@ import org.jspecify.annotations.Nullable;
  * Remembers property values by construction element type and applies them to new elements.
  */
 public final class RememberedProperties {
-	private final Map<PropertyKey, RememberedPropertyHandler<?>> rememberedPropertyHandlers
-			= new HashMap<>();
+	private final Map<PropertyKey, RememberedPropertyHandler<?>> rememberedPropertyHandlers =
+			new HashMap<>();
 
 	/**
 	 * Creates a coordinator for the properties remembered during the current session.
@@ -48,7 +48,7 @@ public final class RememberedProperties {
 	 */
 	public boolean apply(@NonNull GeoElement geo) {
 		boolean allApplied = true;
-		for (RememberedPropertyHandler<?> handler: rememberedPropertyHandlers.values()) {
+		for (RememberedPropertyHandler<?> handler : rememberedPropertyHandlers.values()) {
 			if (!handler.apply(geo)) {
 				allApplied = false;
 			}
@@ -75,11 +75,10 @@ public final class RememberedProperties {
 	 */
 	public <T> void observe(List<GeoElement> elements, ValuedProperty<T> property) {
 		GeoElement firstGeo = elements.get(0);
-		boolean sameType = elements.stream()
-				.allMatch(geo -> geo.getGeoClassType() == firstGeo.getGeoClassType());
+		boolean sameType =
+				elements.stream().allMatch(geo -> geo.getGeoClassType() == firstGeo.getGeoClassType());
 		RememberedPropertyHandler<T> handler =
-				(RememberedPropertyHandler<T>)
-						getHandler(property.getKey());
+				(RememberedPropertyHandler<T>) getHandler(property.getKey());
 		if (sameType && handler != null && handler.supports(firstGeo)) {
 			property.addValueObserver(
 					prop -> handler.remember(firstGeo.getGeoClassType(), property.getValue()));

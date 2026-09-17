@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Distance function of a curve that implements UnivariateFunction.
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class ParametricCurveDistanceFunction implements DistanceFunction {
@@ -40,7 +40,7 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 	/**
 	 * Creates a function for evaluating squared distance of (px,py) from curve
 	 * (px and py must be entered using a setter)
-	 * 
+	 *
 	 * @param curve
 	 *            curve
 	 */
@@ -50,7 +50,7 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 
 	/**
 	 * set functions from curve
-	 * 
+	 *
 	 * @param curve
 	 *            curve
 	 */
@@ -74,7 +74,7 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 	/**
 	 * Sets the point to be used in the distance function (funX(t) - Px)^2 +
 	 * (funY(t) - Py)^2.
-	 * 
+	 *
 	 * @param P
 	 *            distant point
 	 */
@@ -83,7 +83,5 @@ public class ParametricCurveDistanceFunction implements DistanceFunction {
 		Coords coords = P.getCoordsInD2();
 		px = coords.getX() / coords.getZ();
 		py = coords.getY() / coords.getZ();
-
 	}
-
 }

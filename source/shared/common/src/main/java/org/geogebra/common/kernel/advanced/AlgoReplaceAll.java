@@ -37,8 +37,8 @@ public class AlgoReplaceAll extends AlgoElement {
 	 * @param textToMatch text to find in input
 	 * @param textToReplace replacement text
 	 */
-	public AlgoReplaceAll(Construction cons, GeoText inputText,
-			GeoText textToMatch, GeoText textToReplace) {
+	public AlgoReplaceAll(
+			Construction cons, GeoText inputText, GeoText textToMatch, GeoText textToReplace) {
 		super(cons);
 		this.inputText = inputText;
 		this.textToMatch = textToMatch;
@@ -50,7 +50,7 @@ public class AlgoReplaceAll extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{inputText, textToMatch, textToReplace};
+		input = new GeoElement[] {inputText, textToMatch, textToReplace};
 		setOnlyOutput(replacedText);
 		setDependencies();
 	}
@@ -59,8 +59,8 @@ public class AlgoReplaceAll extends AlgoElement {
 	public void compute() {
 		String inputStr = inputText.getTextString();
 		if (inputStr != null) {
-			inputStr = inputStr.replaceAll(textToMatch.getEscapedSpecialCharsString(),
-					textToReplace.getTextString());
+			inputStr = inputStr.replaceAll(
+					textToMatch.getEscapedSpecialCharsString(), textToReplace.getTextString());
 			replacedText.setTextString(inputStr);
 		}
 	}

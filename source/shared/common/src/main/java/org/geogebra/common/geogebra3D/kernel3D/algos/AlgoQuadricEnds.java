@@ -50,7 +50,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	private Coords vn2 = new Coords(3);
 
 	/**
-	 * 
+	 *
 	 * @param labels
 	 *            labels
 	 * @param cons
@@ -58,8 +58,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	 * @param quadric
 	 *            quadric
 	 */
-	public AlgoQuadricEnds(Construction cons, String[] labels,
-			GeoQuadricND quadric) {
+	public AlgoQuadricEnds(Construction cons, String[] labels, GeoQuadricND quadric) {
 
 		this(cons, quadric);
 
@@ -74,7 +73,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param quadric
@@ -85,7 +84,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param quadric
@@ -93,8 +92,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	 * @param helper
 	 *            whether this is just a helper
 	 */
-	public AlgoQuadricEnds(Construction cons, GeoQuadricND quadric,
-			boolean helper) {
+	public AlgoQuadricEnds(Construction cons, GeoQuadricND quadric, boolean helper) {
 		super(cons, !helper);
 
 		// set origin w coord
@@ -115,7 +113,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 		// if helper, will be updated by caller
 		if (!helper) {
-			setInputOutput(new GeoElement[] { quadric }, sections);
+			setInputOutput(new GeoElement[] {quadric}, sections);
 		}
 
 		compute();
@@ -145,16 +143,19 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		sections[0].setDefined();
 		sections[1].setDefined();
 
-		o1.setAdd3(quadric.getMidpoint3D(), o1.setMul3(quadric.getEigenvec3D(2),
-				((GeoQuadric3DLimitedOrPart) quadric).getBottomParameter()));
-		o2.setAdd3(quadric.getMidpoint3D(), o2.setMul3(quadric.getEigenvec3D(2),
-				((GeoQuadric3DLimitedOrPart) quadric).getTopParameter()));
+		o1.setAdd3(
+				quadric.getMidpoint3D(),
+				o1.setMul3(
+						quadric.getEigenvec3D(2), ((GeoQuadric3DLimitedOrPart) quadric).getBottomParameter()));
+		o2.setAdd3(
+				quadric.getMidpoint3D(),
+				o2.setMul3(
+						quadric.getEigenvec3D(2), ((GeoQuadric3DLimitedOrPart) quadric).getTopParameter()));
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
 				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
 			if (DoubleUtil.isZero(quadric.getHalfAxis(0))
-					&& (Double.isNaN(quadric.getHalfAxis(1))
-							|| DoubleUtil.isZero(quadric.getHalfAxis(1)))) {
+					&& (Double.isNaN(quadric.getHalfAxis(1)) || DoubleUtil.isZero(quadric.getHalfAxis(1)))) {
 				// cylinder or cone equal to a segment
 				sections[0].setSinglePointAtCoords(o1);
 				sections[1].setSinglePointAtCoords(o2);
@@ -180,7 +181,7 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		coordsys1.addPoint(o1);
 		coordsys1.addVector(vn1);
 		coordsys1.addVector(v.setMul3(vn2, -1)); // orientation out of the
-													// quadric
+		// quadric
 		coordsys1.makeOrthoMatrix(false, false);
 
 		sections[0].setMatrix(cm);
@@ -198,7 +199,6 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		coordsys2.makeOrthoMatrix(false, false);
 
 		sections[1].setMatrix(cm);
-
 	}
 
 	@Override

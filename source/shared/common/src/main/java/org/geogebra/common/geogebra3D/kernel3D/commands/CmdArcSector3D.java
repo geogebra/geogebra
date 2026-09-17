@@ -41,12 +41,12 @@ public class CmdArcSector3D extends CmdArcSector {
 	}
 
 	@Override
-	protected GeoElement arcSector(String label, GeoConicND conic,
-			GeoNumberValue start, GeoNumberValue end) {
+	protected GeoElement arcSector(
+			String label, GeoConicND conic, GeoNumberValue start, GeoNumberValue end) {
 
 		if (conic.isGeoElement3D()) {
-			AlgoConicPartConicParameters3D algo = new AlgoConicPartConicParameters3D(
-					cons, label, conic, start, end, type);
+			AlgoConicPartConicParameters3D algo =
+					new AlgoConicPartConicParameters3D(cons, label, conic, start, end, type);
 
 			return algo.getConicPart();
 		}
@@ -55,13 +55,11 @@ public class CmdArcSector3D extends CmdArcSector {
 	}
 
 	@Override
-	protected GeoElement arcSector(String label, GeoConicND conic,
-			GeoPointND start, GeoPointND end) {
+	protected GeoElement arcSector(String label, GeoConicND conic, GeoPointND start, GeoPointND end) {
 
-		if (conic.isGeoElement3D() || start.isGeoElement3D()
-				|| end.isGeoElement3D()) {
-			AlgoConicPartConicPoints3D algo = new AlgoConicPartConicPoints3D(
-					cons, label, conic, start, end, type);
+		if (conic.isGeoElement3D() || start.isGeoElement3D() || end.isGeoElement3D()) {
+			AlgoConicPartConicPoints3D algo =
+					new AlgoConicPartConicPoints3D(cons, label, conic, start, end, type);
 
 			return algo.getConicPart();
 		}

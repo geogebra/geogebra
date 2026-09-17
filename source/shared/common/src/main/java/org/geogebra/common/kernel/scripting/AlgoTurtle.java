@@ -25,12 +25,13 @@ import org.geogebra.common.kernel.geos.GeoTurtle;
 
 /**
  * Creates a GeoTurtle.
- * 
+ *
  * @author G. Sturr
  */
 public class AlgoTurtle extends AlgoElement {
 	/** output turtle */
 	protected GeoTurtle turtle;
+
 	private StringBuilder sb;
 
 	/**
@@ -46,7 +47,6 @@ public class AlgoTurtle extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		turtle.setLabel(label);
-
 	}
 
 	/**
@@ -59,7 +59,6 @@ public class AlgoTurtle extends AlgoElement {
 		createTurtle();
 		compute();
 		setInputOutput(); // for AlgoElement
-
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class AlgoTurtle extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
 		if (sb == null) {
 			sb = new StringBuilder();
@@ -121,5 +120,4 @@ public class AlgoTurtle extends AlgoElement {
 
 		return sb.toString();
 	}
-
 }

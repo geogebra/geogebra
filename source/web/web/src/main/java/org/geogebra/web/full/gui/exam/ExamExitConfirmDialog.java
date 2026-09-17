@@ -24,7 +24,7 @@ import org.gwtproject.user.client.ui.Label;
 
 /**
  * @author csilla
- * 
+ *
  *         exit exam confirmation dialog
  */
 public final class ExamExitConfirmDialog extends ComponentDialog {

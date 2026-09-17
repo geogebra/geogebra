@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Parent algorithm for commands that are functions of R^2 -&gt; R
- * 
+ *
  * @author Markus Hohenwarter
  */
 public abstract class AlgoTwoNumFunction extends AlgoElement {
@@ -42,8 +42,8 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
 	 * @param b
 	 *            second argument
 	 */
-	protected AlgoTwoNumFunction(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b) {
+	protected AlgoTwoNumFunction(
+			Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		this(cons, a, b);
 		num.setLabel(label);
 	}
@@ -56,8 +56,7 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
 	 * @param b
 	 *            second argument
 	 */
-	protected AlgoTwoNumFunction(Construction cons, GeoNumberValue a,
-			GeoNumberValue b) {
+	protected AlgoTwoNumFunction(Construction cons, GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.a = a;
 		this.b = b;

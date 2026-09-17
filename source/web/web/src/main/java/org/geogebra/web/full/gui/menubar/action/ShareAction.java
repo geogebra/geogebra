@@ -43,7 +43,7 @@ public final class ShareAction extends DefaultMenuAction<AppWFull> {
 		app.getAccessibilityAnalyticsContext()
 				.setTrigger(AccessibilityAnalytics.Value.BURGER_MENU)
 				.setFlow(AccessibilityAnalytics.Value.SHARE);
-		AccessibilityAnalytics.logShareClicked(false,
-				app.getLoginOperation().isLoggedIn(), app.isSaved());
+		AccessibilityAnalytics.logShareClicked(
+				false, app.getLoginOperation().isLoggedIn(), app.isSaved());
 	}
 }

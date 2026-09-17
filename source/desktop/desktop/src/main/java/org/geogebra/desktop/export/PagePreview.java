@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,8 +51,7 @@ class PagePreview extends JPanel {
 
 	private final AppD app;
 
-	PagePreview(Printable target, PageFormat format, int pageIndex,
-			int targetIndex, AppD app) {
+	PagePreview(Printable target, PageFormat format, int pageIndex, int targetIndex, AppD app) {
 		this.target = target;
 		this.format = format;
 		this.app = app;
@@ -94,8 +93,7 @@ class PagePreview extends JPanel {
 	@Override
 	public Dimension getPreferredSize() {
 		Insets ins = getInsets();
-		return new Dimension(m_w + ins.left + ins.right,
-				m_h + ins.top + ins.bottom);
+		return new Dimension(m_w + ins.left + ins.right, m_h + ins.top + ins.bottom);
 	}
 
 	@Override
@@ -121,8 +119,7 @@ class PagePreview extends JPanel {
 			String scaleStr = null;
 			if (!(target instanceof EuclidianViewD)) {
 
-				int height = EuclidianViewD.printTitle(g2, scaleStr,
-						this.format, this.app);
+				int height = EuclidianViewD.printTitle(g2, scaleStr, this.format, this.app);
 				g2.setTransform(new AffineTransform());
 				if (!DoubleUtil.isEqual(scale, 1.0)) {
 					g2.scale(scale, scale);

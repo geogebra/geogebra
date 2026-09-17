@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 3D rotations
- * 
+ *
  * @author mathieu
  *
  */
@@ -41,7 +41,7 @@ public class TransformRotate3D extends TransformRotate {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param angle
@@ -51,16 +51,15 @@ public class TransformRotate3D extends TransformRotate {
 	 * @param orientation
 	 *            orientation
 	 */
-	public TransformRotate3D(Construction cons, GeoNumberValue angle,
-			GeoPointND center, GeoDirectionND orientation) {
+	public TransformRotate3D(
+			Construction cons, GeoNumberValue angle, GeoPointND center, GeoDirectionND orientation) {
 		super(cons, angle, center);
 		this.orientation = orientation;
-
 	}
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param angle
@@ -68,23 +67,19 @@ public class TransformRotate3D extends TransformRotate {
 	 * @param line
 	 *            line
 	 */
-	public TransformRotate3D(Construction cons, GeoNumberValue angle,
-			GeoLineND line) {
+	public TransformRotate3D(Construction cons, GeoNumberValue angle, GeoLineND line) {
 		super(cons, angle);
 		this.line = line;
-
 	}
 
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
 		AlgoTransformation algo;
 		if (line == null) {
-			algo = new AlgoRotate3DPointOrientation(cons, geo, angle, center,
-					orientation);
+			algo = new AlgoRotate3DPointOrientation(cons, geo, angle, center, orientation);
 		} else {
 			algo = new AlgoRotate3DLine(cons, geo, angle, line);
 		}
 		return algo;
 	}
-
 }

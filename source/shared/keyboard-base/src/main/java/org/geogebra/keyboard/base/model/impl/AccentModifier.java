@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,20 +43,20 @@ public class AccentModifier implements KeyModifier {
 		boolean changed = true;
 		if (accent != null) {
 			switch (accent) {
-			case Accents.ACCENT_ACUTE:
-				currentAccent = ~currentAccent & ACUTE_ACCENT;
-				break;
-			case Accents.ACCENT_CARON:
-				currentAccent = ~currentAccent & CARON_ACCENT;
-				break;
-			case Accents.ACCENT_CIRCUMFLEX:
-				currentAccent = ~currentAccent & CIRCUMFLEX_ACCENT;
-				break;
-			case Accents.ACCENT_GRAVE:
-				currentAccent = ~currentAccent & GRAVE_ACCENT;
-				break;
-			default:
-				changed = false;
+				case Accents.ACCENT_ACUTE:
+					currentAccent = ~currentAccent & ACUTE_ACCENT;
+					break;
+				case Accents.ACCENT_CARON:
+					currentAccent = ~currentAccent & CARON_ACCENT;
+					break;
+				case Accents.ACCENT_CIRCUMFLEX:
+					currentAccent = ~currentAccent & CIRCUMFLEX_ACCENT;
+					break;
+				case Accents.ACCENT_GRAVE:
+					currentAccent = ~currentAccent & GRAVE_ACCENT;
+					break;
+				default:
+					changed = false;
 			}
 		} else {
 			changed = currentAccent != (currentAccent = 0);
@@ -65,8 +65,7 @@ public class AccentModifier implements KeyModifier {
 	}
 
 	@Override
-	public String modifyResourceName(String resourceName,
-			ResourceType resourceType) {
+	public String modifyResourceName(String resourceName, ResourceType resourceType) {
 		if (resourceType == ResourceType.TEXT && resourceName.length() == 1) {
 			return getAccent(resourceName);
 		}
@@ -82,16 +81,14 @@ public class AccentModifier implements KeyModifier {
 	}
 
 	@Override
-	public Background modifyBackground(Background background,
-			ActionType actionType, String actionName) {
-		if (actionType == ActionType.CUSTOM && ((actionName.equals(
-				Action.TOGGLE_ACCENT_ACUTE.name()) && hasAccent(ACUTE_ACCENT))
-				|| (actionName.equals(Action.TOGGLE_ACCENT_CARON.name())
-						&& hasAccent(CARON_ACCENT))
-				|| (actionName.equals(Action.TOGGLE_ACCENT_GRAVE.name())
-						&& hasAccent(GRAVE_ACCENT))
-				|| (actionName.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())
-						&& hasAccent(CIRCUMFLEX_ACCENT)))) {
+	public Background modifyBackground(
+			Background background, ActionType actionType, String actionName) {
+		if (actionType == ActionType.CUSTOM
+				&& ((actionName.equals(Action.TOGGLE_ACCENT_ACUTE.name()) && hasAccent(ACUTE_ACCENT))
+						|| (actionName.equals(Action.TOGGLE_ACCENT_CARON.name()) && hasAccent(CARON_ACCENT))
+						|| (actionName.equals(Action.TOGGLE_ACCENT_GRAVE.name()) && hasAccent(GRAVE_ACCENT))
+						|| (actionName.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())
+								&& hasAccent(CIRCUMFLEX_ACCENT)))) {
 			return Background.STANDARD_PRESSED;
 		}
 		return background;

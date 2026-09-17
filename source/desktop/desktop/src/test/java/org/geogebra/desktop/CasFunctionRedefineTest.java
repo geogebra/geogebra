@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.desktop;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,12 +48,9 @@ class CasFunctionRedefineTest extends BaseCASIntegrationTest {
 		ExpressionNodeEvaluator evaluator =
 				new ExpressionNodeEvaluator(kernel.getLocalization(), kernel);
 		GeoDummyVariable t = new GeoDummyVariable(kernel.getConstruction(), "t");
-		assertTrue(Double.isNaN(evaluator.handleXcoord(t,
-				Operation.XCOORD)), "x(t) should be NaN");
-		assertTrue(Double.isNaN(evaluator.handleYcoord(t,
-				Operation.YCOORD)), "y(t) should be NaN");
-		assertTrue(Double.isNaN(evaluator.handleZcoord(t)),
-				"z(t) should be NaN");
+		assertTrue(Double.isNaN(evaluator.handleXcoord(t, Operation.XCOORD)), "x(t) should be NaN");
+		assertTrue(Double.isNaN(evaluator.handleYcoord(t, Operation.YCOORD)), "y(t) should be NaN");
+		assertTrue(Double.isNaN(evaluator.handleZcoord(t)), "z(t) should be NaN");
 	}
 
 	@Test
@@ -61,13 +58,11 @@ class CasFunctionRedefineTest extends BaseCASIntegrationTest {
 		GeoCasCell cell1 = cellFromInput("f(a, b) := a b");
 		cellFromInput("g(a, b) := a + b");
 		GeoCasCell cell3 = cellFromInput("Flatten({$1, $2})");
-		assertEquals("{a b, a + b}",
-				cell3.getOutput(StringTemplate.defaultTemplate));
+		assertEquals("{a b, a + b}", cell3.getOutput(StringTemplate.defaultTemplate));
 
 		updateCellInput(cell1, "f(a, b) := a / b");
 
-		assertEquals("{a / b, a + b}",
-				cell3.getOutput(StringTemplate.defaultTemplate));
+		assertEquals("{a / b, a + b}", cell3.getOutput(StringTemplate.defaultTemplate));
 	}
 
 	private void updateCellInput(GeoCasCell cell1, String inValue) {

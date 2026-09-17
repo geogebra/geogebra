@@ -14,7 +14,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * A utility for working with SAX parsers. A heirarchy of SAXTraversers can be
  * used to maintain state while parsing an XML file.
- * 
+ *
  * @author tonyj
  * @version $Id: SAXTraverser.java,v 1.4 2009-06-22 02:18:23 hohenwarter Exp $
  */
@@ -29,8 +29,8 @@ public class SAXTraverser extends DefaultHandler {
 	}
 
 	@Override
-	public void startElement(String namespaceURI, String localName,
-			String qName, Attributes attrs) throws SAXException {
+	public void startElement(String namespaceURI, String localName, String qName, Attributes attrs)
+			throws SAXException {
 		qName = qName.intern();
 		SAXTraverser newHandler = handleElement(qName, attrs);
 		if (newHandler != this) {
@@ -41,12 +41,10 @@ public class SAXTraverser extends DefaultHandler {
 		} else {
 			stack++;
 		}
-
 	}
 
 	@Override
-	public void endElement(String namespaceURI, String localName, String qName)
-			throws SAXException {
+	public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 		if (stack == 0) {
 			handleEndElement(localName);
 			previous.handleSubElement(this);
@@ -59,32 +57,27 @@ public class SAXTraverser extends DefaultHandler {
 	/**
 	 * Override to handle node attributes
 	 */
-	protected void handleElementAttributes(Attributes atts)
-			throws SAXException {
-	}
+	protected void handleElementAttributes(Attributes atts) throws SAXException {}
 
 	/**
 	 * Override this to handle the end of an element
 	 */
-	protected void handleEndElement(String name) throws SAXException {
-	}
+	protected void handleEndElement(String name) throws SAXException {}
 
 	/**
 	 * Override this to be notified of sub nodes of the current node
 	 */
-	protected void handleSubElement(SAXTraverser sub) throws SAXException {
-	}
+	protected void handleSubElement(SAXTraverser sub) throws SAXException {}
 
 	/**
 	 * Override this to handle the start of new sub elements Return the
 	 * SAXTraverser to be used for the sub node, or <code>this</code> to
 	 * continue using the current traverser.
-	 * 
+	 *
 	 * @return The SAXTraverser to be used as the content handler for the sub
 	 *         node
 	 */
-	protected SAXTraverser handleElement(String name, Attributes attrs)
-			throws SAXException {
+	protected SAXTraverser handleElement(String name, Attributes attrs) throws SAXException {
 		throw new BadXMLException("Unhandled element " + name);
 	}
 

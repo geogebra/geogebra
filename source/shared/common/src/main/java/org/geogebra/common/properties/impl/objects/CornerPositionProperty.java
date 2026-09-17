@@ -55,10 +55,14 @@ public class CornerPositionProperty extends AbstractValuedProperty<String>
 	@Override
 	public String getName() {
 		switch (cornerIndex) {
-		case 0: return super.getName() + " 1";
-		case 1: return super.getName() + " 2";
-		case 2: return super.getName() + " 4";
-		default: return "";
+			case 0:
+				return super.getName() + " 1";
+			case 1:
+				return super.getName() + " 2";
+			case 2:
+				return super.getName() + " 4";
+			default:
+				return "";
 		}
 	}
 
@@ -93,4 +97,3 @@ public class CornerPositionProperty extends AbstractValuedProperty<String>
 		return geoImage;
 	}
 }
-

@@ -65,8 +65,7 @@ public final class ExportImageDialog extends ComponentDialog {
 		buildContent();
 
 		setOnPositiveAction(() -> {
-			Browser.exportImage(base64Url,
-					app.getExportTitle() + getExtension(base64Url));
+			Browser.exportImage(base64Url, app.getExportTitle() + getExtension(base64Url));
 		});
 		setOnNegativeAction(app::copyGraphicsViewToClipboard);
 	}
@@ -96,8 +95,7 @@ public final class ExportImageDialog extends ComponentDialog {
 		boolean greyscale = false;
 
 		return StringUtil.pngMarker
-				+ app.getGgbApi().getPNGBase64(exportScale, transparent, dpi,
-						false, greyscale);
+				+ app.getGgbApi().getPNGBase64(exportScale, transparent, dpi, false, greyscale);
 	}
 
 	private void buildContent() {
@@ -142,8 +140,7 @@ public final class ExportImageDialog extends ComponentDialog {
 				iframe.setTabIndex(-1);
 				iframe.setSrc(imgStr);
 
-				Js.<HTMLIFrameElement>uncheckedCast(iframe)
-						.addEventListener("load", (event) -> center());
+				Js.<HTMLIFrameElement>uncheckedCast(iframe).addEventListener("load", (event) -> center());
 			} else {
 				previewImage = new NoDragImage(imgStr);
 				previewImage.addStyleName("prevImg");

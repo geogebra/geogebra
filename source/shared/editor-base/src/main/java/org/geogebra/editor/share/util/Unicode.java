@@ -24,49 +24,49 @@ public class Unicode {
 
 	public static final char MULTIPLY = '\u00d7';
 	public static final char DIVIDE = '\u00f7';
-	final public static char MINUS = '\u2212';
-	final public static char LESS_EQUAL = '\u2264';
-	final public static char GREATER_EQUAL = '\u2265';
-	final public static char INFINITY = '\u221e';
-	final public static String MINUS_INFINITY_STRING = "-\u221e";
-	final public static char SUPERSCRIPT_PLUS = '\u207a';
-	final public static char SUPERSCRIPT_MINUS = '\u207b';
-	final public static String SUPERSCRIPT_MINUS_ONE_STRING = "\u207b\u00b9";
-	final public static char SUPERSCRIPT_0 = '\u2070';
-	final public static char SUPERSCRIPT_1 = '\u00b9';
-	final public static char SUPERSCRIPT_2 = '\u00b2';
-	final public static char SUPERSCRIPT_3 = '\u00b3';
-	final public static char SUPERSCRIPT_4 = '\u2074';
-	final public static char SUPERSCRIPT_5 = '\u2075';
-	final public static char SUPERSCRIPT_6 = '\u2076';
-	final public static char SUPERSCRIPT_7 = '\u2077';
-	final public static char SUPERSCRIPT_8 = '\u2078';
-	final public static char SUPERSCRIPT_9 = '\u2079';
-	final private static List<Character> SUPERSCRIPTS = Arrays.asList(
+	public static final char MINUS = '\u2212';
+	public static final char LESS_EQUAL = '\u2264';
+	public static final char GREATER_EQUAL = '\u2265';
+	public static final char INFINITY = '\u221e';
+	public static final String MINUS_INFINITY_STRING = "-\u221e";
+	public static final char SUPERSCRIPT_PLUS = '\u207a';
+	public static final char SUPERSCRIPT_MINUS = '\u207b';
+	public static final String SUPERSCRIPT_MINUS_ONE_STRING = "\u207b\u00b9";
+	public static final char SUPERSCRIPT_0 = '\u2070';
+	public static final char SUPERSCRIPT_1 = '\u00b9';
+	public static final char SUPERSCRIPT_2 = '\u00b2';
+	public static final char SUPERSCRIPT_3 = '\u00b3';
+	public static final char SUPERSCRIPT_4 = '\u2074';
+	public static final char SUPERSCRIPT_5 = '\u2075';
+	public static final char SUPERSCRIPT_6 = '\u2076';
+	public static final char SUPERSCRIPT_7 = '\u2077';
+	public static final char SUPERSCRIPT_8 = '\u2078';
+	public static final char SUPERSCRIPT_9 = '\u2079';
+	private static final List<Character> SUPERSCRIPTS = Arrays.asList(
 			Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
 			Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
 			Unicode.SUPERSCRIPT_4, Unicode.SUPERSCRIPT_5,
 			Unicode.SUPERSCRIPT_6, Unicode.SUPERSCRIPT_7,
 			Unicode.SUPERSCRIPT_8, Unicode.SUPERSCRIPT_9);
-	final public static char ZERO_WIDTH_SPACE = '\u200b';
-	final public static char RIGHT_TO_LEFT_MARK = '\u200f';
-	final public static String RIGHT_TO_LEFT_UNARY_MINUS_SIGN = "\u200f-\u200f";
-	final public static char LEFT_TO_RIGHT_MARK = '\u200e';
-	final public static char OVERLINE = '\u0305';
+	public static final char ZERO_WIDTH_SPACE = '\u200b';
+	public static final char RIGHT_TO_LEFT_MARK = '\u200f';
+	public static final String RIGHT_TO_LEFT_UNARY_MINUS_SIGN = "\u200f-\u200f";
+	public static final char LEFT_TO_RIGHT_MARK = '\u200e';
+	public static final char OVERLINE = '\u0305';
 
 	// degrees, minutes, seconds
-	final public static char DEGREE_CHAR = '\u00b0';
-	final public static char MINUTES = '\'';
-	final public static char SECONDS = '\u2033';
+	public static final char DEGREE_CHAR = '\u00b0';
+	public static final char MINUTES = '\'';
+	public static final char SECONDS = '\u2033';
 
-	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
+	public static final String DEGREE_STRING = Character.toString(DEGREE_CHAR);
 
-	final public static char e_GRAVE = '\u00E8';
-	final public static char e_ACUTE = '\u00E9';
-	final public static char verticalLine = '\u23B8';
+	public static final char e_GRAVE = '\u00E8';
+	public static final char e_ACUTE = '\u00E9';
+	public static final char verticalLine = '\u23B8';
 
 	/** Unicode symbol for e */
-	final public static char EULER_CHAR = '\u212f';
+	public static final char EULER_CHAR = '\u212f';
 
 	// lower case Greek
 	public static final char alpha = '\u03B1';
@@ -102,11 +102,11 @@ public class Unicode {
 	public static final char psi = '\u03C8';
 	public static final char omega = '\u03C9';
 
-	final public static String EULER_STRING = Character.toString(EULER_CHAR);
-	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
+	public static final String EULER_STRING = Character.toString(EULER_CHAR);
+	public static final String EULER_GAMMA_STRING = "\u212F_\u03B3";
 	public static final String ALPHA_BETA_GAMMA = Character.toString(alpha) + beta + gamma;
-	final public static String PI_STRING = Character.toString(pi);
-	final public static char GRADIAN = '\u1D4D';
+	public static final String PI_STRING = Character.toString(pi);
+	public static final char GRADIAN = '\u1D4D';
 
 	// UPPER CASE Greek
 	public static final char Alpha = '\u0391';
@@ -152,7 +152,7 @@ public class Unicode {
 
 	// used by Giac for polar separator instead of ;
 	// eg (2;3)
-	final public static char MEASURED_ANGLE = '\u2221';
+	public static final char MEASURED_ANGLE = '\u2221';
 
 	public static final char PARALLEL = '\u2225';
 	public static final char PERPENDICULAR = '\u27c2';
@@ -167,37 +167,37 @@ public class Unicode {
 	// public static final char ACCENT_CIRCUMFLEX = '\u005e';
 	public static final char QUESTEQ = '\u225f';
 
-	final public static String SPANISH_ORDINAL_INDICATOR = ".\u00ba";
-	final public static char ITALIAN_ORDINAL_INDICATOR = '\u00ba';
+	public static final String SPANISH_ORDINAL_INDICATOR = ".\u00ba";
+	public static final char ITALIAN_ORDINAL_INDICATOR = '\u00ba';
 
 	// GREEK SMALL LETTER IOTA WITH TONOS
-	final public static char IMAGINARY = '\u03af';
-	final public static String IMAGINARY_STRING = "\u03af";
+	public static final char IMAGINARY = '\u03af';
+	public static final String IMAGINARY_STRING = "\u03af";
 
 	// non-breaking (hard) space
 	public static final char NBSP = '\u00a0';
 
 	/* helper Unicode strings for fixing Hungarian translations */
 	// These endings will get -re, -nek, -hez:
-	final public static String TRANSLATION_FIX_HU_END_E1_STRING = "bcde"
-			+ "\u00E9fgi\u00EDjlmnprstvwxz1479'";
+	public static final String TRANSLATION_FIX_HU_END_E1_STRING =
+			"bcde" + "\u00E9fgi\u00EDjlmnprstvwxz1479'";
 	// These endings will get -ra, -nak, -ban, -ba, -hoz:
-	final public static String TRANSLATION_FIX_HU_END_O1_STRING = "ahko\u00F3qu\u00FAy368";
+	public static final String TRANSLATION_FIX_HU_END_O1_STRING = "ahko\u00F3qu\u00FAy368";
 	// These endings will get -re, -nek, -ben, -be, -ho(umlaut)z:
-	final public static String TRANSLATION_FIX_HU_END_OE1_STRING = "\u00F6\u0151\u00FC\u017125";
+	public static final String TRANSLATION_FIX_HU_END_OE1_STRING = "\u00F6\u0151\u00FC\u017125";
 	// "-ho(umlaut)z":
-	final public static String TRANSLATION_FIX_HU_OE_STRING = "\u00F6";
-	final public static String TRANSLATION_FIX_HU_HOEZ_STRING = "h\u00F6z";
+	public static final String TRANSLATION_FIX_HU_OE_STRING = "\u00F6";
+	public static final String TRANSLATION_FIX_HU_HOEZ_STRING = "h\u00F6z";
 
 	// fractions
 
-	final public static char FRACTION1_8 = '\u215b';
-	final public static char FRACTION1_4 = '\u00bc';
-	final public static char FRACTION3_8 = '\u215c';
-	final public static char FRACTION1_2 = '\u00bd';
-	final public static char FRACTION5_8 = '\u215d';
-	final public static char FRACTION3_4 = '\u00be';
-	final public static char FRACTION7_8 = '\u215e';
+	public static final char FRACTION1_8 = '\u215b';
+	public static final char FRACTION1_4 = '\u00bc';
+	public static final char FRACTION3_8 = '\u215c';
+	public static final char FRACTION1_2 = '\u00bd';
+	public static final char FRACTION5_8 = '\u215d';
+	public static final char FRACTION3_4 = '\u00be';
+	public static final char FRACTION7_8 = '\u215e';
 
 	public static final char N_DASH = '\u2013';
 	public static final char ARABIC_COMMA = '\u066b';
@@ -240,10 +240,16 @@ public class Unicode {
 	public static final char CENTER_DOT = '\u22c5';
 	public static final char BULLET = '\u2022';
 	public static final String ASSIGN_STRING = "\u2254";
-	public static final String currencyList = String.valueOf(CURRENCY_BAHT) + CURRENCY_DOLLAR
-			+ CURRENCY_DONG + CURRENCY_EURO
-			+ CURRENCY_INDIAN_RUPEE + CURRENCY_POUND + CURRENCY_RUPEE
-			+ CURRENCY_SHEKEL + CURRENCY_TUGHRIK + CURRENCY_WON
+	public static final String currencyList = String.valueOf(CURRENCY_BAHT)
+			+ CURRENCY_DOLLAR
+			+ CURRENCY_DONG
+			+ CURRENCY_EURO
+			+ CURRENCY_INDIAN_RUPEE
+			+ CURRENCY_POUND
+			+ CURRENCY_RUPEE
+			+ CURRENCY_SHEKEL
+			+ CURRENCY_TUGHRIK
+			+ CURRENCY_WON
 			+ CURRENCY_YEN;
 
 	public static final String PI_HALF_STRING = Unicode.PI_STRING + "/2";
@@ -255,7 +261,8 @@ public class Unicode {
 	 */
 	public static boolean isSuperscriptDigit(final char c) {
 		return ((c >= Unicode.SUPERSCRIPT_0) && (c <= Unicode.SUPERSCRIPT_9))
-				|| (c == Unicode.SUPERSCRIPT_1) || (c == Unicode.SUPERSCRIPT_2)
+				|| (c == Unicode.SUPERSCRIPT_1)
+				|| (c == Unicode.SUPERSCRIPT_2)
 				|| (c == Unicode.SUPERSCRIPT_3);
 	}
 

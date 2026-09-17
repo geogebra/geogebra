@@ -44,7 +44,7 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 	}
 
 	@Override
-	final protected GeoAngle newGeoAngle(Construction cons1) {
+	protected final GeoAngle newGeoAngle(Construction cons1) {
 		GeoAngle ret = new GeoAngle3D(cons1);
 		ret.setDrawableNoSlider();
 		return ret;
@@ -84,7 +84,6 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 
 		// start point
 		setOrigin();
-
 	}
 
 	@Override
@@ -107,8 +106,7 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 
 		if (vec.isGeoVector()) {
 			if (!getOrigin().isDefined()) {
@@ -132,7 +130,5 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 		firstVec[1] = 0;
 
 		return true;
-
 	}
-
 }

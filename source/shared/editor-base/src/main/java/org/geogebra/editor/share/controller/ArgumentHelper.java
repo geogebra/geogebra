@@ -36,8 +36,7 @@ public class ArgumentHelper {
 	 */
 	public static void passArgument(EditorState editorState, InternalNode container) {
 		// get pass to argument
-		SequenceNode field = (SequenceNode) container
-				.getChild(container.getInsertIndex());
+		SequenceNode field = (SequenceNode) container.getChild(container.getInsertIndex());
 		while (editorState.getComponentLeftOfCursor() instanceof CharacterNode characterNode
 				&& characterNode.toString().length() == 1
 				&& Character.isWhitespace(characterNode.toString().charAt(0))) {
@@ -62,8 +61,7 @@ public class ArgumentHelper {
 					wrap.addChild(array);
 					container.setChild(container.getInsertIndex(), wrap);
 				} else {
-					container.setChild(container.getInsertIndex(),
-							array.getChild(0));
+					container.setChild(container.getInsertIndex(), array.getChild(0));
 				}
 			} else {
 				field.addChild(0, array);
@@ -98,8 +96,7 @@ public class ArgumentHelper {
 	private static void passCharacters(EditorState editorState, InternalNode container) {
 
 		// get pass to argument
-		SequenceNode field = (SequenceNode) container
-				.getChild(container.getInsertIndex());
+		SequenceNode field = (SequenceNode) container.getChild(container.getInsertIndex());
 
 		while (editorState.getComponentLeftOfCursor() instanceof CharacterNode characterNode) {
 			if (characterNode.isWordBreak()) {
@@ -133,16 +130,13 @@ public class ArgumentHelper {
 	 * @param editorState current editor state
 	 * @return last string of characters
 	 */
-	public static String readCharacters(EditorState editorState,
-			int initialOffset) {
+	public static String readCharacters(EditorState editorState, int initialOffset) {
 		StringBuilder stringBuilder = new StringBuilder();
 		int offset = initialOffset;
 		SequenceNode currentNode = editorState.getCurrentNode();
-		while (offset > 0 && currentNode
-				.getChild(offset - 1) instanceof CharacterNode) {
+		while (offset > 0 && currentNode.getChild(offset - 1) instanceof CharacterNode) {
 
-			CharacterNode character = (CharacterNode) currentNode
-					.getChild(offset - 1);
+			CharacterNode character = (CharacterNode) currentNode.getChild(offset - 1);
 			if (character.isWordBreak()) {
 				break;
 			}

@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 /**
  * Algorithm to compute the circumference of a
  * {@link org.geogebra.common.kernel.geos.GeoPolygon GeoPolygon}.
- * 
+ *
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
 public class AlgoPerimeterPoly extends AlgoElement {
@@ -86,11 +86,10 @@ public class AlgoPerimeterPoly extends AlgoElement {
 
 	/**
 	 * Get the GeoPolygon's circumference.
-	 * 
+	 *
 	 * @return circumference
 	 */
 	public GeoNumeric getCircumference() {
 		return circum;
 	}
-
 }

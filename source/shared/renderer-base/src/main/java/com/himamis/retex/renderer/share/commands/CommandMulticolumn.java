@@ -22,13 +22,11 @@ public class CommandMulticolumn extends Command1A {
 	@Override
 	public boolean init(TeXParser tp) {
 		if (!tp.isArrayMode()) {
-			throw new ParseException(tp,
-					"The macro \\multicolumn is only available in array mode !");
+			throw new ParseException(tp, "The macro \\multicolumn is only available in array mode !");
 		}
 		n = tp.getArgAsPositiveInteger();
 		if (n == -1) {
-			throw new ParseException(tp,
-					"The macro \\multicolumn requires a positive integer");
+			throw new ParseException(tp, "The macro \\multicolumn requires a positive integer");
 		}
 		options = tp.getArrayOptions();
 		return true;
@@ -38,5 +36,4 @@ public class CommandMulticolumn extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MulticolumnAtom(n, options, a);
 	}
-
 }

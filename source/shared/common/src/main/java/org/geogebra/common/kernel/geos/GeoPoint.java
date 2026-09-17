@@ -84,8 +84,14 @@ import org.geogebra.editor.share.util.Unicode;
  *
  * @author Markus
  */
-public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint, GeoPointND,
-		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasCoordinates {
+public class GeoPoint extends GeoPointVector
+		implements VectorValue,
+				PathOrPoint,
+				GeoPointND,
+				Transformable,
+				SymbolicParametersAlgo,
+				SymbolicParametersBotanaAlgo,
+				HasCoordinates {
 	private static volatile Comparator<GeoPoint> comparatorX;
 
 	// don't set point size here as this would overwrite
@@ -111,6 +117,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	public double inhomX;
 	/** inhomogeneous y-coord */
 	public double inhomY;
+
 	private boolean isInfinite;
 	private boolean isDefined;
 	private boolean showUndefinedInAlgebraView = true;
@@ -203,8 +210,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param z
 	 *            homogeneous z-coord
 	 */
-	public GeoPoint(Construction c, String label, double x, double y,
-			double z) {
+	public GeoPoint(Construction c, String label, double x, double y, double z) {
 		this(c, x, y, z);
 		setLabel(label);
 	}
@@ -261,19 +267,18 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @return whether given geo is a point with complex coordinates
 	 */
 	public static boolean isComplexNumber(GeoElementND geo) {
-		return geo.isGeoPoint()
-				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
+		return geo.isGeoPoint() && ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
 	/**
 	 * Sets path parameter to null
 	 */
-	final public void clearPathParameter() {
+	public final void clearPathParameter() {
 		pathParameter = null;
 	}
 
 	@Override
-	final public PathParameter getPathParameter() {
+	public final PathParameter getPathParameter() {
 		if (pathParameter == null) {
 			pathParameter = new PathParameter(0);
 		}
@@ -281,7 +286,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public RegionParameters getRegionParameters() {
+	public final RegionParameters getRegionParameters() {
 		if (regionParameters == null) {
 			regionParameters = new RegionParameters();
 		}
@@ -354,10 +359,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		} else if (geo instanceof GeoList) {
 			// GGB-1981
 			GeoList list = (GeoList) geo;
-			double xList = list.size() > 0 ? list.get(0).evaluateDouble()
-					: Double.NaN;
-			double yList = list.size() > 1 ? list.get(1).evaluateDouble()
-					: Double.NaN;
+			double xList = list.size() > 0 ? list.get(0).evaluateDouble() : Double.NaN;
+			double yList = list.size() > 1 ? list.get(1).evaluateDouble() : Double.NaN;
 
 			setCoords(xList, yList, 1);
 
@@ -392,7 +395,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @version 2008-07-17
 	 */
 	@Override
-	final public int getPointStyle() {
+	public final int getPointStyle() {
 		return pointStyle;
 	}
 
@@ -415,7 +418,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		} else {
 			pointStyle = -1;
 		}
-
 	}
 
 	@Override
@@ -440,8 +442,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
-			Coords targetPosition, ArrayList<GeoElement> updateGeos,
+	public boolean moveFromChangeableCoordParentNumbers(
+			Coords rwTransVec,
+			Coords targetPosition,
+			ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList) {
 		Coords endPosition = targetPosition;
 		if (!hasChangeableCoordParentNumbers()) {
@@ -454,8 +458,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 		// move Point like curve(slider)
 		if (isPointOnCurveWithSlider()) {
-			GeoPoint p = new GeoPoint(cons, endPosition.getX(),
-					endPosition.getY(), 1);
+			GeoPoint p = new GeoPoint(cons, endPosition.getX(), endPosition.getY(), 1);
 			if (definition != null) {
 				GeoCurveCartesian curve = (GeoCurveCartesian) definition.getLeft();
 				GeoNumeric param = (GeoNumeric) definition.getRight();
@@ -467,7 +470,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 				return true;
 			}
-
 		}
 
 		// translate x and y coordinates by changing the parent coords
@@ -479,26 +481,21 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		// polar coords (r; phi)
 		if (hasPolarParentNumbers()) {
 			// radius
-			double radius = MyMath.length(endPosition.getX(),
-					endPosition.getY());
+			double radius = MyMath.length(endPosition.getX(), endPosition.getY());
 			if (xvar instanceof GeoNumeric && xvar != yvar) {
-				((GeoNumeric) xvar).setValue(xvar.getDouble()
-						- MyMath.length(inhomX, inhomY) + radius);
+				((GeoNumeric) xvar).setValue(xvar.getDouble() - MyMath.length(inhomX, inhomY) + radius);
 			}
 			if (yvar instanceof GeoNumeric) {
 				// angle
-				double endAngle = Math.atan2(endPosition.getY(),
-						endPosition.getX());
+				double endAngle = Math.atan2(endPosition.getY(), endPosition.getX());
 				double oldAngle = Math.atan2(inhomY, inhomX);
 
-				double angle = DoubleUtil.convertToAngleValue(
-						yvar.getDouble() - oldAngle + endAngle);
+				double angle = DoubleUtil.convertToAngleValue(yvar.getDouble() - oldAngle + endAngle);
 				// angle outside of slider range
 				if (((GeoNumeric) yvar).isIntervalMinActive()
 						&& ((GeoNumeric) yvar).isIntervalMaxActive()
 						&& (angle < ((GeoNumeric) yvar).getIntervalMin()
-								|| angle > ((GeoNumeric) yvar)
-										.getIntervalMax())) {
+								|| angle > ((GeoNumeric) yvar).getIntervalMax())) {
 					// use angle value closest to closest border
 					angle = closestAngleToBorder(angle, (GeoNumeric) yvar);
 				}
@@ -512,23 +509,19 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			// only change if GeoNumeric
 
 			if (xvar instanceof GeoNumeric) {
-				incrementParentNumeric(endPosition.getX() - inhomX,
-						(GeoNumeric) xvar, targetPosition);
+				incrementParentNumeric(endPosition.getX() - inhomX, (GeoNumeric) xvar, targetPosition);
 			}
 
 			if (xvar != yvar && yvar instanceof GeoNumeric) {
-				incrementParentNumeric(endPosition.getY() - inhomY,
-						(GeoNumeric) yvar, targetPosition);
+				incrementParentNumeric(endPosition.getY() - inhomY, (GeoNumeric) yvar, targetPosition);
 			}
 		}
 
 		if (xvar instanceof GeoNumeric) {
-			addParentToUpdateList((GeoNumeric) xvar, updateGeos,
-					tempMoveObjectList);
+			addParentToUpdateList((GeoNumeric) xvar, updateGeos, tempMoveObjectList);
 		}
 		if (yvar instanceof GeoNumeric) {
-			addParentToUpdateList((GeoNumeric) yvar, updateGeos,
-					tempMoveObjectList);
+			addParentToUpdateList((GeoNumeric) yvar, updateGeos, tempMoveObjectList);
 		}
 
 		return true;
@@ -559,9 +552,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param target target position
 	 */
 	public static void incrementParentNumeric(double diff, GeoNumeric num, Coords target) {
-		double increment = target != null ? diff
+		double increment = target != null
+				? diff
 				: Math.max(Math.abs(diff), num.getAnimationStep()) * Math.signum(diff);
-		double newVal = num.getDouble()  + increment;
+		double newVal = num.getDouble() + increment;
 		if (num.isSlider()) {
 			newVal = num.restrictToSliderValues(newVal);
 		}
@@ -573,7 +567,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * e.g. point A = (a, b) where a and b are free GeoNumeric objects.
 	 */
 	@Override
-	final public boolean hasChangeableCoordParentNumbers() {
+	public final boolean hasChangeableCoordParentNumbers() {
 
 		if (isLocked()) {
 			return false;
@@ -596,14 +590,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		}
 
 		if (num1 instanceof GeoNumeric && num2 instanceof GeoNumeric) {
-			GeoElement maxObj1 = GeoElement
-					.as(((GeoNumeric) num1).getIntervalMaxObject());
-			GeoElement maxObj2 = GeoElement
-					.as(((GeoNumeric) num2).getIntervalMaxObject());
-			GeoElement minObj1 = GeoElement
-					.as(((GeoNumeric) num1).getIntervalMinObject());
-			GeoElement minObj2 = GeoElement
-					.as(((GeoNumeric) num2).getIntervalMinObject());
+			GeoElement maxObj1 = GeoElement.as(((GeoNumeric) num1).getIntervalMaxObject());
+			GeoElement maxObj2 = GeoElement.as(((GeoNumeric) num2).getIntervalMaxObject());
+			GeoElement minObj1 = GeoElement.as(((GeoNumeric) num1).getIntervalMinObject());
+			GeoElement minObj2 = GeoElement.as(((GeoNumeric) num2).getIntervalMinObject());
 			if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement) num2)) {
 				return false;
 			}
@@ -618,10 +608,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			}
 		}
 
-		boolean ret = (num1 instanceof GeoNumeric
-				&& ((GeoNumeric) num1).isPointerChangeable())
-				|| (num2 instanceof GeoNumeric
-						&& ((GeoNumeric) num2).isPointerChangeable());
+		boolean ret = (num1 instanceof GeoNumeric && ((GeoNumeric) num1).isPointerChangeable())
+				|| (num2 instanceof GeoNumeric && ((GeoNumeric) num2).isPointerChangeable());
 
 		return ret;
 	}
@@ -640,7 +628,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		ExpressionValue right = definition.getRight();
 		Operation op = definition.getOperation();
 
-		return op == Operation.VEC_FUNCTION && left instanceof GeoCurveCartesian
+		return op == Operation.VEC_FUNCTION
+				&& left instanceof GeoCurveCartesian
 				&& right instanceof GeoNumeric
 				&& ((GeoNumeric) right).isSlider();
 	}
@@ -655,7 +644,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *
 	 * @return null if this point is not defined using two GeoNumeric objects
 	 */
-	final public ArrayList<NumberValue> getCoordParentNumbers() {
+	public final ArrayList<NumberValue> getCoordParentNumbers() {
 		// init changeableCoordNumbers
 		if (changeableCoordNumbers == null) {
 			changeableCoordNumbers = new ArrayList<>(2);
@@ -672,19 +661,16 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 					// coords (r; phi)
 					ExpressionValue xcoord = vn.getX();
 					ExpressionValue ycoord = vn.getY();
-					ParametricProcessor proc = kernel.getAlgebraProcessor()
-							.getParamProcessor();
+					ParametricProcessor proc = kernel.getAlgebraProcessor().getParamProcessor();
 					NumberValue xNum = proc.getCoordNumber(xcoord);
 					NumberValue yNum = proc.getCoordNumber(ycoord);
 
-					if (xNum instanceof GeoNumeric
-							&& ((GeoNumeric) xNum).isPointerChangeable()) {
+					if (xNum instanceof GeoNumeric && ((GeoNumeric) xNum).isPointerChangeable()) {
 						changeableCoordNumbers.add(xNum);
 					} else {
 						changeableCoordNumbers.add(null);
 					}
-					if (yNum instanceof GeoNumeric
-							&& ((GeoNumeric) yNum).isPointerChangeable()) {
+					if (yNum instanceof GeoNumeric && ((GeoNumeric) yNum).isPointerChangeable()) {
 						changeableCoordNumbers.add(yNum);
 					} else {
 						changeableCoordNumbers.add(null);
@@ -721,7 +707,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public Path getPath() {
+	public final Path getPath() {
 		return path;
 	}
 
@@ -771,17 +757,17 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public boolean isInfinite() {
+	public final boolean isInfinite() {
 		return isInfinite;
 	}
 
 	@Override
-	final public boolean isFinite() {
+	public final boolean isFinite() {
 		return isDefined && !isInfinite;
 	}
 
 	@Override
-	final public boolean showInEuclidianView() {
+	public final boolean showInEuclidianView() {
 		return isDefined && !isInfinite;
 	}
 
@@ -813,7 +799,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public void setCoords(double x, double y, double z) {
+	public final void setCoords(double x, double y, double z) {
 		setCoords(x, y, z, true);
 	}
 
@@ -829,9 +815,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param macroFeedback
 	 *            whether parent macro may be notified
 	 */
-
-	final public void setCoords(double x, double y, double z,
-			boolean macroFeedback) {
+	public final void setCoords(double x, double y, double z, boolean macroFeedback) {
 		// set coordinates
 		this.x = x;
 		this.y = y;
@@ -847,8 +831,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 			// make sure animation starts from the correct place
 			animationValue = PathNormalizer.toNormalizedPathParameter(
-					getPathParameter().t, path.getMinParameter(),
-					path.getMaxParameter());
+					getPathParameter().t, path.getMinParameter(), path.getMaxParameter());
 		}
 
 		// region
@@ -871,12 +854,11 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 				PathParameter tempParameter = getTempPathparameter();
 				parameter.set(tempParameter);
 			} else { // store current path parameter (needed e.g. on file
-						// loading)
+				// loading)
 				PathParameter tempParameter = getTempPathparameter();
 				tempParameter.set(getPathParameter());
 			}
 		}
-
 	}
 
 	@Override
@@ -920,7 +902,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public void updateCoords() {
+	public final void updateCoords() {
 		// infinite point
 		// #5202
 		if (!Double.isNaN(z) && DoubleUtil.isEpsilon(z, x, y)) {
@@ -932,8 +914,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		// finite point
 		else {
 			isInfinite = false;
-			isDefined = !(Double.isNaN(x) || Double.isNaN(y)
-					|| Double.isNaN(z));
+			isDefined = !(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z));
 
 			if (isDefined) {
 				// make sure the z coordinate is always positive
@@ -966,12 +947,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param phi
 	 *            phase
 	 */
-	final public void setPolarCoords(double r, double phi) {
+	public final void setPolarCoords(double r, double phi) {
 		setCoords(r * Math.cos(phi), r * Math.sin(phi), 1.0d);
 	}
 
 	@Override
-	final public void setCoords(GeoVec3D v) {
+	public final void setCoords(GeoVec3D v) {
 		setCoords(v.x, v.y, v.z);
 	}
 
@@ -981,7 +962,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param v
 	 *            vector (x,y)
 	 */
-	final public void setCoords(GeoVec2D v) {
+	public final void setCoords(GeoVec2D v) {
 		setCoords(v.getX(), v.getY(), 1.0);
 	}
 
@@ -991,7 +972,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 */
 	// Michael Borcherds 2008-04-30
 	@Override
-	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+	public final ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		return ExtendedBoolean.newExtendedBoolean(isEqual(geo, Kernel.STANDARD_PRECISION));
 	}
 
@@ -1005,7 +986,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            precision
 	 * @return whether the two points are equal with given precision
 	 */
-	final public boolean isEqual(GeoElementND geo, double eps) {
+	public final boolean isEqual(GeoElementND geo, double eps) {
 
 		if (!geo.isGeoPoint()) {
 			return false;
@@ -1016,7 +997,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		}
 
 		return isEqualPoint2D((GeoPoint) geo);
-
 	}
 
 	@Override
@@ -1041,8 +1021,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 		// both finite
 		if (isFinite() && P.isFinite()) {
-			return DoubleUtil.isEqual(inhomX, P.inhomX)
-					&& DoubleUtil.isEqual(inhomY, P.inhomY);
+			return DoubleUtil.isEqual(inhomX, P.inhomX) && DoubleUtil.isEqual(inhomY, P.inhomY);
 		} else if (isInfinite() && P.isInfinite()) {
 			return linDep(P);
 		} else {
@@ -1054,7 +1033,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * Writes (x/z, y/z) to res.
 	 */
 	@Override
-	final public void getInhomCoords(double[] res) {
+	public final void getInhomCoords(double[] res) {
 		res[0] = inhomX;
 		res[1] = inhomY;
 	}
@@ -1065,7 +1044,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param res
 	 *            array to store results
 	 */
-	final public void getPolarCoords(double[] res) {
+	public final void getPolarCoords(double[] res) {
 		res[0] = MyMath.length(inhomX, inhomY);
 		res[1] = Math.atan2(inhomY, inhomX);
 	}
@@ -1074,7 +1053,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @return inhomogeneous X
 	 */
 	@Override
-	final public double getInhomX() {
+	public final double getInhomX() {
 		return inhomX;
 	}
 
@@ -1082,7 +1061,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @return inhomogeneous Y
 	 */
 	@Override
-	final public double getInhomY() {
+	public final double getInhomY() {
 		return inhomY;
 	}
 
@@ -1090,14 +1069,14 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @return inhomogeneous Z (in 3D space)
 	 */
 	@Override
-	final public double getInhomZ() {
+	public final double getInhomZ() {
 		return 0;
 	}
 
 	@Override
-	final public double[] vectorTo(GeoPointND QI) {
-		return new double[] { QI.getInhomX() - getInhomX(),
-				QI.getInhomY() - getInhomY(), QI.getInhomZ() };
+	public final double[] vectorTo(GeoPointND QI) {
+		return new double[] {QI.getInhomX() - getInhomX(), QI.getInhomY() - getInhomY(), QI.getInhomZ()
+		};
 	}
 
 	@Override
@@ -1108,7 +1087,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	// euclidian distance between this GeoPoint and P
 	@Override
-	final public double distance(GeoPoint P) {
+	public final double distance(GeoPoint P) {
 		return MyMath.length(P.inhomX - inhomX, P.inhomY - inhomY);
 	}
 
@@ -1120,7 +1099,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            y coord
 	 * @return distance between this and (x,y)
 	 */
-	final public double distance(double x2, double y2) {
+	public final double distance(double x2, double y2) {
 		return MyMath.length(x2 - inhomX, y2 - inhomY);
 	}
 
@@ -1145,7 +1124,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            other point
 	 * @return square distance to other point
 	 */
-	final public double distanceSqr(GeoPoint P) {
+	public final double distanceSqr(GeoPoint P) {
 		double vx = P.inhomX - inhomX;
 		double vy = P.inhomY - inhomY;
 		return vx * vx + vy * vy;
@@ -1174,8 +1153,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		// det(ABC) == 0 <=> sum1 == sum2
 
 		// A.z, B.z, C.z could be zero
-		double eps = Math.max(Kernel.MIN_PRECISION,
-				Kernel.MIN_PRECISION * A.z * B.z * C.z);
+		double eps = Math.max(Kernel.MIN_PRECISION, Kernel.MIN_PRECISION * A.z * B.z * C.z);
 
 		return DoubleUtil.isEqual(sum1, sum2, eps);
 	}
@@ -1193,14 +1171,20 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            forth object
 	 * @return if the inputs are concyclic.
 	 */
-	public static boolean concyclic(GeoPoint inputPoint1, GeoPoint inputPoint2,
-			GeoPoint inputPoint3, GeoPoint inputPoint4) {
-		double ax = inputPoint1.getX(), ay = inputPoint1.getY(),
-				az = inputPoint1.getZ(), bx = inputPoint2.getX(),
-				by = inputPoint2.getY(), bz = inputPoint2.getZ(),
-				cx = inputPoint3.getX(), cy = inputPoint3.getY(),
-				cz = inputPoint3.getZ(), dx = inputPoint4.getX(),
-				dy = inputPoint4.getY(), dz = inputPoint4.getZ();
+	public static boolean concyclic(
+			GeoPoint inputPoint1, GeoPoint inputPoint2, GeoPoint inputPoint3, GeoPoint inputPoint4) {
+		double ax = inputPoint1.getX(),
+				ay = inputPoint1.getY(),
+				az = inputPoint1.getZ(),
+				bx = inputPoint2.getX(),
+				by = inputPoint2.getY(),
+				bz = inputPoint2.getZ(),
+				cx = inputPoint3.getX(),
+				cy = inputPoint3.getY(),
+				cz = inputPoint3.getZ(),
+				dx = inputPoint4.getX(),
+				dy = inputPoint4.getY(),
+				dz = inputPoint4.getZ();
 
 		// Using Ptolemy's theorem
 
@@ -1227,14 +1211,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            third point
 	 * @return whether the three points A, point2 and point3 are collinear.
 	 */
-	public static boolean collinearND(GeoPointND point1, GeoPointND point2,
-			GeoPointND point3) {
+	public static boolean collinearND(GeoPointND point1, GeoPointND point2, GeoPointND point3) {
 		// points are collinear iff (point1-point2)x(point1-point3) == (0,0,0)
 
 		Coords diffB = point1.getInhomCoordsInD3().sub(point2.getInhomCoordsInD3());
 		Coords diffC = point1.getInhomCoordsInD3().sub(point3.getInhomCoordsInD3());
 		return !diffB.isLinearIndependent(diffC);
-
 	}
 
 	/**
@@ -1265,8 +1247,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            pt2
 	 * @return lambda = Distance(pt2,start)/Distance(pt1,start).
 	 */
-	public static double affineRatio(GeoPointND start, GeoPointND pt1,
-			GeoPointND pt2) {
+	public static double affineRatio(GeoPointND start, GeoPointND pt1, GeoPointND pt2) {
 		Coords cA = start.getInhomCoordsInD3();
 		Coords cB = pt1.getInhomCoordsInD3();
 		Coords cC = pt2.getInhomCoordsInD3();
@@ -1296,12 +1277,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * translate by vector v
 	 */
 	@Override
-	final public void translate(Coords v) {
+	public final void translate(Coords v) {
 		setCoords(x + v.getX() * z, y + v.getY() * z, z);
 	}
 
 	@Override
-	final public boolean isTranslateable() {
+	public final boolean isTranslateable() {
 		return true;
 	}
 
@@ -1309,7 +1290,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * dilate from S by r
 	 */
 	@Override
-	final public void dilate(NumberValue rval, Coords S) {
+	public final void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		double temp = 1 - r;
 		setCoords(r * x + temp * S.getX() * z, r * y + temp * S.getY() * z, z);
@@ -1321,7 +1302,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param r
 	 *            ratio
 	 */
-	final public void dilate(double r) {
+	public final void dilate(double r) {
 		setCoords(r * x, r * y, z);
 	}
 
@@ -1329,7 +1310,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * rotate this point by angle phi around (0,0)
 	 */
 	@Override
-	final public void rotate(NumberValue phiValue) {
+	public final void rotate(NumberValue phiValue) {
 		double phi = phiValue.getDouble();
 		double cos = MyMath.cos(phi);
 		double sin = Math.sin(phi);
@@ -1341,7 +1322,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * rotate this point by angle phi around Q
 	 */
 	@Override
-	final public void rotate(NumberValue phiValue, Coords point) {
+	public final void rotate(NumberValue phiValue, Coords point) {
 		Coords Q = point;
 		double phi = phiValue.getDouble();
 		double cos = MyMath.cos(phi);
@@ -1349,12 +1330,11 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		double qx = z * Q.getX();
 		double qy = z * Q.getY();
 
-		setCoords((x - qx) * cos + (qy - y) * sin + qx,
-				(x - qx) * sin + (y - qy) * cos + qy, z);
+		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin + (y - qy) * cos + qy, z);
 	}
 
 	@Override
-	final public void rotate(NumberValue phiValue, GeoPointND point) {
+	public final void rotate(NumberValue phiValue, GeoPointND point) {
 		rotate(phiValue, point.getInhomCoords());
 	}
 
@@ -1362,7 +1342,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * mirror this point at point Q
 	 */
 	@Override
-	final public void mirror(Coords Q) {
+	public final void mirror(Coords Q) {
 		double qx = z * Q.getX();
 		double qy = z * Q.getY();
 
@@ -1378,7 +1358,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * mirror this point at line g
 	 */
 	@Override
-	final public void mirror(GeoLineND g1) {
+	public final void mirror(GeoLineND g1) {
 
 		GeoLine g = (GeoLine) g1;
 
@@ -1412,9 +1392,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	/***********************************************************/
-
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return label
 				+ getEqualSign(getToStringMode(), tpl.getCoordStyle(kernel.getCoordStyle()), tpl)
 				+ toValueString(tpl);
@@ -1429,13 +1408,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public String toStringDescription(StringTemplate tpl) {
-		boolean isAvDescrip = AlgebraStyle.DESCRIPTION == getApp().getSettings()
-				.getAlgebra().getStyle();
+	public final String toStringDescription(StringTemplate tpl) {
+		boolean isAvDescrip =
+				AlgebraStyle.DESCRIPTION == getApp().getSettings().getAlgebra().getStyle();
 		if (isAvDescrip) {
 			sbToString.setLength(0);
-			sbToString.append(
-					getKernel().getLocalization().getMenu("Point"));
+			sbToString.append(getKernel().getLocalization().getMenu("Point"));
 			sbToString.append(" ");
 			sbToString.append(label);
 			return sbToString.toString();
@@ -1457,18 +1435,18 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			return tpl.getEqualsWithSpace();
 		} else {
 			switch (coordStyle) {
-			case Kernel.COORD_STYLE_FRENCH:
-				// no equal sign
-				return ": ";
+				case Kernel.COORD_STYLE_FRENCH:
+					// no equal sign
+					return ": ";
 
-			case Kernel.COORD_STYLE_AUSTRIAN:
-				// no equal sign
-				if (!tpl.isForEditorParser()) {
-					return "";
-				}
+				case Kernel.COORD_STYLE_AUSTRIAN:
+					// no equal sign
+					if (!tpl.isForEditorParser()) {
+						return "";
+					}
 
-			default:
-				return tpl.getEqualsWithSpace();
+				default:
+					return tpl.getEqualsWithSpace();
 			}
 		}
 	}
@@ -1496,11 +1474,9 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 		sbToString.setLength(0);
 		if (getToStringMode() == Kernel.COORD_CARTESIAN_3D) {
-			buildValueStringCoordCartesian3D(kernel, tpl, getInhomX(),
-					getInhomY(), 0, sbToString);
+			buildValueStringCoordCartesian3D(kernel, tpl, getInhomX(), getInhomY(), 0, sbToString);
 		} else if (getToStringMode() == Kernel.COORD_SPHERICAL) {
-			buildValueStringCoordSpherical(kernel, tpl, getInhomX(),
-					getInhomY(), 0, sbToString);
+			buildValueStringCoordSpherical(kernel, tpl, getInhomX(), getInhomY(), 0, sbToString);
 		} else if (complexSolutionVar != null) {
 			printAsOutputOfCSolve(tpl);
 		} else {
@@ -1528,9 +1504,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param sb
 	 *            string builder
 	 */
-	public static void buildValueStringCoordCartesian3D(Kernel kernel,
-			StringTemplate tpl, double x, double y, double z,
-			StringBuilder sb) {
+	public static void buildValueStringCoordCartesian3D(
+			Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sb) {
 
 		if (tpl.hasCASType()) {
 
@@ -1564,7 +1539,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 			sb.append(tpl.rightBracket(kernel.getLocalization()));
 		}
-
 	}
 
 	/**
@@ -1574,8 +1548,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            output template
 	 * @return separator for cartesian coords
 	 */
-	public static String getValueSeparatorWithSpace(Kernel kernel,
-			StringTemplate tpl) {
+	public static String getValueSeparatorWithSpace(Kernel kernel, StringTemplate tpl) {
 		if (tpl.hasCASType()) {
 			return ",";
 		}
@@ -1604,8 +1577,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param sbBuildValueString
 	 *            string builder
 	 */
-	public static void buildValueStringCoordSpherical(Kernel kernel,
-			StringTemplate tpl, double x, double y, double z,
+	public static void buildValueStringCoordSpherical(
+			Kernel kernel,
+			StringTemplate tpl,
+			double x,
+			double y,
+			double z,
 			StringBuilder sbBuildValueString) {
 
 		double lengthXY = MyMath.length(x, y);
@@ -1615,20 +1592,20 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			String theta = kernel.format(Math.atan2(y, x), tpl);
 			String phi = kernel.format(Math.atan2(z, lengthXY), tpl);
 
-			//x
+			// x
 			sbBuildValueString.append("point((");
 			sbBuildValueString.append(radius).append(")");
 			sbBuildValueString.append("*cos(").append(theta).append(")");
 			sbBuildValueString.append("*cos(").append(phi).append(")");
 			sbBuildValueString.append(",");
 
-			//y
+			// y
 			sbBuildValueString.append("(").append(radius).append(")");
 			sbBuildValueString.append("*sin(").append(theta).append(")");
 			sbBuildValueString.append("*cos(").append(phi).append(")");
 			sbBuildValueString.append(",");
 
-			//z
+			// z
 			sbBuildValueString.append("(").append(radius).append(")");
 			sbBuildValueString.append("*sin(").append(phi).append(")");
 			sbBuildValueString.append(")");
@@ -1639,13 +1616,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		sbBuildValueString.append('(');
 		sbBuildValueString.append(radius);
 		sbBuildValueString.append("; ");
-		sbBuildValueString
-				.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
+		sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
 		sbBuildValueString.append("; ");
-		sbBuildValueString
-				.append(kernel.formatAngle(Math.atan2(z, lengthXY), null, tpl, true));
+		sbBuildValueString.append(kernel.formatAngle(Math.atan2(z, lengthXY), null, tpl, true));
 		sbBuildValueString.append(')');
-
 	}
 
 	/**
@@ -1662,56 +1636,58 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param sbBuildValueString
 	 *            string builder
 	 */
-	public static void buildValueString(Kernel kernel, StringTemplate tpl,
-			int toStringMode, double x, double y,
+	public static void buildValueString(
+			Kernel kernel,
+			StringTemplate tpl,
+			int toStringMode,
+			double x,
+			double y,
 			StringBuilder sbBuildValueString) {
 		Localization localization = kernel.getLocalization();
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:
-			sbBuildValueString.append(tpl.leftBracket(localization));
-			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
-			sbBuildValueString.append(tpl.polarSeparator(localization));
-			tpl.appendOptionalSpace(sbBuildValueString);
-			sbBuildValueString
-					.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
-			sbBuildValueString.append(tpl.rightBracket(localization));
-			break;
-
-		case Kernel.COORD_COMPLEX:
-			if (x != 0) {
-				sbBuildValueString.append(kernel.format(x, tpl));
-				tpl.appendOptionalSpace(sbBuildValueString);
-				kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
-			} else if (y != 1) {
-				if (y != -1) {
-					sbBuildValueString.append(kernel.format(y, tpl));
-				} else {
-					sbBuildValueString.append('-');
-				}
-			}
-			sbBuildValueString.append(tpl.getImaginary());
-			break;
-
-		default: // CARTESIAN
-			if (tpl.usePointTemplate()) {
-				String pointEditorTemplate =
-						kernel.getApplication().getSettings().getGeneral().getPointEditorTemplate();
-				sbBuildValueString.append(pointEditorTemplate).append('(');
-			} else {
+			case Kernel.COORD_POLAR:
 				sbBuildValueString.append(tpl.leftBracket(localization));
-			}
-			sbBuildValueString.append(kernel.format(x, tpl));
-			if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+				sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
+				sbBuildValueString.append(tpl.polarSeparator(localization));
 				tpl.appendOptionalSpace(sbBuildValueString);
-				sbBuildValueString.append(tpl.getPointCoordBar());
-				tpl.appendOptionalSpace(sbBuildValueString);
-			} else {
-				tpl.getCommaOptionalSpace(sbBuildValueString, localization);
-			}
-			sbBuildValueString.append(kernel.format(y, tpl));
-			sbBuildValueString.append(tpl.rightBracket(localization));
-		}
+				sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
+				sbBuildValueString.append(tpl.rightBracket(localization));
+				break;
 
+			case Kernel.COORD_COMPLEX:
+				if (x != 0) {
+					sbBuildValueString.append(kernel.format(x, tpl));
+					tpl.appendOptionalSpace(sbBuildValueString);
+					kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
+				} else if (y != 1) {
+					if (y != -1) {
+						sbBuildValueString.append(kernel.format(y, tpl));
+					} else {
+						sbBuildValueString.append('-');
+					}
+				}
+				sbBuildValueString.append(tpl.getImaginary());
+				break;
+
+			default: // CARTESIAN
+				if (tpl.usePointTemplate()) {
+					String pointEditorTemplate =
+							kernel.getApplication().getSettings().getGeneral().getPointEditorTemplate();
+					sbBuildValueString.append(pointEditorTemplate).append('(');
+				} else {
+					sbBuildValueString.append(tpl.leftBracket(localization));
+				}
+				sbBuildValueString.append(kernel.format(x, tpl));
+				if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+					tpl.appendOptionalSpace(sbBuildValueString);
+					sbBuildValueString.append(tpl.getPointCoordBar());
+					tpl.appendOptionalSpace(sbBuildValueString);
+				} else {
+					tpl.getCommaOptionalSpace(sbBuildValueString, localization);
+				}
+				sbBuildValueString.append(kernel.format(y, tpl));
+				sbBuildValueString.append(tpl.rightBracket(localization));
+		}
 	}
 
 	/**
@@ -1734,8 +1710,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			// write parameter just for GeoCurveCartesian/GeoCurveCartesian3D
 			// as curve may cross itself so just coords doesn't determine unique
 			// pos
-			if (((AlgoPointOnPath) algo)
-					.getPath() instanceof GeoCurveCartesianND) {
+			if (((AlgoPointOnPath) algo).getPath() instanceof GeoCurveCartesianND) {
 				sb.startTag("curveParam").attr("t", getPathParameter().t).endTag();
 			}
 		}
@@ -1749,23 +1724,23 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		super.getStyleXML(sb);
 		// polar or cartesian coords
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			coordStyle(sb, "polar");
-			break;
+			case Kernel.COORD_POLAR:
+				coordStyle(sb, "polar");
+				break;
 
-		case Kernel.COORD_COMPLEX:
-			coordStyle(sb, "complex");
-			break;
+			case Kernel.COORD_COMPLEX:
+				coordStyle(sb, "complex");
+				break;
 
-		case Kernel.COORD_CARTESIAN_3D:
-			coordStyle(sb, "cartesian3d");
-			break;
+			case Kernel.COORD_CARTESIAN_3D:
+				coordStyle(sb, "cartesian3d");
+				break;
 
-		case Kernel.COORD_SPHERICAL:
-			coordStyle(sb, "spherical");
-			break;
+			case Kernel.COORD_SPHERICAL:
+				coordStyle(sb, "spherical");
+				break;
 
-		default:
+			default:
 			// don't save default
 			// sb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
@@ -1793,7 +1768,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public boolean isAbsoluteStartPoint() {
+	public final boolean isAbsoluteStartPoint() {
 		return isIndependent() && !isLabelSet();
 	}
 
@@ -1882,7 +1857,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public boolean isGeoPoint() {
+	public final boolean isGeoPoint() {
 		return true;
 	}
 
@@ -1900,7 +1875,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	public static Comparator<GeoPoint> getComparatorX() {
 		if (comparatorX == null) {
 			comparatorX = (itemA, itemB) -> {
-
 				double compX = itemA.inhomX - itemB.inhomX;
 
 				if (DoubleUtil.isZero(compX)) {
@@ -1913,12 +1887,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 					// don't return 0 for equal objects, otherwise the
 					// TreeSet deletes duplicates
-					return itemA.getConstructionIndex() > itemB
-							.getConstructionIndex() ? -1 : 1;
+					return itemA.getConstructionIndex() > itemB.getConstructionIndex() ? -1 : 1;
 				}
 				return compX < 0 ? -1 : +1;
 			};
-
 		}
 
 		return comparatorX;
@@ -1928,7 +1900,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	// REGION
 
 	@Override
-	final public boolean isPointInRegion() {
+	public final boolean isPointInRegion() {
 		return region != null;
 	}
 
@@ -1974,7 +1946,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			updateCoords2D();
 			setCoords(coordsys.getPoint(getX2D(), getY2D()), doPathOrRegion);
 		}
-
 	}
 
 	@Override
@@ -1985,7 +1956,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	@Override
 	public Coords getInhomCoords() {
 		if (inhomCoords2D == null) {
-			inhomCoords2D = new Coords(new double[] { inhomX, inhomY });
+			inhomCoords2D = new Coords(new double[] {inhomX, inhomY});
 		} else {
 			this.inhomCoords2D.set(1, inhomX);
 			this.inhomCoords2D.set(2, inhomY);
@@ -1996,19 +1967,19 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	@Override
 	public Coords getInhomCoordsInD(int dimension) {
 		switch (dimension) {
-		case 2:
-			return getInhomCoords();
-		case 3:
-			return getInhomCoordsInD3();
-		default:
-			return null;
+			case 2:
+				return getInhomCoords();
+			case 3:
+				return getInhomCoordsInD3();
+			default:
+				return null;
 		}
 	}
 
 	@Override
 	public Coords getInhomCoordsInD3() {
 		if (inhomCoords3D == null) {
-			inhomCoords3D = new Coords(new double[] { inhomX, inhomY, 0, 1 });
+			inhomCoords3D = new Coords(new double[] {inhomX, inhomY, 0, 1});
 		} else {
 			this.inhomCoords3D.set(1, inhomX);
 			this.inhomCoords3D.set(2, inhomY);
@@ -2046,17 +2017,16 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	private boolean setCoords2D(CoordSys coordSys) {
 
 		if (coords2D == null) {
-			coords2D = new Coords(new double[] { x, y, z });
+			coords2D = new Coords(new double[] {x, y, z});
 		}
 
-		if (coordSys == null || coordSys == CoordSys.Identity3D
-				|| coordSys == CoordSys.XOY) {
+		if (coordSys == null || coordSys == CoordSys.Identity3D || coordSys == CoordSys.XOY) {
 			coords2D.set(1, x / z);
 			coords2D.set(2, y / z);
 			coords2D.set(3, 1);
 		} else { // this should happen only when we try to put a 2D point on a
-					// 3D path (e.g. GeoConic3D)
-					// matrix for projection
+			// 3D path (e.g. GeoConic3D)
+			// matrix for projection
 			if (tmpMatrix4x4 == null) {
 				tmpMatrix4x4 = new CoordMatrix4x4();
 			}
@@ -2090,12 +2060,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	@Override
 	public Coords getCoordsInD(int dimension) {
 		switch (dimension) {
-		case 2:
-			return getCoordsInD2();
-		case 3:
-			return getCoordsInD3();
-		default:
-			return null;
+			case 2:
+				return getCoordsInD2();
+			case 3:
+				return getCoordsInD3();
+			default:
+				return null;
 		}
 	}
 
@@ -2147,13 +2117,11 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param z
 	 *            z inhom coord
 	 */
-	public static void pointChanged(GeoPointND p, double x, double y,
-			double z) {
+	public static void pointChanged(GeoPointND p, double x, double y, double z) {
 		p.setCoords2D(x, y, z);
 		p.updateCoordsFrom2D(false, null);
 
 		p.getPathParameter().setT(0);
-
 	}
 
 	@Override
@@ -2202,8 +2170,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            parent list for list animations
 	 * @return whether the value of this number was changed
 	 */
-	static public GeoElementND doAnimationStep(double frameRate, GeoPointND p,
-			Path path, GeoList parent) {
+	public static GeoElementND doAnimationStep(
+			double frameRate, GeoPointND p, Path path, GeoList parent) {
 		PathParameter pp = p.getPathParameter();
 		GeoElement geo = (GeoElement) p;
 
@@ -2212,7 +2180,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 		// compute animation step based on speed and frame rates
 		double intervalWidth = 1;
-		double step = intervalWidth * geo.getAnimationSpeed()
+		double step = intervalWidth
+				* geo.getAnimationSpeed()
 				* geo.getAnimationDirection()
 				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 
@@ -2224,42 +2193,42 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 		// make sure we don't get outside our interval
 		switch (geo.getAnimationType()) {
-		case GeoElementND.ANIMATION_DECREASING:
-		case GeoElementND.ANIMATION_INCREASING:
-			// jump to other end of slider
-			if (p.getAnimationValue() > 1) {
-				p.setAnimationValue(p.getAnimationValue() - intervalWidth);
-			} else if (p.getAnimationValue() < 0) {
-				p.setAnimationValue(p.getAnimationValue() + intervalWidth);
-			}
-			break;
+			case GeoElementND.ANIMATION_DECREASING:
+			case GeoElementND.ANIMATION_INCREASING:
+				// jump to other end of slider
+				if (p.getAnimationValue() > 1) {
+					p.setAnimationValue(p.getAnimationValue() - intervalWidth);
+				} else if (p.getAnimationValue() < 0) {
+					p.setAnimationValue(p.getAnimationValue() + intervalWidth);
+				}
+				break;
 
-		case GeoElementND.ANIMATION_INCREASING_ONCE:
-			// stop if outside range
-			if (p.getAnimationValue() > 1) {
-				p.setAnimationValue(1);
-				geo.setAnimating(false);
-			} else if (p.getAnimationValue() < 0) {
-				p.setAnimationValue(0);
-				geo.setAnimating(false);
-			}
-			break;
+			case GeoElementND.ANIMATION_INCREASING_ONCE:
+				// stop if outside range
+				if (p.getAnimationValue() > 1) {
+					p.setAnimationValue(1);
+					geo.setAnimating(false);
+				} else if (p.getAnimationValue() < 0) {
+					p.setAnimationValue(0);
+					geo.setAnimating(false);
+				}
+				break;
 
-		case GeoElementND.ANIMATION_OSCILLATING:
-		default:
-			if (p.getAnimationValue() >= 1) {
-				p.setAnimationValue(1);
-				geo.changeAnimationDirection();
-			} else if (p.getAnimationValue() <= 0) {
-				p.setAnimationValue(0);
-				geo.changeAnimationDirection();
-			}
-			break;
+			case GeoElementND.ANIMATION_OSCILLATING:
+			default:
+				if (p.getAnimationValue() >= 1) {
+					p.setAnimationValue(1);
+					geo.changeAnimationDirection();
+				} else if (p.getAnimationValue() <= 0) {
+					p.setAnimationValue(0);
+					geo.changeAnimationDirection();
+				}
+				break;
 		}
 
 		// change slider's value without changing animationValue
-		pp.t = PathNormalizer.toParentPathParameter(p.getAnimationValue(),
-				path.getMinParameter(), path.getMaxParameter());
+		pp.t = PathNormalizer.toParentPathParameter(
+				p.getAnimationValue(), path.getMinParameter(), path.getMaxParameter());
 
 		// return whether value of slider has changed
 		if (pp.t != oldValue) {
@@ -2277,8 +2246,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @return whether the value of this number was changed
 	 */
 	@Override
-	public synchronized GeoElementND doAnimationStep(double frameRate,
-			GeoList parent) {
+	public synchronized GeoElementND doAnimationStep(double frameRate, GeoList parent) {
 
 		return doAnimationStep(frameRate, this, path, parent);
 	}
@@ -2307,19 +2275,26 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	final public boolean isCasEvaluableObject() {
+	public final boolean isCasEvaluableObject() {
 		return true;
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 
 		double x1 = a00 * x + a01 * y + a02 * z;
 		double y1 = a10 * x + a11 * y + a12 * z;
 		double z1 = a20 * x + a21 * y + a22 * z;
 		setCoords(x1, y1, z1);
-
 	}
 
 	/**
@@ -2439,8 +2414,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	public void randomizeForProbabilisticChecking() {
-		setCoords(x + (Math.random() * 2 - 1) * z,
-				y + (Math.random() * 2 - 1) * z, z);
+		setCoords(x + (Math.random() * 2 - 1) * z, y + (Math.random() * 2 - 1) * z, z);
 	}
 
 	@Override
@@ -2498,7 +2472,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 */
 	public void setY(double y) {
 		this.y = y;
-
 	}
 
 	/**
@@ -2517,18 +2490,23 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 		resetSpreadsheetColumnHeadings();
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
+				kernel,
+				kernel.getAlgebraProcessor().getXBracket(), // "x("
 				Operation.PLUS,
-				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+				new ExpressionNode(
+						kernel,
+						getNameGeo(), // Name[this]
 						Operation.PLUS,
 						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
+				kernel,
+				kernel.getAlgebraProcessor().getYBracket(), // "y("
 				Operation.PLUS,
-				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+				new ExpressionNode(
+						kernel,
+						getNameGeo(), // Name[this]
 						Operation.PLUS,
 						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
-
 	}
 
 	@Override
@@ -2551,8 +2529,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public void addToSpreadsheetTraceList(
-			ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, inhomX);
 		spreadsheetTraceList.add(xx);
 		if (isPolar()) {
@@ -2562,7 +2539,6 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			GeoNumeric yy = new GeoNumeric(cons, inhomY);
 			spreadsheetTraceList.add(yy);
 		}
-
 	}
 
 	@Override
@@ -2571,8 +2547,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 
 		// if this is a free point
 		if (algoParent == null) {
@@ -2597,8 +2572,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (algoParent == null) {
 			GeoElement[] fixedElements = a.getFixedPoints();
 			if (fixedElements != null) {
@@ -2609,12 +2583,12 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 					}
 				}
 				if (isContained) {
-					int[] result = { 0, 0, 0 };
+					int[] result = {0, 0, 0};
 					return result;
 				}
 			}
 
-			int[] result = { 1, 1, 0 };
+			int[] result = {1, 1, 0};
 			return result;
 		}
 		if (algoParent instanceof SymbolicParametersAlgo) {
@@ -2624,8 +2598,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			final HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (algoParent == null) {
 			BigInteger[] result = new BigInteger[3];
@@ -2638,8 +2611,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			return result;
 		}
 		if (algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent)
-					.getExactCoordinates(values);
+			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates(values);
 		}
 		throw new NoSymbolicParametersException();
 	}
@@ -2654,8 +2626,11 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			if (variableCoordinate2 == null) {
 				variableCoordinate2 = new PVariable(this);
 			}
-			PPolynomial[] ret = { new PPolynomial(variableCoordinate1),
-					new PPolynomial(variableCoordinate2), new PPolynomial(1) };
+			PPolynomial[] ret = {
+				new PPolynomial(variableCoordinate1),
+				new PPolynomial(variableCoordinate2),
+				new PPolynomial(1)
+			};
 			return ret;
 		}
 		if (algoParent instanceof SymbolicParametersAlgo) {
@@ -2665,11 +2640,9 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaVars(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
 
 		if (algoParent == null) {
@@ -2677,8 +2650,8 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 				botanaVars = new PVariable[2];
 				botanaVars[0] = new PVariable(kernel); // ,true
 				botanaVars[1] = new PVariable(kernel); // ,true
-				Log.trace("Free point " + geo.getLabelSimple() + "("
-						+ botanaVars[0] + "," + botanaVars[1] + ")");
+				Log.trace(
+						"Free point " + geo.getLabelSimple() + "(" + botanaVars[0] + "," + botanaVars[1] + ")");
 			}
 			return botanaVars;
 		}
@@ -2687,11 +2660,9 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaPolynomials(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
 		return null; // Here maybe an exception should be thrown...?
 	}
@@ -2726,8 +2697,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	}
 
 	@Override
-	public void set(double param1, double param2, MyPoint leftPoint,
-			MyPoint rightPoint) {
+	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint) {
 		x = param2 * leftPoint.x + param1 * rightPoint.x;
 		y = param2 * leftPoint.y + param1 * rightPoint.y;
 		z = 1.0;
@@ -2735,8 +2705,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	public ValueType getValueType() {
-		return getToStringMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
-				: ValueType.NONCOMPLEX2D;
+		return getToStringMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX : ValueType.NONCOMPLEX2D;
 	}
 
 	@Override
@@ -2751,7 +2720,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 
 	@Override
 	public double[] getPointAsDouble() {
-		return new double[] { inhomX, inhomY, 0 };
+		return new double[] {inhomX, inhomY, 0};
 	}
 
 	/**
@@ -2772,15 +2741,20 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param M
 	 *            output
 	 */
-	public static void setBarycentric(GeoPointND A, GeoPointND B, GeoPointND C,
-			double wA, double wB, double wC, double w, GeoPointND M) {
+	public static void setBarycentric(
+			GeoPointND A,
+			GeoPointND B,
+			GeoPointND C,
+			double wA,
+			double wB,
+			double wC,
+			double w,
+			GeoPointND M) {
 		Coords cA = A.getInhomCoordsInD3();
 		Coords cB = B.getInhomCoordsInD3();
 		Coords cC = C.getInhomCoordsInD3();
-		Coords cM = cA.copy().mulInside(wA / w).addInsideMul(cB, wB / w)
-				.addInsideMul(cC, wC / w);
+		Coords cM = cA.copy().mulInside(wA / w).addInsideMul(cB, wB / w).addInsideMul(cC, wC / w);
 		M.setCoords(cM, false);
-
 	}
 
 	@Override
@@ -2816,19 +2790,17 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 * @param point
 	 *            point
 	 */
-	public static void addAuralArrows(Localization loc, ScreenReaderBuilder sb,
-			GeoPointND point) {
+	public static void addAuralArrows(Localization loc, ScreenReaderBuilder sb, GeoPointND point) {
 		if (point.isPointOnPath()) {
-			sb.append(loc.getMenuDefault("PressPlusMinusToMove",
-					"Press plus and minus to move the object"));
+			sb.append(
+					loc.getMenuDefault("PressPlusMinusToMove", "Press plus and minus to move the object"));
 		} else if (point.isIndependent() || point.isPointInRegion()) {
 			String moveFree = "Press the arrow keys to move the object";
 			if (point.isGeoElement3D()) {
-				sb.append(loc.getMenuDefault("PressArrowsPageUpToMove",
-						moveFree + " in x and y, Page Up, Page Down to move in z"));
+				sb.append(loc.getMenuDefault(
+						"PressArrowsPageUpToMove", moveFree + " in x and y, Page Up, Page Down to move in z"));
 			} else {
-				sb.append(loc.getMenuDefault("PressArrowsToMove",
-						moveFree));
+				sb.append(loc.getMenuDefault("PressArrowsToMove", moveFree));
 			}
 		}
 		sb.endSentence();
@@ -2853,8 +2825,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	 *            point
 	 * @return description of new position
 	 */
-	public static String pointMovedAural(Localization loc,
-			GeoPointND geoPoint) {
+	public static String pointMovedAural(Localization loc, GeoPointND geoPoint) {
 
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
 		if (!geoPoint.addAuralCaption(sb)) {
@@ -2863,11 +2834,10 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 			return sb.toString();
 		}
 		ScreenReaderBuilder sbWithValue = new ScreenReaderBuilder(loc);
-		sbWithValue.appendDegreeIfNeeded(geoPoint,
-				geoPoint.toValueString(geoPoint.getApp().getScreenReaderTemplate()));
-		return loc.getPlainDefault("PointAMovedToB", "Point %0 moved to %1",
-				sb.toString(),
-				sbWithValue.toString());
+		sbWithValue.appendDegreeIfNeeded(
+				geoPoint, geoPoint.toValueString(geoPoint.getApp().getScreenReaderTemplate()));
+		return loc.getPlainDefault(
+				"PointAMovedToB", "Point %0 moved to %1", sb.toString(), sbWithValue.toString());
 	}
 
 	@Override
@@ -2926,7 +2896,7 @@ public class GeoPoint extends GeoPointVector implements VectorValue, PathOrPoint
 	protected boolean isCommandOutput() {
 		if (algoParent != null
 				&& (algoParent.getClass() == AlgoPointOnPath.class
-				|| algoParent.getClass() == AlgoPointInRegion.class)) {
+						|| algoParent.getClass() == AlgoPointInRegion.class)) {
 			return false;
 		}
 		return super.isCommandOutput();

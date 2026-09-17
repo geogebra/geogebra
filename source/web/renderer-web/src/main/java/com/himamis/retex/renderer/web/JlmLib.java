@@ -23,23 +23,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.web;
@@ -71,11 +71,17 @@ public class JlmLib {
 		initString.append(string);
 	}
 
-	public FormulaRenderingResult drawLatex(final CanvasRenderingContext2D ctx,
+	public FormulaRenderingResult drawLatex(
+			final CanvasRenderingContext2D ctx,
 			final TeXFormula formula,
-			final double size, final int type, final int x, final int y,
-			final Insets insets, final String fgColorString,
-			final String bgColorString, final DrawingFinishedCallback callback,
+			final double size,
+			final int type,
+			final int x,
+			final int y,
+			final Insets insets,
+			final String fgColorString,
+			final String bgColorString,
+			final DrawingFinishedCallback callback,
 			HTMLCanvasElement canvasElement) {
 
 		// init jlm with the given string
@@ -102,20 +108,30 @@ public class JlmLib {
 		return DomGlobal.window.devicePixelRatio;
 	}
 
-	public static FormulaRenderingResult draw(TeXIcon icon, CanvasRenderingContext2D ctx,
-			final int x, final int y, final String fgColorString,
-			final String bgColorString, final DrawingFinishedCallback callback) {
-		return draw(icon, ctx, x, y, decode(fgColorString),
-				decode(bgColorString), callback, getPixelRatio());
+	public static FormulaRenderingResult draw(
+			TeXIcon icon,
+			CanvasRenderingContext2D ctx,
+			final int x,
+			final int y,
+			final String fgColorString,
+			final String bgColorString,
+			final DrawingFinishedCallback callback) {
+		return draw(
+				icon, ctx, x, y, decode(fgColorString), decode(bgColorString), callback, getPixelRatio());
 	}
 
 	public static GColor decode(String color) {
 		return color == null ? null : Colors.decode(color);
 	}
 
-	public static FormulaRenderingResult draw(TeXIcon icon, CanvasRenderingContext2D ctx,
-			final double x, final double y, final GColor fgColor,
-			final GColor bgColor, final DrawingFinishedCallback callback,
+	public static FormulaRenderingResult draw(
+			TeXIcon icon,
+			CanvasRenderingContext2D ctx,
+			final double x,
+			final double y,
+			final GColor fgColor,
+			final GColor bgColor,
+			final DrawingFinishedCallback callback,
 			double ratio) {
 		Graphics2DW g2 = new Graphics2DW(ctx);
 
@@ -141,17 +157,18 @@ public class JlmLib {
 		return createReturnValue(icon, ratio);
 	}
 
-	public static TeXIcon createIcon(final TeXFormula formula, final double size,
-			final int type, Insets insets) {
+	public static TeXIcon createIcon(
+			final TeXFormula formula, final double size, final int type, Insets insets) {
 		TeXIcon icon = formula.new TeXIconBuilder()
-				.setStyle(TeXConstants.STYLE_DISPLAY).setType(type)
-				.setSize(size).build();
+				.setStyle(TeXConstants.STYLE_DISPLAY)
+				.setType(type)
+				.setSize(size)
+				.build();
 		icon.setInsets(insets);
 		return icon;
 	}
 
-	private static FormulaRenderingResult createReturnValue(TeXIcon icon,
-			double ratio) {
+	private static FormulaRenderingResult createReturnValue(TeXIcon icon, double ratio) {
 		FormulaRenderingResult object = new FormulaRenderingResult();
 		object.width = icon.getIconWidth();
 		object.height = icon.getIconHeight();

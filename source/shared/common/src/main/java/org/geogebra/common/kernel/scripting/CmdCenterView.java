@@ -30,7 +30,7 @@ import org.geogebra.common.main.MyError;
 public class CmdCenterView extends CmdScripting {
 	/**
 	 * Creates new ZooomOut command
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,20 +43,19 @@ public class CmdCenterView extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 1:
-			GeoElement[] arg = resArgs(c);
-			if (arg[0].isGeoPoint()) {
-				GeoPointND p = (GeoPointND) arg[0];
+			case 1:
+				GeoElement[] arg = resArgs(c);
+				if (arg[0].isGeoPoint()) {
+					GeoPointND p = (GeoPointND) arg[0];
 
-				EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
-				ev.centerView(p);
-				return arg;
+					EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
+					ev.centerView(p);
+					return arg;
+				}
+				throw argErr(c, arg[0]);
 
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

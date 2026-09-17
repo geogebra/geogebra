@@ -44,19 +44,17 @@ public class CmdExecute extends CmdScripting {
 	}
 
 	@Override
-	final public GeoElement[] perform(Command c) throws MyError {
+	public final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n > 10 || n == 0) {
 			throw argNumErr(c);
 		}
-		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0
-				|| !arg[0].isDefined()) {
+		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0 || !arg[0].isDefined()) {
 			return new GeoElement[0];
 		}
-		if (!arg[0].isGeoList() || !arg[0]
-				.getGeoElementForPropertiesDialog().isGeoText()) {
+		if (!arg[0].isGeoList() || !arg[0].getGeoElementForPropertiesDialog().isGeoText()) {
 			throw argErr(c, arg[0]);
 		}
 		GeoList list = (GeoList) arg[0];
@@ -71,12 +69,12 @@ public class CmdExecute extends CmdScripting {
 			try {
 				String cmdText = ((GeoText) list.get(i)).getTextStringSafe();
 				for (int k = 1; k < n; k++) {
-					cmdText = cmdText.replace("%" + k,
-							arg[k].getLabel(StringTemplate.maxDecimals));
+					cmdText = cmdText.replace("%" + k, arg[k].getLabel(StringTemplate.maxDecimals));
 				}
-				kernel.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(cmdText,
-								false, app.getErrorHandler(), false, null);
+				kernel
+						.getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(
+								cmdText, false, app.getErrorHandler(), false, null);
 			} catch (MyError e) {
 				app.showError(e);
 				break;

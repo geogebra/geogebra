@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 /**
  * Interface for elements with numeric value (numerics, segments, polygons, ...)
  * and their counterparts from geogebra.common.kernel.arithmetic (MyDouble)
- * 
+ *
  * @author Markus
  */
 public interface NumberValue extends ExpressionValue, GeoElementConvertible {
@@ -45,7 +45,7 @@ public interface NumberValue extends ExpressionValue, GeoElementConvertible {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return value of this number
 	 */
 	double getDouble();

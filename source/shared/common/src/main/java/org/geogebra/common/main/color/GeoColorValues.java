@@ -25,7 +25,7 @@ import org.geogebra.common.awt.GColor;
  * Colors for construction elements.
  */
 public final class GeoColorValues {
-	
+
 	/**
 	 * @return default colors.
 	 * @apiNote The returned list may contain {@code null} values. These {@code null} values

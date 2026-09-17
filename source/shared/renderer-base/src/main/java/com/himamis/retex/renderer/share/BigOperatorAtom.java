@@ -97,8 +97,7 @@ public class BigOperatorAtom extends Atom implements HasTrueBase {
 		Atom trueBase = base.getBase();
 
 		if ((base.type_limits == TeXConstants.SCRIPT_NOLIMITS)
-				|| (base.type_limits == TeXConstants.SCRIPT_NORMAL
-						&& style >= TeXConstants.STYLE_TEXT)) {
+				|| (base.type_limits == TeXConstants.SCRIPT_NORMAL && style >= TeXConstants.STYLE_TEXT)) {
 			return new ScriptsAtom(base, under, over).createBox(env);
 		} else {
 			// delta = italic
@@ -121,8 +120,7 @@ public class BigOperatorAtom extends Atom implements HasTrueBase {
 
 			// make boxes equally wide
 			double maxWidth = Math.max(
-					Math.max(x == null ? 0. : x.getWidth(), y.getWidth()),
-					z == null ? 0. : z.getWidth());
+					Math.max(x == null ? 0. : x.getWidth(), y.getWidth()), z == null ? 0. : z.getWidth());
 			x = changeWidth(x, maxWidth);
 			y = changeWidth(y, maxWidth);
 			z = changeWidth(z, maxWidth);
@@ -138,8 +136,7 @@ public class BigOperatorAtom extends Atom implements HasTrueBase {
 				vBox.add(new StrutBox(0., bigop5, 0., 0.));
 				x.setShift(delta / 2.);
 				vBox.add(x);
-				kern = Math.max(tf.getBigOpSpacing1(style),
-						tf.getBigOpSpacing3(style) - x.getDepth());
+				kern = Math.max(tf.getBigOpSpacing1(style), tf.getBigOpSpacing3(style) - x.getDepth());
 				vBox.add(new StrutBox(0., kern, 0., 0.));
 			}
 
@@ -148,8 +145,7 @@ public class BigOperatorAtom extends Atom implements HasTrueBase {
 
 			// under
 			if (under != null) {
-				double k = Math.max(tf.getBigOpSpacing2(style),
-						tf.getBigOpSpacing4(style) - z.getHeight());
+				double k = Math.max(tf.getBigOpSpacing2(style), tf.getBigOpSpacing4(style) - z.getHeight());
 				vBox.add(new StrutBox(0., k, 0., 0.));
 				z.setShift(-delta / 2.);
 				vBox.add(z);

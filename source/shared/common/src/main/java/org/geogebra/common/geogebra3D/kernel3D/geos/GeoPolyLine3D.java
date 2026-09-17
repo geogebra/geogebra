@@ -36,12 +36,11 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
- * 
+ *
  * @author ggb3D
- * 
+ *
  */
-public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
-		MirrorableAtPlane {
+public class GeoPolyLine3D extends GeoPolyLine implements RotatableND, MirrorableAtPlane {
 
 	private int index1;
 	private int index2;
@@ -51,6 +50,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 
 	/** for possibly planar object */
 	private boolean isPlanar = false;
+
 	private Coords normal = null;
 	private Coords tmpCoords;
 
@@ -58,7 +58,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 
 	/**
 	 * common constructor for 3D.
-	 * 
+	 *
 	 * @param c
 	 *            the construction
 	 * @param points
@@ -86,7 +86,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 
 	/**
 	 * it's a 3D GeoElement.
-	 * 
+	 *
 	 * @return true
 	 */
 	@Override
@@ -128,8 +128,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 		if (points.length != poly.getPointsND().length) {
 			GeoPointND[] tempPoints = new GeoPointND[poly.getPointsND().length];
 			for (int i = 0; i < tempPoints.length; i++) {
-				tempPoints[i] = i < points.length ? points[i]
-						: createNewPoint();
+				tempPoints[i] = i < points.length ? points[i] : createNewPoint();
 			}
 			points = tempPoints;
 		}
@@ -140,7 +139,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 
 	/**
 	 * The only place where GeoPoint3D is directly referred to
-	 * 
+	 *
 	 * @return 3D point
 	 */
 	protected GeoPointND createNewPoint() {
@@ -257,14 +256,21 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a10,
-			double a11) {
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		// TODO
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 		// TODO
 	}
 
@@ -304,11 +310,10 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 		direction1 = direction2 = direction3 = null;
 
 		for (; index1 < getNumPoints() - 1; index1++) {
-			if (!points[index1].getInhomCoordsInD3().equalsForKernel(
-					points[0].getInhomCoordsInD3(),
-					Kernel.STANDARD_PRECISION)) {
-				direction1 = points[index1].getInhomCoordsInD3()
-						.sub(points[0].getInhomCoordsInD3());
+			if (!points[index1]
+					.getInhomCoordsInD3()
+					.equalsForKernel(points[0].getInhomCoordsInD3(), Kernel.STANDARD_PRECISION)) {
+				direction1 = points[index1].getInhomCoordsInD3().sub(points[0].getInhomCoordsInD3());
 				break;
 			}
 		}
@@ -319,11 +324,9 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 		}
 
 		for (index2 = index1 + 1; index2 < getNumPoints(); index2++) {
-			direction2 = points[index2].getInhomCoordsInD3()
-					.sub(points[index1].getInhomCoordsInD3());
+			direction2 = points[index2].getInhomCoordsInD3().sub(points[index1].getInhomCoordsInD3());
 			normal = direction1.crossProduct(direction2);
-			if (!normal.equalsForKernel(new Coords(0, 0, 0),
-					Kernel.STANDARD_PRECISION)) {
+			if (!normal.equalsForKernel(new Coords(0, 0, 0), Kernel.STANDARD_PRECISION)) {
 				break;
 			}
 			direction2 = null;
@@ -336,10 +339,10 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 		}
 
 		if (index2 + 1 < getNumPoints()) {
-			direction3 = points[index2 + 1].getInhomCoordsInD3()
-					.sub(points[index2].getInhomCoordsInD3());
-			if (!direction3.crossProduct(normal).equalsForKernel(
-					new Coords(0, 0, 0), Kernel.STANDARD_PRECISION)) {
+			direction3 = points[index2 + 1].getInhomCoordsInD3().sub(points[index2].getInhomCoordsInD3());
+			if (!direction3
+					.crossProduct(normal)
+					.equalsForKernel(new Coords(0, 0, 0), Kernel.STANDARD_PRECISION)) {
 				isPlanar = false;
 				return;
 			}
@@ -361,5 +364,4 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotatableND,
 			((MirrorableAtPlane) points[i]).mirror(plane);
 		}
 	}
-
 }

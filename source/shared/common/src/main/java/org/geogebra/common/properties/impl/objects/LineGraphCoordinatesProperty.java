@@ -76,7 +76,9 @@ public class LineGraphCoordinatesProperty extends AbstractValuedProperty<String>
 
 	@Override
 	public @Nullable String getValue() {
-		return algoLineGraph.getInput(axis.algoParamIndex).toGeoElement()
+		return algoLineGraph
+				.getInput(axis.algoParamIndex)
+				.toGeoElement()
 				.getLabel(StringTemplate.editorTemplate);
 	}
 
@@ -94,8 +96,12 @@ public class LineGraphCoordinatesProperty extends AbstractValuedProperty<String>
 
 	@Override
 	protected void doSetValue(String value) {
-		CommandRedefineHelper.redefineWithParam(geoFunction, algoLineGraph, axis.algoParamIndex,
-				value, algoLineGraph.getKernel().getApplication());
+		CommandRedefineHelper.redefineWithParam(
+				geoFunction,
+				algoLineGraph,
+				axis.algoParamIndex,
+				value,
+				algoLineGraph.getKernel().getApplication());
 	}
 
 	@Override

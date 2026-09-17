@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -74,22 +74,27 @@ public class DrawConicPart3D extends DrawConic3D {
 		}
 	}
 
-	private void updateSectorSegments(PlotterBrush brush, double start,
-			double end) {
+	private void updateSectorSegments(PlotterBrush brush, double start, double end) {
 
 		// if sector draws segments
-		if (((GeoConicPartND) getGeoElement())
-				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
+		if (((GeoConicPartND) getGeoElement()).getConicPartType()
+				== GeoConicNDConstants.CONIC_PART_SECTOR) {
 			brush.setAffineTexture(0.5f, 0.25f);
 			createTmpCoordsIfNeeded();
-			brush.segment(m, tmpCoords1.setAdd3(
-					m, tmpCoords1.setAdd3(
-							tmpCoords2.setMul3(ev1, e1 * Math.cos(start)),
-							tmpCoords3.setMul3(ev2, e2 * Math.sin(start)))));
-			brush.segment(m, tmpCoords1.setAdd3(
-					m, tmpCoords1.setAdd3(
-							tmpCoords2.setMul3(ev1, e1 * Math.cos(end)),
-							tmpCoords3.setMul3(ev2, e2 * Math.sin(end)))));
+			brush.segment(
+					m,
+					tmpCoords1.setAdd3(
+							m,
+							tmpCoords1.setAdd3(
+									tmpCoords2.setMul3(ev1, e1 * Math.cos(start)),
+									tmpCoords3.setMul3(ev2, e2 * Math.sin(start)))));
+			brush.segment(
+					m,
+					tmpCoords1.setAdd3(
+							m,
+							tmpCoords1.setAdd3(
+									tmpCoords2.setMul3(ev1, e1 * Math.cos(end)),
+									tmpCoords3.setMul3(ev2, e2 * Math.sin(end)))));
 		}
 	}
 
@@ -97,16 +102,16 @@ public class DrawConicPart3D extends DrawConic3D {
 	protected void updateLines(PlotterBrush brush) {
 
 		if (((GeoConicPartND) conic).positiveOrientation()) {
-			brush.segment(conic.getOrigin3D(0),
-					((GeoConicPartND) conic).getSegmentEnd3D());
+			brush.segment(conic.getOrigin3D(0), ((GeoConicPartND) conic).getSegmentEnd3D());
 		} else {
 			m = conic.getOrigin3D(0);
 			createTmpCoordsIfNeeded();
 			d = tmpCoords2.setSub(((GeoConicPartND) conic).getSegmentEnd3D(), m);
 			minmax = getLineMinMax(0); // get min/max with current (m,d)
-			
+
 			brush.segment(m, tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[0])));
-			brush.segment(((GeoConicPartND) conic).getSegmentEnd3D(),
+			brush.segment(
+					((GeoConicPartND) conic).getSegmentEnd3D(),
 					tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[1])));
 		}
 	}
@@ -124,8 +129,7 @@ public class DrawConicPart3D extends DrawConic3D {
 
 	@Override
 	protected boolean isSector() {
-		return ((GeoConicPartND) conic)
-				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR;
+		return ((GeoConicPartND) conic).getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR;
 	}
 
 	@Override
@@ -138,5 +142,4 @@ public class DrawConicPart3D extends DrawConic3D {
 			}
 		}
 	}
-
 }

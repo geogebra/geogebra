@@ -43,8 +43,7 @@ public class FocusableCompositeW extends AbstractFocusableComposite<FocusablePar
 	 * @param am accessibility manager used to register this composite focus container
 	 * @param isRowFocused predicate determining whether this composite is currently focused
 	 */
-	public FocusableCompositeW(AccessibilityManagerInterface am,
-			BooleanSupplier isRowFocused) {
+	public FocusableCompositeW(AccessibilityManagerInterface am, BooleanSupplier isRowFocused) {
 		this.isRowFocused = isRowFocused;
 	}
 

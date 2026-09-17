@@ -37,5 +37,4 @@ public class EuclidianControllerNoGui extends EuclidianController {
 	protected void resetToolTipManager() {
 		// TODO Auto-generated method stub
 	}
-
 }

@@ -41,7 +41,7 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 	public QueryFunctionDataImpl(IntervalTupleList tuples) {
 		this.tuples = tuples;
 	}
-	
+
 	/**
 	 *
 	 * @param index to get point at
@@ -54,9 +54,7 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 
 	@Override
 	public IntervalSet yTopologyAt(int index) {
-		return isValidIndex(index)
-				? at(index).ySet()
-				: IntervalSet.empty();
+		return isValidIndex(index) ? at(index).ySet() : IntervalSet.empty();
 	}
 
 	@Override
@@ -124,7 +122,8 @@ public class QueryFunctionDataImpl implements QueryFunctionData {
 		if (xRange.isUndefined()) {
 			allIndexes().forEach(action);
 		} else {
-			allIndexes().filter(index -> xRange.contains(connectedInterval(at(index).xSet())))
+			allIndexes()
+					.filter(index -> xRange.contains(connectedInterval(at(index).xSet())))
 					.forEach(action);
 		}
 	}

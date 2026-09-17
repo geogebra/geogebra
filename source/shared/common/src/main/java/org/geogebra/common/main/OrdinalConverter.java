@@ -31,26 +31,26 @@ public class OrdinalConverter {
 	 */
 	public static String getOrdinalNumber(Language language, int number) {
 		switch (language) {
-		case Bulgarian:
-			return getOrdinalNumberForBulgarian(number);
-		case Catalan:
-		case Valencian:
-			return getOrdinalNumberForCatalan(number);
-		case French:
-			return getOrdinalNumberForFrench(number);
-		case English_Australia:
-		case English_UK:
-		case English_US:
-			return getOrdinalNumberForEnglish(number);
-		case Hebrew:
-		case Yiddish:
-			return getOrdinalNumberForHebrew(number);
-		case Indonesian:
-			return getOrdinalNumberForIndonesian(number);
-		case Swedish:
-			return getOrdinalNumberForSwedish(number);
-		default:
-			return number + "";
+			case Bulgarian:
+				return getOrdinalNumberForBulgarian(number);
+			case Catalan:
+			case Valencian:
+				return getOrdinalNumberForCatalan(number);
+			case French:
+				return getOrdinalNumberForFrench(number);
+			case English_Australia:
+			case English_UK:
+			case English_US:
+				return getOrdinalNumberForEnglish(number);
+			case Hebrew:
+			case Yiddish:
+				return getOrdinalNumberForHebrew(number);
+			case Indonesian:
+				return getOrdinalNumberForIndonesian(number);
+			case Swedish:
+				return getOrdinalNumberForSwedish(number);
+			default:
+				return number + "";
 		}
 	}
 
@@ -61,12 +61,12 @@ public class OrdinalConverter {
 	 */
 	private static String getOrdinalNumberForBulgarian(int number) {
 		switch (number % 10) {
-		case 1:
-			return number + "-\u0432\u0438";
-		case 2:
-			return number + "-\u0440\u0438";
-		default:
-			return number + "-\u0442\u0438";
+			case 1:
+				return number + "-\u0432\u0438";
+			case 2:
+				return number + "-\u0440\u0438";
+			default:
+				return number + "-\u0442\u0438";
 		}
 	}
 
@@ -77,18 +77,18 @@ public class OrdinalConverter {
 	 */
 	private static String getOrdinalNumberForCatalan(int number) {
 		switch (number) {
-		case 0:
-			return number + "";
-		case 1:
-			return number + "r";
-		case 2:
-			return number + "n";
-		case 3:
-			return number + "r";
-		case 4:
-			return number + "t";
-		default:
-			return number + "e";
+			case 0:
+				return number + "";
+			case 1:
+				return number + "r";
+			case 2:
+				return number + "n";
+			case 3:
+				return number + "r";
+			case 4:
+				return number + "t";
+			default:
+				return number + "e";
 		}
 	}
 
@@ -110,14 +110,14 @@ public class OrdinalConverter {
 		int unitsDigit = number % 10;
 
 		switch (unitsDigit) {
-		case 1:
-			return number + "st";
-		case 2:
-			return number + "nd";
-		case 3:
-			return number + "rd";
-		default:
-			return number + "th";
+			case 1:
+				return number + "st";
+			case 2:
+				return number + "nd";
+			case 3:
+				return number + "rd";
+			default:
+				return number + "th";
 		}
 	}
 
@@ -161,5 +161,4 @@ public class OrdinalConverter {
 		}
 		return number + ":a";
 	}
-
 }

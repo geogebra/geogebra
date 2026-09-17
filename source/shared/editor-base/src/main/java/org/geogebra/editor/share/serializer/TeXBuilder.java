@@ -94,7 +94,7 @@ public class TeXBuilder {
 	private final TeXSerializer teXSerializer;
 	private boolean useSimplePlaceholders = false;
 
-	private final static HashMap<Character, String> replacements = new HashMap<>();
+	private static final HashMap<Character, String> replacements = new HashMap<>();
 
 	static {
 		replacements.put('%', "textpercent");
@@ -188,17 +188,21 @@ public class TeXBuilder {
 	}
 
 	private Atom buildPlaceholder(PlaceholderNode placeholder) {
-		return new ColorAtom(buildString(placeholder.getContent()), null,
-				FactoryProvider.getInstance().getGraphicsFactory()
+		return new ColorAtom(
+				buildString(placeholder.getContent()),
+				null,
+				FactoryProvider.getInstance()
+						.getGraphicsFactory()
 						.createColor(TeXSerializer.commandPlaceholderColor));
 	}
 
 	private Atom fancyPlaceholder(Node placeholder) {
-		Atom ret = new InputAtom(build(placeholder),
-				FactoryProvider.getInstance().getGraphicsFactory()
+		Atom ret = new InputAtom(
+				build(placeholder),
+				FactoryProvider.getInstance()
+						.getGraphicsFactory()
 						.createColor(TeXSerializer.placeholderBackground),
-				FactoryProvider.getInstance().getGraphicsFactory()
-						.createColor(TeXBuilder.INPUT_BORDER));
+				FactoryProvider.getInstance().getGraphicsFactory().createColor(TeXBuilder.INPUT_BORDER));
 		atomToNode.put(ret, placeholder);
 		return ret;
 	}
@@ -238,10 +242,10 @@ public class TeXBuilder {
 	private Atom getPlaceholderBox(double yScale) {
 		return new ColorAtom(
 				new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, yScale),
-				FactoryProvider.getInstance().getGraphicsFactory()
+				FactoryProvider.getInstance()
+						.getGraphicsFactory()
 						.createColor(TeXSerializer.placeholderColor),
-				null
-		);
+				null);
 	}
 
 	private Atom addToSub(Atom lastAtom, Atom sub) {
@@ -296,23 +300,26 @@ public class TeXBuilder {
 
 	private Atom newCharAtom(char unicode) {
 		switch (unicode) {
-		case ' ':
-			return new SpaceAtom();
-		case '^':
-			return new AccentedAtom(new SpaceAtom(), Symbols.HAT);
-		case '_':
-			return new UnderscoreAtom();
-		case '\u2032':
-			return asScript(parser.getAtomFromUnicode(unicode, false));
-		case '\u2033':
-			return asScript(new RowAtom(parser.getAtomFromUnicode('\u2032', false),
-					parser.getAtomFromUnicode('\u2032', false)));
-		case Unicode.DEGREE_CHAR:
-			return asScript(parser.getAtomFromUnicode('\u2218', false));
+			case ' ':
+				return new SpaceAtom();
+			case '^':
+				return new AccentedAtom(new SpaceAtom(), Symbols.HAT);
+			case '_':
+				return new UnderscoreAtom();
+			case '\u2032':
+				return asScript(parser.getAtomFromUnicode(unicode, false));
+			case '\u2033':
+				return asScript(new RowAtom(
+						parser.getAtomFromUnicode('\u2032', false),
+						parser.getAtomFromUnicode('\u2032', false)));
+			case Unicode.DEGREE_CHAR:
+				return asScript(parser.getAtomFromUnicode('\u2218', false));
 
-		case ':':
-			return new ResizeAtom(new TypedAtom(TeXConstants.TYPE_PUNCTUATION,
-					parser.getAtomFromUnicode(unicode, true)), null, null);
+			case ':':
+				return new ResizeAtom(
+						new TypedAtom(TeXConstants.TYPE_PUNCTUATION, parser.getAtomFromUnicode(unicode, true)),
+						null,
+						null);
 		}
 
 		String replacement = replacements.get(unicode);
@@ -330,8 +337,7 @@ public class TeXBuilder {
 	}
 
 	private Atom asScript(Atom content) {
-		Atom script = new ScriptsAtom(EmptyAtom.get(), null,
-				content);
+		Atom script = new ScriptsAtom(EmptyAtom.get(), null, content);
 		return new ResizeAtom(script, null, null);
 	}
 
@@ -352,13 +358,18 @@ public class TeXBuilder {
 			return getFencedMatrix(atoms);
 
 		} else if (array.getOpenDelimiter().getCharacter() == '"') {
-			Atom argument = new RowAtom(newCharAtom(Unicode.OPEN_DOUBLE_QUOTE),
-					build(array.getChild(0)), newCharAtom(Unicode.CLOSE_DOUBLE_QUOTE));
+			Atom argument = new RowAtom(
+					newCharAtom(Unicode.OPEN_DOUBLE_QUOTE),
+					build(array.getChild(0)),
+					newCharAtom(Unicode.CLOSE_DOUBLE_QUOTE));
 
 			return new RomanAtom(new TextStyleAtom(argument, TextStyle.MATHNORMAL));
 		} else {
-			return buildFenced(array.getOpenDelimiter().getCharacter(),
-					array.getCloseDelimiter().getCharacter(), array, 0);
+			return buildFenced(
+					array.getOpenDelimiter().getCharacter(),
+					array.getCloseDelimiter().getCharacter(),
+					array,
+					0);
 		}
 	}
 
@@ -378,13 +389,16 @@ public class TeXBuilder {
 		return atom;
 	}
 
-	private Atom buildFenced(char leftKey, char rightKey,
-			InternalNode argument, int offset) {
+	private Atom buildFenced(char leftKey, char rightKey, InternalNode argument, int offset) {
 		return buildFenced(leftKey, rightKey, argument, offset, ',', this::build);
 	}
 
-	private Atom buildFenced(char leftKey, char rightKey,
-			InternalNode argument, int offset, char delimiter,
+	private Atom buildFenced(
+			char leftKey,
+			char rightKey,
+			InternalNode argument,
+			int offset,
+			char delimiter,
 			Function<Node, Atom> transform) {
 		RowAtom row = new RowAtom((Atom) null);
 		for (int i = offset; i < argument.size(); i++) {
@@ -393,203 +407,170 @@ public class TeXBuilder {
 			}
 			row.add(transform.apply(argument.getChild(i)));
 		}
-		return new FencedAtom(row,
-				new SymbolAtom(lookupBracket(leftKey), TeXConstants.TYPE_OPENING,
-						leftKey),
-				new SymbolAtom(lookupBracket(rightKey), TeXConstants.TYPE_CLOSING,
-						rightKey));
+		return new FencedAtom(
+				row,
+				new SymbolAtom(lookupBracket(leftKey), TeXConstants.TYPE_OPENING, leftKey),
+				new SymbolAtom(lookupBracket(rightKey), TeXConstants.TYPE_CLOSING, rightKey));
 	}
 
 	private static String lookupBracket(char bracket) {
 		switch (bracket) {
-		case '(':
-			return "lbrack";
-		case ')':
-			return "rbrack";
-		case '{':
-			return "lbrace";
-		case '}':
-			return "rbrace";
-		case '[':
-			return "lsqbrack";
-		case ']':
-			return "rsqbrack";
-		case '\u3008':
-			return "langle";
-		case '\u3009':
-			return "rangle";
-		case '\u2308':
-			return "lceil";
-		case '\u2309':
-			return "rceil";
-		case '\u230A':
-			return "lfloor";
-		case '\u230B':
-			return "rfloor";
-		case '|':
-			return "vert";
-		default:
-			debugS("missing case in lookupBracket()");
-			return "";
+			case '(':
+				return "lbrack";
+			case ')':
+				return "rbrack";
+			case '{':
+				return "lbrace";
+			case '}':
+				return "rbrace";
+			case '[':
+				return "lsqbrack";
+			case ']':
+				return "rsqbrack";
+			case '\u3008':
+				return "langle";
+			case '\u3009':
+				return "rangle";
+			case '\u2308':
+				return "lceil";
+			case '\u2309':
+				return "rceil";
+			case '\u230A':
+				return "lfloor";
+			case '\u230B':
+				return "rfloor";
+			case '|':
+				return "vert";
+			default:
+				debugS("missing case in lookupBracket()");
+				return "";
 		}
 	}
 
 	private Atom buildFunction(FunctionNode argument) {
 		switch (argument.getName()) {
-		case SUPERSCRIPT:
-			return new ScriptsAtom(
-					new EmptyAtom(),
-					null,
-					build(argument.getChild(0))
-			);
-		case SUBSCRIPT:
-			return new ScriptsAtom(
-					new EmptyAtom(),
-					build(argument.getChild(0)),
-					null
-			);
-		case FRAC:
-			return new FractionAtom(build(argument.getChild(0)),
-					build(argument.getChild(1)));
-		case SQRT:
-			return new NthRoot(build(argument.getChild(0)), new EmptyAtom());
-		case CBRT:
-			return new NthRoot(build(argument.getChild(0)), newCharAtom('3'));
-		case NROOT:
-			return new NthRoot(build(argument.getChild(1)),
-					build(argument.getChild(0)));
-		case LOG:
-			Atom log = new RomanAtom(buildString("log"));
-			if (argument.getChild(0).size() > 0
-					|| currentNode == argument.getChild(0)) {
-				log = new ScriptsAtom(log, build(argument.getChild(0)), new RowAtom());
-			}
-
-			return wrap(
-					log,
-					buildFenced('(', ')', argument, 1)
-			);
-		case LOG_POWER:
-			Atom logPower = new RomanAtom(buildString("log"));
-			if (argument.getChild(0).size() > 0
-					|| argument.getChild(1).size() > 0
-					|| currentNode == argument.getChild(0)
-					|| currentNode == argument.getChild(1)) {
-				logPower = new ScriptsAtom(logPower, build(argument.getChild(0)),
-						build(argument.getChild(1)));
-			}
-
-			return wrap(
-					logPower,
-					buildFenced('(', ')', argument, 2)
-			);
-		case ABS:
-			return buildFenced('|', '|', argument, 0);
-		case FLOOR:
-			return buildFenced('\u230A', '\u230B', argument, 0);
-		case CEIL:
-			return buildFenced('\u2308', '\u2309', argument, 0);
-		case DEF_INT:
-			return new ScriptsAtom(
-					Symbols.INT.duplicate(),
-					build(argument.getChild(0)),
-					build(argument.getChild(1))
-			);
-		case INTEGRAL, N_INTEGRAL, INTEGRAL_SYMBOLIC:
-			return buildIntegral(argument);
-		case SUM_EQ:
-			Atom sum = newCharAtom('\u2211');
-			sum.type_limits = TeXConstants.SCRIPT_NORMAL;
-			return new ScriptsAtom(
-					sum,
-					build(argument.getChild(0)),
-					build(argument.getChild(1))
-			);
-		case PROD_EQ:
-			Atom prod = newCharAtom('\u220F');
-			prod.type_limits = TeXConstants.SCRIPT_NORMAL;
-			return new ScriptsAtom(
-					prod,
-					build(argument.getChild(0)),
-					build(argument.getChild(1))
-			);
-		case LIM_EQ:
-			return new ScriptsAtom(
-					CommandOpName.createOperation("lim", null, true),
-					build(argument.getChild(0)),
-					null
-			);
-		case VEC:
-			return new UnderOverArrowAtom(build(argument.getChild(0)), false, true);
-		case ATOMIC_POST:
-			return new ScriptsAtom(
-					build(argument.getChild(0)),
-					build(argument.getChild(1)),
-					build(argument.getChild(2))
-			);
-		case ATOMIC_PRE:
-			Atom arg1 = build(argument.getChild(0));
-			Atom arg2 = build(argument.getChild(1));
-			Atom arg3 = build(argument.getChild(2));
-			ScriptsAtom scriptsAtom = new ScriptsAtom(EmptyAtom.get(), arg1, arg2,
-					TeXConstants.Align.RIGHT);
-			return wrap(scriptsAtom, arg3);
-		case POINT:
-			return buildFenced('(', ')', argument, 0, ',', this::fancyPlaceholder);
-		case POINT_AT:
-			return buildFenced('(', ')', argument, 0, '|', this::fancyPlaceholder);
-		case VECTOR:
-			ArrayOfAtoms rows = new ArrayOfAtoms();
-			for (int i = 0; i < argument.size(); i++) {
-				SequenceNode coord = argument.getChild(i);
-				if (coord != null) {
-					rows.add(fancyPlaceholder(coord));
-					rows.add(EnvArray.RowSep.get());
+			case SUPERSCRIPT:
+				return new ScriptsAtom(new EmptyAtom(), null, build(argument.getChild(0)));
+			case SUBSCRIPT:
+				return new ScriptsAtom(new EmptyAtom(), build(argument.getChild(0)), null);
+			case FRAC:
+				return new FractionAtom(build(argument.getChild(0)), build(argument.getChild(1)));
+			case SQRT:
+				return new NthRoot(build(argument.getChild(0)), new EmptyAtom());
+			case CBRT:
+				return new NthRoot(build(argument.getChild(0)), newCharAtom('3'));
+			case NROOT:
+				return new NthRoot(build(argument.getChild(1)), build(argument.getChild(0)));
+			case LOG:
+				Atom log = new RomanAtom(buildString("log"));
+				if (argument.getChild(0).size() > 0 || currentNode == argument.getChild(0)) {
+					log = new ScriptsAtom(log, build(argument.getChild(0)), new RowAtom());
 				}
-			}
-			return getFencedMatrix(rows);
-		case RECURRING_DECIMAL:
-			Atom overline = new OverlinedAtom(build(argument.getChild(0)));
-			Node next = argument.nextSibling();
-			if (!(next instanceof CharacterNode) || !((CharacterNode) next).isWordBreak()) {
-				return wrap(overline, new SpaceAtom());
-			} else {
-				return overline;
-			}
-		default:
-			StringBuilder functionName = new StringBuilder();
-			teXSerializer.serialize(argument.getChild(0), functionName);
-			Atom function = build(argument.getChild(0));
 
-			if (teXSerializer.isFunction(functionName.toString())) {
-				function = new RomanAtom(function);
-			}
+				return wrap(log, buildFenced('(', ')', argument, 1));
+			case LOG_POWER:
+				Atom logPower = new RomanAtom(buildString("log"));
+				if (argument.getChild(0).size() > 0
+						|| argument.getChild(1).size() > 0
+						|| currentNode == argument.getChild(0)
+						|| currentNode == argument.getChild(1)) {
+					logPower =
+							new ScriptsAtom(logPower, build(argument.getChild(0)), build(argument.getChild(1)));
+				}
 
-			return wrap(
-					function,
-					buildFenced(argument.getOpeningBracket(), argument.getClosingBracket(),
-							argument, 1)
-			);
+				return wrap(logPower, buildFenced('(', ')', argument, 2));
+			case ABS:
+				return buildFenced('|', '|', argument, 0);
+			case FLOOR:
+				return buildFenced('\u230A', '\u230B', argument, 0);
+			case CEIL:
+				return buildFenced('\u2308', '\u2309', argument, 0);
+			case DEF_INT:
+				return new ScriptsAtom(
+						Symbols.INT.duplicate(), build(argument.getChild(0)), build(argument.getChild(1)));
+			case INTEGRAL, N_INTEGRAL, INTEGRAL_SYMBOLIC:
+				return buildIntegral(argument);
+			case SUM_EQ:
+				Atom sum = newCharAtom('\u2211');
+				sum.type_limits = TeXConstants.SCRIPT_NORMAL;
+				return new ScriptsAtom(sum, build(argument.getChild(0)), build(argument.getChild(1)));
+			case PROD_EQ:
+				Atom prod = newCharAtom('\u220F');
+				prod.type_limits = TeXConstants.SCRIPT_NORMAL;
+				return new ScriptsAtom(prod, build(argument.getChild(0)), build(argument.getChild(1)));
+			case LIM_EQ:
+				return new ScriptsAtom(
+						CommandOpName.createOperation("lim", null, true), build(argument.getChild(0)), null);
+			case VEC:
+				return new UnderOverArrowAtom(build(argument.getChild(0)), false, true);
+			case ATOMIC_POST:
+				return new ScriptsAtom(
+						build(argument.getChild(0)), build(argument.getChild(1)), build(argument.getChild(2)));
+			case ATOMIC_PRE:
+				Atom arg1 = build(argument.getChild(0));
+				Atom arg2 = build(argument.getChild(1));
+				Atom arg3 = build(argument.getChild(2));
+				ScriptsAtom scriptsAtom =
+						new ScriptsAtom(EmptyAtom.get(), arg1, arg2, TeXConstants.Align.RIGHT);
+				return wrap(scriptsAtom, arg3);
+			case POINT:
+				return buildFenced('(', ')', argument, 0, ',', this::fancyPlaceholder);
+			case POINT_AT:
+				return buildFenced('(', ')', argument, 0, '|', this::fancyPlaceholder);
+			case VECTOR:
+				ArrayOfAtoms rows = new ArrayOfAtoms();
+				for (int i = 0; i < argument.size(); i++) {
+					SequenceNode coord = argument.getChild(i);
+					if (coord != null) {
+						rows.add(fancyPlaceholder(coord));
+						rows.add(EnvArray.RowSep.get());
+					}
+				}
+				return getFencedMatrix(rows);
+			case RECURRING_DECIMAL:
+				Atom overline = new OverlinedAtom(build(argument.getChild(0)));
+				Node next = argument.nextSibling();
+				if (!(next instanceof CharacterNode) || !((CharacterNode) next).isWordBreak()) {
+					return wrap(overline, new SpaceAtom());
+				} else {
+					return overline;
+				}
+			default:
+				StringBuilder functionName = new StringBuilder();
+				teXSerializer.serialize(argument.getChild(0), functionName);
+				Atom function = build(argument.getChild(0));
+
+				if (teXSerializer.isFunction(functionName.toString())) {
+					function = new RomanAtom(function);
+				}
+
+				return wrap(
+						function,
+						buildFenced(argument.getOpeningBracket(), argument.getClosingBracket(), argument, 1));
 		}
 	}
 
 	private Atom buildIntegral(FunctionNode integral) {
 		Atom integralSymbol = Symbols.INTOP.duplicate().changeLimits(TeXConstants.SCRIPT_LIMITS);
 		if (IntegralHelper.shouldRenderLimits(integral, currentNode)) {
-			integralSymbol = new ScriptsAtom(integralSymbol,
+			integralSymbol = new ScriptsAtom(
+					integralSymbol,
 					buildIntegralField(integral.getChild(IntegralHelper.LOWER_LIMIT)),
 					buildIntegralField(integral.getChild(IntegralHelper.UPPER_LIMIT)));
 		}
-		return wrap(integralSymbol, buildIntegralField(integral.getChild(IntegralHelper.INTEGRAND)),
-				new SpaceAtom(TeXConstants.Muskip.THIN), new RomanAtom(buildString("d")),
+		return wrap(
+				integralSymbol,
+				buildIntegralField(integral.getChild(IntegralHelper.INTEGRAND)),
+				new SpaceAtom(TeXConstants.Muskip.THIN),
+				new RomanAtom(buildString("d")),
 				buildIntegralField(integral.getChild(IntegralHelper.VARIABLE)));
 	}
 
 	private Atom buildIntegralField(SequenceNode field) {
 		if (field == currentNode && field.size() == 0) {
 			// Keep focused empty integral fields sized without drawing a visible placeholder.
-			Atom placeholder = new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1,
-					DEFAULT_PLACEHOLDER_Y_SCALE);
+			Atom placeholder =
+					new ScaleAtom(new PhantomAtom(new CharAtom('g')), 1, DEFAULT_PLACEHOLDER_Y_SCALE);
 			atomToNode.put(placeholder, SELECTION);
 			return placeholder;
 		}
@@ -607,8 +588,7 @@ public class TeXBuilder {
 	 * @param currentNode selected field
 	 * @return atom representing the whole sequence
 	 */
-	public Atom build(Node rootNode, SequenceNode currentNode,
-			int currentOffset, boolean textMode) {
+	public Atom build(Node rootNode, SequenceNode currentNode, int currentOffset, boolean textMode) {
 		this.currentNode = currentNode;
 		this.currentOffset = currentOffset;
 		this.atomToNode = new HashMap<>();

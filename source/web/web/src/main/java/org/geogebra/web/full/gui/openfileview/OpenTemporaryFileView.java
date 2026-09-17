@@ -31,8 +31,7 @@ import org.geogebra.web.shared.components.infoError.InfoErrorData;
 /**
  * View for browsing materials
  */
-public final class OpenTemporaryFileView extends HeaderFileView implements
-		OpenFileListener {
+public final class OpenTemporaryFileView extends HeaderFileView implements OpenFileListener {
 
 	private final TempStorage tempStorage;
 	private final FileViewCommon common;
@@ -74,8 +73,7 @@ public final class OpenTemporaryFileView extends HeaderFileView implements
 	}
 
 	private InfoErrorData getInfoErrorData() {
-		return new InfoErrorData("emptyMaterialList.caption.mow",
-				"emptyMaterialList.info.mow");
+		return new InfoErrorData("emptyMaterialList.caption.mow", "emptyMaterialList.info.mow");
 	}
 
 	@Override
@@ -110,8 +108,7 @@ public final class OpenTemporaryFileView extends HeaderFileView implements
 	private void setConstructionTitleAsMaterial() {
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial != null) {
-			app.getKernel().getConstruction().setTitle(
-					activeMaterial.getTitle());
+			app.getKernel().getConstruction().setTitle(activeMaterial.getTitle());
 		}
 	}
 

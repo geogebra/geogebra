@@ -30,8 +30,9 @@ import java.util.ResourceBundle;
 public class Utf8Control extends ResourceBundle.Control {
 
 	@Override
-	public ResourceBundle newBundle(String baseName, Locale locale, String format,
-			ClassLoader loader, boolean reload) throws IOException {
+	public ResourceBundle newBundle(
+			String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
+			throws IOException {
 		// The below is a copy of the default implementation.
 		String bundleName = toBundleName(baseName, locale);
 		String resourceName = toResourceName(bundleName, "properties");
@@ -50,8 +51,7 @@ public class Utf8Control extends ResourceBundle.Control {
 			stream = loader.getResourceAsStream(resourceName);
 		}
 		if (stream != null) {
-			try (InputStreamReader reader = new InputStreamReader(stream,
-					StandardCharsets.UTF_8)) {
+			try (InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
 				// Only this line is changed to make it to read properties files as UTF-8.
 				bundle = new PropertyResourceBundle(reader);
 			}

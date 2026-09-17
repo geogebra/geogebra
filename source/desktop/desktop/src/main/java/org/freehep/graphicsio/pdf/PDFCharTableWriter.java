@@ -18,8 +18,7 @@ public class PDFCharTableWriter implements PDFRedundanceTracker.Writer {
 	}
 
 	@Override
-	public void writeObject(Object object, PDFRef ref, PDFWriter pdf)
-			throws IOException {
+	public void writeObject(Object object, PDFRef ref, PDFWriter pdf) throws IOException {
 
 		CharTable charTable = (CharTable) object;
 
@@ -30,8 +29,7 @@ public class PDFCharTableWriter implements PDFRedundanceTracker.Writer {
 		differences[0] = Integer.valueOf(0);
 		for (int i = 0; i < 256; i++) {
 			String charName = charTable.toName(i);
-			differences[i + 1] = (charName != null) ? pdf.name(charName)
-					: pdf.name(FontEmbedder.NOTDEF);
+			differences[i + 1] = (charName != null) ? pdf.name(charName) : pdf.name(FontEmbedder.NOTDEF);
 		}
 		encoding.entry("Differences", differences);
 

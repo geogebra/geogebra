@@ -56,7 +56,8 @@ public final class ScientificActivity extends BaseActivity {
 
 	@Override
 	public void start(AppW app) {
-		app.getKernel().getAlgebraProcessor()
+		app.getKernel()
+				.getAlgebraProcessor()
 				.addCommandFilter(CommandFilterFactory.createSciCalcCommandFilter());
 		initHeaderButtons(app);
 		app.forceEnglishCommands();
@@ -100,8 +101,8 @@ public final class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
-			boolean allowSliders, boolean withSliders) {
+	public ErrorHandler createAVErrorHandler(
+			RadioTreeItem radioTreeItem, boolean valid, boolean allowSliders, boolean withSliders) {
 		return ErrorHelper.silent();
 	}
 

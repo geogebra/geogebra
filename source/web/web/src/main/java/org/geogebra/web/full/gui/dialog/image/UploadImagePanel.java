@@ -77,5 +77,4 @@ public final class UploadImagePanel {
 		});
 		return upload;
 	}
-
 }

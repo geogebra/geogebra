@@ -30,8 +30,8 @@ public class AlgoRandomList extends AlgoRandomUniformList {
 	 * @param b upper bound for uniform distribution
 	 * @param length of list
 	 */
-	public AlgoRandomList(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
+	public AlgoRandomList(
+			Construction cons, String label, GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
 		super(cons, label, a, b, length);
 	}
 

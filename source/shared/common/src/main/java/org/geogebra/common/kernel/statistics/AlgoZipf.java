@@ -23,14 +23,17 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoZipf extends AlgoDistribution {
 
-	public AlgoZipf(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
+	public AlgoZipf(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoBoolean isCumulative) {
 		super(cons, a, b, c, isCumulative);
 	}
 
@@ -42,8 +45,7 @@ public class AlgoZipf extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			int param = (int) a.getDouble();
 			double param2 = b.getDouble();
 			int val = (int) Math.round(c.getDouble());
@@ -51,9 +53,8 @@ public class AlgoZipf extends AlgoDistribution {
 				ZipfDistribution dist = getZipfDistribution(param, param2);
 				if (isCumulative.getBoolean()) {
 					num.setValue(dist.cumulativeProbability(val)); // P(X <=
-																	// val)
-				}
-				else {
+					// val)
+				} else {
 					num.setValue(dist.probability(val)); // P(X = val)
 				}
 
@@ -64,5 +65,4 @@ public class AlgoZipf extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

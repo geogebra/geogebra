@@ -27,9 +27,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Degree of a polynomial
- * 
+ *
  * Uses CAS sometimes, eg Degree[x^n] so needs "implements UsesCAS"
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoDegree extends AlgoElement implements UsesCAS {
@@ -87,8 +87,7 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 		Function inFun = f.getFunction();
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),
-				false, false);
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false, false);
 
 		if (poly != null) {
 			num.setValue(poly.getDegree());
@@ -98,5 +97,4 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 		// not a polynomial
 		num.setUndefined();
 	}
-
 }

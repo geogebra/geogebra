@@ -44,7 +44,7 @@ public class GPoint {
 
 	/**
 	 * Set x and y at the same time
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -57,7 +57,7 @@ public class GPoint {
 
 	/**
 	 * Take both coords from a point
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 */
@@ -86,8 +86,7 @@ public class GPoint {
 		if (!(o instanceof GPoint point)) {
 			return false;
 		}
-		return point.x == x && point.y == y
-				&& point.getZ() == getZ();
+		return point.x == x && point.y == y && point.getZ() == getZ();
 	}
 
 	@Override
@@ -117,5 +116,4 @@ public class GPoint {
 	public String toString() {
 		return x + " : " + y;
 	}
-
 }

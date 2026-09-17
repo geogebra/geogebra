@@ -56,18 +56,18 @@ public interface LinearEquationRepresentable {
 		 */
 		public static @Nullable Form valueOf(int rawValue) {
 			switch (rawValue) {
-			case CONST_IMPLICIT:
-				return IMPLICIT;
-			case CONST_EXPLICIT:
-				return EXPLICIT;
-			case CONST_PARAMETRIC:
-				return PARAMETRIC;
-			case CONST_GENERAL:
-				return GENERAL;
-			case CONST_USER:
-				return USER;
-			default:
-				return null;
+				case CONST_IMPLICIT:
+					return IMPLICIT;
+				case CONST_EXPLICIT:
+					return EXPLICIT;
+				case CONST_PARAMETRIC:
+					return PARAMETRIC;
+				case CONST_GENERAL:
+					return GENERAL;
+				case CONST_USER:
+					return USER;
+				default:
+					return null;
 			}
 		}
 

@@ -36,7 +36,7 @@ public class GParser extends Parser {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param cons
@@ -64,8 +64,7 @@ public class GParser extends Parser {
 
 	@Override
 	public ParseException generateParseException(String ignored) {
-		GParseException ex = new GParseException(getKernel().getLocalization()
-				.getInvalidInputError());
+		GParseException ex = new GParseException(getKernel().getLocalization().getInvalidInputError());
 		if (jj_nt != null && jj_nt.image != null) {
 			ex.details = "Unexpected next token: " + jj_nt.image;
 		} else if (token.image != null) {
@@ -75,5 +74,4 @@ public class GParser extends Parser {
 		}
 		return ex;
 	}
-
 }

@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdZProportion2Estimate extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,28 +47,29 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
+			case 5:
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())
+						&& (ok[3] = arg[3].isGeoNumeric())
+						&& (ok[4] = arg[4].isGeoNumeric())) {
 
-		case 5:
-			if ((ok[0] = arg[0].isGeoNumeric())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoNumeric())) {
+					AlgoZProportion2Estimate algo = new AlgoZProportion2Estimate(
+							cons,
+							(GeoNumeric) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							(GeoNumeric) arg[3],
+							(GeoNumeric) arg[4]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
 
-				AlgoZProportion2Estimate algo = new AlgoZProportion2Estimate(
-						cons, (GeoNumeric) arg[0],
-						(GeoNumeric) arg[1], (GeoNumeric) arg[2],
-						(GeoNumeric) arg[3], (GeoNumeric) arg[4]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				throw argErr(c, getBadArg(ok, arg));
 
-			}
-
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

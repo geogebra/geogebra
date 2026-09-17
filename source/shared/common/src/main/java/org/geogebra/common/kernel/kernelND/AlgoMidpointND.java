@@ -34,7 +34,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
 	private GeoPointND M; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param P
@@ -55,9 +55,9 @@ public abstract class AlgoMidpointND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * used for midpoint of a segment
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param segment
@@ -74,7 +74,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param construction
 	 *            construction
 	 * @return new GeoPointND
@@ -123,19 +123,19 @@ public abstract class AlgoMidpointND extends AlgoElement {
 
 	/**
 	 * copy coords of the point to the output point
-	 * 
+	 *
 	 * @param point
 	 *            input point
 	 */
-	abstract protected void copyCoords(GeoPointND point);
+	protected abstract void copyCoords(GeoPointND point);
 
 	/**
 	 * compute output point as midpoint of input points
 	 */
-	abstract protected void computeMidCoords();
+	protected abstract void computeMidCoords();
 
 	/**
-	 * 
+	 *
 	 * @return the output point
 	 */
 	public GeoPointND getPoint() {
@@ -143,7 +143,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return first input point
 	 */
 	protected GeoPointND getP() {
@@ -151,7 +151,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return second input point
 	 */
 	protected GeoPointND getQ() {
@@ -162,8 +162,7 @@ public abstract class AlgoMidpointND extends AlgoElement {
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("MidpointOfAB", "Midpoint of %0, %1",
-				P.getLabel(tpl), Q.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault("MidpointOfAB", "Midpoint of %0, %1", P.getLabel(tpl), Q.getLabel(tpl));
 	}
 }

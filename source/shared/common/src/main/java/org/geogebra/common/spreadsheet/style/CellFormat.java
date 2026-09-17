@@ -35,16 +35,16 @@ import org.jspecify.annotations.Nullable;
 /**
  * Helper class that handles cell formats for the spreadsheet table cell
  * renderer.
- * 
+ *
  * Format values are stored in an array of hash tables. Each hash table holds
  * values for a given format (e.g text alignment, background color). Table keys
  * are Point objects that locate cells, rows or columns as follows:
- * 
+ *
  * cell = (column index, row index) row = (-1, row index) column = (column
  * index, -1).
- * 
+ *
  * @author George Sturr, 2010-4-4
- * 
+ *
  */
 public class CellFormat implements CellFormatInterface {
 
@@ -120,7 +120,7 @@ public class CellFormat implements CellFormatInterface {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param table
 	 *            table
 	 */
@@ -153,7 +153,7 @@ public class CellFormat implements CellFormatInterface {
 	/**
 	 * Class that extends HashMap so that null values cannot be mapped and a
 	 * call to put(key, null) will remove a key if it exists already.
-	 * 
+	 *
 	 * TODO: It would be better practice to use an immutable key, e.g. a string
 	 * to record the cell location.
 	 */
@@ -191,8 +191,7 @@ public class CellFormat implements CellFormatInterface {
 	}
 
 	@Override
-	public void shiftFormats(int startIndex, int shiftAmount,
-			Direction direction) {
+	public void shiftFormats(int startIndex, int shiftAmount, Direction direction) {
 
 		if (startIndex - shiftAmount < 0) {
 			return;
@@ -224,8 +223,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void shiftRowsUp(NonNullHashMap formatMap, int rowStart,
-			int shiftAmount) {
+	private void shiftRowsUp(NonNullHashMap formatMap, int rowStart, int shiftAmount) {
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
 		}
@@ -257,8 +255,7 @@ public class CellFormat implements CellFormatInterface {
 		return new SpreadsheetCoords(row, col);
 	}
 
-	private void shiftRowsDown(NonNullHashMap formatMap, int rowStart,
-			int shiftAmount) {
+	private void shiftRowsDown(NonNullHashMap formatMap, int rowStart, int shiftAmount) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
@@ -307,8 +304,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void shiftColumnsLeft(NonNullHashMap formatMap, int columnStart,
-			int shiftAmount) {
+	private void shiftColumnsLeft(NonNullHashMap formatMap, int columnStart, int shiftAmount) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
@@ -318,8 +314,7 @@ public class CellFormat implements CellFormatInterface {
 		SpreadsheetCoords shiftKey;
 
 		// clear first column to be shifted into
-		clearColumns(formatMap, columnStart - shiftAmount,
-				columnStart - shiftAmount);
+		clearColumns(formatMap, columnStart - shiftAmount, columnStart - shiftAmount);
 
 		// shift column formats
 		for (int c = columnStart; c <= highestIndexColumn; c++) {
@@ -342,8 +337,7 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
-	private void shiftColumnsRight(NonNullHashMap formatMap, int columnStart,
-			int shiftAmount) {
+	private void shiftColumnsRight(NonNullHashMap formatMap, int columnStart, int shiftAmount) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
@@ -368,11 +362,9 @@ public class CellFormat implements CellFormatInterface {
 				}
 			}
 		}
-
 	}
 
-	private void clearColumns(NonNullHashMap formatMap, int columnStart,
-			int columnEnd) {
+	private void clearColumns(NonNullHashMap formatMap, int columnStart, int columnEnd) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
@@ -401,7 +393,7 @@ public class CellFormat implements CellFormatInterface {
 
 	/**
 	 * Returns the format map for a given cell format
-	 * 
+	 *
 	 * @param formatType
 	 *            format type
 	 * @return map point -&gt; format
@@ -451,7 +443,7 @@ public class CellFormat implements CellFormatInterface {
 	 * Returns the format object shared by all cells in the given cell range for
 	 * the given format type. If a format object does not exist, or not all
 	 * cells share the same format object, null is returned.
-	 * 
+	 *
 	 * @param range
 	 *            range
 	 * @param formatType
@@ -463,8 +455,7 @@ public class CellFormat implements CellFormatInterface {
 			return null;
 		}
 		// Get the format in the upper left cell
-		Object format = getCellFormat(range.getMinColumn(), range.getMinRow(),
-				formatType);
+		Object format = getCellFormat(range.getMinColumn(), range.getMinRow(), formatType);
 
 		if (format == null) {
 			return null;
@@ -536,8 +527,7 @@ public class CellFormat implements CellFormatInterface {
 		return !Objects.equals(previousCellFormatString, cellFormatString);
 	}
 
-	private void doSetFormat(List<TabularRange> crList, int formatType,
-			Object value) {
+	private void doSetFormat(List<TabularRange> crList, int formatType, Object value) {
 		HashMap<SpreadsheetCoords, Object> formatTable = formatMapArray[formatType];
 
 		// handle select all case first, then exit
@@ -572,9 +562,7 @@ public class CellFormat implements CellFormatInterface {
 						}
 					}
 				}
-			}
-
-			else if (range.isContiguousColumns()) {
+			} else if (range.isContiguousColumns()) {
 
 				if (highestIndexColumn < range.getMaxColumn()) {
 					highestIndexColumn = range.getMaxColumn();
@@ -598,9 +586,7 @@ public class CellFormat implements CellFormatInterface {
 					}
 				}
 
-			}
-
-			else {
+			} else {
 
 				if (highestIndexRow < range.getMaxRow()) {
 					highestIndexRow = range.getMaxRow();
@@ -624,7 +610,7 @@ public class CellFormat implements CellFormatInterface {
 	 * Iterates through the cell ranges of the given list of cell ranges and
 	 * sets the border format needed for each cell in order to produce the
 	 * specified border style
-	 * 
+	 *
 	 * @param ranges
 	 *            cell ranges
 	 * @param borderStyle
@@ -640,7 +626,7 @@ public class CellFormat implements CellFormatInterface {
 	 * Iterates through the cells of the given cell range and sets the border
 	 * format needed for each cell in order to produce the specified border
 	 * style
-	 * 
+	 *
 	 * @param cr
 	 *            cell range
 	 * @param borderStyle
@@ -657,45 +643,46 @@ public class CellFormat implements CellFormatInterface {
 		if (cr.isContiguousRows()) {
 
 			switch (borderStyle) {
+				default:
+				case BORDER_STYLE_NONE:
+					setFormat(cr, FORMAT_BORDER, null);
+					break;
 
-			default:
-			case BORDER_STYLE_NONE:
-				setFormat(cr, FORMAT_BORDER, null);
-				break;
+				case BORDER_STYLE_LEFT:
+				case BORDER_STYLE_RIGHT:
+					// nothing to draw
+					break;
 
-			case BORDER_STYLE_LEFT:
-			case BORDER_STYLE_RIGHT:
-				// nothing to draw
-				break;
+				case BORDER_STYLE_TOP:
+					setFormat(cr, FORMAT_BORDER, BORDER_TOP);
+					break;
 
-			case BORDER_STYLE_TOP:
-				setFormat(cr, FORMAT_BORDER, BORDER_TOP);
-				break;
+				case BORDER_STYLE_BOTTOM:
+					setFormat(cr, FORMAT_BORDER, BORDER_BOTTOM);
+					break;
 
-			case BORDER_STYLE_BOTTOM:
-				setFormat(cr, FORMAT_BORDER, BORDER_BOTTOM);
-				break;
+				case BORDER_STYLE_ALL:
+					setFormat(cr, FORMAT_BORDER, BORDER_ALL);
+					break;
 
-			case BORDER_STYLE_ALL:
-				setFormat(cr, FORMAT_BORDER, BORDER_ALL);
-				break;
+				case BORDER_STYLE_INSIDE:
+					setFormat(
+							new TabularRange(cr.getMinRow(), -1, cr.getMinRow(), -1), FORMAT_BORDER, BORDER_LEFT);
+					if (cr.getMinRow() < cr.getMaxRow()) {
+						byte b = BORDER_LEFT + BORDER_TOP;
+						setFormat(
+								new TabularRange(cr.getMinRow() + 1, -1, cr.getMaxRow(), -1), FORMAT_BORDER, b);
+					}
+					break;
 
-			case BORDER_STYLE_INSIDE:
-				setFormat(new TabularRange(cr.getMinRow(), -1, cr.getMinRow(), -1
-				), FORMAT_BORDER, BORDER_LEFT);
-				if (cr.getMinRow() < cr.getMaxRow()) {
-					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new TabularRange(cr.getMinRow() + 1, -1, cr.getMaxRow(), -1
-					), FORMAT_BORDER, b);
-				}
-				break;
-
-			case BORDER_STYLE_FRAME:
-				setFormat(new TabularRange(cr.getMinRow(), -1, cr.getMinRow(), -1
-				), FORMAT_BORDER, BORDER_TOP);
-				setFormat(new TabularRange(cr.getMaxRow(), -1, cr.getMaxRow(), -1
-				), FORMAT_BORDER, BORDER_BOTTOM);
-				break;
+				case BORDER_STYLE_FRAME:
+					setFormat(
+							new TabularRange(cr.getMinRow(), -1, cr.getMinRow(), -1), FORMAT_BORDER, BORDER_TOP);
+					setFormat(
+							new TabularRange(cr.getMaxRow(), -1, cr.getMaxRow(), -1),
+							FORMAT_BORDER,
+							BORDER_BOTTOM);
+					break;
 			}
 
 			return;
@@ -704,53 +691,53 @@ public class CellFormat implements CellFormatInterface {
 		if (cr.isContiguousColumns()) {
 
 			switch (borderStyle) {
+				default:
+				case BORDER_STYLE_NONE:
+					setFormat(cr, FORMAT_BORDER, null);
+					break;
 
-			default:
-			case BORDER_STYLE_NONE:
-				setFormat(cr, FORMAT_BORDER, null);
-				break;
+				case BORDER_STYLE_TOP:
+				case BORDER_STYLE_BOTTOM:
+					// nothing to draw
 
-			case BORDER_STYLE_TOP:
-			case BORDER_STYLE_BOTTOM:
-				// nothing to draw
+					break;
 
-				break;
+				case BORDER_STYLE_LEFT:
+					setFormat(cr, FORMAT_BORDER, BORDER_LEFT);
+					break;
 
-			case BORDER_STYLE_LEFT:
-				setFormat(cr, FORMAT_BORDER, BORDER_LEFT);
-				break;
+				case BORDER_STYLE_RIGHT:
+					setFormat(cr, FORMAT_BORDER, BORDER_RIGHT);
+					break;
 
-			case BORDER_STYLE_RIGHT:
-				setFormat(cr, FORMAT_BORDER, BORDER_RIGHT);
-				break;
+				case BORDER_STYLE_ALL:
+					setFormat(cr, FORMAT_BORDER, BORDER_ALL);
+					break;
 
-			case BORDER_STYLE_ALL:
-				setFormat(cr, FORMAT_BORDER, BORDER_ALL);
-				break;
+				case BORDER_STYLE_INSIDE:
+					setFormat(
+							new TabularRange(-1, cr.getMinColumn(), -1, cr.getMinColumn()),
+							FORMAT_BORDER,
+							BORDER_TOP);
+					if (cr.getMinColumn() < cr.getMaxColumn()) {
+						byte b = BORDER_LEFT + BORDER_TOP;
+						setFormat(
+								new TabularRange(-1, cr.getMinColumn() + 1, -1, cr.getMaxColumn()),
+								FORMAT_BORDER,
+								b);
+					}
+					break;
 
-			case BORDER_STYLE_INSIDE:
-				setFormat(
-						new TabularRange(-1, cr.getMinColumn(),
-								-1, cr.getMinColumn()),
-						FORMAT_BORDER, BORDER_TOP);
-				if (cr.getMinColumn() < cr.getMaxColumn()) {
-					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(new TabularRange(-1, cr.getMinColumn() + 1,
-							-1, cr.getMaxColumn()), FORMAT_BORDER, b);
-				}
-				break;
-
-			case BORDER_STYLE_FRAME:
-				setFormat(
-						new TabularRange(-1, cr.getMinColumn(),
-								-1, cr.getMinColumn()),
-						FORMAT_BORDER, BORDER_LEFT);
-				setFormat(
-						new TabularRange(-1, cr.getMaxColumn(),
-								-1, cr.getMaxColumn()),
-						FORMAT_BORDER, BORDER_RIGHT);
-				break;
-
+				case BORDER_STYLE_FRAME:
+					setFormat(
+							new TabularRange(-1, cr.getMinColumn(), -1, cr.getMinColumn()),
+							FORMAT_BORDER,
+							BORDER_LEFT);
+					setFormat(
+							new TabularRange(-1, cr.getMaxColumn(), -1, cr.getMaxColumn()),
+							FORMAT_BORDER,
+							BORDER_RIGHT);
+					break;
 			}
 
 			return;
@@ -763,174 +750,171 @@ public class CellFormat implements CellFormatInterface {
 		int c1 = cr.getMinColumn();
 		int c2 = cr.getMaxColumn();
 		switch (borderStyle) {
-		case BORDER_STYLE_NONE:
-			for (int r = r1; r <= r2; r++) {
-				for (int c = c1; c <= c2; c++) {
-					setFormat(cr, FORMAT_BORDER, null);
+			case BORDER_STYLE_NONE:
+				for (int r = r1; r <= r2; r++) {
+					for (int c = c1; c <= c2; c++) {
+						setFormat(cr, FORMAT_BORDER, null);
+					}
 				}
-			}
-			break;
+				break;
 
-		case BORDER_STYLE_ALL:
+			case BORDER_STYLE_ALL:
+				for (int r = r1; r <= r2; r++) {
+					for (int c = c1; c <= c2; c++) {
+						cell.column = c;
+						cell.row = r;
+						setFormat(cell, FORMAT_BORDER, BORDER_ALL);
+					}
+				}
+				break;
 
-			for (int r = r1; r <= r2; r++) {
-				for (int c = c1; c <= c2; c++) {
-					cell.column = c;
-					cell.row = r;
+			case BORDER_STYLE_FRAME:
+
+				// single cell
+				if (r1 == r2 && c1 == c2) {
+					cell.column = c1;
+					cell.row = r1;
 					setFormat(cell, FORMAT_BORDER, BORDER_ALL);
+					return;
 				}
-			}
-			break;
 
-		case BORDER_STYLE_FRAME:
-
-			// single cell
-			if (r1 == r2 && c1 == c2) {
-				cell.column = c1;
+				// top & bottom
 				cell.row = r1;
-				setFormat(cell, FORMAT_BORDER, BORDER_ALL);
-				return;
-			}
-
-			// top & bottom
-			cell.row = r1;
-			cell2.row = r2;
-			for (int c = c1 + 1; c <= c2 - 1; c++) {
-				cell.column = c;
-				cell2.column = c;
-				if (r1 == r2) {
-					byte b = BORDER_TOP + BORDER_BOTTOM;
-					setFormat(cell, FORMAT_BORDER, b);
-				} else {
-					setFormat(cell, FORMAT_BORDER, BORDER_TOP);
-					setFormat(cell2, FORMAT_BORDER, BORDER_BOTTOM);
-				}
-			}
-			// left & right
-			cell.column = c1;
-			cell2.column = c2;
-			for (int r = r1 + 1; r <= r2 - 1; r++) {
-				cell.row = r;
-				cell2.row = r;
-				if (c1 == c2) {
-					byte b = BORDER_LEFT + BORDER_RIGHT;
-					setFormat(cell, FORMAT_BORDER, b);
-				} else {
-					setFormat(cell, FORMAT_BORDER, BORDER_LEFT);
-					setFormat(cell2, FORMAT_BORDER, BORDER_RIGHT);
-				}
-			}
-
-			// CORNERS
-
-			// case 1: column corners
-			if (c1 == c2) {
-				cell.column = c1;
-				cell.row = r1;
-				byte b = BORDER_LEFT + BORDER_RIGHT + BORDER_TOP;
-				setFormat(cell, FORMAT_BORDER, b);
-
-				cell.column = c1;
-				cell.row = r2;
-				b = BORDER_LEFT + BORDER_RIGHT + BORDER_BOTTOM;
-				setFormat(cell, FORMAT_BORDER, b);
-			}
-			// case 2: row corners
-			else if (r1 == r2) {
-				cell.column = c1;
-				cell.row = r1;
-				byte b = BORDER_LEFT + BORDER_TOP + BORDER_BOTTOM;
-				setFormat(cell, FORMAT_BORDER, b);
-
-				cell.column = c2;
-				cell.row = r1;
-				b = BORDER_RIGHT + BORDER_TOP + BORDER_BOTTOM;
-				setFormat(cell, FORMAT_BORDER, b);
-
-			}
-
-			// case 3: block corners
-			else {
-				cell.row = r1;
-				cell.column = c1;
-				byte b = BORDER_LEFT + BORDER_TOP;
-				setFormat(cell, FORMAT_BORDER, b);
-
-				cell.row = r1;
-				cell.column = c2;
-				b = BORDER_RIGHT + BORDER_TOP;
-				setFormat(cell, FORMAT_BORDER, b);
-
-				cell.row = r2;
-				cell.column = c2;
-				b = BORDER_RIGHT + BORDER_BOTTOM;
-				setFormat(cell, FORMAT_BORDER, b);
-
-				cell.row = r2;
-				cell.column = c1;
-				b = BORDER_LEFT + BORDER_BOTTOM;
-				setFormat(cell, FORMAT_BORDER, b);
-			}
-
-			break;
-
-		case BORDER_STYLE_INSIDE:
-
-			for (int r = r1 + 1; r <= r2; r++) {
-				cell.column = c1;
-				cell.row = r;
-				setFormat(cell, FORMAT_BORDER, BORDER_TOP);
-			}
-
-			for (int c = c1 + 1; c <= c2; c++) {
-				cell.column = c;
-				cell.row = r1;
-				setFormat(cell, FORMAT_BORDER, BORDER_LEFT);
-			}
-
-			for (int r = r1 + 1; r <= r2; r++) {
-				for (int c = c1 + 1; c <= c2; c++) {
+				cell2.row = r2;
+				for (int c = c1 + 1; c <= c2 - 1; c++) {
 					cell.column = c;
+					cell2.column = c;
+					if (r1 == r2) {
+						byte b = BORDER_TOP + BORDER_BOTTOM;
+						setFormat(cell, FORMAT_BORDER, b);
+					} else {
+						setFormat(cell, FORMAT_BORDER, BORDER_TOP);
+						setFormat(cell2, FORMAT_BORDER, BORDER_BOTTOM);
+					}
+				}
+				// left & right
+				cell.column = c1;
+				cell2.column = c2;
+				for (int r = r1 + 1; r <= r2 - 1; r++) {
 					cell.row = r;
+					cell2.row = r;
+					if (c1 == c2) {
+						byte b = BORDER_LEFT + BORDER_RIGHT;
+						setFormat(cell, FORMAT_BORDER, b);
+					} else {
+						setFormat(cell, FORMAT_BORDER, BORDER_LEFT);
+						setFormat(cell2, FORMAT_BORDER, BORDER_RIGHT);
+					}
+				}
+
+				// CORNERS
+
+				// case 1: column corners
+				if (c1 == c2) {
+					cell.column = c1;
+					cell.row = r1;
+					byte b = BORDER_LEFT + BORDER_RIGHT + BORDER_TOP;
+					setFormat(cell, FORMAT_BORDER, b);
+
+					cell.column = c1;
+					cell.row = r2;
+					b = BORDER_LEFT + BORDER_RIGHT + BORDER_BOTTOM;
+					setFormat(cell, FORMAT_BORDER, b);
+				}
+				// case 2: row corners
+				else if (r1 == r2) {
+					cell.column = c1;
+					cell.row = r1;
+					byte b = BORDER_LEFT + BORDER_TOP + BORDER_BOTTOM;
+					setFormat(cell, FORMAT_BORDER, b);
+
+					cell.column = c2;
+					cell.row = r1;
+					b = BORDER_RIGHT + BORDER_TOP + BORDER_BOTTOM;
+					setFormat(cell, FORMAT_BORDER, b);
+
+				}
+
+				// case 3: block corners
+				else {
+					cell.row = r1;
+					cell.column = c1;
 					byte b = BORDER_LEFT + BORDER_TOP;
 					setFormat(cell, FORMAT_BORDER, b);
+
+					cell.row = r1;
+					cell.column = c2;
+					b = BORDER_RIGHT + BORDER_TOP;
+					setFormat(cell, FORMAT_BORDER, b);
+
+					cell.row = r2;
+					cell.column = c2;
+					b = BORDER_RIGHT + BORDER_BOTTOM;
+					setFormat(cell, FORMAT_BORDER, b);
+
+					cell.row = r2;
+					cell.column = c1;
+					b = BORDER_LEFT + BORDER_BOTTOM;
+					setFormat(cell, FORMAT_BORDER, b);
 				}
-			}
 
-			break;
+				break;
 
-		case BORDER_STYLE_TOP:
-			cell.row = r1;
-			for (int c = c1; c <= c2; c++) {
-				cell.column = c;
-				setFormat(cell, FORMAT_BORDER, BORDER_TOP);
-			}
-			break;
+			case BORDER_STYLE_INSIDE:
+				for (int r = r1 + 1; r <= r2; r++) {
+					cell.column = c1;
+					cell.row = r;
+					setFormat(cell, FORMAT_BORDER, BORDER_TOP);
+				}
 
-		case BORDER_STYLE_BOTTOM:
-			cell.row = r2;
-			for (int c = c1; c <= c2; c++) {
-				cell.column = c;
-				setFormat(cell, FORMAT_BORDER, BORDER_BOTTOM);
-			}
-			break;
+				for (int c = c1 + 1; c <= c2; c++) {
+					cell.column = c;
+					cell.row = r1;
+					setFormat(cell, FORMAT_BORDER, BORDER_LEFT);
+				}
 
-		case BORDER_STYLE_LEFT:
-			cell.column = c1;
-			for (int r = r1; r <= r2; r++) {
-				cell.row = r;
-				setFormat(cell, FORMAT_BORDER, BORDER_LEFT);
-			}
-			break;
+				for (int r = r1 + 1; r <= r2; r++) {
+					for (int c = c1 + 1; c <= c2; c++) {
+						cell.column = c;
+						cell.row = r;
+						byte b = BORDER_LEFT + BORDER_TOP;
+						setFormat(cell, FORMAT_BORDER, b);
+					}
+				}
 
-		case BORDER_STYLE_RIGHT:
-			cell.column = c2;
-			for (int r = r1; r <= r2; r++) {
-				cell.row = r;
-				setFormat(cell, FORMAT_BORDER, BORDER_RIGHT);
-			}
-			break;
+				break;
 
+			case BORDER_STYLE_TOP:
+				cell.row = r1;
+				for (int c = c1; c <= c2; c++) {
+					cell.column = c;
+					setFormat(cell, FORMAT_BORDER, BORDER_TOP);
+				}
+				break;
+
+			case BORDER_STYLE_BOTTOM:
+				cell.row = r2;
+				for (int c = c1; c <= c2; c++) {
+					cell.column = c;
+					setFormat(cell, FORMAT_BORDER, BORDER_BOTTOM);
+				}
+				break;
+
+			case BORDER_STYLE_LEFT:
+				cell.column = c1;
+				for (int r = r1; r <= r2; r++) {
+					cell.row = r;
+					setFormat(cell, FORMAT_BORDER, BORDER_LEFT);
+				}
+				break;
+
+			case BORDER_STYLE_RIGHT:
+				cell.column = c2;
+				for (int r = r1; r <= r2; r++) {
+					cell.row = r;
+					setFormat(cell, FORMAT_BORDER, BORDER_RIGHT);
+				}
+				break;
 		}
 	}
 
@@ -945,13 +929,11 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 
-		sb.startTag("spreadsheetCellFormat")
-				.attrRaw("formatMap", cellFormat)
-				.endTag();
+		sb.startTag("spreadsheetCellFormat").attrRaw("formatMap", cellFormat).endTag();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return StringBuilder object containing all current formats encoded as
 	 *         strings
 	 */
@@ -1023,7 +1005,7 @@ public class CellFormat implements CellFormatInterface {
 	/**
 	 * Decodes a string representing the format objects for a single cell and
 	 * then puts these formats into the format maps.
-	 * 
+	 *
 	 * @param formatStr
 	 *            format string
 	 */
@@ -1032,8 +1014,7 @@ public class CellFormat implements CellFormatInterface {
 			return;
 		}
 		String[] f = formatStr.split(formatDelimiter);
-		SpreadsheetCoords cell = newCoords(Integer.parseInt(f[0]),
-				Integer.parseInt(f[1]));
+		SpreadsheetCoords cell = newCoords(Integer.parseInt(f[0]), Integer.parseInt(f[1]));
 		int formatType;
 		Object formatValue;
 		for (int i = 2; i < f.length; i = i + 2) {
@@ -1054,7 +1035,6 @@ public class CellFormat implements CellFormatInterface {
 			}
 			this.doSetFormat(cell, formatType, formatValue);
 		}
-
 	}
 
 	/**
@@ -1078,13 +1058,13 @@ public class CellFormat implements CellFormatInterface {
 	 */
 	public static char getAlignmentString(int alignment) {
 		switch (alignment) {
-		default:
-		case CellFormat.ALIGN_LEFT:
-			return 'l';
-		case CellFormat.ALIGN_CENTER:
-			return 'c';
-		case CellFormat.ALIGN_RIGHT:
-			return 'r';
+			default:
+			case CellFormat.ALIGN_LEFT:
+				return 'l';
+			case CellFormat.ALIGN_CENTER:
+				return 'c';
+			case CellFormat.ALIGN_RIGHT:
+				return 'r';
 		}
 	}
 
@@ -1092,5 +1072,4 @@ public class CellFormat implements CellFormatInterface {
 	public void setTable(HasTableSelection table) {
 		this.table = table;
 	}
-
 }

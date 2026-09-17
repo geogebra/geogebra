@@ -57,7 +57,7 @@ public enum ScriptType {
 
 	/**
 	 * Create a new script of this type
-	 * 
+	 *
 	 * @param app
 	 *            the application where the script lives
 	 * @param text

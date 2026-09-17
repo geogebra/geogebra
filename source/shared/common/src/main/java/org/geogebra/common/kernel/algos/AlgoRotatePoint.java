@@ -38,8 +38,7 @@ import org.geogebra.common.util.DoubleUtil;
  *
  * @author Markus
  */
-public class AlgoRotatePoint extends AlgoTransformation
-		implements SymbolicParametersBotanaAlgo {
+public class AlgoRotatePoint extends AlgoTransformation implements SymbolicParametersBotanaAlgo {
 
 	private GeoPointND Q;
 	private Rotatable out;
@@ -50,7 +49,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 
 	/**
 	 * Creates new unlabeled point rotation algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param A
@@ -60,8 +59,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 	 * @param Q
 	 *            rotation center
 	 */
-	public AlgoRotatePoint(Construction cons, GeoElement A,
-			GeoNumberValue angle, GeoPointND Q) {
+	public AlgoRotatePoint(Construction cons, GeoElement A, GeoNumberValue angle, GeoPointND Q) {
 		super(cons);
 		this.angle = angle;
 		this.Q = Q;
@@ -104,7 +102,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 
 	/**
 	 * Returns the rotated point
-	 * 
+	 *
 	 * @return rotated point
 	 */
 	@Override
@@ -120,8 +118,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 			return;
 		}
 		if (inGeo instanceof GeoFunction) {
-			((GeoFunction) inGeo)
-					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
+			((GeoFunction) inGeo).toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else {
 			setOutGeo();
 		}
@@ -135,18 +132,17 @@ public class AlgoRotatePoint extends AlgoTransformation
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("ARotatedByAngleB",
-				"%0 rotated by angle %1", inGeo.getLabel(tpl),
-				angle.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault(
+						"ARotatedByAngleB", "%0 rotated by angle %1", inGeo.getLabel(tpl), angle.getLabel(tpl));
 	}
 
 	@Override
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(outGeo instanceof GeoList)
-				&& (outGeo instanceof Rotatable)) {
+		if (!(outGeo instanceof GeoList) && (outGeo instanceof Rotatable)) {
 			out = (Rotatable) outGeo;
 		}
 	}
@@ -170,8 +166,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 
 		/*
 		 * This polynomial cannot be cached, because the polynomial depends on
@@ -214,12 +209,12 @@ public class AlgoRotatePoint extends AlgoTransformation
 			 * https://en.wikipedia.org/wiki/
 			 * Trigonometric_constants_expressed_in_real_radicals for a list of
 			 * possible angles with algebraic sin/cos values.
-			 * 
+			 *
 			 * In many cases we cannot distinguish between some directions, that
 			 * is, e.g. +60 and -60 are the same. See Zoltan's diss, p. 92 for
 			 * some basic descriptions why. (The full details are not disclosed
 			 * there but here in the comments below!)
-			 * 
+			 *
 			 * Note that in the non-distinguishable cases symmetry is not always
 			 * axial. For example, +45 and -135 are paired, because sin(45) and
 			 * cos(45) are simultaneously sqrt(2)/2=t. In this case we use
@@ -229,7 +224,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 			 * cos(60)=1/2, and we use 4*t^2=3, by solving (x,y)=(1/2,t) which
 			 * yields points being symmetrical axially (the axis is the x-axis).
 			 * TODO: try to generalize this idea.
-			 * 
+			 *
 			 * Giac can actually compute e.g. cos(pi/10)=sqrt(2*sqrt(5)+10)/4
 			 * and hopefully also a minimal polynomial can be computed for this.
 			 */
@@ -289,16 +284,19 @@ public class AlgoRotatePoint extends AlgoTransformation
 			// rotate by 30 or 150 degrees
 			else if (angleValDeg == 30 || angleValDeg == 150) {
 				botanaPolynomials = new PPolynomial[3];
-				botanaPolynomials[0] = t1.multiply(t1)
-						.subtract(new PPolynomial(3));
-				PPolynomial p1 = new PPolynomial(2).multiply(a_1)
-						.subtract(new PPolynomial(2).multiply(a1)).add(b2)
+				botanaPolynomials[0] = t1.multiply(t1).subtract(new PPolynomial(3));
+				PPolynomial p1 = new PPolynomial(2)
+						.multiply(a_1)
+						.subtract(new PPolynomial(2).multiply(a1))
+						.add(b2)
 						.subtract(a2);
 				PPolynomial p2 = b1.subtract(a1);
 				PPolynomial p3 = t1.multiply(p2);
 				botanaPolynomials[1] = p1.subtract(p3);
-				PPolynomial p4 = new PPolynomial(2).multiply(a_2)
-						.subtract(new PPolynomial(2).multiply(a2)).subtract(b1)
+				PPolynomial p4 = new PPolynomial(2)
+						.multiply(a_2)
+						.subtract(new PPolynomial(2).multiply(a2))
+						.subtract(b1)
 						.add(a1);
 				PPolynomial p5 = b2.subtract(a2);
 				PPolynomial p6 = t1.multiply(p5);
@@ -308,16 +306,19 @@ public class AlgoRotatePoint extends AlgoTransformation
 			// rotate by -30 or -150 degrees
 			else if (angleValDeg == 330 || angleValDeg == 210) {
 				botanaPolynomials = new PPolynomial[3];
-				botanaPolynomials[0] = t1.multiply(t1)
-						.subtract(new PPolynomial(3));
-				PPolynomial p1 = new PPolynomial(2).multiply(a_1)
-						.subtract(new PPolynomial(2).multiply(a1)).subtract(b2)
+				botanaPolynomials[0] = t1.multiply(t1).subtract(new PPolynomial(3));
+				PPolynomial p1 = new PPolynomial(2)
+						.multiply(a_1)
+						.subtract(new PPolynomial(2).multiply(a1))
+						.subtract(b2)
 						.add(a2);
 				PPolynomial p2 = b1.subtract(a1);
 				PPolynomial p3 = t1.multiply(p2);
 				botanaPolynomials[1] = p1.subtract(p3);
-				PPolynomial p4 = new PPolynomial(2).multiply(a_2)
-						.subtract(new PPolynomial(2).multiply(a2)).add(b1)
+				PPolynomial p4 = new PPolynomial(2)
+						.multiply(a_2)
+						.subtract(new PPolynomial(2).multiply(a2))
+						.add(b1)
 						.subtract(a1);
 				PPolynomial p5 = b2.subtract(a2);
 				PPolynomial p6 = t1.multiply(p5);
@@ -327,14 +328,11 @@ public class AlgoRotatePoint extends AlgoTransformation
 			// rotate by -45 or 135 degrees
 			else if (angleValDeg == 315 || angleValDeg == 135) {
 				botanaPolynomials = new PPolynomial[3];
-				botanaPolynomials[0] = t2.multiply(t2)
-						.subtract(new PPolynomial(2));
-				PPolynomial p1 = new PPolynomial(2).multiply(a_1)
-						.subtract(new PPolynomial(2).multiply(a1));
+				botanaPolynomials[0] = t2.multiply(t2).subtract(new PPolynomial(2));
+				PPolynomial p1 = new PPolynomial(2).multiply(a_1).subtract(new PPolynomial(2).multiply(a1));
 				PPolynomial p2 = b1.subtract(a1).add(b2).subtract(a2);
 				botanaPolynomials[1] = p1.subtract(t2.multiply(p2));
-				PPolynomial p3 = new PPolynomial(2).multiply(a_2)
-						.subtract(new PPolynomial(2).multiply(a2));
+				PPolynomial p3 = new PPolynomial(2).multiply(a_2).subtract(new PPolynomial(2).multiply(a2));
 				PPolynomial p4 = b2.subtract(a2).subtract(b1).add(a1);
 				botanaPolynomials[2] = p3.subtract(t2.multiply(p4));
 				return botanaPolynomials;
@@ -342,14 +340,11 @@ public class AlgoRotatePoint extends AlgoTransformation
 			// rotate by 45 or -135 degrees
 			else if (angleValDeg == 45 || angleValDeg == 225) {
 				botanaPolynomials = new PPolynomial[3];
-				botanaPolynomials[0] = t2.multiply(t2)
-						.subtract(new PPolynomial(2));
-				PPolynomial p1 = new PPolynomial(2).multiply(a_1)
-						.subtract(new PPolynomial(2).multiply(a1));
+				botanaPolynomials[0] = t2.multiply(t2).subtract(new PPolynomial(2));
+				PPolynomial p1 = new PPolynomial(2).multiply(a_1).subtract(new PPolynomial(2).multiply(a1));
 				PPolynomial p2 = b1.subtract(a1).subtract(b2).add(a2);
 				botanaPolynomials[1] = p1.subtract(t2.multiply(p2));
-				PPolynomial p3 = new PPolynomial(2).multiply(a_2)
-						.subtract(new PPolynomial(2).multiply(a2));
+				PPolynomial p3 = new PPolynomial(2).multiply(a_2).subtract(new PPolynomial(2).multiply(a2));
 				PPolynomial p4 = b1.subtract(a1).add(b2).subtract(a2);
 				botanaPolynomials[2] = p3.subtract(t2.multiply(p4));
 				return botanaPolynomials;
@@ -357,15 +352,18 @@ public class AlgoRotatePoint extends AlgoTransformation
 			// rotate by +-60 degrees
 			else if (angleValDeg == 60 || angleValDeg == 300) {
 				botanaPolynomials = new PPolynomial[3];
-				botanaPolynomials[0] = t1.multiply(t1)
-						.subtract(new PPolynomial(3));
-				PPolynomial p1 = new PPolynomial(2).multiply(a_1)
-						.subtract(new PPolynomial(2).multiply(a1)).subtract(b1)
+				botanaPolynomials[0] = t1.multiply(t1).subtract(new PPolynomial(3));
+				PPolynomial p1 = new PPolynomial(2)
+						.multiply(a_1)
+						.subtract(new PPolynomial(2).multiply(a1))
+						.subtract(b1)
 						.add(a1);
 				PPolynomial p2 = b2.subtract(a2);
 				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
-				PPolynomial p3 = new PPolynomial(2).multiply(a_2)
-						.subtract(new PPolynomial(2).multiply(a2)).subtract(b2)
+				PPolynomial p3 = new PPolynomial(2)
+						.multiply(a_2)
+						.subtract(new PPolynomial(2).multiply(a2))
+						.subtract(b2)
 						.add(a2);
 				PPolynomial p4 = a1.subtract(b1);
 				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));
@@ -374,15 +372,18 @@ public class AlgoRotatePoint extends AlgoTransformation
 			// rotate by +-120 degrees
 			else if (angleValDeg == 120 || angleValDeg == 240) {
 				botanaPolynomials = new PPolynomial[3];
-				botanaPolynomials[0] = t1.multiply(t1)
-						.subtract(new PPolynomial(3));
-				PPolynomial p1 = new PPolynomial(2).multiply(a_1)
-						.subtract(new PPolynomial(2).multiply(a1)).add(b1)
+				botanaPolynomials[0] = t1.multiply(t1).subtract(new PPolynomial(3));
+				PPolynomial p1 = new PPolynomial(2)
+						.multiply(a_1)
+						.subtract(new PPolynomial(2).multiply(a1))
+						.add(b1)
 						.subtract(a1);
 				PPolynomial p2 = b2.subtract(a2);
 				botanaPolynomials[1] = p1.subtract(t1.multiply(p2));
-				PPolynomial p3 = new PPolynomial(2).multiply(a_2)
-						.subtract(new PPolynomial(2).multiply(a2)).add(b2)
+				PPolynomial p3 = new PPolynomial(2)
+						.multiply(a_2)
+						.subtract(new PPolynomial(2).multiply(a2))
+						.add(b2)
 						.subtract(a2);
 				PPolynomial p4 = a1.subtract(b1);
 				botanaPolynomials[2] = p3.subtract(t1.multiply(p4));

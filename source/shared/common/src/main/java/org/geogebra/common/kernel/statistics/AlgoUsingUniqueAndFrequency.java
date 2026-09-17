@@ -24,13 +24,13 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * For algos that use AlgoFrequency to sort raw data into a unique value list
  * and frequency list.
- * 
+ *
  * AlgoFrequency.getValue() gives the unique value list
- * 
+ *
  * AlgoFrequency.getResult() gives the frequency list
- * 
+ *
  * @author mathieu
- * 
+ *
  */
 public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 
@@ -39,7 +39,7 @@ public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 
 	/**
 	 * Creates new algorithm
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -49,20 +49,19 @@ public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 
 	/**
 	 * Creates new algorithm
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param addToConstructionList
 	 *            true to add this to construction list
 	 */
-	public AlgoUsingUniqueAndFrequency(Construction c,
-			boolean addToConstructionList) {
+	public AlgoUsingUniqueAndFrequency(Construction c, boolean addToConstructionList) {
 		super(c, addToConstructionList);
 	}
 
 	/**
 	 * create helper algos about the list
-	 * 
+	 *
 	 * @param list1
 	 *            list
 	 */
@@ -72,7 +71,7 @@ public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 
 	/**
 	 * create helper algos about the list with scaled freq
-	 * 
+	 *
 	 * @param list1
 	 *            list
 	 * @param scale
@@ -91,5 +90,4 @@ public abstract class AlgoUsingUniqueAndFrequency extends AlgoElement {
 			algoFreq.remove();
 		}
 	}
-
 }

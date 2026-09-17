@@ -2,22 +2,22 @@
  * JFugue - API for Music Programming
  * Copyright (C) 2003-2008  David Koelle
  *
- * http://www.jfugue.org 
- * 
+ * http://www.jfugue.org
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *  
+ *
  */
 
 package org.jfugue;
@@ -52,15 +52,14 @@ public final class StreamingPlayer {
 			init(MidiSystem.getSequencer());
 		} catch (MidiUnavailableException e) {
 			throw new JFugueException(
-					JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED_WITH_EXCEPTION
-							+ e.getMessage());
+					JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED_WITH_EXCEPTION + e.getMessage());
 		}
 	}
 
 	/**
 	 * Creates a new StreamingPlayer instance using a Sequencer that you have
 	 * provided.
-	 * 
+	 *
 	 * @param sequencer
 	 *            The Sequencer to send the MIDI events
 	 */
@@ -71,7 +70,7 @@ public final class StreamingPlayer {
 	/**
 	 * Creates a new StreamingPlayer instance using a Sequencer obtained from
 	 * the Synthesizer that you have provided.
-	 * 
+	 *
 	 * @param synth
 	 *            The Synthesizer you want to use for this Player.
 	 */
@@ -100,8 +99,7 @@ public final class StreamingPlayer {
 				MidiSystem.getSynthesizer().close();
 			}
 		} catch (MidiUnavailableException e) {
-			throw new JFugueException(
-					JFugueException.GENERAL_ERROR + e.getMessage());
+			throw new JFugueException(JFugueException.GENERAL_ERROR + e.getMessage());
 		}
 		renderer.close();
 	}
@@ -113,7 +111,7 @@ public final class StreamingPlayer {
 	/**
 	 * Returns the sequencer containing the MIDI data from a pattern that has
 	 * been parsed.
-	 * 
+	 *
 	 * @return the Sequencer from the pattern that was recently parsed
 	 */
 	public Sequencer getSequencer() {
@@ -123,7 +121,7 @@ public final class StreamingPlayer {
 	/**
 	 * Streams a Pattern containing a single token. Does not wait for the music
 	 * to stop playing - the user will need to throttle calls to stream().
-	 * 
+	 *
 	 * @param singleToken
 	 */
 	public void stream(Pattern singleToken) {
@@ -133,7 +131,7 @@ public final class StreamingPlayer {
 	/**
 	 * Streams a MusicString containing a single token. Does not wait for the
 	 * music to stop playing - the user will need to throttle calls to stream().
-	 * 
+	 *
 	 * @param singleToken
 	 */
 	public void stream(String singleToken) {
@@ -144,7 +142,7 @@ public final class StreamingPlayer {
 	 * Streams a Pattern containing one or more tokens, and waits for each token
 	 * to finish playing before returning. NOTE: The timing logic is a bit off
 	 * TODO: The timing logic in streamAndWait() needs to be fixed
-	 * 
+	 *
 	 * @param fragment
 	 */
 	public void streamAndWait(Pattern fragment) {
@@ -167,11 +165,10 @@ public final class StreamingPlayer {
 	 * Streams a MusicString containing one or more tokens, and waits for each
 	 * token to finish playing before returning. NOTE: The timing logic is a bit
 	 * off
-	 * 
+	 *
 	 * @param fragment
 	 */
 	public void streamAndWait(String fragment) {
 		streamAndWait(new Pattern(fragment));
 	}
-
 }

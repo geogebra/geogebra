@@ -36,7 +36,6 @@ class IntervalEvaluatorOverflowTest {
 
 	private interface UnaryIntervalSetOperator {
 		IntervalSet exec(IntervalSet set);
-
 	}
 
 	private interface BinaryIntervalSetOperator {
@@ -82,14 +81,10 @@ class IntervalEvaluatorOverflowTest {
 		testOverflowMatrix(operator, true);
 	}
 
-	private void testOverflowMatrix(BinaryIntervalSetOperator operator,
-			boolean emptyShouldBeEmpty) {
-		assertEquals(overflow(), operator.exec(IntervalSet.connected(1, 2),
-				overflow()));
-		assertEquals(overflow(), operator.exec(overflow(),
-				IntervalSet.connected(1, 2)));
-		assertEquals(overflow(), operator.exec(IntervalSet.inverted(1, 2),
-				overflow()));
+	private void testOverflowMatrix(BinaryIntervalSetOperator operator, boolean emptyShouldBeEmpty) {
+		assertEquals(overflow(), operator.exec(IntervalSet.connected(1, 2), overflow()));
+		assertEquals(overflow(), operator.exec(overflow(), IntervalSet.connected(1, 2)));
+		assertEquals(overflow(), operator.exec(IntervalSet.inverted(1, 2), overflow()));
 		assertEquals(overflow(), operator.exec(overflow(), IntervalSet.inverted(1, 2)));
 		assertEquals(overflow(), operator.exec(IntervalSet.whole(), overflow()));
 		assertEquals(overflow(), operator.exec(overflow(), IntervalSet.whole()));
@@ -124,5 +119,4 @@ class IntervalEvaluatorOverflowTest {
 	private IntervalSet lnExp(IntervalSet x) {
 		return evaluator.logSet(evaluator.expSet(x));
 	}
-
 }

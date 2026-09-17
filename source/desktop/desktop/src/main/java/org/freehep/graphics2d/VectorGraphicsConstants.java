@@ -5,7 +5,7 @@ package org.freehep.graphics2d;
 /**
  * This interface defines useful constants for users of the VectorGraphics
  * interface.
- * 
+ *
  * @author Charles Loomis
  * @version $Id: VectorGraphicsConstants.java,v 1.4 2009-08-17 21:44:44 murkle
  *          Exp $
@@ -19,58 +19,58 @@ public interface VectorGraphicsConstants {
 	/**
 	 * Vertical line (|) symbol.
 	 */
-	final public static int SYMBOL_VLINE = 0;
+	public static final int SYMBOL_VLINE = 0;
 
 	/**
 	 * Horizontal line (-) symbol.
 	 */
-	final public static int SYMBOL_HLINE = 1;
+	public static final int SYMBOL_HLINE = 1;
 
 	/**
 	 * Plus-shaped (+) symbol.
 	 */
-	final public static int SYMBOL_PLUS = 2;
+	public static final int SYMBOL_PLUS = 2;
 
 	/**
 	 * An x-shaped (x) symbol.
 	 */
-	final public static int SYMBOL_CROSS = 3;
+	public static final int SYMBOL_CROSS = 3;
 
 	/**
 	 * An eight-point star created by combining the plus and cross symbols.
 	 */
-	final public static int SYMBOL_STAR = 4;
+	public static final int SYMBOL_STAR = 4;
 
 	/**
 	 * An open circle (o) symbol.
 	 */
-	final public static int SYMBOL_CIRCLE = 5;
+	public static final int SYMBOL_CIRCLE = 5;
 
 	/**
 	 * An open square symbol.
 	 */
-	final public static int SYMBOL_BOX = 6;
+	public static final int SYMBOL_BOX = 6;
 
 	/**
 	 * An open equilateral triangle pointing up.
 	 */
-	final public static int SYMBOL_UP_TRIANGLE = 7;
+	public static final int SYMBOL_UP_TRIANGLE = 7;
 
 	/**
 	 * An open equilateral triangle pointing down.
 	 */
-	final public static int SYMBOL_DN_TRIANGLE = 8;
+	public static final int SYMBOL_DN_TRIANGLE = 8;
 
 	/**
 	 * An open square symbol rotated by 45 degrees.
 	 */
-	final public static int SYMBOL_DIAMOND = 9;
+	public static final int SYMBOL_DIAMOND = 9;
 
 	/**
 	 * The number of defined symbols. Used in implementations of the
 	 * VectorGraphics interfaces.
 	 */
-	final public static int NUMBER_OF_SYMBOLS = 10;
+	public static final int NUMBER_OF_SYMBOLS = 10;
 
 	// //
 	// Text alignment definitions
@@ -125,5 +125,4 @@ public interface VectorGraphicsConstants {
 	 * implementation of the VectorGraphics interfaces.
 	 */
 	public static final int NUMBER_OF_HORIZ_ALIGNMENTS = 4;
-
 }

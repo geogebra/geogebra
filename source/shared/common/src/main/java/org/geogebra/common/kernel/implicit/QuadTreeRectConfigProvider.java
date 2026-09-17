@@ -33,11 +33,11 @@ public class QuadTreeRectConfigProvider extends MarchingConfigProvider {
 	}
 
 	@Override
-	protected MarchingConfig checkContinuity(MarchingConfig config, MarchingRect marchingRect,
-			MyPoint[] points) {
+	protected MarchingConfig checkContinuity(
+			MarchingConfig config, MarchingRect marchingRect, MyPoint[] points) {
 		QuadTreeEdgeConfig quadTreeEdgeConfig = (QuadTreeEdgeConfig) config;
 		return limitOf(points[0]) <= quadTreeEdgeConfig.getQ1(marchingRect)
-				&& limitOf(points[1]) <= quadTreeEdgeConfig.getQ2(marchingRect)
+						&& limitOf(points[1]) <= quadTreeEdgeConfig.getQ2(marchingRect)
 				? QuadTreeEdgeConfig.VALID
 				: QuadTreeEdgeConfig.EMPTY;
 	}

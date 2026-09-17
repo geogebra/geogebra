@@ -74,8 +74,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 		final double delta = 0.0000001;
 
 		// add to TreeSet to remove duplicates (from touching triangles)
-		TreeSet<GPoint2D> pointTree = new TreeSet<>(
-				getPointComparator());
+		TreeSet<GPoint2D> pointTree = new TreeSet<>(getPointComparator());
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
@@ -84,7 +83,6 @@ public class AlgoVoronoi extends AlgoDiscrete {
 				p.getInhomCoords(inhom);
 
 				pointTree.add(new GPoint2D(inhom[0], inhom[1]));
-
 			}
 		}
 
@@ -111,7 +109,6 @@ public class AlgoVoronoi extends AlgoDiscrete {
 			ycoords.add(y);
 
 			points[pointIndex++] = new PointDt(x, y);
-
 		}
 
 		DelaunayTriangulation dt = new DelaunayTriangulation(points);
@@ -130,8 +127,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 		}
 
 		// add to TreeSet to remove duplicates (from touching triangles)
-		TreeSet<MyLine> tree = new TreeSet<>(
-				AlgoDelauneyTriangulation.getComparator());
+		TreeSet<MyLine> tree = new TreeSet<>(AlgoDelauneyTriangulation.getComparator());
 
 		while (it.hasNext()) {
 			TriangleDt triangle = it.next();
@@ -142,41 +138,31 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 				if (corner != null) {
 
-					PointDt[] voronoiCell = dt.calcVoronoiCell(triangle,
-							corner);
+					PointDt[] voronoiCell = dt.calcVoronoiCell(triangle, corner);
 
 					if (voronoiCell != null) {
 						for (int i = 0; i < voronoiCell.length - 1; i++) {
 							tree.add(new MyLine(
-									new GPoint2D(voronoiCell[i].x(),
-											voronoiCell[i].y()),
+									new GPoint2D(voronoiCell[i].x(), voronoiCell[i].y()),
 									new GPoint2D(
-											voronoiCell[(i + 1)
-													% voronoiCell.length].x(),
-											voronoiCell[(i + 1)
-													% voronoiCell.length]
-															.y())));
-
+											voronoiCell[(i + 1) % voronoiCell.length].x(),
+											voronoiCell[(i + 1) % voronoiCell.length].y())));
 						}
 					}
 				}
 			}
-
 		}
 
 		Iterator<MyLine> it2 = tree.iterator();
 
 		while (it2.hasNext()) {
 			MyLine line = it2.next();
-			al.add(new MyPoint(line.p1.getX(), line.p1.getY(),
-					SegmentType.MOVE_TO));
-			al.add(new MyPoint(line.p2.getX(), line.p2.getY(),
-					SegmentType.LINE_TO));
+			al.add(new MyPoint(line.p1.getX(), line.p1.getY(), SegmentType.MOVE_TO));
+			al.add(new MyPoint(line.p2.getX(), line.p2.getY(), SegmentType.LINE_TO));
 		}
 
 		locus.setPoints(al);
 		locus.setDefined(true);
-
 	}
 
 	/**
@@ -194,17 +180,14 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 				// return 0 if endpoints the same
 				// so no duplicates in the TreeMap
-				if (DoubleUtil.isEqual(p1.getX(), p2.getX())
-						&& DoubleUtil.isEqual(p1.getY(), p2.getY())) {
+				if (DoubleUtil.isEqual(p1.getX(), p2.getX()) && DoubleUtil.isEqual(p1.getY(), p2.getY())) {
 					return 0;
 				}
 
 				// need to return something sensible, otherwise tree doesn't
 				// work
 				return p1.getX() > p2.getX() ? -1 : 1;
-
 			};
-
 		}
 
 		return pointComparator;

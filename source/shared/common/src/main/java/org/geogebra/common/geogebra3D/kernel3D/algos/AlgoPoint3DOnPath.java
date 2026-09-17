@@ -39,8 +39,7 @@ public class AlgoPoint3DOnPath extends AlgoPointOnPath {
 	 * @param z
 	 *            close point z-coord
 	 */
-	public AlgoPoint3DOnPath(Construction cons, Path path,
-			double x, double y, double z) {
+	public AlgoPoint3DOnPath(Construction cons, Path path, double x, double y, double z) {
 		super(cons, path, x, y, z, true);
 	}
 
@@ -52,8 +51,7 @@ public class AlgoPoint3DOnPath extends AlgoPointOnPath {
 	 * @param param
 	 *            path parameter
 	 */
-	public AlgoPoint3DOnPath(Construction cons, Path path,
-			GeoNumberValue param) {
+	public AlgoPoint3DOnPath(Construction cons, Path path, GeoNumberValue param) {
 		super(cons, path, param);
 	}
 
@@ -62,7 +60,5 @@ public class AlgoPoint3DOnPath extends AlgoPointOnPath {
 
 		P = new GeoPoint3D(cons, path);
 		P.setCoords(x, y, z, 1.0);
-
 	}
-
 }

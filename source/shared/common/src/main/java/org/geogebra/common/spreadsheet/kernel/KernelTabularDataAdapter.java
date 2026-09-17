@@ -69,7 +69,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 		// OK: the SpreadsheetSettings listeners are carried over when a new instance is created
 		spreadsheetSettings.addListener((settings) -> {
 			// changeListeners is really just the Spreadsheet instance
-			for (TabularDataChangeListener listener: changeListeners) {
+			for (TabularDataChangeListener listener : changeListeners) {
 				listener.tabularDataDimensionsDidChange(settings);
 			}
 		});
@@ -163,7 +163,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	}
 
 	// Helpers
-	
+
 	private void removeByLabel(String labelSimple) {
 		SpreadsheetCoords pt = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(labelSimple);
 		if (pt != null && pt.column != -1) {
@@ -188,7 +188,7 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	/**
 	 * Sets default visibility (false for texts, true for other objects) for graphics
 	 * and auxiliary flag (always true) for AV .
-	 * @see org.geogebra.common.gui.view.spreadsheet.RelativeCopy#setVisibilityFlags(GeoElementND) 
+	 * @see org.geogebra.common.gui.view.spreadsheet.RelativeCopy#setVisibilityFlags(GeoElementND)
 	 * @param geo the element to be modified
 	 */
 	public static void setEuclidianVisibilityAndAuxiliaryFlag(GeoElementND geo) {
@@ -282,8 +282,8 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 				dimensionsChanged = true;
 			}
 			if (dimensionsChanged) {
-				changeListeners.forEach(listener -> listener.tabularDataDimensionsDidChange(
-						app.getSettings().getSpreadsheet()));
+				changeListeners.forEach(listener ->
+						listener.tabularDataDimensionsDidChange(app.getSettings().getSpreadsheet()));
 			}
 		} else {
 			data.computeIfAbsent(row, ignore -> new HashMap<>()).put(column, null);
@@ -324,8 +324,9 @@ public final class KernelTabularDataAdapter implements UpdateLocationView, Tabul
 	@Override
 	public boolean hasFormulaAt(int row, int column) {
 		GeoElement geo = contentAt(row, column);
-		return geo != null && (geo.getParentAlgorithm() != null
-				|| (geo.getDefinition() != null && geo.getDefinition().hasOperations()));
+		return geo != null
+				&& (geo.getParentAlgorithm() != null
+						|| (geo.getDefinition() != null && geo.getDefinition().hasOperations()));
 	}
 
 	@Override

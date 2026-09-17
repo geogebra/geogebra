@@ -55,11 +55,9 @@ public class AdjustSlider extends AdjustWidget {
 		origY = number.getOrigSliderY();
 
 		width = number.getSliderWidth();
-		origWidth = number.getOrigSliderWidth() == null ? 0
-				: number.getOrigSliderWidth();
+		origWidth = number.getOrigSliderWidth() == null ? 0 : number.getOrigSliderWidth();
 
 		horizontal = number.isSliderHorizontal();
-
 	}
 
 	@Override
@@ -72,8 +70,10 @@ public class AdjustSlider extends AdjustWidget {
 			return true;
 		}
 
-		return DoubleUtil.isEqual(x, origX) && origX + origWidth < view.getWidth()
-				&& DoubleUtil.isEqual(origWidth, width) && DoubleUtil.isEqual(y, origY)
+		return DoubleUtil.isEqual(x, origX)
+				&& origX + origWidth < view.getWidth()
+				&& DoubleUtil.isEqual(origWidth, width)
+				&& DoubleUtil.isEqual(y, origY)
 				&& origY < view.getHeight();
 	}
 
@@ -83,10 +83,12 @@ public class AdjustSlider extends AdjustWidget {
 			return true;
 		}
 
-		if (DoubleUtil.isEqual(x, origX) && origX < view.getViewWidth() - MARGIN_X
+		if (DoubleUtil.isEqual(x, origX)
+				&& origX < view.getViewWidth() - MARGIN_X
 				&& DoubleUtil.isEqual(y, origY)
 				&& origY < view.getViewHeight() - MARGIN_Y
-				&& origY - origWidth > 0 && DoubleUtil.isEqual(origWidth, width)) {
+				&& origY - origWidth > 0
+				&& DoubleUtil.isEqual(origWidth, width)) {
 			Log.debug("VSlider " + number.getLabelSimple() + " is ON screen");
 			return true;
 		}
@@ -136,8 +138,7 @@ public class AdjustSlider extends AdjustWidget {
 		if (y > maxY) {
 			y = maxY;
 		}
-		Log.debug("[AS] slider " + number.getLabelSimple()
-				+ " y: " + y + " maxY: " + maxY);
+		Log.debug("[AS] slider " + number.getLabelSimple() + " y: " + y + " maxY: " + maxY);
 	}
 
 	private void adjustToTop() {
@@ -149,12 +150,11 @@ public class AdjustSlider extends AdjustWidget {
 		if (x > maxX) {
 			x = maxX;
 		}
-
 	}
 
 	/**
 	 * Makes a slider onScreen with no scaling enabled.
-	 * 
+	 *
 	 * @param num
 	 *            The geo represents the slider.
 	 * @param view
@@ -164,6 +164,5 @@ public class AdjustSlider extends AdjustWidget {
 		AdjustSlider adjust = new AdjustSlider(num, view);
 		adjust.setDefaultRatio();
 		adjust.apply();
-
 	}
 }

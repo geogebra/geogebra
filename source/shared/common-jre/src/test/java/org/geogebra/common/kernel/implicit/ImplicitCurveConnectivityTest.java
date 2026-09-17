@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -30,7 +30,7 @@ import org.geogebra.test.BaseAppTestSetup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ImplicitCurveConnectivityTest extends BaseAppTestSetup  {
+class ImplicitCurveConnectivityTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	void setUp() {
@@ -40,9 +40,8 @@ class ImplicitCurveConnectivityTest extends BaseAppTestSetup  {
 	@Test
 	void testCassiniOneClosedCurve() {
 		ContourAssembler contourLinker = newContourLinker();
-		BernsteinImplicitAlgo algo =
-				new BernsteinImplicitAlgo(newBounds(), addCassini(2.98, 0.03),
-						newCells(), contourLinker, 4);
+		BernsteinImplicitAlgo algo = new BernsteinImplicitAlgo(
+				newBounds(), addCassini(2.98, 0.03), newCells(), contourLinker, 4);
 		algo.compute();
 		assertEquals(1, contourLinker.contourCount());
 	}
@@ -58,8 +57,7 @@ class ImplicitCurveConnectivityTest extends BaseAppTestSetup  {
 	private GeoElement addCassini(double a, double c) {
 		evaluate("a = " + a);
 		evaluate("c = " + c);
-		return (GeoElement) evaluate(
-				"eq1: (x^2 + y^2)^2 - 2 * c^2 * (x^2 - y^2) - (a^4 - c^4) = 0")[0];
+		return (GeoElement) evaluate("eq1: (x^2 + y^2)^2 - 2 * c^2 * (x^2 - y^2) - (a^4 - c^4) = 0")[0];
 	}
 
 	@Test
@@ -68,8 +66,7 @@ class ImplicitCurveConnectivityTest extends BaseAppTestSetup  {
 		ContourAssembler linker = newContourLinker();
 		EuclidianViewBounds bounds = newBounds();
 		BernsteinImplicitAlgo algo =
-				new BernsteinImplicitAlgo(bounds, cassiniGeo, newCells(), linker,
-						4);
+				new BernsteinImplicitAlgo(bounds, cassiniGeo, newCells(), linker, 4);
 		algo.compute();
 		assertEquals(2, linker.contourCount());
 	}

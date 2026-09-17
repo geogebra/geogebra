@@ -27,13 +27,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * FitImplicit.Syntax=[ &lt;List of Points&gt;, &lt;Order&gt; ]
- * 
+ *
  */
 public class CmdFitImplicit extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,20 +46,19 @@ public class CmdFitImplicit extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c, info);
 		switch (n) {
-		case 2:
-			if (arg[0].isGeoList() && (arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				if (arg[0].isGeoList() && (arg[1] instanceof GeoNumberValue)) {
 
-				AlgoFitImplicit algo = new AlgoFitImplicit(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoNumberValue) arg[1]);
+					AlgoFitImplicit algo =
+							new AlgoFitImplicit(cons, c.getLabel(), (GeoList) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getFit().toGeoElement() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getFit().toGeoElement()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

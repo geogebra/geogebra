@@ -35,7 +35,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for drawing 3D planes.
- * 
+ *
  * @author mathieu
  *
  */
@@ -44,6 +44,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/** gl index of the grid */
 	private int gridIndex = -1;
+
 	private int gridOutlineIndex = -1;
 
 	private final double[] minmaxXFinal = new double[2];
@@ -51,6 +52,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/** says if the view direction is parallel to the plane */
 	protected boolean viewDirectionIsParallel;
+
 	private final Coords boundsMin = new Coords(3);
 	private final Coords boundsMax = new Coords(3);
 
@@ -60,7 +62,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/**
 	 * Common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param a_plane3D
@@ -79,7 +81,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/**
 	 * Constructor for helpers
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param a_plane3D
@@ -87,13 +89,11 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 * @param geo2
 	 *            parent geo
 	 */
-	public DrawPlane3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D,
-			GeoElement geo2) {
+	public DrawPlane3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D, GeoElement geo2) {
 
 		super(a_view3D);
 		init(a_plane3D, geo2);
 		setMinMax();
-
 	}
 
 	/**
@@ -110,7 +110,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	public void drawGeometry(Renderer renderer) {
 
 		drawPlate(renderer);
-
 	}
 
 	@Override
@@ -120,7 +119,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/**
 	 * draw the plate if visible
-	 * 
+	 *
 	 * @param renderer
 	 *            GL renderer
 	 */
@@ -151,8 +150,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 
 		if (!viewDirectionIsParallel) {
-			renderer.getTextures()
-					.setDashFromLineType(getGeoElement().getLineType());
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 			renderer.getGeometryManager().draw(gridIndex);
 		}
 	}
@@ -175,7 +173,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			setLineTextureHidden(renderer);
 			renderer.getGeometryManager().draw(gridIndex);
 		}
-
 	}
 
 	/*
@@ -185,7 +182,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 */
 
 	/**
-	 * 
+	 *
 	 * @return true if grid is visible
 	 */
 	protected boolean isGridVisible() {
@@ -194,8 +191,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	@Override
 	protected boolean updateForItSelf() {
-		getPlane().setGridCorners(minmaxXFinal[0], minmaxYFinal[0],
-				minmaxXFinal[1], minmaxYFinal[1]);
+		getPlane().setGridCorners(minmaxXFinal[0], minmaxYFinal[0], minmaxXFinal[1], minmaxYFinal[1]);
 		if (isGridVisible()) {
 			updateGridDistances();
 		}
@@ -207,11 +203,10 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		// getPlane().setGridDistances(getView3D().getGridDistances(0),
 		// getView3D()
 		// .getGridDistances(1));
-		getPlane().setGridDistances(
-				getView3D().getGridDistances(
-						getMaxLengthIndex(drawingMatrix.getVx())),
-				getView3D().getGridDistances(
-						getMaxLengthIndex(drawingMatrix.getVy())));
+		getPlane()
+				.setGridDistances(
+						getView3D().getGridDistances(getMaxLengthIndex(drawingMatrix.getVx())),
+						getView3D().getGridDistances(getMaxLengthIndex(drawingMatrix.getVy())));
 	}
 
 	private static int getMaxLengthIndex(Coords v) {
@@ -230,7 +225,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return grid thickness
 	 */
 	protected int getGridThickness() {
@@ -239,7 +234,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/**
 	 * update the geometry
-	 * 
+	 *
 	 * @return true
 	 */
 	protected boolean updateGeometry() {
@@ -286,35 +281,25 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			if (viewDirectionIsParallel) {
 				int t = getGridThickness();
 				float scale = (float) getView3D().getScale();
-				float thickness = brush.setThickness(t == 0 ? 1 : t,
-						(float) getView3D().getScale());
+				float thickness = brush.setThickness(t == 0 ? 1 : t, (float) getView3D().getScale());
 				thickness = thickness / scale;
 
 				// draws the rectangle outline
 				brush.setPlainTexture();
-				coordsys.getPointForDrawing(xmin1, ymax1 - thickness,
-						tmpCoords1);
-				coordsys.getPointForDrawing(xmax1, ymax1 - thickness,
-						tmpCoords2);
+				coordsys.getPointForDrawing(xmin1, ymax1 - thickness, tmpCoords1);
+				coordsys.getPointForDrawing(xmax1, ymax1 - thickness, tmpCoords2);
 				brush.segment(tmpCoords1, tmpCoords2);
-				coordsys.getPointForDrawing(xmin1, ymin1 + thickness,
-						tmpCoords1);
-				coordsys.getPointForDrawing(xmax1, ymin1 + thickness,
-						tmpCoords2);
+				coordsys.getPointForDrawing(xmin1, ymin1 + thickness, tmpCoords1);
+				coordsys.getPointForDrawing(xmax1, ymin1 + thickness, tmpCoords2);
 				brush.segment(tmpCoords1, tmpCoords2);
-				coordsys.getPointForDrawing(xmin1 + thickness, ymin1,
-						tmpCoords1);
-				coordsys.getPointForDrawing(xmin1 + thickness, ymax1,
-						tmpCoords2);
+				coordsys.getPointForDrawing(xmin1 + thickness, ymin1, tmpCoords1);
+				coordsys.getPointForDrawing(xmin1 + thickness, ymax1, tmpCoords2);
 				brush.segment(tmpCoords1, tmpCoords2);
-				coordsys.getPointForDrawing(xmax1 - thickness, ymin1,
-						tmpCoords1);
-				coordsys.getPointForDrawing(xmax1 - thickness, ymax1,
-						tmpCoords2);
+				coordsys.getPointForDrawing(xmax1 - thickness, ymin1, tmpCoords1);
+				coordsys.getPointForDrawing(xmax1 - thickness, ymax1, tmpCoords2);
 				brush.segment(tmpCoords1, tmpCoords2);
 			} else {
-				brush.setThickness(getGridThickness(),
-						(float) getView3D().getScale());
+				brush.setThickness(getGridThickness(), (float) getView3D().getScale());
 				double dx = geo.getGridXd();
 				double dy;
 				if (Double.isNaN(dx)) {
@@ -360,8 +345,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				brush.start(gridIndex);
 			}
 			removeGeometryIndex(gridIndex);
-			final float thickness = brush.setThickness(getGridThickness(),
-					(float) getView3D().getScale());
+			final float thickness =
+					brush.setThickness(getGridThickness(), (float) getView3D().getScale());
 
 			brush.setColor(getGeoElement().getObjectColor());
 
@@ -382,7 +367,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			Coords start = new Coords(4);
 			Coords end = new Coords(4);
 			for (int i = i0; i <= ymax1 / dy; i++) {
-				brush.segment(coordsys.getPointForDrawing(xmin1, i * dy, start),
+				brush.segment(
+						coordsys.getPointForDrawing(xmin1, i * dy, start),
 						coordsys.getPointForDrawing(xmax1, i * dy, end));
 			}
 			// along y axis
@@ -392,7 +378,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				i0++;
 			}
 			for (int i = i0; i <= xmax1 / dx; i++) {
-				brush.segment(coordsys.getPointForDrawing(i * dx, ymin1, start),
+				brush.segment(
+						coordsys.getPointForDrawing(i * dx, ymin1, start),
 						coordsys.getPointForDrawing(i * dx, ymax1, end));
 			}
 
@@ -410,24 +397,20 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 				brush.setPlainTexture();
 			}
 			brush.segment(
-					coordsys.getPointForDrawing(xmin1, ymax1 - thickness,
-							start),
+					coordsys.getPointForDrawing(xmin1, ymax1 - thickness, start),
 					coordsys.getPointForDrawing(xmax1, ymax1 - thickness, end));
 			brush.segment(
-					coordsys.getPointForDrawing(xmin1, ymin1 + thickness,
-							start),
+					coordsys.getPointForDrawing(xmin1, ymin1 + thickness, start),
 					coordsys.getPointForDrawing(xmax1, ymin1 + thickness, end));
 
 			if (showClippingCube) {
 				brush.setAffineTexture((0f - ymin1) / xdelta1, 0.25f);
 			}
 			brush.segment(
-					coordsys.getPointForDrawing(xmin1 + thickness, ymin1,
-							start),
+					coordsys.getPointForDrawing(xmin1 + thickness, ymin1, start),
 					coordsys.getPointForDrawing(xmin1 + thickness, ymax1, end));
 			brush.segment(
-					coordsys.getPointForDrawing(xmax1 - thickness, ymin1,
-							start),
+					coordsys.getPointForDrawing(xmax1 - thickness, ymin1, start),
 					coordsys.getPointForDrawing(xmax1 - thickness, ymax1, end));
 
 			gridOutlineIndex = brush.end();
@@ -438,7 +421,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/**
 	 * Update x, y, z range of bounds given the x-range and y-range of the view
-	 * 
+	 *
 	 * @param xmin
 	 *            x-min
 	 * @param xmax
@@ -448,8 +431,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 * @param ymax
 	 *            y-max
 	 */
-	protected void updateBounds(double xmin, double xmax, double ymin,
-			double ymax) {
+	protected void updateBounds(double xmin, double xmax, double ymin, double ymax) {
 
 		GeoPlane3D geo = getPlane();
 		CoordSys coordsys = geo.getCoordSys();
@@ -486,9 +468,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		if (!Double.isNaN(boundsMin.getX())) {
-            if (dontExtend) {
-                reduceBounds(boundsMin, boundsMax);
-            }
+			if (dontExtend) {
+				reduceBounds(boundsMin, boundsMax);
+			}
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}
@@ -509,7 +491,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 			setWaitForUpdate();
 		}
-
 	}
 
 	@Override
@@ -535,19 +516,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 		if (getView3D().isXREnabled() || getView3D().isUnity()) {
 			setMinMax(getView3D().getClippingCubeDrawable().getVerticesLarge());
-		} else if (getView3D().useClippingCube()
-				|| !getView3D().getSettings().hasSameScales()) {
+		} else if (getView3D().useClippingCube() || !getView3D().getSettings().hasSameScales()) {
 			// make sure the plane goes more than the clipping cube
 			setMinMax(getView3D().getClippingCubeDrawable().getVertices());
 		} else { // use interior clipping cube radius
-			setMinMax(getView3D().getCenter(),
-					getView3D().getFrustumInteriorRadius());
+			setMinMax(getView3D().getCenter(), getView3D().getFrustumInteriorRadius());
 		}
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return plane
 	 */
 	protected GeoPlane3D getPlane() {
@@ -629,23 +607,22 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 */
 	protected void checkViewDirectionIsParallel() {
 		viewDirectionIsParallel = getView3D().showPlaneOutlineIfNeeded()
-				&& DoubleUtil
-						.isZero(getPlane().getCoordSys().getEquationVector()
-								.dotproduct(getView3D().getEyePosition()));
+				&& DoubleUtil.isZero(
+						getPlane().getCoordSys().getEquationVector().dotproduct(getView3D().getEyePosition()));
 	}
 
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
-        super.setWaitForUpdateVisualStyle(prop);
-        if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
-            setWaitForUpdateColor();
-        } else if (prop == GProperty.VISIBLE) {
-            setWaitForUpdateVisibility();
-        } else {
-            // also update for plane clip
-            setWaitForUpdate();
-        }
-    }
+		super.setWaitForUpdateVisualStyle(prop);
+		if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
+			setWaitForUpdateColor();
+		} else if (prop == GProperty.VISIBLE) {
+			setWaitForUpdateVisibility();
+		} else {
+			// also update for plane clip
+			setWaitForUpdate();
+		}
+	}
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -667,17 +644,20 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return false;
 		}
 
-		if (getGeoElement()
-				.getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
 			return false;
 		}
 
 		GeoPlane3D plane = getPlane();
 
 		// project hitting origin on plane
-		hitting.getOrigin().projectPlaneThruVIfPossible(
-				plane.getCoordSys().getDrawingMatrix(), hitting.getDirection(),
-				globalCoords, inPlaneCoords);
+		hitting
+				.getOrigin()
+				.projectPlaneThruVIfPossible(
+						plane.getCoordSys().getDrawingMatrix(),
+						hitting.getDirection(),
+						globalCoords,
+						inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {
 			return false;
@@ -702,15 +682,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		// TODO use other for non-parallel projection :
 		// -hitting.origin.distance(project[0]);
 		double parameterOnHitting = inPlaneCoords.getZ();
-		setZPick(parameterOnHitting, parameterOnHitting,
-				hitting.discardPositiveHits(), -parameterOnHitting);
+		setZPick(
+				parameterOnHitting, parameterOnHitting, hitting.discardPositiveHits(), -parameterOnHitting);
 		return true;
-
 	}
 
 	@Override
-	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D,
-			boolean exportSurface) {
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			if (exportSurface) {
 				exportToPrinter3D.exportSurface(this, true, false);
@@ -721,5 +699,4 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			}
 		}
 	}
-
 }

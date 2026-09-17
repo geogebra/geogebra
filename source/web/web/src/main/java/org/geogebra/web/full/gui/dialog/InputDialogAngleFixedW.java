@@ -59,11 +59,15 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	 * @param ec
 	 *            controller
 	 */
-	public InputDialogAngleFixedW(AppW app, DialogData data, InputHandler handler,
-			GeoSegmentND[] segments, GeoPointND[] points, Kernel kernel,
+	public InputDialogAngleFixedW(
+			AppW app,
+			DialogData data,
+			InputHandler handler,
+			GeoSegmentND[] segments,
+			GeoPointND[] points,
+			Kernel kernel,
 			EuclidianController ec) {
-		super(app, app.getLocalization().getMenu("Angle"), data,
-				defaultRotateAngle, handler, false);
+		super(app, app.getLocalization().getMenu("Angle"), data, defaultRotateAngle, handler, false);
 		this.segments = segments;
 		this.points = points;
 		this.kernel = kernel;
@@ -73,9 +77,15 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	@Override
 	public void processInput() {
 		final String inputText = getInputText();
-		DialogManager.createAngleFixed(kernel, inputText,
-				isClockWise(), this, segments, points,
-				ok -> doProcessInput(ok, inputText), ec);
+		DialogManager.createAngleFixed(
+				kernel,
+				inputText,
+				isClockWise(),
+				this,
+				segments,
+				points,
+				ok -> doProcessInput(ok, inputText),
+				ec);
 	}
 
 	/**

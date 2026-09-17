@@ -11,5 +11,4 @@ public class CommandBra2 extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RowAtom(Symbols.LANGLE, a, Symbols.VERT);
 	}
-
 }

@@ -53,6 +53,6 @@ public class TemplateSaveTest {
 		String fileContent = FileIO.load(pathString);
 		XMLStringBuilder sb = new XMLStringBuilder();
 		app.getActiveEuclidianView().getXML(sb, false);
-        assertEquals(fileContent, sb.toString().trim());
+		assertEquals(fileContent, sb.toString().trim());
 	}
 }

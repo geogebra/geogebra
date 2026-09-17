@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -54,7 +54,7 @@ import org.geogebra.desktop.util.FrameCollector;
 
 /**
  * Dialog to export a slider as animation.
- * 
+ *
  * TODO What happens with the slider context menu entry
  */
 public class AnimationExportDialogD extends Dialog {
@@ -85,6 +85,7 @@ public class AnimationExportDialogD extends Dialog {
 	 * Buttons to close the dialog or start the actual export.
 	 */
 	private JButton cancelButton;
+
 	private JButton exportButton;
 
 	private LocalizationD loc;
@@ -94,7 +95,7 @@ public class AnimationExportDialogD extends Dialog {
 
 	/**
 	 * Construct dialog.
-	 * 
+	 *
 	 * @param app
 	 *            App instance
 	 */
@@ -120,8 +121,8 @@ public class AnimationExportDialogD extends Dialog {
 
 		// combo box with all sliders
 		DefaultComboBoxModel comboModel = new DefaultComboBoxModel<>();
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
+		TreeSet<GeoElement> sortedSet =
+				app.getKernel().getConstruction().getGeoSetNameDescriptionOrder();
 
 		// add rotation around Oz slider if 3D view
 		if (app.getActiveEuclidianView().isEuclidianView3D()) {
@@ -133,7 +134,8 @@ public class AnimationExportDialogD extends Dialog {
 		Iterator<GeoElement> it = sortedSet.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isIntervalMinActive()
+			if (geo.isGeoNumeric()
+					&& ((GeoNumeric) geo).isIntervalMinActive()
 					&& ((GeoNumeric) geo).isIntervalMaxActive()) {
 				comboModel.addElement(geo);
 			}
@@ -145,8 +147,7 @@ public class AnimationExportDialogD extends Dialog {
 
 		// options
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel.setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("Options")));
+		panel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Options")));
 
 		panel.add(new JLabel(loc.getMenu("TimeBetweenFrames") + ":"));
 
@@ -194,12 +195,21 @@ public class AnimationExportDialogD extends Dialog {
 	}
 
 	private static Object gbc(int i) {
-		return new GridBagConstraints(0, i, 1, 1, 1.0, 1.0,
-				GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL,
-				new Insets(5, 5, 5, 5), 0, 0);
+		return new GridBagConstraints(
+				0,
+				i,
+				1,
+				1,
+				1.0,
+				1.0,
+				GridBagConstraints.LINE_START,
+				GridBagConstraints.HORIZONTAL,
+				new Insets(5, 5, 5, 5),
+				0,
+				0);
 	}
 
-	private final static class RotOzSlider implements AnimationExportSlider {
+	private static final class RotOzSlider implements AnimationExportSlider {
 
 		private String description;
 
@@ -208,11 +218,11 @@ public class AnimationExportDialogD extends Dialog {
 		private double value;
 
 		// starts with Ox on the right
-		static final private double min = Math.PI / 2;
+		private static final double min = Math.PI / 2;
 		// ends 2pi later
-		static final private double max = min + 2 * Math.PI;
+		private static final double max = min + 2 * Math.PI;
 		// 1 degree step )
-		static final private double step = Math.PI / 180;
+		private static final double step = Math.PI / 180;
 
 		private RotOzSlider(EuclidianView3DInterface view3D) {
 			this.view3D = view3D;
@@ -220,7 +230,7 @@ public class AnimationExportDialogD extends Dialog {
 
 		/**
 		 * set description displayed in combo box
-		 * 
+		 *
 		 * @param description
 		 *            description
 		 */
@@ -264,15 +274,13 @@ public class AnimationExportDialogD extends Dialog {
 		public void setValue(double x) {
 			value = x;
 		}
-
 	}
 
 	private void addRotOzSlider(DefaultComboBoxModel comboModel) {
 		if (rotOzSlider == null) {
 			rotOzSlider = new RotOzSlider(app.getEuclidianView3D());
 		}
-		rotOzSlider.setDescription(
-				app.getLocalization().getMenu("RotationAroundVerticalAxis"));
+		rotOzSlider.setDescription(app.getLocalization().getMenu("RotationAroundVerticalAxis"));
 		comboModel.addElement(rotOzSlider);
 	}
 
@@ -302,12 +310,11 @@ public class AnimationExportDialogD extends Dialog {
 		this.setEnabled(false);
 		app.getKernel().getAnimationManager().stopAnimation();
 
-		File file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
-				FileExtensions.GIF, null,
-				loc.getMenu("gif") + " " + loc.getMenu("Files"), true, false);
+		File file = ((GuiManagerD) app.getGuiManager())
+				.showSaveDialog(
+						FileExtensions.GIF, null, loc.getMenu("gif") + " " + loc.getMenu("Files"), true, false);
 
-		AnimationExportSlider num = (AnimationExportSlider) cbSliders
-				.getSelectedItem();
+		AnimationExportSlider num = (AnimationExportSlider) cbSliders.getSelectedItem();
 
 		int type = num.getAnimationType();
 		double min = num.getIntervalMin();
@@ -319,39 +326,39 @@ public class AnimationExportDialogD extends Dialog {
 		int n;
 
 		switch (type) {
-		case GeoElement.ANIMATION_DECREASING:
-			step = -num.getAnimationStep();
-			n = (int) ((max - min) / -step);
-			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
-				n++;
-			}
-			if (n == 0) {
-				n = 1;
-			}
-			val = max;
-			break;
-		case GeoElement.ANIMATION_OSCILLATING:
-			step = num.getAnimationStep();
-			n = (int) ((max - min) / step) * 2;
-			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
-				n++;
-			}
-			if (n == 0) {
-				n = 1;
-			}
-			val = min;
-			break;
-		default: // GeoElement.ANIMATION_INCREASING:
-					// GeoElement.ANIMATION_INCREASING_ONCE:
-			step = num.getAnimationStep();
-			n = (int) ((max - min) / step);
-			if (DoubleUtil.isZero(((max - min) / step) - n)) {
-				n++;
-			}
-			if (n == 0) {
-				n = 1;
-			}
-			val = min;
+			case GeoElement.ANIMATION_DECREASING:
+				step = -num.getAnimationStep();
+				n = (int) ((max - min) / -step);
+				if (DoubleUtil.isZero(((max - min) / -step) - n)) {
+					n++;
+				}
+				if (n == 0) {
+					n = 1;
+				}
+				val = max;
+				break;
+			case GeoElement.ANIMATION_OSCILLATING:
+				step = num.getAnimationStep();
+				n = (int) ((max - min) / step) * 2;
+				if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
+					n++;
+				}
+				if (n == 0) {
+					n = 1;
+				}
+				val = min;
+				break;
+			default: // GeoElement.ANIMATION_INCREASING:
+				// GeoElement.ANIMATION_INCREASING_ONCE:
+				step = num.getAnimationStep();
+				n = (int) ((max - min) / step);
+				if (DoubleUtil.isZero(((max - min) / step) - n)) {
+					n++;
+				}
+				if (n == 0) {
+					n = 1;
+				}
+				val = min;
 		}
 
 		final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
@@ -375,7 +382,6 @@ public class AnimationExportDialogD extends Dialog {
 			public void finish() {
 				gifEncoder.finish();
 				setVisible(false);
-
 			}
 		};
 		// hide dialog
@@ -385,8 +391,7 @@ public class AnimationExportDialogD extends Dialog {
 		progressBar.setMaximum(n);
 		progressBar.setMinimum(0);
 		try {
-			app.exportAnimatedGIF(app.getActiveEuclidianView(), collector, num,
-					n, val, min, max, step);
+			app.exportAnimatedGIF(app.getActiveEuclidianView(), collector, num, n, val, min, max, step);
 
 		} catch (Exception ex) {
 			app.showError(Errors.SaveFileFailed);

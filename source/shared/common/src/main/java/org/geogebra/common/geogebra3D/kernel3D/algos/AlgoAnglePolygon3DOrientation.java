@@ -40,8 +40,8 @@ public class AlgoAnglePolygon3DOrientation extends AlgoAnglePolygon3D {
 	 * @param orientation
 	 *            orientation to determine clockwise
 	 */
-	public AlgoAnglePolygon3DOrientation(Construction cons, String[] labels,
-			GeoPolygon poly, GeoDirectionND orientation) {
+	public AlgoAnglePolygon3DOrientation(
+			Construction cons, String[] labels, GeoPolygon poly, GeoDirectionND orientation) {
 		super(cons, labels, poly, orientation, false);
 	}
 
@@ -51,8 +51,7 @@ public class AlgoAnglePolygon3DOrientation extends AlgoAnglePolygon3D {
 	}
 
 	@Override
-	protected void setPolyAndOrientation(GeoPolygon p,
-			GeoDirectionND orientation) {
+	protected void setPolyAndOrientation(GeoPolygon p, GeoDirectionND orientation) {
 		super.setPolyAndOrientation(p, orientation);
 		this.orientation = orientation;
 	}

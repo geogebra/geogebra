@@ -62,15 +62,18 @@ public final class PieChartCenterPositionProperty extends AbstractValuedProperty
 
 	@Override
 	public @Nullable String validateValue(String value) {
-		return PositionPropertyCollection.validatePointExpression(geoPieChart.getKernel()
-				.getParser(), geoPieChart.getKernel().getLocalization(), value);
+		return PositionPropertyCollection.validatePointExpression(
+				geoPieChart.getKernel().getParser(), geoPieChart.getKernel().getLocalization(), value);
 	}
 
 	@Override
 	protected void doSetValue(String value) {
-		CommandRedefineHelper.redefineWithParam(geoPieChart, algoPieChart,
-                algoPieChart.getCenterParamIndex(), value,
-                geoPieChart.getKernel().getApplication());
+		CommandRedefineHelper.redefineWithParam(
+				geoPieChart,
+				algoPieChart,
+				algoPieChart.getCenterParamIndex(),
+				value,
+				geoPieChart.getKernel().getApplication());
 	}
 
 	@Override

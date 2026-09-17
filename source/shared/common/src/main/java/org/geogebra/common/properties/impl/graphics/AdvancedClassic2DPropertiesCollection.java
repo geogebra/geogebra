@@ -36,23 +36,28 @@ public class AdvancedClassic2DPropertiesCollection extends AbstractPropertyColle
 	 * @param settings euclidian settings
 	 * @param euclidianView euclidian view
 	 */
-	public AdvancedClassic2DPropertiesCollection(App app, Localization localization,
-			EuclidianSettings settings, EuclidianView euclidianView) {
+	public AdvancedClassic2DPropertiesCollection(
+			App app, Localization localization, EuclidianSettings settings, EuclidianView euclidianView) {
 		super(localization, "Advanced");
 
 		ArrayList<Property> properties = new ArrayList<>();
 		properties.add(new BackgroundColorProperty(localization, settings));
 		properties.add(new RightAngleStyleProperty(localization, app));
 		properties.add(new PointCapturingProperty(localization, euclidianView));
-		properties.add(app.isUnbundledOrWhiteboard()
-				? new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings())
-				: new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings(),
-				LabelVisibility.Automatic, LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff,
-				LabelVisibility.PointsOnly));
+		properties.add(
+				app.isUnbundledOrWhiteboard()
+						? new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings())
+						: new LabelingProperty(
+								app.getLocalization(),
+								app.getSettings().getLabelSettings(),
+								LabelVisibility.Automatic,
+								LabelVisibility.AlwaysOn,
+								LabelVisibility.AlwaysOff,
+								LabelVisibility.PointsOnly));
 		properties.add(new TooltipProperty(localization, settings, euclidianView));
 		properties.add(new ShowMouseCoordinatesProperty(localization, settings));
-		properties.add(new NavigationBarPropertiesCollection(localization, app,
-				euclidianView.getViewID(), settings));
+		properties.add(new NavigationBarPropertiesCollection(
+				localization, app, euclidianView.getViewID(), settings));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

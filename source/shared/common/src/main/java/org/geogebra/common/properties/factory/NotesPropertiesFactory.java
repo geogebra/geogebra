@@ -40,43 +40,53 @@ import org.geogebra.common.util.NonNullList;
 public class NotesPropertiesFactory extends DefaultPropertiesFactory {
 
 	@Override
-	public List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	public List<PropertiesArray> createProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		return Arrays.asList(
 				createGeneralProperties(app, localization, propertiesRegistry),
 				createGraphicsProperties(app, localization, propertiesRegistry));
 	}
 
 	@Override
-	protected PropertiesArray createGeneralProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
-		return new PropertiesArray("General", localization,
-				registerProperties(propertiesRegistry, NonNullList.of(
-						app.appScope.getLanguageProperty(),
-						new AppFontSizeProperty(localization, app.getSettings()
-								.getFontSettings(), app.getFontSettingsUpdater()),
-						app.getPlatform().isMobile() ? null
-								: createSaveRestoreSettingsProperties(app, localization))));
+	protected PropertiesArray createGeneralProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
+		return new PropertiesArray(
+				"General",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						NonNullList.of(
+								app.appScope.getLanguageProperty(),
+								new AppFontSizeProperty(
+										localization,
+										app.getSettings().getFontSettings(),
+										app.getFontSettingsUpdater()),
+								app.getPlatform().isMobile()
+										? null
+										: createSaveRestoreSettingsProperties(app, localization))));
 	}
 
 	@Override
-	protected PropertiesArray createGraphicsProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGraphicsProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		EuclidianView activeView = app.getActiveEuclidianView();
 		EuclidianSettings euclidianSettings = activeView.getSettings();
-		return new PropertiesArray("DrawingPad", localization,
-				registerProperties(propertiesRegistry,
+		return new PropertiesArray(
+				"DrawingPad",
+				localization,
+				registerProperties(
+						propertiesRegistry,
 						new BackgroundPropertyCollection(localization, euclidianSettings),
 						new RulingPropertiesCollection(localization, euclidianSettings, activeView),
-						new PropertyCollectionWithLead(localization, "Axes",
+						new PropertyCollectionWithLead(
+								localization,
+								"Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings),
 								new AxesColorProperty(localization, euclidianSettings),
 								new AxesLineStyleProperty(localization, euclidianSettings),
 								new AxesBoldProperty(localization, euclidianSettings),
-								new LabelStylePropertyCollection(localization, euclidianSettings)
-						),
+								new LabelStylePropertyCollection(localization, euclidianSettings)),
 						axisExpandableProperty2D(0, "xAxis", app, localization, activeView),
-						axisExpandableProperty2D(1, "yAxis", app, localization, activeView))
-		);
+						axisExpandableProperty2D(1, "yAxis", app, localization, activeView)));
 	}
 }

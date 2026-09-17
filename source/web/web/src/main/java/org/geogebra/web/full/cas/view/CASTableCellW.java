@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Graphical representation of CAS cells in Web
- * 
+ *
  * @author Zbynek Konecny
  *
  */
@@ -56,7 +56,7 @@ public final class CASTableCellW extends FlowPanel {
 
 	/**
 	 * Creates new graphical representation of CAS cell
-	 * 
+	 *
 	 * @param casCell
 	 *            cas cell value
 	 * @param app
@@ -65,8 +65,7 @@ public final class CASTableCellW extends FlowPanel {
 	public CASTableCellW(GeoCasCell casCell, App app) {
 		this.casCell = casCell;
 		inputPanel = (casCell == null || !casCell.isUseAsText())
-				? new InputPanelCanvas(
-				app)
+				? new InputPanelCanvas(app)
 				: new InputPanelLabel();
 		inputPanel.addStyleName("CAS_inputPanel");
 		if (casCell != null) {
@@ -86,9 +85,8 @@ public final class CASTableCellW extends FlowPanel {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				String eqstring = casCell.getLaTeXOutput();
 
-				canvas = DrawEquationW.paintOnCanvasOutput(casCell, eqstring,
-						null,
-						casCell.getKernel().getApplication().getFontSize() + 1);
+				canvas = DrawEquationW.paintOnCanvasOutput(
+						casCell, eqstring, null, casCell.getKernel().getApplication().getFontSize() + 1);
 			} else {
 				outputLabel = renderPlain();
 			}
@@ -106,8 +104,7 @@ public final class CASTableCellW extends FlowPanel {
 			} else {
 				commentLabel.setText(casCell.getCommandAndComment() + " ");
 			}
-			commentLabel.getElement().getStyle()
-					.setFontSize(app.getFontSize(), Unit.PX);
+			commentLabel.getElement().getStyle().setFontSize(app.getFontSize(), Unit.PX);
 			outputPanel.add(commentLabel);
 		}
 		outputPanel.add(canvas == null ? outputLabel : canvas);
@@ -119,8 +116,7 @@ public final class CASTableCellW extends FlowPanel {
 		String ret = casCell.getLaTeXInput();
 		if (ret == null) {
 			try {
-				Formula mf = new Parser(new TemplateCatalog())
-						.parse(casCell.getLocalizedInput());
+				Formula mf = new Parser(new TemplateCatalog()).parse(casCell.getLocalizedInput());
 				return new TeXSerializer().serialize(mf);
 			} catch (ParseException e) {
 				Log.debug("Cannot parse cas call input");
@@ -147,8 +143,7 @@ public final class CASTableCellW extends FlowPanel {
 	 * @param asText
 	 *            whether this is plain text mode
 	 */
-	public void startEditing(CASEditorW casEditorW, String newText,
-			boolean asText) {
+	public void startEditing(CASEditorW casEditorW, String newText, boolean asText) {
 		clear();
 		textField = casEditorW;
 		add(textField.asWidget());
@@ -238,8 +233,7 @@ public final class CASTableCellW extends FlowPanel {
 	 */
 	public void setColor() {
 		GColor newColor = casCell.getFontColor();
-		inputPanel.getElement().getStyle()
-				.setColor(GColor.getColorString(newColor));
+		inputPanel.getElement().getStyle().setColor(GColor.getColorString(newColor));
 	}
 
 	/**
@@ -258,7 +252,7 @@ public final class CASTableCellW extends FlowPanel {
 
 	/**
 	 * Insert input to currently edited position and start edit mode
-	 * 
+	 *
 	 * @param input
 	 *            input string
 	 */
@@ -281,16 +275,13 @@ public final class CASTableCellW extends FlowPanel {
 				this.outputPanel.clear();
 				if (this.commentLabel != null) {
 					this.commentLabel
-						.getElement()
-						.getStyle()
-						.setFontSize(
-								casCell.getKernel().getApplication()
-										.getFontSize(), Unit.PX);
+							.getElement()
+							.getStyle()
+							.setFontSize(casCell.getKernel().getApplication().getFontSize(), Unit.PX);
 					this.outputPanel.add(this.commentLabel);
 				}
-				this.outputPanel.add(DrawEquationW.paintOnCanvasOutput(casCell,
-						eqstring, null, casCell.getKernel().getApplication()
-								.getFontSize() + 1));
+				this.outputPanel.add(DrawEquationW.paintOnCanvasOutput(
+						casCell, eqstring, null, casCell.getKernel().getApplication().getFontSize() + 1));
 			}
 		}
 		this.inputPanel.setPixelRatio(ratio);

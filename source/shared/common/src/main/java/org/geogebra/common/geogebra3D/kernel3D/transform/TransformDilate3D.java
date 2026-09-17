@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 3D dilate
- * 
+ *
  * @author mathieu
  *
  */
@@ -34,19 +34,17 @@ public class TransformDilate3D extends TransformDilate {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param ratio
 	 *            ratio for dilate
 	 * @param center
 	 *            center for dilate
-	 * 
+	 *
 	 */
-	public TransformDilate3D(Construction cons, GeoNumberValue ratio,
-			GeoPointND center) {
+	public TransformDilate3D(Construction cons, GeoNumberValue ratio, GeoPointND center) {
 		super(cons, ratio, center);
-
 	}
 
 	@Override
@@ -54,5 +52,4 @@ public class TransformDilate3D extends TransformDilate {
 		AlgoTransformation algo = new AlgoDilate3D(cons, geo, ratio, center);
 		return algo;
 	}
-
 }

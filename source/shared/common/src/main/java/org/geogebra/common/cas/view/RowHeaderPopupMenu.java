@@ -45,5 +45,4 @@ public class RowHeaderPopupMenu {
 		}
 		return loc.getPlain("DeleteARows", Integer.toString(selRows.length));
 	}
-
 }

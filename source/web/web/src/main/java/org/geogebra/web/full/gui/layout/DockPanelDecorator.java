@@ -68,7 +68,7 @@ public interface DockPanelDecorator {
 
 	/**
 	 * Resizes the table on small screen.
-
+	 *
 	 * @param tabHeight the tab height where the table is on.
 	 */
 	void resizeTableSmallScreen(int tabHeight, StickyTable<?> table);

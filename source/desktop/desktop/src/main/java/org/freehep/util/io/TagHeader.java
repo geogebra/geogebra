@@ -4,7 +4,7 @@ package org.freehep.util.io;
 /**
  * Keeps the tagID and Length of a specific tag. To be used in the InputStream
  * to return the tagID and Length, and in the OutputStream to write them.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: TagHeader.java,v 1.3 2008-05-04 12:20:58 murkle Exp $
@@ -17,7 +17,7 @@ public class TagHeader {
 
 	/**
 	 * Creates a tag header
-	 * 
+	 *
 	 * @param tagID
 	 *            id of tag
 	 * @param length
@@ -30,7 +30,7 @@ public class TagHeader {
 
 	/**
 	 * Sets the tag id
-	 * 
+	 *
 	 * @param tagID
 	 *            new tag id
 	 */
@@ -47,7 +47,7 @@ public class TagHeader {
 
 	/**
 	 * Sets the length of the tag
-	 * 
+	 *
 	 * @param length
 	 *            new length
 	 */

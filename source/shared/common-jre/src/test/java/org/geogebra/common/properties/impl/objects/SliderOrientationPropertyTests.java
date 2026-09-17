@@ -32,8 +32,8 @@ class SliderOrientationPropertyTests extends BaseAppTestSetup {
 	void testChangingOrientation() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("Slider(-5, 5, 1)");
-		SliderOrientationProperty sliderOrientationProperty = assertDoesNotThrow(() ->
-				new SliderOrientationProperty(getLocalization(), slider));
+		SliderOrientationProperty sliderOrientationProperty =
+				assertDoesNotThrow(() -> new SliderOrientationProperty(getLocalization(), slider));
 
 		sliderOrientationProperty.setValue(SliderOrientation.HORIZONTAL);
 		assertEquals(SliderOrientation.HORIZONTAL, sliderOrientationProperty.getValue());

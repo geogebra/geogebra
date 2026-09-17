@@ -53,8 +53,8 @@ public final class LineOpacityProperty extends AbstractRangeProperty<Integer> {
 	 */
 	public static LineOpacityProperty forSlider(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		return new LineOpacityProperty(localization,
-				new SliderPropertyDelegate(element).getElement(), 5);
+		return new LineOpacityProperty(
+				localization, new SliderPropertyDelegate(element).getElement(), 5);
 	}
 
 	private LineOpacityProperty(Localization localization, GeoElement element, int step) {

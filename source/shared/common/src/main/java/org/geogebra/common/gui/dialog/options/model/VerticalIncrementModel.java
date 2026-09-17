@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.impl.objects.VerticalStepProperty;
 
-public class VerticalIncrementModel extends TextPropertyModel{
+public class VerticalIncrementModel extends TextPropertyModel {
 
 	public VerticalIncrementModel(App app) {
 		super(app);

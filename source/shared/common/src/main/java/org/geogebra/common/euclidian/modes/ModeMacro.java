@@ -55,7 +55,7 @@ public class ModeMacro {
 
 	/**
 	 * If enough inputs are selected, process macro.
-	 * 
+	 *
 	 * @param callback2
 	 *            callback
 	 * @return whether macro was processed
@@ -86,8 +86,8 @@ public class ModeMacro {
 	 *            whether this is for preview
 	 * @return whether macro was successfully processed
 	 */
-	public final boolean macro(Hits hits0, final AsyncOperation<Boolean> callback2,
-			boolean selPreview) {
+	public final boolean macro(
+			Hits hits0, final AsyncOperation<Boolean> callback2, boolean selPreview) {
 		// try to get next needed type of macroInput
 		index = ec.selGeos();
 		Hits hits = hits0;
@@ -96,8 +96,14 @@ public class ModeMacro {
 			hits = hits.getPolyhedronsIncludingMetaHits();
 		}
 		// standard case: try to get one object of needed input type
-		boolean objectFound = 1 == ec.handleAddSelected(hits, macroInput.length, false,
-				selection.getSelectedGeoList(), macroInput[index], selPreview);
+		boolean objectFound = 1
+				== ec.handleAddSelected(
+						hits,
+						macroInput.length,
+						false,
+						selection.getSelectedGeoList(),
+						macroInput[index],
+						selPreview);
 
 		// we're done if in selection preview
 		if (selPreview) {
@@ -108,8 +114,9 @@ public class ModeMacro {
 		}
 
 		// only one point needed: try to create it
-		if (!objectFound && (macroInput[index].equals(TestGeo.GEOPOINT)
-				|| macroInput[index].equals(TestGeo.GEOPOINTND))) {
+		if (!objectFound
+				&& (macroInput[index].equals(TestGeo.GEOPOINT)
+						|| macroInput[index].equals(TestGeo.GEOPOINTND))) {
 			GeoPointND newPoint = ec.createNewPoint(hits, true, false, true, false, false);
 			if (newPoint != null) {
 				// take movedGeoPoint which is the newly created point
@@ -121,7 +128,8 @@ public class ModeMacro {
 		}
 
 		// object found in handleAddSelected()
-		if (objectFound || macroInput[index].equals(TestGeo.GEONUMERIC)
+		if (objectFound
+				|| macroInput[index].equals(TestGeo.GEONUMERIC)
 				|| macroInput[index].equals(TestGeo.GEOANGLE)) {
 			if (!objectFound) {
 				index--;
@@ -133,7 +141,6 @@ public class ModeMacro {
 				public void callback(GeoNumberValue num) {
 					handleNumber(num, callback2, this);
 				}
-
 			};
 			// look ahead if we need a number or an angle next
 			readNumberOrAngleIfNeeded(callback3);
@@ -142,7 +149,9 @@ public class ModeMacro {
 		return macroProcess(callback2);
 	}
 
-	protected void handleNumber(GeoNumberValue num, AsyncOperation<Boolean> callback2,
+	protected void handleNumber(
+			GeoNumberValue num,
+			AsyncOperation<Boolean> callback2,
 			AsyncOperation<GeoNumberValue> callback3) {
 		if (num == null) {
 			// no success: reset mode
@@ -164,12 +173,11 @@ public class ModeMacro {
 				ec.storeUndoInfo();
 			}
 		}
-
 	}
 
 	/**
 	 * Wait for number or angle for a macro.
-	 * 
+	 *
 	 * @param callback3
 	 *            callback
 	 */
@@ -178,25 +186,31 @@ public class ModeMacro {
 
 			// maybe we need a number
 			if (macroInput[index].equals(TestGeo.GEONUMERIC)) {
-				kernel.getApplication().getDialogManager().showNumberInputDialog(
-						macro.getToolOrCommandName(),
-						localization.getMenu("Numeric"), null, callback3);
+				kernel
+						.getApplication()
+						.getDialogManager()
+						.showNumberInputDialog(
+								macro.getToolOrCommandName(), localization.getMenu("Numeric"), null, callback3);
 
 			}
 
 			// maybe we need an angle
 			else if (macroInput[index].equals(TestGeo.GEOANGLE)) {
-				kernel.getApplication().getDialogManager().showAngleInputDialog(
-						macro.getToolOrCommandName(),
-						localization.getMenu("Angle"), Unicode.FORTY_FIVE_DEGREES_STRING,
-						callback3);
+				kernel
+						.getApplication()
+						.getDialogManager()
+						.showAngleInputDialog(
+								macro.getToolOrCommandName(),
+								localization.getMenu("Angle"),
+								Unicode.FORTY_FIVE_DEGREES_STRING,
+								callback3);
 			}
 		}
 	}
 
 	/**
 	 * Set macro mode.
-	 * 
+	 *
 	 * @param mode1
 	 *            app mode
 	 */

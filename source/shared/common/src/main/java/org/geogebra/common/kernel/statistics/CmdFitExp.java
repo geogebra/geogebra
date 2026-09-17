@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * FitExp[&lt;List of Points&gt;]
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 12.04.08
  */
@@ -31,7 +31,7 @@ public class CmdFitExp extends CmdOneListFunction {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,10 +40,9 @@ public class CmdFitExp extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoFitExp algo = new AlgoFitExp(cons, b);
 		algo.getFitExp().setLabel(a);
 		return algo.getFitExp();
 	}
-
 }

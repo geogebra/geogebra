@@ -27,10 +27,9 @@ import org.geogebra.common.util.MyMath;
 
 /**
  * Prime factors of a number. Adapted from AlgoPrimeFactors
- * 
+ *
  * @author Zbynek Konecny
  */
-
 public class AlgoPrimeFactorization extends AlgoElement {
 
 	private GeoNumberValue num; // input
@@ -38,7 +37,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 
 	/**
 	 * Creates new factorization algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param num
@@ -56,7 +55,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 
 	/**
 	 * Creates new factorization algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -64,8 +63,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 	 * @param num
 	 *            Number to factorize
 	 */
-	public AlgoPrimeFactorization(Construction cons, String label,
-			GeoNumberValue num) {
+	public AlgoPrimeFactorization(Construction cons, String label, GeoNumberValue num) {
 		this(cons, num);
 		outputList.setLabel(label);
 	}
@@ -86,7 +84,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 
 	/**
 	 * Returns the list of points (prime,exponent)
-	 * 
+	 *
 	 * @return the list of points (prime,exponent)
 	 */
 	public GeoList getResult() {
@@ -153,5 +151,4 @@ public class AlgoPrimeFactorization extends AlgoElement {
 		listElement.add(prime);
 		listElement.add(exponent);
 	}
-
 }

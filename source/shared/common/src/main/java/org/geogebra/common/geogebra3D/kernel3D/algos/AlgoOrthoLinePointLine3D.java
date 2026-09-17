@@ -43,17 +43,16 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 	 * @param line
 	 *            orthogonal line
 	 */
-	public AlgoOrthoLinePointLine3D(Construction cons, String label,
-			GeoPointND point, GeoLineND line) {
+	public AlgoOrthoLinePointLine3D(
+			Construction cons, String label, GeoPointND point, GeoLineND line) {
 		super(cons, label, point, (GeoElement) line);
 	}
 
 	@Override
 	protected void setSpecificInputOutput() {
 		setInputOutput(
-				new GeoElement[] { (GeoElement) point, inputOrtho,
-						(GeoSpace) cons.getSpace() },
-				new GeoElement[] { line });
+				new GeoElement[] {(GeoElement) point, inputOrtho, (GeoSpace) cons.getSpace()},
+				new GeoElement[] {line});
 	}
 
 	@Override
@@ -70,8 +69,7 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 
 		GeoLineND line1 = getInputLine();
 		Coords o = line1.getPointInD(3, 0).getInhomCoordsInSameDimension();
-		Coords v1 = line1.getPointInD(3, 1).getInhomCoordsInSameDimension()
-				.sub(o);
+		Coords v1 = line1.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
 		Coords o2 = getPoint().getInhomCoordsInD3();
 		Coords v2 = o2.sub(o);
 
@@ -83,13 +81,12 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 		} else {
 			getLine().setCoord(getPoint().getInhomCoordsInD3(), v.normalize());
 		}
-
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LineThroughAPerpendicularToBinSpace",
-				point.getLabel(tpl), inputOrtho.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain(
+						"LineThroughAPerpendicularToBinSpace", point.getLabel(tpl), inputOrtho.getLabel(tpl));
 	}
-
 }

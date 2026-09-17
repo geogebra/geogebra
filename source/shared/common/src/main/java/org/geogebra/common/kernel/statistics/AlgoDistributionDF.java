@@ -27,5 +27,4 @@ public interface AlgoDistributionDF {
 	 * @return distribution function.
 	 */
 	GeoFunction getResult();
-
 }

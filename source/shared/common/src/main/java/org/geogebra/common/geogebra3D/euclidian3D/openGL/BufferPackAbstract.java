@@ -38,7 +38,7 @@ abstract class BufferPackAbstract {
 	private TreeMap<Index, BufferSegment> segmentStarts;
 
 	/**
-	 * 
+	 *
 	 * @param elementsLengthOther
 	 *            geometry elements length
 	 * @param indicesLengthOther
@@ -49,7 +49,7 @@ abstract class BufferPackAbstract {
 
 	/**
 	 * Prepare buffers to add geometry and update length
-	 * 
+	 *
 	 * @param elementsLengthToAdd
 	 *            geometry to add elements length
 	 * @param indicesLengthToAdd
@@ -64,7 +64,7 @@ abstract class BufferPackAbstract {
 
 	/**
 	 * set elements to buffers
-	 * 
+	 *
 	 * @param translate
 	 *            translate all vertices
 	 * @param scale
@@ -72,12 +72,11 @@ abstract class BufferPackAbstract {
 	 * @param reuseSegment
 	 *            says if it reuses an existing segment
 	 */
-	abstract void setElements(float[] translate, float scale,
-			boolean reuseSegment);
+	abstract void setElements(float[] translate, float scale, boolean reuseSegment);
 
 	/**
 	 * set color to buffer
-	 * 
+	 *
 	 * @param color
 	 *            color
 	 * @param layer
@@ -91,7 +90,7 @@ abstract class BufferPackAbstract {
 
 	/**
 	 * set alpha to current buffer segment
-	 * 
+	 *
 	 * @param alpha
 	 *            alpha value
 	 * @param layer
@@ -101,7 +100,7 @@ abstract class BufferPackAbstract {
 
 	/**
 	 * draw this pack
-	 * 
+	 *
 	 * @param r
 	 *            renderer
 	 */
@@ -118,7 +117,7 @@ abstract class BufferPackAbstract {
 
 	/**
 	 * set alpha values to transparent
-	 * 
+	 *
 	 * @param offset
 	 *            elements offset
 	 * @param length
@@ -128,17 +127,17 @@ abstract class BufferPackAbstract {
 
 	/**
 	 * put index in indices buffer
-	 * 
+	 *
 	 * @param indicesIndex
 	 *            index in buffer
 	 * @param value
 	 *            value to put
-	 * 
+	 *
 	 */
 	abstract void putToIndices(int indicesIndex, short value);
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 *            position in buffer
 	 * @return vertex buffer at position
@@ -146,7 +145,7 @@ abstract class BufferPackAbstract {
 	abstract GLBuffer getVertexBuffer(int position);
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 *            position in buffer
 	 * @return normal buffer at position
@@ -154,7 +153,7 @@ abstract class BufferPackAbstract {
 	abstract GLBuffer getNormalBuffer(int position);
 
 	/**
-	 * 
+	 *
 	 * @param position
 	 *            position in buffer
 	 * @return vertex buffer at position
@@ -162,7 +161,7 @@ abstract class BufferPackAbstract {
 	abstract GLBufferIndices getIndicesBuffer(int position);
 
 	/**
-	 * 
+	 *
 	 * @return if can be reused (when adding available segments)
 	 */
 	boolean canBeReused() {
@@ -170,7 +169,7 @@ abstract class BufferPackAbstract {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return segments ends
 	 */
 	TreeMap<Index, BufferSegment> getSegmentEnds() {
@@ -181,7 +180,7 @@ abstract class BufferPackAbstract {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return segments starts
 	 */
 	TreeMap<Index, BufferSegment> getSegmentStarts() {
@@ -192,7 +191,7 @@ abstract class BufferPackAbstract {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if used as a big buffer
 	 */
 	boolean isBigBuffer() {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,7 +51,7 @@ import org.geogebra.desktop.util.CASDropTargetListener;
 
 /**
  * Computer algebra view.
- * 
+ *
  * @author Markus Hohenwarter, Quan Yuan
  */
 public class CASViewD extends CASView implements Gridable, SetOrientation {
@@ -63,8 +63,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	private CASSubDialogD subDialog;
 	private final ListSelectionModel listSelModel;
 
-	final private AppD app;
-	final private RowHeaderD rowHeader;
+	private final AppD app;
+	private final RowHeaderD rowHeader;
 
 	/** stylebar */
 	CASStyleBar styleBar;
@@ -78,7 +78,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	/**
 	 * Creates new CAS view
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -103,8 +103,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
-		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+		p.setBorder(BorderFactory.createMatteBorder(
+				1, 0, 0, 1, GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		p.setBackground(Color.white);
 		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, p);
 
@@ -114,8 +114,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 		component.setBackground(Color.white);
 
-		getConsoleTable().getSelectionModel()
-				.addListSelectionListener(selectionListener());
+		getConsoleTable().getSelectionModel().addListSelectionListener(selectionListener());
 
 		// listen to clicks below last row in consoleTable: create new row
 		scrollPane.addMouseListener(scrollPaneListener());
@@ -125,13 +124,11 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		// addFocusListener(this);
 
 		// Create new DragGestureListener and enable Drag
-		CASDragGestureListener dragGestListener = new CASDragGestureListener(
-				kernel, consoleTable);
+		CASDragGestureListener dragGestListener = new CASDragGestureListener(kernel, consoleTable);
 		dragGestListener.enableDnD();
 
 		// Create new CASDropTargetListener and enable Drop
-		CASDropTargetListener dropTargetListener = new CASDropTargetListener(
-				app, this, consoleTable);
+		CASDropTargetListener dropTargetListener = new CASDropTargetListener(app, this, consoleTable);
 		dropTargetListener.enableDnD();
 
 		updateFonts();
@@ -142,7 +139,6 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 			if (gm != null) {
 				gm.reInitHelpPanel(true);
 			}
-
 		});
 		initCAS.start();
 	}
@@ -159,8 +155,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 				// update list of selected objects in the stylebar
 				ArrayList<GeoElement> targetCells = new ArrayList<>();
 				for (int i = 0; i < getConsoleTable().getRowCount(); i++) {
-					GeoElement cell = getConsoleTable()
-							.getGeoCasCell(selRows[0]);
+					GeoElement cell = getConsoleTable().getGeoCasCell(selRows[0]);
 					if (cell != null) {
 						targetCells.add(cell);
 					}
@@ -188,15 +183,12 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 						// undoNeeded = true;
 					} else {
 						getConsoleTable().stopEditing();
-						GeoCasCell cellValue = getConsoleTable()
-								.getGeoCasCell(rows - 1);
-						if (!cellValue.isInputEmpty()
-								&& cellValue.isOutputEmpty()) {
+						GeoCasCell cellValue = getConsoleTable().getGeoCasCell(rows - 1);
+						if (!cellValue.isInputEmpty() && cellValue.isOutputEmpty()) {
 							getConsoleTable().startEditingRow(rows - 1);
 							processInput("Evaluate", true);
 							ensureOneEmptyRow();
-							getConsoleTable()
-									.startEditingRow(getRowCount() - 1);
+							getConsoleTable().startEditingRow(getRowCount() - 1);
 						} else {
 							insertRow(null, true);
 							// undoNeeded = true;
@@ -213,14 +205,13 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	}
 
 	@Override
-	public void showSubstituteDialog(final String prefix, final String evalText,
-			final String postfix, final int selRow) {
+	public void showSubstituteDialog(
+			final String prefix, final String evalText, final String postfix, final int selRow) {
 		if (subDialog != null && subDialog.isShowing()) {
 			return;
 		}
 		SwingUtilities.invokeLater(() -> {
-			CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix,
-					evalText, postfix, selRow);
+			CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix, evalText, postfix, selRow);
 			d.setAlwaysOnTop(true);
 			d.setVisible(true);
 			setSubstituteDialog(d);
@@ -229,7 +220,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	/**
 	 * Make sure this view knows whether substitute dialog is open
-	 * 
+	 *
 	 * @param d
 	 *            substitute dialog; null to "close"
 	 */
@@ -259,12 +250,9 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	private void createCASTable() {
 		consoleTable = new CASTableD(this);
 
-		CASTableCellControllerD inputListener = new CASTableCellControllerD(
-				this);
-		getConsoleTable().getEditor().getInputArea()
-				.addKeyListener(inputListener);
-		getConsoleTable().getEditor().getInputArea()
-				.addMouseListener(inputListener);
+		CASTableCellControllerD inputListener = new CASTableCellControllerD(this);
+		getConsoleTable().getEditor().getInputArea().addKeyListener(inputListener);
+		getConsoleTable().getEditor().getInputArea().addMouseListener(inputListener);
 	}
 
 	@Override
@@ -274,7 +262,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	/**
 	 * Component representation of this view
-	 * 
+	 *
 	 * @return reference to self
 	 */
 	public JComponent getCASViewComponent() {
@@ -308,8 +296,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	@Override
 	public int[] getGridColwidths() {
-		return new int[] {
-				rowHeader.getWidth() + getConsoleTable().getWidth() };
+		return new int[] {rowHeader.getWidth() + getConsoleTable().getWidth()};
 	}
 
 	@Override
@@ -323,13 +310,13 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 	@Override
 	public Component[][] getPrintComponents() {
-		return new Component[][] { { rowHeader, consoleTable } };
+		return new Component[][] {{rowHeader, consoleTable}};
 	}
 
 	/**
 	 * Returns stylebar for this view; if not initialized so far, creates new
 	 * one
-	 * 
+	 *
 	 * @return style bar
 	 */
 	public CASStyleBar getCASStyleBar() {

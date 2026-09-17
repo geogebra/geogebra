@@ -57,5 +57,4 @@ public abstract class MyHeaderPanel extends HeaderPanel implements SetLabels {
 	 *            new height (pixels)
 	 */
 	public abstract void resizeTo(int width, int height);
-
 }

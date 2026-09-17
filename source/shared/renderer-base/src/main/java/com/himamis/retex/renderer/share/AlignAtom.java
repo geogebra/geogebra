@@ -47,8 +47,7 @@ package com.himamis.retex.renderer.share;
 
 public class AlignAtom extends ArrayAtom {
 
-	protected static final SpaceAtom align = new SpaceAtom(
-			TeXConstants.Muskip.MED);
+	protected static final SpaceAtom align = new SpaceAtom(TeXConstants.Muskip.MED);
 	protected boolean aligned;
 
 	/**
@@ -76,8 +75,7 @@ public class AlignAtom extends ArrayAtom {
 	public double[] getColumnSep(TeXEnvironment env, double width) {
 		final int col = matrix.col;
 		final double[] seps = new double[col + 1];
-		final double w = aligned ? Double.POSITIVE_INFINITY
-				: env.lengthSettings().getTextwidth(env);
+		final double w = aligned ? Double.POSITIVE_INFINITY : env.lengthSettings().getTextwidth(env);
 
 		// Align env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft
 		// \medskip el_rgt hsep ... hsep elem hsep

@@ -84,5 +84,4 @@ public abstract class CommandStyle extends Command {
 	}
 
 	public abstract Atom newI(TeXParser tp, Atom a);
-
 }

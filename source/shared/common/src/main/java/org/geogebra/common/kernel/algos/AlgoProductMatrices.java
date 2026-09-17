@@ -24,10 +24,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Product of square matrices {A,B,C} returns A*B*C
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoProductMatrices extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -41,8 +40,7 @@ public class AlgoProductMatrices extends AlgoElement {
 	 * @param geoList
 	 *            list of matrices
 	 */
-	public AlgoProductMatrices(Construction cons, String label,
-			GeoList geoList) {
+	public AlgoProductMatrices(Construction cons, String label, GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;
 
@@ -136,8 +134,7 @@ public class AlgoProductMatrices extends AlgoElement {
 					// Log.debug(" ");
 
 					for (int n = 0; n < matrix.size(); n++) {
-						count += working[r][n]
-								* matrix.get(n, c).evaluateDouble();
+						count += working[r][n] * matrix.get(n, c).evaluateDouble();
 						// Log.debug(working[r][n] +" * "+ matrix.get(n,
 						// c).evaluateDouble());
 					}
@@ -159,5 +156,4 @@ public class AlgoProductMatrices extends AlgoElement {
 
 		result.set(ret);
 	}
-
 }

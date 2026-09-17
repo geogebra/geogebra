@@ -54,15 +54,16 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 
 	@Override
 	public void segment(EuclidianViewBounds bounds, double x1, double y1, double x2, double y2) {
-		segmentClipped(bounds.toScreenCoordXd(x1),
+		segmentClipped(
+				bounds.toScreenCoordXd(x1),
 				bounds.toScreenCoordYd(y1),
 				bounds.toScreenCoordXd(x2),
 				bounds.toScreenCoordYd(y2),
 				bounds.getHeight());
 	}
 
-	private void segmentClipped(double screenX1, double screenY1,
-			double screenX2, double screenY2, int height) {
+	private void segmentClipped(
+			double screenX1, double screenY1, double screenX2, double screenY2, int height) {
 		if (isSegmentOffscreen(screenY1, screenY2, height)) {
 			return;
 		}
@@ -85,18 +86,11 @@ public class IntervalPathPlotterImpl implements IntervalPathPlotter {
 
 	@Override
 	public void leftToTop(EuclidianViewBounds bounds, Interval x, Interval y) {
-		segment(bounds,
-				x.getLow(),
-				y.getLow(),
-				x.middle(),
-				bounds.getYmax());
-
+		segment(bounds, x.getLow(), y.getLow(), x.middle(), bounds.getYmax());
 	}
 
 	@Override
 	public void leftToBottom(EuclidianViewBounds bounds, Interval x, Interval y) {
-		segment(bounds, x.getLow(), y.getHigh(),
-				x.middle(),
-				bounds.getYmin());
+		segment(bounds, x.getLow(), y.getHigh(), x.middle(), bounds.getYmin());
 	}
 }

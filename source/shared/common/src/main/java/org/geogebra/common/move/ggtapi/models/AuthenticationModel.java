@@ -296,5 +296,4 @@ public abstract class AuthenticationModel {
 	public void refreshToken(HttpRequest request, Runnable afterRefresh) {
 		afterRefresh.run();
 	}
-
 }

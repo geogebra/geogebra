@@ -26,11 +26,11 @@ public interface GWTKeycodes {
 	 * {@link org.gwtproject.user.client.ui.KeyboardListener}. When converting
 	 * keyboard listener instances, developers can use the following static
 	 * import to access these constants:
-	 * 
+	 *
 	 * <pre>
 	 * import static com.google.gwt.event.dom.client.KeyCodes.*;
 	 * </pre>
-	 * 
+	 *
 	 * These constants are defined with an int data type in order to be
 	 * compatible with the constants defined in
 	 * {@link org.gwtproject.user.client.ui.KeyboardListener}.
@@ -428,6 +428,7 @@ public interface GWTKeycodes {
 	 * Key code for last OS specific media key (like volume).
 	 */
 	int KEY_LAST_MEDIA_KEY = 183;
+
 	int KEY_SEMICOLON = 186;
 	int KEY_EQUALS = 187;
 	int KEY_COMMA = 188;
@@ -446,6 +447,6 @@ public interface GWTKeycodes {
 	 * for the meta key.
 	 */
 	int KEY_MAC_FF_META = 224; // Firefox (Gecko) fires this
-													// for the meta key instead
-													// of 91
+	// for the meta key instead
+	// of 91
 }

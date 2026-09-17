@@ -63,13 +63,11 @@ public class TStrokeAtom extends Atom implements HasCharacter {
 	public Box createBox(TeXEnvironment env) {
 		Char ch = env.getTeXFont().getChar(BAR.getCf(), env.getStyle());
 		double italic = ch.getItalic();
-		CharBox T = new CharBox(
-				env.getTeXFont().getChar(upper ? 'T' : 't', env.getStyle()));
+		CharBox T = new CharBox(env.getTeXFont().getChar(upper ? 'T' : 't', env.getStyle()));
 		CharBox B = new CharBox(ch);
 		Box y;
 		if (Math.abs(italic) > TeXFormula.PREC) {
-			HorizontalBox hb = new HorizontalBox(
-					new StrutBox(-italic, 0, 0, 0));
+			HorizontalBox hb = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
 			hb.add(B);
 			y = hb;
 		} else {
@@ -92,7 +90,7 @@ public class TStrokeAtom extends Atom implements HasCharacter {
  * if (upper) hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.7, 0,
  * 0).createBox(env)); else hb.add(new SpaceAtom(TeXLength.Unit.EM, -0.3, 0,
  * 0).createBox(env)); hb.add(A); return hb; }
- * 
+ *
  * public Box createBox(TeXEnvironment env) { Box b = base.createBox(env);
  * VerticalBox vb = new VerticalBox(); vb.add(b); Char ch =
  * env.getTeXFont().getChar("ogonek", env.getStyle()); double italic =
@@ -100,7 +98,7 @@ public class TStrokeAtom extends Atom implements HasCharacter {
  * 0).createBox(env).getWidth(); Box ogonek = new CharBox(ch); Box y; if
  * (Math.abs(italic) > TeXFormula.PREC) { y = new HorizontalBox(new
  * StrutBox(-italic, 0, 0, 0)); y.add(ogonek); } else y = ogonek;
- * 
+ *
  * Box og = new HorizontalBox(y, b.getWidth(), TeXConstants.Align.RIGHT);
  * vb.add(new StrutBox(0, -ogonek.getHeight(), 0, 0)); vb.add(og); double f =
  * vb.getHeight() + vb.getDepth(); vb.setHeight(b.getHeight()); vb.setDepth(f -

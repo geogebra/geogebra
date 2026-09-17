@@ -35,12 +35,11 @@ import edu.uci.ics.jung.graph.UndirectedGraph;
  *
  * @author Tom Nelson
  */
-
 public class Graphs {
 
 	/**
 	 * Returns a synchronized graph backed by the passed argument graph.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -55,7 +54,7 @@ public class Graphs {
 
 	/**
 	 * Returns a synchronized DirectedGraph backed by the passed DirectedGraph.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -64,15 +63,14 @@ public class Graphs {
 	 *            the graph for which a synchronized wrapper is to be created
 	 * @return a synchronized DirectedGraph backed by the passed DirectedGraph
 	 */
-	public static <V, E> DirectedGraph<V, E> synchronizedDirectedGraph(
-			DirectedGraph<V, E> graph) {
+	public static <V, E> DirectedGraph<V, E> synchronizedDirectedGraph(DirectedGraph<V, E> graph) {
 		return new SynchronizedDirectedGraph<V, E>(graph);
 	}
 
 	/**
 	 * Returns a synchronized UndirectedGraph backed by the passed
 	 * UndirectedGraph.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -89,7 +87,7 @@ public class Graphs {
 
 	/**
 	 * Returns a synchronized Forest backed by the passed Forest.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -98,14 +96,13 @@ public class Graphs {
 	 *            the forest for which a synchronized wrapper is to be created
 	 * @return a synchronized Forest backed by the passed Forest
 	 */
-	public static <V, E> SynchronizedForest<V, E> synchronizedForest(
-			Forest<V, E> forest) {
+	public static <V, E> SynchronizedForest<V, E> synchronizedForest(Forest<V, E> forest) {
 		return new SynchronizedForest<V, E>(forest);
 	}
 
 	/**
 	 * Returns a synchronized Tree backed by the passed Tree.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -114,14 +111,13 @@ public class Graphs {
 	 *            the tree for which a synchronized wrapper is to be created
 	 * @return a synchronized Tree backed by the passed Tree
 	 */
-	public static <V, E> SynchronizedTree<V, E> synchronizedTree(
-			Tree<V, E> tree) {
+	public static <V, E> SynchronizedTree<V, E> synchronizedTree(Tree<V, E> tree) {
 		return new SynchronizedTree<V, E>(tree);
 	}
 
 	/**
 	 * Returns an unmodifiable Graph backed by the passed Graph.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -137,7 +133,7 @@ public class Graphs {
 	/**
 	 * Returns an unmodifiable <code>DirectedGraph</code> backed by the passed
 	 * graph.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -147,15 +143,14 @@ public class Graphs {
 	 * @return an unmodifiable <code>DirectedGraph</code> backed by the passed
 	 *         graph
 	 */
-	public static <V, E> DirectedGraph<V, E> unmodifiableDirectedGraph(
-			DirectedGraph<V, E> graph) {
+	public static <V, E> DirectedGraph<V, E> unmodifiableDirectedGraph(DirectedGraph<V, E> graph) {
 		return new UnmodifiableDirectedGraph<V, E>(graph);
 	}
 
 	/**
 	 * Returns an unmodifiable <code>UndirectedGraph</code> backed by the passed
 	 * graph.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -172,7 +167,7 @@ public class Graphs {
 
 	/**
 	 * Returns an unmodifiable <code>Tree</code> backed by the passed tree.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -181,14 +176,13 @@ public class Graphs {
 	 *            the tree for which the unmodifiable wrapper is to be returned
 	 * @return an unmodifiable <code>Tree</code> backed by the passed tree
 	 */
-	public static <V, E> UnmodifiableTree<V, E> unmodifiableTree(
-			Tree<V, E> tree) {
+	public static <V, E> UnmodifiableTree<V, E> unmodifiableTree(Tree<V, E> tree) {
 		return new UnmodifiableTree<V, E>(tree);
 	}
 
 	/**
 	 * Returns an unmodifiable <code>Forest</code> backed by the passed forest.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -198,14 +192,12 @@ public class Graphs {
 	 *            returned
 	 * @return an unmodifiable <code>Forest</code> backed by the passed forest
 	 */
-	public static <V, E> UnmodifiableForest<V, E> unmodifiableForest(
-			Forest<V, E> forest) {
+	public static <V, E> UnmodifiableForest<V, E> unmodifiableForest(Forest<V, E> forest) {
 		return new UnmodifiableForest<V, E>(forest);
 	}
 
 	@SuppressWarnings("serial")
-	static abstract class SynchronizedAbstractGraph<V, E>
-			implements Graph<V, E>, Serializable {
+	abstract static class SynchronizedAbstractGraph<V, E> implements Graph<V, E>, Serializable {
 		protected Graph<V, E> delegate;
 
 		private SynchronizedAbstractGraph(Graph<V, E> delegate) {
@@ -228,8 +220,7 @@ public class Graphs {
 		 *      EdgeType)
 		 */
 		@Override
-		public synchronized boolean addEdge(E e, V v1, V v2,
-				EdgeType edgeType) {
+		public synchronized boolean addEdge(E e, V v1, V v2, EdgeType edgeType) {
 			return delegate.addEdge(e, v1, v2, edgeType);
 		}
 
@@ -238,8 +229,7 @@ public class Graphs {
 		 *      EdgeType)
 		 */
 		@Override
-		public synchronized boolean addEdge(E e,
-				Collection<? extends V> vertices, EdgeType edgeType) {
+		public synchronized boolean addEdge(E e, Collection<? extends V> vertices, EdgeType edgeType) {
 			return delegate.addEdge(e, vertices, edgeType);
 		}
 
@@ -553,8 +543,7 @@ public class Graphs {
 		 *      java.util.Collection)
 		 */
 		@Override
-		public synchronized boolean addEdge(E hyperedge,
-				Collection<? extends V> vertices) {
+		public synchronized boolean addEdge(E hyperedge, Collection<? extends V> vertices) {
 			return delegate.addEdge(hyperedge, vertices);
 		}
 
@@ -578,7 +567,6 @@ public class Graphs {
 		public Graph<V, E> newInstance() {
 			return delegate.newInstance();
 		}
-
 	}
 
 	@SuppressWarnings("serial")
@@ -591,8 +579,7 @@ public class Graphs {
 	}
 
 	@SuppressWarnings("serial")
-	static class SynchronizedUndirectedGraph<V, E>
-			extends SynchronizedAbstractGraph<V, E>
+	static class SynchronizedUndirectedGraph<V, E> extends SynchronizedAbstractGraph<V, E>
 			implements UndirectedGraph<V, E>, Serializable {
 		private SynchronizedUndirectedGraph(UndirectedGraph<V, E> delegate) {
 			super(delegate);
@@ -600,8 +587,7 @@ public class Graphs {
 	}
 
 	@SuppressWarnings("serial")
-	static class SynchronizedDirectedGraph<V, E>
-			extends SynchronizedAbstractGraph<V, E>
+	static class SynchronizedDirectedGraph<V, E> extends SynchronizedAbstractGraph<V, E>
 			implements DirectedGraph<V, E>, Serializable {
 
 		private SynchronizedDirectedGraph(DirectedGraph<V, E> delegate) {
@@ -630,12 +616,11 @@ public class Graphs {
 	}
 
 	@SuppressWarnings("serial")
-	static class SynchronizedTree<V, E> extends SynchronizedForest<V, E>
-			implements Tree<V, E> {
+	static class SynchronizedTree<V, E> extends SynchronizedForest<V, E> implements Tree<V, E> {
 
 		/**
 		 * Creates a new instance based on the provided {@code delegate}.
-		 * 
+		 *
 		 * @param delegate delegate
 		 */
 		public SynchronizedTree(Tree<V, E> delegate) {
@@ -659,12 +644,12 @@ public class Graphs {
 	}
 
 	@SuppressWarnings("serial")
-	static class SynchronizedForest<V, E>
-			extends SynchronizedDirectedGraph<V, E> implements Forest<V, E> {
+	static class SynchronizedForest<V, E> extends SynchronizedDirectedGraph<V, E>
+			implements Forest<V, E> {
 
 		/**
 		 * Creates a new instance based on the provided {@code delegate}.
-		 * 
+		 *
 		 * @param delegate delegate
 		 */
 		public SynchronizedForest(Forest<V, E> delegate) {
@@ -703,8 +688,7 @@ public class Graphs {
 	}
 
 	@SuppressWarnings("serial")
-	static abstract class UnmodifiableAbstractGraph<V, E>
-			implements Graph<V, E>, Serializable {
+	abstract static class UnmodifiableAbstractGraph<V, E> implements Graph<V, E>, Serializable {
 		protected Graph<V, E> delegate;
 
 		private UnmodifiableAbstractGraph(Graph<V, E> delegate) {
@@ -736,8 +720,7 @@ public class Graphs {
 		 *      EdgeType)
 		 */
 		@Override
-		public boolean addEdge(E e, Collection<? extends V> vertices,
-				EdgeType edgeType) {
+		public boolean addEdge(E e, Collection<? extends V> vertices, EdgeType edgeType) {
 			throw new UnsupportedOperationException();
 		}
 
@@ -1075,7 +1058,6 @@ public class Graphs {
 		public Graph<V, E> newInstance() {
 			return delegate.newInstance();
 		}
-
 	}
 
 	@SuppressWarnings("serial")
@@ -1087,8 +1069,7 @@ public class Graphs {
 	}
 
 	@SuppressWarnings("serial")
-	static class UnmodifiableDirectedGraph<V, E>
-			extends UnmodifiableAbstractGraph<V, E>
+	static class UnmodifiableDirectedGraph<V, E> extends UnmodifiableAbstractGraph<V, E>
 			implements DirectedGraph<V, E>, Serializable {
 		private UnmodifiableDirectedGraph(DirectedGraph<V, E> delegate) {
 			super(delegate);
@@ -1116,8 +1097,7 @@ public class Graphs {
 	}
 
 	@SuppressWarnings("serial")
-	static class UnmodifiableUndirectedGraph<V, E>
-			extends UnmodifiableAbstractGraph<V, E>
+	static class UnmodifiableUndirectedGraph<V, E> extends UnmodifiableAbstractGraph<V, E>
 			implements UndirectedGraph<V, E>, Serializable {
 		private UnmodifiableUndirectedGraph(UndirectedGraph<V, E> delegate) {
 			super(delegate);
@@ -1189,5 +1169,4 @@ public class Graphs {
 			return ((Tree<V, E>) delegate).getTrees();
 		}
 	}
-
 }

@@ -12,7 +12,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * ExtFloodFill TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ExtFloodFill.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -36,11 +36,9 @@ public class ExtFloodFill extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
-		ExtFloodFill tag = new ExtFloodFill(emf.readPOINTL(),
-				emf.readCOLORREF(), emf.readDWORD());
+		ExtFloodFill tag = new ExtFloodFill(emf.readPOINTL(), emf.readCOLORREF(), emf.readDWORD());
 		return tag;
 	}
 
@@ -53,7 +51,7 @@ public class ExtFloodFill extends EMFTag implements EMFConstants {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  start: " + start + "\n"
-				+ "  color: " + color + "\n" + "  mode: " + mode;
+		return super.toString() + "\n" + "  start: " + start + "\n" + "  color: " + color + "\n"
+				+ "  mode: " + mode;
 	}
 }

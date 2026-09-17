@@ -25,34 +25,34 @@ public class MebisTopBarIconProvider extends DefaultTopBarIconProvider {
 	@Override
 	public IconSpec matchIconWithResource(TopBarIcon icon) {
 		switch (icon) {
-		case MENU:
-			return new FaIconSpec("fa-bars");
-		case UNDO:
-			return new FaIconSpec("fa-arrow-rotate-left");
-		case REDO:
-			return new FaIconSpec("fa-arrow-rotate-right");
-		case ZOOM_IN:
-			return new FaIconSpec("fa-magnifying-glass-plus");
-		case ZOOM_OUT:
-			return new FaIconSpec("fa-magnifying-glass-minus");
-		case STANDARD_VIEW:
-			return new FaIconSpec("fa-house");
-		case ZOOM_TO_FIT:
-			return new FaIconSpec("fa-arrows-to-eye");
-		case PAN_VIEW:
-			return new FaIconSpec("fa-arrows-up-down-left-right");
-		case FULLSCREEN_ON:
-			return new FaIconSpec("fa-expand");
-		case FULLSCREEN_OFF:
-			return new FaIconSpec("fa-compress");
-		case SETTINGS:
-			return new FaIconSpec("fa-gear");
-		case RULING:
-			return new ImageIconSpec(DefaultTopBarIconResources.INSTANCE.ruling_fontawesome());
-		case COLOR:
-			return new FaIconSpec("fa-fill-drip");
-		case PAGE_OVERVIEW:
-			return new ImageIconSpec(DefaultTopBarIconResources.INSTANCE.page_overview_mebis());
+			case MENU:
+				return new FaIconSpec("fa-bars");
+			case UNDO:
+				return new FaIconSpec("fa-arrow-rotate-left");
+			case REDO:
+				return new FaIconSpec("fa-arrow-rotate-right");
+			case ZOOM_IN:
+				return new FaIconSpec("fa-magnifying-glass-plus");
+			case ZOOM_OUT:
+				return new FaIconSpec("fa-magnifying-glass-minus");
+			case STANDARD_VIEW:
+				return new FaIconSpec("fa-house");
+			case ZOOM_TO_FIT:
+				return new FaIconSpec("fa-arrows-to-eye");
+			case PAN_VIEW:
+				return new FaIconSpec("fa-arrows-up-down-left-right");
+			case FULLSCREEN_ON:
+				return new FaIconSpec("fa-expand");
+			case FULLSCREEN_OFF:
+				return new FaIconSpec("fa-compress");
+			case SETTINGS:
+				return new FaIconSpec("fa-gear");
+			case RULING:
+				return new ImageIconSpec(DefaultTopBarIconResources.INSTANCE.ruling_fontawesome());
+			case COLOR:
+				return new FaIconSpec("fa-fill-drip");
+			case PAGE_OVERVIEW:
+				return new ImageIconSpec(DefaultTopBarIconResources.INSTANCE.page_overview_mebis());
 		}
 		return super.matchIconWithResource(icon);
 	}

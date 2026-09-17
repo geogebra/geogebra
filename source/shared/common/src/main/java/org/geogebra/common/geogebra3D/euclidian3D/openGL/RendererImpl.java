@@ -69,7 +69,6 @@ public abstract class RendererImpl {
 
 		renderer.setNeedExportImage(true);
 		renderer.display();
-
 	}
 
 	/**
@@ -216,22 +215,25 @@ public abstract class RendererImpl {
 		return renderer.getTextures();
 	}
 
-	abstract protected void updateClipPlanes();
+	protected abstract void updateClipPlanes();
 
 	/**
 	 * set color mask
-	 * 
+	 *
 	 * @param colorMask
 	 *            color mask
 	 */
 	public void setColorMask(final int colorMask) {
-		setColorMask(ColorMask.getRed(colorMask), ColorMask.getGreen(colorMask),
-				ColorMask.getBlue(colorMask), ColorMask.getAlpha(colorMask));
+		setColorMask(
+				ColorMask.getRed(colorMask),
+				ColorMask.getGreen(colorMask),
+				ColorMask.getBlue(colorMask),
+				ColorMask.getAlpha(colorMask));
 	}
 
 	/**
 	 * Set color mask channels
-	 * 
+	 *
 	 * @param r
 	 *            red
 	 * @param g
@@ -241,8 +243,7 @@ public abstract class RendererImpl {
 	 * @param a
 	 *            alpha
 	 */
-	abstract public void setColorMask(boolean r, boolean g, boolean b,
-			boolean a);
+	public abstract void setColorMask(boolean r, boolean g, boolean b, boolean a);
 
 	/**
 	 * clear depth buffer
@@ -267,73 +268,73 @@ public abstract class RendererImpl {
 
 	/**
 	 * set dash texture
-	 * 
+	 *
 	 * @param i
 	 *            texture id
 	 */
-	abstract public void setDashTexture(int i);
+	public abstract void setDashTexture(int i);
 
 	/**
 	 * Draw elements of given type
 	 * @param type geometry type
 	 * @param length length
 	 */
-	abstract public void draw(Manager.Type type, int length);
+	public abstract void draw(Manager.Type type, int length);
 
 	/**
 	 * Bind buffer for indices.
 	 * @param buffer buffer index
 	 */
-	abstract public void bindBufferForIndices(int buffer);
+	public abstract void bindBufferForIndices(int buffer);
 
 	/**
 	 * @return whether textures are enabled
 	 */
-	abstract public boolean areTexturesEnabled();
+	public abstract boolean areTexturesEnabled();
 
 	/**
 	 * Load vertex buffer.
 	 * @param fbVertices vertex buffer
 	 * @param length length
 	 */
-	abstract public void loadVertexBuffer(GLBuffer fbVertices, int length);
+	public abstract void loadVertexBuffer(GLBuffer fbVertices, int length);
 
 	/**
 	 * Load color buffer.
 	 * @param fbColors color buffer
 	 * @param length length
 	 */
-	abstract public void loadColorBuffer(GLBuffer fbColors, int length);
+	public abstract void loadColorBuffer(GLBuffer fbColors, int length);
 
 	/**
 	 * Load texture buffer.
 	 * @param fbTextures texture buffer
 	 * @param length length
 	 */
-	abstract public void loadTextureBuffer(GLBuffer fbTextures, int length);
+	public abstract void loadTextureBuffer(GLBuffer fbTextures, int length);
 
 	/**
 	 * Disable texture buffer.
 	 */
-	abstract public void disableTextureBuffer();
+	public abstract void disableTextureBuffer();
 
 	/**
 	 * Load buffer of normals.
 	 * @param fbNormals buffer of normals
 	 * @param length length
 	 */
-	abstract public void loadNormalBuffer(GLBuffer fbNormals, int length);
+	public abstract void loadNormalBuffer(GLBuffer fbNormals, int length);
 
 	/**
 	 * Load buffer of indices.
 	 * @param arrayI buffer of indices
 	 * @param length length
 	 */
-	abstract public void loadIndicesBuffer(GLBufferIndices arrayI, int length);
+	public abstract void loadIndicesBuffer(GLBufferIndices arrayI, int length);
 
 	/**
 	 * enable flag
-	 * 
+	 *
 	 * @param flag
 	 *            GL flag
 	 */
@@ -341,7 +342,7 @@ public abstract class RendererImpl {
 
 	/**
 	 * disable flag
-	 * 
+	 *
 	 * @param flag
 	 *            GL flag
 	 */
@@ -349,43 +350,43 @@ public abstract class RendererImpl {
 
 	/**
 	 * clear buffers corresponding to flag
-	 * 
+	 *
 	 * @param flag
 	 *            buffers flag
 	 */
-	abstract public void glClear(int flag);
+	public abstract void glClear(int flag);
 
 	// GL flags getters
 
 	/**
 	 * @return BLEND constant
 	 */
-	abstract public int getGL_BLEND();
+	public abstract int getGL_BLEND();
 
 	/**
 	 * @return CULL_FACE constant
 	 */
-	abstract public int getGL_CULL_FACE();
+	public abstract int getGL_CULL_FACE();
 
 	/**
 	 * @return COLOR_BUFFER_BIT constant
 	 */
-	abstract public int getGL_COLOR_BUFFER_BIT();
+	public abstract int getGL_COLOR_BUFFER_BIT();
 
 	/**
 	 * @return DEPTH_BUFFER_BIT constant
 	 */
-	abstract public int getGL_DEPTH_BUFFER_BIT();
+	public abstract int getGL_DEPTH_BUFFER_BIT();
 
 	/**
 	 * @return DEPTH_TEST constant
 	 */
-	abstract public int getGL_DEPTH_TEST();
+	public abstract int getGL_DEPTH_TEST();
 
 	/**
 	 * Disable culling.
 	 */
-	abstract public void disableCulling();
+	public abstract void disableCulling();
 
 	/**
 	 * Set clip panes.
@@ -600,7 +601,7 @@ public abstract class RendererImpl {
 	/**
 	 * Initialize shaders.
 	 */
-	abstract public void initShaders();
+	public abstract void initShaders();
 
 	/**
 	 * Disable shine effect.
@@ -615,27 +616,27 @@ public abstract class RendererImpl {
 	/**
 	 * Set color buffer to back left.
 	 */
-	abstract public void setBufferLeft();
+	public abstract void setBufferLeft();
 
 	/**
 	 * Set color buffer to back right.
 	 */
-	abstract public void setBufferRight();
+	public abstract void setBufferRight();
 
 	/**
 	 * TODO unused
 	 */
-	abstract public void setStencilFunc(int value);
+	public abstract void setStencilFunc(int value);
 
 	/**
 	 * Enable depth mask.
 	 */
-	abstract public void enableDepthMask();
+	public abstract void enableDepthMask();
 
 	/**
 	 * Disable depth mask.
 	 */
-	abstract public void disableDepthMask();
+	public abstract void disableDepthMask();
 
 	/**
 	 * @param r red
@@ -643,53 +644,53 @@ public abstract class RendererImpl {
 	 * @param b blue
 	 * @param a alpha
 	 */
-	abstract public void setClearColor(float r, float g, float b, float a);
+	public abstract void setClearColor(float r, float g, float b, float a);
 
 	/**
 	 * Set polygon offset
 	 * @param factor factor
 	 * @param units units
 	 */
-	abstract public void setPolygonOffset(float factor, float units);
+	public abstract void setPolygonOffset(float factor, float units);
 
 	/**
 	 * Set layer.
 	 * @param layer layer
 	 */
-	abstract public void setLayer(int layer);
+	public abstract void setLayer(int layer);
 
 	/**
 	 * Generate texture names
 	 * @param number number of textures to be generated
 	 * @param index output array for names
 	 */
-	abstract public void genTextures2D(int number, int[] index);
+	public abstract void genTextures2D(int number, int[] index);
 
 	/**
 	 * Bind texture.
 	 * @param index index
 	 */
-	abstract public void bindTexture(int index);
+	public abstract void bindTexture(int index);
 
 	/**
 	 * Enable alpha test.
 	 */
-	abstract public void enableAlphaTest();
+	public abstract void enableAlphaTest();
 
 	/**
 	 * Disable alpha test.
 	 */
-	abstract public void disableAlphaTest();
+	public abstract void disableAlphaTest();
 
 	/**
 	 * Enable multi-sample.
 	 */
-	abstract public void enableMultisample();
+	public abstract void enableMultisample();
 
 	/**
 	 * Disable multi-sample.
 	 */
-	abstract public void disableMultisample();
+	public abstract void disableMultisample();
 
 	/**
 	 * Set label origin.
@@ -727,7 +728,7 @@ public abstract class RendererImpl {
 	/**
 	 * Set matrix view from screen matrix.
 	 */
-	final public void setMatrixView() {
+	public final void setMatrixView() {
 		setMatrixView(renderer.getToScreenMatrix());
 	}
 
@@ -765,62 +766,62 @@ public abstract class RendererImpl {
 	 * @param ambient1 ambient component (second source)
 	 * @param diffuse1 diffuse component (second source)
 	 */
-	public abstract void setLightAmbientDiffuse(float ambient0, float diffuse0,
-			float ambient1, float diffuse1);
+	public abstract void setLightAmbientDiffuse(
+			float ambient0, float diffuse0, float ambient1, float diffuse1);
 
 	/**
 	 * create a dummy texture to please the GL shader language, that needs
 	 * something correct to be bound on texture 0
 	 */
-	abstract public void createDummyTexture();
+	public abstract void createDummyTexture();
 
 	/**
 	 * attribute vertex pointers
 	 */
-	abstract public void attribPointers();
+	public abstract void attribPointers();
 
 	/**
 	 * draw not hidden parts
 	 */
-	abstract public void drawNotHidden();
+	public abstract void drawNotHidden();
 
 	/**
 	 * draw hidden textured parts
 	 */
-	abstract public void drawHiddenTextured();
+	public abstract void drawHiddenTextured();
 
 	/**
 	 * draw hidden not textured parts
 	 */
-	abstract public void drawHiddenNotTextured();
+	public abstract void drawHiddenNotTextured();
 
 	/**
 	 * draw transparent closed and curved surfaces
 	 */
-	abstract public void drawTranspClosedCurved();
+	public abstract void drawTranspClosedCurved();
 
 	/**
 	 * draw closed surfaces for hiding
 	 */
-	abstract public void drawClosedSurfacesForHiding();
+	public abstract void drawClosedSurfacesForHiding();
 
 	/**
 	 * draw clipped surfaces for hiding
 	 */
-	abstract public void drawClippedSurfacesForHiding();
+	public abstract void drawClippedSurfacesForHiding();
 
 	/**
 	 * draw transparent clipped surfaces
 	 */
-	abstract public void drawTranspClipped();
+	public abstract void drawTranspClipped();
 
 	/**
 	 * draw surfaces for hiding
 	 */
-	abstract public void drawSurfacesForHiding();
+	public abstract void drawSurfacesForHiding();
 
 	/**
 	 * draw not transparent surfaces
 	 */
-	abstract public void drawOpaqueSurfaces();
+	public abstract void drawOpaqueSurfaces();
 }

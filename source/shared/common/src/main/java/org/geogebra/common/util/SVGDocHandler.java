@@ -26,7 +26,7 @@ import org.geogebra.common.io.XMLStringBuilder;
 
 /**
  * Parse a single svg element to get width, height and viewBox
- * 
+ *
  * @author Zbynek
  */
 public class SVGDocHandler implements DocHandler {
@@ -80,8 +80,7 @@ public class SVGDocHandler implements DocHandler {
 	}
 
 	private String getWidth() {
-		return attrs.get("width") == null ? viewportDiff(0, 2)
-				: attrs.get("width");
+		return attrs.get("width") == null ? viewportDiff(0, 2) : attrs.get("width");
 	}
 
 	private String viewportDiff(int i, int j) {
@@ -93,8 +92,7 @@ public class SVGDocHandler implements DocHandler {
 	}
 
 	private String getHeight() {
-		return attrs.get("height") == null ? viewportDiff(1, 3)
-				: attrs.get("height");
+		return attrs.get("height") == null ? viewportDiff(1, 3) : attrs.get("height");
 	}
 
 	private String getViewBox() {

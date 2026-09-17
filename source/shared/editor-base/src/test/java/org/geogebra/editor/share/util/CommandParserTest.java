@@ -45,10 +45,9 @@ class CommandParserTest {
 		List<String> join = Arrays.asList("Join", "List", "List", "...");
 		assertEquals(join, parseCommand("Join(<List>, <List>, ...)"));
 
-		List<String> uniform = Arrays.asList("Uniform", "Lower Bound",
-				"Upper Bound", "x", "Boolean Cumulative");
-		assertEquals(uniform,
-				parseCommand("Uniform( <Lower Bound>, <Upper Bound>, x, <Boolean Cumulative> )"));
+		List<String> uniform =
+				Arrays.asList("Uniform", "Lower Bound", "Upper Bound", "x", "Boolean Cumulative");
+		assertEquals(
+				uniform, parseCommand("Uniform( <Lower Bound>, <Upper Bound>, x, <Boolean Cumulative> )"));
 	}
-
 }

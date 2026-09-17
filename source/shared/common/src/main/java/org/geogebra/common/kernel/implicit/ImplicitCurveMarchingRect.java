@@ -27,6 +27,7 @@ class ImplicitCurveMarchingRect implements MarchingRect {
 	 * {top, right, bottom, left}
 	 */
 	final double[] evals = new double[4];
+
 	int x;
 	int y;
 	int shares;
@@ -63,14 +64,11 @@ class ImplicitCurveMarchingRect implements MarchingRect {
 		rect[2].coords.val[0] += fx2;
 		rect[2].coords.val[1] += fy2;
 		rect[3].coords.val[1] += fy2;
-		rect[1].evals[0] = geoImplicitCurve.evaluate(rect[1].coords.val,
-				factor);
-		rect[2].evals[0] = geoImplicitCurve.evaluate(rect[2].coords.val,
-				factor);
+		rect[1].evals[0] = geoImplicitCurve.evaluate(rect[1].coords.val, factor);
+		rect[2].evals[0] = geoImplicitCurve.evaluate(rect[2].coords.val, factor);
 		rect[2].evals[1] = geoImplicitCurve.evaluate(x1 + fx, y1 + fy2, factor);
 		rect[2].evals[3] = geoImplicitCurve.evaluate(x1 + fx2, y1 + fy, factor);
-		rect[3].evals[0] = geoImplicitCurve.evaluate(rect[3].coords.val,
-				factor);
+		rect[3].evals[0] = geoImplicitCurve.evaluate(rect[3].coords.val, factor);
 		rect[3].evals[1] = rect[0].evals[2] = rect[1].evals[3] = rect[2].evals[0];
 		rect[0].evals[1] = rect[1].evals[0];
 		rect[0].evals[3] = rect[3].evals[0];
@@ -110,11 +108,15 @@ class ImplicitCurveMarchingRect implements MarchingRect {
 		}
 
 		ImplicitCurveMarchingRect rect = (ImplicitCurveMarchingRect) o;
-		return x == rect.x && y == rect.y && shares == rect.shares && status == rect.status
+		return x == rect.x
+				&& y == rect.y
+				&& shares == rect.shares
+				&& status == rect.status
 				&& Double.compare(fx, rect.fx) == 0
-				&& Double.compare(fy, rect.fy) == 0 && singular == rect.singular
-				&& Objects.deepEquals(evals, rect.evals) && Objects.equals(coords,
-				rect.coords);
+				&& Double.compare(fy, rect.fy) == 0
+				&& singular == rect.singular
+				&& Objects.deepEquals(evals, rect.evals)
+				&& Objects.equals(coords, rect.coords);
 	}
 
 	@Override

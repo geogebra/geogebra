@@ -38,7 +38,7 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 
 	/**
 	 * Creates new algo for Diameter
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -48,8 +48,7 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 	 * @param g
 	 *            parallel line
 	 */
-	public AlgoDiameterLineND(Construction cons, String label, GeoConicND c,
-			GeoLineND g) {
+	public AlgoDiameterLineND(Construction cons, String label, GeoConicND c, GeoLineND g) {
 		super(cons);
 		this.c = c;
 		this.g = g;
@@ -63,11 +62,11 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 
 	/**
 	 * create the output needed
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 */
-	abstract protected void createOutput(Construction cons1);
+	protected abstract void createOutput(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -92,7 +91,7 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 
 	/**
 	 * Made public for LocusEqu
-	 * 
+	 *
 	 * @return line
 	 */
 	public GeoLineND getLine() {
@@ -101,7 +100,7 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 
 	/**
 	 * Made public for LocusEqu
-	 * 
+	 *
 	 * @return conic
 	 */
 	public GeoConicND getConic() {
@@ -116,12 +115,14 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("DiameterOfAConjugateToB",
-				"Diameter of %0 conjugate to %1", c.getLabel(tpl),
-				g.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"DiameterOfAConjugateToB",
+						"Diameter of %0 conjugate to %1",
+						c.getLabel(tpl),
+						g.getLabel(tpl));
 	}
-
 }

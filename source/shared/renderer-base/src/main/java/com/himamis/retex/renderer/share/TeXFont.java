@@ -60,25 +60,24 @@ public class TeXFont {
 	 */
 	public static final char NONE = '\0';
 
-	private final static int[] OFFSETS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-			12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-			29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
-			46, 47, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 58, 59, 60, 61, 62, 63, 64, 0,
-			1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-			20, 21, 22, 23, 24, 25, 91, 92, 93, 94, 95, 96, 0, 1, 2, 3, 4, 5, 6,
-			7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-			25 };
-	private final static int[] KINDS = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-			3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2,
-			2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 };
+	private static final int[] OFFSETS = {
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+		26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 0, 1, 2,
+		3, 4, 5, 6, 7, 8, 9, 58, 59, 60, 61, 62, 63, 64, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+		14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 91, 92, 93, 94, 95, 96, 0, 1, 2, 3, 4, 5, 6, 7,
+		8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25
+	};
+	private static final int[] KINDS = {
+		3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+		3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3,
+		3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3,
+		3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+	};
 
-	protected final static int NUMBERS = 0;
-	protected final static int CAPITALS = 1;
-	protected final static int SMALL = 2;
-	protected final static int UNICODE = 3;
+	protected static final int NUMBERS = 0;
+	protected static final int CAPITALS = 1;
+	protected static final int SMALL = 2;
+	protected static final int UNICODE = 3;
 
 	public static final FontInfo MUFONT = Configuration.getFonts().cmsy10;
 	public static final FontInfo SPACEFONT = Configuration.getFonts().cmr10;
@@ -108,7 +107,6 @@ public class TeXFont {
 	private static final double SUPDROP = 0.386108;
 
 	protected static final int TOP = 0, MID = 1, REP = 2, BOT = 3;
-
 	protected static final int WIDTH = 0, HEIGHT = 1, DEPTH = 2, IT = 3;
 
 	public static final int SERIF = 0;
@@ -132,13 +130,12 @@ public class TeXFont {
 		size = pointSize;
 	}
 
-	public TeXFont(double pointSize, boolean b, boolean rm, boolean ss,
-			boolean tt, boolean it) {
+	public TeXFont(double pointSize, boolean b, boolean rm, boolean ss, boolean tt, boolean it) {
 		this(pointSize, 1, b, rm, ss, tt, it);
 	}
 
-	public TeXFont(double pointSize, double f, boolean b, boolean rm,
-			boolean ss, boolean tt, boolean it) {
+	public TeXFont(
+			double pointSize, double f, boolean b, boolean rm, boolean ss, boolean tt, boolean it) {
 		size = pointSize;
 		factor = f;
 		isBold = b;
@@ -169,28 +166,23 @@ public class TeXFont {
 	}
 
 	public double getBigOpSpacing1(int style) {
-		return BIGOPSPACING1 * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return BIGOPSPACING1 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing2(int style) {
-		return BIGOPSPACING2 * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return BIGOPSPACING2 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing3(int style) {
-		return BIGOPSPACING3 * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return BIGOPSPACING3 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing4(int style) {
-		return BIGOPSPACING4 * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return BIGOPSPACING4 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getBigOpSpacing5(int style) {
-		return BIGOPSPACING5 * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return BIGOPSPACING5 * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	private Char getChar(char c, TextStyle[] styles, int style) {
@@ -207,8 +199,8 @@ public class TeXFont {
 		if (styles[kind] == null) {
 			styles = TextStyle.getDefault();
 		}
-		return getChar(new CharFont((char) (styles[kind].getStart() + offset),
-				styles[kind].getFont()), style);
+		return getChar(
+				new CharFont((char) (styles[kind].getStart() + offset), styles[kind].getFont()), style);
 	}
 
 	public Char getChar(char c, int style) {
@@ -249,11 +241,10 @@ public class TeXFont {
 
 	public Char getChar(String symbolName, int style) {
 		CharFont obj = Configuration.getFontMapping().get(symbolName);
-		if (obj == null) {// no symbol mapping found!
+		if (obj == null) { // no symbol mapping found!
 
 			// XXX
-			FactoryProvider.getInstance()
-					.debug("no symbol mapping found in getChar()");
+			FactoryProvider.getInstance().debug("no symbol mapping found in getChar()");
 			return null;
 			// throw new SymbolMappingNotFoundException(symbolName);
 		}
@@ -261,8 +252,7 @@ public class TeXFont {
 	}
 
 	public double getDefaultRuleThickness(int style) {
-		return DEFAULTRULETHICKNESS * getSizeFactor(style)
-				* TeXFormula.PIXELS_PER_POINT;
+		return DEFAULTRULETHICKNESS * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getDenom1(int style) {
@@ -284,8 +274,7 @@ public class TeXFont {
 			if (ext[i] == NONE) {
 				parts[i] = null;
 			} else {
-				parts[i] = new Char(ext[i], f, info,
-						getMetrics(new CharFont(ext[i], info), s));
+				parts[i] = new Char(ext[i], f, info, getMetrics(new CharFont(ext[i], info), s));
 			}
 		}
 
@@ -299,8 +288,7 @@ public class TeXFont {
 	private double getKern(CharFont left, char rightChar, FontInfo rightInfo, int style) {
 		if (left.fontInfo == rightInfo) {
 			FontInfo info = left.fontInfo;
-			return info.getKern(left.c, rightChar,
-					getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+			return info.getKern(left.c, rightChar, getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 		}
 		return 0;
 	}
@@ -317,19 +305,17 @@ public class TeXFont {
 		FontInfo info = cf.fontInfo;
 		double[] m = info.getMetrics(cf.c);
 		if (m == null) {
-			return new Metrics(1, 1, 0, 0, size * TeXFormula.PIXELS_PER_POINT,
-					size);
+			return new Metrics(1, 1, 0, 0, size * TeXFormula.PIXELS_PER_POINT, size);
 		}
-		return new Metrics(m[WIDTH], m[HEIGHT], m[DEPTH], m[IT],
-				size * TeXFormula.PIXELS_PER_POINT, size);
+		return new Metrics(
+				m[WIDTH], m[HEIGHT], m[DEPTH], m[IT], size * TeXFormula.PIXELS_PER_POINT, size);
 	}
 
 	public Char getNextLarger(Char c, int style) {
 		FontInfo info = c.getFontInfo();
 		CharFont ch = info.getNextLarger(c.getChar());
 		FontInfo newInfo = ch.fontInfo;
-		return new Char(ch.c, newInfo.getFont(), ch.fontInfo,
-				getMetrics(ch, getSizeFactor(style)));
+		return new Char(ch.c, newInfo.getFont(), ch.fontInfo, getMetrics(ch, getSizeFactor(style)));
 	}
 
 	public double getNum1(int style) {
@@ -361,8 +347,7 @@ public class TeXFont {
 	}
 
 	public double getSpace(int style) {
-		return SPACEFONT
-				.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+		return SPACEFONT.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
 	public double getSub1(int style) {
@@ -394,8 +379,7 @@ public class TeXFont {
 	}
 
 	public double getXHeight(int style, FontInfo info) {
-		return info
-				.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+		return info.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
 	public double getEM(int style) {
@@ -470,11 +454,11 @@ public class TeXFont {
 
 	public double getMHeight(int style) {
 		return TextStyle.getDefault(TextStyle.CAPITALS).getFont().getHeight('M')
-				* getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
+				* getSizeFactor(style)
+				* TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public double getDefaultXHeight(int style) {
-		return SPACEFONT
-				.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+		return SPACEFONT.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 }

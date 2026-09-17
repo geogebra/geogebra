@@ -21,15 +21,15 @@ package org.geogebra.common.util;
  */
 public class DefaultTimeFormat implements TimeFormatAdapter {
 
-    @Override
-    public String format(String languageTag, long timeIntervalMs) {
-        int secs = (int) timeIntervalMs / 1000;
-        int mins = secs / 60;
-        secs -= mins * 60;
-        String secsS = String.valueOf(secs);
-        if (secs < 10) {
-            secsS = "0" + secsS;
-        }
-        return mins + ":" + secsS;
-    }
+	@Override
+	public String format(String languageTag, long timeIntervalMs) {
+		int secs = (int) timeIntervalMs / 1000;
+		int mins = secs / 60;
+		secs -= mins * 60;
+		String secsS = String.valueOf(secs);
+		if (secs < 10) {
+			secsS = "0" + secsS;
+		}
+		return mins + ":" + secsS;
+	}
 }

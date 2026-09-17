@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,7 +31,7 @@ import org.geogebra.desktop.util.UtilD;
 
 /**
  * Stores user settings and options as preferences.
- * 
+ *
  * @author Markus Hohenwarter
  * @version May 16, 2007
  */
@@ -50,14 +50,13 @@ public class GeoGebraPreferencesD {
 	// Windows -> APPDATA, space in "GeoGebra 5.0"
 	// Mac / Linux -> user.home, hidden folder, no space in ".GeoGebra5.0"
 	public static final String PREFS_PATH = AppD.WINDOWS
-			? (System.getenv("APPDATA") + "/GeoGebra "
-					+ GeoGebraConstants.SHORT_VERSION_STRING + "/prefs/")
-			: (System.getProperty("user.home") + "/.GeoGebra"
-					+ GeoGebraConstants.SHORT_VERSION_STRING + "/prefs/");
+			? (System.getenv("APPDATA") + "/GeoGebra " + GeoGebraConstants.SHORT_VERSION_STRING
+					+ "/prefs/")
+			: (System.getProperty("user.home") + "/.GeoGebra" + GeoGebraConstants.SHORT_VERSION_STRING
+					+ "/prefs/");
 
 	public static final String WINDOWS_USERS_PREFS = PREFS_PATH + "prefs.xml";
-	public static final String WINDOWS_OBJECTS_PREFS = PREFS_PATH
-			+ "defaults.xml";
+	public static final String WINDOWS_OBJECTS_PREFS = PREFS_PATH + "defaults.xml";
 	public static final String WINDOWS_MACROS_PREFS = PREFS_PATH + "macros.ggt";
 
 	public static final String AUTHOR = "author";
@@ -100,16 +99,13 @@ public class GeoGebraPreferencesD {
 	private Preferences ggbPrefs;
 	private Preferences ggbPrefsSystem;
 
-	private static final class GeoGebraPreferencesInstalled extends GeoGebraPreferencesD {
-
-	}
+	private static final class GeoGebraPreferencesInstalled extends GeoGebraPreferencesD {}
 
 	protected GeoGebraPreferencesD() {
 
 		try {
 			if (PROPERTY_FILEPATH == null) {
-				ggbPrefs = Preferences.userRoot()
-						.node(GeoGebraConstants.PREFERENCES_ROOT);
+				ggbPrefs = Preferences.userRoot().node(GeoGebraConstants.PREFERENCES_ROOT);
 			}
 		} catch (Exception e) {
 			// thrown when running unsigned JAR
@@ -117,10 +113,9 @@ public class GeoGebraPreferencesD {
 		}
 
 		try {
-			if (PROPERTY_FILEPATH == null && Preferences.systemRoot()
-					.nodeExists(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL)) {
-				ggbPrefsSystem = Preferences.systemRoot()
-						.node(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
+			if (PROPERTY_FILEPATH == null
+					&& Preferences.systemRoot().nodeExists(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL)) {
+				ggbPrefsSystem = Preferences.systemRoot().node(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
 			} else {
 				ggbPrefsSystem = null;
 			}
@@ -128,7 +123,6 @@ public class GeoGebraPreferencesD {
 			// thrown when running unsigned JAR
 			ggbPrefsSystem = null;
 		}
-
 	}
 
 	/** Set in geogebra.gui.app.GeoGebraFrame before first call to getPref() */
@@ -140,7 +134,7 @@ public class GeoGebraPreferencesD {
 	/**
 	 * @return preferences singleton
 	 */
-	public synchronized static GeoGebraPreferencesD getPref() {
+	public static synchronized GeoGebraPreferencesD getPref() {
 		if (PROPERTY_FILEPATH != null) {
 			return GeoGebraPortablePreferences.getPortablePref();
 		}
@@ -194,7 +188,7 @@ public class GeoGebraPreferencesD {
 
 	/**
 	 * Check if system (local machine), then user, allows check version
-	 * 
+	 *
 	 * @param defaultValue
 	 *            default value (if key doesn't exist)
 	 * @return true if system and user allows check version
@@ -206,13 +200,13 @@ public class GeoGebraPreferencesD {
 			systemAllows = true;
 			Log.info("No system preferences");
 		} else {
-			systemAllows = Boolean.parseBoolean(ggbPrefsSystem.get(
-					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
+			systemAllows = Boolean.parseBoolean(
+					ggbPrefsSystem.get(GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		}
 		// then check if user allows
 		if (systemAllows && ggbPrefs != null) {
-			return Boolean.parseBoolean(getPref().loadPreference(
-					GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
+			return Boolean.parseBoolean(
+					getPref().loadPreference(GeoGebraPreferencesD.VERSION_CHECK_ALLOW, defaultValue));
 		}
 		// else don't allow
 		return false;
@@ -220,13 +214,12 @@ public class GeoGebraPreferencesD {
 
 	/**
 	 * save "versionCheckAllow" value to users preferences
-	 * 
+	 *
 	 * @param value
 	 *            value
 	 */
 	public void saveVersionCheckAllow(String value) {
-		getPref().savePreference(GeoGebraPreferencesD.VERSION_CHECK_ALLOW,
-				value);
+		getPref().savePreference(GeoGebraPreferencesD.VERSION_CHECK_ALLOW, value);
 	}
 
 	/**
@@ -242,13 +235,12 @@ public class GeoGebraPreferencesD {
 
 	/**
 	 * Returns the default image path
-	 * 
+	 *
 	 * @return the image path
 	 */
 	public File getDefaultImagePath() {
 		// image path
-		String pathName = getPref().loadPreference(APP_CURRENT_IMAGE_PATH,
-				null);
+		String pathName = getPref().loadPreference(APP_CURRENT_IMAGE_PATH, null);
 		if (pathName != null) {
 			return new File(pathName);
 		}
@@ -261,8 +253,7 @@ public class GeoGebraPreferencesD {
 	public void saveDefaultImagePath(File imgPath) {
 		try {
 			if (imgPath != null) {
-				getPref().savePreference(APP_CURRENT_IMAGE_PATH,
-						imgPath.getCanonicalPath());
+				getPref().savePreference(APP_CURRENT_IMAGE_PATH, imgPath.getCanonicalPath());
 			}
 		} catch (Exception e) {
 			Log.debug(e);
@@ -271,7 +262,7 @@ public class GeoGebraPreferencesD {
 
 	/**
 	 * Returns the default locale
-	 * 
+	 *
 	 * @return the locale
 	 */
 	public Locale getDefaultLocale() {
@@ -312,8 +303,7 @@ public class GeoGebraPreferencesD {
 			for (int i = 1; i <= AppD.MAX_RECENT_FILES; i++) {
 				File file = AppD.getFromFileList(i - 1);
 				if (file != null) {
-					getPref().savePreference(APP_FILE_ + i,
-							file.getCanonicalPath());
+					getPref().savePreference(APP_FILE_ + i, file.getCanonicalPath());
 				} else {
 					getPref().savePreference(APP_FILE_ + i, "");
 				}
@@ -341,10 +331,8 @@ public class GeoGebraPreferencesD {
 			String oldVersion = getPref().loadPreference(VERSION, null);
 
 			// current factory defaults possibly available?
-			if (oldVersion != null
-					&& oldVersion.equals(GeoGebraConstants.VERSION_STRING)) {
-				factoryDefaultXml = getPref()
-						.loadPreference(XML_FACTORY_DEFAULT, null);
+			if (oldVersion != null && oldVersion.equals(GeoGebraConstants.VERSION_STRING)) {
+				factoryDefaultXml = getPref().loadPreference(XML_FACTORY_DEFAULT, null);
 			}
 		}
 
@@ -368,8 +356,7 @@ public class GeoGebraPreferencesD {
 
 		String userPrefsXML = app.getPreferencesXML();
 		XMLStringBuilder sb = new XMLStringBuilder();
-		app.getKernel().getConstruction().getConstructionDefaults()
-				.getDefaultsXML(sb);
+		app.getKernel().getConstruction().getConstructionDefaults().getDefaultsXML(sb);
 		String objectPrefsXML = sb.toString();
 		byte[] macros = app.getMacroFileAsByteArray();
 
@@ -384,14 +371,12 @@ public class GeoGebraPreferencesD {
 			UtilD.writeByteArrayToFile(macros, WINDOWS_MACROS_PREFS);
 
 			return;
-
 		}
 
 		ggbPrefs.put(GeoGebraPreferences.XML_USER_PREFERENCES, userPrefsXML);
 
 		try {
-			getPref().savePreference(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES,
-					objectPrefsXML);
+			getPref().savePreference(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
 		} catch (Exception e) {
 			Log.debug(e);
 			Log.error("object defaults too long");
@@ -513,8 +498,7 @@ public class GeoGebraPreferencesD {
 	 * @return XML preferences
 	 */
 	public String getXMLPreferences() {
-		return getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES,
-				factoryDefaultXml);
+		return getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES, factoryDefaultXml);
 	}
 
 	/**
@@ -529,8 +513,7 @@ public class GeoGebraPreferencesD {
 		if (isSaveSettingsToFile()) {
 			Log.debug("Preferences loaded from " + WINDOWS_USERS_PREFS);
 			String userPrefsXML = UtilD.loadFileIntoString(WINDOWS_USERS_PREFS);
-			String objectPrefsXML = UtilD
-					.loadFileIntoString(WINDOWS_OBJECTS_PREFS);
+			String objectPrefsXML = UtilD.loadFileIntoString(WINDOWS_OBJECTS_PREFS);
 
 			byte[] ggtFile = UtilD.loadFileIntoByteArray(WINDOWS_MACROS_PREFS);
 
@@ -544,8 +527,7 @@ public class GeoGebraPreferencesD {
 				app.setXML(factoryDefaultXml, false);
 			}
 
-			if (objectPrefsXML != null
-					&& !objectPrefsXML.equals(factoryDefaultXml)) {
+			if (objectPrefsXML != null && !objectPrefsXML.equals(factoryDefaultXml)) {
 				boolean eda = app.getKernel().getElementDefaultAllowed();
 				app.getKernel().setElementDefaultAllowed(true);
 				app.getKernel().getConstruction().setIgnoringNewTypes(true);
@@ -557,7 +539,6 @@ public class GeoGebraPreferencesD {
 			app.updateToolBar();
 			app.setDefaultCursor();
 			return;
-
 		}
 
 		// load this preferences xml file in application
@@ -567,12 +548,12 @@ public class GeoGebraPreferencesD {
 			app.loadMacroFileFromByteArray(ggtFile, true);
 
 			// load preferences xml
-			String xml = getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES,
-					factoryDefaultXml);
+			String xml =
+					getPref().loadPreference(GeoGebraPreferences.XML_USER_PREFERENCES, factoryDefaultXml);
 			app.setXML(xml, false);
 
-			String xmlDef = getPref().loadPreference(
-					GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
+			String xmlDef = getPref()
+					.loadPreference(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
 			if (!xmlDef.equals(factoryDefaultXml)) {
 				boolean eda = app.getKernel().getElementDefaultAllowed();
 				app.getKernel().setElementDefaultAllowed(true);

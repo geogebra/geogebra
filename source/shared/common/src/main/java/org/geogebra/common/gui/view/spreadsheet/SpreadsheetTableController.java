@@ -31,15 +31,14 @@ public class SpreadsheetTableController {
 
 	/**
 	 * Show redefine dialog if inline editing is not possible
-	 * 
+	 *
 	 * @param geo
 	 *            construction element
 	 * @return whether dialog is shown
 	 */
 	public boolean redefineIfNeeded(GeoElement geo) {
 		if (!geo.isProtected(EventType.UPDATE)) {
-			if (!geo.isGeoText() && !geo.isIndependent()
-					&& getEditorInitString(geo).length() > 20) {
+			if (!geo.isGeoText() && !geo.isIndependent() && getEditorInitString(geo).length() > 20) {
 				app.getDialogManager().showRedefineDialog(geo, false);
 				return true;
 			}
@@ -55,7 +54,7 @@ public class SpreadsheetTableController {
 	/**
 	 * Returns the definition of geo used to init the editor when editing is
 	 * started.
-	 * 
+	 *
 	 * @param geo
 	 *            construction element
 	 * @return editor string

@@ -38,8 +38,8 @@ public interface CellRenderableFactory {
 	 * @param column column index
 	 * @return renderable representation of the cell data
 	 */
-	@Nullable SelfRenderable getRenderable(@Nullable Object data,
-			@Nullable SpreadsheetStyling fontStyle, int row, int column);
+	@Nullable SelfRenderable getRenderable(
+			@Nullable Object data, @Nullable SpreadsheetStyling fontStyle, int row, int column);
 
 	default double getFontSize() {
 		return Spreadsheet.DEFAULT_FONT_SIZE;

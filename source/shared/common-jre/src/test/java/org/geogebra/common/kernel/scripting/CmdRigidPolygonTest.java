@@ -43,11 +43,10 @@ class CmdRigidPolygonTest extends BaseAppTestSetup {
 		GeoElement v = evaluateGeoElement("v={Vertex(p)}");
 		evaluate("SetValue(A, (3, 0))");
 		// check update after translation
-		assertEquals("{(3, 0), (4, 0), (4, 1), (3, 1)}",
-				v.toValueString(StringTemplate.testTemplate));
+		assertEquals("{(3, 0), (4, 0), (4, 1), (3, 1)}", v.toValueString(StringTemplate.testTemplate));
 		// check update after rotation
 		evaluate("SetValue(B, (2, 0))");
-		assertEquals("{(3, 0), (2, 0), (2, -1), (3, -1)}",
-				v.toValueString(StringTemplate.editTemplate));
+		assertEquals(
+				"{(3, 0), (2, 0), (2, -1), (3, -1)}", v.toValueString(StringTemplate.editTemplate));
 	}
 }

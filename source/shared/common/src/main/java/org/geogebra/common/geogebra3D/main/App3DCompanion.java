@@ -51,7 +51,7 @@ import org.geogebra.common.plugin.Geometry3DGetter;
 import org.jspecify.annotations.NonNull;
 
 /**
- * 
+ *
  * @author mathieu
  *
  *         Companion for 3D application
@@ -67,7 +67,7 @@ public abstract class App3DCompanion extends AppCompanion {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -97,14 +97,13 @@ public abstract class App3DCompanion extends AppCompanion {
 
 	/**
 	 * add euclidian views for plane settings
-	 * 
+	 *
 	 * @param sb
 	 *            string builder
 	 * @param asPreference
 	 *            save as preference flag
 	 */
-	public void addCompleteUserInterfaceXMLForPlane(XMLStringBuilder sb,
-			boolean asPreference) {
+	public void addCompleteUserInterfaceXMLForPlane(XMLStringBuilder sb, boolean asPreference) {
 		if (euclidianViewForPlaneCompanionList != null) {
 			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
 				vfpc.getView().getXML(sb, asPreference);
@@ -126,12 +125,11 @@ public abstract class App3DCompanion extends AppCompanion {
 				vfpc.getView().getXML(sb, asPreference);
 			}
 		}
-
 	}
 
 	/**
 	 * create new euclidian view for plane
-	 * 
+	 *
 	 * @param plane
 	 *            plane
 	 * @param evSettings
@@ -141,8 +139,7 @@ public abstract class App3DCompanion extends AppCompanion {
 	 * @return view companion
 	 */
 	protected abstract EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
-			ViewCreator plane, EuclidianSettings evSettings,
-			boolean panelSettings);
+			ViewCreator plane, EuclidianSettings evSettings, boolean panelSettings);
 
 	@Override
 	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
@@ -157,8 +154,7 @@ public abstract class App3DCompanion extends AppCompanion {
 			evSettings.setShowAxes(false, false);
 			settings.setEuclidianSettingsForPlane(name, evSettings);
 		}
-		euclidianViewForPlaneCompanion = createEuclidianViewForPlane(plane,
-				evSettings, panelSettings);
+		euclidianViewForPlaneCompanion = createEuclidianViewForPlane(plane, evSettings, panelSettings);
 		evSettings.addListener(euclidianViewForPlaneCompanion.getView());
 		euclidianViewForPlaneCompanion.getView().updateFonts();
 		euclidianViewForPlaneCompanion.addExistingGeos();
@@ -174,15 +170,13 @@ public abstract class App3DCompanion extends AppCompanion {
 
 	/**
 	 * remove the view from the list
-	 * 
+	 *
 	 * @param vfpc
 	 *            view for plane companion
 	 */
-	public void removeEuclidianViewForPlaneFromList(
-			EuclidianViewForPlaneCompanion vfpc) {
+	public void removeEuclidianViewForPlaneFromList(EuclidianViewForPlaneCompanion vfpc) {
 		euclidianViewForPlaneCompanionList.remove(vfpc);
-		app.getSettings().removeEuclidianSettingsForPlane(
-				vfpc.getPlane().getLabelSimple());
+		app.getSettings().removeEuclidianSettingsForPlane(vfpc.getPlane().getLabelSimple());
 	}
 
 	/**
@@ -200,7 +194,6 @@ public abstract class App3DCompanion extends AppCompanion {
 
 		euclidianViewForPlaneCompanionList.clear();
 		app.getSettings().clearEuclidianSettingsForPlane();
-
 	}
 
 	@Override
@@ -220,10 +213,10 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current dockpanel for plane
 	 */
-	abstract public DockPanel getPanelForPlane();
+	public abstract DockPanel getPanelForPlane();
 
 	@Override
 	public boolean hasEuclidianViewForPlane() {
@@ -260,7 +253,6 @@ public abstract class App3DCompanion extends AppCompanion {
 		}
 
 		return null;
-
 	}
 
 	@Override
@@ -292,13 +284,13 @@ public abstract class App3DCompanion extends AppCompanion {
 
 	/**
 	 * Increment view ID and return the old one
-	 * 
+	 *
 	 * @return next view ID
 	 */
 	public int incViewID() {
 		return viewId++;
 	}
-	
+
 	@Override
 	public void setExport3D(Format format, boolean showDialog) {
 		// try first with existing 3D view
@@ -320,15 +312,13 @@ public abstract class App3DCompanion extends AppCompanion {
 				width = ev.getWidth();
 				height = ev.getHeight();
 				EuclidianSettings s2d = ev.getSettings();
-				settings.setShowAxis(AxisModel.AXIS_X,
-						s2d.getShowAxis(AxisModel.AXIS_X));
-				settings.setShowAxis(AxisModel.AXIS_Y,
-						s2d.getShowAxis(AxisModel.AXIS_Y));
+				settings.setShowAxis(AxisModel.AXIS_X, s2d.getShowAxis(AxisModel.AXIS_X));
+				settings.setShowAxis(AxisModel.AXIS_Y, s2d.getShowAxis(AxisModel.AXIS_Y));
 				settings.setShowAxis(AxisModel.AXIS_Z, false);
 				settings.setShowPlate(false);
-				settings.setShowGridSetting(s2d.getShowGrid() && (s2d
-						.getGridType() == EuclidianView.GRID_CARTESIAN
-						|| s2d.getGridType() == EuclidianView.GRID_CARTESIAN_WITH_SUBGRID));
+				settings.setShowGridSetting(s2d.getShowGrid()
+						&& (s2d.getGridType() == EuclidianView.GRID_CARTESIAN
+								|| s2d.getGridType() == EuclidianView.GRID_CARTESIAN_WITH_SUBGRID));
 				double xscale = s2d.getXscale();
 				double yscale = s2d.getYscale();
 				double xmin = -s2d.getXZero() / xscale;
@@ -338,13 +328,12 @@ public abstract class App3DCompanion extends AppCompanion {
 				settings.setXscale(s2d.getXscale());
 				settings.setYscale(s2d.getYscale());
 				settings.setZscale(s2d.getXscale());
-				settings.updateOriginFromView(-(xmin + xmax) / 2,
-						-(ymin + ymax) / 2, 0);
+				settings.updateOriginFromView(-(xmin + xmax) / 2, -(ymin + ymax) / 2, 0);
 				settings.setYAxisVertical(true); // this way view height will be
-													// used for clipping
+				// used for clipping
 			}
-			EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-					new EuclidianController3DForExport(app), settings);
+			EuclidianView3DForExport exportView3D =
+					new EuclidianView3DForExport(new EuclidianController3DForExport(app), settings);
 			if (width > 0) {
 				RendererForExport renderer = (RendererForExport) exportView3D.getRenderer();
 				renderer.setReduceForClipping(!use2d);
@@ -361,8 +350,7 @@ public abstract class App3DCompanion extends AppCompanion {
 			} else {
 				StringBuilder export = exportView3D.export3D(format);
 				app.getKernel().detach(exportView3D);
-				app.exportStringToFile(format.getExtension(),
-						export.toString(), showDialog);
+				app.exportStringToFile(format.getExtension(), export.toString(), showDialog);
 			}
 		} else {
 			if (app.isEuclidianView3Dinited()) {
@@ -374,8 +362,7 @@ public abstract class App3DCompanion extends AppCompanion {
 			}
 			// use ad hoc 3D view for export
 			EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-					new EuclidianController3DForExport(app),
-					app.getSettings().getEuclidian(3));
+					new EuclidianController3DForExport(app), app.getSettings().getEuclidian(3));
 			StringBuilder export = exportView3D.export3D(format);
 			app.getKernel().detach(exportView3D);
 			app.exportStringToFile(format.getExtension(), export.toString(), showDialog);
@@ -383,39 +370,70 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 
 	@Override
-	public String exportCollada(double xmin, double xmax, double ymin,
-			double ymax, double zmin, double zmax, double xyScale,
-			double xzScale, double xTickDistance, double yTickDistance,
+	public String exportCollada(
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			double zmin,
+			double zmax,
+			double xyScale,
+			double xzScale,
+			double xTickDistance,
+			double yTickDistance,
 			double zTickDistance) {
 		// use ad hoc 3D view for export
 		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-				new EuclidianController3DForExport(app), settings);
+		EuclidianView3DForExport exportView3D =
+				new EuclidianView3DForExport(new EuclidianController3DForExport(app), settings);
 		Format format = new FormatCollada();
-		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale,
-				xzScale, xTickDistance, yTickDistance, zTickDistance);
+		exportView3D.updateSettings(
+				xmin,
+				xmax,
+				ymin,
+				ymax,
+				zmin,
+				zmax,
+				xyScale,
+				xzScale,
+				xTickDistance,
+				yTickDistance,
+				zTickDistance);
 		StringBuilder export = exportView3D.export3D(format);
 		app.getKernel().detach(exportView3D);
 		return export.toString();
 	}
 
 	@Override
-	public boolean exportGeometry3D(Geometry3DGetter getter, double xmin,
-			double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance,
-			double yTickDistance, double zTickDistance) {
+	public boolean exportGeometry3D(
+			Geometry3DGetter getter,
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			double zmin,
+			double zmax,
+			double xyScale,
+			double xzScale,
+			double xTickDistance,
+			double yTickDistance,
+			double zTickDistance) {
 		// use ad hoc 3D view for export
 		EuclidianSettings3D settings = new EuclidianSettings3D(app);
-		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(
-				new EuclidianController3DForExport(app), settings);
+		EuclidianView3DForExport exportView3D =
+				new EuclidianView3DForExport(new EuclidianController3DForExport(app), settings);
 
 		if (app.isEuclidianView3Dinited()) {
 			EuclidianView3D view3D = (EuclidianView3D) app.getEuclidianView3D();
 			EuclidianSettings3D viewSettings = view3D.getSettings();
 			settings.setShowAxes(viewSettings.axisShown());
 			if (xmin > xmax) { // use original view settings
-				exportView3D.updateSettings(view3D.getXmin(), view3D.getXmax(),
-						view3D.getYmin(), view3D.getYmax(), view3D.getZmin(),
+				exportView3D.updateSettings(
+						view3D.getXmin(),
+						view3D.getXmax(),
+						view3D.getYmin(),
+						view3D.getYmax(),
+						view3D.getZmin(),
 						view3D.getZmax(),
 						view3D.getYscale() / view3D.getXscale(),
 						view3D.getZscale() / view3D.getXscale(),
@@ -423,13 +441,31 @@ public abstract class App3DCompanion extends AppCompanion {
 						view3D.getAxisNumberingDistance(1),
 						view3D.getAxisNumberingDistance(2));
 			} else {
-				exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax,
-						xyScale, xzScale, xTickDistance, yTickDistance,
+				exportView3D.updateSettings(
+						xmin,
+						xmax,
+						ymin,
+						ymax,
+						zmin,
+						zmax,
+						xyScale,
+						xzScale,
+						xTickDistance,
+						yTickDistance,
 						zTickDistance);
 			}
 		} else {
-			exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax,
-					xyScale, xzScale, xTickDistance, yTickDistance,
+			exportView3D.updateSettings(
+					xmin,
+					xmax,
+					ymin,
+					ymax,
+					zmin,
+					zmax,
+					xyScale,
+					xzScale,
+					xTickDistance,
+					yTickDistance,
 					zTickDistance);
 		}
 		exportView3D.export3D(getter);

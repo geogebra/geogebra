@@ -50,12 +50,15 @@ public final class InputDialogRegularPolygonW extends ComponentInputDialog {
 	 * @param direction
 	 *            orientation
 	 */
-	public InputDialogRegularPolygonW(AppW app, DialogData data, EuclidianController ec,
-			InputHandler handler, GeoPointND point1, GeoPointND point2,
+	public InputDialogRegularPolygonW(
+			AppW app,
+			DialogData data,
+			EuclidianController ec,
+			InputHandler handler,
+			GeoPointND point1,
+			GeoPointND point2,
 			GeoCoordSys2D direction) {
-		super(app, data, false, false, handler,
-				app.getLocalization().getMenu("Points"), "4"
-		);
+		super(app, data, false, false, handler, app.getLocalization().getMenu("Points"), "4");
 		geoPoint1 = point1;
 		geoPoint2 = point2;
 		this.direction = direction;
@@ -64,9 +67,8 @@ public final class InputDialogRegularPolygonW extends ComponentInputDialog {
 
 	@Override
 	public void processInput() {
-		DialogManager.makeRegularPolygon(app, ec, getInputText(),
-				geoPoint1, geoPoint2, direction, this,
-				ok -> {
+		DialogManager.makeRegularPolygon(
+				app, ec, getInputText(), geoPoint1, geoPoint2, direction, this, ok -> {
 					if (ok) {
 						hide();
 					}

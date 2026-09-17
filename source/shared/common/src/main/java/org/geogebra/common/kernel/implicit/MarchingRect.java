@@ -107,7 +107,6 @@ public interface MarchingRect {
 	 * @return {@code true} if all coordinates are equal within tolerance
 	 */
 	default boolean same(double x1, double y1, double x2, double y2) {
-		return isEqual(x1, x1()) && isEqual(x2, x2())
-				&& isEqual(y1, y1()) && isEqual(y2, y2());
+		return isEqual(x1, x1()) && isEqual(x2, x2()) && isEqual(y1, y1()) && isEqual(y2, y2());
 	}
 }

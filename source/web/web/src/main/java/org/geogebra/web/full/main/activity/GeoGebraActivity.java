@@ -77,8 +77,8 @@ public interface GeoGebraActivity {
 	 * @param withSliders   whether to allow slider creation without asking
 	 * @return error handler for algebra input.
 	 */
-	ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
-			boolean allowSliders, boolean withSliders);
+	ErrorHandler createAVErrorHandler(
+			RadioTreeItem radioTreeItem, boolean valid, boolean allowSliders, boolean withSliders);
 
 	/**
 	 * Show settings
@@ -107,7 +107,7 @@ public interface GeoGebraActivity {
 
 	/**
 	 * Please try to avoid if(isWhiteboard), use polymorphism instead
-	 * 
+	 *
 	 * @return whether this is whiteboard activity
 	 */
 	boolean isWhiteboard();
@@ -144,8 +144,7 @@ public interface GeoGebraActivity {
 	 * @param app application
 	 */
 	default void initTableOfValues(AppW app) {
-		TableValues tableValues =
-				((GuiManagerW) app.getGuiManager()).getTableValuesViewOrNull();
+		TableValues tableValues = ((GuiManagerW) app.getGuiManager()).getTableValuesViewOrNull();
 		if (tableValues != null) {
 			tableValues.getTableValuesModel().setAllowsAddingColumns(true);
 			((TableValuesView) tableValues).setAlgebraLabelVisibleCheck(true);

@@ -53,16 +53,16 @@ import com.google.j2objc.annotations.Weak;
 /**
  * Function of N variables that returns either a number or a boolean. This
  * depends on the expression this function is based on.
- * 
+ *
  * @author Markus Hohenwarter + mathieu
  */
-public class FunctionNVar extends ValidExpression
-		implements FunctionalNVar {
+public class FunctionNVar extends ValidExpression implements FunctionalNVar {
 
 	/** function expression */
 	protected ExpressionNode expression;
 	/** function variables */
 	protected FunctionVariable[] fVars;
+
 	private IneqTree ineqs;
 
 	/** standard case: number function, see initFunction() */
@@ -74,7 +74,8 @@ public class FunctionNVar extends ValidExpression
 	/** kernel */
 	@Weak
 	protected Kernel kernel;
-	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
+
+	private static final int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private Map<String, FunctionNVar> casEvalMap;
 	private String shortLHS;
 	private ExpressionNode casEvalExpression;
@@ -82,7 +83,7 @@ public class FunctionNVar extends ValidExpression
 
 	private boolean forceInequality;
 
-	private final static class RandomCheck implements Inspecting {
+	private static final class RandomCheck implements Inspecting {
 
 		@Override
 		public boolean check(ExpressionValue v) {
@@ -94,7 +95,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Creates new Function from expression. Note: call initFunction() after
 	 * this constructor.
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param expression
@@ -108,7 +109,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Creates new Function from expression where the function variables in
 	 * expression is already known.
-	 * 
+	 *
 	 * @param exp
 	 *            function expression
 	 * @param fVars
@@ -124,18 +125,17 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Creates a Function that has no expression yet. Use setExpression() to do
 	 * this later.
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
 	public FunctionNVar(Kernel kernel) {
 		this.kernel = kernel;
-
 	}
 
 	/**
 	 * Copy expression and variables from template (shallow)
-	 * 
+	 *
 	 * @param fn
 	 *            template function
 	 */
@@ -149,7 +149,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * copy constructor
-	 * 
+	 *
 	 * @param f
 	 *            source function
 	 * @param kernel
@@ -166,7 +166,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Determine whether var is function variable of this function
-	 * 
+	 *
 	 * @param var
 	 *            variable name
 	 * @return true if var is function variable of this function
@@ -217,7 +217,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Replaces geo and all its dependent geos in this function's expression by
 	 * copies of their values.
-	 * 
+	 *
 	 * @param geo
 	 *            geo to be replaced
 	 */
@@ -230,7 +230,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Use this method only if you really know what you are doing.
-	 * 
+	 *
 	 * @param exp
 	 *            function expression
 	 */
@@ -240,7 +240,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Use this method only if you really know what you are doing.
-	 * 
+	 *
 	 * @param exp
 	 *            function expression
 	 * @param vars
@@ -258,7 +258,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Returns array of all variables
-	 * 
+	 *
 	 * @return array of variables
 	 */
 	@Override
@@ -268,23 +268,23 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Returns name of i-th variable
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @param tpl
 	 *            string template
 	 * @return name of i-th variable
 	 */
-	final public String getVarString(int i, StringTemplate tpl) {
+	public final String getVarString(int i, StringTemplate tpl) {
 		return fVars[i].toString(tpl);
 	}
 
 	/**
 	 * Number of arguments of this function, e.g. 2 for f(x,y)
-	 * 
+	 *
 	 * @return number of variables
 	 */
-	final public int getVarNumber() {
+	public final int getVarNumber() {
 		return fVars.length;
 	}
 
@@ -303,21 +303,19 @@ public class FunctionNVar extends ValidExpression
 		for (FunctionVariable fv : other.getFunctionVariables()) {
 			otherVars.add(fv.getSetVarString());
 		}
-		Arrays.sort(fVars, Comparator.comparing(var ->
-				otherVars.indexOf(var.getSetVarString())));
+		Arrays.sort(fVars, Comparator.comparing(var -> otherVars.indexOf(var.getSetVarString())));
 	}
 
 	/**
 	 * Appends varstring to the builder
-	 * 
+	 *
 	 * @param sb
 	 *            string builder
 	 * @param tpl
 	 *            string template
 	 * @return sb
 	 */
-	public StringBuilder appendVarString(StringBuilder sb,
-			final StringTemplate tpl) {
+	public StringBuilder appendVarString(StringBuilder sb, final StringTemplate tpl) {
 		for (int i = 0; i < fVars.length - 1; i++) {
 			sb.append(fVars[i].toString(tpl));
 			sb.append(",");
@@ -343,7 +341,7 @@ public class FunctionNVar extends ValidExpression
 	 *
 	 * @return whether this is a valid (numeric or boolean) function
 	 */
-	public boolean  initFunction(boolean simplifyInt) {
+	public boolean initFunction(boolean simplifyInt) {
 		EvalInfo info = new EvalInfo(false).withSimplifying(simplifyInt);
 		return initFunction(info);
 	}
@@ -433,12 +431,12 @@ public class FunctionNVar extends ValidExpression
 				zVar = fVar;
 			}
 		}
-		return new FunctionVariable[] { xVar, yVar, zVar };
+		return new FunctionVariable[] {xVar, yVar, zVar};
 	}
 
 	/**
 	 * Receives result of evaluate as input, hence may use instanceof
-	 * 
+	 *
 	 * @return whether this is a valid (numeric or boolean) function
 	 */
 	private boolean initType(ExpressionValue ev) {
@@ -446,13 +444,13 @@ public class FunctionNVar extends ValidExpression
 			isBooleanFunction = true;
 		} else if (ev instanceof NumberValue) {
 			isBooleanFunction = false;
-		}  else if (ev instanceof GeoFunction && ((GeoFunction) ev).isLabelSet()) {
+		} else if (ev instanceof GeoFunction && ((GeoFunction) ev).isLabelSet()) {
 			// f(x) should be a dependent function
 			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION, fVars[0]);
 		} else if (ev instanceof GeoFunctionNVar && ((GeoFunctionNVar) ev).isLabelSet()) {
 			// f(x, y) should be a dependent function
 			MyList args = new MyList(kernel, fVars.length);
-			for (FunctionVariable fVar: fVars) {
+			for (FunctionVariable fVar : fVars) {
 				args.addListElement(fVar);
 			}
 			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION_NVAR, args);
@@ -460,8 +458,7 @@ public class FunctionNVar extends ValidExpression
 			expression = ((FunctionalNVar) ev).getFunctionExpression();
 			FunctionVariable[] newVars = ((FunctionalNVar) ev).getFunctionVariables();
 			if (newVars.length == fVars.length) {
-				Arrays.sort(newVars, Comparator.comparingInt(
-						fv -> indexOfVar(fv.getSetVarString())));
+				Arrays.sort(newVars, Comparator.comparingInt(fv -> indexOfVar(fv.getSetVarString())));
 			}
 			fVars = newVars;
 		} else {
@@ -483,17 +480,17 @@ public class FunctionNVar extends ValidExpression
 	 * Returns whether this function always evaluates to BooleanValue.
 	 */
 	@Override
-	final public boolean isBooleanFunction() {
+	public final boolean isBooleanFunction() {
 		return isBooleanFunction;
 	}
 
 	/**
 	 * Returns whether this function always evaluates to the same numerical
 	 * value, i.e. it is of the form f(x1,...,xn) = c.
-	 * 
+	 *
 	 * @return true iff constant
 	 */
-	final public boolean isConstantFunction() {
+	public final boolean isConstantFunction() {
 		if (isConstantFunction) {
 			return true;
 		}
@@ -517,13 +514,13 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Returns this function's value at position.
-	 * 
+	 *
 	 * @param vals
 	 *            values of variables
 	 * @return f(vals)
 	 */
 	@Override
-	final public double evaluate(double[] vals) {
+	public final double evaluate(double[] vals) {
 		if (isBooleanFunction) {
 			// BooleanValue
 			return evaluateBoolean(vals) ? 1 : 0;
@@ -538,7 +535,7 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	final public double evaluate(double x, double y) {
+	public final double evaluate(double x, double y) {
 		if (isBooleanFunction) {
 			// BooleanValue
 			return evaluateBoolean(x, y) ? 1 : 0;
@@ -554,12 +551,12 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Returns this function's value at position vals. (Note: use this method if
 	 * isBooleanFunction() returns true.
-	 * 
+	 *
 	 * @param vals
 	 *            values of variables
 	 * @return f(vals)
 	 */
-	final public boolean evaluateBoolean(double... vals) {
+	public final boolean evaluateBoolean(double... vals) {
 		for (int i = 0; i < fVars.length; i++) {
 			fVars[i].set(vals[i]);
 		}
@@ -572,7 +569,7 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode
 	 *            symbolic mode
 	 * @return GeoElements acting as variables
@@ -587,18 +584,18 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public final String toValueString(StringTemplate tpl) {
 
 		return expression.toValueString(tpl);
 	}
 
 	@Override
-	final public String toOutputValueString(StringTemplate tpl) {
+	public final String toOutputValueString(StringTemplate tpl) {
 		return expression.toOutputValueString(tpl);
 	}
 
 	@Override
-	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+	public final String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return expression.toLaTeXString(symbolic, tpl);
 	}
 
@@ -609,7 +606,7 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Evaluates this function using the given CAS command. Caching is used for
 	 * symbolic CAS evaluations.
-	 * 
+	 *
 	 * @param ggbCasCmd
 	 *            the GeoGebraCAS command needs to include % in all places where
 	 *            the function f should be substituted, e.g. "Derivative(%,x)"
@@ -620,8 +617,8 @@ public class FunctionNVar extends ValidExpression
 	 *            arbitrary constant handler
 	 * @return resulting function
 	 */
-	final public FunctionNVar evalCasCommand(String ggbCasCmd, boolean symb,
-			ArbitraryConstantRegistry arbconst) {
+	public final FunctionNVar evalCasCommand(
+			String ggbCasCmd, boolean symb, ArbitraryConstantRegistry arbconst) {
 		StringBuilder sb = new StringBuilder(80);
 		// remember expression and its CAS string
 		boolean useCaching = true;
@@ -640,8 +637,7 @@ public class FunctionNVar extends ValidExpression
 		StringTemplate tpl = StringTemplate.numericNoLocal;
 		// did expression change since last time?
 		// or did symbolic flag change?
-		if (casEvalExpression != expression
-				|| (symbolic && casEvalStringSymbolic == null)) {
+		if (casEvalExpression != expression || (symbolic && casEvalStringSymbolic == null)) {
 			casEvalExpression = expression;
 			if (symbolic) {
 				casEvalStringSymbolic = expression.getCASstring(tpl, true);
@@ -654,14 +650,11 @@ public class FunctionNVar extends ValidExpression
 			// where we cannot cache the derivative of g because g may have
 			// changed
 
-			useCaching = !expression.containsCasEvaluableFunction()
-					&& !expression.any(new RandomCheck());
-
+			useCaching = !expression.containsCasEvaluableFunction() && !expression.any(new RandomCheck());
 		}
 
 		// build command string for CAS
-		String expString = symbolic ? casEvalStringSymbolic
-				: expression.getCASstring(tpl, false);
+		String expString = symbolic ? casEvalStringSymbolic : expression.getCASstring(tpl, false);
 
 		// substitute % by expString in ggbCasCmd
 		String casString = ggbCasCmd.replaceAll("%", expString);
@@ -674,8 +667,7 @@ public class FunctionNVar extends ValidExpression
 				kernel.getGeoGebraCAS().initCurrentCAS();
 				resultFun = lookupCasEvalMap(casString);
 				if (resultFun != null) {
-					resultFun.getExpression().traverse(
-							ArbconstReplacer.getReplacer(arbconst));
+					resultFun.getExpression().traverse(ArbconstReplacer.getReplacer(arbconst));
 					return resultFun;
 				}
 			}
@@ -683,11 +675,14 @@ public class FunctionNVar extends ValidExpression
 			String result = symbolic
 					? kernel.evaluateGeoGebraCAS(casString, arbconst) // symbolic
 					: kernel.evaluateCachedGeoGebraCAS(casString, arbconst); // value
-																			// string
+			// string
 
 			// parse CAS result back into GeoGebra
-			String tmpLabel = kernel.getConstruction().getConstructionDefaults()
-					.getDefaultGeo(ConstructionDefaults.DEFAULT_FUNCTION_NVAR).getFreeLabel("f");
+			String tmpLabel = kernel
+					.getConstruction()
+					.getConstructionDefaults()
+					.getDefaultGeo(ConstructionDefaults.DEFAULT_FUNCTION_NVAR)
+					.getFreeLabel("f");
 			sb.setLength(0);
 			sb.append(tmpLabel); // this name is never used, just needed for parsing
 			sb.append("(");
@@ -699,8 +694,7 @@ public class FunctionNVar extends ValidExpression
 			if (getVarNumber() == 1) {
 				resultFun = kernel.getParser().parseFunction(sb.toString());
 			} else {
-				resultFun = kernel.getParser()
-						.parseFunctionNVar(sb.toString());
+				resultFun = kernel.getParser().parseFunctionNVar(sb.toString());
 				resultFun = ensureVarsAreNotNull(resultFun);
 			}
 			resultFun.initFunction();
@@ -731,19 +725,18 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	/**
-	 * 
+	 *
 	 * @return CAS map command -&gt; result
 	 */
 	protected Map<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
-			casEvalMap = new MaxSizeHashMap<>(
-					MAX_CAS_EVAL_MAP_SIZE);
+			casEvalMap = new MaxSizeHashMap<>(MAX_CAS_EVAL_MAP_SIZE);
 		}
 		return casEvalMap;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sb
 	 *            XML builder
 	 */
@@ -783,17 +776,14 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	@Override
-	final public boolean contains(ExpressionValue ev) {
+	public final boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
 	@Override
 	public String getLabelForAssignment() {
 		// function, e.g. f(x) := 2*x
-		return getLabel()
-				+ "("
-				+ getVarString(StringTemplate.defaultTemplate)
-				+ ")";
+		return getLabel() + "(" + getVarString(StringTemplate.defaultTemplate) + ")";
 	}
 
 	@Override
@@ -803,7 +793,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * initializes inequalities
-	 * 
+	 *
 	 * @param fe
 	 *            expression node
 	 * @return true if the functions consists of inequalities
@@ -817,16 +807,16 @@ public class FunctionNVar extends ValidExpression
 		return b;
 	}
 
-	private boolean initIneqs(ExpressionNode fe,
-			IneqTree tree, boolean negate) {
+	private boolean initIneqs(ExpressionNode fe, IneqTree tree, boolean negate) {
 		Operation op = fe.getOperation();
 		ExpressionNode leftTree = fe.getLeftTree();
 		ExpressionNode rightTree = fe.getRightTree();
-		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)
+		if (op.equals(Operation.GREATER)
+				|| op.equals(Operation.GREATER_EQUAL)
 				|| op.equals(Operation.LESS)
 				|| op.equals(Operation.LESS_EQUAL)) {
-			Inequality newIneq = new Inequality(kernel, leftTree, rightTree,
-					adjustOp(op, negate), getFunction().getFunctionVariables());
+			Inequality newIneq = new Inequality(
+					kernel, leftTree, rightTree, adjustOp(op, negate), getFunction().getFunctionVariables());
 			if (newIneq.getType() != IneqType.INEQUALITY_INVALID) {
 				if (newIneq.getType() != IneqType.INEQUALITY_1VAR_X
 						&& newIneq.getType() != IneqType.INEQUALITY_1VAR_Y) {
@@ -835,9 +825,12 @@ public class FunctionNVar extends ValidExpression
 				tree.setIneq(newIneq);
 			}
 			return newIneq.getType() != IneqType.INEQUALITY_INVALID;
-		} else if (op.equals(Operation.AND) || op.equals(Operation.AND_INTERVAL)
-				|| op.equals(Operation.OR) || op.equals(Operation.EQUAL_BOOLEAN)
-				|| op.equals(Operation.NOT_EQUAL) || op.equals(Operation.XOR)) {
+		} else if (op.equals(Operation.AND)
+				|| op.equals(Operation.AND_INTERVAL)
+				|| op.equals(Operation.OR)
+				|| op.equals(Operation.EQUAL_BOOLEAN)
+				|| op.equals(Operation.NOT_EQUAL)
+				|| op.equals(Operation.XOR)) {
 			tree.setOperation(adjustOp(op, negate));
 			tree.setLeft(new IneqTree());
 			tree.setRight(new IneqTree());
@@ -853,19 +846,15 @@ public class FunctionNVar extends ValidExpression
 					&& initIneqs(rightTree, tree.getRight(), negate);
 		} else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar) leftTree.getLeft();
-			ExpressionNode subExpr = nv.getFunction().getExpression()
-					.getCopy(kernel);
-			FunctionVariable[] subVars = nv.getFunction()
-					.getFunctionVariables();
+			ExpressionNode subExpr = nv.getFunction().getExpression().getCopy(kernel);
+			FunctionVariable[] subVars = nv.getFunction().getFunctionVariables();
 			for (int i = 0; i < subVars.length; i++) {
-				subExpr.replace(subVars[i],
-						((MyList) rightTree.getLeft()).get(i));
+				subExpr.replace(subVars[i], ((MyList) rightTree.getLeft()).get(i));
 			}
 			return initIneqs(subExpr, tree, negate);
 		} else {
 			return false;
 		}
-
 	}
 
 	private static Operation adjustOp(Operation op, boolean negate) {
@@ -873,31 +862,31 @@ public class FunctionNVar extends ValidExpression
 			return op;
 		}
 		switch (op) {
-		case AND:
-			return Operation.OR;
-		case OR:
-			return Operation.AND;
-		case GREATER_EQUAL:
-			return Operation.LESS;
-		case GREATER:
-			return Operation.LESS_EQUAL;
-		case LESS_EQUAL:
-			return Operation.GREATER;
-		case LESS:
-			return Operation.GREATER_EQUAL;
-		case EQUAL_BOOLEAN:
-			return Operation.NOT_EQUAL;
-		case NOT_EQUAL:
-			return Operation.EQUAL_BOOLEAN;
-		default:
-			break;
+			case AND:
+				return Operation.OR;
+			case OR:
+				return Operation.AND;
+			case GREATER_EQUAL:
+				return Operation.LESS;
+			case GREATER:
+				return Operation.LESS_EQUAL;
+			case LESS_EQUAL:
+				return Operation.GREATER;
+			case LESS:
+				return Operation.GREATER_EQUAL;
+			case EQUAL_BOOLEAN:
+				return Operation.NOT_EQUAL;
+			case NOT_EQUAL:
+				return Operation.EQUAL_BOOLEAN;
+			default:
+				break;
 		}
 		return Operation.NO_OPERATION;
 	}
 
 	/**
 	 * updates list of inequalities
-	 * 
+	 *
 	 * @return true iff all inequalities are drawable
 	 */
 	public boolean updateIneqs() {
@@ -909,22 +898,21 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Evaluates function at given point
-	 * 
+	 *
 	 * @param pt
 	 *            point for evaluation
 	 * @return function value
 	 */
 	public double evaluate(VectorNDValue pt) {
-		if (fVars.length == 1 && "y"
-				.equals(fVars[0].toString(StringTemplate.defaultTemplate))) {
-			return evaluate(new double[] { pt.getPointAsDouble()[1] });
+		if (fVars.length == 1 && "y".equals(fVars[0].toString(StringTemplate.defaultTemplate))) {
+			return evaluate(new double[] {pt.getPointAsDouble()[1]});
 		}
 		return evaluate(pt.getPointAsDouble());
 	}
 
 	/**
 	 * Translates the function by (vx,vy)
-	 * 
+	 *
 	 * @param vx
 	 *            x-coord of translation vector
 	 * @param vy
@@ -944,8 +932,7 @@ public class FunctionNVar extends ValidExpression
 		// make sure that expression object is changed!
 		// this is needed to know that the expression has changed
 		if (expression.isLeaf() && expression.getLeft().isExpressionNode()) {
-			expression = new ExpressionNode(
-					(ExpressionNode) expression.getLeft());
+			expression = new ExpressionNode((ExpressionNode) expression.getLeft());
 		} else {
 			expression = new ExpressionNode(expression);
 		}
@@ -958,7 +945,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * translate the expression
-	 * 
+	 *
 	 * @param vx
 	 *            x-translation
 	 * @param vy
@@ -985,7 +972,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * replace every x in tree by (x - vx) // i.e. replace fVar with (fvar - vx)
-	 * 
+	 *
 	 * @param en
 	 *            node
 	 * @param vx
@@ -1000,41 +987,39 @@ public class FunctionNVar extends ValidExpression
 		// left tree
 		if (left == fVars[varNo]) {
 			if (right instanceof MyDouble && right.isConstant()) { // is there a
-																	// constant
-																	// number to
-																	// the
-																	// right?
+				// constant
+				// number to
+				// the
+				// right?
 				MyDouble num = (MyDouble) right;
 				double temp;
 				switch (en.getOperation()) {
-				case PLUS:
-					temp = num.getDouble() - vx;
-					if (DoubleUtil.isZero(temp)) {
-						expression = expression.replace(en, fVars[varNo])
-								.wrap();
-					} else if (temp < 0) {
-						en.setOperation(Operation.MINUS);
-						num.set(-temp);
-					} else {
-						num.set(temp);
-					}
-					return;
+					case PLUS:
+						temp = num.getDouble() - vx;
+						if (DoubleUtil.isZero(temp)) {
+							expression = expression.replace(en, fVars[varNo]).wrap();
+						} else if (temp < 0) {
+							en.setOperation(Operation.MINUS);
+							num.set(-temp);
+						} else {
+							num.set(temp);
+						}
+						return;
 
-				case MINUS:
-					temp = num.getDouble() + vx;
-					if (DoubleUtil.isZero(temp)) {
-						expression = expression.replace(en, fVars[varNo])
-								.wrap();
-					} else if (temp < 0) {
-						en.setOperation(Operation.PLUS);
-						num.set(-temp);
-					} else {
-						num.set(temp);
-					}
-					return;
+					case MINUS:
+						temp = num.getDouble() + vx;
+						if (DoubleUtil.isZero(temp)) {
+							expression = expression.replace(en, fVars[varNo]).wrap();
+						} else if (temp < 0) {
+							en.setOperation(Operation.PLUS);
+							num.set(-temp);
+						} else {
+							num.set(temp);
+						}
+						return;
 
-				default:
-					en.setLeft(shiftXnode(vx, varNo));
+					default:
+						en.setLeft(shiftXnode(vx, varNo));
 				}
 			} else {
 				en.setLeft(shiftXnode(vx, varNo));
@@ -1049,17 +1034,14 @@ public class FunctionNVar extends ValidExpression
 		} else {
 			translateExpressionX(right, vx, varNo);
 		}
-
 	}
 
-	private void translateExpressionX(ExpressionValue right, double vx,
-			int varNo) {
+	private void translateExpressionX(ExpressionValue right, double vx, int varNo) {
 		if (right instanceof ExpressionNode) {
 			translateX((ExpressionNode) right, vx, varNo);
 		} else if (right instanceof MyList) {
 			for (int i = 0; i < ((MyList) right).size(); i++) {
-				translateX(((MyList) right).get(i).wrap(), vx,
-						varNo);
+				translateX(((MyList) right).get(i).wrap(), vx, varNo);
 			}
 		} else if (right instanceof MyVecNode) {
 			translateX(((MyVecNode) right).getX().wrap(), vx, varNo);
@@ -1069,12 +1051,11 @@ public class FunctionNVar extends ValidExpression
 			translateX(((MyVec3DNode) right).getY().wrap(), vx, varNo);
 			translateX(((MyVec3DNode) right).getZ().wrap(), vx, varNo);
 		}
-
 	}
 
 	/**
 	 * Dilates node in single direction
-	 * 
+	 *
 	 * @param en
 	 *            node to dilate
 	 * @param vx
@@ -1092,16 +1073,16 @@ public class FunctionNVar extends ValidExpression
 			if (right instanceof MyDouble && right.isConstant()) {
 				MyDouble num = (MyDouble) right;
 				switch (en.getOperation()) {
-				case MULTIPLY:
-					replaceCoefficient(num, num.getDouble() / vx, en, varNo);
-					return;
+					case MULTIPLY:
+						replaceCoefficient(num, num.getDouble() / vx, en, varNo);
+						return;
 
-				case DIVIDE:
-					replaceCoefficient(num, num.getDouble() * vx, en, varNo);
-					return;
+					case DIVIDE:
+						replaceCoefficient(num, num.getDouble() * vx, en, varNo);
+						return;
 
-				default:
-					en.setLeft(multXnode(vx, varNo));
+					default:
+						en.setLeft(multXnode(vx, varNo));
 				}
 			} else {
 				en.setLeft(multXnode(vx, varNo));
@@ -1136,8 +1117,7 @@ public class FunctionNVar extends ValidExpression
 		}
 	}
 
-	private void dilateExpressionX(ExpressionValue right, double vx,
-			int varNo) {
+	private void dilateExpressionX(ExpressionValue right, double vx, int varNo) {
 		if (right instanceof ExpressionNode) {
 			dilateX((ExpressionNode) right, vx, varNo);
 		} else if (right instanceof MyList) {
@@ -1152,7 +1132,6 @@ public class FunctionNVar extends ValidExpression
 			dilateX(((MyVec3DNode) right).getY().wrap(), vx, varNo);
 			dilateX(((MyVec3DNode) right).getZ().wrap(), vx, varNo);
 		}
-
 	}
 
 	// node for (x - vx)
@@ -1167,11 +1146,9 @@ public class FunctionNVar extends ValidExpression
 		ExpressionNode node;
 		double vx = DoubleUtil.checkDecimalFraction(vx0);
 		if (vx > 0) {
-			node = new ExpressionNode(kernel, fVars[varNo], Operation.MINUS,
-					new MyDouble(kernel, vx));
+			node = new ExpressionNode(kernel, fVars[varNo], Operation.MINUS, new MyDouble(kernel, vx));
 		} else {
-			node = new ExpressionNode(kernel, fVars[varNo], Operation.PLUS,
-					new MyDouble(kernel, -vx));
+			node = new ExpressionNode(kernel, fVars[varNo], Operation.PLUS, new MyDouble(kernel, -vx));
 		}
 		return node;
 	}
@@ -1186,9 +1163,7 @@ public class FunctionNVar extends ValidExpression
 	protected ExpressionNode multXnode(double vx0, int varNo) {
 		double vx = DoubleUtil.checkDecimalFraction(1 / vx0);
 
-		return new ExpressionNode(kernel, new MyDouble(kernel, vx),
-				Operation.MULTIPLY, fVars[varNo]);
-
+		return new ExpressionNode(kernel, new MyDouble(kernel, vx), Operation.MULTIPLY, fVars[varNo]);
 	}
 
 	/**
@@ -1202,12 +1177,9 @@ public class FunctionNVar extends ValidExpression
 		int zIndex = this.getVarIndex("z");
 		if (zIndex != -1) {
 			this.translate(-s.getX(), -s.getY(), -s.getZ());
-			ExpressionNode newX = new ExpressionNode(kernel, d,
-					Operation.MULTIPLY, fVars[0]);
-			ExpressionNode newY = new ExpressionNode(kernel, d,
-					Operation.MULTIPLY, fVars[1]);
-			ExpressionNode newZ = new ExpressionNode(kernel, d,
-					Operation.MULTIPLY, fVars[zIndex]);
+			ExpressionNode newX = new ExpressionNode(kernel, d, Operation.MULTIPLY, fVars[0]);
+			ExpressionNode newY = new ExpressionNode(kernel, d, Operation.MULTIPLY, fVars[1]);
+			ExpressionNode newZ = new ExpressionNode(kernel, d, Operation.MULTIPLY, fVars[zIndex]);
 			expression = expression.replace(fVars[0], newX).wrap();
 			expression = expression.replace(fVars[1], newY).wrap();
 			expression = expression.replace(fVars[zIndex], newZ).wrap();
@@ -1224,7 +1196,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Transforms this function using matrix {{a00,a01},{a01,a11}}
-	 * 
+	 *
 	 * @param a00
 	 *            a00
 	 * @param a01
@@ -1234,8 +1206,7 @@ public class FunctionNVar extends ValidExpression
 	 * @param a11
 	 *            a11
 	 */
-	public void matrixTransform(double a00, double a01, double a10,
-			double a11) {
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		ExpressionNode dummy = new ExpressionNode();
 		expression.replace(fVars[0], dummy).wrap();
 		MyDouble ma00 = new MyDouble(kernel, a00);
@@ -1243,21 +1214,18 @@ public class FunctionNVar extends ValidExpression
 		MyDouble ma10 = new MyDouble(kernel, a10);
 		MyDouble ma11 = new MyDouble(kernel, a11);
 
-		ExpressionNode newX = fVars[0].wrap().multiply(ma00)
-				.plus(fVars[1].wrap().multiply(ma01));
-		ExpressionNode newY = fVars[0].wrap().multiply(ma10)
-				.plus(fVars[1].wrap().multiply(ma11));
+		ExpressionNode newX = fVars[0].wrap().multiply(ma00).plus(fVars[1].wrap().multiply(ma01));
+		ExpressionNode newY = fVars[0].wrap().multiply(ma10).plus(fVars[1].wrap().multiply(ma11));
 
-		expression = expression
-				.traverse(CopyReplacer.getReplacer(fVars[1], newY, kernel))
-				.wrap();
-		expression = expression
-				.traverse(CopyReplacer.getReplacer(dummy, newX, kernel)).wrap();
+		expression =
+				expression.traverse(CopyReplacer.getReplacer(fVars[1], newY, kernel)).wrap();
+		expression =
+				expression.traverse(CopyReplacer.getReplacer(dummy, newX, kernel)).wrap();
 		invalidateIneqs();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param a00
 	 *            a00
 	 * @param a01
@@ -1277,38 +1245,39 @@ public class FunctionNVar extends ValidExpression
 	 * @param a22
 	 *            a22
 	 */
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 		ExpressionNode dummy = new ExpressionNode();
 		expression = expression.replace(fVars[0], dummy).wrap();
-		double[][] b = MyMath.adjoint(a00, a01, a02, a10, a11, a12, a20, a21,
-				a22);
+		double[][] b = MyMath.adjoint(a00, a01, a02, a10, a11, a12, a20, a21, a22);
 		MyDouble[][] mbTrans = new MyDouble[3][3];
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				mbTrans[i][j] = new MyDouble(kernel, b[j][i]);
 			}
 		}
-		ExpressionNode newZ = new ExpressionNode(kernel, mbTrans[2][0],
-				Operation.MULTIPLY, fVars[0])
-						.plus(new ExpressionNode(kernel, mbTrans[2][1],
-								Operation.MULTIPLY, fVars[1]))
-						.plus(mbTrans[2][2]);
-		ExpressionNode newX = new ExpressionNode(kernel, mbTrans[0][0],
-				Operation.MULTIPLY, fVars[0])
-						.plus(new ExpressionNode(kernel, mbTrans[0][1],
-								Operation.MULTIPLY, fVars[1]))
-						.plus(mbTrans[0][2]);
-		ExpressionNode newY = new ExpressionNode(kernel, mbTrans[1][0],
-				Operation.MULTIPLY, fVars[0])
-						.plus(new ExpressionNode(kernel, mbTrans[1][1],
-								Operation.MULTIPLY, fVars[1]))
-						.plus(mbTrans[1][2]);
-		expression = expression.traverse(
-				CopyReplacer.getReplacer(fVars[1], newY.divide(newZ), kernel))
+		ExpressionNode newZ = new ExpressionNode(kernel, mbTrans[2][0], Operation.MULTIPLY, fVars[0])
+				.plus(new ExpressionNode(kernel, mbTrans[2][1], Operation.MULTIPLY, fVars[1]))
+				.plus(mbTrans[2][2]);
+		ExpressionNode newX = new ExpressionNode(kernel, mbTrans[0][0], Operation.MULTIPLY, fVars[0])
+				.plus(new ExpressionNode(kernel, mbTrans[0][1], Operation.MULTIPLY, fVars[1]))
+				.plus(mbTrans[0][2]);
+		ExpressionNode newY = new ExpressionNode(kernel, mbTrans[1][0], Operation.MULTIPLY, fVars[0])
+				.plus(new ExpressionNode(kernel, mbTrans[1][1], Operation.MULTIPLY, fVars[1]))
+				.plus(mbTrans[1][2]);
+		expression = expression
+				.traverse(CopyReplacer.getReplacer(fVars[1], newY.divide(newZ), kernel))
 				.wrap();
-		expression = expression.traverse(
-				CopyReplacer.getReplacer(dummy, newX.divide(newZ), kernel))
+		expression = expression
+				.traverse(CopyReplacer.getReplacer(dummy, newX.divide(newZ), kernel))
 				.wrap();
 		this.initIneqs(expression);
 	}
@@ -1382,7 +1351,7 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Make sure the variable list is at least as long as oldvars
-	 * 
+	 *
 	 * @param oldVars
 	 *            list of variables to be used for filling in the empty slots
 	 */
@@ -1402,14 +1371,12 @@ public class FunctionNVar extends ValidExpression
 		}
 		int pos = fVars.length;
 		for (int i = 0; i < oldVars.length && pos < length; i++) {
-			if (!usedNames.contains(
-					oldVars[i].toString(StringTemplate.defaultTemplate))) {
+			if (!usedNames.contains(oldVars[i].toString(StringTemplate.defaultTemplate))) {
 				newVars[pos] = oldVars[i];
 				pos++;
 			}
 		}
 		fVars = newVars;
-
 	}
 
 	@Override
@@ -1447,8 +1414,8 @@ public class FunctionNVar extends ValidExpression
 		}
 
 		for (Entry<String, String> entry : map.entrySet()) {
-			FunctionalNVar gfun = kernel.getAlgebraProcessor()
-					.evaluateToFunctionNVar(entry.getValue(), true, true);
+			FunctionalNVar gfun =
+					kernel.getAlgebraProcessor().evaluateToFunctionNVar(entry.getValue(), true, true);
 			if (gfun != null) {
 				getCasEvalMap().put(entry.getKey(), gfun.getFunction());
 			}
@@ -1514,7 +1481,6 @@ public class FunctionNVar extends ValidExpression
 
 		// translate back +Q
 		translate(-qx, -qy);
-
 	}
 
 	/**
@@ -1527,7 +1493,6 @@ public class FunctionNVar extends ValidExpression
 		translate(-p.getX(), -p.getY());
 		rotate(phi);
 		translate(p.getX(), p.getY());
-
 	}
 
 	@Override
@@ -1576,8 +1541,7 @@ public class FunctionNVar extends ValidExpression
 			String var2 = vars[1].getSetVarString();
 			return polynomial.getCoeff(var1, var2);
 		} catch (Throwable t) {
-			Log.warn(getExpression() + " couldn't be transformed to polynomial:"
-					+ t.getMessage());
+			Log.warn(getExpression() + " couldn't be transformed to polynomial:" + t.getMessage());
 			return null;
 		}
 	}
@@ -1597,11 +1561,9 @@ public class FunctionNVar extends ValidExpression
 			}
 			return polynomial;
 		} catch (Throwable t) {
-			Log.warn(getExpression() + " couldn't be transformed to polynomial:"
-					+ t.getMessage());
+			Log.warn(getExpression() + " couldn't be transformed to polynomial:" + t.getMessage());
 			return null;
 		}
-
 	}
 
 	private ExpressionNode replaceFunctionVarsIn(ExpressionValue ev) {

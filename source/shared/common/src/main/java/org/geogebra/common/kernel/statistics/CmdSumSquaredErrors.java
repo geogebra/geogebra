@@ -27,14 +27,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * SumSquaredError[&lt;List of Points&gt;,&lt;Function&gt;]
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2010-02-21
  */
 public class CmdSumSquaredErrors extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,21 +48,19 @@ public class CmdSumSquaredErrors extends CommandProcessor {
 		GeoElement[] arg = resArgs(c, info);
 		boolean[] ok = new boolean[2];
 		switch (n) {
-		case 2:
-			if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isRealValuedFunction())) {
+			case 2:
+				if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isRealValuedFunction())) {
 
-				AlgoSumSquaredErrors algo = new AlgoSumSquaredErrors(cons,
-						c.getLabel(), (GeoList) arg[0],
-						(GeoFunctionable) arg[1]);
+					AlgoSumSquaredErrors algo = new AlgoSumSquaredErrors(
+							cons, c.getLabel(), (GeoList) arg[0], (GeoFunctionable) arg[1]);
 
-				GeoElement[] ret = { algo.getsse() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = {algo.getsse()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

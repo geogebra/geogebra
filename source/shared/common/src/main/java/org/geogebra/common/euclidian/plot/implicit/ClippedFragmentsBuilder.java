@@ -51,8 +51,7 @@ import org.geogebra.common.util.debug.Log;
 public final class ClippedFragmentsBuilder {
 	private static final boolean FRAGMENT_DEBUG = false;
 
-	private record SegmentNode(MyPoint point, EdgeHit hit, int sourceSegmentIndex) {
-	}
+	private record SegmentNode(MyPoint point, EdgeHit hit, int sourceSegmentIndex) {}
 
 	private static final class FragmentAccumulator {
 		private final int sourceContourId;
@@ -117,8 +116,8 @@ public final class ClippedFragmentsBuilder {
 			return new ClippedFragment(sourceContourId, points, closed, start, end);
 		}
 
-		private boolean shouldCloseAcrossSameViewportEdge(FragmentEndpoint start,
-				FragmentEndpoint end) {
+		private boolean shouldCloseAcrossSameViewportEdge(
+				FragmentEndpoint start, FragmentEndpoint end) {
 			if (start == null || end == null || points.size() < 3) {
 				return false;
 			}
@@ -141,21 +140,21 @@ public final class ClippedFragmentsBuilder {
 	 * @param rect clip rectangle defining the visible region
 	 * @return explicit clipped fragments together with the original hit list
 	 */
-	public static ClippedFragmentsResult build(List<PointList> contours, List<EdgeHit> hits,
-			ClipRect rect) {
+	public static ClippedFragmentsResult build(
+			List<PointList> contours, List<EdgeHit> hits, ClipRect rect) {
 		List<ClippedFragment> fragments = new ArrayList<>();
 		Map<Integer, Map<Integer, List<EdgeHit>>> byContourSegment = indexHits(hits);
 		for (int contourId = 0; contourId < contours.size(); contourId++) {
 			PointList contour = contours.get(contourId);
-			fragments.addAll(buildFragmentsForContour(contourId, contour,
-					byContourSegment.getOrDefault(contourId, Map.of()), rect));
+			fragments.addAll(buildFragmentsForContour(
+					contourId, contour, byContourSegment.getOrDefault(contourId, Map.of()), rect));
 		}
 		logSuspiciousFragments(fragments, rect);
 		return new ClippedFragmentsResult(fragments, List.copyOf(hits));
 	}
 
-	private static List<ClippedFragment> buildFragmentsForContour(int contourId,
-			PointList contour, Map<Integer, List<EdgeHit>> hitsBySegment, ClipRect rect) {
+	private static List<ClippedFragment> buildFragmentsForContour(
+			int contourId, PointList contour, Map<Integer, List<EdgeHit>> hitsBySegment, ClipRect rect) {
 		List<ClippedFragment> fragments = new ArrayList<>();
 		FragmentAccumulator current = null;
 		List<MyPoint> contourPoints = contour.asPoints();
@@ -168,8 +167,8 @@ public final class ClippedFragmentsBuilder {
 			if (start == null || end == null) {
 				continue;
 			}
-			List<SegmentNode> nodes = buildSegmentNodes(start, end,
-					hitsBySegment.getOrDefault(segmentIndex, List.of()), segmentIndex);
+			List<SegmentNode> nodes = buildSegmentNodes(
+					start, end, hitsBySegment.getOrDefault(segmentIndex, List.of()), segmentIndex);
 			for (int i = 0; i < nodes.size() - 1; i++) {
 				SegmentNode nodeA = nodes.get(i);
 				SegmentNode nodeB = nodes.get(i + 1);
@@ -201,8 +200,8 @@ public final class ClippedFragmentsBuilder {
 		return mergeAcrossClosedContourSeam(contour, contourPoints, fragments);
 	}
 
-	private static List<ClippedFragment> mergeAcrossClosedContourSeam(PointList contour,
-			List<MyPoint> contourPoints, List<ClippedFragment> fragments) {
+	private static List<ClippedFragment> mergeAcrossClosedContourSeam(
+			PointList contour, List<MyPoint> contourPoints, List<ClippedFragment> fragments) {
 		if (!contour.isClosed() || fragments.size() < 2 || contourPoints.isEmpty()) {
 			return fragments;
 		}
@@ -213,19 +212,19 @@ public final class ClippedFragmentsBuilder {
 			return fragments;
 		}
 
-		List<MyPoint> mergedPoints = new ArrayList<>(
-				last.points().size() + first.points().size() - 1);
+		List<MyPoint> mergedPoints =
+				new ArrayList<>(last.points().size() + first.points().size() - 1);
 		appendPoints(mergedPoints, last.points());
 		appendPointsSkippingDuplicateStart(mergedPoints, first.points());
-		ClippedFragment merged = new ClippedFragment(last.sourceContourId(), mergedPoints, false,
-				last.start(), first.end());
+		ClippedFragment merged =
+				new ClippedFragment(last.sourceContourId(), mergedPoints, false, last.start(), first.end());
 		fragments.set(0, merged);
 		fragments.remove(fragments.size() - 1);
 		return fragments;
 	}
 
-	private static boolean shouldMergeAcrossSeam(ClippedFragment first, ClippedFragment last,
-			MyPoint seam) {
+	private static boolean shouldMergeAcrossSeam(
+			ClippedFragment first, ClippedFragment last, MyPoint seam) {
 		if (first.closed() || last.closed() || first.start() == null || last.end() == null) {
 			return false;
 		}
@@ -245,16 +244,16 @@ public final class ClippedFragmentsBuilder {
 		}
 	}
 
-	private static void appendPointsSkippingDuplicateStart(List<MyPoint> target,
-			List<MyPoint> source) {
+	private static void appendPointsSkippingDuplicateStart(
+			List<MyPoint> target, List<MyPoint> source) {
 		int startIndex = source.isEmpty() ? 0 : 1;
 		for (int i = startIndex; i < source.size(); i++) {
 			target.add(copyPoint(source.get(i), true));
 		}
 	}
 
-	private static List<SegmentNode> buildSegmentNodes(MyPoint start, MyPoint end,
-			List<EdgeHit> hits, int segmentIndex) {
+	private static List<SegmentNode> buildSegmentNodes(
+			MyPoint start, MyPoint end, List<EdgeHit> hits, int segmentIndex) {
 		List<SegmentNode> nodes = new ArrayList<>(hits.size() + 2);
 		EdgeHit startHit = null;
 		EdgeHit endHit = null;
@@ -284,8 +283,8 @@ public final class ClippedFragmentsBuilder {
 		return matchesEndpoint(hit, start, end, false);
 	}
 
-	private static boolean matchesEndpoint(EdgeHit hit, MyPoint endpoint, MyPoint otherEndpoint,
-			boolean startEndpoint) {
+	private static boolean matchesEndpoint(
+			EdgeHit hit, MyPoint endpoint, MyPoint otherEndpoint, boolean startEndpoint) {
 		if (pointsNear(hit.point(), endpoint, endpointMatchTolerance(endpoint, otherEndpoint))) {
 			return true;
 		}
@@ -305,7 +304,8 @@ public final class ClippedFragmentsBuilder {
 	private static Map<Integer, Map<Integer, List<EdgeHit>>> indexHits(List<EdgeHit> hits) {
 		Map<Integer, Map<Integer, List<EdgeHit>>> indexed = new HashMap<>();
 		for (EdgeHit hit : hits) {
-			indexed.computeIfAbsent(hit.getContourId(), ignore -> new HashMap<>())
+			indexed
+					.computeIfAbsent(hit.getContourId(), ignore -> new HashMap<>())
 					.computeIfAbsent(hit.segIndex(), ignore -> new ArrayList<>())
 					.add(hit);
 		}
@@ -317,7 +317,8 @@ public final class ClippedFragmentsBuilder {
 		double midY = (a.y + b.y) * 0.5;
 		return midX >= rect.getXmin()
 				&& midX <= rect.getXmax()
-				&& midY >= rect.getYmin() && midY <= rect.getYmax();
+				&& midY >= rect.getYmin()
+				&& midY <= rect.getYmax();
 	}
 
 	private static MyPoint copyPoint(MyPoint point, boolean lineTo) {
@@ -338,26 +339,35 @@ public final class ClippedFragmentsBuilder {
 		return Math.hypot(p0.x - p1.x, p0.y - p1.y);
 	}
 
-	private static FragmentEndpoint endpointFrom(SegmentNode node, int sourceContourId,
-			ClipRect rect) {
+	private static FragmentEndpoint endpointFrom(
+			SegmentNode node, int sourceContourId, ClipRect rect) {
 		if (node == null) {
 			return null;
 		}
 		if (node.hit != null) {
-			return new FragmentEndpoint(copyPoint(node.hit.point(), false), node.hit.edge(),
-					node.hit.sPerimeter(), sourceContourId, node.hit.segIndex(),
+			return new FragmentEndpoint(
+					copyPoint(node.hit.point(), false),
+					node.hit.edge(),
+					node.hit.sPerimeter(),
+					sourceContourId,
+					node.hit.segIndex(),
 					node.hit.tSegment());
 		}
 		FragmentEndpoint inferred = inferBoundaryEndpoint(node, sourceContourId, rect);
 		if (inferred != null) {
 			return inferred;
 		}
-		return new FragmentEndpoint(copyPoint(node.point, false), null, Double.NaN,
-				sourceContourId, node.sourceSegmentIndex, Double.NaN);
+		return new FragmentEndpoint(
+				copyPoint(node.point, false),
+				null,
+				Double.NaN,
+				sourceContourId,
+				node.sourceSegmentIndex,
+				Double.NaN);
 	}
 
-	private static FragmentEndpoint inferBoundaryEndpoint(SegmentNode node, int sourceContourId,
-			ClipRect rect) {
+	private static FragmentEndpoint inferBoundaryEndpoint(
+			SegmentNode node, int sourceContourId, ClipRect rect) {
 		if (rect == null) {
 			return null;
 		}
@@ -368,23 +378,43 @@ public final class ClippedFragmentsBuilder {
 		double height = rect.getYmax() - rect.getYmin();
 		if (Math.abs(x - rect.getXmin()) <= eps) {
 			double t = clamp01((rect.getYmax() - y) / height);
-			return new FragmentEndpoint(copyPoint(node.point, false), ClipEdge.LEFT,
-					3.0 + t, sourceContourId, node.sourceSegmentIndex, Double.NaN);
+			return new FragmentEndpoint(
+					copyPoint(node.point, false),
+					ClipEdge.LEFT,
+					3.0 + t,
+					sourceContourId,
+					node.sourceSegmentIndex,
+					Double.NaN);
 		}
 		if (Math.abs(x - rect.getXmax()) <= eps) {
 			double t = clamp01((rect.getYmax() - y) / height);
-			return new FragmentEndpoint(copyPoint(node.point, false), ClipEdge.RIGHT,
-					1.0 + t, sourceContourId, node.sourceSegmentIndex, Double.NaN);
+			return new FragmentEndpoint(
+					copyPoint(node.point, false),
+					ClipEdge.RIGHT,
+					1.0 + t,
+					sourceContourId,
+					node.sourceSegmentIndex,
+					Double.NaN);
 		}
 		if (Math.abs(y - rect.getYmax()) <= eps) {
 			double t = clamp01((x - rect.getXmin()) / width);
-			return new FragmentEndpoint(copyPoint(node.point, false), ClipEdge.TOP,
-					t, sourceContourId, node.sourceSegmentIndex, Double.NaN);
+			return new FragmentEndpoint(
+					copyPoint(node.point, false),
+					ClipEdge.TOP,
+					t,
+					sourceContourId,
+					node.sourceSegmentIndex,
+					Double.NaN);
 		}
 		if (Math.abs(y - rect.getYmin()) <= eps) {
 			double t = clamp01((x - rect.getXmin()) / width);
-			return new FragmentEndpoint(copyPoint(node.point, false), ClipEdge.BOTTOM,
-					2.0 + (1.0 - t), sourceContourId, node.sourceSegmentIndex, Double.NaN);
+			return new FragmentEndpoint(
+					copyPoint(node.point, false),
+					ClipEdge.BOTTOM,
+					2.0 + (1.0 - t),
+					sourceContourId,
+					node.sourceSegmentIndex,
+					Double.NaN);
 		}
 		return null;
 	}
@@ -401,8 +431,10 @@ public final class ClippedFragmentsBuilder {
 		for (int i = 0; i < fragments.size(); i++) {
 			ClippedFragment fragment = fragments.get(i);
 			FragmentBounds bounds = fragmentBounds(fragment);
-			if (bounds.maxX < rect.getXmin() - eps || bounds.minX > rect.getXmax() + eps
-					|| bounds.maxY < rect.getYmin() - eps || bounds.minY > rect.getYmax() + eps) {
+			if (bounds.maxX < rect.getXmin() - eps
+					|| bounds.minX > rect.getXmax() + eps
+					|| bounds.maxY < rect.getYmin() - eps
+					|| bounds.minY > rect.getYmax() + eps) {
 				Log.debug("[ClippedFragmentsBuilder] suspicious fragment outside clip rect"
 						+ " clipRect=" + formatRect(rect)
 						+ " fragmentIndex=" + i
@@ -412,10 +444,13 @@ public final class ClippedFragmentsBuilder {
 						+ " bbox=" + bounds
 						+ " start=" + fragment.start()
 						+ " end=" + fragment.end()
-						+ " first=" + formatPoint(fragment.points().isEmpty() ? null
-								: fragment.points().get(0))
-						+ " last=" + formatPoint(fragment.points().isEmpty() ? null
-								: fragment.points().get(fragment.points().size() - 1)));
+						+ " first="
+						+ formatPoint(fragment.points().isEmpty() ? null : fragment.points().get(0))
+						+ " last="
+						+ formatPoint(
+								fragment.points().isEmpty()
+										? null
+										: fragment.points().get(fragment.points().size() - 1)));
 				return;
 			}
 		}
@@ -430,8 +465,8 @@ public final class ClippedFragmentsBuilder {
 	}
 
 	private static String formatRect(ClipRect rect) {
-		return "[" + rect.getXmin() + "," + rect.getXmax()
-				+ "]x[" + rect.getYmin() + "," + rect.getYmax() + "]";
+		return "[" + rect.getXmin() + "," + rect.getXmax() + "]x[" + rect.getYmin() + ","
+				+ rect.getYmax() + "]";
 	}
 
 	private static String formatPoint(MyPoint point) {

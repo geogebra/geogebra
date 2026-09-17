@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Algorithm for random polynomials with given degree and coefficient range
- * 
+ *
  * @author Zbynek Konecny
  *
  */
@@ -40,7 +40,7 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	private Function f;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -52,8 +52,12 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	 * @param max
 	 *            maximal coefficient value
 	 */
-	public AlgoRandomPolynomial(Construction cons, String label,
-			GeoNumberValue degree, GeoNumberValue min, GeoNumberValue max) {
+	public AlgoRandomPolynomial(
+			Construction cons,
+			String label,
+			GeoNumberValue degree,
+			GeoNumberValue min,
+			GeoNumberValue max) {
 		super(cons);
 		this.degree = degree;
 		this.min = min;
@@ -67,16 +71,14 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(polynomial);
-		input = new GeoElement[] { degree.toGeoElement(), min.toGeoElement(),
-				max.toGeoElement() };
+		input = new GeoElement[] {degree.toGeoElement(), min.toGeoElement(), max.toGeoElement()};
 		setDependencies();
 	}
 
 	@Override
 	public void compute() {
 		// cover undefined cases
-		if (!degree.isDefined() || !min.isDefined() || !max.isDefined()
-				|| degree.getDouble() < 0) {
+		if (!degree.isDefined() || !min.isDefined() || !max.isDefined() || degree.getDouble() < 0) {
 			polynomial.setUndefined();
 			return;
 		}
@@ -96,11 +98,9 @@ public class AlgoRandomPolynomial extends AlgoElement {
 			// Log.error("coeff " + i + " is " + coeffs[i]);
 		}
 
-		f = AlgoPolynomialFromCoordinates
-				.buildPolyFunctionExpression(kernel, coeffs);
+		f = AlgoPolynomialFromCoordinates.buildPolyFunctionExpression(kernel, coeffs);
 
 		polynomial.setFunction(f);
-
 	}
 
 	private double randomCoef(boolean acceptZero) {
@@ -117,8 +117,7 @@ public class AlgoRandomPolynomial extends AlgoElement {
 		}
 
 		// logic doesn't work unless minD < 0 < maxD
-		int rnd = kernel.randomNumberGenerator.getRandomIntegerBetween(minD,
-				maxD - 1);
+		int rnd = kernel.randomNumberGenerator.getRandomIntegerBetween(minD, maxD - 1);
 		return rnd >= 0 ? rnd + 1 : rnd;
 	}
 
@@ -133,5 +132,4 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	public GeoFunction getResult() {
 		return polynomial;
 	}
-
 }

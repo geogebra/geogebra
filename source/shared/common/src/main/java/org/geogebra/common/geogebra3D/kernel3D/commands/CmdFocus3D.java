@@ -38,8 +38,7 @@ public class CmdFocus3D extends CmdFocus {
 	}
 
 	@Override
-	protected AlgoFocus newAlgoFocus(Construction cons1, String[] labels,
-			GeoConicND c) {
+	protected AlgoFocus newAlgoFocus(Construction cons1, String[] labels, GeoConicND c) {
 
 		if (c.isGeoElement3D()) {
 			return new AlgoFocus3D(cons1, labels, c);
@@ -47,5 +46,4 @@ public class CmdFocus3D extends CmdFocus {
 
 		return super.newAlgoFocus(cons1, labels, c);
 	}
-
 }

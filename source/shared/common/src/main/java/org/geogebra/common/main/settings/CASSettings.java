@@ -20,7 +20,7 @@ import java.util.LinkedList;
 
 /**
  * Stores CAS specific settings
- * 
+ *
  * @author tom
  *
  */
@@ -53,7 +53,7 @@ public class CASSettings extends AbstractSettings<CASSettings> {
 
 	/**
 	 * Changes the timeout value for the cas
-	 * 
+	 *
 	 * @param value
 	 *            new timeout value, in milliseconds
 	 */
@@ -66,7 +66,7 @@ public class CASSettings extends AbstractSettings<CASSettings> {
 
 	/**
 	 * Changes the showExpAsRoos value for the cas
-	 * 
+	 *
 	 * @param value
 	 *            new boolean value if exponents should be displayed as roots
 	 */

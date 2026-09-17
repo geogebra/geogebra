@@ -48,5 +48,4 @@ public interface MarchingConfig {
 	 * @return whether the configuration is empty
 	 */
 	boolean isEmpty();
-
 }

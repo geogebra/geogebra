@@ -48,8 +48,8 @@ public class FocusablePartW implements FocusablePart {
 	 * @param accessibleLabel the aria label for the widget
 	 * @param onFocusCallback on focus callback
 	 */
-	public FocusablePartW(Widget widget, String focusKey, String accessibleLabel,
-			@Nullable Runnable onFocusCallback) {
+	public FocusablePartW(
+			Widget widget, String focusKey, String accessibleLabel, @Nullable Runnable onFocusCallback) {
 		this.widget = widget;
 		this.focusKey = focusKey;
 		this.accessibleLabel = accessibleLabel;
@@ -68,15 +68,18 @@ public class FocusablePartW implements FocusablePart {
 	 * @param onFocusCallback on focus callback
 	 * @return a focusable part instance, or {@code null} if the widget is {@code null}
 	 */
-	public static FocusablePartW create(Widget widget, String focusKey,
-			String accessibleLabel, AccessibilityManagerInterface am, Runnable onFocusCallback) {
+	public static FocusablePartW create(
+			Widget widget,
+			String focusKey,
+			String accessibleLabel,
+			AccessibilityManagerInterface am,
+			Runnable onFocusCallback) {
 		if (widget == null) {
 			return null;
 		}
 
 		if (widget instanceof AutoCompleteTextFieldW textField) {
-			return new TextFieldFocusablePart(textField, focusKey, accessibleLabel,
-					onFocusCallback);
+			return new TextFieldFocusablePart(textField, focusKey, accessibleLabel, onFocusCallback);
 		}
 
 		if (widget instanceof StandardButton button) {
@@ -123,7 +126,6 @@ public class FocusablePartW implements FocusablePart {
 
 	@Override
 	public String toString() {
-		return "{" + widget.getClass().getSimpleName()
-				+ ", '" + focusKey + "'}";
+		return "{" + widget.getClass().getSimpleName() + ", '" + focusKey + "'}";
 	}
 }

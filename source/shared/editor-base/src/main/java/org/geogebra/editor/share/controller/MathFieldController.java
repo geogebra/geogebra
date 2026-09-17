@@ -106,8 +106,7 @@ public class MathFieldController {
 	 *            whether this came from focus event (to avoid infinite focus
 	 *            recursion)
 	 */
-	public void update(Formula formula, EditorState editorState,
-			boolean focusEvent) {
+	public void update(Formula formula, EditorState editorState, boolean focusEvent) {
 		if (mathField.hasFocus()) {
 			updateWithCursor(formula, editorState);
 		} else {
@@ -118,18 +117,19 @@ public class MathFieldController {
 
 	/**
 	 * Update the field, render cursor without checking focus
-	 * 
+	 *
 	 * @param formula
 	 *            formula
 	 * @param editorState
 	 *            editor state
 	 */
-	public void updateWithCursor(Formula formula,
-			EditorState editorState) {
-		updateFormula(formula, editorState.getCurrentNode(),
-				editorState.getCurrentOffset(), editorState.getSelectionStart(),
+	public void updateWithCursor(Formula formula, EditorState editorState) {
+		updateFormula(
+				formula,
+				editorState.getCurrentNode(),
+				editorState.getCurrentOffset(),
+				editorState.getSelectionStart(),
 				editorState.getSelectionEnd());
-
 	}
 
 	private void updateMathField(boolean focusEvent) {
@@ -151,39 +151,43 @@ public class MathFieldController {
 		TeXFormula texFormula = new TeXFormula();
 		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
 		texBuilder.enablePlaceholder(false);
-		texFormula.root = texBuilder.build(formula.getRootNode(),
-				currentField, -1, textMode);
+		texFormula.root = texBuilder.build(formula.getRootNode(), currentField, -1, textMode);
 
 		try {
 			final TeXIcon renderer = texFormula.new TeXIconBuilder()
-					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
-					.setType(type).build();
+					.setStyle(TeXConstants.STYLE_DISPLAY)
+					.setSize(size)
+					.setType(type)
+					.build();
 			renderer.setInsets(new Insets(1, 1, 1, 1));
 
 			texBuilder.enablePlaceholder(true);
 			return renderer;
 		} catch (Throwable t) {
-			FactoryProvider.getInstance()
-					.debug(t.getCause() != null ? t.getCause() : t);
+			FactoryProvider.getInstance().debug(t.getCause() != null ? t.getCause() : t);
 		}
 		return null;
 	}
 
-	private void updateFormula(Formula formula,
-			SequenceNode currentField, int currentOffset,
-			Node selectionStart, Node selectionEnd) {
+	private void updateFormula(
+			Formula formula,
+			SequenceNode currentField,
+			int currentOffset,
+			Node selectionStart,
+			Node selectionEnd) {
 		TeXFormula texFormula = new TeXFormula();
 		boolean textMode = mathField.getInternal().getInputController().getPlainTextMode();
-		texFormula.root = texBuilder.build(formula.getRootNode(),
-				currentField, currentOffset, textMode);
+		texFormula.root =
+				texBuilder.build(formula.getRootNode(), currentField, currentOffset, textMode);
 
 		try {
 			final TeXIcon renderer = texFormula.new TeXIconBuilder()
-					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
-					.setType(type).build();
+					.setStyle(TeXConstants.STYLE_DISPLAY)
+					.setSize(size)
+					.setType(type)
+					.build();
 			renderer.setInsets(new Insets(1, 1, 1, 1));
-			Node input = selectionStart != null
-					? selectionStart : currentField;
+			Node input = selectionStart != null ? selectionStart : currentField;
 			while (input != null) {
 				if (input.getParent() != null && input.getParent().isRenderingOwnPlaceholders()) {
 					break;
@@ -191,13 +195,13 @@ public class MathFieldController {
 				input = input.getParent();
 			}
 			if (selectionStart == null) {
-				CursorBoxConsumer consumer
-						= new CursorBoxConsumer(texBuilder, currentField, currentOffset, input);
+				CursorBoxConsumer consumer =
+						new CursorBoxConsumer(texBuilder, currentField, currentOffset, input);
 				renderer.getBox().inspect(consumer, BoxPosition.ZERO);
 				renderer.cursorPosition = consumer.getBounds();
 			} else {
-				SelectionBoxConsumer consumer
-						= new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd, input);
+				SelectionBoxConsumer consumer =
+						new SelectionBoxConsumer(texBuilder, selectionStart, selectionEnd, input);
 				renderer.getBox().inspect(consumer, BoxPosition.ZERO);
 				renderer.selectionPosition = consumer.getBounds();
 			}
@@ -206,8 +210,7 @@ public class MathFieldController {
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
 		} catch (Throwable t) {
-			FactoryProvider.getInstance()
-					.debug(t.getCause() != null ? t.getCause() : t);
+			FactoryProvider.getInstance().debug(t.getCause() != null ? t.getCause() : t);
 		}
 	}
 
@@ -220,16 +223,15 @@ public class MathFieldController {
 	 * @param currentOffset
 	 *            current offset
 	 */
-	public void updateCursorPosition(Formula formula,
-			SequenceNode currentField,
-			int currentOffset) {
-		String serializedFormula = texSerializer.serialize(formula,
-				currentField, currentOffset);
+	public void updateCursorPosition(Formula formula, SequenceNode currentField, int currentOffset) {
+		String serializedFormula = texSerializer.serialize(formula, currentField, currentOffset);
 
 		TeXFormula texFormula = new TeXFormula(serializedFormula);
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
-				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
-				.setType(type).build();
+				.setStyle(TeXConstants.STYLE_DISPLAY)
+				.setSize(size)
+				.setType(type)
+				.build();
 		drawWithStub(renderer);
 	}
 
@@ -239,22 +241,18 @@ public class MathFieldController {
 	 * @param path selection path
 	 * @param state editor state
 	 */
-	public void setSelectedPath(Formula formula,
-			ArrayList<Integer> path, EditorState state) {
+	public void setSelectedPath(Formula formula, ArrayList<Integer> path, EditorState state) {
 		setSelectedPath(formula.getRootNode(), path, state, 0);
 	}
 
-	private static void setSelectedPath(InternalNode rootComponent,
-			ArrayList<Integer> path, EditorState state, int depth) {
+	private static void setSelectedPath(
+			InternalNode rootComponent, ArrayList<Integer> path, EditorState state, int depth) {
 		if (path.size() <= depth) {
 			return;
 		}
-		int idx = path.get(depth) <= 0 ? path.get(depth) + rootComponent.size()
-				: path.get(depth);
-		if (rootComponent.getChild(idx) instanceof InternalNode
-				&& path.size() > depth) {
-			setSelectedPath((InternalNode) rootComponent.getChild(idx),
-					path, state, depth + 1);
+		int idx = path.get(depth) <= 0 ? path.get(depth) + rootComponent.size() : path.get(depth);
+		if (rootComponent.getChild(idx) instanceof InternalNode && path.size() > depth) {
+			setSelectedPath((InternalNode) rootComponent.getChild(idx), path, state, depth + 1);
 		} else if (rootComponent instanceof SequenceNode node) {
 			state.setCurrentOffset(idx);
 			state.setCurrentNode(node);
@@ -263,7 +261,7 @@ public class MathFieldController {
 
 	/**
 	 * Draws icon into stub graphics.
-	 * 
+	 *
 	 * @param icon
 	 *            rendered formula
 	 */
@@ -281,13 +279,12 @@ public class MathFieldController {
 
 	/**
 	 * Enables or disables line break in the editor.
-	 * 
+	 *
 	 * @param breakLines
 	 *            whether to enable break lines
 	 */
 	public void setLineBreakEnabled(boolean breakLines) {
 		texSerializer.setLineBeakEnabled(breakLines);
-
 	}
 
 	/**

@@ -71,5 +71,4 @@ public interface VirtualKeyboardW extends IsWidget, RequiresResize, HasVisibilit
 	 * Hide "more" button.
 	 */
 	void hideMoreButton();
-
 }

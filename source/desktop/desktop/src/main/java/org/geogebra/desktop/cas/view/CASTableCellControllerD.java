@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -73,44 +73,44 @@ public class CASTableCellControllerD extends CASTableCellController
 		int rowCount = table.getRowCount();
 
 		switch (e.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_C:
-		case KeyEvent.VK_X:
-		case KeyEvent.VK_V:
-			// don't let ctrl-c pass through
-			// consumeEvent is left false, so that the text is actually
-			// copied/selected etc..
-			return true;
-		case KeyEvent.VK_ENTER:
-			handleEnterKey(AppD.isControlDown(e), AppD.isAltDown(e), app, true);
-			consumeEvent = true;
-			// needUndo remains false because handleEnterKey handles Undo!
-			break;
+			default:
+				// do nothing
+				break;
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_C:
+			case KeyEvent.VK_X:
+			case KeyEvent.VK_V:
+				// don't let ctrl-c pass through
+				// consumeEvent is left false, so that the text is actually
+				// copied/selected etc..
+				return true;
+			case KeyEvent.VK_ENTER:
+				handleEnterKey(AppD.isControlDown(e), AppD.isAltDown(e), app, true);
+				consumeEvent = true;
+				// needUndo remains false because handleEnterKey handles Undo!
+				break;
 
-		case KeyEvent.VK_UP:
-			if (selectedRow >= 1) {
-				table.startEditingRow(selectedRow - 1);
-			} else if (view.isRowEmpty(0)) {
-				// insert empty row at beginning
-				table.insertRow(0, null, true);
-				needUndo = true;
-			}
-			consumeEvent = true;
-			break;
+			case KeyEvent.VK_UP:
+				if (selectedRow >= 1) {
+					table.startEditingRow(selectedRow - 1);
+				} else if (view.isRowEmpty(0)) {
+					// insert empty row at beginning
+					table.insertRow(0, null, true);
+					needUndo = true;
+				}
+				consumeEvent = true;
+				break;
 
-		case KeyEvent.VK_DOWN:
-			if (selectedRow != rowCount - 1) {
-				table.startEditingRow(selectedRow + 1);
-			} else {
-				// insert empty row at end
-				view.insertRow(null, true);
-				needUndo = true;
-			}
-			consumeEvent = true;
-			break;
+			case KeyEvent.VK_DOWN:
+				if (selectedRow != rowCount - 1) {
+					table.startEditingRow(selectedRow + 1);
+				} else {
+					// insert empty row at end
+					view.insertRow(null, true);
+					needUndo = true;
+				}
+				consumeEvent = true;
+				break;
 		}
 
 		// consume keyboard event so the table
@@ -145,9 +145,12 @@ public class CASTableCellControllerD extends CASTableCellController
 	public void mouseReleased(MouseEvent e) {
 		setRightClick(AppD.isRightClickForceMetaDown(e));
 		if (isRightClick()) {
-			RowContentPopupMenu popupMenu = new RowContentPopupMenu(app,
+			RowContentPopupMenu popupMenu = new RowContentPopupMenu(
+					app,
 					(GeoCasCell) tableCellEditor.getCellEditorValue(),
-					tableCellEditor, table, RowContentPopupMenu.Panel.INPUT);
+					tableCellEditor,
+					table,
+					RowContentPopupMenu.Panel.INPUT);
 			popupMenu.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
@@ -185,5 +188,4 @@ public class CASTableCellControllerD extends CASTableCellController
 		// TODO Auto-generated method stub
 
 	}
-
 }

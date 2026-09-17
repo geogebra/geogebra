@@ -28,10 +28,9 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  * @author Victor Franco Espino, Markus Hohenwarter
  * @version 11-02-2007
- * 
+ *
  *          Calculate Curvature for function:
  */
-
 public class AlgoCurvature extends AlgoElement {
 
 	private GeoPointND A; // input
@@ -48,8 +47,7 @@ public class AlgoCurvature extends AlgoElement {
 	 * @param f
 	 *            function
 	 */
-	public AlgoCurvature(Construction cons, String label, GeoPointND A,
-			GeoFunction f) {
+	public AlgoCurvature(Construction cons, String label, GeoPointND A, GeoFunction f) {
 		this(cons, A, f);
 
 		if (label != null) {
@@ -117,5 +115,4 @@ public class AlgoCurvature extends AlgoElement {
 		}
 		super.remove();
 	}
-
 }

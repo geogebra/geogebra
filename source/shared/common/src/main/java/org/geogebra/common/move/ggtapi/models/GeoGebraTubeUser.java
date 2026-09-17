@@ -22,10 +22,10 @@ import org.geogebra.common.move.ggtapi.GroupIdentifier;
 
 /**
  * Represents a user in GeoGebraTube. Each user is identified by a user name.
- * 
+ *
  * The login token is used for the authorization of the user via the
  * GeoGebraTube API.
- * 
+ *
  * @author stefan
  *
  */
@@ -44,7 +44,7 @@ public class GeoGebraTubeUser {
 
 	/**
 	 * Creates a new user with the specified login token
-	 * 
+	 *
 	 * @param token
 	 *            The login token of the user
 	 */
@@ -72,7 +72,7 @@ public class GeoGebraTubeUser {
 
 	/**
 	 * Token needs to be set on cookie authentication
-	 * 
+	 *
 	 * @param token
 	 *            new token
 	 */
@@ -91,7 +91,7 @@ public class GeoGebraTubeUser {
 	 * Sets the user name for the user. Usually this is done after the user was
 	 * authorized via the GeoGebraTube API and the user name is received as
 	 * response.
-	 * 
+	 *
 	 * @param userName
 	 *            The new user name to set.
 	 */
@@ -101,7 +101,7 @@ public class GeoGebraTubeUser {
 
 	/**
 	 * Sets the userid from GeoGeoGebraTube
-	 * 
+	 *
 	 * @param userId
 	 *            The new userId
 	 */

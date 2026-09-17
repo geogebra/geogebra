@@ -28,7 +28,6 @@ import org.jspecify.annotations.NonNull;
  * This enum defines the algebra style options.
  */
 public enum AlgebraStyle {
-
 	UNDEFINED(-1, ""),
 	VALUE(0, "Value"),
 	DESCRIPTION(1, "Description"),
@@ -90,8 +89,8 @@ public enum AlgebraStyle {
 	 * @return A list of available values that can be used within the current app.
 	 */
 	public static @NonNull List<AlgebraStyle> getAvailableValues(@NonNull App app) {
-		Comparator<AlgebraStyle> definitionAndValueFirst = Comparator.comparing(
-				style -> style != DEFINITION_AND_VALUE);
+		Comparator<AlgebraStyle> definitionAndValueFirst =
+				Comparator.comparing(style -> style != DEFINITION_AND_VALUE);
 		return Arrays.stream(values())
 				.filter(style -> style.isAvailable(app))
 				.sorted(definitionAndValueFirst.thenComparing(AlgebraStyle::getNumericValue))
@@ -100,12 +99,14 @@ public enum AlgebraStyle {
 
 	private boolean isAvailable(App app) {
 		switch (this) {
-		case UNDEFINED: return false;
-		case DEFINITION_AND_VALUE:
-			return !app.isDesktop();
-		case LINEAR_NOTATION:
-			return app.isHTML5Applet();
-		default: return true;
+			case UNDEFINED:
+				return false;
+			case DEFINITION_AND_VALUE:
+				return !app.isDesktop();
+			case LINEAR_NOTATION:
+				return app.isHTML5Applet();
+			default:
+				return true;
 		}
 	}
 }

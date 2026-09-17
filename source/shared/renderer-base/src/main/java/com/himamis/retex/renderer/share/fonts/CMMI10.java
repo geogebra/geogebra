@@ -332,6 +332,5 @@ class CMMI10 extends FontInfo {
 		setMetrics(126, 500, 714, 0, 154);
 
 		setMetrics(196, 278, 694, 0, 399);
-
 	}
 }

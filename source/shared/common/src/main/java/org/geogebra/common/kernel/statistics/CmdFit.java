@@ -27,9 +27,9 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Fit[&lt;List Points&gt;,&lt;List of Functions&gt;] (linear combination)
- * 
+ *
  * Fit[&lt;List Points&gt;, &lt;Function&gt;] (nonlinear with sliders as startvalues)
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2011-03-15
  */
@@ -37,7 +37,7 @@ public class CmdFit extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -55,23 +55,20 @@ public class CmdFit extends CommandProcessor {
 			}
 			if (arg[1].isGeoList()) {
 
-				AlgoFit algo = new AlgoFit(cons, (GeoList) arg[0],
-						(GeoList) arg[1]);
+				AlgoFit algo = new AlgoFit(cons, (GeoList) arg[0], (GeoList) arg[1]);
 				algo.getFit().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getFit().toGeoElement() };
+				GeoElement[] ret = {algo.getFit().toGeoElement()};
 				return ret;
 			} else if (arg[1].isGeoFunction()) {
 
-				AlgoFitNL algo = new AlgoFitNL(cons,
-						(GeoList) arg[0], (GeoFunction) arg[1]);
+				AlgoFitNL algo = new AlgoFitNL(cons, (GeoList) arg[0], (GeoFunction) arg[1]);
 				algo.getFitNL().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getFitNL() };
+				GeoElement[] ret = {algo.getFitNL()};
 				return ret;
 			}
 			throw argErr(c, arg[1]);
 		}
 
 		throw argNumErr(c);
-
 	}
 }

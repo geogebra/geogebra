@@ -48,30 +48,34 @@ public class InteractionPropertyCollection extends AbstractPropertyCollection<Pr
 	 * @throws NotApplicablePropertyException if {@code elements} contains elements for which
 	 * this property collection is not applicable
 	 */
-	public InteractionPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			AlgebraProcessor processor, Localization localization, List<GeoElement> elements)
+	public InteractionPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			AlgebraProcessor processor,
+			Localization localization,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "ObjectProperties.Interaction");
 
-		selectionAllowedProperty = propertiesFactory.createOptionalPropertyFacade(elements,
+		selectionAllowedProperty = propertiesFactory.createOptionalPropertyFacade(
+				elements,
 				element -> new SelectionAllowedProperty(localization, element),
 				BooleanPropertyListFacade::new);
-		animationStepProperty = propertiesFactory.createOptionalPropertyFacade(elements,
+		animationStepProperty = propertiesFactory.createOptionalPropertyFacade(
+				elements,
 				element -> new AnimationStepProperty(processor, localization, element, false),
 				StringPropertyListFacade::new);
-		verticalStepProperty = propertiesFactory.createOptionalPropertyFacade(elements,
-				element -> new VerticalStepProperty(processor, localization,
-						element),
+		verticalStepProperty = propertiesFactory.createOptionalPropertyFacade(
+				elements,
+				element -> new VerticalStepProperty(processor, localization, element),
 				StringPropertyListFacade::new);
 		Property[] properties = Stream.<Property>of(
-				selectionAllowedProperty, animationStepProperty, verticalStepProperty)
+						selectionAllowedProperty, animationStepProperty, verticalStepProperty)
 				.filter(Objects::nonNull)
 				.toArray(Property[]::new);
 		if (properties.length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}
 		setProperties(properties);
-
 	}
 
 	public BooleanPropertyListFacade getSelectionAllowedProperty() {

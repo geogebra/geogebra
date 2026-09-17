@@ -26,7 +26,7 @@ public final class CardPanel extends FlowPanel {
 
 	/**
 	 * Show only selected card.
-	 * 
+	 *
 	 * @param idx
 	 *            selected index
 	 */
@@ -35,5 +35,4 @@ public final class CardPanel extends FlowPanel {
 			getWidget(i).setVisible(i == idx);
 		}
 	}
-
 }

@@ -76,8 +76,10 @@ public class GeoScriptRunner implements EventListener {
 	/* Some scripts (especially JS) may have no impact on construction and should not
 	trigger storing undo. Here we check that something significant happened in script.*/
 	private boolean needsStoringUndo(EventType type) {
-		return type == EventType.UPDATE || type == EventType.ADD
-				|| type == EventType.REMOVE || type == EventType.UPDATE_STYLE;
+		return type == EventType.UPDATE
+				|| type == EventType.ADD
+				|| type == EventType.REMOVE
+				|| type == EventType.UPDATE_STYLE;
 	}
 
 	private void handleClick(Script script, Event evt) throws ScriptError {

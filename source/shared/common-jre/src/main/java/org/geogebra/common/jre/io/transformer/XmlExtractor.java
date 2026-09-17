@@ -34,15 +34,15 @@ public class XmlExtractor {
 	 * @return geogebra.xml in byte array form
 	 */
 	public @Nullable byte[] getBytes(ZipInputStream zipInputStream) {
-        try {
-            while (true) {
-                ZipEntry entry =  zipInputStream.getNextEntry();
-                if (entry == null || MyXMLio.XML_FILE.equals(entry.getName())) {
-                    return StreamUtil.loadIntoMemory(zipInputStream);
-                }
-            }
-        } catch (IOException ignored) {
-            return null;
-        }
-    }
+		try {
+			while (true) {
+				ZipEntry entry = zipInputStream.getNextEntry();
+				if (entry == null || MyXMLio.XML_FILE.equals(entry.getName())) {
+					return StreamUtil.loadIntoMemory(zipInputStream);
+				}
+			}
+		} catch (IOException ignored) {
+			return null;
+		}
+	}
 }

@@ -37,15 +37,14 @@ public final class ARBackgroundStyleProperty
 	 * @param localization localization for the title and option translations
 	 * @param euclidianView3D the 3D euclidian view
 	 */
-	public ARBackgroundStyleProperty(Localization localization,
-			EuclidianView3DInterface euclidianView3D) {
+	public ARBackgroundStyleProperty(
+			Localization localization, EuclidianView3DInterface euclidianView3D) {
 		super(localization, "ar.background");
 		this.euclidianView3D = euclidianView3D;
 		setNamedValues(List.of(
 				entry(Renderer.BackgroundStyle.NONE, "Camera"),
 				entry(Renderer.BackgroundStyle.TRANSPARENT, "ar.filter"),
-				entry(Renderer.BackgroundStyle.OPAQUE, "ar.opaqueColor")
-		));
+				entry(Renderer.BackgroundStyle.OPAQUE, "ar.opaqueColor")));
 	}
 
 	@Override

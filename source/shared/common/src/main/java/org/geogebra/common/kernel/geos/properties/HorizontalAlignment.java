@@ -22,7 +22,9 @@ import java.util.Locale;
  * Horizontal alignment.
  */
 public enum HorizontalAlignment {
-	LEFT, CENTER, RIGHT;
+	LEFT,
+	CENTER,
+	RIGHT;
 
 	@Override
 	public String toString() {

@@ -72,8 +72,8 @@ public interface TableValues extends View {
 	 * @param valuesStep step of the x-values
 	 * @throws InvalidValuesException values set in table view are invalid
 	 */
-	void setValues(double valuesMin, double valuesMax, double valuesStep) throws
-			InvalidValuesException;
+	void setValues(double valuesMin, double valuesMax, double valuesStep)
+			throws InvalidValuesException;
 
 	/**
 	 * Get the lower value of the x-values.

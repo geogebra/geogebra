@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -42,14 +42,14 @@ public final class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param required
 	 *         whether nonempty string is expected
 	 */
-	public MediaInputPanel(AppW app, ComponentDialog parentDialog,
-			String labelTransKey, boolean required) {
+	public MediaInputPanel(
+			AppW app, ComponentDialog parentDialog, String labelTransKey, boolean required) {
 		this.app = app;
 		this.parentDialog = parentDialog;
 		this.required = required;
 
-		inputField = new ComponentInputField(app, "", app.getLocalization().getMenu(labelTransKey),
-				"", "");
+		inputField =
+				new ComponentInputField(app, "", app.getLocalization().getMenu(labelTransKey), "", "");
 		inputField.addInputHandler(this);
 		add(inputField);
 	}
@@ -66,8 +66,7 @@ public final class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param placeholder localized placeholder string
 	 */
 	public void addPlaceholder(String placeholder) {
-		inputField.getTextWidget().getTextBox().getElement()
-				.setAttribute("placeholder", placeholder);
+		inputField.getTextWidget().getTextBox().getElement().setAttribute("placeholder", placeholder);
 	}
 
 	/**
@@ -100,8 +99,8 @@ public final class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param msg error message to show
 	 */
 	public void showError(String msg) {
-		inputField.setError(app.getLocalization().getMenu("Error") + ": "
-						+ app.getLocalization().getError(msg));
+		inputField.setError(
+				app.getLocalization().getMenu("Error") + ": " + app.getLocalization().getError(msg));
 		parentDialog.setPosBtnDisabled(true);
 	}
 

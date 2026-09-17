@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -102,13 +102,13 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 				() -> assertTrue(didRequestClearApps),
 				() -> assertTrue(didRequestClearClipboard),
 				() -> assertNotNull(activeMaterial));
-
 	}
 
 	@Test
 	void testStartExamWithoutActiveContext() {
 		examController.prepareExam();
-		assertThrows(IllegalStateException.class,
+		assertThrows(
+				IllegalStateException.class,
 				() -> examController.startExam(ExamType.GENERIC, null),
 				"starting exam without calling setActiveContext() should throw");
 	}
@@ -131,13 +131,11 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		assertAll(
 				() -> assertNotNull(examController.getStartDate()), // started
 				() -> assertNotNull(examController.getFinishDate()), // ended
-				() -> assertNotNull(examController.getExamSummary(
-						getApp().getConfig(), getApp().getLocalization())),
+				() -> assertNotNull(
+						examController.getExamSummary(getApp().getConfig(), getApp().getLocalization())),
 				() -> assertEquals(ExamState.FINISHED, examController.getState()),
-				() -> assertEquals(List.of(
-						ExamState.PREPARING,
-						ExamState.ACTIVE,
-						ExamState.FINISHED), examStates));
+				() -> assertEquals(
+						List.of(ExamState.PREPARING, ExamState.ACTIVE, ExamState.FINISHED), examStates));
 	}
 
 	@Test
@@ -153,11 +151,9 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 				() -> assertNull(examController.getFinishDate()),
 				// back to initial state
 				() -> assertEquals(ExamState.IDLE, examController.getState()),
-				() -> assertEquals(List.of(
-						ExamState.PREPARING,
-						ExamState.ACTIVE,
-						ExamState.FINISHED,
-						ExamState.IDLE), examStates),
+				() -> assertEquals(
+						List.of(ExamState.PREPARING, ExamState.ACTIVE, ExamState.FINISHED, ExamState.IDLE),
+						examStates),
 				() -> assertTrue(didRequestClearApps),
 				() -> assertTrue(didRequestClearClipboard),
 				() -> assertNull(activeMaterial));
@@ -194,26 +190,24 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 
 		assertAll(
 				// feature restrictions
-				() -> assertTrue(restrictionsController
-						.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS)),
+				() -> assertTrue(
+						restrictionsController.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS)),
 				// command restrictions
-				() -> assertFalse(getCommandDispatcher()
-						.isAllowedByCommandFilters(Commands.Derivative)),
+				() -> assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative)),
 				// TODO commandArgumentFilters
 				// expression restrictions
 				() -> assertNull(evaluate("true || false")),
 				// context menu restrictions
 				() -> assertEquals(
 						List.of(Text, Help),
-						ContextMenuFactory.makeInputContextMenu(true,
-								restrictionsController.getContextMenuItemFilters())));
+						ContextMenuFactory.makeInputContextMenu(
+								true, restrictionsController.getContextMenuItemFilters())));
 
 		examController.finishExam();
 		assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
 		examController.exitExam();
 		assertTrue(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
-		assertFalse(restrictionsController.isFeatureRestricted(
-				FeatureRestriction.HIDE_SPECIAL_POINTS));
+		assertFalse(restrictionsController.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS));
 	}
 
 	@Test
@@ -238,11 +232,9 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		assertAll(
 				// restrictions should be reverted
 				// on the previous (Graphing app) command dispatcher...
-				() -> assertTrue(previousCommandDispatcher
-						.isAllowedByCommandFilters(Commands.Derivative)),
+				() -> assertTrue(previousCommandDispatcher.isAllowedByCommandFilters(Commands.Derivative)),
 				// ...and applied to the new (Geometry app) command dispatcher
-				() -> assertFalse(getCommandDispatcher()
-						.isAllowedByCommandFilters(Commands.Derivative)),
+				() -> assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative)),
 				() -> assertNotNull(activeMaterial));
 	}
 
@@ -340,8 +332,8 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		examController.startExam(ExamType.GENERIC, null);
 
 		assertNull(evaluate("Max(1, 2)"));
-		assertThat(errorAccumulator.getErrorsSinceReset(),
-				containsString("Illegal number of arguments"));
+		assertThat(
+				errorAccumulator.getErrorsSinceReset(), containsString("Illegal number of arguments"));
 		errorAccumulator.resetError();
 	}
 
@@ -353,9 +345,10 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		examController.startExam(ExamType.GENERIC, null);
 
 		AutocompleteProvider provider = new AutocompleteProvider(getApp(), false);
-		Optional<AutocompleteProvider.Completion> completion =
-				provider.getCompletions("Max").filter(it -> it.getCommand().equals("Max"))
-						.findFirst();
+		Optional<AutocompleteProvider.Completion> completion = provider
+				.getCompletions("Max")
+				.filter(it -> it.getCommand().equals("Max"))
+				.findFirst();
 		assertAll(
 				() -> assertTrue(completion.isPresent()),
 				() -> assertEquals(1, completion.get().syntaxes.size()));
@@ -369,16 +362,14 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		examController.prepareExam();
 		examController.startExam(ExamType.GENERIC, null);
 		assertAll(
-				() -> assertNotNull(evaluate("f(x) = x")),
-				() -> assertNotNull(evaluate("Derivative(f)")));
+				() -> assertNotNull(evaluate("f(x) = x")), () -> assertNotNull(evaluate("Derivative(f)")));
 		examController.finishExam();
 		examController.exitExam();
 
 		examController.prepareExam();
 		examController.startExam(ExamType.IB, null);
 		assertAll(
-				() -> assertNotNull(evaluate("f(x) = x")),
-				() -> assertNull(evaluate("Derivative(f)")));
+				() -> assertNotNull(evaluate("f(x) = x")), () -> assertNull(evaluate("Derivative(f)")));
 		errorAccumulator.resetError();
 		examController.finishExam();
 		examController.exitExam();
@@ -397,9 +388,9 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 
 		AlgoDispatcher algoDispatcher = getKernel().getAlgoDispatcher();
 		assertAll(
-				() -> assertNull(algoDispatcher.tangent(new String[]{}, point, conic)),
-				() -> assertNull(algoDispatcher.tangent(new String[]{}, line, conic)),
-				() -> assertNotNull(algoDispatcher.commonTangents(new String[]{}, conic, conic)));
+				() -> assertNull(algoDispatcher.tangent(new String[] {}, point, conic)),
+				() -> assertNull(algoDispatcher.tangent(new String[] {}, line, conic)),
+				() -> assertNotNull(algoDispatcher.commonTangents(new String[] {}, conic, conic)));
 	}
 
 	@Test
@@ -412,19 +403,18 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 				TestExamRestrictions.createVisibilityRestrictions();
 
 		GeoElement allowedGeoElement = evaluateGeoElement("x = 1");
-		assertFalse(VisibilityRestriction.isVisibilityRestricted(allowedGeoElement,
-				visibilityRestrictions));
+		assertFalse(
+				VisibilityRestriction.isVisibilityRestricted(allowedGeoElement, visibilityRestrictions));
 
 		GeoElement restrictedGeoElement = evaluateGeoElement("(1, 2)");
-		assertTrue(VisibilityRestriction.isVisibilityRestricted(restrictedGeoElement,
-				visibilityRestrictions));
+		assertTrue(
+				VisibilityRestriction.isVisibilityRestricted(restrictedGeoElement, visibilityRestrictions));
 
 		assertAll(
 				() -> assertTrue(allowedGeoElement.isEuclidianVisible()),
 				() -> assertTrue(allowedGeoElement.isEuclidianToggleable()),
 				() -> assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
 						getApp().getLocalization(), List.of(allowedGeoElement))),
-
 				() -> assertFalse(restrictedGeoElement.isEuclidianVisible()),
 				() -> assertFalse(restrictedGeoElement.isEuclidianToggleable()),
 				() -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(
@@ -443,8 +433,8 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		GeoElement geoElement = evaluateGeoElement("f(x) = x");
 
 		assertAll(
-				() -> assertFalse(VisibilityRestriction.isVisibilityRestricted(geoElement,
-						visibilityRestrictions)),
+				() -> assertFalse(
+						VisibilityRestriction.isVisibilityRestricted(geoElement, visibilityRestrictions)),
 				() -> assertTrue(geoElement.isEuclidianVisible()),
 				() -> assertTrue(geoElement.isEuclidianToggleable()),
 				() -> assertNotNull(geoElementPropertiesFactory.createShowObjectProperty(
@@ -453,8 +443,8 @@ final class ExamControllerTests extends BaseExamTestSetup implements ExamControl
 		editGeoElement(geoElement, "f(x) = x > 2");
 
 		assertAll(
-				() -> assertTrue(VisibilityRestriction.isVisibilityRestricted(geoElement,
-						visibilityRestrictions)),
+				() -> assertTrue(
+						VisibilityRestriction.isVisibilityRestricted(geoElement, visibilityRestrictions)),
 				() -> assertFalse(geoElement.isEuclidianVisible()),
 				() -> assertFalse(geoElement.isEuclidianToggleable()),
 				() -> assertNull(geoElementPropertiesFactory.createShowObjectProperty(

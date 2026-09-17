@@ -24,7 +24,7 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * Sum command helper
- * 
+ *
  * @author Zbynek
  *
  */
@@ -61,5 +61,4 @@ public interface FoldComputer {
 	 * Update result after last computation.
 	 */
 	void finish();
-
 }

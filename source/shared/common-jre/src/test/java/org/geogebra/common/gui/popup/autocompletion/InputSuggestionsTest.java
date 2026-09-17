@@ -61,13 +61,13 @@ class InputSuggestionsTest extends BaseUnitTest {
 		shouldHaveSuggestions("Int");
 		shouldHaveSuggestions("Poi");
 	}
-	
+
 	private void shouldHaveSuggestions(String text) {
 		shouldHaveSuggestions(text, null);
 	}
 
 	private void shouldHaveSuggestions(String text, GeoElement geo) {
-		assertFalse(isSuggestionsPrevented(text, geo)) ;
+		assertFalse(isSuggestionsPrevented(text, geo));
 	}
 
 	private void shouldPreventSuggestions(String text) {

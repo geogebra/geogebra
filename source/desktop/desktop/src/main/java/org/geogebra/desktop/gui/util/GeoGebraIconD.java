@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -58,9 +58,9 @@ import com.himamis.retex.renderer.share.TeXFormula;
 
 /**
  * Creates various ImageIcons for use in lists and tables.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 @SuppressWarnings("javadoc")
 public class GeoGebraIconD {
@@ -74,8 +74,7 @@ public class GeoGebraIconD {
 	 * @return empty icon with given size
 	 */
 	public static ScaledIcon createEmptyIcon(int width, int height) {
-		BufferedImage image = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		return new ScaledIcon(image, 1.0);
 	}
 
@@ -112,8 +111,8 @@ public class GeoGebraIconD {
 			icon.setAntiAlias(true);
 			icon.setPreferredSize(new Dimension(32, 32));
 
-			BufferedImage bufferedImage = newBufferedImage(icon.getIconWidth() + 5,
-					icon.getIconHeight() + 5, scale);
+			BufferedImage bufferedImage =
+					newBufferedImage(icon.getIconWidth() + 5, icon.getIconHeight() + 5, scale);
 			Graphics2D graphics = bufferedImage.createGraphics();
 			graphics.scale(scale, scale);
 			icon.paintIcon(null, graphics, 0, 0);
@@ -123,7 +122,6 @@ public class GeoGebraIconD {
 			Log.debug("Error loading icon: " + url);
 		}
 		return null;
-
 	}
 
 	/**
@@ -212,8 +210,7 @@ public class GeoGebraIconD {
 		return new ScaledIcon(image, scale);
 	}
 
-	private static void drawCenteredText(Graphics2D graphics, String text,
-			int centerX, int centerY) {
+	private static void drawCenteredText(Graphics2D graphics, String text, int centerX, int centerY) {
 
 		// get the visual center of the component.
 		// int centerX = getWidth()/2;
@@ -221,8 +218,7 @@ public class GeoGebraIconD {
 
 		// get the bounds of the string to draw.
 		FontMetrics fontMetrics = graphics.getFontMetrics();
-		Rectangle stringBounds = fontMetrics.getStringBounds(text, graphics)
-				.getBounds();
+		Rectangle stringBounds = fontMetrics.getStringBounds(text, graphics).getBounds();
 
 		// get the visual bounds of the text using a GlyphVector.
 		Font font = graphics.getFont();
@@ -249,8 +245,8 @@ public class GeoGebraIconD {
 	 * Creates an icon for a popup list --- two triangles pointing up and down
 	 * @return icon for popup
 	 */
-	public static ScaledIcon createUpDownTriangleIcon(boolean isRollOver,
-			boolean isEnabled, double scale) {
+	public static ScaledIcon createUpDownTriangleIcon(
+			boolean isRollOver, boolean isEnabled, double scale) {
 
 		int h = 18;
 		int w = 12;
@@ -308,9 +304,8 @@ public class GeoGebraIconD {
 	 * @param bgColor background
 	 * @return color swatch icon
 	 */
-	public static ScaledIcon createColorSwatchIcon(double alpha,
-			Dimension iconSize, Color fgColor0, Color bgColor,
-			double scale) {
+	public static ScaledIcon createColorSwatchIcon(
+			double alpha, Dimension iconSize, Color fgColor0, Color bgColor, double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
@@ -357,8 +352,13 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return image of a dashed line
 	 */
-	public static ScaledIcon createLineStyleIcon(int dashStyle, int thickness,
-			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
+	public static ScaledIcon createLineStyleIcon(
+			int dashStyle,
+			int thickness,
+			Dimension iconSize,
+			Color fgColor,
+			Color bgColor,
+			double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
@@ -374,8 +374,7 @@ public class GeoGebraIconD {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(AwtFactoryD
-				.getAwtStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
+		g2.setStroke(AwtFactoryD.getAwtStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 		g2.dispose();
@@ -391,8 +390,8 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return symbol icon
 	 */
-	public static ScaledIcon createTextSymbolIcon(String symbol, Font font,
-			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
+	public static ScaledIcon createTextSymbolIcon(
+			String symbol, Font font, Dimension iconSize, Color fgColor, Color bgColor, double scale) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
@@ -455,9 +454,16 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return image of a text with a background
 	 */
-	public static ScaledIcon createStringIcon(String str, Font font0,
-			boolean isBold, boolean isItalic, boolean isCentered,
-			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
+	public static ScaledIcon createStringIcon(
+			String str,
+			Font font0,
+			boolean isBold,
+			boolean isItalic,
+			boolean isCentered,
+			Dimension iconSize,
+			Color fgColor,
+			Color bgColor,
+			double scale) {
 		int h = iconSize.height;
 		int w = iconSize.width;
 
@@ -499,14 +505,16 @@ public class GeoGebraIconD {
 	 * @param fgColor text color
 	 * @return icon
 	 */
-	public static ScaledIcon createScaledLatexIcon(AppD app, String latex, Font font,
-			Color fgColor) {
-		Font font1 = font.deriveFont(
-				(float) (font.getSize2D() * app.getImageManager().getPixelRatio()));
+	public static ScaledIcon createScaledLatexIcon(AppD app, String latex, Font font, Color fgColor) {
+		Font font1 =
+				font.deriveFont((float) (font.getSize2D() * app.getImageManager().getPixelRatio()));
 		app.getDrawEquation().checkFirstCall();
 		Image baseIcon = (BufferedImage) TeXFormula.createBufferedImage(
-				latex, TeXConstants.STYLE_DISPLAY, font1.getSize() + 3,
-				DrawEquationD.toAwtColor(fgColor), DrawEquationD.toAwtColor(null));
+				latex,
+				TeXConstants.STYLE_DISPLAY,
+				font1.getSize() + 3,
+				DrawEquationD.toAwtColor(fgColor),
+				DrawEquationD.toAwtColor(null));
 		return new ScaledIcon(baseIcon, app.getImageManager().getPixelRatio());
 	}
 
@@ -518,12 +526,17 @@ public class GeoGebraIconD {
 	 * @param bgColor background color
 	 * @return styled point icon
 	 */
-	public static ScaledIcon createPointStyleIcon(int pointStyle, int pointSize,
-			Dimension iconSize, Color fgColor, Color bgColor, double scale) {
+	public static ScaledIcon createPointStyleIcon(
+			int pointStyle,
+			int pointSize,
+			Dimension iconSize,
+			Color fgColor,
+			Color bgColor,
+			double scale) {
 
 		// TODO: PointStyleIcon as a stand alone class
-		PointStyleImage image = new PointStyleImage(iconSize, pointStyle,
-				pointSize, fgColor, bgColor, scale);
+		PointStyleImage image =
+				new PointStyleImage(iconSize, pointStyle, pointSize, fgColor, bgColor, scale);
 
 		return new ScaledIcon(image, scale);
 	}
@@ -540,14 +553,14 @@ public class GeoGebraIconD {
 		private Line2D.Double line3;
 		private Line2D.Double line4;
 		private GeneralPath gp = null;
-		private final BasicStroke borderStroke = AwtFactoryD
-				.getAwtStroke(EuclidianStatic.getDefaultStroke());
+		private final BasicStroke borderStroke =
+				AwtFactoryD.getAwtStroke(EuclidianStatic.getDefaultStroke());
 		private final BasicStroke[] crossStrokes = new BasicStroke[10];
 		private final int h;
 		private final int w;
 
-		protected PointStyleImage(Dimension d, int pointStyle, int pointSize,
-				Color fgColor, Color bgColor, double scale) {
+		protected PointStyleImage(
+				Dimension d, int pointStyle, int pointSize, Color fgColor, Color bgColor, double scale) {
 			super((int) (d.width * scale), (int) (d.height * scale), BufferedImage.TYPE_INT_ARGB);
 			this.h = d.height;
 			this.w = d.width;
@@ -571,46 +584,46 @@ public class GeoGebraIconD {
 			getPath();
 
 			switch (pointStyle) {
-			case EuclidianStyleConstants.POINT_STYLE_PLUS:
-			case EuclidianStyleConstants.POINT_STYLE_CROSS:
-				// draw cross like: X or +
-				g2.setStroke(crossStrokes[pointSize]);
-				g2.draw(line1);
-				g2.draw(line2);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_PLUS:
+				case EuclidianStyleConstants.POINT_STYLE_CROSS:
+					// draw cross like: X or +
+					g2.setStroke(crossStrokes[pointSize]);
+					g2.draw(line1);
+					g2.draw(line2);
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
-				// draw diamond
-				g2.setStroke(crossStrokes[pointSize]);
-				g2.draw(line1);
-				g2.draw(line2);
-				g2.draw(line3);
-				g2.draw(line4);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+					// draw diamond
+					g2.setStroke(crossStrokes[pointSize]);
+					g2.draw(line1);
+					g2.draw(line2);
+					g2.draw(line3);
+					g2.draw(line4);
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
-				// draw diamond
-				g2.setStroke(crossStrokes[pointSize]);
-				g2.draw(gp);
-				g2.fill(gp);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+					// draw diamond
+					g2.setStroke(crossStrokes[pointSize]);
+					g2.draw(gp);
+					g2.fill(gp);
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-				// draw a circle
-				g2.setStroke(crossStrokes[pointSize]);
-				g2.draw(circle);
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+					// draw a circle
+					g2.setStroke(crossStrokes[pointSize]);
+					g2.draw(circle);
+					break;
 
-			// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			default:
-				// draw a dot
-				g2.fill(circle);
-				g2.setStroke(borderStroke);
-				g2.draw(circle);
+				// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+				default:
+					// draw a dot
+					g2.fill(circle);
+					g2.setStroke(borderStroke);
+					g2.draw(circle);
 			}
 			g2.dispose();
 		}
@@ -636,139 +649,132 @@ public class GeoGebraIconD {
 			double root3over2 = Math.sqrt(3.0) / 2.0;
 
 			switch (pointStyle) {
-			default:
-				// do nothing
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+				default:
+					// do nothing
+					break;
+				case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+					double xR = coords[0] + pointSize;
+					double yB = coords[1] + pointSize;
 
-				double xR = coords[0] + pointSize;
-				double yB = coords[1] + pointSize;
+					if (gp == null) {
+						gp = new GeneralPath();
+					}
+					gp.moveTo((float) (xUL + xR) / 2, (float) yUL);
+					gp.lineTo((float) xUL, (float) (yB + yUL) / 2);
+					gp.lineTo((float) (xUL + xR) / 2, (float) yB);
+					gp.lineTo((float) xR, (float) (yB + yUL) / 2);
+					gp.closePath();
 
-				if (gp == null) {
-					gp = new GeneralPath();
-				}
-				gp.moveTo((float) (xUL + xR) / 2, (float) yUL);
-				gp.lineTo((float) xUL, (float) (yB + yUL) / 2);
-				gp.lineTo((float) (xUL + xR) / 2, (float) yB);
-				gp.lineTo((float) xR, (float) (yB + yUL) / 2);
-				gp.closePath();
+					if (crossStrokes[pointSize] == null) {
+						crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+					}
+					break;
 
-				if (crossStrokes[pointSize] == null) {
-					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-				}
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+					double direction = 1.0;
+					if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
+						direction = -1.0;
+					}
 
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+					if (gp == null) {
+						gp = new GeneralPath();
+					}
+					gp.moveTo((float) coords[0], (float) (coords[1] + direction * pointSize));
+					gp.lineTo((float) (coords[0] + pointSize * root3over2), (float)
+							(coords[1] - direction * pointSize / 2));
+					gp.lineTo((float) (coords[0] - pointSize * root3over2), (float)
+							(coords[1] - direction * pointSize / 2));
+					gp.lineTo((float) coords[0], (float) (coords[1] + direction * pointSize));
+					gp.closePath();
 
-				double direction = 1.0;
-				if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
-					direction = -1.0;
-				}
+					if (crossStrokes[pointSize] == null) {
+						crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+					}
+					break;
 
-				if (gp == null) {
-					gp = new GeneralPath();
-				}
-				gp.moveTo((float) coords[0],
-						(float) (coords[1] + direction * pointSize));
-				gp.lineTo((float) (coords[0] + pointSize * root3over2),
-						(float) (coords[1] - direction * pointSize / 2));
-				gp.lineTo((float) (coords[0] - pointSize * root3over2),
-						(float) (coords[1] - direction * pointSize / 2));
-				gp.lineTo((float) coords[0],
-						(float) (coords[1] + direction * pointSize));
-				gp.closePath();
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+				case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+					direction = 1.0;
+					if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
+						direction = -1.0;
+					}
 
-				if (crossStrokes[pointSize] == null) {
-					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-				}
-				break;
+					if (gp == null) {
+						gp = new GeneralPath();
+					}
+					gp.moveTo((float) (coords[0] + direction * pointSize), (float) coords[1]);
+					gp.lineTo((float) (coords[0] - direction * pointSize / 2), (float)
+							(coords[1] + pointSize * root3over2));
+					gp.lineTo((float) (coords[0] - direction * pointSize / 2), (float)
+							(coords[1] - pointSize * root3over2));
+					gp.lineTo((float) (coords[0] + direction * pointSize), (float) coords[1]);
+					gp.closePath();
 
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+					if (crossStrokes[pointSize] == null) {
+						crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+					}
+					break;
 
-				direction = 1.0;
-				if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
-					direction = -1.0;
-				}
+				case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+					xR = coords[0] + pointSize;
+					yB = coords[1] + pointSize;
 
-				if (gp == null) {
-					gp = new GeneralPath();
-				}
-				gp.moveTo((float) (coords[0] + direction * pointSize),
-						(float) coords[1]);
-				gp.lineTo((float) (coords[0] - direction * pointSize / 2),
-						(float) (coords[1] + pointSize * root3over2));
-				gp.lineTo((float) (coords[0] - direction * pointSize / 2),
-						(float) (coords[1] - pointSize * root3over2));
-				gp.lineTo((float) (coords[0] + direction * pointSize),
-						(float) coords[1]);
-				gp.closePath();
+					if (line1 == null) {
+						line1 = new Line2D.Double();
+						line2 = new Line2D.Double();
+					}
+					if (line3 == null) {
+						line3 = new Line2D.Double();
+						line4 = new Line2D.Double();
+					}
+					line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
+					line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
+					line3.setLine((xUL + xR) / 2, yB, xR, (yB + yUL) / 2);
+					line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
 
-				if (crossStrokes[pointSize] == null) {
-					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-				}
-				break;
+					if (crossStrokes[pointSize] == null) {
+						crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+					}
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
-				xR = coords[0] + pointSize;
-				yB = coords[1] + pointSize;
+				case EuclidianStyleConstants.POINT_STYLE_PLUS:
+					xR = coords[0] + pointSize;
+					yB = coords[1] + pointSize;
 
-				if (line1 == null) {
-					line1 = new Line2D.Double();
-					line2 = new Line2D.Double();
-				}
-				if (line3 == null) {
-					line3 = new Line2D.Double();
-					line4 = new Line2D.Double();
-				}
-				line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
-				line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
-				line3.setLine((xUL + xR) / 2, yB, xR, (yB + yUL) / 2);
-				line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
+					if (line1 == null) {
+						line1 = new Line2D.Double();
+						line2 = new Line2D.Double();
+					}
+					line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
+					line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
 
-				if (crossStrokes[pointSize] == null) {
-					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-				}
-				break;
+					if (crossStrokes[pointSize] == null) {
+						crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+					}
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_PLUS:
-				xR = coords[0] + pointSize;
-				yB = coords[1] + pointSize;
+				case EuclidianStyleConstants.POINT_STYLE_CROSS:
+					xR = coords[0] + pointSize;
+					yB = coords[1] + pointSize;
 
-				if (line1 == null) {
-					line1 = new Line2D.Double();
-					line2 = new Line2D.Double();
-				}
-				line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
-				line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
+					if (line1 == null) {
+						line1 = new Line2D.Double();
+						line2 = new Line2D.Double();
+					}
+					line1.setLine(xUL, yUL, xR, yB);
+					line2.setLine(xUL, yB, xR, yUL);
 
-				if (crossStrokes[pointSize] == null) {
-					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-				}
-				break;
+					if (crossStrokes[pointSize] == null) {
+						crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+					}
+					break;
 
-			case EuclidianStyleConstants.POINT_STYLE_CROSS:
-				xR = coords[0] + pointSize;
-				yB = coords[1] + pointSize;
-
-				if (line1 == null) {
-					line1 = new Line2D.Double();
-					line2 = new Line2D.Double();
-				}
-				line1.setLine(xUL, yUL, xR, yB);
-				line2.setLine(xUL, yB, xR, yUL);
-
-				if (crossStrokes[pointSize] == null) {
-					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-				}
-				break;
-
-			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-				if (crossStrokes[pointSize] == null) {
-					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-				}
-				break;
+				case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+					if (crossStrokes[pointSize] == null) {
+						crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+					}
+					break;
 			}
 			// for circle points
 			circle.setFrame(xUL, yUL, diameter, diameter);
@@ -781,18 +787,17 @@ public class GeoGebraIconD {
 	 * with the correct dimensions.
 	 * @return image bounds
 	 */
-	public static Rectangle measureLatexImage(AppD app,
-			String latex, Font font, boolean serif, Color fgColor,
-			Color bgColor) {
+	public static Rectangle measureLatexImage(
+			AppD app, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
 		// Create image with dummy size, then draw into it to get the correct
 		// size
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
 		geo.setSerifFont(serif);
 		DrawText draw = new DrawText(app.getActiveEuclidianView(), geo);
 		draw.drawMultilineLaTeX(
-				app.getActiveEuclidianView()
-						.getTempGraphics2D(new GFontD(font)),
-				new GFontD(font), GColorD.newColor(fgColor),
+				app.getActiveEuclidianView().getTempGraphics2D(new GFontD(font)),
+				new GFontD(font),
+				GColorD.newColor(fgColor),
 				GColorD.newColor(bgColor));
 		return GRectangleD.getAWTRectangle(draw.getBounds());
 	}
@@ -801,8 +806,7 @@ public class GeoGebraIconD {
 	 * Creates a new icon by joining them together (leftIcon to rightIcon).
 	 * @return joined icon
 	 */
-	public static ScaledIcon joinIcons(Icon leftIcon,
-			ScaledIcon rightIcon) {
+	public static ScaledIcon joinIcons(Icon leftIcon, ScaledIcon rightIcon) {
 		double scale1 = leftIcon instanceof ScaledIcon scaledIcon ? scaledIcon.getScale() : 1.0;
 		int w1 = leftIcon.getIconWidth();
 		int w2 = rightIcon.getIconWidth();
@@ -833,8 +837,10 @@ public class GeoGebraIconD {
 	}
 
 	private static Image extractImage(Icon leftIcon) {
-		return leftIcon instanceof ImageIcon imageIcon ? imageIcon.getImage()
-				: leftIcon instanceof ScaledIcon scaledIcon ? scaledIcon.getImage()
-				: createEmptyIcon(1, 1).getImage();
+		return leftIcon instanceof ImageIcon imageIcon
+				? imageIcon.getImage()
+				: leftIcon instanceof ScaledIcon scaledIcon
+						? scaledIcon.getImage()
+						: createEmptyIcon(1, 1).getImage();
 	}
 }

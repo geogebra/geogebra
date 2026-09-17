@@ -51,23 +51,20 @@ public class MoveMinusInOut implements SimplifyNode {
 
 	@Override
 	public ExpressionNode apply(ExpressionNode node) {
-		if (isMultiplyNode(node) && isMinusOne(
-				node.getLeft())) {
+		if (isMultiplyNode(node) && isMinusOne(node.getLeft())) {
 			if (isDivNode(node.getRightTree())) {
 				ExpressionNode fraction = node.getRightTree();
 				ExpressionValue numerator = fraction.getLeft();
 				ExpressionValue negated = utils.negateTagByTag(numerator);
 
-				OrderedExpressionNode orderedNode = new OrderedExpressionNode(negated.wrap(),
-						utils);
+				OrderedExpressionNode orderedNode = new OrderedExpressionNode(negated.wrap(), utils);
 				if (orderedNode.isAllNegative()) {
 					return node;
 				}
 				return utils.newDiv(orderedNode, fraction.getRight());
 			} else {
 				ExpressionNode negated = utils.negateTagByTag(node.getRight());
-				OrderedExpressionNode orderedNode = new OrderedExpressionNode(negated.wrap(),
-						utils);
+				OrderedExpressionNode orderedNode = new OrderedExpressionNode(negated.wrap(), utils);
 				return orderedNode;
 			}
 		}

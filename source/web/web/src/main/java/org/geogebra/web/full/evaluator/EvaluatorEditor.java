@@ -88,8 +88,7 @@ public final class EvaluatorEditor implements IsWidget, MathFieldListener, BlurH
 
 	private void dispatchKeyTypedEvent(String key) {
 		HashMap<String, Object> evaluatorValue = evaluatorAPI.getEvaluatorValue();
-		Event event = new Event(EventType.EDITOR_KEY_TYPED)
-				.setJsonArgument(evaluatorValue);
+		Event event = new Event(EventType.EDITOR_KEY_TYPED).setJsonArgument(evaluatorValue);
 		if (key != null) {
 			evaluatorValue.put("key", key);
 			evaluatorValue.put("label", "");
@@ -163,8 +162,8 @@ public final class EvaluatorEditor implements IsWidget, MathFieldListener, BlurH
 	 * @param callback called with {svg: base64 encoded SVG,
 	 *     baseline: relative baseline position} or error
 	 */
-	public void exportImage(String type, boolean transparent,
-			MathFieldExporter.ImageConsumer callback) {
+	public void exportImage(
+			String type, boolean transparent, MathFieldExporter.ImageConsumer callback) {
 		new MathFieldExporter(mathFieldEditor.getMathField()).export(type, transparent, callback);
 	}
 }

@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -32,7 +32,7 @@ public class SliderMover extends PathMoverGeneric {
 
 	/**
 	 * Creates new path mover for given path
-	 * 
+	 *
 	 * @param path
 	 *            slider
 	 */
@@ -185,28 +185,28 @@ public class SliderMover extends PathMoverGeneric {
 
 	/**
 	 * Updates path parameter of point p from curr_param
-	 * 
+	 *
 	 * @param p
 	 *            point to store result
 	 */
 	protected void calcPoint(GeoNumeric p) {
 		double param;
 		switch (mode) {
-		case BOUNDS_FIXED:
-			param = curr_param;
-			break;
+			case BOUNDS_FIXED:
+				param = curr_param;
+				break;
 
-		case BOUNDS_INFINITE:
-			param = PathNormalizer.infFunction(curr_param);
-			break;
+			case BOUNDS_INFINITE:
+				param = PathNormalizer.infFunction(curr_param);
+				break;
 
-		case BOUNDS_FIXED_INFINITE:
-		case BOUNDS_INFINITE_FIXED:
-			param = offset + PathNormalizer.infFunction(curr_param);
-			break;
+			case BOUNDS_FIXED_INFINITE:
+			case BOUNDS_INFINITE_FIXED:
+				param = offset + PathNormalizer.infFunction(curr_param);
+				break;
 
-		default:
-			param = Double.NaN;
+			default:
+				param = Double.NaN;
 		}
 
 		// PathParameter pp = p.getPathParameter();
@@ -215,5 +215,4 @@ public class SliderMover extends PathMoverGeneric {
 		// p.updateCoords();
 		p.setValue(param);
 	}
-
 }

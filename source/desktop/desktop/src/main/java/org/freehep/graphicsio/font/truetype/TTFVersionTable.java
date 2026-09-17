@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * VERSION Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFVersionTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -24,5 +24,4 @@ public abstract class TTFVersionTable extends TTFTable {
 	public String toString() {
 		return super.toString() + " v" + majorVersion + "." + minorVersion;
 	}
-
 }

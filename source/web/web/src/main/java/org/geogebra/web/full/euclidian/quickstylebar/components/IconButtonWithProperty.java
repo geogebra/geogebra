@@ -77,8 +77,14 @@ public final class IconButtonWithProperty extends IconButton {
 	 * @param closePopupOnAction - weather should close popup after clicking on popup element
 	 * @param properties - array of applicable properties
 	 */
-	public IconButtonWithProperty(AppW appW, String className, IconSpec icon, String ariaLabel,
-			List<GeoElement> geos, boolean closePopupOnAction, PropertySupplier... properties) {
+	public IconButtonWithProperty(
+			AppW appW,
+			String className,
+			IconSpec icon,
+			String ariaLabel,
+			List<GeoElement> geos,
+			boolean closePopupOnAction,
+			PropertySupplier... properties) {
 		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
 		this.geos = geos;
@@ -123,14 +129,12 @@ public final class IconButtonWithProperty extends IconButton {
 	private void processProperty(PropertySupplier propertySupplier, FlowPanel parent) {
 		Property property = propertySupplier.get();
 		if (property instanceof IconsEnumeratedPropertyListFacade<?, ?> iconsListFacade) {
-			IconsEnumeratedProperty<?> firstProperty
-					= iconsListFacade.getFirstProperty();
+			IconsEnumeratedProperty<?> firstProperty = iconsListFacade.getFirstProperty();
 			if (firstProperty instanceof BorderWidthProperty
 					|| firstProperty instanceof CellBorderThicknessProperty) {
 				IconsEnumeratedProperty<Integer> intValued =
 						(IconsEnumeratedProperty<Integer>) iconsListFacade;
-				FlowPanel borderThickness = widgetAdapter.getBorderThicknessWidget(
-						intValued);
+				FlowPanel borderThickness = widgetAdapter.getBorderThicknessWidget(intValued);
 				parent.add(borderThickness);
 				return;
 			}
@@ -141,8 +145,9 @@ public final class IconButtonWithProperty extends IconButton {
 						if (lineThicknessSlider != null) {
 							lineThicknessSlider.updateUnitLabel();
 						}
-						setIcon(((AppWFull) appW).getPropertiesIconResource().getImageResource(
-								((IconsEnumeratedProperty<?>) property).getValueIcons()[index]));
+						setIcon(((AppWFull) appW)
+								.getPropertiesIconResource()
+								.getImageResource(((IconsEnumeratedProperty<?>) property).getValueIcons()[index]));
 					});
 			parent.add(enumeratedPropertyButtonPanel);
 		}
@@ -154,14 +159,14 @@ public final class IconButtonWithProperty extends IconButton {
 		}
 
 		if (property instanceof ColorPropertyListFacade<?> colorProperty) {
-			ColorChooserPanel colorPanel = new ColorChooserPanel(appW,
-					colorProperty.getValues(), color -> {
-				if (popupHandler != null) {
-					ColorPropertyListFacade<?> updatedProperty =
-							(ColorPropertyListFacade<?>) propertySupplier.updateAndGet();
-					popupHandler.fireActionPerformed(updatedProperty, color);
-				}
-			});
+			ColorChooserPanel colorPanel =
+					new ColorChooserPanel(appW, colorProperty.getValues(), color -> {
+						if (popupHandler != null) {
+							ColorPropertyListFacade<?> updatedProperty =
+									(ColorPropertyListFacade<?>) propertySupplier.updateAndGet();
+							popupHandler.fireActionPerformed(updatedProperty, color);
+						}
+					});
 			if (colorProperty.getFirstProperty() instanceof BorderColorProperty) {
 				colorPanel.addStyleName("withMargin");
 			}
@@ -183,12 +188,11 @@ public final class IconButtonWithProperty extends IconButton {
 		if (property instanceof RangePropertyListFacade<?> rangeProperty) {
 			RangeProperty<?> firstProperty = rangeProperty.getFirstProperty();
 			if (firstProperty instanceof ThicknessProperty) {
-				lineThicknessSlider = widgetAdapter.getSliderWidget(rangeProperty,
-						propertySupplier);
+				lineThicknessSlider = widgetAdapter.getSliderWidget(rangeProperty, propertySupplier);
 				parent.add(lineThicknessSlider);
-			}  else {
-				SliderWithProperty sliderWithProperty = widgetAdapter.getSliderWidget(
-						rangeProperty, propertySupplier);
+			} else {
+				SliderWithProperty sliderWithProperty =
+						widgetAdapter.getSliderWidget(rangeProperty, propertySupplier);
 				parent.add(sliderWithProperty);
 			}
 		}
@@ -236,16 +240,14 @@ public final class IconButtonWithProperty extends IconButton {
 	}
 
 	private void positionPopup() {
-		int anchorBottom = (int) (getElement().getAbsoluteBottom() - appW.getAbsTop()
-				+ VERTICAL_OFFSET);
+		int anchorBottom =
+				(int) (getElement().getAbsoluteBottom() - appW.getAbsTop() + VERTICAL_OFFSET);
 		int spaceBottom = (int) (appW.getHeight() - anchorBottom);
-		int spaceTop = (int) (getElement().getAbsoluteTop() - appW.getAbsTop()
-				- MARGIN_FROM_SCREEN);
+		int spaceTop = (int) (getElement().getAbsoluteTop() - appW.getAbsTop() - MARGIN_FROM_SCREEN);
 		int minSpaceBottom = 3 * MENU_ITEM_HEIGHT + MARGIN_FROM_SCREEN + 8;
 		int popupHeight = propertyPopup.getOffsetHeight();
 
-		if (spaceBottom < minSpaceBottom
-				|| (spaceBottom < popupHeight && spaceTop >= popupHeight)) {
+		if (spaceBottom < minSpaceBottom || (spaceBottom < popupHeight && spaceTop >= popupHeight)) {
 			showAtTopOfAnchor(popupHeight, spaceTop);
 		} else {
 			showAtBottomOfAnchor(popupHeight, anchorBottom);
@@ -253,7 +255,8 @@ public final class IconButtonWithProperty extends IconButton {
 	}
 
 	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
-		int popupTop = popupHeight > spaceTop ? MARGIN_FROM_SCREEN
+		int popupTop = popupHeight > spaceTop
+				? MARGIN_FROM_SCREEN
 				: (int) (getAbsoluteTop() - appW.getAbsTop() - popupHeight - VERTICAL_OFFSET);
 		propertyPopup.setPopupPosition(getLeft(), popupTop);
 
@@ -290,8 +293,8 @@ public final class IconButtonWithProperty extends IconButton {
 	 * close popup of button if it doesn't contain sliders
 	 */
 	public void closePopup() {
-		if (propertyPopup != null && Dom.querySelectorForElement(
-				propertyPopup.getElement(), "[type=range]") == null) {
+		if (propertyPopup != null
+				&& Dom.querySelectorForElement(propertyPopup.getElement(), "[type=range]") == null) {
 			propertyPopup.hide();
 		}
 	}

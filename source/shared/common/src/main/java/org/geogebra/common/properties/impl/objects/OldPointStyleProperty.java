@@ -38,9 +38,9 @@ public class OldPointStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
-			PropertyResource.ICON_POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_PLUS,
-			PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
+		PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
+		PropertyResource.ICON_POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_PLUS,
+		PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
 	};
 
 	private final AbstractGeoElementDelegate delegate;
@@ -55,8 +55,7 @@ public class OldPointStyleProperty extends AbstractEnumeratedProperty<Integer>
 				EuclidianStyleConstants.POINT_STYLE_CROSS,
 				EuclidianStyleConstants.POINT_STYLE_CIRCLE,
 				EuclidianStyleConstants.POINT_STYLE_PLUS,
-				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND
-		));
+				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND));
 	}
 
 	@Override

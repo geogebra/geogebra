@@ -27,4 +27,4 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
-public @interface VisibleForTesting { }
+public @interface VisibleForTesting {}

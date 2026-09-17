@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,8 +42,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * @author Markus Hohenwarter
  */
-public class InputPanelD extends JPanel
-		implements FocusListener, VirtualKeyboardListener {
+public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboardListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -80,10 +79,9 @@ public class InputPanelD extends JPanel
 	 * @param showSymbolPopupIcon show popup icon?
 	 * @param autoComplete whether to enable autocompletion
 	 */
-	public InputPanelD(String initText, AppD app, int columns, boolean showSymbolPopupIcon,
-			boolean autoComplete) {
-		this(initText, app, 1, columns, showSymbolPopupIcon,
-				DialogType.GeoGebraEditor);
+	public InputPanelD(
+			String initText, AppD app, int columns, boolean showSymbolPopupIcon, boolean autoComplete) {
+		this(initText, app, 1, columns, showSymbolPopupIcon, DialogType.GeoGebraEditor);
 		AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
 		atf.setAutoComplete(autoComplete);
 	}
@@ -96,7 +94,11 @@ public class InputPanelD extends JPanel
 	 * @param showSymbolPopupIcon show popup icon?
 	 * @param type dialog type
 	 */
-	public InputPanelD(String initText, AppD app, int rows, int columns,
+	public InputPanelD(
+			String initText,
+			AppD app,
+			int rows,
+			int columns,
 			boolean showSymbolPopupIcon,
 			DialogType type) {
 
@@ -108,25 +110,23 @@ public class InputPanelD extends JPanel
 		if (rows > 1) {
 
 			switch (type) {
-			case TextArea:
-				textComponent = new JTextArea(rows, columns);
-				setTextAreaLineWrap(true);
-				break;
-			case DynamicText:
-				textComponent = new DynamicTextInputPane(app);
-				break;
-			case GeoGebraEditor:
-				textComponent = new GeoGebraEditorPane(app, rows, columns);
-				((GeoGebraEditorPane) textComponent).setEditorKit(ScriptType.GGBSCRIPT);
-				break;
+				case TextArea:
+					textComponent = new JTextArea(rows, columns);
+					setTextAreaLineWrap(true);
+					break;
+				case DynamicText:
+					textComponent = new DynamicTextInputPane(app);
+					break;
+				case GeoGebraEditor:
+					textComponent = new GeoGebraEditorPane(app, rows, columns);
+					((GeoGebraEditorPane) textComponent).setEditorKit(ScriptType.GGBSCRIPT);
+					break;
 			}
 
 		} else {
 
-			textComponent = new AutoCompleteTextFieldD(columns, app,
-					KeyNavigation.HISTORY);
-			((MyTextFieldD) textComponent)
-					.setShowSymbolTableIcon(showSymbolPopup);
+			textComponent = new AutoCompleteTextFieldD(columns, app, KeyNavigation.HISTORY);
+			((MyTextFieldD) textComponent).setShowSymbolTableIcon(showSymbolPopup);
 		}
 
 		textComponent.addFocusListener(this);
@@ -149,9 +149,7 @@ public class InputPanelD extends JPanel
 			scrollPane.getVerticalScrollBar().setUnitIncrement(5);
 			add(scrollPane, BorderLayout.CENTER);
 
-		}
-
-		else { // JTextField
+		} else { // JTextField
 			setLayout(new BorderLayout(0, 0));
 			tfPanel = new JPanel(new BorderLayout(0, 0));
 			tfPanel.add(textComponent, BorderLayout.CENTER);
@@ -161,7 +159,7 @@ public class InputPanelD extends JPanel
 
 	/**
 	 * Set line wrapping feature for JTextArea components
-	 * 
+	 *
 	 * @param isWrapped
 	 *            true if line wrapping is supported
 	 */
@@ -213,7 +211,7 @@ public class InputPanelD extends JPanel
 	/**
 	 * Inserts string at current position of the input textfield and gives focus
 	 * to the input textfield.
-	 * 
+	 *
 	 * @param str
 	 *            inserted string
 	 */
@@ -228,8 +226,7 @@ public class InputPanelD extends JPanel
 		}
 		if (!textComponent.hasFocus()) {
 			if (textComponent instanceof DynamicTextInputPane) {
-				((DynamicTextInputPane) textComponent).getFocusedTextComponent()
-						.requestFocus();
+				((DynamicTextInputPane) textComponent).getFocusedTextComponent().requestFocus();
 			} else {
 				textComponent.requestFocus();
 			}
@@ -243,12 +240,11 @@ public class InputPanelD extends JPanel
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
-				!(e.getOppositeComponent() instanceof VirtualKeyboardD));
+		((GuiManagerD) app.getGuiManager())
+				.setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboardD));
 	}
 
 	/** end history list cell renderer **/
-
 	public void updateFonts() {
 
 		Font font = app.getPlainFont();
@@ -260,5 +256,4 @@ public class InputPanelD extends JPanel
 		}
 		// tfPanel.setFont(font);
 	}
-
 }

@@ -26,19 +26,18 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * AlgoMaximize Command Maximize[ &lt;dependent variable&gt;, &lt;independent
  * variable&gt; ] which searches for the independent variable which gives the
  * largest result for the dependent variable.
- * 
+ *
  * Extends abstract class AlgoOptimize
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 20.02.2011
- * 
+ *
  */
-
 public class AlgoMaximize extends AlgoOptimize {
 
 	/**
 	 * Constructor for Maximize
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -48,10 +47,8 @@ public class AlgoMaximize extends AlgoOptimize {
 	 * @param indep
 	 *            independent number
 	 */
-	public AlgoMaximize(Construction cons, String label, GeoNumberValue dep,
-			GeoNumeric indep) {
-		super(cons, label, dep, new OptimizerNumeric(dep, indep),
-				OptimizationType.MAXIMIZE);
+	public AlgoMaximize(Construction cons, String label, GeoNumberValue dep, GeoNumeric indep) {
+		super(cons, label, dep, new OptimizerNumeric(dep, indep), OptimizationType.MAXIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
 	}
 
@@ -65,10 +62,8 @@ public class AlgoMaximize extends AlgoOptimize {
 	 * @param indep
 	 *            moving point
 	 */
-	public AlgoMaximize(Construction cons, String label, GeoNumberValue dep,
-			GeoPointND indep) {
-		super(cons, label, dep, new OptimizerPoint(dep, indep),
-				OptimizationType.MAXIMIZE);
+	public AlgoMaximize(Construction cons, String label, GeoNumberValue dep, GeoPointND indep) {
+		super(cons, label, dep, new OptimizerPoint(dep, indep), OptimizationType.MAXIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
 	}
 
@@ -76,5 +71,4 @@ public class AlgoMaximize extends AlgoOptimize {
 	public Commands getClassName() {
 		return Commands.Maximize;
 	}
-
 }

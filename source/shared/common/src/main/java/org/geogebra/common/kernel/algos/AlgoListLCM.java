@@ -27,11 +27,10 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * LCM of a list. adapted from AlgoListMax
- * 
+ *
  * @author Michael Borcherds
  * @version 01-08-2011
  */
-
 public class AlgoListLCM extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -120,5 +119,4 @@ public class AlgoListLCM extends AlgoElement {
 		}
 		num.setValue(resultD);
 	}
-
 }

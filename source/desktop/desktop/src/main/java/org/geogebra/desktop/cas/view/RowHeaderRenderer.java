@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,24 +42,25 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Renders row headers
  */
-public class RowHeaderRenderer extends JPanel
-		implements ListCellRenderer, MarbleRenderer {
+public class RowHeaderRenderer extends JPanel implements ListCellRenderer, MarbleRenderer {
 
 	private static final long serialVersionUID = 1L;
 	private CASTableD casTable;
 	private JLabel numLabel;
 	/** show hide option (also called plot tool) for this cell content */
 	protected JLabel showHideControl;
+
 	private Icon iconShown;
 	private Icon iconHidden;
 	/** constraints */
 	protected GridBagConstraints c;
+
 	private AppD app;
 	private boolean marbleValue;
 
 	/**
 	 * Creates new renderer
-	 * 
+	 *
 	 * @param casTable
 	 *            CAS table
 	 */
@@ -82,8 +83,8 @@ public class RowHeaderRenderer extends JPanel
 		add(showHideControl, c);
 
 		setOpaque(true);
-		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+		setBorder(BorderFactory.createMatteBorder(
+				0, 0, 1, 0, GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 	}
 
 	/**
@@ -96,8 +97,8 @@ public class RowHeaderRenderer extends JPanel
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(
+			JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		numLabel.setText((value == null) ? "" : value.toString());
 		numLabel.setFont(casTable.getFont());
 		GeoCasCell ctr = casTable.getGeoCasCell(index);
@@ -108,11 +109,10 @@ public class RowHeaderRenderer extends JPanel
 		CASInputHandler.handleMarble(ctr, this);
 
 		if (isSelected) {
-			setBackground(GColorD.getAwtColor(
-					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
+			setBackground(
+					GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 		} else {
-			setBackground(GColorD.getAwtColor(
-					GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+			setBackground(GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		}
 
 		// update height
@@ -138,5 +138,4 @@ public class RowHeaderRenderer extends JPanel
 	public void setMarbleVisible(boolean visible) {
 		showHideControl.setVisible(visible);
 	}
-
 }

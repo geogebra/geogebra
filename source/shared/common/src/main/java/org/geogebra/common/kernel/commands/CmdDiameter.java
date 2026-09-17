@@ -26,14 +26,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Diameter[ &lt;GeoVector&gt;, &lt;GeoConic&gt; ]
- * 
+ *
  * Diameter[ &lt;GeoLine&gt;, &lt;GeoConic&gt; ]
  */
 public class CmdDiameter extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -42,42 +42,38 @@ public class CmdDiameter extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
+			case 2:
+				arg = resArgs(c, info);
 
-			// diameter line conjugate to vector relative to conic
-			if ((ok[0] = arg[0].isGeoVector())
-					&& (ok[1] = arg[1].isGeoConic())) {
-				GeoElement[] ret = { diameter(c.getLabel(),
-						(GeoVectorND) arg[0], (GeoConicND) arg[1]) };
-				return ret;
-			}
+				// diameter line conjugate to vector relative to conic
+				if ((ok[0] = arg[0].isGeoVector()) && (ok[1] = arg[1].isGeoConic())) {
+					GeoElement[] ret = {diameter(c.getLabel(), (GeoVectorND) arg[0], (GeoConicND) arg[1])};
+					return ret;
+				}
 
-			// diameter line conjugate to line relative to conic
-			if ((ok[0] = arg[0].isGeoLine())
-					&& (ok[1] = arg[1].isGeoConic())) {
-				GeoElement[] ret = { diameter(c.getLabel(), (GeoLineND) arg[0],
-						(GeoConicND) arg[1]) };
-				return ret;
-			}
-			if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			}
-			throw argErr(c, arg[1]);
+				// diameter line conjugate to line relative to conic
+				if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoConic())) {
+					GeoElement[] ret = {diameter(c.getLabel(), (GeoLineND) arg[0], (GeoConicND) arg[1])};
+					return ret;
+				}
+				if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				}
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param l
@@ -91,7 +87,7 @@ public class CmdDiameter extends CommandProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param v

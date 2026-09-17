@@ -32,7 +32,7 @@ public class CmdFinancialRate extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -41,130 +41,145 @@ public class CmdFinancialRate extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
-			arg = resArgs(c, info);
+			case 3:
+				arg = resArgs(c, info);
 
-			if ((ok[0] = arg[0].isGeoNumeric())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())) {
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())) {
 
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], null, null,
-						AlgoFinancial.CalculationType.RATE);
+					AlgoFinancial algo = new AlgoFinancial(
+							cons,
+							c.getLabel(),
+							null,
+							(GeoNumeric) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							null,
+							null,
+							AlgoFinancial.CalculationType.RATE);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else {
+					throw argErr(c, arg[3]);
+				}
 
-			else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[3]);
-			}
+			case 4:
+				arg = resArgs(c, info);
 
-		case 4:
-			arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())
+						&& (ok[3] = arg[3].isGeoNumeric())) {
 
-			if ((ok[0] = arg[0].isGeoNumeric())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric())) {
+					AlgoFinancial algo = new AlgoFinancial(
+							cons,
+							c.getLabel(),
+							null,
+							(GeoNumeric) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							(GeoNumeric) arg[3],
+							null,
+							AlgoFinancial.CalculationType.RATE);
 
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoNumeric) arg[3], null,
-						AlgoFinancial.CalculationType.RATE);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else {
+					throw argErr(c, arg[3]);
+				}
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
+			case 5:
+				arg = resArgs(c, info);
 
-			else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else {
-				throw argErr(c, arg[3]);
-			}
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())
+						&& (ok[3] = arg[3].isGeoNumeric())
+						&& (ok[4] = arg[4].isGeoNumeric())) {
 
-		case 5:
-			arg = resArgs(c, info);
+					AlgoFinancial algo = new AlgoFinancial(
+							cons,
+							c.getLabel(),
+							null,
+							(GeoNumeric) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							(GeoNumeric) arg[3],
+							(GeoNumeric) arg[4],
+							AlgoFinancial.CalculationType.RATE);
 
-			if ((ok[0] = arg[0].isGeoNumeric())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoNumeric())) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else if (!ok[3]) {
+					throw argErr(c, arg[3]);
+				} else {
+					throw argErr(c, arg[4]);
+				}
 
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoNumeric) arg[4],
-						AlgoFinancial.CalculationType.RATE);
+			case 6: // include guess
+				arg = resArgs(c, info);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())
+						&& (ok[3] = arg[3].isGeoNumeric())
+						&& (ok[4] = arg[4].isGeoNumeric())
+						&& (ok[5] = arg[5].isGeoNumeric())) {
 
-			else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else if (!ok[3]) {
-				throw argErr(c, arg[3]);
-			} else {
-				throw argErr(c, arg[4]);
-			}
+					AlgoFinancial algo = new AlgoFinancial(
+							cons,
+							c.getLabel(),
+							null,
+							(GeoNumeric) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							(GeoNumeric) arg[3],
+							(GeoNumeric) arg[4],
+							(GeoNumeric) arg[5],
+							AlgoFinancial.CalculationType.RATE);
 
-		case 6: // include guess
-			arg = resArgs(c, info);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else if (!ok[3]) {
+					throw argErr(c, arg[3]);
+				} else if (!ok[4]) {
+					throw argErr(c, arg[4]);
+				} else {
+					throw argErr(c, arg[5]);
+				}
 
-			if ((ok[0] = arg[0].isGeoNumeric())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoNumeric())
-					&& (ok[5] = arg[5].isGeoNumeric())) {
-
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
-						AlgoFinancial.CalculationType.RATE);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-
-			else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else if (!ok[3]) {
-				throw argErr(c, arg[3]);
-			} else if (!ok[4]) {
-				throw argErr(c, arg[4]);
-			} else {
-				throw argErr(c, arg[5]);
-			}
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -134,6 +134,7 @@ public class ConsElementXMLHandler {
 	 * approach, just for opening old files.
 	 */
 	private static final double MIN_TEXT_SIZE = 4;
+
 	private GeoElement geo;
 	// List of LocateableExpPair objects
 	// for setting the start points at the end of the construction
@@ -167,10 +168,13 @@ public class ConsElementXMLHandler {
 	 * The point style of the document, for versions < 3.3
 	 */
 	private int docPointStyle;
+
 	@Weak
 	private final App app;
+
 	@Weak
 	private final MyXMLHandler xmlHandler;
+
 	private boolean needsConstructionDefaults;
 	private String pendingLabel;
 
@@ -287,8 +291,11 @@ public class ConsElementXMLHandler {
 		return false;
 	}
 
-	private void setTransformableSize(RectangleTransformable transformable,
-			double widthD, double heightD, Map<String, String> attrs) {
+	private void setTransformableSize(
+			RectangleTransformable transformable,
+			double widthD,
+			double heightD,
+			Map<String, String> attrs) {
 		String angle = attrs.get("angle");
 		boolean unscaled = attrs.get("unscaled") != null;
 		if (angle == null && transformable instanceof GeoEmbed) {
@@ -300,8 +307,7 @@ public class ConsElementXMLHandler {
 			transformable.setAngle(angleD);
 			EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
 			double pixelWidth = unscaled ? widthD * settings.getXscale() : widthD;
-			double normedPixelWidth = unscaled
-					? widthD * EuclidianView.SCALE_STANDARD : widthD;
+			double normedPixelWidth = unscaled ? widthD * EuclidianView.SCALE_STANDARD : widthD;
 			double pixelHeight = unscaled ? heightD * settings.getYscale() : heightD;
 			if (transformable instanceof GeoInline inline) {
 				inline.setSizeOnly(pixelWidth, pixelHeight);
@@ -317,8 +323,7 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleScript(Map<String, String> attrs,
-			ScriptType type) {
+	private boolean handleScript(Map<String, String> attrs, ScriptType type) {
 		try {
 			handleScript(attrs, type, "val", EventType.CLICK);
 			handleScript(attrs, type, "onUpdate", EventType.UPDATE);
@@ -330,8 +335,8 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private void handleScript(Map<String, String> attrs, ScriptType type,
-			String attrName, EventType evtType) {
+	private void handleScript(
+			Map<String, String> attrs, ScriptType type, String attrName, EventType evtType) {
 		String text = attrs.get(attrName);
 		if (text != null && !text.isEmpty()) {
 			Script script = app.createScript(type, text, false);
@@ -347,8 +352,7 @@ public class ConsElementXMLHandler {
 				// store (geo, expression) values
 				// they will be processed in processShowObjectConditionList()
 				// later
-				showObjectConditionList
-						.add(geo, strShowObjectCond);
+				showObjectConditionList.add(geo, strShowObjectCond);
 			}
 
 			return true;
@@ -365,8 +369,7 @@ public class ConsElementXMLHandler {
 
 		try {
 			GeoBoolean bool = (GeoBoolean) geo;
-			bool.setCheckboxFixed(
-					MyXMLHandler.parseBoolean(attrs.get("fixed")));
+			bool.setCheckboxFixed(MyXMLHandler.parseBoolean(attrs.get("fixed")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -401,8 +404,7 @@ public class ConsElementXMLHandler {
 		inlineText.setContent(content);
 	}
 
-	private boolean handleValue(Map<String, String> attrs,
-			ArrayList<String> errors) {
+	private boolean handleValue(Map<String, String> attrs, ArrayList<String> errors) {
 		boolean isBoolean = geo.isGeoBoolean();
 		boolean isNumber = geo.isGeoNumeric();
 		// GGB-244 something that was formerly just a number is now a segment:
@@ -445,8 +447,7 @@ public class ConsElementXMLHandler {
 			} else if (geo.isGeoButton()) {
 				// XXX What's this javascript doing here? (Arnaud)
 				GeoButton button = (GeoButton) geo;
-				Script script = app.createScript(ScriptType.JAVASCRIPT, strVal,
-						false);
+				Script script = app.createScript(ScriptType.JAVASCRIPT, strVal, false);
 				button.setClickScript(script);
 			}
 			return true;
@@ -488,9 +489,10 @@ public class ConsElementXMLHandler {
 		geo.setLineOpacity(255);
 		if (geo instanceof VectorNDValue) {
 			((VectorNDValue) geo)
-					.setMode(((VectorNDValue) geo).getDimension() == 3
-							? Kernel.COORD_CARTESIAN_3D
-							: Kernel.COORD_CARTESIAN);
+					.setMode(
+							((VectorNDValue) geo).getDimension() == 3
+									? Kernel.COORD_CARTESIAN_3D
+									: Kernel.COORD_CARTESIAN);
 		} else if (geo instanceof GeoPolyLine) {
 			geo.setVisibleInView3D(false);
 		} else if (geo instanceof GeoFunction || geo instanceof EquationValue) {
@@ -519,24 +521,24 @@ public class ConsElementXMLHandler {
 		}
 		String style = attrs.get("style");
 		switch (style) {
-		case "cartesian":
-			v.setCartesian();
-			break;
-		case "polar":
-			v.setPolar();
-			break;
-		case "complex":
-			v.setComplex();
-			break;
-		case "cartesian3d":
-			v.setCartesian3D();
-			break;
-		case "spherical":
-			v.setSpherical();
-			break;
-		default:
-			Log.error("unknown style in <coordStyle>: " + style);
-			return false;
+			case "cartesian":
+				v.setCartesian();
+				break;
+			case "polar":
+				v.setPolar();
+				break;
+			case "complex":
+				v.setComplex();
+				break;
+			case "cartesian3d":
+				v.setCartesian3D();
+				break;
+			case "spherical":
+				v.setSpherical();
+				break;
+			default:
+				Log.error("unknown style in <coordStyle>: " + style);
+				return false;
 		}
 		return true;
 	}
@@ -545,12 +547,10 @@ public class ConsElementXMLHandler {
 		try {
 			ScriptManager scriptManager = app.getScriptManager();
 			if ("objectUpdate".equals(attrs.get("type"))) {
-				scriptManager.getUpdateListenerMap().put(geo,
-						scriptManager.fromName(attrs.get("val")));
+				scriptManager.getUpdateListenerMap().put(geo, scriptManager.fromName(attrs.get("val")));
 			}
 			if ("objectClick".equals(attrs.get("type"))) {
-				scriptManager.getClickListenerMap().put(geo,
-						scriptManager.fromName(attrs.get("val")));
+				scriptManager.getClickListenerMap().put(geo, scriptManager.fromName(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -570,8 +570,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handlePointSize(Map<String, String> attrs) {
 		if (geo.isGeoNumeric()) {
-			((GeoNumeric) geo).setSliderBlobSize(
-					StringUtil.parseDouble(attrs.get("val")));
+			((GeoNumeric) geo).setSliderBlobSize(StringUtil.parseDouble(attrs.get("val")));
 			return true;
 		}
 		if (!(geo instanceof PointProperties p)) {
@@ -674,8 +673,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handleBreakpoint(Map<String, String> attrs) {
 		try {
-			geo.setConsProtocolBreakpoint(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			geo.setConsProtocolBreakpoint(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -728,9 +726,7 @@ public class ConsElementXMLHandler {
 			if (size == null) {
 				double appSize = app.getFontSize();
 				double oldSizeInt = Integer.parseInt(oldSize);
-				text.setFontSizeMultiplier(
-						Math.max(appSize + oldSizeInt, MIN_TEXT_SIZE)
-								/ appSize);
+				text.setFontSizeMultiplier(Math.max(appSize + oldSizeInt, MIN_TEXT_SIZE) / appSize);
 			} else {
 				text.setFontSizeMultiplier(StringUtil.parseDouble(size));
 			}
@@ -776,14 +772,12 @@ public class ConsElementXMLHandler {
 
 	private boolean handleInBackground(Map<String, String> attrs) {
 		if (!geo.isGeoImage()) {
-			Log.error(
-					"wrong element type for <inBackground>: " + geo.getClass());
+			Log.error("wrong element type for <inBackground>: " + geo.getClass());
 			return false;
 		}
 
 		try {
-			((GeoImage) geo).setInBackground(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			((GeoImage) geo).setInBackground(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -797,8 +791,7 @@ public class ConsElementXMLHandler {
 		}
 
 		try {
-			((GeoImage) geo)
-					.setCentered(MyXMLHandler.parseBoolean(attrs.get("val")));
+			((GeoImage) geo).setCentered(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -807,14 +800,12 @@ public class ConsElementXMLHandler {
 
 	private boolean handleInterpolate(Map<String, String> attrs) {
 		if (!geo.isGeoImage()) {
-			Log.error(
-					"wrong element type for <interpolate>: " + geo.getClass());
+			Log.error("wrong element type for <interpolate>: " + geo.getClass());
 			return false;
 		}
 
 		try {
-			((GeoImage) geo).setInterpolate(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			((GeoImage) geo).setInterpolate(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -823,9 +814,8 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAuxiliary(Map<String, String> attrs) {
 		try {
-			geo.setAuxiliaryObject(MyXMLHandler.parseBoolean(attrs.get("val"))
-							? Auxiliary.YES_SAVE
-							: Auxiliary.NO_SAVE);
+			geo.setAuxiliaryObject(
+					MyXMLHandler.parseBoolean(attrs.get("val")) ? Auxiliary.YES_SAVE : Auxiliary.NO_SAVE);
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -857,8 +847,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handleIsLaTeX(Map<String, String> attrs) {
 		try {
-			((GeoText) geo).setLaTeX(
-					MyXMLHandler.parseBoolean(attrs.get("val")), false);
+			((GeoText) geo).setLaTeX(MyXMLHandler.parseBoolean(attrs.get("val")), false);
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -883,14 +872,12 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleAbsoluteScreenLocation(
-			Map<String, String> attrs, boolean absolute) {
+	private boolean handleAbsoluteScreenLocation(Map<String, String> attrs, boolean absolute) {
 		if (geo.isDefaultGeo()) {
 			return false;
 		}
 		if (!(geo instanceof AbsoluteScreenLocateable absLoc)) {
-			Log.error("wrong element type for <absoluteScreenLocation>: "
-					+ geo.getClass());
+			Log.error("wrong element type for <absoluteScreenLocation>: " + geo.getClass());
 			return false;
 		}
 
@@ -910,17 +897,14 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleAllowReflexAngle(
-			Map<String, String> attrs) {
+	private boolean handleAllowReflexAngle(Map<String, String> attrs) {
 		if (!(geo instanceof AngleProperties angle)) {
-			Log.error("wrong element type for <allowReflexAngle>: "
-					+ geo.getClass());
+			Log.error("wrong element type for <allowReflexAngle>: " + geo.getClass());
 			return false;
 		}
 
 		try {
-			angle.setAllowReflexAngle(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			angle.setAllowReflexAngle(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 
@@ -928,17 +912,14 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleEmphasizeRightAngle(
-			Map<String, String> attrs) {
+	private boolean handleEmphasizeRightAngle(Map<String, String> attrs) {
 		if (!(geo instanceof AngleProperties angle)) {
-			Log.error("wrong element type for <emphasizeRightAngle>: "
-					+ geo.getClass());
+			Log.error("wrong element type for <emphasizeRightAngle>: " + geo.getClass());
 			return false;
 		}
 
 		try {
-			angle.setEmphasizeRightAngle(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			angle.setEmphasizeRightAngle(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 
@@ -1015,8 +996,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handleAlgebra(Map<String, String> attrs) {
 		try {
-			geo.setAlgebraLabelVisible(MyXMLHandler
-					.parseBooleanRev(attrs.get("labelVisible")));
+			geo.setAlgebraLabelVisible(MyXMLHandler.parseBooleanRev(attrs.get("labelVisible")));
 			return true;
 		} catch (RuntimeException e) {
 			Log.debug(e);
@@ -1026,11 +1006,8 @@ public class ConsElementXMLHandler {
 
 	private boolean handleTableView(Map<String, String> attrs) {
 		try {
-			((GeoEvaluatable) geo).setTableColumn(
-					(int) MyXMLHandler.parseDoubleNaN(attrs.get("column")));
-			((GeoEvaluatable) geo)
-					.setPointsVisible(
-							MyXMLHandler.parseBoolean(attrs.get("points")));
+			((GeoEvaluatable) geo).setTableColumn((int) MyXMLHandler.parseDoubleNaN(attrs.get("column")));
+			((GeoEvaluatable) geo).setPointsVisible(MyXMLHandler.parseBoolean(attrs.get("points")));
 			return true;
 		} catch (RuntimeException e) {
 			Log.debug(e);
@@ -1045,8 +1022,7 @@ public class ConsElementXMLHandler {
 		}
 		try {
 			video.setSrc(attrs.get("src"), attrs.get("type"));
-			video.setSize(Integer.parseInt(attrs.get("width")),
-					Integer.parseInt(attrs.get("height")));
+			video.setSize(Integer.parseInt(attrs.get("width")), Integer.parseInt(attrs.get("height")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1056,17 +1032,14 @@ public class ConsElementXMLHandler {
 	/*
 	 * needed for old files (4.2 and earlier)
 	 */
-	private boolean handleForceReflexAngle(
-			Map<String, String> attrs) {
+	private boolean handleForceReflexAngle(Map<String, String> attrs) {
 		if (!(geo instanceof AngleProperties angle)) {
-			Log.error("wrong element type for <forceReflexAngle>: "
-					+ geo.getClass());
+			Log.error("wrong element type for <forceReflexAngle>: " + geo.getClass());
 			return false;
 		}
 
 		try {
-			angle.setForceReflexAngle(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			angle.setForceReflexAngle(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 
@@ -1074,34 +1047,28 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleOutlyingIntersections(
-			Map<String, String> attrs) {
+	private boolean handleOutlyingIntersections(Map<String, String> attrs) {
 		if (!(geo instanceof LimitedPath lpath)) {
-			Log.debug("wrong element type for <outlyingIntersections>: "
-					+ geo.getClass());
+			Log.debug("wrong element type for <outlyingIntersections>: " + geo.getClass());
 			return false;
 		}
 
 		try {
-			lpath.setAllowOutlyingIntersections(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			lpath.setAllowOutlyingIntersections(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
 		}
 	}
 
-	private boolean handleKeepTypeOnTransform(
-			Map<String, String> attrs) {
+	private boolean handleKeepTypeOnTransform(Map<String, String> attrs) {
 		if (!(geo instanceof LimitedPath lpath)) {
-			Log.debug("wrong element type for <outlyingIntersections>: "
-					+ geo.getGeoClassType());
+			Log.debug("wrong element type for <outlyingIntersections>: " + geo.getGeoClassType());
 			return false;
 		}
 
 		try {
-			lpath.setKeepTypeOnGeometricTransform(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			lpath.setKeepTypeOnGeometricTransform(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1110,8 +1077,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handleSegmentStartStyle(Map<String, String> attrs) {
 		if (!(geo instanceof HasSegmentStyle)) {
-			Log.debug("wrong element type for segment style: "
-					+ geo.getGeoClassType());
+			Log.debug("wrong element type for segment style: " + geo.getGeoClassType());
 			return false;
 		}
 
@@ -1125,8 +1091,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handleSegmentEndStyle(Map<String, String> attrs) {
 		if (!(geo instanceof HasSegmentStyle)) {
-			Log.debug("wrong element type for segment style: "
-					+ geo.getGeoClassType());
+			Log.debug("wrong element type for segment style: " + geo.getGeoClassType());
 			return false;
 		}
 
@@ -1145,19 +1110,16 @@ public class ConsElementXMLHandler {
 		}
 		symbolicTagProcessed = true;
 		try {
-			hasSymbolicMode.setSymbolicMode(MyXMLHandler.parseBoolean(attrs.get("val")),
-					false);
+			hasSymbolicMode.setSymbolicMode(MyXMLHandler.parseBoolean(attrs.get("val")), false);
 			return true;
 		} catch (RuntimeException e) {
 			return false;
 		}
 	}
 
-	private boolean handleSlopeTriangleSize(
-			Map<String, String> attrs) {
+	private boolean handleSlopeTriangleSize(Map<String, String> attrs) {
 		if (!geo.isGeoNumeric()) {
-			Log.error("wrong element type for <slopeTriangleSize>: "
-					+ geo.getClass());
+			Log.error("wrong element type for <slopeTriangleSize>: " + geo.getClass());
 			return false;
 		}
 
@@ -1172,41 +1134,42 @@ public class ConsElementXMLHandler {
 
 	private boolean handleExtraTag(Map<String, String> attrs) {
 		ChartStyle algo = ((ChartStyleGeo) geo).getStyle();
-		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
+		if (!"".equals(attrs.get("key"))
+				&& !"".equals(attrs.get("value"))
 				&& !"".equals(attrs.get("barNumber"))) {
 			switch (attrs.get("key")) {
-			case "barAlpha":
-				algo.setBarAlpha(Float.parseFloat(attrs.get("value")),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			case "barHatchDistance":
-				algo.setBarHatchDistance(Integer.parseInt(attrs.get("value")),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			case "barFillType":
-				algo.setBarFillType(
-						FillType.values()[Integer.parseInt(attrs.get("value"))],
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			case "barHatchAngle":
-				algo.setBarHatchAngle(Integer.parseInt(attrs.get("value")),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			case "barImage":
-				algo.setBarImage(attrs.get("value"),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			case "barSymbol":
-				algo.setBarSymbol(attrs.get("value"),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
-			case "barColor":
-				String[] c = attrs.get("value").split(",");
-				algo.setBarColor(
-						GColor.newColor(Integer.parseInt(c[0].substring(5)),
-								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
-						Integer.parseInt(attrs.get("barNumber")));
-				return true;
+				case "barAlpha":
+					algo.setBarAlpha(
+							Float.parseFloat(attrs.get("value")), Integer.parseInt(attrs.get("barNumber")));
+					return true;
+				case "barHatchDistance":
+					algo.setBarHatchDistance(
+							Integer.parseInt(attrs.get("value")), Integer.parseInt(attrs.get("barNumber")));
+					return true;
+				case "barFillType":
+					algo.setBarFillType(
+							FillType.values()[Integer.parseInt(attrs.get("value"))],
+							Integer.parseInt(attrs.get("barNumber")));
+					return true;
+				case "barHatchAngle":
+					algo.setBarHatchAngle(
+							Integer.parseInt(attrs.get("value")), Integer.parseInt(attrs.get("barNumber")));
+					return true;
+				case "barImage":
+					algo.setBarImage(attrs.get("value"), Integer.parseInt(attrs.get("barNumber")));
+					return true;
+				case "barSymbol":
+					algo.setBarSymbol(attrs.get("value"), Integer.parseInt(attrs.get("barNumber")));
+					return true;
+				case "barColor":
+					String[] c = attrs.get("value").split(",");
+					algo.setBarColor(
+							GColor.newColor(
+									Integer.parseInt(c[0].substring(5)),
+									Integer.parseInt(c[1]),
+									Integer.parseInt(c[2])),
+							Integer.parseInt(attrs.get("barNumber")));
+					return true;
 			}
 		}
 		return false;
@@ -1215,10 +1178,10 @@ public class ConsElementXMLHandler {
 	/**
 	 * Start Points have to be handled at the end of the construction, because
 	 * they could depend on objects that are defined after this GeoElement.
-	 * 
+	 *
 	 * So we store all (geo, startpoint expression) pairs and process them at
 	 * the end of the construction.
-	 * 
+	 *
 	 * @see #processStartPointList()
 	 */
 	private void handleStartPoint(Map<String, String> attrs) {
@@ -1260,8 +1223,8 @@ public class ConsElementXMLHandler {
 		}
 
 		if (locGeo instanceof AbsoluteScreenLocateable) {
-			((AbsoluteScreenLocateable) locGeo).setAbsoluteScreenLocActive(
-					MyXMLHandler.parseBoolean(attrs.get("absolute")));
+			((AbsoluteScreenLocateable) locGeo)
+					.setAbsoluteScreenLocActive(MyXMLHandler.parseBoolean(attrs.get("absolute")));
 		}
 		// relative start point (expression or label expected)
 		String exp = attrs.get("exp");
@@ -1294,8 +1257,7 @@ public class ConsElementXMLHandler {
 					// set other start points later
 					// store (geo, point, number) values
 					// they will be processed in processStartPoints() later
-					startPointList
-							.add(new LocateableExpPair(locGeo, p, number));
+					startPointList.add(new LocateableExpPair(locGeo, p, number));
 					locGeo.setWaitForStartPoint();
 				}
 			} catch (CircularDefinitionException | RuntimeException ignored) {
@@ -1366,8 +1328,7 @@ public class ConsElementXMLHandler {
 		if (geo instanceof GeoList) {
 			((GeoList) geo).setTypeStringForXML(val);
 		} else {
-			Log.error("handleListType: expected LIST, got "
-					+ geo.getGeoClassType());
+			Log.error("handleListType: expected LIST, got " + geo.getGeoClassType());
 		}
 
 		return true;
@@ -1376,10 +1337,10 @@ public class ConsElementXMLHandler {
 	/**
 	 * Linked Geos have to be handled at the end of the construction, because
 	 * they could depend on objects that are defined after this GeoElement.
-	 * 
+	 *
 	 * So we store all (geo, expression) pairs and process them at the end of
 	 * the construction.
-	 * 
+	 *
 	 * @see #processLinkedGeoList()
 	 */
 	private boolean handleLinkedGeo(Map<String, String> attrs) {
@@ -1471,7 +1432,7 @@ public class ConsElementXMLHandler {
 
 	private void handleEmbedSettings(Map<String, String> attrs) {
 		if (geo instanceof GeoEmbed) {
-			for (Map.Entry<String, String> entry: attrs.entrySet()) {
+			for (Map.Entry<String, String> entry : attrs.entrySet()) {
 				((GeoEmbed) geo).attr(entry.getKey(), entry.getValue());
 			}
 		}
@@ -1544,8 +1505,7 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleSpreadsheetTrace(
-			Map<String, String> attrs) {
+	private boolean handleSpreadsheetTrace(Map<String, String> attrs) {
 
 		// XML handling for new tracing code
 		if (!geo.isSpreadsheetTraceable()) {
@@ -1556,8 +1516,7 @@ public class ConsElementXMLHandler {
 		try {
 
 			// set geo for tracing
-			geo.setSpreadsheetTrace(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			geo.setSpreadsheetTrace(MyXMLHandler.parseBoolean(attrs.get("val")));
 
 			SpreadsheetTraceSettings t = geo.getTraceSettings();
 			t.traceColumn1 = Integer.parseInt(attrs.get("traceColumn1"));
@@ -1568,14 +1527,11 @@ public class ConsElementXMLHandler {
 			t.numRows = Integer.parseInt(attrs.get("numRows"));
 			t.headerOffset = Integer.parseInt(attrs.get("headerOffset"));
 
-			t.doColumnReset = MyXMLHandler
-					.parseBoolean(attrs.get("doColumnReset"));
+			t.doColumnReset = MyXMLHandler.parseBoolean(attrs.get("doColumnReset"));
 			t.doRowLimit = MyXMLHandler.parseBoolean(attrs.get("doRowLimit"));
 			t.showLabel = MyXMLHandler.parseBoolean(attrs.get("showLabel"));
-			t.showTraceList = MyXMLHandler
-					.parseBoolean(attrs.get("showTraceList"));
-			t.doTraceGeoCopy = MyXMLHandler
-					.parseBoolean(attrs.get("doTraceGeoCopy"));
+			t.showTraceList = MyXMLHandler.parseBoolean(attrs.get("showTraceList"));
+			t.doTraceGeoCopy = MyXMLHandler.parseBoolean(attrs.get("doTraceGeoCopy"));
 
 			String stringPause = attrs.get("pause");
 			if (stringPause == null) {
@@ -1599,19 +1555,16 @@ public class ConsElementXMLHandler {
 
 	private boolean handleShowTrimmed(Map<String, String> attrs) {
 		try {
-			geo.setShowTrimmedIntersectionLines(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			geo.setShowTrimmedIntersectionLines(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
 		}
 	}
 
-	private boolean handleSelectionAllowed(
-			Map<String, String> attrs) {
+	private boolean handleSelectionAllowed(Map<String, String> attrs) {
 		try {
-			geo.setSelectionAllowed(
-					MyXMLHandler.parseBoolean(attrs.get("val")));
+			geo.setSelectionAllowed(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1621,8 +1574,7 @@ public class ConsElementXMLHandler {
 	private boolean handleSelectedIndex(Map<String, String> attrs) {
 		try {
 			if (geo.isGeoList()) {
-				((GeoList) geo).setSelectedIndex(
-						Integer.parseInt(attrs.get("val")));
+				((GeoList) geo).setSelectedIndex(Integer.parseInt(attrs.get("val")));
 			}
 			return true;
 		} catch (RuntimeException e) {
@@ -1640,13 +1592,11 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleLevelOfDetailQuality(
-			Map<String, String> attrs) {
+	private boolean handleLevelOfDetailQuality(Map<String, String> attrs) {
 		try {
 			boolean lod = MyXMLHandler.parseBoolean(attrs.get("val"));
 			if (lod) {
-				((SurfaceEvaluable) geo)
-						.setLevelOfDetail(LevelOfDetail.QUALITY);
+				((SurfaceEvaluable) geo).setLevelOfDetail(LevelOfDetail.QUALITY);
 			}
 			return true;
 		} catch (Exception e) {
@@ -1709,7 +1659,7 @@ public class ConsElementXMLHandler {
 
 	/**
 	 * handler matrix for a conic or a quadric
-	 * 
+	 *
 	 * @param attrs
 	 *            attributes
 	 */
@@ -1723,16 +1673,18 @@ public class ConsElementXMLHandler {
 			// <eigenvectors> should have been set earlier
 
 			if (needsValuesFromXML(geo)) {
-				double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
-						StringUtil.parseDouble(attrs.get("A1")),
-						StringUtil.parseDouble(attrs.get("A2")),
-						StringUtil.parseDouble(attrs.get("A3")),
-						StringUtil.parseDouble(attrs.get("A4")),
-						StringUtil.parseDouble(attrs.get("A5")),
-						StringUtil.parseDouble(attrs.get("A6")),
-						StringUtil.parseDouble(attrs.get("A7")),
-						StringUtil.parseDouble(attrs.get("A8")),
-						StringUtil.parseDouble(attrs.get("A9")) };
+				double[] matrix = {
+					StringUtil.parseDouble(attrs.get("A0")),
+					StringUtil.parseDouble(attrs.get("A1")),
+					StringUtil.parseDouble(attrs.get("A2")),
+					StringUtil.parseDouble(attrs.get("A3")),
+					StringUtil.parseDouble(attrs.get("A4")),
+					StringUtil.parseDouble(attrs.get("A5")),
+					StringUtil.parseDouble(attrs.get("A6")),
+					StringUtil.parseDouble(attrs.get("A7")),
+					StringUtil.parseDouble(attrs.get("A8")),
+					StringUtil.parseDouble(attrs.get("A9"))
+				};
 				quadric.setMatrixFromXML(matrix);
 			} else {
 				quadric.ensureClassified();
@@ -1745,12 +1697,14 @@ public class ConsElementXMLHandler {
 			// set matrix and classify conic now
 			// <eigenvectors> should have been set earlier
 			if (needsValuesFromXML(geo)) {
-				double[] matrix = {StringUtil.parseDouble(attrs.get("A0")),
-						StringUtil.parseDouble(attrs.get("A1")),
-						StringUtil.parseDouble(attrs.get("A2")),
-						StringUtil.parseDouble(attrs.get("A3")),
-						StringUtil.parseDouble(attrs.get("A4")),
-						StringUtil.parseDouble(attrs.get("A5"))};
+				double[] matrix = {
+					StringUtil.parseDouble(attrs.get("A0")),
+					StringUtil.parseDouble(attrs.get("A1")),
+					StringUtil.parseDouble(attrs.get("A2")),
+					StringUtil.parseDouble(attrs.get("A3")),
+					StringUtil.parseDouble(attrs.get("A4")),
+					StringUtil.parseDouble(attrs.get("A5"))
+				};
 				conic.setMatrix(matrix);
 			} else {
 				conic.ensureClassified();
@@ -1789,8 +1743,7 @@ public class ConsElementXMLHandler {
 
 	private boolean handleCoefficients(Map<String, String> attrs) {
 		if (!geo.isGeoImplicitCurve()) {
-			Log.warn(
-					"wrong element type for <coefficients>: " + geo.getClass());
+			Log.warn("wrong element type for <coefficients>: " + geo.getClass());
 			return false;
 		}
 		try {
@@ -1808,27 +1761,25 @@ public class ConsElementXMLHandler {
 				int start = 0;
 				for (int c = 1; c < data.length(); c++) {
 					switch (data.charAt(c)) {
-					default:
-						// do nothing
-						break;
-					case '[':
-						if (!newRow.isEmpty()) {
-							return false;
-						}
-						start = c + 1;
-						break;
-					case ']':
-						newRow.add(StringUtil
-								.parseDouble(data.substring(start, c)));
-						start = c + 1;
-						collect.add(newRow);
-						newRow = new ArrayList<>();
-						c++; // jump over ','
-						break;
-					case ',':
-						newRow.add(StringUtil
-								.parseDouble(data.substring(start, c)));
-						start = c + 1;
+						default:
+							// do nothing
+							break;
+						case '[':
+							if (!newRow.isEmpty()) {
+								return false;
+							}
+							start = c + 1;
+							break;
+						case ']':
+							newRow.add(StringUtil.parseDouble(data.substring(start, c)));
+							start = c + 1;
+							collect.add(newRow);
+							newRow = new ArrayList<>();
+							c++; // jump over ','
+							break;
+						case ',':
+							newRow.add(StringUtil.parseDouble(data.substring(start, c)));
+							start = c + 1;
 					}
 				}
 				double[][] coeff = new double[collect.size()][];
@@ -1866,17 +1817,14 @@ public class ConsElementXMLHandler {
 			if (geo.isIndependent() && valid) {
 				String value = attrs.get("value");
 				if (value != null) {
-					ValidExpression ve = xmlHandler.parser
-							.parseGeoGebraExpression(value);
+					ValidExpression ve = xmlHandler.parser.parseGeoGebraExpression(value);
 					geo.setDefinition(ve.wrap());
 					if (ve.unwrap() instanceof Equation) {
-						((GeoImplicit) geo).fromEquation((Equation) ve.unwrap(),
-								null);
+						((GeoImplicit) geo).fromEquation((Equation) ve.unwrap(), null);
 					}
 				}
 			}
-			if (attrs.get("show") != null && attrs.get("show").equals("true")
-					&& valid) {
+			if (attrs.get("show") != null && attrs.get("show").equals("true") && valid) {
 				((GeoImplicit) geo).setToUser();
 			} else {
 				((GeoImplicit) geo).setToImplicit();
@@ -1941,8 +1889,7 @@ public class ConsElementXMLHandler {
 					// need to to this at end of construction (dependencies!)
 					dynamicColorList.add(geo, sb.toString());
 					geo.setColorSpace(
-							colorSpace == null ? GeoElement.COLORSPACE_RGB
-									: Integer.parseInt(colorSpace));
+							colorSpace == null ? GeoElement.COLORSPACE_RGB : Integer.parseInt(colorSpace));
 				}
 			} catch (RuntimeException e) {
 				Log.debug(e);
@@ -1970,8 +1917,7 @@ public class ConsElementXMLHandler {
 
 		String fillType = attrs.get("fillType");
 		if (fillType != null) {
-			geo.setFillType(
-					FillType.values()[Integer.parseInt(fillType)]);
+			geo.setFillType(FillType.values()[Integer.parseInt(fillType)]);
 		}
 		String fillSymbol = attrs.get("fillSymbol");
 		if (fillSymbol != null) {
@@ -1985,8 +1931,7 @@ public class ConsElementXMLHandler {
 
 		alpha = attrs.get("alpha");
 		// ignore alpha value for lists prior to GeoGebra 3.2
-		if (alpha != null
-				&& (!geo.isGeoList() || xmlHandler.ggbFileFormat > 3.19)) {
+		if (alpha != null && (!geo.isGeoList() || xmlHandler.ggbFileFormat > 3.19)) {
 			geo.setAlphaValue(Float.parseFloat(alpha));
 		}
 		return true;
@@ -1997,11 +1942,9 @@ public class ConsElementXMLHandler {
 	 *            attributes
 	 * @return success
 	 */
-	private boolean handleEigenvectorsConic(
-			Map<String, String> attrs) {
+	private boolean handleEigenvectorsConic(Map<String, String> attrs) {
 		if (!geo.isGeoConic()) {
-			Log.error(
-					"wrong element type for <eigenvectors>: " + geo.getClass());
+			Log.error("wrong element type for <eigenvectors>: " + geo.getClass());
 			return false;
 		}
 		try {
@@ -2010,7 +1953,8 @@ public class ConsElementXMLHandler {
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
 			if (needsValuesFromXML(geo)) {
-				conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+				conic.setEigenvectors(
+						StringUtil.parseDouble(attrs.get("x0")),
 						StringUtil.parseDouble(attrs.get("y0")),
 						StringUtil.parseDouble(attrs.get("z0")),
 						StringUtil.parseDouble(attrs.get("x1")),
@@ -2040,7 +1984,8 @@ public class ConsElementXMLHandler {
 			// conic.setMatrix()
 			setEigenvectorsCalled = true;
 			if (needsValuesFromXML(geo)) {
-				quadric.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+				quadric.setEigenvectors(
+						StringUtil.parseDouble(attrs.get("x0")),
 						StringUtil.parseDouble(attrs.get("y0")),
 						StringUtil.parseDouble(attrs.get("z0")),
 						StringUtil.parseDouble(attrs.get("x1")),
@@ -2062,9 +2007,9 @@ public class ConsElementXMLHandler {
 			((TextProperties) geo).setFontSizeMultiplier(1);
 			((TextProperties) geo).setSerifFont(false);
 			((TextProperties) geo).setFontStyle(GFont.PLAIN);
-		} else if (!lineStyleTagProcessed && ((geo.isGeoFunctionNVar()
-				&& ((GeoFunctionNVar) geo).isFun2Var())
-				|| geo.isGeoSurfaceCartesian())) {
+		} else if (!lineStyleTagProcessed
+				&& ((geo.isGeoFunctionNVar() && ((GeoFunctionNVar) geo).isFun2Var())
+						|| geo.isGeoSurfaceCartesian())) {
 			geo.setLineThickness(0);
 		}
 
@@ -2102,8 +2047,7 @@ public class ConsElementXMLHandler {
 			if (isUndefinedGeoNumber()) {
 				geo.setEuclidianVisible(false);
 			} else {
-				geo.setEuclidianVisible(
-						MyXMLHandler.parseBoolean(attrs.get("object")));
+				geo.setEuclidianVisible(MyXMLHandler.parseBoolean(attrs.get("object")));
 				geo.setLabelVisible(MyXMLHandler.parseBoolean(attrs.get("label")));
 			}
 
@@ -2192,14 +2136,14 @@ public class ConsElementXMLHandler {
 
 	/**
 	 * Handle start tag inside &lt;element&gt;
-	 * 
+	 *
 	 * @param eName
 	 *            element name
 	 * @param attrs
 	 *            attributes
 	 */
-	protected void startGeoElement(String eName,
-			Map<String, String> attrs, ArrayList<String> errors) {
+	protected void startGeoElement(
+			String eName, Map<String, String> attrs, ArrayList<String> errors) {
 		if (geo == null) {
 			Log.error("no element set for <" + eName + ">");
 			return;
@@ -2210,290 +2154,290 @@ public class ConsElementXMLHandler {
 			handleScript(attrs, scriptType);
 		} else {
 			switch (eName) {
-			case "auxiliary":
-				handleAuxiliary(attrs);
-				break;
-			case "autocolor":
-				handleAutocolor(attrs);
-				break;
-			case "animation":
-				handleAnimation(attrs);
-				break;
-			case "arcSize":
-				handleArcSize(attrs);
-				break;
-			case "allowReflexAngle":
-				handleAllowReflexAngle(attrs);
-				break;
-			case "absoluteScreenLocation":
-				handleAbsoluteScreenLocation(attrs, true);
-				break;
-			case "angleStyle":
-				handleAngleStyle(attrs);
-				break;
-			case "audio":
-				handleAudio(attrs);
-				break;
-			case "algebra":
-				handleAlgebra(attrs);
-				break;
-			case "breakpoint":
-				handleBreakpoint(attrs);
-				break;
-			case "bgColor":
-				handleBgColor(attrs);
-				break;
-			case "borderColor":
-				handleBorderColor(attrs);
-				break;
-			case "boundingBox":
-				handleBoundingBox(attrs);
-				break;
-			case "coords":
-				handleCoords(attrs);
-				break;
-			case "coordStyle":
-				handleCoordStyle(attrs);
-				break;
-			case "caption":
-				handleCaption(attrs);
-				break;
-			case "condition":
-				handleCondition(attrs);
-				break;
-			case "contentSize":
-				handleContentSize(attrs);
-				break;
-			case "checkbox":
-				handleCheckbox(attrs);
-				break;
-			case "coefficients":
-				handleCoefficients(attrs);
-				break;
-			case "comboBox":
-				handleComboBox(attrs);
-				break;
-			case "contentSerif":
-				handleSerifContent(attrs);
-				break;
-			case "cropBox":
-				handleCropBox(attrs);
-				break;
-			case "curveParam":
-				handleCurveParam(attrs);
-				break;
-			case "casMap":
-				xmlHandler.casMapForElement();
-				break;
-			case "content":
-				handleContentParam(attrs);
-				break;
-			case "decoration":
-				handleDecoration(attrs);
-				break;
-			case "decimals":
-				handleTextDecimals(attrs);
-				break;
-			case "dimensions":
-				handleDimensions(attrs);
-				break;
-			case "eqnStyle":
-				handleEqnStyle(attrs);
-				break;
-			case "eigenvectors":
-				handleEigenvectors(attrs);
-				break;
-			case "emphasizeRightAngle":
-				handleEmphasizeRightAngle(attrs);
-				break;
-			case "embed":
-				handleEmbed(attrs);
-				break;
-			case "embedSettings":
-				handleEmbedSettings(attrs);
-				break;
-			case "endStyle":
-				handleSegmentEndStyle(attrs);
-				break;
-			case "fixed":
-				handleFixed(attrs);
-				break;
-			case "file":
-				handleFile(attrs);
-				break;
-			case "font":
-				handleTextFont(attrs);
-				break;
-			case "forceReflexAngle":
-				handleForceReflexAngle(attrs);
-				break;
-			case "dynamicCaption":
-				handleDynamicCaption(attrs);
-				break;
-			case "fading":
-				handleFading(attrs);
-				break;
-			case "headStyle":
-				handleHeadStyle(attrs);
-				return;
-			case "isLaTeX":
-				handleIsLaTeX(attrs);
-				break;
-			case "incrementY":
-				handleVerticalIncrement(attrs);
-				break;
-			case "inBackground":
-				handleInBackground(attrs);
-				break;
-			case "interpolate":
-				handleInterpolate(attrs);
-				break;
-			case "isMask":
-				handleIsMask(attrs);
-				break;
-			case "isShape":
-				// don't print error, skip silently
-				break;
-			case "centered":
-				handleCentered(attrs);
-				break;
-			case "keepTypeOnTransform":
-				handleKeepTypeOnTransform(attrs);
-				break;
-			case "lineStyle":
-				handleLineStyle(attrs);
-				break;
-			case "labelOffset":
-				handleLabelOffset(attrs);
-				break;
-			case "labelMode":
-				handleLabelMode(attrs);
-				break;
-			case "layer":
-				handleLayer(attrs);
-				break;
-			case "linkedGeo":
-				handleLinkedGeo(attrs);
-				break;
-			case "length":
-				handleLength(attrs);
-				break;
-			case "tempUserInput":
-				handleTempUserInput(attrs);
-				break;
-			case "listType":
-				handleListType(attrs);
-				break;
-			case "listener":
-				handleListeners(attrs);
-				break;
-			case "levelOfDetailQuality":
-				handleLevelOfDetailQuality(attrs);
-				break;
-			case "matrix":
-				handleMatrix(attrs);
-				break;
-			case "objColor":
-				handleObjColor(attrs);
-				break;
-			case "ordering":
-				handleOrdering(attrs);
-				break;
-			case "outlyingIntersections":
-				handleOutlyingIntersections(attrs);
-				break;
-			case "parent":
-				handleParent(attrs);
-				break;
-			case "parentLabel":
-				handleParentLabel(attrs);
-				break;
-			case "pointSize":
-				handlePointSize(attrs);
-				break;
-			case "pointStyle":
-				handlePointStyle(attrs);
-				break;
-			case "show":
-				handleShow(attrs);
-				break;
-			case "showOnAxis":
-				handleShowOnAxis(attrs);
-				break;
-			case "simplifyCoefficients":
-				handleSimplifyCoefficients(attrs);
-				break;
-			case "startPoint":
-				handleStartPoint(attrs);
-				break;
-			case "slider":
-				handleSlider(attrs);
-				break;
-			case "symbolic":
-				handleSymbolic(attrs);
-				break;
-			case "slopeTriangleSize":
-				handleSlopeTriangleSize(attrs);
-				break;
-			case "significantfigures":
-				handleTextFigures(attrs);
-				break;
-			case "spreadsheetTrace":
-				handleSpreadsheetTrace(attrs);
-				break;
-			case "startStyle":
-				handleSegmentStartStyle(attrs);
-				break;
-			case "strokeBezierCoords":
-				handleStrokeBezierCoords(attrs);
-				break;
-			case "strokeCoords":
-				handleStrokeCoords(attrs);
-				break;
-			case "showTrimmed":
-				handleShowTrimmed(attrs);
-				break;
-			case "selectionAllowed":
-				handleSelectionAllowed(attrs);
-				break;
-			case "selectedIndex":
-				handleSelectedIndex(attrs);
-				break;
-			case "tableview":
-				handleTableView(attrs);
-				break;
-			case "trace":
-				handleTrace(attrs);
-				break;
-			case "tooltipMode":
-				handleTooltipMode(attrs);
-				break;
-			case "tag":
-				handleExtraTag(attrs);
-				break;
-			case "tags":
-				// ignore
-				break;
-			case "userinput":
-				handleUserInput(attrs);
-				break;
-			case "value":
-				handleValue(attrs, errors);
-				break;
-			case "variables":
-				handleVariables(attrs);
-				break;
-			case "video":
-				handleVideo(attrs);
-				break;
-			case "textAlign":
-				handleTextAlign(attrs);
-				break;
-			case "verticalAlign":
-				handleVerticalAlign(attrs);
-				break;
-			default:
-				Log.error("unknown tag in <element>: " + eName);
+				case "auxiliary":
+					handleAuxiliary(attrs);
+					break;
+				case "autocolor":
+					handleAutocolor(attrs);
+					break;
+				case "animation":
+					handleAnimation(attrs);
+					break;
+				case "arcSize":
+					handleArcSize(attrs);
+					break;
+				case "allowReflexAngle":
+					handleAllowReflexAngle(attrs);
+					break;
+				case "absoluteScreenLocation":
+					handleAbsoluteScreenLocation(attrs, true);
+					break;
+				case "angleStyle":
+					handleAngleStyle(attrs);
+					break;
+				case "audio":
+					handleAudio(attrs);
+					break;
+				case "algebra":
+					handleAlgebra(attrs);
+					break;
+				case "breakpoint":
+					handleBreakpoint(attrs);
+					break;
+				case "bgColor":
+					handleBgColor(attrs);
+					break;
+				case "borderColor":
+					handleBorderColor(attrs);
+					break;
+				case "boundingBox":
+					handleBoundingBox(attrs);
+					break;
+				case "coords":
+					handleCoords(attrs);
+					break;
+				case "coordStyle":
+					handleCoordStyle(attrs);
+					break;
+				case "caption":
+					handleCaption(attrs);
+					break;
+				case "condition":
+					handleCondition(attrs);
+					break;
+				case "contentSize":
+					handleContentSize(attrs);
+					break;
+				case "checkbox":
+					handleCheckbox(attrs);
+					break;
+				case "coefficients":
+					handleCoefficients(attrs);
+					break;
+				case "comboBox":
+					handleComboBox(attrs);
+					break;
+				case "contentSerif":
+					handleSerifContent(attrs);
+					break;
+				case "cropBox":
+					handleCropBox(attrs);
+					break;
+				case "curveParam":
+					handleCurveParam(attrs);
+					break;
+				case "casMap":
+					xmlHandler.casMapForElement();
+					break;
+				case "content":
+					handleContentParam(attrs);
+					break;
+				case "decoration":
+					handleDecoration(attrs);
+					break;
+				case "decimals":
+					handleTextDecimals(attrs);
+					break;
+				case "dimensions":
+					handleDimensions(attrs);
+					break;
+				case "eqnStyle":
+					handleEqnStyle(attrs);
+					break;
+				case "eigenvectors":
+					handleEigenvectors(attrs);
+					break;
+				case "emphasizeRightAngle":
+					handleEmphasizeRightAngle(attrs);
+					break;
+				case "embed":
+					handleEmbed(attrs);
+					break;
+				case "embedSettings":
+					handleEmbedSettings(attrs);
+					break;
+				case "endStyle":
+					handleSegmentEndStyle(attrs);
+					break;
+				case "fixed":
+					handleFixed(attrs);
+					break;
+				case "file":
+					handleFile(attrs);
+					break;
+				case "font":
+					handleTextFont(attrs);
+					break;
+				case "forceReflexAngle":
+					handleForceReflexAngle(attrs);
+					break;
+				case "dynamicCaption":
+					handleDynamicCaption(attrs);
+					break;
+				case "fading":
+					handleFading(attrs);
+					break;
+				case "headStyle":
+					handleHeadStyle(attrs);
+					return;
+				case "isLaTeX":
+					handleIsLaTeX(attrs);
+					break;
+				case "incrementY":
+					handleVerticalIncrement(attrs);
+					break;
+				case "inBackground":
+					handleInBackground(attrs);
+					break;
+				case "interpolate":
+					handleInterpolate(attrs);
+					break;
+				case "isMask":
+					handleIsMask(attrs);
+					break;
+				case "isShape":
+					// don't print error, skip silently
+					break;
+				case "centered":
+					handleCentered(attrs);
+					break;
+				case "keepTypeOnTransform":
+					handleKeepTypeOnTransform(attrs);
+					break;
+				case "lineStyle":
+					handleLineStyle(attrs);
+					break;
+				case "labelOffset":
+					handleLabelOffset(attrs);
+					break;
+				case "labelMode":
+					handleLabelMode(attrs);
+					break;
+				case "layer":
+					handleLayer(attrs);
+					break;
+				case "linkedGeo":
+					handleLinkedGeo(attrs);
+					break;
+				case "length":
+					handleLength(attrs);
+					break;
+				case "tempUserInput":
+					handleTempUserInput(attrs);
+					break;
+				case "listType":
+					handleListType(attrs);
+					break;
+				case "listener":
+					handleListeners(attrs);
+					break;
+				case "levelOfDetailQuality":
+					handleLevelOfDetailQuality(attrs);
+					break;
+				case "matrix":
+					handleMatrix(attrs);
+					break;
+				case "objColor":
+					handleObjColor(attrs);
+					break;
+				case "ordering":
+					handleOrdering(attrs);
+					break;
+				case "outlyingIntersections":
+					handleOutlyingIntersections(attrs);
+					break;
+				case "parent":
+					handleParent(attrs);
+					break;
+				case "parentLabel":
+					handleParentLabel(attrs);
+					break;
+				case "pointSize":
+					handlePointSize(attrs);
+					break;
+				case "pointStyle":
+					handlePointStyle(attrs);
+					break;
+				case "show":
+					handleShow(attrs);
+					break;
+				case "showOnAxis":
+					handleShowOnAxis(attrs);
+					break;
+				case "simplifyCoefficients":
+					handleSimplifyCoefficients(attrs);
+					break;
+				case "startPoint":
+					handleStartPoint(attrs);
+					break;
+				case "slider":
+					handleSlider(attrs);
+					break;
+				case "symbolic":
+					handleSymbolic(attrs);
+					break;
+				case "slopeTriangleSize":
+					handleSlopeTriangleSize(attrs);
+					break;
+				case "significantfigures":
+					handleTextFigures(attrs);
+					break;
+				case "spreadsheetTrace":
+					handleSpreadsheetTrace(attrs);
+					break;
+				case "startStyle":
+					handleSegmentStartStyle(attrs);
+					break;
+				case "strokeBezierCoords":
+					handleStrokeBezierCoords(attrs);
+					break;
+				case "strokeCoords":
+					handleStrokeCoords(attrs);
+					break;
+				case "showTrimmed":
+					handleShowTrimmed(attrs);
+					break;
+				case "selectionAllowed":
+					handleSelectionAllowed(attrs);
+					break;
+				case "selectedIndex":
+					handleSelectedIndex(attrs);
+					break;
+				case "tableview":
+					handleTableView(attrs);
+					break;
+				case "trace":
+					handleTrace(attrs);
+					break;
+				case "tooltipMode":
+					handleTooltipMode(attrs);
+					break;
+				case "tag":
+					handleExtraTag(attrs);
+					break;
+				case "tags":
+					// ignore
+					break;
+				case "userinput":
+					handleUserInput(attrs);
+					break;
+				case "value":
+					handleValue(attrs, errors);
+					break;
+				case "variables":
+					handleVariables(attrs);
+					break;
+				case "video":
+					handleVideo(attrs);
+					break;
+				case "textAlign":
+					handleTextAlign(attrs);
+					break;
+				case "verticalAlign":
+					handleVerticalAlign(attrs);
+					break;
+				default:
+					Log.error("unknown tag in <element>: " + eName);
 			}
 		}
 	}
@@ -2517,8 +2461,7 @@ public class ConsElementXMLHandler {
 			List<MyPoint> pathPoints = new ArrayList<>(numCoords.length / 2);
 			for (int i = 0; i < numCoords.length; i++) {
 				if (i < numCoords.length - 1) {
-					pathPoints.add(new MyPoint(numCoords[i],
-							numCoords[i + 1]));
+					pathPoints.add(new MyPoint(numCoords[i], numCoords[i + 1]));
 					i++;
 				}
 			}
@@ -2530,8 +2473,7 @@ public class ConsElementXMLHandler {
 		try {
 			String dynamicCaption = attrs.get("val");
 			if (dynamicCaption != null) {
-				dynamicCaptionList
-						.add(geo, dynamicCaption);
+				dynamicCaptionList.add(geo, dynamicCaption);
 			}
 		} catch (RuntimeException e) {
 			Log.error("malformed <dynamicCaption>");
@@ -2596,12 +2538,12 @@ public class ConsElementXMLHandler {
 			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 			List<Locateable> changedLocateables = getLocateablesFromStartPointList();
 			for (LocateableExpPair pair : startPointList) {
-				GeoPointND P = pair.point != null ? pair.point
-						: algProc.evaluateToPoint(pair.exp,
-								ErrorHelper.silent(), true);
+				GeoPointND P = pair.point != null
+						? pair.point
+						: algProc.evaluateToPoint(pair.exp, ErrorHelper.silent(), true);
 				pair.locateable.setStartPoint(P, pair.number);
 			}
-			for (Locateable updated: changedLocateables) {
+			for (Locateable updated : changedLocateables) {
 				updated.updateVisualStyle(GProperty.COMBINED);
 			}
 		} catch (Exception e) {
@@ -2615,18 +2557,18 @@ public class ConsElementXMLHandler {
 	private ArrayList<Locateable> getLocateablesFromStartPointList() {
 		ArrayList<Locateable> changedLocateables = new ArrayList<>(startPointList.size());
 		// use list instead of set to maintain order
-		for (LocateableExpPair pair: startPointList) {
+		for (LocateableExpPair pair : startPointList) {
 			if (changedLocateables.isEmpty()
-				|| changedLocateables.get(changedLocateables.size() - 1) != pair.locateable) {
-					changedLocateables.add(pair.locateable);
+					|| changedLocateables.get(changedLocateables.size() - 1) != pair.locateable) {
+				changedLocateables.add(pair.locateable);
 			}
 		}
 		return changedLocateables;
 	}
 
 	private void processLinkedGeoList() {
-		linkedGeoList.process((geo, str) -> ((GeoInputBox) geo)
-				.setLinkedGeo(xmlHandler.kernel.lookupLabel(str)));
+		linkedGeoList.process(
+				(geo, str) -> ((GeoInputBox) geo).setLinkedGeo(xmlHandler.kernel.lookupLabel(str)));
 	}
 
 	private void processDynamicCaptionList() {
@@ -2643,8 +2585,7 @@ public class ConsElementXMLHandler {
 	private void processShowObjectConditionList() {
 		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 		showObjectConditionList.process((geo, str) -> {
-			GeoBoolean condition = algProc.evaluateToBoolean(str,
-					ErrorHelper.silent());
+			GeoBoolean condition = algProc.evaluateToBoolean(str, ErrorHelper.silent());
 			if (condition != null) {
 				geo.setShowObjectCondition(condition);
 			} else {
@@ -2656,8 +2597,7 @@ public class ConsElementXMLHandler {
 	private void processAnimationSpeedList() {
 		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 		animationSpeedList.process((geo, str) -> {
-			GeoNumberValue num = algProc.evaluateToNumeric(str,
-					xmlHandler.handler);
+			GeoNumberValue num = algProc.evaluateToNumeric(str, xmlHandler.handler);
 			geo.setAnimationSpeedObject(num);
 		});
 	}
@@ -2665,11 +2605,9 @@ public class ConsElementXMLHandler {
 	private void processAnimationStepList() {
 		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 		animationStepList.process((geo, string) -> {
-			NumberValue num = algProc.evaluateToNumeric(string,
-					xmlHandler.handler);
+			NumberValue num = algProc.evaluateToNumeric(string, xmlHandler.handler);
 			if (geo.isGeoNumeric() && num != null) {
-				((GeoNumeric) geo)
-						.setAutoStep(Double.isNaN(num.getDouble()));
+				((GeoNumeric) geo).setAutoStep(Double.isNaN(num.getDouble()));
 			}
 			geo.setAnimationStep(num);
 		});
@@ -2678,8 +2616,7 @@ public class ConsElementXMLHandler {
 	private void processVerticalIncrementList() {
 		AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 		verticalIncrementList.process((geo, string) -> {
-			NumberValue step = algProc.evaluateToNumeric(string,
-					xmlHandler.handler);
+			NumberValue step = algProc.evaluateToNumeric(string, xmlHandler.handler);
 			((GeoPointND) geo).setVerticalIncrement(step);
 		});
 	}
@@ -2710,14 +2647,12 @@ public class ConsElementXMLHandler {
 				boolean wasDefined = geoElement.isDefined();
 				boolean isDrawable = geoElement.isDrawable();
 				if (pair.min != null) {
-					NumberValue num = algProc.evaluateToNumeric(pair.min,
-							xmlHandler.handler);
+					NumberValue num = algProc.evaluateToNumeric(pair.min, xmlHandler.handler);
 					((GeoNumeric) geoElement).setIntervalMin(num);
 				}
 
 				if (pair.max != null) {
-					NumberValue num2 = algProc.evaluateToNumeric(pair.max,
-							xmlHandler.handler);
+					NumberValue num2 = algProc.evaluateToNumeric(pair.max, xmlHandler.handler);
 					((GeoNumeric) geoElement).setIntervalMax(num2);
 				}
 
@@ -2764,7 +2699,7 @@ public class ConsElementXMLHandler {
 		processVerticalIncrementList();
 
 		processAnimatingList(); // must be after min/maxList otherwise
-								// GeoElement.setAnimating doesn't work
+		// GeoElement.setAnimating doesn't work
 	}
 
 	protected void processDefaultLists() {
@@ -2795,8 +2730,7 @@ public class ConsElementXMLHandler {
 	/*
 	 * expects r, g, b, alpha attributes to build a color
 	 */
-	private static GColor handleColorAlphaAttrs(
-			Map<String, String> attrs) {
+	private static GColor handleColorAlphaAttrs(Map<String, String> attrs) {
 		try {
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
@@ -2820,8 +2754,7 @@ public class ConsElementXMLHandler {
 			return geo1;
 		}
 
-		if (defaultset == null
-				|| !xmlHandler.kernel.getElementDefaultAllowed()) {
+		if (defaultset == null || !xmlHandler.kernel.getElementDefaultAllowed()) {
 			// does a geo element with this label exist?
 			geo1 = xmlHandler.kernel.lookupLabel(label);
 			// needed for TRAC-2719
@@ -2836,8 +2769,11 @@ public class ConsElementXMLHandler {
 					// In case one of the constant elements need to be overwritten,
 					// make sure to get the localized label
 					// (issue with file loading after language change)
-					xmlHandler.kernel.getConstruction().getGeoTable().remove(
-							app.getLocalization().getMenu(geo1.getLabelSimple()));
+					xmlHandler
+							.kernel
+							.getConstruction()
+							.getGeoTable()
+							.remove(app.getLocalization().getMenu(geo1.getLabelSimple()));
 				}
 				// try to find an algo on which this label depends
 				// geo = cons.resolveLabelDependency(label,
@@ -2854,8 +2790,7 @@ public class ConsElementXMLHandler {
 			}
 		} else {
 			int defset = Integer.parseInt(defaultset);
-			geo1 = xmlHandler.kernel.getConstruction().getConstructionDefaults()
-					.getDefaultGeo(defset);
+			geo1 = xmlHandler.kernel.getConstruction().getConstructionDefaults().getDefaultGeo(defset);
 			if (geo1 == null) {
 				// wrong default setting, act as if there were no default set
 				geo1 = xmlHandler.kernel.lookupLabel(label);
@@ -2868,8 +2803,7 @@ public class ConsElementXMLHandler {
 		}
 
 		// use default point style on points
-		if (geo1.getGeoClassType().equals(GeoClass.POINT)
-				&& xmlHandler.ggbFileFormat < 3.3) {
+		if (geo1.getGeoClassType().equals(GeoClass.POINT) && xmlHandler.ggbFileFormat < 3.3) {
 			((PointProperties) geo1).setPointStyle(docPointStyle);
 		}
 

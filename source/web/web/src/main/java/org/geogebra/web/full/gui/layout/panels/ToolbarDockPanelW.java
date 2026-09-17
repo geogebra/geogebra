@@ -34,8 +34,7 @@ import elemental2.dom.CanvasRenderingContext2D;
  * @author Laszlo Gal
  *
  */
-public final class ToolbarDockPanelW extends DockPanelW
-		implements AlgebraPanelInterface {
+public final class ToolbarDockPanelW extends DockPanelW implements AlgebraPanelInterface {
 
 	private ToolbarPanel toolbar;
 	private DockPanelData.TabIds tabId;
@@ -50,7 +49,7 @@ public final class ToolbarDockPanelW extends DockPanelW
 		super(App.VIEW_ALGEBRA, null, false);
 		this.decorator = decorator;
 	}
-	
+
 	@Override
 	protected Widget loadComponent() {
 		toolbar = new ToolbarPanel(app, decorator);
@@ -92,7 +91,7 @@ public final class ToolbarDockPanelW extends DockPanelW
 
 	/**
 	 * Delegating to toolbar.
-	 * 
+	 *
 	 * @param ml
 	 *            the litstener
 	 * @return the updated listener;
@@ -109,7 +108,7 @@ public final class ToolbarDockPanelW extends DockPanelW
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the tabbed toolbar.
 	 */
 	public ToolbarPanel getToolbar() {
@@ -196,8 +195,7 @@ public final class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public double getMinVHeight(boolean keyboard) {
-		int rows = keyboard ? MIN_ROWS_WITH_KEYBOARD
-				: MIN_ROWS_WITHOUT_KEYBOARD;
+		int rows = keyboard ? MIN_ROWS_WITH_KEYBOARD : MIN_ROWS_WITHOUT_KEYBOARD;
 		return rows * ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 	}
 
@@ -227,8 +225,8 @@ public final class ToolbarDockPanelW extends DockPanelW
 	}
 
 	@Override
-	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			ViewCounter counter, int left, int top) {
+	public void paintToCanvas(
+			CanvasRenderingContext2D context2d, ViewCounter counter, int left, int top) {
 		if (toolbar != null) {
 			drawWhiteBackground(context2d, left, top);
 			toolbar.paintToCanvas(context2d, counter, left, top);
@@ -239,7 +237,8 @@ public final class ToolbarDockPanelW extends DockPanelW
 
 	@Override
 	public boolean isExpanded() {
-		return toolbar != null && toolbar.isOpen()
+		return toolbar != null
+				&& toolbar.isOpen()
 				&& (isAlone() || DockSplitPaneW.getSize(getLayoutData()) > 0);
 	}
 }

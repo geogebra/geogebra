@@ -21,8 +21,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
  * (see points templates)
  *
  */
-public class GLBufferIndicesArray extends ReusableArrayList<Short>
-		implements GLBufferIndices {
+public class GLBufferIndicesArray extends ReusableArrayList<Short> implements GLBufferIndices {
 
 	public GLBufferIndicesArray(int size) {
 		super(size);
@@ -84,5 +83,4 @@ public class GLBufferIndicesArray extends ReusableArrayList<Short>
 	public void position(int newPosition) {
 		// not needed
 	}
-
 }

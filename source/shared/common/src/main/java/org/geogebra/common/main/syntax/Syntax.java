@@ -71,8 +71,7 @@ public final class Syntax {
 	 * @param argumentMatchers list of argument matchers
 	 * @return {@code Syntax} with the given command and argument matchers
 	 */
-	public static Syntax of(@NonNull Commands command,
-			@NonNull ArgumentMatcher... argumentMatchers) {
+	public static Syntax of(@NonNull Commands command, @NonNull ArgumentMatcher... argumentMatchers) {
 		return new Syntax(command, List.of(argumentMatchers));
 	}
 
@@ -105,20 +104,21 @@ public final class Syntax {
 	 */
 	public static void checkRestrictedSyntaxes(
 			@NonNull Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands,
-			@NonNull Command command, @NonNull CommandProcessor commandProcessor) throws MyError {
+			@NonNull Command command,
+			@NonNull CommandProcessor commandProcessor)
+			throws MyError {
 		Commands currentCommand = Commands.stringToCommand(command.getName());
 
 		// If the command is not restricted, we return
 		if (!allowedSyntaxesForRestrictedCommands.containsKey(currentCommand)) {
 			return;
 		}
-		Set<Syntax> allowedSyntaxes =
-				allowedSyntaxesForRestrictedCommands.get(currentCommand);
+		Set<Syntax> allowedSyntaxes = allowedSyntaxesForRestrictedCommands.get(currentCommand);
 		GeoElement[] currentArguments = commandProcessor.resArgs(command);
 
 		// If the command is restricted but this syntax is allowed, we return
-		if (allowedSyntaxes.stream().anyMatch(syntax ->
-				matches(syntax, currentCommand, currentArguments))) {
+		if (allowedSyntaxes.stream()
+				.anyMatch(syntax -> matches(syntax, currentCommand, currentArguments))) {
 			return;
 		}
 		Set<Syntax> syntaxesWithSameNumberOfArguments = allowedSyntaxes.stream()
@@ -133,15 +133,14 @@ public final class Syntax {
 
 		// Find the first mismatching argument of the closest allowed syntax
 		// with same number of arguments and throw an argument exception using that
-		Syntax closestSyntax = findMostSimilarSyntax(
-				currentArguments, syntaxesWithSameNumberOfArguments);
-		int firstMismatchingArgumentIndex = findFirstMismatchingArgumentIndex(
-				currentArguments, closestSyntax);
+		Syntax closestSyntax =
+				findMostSimilarSyntax(currentArguments, syntaxesWithSameNumberOfArguments);
+		int firstMismatchingArgumentIndex =
+				findFirstMismatchingArgumentIndex(currentArguments, closestSyntax);
 		throw commandProcessor.argErr(command, command.getArgument(firstMismatchingArgumentIndex));
 	}
 
-	private static Syntax findMostSimilarSyntax(
-			GeoElement[] arguments, Collection<Syntax> syntaxes) {
+	private static Syntax findMostSimilarSyntax(GeoElement[] arguments, Collection<Syntax> syntaxes) {
 		Syntax bestCandidate = syntaxes.stream().findFirst().get();
 		int highestNumberOfMatchingArguments = 0;
 		for (Syntax syntax : syntaxes) {

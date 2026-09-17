@@ -23,10 +23,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * InverseLogNormal[mean, s, val]
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoInverseLogNormal extends AlgoDistribution {
 
 	/**
@@ -35,8 +34,8 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 	 * @param b second parameter
 	 * @param c random variable value
 	 */
-	public AlgoInverseLogNormal(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
+	public AlgoInverseLogNormal(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 
@@ -48,8 +47,7 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double mean = a.getDouble();
 			double s = b.getDouble();
 			double x = c.getDouble();
@@ -57,14 +55,11 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 			if (s <= 0 || x <= 0 || x > 1) {
 				num.setValue(0);
 			} else {
-				num.setValue(Math
-						.exp(Erf.erfInv(2 * (x - 0.5)) * Math.sqrt(2) * s
-								+ mean));
+				num.setValue(Math.exp(Erf.erfInv(2 * (x - 0.5)) * Math.sqrt(2) * s + mean));
 			}
 
 		} else {
 			num.setUndefined();
 		}
 	}
-
 }

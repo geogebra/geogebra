@@ -116,8 +116,8 @@ public final class DerivedState<T> implements State<T> {
 	 * @param <T> the derived value type
 	 * @return the derived state
 	 */
-	public static <A, T> @NonNull State<T> of(@NonNull State<A> state,
-			@NonNull Function<A, T> derive) {
+	public static <A, T> @NonNull State<T> of(
+			@NonNull State<A> state, @NonNull Function<A, T> derive) {
 		return new DerivedState<>(List.of(state), () -> derive.apply(state.get()));
 	}
 
@@ -131,10 +131,12 @@ public final class DerivedState<T> implements State<T> {
 	 * @param <T> the derived value type
 	 * @return the derived state
 	 */
-	public static <A, B, T> @NonNull State<T> of(@NonNull State<A> firstState,
-			@NonNull State<B> secondState, @NonNull BiFunction<A, B, T> derive) {
-		return new DerivedState<>(List.of(firstState, secondState),
-				() -> derive.apply(firstState.get(), secondState.get()));
+	public static <A, B, T> @NonNull State<T> of(
+			@NonNull State<A> firstState,
+			@NonNull State<B> secondState,
+			@NonNull BiFunction<A, B, T> derive) {
+		return new DerivedState<>(
+				List.of(firstState, secondState), () -> derive.apply(firstState.get(), secondState.get()));
 	}
 
 	/**
@@ -149,10 +151,13 @@ public final class DerivedState<T> implements State<T> {
 	 * @param <T> the derived value type
 	 * @return the derived state
 	 */
-	public static <A, B, C, T> @NonNull State<T> of(@NonNull State<A> firstState,
-			@NonNull State<B> secondState, @NonNull State<C> thirdState,
+	public static <A, B, C, T> @NonNull State<T> of(
+			@NonNull State<A> firstState,
+			@NonNull State<B> secondState,
+			@NonNull State<C> thirdState,
 			@NonNull TriFunction<A, B, C, T> derive) {
-		return new DerivedState<>(List.of(firstState, secondState, thirdState),
+		return new DerivedState<>(
+				List.of(firstState, secondState, thirdState),
 				() -> derive.apply(firstState.get(), secondState.get(), thirdState.get()));
 	}
 
@@ -162,8 +167,8 @@ public final class DerivedState<T> implements State<T> {
 			return;
 		}
 		value = updatedValue;
-		List.copyOf(registrations).forEach(registration ->
-				registration.listener.valueChanged(updatedValue));
+		List.copyOf(registrations)
+				.forEach(registration -> registration.listener.valueChanged(updatedValue));
 	}
 
 	@Override
@@ -178,8 +183,8 @@ public final class DerivedState<T> implements State<T> {
 		registrations.add(registration);
 		if (wasEmpty) {
 			value = derive.get();
-			sourceStates.forEach(sourceState ->
-					subscriptions.add(sourceState.subscribe(new SourceListener<>(this))));
+			sourceStates.forEach(
+					sourceState -> subscriptions.add(sourceState.subscribe(new SourceListener<>(this))));
 		}
 		return () -> {
 			registrations.remove(registration);

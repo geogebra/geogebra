@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
 public class CmdSetBackgroundColor extends CmdSetColor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */

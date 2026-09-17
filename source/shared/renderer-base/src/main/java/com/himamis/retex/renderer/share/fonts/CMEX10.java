@@ -370,6 +370,5 @@ final class CMEX10 extends FontInfo {
 
 		setMetrics(196, 778, 0, 600);
 		setExtension(0, 0, 119, 196);
-
 	}
 }

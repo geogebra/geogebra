@@ -25,7 +25,8 @@ public final class GenericExamRestrictions extends Restrictions {
 
 	/** Constructs the restrictions for generic exam. */
 	public GenericExamRestrictions() {
-		super(null,
+		super(
+				null,
 				null,
 				null,
 				null,

@@ -31,7 +31,7 @@ import jsinterop.base.JsPropertyMap;
 
 /**
  * Composition handler for math input
- * 
+ *
  * @author Zbynek
  */
 final class EditorCompositionHandler
@@ -76,13 +76,11 @@ final class EditorCompositionHandler
 		if (!"^".equals(data) && !data.isEmpty()) {
 			char inputChar = data.charAt(data.length() - 1);
 			char lastChar = Korean.unmergeDoubleCharacterForEditor(inputChar);
-			if (Korean.isCompatibilityChar(lastChar)
-					|| Korean.isSingleKoreanChar(lastChar)) {
+			if (Korean.isCompatibilityChar(lastChar) || Korean.isSingleKoreanChar(lastChar)) {
 				editor.insertString("" + lastChar);
 			} else {
 				insertOnEnd = true;
 			}
-
 		}
 	}
 
@@ -99,14 +97,15 @@ final class EditorCompositionHandler
 	private <T> boolean composingBackspace(KeyCodeEvent<T> event) {
 		JsPropertyMap<Object> nativeEvent = JsObject.of(event.getNativeEvent());
 		return Js.isTruthy(nativeEvent.get("isComposing"))
-			&& "Backspace".equals(nativeEvent.get("code"));
+				&& "Backspace".equals(nativeEvent.get("code"));
 	}
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		if (composingBackspace(event)) {
-			editor.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE,
-					KeyEvent.KeyboardType.EXTERNAL));
+			editor
+					.getKeyListener()
+					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE, KeyEvent.KeyboardType.EXTERNAL));
 			backspace = true;
 		}
 	}

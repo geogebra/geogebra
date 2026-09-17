@@ -109,9 +109,16 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 
-		mathField = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), main,
-				canvas, listener, catalog, app.getEditorFeatures());
-		mathField.getInternal().getInputController()
+		mathField = new MathFieldW(
+				new SyntaxAdapterImplWithPaste(app.getKernel()),
+				main,
+				canvas,
+				listener,
+				catalog,
+				app.getEditorFeatures());
+		mathField
+				.getInternal()
+				.getInputController()
 				.setCommandSyntaxLookup(new CommandSyntaxLookupImpl(app));
 		mathField.removeCursor();
 		main.setFocusDelegate(this::editorClicked);
@@ -123,11 +130,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		if (!main.getStyleName().contains("errorStyle")) {
 			getMathField().setBackgroundColor("rgba(255,255,255,0)");
 		}
-		app.getGlobalHandlers().addEventListener(mathField.asWidget().getElement(),
-				"pointerdown", (evt) -> {
-			app.sendKeyboardEvent(true);
-			setKeyboardVisibility(true);
-		});
+		app.getGlobalHandlers()
+				.addEventListener(mathField.asWidget().getElement(), "pointerdown", (evt) -> {
+					app.sendKeyboardEvent(true);
+					setKeyboardVisibility(true);
+				});
 		main.add(mathField);
 		retexListener = new RetexKeyboardListener(canvas, mathField);
 		initEventHandlers();
@@ -141,15 +148,13 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 		blurHandlers = new ArrayList<>();
 		EventUtil.stopPointer(main.getElement());
 
-		ClickStartHandler.init(main,
-				new ClickStartHandler(false, true) {
+		ClickStartHandler.init(main, new ClickStartHandler(false, true) {
 
-					@Override
-					public void onClickStart(int x, int y,
-											 PointerEventType type) {
-						editorClicked();
-					}
-				});
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				editorClicked();
+			}
+		});
 		mathField.setOnFocus(evt -> {
 			if (main.getParent() != null) {
 				main.getParent().addStyleName("focusState");
@@ -275,7 +280,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup, BlurHandler 
 
 		mathField.setFocus(false);
 
-		for (BlurHandler handler: blurHandlers) {
+		for (BlurHandler handler : blurHandlers) {
 			handler.onBlur(event);
 		}
 	}

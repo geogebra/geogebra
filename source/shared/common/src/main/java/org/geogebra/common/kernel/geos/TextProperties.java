@@ -22,33 +22,33 @@ package org.geogebra.common.kernel.geos;
 public interface TextProperties extends TextStyle, HasCorners {
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 *            font size (relative)
 	 */
 	void setFontSizeMultiplier(double size);
 
 	/**
-	 * 
+	 *
 	 * @param fontStyle
 	 *            font style
 	 */
 	void setFontStyle(int fontStyle);
 
 	/**
-	 * 
+	 *
 	 * @return print decimals (-1 for kernel default)
 	 */
 	int getPrintDecimals();
 
 	/**
-	 * 
+	 *
 	 * @return print figures (-1 for kernel default)
 	 */
 	int getPrintFigures();
 
 	/**
-	 * 
+	 *
 	 * @param printDecimals
 	 *            print decimals
 	 * @param update
@@ -57,7 +57,7 @@ public interface TextProperties extends TextStyle, HasCorners {
 	void setPrintDecimals(int printDecimals, boolean update);
 
 	/**
-	 * 
+	 *
 	 * @param printFigures
 	 *            print figures
 	 * @param update
@@ -66,20 +66,20 @@ public interface TextProperties extends TextStyle, HasCorners {
 	void setPrintFigures(int printFigures, boolean update);
 
 	/**
-	 * 
+	 *
 	 * @return true iff using serif font
 	 */
 	boolean isSerifFont();
 
 	/**
-	 * 
+	 *
 	 * @param serifFont
 	 *            true for serif font
 	 */
 	void setSerifFont(boolean serifFont);
 
 	/**
-	 * 
+	 *
 	 * @return true iff significant figures should be used
 	 */
 	boolean useSignificantFigures();
@@ -88,5 +88,4 @@ public interface TextProperties extends TextStyle, HasCorners {
 	 * @return whether this was created using a command with LaTeX output
 	 */
 	boolean isLaTeXTextCommand();
-
 }

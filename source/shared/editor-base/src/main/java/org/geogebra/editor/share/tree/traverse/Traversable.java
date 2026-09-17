@@ -23,11 +23,10 @@ import org.geogebra.editor.share.tree.Node;
  */
 public interface Traversable {
 
-    /**
-     * Traverse and process this object.
-     * @param traversing The object that processes.
-     * @return resulting object
-     */
-    Node traverse(Traversing traversing);
-
+	/**
+	 * Traverse and process this object.
+	 * @param traversing The object that processes.
+	 * @return resulting object
+	 */
+	Node traverse(Traversing traversing);
 }

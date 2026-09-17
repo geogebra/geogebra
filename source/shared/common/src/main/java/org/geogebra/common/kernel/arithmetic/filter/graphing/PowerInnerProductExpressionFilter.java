@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeOperationFilte
 import org.geogebra.common.plugin.Operation;
 import org.jspecify.annotations.NonNull;
 
-final public class PowerInnerProductExpressionFilter extends ExpressionNodeOperationFilter {
+public final class PowerInnerProductExpressionFilter extends ExpressionNodeOperationFilter {
 
 	public PowerInnerProductExpressionFilter() {
 		super(Operation.POWER);
@@ -29,7 +29,7 @@ final public class PowerInnerProductExpressionFilter extends ExpressionNodeOpera
 
 	@Override
 	protected boolean isExpressionNodeAllowedForOperation(@NonNull ExpressionNode expression) {
-		return !(expression.getLeft().evaluatesToNDVector() && expression.getRight()
-				.evaluatesToNumber(true));
+		return !(expression.getLeft().evaluatesToNDVector()
+				&& expression.getRight().evaluatesToNumber(true));
 	}
 }

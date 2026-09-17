@@ -49,8 +49,10 @@ public final class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 
 		for (Integer mode : tools) {
 			if (mode == EuclidianConstants.MODE_CALCULATOR) {
-				addItem(new AriaMenuItem("GeoGebra", getApp().getToolboxIconResource()
-						.getImageResource(ToolboxIcon.GEOGEBRA), new CalculatorSubMenu(getApp())));
+				addItem(new AriaMenuItem(
+						"GeoGebra",
+						getApp().getToolboxIconResource().getImageResource(ToolboxIcon.GEOGEBRA),
+						new CalculatorSubMenu(getApp())));
 			} else {
 				addItem(mode);
 			}

@@ -26,10 +26,10 @@ import org.geogebra.common.util.DoubleUtil;
 public class NumberValidator {
 
 	public static final String NUMBER_FORMAT_ERROR_MESSAGE_KEY = "InputError.Enter_a_number";
-	public static final String NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY = "InputError."
-			+ "EndValueLessThanStartValue";
-	public static final String NUMBER_NEGATIVE_ERROR_MESSAGE_KEY = "InputError."
-			+ "Enter_a_number_greater_than_0";
+	public static final String NUMBER_TOO_SMALL_ERROR_MESSAGE_KEY =
+			"InputError." + "EndValueLessThanStartValue";
+	public static final String NUMBER_NEGATIVE_ERROR_MESSAGE_KEY =
+			"InputError." + "Enter_a_number_greater_than_0";
 
 	private AlgebraProcessor stringParser;
 
@@ -69,8 +69,7 @@ public class NumberValidator {
 	 *         of the String, otherwise throws a
 	 *         NumberValueOutOfBoundsException.
 	 */
-	public double getDoubleGreaterOrEqual(String numberString,
-			Double minValue) {
+	public double getDoubleGreaterOrEqual(String numberString, Double minValue) {
 		double number = stringParser.convertToDouble(numberString);
 		if (!Double.isFinite(number)) {
 			throw new NumberFormatException("The number must be finite");

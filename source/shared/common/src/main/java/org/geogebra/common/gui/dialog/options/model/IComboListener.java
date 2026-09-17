@@ -30,5 +30,4 @@ public interface IComboListener extends PropertyListener {
 
 	@MissingDoc
 	void clearItems();
-
 }

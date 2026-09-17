@@ -42,14 +42,12 @@ import jsinterop.base.JsPropertyMap;
 public class AwtFactoryW extends AwtFactoryHeadless {
 
 	@Override
-	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-			double pixelRatio) {
+	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight, double pixelRatio) {
 		return new GBufferedImageW(pixelWidth, pixelHeight, pixelRatio);
 	}
 
 	@Override
-	public GBufferedImage createBufferedImage(int width, int height,
-			boolean transparency) {
+	public GBufferedImage createBufferedImage(int width, int height, boolean transparency) {
 		return new GBufferedImageW(width, height, 1.0f, !transparency);
 	}
 
@@ -59,8 +57,7 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 	}
 
 	@Override
-	public GTextLayout newTextLayout(String string, GFont fontLine,
-			GFontRenderContext frc) {
+	public GTextLayout newTextLayout(String string, GFont fontLine, GFontRenderContext frc) {
 		return new GTextLayoutW(string, fontLine, (GFontRenderContextW) frc);
 	}
 
@@ -70,8 +67,8 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 	}
 
 	@Override
-	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
-			double x2, double i, GColor bg) {
+	public GGradientPaint newGradientPaint(
+			double x, double y, GColor bg2, double x2, double i, GColor bg) {
 		return new GGradientPaintW(x, y, bg2, x2, i, bg);
 	}
 
@@ -87,15 +84,12 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 
 	@Override
 	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
-		return new GTexturePaintW(
-				new GBufferedImageW(((MyImageW) subimage).getImage()), rect);
+		return new GTexturePaintW(new GBufferedImageW(((MyImageW) subimage).getImage()), rect);
 	}
 
 	@Override
-	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-			GGraphics2D g2) {
-		return newBufferedImage(pixelWidth, pixelHeight,
-				((GGraphics2DWI) g2).getDevicePixelRatio());
+	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight, GGraphics2D g2) {
+		return newBufferedImage(pixelWidth, pixelHeight, ((GGraphics2DWI) g2).getDevicePixelRatio());
 	}
 
 	@Override
@@ -107,10 +101,9 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 
 	@Override
 	public GGraphics2DW getPDFGraphics(int width, int height) {
-		Canvas2Pdf.PdfContext canvas2pdf = new Canvas2Pdf.PdfContext(width, height,
-				JsPropertyMap.of("verticalFlip", true));
+		Canvas2Pdf.PdfContext canvas2pdf =
+				new Canvas2Pdf.PdfContext(width, height, JsPropertyMap.of("verticalFlip", true));
 		CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas2pdf);
 		return new GGraphics2DW(ctx);
 	}
-
 }

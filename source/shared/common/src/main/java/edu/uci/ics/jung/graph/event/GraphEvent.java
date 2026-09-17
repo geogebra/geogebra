@@ -19,8 +19,8 @@ package edu.uci.ics.jung.graph.event;
 import edu.uci.ics.jung.graph.Graph;
 
 /**
- * 
- * 
+ *
+ *
  * @author tom nelson
  *
  * @param <V>
@@ -46,7 +46,10 @@ public abstract class GraphEvent<V, E> {
 	 * Types of graph events.
 	 */
 	public enum Type {
-		VERTEX_ADDED, VERTEX_REMOVED, EDGE_ADDED, EDGE_REMOVED
+		VERTEX_ADDED,
+		VERTEX_REMOVED,
+		EDGE_ADDED,
+		EDGE_REMOVED
 	}
 
 	/**
@@ -74,7 +77,6 @@ public abstract class GraphEvent<V, E> {
 		public String toString() {
 			return "GraphEvent type:" + type + " for " + vertex;
 		}
-
 	}
 
 	/**
@@ -102,7 +104,6 @@ public abstract class GraphEvent<V, E> {
 		public String toString() {
 			return "GraphEvent type:" + type + " for " + edge;
 		}
-
 	}
 
 	/**

@@ -46,88 +46,87 @@ public class KeyListenerImpl {
 	 */
 	public boolean onKeyPressed(KeyEvent keyEvent, EditorState editorState) {
 		// Ctrl, not AltGr
-		boolean ctrlPressed = ((keyEvent.getKeyModifiers()
-				& KeyEvent.CTRL_MASK) > 0)
+		boolean ctrlPressed = ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0)
 				&& ((keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) == 0);
-		
+
 		boolean shiftPressed = (keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0;
 
 		switch (keyEvent.getKeyCode()) {
-		case JavaKeyCodes.VK_A:
-			if (ctrlPressed) {
-				editorState.selectAll();
+			case JavaKeyCodes.VK_A:
+				if (ctrlPressed) {
+					editorState.selectAll();
+					return true;
+				}
+				return false;
+			case JavaKeyCodes.VK_V:
+				if (ctrlPressed) {
+					inputController.paste();
+					return inputController.getMathField().useCustomPaste();
+				}
+				return false;
+			case JavaKeyCodes.VK_C:
+				return ctrlPressed && inputController.copy();
+			case JavaKeyCodes.VK_O:
+				if (ctrlPressed) {
+					if (!editorState.isInRecurringDecimal()) {
+						inputController.newFunction(editorState, "recurringDecimal");
+					}
+					return true;
+				}
+				return false;
+			case JavaKeyCodes.VK_X:
+				if (ctrlPressed) {
+					inputController.copy();
+					InputController.deleteSelection(editorState);
+					return true;
+				}
+				return false;
+			case JavaKeyCodes.VK_M:
+				if (ctrlPressed && inputController.supportsMixedNumbers()) {
+					inputController.addMixedNumber(editorState);
+					return true;
+				}
+				return false;
+			case JavaKeyCodes.VK_ESCAPE:
+				// if math field doesn't have its own escape handler, blur it
+				inputController.getMathField().blur();
 				return true;
-			}
-			return false;
-		case JavaKeyCodes.VK_V:
-			if (ctrlPressed) {
-				inputController.paste();
-				return inputController.getMathField().useCustomPaste();
-			}
-			return false;
-		case JavaKeyCodes.VK_C:
-			return ctrlPressed && inputController.copy();
-		case JavaKeyCodes.VK_O:
-			if (ctrlPressed) {
-				if (!editorState.isInRecurringDecimal()) {
-					inputController.newFunction(editorState, "recurringDecimal");
+			case JavaKeyCodes.VK_HOME:
+				return handleHomeKey(editorState, shiftPressed);
+			case JavaKeyCodes.VK_END:
+				return handleEndKey(editorState, shiftPressed);
+			case JavaKeyCodes.VK_LEFT:
+				if (ctrlPressed && macKeysEnabled) {
+					return handleHomeKey(editorState, shiftPressed);
+				}
+				return handleLeftRight(editorState, true, shiftPressed);
+			case JavaKeyCodes.VK_RIGHT:
+				if (ctrlPressed && macKeysEnabled) {
+					return handleEndKey(editorState, shiftPressed);
+				}
+				return handleLeftRight(editorState, false, shiftPressed);
+			case JavaKeyCodes.VK_UP:
+				return CursorController.upField(editorState);
+			case JavaKeyCodes.VK_DOWN:
+				return CursorController.downField(editorState);
+			case JavaKeyCodes.VK_DELETE:
+				if (!InputController.deleteSelection(editorState)) {
+					inputController.delCharacter(editorState);
 				}
 				return true;
-			}
-			return false;
-		case JavaKeyCodes.VK_X:
-			if (ctrlPressed) {
-				inputController.copy();
-				InputController.deleteSelection(editorState);
+			case JavaKeyCodes.VK_BACK_SPACE:
+				if (!InputController.deleteSelection(editorState)) {
+					inputController.bkspCharacter(editorState);
+				}
 				return true;
-			}
-			return false;
-		case JavaKeyCodes.VK_M:
-			if (ctrlPressed && inputController.supportsMixedNumbers()) {
-				inputController.addMixedNumber(editorState);
-				return true;
-			}
-			return false;
-		case JavaKeyCodes.VK_ESCAPE:
-			// if math field doesn't have its own escape handler, blur it
-			inputController.getMathField().blur();
-			return true;
-		case JavaKeyCodes.VK_HOME:
-			return handleHomeKey(editorState, shiftPressed);
-		case JavaKeyCodes.VK_END:
-			return handleEndKey(editorState, shiftPressed);
-		case JavaKeyCodes.VK_LEFT:
-			if (ctrlPressed && macKeysEnabled) {
-				return handleHomeKey(editorState, shiftPressed);
-			}
-			return handleLeftRight(editorState, true, shiftPressed);
-		case JavaKeyCodes.VK_RIGHT:
-			if (ctrlPressed && macKeysEnabled) {
-				return handleEndKey(editorState, shiftPressed);
-			}
-			return handleLeftRight(editorState, false, shiftPressed);
-		case JavaKeyCodes.VK_UP:
-			return CursorController.upField(editorState);
-		case JavaKeyCodes.VK_DOWN:
-			return CursorController.downField(editorState);
-		case JavaKeyCodes.VK_DELETE:
-			if (!InputController.deleteSelection(editorState)) {
-				inputController.delCharacter(editorState);
-			}
-			return true;
-		case JavaKeyCodes.VK_BACK_SPACE:
-			if (!InputController.deleteSelection(editorState)) {
-				inputController.bkspCharacter(editorState);
-			}
-			return true;
-		case JavaKeyCodes.VK_SHIFT:
-		case JavaKeyCodes.VK_OPEN_BRACKET:
-			return false;
-		case JavaKeyCodes.VK_TAB:
-			return onTab(shiftPressed);
-		default:
-			// InputController.deleteSelection(editorState);
-			return false;
+			case JavaKeyCodes.VK_SHIFT:
+			case JavaKeyCodes.VK_OPEN_BRACKET:
+				return false;
+			case JavaKeyCodes.VK_TAB:
+				return onTab(shiftPressed);
+			default:
+				// InputController.deleteSelection(editorState);
+				return false;
 		}
 	}
 
@@ -151,11 +150,10 @@ public class KeyListenerImpl {
 		return true;
 	}
 
-	private boolean handleLeftRight(EditorState editorState,
-			boolean left, boolean shiftPressed) {
+	private boolean handleLeftRight(EditorState editorState, boolean left, boolean shiftPressed) {
 		boolean ret;
-		Function<EditorState, Boolean>
-				navigate = left ? CursorController::prevCharacter : CursorController::nextCharacter;
+		Function<EditorState, Boolean> navigate =
+				left ? CursorController::prevCharacter : CursorController::nextCharacter;
 		if (shiftPressed) {
 
 			ret = editorState.extendSelection(left);

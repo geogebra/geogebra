@@ -51,33 +51,36 @@ public class CmdRandomPointIn extends CommandProcessor {
 
 		if (n == 1) {
 			if (arg[0].isGeoPolygon()) {
-				AlgoRandomPointInPolygon algo = new AlgoRandomPointInPolygon(
-						cons, (GeoPolygon) arg[0]);
+				AlgoRandomPointInPolygon algo = new AlgoRandomPointInPolygon(cons, (GeoPolygon) arg[0]);
 				algo.getRandomPoint().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getRandomPoint().toGeoElement() };
+				GeoElement[] ret = {algo.getRandomPoint().toGeoElement()};
 				return ret;
 			} else if (arg[0].isGeoConic()) {
-				AlgoRandomPointInConic algo = new AlgoRandomPointInConic(cons,
-						(GeoConicND) arg[0]);
+				AlgoRandomPointInConic algo = new AlgoRandomPointInConic(cons, (GeoConicND) arg[0]);
 				algo.getRandomPoint().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getRandomPoint() };
+				GeoElement[] ret = {algo.getRandomPoint()};
 				return ret;
 			} else if (arg[0] instanceof GeoList) {
-				AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons, null,
-						(GeoList) arg[0]);
+				AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons, null, (GeoList) arg[0]);
 				algo.getRandomPoint().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getRandomPoint() };
+				GeoElement[] ret = {algo.getRandomPoint()};
 				return ret;
 			} else {
 				throw argErr(c, arg[0]);
 			}
-		} else if (n == 4 && arg[0].isNumberValue() && arg[1].isNumberValue()
-				&& arg[2].isNumberValue() && arg[3].isNumberValue()) {
-			AlgoRandomPoint algo = new AlgoRandomPoint(cons, (GeoNumberValue) arg[0],
-					(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+		} else if (n == 4
+				&& arg[0].isNumberValue()
+				&& arg[1].isNumberValue()
+				&& arg[2].isNumberValue()
+				&& arg[3].isNumberValue()) {
+			AlgoRandomPoint algo = new AlgoRandomPoint(
+					cons,
+					(GeoNumberValue) arg[0],
+					(GeoNumberValue) arg[1],
+					(GeoNumberValue) arg[2],
 					(GeoNumberValue) arg[3]);
 			algo.getPoint().setLabel(c.getLabel());
-			GeoElement[] ret = { algo.getPoint() };
+			GeoElement[] ret = {algo.getPoint()};
 			return ret;
 
 		} else if (n > 2) {
@@ -93,14 +96,12 @@ public class CmdRandomPointIn extends CommandProcessor {
 			}
 			// everything ok
 
-			AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons,
-					points, null);
+			AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons, points, null);
 			algo.getRandomPoint().setLabel(c.getLabel());
-			GeoElement[] ret = { algo.getRandomPoint() };
+			GeoElement[] ret = {algo.getRandomPoint()};
 			return ret;
 		} else {
 			throw argNumErr(c);
 		}
 	}
-
 }

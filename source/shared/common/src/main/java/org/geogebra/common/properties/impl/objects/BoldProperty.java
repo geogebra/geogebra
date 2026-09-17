@@ -56,8 +56,7 @@ public class BoldProperty extends AbstractValuedProperty<Boolean>
 			}
 		} else if (element instanceof HasTextFormatter) {
 			HasTextFormatter hasTextFormatter = (HasTextFormatter) element;
-			if (getLocalization() != null && !value.equals(hasTextFormatter
-					.getFormat("bold", false))) {
+			if (getLocalization() != null && !value.equals(hasTextFormatter.getFormat("bold", false))) {
 				hasTextFormatter.format("bold", value);
 			}
 			element.updateVisualStyle(GProperty.COMBINED);

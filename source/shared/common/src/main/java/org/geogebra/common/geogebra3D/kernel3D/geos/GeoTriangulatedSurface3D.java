@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.matrix.CoordsDouble3;
  * triangles are created for each call of
  * {@code startTriangulation() and endTriangulation()}. No triangle is created
  * if n is less than 3
- * 
+ *
  * @author Shamshad Alam
  *
  */
@@ -44,7 +44,7 @@ public class GeoTriangulatedSurface3D {
 	private MyPoint3D[] normals;
 
 	/**
-	 * 
+	 *
 	 */
 	public GeoTriangulatedSurface3D() {
 		this.vertices = new MyPoint3D[capacity];
@@ -79,7 +79,7 @@ public class GeoTriangulatedSurface3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            x coordinate
 	 * @param y
@@ -88,11 +88,11 @@ public class GeoTriangulatedSurface3D {
 	 *            z coordinate
 	 */
 	public void insertPoint(double x, double y, double z) {
-		insertPoint(new double[] { x, y, z }, new double[] { 0, 0, 0 });
+		insertPoint(new double[] {x, y, z}, new double[] {0, 0, 0});
 	}
 
 	/**
-	 * 
+	 *
 	 * @param p
 	 *            coordinates of point {x, y, z}
 	 * @param n
@@ -105,10 +105,9 @@ public class GeoTriangulatedSurface3D {
 			vertices[current].setLineTo(counter != 0);
 			normals[current].setLocation(n[0], n[1], n[2]);
 		} else {
-			vertices[current] = new MyPoint3D(p[0], p[1], p[2],
-					counter != 0 ? SegmentType.LINE_TO : SegmentType.MOVE_TO);
-			normals[current] = new MyPoint3D(n[0], n[1], n[2],
-					SegmentType.MOVE_TO);
+			vertices[current] =
+					new MyPoint3D(p[0], p[1], p[2], counter != 0 ? SegmentType.LINE_TO : SegmentType.MOVE_TO);
+			normals[current] = new MyPoint3D(n[0], n[1], n[2], SegmentType.MOVE_TO);
 		}
 		++current;
 		++counter;
@@ -134,7 +133,7 @@ public class GeoTriangulatedSurface3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return list of normals corresponding to points
 	 */
 	public MyPoint3D[] getNormals() {
@@ -142,7 +141,7 @@ public class GeoTriangulatedSurface3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return total number of points before the last call of
 	 *         {@link #endTriangulation()}
 	 */
@@ -153,7 +152,7 @@ public class GeoTriangulatedSurface3D {
 	/**
 	 * Get the surface mover for the current surfaces. Any change in the surface
 	 * after invocation of this method is not reflected by SurfaceMover
-	 * 
+	 *
 	 * @return a {@link SurfaceMover} for this Surface
 	 */
 	public SurfaceMover getSurfaceMover() {
@@ -168,8 +167,8 @@ public class GeoTriangulatedSurface3D {
 		private int next;
 		private MyPoint3D[] points;
 		private MyPoint3D[] normals;
-		private Triangle current = new Triangle(new CoordsDouble3(0, 0, 0),
-				new CoordsDouble3(0, 0, 0), new CoordsDouble3(0, 0, 0));
+		private Triangle current = new Triangle(
+				new CoordsDouble3(0, 0, 0), new CoordsDouble3(0, 0, 0), new CoordsDouble3(0, 0, 0));
 
 		/**
 		 * @param surf
@@ -217,13 +216,12 @@ public class GeoTriangulatedSurface3D {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return triangles count
 		 */
 		public int getTrianglesCount() {
 			return size / 3;
 		}
-
 	}
 
 	/**
@@ -257,7 +255,7 @@ public class GeoTriangulatedSurface3D {
 		public Coords3 n3;
 
 		/**
-		 * 
+		 *
 		 * @param c1
 		 *            Coordinate of first vertex
 		 * @param c2
@@ -266,12 +264,11 @@ public class GeoTriangulatedSurface3D {
 		 *            Coordinate of third vertex
 		 */
 		public Triangle(Coords3 c1, Coords3 c2, Coords3 c3) {
-			this(c1, c2, c3, UNDEFINED.copyVector(), UNDEFINED.copyVector(),
-					UNDEFINED.copyVector());
+			this(c1, c2, c3, UNDEFINED.copyVector(), UNDEFINED.copyVector(), UNDEFINED.copyVector());
 		}
 
 		/**
-		 * 
+		 *
 		 * @param c1
 		 *            Coordinate of first vertex
 		 * @param c2
@@ -285,8 +282,7 @@ public class GeoTriangulatedSurface3D {
 		 * @param n3
 		 *            Normal at third vertex
 		 */
-		public Triangle(Coords3 c1, Coords3 c2, Coords3 c3, Coords3 n1,
-				Coords3 n2, Coords3 n3) {
+		public Triangle(Coords3 c1, Coords3 c2, Coords3 c3, Coords3 n1, Coords3 n2, Coords3 n3) {
 			this.v1 = c1;
 			this.v2 = c2;
 			this.v3 = c3;

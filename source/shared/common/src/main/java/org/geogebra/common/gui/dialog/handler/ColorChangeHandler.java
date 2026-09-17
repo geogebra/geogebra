@@ -27,5 +27,4 @@ public interface ColorChangeHandler {
 	 * @param color new color
 	 */
 	void onColorChange(GColor color);
-
 }

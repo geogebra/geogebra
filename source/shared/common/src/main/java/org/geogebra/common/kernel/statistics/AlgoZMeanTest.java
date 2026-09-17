@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoZMeanTest extends AlgoElement {
@@ -56,8 +56,13 @@ public class AlgoZMeanTest extends AlgoElement {
 	 * @param tail
 	 *            &lt; or &gt; for one-sided test, default two-sided
 	 */
-	public AlgoZMeanTest(Construction cons, GeoNumeric mean, GeoNumeric sd,
-			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+	public AlgoZMeanTest(
+			Construction cons,
+			GeoNumeric mean,
+			GeoNumeric sd,
+			GeoNumeric n,
+			GeoNumeric hypMean,
+			GeoText tail) {
 		super(cons);
 		this.hypMean = hypMean;
 		this.tail = tail;
@@ -67,7 +72,6 @@ public class AlgoZMeanTest extends AlgoElement {
 		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
-
 	}
 
 	/**
@@ -84,8 +88,13 @@ public class AlgoZMeanTest extends AlgoElement {
 	 * @param tail
 	 *            &lt; or &gt; for one-sided test, default two-sided
 	 */
-	public AlgoZMeanTest(Construction cons, String label, GeoList list,
-			GeoNumeric sd, GeoNumeric hypMean, GeoText tail) {
+	public AlgoZMeanTest(
+			Construction cons,
+			String label,
+			GeoList list,
+			GeoNumeric sd,
+			GeoNumeric hypMean,
+			GeoText tail) {
 		super(cons);
 		this.hypMean = hypMean;
 		this.tail = tail;
@@ -119,7 +128,6 @@ public class AlgoZMeanTest extends AlgoElement {
 			input[1] = sd;
 			input[2] = hypMean;
 			input[3] = tail;
-
 		}
 
 		setOnlyOutput(result);
@@ -172,7 +180,6 @@ public class AlgoZMeanTest extends AlgoElement {
 		result.clear();
 		result.addNumber(P, null);
 		result.addNumber(testStatistic, null);
-
 	}
 
 	/**
@@ -193,5 +200,4 @@ public class AlgoZMeanTest extends AlgoElement {
 		}
 		return pValue;
 	}
-
 }

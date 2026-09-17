@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 /**
  * simple plane interface for all geos that can be considered as a plane (3D
  * plane, polygons, ...)
- * 
+ *
  * @author mathieu
  *
  */
@@ -31,14 +31,14 @@ public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, LinearEquation
 
 	/**
 	 * sets the fading for the "ends" of the plane
-	 * 
+	 *
 	 * @param fading
 	 *            fading
 	 */
 	void setFading(float fading);
 
 	/**
-	 * 
+	 *
 	 * @return the fading for the "ends" of the plane
 	 */
 	float getFading();
@@ -62,5 +62,4 @@ public interface GeoPlaneND extends GeoCoordSys2D, EquationValue, LinearEquation
 	 * @return distance
 	 */
 	double distanceWithSign(GeoPlaneND h3d);
-
 }

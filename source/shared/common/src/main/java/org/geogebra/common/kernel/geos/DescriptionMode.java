@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.geos;
 
 /**
  * Av display mode
- * 
+ *
  * @author Zbynek
  *
  */

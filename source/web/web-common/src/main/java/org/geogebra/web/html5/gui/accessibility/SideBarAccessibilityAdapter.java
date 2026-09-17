@@ -26,7 +26,7 @@ public interface SideBarAccessibilityAdapter {
 
 	/**
 	 * Sets focus to AV Input
-	 * 
+	 *
 	 * @param force
 	 *            force to open AV tab if not active
 	 * @param forceFade
@@ -34,5 +34,4 @@ public interface SideBarAccessibilityAdapter {
 	 * @return if input can be focused.
 	 */
 	boolean focusInput(boolean force, boolean forceFade);
-
 }

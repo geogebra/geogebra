@@ -27,8 +27,7 @@ public class AlgoSampleStandardDeviation extends AlgoStats1D {
 		super(cons, geoList, AlgoStats1D.STATS_SAMPLE_SD);
 	}
 
-	public AlgoSampleStandardDeviation(Construction cons, GeoList geoList,
-			GeoList freq) {
+	public AlgoSampleStandardDeviation(Construction cons, GeoList geoList, GeoList freq) {
 		super(cons, geoList, freq, AlgoStats1D.STATS_SAMPLE_SD);
 	}
 

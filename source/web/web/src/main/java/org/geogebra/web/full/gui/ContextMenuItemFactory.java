@@ -77,8 +77,8 @@ public class ContextMenuItemFactory {
 	 * @param submenu Submenu if any.
 	 * @return a new AriaMenuItem instance.
 	 */
-	public AriaMenuItem newAriaMenuItem(String text,
-			@Nullable ResourcePrototype icon, AriaMenuBar submenu) {
+	public AriaMenuItem newAriaMenuItem(
+			String text, @Nullable ResourcePrototype icon, AriaMenuBar submenu) {
 		return new AriaMenuItem(text, icon, submenu);
 	}
 
@@ -102,8 +102,8 @@ public class ContextMenuItemFactory {
 	 * @param command command
 	 * @return the new checkmark capable item.
 	 */
-	public GCheckmarkMenuItem newCheckmarkMenuItem(IconSpec icon,
-			String title, boolean checked, ScheduledCommand command) {
+	public GCheckmarkMenuItem newCheckmarkMenuItem(
+			IconSpec icon, String title, boolean checked, ScheduledCommand command) {
 		return new GCheckmarkMenuItem(icon, title, checked, command);
 	}
 }

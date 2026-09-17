@@ -25,15 +25,14 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * n-th element of a GeoList object.
- * 
+ *
  * Note: the type of the returned GeoElement object is determined by the type of
  * the first list element. If the list is initially empty, a GeoNumeric object
  * is created for element.
- * 
+ *
  * @author Michael
  * @version 20100205
  */
-
 public class AlgoTextElement extends AlgoElement {
 
 	private GeoText text; // input
@@ -51,8 +50,7 @@ public class AlgoTextElement extends AlgoElement {
 	 * @param num
 	 *            index
 	 */
-	public AlgoTextElement(Construction cons, String label, GeoText text,
-			GeoNumberValue num) {
+	public AlgoTextElement(Construction cons, String label, GeoText text, GeoNumberValue num) {
 		super(cons);
 		this.text = text;
 		this.num = num;
@@ -104,5 +102,4 @@ public class AlgoTextElement extends AlgoElement {
 			textOut.setTextString(str.charAt(n - 1) + "");
 		}
 	}
-
 }

@@ -1,7 +1,7 @@
 package com.himamis.retex.renderer.share;
 
 public record BoxPosition(double x, double y, double scale, double baseline) {
-	
+
 	public static final BoxPosition ZERO = new BoxPosition(0, 0, 1, 0);
 
 	public BoxPosition withPosition(double x, double y) {

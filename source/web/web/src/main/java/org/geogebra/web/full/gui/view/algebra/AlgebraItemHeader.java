@@ -31,7 +31,7 @@ public interface AlgebraItemHeader extends IsWidget, SetLabels {
 
 	/**
 	 * Show the right content (+, warning, number or marble)
-	 * 
+	 *
 	 * @param warning
 	 *            whether to show warning
 	 */
@@ -53,7 +53,7 @@ public interface AlgebraItemHeader extends IsWidget, SetLabels {
 
 	/**
 	 * Set number (starting from 1)
-	 * 
+	 *
 	 * @param index
 	 *            index in AV
 	 */

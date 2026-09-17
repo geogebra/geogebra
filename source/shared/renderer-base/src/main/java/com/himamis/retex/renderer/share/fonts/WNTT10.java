@@ -199,6 +199,5 @@ final class WNTT10 extends UniFontInfo {
 		setMetrics(1100, 525, 431);
 
 		setMetrics(1098, 525, 431);
-
 	}
 }

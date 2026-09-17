@@ -42,7 +42,6 @@ public class DecoAngleModel extends IconOptionsModel {
 
 		AngleProperties geo0 = getAnglePropertiesAt(0);
 		listener.setSelectedIndex(geo0.getDecorationType());
-
 	}
 
 	@Override
@@ -79,5 +78,4 @@ public class DecoAngleModel extends IconOptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	}
-
 }

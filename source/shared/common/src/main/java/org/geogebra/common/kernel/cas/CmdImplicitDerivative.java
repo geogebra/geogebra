@@ -49,10 +49,9 @@ public class CmdImplicitDerivative extends CommandProcessor implements UsesCAS {
 			throw argErr(c, args[0]);
 		}
 
-		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons,
-				c.getLabel(), (FunctionalNVar) args[0]);
+		AlgoImplicitDerivative algo =
+				new AlgoImplicitDerivative(cons, c.getLabel(), (FunctionalNVar) args[0]);
 
-		return new GeoElement[] { algo.getResult() };
+		return new GeoElement[] {algo.getResult()};
 	}
-
 }

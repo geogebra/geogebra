@@ -36,5 +36,4 @@ public final class DownloadPngAction extends DownloadImageAction {
 		app.getActiveEuclidianView().getEuclidianController().widgetsToBackground();
 		exportImage(ExportImageDialog.getExportDataURL(app));
 	}
-
 }

@@ -24,10 +24,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoRealDistribution2Params extends AlgoDistribution {
 
 	private final ProbabilityCalculatorSettings.Dist dist;
@@ -40,8 +39,13 @@ public class AlgoRealDistribution2Params extends AlgoDistribution {
 	 * @param cumulative flag for CDF
 	 * @param dist distribution
 	 */
-	public AlgoRealDistribution2Params(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue c, GeoBoolean cumulative, ProbabilityCalculatorSettings.Dist dist) {
+	public AlgoRealDistribution2Params(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoBoolean cumulative,
+			ProbabilityCalculatorSettings.Dist dist) {
 		super(cons, cumulative, a, b, c);
 		this.dist = dist;
 		compute();
@@ -55,8 +59,7 @@ public class AlgoRealDistribution2Params extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double param = a.getDouble();
 			double param2 = b.getDouble();
 			try {
@@ -69,5 +72,4 @@ public class AlgoRealDistribution2Params extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

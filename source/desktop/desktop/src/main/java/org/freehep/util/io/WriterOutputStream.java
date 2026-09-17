@@ -7,7 +7,7 @@ import java.io.Writer;
 
 /**
  * The WriterOutputStream makes a Writer look like an OutputStream.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: WriterOutputStream.java,v 1.3 2008-05-04 12:22:15 murkle Exp $
  */
@@ -17,7 +17,7 @@ public class WriterOutputStream extends OutputStream {
 
 	/**
 	 * Create an Output Stream from given Writer.
-	 * 
+	 *
 	 * @param writer
 	 *            writer to write to
 	 */

@@ -21,13 +21,13 @@ package org.geogebra.common.util.debug.crashlytics;
  */
 public interface CrashlyticsInterface {
 
-    /**
-     * @param message log message
-     */
-    void log(String message);
+	/**
+	 * @param message log message
+	 */
+	void log(String message);
 
-    /**
-     * @param exception exception
-     */
-    void recordException(Throwable exception);
+	/**
+	 * @param exception exception
+	 */
+	void recordException(Throwable exception);
 }

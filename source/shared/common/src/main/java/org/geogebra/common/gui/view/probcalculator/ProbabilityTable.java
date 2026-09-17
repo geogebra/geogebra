@@ -30,7 +30,7 @@ import com.google.j2objc.annotations.AutoreleasePool;
 
 /**
  * @author gabor
- * 
+ *
  *         superclass for probability table
  *
  */
@@ -41,6 +41,7 @@ public abstract class ProbabilityTable {
 	 * Application
 	 */
 	private App app;
+
 	private ProbabilityManager probManager;
 	private ProbabilityCalculatorView probCalc;
 	private String[] columnNames;
@@ -93,10 +94,8 @@ public abstract class ProbabilityTable {
 					+ Unicode.LESS_EQUAL + " k"
 					+ loc.getMenu("EndProbabilityOf");
 		} else {
-			columnNames[1] = loc.getMenu("ProbabilityOf") + "X = k"
-					+ loc.getMenu("EndProbabilityOf");
+			columnNames[1] = loc.getMenu("ProbabilityOf") + "X = k" + loc.getMenu("EndProbabilityOf");
 		}
-
 	}
 
 	protected boolean isCumulative() {
@@ -116,8 +115,7 @@ public abstract class ProbabilityTable {
 	 * @param xMin2 minimum of selected interval
 	 * @param xMax2 maximum od selected interval
 	 */
-	public abstract void setTable(Dist distType2, GeoNumberValue[] params, int xMin2,
-			int xMax2);
+	public abstract void setTable(Dist distType2, GeoNumberValue[] params, int xMin2, int xMax2);
 
 	protected ProbabilityManager getProbManager() {
 		return probManager;
@@ -166,8 +164,7 @@ public abstract class ProbabilityTable {
 		return columnNames;
 	}
 
-	protected void setTableModel(Dist distType1, GeoNumberValue[] params1, int xMin1,
-			int xMax1) {
+	protected void setTableModel(Dist distType1, GeoNumberValue[] params1, int xMin1, int xMax1) {
 		this.distType = distType1;
 		this.xMin = xMin1;
 		this.xMax = xMax1;
@@ -175,14 +172,14 @@ public abstract class ProbabilityTable {
 		setColumnNames();
 	}
 
-	protected void fillRows(ProbabilityCalculatorSettings.Dist distType,
-			GeoNumberValue[] params, int xMin, int xMax) {
+	protected void fillRows(
+			ProbabilityCalculatorSettings.Dist distType, GeoNumberValue[] params, int xMin, int xMax) {
 		if (distType == null) {
 			return;
 		}
 		GeoNumeric xValue = new GeoNumeric(app.getKernel().getConstruction(), xMin);
-		AlgoDistribution algoDistribution = getProbManager().getDistributionAlgorithm(xValue,
-				this.params, distType, isCumulative());
+		AlgoDistribution algoDistribution =
+				getProbManager().getDistributionAlgorithm(xValue, this.params, distType, isCumulative());
 
 		for (@AutoreleasePool int x = xMin; x <= xMax; x++) {
 			xValue.setValue(x);
@@ -194,5 +191,4 @@ public abstract class ProbabilityTable {
 	}
 
 	protected abstract void setRowValues(int row, String k, String prob);
-
 }

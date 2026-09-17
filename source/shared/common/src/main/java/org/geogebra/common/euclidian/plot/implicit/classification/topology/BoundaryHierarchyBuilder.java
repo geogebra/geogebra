@@ -55,20 +55,20 @@ final class BoundaryHierarchyBuilder {
 		for (BoundaryCycle inner : cycles) {
 			candidates.clear();
 			for (BoundaryCycle outer : cycles) {
-				if (inner == outer || inner.getAbsArea() >= outer.getAbsArea()
+				if (inner == outer
+						|| inner.getAbsArea() >= outer.getAbsArea()
 						|| BoundaryUtils.hasNearlyEqualArea(inner, outer)) {
 					continue;
 				}
 				if (inner.getSignedArea() < 0 && outer.getSignedArea() < 0) {
 					continue;
 				}
-				PlanarGraph.Containment containment = classifyPointInPolygon(graph,
-						inner.getContainmentProbePoint(), outer);
+				PlanarGraph.Containment containment =
+						classifyPointInPolygon(graph, inner.getContainmentProbePoint(), outer);
 				logParentCandidate(inner, outer, containment);
 				if (containment == PlanarGraph.Containment.BOUNDARY) {
 					throw new IllegalStateException(
-							"Ambiguous boundary hierarchy: probe point lies on "
-									+ "candidate parent boundary");
+							"Ambiguous boundary hierarchy: probe point lies on " + "candidate parent boundary");
 				}
 				if (containment == PlanarGraph.Containment.INSIDE) {
 					candidates.add(outer);
@@ -78,11 +78,10 @@ final class BoundaryHierarchyBuilder {
 			if (candidates.size() > 1) {
 				double area0 = candidates.get(0).getAbsArea();
 				double area1 = candidates.get(1).getAbsArea();
-				if (Math.abs(area0 - area1) <= Math.max(GEOMETRY_EPSILON,
-						area0 * AREA_RELATIVE_TOLERANCE)) {
+				if (Math.abs(area0 - area1)
+						<= Math.max(GEOMETRY_EPSILON, area0 * AREA_RELATIVE_TOLERANCE)) {
 					throw new IllegalStateException(
-							"Ambiguous boundary hierarchy: multiple equally small "
-									+ "parent candidates");
+							"Ambiguous boundary hierarchy: multiple equally small " + "parent candidates");
 				}
 			}
 			BoundaryCycle parent = candidates.isEmpty() ? null : candidates.get(0);
@@ -110,13 +109,12 @@ final class BoundaryHierarchyBuilder {
 			}
 			for (int j = i + 1; j < roots.size(); j++) {
 				BoundaryCycle outer = roots.get(j);
-				PlanarGraph.Containment probeContainment = classifyPointInPolygon(graph,
-						inner.getContainmentProbePoint(), outer);
+				PlanarGraph.Containment probeContainment =
+						classifyPointInPolygon(graph, inner.getContainmentProbePoint(), outer);
 				BoundaryContainmentCheck boundaryCheck = boundaryContainmentOf(inner, outer);
 				logRootPair(inner, outer, probeContainment, boundaryCheck);
 				if (isNestedRoot(inner, outer, probeContainment, boundaryCheck)) {
-					logAssignedParent(inner, outer,
-							parentAssignmentReason(probeContainment));
+					logAssignedParent(inner, outer, parentAssignmentReason(probeContainment));
 					inner.setParentId(outer.getId());
 					outer.addChildId(inner.getId());
 					break;
@@ -125,7 +123,9 @@ final class BoundaryHierarchyBuilder {
 		}
 	}
 
-	private boolean isNestedRoot(BoundaryCycle inner, BoundaryCycle outer,
+	private boolean isNestedRoot(
+			BoundaryCycle inner,
+			BoundaryCycle outer,
 			PlanarGraph.Containment probeContainment,
 			BoundaryContainmentCheck boundaryCheck) {
 		if (!boundaryCheck.contained() || inner.getAbsArea() >= outer.getAbsArea()) {
@@ -136,8 +136,7 @@ final class BoundaryHierarchyBuilder {
 	}
 
 	private boolean isBadProbeWithContainedBoundary(
-			PlanarGraph.Containment probeContainment,
-			BoundaryContainmentCheck boundaryCheck) {
+			PlanarGraph.Containment probeContainment, BoundaryContainmentCheck boundaryCheck) {
 		return probeContainment == PlanarGraph.Containment.OUTSIDE
 				&& boundaryCheck.outsideVertices() == 0
 				&& boundaryCheck.insideVertices() > 0;
@@ -149,8 +148,7 @@ final class BoundaryHierarchyBuilder {
 				: "boundary-contained-fallback";
 	}
 
-	private BoundaryContainmentCheck boundaryContainmentOf(BoundaryCycle inner,
-			BoundaryCycle outer) {
+	private BoundaryContainmentCheck boundaryContainmentOf(BoundaryCycle inner, BoundaryCycle outer) {
 		double[] xCoordinates = inner.getXCoordinates(graph);
 		double[] yCoordinates = inner.getYCoordinates(graph);
 		List<Integer> halfEdgeIds = inner.getHalfEdgeIds();
@@ -162,8 +160,7 @@ final class BoundaryHierarchyBuilder {
 		GPoint2D firstOutsidePoint = null;
 		for (int i = 0; i < inner.size(); i++) {
 			GPoint2D point = new GPoint2D(xCoordinates[i], yCoordinates[i]);
-			PlanarGraph.Containment containment = classifyPointInPolygon(graph,
-					point, outer);
+			PlanarGraph.Containment containment = classifyPointInPolygon(graph, point, outer);
 			if (containment == PlanarGraph.Containment.OUTSIDE) {
 				outsideVertices++;
 				if (firstOutsideHalfEdgeId == -1) {
@@ -179,8 +176,12 @@ final class BoundaryHierarchyBuilder {
 				boundaryVertices++;
 			}
 		}
-		return new BoundaryContainmentCheck(outsideVertices == 0 && hasStrictlyInsideVertex,
-				insideVertices, boundaryVertices, outsideVertices, firstOutsideHalfEdgeId,
+		return new BoundaryContainmentCheck(
+				outsideVertices == 0 && hasStrictlyInsideVertex,
+				insideVertices,
+				boundaryVertices,
+				outsideVertices,
+				firstOutsideHalfEdgeId,
 				firstOutsidePoint);
 	}
 
@@ -197,8 +198,8 @@ final class BoundaryHierarchyBuilder {
 		}
 	}
 
-	private void assignBoundaryDepth(BoundaryCycle cycle, int depth,
-			Map<Integer, BoundaryCycle> byId) {
+	private void assignBoundaryDepth(
+			BoundaryCycle cycle, int depth, Map<Integer, BoundaryCycle> byId) {
 		cycle.setDepth(depth);
 		for (int childId : cycle.getChildIds()) {
 			assignBoundaryDepth(byId.get(childId), depth + 1, byId);
@@ -213,8 +214,8 @@ final class BoundaryHierarchyBuilder {
 		return byId;
 	}
 
-	private void logParentCandidate(BoundaryCycle inner, BoundaryCycle outer,
-			PlanarGraph.Containment containment) {
+	private void logParentCandidate(
+			BoundaryCycle inner, BoundaryCycle outer, PlanarGraph.Containment containment) {
 		if (!HIERARCHY_DEBUG_LOGGING || !hasOverlappingBox(inner, outer)) {
 			return;
 		}
@@ -226,7 +227,9 @@ final class BoundaryHierarchyBuilder {
 				+ classifyPointInPolygon(graph, outer.getContainmentProbePoint(), inner));
 	}
 
-	private void logRootPair(BoundaryCycle inner, BoundaryCycle outer,
+	private void logRootPair(
+			BoundaryCycle inner,
+			BoundaryCycle outer,
 			PlanarGraph.Containment probeContainment,
 			BoundaryContainmentCheck boundaryCheck) {
 		if (!HIERARCHY_DEBUG_LOGGING || !hasOverlappingBox(inner, outer)) {
@@ -278,14 +281,16 @@ final class BoundaryHierarchyBuilder {
 
 	private Box boxOf(BoundaryCycle cycle) {
 		PlanarGeometry.BoundingBox boundingBox = cycle.getBoundingBox(graph);
-		return new Box(boundingBox.minX, boundingBox.minY, boundingBox.maxX,
-				boundingBox.maxY);
+		return new Box(boundingBox.minX, boundingBox.minY, boundingBox.maxX, boundingBox.maxY);
 	}
 
-	private record BoundaryContainmentCheck(boolean contained, int insideVertices,
-			int boundaryVertices, int outsideVertices, int firstOutsideHalfEdgeId,
-			GPoint2D firstOutsidePoint) {
-	}
+	private record BoundaryContainmentCheck(
+			boolean contained,
+			int insideVertices,
+			int boundaryVertices,
+			int outsideVertices,
+			int firstOutsideHalfEdgeId,
+			GPoint2D firstOutsidePoint) {}
 
 	private record Box(double minX, double minY, double maxX, double maxY) {
 		@Override

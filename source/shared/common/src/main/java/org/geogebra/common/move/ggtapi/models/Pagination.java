@@ -31,5 +31,4 @@ public class Pagination {
 		this.to = to;
 		this.total = total;
 	}
-
 }

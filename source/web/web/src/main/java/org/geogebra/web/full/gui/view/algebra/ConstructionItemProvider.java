@@ -41,8 +41,8 @@ public final class ConstructionItemProvider implements HasLastItem {
 	 * @param cons construction
 	 * @param algebraView Algebra view
 	 */
-	public ConstructionItemProvider(Construction cons, AlgebraViewW algebraView,
-									ToStringConverter converter) {
+	public ConstructionItemProvider(
+			Construction cons, AlgebraViewW algebraView, ToStringConverter converter) {
 		this.cons = cons;
 		this.algebraView = algebraView;
 		this.converter = converter;

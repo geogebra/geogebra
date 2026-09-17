@@ -33,7 +33,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Draws definite Integral of a GeoFunction
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class DrawIntegralFunctions extends DrawFunctionArea {
@@ -51,7 +51,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 
 	/**
 	 * Creates drawable for integral between two functions
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param n
@@ -59,8 +59,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 	 * @param casObject
 	 *            true if n was created from a GeoCasCell
 	 */
-	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n,
-			boolean casObject) {
+	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n, boolean casObject) {
 		this.view = view;
 		this.n = n;
 		geo = n;
@@ -78,8 +77,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 			initFromCasObject();
 			return;
 		}
-		AlgoIntegralFunctions algo = (AlgoIntegralFunctions) n
-				.getDrawAlgorithm();
+		AlgoIntegralFunctions algo = (AlgoIntegralFunctions) n.getDrawAlgorithm();
 		f = algo.getF();
 		g = algo.getG();
 		a = algo.getA();
@@ -98,7 +96,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
@@ -106,8 +104,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
 
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())
-				|| isCasObject) {
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()) || isCasObject) {
 			init();
 		}
 
@@ -115,8 +112,8 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		double aRW = Math.min(a.getDouble(), b.getDouble());
 		double bRW = Math.max(a.getDouble(), b.getDouble());
 
-		double clipX = view.toRealWorldCoordX(EuclidianStatic.CLIP_DISTANCE)
-				- view.toRealWorldCoordX(0);
+		double clipX =
+				view.toRealWorldCoordX(EuclidianStatic.CLIP_DISTANCE) - view.toRealWorldCoordX(0);
 		// double clipY = view.toRealWorldCoordY(0)
 		// - view.toRealWorldCoordY(EuclidianStatic.CLIP_DISTANCE);
 
@@ -169,7 +166,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (isHighlighted()) {
 				g2.setPaint(n.getSelColor());
@@ -195,9 +192,8 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
-		return gp != null
-				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
+	public final boolean hit(int x, int y, int hitThreshold) {
+		return gp != null && (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
 	}
 
 	@Override
@@ -206,7 +202,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return false;
 	}
 
@@ -214,11 +210,10 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		return gp.getBounds();
 	}
-
 }

@@ -74,9 +74,12 @@ public class GgbAPIWTest {
 		when(toolbarPanel.getTab(anyObject())).thenAnswer((Answer<ToolbarTab>) invocation -> {
 			DockPanelData.TabIds tabID = invocation.getArgumentAt(0, DockPanelData.TabIds.class);
 			switch (tabID) {
-			case TABLE: return tableTab;
-			case TOOLS: return toolsTab;
-			case ALGEBRA: return algebraTab;
+				case TABLE:
+					return tableTab;
+				case TOOLS:
+					return toolsTab;
+				case ALGEBRA:
+					return algebraTab;
 			}
 			return null;
 		});

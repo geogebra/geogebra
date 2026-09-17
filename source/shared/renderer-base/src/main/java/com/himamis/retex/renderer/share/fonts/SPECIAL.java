@@ -15,6 +15,5 @@ final class SPECIAL extends FontInfo {
 		setMetrics(101, 500, 680, 13);
 
 		setMetrics(109, 500, 450, 200);
-
 	}
 }

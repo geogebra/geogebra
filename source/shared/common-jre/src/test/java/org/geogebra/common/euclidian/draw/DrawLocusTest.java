@@ -52,8 +52,8 @@ class DrawLocusTest extends BaseAppTestSetup {
 		evaluate("A=Point(" + line + ")");
 		evaluate("B=A-(0,0)");
 		evaluate("loc=Locus(B,A)");
-		DrawLocus locus = (DrawLocus) getApp().getActiveEuclidianView()
-				.getDrawableFor(getKernel().lookupLabel("loc"));
+		DrawLocus locus = (DrawLocus)
+				getApp().getActiveEuclidianView().getDrawableFor(getKernel().lookupLabel("loc"));
 		GGraphics2D graphics = mock(GGraphics2D.class);
 		assertNotNull(locus);
 		locus.draw(graphics);
@@ -61,13 +61,14 @@ class DrawLocusTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource(value = {"PenStroke((0,0),(10,1)):1", "PenStroke((1000,0),(1000,1)):0"},
+	@CsvSource(
+			value = {"PenStroke((0,0),(10,1)):1", "PenStroke((1000,0),(1000,1)):0"},
 			delimiterString = ":")
 	void strokesOnlyShownWhenOnScreen(String stroke, int images) {
 		setupApp(SuiteSubApp.G3D);
 		evaluate("stroke=" + stroke);
-		DrawLocus locus = (DrawLocus) getApp().getActiveEuclidianView()
-				.getDrawableFor(getKernel().lookupLabel("stroke"));
+		DrawLocus locus = (DrawLocus)
+				getApp().getActiveEuclidianView().getDrawableFor(getKernel().lookupLabel("stroke"));
 		GGraphics2D graphics = mock(GGraphics2D.class);
 		assertNotNull(locus);
 		locus.draw(graphics);
@@ -90,18 +91,17 @@ class DrawLocusTest extends BaseAppTestSetup {
 		};
 		AwtFactoryCommon.setImageFactory((width, height) -> mock);
 		evaluate("stroke=PenStroke((1,1),(1,1))");
-		DrawLocus locus = (DrawLocus) getApp().getActiveEuclidianView()
-				.getDrawableFor(getKernel().lookupLabel("stroke"));
+		DrawLocus locus = (DrawLocus)
+				getApp().getActiveEuclidianView().getDrawableFor(getKernel().lookupLabel("stroke"));
 		GGraphics2D graphics = mock(GGraphics2D.class);
 		assertNotNull(locus);
 		locus.draw(graphics);
 		// strokes should use bitmap buffer, no paths should be drawn
 		Mockito.verify(graphics, never()).draw(any());
-		Mockito.verify(cachedGraphics, times(1)).draw(
-				ArgumentMatchers.argThat(p -> p instanceof GGeneralPath && isStroke(p)));
+		Mockito.verify(cachedGraphics, times(1))
+				.draw(ArgumentMatchers.argThat(p -> p instanceof GGeneralPath && isStroke(p)));
 		// check that we've drawn the buffered stoke
-		Mockito.verify(graphics, times(1))
-				.drawImage(Mockito.<GBufferedImage>any(), anyInt(), anyInt());
+		Mockito.verify(graphics, times(1)).drawImage(Mockito.<GBufferedImage>any(), anyInt(), anyInt());
 	}
 
 	@AfterEach

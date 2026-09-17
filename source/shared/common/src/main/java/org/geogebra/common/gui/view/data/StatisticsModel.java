@@ -24,13 +24,13 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 /**
- * 
+ *
  * Extended JPanel that displays: (1) summary statistics for the current data
  * set (2) interactive panels for performing statistical inference with the
  * current data set
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class StatisticsModel {
 	// inference mode constants
@@ -90,12 +90,11 @@ public class StatisticsModel {
 
 		@MissingDoc
 		void updateAnovaTable();
-
 	}
 
 	/*************************************
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param model
@@ -103,8 +102,7 @@ public class StatisticsModel {
 	 * @param listener
 	 *            UI
 	 */
-	public StatisticsModel(App app, DataAnalysisModel model,
-			IStatisticsModelListener listener) {
+	public StatisticsModel(App app, DataAnalysisModel model, IStatisticsModelListener listener) {
 		this.loc = app.getLocalization();
 		this.daModel = model;
 		this.listener = listener;
@@ -117,34 +115,32 @@ public class StatisticsModel {
 	public void fillInferenceModes() {
 
 		switch (daModel.getMode()) {
+			default:
+			case DataAnalysisModel.MODE_ONEVAR:
+				listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
+				listener.addInferenceMode(labelMap.get(INFER_Z_TEST));
+				listener.addInferenceMode(labelMap.get(INFER_T_TEST));
+				listener.addInferenceMode(listener.getSeparator());
+				listener.addInferenceMode(labelMap.get(INFER_Z_INT));
+				listener.addInferenceMode(labelMap.get(INFER_T_INT));
+				break;
 
-		default:
-		case DataAnalysisModel.MODE_ONEVAR:
-			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
-			listener.addInferenceMode(labelMap.get(INFER_Z_TEST));
-			listener.addInferenceMode(labelMap.get(INFER_T_TEST));
-			listener.addInferenceMode(listener.getSeparator());
-			listener.addInferenceMode(labelMap.get(INFER_Z_INT));
-			listener.addInferenceMode(labelMap.get(INFER_T_INT));
-			break;
+			case DataAnalysisModel.MODE_REGRESSION:
+				listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
+				break;
 
-		case DataAnalysisModel.MODE_REGRESSION:
-			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
-			break;
-
-		case DataAnalysisModel.MODE_MULTIVAR:
-			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
-			listener.addInferenceMode(labelMap.get(INFER_ANOVA));
-			listener.addInferenceMode(labelMap.get(INFER_T_TEST_2MEANS));
-			listener.addInferenceMode(labelMap.get(INFER_T_TEST_PAIRED));
-			listener.addInferenceMode(listener.getSeparator());
-			listener.addInferenceMode(labelMap.get(INFER_T_INT_2MEANS));
-			listener.addInferenceMode(labelMap.get(INFER_T_INT_PAIRED));
-			break;
+			case DataAnalysisModel.MODE_MULTIVAR:
+				listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
+				listener.addInferenceMode(labelMap.get(INFER_ANOVA));
+				listener.addInferenceMode(labelMap.get(INFER_T_TEST_2MEANS));
+				listener.addInferenceMode(labelMap.get(INFER_T_TEST_PAIRED));
+				listener.addInferenceMode(listener.getSeparator());
+				listener.addInferenceMode(labelMap.get(INFER_T_INT_2MEANS));
+				listener.addInferenceMode(labelMap.get(INFER_T_INT_PAIRED));
+				break;
 		}
 
 		listener.selectInferenceMode(labelMap.get(getSelectedMode()));
-
 	}
 
 	/**
@@ -168,10 +164,8 @@ public class StatisticsModel {
 
 		labelMap.put(INFER_T_TEST_2MEANS, loc.getMenu("TTestDifferenceOfMeans"));
 		labelMap.put(INFER_T_TEST_PAIRED, loc.getMenu("TTestPairedDifferences"));
-		labelMap.put(INFER_T_INT_2MEANS,
-				loc.getMenu("TEstimateDifferenceOfMeans"));
-		labelMap.put(INFER_T_INT_PAIRED,
-				loc.getMenu("TEstimatePairedDifferences"));
+		labelMap.put(INFER_T_INT_2MEANS, loc.getMenu("TEstimateDifferenceOfMeans"));
+		labelMap.put(INFER_T_INT_PAIRED, loc.getMenu("TEstimatePairedDifferences"));
 
 		// REVERSE LABEL MAP
 		labelMapReverse = new HashMap<>();
@@ -179,7 +173,6 @@ public class StatisticsModel {
 
 			labelMapReverse.put(entry.getValue(), entry.getKey());
 		}
-
 	}
 
 	/**
@@ -187,27 +180,25 @@ public class StatisticsModel {
 	 */
 	public void update() {
 		switch (getSelectedMode()) {
+			default:
+			case INFER_Z_TEST:
+			case INFER_T_TEST:
+			case INFER_Z_INT:
+			case INFER_T_INT:
+				listener.updateOneVarInference(selectedMode);
+				break;
 
-		default:
-		case INFER_Z_TEST:
-		case INFER_T_TEST:
-		case INFER_Z_INT:
-		case INFER_T_INT:
-			listener.updateOneVarInference(selectedMode);
-			break;
+			case INFER_T_TEST_2MEANS:
+			case INFER_T_TEST_PAIRED:
+			case INFER_T_INT_2MEANS:
+			case INFER_T_INT_PAIRED:
+				listener.updateTwoVarInference(selectedMode);
+				break;
 
-		case INFER_T_TEST_2MEANS:
-		case INFER_T_TEST_PAIRED:
-		case INFER_T_INT_2MEANS:
-		case INFER_T_INT_PAIRED:
-			listener.updateTwoVarInference(selectedMode);
-			break;
-
-		case INFER_ANOVA:
-			listener.updateAnovaTable();
-			break;
+			case INFER_ANOVA:
+				listener.updateAnovaTable();
+				break;
 		}
-
 	}
 
 	/**
@@ -229,5 +220,4 @@ public class StatisticsModel {
 	public void setSelectedMode(int selectedMode) {
 		this.selectedMode = selectedMode;
 	}
-
 }

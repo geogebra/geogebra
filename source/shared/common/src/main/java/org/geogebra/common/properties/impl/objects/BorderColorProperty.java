@@ -34,8 +34,9 @@ public class BorderColorProperty extends ElementColorProperty {
 	 * @param element - element
 	 * @throws NotApplicablePropertyException when one of the elements has no color
 	 */
-	public BorderColorProperty(Localization localization, GeoElement element,
-			List<GColor> colorValues, String name) throws NotApplicablePropertyException {
+	public BorderColorProperty(
+			Localization localization, GeoElement element, List<GColor> colorValues, String name)
+			throws NotApplicablePropertyException {
 		super(localization, new TextMindmapDelegate(element), name);
 		this.element = element;
 		setValues(colorValues);

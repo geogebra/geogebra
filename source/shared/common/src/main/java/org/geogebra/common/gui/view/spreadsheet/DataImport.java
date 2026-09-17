@@ -24,11 +24,10 @@ import org.geogebra.regexp.shared.RegExp;
 
 /**
  * Utility class with methods to handle importing data into the spreadsheet.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-
 public class DataImport {
 
 	private static CSVParser commaParser;
@@ -39,7 +38,7 @@ public class DataImport {
 	 * spreadsheet into other parts of GeoGebra eg input bar also see
 	 * CopyPasteCutD.copy()
 	 */
-	final static String decimalSeparator = ".";
+	static final String decimalSeparator = ".";
 	// match numbers with commas every 3 digits eg 1,234
 	// 1,234,567
 	// 12,456
@@ -51,12 +50,11 @@ public class DataImport {
 	// 1
 	// 0,123
 	// 123,456789
-	final private static RegExp regex = RegExp
-			.compile("^-?\\d?\\d?\\d,(\\d\\d\\d,)*\\d\\d\\d$");
-	
+	private static final RegExp regex = RegExp.compile("^-?\\d?\\d?\\d,(\\d\\d\\d,)*\\d\\d\\d$");
+
 	/**
 	 * Parses external non-ggb data.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param source
@@ -65,8 +63,7 @@ public class DataImport {
 	 *            true = comma delimited parsing, false = tab delimited parsing
 	 * @return 2D string array with values formatted for the spreadsheet.
 	 */
-	public static String[][] parseExternalData(App app, String source,
-			boolean isCSV) {
+	public static String[][] parseExternalData(App app, String source, boolean isCSV) {
 
 		String[][] data;
 
@@ -114,7 +111,6 @@ public class DataImport {
 		}
 
 		return dataRet;
-
 	}
 
 	private static CSVParser getCommaParser() {
@@ -140,8 +136,7 @@ public class DataImport {
 		}
 
 		// create 2D data array
-		int numLines = lines[lines.length - 1].length() == 0 ? lines.length - 1
-				: lines.length;
+		int numLines = lines[lines.length - 1].length() == 0 ? lines.length - 1 : lines.length;
 		String[][] data = new String[numLines][];
 
 		// parse each line and add to data array
@@ -170,8 +165,7 @@ public class DataImport {
 		}
 
 		// create 2D data array
-		int numLines = lines[lines.length - 1].length() == 0 ? lines.length - 1
-				: lines.length;
+		int numLines = lines[lines.length - 1].length() == 0 ? lines.length - 1 : lines.length;
 		String[][] data = new String[numLines][];
 
 		// parse each line and add to data array
@@ -195,9 +189,9 @@ public class DataImport {
 	/**
 	 * Returns an unformatted number string (e.g. "1,234,567" --&gt; "1234567")
 	 * otherwise the comma is replaced with a . eg 1,234567 -&gt; 1.234567
-	 * 
+	 *
 	 * Note: 1,234 is ambiguous, convert to 1234
-	 * 
+	 *
 	 * if the given string is a number that Geogebra's parser recognizes. If
 	 * cannot be parsed to a number, then the original string is returned.
 	 */
@@ -222,6 +216,5 @@ public class DataImport {
 		}
 
 		return s;
-
 	}
 }

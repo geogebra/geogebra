@@ -31,11 +31,10 @@ import org.geogebra.common.util.MyMath;
  * Osculating Circle of a function f in point A: center = A + (radius)^2 * v
  * radius = 1/abs(k(x)), k(x)=curvature of f v = curvature vector of f in point
  * A
- * 
+ *
  * @author Victor Franco Espino
  * @version 11-02-2007
  */
-
 public class AlgoOsculatingCircle extends AlgoElement {
 
 	private GeoPoint A; // input
@@ -124,5 +123,4 @@ public class AlgoOsculatingCircle extends AlgoElement {
 		// make sure all AlgoCASDerivatives get removed
 		cv.remove();
 	}
-
 }

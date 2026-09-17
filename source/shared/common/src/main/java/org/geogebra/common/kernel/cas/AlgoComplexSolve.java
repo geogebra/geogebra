@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -59,16 +59,16 @@ public class AlgoComplexSolve extends AlgoSolve {
 			GeoSymbolicPoint pt = new GeoSymbolicPoint(geo.getConstruction());
 			ExpressionNode definition = geo.getDefinition();
 			if (geo instanceof GeoNumeric) {
-				pt.setCoords(geo.evaluateDouble(), 0 , 1);
+				pt.setCoords(geo.evaluateDouble(), 0, 1);
 				var = geo.getLabelSimple();
 				definition = addImaginaryPart(definition);
 			} else if (geo instanceof GeoPlaneND) {
 				Coords equationVector = ((GeoPlaneND) geo).getCoordSys().getEquationVector();
-				pt.setCoords(equationVector.getW() / equationVector.getZ(), 0 , 1);
+				pt.setCoords(equationVector.getW() / equationVector.getZ(), 0, 1);
 				var = "z";
 			} else if (geo instanceof GeoLine) {
 				var = ((EquationValue) geo).getEquationVariables()[0];
-				pt.setCoords(((GeoLine) geo).getZ(), 0 , 1);
+				pt.setCoords(((GeoLine) geo).getZ(), 0, 1);
 			} else {
 				pt.set(geo);
 				var = geo.getLabelSimple();
@@ -87,8 +87,8 @@ public class AlgoComplexSolve extends AlgoSolve {
 	}
 
 	private ExpressionNode addImaginaryPart(ExpressionNode definition) {
-		return definition.plus(new ExpressionNode(kernel, new MyDouble(kernel, 0),
-				Operation.MULTIPLY, kernel.getImaginaryUnit()));
+		return definition.plus(new ExpressionNode(
+				kernel, new MyDouble(kernel, 0), Operation.MULTIPLY, kernel.getImaginaryUnit()));
 	}
 
 	private static class GeoSymbolicPoint extends GeoPoint implements HasSymbolicMode {
@@ -122,7 +122,8 @@ public class AlgoComplexSolve extends AlgoSolve {
 		}
 
 		private String prependCSolveVar(String defString, StringTemplate tpl) {
-			return complexSolutionVar == null ? defString
+			return complexSolutionVar == null
+					? defString
 					: complexSolutionVar + tpl.getEqualsWithSpace() + defString;
 		}
 

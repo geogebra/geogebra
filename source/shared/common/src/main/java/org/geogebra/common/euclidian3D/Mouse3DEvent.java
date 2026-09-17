@@ -30,7 +30,7 @@ public class Mouse3DEvent extends AbstractEvent {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -104,5 +104,4 @@ public class Mouse3DEvent extends AbstractEvent {
 	public PointerEventType getType() {
 		return PointerEventType.MOUSE;
 	}
-
 }

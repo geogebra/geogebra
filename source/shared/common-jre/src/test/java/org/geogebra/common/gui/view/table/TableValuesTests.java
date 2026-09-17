@@ -29,10 +29,9 @@ class TableValuesTests extends BaseAppTestSetup {
 	@Issue("APPS-7435")
 	void setPointsVisibleWithStaleColumnIndexDoesNotCrash() {
 		setupApp(SuiteSubApp.GRAPHING);
-		TableValues tableValues = setupTableValues(
-				"x = {1, 2, 3}", "y_1 = {2, 3, 4}", "f(x) = x^2");
-		TableValuesPointsImpl tableValuesPoints = TableValuesPointsImpl.create(getKernel(),
-				getKernel().getConstruction(), tableValues);
+		TableValues tableValues = setupTableValues("x = {1, 2, 3}", "y_1 = {2, 3, 4}", "f(x) = x^2");
+		TableValuesPointsImpl tableValuesPoints =
+				TableValuesPointsImpl.create(getKernel(), getKernel().getConstruction(), tableValues);
 
 		// Removes the y₁ column, leaving the x and f(x) columns
 		tableValues.hideColumn(tableValues.getEvaluatable(1));

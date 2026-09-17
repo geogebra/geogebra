@@ -34,8 +34,8 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 	public PlaneEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT,
-				LinearEquationRepresentable.Form.USER);
+		eqnValues = Arrays.asList(
+				LinearEquationRepresentable.Form.IMPLICIT, LinearEquationRepresentable.Form.USER);
 	}
 
 	@Override
@@ -77,13 +77,13 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 			}
 		}
 
-		getListener()
-				.setSelectedIndex(equalMode ? value0 : -1);
+		getListener().setSelectedIndex(equalMode ? value0 : -1);
 	}
 
 	@Override
 	public List<String> getChoices(Localization loc) {
-		return Arrays.asList(loc.getMenu("ImplicitLineEquation"), // index 1
+		return Arrays.asList(
+				loc.getMenu("ImplicitLineEquation"), // index 1
 				loc.getMenu("InputForm"));
 	}
 
@@ -105,5 +105,4 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 	public String getTitle() {
 		return "Equation";
 	}
-
 }

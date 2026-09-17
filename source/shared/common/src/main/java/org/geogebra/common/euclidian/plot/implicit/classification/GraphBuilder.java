@@ -57,13 +57,9 @@ public class GraphBuilder {
 	private final GraphBuildSignature signature = new GraphBuildSignature();
 	private final List<Integer> orderedViewportVertexIds = new ArrayList<>();
 
-	private record PerimeterVertex(double perimeter, GPoint2D point) {
+	private record PerimeterVertex(double perimeter, GPoint2D point) {}
 
-	}
-
-	private record OrderedViewportVertex(double perimeter, int vertexId) {
-
-	}
+	private record OrderedViewportVertex(double perimeter, int vertexId) {}
 
 	/**
 	 * @param epsilonPolicy tolerances used during vertex reuse and future graph construction
@@ -73,8 +69,8 @@ public class GraphBuilder {
 		logger = new GraphLogger(graph);
 		state = new FragmentTopologyRegistry();
 		vertexCache = new VertexCache(graph, epsilonPolicy.getVertexMerge());
-		openFragmentClosureProcessor = new OpenFragmentClosureProcessor(graph, state,
-				epsilonPolicy, vertexCache);
+		openFragmentClosureProcessor =
+				new OpenFragmentClosureProcessor(graph, state, epsilonPolicy, vertexCache);
 		boundarySegmentProcessor = new BoundarySegmentProcessor(epsilonPolicy);
 		contourEdgeEmitter = new ContourEdgeEmitter(graph, state, vertexCache);
 	}
@@ -90,12 +86,12 @@ public class GraphBuilder {
 			return;
 		}
 		long totalStart = ImplicitPlotTimings.start();
-		List<ClippedFragment> fragments = fragmentsResult != null
-				? fragmentsResult.fragments() : List.of();
+		List<ClippedFragment> fragments =
+				fragmentsResult != null ? fragmentsResult.fragments() : List.of();
 		long buildSignature = signature.of(rect, fragments);
 		if (hasReusableBuild && buildSignature == lastBuildSignature) {
-			ImplicitPlotTimings.log("GraphBuilder.build.reuse", totalStart,
-					"fragments=" + fragments.size());
+			ImplicitPlotTimings.log(
+					"GraphBuilder.build.reuse", totalStart, "fragments=" + fragments.size());
 			return;
 		}
 		try {
@@ -110,33 +106,44 @@ public class GraphBuilder {
 			logger.logStage("after-initializeViewport", rect, fragments, buildSignature);
 			stageStart = ImplicitPlotTimings.start();
 			addViewportBoundaryVertices(rect, fragments);
-			ImplicitPlotTimings.log("GraphBuilder.addViewportBoundaryVertices", stageStart,
+			ImplicitPlotTimings.log(
+					"GraphBuilder.addViewportBoundaryVertices",
+					stageStart,
 					"vertices=" + graph.getVertices().size());
 			logger.logStage("after-addViewportBoundaryVertices", rect, fragments, buildSignature);
 			stageStart = ImplicitPlotTimings.start();
 			long childStart = ImplicitPlotTimings.start();
 			List<BoundarySegment> boundarySegments = boundarySegmentProcessor.process(fragments);
-			ImplicitPlotTimings.log("GraphBuilder.boundarySegments", childStart,
-					"fragments=" + fragments.size()
-							+ " segments=" + boundarySegments.size());
+			ImplicitPlotTimings.log(
+					"GraphBuilder.boundarySegments",
+					childStart,
+					"fragments=" + fragments.size() + " segments=" + boundarySegments.size());
 			childStart = ImplicitPlotTimings.start();
 			contourEdgeEmitter.emit(boundarySegments);
-			ImplicitPlotTimings.log("GraphBuilder.emitContourEdges", childStart,
-					"vertices=" + graph.getVertices().size()
-							+ " halfEdges=" + graph.getHalfEdges().size());
+			ImplicitPlotTimings.log(
+					"GraphBuilder.emitContourEdges",
+					childStart,
+					"vertices=" + graph.getVertices().size() + " halfEdges="
+							+ graph.getHalfEdges().size());
 			childStart = ImplicitPlotTimings.start();
 			ensureOpenFragmentEndpointsOnViewport();
-			ImplicitPlotTimings.log("GraphBuilder.ensureOpenFragmentEndpoints", childStart,
+			ImplicitPlotTimings.log(
+					"GraphBuilder.ensureOpenFragmentEndpoints",
+					childStart,
 					"openFragments=" + state.openViewportFragments().size()
 							+ " vertices=" + graph.getVertices().size()
 							+ " halfEdges=" + graph.getHalfEdges().size());
-			ImplicitPlotTimings.log("GraphBuilder.addFragmentEdges", stageStart,
-					"vertices=" + graph.getVertices().size()
-							+ " halfEdges=" + graph.getHalfEdges().size());
+			ImplicitPlotTimings.log(
+					"GraphBuilder.addFragmentEdges",
+					stageStart,
+					"vertices=" + graph.getVertices().size() + " halfEdges="
+							+ graph.getHalfEdges().size());
 			logger.logStage("after-addFragmentEdges", rect, fragments, buildSignature);
 			stageStart = ImplicitPlotTimings.start();
 			buildTopology();
-			ImplicitPlotTimings.log("GraphBuilder.buildTopology", stageStart,
+			ImplicitPlotTimings.log(
+					"GraphBuilder.buildTopology",
+					stageStart,
 					"faces=" + graph.getFaces().size()
 							+ " extracted=" + graph.getLastExtractedBoundaryCycles().size()
 							+ " canonical=" + graph.getLastCanonicalBoundaryCycles().size());
@@ -149,7 +156,9 @@ public class GraphBuilder {
 			}
 			throw e;
 		}
-		ImplicitPlotTimings.log("GraphBuilder.build.total", totalStart,
+		ImplicitPlotTimings.log(
+				"GraphBuilder.build.total",
+				totalStart,
 				"fragments=" + fragments.size()
 						+ " vertices=" + graph.getVertices().size()
 						+ " halfEdges=" + graph.getHalfEdges().size());
@@ -182,14 +191,10 @@ public class GraphBuilder {
 
 	private void addViewportBoundaryVertices(GRectangle2D rect, List<ClippedFragment> fragments) {
 		List<PerimeterVertex> perimeterVertices = new ArrayList<>();
-		perimeterVertices.add(
-				new PerimeterVertex(0.0, new GPoint2D(rect.getMinX(), rect.getMaxY())));
-		perimeterVertices.add(
-				new PerimeterVertex(1.0, new GPoint2D(rect.getMaxX(), rect.getMaxY())));
-		perimeterVertices.add(
-				new PerimeterVertex(2.0, new GPoint2D(rect.getMaxX(), rect.getMinY())));
-		perimeterVertices.add(
-				new PerimeterVertex(3.0, new GPoint2D(rect.getMinX(), rect.getMinY())));
+		perimeterVertices.add(new PerimeterVertex(0.0, new GPoint2D(rect.getMinX(), rect.getMaxY())));
+		perimeterVertices.add(new PerimeterVertex(1.0, new GPoint2D(rect.getMaxX(), rect.getMaxY())));
+		perimeterVertices.add(new PerimeterVertex(2.0, new GPoint2D(rect.getMaxX(), rect.getMinY())));
+		perimeterVertices.add(new PerimeterVertex(3.0, new GPoint2D(rect.getMinX(), rect.getMinY())));
 
 		for (ClippedFragment fragment : fragments) {
 			addPerimeterEndpoint(perimeterVertices, fragment.start());
@@ -201,8 +206,7 @@ public class GraphBuilder {
 		PerimeterVertex previous = null;
 		for (PerimeterVertex perimeterVertex : perimeterVertices) {
 			if (previous != null
-					&& Math.abs(perimeterVertex.perimeter - previous.perimeter)
-					<= epsilonPolicy.getSnap()) {
+					&& Math.abs(perimeterVertex.perimeter - previous.perimeter) <= epsilonPolicy.getSnap()) {
 				continue;
 			}
 			orderedVertexIds.add(findOrAddVertex(perimeterVertex.point));
@@ -230,10 +234,10 @@ public class GraphBuilder {
 		List<OrderedViewportVertex> orderedVertices = currentOrderedViewportVertices();
 		Set<Integer> presentVertexIds = new HashSet<>(orderedViewportVertexIds);
 		for (OpenViewportFragment openFragment : state.openViewportFragments()) {
-			addMissingViewportEndpoint(orderedVertices, presentVertexIds,
-					openFragment.fragment().start());
-			addMissingViewportEndpoint(orderedVertices, presentVertexIds,
-					openFragment.fragment().end());
+			addMissingViewportEndpoint(
+					orderedVertices, presentVertexIds, openFragment.fragment().start());
+			addMissingViewportEndpoint(
+					orderedVertices, presentVertexIds, openFragment.fragment().end());
 		}
 		if (orderedVertices.size() == orderedViewportVertexIds.size()) {
 			return;
@@ -256,9 +260,13 @@ public class GraphBuilder {
 		return vertices;
 	}
 
-	private void addMissingViewportEndpoint(List<OrderedViewportVertex> orderedVertices,
-			Set<Integer> presentVertexIds, FragmentEndpoint endpoint) {
-		if (endpoint == null || endpoint.getPoint() == null || endpoint.getEdge() == null
+	private void addMissingViewportEndpoint(
+			List<OrderedViewportVertex> orderedVertices,
+			Set<Integer> presentVertexIds,
+			FragmentEndpoint endpoint) {
+		if (endpoint == null
+				|| endpoint.getPoint() == null
+				|| endpoint.getEdge() == null
 				|| !Double.isFinite(endpoint.getSPerimeter())) {
 			return;
 		}
@@ -266,12 +274,11 @@ public class GraphBuilder {
 		if (vertexId < 0 || !presentVertexIds.add(vertexId)) {
 			return;
 		}
-		orderedVertices.add(new OrderedViewportVertex(
-				normalizePerimeter(endpoint.getSPerimeter()), vertexId));
+		orderedVertices.add(
+				new OrderedViewportVertex(normalizePerimeter(endpoint.getSPerimeter()), vertexId));
 	}
 
-	private void replaceViewportEdges(List<Integer> previousVertexIds,
-			List<Integer> newVertexIds) {
+	private void replaceViewportEdges(List<Integer> previousVertexIds, List<Integer> newVertexIds) {
 		for (int i = 0; i < previousVertexIds.size(); i++) {
 			int start = previousVertexIds.get(i);
 			int end = previousVertexIds.get((i + 1) % previousVertexIds.size());
@@ -304,15 +311,16 @@ public class GraphBuilder {
 		return 3.0 + (y - viewportInfo.ymin()) / height;
 	}
 
-	private void addPerimeterEndpoint(List<PerimeterVertex> perimeterVertices,
-			FragmentEndpoint endpoint) {
-		if (endpoint == null || endpoint.getEdge() == null
+	private void addPerimeterEndpoint(
+			List<PerimeterVertex> perimeterVertices, FragmentEndpoint endpoint) {
+		if (endpoint == null
+				|| endpoint.getEdge() == null
 				|| !Double.isFinite(endpoint.getSPerimeter())) {
 			return;
 		}
 		double perimeter = normalizePerimeter(endpoint.getSPerimeter());
-		perimeterVertices.add(new PerimeterVertex(perimeter,
-				new GPoint2D(endpoint.getPoint().x, endpoint.getPoint().y)));
+		perimeterVertices.add(
+				new PerimeterVertex(perimeter, new GPoint2D(endpoint.getPoint().x, endpoint.getPoint().y)));
 	}
 
 	private double normalizePerimeter(double perimeter) {
@@ -358,7 +366,9 @@ public class GraphBuilder {
 		long stageStart;
 		stageStart = ImplicitPlotTimings.start();
 		graph.computeFaceSamplePoints();
-		ImplicitPlotTimings.log("PlanarGraph.computeFaceSamplePoints", stageStart,
+		ImplicitPlotTimings.log(
+				"PlanarGraph.computeFaceSamplePoints",
+				stageStart,
 				"faces=" + graph.getFaces().size());
 	}
 
@@ -371,7 +381,9 @@ public class GraphBuilder {
 	private void extractFaces() {
 		long stageStart = ImplicitPlotTimings.start();
 		graph.extractFaces(viewportInfo);
-		ImplicitPlotTimings.log("PlanarGraph.extractFaces", stageStart,
+		ImplicitPlotTimings.log(
+				"PlanarGraph.extractFaces",
+				stageStart,
 				"faces=" + graph.getFaces().size()
 						+ " extracted=" + graph.getLastExtractedBoundaryCycles().size()
 						+ " canonical=" + graph.getLastCanonicalBoundaryCycles().size());
@@ -379,18 +391,19 @@ public class GraphBuilder {
 
 	private void processOpenFragments() {
 		long stageStart = ImplicitPlotTimings.start();
-		OpenFragmentClosureResult closureResult = openFragmentClosureProcessor.process(
-				viewportInfo);
+		OpenFragmentClosureResult closureResult = openFragmentClosureProcessor.process(viewportInfo);
 		logger.setLastClosureResult(closureResult);
 		logger.logClosureResult(closureResult);
-		ImplicitPlotTimings.log("GraphBuilder.overrideOpenFragmentEndpointLinks",
-				stageStart, "status=" + closureResult.status()
+		ImplicitPlotTimings.log(
+				"GraphBuilder.overrideOpenFragmentEndpointLinks",
+				stageStart,
+				"status=" + closureResult.status()
 						+ " open=" + closureResult.openFragments()
 						+ " accepted=" + closureResult.acceptedClosures()
 						+ " skipped=" + closureResult.skippedClosures());
 		if (closureResult.isIncomplete()) {
-			throw new IllegalStateException("open fragment closure incomplete: "
-					+ logger.closureSummary(closureResult));
+			throw new IllegalStateException(
+					"open fragment closure incomplete: " + logger.closureSummary(closureResult));
 		}
 	}
 
@@ -417,5 +430,4 @@ public class GraphBuilder {
 	public String debugSummary() {
 		return logger.debugSummary();
 	}
-
 }

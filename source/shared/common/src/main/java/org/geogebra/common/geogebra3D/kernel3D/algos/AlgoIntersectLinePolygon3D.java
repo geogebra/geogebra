@@ -54,8 +54,8 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	 * @param p
 	 *            polygon or polyhedron
 	 */
-	public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
-			GeoElementND g, HasSegments p) {
+	public AlgoIntersectLinePolygon3D(
+			Construction c, String[] labels, GeoElementND g, HasSegments p) {
 		super(c);
 
 		outputPoints = createOutputPoints();
@@ -63,8 +63,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		setFirstInput(g);
 		this.p = p;
 
-		newCoords = new TreeMap<>(
-				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
+		newCoords = new TreeMap<>(Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 
 		compute();
 
@@ -76,7 +75,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 	/**
 	 * set the first input
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -85,7 +84,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return first input
 	 */
 	protected GeoElement getFirstInput() {
@@ -103,7 +102,6 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
 		return new OutputHandler<>(() -> {
-
 			GeoPoint3D aS = new GeoPoint3D(cons);
 			aS.setCoords(0, 0, 0, 1);
 			GeoPoint3D aE = new GeoPoint3D(cons);
@@ -121,15 +119,15 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 	/**
 	 * calc intersection coords
-	 * 
+	 *
 	 * @param hasSegments
 	 *            polygon / polyhedron
-	 * 
+	 *
 	 * @param paramToCoords
 	 *            coords
 	 */
-	protected void intersectionsCoords(HasSegments hasSegments,
-			TreeMap<Double, Coords> paramToCoords) {
+	protected void intersectionsCoords(
+			HasSegments hasSegments, TreeMap<Double, Coords> paramToCoords) {
 
 		// TODO: move these to intersectLinePolyline3D
 
@@ -137,28 +135,27 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 		// check if the line is contained by the polygon plane
 		switch (AlgoIntersectCS1D2D.getConfigLinePlane(g, p1)) {
-		case GENERAL: // intersect line/interior of polygon
-			intersectionsCoordsGeneral(p1, paramToCoords);
-			break;
-		case CONTAINED: // intersect line/segments
-			intersectionsCoordsContained(p1, paramToCoords);
-			break;
-		case PARALLEL: // no intersection
-			break;
-
+			case GENERAL: // intersect line/interior of polygon
+				intersectionsCoordsGeneral(p1, paramToCoords);
+				break;
+			case CONTAINED: // intersect line/segments
+				intersectionsCoordsContained(p1, paramToCoords);
+				break;
+			case PARALLEL: // no intersection
+				break;
 		}
 	}
 
 	/**
 	 * calc intersection coords when line is contained in polygon's plane
-	 * 
+	 *
 	 * @param poly
 	 *            polygon
 	 * @param paramToCoords
 	 *            coords
 	 */
-	protected void intersectionsCoordsContained(HasSegments poly,
-			TreeMap<Double, Coords> paramToCoords) {
+	protected void intersectionsCoordsContained(
+			HasSegments poly, TreeMap<Double, Coords> paramToCoords) {
 
 		// line origin and direction
 		setIntersectionLine();
@@ -167,15 +164,12 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 			GeoSegmentND seg = poly.getSegments()[i];
 
 			Coords o2 = seg.getPointInD(3, 0).getInhomCoordsInSameDimension();
-			Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension()
-					.sub(o2);
+			Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
 
-			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1,
-					o2, d2);
+			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2, d2);
 
 			// check if projection is intersection point
-			if (project != null && project[0].equalsForKernel(project[1],
-					Kernel.STANDARD_PRECISION)) {
+			if (project != null && project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)) {
 
 				double t1 = project[2].get(1); // parameter on line
 				double t2 = project[2].get(2); // parameter on segment
@@ -183,28 +177,26 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 				if (checkParameter(t1) && seg.respectLimitedPath(t2)) {
 					paramToCoords.put(t1, project[0]);
 				}
-
 			}
 		}
-
 	}
 
 	/**
 	 * calc intersection coords when line is not contained in polygon's plane
-	 * 
+	 *
 	 * @param poly
 	 *            polygon
 	 * @param paramToCoords
 	 *            coords
 	 */
-	protected void intersectionsCoordsGeneral(GeoPolygon poly,
-			TreeMap<Double, Coords> paramToCoords) {
+	protected void intersectionsCoordsGeneral(
+			GeoPolygon poly, TreeMap<Double, Coords> paramToCoords) {
 
 		Coords globalCoords = new Coords(4);
 		Coords inPlaneCoords = new Coords(4);
 
-		Coords singlePoint = AlgoIntersectCS1D2D.getIntersectLinePlane(g, poly,
-				globalCoords, inPlaneCoords);
+		Coords singlePoint =
+				AlgoIntersectCS1D2D.getIntersectLinePlane(g, poly, globalCoords, inPlaneCoords);
 
 		// check if projection is intersection point
 		if (singlePoint != null) {
@@ -214,7 +206,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 	/**
 	 * check the first parameter
-	 * 
+	 *
 	 * @param t1
 	 *            parameter
 	 * @return true if ok
@@ -251,7 +243,6 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		for (; index < outputPoints.size(); index++) {
 			outputPoints.getElement(index).setUndefined();
 		}
-
 	}
 
 	@Override
@@ -262,14 +253,16 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	protected void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels
 		// will be A_1, A_2, ...
-		if (labels != null && labels.length == 1 && outputPoints.size() > 1
-				&& labels[0] != null && !labels[0].equals("")) {
+		if (labels != null
+				&& labels.length == 1
+				&& outputPoints.size() > 1
+				&& labels[0] != null
+				&& !labels[0].equals("")) {
 			outputPoints.setIndexLabels(labels[0]);
 
 		} else {
 			outputPoints.setLabels(labels);
 		}
-
 	}
 
 	@Override
@@ -280,5 +273,4 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 		setDependencies(); // done by AlgoElement
 	}
-
 }

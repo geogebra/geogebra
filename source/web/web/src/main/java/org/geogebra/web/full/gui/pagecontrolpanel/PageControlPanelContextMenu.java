@@ -57,13 +57,15 @@ public final class PageControlPanelContextMenu extends GPopupMenuW
 	}
 
 	private void addPasteItem() {
-		paste = addItem(MaterialDesignResources.INSTANCE.paste_black(),
+		paste = addItem(
+				MaterialDesignResources.INSTANCE.paste_black(),
 				appW.getLocalization().getMenu("Paste"),
 				menuItemController.onPaste(pageController.getLastCard(), paste));
 	}
 
 	private void addNewPage() {
-		addItem(MaterialDesignResources.INSTANCE.add_black(),
+		addItem(
+				MaterialDesignResources.INSTANCE.add_black(),
 				appW.getLocalization().getMenu("ContextMenu.NewPage"),
 				menuItemController.addNewPage(pageController.getSlideCount()));
 	}
@@ -74,8 +76,7 @@ public final class PageControlPanelContextMenu extends GPopupMenuW
 	 * @param text menu item text
 	 * @param cmd command to execute
 	 */
-	private AriaMenuItem addItem(SVGResource img, String text,
-			Scheduler.ScheduledCommand cmd) {
+	private AriaMenuItem addItem(SVGResource img, String text, Scheduler.ScheduledCommand cmd) {
 		AriaMenuItem mi = MainMenu.getMenuBarItem(img, text, cmd);
 		addItem(mi);
 		return mi;

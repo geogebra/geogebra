@@ -36,7 +36,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Decides if the lines are parallel. Can be embedded into the Prove command to
  * work symbolically.
- * 
+ *
  * @author Simon Weitzhofer 27th of April 2012
  * @author Zoltan Kovacs
  */
@@ -52,7 +52,7 @@ public class AlgoAreParallel extends AlgoElement
 
 	/**
 	 * Tests if two lines are parallel
-	 * 
+	 *
 	 * @param cons
 	 *            The construction the lines depend on
 	 * @param inputLine1
@@ -60,8 +60,7 @@ public class AlgoAreParallel extends AlgoElement
 	 * @param inputLine2
 	 *            the second line
 	 */
-	public AlgoAreParallel(Construction cons, GeoElement inputLine1,
-			GeoElement inputLine2) {
+	public AlgoAreParallel(Construction cons, GeoElement inputLine1, GeoElement inputLine2) {
 		super(cons);
 		this.inputLine1 = (GeoLine) inputLine1;
 		this.inputLine2 = (GeoLine) inputLine2;
@@ -74,7 +73,7 @@ public class AlgoAreParallel extends AlgoElement
 
 	/**
 	 * Tests if two lines are parallel
-	 * 
+	 *
 	 * @param cons
 	 *            The construction the lines depend on
 	 * @param label
@@ -84,8 +83,8 @@ public class AlgoAreParallel extends AlgoElement
 	 * @param inputLine2
 	 *            the second line
 	 */
-	public AlgoAreParallel(Construction cons, String label,
-			GeoElement inputLine1, GeoElement inputLine2) {
+	public AlgoAreParallel(
+			Construction cons, String label, GeoElement inputLine1, GeoElement inputLine2) {
 		this(cons, inputLine1, inputLine2);
 		outputBoolean.setLabel(label);
 	}
@@ -107,10 +106,9 @@ public class AlgoAreParallel extends AlgoElement
 
 	/**
 	 * Gets the result of the test
-	 * 
+	 *
 	 * @return true if the lines are parallel and false otherwise
 	 */
-
 	public GeoBoolean getResult() {
 		return outputBoolean;
 	}
@@ -126,8 +124,7 @@ public class AlgoAreParallel extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			inputLine1.getFreeVariables(variables);
 			inputLine2.getFreeVariables(variables);
@@ -137,31 +134,25 @@ public class AlgoAreParallel extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			int[] degree1 = inputLine1.getDegrees(a);
 			int[] degree2 = inputLine2.getDegrees(a);
 			int[] degree = new int[1];
-			degree[0] = Math.max(degree1[0] + degree2[1],
-					degree1[1] + degree2[0]);
+			degree[0] = Math.max(degree1[0] + degree2[1], degree1[1] + degree2[0]);
 			return degree;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
-			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getExactCoordinates(values);
-			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getExactCoordinates(values);
+			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0]).getExactCoordinates(values);
+			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1]).getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[1];
-			coords[0] = coords1[0].multiply(coords2[1])
-					.subtract(coords1[1].multiply(coords2[0]));
+			coords[0] = coords1[0].multiply(coords2[1]).subtract(coords1[1].multiply(coords2[0]));
 
 			return coords;
 		}
@@ -175,13 +166,10 @@ public class AlgoAreParallel extends AlgoElement
 			return polynomials;
 		}
 		if (inputLine1 != null && inputLine2 != null) {
-			PPolynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getPolynomials();
-			PPolynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getPolynomials();
+			PPolynomial[] coords1 = ((SymbolicParametersAlgo) input[0]).getPolynomials();
+			PPolynomial[] coords2 = ((SymbolicParametersAlgo) input[1]).getPolynomials();
 			polynomials = new PPolynomial[1];
-			polynomials[0] = coords1[0].multiply(coords2[1])
-					.subtract(coords1[1].multiply(coords2[0]));
+			polynomials[0] = coords1[0].multiply(coords2[1]).subtract(coords1[1].multiply(coords2[0]));
 
 			return polynomials;
 		}
@@ -189,23 +177,19 @@ public class AlgoAreParallel extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[][] getBotanaPolynomials()
-			throws NoSymbolicParametersException {
+	public PPolynomial[][] getBotanaPolynomials() throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (inputLine1 != null && inputLine2 != null) {
-			PVariable[] v1 = inputLine1
-					.getBotanaVars(inputLine1); // (a1,a2,b1,b2)
-			PVariable[] v2 = inputLine2
-					.getBotanaVars(inputLine2); // (c1,c2,d1,d2)
+			PVariable[] v1 = inputLine1.getBotanaVars(inputLine1); // (a1,a2,b1,b2)
+			PVariable[] v2 = inputLine2.getBotanaVars(inputLine2); // (c1,c2,d1,d2)
 
 			botanaPolynomials = new PPolynomial[1][1];
-			botanaPolynomials[0][0] = PPolynomial.parallel(v1[0], v1[1], v1[2],
-					v1[3], v2[0], v2[1], v2[2], v2[3]);
+			botanaPolynomials[0][0] =
+					PPolynomial.parallel(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1], v2[2], v2[3]);
 			return botanaPolynomials;
 		}
 		return null;
 	}
-
 }

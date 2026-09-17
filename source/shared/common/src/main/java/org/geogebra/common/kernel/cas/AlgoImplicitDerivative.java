@@ -44,28 +44,25 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 	 * @param functional
 	 *            function of two variables
 	 */
-	public AlgoImplicitDerivative(Construction cons, String label,
-			FunctionalNVar functional) {
+	public AlgoImplicitDerivative(Construction cons, String label, FunctionalNVar functional) {
 		super(cons);
 		this.functional = functional;
 		this.result = new GeoFunctionNVar(cons);
 		setInputOutput();
 		compute();
 		result.setLabel(label);
-
 	}
 
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
 		if (functional instanceof GeoFunctionNVar) {
-			input = new GeoElement[] { (GeoFunctionNVar) functional };
+			input = new GeoElement[] {(GeoFunctionNVar) functional};
 		}
 		if (functional instanceof GeoFunction) {
-			input = new GeoElement[] { (GeoFunction) functional };
+			input = new GeoElement[] {(GeoFunction) functional};
 		}
 		setDependencies();
-
 	}
 
 	@Override
@@ -77,14 +74,12 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 		sb.append(")");
 
 		try {
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-					arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(), arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				result.setUndefined();
 			} else {
 				// read result back into function
-				result.set(kernel.getAlgebraProcessor()
-						.evaluateToFunctionNVar(functionOut, true, false));
+				result.set(kernel.getAlgebraProcessor().evaluateToFunctionNVar(functionOut, true, false));
 			}
 		} catch (Throwable e) {
 			result.setUndefined();
@@ -102,5 +97,4 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 	public GeoFunctionNVar getResult() {
 		return result;
 	}
-
 }

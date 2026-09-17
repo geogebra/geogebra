@@ -35,8 +35,8 @@ public class OpacityProperty extends AbstractRangeProperty<Integer> {
 	/**
 	 * Line opacity
 	 */
-	public OpacityProperty(Localization localization, GeoElement element) throws
-			NotApplicablePropertyException {
+	public OpacityProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, "Opacity", 0, 100, 5);
 		this.delegate = new OpacityPropertyDelegate(element);
 	}

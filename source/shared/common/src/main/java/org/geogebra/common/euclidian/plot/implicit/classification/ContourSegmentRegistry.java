@@ -43,12 +43,13 @@ public final class ContourSegmentRegistry {
 		reset();
 		Map<Integer, List<ContourSegment>> byContour = new HashMap<>();
 		for (ContourSegment segment : segmentSupplier.get()) {
-			byContour.computeIfAbsent(segment.getContourId(), key -> new ArrayList<>())
+			byContour
+					.computeIfAbsent(segment.getContourId(), key -> new ArrayList<>())
 					.add(segment);
 		}
 		for (List<ContourSegment> segmentList : byContour.values()) {
-			segmentList.sort((s1, s2) -> Integer.compare(
-					s1.getKey().getSegmentIndex(), s2.getKey().getSegmentIndex()));
+			segmentList.sort((s1, s2) ->
+					Integer.compare(s1.getKey().getSegmentIndex(), s2.getKey().getSegmentIndex()));
 			int contourSegmentCount = segmentList.size();
 			for (int position = 0; position < contourSegmentCount; position++) {
 				ContourSegment s = segmentList.get(position);
@@ -61,7 +62,6 @@ public final class ContourSegmentRegistry {
 
 	private void reset() {
 		segmentMap.clear();
-
 	}
 
 	private static List<ContourSegment> createSegments(List<PointList> contours) {

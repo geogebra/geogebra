@@ -37,10 +37,8 @@ public class CmdConeInfinite extends CmdCone {
 	}
 
 	@Override
-	protected GeoElement[] conePointPointRadius(Command c, GeoPointND p1,
-			GeoPointND p2, GeoNumberValue r) {
-		return new GeoElement[] {
-				kernel.getManager3D().cone(c.getLabel(), p1, p2, r) };
+	protected GeoElement[] conePointPointRadius(
+			Command c, GeoPointND p1, GeoPointND p2, GeoNumberValue r) {
+		return new GeoElement[] {kernel.getManager3D().cone(c.getLabel(), p1, p2, r)};
 	}
-
 }

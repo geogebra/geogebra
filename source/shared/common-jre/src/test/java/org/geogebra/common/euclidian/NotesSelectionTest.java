@@ -72,7 +72,6 @@ class NotesSelectionTest extends BaseEuclidianControllerTest {
 	}
 
 	private void assertSelected(GeoElement... geos) {
-		assertArrayEquals(getApp().getSelectionManager().getSelectedGeos().toArray(),
-				geos);
+		assertArrayEquals(getApp().getSelectionManager().getSelectedGeos().toArray(), geos);
 	}
 }

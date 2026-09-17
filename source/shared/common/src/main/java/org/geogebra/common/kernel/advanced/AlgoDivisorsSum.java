@@ -45,8 +45,7 @@ public class AlgoDivisorsSum extends AlgoElement {
 	 * @param sum
 	 *            true to compute divisor sum, otherwise count divisors
 	 */
-	public AlgoDivisorsSum(Construction c, String label, GeoNumberValue number,
-			boolean sum) {
+	public AlgoDivisorsSum(Construction c, String label, GeoNumberValue number, boolean sum) {
 		super(c);
 		this.number = number;
 		this.sum = sum;
@@ -61,7 +60,7 @@ public class AlgoDivisorsSum extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[] { number.toGeoElement() };
+		input = new GeoElement[] {number.toGeoElement()};
 		setDependencies();
 	}
 
@@ -78,8 +77,7 @@ public class AlgoDivisorsSum extends AlgoElement {
 			if (sum) {
 				double prime = pair.get(0).evaluateDouble();
 				Log.debug(prime);
-				res = res * Math
-						.round((Math.pow(prime, exp + 1) - 1) / (prime - 1.0));
+				res = res * Math.round((Math.pow(prime, exp + 1) - 1) / (prime - 1.0));
 			} else {
 				res = res * Math.round(exp + 1);
 			}
@@ -98,5 +96,4 @@ public class AlgoDivisorsSum extends AlgoElement {
 		}
 		return Commands.Divisors;
 	}
-
 }

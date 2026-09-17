@@ -60,7 +60,7 @@ public class SymbolAtom extends CharSymbol {
 	private final CharFont cf;
 	private char unicode;
 
-	final public Atom duplicate() {
+	public final Atom duplicate() {
 		SymbolAtom ret = new SymbolAtom(cf, type, unicode);
 
 		ret.unicode = unicode;
@@ -156,7 +156,8 @@ public class SymbolAtom extends CharSymbol {
 		final int style = env.getStyle();
 		Char c = tf.getChar(getCf(), style);
 		if (getType() == TeXConstants.TYPE_BIG_OPERATOR
-				&& style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c)) {
+				&& style < TeXConstants.STYLE_TEXT
+				&& tf.hasNextLarger(c)) {
 			c = tf.getNextLarger(c, style);
 		}
 		return c;
@@ -249,5 +250,4 @@ public class SymbolAtom extends CharSymbol {
 	public char getUnicode() {
 		return unicode;
 	}
-
 }

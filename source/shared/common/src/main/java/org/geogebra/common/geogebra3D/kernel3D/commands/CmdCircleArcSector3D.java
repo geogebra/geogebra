@@ -40,38 +40,44 @@ public class CmdCircleArcSector3D extends CmdCircleArcSector {
 	}
 
 	@Override
-	protected GeoElement circleArcSector(String label, GeoPointND center,
-			GeoPointND startPoint, GeoPointND endPoint) {
+	protected GeoElement circleArcSector(
+			String label, GeoPointND center, GeoPointND startPoint, GeoPointND endPoint) {
 
-		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, app);
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientation(kernel, app);
 		if (orientation != null) {
-			return (GeoElement) kernel.getManager3D().circleArcSector3D(label,
-					center, startPoint, endPoint, orientation, type);
+			return (GeoElement) kernel
+					.getManager3D()
+					.circleArcSector3D(label, center, startPoint, endPoint, orientation, type);
 		}
 
-		if (center.isGeoElement3D() || startPoint.isGeoElement3D()
-				|| endPoint.isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().circleArcSector3D(label,
-					center, startPoint, endPoint, type);
+		if (center.isGeoElement3D() || startPoint.isGeoElement3D() || endPoint.isGeoElement3D()) {
+			return (GeoElement)
+					kernel.getManager3D().circleArcSector3D(label, center, startPoint, endPoint, type);
 		}
 
 		return super.circleArcSector(label, center, startPoint, endPoint);
 	}
 
 	@Override
-	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
 		// arc center-two points, oriented
-		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoPoint())
 				&& (ok[2] = arg[2].isGeoPoint())
 				&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
 
-			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-					.circleArcSector3D(c.getLabel(), (GeoPointND) arg[0],
-							(GeoPointND) arg[1], (GeoPointND) arg[2],
-							(GeoDirectionND) arg[3], type) };
+			GeoElement[] ret = {
+				(GeoElement) kernel
+						.getManager3D()
+						.circleArcSector3D(
+								c.getLabel(),
+								(GeoPointND) arg[0],
+								(GeoPointND) arg[1],
+								(GeoPointND) arg[2],
+								(GeoDirectionND) arg[3],
+								type)
+			};
 			return ret;
 		}
 

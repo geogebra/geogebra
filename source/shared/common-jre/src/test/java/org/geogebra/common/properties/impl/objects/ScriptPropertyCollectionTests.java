@@ -30,8 +30,10 @@ class ScriptPropertyCollectionTests extends BaseAppTestSetup {
 	void testInitialScriptEventSelection() {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptPropertyCollection propertyCollection = new ScriptPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), List.of(
-				evaluateGeoElement("(1, 2)"), evaluateGeoElement("Slider(-5, 5, 1)")), true);
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				List.of(evaluateGeoElement("(1, 2)"), evaluateGeoElement("Slider(-5, 5, 1)")),
+				true);
 		assertNotEquals(-1, propertyCollection.getScriptEventSelectionProperty().getIndex());
 	}
 }

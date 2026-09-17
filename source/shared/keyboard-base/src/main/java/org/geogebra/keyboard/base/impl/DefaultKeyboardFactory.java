@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -78,15 +78,14 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * @param characterProvider character provider
 	 * @param templateKeyProvider provides feedback for template keys
 	 */
-	public DefaultKeyboardFactory(CharacterProvider characterProvider,
-			TemplateKeyProvider templateKeyProvider) {
+	public DefaultKeyboardFactory(
+			CharacterProvider characterProvider, TemplateKeyProvider templateKeyProvider) {
 		defaultKeyboardModelFactory = new DefaultKeyboardModelFactory(characterProvider);
 		mathKeyboardFactory = new MathKeyboardFactory(characterProvider);
 		functionKeyboardFactory = new FunctionKeyboardFactory();
 		letterKeyboardFactory = new LetterKeyboardFactory();
 		greekKeyboardFactory = new GreekKeyboardFactory();
-		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory(
-				templateKeyProvider);
+		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory(templateKeyProvider);
 	}
 
 	/**
@@ -96,9 +95,7 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 */
 	private Keyboard getImpl(KeyboardModelFactory modelFactory, KeyboardType type) {
 		return new KeyboardImpl(
-				type,
-				() -> modelFactory.createKeyboardModel(defaultButtonFactory), null,
-				null);
+				type, () -> modelFactory.createKeyboardModel(defaultButtonFactory), null, null);
 	}
 
 	/**
@@ -136,10 +133,9 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	public Keyboard createGreekKeyboard() {
 		AccentModifier accentModifier = new AccentModifier();
 		CapsLockModifier capsLockModifier = new CapsLockModifier();
-		ButtonFactory buttonFactory = new ButtonFactory(
-				new KeyModifier[]{accentModifier, capsLockModifier});
-		Supplier<KeyboardModel> model = () -> greekKeyboardFactory
-				.createKeyboardModel(buttonFactory);
+		ButtonFactory buttonFactory =
+				new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
+		Supplier<KeyboardModel> model = () -> greekKeyboardFactory.createKeyboardModel(buttonFactory);
 		return new KeyboardImpl(KeyboardType.GREEK, model, capsLockModifier, accentModifier);
 	}
 
@@ -157,16 +153,19 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * @return letter keyboard
 	 */
 	@Override
-	public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow,
-			Map<String, String> upperKeys, boolean withGreekSwitch) {
+	public Keyboard createLettersKeyboard(
+			String topRow,
+			String middleRow,
+			String bottomRow,
+			Map<String, String> upperKeys,
+			boolean withGreekSwitch) {
 		AccentModifier accentModifier = new AccentModifier();
 		CapsLockModifier capsLockModifier = new CapsLockModifier(upperKeys);
 		Supplier<KeyboardModel> model = () -> {
-			ButtonFactory buttonFactory = new ButtonFactory(
-					new KeyModifier[]{accentModifier, capsLockModifier});
+			ButtonFactory buttonFactory =
+					new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
 			letterKeyboardFactory.setUpperKeys(upperKeys);
-			letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow,
-					withGreekSwitch);
+			letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow, withGreekSwitch);
 			return letterKeyboardFactory.createKeyboardModel(buttonFactory);
 		};
 		return new KeyboardImpl(KeyboardType.ABC, model, capsLockModifier, accentModifier);
@@ -183,8 +182,8 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * @return letter keyboard
 	 */
 	@Override
-	public Keyboard createLettersKeyboard(String topRow, String middleRow,
-			String bottomRow, Map<String, String> upperKeys) {
+	public Keyboard createLettersKeyboard(
+			String topRow, String middleRow, String bottomRow, Map<String, String> upperKeys) {
 		return createLettersKeyboard(topRow, middleRow, bottomRow, upperKeys, true);
 	}
 
@@ -198,8 +197,7 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * @return letter keyboard
 	 */
 	@Override
-	public Keyboard createLettersKeyboard(String topRow, String middleRow,
-			String bottomRow) {
+	public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow) {
 		return createLettersKeyboard(topRow, middleRow, bottomRow, null);
 	}
 

@@ -34,8 +34,11 @@ public class StickToEdgeProperty extends AbstractValuedProperty<Boolean>
 	 * @param euclidianSettings euclidian settings
 	 * @param euclidianView euclidian view
 	 */
-	public StickToEdgeProperty(Localization localization, int axis,
-			EuclidianSettings euclidianSettings, EuclidianViewInterfaceCommon euclidianView) {
+	public StickToEdgeProperty(
+			Localization localization,
+			int axis,
+			EuclidianSettings euclidianSettings,
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "StickToEdge");
 		this.axis = axis;
 		this.euclidianSettings = euclidianSettings;

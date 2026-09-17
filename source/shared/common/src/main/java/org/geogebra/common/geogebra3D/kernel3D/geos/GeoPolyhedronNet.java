@@ -25,7 +25,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Net for a polyhedron
- * 
+ *
  * @author Vincent
  *
  */
@@ -55,7 +55,7 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
@@ -64,7 +64,7 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public final String toValueString(StringTemplate tpl) {
 		return kernel.format(getArea(), tpl);
 	}
 
@@ -91,7 +91,6 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		}
 
 		super.createFaces();
-
 	}
 
 	/**
@@ -120,8 +119,8 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 	}
 
 	@Override
-	public GeoSegmentND createNewSegment(GeoPointND startPoint,
-			GeoPointND endPoint, ConstructionElementCycle key) {
+	public GeoSegmentND createNewSegment(
+			GeoPointND startPoint, GeoPointND endPoint, ConstructionElementCycle key) {
 
 		if (oldSegments != null && segmentsIndexMax < oldSegments.length) {
 			GeoSegment3D segment = oldSegments[(int) segmentsIndexMax];

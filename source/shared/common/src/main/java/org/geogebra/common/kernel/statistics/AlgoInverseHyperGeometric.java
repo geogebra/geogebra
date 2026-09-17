@@ -22,10 +22,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoInverseHyperGeometric extends AlgoDistribution {
 
 	/**
@@ -40,8 +39,8 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 	 * @param d
 	 *            variable value
 	 */
-	public AlgoInverseHyperGeometric(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
+	public AlgoInverseHyperGeometric(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons, a, b, c, d);
 	}
 
@@ -52,15 +51,13 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
 			int param2 = (int) Math.round(b.getDouble());
 			int param3 = (int) Math.round(c.getDouble());
 			double val = d.getDouble();
 			try {
-				HypergeometricDistribution dist = getHypergeometricDistribution(
-						param, param2, param3);
+				HypergeometricDistribution dist = getHypergeometricDistribution(param, param2, param3);
 				// P(T <= val)
 				num.setValue(dist.inverseCumulativeProbability(val));
 			} catch (Exception e) {
@@ -70,5 +67,4 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

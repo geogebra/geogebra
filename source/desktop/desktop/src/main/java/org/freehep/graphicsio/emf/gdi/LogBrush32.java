@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF LogBrush32
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: LogBrush32.java,v 1.4 2009-08-17 21:44:44 murkle Exp $ see
  *          http://msdn.microsoft.com/library/default.asp?url=/library/en-us/gdi
@@ -44,8 +44,8 @@ public class LogBrush32 implements EMFConstants {
 
 	@Override
 	public String toString() {
-		return "  LogBrush32\n" + "    style: " + style + "\n" + "    color: "
-				+ color + "\n" + "    hatch: " + hatch;
+		return "  LogBrush32\n" + "    style: " + style + "\n" + "    color: " + color + "\n"
+				+ "    hatch: " + hatch;
 	}
 
 	public int getStyle() {

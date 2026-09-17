@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,11 +43,16 @@ public class WeightedButtonImpl extends ButtonImpl implements WeightedButton {
 	 * @param weight
 	 *            relative width
 	 */
-	public WeightedButtonImpl(String resourceName, ResourceType resourceType,
-			String actionName, ActionType actionType, Background background,
-			KeyModifier[] modifiers, float weight, String altText) {
-		super(resourceName, resourceType, actionName, actionType, background,
-				modifiers, altText);
+	public WeightedButtonImpl(
+			String resourceName,
+			ResourceType resourceType,
+			String actionName,
+			ActionType actionType,
+			Background background,
+			KeyModifier[] modifiers,
+			float weight,
+			String altText) {
+		super(resourceName, resourceType, actionName, actionType, background, modifiers, altText);
 		this.weight = weight;
 	}
 
@@ -67,11 +72,15 @@ public class WeightedButtonImpl extends ButtonImpl implements WeightedButton {
 	 * @param weight
 	 *            relative width
 	 */
-	public WeightedButtonImpl(String resourceName, ResourceType resourceType,
-			String actionName, ActionType actionType, Background background,
-			KeyModifier[] modifiers, float weight) {
-		super(resourceName, resourceType, actionName, actionType, background,
-				modifiers, null);
+	public WeightedButtonImpl(
+			String resourceName,
+			ResourceType resourceType,
+			String actionName,
+			ActionType actionType,
+			Background background,
+			KeyModifier[] modifiers,
+			float weight) {
+		super(resourceName, resourceType, actionName, actionType, background, modifiers, null);
 		this.weight = weight;
 	}
 
@@ -79,5 +88,4 @@ public class WeightedButtonImpl extends ButtonImpl implements WeightedButton {
 	public float getWeight() {
 		return weight;
 	}
-
 }

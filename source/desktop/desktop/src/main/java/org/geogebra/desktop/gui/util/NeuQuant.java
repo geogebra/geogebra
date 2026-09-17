@@ -76,8 +76,7 @@ class NeuQuant {
 	 * beta = 1/1024
 	 */
 
-	protected static final int betagamma = intbias << (gammashift
-			- betashift);
+	protected static final int betagamma = intbias << (gammashift - betashift);
 
 	/* defs for decreasing radius factor */
 	protected static final int initrad = netsize >> 3; /*
@@ -200,7 +199,8 @@ class NeuQuant {
 			/* find smallest in i..netsize-1 */
 			for (j = i + 1; j < netsize; j++) {
 				q = network[j];
-				if (q[1] < smallval) { /* index on g */
+				if (q[1] < smallval) {
+					/* index on g */
 					smallpos = j;
 					smallval = q[1]; /* index on g */
 				}
@@ -263,8 +263,7 @@ class NeuQuant {
 		}
 		int i;
 		for (i = 0; i < rad; i++) {
-			radpower[i] = alpha
-					* ((rad * rad - i * i) * radbias / (rad * rad));
+			radpower[i] = alpha * ((rad * rad - i * i) * radbias / (rad * rad));
 		}
 
 		// fprintf(stderr,"beginning 1D learning: initial radius=%d\n", rad);
@@ -315,8 +314,7 @@ class NeuQuant {
 					rad = 0;
 				}
 				for (j = 0; j < rad; j++) {
-					radpower[j] = alpha
-							* ((rad * rad - j * j) * radbias / (rad * rad));
+					radpower[j] = alpha * ((rad * rad - j * j) * radbias / (rad * rad));
 				}
 			}
 		}

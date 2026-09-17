@@ -22,7 +22,6 @@ import org.geogebra.common.util.debug.Log;
  * This class represents a 3D triangle in a Triangulation!
  *
  */
-
 public class TriangleDt {
 	PointDt a;
 	PointDt b;
@@ -43,7 +42,7 @@ public class TriangleDt {
 	// public int _id;
 	/**
 	 * constructs a triangle form 3 point - store it in counterclockwised order.
-	 * 
+	 *
 	 * @param A
 	 *            first point
 	 * @param B
@@ -55,13 +54,12 @@ public class TriangleDt {
 		// visitflag=visitValue;
 		a = A;
 		int res = C.pointLineTest(A, B);
-		if ((res <= PointDt.LEFT) || (res == PointDt.INFRONTOFA)
-				|| (res == PointDt.BEHINDB)) {
+		if ((res <= PointDt.LEFT) || (res == PointDt.INFRONTOFA) || (res == PointDt.BEHINDB)) {
 			b = B;
 			c = C;
 		} else { // RIGHT
-			Log.warn("Warning, ajTriangle(A,B,C) "
-					+ "expects points in counterclockwise order." + A + B + C);
+			Log.warn(
+					"Warning, ajTriangle(A,B,C) " + "expects points in counterclockwise order." + A + B + C);
 			b = C;
 			c = B;
 		}
@@ -70,7 +68,7 @@ public class TriangleDt {
 
 	/**
 	 * creates a half plane using the segment (A,B).
-	 * 
+	 *
 	 * @param A
 	 *            point A
 	 * @param B
@@ -139,10 +137,10 @@ public class TriangleDt {
 	 */
 	public BoundingBox getBoundingBox() {
 		PointDt lowerLeft, upperRight;
-		lowerLeft = new PointDt(Math.min(a.x(), Math.min(b.x(), c.x())),
-				Math.min(a.y(), Math.min(b.y(), c.y())));
-		upperRight = new PointDt(Math.max(a.x(), Math.max(b.x(), c.x())),
-				Math.max(a.y(), Math.max(b.y(), c.y())));
+		lowerLeft = new PointDt(
+				Math.min(a.x(), Math.min(b.x(), c.x())), Math.min(a.y(), Math.min(b.y(), c.y())));
+		upperRight = new PointDt(
+				Math.max(a.x(), Math.max(b.x(), c.x())), Math.max(a.y(), Math.max(b.y(), c.y())));
 		return new BoundingBox(lowerLeft, upperRight);
 	}
 
@@ -175,14 +173,14 @@ public class TriangleDt {
 	/**
 	 * Returns the neighbors that shares the given corner and is not the
 	 * previous triangle.
-	 * 
+	 *
 	 * @param p
 	 *            The given corner
 	 * @param prevTriangle
 	 *            The previous triangle.
 	 * @return The neighbors that shares the given corner and is not the
 	 *         previous triangle.
-	 * 
+	 *
 	 *         By: Eyal Roth & Doron Ganel.
 	 */
 	TriangleDt nextNeighbor(PointDt p, TriangleDt prevTriangle) {
@@ -218,17 +216,14 @@ public class TriangleDt {
 
 	CircleDt circumcircle() {
 
-		double u = ((a.x - b.x) * (a.x + b.x) + (a.y - b.y) * (a.y + b.y))
-				/ 2.0f;
-		double v = ((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y))
-				/ 2.0f;
+		double u = ((a.x - b.x) * (a.x + b.x) + (a.y - b.y) * (a.y + b.y)) / 2.0f;
+		double v = ((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y)) / 2.0f;
 		double den = (a.x - b.x) * (b.y - c.y) - (b.x - c.x) * (a.y - b.y);
 		if (den == 0) {
 			circum = new CircleDt(a, Double.POSITIVE_INFINITY);
 		} else {
 			PointDt cen = new PointDt(
-					(u * (b.y - c.y) - v * (a.y - b.y)) / den,
-					(v * (a.x - b.x) - u * (b.x - c.x)) / den);
+					(u * (b.y - c.y) - v * (a.y - b.y)) / den, (v * (a.x - b.x) - u * (b.x - c.x)) / den);
 			circum = new CircleDt(cen, cen.distance2(a));
 		}
 		return circum;
@@ -252,7 +247,7 @@ public class TriangleDt {
 
 	/**
 	 * determinates if this triangle contains the point p.
-	 * 
+	 *
 	 * @param p
 	 *            the query point
 	 * @return true iff p is not null and is inside this triangle (Note: on
@@ -272,12 +267,11 @@ public class TriangleDt {
 		int a23 = p.pointLineTest(b, c);
 		int a31 = p.pointLineTest(c, a);
 
-		if ((a12 == PointDt.LEFT && a23 == PointDt.LEFT
-				&& a31 == PointDt.LEFT)
-				|| (a12 == PointDt.RIGHT && a23 == PointDt.RIGHT
-						&& a31 == PointDt.RIGHT)
-				|| a12 == PointDt.ONSEGMENT || a23 == PointDt.ONSEGMENT
-						|| a31 == PointDt.ONSEGMENT) {
+		if ((a12 == PointDt.LEFT && a23 == PointDt.LEFT && a31 == PointDt.LEFT)
+				|| (a12 == PointDt.RIGHT && a23 == PointDt.RIGHT && a31 == PointDt.RIGHT)
+				|| a12 == PointDt.ONSEGMENT
+				|| a23 == PointDt.ONSEGMENT
+				|| a31 == PointDt.ONSEGMENT) {
 			ans = true;
 		}
 
@@ -286,7 +280,7 @@ public class TriangleDt {
 
 	/**
 	 * determinates if this triangle contains the point p.
-	 * 
+	 *
 	 * @param p
 	 *            the query point
 	 * @return true iff p is not null and is inside this triangle (Note: on
@@ -306,10 +300,8 @@ public class TriangleDt {
 		int a23 = p.pointLineTest(b, c);
 		int a31 = p.pointLineTest(c, a);
 
-		if ((a12 == PointDt.LEFT && a23 == PointDt.LEFT
-				&& a31 == PointDt.LEFT)
-				|| (a12 == PointDt.RIGHT && a23 == PointDt.RIGHT
-						&& a31 == PointDt.RIGHT)) {
+		if ((a12 == PointDt.LEFT && a23 == PointDt.LEFT && a31 == PointDt.LEFT)
+				|| (a12 == PointDt.RIGHT && a23 == PointDt.RIGHT && a31 == PointDt.RIGHT)) {
 			ans = true;
 		}
 
@@ -318,16 +310,15 @@ public class TriangleDt {
 
 	/**
 	 * Checks if the given point is a corner of this triangle.
-	 * 
+	 *
 	 * @param p
 	 *            The given point.
 	 * @return True iff the given point is a corner of this triangle.
-	 * 
+	 *
 	 *         By Eyal Roth &amp; Doron Ganel.
 	 */
 	public boolean isCorner(PointDt p) {
-		return (p.x == a.x & p.y == a.y) | (p.x == b.x & p.y == b.y)
-				| (p.x == c.x & p.y == c.y);
+		return (p.x == a.x & p.y == a.y) | (p.x == b.x & p.y == b.y) | (p.x == c.x & p.y == c.y);
 	}
 
 	// Doron
@@ -360,12 +351,12 @@ public class TriangleDt {
 	 */
 	public PointDt getCorner(int index) {
 		switch (index) {
-		case 0:
-			return p1();
-		case 1:
-			return p2();
-		case 2:
-			return p3();
+			case 0:
+				return p1();
+			case 1:
+				return p2();
+			case 2:
+				return p3();
 		}
 
 		return null;

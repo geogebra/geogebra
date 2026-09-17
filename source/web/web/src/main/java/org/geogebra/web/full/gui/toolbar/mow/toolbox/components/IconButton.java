@@ -74,8 +74,13 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param onHandler switch on handler
 	 * @param offHandler switch off handler
 	 */
-	public IconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
-			Runnable onHandler, Runnable offHandler) {
+	public IconButton(
+			AppW appW,
+			IconSpec icon,
+			String ariaLabel,
+			String dataTitle,
+			Runnable onHandler,
+			Runnable offHandler) {
 		this(appW, icon, ariaLabel);
 		dataTitleTransKey = dataTitle;
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
@@ -101,8 +106,14 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param onHandler switch on handler
 	 * @param offHandler switch off handler
 	 */
-	public IconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
-			String dataTest, Runnable onHandler, Runnable offHandler) {
+	public IconButton(
+			AppW appW,
+			IconSpec icon,
+			String ariaLabel,
+			String dataTitle,
+			String dataTest,
+			Runnable onHandler,
+			Runnable offHandler) {
 		this(appW, icon, ariaLabel, dataTitle, onHandler, offHandler);
 		TestHarness.setAttr(this, dataTest);
 	}
@@ -116,8 +127,13 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param dataTest data-test
 	 * @param onHandler on press handler
 	 */
-	public IconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
-			String dataTest, Runnable onHandler) {
+	public IconButton(
+			AppW appW,
+			IconSpec icon,
+			String ariaLabel,
+			String dataTitle,
+			String dataTest,
+			Runnable onHandler) {
 		this(appW, icon, ariaLabel, onHandler);
 		dataTitleTransKey = dataTitle;
 		AriaHelper.setTitle(this, appW.getLocalization().getMenu(dataTitle));
@@ -131,8 +147,7 @@ public class IconButton extends StandardButton implements SetLabels {
 	 * @param ariaLabel aria-label (also used as data-title)
 	 * @param clickHandler click handler
 	 */
-	public IconButton(AppW appW, Runnable clickHandler, IconSpec icon,
-			String ariaLabel) {
+	public IconButton(AppW appW, Runnable clickHandler, IconSpec icon, String ariaLabel) {
 		this(appW, icon, ariaLabel);
 		if (ariaLabel != null && !ariaLabel.isBlank()) {
 			dataTitleTransKey = ariaLabel;
@@ -233,10 +248,9 @@ public class IconButton extends StandardButton implements SetLabels {
 
 	@Override
 	public void setIcon(ResourcePrototype icon) {
-		SVGResource svgResource = isActive()
-				? ((SVGResource) icon).withFill(selectionColor) : (SVGResource) icon;
+		SVGResource svgResource =
+				isActive() ? ((SVGResource) icon).withFill(selectionColor) : (SVGResource) icon;
 		super.setIcon(svgResource);
 		image = new ImageIconSpec(svgResource);
 	}
-
 }

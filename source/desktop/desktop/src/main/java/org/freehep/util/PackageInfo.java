@@ -11,12 +11,10 @@ import java.util.Properties;
  * @author Mark Donszelmann
  * @version $Id: PackageInfo.java,v 1.4 2009-06-22 02:18:20 hohenwarter Exp $
  */
-
 public class PackageInfo {
 
 	// static class
-	private PackageInfo() {
-	}
+	private PackageInfo() {}
 
 	/**
 	 * retrieves the name
@@ -50,8 +48,7 @@ public class PackageInfo {
 		if (info == null) {
 			try {
 				Properties props = new Properties();
-				InputStream in = clazz
-						.getResourceAsStream("/" + name + "-version.txt");
+				InputStream in = clazz.getResourceAsStream("/" + name + "-version.txt");
 				props.load(in);
 				in.close();
 

@@ -44,9 +44,9 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
- * 
+ *
  * @author mathieu
- * 
+ *
  *         view companion for methods that have to cross desktop/web
  *
  */
@@ -56,7 +56,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param view
 	 *            view attached
 	 */
@@ -73,7 +73,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return view attached
 	 */
 	public EuclidianView getView() {
@@ -88,7 +88,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            angle
 	 * @return drawable for this angle
@@ -115,7 +115,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * transform in view coords
-	 * 
+	 *
 	 * @param coords
 	 *            point
 	 * @return the same coords for classic 2d view
@@ -126,7 +126,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * return null if classic 2D view
-	 * 
+	 *
 	 * @return matrix representation of the plane shown by this view
 	 */
 	public CoordMatrix getMatrix() {
@@ -135,7 +135,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * return null if classic 2D view
-	 * 
+	 *
 	 * @return matrix inverse representation of the plane shown by this view
 	 */
 	public CoordMatrix getInverseMatrix() {
@@ -143,7 +143,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return string description of plane from the view was created
 	 */
 	public String getFromPlaneString() {
@@ -151,7 +151,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return string translated description of plane from the view was created
 	 */
 	public String getTranslatedFromPlaneString() {
@@ -159,7 +159,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return null (for 2D) and xOyPlane (for 3D)
 	 */
 	public GeoPlaneND getPlaneContaining() {
@@ -167,7 +167,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return null (for 2D) and xOyPlane (for 3D)
 	 */
 	public GeoDirectionND getDirection() {
@@ -175,7 +175,7 @@ public class EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @return true if v is oriented to z+ direction
@@ -204,7 +204,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * add id to xml
-	 * 
+	 *
 	 * @param sbxml
 	 *            xml
 	 */
@@ -216,7 +216,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * add id to xml
-	 * 
+	 *
 	 * @param sbxml
 	 *            xml
 	 */
@@ -226,7 +226,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * returns settings in XML format
-	 * 
+	 *
 	 * @param sbxml
 	 *            string builder
 	 * @param asPreference
@@ -282,8 +282,7 @@ public class EuclidianViewCompanion {
 					&& isNaN(settings.getAxisNumberingDistance(i))) {
 				view.setAutomaticAxesNumberingDistance(false, i);
 			} else {
-				view.setAxesNumberingDistance(settings.getAxisNumberingDistance(i),
-						i);
+				view.setAxesNumberingDistance(settings.getAxisNumberingDistance(i), i);
 			}
 		}
 
@@ -340,8 +339,7 @@ public class EuclidianViewCompanion {
 			// don't match
 			int visibleWidth = view.getVisibleWidth();
 			int visibleHeight = view.getVisibleHeight();
-			if (visibleWidth > EuclidianView.MIN_WIDTH
-					&& visibleHeight > EuclidianView.MIN_HEIGHT) {
+			if (visibleWidth > EuclidianView.MIN_WIDTH && visibleHeight > EuclidianView.MIN_HEIGHT) {
 				int settingsVisibleWidth = view.calcVisibleWidthFromSettings();
 				int settingsVisibleHeight = view.calcVisibleHeightFromSettings();
 				if (settingsVisibleWidth == 0) {
@@ -360,8 +358,7 @@ public class EuclidianViewCompanion {
 	}
 
 	private static boolean isNaN(GeoNumberValue axisNumberingDistance) {
-		return axisNumberingDistance == null
-				|| Double.isNaN(axisNumberingDistance.getDouble());
+		return axisNumberingDistance == null || Double.isNaN(axisNumberingDistance.getDouble());
 	}
 
 	protected void setMinMaxObjectsInView(EuclidianSettings evs) {
@@ -380,7 +377,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * Paints content of this view.
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -409,11 +406,15 @@ public class EuclidianViewCompanion {
 		view.drawShapePreview(g2);
 
 		if (view.deletionRectangle != null) {
-			view.drawRect(g2, EuclidianView.colDeletionSquare,
-					EuclidianView.strokeDeletionSquare, view.deletionRectangle);
+			view.drawRect(
+					g2,
+					EuclidianView.colDeletionSquare,
+					EuclidianView.strokeDeletionSquare,
+					view.deletionRectangle);
 		}
 
-		if (view.allowShowMouseCoords && view.showMouseCoords
+		if (view.allowShowMouseCoords
+				&& view.showMouseCoords
 				&& (view.showAxes[0] || view.showAxes[1] || view.showGrid)) {
 			view.drawMouseCoords(g2);
 		}
@@ -459,7 +460,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * Returns transform from eigenvector space to screen coords
-	 * 
+	 *
 	 * @param conic
 	 *            conic
 	 * @param M
@@ -468,14 +469,13 @@ public class EuclidianViewCompanion {
 	 *            eigenvectors
 	 * @return affine transform of the conic for this view
 	 */
-	public GAffineTransform getTransform(GeoConicND conic, Coords M,
-			Coords[] ev) {
+	public GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
 		return conic.getAffineTransform();
 	}
 
 	/**
 	 * transform point coords in view coords
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @return point coords in view coords
@@ -498,8 +498,7 @@ public class EuclidianViewCompanion {
 	 * @return whether the coord system is in the plane of this view
 	 */
 	public boolean isInPlane(CoordSys sys) {
-		return sys.getEquationVector()
-				.isEqual(CoordSys.Identity3D.getEquationVector());
+		return sys.getEquationVector().isEqual(CoordSys.Identity3D.getEquationVector());
 	}
 
 	/**
@@ -518,7 +517,7 @@ public class EuclidianViewCompanion {
 
 	/**
 	 * set hits for current mouse loc
-	 * 
+	 *
 	 * @param type
 	 *            event type
 	 */
@@ -555,5 +554,4 @@ public class EuclidianViewCompanion {
 		}
 		return new DrawParametricCurve(view, geo);
 	}
-
 }

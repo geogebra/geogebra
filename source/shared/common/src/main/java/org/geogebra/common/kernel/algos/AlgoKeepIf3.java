@@ -26,10 +26,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Take objects from the middle of a list adapted from AlgoKeepIf
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoKeepIf3 extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -50,8 +49,8 @@ public class AlgoKeepIf3 extends AlgoElement {
 	 * @param inputList
 	 *            list
 	 */
-	public AlgoKeepIf3(Construction cons, String label, GeoBoolean bool,
-			GeoElement var, GeoList inputList) {
+	public AlgoKeepIf3(
+			Construction cons, String label, GeoBoolean bool, GeoElement var, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		this.var = var;
@@ -110,8 +109,7 @@ public class AlgoKeepIf3 extends AlgoElement {
 				GeoElement geo = inputList.get(i);
 				var.set(geo);
 				this.setStopUpdateCascade(true);
-				var.getAlgoUpdateSet()
-						.updateAllUntil(bool.getParentAlgorithm());
+				var.getAlgoUpdateSet().updateAllUntil(bool.getParentAlgorithm());
 				if (bool.getBoolean()) {
 					outputList.add(geo.copyInternal(cons));
 				}
@@ -122,7 +120,5 @@ public class AlgoKeepIf3 extends AlgoElement {
 			Log.debug(e);
 			outputList.setUndefined();
 		}
-
 	}
-
 }

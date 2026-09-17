@@ -46,25 +46,31 @@ public class ScriptEventPropertyCollection extends AbstractPropertyCollection<Pr
 	 * @param scriptEvent the script event this collection belongs to
 	 * @param jsEnabled whether JavaScript is enabled in the app
 	 */
-	public ScriptEventPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> geoElements, ScriptEvent scriptEvent,
+	public ScriptEventPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> geoElements,
+			ScriptEvent scriptEvent,
 			boolean jsEnabled) {
 		super(localization, "");
 		ScriptLanguageSelection scriptLanguageSelection =
 				new ScriptLanguageSelection(initialScriptLanguage(geoElements.get(0), scriptEvent));
 		setProperties(Stream.<Property>of(
-				propertiesFactory.createOptionalPropertyFacade(geoElements, geoElement ->
-						new ScriptLanguageSelectionProperty(localization, geoElement, scriptEvent,
-								scriptLanguageSelection, jsEnabled),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(geoElements, geoElement ->
-						new ScriptProperty(localization, geoElement, scriptEvent,
-								scriptLanguageSelection), StringPropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								geoElements,
+								geoElement -> new ScriptLanguageSelectionProperty(
+										localization, geoElement, scriptEvent, scriptLanguageSelection, jsEnabled),
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								geoElements,
+								geoElement -> new ScriptProperty(
+										localization, geoElement, scriptEvent, scriptLanguageSelection),
+								StringPropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 	}
 
-	private static ScriptType initialScriptLanguage(GeoElement geoElement,
-			ScriptEvent scriptEvent) {
+	private static ScriptType initialScriptLanguage(GeoElement geoElement, ScriptEvent scriptEvent) {
 		if (scriptEvent == ScriptEvent.GlobalJavascript) {
 			return ScriptType.JAVASCRIPT;
 		}

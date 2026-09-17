@@ -39,7 +39,8 @@ public final class GraphicsControlsPanel extends FlowPanel implements DockContro
 	 */
 	public GraphicsControlsPanel(AppW app, DockPanelW parent) {
 		this.app = app;
-		if (app.letShowPropertiesDialog() && !app.isWhiteboardActive()
+		if (app.letShowPropertiesDialog()
+				&& !app.isWhiteboardActive()
 				&& parent.getViewId() != App.VIEW_PROBABILITY_CALCULATOR) {
 			addSettingsIcon(parent);
 		}
@@ -47,11 +48,15 @@ public final class GraphicsControlsPanel extends FlowPanel implements DockContro
 	}
 
 	private void addSettingsIcon(final DockPanelW parent) {
-		graphicsContextMenuBtn = new IconButton(app, null,
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.settings_border()), "Settings");
+		graphicsContextMenuBtn = new IconButton(
+				app,
+				null,
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.settings_border()),
+				"Settings");
 		final FocusableWidget focusableWidget = new FocusableWidget(
 				AccessibilityGroup.getViewGroup(parent.getViewId()),
-				AccessibilityGroup.ViewControlId.SETTINGS_BUTTON, graphicsContextMenuBtn);
+				AccessibilityGroup.ViewControlId.SETTINGS_BUTTON,
+				graphicsContextMenuBtn);
 		if (parent.getViewId() == App.VIEW_EUCLIDIAN) {
 			focusableWidget.attachTo(app);
 		}
@@ -71,8 +76,8 @@ public final class GraphicsControlsPanel extends FlowPanel implements DockContro
 	private void onGraphicsSettingsPressed() {
 		app.closeMenuHideKeyboard();
 		EuclidianView view = app.getActiveEuclidianView();
-		OptionType type = view != null && view.isEuclidianView3D()
-				? OptionType.EUCLIDIAN3D : OptionType.EUCLIDIAN;
+		OptionType type =
+				view != null && view.isEuclidianView3D() ? OptionType.EUCLIDIAN3D : OptionType.EUCLIDIAN;
 		app.getSelectionManager().clearSelectedGeos();
 		app.getDialogManager().showPropertiesDialog(type, null);
 	}

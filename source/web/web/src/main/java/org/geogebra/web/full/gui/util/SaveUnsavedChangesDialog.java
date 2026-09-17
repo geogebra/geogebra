@@ -21,8 +21,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 public final class SaveUnsavedChangesDialog extends SaveFileDialog {
 
-	public SaveUnsavedChangesDialog(AppW app,
-			DialogData dialogData, boolean autoHide) {
+	public SaveUnsavedChangesDialog(AppW app, DialogData dialogData, boolean autoHide) {
 		super(app, dialogData, autoHide);
 	}
 

@@ -36,13 +36,12 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter {
 	private final ToStringConverter defaultConverter = new GeoElementValueConverter();
 	private final AlgebraOutputFilter functionAndEquationFilter;
 
-	public ProtectiveGeoElementValueConverter(
-			AlgebraOutputFilter filter) {
+	public ProtectiveGeoElementValueConverter(AlgebraOutputFilter filter) {
 		this.functionAndEquationFilter = filter;
 	}
 
 	@Override
-	public  @NonNull String toOutputValueString(GeoElement element, StringTemplate template) {
+	public @NonNull String toOutputValueString(GeoElement element, StringTemplate template) {
 		if (functionAndEquationFilter.isAllowed(element)) {
 			return defaultConverter.toOutputValueString(element, template);
 		} else {
@@ -51,7 +50,7 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter {
 	}
 
 	@Override
-	public  @NonNull String toValueString(GeoElement element, StringTemplate template) {
+	public @NonNull String toValueString(GeoElement element, StringTemplate template) {
 		if (functionAndEquationFilter.isAllowed(element)) {
 			return defaultConverter.toValueString(element, template);
 		} else {
@@ -71,15 +70,15 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter {
 	private String convertProtective(GeoElement element, StringTemplate template) {
 		String caption;
 		switch (element.getLabelMode()) {
-		case LABEL_NAME:
-		case LABEL_CAPTION:
-			caption = element.getLabel(template);
-			break;
-		case LABEL_VALUE:
-			caption = element.getDefinition(template);
-			break;
-		default:
-			caption = element.getNameAndDefinition(template);
+			case LABEL_NAME:
+			case LABEL_CAPTION:
+				caption = element.getLabel(template);
+				break;
+			case LABEL_VALUE:
+				caption = element.getDefinition(template);
+				break;
+			default:
+				caption = element.getNameAndDefinition(template);
 		}
 		return caption.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : caption;
 	}

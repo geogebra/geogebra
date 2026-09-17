@@ -29,66 +29,65 @@ import org.jspecify.annotations.NonNull;
  * String representation that can have attributes applied to specific ranges of characters.
  */
 public final class AttributedString {
-    /**
-     * Possible attributes that can be applied to specific ranges of characters.
-     */
-    public enum Attribute {
-        Subscript
-    }
+	/**
+	 * Possible attributes that can be applied to specific ranges of characters.
+	 */
+	public enum Attribute {
+		Subscript
+	}
 
-    private final String rawValue;
-    private final Map<Attribute, Set<Range>> attributes;
+	private final String rawValue;
+	private final Map<Attribute, Set<Range>> attributes;
 
-    /**
-     * @param rawValue The raw value of the string.
-     */
-    public AttributedString(@NonNull String rawValue) {
-        this.rawValue = rawValue;
-        this.attributes = new HashMap<>();
-    }
+	/**
+	 * @param rawValue The raw value of the string.
+	 */
+	public AttributedString(@NonNull String rawValue) {
+		this.rawValue = rawValue;
+		this.attributes = new HashMap<>();
+	}
 
-    /**
-     * Adds an attribute to the specified range of characters.
-     * @param attribute The attribute to apply.
-     * @param range The range of characters to which the attribute should be applied.
-     * The supplied range is not checked for validity.
-     */
-    public void add(@NonNull Attribute attribute, @NonNull Range range) {
-        attributes.computeIfAbsent(attribute, k -> new HashSet<>());
-        attributes.get(attribute).add(range);
-    }
+	/**
+	 * Adds an attribute to the specified range of characters.
+	 * @param attribute The attribute to apply.
+	 * @param range The range of characters to which the attribute should be applied.
+	 * The supplied range is not checked for validity.
+	 */
+	public void add(@NonNull Attribute attribute, @NonNull Range range) {
+		attributes.computeIfAbsent(attribute, k -> new HashSet<>());
+		attributes.get(attribute).add(range);
+	}
 
 	/**
 	 * Retrieves the set of ranges where the specified attribute is applied.
 	 *
 	 * @param attribute The attribute to look for.
 	 * @return A set of {@link Range} objects where the attribute is applied, it can be empty if
-	* the attribute is not present.
+	 * the attribute is not present.
 	 */
 	public @NonNull Set<Range> getAttribute(@NonNull Attribute attribute) {
-        Set<Range> ranges = attributes.get(attribute);
+		Set<Range> ranges = attributes.get(attribute);
 		return ranges == null ? Set.of() : Collections.unmodifiableSet(ranges);
-    }
+	}
 
 	public @NonNull String getRawValue() {
-        return rawValue;
-    }
+		return rawValue;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        AttributedString that = (AttributedString) object;
-        return Objects.equals(rawValue, that.rawValue) && Objects.equals(attributes,
-                that.attributes);
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
+		AttributedString that = (AttributedString) object;
+		return Objects.equals(rawValue, that.rawValue) && Objects.equals(attributes, that.attributes);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(rawValue, attributes);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(rawValue, attributes);
+	}
 }

@@ -25,8 +25,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class ListAsComboBoxProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class ListAsComboBoxProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 	private final GeoList element;
 
 	/**
@@ -69,4 +69,3 @@ public class ListAsComboBoxProperty extends AbstractValuedProperty<Boolean> impl
 		return element.drawAsComboBox();
 	}
 }
-

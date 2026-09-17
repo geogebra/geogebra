@@ -22,7 +22,7 @@ import org.geogebra.editor.share.util.KeyCodes;
 
 public final class KeyCodeUtil {
 
-	private KeyCodeUtil() { }
+	private KeyCodeUtil() {}
 
 	/**
 	 * @param gwtKeyCode native key code

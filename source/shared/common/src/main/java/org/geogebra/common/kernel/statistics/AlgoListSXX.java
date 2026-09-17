@@ -22,11 +22,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Sxx of a list of Points
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoListSXX extends AlgoStats2D {
 
 	public AlgoListSXX(Construction cons, GeoList geoListx) {

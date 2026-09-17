@@ -22,8 +22,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 /**
  * Abstract class for algos that use some CAS algo as helper
  */
-public abstract class AlgoUsingTempCASalgo extends AlgoElement
-		implements UsesCAS {
+public abstract class AlgoUsingTempCASalgo extends AlgoElement implements UsesCAS {
 	/**
 	 * CAS algo helper
 	 */
@@ -63,5 +62,4 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement
 	 * deletes the algorithm from the construction
 	 */
 	public abstract void refreshCASResults();
-
 }

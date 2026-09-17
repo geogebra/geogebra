@@ -43,16 +43,14 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 	 * @param inputParallel
 	 *            parallel line or vector
 	 */
-	public AlgoLinePoint(Construction cons, GeoPointND point,
-			GeoElement inputParallel) {
+	public AlgoLinePoint(Construction cons, GeoPointND point, GeoElement inputParallel) {
 		super(cons);
 		this.point = point;
 		this.inputParallel = inputParallel;
 		line = createLine(cons);
 		line.showUndefinedInAlgebraView(true);
 
-		setInputOutput(new GeoElement[] { (GeoElement) point, inputParallel },
-				new GeoElement[] { line });
+		setInputOutput(new GeoElement[] {(GeoElement) point, inputParallel}, new GeoElement[] {line});
 
 		// compute line
 		compute();
@@ -64,7 +62,7 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 
 	/**
 	 * create the line
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return the line
@@ -97,12 +95,12 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 		}
 	}
 
-	abstract protected Coords getDirection();
+	protected abstract Coords getDirection();
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LineThroughAParallelToB", point.getLabel(tpl),
-				inputParallel.getLabel(tpl));
+		return getLoc()
+				.getPlain("LineThroughAParallelToB", point.getLabel(tpl), inputParallel.getLabel(tpl));
 	}
 
 	/*

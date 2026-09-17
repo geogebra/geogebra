@@ -31,13 +31,12 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  *
  * @author ggb3D
- * 
+ *
  *         Calculate the GeoPoint3D intersection of two coord sys (eg line and
  *         plane).
- * 
+ *
  */
-public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
-		implements HasShortSyntax {
+public class AlgoIntersectPlanes extends AlgoIntersectCoordSys implements HasShortSyntax {
 	/** unknown */
 	public static final int RESULTCATEGORY_NA = -1;
 	/** intersecting */
@@ -56,7 +55,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param label
@@ -66,8 +65,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	 * @param cs2
 	 *            second coord sys
 	 */
-	public AlgoIntersectPlanes(Construction cons, String label, GeoPlaneND cs1,
-			GeoPlaneND cs2) {
+	public AlgoIntersectPlanes(Construction cons, String label, GeoPlaneND cs1, GeoPlaneND cs2) {
 
 		super(cons, label, cs1, cs2, false);
 	}
@@ -80,8 +78,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	 * @param cs2
 	 *            second plane
 	 */
-	public AlgoIntersectPlanes(Construction cons, GeoPlaneND cs1,
-			GeoPlaneND cs2) {
+	public AlgoIntersectPlanes(Construction cons, GeoPlaneND cs1, GeoPlaneND cs2) {
 		super(cons, cs1, cs2, false);
 	}
 
@@ -137,7 +134,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 
 	/**
 	 * TODO optimize it, using the coefficients of planes directly
-	 * 
+	 *
 	 * @param cs1
 	 *            first plane
 	 * @param cs2
@@ -159,8 +156,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		if (cs1.getNormal().crossProduct(cs2.getNormal()).isZero()) {
 			// one normal vector is perpendicular to the difference of the two
 			// two origins
-			if (DoubleUtil.isZero(cs2.getOrigin().sub(cs1.getOrigin())
-					.dotproduct(cs1.getNormal()))) {
+			if (DoubleUtil.isZero(cs2.getOrigin().sub(cs1.getOrigin()).dotproduct(cs1.getNormal()))) {
 				return RESULTCATEGORY_CONTAINED;
 			}
 			return RESULTCATEGORY_PARALLEL;
@@ -179,10 +175,9 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	}
 
 	@Override
-	final public String getDefinition(StringTemplate tpl) {
+	public final String getDefinition(StringTemplate tpl) {
 		if (shortSyntax) {
-			return "(" + getCS1().getLabel(tpl) + "," + getCS2().getLabel(tpl)
-				+ ")";
+			return "(" + getCS1().getLabel(tpl) + "," + getCS2().getLabel(tpl) + ")";
 		}
 		return super.getDefinition(tpl);
 	}
@@ -198,8 +193,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 	}
 
 	@Override
-	final public String toExpString(StringTemplate tpl) {
+	public final String toExpString(StringTemplate tpl) {
 		return getDefinition(tpl);
 	}
-
 }

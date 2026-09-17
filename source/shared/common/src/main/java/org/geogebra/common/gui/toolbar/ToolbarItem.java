@@ -55,5 +55,4 @@ public class ToolbarItem {
 	public Integer getMode() {
 		return mode;
 	}
-
 }

@@ -31,8 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class AlgoLinePointVector3D extends AlgoLinePoint {
 
-	public AlgoLinePointVector3D(Construction cons,
-			GeoPointND point, GeoVectorND v) {
+	public AlgoLinePointVector3D(Construction cons, GeoPointND point, GeoVectorND v) {
 		super(cons, point, (GeoElement) v);
 	}
 
@@ -48,7 +47,10 @@ public class AlgoLinePointVector3D extends AlgoLinePoint {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LineThroughAwithDirectionB",
-				getPoint().getLabel(tpl), getInputParallel().getLabel(tpl));
+		return getLoc()
+				.getPlain(
+						"LineThroughAwithDirectionB",
+						getPoint().getLabel(tpl),
+						getInputParallel().getLabel(tpl));
 	}
 }

@@ -39,8 +39,7 @@ public class AlgoIntersection extends AlgoElement {
 	 * @param inputList2
 	 *            second list
 	 */
-	public AlgoIntersection(Construction cons, String label, GeoList inputList,
-			GeoList inputList2) {
+	public AlgoIntersection(Construction cons, String label, GeoList inputList, GeoList inputList2) {
 		super(cons);
 
 		this.inputList = inputList;
@@ -117,5 +116,4 @@ public class AlgoIntersection extends AlgoElement {
 			}
 		}
 	}
-
 }

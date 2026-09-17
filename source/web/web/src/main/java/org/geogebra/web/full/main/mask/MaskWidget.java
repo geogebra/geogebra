@@ -71,14 +71,12 @@ class MaskWidget extends FlowPanel {
 		double m21 = (pA.getY() - pB.getY()) * ratio;
 		double m22 = (pC.getY() - pB.getY()) * ratio;
 		double m23 = pB.getY() + frame.getNotesTopBarHeight();
-		String sb = "matrix(" + m11 + ", " + m21
-				+ ", " + m12 + ", " + m22
-				+ ", " + m13 + ", " + m23 + ")";
+		String sb =
+				"matrix(" + m11 + ", " + m21 + ", " + m12 + ", " + m22 + ", " + m13 + ", " + m23 + ")";
 		style.setProperty("transform", sb);
 	}
 
 	private GPoint2D toScreenPoint(Coords source) {
-		return new GPoint2D(view.toScreenCoordXd(source.getX()),
-				view.toScreenCoordYd(source.getY()));
+		return new GPoint2D(view.toScreenCoordXd(source.getX()), view.toScreenCoordYd(source.getY()));
 	}
 }

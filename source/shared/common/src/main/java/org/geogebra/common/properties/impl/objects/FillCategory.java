@@ -22,7 +22,9 @@ import org.geogebra.common.kernel.geos.properties.FillType;
  * Different categories of fill types a fillable object can have.
  */
 public enum FillCategory {
-	PATTERN, SYMBOL, IMAGE;
+	PATTERN,
+	SYMBOL,
+	IMAGE;
 
 	/**
 	 * Matches the given {@link FillType} to its {@code FillCategory}.

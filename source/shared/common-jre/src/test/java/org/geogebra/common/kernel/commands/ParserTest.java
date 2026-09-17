@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -75,11 +75,10 @@ class ParserTest {
 			parseExpression("{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}");
 
 			parseExpression("(((((((((((((((((((((((1)))))))))))))))))))))))");
-			parseExpression(
-					"If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,"
-							+ "If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,"
-							+ "If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42"
-							+ "]]]]]]]]]]]]]]]]]]]]]]]]");
+			parseExpression("If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,"
+					+ "If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,"
+					+ "If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42"
+					+ "]]]]]]]]]]]]]]]]]]]]]]]]");
 			l = System.currentTimeMillis() - l;
 			Log.debug("TIME" + l);
 			assertTrue(l < 400, "Too long:" + l);
@@ -119,43 +118,22 @@ class ParserTest {
 
 	@Test
 	void testUnicodeWhitespace() {
-		List.of("\u0020",
-				"\u00A0",
-				"\u1680",
-				"\u2000",
-				"\u2001",
-				"\u2002",
-				"\u2003",
-				"\u2004",
-				"\u2005",
-				"\u2006",
-				"\u2007",
-				"\u2008",
-				"\u2009",
-				"\u200A",
-				"\u200B",
-				"\u202F",
-				"\u205F",
-				"\u3000",
-				"\uFEFF",
-				"\t",
-				"\r").forEach(x ->
-				shouldReparseAs("2" + x + "3", "2 * 3"));
+		List.of(
+						"\u0020", "\u00A0", "\u1680", "\u2000", "\u2001", "\u2002", "\u2003", "\u2004",
+						"\u2005", "\u2006", "\u2007", "\u2008", "\u2009", "\u200A", "\u200B", "\u202F",
+						"\u205F", "\u3000", "\uFEFF", "\t", "\r")
+				.forEach(x -> shouldReparseAs("2" + x + "3", "2 * 3"));
 	}
 
 	@Test
 	void testPiMultiplication() {
-		checkSameStructure(Unicode.PI_STRING + "(1.3)",
-				Unicode.PI_STRING + " 1.3");
+		checkSameStructure(Unicode.PI_STRING + "(1.3)", Unicode.PI_STRING + " 1.3");
 		checkSameStructure("pi(1.3)", Unicode.PI_STRING + " 1.3");
 		shouldReparseAs(Unicode.PI_STRING + "8", Unicode.PI_STRING + " * 8");
-		shouldReparseAs("2" + Unicode.PI_STRING + "8",
-				"2" + Unicode.PI_STRING + " * 8");
+		shouldReparseAs("2" + Unicode.PI_STRING + "8", "2" + Unicode.PI_STRING + " * 8");
 		// APPS-804
-		shouldReparseAs(Unicode.PI_STRING + "8.1",
-				Unicode.PI_STRING + " * 8.1");
-		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-				unicode("2@pi * 8.1"));
+		shouldReparseAs(Unicode.PI_STRING + "8.1", Unicode.PI_STRING + " * 8.1");
+		shouldReparseAs("2" + Unicode.PI_STRING + "8.1", unicode("2@pi * 8.1"));
 	}
 
 	@Test
@@ -171,16 +149,13 @@ class ParserTest {
 
 	@Test
 	void testTrigPower() {
-		shouldReparseAs("sinxy^2",
-				unicode("sin(x y^2)"));
-		shouldReparseAs("sinxxx^2",
-				unicode("sin(x^2 x^2)"));
+		shouldReparseAs("sinxy^2", unicode("sin(x y^2)"));
+		shouldReparseAs("sinxxx^2", unicode("sin(x^2 x^2)"));
 	}
 
 	@Test
 	void testLogPower() {
-		shouldReparseAs("xln(x)^2",
-				unicode("x (ln(x))^2"));
+		shouldReparseAs("xln(x)^2", unicode("x (ln(x))^2"));
 	}
 
 	@Test
@@ -195,7 +170,8 @@ class ParserTest {
 	}
 
 	private void checkSameStructure(String string, String string2) {
-		assertEquals(reparse(string, StringTemplate.maxPrecision),
+		assertEquals(
+				reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));
 	}
 
@@ -203,8 +179,8 @@ class ParserTest {
 		return reparse(app, string, tpl, false);
 	}
 
-	private static String reparse(App app, String string, StringTemplate tpl,
-			boolean multipleUnassignedAllowed) {
+	private static String reparse(
+			App app, String string, StringTemplate tpl, boolean multipleUnassignedAllowed) {
 		String reparse1;
 		try {
 			ValidExpression v1 = parseExpression(app, string);
@@ -226,16 +202,15 @@ class ParserTest {
 	}
 
 	/**
-	 *  
+	 *
 	 */
 	@Test
 	void testInvalid() {
 		long l = System.currentTimeMillis();
 		try {
 
-			parseExpression(
-					"x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/("
-							+ ")))))))))))))))))))))");
+			parseExpression("x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/("
+					+ ")))))))))))))))))))))");
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -273,10 +248,9 @@ class ParserTest {
 		shouldReparseAs("ld(x)", "ld(x)");
 		shouldReparseAs("lg(x)", "lg(x)");
 		shouldReparseAs("log(x)", "lg(x)");
-		shouldReparseAs("log_" + Unicode.EULER_STRING + "(x)",
-				"log(" + Unicode.EULER_STRING + ", x)");
-		shouldReparseAs("log_{" + Unicode.EULER_STRING + "}(x)",
-				"log(" + Unicode.EULER_STRING + ", x)");
+		shouldReparseAs("log_" + Unicode.EULER_STRING + "(x)", "log(" + Unicode.EULER_STRING + ", x)");
+		shouldReparseAs(
+				"log_{" + Unicode.EULER_STRING + "}(x)", "log(" + Unicode.EULER_STRING + ", x)");
 	}
 
 	@Test
@@ -304,10 +278,8 @@ class ParserTest {
 		shouldReparseAs("ln3", "ln(3)");
 		// ln|y+6| not supported in parser; AV editor prduces ln abs(y+6) anyway
 		shouldReparseAs("ln abs(y+6)", "ln(abs(y + 6))");
-		shouldReparseAs("cos33" + Unicode.DEGREE_STRING,
-				"cos(33" + Unicode.DEGREE_STRING + ")");
-		shouldReparseAs("3cos33" + Unicode.DEGREE_STRING,
-				"3cos(33" + Unicode.DEGREE_STRING + ")");
+		shouldReparseAs("cos33" + Unicode.DEGREE_STRING, "cos(33" + Unicode.DEGREE_STRING + ")");
+		shouldReparseAs("3cos33" + Unicode.DEGREE_STRING, "3cos(33" + Unicode.DEGREE_STRING + ")");
 	}
 
 	@Test
@@ -322,8 +294,9 @@ class ParserTest {
 		shouldReparseAs("sin^3(x)", sinCubedX);
 		shouldReparseAs("sin" + Unicode.SUPERSCRIPT_3 + " x", sinCubedX);
 		shouldReparseAs("sin^3 x", sinCubedX);
-		shouldReparseAs("e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "cost",
-			Unicode.EULER_STRING + "^(-t) * 9sin" + Unicode.SUPERSCRIPT_8 + "(cos(t))");
+		shouldReparseAs(
+				"e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "cost",
+				Unicode.EULER_STRING + "^(-t) * 9sin" + Unicode.SUPERSCRIPT_8 + "(cos(t))");
 	}
 
 	@Test
@@ -336,9 +309,10 @@ class ParserTest {
 	@Test
 	void multiplicationShouldResolvedToChainedTrig() {
 		app.getKernel().getConstruction().registerFunctionVariable("t");
-		shouldReparseAs(app, "e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
-				Unicode.EULER_STRING + "^(-t) * 9sin"
-				+ Unicode.SUPERSCRIPT_8 + "(t cos(t))");
+		shouldReparseAs(
+				app,
+				"e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
+				Unicode.EULER_STRING + "^(-t) * 9sin" + Unicode.SUPERSCRIPT_8 + "(t cos(t))");
 	}
 
 	@Test
@@ -353,15 +327,12 @@ class ParserTest {
 					continue;
 				}
 
-				ExpressionNode ex = new ExpressionNode(kernel,
-						new Variable(kernel, "a"), bottom,
-						new Variable(kernel, "b"));
-				ExpressionNode left = new ExpressionNode(kernel,
-						new Variable(kernel, "c"), top, ex);
+				ExpressionNode ex = new ExpressionNode(
+						kernel, new Variable(kernel, "a"), bottom, new Variable(kernel, "b"));
+				ExpressionNode left = new ExpressionNode(kernel, new Variable(kernel, "c"), top, ex);
 				checkStable(left);
 
-				ExpressionNode right = new ExpressionNode(kernel, ex, top,
-						new Variable(kernel, "c"));
+				ExpressionNode right = new ExpressionNode(kernel, ex, top, new Variable(kernel, "c"));
 				checkStable(right);
 				ExpressionNode both = new ExpressionNode(kernel, ex, top, ex);
 				checkStable(both);
@@ -381,24 +352,24 @@ class ParserTest {
 
 	@Test
 	void shouldKeepMultiplicationFromLeft() {
-		String f1 = reparse(app, "F(x,A,B)=BAxe^(-Bx)-Ae^(-Bx)",
-				StringTemplate.xmlTemplate, true);
-		assertEquals("(((B * A) * x) * " + Unicode.EULER_STRING
-						+ "^((-((B * x))))) - (A * " + Unicode.EULER_STRING + "^((-((B * x)))))",
+		String f1 = reparse(app, "F(x,A,B)=BAxe^(-Bx)-Ae^(-Bx)", StringTemplate.xmlTemplate, true);
+		assertEquals(
+				"(((B * A) * x) * " + Unicode.EULER_STRING + "^((-((B * x))))) - (A * "
+						+ Unicode.EULER_STRING + "^((-((B * x)))))",
 				f1);
-		String f2 = reparse(app, "F(x,A,B)=B A x e^(-B x)-A e^(-B x)",
-				StringTemplate.xmlTemplate, true);
+		String f2 =
+				reparse(app, "F(x,A,B)=B A x e^(-B x)-A e^(-B x)", StringTemplate.xmlTemplate, true);
 		// brackets in exponent slightly different
-		assertEquals("(((B * A) * x) * " + Unicode.EULER_STRING
-						+ "^(((-B) * x))) - (A * " + Unicode.EULER_STRING + "^(((-B) * x)))",
+		assertEquals(
+				"(((B * A) * x) * " + Unicode.EULER_STRING + "^(((-B) * x))) - (A * " + Unicode.EULER_STRING
+						+ "^(((-B) * x)))",
 				f2);
 	}
 
 	@Test
 	void multiplicationSigns() {
-		List.of("*" , Unicode.MULTIPLY , Unicode.CENTER_DOT , "\u2219").forEach(sign ->
-			shouldReparseAs("3" + sign + "4", "3 * 4")
-		);
+		List.of("*", Unicode.MULTIPLY, Unicode.CENTER_DOT, "\u2219")
+				.forEach(sign -> shouldReparseAs("3" + sign + "4", "3 * 4"));
 	}
 
 	@Test
@@ -455,10 +426,8 @@ class ParserTest {
 
 	@Test
 	void mixedNumbers() {
-		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "(2/3)",
-				"1" + Unicode.INVISIBLE_PLUS + "2 / 3");
-		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "2/3",
-				"1" + Unicode.INVISIBLE_PLUS + "2 / 3");
+		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "(2/3)", "1" + Unicode.INVISIBLE_PLUS + "2 / 3");
+		shouldReparseAs("1" + Unicode.INVISIBLE_PLUS + "2/3", "1" + Unicode.INVISIBLE_PLUS + "2 / 3");
 	}
 
 	private void checkPointParsedAs(String input, String label, String value) {
@@ -480,31 +449,41 @@ class ParserTest {
 	}
 
 	static void shouldReparseAs(App app, String string, String expected) {
-		assertEquals(expected,
-				reparse(app, string, StringTemplate.editTemplate, true));
+		assertEquals(expected, reparse(app, string, StringTemplate.editTemplate, true));
 	}
 
 	private void shouldReparseAs(String string, String expected) {
-		assertEquals(expected,
-				reparse(string, StringTemplate.editTemplate));
+		assertEquals(expected, reparse(string, StringTemplate.editTemplate));
 	}
 
 	private static boolean binary(Operation op) {
-		return !Operation.isSimpleFunction(op) && op != Operation.IF_LIST
-				&& op != Operation.DOLLAR_VAR_COL && op != Operation.DOLLAR_VAR_ROW_COL
-				&& op != Operation.DOLLAR_VAR_ROW && op != Operation.XOR
-				&& op != Operation.AND_INTERVAL && op != Operation.ELEMENT_OF
-				&& op != Operation.DIFF && op != Operation.FREEHAND
-				&& op != Operation.DATA && op != Operation.MATRIXTOVECTOR
+		return !Operation.isSimpleFunction(op)
+				&& op != Operation.IF_LIST
+				&& op != Operation.DOLLAR_VAR_COL
+				&& op != Operation.DOLLAR_VAR_ROW_COL
+				&& op != Operation.DOLLAR_VAR_ROW
+				&& op != Operation.XOR
+				&& op != Operation.AND_INTERVAL
+				&& op != Operation.ELEMENT_OF
+				&& op != Operation.DIFF
+				&& op != Operation.FREEHAND
+				&& op != Operation.DATA
+				&& op != Operation.MATRIXTOVECTOR
 				&& op != Operation.NO_OPERATION
-				&& op != Operation.MULTIPLY_OR_FUNCTION && op != Operation.BETA
+				&& op != Operation.MULTIPLY_OR_FUNCTION
+				&& op != Operation.BETA
 				&& op != Operation.BETA_INCOMPLETE
 				&& op != Operation.BETA_INCOMPLETE_REGULARIZED
 				&& op != Operation.GAMMA_INCOMPLETE_REGULARIZED
-				&& op != Operation.FUNCTION && op != Operation.FUNCTION_NVAR
-				&& op != Operation.VEC_FUNCTION && op != Operation.DERIVATIVE
-				&& op != Operation.IF && op != Operation.IF_SHORT && op != Operation.IF_ELSE
-				&& op != Operation.SUM && op != Operation.PRODUCT
+				&& op != Operation.FUNCTION
+				&& op != Operation.FUNCTION_NVAR
+				&& op != Operation.VEC_FUNCTION
+				&& op != Operation.DERIVATIVE
+				&& op != Operation.IF
+				&& op != Operation.IF_SHORT
+				&& op != Operation.IF_ELSE
+				&& op != Operation.SUM
+				&& op != Operation.PRODUCT
 				&& op != Operation.INVERSE_NORMAL;
 	}
 
@@ -515,7 +494,8 @@ class ParserTest {
 			ExpressionNode ve = (ExpressionNode) parseExpression(str);
 			String combo = left.getOperation() + "," + ve.getOperation();
 
-			if ("SQRT_SHORT,SQRT".equals(combo) || "PLUS,MINUS".equals(combo)
+			if ("SQRT_SHORT,SQRT".equals(combo)
+					|| "PLUS,MINUS".equals(combo)
 					|| "PLUS,PLUSMINUS".equals(combo)
 					|| "DIVIDE,MULTIPLY".equals(combo)
 					|| "VECTORPRODUCT,MULTIPLY".equals(combo)
@@ -530,13 +510,11 @@ class ParserTest {
 		}
 	}
 
-	private ValidExpression parseExpression(String string)
-			throws ParseException {
+	private ValidExpression parseExpression(String string) throws ParseException {
 		return parseExpression(app, string);
 	}
 
-	private static ValidExpression parseExpression(App app, String string)
-			throws ParseException {
+	private static ValidExpression parseExpression(App app, String string) throws ParseException {
 		return app.getKernel().getParser().parseGeoGebraExpression(string);
 	}
 
@@ -557,47 +535,29 @@ class ParserTest {
 		app.setConfig(new AppConfigGraphing());
 		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
 
-		assertEquals("(0, 0)",
-				add("O")
-						.toValueString(StringTemplate.defaultTemplate));
-		assertEquals("(1, 1)",
-				add("O+1")
-						.toValueString(StringTemplate.defaultTemplate)); // Creates A
-		assertEquals("(1, 1)",
-				add("1+O")
-						.toValueString(StringTemplate.defaultTemplate)); // Creates B
-		assertEquals("(1, 2)",
-				add("C(1,2)")
-						.toValueString(StringTemplate.defaultTemplate));
-		assertEquals("(2, 4)",
-				add("C(2)")
-						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(0, 0)", add("O").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(1, 1)", add("O+1").toValueString(StringTemplate.defaultTemplate)); // Creates A
+		assertEquals("(1, 1)", add("1+O").toValueString(StringTemplate.defaultTemplate)); // Creates B
+		assertEquals("(1, 2)", add("C(1,2)").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(2, 4)", add("C(2)").toValueString(StringTemplate.defaultTemplate));
 		ErrorAccumulator acc = new ErrorAccumulator();
 		processor.processAlgebraCommandNoExceptionHandling("C(1,2)", false, acc, false, null);
 		assertThat(acc.getErrors(), containsString("Sorry"));
-		assertEquals("(1, 2, 3)",
-				add("E(1,2,3)")
-						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(1, 2, 3)", add("E(1,2,3)").toValueString(StringTemplate.defaultTemplate));
 		add("b=4");
-		assertEquals("(4, 8, 12)",
-				add("b(1,2,3)")
-						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(4, 8, 12)", add("b(1,2,3)").toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	void testAutomaticObjectCreationClassic() {
 		app.setConfig(new AppConfigDefault());
-		assertEquals("(1, 2)",
-				add("D(1,2)")
-						.toValueString(StringTemplate.defaultTemplate));
-		assertEquals("5",
-				add("D(1,2)")
-						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("(1, 2)", add("D(1,2)").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("5", add("D(1,2)").toValueString(StringTemplate.defaultTemplate));
 	}
 
 	private GeoElementND add(String input) {
-		GeoElementND[] elements =  app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(input, false);
+		GeoElementND[] elements =
+				app.getKernel().getAlgebraProcessor().processAlgebraCommand(input, false);
 		return elements == null ? null : elements[0];
 	}
 
@@ -615,15 +575,9 @@ class ParserTest {
 		assertNull(add("O(1,1)"));
 		assertNull(add("1+O(1,1)"));
 
-		assertEquals("1.5",
-				add("mean(1,2)")
-						.toValueString(StringTemplate.defaultTemplate));
-		assertEquals("1",
-				add("sin(pi/2)")
-						.toValueString(StringTemplate.defaultTemplate));
-		assertEquals("-4",
-				add("bsin(3pi/2)")
-						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("1.5", add("mean(1,2)").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("1", add("sin(pi/2)").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("-4", add("bsin(3pi/2)").toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test

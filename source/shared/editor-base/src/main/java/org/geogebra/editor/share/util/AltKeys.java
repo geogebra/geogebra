@@ -185,8 +185,7 @@ public class AltKeys {
 	 * @param webApp - whether we run this in a browser
 	 * @return returns true if the char is a key in the hashmaps
 	 */
-	public static Boolean isGeoGebraShortcut(int keyCode, boolean isShiftDown,
-			boolean webApp) {
+	public static Boolean isGeoGebraShortcut(int keyCode, boolean isShiftDown, boolean webApp) {
 		if (lookupUpper == null) {
 			init(webApp);
 		}

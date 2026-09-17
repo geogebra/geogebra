@@ -109,8 +109,8 @@ public final class AppSwitcherPopup extends GPopupPanel implements ExamListener 
 		rowPanel.add(img);
 
 		String key = description.getNameKey();
-		Label label = BaseWidgetFactory.INSTANCE.newPrimaryText(app.getLocalization().getMenu(key),
-				"appPickerLabel");
+		Label label = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				app.getLocalization().getMenu(key), "appPickerLabel");
 		AriaHelper.setAttribute(label, "data-trans-key", key);
 		rowPanel.add(label);
 		rowPanel.setStyleName("appPickerRow");
@@ -123,7 +123,9 @@ public final class AppSwitcherPopup extends GPopupPanel implements ExamListener 
 		app.hideMenu();
 		((AppWFull) app).switchToSubapp(subAppCode);
 		GlobalHeader.onResize();
-		Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
+		Analytics.logEvent(
+				Analytics.Event.APP_SWITCHED,
+				Analytics.Param.SUB_APP,
 				Analytics.Param.convertToSubAppParam(subAppCode));
 	}
 
@@ -135,8 +137,8 @@ public final class AppSwitcherPopup extends GPopupPanel implements ExamListener 
 	public void examStateChanged(ExamState newState) {
 		if (newState == ExamState.ACTIVE || newState == ExamState.IDLE) {
 			SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
-			boolean shouldShowAppsPicker = suiteScope != null
-					&& suiteScope.getEnabledSubApps().size() > 1;
+			boolean shouldShowAppsPicker =
+					suiteScope != null && suiteScope.getEnabledSubApps().size() > 1;
 			if (shouldShowAppsPicker) {
 				updateGUI();
 			}

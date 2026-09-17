@@ -49,21 +49,21 @@ public class GeoElementValueConverter implements ToStringConverter {
 	public @NonNull String toLabelAndDescription(GeoElement element, StringTemplate template) {
 		String labelDescription;
 		switch (element.getLabelMode()) {
-		case LABEL_CAPTION_VALUE:
-			labelDescription = ToStringConverter.getCaptionAndValue(element,
-					element.toValueString(template), template);
-			break;
-		case LABEL_NAME_VALUE:
-			labelDescription = element.getAlgebraDescriptionDefault();
-			break;
-		case LABEL_VALUE:
-			labelDescription = element.toDefinedValueString(template);
-			break;
-		case LABEL_CAPTION:
-			labelDescription = element.getCaption(template);
-			break;
-		default: // case LABEL_NAME:
-			labelDescription = element.getLabel(template);
+			case LABEL_CAPTION_VALUE:
+				labelDescription = ToStringConverter.getCaptionAndValue(
+						element, element.toValueString(template), template);
+				break;
+			case LABEL_NAME_VALUE:
+				labelDescription = element.getAlgebraDescriptionDefault();
+				break;
+			case LABEL_VALUE:
+				labelDescription = element.toDefinedValueString(template);
+				break;
+			case LABEL_CAPTION:
+				labelDescription = element.getCaption(template);
+				break;
+			default: // case LABEL_NAME:
+				labelDescription = element.getLabel(template);
 		}
 		return labelDescription.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : labelDescription;
 	}

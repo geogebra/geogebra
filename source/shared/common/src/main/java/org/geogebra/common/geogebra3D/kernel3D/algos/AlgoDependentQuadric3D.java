@@ -43,7 +43,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 
 	/**
 	 * Creates new AlgoDependentPlane
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param equ
@@ -76,8 +76,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 			}
 
 			// check that coefficient is a number: this may throw an exception
-			ExpressionValue eval = ev[i]
-					.evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
 			((NumberValue) eval).getDouble();
 		}
 
@@ -90,7 +89,6 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 
 		// compute value of dependent number
 		compute();
-
 	}
 
 	@Override
@@ -101,8 +99,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = equation.getGeoElementVariables(
-				SymbolicMode.NONE);
+		input = equation.getGeoElementVariables(SymbolicMode.NONE);
 
 		setOnlyOutput(quadric);
 		setDependencies(); // done by AlgoElement
@@ -130,8 +127,7 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return equation.toString(tpl);
 	}
-
 }

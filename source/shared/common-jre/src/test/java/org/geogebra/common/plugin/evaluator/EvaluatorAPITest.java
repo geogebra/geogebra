@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.plugin.evaluator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,7 +57,8 @@ class EvaluatorAPITest extends BaseUnitTest {
 		assertEquals("{\\frac{1}{2}}", value.get("latex").toString());
 		assertEquals("((1)/(2))", value.get("content").toString());
 		assertEquals("0.5", value.get("eval").toString());
-		assertEquals("start of fraction 1 over 2 end of fraction",
+		assertEquals(
+				"start of fraction 1 over 2 end of fraction",
 				value.get("altText").toString().trim());
 	}
 
@@ -85,8 +86,8 @@ class EvaluatorAPITest extends BaseUnitTest {
 		typer.type("1/");
 		Map<String, Object> value = api.getEvaluatorValue();
 
-		assertEquals("{\\frac{1}{" + TeXSerializer.PLACEHOLDER + "}}",
-				value.get("latex").toString());
+		assertEquals(
+				"{\\frac{1}{" + TeXSerializer.PLACEHOLDER + "}}", value.get("latex").toString());
 		assertEquals("((1)/())", value.get("content").toString());
 		assertEquals("NaN", value.get("eval").toString());
 	}
@@ -114,5 +115,4 @@ class EvaluatorAPITest extends BaseUnitTest {
 		Map<String, Object> value = api.getEvaluatorValue();
 		assertEquals("", value.get("content").toString());
 	}
-
 }

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 /**
  * interface for openGL buffers
- * 
+ *
  * @author mathieu
  *
  */
@@ -28,7 +28,7 @@ public interface GLBuffer {
 
 	/**
 	 * allocate memory if needed
-	 * 
+	 *
 	 * @param length
 	 *            length
 	 */
@@ -36,7 +36,7 @@ public interface GLBuffer {
 
 	/**
 	 * set limit to which we use the buffer
-	 * 
+	 *
 	 * @param length
 	 *            limit
 	 */
@@ -44,14 +44,14 @@ public interface GLBuffer {
 
 	/**
 	 * put value at current buffer position
-	 * 
+	 *
 	 * @param value
 	 *            value
 	 */
 	void put(double value);
 
 	/**
-	 * 
+	 *
 	 * @return value at current buffer position
 	 */
 	double get();
@@ -63,7 +63,7 @@ public interface GLBuffer {
 
 	/**
 	 * set this buffer with first values of array
-	 * 
+	 *
 	 * @param array
 	 *            values array
 	 * @param length
@@ -91,8 +91,7 @@ public interface GLBuffer {
 	 * @param length
 	 *            length to copy
 	 */
-	void set(ArrayList<Double> array, int arrayOffset, int offset,
-			int length);
+	void set(ArrayList<Double> array, int arrayOffset, int offset, int length);
 
 	/**
 	 * @param array
@@ -106,13 +105,12 @@ public interface GLBuffer {
 	 * @param length
 	 *            length to copy
 	 */
-	void set(ArrayList<Double> array, float[] translate, float scale,
-			int offset, int length);
+	void set(ArrayList<Double> array, float[] translate, float scale, int offset, int length);
 
 	/**
 	 * set this values starting from offset, length times, with step between each
 	 * indices
-	 * 
+	 *
 	 * @param value
 	 *            value
 	 * @param offset
@@ -125,21 +123,21 @@ public interface GLBuffer {
 	void set(float value, int offset, int length, int step);
 
 	/**
-	 * 
+	 *
 	 * @return capacity
 	 */
 	int capacity();
 
 	/**
 	 * set float array
-	 * 
+	 *
 	 * @param ret
 	 *            float array
 	 */
 	void array(float[] ret);
 
 	/**
-	 * 
+	 *
 	 * @return true if empty
 	 */
 	boolean isEmpty();
@@ -151,7 +149,7 @@ public interface GLBuffer {
 
 	/**
 	 * reallocate to a bigger size and keep the values
-	 * 
+	 *
 	 * @param size
 	 *            new size
 	 */
@@ -159,10 +157,9 @@ public interface GLBuffer {
 
 	/**
 	 * set position where to read
-	 * 
+	 *
 	 * @param newPosition
 	 *            new position
 	 */
 	void position(int newPosition);
-
 }

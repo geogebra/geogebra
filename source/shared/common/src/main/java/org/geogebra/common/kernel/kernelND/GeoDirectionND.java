@@ -20,16 +20,15 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * geos that have a direction (lines, vectors, planes, ...)
- * 
+ *
  * @author mathieu
  *
  */
 public interface GeoDirectionND extends GeoElementND {
 
 	/**
-	 * 
+	 *
 	 * @return the direction in 3D
 	 */
 	Coords getDirectionInD3();
-
 }

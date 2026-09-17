@@ -34,7 +34,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 import org.gwtproject.user.client.ui.Widget;
 
 public final class SpreadsheetStyleBar extends FlowPanel {
-	private final static int STYLE_BAR_HEIGHT = 36;
+	private static final int STYLE_BAR_HEIGHT = 36;
 	private final AppW appW;
 	private final SpreadsheetStyleBarModel styleBarModel;
 	private final Spreadsheet<?> spreadsheet;
@@ -54,8 +54,8 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 	 * @param appW application
 	 * @param styleBarModel model {@link SpreadsheetStyleBarModel}
 	 */
-	public SpreadsheetStyleBar(AppW appW, Spreadsheet spreadsheet,
-			SpreadsheetStyleBarModel styleBarModel) {
+	public SpreadsheetStyleBar(
+			AppW appW, Spreadsheet spreadsheet, SpreadsheetStyleBarModel styleBarModel) {
 		this.appW = appW;
 		this.spreadsheet = spreadsheet;
 		this.styleBarModel = styleBarModel;
@@ -91,11 +91,10 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 		boldButton.addFastClickHandler(source -> styleBarModel.setBold(!boldButton.isActive()));
 
 		italicButton = buildIconButton(res.text_italic_black(), "Italic");
-		italicButton.addFastClickHandler(source ->
-				styleBarModel.setItalic(!italicButton.isActive()));
+		italicButton.addFastClickHandler(source -> styleBarModel.setItalic(!italicButton.isActive()));
 
-		horizontalAlignmentButton = buildIconButton(res.horizontal_align_right(),
-				"stylebar.HorizontalAlign");
+		horizontalAlignmentButton =
+				buildIconButton(res.horizontal_align_right(), "stylebar.HorizontalAlign");
 		horizontalAlignmentButton.addFastClickHandler(source -> {
 			toggleAlignmentPopup();
 			horizontalAlignmentButton.setActive(!horizontalAlignmentButton.isActive());
@@ -108,15 +107,14 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 		buildMenuButton(res.insert_chart(), ContextMenuItem.Identifier.CREATE_CHART);
 	}
 
-	private void buildMenuButton(SVGResource icon,
-			ContextMenuItem.Identifier identifier) {
+	private void buildMenuButton(SVGResource icon, ContextMenuItem.Identifier identifier) {
 		IconButton btn = buildIconButton(icon, identifier.localizationKey);
 		btn.addFastClickHandler(source -> showMenu(btn, identifier));
 	}
 
 	private IconButton buildIconButton(SVGResource svgResource, String ariaLabel) {
-		IconButton button = new IconButton(appW, () -> {},
-				new ImageIconSpec(svgResource), appW.getLocalization().getMenu(ariaLabel));
+		IconButton button = new IconButton(
+				appW, () -> {}, new ImageIconSpec(svgResource), appW.getLocalization().getMenu(ariaLabel));
 		add(button);
 		return button;
 	}
@@ -149,8 +147,7 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 			boldButton.setActive(newState.fontTraits.contains(SpreadsheetStyling.FontTrait.BOLD));
 		}
 		if (italicButton != null) {
-			italicButton.setActive(newState.fontTraits.contains(
-					SpreadsheetStyling.FontTrait.ITALIC));
+			italicButton.setActive(newState.fontTraits.contains(SpreadsheetStyling.FontTrait.ITALIC));
 		}
 		if (horizontalAlignmentButton != null && horizontalAlignmentPopup != null) {
 			horizontalAlignmentPopup.updateState();
@@ -161,8 +158,8 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 
 	private void initAlignmentPopup() {
 		if (horizontalAlignmentPopup == null) {
-			horizontalAlignmentPopup = new HorizontalAlignmentPopup(appW,
-					horizontalAlignmentButton, styleBarModel);
+			horizontalAlignmentPopup =
+					new HorizontalAlignmentPopup(appW, horizontalAlignmentButton, styleBarModel);
 		}
 	}
 
@@ -175,8 +172,8 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 
 	private void initBackgroundColorPopup() {
 		if (backgroundColorPopup == null) {
-			backgroundColorPopup = new SpreadsheetStyleBarColorPopup(appW, backgroundColorButton,
-					styleBarModel::setBackgroundColor);
+			backgroundColorPopup = new SpreadsheetStyleBarColorPopup(
+					appW, backgroundColorButton, styleBarModel::setBackgroundColor);
 			if (currentState != null) {
 				backgroundColorPopup.updateState(currentState.backgroundColor);
 			}
@@ -192,8 +189,8 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 
 	private void initFontColorPopup() {
 		if (fontColorPopup == null) {
-			fontColorPopup = new SpreadsheetStyleBarColorPopup(appW, fontColorButton,
-					styleBarModel::setTextColor);
+			fontColorPopup =
+					new SpreadsheetStyleBarColorPopup(appW, fontColorButton, styleBarModel::setTextColor);
 			if (currentState != null) {
 				fontColorPopup.updateState(currentState.textColor);
 			}
@@ -212,8 +209,8 @@ public final class SpreadsheetStyleBar extends FlowPanel {
 		appW.getAsyncManager().prefetch(null, "scripting", "stats");
 		GPopupMenuW popup = new GPopupMenuW(appW);
 		popup.getPopupPanel().addStyleName("compactMenu");
-		new SpreadsheetMenuBuilder(appW.getLocalization(), popup::hide).addItems(
-				popup, spreadsheet.getMenuItems(identifier));
+		new SpreadsheetMenuBuilder(appW.getLocalization(), popup::hide)
+				.addItems(popup, spreadsheet.getMenuItems(identifier));
 		popup.show(anchor, 0, STYLE_BAR_HEIGHT);
 		popup.getPopupPanel().addCloseHandler(evt -> markActive(anchor, false));
 	}

@@ -32,9 +32,8 @@ public class GeometryTest {
 	@Test
 	public void startApp() {
 		AppletParameters params = new AppletParameters("geometry");
-		params.setAttribute("showToolBar" , "true");
+		params.setAttribute("showToolBar", "true");
 		AppW app = AppMocker.mockApplet(params);
 		assertThat(app.getGuiManager().toolbarHasImageMode(), equalTo(true));
 	}
-
 }

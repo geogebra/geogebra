@@ -56,11 +56,12 @@ public class ElementalMocker {
 			HTMLDocument document = Mockito.spy(new HTMLDocument());
 			when(document.createElement(any())).thenAnswer(invocationOnMock -> {
 				String tagName = invocationOnMock.getArgumentAt(0, String.class);
-				HTMLElement ret = switch (tagName) {
-					case "img" -> new HTMLImageElement();
-					case "canvas" -> new HTMLCanvasElement();
-					default -> new HTMLDivElement();
-				};
+				HTMLElement ret =
+						switch (tagName) {
+							case "img" -> new HTMLImageElement();
+							case "canvas" -> new HTMLCanvasElement();
+							default -> new HTMLDivElement();
+						};
 				ret.style = new CSSStyleDeclaration();
 				ret.classList = new DOMTokenList();
 				return ret;

@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,13 +37,12 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 /**
  * @author michael Brioschi formula
  *         http://en.wikipedia.org/wiki/Gaussian_curvature
- * 
+ *
  *         test-cases E := 1+v^2; F := 2*u*v; G := 1+u^2; K =
  *         (u^2+v^2)/(1+u^2+v^2-3u^2v^2)^2
- * 
- * 
+ *
+ *
  */
-
 public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 	// input
 	private GeoNumberValue param1;
@@ -90,15 +89,21 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 	 * @param f
 	 *            2var function
 	 */
-	public AlgoCurvatureSurfaceParametric(Construction cons, String label,
-			GeoNumberValue param1, GeoNumberValue param2,
+	public AlgoCurvatureSurfaceParametric(
+			Construction cons,
+			String label,
+			GeoNumberValue param1,
+			GeoNumberValue param2,
 			GeoSurfaceCartesianND f) {
 		this(cons, param1, param2, f);
 		n.setLabel(label);
 	}
 
-	AlgoCurvatureSurfaceParametric(Construction cons, GeoNumberValue param1,
-			GeoNumberValue param2, GeoSurfaceCartesianND surface) {
+	AlgoCurvatureSurfaceParametric(
+			Construction cons,
+			GeoNumberValue param1,
+			GeoNumberValue param2,
+			GeoSurfaceCartesianND surface) {
 		super(cons);
 		this.param1 = param1;
 		this.param2 = param2;
@@ -109,8 +114,9 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		FunctionNVar[] functions = surface.getFunctions();
 		e = new GeoFunctionNVar(cons, functions[0]);
 		f = new GeoFunctionNVar(cons, functions[1]);
-		g = new GeoFunctionNVar(cons, functions.length > 2 ? functions[2]
-				: new Function(kernel, new ExpressionNode(kernel, 0)));
+		g = new GeoFunctionNVar(
+				cons,
+				functions.length > 2 ? functions[2] : new Function(kernel, new ExpressionNode(kernel, 0)));
 
 		FunctionVariable[] vars = f.getFunctionVariables();
 
@@ -193,9 +199,17 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		if (!param1.isDefined() || !param2.isDefined() || eu == null
-				|| ev == null || fu == null || fv == null || gu == null
-				|| gv == null || evv == null || fuv == null || guu == null) {
+		if (!param1.isDefined()
+				|| !param2.isDefined()
+				|| eu == null
+				|| ev == null
+				|| fu == null
+				|| fv == null
+				|| gu == null
+				|| gv == null
+				|| evv == null
+				|| fuv == null
+				|| guu == null) {
 			n.setUndefined();
 			return;
 		}
@@ -203,7 +217,7 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		double x = param1.getDouble();
 		double y = param2.getDouble();
 
-		double[] xy = { x, y };
+		double[] xy = {x, y};
 
 		double eEval = e.evaluate(xy);
 		double fEval = f.evaluate(xy);
@@ -227,28 +241,26 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		// [diff(G,u)/2, F, G]]);
 
 		double[][] m1 = {
-				{ -evvEval / 2 + fuvEval - guuEval / 2, euEval / 2,
-						fuEval - evEval / 2 },
-				{ fvEval - guEval / 2, eEval, fEval },
-				{ gvEval / 2, fEval, gEval } };
-		double[][] m2 = { { 0, evEval / 2, guEval / 2 },
-				{ evEval / 2, eEval, fEval }, { guEval / 2, fEval, gEval } };
+			{-evvEval / 2 + fuvEval - guuEval / 2, euEval / 2, fuEval - evEval / 2},
+			{fvEval - guEval / 2, eEval, fEval},
+			{gvEval / 2, fEval, gEval}
+		};
+		double[][] m2 = {
+			{0, evEval / 2, guEval / 2}, {evEval / 2, eEval, fEval}, {guEval / 2, fEval, gEval}
+		};
 
 		matrix1.setSubMatrix(m1, 0, 0);
 		// double det1 = matrix1.getDeterminant();
-		double det1 = new LUDecomposition(matrix1, Kernel.STANDARD_PRECISION)
-				.getDeterminant();
+		double det1 = new LUDecomposition(matrix1, Kernel.STANDARD_PRECISION).getDeterminant();
 		matrix2.setSubMatrix(m2, 0, 0);
 		// double det2 = matrix2.getDeterminant();
-		double det2 = new LUDecomposition(matrix2, Kernel.STANDARD_PRECISION)
-				.getDeterminant();
+		double det2 = new LUDecomposition(matrix2, Kernel.STANDARD_PRECISION).getDeterminant();
 
 		double denomSqrt = eEval * gEval - fEval * fEval;
 
 		double k = (det1 - det2) / (denomSqrt * denomSqrt);
 
 		n.setValue(k);
-
 	}
 
 	@Override
@@ -286,5 +298,4 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		param2.removeAlgorithm(algoCASguu);
 		surface.removeAlgorithm(algoCASguu);
 	}
-
 }

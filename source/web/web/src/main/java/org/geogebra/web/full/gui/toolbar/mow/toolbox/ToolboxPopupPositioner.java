@@ -21,8 +21,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.gwtproject.user.client.ui.UIObject;
 
 public final class ToolboxPopupPositioner {
-	private final static int TOOLBOX_PADDING = 8;
-	private final static int DISTANCE_FROM_TOOLBOX = 8;
+	private static final int TOOLBOX_PADDING = 8;
+	private static final int DISTANCE_FROM_TOOLBOX = 8;
 
 	/**
 	 * Show and position a popup relative to the toolbox button
@@ -33,8 +33,11 @@ public final class ToolboxPopupPositioner {
 	public static void showRelativeToToolbox(GPopupPanel popup, UIObject anchor, AppW app) {
 		closePopupsRegisterNewPopup(popup, app);
 
-		int left = (int) (anchor.getAbsoluteLeft() + anchor.getOffsetWidth()
-						+ TOOLBOX_PADDING + DISTANCE_FROM_TOOLBOX - app.getAbsLeft());
+		int left = (int) (anchor.getAbsoluteLeft()
+				+ anchor.getOffsetWidth()
+				+ TOOLBOX_PADDING
+				+ DISTANCE_FROM_TOOLBOX
+				- app.getAbsLeft());
 		int top = (int) (anchor.getAbsoluteTop() - app.getAbsTop());
 
 		popup.setPopupPosition(left, (int) (top / app.getGeoGebraElement().getScaleY()));

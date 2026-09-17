@@ -54,12 +54,12 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new point
 	 */
-	abstract protected GeoPointND newGeoPoint(Construction cons1);
+	protected abstract GeoPointND newGeoPoint(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -90,13 +90,11 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlainDefault("PointAplusB", "Point %0 + %1",
-				input[0].getLabel(tpl),
-				input[1].getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"PointAplusB", "Point %0 + %1", input[0].getLabel(tpl), input[1].getLabel(tpl));
 	}
-
 }

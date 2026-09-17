@@ -86,8 +86,7 @@ final class Selection {
 		if (type == SelectionType.ROWS) {
 			return new Selection(range.getFromRow(), 0);
 		} else {
-			return new Selection(Math.max(range.getFromRow(), 0),
-					Math.max(range.getFromColumn() - 1, 0));
+			return new Selection(Math.max(range.getFromRow(), 0), Math.max(range.getFromColumn() - 1, 0));
 		}
 	}
 
@@ -104,8 +103,8 @@ final class Selection {
 			return this;
 		}
 		int leftColumnIndex = Math.max(range.getToColumn() - 1, 0);
-		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
-				leftColumnIndex, leftColumnIndex));
+		return new Selection(
+				TabularRange.range(range.getFromRow(), range.getToRow(), leftColumnIndex, leftColumnIndex));
 	}
 
 	/**
@@ -119,7 +118,8 @@ final class Selection {
 		if (type == SelectionType.ROWS) {
 			return new Selection(range.getFromRow(), 1);
 		} else {
-			return new Selection(Math.max(range.getFromRow(), 0),
+			return new Selection(
+					Math.max(range.getFromRow(), 0),
 					Math.min(range.getFromColumn() + 1, numberOfColumns - 1));
 		}
 	}
@@ -135,8 +135,8 @@ final class Selection {
 			return this;
 		}
 		int columnIndex = Math.min(range.getToColumn() + 1, numberOfColumns - 1);
-		return new Selection(TabularRange.range(range.getFromRow(), range.getToRow(),
-				columnIndex, columnIndex));
+		return new Selection(
+				TabularRange.range(range.getFromRow(), range.getToRow(), columnIndex, columnIndex));
 	}
 
 	/**
@@ -151,8 +151,7 @@ final class Selection {
 		if (type == SelectionType.COLUMNS) {
 			return new Selection(0, range.getFromColumn());
 		} else {
-			return new Selection(Math.max(range.getFromRow() - 1, 0),
-					Math.max(range.getFromColumn(), 0));
+			return new Selection(Math.max(range.getFromRow() - 1, 0), Math.max(range.getFromColumn(), 0));
 		}
 	}
 
@@ -169,8 +168,8 @@ final class Selection {
 			return this;
 		}
 		int aboveRowIndex = Math.max(this.range.getToRow() - 1, 0);
-		return new Selection(TabularRange.range(aboveRowIndex, aboveRowIndex,
-				range.getFromColumn(), range.getToColumn()));
+		return new Selection(TabularRange.range(
+				aboveRowIndex, aboveRowIndex, range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**
@@ -184,8 +183,8 @@ final class Selection {
 		if (type == SelectionType.COLUMNS) {
 			return new Selection(1, range.getFromColumn());
 		} else {
-			return new Selection(Math.min(range.getFromRow() + 1, numberOfRows - 1),
-					Math.max(range.getFromColumn(), 0));
+			return new Selection(
+					Math.min(range.getFromRow() + 1, numberOfRows - 1), Math.max(range.getFromColumn(), 0));
 		}
 	}
 
@@ -200,8 +199,8 @@ final class Selection {
 			return this;
 		}
 		int underneathRowIndex = Math.min(range.getToRow() + 1, numberOfRows - 1);
-		return new Selection(TabularRange.range(underneathRowIndex, underneathRowIndex,
-				range.getFromColumn(), range.getToColumn()));
+		return new Selection(TabularRange.range(
+				underneathRowIndex, underneathRowIndex, range.getFromColumn(), range.getToColumn()));
 	}
 
 	/**

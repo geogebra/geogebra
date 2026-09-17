@@ -31,8 +31,8 @@ import org.junit.jupiter.api.Test;
 
 class PropertyArrayValueObservingTest extends BaseUnitTest {
 	private final List<Object> observedValueChanges = new ArrayList<>();
-	private final PropertyValueObserver<?> propertyValueObserver = property ->
-			observedValueChanges.add(property.getValue());
+	private final PropertyValueObserver<?> propertyValueObserver =
+			property -> observedValueChanges.add(property.getValue());
 
 	@Test
 	void testObserverRegisteredForNestedProperties() {
@@ -40,7 +40,7 @@ class PropertyArrayValueObservingTest extends BaseUnitTest {
 		TestPropertyCollection testPropertyCollection =
 				new TestPropertyCollection(getLocalization(), testValuedProperty);
 		PropertyArrayValueObserving.addObserver(
-				new Property[]{testPropertyCollection}, propertyValueObserver);
+				new Property[] {testPropertyCollection}, propertyValueObserver);
 
 		testValuedProperty.setValue(3);
 		testValuedProperty.setValue(4);
@@ -57,7 +57,7 @@ class PropertyArrayValueObservingTest extends BaseUnitTest {
 		TestPropertyCollection outerCollection =
 				new TestPropertyCollection(getLocalization(), innerCollection);
 		PropertyArrayValueObserving.addObserver(
-				new Property[]{outerCollection}, propertyValueObserver);
+				new Property[] {outerCollection}, propertyValueObserver);
 
 		testValuedProperty.setValue(5);
 		testValuedProperty.setValue(12);
@@ -70,7 +70,7 @@ class PropertyArrayValueObservingTest extends BaseUnitTest {
 	void testObserverRegisteredForDirectProperties() {
 		TestValuedProperty testValuedProperty = new TestValuedProperty(getLocalization());
 		PropertyArrayValueObserving.addObserver(
-				new Property[]{ testValuedProperty }, propertyValueObserver);
+				new Property[] {testValuedProperty}, propertyValueObserver);
 
 		testValuedProperty.setValue(34);
 		testValuedProperty.setValue(55);

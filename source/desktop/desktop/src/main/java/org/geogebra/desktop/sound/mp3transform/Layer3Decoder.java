@@ -1,36 +1,19 @@
 /*
- * 11/19/04 1.0 moved to LGPL.
- * 
- * 18/06/01  Michael Scheerer,  Fixed bugs which causes
- *           negative indexes in method huffmann_decode and in method 
- *           dequanisize_sample.
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
  *
- * 16/07/01  Michael Scheerer, Caught a bug in method
- *           huffmann_decode, which causes an outOfIndexException.
- *           Cause : Indexnumber of 24 at SfBandIndex,
- *           which has only a length of 22. I have simply and dirty 
- *           fixed the index to <= 22, because I'm not really be able
- *           to fix the bug. The Indexnumber is taken from the MP3 
- *           file and the origin Ma-Player with the same code works 
- *           well.      
- * 
- * 02/19/99  Java Conversion by E.B, javalayer@javazoom.net
- *-----------------------------------------------------------------------
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU Library General Public License as published
- *   by the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU Library General Public License for more details.
- *
- *   You should have received a copy of the GNU Library General Public
- *   License along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *----------------------------------------------------------------------
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
+
 package org.geogebra.desktop.sound.mp3transform;
 
 import java.io.IOException;
@@ -67,8 +50,8 @@ final class Layer3Decoder {
 	private final Decoder player;
 	private final BitReservoir br = new BitReservoir();
 	private final SideInfo si = new SideInfo();
-	private final ScaleFactor[] scaleFactors = new ScaleFactor[] {
-			new ScaleFactor(), new ScaleFactor() };
+	private final ScaleFactor[] scaleFactors =
+			new ScaleFactor[] {new ScaleFactor(), new ScaleFactor()};
 	private int maxGr;
 	private int frameStart;
 	private int part2Start;
@@ -106,12 +89,12 @@ final class Layer3Decoder {
 
 	static class Channel {
 		int[] scfsi = new int[4];
-		GrInfo[] gr = new GrInfo[] { new GrInfo(), new GrInfo() };
+		GrInfo[] gr = new GrInfo[] {new GrInfo(), new GrInfo()};
 	}
 
 	static class SideInfo {
 		int mainDataBegin = 0;
-		Channel[] ch = new Channel[] { new Channel(), new Channel() };
+		Channel[] ch = new Channel[] {new Channel(), new Channel()};
 	}
 
 	static class ScaleFactor {
@@ -119,8 +102,12 @@ final class Layer3Decoder {
 		int[][] s = new int[3][13]; /* [window][cb] */
 	}
 
-	Layer3Decoder(Bitstream stream, Header header,
-			SynthesisFilter filter1, SynthesisFilter filter2, Decoder player) {
+	Layer3Decoder(
+			Bitstream stream,
+			Header header,
+			SynthesisFilter filter1,
+			SynthesisFilter filter2,
+			Decoder player) {
 		this.stream = stream;
 		this.header = header;
 		this.filter1 = filter1;
@@ -129,9 +116,9 @@ final class Layer3Decoder {
 		channels = (header.mode() == Header.MODE_SINGLE_CHANNEL) ? 1 : 2;
 		maxGr = (header.version() == Header.VERSION_MPEG1) ? 2 : 1;
 		sfreq = header.sampleFrequency()
-				+ ((header.version() == Header.VERSION_MPEG1) ? 3
-						: (header.version() == Header.VERSION_MPEG25_LSF) ? 6
-								: 0);
+				+ ((header.version() == Header.VERSION_MPEG1)
+						? 3
+						: (header.version() == Header.VERSION_MPEG25_LSF) ? 6 : 0);
 		if (channels == 2) {
 			firstChannel = 0;
 			lastChannel = 1;
@@ -243,8 +230,7 @@ final class Layer3Decoder {
 						gi.subblockGain[2] = stream.getBits(3);
 						// Set regionCount: implicit in this case
 						if (gi.blockType == 0) {
-							throw new IOException(
-									"Side info bad: blockType == 0 in split block");
+							throw new IOException("Side info bad: blockType == 0 in split block");
 						} else if (gi.blockType == 2 && !gi.mixedBlock) {
 							gi.region0Count = 8;
 						} else {
@@ -288,8 +274,7 @@ final class Layer3Decoder {
 					gi.subblockGain[2] = stream.getBits(3);
 					// Set regionCount: implicit in this case
 					if (gi.blockType == 0) {
-						throw new IOException(
-								"Side info bad: blockType == 0 in split block");
+						throw new IOException("Side info bad: blockType == 0 in split block");
 					} else if (gi.blockType == 2 && !gi.mixedBlock) {
 						gi.region0Count = 8;
 					} else {
@@ -327,14 +312,12 @@ final class Layer3Decoder {
 				}
 				for (sfb = 3; sfb < 6; sfb++) {
 					for (window = 0; window < 3; window++) {
-						sfs[window][sfb] = br
-								.getBits(slen[0][gi.scaleFactorCompress]);
+						sfs[window][sfb] = br.getBits(slen[0][gi.scaleFactorCompress]);
 					}
 				}
 				for (sfb = 6; sfb < 12; sfb++) {
 					for (window = 0; window < 3; window++) {
-						sfs[window][sfb] = br
-								.getBits(slen[1][gi.scaleFactorCompress]);
+						sfs[window][sfb] = br.getBits(slen[1][gi.scaleFactorCompress]);
 					}
 				}
 				for (sfb = 12, window = 0; window < 3; window++) {
@@ -488,8 +471,7 @@ final class Layer3Decoder {
 		for (int i = 0, m = 0; i < 4; i++) {
 			int len = Constants.NR_OF_SFB_BLOCK[blockNumber][blockTypeNumber][i];
 			for (int j = 0; j < len; j++) {
-				scaleFactorBuffer[m] = (newSlen[i] == 0) ? 0
-						: br.getBits(newSlen[i]);
+				scaleFactorBuffer[m] = (newSlen[i] == 0) ? 0 : br.getBits(newSlen[i]);
 				m++;
 			}
 		}
@@ -624,35 +606,35 @@ final class Layer3Decoder {
 
 	private static double getT43(int abv, double globalGain) {
 		switch (abv) {
-		case 0:
-			return 0.0f;
-		case 1:
-			return globalGain;
-		case -1:
-			return -globalGain;
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-			return globalGain * Constants.T43[abv];
-		case -2:
-		case -3:
-		case -4:
-		case -5:
-		case -6:
-			return -globalGain * Constants.T43[-abv];
-		default:
-			if (abv > 0) {
-				if (abv < Constants.T43_SIZE) {
-					return globalGain * Constants.T43[abv];
-				}
-				return globalGain * Math.pow(abv, D43);
-			}
-			if (-abv < Constants.T43_SIZE) {
+			case 0:
+				return 0.0f;
+			case 1:
+				return globalGain;
+			case -1:
+				return -globalGain;
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+				return globalGain * Constants.T43[abv];
+			case -2:
+			case -3:
+			case -4:
+			case -5:
+			case -6:
 				return -globalGain * Constants.T43[-abv];
-			}
-			return -globalGain * Math.pow(-abv, D43);
+			default:
+				if (abv > 0) {
+					if (abv < Constants.T43_SIZE) {
+						return globalGain * Constants.T43[abv];
+					}
+					return globalGain * Math.pow(abv, D43);
+				}
+				if (-abv < Constants.T43_SIZE) {
+					return -globalGain * Constants.T43[-abv];
+				}
+				return -globalGain * Math.pow(-abv, D43);
 		}
 	}
 
@@ -728,8 +710,7 @@ final class Layer3Decoder {
 			int ss = j - sb * SSLIMIT; // % SSLIMIT
 			// Do long/short dependent scaling operations
 			int idx;
-			if (gi.windowSwitching && gi.blockType == 2
-					&& (!gi.mixedBlock || j >= 36)) {
+			if (gi.windowSwitching && gi.blockType == 2 && (!gi.mixedBlock || j >= 36)) {
 				int ti = (index - cbBegin) / cbWidth;
 				idx = scaleFactors[ch].s[ti][cb] << gi.scaleFactorScale;
 				idx += gi.subblockGain[ti] << 2;
@@ -767,8 +748,7 @@ final class Layer3Decoder {
 				// REORDERING FOR REST SWITCHED SHORT
 				for (int sfb = 3; sfb < 13; sfb++) {
 					int sfbStart = Constants.SF_BAND_INDEX[sfreq].s[sfb];
-					int sfbLines = Constants.SF_BAND_INDEX[sfreq].s[sfb + 1]
-							- sfbStart;
+					int sfbLines = Constants.SF_BAND_INDEX[sfreq].s[sfb + 1] - sfbStart;
 					int sfbStart3 = (sfbStart << 2) - sfbStart;
 					for (int freq = 0, freq3 = 0; freq < sfbLines; freq++, freq3 += 3) {
 						int srcLine = sfbStart3 + freq;
@@ -824,10 +804,8 @@ final class Layer3Decoder {
 		int modeExt = header.modeExtension();
 		int sfb;
 		int temp, temp2;
-		boolean msStereo = (header.mode() == Header.MODE_JOINT_STEREO)
-				&& ((modeExt & 0x2) != 0);
-		boolean iStereo = (header.mode() == Header.MODE_JOINT_STEREO)
-				&& ((modeExt & 0x1) != 0);
+		boolean msStereo = (header.mode() == Header.MODE_JOINT_STEREO) && ((modeExt & 0x2) != 0);
+		boolean iStereo = (header.mode() == Header.MODE_JOINT_STEREO) && ((modeExt & 0x1) != 0);
 		boolean lsf = header.version() == Header.VERSION_MPEG2_LSF
 				|| header.version() == Header.VERSION_MPEG25_LSF;
 		int ioType = gi.scaleFactorCompress & 1;
@@ -1040,10 +1018,8 @@ final class Layer3Decoder {
 			for (int ss = 0; ss < SSLIMIT; ss++) {
 				if (isPos[i] == 7) {
 					if (msStereo) {
-						lr0[sb][ss] = (ro0[sb][ss] + ro1[sb][ss])
-								* 0.707106781f;
-						lr1[sb][ss] = (ro0[sb][ss] - ro1[sb][ss])
-								* 0.707106781f;
+						lr0[sb][ss] = (ro0[sb][ss] + ro1[sb][ss]) * 0.707106781f;
+						lr1[sb][ss] = (ro0[sb][ss] - ro1[sb][ss]) * 0.707106781f;
 					} else {
 						lr0[sb][ss] = ro0[sb][ss];
 						lr1[sb][ss] = ro1[sb][ss];
@@ -1081,10 +1057,8 @@ final class Layer3Decoder {
 				int srcIdx2 = sb18 + 18 + ss;
 				double bu = out1d[srcIdx1];
 				double bd = out1d[srcIdx2];
-				out1d[srcIdx1] = (bu * Constants.CS[ss])
-						- (bd * Constants.CA[ss]);
-				out1d[srcIdx2] = (bd * Constants.CS[ss])
-						+ (bu * Constants.CA[ss]);
+				out1d[srcIdx1] = (bu * Constants.CS[ss]) - (bd * Constants.CA[ss]);
+				out1d[srcIdx2] = (bd * Constants.CS[ss]) + (bu * Constants.CA[ss]);
 			}
 		}
 	}
@@ -1092,8 +1066,7 @@ final class Layer3Decoder {
 	private void hybrid(int ch, int gr) {
 		GrInfo gi = si.ch[ch].gr[gr];
 		for (int sb18 = 0; sb18 < 576; sb18 += 18) {
-			int bt = (gi.windowSwitching && gi.mixedBlock && (sb18 < 36)) ? 0
-					: gi.blockType;
+			int bt = (gi.windowSwitching && gi.mixedBlock && (sb18 < 36)) ? 0 : gi.blockType;
 			double[] tsOut = out1d;
 			double[] r = rawout;
 			for (int cc = 0; cc < 18; cc++) {
@@ -1149,8 +1122,7 @@ final class Layer3Decoder {
 		double t10, t11, t12, t13, t14, t15, t16, t17;
 		if (blockType == 2) {
 			for (int p = 0; p < 36; p += 9) {
-				out[p] = out[p
-						+ 1] = out[p + 2] = out[p + 3] = out[p + 4] = 0.0f;
+				out[p] = out[p + 1] = out[p + 2] = out[p + 3] = out[p + 4] = 0.0f;
 				out[p + 5] = out[p + 6] = out[p + 7] = out[p + 8] = 0.0f;
 			}
 			int sixI = 0;
@@ -1265,8 +1237,7 @@ final class Layer3Decoder {
 			in[5] += in[3];
 			in[3] += in[1];
 			double tmp0, tmp1, tmp2, tmp3, tmp4, tmp0b, tmp1b, tmp2b, tmp3b;
-			double tmp0o, tmp1o, tmp2o, tmp3o, tmp4o, tmp0ob, tmp1ob, tmp2ob,
-					tmp3ob;
+			double tmp0o, tmp1o, tmp2o, tmp3o, tmp4o, tmp0ob, tmp1ob, tmp2ob, tmp3ob;
 			// Fast 9 Point Inverse Discrete Cosine Transform
 			//
 			// By Francois-Raymond Boyer
@@ -1282,50 +1253,55 @@ final class Layer3Decoder {
 			// 5 points on odd indices (not really an IDCT)
 			double i00 = in[0] + in[0];
 			double iip12 = i00 + in[12];
-			tmp0 = iip12 + in[4] * 1.8793852415718f + in[8] * 1.532088886238f
-					+ in[16] * 0.34729635533386f;
+			tmp0 =
+					iip12 + in[4] * 1.8793852415718f + in[8] * 1.532088886238f + in[16] * 0.34729635533386f;
 			tmp1 = i00 + in[4] - in[8] - in[12] - in[12] - in[16];
-			tmp2 = iip12 - in[4] * 0.34729635533386f - in[8] * 1.8793852415718f
-					+ in[16] * 1.532088886238f;
-			tmp3 = iip12 - in[4] * 1.532088886238f + in[8] * 0.34729635533386f
-					- in[16] * 1.8793852415718f;
+			tmp2 =
+					iip12 - in[4] * 0.34729635533386f - in[8] * 1.8793852415718f + in[16] * 1.532088886238f;
+			tmp3 =
+					iip12 - in[4] * 1.532088886238f + in[8] * 0.34729635533386f - in[16] * 1.8793852415718f;
 			tmp4 = in[0] - in[4] + in[8] - in[12] + in[16];
 			// 4 points on even indices
 			double i6s = in[6] * 1.732050808f; // Sqrt[3]
-			tmp0b = in[2] * 1.9696155060244f + i6s + in[10] * 1.2855752193731f
-					+ in[14] * 0.68404028665134f;
+			tmp0b =
+					in[2] * 1.9696155060244f + i6s + in[10] * 1.2855752193731f + in[14] * 0.68404028665134f;
 			tmp1b = (in[2] - in[10] - in[14]) * 1.732050808f;
-			tmp2b = in[2] * 1.2855752193731f - i6s - in[10] * 0.68404028665134f
-					+ in[14] * 1.9696155060244f;
-			tmp3b = in[2] * 0.68404028665134f - i6s + in[10] * 1.9696155060244f
-					- in[14] * 1.2855752193731f;
+			tmp2b =
+					in[2] * 1.2855752193731f - i6s - in[10] * 0.68404028665134f + in[14] * 1.9696155060244f;
+			tmp3b =
+					in[2] * 0.68404028665134f - i6s + in[10] * 1.9696155060244f - in[14] * 1.2855752193731f;
 			// 9 point IDCT on odd indices
 			// 5 points on odd indices (not really an IDCT)
 			double i0 = in[0 + 1] + in[0 + 1];
 			double i0p12 = i0 + in[12 + 1];
-			tmp0o = i0p12 + in[4 + 1] * 1.8793852415718f
+			tmp0o = i0p12
+					+ in[4 + 1] * 1.8793852415718f
 					+ in[8 + 1] * 1.532088886238f
 					+ in[16 + 1] * 0.34729635533386f;
-			tmp1o = i0 + in[4 + 1] - in[8 + 1] - in[12 + 1] - in[12 + 1]
-					- in[16 + 1];
-			tmp2o = i0p12 - in[4 + 1] * 0.34729635533386f
+			tmp1o = i0 + in[4 + 1] - in[8 + 1] - in[12 + 1] - in[12 + 1] - in[16 + 1];
+			tmp2o = i0p12
+					- in[4 + 1] * 0.34729635533386f
 					- in[8 + 1] * 1.8793852415718f
 					+ in[16 + 1] * 1.532088886238f;
-			tmp3o = i0p12 - in[4 + 1] * 1.532088886238f
+			tmp3o = i0p12
+					- in[4 + 1] * 1.532088886238f
 					+ in[8 + 1] * 0.34729635533386f
 					- in[16 + 1] * 1.8793852415718f;
-			tmp4o = (in[0 + 1] - in[4 + 1] + in[8 + 1] - in[12 + 1]
-					+ in[16 + 1]) * 0.707106781f; // Twiddled
+			tmp4o =
+					(in[0 + 1] - in[4 + 1] + in[8 + 1] - in[12 + 1] + in[16 + 1]) * 0.707106781f; // Twiddled
 			// 4 points on even indices
 			double i7s = in[6 + 1] * 1.732050808f; // Sqrt[3]
-			tmp0ob = in[2 + 1] * 1.9696155060244f + i7s
+			tmp0ob = in[2 + 1] * 1.9696155060244f
+					+ i7s
 					+ in[10 + 1] * 1.2855752193731f
 					+ in[14 + 1] * 0.68404028665134f;
 			tmp1ob = (in[2 + 1] - in[10 + 1] - in[14 + 1]) * 1.732050808f;
-			tmp2ob = in[2 + 1] * 1.2855752193731f - i7s
+			tmp2ob = in[2 + 1] * 1.2855752193731f
+					- i7s
 					- in[10 + 1] * 0.68404028665134f
 					+ in[14 + 1] * 1.9696155060244f;
-			tmp3ob = in[2 + 1] * 0.68404028665134f - i7s
+			tmp3ob = in[2 + 1] * 0.68404028665134f
+					- i7s
 					+ in[10 + 1] * 1.9696155060244f
 					- in[14 + 1] * 1.2855752193731f;
 			// Twiddle factors on odd indices and

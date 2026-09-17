@@ -25,7 +25,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Commands with only one syntax that allows only one numeric input
- * 
+ *
  * @author zbynek
  */
 public abstract class CmdOneNumber extends CommandProcessor {
@@ -48,13 +48,12 @@ public abstract class CmdOneNumber extends CommandProcessor {
 		if (!(args[0] instanceof GeoNumberValue)) {
 			throw argErr(c, args[0]);
 		}
-		return new GeoElement[] {
-				getResult((GeoNumberValue) args[0], c.getLabel()) };
+		return new GeoElement[] {getResult((GeoNumberValue) args[0], c.getLabel())};
 	}
 
 	/**
 	 * Returns output of the computation
-	 * 
+	 *
 	 * @param num
 	 *            input number
 	 * @param label
@@ -62,5 +61,4 @@ public abstract class CmdOneNumber extends CommandProcessor {
 	 * @return resulting geo
 	 */
 	protected abstract GeoElement getResult(GeoNumberValue num, String label);
-
 }

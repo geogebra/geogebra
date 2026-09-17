@@ -30,12 +30,12 @@ public class CompositionUpdateEvent extends DomEvent<CompositionHandler> {
 	 * Event type for focus events. Represents the meta-data associated with
 	 * this event.
 	 */
-	private static final Type<CompositionHandler> TYPE = new Type<>(
-			"compositionupdate", new CompositionUpdateEvent());
+	private static final Type<CompositionHandler> TYPE =
+			new Type<>("compositionupdate", new CompositionUpdateEvent());
 
 	/**
 	 * Gets the event type associated with focus events.
-	 * 
+	 *
 	 * @return the handler type
 	 */
 	public static Type<CompositionHandler> getType() {
@@ -47,8 +47,7 @@ public class CompositionUpdateEvent extends DomEvent<CompositionHandler> {
 	 * {@link DomEvent#fireNativeEvent(org.gwtproject.dom.client.NativeEvent, org.gwtproject.event.shared.HasHandlers)}
 	 * to fire focus events.
 	 */
-	protected CompositionUpdateEvent() {
-	}
+	protected CompositionUpdateEvent() {}
 
 	@Override
 	public final Type<CompositionHandler> getAssociatedType() {
@@ -67,5 +66,4 @@ public class CompositionUpdateEvent extends DomEvent<CompositionHandler> {
 		CompositionEvent ce = Js.uncheckedCast(getNativeEvent());
 		return ce.data;
 	}
-
 }

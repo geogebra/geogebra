@@ -34,7 +34,7 @@ import org.jspecify.annotations.NonNull;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * 
+ *
  * @author mathieu
  *
  *         Companion for application
@@ -47,7 +47,7 @@ public class AppCompanion {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -56,7 +56,7 @@ public class AppCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return new kernel
 	 */
 	public Kernel newKernel() {
@@ -66,7 +66,7 @@ public class AppCompanion {
 	/**
 	 * return true if commands of this table should be visible in input bar help
 	 * and autocomplete
-	 * 
+	 *
 	 * @param table
 	 *            table number, see CommandConstants.TABLE_*
 	 * @return true for visible tables
@@ -79,7 +79,7 @@ public class AppCompanion {
 
 	/**
 	 * XML settings for both EVs
-	 * 
+	 *
 	 * @param sb
 	 *            string builder
 	 * @param asPreference
@@ -151,7 +151,7 @@ public class AppCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if some view for plane exists
 	 */
 	public boolean hasEuclidianViewForPlane() {
@@ -159,7 +159,7 @@ public class AppCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if some view for plane is visible
 	 */
 	public boolean hasEuclidianViewForPlaneVisible() {
@@ -167,7 +167,7 @@ public class AppCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return a visible view for plane if one, or null
 	 */
 	public EuclidianView getViewForPlaneVisible() {
@@ -176,7 +176,7 @@ public class AppCompanion {
 
 	/**
 	 * add to views for plane (if any)
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -186,17 +186,17 @@ public class AppCompanion {
 
 	/**
 	 * remove to views for plane (if any)
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
 	public void removeFromViewsForPlane(GeoElement geo) {
 		// implemented in App3DCompanion
 	}
-	
+
 	/**
 	 * set export will be done on next 3D frame
-	 * 
+	 *
 	 * @param format - export format
 	 * @param showDialog - true if export dialog should be shown, export directly otherwise
 	 */
@@ -205,7 +205,7 @@ public class AppCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xmin
 	 *            x min
 	 * @param xmax
@@ -230,9 +230,17 @@ public class AppCompanion {
 	 *            z axis tick distance
 	 * @return string describing model in collada (.dae) format
 	 */
-	public String exportCollada(double xmin, double xmax, double ymin,
-			double ymax, double zmin, double zmax, double xyScale,
-			double xzScale, double xTickDistance, double yTickDistance,
+	public String exportCollada(
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			double zmin,
+			double zmax,
+			double xyScale,
+			double xzScale,
+			double xTickDistance,
+			double yTickDistance,
 			double zTickDistance) {
 		// implemented in App3DCompanion
 		return null;
@@ -240,10 +248,10 @@ public class AppCompanion {
 
 	/**
 	 * export geometry to getter
-	 * 
+	 *
 	 * @param getter
 	 *            geometry getter
-	 * 
+	 *
 	 * @param xmin
 	 *            x min
 	 * @param xmax
@@ -268,10 +276,19 @@ public class AppCompanion {
 	 *            z axis tick distance
 	 * @return whether successful
 	 */
-	public boolean exportGeometry3D(Geometry3DGetter getter, double xmin,
-			double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xyScale, double xzScale, double xTickDistance,
-			double yTickDistance, double zTickDistance) {
+	public boolean exportGeometry3D(
+			Geometry3DGetter getter,
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			double zmin,
+			double zmax,
+			double xyScale,
+			double xzScale,
+			double xTickDistance,
+			double yTickDistance,
+			double zTickDistance) {
 		return false; // implemented in App3DCompanion
 	}
 
@@ -281,5 +298,4 @@ public class AppCompanion {
 	public void updateFonts3D() {
 		// no 3D views to update fonts
 	}
-
 }

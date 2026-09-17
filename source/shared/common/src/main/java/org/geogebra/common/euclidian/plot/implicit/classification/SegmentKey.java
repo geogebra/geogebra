@@ -58,9 +58,6 @@ public final class SegmentKey {
 
 	@Override
 	public String toString() {
-		return "SegmentKey{"
-				+ "contourId=" + contourId
-				+ ", segmentIndex=" + segmentIndex
-				+ '}';
+		return "SegmentKey{" + "contourId=" + contourId + ", segmentIndex=" + segmentIndex + '}';
 	}
 }

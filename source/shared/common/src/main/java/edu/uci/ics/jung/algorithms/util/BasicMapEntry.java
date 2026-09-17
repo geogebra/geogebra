@@ -76,8 +76,7 @@ public class BasicMapEntry<K, V> implements Map.Entry<K, V> {
 
 	@Override
 	public int hashCode() {
-		return (key == null ? 0 : key.hashCode())
-				^ (value == null ? 0 : value.hashCode());
+		return (key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
 	}
 
 	@Override
@@ -89,12 +88,10 @@ public class BasicMapEntry<K, V> implements Map.Entry<K, V> {
 	 * This method is invoked whenever the value in an entry is overwritten by
 	 * an invocation of put(k,v) for a key k that's already in the HashMap.
 	 */
-	void recordAccess(HashMap<K, V> m) {
-	}
+	void recordAccess(HashMap<K, V> m) {}
 
 	/**
 	 * This method is invoked whenever the entry is removed from the table.
 	 */
-	void recordRemoval(HashMap<K, V> m) {
-	}
+	void recordRemoval(HashMap<K, V> m) {}
 }

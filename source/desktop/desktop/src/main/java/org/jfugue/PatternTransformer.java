@@ -44,7 +44,7 @@ public class PatternTransformer implements ParserListener {
 
 	/**
 	 * Returns the pattern that the transformer is modifying
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	protected Pattern getReturnPattern() {
@@ -53,7 +53,7 @@ public class PatternTransformer implements ParserListener {
 
 	/**
 	 * Sets the pattern that the transformer is modifying
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	protected void setReturnPattern(Pattern pattern) {

@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
 public class CmdSetSeed extends CmdScripting {
 	/**
 	 * Sets new seed for random numbers
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -41,20 +41,19 @@ public class CmdSetSeed extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 1:
-			GeoElement[] arg = resArgs(c);
-			if (arg[0].isNumberValue()) {
+			case 1:
+				GeoElement[] arg = resArgs(c);
+				if (arg[0].isNumberValue()) {
 
-				kernel.randomNumberGenerator.setRandomSeed((int) arg[0].evaluateDouble());
+					kernel.randomNumberGenerator.setRandomSeed((int) arg[0].evaluateDouble());
 
-				return arg;
+					return arg;
+				}
 
-			}
+				throw argErr(c, arg[0]);
 
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

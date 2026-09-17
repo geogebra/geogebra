@@ -217,7 +217,6 @@ public abstract class AbstractFocusableComposite<T extends FocusablePart>
 
 	@Override
 	public String toString() {
-		return "FocusableComposite{"
-				+ "parts= " + parts.size() + ": " + parts + '}';
+		return "FocusableComposite{" + "parts= " + parts.size() + ": " + parts + '}';
 	}
 }

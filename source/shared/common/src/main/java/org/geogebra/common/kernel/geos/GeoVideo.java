@@ -35,7 +35,7 @@ public class GeoVideo extends GeoMedia {
 	private static final int VIDEO_WIDTH = 420;
 	private static final int VIDEO_HEIGHT = 345;
 
-	public final static int VIDEO_SIZE_THRESHOLD = 100;
+	public static final int VIDEO_SIZE_THRESHOLD = 100;
 
 	private static final String WMODE_TRANSPARENT = "wmode=transparent";
 
@@ -43,8 +43,11 @@ public class GeoVideo extends GeoMedia {
 	 * Test video URL.
 	 */
 	private static final String YOUTUBE_EMBED = "https://www.youtube.com/embed/";
-	private static final String YOUTUBE_PREVIEW = "/apps/crossorigin/?url=https://img.youtube.com/vi/%ID%/0.jpg";
-	private static final String MEBIS_PREVIEW = "/apps/crossorigin/?url=https://sodis.de/mediathek/thumbsCache_16_9/%ID%___.jpg";
+
+	private static final String YOUTUBE_PREVIEW =
+			"/apps/crossorigin/?url=https://img.youtube.com/vi/%ID%/0.jpg";
+	private static final String MEBIS_PREVIEW =
+			"/apps/crossorigin/?url=https://sodis.de/mediathek/thumbsCache_16_9/%ID%___.jpg";
 
 	private static final String TIME_PARAM_A = "&t=";
 	private static final String TIME_PARAM_Q = "?t=";
@@ -83,7 +86,8 @@ public class GeoVideo extends GeoMedia {
 	public GeoVideo(Construction c, String url, MediaFormat format) {
 		super(c, url, format);
 		setLabel("video" + c.getLabelManager().getMultiuserSuffix());
-		setSize(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1,
+		setSize(
+				format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1,
 				format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
 	}
 
@@ -143,17 +147,16 @@ public class GeoVideo extends GeoMedia {
 	private void initStartTime() {
 		String url = getSrc();
 
-		int startIdx = url.contains(TIME_PARAM_A) ? url.indexOf(TIME_PARAM_A)
-				: url.contains(TIME_PARAM_Q) ? url.indexOf(TIME_PARAM_Q)
-				: url.indexOf(TIME_PARAM_S);
+		int startIdx = url.contains(TIME_PARAM_A)
+				? url.indexOf(TIME_PARAM_A)
+				: url.contains(TIME_PARAM_Q) ? url.indexOf(TIME_PARAM_Q) : url.indexOf(TIME_PARAM_S);
 		if (startIdx != -1) {
 			String t = url.contains(TIME_PARAM_S)
 					? url.substring(startIdx + TIME_PARAM_S.length())
 					: url.substring(startIdx + TIME_PARAM_A.length());
 
-			int endIdx = t.contains("&") ? t.indexOf("&")
-					: t.contains("?") ? t.indexOf("?")
-					: t.indexOf("\"");
+			int endIdx =
+					t.contains("&") ? t.indexOf("&") : t.contains("?") ? t.indexOf("?") : t.indexOf("\"");
 
 			String time = endIdx == -1 ? t : t.substring(0, endIdx);
 
@@ -165,8 +168,7 @@ public class GeoVideo extends GeoMedia {
 				startTime = Integer.parseInt(minutes) * 60;
 			}
 			if (idxS != -1) {
-				String seconds = idxM == -1 ? time.substring(0, idxS)
-						: time.substring(idxM + 1, idxS);
+				String seconds = idxM == -1 ? time.substring(0, idxS) : time.substring(idxM + 1, idxS);
 				startTime += Integer.parseInt(seconds);
 			}
 			if (idxM == -1 && idxS == -1) {
@@ -270,12 +272,12 @@ public class GeoVideo extends GeoMedia {
 	 * @param type
 	 *            hit type
 	 */
-	final public void setLastHitType(HitType type) {
+	public final void setLastHitType(HitType type) {
 		lastHitType = type;
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return lastHitType;
 	}
 
@@ -305,7 +307,7 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if video is in background.
 	 */
 	public boolean isBackground() {
@@ -315,7 +317,7 @@ public class GeoVideo extends GeoMedia {
 	/**
 	 * Sets the video to the background, thus
 	 * you can draw on it.
-	 * 
+	 *
 	 * @param background
 	 *            to set;
 	 */
@@ -332,7 +334,7 @@ public class GeoVideo extends GeoMedia {
 
 	/**
 	 * Runs callback once after size is set
-	 * 
+	 *
 	 * @param sizeCallback
 	 *            size callback
 	 */

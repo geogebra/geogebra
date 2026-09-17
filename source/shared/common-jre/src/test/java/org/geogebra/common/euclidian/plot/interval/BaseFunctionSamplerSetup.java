@@ -38,8 +38,8 @@ public class BaseFunctionSamplerSetup extends BaseAppTestSetup {
 		assertNotNull(bounds, "Define bounds and screen");
 		GeoFunction function = evaluateGeoElement(definition);
 		IntervalTupleList tuples = new IntervalTupleList();
-		IntervalFunctionData data = new IntervalFunctionData(function,
-				new GeoFunctionConverter(), bounds, tuples);
+		IntervalFunctionData data =
+				new IntervalFunctionData(function, new GeoFunctionConverter(), bounds, tuples);
 		new FunctionSampler(data, bounds).resample(bounds.domain());
 
 		return new QueryFunctionDataImpl(tuples);

@@ -25,7 +25,6 @@ public class ShowObjectModel extends BooleanOptionModel {
 	public interface IShowObjectListener extends IBooleanOptionListener {
 		@MissingDoc
 		void updateCheckbox(boolean value, boolean isEnabled);
-
 	}
 
 	public ShowObjectModel(IShowObjectListener listener, App app) {
@@ -52,10 +51,8 @@ public class ShowObjectModel extends BooleanOptionModel {
 			}
 		}
 
-		((IShowObjectListener) getListener()).updateCheckbox(equalObjectVal
-				&& geo0.isSetEuclidianVisible(),
-				!showObjectCondition);
-
+		((IShowObjectListener) getListener())
+				.updateCheckbox(equalObjectVal && geo0.isSetEuclidianVisible(), !showObjectCondition);
 	}
 
 	@Override
@@ -72,7 +69,6 @@ public class ShowObjectModel extends BooleanOptionModel {
 				// slider)
 				|| (geo.isGeoNumeric() && geo.isLocked())) {
 			isValid = false;
-
 		}
 
 		return isValid;
@@ -91,5 +87,4 @@ public class ShowObjectModel extends BooleanOptionModel {
 		geo.updateVisualStyleRepaint(GProperty.VISIBLE);
 		storeUndoInfo();
 	}
-
 }

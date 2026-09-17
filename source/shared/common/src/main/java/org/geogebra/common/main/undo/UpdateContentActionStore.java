@@ -53,11 +53,11 @@ public class UpdateContentActionStore {
 	 */
 	public void storeUndo() {
 		String[] labels = geos.stream().map(GeoInline::getLabelSimple).toArray(String[]::new);
-		String[] currentLabelsHeightsAndContent = buildContentAndHeightList()
-				.toArray(new String[0]);
-		undoManager.buildAction(ActionType.SET_CONTENT, currentLabelsHeightsAndContent)
-				.withUndo(ActionType.SET_CONTENT,
-						initialLabelsHeightsAndContent.toArray(new String[0])).withLabels(labels)
+		String[] currentLabelsHeightsAndContent = buildContentAndHeightList().toArray(new String[0]);
+		undoManager
+				.buildAction(ActionType.SET_CONTENT, currentLabelsHeightsAndContent)
+				.withUndo(ActionType.SET_CONTENT, initialLabelsHeightsAndContent.toArray(new String[0]))
+				.withLabels(labels)
 				.storeAndNotifyUnsaved();
 	}
 

@@ -32,7 +32,7 @@ public class CmdScientificText extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,34 +47,29 @@ public class CmdScientificText extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0].isGeoNumeric()) {
+					GeoElement[] ret = {scientificText(c.getLabel(), (GeoNumeric) arg[0], null)};
+					return ret;
+				}
 
-			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { scientificText(c.getLabel(),
-						(GeoNumeric) arg[0], null) };
-				return ret;
-			}
+				throw argErr(c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
+			case 2:
+				if (arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
+					GeoElement[] ret = {scientificText(c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1])
+					};
+					return ret;
+				}
 
-			throw argErr(c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
-		case 2:
+				throw argErr(c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
 
-			if (arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { scientificText(c.getLabel(),
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1]) };
-				return ret;
-			}
-
-			throw argErr(c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
-	private GeoText scientificText(String label, GeoNumeric num,
-			GeoNumeric prec) {
-		AlgoScientificText algo = new AlgoScientificText(cons, num,
-				prec);
+	private GeoText scientificText(String label, GeoNumeric num, GeoNumeric prec) {
+		AlgoScientificText algo = new AlgoScientificText(cons, num, prec);
 		GeoText text = algo.getResult();
 		text.setLabel(label);
 		return text;

@@ -35,8 +35,7 @@ public final class ComponentProgressBar extends FlowPanel {
 	 * @param isDarkTheme - whether is dark theme
 	 * @param isDeterminate - whether is determinate or not (indeterminate)
 	 */
-	public ComponentProgressBar(boolean isDarkTheme, boolean
-			isDeterminate) {
+	public ComponentProgressBar(boolean isDarkTheme, boolean isDeterminate) {
 		buildGui(isDeterminate);
 		addStyleName("progressBar");
 		if (isDarkTheme) {
@@ -53,8 +52,7 @@ public final class ComponentProgressBar extends FlowPanel {
 
 		if (!isDeterminate) {
 			indicatorPrimary.addStyleName("animBar1");
-			FlowPanel indicatorSecondary = BaseWidgetFactory.INSTANCE
-					.newPanel("indicator animBar2");
+			FlowPanel indicatorSecondary = BaseWidgetFactory.INSTANCE.newPanel("indicator animBar2");
 			add(indicatorSecondary);
 		}
 	}
@@ -66,5 +64,4 @@ public final class ComponentProgressBar extends FlowPanel {
 	public void setIndicatorWidth(double percent) {
 		indicatorPrimary.setWidth(percent + "%");
 	}
-
 }

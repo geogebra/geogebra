@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 
 public sealed class SuggestionSolve extends Suggestion permits SuggestionSolveForSymbolic {
-	
+
 	static final Suggestion SINGLE_SOLVE = new SuggestionSolve();
 	private String[] labels;
 
@@ -42,19 +42,19 @@ public sealed class SuggestionSolve extends Suggestion permits SuggestionSolveFo
 		if (labels == null || labels.length < 1) {
 			return geo.getLabelSimple();
 		}
-		return "{" + StringUtil.join(", ", labels) + "," + geo.getLabelSimple()
-				+ "}";
+		return "{" + StringUtil.join(", ", labels) + "," + geo.getLabelSimple() + "}";
 	}
 
 	@Override
 	protected void runCommands(GeoElementND geo) {
-		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-				"Solve[" + getLabels(geo) + "]", false);
+		geo.getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommand("Solve[" + getLabels(geo) + "]", false);
 	}
 
 	/**
 	 * Check if Solve is available for the geo and return suitable suggestion
-	 * 
+	 *
 	 * @param geo
 	 *            construction element
 	 * @return suggestion if applicable
@@ -80,12 +80,12 @@ public sealed class SuggestionSolve extends Suggestion permits SuggestionSolveFo
 
 	private static Suggestion getMulti(GeoElement geo, final String[] vars) {
 
-		GeoElementND prev = geo.getConstruction().getPrevious(geo,
-				var -> Equation.isAlgebraEquation(var)
-						&& subset(((EquationValue) var)
-						.getEquationVariables(), vars)
-						&& !checkDependentAlgo(var,
-						SINGLE_SOLVE, null));
+		GeoElementND prev = geo.getConstruction()
+				.getPrevious(
+						geo,
+						var -> Equation.isAlgebraEquation(var)
+								&& subset(((EquationValue) var).getEquationVariables(), vars)
+								&& !checkDependentAlgo(var, SINGLE_SOLVE, null));
 
 		if (prev != null) {
 			return new SuggestionSolve(prev.getLabelSimple());
@@ -117,8 +117,8 @@ public sealed class SuggestionSolve extends Suggestion permits SuggestionSolveFo
 	}
 
 	@Override
-	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
-			boolean[] algosMissing) {
+	protected boolean allAlgosExist(
+			GetCommand className, GeoElement[] input, boolean[] algosMissing) {
 		return className == Commands.Solve || className == Commands.NSolve;
 	}
 }

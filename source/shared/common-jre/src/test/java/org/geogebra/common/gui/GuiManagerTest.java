@@ -31,12 +31,13 @@ class GuiManagerTest extends BaseUnitTest {
 	void shouldSaveAlgebraViewSettingsWithoutPlatformView() {
 		getSettings().getAlgebra().setTreeMode(AlgebraView.SortMode.ORDER);
 		XMLStringBuilder builder = new XMLStringBuilder();
-		GuiManager guiManager = Mockito.mock(GuiManager.class, Mockito.withSettings()
-				.defaultAnswer(Mockito.CALLS_REAL_METHODS).useConstructor(getApp()));
+		GuiManager guiManager = Mockito.mock(
+				GuiManager.class,
+				Mockito.withSettings().defaultAnswer(Mockito.CALLS_REAL_METHODS).useConstructor(getApp()));
 
 		guiManager.getViewsXML(builder, false);
 
-		assertThat(builder.toString(),
-				containsString("<algebraView>\n\t<mode val=\"3\"/>\n</algebraView>"));
+		assertThat(
+				builder.toString(), containsString("<algebraView>\n\t<mode val=\"3\"/>\n</algebraView>"));
 	}
 }

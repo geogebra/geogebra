@@ -63,5 +63,4 @@ public interface GeoQuadricNDConstants {
 	int QUADRIC_HYPERBOLIC_CYLINDER = 39;
 	/** type: hyperbolic paraboloid */
 	int QUADRIC_HYPERBOLIC_PARABOLOID = 40;
-
 }

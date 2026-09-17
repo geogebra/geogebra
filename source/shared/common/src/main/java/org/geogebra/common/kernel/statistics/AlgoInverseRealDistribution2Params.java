@@ -23,10 +23,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoInverseRealDistribution2Params extends AlgoDistribution {
 
 	private final ProbabilityCalculatorSettings.Dist command;
@@ -41,8 +40,12 @@ public class AlgoInverseRealDistribution2Params extends AlgoDistribution {
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoInverseRealDistribution2Params(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, ProbabilityCalculatorSettings.Dist command) {
+	public AlgoInverseRealDistribution2Params(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			ProbabilityCalculatorSettings.Dist command) {
 		super(cons, null, a, b, c);
 		this.command = command;
 		compute();
@@ -56,15 +59,14 @@ public class AlgoInverseRealDistribution2Params extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double param = a.getDouble();
 			double param2 = b.getDouble();
 			double val = c.getDouble();
 			try {
 				RealDistribution dist = getDist(command, param, param2);
 				num.setValue(dist.inverseCumulativeProbability(val)); // P(T <=
-																		// val)
+				// val)
 
 			} catch (Exception e) {
 				num.setUndefined();
@@ -73,5 +75,4 @@ public class AlgoInverseRealDistribution2Params extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

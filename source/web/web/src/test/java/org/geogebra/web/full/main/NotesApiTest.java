@@ -49,7 +49,8 @@ public class NotesApiTest {
 	public void penInputAtStartupShouldActivatePenMode() {
 		AppW app = AppMocker.mockApplet(new AppletParameters("notes"));
 		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
-		app.getActiveEuclidianView().getEuclidianController()
+		app.getActiveEuclidianView()
+				.getEuclidianController()
 				.setDefaultEventType(PointerEventType.PEN, true);
 		assertEquals(EuclidianConstants.MODE_PEN, app.getMode());
 	}

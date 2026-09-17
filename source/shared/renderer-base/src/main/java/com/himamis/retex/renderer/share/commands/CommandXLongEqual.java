@@ -10,5 +10,4 @@ public class CommandXLongEqual extends Command1O1A {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new XLongequalAtom(b, a);
 	}
-
 }

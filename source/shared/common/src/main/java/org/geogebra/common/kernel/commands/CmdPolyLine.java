@@ -36,7 +36,7 @@ import org.geogebra.common.main.MyError;
 public class CmdPolyLine extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -49,42 +49,41 @@ public class CmdPolyLine extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		switch (n) {
-		case 0:
-			throw argNumErr(c);
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList()) {
-				return polyLine(c.getLabel(), (GeoList) arg[0]);
-			}
-			throw argErr(c, arg[0]);
-		case 2:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList()) {
-
-				if (!arg[1].isGeoBoolean()) {
-					throw argErr(c, arg[1]);
+			case 0:
+				throw argNumErr(c);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList()) {
+					return polyLine(c.getLabel(), (GeoList) arg[0]);
 				}
+				throw argErr(c, arg[0]);
+			case 2:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList()) {
 
-				return polyLine(c.getLabel(), (GeoList) arg[0]);
-			}
-			if (arg[0].isGeoPoint()) {
+					if (!arg[1].isGeoBoolean()) {
+						throw argErr(c, arg[1]);
+					}
 
-				if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean()
-						&& arg[1].evaluateDouble() > 0)) {
-					throw argErr(c, arg[1]);
+					return polyLine(c.getLabel(), (GeoList) arg[0]);
 				}
+				if (arg[0].isGeoPoint()) {
 
-				return genericPolyline(arg[1], arg, c, info);
-			}
-			throw argErr(c, arg[0]);
-		default:
-			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
-			return genericPolyline(lastArg, null, c, info);
+					if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean() && arg[1].evaluateDouble() > 0)) {
+						throw argErr(c, arg[1]);
+					}
+
+					return genericPolyline(arg[1], arg, c, info);
+				}
+				throw argErr(c, arg[0]);
+			default:
+				GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
+				return genericPolyline(lastArg, null, c, info);
 		}
 	}
 
-	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0,
-			Command c, EvalInfo info) {
+	private GeoElement[] genericPolyline(
+			GeoElement lastArg, GeoElement[] arg0, Command c, EvalInfo info) {
 		boolean penStroke = false;
 		int size = c.getArgumentNumber();
 		if (lastArg.isGeoBoolean()) {
@@ -97,8 +96,7 @@ public class CmdPolyLine extends CommandProcessor {
 			ArrayList<MyPoint> myPoints = new ArrayList<>();
 			for (int i = 0; i < size; i++) {
 				MyVecNode vec = (MyVecNode) c.getArgument(i).unwrap();
-				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
-						vec.getY().evaluateDouble()));
+				myPoints.add(new MyPoint(vec.getX().evaluateDouble(), vec.getY().evaluateDouble()));
 			}
 			AlgoLocusStroke algo = new AlgoLocusStroke(cons, myPoints);
 			algo.getOutput(0).setLabel(c.getLabel());
@@ -153,8 +151,7 @@ public class CmdPolyLine extends CommandProcessor {
 	 *            whether it's a 3D object
 	 * @return polyline
 	 */
-	protected GeoElement[] polyLine(String label, GeoPointND[] points,
-			boolean is3D) {
+	protected GeoElement[] polyLine(String label, GeoPointND[] points, boolean is3D) {
 		return kernel.polyLine(label, points);
 	}
 }

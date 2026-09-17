@@ -34,5 +34,4 @@ public enum ModeSetter {
 	 * Cas focus lost triggers CAS evaluation (and mode change)
 	 */
 	CAS_BLUR
-
 }

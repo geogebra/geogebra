@@ -28,6 +28,7 @@ class BufferPack extends BufferPackAbstract {
 	private final GLBuffer vertexBuffer;
 	/** buffer for normals */
 	private final GLBuffer normalBuffer;
+
 	private final GLBuffer textureBuffer;
 	/** buffer for colors */
 	private final GLBuffer colorBuffer;
@@ -40,18 +41,17 @@ class BufferPack extends BufferPackAbstract {
 	/**
 	 * Creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
 	 * at max.
-	 * 
+	 *
 	 * @param manager
 	 *            geometries manager
 	 */
 	protected BufferPack(GLBufferManager manager) {
-		this(manager, manager.getElementSizeStart(),
-				manager.getIndicesSizeStart());
+		this(manager, manager.getElementSizeStart(), manager.getIndicesSizeStart());
 	}
 
 	/**
 	 * Creates a new buffer pack.
-	 * 
+	 *
 	 * @param manager
 	 *            geometries manager
 	 * @param elementsSize
@@ -59,8 +59,7 @@ class BufferPack extends BufferPackAbstract {
 	 * @param indicesSize
 	 *            indicesSize
 	 */
-	protected BufferPack(GLBufferManager manager, int elementsSize,
-			int indicesSize) {
+	protected BufferPack(GLBufferManager manager, int elementsSize, int indicesSize) {
 		this.manager = manager;
 		vertexBuffer = GLFactory.getPrototype().newBuffer();
 		normalBuffer = GLFactory.getPrototype().newBuffer();
@@ -110,8 +109,7 @@ class BufferPack extends BufferPackAbstract {
 	void addToLength(int elementsLengthToAdd, int indicesLengthToAdd) {
 		elementsLength += elementsLengthToAdd;
 		if (elementsLength > elementsSize) {
-			reallocateElements(
-					multiplyByPowerOfTwoToMakeItGreaterThan(elementsSize, elementsLength));
+			reallocateElements(multiplyByPowerOfTwoToMakeItGreaterThan(elementsSize, elementsLength));
 		}
 		vertexBuffer.setLimit(this.elementsLength * 3);
 		normalBuffer.setLimit(this.elementsLength * 3);
@@ -131,8 +129,7 @@ class BufferPack extends BufferPackAbstract {
 		vertexBuffer.set(manager.vertexArray, offset * 3, length * 3);
 		if (manager.oneNormal) {
 			for (int i = 0; i < 3; i++) {
-				normalBuffer.set(manager.normalArray.get(i).floatValue(), offset * 3 + i, length,
-						3);
+				normalBuffer.set(manager.normalArray.get(i).floatValue(), offset * 3 + i, length, 3);
 			}
 		} else {
 			normalBuffer.set(manager.normalArray, offset * 3, length * 3);
@@ -149,10 +146,10 @@ class BufferPack extends BufferPackAbstract {
 
 	/**
 	 * set elements for big curve
-	 * 
+	 *
 	 * @param curve
 	 *            curve index for array offset
-	 * 
+	 *
 	 * @param length
 	 *            length to write
 	 */
@@ -168,12 +165,10 @@ class BufferPack extends BufferPackAbstract {
 	}
 
 	@Override
-	void setElements(float[] translate, float scale,
-			boolean reuseSegment) {
+	void setElements(float[] translate, float scale, boolean reuseSegment) {
 		int offset = manager.currentBufferSegment.elementsOffset;
 		int length = manager.currentBufferSegment.getElementsLength();
-		vertexBuffer.set(manager.vertexArray, translate, scale, offset * 3,
-				length * 3);
+		vertexBuffer.set(manager.vertexArray, translate, scale, offset * 3, length * 3);
 		if (!reuseSegment) {
 			normalBuffer.set(manager.normalArray, offset * 3, length * 3);
 			textureBuffer.set(0, offset * 2, length * 2, 1);
@@ -198,14 +193,16 @@ class BufferPack extends BufferPackAbstract {
 
 	@Override
 	void setAlphaAndLayer(int alpha, int layer) {
-		setAlpha(alpha, layer,
+		setAlpha(
+				alpha,
+				layer,
 				manager.currentBufferSegment.elementsOffset * 4 + 3,
 				manager.currentBufferSegment.getElementsLength());
 	}
 
 	/**
 	 * set alpha
-	 * 
+	 *
 	 * @param alpha
 	 *            alpha value
 	 * @param length
@@ -216,11 +213,14 @@ class BufferPack extends BufferPackAbstract {
 	}
 
 	private void setAlpha(int alpha, int layer, int offset, int length) {
-		colorBuffer.set(alpha <= 0 ? GLBufferManager.ALPHA_INVISIBLE
-				: (alpha >= 255 ? 1f : ((float) alpha / 255))
-						+ Renderer.LAYER_FACTOR_FOR_CODING
-								* (layer - Renderer.LAYER_MIN),
-				offset, length, 4);
+		colorBuffer.set(
+				alpha <= 0
+						? GLBufferManager.ALPHA_INVISIBLE
+						: (alpha >= 255 ? 1f : ((float) alpha / 255))
+								+ Renderer.LAYER_FACTOR_FOR_CODING * (layer - Renderer.LAYER_MIN),
+				offset,
+				length,
+				4);
 	}
 
 	/* (non-Javadoc)
@@ -235,8 +235,7 @@ class BufferPack extends BufferPackAbstract {
 		r.getRendererImpl().loadNormalBuffer(normalBuffer, elementsLength);
 		r.getRendererImpl().loadColorBuffer(colorBuffer, elementsLength);
 		if (r.getRendererImpl().areTexturesEnabled()) {
-			r.getRendererImpl().loadTextureBuffer(textureBuffer,
-					elementsLength);
+			r.getRendererImpl().loadTextureBuffer(textureBuffer, elementsLength);
 		} else {
 			r.getRendererImpl().disableTextureBuffer();
 		}
@@ -264,9 +263,7 @@ class BufferPack extends BufferPackAbstract {
 	 */
 	@Override
 	void setAlphaToTransparent(int offset, int length) {
-		colorBuffer.set(
-				ManagerShaders.ALPHA_INVISIBLE_VALUE,
-				offset * 4 + 3, length, 4);
+		colorBuffer.set(ManagerShaders.ALPHA_INVISIBLE_VALUE, offset * 4 + 3, length, 4);
 	}
 
 	/* (non-Javadoc)
@@ -303,5 +300,4 @@ class BufferPack extends BufferPackAbstract {
 		indicesBuffer.position(position);
 		return indicesBuffer;
 	}
-
 }

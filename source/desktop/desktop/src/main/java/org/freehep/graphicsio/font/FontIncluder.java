@@ -20,7 +20,7 @@ import org.freehep.graphics2d.font.CharTable;
  * <li>{@code writeEncoding}
  * <li>{@code closeIncludeFont}
  * </ul>
- * 
+ *
  * @author Simon Fischer
  * @version $Id: FontIncluder.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
@@ -38,12 +38,10 @@ public abstract class FontIncluder {
 	protected abstract void openIncludeFont() throws IOException;
 
 	/** Writes the encoding table to the file. */
-	protected abstract void writeEncoding(CharTable charTable)
-			throws IOException;
+	protected abstract void writeEncoding(CharTable charTable) throws IOException;
 
 	/** Does nothing, but can be implemented by subclasses if necessary. */
-	protected void closeIncludeFont() throws IOException {
-	}
+	protected void closeIncludeFont() throws IOException {}
 
 	// -----------------------------------------------------------
 
@@ -110,15 +108,14 @@ public abstract class FontIncluder {
 
 	/**
 	 * Embed this font to the file.
-	 * 
+	 *
 	 * @param font
 	 *            The font to include
 	 * @param name
 	 *            The name under which this font is addressed within the
 	 *            document (can be retrieved by {@code getFontName()})
 	 */
-	public void includeFont(Font font, CharTable charTable, String name)
-			throws IOException {
+	public void includeFont(Font font, CharTable charTable, String name) throws IOException {
 
 		unicode = null;
 		charName = null;

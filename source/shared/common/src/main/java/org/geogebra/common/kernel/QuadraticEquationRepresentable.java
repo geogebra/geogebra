@@ -62,22 +62,22 @@ public interface QuadraticEquationRepresentable {
 		 */
 		public static @Nullable Form valueOf(int rawValue) {
 			switch (rawValue) {
-			case CONST_IMPLICIT:
-				return IMPLICIT;
-			case CONST_EXPLICIT:
-				return EXPLICIT;
-			case CONST_SPECIFIC:
-				return SPECIFIC;
-			case CONST_PARAMETRIC:
-				return PARAMETRIC;
-			case CONST_USER:
-				return USER;
-			case CONST_VERTEX:
-				return VERTEX;
-			case CONST_CONICFORM:
-				return CONICFORM;
-			default:
-				return null;
+				case CONST_IMPLICIT:
+					return IMPLICIT;
+				case CONST_EXPLICIT:
+					return EXPLICIT;
+				case CONST_SPECIFIC:
+					return SPECIFIC;
+				case CONST_PARAMETRIC:
+					return PARAMETRIC;
+				case CONST_USER:
+					return USER;
+				case CONST_VERTEX:
+					return VERTEX;
+				case CONST_CONICFORM:
+					return CONICFORM;
+				default:
+					return null;
 			}
 		}
 
@@ -85,7 +85,7 @@ public interface QuadraticEquationRepresentable {
 			this.rawValue = rawValue;
 		}
 	}
-	
+
 	/**
 	 * @return The equation form of this object.
 	 */

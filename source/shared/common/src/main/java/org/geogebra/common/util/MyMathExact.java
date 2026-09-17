@@ -25,7 +25,7 @@ import org.apache.commons.math3.linear.AnyMatrix;
 /*
  * utilities for "exact" arithmetics
  * of arbitrary precision
- * 
+ *
  */
 public class MyMathExact {
 
@@ -97,8 +97,7 @@ public class MyMathExact {
 		 *            value
 		 */
 		public FixedScaleDecimal(int significance, BigDecimal bd) {
-			impl = new BigDecimal(bd.unscaledValue(), bd.scale())
-					.setScale(significance, roundingMode);
+			impl = new BigDecimal(bd.unscaledValue(), bd.scale()).setScale(significance, roundingMode);
 			fixedScale = significance;
 		}
 
@@ -157,8 +156,8 @@ public class MyMathExact {
 		 * @return this / md
 		 */
 		public FixedScaleDecimal divide(FixedScaleDecimal md) {
-			return new FixedScaleDecimal(this.getScale(), impl.divide(md.getImpl(),
-					this.getScale(), BigDecimal.ROUND_HALF_EVEN));
+			return new FixedScaleDecimal(
+					this.getScale(), impl.divide(md.getImpl(), this.getScale(), BigDecimal.ROUND_HALF_EVEN));
 		}
 
 		/**
@@ -180,9 +179,13 @@ public class MyMathExact {
 			FixedScaleDecimal radicand = new FixedScaleDecimal(thisScalePlusOne, impl);
 
 			int iterCount = 0;
-			while (ret.multiply(ret).subtract(radicand).divide(radicand)
-					.divide(new FixedScaleDecimal(thisScalePlusOne, lower_bound * 2))
-					.abs().doubleValue() > Math.pow(10, -thisScale)
+			while (ret.multiply(ret)
+									.subtract(radicand)
+									.divide(radicand)
+									.divide(new FixedScaleDecimal(thisScalePlusOne, lower_bound * 2))
+									.abs()
+									.doubleValue()
+							> Math.pow(10, -thisScale)
 					&& iterCount < 5) {
 				ret = ret.add(radicand.divide(ret)).divide(TWO);
 				iterCount++;
@@ -366,8 +369,7 @@ public class MyMathExact {
 
 			for (int i = 0; i < m; i++) {
 				for (int j = 0; j < n; j++) {
-					ret = ret.add(matrix.getEntry(i, j)
-							.multiply(matrix.getEntry(i, j)));
+					ret = ret.add(matrix.getEntry(i, j).multiply(matrix.getEntry(i, j)));
 				}
 			}
 
@@ -387,17 +389,15 @@ public class MyMathExact {
 								+ getColumnDimension() + " and "
 								+ m.getRowDimension() + " x "
 								+ m.getColumnDimension() + "matrices!");
-
 			}
 
-			FixedScaleDecimalMatrix ret = new FixedScaleDecimalMatrix(this.getScale(),
-					this.getRowDimension(), m.getColumnDimension());
+			FixedScaleDecimalMatrix ret = new FixedScaleDecimalMatrix(
+					this.getScale(), this.getRowDimension(), m.getColumnDimension());
 			for (int i = 0; i < this.getRowDimension(); i++) {
 				for (int j = 0; j < m.getColumnDimension(); j++) {
 					FixedScaleDecimal entry = new FixedScaleDecimal(this.fixedScale, 0);
 					for (int k = 0; k < this.getColumnDimension(); k++) {
-						entry = entry.add(
-								this.getEntry(i, k).multiply(m.getEntry(k, j)));
+						entry = entry.add(this.getEntry(i, k).multiply(m.getEntry(k, j)));
 					}
 					ret.setEntry(i, j, entry);
 				}

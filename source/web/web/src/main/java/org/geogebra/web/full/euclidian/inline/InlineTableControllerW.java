@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -87,9 +87,10 @@ public final class InlineTableControllerW implements InlineTableController {
 	private void checkFonts() {
 		try {
 			JSONObject tableData = new JSONObject(table.getContent());
-			CarotaJSONUtil.forEachCell(tableData, cellContent ->
-					InlineTextControllerW.checkFonts(
-							cellContent, getWebFontsUrl(), this::onFontLoaded));
+			CarotaJSONUtil.forEachCell(
+					tableData,
+					cellContent ->
+							InlineTextControllerW.checkFonts(cellContent, getWebFontsUrl(), this::onFontLoaded));
 		} catch (JSONException | RuntimeException e) {
 			Log.debug("cannot parse fonts");
 		}
@@ -114,8 +115,8 @@ public final class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
-		tableImpl.setCellProperty("bgcolor",
-				backgroundColor == null ? null : backgroundColor.toString());
+		tableImpl.setCellProperty(
+				"bgcolor", backgroundColor == null ? null : backgroundColor.toString());
 		saveContent();
 	}
 
@@ -134,8 +135,7 @@ public final class InlineTableControllerW implements InlineTableController {
 		if (style != null && table.getLocation() != null) {
 			GPoint2D location = table.getLocation();
 
-			setLocation(view.toScreenCoordX(location.x),
-					view.toScreenCoordY(location.y));
+			setLocation(view.toScreenCoordX(location.x), view.toScreenCoordY(location.y));
 
 			setWidth(table.getContentWidth());
 			setHeight(table.getContentHeight());
@@ -441,7 +441,7 @@ public final class InlineTableControllerW implements InlineTableController {
 	private void initTable(Element parent) {
 		tableElement = DOM.createDiv();
 		tableElement.addClassName("mowWidget");
-		EventUtil.stopPointerEvents(tableElement, btn  -> btn <= 0);
+		EventUtil.stopPointerEvents(tableElement, btn -> btn <= 0);
 		parent.appendChild(tableElement);
 
 		style = tableElement.getStyle();

@@ -20,5 +20,4 @@ public class CommandDisplayStyle extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new StyleAtom(TeXConstants.STYLE_DISPLAY, a);
 	}
-
 }

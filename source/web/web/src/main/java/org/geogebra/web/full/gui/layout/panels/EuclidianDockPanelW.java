@@ -36,7 +36,7 @@ public final class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 
 	/**
 	 * This constructor is used by the applet
-	 * 
+	 *
 	 * @param application
 	 *            application
 	 * @param stylebar
@@ -57,8 +57,7 @@ public final class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	private void initNavigationBar() {
 		// GuiManager can be null at the startup of the application,
 		// but then the addNavigationBar method will be called explicitly.
-		if (app.getGuiManager() != null
-				&& app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
+		if (app.getGuiManager() != null && app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			addNavigationBar();
 		}
 	}

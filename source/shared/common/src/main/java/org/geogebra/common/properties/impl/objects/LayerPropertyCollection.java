@@ -38,14 +38,16 @@ public class LayerPropertyCollection extends AbstractPropertyCollection<Property
 	 * @param elements the elements
 	 * @throws NotApplicablePropertyException if no layer properties are applicable
 	 */
-	public LayerPropertyCollection(GeoElementPropertiesFactory factory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+	public LayerPropertyCollection(
+			GeoElementPropertiesFactory factory, Localization localization, List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Layer");
 
-		setProperties(new Property[]{
-				factory.createPropertyFacadeThrowing(elements,
-						(element) -> new LayerProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new)
+		setProperties(new Property[] {
+			factory.createPropertyFacadeThrowing(
+					elements,
+					(element) -> new LayerProperty(localization, element),
+					NamedEnumeratedPropertyListFacade::new)
 		});
 	}
 }

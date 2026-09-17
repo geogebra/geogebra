@@ -29,7 +29,7 @@ public class CmdDefined extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,9 +45,8 @@ public class CmdDefined extends CommandProcessor {
 		if (n == 1) {
 			AlgoDefined algo = new AlgoDefined(cons, arg[0]);
 			algo.getResult().setLabel(c.getLabel());
-			return new GeoElement[]{algo.getResult()};
+			return new GeoElement[] {algo.getResult()};
 		}
 		throw argNumErr(c);
 	}
-
 }

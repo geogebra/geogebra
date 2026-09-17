@@ -36,7 +36,7 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 
 	/**
 	 * Creates new AlgoDiameterVector
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -46,8 +46,7 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 	 * @param v
 	 *            vector
 	 */
-	public AlgoDiameterVectorND(Construction cons, String label, GeoConicND c,
-			GeoVectorND v) {
+	public AlgoDiameterVectorND(Construction cons, String label, GeoConicND c, GeoVectorND v) {
 		super(cons);
 		this.v = v;
 		this.c = c;
@@ -63,7 +62,7 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 	 * @param cons1
 	 *            construction
 	 */
-	abstract protected void createOutput(Construction cons1);
+	protected abstract void createOutput(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -89,12 +88,14 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("DiameterOfAConjugateToB",
-				"Diameter of %0 conjugate to %1", c.getLabel(tpl),
-				v.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"DiameterOfAConjugateToB",
+						"Diameter of %0 conjugate to %1",
+						c.getLabel(tpl),
+						v.getLabel(tpl));
 	}
-
 }

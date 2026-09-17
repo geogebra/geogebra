@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -73,12 +73,10 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		// show/hide keyboard
 		cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
 		cbShowKeyboard.setIcon(app.getMenuIcon(GuiResourcesD.KEYBOARD));
-		KeyboardSettings kbs = (KeyboardSettings) app.getSettings()
-				.getKeyboard();
+		KeyboardSettings kbs = (KeyboardSettings) app.getSettings().getKeyboard();
 		if (kbs.isShowKeyboardOnStart()) {
 			cbShowKeyboard.setSelected(true);
-			VirtualKeyboardD vk = ((GuiManagerD) app.getGuiManager())
-					.getVirtualKeyboard();
+			VirtualKeyboardD vk = ((GuiManagerD) app.getGuiManager()).getVirtualKeyboard();
 			vk.setVisible(true);
 		}
 		add(cbShowKeyboard);
@@ -105,17 +103,16 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		initViewActions();
 
 		// display the layout options dialog
-		showLayoutOptionsAction = new AbstractAction(
-				loc.getMenu("Layout") + " ...",
-				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
-			private static final long serialVersionUID = 1L;
+		showLayoutOptionsAction =
+				new AbstractAction(
+						loc.getMenu("Layout") + " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showPropertiesDialog(OptionType.LAYOUT,
-						null);
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getDialogManager().showPropertiesDialog(OptionType.LAYOUT, null);
+					}
+				};
 
 		showKeyboardAction = new AbstractAction(loc.getMenu("Keyboard")) {
 			private static final long serialVersionUID = 1L;
@@ -124,8 +121,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			public void actionPerformed(ActionEvent e) {
 
 				if (AppD.isVirtualKeyboardActive()
-						&& !((GuiManagerD) app.getGuiManager())
-								.showVirtualKeyboard()) {
+						&& !((GuiManagerD) app.getGuiManager()).showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
 					((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
@@ -133,13 +129,10 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 				} else {
 
-					AppD.setVirtualKeyboardActive(
-							!AppD.isVirtualKeyboardActive());
-					((GuiManagerD) app.getGuiManager())
-							.toggleKeyboard(AppD.isVirtualKeyboardActive());
+					AppD.setVirtualKeyboardActive(!AppD.isVirtualKeyboardActive());
+					((GuiManagerD) app.getGuiManager()).toggleKeyboard(AppD.isVirtualKeyboardActive());
 					update();
 				}
-
 			}
 		};
 
@@ -154,7 +147,6 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		};
 
 		super.initActions();
-
 	}
 
 	private void initViewActions() {
@@ -212,15 +204,12 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			app.getGuiManager().setShowView(
-					!app.getGuiManager().showView(viewId),
-					viewId);
+			app.getGuiManager().setShowView(!app.getGuiManager().showView(viewId), viewId);
 
 			// ensure check box is correctly selected/unselected for case where
 			// hide aborted
 			cb.setSelected(panel.isVisible());
 		}
-
 	}
 
 	@Override
@@ -261,8 +250,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 					return;
 				}
 
-				cbViews[i].setSelected(app.getGuiManager()
-						.showView(panel.getViewId()));
+				cbViews[i].setSelected(app.getGuiManager().showView(panel.getViewId()));
 				++i;
 			}
 		}
@@ -302,8 +290,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 				cb.setIcon(panel.getIcon());
 
 				if (panel.hasMenuShortcut()) {
-					setMenuShortCutShiftAccelerator(cb,
-							panel.getMenuShortcut());
+					setMenuShortCutShiftAccelerator(cb, panel.getMenuShortcut());
 				}
 
 				menu.add(cb);
@@ -325,5 +312,4 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			cbConsprot.setSelected(selected);
 		}
 	}
-
 }

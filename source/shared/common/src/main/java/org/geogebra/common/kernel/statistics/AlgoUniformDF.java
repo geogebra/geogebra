@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Uniform[a, b, x, boolean]
- * 
+ *
  * @author Michael
  */
 public class AlgoUniformDF extends AlgoElement {
@@ -40,7 +40,7 @@ public class AlgoUniformDF extends AlgoElement {
 	private GeoFunction ret; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -52,14 +52,18 @@ public class AlgoUniformDF extends AlgoElement {
 	 * @param cumulative
 	 *            cumulative
 	 */
-	public AlgoUniformDF(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, BooleanValue cumulative) {
+	public AlgoUniformDF(
+			Construction cons,
+			String label,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			BooleanValue cumulative) {
 		this(cons, a, b, cumulative);
 		ret.setLabel(label);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a
@@ -69,8 +73,8 @@ public class AlgoUniformDF extends AlgoElement {
 	 * @param cumulative
 	 *            cumulative
 	 */
-	public AlgoUniformDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			BooleanValue cumulative) {
+	public AlgoUniformDF(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, BooleanValue cumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -150,5 +154,4 @@ public class AlgoUniformDF extends AlgoElement {
 
 		ret.setDefined(true);
 	}
-
 }

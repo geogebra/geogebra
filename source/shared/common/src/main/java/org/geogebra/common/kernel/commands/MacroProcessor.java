@@ -33,7 +33,7 @@ public class MacroProcessor extends CommandProcessor {
 
 	/**
 	 * Creates new macro processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */

@@ -53,8 +53,8 @@ public final class SliderDialog extends ComponentDialog implements HasKeyboardPo
 	public SliderDialog(final AppW appW, DialogData dialogData, int x, int y) {
 		super(appW, dialogData, false, true);
 		this.appW = appW;
-		this.model = new SliderInputDialogModel(appW, appW.getActiveEuclidianView(),
-				appW.getLocalization(), appW.getKernel(), x, y);
+		this.model = new SliderInputDialogModel(
+				appW, appW.getActiveEuclidianView(), appW.getLocalization(), appW.getKernel(), x, y);
 		addStyleName("sliderDialog");
 		buildDialog();
 		appW.registerPopup(this);
@@ -97,18 +97,25 @@ public final class SliderDialog extends ComponentDialog implements HasKeyboardPo
 	}
 
 	private void createNameTextField() {
-		nameTextField = new ComponentInputField(appW, "",
-				app.getLocalization().getMenu("Name"), "",
-				model.getLastValidField(sliderType, Field.NAME), "");
+		nameTextField = new ComponentInputField(
+				appW,
+				"",
+				app.getLocalization().getMenu("Name"),
+				"",
+				model.getLastValidField(sliderType, Field.NAME),
+				"");
 		nameTextField.addStyleName("nameField");
-		nameTextField.getTextWidget().addBlurHandler(event ->
-				validateField(nameTextField, Field.NAME));
+		nameTextField.getTextWidget().addBlurHandler(event -> validateField(nameTextField, Field.NAME));
 	}
 
 	private ComponentInputField createTextField(String labelKey, Field field) {
-		ComponentInputField textField = new ComponentInputField(appW, "",
-				app.getLocalization().getMenu(labelKey), "",
-				model.getLastValidField(sliderType, field), "");
+		ComponentInputField textField = new ComponentInputField(
+				appW,
+				"",
+				app.getLocalization().getMenu(labelKey),
+				"",
+				model.getLastValidField(sliderType, field),
+				"");
 		textField.getTextWidget().addBlurHandler(event -> validateField(textField, field));
 		textField.addInputHandler(() -> {
 			if (!isNumeric()) {
@@ -120,13 +127,15 @@ public final class SliderDialog extends ComponentDialog implements HasKeyboardPo
 	}
 
 	private void validateField(ComponentInputField textField, Field field) {
-		textField.setError(model.validateField(sliderType, field,
-				textField.getText()));
+		textField.setError(model.validateField(sliderType, field, textField.getText()));
 	}
 
 	private IconButton createIconButton(SliderType sliderType) {
-		return new IconButton(appW, () -> updateUI(sliderType),
-				new ImageIconSpec(getIcon(sliderType)), getAriaLabel(sliderType));
+		return new IconButton(
+				appW,
+				() -> updateUI(sliderType),
+				new ImageIconSpec(getIcon(sliderType)),
+				getAriaLabel(sliderType));
 	}
 
 	private String getAriaLabel(SliderType type) {
@@ -168,8 +177,12 @@ public final class SliderDialog extends ComponentDialog implements HasKeyboardPo
 		validateField(maxTextField, Field.MAX);
 		validateField(stepTextField, Field.STEP);
 
-		boolean created = model.submit(sliderType, nameTextField.getText(),
-				minTextField.getText(), maxTextField.getText(), stepTextField.getText());
+		boolean created = model.submit(
+				sliderType,
+				nameTextField.getText(),
+				minTextField.getText(),
+				maxTextField.getText(),
+				stepTextField.getText());
 		setPreventHide(!created);
 	}
 

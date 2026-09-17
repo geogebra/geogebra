@@ -143,7 +143,8 @@ class PlanarGraphTopologyModelTest {
 
 		graph.sortVertexOutgoingHalfEdges();
 
-		assertEquals(List.of(edgeDown, edgeRight, edgeUp, edgeLeft),
+		assertEquals(
+				List.of(edgeDown, edgeRight, edgeUp, edgeLeft),
 				graph.vertex(center).getOutgoingHalfEdges());
 	}
 
@@ -192,8 +193,7 @@ class PlanarGraphTopologyModelTest {
 		int incomingFromUp = graph.halfEdge(upToCenter).getTwinHalfEdgeId();
 		List<Integer> outgoing = graph.vertex(center).getOutgoingHalfEdges();
 		assertEquals(
-				List.of(centerToRight, incomingFromUp, graph.halfEdge(leftToCenter)
-						.getTwinHalfEdgeId()),
+				List.of(centerToRight, incomingFromUp, graph.halfEdge(leftToCenter).getTwinHalfEdgeId()),
 				outgoing);
 
 		int nextAfterIncomingFromLeft = graph.halfEdge(leftToCenter).getNextHalfEdgeId();
@@ -219,8 +219,7 @@ class PlanarGraphTopologyModelTest {
 		graph.sortVertexOutgoingHalfEdges();
 		graph.linkHalfEdges();
 
-		assertEquals(List.of(centerToRight, centerToLeft),
-				graph.vertex(center).getOutgoingHalfEdges());
+		assertEquals(List.of(centerToRight, centerToLeft), graph.vertex(center).getOutgoingHalfEdges());
 		assertEquals(-1, graph.halfEdge(centerToUp).getNextHalfEdgeId());
 		assertEquals(-1, graph.halfEdge(centerToUp).getPrevHalfEdgeId());
 	}
@@ -238,7 +237,8 @@ class PlanarGraphTopologyModelTest {
 		graph.removeViewportEdge(topLeft, topRight);
 
 		assertEquals(List.of(right), graph.vertex(topRight).getOutgoingHalfEdges());
-		assertEquals(List.of(graph.halfEdge(right).getTwinHalfEdgeId()),
+		assertEquals(
+				List.of(graph.halfEdge(right).getTwinHalfEdgeId()),
 				graph.vertex(bottomRight).getOutgoingHalfEdges());
 		assertFalse(graph.halfEdge(top).isActive());
 		assertFalse(graph.halfEdge(graph.halfEdge(top).getTwinHalfEdgeId()).isActive());
@@ -313,10 +313,8 @@ class PlanarGraphTopologyModelTest {
 		}
 	}
 
-	static ViewportInfo viewportInfo(int topLeft, int topRight, int bottomLeft,
-			int bottomRight) {
-		return ViewportInfo.ofBounds(topLeft, topRight, bottomLeft, bottomRight,
-				-10, 10, -10, 10);
+	static ViewportInfo viewportInfo(int topLeft, int topRight, int bottomLeft, int bottomRight) {
+		return ViewportInfo.ofBounds(topLeft, topRight, bottomLeft, bottomRight, -10, 10, -10, 10);
 	}
 
 	@Test
@@ -340,7 +338,8 @@ class PlanarGraphTopologyModelTest {
 		assertEquals(2, graph.getFaces().size());
 
 		int interiorFaceId = graph.halfEdge(bottom).getFaceId();
-		int exteriorFaceId = graph.halfEdge(graph.halfEdge(bottom).getTwinHalfEdgeId()).getFaceId();
+		int exteriorFaceId =
+				graph.halfEdge(graph.halfEdge(bottom).getTwinHalfEdgeId()).getFaceId();
 
 		assertFalse(graph.face(interiorFaceId).isExterior());
 		assertTrue(graph.face(exteriorFaceId).isExterior());
@@ -421,10 +420,8 @@ class PlanarGraphTopologyModelTest {
 
 		long exteriorCount = graph.getFaces().stream().filter(Face::isExterior).count();
 		assertEquals(1, exteriorCount);
-		Face exteriorFace = graph.getFaces().stream()
-				.filter(Face::isExterior)
-				.findFirst()
-				.orElseThrow();
+		Face exteriorFace =
+				graph.getFaces().stream().filter(Face::isExterior).findFirst().orElseThrow();
 		assertEquals(2, exteriorFace.getHoleHalfEdgeIds().size());
 	}
 
@@ -507,12 +504,10 @@ class PlanarGraphTopologyModelTest {
 		int innerTop = graph.addContourEdge(innerTopRight, innerTopLeft, 1);
 		int innerLeft = graph.addContourEdge(innerTopLeft, innerBottomLeft, 1);
 
-		BoundaryCycle outer = new BoundaryCycle(1,
-				List.of(outerBottom, outerRight, outerTop, outerLeft),
-				36, new GPoint2D(3, 3));
-		BoundaryCycle innerWithInvalidProbe = new BoundaryCycle(2,
-				List.of(innerBottom, innerRight, innerTop, innerLeft),
-				1, new GPoint2D(10, 10));
+		BoundaryCycle outer = new BoundaryCycle(
+				1, List.of(outerBottom, outerRight, outerTop, outerLeft), 36, new GPoint2D(3, 3));
+		BoundaryCycle innerWithInvalidProbe = new BoundaryCycle(
+				2, List.of(innerBottom, innerRight, innerTop, innerLeft), 1, new GPoint2D(10, 10));
 
 		BoundaryHierarchyBuilder builder = new BoundaryHierarchyBuilder(graph);
 		builder.buildHierarchy(List.of(outer, innerWithInvalidProbe));
@@ -547,8 +542,8 @@ class PlanarGraphTopologyModelTest {
 
 		graph.sortVertexOutgoingHalfEdges();
 		graph.linkHalfEdges();
-		graph.extractFaces(ViewportInfo.ofBounds(viewportTopLeft, viewportTopRight,
-				viewportBottomLeft, viewportBottomRight, 0, 6, 0, 6));
+		graph.extractFaces(ViewportInfo.ofBounds(
+				viewportTopLeft, viewportTopRight, viewportBottomLeft, viewportBottomRight, 0, 6, 0, 6));
 		graph.identifyExteriorFace();
 
 		assertTrue(graph.getLastExtractedBoundaryCycles().size() >= 3);
@@ -557,10 +552,8 @@ class PlanarGraphTopologyModelTest {
 		long exteriorCount = graph.getFaces().stream().filter(Face::isExterior).count();
 		assertEquals(1, exteriorCount);
 
-		Face boundedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElseThrow();
+		Face boundedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElseThrow();
 		assertEquals(0, boundedFace.getHoleHalfEdgeIds().size());
 		assertTrue(boundedFace.getOuterHalfEdgeId() >= 0);
 	}
@@ -595,5 +588,4 @@ class PlanarGraphTopologyModelTest {
 		assertEquals(-1, cycleA.getParentId());
 		assertEquals(-1, cycleB.getParentId());
 	}
-
 }

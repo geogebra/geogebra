@@ -9,9 +9,9 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The DrawLines metafile record represents a call to Graphics.DrawLines, which
  * draws a series of straight lines connecting successive points.
- * 
+ *
  * No Provision for 16 bit integer values.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: DrawLines.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -31,8 +31,7 @@ public class DrawLines extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		DrawLines tag = new DrawLines();
 		tag.flags = flags;
 		int n = emf.readUINT();
@@ -46,8 +45,7 @@ public class DrawLines extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		emf.writeUINT(x.length);
 		for (int i = 0; i < x.length; i++) {
 			emf.writeFLOAT(x[i]);

@@ -56,8 +56,8 @@ public final class SuiteHeaderAppPicker extends StandardButton {
 		RootPanel appPickerPanel = RootPanel.get("suiteAppPicker");
 		if (appPickerPanel != null) {
 			SuiteHeaderAppPicker suiteHeaderAppPicker = new SuiteHeaderAppPicker(app);
-			new FocusableWidget(AccessibilityGroup.SUBAPP_CHOOSER, null,
-					suiteHeaderAppPicker).attachTo(app);
+			new FocusableWidget(AccessibilityGroup.SUBAPP_CHOOSER, null, suiteHeaderAppPicker)
+					.attachTo(app);
 			appPickerPanel.add(suiteHeaderAppPicker);
 			GlobalHeader.onResize();
 			return suiteHeaderAppPicker;

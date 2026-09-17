@@ -75,5 +75,4 @@ public class BlobResolver {
 			return null;
 		});
 	}
-
 }

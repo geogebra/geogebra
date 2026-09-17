@@ -26,48 +26,48 @@ import org.geogebra.common.util.DoubleUtil;
  * which came in with JDK 1.2 and is still there in JDK 1.3. It's also useful
  * because all Java versions have problems with lines outside the image area
  * which are sometimes drawn completely wrong.
- * 
+ *
  * @author Rammi (rammi@caff.de)
- * 
+ *
  *         File: Clipping.java
- * 
+ *
  *         Project: DXF Viewer and general purpose Purpose: Workaround for Java
  *         1.2/1.3 problem with line drawing
- * 
+ *
  *         Author: Rammi
- * 
+ *
  *         Copyright Notice: (c) 2000 Rammi (rammi@caff.de) This source code is
  *         in the public domain. USE AT YOUR OWN RISK!
- * 
+ *
  *         Version History: Oct 27, 2000: First release
- * 
+ *
  *         May 17, 2010: Bug fix repairing incorrect results if lower corner is
  *         hit
  */
 public class ClipLine {
 	// some constants
 	/** Flag for point lying left of clipping area. */
-	public final static int LEFT = 0x01;
+	public static final int LEFT = 0x01;
 	/** Flag for point lying between horizontal bounds of area. */
-	public final static int H_CENTER = 0x02;
+	public static final int H_CENTER = 0x02;
 	/** Flag for point lying right of clipping area. */
-	public final static int RIGHT = 0x04;
+	public static final int RIGHT = 0x04;
 
 	/** Flag for point lying &quot;below&quot; clipping area. */
-	public final static int BELOW = 0x10;
+	public static final int BELOW = 0x10;
 	/** Flag for point lying between vertical bounds of clipping area. */
-	public final static int V_CENTER = 0x20;
+	public static final int V_CENTER = 0x20;
 	/** Flag for point lying &quot;above&quot; clipping area. */
-	public final static int ABOVE = 0x40;
+	public static final int ABOVE = 0x40;
 
 	/** Mask for points which are inside. */
-	public final static int INSIDE = H_CENTER | V_CENTER;
+	public static final int INSIDE = H_CENTER | V_CENTER;
 	/** Mask for points which are outside. */
-	public final static int OUTSIDE = LEFT | RIGHT | BELOW | ABOVE;
+	public static final int OUTSIDE = LEFT | RIGHT | BELOW | ABOVE;
 
 	/**
 	 * Calculate the clipping points of a line with a rectangle.
-	 * 
+	 *
 	 * @param x1
 	 *            starting x of line
 	 * @param y1
@@ -88,8 +88,16 @@ public class ClipLine {
 	 *            output array
 	 * @return <code>null</code> (does not clip) or array of two points
 	 */
-	public static GPoint2D[] getClipped(double x1, double y1, double x2,
-			double y2, int xmin, int xmax, int ymin, int ymax, GPoint2D[] ret) {
+	public static GPoint2D[] getClipped(
+			double x1,
+			double y1,
+			double x2,
+			double y2,
+			int xmin,
+			int xmax,
+			int ymin,
+			int ymax,
+			GPoint2D[] ret) {
 		int mask1 = 0; // position mask for first point
 		int mask2 = 0; // position mask for second point
 
@@ -139,14 +147,13 @@ public class ClipLine {
 			return null;
 		} else {
 			// need clipping
-			return getClipped(x1, y1, mask1, x2, y2, mask2, xmin, xmax, ymin,
-					ymax, ret);
+			return getClipped(x1, y1, mask1, x2, y2, mask2, xmin, xmax, ymin, ymax, ret);
 		}
 	}
 
 	/**
 	 * Calculate the clipping points of a line with a rectangle.
-	 * 
+	 *
 	 * @param x1
 	 *            starting x of line
 	 * @param y1
@@ -172,9 +179,18 @@ public class ClipLine {
 	 * @return <code>null</code> (does not clip) or array of two points
 	 */
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
-	protected static GPoint2D[] getClipped(double x1, double y1, int mask1,
-			double x2, double y2, int mask2, double xmin, double xmax,
-			double ymin, double ymax, GPoint2D[] ret2) {
+	protected static GPoint2D[] getClipped(
+			double x1,
+			double y1,
+			int mask1,
+			double x2,
+			double y2,
+			int mask2,
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			GPoint2D[] ret2) {
 		int mask = mask1 ^ mask2;
 		double p1x = Double.NaN;
 		double p1y = Double.NaN;
@@ -204,8 +220,7 @@ public class ClipLine {
 
 		if ((mask & LEFT) != 0) {
 			// try to calculate intersection with left line
-			GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmin, ymax,
-					ret2[1]);
+			GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmin, ymax, ret2[1]);
 			if (p != null) {
 				if (Double.isNaN(p1x)) {
 					p1x = p.getX();
@@ -219,8 +234,7 @@ public class ClipLine {
 		}
 		if ((mask & RIGHT) != 0) {
 			// try to calculate intersection with right line
-			GPoint2D p = intersect(x1, y1, x2, y2, xmax, ymin, xmax, ymax,
-					ret2[1]);
+			GPoint2D p = intersect(x1, y1, x2, y2, xmax, ymin, xmax, ymax, ret2[1]);
 			if (p != null) {
 				if (Double.isNaN(p1x)) {
 					p1x = p.getX();
@@ -238,8 +252,7 @@ public class ClipLine {
 
 			if ((mask & ABOVE) != 0) {
 				// try to calculate intersection with upper line
-				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax,
-						ret2[1]);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax, ret2[1]);
 				if (p != null) {
 					ret2[0].setLocation(p1x, p1y);
 					ret2[1] = p;
@@ -248,8 +261,7 @@ public class ClipLine {
 			}
 			if ((mask & BELOW) != 0) {
 				// try to calculate intersection with lower line
-				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin,
-						ret2[1]);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin, ret2[1]);
 				if (p != null) {
 					ret2[0].setLocation(p1x, p1y);
 					ret2[1] = p;
@@ -259,8 +271,7 @@ public class ClipLine {
 		} else {
 			if ((mask & BELOW) != 0) {
 				// try to calculate intersection with lower line
-				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin,
-						ret2[1]);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin, ret2[1]);
 				if (p != null) {
 					if (Double.isNaN(p1x)) {
 						p1x = p.getX();
@@ -274,8 +285,7 @@ public class ClipLine {
 			}
 			if ((mask & ABOVE) != 0) {
 				// try to calculate intersection with upper line
-				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax,
-						ret2[1]);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax, ret2[1]);
 				if (p != null) {
 					if (Double.isNaN(p1x)) {
 						p.setLocation(p1x, p1y);
@@ -294,7 +304,7 @@ public class ClipLine {
 
 	/**
 	 * Intersect two lines.
-	 * 
+	 *
 	 * @param x11
 	 *            starting x of 1st line
 	 * @param y11
@@ -315,8 +325,15 @@ public class ClipLine {
 	 *            output point
 	 * @return intersection point or <code>null</code>
 	 */
-	private static GPoint2D intersect(double x11, double y11, double x12,
-			double y12, double x21, double y21, double x22, double y22,
+	private static GPoint2D intersect(
+			double x11,
+			double y11,
+			double x12,
+			double y12,
+			double x21,
+			double y21,
+			double x22,
+			double y22,
 			GPoint2D ret) {
 		double dx1 = x12 - x11;
 		double dy1 = y12 - y11;
@@ -338,5 +355,4 @@ public class ClipLine {
 
 		return null;
 	}
-
 }

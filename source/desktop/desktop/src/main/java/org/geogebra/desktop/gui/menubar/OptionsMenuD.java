@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -47,8 +47,7 @@ import org.geogebra.editor.share.util.Unicode;
 /**
  * The "Options" menu.
  */
-public class OptionsMenuD extends BaseMenu
-		implements MenuInterface {
+public class OptionsMenuD extends BaseMenu implements MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 
 	private AbstractAction showOptionsAction;
@@ -93,8 +92,7 @@ public class OptionsMenuD extends BaseMenu
 		// addSeparator();
 		// Language
 		if (app.getLocalization().propertiesFilesPresent()) {
-			LanguageActionListener langListener = new LanguageActionListener(
-					app);
+			LanguageActionListener langListener = new LanguageActionListener(app);
 			final JMenu submenuLang = new JMenu(loc.getMenu("Language"));
 			submenuLang.setIcon(app.getMenuIcon(GuiResourcesD.LANGUAGE));
 			addLanguageMenuItems(app, submenuLang, langListener);
@@ -116,22 +114,21 @@ public class OptionsMenuD extends BaseMenu
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-
 	}
 
 	/**
 	 * Create a list with all languages which can be selected.
-	 * 
+	 *
 	 * @param app
 	 *            application
-	 * 
+	 *
 	 * @param menu
 	 *            menu component
 	 * @param listener
 	 *            language change listener
 	 */
-	private static void addLanguageMenuItems(AppD app, JComponent menu,
-			LanguageActionListener listener) {
+	private static void addLanguageMenuItems(
+			AppD app, JComponent menu, LanguageActionListener listener) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		boolean rtl = app.getLocalization().isRightToLeftReadingOrder();
@@ -150,8 +147,8 @@ public class OptionsMenuD extends BaseMenu
 		currentLocale = currentLocale.replaceAll("_", "");
 		StringBuilder sb = new StringBuilder(20);
 
-		Language[] supportedLanguages = app.getLocalization()
-				.getSupportedLanguages(PreviewFeature.isAvailable(ALL_LANGUAGES));
+		Language[] supportedLanguages =
+				app.getLocalization().getSupportedLanguages(PreviewFeature.isAvailable(ALL_LANGUAGES));
 		for (Language loc : supportedLanguages) {
 
 			// enforce to show specialLanguageNames first
@@ -160,8 +157,7 @@ public class OptionsMenuD extends BaseMenu
 
 			char ch = text.charAt(0);
 
-			if (ch == Unicode.LEFT_TO_RIGHT_MARK
-					|| ch == Unicode.RIGHT_TO_LEFT_MARK) {
+			if (ch == Unicode.LEFT_TO_RIGHT_MARK || ch == Unicode.RIGHT_TO_LEFT_MARK) {
 				ch = text.charAt(1);
 			} else {
 				// make sure brackets are correct in Arabic, ie not )US)
@@ -176,8 +172,7 @@ public class OptionsMenuD extends BaseMenu
 
 			// make sure eg Malayalam, Georgian drawn OK (not in standard Java
 			// font)
-			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
-					app.getGUIFontSize()));
+			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));
 
 			if (loc.toLanguageTag().equals(currentLocale)) {
 				mi.setSelected(true);
@@ -203,107 +198,93 @@ public class OptionsMenuD extends BaseMenu
 	@Override
 	protected void initActions() {
 		// display the options dialog
-		showOptionsAction = new AbstractAction(loc.getMenu("Advanced") + " ...",
-				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
-			private static final long serialVersionUID = 1L;
+		showOptionsAction =
+				new AbstractAction(
+						loc.getMenu("Advanced") + " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL,
-						null);
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
+					}
+				};
 
 		// save settings
-		saveSettings = new AbstractAction(loc.getMenu("Settings.Save"),
-				app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
-			@Serial
-			private static final long serialVersionUID = 1L;
+		saveSettings =
+				new AbstractAction(
+						loc.getMenu("Settings.Save"), app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
+					@Serial
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
+					}
+				};
 
 		// restore default settings
-		restoreDefaultSettings = new AbstractAction(
-				loc.getMenu("Settings.ResetDefault"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+		restoreDefaultSettings =
+				new AbstractAction(loc.getMenu("Settings.ResetDefault"), app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// set sliders to new styling
-				TreeSet<GeoElement> geos = app.getKernel().getConstruction()
-						.getGeoSetConstructionOrder();
-				Iterator<GeoElement> it = geos.iterator();
-				while (it.hasNext()) {
-					GeoElement geo = it.next();
-					if (geo instanceof GeoNumeric
-							&& ((GeoNumeric) geo).isSlider()) {
-						GeoNumeric slider = (GeoNumeric) geo;
-						slider.setAlphaValue(
-								ConstructionDefaults.DEFAULT_NUMBER_ALPHA);
-						slider.setLineThickness(
-								GeoNumeric.DEFAULT_SLIDER_THICKNESS);
-						slider.setSliderWidth(
-								GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL,
-								true);
-						slider.setSliderBlobSize(
-								GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
-						slider.setLineThickness(
-								GeoNumeric.DEFAULT_SLIDER_THICKNESS);
-						slider.updateRepaint();
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// set sliders to new styling
+						TreeSet<GeoElement> geos =
+								app.getKernel().getConstruction().getGeoSetConstructionOrder();
+						Iterator<GeoElement> it = geos.iterator();
+						while (it.hasNext()) {
+							GeoElement geo = it.next();
+							if (geo instanceof GeoNumeric && ((GeoNumeric) geo).isSlider()) {
+								GeoNumeric slider = (GeoNumeric) geo;
+								slider.setAlphaValue(ConstructionDefaults.DEFAULT_NUMBER_ALPHA);
+								slider.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+								slider.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL, true);
+								slider.setSliderBlobSize(GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
+								slider.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+								slider.updateRepaint();
+							}
+						}
+
+						GeoGebraPreferencesD.getPref().clearPreferences(app);
+						boolean oldAxisX = app.getSettings().getEuclidian(1).getShowAxis(0);
+						boolean oldAxisY = app.getSettings().getEuclidian(1).getShowAxis(1);
+						// reset defaults for GUI, views etc
+						// this has to be called before load XML preferences,
+						// in order to avoid overwrite
+						app.getSettings().resetSettings(app);
+
+						// for geoelement defaults, this will do nothing, so it is
+						// OK here
+						GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
+						app.getSettings().getEuclidian(1).setShowAxes(oldAxisX, oldAxisY);
+						// reset default line thickness etc
+						app.getKernel().getConstruction().getConstructionDefaults().resetDefaults();
+
+						// reset defaults for geoelements; this will create brand
+						// new objects
+						// so the options defaults dialog should be reset later
+						app.getKernel().getConstruction().getConstructionDefaults().createDefaultGeoElements();
+						app.setInputPosition(InputPosition.algebraView, false);
+						// reset the stylebar defaultGeo
+						if (app.getEuclidianView1().hasStyleBar()) {
+							app.getEuclidianView1().getStyleBar().restoreDefaultGeo();
+						}
+						if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+							if (app.getEuclidianView2(1).hasStyleBar()) {
+								app.getEuclidianView2(1).getStyleBar().restoreDefaultGeo();
+							}
+						}
+						app.getKernel().updateConstruction(false);
+						// set default layout options
+						app.setToolbarPosition(SwingConstants.NORTH, false);
+						app.setShowToolBar(true);
+						app.setShowToolBarHelpNoUpdate(false);
+						app.setShowDockBar(true, false);
+						app.setDockBarEast(true);
+						app.updateContentPane();
 					}
-				}
-
-				GeoGebraPreferencesD.getPref().clearPreferences(app);
-				boolean oldAxisX = app.getSettings().getEuclidian(1)
-						.getShowAxis(0);
-				boolean oldAxisY = app.getSettings().getEuclidian(1)
-						.getShowAxis(1);
-				// reset defaults for GUI, views etc
-				// this has to be called before load XML preferences,
-				// in order to avoid overwrite
-				app.getSettings().resetSettings(app);
-
-				// for geoelement defaults, this will do nothing, so it is
-				// OK here
-				GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
-				app.getSettings().getEuclidian(1).setShowAxes(oldAxisX,
-						oldAxisY);
-				// reset default line thickness etc
-				app.getKernel().getConstruction().getConstructionDefaults()
-						.resetDefaults();
-
-				// reset defaults for geoelements; this will create brand
-				// new objects
-				// so the options defaults dialog should be reset later
-				app.getKernel().getConstruction().getConstructionDefaults()
-						.createDefaultGeoElements();
-				app.setInputPosition(InputPosition.algebraView, false);
-				// reset the stylebar defaultGeo
-				if (app.getEuclidianView1().hasStyleBar()) {
-					app.getEuclidianView1().getStyleBar()
-							.restoreDefaultGeo();
-				}
-				if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-					if (app.getEuclidianView2(1).hasStyleBar()) {
-						app.getEuclidianView2(1).getStyleBar()
-								.restoreDefaultGeo();
-					}
-				}
-				app.getKernel().updateConstruction(false);
-				// set default layout options
-				app.setToolbarPosition(SwingConstants.NORTH, false);
-				app.setShowToolBar(true);
-				app.setShowToolBarHelpNoUpdate(false);
-				app.setShowDockBar(true, false);
-				app.setDockBarEast(true);
-				app.updateContentPane();
-
-			}
-		};
+				};
 	}
 
 	@Override
@@ -317,7 +298,5 @@ public class OptionsMenuD extends BaseMenu
 			optionsMenu = new OptionsMenuController(app);
 		}
 		return optionsMenu;
-
 	}
-
 }

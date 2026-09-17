@@ -2,7 +2,7 @@
 package org.freehep.graphics2d;
 
 /**
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: TagString.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -20,7 +20,7 @@ public class TagString {
 	}
 
 	@Override
-	final public boolean equals(Object obj) {
+	public final boolean equals(Object obj) {
 		if (obj == null || string == null) {
 			return false;
 		}

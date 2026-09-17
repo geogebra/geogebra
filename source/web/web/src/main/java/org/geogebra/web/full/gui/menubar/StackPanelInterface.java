@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Interface for stack panels (accessible or otherwise)
- * 
+ *
  * @author Laszlo
  */
 public interface StackPanelInterface extends InsertPanel, EventListener {
@@ -39,7 +39,6 @@ public interface StackPanelInterface extends InsertPanel, EventListener {
 	 * @param stackText
 	 *            the header text associated with this widget
 	 */
-
 	@SuppressIsSafeHtmlCastCheck
 	void add(Widget w, String stackText);
 
@@ -96,8 +95,7 @@ public interface StackPanelInterface extends InsertPanel, EventListener {
 	 * @param text the text to be associated with it
 	 * @param asHTML <code>true</code> to treat the specified text as HTML
 	 */
-	void setStackText(int index, @IsSafeHtml String text,
-			boolean asHTML);
+	void setStackText(int index, @IsSafeHtml String text, boolean asHTML);
 
 	/**
 	 * Shows the widget at the specified child index.
@@ -115,7 +113,7 @@ public interface StackPanelInterface extends InsertPanel, EventListener {
 	void addHeaderStyleName(int index, String styleName);
 
 	/**
-	 * Removes the {@code styleName} off the {@code 
+	 * Removes the {@code styleName} off the {@code
 	 * <tr>
 	 * } for the header specified by {@code index}.
 	 *

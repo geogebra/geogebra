@@ -20,7 +20,9 @@ package org.geogebra.common.util;
  * Boolean with added unknown value.
  */
 public enum ExtendedBoolean {
-	TRUE, FALSE, UNKNOWN;
+	TRUE,
+	FALSE,
+	UNKNOWN;
 
 	/**
 	 * @return boolean value, default false
@@ -44,9 +46,12 @@ public enum ExtendedBoolean {
 	public ExtendedBoolean negate() {
 		switch (this) {
 			case UNKNOWN:
-			default: return UNKNOWN;
-			case TRUE: return FALSE;
-			case FALSE: return TRUE;
+			default:
+				return UNKNOWN;
+			case TRUE:
+				return FALSE;
+			case FALSE:
+				return TRUE;
 		}
 	}
 
@@ -55,10 +60,13 @@ public enum ExtendedBoolean {
 	 */
 	public ExtendedBoolean and(ExtendedBoolean other) {
 		switch (this) {
-		case UNKNOWN:
-		default: return other == FALSE ? FALSE : UNKNOWN;
-		case TRUE: return other;
-		case FALSE: return FALSE;
+			case UNKNOWN:
+			default:
+				return other == FALSE ? FALSE : UNKNOWN;
+			case TRUE:
+				return other;
+			case FALSE:
+				return FALSE;
 		}
 	}
 

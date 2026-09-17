@@ -62,7 +62,6 @@ public class VectorToMatrix {
 		}
 		sb.append("}");
 		return sb.toString();
-
 	}
 
 	/**
@@ -75,7 +74,7 @@ public class VectorToMatrix {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		String separator = "";
-		for (double i: coordinates) {
+		for (double i : coordinates) {
 			sb.append(separator);
 			sb.append(surroundWithBrackets(i, tpl));
 			separator = ", ";
@@ -91,5 +90,4 @@ public class VectorToMatrix {
 	private String surroundWithBrackets(double value, StringTemplate tpl) {
 		return "{" + kernel.format(value, tpl) + "}";
 	}
-
 }

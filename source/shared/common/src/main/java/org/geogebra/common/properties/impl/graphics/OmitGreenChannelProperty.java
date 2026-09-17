@@ -32,8 +32,8 @@ public class OmitGreenChannelProperty extends AbstractValuedProperty<Boolean>
 	 * @param localization localization
 	 * @param euclidianView euclidian view
 	 */
-	public OmitGreenChannelProperty(Localization localization,
-			EuclidianView3DInterface euclidianView) {
+	public OmitGreenChannelProperty(
+			Localization localization, EuclidianView3DInterface euclidianView) {
 		super(localization, "OmitGreen");
 		this.euclidianView = euclidianView;
 	}

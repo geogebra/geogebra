@@ -33,7 +33,7 @@ import org.gwtproject.event.logical.shared.CloseHandler;
 
 /**
  * Context Menu Popup for Cards
- * 
+ *
  * Tasks in subclass: add Menu Items, override show() to show the popup at the
  * correct position
  */
@@ -80,8 +80,7 @@ public class ContextMenuButtonCard extends StandardButton
 	 * @param text menu item text
 	 * @param cmd command to execute
 	 */
-	protected AriaMenuItem addItem(IconSpec img, String text,
-			ScheduledCommand cmd) {
+	protected AriaMenuItem addItem(IconSpec img, String text, ScheduledCommand cmd) {
 		AriaMenuItem mi = MainMenu.getMenuBarItem(img, text, cmd);
 		wrappedPopup.addItem(mi);
 		return mi;

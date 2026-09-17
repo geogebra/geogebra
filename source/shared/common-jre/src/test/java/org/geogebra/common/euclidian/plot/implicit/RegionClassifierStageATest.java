@@ -50,38 +50,37 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void clippedFragmentsShouldBuildNonEmptyGraphFromRuntimePipeline() {
 		ContourInfo info = setupCassiniWithFourIntersectionOnTop();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
-		assertFalse(classifier.getGraph().isEmpty(),
-				"graph should contain viewport and contour edges");
+		assertFalse(classifier.getGraph().isEmpty(), "graph should contain viewport and contour edges");
 	}
 
 	@Test
 	void openViewportFragmentShouldProduceValidLinksAndFaces() {
 		GeoElement curve = evaluateGeoElement("x^3 + y^3 = 0");
-		ContourInfo info = builder.withImplicitCurve(curve)
+		ContourInfo info = builder
+				.withImplicitCurve(curve)
 				.withBounds(-10, 10, -10, 10, 1237, 1265)
 				.build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		PlanarGraph graph = classifier.getGraph();
-		assertTrue(graph.hasValidLinks(),
-				"fragment-native graph should produce valid half-edge links");
-		assertTrue(graph.hasValidFaces(),
-				"fragment-native graph should produce a consistent face structure");
+		assertTrue(graph.hasValidLinks(), "fragment-native graph should produce valid half-edge links");
+		assertTrue(
+				graph.hasValidFaces(), "fragment-native graph should produce a consistent face structure");
 	}
 
 	@Test
 	void resetShouldAllowReprocessingWithoutStaleGraphState() {
 		ContourInfo info = setupCassiniWithFourIntersectionOnTop();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		int firstFaceCount = classifier.getGraph().getFaces().size();
@@ -96,24 +95,22 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void bottomLeftClippedCassiniShouldSampleBoundedFaceNearContour() {
 		EuclidianViewBounds bounds = newBounds(-1.5, 28, -2, 32, 1200, 1600);
 		GeoElement cassini = addCassini(2.9, 2.98);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		PlanarGraph graph = classifier.getGraph();
-		Face boundedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElseThrow();
+		Face boundedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElseThrow();
 		assertNotNull(boundedFace.getSamplePoint());
-		assertTrue(boundedFace.getSamplePoint().x < 5,
+		assertTrue(
+				boundedFace.getSamplePoint().x < 5,
 				"Clipped bounded Cassini face should sample near the visible contour,"
 						+ " not the far viewport");
-		assertTrue(boundedFace.getSamplePoint().y < 2,
+		assertTrue(
+				boundedFace.getSamplePoint().y < 2,
 				"Clipped bounded Cassini face should sample near the visible contour,"
 						+ " not the far viewport");
 	}
@@ -122,19 +119,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void leftClippedCassiniShouldProduceBoundedFace() {
 		EuclidianViewBounds bounds = newBounds(-0.861, 35.645, -26.28, 5.624, 1408, 1254);
 		GeoElement cassini = addCassini(2.8, 2.7);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		PlanarGraph graph = classifier.getGraph();
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
-		assertTrue(boundedFaceCount >= 1,
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Left-clipped Cassini should still produce a bounded clipped interior face");
 	}
 
@@ -142,12 +137,10 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void clippedCassiniShouldSampleNearVisibleContourNotFarViewport() {
 		EuclidianViewBounds bounds = newBounds(0.772, 37.279, -9.851, 22.663, 1408, 1254);
 		GeoElement cassini = addCassini(2.8, 2.7);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		Face boundedFace = classifier.getGraph().getFaces().stream()
@@ -155,10 +148,12 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 				.findFirst()
 				.orElseThrow();
 		assertNotNull(boundedFace.getSamplePoint());
-		assertTrue(boundedFace.getSamplePoint().x < 6,
+		assertTrue(
+				boundedFace.getSamplePoint().x < 6,
 				"Clipped bounded Cassini face should sample near the visible contour,"
 						+ " not the far viewport");
-		assertTrue(boundedFace.getSamplePoint().y < 3,
+		assertTrue(
+				boundedFace.getSamplePoint().y < 3,
 				"Clipped bounded Cassini face should sample near the visible contour,"
 						+ " not the far viewport");
 	}
@@ -167,18 +162,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void clippedCassiniNearViewportCornerShouldStillProduceBoundedFace() {
 		EuclidianViewBounds bounds = newBounds(-34.36, 2.146, -33.108, -0.595, 1408, 1254);
 		GeoElement cassini = addCassini(2.8, 2.7);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		long boundedFaceCount = classifier.getGraph().getFaces().stream()
 				.filter(face -> !face.isExterior())
 				.count();
-		assertTrue(boundedFaceCount >= 1,
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Clipped Cassini near the viewport corner should still produce"
 						+ " a bounded clipped interior face");
 	}
@@ -187,19 +181,18 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void clippedCassiniNearViewportCornerShouldSampleBoundedFace() {
 		EuclidianViewBounds bounds = newBounds(-34.36, 2.146, -33.108, -0.595, 1408, 1254);
 		GeoElement cassini = addCassini(2.8, 2.7);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		Face boundedFace = classifier.getGraph().getFaces().stream()
 				.filter(face -> !face.isExterior())
 				.findFirst()
 				.orElseThrow();
-		assertNotNull(boundedFace.getSamplePoint(),
+		assertNotNull(
+				boundedFace.getSamplePoint(),
 				"Clipped Cassini near the viewport corner should still find a sample point");
 	}
 
@@ -207,18 +200,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void clippedCassiniNearViewportCornerShouldNotLoseBoundedFaceForAlternateCornerView() {
 		EuclidianViewBounds bounds = newBounds(-2.858, 33.908, -30.529, -0.53, 1418, 1157);
 		GeoElement cassini = addCassini(2.8, 2.7);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		long boundedFaceCount = classifier.getGraph().getFaces().stream()
 				.filter(face -> !face.isExterior())
 				.count();
-		assertTrue(boundedFaceCount >= 1,
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Alternate corner-clipped Cassini view should still produce"
 						+ " a bounded clipped interior face");
 	}
@@ -227,18 +219,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void clippedCassiniNearViewportCornerShouldNotLoseBoundedFaceForWideCornerView() {
 		EuclidianViewBounds bounds = newBounds(-39.696, 0.746, -33.974, -0.976, 1418, 1157);
 		GeoElement cassini = addCassini(2.8, 2.7);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		long boundedFaceCount = classifier.getGraph().getFaces().stream()
 				.filter(face -> !face.isExterior())
 				.count();
-		assertTrue(boundedFaceCount >= 1,
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Wide corner-clipped Cassini view should still produce"
 						+ " a bounded clipped interior face");
 	}
@@ -247,60 +238,54 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	void clippedCassiniNearViewportCornerShouldNotLoseBoundedFaceForTopWideCornerView() {
 		EuclidianViewBounds bounds = newBounds(-2.077, 38.365, 1.277, 34.276, 1418, 1157);
 		GeoElement cassini = addCassini(2.8, 2.7);
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		long boundedFaceCount = classifier.getGraph().getFaces().stream()
 				.filter(face -> !face.isExterior())
 				.count();
-		assertTrue(boundedFaceCount >= 1,
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Top wide corner-clipped Cassini view should still produce"
 						+ " a bounded clipped interior face");
 	}
 
 	@Test
 	void freshLoadCassiniViewportShouldKeepVisibleBoundedRegionFilled() {
-		EuclidianViewBounds bounds = newAppLikeBounds(-22.890, 1.490, -22.790, 0.130,
-				1219, 1146);
-		GeoFunctionNVar cassini = (GeoFunctionNVar) evaluate(
-				"(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
+		EuclidianViewBounds bounds = newAppLikeBounds(-22.890, 1.490, -22.790, 0.130, 1219, 1146);
+		GeoFunctionNVar cassini = (GeoFunctionNVar)
+				evaluate("(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
 		GeoElement border = cassini.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
-		assertTrue(classifier.process(),
-				"Fresh-load Cassini viewport should classify successfully");
+		assertTrue(classifier.process(), "Fresh-load Cassini viewport should classify successfully");
 		PlanarGraph graph = classifier.getGraph();
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
-		assertTrue(boundedFaceCount >= 1,
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Fresh-load Cassini viewport should still produce a bounded clipped face");
-		Face boundedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElseThrow();
-		assertNotNull(boundedFace.getSamplePoint(),
+		Face boundedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElseThrow();
+		assertNotNull(
+				boundedFace.getSamplePoint(),
 				"Fresh-load Cassini viewport should still find a bounded face sample point");
 
 		List<ClassifiedRegion> results = classifier.getResults(info.getBounds());
 		for (ClassifiedRegion region : results) {
-			region.setFilled(
-					cassini.isInRegion(region.getSamplePoint().x, region.getSamplePoint().y));
+			region.setFilled(cassini.isInRegion(region.getSamplePoint().x, region.getSamplePoint().y));
 		}
 		long filledBounded = results.stream()
 				.filter(region -> region.isFilled() && region.getHoles().isEmpty())
 				.count();
-		assertTrue(filledBounded >= 1,
+		assertTrue(
+				filledBounded >= 1,
 				"Fresh-load Cassini viewport should keep the visible bounded"
 						+ " Cassini region filled: "
 						+ describeRegions(results)
@@ -312,22 +297,19 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 
 	@Test
 	void freshLoadCassiniViewportShouldNotDropAllCanonicalCycles() {
-		EuclidianViewBounds bounds = newAppLikeBounds(-25.944, -0.011, -19.868, 0.625,
-				1690, 1254);
-		GeoFunctionNVar cassini = (GeoFunctionNVar) evaluate(
-				"(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
+		EuclidianViewBounds bounds = newAppLikeBounds(-25.944, -0.011, -19.868, 0.625, 1690, 1254);
+		GeoFunctionNVar cassini = (GeoFunctionNVar)
+				evaluate("(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
 		GeoElement border = cassini.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
-		assertTrue(classifier.process(),
-				"Fresh-load Cassini viewport should classify successfully");
+		assertTrue(classifier.process(), "Fresh-load Cassini viewport should classify successfully");
 		PlanarGraph graph = classifier.getGraph();
-		assertFalse(graph.getLastCanonicalBoundaryCycles().isEmpty(),
+		assertFalse(
+				graph.getLastCanonicalBoundaryCycles().isEmpty(),
 				"Fresh-load Cassini viewport should not drop all canonical cycles: extracted="
 						+ describeCycles(graph, graph.getLastExtractedBoundaryCycles())
 						+ " canonical="
@@ -336,25 +318,22 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 
 	@Test
 	void freshLoadCassiniViewportShouldNotCollapseWhenLobeSitsOnScreenEdge() {
-		EuclidianViewBounds bounds = newAppLikeBounds(-23.898, -0.237, -30.515, -0.685,
-				909, 1146);
-		GeoFunctionNVar cassini = (GeoFunctionNVar) evaluate(
-				"(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
+		EuclidianViewBounds bounds = newAppLikeBounds(-23.898, -0.237, -30.515, -0.685, 909, 1146);
+		GeoFunctionNVar cassini = (GeoFunctionNVar)
+				evaluate("(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
 		GeoElement border = cassini.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
-		assertTrue(classifier.process(),
-				"Edge-threshold Cassini viewport should classify successfully");
+		assertTrue(
+				classifier.process(), "Edge-threshold Cassini viewport should classify successfully");
 		PlanarGraph graph = classifier.getGraph();
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
-		assertTrue(boundedFaceCount >= 1,
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Fresh-load Cassini edge-threshold viewport should not collapse to exterior only: "
 						+ "extracted="
 						+ describeCycles(graph, graph.getLastExtractedBoundaryCycles())
@@ -364,25 +343,23 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 
 	@Test
 	void freshLoadCassiniViewportShouldNotCollapseForStableTopRightBand() {
-		EuclidianViewBounds bounds = newAppLikeBounds(-11.447, -0.944, -14.334, -1.092,
-				909, 1146);
-		GeoFunctionNVar cassini = (GeoFunctionNVar) evaluate(
-				"(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
+		EuclidianViewBounds bounds = newAppLikeBounds(-11.447, -0.944, -14.334, -1.092, 909, 1146);
+		GeoFunctionNVar cassini = (GeoFunctionNVar)
+				evaluate("(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
 		GeoElement border = cassini.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
-		assertTrue(classifier.process(),
+		assertTrue(
+				classifier.process(),
 				"Stable top-right Cassini band viewport should classify successfully");
 		PlanarGraph graph = classifier.getGraph();
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
-		assertTrue(boundedFaceCount >= 1,
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Stable top-right Cassini band should not collapse to exterior only: extracted="
 						+ describeCycles(graph, graph.getLastExtractedBoundaryCycles())
 						+ " canonical="
@@ -391,25 +368,23 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 
 	@Test
 	void freshLoadCassiniViewportShouldNotCollapseForShiftedTopRightBand() {
-		EuclidianViewBounds bounds = newAppLikeBounds(-12.383, -0.793, -15.744, -0.976,
-				1003, 1278);
-		GeoFunctionNVar cassini = (GeoFunctionNVar) evaluate(
-				"(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
+		EuclidianViewBounds bounds = newAppLikeBounds(-12.383, -0.793, -15.744, -0.976, 1003, 1278);
+		GeoFunctionNVar cassini = (GeoFunctionNVar)
+				evaluate("(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
 		GeoElement border = cassini.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
-		assertTrue(classifier.process(),
+		assertTrue(
+				classifier.process(),
 				"Shifted top-right Cassini band viewport should classify successfully");
 		PlanarGraph graph = classifier.getGraph();
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
-		assertTrue(boundedFaceCount >= 1,
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
+		assertTrue(
+				boundedFaceCount >= 1,
 				"Shifted top-right Cassini band should not collapse to exterior only: extracted="
 						+ describeCycles(graph, graph.getLastExtractedBoundaryCycles())
 						+ " canonical="
@@ -425,10 +400,15 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 				builder.append(", ");
 			}
 			GRectangle bounds = region.getOuterBoundary().getBounds();
-			builder.append("{filled=").append(region.isFilled())
-					.append(", holes=").append(region.getHoles().size())
-					.append(", sample=").append(region.getSamplePoint())
-					.append(", bounds=").append(bounds)
+			builder
+					.append("{filled=")
+					.append(region.isFilled())
+					.append(", holes=")
+					.append(region.getHoles().size())
+					.append(", sample=")
+					.append(region.getSamplePoint())
+					.append(", bounds=")
+					.append(bounds)
 					.append('}');
 		}
 		builder.append(']');
@@ -444,11 +424,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 				builder.append(", ");
 			}
 			GRectangle bounds = cycleBounds(graph, cycle);
-			builder.append("{id=").append(cycle.getId())
-					.append(", area=").append(cycle.getSignedArea())
-					.append(", abs=").append(cycle.getAbsArea())
-					.append(", edges=").append(cycle.getHalfEdgeIds().size())
-					.append(", bounds=").append(bounds)
+			builder
+					.append("{id=")
+					.append(cycle.getId())
+					.append(", area=")
+					.append(cycle.getSignedArea())
+					.append(", abs=")
+					.append(cycle.getAbsArea())
+					.append(", edges=")
+					.append(cycle.getHalfEdgeIds().size())
+					.append(", bounds=")
+					.append(bounds)
 					.append('}');
 		}
 		builder.append(']');
@@ -463,11 +449,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 			if (i > 0) {
 				builder.append(", ");
 			}
-			builder.append("{id=").append(face.getId())
-					.append(", exterior=").append(face.isExterior())
-					.append(", outer=").append(face.getOuterHalfEdgeId())
-					.append(", holes=").append(face.getHoleHalfEdgeIds())
-					.append(", sample=").append(face.getSamplePoint())
+			builder
+					.append("{id=")
+					.append(face.getId())
+					.append(", exterior=")
+					.append(face.isExterior())
+					.append(", outer=")
+					.append(face.getOuterHalfEdgeId())
+					.append(", holes=")
+					.append(face.getHoleHalfEdgeIds())
+					.append(", sample=")
+					.append(face.getSamplePoint())
 					.append('}');
 		}
 		builder.append(']');
@@ -488,13 +480,13 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 			maxY = Math.max(maxY, origin.getY());
 		}
 		GRectangle rect = AwtFactory.getPrototype().newRectangle();
-		rect.setRect((int) Math.floor(minX), (int) Math.floor(minY),
-				(int) Math.ceil(maxX - minX), (int) Math.ceil(maxY - minY));
+		rect.setRect((int) Math.floor(minX), (int) Math.floor(minY), (int) Math.ceil(maxX - minX), (int)
+				Math.ceil(maxY - minY));
 		return rect;
 	}
 
-	private static EuclidianViewBounds newAppLikeBounds(double xmin, double xmax, double ymin,
-			double ymax, int width, int height) {
+	private static EuclidianViewBounds newAppLikeBounds(
+			double xmin, double xmax, double ymin, double ymax, int width, int height) {
 		return new EuclidianViewBoundsRWSCMock(xmin, xmax, ymin, ymax, width, height) {
 			@Override
 			public double toScreenCoordYd(double yRW) {
@@ -512,42 +504,38 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	@Test
 	void clippedCassiniNearViewportCornerShouldClassifyUsingVisibleSamplePoints() {
 		EuclidianViewBounds bounds = newBounds(-2.077, 38.365, 1.277, 34.276, 1418, 1157);
-		GeoFunctionNVar cassini = (GeoFunctionNVar) evaluate(
-				"(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
+		GeoFunctionNVar cassini = (GeoFunctionNVar)
+				evaluate("(x^(2)+y^(2))^(2)-2*2.7^(2)*(x^(2)-y^(2))-(2.8^(4)-2.7^(4))<=0")[0];
 		GeoElement border = cassini.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		List<ClassifiedRegion> results = classifier.getResults(info.getBounds());
 		for (ClassifiedRegion region : results) {
-			region.setFilled(
-					cassini.isInRegion(region.getSamplePoint().x, region.getSamplePoint().y));
+			region.setFilled(cassini.isInRegion(region.getSamplePoint().x, region.getSamplePoint().y));
 		}
 		long filledBounded = results.stream()
 				.filter(region -> region.isFilled() && region.getHoles().isEmpty())
 				.count();
-		assertTrue(filledBounded >= 1,
+		assertTrue(
+				filledBounded >= 1,
 				"Top wide corner-clipped Cassini should still classify"
 						+ " a visible bounded region as filled");
 	}
 
 	@Test
 	void halfPlaneViewportShouldKeepBothSidesOfDiagonalAtLargePannedView() {
-		EuclidianViewBounds bounds = newAppLikeBounds(-28.82163760797805, 29.70083729770597,
-				-17.81372538329036, 24.75424650286259, 1377, 1002);
+		EuclidianViewBounds bounds = newAppLikeBounds(
+				-28.82163760797805, 29.70083729770597, -17.81372538329036, 24.75424650286259, 1377, 1002);
 		GeoFunctionNVar halfPlane = (GeoFunctionNVar) evaluate("x^3 <= y^3")[0];
 		GeoElement border = halfPlane.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		boolean processed = classifier.process();
 		String failureDetail = "";
@@ -559,18 +547,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 				failureDetail = " topologyError=" + e.getMessage();
 			}
 		}
-		assertTrue(processed,
-				"Half-plane viewport should classify successfully." + failureDetail);
+		assertTrue(processed, "Half-plane viewport should classify successfully." + failureDetail);
 		PlanarGraph graph = classifier.getGraph();
 		List<ClassifiedRegion> results = classifier.getResults(info.getBounds());
 		for (ClassifiedRegion region : results) {
-			region.setFilled(halfPlane.isInRegion(region.getSamplePoint().x,
-					region.getSamplePoint().y));
+			region.setFilled(halfPlane.isInRegion(region.getSamplePoint().x, region.getSamplePoint().y));
 		}
 
 		long filledCount = results.stream().filter(ClassifiedRegion::isFilled).count();
 		long unfilledCount = results.size() - filledCount;
-		assertTrue(filledCount >= 1 && unfilledCount >= 1,
+		assertTrue(
+				filledCount >= 1 && unfilledCount >= 1,
 				"Clipped half-plane should keep both sides of the diagonal after panning left: "
 						+ describeRegions(results)
 						+ " extracted="
@@ -582,21 +569,17 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	@Test
 	void cubicProductInequalityShouldKeepBothFilledQuadrantsWhenZoomedOut() {
 		EuclidianViewBounds bounds = newBounds(-86, 116, -90, 56, 1647, 1161);
-		GeoFunctionNVar inequality = (GeoFunctionNVar) evaluate(
-				"(x - x^3) * (y - y^3) < 0.01")[0];
+		GeoFunctionNVar inequality = (GeoFunctionNVar) evaluate("(x - x^3) * (y - y^3) < 0.01")[0];
 		GeoElement border = inequality.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(border).withBounds(bounds).build();
 		PerimeterContourClipper clipper = createClipper(info);
-		RegionClassifier classifier = new RegionClassifier(clipper::getClippedFragmentsResult,
-				() -> rectangleFrom(info.getBounds()));
+		RegionClassifier classifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		assertTrue(classifier.process());
 		List<ClassifiedRegion> results = classifier.getResults(info.getBounds());
 		for (ClassifiedRegion region : results) {
-			region.setFilled(inequality.isInRegion(region.getSamplePoint().x,
-					region.getSamplePoint().y));
+			region.setFilled(inequality.isInRegion(region.getSamplePoint().x, region.getSamplePoint().y));
 		}
 		GArea filledArea = assembleFilledArea(results);
 		PlanarGraph graph = classifier.getGraph();
@@ -605,16 +588,20 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 				+ " extracted=" + describeCycles(graph, graph.getLastExtractedBoundaryCycles())
 				+ " canonical=" + describeCycles(graph, graph.getLastCanonicalBoundaryCycles());
 
-		assertTrue(containsWorldPoint(filledArea, bounds, -50, 50),
+		assertTrue(
+				containsWorldPoint(filledArea, bounds, -50, 50),
 				"Zoomed-out cubic product inequality should keep the top-left filled quadrant: "
 						+ diagnostic);
-		assertTrue(containsWorldPoint(filledArea, bounds, 50, -50),
+		assertTrue(
+				containsWorldPoint(filledArea, bounds, 50, -50),
 				"Zoomed-out cubic product inequality should keep the bottom-right filled quadrant: "
 						+ diagnostic);
-		assertFalse(containsWorldPoint(filledArea, bounds, 50, 50),
+		assertFalse(
+				containsWorldPoint(filledArea, bounds, 50, 50),
 				"Zoomed-out cubic product inequality should not fill the top-right quadrant: "
 						+ diagnostic);
-		assertFalse(containsWorldPoint(filledArea, bounds, -50, -50),
+		assertFalse(
+				containsWorldPoint(filledArea, bounds, -50, -50),
 				"Zoomed-out cubic product inequality should not fill the bottom-left quadrant: "
 						+ diagnostic);
 	}
@@ -634,8 +621,7 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 		return filledArea;
 	}
 
-	private boolean containsWorldPoint(GArea area, EuclidianViewBounds bounds, double x,
-			double y) {
+	private boolean containsWorldPoint(GArea area, EuclidianViewBounds bounds, double x, double y) {
 		return area.contains(bounds.toScreenCoordXd(x), bounds.toScreenCoordYd(y));
 	}
 
@@ -647,12 +633,9 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	}
 
 	private ContourInfo setupCassiniWithFourIntersectionOnTop() {
-		EuclidianViewBounds bounds = newBounds(-6.28311, 4.56737, -26.65782,
-				0.41718, 1237, 1265);
+		EuclidianViewBounds bounds = newBounds(-6.28311, 4.56737, -26.65782, 0.41718, 1237, 1265);
 		GeoElement cassini = addCassini(2.9, 2.98);
-		return builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		return builder.withImplicitCurve(cassini).withBounds(bounds).build();
 	}
 
 	/**
@@ -663,8 +646,11 @@ public class RegionClassifierStageATest extends BaseContourTestSetup {
 	 */
 	public static GRectangle2D rectangleFrom(EuclidianViewBounds bounds) {
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
-		rect.setRect(bounds.getXmin(), bounds.getYmin(),
-				bounds.getXmax() - bounds.getXmin(), bounds.getYmax() - bounds.getYmin());
+		rect.setRect(
+				bounds.getXmin(),
+				bounds.getYmin(),
+				bounds.getXmax() - bounds.getXmin(),
+				bounds.getYmax() - bounds.getYmin());
 		return rect;
 	}
 }

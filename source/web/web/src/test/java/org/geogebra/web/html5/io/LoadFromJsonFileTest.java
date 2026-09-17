@@ -40,8 +40,12 @@ import org.junit.runner.RunWith;
 import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GgbMockitoTestRunner.class)
-@WithClassesToStub({EuclidianSimplePanelW.class,
-		JLMContext2D.class, RootPanel.class, ResizeComposite.class})
+@WithClassesToStub({
+	EuclidianSimplePanelW.class,
+	JLMContext2D.class,
+	RootPanel.class,
+	ResizeComposite.class
+})
 public class LoadFromJsonFileTest {
 	private static final String CLOSED_AV_JSON_PATH =
 			"src/test/resources/org/geogebra/web/html5/io/closedAV.json";
@@ -67,8 +71,7 @@ public class LoadFromJsonFileTest {
 	}
 
 	private void initAppFromFile() {
-		AppletParameters articleElement =
-				new AppletParameters("graphing");
+		AppletParameters articleElement = new AppletParameters("graphing");
 		String json = FileIO.load(CLOSED_AV_JSON_PATH);
 		articleElement.setAttribute("json", json);
 		app = AppMocker.mockApplet(articleElement);
@@ -77,8 +80,7 @@ public class LoadFromJsonFileTest {
 
 	private ToolbarPanel initToolbarFromApp() {
 		DockManager dockManager = app.getGuiManager().getLayout().getDockManager();
-		ToolbarDockPanelW toolbarDockPanel =
-				(ToolbarDockPanelW) dockManager.getPanel(App.VIEW_ALGEBRA);
+		ToolbarDockPanelW toolbarDockPanel = (ToolbarDockPanelW) dockManager.getPanel(App.VIEW_ALGEBRA);
 		return toolbarDockPanel.getToolbar();
 	}
 }

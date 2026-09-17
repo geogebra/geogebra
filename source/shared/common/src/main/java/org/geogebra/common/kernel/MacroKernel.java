@@ -39,7 +39,7 @@ public class MacroKernel extends Kernel {
 
 	/**
 	 * Creates new kernel for macro
-	 * 
+	 *
 	 * @param parentKernel
 	 *            kernel of construction in which we want to use this macro
 	 */
@@ -112,7 +112,7 @@ public class MacroKernel extends Kernel {
 
 	/**
 	 * Sets macro construction of this kernel via XML string.
-	 * 
+	 *
 	 * @param xmlString
 	 *            XML representation of the construction
 	 *  @throws XMLParseException if the xml is invalid
@@ -188,8 +188,7 @@ public class MacroKernel extends Kernel {
 	}
 
 	@Override
-	public GeoElement createGeoElement(Construction cons1, String type)
-			throws MyError {
+	public GeoElement createGeoElement(Construction cons1, String type) throws MyError {
 		return parentKernel.createGeoElement(cons1, type);
 	}
 
@@ -252,9 +251,7 @@ public class MacroKernel extends Kernel {
 	}
 
 	@Override
-	public ConstructionCompanion createConstructionCompanion(
-			Construction cons1) {
+	public ConstructionCompanion createConstructionCompanion(Construction cons1) {
 		return parentKernel.createConstructionCompanion(cons1);
 	}
-
 }

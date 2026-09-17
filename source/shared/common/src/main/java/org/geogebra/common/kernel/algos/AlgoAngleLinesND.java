@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -33,8 +33,7 @@ import org.geogebra.common.util.DoubleUtil;
  *
  * @author Markus
  */
-public abstract class AlgoAngleLinesND extends AlgoAngle
-		implements DrawInformationAlgo {
+public abstract class AlgoAngleLinesND extends AlgoAngle implements DrawInformationAlgo {
 	/** input line */
 	protected GeoLineND g;
 	/** input line */
@@ -44,7 +43,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 	/**
 	 * Creates new unlabeled angle between lines algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param g
@@ -54,8 +53,8 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 	 * @param orientation
 	 *            orientation (for 3D)
 	 */
-	protected AlgoAngleLinesND(Construction cons, GeoLineND g, GeoLineND h,
-			GeoDirectionND orientation) {
+	protected AlgoAngleLinesND(
+			Construction cons, GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
 		super(cons);
 		setInput(g, h, orientation);
 		angle = newGeoAngle(cons);
@@ -67,7 +66,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 	/**
 	 * set input
-	 * 
+	 *
 	 * @param g
 	 *            first line
 	 * @param h
@@ -75,8 +74,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 	 * @param orientation
 	 *            orientation
 	 */
-	protected void setInput(GeoLineND g, GeoLineND h,
-			GeoDirectionND orientation) {
+	protected void setInput(GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
 		this.g = g;
 		this.h = h;
 	}
@@ -114,7 +112,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 	/**
 	 * Returns the resulting angle
-	 * 
+	 *
 	 * @return resulting angle
 	 */
 	public GeoAngle getAngle() {
@@ -123,7 +121,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 	/**
 	 * Returns the first line
-	 * 
+	 *
 	 * @return first line
 	 */
 	public GeoLineND getg() {
@@ -132,7 +130,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 	/**
 	 * Returns the second line
-	 * 
+	 *
 	 * @return second line
 	 */
 	public GeoLineND geth() {
@@ -143,16 +141,13 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("AngleBetweenAB",
-				"Angle between %0, %1",
-				g.getLabel(tpl),
-				h.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"AngleBetweenAB", "Angle between %0, %1", g.getLabel(tpl), h.getLabel(tpl));
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 
 		if (((GeoLine) g).linDep((GeoLine) h)) {
 			// angle will be 0 or 180, GeoVec3D.cross won't return a sensible
@@ -201,5 +196,4 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 		return true;
 	}
-
 }

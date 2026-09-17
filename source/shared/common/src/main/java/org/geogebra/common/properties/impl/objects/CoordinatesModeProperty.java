@@ -46,8 +46,7 @@ public class CoordinatesModeProperty extends AbstractNamedEnumeratedProperty<Int
 				entry(Kernel.COORD_POLAR, "PolarCoords"),
 				entry(Kernel.COORD_COMPLEX, "ComplexNumber"),
 				entry(Kernel.COORD_CARTESIAN_3D, "CartesianCoords3D"),
-				entry(Kernel.COORD_SPHERICAL, "Spherical")
-		));
+				entry(Kernel.COORD_SPHERICAL, "Spherical")));
 		this.element = (VectorNDValue) element;
 	}
 

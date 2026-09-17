@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF LogPen
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: LogPen.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -44,8 +44,8 @@ public class LogPen implements EMFConstants {
 
 	@Override
 	public String toString() {
-		return "  LogPen\n" + "    penstyle: " + penStyle + "\n" + "    width: "
-				+ width + "\n" + "    color: " + color;
+		return "  LogPen\n" + "    penstyle: " + penStyle + "\n" + "    width: " + width + "\n"
+				+ "    color: " + color;
 	}
 
 	public int getPenStyle() {

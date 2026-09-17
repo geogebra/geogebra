@@ -22,7 +22,9 @@ import java.util.Locale;
  * Text rotation for tables.
  */
 public enum TextRotation {
-	NONE, UP, DOWN;
+	NONE,
+	UP,
+	DOWN;
 
 	@Override
 	public String toString() {

@@ -22,15 +22,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Standard deviation of y-coords of a list of Points
- * 
+ *
  * @author G. Sturr
  * @version 2011-06-21
  */
-
 public class AlgoListSampleSDY extends AlgoStats2D {
 
-	public AlgoListSampleSDY(Construction cons, String label,
-			GeoList geoListy) {
+	public AlgoListSampleSDY(Construction cons, String label, GeoList geoListy) {
 		super(cons, label, geoListy, AlgoStats2D.STATS_SAMPLESDY);
 	}
 

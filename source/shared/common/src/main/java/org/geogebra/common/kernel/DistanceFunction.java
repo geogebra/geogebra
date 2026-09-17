@@ -33,5 +33,4 @@ public interface DistanceFunction extends UnivariateFunction {
 	 *            distant point
 	 */
 	void setDistantPoint(GeoPointND p);
-
 }

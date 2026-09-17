@@ -25,8 +25,7 @@ import org.geogebra.common.properties.factory.PropertiesArray;
 /** Registers observers to arrays of properties. */
 public final class PropertyArrayValueObserving {
 
-	private PropertyArrayValueObserving() {
-	}
+	private PropertyArrayValueObserving() {}
 
 	/**
 	 * Adds an observer to the array of properties.

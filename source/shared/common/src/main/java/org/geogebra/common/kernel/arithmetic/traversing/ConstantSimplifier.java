@@ -26,13 +26,11 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
  * Simplifier of constant sub-expressions.
  */
 public enum ConstantSimplifier implements Traversing, Inspecting {
-
 	INSTANCE;
 
 	@Override
 	public boolean check(ExpressionValue ev) {
-		return ev.isExpressionNode()
-				&& !((ExpressionNode) ev).containsFreeFunctionVariable(null);
+		return ev.isExpressionNode() && !((ExpressionNode) ev).containsFreeFunctionVariable(null);
 	}
 
 	@Override

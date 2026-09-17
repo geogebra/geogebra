@@ -71,7 +71,7 @@ public class GgbSettings implements VendorSettings {
 	public List<Integer> getProtractorTools(Language language) {
 		return "en".equals(language.language)
 				? Collections.singletonList(EuclidianConstants.MODE_PROTRACTOR)
-				: Arrays.asList(EuclidianConstants.MODE_PROTRACTOR,
-					EuclidianConstants.MODE_TRIANGLE_PROTRACTOR);
+				: Arrays.asList(
+						EuclidianConstants.MODE_PROTRACTOR, EuclidianConstants.MODE_TRIANGLE_PROTRACTOR);
 	}
 }

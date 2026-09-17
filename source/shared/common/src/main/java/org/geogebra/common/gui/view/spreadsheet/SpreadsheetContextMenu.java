@@ -31,9 +31,9 @@ import org.geogebra.common.spreadsheet.core.TabularRange;
 /**
  * Superclass that creates a context menu for spreadsheet cells, rows and
  * columns. GUI methods must be implemented by subclasses.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public abstract class SpreadsheetContextMenu<T> {
 
@@ -68,26 +68,43 @@ public abstract class SpreadsheetContextMenu<T> {
 	 * Context menu command.
 	 */
 	public enum MenuCommand {
-		ShowObject, ShowLabel, HideLabel,
+		ShowObject,
+		ShowLabel,
+		HideLabel,
 
 		RecordToSpreadsheet,
 
-		Copy, Paste, Cut, Delete, DeleteObjects,
+		Copy,
+		Paste,
+		Cut,
+		Delete,
+		DeleteObjects,
 
-		InsertLeft, InsertRight, InsertAbove, InsertBelow,
+		InsertLeft,
+		InsertRight,
+		InsertAbove,
+		InsertBelow,
 
-		DeleteRow, DeleteColumn,
+		DeleteRow,
+		DeleteColumn,
 
-		List, ListOfPoints, Matrix, Table, PolyLine, OperationTable,
+		List,
+		ListOfPoints,
+		Matrix,
+		Table,
+		PolyLine,
+		OperationTable,
 
 		ImportDataFile,
 
-		SpreadsheetOptions, Properties, Create
+		SpreadsheetOptions,
+		Properties,
+		Create
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param table spreadsheet table
 	 * @param toolProcessor tool processor
 	 */
@@ -137,12 +154,10 @@ public abstract class SpreadsheetContextMenu<T> {
 
 	protected void addDelete() {
 		// TODO use "DeleteObjects" as text ?
-		MenuCommand command = (geos != null && geos.size() > 1)
-				? MenuCommand.DeleteObjects
-				: MenuCommand.Delete;
+		MenuCommand command =
+				(geos != null && geos.size() > 1) ? MenuCommand.DeleteObjects : MenuCommand.Delete;
 
 		addMenuItem(command, !allProtected());
-
 	}
 
 	protected void addEditItems() {
@@ -172,8 +187,7 @@ public abstract class SpreadsheetContextMenu<T> {
 		// ===============================================
 		boolean enabled;
 
-		if (selectionType == SelectionType.COLUMNS
-				|| selectionType == SelectionType.ROWS) {
+		if (selectionType == SelectionType.COLUMNS || selectionType == SelectionType.ROWS) {
 
 			addSeparator();
 
@@ -198,7 +212,6 @@ public abstract class SpreadsheetContextMenu<T> {
 				enabled = true;
 				addMenuItem(MenuCommand.DeleteRow, getDeleteRowString(), enabled);
 			}
-
 		}
 
 		// ===============================================
@@ -209,8 +222,7 @@ public abstract class SpreadsheetContextMenu<T> {
 
 			addSeparator();
 
-			subMenu = addSubMenu(loc.getMenu("Create"),
-					MenuCommand.Create);
+			subMenu = addSubMenu(loc.getMenu("Create"), MenuCommand.Create);
 
 			enabled = true;
 			addSubMenuItem(subMenu, MenuCommand.List, enabled);
@@ -253,8 +265,7 @@ public abstract class SpreadsheetContextMenu<T> {
 
 				if (doLabelMenu) {
 					MenuCommand command = MenuCommand.ShowLabel;
-					addCheckBoxMenuItem(command, loc.getMenu(command.name()),
-							geo.isLabelVisible());
+					addCheckBoxMenuItem(command, loc.getMenu(command.name()), geo.isLabelVisible());
 				}
 			}
 
@@ -263,24 +274,20 @@ public abstract class SpreadsheetContextMenu<T> {
 			// ===============================================
 
 			app.isHTML5Applet();
-			if (geo.isSpreadsheetTraceable()
-					&& selectionType != SelectionType.ROWS) {
+			if (geo.isSpreadsheetTraceable() && selectionType != SelectionType.ROWS) {
 
 				boolean showRecordToSpreadsheet = true;
 				// check if other geos are recordable
 				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++) {
-					showRecordToSpreadsheet &= geos.get(i)
-							.isSpreadsheetTraceable();
+					showRecordToSpreadsheet &= geos.get(i).isSpreadsheetTraceable();
 				}
 
 				if (showRecordToSpreadsheet) {
 					MenuCommand command = MenuCommand.RecordToSpreadsheet;
 
-					addCheckBoxMenuItem(command,
-							loc.getMenu(command.name()), geo.getSpreadsheetTrace());
+					addCheckBoxMenuItem(command, loc.getMenu(command.name()), geo.getSpreadsheetTrace());
 				}
 			}
-
 		}
 
 		// ===============================================
@@ -304,8 +311,7 @@ public abstract class SpreadsheetContextMenu<T> {
 		// Object properties
 		// ===============================================
 
-		if (app.getSelectionManager().selectedGeosSize() > 0
-				&& app.letShowPropertiesDialog()) {
+		if (app.getSelectionManager().selectedGeosSize() > 0 && app.letShowPropertiesDialog()) {
 			addSeparator();
 			addMenuItem(MenuCommand.Properties, true);
 		}
@@ -313,19 +319,16 @@ public abstract class SpreadsheetContextMenu<T> {
 
 	protected void addShowObject(GeoElement geo) {
 		MenuCommand cmdString = MenuCommand.ShowObject;
-		addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString.name()),
-				geo.isSetEuclidianVisible());
+		addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString.name()), geo.isSetEuclidianVisible());
 	}
 
 	private String getTitleString() {
 		if (selectedRanges.size() > 1) {
 			return loc.getMenu("Selection");
 		}
-		String title = GeoElementSpreadsheet.getSpreadsheetCellName(column1,
-				row1);
+		String title = GeoElementSpreadsheet.getSpreadsheetCellName(column1, row1);
 		if (column1 != column2 || row1 != row2) {
-			title += ":" + GeoElementSpreadsheet.getSpreadsheetCellName(column2,
-					row2);
+			title += ":" + GeoElementSpreadsheet.getSpreadsheetCellName(column2, row2);
 		}
 		// title = geo description if single geo in cell
 		else if (geos != null && geos.size() == 1) {
@@ -372,11 +375,10 @@ public abstract class SpreadsheetContextMenu<T> {
 		String strRows;
 
 		if (row1 == row2) {
-			strRows = app.getLocalization().getPlain("DeleteRowA",
-					Integer.toString(row1 + 1));
+			strRows = app.getLocalization().getPlain("DeleteRowA", Integer.toString(row1 + 1));
 		} else {
-			strRows = app.getLocalization().getPlain("DeleteRowsAtoB",
-					Integer.toString(row1 + 1), Integer.toString(row2 + 1));
+			strRows = app.getLocalization()
+					.getPlain("DeleteRowsAtoB", Integer.toString(row1 + 1), Integer.toString(row2 + 1));
 		}
 		return strRows;
 	}
@@ -386,12 +388,14 @@ public abstract class SpreadsheetContextMenu<T> {
 		String strColumns;
 
 		if (column1 == column2) {
-			strColumns = app.getLocalization().getPlain("DeleteColumnA",
-					GeoElementSpreadsheet.getSpreadsheetColumnName(column1));
+			strColumns = app.getLocalization()
+					.getPlain("DeleteColumnA", GeoElementSpreadsheet.getSpreadsheetColumnName(column1));
 		} else {
-			strColumns = app.getLocalization().getPlain("DeleteColumnsAtoB",
-					GeoElementSpreadsheet.getSpreadsheetColumnName(column1),
-					GeoElementSpreadsheet.getSpreadsheetColumnName(column2));
+			strColumns = app.getLocalization()
+					.getPlain(
+							"DeleteColumnsAtoB",
+							GeoElementSpreadsheet.getSpreadsheetColumnName(column1),
+							GeoElementSpreadsheet.getSpreadsheetColumnName(column2));
 		}
 		return strColumns;
 	}
@@ -402,7 +406,7 @@ public abstract class SpreadsheetContextMenu<T> {
 
 	/**
 	 * Performs menu item command for given command key
-	 * 
+	 *
 	 * @param command
 	 *            command key
 	 */
@@ -410,115 +414,111 @@ public abstract class SpreadsheetContextMenu<T> {
 		boolean modified = false;
 
 		switch (command) {
+			case ShowObject:
+				cmdShowObject();
+				break;
 
-		case ShowObject:
-			cmdShowObject();
-			break;
+			case ShowLabel:
+				cmdShowLabel();
+				break;
 
-		case ShowLabel:
-			cmdShowLabel();
-			break;
+			case RecordToSpreadsheet:
+				cmdRecordToSpreadsheet();
+				break;
 
-		case RecordToSpreadsheet:
-			cmdRecordToSpreadsheet();
-			break;
+			case Copy:
+				cmdCopy();
+				break;
 
-		case Copy:
-			cmdCopy();
-			break;
+			case Paste:
+				cmdPaste();
+				break;
 
-		case Paste:
-			cmdPaste();
-			break;
+			case Cut:
+				modified = table.getCopyPasteCut().cut(column1, row1, column2, row2);
+				break;
 
-		case Cut:
-			modified = table.getCopyPasteCut().cut(column1, row1, column2, row2);
-			break;
+			case Delete:
+			case DeleteObjects:
+				modified = table.getCopyPasteCut().delete(column1, row1, column2, row2);
+				break;
 
-		case Delete:
-		case DeleteObjects:
-			modified = table.getCopyPasteCut().delete(column1, row1, column2, row2);
-			break;
+			case InsertLeft:
+				modified = cp.insertColumn(column1, column2, true);
+				break;
 
-		case InsertLeft:
-			modified = cp.insertColumn(column1, column2, true);
-			break;
+			case InsertRight:
+				modified = cp.insertColumn(column1, column2, false);
+				break;
 
-		case InsertRight:
-			modified = cp.insertColumn(column1, column2, false);
-			break;
+			case InsertAbove:
+				modified = cp.insertRow(row1, row2, true);
+				break;
 
-		case InsertAbove:
-			modified = cp.insertRow(row1, row2, true);
-			break;
+			case InsertBelow:
+				modified = cp.insertRow(row1, row2, false);
+				break;
 
-		case InsertBelow:
-			modified = cp.insertRow(row1, row2, false);
-			break;
+			case DeleteColumn:
+				modified = cp.deleteColumns(column1, column2);
+				break;
 
-		case DeleteColumn:
-			modified = cp.deleteColumns(column1, column2);
-			break;
+			case DeleteRow:
+				modified = cp.deleteRows(row1, row2);
+				break;
 
-		case DeleteRow:
-			modified = cp.deleteRows(row1, row2);
-			break;
+			case List:
+				toolProcessor.createList(selectedRanges, true, false);
+				break;
 
-		case List:
-			toolProcessor.createList(selectedRanges, true, false);
-			break;
+			case ListOfPoints:
+				cmdListOfPoints();
+				break;
 
-		case ListOfPoints:
-			cmdListOfPoints();
-			break;
+			case Matrix:
+				toolProcessor.createMatrix(column1, column2, row1, row2, false);
+				break;
 
-		case Matrix:
-			toolProcessor.createMatrix(column1, column2, row1, row2, false);
-			break;
+			case Table:
+				toolProcessor.createTableText(column1, column2, row1, row2, false, false);
+				break;
 
-		case Table:
-			toolProcessor.createTableText(column1, column2, row1, row2, false, false);
-			break;
+			case PolyLine:
+				cmdPolyLine();
+				break;
 
-		case PolyLine:
-			cmdPolyLine();
-			break;
+			case OperationTable:
+				toolProcessor.createOperationTable(selectedRanges.get(0));
+				break;
 
-		case OperationTable:
-			toolProcessor.createOperationTable(selectedRanges.get(0));
-			break;
+			case ImportDataFile:
+				cmdImportDataFile();
+				break;
 
-		case ImportDataFile:
-			cmdImportDataFile();
-			break;
+			case SpreadsheetOptions:
+				cmdSpreadsheetOptions();
+				break;
 
-		case SpreadsheetOptions:
-			cmdSpreadsheetOptions();
-			break;
+			case Properties:
+				cmdProperties();
+				break;
 
-		case Properties:
-			cmdProperties();
-			break;
-
-		default:
-			// do nothing
-			break;
+			default:
+				// do nothing
+				break;
 		}
 
 		if (modified) {
 			app.storeUndoInfo();
 		}
-
 	}
 
 	private void cmdCopy() {
 		table.getCopyPasteCut().copy(column1, row1, column2, row2, false);
-
 	}
 
 	private void cmdPaste() {
-		boolean succ = table.getCopyPasteCut().paste(column1, row1, column2,
-				row2);
+		boolean succ = table.getCopyPasteCut().paste(column1, row1, column2, row2);
 		if (succ) {
 			app.storeUndoInfo();
 		}
@@ -526,7 +526,6 @@ public abstract class SpreadsheetContextMenu<T> {
 		if (view != null) {
 			view.rowHeaderRevalidate();
 		}
-
 	}
 
 	// =============================
@@ -541,7 +540,6 @@ public abstract class SpreadsheetContextMenu<T> {
 			GeoElement geo1 = geos.get(i);
 			geo1.setEuclidianVisible(!geo1.isSetEuclidianVisible());
 			geo1.updateRepaint();
-
 		}
 		app.storeUndoInfo();
 	}
@@ -554,7 +552,6 @@ public abstract class SpreadsheetContextMenu<T> {
 			GeoElement geo1 = geos.get(i);
 			geo1.setLabelVisible(!geo1.isLabelVisible());
 			geo1.updateRepaint();
-
 		}
 		app.storeUndoInfo();
 	}
@@ -568,8 +565,7 @@ public abstract class SpreadsheetContextMenu<T> {
 		if (geos.size() == 1) {
 			geoRecordToSpreadSheet = geo;
 		} else {
-			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
-					.list(geos, false);
+			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher().list(geos, false);
 			geoRecordToSpreadSheet.setAuxiliaryObject(true);
 			geoRecordToSpreadSheet.setLabel(null);
 		}
@@ -581,10 +577,8 @@ public abstract class SpreadsheetContextMenu<T> {
 	 * Create list of points from selected cells
 	 */
 	public void cmdListOfPoints() {
-		GeoElement newGeo = toolProcessor.createPointGeoList(selectedRanges, false,
-				true, true, true);
-		app.getKernel().getConstruction()
-				.addToConstructionList(newGeo.getParentAlgorithm(), true);
+		GeoElement newGeo = toolProcessor.createPointGeoList(selectedRanges, false, true, true, true);
+		app.getKernel().getConstruction().addToConstructionList(newGeo.getParentAlgorithm(), true);
 		newGeo.setLabel(null);
 	}
 
@@ -593,8 +587,7 @@ public abstract class SpreadsheetContextMenu<T> {
 	 */
 	public void cmdPolyLine() {
 		GeoElement newGeo = toolProcessor.createPolyLine(selectedRanges, false, true);
-		app.getKernel().getConstruction()
-				.addToConstructionList(newGeo.getParentAlgorithm(), true);
+		app.getKernel().getConstruction().addToConstructionList(newGeo.getParentAlgorithm(), true);
 		newGeo.setLabel(null);
 	}
 
@@ -609,8 +602,7 @@ public abstract class SpreadsheetContextMenu<T> {
 	 * Open spreadsheet options dialog
 	 */
 	public void cmdSpreadsheetOptions() {
-		app.getDialogManager().showPropertiesDialog(OptionType.SPREADSHEET,
-				null);
+		app.getDialogManager().showPropertiesDialog(OptionType.SPREADSHEET, null);
 	}
 
 	/**
@@ -641,8 +633,7 @@ public abstract class SpreadsheetContextMenu<T> {
 	 * @param enabled
 	 *            Flag to enable/disable the menu item
 	 */
-	public abstract void addMenuItem(MenuCommand command, String text,
-			boolean enabled);
+	public abstract void addMenuItem(MenuCommand command, String text, boolean enabled);
 
 	/**
 	 * @param command
@@ -652,8 +643,7 @@ public abstract class SpreadsheetContextMenu<T> {
 	 * @param isSelected
 	 *            Flag to set selection state
 	 */
-	public abstract void addCheckBoxMenuItem(MenuCommand command, String text,
-			boolean isSelected);
+	public abstract void addCheckBoxMenuItem(MenuCommand command, String text, boolean isSelected);
 
 	/**
 	 * @param text
@@ -674,15 +664,13 @@ public abstract class SpreadsheetContextMenu<T> {
 	 * @param enabled
 	 *            Flag to enable/disable the menu item
 	 */
-	public abstract void addSubMenuItem(T menu, MenuCommand cmdString, String text,
-			boolean enabled);
+	public abstract void addSubMenuItem(T menu, MenuCommand cmdString, String text, boolean enabled);
 
 	private void addMenuItem(MenuCommand cmdString, boolean enabled) {
 		addMenuItem(cmdString, loc.getMenu(cmdString.name()), enabled);
 	}
 
-	private void addSubMenuItem(T menu, MenuCommand cmdString,
-			boolean enabled) {
+	private void addSubMenuItem(T menu, MenuCommand cmdString, boolean enabled) {
 		addSubMenuItem(menu, cmdString, loc.getMenu(cmdString.name()), enabled);
 	}
 
@@ -695,12 +683,11 @@ public abstract class SpreadsheetContextMenu<T> {
 
 	/**
 	 * Sets the menu title and adds mouse handling to close the menu if clicked.
-	 * 
+	 *
 	 * @param str
 	 *            Title string to add to top of menu
 	 */
 	public void setTitle(String str) {
 		// to be overridden
 	}
-
 }

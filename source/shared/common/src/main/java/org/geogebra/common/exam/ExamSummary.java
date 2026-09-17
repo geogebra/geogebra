@@ -84,23 +84,24 @@ public final class ExamSummary {
 	 * @param timeFormatter A {@link TimeFormatAdapter} for formatting durations.
 	 * @param localization A localization.
 	 */
-	public ExamSummary(@NonNull ExamType examType,
+	public ExamSummary(
+			@NonNull ExamType examType,
 			@NonNull Date startDate,
 			@Nullable Date finishDate,
 			@NonNull CheatingEvents cheatingEvents,
 			@NonNull AppConfig appConfig,
-			@NonNull  TimeFormatAdapter timeFormatter,
-			@NonNull  Localization localization) {
+			@NonNull TimeFormatAdapter timeFormatter,
+			@NonNull Localization localization) {
 		isExamFinished = finishDate != null;
 		cheated = !cheatingEvents.isEmpty();
 		examName = examType.getDisplayName(localization, appConfig);
-		title = localization.getMenu("exam_menu_entry") + ": " + (cheated
-				? localization.getMenu("exam_alert") : localization.getMenu("OK"));
+		title = localization.getMenu("exam_menu_entry") + ": "
+				+ (cheated ? localization.getMenu("exam_alert") : localization.getMenu("OK"));
 		finishedInfoText = localization.getMenu("exam_log_show_screen_to_teacher");
 		durationHintText = localization.getMenu("Duration");
 		if (finishDate != null) {
-			durationLabelText = timeFormatter.format(localization.getLanguageTag(),
-					finishDate.getTime() - startDate.getTime());
+			durationLabelText = timeFormatter.format(
+					localization.getLanguageTag(), finishDate.getTime() - startDate.getTime());
 			endTimeLabelText = formatTime(finishDate, localization);
 		}
 		startDateHintText = localization.getMenu("exam_start_date");
@@ -112,11 +113,10 @@ public final class ExamSummary {
 		activityLabelText = getActivityLog(startDate, finishDate, cheatingEvents, localization);
 	}
 
-	private String getActivityLog(Date startDate, Date finishDate,
-			CheatingEvents cheatingEvents, Localization localization) {
+	private String getActivityLog(
+			Date startDate, Date finishDate, CheatingEvents cheatingEvents, Localization localization) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("0:00").append(' ')
-				.append(localization.getMenu("exam_started")).append("\n");
+		sb.append("0:00").append(' ').append(localization.getMenu("exam_started")).append("\n");
 		for (CheatingEvent cheatingEvent : cheatingEvents.getEvents()) {
 			sb.append(formatElapsedTime(startDate, cheatingEvent.getDate()));
 			sb.append(' ');
@@ -124,8 +124,10 @@ public final class ExamSummary {
 			sb.append("\n");
 		}
 		if (finishDate != null) {
-			sb.append(formatElapsedTime(startDate, finishDate)).append(' ')
-					.append(localization.getMenu("exam_ended")).append("\n");
+			sb.append(formatElapsedTime(startDate, finishDate))
+					.append(' ')
+					.append(localization.getMenu("exam_ended"))
+					.append("\n");
 		}
 		return sb.toString();
 	}

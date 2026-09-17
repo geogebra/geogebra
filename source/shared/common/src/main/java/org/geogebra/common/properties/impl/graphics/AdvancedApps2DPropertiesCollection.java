@@ -35,19 +35,24 @@ public class AdvancedApps2DPropertiesCollection extends AbstractPropertyCollecti
 	 * @param localization localization
 	 * @param settings euclidian settings
 	 */
-	public AdvancedApps2DPropertiesCollection(App app, Localization localization,
-			EuclidianSettings settings, EuclidianView view) {
+	public AdvancedApps2DPropertiesCollection(
+			App app, Localization localization, EuclidianSettings settings, EuclidianView view) {
 		super(localization, "Advanced");
 
 		ArrayList<Property> properties = new ArrayList<>();
 		properties.add(new BackgroundColorProperty(localization, settings));
 		properties.add(new RightAngleStyleProperty(localization, app));
 		properties.add(new PointCapturingProperty(localization, view));
-		properties.add(app.isUnbundledOrWhiteboard()
-				? new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings())
-				: new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings(),
-				LabelVisibility.Automatic, LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff,
-				LabelVisibility.PointsOnly));
+		properties.add(
+				app.isUnbundledOrWhiteboard()
+						? new LabelingProperty(app.getLocalization(), app.getSettings().getLabelSettings())
+						: new LabelingProperty(
+								app.getLocalization(),
+								app.getSettings().getLabelSettings(),
+								LabelVisibility.Automatic,
+								LabelVisibility.AlwaysOn,
+								LabelVisibility.AlwaysOff,
+								LabelVisibility.PointsOnly));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

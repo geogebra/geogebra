@@ -41,10 +41,9 @@ class RealschuleAlgebraOutputFilterTests extends BaseExamTestSetup {
 		assertFalse(outputFilter.isAllowed(evaluateGeoElement("Circle((0, 0), 1)")));
 
 		assertTrue(outputFilter.isAllowed(evaluateGeoElement("FitLine((1,1), (2,3))")));
-		assertTrue(outputFilter.isAllowed(evaluateGeoElement(
-				"FitImplicit((1...10,(1/(1...10))),3)")));
-		assertTrue(outputFilter.isAllowed(evaluateGeoElement(
-				"f(x)=FitPoly({(-2,1),(-1,0),(0,1),(1,0)},3)")));
+		assertTrue(outputFilter.isAllowed(evaluateGeoElement("FitImplicit((1...10,(1/(1...10))),3)")));
+		assertTrue(
+				outputFilter.isAllowed(evaluateGeoElement("f(x)=FitPoly({(-2,1),(-1,0),(0,1),(1,0)},3)")));
 		assertTrue(outputFilter.isAllowed(evaluateGeoElement("FitExp((1,1),(2,4))")));
 		assertTrue(outputFilter.isAllowed(evaluateGeoElement("FitGrowth((1,2),(3,4))")));
 		assertTrue(outputFilter.isAllowed(evaluateGeoElement("FitLogistic((1,2),(3,4),(5,6))")));
@@ -56,5 +55,4 @@ class RealschuleAlgebraOutputFilterTests extends BaseExamTestSetup {
 		assertTrue(outputFilter.isAllowed(evaluateGeoElement("x^3 + y = 0")));
 		assertTrue(outputFilter.isAllowed(evaluateGeoElement("x")));
 	}
-
 }

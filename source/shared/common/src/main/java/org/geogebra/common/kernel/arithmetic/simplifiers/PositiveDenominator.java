@@ -55,8 +55,8 @@ public class PositiveDenominator implements SimplifyNode {
 	public ExpressionNode apply(ExpressionNode node) {
 		if (ExpressionValueUtils.isMultiplyNode(node)) {
 			ExpressionNode fraction = node.getRightTree();
-			return applyForMultipliedFraction(node.getLeft(),
-					fraction.getLeft(), fraction.getRight().evaluateDouble());
+			return applyForMultipliedFraction(
+					node.getLeft(), fraction.getLeft(), fraction.getRight().evaluateDouble());
 		}
 		ExpressionNode denominator = node.getRightTree();
 		ExpressionNode numerator = node.getLeftTree();
@@ -73,8 +73,8 @@ public class PositiveDenominator implements SimplifyNode {
 			if (ExpressionValueUtils.isMultiplyNode(right)) {
 				if (ExpressionValueUtils.isAtomicSurdAdditionNode(right.wrap().getLeft())) {
 					SurdAddition tag = new SurdAddition(right.wrap().getLeftTree(), utils);
-					OrderedExpressionNode orderedNode = new OrderedExpressionNode(
-							tag.multiply(right.wrap().getRight()), utils);
+					OrderedExpressionNode orderedNode =
+							new OrderedExpressionNode(tag.multiply(right.wrap().getRight()), utils);
 					right = makePositive(right, v, orderedNode);
 				}
 				return utils.newDiv(right.wrap().multiply(left), positiveDenominator);
@@ -93,18 +93,15 @@ public class PositiveDenominator implements SimplifyNode {
 			}
 
 			if (utils.isAllNegative(right)) {
-				ExpressionNode multiplierNode = (isIntegerValue(left)
-						? utils.newDouble(-left.evaluateDouble())
-						: left.wrap()).wrap();
+				ExpressionNode multiplierNode =
+						(isIntegerValue(left) ? utils.newDouble(-left.evaluateDouble()) : left.wrap()).wrap();
 
 				numerator = utils.multiplyR(multiplierNode, utils.negateTagByTag(right));
 				return utils.newDiv(numerator, v < 0 ? utils.newDouble(-v) : denominator);
 			}
 		}
 		if (ExpressionValueUtils.isAtomicSurdAdditionNode(numerator)) {
-			ExpressionNode result = utils.newNode(numerator,
-					Operation.DIVIDE,
-					positiveDenominator);
+			ExpressionNode result = utils.newNode(numerator, Operation.DIVIDE, positiveDenominator);
 			return v < 0 ? result.multiplyR(-1) : result;
 		}
 
@@ -113,13 +110,12 @@ public class PositiveDenominator implements SimplifyNode {
 			return utils.newNode(numerator, Operation.DIVIDE, positiveDenominator);
 		}
 
-		ExpressionNode expressionNode =
-				utils.newNode(numerator, Operation.DIVIDE, positiveDenominator);
+		ExpressionNode expressionNode = utils.newNode(numerator, Operation.DIVIDE, positiveDenominator);
 		return v < 0 ? expressionNode.multiplyR(-1) : expressionNode;
 	}
 
-	private ExpressionValue makePositive(ExpressionValue expr, double v,
-			OrderedExpressionNode orderedNode) {
+	private ExpressionValue makePositive(
+			ExpressionValue expr, double v, OrderedExpressionNode orderedNode) {
 		ExpressionValue positive = expr;
 		if (orderedNode.isAllNegative()) {
 			positive = utils.negateTagByTag(positive);
@@ -134,8 +130,8 @@ public class PositiveDenominator implements SimplifyNode {
 		return positive;
 	}
 
-	private ExpressionNode applyForMultipliedFraction(ExpressionValue multiplierNode,
-			ExpressionValue numerator, double denominator) {
+	private ExpressionNode applyForMultipliedFraction(
+			ExpressionValue multiplierNode, ExpressionValue numerator, double denominator) {
 		double multiplier = multiplierNode.evaluateDouble();
 		SurdAddition tag = new SurdAddition(numerator.wrap(), utils);
 		ExpressionValue numerator1 = tag.multiply(multiplier);

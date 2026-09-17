@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,8 +43,8 @@ public class EuclidianViewBoundsRWSCMock extends EuclidianViewBoundsMock {
 	 * @param width  screen width in pixels
 	 * @param height screen height in pixels
 	 */
-	public EuclidianViewBoundsRWSCMock(double xmin, double xmax, double ymin, double ymax,
-			int width, int height) {
+	public EuclidianViewBoundsRWSCMock(
+			double xmin, double xmax, double ymin, double ymax, int width, int height) {
 		super(xmin, xmax, ymin, ymax);
 		setSize(width, height);
 		update();
@@ -60,7 +60,6 @@ public class EuclidianViewBoundsRWSCMock extends EuclidianViewBoundsMock {
 		invYSscale = 1 / yscale;
 		xZero = -getXmin() * xscale;
 		yZero = getYmax() * yscale;
-
 	}
 
 	/**

@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * LineTo TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: LineTo.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class LineTo extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		LineTo tag = new LineTo(emf.readPOINTL());
 		return tag;
@@ -48,5 +47,4 @@ public class LineTo extends EMFTag {
 	public Point getPoint() {
 		return point;
 	}
-
 }

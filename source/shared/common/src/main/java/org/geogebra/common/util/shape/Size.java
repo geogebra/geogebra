@@ -58,8 +58,7 @@ public final class Size {
 			return false;
 		}
 		Size other = (Size) object;
-		return Double.compare(width, other.width) == 0
-				&& Double.compare(height, other.height) == 0;
+		return Double.compare(width, other.width) == 0 && Double.compare(height, other.height) == 0;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class UpdateStyleActionStore {
 	 */
 	public UpdateStyleActionStore(List<GeoElement> geosAsList, @NonNull UndoManager undoManager) {
 		this.geos = geosAsList;
-		for (GeoElement geo: geosAsList) {
+		for (GeoElement geo : geosAsList) {
 			initialStyleXML.add(geo.getStyleXML());
 		}
 		this.undoManager = undoManager;
@@ -62,7 +62,8 @@ public class UpdateStyleActionStore {
 			actions.add(currentStyleXML);
 			undoActions.add(initialStyleXML.get(i));
 		}
-		undoManager.buildAction(ActionType.UPDATE, actions.toArray(new String[0]))
+		undoManager
+				.buildAction(ActionType.UPDATE, actions.toArray(new String[0]))
 				.withUndo(ActionType.UPDATE, undoActions.toArray(new String[0]))
 				.withLabels(labels)
 				.storeAndNotifyUnsaved();

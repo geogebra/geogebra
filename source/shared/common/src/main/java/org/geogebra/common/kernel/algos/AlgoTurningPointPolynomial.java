@@ -24,13 +24,12 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Finds all inflection points of a polynomial
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 
-	public AlgoTurningPointPolynomial(Construction cons, String[] labels,
-			GeoFunctionable f) {
+	public AlgoTurningPointPolynomial(Construction cons, String[] labels, GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
 
@@ -64,11 +63,10 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("InflectionPointofA",
-				"Inflection point of %0", f.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault("InflectionPointofA", "Inflection point of %0", f.getLabel(tpl));
 	}
-
 }

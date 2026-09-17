@@ -1,7 +1,7 @@
 /*
  * Created on Apr 2, 2006
  *
- * Copyright (c) 2006, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2006, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -31,7 +31,7 @@ public final class Pair<T> implements Collection<T>, Serializable {
 
 	/**
 	 * Creates a <code>Pair</code> from the specified elements.
-	 * 
+	 *
 	 * @param value1
 	 *            the first value in the new <code>Pair</code>
 	 * @param value2
@@ -41,8 +41,7 @@ public final class Pair<T> implements Collection<T>, Serializable {
 	 */
 	public Pair(T value1, T value2) {
 		if (value1 == null || value2 == null) {
-			throw new IllegalArgumentException(
-					"Pair cannot contain null values");
+			throw new IllegalArgumentException("Pair cannot contain null values");
 		}
 		first = value1;
 		second = value2;
@@ -51,7 +50,7 @@ public final class Pair<T> implements Collection<T>, Serializable {
 	/**
 	 * Creates a Pair from the passed Collection. The size of the Collection
 	 * must be 2.
-	 * 
+	 *
 	 * @param values
 	 *            the elements of the new <code>Pair</code>
 	 * @throws IllegalArgumentException
@@ -60,13 +59,11 @@ public final class Pair<T> implements Collection<T>, Serializable {
 	 */
 	public Pair(Collection<? extends T> values) {
 		if (values == null) {
-			throw new IllegalArgumentException(
-					"Input collection cannot be null");
+			throw new IllegalArgumentException("Input collection cannot be null");
 		}
 		if (values.size() == 2) {
 			if (values.contains(null)) {
-				throw new IllegalArgumentException(
-						"Pair cannot contain null values");
+				throw new IllegalArgumentException("Pair cannot contain null values");
 			}
 			Iterator<? extends T> iter = values.iterator();
 			first = iter.next();
@@ -75,13 +72,12 @@ public final class Pair<T> implements Collection<T>, Serializable {
 			throw new IllegalArgumentException(
 					"Pair may only be created from a Collection of exactly 2 elements");
 		}
-
 	}
 
 	/**
 	 * Creates a <code>Pair</code> from the passed array. The size of the array
 	 * must be 2.
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             if the input array is null, contains null values, or has != 2
 	 *             elements.
@@ -92,15 +88,13 @@ public final class Pair<T> implements Collection<T>, Serializable {
 		}
 		if (values.length == 2) {
 			if (values[0] == null || values[1] == null) {
-				throw new IllegalArgumentException(
-						"Pair cannot contain null values");
+				throw new IllegalArgumentException("Pair cannot contain null values");
 			}
 			first = values[0];
 			second = values[1];
 		} else {
 			throw new IllegalArgumentException(
-					"Pair may only be created from an "
-							+ "array of 2 elements");
+					"Pair may only be created from an " + "array of 2 elements");
 		}
 	}
 
@@ -128,10 +122,9 @@ public final class Pair<T> implements Collection<T>, Serializable {
 			Pair otherPair = (Pair) o;
 			Object otherFirst = otherPair.getFirst();
 			Object otherSecond = otherPair.getSecond();
-			return (this.first == otherFirst
-					|| (this.first != null && this.first.equals(otherFirst)))
-					&& (this.second == otherSecond || (this.second != null
-							&& this.second.equals(otherSecond)));
+			return (this.first == otherFirst || (this.first != null && this.first.equals(otherFirst)))
+					&& (this.second == otherSecond
+							|| (this.second != null && this.second.equals(otherSecond)));
 		}
 		return false;
 	}
@@ -166,8 +159,7 @@ public final class Pair<T> implements Collection<T>, Serializable {
 
 	@Override
 	public boolean contains(Object o) {
-		return (first == o || first.equals(o) || second == o
-				|| second.equals(o));
+		return (first == o || first.equals(o) || second == o || second.equals(o));
 	}
 
 	@Override

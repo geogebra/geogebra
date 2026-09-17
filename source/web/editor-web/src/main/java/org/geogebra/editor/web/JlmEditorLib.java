@@ -39,7 +39,10 @@ public class JlmEditorLib extends JlmLib {
 	public void edit(Element el) {
 		Canvas canvas = Canvas.createIfSupported();
 		el.appendChild(canvas.getCanvasElement());
-		MathFieldW fld = new MathFieldW(null, RootPanel.get(), canvas,
+		MathFieldW fld = new MathFieldW(
+				null,
+				RootPanel.get(),
+				canvas,
 				new MathFieldListener() {
 
 					@Override
@@ -69,7 +72,8 @@ public class JlmEditorLib extends JlmLib {
 						// TODO Auto-generated method stub
 						return true;
 					}
-				}, new EditorFeatures());
+				},
+				new EditorFeatures());
 		fld.requestViewFocus();
 	}
 
@@ -78,12 +82,10 @@ public class JlmEditorLib extends JlmLib {
 		TeXFormula texFormula = new TeXFormula();
 		try {
 			Formula formula = new Parser(new TemplateCatalog()).parse(ascii);
-			texFormula.root = new TeXBuilder().build(formula.getRootNode(),
-					null, -1, false);
+			texFormula.root = new TeXBuilder().build(formula.getRootNode(), null, -1, false);
 		} catch (ParseException e) {
 			FactoryProvider.debugS("Invalid input " + ascii);
 		}
 		return texFormula;
 	}
-
 }

@@ -42,8 +42,13 @@ public final class IconButtonWithMenu extends IconButton {
 	 * @param deselectButtons - deselect button callback
 	 * @param toolbox - notes toolbox
 	 */
-	public IconButtonWithMenu(AppW appW, IconSpec icon, String ariaLabel,
-			List<Integer> tools, Runnable deselectButtons, NotesToolbox toolbox) {
+	public IconButtonWithMenu(
+			AppW appW,
+			IconSpec icon,
+			String ariaLabel,
+			List<Integer> tools,
+			Runnable deselectButtons,
+			NotesToolbox toolbox) {
 		super(appW, icon, ariaLabel, ariaLabel, "", () -> {}, null);
 		this.appW = appW;
 		this.tools = tools;
@@ -121,9 +126,12 @@ public final class IconButtonWithMenu extends IconButton {
 			createPopup();
 		}
 		CustomIconSpec customIconSpec = new CustomIconSpec(url);
-		iconButtonPopup.addItem(new AriaMenuItem(name, () -> {
-			JsEval.callNativeFunction(callback);
-			appW.setMoveMode();
-		}, customIconSpec));
+		iconButtonPopup.addItem(new AriaMenuItem(
+				name,
+				() -> {
+					JsEval.callNativeFunction(callback);
+					appW.setMoveMode();
+				},
+				customIconSpec));
 	}
 }

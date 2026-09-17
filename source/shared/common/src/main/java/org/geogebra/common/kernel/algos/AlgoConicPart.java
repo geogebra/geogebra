@@ -59,8 +59,6 @@ public abstract class AlgoConicPart extends AlgoElement {
 	@Override
 	public void compute() {
 		conicPart.set(conic);
-		((GeoConicPartND) conicPart).setParameters(startParam.getDouble(),
-				endParam.getDouble(), true);
+		((GeoConicPartND) conicPart).setParameters(startParam.getDouble(), endParam.getDouble(), true);
 	}
-
 }

@@ -31,8 +31,7 @@ public final class LongTouchManager {
 
 	private LongTouchTimer timer;
 
-	private LongTouchManager() {
-	}
+	private LongTouchManager() {}
 
 	/**
 	 * @return a singleton instance of this class.
@@ -53,7 +52,7 @@ public final class LongTouchManager {
 
 	/**
 	 * Schedules the timer with a default delay value.
-	 * 
+	 *
 	 * @param handler
 	 *            long touch event handler
 	 * @param x
@@ -70,7 +69,7 @@ public final class LongTouchManager {
 
 	/**
 	 * Schedules the timer with {@code delayMillis} delay value.
-	 * 
+	 *
 	 * @param handler
 	 *            long touch event handler
 	 * @param x
@@ -89,7 +88,7 @@ public final class LongTouchManager {
 
 	/**
 	 * Reschedules the timer if it is running, with a default delay value.
-	 * 
+	 *
 	 * @param handler
 	 *            long touch event handler
 	 * @param x

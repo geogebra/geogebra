@@ -3,8 +3,7 @@ package org.freehep.graphics2d.font;
 
 public class FontEncoder {
 
-	private FontEncoder() {
-	}
+	private FontEncoder() {}
 
 	public static String getEncodedString(String string, String tableName) {
 		CharTable charTable = Lookup.getInstance().getTable(tableName);
@@ -28,5 +27,4 @@ public class FontEncoder {
 		}
 		return s.toString();
 	}
-
 }

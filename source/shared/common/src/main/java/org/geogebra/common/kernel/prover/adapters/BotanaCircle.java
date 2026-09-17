@@ -63,5 +63,4 @@ public class BotanaCircle {
 		botanaVars[2] = new PVariable(kernel);
 		botanaVars[3] = new PVariable(kernel);
 	}
-
 }

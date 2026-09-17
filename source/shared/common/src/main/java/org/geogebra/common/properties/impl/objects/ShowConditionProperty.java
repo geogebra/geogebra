@@ -51,8 +51,8 @@ public final class ShowConditionProperty extends AbstractValuedProperty<String>
 			return null;
 		}
 		try {
-			ValidExpression validExpression = element.getKernel().getParser()
-					.parseGeoGebraExpression(value);
+			ValidExpression validExpression =
+					element.getKernel().getParser().parseGeoGebraExpression(value);
 			return validExpression.getValueType() == ValueType.BOOLEAN ? null : "";
 		} catch (ParseException | MyError validationError) {
 			return validationError.getLocalizedMessage();
@@ -66,7 +66,9 @@ public final class ShowConditionProperty extends AbstractValuedProperty<String>
 				element.setShowObjectCondition(null);
 				return;
 			}
-			GeoBoolean condition = element.getKernel().getAlgebraProcessor()
+			GeoBoolean condition = element
+					.getKernel()
+					.getAlgebraProcessor()
 					.evaluateToBoolean(value, element.getApp().getErrorHandler());
 			element.setShowObjectCondition(condition);
 			element.updateRepaint();

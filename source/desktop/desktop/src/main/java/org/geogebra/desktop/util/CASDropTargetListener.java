@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,7 +37,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Handles drop events of CAS window
- * 
+ *
  * @author Dominik Kreil
  *
  */
@@ -51,7 +51,7 @@ public class CASDropTargetListener implements DropTargetListener {
 
 	/**
 	 * creates a new drop target listener
-	 * 
+	 *
 	 * @param app
 	 *            the current application
 	 * @param view
@@ -100,8 +100,7 @@ public class CASDropTargetListener implements DropTargetListener {
 			 * handle a drop from an other cas cell, use this for substitution
 			 */
 			if (t.isDataFlavorSupported(CASTransferHandler.casTableFlavor)) {
-				int cellnumber = (Integer) t
-						.getTransferData(CASTransferHandler.casTableFlavor);
+				int cellnumber = (Integer) t.getTransferData(CASTransferHandler.casTableFlavor);
 				String tableRef = "$" + (cellnumber + 1);
 
 				GeoCasCell cell = table.getGeoCasCell(row);
@@ -111,8 +110,7 @@ public class CASDropTargetListener implements DropTargetListener {
 				}
 				// get output of the source cell, this should be changed for
 				// dynamic reference
-				String substitution = view.resolveCASrowReferences(tableRef,
-						row);
+				String substitution = view.resolveCASrowReferences(tableRef, row);
 
 				// dont use the same cell as source and destination
 				if (cell.getRowNumber() == source.getRowNumber()) {
@@ -125,20 +123,17 @@ public class CASDropTargetListener implements DropTargetListener {
 				cell.getConstruction().addToConstructionList(newcell, false);
 				view.insertRow(newcell, false);
 
-				String subCmd = "Substitute[$" + (cell.getRowNumber() + 1)
-						+ ", Flatten[{" + tableRef + "}]]";
+				String subCmd =
+						"Substitute[$" + (cell.getRowNumber() + 1) + ", Flatten[{" + tableRef + "}]]";
 				// the code commented below makes the substitution static
 				// newcell.setInput(cell.getInput(StringTemplate.defaultTemplate));
 				// the code below makes substitution dynamic
 				newcell.setInput("$" + (cell.getRowNumber() + 1));
 
-				newcell.setProcessingInformation(cell.getPrefix(), subCmd,
-						cell.getPostfix());
+				newcell.setProcessingInformation(cell.getPrefix(), subCmd, cell.getPostfix());
 				newcell.setEvalCommand("Substitute");
-				if (substitution.startsWith("{")
-						&& substitution.endsWith("}")) {
-					substitution = substitution.substring(1,
-							substitution.length() - 1);
+				if (substitution.startsWith("{") && substitution.endsWith("}")) {
+					substitution = substitution.substring(1, substitution.length() - 1);
 				}
 				newcell.setEvalComment(substitution);
 				view.processRowThenEdit(newcell.getRowNumber(), oldXML.toString());
@@ -149,17 +144,16 @@ public class CASDropTargetListener implements DropTargetListener {
 
 			/*
 			 * handle drops from algebra view
-			 * 
+			 *
 			 * creates a new row in the CASTable and fills it up only with the
 			 * value of the geo eg: Drop Element g: Line[A,B] -> CAS Cell: a*x +
 			 * b*y = c without any assignment
 			 */
-			if (t.isDataFlavorSupported(
-					AlgebraViewTransferHandler.algebraViewFlavor)) {
+			if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
 				String textImport;
 				// get list of selected geo labels
-				ArrayList<String> list = (ArrayList<String>) t.getTransferData(
-						AlgebraViewTransferHandler.algebraViewFlavor);
+				ArrayList<String> list =
+						(ArrayList<String>) t.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
 
 				// exit if empty list
 				if (list.size() == 0) {
@@ -171,10 +165,8 @@ public class CASDropTargetListener implements DropTargetListener {
 				for (int i = 0; i < list.size(); i++) {
 					GeoElement geo = kernel.lookupLabel(list.get(0));
 					if (geo != null) {
-						textImport = geo.getCASString(
-								StringTemplate.defaultTemplate, false);
-						GeoCasCell cell = new GeoCasCell(
-								kernel.getConstruction());
+						textImport = geo.getCASString(StringTemplate.defaultTemplate, false);
+						GeoCasCell cell = new GeoCasCell(kernel.getConstruction());
 
 						// insert new row and start editing
 						view.insertRow(cell, true);
@@ -207,5 +199,4 @@ public class CASDropTargetListener implements DropTargetListener {
 	public void dropActionChanged(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
 	}
-
 }

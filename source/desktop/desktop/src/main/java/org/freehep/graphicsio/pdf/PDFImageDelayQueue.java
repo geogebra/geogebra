@@ -15,7 +15,7 @@ import org.freehep.graphicsio.ImageConstants;
 /**
  * Delay {@code Image} objects for writing XObjects to the pdf file when the
  * pageStream is complete. Caches identical images to only write them once.
- * 
+ *
  * @author Simon Fischer
  * @author Mark Donszelmann
  * @version $Id: PDFImageDelayQueue.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
@@ -49,9 +49,9 @@ public class PDFImageDelayQueue {
 		}
 	}
 
-	private Map/* <RenderedImage,Entry> */ imageMap;
+	private Map /* <RenderedImage,Entry> */ imageMap;
 
-	private List/* <entry> */ imageList;
+	private List /* <entry> */ imageList;
 
 	private PDFWriter pdf;
 
@@ -74,20 +74,19 @@ public class PDFImageDelayQueue {
 
 	/** Creates a stream for every delayed image that is not written yet. */
 	public void processAll() throws IOException {
-		for (Iterator i = imageList.iterator(); i.hasNext();) {
+		for (Iterator i = imageList.iterator(); i.hasNext(); ) {
 			Entry entry = (Entry) i.next();
 
 			if (!entry.written) {
 				entry.written = true;
 
 				String[] encode;
-				if (entry.writeAs.equals(ImageConstants.ZLIB)
-						|| (entry.maskName != null)) {
-					encode = new String[] { "Flate", "ASCII85" };
+				if (entry.writeAs.equals(ImageConstants.ZLIB) || (entry.maskName != null)) {
+					encode = new String[] {"Flate", "ASCII85"};
 				} else if (entry.writeAs.equals(ImageConstants.JPG)) {
-					encode = new String[] { "DCT", "ASCII85" };
+					encode = new String[] {"DCT", "ASCII85"};
 				} else {
-					encode = new String[] { null, "ASCII85" };
+					encode = new String[] {null, "ASCII85"};
 				}
 
 				PDFStream img = pdf.openStream(entry.name);
@@ -115,7 +114,7 @@ public class PDFImageDelayQueue {
 	public int addXObjects() throws IOException {
 		if (imageList.size() > 0) {
 			PDFDictionary xobj = pdf.openDictionary("XObjects");
-			for (Iterator i = imageList.iterator(); i.hasNext();) {
+			for (Iterator i = imageList.iterator(); i.hasNext(); ) {
 				Entry entry = (Entry) i.next();
 				xobj.entry(entry.name, pdf.ref(entry.name));
 				if (entry.maskName != null) {

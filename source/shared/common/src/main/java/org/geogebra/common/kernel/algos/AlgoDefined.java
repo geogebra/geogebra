@@ -26,11 +26,10 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  * Returns whether an object is defined
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-06
  */
-
 public class AlgoDefined extends AlgoElement {
 
 	private GeoElement inputGeo; // input
@@ -85,8 +84,7 @@ public class AlgoDefined extends AlgoElement {
 			outputBoolean.setValue(inputGeo.isDefined() && !v.isInfinite());
 			return;
 		} else if (inputGeo.isGeoFunction()) {
-			if (inputGeo.toValueString(StringTemplate.defaultTemplate)
-					.equals("?")) {
+			if (inputGeo.toValueString(StringTemplate.defaultTemplate).equals("?")) {
 				outputBoolean.setValue(false);
 				return;
 			}
@@ -94,5 +92,4 @@ public class AlgoDefined extends AlgoElement {
 
 		outputBoolean.setValue(inputGeo.isDefined());
 	}
-
 }

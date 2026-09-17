@@ -63,7 +63,7 @@ public class JSONArray {
 	/**
 	 * Creates a new {@code JSONArray} by copying all values from the given
 	 * collection. Accept a raw type for API compatibility
-	 * 
+	 *
 	 * @param copyFrom
 	 *            a collection whose values are of supported types. Unsupported
 	 *            values are not permitted and will yield an array in an
@@ -72,7 +72,7 @@ public class JSONArray {
 	public JSONArray(Collection copyFrom) {
 		this();
 		if (copyFrom != null) {
-			for (Iterator it = copyFrom.iterator(); it.hasNext();) {
+			for (Iterator it = copyFrom.iterator(); it.hasNext(); ) {
 				put(JSONObject.wrap(it.next()));
 			}
 		}
@@ -116,7 +116,7 @@ public class JSONArray {
 
 	/**
 	 * Returns the number of values in this array.
-	 * 
+	 *
 	 * @return length
 	 */
 	public int length() {
@@ -125,7 +125,7 @@ public class JSONArray {
 
 	/**
 	 * Appends {@code value} to the end of this array.
-	 * 
+	 *
 	 * @param value
 	 *            boolean value
 	 *
@@ -161,7 +161,7 @@ public class JSONArray {
 
 	/**
 	 * Appends {@code value} to the end of this array.
-	 * 
+	 *
 	 * @param value
 	 *            value to add
 	 *
@@ -274,7 +274,7 @@ public class JSONArray {
 	/**
 	 * Returns true if this array has no value at {@code index}, or if its value
 	 * is the {@code null} reference or {@link JSONObject#NULL}.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return whether value at index is null
@@ -286,7 +286,7 @@ public class JSONArray {
 
 	/**
 	 * Returns the value at {@code index}.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return value at index
@@ -304,15 +304,14 @@ public class JSONArray {
 			}
 			return value;
 		} catch (IndexOutOfBoundsException e) {
-			throw new JSONException("Index " + index + " out of range [0.."
-					+ values.size() + ")", e);
+			throw new JSONException("Index " + index + " out of range [0.." + values.size() + ")", e);
 		}
 	}
 
 	/**
 	 * Returns the value at {@code index}, or null if the array has no value at
 	 * {@code index}.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return value at index or null
@@ -327,7 +326,7 @@ public class JSONArray {
 	/**
 	 * Removes and returns the value at {@code index}, or null if the array has
 	 * no value at {@code index}.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return value at index
@@ -342,7 +341,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return boolean value at index
@@ -363,7 +362,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean. Returns false otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return boolean value at index, false if not set
@@ -375,7 +374,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean. Returns {@code fallback} otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @param fallback
@@ -391,7 +390,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return double value at index
@@ -412,7 +411,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double. Returns {@code NaN} otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return double value at index or NaN
@@ -424,7 +423,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double. Returns {@code fallback} otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @param fallback
@@ -440,7 +439,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return int value at index
@@ -461,7 +460,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int. Returns 0 otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return int value or 0
@@ -473,7 +472,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int. Returns {@code fallback} otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @param fallback
@@ -489,7 +488,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return long value at index
@@ -510,7 +509,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long. Returns 0 otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return long value at index or 0
@@ -522,7 +521,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long. Returns {@code fallback} otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @param fallback
@@ -538,7 +537,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return string value at index
@@ -558,7 +557,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary. Returns the empty string if no such value exists.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return string value at index or empty string
@@ -570,7 +569,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary. Returns {@code fallback} if no such value exists.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @param fallback
@@ -586,7 +585,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONArray}.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return array value at index
@@ -606,7 +605,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONArray}. Returns null otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return array value at index
@@ -619,7 +618,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONObject}.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return object value at index
@@ -639,7 +638,7 @@ public class JSONArray {
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONObject}. Returns null otherwise.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @return object value at index or null
@@ -655,7 +654,7 @@ public class JSONArray {
 	 * index from 0 through to the shorter array's length. Names that are not
 	 * strings will be coerced to strings. This method returns null if either
 	 * array is empty.
-	 * 
+	 *
 	 * @param names
 	 *            keys in resulting object
 	 * @return JSON object with given keys, using this array as values
@@ -678,11 +677,11 @@ public class JSONArray {
 	 * separator}. This array's string values are quoted and have their special
 	 * characters escaped. For example, the array containing the strings '12"
 	 * pizza', 'taco' and 'soda' joined on '+' returns this:
-	 * 
+	 *
 	 * <pre>
 	 * "12\" pizza" + "taco" + "soda"
 	 * </pre>
-	 * 
+	 *
 	 * @param separator
 	 *            separator
 	 * @return array items joined using separator
@@ -702,14 +701,13 @@ public class JSONArray {
 
 	/**
 	 * Encodes this array as a compact JSON string, such as:
-	 * 
+	 *
 	 * <pre>
 	 * [94043,90210]
 	 * </pre>
 	 */
 	@Override
-	@SuppressFBWarnings(value = "NP_TOSTRING_COULD_RETURN_NULL",
-			justification = "API specifies this")
+	@SuppressFBWarnings(value = "NP_TOSTRING_COULD_RETURN_NULL", justification = "API specifies this")
 	public String toString() {
 		try {
 			JSONStringer stringer = new JSONStringer();
@@ -723,7 +721,7 @@ public class JSONArray {
 	/**
 	 * Encodes this array as a human readable JSON string for debugging, such
 	 * as:
-	 * 
+	 *
 	 * <pre>
 	 * [
 	 *     94043,

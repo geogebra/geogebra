@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,9 +51,8 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 	 * @param selectedPos selected position
 	 * @param changeText whether to translate the options
 	 */
-	public void addRadioButtonMenuItems(final Consumer<Integer> listener,
-			String[] items, int selectedPos,
-			boolean changeText) {
+	public void addRadioButtonMenuItems(
+			final Consumer<Integer> listener, String[] items, int selectedPos, boolean changeText) {
 
 		JRadioButtonMenuItem mi;
 		buttonGroup = new ButtonGroup();
@@ -63,11 +62,9 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 			if ("---".equals(items[i])) {
 				addSeparator();
 			} else {
-				String text = changeText
-						? app.getLocalization().getMenu(items[i]) : items[i];
+				String text = changeText ? app.getLocalization().getMenu(items[i]) : items[i];
 				mi = new JRadioButtonMenuItem(text);
-				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
-						app.getGUIFontSize()));
+				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));
 				if (i == selectedPos) {
 					mi.setSelected(true);
 				}
@@ -97,5 +94,4 @@ public class RadioButtonMenuBarD extends JMenu implements MenuInterface {
 			}
 		}
 	}
-
 }

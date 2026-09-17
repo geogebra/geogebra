@@ -42,12 +42,12 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 public class AlgoPointOnPath extends AlgoElement
-		implements FixedPathRegionAlgo, SymbolicParametersAlgo,
-		SymbolicParametersBotanaAlgo {
+		implements FixedPathRegionAlgo, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private Path path; // input
 	/** output */
 	protected GeoPointND P;
+
 	private GeoNumberValue param;
 	private PPolynomial[] polynomials;
 	private PVariable variable;
@@ -61,8 +61,7 @@ public class AlgoPointOnPath extends AlgoElement
 	 * @param param
 	 *            path parameter
 	 */
-	public AlgoPointOnPath(Construction cons, Path path,
-			GeoNumberValue param) {
+	public AlgoPointOnPath(Construction cons, Path path, GeoNumberValue param) {
 		this(cons, path, 0, 0, 0, param);
 	}
 
@@ -80,8 +79,8 @@ public class AlgoPointOnPath extends AlgoElement
 	 * @param param
 	 *            path parameter
 	 */
-	public AlgoPointOnPath(Construction cons, Path path, double x, double y,
-			double z, GeoNumberValue param) {
+	public AlgoPointOnPath(
+			Construction cons, Path path, double x, double y, double z, GeoNumberValue param) {
 		super(cons);
 		this.path = path;
 
@@ -123,8 +122,8 @@ public class AlgoPointOnPath extends AlgoElement
 	 * @param addIncidence
 	 *            whether to add to incidence list
 	 */
-	public AlgoPointOnPath(Construction cons, Path path, double x, double y,
-			double z, boolean addIncidence) {
+	public AlgoPointOnPath(
+			Construction cons, Path path, double x, double y, double z, boolean addIncidence) {
 		super(cons, addIncidence);
 		this.path = path;
 
@@ -141,12 +140,11 @@ public class AlgoPointOnPath extends AlgoElement
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
 		P.addIncidence((GeoElement) path, false);
-
 	}
 
 	/**
@@ -202,8 +200,8 @@ public class AlgoPointOnPath extends AlgoElement
 	public final void compute() {
 		if (param != null) {
 			PathParameter pp = P.getPathParameter();
-			pp.setT(PathNormalizer.toParentPathParameter(param.getDouble(),
-					path.getMinParameter(), path.getMaxParameter()));
+			pp.setT(PathNormalizer.toParentPathParameter(
+					param.getDouble(), path.getMinParameter(), path.getMaxParameter()));
 		}
 		if (input[0].isDefined()) {
 			path.pathChanged(P);
@@ -214,11 +212,10 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("PointOnA", "Point on %0",
-				input[0].getLabel(tpl));
+		return getLoc().getPlainDefault("PointOnA", "Point on %0", input[0].getLabel(tpl));
 	}
 
 	@Override
@@ -232,8 +229,7 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
 		}
@@ -249,14 +245,12 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
 		}
 		if (input[0] instanceof GeoLine) {
-			int[] degreesLine = ((SymbolicParametersAlgo) input[0])
-					.getDegrees(a);
+			int[] degreesLine = ((SymbolicParametersAlgo) input[0]).getDegrees(a);
 
 			int[] result = new int[3];
 			result[0] = degreesLine[2] + 1;
@@ -268,16 +262,14 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
 		}
 		if (input[0] instanceof GeoLine && variable != null) {
 			BigInteger[] exactCoordinates = new BigInteger[3];
-			BigInteger[] line = ((SymbolicParametersAlgo) input[0])
-					.getExactCoordinates(values);
+			BigInteger[] line = ((SymbolicParametersAlgo) input[0]).getExactCoordinates(values);
 
 			if (line[2].equals(BigInteger.ZERO)) {
 				/*
@@ -292,12 +284,10 @@ public class AlgoPointOnPath extends AlgoElement
 				 * handle the previous case properly
 				 */
 				exactCoordinates[0] = line[2].multiply(values.get(variable));
-				exactCoordinates[1] = line[2].multiply(
-						BigInteger.ONE.subtract(values.get(variable)));
+				exactCoordinates[1] = line[2].multiply(BigInteger.ONE.subtract(values.get(variable)));
 				exactCoordinates[2] = line[0]
 						.multiply(values.get(variable).negate())
-						.add(line[1].multiply(
-								values.get(variable).subtract(BigInteger.ONE)));
+						.add(line[1].multiply(values.get(variable).subtract(BigInteger.ONE)));
 				/* maybe there is a way to unify the two cases, TODO */
 			}
 
@@ -319,24 +309,19 @@ public class AlgoPointOnPath extends AlgoElement
 				variable = new PVariable((GeoElement) P);
 			}
 			polynomials = new PPolynomial[3];
-			PPolynomial[] line = ((SymbolicParametersAlgo) input[0])
-					.getPolynomials();
+			PPolynomial[] line = ((SymbolicParametersAlgo) input[0]).getPolynomials();
 			polynomials[0] = line[2].multiply(new PPolynomial(variable));
-			polynomials[1] = line[2].multiply(
-					new PPolynomial(1).subtract(new PPolynomial(variable)));
+			polynomials[1] = line[2].multiply(new PPolynomial(1).subtract(new PPolynomial(variable)));
 			polynomials[2] = line[0]
 					.multiply(new PPolynomial(variable).negate())
-					.add(line[1].multiply(new PPolynomial(variable)
-							.subtract(new PPolynomial(1))));
+					.add(line[1].multiply(new PPolynomial(variable).subtract(new PPolynomial(1))));
 			return polynomials;
-
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (this.proverAdapter == null) {
 			this.proverAdapter = new PointOnPathAdapter();
 		}
@@ -350,5 +335,4 @@ public class AlgoPointOnPath extends AlgoElement
 		}
 		return proverAdapter.getBotanaVars();
 	}
-
 }

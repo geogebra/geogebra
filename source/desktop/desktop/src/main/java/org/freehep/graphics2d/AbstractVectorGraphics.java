@@ -29,7 +29,7 @@ import org.freehep.util.UserProperties;
  * other convenience functions. It also handles the different drawSymbol and
  * fillSymbol methods and print colors. The drawing of framed strings is broken
  * down to lower level methods.
- * 
+ *
  * @author Simon Fischer
  * @author Mark Donszelmann
  * @author Steffen Greiffenberg
@@ -42,7 +42,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	private String creator;
 
-	final private boolean isDeviceIndependent = true;
+	private final boolean isDeviceIndependent = true;
 
 	private SymbolShape cachedShape;
 
@@ -166,7 +166,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Gets the current font.
-	 * 
+	 *
 	 * @return current font
 	 */
 	@Override
@@ -176,7 +176,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Sets the current font.
-	 * 
+	 *
 	 * @param font
 	 *            to be set
 	 */
@@ -298,20 +298,17 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	@Override
 	public void clearRect(int x, int y, int width, int height) {
-		clearRect(x + bias, y + bias, width,
-				height);
+		clearRect(x + bias, y + bias, width, height);
 	}
 
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
-		drawLine(x1 + bias, y1 + bias, x2 + bias,
-				y2 + bias);
+		drawLine(x1 + bias, y1 + bias, x2 + bias, y2 + bias);
 	}
 
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
-		drawRect(x + bias, y + bias, width,
-				height);
+		drawRect(x + bias, y + bias, width, height);
 	}
 
 	@Override
@@ -320,23 +317,19 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	@Override
-	public void drawArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
-		drawArc(x + bias, y + bias, width,
-				height, startAngle, arcAngle);
+	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+		drawArc(x + bias, y + bias, width, height, startAngle, arcAngle);
 	}
 
 	@Override
-	public void fillArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
-		fillArc((double) x, (double) y, (double) width, (double) height,
-				(double) startAngle, (double) arcAngle);
+	public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
+		fillArc((double) x, (double) y, (double) width, (double) height, (double) startAngle, (double)
+				arcAngle);
 	}
 
 	@Override
 	public void drawOval(int x, int y, int width, int height) {
-		drawOval(x + bias, y + bias, width,
-				height);
+		drawOval(x + bias, y + bias, width, height);
 	}
 
 	@Override
@@ -345,17 +338,15 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	@Override
-	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
-			int arcHeight) {
-		drawRoundRect(x + bias, y + bias, width,
-				height, arcWidth, arcHeight);
+	public void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+		drawRoundRect(x + bias, y + bias, width, height, arcWidth, arcHeight);
 	}
 
 	@Override
-	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
-			int arcHeight) {
-		fillRoundRect((double) x, (double) y, (double) width, (double) height,
-				(double) arcWidth, (double) arcHeight);
+	public void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight) {
+		fillRoundRect(
+				(double) x, (double) y, (double) width, (double) height, (double) arcWidth, (double)
+						arcHeight);
 	}
 
 	@Override
@@ -364,8 +355,8 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	/*--------------------------------------------------------------------------------
-	 | 8.1. stroke/linewidth
-	 *--------------------------------------------------------------------------------*/
+	| 8.1. stroke/linewidth
+	*--------------------------------------------------------------------------------*/
 	@Override
 	public void setLineWidth(int width) {
 		setLineWidth((double) width);
@@ -377,8 +368,12 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 		if (stroke instanceof BasicStroke) {
 			BasicStroke cs = (BasicStroke) stroke;
 			if (cs.getLineWidth() != width) {
-				stroke = new BasicStroke((float) width, cs.getEndCap(),
-						cs.getLineJoin(), cs.getMiterLimit(), cs.getDashArray(),
+				stroke = new BasicStroke(
+						(float) width,
+						cs.getEndCap(),
+						cs.getLineJoin(),
+						cs.getMiterLimit(),
+						cs.getDashArray(),
 						cs.getDashPhase());
 				setStroke(stroke);
 			}
@@ -429,15 +424,25 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 *            color of the banner
 	 * @return Offset for the string inside the frame
 	 */
-	private Point2D drawFrameAndBanner(TextLayout tl, double x, double y,
-			int horizontal, int vertical, boolean framed, Color frameColor,
-			double frameWidth, boolean banner, Color bannerColor) {
+	private Point2D drawFrameAndBanner(
+			TextLayout tl,
+			double x,
+			double y,
+			int horizontal,
+			int vertical,
+			boolean framed,
+			Color frameColor,
+			double frameWidth,
+			boolean banner,
+			Color bannerColor) {
 
 		// calculate string bounds for alignment
 		Rectangle2D bounds = tl.getBounds();
 
 		// calculate real bounds
-		bounds.setRect(bounds.getX(), bounds.getY(),
+		bounds.setRect(
+				bounds.getX(),
+				bounds.getY(),
 				// care for Italic fonts too
 				Math.max(tl.getAdvance(), bounds.getWidth()),
 				bounds.getHeight());
@@ -470,14 +475,15 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 		// transform the bounds
 		bounds = at.createTransformedShape(bounds).getBounds2D();
 		// create the result with the same transformation
-		Point2D result = at.transform(new Point2D.Double(0, 0),
-				new Point2D.Double());
+		Point2D result = at.transform(new Point2D.Double(0, 0), new Point2D.Double());
 
 		// space between string and border
 		double adjustment = (getFont().getSize2D() * 2) / 10;
 
 		// add the adjustment
-		bounds.setRect(bounds.getX() - adjustment, bounds.getY() - adjustment,
+		bounds.setRect(
+				bounds.getX() - adjustment,
+				bounds.getY() - adjustment,
 				bounds.getWidth() + 2 * adjustment,
 				bounds.getHeight() + 2 * adjustment);
 
@@ -525,18 +531,25 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 *            color of the banner
 	 */
 	@Override
-	public void drawString(String str, double x, double y, int horizontal,
-			int vertical, boolean framed, Color frameColor, double frameWidth,
-			boolean banner, Color bannerColor) {
+	public void drawString(
+			String str,
+			double x,
+			double y,
+			int horizontal,
+			int vertical,
+			boolean framed,
+			Color frameColor,
+			double frameWidth,
+			boolean banner,
+			Color bannerColor) {
 
 		// change the x offset for the next drawing
 		// FIXME: change y offset for vertical text
-		TextLayout tl = new TextLayout(str, getFont().getAttributes(),
-				getFontRenderContext());
+		TextLayout tl = new TextLayout(str, getFont().getAttributes(), getFontRenderContext());
 
 		// draw the frame
-		Point2D offset = drawFrameAndBanner(tl, x, y, horizontal, vertical,
-				framed, frameColor, frameWidth, banner, bannerColor);
+		Point2D offset = drawFrameAndBanner(
+				tl, x, y, horizontal, vertical, framed, frameColor, frameWidth, banner, bannerColor);
 
 		// draw the string
 		drawString(str, offset.getX(), offset.getY());
@@ -568,31 +581,35 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 *            color of the banner
 	 */
 	@Override
-	public void drawString(TagString str, double x, double y, int horizontal,
-			int vertical, boolean framed, Color frameColor, double frameWidth,
-			boolean banner, Color bannerColor) {
+	public void drawString(
+			TagString str,
+			double x,
+			double y,
+			int horizontal,
+			int vertical,
+			boolean framed,
+			Color frameColor,
+			double frameWidth,
+			boolean banner,
+			Color bannerColor) {
 
 		GenericTagHandler tagHandler = new GenericTagHandler(this);
-		TextLayout tl = tagHandler.createTextLayout(str,
-				getFont().getSize2D() / 7.5);
+		TextLayout tl = tagHandler.createTextLayout(str, getFont().getSize2D() / 7.5);
 
 		// draw the frame
-		Point2D offset = drawFrameAndBanner(tl, x, y, horizontal, vertical,
-				framed, frameColor, frameWidth, banner, bannerColor);
+		Point2D offset = drawFrameAndBanner(
+				tl, x, y, horizontal, vertical, framed, frameColor, frameWidth, banner, bannerColor);
 
 		// FIXME: not quite clear why correction is needed
 		// see {@link GenericTagHandler#superscriptCorrection
-		tagHandler.print(str, offset.getX(), offset.getY(),
-				getFont().getSize2D() / 7.5);
+		tagHandler.print(str, offset.getX(), offset.getY(), getFont().getSize2D() / 7.5);
 	}
 
 	// ------------------ other wrapper methods ----------------
 
 	@Override
-	public void drawString(String str, double x, double y, int horizontal,
-			int vertical) {
-		drawString(str, x, y, horizontal, vertical, false, null, 0, false,
-				null);
+	public void drawString(String str, double x, double y, int horizontal, int vertical) {
+		drawString(str, x, y, horizontal, vertical, false, null, 0, false, null);
 	}
 
 	@Override
@@ -601,10 +618,8 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	@Override
-	public void drawString(TagString str, double x, double y, int horizontal,
-			int vertical) {
-		drawString(str, x, y, horizontal, vertical, false, null, 0, false,
-				null);
+	public void drawString(TagString str, double x, double y, int horizontal, int vertical) {
+		drawString(str, x, y, horizontal, vertical, false, null, 0, false, null);
 	}
 
 	/* 8.2. paint/color */
@@ -620,7 +635,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Gets the background color.
-	 * 
+	 *
 	 * @return background color
 	 */
 	@Override
@@ -630,7 +645,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Sets the background color.
-	 * 
+	 *
 	 * @param color
 	 *            background color to be set
 	 */
@@ -641,7 +656,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Sets the current color and the current paint. Calls writePaint(Color).
-	 * 
+	 *
 	 * @param color
 	 *            to be set
 	 */
@@ -657,7 +672,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Gets the current color.
-	 * 
+	 *
 	 * @return the current color
 	 */
 	@Override
@@ -667,7 +682,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Sets the current paint.
-	 * 
+	 *
 	 * @param paint
 	 *            to be set
 	 */
@@ -685,7 +700,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 
 	/**
 	 * Gets the current paint.
-	 * 
+	 *
 	 * @return paint current paint
 	 */
 	@Override
@@ -717,10 +732,9 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	@Override
-	public void drawArc(double x, double y, double width, double height,
-			double startAngle, double arcAngle) {
-		draw(new Arc2D.Double(x, y, width, height, startAngle, arcAngle,
-				Arc2D.OPEN));
+	public void drawArc(
+			double x, double y, double width, double height, double startAngle, double arcAngle) {
+		draw(new Arc2D.Double(x, y, width, height, startAngle, arcAngle, Arc2D.OPEN));
 	}
 
 	@Override
@@ -759,17 +773,15 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	@Override
-	public void drawRoundRect(double x, double y, double width, double height,
-			double arcWidth, double arcHeight) {
-		draw(new RoundRectangle2D.Double(x, y, width, height, arcWidth,
-				arcHeight));
+	public void drawRoundRect(
+			double x, double y, double width, double height, double arcWidth, double arcHeight) {
+		draw(new RoundRectangle2D.Double(x, y, width, height, arcWidth, arcHeight));
 	}
 
 	@Override
-	public void fillArc(double x, double y, double width, double height,
-			double startAngle, double arcAngle) {
-		fill(new Arc2D.Double(x, y, width, height, startAngle, arcAngle,
-				Arc2D.PIE));
+	public void fillArc(
+			double x, double y, double width, double height, double startAngle, double arcAngle) {
+		fill(new Arc2D.Double(x, y, width, height, startAngle, arcAngle, Arc2D.PIE));
 	}
 
 	@Override
@@ -793,16 +805,15 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	}
 
 	@Override
-	public void fillRoundRect(double x, double y, double width, double height,
-			double arcWidth, double arcHeight) {
-		fill(new RoundRectangle2D.Double(x, y, width, height, arcWidth,
-				arcHeight));
+	public void fillRoundRect(
+			double x, double y, double width, double height, double arcWidth, double arcHeight) {
+		fill(new RoundRectangle2D.Double(x, y, width, height, arcWidth, arcHeight));
 	}
 
 	/**
 	 * Creates a polyline/polygon shape from a set of points. Needs to be
 	 * defined in subclass because its implementations could be device specific
-	 * 
+	 *
 	 * @param xPoints
 	 *            X coordinates of the polyline.
 	 * @param yPoints
@@ -812,12 +823,12 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param close
 	 *            is shape closed
 	 */
-	protected abstract Shape createShape(double[] xPoints, double[] yPoints,
-			int nPoints, boolean close);
+	protected abstract Shape createShape(
+			double[] xPoints, double[] yPoints, int nPoints, boolean close);
 
 	/**
 	 * Creates a polyline/polygon shape from a set of points. Needs a bias!
-	 * 
+	 *
 	 * @param xPoints
 	 *            X coordinates of the polyline.
 	 * @param yPoints
@@ -827,8 +838,8 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	 * @param close
 	 *            is shape closed
 	 */
-	protected Shape createShape(int[] xPoints, int[] yPoints, int nPoints,
-			boolean close, boolean biased) {
+	protected Shape createShape(
+			int[] xPoints, int[] yPoints, int nPoints, boolean close, boolean biased) {
 
 		float offset = biased ? (float) bias : 0.0f;
 		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
@@ -836,13 +847,13 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 			path.moveTo(xPoints[0] + offset, yPoints[0] + offset);
 			int lastX = xPoints[0];
 			int lastY = yPoints[0];
-			if (close && (Math.abs(xPoints[nPoints - 1] - lastX) < 1)
+			if (close
+					&& (Math.abs(xPoints[nPoints - 1] - lastX) < 1)
 					&& (Math.abs(yPoints[nPoints - 1] - lastY) < 1)) {
 				nPoints--;
 			}
 			for (int i = 1; i < nPoints; i++) {
-				if ((Math.abs(xPoints[i] - lastX) > 1)
-						|| (Math.abs(yPoints[i] - lastY) > 1)) {
+				if ((Math.abs(xPoints[i] - lastX) > 1) || (Math.abs(yPoints[i] - lastY) > 1)) {
 					path.lineTo(xPoints[i] + offset, yPoints[i] + offset);
 					lastX = xPoints[i];
 					lastY = yPoints[i];

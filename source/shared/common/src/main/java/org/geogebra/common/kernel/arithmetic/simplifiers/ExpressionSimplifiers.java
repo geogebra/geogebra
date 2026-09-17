@@ -45,9 +45,7 @@ public class ExpressionSimplifiers {
 		// it is checked before any simplification and after all were run if they produced a
 		// trivial node.
 		CheckIfTrivial checkIfTrivial = new CheckIfTrivial(utils);
-		preItems = List.of(
-				checkIfTrivial
-		);
+		preItems = List.of(checkIfTrivial);
 
 		postItems = List.of(
 				new ReduceRoot(utils),
@@ -58,8 +56,7 @@ public class ExpressionSimplifiers {
 				new PlusTagOrder(utils),
 				new DistributeMultiplier(utils),
 				new MoveMinusInOut(utils),
-				checkIfTrivial
-		);
+				checkIfTrivial);
 	}
 
 	/**
@@ -79,11 +76,9 @@ public class ExpressionSimplifiers {
 		ExpressionNode node = inputNode;
 		for (SimplifyNode simplifier : simplifiers) {
 			if (simplifier.isAccepted(node)) {
-				String before = node == null ? ""
-						: node.toValueString(StringTemplate.defaultTemplate);
+				String before = node == null ? "" : node.toValueString(StringTemplate.defaultTemplate);
 				node = simplifier.apply(node);
 				logProgress(simplifier.name(), before, node);
-
 			}
 		}
 		return node;
@@ -101,10 +96,8 @@ public class ExpressionSimplifiers {
 		}
 		String after = node.toValueString(StringTemplate.defaultTemplate);
 		if (!after.equals(before)) {
-			Log.debug(name + ": " + after
-					+ "( =" + node.evaluateDouble() + ")");
+			Log.debug(name + ": " + after + "( =" + node.evaluateDouble() + ")");
 		}
-
 	}
 
 	/**

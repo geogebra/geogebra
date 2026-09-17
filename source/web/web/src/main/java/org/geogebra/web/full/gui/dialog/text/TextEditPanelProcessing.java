@@ -104,4 +104,3 @@ public final class TextEditPanelProcessing implements KeyboardListener {
 		return false;
 	}
 }
-

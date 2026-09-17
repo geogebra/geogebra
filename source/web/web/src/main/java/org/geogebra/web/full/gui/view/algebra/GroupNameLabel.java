@@ -30,7 +30,6 @@ import org.gwtproject.user.client.ui.TreeItem;
  *
  * File created by Arpad Fekete
  */
-
 public final class GroupNameLabel extends Label implements ClickHandler {
 
 	private TreeItem par;
@@ -44,8 +43,7 @@ public final class GroupNameLabel extends Label implements ClickHandler {
 	 * @param label
 	 *            text
 	 */
-	public GroupNameLabel(SelectionManager selection, TreeItem parent,
-			String label) {
+	public GroupNameLabel(SelectionManager selection, TreeItem parent, String label) {
 		super(label);
 		this.selection = selection;
 		par = parent;

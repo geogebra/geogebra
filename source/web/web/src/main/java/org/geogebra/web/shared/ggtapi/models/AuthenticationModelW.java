@@ -34,17 +34,18 @@ import jsinterop.base.Js;
  * @author gabor
  *
  */
-public final class AuthenticationModelW extends AuthenticationModel  {
+public final class AuthenticationModelW extends AuthenticationModel {
 
 	private static final String GGB_LAST_USER = "last_user";
 	/** token storage */
 	private String authToken = null;
+
 	private final AppW app;
 	private boolean inited = false;
 
 	/**
 	 * creates a new login model for Web
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -87,8 +88,7 @@ public final class AuthenticationModelW extends AuthenticationModel  {
 	}
 
 	private void ensureInited() {
-		if (inited || app.getLAF() == null
-				|| app.getLAF().getLoginListener() == null) {
+		if (inited || app.getLAF() == null || app.getLAF().getLoginListener() == null) {
 			return;
 		}
 		inited = true;
@@ -111,8 +111,7 @@ public final class AuthenticationModelW extends AuthenticationModel  {
 	@Override
 	public String getEncoded() {
 		String secret = "ef1V8PNj";
-		String encrypted = MD5Checksum
-				.compute(getLoginToken() + "T" + "1581341456" + secret);
+		String encrypted = MD5Checksum.compute(getLoginToken() + "T" + "1581341456" + secret);
 		return DomGlobal.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
 	}
 

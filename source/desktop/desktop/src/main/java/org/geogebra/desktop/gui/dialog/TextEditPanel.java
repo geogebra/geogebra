@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -32,18 +32,19 @@ import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 /**
  * panel for text editingA
  */
-public class TextEditPanel extends JPanel implements
-		UpdateablePropertiesPanel, SetLabels, UpdateFonts {
+public class TextEditPanel extends JPanel
+		implements UpdateablePropertiesPanel, SetLabels, UpdateFonts {
 	/**
-	 * 
+	 *
 	 */
 	private final PropertiesPanelD propertiesPanelD;
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	/** text dialog */
 	TextInputDialogD td = null;
+
 	private JPanel editPanel;
 
 	/**
@@ -59,9 +60,15 @@ public class TextEditPanel extends JPanel implements
 		if (td != null) {
 			return;
 		}
-		td = new TextInputDialogD(this.propertiesPanelD.app,
-				this.propertiesPanelD.loc.getMenu("Text"), null, null,
-				true, 30, 5, false);
+		td = new TextInputDialogD(
+				this.propertiesPanelD.app,
+				this.propertiesPanelD.loc.getMenu("Text"),
+				null,
+				null,
+				true,
+				30,
+				5,
+				false);
 		setLayout(new BorderLayout());
 
 		editPanel = new JPanel(new BorderLayout(0, 0));
@@ -69,8 +76,7 @@ public class TextEditPanel extends JPanel implements
 		editPanel.add(td.getToolBar(), BorderLayout.SOUTH);
 		editPanel.setBorder(BorderFactory.createEtchedBorder());
 
-		JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editPanel,
-				td.getPreviewPanel());
+		JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editPanel, td.getPreviewPanel());
 		sp.setResizeWeight(0.5);
 		sp.setBorder(BorderFactory.createEmptyBorder());
 
@@ -105,7 +111,8 @@ public class TextEditPanel extends JPanel implements
 	}
 
 	private static boolean checkGeos(Object[] geos) {
-		return geos.length == 1 && geos[0] instanceof GeoText
+		return geos.length == 1
+				&& geos[0] instanceof GeoText
 				&& !((GeoText) geos[0]).isTextCommand()
 				&& !((GeoText) geos[0]).isProtected(EventType.UPDATE);
 	}

@@ -33,7 +33,7 @@ public final class Voice implements JFugueElement {
 
 	/**
 	 * Creates a new Voice object, with the specified voice value.
-	 * 
+	 *
 	 * @param voice
 	 *            the voice for this object
 	 */
@@ -43,7 +43,7 @@ public final class Voice implements JFugueElement {
 
 	/**
 	 * Sets the value of the voice for this object.
-	 * 
+	 *
 	 * @param voice
 	 *            the voice for this object
 	 */
@@ -53,7 +53,7 @@ public final class Voice implements JFugueElement {
 
 	/**
 	 * Returns the voice used in this object
-	 * 
+	 *
 	 * @return the voice used in this object
 	 */
 	public byte getVoice() {
@@ -64,7 +64,7 @@ public final class Voice implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a Voice object, the Music String is <code>V</code>
 	 * <i>voice</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -77,7 +77,7 @@ public final class Voice implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: Voice: voice={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -87,5 +87,4 @@ public final class Voice implements JFugueElement {
 		buffy.append(getVoice());
 		return buffy.toString();
 	}
-
 }

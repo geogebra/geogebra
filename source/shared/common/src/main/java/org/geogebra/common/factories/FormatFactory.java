@@ -49,8 +49,8 @@ public abstract class FormatFactory {
 	 * @param sciNote whether to use scientific notation
 	 * @return number format for specific number of significant digits
 	 */
-	public abstract ScientificFormatAdapter getScientificFormat(int sigDigit,
-			int maxWidth, boolean sciNote);
+	public abstract ScientificFormatAdapter getScientificFormat(
+			int sigDigit, int maxWidth, boolean sciNote);
 
 	/**
 	 * @param digits number of decimal digits
@@ -64,8 +64,7 @@ public abstract class FormatFactory {
 	 * @param digits number of decimal digits
 	 * @return number format with fixed number of decimal digits
 	 */
-	public abstract NumberFormatAdapter getNumberFormat(String pattern,
-			int digits);
+	public abstract NumberFormatAdapter getNumberFormat(String pattern, int digits);
 
 	public TimeFormatAdapter getTimeFormat() {
 		return new DefaultTimeFormat();
@@ -73,7 +72,7 @@ public abstract class FormatFactory {
 
 	/**
 	 * Gets a scientific format that is optimized for speed, not pretty output.
-	 * 
+	 *
 	 * @param digits
 	 *            precision
 	 * @return scientific format with E notation and given precision
@@ -81,5 +80,4 @@ public abstract class FormatFactory {
 	public ScientificFormatAdapter getFastScientificFormat(int digits) {
 		return getScientificFormat(digits, digits + 2, true);
 	}
-
 }

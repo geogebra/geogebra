@@ -35,5 +35,4 @@ public class CommandCFrac extends Command2A {
 		a = new FractionAtom(a, b, true, align, TeXConstants.Align.CENTER);
 		return new RowAtom(new StyleAtom(TeXConstants.STYLE_DISPLAY, a));
 	}
-
 }

@@ -36,5 +36,4 @@ public final class TabContainer implements ShowableTab {
 	public void close() {
 		toolbarPanel.close(false);
 	}
-
 }

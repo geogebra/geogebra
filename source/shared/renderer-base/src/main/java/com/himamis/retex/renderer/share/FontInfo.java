@@ -92,8 +92,7 @@ public class FontInfo {
 	// initMetrics returns
 	private char current;
 
-	public FontInfo(int size, String path, int xHeight, int space,
-			int quad, int skewChar) {
+	public FontInfo(int size, String path, int xHeight, int space, int quad, int skewChar) {
 		this.path = path;
 		this.xHeight = xHeight / 1000.;
 		this.space = space / 1000.;
@@ -103,8 +102,8 @@ public class FontInfo {
 		this.metrics = new double[this.size][];
 	}
 
-	public void setDependencies(FontInfo bold, FontInfo roman, FontInfo ss,
-			FontInfo tt, FontInfo it) {
+	public void setDependencies(
+			FontInfo bold, FontInfo roman, FontInfo ss, FontInfo tt, FontInfo it) {
 		this.bold = bold == null ? this : bold;
 		this.roman = roman == null ? this : roman;
 		this.ss = ss == null ? this : ss;
@@ -139,8 +138,7 @@ public class FontInfo {
 	 * @param ligChar
 	 *            ligature to replace left and right character
 	 */
-	public void addLigature(final char left, final char right,
-			final char ligChar) {
+	public void addLigature(final char left, final char right, final char ligChar) {
 		if (lig == null) {
 			lig = new CharFont[size][];
 		}
@@ -158,8 +156,7 @@ public class FontInfo {
 		return extensions[c];
 	}
 
-	public double getKern(final char left, final char right,
-			final double factor) {
+	public double getKern(final char left, final char right, final double factor) {
 		init();
 		if (kern == null || kern[left] == null) {
 			return 0.;
@@ -232,14 +229,14 @@ public class FontInfo {
 		current = (char) c;
 
 		if (metrics.length == 2) {
-			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
-					0, 0});
+			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000., 0, 0});
 		} else if (metrics.length == 3) {
-			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
-					metrics[2] / 1000., 0});
+			setMetrics(
+					current, new double[] {metrics[0] / 1000., metrics[1] / 1000., metrics[2] / 1000., 0});
 		} else {
-			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
-					metrics[2] / 1000., metrics[3] / 1000.});
+			setMetrics(current, new double[] {
+				metrics[0] / 1000., metrics[1] / 1000., metrics[2] / 1000., metrics[3] / 1000.
+			});
 		}
 	}
 
@@ -267,8 +264,7 @@ public class FontInfo {
 		metrics[c] = arr;
 	}
 
-	public void setNextLarger(final char c, final char larger,
-			final FontInfo fontLarger) {
+	public void setNextLarger(final char c, final char larger, final FontInfo fontLarger) {
 		if (nextLarger == null) {
 			nextLarger = new CharFont[size];
 		}
@@ -282,8 +278,7 @@ public class FontInfo {
 		}
 	}
 
-	protected void initMetrics() {
-	}
+	protected void initMetrics() {}
 
 	public double getQuad(final double factor) {
 		return quad * factor;

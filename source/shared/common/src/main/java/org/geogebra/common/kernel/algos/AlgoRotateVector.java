@@ -36,7 +36,7 @@ public class AlgoRotateVector extends AlgoElement {
 
 	/**
 	 * Creates new algo for vector rotation
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -46,8 +46,7 @@ public class AlgoRotateVector extends AlgoElement {
 	 * @param angle
 	 *            angle
 	 */
-	AlgoRotateVector(Construction cons, String label, GeoVector A,
-			GeoNumeric angle) {
+	AlgoRotateVector(Construction cons, String label, GeoVector A, GeoNumeric angle) {
 		super(cons);
 		this.A = A;
 		this.angle = angle;
@@ -83,7 +82,7 @@ public class AlgoRotateVector extends AlgoElement {
 
 	/**
 	 * Returns the input vector
-	 * 
+	 *
 	 * @return input vector
 	 */
 	GeoVector getVector() {
@@ -92,7 +91,7 @@ public class AlgoRotateVector extends AlgoElement {
 
 	/**
 	 * Returns the rotation angle
-	 * 
+	 *
 	 * @return rotation angle
 	 */
 	GeoNumeric getAngle() {
@@ -101,7 +100,7 @@ public class AlgoRotateVector extends AlgoElement {
 
 	/**
 	 * Returns the resulting vector
-	 * 
+	 *
 	 * @return resulting vector
 	 */
 	GeoVector getRotatedVector() {
@@ -116,11 +115,11 @@ public class AlgoRotateVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("ARotatedByAngleB",
-				"%0 rotated by angle %1", A.getLabel(tpl), angle.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"ARotatedByAngleB", "%0 rotated by angle %1", A.getLabel(tpl), angle.getLabel(tpl));
 	}
-
 }

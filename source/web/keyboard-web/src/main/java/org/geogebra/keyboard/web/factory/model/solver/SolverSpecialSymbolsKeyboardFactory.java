@@ -79,10 +79,8 @@ public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory
 		addInputButton(row, buttonFactory, SUBSET_OF);
 		addInputButton(row, buttonFactory, SUBSET_OF_OR_EQUAL_TO);
 		addInputButton(row, buttonFactory, ANGLE);
-		addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR,
-				LEFT_FLOOR + "", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.CEIL,
-				LEFT_CEILING + "", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR, LEFT_FLOOR + "", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.CEIL, LEFT_CEILING + "", 1.0f);
 
 		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
@@ -91,10 +89,9 @@ public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory
 		addInputButton(row, buttonFactory, AMPERSAND);
 		addInputButton(row, buttonFactory, AT);
 		addInputButton(row, buttonFactory, HASHTAG);
-		addTranslateInputCommandButton(row, buttonFactory, "Translate.currency",
-				"Translate.currency", 1.0f);
-		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-				Action.BACKSPACE_DELETE);
+		addTranslateInputCommandButton(
+				row, buttonFactory, "Translate.currency", "Translate.currency", 1.0f);
+		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);
 
 		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, COMMA);
@@ -102,12 +99,9 @@ public class SolverSpecialSymbolsKeyboardFactory implements KeyboardModelFactory
 		addInputButton(row, buttonFactory, QUOTATION_MARK);
 		addInputButton(row, buttonFactory, MINUTES);
 		addInputButton(row, buttonFactory, SECONDS);
-		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW,
-				Action.LEFT_CURSOR);
-		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW,
-				Action.RIGHT_CURSOR);
-		addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER,
-				Action.RETURN_ENTER);
+		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
 		return mathKeyboard;
 	}

@@ -33,10 +33,10 @@ public class CASCellProcessor {
 	public CASCellProcessor(Localization loc) {
 		this.localization = loc;
 	}
-	
+
 	/**
 	 * Fixes common input errors and returns the corrected input String.
-	 * 
+	 *
 	 * @param input
 	 *            CAS input
 	 * @return fixed input
@@ -69,8 +69,7 @@ public class CASCellProcessor {
 	 *            whether static reference (#) was used
 	 * @return fixed input
 	 */
-	public String fixInput(GeoCasCell cellValue, String selRowInput,
-			boolean staticReferenceFound) {
+	public String fixInput(GeoCasCell cellValue, String selRowInput, boolean staticReferenceFound) {
 		String evalText = null;
 		String fixedInput = fixInputErrors(selRowInput);
 		if (!fixedInput.equals(selRowInput)) {
@@ -78,9 +77,9 @@ public class CASCellProcessor {
 			evalText = fixedInput;
 		}
 		// fix GGB-1593
-		if (cellValue.getTwinGeo() != null && !staticReferenceFound
-				&& !cellValue.getLocalizedInput()
-						.equals(fixedInput)) {
+		if (cellValue.getTwinGeo() != null
+				&& !staticReferenceFound
+				&& !cellValue.getLocalizedInput().equals(fixedInput)) {
 			cellValue.setInput(fixedInput);
 		}
 		return evalText;

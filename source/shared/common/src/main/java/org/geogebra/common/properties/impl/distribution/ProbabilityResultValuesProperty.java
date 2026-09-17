@@ -43,16 +43,18 @@ public final class ProbabilityResultValuesProperty
 	 * @param algebraProcessor parser used for numeric user input
 	 * @param view backing probability calculator view
 	 */
-	public ProbabilityResultValuesProperty(@NonNull Localization localization,
-			@NonNull AlgebraProcessor algebraProcessor, @NonNull ProbabilityCalculatorView view) {
+	public ProbabilityResultValuesProperty(
+			@NonNull Localization localization,
+			@NonNull AlgebraProcessor algebraProcessor,
+			@NonNull ProbabilityCalculatorView view) {
 		super(localization, "ProbabilityResult");
 		this.view = view;
 		this.util = new NumericPropertyUtil(algebraProcessor);
 		this.lowerBoundProperty = new LowerBoundProperty(localization);
 		this.upperBoundProperty = new UpperBoundProperty(localization);
 		this.probabilityResultProperty = new ProbabilityResultProperty(localization);
-		setProperties(new StringProperty[] {lowerBoundProperty, upperBoundProperty,
-				probabilityResultProperty});
+		setProperties(
+				new StringProperty[] {lowerBoundProperty, upperBoundProperty, probabilityResultProperty});
 	}
 
 	/**
@@ -153,8 +155,7 @@ public final class ProbabilityResultValuesProperty
 		@Override
 		protected void doSetValue(String value) {
 			GeoNumberValue numberValue = util.parseInputString(value);
-			if (numberValue == null
-					|| !view.isValidInterval(numberValue.getDouble(), view.getHigh())) {
+			if (numberValue == null || !view.isValidInterval(numberValue.getDouble(), view.getHigh())) {
 				return;
 			}
 			view.setLow(numberValue);
@@ -180,7 +181,8 @@ public final class ProbabilityResultValuesProperty
 		@Override
 		public String getAriaLabel() {
 			return view.getProbMode() == ProbabilityCalculatorView.PROB_TWO_TAILED
-					? "Left.Upper.Bound" : "Lower.Bound";
+					? "Left.Upper.Bound"
+					: "Lower.Bound";
 		}
 	}
 
@@ -198,8 +200,7 @@ public final class ProbabilityResultValuesProperty
 		@Override
 		protected void doSetValue(String value) {
 			GeoNumberValue numberValue = util.parseInputString(value);
-			if (numberValue == null
-					|| !view.isValidInterval(view.getLow(), numberValue.getDouble())) {
+			if (numberValue == null || !view.isValidInterval(view.getLow(), numberValue.getDouble())) {
 				return;
 			}
 			view.setHigh(numberValue);
@@ -225,7 +226,8 @@ public final class ProbabilityResultValuesProperty
 		@Override
 		public String getAriaLabel() {
 			return view.getProbMode() == ProbabilityCalculatorView.PROB_TWO_TAILED
-					? "Right.Lower.Bound" : "Upper.Bound";
+					? "Right.Lower.Bound"
+					: "Upper.Bound";
 		}
 	}
 

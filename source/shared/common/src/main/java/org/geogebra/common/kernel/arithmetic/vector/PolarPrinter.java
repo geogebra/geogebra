@@ -23,24 +23,21 @@ import org.geogebra.common.main.Localization;
 
 class PolarPrinter implements Printer {
 
-    @Override
-    public String print(String xCoord, String yCoord, String zCoord,
-            PrintableVector vector, StringTemplate tpl, Localization loc) {
-        if (tpl.getStringType().isGiac()) {
-            return "point(("
-                    + xCoord
-                    + ")*exp(i*("
-                    + yCoord
-                    + ")))";
-        }
-        return tpl.leftBracket(loc)
-                + xCoord
-                + printDelimiter()
-                + yCoord
-                + tpl.rightBracket(loc);
-    }
+	@Override
+	public String print(
+			String xCoord,
+			String yCoord,
+			String zCoord,
+			PrintableVector vector,
+			StringTemplate tpl,
+			Localization loc) {
+		if (tpl.getStringType().isGiac()) {
+			return "point((" + xCoord + ")*exp(i*(" + yCoord + ")))";
+		}
+		return tpl.leftBracket(loc) + xCoord + printDelimiter() + yCoord + tpl.rightBracket(loc);
+	}
 
-    private String printDelimiter() {
-        return "; ";
-    }
+	private String printDelimiter() {
+		return "; ";
+	}
 }

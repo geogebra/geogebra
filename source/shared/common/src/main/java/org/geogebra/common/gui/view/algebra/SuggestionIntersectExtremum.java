@@ -98,22 +98,20 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 			return null;
 		}
 
-		return function.expandToPolyFunction(
-				function.getFunctionExpression(), false, true);
+		return function.expandToPolyFunction(function.getFunctionExpression(), false, true);
 	}
 
-	private void processCommand(AlgebraProcessor algebraProcessor, String cmd,
-			boolean isSymbolicMode) {
+	private void processCommand(
+			AlgebraProcessor algebraProcessor, String cmd, boolean isSymbolicMode) {
 		if (isSymbolicMode) {
-			GeoElementND[] pointLists = algebraProcessor
-					.processAlgebraCommandNoExceptionHandling(cmd, false,
-							ErrorHelper.silent(), false, new LabelHiderCallback());
+			GeoElementND[] pointLists = algebraProcessor.processAlgebraCommandNoExceptionHandling(
+					cmd, false, ErrorHelper.silent(), false, new LabelHiderCallback());
 			if (pointLists != null) {
 				setPointsColorToGray(pointLists);
 			}
 		} else {
-			algebraProcessor.processAlgebraCommandNoExceptionHandling(cmd, false,
-					ErrorHelper.silent(), false, null);
+			algebraProcessor.processAlgebraCommandNoExceptionHandling(
+					cmd, false, ErrorHelper.silent(), false, null);
 		}
 	}
 
@@ -126,7 +124,7 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 
 	private static boolean[] getNeededAlgos(GeoElementND geo) {
 		// intersection with y needed always
-		boolean[] algosMissing = { false, false, true };
+		boolean[] algosMissing = {false, false, true};
 		if (!(geo instanceof GeoFunctionable)) {
 			return algosMissing;
 		}
@@ -135,8 +133,8 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 			return algosMissing;
 		}
 
-		PolyFunction poly = function.expandToPolyFunction(
-				function.getFunctionExpression(), false, true);
+		PolyFunction poly =
+				function.expandToPolyFunction(function.getFunctionExpression(), false, true);
 		if (poly == null || poly.getDegree() > 0) {
 			algosMissing[0] = true;
 		}
@@ -152,7 +150,8 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 	}
 
 	private static boolean isVerticalLine(GeoElementND geo) {
-		return Equation.isAlgebraEquation(geo) && geo instanceof GeoLine
+		return Equation.isAlgebraEquation(geo)
+				&& geo instanceof GeoLine
 				&& DoubleUtil.isZero(((GeoLine) geo).getY());
 	}
 
@@ -162,8 +161,7 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 	 * @return solve suggestion if applicable
 	 */
 	public static Suggestion get(GeoElement geo) {
-		if (mayHaveSpecialPoints(geo)
-				&& !checkDependentAlgo(geo, INSTANCE, getNeededAlgos(geo))) {
+		if (mayHaveSpecialPoints(geo) && !checkDependentAlgo(geo, INSTANCE, getNeededAlgos(geo))) {
 			return INSTANCE;
 		}
 		return null;
@@ -177,13 +175,14 @@ public final class SuggestionIntersectExtremum extends Suggestion {
 	 */
 	private static boolean mayHaveSpecialPoints(GeoElement geo) {
 		GeoElementND unwrappedSymbolic = geo.unwrapSymbolic();
-		return geo.isRealValuedFunction() && unwrappedSymbolic != null
+		return geo.isRealValuedFunction()
+				&& unwrappedSymbolic != null
 				&& !unwrappedSymbolic.isNumberValue();
 	}
 
 	@Override
-	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
-			boolean[] algosMissing) {
+	protected boolean allAlgosExist(
+			GetCommand className, GeoElement[] input, boolean[] algosMissing) {
 		boolean withYAxis = containsLabel(input, "yAxis");
 		if (className == Commands.Intersect && !withYAxis) {
 			algosMissing[0] = false;

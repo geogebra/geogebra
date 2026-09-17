@@ -32,8 +32,7 @@ public interface GAffineTransform {
 	/**
 	 * Set transform from matrix entries.
 	 */
-	void setTransform(double m00, double m10, double m01, double m11,
-			double m02, double m12);
+	void setTransform(double m00, double m10, double m01, double m11, double m02, double m12);
 
 	/**
 	 * Concatenates an <code>AffineTransform</code> <code>Tx</code> to
@@ -129,8 +128,12 @@ public interface GAffineTransform {
 	 * @param destOffset offset in destination array
 	 * @param nPoints number of points to transform
 	 */
-	void transform(double[] srcCoordinates, int srcOffset, double[] destCoordinates,
-			int destOffset, int nPoints);
+	void transform(
+			double[] srcCoordinates,
+			int srcOffset,
+			double[] destCoordinates,
+			int destOffset,
+			int nPoints);
 
 	/**
 	 * @return inverse transform

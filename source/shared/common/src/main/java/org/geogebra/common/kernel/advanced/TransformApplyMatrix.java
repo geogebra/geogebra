@@ -25,9 +25,9 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Generic affine transform
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public class TransformApplyMatrix extends Transform {
 
@@ -60,5 +60,4 @@ public class TransformApplyMatrix extends Transform {
 		cons.removeFromConstructionList(at);
 		return at.swapOrientation(null);
 	}
-
 }

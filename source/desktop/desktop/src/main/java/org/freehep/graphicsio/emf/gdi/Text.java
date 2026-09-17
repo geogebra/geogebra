@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF Text
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: Text.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -27,8 +27,7 @@ public class Text implements EMFConstants {
 
 	private Rectangle bounds;
 
-	public Text(Point pos, String string, int options, Rectangle bounds,
-			int[] widths) {
+	public Text(Point pos, String string, int options, Rectangle bounds, int[] widths) {
 		this.pos = pos;
 		this.string = string;
 		this.options = options;
@@ -67,8 +66,8 @@ public class Text implements EMFConstants {
 			pad = 4 - pad;
 		}
 		emf.writeDWORD(8 + 28 + 40 + string.length() + pad); // offset to
-																// character
-																// spacing array
+		// character
+		// spacing array
 		emf.writeBYTE(string.getBytes());
 		for (int i = 0; i < pad; i++) {
 			emf.writeBYTE(0);

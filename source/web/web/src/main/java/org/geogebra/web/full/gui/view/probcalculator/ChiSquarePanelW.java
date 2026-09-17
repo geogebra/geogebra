@@ -42,15 +42,14 @@ import org.gwtproject.user.client.ui.TextBox;
 /**
  * ChiSquarePanel for Web
  */
-public final class ChiSquarePanelW extends ChiSquarePanel
-		implements ChangeHandler {
+public final class ChiSquarePanelW extends ChiSquarePanel implements ChangeHandler {
 	private FlowPanel wrappedPanel;
 	private ComponentCheckbox ckExpected;
 	private ComponentCheckbox ckChiDiff;
 	private ComponentCheckbox ckRowPercent;
 	private ComponentCheckbox ckColPercent;
-	private final List<String> numbers = List.of("2", "3", "4", "5", "6", "7", "8", "9", "10",
-			"11", "12");
+	private final List<String> numbers =
+			List.of("2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12");
 	private ComponentDropDown cbRows;
 	private ComponentDropDown cbColumns;
 	private FlowPanel pnlCount;
@@ -93,7 +92,6 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 		pnlControl.add(ckColPercent);
 		pnlControl.add(ckExpected);
 		pnlControl.add(ckChiDiff);
-
 	}
 
 	private void createCountPanel() {
@@ -177,10 +175,12 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 	 * Reset chi-squared data
 	 */
 	public void updateCollection() {
-		getSc().setChiSqData(Integer.parseInt(cbRows.getSelectedText()),
-				getSc().getSelectedProcedure() == Procedure.GOF_TEST ? 2
-						: Integer.parseInt(cbColumns.getSelectedText()));
-
+		getSc()
+				.setChiSqData(
+						Integer.parseInt(cbRows.getSelectedText()),
+						getSc().getSelectedProcedure() == Procedure.GOF_TEST
+								? 2
+								: Integer.parseInt(cbColumns.getSelectedText()));
 	}
 
 	/**
@@ -213,7 +213,6 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 			cell[0][1].setLabelText(0, getMenu("ObservedCount"));
 			cell[0][2].setLabelText(0, getMenu("ExpectedCount"));
 		}
-
 	}
 
 	private void createGUIElements() {
@@ -227,8 +226,8 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 			updateCollection();
 			updateGUI();
 		});
-		cbColumns = new ComponentDropDown((AppW) statCalc.getApp(), "Columns", numbers,
-				getSc().columns);
+		cbColumns =
+				new ComponentDropDown((AppW) statCalc.getApp(), "Columns", numbers, getSc().columns);
 		cbColumns.addChangeHandler(() -> {
 			updateCollection();
 			updateGUI();
@@ -257,8 +256,7 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 	 * Cell (input+output) of the table
 	 *
 	 */
-	public final class ChiSquareCellW extends ChiSquareCell
-			implements FocusHandler, KeyUpHandler {
+	public final class ChiSquareCellW extends ChiSquareCell implements FocusHandler, KeyUpHandler {
 
 		private FlowPanel wrappedCellPanel;
 		private AutoCompleteTextFieldW fldInput;
@@ -268,7 +266,7 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 
 		/**
 		 * Construct ChiSquareCell with given row, column
-		 * 
+		 *
 		 * @param sc
 		 *            data
 		 * @param row
@@ -288,7 +286,7 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 
 		/**
 		 * Construct ChiSquareCell
-		 * 
+		 *
 		 * @param sc
 		 *            data
 		 */
@@ -418,5 +416,4 @@ public final class ChiSquarePanelW extends ChiSquarePanel
 	public FlowPanel getWrappedPanel() {
 		return wrappedPanel;
 	}
-
 }

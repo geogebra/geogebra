@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoAnglePoints extends AlgoAnglePointsND {
@@ -45,8 +45,7 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 	 * @param C
 	 *            leg
 	 */
-	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
-			GeoPointND C) {
+	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B, GeoPointND C) {
 		this(cons, A, B, C, null);
 	}
 
@@ -62,8 +61,8 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 	 * @param orientation
 	 *            direction for 3D case
 	 */
-	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
-			GeoPointND C, GeoDirectionND orientation) {
+	public AlgoAnglePoints(
+			Construction cons, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		super(cons);
 		setInput(A, B, C, orientation);
 		setInputOutput(); // for AlgoElement
@@ -74,7 +73,7 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 
 	/**
 	 * used as a helper algo (for AlgoAnglePolygon)
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 */
@@ -157,5 +156,4 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-
 }

@@ -50,18 +50,14 @@ public class DefinitionProperty extends AbstractValuedProperty<String> implement
 
 	@Override
 	protected void doSetValue(String value) {
-		RedefineInputHandler redefineInputHandler =
-				new RedefineInputHandler(element.getKernel().getApplication(), element,
-						element.getRedefineString(false, true));
-		redefineInputHandler.processInput(value, handler,
-				ok -> {
-					if (ok && element != redefineInputHandler.getGeoElement()) {
-						element.getApp().getSelectionManager()
-								.clearSelectedGeos(false, false);
-						element.getApp().getSelectionManager()
-								.addSelectedGeo(redefineInputHandler.getGeoElement());
-					}
-				});
+		RedefineInputHandler redefineInputHandler = new RedefineInputHandler(
+				element.getKernel().getApplication(), element, element.getRedefineString(false, true));
+		redefineInputHandler.processInput(value, handler, ok -> {
+			if (ok && element != redefineInputHandler.getGeoElement()) {
+				element.getApp().getSelectionManager().clearSelectedGeos(false, false);
+				element.getApp().getSelectionManager().addSelectedGeo(redefineInputHandler.getGeoElement());
+			}
+		});
 	}
 
 	@Override

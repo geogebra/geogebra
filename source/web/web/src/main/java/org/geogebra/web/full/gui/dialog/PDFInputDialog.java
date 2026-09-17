@@ -54,8 +54,7 @@ import jsinterop.base.Js;
 /**
  * dialog to insert pdf page as image
  */
-public final class PDFInputDialog extends ComponentDialog
-		implements FastClickHandler, PDFListener {
+public final class PDFInputDialog extends ComponentDialog implements FastClickHandler, PDFListener {
 	private FlowPanel pdfContainerPanel;
 	private FlowPanel imgTextPanel;
 	private FlowPanel pdfPageTextPanel;
@@ -68,18 +67,20 @@ public final class PDFInputDialog extends ComponentDialog
 	 * pdf.js wrapper
 	 */
 	PDFWrapper pdf;
+
 	private ComponentProgressBar progressBar;
 
 	/** indicates if current page number text field is in focus */
 	private String previewSrc;
+
 	private boolean isFocus = false;
 
 	private FileUpload getPDFChooser() {
 		FileUpload pdfChooser = new FileUpload();
 		pdfChooser.addChangeHandler(event -> {
-				HTMLInputElement el = Js.uncheckedCast(pdfChooser.getElement());
-				loadPdf(el.files.item(0));
-			});
+			HTMLInputElement el = Js.uncheckedCast(pdfChooser.getElement());
+			loadPdf(el.files.item(0));
+		});
 		pdfChooser.getElement().setAttribute("accept", ".pdf");
 		return pdfChooser;
 	}
@@ -119,8 +120,8 @@ public final class PDFInputDialog extends ComponentDialog
 	private void createFolderImg() {
 		imgTextPanel = new FlowPanel();
 		imgTextPanel.addStyleName("imgTextElement");
-		NoDragImage folderImg = new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
+		NoDragImage folderImg =
+				new NoDragImage(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
 		folderImg.addStyleName("folderImg");
 		imgTextPanel.add(folderImg);
 	}
@@ -150,13 +151,11 @@ public final class PDFInputDialog extends ComponentDialog
 		pdfPreviewPanel.addStyleName("pdfPreview");
 		previewImg = new NoDragImage("");
 		previewImg.addStyleName("previewImage");
-		leftBtn = createImgButton(pdfPreviewPanel,
-				KeyboardResources.INSTANCE.keyboard_arrowLeft_black(),
-				"leftBtn");
+		leftBtn = createImgButton(
+				pdfPreviewPanel, KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), "leftBtn");
 		pdfPreviewPanel.add(previewImg);
-		rightBtn = createImgButton(pdfPreviewPanel,
-				KeyboardResources.INSTANCE.keyboard_arrowRight_black(),
-				"rightBtn");
+		rightBtn = createImgButton(
+				pdfPreviewPanel, KeyboardResources.INSTANCE.keyboard_arrowRight_black(), "rightBtn");
 		// text info about pages at bottom
 		pdfPageTextPanel = new FlowPanel();
 		pdfPageTextPanel.addStyleName("pdfPageText");
@@ -166,8 +165,7 @@ public final class PDFInputDialog extends ComponentDialog
 		Label pageLbl = new Label(app.getLocalization().getMenu("page"));
 		pdfPageTextPanel.add(pageLbl);
 		pdfPageTextPanel.add(curPageNrField);
-		Label ofPageLbl = new Label(app.getLocalization().getMenu("of") + " "
-				+ pdf.getNumberOfPages());
+		Label ofPageLbl = new Label(app.getLocalization().getMenu("of") + " " + pdf.getNumberOfPages());
 		pdfPageTextPanel.add(ofPageLbl);
 		pdfContainerPanel.add(pdfPreviewPanel);
 		pdfContainerPanel.add(pdfPageTextPanel);
@@ -217,8 +215,7 @@ public final class PDFInputDialog extends ComponentDialog
 	 * Add mouse over/ out handlers
 	 */
 	private void addHoverHandlers() {
-		curPageNrField.getTextBox().addMouseOverHandler(event
-				-> setPageTextFieldStyleName("hover"));
+		curPageNrField.getTextBox().addMouseOverHandler(event -> setPageTextFieldStyleName("hover"));
 		curPageNrField.getTextBox().addMouseOutHandler(event -> {
 			if (!isFocus()) {
 				setPageTextFieldStyleName("default");
@@ -259,8 +256,7 @@ public final class PDFInputDialog extends ComponentDialog
 		}
 	}
 
-	private StandardButton createImgButton(FlowPanel root,
-			SVGResource imgSource, String styleName) {
+	private StandardButton createImgButton(FlowPanel root, SVGResource imgSource, String styleName) {
 		StandardButton btn = new StandardButton(imgSource, null, 24, 24);
 		btn.addStyleName(styleName);
 		btn.addFastClickHandler(this);
@@ -274,11 +270,13 @@ public final class PDFInputDialog extends ComponentDialog
 			((AppW) app).imageDropHappened("pdf.png", data);
 		});
 		pdfContainerPanel.sinkEvents(Event.ONCLICK);
-		pdfContainerPanel.addHandler(event -> {
-			if (!hasPdf()) {
-				choosePdfFile();
-			}
-		}, ClickEvent.getType());
+		pdfContainerPanel.addHandler(
+				event -> {
+					if (!hasPdf()) {
+						choosePdfFile();
+					}
+				},
+				ClickEvent.getType());
 	}
 
 	@Override
@@ -295,8 +293,7 @@ public final class PDFInputDialog extends ComponentDialog
 	@Override
 	public void hide() {
 		super.hide();
-		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
-				ModeSetter.TOOLBAR);
+		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.TOOLBAR);
 	}
 
 	/**

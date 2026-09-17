@@ -80,10 +80,8 @@ public class FullScreenState {
 	 * @param value
 	 *            value of property
 	 */
-	public void setContainerProp(Element container, String propName,
-			String value) {
-		containerProps.put(propName,
-				container.getStyle().getProperty(propName));
+	public void setContainerProp(Element container, String propName, String value) {
+		containerProps.put(propName, container.getStyle().getProperty(propName));
 		container.getStyle().setProperty(propName, value);
 	}
 
@@ -95,8 +93,7 @@ public class FullScreenState {
 	}
 
 	protected void store(Element container, AppW app, double scale) {
-		String containerPositionBefore = container.getStyle()
-				.getPosition();
+		String containerPositionBefore = container.getStyle().getPosition();
 		if (StringUtil.empty(containerPositionBefore)) {
 			containerPositionBefore = "static";
 		}
@@ -129,7 +126,7 @@ public class FullScreenState {
 	}
 
 	private void overrideParentTransform() {
-		transformOverride = StyleInjector.injectStyleSheet(
-				"*:not(.ggbTransform){transform: none !important;}");
+		transformOverride =
+				StyleInjector.injectStyleSheet("*:not(.ggbTransform){transform: none !important;}");
 	}
 }

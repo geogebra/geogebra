@@ -73,8 +73,8 @@ public class StartingPointPositionProperty extends AbstractValuedProperty<String
 
 	@Override
 	public @Nullable String validateValue(String value) {
-		return PositionPropertyCollection.validatePointExpression(geoElement.getKernel()
-						.getParser(), geoElement.getKernel().getLocalization(), value);
+		return PositionPropertyCollection.validatePointExpression(
+				geoElement.getKernel().getParser(), geoElement.getKernel().getLocalization(), value);
 	}
 
 	@Override

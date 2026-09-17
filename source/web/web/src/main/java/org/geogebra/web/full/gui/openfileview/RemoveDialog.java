@@ -46,8 +46,7 @@ public final class RemoveDialog extends ComponentDialog {
 
 	private void buildContent() {
 		Label confirmDelete = BaseWidgetFactory.INSTANCE.newSecondaryText(
-				app.getLocalization().getPlain("ConfirmDeleteA",
-						card.getCardTitle()), "message");
+				app.getLocalization().getPlain("ConfirmDeleteA", card.getCardTitle()), "message");
 		addDialogContent(confirmDelete);
 	}
 }

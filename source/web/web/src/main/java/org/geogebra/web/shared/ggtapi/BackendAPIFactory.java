@@ -78,14 +78,16 @@ public final class BackendAPIFactory {
 	 */
 	public MaterialRestAPI newMaterialRestAPI() {
 		String backendURL = articleElement.getParamBackendURL().isEmpty()
-				? MaterialRestAPI.marvlUrl : articleElement.getParamBackendURL();
+				? MaterialRestAPI.marvlUrl
+				: articleElement.getParamBackendURL();
 		Service service = new MarvlService();
 
 		return new MaterialRestAPI(backendURL, service);
 	}
 
 	private GeoGebraTubeAPIW newTubeAPI() {
-		return new GeoGebraTubeAPIW(app.getClientInfo(),
+		return new GeoGebraTubeAPIW(
+				app.getClientInfo(),
 				PreviewFeature.isAvailable(PreviewFeature.RESOURCES_API_BETA),
 				articleElement);
 	}

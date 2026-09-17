@@ -19,7 +19,7 @@ package org.geogebra.common.kernel;
 /**
  * sorted list of point pairs (sorted by distance) used in AlgoIntersectConics
  * and AlgoIntersecLineConic
- * 
+ *
  * @author HOHENWARTER
  */
 public class PointPairList {
@@ -30,7 +30,7 @@ public class PointPairList {
 	/**
 	 * @return whether this list is empty
 	 */
-	final public boolean isEmpty() {
+	public final boolean isEmpty() {
 		return head == null;
 	}
 
@@ -46,7 +46,7 @@ public class PointPairList {
 	/**
 	 * Inserts pair (indexD, indexQ) in ascending order of distance where alive
 	 * points come before others and points Q on path come before others.
-	 * 
+	 *
 	 * @param indexD
 	 *            index of point in D
 	 * @param isPAlive
@@ -58,10 +58,9 @@ public class PointPairList {
 	 * @param distance
 	 *            distance between point in D and point in Q
 	 */
-	public final void insertPointPair(int indexD, boolean isPAlive, int indexQ,
-			boolean isQonPath, double distance) {
-		PointPair newPair = new PointPair(indexD, isPAlive, indexQ, isQonPath,
-				distance);
+	public final void insertPointPair(
+			int indexD, boolean isPAlive, int indexQ, boolean isQonPath, double distance) {
+		PointPair newPair = new PointPair(indexD, isPAlive, indexQ, isQonPath, distance);
 
 		// insert as head
 		if (head == null || smallerThan(newPair, head)) {
@@ -137,7 +136,7 @@ public class PointPairList {
 	/**
 	 * Removes all PointPairs where indexP == pair.indexP or indexQ ==
 	 * pair.indexQ
-	 * 
+	 *
 	 * @param pair
 	 *            pair such that pairs with one same point must be removed
 	 */
@@ -154,8 +153,7 @@ public class PointPairList {
 
 		PointPair prevPair = head, currentPair = head.next;
 		while (currentPair != null) {
-			if (currentPair.indexP == pair.indexP
-					|| currentPair.indexQ == pair.indexQ) {
+			if (currentPair.indexP == pair.indexP || currentPair.indexQ == pair.indexQ) {
 				// remove currentPair
 				prevPair.next = currentPair.next;
 				currentPair = currentPair.next;
@@ -193,7 +191,7 @@ public class PointPairList {
 
 	/**
 	 * already assumed that the list is sorted.
-	 * 
+	 *
 	 * @param indexQ
 	 *            index of Q-point
 	 * @return index of closest P-point
@@ -212,7 +210,7 @@ public class PointPairList {
 
 	/**
 	 * already assumed that the list is sorted.
-	 * 
+	 *
 	 * @param indexP
 	 *            index of P-point
 	 * @return index of closest Q-point

@@ -34,10 +34,8 @@ class IntervalPathTopologyTest {
 
 	@Test
 	void emptyYIntervalDoesNotDrawAndBreaksJoin() {
-		IntervalPath path = pathWith(
-				tuple(0, 1, 1, 2),
-				new IntervalTuple(connected(1, 2), empty()),
-				tuple(2, 3, 1, 2));
+		IntervalPath path =
+				pathWith(tuple(0, 1, 1, 2), new IntervalTuple(connected(1, 2), empty()), tuple(2, 3, 1, 2));
 
 		path.update();
 
@@ -56,12 +54,10 @@ class IntervalPathTopologyTest {
 		assertAll(
 				() -> assertEquals(3, gp.getLog().size()),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 1,
-								1),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 1, 1),
 						gp.getLog().get(1)),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 1,
-								2),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 1, 2),
 						gp.getLog().get(2)));
 	}
 
@@ -74,19 +70,16 @@ class IntervalPathTopologyTest {
 		assertAll(
 				() -> assertEquals(3, gp.getLog().size()),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 0,
-								0),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 0, 0),
 						gp.getLog().get(1)),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 0,
-								3),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 0, 3),
 						gp.getLog().get(2)));
 	}
 
 	@Test
 	void invertedYIntervalUsesInvertedBranch() {
-		IntervalPath path = pathWith(new IntervalTuple(connected(0, 1), inverted(1, 2
-		)));
+		IntervalPath path = pathWith(new IntervalTuple(connected(0, 1), inverted(1, 2)));
 
 		path.update();
 
@@ -95,20 +88,16 @@ class IntervalPathTopologyTest {
 				() -> assertEquals(2, count(IntervalPathMockEntry.PathOperation.MOVE_TO)),
 				() -> assertEquals(2, count(IntervalPathMockEntry.PathOperation.LINE_TO)),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 1,
-								3),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 1, 3),
 						gp.getLog().get(1)),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 1,
-								2),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 1, 2),
 						gp.getLog().get(2)),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 0,
-								0),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, 0, 0),
 						gp.getLog().get(3)),
 				() -> assertEquals(
-						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 1,
-								1),
+						new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, 1, 1),
 						gp.getLog().get(4)));
 	}
 

@@ -43,10 +43,9 @@ public class CmdSplit extends CommandProcessor {
 
 		if (n == 2) {
 			if ((ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoList())) {
-				AlgoSplit algo = new AlgoSplit(cons, (GeoText) arg[0],
-						(GeoList) arg[1]);
+				AlgoSplit algo = new AlgoSplit(cons, (GeoText) arg[0], (GeoList) arg[1]);
 				algo.getOutput(0).setLabel(c.getLabel());
-				return new GeoElement[]{algo.getOutput(0)};
+				return new GeoElement[] {algo.getOutput(0)};
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		}

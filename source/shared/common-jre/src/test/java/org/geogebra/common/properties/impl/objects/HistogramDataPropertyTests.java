@@ -50,8 +50,7 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void initializesHeightsMode() {
-		HistogramProperties collection = createCollection(
-				"Histogram({0,1,2,3},{2,3,1})");
+		HistogramProperties collection = createCollection("Histogram({0,1,2,3},{2,3,1})");
 
 		assertEquals(HistogramInputType.HEIGHTS, collection.getInputTypeProperty().getValue());
 		assertEquals("{0, 1, 2, 3}", collection.getClassBoundariesProperty().getValue());
@@ -60,8 +59,7 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void updatesAvailabilityAndEnabledState() {
-		HistogramProperties collection = createCollection(
-				"Histogram({0,1,2,3},{2,3,1})");
+		HistogramProperties collection = createCollection("Histogram({0,1,2,3},{2,3,1})");
 
 		assertTrue(collection.getHeightsProperty().isAvailable());
 		assertFalse(collection.getRawDataProperty().isAvailable());
@@ -86,17 +84,16 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void initializesRawDataModes() {
-		HistogramProperties nonCumulative = createCollection(
-				"Histogram({0,1,2,3},{1,1,2,3,3},true,4)");
-		assertEquals(HistogramInputType.RAW_DATA,
-				nonCumulative.getInputTypeProperty().getValue());
+		HistogramProperties nonCumulative = createCollection("Histogram({0,1,2,3},{1,1,2,3,3},true,4)");
+		assertEquals(
+				HistogramInputType.RAW_DATA, nonCumulative.getInputTypeProperty().getValue());
 		assertEquals("{1, 1, 2, 3, 3}", nonCumulative.getRawDataProperty().getValue());
 		assertFalse(nonCumulative.getCumulativeProperty().getValue());
 		assertTrue(nonCumulative.getUseDensityProperty().getValue());
 		assertEquals("4", nonCumulative.getDensityScaleFactorProperty().getValue());
 
-		HistogramProperties cumulative = createCollection(
-				"Histogram(true,{0,1,2,3},{1,1,2,3,3},false,2)");
+		HistogramProperties cumulative =
+				createCollection("Histogram(true,{0,1,2,3},{1,1,2,3,3},false,2)");
 		assertTrue(cumulative.getCumulativeProperty().getValue());
 		assertFalse(cumulative.getUseDensityProperty().getValue());
 		assertEquals("2", cumulative.getDensityScaleFactorProperty().getValue());
@@ -105,13 +102,10 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 	@Test
 	void rejectsUnsupportedSelectionsAndLegacyFrequencySyntax() {
 		GeoElement point = evaluateGeoElement("(1,2)");
-		assertThrows(NotApplicablePropertyException.class,
-				() -> createChartData(List.of(point)));
+		assertThrows(NotApplicablePropertyException.class, () -> createChartData(List.of(point)));
 
-		GeoElement legacy = evaluateGeoElement(
-				"Histogram(true,{0,1,2},{1,2},{2,3},false)");
-		assertThrows(NotApplicablePropertyException.class,
-				() -> createChartData(List.of(legacy)));
+		GeoElement legacy = evaluateGeoElement("Histogram(true,{0,1,2},{1,2},{2,3},false)");
+		assertThrows(NotApplicablePropertyException.class, () -> createChartData(List.of(legacy)));
 	}
 
 	@Test
@@ -120,15 +114,13 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 		GeoElement second = evaluateGeoElement("Histogram({0,1,2},{1,2})");
 		String firstLabel = first.getLabelSimple();
 		String secondLabel = second.getLabelSimple();
-		HistogramProperties collection = new HistogramProperties(assertDoesNotThrow(
-				() -> createChartData(List.of(first, second))));
+		HistogramProperties collection =
+				new HistogramProperties(assertDoesNotThrow(() -> createChartData(List.of(first, second))));
 
 		collection.getRawDataProperty().setValue("{0.5,1.5}");
 		collection.getInputTypeProperty().setValue(HistogramInputType.RAW_DATA);
-		assertEquals("Histogram({0, 1, 2}, {0.5, 1.5}, false, 1)",
-				getDefinition(firstLabel));
-		assertEquals("Histogram({0, 1, 2}, {0.5, 1.5}, false, 1)",
-				getDefinition(secondLabel));
+		assertEquals("Histogram({0, 1, 2}, {0.5, 1.5}, false, 1)", getDefinition(firstLabel));
+		assertEquals("Histogram({0, 1, 2}, {0.5, 1.5}, false, 1)", getDefinition(secondLabel));
 		assertSame(lookup(firstLabel), collection.getProperty(0, 0).getGeoElement());
 		assertSame(lookup(secondLabel), collection.getProperty(0, 1).getGeoElement());
 
@@ -139,8 +131,7 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 	@Test
 	void validatesMathInputs() {
-		HistogramProperties collection = createCollection(
-				"Histogram({0,1,2,3},{2,3,1})");
+		HistogramProperties collection = createCollection("Histogram({0,1,2,3},{2,3,1})");
 
 		assertNull(collection.getClassBoundariesProperty().validateValue("{0,2,4}"));
 		assertNull(collection.getHeightsProperty().validateValue("{1,2}"));
@@ -157,8 +148,7 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 		collection.getRawDataProperty().setValue("{1,1,2,3,3}");
 		collection.getInputTypeProperty().setValue(HistogramInputType.RAW_DATA);
-		assertEquals("Histogram({0, 1, 2, 3}, {1, 1, 2, 3, 3}, false, 1)",
-				getDefinition(label));
+		assertEquals("Histogram({0, 1, 2, 3}, {1, 1, 2, 3, 3}, false, 1)", getDefinition(label));
 		assertFalse(collection.getCumulativeProperty().getValue());
 		assertFalse(collection.getUseDensityProperty().getValue());
 		assertFalse(collection.getDensityScaleFactorProperty().isEnabled());
@@ -168,16 +158,14 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 		assertTrue(collection.getDensityScaleFactorProperty().isEnabled());
 		collection.getDensityScaleFactorProperty().setValue("5");
 		collection.getCumulativeProperty().setValue(true);
-		assertEquals("Histogram(true, {0, 2, 4, 6}, {1, 1, 2, 3, 3}, true, 5)",
-				getDefinition(label));
+		assertEquals("Histogram(true, {0, 2, 4, 6}, {1, 1, 2, 3, 3}, true, 5)", getDefinition(label));
 
 		collection.getInputTypeProperty().setValue(HistogramInputType.HEIGHTS);
 		assertEquals("Histogram({0, 2, 4, 6}, {2, 3, 1})", getDefinition(label));
 		collection.getHeightsProperty().setValue("{4,5,6}");
 
 		collection.getInputTypeProperty().setValue(HistogramInputType.RAW_DATA);
-		assertEquals("Histogram(true, {0, 2, 4, 6}, {1, 1, 2, 3, 3}, true, 5)",
-				getDefinition(label));
+		assertEquals("Histogram(true, {0, 2, 4, 6}, {1, 1, 2, 3, 3}, true, 5)", getDefinition(label));
 		collection.getInputTypeProperty().setValue(HistogramInputType.HEIGHTS);
 		assertEquals("Histogram({0, 2, 4, 6}, {4, 5, 6})", getDefinition(label));
 	}
@@ -190,8 +178,7 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 
 		collection.getRawDataProperty().setValue("{1,1,2}");
 		collection.getInputTypeProperty().setValue(HistogramInputType.RAW_DATA);
-		assertEquals("HistogramRight({0, 1, 2}, {1, 1, 2}, false, 1)",
-				getDefinition(label));
+		assertEquals("HistogramRight({0, 1, 2}, {1, 1, 2}, false, 1)", getDefinition(label));
 		assertSame(lookup(label), collection.getFirstProperty(0).getGeoElement());
 		assertSame(lookup(label), collection.getFirstProperty(3).getGeoElement());
 	}
@@ -202,14 +189,13 @@ final class HistogramDataPropertyTests extends BaseAppTestSetup {
 	}
 
 	private HistogramProperties createCollection(GeoElement histogram) {
-		return new HistogramProperties(assertDoesNotThrow(
-				() -> createChartData(List.of(histogram))));
+		return new HistogramProperties(assertDoesNotThrow(() -> createChartData(List.of(histogram))));
 	}
 
 	private ChartDataPropertyCollection createChartData(List<GeoElement> elements)
 			throws NotApplicablePropertyException {
-		return new ChartDataPropertyCollection(new GeoElementPropertiesFactory(),
-				getAlgebraProcessor(), getLocalization(), elements);
+		return new ChartDataPropertyCollection(
+				new GeoElementPropertiesFactory(), getAlgebraProcessor(), getLocalization(), elements);
 	}
 
 	private String getDefinition(String label) {

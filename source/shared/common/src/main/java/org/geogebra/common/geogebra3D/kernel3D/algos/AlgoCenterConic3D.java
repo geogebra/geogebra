@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Center of 3D conic
- * 
+ *
  * @author mathieu
  *
  */
@@ -32,7 +32,7 @@ public class AlgoCenterConic3D extends AlgoCenterConic {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -51,7 +51,6 @@ public class AlgoCenterConic3D extends AlgoCenterConic {
 
 	@Override
 	protected void setCoords(double x, double y) {
-		((GeoPoint3D) midpoint)
-				.setCoords(((GeoConicND) c).getCoordSys().getPoint(x, y));
+		((GeoPoint3D) midpoint).setCoords(((GeoConicND) c).getCoordSys().getPoint(x, y));
 	}
 }

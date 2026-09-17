@@ -126,8 +126,7 @@ public class MyMath2 {
 	 *            x
 	 * @return beta(a,b,x)
 	 */
-	public static double betaIncompleteRegularized(double a, double b,
-			double x) {
+	public static double betaIncompleteRegularized(double a, double b, double x) {
 
 		try {
 			return Beta.regularizedBeta(x, a, b);
@@ -142,7 +141,7 @@ public class MyMath2 {
 	 * Factorial function of x. If x is an integer value x! is returned,
 	 * otherwise gamma(x + 1) will be returned. For x &lt; 0 Double.NaN is
 	 * returned.
-	 * 
+	 *
 	 * @param x
 	 *            real number
 	 * @return factorial
@@ -185,8 +184,7 @@ public class MyMath2 {
 		if (x >= 0) {
 			return Math.exp(Gamma.logGamma(x));
 		}
-		return -Math.PI
-				/ (x * Math.exp(Gamma.logGamma(-x)) * Math.sin(Math.PI * x));
+		return -Math.PI / (x * Math.exp(Gamma.logGamma(-x)) * Math.sin(Math.PI * x));
 	}
 
 	/**
@@ -198,8 +196,7 @@ public class MyMath2 {
 	 *            real number
 	 * @return erf(x) for given distribution
 	 */
-	public static double erf(double mean, double standardDeviation,
-			double x) {
+	public static double erf(double mean, double standardDeviation, double x) {
 
 		try {
 			return Erf.erf((x - mean) / standardDeviation);
@@ -240,18 +237,18 @@ public class MyMath2 {
 	public static double polyGamma(NumberValue order, double x) {
 		int o = (int) order.getDouble();
 		switch (o) {
-		case 0:
-			return Gamma.digamma(x);
-		case 1:
-			return Gamma.trigamma(x);
-		// case 2:
-		// return PolyGamma.tetragamma(x);
-		// case 3:
-		// return PolyGamma.pentagamma(x);
-		// default:
-		// return PolyGamma.psigamma(x, o);
-		default:
-			return Double.NaN;
+			case 0:
+				return Gamma.digamma(x);
+			case 1:
+				return Gamma.trigamma(x);
+			// case 2:
+			// return PolyGamma.tetragamma(x);
+			// case 3:
+			// return PolyGamma.pentagamma(x);
+			// default:
+			// return PolyGamma.psigamma(x, o);
+			default:
+				return Double.NaN;
 		}
 	}
 
@@ -262,7 +259,6 @@ public class MyMath2 {
 		double t = Math.abs(a2);
 		if (t == 0.0) {
 			return new Complex(Double.NEGATIVE_INFINITY, 0);
-
 		}
 		double tMin = 2.0;
 		if (t > tMin) {
@@ -283,8 +279,7 @@ public class MyMath2 {
 				// del = c*d
 				h = h.multiply(del);
 
-				if (Math.abs(del.getReal() - 1.0)
-						+ Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION) {
+				if (Math.abs(del.getReal() - 1.0) + Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION) {
 					break;
 				}
 			}
@@ -293,8 +288,7 @@ public class MyMath2 {
 			// h = (cos(t)-isin(t))*h
 			h = h.multiply(new Complex(Math.cos(t), -Math.sin(t)));
 
-			return new Complex(-h.getReal(),
-					Math.signum(a2) * (Kernel.PI_HALF + h.getImaginary()));
+			return new Complex(-h.getReal(), Math.signum(a2) * (Kernel.PI_HALF + h.getImaginary()));
 		}
 		double err, fact, sign, sum, sumc, sums, term;
 		if (t < Math.sqrt(Kernel.STANDARD_PRECISION)) {
@@ -328,14 +322,13 @@ public class MyMath2 {
 			}
 		}
 
-		return new Complex(sumc + Math.log(t) + MyDouble.EULER_GAMMA,
-				Math.signum(a2) * sums);
+		return new Complex(sumc + Math.log(t) + MyDouble.EULER_GAMMA, Math.signum(a2) * sums);
 	}
 
 	/**
 	 * Returns cosine integral of given number, for negative values returns
 	 * undefined
-	 * 
+	 *
 	 * @param a
 	 *            number
 	 * @return cosine integral of given number
@@ -350,7 +343,7 @@ public class MyMath2 {
 	/**
 	 * Returns sine integral of given number, for negative values returns
 	 * undefined
-	 * 
+	 *
 	 * @param a
 	 *            number
 	 * @return sine integral of given number
@@ -389,7 +382,7 @@ public class MyMath2 {
 
 	/**
 	 * Riemann zeta function (for reals)
-	 * 
+	 *
 	 * @param val
 	 *            argument
 	 * @return Riemann zeta of val
@@ -399,7 +392,7 @@ public class MyMath2 {
 			return 0;
 		}
 
-		double[] s = { val, 0 };
+		double[] s = {val, 0};
 		return Riemann.zeta(s)[0];
 	}
 }

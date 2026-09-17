@@ -24,7 +24,7 @@ import org.gwtproject.user.client.ui.Widget;
 public interface FastClickHandler {
 	/**
 	 * Called when a FastClickEvent is fired.
-	 * 
+	 *
 	 * @param source
 	 *            the widget that fired the event.
 	 */

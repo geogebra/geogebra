@@ -80,8 +80,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		super(app, ec);
 		this.app = app;
 
-		app.getGlobalHandlers().addEventListener(DomGlobal.window, "scroll",
-				e -> calculateEnvironment());
+		app.getGlobalHandlers()
+				.addEventListener(DomGlobal.window, "scroll", e -> calculateEnvironment());
 		app.addWindowResizeListener(this::calculateEnvironment);
 		longTouchManager = LongTouchManager.getInstance();
 	}
@@ -90,8 +90,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * Fire touch event at the specified coordinates (right-click if not unbundled)
 	 */
 	public void handleLongTouch(double x, double y) {
-		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
-		        ZeroOffset.INSTANCE);
+		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.INSTANCE);
 		if (!app.isUnbundled()) {
 			event.setIsRightClick(true);
 		}
@@ -113,8 +112,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		boolean shiftOrMeta = event.shiftKey || event.metaKey;
 		boolean consumed = false;
 		if (delta != 0) {
-			consumed = ec.wrapMouseWheelMoved(x, y, delta,
-					shiftOrMeta, event.altKey);
+			consumed = ec.wrapMouseWheelMoved(x, y, delta, shiftOrMeta, event.altKey);
 		}
 		if (consumed || ec.allowMouseWheel(shiftOrMeta)) {
 			event.preventDefault();
@@ -138,8 +136,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			event.setIsRightClick(dragModeIsRightClick);
 			wrapMouseDraggedWithProfiling(event, startCapture);
 			if (isRecording) {
-				drawingRecorder
-						.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
+				drawingRecorder.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
 			}
 		}
 		event.release();
@@ -154,8 +151,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private void wrapMouseDraggedWithProfiling(PointerEvent event, boolean startCapture) {
 		double dragStart = FpsProfilerW.getMillisecondTimeNative();
 		ec.wrapMouseDragged(event, startCapture);
-		GeoGebraProfiler.addDrag(
-				(long) (FpsProfilerW.getMillisecondTimeNative() - dragStart));
+		GeoGebraProfiler.addDrag((long) (FpsProfilerW.getMillisecondTimeNative() - dragStart));
 	}
 
 	/**
@@ -177,8 +173,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 		// hide dialogs if they are open
 		// but don't hide context menu if we just opened it via long tap in IE
-		if (ec.getDefaultEventType() == PointerEventType.MOUSE
-				&& app.getGuiManager() != null) {
+		if (ec.getDefaultEventType() == PointerEventType.MOUSE && app.getGuiManager() != null) {
 			((AppW) app).getGuiManager().removePopup();
 		}
 
@@ -199,8 +194,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		app.hideMenu();
 
 		if (isRecording) {
-			drawingRecorder
-					.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
+			drawingRecorder.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
 		}
 		if (event.getType() == PointerEventType.TOUCH
 				&& EuclidianConstants.isMoveOrSelectionMode(ec.getMode())) {
@@ -260,8 +254,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public double getZoomLevel() {
-		String zoom = ((AppW) app).getGeoGebraElement().getParentElement()
-				.getStyle().getProperty("zoom");
+		String zoom =
+				((AppW) app).getGeoGebraElement().getParentElement().getStyle().getProperty("zoom");
 		if (StringUtil.empty(zoom)) {
 			return 1;
 		}

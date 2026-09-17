@@ -29,11 +29,10 @@ class LineStyleModelTest extends BaseUnitTest {
 	void sliderSnapShouldNotChangeValue() {
 		LineStyleModel model = new LineStyleModel(getApp());
 		GeoLine line = add("x=y");
-		model.setGeos(new Object[]{line});
-		for (int pct = 0; pct <= 100; pct +=5) {
+		model.setGeos(new Object[] {line});
+		for (int pct = 0; pct <= 100; pct += 5) {
 			model.applyOpacityPercentage(pct);
 			assertThat(model.getOpacityPercentage(), equalTo(pct));
 		}
 	}
-
 }

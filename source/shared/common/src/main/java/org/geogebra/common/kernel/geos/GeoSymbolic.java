@@ -83,8 +83,14 @@ import org.jspecify.annotations.Nullable;
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement
-		implements GeoSymbolicI, VarString, GeoEvaluatable, GeoFunctionable, DelegateProperties,
-		HasArbitraryConstant, EuclidianViewCE, Functional {
+		implements GeoSymbolicI,
+				VarString,
+				GeoEvaluatable,
+				GeoFunctionable,
+				DelegateProperties,
+				HasArbitraryConstant,
+				EuclidianViewCE,
+				Functional {
 	private ExpressionValue value;
 	private final ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -200,8 +206,7 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (symbolicMode || tpl.getStringType().isGiac() || !hasNumericValue()
-				|| isParametricTwin()) {
+		if (symbolicMode || tpl.getStringType().isGiac() || !hasNumericValue() || isParametricTwin()) {
 			if (value != null) {
 				return value.toValueString(tpl);
 			}
@@ -213,9 +218,10 @@ public class GeoSymbolic extends GeoElement
 
 	private boolean isParametricTwin() {
 		Equation eqn = twinGeo != null
-				&& twinGeo.getDefinition() != null
-				&& twinGeo.getDefinition().unwrap() instanceof Equation
-				? (Equation) twinGeo.getDefinition().unwrap() : null;
+						&& twinGeo.getDefinition() != null
+						&& twinGeo.getDefinition().unwrap() instanceof Equation
+				? (Equation) twinGeo.getDefinition().unwrap()
+				: null;
 		return eqn != null && "X".equals(eqn.getLHS().toString(StringTemplate.defaultTemplate));
 	}
 
@@ -255,8 +261,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean isRandomCommand(ExpressionValue expressionValue) {
-		return expressionValue instanceof Command cmd
-				&& isRandomCommandName(cmd.getName());
+		return expressionValue instanceof Command cmd && isRandomCommandName(cmd.getName());
 	}
 
 	private boolean isRandomCommandName(String name) {
@@ -303,8 +308,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	protected boolean showInEuclidianView() {
 		GeoElementND twin = getTwinGeo();
-		return isEuclidianShowable && twin != null && twin.isEuclidianShowable()
-				&& !twin.isLabelSet();
+		return isEuclidianShowable && twin != null && twin.isEuclidianShowable() && !twin.isLabelSet();
 	}
 
 	@Override
@@ -338,7 +342,8 @@ public class GeoSymbolic extends GeoElement
 
 	@Override
 	protected void reuseDefinition(GeoElementND geo) {
-		if (!geo.isIndependent() && geo.getDefinition() != null
+		if (!geo.isIndependent()
+				&& geo.getDefinition() != null
 				&& !geo.getDefinition().isConstant()) {
 			throw invariantViolation("reuseDefinition", "missing definition");
 		}
@@ -359,8 +364,8 @@ public class GeoSymbolic extends GeoElement
 		ExpressionValue ret = casInputArg;
 		if (((ExpressionNode) casInputArg).getLeft() instanceof Equation eq) {
 			boolean lIsDummy = eq.getLHS().getLeft() instanceof GeoDummyVariable;
-			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
-					&& ((MyList) eq.getRHS().getLeft()).isMatrix();
+			boolean rIsMatrix =
+					eq.getRHS().getLeft() instanceof MyList && ((MyList) eq.getRHS().getLeft()).isMatrix();
 			if (lIsDummy && rIsMatrix) {
 				ret = eq.getRHS().getLeft();
 			}
@@ -379,13 +384,13 @@ public class GeoSymbolic extends GeoElement
 		// Validating the structural invariants here turns latent corruption into a
 		// deterministic failure close to the source of the problem.
 		ensureInvariant("computeOutput");
-		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
-				.traverse(FunctionExpander.newFunctionExpander(this));
+		ExpressionValue casInputArg =
+				getDefinition().deepCopy(kernel).traverse(FunctionExpander.newFunctionExpander(this));
 		casInputArg = fixMatrixInput(casInputArg);
 		// if surds are not allowed, avoid symbolic computations (APPS-7189)
 		// also helps with other auto-simplification issues (APPS-7212)
-		computedNumerically = kernel.getSurds() == null
-				&& casInputArg.none(this::needsSymbolicComputation);
+		computedNumerically =
+				kernel.getSurds() == null && casInputArg.none(this::needsSymbolicComputation);
 		if (computedNumerically) {
 			computeNumerically(casInputArg);
 		} else {
@@ -394,7 +399,7 @@ public class GeoSymbolic extends GeoElement
 		ensureComputedInvariant("computeOutput");
 	}
 
-	private  boolean needsSymbolicComputation(ExpressionValue part) {
+	private boolean needsSymbolicComputation(ExpressionValue part) {
 		return part instanceof Command
 				|| part instanceof GeoDummyVariable var && var.getElementWithSameName() == null
 				|| part instanceof GeoSymbolic symbolic && symbolic.twinGeo == null;
@@ -403,8 +408,8 @@ public class GeoSymbolic extends GeoElement
 	private void computeNumerically(ExpressionValue input) {
 		try (LabelingContext ignored = kernel.getConstruction().getSilentContext()) {
 			ExpressionValue casInputArg = input.deepCopy(kernel).traverse(this::unwrapSymbolic);
-			GeoElementND numericTwin = kernel.getAlgebraProcessor().processValidExpression(
-					casInputArg.wrap())[0];
+			GeoElementND numericTwin =
+					kernel.getAlgebraProcessor().processValidExpression(casInputArg.wrap())[0];
 			if (numericTwin.getDefinition() != null) {
 				value = numericTwin.getDefinition().asFraction();
 			} else {
@@ -424,7 +429,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private ExpressionValue unwrapSymbolic(ExpressionValue part) {
-		return  part instanceof GeoSymbolic symbolic ? symbolic.twinGeo : part;
+		return part instanceof GeoSymbolic symbolic ? symbolic.twinGeo : part;
 	}
 
 	private void computeUsingCAS(ExpressionValue casInputArg) {
@@ -469,8 +474,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean isLengthOfCurve(Command command) {
-		if (Commands.Length.name().equals(command.getName())
-				&& command.getArgumentNumber() == 1) {
+		if (Commands.Length.name().equals(command.getName()) && command.getArgumentNumber() == 1) {
 			ExpressionValue arg = command.getArgument(0).unwrap();
 			if (arg instanceof GeoSymbolic) {
 				GeoElementND twinGeo = ((GeoSymbolic) arg).getTwinGeo();
@@ -482,8 +486,8 @@ public class GeoSymbolic extends GeoElement
 
 	private String normalizeSolveODE(String casResult, Command casInput) {
 		try {
-			ExpressionValue parsed = kernel.getParser()
-					.parseGeoGebraExpression(casResult).unwrap();
+			ExpressionValue parsed =
+					kernel.getParser().parseGeoGebraExpression(casResult).unwrap();
 			if (parsed instanceof Equation) {
 				Function fn = ((Equation) parsed).asFunction();
 				if (fn != null) {
@@ -497,8 +501,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean argumentsDefined(Command casInput) {
-		return casInput.any(v ->
-				!v.toValueString(StringTemplate.defaultTemplate).contains("?"));
+		return casInput.any(v -> !v.toValueString(StringTemplate.defaultTemplate).contains("?"));
 	}
 
 	private String tryNumericCommand(Command casInput, String casResult) {
@@ -539,7 +542,7 @@ public class GeoSymbolic extends GeoElement
 	private boolean isNSolve(Command command) {
 		return Commands.NSolve.name().equals(command.getName());
 	}
-	
+
 	private boolean isNumericWrapOfSolve(Command command) {
 		if (!Commands.Numeric.name().equals(command.getName())) {
 			return false;
@@ -560,8 +563,9 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private String evaluateGeoGebraCAS(Command command, ArbitraryConstantRegistry constant) {
-		return kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
-				command.wrap(), constant, getStringTemplate(command), null, kernel);
+		return kernel
+				.getGeoGebraCAS()
+				.evaluateGeoGebraCAS(command.wrap(), constant, getStringTemplate(command), null, kernel);
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {
@@ -615,7 +619,8 @@ public class GeoSymbolic extends GeoElement
 	private StringTemplate getStringTemplate(Command input) {
 		String inputName = input.getName();
 		return Commands.Numeric.name().equals(inputName) && input.getArgumentNumber() == 2
-				? StringTemplate.numericNoLocal : StringTemplate.prefixedDefault;
+				? StringTemplate.numericNoLocal
+				: StringTemplate.prefixedDefault;
 	}
 
 	private ExpressionValue parseOutputString(String output) {
@@ -660,19 +665,21 @@ public class GeoSymbolic extends GeoElement
 			List<FunctionVariable> vars = Arrays.asList(functionNVar.getFunctionVariables());
 			if (vars.size() == 1) {
 				List<FunctionVariable> outVars = variablesFromOutput();
-				if (outVars.size() == 1 && !outVars.get(0).getSetVarString().equals(
-						vars.get(0).getSetVarString())) {
-					functionNVar.setExpression(functionNVar.getExpression(),
-							outVars.toArray(new FunctionVariable[0]));
+				if (outVars.size() == 1
+						&& !outVars.get(0).getSetVarString().equals(vars.get(0).getSetVarString())) {
+					functionNVar.setExpression(
+							functionNVar.getExpression(), outVars.toArray(new FunctionVariable[0]));
 					return outVars;
 				}
 			}
 			return vars;
 		} else if (getDefinition().getLocalVariables().size() > 0) {
 			List<String> localVariables = getDefinition().getLocalVariables();
-			return localVariables.stream().map((var) -> new FunctionVariable(kernel, var))
+			return localVariables.stream()
+					.map((var) -> new FunctionVariable(kernel, var))
 					.collect(Collectors.toList());
-		} else if (def instanceof Command && shouldShowFunctionVariablesInOutputFor((Command) def)
+		} else if (def instanceof Command
+				&& shouldShowFunctionVariablesInOutputFor((Command) def)
 				&& !valueIsListOrPoint()) {
 			return collectVariables();
 		} else if (getDefinition().containsFreeFunctionVariable(null)) {
@@ -683,8 +690,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	protected List<FunctionVariable> collectVariables() {
-		FunctionVarCollector functionVarCollector = FunctionVarCollector
-				.getCollector();
+		FunctionVarCollector functionVarCollector = FunctionVarCollector.getCollector();
 		getDefinition().traverse(functionVarCollector);
 		List<FunctionVariable> vars = Arrays.asList(functionVarCollector.buildVariables(kernel));
 		if (vars.isEmpty()) {
@@ -695,8 +701,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private List<FunctionVariable> variablesFromOutput() {
-		FunctionVarCollector functionVarCollector = FunctionVarCollector
-				.getCollector();
+		FunctionVarCollector functionVarCollector = FunctionVarCollector.getCollector();
 		try {
 			ExpressionNode nodeFromOutput = getNodeFromOutput();
 			if (nodeFromOutput.any(ex -> ex instanceof Equation)) {
@@ -710,7 +715,8 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private static boolean shouldShowFunctionVariablesInOutputFor(Command command) {
-		return Stream.of(Commands.Solutions, Commands.SolveODE).map(Commands::getCommand)
+		return Stream.of(Commands.Solutions, Commands.SolveODE)
+				.map(Commands::getCommand)
 				.noneMatch(command.getName()::equals); // APPS-1821, APPS-2190
 	}
 
@@ -746,8 +752,7 @@ public class GeoSymbolic extends GeoElement
 		}
 	}
 
-	private void appendVarString(StringBuilder sb,
-			final StringTemplate tpl) {
+	private void appendVarString(StringBuilder sb, final StringTemplate tpl) {
 		for (int i = 0; i < fVars.size() - 1; i++) {
 			sb.append(fVars.get(i).toString(tpl));
 			sb.append(", ");
@@ -834,13 +839,14 @@ public class GeoSymbolic extends GeoElement
 				remove();
 			}
 			throw err;
-		// Make sure we don't catch generic errors like OOM or StackOverflow here
-		} catch (MyError | ParseException | CircularDefinitionException
-				 | RuntimeException throwable) {
+			// Make sure we don't catch generic errors like OOM or StackOverflow here
+		} catch (MyError | ParseException | CircularDefinitionException | RuntimeException throwable) {
 			try (LabelingContext ignored = cons.getSilentContext()) {
 				return process(getTwinFallbackInput());
-			} catch (MyError | ParseException | CircularDefinitionException
-					 | RuntimeException throwable2) {
+			} catch (MyError
+					| ParseException
+					| CircularDefinitionException
+					| RuntimeException throwable2) {
 				return null;
 			}
 		}
@@ -875,36 +881,39 @@ public class GeoSymbolic extends GeoElement
 			return true;
 		}
 		Commands cmd = unwrappedDefinition instanceof Command
-				? Commands.stringToCommand(((Command) unwrappedDefinition).getName()) : null;
+				? Commands.stringToCommand(((Command) unwrappedDefinition).getName())
+				: null;
 		if (cmd == null) {
 			return false;
 		}
 		switch (cmd) {
-		case Simplify:
-		case Expand:
-		case Factor:
-		case TrigSimplify:
-		case TrigCombine:
-		case TrigExpand:
-		case Min:
-		case Max:
-		case Point:
-		case Distance:
-			return true;
-		default: return isRandomCommandName(cmd.name());
+			case Simplify:
+			case Expand:
+			case Factor:
+			case TrigSimplify:
+			case TrigCombine:
+			case TrigExpand:
+			case Min:
+			case Max:
+			case Point:
+			case Distance:
+				return true;
+			default:
+				return isRandomCommandName(cmd.name());
 		}
 	}
 
 	private ExpressionNode getNodeFromOutput() throws ParseException {
-		ValidExpression validExpression =
-				kernel.getParser().parseGeoGebraExpression(LabelManager.HIDDEN_PREFIX + ":"
-						+ casOutputString);
+		ValidExpression validExpression = kernel
+				.getParser()
+				.parseGeoGebraExpression(LabelManager.HIDDEN_PREFIX + ":" + casOutputString);
 		validExpression.setLabels(null);
 		return validExpression.wrap();
 	}
 
 	private ExpressionNode getNodeFromInput() {
-		ExpressionNode node = getDefinition().deepCopy(kernel)
+		ExpressionNode node = getDefinition()
+				.deepCopy(kernel)
 				.traverse(new FunctionExpander())
 				.traverse(createPrepareDefinition())
 				.wrap();
@@ -964,8 +973,7 @@ public class GeoSymbolic extends GeoElement
 		if (algebraProcessor.hasVectorLabel(this)) {
 			expressionNode.setForceVector();
 		}
-		EvalInfo twinInfo = new EvalInfo(false, true)
-				.withAssignments(false).withAutocreate(false);
+		EvalInfo twinInfo = new EvalInfo(false, true).withAssignments(false).withAutocreate(false);
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode, twinInfo);
 		GeoElement result = processResult(elements);
 		AlgoElement parentAlgo = elements[0].getParentAlgorithm();
@@ -980,8 +988,8 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private GeoElement processResult(GeoElement[] elements) {
-		GeoElement result = elements.length > 1 || needsListWrapping(elements[0])
-				? toGeoList(elements) : elements[0];
+		GeoElement result =
+				elements.length > 1 || needsListWrapping(elements[0]) ? toGeoList(elements) : elements[0];
 		if (isOutputOfCSolveCommand()) {
 			handleOutputOfCSolveCommand(result);
 		} else if (algoParent instanceof AlgoComplexSolve && result instanceof GeoLine) {
@@ -993,9 +1001,11 @@ public class GeoSymbolic extends GeoElement
 	private boolean needsListWrapping(GeoElement geo) {
 		// in AV these may return 1 or more points, in CAS they always return a list
 		// forcing list wrapping makes the style and behavior independent on number of results
-		GetCommand cmd = geo.getParentAlgorithm() == null
-				? null : geo.getParentAlgorithm().getClassName();
-		return cmd == Commands.Root || cmd == Commands.Extremum || cmd == Commands.Intersect
+		GetCommand cmd =
+				geo.getParentAlgorithm() == null ? null : geo.getParentAlgorithm().getClassName();
+		return cmd == Commands.Root
+				|| cmd == Commands.Extremum
+				|| cmd == Commands.Intersect
 				|| cmd == Commands.Asymptote;
 	}
 
@@ -1081,7 +1091,7 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	final public void setBasicVisualStyle(final GeoElement geo) {
+	public final void setBasicVisualStyle(final GeoElement geo) {
 		super.setBasicVisualStyle(geo);
 		if (geo instanceof PointProperties) {
 			setPointSize(((PointProperties) geo).getPointSize());
@@ -1112,8 +1122,7 @@ public class GeoSymbolic extends GeoElement
 			return twin.getDefaultLabel();
 		}
 		if (getEquationTypeForLabeling() == EquationType.EXPLICIT) {
-			return getLabelManager()
-					.getNextIndexedLabel(LabelType.functionLabels);
+			return getLabelManager().getNextIndexedLabel(LabelType.functionLabels);
 		}
 		return super.getDefaultLabel();
 	}
@@ -1153,15 +1162,16 @@ public class GeoSymbolic extends GeoElement
 	public double value(double x) {
 		GeoElementND twin = getTwinGeo();
 		if (twin instanceof GeoFunctionable) {
-			double val =  ((GeoFunctionable) twin).value(x);
+			double val = ((GeoFunctionable) twin).value(x);
 			if (!Double.isNaN(val)) {
 				return val;
 			}
 		}
 		if (getFunctionVariables().length == 1) {
-			ExpressionNode expressionNode =
-					new ExpressionNode(kernel, this, Operation.FUNCTION, new MyDouble(kernel, x))
-							.traverse(new FunctionExpander()).wrap();
+			ExpressionNode expressionNode = new ExpressionNode(
+							kernel, this, Operation.FUNCTION, new MyDouble(kernel, x))
+					.traverse(new FunctionExpander())
+					.wrap();
 			Command numeric = new Command(kernel, "Numeric", false);
 			numeric.addArgument(expressionNode);
 			String casResult = evaluateGeoGebraCAS(numeric, constant);
@@ -1237,8 +1247,7 @@ public class GeoSymbolic extends GeoElement
 
 		String def = getDefinition(StringTemplate.defaultTemplate);
 		String val = getValueForInputBar();
-		String twin = twinGeo != null
-				? twinGeo.toValueString(StringTemplate.algebraTemplate) : null;
+		String twin = twinGeo != null ? twinGeo.toValueString(StringTemplate.algebraTemplate) : null;
 
 		setSymbolicMode(symbolicMode, false);
 		if (def.equals(val) && (twin == null || twin.equals(val))) {
@@ -1303,8 +1312,7 @@ public class GeoSymbolic extends GeoElement
 	@Override
 	public boolean showPointProperties() {
 		getTwinGeo();
-		return twinGeo instanceof PointProperties
-				&& ((PointProperties) twinGeo).showPointProperties();
+		return twinGeo instanceof PointProperties && ((PointProperties) twinGeo).showPointProperties();
 	}
 
 	@Override
@@ -1525,22 +1533,19 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	@Override
-	public String getFormulaString(StringTemplate tpl,
-			boolean substituteNumbers) {
+	public String getFormulaString(StringTemplate tpl, boolean substituteNumbers) {
 		// Formula rendering sits directly on the crash path from the AV toggle, so validate
 		// the structural assumptions before we start unwrapping conditional outputs.
 		ensureInvariant("getFormulaString");
 		if (substituteNumbers && tpl.isLatex()) {
-			if (value != null && value.isTopLevelCommand("If")
-					&& !fVars.isEmpty()) {
+			if (value != null && value.isTopLevelCommand("If") && !fVars.isEmpty()) {
 				FunctionVariable fv = fVars.get(0);
 				ArrayList<ExpressionNode> cases = new ArrayList<>();
 				ArrayList<Bounds> conditions = new ArrayList<>();
 				ExpressionNode[] arguments = ((Command) value.unwrap()).getArguments();
-				boolean complete = Bounds.collectFromCommand(kernel,
-						fv, arguments, cases, conditions);
-				return getConditionalSerializer().appendConditionalLaTeX(cases, conditions,
-						complete, true, tpl);
+				boolean complete = Bounds.collectFromCommand(kernel, fv, arguments, cases, conditions);
+				return getConditionalSerializer()
+						.appendConditionalLaTeX(cases, conditions, complete, true, tpl);
 			}
 		}
 		return super.getFormulaString(tpl, substituteNumbers);
@@ -1608,7 +1613,7 @@ public class GeoSymbolic extends GeoElement
 
 	private IllegalStateException invariantViolation(String context, String detail) {
 		String label = isLabelSet() ? getLabelSimple() : "<unlabeled>";
-		return new IllegalStateException("GeoSymbolic invariant violated in "
-				+ context + " for " + label + ": " + detail);
+		return new IllegalStateException(
+				"GeoSymbolic invariant violated in " + context + " for " + label + ": " + detail);
 	}
 }

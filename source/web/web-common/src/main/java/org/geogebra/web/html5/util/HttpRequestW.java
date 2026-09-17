@@ -33,10 +33,8 @@ public class HttpRequestW extends HttpRequest {
 	private final XMLHttpRequest request = new XMLHttpRequest();
 
 	@Override
-	public void sendRequestPost(String method, String url, String post,
-			AjaxCallback callback) {
-		sendRequest(method, url, post,
-				xhr -> callback.onSuccess(xhr.responseText), callback::onError);
+	public void sendRequestPost(String method, String url, String post, AjaxCallback callback) {
+		sendRequest(method, url, post, xhr -> callback.onSuccess(xhr.responseText), callback::onError);
 	}
 
 	/**
@@ -48,8 +46,12 @@ public class HttpRequestW extends HttpRequest {
 	 * @param content
 	 *            already encoded HTTP request content
 	 */
-	public void sendRequest(String method, String url, String content,
-			Consumer<XMLHttpRequest> onSuccess, Consumer<String> onError) {
+	public void sendRequest(
+			String method,
+			String url,
+			String content,
+			Consumer<XMLHttpRequest> onSuccess,
+			Consumer<String> onError) {
 		request.open(method, url);
 
 		// text/plain needed for SMART, hopefully no problem for others

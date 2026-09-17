@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Collada format
  */
 public class FormatCollada extends Format {
-	
+
 	private static float AMBIENT = Renderer.AMBIENT_0;
 	private ArrayList<IdColor> idColors;
 
@@ -67,8 +67,7 @@ public class FormatCollada extends Format {
 			labels = new HashMap<>();
 		}
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		sb.append(
-				"<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.5\">");
+		sb.append("<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.5\">");
 		sb.append("<asset>");
 		sb.append("<contributor>");
 		sb.append("<authoring_tool>GeoGebra</authoring_tool>");
@@ -200,7 +199,7 @@ public class FormatCollada extends Format {
 		sb.append("<instance_visual_scene url=\"#Scene\"/>");
 		sb.append("</scene>");
 		sb.append("</COLLADA>");
-		
+
 		idColors.clear();
 		materials.clear();
 		labels.clear();
@@ -208,7 +207,7 @@ public class FormatCollada extends Format {
 
 	/**
 	 * append default light in collada export
-	 * 
+	 *
 	 * @param sb
 	 *            string builder
 	 */
@@ -222,8 +221,8 @@ public class FormatCollada extends Format {
 		sb.append("<instance_light url=\"#L_amb\"/>");
 		sb.append("</node>");
 	}
-		
-	static private void getMaterial(StringBuilder sb, GColor color) {
+
+	private static void getMaterial(StringBuilder sb, GColor color) {
 		sb.append("M_");
 		sb.append(color.getRed());
 		sb.append("_");
@@ -235,8 +234,13 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency,
-			GColor color, double alpha) {
+	public void getObjectStart(
+			StringBuilder sb,
+			String type,
+			GeoElement geo,
+			boolean transparency,
+			GColor color,
+			double alpha) {
 		currentLabel = geo.getLabelSimple();
 		Integer n = labels.get(currentLabel);
 		if (n != null) {
@@ -258,8 +262,7 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void getPolyhedronStart(StringBuilder sb, boolean isFlat,
-			boolean isCurve) {
+	public void getPolyhedronStart(StringBuilder sb, boolean isFlat, boolean isCurve) {
 		sb.append("<geometry id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh\" name=\"");
@@ -306,8 +309,7 @@ public class FormatCollada extends Format {
 	}
 
 	@Override
-	public void getVertices(StringBuilder sb, double x, double y, double z,
-			double thickness) {
+	public void getVertices(StringBuilder sb, double x, double y, double z, double thickness) {
 		getVertices(sb, x, y, z);
 	}
 
@@ -333,7 +335,6 @@ public class FormatCollada extends Format {
 		sb.append("</accessor>");
 		sb.append("</technique_common>");
 		sb.append("</source>");
-
 	}
 
 	@Override
@@ -480,5 +481,4 @@ public class FormatCollada extends Format {
 	public boolean exportsPointsAndLines() {
 		return true;
 	}
-
 }

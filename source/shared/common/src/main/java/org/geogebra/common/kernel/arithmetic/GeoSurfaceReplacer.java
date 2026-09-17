@@ -36,10 +36,8 @@ public final class GeoSurfaceReplacer implements Traversing {
 	public ExpressionValue process(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
 			ExpressionNode node = (ExpressionNode) ev;
-			if (node.getLeft() instanceof GeoSurfaceCartesianND
-					&& node.getRight() instanceof MyList) {
-				GeoSurfaceCartesianND surface = (GeoSurfaceCartesianND) node
-						.getLeft();
+			if (node.getLeft() instanceof GeoSurfaceCartesianND && node.getRight() instanceof MyList) {
+				GeoSurfaceCartesianND surface = (GeoSurfaceCartesianND) node.getLeft();
 				FunctionNVar[] fun = surface.getFunctions();
 				MyVecNDNode vect;
 				if (fun.length > 2) {
@@ -50,12 +48,9 @@ public final class GeoSurfaceReplacer implements Traversing {
 							fun[2].getExpression());
 				} else {
 					vect = new MyVecNode(
-							((ExpressionNode) ev).getKernel(),
-							fun[0].getExpression(),
-							fun[1].getExpression());
+							((ExpressionNode) ev).getKernel(), fun[0].getExpression(), fun[1].getExpression());
 				}
-				return new ExpressionNode(((ExpressionNode) ev).getKernel(),
-						vect);
+				return new ExpressionNode(((ExpressionNode) ev).getKernel(), vect);
 			}
 		}
 		return ev;

@@ -20,13 +20,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 
 /**
- * 
+ *
  * @author Michael
  */
 public class MyNumberPair extends MyVecNode {
 	/**
 	 * Creates new number pair
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param en
@@ -34,8 +34,7 @@ public class MyNumberPair extends MyVecNode {
 	 * @param en2
 	 *            second number
 	 */
-	public MyNumberPair(Kernel kernel, ExpressionValue en,
-			ExpressionValue en2) {
+	public MyNumberPair(Kernel kernel, ExpressionValue en, ExpressionValue en2) {
 		super(kernel, en, en2);
 	}
 
@@ -49,12 +48,11 @@ public class MyNumberPair extends MyVecNode {
 
 	@Override
 	public MyNumberPair deepCopy(Kernel kernel1) {
-		return new MyNumberPair(kernel1, x.deepCopy(kernel1),
-				y.deepCopy(kernel1));
+		return new MyNumberPair(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1));
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(x.toString(tpl));
 		sb.append(", ");
@@ -64,7 +62,7 @@ public class MyNumberPair extends MyVecNode {
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public final String toValueString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(x.toValueString(tpl));
 		sb.append(", ");
@@ -74,7 +72,7 @@ public class MyNumberPair extends MyVecNode {
 	}
 
 	@Override
-	final public ExpressionValue traverse(Traversing t) {
+	public final ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
 		if (v != this) {
 			return v;
@@ -101,8 +99,7 @@ public class MyNumberPair extends MyVecNode {
 	}
 
 	@Override
-	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+	public final String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return symbolic ? toString(tpl) : toValueString(tpl);
 	}
-
 }

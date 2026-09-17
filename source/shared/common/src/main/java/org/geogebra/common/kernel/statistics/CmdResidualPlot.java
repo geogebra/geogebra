@@ -27,14 +27,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * ResidualPlot[&lt;List of Points&gt;,&lt;Function&gt;]
- * 
+ *
  * @author G.Sturr
  * @version 2010-9-13
  */
 public class CmdResidualPlot extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,18 +47,18 @@ public class CmdResidualPlot extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c, info);
 		switch (n) {
-		case 2:
-			if (arg[0].isGeoList() && arg[1].isRealValuedFunction()) {
-				AlgoResidualPlot algo = new AlgoResidualPlot(cons,
-						(GeoList) arg[0], (GeoFunctionable) arg[1]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+			case 2:
+				if (arg[0].isGeoList() && arg[1].isRealValuedFunction()) {
+					AlgoResidualPlot algo =
+							new AlgoResidualPlot(cons, (GeoList) arg[0], (GeoFunctionable) arg[1]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -38,7 +38,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	private GeoPointND C; // input
 	protected GeoConicND conic; // output
 
-	final protected int type; // ellipse or hyperbola
+	protected final int type; // ellipse or hyperbola
 
 	/**
 	 * @param cons
@@ -56,9 +56,14 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	 * @param type
 	 *            conic type
 	 */
-	public AlgoEllipseHyperbolaFociPointND(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C,
-			GeoDirectionND orientation, final int type) {
+	public AlgoEllipseHyperbolaFociPointND(
+			Construction cons,
+			String label,
+			GeoPointND A,
+			GeoPointND B,
+			GeoPointND C,
+			GeoDirectionND orientation,
+			final int type) {
 		this(cons, A, B, C, orientation, type);
 		conic.setLabel(label);
 	}
@@ -77,8 +82,12 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	 * @param orientation
 	 *            orientation of the plane ofthe conic
 	 */
-	public AlgoEllipseHyperbolaFociPointND(Construction cons, GeoPointND A,
-			GeoPointND B, GeoPointND C, GeoDirectionND orientation,
+	public AlgoEllipseHyperbolaFociPointND(
+			Construction cons,
+			GeoPointND A,
+			GeoPointND B,
+			GeoPointND C,
+			GeoDirectionND orientation,
 			final int type) {
 		super(cons);
 
@@ -106,7 +115,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 
 	/**
 	 * for 3D, set an orientation
-	 * 
+	 *
 	 * @param orientation
 	 *            orientation
 	 */
@@ -115,23 +124,22 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new conic
 	 */
-	abstract protected GeoConicND newGeoConic(Construction cons1);
+	protected abstract GeoConicND newGeoConic(Construction cons1);
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
 		if (C != null) {
 			C.addIncidence(conic, false);
 		}
-
 	}
 
 	@Override
@@ -201,7 +209,7 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 
 	/**
 	 * Method for LocusEqu
-	 * 
+	 *
 	 * @return returns external point for ellipse.
 	 */
 	public GeoPointND getExternalPoint() {
@@ -220,10 +228,10 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 		getC2d().getInhomCoords(xyC);
 
 		double length;
-		double length1 = Math.sqrt((xyA[0] - xyC[0]) * (xyA[0] - xyC[0])
-				+ (xyA[1] - xyC[1]) * (xyA[1] - xyC[1]));
-		double length2 = Math.sqrt((xyB[0] - xyC[0]) * (xyB[0] - xyC[0])
-				+ (xyB[1] - xyC[1]) * (xyB[1] - xyC[1]));
+		double length1 =
+				Math.sqrt((xyA[0] - xyC[0]) * (xyA[0] - xyC[0]) + (xyA[1] - xyC[1]) * (xyA[1] - xyC[1]));
+		double length2 =
+				Math.sqrt((xyB[0] - xyC[0]) * (xyB[0] - xyC[0]) + (xyB[1] - xyC[1]) * (xyB[1] - xyC[1]));
 
 		if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
 			length = Math.abs(length1 - length2);
@@ -235,35 +243,41 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return point A in 2D coords
 	 */
-	abstract protected GeoPoint getA2d();
+	protected abstract GeoPoint getA2d();
 
 	/**
-	 * 
+	 *
 	 * @return point B in 2D coords
 	 */
-	abstract protected GeoPoint getB2d();
+	protected abstract GeoPoint getB2d();
 
 	/**
-	 * 
+	 *
 	 * @return point C in 2D coords
 	 */
-	abstract protected GeoPoint getC2d();
+	protected abstract GeoPoint getC2d();
 
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
-			return getLoc().getPlainDefault(
-					"HyperbolaWithFociABPassingThroughC",
-					"Hyperbola with foci %0, %1 passing through %2",
-					A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl));
+			return getLoc()
+					.getPlainDefault(
+							"HyperbolaWithFociABPassingThroughC",
+							"Hyperbola with foci %0, %1 passing through %2",
+							A.getLabel(tpl),
+							B.getLabel(tpl),
+							C.getLabel(tpl));
 		}
 
-		return getLoc().getPlainDefault("EllipseWithFociABPassingThroughC",
-				"Ellipse with foci %0, %1 passing through %2",
-				A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"EllipseWithFociABPassingThroughC",
+						"Ellipse with foci %0, %1 passing through %2",
+						A.getLabel(tpl),
+						B.getLabel(tpl),
+						C.getLabel(tpl));
 	}
-
 }

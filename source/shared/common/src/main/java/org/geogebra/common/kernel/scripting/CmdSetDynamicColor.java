@@ -35,7 +35,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,70 +48,68 @@ public class CmdSetDynamicColor extends CmdScripting {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg2;
 		switch (n) {
-		case 4:
-			boolean[] ok = new boolean[n];
-			arg2 = resArgs(c);
+			case 4:
+				boolean[] ok = new boolean[n];
+				arg2 = resArgs(c);
 
-			if ((ok[1] = arg2[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg2[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg2[3] instanceof GeoNumberValue)) {
-				ArrayList<GeoElement> listItems = new ArrayList<>();
-				listItems.add(arg2[1]);
-				listItems.add(arg2[2]);
-				listItems.add(arg2[3]);
-				// listItems.add((GeoElement) arg2[4]); // no opacity
-				AlgoDependentList algo = new AlgoDependentList(cons, listItems,
-						false);
-				kernel.getConstruction().removeFromConstructionList(algo);
-				GeoList list = algo.getGeoList();
-				GeoElement geo = arg2[0];
-				geo.setColorFunction(list);
-				geo.updateVisualStyleRepaint(GProperty.COLOR);
+				if ((ok[1] = arg2[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg2[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg2[3] instanceof GeoNumberValue)) {
+					ArrayList<GeoElement> listItems = new ArrayList<>();
+					listItems.add(arg2[1]);
+					listItems.add(arg2[2]);
+					listItems.add(arg2[3]);
+					// listItems.add((GeoElement) arg2[4]); // no opacity
+					AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
+					kernel.getConstruction().removeFromConstructionList(algo);
+					GeoList list = algo.getGeoList();
+					GeoElement geo = arg2[0];
+					geo.setColorFunction(list);
+					geo.updateVisualStyleRepaint(GProperty.COLOR);
 
-				return new GeoElement[0];
+					return new GeoElement[0];
 
-			} else if (!ok[1]) {
-				throw argErr(c, arg2[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg2[2]);
-			} else {
-				throw argErr(c, arg2[3]);
-			}
-		case 5:
-			ok = new boolean[n];
-			arg2 = resArgs(c);
-			if ((ok[1] = arg2[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg2[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg2[3] instanceof GeoNumberValue)
-					&& (ok[4] = arg2[4] instanceof GeoNumberValue)) {
+				} else if (!ok[1]) {
+					throw argErr(c, arg2[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg2[2]);
+				} else {
+					throw argErr(c, arg2[3]);
+				}
+			case 5:
+				ok = new boolean[n];
+				arg2 = resArgs(c);
+				if ((ok[1] = arg2[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg2[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg2[3] instanceof GeoNumberValue)
+						&& (ok[4] = arg2[4] instanceof GeoNumberValue)) {
 
-				ArrayList<GeoElement> listItems = new ArrayList<>();
-				listItems.add(arg2[1]);
-				listItems.add(arg2[2]);
-				listItems.add(arg2[3]);
-				listItems.add(arg2[4]); // opacity
-				AlgoDependentList algo = new AlgoDependentList(cons, listItems,
-						false);
-				kernel.getConstruction().removeFromConstructionList(algo);
-				GeoList list = algo.getGeoList();
-				GeoElement geo = arg2[0];
-				geo.setColorFunction(list);
-				geo.updateVisualStyleRepaint(GProperty.COLOR);
+					ArrayList<GeoElement> listItems = new ArrayList<>();
+					listItems.add(arg2[1]);
+					listItems.add(arg2[2]);
+					listItems.add(arg2[3]);
+					listItems.add(arg2[4]); // opacity
+					AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
+					kernel.getConstruction().removeFromConstructionList(algo);
+					GeoList list = algo.getGeoList();
+					GeoElement geo = arg2[0];
+					geo.setColorFunction(list);
+					geo.updateVisualStyleRepaint(GProperty.COLOR);
 
-				return new GeoElement[0];
+					return new GeoElement[0];
 
-			} else if (!ok[1]) {
-				throw argErr(c, arg2[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg2[2]);
-			} else if (!ok[3]) {
-				throw argErr(c, arg2[3]);
-			} else {
-				throw argErr(c, arg2[4]);
-			}
+				} else if (!ok[1]) {
+					throw argErr(c, arg2[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg2[2]);
+				} else if (!ok[3]) {
+					throw argErr(c, arg2[3]);
+				} else {
+					throw argErr(c, arg2[4]);
+				}
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -26,9 +26,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Determine whether point is in region.
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public class AlgoIsInRegion extends AlgoElement {
 
@@ -38,7 +38,7 @@ public class AlgoIsInRegion extends AlgoElement {
 
 	/**
 	 * Creates new algo
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param label
@@ -48,8 +48,7 @@ public class AlgoIsInRegion extends AlgoElement {
 	 * @param region
 	 *            region
 	 */
-	public AlgoIsInRegion(Construction c, String label, GeoPointND pi,
-			Region region) {
+	public AlgoIsInRegion(Construction c, String label, GeoPointND pi, Region region) {
 		super(c);
 		this.pi = pi;
 		this.region = region;
@@ -79,7 +78,7 @@ public class AlgoIsInRegion extends AlgoElement {
 
 	/**
 	 * Returns true iff point is in region.
-	 * 
+	 *
 	 * @return true iff point is in region
 	 */
 	public GeoBoolean getResult() {
@@ -90,5 +89,4 @@ public class AlgoIsInRegion extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.IsInRegion;
 	}
-
 }

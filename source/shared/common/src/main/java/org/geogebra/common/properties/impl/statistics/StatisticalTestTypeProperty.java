@@ -36,14 +36,14 @@ public class StatisticalTestTypeProperty extends AbstractNamedEnumeratedProperty
 	 * @param localization the localization used
 	 * @param statisticsCollection statistics collection
 	 */
-	public StatisticalTestTypeProperty(Localization localization,
-			StatisticsCollection statisticsCollection) {
+	public StatisticalTestTypeProperty(
+			Localization localization, StatisticsCollection statisticsCollection) {
 		super(localization, "StatisticsTab.StatisticalTest");
 		this.statisticsCollection = statisticsCollection;
 		setNamedValues(StatisticsCollection.statisticalTests.stream()
 				.map(procedure -> entry(procedure, procedure.getName()))
 				.collect(Collectors.toList()));
-		setGroupDividerIndices(new int[]{ 6, 12 });
+		setGroupDividerIndices(new int[] {6, 12});
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class MyPoint extends GPoint2D {
 
 	/**
 	 * Creates new MyPoint
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -75,7 +75,7 @@ public class MyPoint extends GPoint2D {
 
 	/**
 	 * Converts this into GeoPoint
-	 * 
+	 *
 	 * @param cons
 	 *            construction for the new point
 	 * @return GeoPoint equivalent
@@ -92,7 +92,7 @@ public class MyPoint extends GPoint2D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @return true if same (x,y)
@@ -102,7 +102,7 @@ public class MyPoint extends GPoint2D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if coords are finite numbers
 	 */
 	public boolean isFinite() {
@@ -110,7 +110,7 @@ public class MyPoint extends GPoint2D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param t
 	 *            parameter
 	 * @param point2
@@ -119,13 +119,12 @@ public class MyPoint extends GPoint2D {
 	 * @return (1-t) * this + t * point2
 	 */
 	public MyPoint barycenter(double t, MyPoint point2, SegmentType type) {
-		return new MyPoint((1 - t) * x + t * point2.x,
-				(1 - t) * y + t * point2.y, type);
+		return new MyPoint((1 - t) * x + t * point2.x, (1 - t) * y + t * point2.y, type);
 	}
 
 	/**
 	 * Change to lineto /moveto point
-	 * 
+	 *
 	 * @param lineTo
 	 *            whether this should be lineto point
 	 */

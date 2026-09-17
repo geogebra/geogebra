@@ -32,7 +32,7 @@ import org.geogebra.common.main.MyError;
 public class CmdUniform extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -50,41 +50,45 @@ public class CmdUniform extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 4:
-			if (arg[3].isGeoBoolean()) {
-				cumulative = (GeoBoolean) arg[3];
-			} else {
-				throw argErr(c, arg[3]);
-			}
+			case 4:
+				if (arg[3].isGeoBoolean()) {
+					cumulative = (GeoBoolean) arg[3];
+				} else {
+					throw argErr(c, arg[3]);
+				}
 
 			// fall through
-		case 3:
-			if ((ok = arg[0] instanceof GeoNumberValue)
-					&& (arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction() && arg[2]
-						.toString(StringTemplate.defaultTemplate).equals("x")) {
+			case 3:
+				if ((ok = arg[0] instanceof GeoNumberValue) && (arg[1] instanceof GeoNumberValue)) {
+					if (arg[2].isGeoFunction()
+							&& arg[2].toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoUniformDF algo = new AlgoUniformDF(cons, c.getLabel(),
-							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-							forceBoolean(cumulative, true));
-					return algo.getResult().asArray();
+						AlgoUniformDF algo = new AlgoUniformDF(
+								cons,
+								c.getLabel(),
+								(GeoNumberValue) arg[0],
+								(GeoNumberValue) arg[1],
+								forceBoolean(cumulative, true));
+						return algo.getResult().asArray();
 
-				} else if (arg[2] instanceof GeoNumberValue) {
-					AlgoUniform algo = new AlgoUniform(cons,
-							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-							(GeoNumberValue) arg[2], cumulative);
-					algo.getResult().setLabel(c.getLabel());
-					return algo.getResult().asArray();
+					} else if (arg[2] instanceof GeoNumberValue) {
+						AlgoUniform algo = new AlgoUniform(
+								cons,
+								(GeoNumberValue) arg[0],
+								(GeoNumberValue) arg[1],
+								(GeoNumberValue) arg[2],
+								cumulative);
+						algo.getResult().setLabel(c.getLabel());
+						return algo.getResult().asArray();
 
-				} else {
-					throw argErr(c, arg[2]);
+					} else {
+						throw argErr(c, arg[2]);
+					}
 				}
-			}
-			throw argErr(c, ok ? arg[1] : arg[0]);
+				throw argErr(c, ok ? arg[1] : arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

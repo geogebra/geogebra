@@ -43,8 +43,8 @@ class DrawInputBoxAlignmentTest extends BaseUnitTest {
 		ev.setViewTextField(new TextFieldCommonJre());
 		getKernel().getAlgebraProcessor().processAlgebraCommand("ZoomIn(-1,-1, 1,1) ", false);
 		getKernel().getAlgebraProcessor().processAlgebraCommand("f = \"123456\" ", false);
-		inputBox = (GeoInputBox) getKernel().getAlgebraProcessor()
-				.processAlgebraCommand("A = InputBox(f)", false)[0];
+		inputBox = (GeoInputBox)
+				getKernel().getAlgebraProcessor().processAlgebraCommand("A = InputBox(f)", false)[0];
 		inputBox.setSymbolicMode(false);
 	}
 
@@ -61,9 +61,7 @@ class DrawInputBoxAlignmentTest extends BaseUnitTest {
 	void inputBoxTextAlignmentTestCenter() {
 		inputBox.setAlignment(HorizontalAlignment.CENTER);
 		inputBox.update();
-		verifyDrawString(
-				"123456",
-				INPUT_LEFT + INPUT_WIDTH * .5 - TEXT_WIDTH * .5);
+		verifyDrawString("123456", INPUT_LEFT + INPUT_WIDTH * .5 - TEXT_WIDTH * .5);
 		verifyAlignment(HorizontalAlignment.CENTER);
 	}
 
@@ -72,15 +70,13 @@ class DrawInputBoxAlignmentTest extends BaseUnitTest {
 		inputBox.setAlignment(HorizontalAlignment.RIGHT);
 		inputBox.update();
 		verifyDrawString(
-				"123456",
-				INPUT_LEFT + INPUT_WIDTH - TEXT_WIDTH
-						- DrawInputBox.TF_PADDING_HORIZONTAL);
+				"123456", INPUT_LEFT + INPUT_WIDTH - TEXT_WIDTH - DrawInputBox.TF_PADDING_HORIZONTAL);
 		verifyAlignment(HorizontalAlignment.RIGHT);
 	}
 
 	private void verifyAlignment(HorizontalAlignment left) {
-		AutoCompleteTextFieldC autoCompleteTextFieldC = (AutoCompleteTextFieldC) getApp()
-				.getActiveEuclidianView().getTextField();
+		AutoCompleteTextFieldC autoCompleteTextFieldC =
+				(AutoCompleteTextFieldC) getApp().getActiveEuclidianView().getTextField();
 		autoCompleteTextFieldC.setUsedForInputBox(inputBox);
 		inputBox.update();
 		assertEquals(left, autoCompleteTextFieldC.getAlignment());

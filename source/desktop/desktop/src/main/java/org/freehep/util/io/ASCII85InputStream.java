@@ -8,10 +8,10 @@ import java.io.InputStream;
  * The ASCII85InputStream decodes ASCII base-85 encoded data. The exact
  * definition of ASCII base-85 encoding can be found in the PostScript Language
  * Reference (3rd ed.) chapter 3.13.3.
- * 
+ *
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ASCII85InputStream.java,v 1.5 2008-10-23 19:04:01 hohenwarter
  *          Exp $
@@ -36,7 +36,7 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
 
 	/**
 	 * Create an ASCII85 Input Stream from given stream.
-	 * 
+	 *
 	 * @param input
 	 *            input to use
 	 */
@@ -83,36 +83,35 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
 			prev = ch;
 			ch = in.read();
 			switch (ch) {
-			case -1:
-				throw new EncodingException(
-						"missing '~>' at end of ASCII85 stream");
-			case 'z':
-				b[0] = b[1] = b[2] = b[3] = '!';
-				return 4;
-			case '~':
-				if (in.read() != '>') {
-					throw new EncodingException("Invalid ASCII85 EOD");
-				}
-				endReached = true;
-				break;
-			case '\r':
-				lineNo++;
-				break;
-			case '\n':
-				if (prev != '\r') {
+				case -1:
+					throw new EncodingException("missing '~>' at end of ASCII85 stream");
+				case 'z':
+					b[0] = b[1] = b[2] = b[3] = '!';
+					return 4;
+				case '~':
+					if (in.read() != '>') {
+						throw new EncodingException("Invalid ASCII85 EOD");
+					}
+					endReached = true;
+					break;
+				case '\r':
 					lineNo++;
-				}
-				break;
-			case ' ':
-			case '\t':
-			case '\f':
-			case 0:
-				// ignored
-				break;
-			default:
-				c[cIndex] = ch;
-				cIndex++;
-				break;
+					break;
+				case '\n':
+					if (prev != '\r') {
+						lineNo++;
+					}
+					break;
+				case ' ':
+				case '\t':
+				case '\f':
+				case 0:
+					// ignored
+					break;
+				default:
+					c[cIndex] = ch;
+					cIndex++;
+					break;
 			}
 		}
 
@@ -127,8 +126,8 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
 			}
 
 			// convert
-			long d = ((c[0] * a85p4) + (c[1] * a85p3) + (c[2] * a85p2)
-					+ (c[3] * a85p1) + c[4]) & 0x00000000FFFFFFFFL;
+			long d = ((c[0] * a85p4) + (c[1] * a85p3) + (c[2] * a85p2) + (c[3] * a85p1) + c[4])
+					& 0x00000000FFFFFFFFL;
 
 			b[0] = (int) ((d >> 24) & 0x00FF);
 			b[1] = (int) ((d >> 16) & 0x00FF);
@@ -140,7 +139,7 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
 
 	/**
 	 * Print out ASCII85 of a file
-	 * 
+	 *
 	 * @param args
 	 *            filename
 	 * @throws Exception

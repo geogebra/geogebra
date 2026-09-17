@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * NextPrime[number] PreviousPrime[number]
- * 
+ *
  * @author zbynek
  *
  */
@@ -45,9 +45,7 @@ public class CmdNextPreviousPrime extends CmdOneNumber implements UsesCAS {
 	@Override
 	protected GeoElement getResult(GeoNumberValue num, String label) {
 
-		AlgoNextPreviousPrime algo = new AlgoNextPreviousPrime(cons, label, num,
-				next);
+		AlgoNextPreviousPrime algo = new AlgoNextPreviousPrime(cons, label, num, next);
 		return algo.getResult();
 	}
-
 }

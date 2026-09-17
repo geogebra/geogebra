@@ -55,14 +55,14 @@ public class AngleDecorationProperty extends AbstractEnumeratedProperty<Integer>
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return new PropertyResource[] {
-				PropertyResource.ICON_ANGLE_DECO_NONE,
-				PropertyResource.ICON_ANGLE_DECO_TWO_ARCS,
-				PropertyResource.ICON_ANGLE_DECO_THREE_ARCS,
-				PropertyResource.ICON_ANGLE_DECO_ONE_TICK,
-				PropertyResource.ICON_ANGLE_DECO_TWO_TICKS,
-				PropertyResource.ICON_ANGLE_DECO_THREE_TICKS,
-				PropertyResource.ICON_ANGLE_DECO_ARROW_ANTICLOCKWISE,
-				PropertyResource.ICON_ANGLE_DECO_ARROW_CLOCKWISE
+			PropertyResource.ICON_ANGLE_DECO_NONE,
+			PropertyResource.ICON_ANGLE_DECO_TWO_ARCS,
+			PropertyResource.ICON_ANGLE_DECO_THREE_ARCS,
+			PropertyResource.ICON_ANGLE_DECO_ONE_TICK,
+			PropertyResource.ICON_ANGLE_DECO_TWO_TICKS,
+			PropertyResource.ICON_ANGLE_DECO_THREE_TICKS,
+			PropertyResource.ICON_ANGLE_DECO_ARROW_ANTICLOCKWISE,
+			PropertyResource.ICON_ANGLE_DECO_ARROW_CLOCKWISE
 		};
 	}
 

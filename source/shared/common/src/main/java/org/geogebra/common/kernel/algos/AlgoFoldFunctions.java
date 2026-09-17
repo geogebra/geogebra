@@ -37,7 +37,7 @@ public class AlgoFoldFunctions extends AlgoElement {
 	/**
 	 * Creates labeled function sum algo for truncated list (or whole list if
 	 * truncate == null)
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -51,8 +51,13 @@ public class AlgoFoldFunctions extends AlgoElement {
 	 * @param foldComputer
 	 *            fold helper
 	 */
-	public AlgoFoldFunctions(Construction cons, String label, GeoList geoList,
-			GeoNumeric truncate, Operation op, FoldComputer foldComputer) {
+	public AlgoFoldFunctions(
+			Construction cons,
+			String label,
+			GeoList geoList,
+			GeoNumeric truncate,
+			Operation op,
+			FoldComputer foldComputer) {
 		super(cons);
 		this.geoList = geoList;
 		this.truncate = truncate;
@@ -82,7 +87,7 @@ public class AlgoFoldFunctions extends AlgoElement {
 
 	/**
 	 * Returns result
-	 * 
+	 *
 	 * @return sum of functions
 	 */
 	public GeoElement getResult() {
@@ -94,8 +99,7 @@ public class AlgoFoldFunctions extends AlgoElement {
 		// Sum[{x^2,x^3}]
 		int n = truncate == null ? geoList.size() : (int) truncate.getDouble();
 
-		if (n <= 0 || n > geoList.size()
-				|| !foldComputer.check(geoList.get(0))) {
+		if (n <= 0 || n > geoList.size() || !foldComputer.check(geoList.get(0))) {
 			resultFun.setUndefined();
 			return;
 		}
@@ -117,5 +121,4 @@ public class AlgoFoldFunctions extends AlgoElement {
 	public Commands getClassName() {
 		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
 	}
-
 }

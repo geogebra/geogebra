@@ -26,5 +26,4 @@ public class FontStub implements Font {
 	public int getScale() {
 		return 1;
 	}
-
 }

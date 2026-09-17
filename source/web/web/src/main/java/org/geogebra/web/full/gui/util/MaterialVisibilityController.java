@@ -34,8 +34,7 @@ public final class MaterialVisibilityController {
 	}
 
 	private boolean isOwnMaterial(Material material) {
-		return material != null
-				&& logInOperation.owns(material);
+		return material != null && logInOperation.owns(material);
 	}
 
 	MaterialVisibility getVisibility(int index) {

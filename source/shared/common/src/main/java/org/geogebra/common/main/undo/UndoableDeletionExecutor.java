@@ -34,12 +34,12 @@ public class UndoableDeletionExecutor implements DeletionExecutor {
 	public void delete(GeoElement geo) {
 		if (geo.getKernel().isUndoActive()) {
 			doStoreDeletion(geo);
-			for (GeoElement child: geo.getAllChildren()) {
+			for (GeoElement child : geo.getAllChildren()) {
 				doStoreDeletion(child);
 			}
 			Group parentGroup = geo.getParentGroup();
 			if (parentGroup != null) {
-				for (GeoElement sibling: parentGroup.getGroupedGeos()) {
+				for (GeoElement sibling : parentGroup.getGroupedGeos()) {
 					doStoreDeletion(sibling);
 				}
 			}
@@ -52,10 +52,13 @@ public class UndoableDeletionExecutor implements DeletionExecutor {
 		if (kernel.isUndoActive() && !labels.isEmpty()) {
 			kernel.storeStateForModeStarting();
 			String[] labelsArray = labels.toArray(new String[0]);
-			kernel.getConstruction().getUndoManager()
+			kernel
+					.getConstruction()
+					.getUndoManager()
 					.buildAction(ActionType.REMOVE, labelsArray)
 					.withUndo(ActionType.ADD, xmls.toArray(new String[0]))
-					.withLabels(labelsArray).storeAndNotifyUnsaved();
+					.withLabels(labelsArray)
+					.storeAndNotifyUnsaved();
 			return true;
 		}
 		return false;
@@ -78,5 +81,4 @@ public class UndoableDeletionExecutor implements DeletionExecutor {
 			xmls.add(geo.getXML());
 		}
 	}
-
 }

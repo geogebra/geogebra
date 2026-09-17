@@ -23,12 +23,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algo for infinite cone (point, direction, angle)
- * 
+ *
  * @author matthieu
  *
  */
-public class AlgoConeInfinitePointPointNumber
-		extends AlgoQuadricPointPointNumber {
+public class AlgoConeInfinitePointPointNumber extends AlgoQuadricPointPointNumber {
 
 	/**
 	 * @param c
@@ -42,14 +41,17 @@ public class AlgoConeInfinitePointPointNumber
 	 * @param angle
 	 *            angle
 	 */
-	public AlgoConeInfinitePointPointNumber(Construction c, String label,
-			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue angle) {
-		super(c, label, origin, secondPoint, angle,
-				new AlgoQuadricComputerCone());
+	public AlgoConeInfinitePointPointNumber(
+			Construction c,
+			String label,
+			GeoPointND origin,
+			GeoPointND secondPoint,
+			GeoNumberValue angle) {
+		super(c, label, origin, secondPoint, angle, new AlgoQuadricComputerCone());
 	}
 
 	@Override
-	final protected String getPlainName() {
+	protected final String getPlainName() {
 		return "InfiniteConePointsABNumberC";
 	}
 
@@ -57,5 +59,4 @@ public class AlgoConeInfinitePointPointNumber
 	public Commands getClassName() {
 		return Commands.ConeInfinite;
 	}
-
 }

@@ -48,14 +48,14 @@ public interface ConstructionStepper {
 
 	/**
 	 * Returns current construction step position.
-	 * 
+	 *
 	 * @return current construction step position.
 	 */
 	int getCurrentStepNumber();
 
 	/**
 	 * Returns the total number of construction steps.
-	 * 
+	 *
 	 * @return Total number of construction steps.
 	 */
 	int getLastStepNumber();
@@ -65,5 +65,4 @@ public interface ConstructionStepper {
 	 *            new construction step
 	 */
 	void setConstructionStep(int step);
-
 }

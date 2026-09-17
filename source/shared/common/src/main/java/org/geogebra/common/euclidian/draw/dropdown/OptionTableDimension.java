@@ -28,9 +28,8 @@ class OptionTableDimension {
 	private final boolean scroll;
 	static final int VERTICAL_PADDING = 8;
 
-	OptionTableDimension(DropDownModel settings, GDimension itemDimension,
-			int downArrowHeight,
-			boolean scroll) {
+	OptionTableDimension(
+			DropDownModel settings, GDimension itemDimension, int downArrowHeight, boolean scroll) {
 		this.settings = settings;
 		this.itemDimension = itemDimension;
 		this.downArrowHeight = downArrowHeight;
@@ -46,8 +45,7 @@ class OptionTableDimension {
 	}
 
 	private int computeHeight() {
-		int tableHeight = heightOfAllRows()
-				+ (scroll && noOverflow() ? itemDimension.getHeight() : 0);
+		int tableHeight = heightOfAllRows() + (scroll && noOverflow() ? itemDimension.getHeight() : 0);
 
 		if (hasOverflow()) {
 			tableHeight = adjustTop(tableHeight);

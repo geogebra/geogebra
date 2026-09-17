@@ -49,8 +49,7 @@ public class GBufferedImageW implements GBufferedImage {
 	 * @param opaque
 	 *            whether to use white background
 	 */
-	public GBufferedImageW(int width, int height, double pixelRatio,
-			boolean opaque) {
+	public GBufferedImageW(int width, int height, double pixelRatio, boolean opaque) {
 		this(null, width, height, pixelRatio, opaque);
 	}
 
@@ -66,8 +65,7 @@ public class GBufferedImageW implements GBufferedImage {
 	 * @param opaque
 	 *            whether white background should be used
 	 */
-	public GBufferedImageW(Canvas canvas, int width, int height,
-			double pixelRatio, boolean opaque) {
+	public GBufferedImageW(Canvas canvas, int width, int height, double pixelRatio, boolean opaque) {
 		this.pixelRatio = pixelRatio;
 
 		if (canvas == null) {
@@ -137,9 +135,8 @@ public class GBufferedImageW implements GBufferedImage {
 			canv.setHeight(cv.getCanvasElement().getHeight() + "px");
 			JLMContext2D c2d = Js.uncheckedCast(canv.getContext2d());
 			JLMContext2D otherContext = Js.uncheckedCast(cv.getContext2d());
-			ImageData imageData = otherContext.getImageData(0, 0,
-					cv.getCoordinateSpaceWidth(),
-					cv.getCoordinateSpaceHeight());
+			ImageData imageData = otherContext.getImageData(
+					0, 0, cv.getCoordinateSpaceWidth(), cv.getCoordinateSpaceHeight());
 			c2d.putImageData(imageData, 0, 0);
 		} else {
 			Log.debug("BufferedImage (gawt) called with null Canvas");

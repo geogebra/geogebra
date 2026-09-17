@@ -7,7 +7,7 @@ import java.io.OutputStream;
 
 /**
  * The CountedByteOutputStream counts the number of bytes written.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: CountedByteOutputStream.java,v 1.3 2008-05-04 12:21:04 murkle
  *          Exp $
@@ -18,7 +18,7 @@ public class CountedByteOutputStream extends FilterOutputStream {
 
 	/**
 	 * Creates a Counted Bytes output stream from the given stream.
-	 * 
+	 *
 	 * @param out
 	 *            stream to write to
 	 */

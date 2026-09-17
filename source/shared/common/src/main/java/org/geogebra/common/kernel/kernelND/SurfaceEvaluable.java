@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.matrix.Coords3;
 
 /**
  * Surface with parametric equation z=f(x1,x2,...,xn)
- * 
+ *
  * @author Mathieu
  */
 public interface SurfaceEvaluable {
@@ -53,7 +53,7 @@ public interface SurfaceEvaluable {
 	void evaluatePoint(double u, double v, Coords3 point);
 
 	/**
-	 * 
+	 *
 	 * @param p
 	 *            point where the normal is computed
 	 * @param u
@@ -64,8 +64,7 @@ public interface SurfaceEvaluable {
 	 *            normal. WARNING: the normal may not have norm=1
 	 * @return true if the normal is defined
 	 */
-	boolean evaluateNormal(Coords3 p, double u, double v,
-			Coords3 normal);
+	boolean evaluateNormal(Coords3 p, double u, double v, Coords3 normal);
 
 	/**
 	 * @param i
@@ -98,7 +97,7 @@ public interface SurfaceEvaluable {
 
 	/**
 	 * set the level of detail (for drawing)
-	 * 
+	 *
 	 * @param lod
 	 *            level of detail
 	 */

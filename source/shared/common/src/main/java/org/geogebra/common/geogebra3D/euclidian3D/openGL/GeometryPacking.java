@@ -28,7 +28,7 @@ public class GeometryPacking extends Geometry {
 	private GeometriesSetPacking geometrySet;
 
 	/**
-	 * 
+	 *
 	 * @param manager
 	 *            manager
 	 * @param geometrySet
@@ -38,8 +38,10 @@ public class GeometryPacking extends Geometry {
 	 * @param geometryIndex
 	 *            geometry index
 	 */
-	public GeometryPacking(ManagerShaders manager,
-			GeometriesSetPacking geometrySet, Manager.Type type,
+	public GeometryPacking(
+			ManagerShaders manager,
+			GeometriesSetPacking geometrySet,
+			Manager.Type type,
 			int geometryIndex) {
 		super(manager, type);
 		this.geometrySet = geometrySet;
@@ -125,8 +127,7 @@ public class GeometryPacking extends Geometry {
 	}
 
 	private void setBufferCurrentIndex() {
-		geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(),
-				geometryIndex);
+		geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(), geometryIndex);
 	}
 
 	@Override
@@ -134,5 +135,4 @@ public class GeometryPacking extends Geometry {
 		setBufferCurrentIndex();
 		geometrySet.getBufferManager().setBufferSegmentToCurrentIndex();
 	}
-
 }

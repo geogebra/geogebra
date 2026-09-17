@@ -34,8 +34,9 @@ class OutRec {
 		}
 		double a = 0;
 		do {
-			a = a + (op.prev.getPt().getX() + op.getPt().getX())
-					* (op.prev.getPt().getY() - op.getPt().getY());
+			a = a
+					+ (op.prev.getPt().getX() + op.getPt().getX())
+							* (op.prev.getPt().getY() - op.getPt().getY());
 			op = op.next;
 		} while (op != pts);
 		return a * 0.5;
@@ -43,8 +44,7 @@ class OutRec {
 
 	void fixHoleLinkage() {
 		// skip if an outermost polygon or already points to the correct FirstLeft ...
-		if (firstLeft == null
-				|| isHole != firstLeft.isHole && firstLeft.pts != null) {
+		if (firstLeft == null || isHole != firstLeft.isHole && firstLeft.pts != null) {
 			return;
 		}
 
@@ -70,5 +70,4 @@ class OutRec {
 		}
 		return ret;
 	}
-
 }

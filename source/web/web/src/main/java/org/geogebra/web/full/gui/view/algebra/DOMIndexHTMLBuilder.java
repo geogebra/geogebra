@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * Index builder that creates SUB elements in DOM directly
- * 
+ *
  * @author Zbynek
  *
  */
@@ -50,8 +50,7 @@ public final class DOMIndexHTMLBuilder extends IndexHTMLBuilder {
 	public void append(String s) {
 
 		if (sub == null) {
-			w.getElement()
-					.appendChild(Document.get().createTextNode(s));
+			w.getElement().appendChild(Document.get().createTextNode(s));
 		} else {
 			sub.appendChild(Document.get().createTextNode(s));
 		}
@@ -60,8 +59,7 @@ public final class DOMIndexHTMLBuilder extends IndexHTMLBuilder {
 	@Override
 	public void startIndex() {
 		sub = Document.get().createElement("sub");
-		sub.getStyle().setFontSize((int) (app.getFontSize() * 0.8),
-				Unit.PX);
+		sub.getStyle().setFontSize((int) (app.getFontSize() * 0.8), Unit.PX);
 	}
 
 	@Override

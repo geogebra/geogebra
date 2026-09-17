@@ -81,7 +81,8 @@ public class FBoxAtom extends Atom implements HasTrueBase {
 		return newFramedBox(bbase, drt, space, line, env);
 	}
 
-	protected FramedBox newFramedBox(Box bbase, double drt, double space, GColor line, TeXEnvironment env) {
+	protected FramedBox newFramedBox(
+			Box bbase, double drt, double space, GColor line, TeXEnvironment env) {
 		return new FramedBox(bbase, drt, space, line, bg);
 	}
 

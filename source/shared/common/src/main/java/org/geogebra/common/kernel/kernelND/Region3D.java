@@ -28,7 +28,7 @@ public interface Region3D extends Region {
 
 	/**
 	 * return the 3D point from (x2d,y2d) 2D coords
-	 * 
+	 *
 	 * @param x2d
 	 *            x-coord
 	 * @param y2d
@@ -41,7 +41,7 @@ public interface Region3D extends Region {
 
 	/**
 	 * return the normal projection of the (coords) point on the region
-	 * 
+	 *
 	 * @param coords
 	 *            coords of the point
 	 * @return normal projection
@@ -51,7 +51,7 @@ public interface Region3D extends Region {
 	/**
 	 * return the willingDirection projection of the (willing coords) point on
 	 * the region
-	 * 
+	 *
 	 * @param oldCoords
 	 *            pld coords of the points
 	 * @param willingCoords
@@ -60,7 +60,5 @@ public interface Region3D extends Region {
 	 *            direction of the projection
 	 * @return projection
 	 */
-	Coords[] getProjection(Coords oldCoords, Coords willingCoords,
-			Coords willingDirection);
-
+	Coords[] getProjection(Coords oldCoords, Coords willingCoords, Coords willingDirection);
 }

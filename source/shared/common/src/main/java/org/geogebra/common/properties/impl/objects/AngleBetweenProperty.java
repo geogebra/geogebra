@@ -67,8 +67,7 @@ public class AngleBetweenProperty extends AbstractNamedEnumeratedProperty<GeoAng
 	@Override
 	public String[] getValueNames() {
 		return getValues().stream()
-				.map(value -> getLocalization().getPlain("AandB",
-						value.getMin(), value.getMax()))
+				.map(value -> getLocalization().getPlain("AandB", value.getMin(), value.getMax()))
 				.toArray(String[]::new);
 	}
 
@@ -91,9 +90,7 @@ public class AngleBetweenProperty extends AbstractNamedEnumeratedProperty<GeoAng
 	}
 
 	private boolean isApplicable(GeoElement element) {
-		return !element.isIndependent()
-				&& (element instanceof AngleProperties)
-				&& !element.isGeoList()
+		return !element.isIndependent() && (element instanceof AngleProperties) && !element.isGeoList()
 				|| isAngleList(element);
 	}
 }

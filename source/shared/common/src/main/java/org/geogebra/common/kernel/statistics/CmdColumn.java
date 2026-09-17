@@ -29,7 +29,7 @@ import org.geogebra.common.main.MyError;
 public class CmdColumn extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,9 +46,8 @@ public class CmdColumn extends CommandProcessor {
 			arg = resArgs(c, info);
 			AlgoColumn algo = new AlgoColumn(cons, arg[0]);
 			algo.getResult().setLabel(c.getLabel());
-			return new GeoElement[]{algo.getResult()};
+			return new GeoElement[] {algo.getResult()};
 		}
 		throw argNumErr(c);
 	}
-
 }

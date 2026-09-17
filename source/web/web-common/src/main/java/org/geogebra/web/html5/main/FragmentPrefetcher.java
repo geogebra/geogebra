@@ -104,8 +104,7 @@ public final class FragmentPrefetcher implements AjaxCallback {
 	 */
 	public static void prefetch(int splitPoint) {
 		if (forSplitPoint(splitPoint) == null) {
-			final FragmentPrefetcher fragmentPrefetcher = new FragmentPrefetcher(
-					splitPoint);
+			final FragmentPrefetcher fragmentPrefetcher = new FragmentPrefetcher(splitPoint);
 			idToPrefetcher.put(splitPoint, fragmentPrefetcher);
 			fragmentPrefetcher.fetch();
 		}

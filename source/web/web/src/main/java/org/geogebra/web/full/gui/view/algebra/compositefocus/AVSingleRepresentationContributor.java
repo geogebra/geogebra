@@ -53,13 +53,13 @@ public final class AVSingleRepresentationContributor implements FocusContributor
 	}
 
 	@Override
-	public void contribute(RadioTreeItemFocusAccess item, FocusableCompositeW focus,
-			AccessibilityManagerInterface am) {
-			FocusPartAdder.addIfExists(focus, am, item.checkbox(), AV_CHECKBOX_KEY, () ->
-					"checkbox", item::removeItemFocusStyle);
+	public void contribute(
+			RadioTreeItemFocusAccess item, FocusableCompositeW focus, AccessibilityManagerInterface am) {
+		FocusPartAdder.addIfExists(
+				focus, am, item.checkbox(), AV_CHECKBOX_KEY, () -> "checkbox", item::removeItemFocusStyle);
 		Widget widget = item.inputRow();
-		Widget row = FocusPartAdder.addIfExists(focus, am, widget, AV_DEFINITION_VALUE_KEY,
-				accessibleLabel, item::removeItemFocusStyle);
+		Widget row = FocusPartAdder.addIfExists(
+				focus, am, widget, AV_DEFINITION_VALUE_KEY, accessibleLabel, item::removeItemFocusStyle);
 		if (row != null) {
 			AriaHelper.setRole(row, "status");
 			AriaHelper.setRoleDescription(row, roleDescription);

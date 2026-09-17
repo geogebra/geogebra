@@ -29,7 +29,7 @@ import org.geogebra.common.util.MyMath2;
 
 /**
  * Computes RandomPoisson[lambda]
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
@@ -42,7 +42,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	private static double[] logtable = new double[10];
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -50,8 +50,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	 * @param lambda
 	 *            mean
 	 */
-	public AlgoRandomPoisson(Construction cons, String label,
-			GeoNumberValue lambda) {
+	public AlgoRandomPoisson(Construction cons, String label, GeoNumberValue lambda) {
 		super(cons);
 		this.lambda = lambda;
 
@@ -113,11 +112,10 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		} while (p >= L);
 
 		return k - 1;
-
 	}
 
 	/*
-	 * 
+	 *
 	 * Hermann, Wolfgang: The transformed rejection method for generating
 	 * Poisson random variables Algorithm PTRS
 	 * http://statmath.wu-wien.ac.at/papers/92-04-13.wh.ps.gz
@@ -155,12 +153,10 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
 			v = v * alpha / (a1 / (us * us) + b);
 
-			if (Math.log(v * alpha / (a1 / us / us + b)) <= -mu + k * lnmu
-					- logOfKFactorial(k)) {
+			if (Math.log(v * alpha / (a1 / us / us + b)) <= -mu + k * lnmu - logOfKFactorial(k)) {
 				return k;
 			}
 		}
-
 	}
 
 	private static double logOfKFactorial(int k) {
@@ -172,9 +168,10 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		}
 
 		// Stirling approximation
-		return halflog2pi + (k + 0.5) * Math.log(k + 1) - (k + 1)
-				+ (1 / 12.0 - (1 / 360.0 - 1 / 1260.0 / (k + 1) / (k + 1))
-						/ (k + 1) / (k + 1)) / (k + 1);
+		return halflog2pi
+				+ (k + 0.5) * Math.log(k + 1)
+				- (k + 1)
+				+ (1 / 12.0 - (1 / 360.0 - 1 / 1260.0 / (k + 1) / (k + 1)) / (k + 1) / (k + 1)) / (k + 1);
 	}
 
 	@Override
@@ -183,5 +180,4 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		num.setValue(Math.max(0, d));
 		return true;
 	}
-
 }

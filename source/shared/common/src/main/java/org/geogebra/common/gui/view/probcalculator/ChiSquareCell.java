@@ -99,7 +99,7 @@ public abstract class ChiSquareCell {
 
 	/**
 	 * Change value of input
-	 * 
+	 *
 	 * @param value
 	 *            new value
 	 */

@@ -67,5 +67,4 @@ public abstract class CommandText extends Command1A {
 		a = new TextStyleAtom(a, TextStyle.MATHNORMAL);
 		tp.closeConsumer(newI(tp, new RomanAtom(a)));
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,7 +41,7 @@ import org.geogebra.desktop.main.ScaledIcon;
 /**
  * Provides a popup menu for copying the text of a {@link GeoCasCell} to the
  * clipboard or to LaTeX.
- * 
+ *
  * @author Johannes Renner
  */
 public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
@@ -57,21 +57,22 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	 * Panel type.
 	 */
 	public enum Panel {
-		OUTPUT, INPUT
+		OUTPUT,
+		INPUT
 	}
 
 	private final Panel clickedPanel;
 
 	/**
 	 * initializes the menu
-	 * 
+	 *
 	 * @param value
 	 *            the {@link GeoCasCell} containing the value to copy
 	 * @param table
 	 *            needed to get the {@link AppD}
 	 */
-	public RowContentPopupMenu(AppD app, GeoCasCell value,
-			CASTableCellEditorD editor, CASTableD table) {
+	public RowContentPopupMenu(
+			AppD app, GeoCasCell value, CASTableCellEditorD editor, CASTableD table) {
 		this.value = value;
 		this.table = table;
 		this.editor = editor;
@@ -88,8 +89,8 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	 * @param table CAS table
 	 * @param clickedPanel clicked panel
 	 */
-	public RowContentPopupMenu(AppD app, GeoCasCell value,
-			CASTableCellEditorD editor, CASTableD table, Panel clickedPanel) {
+	public RowContentPopupMenu(
+			AppD app, GeoCasCell value, CASTableCellEditorD editor, CASTableD table, Panel clickedPanel) {
 		this.value = value;
 		this.table = table;
 		this.editor = editor;
@@ -102,39 +103,34 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	private void initMenu() {
 		Localization loc = table.getApplication().getLocalization();
 		switch (clickedPanel) {
-		case OUTPUT:
-			JMenuItem copyItem = new JMenuItem(
-					loc.getMenu("Copy"));
-			copyItem.setActionCommand("copy");
-			copyItem.addActionListener(this);
-			add(copyItem);
-			addSeparator();
+			case OUTPUT:
+				JMenuItem copyItem = new JMenuItem(loc.getMenu("Copy"));
+				copyItem.setActionCommand("copy");
+				copyItem.addActionListener(this);
+				add(copyItem);
+				addSeparator();
 
-			JMenuItem copyToLatexItem = new JMenuItem(
-					loc.getMenu("CopyAsLaTeX"));
-			copyToLatexItem.setActionCommand("copyAsLatex");
-			copyToLatexItem.addActionListener(this);
-			add(copyToLatexItem);
+				JMenuItem copyToLatexItem = new JMenuItem(loc.getMenu("CopyAsLaTeX"));
+				copyToLatexItem.setActionCommand("copyAsLatex");
+				copyToLatexItem.addActionListener(this);
+				add(copyToLatexItem);
 
-			JMenuItem copyToLibreOfficeItem = new JMenuItem(
-					loc.getMenu("CopyAsLibreOfficeFormula"));
-			copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
-			copyToLibreOfficeItem.addActionListener(this);
-			add(copyToLibreOfficeItem);
+				JMenuItem copyToLibreOfficeItem = new JMenuItem(loc.getMenu("CopyAsLibreOfficeFormula"));
+				copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
+				copyToLibreOfficeItem.addActionListener(this);
+				add(copyToLibreOfficeItem);
 
-			JMenuItem copyToImageItem = new JMenuItem(
-					loc.getMenu("CopyAsImage"));
-			copyToImageItem.setActionCommand("copyAsImage");
-			copyToImageItem.addActionListener(this);
-			add(copyToImageItem);
-			break;
-		case INPUT:
-			JMenuItem pasteItem = new JMenuItem(
-					loc.getMenu("Paste"));
-			pasteItem.setActionCommand("paste");
-			pasteItem.addActionListener(this);
-			add(pasteItem);
-			break;
+				JMenuItem copyToImageItem = new JMenuItem(loc.getMenu("CopyAsImage"));
+				copyToImageItem.setActionCommand("copyAsImage");
+				copyToImageItem.addActionListener(this);
+				add(copyToImageItem);
+				break;
+			case INPUT:
+				JMenuItem pasteItem = new JMenuItem(loc.getMenu("Paste"));
+				pasteItem.setActionCommand("paste");
+				pasteItem.addActionListener(this);
+				add(pasteItem);
+				break;
 		}
 	}
 
@@ -161,24 +157,28 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 		} else if ("copyAsLatex".equals(ac)) {
 			String latexOutput = value.getLaTeXOutput(false);
-			data = new StringSelection(
-					StringUtil.toLaTeXString(latexOutput, true));
+			data = new StringSelection(StringUtil.toLaTeXString(latexOutput, true));
 
 		} else if ("copyAsLibreOfficeMath".equals(ac)) {
-			String libreofficeOutput = value
-					.getOutput(StringTemplate.libreofficeTemplate);
+			String libreofficeOutput = value.getOutput(StringTemplate.libreofficeTemplate);
 			data = new StringSelection(libreofficeOutput);
 
 		} else if ("copyAsImage".equals(ac)) {
 			ScaledIcon latexIcon = new ScaledIcon(this);
-			Font latexFont = new Font(app.getPlainFont().getName(),
+			Font latexFont = new Font(
+					app.getPlainFont().getName(),
 					app.getPlainFont().getStyle(),
 					app.getPlainFont().getSize() - 1);
 
-			app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
-					value.getLaTeXOutput(), latexFont, false,
-					GColorD.getAwtColor(value.getAlgebraColor()),
-					table.getBackground());
+			app.getDrawEquation()
+					.drawLatexImageIcon(
+							app,
+							latexIcon,
+							value.getLaTeXOutput(),
+							latexFont,
+							false,
+							GColorD.getAwtColor(value.getAlgebraColor()),
+							table.getBackground());
 
 			data = new ImageSelection(latexIcon.getImage());
 		}
@@ -195,12 +195,11 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 		if ("paste".equals(ac)) {
 			Transferable contents = sysClip.getContents(null);
-			boolean hasTransferableText = (contents != null)
-					&& contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+			boolean hasTransferableText =
+					(contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
 			if (hasTransferableText) {
 				try {
-					data = (String) contents
-							.getTransferData(DataFlavor.stringFlavor);
+					data = (String) contents.getTransferData(DataFlavor.stringFlavor);
 				} catch (Exception ex) {
 					Log.debug(ex);
 				}

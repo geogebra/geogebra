@@ -36,5 +36,4 @@ public final class MixedRealityActivity extends BaseActivity {
 	public DockPanelW createAVPanel() {
 		return new AlgebraDockPanelW(null, true);
 	}
-
 }

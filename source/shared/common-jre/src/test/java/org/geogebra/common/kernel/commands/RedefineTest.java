@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -82,20 +82,20 @@ class RedefineTest extends BaseUnitTest {
 	}
 
 	private void t(String input, String expected) {
-		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
-				StringTemplate.xmlTemplate);
+		AlgebraTestHelper.checkSyntaxSingle(
+				input, new String[] {expected}, ap, StringTemplate.xmlTemplate);
 	}
 
 	private void tRound(String input, String expected) {
-		AlgebraTestHelper.checkSyntaxSingle(input, new String[] { expected }, ap,
-				StringTemplate.editTemplate);
+		AlgebraTestHelper.checkSyntaxSingle(
+				input, new String[] {expected}, ap, StringTemplate.editTemplate);
 	}
 
 	private void checkError(String s, String msg) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(s, false, errorStore,
-						false, null);
+		app.getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(s, false, errorStore, false, null);
 		assertEquals(msg, errorStore.getErrors());
 	}
 
@@ -126,8 +126,7 @@ class RedefineTest extends BaseUnitTest {
 		checkError("f(t)=y", "Invalid function:\n" + "Please enter an explicit function in t");
 		checkError("f(t)=x", "Invalid function:\n" + "Please enter an explicit function in t");
 		checkError("f(x)=3/(x^2+y^2=1)", "Illegal division \n" + "3 /  x\u00B2 + y\u00B2 = 1 ");
-		checkError("f(x)=3*(x^2+y^2=1)",
-				"Illegal multiplication \n" + "3 *  x\u00B2 + y\u00B2 = 1 ");
+		checkError("f(x)=3*(x^2+y^2=1)", "Illegal multiplication \n" + "3 *  x\u00B2 + y\u00B2 = 1 ");
 		checkError("f(x)=3+(x^2+y^2=1)", "Illegal addition \n" + "3 +  x\u00B2 + y\u00B2 = 1 ");
 		checkError("f(x)=3-(x^2+y^2=1)", "Illegal subtraction \n" + "3 -  x\u00B2 + y\u00B2 = 1 ");
 		checkError("f(x)=3^(x^2+y^2=1)", "Illegal exponent \n" + "3 ^  x\u00B2 + y\u00B2 = 1 ");
@@ -139,8 +138,7 @@ class RedefineTest extends BaseUnitTest {
 
 	@Test
 	void testErrorUndefined() {
-		checkError("Rename(f,\"fff\")",
-				"Please check your input :\n" + "Undefined variable \n" + "f ");
+		checkError("Rename(f,\"fff\")", "Please check your input :\n" + "Undefined variable \n" + "f ");
 	}
 
 	@Test
@@ -156,12 +154,10 @@ class RedefineTest extends BaseUnitTest {
 		t("C=(0,0)", "(0, 0)");
 		t("D=(0,1)", "(0, 1)");
 		t("poly1=Polygon[A,B,C,D]", "1", "1", "1", "1", "1");
-		assertEquals("a_1 = Segment(A, B, poly1)",
-				lookup("a_1").getDefinitionForInputBar());
+		assertEquals("a_1 = Segment(A, B, poly1)", lookup("a_1").getDefinitionForInputBar());
 		t("a_{1} = Segment(A, B, poly1)");
-		ap.changeGeoElement(lookup("a_1"),
-				"a_{1} = Segment(A, B, poly1)", true, true,
-				TestErrorHandler.INSTANCE, null);
+		ap.changeGeoElement(
+				lookup("a_1"), "a_{1} = Segment(A, B, poly1)", true, true, TestErrorHandler.INSTANCE, null);
 	}
 
 	@Test
@@ -238,7 +234,8 @@ class RedefineTest extends BaseUnitTest {
 
 	@Test
 	void cmdRename() {
-		checkError("Rename[ 6*7, \"$7\" ]",
+		checkError(
+				"Rename[ 6*7, \"$7\" ]",
 				"Command Rename:\nIllegal argument: Text \"$7\"\n\n"
 						+ "Syntax:\nRename( <Object>, <Name> )");
 	}
@@ -279,10 +276,10 @@ class RedefineTest extends BaseUnitTest {
 	@Test
 	void pointOnSplineShouldMove() {
 		t("A=(1, 1)", "(1, 1)");
-		tRound("b:Spline({(0, 1),A,(1, 0)})", TestStringUtil.unicode(
-				"(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5),"
-						+ " If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))")
-		);
+		tRound(
+				"b:Spline({(0, 1),A,(1, 0)})",
+				TestStringUtil.unicode("(If(t < 0.5, -2t^3 + 2.5t, 2t^3 - 6t^2 + 5.5t - 0.5),"
+						+ " If(t < 0.5, -2t^3 + 0.5t + 1, 2t^3 - 6t^2 + 3.5t + 0.5))"));
 		t("B:ClosestPoint(A, b)", "(1, 1)");
 		t("A=(0, 0)", "(0, 0)");
 		t("B", "(0, 0)");
@@ -303,8 +300,7 @@ class RedefineTest extends BaseUnitTest {
 		t("ZoomIn[0,0,100,100]");
 		t("a=.9", "0.9");
 		// undefined for most onscreen points
-		t("f=If(x==0, 1, ?)",
-				"If[x " + Unicode.QUESTEQ + " 0, 1, NaN]");
+		t("f=If(x==0, 1, ?)", "If[x " + Unicode.QUESTEQ + " 0, 1, NaN]");
 		t("A=Point[f, a]", "(NaN, NaN)");
 		t("a=.8", "0.8");
 		t("A", "(NaN, NaN)");
@@ -327,30 +323,25 @@ class RedefineTest extends BaseUnitTest {
 	void updateImplicitCurve() {
 		add("a=2");
 		t("c:y^2 = (x^2-a^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
-		assertFalse(lookup("c").isIndependent(),
-				"Implicit curve with var should be dependent.");
+		assertFalse(lookup("c").isIndependent(), "Implicit curve with var should be dependent.");
 		t("c1:y^2 = (x^2-2^2)/x^2", "y^(2) = (x^(2) - 2^(2)) / x^(2)");
-		assertTrue(lookup("c1").isIndependent(),
-				"Implicit curve without vars should be independent.");
+		assertTrue(lookup("c1").isIndependent(), "Implicit curve without vars should be independent.");
 		assertEquals(
 				TestStringUtil.unicode("c: y^2 = (x^2 - 2^2) / x^2"),
-				lookup("c").getAlgebraDescriptionTextOrHTMLDefault(
-						new IndexHTMLBuilder(true)));
+				lookup("c").getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(true)));
 		t("a=3", "3");
 		assertEquals(
 				TestStringUtil.unicode("c: y^2 = (x^2 - 3^2) / x^2"),
-				lookup("c").getAlgebraDescriptionTextOrHTMLDefault(
-						new IndexHTMLBuilder(true)));
+				lookup("c").getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(true)));
 	}
 
 	@Test
 	void derivativeShouldNotThrowCircularException() {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
-		ap.changeGeoElement(lookup("f'"), "f'(x)", true, true,
-				TestErrorHandler.INSTANCE, obj -> {
-					// no callback
-				});
+		ap.changeGeoElement(lookup("f'"), "f'(x)", true, true, TestErrorHandler.INSTANCE, obj -> {
+			// no callback
+		});
 		t("f'(x)", "(2 * x)");
 	}
 
@@ -392,18 +383,20 @@ class RedefineTest extends BaseUnitTest {
 	@Test
 	void functionShouldStayInequality() {
 		// old format: only NaN
-		app.getGgbApi().evalXML("<expression label=\"studans\" "
-				+ "exp=\"studans: NaN\" type=\"inequality\"/>\n"
-				+ "<element type=\"function\" label=\"studans\">\n"
-				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
-				+ "</element>");
+		app.getGgbApi()
+				.evalXML("<expression label=\"studans\" "
+						+ "exp=\"studans: NaN\" type=\"inequality\"/>\n"
+						+ "<element type=\"function\" label=\"studans\">\n"
+						+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
+						+ "</element>");
 		assertThat(lookup("studans"), isForceInequality());
 		// new format: includes function variables
-		app.getGgbApi().evalXML("<expression label=\"studans2\" "
-				+ "exp=\"studans2(x) = ?\" type=\"inequality\"/>\n"
-				+ "<element type=\"function\" label=\"studans2\">\n"
-				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
-				+ "</element>");
+		app.getGgbApi()
+				.evalXML("<expression label=\"studans2\" "
+						+ "exp=\"studans2(x) = ?\" type=\"inequality\"/>\n"
+						+ "<element type=\"function\" label=\"studans2\">\n"
+						+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
+						+ "</element>");
 		assertThat(lookup("studans2"), isForceInequality());
 	}
 
@@ -441,8 +434,7 @@ class RedefineTest extends BaseUnitTest {
 		add("numA3=numA0 - numA2");
 		add("row11:{Element(qrow, 1)}");
 		add("qrow:{numA3 + \"\"}");
-		assertEquals("{numA3 + \"\"}",
-				lookup("qrow").getRedefineString(false, false));
+		assertEquals("{numA3 + \"\"}", lookup("qrow").getRedefineString(false, false));
 	}
 
 	@Test
@@ -451,11 +443,13 @@ class RedefineTest extends BaseUnitTest {
 		add("l1 = {3x + y + z = 1, x - 3y - z = -7}");
 		add("l2 = Zip(IntersectPath(P, a), P, l1)");
 		reload();
-		List<String> labels = getKernel().getConstruction().getGeoSetConstructionOrder()
-				.stream().filter(a -> !a.isAuxiliaryObject()).map(GeoElement::getLabelSimple)
+		List<String> labels = getKernel().getConstruction().getGeoSetConstructionOrder().stream()
+				.filter(a -> !a.isAuxiliaryObject())
+				.map(GeoElement::getLabelSimple)
 				.collect(Collectors.toList());
 		assertEquals(Arrays.asList("a", "l1", "l2"), labels);
-		assertEquals("Zip(IntersectPath(P, a), P, l1)",
+		assertEquals(
+				"Zip(IntersectPath(P, a), P, l1)",
 				lookup("l2").getDefinition(StringTemplate.defaultTemplate));
 	}
 
@@ -503,8 +497,9 @@ class RedefineTest extends BaseUnitTest {
 		GeoElement stroke = add("stroke1=PenStroke((1,1),(2,3))");
 		GeoLocusStroke redefined = add("stroke1=PenStroke((1,4),(2,5))");
 		assertEquals(stroke, redefined);
-		assertThat(redefined, hasValue("PenStrokeBezier[1.0000E0,4.0000E0,1,2.0000E0,5.0000E0,0,"
-				+ "NaN,NaN,0]"));
+		assertThat(
+				redefined,
+				hasValue("PenStrokeBezier[1.0000E0,4.0000E0,1,2.0000E0,5.0000E0,0," + "NaN,NaN,0]"));
 	}
 
 	@Test
@@ -513,8 +508,7 @@ class RedefineTest extends BaseUnitTest {
 		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		add("c=Cone((0,0,0),(0,0,1),4)");
-		assertEquals(Arrays.asList("UPDATE c", "UPDATE d", "UPDATE a"),
-				listener.getEvents());
+		assertEquals(Arrays.asList("UPDATE c", "UPDATE d", "UPDATE a"), listener.getEvents());
 	}
 
 	@Test
@@ -533,11 +527,9 @@ class RedefineTest extends BaseUnitTest {
 		pt.setSelectionAllowed(false);
 		GeoElement redefined = add("A:x=y");
 		assertEquals("A", redefined.getLabelSimple());
-		assertFalse(redefined.isSelectionAllowed(null),
-				"Selection should stay disabled");
+		assertFalse(redefined.isSelectionAllowed(null), "Selection should stay disabled");
 		GeoElement transformed = add("Rotate(A,90deg)");
-		assertTrue(transformed.isSelectionAllowed(null),
-				"Selection should not be copied");
+		assertTrue(transformed.isSelectionAllowed(null), "Selection should not be copied");
 	}
 
 	@Test
@@ -618,9 +610,9 @@ class RedefineTest extends BaseUnitTest {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(getApp());
 		GeoElementND h = add("h(x) = x + i", evalInfo);
 		assertThat(lookup("h").getClass(), is(GeoSurfaceCartesian2D.class));
-		getKernel().getAlgebraProcessor()
-						.changeGeoElementNoExceptionHandling(h, "h(x) = 2x/2", evalInfo,
-								true, null, null);
+		getKernel()
+				.getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(h, "h(x) = 2x/2", evalInfo, true, null, null);
 		assertThat(lookup("h").getClass(), is(GeoFunction.class));
 	}
 
@@ -635,12 +627,25 @@ class RedefineTest extends BaseUnitTest {
 
 		add("poly=Polygon({A,B,C,D})");
 		add("InteriorAngles(poly)");
-		//redefine
+		// redefine
 		add("poly=Polygon({A,B,C,D,A})");
-		assertArrayEquals(new int[]{'c', 'A', 'B', 'C', 'D', 'p', Unicode.alpha,
-						Unicode.beta, Unicode.gamma, Unicode.delta, Unicode.epsilon},
+		assertArrayEquals(
+				new int[] {
+					'c',
+					'A',
+					'B',
+					'C',
+					'D',
+					'p',
+					Unicode.alpha,
+					Unicode.beta,
+					Unicode.gamma,
+					Unicode.delta,
+					Unicode.epsilon
+				},
 				Arrays.stream(getApp().getGgbApi().getAllObjectNames())
-						.mapToInt(s -> s.charAt(0)).toArray());
+						.mapToInt(s -> s.charAt(0))
+						.toArray());
 	}
 
 	@Test
@@ -648,11 +653,13 @@ class RedefineTest extends BaseUnitTest {
 		GeoText text = add("text=\"foo\"");
 		add("a=3");
 		text.setAbsoluteScreenLocActive(true);
-		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
-				TestErrorHandler.INSTANCE, false));
+		text.setStartPoint(getKernel()
+				.getAlgebraProcessor()
+				.evaluateToPoint("(a, 4)", TestErrorHandler.INSTANCE, false));
 		add("text=a+\"foo\"");
-		assertThat(((GeoText) lookup("text")).getStartPoint()
-				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+		assertThat(
+				((GeoText) lookup("text")).getStartPoint().getDefinition(StringTemplate.defaultTemplate),
+				is("(a, 4)"));
 	}
 
 	@Test
@@ -673,11 +680,13 @@ class RedefineTest extends BaseUnitTest {
 		GeoText text = add("text=\"foo\"");
 		add("a=3");
 		text.setAbsoluteScreenLocActive(false);
-		text.setStartPoint(getKernel().getAlgebraProcessor().evaluateToPoint("(a, 4)",
-				TestErrorHandler.INSTANCE, false));
+		text.setStartPoint(getKernel()
+				.getAlgebraProcessor()
+				.evaluateToPoint("(a, 4)", TestErrorHandler.INSTANCE, false));
 		add("text=a+\"foo\"");
-		assertThat(((GeoText) lookup("text")).getStartPoint()
-				.getDefinition(StringTemplate.defaultTemplate), is("(a, 4)"));
+		assertThat(
+				((GeoText) lookup("text")).getStartPoint().getDefinition(StringTemplate.defaultTemplate),
+				is("(a, 4)"));
 	}
 
 	@Test
@@ -702,11 +711,9 @@ class RedefineTest extends BaseUnitTest {
 		add("e=5");
 		add("s=Sum(l)");
 		// redefine
-		assertEquals("f,a,b,l,c,d,e,s",
-				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		assertEquals("f,a,b,l,c,d,e,s", String.join(",", getApp().getGgbApi().getAllObjectNames()));
 		add("l={a,b,c}");
-		assertEquals("f,a,b,c,l,d,e,s",
-				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		assertEquals("f,a,b,c,l,d,e,s", String.join(",", getApp().getGgbApi().getAllObjectNames()));
 	}
 
 	@Test
@@ -720,11 +727,9 @@ class RedefineTest extends BaseUnitTest {
 		add("e=5");
 		add("s=Angle(A)");
 		// redefine
-		assertEquals("f,a,b,A,B,c,d,e,s",
-				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		assertEquals("f,a,b,A,B,c,d,e,s", String.join(",", getApp().getGgbApi().getAllObjectNames()));
 		add("A=Intersect(x^2=a,y=b+c)");
-		assertEquals("f,a,b,c,A,B,d,e,s",
-				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		assertEquals("f,a,b,c,A,B,d,e,s", String.join(",", getApp().getGgbApi().getAllObjectNames()));
 	}
 
 	@Test

@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF ExtLogFontW
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ExtLogFontW.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -34,8 +34,15 @@ public class ExtLogFontW implements EMFConstants {
 
 	private Panose panose;
 
-	public ExtLogFontW(LogFontW font, String fullName, String style,
-			int version, int styleSize, int match, byte[] vendorID, int culture,
+	public ExtLogFontW(
+			LogFontW font,
+			String fullName,
+			String style,
+			int version,
+			int styleSize,
+			int match,
+			byte[] vendorID,
+			int culture,
 			Panose panose) {
 		this.font = font;
 		this.fullName = fullName;
@@ -55,7 +62,7 @@ public class ExtLogFontW implements EMFConstants {
 		this.version = 0;
 		this.styleSize = 0;
 		this.match = 0;
-		this.vendorID = new byte[] { 0, 0, 0, 0 };
+		this.vendorID = new byte[] {0, 0, 0, 0};
 		this.culture = 0;
 		this.panose = new Panose();
 	}

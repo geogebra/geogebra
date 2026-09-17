@@ -41,19 +41,27 @@ public class ButtonIconPropertyCollection extends PropertyCollectionWithLead {
 	 * @param elements list of GeoElements to create properties for
 	 * @throws NotApplicablePropertyException if the elements do not support icon
 	 */
-	public ButtonIconPropertyCollection(GeoElementPropertiesFactory propertiesFactory, Localization
-			localization, ImageManager imageManager, Kernel kernel, List<GeoElement> elements)
+	public ButtonIconPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			ImageManager imageManager,
+			Kernel kernel,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
-		super(localization, "Icon",
-				propertiesFactory.createPropertyFacadeThrowing(elements,
+		super(
+				localization,
+				"Icon",
+				propertiesFactory.createPropertyFacadeThrowing(
+						elements,
 						element -> new ButtonIconShownProperty(localization, imageManager, element),
 						BooleanPropertyListFacade::new),
-				propertiesFactory.createPropertyFacadeThrowing(elements,
+				propertiesFactory.createPropertyFacadeThrowing(
+						elements,
 						element -> new ButtonIconProperty(localization, imageManager, element),
 						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new CustomButtonImageProperty(localization, imageManager,
-								kernel, element),
+				propertiesFactory.createPropertyFacadeThrowing(
+						elements,
+						element -> new CustomButtonImageProperty(localization, imageManager, kernel, element),
 						ImagePropertyListFacade::new));
 	}
 }

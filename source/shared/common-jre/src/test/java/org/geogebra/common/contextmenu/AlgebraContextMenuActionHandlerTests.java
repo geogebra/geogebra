@@ -50,8 +50,7 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	@Test
 	void testRemovingInvalidAlgebraViewInput() {
 		AlgebraContextMenuActionHandler contextMenuActionHandler =
-				new AlgebraContextMenuActionHandler(getApp(), new TableValuesView(getKernel()),
-						null, this);
+				new AlgebraContextMenuActionHandler(getApp(), new TableValuesView(getKernel()), null, this);
 		contextMenuActionHandler.handleSelectedItem(AlgebraContextMenuItem.Delete);
 		assertTrue(clearAlgebraInputCalled);
 	}
@@ -59,9 +58,8 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	@Test
 	void testRemovingValidAlgebraViewItem() {
 		GeoElement geoElement = evaluateGeoElement("A = (1, 2)");
-		AlgebraContextMenuActionHandler contextMenuActionHandler =
-				new AlgebraContextMenuActionHandler(getApp(), new TableValuesView(getKernel()),
-						geoElement, this);
+		AlgebraContextMenuActionHandler contextMenuActionHandler = new AlgebraContextMenuActionHandler(
+				getApp(), new TableValuesView(getKernel()), geoElement, this);
 		assertNotNull(lookup("A"));
 		contextMenuActionHandler.handleSelectedItem(AlgebraContextMenuItem.Delete);
 		assertFalse(clearAlgebraInputCalled);
@@ -99,8 +97,7 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	}
 
 	@Test
-	void testCreatingTableValuesScrollsToColumnAlreadyInTable()
-			throws InvalidValuesException {
+	void testCreatingTableValuesScrollsToColumnAlreadyInTable() throws InvalidValuesException {
 		TableValues tableValues = new TableValuesView(getKernel());
 		getKernel().attach(tableValues);
 		tableValues.setValues(0, 5, 1);
@@ -119,8 +116,8 @@ class AlgebraContextMenuActionHandlerTests extends BaseAppTestSetup
 	@Test
 	void testSettingsShowsObjectProperties() {
 		GeoElement geoElement = evaluateGeoElement("A = (1, 2)");
-		AlgebraContextMenuActionHandler handler = new AlgebraContextMenuActionHandler(getApp(),
-				new TableValuesView(getKernel()), geoElement, this);
+		AlgebraContextMenuActionHandler handler = new AlgebraContextMenuActionHandler(
+				getApp(), new TableValuesView(getKernel()), geoElement, this);
 		handler.handleSelectedItem(AlgebraContextMenuItem.Settings);
 		assertTrue(showObjectPropertiesCalled);
 	}

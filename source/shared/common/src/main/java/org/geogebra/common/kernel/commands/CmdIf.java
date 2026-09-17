@@ -49,14 +49,14 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * If[ &lt;GeoBoolean&gt;, &lt;GeoElement&gt; ]
- * 
+ *
  * If[ &lt;GeoBoolean&gt;, &lt;GeoElement&gt;, &lt;GeoElement&gt; ]
  */
 public class CmdIf extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -76,9 +76,11 @@ public class CmdIf extends CommandProcessor {
 		MyList alternatives = new MyList(kernelA);
 		int num = c.size();
 		if (num == 3) {
-			return new ExpressionNode(kernelA,
+			return new ExpressionNode(
+					kernelA,
 					new MyNumberPair(kernelA, c.getItem(0), c.getItem(1)),
-					Operation.IF_ELSE, c.getItem(2));
+					Operation.IF_ELSE,
+					c.getItem(2));
 		}
 		for (int i = 0; i < num - 1; i += 2) {
 			conditions.addListElement(c.getItem(i));
@@ -89,9 +91,7 @@ public class CmdIf extends CommandProcessor {
 		if (MyDouble.isOdd(num)) {
 			alternatives.addListElement(c.getItem(num - 1));
 		}
-		return new ExpressionNode(kernelA, conditions, Operation.IF_LIST,
-				alternatives);
-
+		return new ExpressionNode(kernelA, conditions, Operation.IF_LIST, alternatives);
 	}
 
 	@Override
@@ -103,12 +103,10 @@ public class CmdIf extends CommandProcessor {
 		}
 
 		if (kernel.getConstruction().hasRegisteredFunctionVariable()) {
-			String[] varName = kernel.getConstruction()
-					.getRegisteredFunctionVariables();
+			String[] varName = kernel.getConstruction().getRegisteredFunctionVariables();
 			FunctionVariable[] fv = new FunctionVariable[varName.length];
 			for (int i = 0; i < n - 1; i += 2) {
-				int r = kernel.getAlgebraProcessor()
-						.replaceVariables(c.getArgument(i), varName, fv);
+				int r = kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i), varName, fv);
 				if (r > 0) {
 					return specialFunction(c, varName, fv, info);
 				}
@@ -130,8 +128,7 @@ public class CmdIf extends CommandProcessor {
 			if (MyDouble.isOdd(n)) {
 				alternatives.add(arg[n - 1]);
 			}
-			return new AlgoIf(cons, c.getLabel(), cond, alternatives)
-					.getOutput();
+			return new AlgoIf(cons, c.getLabel(), cond, alternatives).getOutput();
 		}
 		// SPECIAL CASE for functions:
 		// boolean function in x as condition
@@ -143,14 +140,10 @@ public class CmdIf extends CommandProcessor {
 		ArrayList<FunctionalNVar> functions = new ArrayList<>();
 		int vars = 1;
 		for (int i = 0; i < n - 1; i += 2) {
-			if (arg[i] instanceof FunctionalNVar
-					&& ((FunctionalNVar) arg[i]).isBooleanFunction()) {
+			if (arg[i] instanceof FunctionalNVar && ((FunctionalNVar) arg[i]).isBooleanFunction()) {
 				conditions.add((FunctionalNVar) arg[i]);
-				vars = vars > 1 ? vars
-						: ((FunctionalNVar) arg[i])
-								.getFunctionVariables().length;
-				if ("y".equals(((FunctionalNVar) arg[i])
-						.getVarString(StringTemplate.defaultTemplate))) {
+				vars = vars > 1 ? vars : ((FunctionalNVar) arg[i]).getFunctionVariables().length;
+				if ("y".equals(((FunctionalNVar) arg[i]).getVarString(StringTemplate.defaultTemplate))) {
 					vars = Math.max(vars, 2);
 				}
 			} else {
@@ -161,17 +154,16 @@ public class CmdIf extends CommandProcessor {
 		if (MyDouble.isOdd(n)) {
 			vars = checkAdd(c, functions, arg[n - 1], vars);
 		}
-		return new GeoElement[] {
-				functionIf(c.getLabel(), conditions, functions, vars) };
-
+		return new GeoElement[] {functionIf(c.getLabel(), conditions, functions, vars)};
 	}
 
-	private int checkAdd(Command c, ArrayList<FunctionalNVar> functions,
-			GeoElement fn, int vars) {
+	private int checkAdd(Command c, ArrayList<FunctionalNVar> functions, GeoElement fn, int vars) {
 		if (fn.isRealValuedFunction() && !(fn instanceof GeoLine)) {
 			functions.add(((GeoFunctionable) fn).getGeoFunction());
-			if ("y".equals(((GeoFunctionable) fn).getGeoFunction()
-					.getVarString(StringTemplate.defaultTemplate))) {
+			if ("y"
+					.equals(((GeoFunctionable) fn)
+							.getGeoFunction()
+							.getVarString(StringTemplate.defaultTemplate))) {
 				return Math.max(vars, 2);
 			}
 			return vars;
@@ -181,11 +173,10 @@ public class CmdIf extends CommandProcessor {
 		} else {
 			throw argErr(c, fn);
 		}
-
 	}
 
-	private GeoElement[] specialFunction(Command c, String[] varName,
-			FunctionVariable[] fv, EvalInfo info) {
+	private GeoElement[] specialFunction(
+			Command c, String[] varName, FunctionVariable[] fv, EvalInfo info) {
 		EvalInfo argInfo = info.withLabels(false);
 		final boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
@@ -195,66 +186,61 @@ public class CmdIf extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		int vars = varName.length;
 		for (int i = 0; i < n - 1; i += 2) {
-			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i),
-					varName, fv);
+			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i), varName, fv);
 			FunctionalNVar current = resolveFunction(c, i, fv, vars, argInfo);
 			if (current.isBooleanFunction()) {
 				conditions.add(current);
 			} else {
 				throw argErr(c, current);
 			}
-			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i + 1),
-					varName, fv);
-			vars = checkAdd(c, functions,
-					(GeoElement) resolveFunction(c, i + 1, fv, vars, argInfo),
-					vars);
+			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i + 1), varName, fv);
+			vars =
+					checkAdd(c, functions, (GeoElement) resolveFunction(c, i + 1, fv, vars, argInfo), vars);
 		}
 		if (MyDouble.isOdd(n)) {
-			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(n - 1),
-					varName, fv);
-			vars = checkAdd(c, functions,
-					(GeoElement) resolveFunction(c, n - 1, fv, vars, argInfo),
-					vars);
+			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(n - 1), varName, fv);
+			vars =
+					checkAdd(c, functions, (GeoElement) resolveFunction(c, n - 1, fv, vars, argInfo), vars);
 		}
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
-		return new GeoElement[] {
-				functionIf(c.getLabel(), conditions, functions, vars) };
+		return new GeoElement[] {functionIf(c.getLabel(), conditions, functions, vars)};
 	}
 
-	private FunctionalNVar resolveFunction(Command c, int i,
-			FunctionVariable[] fv, int vars, EvalInfo argInfo) {
+	private FunctionalNVar resolveFunction(
+			Command c, int i, FunctionVariable[] fv, int vars, EvalInfo argInfo) {
 		ExpressionNode arg = c.getArgument(i);
 		arg.resolveVariables(argInfo);
 		// If we have a ready function rather than expression, just use it #4674
-		if (arg.unwrap() instanceof GeoFunction
-				|| arg.unwrap() instanceof GeoFunctionNVar) {
+		if (arg.unwrap() instanceof GeoFunction || arg.unwrap() instanceof GeoFunctionNVar) {
 			return (FunctionalNVar) arg.unwrap();
 		}
 		EvalInfo info = new EvalInfo(false);
 		if (vars < 2) {
-			return (GeoFunction) kernel.getAlgebraProcessor()
-					.processFunction(new Function(arg, fv[0]), info)[0];
+			return (GeoFunction)
+					kernel.getAlgebraProcessor().processFunction(new Function(arg, fv[0]), info)[0];
 		}
-		return (GeoFunctionNVar) kernel.getAlgebraProcessor()
-				.processFunctionNVar(new FunctionNVar(arg, fv), info)[0];
+		return (GeoFunctionNVar)
+				kernel.getAlgebraProcessor().processFunctionNVar(new FunctionNVar(arg, fv), info)[0];
 	}
 
 	/**
 	 * If-then-else construct for functions. example: If[ x < 2, x^2, x + 2 ]
 	 */
-	private GeoElement functionIf(String label,
+	private GeoElement functionIf(
+			String label,
 			ArrayList<FunctionalNVar> conditions,
-			ArrayList<FunctionalNVar> functions, int vars) {
+			ArrayList<FunctionalNVar> functions,
+			int vars) {
 		FunctionVariable[] fv;
 		if (vars == conditions.get(0).getFunctionVariables().length) {
 			fv = Arrays.stream(conditions.get(0).getFunctionVariables())
-					.map(v -> v.deepCopy(kernel)).toArray(FunctionVariable[]::new);
+					.map(v -> v.deepCopy(kernel))
+					.toArray(FunctionVariable[]::new);
 		} else if (cons.hasRegisteredFunctionVariable()) {
 			int regVars = cons.getRegisteredFunctionVariables().length;
 			fv = new FunctionVariable[regVars];
 			for (int i = 0; i < fv.length; i++) {
-				fv[i] = new FunctionVariable(kernel,
-						cons.getRegisteredFunctionVariables()[i]);
+				fv[i] = new FunctionVariable(kernel, cons.getRegisteredFunctionVariables()[i]);
 			}
 		} else {
 			fv = new FunctionVariable[vars];
@@ -268,23 +254,19 @@ public class CmdIf extends CommandProcessor {
 		boolean mayUseIndependent = true;
 		for (int i = 0; i < functions.size(); i++) {
 			if (Inspecting.isDynamicGeoElement(functions.get(i))
-					|| (i < conditions.size() && Inspecting
-					.isDynamicGeoElement(conditions.get(i)))) {
+					|| (i < conditions.size() && Inspecting.isDynamicGeoElement(conditions.get(i)))) {
 				mayUseIndependent = false;
 				break;
 			}
 		}
 
 		if (functions.size() == 1) {
-			expr = new ExpressionNode(kernel,
-					wrap(conditions.get(0), fv),
-					Operation.IF,
-					wrap(functions.get(0), fv));
+			expr = new ExpressionNode(
+					kernel, wrap(conditions.get(0), fv), Operation.IF, wrap(functions.get(0), fv));
 		} else if (functions.size() == 2 && conditions.size() == 1) {
-			expr = new ExpressionNode(kernel,
-					new MyNumberPair(kernel,
-							wrap(conditions.get(0), fv),
-							wrap(functions.get(0), fv)),
+			expr = new ExpressionNode(
+					kernel,
+					new MyNumberPair(kernel, wrap(conditions.get(0), fv), wrap(functions.get(0), fv)),
 					Operation.IF_ELSE,
 					wrap(functions.get(1), fv));
 		} else {
@@ -304,8 +286,7 @@ public class CmdIf extends CommandProcessor {
 				gf = new GeoFunction(cons, fun);
 
 			} else {
-				AlgoDependentFunction algo = new AlgoDependentFunction(cons,
-						fun, true);
+				AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun, true);
 				gf = algo.getFunction();
 			}
 			if (gf.validate(label == null)) {
@@ -321,8 +302,7 @@ public class CmdIf extends CommandProcessor {
 			ret.setLabel(label);
 			return ret;
 		}
-		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
-				fun);
+		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons, fun);
 		algo.getFunction().setLabel(label);
 		return algo.getFunction();
 	}
@@ -330,15 +310,13 @@ public class CmdIf extends CommandProcessor {
 	private ExpressionNode wrap(FunctionalNVar boolFun, FunctionVariable[] fv) {
 		if (Inspecting.isDynamicGeoElement(boolFun)) {
 			if (fv.length == 1) {
-				return new ExpressionNode(kernel, boolFun, Operation.FUNCTION,
-						fv[0]);
+				return new ExpressionNode(kernel, boolFun, Operation.FUNCTION, fv[0]);
 			}
 			MyList arg = new MyList(kernel);
 			for (int i = 0; i < fv.length; i++) {
 				arg.addListElement(fv[i]);
 			}
-			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION_NVAR,
-					arg);
+			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION_NVAR, arg);
 		}
 		ExpressionValue exp = boolFun.getFunctionExpression().deepCopy(kernel);
 		for (int i = 0; i < fv.length; i++) {

@@ -37,7 +37,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author ggb3D
- * 
+ *
  *         Creates a new GeoPolyhedron
  *
  */
@@ -94,7 +94,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 	/**
 	 * creates an archimedean solid
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -108,8 +108,13 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 * @param name
 	 *            solid type
 	 */
-	public AlgoArchimedeanSolid(Construction c, String[] labels, GeoPointND A,
-			GeoPointND B, GeoDirectionND v, Commands name) {
+	public AlgoArchimedeanSolid(
+			Construction c,
+			String[] labels,
+			GeoPointND A,
+			GeoPointND B,
+			GeoDirectionND v,
+			Commands name) {
 		this(c, name);
 
 		this.A = A;
@@ -121,7 +126,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -133,24 +138,24 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 * @param name
 	 *            solid type
 	 */
-	public AlgoArchimedeanSolid(Construction c, String[] labels, GeoPolygon poly,
-			GeoBoolean isDirect, Commands name) {
+	public AlgoArchimedeanSolid(
+			Construction c, String[] labels, GeoPolygon poly, GeoBoolean isDirect, Commands name) {
 		this(c, name);
 
 		this.polygon = poly;
 		this.isDirectGeo = isDirect;
 
 		switch (name) {
-		default: // Icosahedron, Octahedron
-		case Tetrahedron:
-			inputPointsCount = 3;
-			break;
-		case Cube:
-			inputPointsCount = 4;
-			break;
-		case Dodecahedron:
-			inputPointsCount = 5;
-			break;
+			default: // Icosahedron, Octahedron
+			case Tetrahedron:
+				inputPointsCount = 3;
+				break;
+			case Cube:
+				inputPointsCount = 4;
+				break;
+			case Dodecahedron:
+				inputPointsCount = 5;
+				break;
 		}
 
 		initInputOutput(labels, poly, isDirect);
@@ -166,24 +171,24 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 *            command name
 	 * @return solid description for the command name
 	 */
-	static public PlatonicSolid computeSolidDescription(Commands name) {
+	public static PlatonicSolid computeSolidDescription(Commands name) {
 		switch (name) {
-		default:
-		case Tetrahedron:
-			return PlatonicSolidsFactory.getTetrahedron();
-		case Cube:
-			return PlatonicSolidsFactory.getCube();
-		case Octahedron:
-			return PlatonicSolidsFactory.getOctahedron();
-		case Dodecahedron:
-			return PlatonicSolidsFactory.getDodecahedron();
-		case Icosahedron:
-			return PlatonicSolidsFactory.getIcosahedron();
+			default:
+			case Tetrahedron:
+				return PlatonicSolidsFactory.getTetrahedron();
+			case Cube:
+				return PlatonicSolidsFactory.getCube();
+			case Octahedron:
+				return PlatonicSolidsFactory.getOctahedron();
+			case Dodecahedron:
+				return PlatonicSolidsFactory.getDodecahedron();
+			case Icosahedron:
+				return PlatonicSolidsFactory.getIcosahedron();
 		}
 	}
 
@@ -193,24 +198,24 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 *            command name
 	 * @return polyhedron type for the command name
 	 */
-	static public GeoPolyhedron.Type getPolyhedronType(Commands name) {
+	public static GeoPolyhedron.Type getPolyhedronType(Commands name) {
 		switch (name) {
-		default:
-		case Tetrahedron:
-			return GeoPolyhedron.Type.TETRAHEDRON;
-		case Cube:
-			return GeoPolyhedron.Type.CUBE;
-		case Octahedron:
-			return GeoPolyhedron.Type.OCTAHEDRON;
-		case Dodecahedron:
-			return GeoPolyhedron.Type.DODECAHEDRON;
-		case Icosahedron:
-			return GeoPolyhedron.Type.ICOSAHEDRON;
+			default:
+			case Tetrahedron:
+				return GeoPolyhedron.Type.TETRAHEDRON;
+			case Cube:
+				return GeoPolyhedron.Type.CUBE;
+			case Octahedron:
+				return GeoPolyhedron.Type.OCTAHEDRON;
+			case Dodecahedron:
+				return GeoPolyhedron.Type.DODECAHEDRON;
+			case Icosahedron:
+				return GeoPolyhedron.Type.ICOSAHEDRON;
 		}
 	}
 
@@ -283,12 +288,11 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		outputPolygons.addOutput(polyhedron.getFaces3D(), false, false);
 		outputSegments.addOutput(polyhedron.getSegments3D(), false, true);
-
 	}
 
 	/**
 	 * create the polyhedron (faces and edges)
-	 * 
+	 *
 	 */
 	protected void createPolyhedron() {
 
@@ -309,8 +313,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 			points[1] = getB();
 			polyhedronIsDummy = false;
 		} else {
-			if (polygon.isDefined()
-					&& polygon.getPointsLength() == inputPointsCount) {
+			if (polygon.isDefined() && polygon.getPointsLength() == inputPointsCount) {
 				for (int i = 0; i < inputPointsCount; i++) {
 					points[i] = getPolygonPoint(i);
 				}
@@ -347,7 +350,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 			}
 			polyhedron.endCurrentFace();
 		}
-
 	}
 
 	private GeoPointND getPolygonPoint(int i) {
@@ -355,10 +357,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	private void setPolyhedronNotDummyIfPossible() {
-		if (polygon.isDefined()
-				&& polygon.getPointsLength() == inputPointsCount) {
-			polyhedron.replaceDummies(polygon.getPointsND(),
-					polygon.getSegments());
+		if (polygon.isDefined() && polygon.getPointsLength() == inputPointsCount) {
+			polyhedron.replaceDummies(polygon.getPointsND(), polygon.getSegments());
 			polyhedronIsDummy = false;
 		}
 	}
@@ -368,7 +368,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		if (polyhedronIsDummy) {
 			setPolyhedronNotDummyIfPossible();
 		}
-		
+
 		if (!polyhedronIsDummy) {
 			computeSolid();
 		}
@@ -378,8 +378,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		polyhedron.setDefined();
 
-		if (polygon != null && (!polygon.isDefined()
-				|| polygon.getPointsLength() != inputPointsCount)) {
+		if (polygon != null
+				&& (!polygon.isDefined() || polygon.getPointsLength() != inputPointsCount)) {
 			setUndefined();
 			return;
 		}
@@ -442,8 +442,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		if (polygon != null) {
 			for (int i = 2; i < inputPointsCount; i++) {
 				tmpCoords.setMul3(matrix, coords[i]);
-				if (!tmpCoords.equalsForKernel3(
-						getPolygonPoint(i).getInhomCoordsInD3())) {
+				if (!tmpCoords.equalsForKernel3(getPolygonPoint(i).getInhomCoordsInD3())) {
 					setUndefined();
 					return;
 				}
@@ -451,9 +450,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 
 		for (int i = 0; i < coords.length - inputPointsCount; i++) {
-			outputPoints.getElement(i)
-					.setCoords(matrix.mul(coords[i + inputPointsCount]),
-					true);
+			outputPoints.getElement(i).setCoords(matrix.mul(coords[i + inputPointsCount]), true);
 		}
 
 		// update volume
@@ -465,45 +462,42 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		// update height
 		polyhedron.setOrientedHeight(dist * heightFactor);
-
 	}
 
 	private void setVolumeAreaAndHeightFactors() {
 
 		switch (name) {
-		default:
-		case Tetrahedron:
-			volumeFactor = Math.sqrt(2) / 12;
-			heightFactor = Math.sqrt(2. / 3.);
-			areaFactor = Math.sqrt(3);
-			break;
+			default:
+			case Tetrahedron:
+				volumeFactor = Math.sqrt(2) / 12;
+				heightFactor = Math.sqrt(2. / 3.);
+				areaFactor = Math.sqrt(3);
+				break;
 
-		case Cube:
-			volumeFactor = 1;
-			heightFactor = 1;
-			areaFactor = 6;
-			break;
+			case Cube:
+				volumeFactor = 1;
+				heightFactor = 1;
+				areaFactor = 6;
+				break;
 
-		case Octahedron:
-			volumeFactor = Math.sqrt(2) / 3;
-			heightFactor = Math.sqrt(2. / 3.);
-			areaFactor = 2 * Math.sqrt(3);
-			break;
+			case Octahedron:
+				volumeFactor = Math.sqrt(2) / 3;
+				heightFactor = Math.sqrt(2. / 3.);
+				areaFactor = 2 * Math.sqrt(3);
+				break;
 
-		case Dodecahedron:
-			volumeFactor = (15 + 7 * Math.sqrt(5)) / 4;
-			heightFactor = Math.sqrt(2.5 + 1.1 * Math.sqrt(5));
-			areaFactor = 3 * Math.sqrt(25 + 10 * Math.sqrt(5));
-			break;
+			case Dodecahedron:
+				volumeFactor = (15 + 7 * Math.sqrt(5)) / 4;
+				heightFactor = Math.sqrt(2.5 + 1.1 * Math.sqrt(5));
+				areaFactor = 3 * Math.sqrt(25 + 10 * Math.sqrt(5));
+				break;
 
-		case Icosahedron:
-			volumeFactor = (15 + 5 * Math.sqrt(5)) / 12;
-			heightFactor = (3 + Math.sqrt(5)) / (2 * Math.sqrt(3));
-			areaFactor = 5 * Math.sqrt(3);
-			break;
-
+			case Icosahedron:
+				volumeFactor = (15 + 5 * Math.sqrt(5)) / 12;
+				heightFactor = (3 + Math.sqrt(5)) / (2 * Math.sqrt(3));
+				areaFactor = 5 * Math.sqrt(3);
+				break;
 		}
-
 	}
 
 	private void setUndefined() {
@@ -512,7 +506,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		for (int i = 0; i < outputPoints.size(); i++) {
 			outputPoints.getElement(i).setUndefined();
 		}
-
 	}
 
 	// ///////////////////////////////////////////
@@ -529,7 +522,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 			outputSegments.updateParentAlgorithm();
 			outputPolygons.updateParentAlgorithm();
 		}
-
 	}
 
 	@Override
@@ -538,12 +530,12 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	}
 
 	@Override
-	final protected boolean isFirstInputPointVisible() {
+	protected final boolean isFirstInputPointVisible() {
 		return true;
 	}
 
 	@Override
-	final protected boolean isFirstInputPointLabelVisible() {
+	protected final boolean isFirstInputPointLabelVisible() {
 		return true;
 	}
 
@@ -567,5 +559,4 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		wasDirect = computeIsDirect();
 		polyhedron.setReverseNormals(wasDirect);
 	}
-
 }

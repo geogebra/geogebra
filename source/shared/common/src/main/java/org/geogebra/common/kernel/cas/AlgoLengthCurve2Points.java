@@ -29,11 +29,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * @author Victor Franco Espino
  * @version 19-04-2007
- * 
+ *
  *          Calculate Curve Length between the points A and B: integral from t0
  *          to t1 on T = sqrt(a'(t)^2+b'(t)^2)
  */
-
 public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
 	private GeoPointND A; // input
@@ -55,8 +54,8 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	 * @param B
 	 *            end point
 	 */
-	public AlgoLengthCurve2Points(Construction cons, String label,
-			GeoCurveCartesianND c, GeoPointND A, GeoPointND B) {
+	public AlgoLengthCurve2Points(
+			Construction cons, String label, GeoCurveCartesianND c, GeoPointND A, GeoPointND B) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -102,18 +101,15 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
 		double a = c.getClosestParameter(A, c.getMinParameter());
 		double b = c.getClosestParameter(B, c.getMinParameter());
-		double lenVal = Math.abs(
-				AlgoIntegralDefinite.numericIntegration(lengthCurve, a, b));
+		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(lengthCurve, a, b));
 		length.setValue(lenVal);
 	}
 
 	@Override
 	public void refreshCASResults() {
 		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, c, null, null, true,
-				new EvalInfo(false));
-		derivative = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS)
-				.getResult();
+		algoCAS = new AlgoDerivative(cons, c, null, null, true, new EvalInfo(false));
+		derivative = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
 		lengthCurve = new LengthCurve(derivative);
 	}

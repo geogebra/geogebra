@@ -30,8 +30,7 @@ public class SymbolicModel extends BooleanOptionModel {
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index).getGeoElementForPropertiesDialog();
 
-		return geo.isGeoNumeric() || geo.isGeoText()
-				|| geo.isGeoInputBox();
+		return geo.isGeoNumeric() || geo.isGeoText() || geo.isGeoInputBox();
 	}
 
 	@Override
@@ -46,12 +45,10 @@ public class SymbolicModel extends BooleanOptionModel {
 		HasSymbolicMode geo = (HasSymbolicMode) getObjectAt(index);
 		geo.setSymbolicMode(value, true);
 		geo.updateRepaint();
-
 	}
 
 	@Override
 	public String getTitle() {
 		return "Symbolic";
 	}
-
 }

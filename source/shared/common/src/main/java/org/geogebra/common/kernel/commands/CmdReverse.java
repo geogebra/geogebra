@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class CmdReverse extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -36,9 +36,8 @@ public class CmdReverse extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoReverse algo = new AlgoReverse(cons, a, b);
 		return algo.getResult();
 	}
-
 }

@@ -31,8 +31,8 @@ public class ImageOpacityProperty extends OpacityProperty {
 	 * @param localization - localization
 	 * @param element - element
 	 */
-	public ImageOpacityProperty(Localization localization, GeoElement element) throws
-			NotApplicablePropertyException {
+	public ImageOpacityProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, new ImageDelegate(element));
 	}
 }

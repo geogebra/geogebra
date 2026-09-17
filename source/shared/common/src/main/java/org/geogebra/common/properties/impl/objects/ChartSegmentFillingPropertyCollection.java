@@ -48,41 +48,52 @@ public class ChartSegmentFillingPropertyCollection extends AbstractPropertyColle
 	 * @param elements the elements to create the property for
 	 * @throws NotApplicablePropertyException if the property is not applicable to the given elements
 	 */
-	public ChartSegmentFillingPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, ImageManager imageManager, List<GeoElement> elements)
+	public ChartSegmentFillingPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			ImageManager imageManager,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "Filling");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		setProperties(Stream.<Property>of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartSegmentSelectionProperty(localization, element,
-								chartSegmentSelection),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartSegmentFillCategoryProperty(localization, element,
-								chartSegmentSelection),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartSegmentFillSymbolProperty(localization, element,
-								chartSegmentSelection),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartSegmentFillImageProperty(localization, imageManager,
-								element, chartSegmentSelection),
-						ImagePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartSegmentPatternFillStyleProperty(localization, element,
-								chartSegmentSelection),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartSegmentHatchingDistanceProperty(localization, element,
-								chartSegmentSelection),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ChartSegmentHatchingAngleProperty(localization, element,
-								chartSegmentSelection),
-						RangePropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element ->
+										new ChartSegmentSelectionProperty(localization, element, chartSegmentSelection),
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ChartSegmentFillCategoryProperty(
+										localization, element, chartSegmentSelection),
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ChartSegmentFillSymbolProperty(
+										localization, element, chartSegmentSelection),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ChartSegmentFillImageProperty(
+										localization, imageManager, element, chartSegmentSelection),
+								ImagePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ChartSegmentPatternFillStyleProperty(
+										localization, element, chartSegmentSelection),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ChartSegmentHatchingDistanceProperty(
+										localization, element, chartSegmentSelection),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ChartSegmentHatchingAngleProperty(
+										localization, element, chartSegmentSelection),
+								RangePropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

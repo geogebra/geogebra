@@ -29,7 +29,7 @@ public class PlotSettings {
 	public double yAxesInterval = 1;
 	public boolean yAxesIntervalAuto = true;
 
-	public double[] gridInterval = { 1, 1 };
+	public double[] gridInterval = {1, 1};
 	public boolean gridIntervalAuto = true;
 
 	public int pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
@@ -38,8 +38,8 @@ public class PlotSettings {
 	public boolean showXAxis = true;
 	public boolean showArrows = false;
 	public boolean forceXAxisBuffer = false;
-	public boolean[] isEdgeAxis = { false, false };
-	public boolean[] isPositiveOnly = { false, false };
+	public boolean[] isEdgeAxis = {false, false};
+	public boolean[] isPositiveOnly = {false, false};
 	public boolean showGrid = false;
 
 	public boolean logXAxis = false;
@@ -48,13 +48,11 @@ public class PlotSettings {
 	/**
 	 * Default constructor
 	 */
-	public PlotSettings() {
-
-	}
+	public PlotSettings() {}
 
 	/**
 	 * Partial default constructor
-	 * 
+	 *
 	 * @param xMinEV
 	 *            x-min for graphics
 	 * @param xMaxEV
@@ -73,9 +71,15 @@ public class PlotSettings {
 	 * @param isEdgeAxis
 	 *            whether to stick axes to the edge
 	 */
-	public PlotSettings(double xMinEV, double xMaxEV, double yMinEV,
-			double yMaxEV, boolean showYAxis, boolean showArrows,
-			boolean forceXAxisBuffer, boolean[] isEdgeAxis) {
+	public PlotSettings(
+			double xMinEV,
+			double xMaxEV,
+			double yMinEV,
+			double yMaxEV,
+			boolean showYAxis,
+			boolean showArrows,
+			boolean forceXAxisBuffer,
+			boolean[] isEdgeAxis) {
 		this.xMin = xMinEV;
 		this.xMax = xMaxEV;
 		this.yMin = yMinEV;
@@ -85,5 +89,4 @@ public class PlotSettings {
 		this.forceXAxisBuffer = forceXAxisBuffer;
 		this.isEdgeAxis = isEdgeAxis;
 	}
-
 }

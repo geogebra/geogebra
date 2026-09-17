@@ -48,7 +48,7 @@ public class AlgoIsPrime extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[] { number.toGeoElement() };
+		input = new GeoElement[] {number.toGeoElement()};
 		setDependencies();
 	}
 
@@ -82,5 +82,4 @@ public class AlgoIsPrime extends AlgoElement {
 	public GeoBoolean getResult() {
 		return result;
 	}
-
 }

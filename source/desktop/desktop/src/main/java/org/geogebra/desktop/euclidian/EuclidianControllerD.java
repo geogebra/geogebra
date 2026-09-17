@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,7 +31,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * EuclidianController.java
- * 
+ *
  * Created on 16. October 2001, 15:41
  */
 public class EuclidianControllerD extends EuclidianController
@@ -42,7 +42,7 @@ public class EuclidianControllerD extends EuclidianController
 
 	/***********************************************
 	 * Creates new EuclidianController
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 **********************************************/
@@ -52,7 +52,6 @@ public class EuclidianControllerD extends EuclidianController
 
 		// for tooltip manager
 		defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
-
 	}
 
 	@Override
@@ -118,7 +117,7 @@ public class EuclidianControllerD extends EuclidianController
 
 	/*
 	 * public void focusGained(FocusEvent e) { initToolTipManager(); }
-	 * 
+	 *
 	 * public void focusLost(FocusEvent e) { resetToolTipManager(); }
 	 */
 
@@ -141,14 +140,14 @@ public class EuclidianControllerD extends EuclidianController
 	/*
 	 * final protected void transformCoords(boolean usePointCapturing) { // calc
 	 * real world coords calcRWcoords();
-	 * 
+	 *
 	 * if (usePointCapturing) { double pointCapturingPercentage = 1; switch
 	 * (view.getPointCapturingMode()) { case
 	 * EuclidianConstants.POINT_CAPTURING_AUTOMATIC: if
 	 * (!view.isGridOrAxesShown())break;
-	 * 
+	 *
 	 * case EuclidianView.POINT_CAPTURING_ON: pointCapturingPercentage = 0.125;
-	 * 
+	 *
 	 * case EuclidianView.POINT_CAPTURING_ON_GRID: // X = (x, y) ... next grid
 	 * point double x = Kernel.roundToScale(xRW, view.gridDistances[0]); double
 	 * y = Kernel.roundToScale(yRW, view.gridDistances[1]); // if |X - XRW| <
@@ -158,7 +157,7 @@ public class EuclidianControllerD extends EuclidianController
 	 * view.gridDistances[1] * pointCapturingPercentage) { xRW = x; yRW = y;
 	 * mouseLoc.x = view.toScreenCoordX(xRW); mouseLoc.y =
 	 * view.toScreenCoordY(yRW); }
-	 * 
+	 *
 	 * default: // point capturing off } } }
 	 */
 
@@ -194,8 +193,12 @@ public class EuclidianControllerD extends EuclidianController
 	 */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		wrapMouseWheelMoved(e.getX(), e.getY(), e.getPreciseWheelRotation(),
-				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
+		wrapMouseWheelMoved(
+				e.getX(),
+				e.getY(),
+				e.getPreciseWheelRotation(),
+				e.isShiftDown() || e.isMetaDown(),
+				e.isAltDown());
 	}
 
 	@Override
@@ -205,5 +208,4 @@ public class EuclidianControllerD extends EuclidianController
 		evjpanel.addMouseWheelListener(this);
 		evjpanel.addComponentListener(this);
 	}
-
 }

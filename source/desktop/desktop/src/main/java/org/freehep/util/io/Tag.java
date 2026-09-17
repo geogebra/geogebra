@@ -7,7 +7,7 @@ import java.io.IOException;
  * Generic Tag to be used by TaggedIn/OutputStreams. The tag contains an ID,
  * name and a version. Concrete subclasses should implement the IO Read and
  * Write methods.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: Tag.java,v 1.3 2008-05-04 12:21:24 murkle Exp $
@@ -23,7 +23,7 @@ public abstract class Tag {
 	/**
 	 * This is the tagID for the default tag handler.
 	 */
-	final public static int DEFAULT_TAG = -1;
+	public static final int DEFAULT_TAG = -1;
 
 	protected Tag(int tagID, int version) {
 		this.tagID = tagID;
@@ -33,7 +33,7 @@ public abstract class Tag {
 
 	/**
 	 * Get the tag number.
-	 * 
+	 *
 	 * @return tagID
 	 */
 	public int getTag() {
@@ -42,7 +42,7 @@ public abstract class Tag {
 
 	/**
 	 * Get the version number.
-	 * 
+	 *
 	 * @return version number
 	 */
 	public int getVersion() {
@@ -51,7 +51,7 @@ public abstract class Tag {
 
 	/**
 	 * Get the tag name.
-	 * 
+	 *
 	 * @return tag name
 	 */
 	public String getName() {
@@ -65,7 +65,7 @@ public abstract class Tag {
 
 	/**
 	 * This returns the type of block
-	 * 
+	 *
 	 * @return tag type
 	 */
 	public int getTagType() {
@@ -74,7 +74,7 @@ public abstract class Tag {
 
 	/**
 	 * This reads the information from the given input and returns a new Tag
-	 * 
+	 *
 	 * @param tagID
 	 *            id of the tag to read
 	 * @param input
@@ -85,12 +85,11 @@ public abstract class Tag {
 	 * @throws IOException
 	 *             if read fails
 	 */
-	public abstract Tag read(int tagID, TaggedInputStream input, int len)
-			throws IOException;
+	public abstract Tag read(int tagID, TaggedInputStream input, int len) throws IOException;
 
 	/**
 	 * This writes the information to the given output
-	 * 
+	 *
 	 * @param tagID
 	 *            id of tag to write
 	 * @param output
@@ -98,8 +97,7 @@ public abstract class Tag {
 	 * @throws IOException
 	 *             if write fails
 	 */
-	public abstract void write(int tagID, TaggedOutputStream output)
-			throws IOException;
+	public abstract void write(int tagID, TaggedOutputStream output) throws IOException;
 
 	@Override
 	public abstract String toString();

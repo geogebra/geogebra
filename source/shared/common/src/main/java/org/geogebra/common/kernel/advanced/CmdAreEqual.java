@@ -27,7 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * AreEqual[&lt;Object&gt;, &lt;Object&gt;]
- * 
+ *
  * @author Simon Weitzhofer 17th of may 2012
  *
  */
@@ -35,7 +35,7 @@ public class CmdAreEqual extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -51,14 +51,11 @@ public class CmdAreEqual extends CommandProcessor {
 		arg = resArgs(c, info);
 		if (n == 2) {
 
-			AlgoAreEqual algo = new AlgoAreEqual(cons, c.getLabel(), arg[0],
-					arg[1]);
+			AlgoAreEqual algo = new AlgoAreEqual(cons, c.getLabel(), arg[0], arg[1]);
 
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argNumErr(c);
-
 	}
-
 }

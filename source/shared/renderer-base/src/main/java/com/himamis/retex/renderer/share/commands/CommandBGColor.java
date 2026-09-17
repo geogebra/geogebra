@@ -28,5 +28,4 @@ public class CommandBGColor extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new ColorAtom(a, bg, null);
 	}
-
 }

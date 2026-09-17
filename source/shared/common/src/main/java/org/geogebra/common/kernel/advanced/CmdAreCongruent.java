@@ -27,7 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * AreCongruent[&lt;Object&gt;, &lt;Object&gt;] based on CmdAreEqual
- * 
+ *
  * @author Zoltan Kovacs
  *
  */
@@ -35,7 +35,7 @@ public class CmdAreCongruent extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -51,14 +51,11 @@ public class CmdAreCongruent extends CommandProcessor {
 		arg = resArgs(c, info);
 		if (n == 2) {
 
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, c.getLabel(),
-					arg[0], arg[1]);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, c.getLabel(), arg[0], arg[1]);
 
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argNumErr(c);
-
 	}
-
 }

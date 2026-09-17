@@ -33,7 +33,7 @@ public final class Instrument implements JFugueElement {
 
 	/**
 	 * Creates a new Instrument object, with the specified instrument number.
-	 * 
+	 *
 	 * @param instrument
 	 *            the number of the instrument to use
 	 */
@@ -43,7 +43,7 @@ public final class Instrument implements JFugueElement {
 
 	/**
 	 * Sets the value of the instrument for this object.
-	 * 
+	 *
 	 * @param instrument
 	 *            the number of the instrument to use
 	 */
@@ -53,7 +53,7 @@ public final class Instrument implements JFugueElement {
 
 	/**
 	 * Returns the instrument used in this object
-	 * 
+	 *
 	 * @return the instrument used in this object
 	 */
 	public byte getInstrument() {
@@ -62,7 +62,7 @@ public final class Instrument implements JFugueElement {
 
 	/**
 	 * Returns the name of the instrument used in this object
-	 * 
+	 *
 	 * @return the name of the instrument used in this object
 	 */
 	public String getInstrumentName() {
@@ -73,7 +73,7 @@ public final class Instrument implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For an Instrument object, the Music String is <code>I</code>
 	 * <i>instrument-number</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -87,7 +87,7 @@ public final class Instrument implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: Instrument: instrument={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -98,54 +98,136 @@ public final class Instrument implements JFugueElement {
 		return buffy.toString();
 	}
 
-	public static final String[] INSTRUMENT_NAME = new String[] { "Piano",
-			"Bright_Acoustic", "Electric_Grand", "Honkey_Tonk",
-			"Electric_Piano", "Electric_Piano_2", "Harpischord", "Clavinet",
-			"Celesta", "Glockenspiel",
-
-			"Music_Box", "Vibraphone", "Marimba", "Xylophone", "Tubular_Bells",
-			"Dulcimer", "Drawbar_Organ", "Percussive_Organ", "Rock_Organ",
-			"Church_Organ",
-
-			"Reed_Organ", "Accordian", "Harmonica", "Tango_Accordian", "Guitar",
-			"Steel_String_Guitar", "Electric_Jazz_Guitar",
-			"Electric_Clean_Guitar", "Electric_muted_Guitar",
-			"Overdriven_Guitar", "Distortion_Guitar",
-
-			"Guitar_Harmonics", "Acoustic_Bass", "Electric_Bass_Finger",
-			"Electric_Bass_Pick", "Fretless_Bass", "Slap_Bass_1", "Slap_Bass_2",
-			"Synth_Bass_1", "Synth_Bass_2",
-
-			"Violin", "Viola", "Cello", "Contrabass", "Tremolo_Strings",
-			"Pizzicato_Strings", "Orchestral_Strings", "Timpani",
-			"String_Ensemble_1", "String_Ensemble_2",
-
-			"Synth_strings_1", "Synth_strings_2", "Choir_Aahs", "Voice_Oohs",
-			"Synth_Voice", "Orchestra_Hit", "Trumpet", "Trombone", "Tuba",
-			"Muted_Trumpet",
-
-			"French_Horn", "Brass_Section", "Synth_brass_1", "Synth_brass_2",
-			"Soprano_Sax", "Alto_Sax", "Tenor_Sax", "Baritone_Sax", "Oboe",
-			"English_Horn",
-
-			"Bassoon", "Clarinet", "Piccolo", "Flute", "Recorder", "Pan_Flute",
-			"Blown_Bottle", "Skakuhachi", "Whistle", "Ocarina",
-
-			"Square", "Sawtooth", "Calliope", "Chiff", "Charang", "Voice",
-			"Fifths", "Basslead", "New_Age", "Warm",
-
-			"Polysynth", "Choir", "Bowed", "Metallic", "Halo", "Sweep", "Rain",
-			"Soundtrack", "Crystal", "Atmosphere",
-
-			"Brightness", "Goblins", "Echoes", "Sci-fi", "Sitar", "Banjo",
-			"Shamisen", "Koto", "Kalimba", "Bagpipe",
-
-			"Fiddle", "Shanai", "Tinkle_Bell", "Agogo", "Steel_Drums",
-			"Woodblock", "Taiko_Drum", "Melodic_Tom", "Synth_Drum",
-			"Reverse_Cymbal",
-
-			"Guitar_Fret_Noise", "Breath_Noise", "Seashore", "Bird_Tweet",
-			"Telephone_Ring", "Helicopter", "Applause", "Gunshot" };
+	public static final String[] INSTRUMENT_NAME = new String[] {
+		"Piano",
+		"Bright_Acoustic",
+		"Electric_Grand",
+		"Honkey_Tonk",
+		"Electric_Piano",
+		"Electric_Piano_2",
+		"Harpischord",
+		"Clavinet",
+		"Celesta",
+		"Glockenspiel",
+		"Music_Box",
+		"Vibraphone",
+		"Marimba",
+		"Xylophone",
+		"Tubular_Bells",
+		"Dulcimer",
+		"Drawbar_Organ",
+		"Percussive_Organ",
+		"Rock_Organ",
+		"Church_Organ",
+		"Reed_Organ",
+		"Accordian",
+		"Harmonica",
+		"Tango_Accordian",
+		"Guitar",
+		"Steel_String_Guitar",
+		"Electric_Jazz_Guitar",
+		"Electric_Clean_Guitar",
+		"Electric_muted_Guitar",
+		"Overdriven_Guitar",
+		"Distortion_Guitar",
+		"Guitar_Harmonics",
+		"Acoustic_Bass",
+		"Electric_Bass_Finger",
+		"Electric_Bass_Pick",
+		"Fretless_Bass",
+		"Slap_Bass_1",
+		"Slap_Bass_2",
+		"Synth_Bass_1",
+		"Synth_Bass_2",
+		"Violin",
+		"Viola",
+		"Cello",
+		"Contrabass",
+		"Tremolo_Strings",
+		"Pizzicato_Strings",
+		"Orchestral_Strings",
+		"Timpani",
+		"String_Ensemble_1",
+		"String_Ensemble_2",
+		"Synth_strings_1",
+		"Synth_strings_2",
+		"Choir_Aahs",
+		"Voice_Oohs",
+		"Synth_Voice",
+		"Orchestra_Hit",
+		"Trumpet",
+		"Trombone",
+		"Tuba",
+		"Muted_Trumpet",
+		"French_Horn",
+		"Brass_Section",
+		"Synth_brass_1",
+		"Synth_brass_2",
+		"Soprano_Sax",
+		"Alto_Sax",
+		"Tenor_Sax",
+		"Baritone_Sax",
+		"Oboe",
+		"English_Horn",
+		"Bassoon",
+		"Clarinet",
+		"Piccolo",
+		"Flute",
+		"Recorder",
+		"Pan_Flute",
+		"Blown_Bottle",
+		"Skakuhachi",
+		"Whistle",
+		"Ocarina",
+		"Square",
+		"Sawtooth",
+		"Calliope",
+		"Chiff",
+		"Charang",
+		"Voice",
+		"Fifths",
+		"Basslead",
+		"New_Age",
+		"Warm",
+		"Polysynth",
+		"Choir",
+		"Bowed",
+		"Metallic",
+		"Halo",
+		"Sweep",
+		"Rain",
+		"Soundtrack",
+		"Crystal",
+		"Atmosphere",
+		"Brightness",
+		"Goblins",
+		"Echoes",
+		"Sci-fi",
+		"Sitar",
+		"Banjo",
+		"Shamisen",
+		"Koto",
+		"Kalimba",
+		"Bagpipe",
+		"Fiddle",
+		"Shanai",
+		"Tinkle_Bell",
+		"Agogo",
+		"Steel_Drums",
+		"Woodblock",
+		"Taiko_Drum",
+		"Melodic_Tom",
+		"Synth_Drum",
+		"Reverse_Cymbal",
+		"Guitar_Fret_Noise",
+		"Breath_Noise",
+		"Seashore",
+		"Bird_Tweet",
+		"Telephone_Ring",
+		"Helicopter",
+		"Applause",
+		"Gunshot"
+	};
 
 	public static final byte PIANO = 0;
 	public static final byte ACOUSTIC_GRAND = 0;
@@ -314,5 +396,4 @@ public final class Instrument implements JFugueElement {
 	public static final byte HELICOPTER = 125;
 	public static final byte APPLAUSE = 126;
 	public static final byte GUNSHOT = 127;
-
 }

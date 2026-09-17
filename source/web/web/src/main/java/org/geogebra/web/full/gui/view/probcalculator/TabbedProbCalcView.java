@@ -49,7 +49,7 @@ public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 	 */
 	public TabbedProbCalcView(AppW app) {
 		super(app);
-		//table panel
+		// table panel
 		setTable(new ProbabilityTableW(app, this));
 		buildButtons();
 		settingsChanged(getApp().getSettings().getProbCalcSettings());
@@ -66,8 +66,8 @@ public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		TabData statisticsTab = new TabData("Statistics", statCalculator.getWrappedPanel());
 		probabilityTab = new ComponentTab((AppW) app, "", distributionTab, statisticsTab);
 		probabilityTab.addStyleName("probabilityTab");
-		probabilityTab.switchToTab(getApp().getSettings().getProbCalcSettings()
-				.getCollection().isActive() ? 1 : 0);
+		probabilityTab.switchToTab(
+				getApp().getSettings().getProbCalcSettings().getCollection().isActive() ? 1 : 0);
 	}
 
 	private void buildButtons() {
@@ -91,8 +91,11 @@ public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			addExportItem(menuExport, "ExportAsPicture", this::showExportDialog);
 		}
-		IconButton btnExport = new IconButton((AppW) app, null,
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.signout_black()), null);
+		IconButton btnExport = new IconButton(
+				(AppW) app,
+				null,
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.signout_black()),
+				null);
 		btnExport.addFastClickHandler(e -> {
 			if (menuExport.isMenuShown()) {
 				menuExport.hide();
@@ -107,12 +110,14 @@ public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 
 	private void showExportDialog() {
 		String url = getPlotPanel().getExportImageDataUrl(3, true, false);
-		((AppW) getApp()).getFileManager().showExportAsPictureDialog(url,
-				getApp().getExportTitle(), "png", "ExportAsPicture", getApp());
+		((AppW) getApp())
+				.getFileManager()
+				.showExportAsPictureDialog(
+						url, getApp().getExportTitle(), "png", "ExportAsPicture", getApp());
 	}
 
-	private void addExportItem(GPopupMenuW exportMenu, String title,
-			Scheduler.ScheduledCommand copyCmd) {
+	private void addExportItem(
+			GPopupMenuW exportMenu, String title, Scheduler.ScheduledCommand copyCmd) {
 		AriaMenuItem item = new AriaMenuItem(loc.getMenu(title), null, copyCmd);
 		item.addStyleName("no-image");
 		exportMenu.addItem(item);
@@ -125,8 +130,9 @@ public final class TabbedProbCalcView extends ProbabilityCalculatorViewW {
 			return;
 		}
 		int totalWidth = mainSplitPane.getOffsetWidth();
-		int tableWidth = isDiscreteProbability() && table != null ? table.getStatTable()
-				.getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR : 0;
+		int tableWidth = isDiscreteProbability() && table != null
+				? table.getStatTable().getTable().getOffsetWidth() + TABLE_PADDING_AND_SCROLLBAR
+				: 0;
 		int width = totalWidth - tableWidth - 5;
 		int height = probCalcPanel.getOffsetHeight() - 20;
 		if (width > 0) {

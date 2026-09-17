@@ -79,21 +79,21 @@ public final class ExamClassicStartDialog extends ComponentDialog {
 		startPanel.add(description);
 
 		if (!appW.getSettings().getCasSettings().isEnabledSet()) {
-			ComponentCheckbox cas = new ComponentCheckbox(appW.getLocalization(), true,
-					"Perspective.CAS", selected -> {
-				appW.getSettings().getCasSettings().setEnabled(selected);
-				guiManager.updateToolbarActions();
-			});
+			ComponentCheckbox cas =
+					new ComponentCheckbox(appW.getLocalization(), true, "Perspective.CAS", selected -> {
+						appW.getSettings().getCasSettings().setEnabled(selected);
+						guiManager.updateToolbarActions();
+					});
 			appW.getSettings().getCasSettings().setEnabled(true);
 			startPanel.add(cas);
 		}
 
 		if (!appW.getSettings().getEuclidian(-1).isEnabledSet()) {
-			final ComponentCheckbox allow3D = new ComponentCheckbox(appW.getLocalization(), true,
-					"Perspective.3DGraphics", selected -> {
-				appW.getSettings().getEuclidian(-1).setEnabled(selected);
-				guiManager.updateToolbarActions();
-			});
+			final ComponentCheckbox allow3D = new ComponentCheckbox(
+					appW.getLocalization(), true, "Perspective.3DGraphics", selected -> {
+						appW.getSettings().getEuclidian(-1).setEnabled(selected);
+						guiManager.updateToolbarActions();
+					});
 			appW.getSettings().getEuclidian(-1).setEnabled(true);
 			startPanel.add(allow3D);
 		}
@@ -111,8 +111,7 @@ public final class ExamClassicStartDialog extends ComponentDialog {
 		appW.fireViewsChangedEvent();
 		GuiManagerInterfaceW guiManager = appW.getGuiManager();
 		guiManager.updateToolbarActions();
-		guiManager.setGeneralToolBarDefinition(
-				ToolBar.getAllToolsNoMacros(true, false, appW));
+		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, appW));
 		guiManager.updateToolbar();
 		guiManager.resetMenu();
 	}
@@ -132,21 +131,20 @@ public final class ExamClassicStartDialog extends ComponentDialog {
 		app.fileNew();
 		app.updateRounding();
 		// do this *before* perspective so that we have CAS toolbar for CAS
-		guiManager.setGeneralToolBarDefinition(
-				ToolBar.getAllToolsNoMacros(true, true, app));
+		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, true, app));
 		((LayoutW) app.getGuiManager().getLayout()).resetPerspectives(app);
 
 		app.getKernel().getAlgebraProcessor().reinitCommands();
-		((AppWFull) app).startExam(ExamType.GENERIC,
-				new ExamOptions(app.getSettings().getCasSettings().isEnabled()));
+		((AppWFull) app)
+				.startExam(
+						ExamType.GENERIC, new ExamOptions(app.getSettings().getCasSettings().isEnabled()));
 
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();
 		guiManager.updateToolbarActions();
 		guiManager.updateMenubar();
 		guiManager.resetMenu();
-		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager())
-				.getPanelForKeyboard();
+		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager()).getPanelForKeyboard();
 		MathKeyboardListener listener = guiManager.getKeyboardListener(dp);
 		if (listener != null && listener.needsAutofocus()) {
 			app.showKeyboard(listener, true);
@@ -160,15 +158,13 @@ public final class ExamClassicStartDialog extends ComponentDialog {
 	public static void blockEscTab(AppW app) {
 		DomGlobal.document.body.addEventListener("keyup", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
-			if ("Escape".equals(e.code)
-					&& GlobalScope.isExamActive(app)) {
+			if ("Escape".equals(e.code) && GlobalScope.isExamActive(app)) {
 				e.preventDefault();
 			}
 		});
 		DomGlobal.document.body.addEventListener("keydown", evt -> {
 			KeyboardEvent e = (KeyboardEvent) evt;
-			if (("Tab".equals(e.code) || "Escape".equals(e.code))
-					&& GlobalScope.isExamActive(app)) {
+			if (("Tab".equals(e.code) || "Escape".equals(e.code)) && GlobalScope.isExamActive(app)) {
 				e.preventDefault();
 			}
 		});

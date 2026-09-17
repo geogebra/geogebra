@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -25,7 +25,7 @@ import javax.swing.ListModel;
 /**
  * A simple {@link ListModel} implementation which forwards to a list. This list
  * should be set via the {@link #setDataList(List)} method.
- * 
+ *
  * @author Julian Lettner
  */
 public class DelegatingListModel extends AbstractListModel {
@@ -46,14 +46,13 @@ public class DelegatingListModel extends AbstractListModel {
 	 * Method for passing in the backing list for this {@link ListModel}
 	 * instance. If the list changes after it was passed in one must call
 	 * {@link #setDataList(List)} again.
-	 * 
+	 *
 	 * @param dataList0
 	 *            The list
 	 */
 	public void setDataList(List<?> dataList0) {
 		// Substitute null with an empty list
-		List<?> dataList = null != dataList0 ? dataList0 : Collections
-				.emptyList();
+		List<?> dataList = null != dataList0 ? dataList0 : Collections.emptyList();
 
 		// Remember sizes
 		int oldSize = delegate.size();
@@ -77,5 +76,4 @@ public class DelegatingListModel extends AbstractListModel {
 			fireIntervalRemoved(this, minSize, oldSize - 1);
 		} // else (newSize == oldSize) { /* do nothing */ }
 	}
-
 }

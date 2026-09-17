@@ -24,14 +24,13 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
+ *
  * @author G. Sturr
  */
-
 public class AlgoPoisson extends AlgoDistribution {
 
-	public AlgoPoisson(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoBoolean isCumulative) {
+	public AlgoPoisson(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, GeoBoolean isCumulative) {
 		super(cons, a, b, null, isCumulative);
 	}
 
@@ -43,17 +42,15 @@ public class AlgoPoisson extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double param = a.getDouble();
 			int val = (int) Math.round(b.getDouble());
 			try {
 				PoissonDistribution dist = getPoissonDistribution(param);
 				if (isCumulative.getBoolean()) {
 					num.setValue(dist.cumulativeProbability(val)); // P(X <=
-																	// val)
-				}
-				else {
+					// val)
+				} else {
 					num.setValue(dist.probability(val)); // P(X = val)
 				}
 			} catch (Exception e) {
@@ -64,5 +61,4 @@ public class AlgoPoisson extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

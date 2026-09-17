@@ -26,11 +26,10 @@ import org.geogebra.common.util.GgbMat;
 
 /**
  * Reverse a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 16-02-2008
  */
-
 public class AlgoDeterminant extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -93,5 +92,4 @@ public class AlgoDeterminant extends AlgoElement {
 
 		// Determinant[{{1,2},{3,4}}]
 	}
-
 }

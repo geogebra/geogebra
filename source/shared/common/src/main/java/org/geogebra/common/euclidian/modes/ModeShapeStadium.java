@@ -31,8 +31,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoStadium;
 
 public class ModeShapeStadium {
-	private final GGeneralPath gpPreview = AwtFactory.getPrototype()
-			.newGeneralPath();
+	private final GGeneralPath gpPreview = AwtFactory.getPrototype().newGeneralPath();
 	private final EuclidianViewBounds bounds;
 	private GPoint2D rwStartPoint = new GPoint2D();
 	private AlgoStadium previewAlgo;
@@ -66,8 +65,7 @@ public class ModeShapeStadium {
 		ArrayList<MyPoint> points = previewAlgo.getPoints();
 		gpPreview.reset();
 		MyPoint firstPoint = points.get(0);
-		gpPreview.moveTo(bounds.toScreenCoordXd(firstPoint.x),
-				bounds.toScreenCoordYd(firstPoint.y));
+		gpPreview.moveTo(bounds.toScreenCoordXd(firstPoint.x), bounds.toScreenCoordYd(firstPoint.y));
 		for (MyPoint p : points) {
 			gpPreview.lineTo(bounds.toScreenCoordXd(p.x), bounds.toScreenCoordYd(p.y));
 		}
@@ -126,7 +124,6 @@ public class ModeShapeStadium {
 	 * @param sy y in screen coordinates
 	 */
 	public void setStartPoint(int sx, int sy) {
-		rwStartPoint.setLocation(bounds.toRealWorldCoordX(sx),
-				bounds.toRealWorldCoordY(sy));
+		rwStartPoint.setLocation(bounds.toRealWorldCoordX(sx), bounds.toRealWorldCoordY(sy));
 	}
 }

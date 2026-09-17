@@ -87,13 +87,13 @@ public final class DefaultTextFieldController implements TextFieldController {
 
 	private TextAlign textAlignToCssAlign(HorizontalAlignment alignment) {
 		switch (alignment) {
-		default:
-		case LEFT:
-			return TextAlign.LEFT;
-		case CENTER:
-			return TextAlign.CENTER;
-		case RIGHT:
-			return TextAlign.RIGHT;
+			default:
+			case LEFT:
+				return TextAlign.LEFT;
+			case CENTER:
+				return TextAlign.CENTER;
+			case RIGHT:
+				return TextAlign.RIGHT;
 		}
 	}
 
@@ -104,7 +104,11 @@ public final class DefaultTextFieldController implements TextFieldController {
 
 	@Override
 	public void setForegroundColor(GColor color) {
-		textField.getTextField().getValueBox().getElement().getStyle()
+		textField
+				.getTextField()
+				.getValueBox()
+				.getElement()
+				.getStyle()
 				.setColor(GColor.getColorString(color));
 	}
 
@@ -125,15 +129,13 @@ public final class DefaultTextFieldController implements TextFieldController {
 
 	@Override
 	public int getSelectionEnd() {
-		return getSelectionStart()
-				+ textField.getTextField().getValueBox().getSelectionLength();
+		return getSelectionStart() + textField.getTextField().getValueBox().getSelectionLength();
 	}
 
 	@Override
 	public void clearSelection() {
 		ValueBoxBase<String> valueBox = textField.getTextField().getValueBox();
-		int start = textField.getText()
-				.indexOf(valueBox.getSelectedText());
+		int start = textField.getText().indexOf(valueBox.getSelectedText());
 		int end = start + valueBox.getSelectionLength();
 		// clear selection if there is one
 		if (start != end) {
@@ -145,6 +147,5 @@ public final class DefaultTextFieldController implements TextFieldController {
 				textField.setCaretPosition(pos);
 			}
 		}
-
 	}
 }

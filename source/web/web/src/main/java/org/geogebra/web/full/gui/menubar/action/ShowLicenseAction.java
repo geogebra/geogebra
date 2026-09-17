@@ -32,8 +32,7 @@ public final class ShowLicenseAction extends DefaultMenuAction<AppWFull> {
 		if (app.isByCS()) {
 			DomGlobal.window.open(GeoGebraConstants.BYCS_LICENCE_URL, "_blank", "");
 		} else {
-			DomGlobal.window.open(GeoGebraConstants.GGB_LICENSE_URL,
-					"_blank", "");
+			DomGlobal.window.open(GeoGebraConstants.GGB_LICENSE_URL, "_blank", "");
 		}
 	}
 }

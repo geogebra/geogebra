@@ -25,7 +25,7 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Manages macros (user defined tools).
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class MacroManager {
@@ -35,7 +35,7 @@ public class MacroManager {
 
 	/**
 	 * Creates new macro manager
-	 * 
+	 *
 	 */
 	public MacroManager() {
 		macroMap = new HashMap<>();
@@ -53,7 +53,7 @@ public class MacroManager {
 
 	/**
 	 * Returns macro with given name
-	 * 
+	 *
 	 * @param name
 	 *            macro's command name
 	 * @return macro
@@ -64,7 +64,7 @@ public class MacroManager {
 
 	/**
 	 * Removes given macro
-	 * 
+	 *
 	 * @param macro
 	 *            macro for removal
 	 */
@@ -83,7 +83,7 @@ public class MacroManager {
 
 	/**
 	 * Sets the command name of a macro.
-	 * 
+	 *
 	 * @param macro
 	 *            macro
 	 * @param cmdName
@@ -129,7 +129,7 @@ public class MacroManager {
 
 	/**
 	 * Returns the current number of macros handled by this MacroManager.
-	 * 
+	 *
 	 * @return current number of macros
 	 */
 	public int getMacroNumber() {
@@ -138,7 +138,7 @@ public class MacroManager {
 
 	/**
 	 * Returns an array of all macros handled by this MacroManager.
-	 * 
+	 *
 	 * @return an array of all macros handled by this MacroManager.
 	 */
 	public ArrayList<Macro> getAllMacros() {
@@ -147,7 +147,7 @@ public class MacroManager {
 
 	/**
 	 * Updates all macros that need to be
-	 * 
+	 *
 	 * @param prop
 	 *            what property changed
 	 */
@@ -161,7 +161,7 @@ public class MacroManager {
 
 	/**
 	 * Appends an XML representation of the specified macros in this kernel to a XML string.
-	 * 
+	 *
 	 * @param macros
 	 *            list of macros
 	 * @param builder XML string builder
@@ -177,5 +177,4 @@ public class MacroManager {
 			}
 		}
 	}
-
 }

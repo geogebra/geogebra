@@ -24,19 +24,17 @@ import org.geogebra.regexp.shared.RegExp;
  * @author laszlo
  */
 public final class URLValidator {
-	private static final String AZLATIN2 = "a-z\u00E1\u00E9\u00ED\u00F3\u00F6"
-			+ "\u0151\u00FA\u00FC\u0171";
+	private static final String AZLATIN2 =
+			"a-z\u00E1\u00E9\u00ED\u00F3\u00F6" + "\u0151\u00FA\u00FC\u0171";
 	private static final String AZLATIN2D = AZLATIN2 + "\\d";
 	private static final String PROTOCOL = "^(https?:\\/\\/)?";
-	private static final String DOMAIN = "((([" + AZLATIN2D + "]([" + AZLATIN2D + "-]*["
-			+ AZLATIN2 + "])*)\\.?)+[ " + AZLATIN2 + "]{2,}|";
+	private static final String DOMAIN = "((([" + AZLATIN2D + "]([" + AZLATIN2D + "-]*[" + AZLATIN2
+			+ "])*)\\.?)+[ " + AZLATIN2 + "]{2,}|";
 	private static final String IP4_ADDRESS = "((\\d{1,3}\\.){3}\\d{1,3}))";
 	private static final String PORT_WITH_PATH = "(\\:\\d+)?(\\/.*)*?$";
 	private static final String DOMAIN_OR_IP = DOMAIN + IP4_ADDRESS;
 
-	private static final String URL_PATTERN = PROTOCOL
-				+ DOMAIN_OR_IP
-				+ PORT_WITH_PATH;
+	private static final String URL_PATTERN = PROTOCOL + DOMAIN_OR_IP + PORT_WITH_PATH;
 
 	private final RegExp regexp;
 

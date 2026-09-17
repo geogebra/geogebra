@@ -22,20 +22,15 @@ import org.geogebra.web.awt.GFontW;
 
 /**
  * This class takes care of storing and creating fonts.
- * 
+ *
  * @author Zbynek (based on Desktop FontManager)
  *
  */
 public class FontManagerW extends FontManager {
 
 	@Override
-	public GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, double fontSize) {
+	public GFont getFontCanDisplay(String testString, boolean serif, int fontStyle, double fontSize) {
 		return new GFontW(
-				serif ? GFontW.GEOGEBRA_FONT_SERIF
-						: GFontW.GEOGEBRA_FONT_SANSERIF,
-				fontStyle,
-				fontSize);
+				serif ? GFontW.GEOGEBRA_FONT_SERIF : GFontW.GEOGEBRA_FONT_SANSERIF, fontStyle, fontSize);
 	}
-
 }

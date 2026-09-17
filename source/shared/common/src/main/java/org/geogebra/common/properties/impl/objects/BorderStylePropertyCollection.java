@@ -40,17 +40,22 @@ public class BorderStylePropertyCollection extends AbstractPropertyCollection<Pr
 	 * elements
 	 */
 	public BorderStylePropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "stylebar.BorderStyle");
 		setProperties(Stream.of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new CellBorderProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new CellBorderThicknessProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new CellBorderProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new CellBorderThicknessProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

@@ -12,13 +12,13 @@ import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Apache 2.0 Licence
- * 
+ *
  * Original from http://www.tilman.de/programme/mathparser/download_en.html
- * 
+ *
  * Parses Presentation MathML
- * 
+ *
  * Alterations by GeoGebra
- * 
+ *
  * @author (c) Tilman Walther
  * @author (c) Martin Wilke
  */
@@ -29,12 +29,13 @@ public class MathMLParser {
 	 * following block.<br>
 	 * Syntax: PH_BLOCK_START + blockNumber + PH_BLOCK_END, e.g. '#BLOCK1#'.
 	 */
-	private final static String PH_BLOCK_START = "%BLOCK";
-	private final static char PH_BLOCK_END = '%';
+	private static final String PH_BLOCK_START = "%BLOCK";
 
-	private final static char[] specialCharacters = { '%', '_', '$' };
-	private final static char[] leftBraces = { '(', '{', '[' };
-	private final static char[] rightBraces = { ')', '{', ']' };
+	private static final char PH_BLOCK_END = '%';
+
+	private static final char[] specialCharacters = {'%', '_', '$'};
+	private static final char[] leftBraces = {'(', '{', '['};
+	private static final char[] rightBraces = {')', '{', ']'};
 
 	private HashMap<String, String> substitutions;
 	// private StringBuilder result;
@@ -48,10 +49,10 @@ public class MathMLParser {
 	// protected String startTag, endTag;
 	private String nextTag;
 	private StringBuilder tagBuf = new StringBuilder(200); // used by
-															// readNextTag() &
-															// getBlockEnd()
+	// readNextTag() &
+	// getBlockEnd()
 	private StringBuilder entity = new StringBuilder(32); // used by
-															// replaceEntities()
+	// replaceEntities()
 	private String entitySubst = ""; // used by replaceEntities()
 	private boolean closeBracketNext = false;
 
@@ -70,30 +71,29 @@ public class MathMLParser {
 			geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
 			geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
 			geogebraMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}"); // TODO _{1} -> _1
-																// at
-																// the end of
-																// parsing
+			// at
+			// the end of
+			// parsing
 			geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
 			geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
 			geogebraMap.put("<mfenced>", "(%BLOCK1%)"); // e.g. binomial
-														// coefficient,
-														// FIXME
-			geogebraMap.put("<mfenced open=\"|\" close=\"|\">",
-					"abs(%BLOCK1%)"); // abs. value
+			// coefficient,
+			// FIXME
+			geogebraMap.put("<mfenced open=\"|\" close=\"|\">", "abs(%BLOCK1%)"); // abs. value
 			geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)"); // ignored
-																				// for
-																				// now,
-																				// FIXME
-																				// (subscripted
-																				// variable
-																				// powered)
+			// for
+			// now,
+			// FIXME
+			// (subscripted
+			// variable
+			// powered)
 			geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,"); // ignored
-																			// for
-																			// now,
-																			// FIXME
-																			// (subscripted
-																			// variable
-																			// powered)
+			// for
+			// now,
+			// FIXME
+			// (subscripted
+			// variable
+			// powered)
 			geogebraMap.put("<munder>", "%BLOCK1%"); // ignored for now, FIXME
 			geogebraMap.put("<mtable>", "{%BLOCKS%}");
 			geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
@@ -330,8 +330,8 @@ public class MathMLParser {
 			geogebraMap.put("&nabla;", "# ");
 			geogebraMap.put("&NotElement;", "# ");
 			geogebraMap.put("&NotEqual;", String.valueOf(Unicode.NOTEQUAL)); // ??? is this
-																	// good
-																	// in LaTeX?
+			// good
+			// in LaTeX?
 			geogebraMap.put("&notin;", "# ");
 			geogebraMap.put("&oplus;", "# ");
 			geogebraMap.put("&or;", "# ");
@@ -685,10 +685,10 @@ public class MathMLParser {
 	/**
 	 * Generates the substitution table from the default file path in field
 	 * SUBSTITUTIONS_FILE.
-	 * 
+	 *
 	 * @param geogebraSyntax1
 	 *            whether to return GeoGebra
-	 * 
+	 *
 	 */
 	public MathMLParser(boolean geogebraSyntax1) {
 		this.geogebraSyntax = geogebraSyntax1;
@@ -702,9 +702,9 @@ public class MathMLParser {
 	/*
 	 * Removed by GeoGebra Generates the substitution table from the given file
 	 * path.
-	 * 
+	 *
 	 * @param substitutionsTable the substitution table.
-	 * 
+	 *
 	 * public MathMLParser(HashMap<String, String> substitutionsTable) {
 	 * substitutions = substitutionsTable; }
 	 */
@@ -718,7 +718,7 @@ public class MathMLParser {
 	 * content markup.
 	 * <p>
 	 * For example the presentation markup code
-	 * 
+	 *
 	 * <pre>
 	 * &lt;mrow&gt;
 	 *   &lt;msup&gt;
@@ -733,9 +733,9 @@ public class MathMLParser {
 	 *   &lt;/msup&gt;
 	 * &lt;/mrow&gt;
 	 * </pre>
-	 * 
+	 *
 	 * can be parsed by this method, while the equivalent content markup
-	 * 
+	 *
 	 * <pre>
 	 * &lt;mrow&gt;
 	 *   &lt;apply&gt;
@@ -749,14 +749,14 @@ public class MathMLParser {
 	 *   &lt;/apply&gt;
 	 * &lt;/mrow&gt;
 	 * </pre>
-	 * 
+	 *
 	 * can not be parsed.
 	 * <p>
 	 * Both notations of entities can be parsed: The plain MathML notation,
 	 * starting with an ampersand sign (e.g. '&amp;equals;'), or the
 	 * "HTML wrapped" notation starting with an entity for the ampersand sign
 	 * (e.g. '&amp;amp;equals;').
-	 * 
+	 *
 	 * @param strBuf0
 	 *            a String containing the MathML code to parse
 	 * @param wrappedEntities1
@@ -767,8 +767,7 @@ public class MathMLParser {
 	 *            skipUnknownEntities
 	 * @return a StringBuilder containing the LaTeX representation of the input
 	 */
-	public String parse(String strBuf0, boolean wrappedEntities1,
-			boolean skipUnknownEntities1) {
+	public String parse(String strBuf0, boolean wrappedEntities1, boolean skipUnknownEntities1) {
 
 		// Remove newlines first;
 		String strBuf1 = strBuf0.replace('\n', ' ').replace('\r', ' ');
@@ -820,7 +819,7 @@ public class MathMLParser {
 	 * Parses a MathML block in strBuf recursively into LaTeX code.
 	 * <p>
 	 * Pseudocode:
-	 * 
+	 *
 	 * <pre>
 	 * while (pos &lt;= blockEnd) {
 	 *     if (insideOfInnermostBlock) {
@@ -840,9 +839,9 @@ public class MathMLParser {
 	 *     }
 	 * }
 	 * </pre>
-	 * 
+	 *
 	 * </p>
-	 * 
+	 *
 	 * @param startTag
 	 *            startTag
 	 * @param result
@@ -900,8 +899,8 @@ public class MathMLParser {
 					int substIndex = 0;
 
 					// parse subblocks recursively
-					while (((phIndex = substBuf.indexOf(PH_BLOCK_START,
-							substIndex)) > -1) && (pos - 2 < blockEnd)) {
+					while (((phIndex = substBuf.indexOf(PH_BLOCK_START, substIndex)) > -1)
+							&& (pos - 2 < blockEnd)) {
 
 						// write substitution up to the block marker
 						while (substIndex < phIndex) {
@@ -918,8 +917,7 @@ public class MathMLParser {
 
 						prevBlockNumber = blockNumber;
 
-						String blockNumberStr = substBuf
-								.substring(blockNumberIndex, substIndex);
+						String blockNumberStr = substBuf.substring(blockNumberIndex, substIndex);
 
 						if ("S".equals(blockNumberStr)) {
 							// keyword is BLOCKS -> parse all inner blocks in
@@ -932,8 +930,7 @@ public class MathMLParser {
 							skipBlocks(-prevBlockNumber);
 
 							// parse subblocks
-							while (strBuf.substring(pos, blockEnd + 1)
-									.indexOf('<') != -1) {
+							while (strBuf.substring(pos, blockEnd + 1).indexOf('<') != -1) {
 								nextTag = getNextTag();
 								parseBlock(nextTag, result, true);
 								skipFollowingTag();
@@ -946,8 +943,10 @@ public class MathMLParser {
 							try {
 								blockNumber = Integer.parseInt(blockNumberStr);
 							} catch (NumberFormatException nfe) {
-								throw new XMLParseException("Parsing error at character " + pos
-										+ ": Unparsable block number in substitution.", nfe);
+								throw new XMLParseException(
+										"Parsing error at character " + pos
+												+ ": Unparsable block number in substitution.",
+										nfe);
 							}
 
 							// skip PH_BLOCK_END
@@ -976,16 +975,14 @@ public class MathMLParser {
 					}
 				} else {
 					// parse subblocks of nextTag
-					while (strBuf.substring(pos, blockEnd + 1)
-							.indexOf('<') != -1) {
+					while (strBuf.substring(pos, blockEnd + 1).indexOf('<') != -1) {
 						nextTag = getNextTag();
 						parseBlock(nextTag, result, true);
 						skipFollowingTag();
 					}
 					// make sure we don't output "x _{1}" but don't remove any
 					// non-space character
-					if (!appendSpace
-							&& result.charAt(result.length() - 1) == ' ') {
+					if (!appendSpace && result.charAt(result.length() - 1) == ' ') {
 						result.setLength(result.length() - 1);
 					}
 				}
@@ -1029,7 +1026,7 @@ public class MathMLParser {
 
 	/**
 	 * Generates an end tag corresponding to the given 'startTag'.
-	 * 
+	 *
 	 * @param startTag
 	 *            the start tag to generate an end tag from
 	 * @return the end tag for the given start tag
@@ -1040,8 +1037,7 @@ public class MathMLParser {
 
 			if (startTag.indexOf(' ') > -1) {
 				// delete parameters of startTag
-				return "</" + startTag.substring(1, startTag.indexOf(' '))
-						+ ">";
+				return "</" + startTag.substring(1, startTag.indexOf(' ')) + ">";
 			}
 
 			return "</" + startTag.substring(1, startTag.length());
@@ -1063,7 +1059,7 @@ public class MathMLParser {
 
 	/**
 	 * Skips (back and forth) a given number of blocks from the actual position.
-	 * 
+	 *
 	 * @param blocksToSkip
 	 *            the number of blocks to skip
 	 * @throws XMLParseException if mismatched &lt; is found
@@ -1124,8 +1120,7 @@ public class MathMLParser {
 							subBlocks++;
 						}
 					}
-				} while ((subBlocks > 0)
-						|| !tagBuf.toString().equals(blockStartTag));
+				} while ((subBlocks > 0) || !tagBuf.toString().equals(blockStartTag));
 			}
 		}
 	}
@@ -1134,7 +1129,7 @@ public class MathMLParser {
 	 * Returns the end index of the block defined by the 'startTag' parameter
 	 * skipping all subblocks. The end index is the position of the character
 	 * before the closing tag of the block.
-	 * 
+	 *
 	 * @param startTag0
 	 *            the tag that opened the block
 	 * @param endTag
@@ -1189,7 +1184,7 @@ public class MathMLParser {
 
 	/**
 	 * Parses a String into Latex syntax and returns it.
-	 * 
+	 *
 	 * @param s
 	 *            the string to parse
 	 * @return the Latex representation of the given string
@@ -1213,8 +1208,7 @@ public class MathMLParser {
 		if (!geogebraSyntax) {
 			for (int i = 0; i < leftBraces.length; i++) {
 				sbIndex = 0;
-				while ((sbIndex = sb.indexOf(String.valueOf(leftBraces[i]),
-						sbIndex)) > -1) {
+				while ((sbIndex = sb.indexOf(String.valueOf(leftBraces[i]), sbIndex)) > -1) {
 					sb.insert(sbIndex, "\\left");
 					sbIndex = sbIndex + 6;
 				}
@@ -1222,8 +1216,7 @@ public class MathMLParser {
 
 			for (int i = 0; i < rightBraces.length; i++) {
 				sbIndex = 0;
-				while ((sbIndex = sb.indexOf(String.valueOf(rightBraces[i]),
-						sbIndex)) > -1) {
+				while ((sbIndex = sb.indexOf(String.valueOf(rightBraces[i]), sbIndex)) > -1) {
 					sb.insert(sbIndex, "\\right");
 					sbIndex = sbIndex + 7;
 				}
@@ -1233,8 +1226,7 @@ public class MathMLParser {
 		// replace special characters
 		for (int i = 0; i < specialCharacters.length; i++) {
 			sbIndex = 0;
-			while ((sbIndex = sb.indexOf(String.valueOf(specialCharacters[i]),
-					sbIndex)) > -1) {
+			while ((sbIndex = sb.indexOf(String.valueOf(specialCharacters[i]), sbIndex)) > -1) {
 				sb.insert(sbIndex, '\\');
 				sbIndex = sbIndex + 2;
 			}
@@ -1266,8 +1258,9 @@ public class MathMLParser {
 						sbIndex++;
 					}
 				} catch (StringIndexOutOfBoundsException exception) {
-					throw new XMLParseException("Parsing error at character " + pos
-							+ ": MathML code is not HTML wrapped.", exception);
+					throw new XMLParseException(
+							"Parsing error at character " + pos + ": MathML code is not HTML wrapped.",
+							exception);
 				}
 
 				entity.append(';');
@@ -1291,19 +1284,16 @@ public class MathMLParser {
 				} else {
 					String entityWorkout = entity.toString();
 					if (entityWorkout.startsWith("&#x")) {
-						entityWorkout = entityWorkout.substring(3,
-								entityWorkout.length() - 1);
+						entityWorkout = entityWorkout.substring(3, entityWorkout.length() - 1);
 					} else if (entityWorkout.startsWith("\\&\\#x")) {
 						// not sure whether this is needed any more...
-						entityWorkout = entityWorkout.substring(5,
-								entityWorkout.length() - 1);
+						entityWorkout = entityWorkout.substring(5, entityWorkout.length() - 1);
 					}
 					if (isValidUnicode(entityWorkout)) {
 						// assuming our LaTeX parser will know these things
 						int hex = Integer.parseInt(entityWorkout, 16);
 						Character hexChar = (char) hex;
-						sb.replace(sbIndex - entity.length(), sbIndex,
-								hexChar.toString());
+						sb.replace(sbIndex - entity.length(), sbIndex, hexChar.toString());
 						sbIndex -= entity.length() - 1;
 					} else {
 						// old school
@@ -1335,7 +1325,7 @@ public class MathMLParser {
 
 	/**
 	 * Determines whether this is valid Unicode
-	 * 
+	 *
 	 * @param vu
 	 *            unicode string
 	 * @return whether it's valid
@@ -1356,5 +1346,4 @@ public class MathMLParser {
 
 		return true;
 	}
-
 }

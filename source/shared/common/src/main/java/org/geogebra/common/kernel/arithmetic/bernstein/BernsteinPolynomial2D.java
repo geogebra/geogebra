@@ -62,14 +62,17 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	 *
 	 * @apiNote The instance is mutable to support in-place operations during marching.
 	 */
-	public BernsteinPolynomial2D(BernsteinPolynomial1D[] bernsteinCoeffs, double minX, double maxX,
-			int degreeX) {
-		this(bernsteinCoeffs, minX, maxX, degreeX,
-				BinomialCoefficientsSign.from2Var(bernsteinCoeffs));
+	public BernsteinPolynomial2D(
+			BernsteinPolynomial1D[] bernsteinCoeffs, double minX, double maxX, int degreeX) {
+		this(bernsteinCoeffs, minX, maxX, degreeX, BinomialCoefficientsSign.from2Var(bernsteinCoeffs));
 	}
 
-	private BernsteinPolynomial2D(BernsteinPolynomial1D[] bernsteinCoeffs, double minX, double maxX,
-			int degreeX, BinomialCoefficientsSign sign) {
+	private BernsteinPolynomial2D(
+			BernsteinPolynomial1D[] bernsteinCoeffs,
+			double minX,
+			double maxX,
+			int degreeX,
+			BinomialCoefficientsSign sign) {
 		this.minX = minX;
 		this.maxX = maxX;
 		this.degreeX = degreeX;
@@ -93,8 +96,8 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	 * @param limits bounds used for normalized evaluation
 	 * @param degreeX degree in {@code x}
 	 */
-	public BernsteinPolynomial2D(BernsteinPolynomial1D[] bernsteinCoeffs, BoundsRectangle limits,
-			int degreeX) {
+	public BernsteinPolynomial2D(
+			BernsteinPolynomial1D[] bernsteinCoeffs, BoundsRectangle limits, int degreeX) {
 		this(bernsteinCoeffs, limits.getXmin(), limits.getXmax(), degreeX);
 	}
 
@@ -112,13 +115,12 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	 * @apiNote This is a fast prefilter (sign/monotonic test). It may conservatively
 	 *          return {@code null} even when extreme edge cases exist.
 	 */
-	public static BernsteinPolynomial2D create(BernsteinPolynomial1D[] bernsteinCoeffs,
-			double minX, double maxX,
-			int maxDegreeX) {
-		BinomialCoefficientsSign sign =
-				BinomialCoefficientsSign.from2Var(bernsteinCoeffs);
-		return sign.monotonic() ? null : new BernsteinPolynomial2D(bernsteinCoeffs, minX, maxX,
-				maxDegreeX, sign);
+	public static BernsteinPolynomial2D create(
+			BernsteinPolynomial1D[] bernsteinCoeffs, double minX, double maxX, int maxDegreeX) {
+		BinomialCoefficientsSign sign = BinomialCoefficientsSign.from2Var(bernsteinCoeffs);
+		return sign.monotonic()
+				? null
+				: new BernsteinPolynomial2D(bernsteinCoeffs, minX, maxX, maxDegreeX, sign);
 	}
 
 	/**
@@ -138,9 +140,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 		if (bPlus == null || bPlus.size() != degreeX + 1) {
 			bPlus = new BernsteinCoefficientsCache2Var(degreeX + 1);
 			bMinus = new BernsteinCoefficientsCache2Var(degreeX + 1);
-
 		}
-
 	}
 
 	/**
@@ -174,8 +174,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 		for (int i = 1; i <= degreeX + 1; i++) {
 			for (int j = degreeX - i; j >= 0; j--) {
-				partialEval[j] = scaledOneMinusX * lastPartialEval[j]
-						+ x * lastPartialEval[j + 1];
+				partialEval[j] = scaledOneMinusX * lastPartialEval[j] + x * lastPartialEval[j + 1];
 			}
 			double[] temp = lastPartialEval;
 			lastPartialEval = partialEval;
@@ -197,8 +196,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 		double powOneMinusX = Math.pow(1 - value, degreeX - 1);
 		double d = value == 1 ? 1 : 1 - value;
 		for (int i = 1; i < degreeX + 1; i++) {
-			result.linearCombinationInPlace(1, bernsteinCoeffs[i],
-					powX * powOneMinusX);
+			result.linearCombinationInPlace(1, bernsteinCoeffs[i], powX * powOneMinusX);
 			powX *= value;
 			powOneMinusX /= d;
 		}
@@ -221,8 +219,10 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 		return new BernsteinPolynomial1D(coeffs, 'x', minX, maxX);
 	}
 
-	private BernsteinPolynomial1D[][] getSlices(BernsteinPolynomial1D[] pcoeffs,
-			BernsteinPolynomial1D[] potherCoeffs, BernsteinPolynomial1D[] mcoeffs,
+	private BernsteinPolynomial1D[][] getSlices(
+			BernsteinPolynomial1D[] pcoeffs,
+			BernsteinPolynomial1D[] potherCoeffs,
+			BernsteinPolynomial1D[] mcoeffs,
 			BernsteinPolynomial1D[] motherCoeffs) {
 		BernsteinPolynomial1D[] slicePositive = new BernsteinPolynomial1D[pcoeffs.length + 1];
 		BernsteinPolynomial1D[] sliceNegative = new BernsteinPolynomial1D[mcoeffs.length + 1];
@@ -235,11 +235,11 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 		sliceNegative[mcoeffs.length] = motherCoeffs[motherCoeffs.length - 1];
 
-		return new BernsteinPolynomial1D[][]{slicePositive, sliceNegative};
+		return new BernsteinPolynomial1D[][] {slicePositive, sliceNegative};
 	}
 
-	private static BernsteinPolynomial1D getSliceNegative(BernsteinPolynomial1D[] mcoeffs,
-			BernsteinPolynomial1D[] motherCoeffs, int i) {
+	private static BernsteinPolynomial1D getSliceNegative(
+			BernsteinPolynomial1D[] mcoeffs, BernsteinPolynomial1D[] motherCoeffs, int i) {
 		BernsteinPolynomial1D slice = plusAndDivideBy2(mcoeffs, motherCoeffs, i);
 		if (i > 0) {
 			slice = slice.plus(motherCoeffs[i - 1]);
@@ -248,13 +248,13 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 		return slice;
 	}
 
-	private static BernsteinPolynomial1D plusAndDivideBy2(BernsteinPolynomial1D[] mcoeffs,
-			BernsteinPolynomial1D[] motherCoeffs, int i) {
+	private static BernsteinPolynomial1D plusAndDivideBy2(
+			BernsteinPolynomial1D[] mcoeffs, BernsteinPolynomial1D[] motherCoeffs, int i) {
 		return mcoeffs[i].linearCombination(0.5, motherCoeffs[i], 0.5);
 	}
 
-	private static BernsteinPolynomial1D getSlicePositive(BernsteinPolynomial1D[] pcoeffs,
-			BernsteinPolynomial1D[] potherCoeffs, int i) {
+	private static BernsteinPolynomial1D getSlicePositive(
+			BernsteinPolynomial1D[] pcoeffs, BernsteinPolynomial1D[] potherCoeffs, int i) {
 
 		BernsteinPolynomial1D slice = plusAndDivideBy2(pcoeffs, potherCoeffs, i);
 
@@ -297,8 +297,8 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 		for (int i = 1; i <= degreeX + 1; i++) {
 			for (int j = degreeX - i; j >= 0; j--) {
-				BernsteinPolynomial1D[][] slices = getSlices(bPlus.last[j], bPlus.last[j + 1],
-						bMinus.last[j], bMinus.last[j + 1]);
+				BernsteinPolynomial1D[][] slices =
+						getSlices(bPlus.last[j], bPlus.last[j + 1], bMinus.last[j], bMinus.last[j + 1]);
 				bPlus.set(j, slices[0]);
 				bMinus.set(j, slices[1]);
 			}
@@ -311,7 +311,7 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 
 		BernsteinPolynomial2D split01 = split00 != null ? split00.splitCoefficients() : null;
 		BernsteinPolynomial2D split11 = split10 != null ? split10.splitCoefficients() : null;
-		return new BernsteinPolynomial2D[][]{{split00, split01}, {split10, split11}};
+		return new BernsteinPolynomial2D[][] {{split00, split01}, {split10, split11}};
 	}
 
 	/**
@@ -346,13 +346,12 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	 */
 	public boolean onlyOnePartialDerivativeHasSolution() {
 		for (int i = 0; i < degreeX; i++) {
-			BernsteinPolynomial1D dx = bernsteinCoeffs[i].linearCombination(-degreeX + i,
-					bernsteinCoeffs[i + 1], i + 1);
+			BernsteinPolynomial1D dx =
+					bernsteinCoeffs[i].linearCombination(-degreeX + i, bernsteinCoeffs[i + 1], i + 1);
 
 			if (dx.hasNoSolution() != bernsteinCoeffs[i].hasDerivativeNoSolution()) {
 				return true;
 			}
-
 		}
 		return false;
 	}
@@ -364,10 +363,10 @@ public class BernsteinPolynomial2D extends BernsteinPolynomial<BernsteinPolynomi
 	 */
 	public BernsteinPolynomial2D derivativeX() {
 		BernsteinPolynomial1D[] derivedCoeffs = new BernsteinPolynomial1D[degreeX];
-			for (int i = 0; i < degreeX; i++) {
-				derivedCoeffs[i] = bernsteinCoeffs[i].linearCombination(-degreeX + i,
-						bernsteinCoeffs[i + 1], i + 1);
-			}
+		for (int i = 0; i < degreeX; i++) {
+			derivedCoeffs[i] =
+					bernsteinCoeffs[i].linearCombination(-degreeX + i, bernsteinCoeffs[i + 1], i + 1);
+		}
 		return new BernsteinPolynomial2D(derivedCoeffs, minX, maxX, degreeX - 1);
 	}
 

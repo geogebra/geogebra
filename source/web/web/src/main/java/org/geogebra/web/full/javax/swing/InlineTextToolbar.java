@@ -84,14 +84,12 @@ public final class InlineTextToolbar implements FastClickHandler {
 	}
 
 	private void createBulletListBtn() {
-		bulletListBtn = createButton(generalIconResource
-				.getImageResource(GeneralIcon.BULLET_LIST));
+		bulletListBtn = createButton(generalIconResource.getImageResource(GeneralIcon.BULLET_LIST));
 		add(bulletListBtn);
 	}
 
 	private void createNumberedListBtn() {
-		numberedListBtn = createButton(generalIconResource
-				.getImageResource(GeneralIcon.NUMBERED_LIST));
+		numberedListBtn = createButton(generalIconResource.getImageResource(GeneralIcon.NUMBERED_LIST));
 		add(numberedListBtn);
 	}
 
@@ -147,9 +145,7 @@ public final class InlineTextToolbar implements FastClickHandler {
 	}
 
 	private String getListStyle(HasTextFormat formatter) {
-		return formatter.getListStyle() != null
-				? formatter.getListStyle()
-				: "";
+		return formatter.getListStyle() != null ? formatter.getListStyle() : "";
 	}
 
 	/**

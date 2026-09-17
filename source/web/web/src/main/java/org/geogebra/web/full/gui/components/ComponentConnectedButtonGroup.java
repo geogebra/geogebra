@@ -40,8 +40,8 @@ public final class ComponentConnectedButtonGroup extends FlowPanel
 	 * @param connectedButtonGroupProperty {@link ConnectedButtonGroup}
 	 * @param widgets list of focusable widgets
 	 */
-	public ComponentConnectedButtonGroup(ConnectedButtonGroup connectedButtonGroupProperty,
-			List<Widget> widgets) {
+	public ComponentConnectedButtonGroup(
+			ConnectedButtonGroup connectedButtonGroupProperty, List<Widget> widgets) {
 		this.connectedButtonGroupProperty = connectedButtonGroupProperty;
 		addStyleName("connectedButtonGroup");
 		buildConnectedButtonGroup();

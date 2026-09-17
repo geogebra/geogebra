@@ -74,16 +74,16 @@ public final class ComponentToast extends GPopupPanel {
 		}
 		getElement().getStyle().clearWidth();
 		int toastWidth = app.isPortrait() ? width - 16 : width;
-		int distAVBottomKeyboardTop = (int) (app.getHeight() - bottom
-				- ((AppW) app).getAppletFrame().getKeyboardHeight());
+		int distAVBottomKeyboardTop =
+				(int) (app.getHeight() - bottom - ((AppW) app).getAppletFrame().getKeyboardHeight());
 		int toastLeft = left;
 		if (width < MIN_WIDTH && getOffsetWidth() > MIN_WIDTH) {
 			toastWidth = Math.min(MIN_WIDTH, left + width);
 			toastLeft = left + width - toastWidth;
 		}
 		getElement().getStyle().setWidth(toastWidth - 2 * TOAST_PADDING, Unit.PX);
-		setPopupPosition(toastLeft, distAVBottomKeyboardTop >= getOffsetHeight()
-				? bottom : top - getOffsetHeight());
+		setPopupPosition(
+				toastLeft, distAVBottomKeyboardTop >= getOffsetHeight() ? bottom : top - getOffsetHeight());
 		Scheduler.get().scheduleDeferred(() -> addStyleName("fadeIn"));
 	}
 

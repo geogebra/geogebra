@@ -33,7 +33,6 @@ import org.jspecify.annotations.NonNull;
  * @author Markus
  *
  */
-
 public interface ExpressionValue extends Iterable<ExpressionValue> {
 	/**
 	 * @return true if this is does not depend on any labeled or dependent geos
@@ -238,7 +237,7 @@ public interface ExpressionValue extends Iterable<ExpressionValue> {
 	 * @return true if inspecting object returned true for at least one of the nodes
 	 */
 	default boolean any(Inspecting inspecting) {
-		for (ExpressionValue value: this) {
+		for (ExpressionValue value : this) {
 			if (inspecting.check(value)) {
 				return true;
 			}

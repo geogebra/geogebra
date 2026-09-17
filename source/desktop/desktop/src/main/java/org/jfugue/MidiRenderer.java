@@ -2,22 +2,22 @@
  * JFugue - API for Music Programming
  * Copyright (C) 2003-2008  David Koelle
  *
- * http://www.jfugue.org 
- * 
+ * http://www.jfugue.org
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *  
+ *
  */
 
 package org.jfugue;
@@ -34,7 +34,7 @@ import javax.sound.midi.ShortMessage;
  * pattern. Or, you could create a graphical light show based on the musical
  * notes in the pattern.
  * </p>
- * 
+ *
  * <p>
  * This was named Renderer in previous versions of JFugue. The name has been
  * changed to differentiate it from other types of renderers.
@@ -63,7 +63,7 @@ public final class MidiRenderer extends ParserListenerAdapter {
 	 * means that the second time render() is called, it will contain music left
 	 * over from the first time it was called. (This wasn't a problem with Java
 	 * 1.4)
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public void reset(float sequenceTiming, int resolution) {
@@ -79,12 +79,11 @@ public final class MidiRenderer extends ParserListenerAdapter {
 	 * which means that the second time render() is called, it will contain
 	 * music left over from the first time it was called. (This wasn't a problem
 	 * with Java 1.4)
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	public void reset() {
-		this.eventManager = new MidiEventManager(this.sequenceTiming,
-				this.resolution);
+		this.eventManager = new MidiEventManager(this.sequenceTiming, this.resolution);
 	}
 
 	/**
@@ -104,15 +103,13 @@ public final class MidiRenderer extends ParserListenerAdapter {
 
 	@Override
 	public void tempoEvent(Tempo tempo) {
-		byte[] threeTempoBytes = TimeFactor
-				.convertToThreeTempoBytes(tempo.getTempo());
+		byte[] threeTempoBytes = TimeFactor.convertToThreeTempoBytes(tempo.getTempo());
 		this.eventManager.addMetaMessage(0x51, threeTempoBytes);
 	}
 
 	@Override
 	public void instrumentEvent(Instrument instrument) {
-		this.eventManager.addEvent(ShortMessage.PROGRAM_CHANGE,
-				instrument.getInstrument(), 0);
+		this.eventManager.addEvent(ShortMessage.PROGRAM_CHANGE, instrument.getInstrument(), 0);
 	}
 
 	@Override
@@ -132,32 +129,30 @@ public final class MidiRenderer extends ParserListenerAdapter {
 
 	@Override
 	public void keySignatureEvent(KeySignature keySig) {
-		this.eventManager.addMetaMessage(0x59,
-				new byte[] { keySig.getKeySig(), keySig.getScale() });
+		this.eventManager.addMetaMessage(0x59, new byte[] {keySig.getKeySig(), keySig.getScale()});
 	}
 
 	@Override
 	public void controllerEvent(Controller controller) {
-		this.eventManager.addEvent(ShortMessage.CONTROL_CHANGE,
-				controller.getIndex(), controller.getValue());
+		this.eventManager.addEvent(
+				ShortMessage.CONTROL_CHANGE, controller.getIndex(), controller.getValue());
 	}
 
 	@Override
 	public void channelPressureEvent(ChannelPressure channelPressure) {
-		this.eventManager.addEvent(ShortMessage.CHANNEL_PRESSURE,
-				channelPressure.getPressure());
+		this.eventManager.addEvent(ShortMessage.CHANNEL_PRESSURE, channelPressure.getPressure());
 	}
 
 	@Override
 	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
-		this.eventManager.addEvent(ShortMessage.POLY_PRESSURE,
-				polyphonicPressure.getKey(), polyphonicPressure.getPressure());
+		this.eventManager.addEvent(
+				ShortMessage.POLY_PRESSURE, polyphonicPressure.getKey(), polyphonicPressure.getPressure());
 	}
 
 	@Override
 	public void pitchBendEvent(PitchBend pitchBend) {
-		this.eventManager.addEvent(ShortMessage.PITCH_BEND,
-				pitchBend.getBend()[0], pitchBend.getBend()[1]);
+		this.eventManager.addEvent(
+				ShortMessage.PITCH_BEND, pitchBend.getBend()[0], pitchBend.getBend()[1]);
 	}
 
 	@Override
@@ -181,8 +176,12 @@ public final class MidiRenderer extends ParserListenerAdapter {
 			initialNoteTime = eventManager.getTrackTimer();
 			byte attackVelocity = note.getAttackVelocity();
 			byte decayVelocity = note.getDecayVelocity();
-			this.eventManager.addNoteEvent(note.getValue(), attackVelocity,
-					decayVelocity, duration, !note.isEndOfTie(),
+			this.eventManager.addNoteEvent(
+					note.getValue(),
+					attackVelocity,
+					decayVelocity,
+					duration,
+					!note.isEndOfTie(),
 					!note.isStartOfTie());
 		}
 	}
@@ -195,8 +194,12 @@ public final class MidiRenderer extends ParserListenerAdapter {
 		} else {
 			byte attackVelocity = note.getAttackVelocity();
 			byte decayVelocity = note.getDecayVelocity();
-			this.eventManager.addNoteEvent(note.getValue(), attackVelocity,
-					decayVelocity, duration, !note.isEndOfTie(),
+			this.eventManager.addNoteEvent(
+					note.getValue(),
+					attackVelocity,
+					decayVelocity,
+					duration,
+					!note.isEndOfTie(),
 					!note.isStartOfTie());
 		}
 	}
@@ -210,8 +213,12 @@ public final class MidiRenderer extends ParserListenerAdapter {
 		} else {
 			byte attackVelocity = note.getAttackVelocity();
 			byte decayVelocity = note.getDecayVelocity();
-			this.eventManager.addNoteEvent(note.getValue(), attackVelocity,
-					decayVelocity, duration, !note.isEndOfTie(),
+			this.eventManager.addNoteEvent(
+					note.getValue(),
+					attackVelocity,
+					decayVelocity,
+					duration,
+					!note.isEndOfTie(),
 					!note.isStartOfTie());
 		}
 	}

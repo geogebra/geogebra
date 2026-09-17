@@ -149,14 +149,14 @@ class OpenFragmentClosureProcessorTest {
 		Fixture firstFixture = new Fixture();
 		List<Integer> firstContourChain = firstFixture.addContourChain(0);
 		firstFixture.state.recordForwardContourEdgesBy(1, firstContourChain);
-		firstFixture.state.setLastFragments(List.of(firstFixture.fragment(0),
-				firstFixture.fragment(1)));
+		firstFixture.state.setLastFragments(
+				List.of(firstFixture.fragment(0), firstFixture.fragment(1)));
 
 		Fixture secondFixture = new Fixture();
 		List<Integer> secondContourChain = secondFixture.addContourChain(0);
 		secondFixture.state.recordForwardContourEdgesBy(1, secondContourChain);
-		secondFixture.state.setLastFragments(List.of(secondFixture.fragment(1),
-				secondFixture.fragment(0)));
+		secondFixture.state.setLastFragments(
+				List.of(secondFixture.fragment(1), secondFixture.fragment(0)));
 
 		OpenFragmentClosureResult first = firstFixture.process();
 		OpenFragmentClosureResult second = secondFixture.process();
@@ -171,8 +171,8 @@ class OpenFragmentClosureProcessorTest {
 		SquareFixture fixture = new SquareFixture();
 		fixture.addTopLeftToBottomRightContour(0);
 		fixture.addTopRightToBottomLeftContour(1);
-		fixture.state.setLastFragments(List.of(fixture.topLeftToBottomRightFragment(0),
-				fixture.topRightToBottomLeftFragment(1)));
+		fixture.state.setLastFragments(
+				List.of(fixture.topLeftToBottomRightFragment(0), fixture.topRightToBottomLeftFragment(1)));
 
 		OpenFragmentClosureResult result = fixture.process();
 
@@ -186,13 +186,15 @@ class OpenFragmentClosureProcessorTest {
 		SquareFixture firstFixture = new SquareFixture();
 		firstFixture.addTopLeftToBottomRightContour(0);
 		firstFixture.addTopRightToBottomLeftContour(1);
-		firstFixture.state.setLastFragments(List.of(firstFixture.topLeftToBottomRightFragment(0),
+		firstFixture.state.setLastFragments(List.of(
+				firstFixture.topLeftToBottomRightFragment(0),
 				firstFixture.topRightToBottomLeftFragment(1)));
 
 		SquareFixture secondFixture = new SquareFixture();
 		secondFixture.addTopRightToBottomLeftContour(0);
 		secondFixture.addTopLeftToBottomRightContour(1);
-		secondFixture.state.setLastFragments(List.of(secondFixture.topRightToBottomLeftFragment(0),
+		secondFixture.state.setLastFragments(List.of(
+				secondFixture.topRightToBottomLeftFragment(0),
 				secondFixture.topLeftToBottomRightFragment(1)));
 
 		OpenFragmentClosureResult first = firstFixture.process();
@@ -247,9 +249,9 @@ class OpenFragmentClosureProcessorTest {
 		assertHasFailure(result, FailureReason.FAILED_COMPLEMENT_WIRING);
 	}
 
-	private static void assertHasFailure(OpenFragmentClosureResult result,
-			FailureReason reason) {
-		assertTrue(result.failures().stream().anyMatch(failure -> failure.reason() == reason),
+	private static void assertHasFailure(OpenFragmentClosureResult result, FailureReason reason) {
+		assertTrue(
+				result.failures().stream().anyMatch(failure -> failure.reason() == reason),
 				"Expected failure reason " + reason + " in " + result.failures());
 	}
 
@@ -262,8 +264,7 @@ class OpenFragmentClosureProcessorTest {
 	private static class AbstractFixture {
 		final PlanarGraph graph = new PlanarGraph();
 		final FragmentTopologyRegistry state = new FragmentTopologyRegistry();
-		final VertexCache vertexCache = new VertexCache(graph,
-				EPSILON_POLICY.getVertexMerge());
+		final VertexCache vertexCache = new VertexCache(graph, EPSILON_POLICY.getVertexMerge());
 		final OpenFragmentClosureProcessor processor =
 				new OpenFragmentClosureProcessor(graph, state, EPSILON_POLICY, vertexCache);
 		int start;
@@ -278,8 +279,7 @@ class OpenFragmentClosureProcessorTest {
 		}
 
 		ViewportInfo viewportInfo() {
-			return ViewportInfo.ofBounds(start, end, bottomLeft, bottomRight, 0, 10,
-					0, 10);
+			return ViewportInfo.ofBounds(start, end, bottomLeft, bottomRight, 0, 10, 0, 10);
 		}
 	}
 
@@ -302,8 +302,8 @@ class OpenFragmentClosureProcessorTest {
 			addViewportEdge(bottomLeft, topLeft);
 			addViewportEdge(topLeft, secondEnd);
 			addViewportEdge(secondEnd, start);
-			processor.replaceOrderedVertexIds(List.of(start, end, secondStart, bottomRight,
-					bottomLeft, topLeft, secondEnd));
+			processor.replaceOrderedVertexIds(
+					List.of(start, end, secondStart, bottomRight, bottomLeft, topLeft, secondEnd));
 		}
 
 		private int addViewportVertex(double x, double y) {
@@ -367,8 +367,11 @@ class OpenFragmentClosureProcessorTest {
 		private ClippedFragment fragment(int fragmentId) {
 			MyPoint startPoint = point(5, 10);
 			MyPoint endPoint = point(10, 5);
-			return new ClippedFragment(0, List.of(startPoint, point(7, 7), endPoint),
-					false, endpoint(startPoint, ClipEdge.TOP, 0.5, fragmentId),
+			return new ClippedFragment(
+					0,
+					List.of(startPoint, point(7, 7), endPoint),
+					false,
+					endpoint(startPoint, ClipEdge.TOP, 0.5, fragmentId),
 					endpoint(endPoint, ClipEdge.RIGHT, 1.5, fragmentId));
 		}
 
@@ -376,21 +379,27 @@ class OpenFragmentClosureProcessorTest {
 			MyPoint startPoint = point(4, 9);
 			MyPoint endPoint = point(10, 5);
 			addGraphVertex(4, 9);
-			return new ClippedFragment(0, List.of(startPoint, point(7, 7), endPoint),
-					false, endpoint(startPoint, ClipEdge.TOP, 0.4, fragmentId),
+			return new ClippedFragment(
+					0,
+					List.of(startPoint, point(7, 7), endPoint),
+					false,
+					endpoint(startPoint, ClipEdge.TOP, 0.4, fragmentId),
 					endpoint(endPoint, ClipEdge.RIGHT, 1.5, fragmentId));
 		}
 
 		private ClippedFragment missingEndpointFragment(int fragmentId) {
 			MyPoint startPoint = point(4, 10);
 			MyPoint endPoint = point(9, 5);
-			return new ClippedFragment(0, List.of(startPoint, point(7, 7), endPoint),
-					false, endpoint(startPoint, ClipEdge.TOP, 0.4, fragmentId),
+			return new ClippedFragment(
+					0,
+					List.of(startPoint, point(7, 7), endPoint),
+					false,
+					endpoint(startPoint, ClipEdge.TOP, 0.4, fragmentId),
 					endpoint(endPoint, ClipEdge.RIGHT, 1.4, fragmentId));
 		}
 
-		private FragmentEndpoint endpoint(MyPoint point, ClipEdge edge, double perimeter,
-				int fragmentId) {
+		private FragmentEndpoint endpoint(
+				MyPoint point, ClipEdge edge, double perimeter, int fragmentId) {
 			return new FragmentEndpoint(point, edge, perimeter, 0, fragmentId, 0);
 		}
 	}
@@ -406,8 +415,7 @@ class OpenFragmentClosureProcessorTest {
 			graph.addViewportEdge(topRight, bottomRight);
 			graph.addViewportEdge(bottomRight, bottomLeft);
 			graph.addViewportEdge(bottomLeft, topLeft);
-			processor.replaceOrderedVertexIds(List.of(topLeft, topRight,
-					bottomRight, bottomLeft));
+			processor.replaceOrderedVertexIds(List.of(topLeft, topRight, bottomRight, bottomLeft));
 		}
 
 		private int addVertex(double x, double y) {
@@ -433,21 +441,27 @@ class OpenFragmentClosureProcessorTest {
 		private ClippedFragment topLeftToBottomRightFragment(int fragmentId) {
 			MyPoint startPoint = point(0, 10);
 			MyPoint endPoint = point(10, 0);
-			return new ClippedFragment(0, List.of(startPoint, point(9, 1), endPoint),
-					false, endpoint(startPoint, ClipEdge.TOP, 0.0, fragmentId),
+			return new ClippedFragment(
+					0,
+					List.of(startPoint, point(9, 1), endPoint),
+					false,
+					endpoint(startPoint, ClipEdge.TOP, 0.0, fragmentId),
 					endpoint(endPoint, ClipEdge.RIGHT, 2.0, fragmentId));
 		}
 
 		private ClippedFragment topRightToBottomLeftFragment(int fragmentId) {
 			MyPoint startPoint = point(10, 10);
 			MyPoint endPoint = point(0, 0);
-			return new ClippedFragment(0, List.of(startPoint, point(1, 1), endPoint),
-					false, endpoint(startPoint, ClipEdge.TOP, 1.0, fragmentId),
+			return new ClippedFragment(
+					0,
+					List.of(startPoint, point(1, 1), endPoint),
+					false,
+					endpoint(startPoint, ClipEdge.TOP, 1.0, fragmentId),
 					endpoint(endPoint, ClipEdge.LEFT, 3.0, fragmentId));
 		}
 
-		private FragmentEndpoint endpoint(MyPoint point, ClipEdge edge, double perimeter,
-				int fragmentId) {
+		private FragmentEndpoint endpoint(
+				MyPoint point, ClipEdge edge, double perimeter, int fragmentId) {
 			return new FragmentEndpoint(point, edge, perimeter, 0, fragmentId, 0);
 		}
 	}

@@ -41,8 +41,7 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	 *            original expression
 	 */
 	public AlgoDependentGeoCopy(Construction cons, ExpressionNode origGeoNode) {
-		this(cons, (GeoElement) origGeoNode
-				.evaluate(StringTemplate.defaultTemplate), origGeoNode);
+		this(cons, (GeoElement) origGeoNode.evaluate(StringTemplate.defaultTemplate), origGeoNode);
 	}
 
 	/**
@@ -52,8 +51,7 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	 *            original element
 	 * @param origGeoNode either "geo" or "geo(x)"
 	 */
-	public AlgoDependentGeoCopy(Construction cons, GeoElement origGeo,
-			ExpressionNode origGeoNode) {
+	public AlgoDependentGeoCopy(Construction cons, GeoElement origGeo, ExpressionNode origGeoNode) {
 		super(cons);
 		this.origGeo = origGeo;
 
@@ -64,7 +62,6 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		setInputOutput(); // for AlgoElement
 
 		compute();
-
 	}
 
 	@Override
@@ -107,12 +104,12 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// make sure X=(1,2)+t(3,4) does not go to XML as "expression" argument value
-		if (tpl.hasType(StringType.GEOGEBRA_XML) && !origGeo.isLabelSet()
+		if (tpl.hasType(StringType.GEOGEBRA_XML)
+				&& !origGeo.isLabelSet()
 				&& origGeo instanceof GeoLine
-				&& ((GeoLine) origGeo).getEquationForm()
-				== LinearEquationRepresentable.Form.PARAMETRIC) {
+				&& ((GeoLine) origGeo).getEquationForm() == LinearEquationRepresentable.Form.PARAMETRIC) {
 			((GeoLine) origGeo).setEquationForm(LinearEquationRepresentable.Form.EXPLICIT);
 			String ret = origGeo.getLabel(tpl);
 			((GeoLine) origGeo).setEquationForm(LinearEquationRepresentable.Form.PARAMETRIC);
@@ -139,8 +136,8 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	@Override
 	protected String toExpString(StringTemplate tpl) {
 		if (copyGeo.isLabelSet() && (copyGeo.isGeoFunction() || copyGeo.isGeoFunctionNVar())) {
-			return copyGeo.getLabel(tpl) + "(" + ((VarString) copyGeo).getVarString(tpl)
-					+ ") = " + origGeoNode.toString(tpl);
+			return copyGeo.getLabel(tpl) + "(" + ((VarString) copyGeo).getVarString(tpl) + ") = "
+					+ origGeoNode.toString(tpl);
 		}
 		return super.toExpString(tpl);
 	}

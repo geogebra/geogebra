@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,7 +38,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * JTree for objects
- * 
+ *
  * @author Mathieu
  *
  */
@@ -69,8 +69,7 @@ public class AlgebraTree extends JTree {
 	protected HashMap<String, DefaultMutableTreeNode> typeNodesMap;
 
 	// store all pairs of GeoElement -> node in the Tree
-	protected HashMap<GeoElement, GeoMutableTreeNode> nodeTable = new HashMap<>(
-			500);
+	protected HashMap<GeoElement, GeoMutableTreeNode> nodeTable = new HashMap<>(500);
 
 	/**
 	 * Flag for LaTeX rendering
@@ -88,7 +87,6 @@ public class AlgebraTree extends JTree {
 		algebraController.setTree(this);
 
 		initTree();
-
 	}
 
 	/**
@@ -152,7 +150,7 @@ public class AlgebraTree extends JTree {
 	 * Method to initialize the tree model of the current tree mode. This method
 	 * should be called whenever the tree mode is changed, it won't initialize
 	 * anything if not necessary.
-	 * 
+	 *
 	 * This method will also actually change the model of the tree.
 	 */
 	protected void initModel() {
@@ -183,7 +181,6 @@ public class AlgebraTree extends JTree {
 	public void setLabels() {
 
 		setTreeLabels();
-
 	}
 
 	/**
@@ -191,8 +188,7 @@ public class AlgebraTree extends JTree {
 	 */
 	protected void setTreeLabels() {
 		DefaultMutableTreeNode node;
-		for (Entry<String, DefaultMutableTreeNode> entry : typeNodesMap
-				.entrySet()) {
+		for (Entry<String, DefaultMutableTreeNode> entry : typeNodesMap.entrySet()) {
 			String key = entry.getKey();
 			node = entry.getValue();
 			node.setUserObject(app.getLocalization().getMenu(key));
@@ -214,8 +210,7 @@ public class AlgebraTree extends JTree {
 	 *            y coord
 	 * @return geo at this location on the tree
 	 */
-	public static GeoElement getGeoElementForLocation(JTree tree, int x,
-			int y) {
+	public static GeoElement getGeoElementForLocation(JTree tree, int x, int y) {
 		TreePath tp = tree.getPathForLocation(x, y);
 		return getGeoElementForPath(tp);
 	}
@@ -231,8 +226,7 @@ public class AlgebraTree extends JTree {
 		}
 
 		Object ob;
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
-				.getLastPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
 		if (node != null && (ob = node.getUserObject()) instanceof GeoElement) {
 			return (GeoElement) ob;
 		}
@@ -250,8 +244,7 @@ public class AlgebraTree extends JTree {
 			return null;
 		}
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
-				.getLastPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
 
 		if (node == null) {
 			return null;
@@ -271,7 +264,7 @@ public class AlgebraTree extends JTree {
 
 	/**
 	 * do we show this geo here ?
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if geo has to be shown
@@ -291,7 +284,8 @@ public class AlgebraTree extends JTree {
 		if (show(geo)) {
 			// don't add auxiliary objects if the tree is categorized by type
 			if (!getTreeMode().equals(SortMode.DEPENDENCY)
-					&& !showAuxiliaryObjects() && geo.isAuxiliaryObject()) {
+					&& !showAuxiliaryObjects()
+					&& geo.isAuxiliaryObject()) {
 				return;
 			}
 
@@ -305,13 +299,13 @@ public class AlgebraTree extends JTree {
 			nodeTable.put(geo, node);
 
 			// ensure that the leaf with the new object is visible
-			expandPath(new TreePath(new Object[] { model.getRoot(), parent }));
+			expandPath(new TreePath(new Object[] {model.getRoot(), parent}));
 		}
 	}
 
 	/**
 	 * removes a node from the tree
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -321,7 +315,7 @@ public class AlgebraTree extends JTree {
 
 	/**
 	 * removes a node from the tree
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -356,7 +350,7 @@ public class AlgebraTree extends JTree {
 	// TODO EuclidianView#setHighlighted() doesn't exist
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
-	 * 
+	 *
 	 * see EuclidianViewD#setHighlighted()
 	 */
 	public void update(GeoElement geo) {
@@ -387,7 +381,7 @@ public class AlgebraTree extends JTree {
 			 * geogebra.kernel.GeoElement.updateCascade(GeoElement.java:3369) at
 			 * geogebra.kernel.AnimationManager.actionPerformed(AnimationManager
 			 * .java:179)
-			 * 
+			 *
 			 */
 			node.reset();
 			try {
@@ -421,7 +415,7 @@ public class AlgebraTree extends JTree {
 	 * Update auxiliary object
 	 * @param geo element
 	 */
-	final public void updateAuxiliaryObject(GeoElement geo) {
+	public final void updateAuxiliaryObject(GeoElement geo) {
 		remove(geo);
 		add(geo);
 	}
@@ -436,12 +430,11 @@ public class AlgebraTree extends JTree {
 
 	/**
 	 * Remove this node from the model.
-	 * 
+	 *
 	 * @param node node
 	 * @param model model
 	 */
-	protected void removeFromModel(DefaultMutableTreeNode node,
-			DefaultTreeModel model) {
+	protected void removeFromModel(DefaultMutableTreeNode node, DefaultTreeModel model) {
 		model.removeNodeFromParent(node);
 		nodeTable.remove(node.getUserObject());
 
@@ -450,15 +443,13 @@ public class AlgebraTree extends JTree {
 
 	/**
 	 * Remove this node from the model.
-	 * 
+	 *
 	 * @param node node
 	 * @param model model
 	 */
-	protected void removeFromModelForMode(DefaultMutableTreeNode node,
-			DefaultTreeModel model) {
+	protected void removeFromModelForMode(DefaultMutableTreeNode node, DefaultTreeModel model) {
 
-		String typeString = ((GeoElement) node.getUserObject())
-				.getTypeStringForAlgebraView();
+		String typeString = ((GeoElement) node.getUserObject()).getTypeStringForAlgebraView();
 		DefaultMutableTreeNode parent = typeNodesMap.get(typeString);
 
 		// this has been the last node
@@ -466,7 +457,6 @@ public class AlgebraTree extends JTree {
 			typeNodesMap.remove(typeString);
 			model.removeNodeFromParent(parent);
 		}
-
 	}
 
 	/**
@@ -477,7 +467,7 @@ public class AlgebraTree extends JTree {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current root of the tree
 	 */
 	public DefaultMutableTreeNode getRoot() {
@@ -485,7 +475,7 @@ public class AlgebraTree extends JTree {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo1
 	 *            one geo
 	 * @param geo2
@@ -500,14 +490,12 @@ public class AlgebraTree extends JTree {
 
 		int[][] ret = new int[2][];
 		for (int i = 0; i < root.getChildCount() && found < 2; i++) {
-			DefaultMutableTreeNode child = (DefaultMutableTreeNode) root
-					.getChildAt(i);
+			DefaultMutableTreeNode child = (DefaultMutableTreeNode) root.getChildAt(i);
 			for (int j = 0; j < child.getChildCount() && found < 2; j++) {
-				DefaultMutableTreeNode child2 = (DefaultMutableTreeNode) child
-						.getChildAt(j);
+				DefaultMutableTreeNode child2 = (DefaultMutableTreeNode) child.getChildAt(j);
 				Object ob = child2.getUserObject();
 				if (ob == geo1 || ob == geo2) {
-					ret[found] = new int[] { i, j };
+					ret[found] = new int[] {i, j};
 					found++;
 				}
 			}
@@ -518,7 +506,6 @@ public class AlgebraTree extends JTree {
 		}
 
 		return ret;
-
 	}
 
 	/**
@@ -526,8 +513,7 @@ public class AlgebraTree extends JTree {
 	 * @param geo2 second geo
 	 * @return geos displayed in the tree between the two geos (included)
 	 */
-	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1,
-			GeoElement geo2) {
+	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1, GeoElement geo2) {
 
 		int[][] indices = getIndices(geo1, geo2);
 
@@ -540,8 +526,7 @@ public class AlgebraTree extends JTree {
 			DefaultMutableTreeNode root = getRoot();
 
 			if (p1 == p2) { // same category
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
-						.getChildAt(p1);
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(p1);
 				ArrayList<GeoElement> ret = new ArrayList<>();
 				addChildren(ret, node, c1, c2 + 1);
 				return ret;
@@ -549,8 +534,7 @@ public class AlgebraTree extends JTree {
 
 			ArrayList<GeoElement> ret = new ArrayList<>();
 
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root
-					.getChildAt(p1);
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) root.getChildAt(p1);
 			addChildren(ret, node, c1, node.getChildCount());
 			for (int i = p1 + 1; i < p2; i++) {
 				node = (DefaultMutableTreeNode) root.getChildAt(i);
@@ -563,28 +547,23 @@ public class AlgebraTree extends JTree {
 			addChildren(ret, node, 0, c2 + 1);
 
 			return ret;
-
 		}
 
 		return null;
-
 	}
 
-	private static void addChildren(ArrayList<GeoElement> list,
-			DefaultMutableTreeNode node, int start, int end) {
+	private static void addChildren(
+			ArrayList<GeoElement> list, DefaultMutableTreeNode node, int start, int end) {
 		Object ob;
 		for (int i = start; i < end; i++) {
-			DefaultMutableTreeNode child = (DefaultMutableTreeNode) node
-					.getChildAt(i);
-			if (child != null
-					&& (ob = child.getUserObject()) instanceof GeoElement) {
+			DefaultMutableTreeNode child = (DefaultMutableTreeNode) node.getChildAt(i);
+			if (child != null && (ob = child.getUserObject()) instanceof GeoElement) {
 				list.add((GeoElement) ob);
 			}
 		}
 	}
 
-	protected DefaultMutableTreeNode getParentNode(GeoElement geo,
-			int forceLayer) {
+	protected DefaultMutableTreeNode getParentNode(GeoElement geo, int forceLayer) {
 		DefaultMutableTreeNode parent;
 
 		// get type node
@@ -601,8 +580,7 @@ public class AlgebraTree extends JTree {
 			// find insert pos
 			int pos = rootType.getChildCount();
 			for (int i = 0; i < pos; i++) {
-				DefaultMutableTreeNode child = (DefaultMutableTreeNode) rootType
-						.getChildAt(i);
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode) rootType.getChildAt(i);
 				if (transTypeString.compareTo(child.toString()) < 0) {
 					pos = i;
 					break;
@@ -619,12 +597,12 @@ public class AlgebraTree extends JTree {
 	 * Gets the insert position for newGeo to insert it in alphabetical order in
 	 * parent node. Note: all children of parent must have instances of
 	 * GeoElement as user objects.
-	 * 
+	 *
 	 * @param mode parent node
 	 * @return insert position
 	 */
-	public static int getInsertPosition(DefaultMutableTreeNode parent,
-			GeoElement newGeo, SortMode mode) {
+	public static int getInsertPosition(
+			DefaultMutableTreeNode parent, GeoElement newGeo, SortMode mode) {
 		// label of inserted geo
 		// String newLabel = newGeo.getLabel();
 
@@ -636,8 +614,7 @@ public class AlgebraTree extends JTree {
 		}
 
 		// bigger then last?
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent
-				.getLastChild();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) parent.getLastChild();
 		GeoElement geo2 = (GeoElement) node.getUserObject();
 		if (compare(newGeo, geo2, mode)) {
 			return right;
@@ -661,22 +638,19 @@ public class AlgebraTree extends JTree {
 		return right;
 	}
 
-	private static boolean compare(GeoElement geo1, GeoElement geo2,
-			SortMode mode) {
+	private static boolean compare(GeoElement geo1, GeoElement geo2, SortMode mode) {
 		// alphabetical
 		if (mode == SortMode.ORDER) {
 			int geo1Index;
 			int geo2index;
 			// use index of twinGeo instead of corresponding geoCasCell
-			if (geo1
-					.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+			if (geo1.getParentAlgorithm() instanceof AlgoDependentCasCell) {
 				geo1Index = geo1.getAlgoDepCasCellGeoConstIndex();
 			} else {
 				geo1Index = geo1.getConstructionIndex();
 			}
 			// use index of twinGeo instead of corresponding geoCasCell
-			if (geo2
-					.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+			if (geo2.getParentAlgorithm() instanceof AlgoDependentCasCell) {
 				geo2index = geo2.getAlgoDepCasCellGeoConstIndex();
 			} else {
 				geo2index = geo2.getConstructionIndex();
@@ -684,9 +658,9 @@ public class AlgebraTree extends JTree {
 			return geo1Index > geo2index;
 		}
 		return GeoElement.compareLabels(
-				geo1.getLabel(StringTemplate.defaultTemplate),
-				geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
-
+						geo1.getLabel(StringTemplate.defaultTemplate),
+						geo2.getLabel(StringTemplate.defaultTemplate))
+				> 0;
 	}
 
 	public int getIconShownHeight() {

@@ -111,8 +111,8 @@ public final class PrintPreviewW extends ComponentDialog {
 	}
 
 	private int getFocusedPanelIdx() {
-		DockPanelW focusedPanel = ((GuiManagerW) app.getGuiManager())
-				.getLayout().getDockManager().getFocusedPanel();
+		DockPanelW focusedPanel =
+				((GuiManagerW) app.getGuiManager()).getLayout().getDockManager().getFocusedPanel();
 		if (focusedPanel == null) {
 			return 0;
 		} else {
@@ -131,8 +131,7 @@ public final class PrintPreviewW extends ComponentDialog {
 
 	private void onPositiveButtonAction() {
 		int selectedValue = indices.get(viewDropDown.getSelectedIndex());
-		if (selectedValue == App.VIEW_EUCLIDIAN
-				|| selectedValue == App.VIEW_EUCLIDIAN2) {
+		if (selectedValue == App.VIEW_EUCLIDIAN || selectedValue == App.VIEW_EUCLIDIAN2) {
 			createPreview(selectedValue + "");
 		} else {
 			DomGlobal.window.print();
@@ -144,13 +143,10 @@ public final class PrintPreviewW extends ComponentDialog {
 		int selectedValue = indices.get(viewDropDown.getSelectedIndex());
 		AppW appw = (AppW) app;
 		if (App.VIEW_EUCLIDIAN == selectedValue) {
-			scalePanelHolder.add(new PrintScalePanelW(appw, app
-					.getEuclidianView1()));
+			scalePanelHolder.add(new PrintScalePanelW(appw, app.getEuclidianView1()));
 			setPosBtnDisabled(false);
 		} else if (App.VIEW_EUCLIDIAN2 == selectedValue) {
-			scalePanelHolder
-					.add(new PrintScalePanelW(appw, app
-							.getEuclidianView2(1)));
+			scalePanelHolder.add(new PrintScalePanelW(appw, app.getEuclidianView2(1)));
 			setPosBtnDisabled(false);
 		} else {
 			createPreview(selectedValue + "");
@@ -158,18 +154,16 @@ public final class PrintPreviewW extends ComponentDialog {
 	}
 
 	private void createPreview(final String viewID) {
-		createPrintables(Integer.parseInt(viewID), (AppW) app, printPanel,
-				() -> setPosBtnDisabled(false));
+		createPrintables(
+				Integer.parseInt(viewID), (AppW) app, printPanel, () -> setPosBtnDisabled(false));
 	}
 
-	private void createPrintables(int viewID, AppW app, FlowPanel pPanel,
-			Runnable enablePrintBtn) {
+	private void createPrintables(int viewID, AppW app, FlowPanel pPanel, Runnable enablePrintBtn) {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
 		// only views provided by initKeysAndIndices should be handled here
 		if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
-			view = (PrintableW) app.getGuiManager()
-					.getConstructionProtocolView();
+			view = (PrintableW) app.getGuiManager().getConstructionProtocolView();
 		} else if (viewID == App.VIEW_EUCLIDIAN2) {
 			view = app.getEuclidianView2(1);
 		} else if (viewID == App.VIEW_ALGEBRA) {
@@ -178,12 +172,11 @@ public final class PrintPreviewW extends ComponentDialog {
 			view = app.getEuclidianView1();
 		}
 
-		view.getPrintable(pPanel, enablePrintBtn) ;
+		view.getPrintable(pPanel, enablePrintBtn);
 	}
 
 	private static void removePrintPanelFromDOM() {
-		HTMLCollection<elemental2.dom.Element> pp = Dom
-				.getElementsByClassName("printPanel");
+		HTMLCollection<elemental2.dom.Element> pp = Dom.getElementsByClassName("printPanel");
 		elemental2.dom.Element element = pp.getAt(0);
 		if (element != null) {
 			element.remove();

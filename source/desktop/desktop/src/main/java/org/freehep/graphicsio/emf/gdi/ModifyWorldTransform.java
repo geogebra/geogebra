@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * ModifyWorldTransform TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ModifyWorldTransform.java,v 1.5 2009-08-17 21:44:44 murkle Exp
  *          $
@@ -33,11 +33,9 @@ public class ModifyWorldTransform extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
-		ModifyWorldTransform tag = new ModifyWorldTransform(emf.readXFORM(),
-				emf.readDWORD());
+		ModifyWorldTransform tag = new ModifyWorldTransform(emf.readXFORM(), emf.readDWORD());
 		return tag;
 	}
 
@@ -49,7 +47,6 @@ public class ModifyWorldTransform extends EMFTag implements EMFConstants {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  transform: " + transform + "\n"
-				+ "  mode: " + mode;
+		return super.toString() + "\n" + "  transform: " + transform + "\n" + "  mode: " + mode;
 	}
 }

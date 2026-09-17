@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Helper algo to compute intersect points of a line in the conic coord sys
- * 
+ *
  * @author mathieu
  */
 public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
@@ -43,10 +43,8 @@ public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
 	 * @param c
 	 *            conic
 	 */
-	AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g,
-			GeoConicND c) {
+	AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g, GeoConicND c) {
 		super(cons, g, c);
-
 	}
 
 	@Override
@@ -55,7 +53,7 @@ public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return line input
 	 */
 	GeoLine getLine() {

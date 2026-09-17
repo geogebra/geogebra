@@ -62,7 +62,7 @@ public class DrawableList extends ArrayList<Drawable> {
 
 	/**
 	 * Draws all drawables in the list.
-	 * 
+	 *
 	 * @param g2
 	 *            Graphic to be used
 	 */
@@ -73,7 +73,9 @@ public class DrawableList extends ArrayList<Drawable> {
 				d.updateIfNeeded();
 			} else if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
-					&& !geo.isGeoInputBox() && !geo.isMask() && !geo.isMeasurementTool()
+					&& !geo.isGeoInputBox()
+					&& !geo.isMask()
+					&& !geo.isMeasurementTool()
 					&& !geo.isSpotlight()) {
 				d.updateIfNeeded();
 				d.draw(g2);

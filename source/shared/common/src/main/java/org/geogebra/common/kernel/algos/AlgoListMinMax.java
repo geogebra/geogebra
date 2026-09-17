@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -25,11 +25,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Minimum value of a list.
- * 
+ *
  * @author Markus Hohenwarter
  * @version 15-07-2007
  */
-
 public class AlgoListMinMax extends AlgoElement {
 
 	private final boolean isMin;
@@ -124,8 +123,7 @@ public class AlgoListMinMax extends AlgoElement {
 				GeoElement geo = geoList.get(i);
 				GeoElement freqGeo = freqList.get(i);
 
-				if (!(geo instanceof NumberValue)
-						|| !(freqGeo instanceof NumberValue)) {
+				if (!(geo instanceof NumberValue) || !(freqGeo instanceof NumberValue)) {
 					min.setUndefined();
 					return;
 				}
@@ -148,7 +146,6 @@ public class AlgoListMinMax extends AlgoElement {
 				min.setUndefined();
 				return;
 			}
-
 		}
 
 		min.setValue(minVal);
@@ -157,5 +154,4 @@ public class AlgoListMinMax extends AlgoElement {
 	private double minMax(double a, double b) {
 		return isMin ? Math.min(a, b) : Math.max(a, b);
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -186,8 +186,7 @@ class FileMenuD extends BaseMenu {
 			setMenuShortCutAccelerator(mi, 'W');
 		} else {
 			// Alt + F4
-			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F4,
-					InputEvent.ALT_MASK);
+			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK);
 			mi.setAccelerator(ks);
 		}
 
@@ -216,45 +215,42 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		newWindowAction = new AbstractAction(loc.getMenu("NewWindow"),
-				app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
-			private static final long serialVersionUID = 1L;
+		newWindowAction =
+				new AbstractAction(loc.getMenu("NewWindow"), app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread(() -> {
-					app.setWaitCursor();
-					app.createNewWindow();
-					app.setDefaultCursor();
-				});
-				runner.start();
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Thread runner = new Thread(() -> {
+							app.setWaitCursor();
+							app.createNewWindow();
+							app.setDefaultCursor();
+						});
+						runner.start();
+					}
+				};
 
-		saveAction = new AbstractAction(loc.getMenu("Save"),
-				app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
-			private static final long serialVersionUID = 1L;
+		saveAction =
+				new AbstractAction(loc.getMenu("Save"), app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().save();
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getGuiManager().save();
+					}
+				};
 
-		saveAsAction = new AbstractAction(
-				loc.getMenu("SaveAs") + Unicode.ELLIPSIS,
-				app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+		saveAsAction =
+				new AbstractAction(loc.getMenu("SaveAs") + Unicode.ELLIPSIS, app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().saveAs();
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getGuiManager().saveAs();
+					}
+				};
 
-		saveOnlineAction = new AbstractAction(
-				loc.getMenu("SaveOnline"),
-				app.getEmptyIcon()) {
+		saveOnlineAction = new AbstractAction(loc.getMenu("SaveOnline"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -263,8 +259,7 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		printEuclidianViewAction = new AbstractAction(
-				loc.getMenu("DrawingPad") + " ...") {
+		printEuclidianViewAction = new AbstractAction(loc.getMenu("DrawingPad") + " ...") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -273,8 +268,7 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		exitAction = new AbstractAction(loc.getMenu("Close"),
-				app.getMenuIcon(GuiResourcesD.EXIT)) {
+		exitAction = new AbstractAction(loc.getMenu("Close"), app.getMenuIcon(GuiResourcesD.EXIT)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -283,8 +277,7 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		exitAllAction = new AbstractAction(loc.getMenu("CloseAll"),
-				app.getEmptyIcon()) {
+		exitAllAction = new AbstractAction(loc.getMenu("CloseAll"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -293,76 +286,76 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		loadAction = new AbstractAction(loc.getMenu("Load") + " ...",
-				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
-			private static final long serialVersionUID = 1L;
+		loadAction =
+				new AbstractAction(
+						loc.getMenu("Load") + " ...", app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().openFile();
-			}
-		};
-
-		loadURLAction = new AbstractAction(
-				loc.getMenu("OpenFromWebpage") + " ...",
-				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().openURL();
-			}
-		};
-
-		drawingPadToClipboardAction = new AbstractAction(
-				loc.getMenu("DrawingPadToClipboard"),
-				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getSelectionManager().clearSelectedGeos(true, false);
-				app.updateSelection(false);
-
-				Thread runner = new Thread(() -> {
-					app.setWaitCursor();
-					// copy drawing pad to the system clipboard
-					app.copyGraphicsViewToClipboard();
-					app.setDefaultCursor();
-				});
-				runner.start();
-			}
-		};
-
-		exportGraphicAction = new AbstractAction(
-				loc.getMenu("DrawingPadAsPicture") + " (" + FileExtensions.PNG
-						+ ", " + FileExtensions.SVG + ") ...",
-				app.getMenuIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread(() -> {
-					app.setWaitCursor();
-					try {
-
-						app.getGuiManager().showGraphicExport();
-
-					} catch (Exception e1) {
-						Log.debug(
-								"GraphicExportDialog not available for 3D view yet");
-						// for 3D View
-						app.copyGraphicsViewToClipboard();
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getGuiManager().openFile();
 					}
-					app.setDefaultCursor();
-				});
-				runner.start();
-			}
-		};
+				};
+
+		loadURLAction =
+				new AbstractAction(
+						loc.getMenu("OpenFromWebpage") + " ...", app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getGuiManager().openURL();
+					}
+				};
+
+		drawingPadToClipboardAction =
+				new AbstractAction(
+						loc.getMenu("DrawingPadToClipboard"), app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getSelectionManager().clearSelectedGeos(true, false);
+						app.updateSelection(false);
+
+						Thread runner = new Thread(() -> {
+							app.setWaitCursor();
+							// copy drawing pad to the system clipboard
+							app.copyGraphicsViewToClipboard();
+							app.setDefaultCursor();
+						});
+						runner.start();
+					}
+				};
+
+		exportGraphicAction =
+				new AbstractAction(
+						loc.getMenu("DrawingPadAsPicture") + " (" + FileExtensions.PNG + ", "
+								+ FileExtensions.SVG + ") ...",
+						app.getMenuIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Thread runner = new Thread(() -> {
+							app.setWaitCursor();
+							try {
+
+								app.getGuiManager().showGraphicExport();
+
+							} catch (Exception e1) {
+								Log.debug("GraphicExportDialog not available for 3D view yet");
+								// for 3D View
+								app.copyGraphicsViewToClipboard();
+							}
+							app.setDefaultCursor();
+						});
+						runner.start();
+					}
+				};
 
 		// export slider as animation
-		exportAnimationAction = new AbstractAction(
-				loc.getMenu("ExportAnimatedGIF") + " ...") {
+		exportAnimationAction = new AbstractAction(loc.getMenu("ExportAnimatedGIF") + " ...") {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -376,118 +369,107 @@ class FileMenuD extends BaseMenu {
 			}
 		};
 
-		exportPSTricksAction = new AbstractAction(
-				loc.getMenu("DrawingPadAsPSTricks") + " ...",
-				app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+		exportPSTricksAction =
+				new AbstractAction(loc.getMenu("DrawingPadAsPSTricks") + " ...", app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					app.newGeoGebraToPstricks(PstricksFrame::new);
-				} catch (Exception ex) {
-					Log.debug("GeoGebraToPstricks not available");
-				}
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try {
+							app.newGeoGebraToPstricks(PstricksFrame::new);
+						} catch (Exception ex) {
+							Log.debug("GeoGebraToPstricks not available");
+						}
+					}
+				};
 		// Added By Loic Le Coq
-		exportPgfAction = new AbstractAction(
-				loc.getMenu("DrawingPagAsPGF") + " ...", app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+		exportPgfAction =
+				new AbstractAction(loc.getMenu("DrawingPagAsPGF") + " ...", app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			@SuppressWarnings("unused")
-			public void actionPerformed(ActionEvent e) {
-				try {
-					app.newGeoGebraToPgf(PgfFrame::new);
-				} catch (Exception ex) {
-					Log.debug("GeoGebraToPGF not available");
-				}
-			}
-		};
+					@Override
+					@SuppressWarnings("unused")
+					public void actionPerformed(ActionEvent e) {
+						try {
+							app.newGeoGebraToPgf(PgfFrame::new);
+						} catch (Exception ex) {
+							Log.debug("GeoGebraToPGF not available");
+						}
+					}
+				};
 
 		// Added by Andy Zhu; Asymptote export
-		exportAsymptoteAction = new AbstractAction(
-				loc.getMenu("GraphicsViewAsAsymptote") + " ...",
-				app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+		exportAsymptoteAction =
+				new AbstractAction(loc.getMenu("GraphicsViewAsAsymptote") + " ...", app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			@SuppressWarnings("unused")
-			public void actionPerformed(ActionEvent e) {
-				try {
-					app.newGeoGebraToAsymptote(AsymptoteFrame::new);
-				} catch (Exception ex) {
-					Log.debug("GeoGebraToAsymptote not available");
-				}
-			}
-		};
+					@Override
+					@SuppressWarnings("unused")
+					public void actionPerformed(ActionEvent e) {
+						try {
+							app.newGeoGebraToAsymptote(AsymptoteFrame::new);
+						} catch (Exception ex) {
+							Log.debug("GeoGebraToAsymptote not available");
+						}
+					}
+				};
 
 		// End
 
-		exportWorksheet = new AbstractAction(
-				loc.getMenu("DynamicWorksheetAsWebpage") + " ("
-						+ FileExtensions.HTML + ") ...",
-				app.getMenuIcon(GuiResourcesD.TEXT_HTML)) {
-			private static final long serialVersionUID = 1L;
+		exportWorksheet =
+				new AbstractAction(
+						loc.getMenu("DynamicWorksheetAsWebpage") + " (" + FileExtensions.HTML + ") ...",
+						app.getMenuIcon(GuiResourcesD.TEXT_HTML)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+					@Override
+					public void actionPerformed(ActionEvent e) {
 
-				Thread runner = new Thread(() -> {
+						Thread runner = new Thread(() -> {
+							app.setWaitCursor();
+							try {
+								app.getSelectionManager().clearSelectedGeos(true, false);
+								app.updateSelection(false);
+								WorksheetExportDialog d = new WorksheetExportDialog(app);
 
-					app.setWaitCursor();
-					try {
-						app.getSelectionManager().clearSelectedGeos(true,
-								false);
-						app.updateSelection(false);
-						WorksheetExportDialog d = new WorksheetExportDialog(
-								app);
-
-						d.setVisible(true);
-					} catch (Exception e1) {
-						Log.debug("WorksheetExportDialog not available");
-						Log.debug(e1);
+								d.setVisible(true);
+							} catch (Exception e1) {
+								Log.debug("WorksheetExportDialog not available");
+								Log.debug(e1);
+							}
+							app.setDefaultCursor();
+						});
+						runner.start();
 					}
-					app.setDefaultCursor();
-				});
-				runner.start();
+				};
 
-			}
-		};
+		exportGeoGebraTubeAction =
+				new AbstractAction(loc.getMenu("UploadGeoGebraTube") + " ...", app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-		exportGeoGebraTubeAction = new AbstractAction(
-				loc.getMenu("UploadGeoGebraTube") + " ...",
-				app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+					@Override
+					public void actionPerformed(ActionEvent e) {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+						Thread runner = new Thread(() -> {
+							app.setWaitCursor();
+							try {
+								app.getSelectionManager().clearSelectedGeos(true, false);
+								app.updateSelection(false);
 
-				Thread runner = new Thread(() -> {
+								// callback for 3D
+								app.uploadToGeoGebraTubeOnCallback();
 
-					app.setWaitCursor();
-					try {
-						app.getSelectionManager().clearSelectedGeos(true,
-								false);
-						app.updateSelection(false);
-
-						// callback for 3D
-						app.uploadToGeoGebraTubeOnCallback();
-
-					} catch (Exception e1) {
-						Log.debug("Uploading failed");
-						Log.debug(e1);
+							} catch (Exception e1) {
+								Log.debug("Uploading failed");
+								Log.debug(e1);
+							}
+							app.setDefaultCursor();
+						});
+						runner.start();
 					}
-					app.setDefaultCursor();
-				});
-				runner.start();
+				};
 
-			}
-		};
-
-		exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS,
-				app.getEmptyIcon()) {
+		exportSTLaction = new AbstractAction("STL" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -502,8 +484,7 @@ class FileMenuD extends BaseMenu {
 		};
 
 		if (app.is3D()) {
-			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS,
-					app.getEmptyIcon()) {
+			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -518,19 +499,19 @@ class FileMenuD extends BaseMenu {
 		}
 
 		if (app.is3D()) {
-			exportColladaHTMLAction = new AbstractAction(
-					"Collada (html)" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
-				private static final long serialVersionUID = 1L;
+			exportColladaHTMLAction =
+					new AbstractAction("Collada (html)" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
+						private static final long serialVersionUID = 1L;
 
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						app.setExport3D(new FormatColladaHTML());
-					} catch (Exception ex) {
-						Log.debug("Export to Collada not available");
-					}
-				}
-			};
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							try {
+								app.setExport3D(new FormatColladaHTML());
+							} catch (Exception ex) {
+								Log.debug("Export to Collada not available");
+							}
+						}
+					};
 		}
 	}
 
@@ -538,5 +519,4 @@ class FileMenuD extends BaseMenu {
 	protected void update() {
 		// not needed
 	}
-
 }

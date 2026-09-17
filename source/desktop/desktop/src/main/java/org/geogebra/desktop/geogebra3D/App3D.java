@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -111,10 +111,9 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes1,
-			boolean showGrid1) {
-		return new EuclidianViewFor3DD(getEuclidianController(), showAxes1,
-				showGrid1, 1, getSettings().getEuclidian(1));
+	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
+		return new EuclidianViewFor3DD(
+				getEuclidianController(), showAxes1, showGrid1, 1, getSettings().getEuclidian(1));
 	}
 
 	@Override
@@ -138,13 +137,12 @@ public class App3D extends AppD {
 		}
 
 		// save euclidian views for plane settings
-		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb,
-				asPreference);
+		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb, asPreference);
 	}
 
 	/**
 	 * return the 3D euclidian view
-	 * 
+	 *
 	 * @return the 3D euclidian view
 	 */
 	@Override
@@ -152,8 +150,8 @@ public class App3D extends AppD {
 		if (this.euclidianView3D == null) {
 			setWaitCursor();
 			initEuclidianController3D();
-			euclidianView3D = new EuclidianView3DD(euclidianController3D,
-					getSettings().getEuclidian(3));
+			euclidianView3D =
+					new EuclidianView3DD(euclidianController3D, getSettings().getEuclidian(3));
 
 			setDefaultCursor();
 		}
@@ -174,7 +172,7 @@ public class App3D extends AppD {
 
 	/**
 	 * check is view is 3D WITHOUT creating 3D View
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @return true if it's 3D
@@ -193,11 +191,8 @@ public class App3D extends AppD {
 	public void refreshViews() {
 		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().reset();
-			DockManagerD dockManager = (DockManagerD) getGuiManager()
-					.getLayout().getDockManager();
-			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D))
-					.refresh(dockManager);
-
+			DockManagerD dockManager = (DockManagerD) getGuiManager().getLayout().getDockManager();
+			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D)).refresh(dockManager);
 		}
 		super.refreshViews();
 	}
@@ -205,17 +200,14 @@ public class App3D extends AppD {
 	@Override
 	public void resume3DRenderer() {
 		if (isEuclidianView3Dinited()) {
-			DockManager dockManager = getGuiManager().getLayout()
-					.getDockManager();
-			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D))
-					.resumeRenderer();
-
+			DockManager dockManager = getGuiManager().getLayout().getDockManager();
+			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D)).resumeRenderer();
 		}
 	}
 
 	/**
 	 * set the show plane combo box selected if the plane is visible
-	 * 
+	 *
 	 * @param cb checkbox
 	 */
 	public void setShowPlaneSelected(JCheckBoxMenuItem cb) {
@@ -225,7 +217,7 @@ public class App3D extends AppD {
 
 	/**
 	 * set the show grid combo box selected if the plane is visible
-	 * 
+	 *
 	 * @param cb checkbox
 	 */
 	public void setShowGridSelected3D(JCheckBoxMenuItem cb) {
@@ -244,7 +236,7 @@ public class App3D extends AppD {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see geogebra.main.Application#getCommandSyntax(java.lang.String) check
 	 * if there's a Command.Syntax3D key. If not, return Command.Syntax key
 	 */
@@ -271,8 +263,7 @@ public class App3D extends AppD {
 			return;
 		}
 		if (isShiftDown) {
-			EuclidianCursor cursor = getEuclidianView3D()
-					.updateCursorIfNotTranslateViewCursor();
+			EuclidianCursor cursor = getEuclidianView3D().updateCursorIfNotTranslateViewCursor();
 			if (cursor != null) {
 				oldCursorMode = cursor;
 			}
@@ -287,19 +278,25 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
-			AnimationExportSlider num, int n, double val, double min,
-			double max, double step) {
+	public void exportAnimatedGIF(
+			EuclidianView ev,
+			FrameCollector gifEncoder,
+			AnimationExportSlider num,
+			int n,
+			double val,
+			double min,
+			double max,
+			double step) {
 
 		if (!(ev instanceof EuclidianView3D)) {
 			// regular 2D export
-			super.exportAnimatedGIF(ev, gifEncoder, num, n, val, min, max,
-					step);
+			super.exportAnimatedGIF(ev, gifEncoder, num, n, val, min, max, step);
 			return;
 		}
 
-		getEuclidianView3D().getRenderer().startAnimatedGIFExport(gifEncoder,
-				num, n, val, min, max, step);
+		getEuclidianView3D()
+				.getRenderer()
+				.startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
 	}
 
 	@Override
@@ -312,7 +309,6 @@ public class App3D extends AppD {
 		}
 
 		getEuclidianView3D().getRenderer().exportToClipboard();
-
 	}
 
 	@Override
@@ -340,8 +336,7 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public GBufferedImage getActiveEuclidianViewExportImage(double maxX,
-			double maxY) {
+	public GBufferedImage getActiveEuclidianViewExportImage(double maxX, double maxY) {
 
 		EuclidianView ev = getActiveEuclidianView();
 
@@ -374,7 +369,6 @@ public class App3D extends AppD {
 		} else {
 			uploadToGeoGebraTube();
 		}
-
 	}
 
 	@Override
@@ -409,7 +403,6 @@ public class App3D extends AppD {
 		if (args.containsArg("stereo")) {
 			isStereo3D = true;
 		}
-
 	}
 
 	public boolean isStereo3D() {
@@ -437,5 +430,4 @@ public class App3D extends AppD {
 
 		return super.handleSpaceKey();
 	}
-
 }

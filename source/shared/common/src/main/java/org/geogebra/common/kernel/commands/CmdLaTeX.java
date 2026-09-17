@@ -31,7 +31,7 @@ public class CmdLaTeX extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,52 +45,44 @@ public class CmdLaTeX extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+			case 1:
+				arg = resArgs(c, true, info);
+				AlgoLaTeX algo = new AlgoLaTeX(cons, c.getLabel(), arg[0]);
 
-			arg = resArgs(c, true, info);
-			AlgoLaTeX algo = new AlgoLaTeX(cons, c.getLabel(), arg[0]);
+				GeoElement[] ret = {algo.getGeoText()};
+				return ret;
 
-			GeoElement[] ret = { algo.getGeoText() };
-			return ret;
-
-		case 2:
-
-			arg = resArgs(c, true, info);
-			if (arg[1].isGeoBoolean()) {
-				GeoElement[] ret2 = { latex(c.getLabel(), arg[0],
-						(GeoBoolean) arg[1], null) };
-				return ret2;
-			}
-			throw argErr(c, arg[1]);
-
-		case 3:
-
-			arg = resArgs(c, true, info);
-			if (arg[1].isGeoBoolean() && arg[2].isGeoBoolean()) {
-				GeoElement[] ret2 = { latex(c.getLabel(), arg[0],
-						(GeoBoolean) arg[1], (GeoBoolean) arg[2]) };
-				return ret2;
-			}
-
-			else if (!arg[1].isGeoBoolean()) {
+			case 2:
+				arg = resArgs(c, true, info);
+				if (arg[1].isGeoBoolean()) {
+					GeoElement[] ret2 = {latex(c.getLabel(), arg[0], (GeoBoolean) arg[1], null)};
+					return ret2;
+				}
 				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[2]);
-			}
 
-		default:
-			throw argNumErr(c);
+			case 3:
+				arg = resArgs(c, true, info);
+				if (arg[1].isGeoBoolean() && arg[2].isGeoBoolean()) {
+					GeoElement[] ret2 = {latex(c.getLabel(), arg[0], (GeoBoolean) arg[1], (GeoBoolean) arg[2])
+					};
+					return ret2;
+				} else if (!arg[1].isGeoBoolean()) {
+					throw argErr(c, arg[1]);
+				} else {
+					throw argErr(c, arg[2]);
+				}
+
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * LaTeX formula of an element.
 	 */
-	private GeoText latex(String label, GeoElement geo,
-			GeoBoolean substituteVars, GeoBoolean showName) {
-		AlgoLaTeX algo = new AlgoLaTeX(cons, label, geo, substituteVars,
-				showName);
+	private GeoText latex(
+			String label, GeoElement geo, GeoBoolean substituteVars, GeoBoolean showName) {
+		AlgoLaTeX algo = new AlgoLaTeX(cons, label, geo, substituteVars, showName);
 		return algo.getGeoText();
 	}
-
 }

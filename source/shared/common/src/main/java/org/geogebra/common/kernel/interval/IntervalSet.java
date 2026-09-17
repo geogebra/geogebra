@@ -189,7 +189,8 @@ public final class IntervalSet {
 
 	@Override
 	public String toString() {
-		return interval == null ? "IntervalSet{" + kind + "}"
+		return interval == null
+				? "IntervalSet{" + kind + "}"
 				: "IntervalSet{" + kind + ": " + interval.toShortString() + "}";
 	}
 

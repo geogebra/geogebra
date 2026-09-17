@@ -32,7 +32,7 @@ public class CmdSelectObjects extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -55,8 +55,7 @@ public class CmdSelectObjects extends CmdScripting {
 						deferredFocus((GeoInputBox) geo);
 
 					} else {
-						app.getSelectionManager().addSelectedGeo(geo, false,
-								false);
+						app.getSelectionManager().addSelectedGeo(geo, false, false);
 						ScreenReader.readText(geo);
 					}
 				}
@@ -64,7 +63,6 @@ public class CmdSelectObjects extends CmdScripting {
 
 			kernel.notifyRepaint();
 			return arg;
-
 		}
 		app.getActiveEuclidianView().getEuclidianController().cancelDrag();
 
@@ -76,7 +74,7 @@ public class CmdSelectObjects extends CmdScripting {
 	/**
 	 * Keeps focus in an input box using repeated focus calls. TODO replace this
 	 * by callback in EuclidianController
-	 * 
+	 *
 	 * @param geo
 	 *            input box
 	 */
@@ -89,8 +87,6 @@ public class CmdSelectObjects extends CmdScripting {
 			}
 		};
 		callback.run();
-		app1.getActiveEuclidianView().getEuclidianController()
-				.addPointerUpCallback(callback);
-
+		app1.getActiveEuclidianView().getEuclidianController().addPointerUpCallback(callback);
 	}
 }

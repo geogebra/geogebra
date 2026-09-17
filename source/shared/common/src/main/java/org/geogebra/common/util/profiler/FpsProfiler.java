@@ -84,8 +84,7 @@ public abstract class FpsProfiler {
 
 	private String getMinMaxFpsText() {
 		if (maxFps >= 0) {
-			return "\nMin FPS: " + minFps
-					+ "\nMax FPS: " + maxFps;
+			return "\nMin FPS: " + minFps + "\nMax FPS: " + maxFps;
 		} else {
 			return "";
 		}

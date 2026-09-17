@@ -36,7 +36,7 @@ public class MacroConstruction extends Construction {
 
 	/**
 	 * Creates new macro construction
-	 * 
+	 *
 	 * @param kernel
 	 *            Kernel
 	 */
@@ -50,7 +50,7 @@ public class MacroConstruction extends Construction {
 
 	/**
 	 * Set construction via XML string.
-	 * 
+	 *
 	 * @param xmlString
 	 *            XML string of the construction
 	 * @throws XMLParseException
@@ -63,7 +63,7 @@ public class MacroConstruction extends Construction {
 	/**
 	 * Adds label to the list of reserved labels. Such labels will not be looked
 	 * up in the parent construction in lookup();
-	 * 
+	 *
 	 * @param label
 	 *            reserved label
 	 */
@@ -77,7 +77,7 @@ public class MacroConstruction extends Construction {
 	 * Returns a GeoElement for the given label. Note: construction index is
 	 * ignored here. If no geo is found for the specified label a lookup is made
 	 * in the parent construction.
-	 * 
+	 *
 	 * @return may return null
 	 */
 	@Override
@@ -118,8 +118,7 @@ public class MacroConstruction extends Construction {
 		 * remove all "$" signs from label and try again.
 		 */
 		if (label1.indexOf('$') > -1 && label1.length() > 1) {
-			StringBuilder labelWithoutDollar = new StringBuilder(
-					label1.length() - 1);
+			StringBuilder labelWithoutDollar = new StringBuilder(label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {
 				char ch = label1.charAt(i);
 				if (ch != '$') {
@@ -172,7 +171,7 @@ public class MacroConstruction extends Construction {
 
 	/**
 	 * Returns true if geos of parent construction can be referenced
-	 * 
+	 *
 	 * @return true if geos of parent construction can be referenced
 	 */
 	public boolean isGlobalVariableLookup() {
@@ -181,7 +180,7 @@ public class MacroConstruction extends Construction {
 
 	/**
 	 * Set to true if geos of parent construction should be referenced
-	 * 
+	 *
 	 * @param globalVariableLookup
 	 *            true if geos of parent construction should be referenced
 	 */

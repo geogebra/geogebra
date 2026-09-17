@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVector;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
@@ -75,8 +75,7 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) v.getDefinition()
-					.evaluate(StringTemplate.defaultTemplate)).getVector();
+			temp = ((VectorValue) v.getDefinition().evaluate(StringTemplate.defaultTemplate)).getVector();
 			v.x = temp.getX();
 			v.y = temp.getY();
 		} catch (Exception e) {
@@ -85,7 +84,7 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return v.getDefinition().toString(tpl);
 	}
 
@@ -93,5 +92,4 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	public ExpressionNode getExpression() {
 		return v.getDefinition();
 	}
-
 }

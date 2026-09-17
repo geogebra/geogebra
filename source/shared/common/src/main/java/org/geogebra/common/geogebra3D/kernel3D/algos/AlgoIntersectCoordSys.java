@@ -26,10 +26,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 /**
  *
  * @author ggb3D
- * 
+ *
  *         Calculate the GeoPoint3D intersection of two coord sys (eg line and
  *         plane).
- * 
+ *
  */
 public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
@@ -45,7 +45,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param label
@@ -57,16 +57,14 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	 * @param swapInputs
 	 *            may swap inputs order
 	 */
-	AlgoIntersectCoordSys(Construction cons, String label, GeoElementND cs1,
-			GeoElementND cs2, boolean swapInputs) {
+	AlgoIntersectCoordSys(
+			Construction cons, String label, GeoElementND cs1, GeoElementND cs2, boolean swapInputs) {
 
 		this(cons, cs1, cs2, swapInputs);
 		intersection.setLabel(label);
-
 	}
 
-	AlgoIntersectCoordSys(Construction cons, GeoElementND cs1, GeoElementND cs2,
-			boolean swapInputs) {
+	AlgoIntersectCoordSys(Construction cons, GeoElementND cs1, GeoElementND cs2, boolean swapInputs) {
 
 		super(cons);
 
@@ -77,17 +75,14 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 		setInputOutput(
 				swapInputs
-						? new GeoElement[] { (GeoElement) cs2,
-								(GeoElement) cs1 }
-						: new GeoElement[] { (GeoElement) cs1,
-								(GeoElement) cs2 },
-				new GeoElement[] { intersection });
-
+						? new GeoElement[] {(GeoElement) cs2, (GeoElement) cs1}
+						: new GeoElement[] {(GeoElement) cs1, (GeoElement) cs2},
+				new GeoElement[] {intersection});
 	}
 
 	/**
 	 * return new intersection (default is 3D point)
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new intersection
@@ -98,7 +93,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	/**
 	 * return the first coord sys
-	 * 
+	 *
 	 * @return the first coord sys
 	 */
 	GeoElementND getCS1() {
@@ -107,7 +102,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	/**
 	 * return the second coord sys
-	 * 
+	 *
 	 * @return the second coord sys
 	 */
 	GeoElementND getCS2() {
@@ -116,7 +111,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	/**
 	 * return the intersection
-	 * 
+	 *
 	 * @return the intersection
 	 */
 	public GeoElement3D getIntersection() {
@@ -128,7 +123,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	/**
 	 * sets the output to "undefined" if inputs are not defined
-	 * 
+	 *
 	 * @return if the output is defined
 	 */
 	protected boolean outputIsDefined() {
@@ -142,12 +137,12 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain(getIntersectionTypeString(),
-				getCS1().getLabel(tpl), getCS2().getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain(getIntersectionTypeString(), getCS1().getLabel(tpl), getCS2().getLabel(tpl));
 	}
 
-	abstract protected String getIntersectionTypeString();
+	protected abstract String getIntersectionTypeString();
 
 	/*
 	 * This should apply to every subclass. In case it does not, a case per case

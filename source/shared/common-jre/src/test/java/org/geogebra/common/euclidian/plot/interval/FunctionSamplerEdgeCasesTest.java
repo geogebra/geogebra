@@ -34,10 +34,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class FunctionSamplerEdgeCasesTest extends BaseFunctionSamplerSetup {
 
 	@ParameterizedTest
-	@CsvSource({
-			"0(1/x), 0",
-			"(1/ln(x)) * 0, 0",
-			"sin(0)^x, 0"})
+	@CsvSource({"0(1/x), 0", "(1/ln(x)) * 0, 0", "sin(0)^x, 0"})
 	void testNonEmptySamplesStayAtConstantValue(String definition, double value) {
 		withDefaultScreen();
 		QueryFunctionData data = query(definition);
@@ -45,16 +42,18 @@ class FunctionSamplerEdgeCasesTest extends BaseFunctionSamplerSetup {
 		assertAll(
 				() -> assertNotEquals(0, data.getCount()),
 				() -> assertTrue(nonEmptyCount > 1, "Expected substantial non-empty sampled data"),
-				() -> assertEquals(0, data.stream()
-						.filter(tuple -> !tuple.ySet().isEmpty() && !tuple.ySet().isConnected())
-						.count()),
-				() -> Assertions.assertEquals(0, data
-						.stream().filter(tuple ->
-								// ignore empty sets
-								!tuple.ySet().isEmpty()
-										&& !hasConstantValue(tuple.ySet(), value))
-						.count())
-		);
+				() -> assertEquals(
+						0,
+						data.stream()
+								.filter(tuple -> !tuple.ySet().isEmpty() && !tuple.ySet().isConnected())
+								.count()),
+				() -> Assertions.assertEquals(
+						0,
+						data.stream()
+								.filter(tuple ->
+										// ignore empty sets
+										!tuple.ySet().isEmpty() && !hasConstantValue(tuple.ySet(), value))
+								.count()));
 	}
 
 	private boolean hasConstantValue(IntervalSet ySet, double value) {
@@ -66,17 +65,13 @@ class FunctionSamplerEdgeCasesTest extends BaseFunctionSamplerSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource({
-			"1/(0x)"
-	})
+	@CsvSource({"1/(0x)"})
 	void testFunctionProducesNoData(String definition) {
 		withDefaultScreen();
 		QueryFunctionData data = query(definition);
 		assertAll(
 				() -> assertFalse(data.hasValidData(), "Data is not empty"),
-				() -> assertEquals(0, data.stream().filter(
-						tuple -> !tuple.ySet().isEmpty()).count())
-		);
+				() -> assertEquals(
+						0, data.stream().filter(tuple -> !tuple.ySet().isEmpty()).count()));
 	}
-
 }

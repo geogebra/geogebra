@@ -39,8 +39,7 @@ import org.geogebra.common.kernel.statistics.AlgoFitPoly;
 /**
  * Algorithm for tangent of function
  */
-public class AlgoTangentFunctionPoint extends AlgoElement
-		implements TangentAlgo {
+public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo {
 
 	private GeoPointND P; // input
 	private GeoLine tangent; // output
@@ -65,8 +64,8 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	 * @param f
 	 *            function
 	 */
-	public AlgoTangentFunctionPoint(Construction cons, String label,
-			GeoPointND P, GeoFunctionable f) {
+	public AlgoTangentFunctionPoint(
+			Construction cons, String label, GeoPointND P, GeoFunctionable f) {
 		this(cons, P, f);
 		tangent.setLabel(label);
 	}
@@ -79,8 +78,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	 * @param f
 	 *            function
 	 */
-	public AlgoTangentFunctionPoint(Construction cons, GeoPointND P,
-			GeoFunctionable f) {
+	public AlgoTangentFunctionPoint(Construction cons, GeoPointND P, GeoFunctionable f) {
 		super(cons);
 		this.P = P;
 		this.f = f;
@@ -90,8 +88,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 		// check if P is defined as a point of the function's graph
 		pointOnFunction = false;
 		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
-			AlgoPointOnPath algoPoint = (AlgoPointOnPath) P
-					.getParentAlgorithm();
+			AlgoPointOnPath algoPoint = (AlgoPointOnPath) P.getParentAlgorithm();
 			pointOnFunction = algoPoint.getPath() == f;
 		}
 
@@ -118,10 +115,8 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 
 			// order 5, 10 steps, 100 slices seems to work nicely
 			// mockup https://www.geogebra.org/m/zTJ7KeE6
-			algoFitPoly = new AlgoFitPoly(cons, geoList,
-					new GeoNumeric(cons, 5));
+			algoFitPoly = new AlgoFitPoly(cons, geoList, new GeoNumeric(cons, 5));
 			cons.removeFromConstructionList(algoFitPoly);
-
 		}
 
 		setInputOutput(); // for AlgoElement
@@ -230,8 +225,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 
 			if (fun.getFunction() != null) {
 				FunctionVariable fv = fun.getFunction().getFunctionVariable();
-				ExpressionValue derivFit = fun.getFunction().derivative(fv,
-						kernel);
+				ExpressionValue derivFit = fun.getFunction().derivative(fv, kernel);
 
 				fv.set(a);
 
@@ -260,10 +254,11 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("TangentToAatB", "Tangent to %0 at %1",
-				f.getLabel(tpl),
-				"x = x(" + P.getLabel(tpl) + ")");
-
+		return getLoc()
+				.getPlainDefault(
+						"TangentToAatB",
+						"Tangent to %0 at %1",
+						f.getLabel(tpl),
+						"x = x(" + P.getLabel(tpl) + ")");
 	}
-
 }

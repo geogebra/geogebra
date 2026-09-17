@@ -109,8 +109,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 			}
 
 			int coordMode = p.getToStringMode();
-			if (coordMode == Kernel.COORD_CARTESIAN_3D
-					|| coordMode == Kernel.COORD_SPHERICAL) {
+			if (coordMode == Kernel.COORD_CARTESIAN_3D || coordMode == Kernel.COORD_SPHERICAL) {
 				// we want 3D coords
 				Coords coords = p.getInhomCoordsInD3();
 				append3dCoords(coords);
@@ -191,7 +190,6 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 					sbp.append("\\right)");
 				}
 				sbp.append(Unicode.IMAGINARY);
-
 			}
 
 		} else {
@@ -202,14 +200,14 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	}
 
 	private static boolean bracketsNeeded(String str0) {
-		
+
 		String str = str0.trim();
 
 		// everything surrounded in \frac{...}
 		if (str.startsWith("\\frac{") && str.endsWith("}")) {
 			return false;
 		}
-		
+
 		// -sqrt(2) but not -sqrt(2)+1
 		if (str.lastIndexOf("+") < 1 && str.lastIndexOf("-") < 1) {
 			return false;
@@ -224,5 +222,4 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 	private void append(double value) {
 		pslqAppendQuadratic(sbp, value, text.getStringTemplate());
 	}
-
 }

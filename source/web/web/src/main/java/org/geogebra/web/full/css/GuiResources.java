@@ -181,7 +181,7 @@ public interface GuiResources extends ClientBundle {
 
 	/*
 	 * STYLINGBARS
-	 * 
+	 *
 	 */
 
 	@Source("org/geogebra/common/stylingbar/p24/stylebar_more.png")

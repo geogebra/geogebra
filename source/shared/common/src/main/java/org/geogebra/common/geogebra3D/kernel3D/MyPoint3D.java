@@ -33,7 +33,7 @@ public class MyPoint3D extends MyPoint {
 
 	/**
 	 * Creates new MyPoint3D
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -65,8 +65,7 @@ public class MyPoint3D extends MyPoint {
 	 * @return true if points are equal (Kernel.MIN_PRECISION)
 	 */
 	public boolean isEqual(double px, double py, double pz) {
-		return super.isEqual(px, py)
-				&& DoubleUtil.isEqual(z, pz, Kernel.MIN_PRECISION);
+		return super.isEqual(px, py) && DoubleUtil.isEqual(z, pz, Kernel.MIN_PRECISION);
 	}
 
 	@Override
@@ -103,7 +102,7 @@ public class MyPoint3D extends MyPoint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @return true if same (x,y)
@@ -119,8 +118,10 @@ public class MyPoint3D extends MyPoint {
 
 	@Override
 	public MyPoint3D barycenter(double t, MyPoint point2, SegmentType type) {
-		return new MyPoint3D((1 - t) * x + t * point2.x,
-				(1 - t) * y + t * point2.y, (1 - t) * z + t * point2.getZ(),
+		return new MyPoint3D(
+				(1 - t) * x + t * point2.x,
+				(1 - t) * y + t * point2.y,
+				(1 - t) * z + t * point2.getZ(),
 				type);
 	}
 

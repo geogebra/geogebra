@@ -30,8 +30,8 @@ public final class StandardRegressionSpecification implements RegressionSpecific
 	private final String formula;
 	private final String coeffOrdering;
 
-	StandardRegressionSpecification(Regression regression, int polynomialDegree, String formula,
-			String coefficientOrdering) {
+	StandardRegressionSpecification(
+			Regression regression, int polynomialDegree, String formula, String coefficientOrdering) {
 		this.regression = regression;
 		this.degree = polynomialDegree;
 		this.label = polynomialDegree > 1 ? getPolynomialLabel(degree) : regression.getLabel();
@@ -41,9 +41,12 @@ public final class StandardRegressionSpecification implements RegressionSpecific
 
 	private static String getPolynomialLabel(int degree) {
 		switch (degree) {
-		case 2: return "Quadratic";
-		case 3: return "Cubic";
-		default: return "Quartic";
+			case 2:
+				return "Quadratic";
+			case 3:
+				return "Cubic";
+			default:
+				return "Quartic";
 		}
 	}
 
@@ -54,8 +57,7 @@ public final class StandardRegressionSpecification implements RegressionSpecific
 
 	@Override
 	public Command buildCommand(Kernel kernel, MyVecNode points) {
-		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(),
-				false);
+		Command cleanData = new Command(kernel, Commands.RemoveUndefined.getCommand(), false);
 		cleanData.addArgument(points.wrap());
 		return regression.buildCommand(kernel, degree, cleanData);
 	}

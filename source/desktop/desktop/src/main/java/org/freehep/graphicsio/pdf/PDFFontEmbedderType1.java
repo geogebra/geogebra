@@ -11,7 +11,7 @@ import org.freehep.graphicsio.font.FontEmbedderType1;
 
 /**
  * Font embedder for type one fonts in pdf documents.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: PDFFontEmbedderType1.java,v 1.4 2009-08-17 21:44:44 murkle Exp
  *          $
@@ -28,14 +28,16 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 
 	private PDFRedundanceTracker redundanceTracker;
 
-	public static PDFFontEmbedderType1 create(FontRenderContext context,
-			PDFWriter pdf, String reference, PDFRedundanceTracker tracker) {
-		return new PDFFontEmbedderType1(context, pdf, reference,
-				new ByteArrayOutputStream(), tracker);
+	public static PDFFontEmbedderType1 create(
+			FontRenderContext context, PDFWriter pdf, String reference, PDFRedundanceTracker tracker) {
+		return new PDFFontEmbedderType1(context, pdf, reference, new ByteArrayOutputStream(), tracker);
 	}
 
-	private PDFFontEmbedderType1(FontRenderContext context, PDFWriter pdf,
-			String reference, ByteArrayOutputStream byteOut,
+	private PDFFontEmbedderType1(
+			FontRenderContext context,
+			PDFWriter pdf,
+			String reference,
+			ByteArrayOutputStream byteOut,
 			PDFRedundanceTracker tracker) {
 		super(context, byteOut, false);
 		this.byteBuffer = byteOut;
@@ -64,20 +66,19 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 		fontDict.entry("FirstChar", 0);
 		fontDict.entry("LastChar", 255);
 		// fontDict.entry("Encoding", pdf.ref(reference+"Encoding"));
-		fontDict.entry("Encoding", redundanceTracker.getReference(
-				getEncodingTable(), PDFCharTableWriter.getInstance()));
+		fontDict.entry(
+				"Encoding",
+				redundanceTracker.getReference(getEncodingTable(), PDFCharTableWriter.getInstance()));
 
 		fontDict.entry("Widths", pdf.ref(reference + "Widths"));
 
 		fontDict.entry("BaseFont", pdf.name(getFontName())); // = FontName in
-																// font program
-		fontDict.entry("FontDescriptor",
-				pdf.ref(getReference() + "FontDescriptor"));
+		// font program
+		fontDict.entry("FontDescriptor", pdf.ref(getReference() + "FontDescriptor"));
 
 		pdf.close(fontDict);
 
-		PDFDictionary fontDescriptor = pdf
-				.openDictionary(getReference() + "FontDescriptor");
+		PDFDictionary fontDescriptor = pdf.openDictionary(getReference() + "FontDescriptor");
 		fontDescriptor.entry("Type", pdf.name("FontDescriptor"));
 
 		LineMetrics metrics = getFont().getLineMetrics("mM", getContext());
@@ -93,12 +94,11 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 		double lly = boundingBox.getY();
 		double urx = boundingBox.getX() + boundingBox.getWidth();
 		double ury = boundingBox.getY() + boundingBox.getHeight();
-		fontDescriptor.entry("FontBBox", new double[] { llx, lly, urx, ury });
+		fontDescriptor.entry("FontBBox", new double[] {llx, lly, urx, ury});
 
 		fontDescriptor.entry("FontFile", pdf.ref(getReference() + "FontFile"));
 
 		pdf.close(fontDescriptor);
-
 	}
 
 	@Override
@@ -125,17 +125,15 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 	protected void closeEmbedFont() throws IOException {
 		super.closeEmbedFont();
 
-		fontFile = pdf.openStream(getReference() + "FontFile",
-				new String[] { "Flate", "ASCII85" });
+		fontFile = pdf.openStream(getReference() + "FontFile", new String[] {"Flate", "ASCII85"});
 		fontFile.entry("Length1", getAsciiLength());
 		fontFile.entry("Length2", getEncryptedLength());
 		fontFile.entry("Length3", 0); // leave it to the viewer application to
-										// add the 512 zeros
+		// add the 512 zeros
 
 		String file = byteBuffer.toString("US-ASCII");
 		fontFile.print(file);
 
 		pdf.close(fontFile);
 	}
-
 }

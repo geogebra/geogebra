@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -58,11 +58,15 @@ import org.geogebra.desktop.main.ScaledIcon;
  * enclosed text and (2) a popup symbol table for inserting special characters.
  * The popup is triggered by either an in-line button click or a ctrl-up key
  * press.
- * 
+ *
  */
 public class MyTextFieldD extends JTextField
-		implements ActionListener, FocusListener, VirtualKeyboardListener,
-		CaretListener, SetLabels, TextObject {
+		implements ActionListener,
+				FocusListener,
+				VirtualKeyboardListener,
+				CaretListener,
+				SetLabels,
+				TextObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -114,14 +118,14 @@ public class MyTextFieldD extends JTextField
 
 	/**
 	 * Construct an instance of MyTextField with a fixed column width
-	 * 
+	 *
 	 * @param columns number of columns
 	 */
 	public MyTextFieldD(AppD app, int columns) {
 		super(columns);
 		this.app = app;
-		this.icon = GeoGebraIconD.createSymbolTableIcon(this.getFont(),
-				app.getImageManager().getPixelRatio());
+		this.icon = GeoGebraIconD.createSymbolTableIcon(
+				this.getFont(), app.getImageManager().getPixelRatio());
 		initField();
 	}
 
@@ -155,7 +159,7 @@ public class MyTextFieldD extends JTextField
 
 	/**
 	 * sets the flag to enable bracket coloring
-	 * 
+	 *
 	 * @param enableColoring whether to enable coloring
 	 */
 	public void enableColoring(boolean enableColoring) {
@@ -164,7 +168,7 @@ public class MyTextFieldD extends JTextField
 
 	/**
 	 * enables coloring of labels
-	 * 
+	 *
 	 * @param isCasInput whether it's for CAS
 	 */
 	public void enableLabelColoring(boolean isCasInput) {
@@ -194,8 +198,7 @@ public class MyTextFieldD extends JTextField
 		super.setBorder(BorderFactory.createCompoundBorder(defaultBorder, borderBtn));
 	}
 
-	protected void setBorderButton(int index, ScaledIcon icon,
-			ActionListener al) {
+	protected void setBorderButton(int index, ScaledIcon icon, ActionListener al) {
 		borderBtn.setBorderButton(index, icon, al);
 		setDefaultBorder();
 	}
@@ -245,8 +248,7 @@ public class MyTextFieldD extends JTextField
 		repaint();
 
 		if (app.getGuiManager() != null) {
-			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this,
-					false);
+			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, false);
 		}
 	}
 
@@ -259,8 +261,8 @@ public class MyTextFieldD extends JTextField
 		repaint();
 
 		if (app.getGuiManager() != null) {
-			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
-					!(e.getOppositeComponent() instanceof VirtualKeyboardD));
+			((GuiManagerD) app.getGuiManager())
+					.setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboardD));
 		}
 	}
 
@@ -294,8 +296,7 @@ public class MyTextFieldD extends JTextField
 		// clear selection if there is one
 		if (start != end) {
 			String oldText = getText();
-			String sb = oldText.substring(0, start)
-					+ oldText.substring(end);
+			String sb = oldText.substring(0, start) + oldText.substring(end);
 			setText(sb);
 			setCaretPosition(start);
 		}
@@ -303,9 +304,7 @@ public class MyTextFieldD extends JTextField
 		// insert the string
 		int pos1 = getCaretPosition();
 		String oldText = getText();
-		String sb = oldText.substring(0, pos1)
-				+ text
-				+ oldText.substring(pos1);
+		String sb = oldText.substring(0, pos1) + text + oldText.substring(pos1);
 		setText(sb);
 
 		// reset the caret position
@@ -314,7 +313,7 @@ public class MyTextFieldD extends JTextField
 
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
-	 * 
+	 *
 	 * @param showSymbolTableIcon whether to show symbol icon
 	 */
 	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
@@ -343,8 +342,7 @@ public class MyTextFieldD extends JTextField
 	public void processKeyEvent(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 
-		if ((e.isControlDown() || AppD.isControlDown(e))
-				&& keyCode == KeyEvent.VK_UP) {
+		if ((e.isControlDown() || AppD.isControlDown(e)) && keyCode == KeyEvent.VK_UP) {
 			getTablePopup().showPopup(false);
 			return;
 		}
@@ -398,8 +396,7 @@ public class MyTextFieldD extends JTextField
 		scrollOffset = getScrollOffset();
 		pos = 0; // text start position (not in pixels)
 		if (getHorizontalAlignment() == SwingConstants.RIGHT) {
-			pos = Math.max(0,
-					getHorizontalVisibility().getExtent() - getLength(text, frc));
+			pos = Math.max(0, getHorizontalVisibility().getExtent() - getLength(text, frc));
 		}
 		int selStart = getSelectionStart();
 		int selEnd = getSelectionEnd();
@@ -414,8 +411,7 @@ public class MyTextFieldD extends JTextField
 
 		// get the bracket positions
 		String text2 = StringUtil.ignoreIndices(text);
-		int[] brkPos = TextFieldUtil
-				.getBracketPositions(text2, caret);
+		int[] brkPos = TextFieldUtil.getBracketPositions(text2, caret);
 		int wrong = StringUtil.checkBracketsBackward(text2);
 		int bracket1pos = brkPos[0];
 		int bracket2pos = brkPos[1];
@@ -498,11 +494,10 @@ public class MyTextFieldD extends JTextField
 
 		if (caretShowing && caretPos > -1 && hasFocus()) {
 			g2.setColor(Color.black);
-			g2.fillRect((int) caretPos - scrollOffset + insets.left,
-					textBottom - fontHeight + 4, 1, fontHeight);
+			g2.fillRect(
+					(int) caretPos - scrollOffset + insets.left, textBottom - fontHeight + 4, 1, fontHeight);
 			g2.setPaintMode();
 		}
-
 	}
 
 	private float getLength(String text, FontRenderContext frc) {
@@ -513,7 +508,7 @@ public class MyTextFieldD extends JTextField
 		return layout.getAdvance();
 	}
 
-	private void drawText(String str, boolean selected , FontRenderContext frc) {
+	private void drawText(String str, boolean selected, FontRenderContext frc) {
 		if ("".equals(str)) {
 			return;
 		}
@@ -523,8 +518,11 @@ public class MyTextFieldD extends JTextField
 
 		if (selected) {
 			g2.setColor(getSelectionColor());
-			g2.fillRect((int) pos - scrollOffset + insets.left,
-					textBottom - fontHeight + 4, (int) Math.ceil(advance), fontHeight);
+			g2.fillRect(
+					(int) pos - scrollOffset + insets.left,
+					textBottom - fontHeight + 4,
+					(int) Math.ceil(advance),
+					fontHeight);
 			g2.setColor(getSelectedTextColor());
 		}
 		// there is no background coloring now
@@ -536,8 +534,7 @@ public class MyTextFieldD extends JTextField
 
 		// g2.setClip(0, 0, width, height);
 
-		if (pos - scrollOffset <= width
-				&&  pos + advance - scrollOffset >= 0) {
+		if (pos - scrollOffset <= width && pos + advance - scrollOffset >= 0) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		}
 

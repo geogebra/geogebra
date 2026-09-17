@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
@@ -67,8 +67,7 @@ class GeoLineTest extends BaseUnitTest {
 		add("e1(x,y)=x+y");
 		GeoLine line = add("e1+7=0");
 		assertThat(line.getLabelSimple(), equalTo("eq1"));
-		assertThat(getApp().getXML(),
-				containsString("exp=\"eq1:=e1 + 7 = 0\" "));
+		assertThat(getApp().getXML(), containsString("exp=\"eq1:=e1 + 7 = 0\" "));
 		reload();
 		assertThat(lookup("eq1"), instanceOf(GeoLine.class));
 	}
@@ -105,9 +104,10 @@ class GeoLineTest extends BaseUnitTest {
 
 	@Test
 	void assignmentInLaTeXShouldHaveOnlyOneSpace() {
-		assertEquals("f\\mathpunct{:}\\,y\\, = \\,x",
-				add("y=x").toString(StringTemplate.latexTemplate));
-		assertEquals("g\\mathpunct{:}\\,y\\, = \\,x",
+		assertEquals(
+				"f\\mathpunct{:}\\,y\\, = \\,x", add("y=x").toString(StringTemplate.latexTemplate));
+		assertEquals(
+				"g\\mathpunct{:}\\,y\\, = \\,x",
 				add("y=x").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
 	}
 }

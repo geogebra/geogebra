@@ -59,7 +59,6 @@ public class AlgoDimension extends AlgoElement {
 		setInputOutput();
 		compute();
 		getResult().setLabel(label);
-
 	}
 
 	/**
@@ -102,9 +101,7 @@ public class AlgoDimension extends AlgoElement {
 				firstDimension.setUndefined();
 				return;
 			}
-			firstDimension.setValue(
-					point instanceof GeoPoint || point instanceof GeoVector ? 2
-							: 3);
+			firstDimension.setValue(point instanceof GeoPoint || point instanceof GeoVector ? 2 : 3);
 			return;
 		}
 
@@ -123,15 +120,13 @@ public class AlgoDimension extends AlgoElement {
 			}
 			int n = ((GeoList) list.get(0)).size();
 			for (int i = 0; i < size; i++) {
-				if (!list.get(i).isGeoList()
-						|| ((GeoList) list.get(i)).size() != n) {
+				if (!list.get(i).isGeoList() || ((GeoList) list.get(i)).size() != n) {
 					matrixDimension.setUndefined();
 					return;
 				}
 			}
 			secondDimension.setValue(n);
 		}
-
 	}
 
 	/**
@@ -145,5 +140,4 @@ public class AlgoDimension extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.Dimension;
 	}
-
 }

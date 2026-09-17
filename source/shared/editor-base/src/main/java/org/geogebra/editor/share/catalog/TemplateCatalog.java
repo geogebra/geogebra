@@ -39,9 +39,9 @@ import org.geogebra.editor.share.util.Unicode;
  */
 public class TemplateCatalog {
 
-	private final static ArrayTemplateFactory arrays = new ArrayTemplateFactory();
-	private final static FunctionTemplateCatalog functions = new FunctionTemplateCatalog();
-	private final static SymbolTemplateCatalog symbols = new SymbolTemplateCatalog();
+	private static final ArrayTemplateFactory arrays = new ArrayTemplateFactory();
+	private static final FunctionTemplateCatalog functions = new FunctionTemplateCatalog();
+	private static final SymbolTemplateCatalog symbols = new SymbolTemplateCatalog();
 
 	private boolean forceBracketAfterFunction;
 
@@ -91,13 +91,10 @@ public class TemplateCatalog {
 			if (name.equals("phi")) {
 				unicode = getPhiUnicode();
 			}
-			addNamedSymbol(name,
-					symbolGroup.getSymbol(unicode));
+			addNamedSymbol(name, symbolGroup.getSymbol(unicode));
 		}
-		addNamedSymbol("inf",
-				symbolGroup.getSymbol(String.valueOf(Unicode.INFINITY)));
-		addNamedSymbol("deg",
-				symbolGroup.getSymbol(Unicode.DEGREE_STRING));
+		addNamedSymbol("inf", symbolGroup.getSymbol(String.valueOf(Unicode.INFINITY)));
+		addNamedSymbol("deg", symbolGroup.getSymbol(Unicode.DEGREE_STRING));
 	}
 
 	/**
@@ -136,8 +133,7 @@ public class TemplateCatalog {
 				return arrayTemplate;
 			}
 		}
-		throw new ArrayIndexOutOfBoundsException(
-				"Template not found " + arrayOpenKey);
+		throw new ArrayIndexOutOfBoundsException("Template not found " + arrayOpenKey);
 	}
 
 	/**
@@ -145,7 +141,8 @@ public class TemplateCatalog {
 	 * @return the array template for the given closing key
 	 */
 	public ArrayTemplate getArrayByCloseKey(char arrayCloseKey) {
-		return findFirst(arrayTemplateGroup,
+		return findFirst(
+				arrayTemplateGroup,
 				arrayTemplate -> arrayTemplate.getCloseDelimiter().getCharacter() == arrayCloseKey);
 	}
 
@@ -213,8 +210,7 @@ public class TemplateCatalog {
 	 * @return whether it's acceptable
 	 */
 	public boolean isFunction(String casName) {
-		return Tag.lookup(casName) != null
-				|| FunctionTemplateFactory.isAcceptable(casName);
+		return Tag.lookup(casName) != null || FunctionTemplateFactory.isAcceptable(casName);
 	}
 
 	/**
@@ -240,8 +236,7 @@ public class TemplateCatalog {
 			return template;
 		}
 
-		throw new ArrayIndexOutOfBoundsException(
-				"Template not found:" + name);
+		throw new ArrayIndexOutOfBoundsException("Template not found:" + name);
 	}
 
 	/**
@@ -249,8 +244,10 @@ public class TemplateCatalog {
 	 * @return whether array with given open key exists
 	 */
 	public boolean isArrayOpenKey(char key) {
-		return findFirst(arrayTemplateGroup,
-				arrayTemplate -> arrayTemplate.getOpenDelimiter().getCharacter() == key) != null;
+		return findFirst(
+						arrayTemplateGroup,
+						arrayTemplate -> arrayTemplate.getOpenDelimiter().getCharacter() == key)
+				!= null;
 	}
 
 	/**
@@ -268,16 +265,11 @@ public class TemplateCatalog {
 	 * @return whether key is closing parenthesis of an array
 	 */
 	public boolean isArrayCloseKey(char key) {
-		boolean isArrayCloseKey = getArray(Tag.REGULAR)
-				.getCloseDelimiter().getCharacter() == key;
-		isArrayCloseKey |= getArray(Tag.SQUARE)
-				.getCloseDelimiter().getCharacter() == key;
-		isArrayCloseKey |= getArray(Tag.CURLY)
-				.getCloseDelimiter().getCharacter() == key;
-		isArrayCloseKey |= getArray(Tag.FLOOR)
-				.getCloseDelimiter().getCharacter() == key;
-		isArrayCloseKey |= getArray(Tag.CEIL)
-				.getCloseDelimiter().getCharacter() == key;
+		boolean isArrayCloseKey = getArray(Tag.REGULAR).getCloseDelimiter().getCharacter() == key;
+		isArrayCloseKey |= getArray(Tag.SQUARE).getCloseDelimiter().getCharacter() == key;
+		isArrayCloseKey |= getArray(Tag.CURLY).getCloseDelimiter().getCharacter() == key;
+		isArrayCloseKey |= getArray(Tag.FLOOR).getCloseDelimiter().getCharacter() == key;
+		isArrayCloseKey |= getArray(Tag.CEIL).getCloseDelimiter().getCharacter() == key;
 		return isArrayCloseKey;
 	}
 

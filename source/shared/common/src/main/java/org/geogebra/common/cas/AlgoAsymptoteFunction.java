@@ -28,7 +28,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Find asymptotes
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
@@ -43,7 +43,7 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Asymptotes for function
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -51,8 +51,7 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 	 * @param f
 	 *            function
 	 */
-	public AlgoAsymptoteFunction(Construction cons, String label,
-			GeoFunction f) {
+	public AlgoAsymptoteFunction(Construction cons, String label, GeoFunction f) {
 		super(cons);
 		this.f = f;
 
@@ -91,8 +90,7 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 
 		if (!enabled) {
 			// check again, CAS might now be loaded
-			enabled = kernel.getApplication().getSettings().getCasSettings()
-					.isEnabled();
+			enabled = kernel.getApplication().getSettings().getCasSettings().isEnabled();
 		}
 
 		if (!enabled || !f.isDefined() || !containsValidFunctionVariable()) {
@@ -137,5 +135,4 @@ public class AlgoAsymptoteFunction extends AlgoElement implements UsesCAS {
 		}
 		return false;
 	}
-
 }

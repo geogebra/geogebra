@@ -25,9 +25,9 @@ import org.geogebra.common.util.DoubleUtil;
  * Extension of the Apache Commons Frequency class. Modifies the addValue()
  * method to handle comparisons with double values that may contain rounding
  * errors but should be treated as equal.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class FrequencyGgb extends Frequency {
 

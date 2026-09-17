@@ -78,7 +78,8 @@ public final class PenIconButton extends ToolIconButton {
 	@Override
 	public int getMode() {
 		return penPopup == null || penPopup.getLastSelectedMode() == -1
-				? MODE_PEN : penPopup.getLastSelectedMode();
+				? MODE_PEN
+				: penPopup.getLastSelectedMode();
 	}
 
 	@Override

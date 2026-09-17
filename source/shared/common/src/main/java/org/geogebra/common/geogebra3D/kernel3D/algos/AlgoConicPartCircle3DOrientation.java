@@ -33,7 +33,7 @@ public class AlgoConicPartCircle3DOrientation extends AlgoConicPartCircle3D {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -49,9 +49,14 @@ public class AlgoConicPartCircle3DOrientation extends AlgoConicPartCircle3D {
 	 * @param type
 	 *            sector or arc
 	 */
-	public AlgoConicPartCircle3DOrientation(Construction cons, String label,
-			GeoPointND center, GeoPointND startPoint, GeoPointND endPoint,
-			GeoDirectionND orientation, int type) {
+	public AlgoConicPartCircle3DOrientation(
+			Construction cons,
+			String label,
+			GeoPointND center,
+			GeoPointND startPoint,
+			GeoPointND endPoint,
+			GeoDirectionND orientation,
+			int type) {
 		super(cons, label, center, startPoint, endPoint, orientation, type);
 	}
 

@@ -25,14 +25,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes RandomNormal[a, b]
- * 
+ *
  * @author Michael Borcherds
  */
-public class AlgoRandomNormal extends AlgoTwoNumFunction
-		implements SetRandomValue {
+public class AlgoRandomNormal extends AlgoTwoNumFunction implements SetRandomValue {
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -42,8 +41,7 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 	 * @param b
 	 *            standard deviation
 	 */
-	public AlgoRandomNormal(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoRandomNormal(Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 
 		// output is random number
@@ -71,7 +69,7 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 			v2 = 2.0 * kernel.randomNumberGenerator.getRandomNumber() - 1;
 			rsq = v1 * v1 + v2 * v2;
 		} while (rsq >= 1.0 || rsq == 0.0); // keep going until they are in the
-											// unit circle
+		// unit circle
 		fac = Math.sqrt(-2.0 * Math.log(rsq) / rsq);
 		return v1 * fac * sd + mean;
 	}

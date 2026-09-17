@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -23,7 +23,7 @@ import java.util.Date;
  * Implements a PDF Dictionary. All PDFObjects (including java Strings and
  * arrays) can be entered into the dictionary.
  * <p>
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PDFDictionary.java,v 1.7 2009-08-17 21:44:44 murkle Exp $
  */
@@ -43,8 +43,7 @@ public class PDFDictionary implements PDFConstants {
 		this(pdf, writer, null);
 	}
 
-	PDFDictionary(PDF pdf, PDFByteWriter writer, PDFObject parent)
-			throws IOException {
+	PDFDictionary(PDF pdf, PDFByteWriter writer, PDFObject parent) throws IOException {
 		this.pdf = pdf;
 		object = parent;
 		out = writer;
@@ -55,8 +54,7 @@ public class PDFDictionary implements PDFConstants {
 
 	void close() throws IOException {
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		out.outdent();
 		out.println(">>");
@@ -180,8 +178,7 @@ public class PDFDictionary implements PDFConstants {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFDictionary: " + name;
 		out.println("/" + name);
@@ -193,5 +190,4 @@ public class PDFDictionary implements PDFConstants {
 		dictionary.close();
 		open = null;
 	}
-
 }

@@ -80,12 +80,16 @@ public final class AlgebraViewVisibilityPropertyCollection
 	 * elements
 	 */
 	public AlgebraViewVisibilityPropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "ObjectProperties.AlgebraViewVisibility");
-		setProperties(new BooleanProperty[]{
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new SliderVisibilityProperty(localization, element),
-						BooleanPropertyListFacade::new)});
+		setProperties(new BooleanProperty[] {
+			propertiesFactory.createPropertyFacadeThrowing(
+					elements,
+					element -> new SliderVisibilityProperty(localization, element),
+					BooleanPropertyListFacade::new)
+		});
 	}
 }

@@ -32,7 +32,7 @@ public class AlgoDiameterLine extends AlgoDiameterLineND {
 
 	/**
 	 * Creates new 2D algo for Diameter
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -42,8 +42,7 @@ public class AlgoDiameterLine extends AlgoDiameterLineND {
 	 * @param g
 	 *            parallel line
 	 */
-	public AlgoDiameterLine(Construction cons, String label, GeoConicND c,
-			GeoLineND g) {
+	public AlgoDiameterLine(Construction cons, String label, GeoConicND c, GeoLineND g) {
 		super(cons, label, c, g);
 	}
 
@@ -59,5 +58,4 @@ public class AlgoDiameterLine extends AlgoDiameterLineND {
 		((GeoLine) g).getDirection(v);
 		c.diameterLine(v, (GeoLine) diameter);
 	}
-
 }

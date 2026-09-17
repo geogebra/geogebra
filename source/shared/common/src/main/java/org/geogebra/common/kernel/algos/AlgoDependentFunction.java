@@ -50,11 +50,10 @@ import org.jspecify.annotations.NonNull;
 
 /**
  * This class is only needed to handle dependencies
- * 
+ *
  * @author Markus Hohenwarter
  */
-public class AlgoDependentFunction extends AlgoElement
-		implements DependentAlgo {
+public class AlgoDependentFunction extends AlgoElement implements DependentAlgo {
 	/** input */
 	protected Function fun;
 	/** output */
@@ -74,10 +73,8 @@ public class AlgoDependentFunction extends AlgoElement
 	 * @param addToConsList
 	 *            whether to add this to construction list
 	 */
-	public AlgoDependentFunction(Construction cons, Function fun,
-			boolean addToConsList) {
+	public AlgoDependentFunction(Construction cons, Function fun, boolean addToConsList) {
 		this(cons, fun, addToConsList, false);
-
 	}
 
 	/**
@@ -90,15 +87,14 @@ public class AlgoDependentFunction extends AlgoElement
 	 * @param fast
 	 *            use fast derivatives
 	 */
-	public AlgoDependentFunction(Construction cons, Function fun,
-			boolean addToConsList, boolean fast) {
+	public AlgoDependentFunction(
+			Construction cons, Function fun, boolean addToConsList, boolean fast) {
 		super(cons, false);
 		fun.initFunction();
 		if (addToConsList) {
 			cons.addToConstructionList(this, false);
 		}
-		this.fast = fast || !cons.getApplication().getSettings()
-				.getCasSettings().isEnabled();
+		this.fast = fast || !cons.getApplication().getSettings().getCasSettings().isEnabled();
 		this.fun = fun;
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);
@@ -135,7 +131,8 @@ public class AlgoDependentFunction extends AlgoElement
 	protected void setInputOutput() {
 		setInputFrom(fun.getExpression());
 		unconditionalInput = fun.getFunctionExpression().isConditionalDeep()
-				? fun.getFunctionExpression().getUnconditionalVars(new HashSet<>()) : null;
+				? fun.getFunctionExpression().getUnconditionalVars(new HashSet<>())
+				: null;
 		setOnlyOutput(f);
 		setDependencies(); // done by AlgoElement
 	}
@@ -174,8 +171,8 @@ public class AlgoDependentFunction extends AlgoElement
 				// Kernel.internationalizeDigits = false;
 				// TODO: seems that we never read internationalize digits flag
 				// here ...
-				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel),
-						this.fast, f.getFunctionVariables());
+				ev = expandFunctionDerivativeNodes(
+						expression.deepCopy(kernel), this.fast, f.getFunctionVariables());
 				// Kernel.internationalizeDigits = internationalizeDigits;
 
 			} catch (Exception e) {
@@ -232,14 +229,14 @@ public class AlgoDependentFunction extends AlgoElement
 
 	/**
 	 * Expands all FUNCTION and DERIVATIVE nodes in the given expression.
-	 * 
+	 *
 	 * @param in
 	 *            expression to expand (only ExpressionNodes are affected)
 	 * @param fast
 	 *            use fast derivatives
 	 * @param vars
 	 *            function variables
-	 * 
+	 *
 	 * @return new ExpressionNode as result
 	 */
 	public static ExpressionValue expandFunctionDerivativeNodes(
@@ -254,16 +251,15 @@ public class AlgoDependentFunction extends AlgoElement
 
 	/**
 	 * Expands all FUNCTION and DERIVATIVE nodes in the given expression.
-	 * 
+	 *
 	 * @param ev
 	 *            expression to expand (only ExpressionNodes are affected)
 	 * @param fast
 	 *            use fast derivatives
-	 * 
+	 *
 	 * @return new ExpressionNode as result
 	 */
-	public static ExpressionValue expandFunctionDerivativeNodes(
-			ExpressionValue ev, boolean fast) {
+	public static ExpressionValue expandFunctionDerivativeNodes(ExpressionValue ev, boolean fast) {
 
 		if (ev == null) {
 			return null;
@@ -274,137 +270,124 @@ public class AlgoDependentFunction extends AlgoElement
 			ExpressionValue leftValue = node.getLeft().unwrap();
 
 			switch (node.getOperation()) {
-			case FUNCTION:
-				// could be DERIVATIVE node
-				if (leftValue.isExpressionNode()) {
-					leftValue = expandFunctionDerivativeNodes(leftValue, fast);
-					if (leftValue == null) {
-						return null;
-					}
-					node.setLeft(leftValue);
+				case FUNCTION:
+					// could be DERIVATIVE node
 					if (leftValue.isExpressionNode()) {
-						return node;
-					}
-				}
-
-				// we do NOT expand GeoFunctionConditional objects in expression
-				// tree
-				return substituteFunction((Functional) leftValue,
-						node.getRight(), fast, node.getKernel());
-
-			case FUNCTION_NVAR:
-				// make sure we expand $ in $A1(x,y)
-				if (leftValue.isExpressionNode()) {
-					leftValue = expandFunctionDerivativeNodes(leftValue, fast);
-					node.setLeft(leftValue);
-					if (leftValue.isExpressionNode()) {
-						return node;
-					}
-				}
-				if (!(leftValue instanceof FunctionalNVar)) {
-					return null;
-				}
-				ExpressionValue ret = expandFunctionalNVar(leftValue,
-						node.getRight(), 0, fast);
-				return ret == null ? ev : ret;
-			case DERIVATIVE:
-				// don't expand derivative of GeoFunctionConditional
-				if (leftValue.isGeoElement() && ((GeoElement) leftValue)
-						.isGeoFunctionConditional()) {
-					return node;
-				}
-
-				int order = (int) Math
-						.round(((NumberValue) node.getRight()).getDouble());
-				if (leftValue.isExpressionNode()
-						&& (leftValue
-								.isOperation(Operation.DOLLAR_VAR_COL)
-								|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW)
-								|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW_COL))) {
-					leftValue = ((ExpressionNode) leftValue).getLeft();
-				}
-				if (leftValue instanceof GeoCasCell) {
-					return ((GeoCasCell) leftValue).getGeoDerivative(order,
-							fast);
-				}
-				if (leftValue instanceof GeoCurveCartesianND) {
-					return ((GeoCurveCartesianND) leftValue)
-							.getGeoDerivative(order);
-				}
-				return ((Functional) leftValue).getGeoDerivative(order, fast);
-			case ELEMENT_OF:
-				// list(x,x) cannot be expanded
-				ExpressionValue rt = node.getRight().unwrap();
-				if (rt instanceof ListValue) {
-					ListValue list = (ListValue) rt;
-					int constants = list.size();
-					for (int i = 0; i < list.size() - 1; i++) {
-						if (list.get(i).wrap()
-								.containsFreeFunctionVariable(null)) {
-							constants = i;
-							break;
+						leftValue = expandFunctionDerivativeNodes(leftValue, fast);
+						if (leftValue == null) {
+							return null;
+						}
+						node.setLeft(leftValue);
+						if (leftValue.isExpressionNode()) {
+							return node;
 						}
 					}
-					ExpressionNodeEvaluator expev = ((GeoList) leftValue)
-							.getKernel().getExpressionNodeEvaluator();
-					ExpressionValue res = expev.handleElementOf(leftValue,
-							node.getRight(), 1);
-					if (res instanceof Functional
-							&& constants >= list.size() - 1) {
-						return substituteFunction((Functional) res,
-								list.get(list.size() - 1), fast,
-								node.getKernel());
-					}
-					if (res instanceof FunctionalNVar
-							&& constants >= list.size() - ((FunctionalNVar) res)
-									.getFunctionVariables().length) {
-						ret = expandFunctionalNVar(res, node.getRight(),
-								list.size() - ((FunctionalNVar) res)
-										.getFunctionVariables().length,
-								fast);
-						return ret == null ? ev : ret;
-					}
-					if (!(res instanceof FunctionalNVar)) {
-						return res;
-					}
-					Log.debug("Cannot expand");
-				}
-				// element of with no-list rhs: weird, don't expand
-				return node;
-			// remove spreadsheet $ references, i.e. $A1 -> A1
-			case DOLLAR_VAR_ROW:
-			case DOLLAR_VAR_COL:
-			case DOLLAR_VAR_ROW_COL:
-				return leftValue;
 
-			default: // recursive calls
-				node.setLeft(expandFunctionDerivativeNodes(leftValue, fast));
-				node.setRight(
-						expandFunctionDerivativeNodes(node.getRight(), fast));
-				return node;
+					// we do NOT expand GeoFunctionConditional objects in expression
+					// tree
+					return substituteFunction(
+							(Functional) leftValue, node.getRight(), fast, node.getKernel());
+
+				case FUNCTION_NVAR:
+					// make sure we expand $ in $A1(x,y)
+					if (leftValue.isExpressionNode()) {
+						leftValue = expandFunctionDerivativeNodes(leftValue, fast);
+						node.setLeft(leftValue);
+						if (leftValue.isExpressionNode()) {
+							return node;
+						}
+					}
+					if (!(leftValue instanceof FunctionalNVar)) {
+						return null;
+					}
+					ExpressionValue ret = expandFunctionalNVar(leftValue, node.getRight(), 0, fast);
+					return ret == null ? ev : ret;
+				case DERIVATIVE:
+					// don't expand derivative of GeoFunctionConditional
+					if (leftValue.isGeoElement() && ((GeoElement) leftValue).isGeoFunctionConditional()) {
+						return node;
+					}
+
+					int order = (int) Math.round(((NumberValue) node.getRight()).getDouble());
+					if (leftValue.isExpressionNode()
+							&& (leftValue.isOperation(Operation.DOLLAR_VAR_COL)
+									|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW)
+									|| leftValue.isOperation(Operation.DOLLAR_VAR_ROW_COL))) {
+						leftValue = ((ExpressionNode) leftValue).getLeft();
+					}
+					if (leftValue instanceof GeoCasCell) {
+						return ((GeoCasCell) leftValue).getGeoDerivative(order, fast);
+					}
+					if (leftValue instanceof GeoCurveCartesianND) {
+						return ((GeoCurveCartesianND) leftValue).getGeoDerivative(order);
+					}
+					return ((Functional) leftValue).getGeoDerivative(order, fast);
+				case ELEMENT_OF:
+					// list(x,x) cannot be expanded
+					ExpressionValue rt = node.getRight().unwrap();
+					if (rt instanceof ListValue) {
+						ListValue list = (ListValue) rt;
+						int constants = list.size();
+						for (int i = 0; i < list.size() - 1; i++) {
+							if (list.get(i).wrap().containsFreeFunctionVariable(null)) {
+								constants = i;
+								break;
+							}
+						}
+						ExpressionNodeEvaluator expev =
+								((GeoList) leftValue).getKernel().getExpressionNodeEvaluator();
+						ExpressionValue res = expev.handleElementOf(leftValue, node.getRight(), 1);
+						if (res instanceof Functional && constants >= list.size() - 1) {
+							return substituteFunction(
+									(Functional) res, list.get(list.size() - 1), fast, node.getKernel());
+						}
+						if (res instanceof FunctionalNVar
+								&& constants
+										>= list.size() - ((FunctionalNVar) res).getFunctionVariables().length) {
+							ret = expandFunctionalNVar(
+									res,
+									node.getRight(),
+									list.size() - ((FunctionalNVar) res).getFunctionVariables().length,
+									fast);
+							return ret == null ? ev : ret;
+						}
+						if (!(res instanceof FunctionalNVar)) {
+							return res;
+						}
+						Log.debug("Cannot expand");
+					}
+					// element of with no-list rhs: weird, don't expand
+					return node;
+				// remove spreadsheet $ references, i.e. $A1 -> A1
+				case DOLLAR_VAR_ROW:
+				case DOLLAR_VAR_COL:
+				case DOLLAR_VAR_ROW_COL:
+					return leftValue;
+
+				default: // recursive calls
+					node.setLeft(expandFunctionDerivativeNodes(leftValue, fast));
+					node.setRight(expandFunctionDerivativeNodes(node.getRight(), fast));
+					return node;
 			}
 		} else if (ev instanceof MyNumberPair) {
-			((MyNumberPair) ev).setX(expandFunctionDerivativeNodes(
-					((MyNumberPair) ev).getX(), fast));
-			((MyNumberPair) ev).setY(expandFunctionDerivativeNodes(
-					((MyNumberPair) ev).getY(), fast));
+			((MyNumberPair) ev).setX(expandFunctionDerivativeNodes(((MyNumberPair) ev).getX(), fast));
+			((MyNumberPair) ev).setY(expandFunctionDerivativeNodes(((MyNumberPair) ev).getY(), fast));
 			// for f,g,h functions make sure f(g,h) expands to f(g(x),h(x))
 		} else if (ev.unwrap() instanceof FunctionalNVar) {
-			return ((FunctionalNVar) ev.unwrap()).getFunctionExpression()
+			return ((FunctionalNVar) ev.unwrap())
+					.getFunctionExpression()
 					.deepCopy(((FunctionalNVar) ev.unwrap()).getKernel());
 		}
 		return ev;
 	}
 
 	private static ExpressionValue expandFunctionalNVar(
-			ExpressionValue leftValue, ExpressionValue right, int offset,
-			boolean fast) {
+			ExpressionValue leftValue, ExpressionValue right, int offset, boolean fast) {
 
 		FunctionNVar funN = ((FunctionalNVar) leftValue).getFunction();
 		FunctionVariable[] xy = funN.getFunctionVariables();
 		// don't destroy the function
-		ExpressionNode funNExpression = funN.getExpression()
-				.getCopy(funN.getKernel());
+		ExpressionNode funNExpression = funN.getExpression().getCopy(funN.getKernel());
 		// with f(A) where A is a point we should not get there, but
 		// still
 		if (!(right instanceof MyList)) {
@@ -415,9 +398,8 @@ public class AlgoDependentFunction extends AlgoElement
 
 		// now replace every x in function by the expanded argument
 		for (int i = 0; i < xy.length; i++) {
-			funNExpression = funNExpression.replace(xy[i],
-					expandFunctionDerivativeNodes(
-							get(rightList, i + offset), fast))
+			funNExpression = funNExpression
+					.replace(xy[i], expandFunctionDerivativeNodes(get(rightList, i + offset), fast))
 					.wrap();
 		}
 		return funNExpression;
@@ -428,8 +410,7 @@ public class AlgoDependentFunction extends AlgoElement
 
 		Kernel kernel0 = list.getKernel();
 
-		if (list.size() == 1
-				&& list.get(0).unwrap() instanceof GeoPointND) {
+		if (list.size() == 1 && list.get(0).unwrap() instanceof GeoPointND) {
 			GeoPointND point = (GeoPointND) list.get(0).unwrap();
 			if (i == 0) {
 				return new MyDouble(kernel0, point.getInhomX());
@@ -453,19 +434,17 @@ public class AlgoDependentFunction extends AlgoElement
 		return list.get(i).unwrap();
 	}
 
-	private static ExpressionValue substituteFunction(Functional leftValue,
-			ExpressionValue right, boolean fast, Kernel kernel) {
+	private static ExpressionValue substituteFunction(
+			Functional leftValue, ExpressionValue right, boolean fast, Kernel kernel) {
 		Function fun = leftValue.getFunction();
 		if (fun == null) {
 			return new MyDouble(kernel, Double.NaN);
 		}
 		FunctionVariable x = fun.getFunctionVariable();
 		// don't destroy the function
-		ExpressionNode funcExpression = fun.getExpression()
-				.getCopy(fun.getKernel());
+		ExpressionNode funcExpression = fun.getExpression().getCopy(fun.getKernel());
 		// now replace every x in function by the expanded argument
-		return funcExpression.replace(x,
-				expandFunctionDerivativeNodes(right, fast).wrap());
+		return funcExpression.replace(x, expandFunctionDerivativeNodes(right, fast).wrap());
 	}
 
 	/**
@@ -487,8 +466,7 @@ public class AlgoDependentFunction extends AlgoElement
 			if (op.equals(Operation.ELEMENT_OF)) {
 				return true;
 			}
-			return containsFunctions(node.getLeft())
-					|| containsFunctions(node.getRight());
+			return containsFunctions(node.getLeft()) || containsFunctions(node.getRight());
 		}
 		return false;
 	}
@@ -510,8 +488,7 @@ public class AlgoDependentFunction extends AlgoElement
 			if (op.equals(Operation.ELEMENT_OF)) {
 				return true;
 			}
-			return containsVectorFunctions(node.getLeft())
-					|| containsVectorFunctions(node.getRight());
+			return containsVectorFunctions(node.getLeft()) || containsVectorFunctions(node.getRight());
 		}
 		return false;
 	}
@@ -533,7 +510,7 @@ public class AlgoDependentFunction extends AlgoElement
 	/***
 	 * checks to see if this is an nth derivative, and return an appropriate
 	 * label eg f''' for 3rd derivative
-	 * 
+	 *
 	 * @param fun
 	 *            function
 	 * @return label
@@ -541,8 +518,7 @@ public class AlgoDependentFunction extends AlgoElement
 	public static String getDerivativeLabel(Function fun) {
 		ExpressionNode expr = fun.getExpression().unwrap().wrap();
 		// f'(x+3) should use default label
-		if (expr.getRight() != null
-				&& !(expr.getRight().unwrap() instanceof FunctionVariable)) {
+		if (expr.getRight() != null && !(expr.getRight().unwrap() instanceof FunctionVariable)) {
 			return null;
 		}
 		// f'(x) should be called f'
@@ -568,8 +544,7 @@ public class AlgoDependentFunction extends AlgoElement
 				if (val > 0d && DoubleUtil.isInteger(val)) {
 
 					// eg f''' if val == 3
-					return geo.getLabelSimple()
-							+ StringUtil.string("'", (int) val); // eg
+					return geo.getLabelSimple() + StringUtil.string("'", (int) val); // eg
 					// f''''
 				}
 			}
@@ -586,5 +561,4 @@ public class AlgoDependentFunction extends AlgoElement
 	public boolean mayShowDescriptionInsteadOfDefinition() {
 		return false;
 	}
-
 }

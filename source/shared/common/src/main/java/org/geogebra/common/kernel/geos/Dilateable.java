@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public interface Dilateable extends GeoElementND {
 	/**
 	 * Dilates the element
-	 * 
+	 *
 	 * @param r
 	 *            ratio
 	 * @param S

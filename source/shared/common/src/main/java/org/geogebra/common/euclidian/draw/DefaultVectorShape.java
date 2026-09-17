@@ -53,8 +53,7 @@ public class DefaultVectorShape implements VectorShape {
 	@Override
 	public GLine2D body() {
 		calculateArrowBase();
-		line.setLine(model.getStartX(), model.getStartY(),
-				arrowBase.getX(), arrowBase.getY());
+		line.setLine(model.getStartX(), model.getStartY(), arrowBase.getX(), arrowBase.getY());
 		return line;
 	}
 
@@ -74,23 +73,28 @@ public class DefaultVectorShape implements VectorShape {
 	}
 
 	private void calculateArrowBase() {
-		arrowBase.setLocation(model.getEndX() - model.getPositionVectorX(),
-				model.getEndY() - model.getPositionVectorY());
+		arrowBase.setLocation(
+				model.getEndX() - model.getPositionVectorX(), model.getEndY() - model.getPositionVectorY());
 	}
 
 	@Override
 	public GLine2D clipLine(int width, int height) {
 		calculateArrowBase();
-		GPoint2D[] clippedPoints = ClipLine.getClipped(model.getStartX(),
+		GPoint2D[] clippedPoints = ClipLine.getClipped(
+				model.getStartX(),
 				model.getStartY(),
-				arrowBase.getX(), arrowBase.getY(), -EuclidianStatic.CLIP_DISTANCE,
+				arrowBase.getX(),
+				arrowBase.getY(),
+				-EuclidianStatic.CLIP_DISTANCE,
 				width + EuclidianStatic.CLIP_DISTANCE,
 				-EuclidianStatic.CLIP_DISTANCE,
 				height + EuclidianStatic.CLIP_DISTANCE,
 				tmpClipPoints);
 		if (clippedPoints != null) {
-			line.setLine(clippedPoints[0].getX(),
-					clippedPoints[0].getY(), clippedPoints[1].getX(),
+			line.setLine(
+					clippedPoints[0].getX(),
+					clippedPoints[0].getY(),
+					clippedPoints[1].getX(),
 					clippedPoints[1].getY());
 		}
 		return line;

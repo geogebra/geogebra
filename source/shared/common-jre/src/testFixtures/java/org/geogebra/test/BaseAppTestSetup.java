@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -83,7 +83,7 @@ public class BaseAppTestSetup {
 		if (subApp == SuiteSubApp.CAS) {
 			mockedCasGiac.applyTo(app);
 			processCallback = new LabelHiderCallback();
-			editCallback = geoElement -> processCallback.callback(new GeoElementND[]{ geoElement });
+			editCallback = geoElement -> processCallback.callback(new GeoElementND[] {geoElement});
 		}
 		app.getSettingsUpdater().resetSettingsOnAppStart();
 		suiteScope.registerApp(app);
@@ -149,8 +149,10 @@ public class BaseAppTestSetup {
 
 	protected final GeoElementND[] evaluate(String expression) {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
-		return app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-				expression, false, errorAccumulator, evalInfo, processCallback);
+		return app.getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(
+						expression, false, errorAccumulator, evalInfo, processCallback);
 	}
 
 	protected final <T extends GeoElementND> T evaluateGeoElement(String expression) {
@@ -162,10 +164,12 @@ public class BaseAppTestSetup {
 	}
 
 	protected final void editGeoElement(GeoElement geoElement, String newExpression) {
-		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForRedefinition(
-				app.getKernel(), geoElement, true);
-		app.getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(
-				geoElement, newExpression, evalInfo, false, editCallback, errorAccumulator);
+		EvalInfo evalInfo =
+				EvalInfoFactory.getEvalInfoForRedefinition(app.getKernel(), geoElement, true);
+		app.getKernel()
+				.getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						geoElement, newExpression, evalInfo, false, editCallback, errorAccumulator);
 	}
 
 	protected ValidExpression parseExpression(String expression) {
@@ -209,5 +213,4 @@ public class BaseAppTestSetup {
 	protected Construction getConstruction() {
 		return getKernel().getConstruction();
 	}
-
 }

@@ -70,5 +70,4 @@ public class BernsteinCoefficientCache {
 	public int size() {
 		return current.length;
 	}
-
 }

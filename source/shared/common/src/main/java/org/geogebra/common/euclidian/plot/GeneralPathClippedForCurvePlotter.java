@@ -33,8 +33,7 @@ import org.geogebra.common.util.DoubleUtil;
  * @author mathieu
  *
  */
-public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
-		implements PathPlotter {
+public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implements PathPlotter {
 
 	private static final double EPSILON = 0.0001;
 
@@ -95,7 +94,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 		boolean distant = !DoubleUtil.isEqual(x, point.getX(), MIN_PIXEL_DISTANCE)
 				|| !DoubleUtil.isEqual(y, point.getY(), MIN_PIXEL_DISTANCE);
-		if (lineTo == SegmentType.CONTROL || lineTo == SegmentType.CURVE_TO
+		if (lineTo == SegmentType.CONTROL
+				|| lineTo == SegmentType.CURVE_TO
 				|| lineTo == SegmentType.ARC_TO
 				|| lineTo == SegmentType.AUXILIARY) {
 			distant = true;
@@ -191,8 +191,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		// point
 		if (moveToAllowed == Gap.MOVE_TO) {
 			drawTo(x0, y0, false);
-		} else if (moveToAllowed == Gap.LINE_TO
-				|| moveToAllowed == Gap.CORNER) {
+		} else if (moveToAllowed == Gap.LINE_TO || moveToAllowed == Gap.CORNER) {
 			drawTo(x0, y0, true);
 		} else if (moveToAllowed == Gap.RESET_XMIN) {
 			double d = getCurrentPoint().getY();
@@ -233,8 +232,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	}
 
 	@Override
-	public boolean copyCoords(MyPoint point, double[] ret,
-			CoordSys transformSys) {
+	public boolean copyCoords(MyPoint point, double[] ret, CoordSys transformSys) {
 		boolean noTransform = transformSys == CoordSys.XOY;
 		if (noTransform && default2dView) {
 			ret[0] = point.getX();
@@ -262,5 +260,4 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	public boolean supports(CoordSys transformSys) {
 		return view.isInPlane(transformSys);
 	}
-
 }

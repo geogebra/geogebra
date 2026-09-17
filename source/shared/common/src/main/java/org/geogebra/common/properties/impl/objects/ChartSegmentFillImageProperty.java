@@ -42,8 +42,11 @@ public final class ChartSegmentFillImageProperty extends AbstractImageProperty
 	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartSegmentFillImageProperty(Localization localization, ImageManager imageManager,
-			GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
+	public ChartSegmentFillImageProperty(
+			Localization localization,
+			ImageManager imageManager,
+			GeoElement geoElement,
+			ChartSegmentSelection chartSegmentSelection)
 			throws NotApplicablePropertyException {
 		super(localization, imageManager, "Image");
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
@@ -55,8 +58,8 @@ public final class ChartSegmentFillImageProperty extends AbstractImageProperty
 
 	@Override
 	protected @Nullable String getImagePath() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().getBarImage(index));
+		return chartSegmentSelection.getUniformValueOrNull(
+				chartStyleGeo.getIntervals(), index -> chartStyleGeo.getStyle().getBarImage(index));
 	}
 
 	@Override
@@ -71,9 +74,11 @@ public final class ChartSegmentFillImageProperty extends AbstractImageProperty
 
 	@Override
 	public boolean isAvailable() {
-		return super.isAvailable() && chartSegmentSelection.getUniformValueOrNull(chartStyleGeo
-				.getIntervals(), index -> chartStyleGeo.getStyle()
-				.getBarFillType(index)) == FillType.IMAGE;
+		return super.isAvailable()
+				&& chartSegmentSelection.getUniformValueOrNull(
+								chartStyleGeo.getIntervals(),
+								index -> chartStyleGeo.getStyle().getBarFillType(index))
+						== FillType.IMAGE;
 	}
 
 	@Override

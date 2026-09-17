@@ -27,9 +27,13 @@ public class ArrayTemplate extends Template {
 	private final ArrayDelimiter fieldDelimiter;
 	private final ArrayDelimiter rowDelimiter;
 
-	ArrayTemplate(Tag name, int dimension, ArrayDelimiter openDelimiter,
+	ArrayTemplate(
+			Tag name,
+			int dimension,
+			ArrayDelimiter openDelimiter,
 			ArrayDelimiter closeDelimiter,
-			ArrayDelimiter fieldDelimiter, ArrayDelimiter rowDelimiter) {
+			ArrayDelimiter fieldDelimiter,
+			ArrayDelimiter rowDelimiter) {
 		super(name, name.toString());
 		this.dimension = dimension;
 		this.openDelimiter = openDelimiter;

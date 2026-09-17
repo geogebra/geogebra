@@ -63,5 +63,4 @@ public class ButtonRepeater extends Timer {
 	private void execute() {
 		keyboard.executeOnce(action);
 	}
-
 }

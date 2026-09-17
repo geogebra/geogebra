@@ -63,8 +63,12 @@ public class CancelBox extends Box {
 	private final double extra;
 	private final GColor color;
 
-	public CancelBox(final Box b, final CancelAtom.Type ctype,
-			final double thickness, final double extra, GColor color) {
+	public CancelBox(
+			final Box b,
+			final CancelAtom.Type ctype,
+			final double thickness,
+			final double extra,
+			GColor color) {
 		this.b = b;
 		this.ctype = ctype;
 		this.thickness = thickness;
@@ -81,8 +85,8 @@ public class CancelBox extends Box {
 		b.draw(g2, x, y);
 		startDraw(g2, x, y);
 		final GBasicStroke oldStroke = g2.getStroke();
-		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_MITER));
+		g2.setStroke(
+				graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		final double th = thickness / 2.;
 		final double hyp = Math.hypot(width, height + depth);
 		final double a = extra * width / hyp;
@@ -96,24 +100,20 @@ public class CancelBox extends Box {
 		GLine2D line = geom.createLine2D();
 
 		switch (ctype) {
-		case SLASH:
-			line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
-					y - height + th - b);
-			g2.draw(line);
-			break;
-		case BACKSLASH:
-			line.setLine(x + th - a, y - height + th - b, x + width - th + a,
-					y + depth - th + b);
-			g2.draw(line);
-			break;
-		case X:
-			line.setLine(x + th - a, y - height + th - b, x + width - th + a,
-					y + depth - th + b);
-			g2.draw(line);
-			line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
-					y - height + th - b);
-			g2.draw(line);
-			break;
+			case SLASH:
+				line.setLine(x + th - a, y + depth - th + b, x + width - th + a, y - height + th - b);
+				g2.draw(line);
+				break;
+			case BACKSLASH:
+				line.setLine(x + th - a, y - height + th - b, x + width - th + a, y + depth - th + b);
+				g2.draw(line);
+				break;
+			case X:
+				line.setLine(x + th - a, y - height + th - b, x + width - th + a, y + depth - th + b);
+				g2.draw(line);
+				line.setLine(x + th - a, y + depth - th + b, x + width - th + a, y - height + th - b);
+				g2.draw(line);
+				break;
 		}
 		g2.setStroke(oldStroke);
 		if (color != null) {

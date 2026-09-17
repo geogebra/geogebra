@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Find Numerator
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoNumeratorDenominatorFun extends AlgoElement {
@@ -51,8 +51,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 	 * @param type
 	 *            denominator / numerator
 	 */
-	public AlgoNumeratorDenominatorFun(Construction cons, Evaluate2Var f,
-			Commands type) {
+	public AlgoNumeratorDenominatorFun(Construction cons, Evaluate2Var f, Commands type) {
 		super(cons);
 		this.f = f;
 		this.type = type;
@@ -95,8 +94,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 			return;
 		}
 		ExpressionValue[] numDen = new ExpressionValue[2];
-		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen,
-				false);
+		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen, false);
 		ExpressionValue ev;
 		if (type == Commands.Numerator) {
 			ev = numDen[0];
@@ -109,20 +107,18 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 		if (ev.isExpressionNode()) {
 
 			if (g instanceof GeoFunction) {
-				Function fun = new Function((ExpressionNode) ev,
-						f.getFunction().getFunctionVariables()[0]);
+				Function fun = new Function((ExpressionNode) ev, f.getFunction().getFunctionVariables()[0]);
 				((GeoFunction) g).setFunction(fun);
 			} else {
-				FunctionNVar fun = new FunctionNVar((ExpressionNode) ev,
-						f.getFunction().getFunctionVariables());
+				FunctionNVar fun =
+						new FunctionNVar((ExpressionNode) ev, f.getFunction().getFunctionVariables());
 				((GeoFunctionNVar) g).setFunction(fun);
 			}
 		} else if (ev instanceof FunctionVariable) {
 			if (f instanceof GeoFunction) {
 
 				// construct function f(x) = x
-				FunctionVariable fv = ((GeoFunction) f)
-						.getFunctionVariables()[0].deepCopy(kernel);
+				FunctionVariable fv = ((GeoFunction) f).getFunctionVariables()[0].deepCopy(kernel);
 				ExpressionNode en = new ExpressionNode(kernel, fv);
 				Function tempFun = new Function(en, fv);
 				tempFun.initFunction();
@@ -140,8 +136,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 			if (f instanceof GeoFunction) {
 				// construct function f(x) = 1
 				FunctionVariable fv = new FunctionVariable(kernel);
-				ExpressionNode en = new ExpressionNode(kernel,
-						new MyDouble(kernel, ev.evaluateDouble()));
+				ExpressionNode en = new ExpressionNode(kernel, new MyDouble(kernel, ev.evaluateDouble()));
 				Function tempFun = new Function(en, fv);
 				tempFun.initFunction();
 				((GeoFunction) g).setFunction(tempFun);
@@ -169,5 +164,4 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 	protected ExpressionValue getPart(ExpressionValue[] node) {
 		return node[0];
 	}
-
 }

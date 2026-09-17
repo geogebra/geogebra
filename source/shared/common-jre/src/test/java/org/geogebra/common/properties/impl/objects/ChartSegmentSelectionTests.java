@@ -127,8 +127,9 @@ class ChartSegmentSelectionTests {
 			default -> throw new IndexOutOfBoundsException();
 		};
 		chartSegmentSelection.setIndex(0);
-		assertEquals(List.of(11, 22, 33), chartSegmentSelection.mapSelectedSegments(3, mapper)
-				.collect(Collectors.toList()));
+		assertEquals(
+				List.of(11, 22, 33),
+				chartSegmentSelection.mapSelectedSegments(3, mapper).collect(Collectors.toList()));
 	}
 
 	@Test
@@ -141,8 +142,9 @@ class ChartSegmentSelectionTests {
 			default -> throw new IndexOutOfBoundsException();
 		};
 		chartSegmentSelection.setIndex(2);
-		assertEquals(List.of(22), chartSegmentSelection.mapSelectedSegments(3, mapper)
-				.collect(Collectors.toList()));
+		assertEquals(
+				List.of(22),
+				chartSegmentSelection.mapSelectedSegments(3, mapper).collect(Collectors.toList()));
 	}
 
 	@Test
@@ -163,5 +165,4 @@ class ChartSegmentSelectionTests {
 		};
 		assertNull(chartSegmentSelection.getFirstValue(0, getter));
 	}
-
 }

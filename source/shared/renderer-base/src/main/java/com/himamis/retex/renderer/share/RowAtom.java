@@ -73,7 +73,7 @@ public class RowAtom extends Atom implements Row {
 	private boolean shape = false;
 
 	// set of atom types that make a previous bin atom change to ord
-	private final static BitSet BIN_SET = new BitSet(16) {
+	private static final BitSet BIN_SET = new BitSet(16) {
 		{
 			set(TeXConstants.TYPE_BINARY_OPERATOR);
 			set(TeXConstants.TYPE_BIG_OPERATOR);
@@ -85,7 +85,7 @@ public class RowAtom extends Atom implements Row {
 
 	// set of atom types that can possibly need a kern or, together with the
 	// previous atom, be replaced by a ligature
-	private final static BitSet LIG_KERN_SET = new BitSet(16) {
+	private static final BitSet LIG_KERN_SET = new BitSet(16) {
 		{
 			set(TeXConstants.TYPE_ORDINARY);
 			set(TeXConstants.TYPE_BIG_OPERATOR);
@@ -118,8 +118,7 @@ public class RowAtom extends Atom implements Row {
 			this.elements = new ArrayList<Atom>();
 		} else {
 			if (el instanceof RowAtom) {
-				this.elements = new ArrayList<Atom>(
-						((RowAtom) el).elements.size());
+				this.elements = new ArrayList<Atom>(((RowAtom) el).elements.size());
 				// no need to make an mrow the only element of an mrow
 				elements.addAll(((RowAtom) el).elements);
 			} else {
@@ -193,8 +192,7 @@ public class RowAtom extends Atom implements Row {
 	private void addTypedAtom(Atom a) {
 		// TODO: check this stuff (added for back comp)
 		final int rtype = a.getRightType();
-		if (rtype == TeXConstants.TYPE_BINARY_OPERATOR
-				|| rtype == TeXConstants.TYPE_RELATION) {
+		if (rtype == TeXConstants.TYPE_BINARY_OPERATOR || rtype == TeXConstants.TYPE_RELATION) {
 			elements.add(BreakMarkAtom.get());
 		}
 	}
@@ -210,11 +208,9 @@ public class RowAtom extends Atom implements Row {
 		// TeXBook p. 438
 		int type = cur.getLeftType();
 		if (type == TeXConstants.TYPE_BINARY_OPERATOR
-				&& ((prev == null || BIN_SET.get(prev.getRightType()))
-						|| next == null)) {
+				&& ((prev == null || BIN_SET.get(prev.getRightType())) || next == null)) {
 			cur.setType(TeXConstants.TYPE_ORDINARY);
-		} else if (next != null
-				&& cur.getRightType() == TeXConstants.TYPE_BINARY_OPERATOR) {
+		} else if (next != null && cur.getRightType() == TeXConstants.TYPE_BINARY_OPERATOR) {
 			int nextType = next.getLeftType();
 			if (nextType == TeXConstants.TYPE_RELATION
 					|| nextType == TeXConstants.TYPE_CLOSING
@@ -229,8 +225,7 @@ public class RowAtom extends Atom implements Row {
 		TeXFont tf = env.getTeXFont();
 
 		Stack<HorizontalBox> hBox = new Stack<>();
-		hBox.push((HorizontalBox) new HorizontalBox(env.getColor(),
-				env.getBackground()).setAtom(this));
+		hBox.push((HorizontalBox) new HorizontalBox(env.getColor(), env.getBackground()).setAtom(this));
 
 		env.resetColors();
 
@@ -244,8 +239,8 @@ public class RowAtom extends Atom implements Row {
 			if (at instanceof SelectionAtom) {
 				SelectionAtom ca = (SelectionAtom) at;
 
-				hBox.push((HorizontalBox) new HorizontalBox(ca.getColor(),
-						ca.getBackground()).setAtom(this));
+				hBox.push(
+						(HorizontalBox) new HorizontalBox(ca.getColor(), ca.getBackground()).setAtom(this));
 
 				elementsCopy.remove(i);
 				elementsCopy.addAll(i, ca.elements.elements);
@@ -342,8 +337,7 @@ public class RowAtom extends Atom implements Row {
 			// insert glue, unless it's the first element of the row
 			// OR this element or the next is a Kern.
 			if (prevAtom != null && !prevAtom.isKern() && !curAtom.isKern()) {
-				final Box glue = Glue.get(prevAtom.getRightType(),
-						curAtom.getLeftType(), env);
+				final Box glue = Glue.get(prevAtom.getRightType(), curAtom.getLeftType(), env);
 				if (glue != null) {
 					hBox.peek().add(glue);
 				}
@@ -421,5 +415,4 @@ public class RowAtom extends Atom implements Row {
 	public Atom getElement(int i) {
 		return i < elements.size() ? elements.get(i) : null;
 	}
-
 }

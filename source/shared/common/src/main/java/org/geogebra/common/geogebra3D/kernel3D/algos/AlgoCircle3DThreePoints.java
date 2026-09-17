@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author ggb3D
- * 
+ *
  *         Algo that creates a 3D circle joining three 3D points
  *
  */
@@ -45,7 +45,7 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 
 	/**
 	 * Basic constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param A
@@ -55,10 +55,8 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 	 * @param C
 	 *            third point
 	 */
-	public AlgoCircle3DThreePoints(Construction cons, GeoPointND A,
-			GeoPointND B, GeoPointND C) {
+	public AlgoCircle3DThreePoints(Construction cons, GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(cons, A, B, C);
-
 	}
 
 	@Override
@@ -78,11 +76,10 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 		}
 
 		super.setPoints(points2D[0], points2D[1], points2D[2]);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th 2D point
@@ -103,14 +100,12 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 		for (int i = 0; i < 3; i++) {
 			input[i] = (GeoElement) points[i];
 		}
-
 	}
 
 	@Override
 	protected void setOutput() {
 
 		setOnlyOutput(circle);
-
 	}
 
 	@Override
@@ -139,21 +134,21 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 			// project the point on the coord sys
 			// Coords[]
 			// project=points[i].getCoordsInD3().projectPlane(coordSys.getMatrixOrthonormal());
-			Coords[] project = coordSys
-					.getNormalProjection(points[i].getInhomCoordsInD3());
+			Coords[] project = coordSys.getNormalProjection(points[i].getInhomCoordsInD3());
 			// set the 2D points
-			points2D[i].setCoords(project[1].getX(), project[1].getY(),
-					project[1].getW());
-
+			points2D[i].setCoords(project[1].getX(), project[1].getY(), project[1].getW());
 		}
 
 		super.compute();
-
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("CircleThroughABC", points[0].getLabel(tpl),
-				points[1].getLabel(tpl), points[2].getLabel(tpl));
+		return getLoc()
+				.getPlain(
+						"CircleThroughABC",
+						points[0].getLabel(tpl),
+						points[1].getLabel(tpl),
+						points[2].getLabel(tpl));
 	}
 }

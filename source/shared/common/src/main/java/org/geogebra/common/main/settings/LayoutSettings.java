@@ -20,7 +20,7 @@ import java.util.LinkedList;
 
 /**
  * Settings for the layout manager.
- * 
+ *
  * @author Florian Sonner
  */
 public class LayoutSettings extends AbstractSettings<LayoutSettings> {
@@ -42,10 +42,9 @@ public class LayoutSettings extends AbstractSettings<LayoutSettings> {
 	private boolean allowStyleBar = true;
 
 	/**
-	 * 
+	 *
 	 */
-	public LayoutSettings() {
-	}
+	public LayoutSettings() {}
 
 	public LayoutSettings(LinkedList<SettingListener<LayoutSettings>> listeners) {
 		super(listeners);

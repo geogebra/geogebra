@@ -52,5 +52,4 @@ public interface GArea extends GShape {
 
 	@Override
 	GPathIterator getPathIterator(GAffineTransform t);
-
 }

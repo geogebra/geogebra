@@ -35,8 +35,9 @@ public abstract class ButtonSizeProperty extends AbstractNumericProperty
 
 	protected final GeoButton button;
 
-	private ButtonSizeProperty(AlgebraProcessor algebraProcessor, Localization localization,
-			GeoElement element, String name) throws NotApplicablePropertyException {
+	private ButtonSizeProperty(
+			AlgebraProcessor algebraProcessor, Localization localization, GeoElement element, String name)
+			throws NotApplicablePropertyException {
 		super(algebraProcessor, localization, name);
 		if (!(element instanceof GeoButton) || element instanceof GeoInputBox) {
 			throw new NotApplicablePropertyException(element);

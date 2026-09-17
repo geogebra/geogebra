@@ -26,15 +26,15 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Line[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
- * 
+ *
  * Line[ &lt;GeoPoint&gt;, &lt;GeoVector&gt; ]
- * 
+ *
  * Line[ &lt;GeoPoint&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdLine extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -52,26 +52,26 @@ public class CmdLine extends CommandProcessor {
 			arg = resArgs(c, info);
 
 			// line through two points
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				GeoElement[] ret = { getAlgoDispatcher().line(c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
+			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+				GeoElement[] ret = {
+					getAlgoDispatcher().line(c.getLabel(), (GeoPoint) arg[0], (GeoPoint) arg[1])
+				};
 				return ret;
 			}
 
 			// line through point with direction vector
-			else if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoVector())) {
-				GeoElement[] ret = { getAlgoDispatcher().line(c.getLabel(),
-						(GeoPoint) arg[0], (GeoVector) arg[1]) };
+			else if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoVector())) {
+				GeoElement[] ret = {
+					getAlgoDispatcher().line(c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1])
+				};
 				return ret;
 			}
 
 			// line through point parallel to another line
-			else if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1] instanceof Lineable2D)) {
-				GeoElement[] ret = { getAlgoDispatcher().line(c.getLabel(),
-						(GeoPoint) arg[0], (Lineable2D) arg[1]) };
+			else if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1] instanceof Lineable2D)) {
+				GeoElement[] ret = {
+					getAlgoDispatcher().line(c.getLabel(), (GeoPoint) arg[0], (Lineable2D) arg[1])
+				};
 				return ret;
 			}
 
@@ -80,8 +80,7 @@ public class CmdLine extends CommandProcessor {
 				throw argErr(c, getBadArg(ok, arg));
 			}
 		}
-		
+
 		throw argNumErr(c);
 	}
-
 }

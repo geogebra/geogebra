@@ -34,7 +34,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for drawing a conic section (limited quadric and plane)
- * 
+ *
  * @author mathieu
  *
  */
@@ -53,7 +53,7 @@ public class DrawConicSection extends DrawConic {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param c
@@ -64,29 +64,27 @@ public class DrawConicSection extends DrawConic {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th start parameter for the section
 	 */
 	protected double getStart(int i) {
-		return ((GeoConicSectionInterface) getGeoElement())
-				.getParameterStart(i);
+		return ((GeoConicSectionInterface) getGeoElement()).getParameterStart(i);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th extent parameter for the section
 	 */
 	protected double getExtent(int i) {
-		return ((GeoConicSectionInterface) getGeoElement())
-				.getParameterExtent(i);
+		return ((GeoConicSectionInterface) getGeoElement()).getParameterExtent(i);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th end parameter for the section
@@ -96,7 +94,7 @@ public class DrawConicSection extends DrawConic {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param m
 	 *            midpoint
 	 * @param ev0
@@ -111,9 +109,10 @@ public class DrawConicSection extends DrawConic {
 	 *            angle parameter
 	 * @return ellipse point
 	 */
-	public static Coords ellipsePoint(Coords m, Coords ev0, Coords ev1,
-			double r0, double r1, double parameter) {
-		return m.copy().addInsideMul(ev0, r0 * Math.cos(parameter))
+	public static Coords ellipsePoint(
+			Coords m, Coords ev0, Coords ev1, double r0, double r1, double parameter) {
+		return m.copy()
+				.addInsideMul(ev0, r0 * Math.cos(parameter))
 				.addInsideMul(ev1, r1 * Math.sin(parameter));
 	}
 
@@ -139,18 +138,14 @@ public class DrawConicSection extends DrawConic {
 			// try first segment
 			A = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, end0));
 			if (DoubleUtil.isZero(A.getZ())) {
-				B = view.getCoordsForView(
-						ellipsePoint(m, ev0, ev1, r0, r1, start1));
+				B = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, start1));
 			} else { // try second segment
-				A = view.getCoordsForView(
-						ellipsePoint(m, ev0, ev1, r0, r1, end1));
-				B = view.getCoordsForView(
-						ellipsePoint(m, ev0, ev1, r0, r1, start0));
+				A = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, end1));
+				B = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, start0));
 			}
 		} else { // only one segment
 			A = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, end0));
-			B = view.getCoordsForView(
-					ellipsePoint(m, ev0, ev1, r0, r1, start0));
+			B = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, start0));
 		}
 
 		if (DoubleUtil.isZero(B.getZ())) {
@@ -195,8 +190,8 @@ public class DrawConicSection extends DrawConic {
 	public boolean hitEllipse(int hitX, int hitY, int hitThreshold) {
 
 		if (onlyEdge && fillShape != null) {
-			return fillShape.intersects(hitX - hitThreshold, hitY - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold);
+			return fillShape.intersects(
+					hitX - hitThreshold, hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 		}
 
 		return super.hitEllipse(hitX, hitY, hitThreshold);
@@ -255,8 +250,14 @@ public class DrawConicSection extends DrawConic {
 			type = GArc2D.OPEN;
 		}
 
-		arc.setArc(-halfAxes[0], -halfAxes[1], 2 * halfAxes[0], 2 * halfAxes[1],
-				-Math.toDegrees(start0), -Math.toDegrees(extent0), type);
+		arc.setArc(
+				-halfAxes[0],
+				-halfAxes[1],
+				2 * halfAxes[0],
+				2 * halfAxes[1],
+				-Math.toDegrees(start0),
+				-Math.toDegrees(extent0),
+				type);
 
 		// if no second hole, just draw one arc
 		if (Double.isNaN(start1)) {
@@ -271,9 +272,14 @@ public class DrawConicSection extends DrawConic {
 
 			// second arc
 			Double extent1 = getExtent(1);
-			arc.setArc(-halfAxes[0], -halfAxes[1], 2 * halfAxes[0],
-					2 * halfAxes[1], -Math.toDegrees(start1),
-					-Math.toDegrees(extent1), GArc2D.OPEN);
+			arc.setArc(
+					-halfAxes[0],
+					-halfAxes[1],
+					2 * halfAxes[0],
+					2 * halfAxes[1],
+					-Math.toDegrees(start1),
+					-Math.toDegrees(extent1),
+					GArc2D.OPEN);
 
 			((GGeneralPath) arcs).append(arc, true);
 			((GGeneralPath) arcs).closePath();
@@ -286,13 +292,13 @@ public class DrawConicSection extends DrawConic {
 		double xradius = halfAxes[0] * view.getXscale();
 		double yradius = halfAxes[1] * view.getYscale();
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's
-																// diagonal
+		// diagonal
 		if (xradius < BIG_RADIUS && yradius < BIG_RADIUS) {
 			fillShape = transform.createTransformedShape(arcs);
 		} else {
 			// clip big arc at screen
-			fillShape = ClipShape.clipToRect(arcs, transform, -1, -1,
-					view.getWidth() + 2, view.getHeight() + 2);
+			fillShape =
+					ClipShape.clipToRect(arcs, transform, -1, -1, view.getWidth() + 2, view.getHeight() + 2);
 		}
 
 		// set label coords
@@ -301,7 +307,6 @@ public class DrawConicSection extends DrawConic {
 		transform.transform(labelCoords, 0, labelCoords, 0, 1);
 		xLabel = (int) labelCoords[0];
 		yLabel = (int) labelCoords[1];
-
 	}
 
 	@Override
@@ -314,18 +319,14 @@ public class DrawConicSection extends DrawConic {
 		Coords m = conic.getOrigin3D(0);
 		Coords d = conic.getDirection3D(0);
 
-		endPoints[0] = view
-				.getCoordsForView(m.copy().addInsideMul(d, getStart(0)));
-		endPoints[1] = view
-				.getCoordsForView(m.copy().addInsideMul(d, getEnd(0)));
+		endPoints[0] = view.getCoordsForView(m.copy().addInsideMul(d, getStart(0)));
+		endPoints[1] = view.getCoordsForView(m.copy().addInsideMul(d, getEnd(0)));
 
 		m = conic.getOrigin3D(1);
 		d = conic.getDirection3D(1);
 
-		endPoints[3] = view
-				.getCoordsForView(m.copy().addInsideMul(d, getStart(1)));
-		endPoints[2] = view
-				.getCoordsForView(m.copy().addInsideMul(d, getEnd(1)));
+		endPoints[3] = view.getCoordsForView(m.copy().addInsideMul(d, getStart(1)));
+		endPoints[2] = view.getCoordsForView(m.copy().addInsideMul(d, getEnd(1)));
 
 		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 
@@ -355,8 +356,7 @@ public class DrawConicSection extends DrawConic {
 						lines = new GLine2D[4];
 					}
 					if (lines[numPoints] == null) {
-						lines[numPoints] = AwtFactory.getPrototype()
-								.newLine2D();
+						lines[numPoints] = AwtFactory.getPrototype().newLine2D();
 					}
 					lines[numPoints].setLine(x1, y1, x2, y2);
 					x1 = x2;
@@ -377,7 +377,6 @@ public class DrawConicSection extends DrawConic {
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
 		fillShape = transform.createTransformedShape(path);
-
 	}
 
 	@Override
@@ -433,9 +432,8 @@ public class DrawConicSection extends DrawConic {
 		for (int i = 0; i < 4; i++) {
 			line = lines[i];
 			if (line != null) {
-				if (line.intersects(screenx - hitThreshold,
-						screeny - hitThreshold, 2 * hitThreshold,
-						2 * hitThreshold)) {
+				if (line.intersects(
+						screenx - hitThreshold, screeny - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)) {
 					return true;
 				}
 			}
@@ -462,14 +460,12 @@ public class DrawConicSection extends DrawConic {
 		t = getStart(0);
 		u = conic.p * t * t / 2;
 		v = conic.p * t;
-		Coords A = view.getCoordsForView(
-				m.copy().addInsideMul(ev1, u).addInsideMul(ev2, v));
+		Coords A = view.getCoordsForView(m.copy().addInsideMul(ev1, u).addInsideMul(ev2, v));
 
 		t = getEnd(0);
 		u = conic.p * t * t / 2;
 		v = conic.p * t;
-		Coords B = view.getCoordsForView(
-				m.copy().addInsideMul(ev1, u).addInsideMul(ev2, v));
+		Coords B = view.getCoordsForView(m.copy().addInsideMul(ev1, u).addInsideMul(ev2, v));
 
 		if (DoubleUtil.isZero(A.getZ()) && DoubleUtil.isZero(B.getZ())) {
 			if (line == null) {
@@ -512,22 +508,21 @@ public class DrawConicSection extends DrawConic {
 		double end;
 		if (!Double.isNaN(start)) { // try first segment
 			end = getEnd(0);
-			A = view.getCoordsForView(
-					m.copy().addInsideMul(ev1, e1 * Math.cosh(start))
-							.addInsideMul(ev2, e2 * Math.sinh(start)));
+			A = view.getCoordsForView(m.copy()
+					.addInsideMul(ev1, e1 * Math.cosh(start))
+					.addInsideMul(ev2, e2 * Math.sinh(start)));
 			B = view.getCoordsForView(
-					m.copy().addInsideMul(ev1, e1 * Math.cosh(end))
-							.addInsideMul(ev2, e2 * Math.sinh(end)));
+					m.copy().addInsideMul(ev1, e1 * Math.cosh(end)).addInsideMul(ev2, e2 * Math.sinh(end)));
 		} else { // try second segment
 			start = getStart(1);
 			if (!Double.isNaN(start)) {
 				end = getEnd(1);
-				A = view.getCoordsForView(
-						m.copy().addInsideMul(ev1, -e1 * Math.cosh(start))
-								.addInsideMul(ev2, e2 * Math.sinh(start)));
-				B = view.getCoordsForView(
-						m.copy().addInsideMul(ev1, -e1 * Math.cosh(end))
-								.addInsideMul(ev2, e2 * Math.sinh(end)));
+				A = view.getCoordsForView(m.copy()
+						.addInsideMul(ev1, -e1 * Math.cosh(start))
+						.addInsideMul(ev2, e2 * Math.sinh(start)));
+				B = view.getCoordsForView(m.copy()
+						.addInsideMul(ev1, -e1 * Math.cosh(end))
+						.addInsideMul(ev2, e2 * Math.sinh(end)));
 			}
 		}
 

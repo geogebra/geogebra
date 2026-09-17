@@ -41,8 +41,7 @@ class ExamDrawerMenuFactoryTest extends BaseAppTestSetup {
 	@Test
 	void testSwitchCalculator() {
 		setupApp(SuiteSubApp.GRAPHING);
-		DrawerMenuFactory factory =
-				new ExamDrawerMenuFactory(GeoGebraConstants.Version.SUITE, true);
+		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.SUITE, true);
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
 		assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);
@@ -52,8 +51,8 @@ class ExamDrawerMenuFactoryTest extends BaseAppTestSetup {
 	@Test
 	void testScientificSuiteExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
-		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.SCIENTIFIC,
-				true);
+		DrawerMenuFactory factory =
+				new ExamDrawerMenuFactory(GeoGebraConstants.Version.SCIENTIFIC, true);
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
 		assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);

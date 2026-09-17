@@ -44,28 +44,37 @@ public class SizePropertyCollection extends AbstractPropertyCollection<Property>
 	 * @param elements elements to create properties for
 	 * @throws NotApplicablePropertyException if no size properties are applicable
 	 */
-	public SizePropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			AlgebraProcessor processor, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+	public SizePropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			AlgebraProcessor processor,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Size");
 		Property[] properties = Stream.<Property>of(
-				// Button Size
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ButtonFixedSizeProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ButtonSizeProperty.Width(processor, localization, element),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ButtonSizeProperty.Height(processor, localization, element),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new InputBoxSizeProperty(processor, localization, element),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new PieChartRadiusProperty(processor, localization, element),
-						StringPropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new);
+						// Button Size
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ButtonFixedSizeProperty(localization, element),
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ButtonSizeProperty.Width(processor, localization, element),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ButtonSizeProperty.Height(processor, localization, element),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new InputBoxSizeProperty(processor, localization, element),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new PieChartRadiusProperty(processor, localization, element),
+								StringPropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new);
 		if (properties.length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

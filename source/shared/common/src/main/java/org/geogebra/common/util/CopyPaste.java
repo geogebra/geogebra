@@ -109,8 +109,7 @@ public abstract class CopyPaste {
 	public static void handleCutCopy(App app, boolean cut) {
 		SelectionManager selection = app.getSelectionManager();
 		app.setWaitCursor();
-		ArrayList<GeoElement> tempSelection
-				= new ArrayList<>(selection.getSelectedGeos());
+		ArrayList<GeoElement> tempSelection = new ArrayList<>(selection.getSelectedGeos());
 
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(cut);
 		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos());
@@ -132,8 +131,7 @@ public abstract class CopyPaste {
 	 * @param geos
 	 *            input and output
 	 */
-	protected static void addSubGeos(ArrayList<ConstructionElement> geos,
-			Set<Group> selectedGroups) {
+	protected static void addSubGeos(ArrayList<ConstructionElement> geos, Set<Group> selectedGroups) {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
@@ -146,12 +144,9 @@ public abstract class CopyPaste {
 			}
 
 			if ((geo.isGeoLine() && parentAlgorithm instanceof AlgoJoinPoints)
-					|| (geo.isGeoLine()
-							&& parentAlgorithm instanceof AlgoJoinPointsSegmentInterface)
-					|| (geo.isGeoRay()
-							&& parentAlgorithm instanceof AlgoJoinPointsRay)
-					|| (geo.isGeoVector()
-							&& parentAlgorithm instanceof AlgoVector)) {
+					|| (geo.isGeoLine() && parentAlgorithm instanceof AlgoJoinPointsSegmentInterface)
+					|| (geo.isGeoRay() && parentAlgorithm instanceof AlgoJoinPointsRay)
+					|| (geo.isGeoVector() && parentAlgorithm instanceof AlgoVector)) {
 
 				if (!geos.contains(parentAlgorithm.getInput()[0])) {
 					geos.add(parentAlgorithm.getInput()[0]);
@@ -161,8 +156,7 @@ public abstract class CopyPaste {
 				}
 			} else if (geo.isGeoPolygon()) {
 				if (parentAlgorithm instanceof AlgoPolygon) {
-					GeoPointND[] points = ((AlgoPolygon) parentAlgorithm)
-							.getPoints();
+					GeoPointND[] points = ((AlgoPolygon) parentAlgorithm).getPoints();
 					for (int j = 0; j < points.length; j++) {
 						if (!geos.contains(points[j])) {
 							geos.add((GeoElement) points[j]);
@@ -170,8 +164,7 @@ public abstract class CopyPaste {
 					}
 					GeoElement[] ogeos = parentAlgorithm.getOutput();
 					for (int j = 0; j < ogeos.length; j++) {
-						if (!geos.contains(ogeos[j])
-								&& ogeos[j].isGeoSegment()) {
+						if (!geos.contains(ogeos[j]) && ogeos[j].isGeoSegment()) {
 							geos.add(ogeos[j]);
 						}
 					}
@@ -184,16 +177,14 @@ public abstract class CopyPaste {
 					}
 					GeoElement[] ogeos = parentAlgorithm.getOutput();
 					for (int j = 0; j < ogeos.length; j++) {
-						if (!geos.contains(ogeos[j]) && (ogeos[j].isGeoSegment()
-								|| ogeos[j].isGeoPoint())) {
+						if (!geos.contains(ogeos[j]) && (ogeos[j].isGeoSegment() || ogeos[j].isGeoPoint())) {
 							geos.add(ogeos[j]);
 						}
 					}
 				}
 			} else if (geo instanceof GeoPolyLine) {
 				if (parentAlgorithm instanceof AlgoPolyLine) {
-					GeoPointND[] pgeos = ((AlgoPolyLine) parentAlgorithm)
-							.getPoints();
+					GeoPointND[] pgeos = ((AlgoPolyLine) parentAlgorithm).getPoints();
 					for (int j = 0; j < pgeos.length; j++) {
 						if (!geos.contains(pgeos[j])) {
 							geos.add((GeoElement) pgeos[j]);
@@ -222,8 +213,7 @@ public abstract class CopyPaste {
 			}
 
 			if (geo.isGeoPolyhedron()) {
-				TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(
-						geo);
+				TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
 
 				// there are many kinds of algorithm to create a
 				// GeoPolyhedron,
@@ -231,66 +221,49 @@ public abstract class CopyPaste {
 				// should
 				// be shown in any case when they have common parent algo
 				// inputs
-				for (GeoPolygon psnext : ((GeoPolyhedron) geo)
-						.getPolygons()) {
-					if (!geos.contains(psnext)
-							&& predecessorsCovered(psnext, ancestors)) {
+				for (GeoPolygon psnext : ((GeoPolyhedron) geo).getPolygons()) {
+					if (!geos.contains(psnext) && predecessorsCovered(psnext, ancestors)) {
 						geos.add(psnext);
 					}
 				}
-	
-				for (GeoPolygon ps2n : ((GeoPolyhedron) geo)
-						.getPolygonsLinked()) {
-					if (!geos.contains(ps2n)
-							&& predecessorsCovered(ps2n, ancestors)) {
+
+				for (GeoPolygon ps2n : ((GeoPolyhedron) geo).getPolygonsLinked()) {
+					if (!geos.contains(ps2n) && predecessorsCovered(ps2n, ancestors)) {
 						geos.add(ps2n);
 					}
 				}
 				GeoCoordSys1D[] segm = ((GeoPolyhedron) geo).getSegments3D();
 				for (int j = 0; j < segm.length; j++) {
-					if (!geos.contains(segm[j])
-							&& predecessorsCovered(segm[j], ancestors)) {
+					if (!geos.contains(segm[j]) && predecessorsCovered(segm[j], ancestors)) {
 						geos.add(segm[j]);
-						GeoPointND[] pspoints2 = { segm[j].getStartPoint(),
-								segm[j].getEndPoint() };
+						GeoPointND[] pspoints2 = {segm[j].getStartPoint(), segm[j].getEndPoint()};
 						for (int k = 0; k < pspoints2.length; k++) {
-							if (!geos.contains(pspoints2[k])
-									&& predecessorsCovered(pspoints2[k],
-											ancestors)) {
+							if (!geos.contains(pspoints2[k]) && predecessorsCovered(pspoints2[k], ancestors)) {
 								geos.add((GeoElement) pspoints2[k]);
 							}
 						}
 					}
 				}
 			} else if (geo instanceof GeoPolyhedronNet) {
-				TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(
-						geo);
+				TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
 
-				for (GeoPolygon psnext : ((GeoPolyhedronNet) geo)
-						.getPolygons()) {
-					if (!geos.contains(psnext)
-							&& predecessorsCovered(psnext, ancestors)) {
+				for (GeoPolygon psnext : ((GeoPolyhedronNet) geo).getPolygons()) {
+					if (!geos.contains(psnext) && predecessorsCovered(psnext, ancestors)) {
 						geos.add(psnext);
 					}
 				}
-				for (GeoPolygon ps2n : ((GeoPolyhedronNet) geo)
-						.getPolygonsLinked()) {
-					if (!geos.contains(ps2n)
-							&& predecessorsCovered(ps2n, ancestors)) {
+				for (GeoPolygon ps2n : ((GeoPolyhedronNet) geo).getPolygonsLinked()) {
+					if (!geos.contains(ps2n) && predecessorsCovered(ps2n, ancestors)) {
 						geos.add(ps2n);
 					}
 				}
 				GeoCoordSys1D[] segm = ((GeoPolyhedronNet) geo).getSegments3D();
 				for (int j = 0; j < segm.length; j++) {
-					if (!geos.contains(segm[j])
-							&& predecessorsCovered(segm[j], ancestors)) {
+					if (!geos.contains(segm[j]) && predecessorsCovered(segm[j], ancestors)) {
 						geos.add(segm[j]);
-						GeoPointND[] pspoints2 = { segm[j].getStartPoint(),
-								segm[j].getEndPoint() };
+						GeoPointND[] pspoints2 = {segm[j].getStartPoint(), segm[j].getEndPoint()};
 						for (int k = 0; k < pspoints2.length; k++) {
-							if (!geos.contains(pspoints2[k])
-									&& predecessorsCovered(pspoints2[k],
-											ancestors)) {
+							if (!geos.contains(pspoints2[k]) && predecessorsCovered(pspoints2[k], ancestors)) {
 								geos.add((GeoElement) pspoints2[k]);
 							}
 						}
@@ -301,34 +274,29 @@ public abstract class CopyPaste {
 						|| parentAlgorithm instanceof AlgoQuadricLimitedPointPointRadiusCylinder
 						|| parentAlgorithm instanceof AlgoQuadricLimitedConicHeightCone
 						|| parentAlgorithm instanceof AlgoQuadricLimitedConicHeightCylinder) {
-					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(
-							geo);
+					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
 
 					GeoElement[] pgeos = parentAlgorithm.getInput();
 					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j])
-								&& predecessorsCovered(pgeos[j], ancestors)) {
+						if (!geos.contains(pgeos[j]) && predecessorsCovered(pgeos[j], ancestors)) {
 							geos.add(pgeos[j]);
 						}
 					}
 					pgeos = parentAlgorithm.getOutput();
 					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j])
-								&& predecessorsCovered(pgeos[j], ancestors)) {
+						if (!geos.contains(pgeos[j]) && predecessorsCovered(pgeos[j], ancestors)) {
 							geos.add(pgeos[j]);
 						}
 					}
 				}
-
 			}
 		}
 	}
 
-	private static void handleList(GeoElement geo, AlgoElement parentAlgorithm,
-			ArrayList<ConstructionElement> geos) {
+	private static void handleList(
+			GeoElement geo, AlgoElement parentAlgorithm, ArrayList<ConstructionElement> geos) {
 		// TODO: note that there are a whole lot of other list algos
-		if (Algos.isUsedFor(Commands.Sequence, geo)
-				|| parentAlgorithm instanceof AlgoDependentList) {
+		if (Algos.isUsedFor(Commands.Sequence, geo) || parentAlgorithm instanceof AlgoDependentList) {
 			GeoElement[] pgeos = parentAlgorithm.getInput();
 			if (pgeos.length > 1) {
 				if (!geos.contains(pgeos[0])) {
@@ -338,8 +306,8 @@ public abstract class CopyPaste {
 		}
 	}
 
-	private static void addChildNodes(GeoMindMapNode geo, ArrayList<ConstructionElement> list,
-			Set<Group> selectedGroups) {
+	private static void addChildNodes(
+			GeoMindMapNode geo, ArrayList<ConstructionElement> list, Set<Group> selectedGroups) {
 		if (!list.contains(geo)) {
 			Group group = geo.getParentGroup();
 			if (group != null) {
@@ -351,22 +319,19 @@ public abstract class CopyPaste {
 				list.add(geo);
 			}
 		}
-		for (GeoMindMapNode child: geo.getChildren()) {
+		for (GeoMindMapNode child : geo.getChildren()) {
 			addChildNodes(child, list, selectedGroups);
 		}
 	}
 
-	private static TreeSet<GeoElement> getAllIndependentPredecessors(
-			GeoElement geo) {
+	private static TreeSet<GeoElement> getAllIndependentPredecessors(GeoElement geo) {
 		TreeSet<GeoElement> ancestors = new TreeSet<>();
 		geo.addPredecessorsToSet(ancestors, true);
 		return ancestors;
 	}
 
-	private static boolean predecessorsCovered(GeoElementND ps2n,
-			TreeSet<GeoElement> ancestors) {
-		return ancestors.containsAll(
-				getAllIndependentPredecessors(ps2n.toGeoElement()));
+	private static boolean predecessorsCovered(GeoElementND ps2n, TreeSet<GeoElement> ancestors) {
+		return ancestors.containsAll(getAllIndependentPredecessors(ps2n.toGeoElement()));
 	}
 
 	/**
@@ -394,7 +359,8 @@ public abstract class CopyPaste {
 			}
 			ts = geo.getAllPredecessors();
 			for (GeoElement geo2 : ts) {
-				if (!ret.contains(geo2) && !geos.contains(geo2)
+				if (!ret.contains(geo2)
+						&& !geos.contains(geo2)
 						&& !geo2.getConstruction().isConstantElement(geo2)) {
 					ret.add(geo2);
 				}
@@ -416,9 +382,8 @@ public abstract class CopyPaste {
 	 * @param renameInScripts whether to update references in scripts after rename
 	 * @return list of elements
 	 */
-	protected static ArrayList<GeoElement> handleLabels(App app,
-			List<String> labels, Set<String> duplicateLabels,
-			boolean renameInScripts) {
+	protected static ArrayList<GeoElement> handleLabels(
+			App app, List<String> labels, Set<String> duplicateLabels, boolean renameInScripts) {
 		ArrayList<GeoElement> ret = new ArrayList<>();
 
 		Kernel kernel = app.getKernel();
@@ -440,8 +405,7 @@ public abstract class CopyPaste {
 					if (app.isEuclidianView3Dinited()) {
 						app.removeFromViews3D(geo);
 					}
-				} else if (app.getActiveEuclidianView()
-						.getViewID() == App.VIEW_EUCLIDIAN3D) {
+				} else if (app.getActiveEuclidianView().getViewID() == App.VIEW_EUCLIDIAN3D) {
 					app.removeFromEuclidianView(geo);
 					if (app.isEuclidianView3Dinited()) {
 						app.addToViews3D(geo);
@@ -461,16 +425,16 @@ public abstract class CopyPaste {
 
 				oldLabel = geo.getLabelSimple();
 				oldLabelNoPrefix = oldLabel.substring(labelPrefix.length());
-				isFreeLabel = duplicateLabels != null
-						&& !duplicateLabels.contains(oldLabelNoPrefix);
+				isFreeLabel = duplicateLabels != null && !duplicateLabels.contains(oldLabelNoPrefix);
 				GeoElement oldGeo = kernel.lookupLabel(oldLabelNoPrefix);
 
 				if (oldGeo == null) {
 					geo.setLabel(oldLabelNoPrefix);
 				} else {
-					geo.setLabel(isFreeLabel
-							? oldLabelNoPrefix : geo.getConstruction()
-									.getIndexLabel(oldLabelNoPrefix, true));
+					geo.setLabel(
+							isFreeLabel
+									? oldLabelNoPrefix
+									: geo.getConstruction().getIndexLabel(oldLabelNoPrefix, true));
 				}
 
 				// geo.getLabelSimple() is now not the oldLabel, ideally
@@ -493,10 +457,8 @@ public abstract class CopyPaste {
 
 	private static void handleLocalVariableNames(AlgoElement parent) {
 		for (GeoElement parentInput : parent.getInput()) {
-			if (parentInput.isLocalVariable()
-					&& parentInput.getLabelSimple().startsWith(labelPrefix)) {
-				parentInput.setLabelSimple(parentInput.getLabelSimple()
-						.substring(labelPrefix.length()));
+			if (parentInput.isLocalVariable() && parentInput.getLabelSimple().startsWith(labelPrefix)) {
+				parentInput.setLabelSimple(parentInput.getLabelSimple().substring(labelPrefix.length()));
 				// extra step needed for curve
 				if (parent instanceof AlgoCurveCartesian) {
 					((AlgoCurveCartesian) parent).updateVariableName();

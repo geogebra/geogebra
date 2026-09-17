@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -33,24 +33,23 @@ import org.geogebra.common.util.debug.Log;
 /**
  * This class provides static methods for conveniently installing auto
  * completion for {@link JTextField} and {@link JFileChooser} components.
- * 
+ *
  * @author Julian Lettner
  */
 public class AutoCompletion {
 
 	// --- Static section ---
 
-	private final static int POPUP_ROW_COUNT_FOR_FILE_CHOOSER = 8;
+	private static final int POPUP_ROW_COUNT_FOR_FILE_CHOOSER = 8;
 
-	private final static FileChooserCompletionListCellRenderer FC_CELL_RENDERER
-			= new FileChooserCompletionListCellRenderer();
+	private static final FileChooserCompletionListCellRenderer FC_CELL_RENDERER =
+			new FileChooserCompletionListCellRenderer();
 
-	private final static boolean caseInsensitivePaths = initCaseInsenitvePaths();
+	private static final boolean caseInsensitivePaths = initCaseInsenitvePaths();
 
 	private static boolean initCaseInsenitvePaths() {
 		try {
-			return System.getProperty("os.name").toLowerCase(Locale.ROOT)
-					.contains("windows");
+			return System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows");
 		} catch (SecurityException ex) {
 			Log.debug("Could not determine underlying os: " + ex);
 			return false;
@@ -61,7 +60,7 @@ public class AutoCompletion {
 	 * Convenience method for adding auto completion to a {@link JFileChooser}.
 	 * Path name completion will be case(in)sensitive depending on the operating
 	 * system.
-	 * 
+	 *
 	 * @param fileChooser
 	 *            file chooser
 	 */
@@ -71,21 +70,19 @@ public class AutoCompletion {
 
 	/**
 	 * Convenience method for adding auto completion to a {@link JFileChooser}.
-	 * 
+	 *
 	 * @param fileChooser
 	 *            The file chooser
 	 * @param caseInsensitiveCompletion
 	 *            <code>true</code> if the casing of path names should be
 	 *            ignored for completion
 	 */
-	public static void install(final JFileChooser fileChooser,
-			final boolean caseInsensitiveCompletion) {
+	public static void install(
+			final JFileChooser fileChooser, final boolean caseInsensitiveCompletion) {
 		// Extract internal text field
 		JTextField textField = getInternalTextField(fileChooser);
 		if (null == textField) {
-			Log.debug(
-					"Could not find an instance of JTextField inside the file chooser: "
-							+ fileChooser);
+			Log.debug("Could not find an instance of JTextField inside the file chooser: " + fileChooser);
 			return;
 		}
 
@@ -94,25 +91,23 @@ public class AutoCompletion {
 			public List<File> getCompletionOptions(String prefix) {
 				// Create adapter: javax.swing.filechooser.FileFilter -->
 				// java.io.FileFilter
-				final javax.swing.filechooser.FileFilter fileChooserFileFilter = fileChooser
-						.getFileFilter();
+				final javax.swing.filechooser.FileFilter fileChooserFileFilter =
+						fileChooser.getFileFilter();
 				FileFilter fileFilter = fileChooserFileFilter::accept;
 				// All visible items in the file chooser are possible options
-				File[] options = fileChooser.getCurrentDirectory()
-						.listFiles(fileFilter);
+				File[] options = fileChooser.getCurrentDirectory().listFiles(fileFilter);
 				// We cannot cache the above steps because the user could change
 				// the directory or file filter
 				if (options == null) {
 					return null;
 				}
-				CompletionProvider<File> completionProvider
-						= new SortedArrayCompletionProvider<>(
-						options, caseInsensitiveCompletion) {
-					@Override
-					public String toString(File option) {
-						return fileToString(option);
-					}
-				};
+				CompletionProvider<File> completionProvider =
+						new SortedArrayCompletionProvider<>(options, caseInsensitiveCompletion) {
+							@Override
+							public String toString(File option) {
+								return fileToString(option);
+							}
+						};
 
 				return completionProvider.getCompletionOptions(prefix);
 			}
@@ -123,7 +118,10 @@ public class AutoCompletion {
 			}
 		};
 
-		install(textField, fileChooserCompletionProvider, FC_CELL_RENDERER,
+		install(
+				textField,
+				fileChooserCompletionProvider,
+				FC_CELL_RENDERER,
 				POPUP_ROW_COUNT_FOR_FILE_CHOOSER);
 	}
 
@@ -163,7 +161,7 @@ public class AutoCompletion {
 	 * defined completion behavior is needed use
 	 * {@link #install(JTextField, CompletionProvider, int)} and specify a
 	 * custom {@link CompletionProvider}.
-	 * 
+	 *
 	 * @param textField
 	 *            The text field
 	 * @param completionOptions
@@ -176,20 +174,22 @@ public class AutoCompletion {
 	 *            that is the number of options the user can see without
 	 *            scrolling
 	 */
-	public static void install(JTextField textField, String[] completionOptions,
-			boolean caseInsensitiveCompletion, int maxPopupRowCount) {
+	public static void install(
+			JTextField textField,
+			String[] completionOptions,
+			boolean caseInsensitiveCompletion,
+			int maxPopupRowCount) {
 		// Array will be changed (sorted) - create defensive copy
 		String[] optionsCopy = new String[completionOptions.length];
-		System.arraycopy(completionOptions, 0, optionsCopy, 0,
-				completionOptions.length);
+		System.arraycopy(completionOptions, 0, optionsCopy, 0, completionOptions.length);
 		// Wrap array in provider and install
-		CompletionProvider<String> arrayProvider = new SortedArrayCompletionProvider<>(
-				optionsCopy, caseInsensitiveCompletion) {
-			@Override
-			public String toString(String option) {
-				return option;
-			}
-		};
+		CompletionProvider<String> arrayProvider =
+				new SortedArrayCompletionProvider<>(optionsCopy, caseInsensitiveCompletion) {
+					@Override
+					public String toString(String option) {
+						return option;
+					}
+				};
 		install(textField, arrayProvider, maxPopupRowCount);
 	}
 
@@ -197,7 +197,7 @@ public class AutoCompletion {
 	 * Adds auto completion support to a {@link JTextField}. If all you need is
 	 * completion for a fixed set of options you may use
 	 * {@link #install(JTextField, String[], boolean, int)} instead.
-	 * 
+	 *
 	 * @param textField
 	 *            The text field
 	 * @param completionProvider
@@ -207,11 +207,9 @@ public class AutoCompletion {
 	 *            that is the number of options the user can see without
 	 *            scrolling
 	 */
-	public static void install(JTextField textField,
-			CompletionProvider<String> completionProvider,
-			int maxPopupRowCount) {
-		install(textField, completionProvider, new DefaultListCellRenderer(),
-				maxPopupRowCount);
+	public static void install(
+			JTextField textField, CompletionProvider<String> completionProvider, int maxPopupRowCount) {
+		install(textField, completionProvider, new DefaultListCellRenderer(), maxPopupRowCount);
 	}
 
 	/**
@@ -221,14 +219,14 @@ public class AutoCompletion {
 	 * This method offers the most flexibility. Completion options returned by
 	 * the completion provider can be arbitrary objects which in turn are
 	 * visualized by the supplied {@link ListCellRenderer}.
-	 * 
+	 *
 	 * @param <T>
 	 *            The objects returned by the completion provider are of this
 	 *            type. The list cell renderer can safely cast the
 	 *            <code>value</code> parameter of its method
 	 *            {@link ListCellRenderer#getListCellRendererComponent} to this
 	 *            type.
-	 * 
+	 *
 	 * @param textField
 	 *            The text field
 	 * @param completionProvider
@@ -244,12 +242,11 @@ public class AutoCompletion {
 	 * @return the popup
 	 */
 	@SuppressWarnings("rawtypes")
-	public static <T> Object install(JTextField textField,
+	public static <T> Object install(
+			JTextField textField,
 			CompletionProvider<T> completionProvider,
-			ListCellRenderer listCellRenderer, int maxPopupRowCount) {
-		return new OptionsPopup<>(textField, completionProvider,
-				listCellRenderer,
-				maxPopupRowCount);
+			ListCellRenderer listCellRenderer,
+			int maxPopupRowCount) {
+		return new OptionsPopup<>(textField, completionProvider, listCellRenderer, maxPopupRowCount);
 	}
-
 }

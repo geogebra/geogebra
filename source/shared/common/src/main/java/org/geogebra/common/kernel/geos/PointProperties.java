@@ -22,7 +22,7 @@ package org.geogebra.common.kernel.geos;
 public interface PointProperties {
 	/**
 	 * Sets the point size
-	 * 
+	 *
 	 * @param size
 	 *            new point size
 	 */
@@ -30,14 +30,14 @@ public interface PointProperties {
 
 	/**
 	 * Returns the point size
-	 * 
+	 *
 	 * @return point size
 	 */
 	int getPointSize();
 
 	/**
 	 * Sets the point style
-	 * 
+	 *
 	 * @param type
 	 *            point style
 	 */
@@ -45,7 +45,7 @@ public interface PointProperties {
 
 	/**
 	 * Returns the point style
-	 * 
+	 *
 	 * @return point style
 	 */
 	int getPointStyle();

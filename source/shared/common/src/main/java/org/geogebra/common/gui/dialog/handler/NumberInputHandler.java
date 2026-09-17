@@ -54,8 +54,8 @@ public class NumberInputHandler implements InputHandler {
 	 * @param appl
 	 *            app
 	 */
-	public NumberInputHandler(AlgebraProcessor algebraProcessor,
-			AsyncOperation<GeoNumberValue> cb, App appl) {
+	public NumberInputHandler(
+			AlgebraProcessor algebraProcessor, AsyncOperation<GeoNumberValue> cb, App appl) {
 		this(algebraProcessor);
 		callback = cb;
 		app = appl;
@@ -69,8 +69,8 @@ public class NumberInputHandler implements InputHandler {
 	}
 
 	@Override
-	public void processInput(String inputString, final ErrorHandler handler,
-			final AsyncOperation<Boolean> callback0) {
+	public void processInput(
+			String inputString, final ErrorHandler handler, final AsyncOperation<Boolean> callback0) {
 		try {
 			handler.resetError();
 			final Construction cons = algebraProcessor.getKernel().getConstruction();
@@ -78,20 +78,17 @@ public class NumberInputHandler implements InputHandler {
 			boolean oldVal = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
-					inputString, false, handler, evalInfo,
-					result -> {
+					inputString, false, handler, evalInfo, result -> {
 						// allow labels again
 						cons.setSuppressLabelCreation(oldVal);
-						boolean success = result != null
-								&& result[0] instanceof GeoNumberValue;
+						boolean success = result != null && result[0] instanceof GeoNumberValue;
 						if (success) {
 							setNum((GeoNumberValue) result[0]);
 							if (callback != null) {
 								callback.callback(num);
 							}
 						} else {
-							handler.showError(
-									Errors.NumberExpected.getError(app.getLocalization()));
+							handler.showError(Errors.NumberExpected.getError(app.getLocalization()));
 						}
 						if (callback0 != null) {
 							callback0.callback(success);
@@ -113,5 +110,4 @@ public class NumberInputHandler implements InputHandler {
 	public GeoNumberValue getNum() {
 		return num;
 	}
-
 }

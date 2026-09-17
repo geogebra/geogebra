@@ -67,28 +67,27 @@ public class CmdSetValue extends CmdScripting {
 		boolean ok;
 
 		switch (n) {
-		case 2:
-			setValue2(arg[0], arg[1]);
-			return arg;
-		case 3:
-			if ((ok = arg[0].isGeoList() && arg[0].isIndependent())
-					&& arg[1].isNumberValue()) {
+			case 2:
+				setValue2(arg[0], arg[1]);
+				return arg;
+			case 3:
+				if ((ok = arg[0].isGeoList() && arg[0].isIndependent()) && arg[1].isNumberValue()) {
 
-				boolean success = setValue3(kernel, (GeoList) arg[0],
-						(int) arg[1].evaluateDouble(), arg[2]);
+					boolean success =
+							setValue3(kernel, (GeoList) arg[0], (int) arg[1].evaluateDouble(), arg[2]);
 
-				if (!success) {
-					throw argErr(c, arg[1]);
+					if (!success) {
+						throw argErr(c, arg[1]);
+					}
+
+				} else {
+					throw argErr(c, ok ? arg[1] : arg[0]);
 				}
 
-			} else {
-				throw argErr(c, ok ? arg[1] : arg[0]);
-			}
+				return arg;
 
-			return arg;
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -105,8 +104,7 @@ public class CmdSetValue extends CmdScripting {
 	 *            value
 	 * @return success
 	 */
-	public static boolean setValue3(Kernel kernel, GeoList list, int nn,
-			GeoElement arg2) {
+	public static boolean setValue3(Kernel kernel, GeoList list, int nn, GeoElement arg2) {
 
 		if (nn < 1 || nn > list.size() + 1) {
 			return false;
@@ -115,8 +113,7 @@ public class CmdSetValue extends CmdScripting {
 			list.add((GeoElement) arg2.deepCopy(kernel));
 			if (list.getDefinition() != null) {
 				ExpressionValue root = list.getDefinition().unwrap();
-				if (root instanceof MyList && arg2.getDefinition() != null
-						&& arg2.isIndependent()) {
+				if (root instanceof MyList && arg2.getDefinition() != null && arg2.isIndependent()) {
 					((MyList) root).addListElement(arg2.getDefinition());
 				} else {
 					list.setDefinition(null);
@@ -135,11 +132,11 @@ public class CmdSetValue extends CmdScripting {
 			if (list.getDefinition() != null) {
 				ExpressionValue root = list.getDefinition().unwrap();
 				// sizes different == something went wrong
-				if (root instanceof MyList && arg2.getDefinition() != null
+				if (root instanceof MyList
+						&& arg2.getDefinition() != null
 						&& ((MyList) root).size() == list.size()
 						&& arg2.isIndependent()) {
-					((MyList) root).setListElement(nn - 1,
-							arg2.getDefinition());
+					((MyList) root).setListElement(nn - 1, arg2.getDefinition());
 				} else {
 					list.setDefinition(null);
 				}
@@ -152,8 +149,8 @@ public class CmdSetValue extends CmdScripting {
 
 		// update the list too if necessary
 		if (!geo.isLabelSet()) { // eg like first element of {1,2,a}
-			Iterator<GeoElement> it = kernel.getConstruction()
-					.getGeoSetConstructionOrder().iterator();
+			Iterator<GeoElement> it =
+					kernel.getConstruction().getGeoSetConstructionOrder().iterator();
 			ArrayList<GeoList> lists = new ArrayList<>();
 			while (it.hasNext()) {
 				GeoElement geo2 = it.next();
@@ -184,8 +181,7 @@ public class CmdSetValue extends CmdScripting {
 	 *            value
 	 */
 	public static void setValue2(GeoElement target, GeoElement from) {
-		if (target.isGeoList() && from.isNumberValue()
-				&& !Double.isNaN(from.evaluateDouble())) {
+		if (target.isGeoList() && from.isNumberValue() && !Double.isNaN(from.evaluateDouble())) {
 			int selectIdx = (int) Math.round(from.evaluateDouble()) - 1;
 			if (((GeoList) target).getSelectedIndex() != selectIdx) {
 				((GeoList) target).setSelectedIndex(selectIdx);
@@ -200,8 +196,7 @@ public class CmdSetValue extends CmdScripting {
 		} else if (target.getParentAlgorithm() instanceof SetRandomValue) {
 			setRandomValue(target, from);
 		} else if (target.getParentAlgorithm() instanceof DependentAlgo) {
-			if (from.isGeoNumeric()
-					&& Double.isNaN(from.evaluateDouble())) {
+			if (from.isGeoNumeric() && Double.isNaN(from.evaluateDouble())) {
 				// eg SetValue[a,?] for line
 				undefine(target);
 				target.updateRepaint();
@@ -226,8 +221,7 @@ public class CmdSetValue extends CmdScripting {
 		if (target.isGeoNumeric() && from.isNumberValue()) {
 			((GeoNumeric) target).setValue(from.evaluateDouble());
 		} else {
-			if (from.isGeoNumeric()
-					&& Double.isNaN(from.evaluateDouble())) {
+			if (from.isGeoNumeric() && Double.isNaN(from.evaluateDouble())) {
 				// eg SetValue[a,?] for line
 				if (target.isGeoList() && target.isMatrix()) {
 					undefine(target);
@@ -263,7 +257,8 @@ public class CmdSetValue extends CmdScripting {
 		if (algo.setRandomValue(from)) {
 			target.updateRepaint();
 		} else if (from.isGeoNumeric()
-				&& Double.isNaN(from.evaluateDouble()) && algo instanceof DependentAlgo) {
+				&& Double.isNaN(from.evaluateDouble())
+				&& algo instanceof DependentAlgo) {
 			// eg SetValue[a,?] for number
 			undefine(target);
 			target.updateRepaint();
@@ -294,8 +289,7 @@ public class CmdSetValue extends CmdScripting {
 			}
 			geo.setUndefined();
 		} else {
-			geo.setDefinition(geo.getUndefinedCopy(kernel)
-					.toValidExpression().wrap());
+			geo.setDefinition(geo.getUndefinedCopy(kernel).toValidExpression().wrap());
 			geo.setUndefined();
 		}
 	}

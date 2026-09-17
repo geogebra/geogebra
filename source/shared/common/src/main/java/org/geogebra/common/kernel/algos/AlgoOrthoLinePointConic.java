@@ -43,7 +43,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 
 	/**
 	 * Creates new AlgoOrthoLinePointConic.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -53,8 +53,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 	 * @param l
 	 *            conic result should be orthogonal to
 	 */
-	public AlgoOrthoLinePointConic(Construction cons, String label, GeoPoint P,
-			GeoConic l) {
+	public AlgoOrthoLinePointConic(Construction cons, String label, GeoPoint P, GeoConic l) {
 		super(cons);
 		this.P = P;
 		this.l = l;
@@ -93,7 +92,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -140,9 +139,11 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("LineThroughAPerpendicularToB",
-				"Line through %0 perpendicular to %1",
-				P.getLabel(tpl), l.toGeoElement().getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"LineThroughAPerpendicularToB",
+						"Line through %0 perpendicular to %1",
+						P.getLabel(tpl),
+						l.toGeoElement().getLabel(tpl));
 	}
-
 }

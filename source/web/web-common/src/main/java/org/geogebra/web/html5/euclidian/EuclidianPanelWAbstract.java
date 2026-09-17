@@ -100,5 +100,4 @@ public interface EuclidianPanelWAbstract {
 	 * @param enable whether to enable
 	 */
 	void enableZoomPanelEvents(boolean enable);
-
 }

@@ -27,14 +27,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * LineBisector[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
- * 
+ *
  * LineBisector[ &lt;GeoSegment&gt; ]
  */
 public class CmdLineBisector extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,44 +43,43 @@ public class CmdLineBisector extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1: // segment
-			arg = resArgs(c, info);
-			// line through point orthogonal to segment
-			if (arg[0].isGeoSegment()) {
-				GeoElement[] ret = {
-						lineBisector(c.getLabel(), (GeoSegmentND) arg[0]) };
+			case 1: // segment
+				arg = resArgs(c, info);
+				// line through point orthogonal to segment
+				if (arg[0].isGeoSegment()) {
+					GeoElement[] ret = {lineBisector(c.getLabel(), (GeoSegmentND) arg[0])};
+					return ret;
+				}
+
+				// syntax error
+				throw argErr(c, arg[0]);
+
+			case 2: // two points
+				arg = resArgs(c, info);
+
+				return process2(c, arg, ok);
+
+			case 3:
+				arg = resArgs(c, info);
+
+				GeoElement[] ret = process3(c, arg, ok);
+
 				return ret;
-			}
 
-			// syntax error
-			throw argErr(c, arg[0]);
-
-		case 2: // two points
-			arg = resArgs(c, info);
-
-			return process2(c, arg, ok);
-
-		case 3:
-			arg = resArgs(c, info);
-
-			GeoElement[] ret = process3(c, arg, ok);
-
-			return ret;
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * process line bisector when 2 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -91,14 +90,11 @@ public class CmdLineBisector extends CommandProcessor {
 	 * @throws MyError
 	 *             arg error
 	 */
-	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
 		// line through point orthogonal to vector
-		if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = arg[1].isGeoPoint())) {
-			GeoElement[] ret = { lineBisector(c.getLabel(), (GeoPointND) arg[0],
-					(GeoPointND) arg[1]) };
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+			GeoElement[] ret = {lineBisector(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1])};
 			return ret;
 		}
 
@@ -108,7 +104,7 @@ public class CmdLineBisector extends CommandProcessor {
 
 	/**
 	 * process line bisector when 3 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -119,8 +115,7 @@ public class CmdLineBisector extends CommandProcessor {
 	 * @throws MyError
 	 *             in 2D, not possible with 3 args
 	 */
-	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 		throw argNumErr(c);
 	}
 
@@ -144,9 +139,7 @@ public class CmdLineBisector extends CommandProcessor {
 	 *            second point
 	 * @return perpendicular bisector
 	 */
-	protected GeoElement lineBisector(String label, GeoPointND a,
-			GeoPointND b) {
-		return getAlgoDispatcher().lineBisector(label, (GeoPoint) a,
-				(GeoPoint) b);
+	protected GeoElement lineBisector(String label, GeoPointND a, GeoPointND b) {
+		return getAlgoDispatcher().lineBisector(label, (GeoPoint) a, (GeoPoint) b);
 	}
 }

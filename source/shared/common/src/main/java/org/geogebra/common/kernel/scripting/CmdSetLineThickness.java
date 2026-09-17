@@ -30,7 +30,7 @@ public class CmdSetLineThickness extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -42,22 +42,22 @@ public class CmdSetLineThickness extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 2:
-			GeoElement[] arg = resArgs(c);
+			case 2:
+				GeoElement[] arg = resArgs(c);
 
-			if (arg[1].isNumberValue()) {
+				if (arg[1].isNumberValue()) {
 
-				int thickness = (int) arg[1].evaluateDouble();
+					int thickness = (int) arg[1].evaluateDouble();
 
-				arg[0].setLineThicknessOrVisibility(thickness);
-				arg[0].updateVisualStyleRepaint(GProperty.LINE_STYLE);
+					arg[0].setLineThicknessOrVisibility(thickness);
+					arg[0].updateVisualStyleRepaint(GProperty.LINE_STYLE);
 
-				return arg;
-			}
-			throw argErr(c, arg[1]);
+					return arg;
+				}
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

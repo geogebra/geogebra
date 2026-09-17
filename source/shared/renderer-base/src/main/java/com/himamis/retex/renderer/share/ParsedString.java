@@ -54,8 +54,13 @@ public final class ParsedString {
 	private final int col;
 	private final boolean stop;
 
-	public ParsedString(final String s, final int len, final int pos,
-			final int line, final int col, final boolean stop) {
+	public ParsedString(
+			final String s,
+			final int len,
+			final int pos,
+			final int line,
+			final int col,
+			final boolean stop) {
 		this.s = s;
 		this.len = len;
 		this.pos = pos;

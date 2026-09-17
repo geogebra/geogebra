@@ -27,7 +27,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * angle for three points, oriented
- * 
+ *
  * @author mathieu
  */
 public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
@@ -47,8 +47,8 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 	 * @param orientation
 	 *            orientation
 	 */
-	AlgoAnglePoints3DOrientation(Construction cons, GeoPointND A,
-			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
+	AlgoAnglePoints3DOrientation(
+			Construction cons, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		super(cons, A, B, C, orientation);
 	}
 
@@ -60,16 +60,15 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 	 * @param isReversed
 	 *            if orientation is reversed
 	 */
-	public AlgoAnglePoints3DOrientation(Construction cons,
-			GeoDirectionND orientation, boolean isReversed) {
+	public AlgoAnglePoints3DOrientation(
+			Construction cons, GeoDirectionND orientation, boolean isReversed) {
 		super(cons);
 		this.orientation = orientation;
 		this.isReversed = isReversed;
 	}
 
 	@Override
-	protected void setInput(GeoPointND A, GeoPointND B, GeoPointND C,
-			GeoDirectionND orientation) {
+	protected void setInput(GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 
 		super.setInput(A, B, C, orientation);
 		this.orientation = orientation;
@@ -121,14 +120,16 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 		}
 
 		vn.normalize();
-
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain("AngleBetweenABC", getA().getLabel(tpl),
-				getB().getLabel(tpl), getC().getLabel(tpl));
+		return getLoc()
+				.getPlain(
+						"AngleBetweenABC",
+						getA().getLabel(tpl),
+						getB().getLabel(tpl),
+						getC().getLabel(tpl));
 	}
-
 }

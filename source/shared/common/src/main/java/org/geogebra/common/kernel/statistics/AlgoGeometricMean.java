@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Returns the geometric mean for a list of numbers
  */
-
 public class AlgoGeometricMean extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -42,8 +41,7 @@ public class AlgoGeometricMean extends AlgoElement {
 	 * @param inputList
 	 *            numbers
 	 */
-	public AlgoGeometricMean(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoGeometricMean(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -104,5 +102,4 @@ public class AlgoGeometricMean extends AlgoElement {
 		}
 		result.setValue(Math.exp(resultLog / size));
 	}
-
 }

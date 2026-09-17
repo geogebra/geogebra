@@ -29,8 +29,7 @@ public class GridFixedDistanceProperty extends AbstractValuedProperty<Boolean>
 	 * @param localization localization
 	 * @param euclidianSettings EV settings
 	 */
-	public GridFixedDistanceProperty(Localization localization,
-			EuclidianSettings euclidianSettings) {
+	public GridFixedDistanceProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "SettingsView.FixedDistance");
 		this.euclidianSettings = euclidianSettings;
 	}

@@ -46,8 +46,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	 * @param func
 	 *            function
 	 */
-	public AlgoImplicitPolyFunction(Construction c, String label,
-			GeoFunctionNVar func) {
+	public AlgoImplicitPolyFunction(Construction c, String label, GeoFunctionNVar func) {
 		super(c);
 		function = func;
 		implicitPoly = kernel.newImplicitPoly(cons);
@@ -89,7 +88,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { function };
+		input = new GeoElement[] {function};
 		setOnlyOutput(implicitPoly);
 		setDependencies(); // done by AlgoElement
 	}
@@ -105,5 +104,4 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	public GeoImplicit getImplicitPoly() {
 		return implicitPoly;
 	}
-
 }

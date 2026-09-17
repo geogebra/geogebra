@@ -56,5 +56,4 @@ public interface FocusableComposite extends FocusTraversal {
 	 * @return {@code true} if focus was applied; {@code false} if no parts are available
 	 */
 	boolean focusLast();
-
 }

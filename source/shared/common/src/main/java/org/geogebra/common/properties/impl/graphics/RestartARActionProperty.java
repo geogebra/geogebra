@@ -33,8 +33,8 @@ public final class RestartARActionProperty extends AbstractActionableProperty
 	 * @param localization localization for the label translation
 	 * @param euclidianView3D the 3D euclidean view
 	 */
-	public RestartARActionProperty(Localization localization,
-			EuclidianView3DInterface euclidianView3D) {
+	public RestartARActionProperty(
+			Localization localization, EuclidianView3DInterface euclidianView3D) {
 		super(localization, "ar.restart");
 		this.euclidianView3D = euclidianView3D;
 	}

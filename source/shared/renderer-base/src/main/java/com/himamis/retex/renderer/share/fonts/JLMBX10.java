@@ -21,6 +21,5 @@ final class JLMBX10 extends FontInfo {
 		setMetrics(37, 1332, 751);
 
 		setMetrics(38, 1786, 751);
-
 	}
 }

@@ -35,9 +35,7 @@ public class HatchingAngleProperty extends AbstractRangeProperty<Integer>
 	private final FillableDelegate delegate;
 
 	static final List<FillType> supportedHatchingAngleFillTypes = List.of(
-			FillType.HATCH, FillType.CROSSHATCHED,
-			FillType.CHESSBOARD, FillType.BRICK, FillType.WEAVING
-	);
+			FillType.HATCH, FillType.CROSSHATCHED, FillType.CHESSBOARD, FillType.BRICK, FillType.WEAVING);
 
 	/**
 	 * @param localization localization

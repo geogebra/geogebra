@@ -31,9 +31,9 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * Container for transforms
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public abstract class Transform {
 	/** construction */
@@ -42,7 +42,7 @@ public abstract class Transform {
 	/**
 	 * Creates label for transformed geo by appending '. No more than three 's
 	 * are appended. For functions we use _1 instead.
-	 * 
+	 *
 	 * @param geo
 	 *            source geo
 	 * @return label for transformed geo
@@ -55,8 +55,7 @@ public abstract class Transform {
 			return null;
 		}
 
-		if (geo.isLabelSet() && !geo.hasIndexLabel()
-				&& !geo.getLabelSimple().endsWith("'''")) {
+		if (geo.isLabelSet() && !geo.hasIndexLabel() && !geo.getLabelSimple().endsWith("'''")) {
 			return geo.getFreeLabel(geo.getLabelSimple() + "'");
 		}
 		return null;
@@ -64,12 +63,11 @@ public abstract class Transform {
 
 	/**
 	 * Apply the transform to given element and set label for result
-	 * 
+	 *
 	 * @param geo
 	 *            input geo
 	 * @return transformed geo
 	 */
-
 	public GeoElement doTransform(GeoElementND geo) {
 		return getTransformAlgo(geo.toGeoElement()).getResult();
 	}
@@ -81,22 +79,20 @@ public abstract class Transform {
 	 *            input polygon
 	 * @return transformed polygon
 	 */
-	final public GeoElement[] transformPoly(String label, GeoPolygon poly) {
+	public final GeoElement[] transformPoly(String label, GeoPolygon poly) {
 		return transformPoly(label, poly, transformPoints(poly.getPoints()));
 	}
 
 	/**
 	 * Apply the transform to given element and set label for result
-	 * 
+	 *
 	 * @param transformedLabel
 	 *            label for transformed geo
 	 * @param geo
 	 *            input geo
 	 * @return transformed geo
 	 */
-
-	public final GeoElement[] transform(GeoElementND geo,
-			String transformedLabel) {
+	public final GeoElement[] transform(GeoElementND geo, String transformedLabel) {
 		String label = transformedLabel;
 
 		// for geo with parent algorithm that handles the transformation
@@ -109,8 +105,7 @@ public abstract class Transform {
 		if (geo instanceof GeoPoly && this.isAffine()) {
 			GeoPoly poly = (GeoPoly) geo;
 			if (poly.isVertexCountFixed() && poly.isAllVertexLabelsSet()) {
-				return transformPoly(label, poly,
-						transformPoints(poly.getPointsND()));
+				return transformPoly(label, poly, transformPoints(poly.getPointsND()));
 			}
 		}
 		if (label == null) {
@@ -119,11 +114,9 @@ public abstract class Transform {
 
 		// handle segments, rays and arcs separately
 		// in case these are not e.g. parts of list
-		if (geo.isLimitedPath()
-				&& ((LimitedPath) geo).isAllEndpointsLabelsSet()) {
+		if (geo.isLimitedPath() && ((LimitedPath) geo).isAllEndpointsLabelsSet()) {
 
-			GeoElement[] geos = ((LimitedPath) geo)
-					.createTransformedObject(this, label);
+			GeoElement[] geos = ((LimitedPath) geo).createTransformedObject(this, label);
 			// TODO: make sure orientation of arcs is OK
 			// if (geos[0] instanceof Orientable && geoMir instanceof
 			// Orientable)
@@ -137,22 +130,21 @@ public abstract class Transform {
 		GeoElement ret = doTransform(geo);
 		ret.setLabel(label);
 		ret.setVisualStyleForTransformations(geo.toGeoElement());
-		GeoElement[] geos = { ret };
+		GeoElement[] geos = {ret};
 		return geos;
-
 	}
 
 	/**
 	 * Returns algo that will be used for transforming given geo.
-	 * 
+	 *
 	 * @param geo
 	 *            input geo
 	 * @return algo that will be used for transforming given geo
 	 */
 	protected abstract AlgoTransformation getTransformAlgo(GeoElement geo);
 
-	private GeoElement[] transformPoly(String label, GeoPoly oldPoly,
-			GeoPointND[] transformedPoints) {
+	private GeoElement[] transformPoly(
+			String label, GeoPoly oldPoly, GeoPointND[] transformedPoints) {
 		// get label for polygon
 		String polyLabel = null;
 		if (label == null) {
@@ -166,8 +158,8 @@ public abstract class Transform {
 		// use visibility of points for transformed points
 		GeoPointND[] oldPoints = oldPoly.getPoints();
 		for (int i = 0; i < oldPoints.length; i++) {
-			setVisualStyleForTransformations((GeoElement) oldPoints[i],
-					(GeoElement) transformedPoints[i]);
+			setVisualStyleForTransformations(
+					(GeoElement) oldPoints[i], (GeoElement) transformedPoints[i]);
 			cons.getKernel().notifyUpdate((GeoElement) transformedPoints[i]);
 		}
 
@@ -175,8 +167,7 @@ public abstract class Transform {
 
 		// build the polygon from the transformed points
 		if (oldPoly instanceof GeoPolygon) {
-			ret = cons.getKernel().polygonND(wrapLabel(polyLabel),
-					transformedPoints);
+			ret = cons.getKernel().polygonND(wrapLabel(polyLabel), transformedPoints);
 		} else {
 			ret = cons.getKernel().polyLineND(polyLabel, transformedPoints);
 		}
@@ -188,14 +179,12 @@ public abstract class Transform {
 		if (oldPoly instanceof GeoPolygon) {
 			// set segments' color (needs to be done after setting polygon
 			// color)
-			GeoSegmentND[] transformedSegments = ((GeoPolygon) ret[0])
-					.getSegments();
+			GeoSegmentND[] transformedSegments = ((GeoPolygon) ret[0]).getSegments();
 			GeoSegmentND[] oldSegments = ((GeoPolygon) oldPoly).getSegments();
 			for (int i = 0; i < oldSegments.length; i++) {
-				setVisualStyleForTransformations((GeoElement) oldSegments[i],
-						(GeoElement) transformedSegments[i]);
-				cons.getKernel()
-						.notifyUpdate((GeoElement) transformedSegments[i]);
+				setVisualStyleForTransformations(
+						(GeoElement) oldSegments[i], (GeoElement) transformedSegments[i]);
+				cons.getKernel().notifyUpdate((GeoElement) transformedSegments[i]);
 			}
 		}
 
@@ -203,38 +192,34 @@ public abstract class Transform {
 	}
 
 	private static String[] wrapLabel(String polyLabel) {
-		return polyLabel == null ? null : new String[] { polyLabel };
+		return polyLabel == null ? null : new String[] {polyLabel};
 	}
 
 	/**
 	 * Applies the transform to all points
-	 * 
+	 *
 	 * @param points
 	 *            input points
 	 * @return array of transformed points
 	 */
-
 	public GeoPointND[] transformPoints(GeoPointND[] points) {
 		// dilate all points
 		GeoPointND[] newPoints = new GeoPointND[points.length];
 		for (int i = 0; i < points.length; i++) {
 			String pointLabel = transformedGeoLabel(points[i]);
-			newPoints[i] = (GeoPointND) transform(points[i],
-					pointLabel)[0];
-			newPoints[i]
-					.setVisualStyleForTransformations((GeoElement) points[i]);
+			newPoints[i] = (GeoPointND) transform(points[i], pointLabel)[0];
+			newPoints[i].setVisualStyleForTransformations((GeoElement) points[i]);
 		}
 		return newPoints;
 	}
 
 	/**
 	 * Applies the transform to a conic
-	 * 
+	 *
 	 * @param conic
 	 *            input conic
 	 * @return transformed conic
 	 */
-
 	public GeoConicND getTransformedConic(GeoConicND conic) {
 		GeoConicND ret = (GeoConicND) doTransform(conic);
 		ret.setVisualStyleForTransformations(conic);
@@ -243,12 +228,11 @@ public abstract class Transform {
 
 	/**
 	 * Applies the transform to a line
-	 * 
+	 *
 	 * @param line
 	 *            input line
 	 * @return transformed line
 	 */
-
 	public GeoElement getTransformedLine(GeoLineND line) {
 		GeoElement ret = doTransform(line);
 		ret.setVisualStyleForTransformations((GeoElement) line);
@@ -257,44 +241,40 @@ public abstract class Transform {
 
 	/**
 	 * True if the transformation is affine
-	 * 
+	 *
 	 * @return true by default, overridden e.g. for circle inverse
 	 */
-
 	public boolean isAffine() {
 		return true;
 	}
 
 	/**
 	 * True if the transform preserves angles
-	 * 
+	 *
 	 * @return true iff similar
 	 */
-
 	public boolean isSimilar() {
 		return true;
 	}
 
 	/**
 	 * Returns true when orientation of e.g. semicircles is changed
-	 * 
+	 *
 	 * @return true iff changes orientation of objects
 	 */
-
 	public boolean changesOrientation() {
 		return false;
 	}
 
 	/**
 	 * set the visual style of transformed geo regarding input
-	 * 
+	 *
 	 * @param input
 	 *            input geo
 	 * @param transformed
 	 *            transformed geo
 	 */
-	static public void setVisualStyleForTransformations(GeoElement input,
-			GeoElement transformed) {
+	public static void setVisualStyleForTransformations(GeoElement input, GeoElement transformed) {
 		transformed.setEuclidianVisible(input.isSetEuclidianVisible());
 		transformed.setVisualStyleForTransformations(input);
 	}

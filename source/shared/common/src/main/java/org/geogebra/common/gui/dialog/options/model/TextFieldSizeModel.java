@@ -22,7 +22,6 @@ import org.geogebra.common.main.App;
 
 public class TextFieldSizeModel extends TextPropertyModel {
 
-
 	public TextFieldSizeModel(App app) {
 		super(app);
 	}
@@ -71,5 +70,4 @@ public class TextFieldSizeModel extends TextPropertyModel {
 	public boolean isValidAt(int index) {
 		return getGeoAt(index) instanceof GeoInputBox;
 	}
-
 }

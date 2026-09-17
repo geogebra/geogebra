@@ -7,10 +7,10 @@ import java.util.Map;
 /**
  * Class to keep registered Actions, which should be used by the
  * TaggedIn/OutputStream.
- * 
+ *
  * A set of recognized Actions can be added to this class. A concrete
  * implementation of this stream should install all allowed actions.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: ActionSet.java,v 1.3 2008-05-04 12:21:09 murkle Exp $
@@ -34,7 +34,7 @@ public class ActionSet {
 
 	/**
 	 * Adds an action to the set
-	 * 
+	 *
 	 * @param action
 	 *            to be added
 	 */
@@ -44,7 +44,7 @@ public class ActionSet {
 
 	/**
 	 * Looks up the corresponding action for an action code.
-	 * 
+	 *
 	 * @param actionCode
 	 *            code to be looked for
 	 * @return corresponding action, or Action.Unknown in case Action is not
@@ -60,7 +60,7 @@ public class ActionSet {
 
 	/**
 	 * Looks if an Action for code is in this set.
-	 * 
+	 *
 	 * @param actionCode
 	 *            code to be looked for
 	 * @return true if action exists for code

@@ -51,17 +51,17 @@ public final class ProbabilityTableW extends ProbabilityTable implements ClickHa
 		statTable.getTable().addClickHandler(this);
 		wrappedPanel.add(statTable);
 
-		//blank table
+		// blank table
 		setTable(null, null, 0, 10);
 	}
-	
+
 	@Override
 	public void setTable(Dist distType, GeoNumberValue[] params, int xMin, int xMax) {
 
 		setIniting(true);
 
 		setTableModel(distType, params, xMin, xMax);
-		
+
 		statTable.setStatTable(xMax - xMin + 1, null, 2, getColumnNames());
 
 		// set the table model with the prob. values for this distribution
@@ -105,28 +105,27 @@ public final class ProbabilityTableW extends ProbabilityTable implements ClickHa
 			statTable.getTable().changeSelection(highIndex, false, false);
 		} else {
 			statTable.getTable().setTailSelection(lowIndex, highIndex);
-
 		}
 	}
-	
+
 	/**
 	 * @return UI component
 	 */
 	public FlowPanel getWrappedPanel() {
 		return wrappedPanel;
 	}
-	
+
 	/**
 	 * @return stats table
 	 */
 	public StatTableW getStatTable() {
 		return statTable;
 	}
-	
+
 	@Override
 	public void onClick(ClickEvent event) {
 		StatDataTable table = statTable.getTable();
-		
+
 		table.handleSelection(event);
 
 		int[] selRow = table.getSelectedRows();
@@ -136,18 +135,15 @@ public final class ProbabilityTableW extends ProbabilityTable implements ClickHa
 			return;
 		}
 
-		if (getProbCalc()
-				.getProbMode() == ProbabilityCalculatorView.PROB_INTERVAL) {
+		if (getProbCalc().getProbMode() == ProbabilityCalculatorView.PROB_INTERVAL) {
 			String lowStr = table.getText(selRow[0], 0);
 			String highStr = table.getText(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			getProbCalc().setInterval(low, high);
-		} else if (getProbCalc()
-				.getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
+		} else if (getProbCalc().getProbMode() == ProbabilityCalculatorView.PROB_LEFT) {
 			String lowStr = statTable.getTable().getText(1, 0);
-			String highStr = statTable.getTable()
-					.getText(selRow[selRow.length - 1], 0);
+			String highStr = statTable.getTable().getText(selRow[selRow.length - 1], 0);
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			getProbCalc().setInterval(low, high);
@@ -163,8 +159,7 @@ public final class ProbabilityTableW extends ProbabilityTable implements ClickHa
 				table.changeSelection(selRow[selRow.length - 1], false, true);
 			}
 			// table.getSelectionModel().addListSelectionListener(this);
-		} else if (getProbCalc()
-				.getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
+		} else if (getProbCalc().getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
 			String lowStr = statTable.getTable().getText(selRow[0], 0);
 			int maxRow = statTable.getTable().getRowCount() - 1;
 			String highStr = statTable.getTable().getText(maxRow, 0);

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -32,8 +32,7 @@ import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.ScaledIcon;
 
-public class ColorPopupMenuButton extends PopupMenuButtonD
-		implements ActionListener {
+public class ColorPopupMenuButton extends PopupMenuButtonD implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,11 +54,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 	 * @param colorSetType COLORSET_DEFAULT or COLORSET_BACKGROUND
 	 * @param hasSlider whether to use opacity slider
 	 */
-	public ColorPopupMenuButton(AppD app, Dimension iconSize, int colorSetType,
-			boolean hasSlider) {
+	public ColorPopupMenuButton(AppD app, Dimension iconSize, int colorSetType, boolean hasSlider) {
 
-		super(app, createDummyIcons(iconSize), -1, 9, iconSize,
-				SelectionTable.MODE_ICON);
+		super(app, createDummyIcons(iconSize), -1, 9, iconSize, SelectionTable.MODE_ICON);
 		this.app = app;
 		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;
@@ -90,8 +87,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 	 * Update color table
 	 */
 	public void updateColorTable() {
-		getMyTable().populateModel(getColorSwatchIcons(colorSet,
-				getSliderValue() / 100f, iconSize));
+		getMyTable().populateModel(getColorSwatchIcons(colorSet, getSliderValue() / 100f, iconSize));
 	}
 
 	@Override
@@ -108,8 +104,11 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 	public Icon getButtonIcon() {
 		Icon icon = super.getButtonIcon();
 		if (icon == null && this.hasSlider) {
-			icon = GeoGebraIconD.createColorSwatchIcon(getSliderValue() / 100f,
-					iconSize, GColorD.getAwtColor(defaultColor), null,
+			icon = GeoGebraIconD.createColorSwatchIcon(
+					getSliderValue() / 100f,
+					iconSize,
+					GColorD.getAwtColor(defaultColor),
+					null,
 					app.getImageManager().getPixelRatio());
 		}
 		return icon;
@@ -141,8 +140,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		int index = getSelectedIndex();
 		if (index <= -1) {
 			return defaultColor;
-		} else if (colorSetType == COLORSET_BGCOLOR
-				&& index > colorSet.length - 1) {
+		} else if (colorSetType == COLORSET_BGCOLOR && index > colorSet.length - 1) {
 			return null;
 		} else {
 			return colorSet[index];
@@ -160,12 +158,15 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 	public void setDefaultColor(double alpha, GColor color) {
 		defaultColor = color;
 		if (color != null) {
-			this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
-					GColorD.getAwtColor(color), null,
+			this.setIcon(GeoGebraIconD.createColorSwatchIcon(
+					alpha,
+					iconSize,
+					GColorD.getAwtColor(color),
+					null,
 					app.getImageManager().getPixelRatio()));
 		} else {
-			this.setIcon(GeoGebraIconD.createNullSymbolIcon(iconSize.width,
-					iconSize.height, app.getImageManager().getPixelRatio()));
+			this.setIcon(GeoGebraIconD.createNullSymbolIcon(
+					iconSize.width, iconSize.height, app.getImageManager().getPixelRatio()));
 		}
 	}
 
@@ -175,24 +176,25 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 			if (colorSet[i] == null) {
 				toolTipArray[i] = app.getLocalization().getMenu("Transparent");
 			} else {
-				toolTipArray[i] = GeoGebraColorConstants
-						.getGeogebraColorName(app, colorSet[i]);
+				toolTipArray[i] = GeoGebraColorConstants.getGeogebraColorName(app, colorSet[i]);
 			}
 		}
 		return toolTipArray;
 	}
 
-	private Icon[] getColorSwatchIcons(GColor[] colorArray,
-			float alpha, Dimension iconSize) {
+	private Icon[] getColorSwatchIcons(GColor[] colorArray, float alpha, Dimension iconSize) {
 		Icon[] a = new Icon[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++) {
 			if (colorArray[i] != null) {
-				a[i] = GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
-						GColorD.getAwtColor(colorArray[i]), null,
+				a[i] = GeoGebraIconD.createColorSwatchIcon(
+						alpha,
+						iconSize,
+						GColorD.getAwtColor(colorArray[i]),
+						null,
 						app.getImageManager().getPixelRatio());
 			} else {
-				a[i] = GeoGebraIconD.createNullSymbolIcon(iconSize.width,
-						iconSize.height, app.getImageManager().getPixelRatio());
+				a[i] = GeoGebraIconD.createNullSymbolIcon(
+						iconSize.width, iconSize.height, app.getImageManager().getPixelRatio());
 			}
 		}
 		return a;
@@ -202,10 +204,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 
 		ScaledIcon[] a = new ScaledIcon[27];
 		for (int i = 0; i < 27; i++) {
-			a[i] = GeoGebraIconD.createEmptyIcon(iconSize.width,
-					iconSize.height);
+			a[i] = GeoGebraIconD.createEmptyIcon(iconSize.width, iconSize.height);
 		}
 		return a;
 	}
-
 }

@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
 public class CellBorderThicknessProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 	private static final PropertyResource[] icons = {
-			ICON_CELL_BORDER_THIN, ICON_CELL_BORDER_THICK,
+		ICON_CELL_BORDER_THIN, ICON_CELL_BORDER_THICK,
 	};
 	private final GeoElementDelegate delegate;
 

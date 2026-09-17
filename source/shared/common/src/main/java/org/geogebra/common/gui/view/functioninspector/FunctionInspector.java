@@ -31,11 +31,10 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * View for inspecting selected GeoFunctions
- * 
+ *
  * @author G. Sturr, 2011-2-12
- * 
+ *
  */
-
 public abstract class FunctionInspector
 		implements View, UpdateFonts, SetLabels, IFunctionInspectorListener {
 
@@ -52,7 +51,7 @@ public abstract class FunctionInspector
 
 	/**
 	 * Constructs a FunctionInspector
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param selectedGeo
@@ -152,7 +151,6 @@ public abstract class FunctionInspector
 		}
 		getModel().updateGeos(isIntervalTabSelected());
 		updateGUI();
-
 	}
 
 	protected abstract void updateIntervalFields();
@@ -205,7 +203,7 @@ public abstract class FunctionInspector
 	}
 
 	@Override
-	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
+	public final void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 
@@ -257,8 +255,7 @@ public abstract class FunctionInspector
 		if (sl == null) {
 			sl = new GeoElementSelectionListener() {
 				@Override
-				public void geoElementSelected(GeoElement geo,
-						boolean addToSelection) {
+				public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 					insertGeoElement(geo);
 				}
 			};
@@ -268,7 +265,7 @@ public abstract class FunctionInspector
 
 	/**
 	 * Sets the function to be inspected and updates the entire GUI
-	 * 
+	 *
 	 * @param geo
 	 *            The function to be inspected
 	 */
@@ -292,7 +289,6 @@ public abstract class FunctionInspector
 		getModel().updateTestPoint();
 
 		isChangingValue = false;
-
 	}
 
 	protected void setStart(double x) {
@@ -303,7 +299,6 @@ public abstract class FunctionInspector
 		} catch (Exception e1) {
 			Log.debug(e1);
 		}
-
 	}
 
 	protected abstract void changeStart(double x);
@@ -313,7 +308,6 @@ public abstract class FunctionInspector
 		this.updateGUI();
 		this.updateIntervalFields();
 		this.updateTestPoint();
-
 	}
 
 	protected abstract void createOptionsButton();
@@ -344,5 +338,4 @@ public abstract class FunctionInspector
 	public void setKernel(Kernel kernel) {
 		this.kernel = kernel;
 	}
-
 }

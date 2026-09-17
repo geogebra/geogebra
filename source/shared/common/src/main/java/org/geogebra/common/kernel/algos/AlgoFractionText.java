@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -37,7 +37,7 @@ public class AlgoFractionText extends AlgoElement {
 	private GeoNumberValue num; // input
 	private GeoText text; // output
 
-	private double[] frac = { 0, 0 };
+	private double[] frac = {0, 0};
 
 	private StringBuilder sb = new StringBuilder();
 
@@ -69,9 +69,9 @@ public class AlgoFractionText extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		if (singleFraction == null) {
-			input = new GeoElement[]{num.toGeoElement()};
+			input = new GeoElement[] {num.toGeoElement()};
 		} else {
-			input  = new GeoElement[]{num.toGeoElement(), singleFraction};
+			input = new GeoElement[] {num.toGeoElement(), singleFraction};
 		}
 		setOnlyOutput(text);
 		setDependencies(); // done by AlgoElement
@@ -90,8 +90,7 @@ public class AlgoFractionText extends AlgoElement {
 		// StringTemplate.get(app.getFormulaRenderingType());
 		StringTemplate tpl = text.getStringTemplate();
 		if (input[0].isDefined()) {
-			frac = decimalToFraction(num.getDouble(),
-					Kernel.STANDARD_PRECISION);
+			frac = decimalToFraction(num.getDouble(), Kernel.STANDARD_PRECISION);
 
 			sb.setLength(0);
 			boolean asSingleFraction = singleFraction == null || singleFraction.getBoolean();
@@ -110,18 +109,17 @@ public class AlgoFractionText extends AlgoElement {
 	 * Algorithm To Convert A Decimal To A Fraction by John Kennedy Mathematics
 	 * Department Santa Monica College 1900 Pico Blvd. Santa Monica, CA 90405
 	 * http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
-	 * 
+	 *
 	 * @param decimal
 	 *            to be converted to fraction
 	 * @param accuracyFactor
 	 *            accuracy
 	 * @return [numerator, denominator]
 	 */
-	public static double[] decimalToFraction(double decimal,
-			double accuracyFactor) {
+	public static double[] decimalToFraction(double decimal, double accuracyFactor) {
 		double decimalSign;
 
-		double[] ret = { 0, 0 };
+		double[] ret = {0, 0};
 		if (Double.isNaN(decimal)) {
 			return ret; // return 0/0
 		}
@@ -177,15 +175,11 @@ public class AlgoFractionText extends AlgoElement {
 		do {
 			z = 1.0 / (z - Math.floor(z));
 			scratchValue = fractionDenominator;
-			fractionDenominator = fractionDenominator * Math.floor(z)
-					+ previousDenominator;
+			fractionDenominator = fractionDenominator * Math.floor(z) + previousDenominator;
 			previousDenominator = scratchValue;
-			fractionNumerator = Math.floor(decimalAbs * fractionDenominator
-					+ 0.5); // Rounding
-																					// Function
-		} while (Math
-				.abs(decimalAbs - (fractionNumerator
-						/ fractionDenominator)) > accuracyFactor
+			fractionNumerator = Math.floor(decimalAbs * fractionDenominator + 0.5); // Rounding
+			// Function
+		} while (Math.abs(decimalAbs - (fractionNumerator / fractionDenominator)) > accuracyFactor
 				&& !MyDouble.exactEqual(z, Math.floor(z)));
 		fractionNumerator = decimalSign * fractionNumerator;
 
@@ -207,8 +201,7 @@ public class AlgoFractionText extends AlgoElement {
 	 * @param right
 	 *            denominator
 	 */
-	public static void appendFraction(StringBuilder sb,
-			String left, String right) {
+	public static void appendFraction(StringBuilder sb, String left, String right) {
 		sb.append(" \\frac{ ");
 		sb.append(left);
 		sb.append(" }{ ");
@@ -218,7 +211,7 @@ public class AlgoFractionText extends AlgoElement {
 
 	/**
 	 * Appends plus or minus infinity to sb
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 * @param tpl
@@ -226,8 +219,7 @@ public class AlgoFractionText extends AlgoElement {
 	 * @param numer
 	 *            numerator (to decide +-)
 	 */
-	public static void appendInfinity(StringBuilder sb, StringTemplate tpl,
-			double numer) {
+	public static void appendInfinity(StringBuilder sb, StringTemplate tpl, double numer) {
 		if (numer > 0) {
 			sb.append(" \\infty ");
 		} else {
@@ -245,8 +237,12 @@ public class AlgoFractionText extends AlgoElement {
 	 * @param kernel
 	 *            kernel
 	 */
-	public static void appendFormula(StringBuilder sb, double[] frac,
-			StringTemplate tpl, boolean asSingleFraction, Kernel kernel) {
+	public static void appendFormula(
+			StringBuilder sb,
+			double[] frac,
+			StringTemplate tpl,
+			boolean asSingleFraction,
+			Kernel kernel) {
 		if (frac[1] == 1) { // integer
 			sb.append(kernel.format(frac[0], tpl));
 		} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
@@ -256,10 +252,10 @@ public class AlgoFractionText extends AlgoElement {
 				frac[0] *= -1;
 				sb.append('-');
 			}
-			appendFraction(sb,
+			appendFraction(
+					sb,
 					kernel.format(DoubleUtil.checkDecimalFraction(frac[0]), tpl),
 					kernel.format(DoubleUtil.checkDecimalFraction(frac[1]), tpl));
 		}
 	}
-
 }

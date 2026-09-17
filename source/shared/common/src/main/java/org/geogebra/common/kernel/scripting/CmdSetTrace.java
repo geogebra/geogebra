@@ -31,7 +31,7 @@ public class CmdSetTrace extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,24 +44,23 @@ public class CmdSetTrace extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
-			GeoElement[] arg = resArgs(c);
-			if (arg[1].isGeoBoolean()) {
+			case 2:
+				GeoElement[] arg = resArgs(c);
+				if (arg[1].isGeoBoolean()) {
 
-				GeoElement geo = arg[0];
+					GeoElement geo = arg[0];
 
-				if (geo != null && geo.isTraceable()) {
-					((Traceable) geo)
-							.setTrace(((GeoBoolean) arg[1]).getBoolean());
-					geo.updateRepaint();
+					if (geo != null && geo.isTraceable()) {
+						((Traceable) geo).setTrace(((GeoBoolean) arg[1]).getBoolean());
+						geo.updateRepaint();
+					}
+
+					return arg;
 				}
+				throw argErr(c, arg[1]);
 
-				return arg;
-			}
-			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

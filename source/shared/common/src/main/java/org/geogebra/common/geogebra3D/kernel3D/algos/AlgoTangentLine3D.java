@@ -35,8 +35,7 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 	private Coords direction;
 	private Coords direction3D;
 
-	public AlgoTangentLine3D(Construction cons, String[] labels, GeoLineND g,
-			GeoConicND c) {
+	public AlgoTangentLine3D(Construction cons, String[] labels, GeoLineND g, GeoConicND c) {
 		super(cons, labels, g, c);
 	}
 
@@ -73,8 +72,7 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 
 		Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD3();
 
-		if (!tangents[0].isOnFullLine(firstTangentPoint,
-				Kernel.MIN_PRECISION)) {
+		if (!tangents[0].isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
 			algoIntersect.initForNearToRelationship();
 
 			// first = second
@@ -105,8 +103,7 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 
 	@Override
 	protected void updateTangent(int index) {
-		((GeoLine3D) tangents[index]).setCoord(
-				tangentPoints[index].getInhomCoordsInD3(), direction3D);
+		((GeoLine3D) tangents[index]).setCoord(tangentPoints[index].getInhomCoordsInD3(), direction3D);
 	}
 
 	@Override
@@ -122,6 +119,5 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 		}
 
 		tangents[1].setUndefined();
-
 	}
 }

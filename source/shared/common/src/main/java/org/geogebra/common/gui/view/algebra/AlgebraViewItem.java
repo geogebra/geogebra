@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -96,8 +96,8 @@ public final class AlgebraViewItem {
 	public @NonNull InputRowState getInputRow() {
 		if (inputRow == null) {
 			inputRow = new InputRowState();
-			boolean showingOnlyOutput = AlgebraItem.isCompactItem(geo) && geo.getApp()
-					.getAlgebraOutputFilter().isAllowed(geo);
+			boolean showingOnlyOutput = AlgebraItem.isCompactItem(geo)
+					&& geo.getApp().getAlgebraOutputFilter().isAllowed(geo);
 			inputRow.isVisible = !showingOnlyOutput;
 			if (inputRow.isVisible) {
 				inputRow.isTextCell = AlgebraItem.isTextItem(geo) && geo.isIndependent();
@@ -106,8 +106,7 @@ public final class AlgebraViewItem {
 					inputRow.editorLaTeX = geo.getDefinitionForEditor();
 				} else {
 					String editorLaTeX = isOneOfMultipleOutputs()
-							? geo.getParentAlgorithm()
-								.getDefinition(StringTemplate.editorTemplate)
+							? geo.getParentAlgorithm().getDefinition(StringTemplate.editorTemplate)
 							: AlgebraItem.getDefinitionLatexForGeoElement(geo);
 					inputRow.editorLaTeX = editorLaTeX;
 					// TODO also parse LaTeX into Formula here?
@@ -134,8 +133,8 @@ public final class AlgebraViewItem {
 				sliderRow.max = Math.max(min, max);
 				sliderRow.step = Math.abs(step);
 				sliderRow.value = geoNumeric.getValue();
-				sliderRow.isPlaying = geo.isAnimating()
-						&& geo.getKernel().getAnimationManager().isRunning();
+				sliderRow.isPlaying =
+						geo.isAnimating() && geo.getKernel().getAnimationManager().isRunning();
 			}
 		}
 		return sliderRow;
@@ -148,10 +147,11 @@ public final class AlgebraViewItem {
 		if (outputRow == null) {
 			outputRow = new OutputRowState();
 			boolean showSlider = AlgebraItem.shouldShowSlider(geo);
-			boolean showBothRows = AlgebraItem.shouldShowBothRows(geo, geo.getApp()
-					.getSettings().getAlgebra()) && !showSlider;
-			boolean showingOnlyOutput = AlgebraItem.isCompactItem(geo) && geo.getApp()
-					.getAlgebraOutputFilter().isAllowed(geo);
+			boolean showBothRows =
+					AlgebraItem.shouldShowBothRows(geo, geo.getApp().getSettings().getAlgebra())
+							&& !showSlider;
+			boolean showingOnlyOutput = AlgebraItem.isCompactItem(geo)
+					&& geo.getApp().getAlgebraOutputFilter().isAllowed(geo);
 			outputRow.isVisible = !showSlider && (showBothRows || showingOnlyOutput);
 			if (outputRow.isVisible) {
 				String outputText = AlgebraItem.getOutputTextForGeoElement(geo);
@@ -160,8 +160,8 @@ public final class AlgebraViewItem {
 				} else {
 					outputRow.laTeX = outputText;
 				}
-				outputRow.outputFormat = showingOnlyOutput
-						? null : AlgebraOutputFormat.getOutputOperator(geo);
+				outputRow.outputFormat =
+						showingOnlyOutput ? null : AlgebraOutputFormat.getOutputOperator(geo);
 				outputRow.nextOutputFormat = getNextOutputFormat(geo);
 				outputRow.isMoreButtonVisible = showingOnlyOutput;
 			}
@@ -198,8 +198,8 @@ public final class AlgebraViewItem {
 		boolean isEngineeringNotationEnabled = algebraSettings.isEngineeringNotationEnabled();
 		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters =
 				algebraSettings.getAlgebraOutputFormatFilters();
-		AlgebraOutputFormat nextOutputFormat = AlgebraOutputFormat.getNextFormat(geo,
-				isEngineeringNotationEnabled, algebraOutputFormatFilters);
+		AlgebraOutputFormat nextOutputFormat = AlgebraOutputFormat.getNextFormat(
+				geo, isEngineeringNotationEnabled, algebraOutputFormatFilters);
 		return nextOutputFormat;
 	}
 
@@ -251,6 +251,7 @@ public final class AlgebraViewItem {
 		@NonNull MarbleState marbleState = MarbleState.DISABLED;
 		/** #ARGB (A is most significant byte) */
 		int marbleOutlineColorARGB;
+
 		int marbleFillColorARGB;
 		/** marble icon (overlay) */
 		@NonNull MarbleIcon marbleIcon = MarbleIcon.NONE;

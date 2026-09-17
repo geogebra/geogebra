@@ -31,5 +31,4 @@ public interface GeoElementSelectionListener {
 	 *            true to add to selection
 	 */
 	void geoElementSelected(GeoElement geo, boolean addToSelection);
-
 }

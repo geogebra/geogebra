@@ -31,18 +31,23 @@ import org.geogebra.common.util.NonNullList;
 public class CasPropertiesFactory extends DefaultPropertiesFactory {
 
 	@Override
-	protected PropertiesArray createGeneralProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGeneralProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
 		Settings settings = app.getSettings();
-		return new PropertiesArray("General", localization,
-				registerProperties(propertiesRegistry, NonNullList.of(
-						app.appScope.getLanguageProperty(),
-						new RoundingIndexProperty(app, localization),
-						new CoordinatesProperty(kernel, localization),
-						new AppFontSizeProperty(localization, settings.getFontSettings(),
-								app.getFontSettingsUpdater()),
-						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
-								app, localization))));
+		return new PropertiesArray(
+				"General",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						NonNullList.of(
+								app.appScope.getLanguageProperty(),
+								new RoundingIndexProperty(app, localization),
+								new CoordinatesProperty(kernel, localization),
+								new AppFontSizeProperty(
+										localization, settings.getFontSettings(), app.getFontSettingsUpdater()),
+								app.getPlatform().isMobile()
+										? null
+										: createSaveRestoreSettingsProperties(app, localization))));
 	}
 }

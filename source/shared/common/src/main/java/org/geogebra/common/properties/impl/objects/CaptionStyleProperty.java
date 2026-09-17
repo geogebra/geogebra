@@ -54,8 +54,7 @@ public class CaptionStyleProperty extends AbstractNamedEnumeratedProperty<Intege
 				entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
 				entry(GeoElementND.LABEL_VALUE, "Value"),
 				entry(GeoElementND.LABEL_CAPTION, "Caption"),
-				entry(GeoElementND.LABEL_DEFAULT, "CaptionAndValue")
-		));
+				entry(GeoElementND.LABEL_DEFAULT, "CaptionAndValue")));
 	}
 
 	@Override

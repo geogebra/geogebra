@@ -46,8 +46,7 @@ public class LabelStyleProperty extends FlagListProperty {
 
 	@Override
 	public List<String> getFlagNames() {
-		return List.of(getLocalization().getMenu("ShowLabel"),
-				getLocalization().getMenu("ShowValue"));
+		return List.of(getLocalization().getMenu("ShowLabel"), getLocalization().getMenu("ShowValue"));
 	}
 
 	@Override
@@ -56,11 +55,9 @@ public class LabelStyleProperty extends FlagListProperty {
 		boolean value = values.get(1);
 		int mode = -1;
 		if (name && value) {
-			mode = isForceCaption() ? GeoElementND.LABEL_CAPTION_VALUE
-					: GeoElementND.LABEL_NAME_VALUE;
+			mode = isForceCaption() ? GeoElementND.LABEL_CAPTION_VALUE : GeoElementND.LABEL_NAME_VALUE;
 		} else if (name) {
-			mode = isForceCaption() ? GeoElementND.LABEL_CAPTION
-					: GeoElementND.LABEL_NAME;
+			mode = isForceCaption() ? GeoElementND.LABEL_CAPTION : GeoElementND.LABEL_NAME;
 		} else if (value) {
 			mode = GeoElementND.LABEL_VALUE;
 		}

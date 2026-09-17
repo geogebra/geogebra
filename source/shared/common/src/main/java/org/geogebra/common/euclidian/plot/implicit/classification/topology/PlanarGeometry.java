@@ -62,8 +62,7 @@ final class PlanarGeometry {
 		 * @return whether this box intersects another box
 		 */
 		boolean intersects(BoundingBox bbox) {
-			return minX <= bbox.maxX && bbox.minX <= maxX
-					&& minY <= bbox.maxY && bbox.minY <= maxY;
+			return minX <= bbox.maxX && bbox.minX <= maxX && minY <= bbox.maxY && bbox.minY <= maxY;
 		}
 
 		/**
@@ -84,8 +83,10 @@ final class PlanarGeometry {
 		 * @return whether this box contains at least one finite point
 		 */
 		boolean isFinite() {
-			return Double.isFinite(minX) && Double.isFinite(minY)
-					&& Double.isFinite(maxX) && Double.isFinite(maxY);
+			return Double.isFinite(minX)
+					&& Double.isFinite(minY)
+					&& Double.isFinite(maxX)
+					&& Double.isFinite(maxY);
 		}
 	}
 }

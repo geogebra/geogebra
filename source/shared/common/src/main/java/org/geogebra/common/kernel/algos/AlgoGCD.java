@@ -25,13 +25,12 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes GCD[a, b]
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoGCD extends AlgoTwoNumFunction {
 
-	public AlgoGCD(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoGCD(Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 
@@ -42,7 +41,9 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 
 	@Override
 	public final double computeValue(double aVal, double bVal) {
-		if (aVal > Long.MAX_VALUE || bVal > Long.MAX_VALUE || aVal < -Long.MAX_VALUE
+		if (aVal > Long.MAX_VALUE
+				|| bVal > Long.MAX_VALUE
+				|| aVal < -Long.MAX_VALUE
 				|| bVal < -Long.MAX_VALUE) {
 			return Double.NaN;
 		}

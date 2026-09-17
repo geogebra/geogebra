@@ -34,12 +34,11 @@ import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 /**
  * Class for drawing 1D coord sys (lines, segments, ...)
- * 
+ *
  * @author matthieu
  *
  */
-public abstract class DrawJoinPoints extends Drawable3DCurves
-		implements Previewable {
+public abstract class DrawJoinPoints extends Drawable3DCurves implements Previewable {
 
 	private double[] drawMinMax = new double[2];
 	private Coords startPoint;
@@ -52,7 +51,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param geo
@@ -65,7 +64,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * common constructor for previewable
-	 * 
+	 *
 	 * @param a_view3d
 	 *            view
 	 */
@@ -75,7 +74,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * sets the values of drawable extremities
-	 * 
+	 *
 	 * @param drawMin
 	 *            drawable min
 	 * @param drawMax
@@ -112,16 +111,15 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
 		if (isVisible()) {
 			GeoElement geo = getGeoElement();
-			manager.export(geo, getGeometryIndex(), geo.getObjectColor(), 1,
-					GeometryType.CURVE);
+			manager.export(geo, getGeometryIndex(), geo.getObjectColor(), 1, GeometryType.CURVE);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return start and end points coords
 	 */
-	abstract protected Coords[] calcPoints();
+	protected abstract Coords[] calcPoints();
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -133,7 +131,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * set start and end points
-	 * 
+	 *
 	 * @param p1
 	 *            start point
 	 * @param p2
@@ -146,7 +144,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * update the drawable as a segment from p1 to p2
-	 * 
+	 *
 	 * @param p1
 	 *            start point
 	 * @param p2
@@ -164,8 +162,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		Renderer renderer = getView3D().getRenderer();
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
-		if (Math.abs(minmax[0]) > 1E10 || Math.abs(minmax[1]) > 1E10
-				|| minmax[0] > minmax[1]) {
+		if (Math.abs(minmax[0]) > 1E10 || Math.abs(minmax[1]) > 1E10 || minmax[0] > minmax[1]) {
 			// empty geometry
 			brush.start(getReusableGeometryIndex());
 			setGeometryIndex(brush.end());
@@ -183,12 +180,11 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		setGeometryIndex(brush.end());
 
 		endPacking();
-
 	}
 
 	/**
 	 * set brush thickness
-	 * 
+	 *
 	 * @param brush
 	 *            brush
 	 * @param thickness
@@ -201,7 +197,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	}
 
 	/**
-	 * 
+	 *
 	 * @return view scale for this line (used for axes)
 	 */
 	protected double getScale() {
@@ -210,20 +206,19 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * set affine texture
-	 * 
+	 *
 	 * @param brush
 	 *            brush
 	 * @param minmax
 	 *            {min,max}
 	 */
 	protected void setAffineTexture(PlotterBrush brush, double[] minmax) {
-		brush.setAffineTexture(
-				(float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
+		brush.setAffineTexture((float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
 	}
 
 	/**
 	 * used for vectors
-	 * 
+	 *
 	 * @param brush
 	 *            brush
 	 */
@@ -233,7 +228,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * used for vectors
-	 * 
+	 *
 	 * @param brush
 	 *            brush
 	 */
@@ -258,7 +253,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * constructor for previewable
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPoints
@@ -266,9 +261,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * @param geo
 	 *            line
 	 */
-	public DrawJoinPoints(EuclidianView3D a_view3D,
-			ArrayList<GeoPointND> selectedPoints,
-			GeoElement geo) {
+	public DrawJoinPoints(
+			EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints, GeoElement geo) {
 
 		super(a_view3D);
 
@@ -278,7 +272,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		this.selectedPoints = selectedPoints;
 
 		updatePreview();
-
 	}
 
 	@Override
@@ -314,14 +307,13 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	/**
 	 * set previewable coords
-	 * 
+	 *
 	 * @param firstPoint
 	 *            first point
 	 * @param secondPoint
 	 *            second point
 	 */
-	abstract protected void setPreviewableCoords(GeoPointND firstPoint,
-			GeoPointND secondPoint);
+	protected abstract void setPreviewableCoords(GeoPointND firstPoint, GeoPointND secondPoint);
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -339,9 +331,15 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		if (endPoint == null || startPoint == null) {
 			return false;
 		}
-		CoordMatrixUtil.nearestPointsFromTwoLines(hitting.getOrigin(),
-				hitting.getDirection(), startPoint, endPoint.sub(startPoint),
-				project1.val, project2.val, lineCoords, tmp);
+		CoordMatrixUtil.nearestPointsFromTwoLines(
+				hitting.getOrigin(),
+				hitting.getDirection(),
+				startPoint,
+				endPoint.sub(startPoint),
+				project1.val,
+				project2.val,
+				lineCoords,
+				tmp);
 
 		// check if hitting and line are parallel
 		double parameterOnHitting = lineCoords[0];
@@ -364,10 +362,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		double d = getView3D().getScaledDistance(project1, project2);
 		if (d <= getGeoElement().getLineThickness() + 2) {
 			double z = -parameterOnHitting;
-			double dz = getGeoElement().getLineThickness()
-					/ getView3D().getScale();
-			setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
-					parameterOnHitting);
+			double dz = getGeoElement().getLineThickness() / getView3D().getScale();
+			setZPick(z + dz, z - dz, hitting.discardPositiveHits(), parameterOnHitting);
 			return true;
 		}
 
@@ -383,5 +379,4 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	protected void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityNoSurface(visible);
 	}
-
 }

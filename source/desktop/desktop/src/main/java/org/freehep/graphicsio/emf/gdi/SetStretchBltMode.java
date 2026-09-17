@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * SetStretchBltMode TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: SetStretchBltMode.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class SetStretchBltMode extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		SetStretchBltMode tag = new SetStretchBltMode(emf.readDWORD());
 		return tag;

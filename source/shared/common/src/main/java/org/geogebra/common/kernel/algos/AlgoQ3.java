@@ -27,11 +27,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Sort a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-16
  */
-
 public class AlgoQ3 extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -127,20 +126,18 @@ public class AlgoQ3 extends AlgoElement {
 			Arrays.sort(sortList);
 
 			switch (size % 4) {
-			case 0:
-				Q3.setValue((sortList[3 * size / 4 - 1]
-						+ sortList[(3 * size + 4) / 4 - 1]) / 2);
-				break;
-			case 1:
-				Q3.setValue((sortList[(3 * size + 1) / 4 - 1]
-						+ sortList[(3 * size + 5) / 4 - 1]) / 2);
-				break;
-			case 2:
-				Q3.setValue(sortList[(3 * size + 2) / 4 - 1]);
-				break;
-			default:
-				Q3.setValue(sortList[(3 * size + 3) / 4 - 1]);
-				break;
+				case 0:
+					Q3.setValue((sortList[3 * size / 4 - 1] + sortList[(3 * size + 4) / 4 - 1]) / 2);
+					break;
+				case 1:
+					Q3.setValue((sortList[(3 * size + 1) / 4 - 1] + sortList[(3 * size + 5) / 4 - 1]) / 2);
+					break;
+				case 2:
+					Q3.setValue(sortList[(3 * size + 2) / 4 - 1]);
+					break;
+				default:
+					Q3.setValue(sortList[(3 * size + 3) / 4 - 1]);
+					break;
 			}
 
 		}
@@ -150,15 +147,13 @@ public class AlgoQ3 extends AlgoElement {
 		// ================================================
 		else if (inputList.size() == freqList.size()) {
 
-			if (!freqList.isDefined()
-					|| (inputList.size() != freqList.size())) {
+			if (!freqList.isDefined() || (inputList.size() != freqList.size())) {
 				Q3.setUndefined();
 				return;
 			}
 
 			for (int i = 0; i < freqList.size(); i++) {
-				if (!(freqList.get(i) instanceof NumberValue)
-						|| freqList.get(i).evaluateDouble() < 0) {
+				if (!(freqList.get(i) instanceof NumberValue) || freqList.get(i).evaluateDouble() < 0) {
 					Q3.setUndefined();
 					return;
 				}
@@ -172,8 +167,7 @@ public class AlgoQ3 extends AlgoElement {
 			}
 
 			// extract value and frequency arrays
-			Object[] obj = AlgoMedian.convertValueFreqListToArrays(inputList,
-					freqList);
+			Object[] obj = AlgoMedian.convertValueFreqListToArrays(inputList, freqList);
 			Double[] v = (Double[]) obj[0];
 			Integer[] f = (Integer[]) obj[1];
 			int n = (Integer) obj[2];
@@ -185,26 +179,23 @@ public class AlgoQ3 extends AlgoElement {
 			}
 
 			switch (n % 4) {
-			case 0:
-				Q3.setValue((AlgoMedian.getValueAt(3 * n / 4 - 1, v, f)
-						+ AlgoMedian.getValueAt((3 * n + 4) / 4 - 1, v, f))
-						/ 2);
-				break;
-			case 1:
-				Q3.setValue((AlgoMedian.getValueAt((3 * n + 1) / 4 - 1, v, f)
-						+ AlgoMedian.getValueAt((3 * n + 5) / 4 - 1, v, f))
-						/ 2);
-				break;
-			case 2:
-				Q3.setValue(AlgoMedian.getValueAt((3 * n + 2) / 4 - 1, v, f));
-				break;
-			default:
-				Q3.setValue(AlgoMedian.getValueAt((3 * n + 3) / 4 - 1, v, f));
-				break;
+				case 0:
+					Q3.setValue((AlgoMedian.getValueAt(3 * n / 4 - 1, v, f)
+									+ AlgoMedian.getValueAt((3 * n + 4) / 4 - 1, v, f))
+							/ 2);
+					break;
+				case 1:
+					Q3.setValue((AlgoMedian.getValueAt((3 * n + 1) / 4 - 1, v, f)
+									+ AlgoMedian.getValueAt((3 * n + 5) / 4 - 1, v, f))
+							/ 2);
+					break;
+				case 2:
+					Q3.setValue(AlgoMedian.getValueAt((3 * n + 2) / 4 - 1, v, f));
+					break;
+				default:
+					Q3.setValue(AlgoMedian.getValueAt((3 * n + 3) / 4 - 1, v, f));
+					break;
 			}
-
 		}
-
 	}
-
 }

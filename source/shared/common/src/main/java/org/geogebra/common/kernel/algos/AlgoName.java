@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Returns the name of a GeoElement as a GeoText.
- * 
+ *
  * @author Markus
  */
 public class AlgoName extends AlgoElement {
@@ -34,7 +34,7 @@ public class AlgoName extends AlgoElement {
 
 	/**
 	 * Creates text containing name of the geo
-	 * 
+	 *
 	 * @param cons
 	 *            Construction
 	 * @param geo
@@ -55,7 +55,7 @@ public class AlgoName extends AlgoElement {
 
 	/**
 	 * Creates text containing name of the geo
-	 * 
+	 *
 	 * @param cons
 	 *            Construction
 	 * @param label
@@ -86,7 +86,7 @@ public class AlgoName extends AlgoElement {
 
 	/**
 	 * Returns the text element
-	 * 
+	 *
 	 * @return text element containing the name
 	 */
 	public GeoText getGeoText() {
@@ -102,7 +102,6 @@ public class AlgoName extends AlgoElement {
 			AlgoListElement algo = (AlgoListElement) geo.getParentAlgorithm();
 
 			returnLabel = algo.getLabel();
-
 		}
 		if (returnLabel == null) {
 			returnLabel = geo.getLabel(StringTemplate.realTemplate);
@@ -112,9 +111,7 @@ public class AlgoName extends AlgoElement {
 			text.setTextString(returnLabel);
 		} else {
 			// eg Name[a+3]
-			text.setTextString(
-					geo.getFormulaString(StringTemplate.realTemplate, false));
+			text.setTextString(geo.getFormulaString(StringTemplate.realTemplate, false));
 		}
 	}
-
 }

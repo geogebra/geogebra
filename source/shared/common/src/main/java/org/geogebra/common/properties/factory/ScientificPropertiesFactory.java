@@ -32,23 +32,30 @@ import org.geogebra.common.util.NonNullList;
 public class ScientificPropertiesFactory extends DefaultPropertiesFactory {
 
 	@Override
-	public List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	public List<PropertiesArray> createProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		return List.of(createGeneralProperties(app, localization, propertiesRegistry));
 	}
 
 	@Override
-	protected PropertiesArray createGeneralProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGeneralProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
-		return new PropertiesArray("General", localization,
-				registerProperties(propertiesRegistry, NonNullList.of(
-						app.appScope.getLanguageProperty(),
-						new RoundingIndexProperty(app, localization),
-						new AngleUnitProperty(kernel, localization),
-						new AppFontSizeProperty(localization, app.getSettings().getFontSettings(),
-								app.getFontSettingsUpdater()),
-						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
-								app, localization))));
+		return new PropertiesArray(
+				"General",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						NonNullList.of(
+								app.appScope.getLanguageProperty(),
+								new RoundingIndexProperty(app, localization),
+								new AngleUnitProperty(kernel, localization),
+								new AppFontSizeProperty(
+										localization,
+										app.getSettings().getFontSettings(),
+										app.getFontSettingsUpdater()),
+								app.getPlatform().isMobile()
+										? null
+										: createSaveRestoreSettingsProperties(app, localization))));
 	}
 }

@@ -50,5 +50,4 @@ public interface GeoSymbolicI {
 	 * @return computed expression
 	 */
 	@Nullable ExpressionValue getValue();
-
 }

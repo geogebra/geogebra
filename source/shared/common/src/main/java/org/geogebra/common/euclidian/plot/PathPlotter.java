@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 
 /**
  * interface where the curve will plot
- * 
+ *
  * @author mathieu
  *
  */
@@ -31,7 +31,7 @@ public interface PathPlotter {
 	/**
 	 * Calls gp.lineTo(x, y) resp. gp.moveTo(x, y) only if the current point is
 	 * not already at this position.
-	 * 
+	 *
 	 * @param pos
 	 *            point coordinates
 	 * @param lineTo
@@ -42,7 +42,7 @@ public interface PathPlotter {
 	/**
 	 * Calls gp.lineTo(x, y) only if the current point is not already at this
 	 * position.
-	 * 
+	 *
 	 * @param pos
 	 *            point coordinates
 	 */
@@ -51,7 +51,7 @@ public interface PathPlotter {
 	/**
 	 * Calls gp.moveTo(x, y) only if the current point is not already at this
 	 * position.
-	 * 
+	 *
 	 * @param pos
 	 *            point coordinates
 	 */
@@ -64,7 +64,7 @@ public interface PathPlotter {
 
 	/**
 	 * Like lineto, but avoid corners
-	 * 
+	 *
 	 * @param pos
 	 *            endpoint of added segment
 	 */
@@ -72,7 +72,7 @@ public interface PathPlotter {
 
 	/**
 	 * draw first point
-	 * 
+	 *
 	 * @param pos
 	 *            point position
 	 * @param moveToAllowed
@@ -81,14 +81,14 @@ public interface PathPlotter {
 	void firstPoint(double[] pos, Gap moveToAllowed);
 
 	/**
-	 * 
+	 *
 	 * @return 2D/3D double array
 	 */
 	double[] newDoubleArray();
 
 	/**
 	 * copy coords from MyPoint to double[]
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @param ret
@@ -97,8 +97,7 @@ public interface PathPlotter {
 	 *            coordinate system of 2D points
 	 * @return true if coords are on the view
 	 */
-	boolean copyCoords(MyPoint point, double[] ret,
-			CoordSys transformSys);
+	boolean copyCoords(MyPoint point, double[] ret, CoordSys transformSys);
 
 	/**
 	 * end the plotting
@@ -112,5 +111,4 @@ public interface PathPlotter {
 	 *         plotter
 	 */
 	boolean supports(CoordSys transformSys);
-
 }

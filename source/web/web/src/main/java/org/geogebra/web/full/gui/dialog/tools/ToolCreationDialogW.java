@@ -51,8 +51,8 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Dialog to create a new user defined tool
  */
-public final class ToolCreationDialogW extends ComponentDialog implements
-		GeoElementSelectionListener, ToolInputOutputListener {
+public final class ToolCreationDialogW extends ComponentDialog
+		implements GeoElementSelectionListener, ToolInputOutputListener {
 
 	private final AppW appw;
 	/**
@@ -73,11 +73,10 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 
 	/**
 	 * Creates new tool creation dialog, if in macro-editing mode,
-	 * 
+	 *
 	 * @param app
 	 *            Application to which this dialog belongs
 	 */
-
 	public ToolCreationDialogW(AppW app) {
 		super(app, new DialogData("Tool.CreateNew", "Cancel", null), false, false);
 		this.appw = app;
@@ -128,8 +127,7 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 			toolModel.addToOutput(outputAddLB.getSelectedIndex() - 1);
 		});
 		outputLB = new ListBox();
-		FlowPanel outputObjectPanel = createInputOutputPanel(outputAddLB,
-				outputLB, true);
+		FlowPanel outputObjectPanel = createInputOutputPanel(outputAddLB, outputLB, true);
 
 		inputAddLB = new ListBox();
 		inputAddLB.addChangeHandler(event -> {
@@ -137,8 +135,7 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 			toolModel.addToInput(inputAddLB.getSelectedIndex() - 1);
 		});
 		inputLB = new ListBox();
-		FlowPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
-				inputLB, false);
+		FlowPanel inputObjectPanel = createInputOutputPanel(inputAddLB, inputLB, false);
 
 		toolNameIconPanel = new ToolNameIconPanelW(appw, this);
 		toolNameIconPanel.addStyleName("toolCreationDialogTab");
@@ -158,7 +155,7 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 	/**
 	 * Assembles the input or output listboxes in a panel adding the
 	 * up/down/remove buttons on the right
-	 * 
+	 *
 	 * @param addLB
 	 *            dropdown Listbox for adding the inputs or outputs
 	 * @param objectMultiselect
@@ -166,8 +163,8 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 	 *            elements
 	 * @return the panel containing the listboxes and controls
 	 */
-	FlowPanel createInputOutputPanel(ListBox addLB,
-			final ListBox objectMultiselect, final boolean output) {
+	FlowPanel createInputOutputPanel(
+			ListBox addLB, final ListBox objectMultiselect, final boolean output) {
 		objectMultiselect.setVisibleItemCount(9);
 		objectMultiselect.setMultipleSelect(true);
 
@@ -221,25 +218,25 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 		btBack.setEnabled(tab > 0);
 
 		switch (tab) {
-		case 1: // input objects
-			toolModel.updateInputList();
-			//$FALL-THROUGH$
-		case 0: // output objects
-			btNext.setText(loc.getMenu("Next") + " >");
-			btNext.setEnabled(true);
-			break;
-
-		case 2: // name panel (finish)
-			if (toolModel.createTool()) {
-				btNext.setText(loc.getMenu("Finish"));
+			case 1: // input objects
+				toolModel.updateInputList();
+			// $FALL-THROUGH$
+			case 0: // output objects
+				btNext.setText(loc.getMenu("Next") + " >");
 				btNext.setEnabled(true);
-			} else {
-				btNext.setEnabled(false);
-			}
-			break;
+				break;
 
-		default:
-			break;
+			case 2: // name panel (finish)
+				if (toolModel.createTool()) {
+					btNext.setText(loc.getMenu("Finish"));
+					btNext.setEnabled(true);
+				} else {
+					btNext.setEnabled(false);
+				}
+				break;
+
+			default:
+				break;
 		}
 	}
 
@@ -248,16 +245,12 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 		addDialogContent(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("dialogNavigation");
 		// buttons
-		btBack = BaseWidgetFactory.INSTANCE.newOutlinedButton(
-				"< " + loc.getMenu("Back"));
-		btBack.addFastClickHandler(e ->
-			tabPanel.selectTab(getSelectedTab() - 1)
-		);
+		btBack = BaseWidgetFactory.INSTANCE.newOutlinedButton("< " + loc.getMenu("Back"));
+		btBack.addFastClickHandler(e -> tabPanel.selectTab(getSelectedTab() - 1));
 		btBack.setEnabled(false);
 		btBack.getElement().getStyle().setMargin(3, Unit.PX);
 
-		btNext = BaseWidgetFactory.INSTANCE.newOutlinedButton(
-				loc.getMenu("Next") + " >");
+		btNext = BaseWidgetFactory.INSTANCE.newOutlinedButton(loc.getMenu("Next") + " >");
 		btNext.addFastClickHandler(e -> {
 			if (getSelectedTab() == tabPanel.getTabBar().getWidgetCount() - 1) {
 				finish();
@@ -282,15 +275,14 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		switch (getSelectedTab()) {
-		case 0: // output objects
-			toolModel.addToOutput(geo);
-			break;
+			case 0: // output objects
+				toolModel.addToOutput(geo);
+				break;
 
-		case 1: // input objects
-			toolModel.addToInput(geo);
-			break;
-		default:
-
+			case 1: // input objects
+				toolModel.addToInput(geo);
+				break;
+			default:
 		}
 	}
 
@@ -302,7 +294,6 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 					selIndices.add(i);
 				}
 			}
-
 		}
 		return selIndices;
 	}
@@ -319,8 +310,8 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 		if (appToSave.getKernel().getMacro(commandName) != null) {
 			DialogData data = new DialogData("Question", "Cancel", "Tool.Replace");
 			ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
-			Label message = new Label(appw.getLocalization().getPlain(
-					"Tool.ReplaceQuestion", commandName));
+			Label message =
+					new Label(appw.getLocalization().getPlain("Tool.ReplaceQuestion", commandName));
 			dialog.addDialogContent(message);
 			dialog.setOnPositiveAction(() -> saveMacro(appToSave));
 			dialog.show();
@@ -332,7 +323,7 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 	/**
 	 * Finish creation of user defined tool. Overwrites an existing macro with
 	 * the macro (without warning) if macros are compatible
-	 * 
+	 *
 	 * @param appToSave
 	 *            application
 	 */
@@ -343,14 +334,12 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 		final boolean showInToolBar = toolNameIconPanel.getShowTool();
 		final String iconFileName = toolNameIconPanel.getIconFileName();
 
-		boolean success = toolModel.finish(appToSave, commandName, toolName,
-				toolHelp, showInToolBar, iconFileName);
+		boolean success =
+				toolModel.finish(appToSave, commandName, toolName, toolHelp, showInToolBar, iconFileName);
 		if (success) {
-			((AppW) app).getToolTipManager().showBottomMessage(
-					loc.getMenu("Tool.CreationSuccess"), appw);
+			((AppW) app).getToolTipManager().showBottomMessage(loc.getMenu("Tool.CreationSuccess"), appw);
 		} else {
-			DialogData data = new DialogData(appw.getLocalization().getError("Error"),
-					null, "OK");
+			DialogData data = new DialogData(appw.getLocalization().getError("Error"), null, "OK");
 			ComponentDialog dialog = new ComponentDialog(appw, data, false, true);
 			Label label = new Label(loc.getMenu("Tool.NotCompatible"));
 			dialog.addDialogContent(label);
@@ -398,8 +387,7 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 		updateListBox(inputLB, toolModel.getInputList(), false);
 	}
 
-	private static void updateListBox(ListBox lb, GeoElementND[] geos,
-			boolean addList) {
+	private static void updateListBox(ListBox lb, GeoElementND[] geos, boolean addList) {
 		lb.clear();
 		if (addList) {
 			lb.addItem(" ");
@@ -408,7 +396,9 @@ public final class ToolCreationDialogW extends ComponentDialog implements
 			lb.addItem(geo.getLongDescription());
 			SelectElement selectElement = SelectElement.as(lb.getElement());
 			NodeList<OptionElement> options = selectElement.getOptions();
-			options.getItem(options.getLength() - 1).getStyle()
+			options
+					.getItem(options.getLength() - 1)
+					.getStyle()
 					.setColor(GColor.getColorString(geo.getAlgebraColor()));
 		}
 	}

@@ -28,7 +28,7 @@ import org.geogebra.common.main.App;
 
 /**
  * Button (for scripting)
- * 
+ *
  * @author Markus Hohenwarter
  */
 public final class DrawButton extends Drawable {
@@ -71,19 +71,17 @@ public final class DrawButton extends Drawable {
 		}
 		myButton.setText(labelDesc);
 
-		int fontSize = (int) (view.getFontSize()
-				* geoButton.getFontSizeMultiplier());
+		int fontSize = (int) (view.getFontSize() * geoButton.getFontSizeMultiplier());
 		App app = view.getApplication();
 
 		// myButton.setOpaque(true);
-		myButton.setFont(app.getFontCanDisplay(myButton.getText(),
-				geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));
+		myButton.setFont(app.getFontCanDisplay(
+				myButton.getText(), geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));
 
 		xLabel = geoButton.getScreenLocX(view);
 		yLabel = geoButton.getScreenLocY(view);
 		myButton.preparePaint(geoButton.getFontSizeMultiplier(), true);
-		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(),
-				myButton.getHeight());
+		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(), myButton.getHeight());
 
 		myButton.setBounds(labelRectangle);
 	}

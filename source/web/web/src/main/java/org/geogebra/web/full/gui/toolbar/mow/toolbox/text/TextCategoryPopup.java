@@ -49,7 +49,7 @@ public final class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void buildGui(List<Integer> tools) {
-		for (int mode: tools) {
+		for (int mode : tools) {
 			addItem(mode);
 		}
 

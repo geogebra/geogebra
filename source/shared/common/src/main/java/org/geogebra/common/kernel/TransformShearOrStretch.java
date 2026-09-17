@@ -25,9 +25,9 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 
 /**
  * Shear or stretch
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public class TransformShearOrStretch extends Transform {
 
@@ -45,8 +45,7 @@ public class TransformShearOrStretch extends Transform {
 	 * @param shear
 	 *            true to shear, false to stretch
 	 */
-	public TransformShearOrStretch(Construction cons, GeoVec3D line,
-			GeoNumeric num, boolean shear) {
+	public TransformShearOrStretch(Construction cons, GeoVec3D line, GeoNumeric num, boolean shear) {
 		this.shear = shear;
 		this.line = line;
 		this.num = num;
@@ -55,8 +54,7 @@ public class TransformShearOrStretch extends Transform {
 
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
-		AlgoShearOrStretch algo = new AlgoShearOrStretch(cons, geo, line, num,
-				shear);
+		AlgoShearOrStretch algo = new AlgoShearOrStretch(cons, geo, line, num, shear);
 		return algo;
 	}
 
@@ -69,5 +67,4 @@ public class TransformShearOrStretch extends Transform {
 	public boolean changesOrientation() {
 		return !shear && num.getDouble() < 0;
 	}
-
 }

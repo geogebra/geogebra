@@ -22,8 +22,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class AnimatingProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class AnimatingProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 	private final GeoElement element;
 
 	/**
@@ -53,4 +52,3 @@ public class AnimatingProperty extends AbstractValuedProperty<Boolean> implement
 		return element.isAnimating();
 	}
 }
-

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,8 +42,7 @@ public class PerimeterContourClipper implements ContourClipper {
 	private EuclidianViewBounds bounds;
 	private BernsteinPolynomial2D polynomial;
 	private List<EdgeHit> hits;
-	private ClippedFragmentsResult fragmentsResult =
-			new ClippedFragmentsResult(List.of(), List.of());
+	private ClippedFragmentsResult fragmentsResult = new ClippedFragmentsResult(List.of(), List.of());
 
 	/**
 	 * Creates a clipper that reads raw pre-clip contours from the given assembler.
@@ -68,7 +67,9 @@ public class PerimeterContourClipper implements ContourClipper {
 		ClipRect clipRect = new ClipRect(bounds, BernsteinPlotterSettings.MARGIN_IN_PX);
 		algo = new PerimeterHitAlgo(clipRect, ClipEpsilon.fromBounds(bounds));
 		clipContours(clipRect);
-		ImplicitPlotTimings.log("PerimeterContourClipper.clip", totalStart,
+		ImplicitPlotTimings.log(
+				"PerimeterContourClipper.clip",
+				totalStart,
 				"contours=" + assembler.getContours().size()
 						+ " hits=" + hits.size()
 						+ " fragments=" + fragmentsResult.fragments().size());
@@ -77,14 +78,16 @@ public class PerimeterContourClipper implements ContourClipper {
 	private void clipContours(ClipRect clipRect) {
 		long stageStart = ImplicitPlotTimings.start();
 		hits = algo.collectHits(assembler.getContours());
-		ImplicitPlotTimings.log("PerimeterContourClipper.collectHits", stageStart,
-				"hits=" + hits.size());
+		ImplicitPlotTimings.log(
+				"PerimeterContourClipper.collectHits", stageStart, "hits=" + hits.size());
 		ContourLog.hits(hits);
 		stageStart = ImplicitPlotTimings.start();
 		ClippedFragmentsResult result =
 				ClippedFragmentsBuilder.build(assembler.getContours(), hits, clipRect);
 		fragmentsResult = new ClippedFragmentsResult(result, clipRect);
-		ImplicitPlotTimings.log("PerimeterContourClipper.buildFragments", stageStart,
+		ImplicitPlotTimings.log(
+				"PerimeterContourClipper.buildFragments",
+				stageStart,
 				"fragments=" + fragmentsResult.fragments().size());
 		stageStart = ImplicitPlotTimings.start();
 		validateHitsAndFragments(clipRect, hits, fragmentsResult);
@@ -92,8 +95,8 @@ public class PerimeterContourClipper implements ContourClipper {
 		ContourLog.fragments(fragmentsResult.fragments());
 	}
 
-	private void validateHitsAndFragments(ClipRect clipRect, List<EdgeHit> hits,
-			ClippedFragmentsResult result) {
+	private void validateHitsAndFragments(
+			ClipRect clipRect, List<EdgeHit> hits, ClippedFragmentsResult result) {
 		if (!CLIP_RECT_DEBUG) {
 			return;
 		}
@@ -121,8 +124,8 @@ public class PerimeterContourClipper implements ContourClipper {
 		}
 	}
 
-	private boolean logEndpointMismatch(ClipRect clipRect, int fragmentIndex, String label,
-			FragmentEndpoint endpoint, double eps) {
+	private boolean logEndpointMismatch(
+			ClipRect clipRect, int fragmentIndex, String label, FragmentEndpoint endpoint, double eps) {
 		if (endpoint == null || endpoint.getEdge() == null) {
 			return false;
 		}
@@ -137,28 +140,28 @@ public class PerimeterContourClipper implements ContourClipper {
 		return true;
 	}
 
-	private boolean isPointOnExpectedEdge(MyPoint point, ClipEdge edge, ClipRect clipRect,
-			double eps) {
+	private boolean isPointOnExpectedEdge(
+			MyPoint point, ClipEdge edge, ClipRect clipRect, double eps) {
 		if (point == null || edge == null) {
 			return true;
 		}
 		switch (edge) {
-		case TOP:
-			return Math.abs(point.y - clipRect.getYmax()) <= eps;
-		case RIGHT:
-			return Math.abs(point.x - clipRect.getXmax()) <= eps;
-		case BOTTOM:
-			return Math.abs(point.y - clipRect.getYmin()) <= eps;
-		case LEFT:
-			return Math.abs(point.x - clipRect.getXmin()) <= eps;
-		default:
-			return true;
+			case TOP:
+				return Math.abs(point.y - clipRect.getYmax()) <= eps;
+			case RIGHT:
+				return Math.abs(point.x - clipRect.getXmax()) <= eps;
+			case BOTTOM:
+				return Math.abs(point.y - clipRect.getYmin()) <= eps;
+			case LEFT:
+				return Math.abs(point.x - clipRect.getXmin()) <= eps;
+			default:
+				return true;
 		}
 	}
 
 	private String formatRect(ClipRect clipRect) {
-		return "[" + clipRect.getXmin() + "," + clipRect.getXmax()
-				+ "]x[" + clipRect.getYmin() + "," + clipRect.getYmax() + "]";
+		return "[" + clipRect.getXmin() + "," + clipRect.getXmax() + "]x[" + clipRect.getYmin() + ","
+				+ clipRect.getYmax() + "]";
 	}
 
 	private String formatPoint(MyPoint point) {
@@ -197,8 +200,8 @@ public class PerimeterContourClipper implements ContourClipper {
 	 * @return {@code true} if the evaluated Bernstein polynomial at the normalized
 	 *         location is non-negative (inside or on the boundary); {@code false} otherwise
 	 */
-	public static boolean isInsideTest(EuclidianViewBounds bounds, BernsteinPolynomial2D polynomial,
-			double x0, double y0) {
+	public static boolean isInsideTest(
+			EuclidianViewBounds bounds, BernsteinPolynomial2D polynomial, double x0, double y0) {
 		double dx = bounds.getXmax() - bounds.getXmin();
 		double dy = bounds.getYmax() - bounds.getYmin();
 		if (dx == 0 || dy == 0) {
@@ -238,7 +241,8 @@ public class PerimeterContourClipper implements ContourClipper {
 	 */
 	@Override
 	public List<MyPoint> getEdgePoints() {
-		return hits == null ? List.of()
+		return hits == null
+				? List.of()
 				: hits.stream().map(EdgeHit::point).collect(Collectors.toList());
 	}
 

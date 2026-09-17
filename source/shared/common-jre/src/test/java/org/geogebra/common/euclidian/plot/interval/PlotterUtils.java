@@ -53,11 +53,11 @@ public class PlotterUtils {
 	 * @param numberOfSamples max samples will take.
 	 * @return the function sampler object.
 	 */
-	public static FunctionSampler newSampler(GeoFunction function, IntervalTuple range,
-			int numberOfSamples, EuclidianViewBounds bounds) {
-		IntervalFunctionData data = new IntervalFunctionData(function, new GeoFunctionConverter(),
-				bounds, new IntervalTupleList());
-		return new FunctionSampler(data, IntervalSetOps.connectedInterval(range.xSet()),
-				numberOfSamples);
+	public static FunctionSampler newSampler(
+			GeoFunction function, IntervalTuple range, int numberOfSamples, EuclidianViewBounds bounds) {
+		IntervalFunctionData data = new IntervalFunctionData(
+				function, new GeoFunctionConverter(), bounds, new IntervalTupleList());
+		return new FunctionSampler(
+				data, IntervalSetOps.connectedInterval(range.xSet()), numberOfSamples);
 	}
 }

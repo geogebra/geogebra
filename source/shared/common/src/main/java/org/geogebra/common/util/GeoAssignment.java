@@ -37,15 +37,14 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Christoph
- * 
+ *
  */
 public class GeoAssignment extends Assignment {
 
 	/**
 	 * Possible values for CheckOperations
 	 */
-	public final static String[] CHECK_OPERATIONS = { "==", "AreEqual",
-			"AreCongruent" };
+	public static final String[] CHECK_OPERATIONS = {"==", "AreEqual", "AreCongruent"};
 
 	private static final long TIMEOUT = (long) 1E4;
 
@@ -63,6 +62,7 @@ public class GeoAssignment extends Assignment {
 	 * The possible InputTypes for this Assignment
 	 */
 	HashSet<TestGeo> uniqueInputTypes;
+
 	private final TreeSet<GeoElement> randomizeablePredecessors;
 
 	private final Construction cons;
@@ -89,9 +89,7 @@ public class GeoAssignment extends Assignment {
 				return ((GeoElement) v).isLabelSet()
 						&& uniqueInputTypes.contains(TestGeo.getSpecificTest(v));
 			}
-
 		};
-
 	}
 
 	@Override
@@ -103,14 +101,12 @@ public class GeoAssignment extends Assignment {
 			final boolean oldSilentMode = cons.getKernel().isSilentMode();
 			cons.getKernel().setSilentMode(true);
 
-			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<>(
-					Collections.reverseOrder());
+			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<>(Collections.reverseOrder());
 
 			// find all possible inputgeos and all outputgeos that match the
 			// type of
 			// the macro
-			TreeSet<GeoElement> sortedSet = cons
-					.getGeoSetNameDescriptionOrder();
+			TreeSet<GeoElement> sortedSet = cons.getGeoSetNameDescriptionOrder();
 
 			Iterator<GeoElement> it = sortedSet.iterator();
 			while (it.hasNext()) {
@@ -129,8 +125,8 @@ public class GeoAssignment extends Assignment {
 			} else {
 				checkCorrectness(possibleOutputGeos);
 			}
-			Log.debug("Checking on " + macro.getToolName()
-					+ " completed. Comparisons of Objects: " + callsToEqual);
+			Log.debug("Checking on " + macro.getToolName() + " completed. Comparisons of Objects: "
+					+ callsToEqual);
 			Log.debug("Checking on " + macro.getToolName()
 					+ " completed. Checked types of Objects: "
 					+ callsToCheckTypes);
@@ -142,38 +138,35 @@ public class GeoAssignment extends Assignment {
 	private void checkCorrectness(TreeSet<GeoElement> possibleOutputGeos) {
 
 		PermutationOfGeOElementsUtil outputPermutationUtil = new PermutationOfGeOElementsUtil(
-				possibleOutputGeos.toArray(new GeoElement[0]),
-				macro.getMacroOutput().length);
+				possibleOutputGeos.toArray(new GeoElement[0]), macro.getMacroOutput().length);
 		GeoElement[] possibleOutputPermutation = outputPermutationUtil.next();
 
 		TreeSet<Result> partRes = new TreeSet<>();
 		long startTime = System.currentTimeMillis();
 		double macroCons = 0;
-		while (possibleOutputPermutation != null && res != Result.CORRECT
+		while (possibleOutputPermutation != null
+				&& res != Result.CORRECT
 				&& System.currentTimeMillis() < startTime + TIMEOUT) {
-			if (!areOutputTypesOK(possibleOutputPermutation,
-					macro.getMacroOutput())) {
+			if (!areOutputTypesOK(possibleOutputPermutation, macro.getMacroOutput())) {
 				possibleOutputPermutation = outputPermutationUtil.next();
 				continue;
 			}
-			TreeSet<GeoElement> possibleInputGeos = getAllPredecessors(
-					possibleOutputPermutation, geoInspector);
+			TreeSet<GeoElement> possibleInputGeos =
+					getAllPredecessors(possibleOutputPermutation, geoInspector);
 			if (possibleInputGeos.size() < macro.getInputTypes().length) {
 				res = Result.NOT_ENOUGH_INPUTS;
 			} else {
-				macroCons += checkPermutationsOfInputs(
-						possibleOutputPermutation, partRes,
-						possibleInputGeos);
+				macroCons +=
+						checkPermutationsOfInputs(possibleOutputPermutation, partRes, possibleInputGeos);
 			}
 			possibleOutputPermutation = outputPermutationUtil.next();
 		}
-		Log.debug(macro.getCommandName() + ":"
-				+ (System.currentTimeMillis() - startTime) + "," + macroCons);
+		Log.debug(
+				macro.getCommandName() + ":" + (System.currentTimeMillis() - startTime) + "," + macroCons);
 	}
 
 	private static boolean areOutputTypesOK(
-			GeoElement[] possibleOutputPermutation,
-			GeoElement[] macroOutput) {
+			GeoElement[] possibleOutputPermutation, GeoElement[] macroOutput) {
 		if (possibleOutputPermutation.length != macroOutput.length) {
 			return false;
 		}
@@ -186,13 +179,13 @@ public class GeoAssignment extends Assignment {
 	}
 
 	private double checkPermutationsOfInputs(
-			GeoElement[] possibleOutputPermutation, TreeSet<Result> partRes,
+			GeoElement[] possibleOutputPermutation,
+			TreeSet<Result> partRes,
 			TreeSet<GeoElement> possibleInputGeos) {
 		boolean isTypeCheckNeeded = uniqueInputTypes.size() > 1;
 		GeoElement[] input;
 		PermutationOfGeOElementsUtil inputPermutationUtil = new PermutationOfGeOElementsUtil(
-				possibleInputGeos.toArray(new GeoElement[0]),
-				macro.getInputTypes().length);
+				possibleInputGeos.toArray(new GeoElement[0]), macro.getInputTypes().length);
 
 		input = inputPermutationUtil.next();
 		boolean solutionFound = false;
@@ -201,86 +194,84 @@ public class GeoAssignment extends Assignment {
 			partRes.clear();
 			if (!isTypeCheckNeeded || areTypesOK(input)) {
 				double d = UtilFactory.getPrototype().getMillisecondTime();
-				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input,
-						false);
+				AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input, false);
 				ret += UtilFactory.getPrototype().getMillisecondTime() - d;
 				GeoElement[] macroOutput = algoMacro.getOutput();
-				for (int i = 0; i < possibleOutputPermutation.length
-						&& !partRes.contains(Result.WRONG); i++) {
-					checkEqualityOfGeos(input, macroOutput[i],
-							possibleOutputPermutation, i, partRes);
+				for (int i = 0;
+						i < possibleOutputPermutation.length && !partRes.contains(Result.WRONG);
+						i++) {
+					checkEqualityOfGeos(input, macroOutput[i], possibleOutputPermutation, i, partRes);
 				}
 				algoMacro.remove();
 				solutionFound = !partRes.contains(Result.WRONG)
 						&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)
 						&& partRes.contains(Result.CORRECT);
-			} else if (res != Result.WRONG_AFTER_RANDOMIZE
-					&& res != Result.WRONG) {
+			} else if (res != Result.WRONG_AFTER_RANDOMIZE && res != Result.WRONG) {
 				res = Result.WRONG_INPUT_TYPES;
 			}
-			if (partRes.contains(Result.WRONG)
-					&& res != Result.WRONG_AFTER_RANDOMIZE) {
+			if (partRes.contains(Result.WRONG) && res != Result.WRONG_AFTER_RANDOMIZE) {
 				res = Result.WRONG;
 			} else if (partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
 				res = Result.WRONG_AFTER_RANDOMIZE;
-				Log.debug("Objects wrong after Randomize: "
-						+ toString(possibleOutputPermutation));
+				Log.debug("Objects wrong after Randomize: " + toString(possibleOutputPermutation));
 				Log.debug("Objects used as inputs: " + toString(input));
 			} else if (partRes.contains(Result.CORRECT)) {
 				res = Result.CORRECT;
-				Log.debug("Objects found to be the Solution: "
-						+ toString(possibleOutputPermutation));
+				Log.debug("Objects found to be the Solution: " + toString(possibleOutputPermutation));
 				Log.debug("Objects used as inputs: " + toString(input));
 			}
 			input = inputPermutationUtil.next();
-
 		}
 		return ret;
 	}
 
-	private void checkEqualityOfGeos(GeoElement[] input, GeoElement macroOutput,
-			GeoElement[] possibleOutput, int i, TreeSet<Result> partRes) {
+	private void checkEqualityOfGeos(
+			GeoElement[] input,
+			GeoElement macroOutput,
+			GeoElement[] possibleOutput,
+			int i,
+			TreeSet<Result> partRes) {
 		// TODO Check if we really need to call adjustMoveableOutputs with all
 		// possibleOutputs ie.the array
-		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
-				possibleOutput);
+		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput, possibleOutput);
 		if ("AreEqual".equals(checkOp)) {
 			// GeoElement root = new AlgoAreEqual(cons, macroOutput,
 			// possibleOutput[i]).getOutput()[0];
 			//
 			// AlgoProve algoProve = new AlgoProve(cons, null, root);
-			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
-					: Result.WRONG);
+			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT : Result.WRONG);
 			// partRes.add(algoProve.getGeoBoolean().getBoolean() ?
 			// Result.CORRECT
 			// : Result.WRONG);
 		} else if ("==".equals(checkOp)) {
-			partRes.add(ExpressionNode.isEqual(
-					macroOutput, possibleOutput[i]).boolVal()
-							? Result.CORRECT : Result.WRONG);
+			partRes.add(
+					ExpressionNode.isEqual(macroOutput, possibleOutput[i]).boolVal()
+							? Result.CORRECT
+							: Result.WRONG);
 		} else if ("AreCongruent".equals(checkOp)) {
-			partRes.add(macroOutput.isCongruent(possibleOutput[i]).boolVal()
-					? Result.CORRECT : Result.WRONG);
+			partRes.add(
+					macroOutput.isCongruent(possibleOutput[i]).boolVal() ? Result.CORRECT : Result.WRONG);
 		}
 		callsToEqual++;
 		int j = 0;
 		if (partRes.contains(Result.CORRECT)) {
 			Log.debug("randomizing...");
-			while (j < input.length
-					&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
+			while (j < input.length && !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
 				if (input[j].isRandomizable()) {
-					mayAdjustMoveableOutputs = doProbabilisticChecking(input[j],
-							macroOutput, possibleOutput, i, partRes,
-							mayAdjustMoveableOutputs);
+					mayAdjustMoveableOutputs = doProbabilisticChecking(
+							input[j], macroOutput, possibleOutput, i, partRes, mayAdjustMoveableOutputs);
 				} else {
-					input[j].addRandomizablePredecessorsToSet(
-							randomizeablePredecessors);
-					for (int k = 0; k < randomizeablePredecessors.size()
-							&& !partRes.contains(
-									Result.WRONG_AFTER_RANDOMIZE); k++) {
+					input[j].addRandomizablePredecessorsToSet(randomizeablePredecessors);
+					for (int k = 0;
+							k < randomizeablePredecessors.size()
+									&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE);
+							k++) {
 						mayAdjustMoveableOutputs = doProbabilisticChecking(
 								randomizeablePredecessors.pollFirst(),
-								macroOutput, possibleOutput, i, partRes,
+								macroOutput,
+								possibleOutput,
+								i,
+								partRes,
 								mayAdjustMoveableOutputs);
 					}
 				}
@@ -289,29 +280,35 @@ public class GeoAssignment extends Assignment {
 		}
 	}
 
-	private boolean doProbabilisticChecking(GeoElement geoToRandomize,
-			GeoElement macroOutput, GeoElement[] possibleOutput, int i,
-			TreeSet<Result> partRes, boolean mayAdjustMoveableOutputs) {
+	private boolean doProbabilisticChecking(
+			GeoElement geoToRandomize,
+			GeoElement macroOutput,
+			GeoElement[] possibleOutput,
+			int i,
+			TreeSet<Result> partRes,
+			boolean mayAdjustMoveableOutputs) {
 		boolean mayAdjustMoveableOutputsL = mayAdjustMoveableOutputs;
 		GeoElement saveInput;
 		saveInput = geoToRandomize.copy();
 		geoToRandomize.randomizeForProbabilisticChecking();
 		geoToRandomize.updateCascade();
 		if (mayAdjustMoveableOutputs) {
-			mayAdjustMoveableOutputsL = adjustMoveableOutputs(macroOutput,
-					possibleOutput);
+			mayAdjustMoveableOutputsL = adjustMoveableOutputs(macroOutput, possibleOutput);
 		}
 
 		if ("AreEqual".equals(checkOp)) {
-			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
-					: Result.WRONG_AFTER_RANDOMIZE);
+			partRes.add(
+					macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
 		} else if ("==".equals(checkOp)) {
-			partRes.add(ExpressionNode.isEqual(
-					macroOutput, possibleOutput[i]).boolVal()
-							? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
+			partRes.add(
+					ExpressionNode.isEqual(macroOutput, possibleOutput[i]).boolVal()
+							? Result.CORRECT
+							: Result.WRONG_AFTER_RANDOMIZE);
 		} else if ("AreCongruent".equals(checkOp)) {
-			partRes.add(macroOutput.isCongruent(possibleOutput[i]).boolVal()
-					? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
+			partRes.add(
+					macroOutput.isCongruent(possibleOutput[i]).boolVal()
+							? Result.CORRECT
+							: Result.WRONG_AFTER_RANDOMIZE);
 		}
 		callsToEqual++;
 		geoToRandomize.set(saveInput);
@@ -323,24 +320,22 @@ public class GeoAssignment extends Assignment {
 	 * If some macro outputs are moveable (eg. point on path), push them close
 	 * to the corresponding possible outputs (within given path/region
 	 * constraint)
-	 * 
+	 *
 	 * @param macroOutput
 	 *            sample macro output
 	 * @param possibleOutput
 	 *            possible outputs
 	 * @return whether an output was changeable
 	 */
-	private static boolean adjustMoveableOutputs(GeoElement macroOutput,
-			GeoElement[] possibleOutput) {
+	private static boolean adjustMoveableOutputs(
+			GeoElement macroOutput, GeoElement[] possibleOutput) {
 		boolean ret = false;
 		AlgoMacro algo = (AlgoMacro) macroOutput.getParentAlgorithm();
 		int size = algo.getOutputLength();
 		for (int i = 0; i < size; i++) {
-			if (algo.isChangeable(algo.getOutput(i))
-					&& possibleOutput[i] instanceof GeoPoint) {
+			if (algo.isChangeable(algo.getOutput(i)) && possibleOutput[i] instanceof GeoPoint) {
 				GeoPoint pt = (GeoPoint) possibleOutput[i];
-				algo.setCoords((GeoPoint) algo.getOutput(i), pt.getX(),
-						pt.getY(), pt.getZ());
+				algo.setCoords((GeoPoint) algo.getOutput(i), pt.getX(), pt.getY(), pt.getZ());
 				ret = true;
 			}
 		}
@@ -352,8 +347,7 @@ public class GeoAssignment extends Assignment {
 
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<>();
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
-			possibleOutputPermutation[i].addPredecessorsToSet(possibleInputGeos,
-					geoInspector);
+			possibleOutputPermutation[i].addPredecessorsToSet(possibleInputGeos, geoInspector);
 		}
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleInputGeos.remove(possibleOutputPermutation[i]);
@@ -381,7 +375,6 @@ public class GeoAssignment extends Assignment {
 				solObj.append(", ");
 			}
 			solObj.append(g.toString(StringTemplate.defaultTemplate));
-
 		}
 		return solObj.toString();
 	}

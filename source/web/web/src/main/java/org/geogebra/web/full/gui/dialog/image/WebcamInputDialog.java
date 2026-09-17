@@ -28,8 +28,7 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Input Dialog for Webcam / Document Camera
  */
-public final class WebcamInputDialog extends ComponentDialog
-		implements WebcamDialogInterface {
+public final class WebcamInputDialog extends ComponentDialog implements WebcamDialogInterface {
 	private WebCamInputPanel webcamInputPanel;
 
 	/**
@@ -70,16 +69,14 @@ public final class WebcamInputDialog extends ComponentDialog
 			this.webcamInputPanel.stopVideo();
 		}
 		((AppW) app).getImageManager().setPreventAuxImage(false);
-		((AppW) app).getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
-				ModeSetter.TOOLBAR);
+		((AppW) app).getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.TOOLBAR);
 		super.hide();
 	}
 
 	@Override
 	public void hide(boolean autoClosed, boolean setFocus) {
 		super.hide(autoClosed, setFocus);
-		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
-				ModeSetter.TOOLBAR);
+		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.TOOLBAR);
 	}
 
 	/**

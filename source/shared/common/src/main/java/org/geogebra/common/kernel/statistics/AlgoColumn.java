@@ -25,7 +25,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
 /**
  * Returns the Column of a GeoElement.
- * 
+ *
  * @author Michael
  */
 public class AlgoColumn extends AlgoElement {
@@ -79,5 +79,4 @@ public class AlgoColumn extends AlgoElement {
 			num.setUndefined();
 		}
 	}
-
 }

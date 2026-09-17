@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * RegressionMath is a library of sums, determinants and parameter calculations
  * used by the FitXxx[GeoList]:GeoFunction commands.
- * 
+ *
  * Might be problems if callers are running in separate threads. Is this a
  * problem?
  * <b>--- Interface: ---</b>
@@ -46,18 +46,18 @@ import org.geogebra.common.util.debug.Log;
  * <li>getR() //regression coefficient. (When users get regression, they will
  * certainly ask for this...)
  * </ul>
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 20.02.10
  */
 public final class RegressionMath {
 
-	public final static int LINEAR = 1;
-	public final static int QUAD = 2;
-	public final static int CUBIC = 3;
-	public final static int EXP = 5;
-	public final static int LOG = 6;
-	public final static int POW = 7;
+	public static final int LINEAR = 1;
+	public static final int QUAD = 2;
+	public static final int CUBIC = 3;
+	public static final int EXP = 5;
+	public static final int LOG = 6;
+	public static final int POW = 7;
 
 	// / --- Properties --- ///
 	private boolean error = false;
@@ -134,7 +134,7 @@ public final class RegressionMath {
 
 	/**
 	 * Does the polynomial regression for degree &gt; 4
-	 * 
+	 *
 	 * @param gl
 	 *            input data
 	 * @param degree
@@ -169,7 +169,7 @@ public final class RegressionMath {
 
 	/**
 	 * Do linear regression, store result in p1,p2
-	 * 
+	 *
 	 * @param gl
 	 *            list of points
 	 * @param cof
@@ -201,7 +201,7 @@ public final class RegressionMath {
 
 	/**
 	 * Compute quadratic fit and store result in p1, p2, p3.
-	 * 
+	 *
 	 * @param gl
 	 *            input data
 	 * @param cof
@@ -221,26 +221,27 @@ public final class RegressionMath {
 			return false;
 		}
 
-		double n = det33(1.0d * size, sigmax, sigmax2, sigmax, sigmax2, sigmax3,
-				sigmax2, sigmax3, sigmax4);
+		double n =
+				det33(1.0d * size, sigmax, sigmax2, sigmax, sigmax2, sigmax3, sigmax2, sigmax3, sigmax4);
 
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
-		cof[0] = det33(sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3,
-				sigmax2y,
-				sigmax3, sigmax4) / n;
-		cof[1] = det33(1.0d * size, sigmay, sigmax2, sigmax, sigmaxy, sigmax3,
-				sigmax2, sigmax2y, sigmax4) / n;
-		cof[2] = det33(1.0d * size, sigmax, sigmay, sigmax, sigmax2, sigmaxy,
-				sigmax2, sigmax3, sigmax2y) / n;
+		cof[0] =
+				det33(sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3, sigmax2y, sigmax3, sigmax4) / n;
+		cof[1] =
+				det33(1.0d * size, sigmay, sigmax2, sigmax, sigmaxy, sigmax3, sigmax2, sigmax2y, sigmax4)
+						/ n;
+		cof[2] =
+				det33(1.0d * size, sigmax, sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3, sigmax2y)
+						/ n;
 		// r=0.0d; // Not useful
 		return true;
 	}
 
 	/**
 	 * Calculate cubic regression and stre in p1, p2, p3, p4.
-	 * 
+	 *
 	 * @param gl
 	 *            input data
 	 * @param cof
@@ -260,33 +261,50 @@ public final class RegressionMath {
 			return false;
 		}
 
-		double n = det44(1.0d * size, sigmax, sigmax2, sigmax3, sigmax, sigmax2,
-				sigmax3, sigmax4, sigmax2, sigmax3, sigmax4, sigmax5, sigmax3,
-				sigmax4, sigmax5, sigmax6);
+		double n = det44(
+				1.0d * size,
+				sigmax,
+				sigmax2,
+				sigmax3,
+				sigmax,
+				sigmax2,
+				sigmax3,
+				sigmax4,
+				sigmax2,
+				sigmax3,
+				sigmax4,
+				sigmax5,
+				sigmax3,
+				sigmax4,
+				sigmax5,
+				sigmax6);
 
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
-		cof[0] = det44(sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2,
-				sigmax3,
-				sigmax4, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax3y, sigmax4,
-				sigmax5, sigmax6) / n;
-		cof[1] = det44(size, sigmay, sigmax2, sigmax3, sigmax, sigmaxy, sigmax3,
-				sigmax4, sigmax2, sigmax2y, sigmax4, sigmax5, sigmax3, sigmax3y,
-				sigmax5, sigmax6) / n;
-		cof[2] = det44(size, sigmax, sigmay, sigmax3, sigmax, sigmax2, sigmaxy,
-				sigmax4, sigmax2, sigmax3, sigmax2y, sigmax5, sigmax3, sigmax4,
-				sigmax3y, sigmax6) / n;
-		cof[3] = det44(size, sigmax, sigmax2, sigmay, sigmax, sigmax2, sigmax3,
-				sigmaxy, sigmax2, sigmax3, sigmax4, sigmax2y, sigmax3, sigmax4,
-				sigmax5, sigmax3y) / n;
+		cof[0] = det44(
+						sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2, sigmax3, sigmax4, sigmax2y, sigmax3,
+						sigmax4, sigmax5, sigmax3y, sigmax4, sigmax5, sigmax6)
+				/ n;
+		cof[1] = det44(
+						size, sigmay, sigmax2, sigmax3, sigmax, sigmaxy, sigmax3, sigmax4, sigmax2, sigmax2y,
+						sigmax4, sigmax5, sigmax3, sigmax3y, sigmax5, sigmax6)
+				/ n;
+		cof[2] = det44(
+						size, sigmax, sigmay, sigmax3, sigmax, sigmax2, sigmaxy, sigmax4, sigmax2, sigmax3,
+						sigmax2y, sigmax5, sigmax3, sigmax4, sigmax3y, sigmax6)
+				/ n;
+		cof[3] = det44(
+						size, sigmax, sigmax2, sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2, sigmax3,
+						sigmax4, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax3y)
+				/ n;
 		// r=0.0d; // Not useful
 		return true;
 	}
 
 	/**
 	 * Compute exponential fit and store result in p1, p2.
-	 * 
+	 *
 	 * @param gl
 	 *            input data
 	 * @return whether sums could be calculated
@@ -330,7 +348,7 @@ public final class RegressionMath {
 
 	/**
 	 * Compute logarithmic fit and store result in p1, p2.
-	 * 
+	 *
 	 * @param gl
 	 *            input data
 	 * @return whether sums could be calculated
@@ -369,7 +387,7 @@ public final class RegressionMath {
 
 	/**
 	 * Compute power function fit and store result in p1, p2.
-	 * 
+	 *
 	 * @param gl
 	 *            input data
 	 * @return whether sums could be calculated
@@ -415,7 +433,7 @@ public final class RegressionMath {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param a11
 	 *            matrix entry
 	 * @param a12
@@ -426,14 +444,13 @@ public final class RegressionMath {
 	 *            matrix entry
 	 * @return determinant
 	 */
-	public static double det22(
-			double a11, double a12, double a21, double a22) {
+	public static double det22(double a11, double a12, double a21, double a22) {
 		return a11 * a22 - a21 * a12;
 	}
 
 	/**
 	 * Determinant of 4x4 matrix
-	 * 
+	 *
 	 * @param a11
 	 *            matrix entry
 	 * @param a12
@@ -455,15 +472,23 @@ public final class RegressionMath {
 	 * @return determinant
 	 */
 	public static double det33(
-			double a11, double a12, double a13, double a21, double a22,
-			double a23, double a31, double a32, double a33) {
-		return a11 * (a22 * a33 - a32 * a23) - a12 * (a21 * a33 - a31 * a23)
+			double a11,
+			double a12,
+			double a13,
+			double a21,
+			double a22,
+			double a23,
+			double a31,
+			double a32,
+			double a33) {
+		return a11 * (a22 * a33 - a32 * a23)
+				- a12 * (a21 * a33 - a31 * a23)
 				+ a13 * (a21 * a32 - a31 * a22);
 	}
 
 	/**
 	 * Determinant of 4x4 matrix
-	 * 
+	 *
 	 * @param a11
 	 *            matrix entry
 	 * @param a12
@@ -499,22 +524,46 @@ public final class RegressionMath {
 	 * @return determinant
 	 */
 	public static double det44(
-			double a11, double a12, double a13, double a14, double a21,
-			double a22, double a23, double a24, double a31, double a32,
-			double a33, double a34, double a41, double a42, double a43,
+			double a11,
+			double a12,
+			double a13,
+			double a14,
+			double a21,
+			double a22,
+			double a23,
+			double a24,
+			double a31,
+			double a32,
+			double a33,
+			double a34,
+			double a41,
+			double a42,
+			double a43,
 			double a44) {
-		return a11 * a22 * a33 * a44 - a11 * a22 * a34 * a43
-				- a11 * a23 * a32 * a44 + a11 * a23 * a42 * a34
-				+ a11 * a32 * a24 * a43 - a11 * a24 * a33 * a42
-				- a12 * a21 * a33 * a44 + a12 * a21 * a34 * a43
-				+ a12 * a31 * a23 * a44 - a12 * a31 * a24 * a43
-				- a12 * a23 * a41 * a34 + a12 * a41 * a24 * a33
-				+ a21 * a13 * a32 * a44 - a21 * a13 * a42 * a34
-				- a21 * a14 * a32 * a43 + a21 * a14 * a33 * a42
-				- a13 * a22 * a31 * a44 + a13 * a22 * a41 * a34
-				+ a13 * a31 * a24 * a42 - a13 * a32 * a41 * a24
-				+ a22 * a31 * a14 * a43 - a22 * a14 * a41 * a33
-				- a31 * a14 * a23 * a42 + a14 * a23 * a32 * a41;
+		return a11 * a22 * a33 * a44
+				- a11 * a22 * a34 * a43
+				- a11 * a23 * a32 * a44
+				+ a11 * a23 * a42 * a34
+				+ a11 * a32 * a24 * a43
+				- a11 * a24 * a33 * a42
+				- a12 * a21 * a33 * a44
+				+ a12 * a21 * a34 * a43
+				+ a12 * a31 * a23 * a44
+				- a12 * a31 * a24 * a43
+				- a12 * a23 * a41 * a34
+				+ a12 * a41 * a24 * a33
+				+ a21 * a13 * a32 * a44
+				- a21 * a13 * a42 * a34
+				- a21 * a14 * a32 * a43
+				+ a21 * a14 * a33 * a42
+				- a13 * a22 * a31 * a44
+				+ a13 * a22 * a41 * a34
+				+ a13 * a31 * a24 * a42
+				- a13 * a32 * a41 * a24
+				+ a22 * a31 * a14 * a43
+				- a22 * a14 * a41 * a33
+				- a31 * a14 * a23 * a42
+				+ a14 * a23 * a32 * a41;
 	}
 
 	// / --- Private --- ///
@@ -530,23 +579,23 @@ public final class RegressionMath {
 			xx = x * x;
 			xy = x * y; // save some calculations
 			switch (degree) { // fall through switch
-			default:
-				// do nothing
-				break;
-			case 4:
-				//$FALL-THROUGH$
-			case 3:
-				sigmax3y += xx * xy;
-				sigmax5 += xx * xx * x;
-				sigmax6 += xx * xx * xx;
-				//$FALL-THROUGH$
-			case 2:
-				sigmax2y += xx * y;
-				sigmax3 += xx * x;
-				sigmax4 += xx * xx;
-				//$FALL-THROUGH$
-			case 1:
-				sigmay2 += y * y; // r only for linear
+				default:
+					// do nothing
+					break;
+				case 4:
+				// $FALL-THROUGH$
+				case 3:
+					sigmax3y += xx * xy;
+					sigmax5 += xx * xx * x;
+					sigmax6 += xx * xx * xx;
+				// $FALL-THROUGH$
+				case 2:
+					sigmax2y += xx * y;
+					sigmax3 += xx * x;
+					sigmax4 += xx * xx;
+				// $FALL-THROUGH$
+				case 1:
+					sigmay2 += y * y; // r only for linear
 			}
 			// always do these
 			sigmax += x;
@@ -591,5 +640,4 @@ public final class RegressionMath {
 			}
 		}
 	}
-
 }

@@ -104,10 +104,11 @@ class FixUnfixTest extends BaseUnitTest {
 		GeoConic conic = add("x*x+y*y=5");
 		GeoLine line = add("y=5");
 
-		GeoElement[] geos = new GeoElement[]{function, conic, line};
+		GeoElement[] geos = new GeoElement[] {function, conic, line};
 
 		for (GeoElement geo : geos) {
-			assertThrows(NotApplicablePropertyException.class,
+			assertThrows(
+					NotApplicablePropertyException.class,
 					() -> new IsFixedObjectProperty(getLocalization(), geo));
 		}
 	}
@@ -138,7 +139,7 @@ class FixUnfixTest extends BaseUnitTest {
 		GeoConic conic = add("x*x+y*y=5");
 		GeoLine line = add("y=5");
 		FixObjectModel fixObjectModel = getModel();
-		Object[] geos = new Object[]{function, conic, line};
+		Object[] geos = new Object[] {function, conic, line};
 
 		fixObjectModel.setGeos(geos);
 		fixObjectModel.updateProperties();
@@ -158,7 +159,7 @@ class FixUnfixTest extends BaseUnitTest {
 		GeoConic conic = add("x*x+y*y=5");
 		GeoLine line = add("y=5");
 		FixObjectModel fixObjectModel = getModel();
-		Object[] geos = new Object[]{function, conic, line};
+		Object[] geos = new Object[] {function, conic, line};
 
 		fixObjectModel.setGeos(geos);
 		fixObjectModel.updateProperties();
@@ -170,17 +171,18 @@ class FixUnfixTest extends BaseUnitTest {
 	}
 
 	private FixObjectModel getModel() {
-		return new FixObjectModel(new BooleanOptionModel.IBooleanOptionListener() {
-			@Override
-			public void updateCheckbox(boolean isEqual) {
-				// stub
-			}
+		return new FixObjectModel(
+				new BooleanOptionModel.IBooleanOptionListener() {
+					@Override
+					public void updateCheckbox(boolean isEqual) {
+						// stub
+					}
 
-			@Override
-			public Object updatePanel(Object[] geos2) {
-				return null;
-			}
-		}, getApp());
+					@Override
+					public Object updatePanel(Object[] geos2) {
+						return null;
+					}
+				},
+				getApp());
 	}
-
 }

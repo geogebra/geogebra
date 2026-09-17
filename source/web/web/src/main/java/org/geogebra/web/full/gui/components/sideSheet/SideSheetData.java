@@ -26,8 +26,8 @@ public final class SideSheetData extends DialogData {
 	 * @param negativeBtnTransKey negative button text
 	 * @param positiveBtnTransKey positive button text
 	 */
-	public SideSheetData(String titleTransKey, String negativeBtnTransKey,
-			String positiveBtnTransKey) {
+	public SideSheetData(
+			String titleTransKey, String negativeBtnTransKey, String positiveBtnTransKey) {
 		super(titleTransKey, negativeBtnTransKey, positiveBtnTransKey);
 	}
 

@@ -34,8 +34,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  *
  *         Algo for intersection of path with point
  */
-public class AlgoIntersectPathPoint extends AlgoElement
-		implements FixedPathRegionAlgo {
+public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegionAlgo {
 
 	private Path path; // input
 	private GeoPointND point; // input
@@ -49,8 +48,7 @@ public class AlgoIntersectPathPoint extends AlgoElement
 	 * @param point
 	 *            point
 	 */
-	public AlgoIntersectPathPoint(Construction cons, Path path,
-			GeoPointND point) {
+	public AlgoIntersectPathPoint(Construction cons, Path path, GeoPointND point) {
 		super(cons);
 		this.path = path;
 		this.point = point;
@@ -60,14 +58,14 @@ public class AlgoIntersectPathPoint extends AlgoElement
 
 		// for AlgoElement
 		setInputOutput();
-		P.setVisualStyle(cons.getConstructionDefaults()
-				.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
+		P.setVisualStyle(
+				cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
 		compute();
 	}
 
 	/**
 	 * create the output point
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @param path1
@@ -88,8 +86,7 @@ public class AlgoIntersectPathPoint extends AlgoElement
 	 * @param point
 	 *            point
 	 */
-	public AlgoIntersectPathPoint(Construction cons, String label, Path path,
-			GeoPointND point) {
+	public AlgoIntersectPathPoint(Construction cons, String label, Path path, GeoPointND point) {
 		this(cons, path, point);
 
 		P.setLabel(label);
@@ -111,7 +108,7 @@ public class AlgoIntersectPathPoint extends AlgoElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @return resulting point (same coords as input, may be undefined)
 	 */
 	public GeoPointND getP() {
@@ -131,12 +128,10 @@ public class AlgoIntersectPathPoint extends AlgoElement
 		if (input[0].isDefined() && point.isDefined()) {
 			// get the closest point on path to input point
 			if (path instanceof GeoFunction) {
-				Function fun = ((GeoFunction) path).getFunction()
-						.deepCopy(kernel);
+				Function fun = ((GeoFunction) path).getFunction().deepCopy(kernel);
 				Coords coords = point.getCoordsInD2();
-				double val = AlgoDistancePointObject
-						.getClosestFunctionValueToPoint(fun, coords.getX(),
-								coords.getY());
+				double val = AlgoDistancePointObject.getClosestFunctionValueToPoint(
+						fun, coords.getX(), coords.getY());
 				P.setCoords(val, fun.value(val), 1.0);
 			} else {
 				setCoords();
@@ -156,15 +151,17 @@ public class AlgoIntersectPathPoint extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("IntersectionOfAandB",
-				"Intersection of %0 and %1", input[0].getLabel(tpl),
-				input[1].getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault(
+						"IntersectionOfAandB",
+						"Intersection of %0 and %1",
+						input[0].getLabel(tpl),
+						input[1].getLabel(tpl));
 	}
 
 	@Override
 	public boolean isChangeable(GeoElementND out) {
 		return false;
 	}
-
 }

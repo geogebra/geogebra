@@ -41,8 +41,7 @@ class GraphingGraphingToolCollectionFactoryTest {
 
 	@BeforeEach
 	void setupTest() {
-		toolCollection = new GraphingToolCollectionFactory(false)
-				.createToolCollection();
+		toolCollection = new GraphingToolCollectionFactory(false).createToolCollection();
 	}
 
 	@Test

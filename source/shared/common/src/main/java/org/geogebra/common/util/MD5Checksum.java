@@ -18,16 +18,16 @@ package org.geogebra.common.util;
 
 /*
  * Copyright 2010 Nicolas Lochet Licensed under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with the 
+ * (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
- *      
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software 
+ *
+ * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * 
- * See the License for the specific language governing permissions and 
+ *
+ * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
@@ -135,8 +135,10 @@ public class MD5Checksum {
 			d = addUnsigned(d, DD);
 		}
 
-		String temp = StringUtil.convertToHex(a) + StringUtil.convertToHex(b)
-				+ StringUtil.convertToHex(c) + StringUtil.convertToHex(d);
+		String temp = StringUtil.convertToHex(a)
+				+ StringUtil.convertToHex(b)
+				+ StringUtil.convertToHex(c)
+				+ StringUtil.convertToHex(d);
 		return temp.toLowerCase(Locale.ROOT);
 	}
 
@@ -163,7 +165,6 @@ public class MD5Checksum {
 				utftext.append(((c >> 6) & 63) | 128);
 				utftext.append((c & 63) | 128);
 			}
-
 		}
 
 		return utftext.toString();
@@ -172,8 +173,7 @@ public class MD5Checksum {
 	private static int[] convertToWordArray(String string) {
 		int lMessageLength = string.length();
 		int lNumberOfWords_temp1 = lMessageLength + 8;
-		int lNumberOfWords_temp2 = (lNumberOfWords_temp1
-				- (lNumberOfWords_temp1 % 64)) / 64;
+		int lNumberOfWords_temp2 = (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
 		int lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
 		int[] lWordArray = new int[lNumberOfWords];
 		int lBytePosition;
@@ -182,14 +182,13 @@ public class MD5Checksum {
 		while (lByteCount < lMessageLength) {
 			lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 			lBytePosition = lByteCount % 4 * 8;
-			lWordArray[lWordCount] = lWordArray[lWordCount]
-					| (string.charAt(lByteCount) << lBytePosition);
+			lWordArray[lWordCount] =
+					lWordArray[lWordCount] | (string.charAt(lByteCount) << lBytePosition);
 			lByteCount++;
 		}
 		lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 		lBytePosition = lByteCount % 4 * 8;
-		lWordArray[lWordCount] = lWordArray[lWordCount]
-				| (0x80 << lBytePosition);
+		lWordArray[lWordCount] = lWordArray[lWordCount] | (0x80 << lBytePosition);
 		lWordArray[lNumberOfWords - 2] = lMessageLength << 3;
 		lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
 		return lWordArray;

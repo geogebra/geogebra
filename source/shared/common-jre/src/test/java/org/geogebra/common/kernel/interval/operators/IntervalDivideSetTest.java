@@ -118,5 +118,4 @@ class IntervalDivideSetTest {
 
 		assertEquals(inverted(-1, 1), result);
 	}
-
 }

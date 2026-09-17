@@ -14,5 +14,4 @@ public class CommandTBinom extends Command2A {
 		final SymbolAtom right = Symbols.RBRACK;
 		return CommandGenfrac.get(left, a, b, right, TeXLength.getZero(), 1);
 	}
-
 }

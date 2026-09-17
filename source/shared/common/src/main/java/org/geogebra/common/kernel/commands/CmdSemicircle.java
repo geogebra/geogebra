@@ -30,7 +30,7 @@ public class CmdSemicircle extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,36 +39,34 @@ public class CmdSemicircle extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				GeoElement[] ret = { semicircle(c.getLabel(),
-						(GeoPointND) arg[0], (GeoPointND) arg[1]) };
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+					GeoElement[] ret = {semicircle(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1])};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
+
+			case 3:
+				arg = resArgs(c, info);
+
+				GeoElement[] ret = process3(c, arg, ok);
+
 				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
 
-		case 3:
-			arg = resArgs(c, info);
-
-			GeoElement[] ret = process3(c, arg, ok);
-
-			return ret;
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param A
@@ -78,13 +76,12 @@ public class CmdSemicircle extends CommandProcessor {
 	 * @return semicircle joining A and B
 	 */
 	protected GeoElement semicircle(String label, GeoPointND A, GeoPointND B) {
-		return getAlgoDispatcher().semicircle(label, (GeoPoint) A,
-				(GeoPoint) B);
+		return getAlgoDispatcher().semicircle(label, (GeoPoint) A, (GeoPoint) B);
 	}
 
 	/**
 	 * process semicircle when 3 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -95,8 +92,7 @@ public class CmdSemicircle extends CommandProcessor {
 	 * @throws MyError
 	 *             in 2D, not possible with 3 args
 	 */
-	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 		throw argNumErr(c);
 	}
 }

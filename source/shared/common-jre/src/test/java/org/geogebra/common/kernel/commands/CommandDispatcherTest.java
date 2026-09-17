@@ -41,11 +41,11 @@ class CommandDispatcherTest extends BaseAppTestSetup {
 	@Test
 	void testAllCommandsInSwitch() {
 		CommandDispatcher dispatcher = new CommandDispatcher3DJre(getKernel());
-		List<Commands> undef = Arrays.stream(Commands.values()).filter(cmd ->
-			dispatcher.commandTableSwitch(
-					new Command(getKernel(), cmd.name(), false)) == null).toList();
+		List<Commands> undef = Arrays.stream(Commands.values())
+				.filter(cmd ->
+						dispatcher.commandTableSwitch(new Command(getKernel(), cmd.name(), false)) == null)
+				.toList();
 		// Evaluate is an internal CAS command, the others are unreleased
 		assertEquals(List.of(ImplicitSurface, Polyhedron, Evaluate, SolveQuartic), undef);
 	}
-
 }

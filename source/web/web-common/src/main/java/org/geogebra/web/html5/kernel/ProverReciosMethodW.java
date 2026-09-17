@@ -35,15 +35,18 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * A non-threaded version of Recio's method.
- * 
+ *
  * @author Zoltan Kovacs
  */
 public class ProverReciosMethodW extends AbstractProverReciosMethod {
 
 	@Override
-	protected final ProofResult computeNd(HashSet<PVariable> freeVariables,
-			HashMap<PVariable, BigInteger> values, int deg,
-			SymbolicParameters s, AlgebraicStatement as) {
+	protected final ProofResult computeNd(
+			HashSet<PVariable> freeVariables,
+			HashMap<PVariable, BigInteger> values,
+			int deg,
+			SymbolicParameters s,
+			AlgebraicStatement as) {
 		int n = freeVariables.size();
 
 		PVariable[] variables = new PVariable[n];
@@ -93,12 +96,13 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 					// FIXME: Change Long in Variable to BigInteger
 					substitutions.put(v, entry.getValue());
 				}
-				ExtendedBoolean solvable = PPolynomial.solvable(as.getPolynomials()
-						.toArray(new PPolynomial[as.getPolynomials().size()]),
-						substitutions, as.geoStatement.getKernel(),
-						ProverSettings.get().transcext, as.getFreeVariables());
-				Log.debug("Recio meets Botana #" + nrOfTests + ": "
-						+ substitutions);
+				ExtendedBoolean solvable = PPolynomial.solvable(
+						as.getPolynomials().toArray(new PPolynomial[as.getPolynomials().size()]),
+						substitutions,
+						as.geoStatement.getKernel(),
+						ProverSettings.get().transcext,
+						as.getFreeVariables());
+				Log.debug("Recio meets Botana #" + nrOfTests + ": " + substitutions);
 				if (solvable.boolVal()) {
 					return ProofResult.FALSE;
 				}
@@ -137,5 +141,4 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 
 		return ProofResult.TRUE;
 	}
-
 }

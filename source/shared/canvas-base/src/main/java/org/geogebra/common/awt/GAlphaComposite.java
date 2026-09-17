@@ -33,5 +33,4 @@ public interface GAlphaComposite extends GComposite {
 	int SRC_OUT = 7;
 	int SRC_OVER = 3;
 	int XOR = 12;
-
 }

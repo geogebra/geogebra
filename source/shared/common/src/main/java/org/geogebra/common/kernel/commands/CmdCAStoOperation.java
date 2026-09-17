@@ -26,7 +26,7 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * CAS command that gets rewritten as operation in input bar
- * 
+ *
  * @author zbynek
  *
  */
@@ -50,8 +50,7 @@ public class CmdCAStoOperation extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		ExpressionNode en = simplify(c);
 
-		GeoElement[] ret = kernel.getAlgebraProcessor()
-				.processExpressionNode(en, info);
+		GeoElement[] ret = kernel.getAlgebraProcessor().processExpressionNode(en, info);
 
 		if (ret != null && ret[0] != null) {
 			ret[0].setLabel(c.getLabel());
@@ -64,36 +63,34 @@ public class CmdCAStoOperation extends CommandProcessor {
 	public ExpressionNode simplify(Command c) {
 		EvalInfo info = new EvalInfo(false);
 		switch (op) {
-		case YCOORD:
-		case XCOORD:
-			if (c.getArgumentNumber() != 1) {
-				throw getFunctionArgNumberError(c);
-			}
-			c.getArgument(0).resolveVariables(info);
-			return new ExpressionNode(kernel, c.getArgument(0).unwrap(), op, null);
+			case YCOORD:
+			case XCOORD:
+				if (c.getArgumentNumber() != 1) {
+					throw getFunctionArgNumberError(c);
+				}
+				c.getArgument(0).resolveVariables(info);
+				return new ExpressionNode(kernel, c.getArgument(0).unwrap(), op, null);
 
-		case MULTIPLY:
-		case VECTORPRODUCT:
-		case NPR:
-		case NCR:
-		case DOT:
-			if (c.getArgumentNumber() != 2) {
-				throw getFunctionArgNumberError(c);
-			}
-			c.getArgument(0).resolveVariables(info);
-			c.getArgument(1).resolveVariables(info);
-			return new ExpressionNode(kernel, c.getArgument(0).unwrap(), op,
-					c.getArgument(1).unwrap());
-		default:
-			throw new Error("Unhandled operation " + op);
+			case MULTIPLY:
+			case VECTORPRODUCT:
+			case NPR:
+			case NCR:
+			case DOT:
+				if (c.getArgumentNumber() != 2) {
+					throw getFunctionArgNumberError(c);
+				}
+				c.getArgument(0).resolveVariables(info);
+				c.getArgument(1).resolveVariables(info);
+				return new ExpressionNode(
+						kernel, c.getArgument(0).unwrap(), op, c.getArgument(1).unwrap());
+			default:
+				throw new Error("Unhandled operation " + op);
 		}
 	}
 
 	private MyError getFunctionArgNumberError(Command c) {
-		String message = c.getName() + ":\n" + MyError.Errors.IllegalArgumentNumber.getError(loc)
-				+ ": " + c.getArgumentNumber();
-		return MyError.forCommand(loc, message, null,
-				null, MyError.Errors.IllegalArgumentNumber);
+		String message = c.getName() + ":\n" + MyError.Errors.IllegalArgumentNumber.getError(loc) + ": "
+				+ c.getArgumentNumber();
+		return MyError.forCommand(loc, message, null, null, MyError.Errors.IllegalArgumentNumber);
 	}
-
 }

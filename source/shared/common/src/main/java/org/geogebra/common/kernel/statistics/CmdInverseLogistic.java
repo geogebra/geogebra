@@ -26,14 +26,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * InverseNormal[ &lt;Number&gt;, &lt;Number&gt;,&lt;Number&gt; ]
- * 
+ *
  * adapted from CmdMax by Michael Borcherds 2008-01-20
  */
 public class CmdInverseLogistic extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,25 +48,22 @@ public class CmdInverseLogistic extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoInverseLogistic algo = new AlgoInverseLogistic(cons,
-						(GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					AlgoInverseLogistic algo = new AlgoInverseLogistic(
+							cons, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

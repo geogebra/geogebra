@@ -62,8 +62,11 @@ class InputBoxCallback implements AsyncOperation<GeoElementND> {
 		GeoElementND linkedGeo = inputBox.getLinkedGeo();
 		if (GeoPoint.isComplexNumber(linkedGeo)) {
 			ExpressionNode def = obj.getDefinition();
-			if (def != null && def.getOperation() == Operation.PLUS && def.getRight()
-					.toString(StringTemplate.defaultTemplate).equals("0" + Unicode.IMAGINARY)) {
+			if (def != null
+					&& def.getOperation() == Operation.PLUS
+					&& def.getRight()
+							.toString(StringTemplate.defaultTemplate)
+							.equals("0" + Unicode.IMAGINARY)) {
 				obj.setDefinition(def.getLeftTree());
 				obj.updateRepaint();
 			}

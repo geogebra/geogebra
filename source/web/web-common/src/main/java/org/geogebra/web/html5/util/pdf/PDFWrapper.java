@@ -26,7 +26,7 @@ import jsinterop.base.JsPropertyMap;
 
 /**
  * Wrapper class for pdf.js
- * 
+ *
  * @author laszlo
  *
  */
@@ -43,7 +43,7 @@ public class PDFWrapper {
 	public interface PDFListener {
 		/**
 		 * Call this to build image from pdf.
-		 * 
+		 *
 		 * @param imgSrc
 		 *            the image data as source.
 		 */
@@ -51,7 +51,7 @@ public class PDFWrapper {
 
 		/**
 		 * After the pdf loaded, the progress bar should be finished quickly.
-		 * 
+		 *
 		 * @param result
 		 *            true if the loading of the pdf was successful
 		 */
@@ -59,17 +59,16 @@ public class PDFWrapper {
 
 		/**
 		 * Sets the value of the progress bar for the given percent.
-		 * 
+		 *
 		 * @param percent
 		 *            the new value of the progress bar
 		 */
 		void setProgressBarPercent(double percent);
-
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param file
 	 *            PDF to handle.
 	 * @param listener
@@ -113,23 +112,25 @@ public class PDFWrapper {
 	}
 
 	private void getPage() {
-		HTMLCanvasElement canvas = (HTMLCanvasElement)
-				DomGlobal.document.createElement("canvas");
-		document.getPage(pageNumber).then(page -> {
-			PageViewPort viewport = page.getViewport(getViewportOptions());
-			RenderTask renderTask = page.render(getRendererContext(viewport,
-					Js.uncheckedCast(canvas.getContext("2d"))));
-			canvas.width = viewport.width;
-			canvas.height = viewport.height;
-			return renderTask.promise;
-		}).then(dummy -> {
-			onPageDisplay(canvas.toDataURL());
-			return null;
-		});
+		HTMLCanvasElement canvas = (HTMLCanvasElement) DomGlobal.document.createElement("canvas");
+		document
+				.getPage(pageNumber)
+				.then(page -> {
+					PageViewPort viewport = page.getViewport(getViewportOptions());
+					RenderTask renderTask =
+							page.render(getRendererContext(viewport, Js.uncheckedCast(canvas.getContext("2d"))));
+					canvas.width = viewport.width;
+					canvas.height = viewport.height;
+					return renderTask.promise;
+				})
+				.then(dummy -> {
+					onPageDisplay(canvas.toDataURL());
+					return null;
+				});
 	}
 
-	private JsPropertyMap<Object> getRendererContext(PageViewPort viewport,
-			CanvasRenderingContext2D context2d) {
+	private JsPropertyMap<Object> getRendererContext(
+			PageViewPort viewport, CanvasRenderingContext2D context2d) {
 		JsPropertyMap<Object> rendererContext = JsPropertyMap.of();
 		rendererContext.set("canvasContext", context2d);
 		rendererContext.set("viewport", viewport);
@@ -150,7 +151,7 @@ public class PDFWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the number of pages in the PDF.
 	 */
 	public int getNumberOfPages() {
@@ -176,7 +177,7 @@ public class PDFWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the current page index.
 	 */
 	public int getPageNumber() {
@@ -184,7 +185,7 @@ public class PDFWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param num
 	 *            page number to set.
 	 * @return if page change was successful.

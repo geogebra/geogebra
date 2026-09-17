@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,12 +36,12 @@ class CellFormatTest {
 		format.setFormat(fullRange, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_LEFT);
 		format.setFormat(rectRange, CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_CENTER);
 		TabularRange subrange = new TabularRange(1, 2, 1, 2);
-		assertThat(format.getCellFormat(subrange, CellFormat.FORMAT_ALIGN),
-				equalTo(CellFormat.ALIGN_CENTER));
+		assertThat(
+				format.getCellFormat(subrange, CellFormat.FORMAT_ALIGN), equalTo(CellFormat.ALIGN_CENTER));
 		TabularRange superRange = new TabularRange(1, 2, 4, 5);
 		assertThat(format.getCellFormat(superRange, CellFormat.FORMAT_ALIGN), nullValue());
 		// in this case return value is not important, just check there is no runtime exception
-		assertThat(format.getCellFormat(fullRange, CellFormat.FORMAT_ALIGN),
-				equalTo(CellFormat.ALIGN_LEFT));
+		assertThat(
+				format.getCellFormat(fullRange, CellFormat.FORMAT_ALIGN), equalTo(CellFormat.ALIGN_LEFT));
 	}
 }

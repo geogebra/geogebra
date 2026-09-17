@@ -66,8 +66,8 @@ public class PropertyViewFactory {
 			}
 			PropertyView.ExpandableList expandableList = (PropertyView.ExpandableList) propertyView;
 
-			boolean previousIsExpandableList = i > 0
-					&& propertyViewList.get(i - 1) instanceof PropertyView.ExpandableList;
+			boolean previousIsExpandableList =
+					i > 0 && propertyViewList.get(i - 1) instanceof PropertyView.ExpandableList;
 			boolean nextIsExpandableList = i < propertyViewList.size() - 1
 					&& propertyViewList.get(i + 1) instanceof PropertyView.ExpandableList;
 
@@ -76,8 +76,7 @@ public class PropertyViewFactory {
 			} else if (!previousIsExpandableList && nextIsExpandableList) {
 				expandableList.ordinalPosition = PropertyView.ExpandableList.OrdinalPosition.First;
 			} else if (previousIsExpandableList) {
-				expandableList.ordinalPosition =
-						PropertyView.ExpandableList.OrdinalPosition.InBetween;
+				expandableList.ordinalPosition = PropertyView.ExpandableList.OrdinalPosition.InBetween;
 			} else {
 				expandableList.ordinalPosition = PropertyView.ExpandableList.OrdinalPosition.Alone;
 			}
@@ -113,9 +112,13 @@ public class PropertyViewFactory {
 		assert suiteScope != null;
 		boolean jsEnabled = !app.getPlatform().isMobile()
 				&& app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT);
-		List<PropertiesArray> propertiesArrayList = suiteScope.geoElementPropertiesFactory
-				.createProperties(app.getKernel().getAlgebraProcessor(),
-						app.getLocalization(), app.getImageManager(), jsEnabled, elements);
+		List<PropertiesArray> propertiesArrayList =
+				suiteScope.geoElementPropertiesFactory.createProperties(
+						app.getKernel().getAlgebraProcessor(),
+						app.getLocalization(),
+						app.getImageManager(),
+						jsEnabled,
+						elements);
 		propertiesArrayList.forEach(propertiesArray -> PropertyArrayValueObserving.addObserver(
 				propertiesArray, new UndoSavingPropertyObserver(app.getUndoManager())));
 		return new PropertyView.TabbedPageSelector(title, propertiesArrayList, 0);
@@ -132,14 +135,16 @@ public class PropertyViewFactory {
 	 * @return the {@code PropertyView} containing the app settings
 	 */
 	public static PropertyView.@NonNull TabbedPageSelector propertyViewOfAppSettings(
-			@NonNull App app, @NonNull PropertiesRegistry propertiesRegistry,
+			@NonNull App app,
+			@NonNull PropertiesRegistry propertiesRegistry,
 			boolean openedFromBurgerMenu) {
-		List<PropertiesArray> propertyArrayList = app.getConfig().createPropertiesFactory()
+		List<PropertiesArray> propertyArrayList = app.getConfig()
+				.createPropertiesFactory()
 				.createProperties(app, app.getLocalization(), propertiesRegistry);
-		int initialSelectedTabIndex = calculateInitialSelectedTabIndex(
-				propertyArrayList, openedFromBurgerMenu);
-		return new PropertyView.TabbedPageSelector(app.getLocalization().getMenu("Settings"),
-				propertyArrayList, initialSelectedTabIndex);
+		int initialSelectedTabIndex =
+				calculateInitialSelectedTabIndex(propertyArrayList, openedFromBurgerMenu);
+		return new PropertyView.TabbedPageSelector(
+				app.getLocalization().getMenu("Settings"), propertyArrayList, initialSelectedTabIndex);
 	}
 
 	/**
@@ -152,22 +157,22 @@ public class PropertyViewFactory {
 	 * @return the list of {@code PropertyView} to be displayed in the distribution view
 	 */
 	public static @NonNull List<PropertyView> propertyViewOfDistributionSettings(
-			@NonNull Localization localization, @NonNull AlgebraProcessor algebraProcessor,
+			@NonNull Localization localization,
+			@NonNull AlgebraProcessor algebraProcessor,
 			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
 			@NonNull PropertiesRegistry propertiesRegistry) {
 		List<Property> properties = List.of(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
 				new IsCumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView),
-				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
-						localization, 0),
-				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
-						localization, 1),
-				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
-						localization, 2),
-				new ProbabilityResultValuesProperty(localization, algebraProcessor,
-						probabilityCalculatorView)
-		);
+				new DistributionParameterProperty(
+						algebraProcessor, probabilityCalculatorView, localization, 0),
+				new DistributionParameterProperty(
+						algebraProcessor, probabilityCalculatorView, localization, 1),
+				new DistributionParameterProperty(
+						algebraProcessor, probabilityCalculatorView, localization, 2),
+				new ProbabilityResultValuesProperty(
+						localization, algebraProcessor, probabilityCalculatorView));
 		properties.forEach(propertiesRegistry::register);
 		return properties.stream().map(PropertyView::of).toList();
 	}
@@ -182,17 +187,18 @@ public class PropertyViewFactory {
 	 * @return the list of {@code PropertyView} to be displayed in the distribution view in classic
 	 */
 	public static @NonNull List<PropertyView> propertyClassicDistributionParametersSettings(
-			@NonNull Localization localization, @NonNull AlgebraProcessor algebraProcessor,
+			@NonNull Localization localization,
+			@NonNull AlgebraProcessor algebraProcessor,
 			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
 			@NonNull PropertiesRegistry propertiesRegistry) {
 		List<Property> properties = List.of(
 				new DistributionTypeProperty(localization, probabilityCalculatorView),
-				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
-						localization, 0),
-				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
-						localization, 1),
-				new DistributionParameterProperty(algebraProcessor, probabilityCalculatorView,
-						localization, 2));
+				new DistributionParameterProperty(
+						algebraProcessor, probabilityCalculatorView, localization, 0),
+				new DistributionParameterProperty(
+						algebraProcessor, probabilityCalculatorView, localization, 1),
+				new DistributionParameterProperty(
+						algebraProcessor, probabilityCalculatorView, localization, 2));
 		properties.forEach(propertiesRegistry::register);
 		return properties.stream().map(PropertyView::of).toList();
 	}
@@ -207,14 +213,15 @@ public class PropertyViewFactory {
 	 * @return the list of {@code PropertyView} to be displayed in the distribution view in classic
 	 */
 	public static @NonNull List<PropertyView> propertyClassicDistributionViewSettings(
-			@NonNull Localization localization, @NonNull AlgebraProcessor algebraProcessor,
+			@NonNull Localization localization,
+			@NonNull AlgebraProcessor algebraProcessor,
 			@NonNull ProbabilityCalculatorView probabilityCalculatorView,
 			@NonNull PropertiesRegistry propertiesRegistry) {
 		List<Property> properties = List.of(
 				new IsCumulativeProperty(localization, probabilityCalculatorView),
 				new IntervalProperty(localization, probabilityCalculatorView),
-				new ProbabilityResultValuesProperty(localization, algebraProcessor,
-						probabilityCalculatorView));
+				new ProbabilityResultValuesProperty(
+						localization, algebraProcessor, probabilityCalculatorView));
 		properties.forEach(propertiesRegistry::register);
 		return properties.stream().map(PropertyView::of).toList();
 	}

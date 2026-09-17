@@ -28,7 +28,7 @@ public interface Previewable {
 
 	/**
 	 * Updates preview for new mouse coords
-	 * 
+	 *
 	 * @param x
 	 *            mouse x
 	 * @param y
@@ -38,7 +38,7 @@ public interface Previewable {
 
 	/**
 	 * Draws preview on given graphics
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -53,5 +53,4 @@ public interface Previewable {
 	 * @return the geo linked to this
 	 */
 	GeoElement getGeoElement();
-
 }

@@ -25,8 +25,8 @@ import elemental2.dom.DomGlobal;
  * Shows templates link for Mebis.
  */
 public final class OpenTemplatesActionMebis extends DefaultMenuAction<AppWFull> {
-	String BYCS_TEMPLATES_URL
-			= "https://klickpunktschule.bycs.de/beitrag/board-good-practice-beispiele";
+	String BYCS_TEMPLATES_URL =
+			"https://klickpunktschule.bycs.de/beitrag/board-good-practice-beispiele";
 
 	@Override
 	public void execute(AppWFull app) {

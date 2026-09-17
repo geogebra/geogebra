@@ -27,14 +27,15 @@ import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.jspecify.annotations.Nullable;
 
 public class RightAngleStyleProperty extends AbstractEnumeratedProperty<Integer>
-	implements IconsEnumeratedProperty<Integer> {
+		implements IconsEnumeratedProperty<Integer> {
 	private final App app;
 
-	private PropertyResource[] icons = new PropertyResource[]{
-			PropertyResource.ICON_RIGHT_ANGLE_STYLE_NONE,
-			PropertyResource.ICON_RIGHT_ANGLE_STYLE_SQUARE,
-			PropertyResource.ICON_RIGHT_ANGLE_STYLE_DOT,
-			PropertyResource.ICON_RIGHT_ANGLE_STYLE_L};
+	private PropertyResource[] icons = new PropertyResource[] {
+		PropertyResource.ICON_RIGHT_ANGLE_STYLE_NONE,
+		PropertyResource.ICON_RIGHT_ANGLE_STYLE_SQUARE,
+		PropertyResource.ICON_RIGHT_ANGLE_STYLE_DOT,
+		PropertyResource.ICON_RIGHT_ANGLE_STYLE_L
+	};
 
 	/**
 	 * Create a right angle style icon property
@@ -44,7 +45,8 @@ public class RightAngleStyleProperty extends AbstractEnumeratedProperty<Integer>
 	public RightAngleStyleProperty(Localization localization, App app) {
 		super(localization, "RightAngleStyle");
 		this.app = app;
-		setValues(List.of(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE,
+		setValues(List.of(
+				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE,
 				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 				EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L));

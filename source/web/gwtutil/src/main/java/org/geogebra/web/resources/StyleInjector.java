@@ -50,8 +50,7 @@ public class StyleInjector {
 		// to avoid conflicts with other elements on the page with this id
 		String prefixedName = "ggbstyle_" + name;
 		if (DomGlobal.document.getElementById(prefixedName) == null) {
-			HTMLLinkElement element
-					= (HTMLLinkElement) DomGlobal.document.createElement("link");
+			HTMLLinkElement element = (HTMLLinkElement) DomGlobal.document.createElement("link");
 
 			stylesInLoading.add(name);
 			element.onload = (e) -> {
@@ -77,9 +76,10 @@ public class StyleInjector {
 	 * @return canonical codebase
 	 */
 	public static String normalizeUrl(String moduleBaseURL) {
-		return moduleBaseURL.replace(":8888/dev", ":8888")
-				.replace("geogebra.org/apps/latest",
-						"geogebra.org/apps/" + GeoGebraConstants.VERSION_STRING);
+		return moduleBaseURL
+				.replace(":8888/dev", ":8888")
+				.replace(
+						"geogebra.org/apps/latest", "geogebra.org/apps/" + GeoGebraConstants.VERSION_STRING);
 	}
 
 	private static void checkIfAllStylesLoaded() {
@@ -96,8 +96,7 @@ public class StyleInjector {
 	 * @return HTML style element
 	 */
 	public static HTMLStyleElement injectStyleSheet(String style) {
-		HTMLStyleElement element
-				= (HTMLStyleElement) DomGlobal.document.createElement("style");
+		HTMLStyleElement element = (HTMLStyleElement) DomGlobal.document.createElement("style");
 		element.className = CLASSNAME;
 		element.innerHTML = style;
 		return element;

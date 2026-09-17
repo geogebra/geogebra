@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -45,7 +45,7 @@ public class FullWidthLayout implements LayoutManager {
 
 	/**
 	 * Creates a new instance of the layout manager.
-	 * 
+	 *
 	 * @param vgap
 	 *            gap between two components in px
 	 */
@@ -56,7 +56,7 @@ public class FullWidthLayout implements LayoutManager {
 
 	/**
 	 * Calculate the minimum and preferred size of the passed container.
-	 * 
+	 *
 	 * @param parent container
 	 */
 	private void calculateSizes(Container parent) {
@@ -72,8 +72,7 @@ public class FullWidthLayout implements LayoutManager {
 				Dimension pref = c.getPreferredSize();
 				Dimension min = c.getMinimumSize();
 				if (fullHeight && i == parent.getComponentCount() - 1) {
-					pref.height = Math.max(min.height,
-							parent.getParent().getHeight() - preferredHeight - 16);
+					pref.height = Math.max(min.height, parent.getParent().getHeight() - preferredHeight - 16);
 					c.setPreferredSize(pref);
 					c.revalidate();
 				}
@@ -96,8 +95,8 @@ public class FullWidthLayout implements LayoutManager {
 		sizeUnknown = false;
 
 		Insets insets = parent.getInsets();
-		return new Dimension(preferredWidth + insets.left + insets.right,
-				preferredHeight + insets.top + insets.bottom);
+		return new Dimension(
+				preferredWidth + insets.left + insets.right, preferredHeight + insets.top + insets.bottom);
 	}
 
 	/**
@@ -111,8 +110,8 @@ public class FullWidthLayout implements LayoutManager {
 		}
 
 		Insets insets = parent.getInsets();
-		return new Dimension(minWidth + insets.left + insets.right,
-				minHeight + insets.top + insets.bottom);
+		return new Dimension(
+				minWidth + insets.left + insets.right, minHeight + insets.top + insets.bottom);
 	}
 
 	/**

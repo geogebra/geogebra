@@ -36,8 +36,7 @@ public final class CollaborationStoppedDialog extends ComponentDialog {
 	 * @param app application
 	 */
 	public CollaborationStoppedDialog(AppW app) {
-		super(app, new DialogData("CollaborationStopped.title",
-				"Leave", "Save"), false, true);
+		super(app, new DialogData("CollaborationStopped.title", "Leave", "Save"), false, true);
 		Label content = new Label(app.getLocalization().getMenu("CollaborationStopped.text"));
 		addDialogContent(content);
 		setOnPositiveAction(() -> {
@@ -55,13 +54,19 @@ public final class CollaborationStoppedDialog extends ComponentDialog {
 			public void onLoaded(List<Material> result, Pagination meta) {
 				app.setActiveMaterial(result.get(0));
 				app.getKernel().getConstruction().setTitle(result.get(0).getTitle());
-				((AppW) app).getToolTipManager().showBottomMessage(
-						loc.getMenu("SavedSuccessfully"), (AppW) app);
+				((AppW) app).getToolTipManager().showBottomMessage(loc.getMenu("SavedSuccessfully"), (AppW)
+						app);
 			}
 		};
-		app.getLoginOperation().getGeoGebraTubeAPI()
-				.uploadMaterial(null,
+		app.getLoginOperation()
+				.getGeoGebraTubeAPI()
+				.uploadMaterial(
+						null,
 						MaterialVisibility.Private.getToken(),
-						copyTitle, base64, cb, mat.getType(), false);
+						copyTitle,
+						base64,
+						cb,
+						mat.getType(),
+						false);
 	}
 }

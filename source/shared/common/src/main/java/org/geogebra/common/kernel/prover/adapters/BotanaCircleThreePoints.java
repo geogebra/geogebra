@@ -28,15 +28,13 @@ public class BotanaCircleThreePoints extends ProverAdapter {
 	 * @return Botana polynomials
 	 * @throws NoSymbolicParametersException if it is not possible to obtain suitable polynomials
 	 */
-	public PPolynomial[] getPolynomials(GeoElement[] input)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getPolynomials(GeoElement[] input) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 
 		PVariable[] circle1vars, circle2vars, circle3vars;
-		circle1vars = ((SymbolicParametersBotanaAlgo) input[0])
-				.getBotanaVars(input[0]);
+		circle1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]);
 
 		if (botanaVars == null) {
 			botanaVars = new PVariable[4];
@@ -47,23 +45,28 @@ public class BotanaCircleThreePoints extends ProverAdapter {
 			botanaVars[2] = circle1vars[0];
 			botanaVars[3] = circle1vars[1];
 		}
-		PVariable[] centerVars = { botanaVars[0], botanaVars[1] };
-		circle2vars = ((SymbolicParametersBotanaAlgo) input[1])
-				.getBotanaVars(input[1]);
-		circle3vars = ((SymbolicParametersBotanaAlgo) input[2])
-				.getBotanaVars(input[2]);
+		PVariable[] centerVars = {botanaVars[0], botanaVars[1]};
+		circle2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars(input[1]);
+		circle3vars = ((SymbolicParametersBotanaAlgo) input[2]).getBotanaVars(input[2]);
 
 		botanaPolynomials = new PPolynomial[2];
 		// AO=OB
-		botanaPolynomials[0] = PPolynomial.equidistant(circle1vars[0],
-				circle1vars[1], centerVars[0], centerVars[1], circle2vars[0],
+		botanaPolynomials[0] = PPolynomial.equidistant(
+				circle1vars[0],
+				circle1vars[1],
+				centerVars[0],
+				centerVars[1],
+				circle2vars[0],
 				circle2vars[1]);
 		// AO=OC
-		botanaPolynomials[1] = PPolynomial.equidistant(circle1vars[0],
-				circle1vars[1], centerVars[0], centerVars[1], circle3vars[0],
+		botanaPolynomials[1] = PPolynomial.equidistant(
+				circle1vars[0],
+				circle1vars[1],
+				centerVars[0],
+				centerVars[1],
+				circle3vars[0],
 				circle3vars[1]);
 
 		return botanaPolynomials;
 	}
-
 }

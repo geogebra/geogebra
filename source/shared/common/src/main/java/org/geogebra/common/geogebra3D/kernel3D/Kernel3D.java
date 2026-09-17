@@ -62,36 +62,35 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * 
+ *
  * Class used for (3D) calculations
- * 
+ *
  * <h2>How to add a method for creating a {@link GeoElement3D}</h2>
- * 
+ *
  * <ul>
  * <li>simply call the element's constructor
  * <code>
-   final public GeoNew3D New3D(String label, ???) { <br> &nbsp;&nbsp;
-       GeoNew3D ret = new GeoNew3D(cons, ???); <br> &nbsp;&nbsp;
-       // stuff <br> &nbsp;&nbsp;
-       ret.setLabel(label); <br> &nbsp;&nbsp;           
-       return ret; <br> 
-   }
-   </code></li>
+ * final public GeoNew3D New3D(String label, ???) { <br> &nbsp;&nbsp;
+ * GeoNew3D ret = new GeoNew3D(cons, ???); <br> &nbsp;&nbsp;
+ * // stuff <br> &nbsp;&nbsp;
+ * ret.setLabel(label); <br> &nbsp;&nbsp;
+ * return ret; <br>
+ * }
+ * </code></li>
  * <li>use an {@link AlgoElement3D}
  * <p>
  * <code>
-   final public GeoNew3D New3D(String label, ???) { <br> &nbsp;&nbsp;
-     AlgoNew3D algo = new AlgoNew3D(cons, label, ???); <br> &nbsp;&nbsp;
-     return algo.getGeo(); <br>
-   }
-   </code></li>
+ * final public GeoNew3D New3D(String label, ???) { <br> &nbsp;&nbsp;
+ * AlgoNew3D algo = new AlgoNew3D(cons, label, ???); <br> &nbsp;&nbsp;
+ * return algo.getGeo(); <br>
+ * }
+ * </code></li>
  * </ul>
- * 
- * 
+ *
+ *
  * @author ggb3D
- * 
+ *
  */
-
 public class Kernel3D extends Kernel {
 	private double zmin3;
 	private double zmax3;
@@ -136,7 +135,7 @@ public class Kernel3D extends Kernel {
 	 * Returns whether the variable name "z" may be used. Note that the 3D
 	 * kernel does not allow this as it uses "z" in plane equations like 3x + 2y
 	 * + z = 5.
-	 * 
+	 *
 	 * @return whether z may be used as a variable name
 	 */
 	@Override
@@ -158,8 +157,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public MyXMLHandler newMyXMLHandler(Kernel kernel,
-			Construction construction) {
+	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction construction) {
 		return new MyXMLHandler3D(kernel, construction);
 	}
 
@@ -181,8 +179,7 @@ public class Kernel3D extends Kernel {
 	/** return all points of the current construction */
 	@Override
 	public TreeSet<GeoElement> getPointSet() {
-		TreeSet<GeoElement> t3d = getConstruction()
-				.getGeoSetLabelOrder(GeoClass.POINT3D);
+		TreeSet<GeoElement> t3d = getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D);
 		TreeSet<GeoElement> t = super.getPointSet();
 
 		t.addAll(t3d);
@@ -210,8 +207,7 @@ public class Kernel3D extends Kernel {
 				double vz = Double.parseDouble(attrs.get("vz"));
 				double vw = Double.parseDouble(attrs.get("vw"));
 
-				line.setCoord(new Coords(ox, oy, oz, ow),
-						new Coords(vx, vy, vz, vw));
+				line.setCoord(new Coords(ox, oy, oz, ow), new Coords(vx, vy, vz, vw));
 				return true;
 			} catch (Exception e) {
 				return false;
@@ -251,8 +247,7 @@ public class Kernel3D extends Kernel {
 		if (!(geo instanceof GeoCoords4D coords4D)) {
 			return super.handleCoords(geo, attrs);
 		}
-		if (geo.getParentAlgorithm() != null
-				&& !geo.isPointInRegion() && !geo.isPointOnPath()) {
+		if (geo.getParentAlgorithm() != null && !geo.isPointInRegion() && !geo.isPointOnPath()) {
 			// the coords from XML are redundant and may be buggy (see APPS-1382)
 			return true;
 		}
@@ -278,7 +273,7 @@ public class Kernel3D extends Kernel {
 	// //////////////////////////////////
 
 	@Override
-	final public GeoRayND rayND(String label, GeoPointND P, GeoPointND Q) {
+	public final GeoRayND rayND(String label, GeoPointND P, GeoPointND Q) {
 		if (P.isGeoElement3D() || Q.isGeoElement3D()) {
 			return getManager3D().ray3D(label, P, Q);
 		}
@@ -286,8 +281,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	final public GeoSegmentND segmentND(String label, GeoPointND P,
-			GeoPointND Q) {
+	public final GeoSegmentND segmentND(String label, GeoPointND P, GeoPointND Q) {
 
 		if (P.isGeoElement3D() || Q.isGeoElement3D()) {
 			return getManager3D().segment3D(label, P, Q);
@@ -296,7 +290,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	final public GeoElement[] polygonND(String[] labels, GeoPointND[] points) {
+	public final GeoElement[] polygonND(String[] labels, GeoPointND[] points) {
 
 		boolean is3D = false;
 		for (int i = 0; i < points.length && !is3D; i++) {
@@ -325,7 +319,6 @@ public class Kernel3D extends Kernel {
 			return getManager3D().polyLine3D(label, points);
 		}
 		return super.polyLine(label, points);
-
 	}
 
 	@Override
@@ -361,7 +354,7 @@ public class Kernel3D extends Kernel {
 	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis
 	 * used in EudlidianView. The scale is the number of pixels per unit.
 	 * (useful for some algorithms like findminimum). All
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param xmin
@@ -383,9 +376,17 @@ public class Kernel3D extends Kernel {
 	 * @param zscale
 	 *            z scale
 	 */
-	final public void setEuclidianView3DBounds(int view, double xmin,
-			double xmax, double ymin, double ymax, double zmin, double zmax,
-			double xscale, double yscale, double zscale) {
+	public final void setEuclidianView3DBounds(
+			int view,
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			double zmin,
+			double zmax,
+			double xscale,
+			double yscale,
+			double zscale) {
 		prolongGraphicsBoundArrays(3);
 
 		this.xmin[2] = xmin;
@@ -402,11 +403,17 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
-			GeoPointND point1) {
+	public GeoPointND rigidPolygonPointOnCircle(GeoConicND circle, GeoPointND point1) {
 		if (circle.isGeoElement3D()) {
-			return getManager3D().point3D(null, circle, point1.getInhomX(),
-					point1.getInhomY(), point1.getInhomZ(), false, true);
+			return getManager3D()
+					.point3D(
+							null,
+							circle,
+							point1.getInhomX(),
+							point1.getInhomY(),
+							point1.getInhomZ(),
+							false,
+							true);
 		}
 		return super.rigidPolygonPointOnCircle(circle, point1);
 	}
@@ -424,7 +431,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param vec
 	 *            vector
 	 * @return Point[vector]
@@ -432,8 +439,7 @@ public class Kernel3D extends Kernel {
 	@Override
 	public GeoPointND wrapInPoint(GeoVectorND vec) {
 		if (vec instanceof GeoVector3D) {
-			AlgoPointVector3D algo = new AlgoPointVector3D(cons,
-					cons.getOrigin(), vec);
+			AlgoPointVector3D algo = new AlgoPointVector3D(cons, cons.getOrigin(), vec);
 			cons.removeFromConstructionList(algo);
 			return algo.getQ();
 		}
@@ -443,8 +449,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public ConstructionCompanion createConstructionCompanion(
-			Construction cons1) {
+	public ConstructionCompanion createConstructionCompanion(Construction cons1) {
 		return new ConstructionCompanion3D(cons1);
 	}
 }

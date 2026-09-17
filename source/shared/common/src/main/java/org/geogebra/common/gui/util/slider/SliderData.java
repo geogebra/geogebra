@@ -16,7 +16,7 @@
 
 package org.geogebra.common.gui.util.slider;
 
-class SliderData <T> {
+class SliderData<T> {
 	private T min;
 	private T max;
 	private T step;

@@ -38,11 +38,11 @@ import org.freehep.graphics2d.font.FontEncoder;
  */
 public class PixelGraphics2D extends AbstractVectorGraphics {
 
-	public final static RenderingHints.Key KEY_SYMBOL_BLIT = new SymbolBlitKey();
+	public static final RenderingHints.Key KEY_SYMBOL_BLIT = new SymbolBlitKey();
 
-	public final static Object VALUE_SYMBOL_BLIT_ON = Boolean.TRUE;
+	public static final Object VALUE_SYMBOL_BLIT_ON = Boolean.TRUE;
 
-	public final static Object VALUE_SYMBOL_BLIT_OFF = Boolean.FALSE;
+	public static final Object VALUE_SYMBOL_BLIT_OFF = Boolean.FALSE;
 
 	static class SymbolBlitKey extends RenderingHints.Key {
 		public SymbolBlitKey() {
@@ -81,7 +81,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	private WebColor webColor;
 
 	// make final (GeoGebra)
-	final private static boolean displayLocal = true;
+	private static final boolean displayLocal = true;
 
 	static {
 		symbols = new HashMap();
@@ -165,16 +165,13 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	}
 
 	@Override
-	public void startExport() {
-	}
+	public void startExport() {}
 
 	@Override
-	public void endExport() {
-	}
+	public void endExport() {}
 
 	@Override
-	public void printComment(String comment) {
-	}
+	public void printComment(String comment) {}
 
 	@Override
 	public Graphics create(double x, double y, double width, double height) {
@@ -216,16 +213,13 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	}
 
 	@Override
-	public void drawArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
+	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		hostGraphics.drawArc(x, y, width, height, startAngle, arcAngle);
 	}
 
 	@Override
-	public boolean drawImage(Image img, int x, int y, Color bgcolor,
-			ImageObserver observer) {
-		return hostGraphics.drawImage(img, x, y, getPrintColor(bgcolor),
-				observer);
+	public boolean drawImage(Image img, int x, int y, Color bgcolor, ImageObserver observer) {
+		return hostGraphics.drawImage(img, x, y, getPrintColor(bgcolor), observer);
 	}
 
 	@Override
@@ -234,31 +228,46 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	}
 
 	@Override
-	public boolean drawImage(Image img, int x, int y, int width, int height,
-			Color bgcolor, ImageObserver observer) {
-		return hostGraphics.drawImage(img, x, y, width, height,
-				getPrintColor(bgcolor), observer);
+	public boolean drawImage(
+			Image img, int x, int y, int width, int height, Color bgcolor, ImageObserver observer) {
+		return hostGraphics.drawImage(img, x, y, width, height, getPrintColor(bgcolor), observer);
 	}
 
 	@Override
-	public boolean drawImage(Image img, int x, int y, int width, int height,
-			ImageObserver observer) {
+	public boolean drawImage(Image img, int x, int y, int width, int height, ImageObserver observer) {
 		return hostGraphics.drawImage(img, x, y, width, height, observer);
 	}
 
 	@Override
-	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
-			int sx1, int sy1, int sx2, int sy2, Color bgcolor,
+	public boolean drawImage(
+			Image img,
+			int dx1,
+			int dy1,
+			int dx2,
+			int dy2,
+			int sx1,
+			int sy1,
+			int sx2,
+			int sy2,
+			Color bgcolor,
 			ImageObserver observer) {
-		return hostGraphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2,
-				sy2, getPrintColor(bgcolor), observer);
+		return hostGraphics.drawImage(
+				img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, getPrintColor(bgcolor), observer);
 	}
 
 	@Override
-	public boolean drawImage(Image img, int dx1, int dy1, int dx2, int dy2,
-			int sx1, int sy1, int sx2, int sy2, ImageObserver observer) {
-		return hostGraphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2,
-				sy2, observer);
+	public boolean drawImage(
+			Image img,
+			int dx1,
+			int dy1,
+			int dx2,
+			int dy2,
+			int sx1,
+			int sy1,
+			int sx2,
+			int sy2,
+			ImageObserver observer) {
+		return hostGraphics.drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, observer);
 	}
 
 	@Override
@@ -298,8 +307,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	}
 
 	@Override
-	public void fillArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
+	public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		hostGraphics.fillArc(x, y, width, height, startAngle, arcAngle);
 	}
 
@@ -366,8 +374,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		}
 
 		super.setFont(font);
-		if (font.getName().equals("Symbol")
-				|| font.getName().equals("ZapfDingbats")) {
+		if (font.getName().equals("Symbol") || font.getName().equals("ZapfDingbats")) {
 			Font newFont = new Font("Serif", font.getSize(), font.getStyle());
 			font = newFont.deriveFont(font.getSize2D());
 		}
@@ -454,14 +461,12 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	}
 
 	@Override
-	public boolean drawImage(Image img, AffineTransform xform,
-			ImageObserver obs) {
+	public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
 		return hostGraphics.drawImage(img, xform, obs);
 	}
 
 	@Override
-	public void drawRenderableImage(RenderableImage img,
-			AffineTransform xform) {
+	public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
 		hostGraphics.drawRenderableImage(img, xform);
 	}
 
@@ -471,8 +476,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	}
 
 	@Override
-	public void drawString(AttributedCharacterIterator iterator, float x,
-			float y) {
+	public void drawString(AttributedCharacterIterator iterator, float x, float y) {
 		hostGraphics.drawString(iterator, x, y);
 	}
 
@@ -637,8 +641,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	 * at least one pixel.
 	 */
 	@Override
-	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints,
-			boolean close) {
+	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints, boolean close) {
 		return new ArrayPath(xPoints, yPoints, nPoints, close, resolution);
 	}
 	/*

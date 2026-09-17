@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.CoreMatchers.anyOf;
@@ -33,9 +33,8 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 
 	@Test
 	void testLowercaseIsVector() {
-		String[] inputs = {"u = (1, 2)", "v = (3, 4, 5)", "w = (a, b, 5)",
-				"a = (r+ 3, t + 2, f + 1)"};
-		for (String input: inputs) {
+		String[] inputs = {"u = (1, 2)", "v = (3, 4, 5)", "w = (a, b, 5)", "a = (r+ 3, t + 2, f + 1)"};
+		for (String input : inputs) {
 			GeoSymbolic symbolic = add(input);
 			assertIsVector(symbolic);
 			assertIsVector(symbolic.getDefinition());
@@ -49,9 +48,9 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		add("c = (2, 4, u)");
 		String[] variables = {"a", "b", "c"};
 		String[] operations = {"+", "-"};
-		for (String var1: variables) {
-			for (String var2: variables) {
-				for (String op: operations) {
+		for (String var1 : variables) {
+			for (String var2 : variables) {
+				for (String op : operations) {
 					GeoSymbolic symbolic = add(var1 + op + var2);
 					assertIsVector(symbolic);
 				}
@@ -64,9 +63,9 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		String crossProduct = "\u2297";
 		add("a = (f, g)");
 		add("b = (h, q, z)");
-		String[] inputs = {"a" + crossProduct + "b", "b" + crossProduct + "a",
-				"b" + crossProduct + "b"};
-		for (String input: inputs) {
+		String[] inputs = {"a" + crossProduct + "b", "b" + crossProduct + "a", "b" + crossProduct + "b"
+		};
+		for (String input : inputs) {
 			GeoSymbolic symbolic = add(input);
 			assertIsVector(symbolic);
 		}
@@ -79,8 +78,8 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		add("c = (2, 4, u)");
 		String[] variables = {"a", "b", "c"};
 		String[] scalars = {"1", "-5", "p", "999"};
-		for (String variable: variables) {
-			for (String scalar: scalars) {
+		for (String variable : variables) {
+			for (String scalar : scalars) {
 				GeoSymbolic symbolic = add(scalar + " " + variable);
 				assertIsVector(symbolic);
 			}
@@ -92,12 +91,14 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		add("l1 = {1,2,pi}");
 		add("l2 = {3,4,5}");
 		GeoSymbolic list = add("L3 = (l1, l2)");
-		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+		assertThat(
+				list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
 				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
 						+ "\\left(2,\\;4 \\right),\\;"
 						+ "\\left(\\pi ,\\;5 \\right)\\right\\}"));
 		list.setSymbolicMode(false, false);
-		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+		assertThat(
+				list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
 				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
 						+ "\\left(2,\\;4 \\right),\\;"
 						+ "\\left(3.1415926536,\\;5 \\right)\\right\\}"));
@@ -108,12 +109,14 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		add("l1 = {1,2,pi}");
 		add("l2 = {3,4,5}");
 		GeoSymbolic list = add("l3 = (l1, l2)");
-		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+		assertThat(
+				list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
 				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
 						+ "\\left(2,\\;4 \\right),\\;"
 						+ "\\left(\\pi ,\\;5 \\right)\\right\\}"));
 		list.setSymbolicMode(false, false);
-		assertThat(list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
+		assertThat(
+				list.getLaTeXDescriptionRHS(true, StringTemplate.numericLatex),
 				equalTo("\\left\\{\\left(1,\\;3 \\right),\\;"
 						+ "\\left(2,\\;4 \\right),\\;"
 						+ "\\left(3.1415926536,\\;5 \\right)\\right\\}"));
@@ -145,8 +148,7 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 		t("UnitVector((1,2))", "(1 / 5 * sqrt(5), 2 / 5 * sqrt(5))");
 		t("UnitVector((p,q))", "(p / sqrt(p^(2) + q^(2)), q / sqrt(p^(2) + q^(2)))");
 		t("UnitPerpendicularVector((1,2))", "(-2 / sqrt(5), 1 / sqrt(5))");
-		t("UnitPerpendicularVector((p,q))",
-				"((-q) / sqrt(p^(2) + q^(2)), p / sqrt(p^(2) + q^(2)))");
+		t("UnitPerpendicularVector((p,q))", "((-q) / sqrt(p^(2) + q^(2)), p / sqrt(p^(2) + q^(2)))");
 		t("PerpendicularVector((1,2))", "(-2, 1)");
 		t("PerpendicularVector((p,q))", "(-q, p)");
 		t("Dot((p,q),(r,s))", "p * r + q * s");
@@ -154,8 +156,7 @@ class GeoSymbolicVectorTest extends BaseSymbolicTest {
 	}
 
 	private void assertIsVector(GeoSymbolic symbolic) {
-		assertThat(symbolic.getTwinGeo(),
-				anyOf(nullValue(), instanceOf(GeoVectorND.class)));
+		assertThat(symbolic.getTwinGeo(), anyOf(nullValue(), instanceOf(GeoVectorND.class)));
 		assertIsVector(symbolic.getValue());
 	}
 

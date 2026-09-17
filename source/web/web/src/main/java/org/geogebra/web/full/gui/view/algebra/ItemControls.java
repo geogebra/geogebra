@@ -74,12 +74,11 @@ public final class ItemControls extends FlowPanel
 	 */
 	public StandardButton getMoreButton() {
 		if (btnMore == null) {
-			btnMore = new
-					StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
+			btnMore = new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
 			btnMore.addStyleName("more");
 			btnMore.addFastClickHandler((event) -> {
-					getController().preventBlur();
-					openMoreMenu();
+				getController().preventBlur();
+				openMoreMenu();
 			});
 			btnMore.addKeyActivateHandler(this::openMoreMenu);
 		}
@@ -107,8 +106,7 @@ public final class ItemControls extends FlowPanel
 	}
 
 	void focusFirstMoreMenuElement() {
-		Scheduler.get().scheduleDeferred(
-				() -> cmMore.wrappedPopup.getPopupMenu().moveSelectionDown());
+		Scheduler.get().scheduleDeferred(() -> cmMore.wrappedPopup.getPopupMenu().moveSelectionDown());
 	}
 
 	private void showMoreMenuForInput() {
@@ -126,7 +124,7 @@ public final class ItemControls extends FlowPanel
 	AsyncOperation<GeoElementND[]> createOpenMenuCallback() {
 		return obj -> {
 			GeoElement geo = null;
-			if (obj != null && obj.length == 1)  {
+			if (obj != null && obj.length == 1) {
 				geo = (GeoElement) obj[0];
 			}
 
@@ -157,7 +155,7 @@ public final class ItemControls extends FlowPanel
 	}
 
 	private void showMoreMenu() {
-		cmMore.show(btnMore, 0, - 8);
+		cmMore.show(btnMore, 0, -8);
 	}
 
 	private void cancelEditItem() {
@@ -201,7 +199,8 @@ public final class ItemControls extends FlowPanel
 	}
 
 	private void buildAnimPanel() {
-		if (radioTreeItem.geo != null && radioTreeItem.geo.isAnimatable()
+		if (radioTreeItem.geo != null
+				&& radioTreeItem.geo.isAnimatable()
 				&& animPanelFits(radioTreeItem.geo)) {
 			if (animPanel == null) {
 				createAnimPanel();
@@ -241,8 +240,7 @@ public final class ItemControls extends FlowPanel
 		if (geo instanceof GeoNumeric) {
 			return radioTreeItem.getItemFactory().matchSlider(geo);
 		}
-		return geo.getApp().getSettings().getAlgebra()
-				.getStyle() == AlgebraStyle.DEFINITION_AND_VALUE
+		return geo.getApp().getSettings().getAlgebra().getStyle() == AlgebraStyle.DEFINITION_AND_VALUE
 				&& !(geo instanceof GeoTurtle);
 	}
 
@@ -276,8 +274,7 @@ public final class ItemControls extends FlowPanel
 				|| getController().selectionCtrl.isEmpty()) {
 			radioTreeItem.setFirst(radioTreeItem.first);
 			clear();
-			if (radioTreeItem.geo.isAnimatable()
-					&& animPanelFits(radioTreeItem.geo)) {
+			if (radioTreeItem.geo.isAnimatable() && animPanelFits(radioTreeItem.geo)) {
 				if (animPanel == null) {
 					createAnimPanel();
 				}

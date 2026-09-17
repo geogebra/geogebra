@@ -34,6 +34,6 @@ public interface PropertiesFactory {
 	 * @param propertiesRegistry the properties registry
 	 * @return a list of properties
 	 */
-	List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry);
+	List<PropertiesArray> createProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry);
 }

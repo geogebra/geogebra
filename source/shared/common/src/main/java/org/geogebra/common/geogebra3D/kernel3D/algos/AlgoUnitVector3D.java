@@ -37,8 +37,7 @@ public class AlgoUnitVector3D extends AlgoUnitVector {
 	 * @param normalize
 	 *            whether to return unit vector
 	 */
-	public AlgoUnitVector3D(Construction cons, GeoDirectionND line,
-			boolean normalize) {
+	public AlgoUnitVector3D(Construction cons, GeoDirectionND line, boolean normalize) {
 		super(cons, (GeoElement) line, normalize);
 	}
 
@@ -74,5 +73,4 @@ public class AlgoUnitVector3D extends AlgoUnitVector {
 
 		return null; // TODO start point for GeoDirectionND
 	}
-
 }

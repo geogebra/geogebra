@@ -20,7 +20,7 @@ import elemental2.dom.DomGlobal;
 
 public final class Log {
 
-	private Log() { }
+	private Log() {}
 
 	/**
 	 * Print message to the console.

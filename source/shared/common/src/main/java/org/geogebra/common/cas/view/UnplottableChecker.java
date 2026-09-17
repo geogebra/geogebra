@@ -61,94 +61,88 @@ public class UnplottableChecker implements Inspecting {
 	@Override
 	public boolean check(ExpressionValue v) {
 		switch (type) {
-		case 0: // first define the top type of our expression
-			isOtherVar = false;
-			nrOfPoints = 0;
-			break;
-		// Command
-		case 1:
-			return false;
-		// Equation
-		case 2:
-			if (v instanceof MyVec3DNode) {
-				nrOfPoints++;
-			} else if (v.isExpressionNode()
-					&& ((ExpressionNode) v)
-					.getLeft() instanceof GeoDummyVariable
-					&& ((ExpressionNode) v)
-					.getRight() instanceof MyVec3DNode) {
-				String str = ((ExpressionNode) v).getLeft()
-						.toString(StringTemplate.defaultTemplate);
-				if (Unicode.lambda_STRING.equals(str)) {
+			case 0: // first define the top type of our expression
+				isOtherVar = false;
+				nrOfPoints = 0;
+				break;
+			// Command
+			case 1:
+				return false;
+			// Equation
+			case 2:
+				if (v instanceof MyVec3DNode) {
 					nrOfPoints++;
-				}
-			}
-			if (v instanceof GeoDummyVariable) {
-				GeoDummyVariable gdv = (GeoDummyVariable) v;
-				String varString = gdv
-						.toString(StringTemplate.defaultTemplate);
-				if (!"x".equals(varString) && !"y".equals(varString)
-						&& !"X".equals(varString)
-						&& (dimension < 3 || !"z".equals(varString))) {
-					if (Unicode.lambda_STRING.equals(varString)
-							&& !isOtherVar
-							&& nrOfPoints == 2) {
-						return false;
+				} else if (v.isExpressionNode()
+						&& ((ExpressionNode) v).getLeft() instanceof GeoDummyVariable
+						&& ((ExpressionNode) v).getRight() instanceof MyVec3DNode) {
+					String str = ((ExpressionNode) v).getLeft().toString(StringTemplate.defaultTemplate);
+					if (Unicode.lambda_STRING.equals(str)) {
+						nrOfPoints++;
 					}
-					isOtherVar = true;
-					GeoElement subst = gdv.getElementWithSameName();
-					return subst == null || (subst.getSendValueToCas()
-							// skip constants
-							// needed for GGB-810
-							&& (subst.getLabelSimple() == null || !subst
-							.getLabelSimple().startsWith("c_")));
 				}
-				if ("x".equals(varString) || "z".equals(varString)) {
-					isOtherVar = true;
+				if (v instanceof GeoDummyVariable) {
+					GeoDummyVariable gdv = (GeoDummyVariable) v;
+					String varString = gdv.toString(StringTemplate.defaultTemplate);
+					if (!"x".equals(varString)
+							&& !"y".equals(varString)
+							&& !"X".equals(varString)
+							&& (dimension < 3 || !"z".equals(varString))) {
+						if (Unicode.lambda_STRING.equals(varString) && !isOtherVar && nrOfPoints == 2) {
+							return false;
+						}
+						isOtherVar = true;
+						GeoElement subst = gdv.getElementWithSameName();
+						return subst == null
+								|| (subst.getSendValueToCas()
+										// skip constants
+										// needed for GGB-810
+										&& (subst.getLabelSimple() == null
+												|| !subst.getLabelSimple().startsWith("c_")));
+					}
+					if ("x".equals(varString) || "z".equals(varString)) {
+						isOtherVar = true;
+					}
 				}
-
-			}
-			return false;
-		// Function, FunctionNVar
-		case 3:
-		case 10:
-			if (v instanceof GeoDummyVariable) {
-				GeoElement subst = ((GeoDummyVariable) v)
-						.getElementWithSameName();
-				return subst == null || (subst.getSendValueToCas()
-						// skip constants
-						// needed for GGB-810
-						&& (subst.getLabelSimple() == null || !subst
-						.getLabelSimple().startsWith("c_")));
-			}
-			return false;
-		// MyBoolean
-		case 4:
+				return false;
+			// Function, FunctionNVar
+			case 3:
+			case 10:
+				if (v instanceof GeoDummyVariable) {
+					GeoElement subst = ((GeoDummyVariable) v).getElementWithSameName();
+					return subst == null
+							|| (subst.getSendValueToCas()
+									// skip constants
+									// needed for GGB-810
+									&& (subst.getLabelSimple() == null || !subst.getLabelSimple().startsWith("c_")));
+				}
+				return false;
+			// MyBoolean
+			case 4:
 			// MyDouble
-		case 5:
+			case 5:
 			// MyList
-		case 6:
-			return false;
+			case 6:
+				return false;
 
-		// ExpressionNode
-		case 11:
-			if (v instanceof GeoDummyVariable) {
-				GeoDummyVariable gdv = (GeoDummyVariable) v;
-				if (!gdv.toString(StringTemplate.defaultTemplate)
-						.equals("x")
-						&& !gdv.toString(StringTemplate.defaultTemplate)
-						.equals("y")) {
+			// ExpressionNode
+			case 11:
+				if (v instanceof GeoDummyVariable) {
+					GeoDummyVariable gdv = (GeoDummyVariable) v;
+					if (!gdv.toString(StringTemplate.defaultTemplate).equals("x")
+							&& !gdv.toString(StringTemplate.defaultTemplate).equals("y")) {
+						return true;
+					}
+				} else if (!(v instanceof MyDouble
+						|| v instanceof ExpressionNode
+						|| v instanceof GeoNumeric
+						|| v instanceof MyVecNode
+						|| v instanceof GeoVector
+						|| v instanceof MyList)) {
 					return true;
 				}
-			} else if (!(v instanceof MyDouble
-					|| v instanceof ExpressionNode
-					|| v instanceof GeoNumeric || v instanceof MyVecNode
-					|| v instanceof GeoVector || v instanceof MyList)) {
-				return true;
-			}
-			return false;
-		default:
-			return false;
+				return false;
+			default:
+				return false;
 		}
 		return setType(v);
 	}
@@ -190,6 +184,5 @@ public class UnplottableChecker implements Inspecting {
 			return ((FunctionNVar) v).getVarNumber() > 2;
 		}
 		return false;
-
 	}
 }

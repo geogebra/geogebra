@@ -34,8 +34,8 @@ final class KeyboardDetachController {
 	private final String keyboardRootId;
 	private Element customParent;
 
-	KeyboardDetachController(String appletId, String keyboardParentSelector,
-			Element scaler, boolean hasRootAsParent) {
+	KeyboardDetachController(
+			String appletId, String keyboardParentSelector, Element scaler, boolean hasRootAsParent) {
 		keyboardRootId = appletId + "keyboard";
 		this.hasCustomParent = !"".equals(keyboardParentSelector);
 		this.keyboardParentSelector = keyboardParentSelector;
@@ -97,8 +97,6 @@ final class KeyboardDetachController {
 	}
 
 	int getParentWidth() {
-		return customParent != null
-				? customParent.getClientWidth()
-				: NavigatorUtil.getWindowWidth();
+		return customParent != null ? customParent.getClientWidth() : NavigatorUtil.getWindowWidth();
 	}
 }

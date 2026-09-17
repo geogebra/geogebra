@@ -54,8 +54,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 	 * @param inputList
 	 *            points
 	 */
-	public AlgoMinimumSpanningTree(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoMinimumSpanningTree(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList);
 	}
 
@@ -98,13 +97,12 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 				g.addEdge(
 						new TreeLink(p1.distance(p2), node1, node2, edgeCount++),
 						node1,
-						node2, EdgeType.UNDIRECTED);
-
+						node2,
+						EdgeType.UNDIRECTED);
 			}
 
 			MinimumSpanningForest2<TreeNode, TreeLink> prim = new MinimumSpanningForest2<>(
-					g, new DelegateForest<>(),
-					DelegateTree.<TreeNode, TreeLink> getFactory(), wtTransformer);
+					g, new DelegateForest<>(), DelegateTree.<TreeNode, TreeLink>getFactory(), wtTransformer);
 
 			Forest<TreeNode, TreeLink> tree = prim.getForest();
 
@@ -120,19 +118,14 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 				TreeLink edge = it.next();
 
 				Coords coords = edge.n1.id.getInhomCoordsInD2();
-				al.add(new MyPoint(coords.get(1), coords.get(2),
-						SegmentType.MOVE_TO));
+				al.add(new MyPoint(coords.get(1), coords.get(2), SegmentType.MOVE_TO));
 				coords = edge.n2.id.getInhomCoordsInD2();
-				al.add(new MyPoint(coords.get(1), coords.get(2),
-						SegmentType.LINE_TO));
-
+				al.add(new MyPoint(coords.get(1), coords.get(2), SegmentType.LINE_TO));
 			}
 
 			locus.setPoints(al);
 			locus.setDefined(true);
-
 		}
-
 	}
 
 	/** Graph edge */

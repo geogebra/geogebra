@@ -13,7 +13,7 @@ import org.freehep.graphics2d.font.Lookup;
 
 /**
  * A table to remember which fonts were used while writing a document.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: FontTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -30,11 +30,10 @@ public abstract class FontTable {
 
 		private Entry(Font f, CharTable encoding) {
 			// get attributes of font for the stored default font
-			Map/* <TextAttribute,?> */ attributes = f.getAttributes();
+			Map /* <TextAttribute,?> */ attributes = f.getAttributes();
 
 			// set default font size
-			attributes.put(TextAttribute.SIZE,
-					(float) FontEmbedder.FONT_SIZE);
+			attributes.put(TextAttribute.SIZE, (float) FontEmbedder.FONT_SIZE);
 
 			// remove font transformations
 			attributes.remove(TextAttribute.TRANSFORM);
@@ -96,8 +95,7 @@ public abstract class FontTable {
 	 * e.g. if it wants to substitute the font by a standard font that can be
 	 * addressed under a name different from the generated one.
 	 */
-	protected abstract void firstRequest(Entry e, boolean embed, String embedAs)
-			throws IOException;
+	protected abstract void firstRequest(Entry e, boolean embed, String embedAs) throws IOException;
 
 	/** Creates a unique reference to address this font. */
 	protected abstract String createFontReference(Font f);
@@ -138,7 +136,7 @@ public abstract class FontTable {
 	 * @return something like Helvetica[BOLD:1][ITALIC:0][UNDERLINE:1]
 	 */
 	private static String getKey(Font font) {
-		Map/* <TextAttribute,?> */ attributes = font.getAttributes();
+		Map /* <TextAttribute,?> */ attributes = font.getAttributes();
 
 		// bold
 
@@ -182,7 +180,7 @@ public abstract class FontTable {
 	 *
 	 * @param attributes
 	 */
-	public static void normalize(Map/* <TextAttribute,?> */ attributes) {
+	public static void normalize(Map /* <TextAttribute,?> */ attributes) {
 		// get name
 		String family = (String) attributes.get(TextAttribute.FAMILY);
 
@@ -195,8 +193,7 @@ public abstract class FontTable {
 			int pos = family.toLowerCase().indexOf(".bold");
 			family = family.substring(0, pos);
 		} else if (family.toLowerCase().endsWith(".italic")) {
-			attributes.put(TextAttribute.POSTURE,
-					TextAttribute.POSTURE_OBLIQUE);
+			attributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 			// cut the ".italic"
 			int pos = family.toLowerCase().indexOf(".bold");
 			family = family.substring(0, pos);
@@ -207,8 +204,7 @@ public abstract class FontTable {
 		}
 
 		// first character up
-		family = family.substring(0, 1).toUpperCase()
-				+ family.substring(1);
+		family = family.substring(0, 1).toUpperCase() + family.substring(1);
 		attributes.put(TextAttribute.FAMILY, family);
 	}
 
@@ -230,5 +226,4 @@ public abstract class FontTable {
 		}
 		return getEncodingTable();
 	}
-
 }

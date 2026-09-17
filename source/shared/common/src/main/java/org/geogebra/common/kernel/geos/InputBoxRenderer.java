@@ -48,8 +48,7 @@ class InputBoxRenderer {
 			return formulaConverter.convert(inputBox.getTextForEditor());
 		}
 		if (linkedGeo.isGeoText()) {
-			String str = ((GeoText) linkedGeo).getTextStringSafe()
-					.replace("\n", GeoText.NEW_LINE);
+			String str = ((GeoText) linkedGeo).getTextStringSafe().replace("\n", GeoText.NEW_LINE);
 			if (inputBox.symbolicMode) {
 				return "\\text{" + TeXEscaper.escapeStringTextMode(str) + "}";
 			}
@@ -82,10 +81,9 @@ class InputBoxRenderer {
 	}
 
 	private String getTextForSymbolic() {
-		boolean flatEditableList = linkedGeo.isGeoList()
-				&& !linkedGeo.hasSpecialEditor();
-		boolean isComplexFunction = linkedGeo.isGeoSurfaceCartesian()
-				&& linkedGeo.getDefinition() != null;
+		boolean flatEditableList = linkedGeo.isGeoList() && !linkedGeo.hasSpecialEditor();
+		boolean isComplexFunction =
+				linkedGeo.isGeoSurfaceCartesian() && linkedGeo.getDefinition() != null;
 		if (linkedGeo.isGeoList() && !flatEditableList && !((GeoList) linkedGeo).isMatrix()) {
 			return getStringForFlatList(stringTemplateForLaTeX);
 		} else if (isRestrictedPoint()) {
@@ -104,8 +102,7 @@ class InputBoxRenderer {
 	 * @return string for flat list (definition or value, no brackets)
 	 */
 	String getStringForFlatList(StringTemplate tpl) {
-		if (linkedGeo.getDefinition() != null
-				&& linkedGeo.getDefinition().unwrap() instanceof MyList) {
+		if (linkedGeo.getDefinition() != null && linkedGeo.getDefinition().unwrap() instanceof MyList) {
 			return ((MyList) linkedGeo.getDefinition().unwrap()).toString(tpl, true, false);
 		}
 		return ((GeoList) linkedGeo).appendElements(new StringBuilder(), tpl).toString();
@@ -142,12 +139,12 @@ class InputBoxRenderer {
 	}
 
 	private String getLaTeXRedefineString() {
-		return linkedGeo.getRedefineString(true, true,
-				stringTemplateForLaTeX);
+		return linkedGeo.getRedefineString(true, true, stringTemplateForLaTeX);
 	}
 
 	void updateLatexTemplate() {
-		stringTemplateForLaTeX = inputBox.tpl
+		stringTemplateForLaTeX = inputBox
+				.tpl
 				.derivePrecisionPreservingLaTeXTemplate()
 				.deriveWithOmittedSpaceInCoefficientProducts();
 	}
@@ -155,5 +152,4 @@ class InputBoxRenderer {
 	void setLinkedGeo(GeoElementND linkedGeo) {
 		this.linkedGeo = linkedGeo;
 	}
-
 }

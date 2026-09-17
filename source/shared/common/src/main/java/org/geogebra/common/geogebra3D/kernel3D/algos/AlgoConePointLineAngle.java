@@ -42,28 +42,31 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 	 * @param angle
 	 *            angle
 	 */
-	public AlgoConePointLineAngle(Construction c, String label,
-			GeoPointND origin, GeoLineND axis, GeoNumberValue angle) {
-		super(c, label, origin, axis, angle,
-				new AlgoQuadricComputerCone());
+	public AlgoConePointLineAngle(
+			Construction c, String label, GeoPointND origin, GeoLineND axis, GeoNumberValue angle) {
+		super(c, label, origin, axis, angle, new AlgoQuadricComputerCone());
 	}
 
 	@Override
 	protected Coords getDirection() {
 		GeoLineND axis = (GeoLineND) getSecondInput();
-		return axis.getPointInD(3, 1).getInhomCoordsInSameDimension()
+		return axis.getPointInD(3, 1)
+				.getInhomCoordsInSameDimension()
 				.sub(axis.getPointInD(3, 0).getInhomCoordsInSameDimension());
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain(getPlainName(), getOrigin().getLabel(tpl),
-				getSecondInput().getLabel(tpl), getNumber().getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain(
+						getPlainName(),
+						getOrigin().getLabel(tpl),
+						getSecondInput().getLabel(tpl),
+						getNumber().getLabel(tpl));
 	}
 
 	@Override
-	final protected String getPlainName() {
+	protected final String getPlainName() {
 		return "ConeWithCenterAAxisParallelToBAngleC";
 	}
 
@@ -71,5 +74,4 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 	public Commands getClassName() {
 		return Commands.ConeInfinite;
 	}
-
 }

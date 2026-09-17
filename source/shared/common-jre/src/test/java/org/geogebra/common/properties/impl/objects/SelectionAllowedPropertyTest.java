@@ -37,8 +37,7 @@ class SelectionAllowedPropertyTest extends BaseAppTestSetup {
 	@Test
 	void testApplicable() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
-		assertDoesNotThrow(() ->
-				new SelectionAllowedProperty(getLocalization(), point));
+		assertDoesNotThrow(() -> new SelectionAllowedProperty(getLocalization(), point));
 	}
 
 	@Test

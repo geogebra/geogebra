@@ -87,19 +87,25 @@ class ProbabilityCalculatorTableValuesViewModelTests extends BaseAppTestSetup {
 	void testClosingViewWhenContinuousDistributionSelected() {
 		setDistribution(Dist.BINOMIAL);
 		tableValuesView.onButtonTapped();
-		view.setProbabilityCalculator(Dist.NORMAL, new GeoNumberValue[] {
-				new GeoNumeric(getKernel().getConstruction(), 0),
-				new GeoNumeric(getKernel().getConstruction(), 1)
-		}, false);
+		view.setProbabilityCalculator(
+				Dist.NORMAL,
+				new GeoNumberValue[] {
+					new GeoNumeric(getKernel().getConstruction(), 0),
+					new GeoNumeric(getKernel().getConstruction(), 1)
+				},
+				false);
 
 		assertEquals(ButtonState.HIDDEN, tableValuesView.getButtonState().get());
 		assertNull(tableValuesView.getContent().get());
 	}
 
 	private void setDistribution(Dist distribution) {
-		view.setProbabilityCalculator(distribution, new GeoNumberValue[] {
-				new GeoNumeric(getKernel().getConstruction(), 0),
-				new GeoNumeric(getKernel().getConstruction(), 1)
-		}, false);
+		view.setProbabilityCalculator(
+				distribution,
+				new GeoNumberValue[] {
+					new GeoNumeric(getKernel().getConstruction(), 0),
+					new GeoNumeric(getKernel().getConstruction(), 1)
+				},
+				false);
 	}
 }

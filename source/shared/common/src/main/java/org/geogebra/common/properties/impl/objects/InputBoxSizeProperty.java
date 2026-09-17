@@ -33,8 +33,8 @@ public class InputBoxSizeProperty extends AbstractNumericProperty {
 	 * @param localization localization
 	 * @param element construction element
 	 */
-	public InputBoxSizeProperty(AlgebraProcessor processor,
-			Localization localization, GeoElement element)
+	public InputBoxSizeProperty(
+			AlgebraProcessor processor, Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(processor, localization, "Width");
 		if (!(element instanceof GeoInputBox)) {

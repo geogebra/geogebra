@@ -38,19 +38,17 @@ import java.util.Map;
  * @version 2.0
  */
 public final class JFugueDefinitions {
-	private JFugueDefinitions() {
-	}
+	private JFugueDefinitions() {}
 
 	/**
 	 * Loads default definitions into the JFugue dictionary. This includes all
 	 * of the string representations for instrument names, percussion sounds,
 	 * controller events, and some controller values.
-	 * 
+	 *
 	 * @param dictionaryMap
 	 *            the dictionary instantiated by the parser
 	 */
-	protected static void populateDictionary(
-			Map<String, Object> dictionaryMap) {
+	protected static void populateDictionary(Map<String, Object> dictionaryMap) {
 		//
 		// Instrument names
 		//

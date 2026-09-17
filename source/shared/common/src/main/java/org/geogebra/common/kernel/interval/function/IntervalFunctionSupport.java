@@ -21,8 +21,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
 public class IntervalFunctionSupport {
-	private static final UnsupportedOperatorChecker
-			operatorChecker = new UnsupportedOperatorChecker();
+	private static final UnsupportedOperatorChecker operatorChecker =
+			new UnsupportedOperatorChecker();
 
 	/**
 	 *

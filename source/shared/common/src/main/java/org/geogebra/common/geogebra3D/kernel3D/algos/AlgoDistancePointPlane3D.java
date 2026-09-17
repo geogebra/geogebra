@@ -39,8 +39,7 @@ public class AlgoDistancePointPlane3D extends AlgoElement3D {
 	 * @param plane
 	 *            plane
 	 */
-	public AlgoDistancePointPlane3D(Construction c, GeoPointND point,
-			GeoPlaneND plane) {
+	public AlgoDistancePointPlane3D(Construction c, GeoPointND point, GeoPlaneND plane) {
 		super(c);
 		this.point = point;
 		this.plane = (GeoPlane3D) plane;
@@ -81,7 +80,5 @@ public class AlgoDistancePointPlane3D extends AlgoElement3D {
 		}
 
 		dist.setValue(plane.distance(point));
-
 	}
-
 }

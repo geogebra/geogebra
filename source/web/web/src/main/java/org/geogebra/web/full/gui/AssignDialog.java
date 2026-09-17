@@ -41,40 +41,40 @@ public final class AssignDialog extends ComponentDialog {
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
 	 */
-	public AssignDialog(AppW app,
-			DialogData dialogData, ShareControllerW materialProvider) {
+	public AssignDialog(AppW app, DialogData dialogData, ShareControllerW materialProvider) {
 		super(app, dialogData, true, true);
 		this.materialProvider = materialProvider;
-		addAssignButton("assignDialog.lesson", "assignDialog.lesson.description",
+		addAssignButton(
+				"assignDialog.lesson",
+				"assignDialog.lesson.description",
 				"https://www.geogebra.org/classroom/create?id=%0",
 				MaterialDesignResources.INSTANCE.geogebra_color(),
 				AccessibilityAnalytics.Value.GEOGEBRA_CLASSROOM);
-		addAssignButton("assignDialog.google", "assignDialog.google.description",
+		addAssignButton(
+				"assignDialog.google",
+				"assignDialog.google.description",
 				"https://www.geogebra.org/classroom/embed/google-classroom/share"
-				+ "?material=%1&backUrl=https://www.geogebra.org/m/%0",
+						+ "?material=%1&backUrl=https://www.geogebra.org/m/%0",
 				MaterialDesignResources.INSTANCE.google_classroom(),
 				AccessibilityAnalytics.Value.GOOGLE_CLASSROOM);
 	}
 
-	private void addAssignButton(String title, String subtitle, String pattern, SVGResource icon,
-			String action) {
+	private void addAssignButton(
+			String title, String subtitle, String pattern, SVGResource icon, String action) {
 		FlowPanel classroom = new FlowPanel();
 		classroom.addStyleName("assignOption");
-		Dom.addEventListener(classroom.getElement(), "click",
-				click -> openNewTab(pattern, action));
+		Dom.addEventListener(classroom.getElement(), "click", click -> openNewTab(pattern, action));
 		Label image = new Label();
 		image.setStyleName("icon");
-		image.getElement().getStyle().setBackgroundImage("url("
-				+ icon.getSafeUri().asString() + ")");
+		image.getElement().getStyle().setBackgroundImage("url(" + icon.getSafeUri().asString() + ")");
 		FlowPanel description = new FlowPanel();
 		classroom.add(image);
 		classroom.add(description);
 		Localization loc = getApplication().getLocalization();
-		Label titleLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(loc.getMenu(title),
-				"title");
+		Label titleLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(loc.getMenu(title), "title");
 		description.add(titleLabel);
-		Label subtitleLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
-				loc.getMenu(subtitle), "subtitle");
+		Label subtitleLabel =
+				BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu(subtitle), "subtitle");
 		description.add(subtitleLabel);
 		addDialogContent(classroom);
 	}
@@ -97,8 +97,8 @@ public final class AssignDialog extends ComponentDialog {
 	}
 
 	private String toJson(Material material) {
-		JsPropertyMap<Object> materialProps = JsPropertyMap.of("id", material.getSharingKey(),
-				"title", material.getTitle());
+		JsPropertyMap<Object> materialProps =
+				JsPropertyMap.of("id", material.getSharingKey(), "title", material.getTitle());
 		return Global.JSON.stringify(materialProps);
 	}
 }

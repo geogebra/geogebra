@@ -64,7 +64,8 @@ public enum AsyncModule {
 	 */
 	public void prefetch() {
 		// in dev mode split point is -1; avoid bogus network requests
-		if (!asyncCode.isLoaded() && asyncCode.getSplitPoint() > 0
+		if (!asyncCode.isLoaded()
+				&& asyncCode.getSplitPoint() > 0
 				&& DomGlobal.location.protocol.startsWith("http")) {
 			FragmentPrefetcher.prefetch(asyncCode.getSplitPoint());
 		}
@@ -85,5 +86,4 @@ public enum AsyncModule {
 		}
 		return null;
 	}
-
 }

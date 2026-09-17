@@ -57,7 +57,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * constructor with label assignment for output
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -70,8 +70,8 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 *            indicate whether the input poly is polygon(closed) or
 	 *            polyLine(not closed)
 	 */
-	public AlgoIntersectPolyLineConicRegion(Construction cons, String[] labels,
-			GeoPoly poly, GeoConic conic, boolean isPolyClosed) {
+	public AlgoIntersectPolyLineConicRegion(
+			Construction cons, String[] labels, GeoPoly poly, GeoConic conic, boolean isPolyClosed) {
 		this(cons, poly, conic, isPolyClosed);
 
 		if (!cons.isSuppressLabelsActive()) {
@@ -84,7 +84,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * Common constructor for AlgoIntersectPolyLineConicRegion.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param poly
@@ -95,8 +95,8 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 *            indicate whether the input poly is polygon(closed) or
 	 *            polyLine(no closed)
 	 */
-	public AlgoIntersectPolyLineConicRegion(Construction cons, GeoPoly poly,
-			GeoConic conic, boolean isPolyClosed) {
+	public AlgoIntersectPolyLineConicRegion(
+			Construction cons, GeoPoly poly, GeoConic conic, boolean isPolyClosed) {
 		super(cons);
 
 		this.poly = poly;
@@ -123,10 +123,8 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		for (int index = 0; index < segCountOfPoly; index++) {
 
 			tempSegEndPoints[0] = getPoly().getPoint(index);
-			tempSegEndPoints[1] = getPoly()
-					.getPoint((index + 1) % polyPointCount);
-			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1],
-					tempSeg);
+			tempSegEndPoints[1] = getPoly().getPoint((index + 1) % polyPointCount);
+			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1], tempSeg);
 			tempSeg.setPoints(tempSegEndPoints[0], tempSegEndPoints[1]);
 
 			calcIntersectPaths(tempSeg, index);
@@ -142,15 +140,12 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 				for (int i = 0; i < (cd.intersectPathcount * 2); i += 2) {
 					seg = outputSegments.getElement(count);
 					count++;
-					GeoVec3D.lineThroughPointsCoords(cd.intersectPathCoords[i],
-							cd.intersectPathCoords[i + 1], seg);
-					seg.getStartPoint().setCoords(cd.intersectPathCoords[i],
-							false);
-					seg.getEndPoint().setCoords(cd.intersectPathCoords[i + 1],
-							true);
+					GeoVec3D.lineThroughPointsCoords(
+							cd.intersectPathCoords[i], cd.intersectPathCoords[i + 1], seg);
+					seg.getStartPoint().setCoords(cd.intersectPathCoords[i], false);
+					seg.getEndPoint().setCoords(cd.intersectPathCoords[i + 1], true);
 					seg.calcLength();
-					Log.debug("intersectPathcount: " + count
-							+ "   segmentindex: " + index);
+					Log.debug("intersectPathcount: " + count + "   segmentindex: " + index);
 					Log.debug("outputSegmentDefined: " + seg.isDefined());
 				}
 			}
@@ -164,7 +159,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	/**
 	 * calculate intersectpaths between given segment and conic. Then add those
 	 * details into intersectPaths arrayList
-	 * 
+	 *
 	 * @param segment
 	 *            interested temporary segment
 	 * @param segIndex
@@ -176,21 +171,18 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		cd.segmentIndex = segIndex;
 
 		// calculate intersect point between input segment and input Conic curve
-		AlgoIntersectSegmentConicRegion.intersectSegmentConic(segment,
-				getConic(), intersectPoints);
+		AlgoIntersectSegmentConicRegion.intersectSegmentConic(segment, getConic(), intersectPoints);
 
 		// if conic is a conic part
-		if (getConic().getType() == GeoConicNDConstants.CONIC_CIRCLE
-				&& getConic().isLimitedPath()) {
+		if (getConic().getType() == GeoConicNDConstants.CONIC_CIRCLE && getConic().isLimitedPath()) {
 			// derive midpoint, endpoint, closure segments of the input conic
-			AlgoIntersectSegmentConicRegion.calcConicClosure(getConic(),
-					midPoint, endPoints, closureSegments);
+			AlgoIntersectSegmentConicRegion.calcConicClosure(
+					getConic(), midPoint, endPoints, closureSegments);
 
 			// calculate intersection points between input segment and closure
 			// segments
-			AlgoIntersectSegmentConicRegion
-					.intersectSegmentConicClosureSegments(segment, getConic(),
-							closureSegments, closureIntersect, intersectPoints);
+			AlgoIntersectSegmentConicRegion.intersectSegmentConicClosureSegments(
+					segment, getConic(), closureSegments, closureIntersect, intersectPoints);
 		}
 
 		int numberOfLineParts = 1;
@@ -209,299 +201,286 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 		int intersectPathIndex = 0;
 		switch (numberOfLineParts) {
-		case 1: {
+			case 1: {
+				P = segment.getStartPoint();
+				Q = segment.getEndPoint();
 
-			P = segment.getStartPoint();
-			Q = segment.getEndPoint();
+				if (getConic().isInRegion((P.inhomX + Q.inhomX) / 2.0d, (P.inhomY + Q.inhomY) / 2.0d)) {
 
-			if (getConic().isInRegion((P.inhomX + Q.inhomX) / 2.0d,
-					(P.inhomY + Q.inhomY) / 2.0d)) {
+					cd.intersectPathCoords[intersectPathIndex] = P.getCoords();
+					cd.intersectPathCoords[++intersectPathIndex] = Q.getCoords();
 
-				cd.intersectPathCoords[intersectPathIndex] = P.getCoords();
-				cd.intersectPathCoords[++intersectPathIndex] = Q.getCoords();
+					cd.intersectPathcount++;
 
-				cd.intersectPathcount++;
+					Log.debug("case 1");
+					break;
+				}
 
 				Log.debug("case 1");
 				break;
 			}
+			case 2: {
+				P = segment.getStartPoint();
+				Q = segment.getEndPoint();
 
-			Log.debug("case 1");
-			break;
-		}
-		case 2: {
-
-			P = segment.getStartPoint();
-			Q = segment.getEndPoint();
-
-			// select intersection point
-			GeoPoint pnt;
-			if (intersectPoints[0].isDefined()) {
-				pnt = intersectPoints[0];
-			} else if (intersectPoints[1].isDefined()) {
-				pnt = intersectPoints[1];
-			} else if (closureIntersect[0].isDefined()) {
-				pnt = closureIntersect[0];
-			} else {
-				pnt = closureIntersect[1];
-			}
-
-			// set output intersect segments
-			if (!DoubleUtil.isZero(P.distance(pnt))) {
-				if (getConic().isInRegion((P.inhomX + pnt.inhomX) / 2.0d,
-						(P.inhomY + pnt.inhomY) / 2.0d)) {
-
-					cd.intersectPathCoords[intersectPathIndex] = P.getCoords();
-					cd.intersectPathCoords[++intersectPathIndex] = pnt
-							.getCoords();
-
-					cd.intersectPathcount++;
-
-					Log.debug("case 2");
-					break;
+				// select intersection point
+				GeoPoint pnt;
+				if (intersectPoints[0].isDefined()) {
+					pnt = intersectPoints[0];
+				} else if (intersectPoints[1].isDefined()) {
+					pnt = intersectPoints[1];
+				} else if (closureIntersect[0].isDefined()) {
+					pnt = closureIntersect[0];
+				} else {
+					pnt = closureIntersect[1];
 				}
-			}
-			if (!DoubleUtil.isZero(pnt.distance(Q))) {
-				if (getConic().isInRegion((pnt.inhomX + Q.inhomX) / 2.0d,
-						(pnt.inhomY + Q.inhomY) / 2.0d)) {
 
-					cd.intersectPathCoords[intersectPathIndex] = pnt
-							.getCoords();
-					cd.intersectPathCoords[++intersectPathIndex] = Q
-							.getCoords();
+				// set output intersect segments
+				if (!DoubleUtil.isZero(P.distance(pnt))) {
+					if (getConic()
+							.isInRegion((P.inhomX + pnt.inhomX) / 2.0d, (P.inhomY + pnt.inhomY) / 2.0d)) {
 
-					cd.intersectPathcount++;
-
-					Log.debug("case 2");
-					break;
-				}
-			}
-
-			Log.debug("case 2");
-			break;
-		}
-
-		case 3: {
-			// select the intersecting points
-			GeoPoint[] pnt = new GeoPoint[4];
-			pnt[0] = segment.getStartPoint();
-			int count = 1;
-			if (intersectPoints[0].isDefined()) {
-				pnt[count] = intersectPoints[0];
-				count++;
-			}
-			if (intersectPoints[1].isDefined()) {
-				pnt[count] = intersectPoints[1];
-				count++;
-			}
-			if (closureIntersect[0].isDefined()) {
-				pnt[count] = closureIntersect[0];
-				count++;
-			}
-			if (closureIntersect[1].isDefined()) {
-				pnt[count] = closureIntersect[1];
-			}
-			pnt[3] = segment.getEndPoint();
-
-			// sorting intersection points
-			double t1 = segment.getPossibleParameter(pnt[1].getCoords());
-			double t2 = segment.getPossibleParameter(pnt[2].getCoords());
-			int[] order = { 0, 1, 2, 3 };
-			if (t1 > t2) {
-				int intTemp = order[1];
-				order[1] = order[2];
-				order[2] = intTemp;
-			}
-
-			// counting no of output segments and assigning them as output
-			for (int i = 0; i < 3; i++) {
-				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic().isInRegion(
-							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
-									/ 2.0d,
-							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
-									/ 2.0d)) {
-						cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]]
-								.getCoords();
-						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i
-								+ 1]].getCoords();
-						intersectPathIndex++;
-
-						cd.intersectPathcount++;
-					}
-				}
-			}
-
-			Log.debug("case 3");
-			break;
-		}
-		case 4: {
-			// select the intersecting points
-			GeoPoint[] pnt = new GeoPoint[5];
-			int count = 1;
-			pnt[0] = segment.getStartPoint();
-			if (intersectPoints[0].isDefined()) {
-				pnt[count] = intersectPoints[0];
-				count++;
-			}
-			if (intersectPoints[1].isDefined()) {
-				pnt[count] = intersectPoints[1];
-				count++;
-			}
-			if (closureIntersect[0].isDefined()) {
-				pnt[count] = closureIntersect[0];
-				count++;
-			}
-			if (closureIntersect[1].isDefined()) {
-				pnt[count] = closureIntersect[1];
-			}
-			pnt[4] = segment.getEndPoint();
-
-			// sorting intersection points order on input segment starting from
-			// inputsegment.getStartPoint()
-			double t1 = segment.getPossibleParameter(pnt[1].getCoords());
-			double t2 = segment.getPossibleParameter(pnt[2].getCoords());
-			double t3 = segment.getPossibleParameter(pnt[3].getCoords());
-			int[] order = { 0, 1, 2, 3, 4 };
-			int intTemp;
-			if (t1 > t2) {
-				double temp = t1;
-				t1 = t2;
-				t2 = temp;
-				intTemp = order[1];
-				order[1] = order[2];
-				order[2] = intTemp;
-			}
-			if (t1 > t3) {
-				t3 = t1;
-				intTemp = order[1];
-				order[1] = order[3];
-				order[3] = intTemp;
-			}
-			if (t2 > t3) {
-				intTemp = order[2];
-				order[2] = order[3];
-				order[3] = intTemp;
-			}
-
-			// counting no of output segments and assigning them as output
-			for (int i = 0; i < 4; i++) {
-				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic().isInRegion(
-							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
-									/ 2.0d,
-							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
-									/ 2.0d)) {
-
-						cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]]
-								.getCoords();
-						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i
-								+ 1]].getCoords();
-						intersectPathIndex++;
-
-						cd.intersectPathcount++;
-					}
-				}
-			}
-
-			Log.debug("case 4");
-			break;
-		}
-		case 5: {
-
-			double t1, t2, t3, t4;
-			int[] order = { 0, 1, 2, 3, 4 };
-			int intTemp;
-
-			// get intersect point on segment
-			GeoPoint[] pnt = { segment.getStartPoint(), intersectPoints[0],
-					intersectPoints[1], closureIntersect[0],
-					closureIntersect[1], segment.getEndPoint() };
-
-			// sorting intersection points order on input segment starting from
-			// inputsegment.getStartPoint()
-			t1 = segment.getPossibleParameter(pnt[1].getCoords());
-			t2 = segment.getPossibleParameter(pnt[2].getCoords());
-			t3 = segment.getPossibleParameter(pnt[3].getCoords());
-			t4 = segment.getPossibleParameter(pnt[4].getCoords());
-
-			if (t1 > t2) {
-				double temp = t1;
-				t1 = t2;
-				t2 = temp;
-				intTemp = order[1];
-				order[1] = order[2];
-				order[2] = intTemp;
-			}
-			if (t1 > t3) {
-				double temp = t1;
-				t1 = t3;
-				t3 = temp;
-				intTemp = order[1];
-				order[1] = order[3];
-				order[3] = intTemp;
-			}
-			if (t1 > t4) {
-				t4 = t1;
-				intTemp = order[1];
-				order[1] = order[4];
-				order[4] = intTemp;
-			}
-			if (t2 > t3) {
-				double temp = t2;
-				t2 = t3;
-				t3 = temp;
-				intTemp = order[2];
-				order[2] = order[3];
-				order[3] = intTemp;
-			}
-			if (t2 > t4) {
-				t4 = t2;
-				intTemp = order[2];
-				order[2] = order[4];
-				order[4] = intTemp;
-			}
-			if (t3 > t4) {
-				intTemp = order[3];
-				order[3] = order[4];
-				order[4] = intTemp;
-			}
-
-			// counting no of output segments and assigning them as output
-			for (int i = 0; i < 4; i++) {
-				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic().isInRegion(
-							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
-									/ 2.0d,
-							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
-									/ 2.0d)) {
-
-						cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]]
-								.getCoords();
-						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i
-								+ 1]].getCoords();
-						intersectPathIndex++;
+						cd.intersectPathCoords[intersectPathIndex] = P.getCoords();
+						cd.intersectPathCoords[++intersectPathIndex] = pnt.getCoords();
 
 						cd.intersectPathcount++;
 
+						Log.debug("case 2");
+						break;
 					}
 				}
+				if (!DoubleUtil.isZero(pnt.distance(Q))) {
+					if (getConic()
+							.isInRegion((pnt.inhomX + Q.inhomX) / 2.0d, (pnt.inhomY + Q.inhomY) / 2.0d)) {
+
+						cd.intersectPathCoords[intersectPathIndex] = pnt.getCoords();
+						cd.intersectPathCoords[++intersectPathIndex] = Q.getCoords();
+
+						cd.intersectPathcount++;
+
+						Log.debug("case 2");
+						break;
+					}
+				}
+
+				Log.debug("case 2");
+				break;
 			}
 
-			Log.debug("case 5");
-			break;
-		}
-		default: {
-			// outputSegments.adjustOutputSize(1, false);
-			// outputSegments.getElement(0).setUndefined();
-			Log.debug("case default-no intersectPaths");
-		}
+			case 3: {
+				// select the intersecting points
+				GeoPoint[] pnt = new GeoPoint[4];
+				pnt[0] = segment.getStartPoint();
+				int count = 1;
+				if (intersectPoints[0].isDefined()) {
+					pnt[count] = intersectPoints[0];
+					count++;
+				}
+				if (intersectPoints[1].isDefined()) {
+					pnt[count] = intersectPoints[1];
+					count++;
+				}
+				if (closureIntersect[0].isDefined()) {
+					pnt[count] = closureIntersect[0];
+					count++;
+				}
+				if (closureIntersect[1].isDefined()) {
+					pnt[count] = closureIntersect[1];
+				}
+				pnt[3] = segment.getEndPoint();
+
+				// sorting intersection points
+				double t1 = segment.getPossibleParameter(pnt[1].getCoords());
+				double t2 = segment.getPossibleParameter(pnt[2].getCoords());
+				int[] order = {0, 1, 2, 3};
+				if (t1 > t2) {
+					int intTemp = order[1];
+					order[1] = order[2];
+					order[2] = intTemp;
+				}
+
+				// counting no of output segments and assigning them as output
+				for (int i = 0; i < 3; i++) {
+					if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+						if (getConic()
+								.isInRegion(
+										(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
+										(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+							cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]].getCoords();
+							cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i + 1]].getCoords();
+							intersectPathIndex++;
+
+							cd.intersectPathcount++;
+						}
+					}
+				}
+
+				Log.debug("case 3");
+				break;
+			}
+			case 4: {
+				// select the intersecting points
+				GeoPoint[] pnt = new GeoPoint[5];
+				int count = 1;
+				pnt[0] = segment.getStartPoint();
+				if (intersectPoints[0].isDefined()) {
+					pnt[count] = intersectPoints[0];
+					count++;
+				}
+				if (intersectPoints[1].isDefined()) {
+					pnt[count] = intersectPoints[1];
+					count++;
+				}
+				if (closureIntersect[0].isDefined()) {
+					pnt[count] = closureIntersect[0];
+					count++;
+				}
+				if (closureIntersect[1].isDefined()) {
+					pnt[count] = closureIntersect[1];
+				}
+				pnt[4] = segment.getEndPoint();
+
+				// sorting intersection points order on input segment starting from
+				// inputsegment.getStartPoint()
+				double t1 = segment.getPossibleParameter(pnt[1].getCoords());
+				double t2 = segment.getPossibleParameter(pnt[2].getCoords());
+				double t3 = segment.getPossibleParameter(pnt[3].getCoords());
+				int[] order = {0, 1, 2, 3, 4};
+				int intTemp;
+				if (t1 > t2) {
+					double temp = t1;
+					t1 = t2;
+					t2 = temp;
+					intTemp = order[1];
+					order[1] = order[2];
+					order[2] = intTemp;
+				}
+				if (t1 > t3) {
+					t3 = t1;
+					intTemp = order[1];
+					order[1] = order[3];
+					order[3] = intTemp;
+				}
+				if (t2 > t3) {
+					intTemp = order[2];
+					order[2] = order[3];
+					order[3] = intTemp;
+				}
+
+				// counting no of output segments and assigning them as output
+				for (int i = 0; i < 4; i++) {
+					if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+						if (getConic()
+								.isInRegion(
+										(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
+										(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+
+							cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]].getCoords();
+							cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i + 1]].getCoords();
+							intersectPathIndex++;
+
+							cd.intersectPathcount++;
+						}
+					}
+				}
+
+				Log.debug("case 4");
+				break;
+			}
+			case 5: {
+				double t1, t2, t3, t4;
+				int[] order = {0, 1, 2, 3, 4};
+				int intTemp;
+
+				// get intersect point on segment
+				GeoPoint[] pnt = {
+					segment.getStartPoint(),
+					intersectPoints[0],
+					intersectPoints[1],
+					closureIntersect[0],
+					closureIntersect[1],
+					segment.getEndPoint()
+				};
+
+				// sorting intersection points order on input segment starting from
+				// inputsegment.getStartPoint()
+				t1 = segment.getPossibleParameter(pnt[1].getCoords());
+				t2 = segment.getPossibleParameter(pnt[2].getCoords());
+				t3 = segment.getPossibleParameter(pnt[3].getCoords());
+				t4 = segment.getPossibleParameter(pnt[4].getCoords());
+
+				if (t1 > t2) {
+					double temp = t1;
+					t1 = t2;
+					t2 = temp;
+					intTemp = order[1];
+					order[1] = order[2];
+					order[2] = intTemp;
+				}
+				if (t1 > t3) {
+					double temp = t1;
+					t1 = t3;
+					t3 = temp;
+					intTemp = order[1];
+					order[1] = order[3];
+					order[3] = intTemp;
+				}
+				if (t1 > t4) {
+					t4 = t1;
+					intTemp = order[1];
+					order[1] = order[4];
+					order[4] = intTemp;
+				}
+				if (t2 > t3) {
+					double temp = t2;
+					t2 = t3;
+					t3 = temp;
+					intTemp = order[2];
+					order[2] = order[3];
+					order[3] = intTemp;
+				}
+				if (t2 > t4) {
+					t4 = t2;
+					intTemp = order[2];
+					order[2] = order[4];
+					order[4] = intTemp;
+				}
+				if (t3 > t4) {
+					intTemp = order[3];
+					order[3] = order[4];
+					order[4] = intTemp;
+				}
+
+				// counting no of output segments and assigning them as output
+				for (int i = 0; i < 4; i++) {
+					if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+						if (getConic()
+								.isInRegion(
+										(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
+										(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+
+							cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]].getCoords();
+							cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i + 1]].getCoords();
+							intersectPathIndex++;
+
+							cd.intersectPathcount++;
+						}
+					}
+				}
+
+				Log.debug("case 5");
+				break;
+			}
+			default: {
+				// outputSegments.adjustOutputSize(1, false);
+				// outputSegments.getElement(0).setUndefined();
+				Log.debug("case default-no intersectPaths");
+			}
 		}
 
 		numOfOutputSegments += cd.intersectPathcount;
 
 		intersectPaths.add(cd);
-
 	}
 
 	/**
@@ -535,25 +514,27 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * sets the labels of the output segments
-	 * 
+	 *
 	 * @param labels
 	 *            String[]
 	 */
 	protected void setLabels(String[] labels) {
 
-		if (labels != null && labels.length == 1 && outputSegments.size() > 1
-				&& labels[0] != null && !labels[0].equals("")) {
+		if (labels != null
+				&& labels.length == 1
+				&& outputSegments.size() > 1
+				&& labels[0] != null
+				&& !labels[0].equals("")) {
 			outputSegments.setIndexLabels(labels[0]);
 
 		} else {
 			outputSegments.setLabels(labels);
 		}
-
 	}
 
 	/**
 	 * create the necessary output handlers
-	 * 
+	 *
 	 * @return output handler
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
@@ -572,7 +553,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * set visual style for new segments
-	 * 
+	 *
 	 * @param segment
 	 *            GeoElement segment
 	 */
@@ -611,7 +592,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * getter of input conic
-	 * 
+	 *
 	 * @return GeoConic
 	 */
 	public GeoConic getConic() {
@@ -620,7 +601,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * getter of input poly
-	 * 
+	 *
 	 * @return GeoPoly
 	 */
 	public GeoPoly getPoly() {
@@ -629,7 +610,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * Returns number of intersection path segments
-	 * 
+	 *
 	 * @return int
 	 */
 	public int getOutputSize() {
@@ -638,7 +619,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * Returns whether the poly closed or not
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public boolean isPolyClosed() {
@@ -647,7 +628,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 	/**
 	 * helping class for keeping calculated records
-	 * 
+	 *
 	 * @author thilina
 	 */
 	private static final class CalcDetails {
@@ -661,5 +642,4 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			intersectPathCoords = new Coords[4];
 		}
 	}
-
 }

@@ -41,7 +41,7 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param size
 	 *            initial size
 	 */
@@ -53,7 +53,7 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 
 	/**
 	 * set length
-	 * 
+	 *
 	 * @param length
 	 *            length
 	 */
@@ -62,7 +62,7 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current length
 	 */
 	public int getLength() {
@@ -71,7 +71,7 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 
 	/**
 	 * add a value to the current position
-	 * 
+	 *
 	 * @param value
 	 *            value
 	 */
@@ -87,7 +87,7 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 
 	/**
 	 * add values to the current position
-	 * 
+	 *
 	 * @param values
 	 *            values
 	 */
@@ -113,5 +113,4 @@ public class ReusableArrayList<T> extends ArrayList<T> {
 	public int hashCode() {
 		return super.hashCode();
 	}
-
 }

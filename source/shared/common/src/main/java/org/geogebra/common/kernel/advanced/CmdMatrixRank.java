@@ -27,7 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * MatrixRank[Matrix]
- * 
+ *
  * @author zbynek
  *
  */
@@ -52,10 +52,8 @@ public class CmdMatrixRank extends CommandProcessor {
 			throw argErr(c, args[0]);
 		}
 
-		AlgoMatrixRank algo = new AlgoMatrixRank(cons, c.getLabel(),
-				(GeoList) args[0]);
+		AlgoMatrixRank algo = new AlgoMatrixRank(cons, c.getLabel(), (GeoList) args[0]);
 
-		return new GeoElement[] { algo.getResult() };
+		return new GeoElement[] {algo.getResult()};
 	}
-
 }

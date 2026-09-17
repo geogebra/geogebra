@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -72,8 +72,10 @@ public class PrintPreviewD extends JDialog {
 	protected int m_orientation;
 	protected int m_scale;
 	protected List<Printable> m_target;
+
 	@SuppressWarnings("rawtypes")
 	protected JComboBox m_cbScale;
+
 	protected JComboBox m_cbOrientation;
 	protected JComboBox m_cbView;
 	// protected JCheckBox cbEVscalePanel;
@@ -82,7 +84,7 @@ public class PrintPreviewD extends JDialog {
 	protected final AppD app;
 	protected JPanel tempPanel;
 	protected JPanel panelForTitleAndScaling; // used for title and scaling of
-											// graphics view's print preview
+	// graphics view's print preview
 	protected transient ActionListener lst;
 
 	protected boolean kernelChanged = false;
@@ -117,8 +119,7 @@ public class PrintPreviewD extends JDialog {
 		if (viewID == App.VIEW_CAS) {
 			return wrap(gui.getCasView());
 		} else if (viewID == App.VIEW_CONSTRUCTION_PROTOCOL) {
-			return wrap((ConstructionProtocolViewD) app.getGuiManager()
-					.getConstructionProtocolView());
+			return wrap((ConstructionProtocolViewD) app.getGuiManager().getConstructionProtocolView());
 		} else if (viewID == App.VIEW_SPREADSHEET) {
 			return wrap(gui.getSpreadsheetView());
 		} else if (viewID == App.VIEW_EUCLIDIAN2) {
@@ -146,7 +147,6 @@ public class PrintPreviewD extends JDialog {
 		super(app.getFrame(), true);
 		this.app = app;
 		app.setPrintPreview(this);
-
 	}
 
 	private static List<Printable> wrap(Gridable target) {
@@ -161,7 +161,7 @@ public class PrintPreviewD extends JDialog {
 		return list;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	private void initPrintPreview() {
 		final Localization loc = app.getLocalization();
 		m_scale = 75; // init scale to 75%
@@ -170,13 +170,12 @@ public class PrintPreviewD extends JDialog {
 
 		setTitle(loc.getMenu("PrintPreview"));
 		final Cursor oldCursor = app.getMainComponent().getCursor();
-		app.getMainComponent()
-				.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		app.getMainComponent().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		getContentPane().setLayout(new BorderLayout());
 
 		// print button
-		JButton btnPrint = new JButton(loc.getMenu("Print"),
-				app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT));
+		JButton btnPrint =
+				new JButton(loc.getMenu("Print"), app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT));
 		lst = e -> {
 			Thread runner = new Thread(() -> {
 				try {
@@ -186,13 +185,11 @@ public class PrintPreviewD extends JDialog {
 					if (!prnJob.printDialog()) {
 						return;
 					}
-					setCursor(Cursor
-							.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 					justPreview = false;
 					prnJob.print();
 					justPreview = true;
-					setCursor(Cursor.getPredefinedCursor(
-							Cursor.DEFAULT_CURSOR));
+					setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 					setVisible(false);
 				} catch (PrinterException ex) {
 					Log.debug("Printing error: ");
@@ -206,14 +203,12 @@ public class PrintPreviewD extends JDialog {
 		// btnPrint.setMargin(new Insets(2, 2, 2, 2));
 
 		// scale comboBox
-		String[] scales = { "10%", "25%", "50%", "75%", "100%", "150%",
-				"200%" };
+		String[] scales = {"10%", "25%", "50%", "75%", "100%", "150%", "200%"};
 		m_cbScale = new JComboBox<>(scales);
 		m_cbScale.setSelectedItem(m_scale + "%");
 		lst = e -> {
 			Thread runner = new Thread(() -> {
-				setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				String str = m_cbScale.getSelectedItem().toString();
 				if (str.endsWith("%")) {
 					str = str.substring(0, str.length() - 1);
@@ -235,19 +230,15 @@ public class PrintPreviewD extends JDialog {
 		m_cbScale.setEditable(false); // can be set true
 
 		// ORIENTATION combo box
-		String[] orients = { loc.getMenu("Portrait"),
-				loc.getMenu("Landscape") };
+		String[] orients = {loc.getMenu("Portrait"), loc.getMenu("Landscape")};
 		m_cbOrientation = new JComboBox<>(orients);
-		m_cbOrientation.setSelectedIndex(
-				(m_orientation == PageFormat.PORTRAIT) ? 0 : 1);
+		m_cbOrientation.setSelectedIndex((m_orientation == PageFormat.PORTRAIT) ? 0 : 1);
 
 		lst = e -> {
 			Thread runner = new Thread(() -> {
-				setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-				int pageOrientation = (m_cbOrientation
-						.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
-								: PageFormat.LANDSCAPE;
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				int pageOrientation =
+						(m_cbOrientation.getSelectedIndex() == 0) ? PageFormat.PORTRAIT : PageFormat.LANDSCAPE;
 
 				setOrientation(pageOrientation);
 
@@ -266,8 +257,8 @@ public class PrintPreviewD extends JDialog {
 		// VIEW combo box
 		m_cbView = new JComboBox<>(getAvailableViews());
 
-		DockPanelD focusedPanel = ((GuiManagerD) app.getGuiManager())
-				.getLayout().getDockManager().getFocusedPanel();
+		DockPanelD focusedPanel =
+				((GuiManagerD) app.getGuiManager()).getLayout().getDockManager().getFocusedPanel();
 		if (focusedPanel == null) {
 			m_cbView.setSelectedItem(loc.getMenu("AllViews"));
 		} else {
@@ -276,12 +267,10 @@ public class PrintPreviewD extends JDialog {
 
 		ActionListener lst_view = e -> {
 			Thread runner = new Thread(() -> {
-				setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				m_preview.removeAll();
 
-				final String selItem = m_cbView.getSelectedItem()
-						.toString();
+				final String selItem = m_cbView.getSelectedItem().toString();
 				// change view
 				if (selItem.equals(loc.getMenu("AllViews"))) {
 					final List<Printable> l = new ArrayList<>();
@@ -293,25 +282,18 @@ public class PrintPreviewD extends JDialog {
 				} else {
 					m_target = new ArrayList<>();
 					app.forEachView((viewID, viewName) -> {
-
 						if (selItem.equals(loc.getMenu(viewName))) {
-							m_target.addAll(
-									getPrintables(viewID, app));
+							m_target.addAll(getPrintables(viewID, app));
 						}
-
 					});
 				}
 				tempPanel.removeAll();
-				if (selItem.equals(loc.getMenu("DrawingPad"))
-						|| selItem.equals(loc.getMenu("AllViews"))) {
-					tempPanel.add(createPanelForScaling(
-							app.getEuclidianView1()));
+				if (selItem.equals(loc.getMenu("DrawingPad")) || selItem.equals(loc.getMenu("AllViews"))) {
+					tempPanel.add(createPanelForScaling(app.getEuclidianView1()));
 				}
 				if (selItem.equals(loc.getMenu("DrawingPad2"))
-						|| (selItem.equals(loc.getMenu("AllViews"))
-								&& app.hasEuclidianView2(1))) {
-					tempPanel.add(createPanelForScaling(
-							app.getEuclidianView2(1)));
+						|| (selItem.equals(loc.getMenu("AllViews")) && app.hasEuclidianView2(1))) {
+					tempPanel.add(createPanelForScaling(app.getEuclidianView2(1)));
 				}
 				panelForTitleAndScaling.revalidate();
 
@@ -322,7 +304,6 @@ public class PrintPreviewD extends JDialog {
 				m_preview.getParent().getParent().validate();
 
 				setCursor(Cursor.getDefaultCursor());
-
 			});
 			runner.start();
 		};
@@ -348,11 +329,9 @@ public class PrintPreviewD extends JDialog {
 		lst = e -> {
 			kernelChanged = true;
 			Thread runner = new Thread(() -> SwingUtilities.invokeLater(() -> {
-				setCursor(Cursor.getPredefinedCursor(
-						Cursor.WAIT_CURSOR));
+				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				updatePages();
 				setCursor(Cursor.getDefaultCursor());
-
 			}));
 			runner.start();
 		};
@@ -415,8 +394,7 @@ public class PrintPreviewD extends JDialog {
 		final JCheckBox cbEVscalePanel = new JCheckBox();
 		cbEVscalePanel.setSelected(view.isPrintScaleString());
 		cbEVscalePanel.addActionListener(lst);
-		cbEVscalePanel.addActionListener(
-				arg0 -> view.setPrintScaleString(cbEVscalePanel.isSelected()));
+		cbEVscalePanel.addActionListener(arg0 -> view.setPrintScaleString(cbEVscalePanel.isSelected()));
 
 		// scale panel to set scale of x-axis in cm
 		PrintScalePanel scalePanel = new PrintScalePanel(app, view);
@@ -445,22 +423,18 @@ public class PrintPreviewD extends JDialog {
 		try {
 			// orientation
 			String strOrientation = GeoGebraPreferencesD.getPref()
-					.loadPreference(GeoGebraPreferencesD.PRINT_ORIENTATION,
-							"landscape");
-			m_orientation = "portrait".equals(strOrientation)
-					? PageFormat.PORTRAIT : PageFormat.LANDSCAPE;
+					.loadPreference(GeoGebraPreferencesD.PRINT_ORIENTATION, "landscape");
+			m_orientation =
+					"portrait".equals(strOrientation) ? PageFormat.PORTRAIT : PageFormat.LANDSCAPE;
 
 			// show printing scale in cm
-			app.getEuclidianView1().setPrintScaleString(Boolean
-					.parseBoolean(GeoGebraPreferencesD.getPref().loadPreference(
-							GeoGebraPreferencesD.PRINT_SHOW_SCALE, "false")));
+			app.getEuclidianView1()
+					.setPrintScaleString(Boolean.parseBoolean(GeoGebraPreferencesD.getPref()
+							.loadPreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE, "false")));
 			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
 				app.getEuclidianView2(1)
-						.setPrintScaleString(Boolean
-								.parseBoolean(GeoGebraPreferencesD.getPref()
-										.loadPreference(
-												GeoGebraPreferencesD.PRINT_SHOW_SCALE2,
-												"false")));
+						.setPrintScaleString(Boolean.parseBoolean(GeoGebraPreferencesD.getPref()
+								.loadPreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE2, "false")));
 			}
 		} catch (Exception e) {
 			Log.debug(e);
@@ -471,23 +445,24 @@ public class PrintPreviewD extends JDialog {
 		// orientation
 		String strOrientation;
 		switch (m_orientation) {
-		case PageFormat.LANDSCAPE:
-			strOrientation = "landscape";
-			break;
-		default:
-			strOrientation = "portrait";
+			case PageFormat.LANDSCAPE:
+				strOrientation = "landscape";
+				break;
+			default:
+				strOrientation = "portrait";
 		}
 
 		GeoGebraPreferencesD pref = GeoGebraPreferencesD.getPref();
-		pref.savePreference(GeoGebraPreferencesD.PRINT_ORIENTATION,
-				strOrientation);
+		pref.savePreference(GeoGebraPreferencesD.PRINT_ORIENTATION, strOrientation);
 
 		// show printing scale in cm
-		pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE,
+		pref.savePreference(
+				GeoGebraPreferencesD.PRINT_SHOW_SCALE,
 				Boolean.toString(app.getEuclidianView1().isPrintScaleString()));
 		if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-			pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE2, Boolean
-					.toString(app.getEuclidianView2(1).isPrintScaleString()));
+			pref.savePreference(
+					GeoGebraPreferencesD.PRINT_SHOW_SCALE2,
+					Boolean.toString(app.getEuclidianView2(1).isPrintScaleString()));
 		}
 	}
 
@@ -537,8 +512,8 @@ public class PrintPreviewD extends JDialog {
 		targetPages = new int[m_target.size()];
 		while (true) {
 			if (pageExists(targetIndex, pageIndex)) {
-				PagePreview pp = new PagePreview(m_target.get(targetIndex),
-						pageFormat, pageIndex, targetIndex, app);
+				PagePreview pp =
+						new PagePreview(m_target.get(targetIndex), pageFormat, pageIndex, targetIndex, app);
 				pp.setScale(m_scale);
 				m_preview.add(pp);
 				// book.append(m_target.get(targetIndex), pageFormat);
@@ -557,8 +532,7 @@ public class PrintPreviewD extends JDialog {
 
 	private int computePageIndex(int pageIndex0) {
 		int pageIndex = pageIndex0;
-		for (int i = 0; i < targetPages.length
-				&& targetPages[i] <= pageIndex; i++) {
+		for (int i = 0; i < targetPages.length && targetPages[i] <= pageIndex; i++) {
 			pageIndex -= targetPages[i];
 		}
 		return pageIndex;
@@ -573,7 +547,9 @@ public class PrintPreviewD extends JDialog {
 		double height = paper.getHeight();
 		if (width > 0 && height > 0) {
 			// set margins
-			paper.setImageableArea(AppD.PAGE_MARGIN_X, AppD.PAGE_MARGIN_Y,
+			paper.setImageableArea(
+					AppD.PAGE_MARGIN_X,
+					AppD.PAGE_MARGIN_Y,
 					width - 2 * AppD.PAGE_MARGIN_X,
 					height - 2 * AppD.PAGE_MARGIN_Y);
 			pageFormat.setPaper(paper);
@@ -616,8 +592,7 @@ public class PrintPreviewD extends JDialog {
 					Log.debug("Unable to determine default page size");
 					return;
 				}
-				PagePreview pp = new PagePreview(m_target.get(i), pageFormat,
-						lengths[i], i, app);
+				PagePreview pp = new PagePreview(m_target.get(i), pageFormat, lengths[i], i, app);
 				pp.setScale(m_scale);
 				m_preview.add(pp);
 				m_preview.doLayout();
@@ -630,8 +605,8 @@ public class PrintPreviewD extends JDialog {
 		try {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
-			return m_target.get(targetIndex).print(tempGraphics, pageFormat,
-					pageIndex) == Printable.PAGE_EXISTS;
+			return m_target.get(targetIndex).print(tempGraphics, pageFormat, pageIndex)
+					== Printable.PAGE_EXISTS;
 		} catch (Exception e) {
 			Log.debug(e);
 			return false;
@@ -661,7 +636,6 @@ public class PrintPreviewD extends JDialog {
 			PagePreview pp = (PagePreview) comps[k];
 			pp.setPageFormat(pageFormat);
 		}
-
 	}
 
 	void setScale(int scale) {
@@ -706,8 +680,7 @@ public class PrintPreviewD extends JDialog {
 			int ww = nCol * (w + H_GAP) + H_GAP;
 			int hh = nRow * (h + V_GAP) + V_GAP;
 			Insets ins = getInsets();
-			return new Dimension(ww + ins.left + ins.right,
-					hh + ins.top + ins.bottom);
+			return new Dimension(ww + ins.left + ins.right, hh + ins.top + ins.bottom);
 		}
 
 		@Override
@@ -767,8 +740,7 @@ public class PrintPreviewD extends JDialog {
 		}
 
 		@Override
-		public PageFormat getPageFormat(int pageIndex)
-				throws IndexOutOfBoundsException {
+		public PageFormat getPageFormat(int pageIndex) throws IndexOutOfBoundsException {
 			try {
 				return ((PagePreview) getComponent(pageIndex)).getPageFormat();
 			} catch (Exception e) {
@@ -779,8 +751,7 @@ public class PrintPreviewD extends JDialog {
 		}
 
 		@Override
-		public Printable getPrintable(int pageIndex)
-				throws IndexOutOfBoundsException {
+		public Printable getPrintable(int pageIndex) throws IndexOutOfBoundsException {
 			return m_target.get(0);
 		}
 	}

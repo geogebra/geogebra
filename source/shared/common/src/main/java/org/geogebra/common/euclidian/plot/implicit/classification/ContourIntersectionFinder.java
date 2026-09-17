@@ -97,8 +97,8 @@ public final class ContourIntersectionFinder {
 	private double computeCellSize(List<ContourSegment> segments) {
 		double totalSpan = 0;
 		for (ContourSegment segment : segments) {
-			totalSpan += Math.max(segment.getMaxX() - segment.getMinX(),
-					segment.getMaxY() - segment.getMinY());
+			totalSpan +=
+					Math.max(segment.getMaxX() - segment.getMinX(), segment.getMaxY() - segment.getMinY());
 		}
 		double avgSpan = totalSpan / segments.size();
 		return Math.max(avgSpan, epsilonPolicy.getIntersection() * 16);
@@ -151,8 +151,7 @@ public final class ContourIntersectionFinder {
 		segment2.addIntersectParam(t2);
 	}
 
-	private void addCollinearOverlapIntersections(ContourSegment segment1,
-			ContourSegment segment2) {
+	private void addCollinearOverlapIntersections(ContourSegment segment1, ContourSegment segment2) {
 		addParamIfValid(segment1, paramOnSegment(segment1, segment2.getStart()));
 		addParamIfValid(segment1, paramOnSegment(segment1, segment2.getEnd()));
 		addParamIfValid(segment2, paramOnSegment(segment2, segment1.getStart()));
@@ -179,8 +178,7 @@ public final class ContourIntersectionFinder {
 		}
 	}
 
-	private double paramOnSegment(ContourSegment segment,
-			org.geogebra.common.kernel.MyPoint point) {
+	private double paramOnSegment(ContourSegment segment, org.geogebra.common.kernel.MyPoint point) {
 		double dx = segment.getEnd().x - segment.getStart().x;
 		double dy = segment.getEnd().y - segment.getStart().y;
 		if (Math.abs(dx) >= Math.abs(dy)) {
@@ -192,5 +190,4 @@ public final class ContourIntersectionFinder {
 	private static double cross(double ax, double ay, double bx, double by) {
 		return ax * by - ay * bx;
 	}
-
 }

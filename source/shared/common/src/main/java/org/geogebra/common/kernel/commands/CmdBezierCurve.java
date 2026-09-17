@@ -43,13 +43,13 @@ public class CmdBezierCurve extends CommandProcessor {
 		}
 		GeoElement[] arg = resArgs(c, info);
 
-		for (GeoElement geo: arg) {
+		for (GeoElement geo : arg) {
 			if (!geo.isGeoPoint()) {
 				throw argErr(geo, c);
 			}
 		}
-		AlgoBezierCurve algo = new AlgoBezierCurve(cons, (GeoPointND) arg[0],
-				(GeoPointND) arg[1], (GeoPointND) arg[2], (GeoPointND) arg[3]);
+		AlgoBezierCurve algo = new AlgoBezierCurve(
+				cons, (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2], (GeoPointND) arg[3]);
 		algo.getOutput(0).setLabel(c.getLabel());
 		return algo.getOutput();
 	}

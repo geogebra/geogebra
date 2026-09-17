@@ -14,7 +14,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Write an xml open tag
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -26,7 +26,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Write empty tag
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -38,7 +38,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Close writer
-	 * 
+	 *
 	 * @throws IOException
 	 *             if stream cannot be written
 	 */
@@ -46,7 +46,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Open XML doc with standard parameters
-	 * 
+	 *
 	 * @throws IOException
 	 *             if stream cannot be written
 	 */
@@ -54,7 +54,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Open XML doc
-	 * 
+	 *
 	 * @param version
 	 *            version string
 	 * @param encoding
@@ -64,12 +64,11 @@ public interface XMLTagWriter {
 	 * @throws IOException
 	 *             if stream cannot be written
 	 */
-	public void openDoc(String version, String encoding, boolean standalone)
-			throws IOException;
+	public void openDoc(String version, String encoding, boolean standalone) throws IOException;
 
 	/**
 	 * Close XML doc
-	 * 
+	 *
 	 * @throws IOException
 	 *             if stream cannot be written
 	 */
@@ -81,7 +80,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Write an xml open tag
-	 * 
+	 *
 	 * @param name
 	 *            tagname
 	 * @throws IOException
@@ -91,7 +90,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Close nearest tag
-	 * 
+	 *
 	 * @throws IOException
 	 *             if stream cannot be written
 	 */
@@ -99,7 +98,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Write empty tag
-	 * 
+	 *
 	 * @param name
 	 *            tagname
 	 * @throws IOException
@@ -113,7 +112,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set String attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -123,7 +122,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set Color attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -133,7 +132,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set byte attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -143,7 +142,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set char attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -153,7 +152,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set long attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -163,7 +162,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set int attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -173,7 +172,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set short attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -183,7 +182,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set boolean attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -193,7 +192,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set float attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -203,7 +202,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set double attribute
-	 * 
+	 *
 	 * @param name
 	 *            attribute name
 	 * @param value
@@ -213,7 +212,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set String attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -225,7 +224,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set Color attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -237,7 +236,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set byte attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -249,7 +248,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set char attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -261,7 +260,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set long attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -273,7 +272,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set int attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -285,7 +284,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set short attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -297,7 +296,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set boolean attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -309,7 +308,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set float attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -321,7 +320,7 @@ public interface XMLTagWriter {
 
 	/**
 	 * Set double attribute
-	 * 
+	 *
 	 * @param ns
 	 *            namespace
 	 * @param name
@@ -330,5 +329,4 @@ public interface XMLTagWriter {
 	 *            attribute value
 	 */
 	public void setAttribute(String ns, String name, double value);
-
 }

@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The Clear metafile record represents an operation which sets the entire
  * drawing surface to a solid color.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: Clear.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -29,8 +29,7 @@ public class Clear extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		Clear tag = new Clear();
 		tag.flags = flags;
 		tag.color = emf.readCOLOR();
@@ -38,8 +37,7 @@ public class Clear extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		emf.writeCOLOR(color);
 	}
 

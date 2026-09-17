@@ -31,7 +31,7 @@ public class CmdExcentricity extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,27 +40,26 @@ public class CmdExcentricity extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
+			case 1:
+				arg = resArgs(c, info);
 
-			// asymptotes to conic
-			if (arg[0].isGeoConic()) {
+				// asymptotes to conic
+				if (arg[0].isGeoConic()) {
 
-				AlgoExcentricity algo = new AlgoExcentricity(cons, c.getLabel(),
-						(GeoConicND) arg[0]);
+					AlgoExcentricity algo = new AlgoExcentricity(cons, c.getLabel(), (GeoConicND) arg[0]);
 
-				GeoElement[] ret = { algo.getLinearEccentricity() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getLinearEccentricity()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

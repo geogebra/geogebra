@@ -50,8 +50,7 @@ public class OptimizerNumeric extends Optimizer {
 
 	@Override
 	public boolean hasBounds() {
-		return indep.getIntervalMaxObject() != null
-				&& indep.getIntervalMinObject() != null;
+		return indep.getIntervalMaxObject() != null && indep.getIntervalMinObject() != null;
 	}
 
 	@Override
@@ -67,7 +66,5 @@ public class OptimizerNumeric extends Optimizer {
 	@Override
 	public void setValue(double old) {
 		indep.setValue(old);
-
 	}
-
 }

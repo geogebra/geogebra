@@ -40,8 +40,8 @@ public final class SliderWithProperty extends FlowPanel {
 	 * @param appW application
 	 * @param property range property
 	 */
-	public SliderWithProperty(AppW appW, RangePropertyListFacade<?> property,
-			PropertySupplier propertySupplier) {
+	public SliderWithProperty(
+			AppW appW, RangePropertyListFacade<?> property, PropertySupplier propertySupplier) {
 		this.appW = appW;
 		this.property = property;
 		this.propertySupplier = propertySupplier;
@@ -58,7 +58,7 @@ public final class SliderWithProperty extends FlowPanel {
 	}
 
 	private void buildGui() {
-		String sliderText  = getFirstProperty().getName();
+		String sliderText = getFirstProperty().getName();
 		Label sliderLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
 				appW.getLocalization().getMenu(sliderText), "sliderLabel");
 		unitLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(getUnitText(), "sliderLabel");
@@ -89,7 +89,8 @@ public final class SliderWithProperty extends FlowPanel {
 		slider = new SliderW(property.getMin(), property.getMax());
 		slider.addStyleName("slider");
 		setInitialValue();
-		slider.addValueChangeHandler(event -> onInputChangeFinished(slider.getValue().intValue()));
+		slider.addValueChangeHandler(
+				event -> onInputChangeFinished(slider.getValue().intValue()));
 		slider.addInputHandler(() -> onInputChange(slider.getValue().intValue()));
 	}
 

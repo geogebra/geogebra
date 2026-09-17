@@ -5,7 +5,7 @@ package org.freehep.util.io;
  * Keeps the actionCode and Length of a specific action. To be used in the
  * TaggedInputStream to return the actionCode and Length, and in the
  * TaggedOutputStream to write them.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: ActionHeader.java,v 1.3 2008-05-04 12:21:27 murkle Exp $
@@ -18,7 +18,7 @@ public class ActionHeader {
 
 	/**
 	 * Creates an action header
-	 * 
+	 *
 	 * @param actionCode
 	 *            code for action
 	 * @param length
@@ -31,7 +31,7 @@ public class ActionHeader {
 
 	/**
 	 * Sets the action code
-	 * 
+	 *
 	 * @param actionCode
 	 *            new action code
 	 */
@@ -48,7 +48,7 @@ public class ActionHeader {
 
 	/**
 	 * Sets the length of this tag
-	 * 
+	 *
 	 * @param length
 	 *            new length
 	 */

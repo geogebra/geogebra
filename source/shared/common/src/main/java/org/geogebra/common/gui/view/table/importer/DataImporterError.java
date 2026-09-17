@@ -28,7 +28,7 @@ public enum DataImporterError {
 	DATA_FORMAT_ERROR,
 
 	/** Inconsistent number of columns.
-	Can also be caused by inconsistent column separators (mixing ',' and ';', for example).
-	*/
+	 * Can also be caused by inconsistent column separators (mixing ',' and ';', for example).
+	 */
 	INCONSISTENT_COLUMNS
 }

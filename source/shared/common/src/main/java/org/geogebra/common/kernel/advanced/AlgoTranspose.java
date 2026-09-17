@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Transpose a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 16-02-2008
  */
-
 public class AlgoTranspose extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -74,8 +73,7 @@ public class AlgoTranspose extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		if (!inputList.isDefined()
-				|| (inputList.size() > 0 && !inputList.get(0).isGeoList())) {
+		if (!inputList.isDefined() || (inputList.size() > 0 && !inputList.get(0).isGeoList())) {
 			outputList.setUndefined();
 			return;
 		}
@@ -86,8 +84,7 @@ public class AlgoTranspose extends AlgoElement {
 		int cols = ((GeoList) inputList.get(0)).size();
 		for (int i = 1; i < inputList.size(); i++) {
 
-			if (!inputList.get(i).isGeoList()
-					|| ((GeoList) inputList.get(i)).size() != cols) {
+			if (!inputList.get(i).isGeoList() || ((GeoList) inputList.get(i)).size() != cols) {
 				outputList.setUndefined();
 				return;
 			}
@@ -100,7 +97,5 @@ public class AlgoTranspose extends AlgoElement {
 			}
 			outputList.add(column);
 		}
-
 	}
-
 }

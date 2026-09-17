@@ -32,8 +32,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  * Computes area of polygon P[0], ..., P[n]
  *
  */
-public class AlgoAreaPoints extends AlgoElement
-		implements SymbolicParametersBotanaAlgo {
+public class AlgoAreaPoints extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
 	protected GeoPointND[] P; // input
 	protected GeoNumeric area; // output
@@ -109,14 +108,12 @@ public class AlgoAreaPoints extends AlgoElement
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		GeoPointND[] points = getPoints();
 		if (botanaVars == null) {
 			botanaVars = new PVariable[points.length * 2];
 			for (int i = 0; i < points.length; i++) {
-				PVariable[] currentPointBotanavars = ((GeoPoint) points[i])
-						.getBotanaVars(points[i]);
+				PVariable[] currentPointBotanavars = ((GeoPoint) points[i]).getBotanaVars(points[i]);
 				botanaVars[2 * i] = currentPointBotanavars[0];
 				botanaVars[2 * i + 1] = currentPointBotanavars[1];
 			}
@@ -125,10 +122,8 @@ public class AlgoAreaPoints extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

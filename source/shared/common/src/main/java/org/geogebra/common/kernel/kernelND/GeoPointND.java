@@ -45,20 +45,26 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * 
+ *
  * @author ggb3D
  *
  *         interface for stuff common to 2D and 3D points
  *
  */
-
-public interface GeoPointND extends PointProperties, Translateable,
-		SpreadsheetTraceable, MatrixTransformable, CoordStyle,
-		Mirrorable, Dilateable, Animatable, ConicMirrorable {
+public interface GeoPointND
+		extends PointProperties,
+				Translateable,
+				SpreadsheetTraceable,
+				MatrixTransformable,
+				CoordStyle,
+				Mirrorable,
+				Dilateable,
+				Animatable,
+				ConicMirrorable {
 
 	/** cannot move */
 	int MOVE_MODE_NONE = 0; // for intersection points and fixed
-											// points
+	// points
 	/** can move in x,y directions */
 	int MOVE_MODE_XY = 1;
 	/** can move in z direction */
@@ -140,7 +146,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * return the coordinates of the vector (this,Q)
-	 * 
+	 *
 	 * @param Q
 	 *            ending point
 	 * @return coords of the vector
@@ -170,7 +176,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
-	 * 
+	 *
 	 * @param x
 	 *            first coord
 	 * @param y
@@ -182,7 +188,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
-	 * 
+	 *
 	 * @param x
 	 *            first coord
 	 * @param y
@@ -196,7 +202,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * Sets homogeneous coordinates and updates inhomogeneous coordinates
-	 * 
+	 *
 	 * @param v
 	 *            coords
 	 * @param doPathOrRegion
@@ -206,7 +212,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * set 2D coords
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -290,14 +296,14 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * sets the move mode (along xOy or along Oz)
-	 * 
+	 *
 	 * @param mode
 	 *            view tool mode
 	 */
 	void switchMoveMode(int mode);
 
 	/**
-	 * 
+	 *
 	 * @return the move mode (along xOy or along Oz)
 	 */
 	int getMoveMode();
@@ -335,7 +341,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	boolean getTrace();
 
 	/**
-	 * 
+	 *
 	 * @param path
 	 *            a path
 	 * @return distance from point to path
@@ -372,7 +378,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * Copy coordinates from point.
-	 * 
+	 *
 	 * @param point
 	 *            source point
 	 */
@@ -398,7 +404,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * Change coordinates of this point to linear combination of two MyPoints.
-	 * 
+	 *
 	 * @param param1
 	 *            weight of first point
 	 * @param param2
@@ -408,8 +414,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 * @param rightPoint
 	 *            second point
 	 */
-	void set(double param1, double param2, MyPoint leftPoint,
-			MyPoint rightPoint);
+	void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint);
 
 	/**
 	 * @param phi
@@ -466,14 +471,14 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * used for GeoPoint3D
-	 * 
+	 *
 	 * @param ccp
 	 *            changeable coord parent
 	 */
 	void setChangeableParentIfNull(ChangeableParent ccp);
 
 	/**
-	 * 
+	 *
 	 * @return current (3D) view zScale (if set)
 	 */
 	double getZScale();
@@ -500,7 +505,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * set region changed with x, y coords
-	 * 
+	 *
 	 * @param x
 	 *            x coord
 	 * @param y
@@ -510,7 +515,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	/**
 	 * point changed on a polygon as path
-	 * 
+	 *
 	 * @param polygon
 	 *            polygon
 	 */
@@ -542,10 +547,10 @@ public interface GeoPointND extends PointProperties, Translateable,
 				if (Double.isInfinite(getCoords().getX()) || Double.isInfinite(getY2D())) {
 					setCoords(a, b, 1.0);
 				} else {
-					double scaleFactor = r * r / ((getInhomX() - a) * (getInhomX() - a)
-							+ (getInhomY() - b) * (getInhomY() - b));
-					setCoords(a + scaleFactor * (getInhomX() - a),
-							b + scaleFactor * (getInhomY() - b), 1.0);
+					double scaleFactor = r
+							* r
+							/ ((getInhomX() - a) * (getInhomX() - a) + (getInhomY() - b) * (getInhomY() - b));
+					setCoords(a + scaleFactor * (getInhomX() - a), b + scaleFactor * (getInhomY() - b), 1.0);
 				}
 			} else if (conic.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
 				/* In the case the conic is a line we mirror about that line. */

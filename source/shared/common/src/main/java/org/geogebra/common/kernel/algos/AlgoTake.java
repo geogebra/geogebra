@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Take objects from the middle of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoTake extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -47,8 +46,7 @@ public class AlgoTake extends AlgoElement {
 	 * @param n
 	 *            end index (1 based)
 	 */
-	public AlgoTake(Construction cons, GeoList inputList, GeoNumeric m,
-			GeoNumeric n) {
+	public AlgoTake(Construction cons, GeoList inputList, GeoNumeric m, GeoNumeric n) {
 		super(cons);
 		this.inputList = inputList;
 		this.m = m;
@@ -114,8 +112,7 @@ public class AlgoTake extends AlgoElement {
 			return;
 		}
 
-		if (!inputList.isDefined() || size == 0 || start <= 0 || end > size
-				|| start > end) {
+		if (!inputList.isDefined() || size == 0 || start <= 0 || end > size || start > end) {
 			outputList.setUndefined();
 			return;
 		}
@@ -127,5 +124,4 @@ public class AlgoTake extends AlgoElement {
 			outputList.add(inputList.get(i - 1).copyInternal(cons));
 		}
 	}
-
 }

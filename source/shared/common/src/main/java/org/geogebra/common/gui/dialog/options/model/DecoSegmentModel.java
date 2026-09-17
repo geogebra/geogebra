@@ -48,7 +48,6 @@ public class DecoSegmentModel extends IconOptionsModel {
 
 		SegmentProperties geo0 = getGeoSegmentAt(0);
 		listener.setSelectedIndex(geo0.getDecorationType());
-
 	}
 
 	@Override

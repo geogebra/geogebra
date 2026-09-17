@@ -31,8 +31,7 @@ public class BarChartGeoNumeric extends GeoNumeric implements ChartStyleGeo {
 	}
 
 	@Override
-	public String getTooltipText(final boolean colored,
-			final boolean alwaysOn) {
+	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 		return toolTipText;
 	}
 

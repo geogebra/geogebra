@@ -34,8 +34,8 @@ public interface TabularDataPasteInterface<T> {
 	 * @param clipboard with the internal cell data.
 	 * @param destination range of tabularData to paste to
 	 */
-	void pasteInternal(TabularData<T> tabularData, TabularClipboard<T> clipboard,
-		TabularRange destination);
+	void pasteInternal(
+			TabularData<T> tabularData, TabularClipboard<T> clipboard, TabularRange destination);
 
 	/**
 	 * Paste data from system clipboard tabularData.
@@ -44,6 +44,6 @@ public interface TabularDataPasteInterface<T> {
 	 * @param clipboardContent the serialized cell data.
 	 * @param destination range of tabularData to paste to
 	 */
-	void pasteExternal(TabularData<T> tabularData, String[][] clipboardContent,
-		TabularRange destination);
+	void pasteExternal(
+			TabularData<T> tabularData, String[][] clipboardContent, TabularRange destination);
 }

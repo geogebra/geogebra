@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Angle bisectors between two lines (3D)
- * 
+ *
  * @author mathieu
  */
 public class AlgoAngularBisectorLines3D extends AlgoElement {
@@ -59,8 +59,7 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	 * @param h
 	 *            second line
 	 */
-	public AlgoAngularBisectorLines3D(Construction cons, String[] labels,
-			GeoLineND g, GeoLineND h) {
+	public AlgoAngularBisectorLines3D(Construction cons, String[] labels, GeoLineND g, GeoLineND h) {
 		this(cons, g, h);
 		LabelManager.setLabels(labels, bisector);
 	}
@@ -161,10 +160,9 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 			bisector[1].setUndefined();
 		} else { // standard case: g and h are not parallel
 			// nearest points
-			Coords[] points = CoordMatrixUtil.nearestPointsFromTwoLines(o1, v1,
-					o2, v2);
+			Coords[] points = CoordMatrixUtil.nearestPointsFromTwoLines(o1, v1, o2, v2);
 			if (!points[0].equalsForKernel(points[1])) { // lines are not
-															// coplanar
+				// coplanar
 				bisector[0].setUndefined();
 				bisector[1].setUndefined();
 			} else {
@@ -179,16 +177,15 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("AngleBisectorOfAB", g.getLabel(tpl),
-				h.getLabel(tpl));
+		return getLoc().getPlain("AngleBisectorOfAB", g.getLabel(tpl), h.getLabel(tpl));
 	}
 
 	/*
 	 * @Override public boolean isLocusEquable() { return true; }
-	 * 
+	 *
 	 * public EquationElementInterface buildEquationElementForGeo(GeoElement
 	 * geo, EquationScopeInterface scope) { return
 	 * LocusEquation.eqnAngularBisectorLines(geo, this, scope); }

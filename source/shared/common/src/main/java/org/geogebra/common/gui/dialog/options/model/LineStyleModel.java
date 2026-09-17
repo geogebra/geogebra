@@ -66,7 +66,6 @@ public class LineStyleModel extends OptionsModel {
 		if (lineStyleArray == null) {
 			lineStyleArray = getLineTypes();
 		}
-
 	}
 
 	public LineStyleModel(App app) {
@@ -101,7 +100,6 @@ public class LineStyleModel extends OptionsModel {
 		}
 
 		return 0;
-
 	}
 
 	@Override
@@ -183,7 +181,7 @@ public class LineStyleModel extends OptionsModel {
 
 	/**
 	 * Decides if geo is accepted for this model.
-	 * 
+	 *
 	 * @param geo
 	 *            The geo to match.
 	 * @return if geo has line properties

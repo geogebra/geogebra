@@ -32,7 +32,7 @@ import elemental2.core.Global;
 
 /**
  * Web implementations for various utils
- * 
+ *
  * @author Zoltan Kovacs
  */
 public class UtilFactoryW extends UtilFactory {

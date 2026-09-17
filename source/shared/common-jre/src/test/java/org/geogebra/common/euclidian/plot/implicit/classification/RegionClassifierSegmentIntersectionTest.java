@@ -102,11 +102,10 @@ class RegionClassifierSegmentIntersectionTest {
 	@SuppressWarnings("PMD.AvoidAccessibilityAlteration")
 	private static void invokeDoIntersectSegments(ContourSegment first, ContourSegment second)
 			throws Exception {
-		ContourIntersectionFinder finder =
-				new ContourIntersectionFinder(new ContourSegmentRegistry(List.of()),
-						EpsilonPolicy.defaults());
-		Method method = ContourIntersectionFinder.class.getDeclaredMethod("doIntersectSegments",
-					ContourSegment.class, ContourSegment.class);
+		ContourIntersectionFinder finder = new ContourIntersectionFinder(
+				new ContourSegmentRegistry(List.of()), EpsilonPolicy.defaults());
+		Method method = ContourIntersectionFinder.class.getDeclaredMethod(
+				"doIntersectSegments", ContourSegment.class, ContourSegment.class);
 		method.setAccessible(true);
 		method.invoke(finder, first, second);
 	}
@@ -117,9 +116,8 @@ class RegionClassifierSegmentIntersectionTest {
 		}
 	}
 
-	private static ContourSegment segment(double x1, double y1, double x2, double y2,
-			int contourId, int segmentIndex) {
-		return new ContourSegment(new MyPoint(x1, y1), new MyPoint(x2, y2), contourId,
-				segmentIndex);
+	private static ContourSegment segment(
+			double x1, double y1, double x2, double y2, int contourId, int segmentIndex) {
+		return new ContourSegment(new MyPoint(x1, y1), new MyPoint(x2, y2), contourId, segmentIndex);
 	}
 }

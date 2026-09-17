@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Returns the harmonic mean for a list of numbers
  */
-
 public class AlgoHarmonicMean extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -43,8 +42,7 @@ public class AlgoHarmonicMean extends AlgoElement {
 	 * @param inputList
 	 *            numbers
 	 */
-	public AlgoHarmonicMean(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoHarmonicMean(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -104,5 +102,4 @@ public class AlgoHarmonicMean extends AlgoElement {
 
 		result.setValue(size / sum);
 	}
-
 }

@@ -39,18 +39,19 @@ public final class PreviewPanel extends FlowPanel {
 	 * @param editPanel {@link TextEditPanel}
 	 * @param recenterDialog center and resize dialog when preview panel is shown
 	 */
-	public PreviewPanel(AppW appW, TextStyle textStyle, TextEditPanel editPanel,
-			Runnable recenterDialog) {
+	public PreviewPanel(
+			AppW appW, TextStyle textStyle, TextEditPanel editPanel, Runnable recenterDialog) {
 		this.appW = appW;
 		this.previewer = editPanel.getPreviewer();
 		createPreviewPanel(textStyle, editPanel, recenterDialog);
 	}
 
-	private void createPreviewPanel(TextStyle textStyle, TextEditPanel editPanel,
-			Runnable recenterDialog) {
+	private void createPreviewPanel(
+			TextStyle textStyle, TextEditPanel editPanel, Runnable recenterDialog) {
 		FlowPanel header = new FlowPanel();
 		header.addStyleName("header closed");
-		SVGResource icon = KeyboardResources.INSTANCE.keyboard_arrowRight_black()
+		SVGResource icon = KeyboardResources.INSTANCE
+				.keyboard_arrowRight_black()
 				.withFill(GeoGebraColorConstants.NEUTRAL_700.toString());
 		StandardButton previewButton = new StandardButton(icon, "Preview", 24);
 		previewButton.addFastClickHandler(source -> {
@@ -60,11 +61,10 @@ public final class PreviewPanel extends FlowPanel {
 		});
 		header.add(previewButton);
 
-		latexCheckbox = new ComponentCheckbox(appW.getLocalization(),
-				textStyle.isLatex(), "LaTeXFormula", isLatex -> {
+		latexCheckbox = new ComponentCheckbox(
+				appW.getLocalization(), textStyle.isLatex(), "LaTeXFormula", isLatex -> {
 					textStyle.setLatex(isLatex);
-					previewer.updatePreviewText(editPanel.getEditGeo(), editPanel.getText(),
-							 isLatex, false);
+					previewer.updatePreviewText(editPanel.getEditGeo(), editPanel.getText(), isLatex, false);
 					editPanel.getEditGeo().setLaTeX(isLatex, false);
 				});
 		header.add(latexCheckbox);

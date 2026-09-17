@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,16 +40,16 @@ public final class BundleLookAndFeel extends GLookAndFeel {
 	@Override
 	public void addWindowClosingHandler(final AppW app) {
 		Localization loc = app.getLocalization();
-		addNativeHandler(loc.getMenu("CloseApplicationLoseUnsavedData"),
-				loc.getMenu("Save"), loc.getMenu("DontSave"),
+		addNativeHandler(
+				loc.getMenu("CloseApplicationLoseUnsavedData"),
+				loc.getMenu("Save"),
+				loc.getMenu("DontSave"),
 				loc.getMenu("Cancel"));
 	}
 
-	private void addNativeHandler(String message, String save,
-			String noSave, String cancel) {
+	private void addNativeHandler(String message, String save, String noSave, String cancel) {
 		if (GeoGebraGlobal.getSetUnsavedMessage() != null) {
-			GeoGebraGlobal.getSetUnsavedMessage().call(DomGlobal.window,
-					message, save, noSave, cancel);
+			GeoGebraGlobal.getSetUnsavedMessage().call(DomGlobal.window, message, save, noSave, cancel);
 		}
 	}
 
@@ -67,8 +67,8 @@ public final class BundleLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public SignInController getSignInController(App app) {
-		return new SignInController(app, 0,
-				StaticFileUrls.getCallbackUrl().replace("file://", "app://"));
+		return new SignInController(
+				app, 0, StaticFileUrls.getCallbackUrl().replace("file://", "app://"));
 	}
 
 	@Override

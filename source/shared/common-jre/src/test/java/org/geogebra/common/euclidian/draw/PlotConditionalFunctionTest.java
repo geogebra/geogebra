@@ -77,13 +77,12 @@ class PlotConditionalFunctionTest extends BaseUnitTest {
 	private void limitShouldBe(String command, List<Double> expected) {
 		GeoFunction f = add(command);
 		List<Double> limits = new ArrayList<>();
-		PlotConditionalFunction.getConditionLimit(Objects.requireNonNull(
-				f.getFunctionExpression()).wrap(), limits);
+		PlotConditionalFunction.getConditionLimit(
+				Objects.requireNonNull(f.getFunctionExpression()).wrap(), limits);
 		assertEquals(expected, limits);
 	}
 
 	private void limitShouldBe(String command, Double... expected) {
 		limitShouldBe(command, Arrays.asList(expected));
 	}
-
 }

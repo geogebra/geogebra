@@ -31,29 +31,27 @@ public class SchedulerFactoryJre extends SchedulerFactory {
 	/**
 	 * Scheduler (JRE)
 	 */
-	static public class SchedulerJre implements Scheduler {
-        private final ScheduledExecutorService scheduledExecutorService = Executors
-                .newScheduledThreadPool(1);
+	public static class SchedulerJre implements Scheduler {
+		private final ScheduledExecutorService scheduledExecutorService =
+				Executors.newScheduledThreadPool(1);
 
-        private ScheduledFuture<?> handler;
-
-		@Override
-        public void schedule(Runnable runnable, int delay) {
-            handler = scheduledExecutorService.schedule(runnable,
-                    delay,
-                    TimeUnit.MILLISECONDS);
-        }
+		private ScheduledFuture<?> handler;
 
 		@Override
-        public void cancel() {
+		public void schedule(Runnable runnable, int delay) {
+			handler = scheduledExecutorService.schedule(runnable, delay, TimeUnit.MILLISECONDS);
+		}
+
+		@Override
+		public void cancel() {
 			if (handler != null) {
-                handler.cancel(false);
-            }
-        }
-    }
+				handler.cancel(false);
+			}
+		}
+	}
 
-    @Override
-    public Scheduler createScheduler() {
-        return new SchedulerJre();
-    }
+	@Override
+	public Scheduler createScheduler() {
+		return new SchedulerJre();
+	}
 }

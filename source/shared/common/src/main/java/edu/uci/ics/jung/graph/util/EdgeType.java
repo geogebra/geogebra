@@ -1,7 +1,7 @@
 /*
  * Created on February 27, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -16,5 +16,6 @@ package edu.uci.ics.jung.graph.util;
  * Defines the possible edge types for graphs which assign types to edges.
  */
 public enum EdgeType {
-	DIRECTED, UNDIRECTED
+	DIRECTED,
+	UNDIRECTED
 }

@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -52,7 +52,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 
 	/**
 	 * Creates new semicircle algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -62,15 +62,15 @@ public class AlgoSemicircle3D extends AlgoElement {
 	 * @param B
 	 *            second endpoint
 	 */
-	public AlgoSemicircle3D(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoDirectionND orientation) {
+	public AlgoSemicircle3D(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoDirectionND orientation) {
 		this(cons, A, B, orientation);
 		conicPart.setLabel(label);
 	}
 
 	/**
 	 * Creates new unlabeled semicircle algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param A
@@ -80,8 +80,8 @@ public class AlgoSemicircle3D extends AlgoElement {
 	 * @param orientation
 	 *            orientation
 	 */
-	public AlgoSemicircle3D(Construction cons, GeoPointND A, GeoPointND B,
-			GeoDirectionND orientation) {
+	public AlgoSemicircle3D(
+			Construction cons, GeoPointND A, GeoPointND B, GeoDirectionND orientation) {
 		super(cons);
 
 		p2d = new Coords(4);
@@ -101,13 +101,12 @@ public class AlgoSemicircle3D extends AlgoElement {
 		M = algom.getPoint();
 
 		// helper algo to get circle
-		AlgoCircle3DPointPointDirection algo = new AlgoCircle3DPointPointDirection(
-				cons, M, B, orientation);
+		AlgoCircle3DPointPointDirection algo =
+				new AlgoCircle3DPointPointDirection(cons, M, B, orientation);
 		cons.removeFromConstructionList(algo);
 		conic = algo.getCircle();
 
-		conicPart = new GeoConicPart3D(cons,
-				GeoConicNDConstants.CONIC_PART_ARC);
+		conicPart = new GeoConicPart3D(cons, GeoConicNDConstants.CONIC_PART_ARC);
 		conicPart.addPointOnConic(A);
 		conicPart.addPointOnConic(B);
 
@@ -142,7 +141,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 
 	/**
 	 * Returns the semicircle.
-	 * 
+	 *
 	 * @return the semicircle
 	 */
 	public GeoConicPart3D getSemicircle() {
@@ -156,8 +155,8 @@ public class AlgoSemicircle3D extends AlgoElement {
 			return;
 		}
 
-		B.getInhomCoordsInD3().projectPlaneInPlaneCoords(
-				conic.getCoordSys().getMatrixOrthonormal(), p2d);
+		B.getInhomCoordsInD3()
+				.projectPlaneInPlaneCoords(conic.getCoordSys().getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, param);
 
@@ -166,9 +165,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("SemicircleThroughAandB",
-				A.getLabel(tpl), B.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc().getPlain("SemicircleThroughAandB", A.getLabel(tpl), B.getLabel(tpl));
 	}
-
 }

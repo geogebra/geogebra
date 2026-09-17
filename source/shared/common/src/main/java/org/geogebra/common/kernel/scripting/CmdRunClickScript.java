@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -25,12 +25,11 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
 /**
- * 
+ *
  * @author Giuliano Bellucci
  * @since 19/03/2013
- * 
+ *
  */
-
 public class CmdRunClickScript extends CmdScripting {
 
 	/**
@@ -48,24 +47,21 @@ public class CmdRunClickScript extends CmdScripting {
 		GeoElement[] args;
 
 		switch (n) {
-
-		case 1:
-			args = resArgs(c);
-			if (args[0].getScript(EventType.CLICK) == null) {
+			case 1:
+				args = resArgs(c);
+				if (args[0].getScript(EventType.CLICK) == null) {
+					return args;
+				}
+				if (args[0].isGeoInputBox()) {
+					((GeoInputBox) args[0]).textSubmitted();
+				} else {
+					app.dispatchEvent(new Event(EventType.CLICK, args[0], args[0].getLabelSimple())
+							.setAlwaysDispatched(true));
+				}
 				return args;
-			}
-			if (args[0].isGeoInputBox()) {
-				((GeoInputBox) args[0]).textSubmitted();
-			} else {
-				app.dispatchEvent(
-						new Event(EventType.CLICK, args[0], args[0].getLabelSimple())
-								.setAlwaysDispatched(true));
-			}
-			return args;
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
-
 	}
 }

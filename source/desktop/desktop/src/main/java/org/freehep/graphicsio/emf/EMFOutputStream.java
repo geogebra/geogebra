@@ -19,7 +19,7 @@ import org.freehep.util.io.TaggedOutputStream;
 /**
  * EMF Binary Output Stream. Tags written with this OutputStream will produce a
  * binary EMF file.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EMFOutputStream.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
@@ -39,9 +39,15 @@ public class EMFOutputStream extends TaggedOutputStream {
 
 	private Dimension device;
 
-	public EMFOutputStream(OutputStream os, Rectangle imageBounds,
-			EMFHandleManager handles, String application, String name,
-			Dimension device, int version) throws IOException {
+	public EMFOutputStream(
+			OutputStream os,
+			Rectangle imageBounds,
+			EMFHandleManager handles,
+			String application,
+			String name,
+			Dimension device,
+			int version)
+			throws IOException {
 
 		// EMF is little-endian
 		super(os, new EMFTagSet(version), null, true);
@@ -57,9 +63,14 @@ public class EMFOutputStream extends TaggedOutputStream {
 		pushBuffer();
 	}
 
-	public EMFOutputStream(OutputStream os, Rectangle imageBounds,
-			EMFHandleManager handles, String application, String name,
-			Dimension device) throws IOException {
+	public EMFOutputStream(
+			OutputStream os,
+			Rectangle imageBounds,
+			EMFHandleManager handles,
+			String application,
+			String name,
+			Dimension device)
+			throws IOException {
 
 		this(os, imageBounds, handles, application, name, device, 1);
 	}
@@ -69,9 +80,17 @@ public class EMFOutputStream extends TaggedOutputStream {
 		int len = popBuffer();
 		recordCount++;
 		// FIXME check this
-		EMFHeader header = new EMFHeader(EMFHeader.TYPE_WMF, imageBounds,
-				getVersion(), 0, len, recordCount, handles.maxHandlesUsed(),
-				application, name, device);
+		EMFHeader header = new EMFHeader(
+				EMFHeader.TYPE_WMF,
+				imageBounds,
+				getVersion(),
+				0,
+				len,
+				recordCount,
+				handles.maxHandlesUsed(),
+				application,
+				name,
+				device);
 		writeHeader(header);
 		append();
 

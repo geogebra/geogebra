@@ -40,13 +40,12 @@ public class CmdCircle3D extends CmdCircle {
 	}
 
 	@Override
-	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
-		if ((ok[0] = arg[0] instanceof GeoLineND)
-				&& (ok[1] = arg[1].isGeoPoint())) {
-			GeoElement[] ret = { kernel.getManager3D().circle3D(c.getLabel(),
-					(GeoLineND) arg[0], (GeoPointND) arg[1]) };
+		if ((ok[0] = arg[0] instanceof GeoLineND) && (ok[1] = arg[1].isGeoPoint())) {
+			GeoElement[] ret = {
+				kernel.getManager3D().circle3D(c.getLabel(), (GeoLineND) arg[0], (GeoPointND) arg[1])
+			};
 			return ret;
 		}
 
@@ -56,8 +55,7 @@ public class CmdCircle3D extends CmdCircle {
 	@Override
 	protected GeoElement circle(String label, GeoPointND a, GeoNumberValue v) {
 
-		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientationNoSpace(kernel, app);
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();
@@ -73,8 +71,7 @@ public class CmdCircle3D extends CmdCircle {
 	@Override
 	protected GeoElement circle(String label, GeoPointND a, GeoPointND b) {
 
-		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientationNoSpace(kernel, app);
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D() || b.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();
@@ -88,21 +85,25 @@ public class CmdCircle3D extends CmdCircle {
 	}
 
 	@Override
-	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
-		if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[2] = arg[2] instanceof GeoDirectionND)) {
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[2] = arg[2] instanceof GeoDirectionND)) {
 
 			if (arg[1] instanceof GeoNumberValue) {
-				GeoElement[] ret = { kernel.getManager3D().circle3D(
-						c.getLabel(), (GeoPointND) arg[0],
-						(GeoNumberValue) arg[1], (GeoDirectionND) arg[2]) };
+				GeoElement[] ret = {
+					kernel
+							.getManager3D()
+							.circle3D(c.getLabel(), (GeoPointND) arg[0], (GeoNumberValue) arg[1], (GeoDirectionND)
+									arg[2])
+				};
 				return ret;
 			} else if (arg[1].isGeoPoint()) {
-				GeoElement[] ret = { kernel.getManager3D().circle3D(
-						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoDirectionND) arg[2]) };
+				GeoElement[] ret = {
+					kernel
+							.getManager3D()
+							.circle3D(
+									c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoDirectionND) arg[2])
+				};
 				return ret;
 			}
 			ok[1] = false;
@@ -112,8 +113,7 @@ public class CmdCircle3D extends CmdCircle {
 	}
 
 	@Override
-	protected GeoElement circle(String label, GeoPointND a, GeoPointND b,
-			GeoPointND c) {
+	protected GeoElement circle(String label, GeoPointND a, GeoPointND b, GeoPointND c) {
 
 		if (a.isGeoElement3D() || b.isGeoElement3D() || c.isGeoElement3D()) {
 			return kernel.getManager3D().circle3D(label, a, b, c);
@@ -121,5 +121,4 @@ public class CmdCircle3D extends CmdCircle {
 
 		return super.circle(label, a, b, c);
 	}
-
 }

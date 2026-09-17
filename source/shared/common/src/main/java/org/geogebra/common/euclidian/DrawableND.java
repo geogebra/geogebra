@@ -26,7 +26,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Class for drawables in any dimension
- * 
+ *
  * @author Mathieu
  *
  */
@@ -38,11 +38,12 @@ public abstract class DrawableND {
 	/** drawList that has created this */
 	@Weak
 	private DrawableND drawList;
+
 	private boolean needsUpdate = false;
 
 	/**
 	 * sets that this has been created by the DrawList
-	 * 
+	 *
 	 * @param drawList
 	 *            true if created by DrawList
 	 */
@@ -55,18 +56,16 @@ public abstract class DrawableND {
 		} else {
 			this.drawList = drawList;
 		}
-
 	}
 
 	/**
 	 * sets if this is visible when the DrawList is visible
-	 * 
+	 *
 	 * @param flag
 	 *            true to make this visible when the DrawList is visible
 	 */
 	public void setCreatedByDrawListVisible(boolean flag) {
 		createdByDrawListVisible = flag;
-
 	}
 
 	/**
@@ -74,7 +73,6 @@ public abstract class DrawableND {
 	 */
 	public boolean createdByDrawList() {
 		return createdByDrawList;
-
 	}
 
 	/**
@@ -82,7 +80,6 @@ public abstract class DrawableND {
 	 */
 	public boolean isCreatedByDrawListVisible() {
 		return createdByDrawListVisible;
-
 	}
 
 	/**
@@ -107,7 +104,7 @@ public abstract class DrawableND {
 
 	/**
 	 * says that the drawable has to be updated for visual style
-	 * 
+	 *
 	 * @param prop
 	 *            TODO
 	 */
@@ -171,7 +168,7 @@ public abstract class DrawableND {
 	/**
 	 * Checks for broken compatibility (eg if inequality changes to function,
 	 * drawable is invalid)
-	 * 
+	 *
 	 * @return whether the drawable still fits the geo
 	 */
 	public boolean isCompatibleWithGeo() {
@@ -181,7 +178,7 @@ public abstract class DrawableND {
 	/**
 	 * By default create new drawable from view, overridden for composite
 	 * drawable to avoid deep nesting.
-	 * 
+	 *
 	 * @param listElement
 	 *            element
 	 * @return drawable for element

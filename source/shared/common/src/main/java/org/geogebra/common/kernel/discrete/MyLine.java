@@ -39,5 +39,4 @@ public class MyLine {
 	public double lengthSquared() {
 		return GPoint2D.distanceSq(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	}
-
 }

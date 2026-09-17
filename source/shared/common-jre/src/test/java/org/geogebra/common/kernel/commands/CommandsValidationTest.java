@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.common.kernel.commands.CommandsConstants.TABLE_CAS;
@@ -37,10 +37,9 @@ class CommandsValidationTest extends BaseUnitTest {
 
 	@Test
 	void testArgumentTypeValidation() {
-		for (Commands command: Commands.values()) {
+		for (Commands command : Commands.values()) {
 			List<Integer> signature = CommandSignatures.getSignature(command.name(), getApp());
-			if (signature != null && command.getTable() != TABLE_CAS
-					&& !acceptsAnyArgType(command)) {
+			if (signature != null && command.getTable() != TABLE_CAS && !acceptsAnyArgType(command)) {
 				checkArgumentTypeValidation(command.name(), signature);
 			}
 		}
@@ -48,12 +47,13 @@ class CommandsValidationTest extends BaseUnitTest {
 
 	@Test
 	void testArgumentNumberValidation() {
-		for (Commands command: Commands.values()) {
+		for (Commands command : Commands.values()) {
 			List<Integer> signature = CommandSignatures.getSignature(command.name(), getApp());
-			if (signature != null && command.getTable() != TABLE_CAS
-				&& command != Commands.PenStroke
-				&& command != Commands.SelectObjects
-				&& command != Commands.StartAnimation) {
+			if (signature != null
+					&& command.getTable() != TABLE_CAS
+					&& command != Commands.PenStroke
+					&& command != Commands.SelectObjects
+					&& command != Commands.StartAnimation) {
 				checkArgumentNumberValidation(command.name(), signature);
 			}
 		}
@@ -61,15 +61,14 @@ class CommandsValidationTest extends BaseUnitTest {
 
 	@Test
 	void testCasTableValidation() {
-		for (Commands command: Commands.values()) {
+		for (Commands command : Commands.values()) {
 			if (command.getTable() == TABLE_CAS && command != Commands.SolveQuartic) {
 				shouldFail(command.name() + "()", "available only in the CAS", getApp());
 			}
 		}
 	}
 
-	private void checkArgumentTypeValidation(String cmdName,
-			List<Integer> signature) {
+	private void checkArgumentTypeValidation(String cmdName, List<Integer> signature) {
 		App app = getApp();
 		for (int args : signature) {
 			StringBuilder withArgs = new StringBuilder(cmdName).append("(");
@@ -84,39 +83,43 @@ class CommandsValidationTest extends BaseUnitTest {
 	}
 
 	private boolean acceptsAnyArgType(Commands cmdName) {
-		return List.of(Commands.Delete,
-				Commands.ConstructionStep,
-				Commands.Text,
-				Commands.LaTeX,
-				Commands.RunClickScript,
-				Commands.RunUpdateScript,
-				Commands.Defined,
-				Commands.AreEqual,
-				Commands.AreCongruent,
-				Commands.Textfield,
-				Commands.GetTime,
-				Commands.CopyFreeObject,
-				Commands.Name,
-				Commands.Relation,
-				Commands.SelectObjects,
-				Commands.Dot, Commands.Cross,
-				Commands.SetConstructionStep,
-				Commands.TableText,
-				Commands.SetValue,
-				Commands.Row,
-				Commands.Column,
-				Commands.ColumnName
-		).contains(cmdName);
+		return List.of(
+						Commands.Delete,
+						Commands.ConstructionStep,
+						Commands.Text,
+						Commands.LaTeX,
+						Commands.RunClickScript,
+						Commands.RunUpdateScript,
+						Commands.Defined,
+						Commands.AreEqual,
+						Commands.AreCongruent,
+						Commands.Textfield,
+						Commands.GetTime,
+						Commands.CopyFreeObject,
+						Commands.Name,
+						Commands.Relation,
+						Commands.SelectObjects,
+						Commands.Dot,
+						Commands.Cross,
+						Commands.SetConstructionStep,
+						Commands.TableText,
+						Commands.SetValue,
+						Commands.Row,
+						Commands.Column,
+						Commands.ColumnName)
+				.contains(cmdName);
 	}
 
-	private void checkArgumentNumberValidation(String cmdName,
-			List<Integer> signature) {
+	private void checkArgumentNumberValidation(String cmdName, List<Integer> signature) {
 		if (!signature.contains(0)) {
-			shouldFail(cmdName + "()", "Illegal number of arguments: 0",
-					"IllegalArgumentNumber", getApp());
+			shouldFail(
+					cmdName + "()", "Illegal number of arguments: 0", "IllegalArgumentNumber", getApp());
 		} else {
-			shouldFail(cmdName + "(space,space,space,space,space,space,space,space,space)",
-					"Illegal number of arguments: 9", "IllegalArgumentNumber", getApp());
+			shouldFail(
+					cmdName + "(space,space,space,space,space,space,space,space,space)",
+					"Illegal number of arguments: 9",
+					"IllegalArgumentNumber",
+					getApp());
 		}
 	}
 }

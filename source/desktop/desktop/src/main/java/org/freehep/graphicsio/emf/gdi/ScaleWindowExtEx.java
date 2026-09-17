@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * ScaleWindowExtEx TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ScaleWindowExtEx.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -30,11 +30,10 @@ public class ScaleWindowExtEx extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
-		ScaleWindowExtEx tag = new ScaleWindowExtEx(emf.readLONG(),
-				emf.readLONG(), emf.readLONG(), emf.readLONG());
+		ScaleWindowExtEx tag =
+				new ScaleWindowExtEx(emf.readLONG(), emf.readLONG(), emf.readLONG(), emf.readLONG());
 		return tag;
 	}
 

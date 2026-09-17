@@ -1,7 +1,7 @@
 /*
  * Created on Mar 3, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -24,7 +24,7 @@ import edu.uci.ics.jung.graph.Tree;
 public class TreeUtils {
 	/**
 	 * Returns the roots of this forest.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -42,7 +42,7 @@ public class TreeUtils {
 	 * Returns the subtree of <code>tree</code> which is rooted at
 	 * <code>root</code> as a <code>Forest&lt;V,E&gt;</code>. The tree returned is an
 	 * independent entity, although it uses the same vertex and edge objects.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -71,7 +71,7 @@ public class TreeUtils {
 	/**
 	 * Populates <code>subtree</code> with the subtree of <code>tree</code>
 	 * which is rooted at <code>root</code>.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -84,8 +84,7 @@ public class TreeUtils {
 	 * @param root
 	 *            the root of the subtree to be extracted
 	 */
-	public static <V, E> void growSubTree(Forest<V, E> tree,
-			Forest<V, E> subTree, V root) {
+	public static <V, E> void growSubTree(Forest<V, E> tree, Forest<V, E> subTree, V root) {
 		if (tree.getSuccessorCount(root) > 0) {
 			Collection<E> edges = tree.getOutEdges(root);
 			for (E e : edges) {
@@ -101,7 +100,7 @@ public class TreeUtils {
 	/**
 	 * Connects <code>subTree</code> to <code>tree</code> by attaching it as a
 	 * child of <code>node</code> with edge <code>connectingEdge</code>.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -117,8 +116,8 @@ public class TreeUtils {
 	 *            the edge used to connect <code>subtree</code>'s root as a
 	 *            child of <code>node</code>
 	 */
-	public static <V, E> void addSubTree(Forest<V, E> tree,
-			Forest<V, E> subTree, V node, E connectingEdge) {
+	public static <V, E> void addSubTree(
+			Forest<V, E> tree, Forest<V, E> subTree, V node, E connectingEdge) {
 		if (node != null && !tree.containsVertex(node)) {
 			throw new IllegalArgumentException(
 					"Specified tree does not contain the specified node as a vertex");
@@ -127,8 +126,8 @@ public class TreeUtils {
 		addFromSubTree(tree, subTree, connectingEdge, node, root);
 	}
 
-	public static <V, E> void addFromSubTree(Forest<V, E> tree,
-			Forest<V, E> subTree, E edge, V parent, V root) {
+	public static <V, E> void addFromSubTree(
+			Forest<V, E> tree, Forest<V, E> subTree, E edge, V parent, V root) {
 
 		// add edge connecting parent and root to tree
 		if (edge != null && parent != null) {

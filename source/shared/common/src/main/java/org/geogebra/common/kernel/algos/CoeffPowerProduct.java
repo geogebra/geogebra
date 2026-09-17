@@ -33,8 +33,7 @@ public final class CoeffPowerProduct {
 	private static final Comparator<CoeffPowerProduct> comparator;
 
 	static {
-		Comparator<CoeffPowerProduct> byTotalDegree = Comparator.comparing(
-				p -> -p.getTotalDegree());
+		Comparator<CoeffPowerProduct> byTotalDegree = Comparator.comparing(p -> -p.getTotalDegree());
 		comparator = byTotalDegree.thenComparing(p -> -p.primaryDegree);
 	}
 
@@ -44,8 +43,8 @@ public final class CoeffPowerProduct {
 	 * @param totalDegree the degree of the expression.
 	 * @param primaryDegree degree in first variable
 	 */
-	public CoeffPowerProduct(ExpressionValue powerExp, double coeffValue,
-			int totalDegree, int primaryDegree) {
+	public CoeffPowerProduct(
+			ExpressionValue powerExp, double coeffValue, int totalDegree, int primaryDegree) {
 		this.powerExp = powerExp;
 		this.coeffValue = coeffValue;
 		this.totalDegree = totalDegree;

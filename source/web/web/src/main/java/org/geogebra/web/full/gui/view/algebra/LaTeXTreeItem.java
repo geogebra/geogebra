@@ -87,10 +87,13 @@ public class LaTeXTreeItem extends RadioTreeItem {
 		}
 
 		FactoryProviderGWT.ensureLoaded();
-		mf = new MathFieldW(new SyntaxAdapterImplWithPaste(app.getKernel()), latexItem, canvas,
-				getLatexController(), app.getEditorFeatures());
-		mf.getInternal().getInputController()
-				.setCommandSyntaxLookup(new CommandSyntaxLookupImpl(app));
+		mf = new MathFieldW(
+				new SyntaxAdapterImplWithPaste(app.getKernel()),
+				latexItem,
+				canvas,
+				getLatexController(),
+				app.getEditorFeatures());
+		mf.getInternal().getInputController().setCommandSyntaxLookup(new CommandSyntaxLookupImpl(app));
 		DataTest.ALGEBRA_INPUT.apply(mf.getInputTextArea());
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
@@ -115,8 +118,7 @@ public class LaTeXTreeItem extends RadioTreeItem {
 	private void updateEditorAriaLabel(String text) {
 		if (mf != null) {
 			if (!StringUtil.emptyTrim(text)) {
-				String label = ScreenReader.getAriaExpression(app, mf.getFormula(),
-						ariaPreview);
+				String label = ScreenReader.getAriaExpression(app, mf.getFormula(), ariaPreview);
 				if (StringUtil.empty(label)) {
 					label = mf.getDescription();
 				}
@@ -147,14 +149,13 @@ public class LaTeXTreeItem extends RadioTreeItem {
 
 	@Override
 	public void insertString(String text) {
-		new MathFieldProcessing(mf).autocomplete(
-				app.getParserFunctions().toEditorAutocomplete(text, loc));
+		new MathFieldProcessing(mf)
+				.autocomplete(app.getParserFunctions().toEditorAutocomplete(text, loc));
 	}
 
 	@Override
 	protected String getEditorLatex() {
-		return mf == null ? null
-				: TeXSerializer.serialize(mf.getFormula().getRootNode());
+		return mf == null ? null : TeXSerializer.serialize(mf.getFormula().getRootNode());
 	}
 
 	@Override

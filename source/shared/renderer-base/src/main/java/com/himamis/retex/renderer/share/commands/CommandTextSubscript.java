@@ -24,8 +24,7 @@ public class CommandTextSubscript extends Command {
 	public void add(TeXParser tp, Atom a) {
 		tp.setMathMode(mode);
 		a = new TextStyleAtom(a, TextStyle.MATHNORMAL);
-		tp.closeConsumer(SubSupCom.get(EmptyAtom.get(),
-				new StyleAtom(TeXConstants.STYLE_TEXT, new RomanAtom(a)),
-				null));
+		tp.closeConsumer(SubSupCom.get(
+				EmptyAtom.get(), new StyleAtom(TeXConstants.STYLE_TEXT, new RomanAtom(a)), null));
 	}
 }

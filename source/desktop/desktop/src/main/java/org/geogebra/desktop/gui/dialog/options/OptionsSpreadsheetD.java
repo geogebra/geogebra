@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -44,10 +44,9 @@ import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Panel with options for the spreadsheet view. G.Sturr 2010-3-5
- * 
+ *
  */
-public class OptionsSpreadsheetD
-		implements OptionPanelD, ActionListener, FocusListener, SetLabels {
+public class OptionsSpreadsheetD implements OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private final AppD app;
 	private final LocalizationD loc;
@@ -92,8 +91,7 @@ public class OptionsSpreadsheetD
 
 		wrappedPanel.removeAll();
 		wrappedPanel.setLayout(new BorderLayout());
-		wrappedPanel.add(new JScrollPane(buildLayoutOptionsPanel()),
-				BorderLayout.CENTER);
+		wrappedPanel.add(new JScrollPane(buildLayoutOptionsPanel()), BorderLayout.CENTER);
 
 		app.setComponentOrientation(wrappedPanel);
 	}
@@ -211,9 +209,7 @@ public class OptionsSpreadsheetD
 		updateCheckBox(cbAllowToolTips, settings().allowToolTips());
 		updateCheckBox(cbPrependCommands, settings().equalsRequired());
 		updateCheckBox(cbEnableAutoComplete, settings().isEnableAutoComplete());
-		updateCheckBox(cbShowNavigation,
-				app.showConsProtNavigation(App.VIEW_SPREADSHEET));
-
+		updateCheckBox(cbShowNavigation, app.showConsProtNavigation(App.VIEW_SPREADSHEET));
 	}
 
 	private void updateDescription() {
@@ -247,45 +243,28 @@ public class OptionsSpreadsheetD
 
 		if (source == cbShowGrid) {
 			settings().setShowGrid(cbShowGrid.isSelected());
-		}
-
-		else if (source == cbShowRowHeader) {
+		} else if (source == cbShowRowHeader) {
 			settings().setShowRowHeader(cbShowRowHeader.isSelected());
-		}
-
-		else if (source == cbShowColumnHeader) {
+		} else if (source == cbShowColumnHeader) {
 			settings().setShowColumnHeader(cbShowColumnHeader.isSelected());
-		}
-
-		else if (source == cbShowHScrollbar) {
+		} else if (source == cbShowHScrollbar) {
 			settings().setShowHScrollBar(cbShowHScrollbar.isSelected());
-		}
-
-		else if (source == cbShowVScrollbar) {
+		} else if (source == cbShowVScrollbar) {
 			settings().setShowVScrollBar(cbShowVScrollbar.isSelected());
-		}
-
-		else if (source == cbAllowSpecialEditor) {
+		} else if (source == cbAllowSpecialEditor) {
 			settings().setAllowSpecialEditor(cbAllowSpecialEditor.isSelected());
-		}
-
-		else if (source == cbAllowToolTips) {
+		} else if (source == cbAllowToolTips) {
 			settings().setAllowToolTips(cbAllowToolTips.isSelected());
-		}
-
-		else if (source == cbPrependCommands) {
+		} else if (source == cbPrependCommands) {
 			settings().setEqualsRequired(cbPrependCommands.isSelected());
-		}
-
-		else if (source == cbEnableAutoComplete) {
+		} else if (source == cbEnableAutoComplete) {
 			settings().setEnableAutoComplete(cbEnableAutoComplete.isSelected());
-		}
-
-		else if (source == cbShowNavigation) {
+		} else if (source == cbShowNavigation) {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET);
 		} else if (source == description) {
-			app.getKernel().setAlgebraStyleSpreadsheet(
-					AlgebraStyle.fromNumericValue(description.getSelectedIndex()));
+			app.getKernel()
+					.setAlgebraStyleSpreadsheet(
+							AlgebraStyle.fromNumericValue(description.getSelectedIndex()));
 			app.getKernel().updateConstruction(false);
 		}
 
@@ -310,7 +289,6 @@ public class OptionsSpreadsheetD
 	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
-
 	}
 
 	@Override
@@ -334,12 +312,10 @@ public class OptionsSpreadsheetD
 		cbPrependCommands.setFont(font);
 		cbEnableAutoComplete.setFont(font);
 		cbShowNavigation.setFont(font);
-
 	}
 
 	@Override
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}
-
 }

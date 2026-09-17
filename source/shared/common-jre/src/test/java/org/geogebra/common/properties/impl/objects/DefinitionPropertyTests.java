@@ -29,27 +29,20 @@ import org.junit.jupiter.params.provider.ValueSource;
 class DefinitionPropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"f(x) = x^2",
-			"a = 1 + 2"
-	})
+	@ValueSource(strings = {"(1, 2)", "f(x) = x^2", "a = 1 + 2"})
 	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
-		assertDoesNotThrow(() ->
-				new DefinitionProperty(getLocalization(), element));
+		assertDoesNotThrow(() -> new DefinitionProperty(getLocalization(), element));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"PenStroke((1, 2), (4, 3), (5, 6))",
-			"Button()"
-	})
+	@ValueSource(strings = {"PenStroke((1, 2), (4, 3), (5, 6))", "Button()"})
 	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
-		assertThrows(NotApplicablePropertyException.class, () ->
-				new DefinitionProperty(getLocalization(), element));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new DefinitionProperty(getLocalization(), element));
 	}
 }

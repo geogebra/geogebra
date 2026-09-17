@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,56 +41,54 @@ class RecurringDecimalModelTest extends BaseUnitTest {
 
 	@Test
 	void testInvalidFormat() {
-		assertThrows(NumberFormatException.class, () ->
-			parse("3.2̅", "412"));
+		assertThrows(NumberFormatException.class, () -> parse("3.2̅", "412"));
 	}
 
 	@Test
 	void testIntegerInvalid() {
-		assertThrows(NumberFormatException.class, () ->
-			parse("x.25", "412"));
+		assertThrows(NumberFormatException.class, () -> parse("x.25", "412"));
 	}
 
 	@Test
 	void testDotMissing() {
-		assertThrows(NumberFormatException.class, () ->
-			parse("325", "412"));
+		assertThrows(NumberFormatException.class, () -> parse("325", "412"));
 	}
 
 	@Test
 	void testNonRecurringInvalid() {
-		assertThrows(NumberFormatException.class, () ->
-			parse("0.wasd", "123"));
+		assertThrows(NumberFormatException.class, () -> parse("0.wasd", "123"));
 	}
 
 	@Test
 	void testRecurringPartInvalid() {
-		assertThrows(NumberFormatException.class, () ->
-			parse("1.2", "3.4"));
+		assertThrows(NumberFormatException.class, () -> parse("1.2", "3.4"));
 	}
 
-	private static void shouldParseAs(String representation, String recurring, int integerPart,
+	private static void shouldParseAs(
+			String representation,
+			String recurring,
+			int integerPart,
 			Integer nonRecurringPart,
 			int recurringPart) {
-		assertThat(parse(representation, recurring),
+		assertThat(
+				parse(representation, recurring),
 				new RecurringDecimalModelMatcher(integerPart, nonRecurringPart, recurringPart));
 	}
 
-	private static void shouldParseAs(String representation, String recurring,
-			int integerPart, int recurringPart) {
-		assertThat(parse(representation, recurring),
+	private static void shouldParseAs(
+			String representation, String recurring, int integerPart, int recurringPart) {
+		assertThat(
+				parse(representation, recurring),
 				new RecurringDecimalModelMatcher(integerPart, null, recurringPart));
 	}
 
-	private static class RecurringDecimalModelMatcher
-			extends TypeSafeMatcher<RecurringDecimalModel> {
+	private static class RecurringDecimalModelMatcher extends TypeSafeMatcher<RecurringDecimalModel> {
 
 		private final int integerPart;
 		private final Object nonrecurring;
 		private final int recurring;
 
-		RecurringDecimalModelMatcher(int integerPart, Object nonrecurring,
-				int recurringPart) {
+		RecurringDecimalModelMatcher(int integerPart, Object nonrecurring, int recurringPart) {
 			this.integerPart = integerPart;
 			this.nonrecurring = nonrecurring;
 			this.recurring = recurringPart;
@@ -122,11 +120,10 @@ class RecurringDecimalModelTest extends BaseUnitTest {
 	 * @param recurring recurring decimal part
 	 * @return recurring decimal model
 	 */
-	static RecurringDecimalModel newModel(int integerPart,
-			String nonrecurring, String recurring) {
-		return new RecurringDecimalModel(integerPart,
+	static RecurringDecimalModel newModel(int integerPart, String nonrecurring, String recurring) {
+		return new RecurringDecimalModel(
+				integerPart,
 				nonrecurring == null ? new DecimalPart() : new DecimalPart(nonrecurring),
 				new DecimalPart(recurring));
 	}
-
 }

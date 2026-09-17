@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes RandomNormal[a, b]
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
@@ -39,8 +39,7 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 	 * @param b
 	 *            max
 	 */
-	public AlgoRandom(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoRandom(Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 
 		// output is random number
@@ -54,8 +53,10 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 
 	@Override
 	public final double computeValue(double aNum, double bNum) {
-		if (!Double.isInfinite(aNum) && !Double.isInfinite(bNum)
-				&& !Double.isNaN(aNum) && !Double.isNaN(bNum)) {
+		if (!Double.isInfinite(aNum)
+				&& !Double.isInfinite(bNum)
+				&& !Double.isNaN(aNum)
+				&& !Double.isNaN(bNum)) {
 			return kernel.randomNumberGenerator.getRandomIntegerBetween(aNum, bNum);
 		}
 

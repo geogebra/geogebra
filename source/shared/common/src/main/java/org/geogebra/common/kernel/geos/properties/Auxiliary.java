@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -46,7 +46,7 @@ public enum Auxiliary {
 			return NO_DEFAULT;
 		}
 	};
-	
+
 	private final boolean isOn;
 	private final boolean needsSaveToXML;
 
@@ -54,9 +54,9 @@ public enum Auxiliary {
 		this.isOn = isOn;
 		this.needsSaveToXML = needsSaveToXML;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return true if is auxiliary
 	 */
 	public boolean isOn() {
@@ -64,7 +64,7 @@ public enum Auxiliary {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if it needs save to XML
 	 */
 	public boolean needsSaveToXML() {
@@ -72,8 +72,8 @@ public enum Auxiliary {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the opposite value
 	 */
-	abstract public Auxiliary toggle();
+	public abstract Auxiliary toggle();
 }

@@ -131,7 +131,6 @@ public abstract class BoundingBox<T extends GShape> {
 		if (nrOtherHandlers > ROTATION_HANDLER_INDEX - DEFAULT_HANDLER_COUNT) {
 			handlers.add(createCornerHandler());
 		}
-
 	}
 
 	private void addCornerHandlers(int nrCornerHandlers) {
@@ -212,17 +211,23 @@ public abstract class BoundingBox<T extends GShape> {
 	}
 
 	protected void drawRoundedRectangle(GGraphics2D g2, GRectangle2D sideHandler) {
-		g2.drawRoundRect(sideHandler.getX(), sideHandler.getY(),
-				sideHandler.getWidth(), sideHandler.getHeight(),
-				SIDE_HANDLER_BORDER_RADIUS, SIDE_HANDLER_BORDER_RADIUS);
+		g2.drawRoundRect(
+				sideHandler.getX(),
+				sideHandler.getY(),
+				sideHandler.getWidth(),
+				sideHandler.getHeight(),
+				SIDE_HANDLER_BORDER_RADIUS,
+				SIDE_HANDLER_BORDER_RADIUS);
 	}
 
 	protected void drawRotationHandler(GGraphics2D g2) {
 		if (handlers.size() > ROTATION_HANDLER_INDEX) {
-			g2.drawImage(rotationHandlerImage,
+			g2.drawImage(
+					rotationHandlerImage,
 					(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getX() + 3,
 					(int) handlers.get(ROTATION_HANDLER_INDEX).getBounds().getY() + 3,
-					ROTATION_ICON_SIZE, ROTATION_ICON_SIZE);
+					ROTATION_ICON_SIZE,
+					ROTATION_ICON_SIZE);
 		}
 	}
 
@@ -230,17 +235,21 @@ public abstract class BoundingBox<T extends GShape> {
 		g2.setPaint(GColor.WHITE);
 		if (handler instanceof GRectangle2D) {
 			GRectangle2D sideHandler = (GRectangle2D) handler;
-			g2.fillRoundRect(sideHandler.getX(), sideHandler.getY(),
-					sideHandler.getWidth(), sideHandler.getHeight(),
-					SIDE_HANDLER_BORDER_RADIUS, SIDE_HANDLER_BORDER_RADIUS);
+			g2.fillRoundRect(
+					sideHandler.getX(),
+					sideHandler.getY(),
+					sideHandler.getWidth(),
+					sideHandler.getHeight(),
+					SIDE_HANDLER_BORDER_RADIUS,
+					SIDE_HANDLER_BORDER_RADIUS);
 		} else {
 			g2.fill(handler);
 		}
 	}
 
 	protected void setHandlerBorderStyle(GGraphics2D g2) {
-		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(1.0f, GBasicStroke.CAP_BUTT,
-				GBasicStroke.JOIN_MITER));
+		g2.setStroke(AwtFactory.getPrototype()
+				.newBasicStroke(1.0f, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 		g2.setColor(GeoGebraColorConstants.NEUTRAL_400);
 	}
 
@@ -252,8 +261,8 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	protected void drawRectangle(GGraphics2D g2) {
 		if (rectangle != null) {
-			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
-					GBasicStroke.JOIN_MITER));
+			g2.setStroke(AwtFactory.getPrototype()
+					.newBasicStroke(2.0f, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 			g2.setColor(color);
 			g2.draw(rectangle);
 		}
@@ -319,31 +328,30 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y,
-			int hitThreshold) {
+	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y, int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 
 		switch (hit) {
-		case 0:
-			return EuclidianBoundingBoxHandler.TOP_LEFT;
-		case 1:
-			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
-		case 2:
-			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
-		case 3:
-			return EuclidianBoundingBoxHandler.TOP_RIGHT;
-		case 4:
-			return EuclidianBoundingBoxHandler.TOP;
-		case 5:
-			return EuclidianBoundingBoxHandler.LEFT;
-		case 6:
-			return EuclidianBoundingBoxHandler.BOTTOM;
-		case 7:
-			return EuclidianBoundingBoxHandler.RIGHT;
-		case 8:
-			return EuclidianBoundingBoxHandler.ROTATION;
-		default:
-			return EuclidianBoundingBoxHandler.UNDEFINED;
+			case 0:
+				return EuclidianBoundingBoxHandler.TOP_LEFT;
+			case 1:
+				return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
+			case 2:
+				return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
+			case 3:
+				return EuclidianBoundingBoxHandler.TOP_RIGHT;
+			case 4:
+				return EuclidianBoundingBoxHandler.TOP;
+			case 5:
+				return EuclidianBoundingBoxHandler.LEFT;
+			case 6:
+				return EuclidianBoundingBoxHandler.BOTTOM;
+			case 7:
+				return EuclidianBoundingBoxHandler.RIGHT;
+			case 8:
+				return EuclidianBoundingBoxHandler.ROTATION;
+			default:
+				return EuclidianBoundingBoxHandler.UNDEFINED;
 		}
 	}
 
@@ -369,8 +377,8 @@ public abstract class BoundingBox<T extends GShape> {
 	 * @return whether rectangle was hit
 	 */
 	protected boolean hitRectangle(int x, int y, int hitThreshold) {
-		GRectangle hitArea = AwtFactory.getPrototype().newRectangle(x - hitThreshold,
-				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+		GRectangle hitArea = AwtFactory.getPrototype()
+				.newRectangle(x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 		return rectangle.intersects(hitArea) && !rectangle.contains(hitArea);
 	}
 
@@ -381,22 +389,22 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler handler) {
 		switch (handler) {
-		case TOP_LEFT:
-		case BOTTOM_RIGHT:
-			return EuclidianCursor.RESIZE_NWSE;
-		case BOTTOM_LEFT:
-		case TOP_RIGHT:
-			return EuclidianCursor.RESIZE_NESW;
-		case TOP:
-		case BOTTOM:
-			return EuclidianCursor.RESIZE_NS;
-		case LEFT:
-		case RIGHT:
-			return EuclidianCursor.RESIZE_EW;
-		case ROTATION:
-			return EuclidianCursor.ROTATION;
-		default:
-			return null;
+			case TOP_LEFT:
+			case BOTTOM_RIGHT:
+				return EuclidianCursor.RESIZE_NWSE;
+			case BOTTOM_LEFT:
+			case TOP_RIGHT:
+				return EuclidianCursor.RESIZE_NESW;
+			case TOP:
+			case BOTTOM:
+				return EuclidianCursor.RESIZE_NS;
+			case LEFT:
+			case RIGHT:
+				return EuclidianCursor.RESIZE_EW;
+			case ROTATION:
+				return EuclidianCursor.ROTATION;
+			default:
+				return null;
 		}
 	}
 
@@ -414,8 +422,9 @@ public abstract class BoundingBox<T extends GShape> {
 			return true;
 		}
 		return getRectangle() != null
-				&& getRectangle().intersects(hitX - hitThreshold,
-				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
+				&& getRectangle()
+						.intersects(
+								hitX - hitThreshold, hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)
 				&& hitSideOfBoundingBox(hitX, hitY, hitThreshold);
 	}
 

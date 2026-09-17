@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  * Vector w = v starting at A
- * 
+ *
  * @author mathieu
  *
  */
@@ -32,7 +32,7 @@ public class AlgoTranslateVector3D extends AlgoTranslateVector {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -42,8 +42,7 @@ public class AlgoTranslateVector3D extends AlgoTranslateVector {
 	 * @param A
 	 *            starting point
 	 */
-	public AlgoTranslateVector3D(Construction cons, String label, GeoVectorND v,
-			GeoPointND A) {
+	public AlgoTranslateVector3D(Construction cons, String label, GeoVectorND v, GeoPointND A) {
 		super(cons, label, v, A);
 	}
 
@@ -56,5 +55,4 @@ public class AlgoTranslateVector3D extends AlgoTranslateVector {
 	public void compute() {
 		((GeoVector3D) w).setCoords(v.getCoordsInD3());
 	}
-
 }

@@ -39,8 +39,7 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 	private PPolynomial[] botanaPolynomials;
 	private PVariable[] botanaVars;
 
-	public AlgoParabolaPointLine(Construction cons, String label, GeoPointND F,
-			GeoLineND l) {
+	public AlgoParabolaPointLine(Construction cons, String label, GeoPointND F, GeoLineND l) {
 		super(cons, label, F, l);
 	}
 
@@ -65,8 +64,7 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -106,21 +104,19 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
 			botanaPolynomials = new PPolynomial[3];
 
 			// |FP| = |PT|
-			botanaPolynomials[0] = PPolynomial.equidistant(vF[0], vF[1],
-					botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3]);
+			botanaPolynomials[0] = PPolynomial.equidistant(
+					vF[0], vF[1], botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3]);
 
 			// A,T,B collinear
-			botanaPolynomials[1] = PPolynomial.collinear(vl[0], vl[1], vl[2],
-					vl[3], botanaVars[2], botanaVars[3]);
+			botanaPolynomials[1] =
+					PPolynomial.collinear(vl[0], vl[1], vl[2], vl[3], botanaVars[2], botanaVars[3]);
 
 			// PT orthogonal AB
-			botanaPolynomials[2] = PPolynomial.perpendicular(botanaVars[0],
-					botanaVars[1], botanaVars[2], botanaVars[3], vl[0], vl[1],
-					vl[2], vl[3]);
+			botanaPolynomials[2] = PPolynomial.perpendicular(
+					botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3], vl[0], vl[1], vl[2], vl[3]);
 
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
-
 	}
 }

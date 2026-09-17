@@ -26,6 +26,5 @@ final class MOUSTACHE extends FontInfo {
 
 		setMetrics(65, 875, 0);
 		setExtension(57, 0, 62, 58);
-
 	}
 }

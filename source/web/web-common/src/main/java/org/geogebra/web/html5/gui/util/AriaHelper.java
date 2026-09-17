@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,7 +48,7 @@ public class AriaHelper {
 
 	/**
 	 * Adds aria-hidden to given element
-	 * 
+	 *
 	 * @param widget widget to be hidden
 	 */
 	public static void hide(UIObject widget) {
@@ -57,7 +57,7 @@ public class AriaHelper {
 
 	/**
 	 * Adds aria-hidden to given element
-	 * 
+	 *
 	 * @param widget widget to be hidden
 	 * @param hidden whether to hide it
 	 */

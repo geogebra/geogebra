@@ -34,8 +34,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.Widget;
 
-public final class ConstructionProtocolNavigationW
-		extends ConstructionProtocolNavigation implements FastClickHandler {
+public final class ConstructionProtocolNavigationW extends ConstructionProtocolNavigation
+		implements FastClickHandler {
 
 	private final Label lbSteps;
 	private final FlowPanel implPanel;
@@ -85,8 +85,8 @@ public final class ConstructionProtocolNavigationW
 		playPanel = new FlowPanel();
 		playPanel.setVisible(showPlayButton);
 
-		btPlay = new ToggleButton(GuiResourcesSimple.INSTANCE.play_circle(),
-				GuiResourcesSimple.INSTANCE.pause_circle());
+		btPlay = new ToggleButton(
+				GuiResourcesSimple.INSTANCE.play_circle(), GuiResourcesSimple.INSTANCE.pause_circle());
 		btPlay.removeStyleName("ToggleButton");
 		btPlay.addFastClickHandler(this);
 
@@ -108,8 +108,8 @@ public final class ConstructionProtocolNavigationW
 		implPanel.add(leftPanel);
 		implPanel.add(playPanel);
 
-		btOpenWindow = new StandardButton(GuiResources.INSTANCE
-				.icons_view_construction_protocol_p24(), null, 24);
+		btOpenWindow =
+				new StandardButton(GuiResources.INSTANCE.icons_view_construction_protocol_p24(), null, 24);
 
 		btOpenWindow.addFastClickHandler(event -> toggleConstructionProtocol());
 		btOpenWindow.setVisible(isConsProtButtonVisible());
@@ -127,12 +127,10 @@ public final class ConstructionProtocolNavigationW
 	 */
 	private void toggleConstructionProtocol() {
 		if (!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			app.getGuiManager().setShowView(true,
-					App.VIEW_CONSTRUCTION_PROTOCOL);
+			app.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
 			btOpenWindow.addStyleName("consProtIsOpen");
 		} else {
-			app.getGuiManager().setShowView(false,
-					App.VIEW_CONSTRUCTION_PROTOCOL);
+			app.getGuiManager().setShowView(false, App.VIEW_CONSTRUCTION_PROTOCOL);
 			btOpenWindow.removeStyleName("consProtIsOpen");
 		}
 	}
@@ -142,31 +140,30 @@ public final class ConstructionProtocolNavigationW
 	 * of construction steps.
 	 */
 	@Override
-    public void update() {
+	public void update() {
 		int currentStep = getProt().getCurrentStepNumber();
 		int stepNumber = getProt().getLastStepNumber();
-			lbSteps.setText(currentStep + " / " + stepNumber);
+		lbSteps.setText(currentStep + " / " + stepNumber);
 	}
 
 	@Override
-    public void setVisible(boolean visible) {
+	public void setVisible(boolean visible) {
 		implPanel.setVisible(visible);
-    }
+	}
 
 	@Override
-    public void setPlayDelay(double delay) {
+	public void setPlayDelay(double delay) {
 		playDelay = delay;
 
 		try {
 			spDelay.setValue(playDelay + "");
 		} catch (Exception e) {
 			spDelay.setValue(Math.round(playDelay) + "");
-
 		}
-    }
+	}
 
 	@Override
-    public void setConsProtButtonVisible(boolean flag) {
+	public void setConsProtButtonVisible(boolean flag) {
 		showConsProtButton = flag;
 		if (btOpenWindow != null) {
 			btOpenWindow.setVisible(isConsProtButtonVisible());
@@ -175,7 +172,7 @@ public final class ConstructionProtocolNavigationW
 	}
 
 	@Override
-    public void setLabels() {
+	public void setLabels() {
 		if (btOpenWindow != null) {
 			btOpenWindow.setTitle(app.getLocalization().getPlainTooltip("ConstructionProtocol"));
 		}
@@ -252,29 +249,26 @@ public final class ConstructionProtocolNavigationW
 			timer = new Timer() {
 
 				@Override
-                public void run() {
+				public void run() {
 					getProt().nextStep();
-					if (getProt().getCurrentStepNumber() == getProt()
-							.getLastStepNumber()) {
+					if (getProt().getCurrentStepNumber() == getProt().getLastStepNumber()) {
 						stopAnimation();
 					}
 					if (isPlaying()) {
 						timer.schedule((int) (playDelay * 1000));
 					}
 				}
-
 			};
 		}
 
 		void startAnimation() {
-			//TODO set cursor:wait
+			// TODO set cursor:wait
 
 			setPlaying(true);
 			app.setNavBarButtonPause();
 			setComponentsEnabled(false);
 
-			if (getProt().getCurrentStepNumber() == getProt()
-					.getLastStepNumber()) {
+			if (getProt().getCurrentStepNumber() == getProt().getLastStepNumber()) {
 				getProt().setConstructionStep(-1);
 			}
 
@@ -282,7 +276,7 @@ public final class ConstructionProtocolNavigationW
 		}
 
 		void stopAnimation() {
-			//TODO remove cursor:wait
+			// TODO remove cursor:wait
 			timer.cancel();
 			setPlaying(false);
 			app.setNavBarButtonPlay();
@@ -296,5 +290,4 @@ public final class ConstructionProtocolNavigationW
 			playPanel.setVisible(flag);
 		}
 	}
-
 }

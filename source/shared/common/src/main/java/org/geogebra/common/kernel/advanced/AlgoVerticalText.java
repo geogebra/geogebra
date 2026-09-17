@@ -27,7 +27,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm for vertical text
- * 
+ *
  * @author Michael
  */
 public class AlgoVerticalText extends AlgoElement {
@@ -41,7 +41,7 @@ public class AlgoVerticalText extends AlgoElement {
 
 	/**
 	 * Creates new algo for vertical text
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -56,7 +56,7 @@ public class AlgoVerticalText extends AlgoElement {
 
 	/**
 	 * Creates new unlabeled algo for vertical text
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param args
@@ -68,7 +68,7 @@ public class AlgoVerticalText extends AlgoElement {
 
 	/**
 	 * Creates new algo for vertical text, with fixed position point
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -78,15 +78,14 @@ public class AlgoVerticalText extends AlgoElement {
 	 * @param position
 	 *            corner
 	 */
-	public AlgoVerticalText(Construction cons, String label, GeoText args,
-			GeoPointND position) {
+	public AlgoVerticalText(Construction cons, String label, GeoText args, GeoPointND position) {
 		this(cons, args, position);
 		text.setLabel(label);
 	}
 
 	/**
 	 * Creates new unlabeled algo for vertical text, with fixed position point
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param args
@@ -152,8 +151,7 @@ public class AlgoVerticalText extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (!args.isDefined()
-				|| (startPoint != null && !startPoint.isDefined())) {
+		if (!args.isDefined() || (startPoint != null && !startPoint.isDefined())) {
 			text.setTextString("");
 			return;
 		}
@@ -168,12 +166,10 @@ public class AlgoVerticalText extends AlgoElement {
 		if (startPointCopy != null) {
 			startPointCopy.setCoords(startPoint.getCoordsInD3(), false);
 		}
-
 	}
 
 	@Override
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
 }

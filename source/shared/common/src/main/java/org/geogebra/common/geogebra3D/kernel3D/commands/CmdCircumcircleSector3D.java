@@ -32,19 +32,17 @@ public class CmdCircumcircleSector3D extends CmdCircumcircleSector {
 	 */
 	public CmdCircumcircleSector3D(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
-	protected GeoElement getSector(String label, GeoElement A, GeoElement B,
-			GeoElement C) {
+	protected GeoElement getSector(String label, GeoElement A, GeoElement B, GeoElement C) {
 
 		if (A.isGeoElement3D() || B.isGeoElement3D() || C.isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().circumcircleSector3D(
-					label, (GeoPointND) A, (GeoPointND) B, (GeoPointND) C);
+			return (GeoElement) kernel
+					.getManager3D()
+					.circumcircleSector3D(label, (GeoPointND) A, (GeoPointND) B, (GeoPointND) C);
 		}
 
 		return super.getSector(label, A, B, C);
 	}
-
 }

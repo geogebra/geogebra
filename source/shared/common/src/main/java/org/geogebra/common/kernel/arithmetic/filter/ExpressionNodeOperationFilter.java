@@ -35,8 +35,8 @@ public class ExpressionNodeOperationFilter extends ExpressionNodeFilter {
 
 	@Override
 	protected boolean isExpressionNodeAllowed(@NonNull ExpressionNode expressionNode) {
-		return !expressionNode.isOperation(operation) || isExpressionNodeAllowedForOperation(
-				expressionNode);
+		return !expressionNode.isOperation(operation)
+				|| isExpressionNodeAllowedForOperation(expressionNode);
 	}
 
 	/**

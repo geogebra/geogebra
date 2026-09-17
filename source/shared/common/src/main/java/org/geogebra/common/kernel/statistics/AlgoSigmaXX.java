@@ -23,11 +23,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Sum of Squares of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-18
  */
-
 public class AlgoSigmaXX extends AlgoStats1D {
 
 	public AlgoSigmaXX(Construction cons, GeoList geoList) {

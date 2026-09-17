@@ -48,7 +48,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedDrawable {
@@ -84,25 +84,26 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 
 	/**
 	 * Creates a new DrawPolygon for preview.
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param points
 	 *            preview points
 	 */
-	public DrawPolyLine(EuclidianView view,
-			ArrayList<? extends GeoPointND> points) {
+	public DrawPolyLine(EuclidianView view, ArrayList<? extends GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
-		geo = view.getKernel().getConstruction().getConstructionDefaults()
+		geo = view.getKernel()
+				.getConstruction()
+				.getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYLINE);
 
 		updatePreview();
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			labelVisible = geo.isLabelVisible();
@@ -134,22 +135,25 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	private void rebuildHandlers() {
 		getBoundingBox().setRectangle(getBounds());
 		for (int i = 0; i < poly.getNumPoints(); i++) {
-			boundingBox.setHandlerFromCenter(i,
+			boundingBox.setHandlerFromCenter(
+					i,
 					view.toScreenCoordXd(poly.getPoint(i).getInhomX()),
 					view.toScreenCoordYd(poly.getPoint(i).getInhomY()));
 		}
 		for (int i = 1; i < poly.getNumPoints(); i++) {
-			boundingBox.setHandlerFromCenter(i + poly.getNumPoints() - 1,
+			boundingBox.setHandlerFromCenter(
+					i + poly.getNumPoints() - 1,
 					(view.toScreenCoordXd(poly.getPoint(i - 1).getInhomX())
-							+ view.toScreenCoordXd(poly.getPoint(i).getInhomX())) / 2,
+									+ view.toScreenCoordXd(poly.getPoint(i).getInhomX()))
+							/ 2,
 					(view.toScreenCoordYd(poly.getPoint(i - 1).getInhomY())
-							+ view.toScreenCoordYd(poly.getPoint(i).getInhomY())) / 2);
+									+ view.toScreenCoordYd(poly.getPoint(i).getInhomY()))
+							/ 2);
 		}
 	}
 
 	@Override
-	public void updateByControlPointMovement(GPoint2D point,
-			ControlPointHandler handler) {
+	public void updateByControlPointMovement(GPoint2D point, ControlPointHandler handler) {
 		AlgoElement parentAlgorithm = poly.getParentAlgorithm();
 		if (!(parentAlgorithm instanceof AlgoPolyLine)) {
 			return;
@@ -158,17 +162,16 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 			double realX = view.toRealWorldCoordX(point.getX());
 			double realY = view.toRealWorldCoordY(point.getY());
 			int index = handler.id - poly.getNumPoints() + 1;
-			((AlgoPolyLine) parentAlgorithm)
-					.insertPoint(index, realX, realY);
+			((AlgoPolyLine) parentAlgorithm).insertPoint(index, realX, realY);
 			view.setHitHandler(new ControlPointHandler(index));
 			return;
 		}
 		GeoPointND updated = poly.getPoint(handler.id);
 		GeoPointND anchorPoint = poly.getPoint(handler.id == 0 ? 1 : handler.id - 1);
-		GPoint2D anchor = new GPoint2D(view.toScreenCoordX(anchorPoint.getInhomX()),
+		GPoint2D anchor = new GPoint2D(
+				view.toScreenCoordX(anchorPoint.getInhomX()),
 				view.toScreenCoordYd(anchorPoint.getInhomY()));
-		GPoint2D snap = ModeShape.snapPoint(anchor.getX(), anchor.getY(),
-				point.getX(), point.getY());
+		GPoint2D snap = ModeShape.snapPoint(anchor.getX(), anchor.getY(), point.getX(), point.getY());
 		double realX = view.toRealWorldCoordX(snap.getX());
 		double realY = view.toRealWorldCoordY(snap.getY());
 		updated.setCoords(realX, realY, 1);
@@ -218,9 +221,9 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 					gp.lineTo(coords[0], coords[1]);
 					// if point was added as start of segment
 					// then remove it
-					if (!pointList.isEmpty() && startPointAdded && view
-							.getEuclidianController()
-							.getMode() != EuclidianConstants.MODE_ERASER) {
+					if (!pointList.isEmpty()
+							&& startPointAdded
+							&& view.getEuclidianController().getMode() != EuclidianConstants.MODE_ERASER) {
 						pointList.remove(pointList.size() - 1);
 						startPointAdded = false;
 					}
@@ -244,20 +247,16 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 		// one point
 		if (pts.length == 1
 				// last point
-				|| (i - 1 >= 0 && i + 1 == pts.length
-				&& !pts[i - 1].isDefined())
+				|| (i - 1 >= 0 && i + 1 == pts.length && !pts[i - 1].isDefined())
 				// between undef points
-				|| (i - 1 >= 0 && i + 1 < pts.length
-				&& !pts[i - 1].isDefined()
-				&& !pts[i + 1].isDefined())
+				|| (i - 1 >= 0 && i + 1 < pts.length && !pts[i - 1].isDefined() && !pts[i + 1].isDefined())
 				// first point
-				|| (i == 0 && i + 1 < pts.length
-				&& !pts[i + 1].isDefined())) {
+				|| (i == 0 && i + 1 < pts.length && !pts[i + 1].isDefined())) {
 			// do not collect points remained after erasing
 			if ((i - 2 >= 0 && pts[i - 2].isDefined())
-					|| (i + 2 < pts.length
-					&& pts[i + 2].isDefined())
-					|| i == 0 || i == pts.length - 1) {
+					|| (i + 2 < pts.length && pts[i + 2].isDefined())
+					|| i == 0
+					|| i == pts.length - 1) {
 				if (!pointList.contains(convertPoint(pts[i]))) {
 					pointList.add(convertPoint(pts[i]));
 					startPointAdded = true;
@@ -267,7 +266,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		// draw single points
 		for (int i = 0; i < pointList.size(); i++) {
 			GPoint2D v = pointList.get(i);
@@ -308,13 +307,13 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	// method to draw ellipse for point created by pen tool
 	// for full line type
 	private void drawEllipse(GGraphics2D g2D, GPoint2D point) {
-		GEllipse2DDouble ellipse = AwtFactory.getPrototype()
-				.newEllipse2DDouble();
-		ellipse.setFrameFromCenter(point.getX(), point.getY(),
+		GEllipse2DDouble ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
+		ellipse.setFrameFromCenter(
+				point.getX(),
+				point.getY(),
 				point.getX() + getLineThicknessForPoint(),
 				point.getY() + getLineThicknessForPoint());
-		GColor lineDrawingColor = getObjectColor()
-				.deriveWithAlpha(poly.getLineOpacity());
+		GColor lineDrawingColor = getObjectColor().deriveWithAlpha(poly.getLineOpacity());
 		g2D.setPaint(lineDrawingColor);
 		g2D.fill(ellipse);
 		g2D.setStroke(EuclidianStatic.getDefaultStroke());
@@ -325,11 +324,12 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	// for other line types
 	private void drawRectangle(GGraphics2D g2D, GPoint2D point) {
 		GRectangle rectangle = AwtFactory.getPrototype().newRectangle();
-		rectangle.setRect(point.getX(), point.getY(),
+		rectangle.setRect(
+				point.getX(),
+				point.getY(),
 				getLineThicknessForPoint() * 1.5,
 				getLineThicknessForPoint() * 1.5);
-		GColor lineDrawingColor = getObjectColor()
-				.deriveWithAlpha(poly.getLineOpacity());
+		GColor lineDrawingColor = getObjectColor().deriveWithAlpha(poly.getLineOpacity());
 		g2D.setPaint(lineDrawingColor);
 		g2D.fill(rectangle);
 		g2D.setStroke(EuclidianStatic.getDefaultStroke());
@@ -341,7 +341,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	}
 
 	@Override
-	final public void updatePreview() {
+	public final void updatePreview() {
 		int size = points.size();
 		isVisible = size > 0;
 
@@ -355,7 +355,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	}
 
 	@Override
-	final public void updateMousePos(double mouseRWx, double mouseRWy) {
+	public final void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
 		if (isVisible) {
@@ -365,8 +365,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 				double px = p.getInhomX();
 				double py = p.getInhomY();
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
-				double radius = Math.sqrt(
-						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
+				double radius = Math.sqrt((py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 				// round angle to nearest 15 degrees
 				angle = Math.round(angle / 15) * 15;
@@ -388,7 +387,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	}
 
 	@Override
-	final public void drawPreview(GGraphics2D g2) {
+	public final void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
@@ -403,7 +402,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public final boolean hit(int x, int y, int hitThreshold) {
 		if (gp == null) {
 			return false;
 		}
@@ -415,10 +414,8 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 			if (pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
 					GPoint2D p = pointList.get(i);
-					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
-							0, 100, 100);
-					rect.setBounds(x - hitThreshold, y - hitThreshold,
-							2 * hitThreshold, 2 * hitThreshold);
+					GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
+					rect.setBounds(x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 					if (rect.contains(p)) {
 						return true;
 					}
@@ -433,22 +430,19 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 				try {
 					strokedShape = objStroke.createStrokedShape(gp.getGeneralPath(), 100);
 				} catch (Exception e) {
-					Log.error("problem creating Polyline shape: "
-							+ e.getMessage());
+					Log.error("problem creating Polyline shape: " + e.getMessage());
 					return false;
 				}
 			}
-			boolean intersects = strokedShape.intersects(x - hitThreshold,
-					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+			boolean intersects = strokedShape.intersects(
+					x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			// if no hit of polyline
 			// try single points of polyline
 			if (!intersects && pointList != null) {
 				for (int i = 0; i < pointList.size(); i++) {
 					GPoint2D p = pointList.get(i);
-					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
-							0, 100, 100);
-					rect.setBounds(x - hitThreshold, y - hitThreshold,
-							2 * hitThreshold, 2 * hitThreshold);
+					GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
+					rect.setBounds(x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 					if (rect.contains(p)) {
 						return true;
 					}
@@ -493,8 +487,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 				try {
 					strokedShape = objStroke.createStrokedShape(gp.getGeneralPath(), 100);
 				} catch (Exception e) {
-					Log.error("problem creating Polyline shape: "
-							+ e.getMessage());
+					Log.error("problem creating Polyline shape: " + e.getMessage());
 					return false;
 				}
 			}
@@ -514,7 +507,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return gp != null && rect.contains(gp.getBounds());
 	}
 
@@ -522,7 +515,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
@@ -531,8 +524,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 
 	private Coords getCoords(int i) {
 		if (poly != null) {
-			return view
-					.getCoordsForView(poly.getPointND(i).getInhomCoordsInD3());
+			return view.getCoordsForView(poly.getPointND(i).getInhomCoordsInD3());
 		}
 
 		return view.getCoordsForView(points.get(i).getInhomCoordsInD3());
@@ -553,8 +545,7 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 		ArrayList<GPoint2D> points = new ArrayList<>();
 		for (GeoPointND pt : poly.getPoints()) {
 			points.add(
-					new MyPoint(view.toScreenCoordXd(pt.getInhomX()),
-							view.toScreenCoordYd(pt.getInhomY())));
+					new MyPoint(view.toScreenCoordXd(pt.getInhomX()), view.toScreenCoordYd(pt.getInhomY())));
 		}
 		return points;
 	}
@@ -563,8 +554,10 @@ public class DrawPolyLine extends Drawable implements Previewable, EndDecoratedD
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		int i = 0;
 		for (GeoPointND pt : poly.getPoints()) {
-			pt.setCoords(view.toRealWorldCoordX(points.get(i).getX()),
-					view.toRealWorldCoordY(points.get(i).getY()), 1);
+			pt.setCoords(
+					view.toRealWorldCoordX(points.get(i).getX()),
+					view.toRealWorldCoordY(points.get(i).getY()),
+					1);
 			i++;
 		}
 		poly.updateRepaint();

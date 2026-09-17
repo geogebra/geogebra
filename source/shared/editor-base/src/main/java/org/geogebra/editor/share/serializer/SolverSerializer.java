@@ -35,24 +35,24 @@ public class SolverSerializer extends SerializerAdapter {
 	private static final String keysNeedingDots = "{}[]<>";
 
 	private static final String separator = ",";
-	private static final List<String> SUPPORTED_FUNCTIONS = Arrays.asList(
-			"sin", "cos", "tan", "ln");
+	private static final List<String> SUPPORTED_FUNCTIONS = Arrays.asList("sin", "cos", "tan", "ln");
 
 	@Override
 	void serialize(CharacterNode characterNode, StringBuilder stringBuilder) {
 		String serializedChar = (characterNode.isOperator() && characterNode.isUnicodeMulOrDiv())
-				? serializeToSolverOperator(characterNode) : characterNode.getUnicodeString();
+				? serializeToSolverOperator(characterNode)
+				: characterNode.getUnicodeString();
 		stringBuilder.append(serializedChar);
 	}
 
 	private String serializeToSolverOperator(CharacterNode characterNode) {
 		switch (characterNode.getUnicode()) {
-		case Unicode.DIVIDE:
-			return ":";
-		case Unicode.MULTIPLY:
-			return "*";
-		default:
-			return "";
+			case Unicode.DIVIDE:
+				return ":";
+			case Unicode.MULTIPLY:
+				return "*";
+			default:
+				return "";
 		}
 	}
 
@@ -61,7 +61,7 @@ public class SolverSerializer extends SerializerAdapter {
 		if (sequence == null) {
 			return;
 		}
-		for (Node arg: sequence) {
+		for (Node arg : sequence) {
 			serialize(arg, stringBuilder);
 		}
 	}
@@ -71,90 +71,89 @@ public class SolverSerializer extends SerializerAdapter {
 		Tag functionName = function.getName();
 		InternalNode parent = (SequenceNode) function.getParent();
 		switch (functionName) {
-		case SUPERSCRIPT:
-			if (parent != null && !sb.toString().isEmpty()) {
-				placeOpeningBracketBeforeBase(function, sb, parent);
-				sb.append(functionName.getKey());
+			case SUPERSCRIPT:
+				if (parent != null && !sb.toString().isEmpty()) {
+					placeOpeningBracketBeforeBase(function, sb, parent);
+					sb.append(functionName.getKey());
+					serialize(function.getChild(0), sb);
+					sb.append(closingBracket);
+				}
+				break;
+			case FRAC:
+				if (buildMixedNumber(sb, function)) {
+					break;
+				}
+				serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
+				break;
+			case RECURRING_DECIMAL:
+				sb.append(openingBracket);
 				serialize(function.getChild(0), sb);
 				sb.append(closingBracket);
-			}
-			break;
-		case FRAC:
-			if (buildMixedNumber(sb, function)) {
 				break;
-			}
-			serializeAndAppendFnWithTwoArgs("", function, "/", 0, 1, sb);
-			break;
-		case RECURRING_DECIMAL:
-			sb.append(openingBracket);
-			serialize(function.getChild(0), sb);
-			sb.append(closingBracket);
-			break;
-		case LOG:
-			sb.append(functionName.getKey());
-			sb.append("_[");
-			if (function.getChild(0).size() == 0) {
-				sb.append("10"); //default base for log
-			} else {
+			case LOG:
+				sb.append(functionName.getKey());
+				sb.append("_[");
+				if (function.getChild(0).size() == 0) {
+					sb.append("10"); // default base for log
+				} else {
+					serialize(function.getChild(0), sb);
+				}
+				sb.append("](");
+				serialize(function.getChild(1), sb);
+				sb.append(")");
+				break;
+			case LOG_POWER:
+				sb.append('[');
+				sb.append(functionName.getKey());
+				sb.append("_[");
+				if (function.getChild(0).size() == 0) {
+					sb.append("10"); // default base for log
+				} else {
+					serialize(function.getChild(0), sb);
+				}
+				sb.append("] ^ ");
+				serialize(function.getChild(1), sb);
+				sb.append("](");
+				serialize(function.getChild(2), sb);
+				sb.append(")");
+				break;
+			case NROOT: // root[x,n]
+				serializeAndAppendFnWithTwoArgs("root", function, separator, 1, 0, sb);
+				break;
+			case CBRT: // root[x,n]
+				sb.append("root");
+				sb.append(openingBracket);
 				serialize(function.getChild(0), sb);
-			}
-			sb.append("](");
-			serialize(function.getChild(1), sb);
-			sb.append(")");
-			break;
-		case LOG_POWER:
-			sb.append('[');
-			sb.append(functionName.getKey());
-			sb.append("_[");
-			if (function.getChild(0).size() == 0) {
-				sb.append("10"); //default base for log
-			} else {
-				serialize(function.getChild(0), sb);
-			}
-			sb.append("] ^ ");
-			serialize(function.getChild(1), sb);
-			sb.append("](");
-			serialize(function.getChild(2), sb);
-			sb.append(")");
-			break;
-		case NROOT: //root[x,n]
-			serializeAndAppendFnWithTwoArgs("root", function, separator,
-					1, 0, sb);
-			break;
-		case CBRT: //root[x,n]
-			sb.append("root");
-			sb.append(openingBracket);
-			serialize(function.getChild(0), sb);
-			sb.append(separator);
-			sb.append("3"); //default nth root for cbrt
-			sb.append(closingBracket);
-			break;
-		case APPLY:
-		case APPLY_SQUARE:
-			StringBuilder toApply = new StringBuilder();
-			serialize(function.getChild(0), toApply);
-			sb.append(toApply);
-			boolean isKnownFunction = SUPPORTED_FUNCTIONS.contains(toApply.toString());
-			sb.append(isKnownFunction ? openingBracket : '(');
-			serialize(function.getChild(1), sb);
-			sb.append(isKnownFunction ? closingBracket : ')');
-			break;
-		case SUM_EQ:
-		case PROD_EQ:
-			serializeArgs(function, sb, 0);
-			break;
-		case ABS:
-		case SQRT: //sqrt[x]
-		default:
-			generalFunction(function, sb);
+				sb.append(separator);
+				sb.append("3"); // default nth root for cbrt
+				sb.append(closingBracket);
+				break;
+			case APPLY:
+			case APPLY_SQUARE:
+				StringBuilder toApply = new StringBuilder();
+				serialize(function.getChild(0), toApply);
+				sb.append(toApply);
+				boolean isKnownFunction = SUPPORTED_FUNCTIONS.contains(toApply.toString());
+				sb.append(isKnownFunction ? openingBracket : '(');
+				serialize(function.getChild(1), sb);
+				sb.append(isKnownFunction ? closingBracket : ')');
+				break;
+			case SUM_EQ:
+			case PROD_EQ:
+				serializeArgs(function, sb, 0);
+				break;
+			case ABS:
+			case SQRT: // sqrt[x]
+			default:
+				generalFunction(function, sb);
 		}
 	}
 
-	private void placeOpeningBracketBeforeBase(FunctionNode function, StringBuilder sb,
-			InternalNode parent) {
+	private void placeOpeningBracketBeforeBase(
+			FunctionNode function, StringBuilder sb, InternalNode parent) {
 		int baseIndex = parent.indexOf(function) - 1;
 
-		//if i'm part of an array, place the brackets right before my serialization
+		// if i'm part of an array, place the brackets right before my serialization
 		if (parent.getChild(baseIndex) instanceof ArrayNode) {
 			StringBuilder array = new StringBuilder();
 			serialize((ArrayNode) parent.getChild(baseIndex), array);
@@ -165,12 +164,12 @@ public class SolverSerializer extends SerializerAdapter {
 		backtrackToBaseAndPlaceOpeningBracket(parent, baseIndex, 1, sb);
 	}
 
-	//first argument is already appended to the SB before the serializing fn so needed a workaround
-	private void backtrackToBaseAndPlaceOpeningBracket(InternalNode parents, int baseIndex,
-			int backtrackAmount, StringBuilder sb) {
+	// first argument is already appended to the SB before the serializing fn so needed a workaround
+	private void backtrackToBaseAndPlaceOpeningBracket(
+			InternalNode parents, int baseIndex, int backtrackAmount, StringBuilder sb) {
 
-		char [] openingBracketChar = openingBracket.toCharArray();
-		char [] closingBracketChar = closingBracket.toCharArray();
+		char[] openingBracketChar = openingBracket.toCharArray();
+		char[] closingBracketChar = closingBracket.toCharArray();
 
 		Node character = parents.getChild(baseIndex - backtrackAmount);
 
@@ -181,8 +180,10 @@ public class SolverSerializer extends SerializerAdapter {
 			return;
 		}
 
-		if (character instanceof FunctionNode || character instanceof SequenceNode
-				|| baseIndex == 0 || character == null) {
+		if (character instanceof FunctionNode
+				|| character instanceof SequenceNode
+				|| baseIndex == 0
+				|| character == null) {
 			sb.insert(sb.length() - backtrackAmount, openingBracketChar);
 			return;
 		}
@@ -198,14 +199,13 @@ public class SolverSerializer extends SerializerAdapter {
 				if (sb.indexOf(closingBracket, lastOpeningBracketIndex)
 						== sb.length() - 1 - backtrackAmount) {
 					sb.insert(lastOpeningBracketIndex, openingBracketChar, 0, 1);
-				} else { //handles nested brackets
+				} else { // handles nested brackets
 					int closingBracketsCount = countOfClosingBrackets(sb);
 					int openingBracketIndex = getPlacementIndex(closingBracketsCount, sb);
 					sb.insert(openingBracketIndex, openingBracketChar, 0, 1);
 				}
 			} else {
-				sb.insert(sb.length() - backtrackAmount,
-						openingBracket.toCharArray(), 0, 1);
+				sb.insert(sb.length() - backtrackAmount, openingBracket.toCharArray(), 0, 1);
 			}
 		} else {
 			backtrackToBaseAndPlaceOpeningBracket(parents, baseIndex, backtrackAmount + 1, sb);
@@ -232,9 +232,14 @@ public class SolverSerializer extends SerializerAdapter {
 		return countOfClosingBrackets;
 	}
 
-	//name[b,x]
-	private void serializeAndAppendFnWithTwoArgs(String name, FunctionNode mathfunction,
-			String separator, int b, int x, StringBuilder stringBuilder) {
+	// name[b,x]
+	private void serializeAndAppendFnWithTwoArgs(
+			String name,
+			FunctionNode mathfunction,
+			String separator,
+			int b,
+			int x,
+			StringBuilder stringBuilder) {
 		stringBuilder.append(name);
 		stringBuilder.append(openingBracket);
 		serialize(mathfunction.getChild(b), stringBuilder);
@@ -252,7 +257,7 @@ public class SolverSerializer extends SerializerAdapter {
 		char field = arrayNode.getFieldDelimiter().getCharacter();
 		char row = arrayNode.getRowDelimiter().getCharacter();
 
-		open  = keysNeedingDots.contains(openKey) ? openKey + "." : openKey;
+		open = keysNeedingDots.contains(openKey) ? openKey + "." : openKey;
 		close = keysNeedingDots.contains(closeKey) ? "." + closeKey : closeKey;
 
 		if (arrayNode.isMatrix()) {
@@ -279,8 +284,7 @@ public class SolverSerializer extends SerializerAdapter {
 		serializeArgs(functionNode, stringBuilder, 0);
 	}
 
-	private void serializeArgs(FunctionNode functionNode,
-			StringBuilder stringBuilder, int offset) {
+	private void serializeArgs(FunctionNode functionNode, StringBuilder stringBuilder, int offset) {
 		stringBuilder.append(openingBracket);
 		for (int i = offset; i < functionNode.size(); i++) {
 			serialize(functionNode.getChild(i), stringBuilder);
@@ -299,7 +303,7 @@ public class SolverSerializer extends SerializerAdapter {
 	 */
 	@Override
 	public boolean buildMixedNumber(StringBuilder stringBuilder, FunctionNode functionNode) {
-		//Check if a valid mixed number can be created (e.g.: no 'x')
+		// Check if a valid mixed number can be created (e.g.: no 'x')
 		if (isMixedNumber(stringBuilder) < 0 || !isValidMixedNumber(functionNode)) {
 			return false;
 		}

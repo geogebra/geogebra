@@ -41,7 +41,6 @@ public class AuxObjectModel extends BooleanOptionModel {
 	@Override
 	public boolean getValueAt(int index) {
 		return getGeoAt(index).isAuxiliaryObject();
-
 	}
 
 	@Override

@@ -77,9 +77,8 @@ class QueryFunctionDataImplTest {
 
 	@Test
 	void isInvertedAtPreservesCompatibilityBehavior() {
-		QueryFunctionDataImpl data = queryWith(
-				tuple(connected(0, 1), connected(1, 2)),
-				tuple(connected(1, 2), inverted(1, 2)));
+		QueryFunctionDataImpl data =
+				queryWith(tuple(connected(0, 1), connected(1, 2)), tuple(connected(1, 2), inverted(1, 2)));
 
 		assertAll(
 				() -> assertFalse(data.isInvertedAt(0)),
@@ -89,20 +88,16 @@ class QueryFunctionDataImplTest {
 
 	@Test
 	void hasNextIsFalseForLastTuple() {
-		QueryFunctionDataImpl data = queryWith(
-				tuple(connected(0, 1), connected(1, 2)),
-				tuple(connected(1, 2), inverted(2, 3)));
+		QueryFunctionDataImpl data =
+				queryWith(tuple(connected(0, 1), connected(1, 2)), tuple(connected(1, 2), inverted(2, 3)));
 
-		assertAll(
-				() -> assertTrue(data.hasNext(0)),
-				() -> assertFalse(data.hasNext(1)));
+		assertAll(() -> assertTrue(data.hasNext(0)), () -> assertFalse(data.hasNext(1)));
 	}
 
 	@Test
 	void isWholeAtPreservesCompatibilityBehavior() {
-		QueryFunctionDataImpl data = queryWith(
-				tuple(connected(0, 1), connected(1, 2)),
-				tuple(connected(1, 2), whole()));
+		QueryFunctionDataImpl data =
+				queryWith(tuple(connected(0, 1), connected(1, 2)), tuple(connected(1, 2), whole()));
 
 		assertAll(
 				() -> assertFalse(data.isWholeAt(0)),
@@ -112,23 +107,19 @@ class QueryFunctionDataImplTest {
 
 	@Test
 	void nonDegeneratedPreservesCompatibilityBehavior() {
-		IntervalSet invertedPositiveInfinity = inverted(Double.POSITIVE_INFINITY,
-				Double.POSITIVE_INFINITY);
+		IntervalSet invertedPositiveInfinity =
+				inverted(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 		QueryFunctionDataImpl data = queryWith(
-				tuple(connected(0, 1), connected(1, 2)),
-				tuple(connected(1, 2), invertedPositiveInfinity));
+				tuple(connected(0, 1), connected(1, 2)), tuple(connected(1, 2), invertedPositiveInfinity));
 
-		assertAll(
-				() -> assertTrue(data.nonDegenerated(0)),
-				() -> assertFalse(data.nonDegenerated(1)));
+		assertAll(() -> assertTrue(data.nonDegenerated(0)), () -> assertFalse(data.nonDegenerated(1)));
 	}
 
 	@Test
 	void neighboursAtPopulatesExplicitTopologyForEdges() {
 		IntervalSet inverted = inverted(2, 3);
-		QueryFunctionDataImpl data = queryWith(
-				tuple(connected(0, 1), connected(1, 2)),
-				tuple(connected(1, 2), inverted));
+		QueryFunctionDataImpl data =
+				queryWith(tuple(connected(0, 1), connected(1, 2)), tuple(connected(1, 2), inverted));
 
 		TupleNeighbours first = data.neighboursAt(0);
 		assertAll(

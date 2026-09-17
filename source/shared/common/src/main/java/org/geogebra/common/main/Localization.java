@@ -38,16 +38,17 @@ import org.jspecify.annotations.NonNull;
 public abstract class Localization extends LocalizationI {
 
 	/** CAS syntax suffix for keys in command bundle */
-	public final static String syntaxCAS = ".SyntaxCAS";
+	public static final String syntaxCAS = ".SyntaxCAS";
 	/** 3D syntax suffix for keys in command bundle */
-	public final static String syntax3D = ".Syntax3D";
+	public static final String syntax3D = ".Syntax3D";
 	/** syntax suffix for keys in command bundle */
-	public final static String syntaxStr = ".Syntax";
+	public static final String syntaxStr = ".Syntax";
+
 	private final LocalizedCommandSyntax commandSyntax = new LocalizedCommandSyntax(this);
 	/** used when a secondary language is being used for tooltips. */
 	private String[] fontSizeStrings = null;
 
-	static final public String ROUNDING_MENU_SEPARATOR = "---";
+	public static final String ROUNDING_MENU_SEPARATOR = "---";
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private final int dimension;
@@ -62,6 +63,7 @@ public abstract class Localization extends LocalizationI {
 	 * Use localized digits.
 	 */
 	private boolean useLocalizedDigits = false;
+
 	private HashMap<String, String> translateCommandTable;
 	private boolean reverseNameDescription = false;
 	public boolean rightToLeftReadingOrder = false;
@@ -72,8 +74,8 @@ public abstract class Localization extends LocalizationI {
 	/** comma (different in Arabic) */
 	private char unicodeComma = ','; // \u060c for Arabic comma
 
-	private int[] decimalPlacesOptions = { 0, 1, 2, 3, 4, 5, 10, 13, 15 };
-	private int[] inputBoxDecimalPlacesOptions = { -1, 0, 1, 2, 3, 4, 5, 10, 13, 15 };
+	private int[] decimalPlacesOptions = {0, 1, 2, 3, 4, 5, 10, 13, 15};
+	private int[] inputBoxDecimalPlacesOptions = {-1, 0, 1, 2, 3, 4, 5, 10, 13, 15};
 	private int[] significantFiguresOptions = {3, 5, 10, 15};
 
 	// TODO this doesn't really belong here; find a better owner (CommandProcessor?)
@@ -82,7 +84,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * eg Symbol.And
 	 */
-	public final static String SYMBOL_PREFIX = "Symbol.";
+	public static final String SYMBOL_PREFIX = "Symbol.";
 
 	/**
 	 * @param dimension
@@ -107,10 +109,10 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * For Basque and Hungarian you have to say "A point" instead of "point A"
-	 * 
+	 *
 	 * @return whether current language needs reverse order of type and name
 	 */
-	final public boolean isReverseNameDescriptionLanguage() {
+	public final boolean isReverseNameDescriptionLanguage() {
 		// for Basque and Hungarian
 		return reverseNameDescription;
 	}
@@ -118,7 +120,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * @return whether current language uses RTL orientation
 	 */
-	final public boolean isRightToLeftReadingOrder() {
+	public final boolean isRightToLeftReadingOrder() {
 		return rightToLeftReadingOrder;
 	}
 
@@ -127,10 +129,15 @@ public abstract class Localization extends LocalizationI {
 	 */
 	public String[] getFontSizeStrings() {
 		if (fontSizeStrings == null) {
-			fontSizeStrings = new String[] { getMenu("ExtraSmall"),
-					getMenu("VerySmall"), getMenu("Small"), getMenu("Medium"),
-					getMenu("Large"), getMenu("VeryLarge"),
-					getMenu("ExtraLarge") };
+			fontSizeStrings = new String[] {
+				getMenu("ExtraSmall"),
+				getMenu("VerySmall"),
+				getMenu("Small"),
+				getMenu("Medium"),
+				getMenu("Large"),
+				getMenu("VeryLarge"),
+				getMenu("ExtraLarge")
+			};
 		}
 
 		return fontSizeStrings;
@@ -196,13 +203,13 @@ public abstract class Localization extends LocalizationI {
 		// too big solution for us), http://dren.dk/hunspell.html.
 		// TODO: The used method is not as fast as it could be, so speedup is
 		// possible.
-		String[] affixesList = { "-ra/-re", "-nak/-nek", "-ba/-be", "-ban/-ben",
-				"-hoz/-hez", "-val/-vel" };
-		String[] endE2 = { "10", "40", "50", "70", "90" };
+		String[] affixesList = {"-ra/-re", "-nak/-nek", "-ba/-be", "-ban/-ben", "-hoz/-hez", "-val/-vel"
+		};
+		String[] endE2 = {"10", "40", "50", "70", "90"};
 		// FIXME: Numbers in endings which greater than 999 are not supported
 		// yet.
 		// Special endings for -val/-vel:
-		String[] endO2 = { "00", "20", "30", "60", "80" };
+		String[] endO2 = {"00", "20", "30", "60", "80"};
 
 		for (String affix : affixesList) {
 			int match;
@@ -212,32 +219,23 @@ public abstract class Localization extends LocalizationI {
 				// text
 				if (match > 0) {
 					// Affix found. Get the previous character.
-					String prevChars = translationFixPronouncedPrevChars(text,
-							match, 1);
-					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING
-							.contains(prevChars)) {
-						text = translationFixHuAffixChange(text, match, affix,
-								"e", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING
-							.contains(prevChars)) {
-						text = translationFixHuAffixChange(text, match, affix,
-								"o", prevChars);
-					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING
-							.contains(prevChars)) {
-						text = translationFixHuAffixChange(text, match, affix,
-								Unicode.TRANSLATION_FIX_HU_OE_STRING,
-								prevChars);
+					String prevChars = translationFixPronouncedPrevChars(text, match, 1);
+					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING.contains(prevChars)) {
+						text = translationFixHuAffixChange(text, match, affix, "e", prevChars);
+					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING.contains(prevChars)) {
+						text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
+					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING.contains(prevChars)) {
+						text = translationFixHuAffixChange(
+								text, match, affix, Unicode.TRANSLATION_FIX_HU_OE_STRING, prevChars);
 					} else if (match > 1) {
 						// Append the previous character.
 						// TODO: This could be quicker: to add only the second
 						// char beyond prevChars
-						prevChars = translationFixPronouncedPrevChars(text,
-								match, 2);
+						prevChars = translationFixPronouncedPrevChars(text, match, 2);
 						boolean found2 = false;
 						for (String last2fit : endE2) {
 							if (!found2 && last2fit.equals(prevChars)) {
-								text = translationFixHuAffixChange(text, match,
-										affix, "e", prevChars);
+								text = translationFixHuAffixChange(text, match, affix, "e", prevChars);
 								found2 = true;
 							}
 						}
@@ -246,8 +244,7 @@ public abstract class Localization extends LocalizationI {
 						if (!found2) {
 							for (String last2fit : endO2) {
 								if (!found2 && last2fit.equals(prevChars)) {
-									text = translationFixHuAffixChange(text,
-											match, affix, "o", prevChars);
+									text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
 									found2 = true;
 								}
 							}
@@ -255,22 +252,20 @@ public abstract class Localization extends LocalizationI {
 
 						if (!found2) {
 							// Use heuristics:
-							text = translationFixHuAffixChange(text, match,
-									affix, "o", prevChars);
+							text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
 						}
 
 					} else {
 						// Use heuristics:
-						text = translationFixHuAffixChange(text, match, affix,
-								"o", prevChars);
+						text = translationFixHuAffixChange(text, match, affix, "o", prevChars);
 					}
 				}
 			} while (match > -1);
 		}
 
 		// Fixing definite article.
-		String[] articlesList = { "a(z)", "A(z)" }; // assume they are 3 chars
-													// long
+		String[] articlesList = {"a(z)", "A(z)"}; // assume they are 3 chars
+		// long
 		for (String article : articlesList) {
 			int match;
 			do {
@@ -278,8 +273,7 @@ public abstract class Localization extends LocalizationI {
 				if (match > -1) {
 					// Article found. Get the next character.
 					if (match < text.length() - 5) {
-						char checked = Character
-								.toLowerCase(text.charAt(match + 5));
+						char checked = Character.toLowerCase(text.charAt(match + 5));
 						String consonants = "bcdfghjklmnpqrstvwx2346789";
 						int match2 = consonants.indexOf(checked);
 						String first = text.substring(0, match + 1);
@@ -304,9 +298,9 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * Gets the previous "pronounced" characters from text before the match
 	 * position for the given length. The returned text will be lowercased.
-	 * 
+	 *
 	 * <p>Example: translationFixPrevChars("ABC_{123}", 8, 4) gives "c123"
-	 * 
+	 *
 	 * @param text
 	 *            the text to pronounce
 	 * @param match
@@ -315,8 +309,7 @@ public abstract class Localization extends LocalizationI {
 	 *            required length for the output
 	 * @return lowercased output
 	 */
-	private static String translationFixPronouncedPrevChars(String text,
-			int match, int length) {
+	private static String translationFixPronouncedPrevChars(String text, int match, int length) {
 		int pos = match;
 		StringBuilder rettext = new StringBuilder();
 		int rettextlen = 0;
@@ -336,7 +329,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Changes a set of possible affixes to the right one
-	 * 
+	 *
 	 * @param inputText
 	 *            the text to be corrected
 	 * @param match
@@ -349,8 +342,8 @@ public abstract class Localization extends LocalizationI {
 	 *            previous characters
 	 * @return the corrected text
 	 */
-	private static String translationFixHuAffixChange(String inputText,
-			int match, String affixes, String affixForm, String prevChars) {
+	private static String translationFixHuAffixChange(
+			String inputText, int match, String affixes, String affixForm, String prevChars) {
 		String text = inputText;
 		String replace = "";
 
@@ -396,8 +389,7 @@ public abstract class Localization extends LocalizationI {
 			// Handling some special cases:
 			if (prevChars.length() == 1) {
 				replace = replaceHuSingleChar(replace, prevChars);
-			} else if ((prevChars.length() == 2)
-					&& prevChars.substring(1).equals("0")) {
+			} else if ((prevChars.length() == 2) && prevChars.substring(1).equals("0")) {
 				// (Currently the second part of the conditional is
 				// unnecessary.)
 				// 00-zal, 10-zel, 30-cal etc.
@@ -421,8 +413,7 @@ public abstract class Localization extends LocalizationI {
 		}
 		int affixesLength = affixes.length();
 		// Replace.
-		text = text.substring(0, match) + "-" + replace
-				+ text.substring(match + affixesLength);
+		text = text.substring(0, match) + "-" + replace + text.substring(match + affixesLength);
 		return text;
 	}
 
@@ -439,7 +430,7 @@ public abstract class Localization extends LocalizationI {
 		} else {
 			// x-szel, 1-gyel etc.
 			String valVelFrom2 = "x14";
-			String[] valVelTo2 = { "sz", "gy", "gy" };
+			String[] valVelTo2 = {"sz", "gy", "gy"};
 			index = valVelFrom2.indexOf(prevChars);
 			if (index > -1) {
 				replace = valVelTo2[index] + replace.substring(1);
@@ -450,7 +441,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Gets translation from "plain" bundle
-	 * 
+	 *
 	 * @param key
 	 *            key
 	 * @return translation of given key
@@ -475,7 +466,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Returns translation of given key from the "symbol" bundle
-	 * 
+	 *
 	 * @param key
 	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
 	 *            for tooltips)
@@ -516,7 +507,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
-	 * 
+	 *
 	 * @author Michael Borcherds, Markus Hohenwarter
 	 * @param key
 	 *            key
@@ -525,8 +516,7 @@ public abstract class Localization extends LocalizationI {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public @NonNull String getPlainDefault(String key, String defaultPattern,
-			String... args) {
+	public final @NonNull String getPlainDefault(String key, String defaultPattern, String... args) {
 		String str = getMenuDefault(key, defaultPattern);
 		if (!str.isEmpty()) {
 			StringBuilder sbPlain = new StringBuilder();
@@ -551,9 +541,9 @@ public abstract class Localization extends LocalizationI {
 			// In some languages we may need some final fixes:
 			return translationFix(sbPlain.toString());
 		} else {
-			 // The key was not exported from the translation database yet.
-			 // In this case all parameters are appended to the displayed string to
-			 // help the developers.
+			// The key was not exported from the translation database yet.
+			// In this case all parameters are appended to the displayed string to
+			// help the developers.
 			return key + " " + String.join(" ", args);
 		}
 	}
@@ -561,14 +551,14 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * Only letters, numbers and _ allowed in label names check for other
 	 * characters in the properties, and remove them
-	 * 
+	 *
 	 * @param key
 	 *            eg "polygon" -&gt; "Name.polygon" -&gt; poly
 	 * @param fallback
 	 *            if properties not loaded
 	 * @return "poly" (the suffix is added later)
 	 */
-	final public String getPlainLabel(String key, String fallback) {
+	public final String getPlainLabel(String key, String fallback) {
 		String ret = getMenuDefault("Name." + key, "");
 
 		if (ret.isEmpty()) {
@@ -588,14 +578,14 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * replace "%0" by arg0 etc.
-	 * 
+	 *
 	 * @param key
 	 *            pattern key
 	 * @param arg0
 	 *            replace args
 	 * @return string with replacements
 	 */
-	final public String getPlain(String key, String... arg0) {
+	public final String getPlain(String key, String... arg0) {
 		return getPlainDefault(key, "", arg0);
 	}
 
@@ -621,7 +611,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * In some languages, a properties file cannot completely describe
 	 * translations. This method tries to rewrite a text to the correct form.
-	 * 
+	 *
 	 * @param text
 	 *            the translation text to fix
 	 * @return the fixed text
@@ -673,7 +663,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * in French, zero is singular, eg 0 decimale rather than 0 decimal places
-	 * 
+	 *
 	 * @return whether 0 is singular
 	 */
 	private boolean isZeroSingular() {
@@ -683,23 +673,23 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * Returns whether autocomplete should be used at all. Certain languages
 	 * make problems with auto complete turned on (e.g. Korean).
-	 * 
+	 *
 	 * @return whether autocomplete should be used at all, depending on language
 	 */
-	final public boolean isAutoCompletePossible() {
+	public final boolean isAutoCompletePossible() {
 		return isAutoCompletePossible;
 	}
 
 	/**
 	 * Returns whether current language uses RTL orientation for numbers for
 	 * given template. We don't want RTL digits in XML
-	 * 
+	 *
 	 * @param tpl
 	 *            string templates
 	 * @return whether current language uses RTL orientation for numbers for
 	 *         given template
 	 */
-	final public boolean isMinusOnRight(StringTemplate tpl) {
+	public final boolean isMinusOnRight(StringTemplate tpl) {
 		if (!tpl.internationalizeDigits()) {
 			return false;
 		}
@@ -717,7 +707,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * Updates language flags (RTL, RTL for numbers, reverse word order,
 	 * autocomplete possible)
-	 * 
+	 *
 	 * @param lang
 	 *            language
 	 */
@@ -766,8 +756,11 @@ public abstract class Localization extends LocalizationI {
 	 * @return whether to use LTR
 	 */
 	public static boolean rightToLeftReadingOrder(String language) {
-		return "ar".equals(language) || "fa".equals(language) || "yi".equals(language)
-				|| "he".equals(language) || "ug".equals(language);
+		return "ar".equals(language)
+				|| "fa".equals(language)
+				|| "yi".equals(language)
+				|| "he".equals(language)
+				|| "ug".equals(language);
 	}
 
 	/**
@@ -799,7 +792,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Use localized labels for certain languages.
-	 * 
+	 *
 	 * @param useLocalizedLabels
 	 *            true to make labels of new geos localized
 	 */
@@ -809,10 +802,10 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
-	 * 
+	 *
 	 * <p>Calls {@link #updateLanguageFlags(String)} to apply the change, but just
 	 * if the new flag differs from the current.
-	 * 
+	 *
 	 * @param useLocalizedDigits
 	 *            whether localized digits should be used
 	 * @param app
@@ -836,7 +829,7 @@ public abstract class Localization extends LocalizationI {
 	/**
 	 * Returns translation of given key from the "symbol" bundle in tooltip
 	 * language
-	 * 
+	 *
 	 * @param key
 	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
 	 *            for tooltips)
@@ -854,7 +847,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param internalCommandName
 	 *            (internal) command name to check
 	 * @return true if this command has a CAS-specific syntax
@@ -867,7 +860,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * can be over-ridden if required to provide tooltips in another language
-	 * 
+	 *
 	 * @param key
 	 *            key
 	 * @return translation of key from menu bundle in tooltip language
@@ -948,8 +941,7 @@ public abstract class Localization extends LocalizationI {
 		}
 		String key = StringUtil.toLowerCaseUS(command);
 
-		String ret = translateCommandTable == null ? key
-				: translateCommandTable.get(key);
+		String ret = translateCommandTable == null ? key : translateCommandTable.get(key);
 		if (ret != null) {
 			return ret;
 		}
@@ -1005,7 +997,7 @@ public abstract class Localization extends LocalizationI {
 	 *
 	 * @return "West" or "East" (String rather than app.borderWest() so we're not dependent on awt)
 	 */
-	final public String borderWest() {
+	public final String borderWest() {
 		if (!isRightToLeftReadingOrder()) {
 			return "West";
 		}
@@ -1014,10 +1006,10 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * return East/West as appropriate for eg Hebrew / Arabic
-	 * 
+	 *
 	 * @return "East" or "West" (String rather than app.borderEast() so we're not dependent on awt)
 	 */
-	final public String borderEast() {
+	public final String borderEast() {
 		if (isRightToLeftReadingOrder()) {
 			return "West";
 		}
@@ -1026,7 +1018,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * English and internal names differ for e.g. LaTeX vs FormulaText.
-	 * 
+	 *
 	 * @param internalCommandName
 	 *            internal command name
 	 * @return English command name
@@ -1046,8 +1038,7 @@ public abstract class Localization extends LocalizationI {
 		for (Commands c : Commands.values()) {
 			Commands cInternal = Commands.englishToInternal(c);
 
-			if (toTest.equals(cInternal)
-					&& !c.name().equals(cInternal.toString())) {
+			if (toTest.equals(cInternal) && !c.name().equals(cInternal.toString())) {
 				return c.name();
 			}
 		}
@@ -1056,7 +1047,7 @@ public abstract class Localization extends LocalizationI {
 		return internalCommandName;
 	}
 
-	static private String getMainCommandName(Commands command) {
+	private static String getMainCommandName(Commands command) {
 		switch (command) {
 			case Binomial:
 			case nCr:
@@ -1093,15 +1084,15 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return decimal point character for current language
 	 */
-	final public char getDecimalPoint() {
+	public final char getDecimalPoint() {
 		return unicodeDecimalPoint;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return character for "," in current language
 	 */
 	public char getComma() {
@@ -1109,7 +1100,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return character for zero (0) in current language
 	 */
 	public char getZero() {
@@ -1125,8 +1116,7 @@ public abstract class Localization extends LocalizationI {
 		if (StringUtil.empty(config.getTutorialKey())) {
 			return "";
 		}
-		return GeoGebraConstants.GEOGEBRA_WEBSITE + "m/"
-				+ getMenu(config.getTutorialKey());
+		return GeoGebraConstants.GEOGEBRA_WEBSITE + "m/" + getMenu(config.getTutorialKey());
 	}
 
 	/**
@@ -1138,7 +1128,7 @@ public abstract class Localization extends LocalizationI {
 
 	/**
 	 * Get the value which tells whether the english commands are forced or not
-	 * 
+	 *
 	 * @return whether to force English commands
 	 */
 	public boolean areEnglishCommandsForced() {
@@ -1150,7 +1140,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Translation of "Please check your Input"
 	 */
 	public String getInvalidInputError() {

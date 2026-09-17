@@ -34,8 +34,7 @@ import org.geogebra.common.util.debug.Log;
  * This class can wrap a view, and post the notifications
  * in a batch every DELAY seconds.
  */
-public class BatchedUpdateWrapper
-		implements CheckBeforeUpdateView, GTimerListener {
+public class BatchedUpdateWrapper implements CheckBeforeUpdateView, GTimerListener {
 
 	private static final int DELAY = 80;
 
@@ -50,8 +49,7 @@ public class BatchedUpdateWrapper
 	 * @param wrappedView view to wrap
 	 * @param factory factory
 	 */
-	public BatchedUpdateWrapper(WrappableView wrappedView,
-			UtilFactory factory) {
+	public BatchedUpdateWrapper(WrappableView wrappedView, UtilFactory factory) {
 		this.wrappedView = wrappedView;
 		wrappedView.setIsWrapped(true);
 		this.reflection = factory.newReflection(View.class);
@@ -66,7 +64,7 @@ public class BatchedUpdateWrapper
 
 	private void addEvent(String name, GeoElement parameter) {
 		if (show(parameter)) {
-			Event event = new Event(name, new Object[] { parameter });
+			Event event = new Event(name, new Object[] {parameter});
 			addEvent(event);
 		}
 	}
@@ -106,7 +104,7 @@ public class BatchedUpdateWrapper
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		if (needsUpdateVisualstyle(prop) && show(geo)) {
-			addEvent("updateVisualStyle", new Object[] { geo, prop });
+			addEvent("updateVisualStyle", new Object[] {geo, prop});
 		}
 	}
 
@@ -168,7 +166,7 @@ public class BatchedUpdateWrapper
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		addEvent("updatePreviewFromInputBar", new Object[] { geos });
+		addEvent("updatePreviewFromInputBar", new Object[] {geos});
 	}
 
 	@Override

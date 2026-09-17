@@ -26,12 +26,13 @@ import org.geogebra.common.util.TimeFormatAdapter;
  */
 public class TimeFormat implements TimeFormatAdapter {
 
-    @Override
-    public String format(String languageTag, long timeIntervalMs) {
-		return String.format(Locale.forLanguageTag(languageTag), "%02d:%02d",
+	@Override
+	public String format(String languageTag, long timeIntervalMs) {
+		return String.format(
+				Locale.forLanguageTag(languageTag),
+				"%02d:%02d",
 				TimeUnit.MILLISECONDS.toMinutes(timeIntervalMs),
-				TimeUnit.MILLISECONDS.toSeconds(timeIntervalMs) - TimeUnit.MINUTES
-						.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeIntervalMs))
-        );
-    }
+				TimeUnit.MILLISECONDS.toSeconds(timeIntervalMs)
+						- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeIntervalMs)));
+	}
 }

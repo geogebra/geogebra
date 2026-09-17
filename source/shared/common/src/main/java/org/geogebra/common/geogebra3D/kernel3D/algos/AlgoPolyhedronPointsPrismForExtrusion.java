@@ -23,17 +23,17 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 
 /**
  * Extension of algo when used for extrusion
- * 
+ *
  * @author Mathieu
  *
  */
-public class AlgoPolyhedronPointsPrismForExtrusion
-		extends AlgoPolyhedronPointsPrism implements AlgoForExtrusion {
+public class AlgoPolyhedronPointsPrismForExtrusion extends AlgoPolyhedronPointsPrism
+		implements AlgoForExtrusion {
 
 	private ExtrusionComputer extrusionComputer;
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -43,14 +43,14 @@ public class AlgoPolyhedronPointsPrismForExtrusion
 	 * @param height
 	 *            height
 	 */
-	public AlgoPolyhedronPointsPrismForExtrusion(Construction c,
-			String[] labels, GeoPolygon polygon, NumberValue height) {
+	public AlgoPolyhedronPointsPrismForExtrusion(
+			Construction c, String[] labels, GeoPolygon polygon, NumberValue height) {
 		super(c, labels, polygon, height);
 	}
 
 	/**
 	 * sets the extrusion computer
-	 * 
+	 *
 	 * @param extrusionComputer
 	 *            extrusion computer
 	 */
@@ -71,5 +71,4 @@ public class AlgoPolyhedronPointsPrismForExtrusion
 	public GeoElement getGeoToHandle() {
 		return getTopFace();
 	}
-
 }

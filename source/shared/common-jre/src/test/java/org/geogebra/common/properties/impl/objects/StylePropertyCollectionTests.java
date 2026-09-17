@@ -44,14 +44,17 @@ class StylePropertyCollectionTests extends BaseAppTestSetup {
 	@Test
 	void testAngleSliderStyle() {
 		GeoNumeric slider = evaluateGeoElement("Slider(0, 360, 1, 1, 100, true)");
-		StylePropertyCollection stylePropertyCollection =
-				assertDoesNotThrow(() -> new StylePropertyCollection(
-						propertiesFactory, getLocalization(), List.of(slider)));
+		StylePropertyCollection stylePropertyCollection = assertDoesNotThrow(
+				() -> new StylePropertyCollection(propertiesFactory, getLocalization(), List.of(slider)));
 		assertTrue(stylePropertyCollection.isAvailable());
 		assertEquals(2, stylePropertyCollection.getProperties().length);
-		assertInstanceOf(ObjectColorProperty.class, ((ColorPropertyListFacade<?>)
-				stylePropertyCollection.getProperties()[0]).getFirstProperty());
-		assertInstanceOf(SliderOrientationProperty.class, ((NamedEnumeratedPropertyListFacade<?, ?>)
-				stylePropertyCollection.getProperties()[1]).getFirstProperty());
+		assertInstanceOf(
+				ObjectColorProperty.class,
+				((ColorPropertyListFacade<?>) stylePropertyCollection.getProperties()[0])
+						.getFirstProperty());
+		assertInstanceOf(
+				SliderOrientationProperty.class,
+				((NamedEnumeratedPropertyListFacade<?, ?>) stylePropertyCollection.getProperties()[1])
+						.getFirstProperty());
 	}
 }

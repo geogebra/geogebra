@@ -191,8 +191,7 @@ public final class Glue {
 	private final double stretch;
 	private final double shrink;
 
-	private Glue(final double space, final double stretch,
-			final double shrink) {
+	private Glue(final double space, final double stretch, final double shrink) {
 		this.space = space;
 		this.stretch = stretch;
 		this.shrink = shrink;
@@ -210,13 +209,10 @@ public final class Glue {
 	 *            the TeXEnvironment
 	 * @return a box containing representing the glue
 	 */
-	public static Box get(final int lType, final int rType,
-			final TeXEnvironment env) {
+	public static Box get(final int lType, final int rType, final TeXEnvironment env) {
 		// types > INNER are considered of type ORD for glue calculations
-		final int l = (lType > TeXConstants.TYPE_INNER
-				? TeXConstants.TYPE_ORDINARY : lType);
-		final int r = (rType > TeXConstants.TYPE_INNER
-				? TeXConstants.TYPE_ORDINARY : rType);
+		final int l = (lType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : lType);
+		final int r = (rType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : rType);
 
 		// search right glue-type in "glue-table"
 		final Glue g = glues[index(l, r, env.getStyle() >> 1)];

@@ -31,7 +31,7 @@ import edu.uci.ics.jung.graph.util.TreeUtils;
 /**
  * For the input Graph, creates a MinimumSpanningTree using a variation of
  * Prim's algorithm.
- * 
+ *
  * @author Tom Nelson - tomnelson@dev.java.net
  *
  * @param <V> vertex type
@@ -52,12 +52,13 @@ public class MinimumSpanningForest2<V, E> {
 	 * as the root. If the Minimum Spanning Tree does not include all vertices
 	 * of the Graph, then a leftover vertex is selected as a root, and another
 	 * tree is created
-	 * 
+	 *
 	 * @param graph graph
 	 * @param factory forest factory
 	 * @param weights edge weights
 	 */
-	public MinimumSpanningForest2(Graph<V, E> graph,
+	public MinimumSpanningForest2(
+			Graph<V, E> graph,
 			Supplier<Forest<V, E>> factory,
 			Supplier<? extends Graph<V, E>> treeFactory,
 			Function<E, Double> weights) {
@@ -70,7 +71,7 @@ public class MinimumSpanningForest2<V, E> {
 	 * Graph, then an arbitrary Graph vertex will be selected as the root. If the
 	 * Minimum Spanning Tree does not include all vertices of the Graph, then a
 	 * leftover vertex is selected as a root, and another tree is created
-	 * 
+	 *
 	 * @param graph
 	 *            the Graph to find MST in
 	 * @param forest
@@ -78,7 +79,9 @@ public class MinimumSpanningForest2<V, E> {
 	 * @param weights
 	 *            edge weights, may be null
 	 */
-	public MinimumSpanningForest2(Graph<V, E> graph, Forest<V, E> forest,
+	public MinimumSpanningForest2(
+			Graph<V, E> graph,
+			Forest<V, E> forest,
 			Supplier<? extends Graph<V, E>> treeFactory,
 			Function<E, Double> weights) {
 
@@ -93,12 +96,12 @@ public class MinimumSpanningForest2<V, E> {
 
 		WeakComponentClusterer<V, E> wcc = new WeakComponentClusterer<V, E>();
 		Set<Set<V>> component_vertices = wcc.apply(graph);
-		Collection<Graph<V, E>> components = FilterUtils
-				.createAllInducedSubgraphs(component_vertices, graph);
+		Collection<Graph<V, E>> components =
+				FilterUtils.createAllInducedSubgraphs(component_vertices, graph);
 
 		for (Graph<V, E> component : components) {
-			PrimMinimumSpanningTree<V, E> mst = new PrimMinimumSpanningTree<V, E>(
-					treeFactory, this.weights);
+			PrimMinimumSpanningTree<V, E> mst =
+					new PrimMinimumSpanningTree<V, E>(treeFactory, this.weights);
 			Graph<V, E> subTree = mst.apply(component);
 			if (subTree instanceof Tree) {
 				TreeUtils.addSubTree(forest, (Tree<V, E>) subTree, null, null);

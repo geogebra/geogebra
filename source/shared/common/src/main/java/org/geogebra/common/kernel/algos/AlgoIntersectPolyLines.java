@@ -32,9 +32,9 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algorithm for intersection of two PolyLines
- * 
+ *
  * @author thilina
- * 
+ *
  */
 public class AlgoIntersectPolyLines extends AlgoElement {
 
@@ -63,7 +63,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 
 	/**
 	 * Common Constructor
-	 * 
+	 *
 	 * @param construction
 	 *            construction
 	 * @param labels
@@ -77,8 +77,12 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	 * @param polyBClosed
 	 *            whether B is polygon
 	 */
-	public AlgoIntersectPolyLines(Construction construction, String[] labels,
-			GeoPoly polyA, GeoPoly polyB, boolean polyAClosed,
+	public AlgoIntersectPolyLines(
+			Construction construction,
+			String[] labels,
+			GeoPoly polyA,
+			GeoPoly polyB,
+			boolean polyAClosed,
 			boolean polyBClosed) {
 
 		super(construction);
@@ -132,8 +136,8 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 		intersectionCoords(this.polyA, this.polyB, this.intersectingCoords);
 
 		// update and/or create points
-		this.outputPoints.adjustOutputSize(this.intersectingCoords.size() > 0
-				? this.intersectingCoords.size() : 1);
+		this.outputPoints.adjustOutputSize(
+				this.intersectingCoords.size() > 0 ? this.intersectingCoords.size() : 1);
 
 		// affect new computed points
 		int index = 0;
@@ -148,7 +152,6 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 		for (; index < this.outputPoints.size(); index++) {
 			this.outputPoints.getElement(index).setUndefined();
 		}
-
 	}
 
 	@Override
@@ -162,7 +165,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
@@ -177,7 +180,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 
 	/**
 	 * calculates the intersecting points of two polyLines
-	 * 
+	 *
 	 * @param poly1
 	 *            input polyLine 1
 	 * @param poly2
@@ -185,16 +188,13 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	 * @param newCoords
 	 *            list to add calculated intersecting Coords
 	 */
-	protected void intersectionCoords(GeoPoly poly1, GeoPoly poly2,
-			ArrayList<Coords> newCoords) {
+	protected void intersectionCoords(GeoPoly poly1, GeoPoly poly2, ArrayList<Coords> newCoords) {
 
 		GeoPointND[] pointsA = poly1.getPoints();
 		GeoPointND[] pointsB = poly2.getPoints();
 
-		int noOfSegmentsA = isPolyAClosed() ? pointsA.length
-				: pointsA.length - 1;
-		int noOfSegmentsB = isPolyBClosed() ? pointsB.length
-				: pointsB.length - 1;
+		int noOfSegmentsA = isPolyAClosed() ? pointsA.length : pointsA.length - 1;
+		int noOfSegmentsB = isPolyBClosed() ? pointsB.length : pointsB.length - 1;
 
 		for (int i = 0; i < noOfSegmentsA; i++) {
 
@@ -204,8 +204,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 			} else {
 				this.dummyPoint[1].setCoords(poly1.getPoint(i + 1));
 			}
-			GeoVec3D.lineThroughPoints(this.dummyPoint[0], this.dummyPoint[1],
-					this.dummySegment[0]);
+			GeoVec3D.lineThroughPoints(this.dummyPoint[0], this.dummyPoint[1], this.dummySegment[0]);
 
 			for (int k = 0; k < noOfSegmentsB; k++) {
 
@@ -215,20 +214,15 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 				} else {
 					this.dummyPoint[3].setCoords(poly2.getPoint(k + 1));
 				}
-				GeoVec3D.lineThroughPoints(this.dummyPoint[2],
-						this.dummyPoint[3], this.dummySegment[1]);
+				GeoVec3D.lineThroughPoints(this.dummyPoint[2], this.dummyPoint[3], this.dummySegment[1]);
 
-				GeoVec3D.cross(this.dummySegment[0], this.dummySegment[1],
-						this.dummyPoint[4]);
+				GeoVec3D.cross(this.dummySegment[0], this.dummySegment[1], this.dummyPoint[4]);
 
 				// checks whether the cross product(this.dummyPoint[4]) actually
 				// an intersection point
 				if (this.dummyPoint[4].isDefined()) {
-					if (!(DoubleUtil
-							.isZero(this.dummySegment[0]
-									.distance(this.dummyPoint[4]))
-							&& DoubleUtil.isZero(this.dummySegment[1]
-									.distance(this.dummyPoint[4])))) {
+					if (!(DoubleUtil.isZero(this.dummySegment[0].distance(this.dummyPoint[4]))
+							&& DoubleUtil.isZero(this.dummySegment[1].distance(this.dummyPoint[4])))) {
 						this.dummyPoint[4].setUndefined();
 					}
 				}

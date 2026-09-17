@@ -41,17 +41,15 @@ import org.freehep.util.images.ImageUtilities;
 
 /**
  * Generic class for generating bitmap outputs from an image.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ImageGraphics2D.java,v 1.9 2009-08-17 21:44:45 murkle Exp $
  */
 public class ImageGraphics2D extends PixelGraphics2D {
 
-	private final static String alwaysCompressedFormats[] = { "jpg", "jpeg",
-			"gif" };
+	private static final String alwaysCompressedFormats[] = {"jpg", "jpeg", "gif"};
 
-	private final static String nonTransparentFormats[] = { "jpg", "jpeg",
-			"ppm" };
+	private static final String nonTransparentFormats[] = {"jpg", "jpeg", "ppm"};
 
 	public static final String rootKey = "org.freehep.graphicsio";
 
@@ -60,8 +58,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 
 	public static final String BACKGROUND = "." + PageConstants.BACKGROUND;
 
-	public static final String BACKGROUND_COLOR = "."
-			+ PageConstants.BACKGROUND_COLOR;
+	public static final String BACKGROUND_COLOR = "." + PageConstants.BACKGROUND_COLOR;
 
 	// our image properties
 	public static final String ANTIALIAS = ".Antialias";
@@ -90,8 +87,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 	}
 
 	public static Properties getDefaultProperties(String format) {
-		UserProperties properties = (UserProperties) defaultProperties
-				.get(format);
+		UserProperties properties = (UserProperties) defaultProperties.get(format);
 		if (properties == null) {
 			properties = new UserProperties();
 			defaultProperties.put(format, properties);
@@ -102,12 +98,10 @@ public class ImageGraphics2D extends PixelGraphics2D {
 			if (canWriteTransparent(format)) {
 				properties.setProperty(formatKey + TRANSPARENT, true);
 				properties.setProperty(formatKey + BACKGROUND, false);
-				properties.setProperty(formatKey + BACKGROUND_COLOR,
-						Color.GRAY);
+				properties.setProperty(formatKey + BACKGROUND_COLOR, Color.GRAY);
 			} else {
 				properties.setProperty(formatKey + BACKGROUND, false);
-				properties.setProperty(formatKey + BACKGROUND_COLOR,
-						Color.GRAY);
+				properties.setProperty(formatKey + BACKGROUND_COLOR, Color.GRAY);
 			}
 
 			// set our parameters
@@ -125,37 +119,33 @@ public class ImageGraphics2D extends PixelGraphics2D {
 					properties.setProperty(formatKey + COMPRESS, true);
 					String[] compressionTypes = param.getCompressionTypes();
 					String compressionType = param.getCompressionType();
-					properties.setProperty(formatKey + COMPRESS_MODE,
-							compressionType != null ? compressionType
-									: compressionTypes[0]);
-					properties.setProperty(formatKey + COMPRESS_DESCRIPTION,
-							"Custom");
+					properties.setProperty(
+							formatKey + COMPRESS_MODE,
+							compressionType != null ? compressionType : compressionTypes[0]);
+					properties.setProperty(formatKey + COMPRESS_DESCRIPTION, "Custom");
 					float compressionQuality = 0.0f;
 					try {
 						compressionQuality = param.getCompressionQuality();
 					} catch (IllegalStateException e) {
 						// ignored
 					}
-					properties.setProperty(formatKey + COMPRESS_QUALITY,
-							compressionQuality);
+					properties.setProperty(formatKey + COMPRESS_QUALITY, compressionQuality);
 				} else {
 					properties.setProperty(formatKey + COMPRESS, false);
 					properties.setProperty(formatKey + COMPRESS_MODE, "");
-					properties.setProperty(formatKey + COMPRESS_DESCRIPTION,
-							"Custom");
+					properties.setProperty(formatKey + COMPRESS_DESCRIPTION, "Custom");
 					properties.setProperty(formatKey + COMPRESS_QUALITY, 0.0f);
 				}
 
 				// progressive
 				if (param.canWriteProgressive()) {
-					properties.setProperty(formatKey + PROGRESSIVE, param
-							.getProgressiveMode() != ImageWriteParam.MODE_DISABLED);
+					properties.setProperty(
+							formatKey + PROGRESSIVE, param.getProgressiveMode() != ImageWriteParam.MODE_DISABLED);
 				} else {
 					properties.setProperty(formatKey + PROGRESSIVE, false);
 				}
 			} else {
-				System.err.println(ImageGraphics2D.class
-						+ ": No writer for format '" + format + "'.");
+				System.err.println(ImageGraphics2D.class + ": No writer for format '" + format + "'.");
 			}
 		}
 		return properties;
@@ -169,8 +159,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 
 		String formatKey = rootKey + "." + format;
 		Properties formatProperties = new Properties();
-		for (Enumeration e = newProperties.propertyNames(); e
-				.hasMoreElements();) {
+		for (Enumeration e = newProperties.propertyNames(); e.hasMoreElements(); ) {
 			String key = (String) e.nextElement();
 			String value = newProperties.getProperty(key);
 			if (key.indexOf("." + format) < 0) {
@@ -186,19 +175,17 @@ public class ImageGraphics2D extends PixelGraphics2D {
 	private void setPropertiesOnGraphics() {
 		String formatKey = rootKey + "." + format;
 		if (isProperty(formatKey + ANTIALIAS)) {
-			setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
+			setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		} else {
-			setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_OFF);
+			setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		}
 
 		if (isProperty(formatKey + ANTIALIAS_TEXT)) {
-			setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+			setRenderingHint(
+					RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		} else {
-			setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+			setRenderingHint(
+					RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 		}
 
 		if (isProperty(formatKey + TRANSPARENT)) {
@@ -206,8 +193,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		} else if (isProperty(formatKey + BACKGROUND)) {
 			setBackground(getPropertyColor(formatKey + BACKGROUND_COLOR));
 		} else {
-			setBackground(component != null ? component.getBackground()
-					: Color.WHITE);
+			setBackground(component != null ? component.getBackground() : Color.WHITE);
 		}
 	}
 
@@ -219,7 +205,6 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		} else {
 			setRenderingHint(KEY_SYMBOL_BLIT, VALUE_SYMBOL_BLIT_ON);
 		}
-
 	}
 
 	protected OutputStream os;
@@ -230,8 +215,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 
 	protected Component component;
 
-	public ImageGraphics2D(File file, Dimension size, String format)
-			throws FileNotFoundException {
+	public ImageGraphics2D(File file, Dimension size, String format) throws FileNotFoundException {
 		this(new FileOutputStream(file), size, format);
 	}
 
@@ -246,8 +230,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		component = null;
 	}
 
-	public ImageGraphics2D(OutputStream os, Component component,
-			String format) {
+	public ImageGraphics2D(OutputStream os, Component component, String format) {
 		super();
 		this.component = component;
 		init(os, component.getSize(), format);
@@ -332,7 +315,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 	/**
 	 * Handles an exception which has been caught. Dispatches exception to
 	 * writeWarning for UnsupportedOperationExceptions and writeError for others
-	 * 
+	 *
 	 * @param exception
 	 *            to be handled
 	 */
@@ -340,18 +323,16 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		System.err.println(exception);
 	}
 
-	public static BufferedImage createBufferedImage(String format, int width,
-			int height) {
+	public static BufferedImage createBufferedImage(String format, int width, int height) {
 		// NOTE: special case for JPEG which has no Alpha
-		int imageType = (format.equalsIgnoreCase("jpg")
-				|| format.equalsIgnoreCase("jpeg")) ? BufferedImage.TYPE_INT_RGB
-						: BufferedImage.TYPE_INT_ARGB;
+		int imageType = (format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("jpeg"))
+				? BufferedImage.TYPE_INT_RGB
+				: BufferedImage.TYPE_INT_ARGB;
 		BufferedImage image = new BufferedImage(width, height, imageType);
 		return image;
 	}
 
-	public static BufferedImage generateThumbnail(Component component,
-			Dimension size) {
+	public static BufferedImage generateThumbnail(Component component, Dimension size) {
 		int longSide = Math.max(size.width, size.height);
 		if (longSide < 0) {
 			return null;
@@ -360,8 +341,8 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		int componentWidth = component.getBounds().width;
 		int componentHeight = component.getBounds().height;
 
-		BufferedImage image = new BufferedImage(componentWidth, componentHeight,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image =
+				new BufferedImage(componentWidth, componentHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics imageGraphics = image.getGraphics();
 		component.print(imageGraphics);
 
@@ -373,28 +354,27 @@ public class ImageGraphics2D extends PixelGraphics2D {
 			height = componentHeight * size.width / componentWidth;
 		}
 
-		BufferedImage scaled = new BufferedImage(width, height,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage scaled = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics scaledGraphics = scaled.getGraphics();
 		scaledGraphics.drawImage(image, 0, 0, width, height, null);
 
 		return scaled;
 	}
 
-	public static void writeImage(Image image, String format,
-			Properties properties, OutputStream os) throws IOException {
+	public static void writeImage(Image image, String format, Properties properties, OutputStream os)
+			throws IOException {
 		// FIXME hardcoded background
-		writeImage(ImageUtilities.createRenderedImage(image, null, Color.black),
-				format, properties, os);
+		writeImage(
+				ImageUtilities.createRenderedImage(image, null, Color.black), format, properties, os);
 	}
 
-	public static void writeImage(RenderedImage image, String format,
-			Properties properties, OutputStream os) throws IOException {
+	public static void writeImage(
+			RenderedImage image, String format, Properties properties, OutputStream os)
+			throws IOException {
 
 		ImageWriter writer = getPreferredImageWriter(format);
 		if (writer == null) {
-			throw new IOException(ImageGraphics2D.class
-					+ ": No writer for format '" + format + "'.");
+			throw new IOException(ImageGraphics2D.class + ": No writer for format '" + format + "'.");
 		}
 
 		// get the parameters for this format
@@ -412,10 +392,8 @@ public class ImageGraphics2D extends PixelGraphics2D {
 					param.setCompressionMode(ImageWriteParam.MODE_DEFAULT);
 				} else {
 					param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-					param.setCompressionType(
-							user.getProperty(formatKey + COMPRESS_MODE));
-					param.setCompressionQuality(user
-							.getPropertyFloat(formatKey + COMPRESS_QUALITY));
+					param.setCompressionType(user.getProperty(formatKey + COMPRESS_MODE));
+					param.setCompressionQuality(user.getPropertyFloat(formatKey + COMPRESS_QUALITY));
 				}
 			} else {
 				if (canWriteUncompressed(format)) {
@@ -447,18 +425,16 @@ public class ImageGraphics2D extends PixelGraphics2D {
 	}
 
 	public static ImageWriter getPreferredImageWriter(String format) {
-		return (ImageWriter) getImageWriters(
-				ImageIO.getImageWritersByFormatName(format)).first();
+		return (ImageWriter)
+				getImageWriters(ImageIO.getImageWritersByFormatName(format)).first();
 	}
 
-	public static ImageWriter getPreferredImageWriterForMIMEType(
-			String mimeType) {
-		return (ImageWriter) getImageWriters(
-				ImageIO.getImageWritersByMIMEType(mimeType)).first();
+	public static ImageWriter getPreferredImageWriterForMIMEType(String mimeType) {
+		return (ImageWriter)
+				getImageWriters(ImageIO.getImageWritersByMIMEType(mimeType)).first();
 	}
 
-	public static SortedSet/* <ImageWriter> */ getImageWriters(
-			Iterator iterator) {
+	public static SortedSet /* <ImageWriter> */ getImageWriters(Iterator iterator) {
 		// look for a writer that supports the given format,
 		// BUT prefer our own "org.freehep."
 		// over "com.sun.imageio." over "com.sun.media." over others
@@ -488,12 +464,10 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		return imageWriters;
 	}
 
-	public static BufferedImage readImage(String format, InputStream is)
-			throws IOException {
+	public static BufferedImage readImage(String format, InputStream is) throws IOException {
 		Iterator iterator = ImageIO.getImageReadersByFormatName(format);
 		if (!iterator.hasNext()) {
-			throw new IOException(ImageGraphics2D.class
-					+ ": No reader for format '" + format + "'.");
+			throw new IOException(ImageGraphics2D.class + ": No reader for format '" + format + "'.");
 		}
 		ImageReader reader = (ImageReader) iterator.next();
 
@@ -510,12 +484,10 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		// If param.canWriteCompressed() is true, then it may be that
 		// the format always needs to be compressed... GIF and JPG are among of
 		// them.
-		return !Arrays.asList(alwaysCompressedFormats)
-				.contains(format.toLowerCase());
+		return !Arrays.asList(alwaysCompressedFormats).contains(format.toLowerCase());
 	}
 
 	public static boolean canWriteTransparent(String format) {
-		return !Arrays.asList(nonTransparentFormats)
-				.contains(format.toLowerCase());
+		return !Arrays.asList(nonTransparentFormats).contains(format.toLowerCase());
 	}
 }

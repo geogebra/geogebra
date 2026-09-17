@@ -31,7 +31,7 @@ public class CmdPrimeFactors extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,20 +46,18 @@ public class CmdPrimeFactors extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0].isGeoNumeric()) {
 
-			if (arg[0].isGeoNumeric()) {
+					AlgoPrimeFactors algo = new AlgoPrimeFactors(cons, c.getLabel(), (GeoNumeric) arg[0]);
 
-				AlgoPrimeFactors algo = new AlgoPrimeFactors(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -29,14 +29,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * OsculatingCircle[&lt;Point&gt;,&lt;Function&gt;],OsculatingCircle[&lt;Point&gt;,&lt;Curve&gt;]
- * 
+ *
  * @author Victor Franco Espino
  */
-
 public class CmdOsculatingCircle extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -51,41 +50,36 @@ public class CmdOsculatingCircle extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoConic())) {
-				AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(
-						cons, c.getLabel(), (GeoPoint) arg[0],
-						(GeoConic) arg[1]);
-				GeoElement[] ret = { algo.getCircle() };
-				return ret;
-			}
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isRealValuedFunction())) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoConic())) {
+					AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(
+							cons, c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);
+					GeoElement[] ret = {algo.getCircle()};
+					return ret;
+				}
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isRealValuedFunction())) {
 
-				AlgoOsculatingCircle algo = new AlgoOsculatingCircle(cons,
-						(GeoPoint) arg[0], (GeoFunction) arg[1]);
-				algo.getCircle().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getCircle() };
-				return ret;
-			} else if ((ok[0] = arg[0] instanceof GeoPoint)
-					&& (ok[1] = arg[1].isGeoCurveCartesian())) {
+					AlgoOsculatingCircle algo =
+							new AlgoOsculatingCircle(cons, (GeoPoint) arg[0], (GeoFunction) arg[1]);
+					algo.getCircle().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getCircle()};
+					return ret;
+				} else if ((ok[0] = arg[0] instanceof GeoPoint) && (ok[1] = arg[1].isGeoCurveCartesian())) {
 
-				AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(
-						cons, c.getLabel(), (GeoPoint) arg[0],
-						(GeoCurveCartesian) arg[1]);
+					AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(
+							cons, c.getLabel(), (GeoPoint) arg[0], (GeoCurveCartesian) arg[1]);
 
-				GeoElement[] ret = { algo.getCircle() };
-				return ret;
-			}
-			if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			}
-			throw argErr(c, arg[1]);
+					GeoElement[] ret = {algo.getCircle()};
+					return ret;
+				}
+				if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				}
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

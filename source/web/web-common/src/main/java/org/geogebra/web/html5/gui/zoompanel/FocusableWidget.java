@@ -46,8 +46,10 @@ public class FocusableWidget implements FocusableComponent {
 	 * @param accessibilityGroup accessibility group
 	 * @param subgroup subgroup
 	 */
-	public FocusableWidget(AccessibilityGroup accessibilityGroup,
-			AccessibilityGroup.@Nullable ViewControlId subgroup, Widget... btns) {
+	public FocusableWidget(
+			AccessibilityGroup accessibilityGroup,
+			AccessibilityGroup.@Nullable ViewControlId subgroup,
+			Widget... btns) {
 		this(accessibilityGroup, subgroup, List.of(btns));
 	}
 
@@ -56,8 +58,10 @@ public class FocusableWidget implements FocusableComponent {
 	 * @param accessibilityGroup accessibility group
 	 * @param subgroup subgroup
 	 */
-	public FocusableWidget(AccessibilityGroup accessibilityGroup,
-			AccessibilityGroup.@Nullable ViewControlId subgroup, List<Widget> btns) {
+	public FocusableWidget(
+			AccessibilityGroup accessibilityGroup,
+			AccessibilityGroup.@Nullable ViewControlId subgroup,
+			List<Widget> btns) {
 		this.btns = btns;
 		this.accessibilityGroup = accessibilityGroup;
 		this.subgroup = subgroup;
@@ -65,7 +69,7 @@ public class FocusableWidget implements FocusableComponent {
 			int subgroupOrdinal = subgroup == null ? 0 : subgroup.ordinal();
 			int maxGroupSize = AccessibilityGroup.ViewControlId.values().length;
 			int tabIndex = 1 + accessibilityGroup.ordinal() * maxGroupSize + subgroupOrdinal;
-			for (Widget btn: btns) {
+			for (Widget btn : btns) {
 				btn.getElement().setTabIndex(tabIndex);
 			}
 		}
@@ -167,13 +171,12 @@ public class FocusableWidget implements FocusableComponent {
 	}
 
 	private boolean isFocusable(Widget btn) {
-		return btn.getElement().getTabIndex() >= 0
-				|| (btn instanceof HasFocus);
+		return btn.getElement().getTabIndex() >= 0 || (btn instanceof HasFocus);
 	}
 
 	private int findFocus() {
 		int index = 0;
-		for (Widget btn: btns) {
+		for (Widget btn : btns) {
 			if (btn.getElement().isOrHasChild(Dom.getActiveElement())) {
 				return index;
 			}
@@ -198,7 +201,7 @@ public class FocusableWidget implements FocusableComponent {
 	 */
 	public void attachTo(AppW app) {
 		app.getAccessibilityManager().register(this);
-		for (Widget btn: btns) {
+		for (Widget btn : btns) {
 			final Widget current = btn;
 			ClickStartHandler.init(btn, new ClickStartHandler() {
 				@Override
@@ -221,5 +224,4 @@ public class FocusableWidget implements FocusableComponent {
 	public AccessibilityGroup.@Nullable ViewControlId getViewControlId() {
 		return subgroup;
 	}
-
 }

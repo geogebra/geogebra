@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,13 +37,14 @@ public class ErrorDockPanel extends DockPanelD {
 	 * @param viewId view ID
 	 */
 	public ErrorDockPanel(AppD app, int viewId) {
-		super(App.VIEW_NONE, // view id
+		super(
+				App.VIEW_NONE, // view id
 				"ErrorWindow (viewId=" + viewId + ")", // view title phrase
 				null, // toolbar string
 				false, // style bar?
 				4, // menu order
 				'3' // menu shortcut
-		);
+				);
 		setApp(app);
 	}
 

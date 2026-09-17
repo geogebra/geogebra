@@ -23,8 +23,7 @@ import org.geogebra.editor.share.tree.PlaceholderNode;
 import org.geogebra.editor.share.tree.SequenceNode;
 
 public class AddPlaceholders {
-	private final QuestionMarkRemover questionMarkRemover
-			= new QuestionMarkRemover();
+	private final QuestionMarkRemover questionMarkRemover = new QuestionMarkRemover();
 
 	/**
 	 * Searches and adds possible character placeholders in node.

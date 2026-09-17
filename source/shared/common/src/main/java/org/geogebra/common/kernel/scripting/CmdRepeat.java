@@ -31,7 +31,7 @@ public class CmdRepeat extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -71,6 +71,5 @@ public class CmdRepeat extends CmdScripting {
 			return arg;
 		}
 		throw argErr(c, arg[0]);
-
 	}
 }

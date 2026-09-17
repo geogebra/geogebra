@@ -42,7 +42,7 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 
 	/**
 	 * Creates new 3D algo for Diameter
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -52,8 +52,7 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 	 * @param v
 	 *            direction vector
 	 */
-	public AlgoDiameterVector3D(Construction cons, String label, GeoConicND c,
-			GeoVectorND v) {
+	public AlgoDiameterVector3D(Construction cons, String label, GeoConicND c, GeoVectorND v) {
 		super(cons, label, c, v);
 	}
 
@@ -80,17 +79,13 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 
 		// update diameter line (3D)
 		diameter2D.getCoords(diameterCoords);
-		diameterDirection = c.getCoordSys().getVector(-diameterCoords[1],
-				diameterCoords[0]);
+		diameterDirection = c.getCoordSys().getVector(-diameterCoords[1], diameterCoords[0]);
 		if (DoubleUtil.isZero(diameterCoords[0])) {
-			diameterOrigin = c.getCoordSys().getPoint(0,
-					-diameterCoords[2] / diameterCoords[1]);
+			diameterOrigin = c.getCoordSys().getPoint(0, -diameterCoords[2] / diameterCoords[1]);
 		} else {
-			diameterOrigin = c.getCoordSys()
-					.getPoint(-diameterCoords[2] / diameterCoords[0], 0);
+			diameterOrigin = c.getCoordSys().getPoint(-diameterCoords[2] / diameterCoords[0], 0);
 		}
 
 		((GeoLine3D) diameter).setCoord(diameterOrigin, diameterDirection);
 	}
-
 }

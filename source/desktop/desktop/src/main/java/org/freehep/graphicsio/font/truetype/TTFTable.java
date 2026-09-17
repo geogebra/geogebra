@@ -8,20 +8,21 @@ import java.io.IOException;
  * tables. Right now the data is accessible as public attributes. In some cases
  * methods may return more convenient objects (such as Shapes instead of point
  * arrays).
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
 public abstract class TTFTable {
 
-	public static final String[] TT_TAGS = new String[] { "cmap", "glyf",
-			"head", "hhea", "hmtx", "loca", "maxp", "name", "OS/2", "post" };
+	public static final String[] TT_TAGS =
+			new String[] {"cmap", "glyf", "head", "hhea", "hmtx", "loca", "maxp", "name", "OS/2", "post"};
 
 	public static final Class[] TABLE_CLASSES = new Class[] {
-			TTFCMapTable.class, TTFGlyfTable.class, TTFHeadTable.class,
-			TTFHHeaTable.class, TTFHMtxTable.class, TTFLocaTable.class,
-			TTFMaxPTable.class, TTFNameTable.class, TTFOS_2Table.class,
-			TTFPostTable.class };
+		TTFCMapTable.class, TTFGlyfTable.class, TTFHeadTable.class,
+		TTFHHeaTable.class, TTFHMtxTable.class, TTFLocaTable.class,
+		TTFMaxPTable.class, TTFNameTable.class, TTFOS_2Table.class,
+		TTFPostTable.class
+	};
 
 	private TTFFont ttfFont;
 
@@ -62,5 +63,4 @@ public abstract class TTFTable {
 	public String toString() {
 		return ttf + ": [" + getTag() + "/" + getClass().getName() + "]";
 	}
-
 }

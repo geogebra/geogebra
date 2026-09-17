@@ -44,7 +44,7 @@ public final class LabelSettingsPanel extends FlowPanel implements SetLabels {
 
 	private void createDialog() {
 		Command nameValueCmd = this::applyCheckboxes;
-		for (String label: labelStyleProperty.getFlagNames()) {
+		for (String label : labelStyleProperty.getFlagNames()) {
 			checkmarks.add(new GCheckMarkLabel(label, true, nameValueCmd));
 		}
 		checkmarks.forEach(this::add);
@@ -63,8 +63,8 @@ public final class LabelSettingsPanel extends FlowPanel implements SetLabels {
 	 * Apply settings to selected geo(s).
 	 */
 	void applyCheckboxes() {
-		List<Boolean> values = checkmarks.stream().map(GCheckMarkPanel::isChecked).collect(
-				Collectors.toList());
+		List<Boolean> values =
+				checkmarks.stream().map(GCheckMarkPanel::isChecked).collect(Collectors.toList());
 		labelStyleProperty.setValue(values);
 		updateUI();
 	}
@@ -75,5 +75,4 @@ public final class LabelSettingsPanel extends FlowPanel implements SetLabels {
 			checkmarks.get(i).setChecked(labelStyle.get(i));
 		}
 	}
-
 }

@@ -59,8 +59,8 @@ public class RemoveSlider implements MenuAction<GeoElement>, AsyncOperation<GeoE
 		}
 		String newValue = element.toString(StringTemplate.defaultTemplate);
 		EvalInfo info = new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-		processor.changeGeoElementNoExceptionHandling(element, newValue, info, false, this,
-				ErrorHelper.silent());
+		processor.changeGeoElementNoExceptionHandling(
+				element, newValue, info, false, this, ErrorHelper.silent());
 	}
 
 	@Override

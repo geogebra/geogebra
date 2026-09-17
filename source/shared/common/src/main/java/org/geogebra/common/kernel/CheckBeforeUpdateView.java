@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public interface CheckBeforeUpdateView extends View {
 
 	/**
-	 * 
+	 *
 	 * @param property
 	 *            visual style property
 	 * @return true if changes for this property needs update in AV
@@ -34,11 +34,10 @@ public interface CheckBeforeUpdateView extends View {
 	boolean needsUpdateVisualstyle(GProperty property);
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if geo is shown in view
 	 */
 	boolean show(GeoElement geo);
-
 }

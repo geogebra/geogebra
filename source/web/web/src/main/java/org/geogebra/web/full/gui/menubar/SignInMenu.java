@@ -47,8 +47,7 @@ public final class SignInMenu extends Submenu {
 	@Override
 	public void handleHeaderClick() {
 		AppW app = getApp();
-		if (app.getNetworkOperation().isOnline()
-				&& !app.getLoginOperation().isLoggedIn()) {
+		if (app.getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
 			registerLoginClicked(app);
 			app.getLoginOperation().showLoginDialog();
 		}
@@ -60,5 +59,4 @@ public final class SignInMenu extends Submenu {
 				.setFlow(AccessibilityAnalytics.Value.DIRECT);
 		AccessibilityAnalytics.logLoginClicked(AccessibilityAnalytics.Value.BURGER_MENU);
 	}
-
 }

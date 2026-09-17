@@ -100,7 +100,8 @@ public class CharacterNode extends Node {
 	 * @return whether this is one of ;,:
 	 */
 	public boolean isSeparator() {
-		return template.getUnicode() == ',' || template.getUnicode() == ';'
+		return template.getUnicode() == ','
+				|| template.getUnicode() == ';'
 				|| template.getUnicode() == ':';
 	}
 
@@ -120,8 +121,7 @@ public class CharacterNode extends Node {
 	}
 
 	public boolean isUnicodeMulOrDiv() {
-		return template.getUnicode() == Unicode.DIVIDE
-				|| template.getUnicode() == Unicode.MULTIPLY;
+		return template.getUnicode() == Unicode.DIVIDE || template.getUnicode() == Unicode.MULTIPLY;
 	}
 
 	/**

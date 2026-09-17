@@ -39,8 +39,12 @@ public class LabelingProperty extends AbstractNamedEnumeratedProperty<LabelVisib
 	 * @param labelSettings labelSettings
 	 */
 	public LabelingProperty(Localization localization, LabelSettings labelSettings) {
-		this(localization, labelSettings,
-				LabelVisibility.AlwaysOn, LabelVisibility.AlwaysOff, LabelVisibility.PointsOnly);
+		this(
+				localization,
+				labelSettings,
+				LabelVisibility.AlwaysOn,
+				LabelVisibility.AlwaysOff,
+				LabelVisibility.PointsOnly);
 	}
 
 	/**
@@ -49,8 +53,8 @@ public class LabelingProperty extends AbstractNamedEnumeratedProperty<LabelVisib
 	 * @param labelSettings labelSettings
 	 * @param values available values
 	 */
-	public LabelingProperty(Localization localization, LabelSettings labelSettings,
-			LabelVisibility... values) {
+	public LabelingProperty(
+			Localization localization, LabelSettings labelSettings, LabelVisibility... values) {
 		super(localization, "ObjectLabels");
 		this.labelSettings = labelSettings;
 		setNamedValues(Arrays.stream(values)

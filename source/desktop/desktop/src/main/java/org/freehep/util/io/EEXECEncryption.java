@@ -1,13 +1,13 @@
 // Copyright 2001 freehep
 package org.freehep.util.io;
 
-//import java.util.Random;
+// import java.util.Random;
 import java.io.IOException;
 import java.io.OutputStream;
 
 /**
  * Encrypts using the EEXEC form (Used by Type 1 fonts).
- * 
+ *
  * @author Simon Fischer
  * @version $Id: EEXECEncryption.java,v 1.3 2008-05-04 12:21:28 murkle Exp $
  */
@@ -21,7 +21,7 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 
 	/**
 	 * Creates an EEXECEncryption from given stream.
-	 * 
+	 *
 	 * @param out
 	 *            stream to write
 	 */
@@ -31,7 +31,7 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 
 	/**
 	 * Creates an EEXECEncryption from given stream.
-	 * 
+	 *
 	 * @param out
 	 *            stream to write
 	 * @param r
@@ -42,7 +42,7 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 
 	/**
 	 * Creates an EEXECEncryption from given stream.
-	 * 
+	 *
 	 * @param out
 	 *            stream to write
 	 * @param r
@@ -54,7 +54,6 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 		this.c2 = C2;
 		this.r = r;
 		this.n = n;
-
 	}
 
 	private int encrypt(int plainByte) {
@@ -111,7 +110,7 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 
 	/**
 	 * Encrypt array of characters.
-	 * 
+	 *
 	 * @param chars
 	 *            int array to encrypt
 	 * @param r
@@ -120,8 +119,7 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 	 * @throws IOException
 	 *             if write fails (never happens)
 	 */
-	public static int[] encryptString(int[] chars, int r, int n)
-			throws IOException {
+	public static int[] encryptString(int[] chars, int r, int n) throws IOException {
 		IntOutputStream resultStr = new IntOutputStream(chars.length + 4);
 		EEXECEncryption eout = new EEXECEncryption(resultStr, r, n);
 		for (int i = 0; i < chars.length; i++) {

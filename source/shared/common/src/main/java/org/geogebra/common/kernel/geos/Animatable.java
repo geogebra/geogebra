@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Geos that can be animated
- * 
+ *
  * @author Markus
  *
  */
@@ -29,7 +29,7 @@ public interface Animatable extends GeoElementND {
 	/**
 	 * Performs the next animation step for this GeoElement. This may change the
 	 * value of this GeoElement but will NOT call update() or updateCascade().
-	 * 
+	 *
 	 * @param frameRate
 	 *            current frames/second used in animation
 	 * @param parent
@@ -42,5 +42,4 @@ public interface Animatable extends GeoElementND {
 	 * @return true when animation is on
 	 */
 	boolean isAnimating();
-
 }

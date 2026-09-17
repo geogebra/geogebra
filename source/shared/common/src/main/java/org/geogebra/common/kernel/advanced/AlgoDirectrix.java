@@ -149,11 +149,9 @@ public class AlgoDirectrix extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("DirectrixOfA", "Directrix of %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("DirectrixOfA", "Directrix of %0", c.getLabel(tpl));
 	}
-
 }

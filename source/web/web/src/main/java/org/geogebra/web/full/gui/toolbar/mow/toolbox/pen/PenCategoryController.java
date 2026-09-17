@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -39,8 +39,7 @@ public final class PenCategoryController {
 	 * @return euclidian pen
 	 */
 	public EuclidianPen getPen() {
-		return appW.getActiveEuclidianView().getEuclidianController()
-				.getPen();
+		return appW.getActiveEuclidianView().getEuclidianController().getPen();
 	}
 
 	/**

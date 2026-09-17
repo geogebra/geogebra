@@ -32,7 +32,7 @@ import org.geogebra.common.plugin.Operation;
 /**
  * Fits an a*e^(b*x) to a list of pints. Adapted from AlgoFitLine and
  * AlgoPolynomialFromCoordinates (Borcherds)
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 24.04.08
  */
@@ -94,13 +94,11 @@ public class AlgoFitExp extends AlgoElement implements FitAlgo {
 			MyDouble B = new MyDouble(kernel, b);
 			// 24.04.08: not: MyDouble E=new MyDouble(kernel,Math.E);
 			FunctionVariable X = new FunctionVariable(kernel);
-			ExpressionValue expr = new ExpressionNode(kernel, B,
-					Operation.MULTIPLY, X);
+			ExpressionValue expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, X);
 			expr = new ExpressionNode(kernel, expr, Operation.EXP, null);
 			// 24.04.08: changed 2.71..to "e" with the null trick!
 
-			ExpressionNode node = new ExpressionNode(kernel, A,
-					Operation.MULTIPLY, expr);
+			ExpressionNode node = new ExpressionNode(kernel, A, Operation.MULTIPLY, expr);
 			Function f = new Function(node, X);
 			geofunction.setFunction(f);
 			geofunction.setDefined(true);
@@ -111,8 +109,7 @@ public class AlgoFitExp extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = { regMath.getP1(), regMath.getP2() };
+		double[] ret = {regMath.getP1(), regMath.getP2()};
 		return ret;
 	}
-
 }

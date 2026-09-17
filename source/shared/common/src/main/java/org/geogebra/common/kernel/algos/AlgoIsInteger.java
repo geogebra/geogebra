@@ -25,11 +25,10 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Returns whether an object is an integer
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-06
  */
-
 public class AlgoIsInteger extends AlgoElement {
 
 	private GeoNumeric inputGeo; // input
@@ -79,5 +78,4 @@ public class AlgoIsInteger extends AlgoElement {
 	public final void compute() {
 		outputBoolean.setValue(DoubleUtil.isInteger(inputGeo.getDouble()));
 	}
-
 }

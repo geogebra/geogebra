@@ -48,8 +48,7 @@ public class SortByProperty extends AbstractNamedEnumeratedProperty<AlgebraView.
 				entry(DEPENDENCY, DEPENDENCY.toString()),
 				entry(TYPE, TYPE.toString()),
 				entry(ORDER, ORDER.toString()),
-				entry(LAYER, LAYER.toString())
-		));
+				entry(LAYER, LAYER.toString())));
 	}
 
 	@Override

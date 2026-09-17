@@ -24,16 +24,16 @@ import org.geogebra.editor.share.editor.MathFieldInternal;
  */
 public interface KeyboardAdapter {
 
-    /**
-     * Change the state of the formula input field based on the input sequence.
-     * @param mfi math field
-     * @param input input sequence
-     */
-    void commit(MathFieldInternal mfi, String input);
+	/**
+	 * Change the state of the formula input field based on the input sequence.
+	 * @param mfi math field
+	 * @param input input sequence
+	 */
+	void commit(MathFieldInternal mfi, String input);
 
-    /**
-     * @param keyboard keyboard input sequence
-     * @return whether this can handle given input sequence
-     */
-    boolean test(String keyboard);
+	/**
+	 * @param keyboard keyboard input sequence
+	 * @return whether this can handle given input sequence
+	 */
+	boolean test(String keyboard);
 }

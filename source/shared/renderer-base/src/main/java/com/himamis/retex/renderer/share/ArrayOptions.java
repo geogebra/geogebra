@@ -58,8 +58,11 @@ public final class ArrayOptions {
 		private final List<Atom> separators;
 		private final boolean flowText;
 
-		Option(final TeXConstants.Align alignment, final TeXConstants.Align vertAlignment,
-				final TeXLength minWidth, boolean flowText) {
+		Option(
+				final TeXConstants.Align alignment,
+				final TeXConstants.Align vertAlignment,
+				final TeXLength minWidth,
+				boolean flowText) {
 			this.alignment = alignment;
 			this.vertAlignment = vertAlignment;
 			this.separators = new ArrayList<>();
@@ -72,8 +75,7 @@ public final class ArrayOptions {
 		}
 
 		public boolean isVline() {
-			return separators.size() == 1
-					&& separators.get(0) instanceof VlineAtom;
+			return separators.size() == 1 && separators.get(0) instanceof VlineAtom;
 		}
 
 		public boolean isAlignment() {
@@ -88,21 +90,21 @@ public final class ArrayOptions {
 		public String toString() {
 			String a = "";
 			switch (alignment) {
-			case LEFT:
-				a = "left";
-				break;
-			case RIGHT:
-				a = "right";
-				break;
-			case CENTER:
-				a = "center";
-				break;
-			case NONE:
-				a = "none";
-				break;
-			case INVALID:
-				a = "first";
-				break;
+				case LEFT:
+					a = "left";
+					break;
+				case RIGHT:
+					a = "right";
+					break;
+				case CENTER:
+					a = "center";
+					break;
+				case NONE:
+					a = "none";
+					break;
+				case INVALID:
+					a = "first";
+					break;
 			}
 
 			a += ":";
@@ -127,7 +129,7 @@ public final class ArrayOptions {
 	}
 
 	private final List<Option> options;
-	private final static ArrayOptions empty = new ArrayOptions(0);
+	private static final ArrayOptions empty = new ArrayOptions(0);
 
 	public ArrayOptions() {
 		options = new ArrayList<Option>();
@@ -194,8 +196,11 @@ public final class ArrayOptions {
 		return addAlignment(alignment, TeXConstants.Align.CENTER, minWidth, false);
 	}
 
-	public ArrayOptions addAlignment(final TeXConstants.Align alignment,
-			TeXConstants.Align vertAlignment, TeXLength minWidth, boolean flowText) {
+	public ArrayOptions addAlignment(
+			final TeXConstants.Align alignment,
+			TeXConstants.Align vertAlignment,
+			TeXLength minWidth,
+			boolean flowText) {
 		if (options.isEmpty() || last().isAlignment()) {
 			addSeparator(VlineAtom.getEmpty());
 		}
@@ -210,8 +215,7 @@ public final class ArrayOptions {
 	public ArrayOptions addSeparator(final Atom a) {
 		final int s = options.size();
 		if (s == 0) {
-			final Option o = new Option(TeXConstants.Align.INVALID,
-					TeXConstants.Align.TOP, null, false);
+			final Option o = new Option(TeXConstants.Align.INVALID, TeXConstants.Align.TOP, null, false);
 			o.separators.add(a);
 			options.add(o);
 		} else {

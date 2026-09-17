@@ -68,8 +68,7 @@ public final class InsertPopup extends GPopupPanel {
 		FlowPanel objectsPanel = new FlowPanel();
 		objectsPanel.addStyleName("objects");
 
-		TreeSet<GeoElement> geos = app.getKernel().getConstruction()
-				.getGeoSetLabelOrder();
+		TreeSet<GeoElement> geos = app.getKernel().getConstruction().getGeoSetLabelOrder();
 		geosMap.put(app.getLocalization().getMenu("EmptyBox"), null);
 		for (GeoElement geo : geos) {
 			if (geo.isLabelSet() && !geo.equals(textEditPanel.getEditGeo())) {
@@ -91,8 +90,13 @@ public final class InsertPopup extends GPopupPanel {
 	}
 
 	private void fillSymbolsContent(FlowPanel symbolsPanel) {
-		addGroup(TableSymbols.basicSymbols(app.getLocalization(), TableSymbols.basicSymbolsMap(
-				app.getLocalization())), symbolsPanel, false, true, false);
+		addGroup(
+				TableSymbols.basicSymbols(
+						app.getLocalization(), TableSymbols.basicSymbolsMap(app.getLocalization())),
+				symbolsPanel,
+				false,
+				true,
+				false);
 		addGroup(TableSymbols.OPERATORS, symbolsPanel, false, true, false);
 		addGroup(TableSymbols.greekLettersPlusVariants(), symbolsPanel, false, true, false);
 		addGroup(TableSymbols.ANALYSIS, symbolsPanel, false, true, false);
@@ -122,8 +126,12 @@ public final class InsertPopup extends GPopupPanel {
 		return holder;
 	}
 
-	private void addGroup(String[] symbols, FlowPanel parent, boolean isLatex,
-			boolean addSeparator, boolean insertGeo) {
+	private void addGroup(
+			String[] symbols,
+			FlowPanel parent,
+			boolean isLatex,
+			boolean addSeparator,
+			boolean insertGeo) {
 		parent.add(getFilledPanel(symbols, isLatex, insertGeo));
 		if (addSeparator) {
 			parent.add(BaseWidgetFactory.INSTANCE.newDivider(false));
@@ -137,8 +145,9 @@ public final class InsertPopup extends GPopupPanel {
 			Widget widget;
 			if (isLatex) {
 				widget = Canvas.createIfSupported();
-				((DrawEquationW) app.getDrawEquation()).paintOnCleanCanvas(symbol, (Canvas) widget,
-						16, GeoGebraColorConstants.NEUTRAL_900, false);
+				((DrawEquationW) app.getDrawEquation())
+						.paintOnCleanCanvas(
+								symbol, (Canvas) widget, 16, GeoGebraColorConstants.NEUTRAL_900, false);
 			} else {
 				widget = BaseWidgetFactory.INSTANCE.newPrimaryText(symbol);
 			}

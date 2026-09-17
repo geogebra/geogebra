@@ -67,24 +67,24 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		this.type = type;
 
 		switch (type) {
-		default:
-		case X_AXIS_3D:
-			setCoord(Coords.O, Coords.VX);
-			label = "xAxis3D";
-			coloredColorFor3D = GColor.RED;
-			break;
+			default:
+			case X_AXIS_3D:
+				setCoord(Coords.O, Coords.VX);
+				label = "xAxis3D";
+				coloredColorFor3D = GColor.RED;
+				break;
 
-		case Y_AXIS_3D:
-			setCoord(Coords.O, Coords.VY);
-			label = "yAxis3D";
-			coloredColorFor3D = GColor.DARK_GREEN;
-			break;
+			case Y_AXIS_3D:
+				setCoord(Coords.O, Coords.VY);
+				label = "yAxis3D";
+				coloredColorFor3D = GColor.DARK_GREEN;
+				break;
 
-		case Z_AXIS_3D:
-			setCoord(Coords.O, Coords.VZ);
-			label = "zAxis";
-			coloredColorFor3D = GColor.BLUE;
-			break;
+			case Z_AXIS_3D:
+				setCoord(Coords.O, Coords.VZ);
+				label = "zAxis";
+				coloredColorFor3D = GColor.BLUE;
+				break;
 		}
 
 		setLabelSet(true);
@@ -153,13 +153,13 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	@Override
 	public Coords getDirectionInD3() {
 		switch (type) {
-		default:
-		case X_AXIS_3D:
-			return Coords.VX;
-		case Y_AXIS_3D:
-			return Coords.VY;
-		case Z_AXIS_3D:
-			return Coords.VZ;
+			default:
+			case X_AXIS_3D:
+				return Coords.VX;
+			case Y_AXIS_3D:
+				return Coords.VY;
+			case Z_AXIS_3D:
+				return Coords.VZ;
 		}
 	}
 
@@ -174,7 +174,6 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 			return getLoc().getMenu(label);
 		}
 		return label;
-
 	}
 
 	@Override
@@ -183,7 +182,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	}
 
 	@Override
-	final protected void getCoordsXML(XMLStringBuilder sb) {
+	protected final void getCoordsXML(XMLStringBuilder sb) {
 		// not needed here
 	}
 
@@ -205,7 +204,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 
 		return true;
 	}
-	
+
 	@Override
 	public int getLineThickness() {
 		return EuclidianStyleConstants.AXES_THICKNESS;

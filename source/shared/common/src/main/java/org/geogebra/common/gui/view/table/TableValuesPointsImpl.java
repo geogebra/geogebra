@@ -50,8 +50,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	 * @param construction the construction to add points to
 	 * @param view table view
 	 */
-	public TableValuesPointsImpl(Kernel kernel, Construction construction,
-			TableValues view) {
+	public TableValuesPointsImpl(Kernel kernel, Construction construction, TableValues view) {
 		this.kernel = kernel;
 		this.points = new HashMap<>(2);
 		this.construction = construction;
@@ -65,10 +64,9 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 	 * @param view table view
 	 * @return points model
 	 */
-	public static TableValuesPointsImpl create(Kernel kernel, Construction construction,
-			TableValues view) {
-		TableValuesPointsImpl instance = new TableValuesPointsImpl(kernel, construction,
-				view);
+	public static TableValuesPointsImpl create(
+			Kernel kernel, Construction construction, TableValues view) {
+		TableValuesPointsImpl instance = new TableValuesPointsImpl(kernel, construction, view);
 		view.setTableValuePoints(instance);
 		return instance;
 	}
@@ -128,8 +126,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	@Override
 	public void removeList(GeoElement element) {
-		points.entrySet().removeIf(
-				entry -> entry.getKey() == element || entry.getValue() == element);
+		points.entrySet().removeIf(entry -> entry.getKey() == element || entry.getValue() == element);
 	}
 
 	// Expression construction utility methods
@@ -163,8 +160,7 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 
 	private GeoList buildPointList(ExpressionValue xValues, ExpressionValue yValues) {
 		GeoList result = null;
-		ExpressionNode vecNode = new MyVecNode(kernel, xValues,
-				yValues).wrap();
+		ExpressionNode vecNode = new MyVecNode(kernel, xValues, yValues).wrap();
 		try {
 			result = (GeoList) kernel.getAlgebraProcessor().processValidExpression(vecNode)[0];
 		} catch (CircularDefinitionException ignored) {
@@ -183,13 +179,13 @@ public class TableValuesPointsImpl implements TableValuesPoints {
 		points.setFixed(true);
 		points.setTableOrigin(true);
 		points.setLabel("TableValuesPoints");
-		//points.setLabelSet(true);
+		// points.setLabelSet(true);
 		maybeSetPointColor(points, evaluatable);
 	}
 
-	private static void maybeSetPointColor(GeoList points,
-			GeoEvaluatable evaluatable) {
-		GColor color = evaluatable instanceof GeoFunctionable ? evaluatable.getObjectColor()
+	private static void maybeSetPointColor(GeoList points, GeoEvaluatable evaluatable) {
+		GColor color = evaluatable instanceof GeoFunctionable
+				? evaluatable.getObjectColor()
 				: GColor.Y_POINT_COLOR;
 		points.setObjColor(color);
 	}

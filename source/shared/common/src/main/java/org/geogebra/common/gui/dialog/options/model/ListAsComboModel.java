@@ -61,5 +61,4 @@ public class ListAsComboModel extends BooleanOptionModel {
 		}
 		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
-
 }

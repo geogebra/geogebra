@@ -25,7 +25,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class NavigationBarConstructionProtocolButtonProperty extends AbstractValuedProperty<Boolean>
-	implements BooleanProperty, SettingsDependentProperty {
+		implements BooleanProperty, SettingsDependentProperty {
 	private final App app;
 	private final int viewID;
 	private final EuclidianSettings evSettings;
@@ -36,8 +36,8 @@ public class NavigationBarConstructionProtocolButtonProperty extends AbstractVal
 	 * @param app application
 	 * @param viewID euclidian view ID
 	 */
-	public NavigationBarConstructionProtocolButtonProperty(Localization localization, App app,
-			int viewID, EuclidianSettings settings) {
+	public NavigationBarConstructionProtocolButtonProperty(
+			Localization localization, App app, int viewID, EuclidianSettings settings) {
 		super(localization, "ConstructionProtocolButton");
 		this.app = app;
 		this.viewID = viewID;
@@ -46,16 +46,16 @@ public class NavigationBarConstructionProtocolButtonProperty extends AbstractVal
 
 	@Override
 	protected void doSetValue(Boolean value) {
-		ConstructionProtocolNavigation consNav = app.getGuiManager()
-				.getConstructionProtocolNavigation(viewID);
+		ConstructionProtocolNavigation consNav =
+				app.getGuiManager().getConstructionProtocolNavigation(viewID);
 		consNav.setConsProtButtonVisible(!consNav.isConsProtButtonVisible());
 		app.setUnsaved();
 	}
 
 	@Override
 	public Boolean getValue() {
-		ConstructionProtocolNavigation cpn = app.getGuiManager()
-				.getConstructionProtocolNavigation(viewID);
+		ConstructionProtocolNavigation cpn =
+				app.getGuiManager().getConstructionProtocolNavigation(viewID);
 		return cpn == null || cpn.isConsProtButtonVisible();
 	}
 

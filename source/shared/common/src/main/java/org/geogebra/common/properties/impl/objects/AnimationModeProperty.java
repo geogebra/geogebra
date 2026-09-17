@@ -30,8 +30,8 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 /**
  * Property for controlling the animation mode of a GeoElement.
  */
-public class AnimationModeProperty extends AbstractEnumeratedProperty<AnimationMode> implements
-		NamedEnumeratedProperty<AnimationMode> {
+public class AnimationModeProperty extends AbstractEnumeratedProperty<AnimationMode>
+		implements NamedEnumeratedProperty<AnimationMode> {
 
 	/**
 	 * Enumeration of available animation modes.
@@ -87,11 +87,9 @@ public class AnimationModeProperty extends AbstractEnumeratedProperty<AnimationM
 			throw new NotApplicablePropertyException(element);
 		}
 		this.element = element;
-		setValues(
-				Arrays.stream(AnimationMode.values())
-						.filter(mode -> mode.appliesTo(element))
-						.collect(Collectors.toUnmodifiableList())
-		);
+		setValues(Arrays.stream(AnimationMode.values())
+				.filter(mode -> mode.appliesTo(element))
+				.collect(Collectors.toUnmodifiableList()));
 	}
 
 	@Override

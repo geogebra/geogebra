@@ -35,7 +35,6 @@ public class ShowConditionModel extends OptionsModel {
 
 		@MissingDoc
 		void updateSelection(Object[] geos);
-
 	}
 
 	public ShowConditionModel(App app, IShowConditionListener listener) {
@@ -66,7 +65,6 @@ public class ShowConditionModel extends OptionsModel {
 		}
 
 		listener.setText(strCond);
-
 	}
 
 	@Override
@@ -87,8 +85,7 @@ public class ShowConditionModel extends OptionsModel {
 			cond = null;
 		} else {
 
-			cond = app.getKernel().getAlgebraProcessor()
-					.evaluateToBoolean(strCond, handler);
+			cond = app.getKernel().getAlgebraProcessor().evaluateToBoolean(strCond, handler);
 		}
 
 		if (cond != null || StringUtil.emptyTrim(strCond)) {

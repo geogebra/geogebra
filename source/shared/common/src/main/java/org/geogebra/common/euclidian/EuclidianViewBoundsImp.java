@@ -73,8 +73,7 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 
 	@Override
 	public Interval toScreenIntervalX(Interval x) {
-		return new Interval(toScreenCoordXd(x.getLow()),
-				toScreenCoordXd(x.getHigh()));
+		return new Interval(toScreenCoordXd(x.getLow()), toScreenCoordXd(x.getHigh()));
 	}
 
 	@Override
@@ -111,8 +110,10 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 		double safeAreaRight = toRealWorldCoordX(getWidth() - safeAreaInsets.getRight());
 		double safeAreaTop = toRealWorldCoordY(safeAreaInsets.getTop());
 		double safeAreaBottom = toRealWorldCoordY(getHeight() - safeAreaInsets.getBottom());
-		return (x >= safeAreaLeft) && (x <= safeAreaRight)
-				&& (y >= safeAreaBottom) && (y <= safeAreaTop);
+		return (x >= safeAreaLeft)
+				&& (x <= safeAreaRight)
+				&& (y >= safeAreaBottom)
+				&& (y <= safeAreaTop);
 	}
 
 	@Override
@@ -138,7 +139,7 @@ public class EuclidianViewBoundsImp implements EuclidianViewBounds {
 	@Override
 	public boolean isOnView(Interval y) {
 		return (y.getLow() >= getYmin() && y.getLow() <= getXmax())
-			|| (y.getHigh() >= getYmin() && y.getHigh() <= getXmax());
+				|| (y.getHigh() >= getYmin() && y.getHigh() <= getXmax());
 	}
 
 	@Override

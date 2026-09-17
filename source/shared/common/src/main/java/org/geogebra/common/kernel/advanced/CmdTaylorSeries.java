@@ -32,7 +32,7 @@ public class CmdTaylorSeries extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -41,29 +41,32 @@ public class CmdTaylorSeries extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoTaylorSeries algo = new AlgoTaylorSeries(cons, c.getLabel(),
-						(GeoFunctionable) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+					AlgoTaylorSeries algo = new AlgoTaylorSeries(
+							cons,
+							c.getLabel(),
+							(GeoFunctionable) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getPolynomial() };
-				return ret;
-			}
-			throw argErr(c, null);
+					GeoElement[] ret = {algo.getPolynomial()};
+					return ret;
+				}
+				throw argErr(c, null);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

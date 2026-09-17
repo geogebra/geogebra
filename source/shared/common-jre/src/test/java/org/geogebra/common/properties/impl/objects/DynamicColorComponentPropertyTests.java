@@ -43,13 +43,11 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 
 		redColorComponentProperty.setValue("0.5");
 		assertEquals("0.5", redColorComponentProperty.getValue());
-		assertEquals("0.5", geoElement.getColorFunction().get(0)
-				.getLabel(StringTemplate.editTemplate));
+		assertEquals("0.5", geoElement.getColorFunction().get(0).getLabel(StringTemplate.editTemplate));
 
 		redColorComponentProperty.setValue("0");
 		assertEquals("0", redColorComponentProperty.getValue());
-		assertEquals("0", geoElement.getColorFunction().get(0)
-				.getLabel(StringTemplate.editTemplate));
+		assertEquals("0", geoElement.getColorFunction().get(0).getLabel(StringTemplate.editTemplate));
 	}
 
 	@Test
@@ -64,18 +62,16 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 
 		redColorComponentProperty.setValue("a");
 		assertEquals("a", redColorComponentProperty.getValue());
-		assertEquals("a", geoElement.getColorFunction().get(0)
-				.getLabel(StringTemplate.editTemplate));
-		assertEquals("0", geoElement.getColorFunction().get(0)
-				.toValueString(StringTemplate.editTemplate));
+		assertEquals("a", geoElement.getColorFunction().get(0).getLabel(StringTemplate.editTemplate));
+		assertEquals(
+				"0", geoElement.getColorFunction().get(0).toValueString(StringTemplate.editTemplate));
 
 		slider.setValue(0.7);
 		slider.updateRepaint();
 		assertEquals("a", redColorComponentProperty.getValue());
-		assertEquals("a", geoElement.getColorFunction().get(0)
-				.getLabel(StringTemplate.editTemplate));
-		assertEquals("0.7", geoElement.getColorFunction().get(0)
-				.toValueString(StringTemplate.editTemplate));
+		assertEquals("a", geoElement.getColorFunction().get(0).getLabel(StringTemplate.editTemplate));
+		assertEquals(
+				"0.7", geoElement.getColorFunction().get(0).toValueString(StringTemplate.editTemplate));
 	}
 
 	@Test
@@ -147,16 +143,16 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
 		geoElement.setColorSpace(GeoElement.COLORSPACE_RGB);
 
-		assertTrue(DynamicColorComponentProperty.forRed(getLocalization(), geoElement)
-				.isAvailable());
-		assertTrue(DynamicColorComponentProperty.forGreen(getLocalization(), geoElement)
-				.isAvailable());
-		assertTrue(DynamicColorComponentProperty.forBlue(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forHueHSB(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forHueHSL(getLocalization(), geoElement)
-				.isAvailable());
+		assertTrue(
+				DynamicColorComponentProperty.forRed(getLocalization(), geoElement).isAvailable());
+		assertTrue(
+				DynamicColorComponentProperty.forGreen(getLocalization(), geoElement).isAvailable());
+		assertTrue(
+				DynamicColorComponentProperty.forBlue(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forHueHSB(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forHueHSL(getLocalization(), geoElement).isAvailable());
 		assertFalse(DynamicColorComponentProperty.forSaturationHSB(getLocalization(), geoElement)
 				.isAvailable());
 		assertFalse(DynamicColorComponentProperty.forSaturationHSL(getLocalization(), geoElement)
@@ -165,8 +161,8 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 				.isAvailable());
 		assertFalse(DynamicColorComponentProperty.forLightness(getLocalization(), geoElement)
 				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forOpacity(getLocalization(), geoElement)
-				.isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forOpacity(getLocalization(), geoElement).isAvailable());
 	}
 
 	@Test
@@ -176,16 +172,16 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
 		geoElement.setColorSpace(GeoElement.COLORSPACE_HSL);
 
-		assertFalse(DynamicColorComponentProperty.forRed(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forGreen(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forBlue(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forHueHSB(getLocalization(), geoElement)
-				.isAvailable());
-		assertTrue(DynamicColorComponentProperty.forHueHSL(getLocalization(), geoElement)
-				.isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forRed(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forGreen(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forBlue(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forHueHSB(getLocalization(), geoElement).isAvailable());
+		assertTrue(
+				DynamicColorComponentProperty.forHueHSL(getLocalization(), geoElement).isAvailable());
 		assertFalse(DynamicColorComponentProperty.forSaturationHSB(getLocalization(), geoElement)
 				.isAvailable());
 		assertTrue(DynamicColorComponentProperty.forSaturationHSL(getLocalization(), geoElement)
@@ -194,8 +190,8 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 				.isAvailable());
 		assertTrue(DynamicColorComponentProperty.forLightness(getLocalization(), geoElement)
 				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forOpacity(getLocalization(), geoElement)
-				.isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forOpacity(getLocalization(), geoElement).isAvailable());
 	}
 
 	@Test
@@ -205,16 +201,16 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
 		geoElement.setColorSpace(GeoElement.COLORSPACE_HSB);
 
-		assertFalse(DynamicColorComponentProperty.forRed(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forGreen(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forBlue(getLocalization(), geoElement)
-				.isAvailable());
-		assertTrue(DynamicColorComponentProperty.forHueHSB(getLocalization(), geoElement)
-				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forHueHSL(getLocalization(), geoElement)
-				.isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forRed(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forGreen(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forBlue(getLocalization(), geoElement).isAvailable());
+		assertTrue(
+				DynamicColorComponentProperty.forHueHSB(getLocalization(), geoElement).isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forHueHSL(getLocalization(), geoElement).isAvailable());
 		assertTrue(DynamicColorComponentProperty.forSaturationHSB(getLocalization(), geoElement)
 				.isAvailable());
 		assertFalse(DynamicColorComponentProperty.forSaturationHSL(getLocalization(), geoElement)
@@ -223,8 +219,8 @@ class DynamicColorComponentPropertyTests extends BaseAppTestSetup {
 				.isAvailable());
 		assertFalse(DynamicColorComponentProperty.forLightness(getLocalization(), geoElement)
 				.isAvailable());
-		assertFalse(DynamicColorComponentProperty.forOpacity(getLocalization(), geoElement)
-				.isAvailable());
+		assertFalse(
+				DynamicColorComponentProperty.forOpacity(getLocalization(), geoElement).isAvailable());
 	}
 
 	@Test

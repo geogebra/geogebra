@@ -52,7 +52,7 @@ public abstract class Script {
 
 	/**
 	 * Get the script's source code
-	 * 
+	 *
 	 * @return the source code as a string
 	 */
 	public String getText() {
@@ -62,7 +62,7 @@ public abstract class Script {
 	/**
 	 * Get the script's internal text (which could be different from the
 	 * localized text)
-	 * 
+	 *
 	 * @return the internal text
 	 */
 	public String getInternalText() {
@@ -72,7 +72,7 @@ public abstract class Script {
 	/**
 	 * Perform actions necessary (if any) to bind the script to a GeoElement via
 	 * a given EventType
-	 * 
+	 *
 	 * @param geo
 	 *            the geo
 	 * @param evtType
@@ -85,7 +85,7 @@ public abstract class Script {
 	/**
 	 * Perform actions necessary (if any) to unbind the script from a GeoElement
 	 * via a given EventType
-	 * 
+	 *
 	 * @param geo
 	 *            the geo
 	 * @param evtType
@@ -97,7 +97,7 @@ public abstract class Script {
 
 	/**
 	 * Run the script
-	 * 
+	 *
 	 * @param evt
 	 *            the event that triggered the script
 	 * @return success
@@ -108,14 +108,14 @@ public abstract class Script {
 
 	/**
 	 * Get the script's type
-	 * 
+	 *
 	 * @return the script's type
 	 */
 	public abstract ScriptType getType();
 
 	/**
 	 * Get the language name of the script (convenience function)
-	 * 
+	 *
 	 * @return the language name
 	 */
 	public String getLanguageName() {
@@ -137,12 +137,12 @@ public abstract class Script {
 	/**
 	 * The text of this script is modified by changing every whole word oldLabel
 	 * to newLabel.
-	 * 
+	 *
 	 * @param oldLabel
 	 *            old label
 	 * @param newLabel
 	 *            new label
-	 * 
+	 *
 	 * @return whether any renaming happened
 	 */
 	public abstract boolean renameGeo(String oldLabel, String newLabel);

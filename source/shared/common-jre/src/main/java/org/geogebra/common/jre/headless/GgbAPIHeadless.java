@@ -52,22 +52,22 @@ public class GgbAPIHeadless extends GgbAPIJre {
 	}
 
 	@Override
-	protected void exportPNGClipboard(boolean transparent, int DPI,
-			double exportScale, EuclidianView ev) {
+	protected void exportPNGClipboard(
+			boolean transparent, int DPI, double exportScale, EuclidianView ev) {
 		// stub
 
 	}
 
 	@Override
-	protected void exportPNGClipboardDPIisNaN(boolean transparent,
-			double exportScale, EuclidianView ev) {
+	protected void exportPNGClipboardDPIisNaN(
+			boolean transparent, double exportScale, EuclidianView ev) {
 		// stub
 
 	}
 
 	@Override
-	protected String base64encodePNG(boolean transparent, double dpi,
-			double exportScale, EuclidianView ev) {
+	protected String base64encodePNG(
+			boolean transparent, double dpi, double exportScale, EuclidianView ev) {
 		if (delegate != null) {
 			return delegate.base64encodePNG(transparent, dpi, exportScale, ev);
 		}

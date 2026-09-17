@@ -30,7 +30,7 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 
 	/**
 	 * Creates new rectangle sum
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -46,14 +46,19 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	 * @param d
 	 *            0 for left sum, 1 for right sum
 	 */
-	public AlgoSumRectangle(Construction cons, String label, GeoFunctionable f,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
+	public AlgoSumRectangle(
+			Construction cons,
+			String label,
+			GeoFunctionable f,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue n,
 			GeoNumberValue d) {
 		super(cons, label, f, a, b, n, d, SumType.RECTANGLESUM);
 	}
 
-	private AlgoSumRectangle(GeoFunction f, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue n, GeoNumberValue d) {
+	private AlgoSumRectangle(
+			GeoFunction f, GeoNumberValue a, GeoNumberValue b, GeoNumberValue n, GeoNumberValue d) {
 		super(f, a, b, n, d);
 	}
 
@@ -64,11 +69,11 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 
 	@Override
 	public AlgoSumRectangle copy() {
-		return new AlgoSumRectangle((GeoFunction) this.getF().copy(),
+		return new AlgoSumRectangle(
+				(GeoFunction) this.getF().copy(),
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
 				this.getN().copy(),
 				(GeoNumberValue) this.getD().deepCopy(kernel));
 	}
-
 }

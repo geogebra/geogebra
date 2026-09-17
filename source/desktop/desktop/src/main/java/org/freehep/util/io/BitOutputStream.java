@@ -7,13 +7,12 @@ import java.io.OutputStream;
 /**
  * Class to write bits to a Stream, allowing for byte synchronization. Signed,
  * Unsigned, Booleans and Floats can be written.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: BitOutputStream.java,v 1.4 2008-08-07 18:33:54 murkle Exp $
  */
-public class BitOutputStream extends CompressableOutputStream
-		implements FinishableOutputStream {
+public class BitOutputStream extends CompressableOutputStream implements FinishableOutputStream {
 
 	private int bits;
 
@@ -21,7 +20,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * Create a Bit output stream from given stream
-	 * 
+	 *
 	 * @param out
 	 *            stream to write to
 	 */
@@ -55,7 +54,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * A utility method to flush the next byte
-	 * 
+	 *
 	 * @throws IOException
 	 *             if write fails
 	 */
@@ -72,7 +71,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * A utility to force the next write to be byte-aligned.
-	 * 
+	 *
 	 * @throws IOException
 	 *             if write fails
 	 */
@@ -82,7 +81,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * Write a bit to the output stream. A 1-bit is true; a 0-bit is false.
-	 * 
+	 *
 	 * @param bit
 	 *            value to write
 	 * @throws IOException
@@ -95,7 +94,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * Write a signed value of n-bits to the output stream.
-	 * 
+	 *
 	 * @param value
 	 *            value to write
 	 * @param n
@@ -116,7 +115,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * Write a float value of n-bits to the stream.
-	 * 
+	 *
 	 * @param value
 	 *            value to write
 	 * @param n
@@ -135,7 +134,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * Write an unsigned value of n-bits to the output stream.
-	 * 
+	 *
 	 * @param value
 	 *            value to write
 	 * @param n
@@ -181,7 +180,7 @@ public class BitOutputStream extends CompressableOutputStream
 
 	/**
 	 * calculates the minumum number of bits necessary to write number.
-	 * 
+	 *
 	 * @param number
 	 *            number
 	 * @return minimum number of bits to store number

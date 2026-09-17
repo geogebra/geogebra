@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,14 +43,14 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 		if (geo.isGeoImplicitCurve()) {
 			curve = (GeoImplicitCurve) geo;
 		}
-		bernstein = converter.bernsteinPolynomial2DFrom(geo,
-				new BoundsRectangle(0, 1, 0, 1));
+		bernstein = converter.bernsteinPolynomial2DFrom(geo, new BoundsRectangle(0, 1, 0, 1));
 	}
 
 	@Test
 	void testTwoVars() {
 		newBernsteinPolynomialPolynomialFrom("x^3 + 2x*y^2 + 2x + y=0");
-		assertEquals("(6y\u00B2 + 7y (1 - y) + 3(1 - y)\u00B2) x\u00B3 + (11y\u00B2 + "
+		assertEquals(
+				"(6y\u00B2 + 7y (1 - y) + 3(1 - y)\u00B2) x\u00B3 + (11y\u00B2 + "
 						+ "11y (1 - y) + 4(1 - y)\u00B2) x\u00B2 (1 - x) + (7y\u00B2 + 7y (1 - y)"
 						+ " + 2(1 - y)\u00B2) x (1 - x)\u00B2 + (y\u00B2"
 						+ " + y (1 - y)) (1 - x)\u00B3",
@@ -66,9 +66,8 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 	@Test
 	void testOneVariableToBernsteinPolynomial() {
 		Polynomial polynomial = new Polynomial(getKernel(), "y");
-		BernsteinPolynomial1D bernsteinPolynomial =
-				BernsteinPolynomial1DTest.from1DPolynomial(polynomial, 0, 2, new BoundsRectangle(
-						0, 1, 0, 1), new BernsteinBuilder1Var());
+		BernsteinPolynomial1D bernsteinPolynomial = BernsteinPolynomial1DTest.from1DPolynomial(
+				polynomial, 0, 2, new BoundsRectangle(0, 1, 0, 1), new BernsteinBuilder1Var());
 		assertEquals("y\u00B2 + y (1 - y)", bernsteinPolynomial.toString());
 	}
 
@@ -85,7 +84,6 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 		for (double x = -10; x < 10; x += 0.1) {
 			for (double y = -10; y < 10; y += 0.1) {
 				assertEquals(curve.evaluate(x, y), bernstein.evaluate(x, y), 1E-4);
-
 			}
 		}
 	}
@@ -93,11 +91,12 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 	@Test
 	void testToString() {
 		newBernsteinPolynomialPolynomialFrom("x^6 - 4y^3 + 3x^4*y=0");
-		assertEquals("(9y\u00B2 (1 - y) + 6y (1 - y)\u00B2 + (1 - y)\u00B3) x\u2076 "
-				+ "+ (- 18y\u00B3 + 12y\u00B2 (1 - y) + 6y (1 - y)\u00B2) x\u2075 (1 - x) "
-				+ "+ (- 57y\u00B3 + 6y\u00B2 (1 - y) + 3y (1 - y)\u00B2) x\u2074 (1 - x)\u00B2 + "
-				+ "(- 80y\u00B3) x\u00B3 (1 - x)\u00B3 + (- 60y\u00B3) x\u00B2 (1 - x)\u2074 + "
-				+ "(- 24y\u00B3) x (1 - x)\u2075 + (- 4y\u00B3) (1 - x)\u2076",
+		assertEquals(
+				"(9y\u00B2 (1 - y) + 6y (1 - y)\u00B2 + (1 - y)\u00B3) x\u2076 "
+						+ "+ (- 18y\u00B3 + 12y\u00B2 (1 - y) + 6y (1 - y)\u00B2) x\u2075 (1 - x) "
+						+ "+ (- 57y\u00B3 + 6y\u00B2 (1 - y) + 3y (1 - y)\u00B2) x\u2074 (1 - x)\u00B2 + "
+						+ "(- 80y\u00B3) x\u00B3 (1 - x)\u00B3 + (- 60y\u00B3) x\u00B2 (1 - x)\u2074 + "
+						+ "(- 24y\u00B3) x (1 - x)\u2075 + (- 4y\u00B3) (1 - x)\u2076",
 				bernstein.toString());
 		assertEquals(323084, bernstein.evaluate(8, 5), 1E-6);
 	}
@@ -140,8 +139,8 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 	@Test
 	void testSubstituteY() {
 		newBernsteinPolynomialPolynomialFrom("x^3 + y^3 = 0");
-		assertEquals("9x\u00B3 + 24x\u00B2 (1 - x) + 24x (1 - x)\u00B2"
-						+ " + 8(1 - x)\u00B3",
+		assertEquals(
+				"9x\u00B3 + 24x\u00B2 (1 - x) + 24x (1 - x)\u00B2" + " + 8(1 - x)\u00B3",
 				bernstein.substitute("y", 2).toString());
 	}
 
@@ -150,8 +149,8 @@ class BernsteinPolynomial2DTest extends BaseUnitTest {
 		newBernsteinPolynomialPolynomialFrom("x^3 + y^3 = 0");
 		assertEquals("y\u00B3", bernstein.substitute("x", 0).toString());
 		assertEquals("0", bernstein.substitute("x", 1).toString());
-		assertEquals("9y\u00B3 + 24y\u00B2 (1 - y) + 24y (1 - y)\u00B2"
-						+ " + 8(1 - y)\u00B3",
+		assertEquals(
+				"9y\u00B3 + 24y\u00B2 (1 - y) + 24y (1 - y)\u00B2" + " + 8(1 - y)\u00B3",
 				bernstein.substitute("x", 2).toString());
 	}
 

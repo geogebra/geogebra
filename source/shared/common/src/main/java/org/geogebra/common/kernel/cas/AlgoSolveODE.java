@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -43,7 +43,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * eg SolveODE[x/y,x(A),y(A),5,0.1]
- * 
+ *
  * @author michael
  *
  */
@@ -58,6 +58,7 @@ public class AlgoSolveODE extends AlgoElement {
 	private GeoLocus locus; // output
 	/** integral line points */
 	ArrayList<MyPoint> al;
+
 	private AlgoNumeratorDenominatorFun numAlgo;
 	private AlgoNumeratorDenominatorFun denAlgo;
 	private FunctionalNVar num;
@@ -83,8 +84,14 @@ public class AlgoSolveODE extends AlgoElement {
 	 * @param step
 	 *            step
 	 */
-	public AlgoSolveODE(Construction cons, String label, FunctionalNVar f0,
-			FunctionalNVar f1, GeoNumeric x, GeoNumeric y, GeoNumeric end,
+	public AlgoSolveODE(
+			Construction cons,
+			String label,
+			FunctionalNVar f0,
+			FunctionalNVar f1,
+			GeoNumeric x,
+			GeoNumeric y,
+			GeoNumeric end,
 			GeoNumeric step) {
 		super(cons);
 		this.f0 = f0;
@@ -95,10 +102,8 @@ public class AlgoSolveODE extends AlgoElement {
 		this.step = step;
 
 		if (f1 == null) {
-			numAlgo = new AlgoNumeratorDenominatorFun(cons, f0,
-					Commands.Numerator);
-			denAlgo = new AlgoNumeratorDenominatorFun(cons, f0,
-					Commands.Denominator);
+			numAlgo = new AlgoNumeratorDenominatorFun(cons, f0, Commands.Numerator);
+			denAlgo = new AlgoNumeratorDenominatorFun(cons, f0, Commands.Denominator);
 			cons.removeFromConstructionList(numAlgo);
 			cons.removeFromConstructionList(denAlgo);
 
@@ -107,8 +112,7 @@ public class AlgoSolveODE extends AlgoElement {
 			ExpressionValue denVal = den.getFunctionExpression();
 			boolean constDen = denVal == null
 					|| denVal.unwrap() instanceof GeoNumberValue
-					|| (denVal.unwrap() instanceof MyDouble
-							&& denVal.isConstant());
+					|| (denVal.unwrap() instanceof MyDouble && denVal.isConstant());
 			quotient = num.isDefined() && den.isDefined() && !constDen;
 
 			if (!quotient) {
@@ -164,8 +168,11 @@ public class AlgoSolveODE extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (!((GeoElement) f0).isDefined() || !x.isDefined() || !y.isDefined()
-				|| !step.isDefined() || !end.isDefined()
+		if (!((GeoElement) f0).isDefined()
+				|| !x.isDefined()
+				|| !y.isDefined()
+				|| !step.isDefined()
+				|| !end.isDefined()
 				|| DoubleUtil.isZero(step.getDouble())) {
 			// g.setUndefined();
 			locus.setUndefined();
@@ -181,8 +188,7 @@ public class AlgoSolveODE extends AlgoElement {
 
 		// FirstOrderIntegrator integrator = new
 		// DormandPrince853Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
-		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(
-				step.getDouble());
+		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(step.getDouble());
 		FirstOrderDifferentialEquations ode;
 
 		if (!quotient) {
@@ -194,13 +200,12 @@ public class AlgoSolveODE extends AlgoElement {
 
 		al.add(new MyPoint(x.getDouble(), y.getDouble(), SegmentType.MOVE_TO));
 
-		double[] yy = new double[] { y.getDouble() }; // initial state
-		double[] yy2 = new double[] { x.getDouble(), y.getDouble() }; // initial
-																		// state
+		double[] yy = new double[] {y.getDouble()}; // initial state
+		double[] yy2 = new double[] {x.getDouble(), y.getDouble()}; // initial
+		// state
 		try {
 			if (!quotient) {
-				integrator.integrate(ode, x.getDouble(), yy, end.getDouble(),
-						yy);
+				integrator.integrate(ode, x.getDouble(), yy, end.getDouble(), yy);
 			} else {
 				integrator.integrate(ode, 0.0, yy2, end.getDouble(), yy2);
 			}
@@ -216,7 +221,6 @@ public class AlgoSolveODE extends AlgoElement {
 		// g.setDefined(true);
 		locus.setPoints(al);
 		locus.setDefined(true);
-
 	}
 
 	private StepHandler stepHandler = new StepHandler() {
@@ -232,12 +236,11 @@ public class AlgoSolveODE extends AlgoElement {
 			} else {
 				al.add(new MyPoint(y1[0], y1[1], SegmentType.LINE_TO));
 			}
-
 		}
 
 		@Override
 		public void init(double t0, double[] y0, double t) {
-			//Log.error("unimplemented");
+			// Log.error("unimplemented");
 		}
 	};
 
@@ -259,7 +262,7 @@ public class AlgoSolveODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double[] input = { t, y[0] };
+			double[] input = {t, y[0]};
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[y, x(A), y(A), 5, 0.1]
@@ -268,9 +271,7 @@ public class AlgoSolveODE extends AlgoElement {
 			} else {
 				yDot[0] = f.evaluate(input);
 			}
-
 		}
-
 	}
 
 	private static final class ODE2 implements FirstOrderDifferentialEquations {
@@ -291,12 +292,11 @@ public class AlgoSolveODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double[] input = { y[0], y[1] };
+			double[] input = {y[0], y[1]};
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
-			if (y1 instanceof GeoFunction
-					&& ((GeoFunction) y1).isFunctionOfY()) {
+			if (y1 instanceof GeoFunction && ((GeoFunction) y1).isFunctionOfY()) {
 				yDot[0] = ((GeoFunction) y1).value(y[1]);
 			} else {
 				yDot[0] = y1.evaluate(input);
@@ -304,8 +304,7 @@ public class AlgoSolveODE extends AlgoElement {
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-x, y, x(A), y(A), 5, 0.1]
-			if (y0 instanceof GeoFunction
-					&& ((GeoFunction) y0).isFunctionOfY()) {
+			if (y0 instanceof GeoFunction && ((GeoFunction) y0).isFunctionOfY()) {
 				yDot[1] = ((GeoFunction) y0).value(y[1]);
 			} else {
 				yDot[1] = y0.evaluate(input);
@@ -325,5 +324,4 @@ public class AlgoSolveODE extends AlgoElement {
 			((GeoElement) f0).removeAlgorithm(denAlgo);
 		}
 	}
-
 }

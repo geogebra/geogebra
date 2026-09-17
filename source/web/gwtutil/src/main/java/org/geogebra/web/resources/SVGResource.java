@@ -22,7 +22,7 @@ import org.gwtproject.resources.ext.ResourceGeneratorType;
 import org.gwtproject.safehtml.shared.SafeUri;
 
 /**
- * A resource that contains SVG that should be incorporated into the compiled output. 
+ * A resource that contains SVG that should be incorporated into the compiled output.
  * Based on https://github.com/laaglu/lib-gwt-svg but provides a small subset of functionality.
  */
 @DefaultExtensions({".svg"})
@@ -45,7 +45,6 @@ public interface SVGResource extends ResourcePrototype {
 
 	/**
 	 * @return raw SVG content
-	*/
+	 */
 	String getSVG();
 }
-

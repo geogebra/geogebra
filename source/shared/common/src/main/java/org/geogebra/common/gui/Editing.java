@@ -29,7 +29,7 @@ public interface Editing extends View {
 
 	/**
 	 * Finish editing and update currently edited item
-	 * 
+	 *
 	 * @param unselectAll
 	 *            whether to unselect other items
 	 */
@@ -39,5 +39,4 @@ public interface Editing extends View {
 	 * @return whether this view is visible
 	 */
 	boolean isShowing();
-
 }

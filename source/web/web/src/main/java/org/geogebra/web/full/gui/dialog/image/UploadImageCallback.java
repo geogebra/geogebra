@@ -25,5 +25,4 @@ public interface UploadImageCallback {
 	 * insert image after selection
 	 */
 	void insertImage(String name, String data);
-
 }

@@ -29,13 +29,13 @@ public class LabelStylePropertyCollection
 	 * @param localization localization
 	 * @param euclidianSettings EV settings
 	 */
-	public LabelStylePropertyCollection(Localization localization,
-			EuclidianSettings euclidianSettings) {
+	public LabelStylePropertyCollection(
+			Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "LabelStyle");
 		setProperties(new ToggleableIconProperty[] {
-				new AxesLabelBoldProperty(localization, euclidianSettings),
-				new AxesLabelItalicProperty(localization, euclidianSettings),
-				new AxesLabelSerifProperty(localization, euclidianSettings)
+			new AxesLabelBoldProperty(localization, euclidianSettings),
+			new AxesLabelItalicProperty(localization, euclidianSettings),
+			new AxesLabelSerifProperty(localization, euclidianSettings)
 		});
 	}
 }

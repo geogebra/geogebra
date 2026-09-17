@@ -2,7 +2,6 @@ package com.himamis.retex.renderer.share;
 
 import org.geogebra.common.awt.GColor;
 
-
 public class CursorAtom extends Atom {
 
 	private double height;
@@ -28,5 +27,4 @@ public class CursorAtom extends Atom {
 		Box cb = new CharBox(c);
 		return new CursorBox(cb, height, color);
 	}
-
 }

@@ -31,7 +31,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 3D brush, drawing circular-section curves.
- * 
+ *
  * @author mathieu
  *
  */
@@ -56,6 +56,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/** current thickness */
 	private float thickness;
+
 	private float lineThickness;
 
 	/** view scale */
@@ -67,6 +68,7 @@ public class PlotterBrush implements PathPlotter {
 	// color
 	/** color r, g, b, a */
 	private float red;
+
 	private float green;
 	private float blue;
 	private float alpha;
@@ -76,36 +78,40 @@ public class PlotterBrush implements PathPlotter {
 	// texture
 	/** start and end textures values */
 	private float texturePosZero;
+
 	private float textureValZero;
 	/** textures coords */
 	private final double[] textureX = new double[2];
 	/** type of texture */
-	static final public int TEXTURE_CONSTANT_0 = 0;
-	static final private int TEXTURE_ID = 1;
+	public static final int TEXTURE_CONSTANT_0 = 0;
+
+	private static final int TEXTURE_ID = 1;
 	protected static final int TEXTURE_AFFINE = 2;
-	static final private int TEXTURE_LINEAR = 3;
+	private static final int TEXTURE_LINEAR = 3;
 	private int textureTypeX = TEXTURE_ID;
 
-	static final private float TEXTURE_AFFINE_FACTOR = 0.05f;
+	private static final float TEXTURE_AFFINE_FACTOR = 0.05f;
 
 	/** curve position (for texture) */
 	private float curvePos;
 
 	// arrows
 	/** no arrows */
-	static final public int ARROW_TYPE_NONE = 0;
+	public static final int ARROW_TYPE_NONE = 0;
 	/** simple arrows */
-	static final public int ARROW_TYPE_SIMPLE = 1;
+	public static final int ARROW_TYPE_SIMPLE = 1;
 	/** closed segment */
-	static final public int ARROW_TYPE_CLOSED = 2;
+	public static final int ARROW_TYPE_CLOSED = 2;
 
 	private int arrowType = ARROW_TYPE_NONE;
 	/** length of the arrow */
-	static private final float ARROW_LENGTH = 3f;
+	private static final float ARROW_LENGTH = 3f;
 
 	/** ticks */
 	public enum Ticks {
-		NONE, MAJOR, MAJOR_AND_MINOR
+		NONE,
+		MAJOR,
+		MAJOR_AND_MINOR
 	}
 
 	/** has ticks ? */
@@ -117,6 +123,7 @@ public class PlotterBrush implements PathPlotter {
 	 * curve)
 	 */
 	private float ticksOffset;
+
 	private final Coords drawNormal = new Coords(3);
 	private final Coords drawPos = new Coords(3);
 
@@ -150,7 +157,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param manager
 	 *            manager
 	 */
@@ -173,7 +180,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * start new curve
-	 * 
+	 *
 	 * @param old
 	 *            old index
 	 */
@@ -185,7 +192,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * end curve
-	 * 
+	 *
 	 * @return gl index of the curve
 	 */
 	public int end() {
@@ -199,7 +206,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * start new curve part
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -212,7 +219,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * start new curve part
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -224,7 +231,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * move to point and draw curve part
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -234,7 +241,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * move to point and draw curve part
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @param tick
@@ -258,7 +265,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * move to new coords only if not equal to last. Set texture pos.
-	 * 
+	 *
 	 * @param point
 	 *            coords
 	 */
@@ -294,7 +301,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * move to point and draw curve part
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -333,10 +340,9 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * draws a section point
-	 * 
+	 *
 	 */
-	protected void draw(PlotterBrushSection s, double u, double v,
-			int texture) {
+	protected void draw(PlotterBrushSection s, double u, double v, int texture) {
 
 		s.getNormalAndPosition(u, v, drawNormal, drawPos);
 
@@ -346,21 +352,19 @@ public class PlotterBrush implements PathPlotter {
 		// set texture
 		double pos = textureX[texture];
 		switch (textureTypeX) {
-		case TEXTURE_ID:
-		default:
-			manager.texture(pos);
-			break;
-		case TEXTURE_CONSTANT_0:
-			manager.texture(0);
-			break;
-		case TEXTURE_AFFINE:
-			manager.texture(
-					TEXTURE_AFFINE_FACTOR * length * (pos - texturePosZero) + textureValZero);
-			break;
-		case TEXTURE_LINEAR:
-			manager.texture(TEXTURE_AFFINE_FACTOR * pos);
-			break;
-
+			case TEXTURE_ID:
+			default:
+				manager.texture(pos);
+				break;
+			case TEXTURE_CONSTANT_0:
+				manager.texture(0);
+				break;
+			case TEXTURE_AFFINE:
+				manager.texture(TEXTURE_AFFINE_FACTOR * length * (pos - texturePosZero) + textureValZero);
+				break;
+			case TEXTURE_LINEAR:
+				manager.texture(TEXTURE_AFFINE_FACTOR * pos);
+				break;
 		}
 
 		// set vertex
@@ -383,7 +387,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * segment curve
-	 * 
+	 *
 	 * @param p1
 	 *            start point
 	 * @param p2
@@ -404,35 +408,34 @@ public class PlotterBrush implements PathPlotter {
 
 		float arrowWidth = ARROW_LENGTH / 4f;
 		switch (arrowType) {
-		case ARROW_TYPE_NONE:
-		default:
-			setTextureX(0, 1);
-			moveTo(p2);
-			break;
-		case ARROW_TYPE_SIMPLE:
-			factor = (float) (DrawVector.getFactor(lineThickness)
-						* LINE3D_THICKNESS * lengthInScene / length);
-			if (ARROW_LENGTH * factor > 0.9f * lengthInScene) {
-				factor = 0.9f * lengthInScene / ARROW_LENGTH;
-			}
-			arrowPos = ARROW_LENGTH / lengthInScene * factor;
-			tmpCoords3.setAdd(tmpCoords4.setMul(p1, arrowPos),
-					tmpCoords3.setMul(p2, 1 - arrowPos));
+			case ARROW_TYPE_NONE:
+			default:
+				setTextureX(0, 1);
+				moveTo(p2);
+				break;
+			case ARROW_TYPE_SIMPLE:
+				factor = (float)
+						(DrawVector.getFactor(lineThickness) * LINE3D_THICKNESS * lengthInScene / length);
+				if (ARROW_LENGTH * factor > 0.9f * lengthInScene) {
+					factor = 0.9f * lengthInScene / ARROW_LENGTH;
+				}
+				arrowPos = ARROW_LENGTH / lengthInScene * factor;
+				tmpCoords3.setAdd(tmpCoords4.setMul(p1, arrowPos), tmpCoords3.setMul(p2, 1 - arrowPos));
 
-			setTextureX(0);
-			if (ticksDistance > 0) {
-				drawTicks(p1, p2, lengthInScene, arrowPos);
-			}
+				setTextureX(0);
+				if (ticksDistance > 0) {
+					drawTicks(p1, p2, lengthInScene, arrowPos);
+				}
 
-			drawArrowBase(arrowPos, tmpCoords3);
+				drawArrowBase(arrowPos, tmpCoords3);
 
-			textureTypeX = TEXTURE_ID;
-			setTextureX(0, 0);
-			setThickness(factor * arrowWidth * length / lengthInScene);
-			drawArrowBaseOuter(tmpCoords3);
-			setThickness(0);
-			moveTo(p2);
-			break;
+				textureTypeX = TEXTURE_ID;
+				setTextureX(0, 0);
+				setThickness(factor * arrowWidth * length / lengthInScene);
+				drawArrowBaseOuter(tmpCoords3);
+				setThickness(0);
+				moveTo(p2);
+				break;
 		}
 
 		if (arrowType == ARROW_TYPE_CLOSED) {
@@ -446,88 +449,75 @@ public class PlotterBrush implements PathPlotter {
 		double ticksDistanceNormed;
 		double i;
 		switch (ticks) {
-		case MAJOR_AND_MINOR:
-			tmpCoords4.setSub(p2, p1);
-			tmpCoords4.normalize();
-			thicknessOld = this.thickness;
-			ticksDistanceNormed = ticksDistance / lengthInScene;
+			case MAJOR_AND_MINOR:
+				tmpCoords4.setSub(p2, p1);
+				tmpCoords4.normalize();
+				thicknessOld = this.thickness;
+				ticksDistanceNormed = ticksDistance / lengthInScene;
 
-			i = ticksOffset
-					- ((int) (ticksOffset / ticksDistanceNormed))
-					* ticksDistanceNormed;
-			if (i < 0) {
-				i += ticksDistanceNormed;
-			}
-			ticksDelta = manager.getView3D().getTicksDeltaFactor()
-					* thicknessOld * lengthInScene / length;
-			ticksThickness = manager.getView3D()
-					.getTicksThicknessFactor() * thicknessOld;
-			float ticksMinorThickness = manager.getView3D()
-					.getTicksMinorThicknessFactor() * thicknessOld;
-			boolean minor = false;
-			if (i > ticksDistanceNormed / 2
-					+ ticksDelta / lengthInScene) {
-				minor = true;
-				i -= ticksDistanceNormed / 2;
-			} else if (i * lengthInScene <= ticksDelta) {
-				i += ticksDistanceNormed / 2;
-				minor = true;
-			}
+				i = ticksOffset - ((int) (ticksOffset / ticksDistanceNormed)) * ticksDistanceNormed;
+				if (i < 0) {
+					i += ticksDistanceNormed;
+				}
+				ticksDelta =
+						manager.getView3D().getTicksDeltaFactor() * thicknessOld * lengthInScene / length;
+				ticksThickness = manager.getView3D().getTicksThicknessFactor() * thicknessOld;
+				float ticksMinorThickness =
+						manager.getView3D().getTicksMinorThicknessFactor() * thicknessOld;
+				boolean minor = false;
+				if (i > ticksDistanceNormed / 2 + ticksDelta / lengthInScene) {
+					minor = true;
+					i -= ticksDistanceNormed / 2;
+				} else if (i * lengthInScene <= ticksDelta) {
+					i += ticksDistanceNormed / 2;
+					minor = true;
+				}
 
-			for (; i <= 1 - arrowPos; i += ticksDistanceNormed / 2) {
-				double x = i * lengthInScene;
-				tmpCoords.setAdd(p1,
-						tmpCoords.setMul(tmpCoords4, x - ticksDelta));
-				tmpCoords2.setAdd(p1,
-						tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
+				for (; i <= 1 - arrowPos; i += ticksDistanceNormed / 2) {
+					double x = i * lengthInScene;
+					tmpCoords.setAdd(p1, tmpCoords.setMul(tmpCoords4, x - ticksDelta));
+					tmpCoords2.setAdd(p1, tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
 
-				drawTick(tmpCoords, tmpCoords2, i,
-						minor ? ticksMinorThickness : ticksThickness,
-						thicknessOld);
+					drawTick(
+							tmpCoords, tmpCoords2, i, minor ? ticksMinorThickness : ticksThickness, thicknessOld);
 
-				minor = !minor;
-			}
-			break;
-		case NONE:
-			break;
-		case MAJOR:
-		default:
-			tmpCoords4.setSub(p2, p1);
-			tmpCoords4.normalize();
-			thicknessOld = this.thickness;
-			ticksDistanceNormed = ticksDistance / lengthInScene;
+					minor = !minor;
+				}
+				break;
+			case NONE:
+				break;
+			case MAJOR:
+			default:
+				tmpCoords4.setSub(p2, p1);
+				tmpCoords4.normalize();
+				thicknessOld = this.thickness;
+				ticksDistanceNormed = ticksDistance / lengthInScene;
 
-			i = ticksOffset
-					- ((int) (ticksOffset / ticksDistanceNormed))
-					* ticksDistanceNormed;
-			ticksDelta = manager.getView3D().getTicksDeltaFactor()
-					* thicknessOld * lengthInScene / length;
-			ticksThickness = manager.getView3D()
-					.getTicksThicknessFactor() * thicknessOld;
-			if (i * lengthInScene <= ticksDelta) {
-				i += ticksDistanceNormed;
-			}
+				i = ticksOffset - ((int) (ticksOffset / ticksDistanceNormed)) * ticksDistanceNormed;
+				ticksDelta =
+						manager.getView3D().getTicksDeltaFactor() * thicknessOld * lengthInScene / length;
+				ticksThickness = manager.getView3D().getTicksThicknessFactor() * thicknessOld;
+				if (i * lengthInScene <= ticksDelta) {
+					i += ticksDistanceNormed;
+				}
 
-			for (; i <= 1 - arrowPos; i += ticksDistanceNormed) {
-				double x = i * lengthInScene;
-				tmpCoords.setAdd(p1,
-						tmpCoords.setMul(tmpCoords4, x - ticksDelta));
-				tmpCoords2.setAdd(p1,
-						tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
+				for (; i <= 1 - arrowPos; i += ticksDistanceNormed) {
+					double x = i * lengthInScene;
+					tmpCoords.setAdd(p1, tmpCoords.setMul(tmpCoords4, x - ticksDelta));
+					tmpCoords2.setAdd(p1, tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
 
-				drawTick(tmpCoords, tmpCoords2, i, ticksThickness,
-						thicknessOld);
-			}
-			break;
+					drawTick(tmpCoords, tmpCoords2, i, ticksThickness, thicknessOld);
+				}
+				break;
 		}
 	}
 
 	/**
 	 * draw a tick
-	 * 
+	 *
 	 */
-	protected void drawTick(Coords p1b, Coords p2b, double i,
-			float ticksThickness, float thicknessOld) {
+	protected void drawTick(
+			Coords p1b, Coords p2b, double i, float ticksThickness, float thicknessOld) {
 		setTextureType(TEXTURE_AFFINE);
 		setTextureX(i);
 		moveTo(p1b);
@@ -541,7 +531,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * draw arrow base
-	 * 
+	 *
 	 */
 	protected void drawArrowBase(float arrowPos, Coords arrowBase) {
 		setTextureType(TEXTURE_AFFINE);
@@ -551,7 +541,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * draw arrow base (outer)
-	 * 
+	 *
 	 * @param arrowBase
 	 *            arrow base coords
 	 */
@@ -561,7 +551,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * draws a circle
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -573,14 +563,13 @@ public class PlotterBrush implements PathPlotter {
 	 * @param longitude
 	 *            longitude
 	 */
-	public void circle(Coords center, Coords v1, Coords v2, double radius,
-			int longitude) {
+	public void circle(Coords center, Coords v1, Coords v2, double radius, int longitude) {
 
 		arc(center, v1, v2, radius, 0, 2 * Math.PI, longitude);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param radius
 	 *            radius of the arc
 	 * @param halfExtent
@@ -589,8 +578,7 @@ public class PlotterBrush implements PathPlotter {
 	 *            view scale
 	 * @return longitude length needed to render the arc
 	 */
-	public int calcArcLongitudesNeeded(double radius, double halfExtent,
-			double viewScale) {
+	public int calcArcLongitudesNeeded(double radius, double halfExtent, double viewScale) {
 
 		int longitude;
 		double size = radius * halfExtent * viewScale;
@@ -598,8 +586,7 @@ public class PlotterBrush implements PathPlotter {
 			longitude = manager.getLongitudeMax();
 		} else {
 			longitude = 8;
-			while (longitude * longitude <= 4 * size
-					&& longitude < manager.getLongitudeMax()) {
+			while (longitude * longitude <= 4 * size && longitude < manager.getLongitudeMax()) {
 				// find the correct longitude size
 				longitude *= 2;
 			}
@@ -611,7 +598,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * draw an arc
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -627,8 +614,14 @@ public class PlotterBrush implements PathPlotter {
 	 * @param longitude
 	 *            longitude
 	 */
-	public void arc(Coords center, Coords v1, Coords v2, double radius,
-			double arcStart, double extent, int longitude) {
+	public void arc(
+			Coords center,
+			Coords v1,
+			Coords v2,
+			double radius,
+			double arcStart,
+			double extent,
+			int longitude) {
 
 		length = (float) (extent * radius);
 
@@ -657,7 +650,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * draw an arc extended with arrows
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -673,8 +666,14 @@ public class PlotterBrush implements PathPlotter {
 	 * @param longitude
 	 *            longitude
 	 */
-	public void arcExtendedWithArrows(Coords center, Coords v1, Coords v2,
-			double radius, double arcStart, double extent, int longitude) {
+	public void arcExtendedWithArrows(
+			Coords center,
+			Coords v1,
+			Coords v2,
+			double radius,
+			double arcStart,
+			double extent,
+			int longitude) {
 
 		length = (float) (extent * radius);
 
@@ -732,12 +731,11 @@ public class PlotterBrush implements PathPlotter {
 
 		// back to old thickness
 		setThickness(oldThickness);
-
 	}
 
 	/**
 	 * draws an ellipse
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -753,8 +751,8 @@ public class PlotterBrush implements PathPlotter {
 	 * @param extent
 	 *            extent
 	 */
-	public void arcEllipse(Coords center, Coords v1, Coords v2, double a,
-			double b, double arcStart, double extent) {
+	public void arcEllipse(
+			Coords center, Coords v1, Coords v2, double a, double b, double arcStart, double extent) {
 
 		// Ramanujan approximation
 		// length=(float) (Math.PI*(3*(a+b)-Math.sqrt((3*a+b)*(a+3*b)))); //TODO
@@ -775,8 +773,8 @@ public class PlotterBrush implements PathPlotter {
 		v = (float) Math.sin(arcStart);
 
 		m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
-		vn1.setAdd(tmpCoords3.setSub(m, f1).normalize(),
-				tmpCoords4.setSub(m, f2).normalize()).normalize();
+		vn1.setAdd(tmpCoords3.setSub(m, f1).normalize(), tmpCoords4.setSub(m, f2).normalize())
+				.normalize();
 
 		tmpCoords.setAdd(center, m);
 		down(tmpCoords, vn1, vn2);
@@ -791,8 +789,8 @@ public class PlotterBrush implements PathPlotter {
 			m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
 			addCurvePos(tmpCoords2.setSub(m, tmpCoords2));
 
-			vn1.setAdd(tmpCoords3.setSub(m, f1).normalize(),
-					tmpCoords4.setSub(m, f2).normalize()).normalize();
+			vn1.setAdd(tmpCoords3.setSub(m, f1).normalize(), tmpCoords4.setSub(m, f2).normalize())
+					.normalize();
 
 			tmpCoords.setAdd(center, m);
 			moveTo(tmpCoords, vn1, vn2);
@@ -811,7 +809,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * draws quarter of an hyperbola
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -827,8 +825,8 @@ public class PlotterBrush implements PathPlotter {
 	 * @param tMax
 	 *            t max
 	 */
-	public void hyperbolaBranch(Coords center, Coords v1, Coords v2, double a,
-			double b, double tMin, double tMax) {
+	public void hyperbolaBranch(
+			Coords center, Coords v1, Coords v2, double a, double b, double tMin, double tMax) {
 
 		// foci
 		double f = Math.sqrt(a * a + b * b);
@@ -839,8 +837,8 @@ public class PlotterBrush implements PathPlotter {
 		length = 1;
 		setTextureType(PlotterBrush.TEXTURE_LINEAR);
 		setCurvePos(0.75f / (TEXTURE_AFFINE_FACTOR * scale)); // midpoint is
-																// middle of an
-																// empty dash
+		// middle of an
+		// empty dash
 
 		vn2.setCrossProduct3(v1, v2);
 
@@ -849,8 +847,8 @@ public class PlotterBrush implements PathPlotter {
 
 		m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
 
-		vn1.setSub(tmpCoords3.setSub(m, f1).normalize(),
-				tmpCoords4.setSub(m, f2).normalize()).normalize();
+		vn1.setSub(tmpCoords3.setSub(m, f1).normalize(), tmpCoords4.setSub(m, f2).normalize())
+				.normalize();
 
 		tmpCoords.setAdd(center, m);
 		down(tmpCoords, vn1, vn2);
@@ -864,18 +862,17 @@ public class PlotterBrush implements PathPlotter {
 			m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
 			addCurvePos(tmpCoords2.setSub(m, tmpCoords2));
 
-			vn1.setSub(tmpCoords3.setSub(m, f1).normalize(),
-					tmpCoords4.setSub(m, f2).normalize()).normalize();
+			vn1.setSub(tmpCoords3.setSub(m, f1).normalize(), tmpCoords4.setSub(m, f2).normalize())
+					.normalize();
 
 			tmpCoords.setAdd(center, m);
 			moveTo(tmpCoords, vn1, vn2);
 		}
-
 	}
 
 	/**
 	 * draws a parabola, and save ends coords in p1, p2 (if not null)
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -893,8 +890,15 @@ public class PlotterBrush implements PathPlotter {
 	 * @param p2
 	 *            to store end point
 	 */
-	public void parabola(Coords center, Coords v1, Coords v2, double p,
-			double tMin, double tMax, Coords p1, Coords p2) {
+	public void parabola(
+			Coords center,
+			Coords v1,
+			Coords v2,
+			double p,
+			double tMin,
+			double tMax,
+			Coords p1,
+			Coords p2) {
 
 		// focus
 		f1.setMul(v1, p / 2);
@@ -935,13 +939,11 @@ public class PlotterBrush implements PathPlotter {
 
 			tmpCoords.setAdd(center, m);
 			moveTo(tmpCoords, vn1, vn2);
-
 		}
 
 		if (p2 != null) {
 			p2.set(tmpCoords);
 		}
-
 	}
 
 	// //////////////////////////////////
@@ -951,7 +953,7 @@ public class PlotterBrush implements PathPlotter {
 	/**
 	 * set the current thickness of the brush, using integer for thickness (see
 	 * {@link GeoElement#getLineThickness()}
-	 * 
+	 *
 	 * @param thickness
 	 *            thickness
 	 * @param scale
@@ -963,7 +965,7 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param thickness
 	 *            thickness
 	 * @param isAxis
@@ -989,7 +991,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * set the current thickness of the brush
-	 * 
+	 *
 	 * @param thickness
 	 *            thickness
 	 */
@@ -998,7 +1000,7 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current thickness of the brush
 	 */
 	public float getThickness() {
@@ -1011,7 +1013,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * sets the current color
-	 * 
+	 *
 	 * @param color
 	 *            color
 	 * @param alpha
@@ -1027,7 +1029,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * sets the current color (alpha set to 1)
-	 * 
+	 *
 	 * @param color
 	 *            color
 	 */
@@ -1041,10 +1043,10 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * sets the position of the point on the curve and sets the texture x
-	 * 
+	 *
 	 * @param pos
 	 *            position
-	 * 
+	 *
 	 */
 	public void setCurvePos(float pos) {
 		curvePos = pos;
@@ -1053,10 +1055,10 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * add the distance to the position on the curve (used for texture)
-	 * 
+	 *
 	 * @param distance
 	 *            distance
-	 * 
+	 *
 	 */
 	public void addCurvePos(float distance) {
 		setCurvePos(curvePos + distance);
@@ -1064,7 +1066,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * set affine texture zero position
-	 * 
+	 *
 	 * @param posZero
 	 *            position of the "center" of the cylinder
 	 * @param valZero
@@ -1078,7 +1080,7 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void setPlainTexture() {
 		setTextureType(TEXTURE_CONSTANT_0);
@@ -1086,7 +1088,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * sets the type of texture
-	 * 
+	 *
 	 * @param type
 	 *            texture type
 	 */
@@ -1109,7 +1111,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * sets the type of arrow used by the pencil.
-	 * 
+	 *
 	 * @param arrowType
 	 *            type of arrow, see {@link #ARROW_TYPE_NONE},
 	 *            {@link #ARROW_TYPE_SIMPLE}, ...
@@ -1124,7 +1126,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * sets the type of arrow used by the pencil.
-	 * 
+	 *
 	 * @param ticks
 	 *            ticks
 	 */
@@ -1134,7 +1136,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * sets the distance between two ticks
-	 * 
+	 *
 	 * @param distance
 	 *            distance
 	 */
@@ -1145,7 +1147,7 @@ public class PlotterBrush implements PathPlotter {
 	/**
 	 * sets the offset for origin of the ticks (0: start of the curve, 1: end of
 	 * the curve)
-	 * 
+	 *
 	 * @param offset
 	 *            offset
 	 */
@@ -1241,7 +1243,6 @@ public class PlotterBrush implements PathPlotter {
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
 		// TODO only Gap.MOVE_TO implemented
 		moveTo(pos);
-
 	}
 
 	@Override
@@ -1250,8 +1251,7 @@ public class PlotterBrush implements PathPlotter {
 	}
 
 	@Override
-	public boolean copyCoords(MyPoint point, double[] ret,
-			CoordSys transformSys) {
+	public boolean copyCoords(MyPoint point, double[] ret, CoordSys transformSys) {
 
 		ret[0] = point.x;
 		ret[1] = point.y;
@@ -1262,8 +1262,7 @@ public class PlotterBrush implements PathPlotter {
 				tmpCopyCoords = Coords.createInhomCoorsInD3();
 			}
 
-			transformSys.getPointFromOriginVectors(ret[0], ret[1],
-					tmpCopyCoords);
+			transformSys.getPointFromOriginVectors(ret[0], ret[1], tmpCopyCoords);
 			ret[0] = tmpCopyCoords.getX();
 			ret[1] = tmpCopyCoords.getY();
 			ret[2] = tmpCopyCoords.getZ();
@@ -1274,7 +1273,7 @@ public class PlotterBrush implements PathPlotter {
 
 	/**
 	 * set the length for texture pos
-	 * 
+	 *
 	 * @param length
 	 *            length
 	 */
@@ -1291,5 +1290,4 @@ public class PlotterBrush implements PathPlotter {
 	public boolean supports(CoordSys transformSys) {
 		return true;
 	}
-
 }

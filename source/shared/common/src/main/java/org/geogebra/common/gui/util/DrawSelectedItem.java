@@ -48,8 +48,8 @@ public class DrawSelectedItem {
 	 * @param boxHeight height of the visible box
 	 * @param geo Corresponding GeoElement
 	 */
-	public void drawOpenControl(GGraphics2D g2, int boxLeft, int boxTop, int boxWidth,
-			int boxHeight, GeoElement geo) {
+	public void drawOpenControl(
+			GGraphics2D g2, int boxLeft, int boxTop, int boxWidth, int boxHeight, GeoElement geo) {
 		int left = boxLeft + boxWidth - boxHeight;
 		ctrlRect.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 		drawTriangle(g2, left, boxTop, boxHeight, geo);
@@ -66,8 +66,8 @@ public class DrawSelectedItem {
 	 * @param width of dropdown
 	 * @param height of dropdown
 	 */
-	public void drawBounds(GeoElement geo, GGraphics2D g2, GColor bgColor,
-			int left, int top, int width, int height) {
+	public void drawBounds(
+			GeoElement geo, GGraphics2D g2, GColor bgColor, int left, int top, int width, int height) {
 		g2.setPaint(bgColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
@@ -75,13 +75,18 @@ public class DrawSelectedItem {
 		if (geo.usesDisabledStyle(null)) {
 			g2.setPaint(GeoGebraColorConstants.NEUTRAL_300);
 		} else if (bgColor == GColor.WHITE) {
-			g2.setPaint(geo.doHighlighting()
-					? GeoGebraColorConstants.PURPLE_600 : GeoGebraColorConstants.NEUTRAL_500);
+			g2.setPaint(
+					geo.doHighlighting()
+							? GeoGebraColorConstants.PURPLE_600
+							: GeoGebraColorConstants.NEUTRAL_500);
 		} else {
 			g2.setPaint(GColor.getBorderColorFrom(bgColor));
 		}
-		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(geo.doHighlighting()
-				&& !geo.usesDisabledStyle(null) ? BORDER_WIDTH_FOCUSED : BORDER_WIDTH_RESTING));
+		g2.setStroke(AwtFactory.getPrototype()
+				.newBasicStroke(
+						geo.doHighlighting() && !geo.usesDisabledStyle(null)
+								? BORDER_WIDTH_FOCUSED
+								: BORDER_WIDTH_RESTING));
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 	}
 
@@ -93,8 +98,10 @@ public class DrawSelectedItem {
 	 * @param geo Corresponding GeoElement to set the correct color if disabled style is used.
 	 */
 	public void drawTriangle(GGraphics2D g2, int left, int top, int size, GeoElement geo) {
-		g2.setColor(geo.usesDisabledStyle(null)
-				? GeoGebraColorConstants.NEUTRAL_500 : GeoGebraColorConstants.NEUTRAL_700);
+		g2.setColor(
+				geo.usesDisabledStyle(null)
+						? GeoGebraColorConstants.NEUTRAL_500
+						: GeoGebraColorConstants.NEUTRAL_700);
 
 		int middleX = left + size / 2;
 

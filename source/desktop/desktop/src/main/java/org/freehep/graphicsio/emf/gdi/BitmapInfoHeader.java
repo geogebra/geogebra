@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF BitmapInfoHeader
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: BitmapInfoHeader.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -37,9 +37,16 @@ public class BitmapInfoHeader implements EMFConstants {
 
 	private int clrImportant;
 
-	public BitmapInfoHeader(int width, int height, int bitCount,
-			int compression, int sizeImage, int xPelsPerMeter,
-			int yPelsPerMeter, int clrUsed, int clrImportant) {
+	public BitmapInfoHeader(
+			int width,
+			int height,
+			int bitCount,
+			int compression,
+			int sizeImage,
+			int xPelsPerMeter,
+			int yPelsPerMeter,
+			int clrUsed,
+			int clrImportant) {
 		this.width = width;
 		this.height = height;
 		this.planes = 1;

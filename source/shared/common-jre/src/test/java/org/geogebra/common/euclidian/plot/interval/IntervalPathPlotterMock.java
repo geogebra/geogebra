@@ -52,10 +52,7 @@ public class IntervalPathPlotterMock implements IntervalPathPlotter {
 
 	@Override
 	public void moveTo(double x, double y) {
-		log.add(
-				new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO,
-						rwX(x),
-						rwY(y)));
+		log.add(new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.MOVE_TO, rwX(x), rwY(y)));
 	}
 
 	private double rwX(double x) {
@@ -78,11 +75,7 @@ public class IntervalPathPlotterMock implements IntervalPathPlotter {
 
 	@Override
 	public void lineTo(double x, double y) {
-		log.add(new IntervalPathMockEntry(
-				IntervalPathMockEntry.PathOperation.LINE_TO,
-				rwX(x),
-				rwY(y)));
-
+		log.add(new IntervalPathMockEntry(IntervalPathMockEntry.PathOperation.LINE_TO, rwX(x), rwY(y)));
 	}
 
 	@Override
@@ -93,7 +86,8 @@ public class IntervalPathPlotterMock implements IntervalPathPlotter {
 
 	@Override
 	public void segment(EuclidianViewBounds bounds, double x1, double y1, double x2, double y2) {
-		segment(bounds.toScreenCoordXd(x1),
+		segment(
+				bounds.toScreenCoordXd(x1),
 				bounds.toScreenCoordYd(y1),
 				bounds.toScreenCoordXd(x2),
 				bounds.toScreenCoordYd(y2));
@@ -131,4 +125,3 @@ public class IntervalPathPlotterMock implements IntervalPathPlotter {
 		return getLog().hashCode();
 	}
 }
-

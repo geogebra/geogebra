@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdClasses extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,34 +47,30 @@ public class CmdClasses extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
+			case 2:
+				if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
+					AlgoClasses algo =
+							new AlgoClasses(cons, (GeoList) arg[0], null, null, (GeoNumeric) arg[1]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		case 2:
-			if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isGeoNumeric())) {
-				AlgoClasses algo = new AlgoClasses(cons,
-						(GeoList) arg[0], null, null, (GeoNumeric) arg[1]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+			case 3:
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())) {
+					AlgoClasses algo = new AlgoClasses(
+							cons, (GeoList) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2], null);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-			}
-			throw argErr(c, arg[0]);
-
-		case 3:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())) {
-				AlgoClasses algo = new AlgoClasses(cons,
-						(GeoList) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], null);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * Created on Oct 17, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -32,7 +32,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 
 	/**
 	 * Returns a {@code Factory} that creates an instance of this graph type.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type for the graph factory
 	 * @param <E>
@@ -48,8 +48,8 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	}
 
 	protected Map<V, Pair<Set<E>>> vertices; // Map of vertices to Pair of
-												// adjacency sets {incoming,
-												// outgoing}
+	// adjacency sets {incoming,
+	// outgoing}
 	protected Map<E, Pair<V>> edges; // Map of edges to incident vertex pairs
 
 	/**
@@ -95,8 +95,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex,
-					new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
+			vertices.put(vertex, new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
 			return true;
 		}
 		return false;
@@ -228,8 +227,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	}
 
 	@Override
-	public boolean addEdge(E edge, Pair<? extends V> endpoints,
-			EdgeType edgeType) {
+	public boolean addEdge(E edge, Pair<? extends V> endpoints, EdgeType edgeType) {
 		this.validateEdgeType(edgeType);
 		Pair<V> new_endpoints = getValidatedEndpoints(edge, endpoints);
 		if (new_endpoints == null) {

@@ -71,9 +71,8 @@ public class AlgebraMenuItemCollectionTest {
 		assertFalse(isStatisticsAvailable(notNumberList));
 		assertTrue(isStatisticsAvailable(numberList));
 	}
-	
+
 	private boolean isStatisticsAvailable(GeoElement geo) {
 		return SuggestionStatistics.get(geo) != null;
 	}
 }
-

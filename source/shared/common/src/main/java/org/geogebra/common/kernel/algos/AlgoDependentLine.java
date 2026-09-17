@@ -31,8 +31,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
  *
  * @author Markus
  */
-public class AlgoDependentLine extends AlgoElement
-		implements DependentAlgo {
+public class AlgoDependentLine extends AlgoElement implements DependentAlgo {
 
 	private Equation equation;
 	private ExpressionValue[] ev = new ExpressionValue[3]; // input
@@ -40,7 +39,7 @@ public class AlgoDependentLine extends AlgoElement
 
 	/**
 	 * Creates new AlgoDependentLine
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param equ
@@ -63,8 +62,7 @@ public class AlgoDependentLine extends AlgoElement
 			}
 
 			// check that coefficient is a number: this may throw an exception
-			ExpressionValue eval = ev[i]
-					.evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
 			((NumberValue) eval).getDouble();
 		}
 
@@ -87,8 +85,7 @@ public class AlgoDependentLine extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = equation.getGeoElementVariables(
-				SymbolicMode.NONE);
+		input = equation.getGeoElementVariables(SymbolicMode.NONE);
 
 		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
@@ -120,7 +117,7 @@ public class AlgoDependentLine extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		if (g.getDefinition() != null) {
 			return g.getDefinition().toString(tpl);
 		}
@@ -131,5 +128,4 @@ public class AlgoDependentLine extends AlgoElement
 	public ExpressionNode getExpression() {
 		return null;
 	}
-
 }

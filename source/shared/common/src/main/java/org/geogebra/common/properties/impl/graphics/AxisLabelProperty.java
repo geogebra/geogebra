@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,8 +46,8 @@ public class AxisLabelProperty extends AbstractValuedProperty<String>
 	 * @param label the name of the axis
 	 * @param axis the axis for label
 	 */
-	public AxisLabelProperty(Localization localization,
-			EuclidianSettings euclidianSettings, String label, int axis) {
+	public AxisLabelProperty(
+			Localization localization, EuclidianSettings euclidianSettings, String label, int axis) {
 		super(localization, label);
 		this.euclidianSettings = euclidianSettings;
 		this.axis = axis;
@@ -59,16 +59,16 @@ public class AxisLabelProperty extends AbstractValuedProperty<String>
 		labels.add("");
 		String defaultLabel;
 		switch (axis) {
-		case AXIS_X:
-			defaultLabel = "x";
-			break;
-		case AXIS_Y:
-		default:
-			defaultLabel = "y";
-			break;
-		case AXIS_Z:
-			defaultLabel = "z";
-			break;
+			case AXIS_X:
+				defaultLabel = "x";
+				break;
+			case AXIS_Y:
+			default:
+				defaultLabel = "y";
+				break;
+			case AXIS_Z:
+				defaultLabel = "z";
+				break;
 		}
 		labels.add(defaultLabel);
 		GeoElement.addAddAllGreekLowerCaseNoPi(labels);

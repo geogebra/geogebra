@@ -70,8 +70,7 @@ public class SpreadsheetModeProcessor {
 		if (range.isPartialRow() || (!range.isPartialColumn() && shiftDown)) {
 
 			int maxColumn = getMaxUsedColumn(range) + 1;
-			targetRange = new TabularRange(range.getMinRow(), maxColumn,
-					range.getMaxRow(), maxColumn);
+			targetRange = new TabularRange(range.getMinRow(), maxColumn, range.getMaxRow(), maxColumn);
 			for (int row = range.getMinRow(); row <= range.getMaxRow(); row++) {
 
 				// try to clear the target cell, exit if this is not possible
@@ -81,10 +80,9 @@ public class SpreadsheetModeProcessor {
 				// create new targetCell
 				if (isOK) {
 					GeoElement targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-					targetCell.setLabel(GeoElementSpreadsheet
-							.getSpreadsheetCellName(maxColumn, row));
-					createAutoFunctionCell(targetCell, new TabularRange(
-							row, range.getMinColumn(), row, maxColumn - 1));
+					targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(maxColumn, row));
+					createAutoFunctionCell(
+							targetCell, new TabularRange(row, range.getMinColumn(), row, maxColumn - 1));
 				}
 			}
 
@@ -95,8 +93,7 @@ public class SpreadsheetModeProcessor {
 			}
 		} else {
 			int maxRow = getMaxUsedRow(range) + 1;
-			targetRange = new TabularRange(maxRow, range.getMinColumn(),
-					maxRow, range.getMaxColumn());
+			targetRange = new TabularRange(maxRow, range.getMinColumn(), maxRow, range.getMaxColumn());
 			for (int col = range.getMinColumn(); col <= range.getMaxColumn(); col++) {
 
 				// try to clear the target cell, exit if this is not possible
@@ -105,8 +102,7 @@ public class SpreadsheetModeProcessor {
 				}
 				// create new targetCell
 				if (isOK) {
-					String cellName = GeoElementSpreadsheet
-							.getSpreadsheetCellName(col, maxRow);
+					String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(col, maxRow);
 					GeoElement cell = kernel.lookupLabel(cellName);
 					GeoElement targetCell;
 					if (cell == null) {
@@ -115,8 +111,8 @@ public class SpreadsheetModeProcessor {
 					} else {
 						targetCell = cell;
 					}
-					createAutoFunctionCell(targetCell, new TabularRange(range.getMinRow(), col,
-							maxRow - 1, col));
+					createAutoFunctionCell(
+							targetCell, new TabularRange(range.getMinRow(), col, maxRow - 1, col));
 				}
 			}
 
@@ -160,7 +156,7 @@ public class SpreadsheetModeProcessor {
 	/**
 	 * Creates an autofunction in the given target cell based on the current
 	 * autofunction mode and the given cell range.
-	 * 
+	 *
 	 * @param functionTargetCell
 	 *            target cell
 	 * @param range
@@ -173,19 +169,16 @@ public class SpreadsheetModeProcessor {
 
 		// Get the targetCell label and the selected cell range
 		String targetCellLabel = functionTargetCell.getLabelSimple();
-		String cellRangeString = CellRangeUtil.getCellRangeString(range, true,
-				app.getLocalization());
+		String cellRangeString = CellRangeUtil.getCellRangeString(range, true, app.getLocalization());
 
 		// Create a String expression for the new autofunction command geo
 		String cmd = cmdForMode();
 
-		String expr = targetCellLabel + " = " + cmd + "[" + cellRangeString
-				+ "]";
+		String expr = targetCellLabel + " = " + cmd + "[" + cellRangeString + "]";
 		Log.debug(expr);
 		// Create the new geo
 		if (!range.contains(functionTargetCell.getSpreadsheetCoords())) {
-			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr,
-					false);
+			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr, false);
 		} else {
 			functionTargetCell.setUndefined();
 			success = false;
@@ -217,8 +210,7 @@ public class SpreadsheetModeProcessor {
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
 		TabularRange firstSelection = table.getFirstSelection();
-		if (firstSelection != null && createAutoFunctionCell(targetCell,
-				firstSelection)) {
+		if (firstSelection != null && createAutoFunctionCell(targetCell, firstSelection)) {
 			// select the new geo
 			app.setMoveMode();
 			SpreadsheetCoords coords = targetCell.getSpreadsheetCoords();
@@ -229,7 +221,7 @@ public class SpreadsheetModeProcessor {
 
 	/**
 	 * Set target cell to a new number at given coords
-	 * 
+	 *
 	 * @param column
 	 *            column
 	 * @param row
@@ -237,10 +229,8 @@ public class SpreadsheetModeProcessor {
 	 */
 	public void initTargetCell(int column, int row) {
 		targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-		targetCell.setLabel(GeoElementSpreadsheet
-				.getSpreadsheetCellName(column, row));
+		targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
 		targetCell.setUndefined();
-
 	}
 
 	/**
@@ -253,15 +243,17 @@ public class SpreadsheetModeProcessor {
 			return;
 		}
 		TabularRange selection = table.getFirstSelection();
-		if (targetCell == null || selection == null || CellRangeUtil.isEmpty(selection, tableModel)
+		if (targetCell == null
+				|| selection == null
+				|| CellRangeUtil.isEmpty(selection, tableModel)
 				|| table.getTableMode() != MyTable.TABLE_MODE_AUTOFUNCTION) {
 			app.setMoveMode();
 			return;
 		}
 
 		// Get a string representation of the selected range (e.g. A1:B3)
-		String cellRangeString = CellRangeUtil
-				.getCellRangeString(selection, true, app.getLocalization());
+		String cellRangeString =
+				CellRangeUtil.getCellRangeString(selection, true, app.getLocalization());
 
 		// Build a String expression for the autofunction
 		String cmd = cmdForMode();
@@ -270,15 +262,19 @@ public class SpreadsheetModeProcessor {
 
 		// Evaluate the autofunction and put the result in targetCell
 		if (!selection.contains(targetCell.getSpreadsheetCoords())) {
-			((GeoNumeric) targetCell).setValue(
-					kernel.getAlgebraProcessor().evaluateToDouble(expr));
+			((GeoNumeric) targetCell).setValue(kernel.getAlgebraProcessor().evaluateToDouble(expr));
 		} else {
 			targetCell.setUndefined();
 		}
 	}
 
 	private boolean delete(int col1, int row1, int col2, int row2) {
-		return CopyPasteCut.delete(app, col1, row1, col2, row2,
+		return CopyPasteCut.delete(
+				app,
+				col1,
+				row1,
+				col2,
+				row2,
 				table == null ? SelectionType.CELLS : table.getSelectionType());
 	}
 }

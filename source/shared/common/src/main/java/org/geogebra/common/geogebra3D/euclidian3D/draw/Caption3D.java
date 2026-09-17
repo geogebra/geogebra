@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -107,8 +107,6 @@ public class Caption3D implements CaptionText {
 	 * Updates caption based on static or dynamic one is needed.
 	 */
 	public void update() {
-		caption = geo.hasDynamicCaption()
-				? dynamicCaption
-				: staticCaption;
+		caption = geo.hasDynamicCaption() ? dynamicCaption : staticCaption;
 	}
 }

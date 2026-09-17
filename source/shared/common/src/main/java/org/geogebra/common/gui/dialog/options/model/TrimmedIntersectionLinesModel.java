@@ -21,15 +21,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class TrimmedIntersectionLinesModel extends BooleanOptionModel {
-	public TrimmedIntersectionLinesModel(IBooleanOptionListener listener,
-			App app) {
+	public TrimmedIntersectionLinesModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
 	}
 
 	@Override
 	public boolean isValidAt(int index) {
-		return getGeoAt(index)
-				.getParentAlgorithm() instanceof AlgoIntersectAbstract;
+		return getGeoAt(index).getParentAlgorithm() instanceof AlgoIntersectAbstract;
 	}
 
 	@Override
@@ -46,7 +44,6 @@ public class TrimmedIntersectionLinesModel extends BooleanOptionModel {
 		geo.getParentAlgorithm().getInput()[0].updateRepaint();
 		geo.getParentAlgorithm().getInput()[1].updateRepaint();
 		geo.updateRepaint();
-
 	}
 
 	@Override

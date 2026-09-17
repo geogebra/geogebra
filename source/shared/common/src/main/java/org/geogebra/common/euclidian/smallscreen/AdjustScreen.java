@@ -22,7 +22,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 /**
  * Checks if the original screen was bigger when file was saved or not. If so,
  * some widgets needs to be adjusted to fit the smaller screen.
- * 
+ *
  * @author laszlo
  *
  */
@@ -30,7 +30,7 @@ public class AdjustScreen {
 
 	/**
 	 * Adjust the coordinate system to the screen size
-	 * 
+	 *
 	 * @param view
 	 *            {@link EuclidianView}
 	 */

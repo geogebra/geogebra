@@ -73,8 +73,8 @@ public class QuickStyleBarModel {
 	private final PropertyValueObserver<?> hideSubmenuOnValueChange = property -> hideSubmenu();
 
 	/** A button of the quick style bar, opening a submenu or toggling a value when pressed. */
-	public sealed interface Button permits Button.Color, Button.LineStyle,
-			Button.PointStyle, Button.Opacity, Button.Fixing {
+	public sealed interface Button
+			permits Button.Color, Button.LineStyle, Button.PointStyle, Button.Opacity, Button.Fixing {
 		/** Opens the color submenu. */
 		record Color() implements Button {}
 
@@ -109,8 +109,11 @@ public class QuickStyleBarModel {
 	 * @param localization localization for property names
 	 * @param positioner calculates the popup position on the canvas
 	 */
-	public QuickStyleBarModel(App app, GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, StylebarPositioner positioner) {
+	public QuickStyleBarModel(
+			App app,
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			StylebarPositioner positioner) {
 		this.app = app;
 		this.localization = localization;
 		this.positioner = positioner;
@@ -258,7 +261,7 @@ public class QuickStyleBarModel {
 	private void hideSubmenu() {
 		setSubmenuItems(null);
 		setSelectedButtonIndex(null);
-		
+
 		if (submenuProperties != null) {
 			for (Property property : submenuProperties.getProperties()) {
 				if (property instanceof ValuedProperty<?> valuedProperty
@@ -272,8 +275,8 @@ public class QuickStyleBarModel {
 
 	private PropertiesArray createPropertiesArray(Button button) {
 		if (button instanceof Button.Color) {
-			return propertiesFactory.createObjectColorProperties(localization, elements,
-					DefaultColorValues.BRIGHT_STYLE_BAR);
+			return propertiesFactory.createObjectColorProperties(
+					localization, elements, DefaultColorValues.BRIGHT_STYLE_BAR);
 		} else if (button instanceof Button.LineStyle) {
 			return propertiesFactory.createLineStyleProperties(localization, elements);
 		} else if (button instanceof Button.PointStyle) {
@@ -289,8 +292,9 @@ public class QuickStyleBarModel {
 			return Collections.emptyList();
 		}
 		ArrayList<Button> buttons = new ArrayList<>();
-		if (propertiesFactory.createObjectColorProperty(localization, elements,
-				DefaultColorValues.BRIGHT_STYLE_BAR) != null) {
+		if (propertiesFactory.createObjectColorProperty(
+						localization, elements, DefaultColorValues.BRIGHT_STYLE_BAR)
+				!= null) {
 			buttons.add(new Button.Color());
 		}
 		if (propertiesFactory.createImageOpacityProperty(localization, elements) != null
@@ -300,14 +304,14 @@ public class QuickStyleBarModel {
 		IconsEnumeratedProperty<?> pointStyleProperty =
 				propertiesFactory.createPointStyleProperty(localization, elements);
 		if (pointStyleProperty != null) {
-			buttons.add(new Button.PointStyle(
-					pointStyleProperty.getValueIcons()[pointStyleProperty.getIndex()]));
+			buttons.add(
+					new Button.PointStyle(pointStyleProperty.getValueIcons()[pointStyleProperty.getIndex()]));
 		}
 		IconsEnumeratedProperty<?> lineStyleProperty =
 				propertiesFactory.createLineStyleProperty(localization, elements);
 		if (lineStyleProperty != null) {
-			buttons.add(new Button.LineStyle(
-					lineStyleProperty.getValueIcons()[lineStyleProperty.getIndex()]));
+			buttons.add(
+					new Button.LineStyle(lineStyleProperty.getValueIcons()[lineStyleProperty.getIndex()]));
 		}
 		isFixedProperty = propertiesFactory.createIsFixedObjectProperty(localization, elements);
 		if (isFixedProperty != null

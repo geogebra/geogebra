@@ -43,8 +43,9 @@ public final class PieChartRadiusProperty extends AbstractNumericProperty {
 	 * @param element a {@link GeoPieChart} element
 	 * @throws NotApplicablePropertyException if the element is not a {@link GeoPieChart}
 	 */
-	public PieChartRadiusProperty(AlgebraProcessor algebraProcessor, Localization localization,
-			GeoElement element) throws NotApplicablePropertyException {
+	public PieChartRadiusProperty(
+			AlgebraProcessor algebraProcessor, Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(algebraProcessor, localization, "Radius");
 		if (!(element instanceof GeoPieChart geoPieChart
 				&& element.getParentAlgorithm() instanceof AlgoPieChart algoPieChart)) {
@@ -57,19 +58,22 @@ public final class PieChartRadiusProperty extends AbstractNumericProperty {
 	@Override
 	protected void setNumberValue(GeoNumberValue value) {
 		String newRadiusStr = value.getLabel(StringTemplate.editTemplate);
-		CommandRedefineHelper.redefineWithParam(geoPieChart, algoPieChart,
-                algoPieChart.getRadiusParamIndex(), newRadiusStr,
-                geoPieChart.getKernel().getApplication());
+		CommandRedefineHelper.redefineWithParam(
+				geoPieChart,
+				algoPieChart,
+				algoPieChart.getRadiusParamIndex(),
+				newRadiusStr,
+				geoPieChart.getKernel().getApplication());
 	}
 
 	@Override
 	protected NumberValue getNumberValue() {
-        int radiusParamIndex = algoPieChart.getRadiusParamIndex();
-        if (algoPieChart.getInputLength() >= radiusParamIndex + 1
-                && algoPieChart.getInput(radiusParamIndex) instanceof NumberValue radiusParameter) {
-            return radiusParameter;
-        } else {
-            return new MyDouble(geoPieChart.getKernel(), geoPieChart.getRadius());
-        }
+		int radiusParamIndex = algoPieChart.getRadiusParamIndex();
+		if (algoPieChart.getInputLength() >= radiusParamIndex + 1
+				&& algoPieChart.getInput(radiusParamIndex) instanceof NumberValue radiusParameter) {
+			return radiusParameter;
+		} else {
+			return new MyDouble(geoPieChart.getKernel(), geoPieChart.getRadius());
+		}
 	}
 }

@@ -47,23 +47,23 @@ import com.google.j2objc.annotations.Property;
 public final class SuiteScope implements PropertyValueObserver {
 
 	@Property
-	public final @NonNull GeoElementPropertiesFactory geoElementPropertiesFactory
-			= new GeoElementPropertiesFactory();
-	@Property
-	public final @NonNull RestrictionsController restrictionsController
-			= new RestrictionsController();
-	@Property
-	public final @NonNull ExamController examController
-			= new ExamController(restrictionsController);
+	public final @NonNull GeoElementPropertiesFactory geoElementPropertiesFactory =
+			new GeoElementPropertiesFactory();
 
-    final Set<App> apps = new HashSet<>();
+	@Property
+	public final @NonNull RestrictionsController restrictionsController =
+			new RestrictionsController();
+
+	@Property
+	public final @NonNull ExamController examController = new ExamController(restrictionsController);
+
+	final Set<App> apps = new HashSet<>();
 	private final Map<App, LanguageProperty> languageProperties = new HashMap<>();
 
 	/**
 	 * Prevent instantiation outside package.
 	 */
-	SuiteScope() {
-	}
+	SuiteScope() {}
 
 	/**
 	 * Register an app instance with this suite scope. It's Ok to register an app instance more

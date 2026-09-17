@@ -71,12 +71,11 @@ public enum FileExtensions {
 
 	GEOGEBRA_TOOL("ggt", false, false);
 
-	final private boolean allowedImage;
-	final private boolean isImage;
-	final private String ext;
+	private final boolean allowedImage;
+	private final boolean isImage;
+	private final String ext;
 
-	FileExtensions(String extension, boolean allowedImage,
-			boolean isImage) {
+	FileExtensions(String extension, boolean allowedImage, boolean isImage) {
 		this.allowedImage = allowedImage;
 		this.isImage = isImage;
 		this.ext = extension;

@@ -26,13 +26,13 @@ import java.util.Properties;
  * @author Mark Donszelmann
  * @version $Id: UserProperties.java,v 1.4 2009-06-22 02:18:20 hohenwarter Exp $
  */
-
 public class UserProperties extends Properties {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 3297483251864528952L;
+
 	protected Properties altDefaults;
 
 	public UserProperties() {
@@ -59,12 +59,11 @@ public class UserProperties extends Properties {
 
 		List list = new ArrayList();
 
-		for (Enumeration e = super.propertyNames(); e.hasMoreElements();) {
+		for (Enumeration e = super.propertyNames(); e.hasMoreElements(); ) {
 			list.add(e.nextElement());
 		}
 		if (altDefaults != null) {
-			for (Enumeration e = altDefaults.propertyNames(); e
-					.hasMoreElements();) {
+			for (Enumeration e = altDefaults.propertyNames(); e.hasMoreElements(); ) {
 				list.add(e.nextElement());
 			}
 		}
@@ -76,7 +75,7 @@ public class UserProperties extends Properties {
 	 * Copies properties, including its defaults into this UserProperties
 	 */
 	public void setProperties(Properties properties) {
-		for (Enumeration e = properties.propertyNames(); e.hasMoreElements();) {
+		for (Enumeration e = properties.propertyNames(); e.hasMoreElements(); ) {
 			String key = (String) e.nextElement();
 			setProperty(key, properties.getProperty(key));
 		}
@@ -94,8 +93,7 @@ public class UserProperties extends Properties {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			String[] value) {
+	public static Object setProperty(Properties properties, String key, String[] value) {
 		if (value == null) {
 			return properties.setProperty(key, "null");
 		}
@@ -114,48 +112,45 @@ public class UserProperties extends Properties {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			Color value) {
+	public static Object setProperty(Properties properties, String key, Color value) {
 		if (value == null) {
 			return properties.setProperty(key, "null");
 		}
-		return properties.setProperty(key,
-				value.getRed() + ", " + value.getGreen() + ", "
-						+ value.getBlue() + ", " + value.getAlpha());
+		return properties.setProperty(
+				key,
+				value.getRed() + ", " + value.getGreen() + ", " + value.getBlue() + ", "
+						+ value.getAlpha());
 	}
 
 	public Object setProperty(String key, Rectangle value) {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			Rectangle value) {
+	public static Object setProperty(Properties properties, String key, Rectangle value) {
 		if (value == null) {
 			return properties.setProperty(key, "null");
 		}
-		return properties.setProperty(key, value.x + ", " + value.y + ", "
-				+ value.width + ", " + value.height);
+		return properties.setProperty(
+				key, value.x + ", " + value.y + ", " + value.width + ", " + value.height);
 	}
 
 	public Object setProperty(String key, Insets value) {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			Insets value) {
+	public static Object setProperty(Properties properties, String key, Insets value) {
 		if (value == null) {
 			return properties.setProperty(key, "null");
 		}
-		return properties.setProperty(key, value.top + ", " + value.left + ", "
-				+ value.bottom + ", " + value.right);
+		return properties.setProperty(
+				key, value.top + ", " + value.left + ", " + value.bottom + ", " + value.right);
 	}
 
 	public Object setProperty(String key, Dimension value) {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			Dimension value) {
+	public static Object setProperty(Properties properties, String key, Dimension value) {
 		if (value == null) {
 			return properties.setProperty(key, "null");
 		}
@@ -166,8 +161,7 @@ public class UserProperties extends Properties {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			int value) {
+	public static Object setProperty(Properties properties, String key, int value) {
 		return properties.setProperty(key, Integer.toString(value));
 	}
 
@@ -175,8 +169,7 @@ public class UserProperties extends Properties {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			double value) {
+	public static Object setProperty(Properties properties, String key, double value) {
 		return properties.setProperty(key, Double.toString(value));
 	}
 
@@ -184,8 +177,7 @@ public class UserProperties extends Properties {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			float value) {
+	public static Object setProperty(Properties properties, String key, float value) {
 		return properties.setProperty(key, Float.toString(value));
 	}
 
@@ -193,8 +185,7 @@ public class UserProperties extends Properties {
 		return setProperty(this, key, value);
 	}
 
-	public static Object setProperty(Properties properties, String key,
-			boolean value) {
+	public static Object setProperty(Properties properties, String key, boolean value) {
 		return properties.setProperty(key, Boolean.toString(value));
 	}
 
@@ -240,8 +231,11 @@ public class UserProperties extends Properties {
 		}
 
 		String[] r = s.split(", ");
-		return new Color(Integer.parseInt(r[0]), Integer.parseInt(r[1]),
-				Integer.parseInt(r[2]), Integer.parseInt(r[3]));
+		return new Color(
+				Integer.parseInt(r[0]),
+				Integer.parseInt(r[1]),
+				Integer.parseInt(r[2]),
+				Integer.parseInt(r[3]));
 	}
 
 	public Rectangle getPropertyRectangle(String key) {
@@ -258,8 +252,11 @@ public class UserProperties extends Properties {
 		}
 
 		String[] r = s.split(", ");
-		return new Rectangle(Integer.parseInt(r[0]), Integer.parseInt(r[1]),
-				Integer.parseInt(r[2]), Integer.parseInt(r[3]));
+		return new Rectangle(
+				Integer.parseInt(r[0]),
+				Integer.parseInt(r[1]),
+				Integer.parseInt(r[2]),
+				Integer.parseInt(r[3]));
 	}
 
 	public Insets getPropertyInsets(String key) {
@@ -276,8 +273,11 @@ public class UserProperties extends Properties {
 		}
 
 		String[] r = s.split(", ");
-		return new Insets(Integer.parseInt(r[0]), Integer.parseInt(r[1]),
-				Integer.parseInt(r[2]), Integer.parseInt(r[3]));
+		return new Insets(
+				Integer.parseInt(r[0]),
+				Integer.parseInt(r[1]),
+				Integer.parseInt(r[2]),
+				Integer.parseInt(r[3]));
 	}
 
 	public Dimension getPropertyDimension(String key) {
@@ -329,5 +329,4 @@ public class UserProperties extends Properties {
 	public boolean isProperty(String key, boolean def) {
 		return Boolean.parseBoolean(getProperty(key, Boolean.toString(def)));
 	}
-
 }

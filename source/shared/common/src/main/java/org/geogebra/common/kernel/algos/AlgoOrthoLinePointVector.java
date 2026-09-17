@@ -39,7 +39,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 
 	/**
 	 * Creates new algo for PerpendicularLine[point, vector]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -49,8 +49,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 	 * @param v
 	 *            perpendicular vector
 	 */
-	public AlgoOrthoLinePointVector(Construction cons, String label, GeoPoint P,
-			GeoVector v) {
+	public AlgoOrthoLinePointVector(Construction cons, String label, GeoPoint P, GeoVector v) {
 		super(cons);
 		this.P = P;
 		this.v = v;
@@ -67,7 +66,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -129,9 +128,11 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("LineThroughAPerpendicularToB",
-				"Line through %0 perpendicular to %1",
-				P.getLabel(tpl), v.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"LineThroughAPerpendicularToB",
+						"Line through %0 perpendicular to %1",
+						P.getLabel(tpl),
+						v.getLabel(tpl));
 	}
-
 }

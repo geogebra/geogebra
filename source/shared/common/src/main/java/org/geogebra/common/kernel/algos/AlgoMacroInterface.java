@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public interface AlgoMacroInterface {
 	/**
 	 * Replace references to macro geos in function
-	 * 
+	 *
 	 * @param f
 	 *            function
 	 */
@@ -35,7 +35,7 @@ public interface AlgoMacroInterface {
 
 	/**
 	 * Replace references to macro geos in list
-	 * 
+	 *
 	 * @param l
 	 *            macro list
 	 * @param geoList
@@ -45,7 +45,7 @@ public interface AlgoMacroInterface {
 
 	/**
 	 * Compares drawing priority of two elements
-	 * 
+	 *
 	 * @param geoElement
 	 *            first element
 	 * @param other

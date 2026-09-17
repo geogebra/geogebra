@@ -34,6 +34,7 @@ public class CompatibilityLayout {
 	 * #1/#2.
 	 */
 	protected int sp1;
+
 	protected int sp2;
 
 	/**
@@ -59,9 +60,8 @@ public class CompatibilityLayout {
 	 *            app
 	 */
 	public void update(Perspective tmp_perspective, App app) {
-		int splitOrientation = spHorizontal
-				? SwingConstants.HORIZONTAL_SPLIT
-				: SwingConstants.VERTICAL_SPLIT;
+		int splitOrientation =
+				spHorizontal ? SwingConstants.HORIZONTAL_SPLIT : SwingConstants.VERTICAL_SPLIT;
 		String defEV, defSV, defAV;
 		// we have to create the definitions for the single views manually to
 		// prevent nullpointers
@@ -114,11 +114,9 @@ public class CompatibilityLayout {
 		int ssize = 200;
 		if (showSpreadsheet) {
 			if (splitOrientation == SwingConstants.HORIZONTAL_SPLIT) {
-				ssize = app.getSettings().getSpreadsheet().preferredSize()
-						.getWidth();
+				ssize = app.getSettings().getSpreadsheet().preferredSize().getWidth();
 			} else {
-				ssize = app.getSettings().getSpreadsheet().preferredSize()
-						.getHeight();
+				ssize = app.getSettings().getSpreadsheet().preferredSize().getHeight();
 			}
 		}
 
@@ -126,17 +124,34 @@ public class CompatibilityLayout {
 		// didn't
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
-				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
-						AwtFactory.getPrototype().newRectangle(400, 400), defEV,
-						width),
-				new DockPanelData(App.VIEW_ALGEBRA, null, showAlgebra,
-						false, false,
-						AwtFactory.getPrototype().newRectangle(200, 400), defAV,
-						(showAlgebra && sp2 > 0) ? sp2 : 200),
-				new DockPanelData(App.VIEW_SPREADSHEET, null,
-						showSpreadsheet, false, false,
-						AwtFactory.getPrototype().newRectangle(400, 400), defSV,
-						ssize) };
+			new DockPanelData(
+					App.VIEW_EUCLIDIAN,
+					null,
+					true,
+					false,
+					false,
+					AwtFactory.getPrototype().newRectangle(400, 400),
+					defEV,
+					width),
+			new DockPanelData(
+					App.VIEW_ALGEBRA,
+					null,
+					showAlgebra,
+					false,
+					false,
+					AwtFactory.getPrototype().newRectangle(200, 400),
+					defAV,
+					(showAlgebra && sp2 > 0) ? sp2 : 200),
+			new DockPanelData(
+					App.VIEW_SPREADSHEET,
+					null,
+					showSpreadsheet,
+					false,
+					false,
+					AwtFactory.getPrototype().newRectangle(400, 400),
+					defSV,
+					ssize)
+		};
 		tmp_perspective.setDockPanelData(dpXml);
 		tmp_perspective.setShowToolBar(true);
 
@@ -161,27 +176,25 @@ public class CompatibilityLayout {
 
 		// use two split panes in case all three views are visible
 		if (showSpreadsheet && showAlgebra) {
-			int total = splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width : height;
+			int total = splitOrientation == SwingConstants.HORIZONTAL_SPLIT ? width : height;
 			double relative1 = (double) sp2 / total;
 			double relative2 = (double) sp1 / (total - sp2);
 			spXml = new DockSplitPaneData[] {
-					new DockSplitPaneData("", relative1, splitOrientation),
-					new DockSplitPaneData(
-							splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-									? "1" : "2",
-							relative2, splitOrientation) };
+				new DockSplitPaneData("", relative1, splitOrientation),
+				new DockSplitPaneData(
+						splitOrientation == SwingConstants.HORIZONTAL_SPLIT ? "1" : "2",
+						relative2,
+						splitOrientation)
+			};
 		} else {
-			int total = splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width : height;
+			int total = splitOrientation == SwingConstants.HORIZONTAL_SPLIT ? width : height;
 			double relative;
 			if (showSpreadsheet) {
 				relative = sp1 / (double) total;
 			} else {
 				relative = sp2 / (double) total;
 			}
-			spXml = new DockSplitPaneData[] {
-					new DockSplitPaneData("", relative, splitOrientation) };
+			spXml = new DockSplitPaneData[] {new DockSplitPaneData("", relative, splitOrientation)};
 		}
 
 		// additional space for toolbar and others, we add this here
@@ -200,7 +213,7 @@ public class CompatibilityLayout {
 
 	/**
 	 * Kept for backward compatibility with version &lt; 3.3
-	 * 
+	 *
 	 * @param attrs
 	 *            split attributes
 	 * @return success
@@ -217,7 +230,7 @@ public class CompatibilityLayout {
 			if (attrs.get("loc2") == null) {
 				attrs.put("loc2", attrs.get("loc"));
 				attrs.put("loc", "0"); // prevent NP exception in
-										// Integer.parseInt()
+				// Integer.parseInt()
 			}
 
 			if (spHorizontal) {

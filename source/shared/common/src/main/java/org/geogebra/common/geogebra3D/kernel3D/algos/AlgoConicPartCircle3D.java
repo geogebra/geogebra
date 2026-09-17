@@ -49,7 +49,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	/**
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -63,8 +63,12 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	 * @param type
 	 *            arc type
 	 */
-	public AlgoConicPartCircle3D(Construction cons, String label,
-			GeoPointND center, GeoPointND startPoint, GeoPointND endPoint,
+	public AlgoConicPartCircle3D(
+			Construction cons,
+			String label,
+			GeoPointND center,
+			GeoPointND startPoint,
+			GeoPointND endPoint,
 			int type) {
 		this(cons, label, center, startPoint, endPoint, null, type);
 	}
@@ -85,24 +89,33 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	 * @param type
 	 *            arc type
 	 */
-	public AlgoConicPartCircle3D(Construction cons, String label,
-			GeoPointND center, GeoPointND startPoint, GeoPointND endPoint,
-			GeoDirectionND orientation, int type) {
+	public AlgoConicPartCircle3D(
+			Construction cons,
+			String label,
+			GeoPointND center,
+			GeoPointND startPoint,
+			GeoPointND endPoint,
+			GeoDirectionND orientation,
+			int type) {
 		this(cons, center, startPoint, endPoint, orientation, type);
 		conicPart.setLabel(label);
 	}
 
-	private AlgoConicPartCircle3D(Construction cons, GeoPointND center,
-			GeoPointND startPoint, GeoPointND endPoint,
-			GeoDirectionND orientation, int type) {
+	private AlgoConicPartCircle3D(
+			Construction cons,
+			GeoPointND center,
+			GeoPointND startPoint,
+			GeoPointND endPoint,
+			GeoDirectionND orientation,
+			int type) {
 		super(cons, type);
 		this.center = center;
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 
 		// create circle with center through startPoint
-		AlgoCircle3DCenterPointPoint algo = new AlgoCircle3DCenterPointPoint(
-				cons, center, startPoint, endPoint);
+		AlgoCircle3DCenterPointPoint algo =
+				new AlgoCircle3DCenterPointPoint(cons, center, startPoint, endPoint);
 		cons.removeFromConstructionList(algo);
 		conic = algo.getCircle();
 
@@ -131,7 +144,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 
 	/**
 	 * set orientation for the arc/sector
-	 * 
+	 *
 	 * @param orientation
 	 *            orientation
 	 */
@@ -189,7 +202,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 
 	/**
 	 * set input
-	 * 
+	 *
 	 * @param n
 	 *            input length
 	 */
@@ -202,7 +215,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 
 	/**
 	 * set arc/sector when center is aligned between start and end points
-	 * 
+	 *
 	 * @param center1
 	 *            center coords
 	 * @param v1
@@ -236,13 +249,11 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		}
 
 		// the temp points P and Q should lie on the conic
-		startPoint.getInhomCoordsInD3()
-				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
+		startPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramP);
 
-		endPoint.getInhomCoordsInD3()
-				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
+		endPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramQ);
 
@@ -252,7 +263,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 
 	/**
 	 * set conic part coord sys and parameters
-	 * 
+	 *
 	 * @param start
 	 *            start parameter
 	 * @param end
@@ -260,12 +271,11 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	 */
 	protected void setConicPart(double start, double end) {
 		conicPart.set(conic);
-		((GeoConicPartND) conicPart).setParameters(start, end,
-				getPositiveOrientation());
+		((GeoConicPartND) conicPart).setParameters(start, end, getPositiveOrientation());
 	}
 
 	/**
-	 * 
+	 *
 	 * @return positive orientation
 	 */
 	protected boolean getPositiveOrientation() {
@@ -276,5 +286,4 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	public GeoConicPart3D getConicPart() {
 		return (GeoConicPart3D) super.getConicPart();
 	}
-
 }

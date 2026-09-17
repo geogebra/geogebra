@@ -128,5 +128,4 @@ public interface GRectangle extends GRectangle2D {
 	 * @param height height
 	 */
 	void setSize(int width, int height);
-
 }

@@ -46,8 +46,7 @@ class KnownIntervalPlotBugsTest extends BaseAppTestSetup {
 		withScreenSize(200, 200);
 		withFunction("ln(cosh(x))");
 
-		assertEquals(0, gp.getLog().stream()
-				.filter(e -> Double.isInfinite(e.y())).count());
+		assertEquals(0, gp.getLog().stream().filter(e -> Double.isInfinite(e.y())).count());
 		assertTrue(hasFinitePoint(-690, 650, false), gp.getLog().toString());
 		assertTrue(hasFinitePoint(690, 650, true), gp.getLog().toString());
 	}
@@ -58,33 +57,28 @@ class KnownIntervalPlotBugsTest extends BaseAppTestSetup {
 		withScreenSize(1200, 900);
 		withFunction("ln(e^x)");
 
-		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -1000),
-				gp.getLog().toString());
+		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -1000), gp.getLog().toString());
 		assertTrue(hasFinitePoint(-700, -800, false), gp.getLog().toString());
 		assertTrue(hasFinitePoint(700, 600, true), gp.getLog().toString());
 	}
 
 	@ParameterizedTest
-	@CsvSource({
-			"ln(ln(exp(exp(x))))",
-			"ln(ln(e^(e^x)))"
-	})
+	@CsvSource({"ln(ln(exp(exp(x))))", "ln(ln(e^(e^x)))"})
 	void nestedLnExpShouldNotProduceFalseNegativeInfinityRay(String definition) {
 		withBounds(-1000, 1000, -1000, 1000);
 		withScreenSize(625, 443);
 		withFunction(definition);
 
-		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -2000),
-				gp.getLog().toString());
+		assertFalse(gp.getLog().stream().anyMatch(e -> e.y() < -2000), gp.getLog().toString());
 		assertTrue(hasFinitePoint(-900, -950, false), gp.getLog().toString());
 		assertTrue(hasFinitePoint(900, 850, true), gp.getLog().toString());
 	}
 
-	private boolean hasFinitePoint(double xThreshold, double yThreshold,
-			boolean positiveSide) {
-		return gp.getLog().stream().anyMatch(e -> Double.isFinite(e.y())
-				&& (positiveSide ? e.x() > xThreshold : e.x() < xThreshold)
-				&& e.y() > yThreshold);
+	private boolean hasFinitePoint(double xThreshold, double yThreshold, boolean positiveSide) {
+		return gp.getLog().stream()
+				.anyMatch(e -> Double.isFinite(e.y())
+						&& (positiveSide ? e.x() > xThreshold : e.x() < xThreshold)
+						&& e.y() > yThreshold);
 	}
 
 	private void withBounds(double xmin, double xmax, double ymin, double ymax) {

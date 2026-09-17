@@ -27,11 +27,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Mode of a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-16
  */
-
 public class AlgoMode extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -144,7 +143,5 @@ public class AlgoMode extends AlgoElement {
 				val = sortList[i];
 			}
 		}
-
 	}
-
 }

@@ -49,8 +49,7 @@ public class AlgoToComplexPolar extends AlgoElement {
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons,
-			GeoPoint geoPoint, int coordStyle) {
+	public AlgoToComplexPolar(Construction cons, GeoPoint geoPoint, int coordStyle) {
 		super(cons);
 		inPoint = geoPoint;
 		outPoint = new GeoPoint(cons);
@@ -65,8 +64,7 @@ public class AlgoToComplexPolar extends AlgoElement {
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons, GeoList geoList,
-			int coordStyle) {
+	public AlgoToComplexPolar(Construction cons, GeoList geoList, int coordStyle) {
 		super(cons);
 		inList = geoList;
 		outPoint = new GeoPoint(cons);
@@ -81,8 +79,7 @@ public class AlgoToComplexPolar extends AlgoElement {
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons,
-			GeoNumberValue geoNum, int coordStyle) {
+	public AlgoToComplexPolar(Construction cons, GeoNumberValue geoNum, int coordStyle) {
 		super(cons);
 		inNumber = geoNum;
 		outPoint = new GeoPoint(cons);
@@ -97,8 +94,7 @@ public class AlgoToComplexPolar extends AlgoElement {
 	 * @param coordStyle
 	 *            Kernel.COORD_COMPLEX or COORD_POLAR
 	 */
-	public AlgoToComplexPolar(Construction cons,
-			GeoVector geoVector, int coordStyle) {
+	public AlgoToComplexPolar(Construction cons, GeoVector geoVector, int coordStyle) {
 		super(cons);
 		inVector = geoVector;
 		outVector = new GeoVector(cons);
@@ -116,13 +112,13 @@ public class AlgoToComplexPolar extends AlgoElement {
 	protected void setInputOutput() {
 		if (inVector != null) {
 			setOnlyOutput(outVector);
-			input = new GeoElement[] { inVector };
+			input = new GeoElement[] {inVector};
 		} else if (inNumber != null) {
 			setOnlyOutput(outPoint);
-			input = new GeoElement[] { inNumber.toGeoElement() };
+			input = new GeoElement[] {inNumber.toGeoElement()};
 		} else {
 			setOnlyOutput(outPoint);
-			input = new GeoElement[] { inPoint == null ? inList : inPoint };
+			input = new GeoElement[] {inPoint == null ? inList : inPoint};
 		}
 		setDependencies();
 	}
@@ -144,20 +140,19 @@ public class AlgoToComplexPolar extends AlgoElement {
 			outPoint.setMode(coordStyle);
 			return;
 		}
-		outPoint.setCoords(inList.get(0).evaluateDouble(),
-				inList.get(1).evaluateDouble(), 1);
+		outPoint.setCoords(inList.get(0).evaluateDouble(), inList.get(1).evaluateDouble(), 1);
 		outPoint.setMode(coordStyle);
 	}
 
 	@Override
 	public Commands getClassName() {
 		switch (coordStyle) {
-		case Kernel.COORD_COMPLEX:
-			return Commands.ToComplex;
-		case Kernel.COORD_POLAR:
-			return Commands.ToPolar;
-		default:
-			return Commands.ToPoint;
+			case Kernel.COORD_COMPLEX:
+				return Commands.ToComplex;
+			case Kernel.COORD_POLAR:
+				return Commands.ToPolar;
+			default:
+				return Commands.ToPoint;
 		}
 	}
 
@@ -167,5 +162,4 @@ public class AlgoToComplexPolar extends AlgoElement {
 	public GeoElement getResult() {
 		return inVector == null ? outPoint : outVector;
 	}
-
 }

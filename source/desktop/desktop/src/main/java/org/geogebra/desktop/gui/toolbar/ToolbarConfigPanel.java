@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -58,12 +58,11 @@ import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Toolbar configuration panel.
- * 
+ *
  * @author Markus Hohenwarter, based on a dialog from geonext.de
- * 
+ *
  */
-public class ToolbarConfigPanel extends JPanel
-		implements ActionListener, TreeExpansionListener {
+public class ToolbarConfigPanel extends JPanel implements ActionListener, TreeExpansionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -87,7 +86,7 @@ public class ToolbarConfigPanel extends JPanel
 
 	/**
 	 * Creates new toolbar config panel.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -105,14 +104,12 @@ public class ToolbarConfigPanel extends JPanel
 		toolListModel = new DefaultListModel<>();
 		toolList = new JList<>(toolListModel);
 
-		setToolbar(null,
-				((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
+		setToolbar(null, ((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
 
 		configScrollPane = new JScrollPane(tree);
 		configScrollPane.setHorizontalScrollBarPolicy(
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		configScrollPane.setVerticalScrollBarPolicy(
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		configScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		// configScrollPane.setSize(150, 150);
 		JPanel scrollSpacePanel = new JPanel();
 		scrollSpacePanel.setLayout(new BorderLayout(0, 0));
@@ -123,8 +120,7 @@ public class ToolbarConfigPanel extends JPanel
 		scrollPanel.setBorder(new TitledBorder(loc.getMenu("Toolbar")));
 		scrollPanel.add(scrollSpacePanel, BorderLayout.CENTER);
 
-		scrollPanel.setPreferredSize(
-				new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
+		scrollPanel.setPreferredSize(new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
 		//
 		selectionPanel.add(scrollPanel, loc.borderWest());
 		//
@@ -178,10 +174,8 @@ public class ToolbarConfigPanel extends JPanel
 		lsm.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		toolList.setBackground(SystemColor.text);
 		modeScrollPane = new JScrollPane(toolList);
-		modeScrollPane.setHorizontalScrollBarPolicy(
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		modeScrollPane.setVerticalScrollBarPolicy(
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		modeScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		modeScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		toolList.setCellRenderer(new ModeCellRenderer(app));
 		toolList.setSelectedIndex(0);
 		//
@@ -192,8 +186,7 @@ public class ToolbarConfigPanel extends JPanel
 		modeSpacePanel.add("Center", modeScrollPane);
 
 		modePanel.add("Center", modeSpacePanel);
-		modePanel.setPreferredSize(
-				new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
+		modePanel.setPreferredSize(new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
 		selectionPanel.add("East", modePanel);
 		add("Center", selectionPanel);
 
@@ -217,8 +210,7 @@ public class ToolbarConfigPanel extends JPanel
 			selPath = tree.getSelectionPath();
 		}
 		DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-		DefaultMutableTreeNode selNode = (DefaultMutableTreeNode) selPath
-				.getLastPathComponent();
+		DefaultMutableTreeNode selNode = (DefaultMutableTreeNode) selPath.getLastPathComponent();
 		// remember row number
 		int selRow = tree.getRowForPath(selPath);
 
@@ -242,8 +234,8 @@ public class ToolbarConfigPanel extends JPanel
 					}
 				} else {
 					for (int i = 0; i < selNode.getChildCount(); i++) {
-						Integer mode = (Integer) ((DefaultMutableTreeNode) selNode
-								.getChildAt(i)).getUserObject();
+						Integer mode =
+								(Integer) ((DefaultMutableTreeNode) selNode.getChildAt(i)).getUserObject();
 						if (!Objects.equals(mode, ToolBar.SEPARATOR)) {
 							toolListModel.addElement(mode);
 						}
@@ -273,13 +265,11 @@ public class ToolbarConfigPanel extends JPanel
 			childIndex++;
 
 			boolean didInsert = false;
-			Integer[] tools = toolList.getSelectedValuesList()
-					.toArray(new Integer[0]);
+			Integer[] tools = toolList.getSelectedValuesList().toArray(new Integer[0]);
 			for (int i = 0; i < tools.length; i++) {
 				// check if too is already there
 				Integer modeInt = tools[i];
-				if (modeInt > -1
-						&& containsTool(root, tools[i])) {
+				if (modeInt > -1 && containsTool(root, tools[i])) {
 					continue;
 				}
 
@@ -314,8 +304,8 @@ public class ToolbarConfigPanel extends JPanel
 				tree.setSelectionRow(++selRow);
 				tree.scrollRowToVisible(selRow);
 				configScrollPane.getHorizontalScrollBar().setValue(0); // scroll
-																		// to
-																		// left
+				// to
+				// left
 
 				// sort tool list
 				sortToolList();
@@ -362,8 +352,7 @@ public class ToolbarConfigPanel extends JPanel
 		}
 
 		if (node.getChildCount() >= 0) {
-			for (Enumeration<TreeNode> e = node.children(); e
-					.hasMoreElements();) {
+			for (Enumeration<TreeNode> e = node.children(); e.hasMoreElements(); ) {
 				TreeNode n = e.nextElement();
 				if (containsTool(n, mode)) {
 					return true;
@@ -376,7 +365,7 @@ public class ToolbarConfigPanel extends JPanel
 	/**
 	 * Inits the toolbar tree in this panel to show the given toolbar definition
 	 * string.
-	 * 
+	 *
 	 * @param dockPanel
 	 *            dock panel
 	 * @param toolbarDefinition
@@ -392,23 +381,21 @@ public class ToolbarConfigPanel extends JPanel
 		} catch (Exception e) {
 			return;
 		}
-		DefaultTreeModel model = new DefaultTreeModel(
-				generateRootNode(toolVec));
+		DefaultTreeModel model = new DefaultTreeModel(generateRootNode(toolVec));
 		tree.setModel(model);
 		collapseAllRows();
 		tree.setRowHeight(-1);
 
-		Vector<Integer> allTools = generateToolsVector(
-				ToolBar.getAllTools(app));
+		Vector<Integer> allTools = generateToolsVector(ToolBar.getAllTools(app));
 		allTools.add(EuclidianConstants.MODE_FREEHAND_FUNCTION);
 		Vector<Integer> usedTools = generateToolsVector(toolbarDefinition);
 
 		toolListModel.clear();
 		toolListModel.addElement(ToolBar.SEPARATOR); // always display the
-														// separator in the
-														// tools list
+		// separator in the
+		// tools list
 
-		for (Iterator<Integer> iter = allTools.iterator(); iter.hasNext();) {
+		for (Iterator<Integer> iter = allTools.iterator(); iter.hasNext(); ) {
 			Integer next = iter.next();
 
 			if (!usedTools.contains(next)) {
@@ -425,8 +412,7 @@ public class ToolbarConfigPanel extends JPanel
 			// gm.setToolBarDefinition(current);
 			// gm.updateToolbar();
 		} else {
-			((GuiManagerD) app.getGuiManager())
-					.setToolBarDefinition(getToolBarString());
+			((GuiManagerD) app.getGuiManager()).setToolBarDefinition(getToolBarString());
 		}
 	}
 
@@ -437,25 +423,22 @@ public class ToolbarConfigPanel extends JPanel
 		if (dockPanel != null) {
 			setToolbar(dockPanel, dockPanel.getDefaultToolbarString());
 		} else {
-			setToolbar(null, ((GuiManagerD) app.getGuiManager())
-					.getDefaultToolbarString());
+			setToolbar(null, ((GuiManagerD) app.getGuiManager()).getDefaultToolbarString());
 		}
 	}
 
 	/**
 	 * Returns the custom toolbar created with this panel as a String. Separator
 	 * ("||" between menus, "," in menu), New menu starts with "|"
-	 * 
+	 *
 	 * @return toolbar as string
 	 */
 	public String getToolBarString() {
 		StringBuilder sb = new StringBuilder();
 
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel()
-				.getRoot();
+		DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
 		for (int i = 0; i < root.getChildCount(); i++) {
-			DefaultMutableTreeNode menu = (DefaultMutableTreeNode) root
-					.getChildAt(i);
+			DefaultMutableTreeNode menu = (DefaultMutableTreeNode) root.getChildAt(i);
 
 			if (menu.getChildCount() == 0) { // new menu with separator
 				sb.append("|| ");
@@ -464,8 +447,7 @@ public class ToolbarConfigPanel extends JPanel
 			}
 
 			for (int j = 0; j < menu.getChildCount(); j++) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) menu
-						.getChildAt(j);
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) menu.getChildAt(j);
 				int mode = (Integer) node.getUserObject();
 
 				if (mode < 0) {
@@ -508,8 +490,7 @@ public class ToolbarConfigPanel extends JPanel
 		};
 
 		jTree.setCellRenderer(new ModeCellRenderer(app));
-		jTree.getSelectionModel()
-				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		jTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		jTree.putClientProperty("JTree.lineStyle", "Angled");
 		jTree.addTreeExpansionListener(this);
 
@@ -520,10 +501,9 @@ public class ToolbarConfigPanel extends JPanel
 	 * @param toolbarModes
 	 *            list of menus and separators
 	 * @return toolbar as DefaultMutableTreeNode
-	 * 
+	 *
 	 */
-	public DefaultMutableTreeNode generateRootNode(
-			Vector<ToolbarItem> toolbarModes) {
+	public DefaultMutableTreeNode generateRootNode(Vector<ToolbarItem> toolbarModes) {
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode();
 
 		for (int i = 0; i < toolbarModes.size(); i++) {
@@ -544,25 +524,25 @@ public class ToolbarConfigPanel extends JPanel
 
 	/**
 	 * Add an item to the tool list
-	 * 
+	 *
 	 * TODO Rename method TODO Use this method to insert new items into the
 	 * model TODO Use the default toolbar vector to keep the standard sorting
-	 * 
+	 *
 	 * @author Florian Sonner
 	 * @version 2008-10-22
 	 */
 	private void sortToolList() {
 		/*
 		 * int numItems = toolListModel.getSize();
-		 * 
+		 *
 		 * if (numItems < 2) return;
-		 * 
+		 *
 		 * // copy list data into an array Integer[] a = new Integer[numItems];
 		 * for (int i = 0; i < numItems; ++i) { a[i] = (Integer)
 		 * toolListModel.getElementAt(i); }
-		 * 
+		 *
 		 * // sort array.. Arrays.sort(a);
-		 * 
+		 *
 		 * // copy the sorted array back into the model for (int i = 0; i <
 		 * numItems; ++i) { toolListModel.setElementAt(a[i], i); }
 		 */
@@ -574,7 +554,7 @@ public class ToolbarConfigPanel extends JPanel
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	@Override
 	public void treeExpanded(TreeExpansionEvent event) {
@@ -582,5 +562,4 @@ public class ToolbarConfigPanel extends JPanel
 		 * tabbed.invalidate(); tabbed.validateTree();
 		 */
 	}
-
 }

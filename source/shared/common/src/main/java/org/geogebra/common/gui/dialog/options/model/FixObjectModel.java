@@ -42,8 +42,9 @@ public class FixObjectModel extends BooleanOptionModel {
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		AlgebraSettings algebraSettings = app.getSettings().getAlgebra();
-		return geo.isFixable() && (!algebraSettings.isEquationChangeByDragRestricted()
-				|| !geo.isFunctionOrEquationFromUser());
+		return geo.isFixable()
+				&& (!algebraSettings.isEquationChangeByDragRestricted()
+						|| !geo.isFunctionOrEquationFromUser());
 	}
 
 	@Override

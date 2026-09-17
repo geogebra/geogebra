@@ -81,10 +81,12 @@ public class MhchemParser extends TeXParser {
 	}
 
 	private enum ElementType {
-		none, greek, roman,
+		none,
+		greek,
+		roman,
 	}
 
-	private final static class StopGroupConsumer extends GroupConsumer {
+	private static final class StopGroupConsumer extends GroupConsumer {
 
 		public StopGroupConsumer() {
 			super(TeXConstants.Opener.NONE);
@@ -103,7 +105,7 @@ public class MhchemParser extends TeXParser {
 		}
 	}
 
-	private final static class NormalGroupConsumer extends GroupConsumer {
+	private static final class NormalGroupConsumer extends GroupConsumer {
 
 		public NormalGroupConsumer() {
 			super(TeXConstants.Opener.LBRACE);
@@ -122,8 +124,7 @@ public class MhchemParser extends TeXParser {
 		}
 
 		@Override
-		public Atom convertASCIICharToAtom(final char c,
-				final boolean oneChar) {
+		public Atom convertASCIICharToAtom(final char c, final boolean oneChar) {
 			if (!hasNormalGroupConsumer() && c >= 'a' && c <= 'z') {
 				return new MathCharAtom(c, isMathMode());
 			}
@@ -135,8 +136,7 @@ public class MhchemParser extends TeXParser {
 			String com = command;
 			if (!hasNormalGroupConsumer()) {
 				if (isUpperGreek(command)) {
-					com = "Up" + Character.toLowerCase(com.charAt(0))
-							+ com.substring(1);
+					com = "Up" + Character.toLowerCase(com.charAt(0)) + com.substring(1);
 				}
 			}
 			super.processCommand(com);
@@ -152,7 +152,7 @@ public class MhchemParser extends TeXParser {
 		}
 	}
 
-	private final static class NormalParser extends TeXParser {
+	private static final class NormalParser extends TeXParser {
 
 		NormalParser(String parseString, int pos, int line, int col) {
 			super(parseString, pos, line, col);
@@ -261,8 +261,7 @@ public class MhchemParser extends TeXParser {
 				}
 				return SymbolAtom.get(com);
 			} else if (isUpperGreek(com)) {
-				final String up = "Up" + Character.toLowerCase(com.charAt(0))
-						+ com.substring(1);
+				final String up = "Up" + Character.toLowerCase(com.charAt(0)) + com.substring(1);
 				return getGreek(up);
 			}
 			pos = spos;
@@ -276,314 +275,313 @@ public class MhchemParser extends TeXParser {
 		while (pos < len || removeString()) {
 			final char c = parseString.charAt(pos);
 			switch (c) {
-			case '\u0000':
-			case '\u0001':
-			case '\u0002':
-			case '\u0003':
-			case '\u0004':
-			case '\u0005':
-			case '\u0006':
-			case '\u0007':
-			case '\u0008':
-			case '\u0009':
-				++pos;
-				break;
-			case '\n':
-				newLine();
-				skipWhites();
-				break;
-			case '\u000B':
-			case '\u000C':
-			case '\r':
-			case '\u000E':
-			case '\u000F':
-			case '\u0010':
-			case '\u0011':
-			case '\u0012':
-			case '\u0013':
-			case '\u0014':
-			case '\u0015':
-			case '\u0016':
-			case '\u0017':
-			case '\u0018':
-			case '\u0019':
-			case '\u001A':
-			case '\u001B':
-			case '\u001C':
-			case '\u001D':
-			case '\u001E':
-			case '\u001F':
-				++pos;
-				break;
-			case ' ':
-				++pos;
-				handleSpace();
-				break;
-			case '!':
-				++pos;
-				charMapping.replaceUnsafe('!', this);
-				break;
-			case '\"':
-				++pos;
-				if (isTextMode()) {
-					charMapping.replaceUnsafe('\'', this);
-					charMapping.replaceUnsafe('\'', this);
-				} else {
-					cumSupSymbols(Symbols.APOSTROPHE, Symbols.APOSTROPHE);
-				}
-				break;
-			case '#':
-				++pos;
-				addToConsumer(new MhchemBondAtom(3));
-				break;
-			case '$':
-				addToConsumer(handleNormal());
-				break;
-			case '%':
-				// We've a comment
-				++pos;
-				skipUntilCr();
-				break;
-			case '&':
-				close();
-				if (isAmpersandAllowed()) {
+				case '\u0000':
+				case '\u0001':
+				case '\u0002':
+				case '\u0003':
+				case '\u0004':
+				case '\u0005':
+				case '\u0006':
+				case '\u0007':
+				case '\u0008':
+				case '\u0009':
 					++pos;
-					addToConsumer(EnvArray.ColSep.get());
-				} else {
-					throw new ParseException(this,
-							"Character '&' is only available in array mode !");
-				}
-				break;
-			case '\'':
-				++pos;
-				if (isTextMode()) {
-					charMapping.replaceUnsafe('\'', this);
-				} else {
-					// For this kind of syms, need to modify SubSupCom
-					cumSupSymbols(Symbols.PRIME);
-				}
-				break;
-			case '(':
-				++pos;
-				addToConsumer(Symbols.LBRACK);
-				break;
-			case ')':
-				handleElement();
-				break;
-			case '*':
-				++pos;
-				addToConsumer(Symbols.CDOT);
-				break;
-			case '+':
-				++pos;
-				addToConsumer(Symbols.PLUS);
-				break;
-			case ',':
-				++pos;
-				charMapping.replaceUnsafe(c, this);
-				break;
-			case '-':
-				++pos;
-				addToConsumer(SymbolAtom.get("textminus"));
-				break;
-			case '.':
-				++pos;
-				handlePoint();
-				break;
-			case '/':
-				++pos;
-				charMapping.replaceUnsafe(c, this);
-				break;
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-				handleNumber(c);
-				break;
-			case ':':
-			case ';':
-				++pos;
-				charMapping.replaceUnsafe(c, this);
-				break;
-			case '<': {
-				if (!handleArrow('<')) {
+					break;
+				case '\n':
+					newLine();
+					skipWhites();
+					break;
+				case '\u000B':
+				case '\u000C':
+				case '\r':
+				case '\u000E':
+				case '\u000F':
+				case '\u0010':
+				case '\u0011':
+				case '\u0012':
+				case '\u0013':
+				case '\u0014':
+				case '\u0015':
+				case '\u0016':
+				case '\u0017':
+				case '\u0018':
+				case '\u0019':
+				case '\u001A':
+				case '\u001B':
+				case '\u001C':
+				case '\u001D':
+				case '\u001E':
+				case '\u001F':
 					++pos;
-					boolean ll = false;
-					if (pos < len) {
-						final char cc = parseString.charAt(pos);
-						if (cc == '<') {
-							++pos;
-							addToConsumer(SymbolAtom.get("ll"));
-							ll = true;
+					break;
+				case ' ':
+					++pos;
+					handleSpace();
+					break;
+				case '!':
+					++pos;
+					charMapping.replaceUnsafe('!', this);
+					break;
+				case '\"':
+					++pos;
+					if (isTextMode()) {
+						charMapping.replaceUnsafe('\'', this);
+						charMapping.replaceUnsafe('\'', this);
+					} else {
+						cumSupSymbols(Symbols.APOSTROPHE, Symbols.APOSTROPHE);
+					}
+					break;
+				case '#':
+					++pos;
+					addToConsumer(new MhchemBondAtom(3));
+					break;
+				case '$':
+					addToConsumer(handleNormal());
+					break;
+				case '%':
+					// We've a comment
+					++pos;
+					skipUntilCr();
+					break;
+				case '&':
+					close();
+					if (isAmpersandAllowed()) {
+						++pos;
+						addToConsumer(EnvArray.ColSep.get());
+					} else {
+						throw new ParseException(this, "Character '&' is only available in array mode !");
+					}
+					break;
+				case '\'':
+					++pos;
+					if (isTextMode()) {
+						charMapping.replaceUnsafe('\'', this);
+					} else {
+						// For this kind of syms, need to modify SubSupCom
+						cumSupSymbols(Symbols.PRIME);
+					}
+					break;
+				case '(':
+					++pos;
+					addToConsumer(Symbols.LBRACK);
+					break;
+				case ')':
+					handleElement();
+					break;
+				case '*':
+					++pos;
+					addToConsumer(Symbols.CDOT);
+					break;
+				case '+':
+					++pos;
+					addToConsumer(Symbols.PLUS);
+					break;
+				case ',':
+					++pos;
+					charMapping.replaceUnsafe(c, this);
+					break;
+				case '-':
+					++pos;
+					addToConsumer(SymbolAtom.get("textminus"));
+					break;
+				case '.':
+					++pos;
+					handlePoint();
+					break;
+				case '/':
+					++pos;
+					charMapping.replaceUnsafe(c, this);
+					break;
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+					handleNumber(c);
+					break;
+				case ':':
+				case ';':
+					++pos;
+					charMapping.replaceUnsafe(c, this);
+					break;
+				case '<': {
+					if (!handleArrow('<')) {
+						++pos;
+						boolean ll = false;
+						if (pos < len) {
+							final char cc = parseString.charAt(pos);
+							if (cc == '<') {
+								++pos;
+								addToConsumer(SymbolAtom.get("ll"));
+								ll = true;
+							}
+						}
+						if (!ll) {
+							charMapping.replaceUnsafe('<', this);
 						}
 					}
-					if (!ll) {
-						charMapping.replaceUnsafe('<', this);
-					}
+					break;
 				}
-				break;
-			}
-			case '=': {
-				++pos;
-				if (pos < len) {
-					final char cc = parseString.charAt(pos);
-					if (isElementStart(cc)) {
-						addToConsumer(new MhchemBondAtom(2));
+				case '=': {
+					++pos;
+					if (pos < len) {
+						final char cc = parseString.charAt(pos);
+						if (isElementStart(cc)) {
+							addToConsumer(new MhchemBondAtom(2));
+						} else {
+							addToConsumer(Symbols.EQUALS);
+						}
 					} else {
 						addToConsumer(Symbols.EQUALS);
 					}
-				} else {
-					addToConsumer(Symbols.EQUALS);
+					break;
 				}
-				break;
-			}
-			case '>': {
-				if (!handleArrow('>')) {
-					++pos;
-					boolean gg = false;
-					if (pos < len) {
-						final char cc = parseString.charAt(pos);
-						if (cc == '>') {
-							++pos;
-							addToConsumer(SymbolAtom.get("gg"));
-							gg = true;
+				case '>': {
+					if (!handleArrow('>')) {
+						++pos;
+						boolean gg = false;
+						if (pos < len) {
+							final char cc = parseString.charAt(pos);
+							if (cc == '>') {
+								++pos;
+								addToConsumer(SymbolAtom.get("gg"));
+								gg = true;
+							}
+						}
+						if (!gg) {
+							charMapping.replaceUnsafe('>', this);
 						}
 					}
-					if (!gg) {
-						charMapping.replaceUnsafe('>', this);
-					}
+					break;
 				}
-				break;
-			}
-			case '?':
-			case '@':
-				++pos;
-				charMapping.replaceUnsafe(c, this);
-				break;
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-				etype = ElementType.roman;
-				handleElement();
-				break;
-			case '[':
-				++pos;
-				addToConsumer(Symbols.LSQBRACK);
-				break;
-			case '\\': {
-				final Atom greek = handleGreek('\\', true);
-				if (greek != null) {
-					addToConsumer(greek);
-					etype = ElementType.greek;
+				case '?':
+				case '@':
+					++pos;
+					charMapping.replaceUnsafe(c, this);
+					break;
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+				case 'G':
+				case 'H':
+				case 'I':
+				case 'J':
+				case 'K':
+				case 'L':
+				case 'M':
+				case 'N':
+				case 'O':
+				case 'P':
+				case 'Q':
+				case 'R':
+				case 'S':
+				case 'T':
+				case 'U':
+				case 'V':
+				case 'W':
+				case 'X':
+				case 'Y':
+				case 'Z':
+					etype = ElementType.roman;
 					handleElement();
-				} else {
-					prevpos = pos;
-					final String command = getCommand();
-					if (!command.isEmpty()) {
-						processCommand(command);
+					break;
+				case '[':
+					++pos;
+					addToConsumer(Symbols.LSQBRACK);
+					break;
+				case '\\': {
+					final Atom greek = handleGreek('\\', true);
+					if (greek != null) {
+						addToConsumer(greek);
+						etype = ElementType.greek;
+						handleElement();
+					} else {
+						prevpos = pos;
+						final String command = getCommand();
+						if (!command.isEmpty()) {
+							processCommand(command);
+						}
 					}
+					break;
 				}
-				break;
-			}
-			case ']':
-				++pos;
-				if (!processRSqBracket()) {
-					charMapping.replaceUnsafe(']', this);
+				case ']':
+					++pos;
+					if (!processRSqBracket()) {
+						charMapping.replaceUnsafe(']', this);
+					}
+					break;
+				case '^':
+					handleSupAndSub('^', false);
+					break;
+				case '_': {
+					++pos;
+					processSubSup('_');
+					break;
 				}
-				break;
-			case '^':
-				handleSupAndSub('^', false);
-				break;
-			case '_': {
-				++pos;
-				processSubSup('_');
-				break;
-			}
-			case '`':
-				++pos;
-				if (isTextMode()) {
-					charMapping.replaceUnsafe('`', this);
-				} else {
-					// For this kind of syms, need to modify SubSupCom
-					cumSupSymbols(Symbols.BACKPRIME);
-				}
-				break;
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':
-				handleLower(c);
-				break;
-			case '{':
-				processLBrace();
-				break;
-			case '|':
-				++pos;
-				charMapping.replaceUnsafe('|', this);
-				break;
-			case '}':
-				++pos;
-				processRBrace();
-				break;
-			case '~':
-				++pos;
-				addToConsumer(new SpaceAtom());
-				break;
-			default:
-				++pos;
-				convertCharacter(c, false);
-				break;
+				case '`':
+					++pos;
+					if (isTextMode()) {
+						charMapping.replaceUnsafe('`', this);
+					} else {
+						// For this kind of syms, need to modify SubSupCom
+						cumSupSymbols(Symbols.BACKPRIME);
+					}
+					break;
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'g':
+				case 'h':
+				case 'i':
+				case 'j':
+				case 'k':
+				case 'l':
+				case 'm':
+				case 'n':
+				case 'o':
+				case 'p':
+				case 'q':
+				case 'r':
+				case 's':
+				case 't':
+				case 'u':
+				case 'v':
+				case 'w':
+				case 'x':
+				case 'y':
+				case 'z':
+					handleLower(c);
+					break;
+				case '{':
+					processLBrace();
+					break;
+				case '|':
+					++pos;
+					charMapping.replaceUnsafe('|', this);
+					break;
+				case '}':
+					++pos;
+					processRBrace();
+					break;
+				case '~':
+					++pos;
+					addToConsumer(new SpaceAtom());
+					break;
+				default:
+					++pos;
+					convertCharacter(c, false);
+					break;
 			}
 		}
 	}
@@ -660,8 +658,7 @@ public class MhchemParser extends TeXParser {
 					break;
 				}
 			}
-			addToConsumer(
-					new ScriptsAtom(MHeightAtom.get(), sub.simplify(), null));
+			addToConsumer(new ScriptsAtom(MHeightAtom.get(), sub.simplify(), null));
 			return true;
 		}
 		return false;
@@ -720,7 +717,6 @@ public class MhchemParser extends TeXParser {
 			}
 
 			return handleUsualScript(false);
-
 		}
 		return null;
 	}
@@ -891,8 +887,7 @@ public class MhchemParser extends TeXParser {
 				c = parseString.charAt(pos);
 				if (c == ' ') {
 					++pos;
-					addToConsumer(new ScriptsAtom(MHeightAtom.get(), null,
-							Symbols.MINUS));
+					addToConsumer(new ScriptsAtom(MHeightAtom.get(), null, Symbols.MINUS));
 				} else if (c == '>') {
 					++pos;
 					handleArrow(Arrow.right);
@@ -904,17 +899,14 @@ public class MhchemParser extends TeXParser {
 					}
 					return true;
 				} else {
-					addToConsumer(new ScriptsAtom(MHeightAtom.get(), null,
-							Symbols.MINUS));
+					addToConsumer(new ScriptsAtom(MHeightAtom.get(), null, Symbols.MINUS));
 				}
 			} else {
-				addToConsumer(new ScriptsAtom(MHeightAtom.get(), null,
-						Symbols.MINUS));
+				addToConsumer(new ScriptsAtom(MHeightAtom.get(), null, Symbols.MINUS));
 			}
 		} else if (c == '+') {
 			++pos;
-			addToConsumer(
-					new ScriptsAtom(MHeightAtom.get(), null, Symbols.PLUS));
+			addToConsumer(new ScriptsAtom(MHeightAtom.get(), null, Symbols.PLUS));
 		}
 		return false;
 	}
@@ -1024,8 +1016,7 @@ public class MhchemParser extends TeXParser {
 				++pos;
 				addToConsumer(Symbols.EQUALS);
 				return;
-			} else if (c == '(' && pos + 2 < len
-					&& parseString.charAt(pos + 2) == ')') {
+			} else if (c == '(' && pos + 2 < len && parseString.charAt(pos + 2) == ')') {
 				final char cc = parseString.charAt(pos + 1);
 				if (cc == 'v') {
 					pos += 3;
@@ -1052,8 +1043,7 @@ public class MhchemParser extends TeXParser {
 							pos += 3;
 							handleArrow(Arrow.leftright);
 							return true;
-						} else if (cc == '-' && pos + 3 < len
-								&& parseString.charAt(pos + 3) == '>') {
+						} else if (cc == '-' && pos + 3 < len && parseString.charAt(pos + 3) == '>') {
 							// <-->
 							pos += 4;
 							handleArrow(Arrow.LeftRight);
@@ -1065,8 +1055,7 @@ public class MhchemParser extends TeXParser {
 					return true;
 				} else if (cc == '=') {
 					if (pos + 2 < len && parseString.charAt(pos + 2) == '>') {
-						if (pos + 3 < len
-								&& parseString.charAt(pos + 3) == '>') {
+						if (pos + 3 < len && parseString.charAt(pos + 3) == '>') {
 							// <=>>
 							pos += 4;
 							handleArrow(Arrow.leftrightSmallHarpoon);
@@ -1076,7 +1065,8 @@ public class MhchemParser extends TeXParser {
 						handleArrow(Arrow.leftrightHarpoon);
 						return true;
 					}
-				} else if (c == '<' && pos + 3 < len
+				} else if (c == '<'
+						&& pos + 3 < len
 						&& parseString.charAt(pos + 2) == '='
 						&& parseString.charAt(pos + 3) == '>') {
 					// <<=>
@@ -1084,8 +1074,7 @@ public class MhchemParser extends TeXParser {
 					handleArrow(Arrow.leftSmallHarpoonRight);
 					return true;
 				}
-			} else if (c == '-' && pos + 1 < len
-					&& parseString.charAt(pos + 1) == '>') {
+			} else if (c == '-' && pos + 1 < len && parseString.charAt(pos + 1) == '>') {
 				// ->
 				pos += 2;
 				handleArrow(Arrow.right);

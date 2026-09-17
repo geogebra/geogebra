@@ -46,12 +46,13 @@ public class DrawSlope extends Drawable {
 
 	private double[] coords = new double[2];
 	private GeneralPathClipped gp;
+
 	@Weak
 	private Kernel kernel;
 
 	/**
 	 * Creates new drawable for slope
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param slope
@@ -72,11 +73,10 @@ public class DrawSlope extends Drawable {
 
 	private void init() {
 		algo = (AlgoSlope) slope.getDrawAlgorithm();
-
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
@@ -122,23 +122,23 @@ public class DrawSlope extends Drawable {
 				if (slopeTriangleSize > 1) {
 					StringBuilder sb = new StringBuilder();
 					switch (slope.getLabelMode()) {
-					case GeoElementND.LABEL_NAME_VALUE:
-						sb.append(slopeTriangleSize);
-						sb.append(' ');
-						sb.append(geo.getLabel(tpl));
-						sb.append(" = ");
-						sb.append(kernel.format(rwHeight, tpl));
-						break;
+						case GeoElementND.LABEL_NAME_VALUE:
+							sb.append(slopeTriangleSize);
+							sb.append(' ');
+							sb.append(geo.getLabel(tpl));
+							sb.append(" = ");
+							sb.append(kernel.format(rwHeight, tpl));
+							break;
 
-					case GeoElementND.LABEL_VALUE:
-						sb.append(kernel.format(rwHeight, tpl));
-						break;
+						case GeoElementND.LABEL_VALUE:
+							sb.append(kernel.format(rwHeight, tpl));
+							break;
 
-					default: // case GeoElement.LABEL_NAME:
-						sb.append(slopeTriangleSize);
-						sb.append(' ');
-						sb.append(geo.getLabel(tpl));
-						break;
+						default: // case GeoElement.LABEL_NAME:
+							sb.append(slopeTriangleSize);
+							sb.append(' ');
+							sb.append(geo.getLabel(tpl));
+							break;
 					}
 					labelDesc = sb.toString();
 				} else {
@@ -160,10 +160,10 @@ public class DrawSlope extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		if (isVisible) {
 			fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
-							// appropriate
+			// appropriate
 
 			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
@@ -181,16 +181,14 @@ public class DrawSlope extends Drawable {
 				g2.setPaint(slope.getLabelColor());
 				g2.setFont(view.getFontLine());
 				drawLabel(g2);
-				view.drawStringWithOutline(g2, horLabel, xLabelHor, yLabelHor,
-						geo.getObjectColor());
+				view.drawStringWithOutline(g2, horLabel, xLabelHor, yLabelHor, geo.getObjectColor());
 			}
 		}
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
-		return gp != null
-				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
+	public final boolean hit(int x, int y, int hitThreshold) {
+		return gp != null && (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
 	}
 
 	@Override
@@ -199,7 +197,7 @@ public class DrawSlope extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return false;
 	}
 
@@ -207,11 +205,10 @@ public class DrawSlope extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		return gp.getBounds();
 	}
-
 }

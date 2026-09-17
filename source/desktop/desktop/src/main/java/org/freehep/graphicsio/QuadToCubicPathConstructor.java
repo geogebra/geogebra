@@ -6,13 +6,12 @@ import java.io.IOException;
 /**
  * Implements the Quadratic Bezier Curve PathConstructor functionality in terms
  * of Cubic Bezier Curves
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: QuadToCubicPathConstructor.java,v 1.4 2009-08-17 21:44:45
  *          murkle Exp $
  */
-public abstract class QuadToCubicPathConstructor
-		extends AbstractPathConstructor {
+public abstract class QuadToCubicPathConstructor extends AbstractPathConstructor {
 
 	protected QuadToCubicPathConstructor() {
 		super();
@@ -31,8 +30,7 @@ public abstract class QuadToCubicPathConstructor
 	}
 
 	@Override
-	public void quad(double x1, double y1, double x2, double y2)
-			throws IOException {
+	public void quad(double x1, double y1, double x2, double y2) throws IOException {
 		double xctrl1 = x1 + (currentX - x1) / 3.;
 		double yctrl1 = y1 + (currentY - y1) / 3.;
 		double xctrl2 = x1 + (x2 - x1) / 3.;
@@ -45,8 +43,8 @@ public abstract class QuadToCubicPathConstructor
 	}
 
 	@Override
-	public void cubic(double x1, double y1, double x2, double y2, double x3,
-			double y3) throws IOException {
+	public void cubic(double x1, double y1, double x2, double y2, double x3, double y3)
+			throws IOException {
 		currentX = x3;
 		currentY = y3;
 	}

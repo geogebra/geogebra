@@ -29,8 +29,8 @@ import org.geogebra.common.main.settings.SettingListener;
  *
  * @author laszlo
  */
-public class IntervalPlotController implements CoordSystemAnimationListener,
-		SettingListener<EuclidianSettings> {
+public class IntervalPlotController
+		implements CoordSystemAnimationListener, SettingListener<EuclidianSettings> {
 
 	private final IntervalFunctionModel model;
 	private final GeoFunction function;

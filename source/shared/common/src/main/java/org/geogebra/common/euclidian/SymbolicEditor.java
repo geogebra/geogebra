@@ -83,8 +83,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		if (entries.length == 0) {
 			editedText = asciiSerializer.serialize(formula);
 		}
-		geoInputBox.updateLinkedGeo(editedText,
-				texSerializer.serialize(formula), entries);
+		geoInputBox.updateLinkedGeo(editedText, texSerializer.serialize(formula), entries);
 	}
 
 	protected boolean isTextMode() {
@@ -128,8 +127,8 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 * @param bounds place to attach the editor to.
 	 * @param settings how to render text.
 	 */
-	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds,
-			TextRendererSettings settings);
+	public abstract void attach(
+			GeoInputBox geoInputBox, GRectangle bounds, TextRendererSettings settings);
 
 	/**
 	 * @param caretLocation position of caret relative to view
@@ -137,8 +136,8 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 */
 	public void selectEntryAt(GPoint caretLocation, GRectangle2D bounds) {
 		if (caretLocation != null) {
-			selectEntryAt(caretLocation.x - (int) bounds.getMinX(),
-					caretLocation.y - (int) bounds.getMinY());
+			selectEntryAt(
+					caretLocation.x - (int) bounds.getMinX(), caretLocation.y - (int) bounds.getMinY());
 		} else {
 			selectEntryAt(0, 0);
 		}
@@ -177,8 +176,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected void resetChanges() {
 		boolean textMode = isTextMode();
 		String text = getGeoInputBox().getTextForEditor();
-		getMathFieldInternal().setAllowAbs(
-				!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
+		getMathFieldInternal().setAllowAbs(!(getGeoInputBox().getLinkedGeo() instanceof GeoPointND));
 		getMathFieldInternal().setPlainTextMode(textMode);
 		getMathFieldInternal().getInputController().setAllowSpaceReplacement(false);
 		if (textMode) {
@@ -217,7 +215,9 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	protected void addDegree(String key, MathFieldInternal mf) {
-		if (geoInputBox.getLinkedGeo().isGeoAngle() && key != null && isSimpleNumber(mf)
+		if (geoInputBox.getLinkedGeo().isGeoAngle()
+				&& key != null
+				&& isSimpleNumber(mf)
 				&& key.matches("[0-9]")) {
 			mf.insertString(Unicode.DEGREE_STRING);
 			mf.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, KeyEvent.KeyboardType.INTERNAL));
@@ -306,8 +306,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 		Event event = new Event(EventType.EDITOR_KEY_TYPED, getGeoInputBox());
 		HashMap<String, Object> jsonArgument = new HashMap<>();
 		jsonArgument.put("key", key == null ? "" : key);
-		jsonArgument.put("label", getGeoInputBox() != null
-				? getGeoInputBox().getLabelSimple() : "");
+		jsonArgument.put("label", getGeoInputBox() != null ? getGeoInputBox().getLabelSimple() : "");
 		event.setJsonArgument(jsonArgument);
 		app.dispatchEvent(event);
 	}

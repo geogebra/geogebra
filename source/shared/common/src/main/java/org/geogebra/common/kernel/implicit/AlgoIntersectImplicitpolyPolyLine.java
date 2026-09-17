@@ -83,7 +83,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	/**
 	 * constructor with labels for intersection between implicitPoly and
 	 * PolyLine
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -95,8 +95,12 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 * @param polyClosed
 	 *            states whether the input geoPOyl is a polyline or polygon
 	 */
-	public AlgoIntersectImplicitpolyPolyLine(Construction cons, String[] labels,
-			GeoImplicit implicitPolynomial, GeoPoly poly, boolean polyClosed) {
+	public AlgoIntersectImplicitpolyPolyLine(
+			Construction cons,
+			String[] labels,
+			GeoImplicit implicitPolynomial,
+			GeoPoly poly,
+			boolean polyClosed) {
 		this(cons, implicitPolynomial, poly, polyClosed);
 
 		if (!cons.isSuppressLabelsActive()) {
@@ -109,7 +113,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 
 	/**
 	 * common constructor for intersection between implicitPoly and PolyLine
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param implicitPolynomial
@@ -119,8 +123,8 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 * @param polyClosed
 	 *            states whether the input geoPOyl is a polyline or polygon
 	 */
-	public AlgoIntersectImplicitpolyPolyLine(Construction cons,
-			GeoImplicit implicitPolynomial, GeoPoly poly, boolean polyClosed) {
+	public AlgoIntersectImplicitpolyPolyLine(
+			Construction cons, GeoImplicit implicitPolynomial, GeoPoly poly, boolean polyClosed) {
 		super(cons);
 		this.implicitPolynomial = implicitPolynomial;
 		this.poly = poly;
@@ -149,7 +153,6 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		input = new GeoElement[2];
 		input[0] = getImplicitPolynomial().toGeoElement();
 		input[1] = (GeoElement) getPoly();
-
 	}
 
 	@Override
@@ -161,10 +164,8 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		for (int index = 0; index < segCountOfPoly; index++) {
 
 			tempSegEndPoints[0] = getPoly().getPoint(index);
-			tempSegEndPoints[1] = getPoly()
-					.getPoint((index + 1) % polyPointCount);
-			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1],
-					tempSeg);
+			tempSegEndPoints[1] = getPoly().getPoint((index + 1) % polyPointCount);
+			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1], tempSeg);
 			tempSeg.setPoints(tempSegEndPoints[0], tempSegEndPoints[1]);
 			tempSeg.calcLength();
 
@@ -175,8 +176,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		if (numOfOutputPoints > 0) {
 			outputPoints.adjustOutputSize(numOfOutputPoints, false);
 			for (int i = 0; i < numOfOutputPoints; i++) {
-				outputPoints.getElement(i).setCoords(intersectCoords.get(i),
-						true);
+				outputPoints.getElement(i).setCoords(intersectCoords.get(i), true);
 			}
 		} else {
 			outputPoints.adjustOutputSize(1, false);
@@ -185,7 +185,6 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		if (hasLabels) {
 			outputPoints.updateLabels();
 		}
-
 	}
 
 	@Override
@@ -202,14 +201,12 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 * calculates intersection points between given segment and implicitpoly.
 	 * assign calculated points to given intersectCoords arrayList
 	 */
-	private void computePolyLineIntersection(GeoSegment tempSeg2,
-			ArrayList<Coords> intersectCoords2) {
+	private void computePolyLineIntersection(
+			GeoSegment tempSeg2, ArrayList<Coords> intersectCoords2) {
 		double[] startP = new double[2];
 		tempSeg2.getInhomPointOnLine(startP);
-		tx = new PolynomialFunction(
-				new double[] { startP[0], tempSeg2.getY() }); // x=p1+t*r1
-		ty = new PolynomialFunction(
-				new double[] { startP[1], -tempSeg2.getX() }); // y=p2+t*r2
+		tx = new PolynomialFunction(new double[] {startP[0], tempSeg2.getY()}); // x=p1+t*r1
+		ty = new PolynomialFunction(new double[] {startP[1], -tempSeg2.getX()}); // y=p2+t*r2
 		double maxT = tempSeg2.getMaxParameter();
 		double minT = tempSeg2.getMinParameter();
 
@@ -226,7 +223,6 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		}
 
 		setRootsPolynomialWithinRange(intersectCoords2, sum, minT, maxT);
-
 	}
 
 	/**
@@ -238,21 +234,19 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 *            function of t to plug into y
 	 * @return function of t representing f(tx(t),ty(t))
 	 */
-	public static PolynomialFunction lineIntersect(double[][] coeff,
-			PolynomialFunction tx, PolynomialFunction ty) {
+	public static PolynomialFunction lineIntersect(
+			double[][] coeff, PolynomialFunction tx, PolynomialFunction ty) {
 		PolynomialFunction sum = null;
 		PolynomialFunction zs;
 		for (int i = coeff.length - 1; i >= 0; i--) {
-			zs = new PolynomialFunction(
-					new double[] { coeff[i][coeff[i].length - 1] });
+			zs = new PolynomialFunction(new double[] {coeff[i][coeff[i].length - 1]});
 			for (int j = coeff[i].length - 2; j >= 0; j--) {
-				zs = zs.multiply(ty).add(
-						new PolynomialFunction(new double[] { coeff[i][j] })); // y*zs+coeff[i][j];
+				zs = zs.multiply(ty)
+						.add(new PolynomialFunction(new double[] {coeff[i][j]})); // y*zs+coeff[i][j];
 			}
 			if (sum == null) {
 				sum = zs;
-			}
-			else {
+			} else {
 				sum = sum.multiply(tx).add(zs); // sum*x+zs;
 			}
 		}
@@ -260,8 +254,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	}
 
 	private void setRootsPolynomialWithinRange(
-			ArrayList<Coords> intersectCoords2, PolynomialFunction rootsPoly,
-			double min, double max) {
+			ArrayList<Coords> intersectCoords2, PolynomialFunction rootsPoly, double min, double max) {
 		double[] roots = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
 		if (roots.length > 1) {
@@ -270,8 +263,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 
 		for (int i = 0; i < nrRealRoots; ++i) {
 			if (DoubleUtil.isGreater(roots[i], max, Kernel.STANDARD_PRECISION)
-					|| DoubleUtil.isGreater(min, roots[i],
-							Kernel.STANDARD_PRECISION)) {
+					|| DoubleUtil.isGreater(min, roots[i], Kernel.STANDARD_PRECISION)) {
 				roots[i] = Double.NaN;
 			}
 		}
@@ -289,9 +281,9 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 			}
 			Coords pair = new Coords(tx.value(roots[i]), ty.value(roots[i]), 1);
 			for (int k = 1; k < count + 1; k++) {
-				if (count > 0 && distancePairSq(pair,
-						intersectCoords2.get(intersectCoords2.size()
-								- k)) < Kernel.STANDARD_PRECISION) {
+				if (count > 0
+						&& distancePairSq(pair, intersectCoords2.get(intersectCoords2.size() - k))
+								< Kernel.STANDARD_PRECISION) {
 					pair = null;
 					break;
 				}
@@ -330,13 +322,16 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 
 	/**
 	 * sets labels of output points
-	 * 
+	 *
 	 * @param labels
 	 *            output label
 	 */
 	public void setLabels(String[] labels) {
-		if (labels != null && labels.length == 1 && outputPoints.size() > 1
-				&& labels[0] != null && !labels[0].isEmpty()) {
+		if (labels != null
+				&& labels.length == 1
+				&& outputPoints.size() > 1
+				&& labels[0] != null
+				&& !labels[0].isEmpty()) {
 			outputPoints.setIndexLabels(labels[0]);
 
 		} else {
@@ -360,7 +355,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 
 	/**
 	 * Getter of input implicit polynomial.
-	 * 
+	 *
 	 * @return input implicit polynomial
 	 */
 	public GeoImplicit getImplicitPolynomial() {
@@ -369,7 +364,7 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 
 	/**
 	 * getter of input geoPoly (polyline/polygon)
-	 * 
+	 *
 	 * @return input geoPoly
 	 */
 	public GeoPoly getPoly() {
@@ -378,11 +373,10 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 
 	/**
 	 * getter of poly type
-	 * 
+	 *
 	 * @return true for polygon, false for polyline
 	 */
 	public boolean isPolyclosed() {
 		return polyclosed;
 	}
-
 }

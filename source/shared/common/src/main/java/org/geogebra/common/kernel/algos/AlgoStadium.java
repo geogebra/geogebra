@@ -63,7 +63,7 @@ public final class AlgoStadium extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{p, q, height};
+		input = new GeoElement[] {p, q, height};
 		setOnlyOutput(stadium);
 		setDependencies();
 	}
@@ -73,7 +73,7 @@ public final class AlgoStadium extends AlgoElement {
 		points.clear();
 		double dx = q.getX() - p.getX();
 		double dy = q.getY() - p.getY();
-		double baseAngle = Math.atan2(dy, dx);  // rotation angle of segment pq
+		double baseAngle = Math.atan2(dy, dx); // rotation angle of segment pq
 		double pi2 = -Math.PI / 2;
 		addAroundPoint(p, -radius, baseAngle + pi2, SegmentType.MOVE_TO);
 		lineAroundPoint(q, radius, baseAngle - pi2);
@@ -88,7 +88,6 @@ public final class AlgoStadium extends AlgoElement {
 		for (int i = steps; i >= 0; i--) {
 			double angle = pi2 + i * angleStep;
 			lineAroundPoint(p, -radius, baseAngle + angle);
-
 		}
 		lineAroundPoint(p, -radius, baseAngle + pi2);
 	}
@@ -101,7 +100,6 @@ public final class AlgoStadium extends AlgoElement {
 		double x = p.getX() + radius * Math.cos(angle);
 		double y = p.getY() + radius * Math.sin(angle);
 		addPoint(x, y, segmentType);
-
 	}
 
 	private void addPoint(double x, double y, SegmentType segmentType) {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -52,9 +52,14 @@ public class ButtonImpl implements Button {
 	 * @param modifiers
 	 *            modifiers
 	 */
-	public ButtonImpl(String resourceName, ResourceType resourceType,
-			String actionName, ActionType actionType, Background background,
-			KeyModifier[] modifiers, String altText) {
+	public ButtonImpl(
+			String resourceName,
+			ResourceType resourceType,
+			String actionName,
+			ActionType actionType,
+			Background background,
+			KeyModifier[] modifiers,
+			String altText) {
 		this.resourceName = resourceName;
 		this.resourceType = resourceType;
 		this.background = background;
@@ -71,8 +76,7 @@ public class ButtonImpl implements Button {
 		if (modifiers != null) {
 			String modifiedResourceName = resourceName;
 			for (KeyModifier modifier : modifiers) {
-				modifiedResourceName = modifier
-						.modifyResourceName(modifiedResourceName, resourceType);
+				modifiedResourceName = modifier.modifyResourceName(modifiedResourceName, resourceType);
 			}
 			return modifiedResourceName;
 		}
@@ -111,8 +115,7 @@ public class ButtonImpl implements Button {
 		if (modifiers != null) {
 			String modifiedActionName = name;
 			for (KeyModifier modifier : modifiers) {
-				modifiedActionName = modifier
-						.modifyActionName(modifiedActionName, type);
+				modifiedActionName = modifier.modifyActionName(modifiedActionName, type);
 			}
 			return modifiedActionName;
 		}
@@ -142,8 +145,7 @@ public class ButtonImpl implements Button {
 			ActionType type = getPrimaryActionType();
 			Background modifiedBackground = background;
 			for (KeyModifier modifier : modifiers) {
-				modifiedBackground = modifier.modifyBackground(
-						modifiedBackground, type, name);
+				modifiedBackground = modifier.modifyBackground(modifiedBackground, type, name);
 			}
 			return modifiedBackground;
 		}
@@ -153,5 +155,4 @@ public class ButtonImpl implements Button {
 	public String getAltText() {
 		return altText == null ? getPrimaryActionName() : altText;
 	}
-
 }

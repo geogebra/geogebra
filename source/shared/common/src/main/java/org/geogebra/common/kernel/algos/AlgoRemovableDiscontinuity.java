@@ -43,8 +43,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
-		UsesCAS {
+public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements UsesCAS {
 
 	private final GeoFunction f; // input
 	private final ArbitraryConstantRegistry arbconst = new ArbitraryConstantRegistry(this);
@@ -73,8 +72,12 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 	 * @param setLabels whether to set labels
 	 * @param checkLimitsSymbolically Whether to check if limits are equal symbolically (no GIAC)
 	 */
-	public AlgoRemovableDiscontinuity(Construction cons, GeoFunction f, String[] labels,
-			boolean setLabels, boolean checkLimitsSymbolically) {
+	public AlgoRemovableDiscontinuity(
+			Construction cons,
+			GeoFunction f,
+			String[] labels,
+			boolean setLabels,
+			boolean checkLimitsSymbolically) {
 		super(cons, labels, setLabels);
 
 		this.f = f;
@@ -123,8 +126,8 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 			ExpressionNode node = expr.wrap();
 			if (node.getOperation() == Operation.DIVIDE
 					&& node.getRight().wrap().containsFreeFunctionVariable(null)) {
-					solveDivision(node.getRight(), result);
-				}
+				solveDivision(node.getRight(), result);
+			}
 			solveExpr(node.getLeft(), result);
 			solveExpr(node.getRight(), result);
 		}
@@ -177,10 +180,10 @@ public class AlgoRemovableDiscontinuity extends AlgoGeoPointsFunction implements
 		String limitString = f.getLimit(x, direction);
 
 		try {
-			String numStr = kernel.evaluateCachedGeoGebraCAS(limitString,
-					arbconst);
+			String numStr = kernel.evaluateCachedGeoGebraCAS(limitString, arbconst);
 
-			return kernel.getAlgebraProcessor()
+			return kernel
+					.getAlgebraProcessor()
 					.evaluateToNumeric(numStr, ErrorHelper.silent())
 					.getDouble();
 		} catch (Throwable e) {

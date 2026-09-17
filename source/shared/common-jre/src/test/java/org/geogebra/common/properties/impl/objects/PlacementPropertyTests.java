@@ -41,28 +41,32 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class PlacementPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"Vector((1, 2))",
-			"β = Angle((0, 0), (1, 1), (2, 2))",
-			"IF(3 > 2, \"abc\", \"edf\")",
-			"BarChart({1,2,3},{4,5,6})"
-	})
+	@ValueSource(
+			strings = {
+				"(1, 2)",
+				"Vector((1, 2))",
+				"β = Angle((0, 0), (1, 1), (2, 2))",
+				"IF(3 > 2, \"abc\", \"edf\")",
+				"BarChart({1,2,3},{4,5,6})"
+			})
 	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class, () ->
-				new PlacementProperty(getLocalization(), evaluateGeoElement(expression)));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new PlacementProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@ParameterizedTest
-	@CsvSource(value = {
-			"\"abc\": false",
-			"IF(3 > 2, Text(\"abc\"), Text(\"edf\")): true",
-			"IF(3 > 2, \"abc\", \"edf\"): true",
-			"IF(3 > 2, Text(\"abc\", (1, 2)), Text(\"edf\", (2, 3))): true",
-			"Element({Text(\"abc\"), Text(\"edf\")}, 1): true",
-			"Element({Text(\"abc\", (1, 2)), Text(\"edf\", (1, 2))}, 1): true",
-			"Element({\"abc\", \"edf\"}, 1): true"},
+	@CsvSource(
+			value = {
+				"\"abc\": false",
+				"IF(3 > 2, Text(\"abc\"), Text(\"edf\")): true",
+				"IF(3 > 2, \"abc\", \"edf\"): true",
+				"IF(3 > 2, Text(\"abc\", (1, 2)), Text(\"edf\", (2, 3))): true",
+				"Element({Text(\"abc\"), Text(\"edf\")}, 1): true",
+				"Element({Text(\"abc\", (1, 2)), Text(\"edf\", (1, 2))}, 1): true",
+				"Element({\"abc\", \"edf\"}, 1): true"
+			},
 			delimiterString = ":")
 	void testIsDependentTextCommand(String expression, boolean expected) {
 		setupApp(SuiteSubApp.GRAPHING);
@@ -74,8 +78,8 @@ class PlacementPropertyTests extends BaseAppTestSetup {
 	void testBooleanPlacementOption() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoBoolean geoBoolean = evaluateGeoElement("true");
-		PlacementProperty placementProperty = assertDoesNotThrow(() ->
-				new PlacementProperty(getLocalization(), geoBoolean));
+		PlacementProperty placementProperty =
+				assertDoesNotThrow(() -> new PlacementProperty(getLocalization(), geoBoolean));
 		assertEquals(List.of(ABSOLUTE_POSITION_ON_SCREEN), placementProperty.getValues());
 	}
 
@@ -83,45 +87,43 @@ class PlacementPropertyTests extends BaseAppTestSetup {
 	void testTextPlacementOptions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
-		PlacementProperty placementProperty = assertDoesNotThrow(() ->
-				new PlacementProperty(getLocalization(), geoText));
+		PlacementProperty placementProperty =
+				assertDoesNotThrow(() -> new PlacementProperty(getLocalization(), geoText));
 		assertEquals(
-				List.of(ABSOLUTE_POSITION_ON_SCREEN, STARTING_POINT),
-				placementProperty.getValues());
+				List.of(ABSOLUTE_POSITION_ON_SCREEN, STARTING_POINT), placementProperty.getValues());
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Slider(-5, 5, 1)", // number slider
-			"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)" // angle slider
-	})
+	@ValueSource(
+			strings = {
+				"Slider(-5, 5, 1)", // number slider
+				"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)" // angle slider
+			})
 	void testSliderPlacementOptions(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric geoNumeric = evaluateGeoElement(expression);
-		PlacementProperty placementProperty = assertDoesNotThrow(() ->
-				new PlacementProperty(getLocalization(), geoNumeric));
+		PlacementProperty placementProperty =
+				assertDoesNotThrow(() -> new PlacementProperty(getLocalization(), geoNumeric));
 		assertEquals(
-				List.of(ABSOLUTE_POSITION_ON_SCREEN, STARTING_POINT),
-				placementProperty.getValues());
+				List.of(ABSOLUTE_POSITION_ON_SCREEN, STARTING_POINT), placementProperty.getValues());
 	}
 
 	@Test
 	void testImagePlacementOptions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		PlacementProperty placementProperty = assertDoesNotThrow(() ->
-				new PlacementProperty(getLocalization(), geoImage));
+		PlacementProperty placementProperty =
+				assertDoesNotThrow(() -> new PlacementProperty(getLocalization(), geoImage));
 		assertEquals(
-				List.of(ABSOLUTE_POSITION_ON_SCREEN, CORNERS, CENTER_IMAGE),
-				placementProperty.getValues());
+				List.of(ABSOLUTE_POSITION_ON_SCREEN, CORNERS, CENTER_IMAGE), placementProperty.getValues());
 	}
 
 	@Test
 	void testSwitchingBetweenPlacementOptions() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		PlacementProperty placementProperty = assertDoesNotThrow(() ->
-				new PlacementProperty(getLocalization(), geoImage));
+		PlacementProperty placementProperty =
+				assertDoesNotThrow(() -> new PlacementProperty(getLocalization(), geoImage));
 
 		placementProperty.setValue(ABSOLUTE_POSITION_ON_SCREEN);
 		assertEquals(ABSOLUTE_POSITION_ON_SCREEN, placementProperty.getValue());

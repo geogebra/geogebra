@@ -22,6 +22,7 @@ package org.geogebra.common.kernel;
 public class PathParameter {
 	/** parameter value */
 	public double t;
+
 	private int pathType = -1;
 
 	// private boolean isDefined; //tells if parameters have been fed with
@@ -36,7 +37,7 @@ public class PathParameter {
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param pp
 	 *            path parameter to copy
 	 */
@@ -56,7 +57,7 @@ public class PathParameter {
 	 * @param pp
 	 *            path parameter to copy
 	 */
-	final public void set(PathParameter pp) {
+	public final void set(PathParameter pp) {
 		t = pp.t;
 		pathType = pp.pathType;
 	}
@@ -96,5 +97,4 @@ public class PathParameter {
 		this.t = t;
 		// isDefined=true;
 	}
-
 }

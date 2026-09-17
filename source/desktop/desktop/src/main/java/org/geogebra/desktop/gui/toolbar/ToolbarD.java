@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -56,7 +56,7 @@ public class ToolbarD extends JToolBar {
 
 	/**
 	 * Creates general toolbar.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -67,7 +67,7 @@ public class ToolbarD extends JToolBar {
 	/**
 	 * Creates toolbar for a specific dock panel. Call buildGui() to actually
 	 * create the GUI of this toolbar.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param dockPanel
@@ -106,11 +106,11 @@ public class ToolbarD extends JToolBar {
 
 	/**
 	 * Sets toolbar mode. This will change the selected toolbar icon.
-	 * 
+	 *
 	 * @param newMode
 	 *            see EuclidianConstants for mode numbers
-	 * 
-	 * 
+	 *
+	 *
 	 * @return actual mode number selected (might be different if it's not
 	 *         available)
 	 */
@@ -139,11 +139,9 @@ public class ToolbarD extends JToolBar {
 				if (firstMode > -1) {
 					mode = setMode(getFirstMode());
 				}
-
 			}
 
 			this.mode = tmpMode;
-
 		}
 
 		return tmpMode;
@@ -172,26 +170,22 @@ public class ToolbarD extends JToolBar {
 	 * string looks like "0 , 1 2 | 3 4 5 || 7 8 9" where the int values are
 	 * mode numbers, "," adds a separator within a menu, "|" starts a new menu
 	 * and "||" adds a separator before starting a new menu.
-	 * 
+	 *
 	 * @param bg button group
 	 */
 	private void addCustomModesToToolbar(ModeToggleButtonGroup bg) {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 			if (dockPanel != null) {
-				toolbarVec = ToolBar
-						.parseToolbarString(dockPanel.getToolbarString());
+				toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
 			} else {
-				toolbarVec = ToolBar.parseToolbarString(
-						app.getGuiManager().getToolbarDefinition());
+				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
-				Log.debug("invalid toolbar string: "
-						+ dockPanel.getToolbarString());
+				Log.debug("invalid toolbar string: " + dockPanel.getToolbarString());
 			} else {
-				Log.debug("invalid toolbar string: "
-						+ app.getGuiManager().getToolbarDefinition());
+				Log.debug("invalid toolbar string: " + app.getGuiManager().getToolbarDefinition());
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
@@ -200,10 +194,8 @@ public class ToolbarD extends JToolBar {
 		boolean firstButton = true;
 
 		// make the loop go backwards for eg Hebrew / Arabic
-		int first = app.getLocalization().isRightToLeftReadingOrder()
-				? toolbarVec.size() - 1 : 0;
-		int increment = app.getLocalization().isRightToLeftReadingOrder() ? -1
-				: 1;
+		int first = app.getLocalization().isRightToLeftReadingOrder() ? toolbarVec.size() - 1 : 0;
+		int increment = app.getLocalization().isRightToLeftReadingOrder() ? -1 : 1;
 
 		// for (int i = 0; i < toolbarVec.size(); i++) {
 		for (int i = first; i >= 0 && i < toolbarVec.size(); i += increment) {
@@ -263,5 +255,4 @@ public class ToolbarD extends JToolBar {
 	protected boolean preventToolTipDelay() {
 		return !app.showToolBarHelp();
 	}
-
 }

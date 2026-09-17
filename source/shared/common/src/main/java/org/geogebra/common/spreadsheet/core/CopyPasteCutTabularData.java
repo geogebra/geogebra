@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -45,7 +45,7 @@ public interface CopyPasteCutTabularData {
 	 * @param destination to paste content to.
 	 * @param externalContent external clipboard content
 	 */
-	void paste(@NonNull TabularRange destination, String @Nullable[][] externalContent);
+	void paste(@NonNull TabularRange destination, String @Nullable [][] externalContent);
 
 	/**
 	 * Paste previously copied content to the given row, column
@@ -55,7 +55,7 @@ public interface CopyPasteCutTabularData {
 	 * @param startColumn to paste content to.
 	 * @param externalContent pasted content split into cells
 	 */
-	void paste(int startRow, int startColumn, String @Nullable[][] externalContent);
+	void paste(int startRow, int startColumn, String @Nullable [][] externalContent);
 
 	/**
 	 * Cuts range of cells.
@@ -103,7 +103,8 @@ public interface CopyPasteCutTabularData {
 	 * @return tiled range
 	 */
 	static TabularRange getTiledRange(TabularRange destination, String[][] pastedData) {
-		return pastedData == null || pastedData.length == 0 || pastedData[0].length == 0 ? null
+		return pastedData == null || pastedData.length == 0 || pastedData[0].length == 0
+				? null
 				: getTiledRange(destination, pastedData.length, pastedData[0].length);
 	}
 }

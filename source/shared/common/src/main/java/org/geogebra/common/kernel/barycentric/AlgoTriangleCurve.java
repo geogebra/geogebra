@@ -35,13 +35,11 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  * @author Darko Drakulic
  * @version 23-10-2011
- * 
+ *
  *          This class makes a curve in barycentric coordinates
- * 
+ *
  */
-
-public class AlgoTriangleCurve extends AlgoElement
-		implements ExpressionNodeConstants {
+public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeConstants {
 
 	private GeoPoint A, B, C; // input
 	private GeoImplicit n; // number of curve
@@ -70,8 +68,15 @@ public class AlgoTriangleCurve extends AlgoElement
 	 * @param c
 	 *            variable "C"
 	 */
-	public AlgoTriangleCurve(Construction cons, String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, GeoImplicit e, GeoNumeric a, GeoNumeric b,
+	public AlgoTriangleCurve(
+			Construction cons,
+			String label,
+			GeoPoint A,
+			GeoPoint B,
+			GeoPoint C,
+			GeoImplicit e,
+			GeoNumeric a,
+			GeoNumeric b,
 			GeoNumeric c) {
 		super(cons);
 		this.A = A;
@@ -81,12 +86,8 @@ public class AlgoTriangleCurve extends AlgoElement
 
 		AlgoElement d = n.getParentAlgorithm();
 		cons.removeFromConstructionList(d);
-		ExpressionNode lhs = ((AlgoDependentImplicitPoly) d).getEquation()
-				.getLHS()
-				.deepCopy(kernel);
-		ExpressionNode rhs = ((AlgoDependentImplicitPoly) d).getEquation()
-				.getRHS()
-				.deepCopy(kernel);
+		ExpressionNode lhs = ((AlgoDependentImplicitPoly) d).getEquation().getLHS().deepCopy(kernel);
+		ExpressionNode rhs = ((AlgoDependentImplicitPoly) d).getEquation().getRHS().deepCopy(kernel);
 		ExpressionNode[] abcExp = new ExpressionNode[3];
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
@@ -100,11 +101,15 @@ public class AlgoTriangleCurve extends AlgoElement
 			ycoef[i] = new GeoNumeric(cons);
 			constant[i] = new GeoNumeric(cons);
 
-			abcExp[i] = new ExpressionNode(kernel, new ExpressionNode(kernel,
-					new ExpressionNode(kernel, xcoef[i], Operation.MULTIPLY, x),
-					Operation.PLUS, new ExpressionNode(kernel, ycoef[i],
-							Operation.MULTIPLY, y)),
-					Operation.PLUS, constant[i]);
+			abcExp[i] = new ExpressionNode(
+					kernel,
+					new ExpressionNode(
+							kernel,
+							new ExpressionNode(kernel, xcoef[i], Operation.MULTIPLY, x),
+							Operation.PLUS,
+							new ExpressionNode(kernel, ycoef[i], Operation.MULTIPLY, y)),
+					Operation.PLUS,
+					constant[i]);
 		}
 
 		eq = new Equation(kernel, lhs, rhs);
@@ -124,7 +129,6 @@ public class AlgoTriangleCurve extends AlgoElement
 		compute();
 		cons.setSuppressLabelCreation(flag);
 		poly.setLabel(label);
-
 	}
 
 	@Override
@@ -179,7 +183,5 @@ public class AlgoTriangleCurve extends AlgoElement
 			dd.update();
 			poly.update();
 		}
-
 	}
-
 }

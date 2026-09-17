@@ -2,7 +2,7 @@
 /*
  * Quick and dirty XML parser. Java Tip 128
  * http://www.javaworld.com/javaworld/javatips/jw-javatip128.html
- * 
+ *
  * Some optimizations by Markus Hohenwarter, 19.11.2004
  */
 
@@ -20,22 +20,22 @@ import org.geogebra.common.util.StringUtil;
  * based parser, but with much less functionality.
  */
 public class QDParser {
-	private final static int TEXT = 1;
-	private final static int ENTITY = 2;
-	private final static int OPEN_TAG = 3;
-	private final static int CLOSE_TAG = 4;
-	private final static int START_TAG = 5;
-	private final static int ATTRIBUTE_LVALUE = 6;
-	private final static int ATTRIBUTE_EQUAL = 9;
-	private final static int ATTRIBUTE_RVALUE = 10;
-	private final static int QUOTE = 7;
-	private final static int IN_TAG = 8;
-	private final static int SINGLE_TAG = 12;
-	private final static int COMMENT = 13;
-	private final static int DONE = 11;
-	private final static int DOCTYPE = 14;
-	private final static int PRE = 15;
-	private final static int CDATA = 16;
+	private static final int TEXT = 1;
+	private static final int ENTITY = 2;
+	private static final int OPEN_TAG = 3;
+	private static final int CLOSE_TAG = 4;
+	private static final int START_TAG = 5;
+	private static final int ATTRIBUTE_LVALUE = 6;
+	private static final int ATTRIBUTE_EQUAL = 9;
+	private static final int ATTRIBUTE_RVALUE = 10;
+	private static final int QUOTE = 7;
+	private static final int IN_TAG = 8;
+	private static final int SINGLE_TAG = 12;
+	private static final int COMMENT = 13;
+	private static final int DONE = 11;
+	private static final int DOCTYPE = 14;
+	private static final int PRE = 15;
+	private static final int CDATA = 16;
 
 	private LinkedHashMap<String, String> attrs;
 	private Stack<Integer> stack;
@@ -78,7 +78,7 @@ public class QDParser {
 	 *             if XML is not valid
 	 * @throws IOException if accessing data from reader fails
 	 */
-	final public void parse(DocHandler doc, Reader r) throws IOException, XMLParseException {
+	public final void parse(DocHandler doc, Reader r) throws IOException, XMLParseException {
 		// Stack stack = new Stack();
 		stack.clear();
 		sb.setLength(0);
@@ -114,305 +114,303 @@ public class QDParser {
 			}
 
 			switch (mode) {
-			case DONE:
-				doc.endDocument();
-				return;
-
-			// We are between tags collecting text.
-			case TEXT:
-				switch (c) {
-				case '<':
-					stack.push(mode);
-					mode = START_TAG;
-					if (sb.length() > 0) {
-						doc.text(sb.toString());
-						sb.setLength(0);
-					}
-					break;
-				case '&':
-					stack.push(mode);
-					mode = ENTITY;
-					etag.setLength(0);
-					break;
-				default:
-					sb.append((char) c);
-				}
-				break;
-
-			// we are processing a closing tag: e.g. </foo>
-			case CLOSE_TAG:
-				if (c == '>') {
-					mode = popMode(stack);
-					tagName = sb.toString();
-					sb.setLength(0);
-					depth--;
-					if (depth == 0) {
-						mode = DONE;
-					}
-					doc.endElement(tagName);
-				} else {
-					sb.append((char) c);
-				}
-				break;
-
-			// we are processing CDATA
-			case CDATA:
-				if (c == '>' && sb.toString().endsWith("]]")) {
-					sb.setLength(sb.length() - 2);
-					doc.text(sb.toString());
-					sb.setLength(0);
-					mode = popMode(stack);
-				} else {
-					sb.append((char) c);
-				}
-				break;
-
-			// we are processing a comment. We are inside
-			// the <!-- .... --> looking for the -->.
-			case COMMENT:
-				if (c == '>' && sb.toString().endsWith("--")) {
-					sb.setLength(0);
-					mode = popMode(stack);
-				} else {
-					sb.append((char) c);
-				}
-				break;
-
-			// We are outside the root tag element
-			case PRE:
-				if (c == '<') {
-					mode = TEXT;
-					stack.push(mode);
-					mode = START_TAG;
-				}
-				break;
-
-			// We are inside one of these <? ... ?>
-			// or one of these <!DOCTYPE ... >
-			case DOCTYPE:
-				if (c == '>') {
-					mode = popMode(stack);
-					if (mode == TEXT) {
-						mode = PRE;
-					}
-				}
-				break;
-
-			// we have just seen a < and
-			// are wondering what we are looking at
-			// <foo>, </foo>, <!-- ... --->, etc.
-			case START_TAG:
-				mode = popMode(stack);
-				switch (c) {
-				case '/':
-					stack.push(mode);
-					mode = CLOSE_TAG;
-					break;
-				case '?':
-					mode = DOCTYPE;
-					break;
-				default:
-					stack.push(mode);
-					mode = OPEN_TAG;
-					tagName = null;
-					// attrs = new LinkedHashMap();
-					sb.append((char) c);
-				}
-				break;
-
-			// we are processing an entity, e.g. &lt;, &#187;, etc.
-			case ENTITY:
-				if (c == ';') {
-					mode = popMode(stack);
-					String cent = etag.toString();
-					etag.setLength(0);
-					if ("lt".equals(cent)) {
-						sb.append('<');
-					} else if ("gt".equals(cent)) {
-						sb.append('>');
-					} else if ("amp".equals(cent)) {
-						sb.append('&');
-					} else if ("quot".equals(cent)) {
-						sb.append('"');
-					} else if ("apos".equals(cent)) {
-						sb.append('\'');
-					} else if (cent.startsWith("#x")) {
-						StringUtil.appendUnicode(sb,
-								Integer.parseInt(cent.substring(2), 16));
-					} else if (cent.charAt(0) == '#') {
-						StringUtil.appendUnicode(sb,
-								Integer.parseInt(cent.substring(1)));
-					// Insert custom entity definitions here
-					} else {
-						exc("Unknown entity: &" + cent + ";", line, col);
-					}
-				} else {
-					etag.append((char) c);
-				}
-				break;
-
-			// we have just seen something like this:
-			// <foo a="b"/
-			// and are looking for the final >.
-			case SINGLE_TAG:
-				if (tagName == null) {
-					tagName = sb.toString();
-				}
-				if (c != '>') {
-					exc("Expected > for tag: <" + tagName + "/>", line, col);
-				}
-				doc.startElement(tagName, attrs);
-				doc.endElement(tagName);
-				if (depth == 0) {
+				case DONE:
 					doc.endDocument();
 					return;
-				}
-				sb.setLength(0);
-				// attrs = new LinkedHashMap();
-				attrs.clear();
-				tagName = null;
-				mode = popMode(stack);
-				break;
 
-			// we are processing something
-			// like this <foo ... >. It could
-			// still be a <!-- ... --> or something.
-			case OPEN_TAG:
-				switch (c) {
-				case '>':
+				// We are between tags collecting text.
+				case TEXT:
+					switch (c) {
+						case '<':
+							stack.push(mode);
+							mode = START_TAG;
+							if (sb.length() > 0) {
+								doc.text(sb.toString());
+								sb.setLength(0);
+							}
+							break;
+						case '&':
+							stack.push(mode);
+							mode = ENTITY;
+							etag.setLength(0);
+							break;
+						default:
+							sb.append((char) c);
+					}
+					break;
+
+				// we are processing a closing tag: e.g. </foo>
+				case CLOSE_TAG:
+					if (c == '>') {
+						mode = popMode(stack);
+						tagName = sb.toString();
+						sb.setLength(0);
+						depth--;
+						if (depth == 0) {
+							mode = DONE;
+						}
+						doc.endElement(tagName);
+					} else {
+						sb.append((char) c);
+					}
+					break;
+
+				// we are processing CDATA
+				case CDATA:
+					if (c == '>' && sb.toString().endsWith("]]")) {
+						sb.setLength(sb.length() - 2);
+						doc.text(sb.toString());
+						sb.setLength(0);
+						mode = popMode(stack);
+					} else {
+						sb.append((char) c);
+					}
+					break;
+
+				// we are processing a comment. We are inside
+				// the <!-- .... --> looking for the -->.
+				case COMMENT:
+					if (c == '>' && sb.toString().endsWith("--")) {
+						sb.setLength(0);
+						mode = popMode(stack);
+					} else {
+						sb.append((char) c);
+					}
+					break;
+
+				// We are outside the root tag element
+				case PRE:
+					if (c == '<') {
+						mode = TEXT;
+						stack.push(mode);
+						mode = START_TAG;
+					}
+					break;
+
+				// We are inside one of these <? ... ?>
+				// or one of these <!DOCTYPE ... >
+				case DOCTYPE:
+					if (c == '>') {
+						mode = popMode(stack);
+						if (mode == TEXT) {
+							mode = PRE;
+						}
+					}
+					break;
+
+				// we have just seen a < and
+				// are wondering what we are looking at
+				// <foo>, </foo>, <!-- ... --->, etc.
+				case START_TAG:
+					mode = popMode(stack);
+					switch (c) {
+						case '/':
+							stack.push(mode);
+							mode = CLOSE_TAG;
+							break;
+						case '?':
+							mode = DOCTYPE;
+							break;
+						default:
+							stack.push(mode);
+							mode = OPEN_TAG;
+							tagName = null;
+							// attrs = new LinkedHashMap();
+							sb.append((char) c);
+					}
+					break;
+
+				// we are processing an entity, e.g. &lt;, &#187;, etc.
+				case ENTITY:
+					if (c == ';') {
+						mode = popMode(stack);
+						String cent = etag.toString();
+						etag.setLength(0);
+						if ("lt".equals(cent)) {
+							sb.append('<');
+						} else if ("gt".equals(cent)) {
+							sb.append('>');
+						} else if ("amp".equals(cent)) {
+							sb.append('&');
+						} else if ("quot".equals(cent)) {
+							sb.append('"');
+						} else if ("apos".equals(cent)) {
+							sb.append('\'');
+						} else if (cent.startsWith("#x")) {
+							StringUtil.appendUnicode(sb, Integer.parseInt(cent.substring(2), 16));
+						} else if (cent.charAt(0) == '#') {
+							StringUtil.appendUnicode(sb, Integer.parseInt(cent.substring(1)));
+							// Insert custom entity definitions here
+						} else {
+							exc("Unknown entity: &" + cent + ";", line, col);
+						}
+					} else {
+						etag.append((char) c);
+					}
+					break;
+
+				// we have just seen something like this:
+				// <foo a="b"/
+				// and are looking for the final >.
+				case SINGLE_TAG:
 					if (tagName == null) {
 						tagName = sb.toString();
 					}
-					sb.setLength(0);
-					depth++;
+					if (c != '>') {
+						exc("Expected > for tag: <" + tagName + "/>", line, col);
+					}
 					doc.startElement(tagName, attrs);
-					tagName = null;
+					doc.endElement(tagName);
+					if (depth == 0) {
+						doc.endDocument();
+						return;
+					}
+					sb.setLength(0);
 					// attrs = new LinkedHashMap();
 					attrs.clear();
+					tagName = null;
 					mode = popMode(stack);
 					break;
 
-				case '/':
-					mode = SINGLE_TAG;
-					break;
+				// we are processing something
+				// like this <foo ... >. It could
+				// still be a <!-- ... --> or something.
+				case OPEN_TAG:
+					switch (c) {
+						case '>':
+							if (tagName == null) {
+								tagName = sb.toString();
+							}
+							sb.setLength(0);
+							depth++;
+							doc.startElement(tagName, attrs);
+							tagName = null;
+							// attrs = new LinkedHashMap();
+							attrs.clear();
+							mode = popMode(stack);
+							break;
 
-				case '-':
-					if (sb.toString().equals("!-")) {
-						mode = COMMENT;
-					} else {
-						sb.append((char) c);
+						case '/':
+							mode = SINGLE_TAG;
+							break;
+
+						case '-':
+							if (sb.toString().equals("!-")) {
+								mode = COMMENT;
+							} else {
+								sb.append((char) c);
+							}
+							break;
+
+						case '[':
+							if (sb.toString().equals("![CDATA")) {
+								mode = CDATA;
+								sb.setLength(0);
+							}
+							break;
+
+						case 'E':
+							if (sb.toString().equals("!DOCTYP")) {
+								sb.setLength(0);
+								mode = DOCTYPE;
+							} else {
+								sb.append((char) c);
+							}
+							break;
+
+						default:
+							if (Character.isWhitespace((char) c)) {
+								tagName = sb.toString();
+								sb.setLength(0);
+								mode = IN_TAG;
+							} else {
+								sb.append((char) c);
+							}
 					}
 					break;
 
-				case '[':
-					if (sb.toString().equals("![CDATA")) {
-						mode = CDATA;
+				// We are processing the quoted right-hand side
+				// of an element's attribute.
+				case QUOTE:
+					if (c == quotec) {
+						String rvalue = sb.toString();
 						sb.setLength(0);
-					}
-					break;
-
-				case 'E':
-					if (sb.toString().equals("!DOCTYP")) {
-						sb.setLength(0);
-						mode = DOCTYPE;
-					} else {
-						sb.append((char) c);
-					}
-					break;
-
-				default:
-					if (Character.isWhitespace((char) c)) {
-						tagName = sb.toString();
-						sb.setLength(0);
+						attrs.put(lvalue, rvalue);
 						mode = IN_TAG;
+						// See section the XML spec, section 3.3.3
+						// on normalization processing.
+					}
+
+					// Markus Hohenwarter, begin
+					// I need to get all characters within quotes
+					// including newlines
+					// else if (" \r\n\u0009".indexOf(c) >= 0) {
+					// sb.append(' ');
+					// }
+					// Markus Hohenwarter, end
+
+					else if (c == '&') {
+						stack.push(mode);
+						mode = ENTITY;
+						etag.setLength(0);
 					} else {
 						sb.append((char) c);
 					}
-				}
-				break;
-
-			// We are processing the quoted right-hand side
-			// of an element's attribute.
-			case QUOTE:
-				if (c == quotec) {
-					String rvalue = sb.toString();
-					sb.setLength(0);
-					attrs.put(lvalue, rvalue);
-					mode = IN_TAG;
-					// See section the XML spec, section 3.3.3
-					// on normalization processing.
-				}
-
-				// Markus Hohenwarter, begin
-				// I need to get all characters within quotes
-				// including newlines
-				// else if (" \r\n\u0009".indexOf(c) >= 0) {
-				// sb.append(' ');
-				// }
-				// Markus Hohenwarter, end
-
-				else if (c == '&') {
-					stack.push(mode);
-					mode = ENTITY;
-					etag.setLength(0);
-				} else {
-					sb.append((char) c);
-				}
-				break;
-
-			case ATTRIBUTE_RVALUE:
-				if (c == '"' || c == '\'') {
-					quotec = c;
-					mode = QUOTE;
-				} else if (!Character.isWhitespace((char) c)) {
-					exc("Error in attribute processing", line, col);
-				}
-				break;
-
-			case ATTRIBUTE_LVALUE:
-				if (Character.isWhitespace((char) c)) {
-					lvalue = sb.toString();
-					sb.setLength(0);
-					mode = ATTRIBUTE_EQUAL;
-				} else if (c == '=') {
-					lvalue = sb.toString();
-					sb.setLength(0);
-					mode = ATTRIBUTE_RVALUE;
-				} else {
-					sb.append((char) c);
-				}
-				break;
-
-			case ATTRIBUTE_EQUAL:
-				if (c == '=') {
-					mode = ATTRIBUTE_RVALUE;
-				} else if (!Character.isWhitespace((char) c)) {
-					exc("Error in attribute processing.", line, col);
-				}
-				break;
-
-			case IN_TAG:
-				switch (c) {
-				case '>':
-					mode = popMode(stack);
-					doc.startElement(tagName, attrs);
-					depth++;
-					tagName = null;
-					// attrs = new LinkedHashMap();
-					attrs.clear();
 					break;
 
-				case '/':
-					mode = SINGLE_TAG;
+				case ATTRIBUTE_RVALUE:
+					if (c == '"' || c == '\'') {
+						quotec = c;
+						mode = QUOTE;
+					} else if (!Character.isWhitespace((char) c)) {
+						exc("Error in attribute processing", line, col);
+					}
 					break;
 
-				default:
-					if (!Character.isWhitespace((char) c)) {
-						mode = ATTRIBUTE_LVALUE;
+				case ATTRIBUTE_LVALUE:
+					if (Character.isWhitespace((char) c)) {
+						lvalue = sb.toString();
+						sb.setLength(0);
+						mode = ATTRIBUTE_EQUAL;
+					} else if (c == '=') {
+						lvalue = sb.toString();
+						sb.setLength(0);
+						mode = ATTRIBUTE_RVALUE;
+					} else {
 						sb.append((char) c);
 					}
-				}
-				break;
+					break;
+
+				case ATTRIBUTE_EQUAL:
+					if (c == '=') {
+						mode = ATTRIBUTE_RVALUE;
+					} else if (!Character.isWhitespace((char) c)) {
+						exc("Error in attribute processing.", line, col);
+					}
+					break;
+
+				case IN_TAG:
+					switch (c) {
+						case '>':
+							mode = popMode(stack);
+							doc.startElement(tagName, attrs);
+							depth++;
+							tagName = null;
+							// attrs = new LinkedHashMap();
+							attrs.clear();
+							break;
+
+						case '/':
+							mode = SINGLE_TAG;
+							break;
+
+						default:
+							if (!Character.isWhitespace((char) c)) {
+								mode = ATTRIBUTE_LVALUE;
+								sb.append((char) c);
+							}
+					}
+					break;
 			}
 		}
 
@@ -421,7 +419,6 @@ public class QDParser {
 		} else {
 			exc("missing end tag", line, col);
 		}
-
 	}
 
 	private static void exc(String s, int line, int col) throws XMLParseException {

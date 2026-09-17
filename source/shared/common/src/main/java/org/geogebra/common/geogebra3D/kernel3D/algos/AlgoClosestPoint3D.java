@@ -57,5 +57,4 @@ public class AlgoClosestPoint3D extends AlgoClosestPoint {
 	protected void addIncidence() {
 		// TODO
 	}
-
 }

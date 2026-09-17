@@ -91,6 +91,7 @@ public final class GGWToolBar extends Composite
 	// ScrollPanel ;
 	/** panel for mobile submenu view */
 	FlowPanel submenuPanel;
+
 	private ScrollPanel submenuScrollPanel;
 	private boolean inited = false;
 	private Integer activeToolbar = -1;
@@ -101,6 +102,7 @@ public final class GGWToolBar extends Composite
 	private @Nullable StandardButton openMenuButton;
 	/** undo button */
 	StandardButton undoButton;
+
 	private StandardButton redoButton;
 	private ExamController examController;
 
@@ -142,7 +144,7 @@ public final class GGWToolBar extends Composite
 
 	/**
 	 * Initialization of the GGWToolbar.
-	 * 
+	 *
 	 * @param app1
 	 *            application
 	 */
@@ -183,12 +185,11 @@ public final class GGWToolBar extends Composite
 		// Adds the Open and Options Button for SMART
 
 		addRightButtonPanel();
-
 	}
 
 	/**
 	 * Update class name for south/north toolbar
-	 * 
+	 *
 	 * @param toolbarPosition
 	 *            SwingConstants.SOUTH or SwingConstants.SOUTH
 	 */
@@ -200,7 +201,6 @@ public final class GGWToolBar extends Composite
 			removeStyleName("toolbarPanelSouth");
 			addStyleName("toolbarPanelNorth");
 		}
-
 	}
 
 	// undo-redo buttons
@@ -238,7 +238,6 @@ public final class GGWToolBar extends Composite
 		if (undoButton != null) {
 			undoButton.setTitle(loc.getMenu("Undo"));
 		}
-
 	}
 
 	// timer for GeoGebraExam
@@ -252,8 +251,7 @@ public final class GGWToolBar extends Composite
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if (examController.isExamActive()
-						|| examController.getState() == ExamState.PREPARING) {
+				if (examController.isExamActive() || examController.getState() == ExamState.PREPARING) {
 					if (examController.isCheating()) {
 						ExamUtil.makeRed(getElement(), true);
 						makeTimerWhite(Js.uncheckedCast(getElement()));
@@ -263,22 +261,23 @@ public final class GGWToolBar extends Composite
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}
-
 		});
 		// check and log window resize and focus on window
 		new ExamUtil(app).addVisibilityAndBlurHandlers();
 
 		FlowPanel fp = new FlowPanel();
 		fp.add(timerLabel);
-		Image info = new Image(
-				GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri().asString());
+		Image info =
+				new Image(GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri().asString());
 		info.setStyleName("examInfo");
 		fp.add(info);
 
 		// clicking on info button
-		fp.addDomHandler(event -> {
-			new ExamLogAndExitDialog(app, true, null, null, "OK").show();
-		}, ClickEvent.getType());
+		fp.addDomHandler(
+				event -> {
+					new ExamLogAndExitDialog(app, true, null, null, "OK").show();
+				},
+				ClickEvent.getType());
 		return fp;
 	}
 
@@ -288,11 +287,12 @@ public final class GGWToolBar extends Composite
 	 *            to white
 	 */
 	private void makeTimerWhite(elemental2.dom.Element element) {
-		NodeList<elemental2.dom.Element> timerElements = element
-				.querySelectorAll(".rightButtonPanel .timer");
+		NodeList<elemental2.dom.Element> timerElements =
+				element.querySelectorAll(".rightButtonPanel .timer");
 
 		for (int i = 0; i < timerElements.length; i++) {
-			Objects.requireNonNull((HTMLElement) timerElements.getAt(i)).style
+			Objects.requireNonNull((HTMLElement) timerElements.getAt(i))
+					.style
 					.setProperty("color", "white", "important");
 		}
 	}
@@ -322,16 +322,14 @@ public final class GGWToolBar extends Composite
 			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 			if (!supportsCAS) {
 				Label nocas = new Label("CAS");
-				nocas.getElement().getStyle()
-						.setTextDecoration(TextDecoration.LINE_THROUGH);
+				nocas.getElement().getStyle().setTextDecoration(TextDecoration.LINE_THROUGH);
 				nocas.getElement().setClassName("timer");
 				// do not add CAS to toolBar for tablet exam apps
 				rightButtonPanel.add(nocas);
 			}
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				Label no3d = new Label("3D");
-				no3d.getElement().getStyle()
-						.setTextDecoration(TextDecoration.LINE_THROUGH);
+				no3d.getElement().getStyle().setTextDecoration(TextDecoration.LINE_THROUGH);
 				no3d.getElement().setClassName("timer");
 				// do not add 3D to toolBar for tablet exam apps
 				rightButtonPanel.add(no3d);
@@ -369,39 +367,43 @@ public final class GGWToolBar extends Composite
 			app.toggleMenu();
 		});
 
-		openMenuButton.addDomHandler(event -> {
-			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-				app.toggleMenu();
-			}
-			if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
-				selectMenuButton(0);
-			}
-			if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
-				toolBar.selectMenu(0);
-			}
-		}, KeyUpEvent.getType());
+		openMenuButton.addDomHandler(
+				event -> {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+						app.toggleMenu();
+					}
+					if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+						selectMenuButton(0);
+					}
+					if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+						toolBar.selectMenu(0);
+					}
+				},
+				KeyUpEvent.getType());
 
 		this.openMenuButton = openMenuButton;
 	}
 
 	private void initOpenSearchButton() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
-		StandardButton openSearchButton = new StandardButton(pr.menu_header_open_search(),
-				null, 32, 32);
+		StandardButton openSearchButton =
+				new StandardButton(pr.menu_header_open_search(), null, 32, 32);
 
 		openSearchButton.addFastClickHandler(source -> app.openSearch(null));
 
-		openSearchButton.addDomHandler(event -> {
-			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-				app.openSearch(null);
-			}
-			if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
-				selectMenuButton(1);
-			}
-			if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
-				toolBar.selectMenu(-1);
-			}
-		}, KeyUpEvent.getType());
+		openSearchButton.addDomHandler(
+				event -> {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+						app.openSearch(null);
+					}
+					if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+						selectMenuButton(1);
+					}
+					if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+						toolBar.selectMenu(-1);
+					}
+				},
+				KeyUpEvent.getType());
 		this.openSearchButton = openSearchButton;
 		this.rightButtonPanel.add(openSearchButton);
 	}
@@ -436,7 +438,7 @@ public final class GGWToolBar extends Composite
 	/**
 	 * Adds a toolbar to this container. Use updateToolbarPanel() to update the
 	 * GUI after all toolbar changes were made.
-	 * 
+	 *
 	 * @param toolbar
 	 *            toolbar
 	 */
@@ -452,8 +454,7 @@ public final class GGWToolBar extends Composite
 	 * @param target
 	 *            icon for macro or builtin mode
 	 */
-	public static void getImageResource(final int mode, final AppW app,
-			final HasResource target) {
+	public static void getImageResource(final int mode, final AppW app, final HasResource target) {
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
@@ -465,17 +466,14 @@ public final class GGWToolBar extends Composite
 					return;
 				}
 				// use image as icon
-				String src = app.getImageManager()
-						.getExternalImageSrc(iconName);
+				String src = app.getImageManager().getExternalImageSrc(iconName);
 
-				target.setResource(new ImageResourcePrototype("",
-						UriUtils.fromTrustedString(src), 0,
-						0, 32, 32, false, false));
+				target.setResource(new ImageResourcePrototype(
+						"", UriUtils.fromTrustedString(src), 0, 0, 32, 32, false, false));
 				return;
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
-				target.setResource(
-						ToolbarSvgResourcesSync.INSTANCE.mode_tool_32());
+				target.setResource(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32());
 				return;
 			}
 		}
@@ -488,11 +486,9 @@ public final class GGWToolBar extends Composite
 
 			@Override
 			public void onSuccess() {
-				target.setResource(getImageURLNotMacro(
-						ToolbarSvgResources.INSTANCE, mode, app));
+				target.setResource(getImageURLNotMacro(ToolbarSvgResources.INSTANCE, mode, app));
 			}
 		});
-
 	}
 
 	/**
@@ -507,469 +503,469 @@ public final class GGWToolBar extends Composite
 	public static SVGResource getImageURLNotMacro(
 			ToolbarResources resourceBundle, int mode, AppW app) {
 		switch (mode) {
-		case EuclidianConstants.MODE_ANGLE:
-			return resourceBundle.mode_angle_32();
+			case EuclidianConstants.MODE_ANGLE:
+				return resourceBundle.mode_angle_32();
 
-		case EuclidianConstants.MODE_ANGLE_FIXED:
-			return resourceBundle.mode_anglefixed_32();
+			case EuclidianConstants.MODE_ANGLE_FIXED:
+				return resourceBundle.mode_anglefixed_32();
 
-		case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-			return resourceBundle.mode_angularbisector_32();
+			case EuclidianConstants.MODE_ANGULAR_BISECTOR:
+				return resourceBundle.mode_angularbisector_32();
 
-		case EuclidianConstants.MODE_AREA:
-			return resourceBundle.mode_area_32();
+			case EuclidianConstants.MODE_AREA:
+				return resourceBundle.mode_area_32();
 
-		case EuclidianConstants.MODE_ATTACH_DETACH:
-			return resourceBundle.mode_attachdetachpoint_32();
+			case EuclidianConstants.MODE_ATTACH_DETACH:
+				return resourceBundle.mode_attachdetachpoint_32();
 
-		case EuclidianConstants.MODE_BUTTON_ACTION:
-			return resourceBundle.mode_buttonaction_32();
+			case EuclidianConstants.MODE_BUTTON_ACTION:
+				return resourceBundle.mode_buttonaction_32();
 
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
-			return resourceBundle.mode_circle2_32();
+			case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+				return resourceBundle.mode_circle2_32();
 
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-			return resourceBundle.mode_circle3_32();
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+				return resourceBundle.mode_circle3_32();
 
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-			return resourceBundle.mode_circlearc3_32();
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+				return resourceBundle.mode_circlearc3_32();
 
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
-			return resourceBundle.mode_circlepointradius_32();
+			case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+				return resourceBundle.mode_circlepointradius_32();
 
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-			return resourceBundle.mode_circlesector3_32();
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+				return resourceBundle.mode_circlesector3_32();
 
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-			return resourceBundle.mode_circumcirclearc3_32();
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+				return resourceBundle.mode_circumcirclearc3_32();
 
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			return resourceBundle.mode_circumcirclesector3_32();
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+				return resourceBundle.mode_circumcirclesector3_32();
 
-		case EuclidianConstants.MODE_COMPASSES:
-			return resourceBundle.mode_compasses_32();
+			case EuclidianConstants.MODE_COMPASSES:
+				return resourceBundle.mode_compasses_32();
 
-		case EuclidianConstants.MODE_COMPLEX_NUMBER:
-			return resourceBundle.mode_complexnumber_32();
+			case EuclidianConstants.MODE_COMPLEX_NUMBER:
+				return resourceBundle.mode_complexnumber_32();
 
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			return resourceBundle.mode_conic5_32();
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+				return resourceBundle.mode_conic5_32();
 
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			return resourceBundle.mode_copyvisualstyle_32();
+			case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+				return resourceBundle.mode_copyvisualstyle_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
-			return resourceBundle.mode_countcells_32();
+			case EuclidianConstants.MODE_SPREADSHEET_COUNT:
+				return resourceBundle.mode_countcells_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			return resourceBundle.mode_createlist_32();
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
+				return resourceBundle.mode_createlist_32();
 
-		case EuclidianConstants.MODE_CREATE_LIST:
-			return resourceBundle.mode_createlist_32();
+			case EuclidianConstants.MODE_CREATE_LIST:
+				return resourceBundle.mode_createlist_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
-			return resourceBundle.mode_createlistofpoints_32();
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
+				return resourceBundle.mode_createlistofpoints_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
-			return resourceBundle.mode_creatematrix_32();
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
+				return resourceBundle.mode_creatematrix_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
-			return resourceBundle.mode_createpolyline_32();
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
+				return resourceBundle.mode_createpolyline_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
 				return resourceBundle.mode_createtable_32();
 
-		case EuclidianConstants.MODE_DELETE:
-			return resourceBundle.mode_eraser_32();
+			case EuclidianConstants.MODE_DELETE:
+				return resourceBundle.mode_eraser_32();
 
-		case EuclidianConstants.MODE_CAS_DERIVATIVE:
-			return resourceBundle.mode_derivative_32();
+			case EuclidianConstants.MODE_CAS_DERIVATIVE:
+				return resourceBundle.mode_derivative_32();
 
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			return resourceBundle.mode_dilatefrompoint_32();
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+				return resourceBundle.mode_dilatefrompoint_32();
 
-		case EuclidianConstants.MODE_DISTANCE:
-			return resourceBundle.mode_distance_32();
+			case EuclidianConstants.MODE_DISTANCE:
+				return resourceBundle.mode_distance_32();
 
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-			return resourceBundle.mode_ellipse3_32();
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+				return resourceBundle.mode_ellipse3_32();
 
-		case EuclidianConstants.MODE_CAS_EVALUATE:
-			return resourceBundle.mode_evaluate_32();
+			case EuclidianConstants.MODE_CAS_EVALUATE:
+				return resourceBundle.mode_evaluate_32();
 
-		case EuclidianConstants.MODE_CAS_EXPAND:
-			return resourceBundle.mode_expand_32();
+			case EuclidianConstants.MODE_CAS_EXPAND:
+				return resourceBundle.mode_expand_32();
 
-		case EuclidianConstants.MODE_EXTREMUM:
-			return resourceBundle.mode_extremum_32();
+			case EuclidianConstants.MODE_EXTREMUM:
+				return resourceBundle.mode_extremum_32();
 
-		case EuclidianConstants.MODE_CAS_FACTOR:
-			return resourceBundle.mode_factor_32();
+			case EuclidianConstants.MODE_CAS_FACTOR:
+				return resourceBundle.mode_factor_32();
 
-		case EuclidianConstants.MODE_FITLINE:
-			return resourceBundle.mode_fitline_32();
+			case EuclidianConstants.MODE_FITLINE:
+				return resourceBundle.mode_fitline_32();
 
-		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-			return resourceBundle.mode_freehandshape_32();
+			case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+				return resourceBundle.mode_freehandshape_32();
 
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			return resourceBundle.mode_freehandshape_32();
+			case EuclidianConstants.MODE_FREEHAND_SHAPE:
+				return resourceBundle.mode_freehandshape_32();
 
-		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
-			return resourceBundle.mode_functioninspector_32();
+			case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
+				return resourceBundle.mode_functioninspector_32();
 
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			return resourceBundle.mode_hyperbola3_32();
+			case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+				return resourceBundle.mode_hyperbola3_32();
 
-		case EuclidianConstants.MODE_IMAGE:
-			return app.isWhiteboardActive() ? resourceBundle.mode_image_mow_32()
-					: resourceBundle.mode_image_32();
+			case EuclidianConstants.MODE_IMAGE:
+				return app.isWhiteboardActive()
+						? resourceBundle.mode_image_mow_32()
+						: resourceBundle.mode_image_32();
 
-		case EuclidianConstants.MODE_CAS_INTEGRAL:
-			return resourceBundle.mode_integral_32();
+			case EuclidianConstants.MODE_CAS_INTEGRAL:
+				return resourceBundle.mode_integral_32();
 
-		case EuclidianConstants.MODE_INTERSECT:
-			return resourceBundle.mode_intersect_32();
+			case EuclidianConstants.MODE_INTERSECT:
+				return resourceBundle.mode_intersect_32();
 
-		case EuclidianConstants.MODE_INTERSECTION_CURVE:
-			return resourceBundle.mode_intersectioncurve_32();
+			case EuclidianConstants.MODE_INTERSECTION_CURVE:
+				return resourceBundle.mode_intersectioncurve_32();
 
-		case EuclidianConstants.MODE_JOIN:
-			return resourceBundle.mode_join_32();
+			case EuclidianConstants.MODE_JOIN:
+				return resourceBundle.mode_join_32();
 
-		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
-			return resourceBundle.mode_keepinput_32();
+			case EuclidianConstants.MODE_CAS_KEEP_INPUT:
+				return resourceBundle.mode_keepinput_32();
 
-		case EuclidianConstants.MODE_LINE_BISECTOR:
-			return resourceBundle.mode_linebisector_32();
+			case EuclidianConstants.MODE_LINE_BISECTOR:
+				return resourceBundle.mode_linebisector_32();
 
-		case EuclidianConstants.MODE_LOCUS:
-			return resourceBundle.mode_locus_32();
+			case EuclidianConstants.MODE_LOCUS:
+				return resourceBundle.mode_locus_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_MAX:
-			return resourceBundle.mode_maxcells_32();
+			case EuclidianConstants.MODE_SPREADSHEET_MAX:
+				return resourceBundle.mode_maxcells_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
-			return resourceBundle.mode_meancells_32();
+			case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
+				return resourceBundle.mode_meancells_32();
 
-		case EuclidianConstants.MODE_MIDPOINT:
-			return resourceBundle.mode_midpoint_32();
+			case EuclidianConstants.MODE_MIDPOINT:
+				return resourceBundle.mode_midpoint_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_MIN:
-			return resourceBundle.mode_mincells_32();
+			case EuclidianConstants.MODE_SPREADSHEET_MIN:
+				return resourceBundle.mode_mincells_32();
 
-		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
-			return resourceBundle.mode_mirroratcircle_32();
+			case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
+				return resourceBundle.mode_mirroratcircle_32();
 
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return resourceBundle.mode_mirroratline_32();
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+				return resourceBundle.mode_mirroratline_32();
 
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return resourceBundle.mode_mirroratpoint_32();
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+				return resourceBundle.mode_mirroratpoint_32();
 
-		case EuclidianConstants.MODE_MOVE:
-			return resourceBundle.mode_move_32();
+			case EuclidianConstants.MODE_MOVE:
+				return resourceBundle.mode_move_32();
 
-		case EuclidianConstants.MODE_SELECT:
-			return resourceBundle.mode_select_32();
+			case EuclidianConstants.MODE_SELECT:
+				return resourceBundle.mode_select_32();
 
-		case EuclidianConstants.MODE_SELECT_MOW:
-			return resourceBundle.mode_select_32();
+			case EuclidianConstants.MODE_SELECT_MOW:
+				return resourceBundle.mode_select_32();
 
-		case EuclidianConstants.MODE_MOVE_ROTATE:
-			return resourceBundle.mode_moverotate_32();
+			case EuclidianConstants.MODE_MOVE_ROTATE:
+				return resourceBundle.mode_moverotate_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
-			return resourceBundle.mode_multivarstats_32();
+			case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
+				return resourceBundle.mode_multivarstats_32();
 
-		case EuclidianConstants.MODE_CAS_NUMERIC:
-			return resourceBundle.mode_numeric_32();
+			case EuclidianConstants.MODE_CAS_NUMERIC:
+				return resourceBundle.mode_numeric_32();
 
-		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
-			return resourceBundle.mode_nsolve_32();
+			case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
+				return resourceBundle.mode_nsolve_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
-			return resourceBundle.mode_onevarstats_32();
+			case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
+				return resourceBundle.mode_onevarstats_32();
 
-		case EuclidianConstants.MODE_ORTHOGONAL:
-			return resourceBundle.mode_orthogonal_32();
+			case EuclidianConstants.MODE_ORTHOGONAL:
+				return resourceBundle.mode_orthogonal_32();
 
-		case EuclidianConstants.MODE_PARABOLA:
-			return resourceBundle.mode_parabola_32();
+			case EuclidianConstants.MODE_PARABOLA:
+				return resourceBundle.mode_parabola_32();
 
-		case EuclidianConstants.MODE_PARALLEL:
-			return resourceBundle.mode_parallel_32();
+			case EuclidianConstants.MODE_PARALLEL:
+				return resourceBundle.mode_parallel_32();
 
-		case EuclidianConstants.MODE_PEN:
-			return resourceBundle.mode_pen();
+			case EuclidianConstants.MODE_PEN:
+				return resourceBundle.mode_pen();
 
-		case EuclidianConstants.MODE_POINT:
-			return resourceBundle.mode_point_32();
+			case EuclidianConstants.MODE_POINT:
+				return resourceBundle.mode_point_32();
 
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-			return resourceBundle.mode_pointonobject_32();
+			case EuclidianConstants.MODE_POINT_ON_OBJECT:
+				return resourceBundle.mode_pointonobject_32();
 
-		case EuclidianConstants.MODE_POLAR_DIAMETER:
-			return resourceBundle.mode_polardiameter_32();
+			case EuclidianConstants.MODE_POLAR_DIAMETER:
+				return resourceBundle.mode_polardiameter_32();
 
-		case EuclidianConstants.MODE_POLYGON:
-			return resourceBundle.mode_polygon_32();
+			case EuclidianConstants.MODE_POLYGON:
+				return resourceBundle.mode_polygon_32();
 
-		case EuclidianConstants.MODE_POLYLINE:
-			return resourceBundle.mode_polyline_32();
+			case EuclidianConstants.MODE_POLYLINE:
+				return resourceBundle.mode_polyline_32();
 
-		case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
-			return resourceBundle.mode_probabilitycalculator_32();
+			case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
+				return resourceBundle.mode_probabilitycalculator_32();
 
-		case EuclidianConstants.MODE_RAY:
-			return resourceBundle.mode_ray_32();
+			case EuclidianConstants.MODE_RAY:
+				return resourceBundle.mode_ray_32();
 
-		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			return resourceBundle.mode_regularpolygon_32();
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
+				return resourceBundle.mode_regularpolygon_32();
 
-		case EuclidianConstants.MODE_RELATION:
-			return resourceBundle.mode_relation_32();
+			case EuclidianConstants.MODE_RELATION:
+				return resourceBundle.mode_relation_32();
 
-		case EuclidianConstants.MODE_RIGID_POLYGON:
-			return resourceBundle.mode_rigidpolygon_32();
+			case EuclidianConstants.MODE_RIGID_POLYGON:
+				return resourceBundle.mode_rigidpolygon_32();
 
-		case EuclidianConstants.MODE_ROOTS:
-			return resourceBundle.mode_roots_32();
+			case EuclidianConstants.MODE_ROOTS:
+				return resourceBundle.mode_roots_32();
 
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return resourceBundle.mode_rotatebyangle_32();
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+				return resourceBundle.mode_rotatebyangle_32();
 
-		case EuclidianConstants.MODE_SEGMENT:
-			return resourceBundle.mode_segment_32();
+			case EuclidianConstants.MODE_SEGMENT:
+				return resourceBundle.mode_segment_32();
 
-		case EuclidianConstants.MODE_SEGMENT_FIXED:
-			return resourceBundle.mode_segmentfixed_32();
+			case EuclidianConstants.MODE_SEGMENT_FIXED:
+				return resourceBundle.mode_segmentfixed_32();
 
-		case EuclidianConstants.MODE_SEMICIRCLE:
-			return resourceBundle.mode_semicircle_32();
+			case EuclidianConstants.MODE_SEMICIRCLE:
+				return resourceBundle.mode_semicircle_32();
 
-		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
-			return ToolbarSvgResourcesSync.INSTANCE.mode_showcheckbox_32();
+			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
+				return ToolbarSvgResourcesSync.INSTANCE.mode_showcheckbox_32();
 
-		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
-			return ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
+			case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
+				return ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
 
-		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
-			return resourceBundle.mode_showhideobject_32();
+			case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
+				return resourceBundle.mode_showhideobject_32();
 
-		case EuclidianConstants.MODE_SLIDER:
-			return ToolbarSvgResourcesSync.INSTANCE.mode_slider_32();
+			case EuclidianConstants.MODE_SLIDER:
+				return ToolbarSvgResourcesSync.INSTANCE.mode_slider_32();
 
-		case EuclidianConstants.MODE_SLOPE:
-			return resourceBundle.mode_slope_32();
+			case EuclidianConstants.MODE_SLOPE:
+				return resourceBundle.mode_slope_32();
 
-		case EuclidianConstants.MODE_CAS_SOLVE:
-			return resourceBundle.mode_solve_32();
+			case EuclidianConstants.MODE_CAS_SOLVE:
+				return resourceBundle.mode_solve_32();
 
-		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
-			return resourceBundle.mode_substitute_32();
+			case EuclidianConstants.MODE_CAS_SUBSTITUTE:
+				return resourceBundle.mode_substitute_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_SUM:
-			return resourceBundle.mode_sumcells_32();
+			case EuclidianConstants.MODE_SPREADSHEET_SUM:
+				return resourceBundle.mode_sumcells_32();
 
-		case EuclidianConstants.MODE_TANGENTS:
-			return resourceBundle.mode_tangent_32();
+			case EuclidianConstants.MODE_TANGENTS:
+				return resourceBundle.mode_tangent_32();
 
-		case EuclidianConstants.MODE_TEXT:
-			return resourceBundle.mode_text_32();
+			case EuclidianConstants.MODE_TEXT:
+				return resourceBundle.mode_text_32();
 
-		case EuclidianConstants.MODE_MEDIA_TEXT:
-			return resourceBundle.mode_media_text();
+			case EuclidianConstants.MODE_MEDIA_TEXT:
+				return resourceBundle.mode_media_text();
 
-		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-			return resourceBundle.mode_textfieldaction_32();
+			case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+				return resourceBundle.mode_textfieldaction_32();
 
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return resourceBundle.mode_translatebyvector_32();
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				return resourceBundle.mode_translatebyvector_32();
 
-		case EuclidianConstants.MODE_TRANSLATE_VIEW:
-			return resourceBundle.mode_translateview_32();
+			case EuclidianConstants.MODE_TRANSLATE_VIEW:
+				return resourceBundle.mode_translateview_32();
 
-		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
-			return resourceBundle.mode_twovarstats_32();
+			case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
+				return resourceBundle.mode_twovarstats_32();
 
-		case EuclidianConstants.MODE_GRASPABLE_MATH:
-			return resourceBundle.mode_graspablemath_32();
+			case EuclidianConstants.MODE_GRASPABLE_MATH:
+				return resourceBundle.mode_graspablemath_32();
 
-		case EuclidianConstants.MODE_VECTOR:
-			return resourceBundle.mode_vector_32();
+			case EuclidianConstants.MODE_VECTOR:
+				return resourceBundle.mode_vector_32();
 
-		case EuclidianConstants.MODE_VECTOR_FROM_POINT:
-			return resourceBundle.mode_vectorfrompoint_32();
+			case EuclidianConstants.MODE_VECTOR_FROM_POINT:
+				return resourceBundle.mode_vectorfrompoint_32();
 
-		case EuclidianConstants.MODE_VECTOR_POLYGON:
-			return resourceBundle.mode_vectorpolygon_32();
+			case EuclidianConstants.MODE_VECTOR_POLYGON:
+				return resourceBundle.mode_vectorpolygon_32();
 
-		case EuclidianConstants.MODE_ZOOM_IN:
-			return resourceBundle.mode_zoomin_32();
+			case EuclidianConstants.MODE_ZOOM_IN:
+				return resourceBundle.mode_zoomin_32();
 
-		case EuclidianConstants.MODE_ZOOM_OUT:
-			return resourceBundle.mode_zoomout_32();
+			case EuclidianConstants.MODE_ZOOM_OUT:
+				return resourceBundle.mode_zoomout_32();
 
-		/*
-		 * 3D
-		 */
+			/*
+			 * 3D
+			 */
 
-		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
-			return resourceBundle.mode_circleaxispoint_32();
+			case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
+				return resourceBundle.mode_circleaxispoint_32();
 
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
-			return resourceBundle.mode_circlepointradiusdirection_32();
+			case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
+				return resourceBundle.mode_circlepointradiusdirection_32();
 
-		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-			return resourceBundle.mode_cone_32();
+			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+				return resourceBundle.mode_cone_32();
 
-		case EuclidianConstants.MODE_CONIFY:
-			return resourceBundle.mode_conify_32();
+			case EuclidianConstants.MODE_CONIFY:
+				return resourceBundle.mode_conify_32();
 
-		case EuclidianConstants.MODE_CUBE:
-			return resourceBundle.mode_cube_32();
+			case EuclidianConstants.MODE_CUBE:
+				return resourceBundle.mode_cube_32();
 
-		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-			return resourceBundle.mode_cylinder_32();
+			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
+				return resourceBundle.mode_cylinder_32();
 
-		case EuclidianConstants.MODE_EXTRUSION:
-			return resourceBundle.mode_extrusion_32();
+			case EuclidianConstants.MODE_EXTRUSION:
+				return resourceBundle.mode_extrusion_32();
 
-		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
-			return resourceBundle.mode_mirroratplane_32();
+			case EuclidianConstants.MODE_MIRROR_AT_PLANE:
+				return resourceBundle.mode_mirroratplane_32();
 
-		case EuclidianConstants.MODE_NET:
-			return resourceBundle.mode_net_32();
+			case EuclidianConstants.MODE_NET:
+				return resourceBundle.mode_net_32();
 
-		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-			return resourceBundle.mode_orthogonalplane_32();
+			case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
+				return resourceBundle.mode_orthogonalplane_32();
 
-		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			return resourceBundle.mode_parallelplane_32();
+			case EuclidianConstants.MODE_PARALLEL_PLANE:
+				return resourceBundle.mode_parallelplane_32();
 
-		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-			return resourceBundle.mode_planethreepoint_32();
+			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
+				return resourceBundle.mode_planethreepoint_32();
 
-		case EuclidianConstants.MODE_PLANE:
-			return resourceBundle.mode_plane_32();
+			case EuclidianConstants.MODE_PLANE:
+				return resourceBundle.mode_plane_32();
 
-		case EuclidianConstants.MODE_PRISM:
-			return resourceBundle.mode_prism_32();
+			case EuclidianConstants.MODE_PRISM:
+				return resourceBundle.mode_prism_32();
 
-		case EuclidianConstants.MODE_PYRAMID:
-			return resourceBundle.mode_pyramid_32();
+			case EuclidianConstants.MODE_PYRAMID:
+				return resourceBundle.mode_pyramid_32();
 
-		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
-			return resourceBundle.mode_rotatearoundline_32();
+			case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
+				return resourceBundle.mode_rotatearoundline_32();
 
-		case EuclidianConstants.MODE_ROTATEVIEW:
-			return resourceBundle.mode_rotateview_32();
+			case EuclidianConstants.MODE_ROTATEVIEW:
+				return resourceBundle.mode_rotateview_32();
 
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			return resourceBundle.mode_sphere2_32();
+			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+				return resourceBundle.mode_sphere2_32();
 
-		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-			return resourceBundle.mode_spherepointradius_32();
+			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
+				return resourceBundle.mode_spherepointradius_32();
 
-		case EuclidianConstants.MODE_TETRAHEDRON:
-			return resourceBundle.mode_tetrahedron_32();
+			case EuclidianConstants.MODE_TETRAHEDRON:
+				return resourceBundle.mode_tetrahedron_32();
 
-		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
-			return resourceBundle.mode_viewinfrontof_32();
+			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
+				return resourceBundle.mode_viewinfrontof_32();
 
-		case EuclidianConstants.MODE_VOLUME:
-			return resourceBundle.mode_volume_32();
+			case EuclidianConstants.MODE_VOLUME:
+				return resourceBundle.mode_volume_32();
 
-		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
-			return resourceBundle.mode_orthogonalthreed_32();
+			case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
+				return resourceBundle.mode_orthogonalthreed_32();
 
-		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
-			return resourceBundle.mode_surface_of_revolution();
+			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+				return resourceBundle.mode_surface_of_revolution();
 
-		/* WHITEBOARD TOOLS */
-		case EuclidianConstants.MODE_SHAPE_LINE:
-			return resourceBundle.mode_shape_line_32();
+			/* WHITEBOARD TOOLS */
+			case EuclidianConstants.MODE_SHAPE_LINE:
+				return resourceBundle.mode_shape_line_32();
 
-		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
-			return resourceBundle.mode_shape_triangle_32();
+			case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+				return resourceBundle.mode_shape_triangle_32();
 
-		case EuclidianConstants.MODE_SHAPE_SQUARE:
-			return resourceBundle.mode_shape_square_32();
+			case EuclidianConstants.MODE_SHAPE_SQUARE:
+				return resourceBundle.mode_shape_square_32();
 
-		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
-			return resourceBundle.mode_shape_rectangle_32();
+			case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+				return resourceBundle.mode_shape_rectangle_32();
 
-		case EuclidianConstants.MODE_SHAPE_PENTAGON:
-			return resourceBundle.mode_shape_pentagon_32();
+			case EuclidianConstants.MODE_SHAPE_PENTAGON:
+				return resourceBundle.mode_shape_pentagon_32();
 
-		case EuclidianConstants.MODE_SHAPE_FREEFORM:
-			return resourceBundle.mode_shape_freeform_32();
+			case EuclidianConstants.MODE_SHAPE_FREEFORM:
+				return resourceBundle.mode_shape_freeform_32();
 
-		case EuclidianConstants.MODE_SHAPE_CIRCLE:
-			return resourceBundle.mode_shape_circle_32();
+			case EuclidianConstants.MODE_SHAPE_CIRCLE:
+				return resourceBundle.mode_shape_circle_32();
 
-		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
-			return resourceBundle.mode_shape_ellipse_32();
+			case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+				return resourceBundle.mode_shape_ellipse_32();
 
-		case EuclidianConstants.MODE_ERASER:
-			return resourceBundle.mode_eraser_32();
+			case EuclidianConstants.MODE_ERASER:
+				return resourceBundle.mode_eraser_32();
 
-		case EuclidianConstants.MODE_HIGHLIGHTER:
-			return resourceBundle.mode_highlighter_32();
+			case EuclidianConstants.MODE_HIGHLIGHTER:
+				return resourceBundle.mode_highlighter_32();
 
-		case EuclidianConstants.MODE_VIDEO:
-			return resourceBundle.mode_video_32();
+			case EuclidianConstants.MODE_VIDEO:
+				return resourceBundle.mode_video_32();
 
-		case EuclidianConstants.MODE_CAMERA:
-			return resourceBundle.mode_camera_32();
+			case EuclidianConstants.MODE_CAMERA:
+				return resourceBundle.mode_camera_32();
 
-		case EuclidianConstants.MODE_AUDIO:
-			return resourceBundle.mode_audio_32();
+			case EuclidianConstants.MODE_AUDIO:
+				return resourceBundle.mode_audio_32();
 
-		case EuclidianConstants.MODE_CALCULATOR:
-			return resourceBundle.mode_calculator();
+			case EuclidianConstants.MODE_CALCULATOR:
+				return resourceBundle.mode_calculator();
 
-		case EuclidianConstants.MODE_EXTENSION:
-			return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
+			case EuclidianConstants.MODE_EXTENSION:
+				return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
 
-		case EuclidianConstants.MODE_PDF:
-			return resourceBundle.mode_pdf_32();
+			case EuclidianConstants.MODE_PDF:
+				return resourceBundle.mode_pdf_32();
 
-		case EuclidianConstants.MODE_MASK:
-			return resourceBundle.mode_mask();
+			case EuclidianConstants.MODE_MASK:
+				return resourceBundle.mode_mask();
 
-		case EuclidianConstants.MODE_SHAPE_CURVE:
-			return resourceBundle.mode_curve();
+			case EuclidianConstants.MODE_SHAPE_CURVE:
+				return resourceBundle.mode_curve();
 
-		case EuclidianConstants.MODE_SHAPE_STADIUM:
-			return resourceBundle.mode_stadium();
+			case EuclidianConstants.MODE_SHAPE_STADIUM:
+				return resourceBundle.mode_stadium();
 
-		case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
-			return resourceBundle.mode_parallelogram();
+			case EuclidianConstants.MODE_SHAPE_PARALLELOGRAM:
+				return resourceBundle.mode_parallelogram();
 
-		case EuclidianConstants.MODE_TABLE:
-			return resourceBundle.mode_table();
+			case EuclidianConstants.MODE_TABLE:
+				return resourceBundle.mode_table();
 
-		case EuclidianConstants.MODE_EQUATION:
-			return resourceBundle.mode_equation();
+			case EuclidianConstants.MODE_EQUATION:
+				return resourceBundle.mode_equation();
 
-		case EuclidianConstants.MODE_MIND_MAP:
-			return resourceBundle.mode_mindmap();
+			case EuclidianConstants.MODE_MIND_MAP:
+				return resourceBundle.mode_mindmap();
 
-		case EuclidianConstants.MODE_RULER:
-			return resourceBundle.mode_ruler();
+			case EuclidianConstants.MODE_RULER:
+				return resourceBundle.mode_ruler();
 
-		case EuclidianConstants.MODE_PROTRACTOR:
-			return resourceBundle.mode_protractor();
+			case EuclidianConstants.MODE_PROTRACTOR:
+				return resourceBundle.mode_protractor();
 
-		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
-			return resourceBundle.mode_triangle_protractor();
+			case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+				return resourceBundle.mode_triangle_protractor();
 
-		default:
-			return SVGResourcePrototype.EMPTY;
+			default:
+				return SVGResourcePrototype.EMPTY;
 		}
-
 	}
 
 	/**
@@ -981,7 +977,7 @@ public final class GGWToolBar extends Composite
 
 	/**
 	 * Select a mode.
-	 * 
+	 *
 	 * @param mode
 	 *            new mode
 	 * @return -1 //mode that was actually selected
@@ -1003,7 +999,6 @@ public final class GGWToolBar extends Composite
 		} else if (this.openMenuButton != null) {
 			this.openMenuButton.getElement().addClassName("selectedButton");
 		}
-
 	}
 
 	/**
@@ -1041,8 +1036,7 @@ public final class GGWToolBar extends Composite
 
 	@Override
 	public void onResize() {
-		setToolbarWidth(
-				app.getWidth() <= 0 ? app.getAppletWidth() : app.getWidth());
+		setToolbarWidth(app.getWidth() <= 0 ? app.getAppletWidth() : app.getWidth());
 	}
 
 	/**
@@ -1107,7 +1101,7 @@ public final class GGWToolBar extends Composite
 
 	/**
 	 * sets the with of the submenu dynamically on resize
-	 * 
+	 *
 	 * @param width
 	 *            toolbar width
 	 */
@@ -1116,8 +1110,7 @@ public final class GGWToolBar extends Composite
 			int maxButtons = getMaxButtons((int) width);
 			int submenuButtonCount = 0;
 			if (submenuPanel.getWidgetCount() != 0) {
-				submenuButtonCount = ((ToolbarSubmenuP) submenuPanel
-						.getWidget(0)).getButtonCount();
+				submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
 			}
 			submenuScrollPanel.setWidth((maxButtons - 1) * 45 + "px");
 			submenuPanel.setWidth(submenuButtonCount * 45 + "px");
@@ -1139,13 +1132,11 @@ public final class GGWToolBar extends Composite
 		if (app.isWhiteboardActive()) {
 			app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		} else {
-			if (app.getToolbar() == null
-					|| ((GGWToolBar) app.getToolbar()).getToolBar() == null) {
+			if (app.getToolbar() == null || ((GGWToolBar) app.getToolbar()).getToolBar() == null) {
 				return;
 			}
 			app.setMode(
-					((GGWToolBar) app.getToolbar()).getToolBar().getFirstMode(),
-					ModeSetter.DOCK_PANEL);
+					((GGWToolBar) app.getToolbar()).getToolBar().getFirstMode(), ModeSetter.DOCK_PANEL);
 		}
 	}
 

@@ -21,8 +21,7 @@ import org.geogebra.common.kernel.geos.HasTextFormatter;
 
 public class TextFormatterDelegate extends AbstractGeoElementDelegate {
 
-	public TextFormatterDelegate(GeoElement element)
-			throws NotApplicablePropertyException {
+	public TextFormatterDelegate(GeoElement element) throws NotApplicablePropertyException {
 		super(element);
 	}
 

@@ -44,8 +44,11 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	 * @param computer
 	 *            quadric computer
 	 */
-	public AlgoQuadric(Construction c, GeoElementND secondInput,
-			GeoNumberValue number, AlgoQuadricComputer computer) {
+	public AlgoQuadric(
+			Construction c,
+			GeoElementND secondInput,
+			GeoNumberValue number,
+			AlgoQuadricComputer computer) {
 		this(c, secondInput, number, computer, true);
 	}
 
@@ -61,8 +64,11 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	 * @param addToConstructionList
 	 *            whether to add this to construction
 	 */
-	public AlgoQuadric(Construction c, GeoElementND secondInput,
-			GeoNumberValue number, AlgoQuadricComputer computer,
+	public AlgoQuadric(
+			Construction c,
+			GeoElementND secondInput,
+			GeoNumberValue number,
+			AlgoQuadricComputer computer,
 			boolean addToConstructionList) {
 		super(c, addToConstructionList);
 		quadric = computer.newQuadric(c);
@@ -71,7 +77,6 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 		this.secondInput = secondInput;
 
 		this.computer = computer;
-
 	}
 
 	protected AlgoQuadricComputer getComputer() {
@@ -79,7 +84,7 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return second input
 	 */
 	protected GeoElementND getSecondInput() {
@@ -87,7 +92,7 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return radius or angle
 	 */
 	protected GeoNumberValue getNumber() {
@@ -95,7 +100,7 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return direction of the axis
 	 */
 	protected abstract Coords getDirection();

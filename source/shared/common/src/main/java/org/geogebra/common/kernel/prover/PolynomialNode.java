@@ -34,7 +34,7 @@ public class PolynomialNode {
 	/**
 	 * Creates a polynomial node with an operation (root node) and left/right
 	 * nodes.
-	 * 
+	 *
 	 * @param left
 	 *            the left node
 	 * @param right
@@ -42,8 +42,7 @@ public class PolynomialNode {
 	 * @param operation
 	 *            the operation
 	 */
-	public PolynomialNode(PolynomialNode left, PolynomialNode right,
-			Operation operation) {
+	public PolynomialNode(PolynomialNode left, PolynomialNode right, Operation operation) {
 		this.left = left;
 		this.right = right;
 		this.operation = operation;
@@ -52,12 +51,11 @@ public class PolynomialNode {
 	/**
 	 * Creates an empty polynomial node.
 	 */
-	public PolynomialNode() {
-	}
+	public PolynomialNode() {}
 
 	/**
 	 * Getter for the left node of the polynomial node.
-	 * 
+	 *
 	 * @return the left node
 	 */
 	public PolynomialNode getLeft() {
@@ -66,7 +64,7 @@ public class PolynomialNode {
 
 	/**
 	 * Sets the left node of the polynomial node.
-	 * 
+	 *
 	 * @param left
 	 *            the left node
 	 */
@@ -76,7 +74,7 @@ public class PolynomialNode {
 
 	/**
 	 * Getter for the right node of the polynomial node.
-	 * 
+	 *
 	 * @return the right node
 	 */
 	public PolynomialNode getRight() {
@@ -85,7 +83,7 @@ public class PolynomialNode {
 
 	/**
 	 * Sets the right node of the polynomial node.
-	 * 
+	 *
 	 * @param right
 	 *            the right node
 	 */
@@ -95,7 +93,7 @@ public class PolynomialNode {
 
 	/**
 	 * Getter for the operation.
-	 * 
+	 *
 	 * @return the operation
 	 */
 	public Operation getOperation() {
@@ -104,7 +102,7 @@ public class PolynomialNode {
 
 	/**
 	 * Setter for the operation.
-	 * 
+	 *
 	 * @param operation
 	 *            the operation
 	 */
@@ -114,7 +112,7 @@ public class PolynomialNode {
 
 	/**
 	 * Setter for the polynomial.
-	 * 
+	 *
 	 * @param poly
 	 *            the polynomial
 	 */
@@ -124,7 +122,7 @@ public class PolynomialNode {
 
 	/**
 	 * Getter for the polynomial.
-	 * 
+	 *
 	 * @return the polynomial
 	 */
 	public PPolynomial getPoly() {
@@ -133,11 +131,10 @@ public class PolynomialNode {
 
 	/**
 	 * Converts the polynomial to Long.
-	 * 
+	 *
 	 * @return the constant polynomial
 	 */
 	public Long evaluateLong() {
 		return this.poly.getConstant().longValue();
 	}
-
 }

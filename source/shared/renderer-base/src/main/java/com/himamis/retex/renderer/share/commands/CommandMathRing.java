@@ -22,5 +22,4 @@ public class CommandMathRing extends Command1A {
 	public boolean isClosable() {
 		return true;
 	}
-
 }

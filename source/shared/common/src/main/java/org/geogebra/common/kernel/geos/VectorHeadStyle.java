@@ -30,7 +30,8 @@ public enum VectorHeadStyle {
 		public VectorShape createShape(DrawVectorModel model) {
 			return new DefaultVectorShape(model);
 		}
-	}, ARROW {
+	},
+	ARROW {
 		@Override
 		public VectorShape createShape(DrawVectorModel model) {
 			return new ArrowVectorShape(model);

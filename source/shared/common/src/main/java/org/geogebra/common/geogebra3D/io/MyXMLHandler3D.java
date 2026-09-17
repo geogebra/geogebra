@@ -34,9 +34,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class extending MyXMLHandler for 3D
- * 
+ *
  * @author ggb3D
- * 
+ *
  *
  */
 public class MyXMLHandler3D extends MyXMLHandler {
@@ -46,7 +46,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * See Kernel3D for using the constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param cons
@@ -61,15 +61,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	// ====================================
 	/**
 	 * only used in MyXMLHandler3D
-	 * 
+	 *
 	 * @param eName
 	 *            element name
 	 * @param attrs
 	 *            attributes
 	 */
 	@Override
-	protected void startEuclidianView3DElement(String eName,
-			Map<String, String> attrs) {
+	protected void startEuclidianView3DElement(String eName, Map<String, String> attrs) {
 
 		// must do this first
 		if (evSettings == null) {
@@ -88,48 +87,48 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		// EuclidianView3DInterface ev = app.getEuclidianView3D();
 
 		switch (eName) {
-		case "axesColor":
-			// ok = handleAxesColor(ev, attrs);
-			break;
-		case "axis":
-			ok = handleAxis(attrs);
-			break;
-		case "axesColored":
-			ok = handleColoredAxes((EuclidianSettings3D) evSettings, attrs);
-			break;
-		case "bgColor":
-			ok = handleBgColor(attrs);
-			break;
-		case "coordSystem":
-			ok = handleCoordSystem3D((EuclidianSettings3D) evSettings, attrs);
-			break;
-		case "clipping":
-			ok = handleClipping((EuclidianSettings3D) evSettings, attrs);
-			break;
-		case "evSettings":
-			ok = handleEvSettings(attrs);
-			break;
-		case "grid":
-			ok = handleGrid(attrs);
-			break;
-		case "light":
-			ok = handleLight((EuclidianSettings3D) evSettings, attrs);
-			break;
-		case "labelStyle":
-			ok = handleLabelStyle(attrs);
-			break;
-		case "plate":
-		case "plane":
-			ok = handlePlate((EuclidianSettings3D) evSettings, attrs);
-			break;
-		case "projection":
-			ok = handleProjection((EuclidianSettings3D) evSettings, attrs);
-			break;
-		case "yAxisVertical":
-			ok = handleYAxisIsUp((EuclidianSettings3D) evSettings, attrs);
-			break;
-		default:
-			Log.error("unknown tag in <euclidianView3D>: " + eName);
+			case "axesColor":
+				// ok = handleAxesColor(ev, attrs);
+				break;
+			case "axis":
+				ok = handleAxis(attrs);
+				break;
+			case "axesColored":
+				ok = handleColoredAxes((EuclidianSettings3D) evSettings, attrs);
+				break;
+			case "bgColor":
+				ok = handleBgColor(attrs);
+				break;
+			case "coordSystem":
+				ok = handleCoordSystem3D((EuclidianSettings3D) evSettings, attrs);
+				break;
+			case "clipping":
+				ok = handleClipping((EuclidianSettings3D) evSettings, attrs);
+				break;
+			case "evSettings":
+				ok = handleEvSettings(attrs);
+				break;
+			case "grid":
+				ok = handleGrid(attrs);
+				break;
+			case "light":
+				ok = handleLight((EuclidianSettings3D) evSettings, attrs);
+				break;
+			case "labelStyle":
+				ok = handleLabelStyle(attrs);
+				break;
+			case "plate":
+			case "plane":
+				ok = handlePlate((EuclidianSettings3D) evSettings, attrs);
+				break;
+			case "projection":
+				ok = handleProjection((EuclidianSettings3D) evSettings, attrs);
+				break;
+			case "yAxisVertical":
+				ok = handleYAxisIsUp((EuclidianSettings3D) evSettings, attrs);
+				break;
+			default:
+				Log.error("unknown tag in <euclidianView3D>: " + eName);
 		}
 
 		if (!ok) {
@@ -137,8 +136,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 
-	private boolean handleCoordSystem3D(EuclidianSettings3D evs,
-			Map<String, String> attrs) {
+	private boolean handleCoordSystem3D(EuclidianSettings3D evs, Map<String, String> attrs) {
 		if (attrs.get("xZero") != null) {
 			try {
 				double xZero = parseDoubleNaN(attrs.get("xZero"));
@@ -203,15 +201,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * handles plane attributes (show plate) for EuclidianView3D
-	 * 
+	 *
 	 * @param evs
 	 *            settings
 	 * @param attrs
 	 *            attributes
 	 * @return true if all is done ok
 	 */
-	protected boolean handlePlate(EuclidianSettings3D evs,
-			Map<String, String> attrs) {
+	protected boolean handlePlate(EuclidianSettings3D evs, Map<String, String> attrs) {
 		try {
 			String strShowPlate = attrs.get("show");
 
@@ -229,15 +226,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * handles if axes are colored in EuclidianView3D
-	 * 
+	 *
 	 * @param evs
 	 *            settings
 	 * @param attrs
 	 *            attributes
 	 * @return true if all is done ok
 	 */
-	static private boolean handleColoredAxes(EuclidianSettings3D evs,
-			Map<String, String> attrs) {
+	private static boolean handleColoredAxes(EuclidianSettings3D evs, Map<String, String> attrs) {
 		try {
 			String strHasColoredAxes = attrs.get("val");
 			Log.debug("strHasColoredAxes = " + strHasColoredAxes);
@@ -256,15 +252,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * handles plane attributes (show plate) for EuclidianView3D
-	 * 
+	 *
 	 * @param evs
 	 *            settings
 	 * @param attrs
 	 *            attributes
 	 * @return true if all is done ok
 	 */
-	protected boolean handleYAxisIsUp(EuclidianSettings3D evs,
-			Map<String, String> attrs) {
+	protected boolean handleYAxisIsUp(EuclidianSettings3D evs, Map<String, String> attrs) {
 		try {
 			String strYAxisVertical = attrs.get("val");
 
@@ -282,15 +277,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * handles light attributes for EuclidianView3D
-	 * 
+	 *
 	 * @param evs
 	 *            settings
 	 * @param attrs
 	 *            attributes
 	 * @return true if all is done ok
 	 */
-	protected boolean handleLight(EuclidianSettings3D evs,
-			Map<String, String> attrs) {
+	protected boolean handleLight(EuclidianSettings3D evs, Map<String, String> attrs) {
 		try {
 			String strLight = attrs.get("val");
 
@@ -340,8 +334,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 *            attributes
 	 * @return true if all is done ok
 	 */
-	protected boolean handleClipping(EuclidianSettings3D evs,
-			Map<String, String> attrs) {
+	protected boolean handleClipping(EuclidianSettings3D evs, Map<String, String> attrs) {
 		try {
 			String strUseClipping = attrs.get("use");
 			if (strUseClipping != null) {
@@ -367,15 +360,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * handles projection attribute
-	 * 
+	 *
 	 * @param evs
 	 *            settings
 	 * @param attrs
 	 *            attributes
 	 * @return true if all is done ok
 	 */
-	protected boolean handleProjection(EuclidianSettings3D evs,
-			Map<String, String> attrs) {
+	protected boolean handleProjection(EuclidianSettings3D evs, Map<String, String> attrs) {
 		try {
 			String strType = attrs.get("type");
 			if (strType != null) {
@@ -411,8 +403,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/** create absolute start point (coords expected) */
 	@Override
-	protected GeoPointND handleAbsoluteStartPoint(
-			Map<String, String> attrs) {
+	protected GeoPointND handleAbsoluteStartPoint(Map<String, String> attrs) {
 		double x = Double.parseDouble(attrs.get("x"));
 		double y = Double.parseDouble(attrs.get("y"));
 		double z = Double.parseDouble(attrs.get("z"));
@@ -433,8 +424,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	}
 
 	@Override
-	protected void startEuclidianViewElementCheckViewId(String eName,
-			Map<String, String> attrs) {
+	protected void startEuclidianViewElementCheckViewId(String eName, Map<String, String> attrs) {
 		if ("viewId".equals(eName)) {
 			String plane = attrs.get("plane");
 			evSettings = app.getSettings().getEuclidianForPlane(plane);
@@ -447,8 +437,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	}
 
 	@Override
-	protected boolean startEuclidianViewElementSwitch(String eName,
-			Map<String, String> attrs) {
+	protected boolean startEuclidianViewElementSwitch(String eName, Map<String, String> attrs) {
 		if ("transformForPlane".equals(eName)) {
 			return handleTransformForPlane((EuclidianSettingsForPlane) evSettings, attrs);
 		}
@@ -456,11 +445,11 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		return super.startEuclidianViewElementSwitch(eName, attrs);
 	}
 
-	private static boolean handleTransformForPlane(EuclidianSettingsForPlane ev,
-			Map<String, String> attrs) {
+	private static boolean handleTransformForPlane(
+			EuclidianSettingsForPlane ev, Map<String, String> attrs) {
 		try {
-			ev.setTransformForPlane(Boolean.parseBoolean(attrs.get("mirror")),
-					Integer.parseInt(attrs.get("rotate")));
+			ev.setTransformForPlane(
+					Boolean.parseBoolean(attrs.get("mirror")), Integer.parseInt(attrs.get("rotate")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -470,8 +459,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	@Override
 	protected void processEvSizes() {
 		super.processEvSizes();
-		ArrayList<EuclidianSettings3D> eSet = new ArrayList<>(
-				zmin.keySet());
+		ArrayList<EuclidianSettings3D> eSet = new ArrayList<>(zmin.keySet());
 		for (EuclidianSettings3D ev : eSet) {
 			if (zmin.get(ev) == null) {
 				ev.setZminObject(null, true);
@@ -489,5 +477,4 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			}
 		}
 	}
-
 }

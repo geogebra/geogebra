@@ -30,11 +30,11 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * 
+ *
  * Spline [&lt;List of Points&gt;]
- * 
+ *
  * @author Giuliano Bellucci
- * 
+ *
  */
 public class CmdSpline extends CommandProcessor {
 
@@ -53,64 +53,60 @@ public class CmdSpline extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 		switch (n) {
-		case 0:
-			throw argNumErr(c);
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
-				GeoElement[] ret = { spline(c.getLabel(), (GeoList) arg[0]) };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		case 2:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
-				int degree = (int) c.getArgument(1).evaluateDouble();
-				if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size()
-						|| degree < 3) {
-					throw argErr(c, c.getArgument(1));
+			case 0:
+				throw argNumErr(c);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
+					GeoElement[] ret = {spline(c.getLabel(), (GeoList) arg[0])};
+					return ret;
 				}
-				GeoNumberValue degreeNum = (GeoNumberValue) arg[1];
-				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
-						(GeoList) arg[0], degreeNum, null);
-				GeoCurveCartesianND list = algo.getSpline();
-				GeoElement[] ret = { list };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		case 3:
-			arg = resArgs(c, info);
-			if (!arg[2].isGeoFunctionNVar()) {
-				throw argErr(c, arg[2]);
-			}
-			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
-				int degree = (int) c.getArgument(1).evaluateDouble();
-				if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size()
-						|| degree < 3) {
-					throw argErr(c, c.getArgument(1));
+				throw argErr(c, arg[0]);
+			case 2:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
+					int degree = (int) c.getArgument(1).evaluateDouble();
+					if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size() || degree < 3) {
+						throw argErr(c, c.getArgument(1));
+					}
+					GeoNumberValue degreeNum = (GeoNumberValue) arg[1];
+					AlgoSpline algo = new AlgoSpline(cons, c.getLabel(), (GeoList) arg[0], degreeNum, null);
+					GeoCurveCartesianND list = algo.getSpline();
+					GeoElement[] ret = {list};
+					return ret;
 				}
-				GeoNumberValue degreeNum = (GeoNumberValue) arg[1];
-				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
-						(GeoList) arg[0], degreeNum, (GeoFunctionNVar) arg[2]);
-				GeoCurveCartesianND list = algo.getSpline();
-				GeoElement[] ret = { list };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		default:
-			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
-			if (list != null) {
-				GeoElement[] ret = { spline(c.getLabel(), list) };
-				return ret;
-			}
+				throw argErr(c, arg[0]);
+			case 3:
+				arg = resArgs(c, info);
+				if (!arg[2].isGeoFunctionNVar()) {
+					throw argErr(c, arg[2]);
+				}
+				if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
+					int degree = (int) c.getArgument(1).evaluateDouble();
+					if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size() || degree < 3) {
+						throw argErr(c, c.getArgument(1));
+					}
+					GeoNumberValue degreeNum = (GeoNumberValue) arg[1];
+					AlgoSpline algo = new AlgoSpline(
+							cons, c.getLabel(), (GeoList) arg[0], degreeNum, (GeoFunctionNVar) arg[2]);
+					GeoCurveCartesianND list = algo.getSpline();
+					GeoElement[] ret = {list};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
+			default:
+				GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
+				if (list != null) {
+					GeoElement[] ret = {spline(c.getLabel(), list)};
+					return ret;
+				}
 
-			throw argNumErr(c);
+				throw argNumErr(c);
 		}
 	}
 
 	private GeoCurveCartesianND spline(String label, GeoList list) {
-		AlgoSpline algo = new AlgoSpline(cons, label, list,
-				new GeoNumeric(cons, 3), null);
+		AlgoSpline algo = new AlgoSpline(cons, label, list, new GeoNumeric(cons, 3), null);
 		return algo.getSpline();
 	}
 
@@ -122,5 +118,4 @@ public class CmdSpline extends CommandProcessor {
 		}
 		return true;
 	}
-
 }

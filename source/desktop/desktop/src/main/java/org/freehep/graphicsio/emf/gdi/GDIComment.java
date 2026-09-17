@@ -11,7 +11,7 @@ import org.freehep.util.io.Tag;
 
 /**
  * GDIComment TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: GDIComment.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -42,8 +42,7 @@ public class GDIComment extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 		// FIXME decode internal EMFPlus Tags
 		int l = emf.readDWORD();
 		GDIComment tag = new GDIComment(emf.readBYTE(l));
@@ -84,9 +83,8 @@ public class GDIComment extends EMFTag {
 		String s = new String(bytes);
 		if (s.startsWith(EMF_PLUS)) {
 			try {
-				EMFInputStream emf = new EMFInputStream(
-						new ByteArrayInputStream(bytes, 4, bytes.length - 4),
-						0x4001);
+				EMFInputStream emf =
+						new EMFInputStream(new ByteArrayInputStream(bytes, 4, bytes.length - 4), 0x4001);
 				sb.append(" --> Embedding:\n");
 				Tag emfPlusTag = emf.readTag();
 				while (emfPlusTag != null) {

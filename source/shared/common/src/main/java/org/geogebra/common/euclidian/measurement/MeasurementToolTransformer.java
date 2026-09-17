@@ -44,8 +44,8 @@ public final class MeasurementToolTransformer implements PenTransformer {
 	 *
 	 * @param edges of the measurement tool.
 	 */
-	public MeasurementToolTransformer(MeasurementController measurementController,
-			List<MeasurementToolEdge> edges) {
+	public MeasurementToolTransformer(
+			MeasurementController measurementController, List<MeasurementToolEdge> edges) {
 		this(measurementController);
 		this.edges = edges;
 	}
@@ -86,8 +86,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 		}
 
 		previewPoints.set(0, initialProjection);
-		previewPoints.set(previewPoints.size() - 1,
-				getProjection(newPoint, activeEdge));
+		previewPoints.set(previewPoints.size() - 1, getProjection(newPoint, activeEdge));
 	}
 
 	private void updateInitialProjection(GPoint2D p) {
@@ -98,7 +97,7 @@ public final class MeasurementToolTransformer implements PenTransformer {
 		}
 
 		double oldDistance = Double.MAX_VALUE;
-		for (MeasurementToolEdge edge: edges) {
+		for (MeasurementToolEdge edge : edges) {
 			GPoint2D projection = getProjection(p, edge);
 			double distance = p.distance(projection);
 			if (distance < oldDistance) {
@@ -131,19 +130,19 @@ public final class MeasurementToolTransformer implements PenTransformer {
 
 		double x = corner2.getInhomY() - corner1.getInhomY();
 		double y = corner1.getInhomX() - corner2.getInhomX();
-		double z = corner2.getInhomX() * corner1.getInhomY()
-				- corner2.getInhomY() * corner1.getInhomX();
+		double z =
+				corner2.getInhomX() * corner1.getInhomY() - corner2.getInhomY() * corner1.getInhomX();
 		Coords line = new Coords(x, y, z);
-		Coords normal = new Coords(y, -x, -y * view.toRealWorldCoordX(p.getX())
-				+ x * view.toRealWorldCoordY(p.getY()));
+		Coords normal = new Coords(
+				y, -x, -y * view.toRealWorldCoordX(p.getX()) + x * view.toRealWorldCoordY(p.getY()));
 		Coords intersect = line.crossProduct(normal);
 		double xn = x / Math.hypot(x, y);
 		double yn = y / Math.hypot(x, y);
 		double thickness = view.getEuclidianController().getPen().getPenSize() / 2.0;
-		double transformedX = view.toScreenCoordXd(intersect.getX() / intersect.getZ())
-				- xn * thickness;
-		double transformedY = view.toScreenCoordYd(intersect.getY() / intersect.getZ())
-				+ yn * thickness;
+		double transformedX =
+				view.toScreenCoordXd(intersect.getX() / intersect.getZ()) - xn * thickness;
+		double transformedY =
+				view.toScreenCoordYd(intersect.getY() / intersect.getZ()) + yn * thickness;
 		return new GPoint2D(transformedX, transformedY);
 	}
 }

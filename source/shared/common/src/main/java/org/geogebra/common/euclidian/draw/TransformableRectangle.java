@@ -56,8 +56,7 @@ public class TransformableRectangle {
 	 * @param geo transformable geo
 	 * @param keepAspectRatio whether to keep aspect ratio
 	 */
-	TransformableRectangle(EuclidianView view, RectangleTransformable geo,
-			boolean keepAspectRatio) {
+	TransformableRectangle(EuclidianView view, RectangleTransformable geo, boolean keepAspectRatio) {
 		this.view = view;
 		this.geo = geo;
 		this.keepAspectRatio = keepAspectRatio;
@@ -76,8 +75,8 @@ public class TransformableRectangle {
 		double height = geo.getHeight();
 
 		directTransform = AwtFactory.getPrototype().newAffineTransform();
-		directTransform.translate(view.toScreenCoordXd(point.getX()),
-				view.toScreenCoordYd(point.getY()));
+		directTransform.translate(
+				view.toScreenCoordXd(point.getX()), view.toScreenCoordYd(point.getY()));
 		directTransform.rotate(angle);
 
 		try {
@@ -97,52 +96,52 @@ public class TransformableRectangle {
 	 * @return height (in screen coords)
 	 */
 	public int getHeight() {
-		return (int) (Math.max(Math.max(corner0.getY(), corner1.getY()),
-				Math.max(corner2.getY(), corner3.getY()))
-				- Math.min(Math.min(corner0.getY(), corner1.getY()),
-				Math.min(corner2.getY(), corner3.getY())));
+		return (int) (Math.max(
+						Math.max(corner0.getY(), corner1.getY()), Math.max(corner2.getY(), corner3.getY()))
+				- Math.min(
+						Math.min(corner0.getY(), corner1.getY()), Math.min(corner2.getY(), corner3.getY())));
 	}
 
 	/**
 	 * @return width (in screen coords)
 	 */
 	public int getWidth() {
-		return (int) (Math.max(Math.max(corner0.getX(), corner1.getX()),
-				Math.max(corner2.getX(), corner3.getX()))
-				- Math.min(Math.min(corner0.getX(), corner1.getX()),
-				Math.min(corner2.getX(), corner3.getX())));
+		return (int) (Math.max(
+						Math.max(corner0.getX(), corner1.getX()), Math.max(corner2.getX(), corner3.getX()))
+				- Math.min(
+						Math.min(corner0.getX(), corner1.getX()), Math.min(corner2.getX(), corner3.getX())));
 	}
 
 	/**
 	 * @return left (in screen coords)
 	 */
 	public int getLeft() {
-		return (int) Math.min(Math.min(corner0.getX(), corner1.getX()),
-				Math.min(corner2.getX(), corner3.getX()));
+		return (int) Math.min(
+				Math.min(corner0.getX(), corner1.getX()), Math.min(corner2.getX(), corner3.getX()));
 	}
 
 	/**
 	 * @return top (in screen coords)
 	 */
 	public int getTop() {
-		return (int) Math.min(Math.min(corner0.getY(), corner1.getY()),
-				Math.min(corner2.getY(), corner3.getY()));
+		return (int) Math.min(
+				Math.min(corner0.getY(), corner1.getY()), Math.min(corner2.getY(), corner3.getY()));
 	}
 
 	/**
 	 * @return right (in screen coords)
 	 */
 	public int getRight() {
-		return (int) Math.max(Math.max(corner0.getX(), corner1.getX()),
-				Math.max(corner2.getX(), corner3.getX()));
+		return (int) Math.max(
+				Math.max(corner0.getX(), corner1.getX()), Math.max(corner2.getX(), corner3.getX()));
 	}
 
 	/**
 	 * @return top (in screen coords)
 	 */
 	public int getBottom() {
-		return (int) Math.max(Math.max(corner0.getY(), corner1.getY()),
-				Math.max(corner2.getY(), corner3.getY()));
+		return (int) Math.max(
+				Math.max(corner0.getY(), corner1.getY()), Math.max(corner2.getY(), corner3.getY()));
 	}
 
 	/**
@@ -158,11 +157,11 @@ public class TransformableRectangle {
 	 *            list of points defining the drawable
 	 */
 	public void fromPoints(ArrayList<GPoint2D> points) {
-		double newAngle = Math.atan2(points.get(1).getY() - points.get(0).getY(),
+		double newAngle = Math.atan2(
+				points.get(1).getY() - points.get(0).getY(),
 				points.get(1).getX() - points.get(0).getX());
 
-		double newWidth = Math.max(GeoInlineText.DEFAULT_WIDTH,
-				points.get(1).distance(points.get(0)));
+		double newWidth = Math.max(GeoInlineText.DEFAULT_WIDTH, points.get(1).distance(points.get(0)));
 
 		double newHeight = points.get(2).distance(points.get(0));
 
@@ -173,10 +172,8 @@ public class TransformableRectangle {
 		geo.setSize(newWidth, newHeight);
 		geo.setAngle(newAngle);
 		geo.setLocation(new GPoint2D(
-						view.toRealWorldCoordX(points.get(0).getX()),
-						view.toRealWorldCoordY(points.get(0).getY())
-				)
-		);
+				view.toRealWorldCoordX(points.get(0).getX()),
+				view.toRealWorldCoordY(points.get(0).getY())));
 	}
 
 	/**
@@ -184,16 +181,14 @@ public class TransformableRectangle {
 	 */
 	public boolean hit(int x, int y) {
 		GPoint2D p = inverseTransform.transform(new GPoint2D(x, y), null);
-		return 0 < p.getX() && p.getX() < geo.getWidth()
-				&& 0 < p.getY() && p.getY() < geo.getHeight();
+		return 0 < p.getX() && p.getX() < geo.getWidth() && 0 < p.getY() && p.getY() < geo.getHeight();
 	}
 
 	/**
 	 * @return bounds on screen
 	 */
 	public GRectangle getBounds() {
-		return AwtFactory.getPrototype().newRectangle(getLeft(), getTop(),
-				getWidth(), getHeight());
+		return AwtFactory.getPrototype().newRectangle(getLeft(), getTop(), getWidth(), getHeight());
 	}
 
 	/**
@@ -228,8 +223,7 @@ public class TransformableRectangle {
 			y = transformed.getY();
 		}
 
-		if (geo instanceof  GeoInlineText
-				&& height < geo.getMinHeight() && width < geo.getWidth()) {
+		if (geo instanceof GeoInlineText && height < geo.getMinHeight() && width < geo.getWidth()) {
 			return;
 		}
 
@@ -250,15 +244,15 @@ public class TransformableRectangle {
 		GPoint2D origin = directTransform.transform(new GPoint2D(x, y), null);
 		// setting size first, location second is important for images
 		geo.setSize(width, height);
-		geo.setLocation(new GPoint2D(view.toRealWorldCoordX(origin.getX()),
-				view.toRealWorldCoordY(origin.getY())));
+		geo.setLocation(
+				new GPoint2D(view.toRealWorldCoordX(origin.getX()), view.toRealWorldCoordY(origin.getY())));
 
 		geo.updateRepaint();
 		updateSelfAndBoundingBox();
 	}
 
-	protected void updateAspectRatio(RectangleTransformable geo,
-			EuclidianBoundingBoxHandler handler) {
+	protected void updateAspectRatio(
+			RectangleTransformable geo, EuclidianBoundingBoxHandler handler) {
 		if (!handler.isDiagonal()) {
 			aspectRatio = Double.NaN;
 		} else if (Double.isNaN(aspectRatio)) {
@@ -299,21 +293,20 @@ public class TransformableRectangle {
 	public MediaBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			if (geo instanceof GeoMindMapNode) {
-				boundingBox = new MindMapBoundingBox(view, (GeoMindMapNode) geo,
-						view.getEuclidianController().getRotationImage());
+				boundingBox = new MindMapBoundingBox(
+						view, (GeoMindMapNode) geo, view.getEuclidianController().getRotationImage());
 			} else if (geo.isMeasurementTool()) {
-				boundingBox = new MeasurementToolBoundingBox(
-						view.getEuclidianController().getRotationImage());
+				boundingBox =
+						new MeasurementToolBoundingBox(view.getEuclidianController().getRotationImage());
 			} else {
-				boundingBox = new MediaBoundingBox(
-						view.getEuclidianController().getRotationImage());
+				boundingBox = new MediaBoundingBox(view.getEuclidianController().getRotationImage());
 			}
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
-			boundingBox.setSecondaryColor(view.getApplication().isByCS()
-				? GColor.MOW_MIND_MAP_PLUS_ACTIVE
-				: GColor.MIND_MAP_PLUS_ACTIVE
-			);
+			boundingBox.setSecondaryColor(
+					view.getApplication().isByCS()
+							? GColor.MOW_MIND_MAP_PLUS_ACTIVE
+							: GColor.MIND_MAP_PLUS_ACTIVE);
 		}
 		boundingBox.updateFrom(geo.toGeoElement());
 		return boundingBox;

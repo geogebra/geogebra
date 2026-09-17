@@ -87,8 +87,7 @@ public class VlineAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (n != 0) {
-			double drt = env.getTeXFont()
-					.getDefaultRuleThickness(env.getStyle());
+			double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 
 			return new VlineBox(n, drt, height, shift);
 		}

@@ -95,7 +95,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (IntervalTuple point: list) {
+		for (IntervalTuple point : list) {
 			sb.append(point.toString());
 		}
 		return sb.toString();
@@ -104,7 +104,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 	@Override
 	public int hashCode() {
 		int hashCode = 7;
-		for (IntervalTuple point: list) {
+		for (IntervalTuple point : list) {
 			hashCode += point.hashCode();
 		}
 		return hashCode;

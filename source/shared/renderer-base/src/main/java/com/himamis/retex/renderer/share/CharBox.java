@@ -59,8 +59,7 @@ public class CharBox extends Box {
 
 	private final char[] arr = new char[1];
 
-	protected CharBox() {
-	}
+	protected CharBox() {}
 
 	/**
 	 * Create a new CharBox that will represent the character defined by the
@@ -103,7 +102,6 @@ public class CharBox extends Box {
 			if (size != 1) {
 				g2.scale(size, size);
 			}
-
 		}
 		Font oldFont = g2.getFont();
 		if (!oldFont.isEqual(font)) {

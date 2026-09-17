@@ -23,11 +23,10 @@ package org.geogebra.common.kernel.arithmetic;
 public interface Evaluatable {
 	/**
 	 * Evaluates this function/expression at given position.
-	 * 
+	 *
 	 * @param x
 	 *            position
 	 * @return f(x)
 	 */
 	double value(double x);
-
 }

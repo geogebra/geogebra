@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Take first n objects from a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoFirst extends AlgoElement {
 
 	protected GeoElement inputList; // input
@@ -46,8 +45,7 @@ public class AlgoFirst extends AlgoElement {
 	 * @param n
 	 *            number of elements (null for 1)
 	 */
-	public AlgoFirst(Construction cons, String label, GeoElement inputList,
-			GeoNumeric n) {
+	public AlgoFirst(Construction cons, String label, GeoElement inputList, GeoNumeric n) {
 		super(cons);
 		this.inputList = inputList;
 		this.n = n;
@@ -70,8 +68,7 @@ public class AlgoFirst extends AlgoElement {
 		// make sure that x(Element[list,1]) will work even if the output list's
 		// length is zero
 		if (inputList.isGeoList()) {
-			outputList.setTypeStringForXML(
-					((GeoList) inputList).getTypeStringForXML());
+			outputList.setTypeStringForXML(((GeoList) inputList).getTypeStringForXML());
 		} else {
 			// inputList is a Locusm see AlgoFirstLocus
 			outputList.setTypeStringForXML("point");
@@ -100,8 +97,7 @@ public class AlgoFirst extends AlgoElement {
 		size = ((GeoList) inputList).size();
 		int outsize = n == null ? 1 : (int) n.getDouble();
 
-		if (!inputList.isDefined() || size == 0 || outsize < 0
-				|| outsize > size) {
+		if (!inputList.isDefined() || size == 0 || outsize < 0 || outsize > size) {
 			outputList.setUndefined();
 			return;
 		}
@@ -117,5 +113,4 @@ public class AlgoFirst extends AlgoElement {
 			outputList.add(((GeoList) inputList).get(i).copyInternal(cons));
 		}
 	}
-
 }

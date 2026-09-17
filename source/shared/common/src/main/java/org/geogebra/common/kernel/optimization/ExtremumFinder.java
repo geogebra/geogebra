@@ -1,39 +1,39 @@
 // vendored
 /*
-    Fmin.java copyright claim:
+		Fmin.java copyright claim:
 
-    This software is based on the public domain fmin routine.
-    The FORTRAN version can be found at
+		This software is based on the public domain fmin routine.
+		The FORTRAN version can be found at
 
-    www.netlib.org
+		www.netlib.org
 
-    This software was translated from the FORTRAN version
-    to Java by a US government employee on official time.  
-    Thus this software is also in the public domain.
+		This software was translated from the FORTRAN version
+		to Java by a US government employee on official time.
+		Thus this software is also in the public domain.
 
-    The translator's mail address is:
+		The translator's mail address is:
 
-    Steve Verrill 
-    USDA Forest Products Laboratory
-    1 Gifford Pinchot Drive
-    Madison, Wisconsin
-    53705
+		Steve Verrill
+		USDA Forest Products Laboratory
+		1 Gifford Pinchot Drive
+		Madison, Wisconsin
+		53705
 
-    The translator's e-mail address is:
+		The translator's e-mail address is:
 
-    steve@www1.fpl.fs.fed.us
+		steve@www1.fpl.fs.fed.us
 
 ***********************************************************************
 
 DISCLAIMER OF WARRANTIES:
 
-THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. 
-THE TRANSLATOR DOES NOT WARRANT, GUARANTEE OR MAKE ANY REPRESENTATIONS 
-REGARDING THE SOFTWARE OR DOCUMENTATION IN TERMS OF THEIR CORRECTNESS, 
-RELIABILITY, CURRENTNESS, OR OTHERWISE. THE ENTIRE RISK AS TO 
-THE RESULTS AND PERFORMANCE OF THE SOFTWARE IS ASSUMED BY YOU. 
-IN NO CASE WILL ANY PARTY INVOLVED WITH THE CREATION OR DISTRIBUTION 
-OF THE SOFTWARE BE LIABLE FOR ANY DAMAGE THAT MAY RESULT FROM THE USE 
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND.
+THE TRANSLATOR DOES NOT WARRANT, GUARANTEE OR MAKE ANY REPRESENTATIONS
+REGARDING THE SOFTWARE OR DOCUMENTATION IN TERMS OF THEIR CORRECTNESS,
+RELIABILITY, CURRENTNESS, OR OTHERWISE. THE ENTIRE RISK AS TO
+THE RESULTS AND PERFORMANCE OF THE SOFTWARE IS ASSUMED BY YOU.
+IN NO CASE WILL ANY PARTY INVOLVED WITH THE CREATION OR DISTRIBUTION
+OF THE SOFTWARE BE LIABLE FOR ANY DAMAGE THAT MAY RESULT FROM THE USE
 OF THIS SOFTWARE.
 
 Sorry about that.
@@ -69,9 +69,8 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
  *
  * @author Steve Verrill
  * @version .5 --- March 24, 1998
- * 
+ *
  */
-
 public class ExtremumFinder implements ExtremumFinderI {
 
 	private int maxIterations = 100;
@@ -104,10 +103,8 @@ public class ExtremumFinder implements ExtremumFinderI {
 	 *
 	 */
 	@Override
-	final public double findMaximum(double a, double b,
-			UnivariateFunction maxfunction, double tol) {
-		NegativeRealRootFunction minfunc = new NegativeRealRootFunction(
-				maxfunction);
+	public final double findMaximum(double a, double b, UnivariateFunction maxfunction, double tol) {
+		NegativeRealRootFunction minfunc = new NegativeRealRootFunction(maxfunction);
 		return findMinimum(a, b, minfunc, tol);
 	}
 
@@ -142,15 +139,14 @@ public class ExtremumFinder implements ExtremumFinderI {
 	 *
 	 */
 	@Override
-	final public double findMinimum(double a0, double b0,
-			UnivariateFunction minclass, double tol) {
+	public final double findMinimum(double a0, double b0, UnivariateFunction minclass, double tol) {
 		double a = a0;
 		double b = b0;
 
 		/*
-		 * 
+		 *
 		 * Here is a copy of the Netlib documentation:
-		 * 
+		 *
 		 * c c An approximation x to the point where f attains a minimum on c
 		 * the interval (ax,bx) is determined. c c input.. c c ax left endpoint
 		 * of initial interval c bx right endpoint of initial interval c f
@@ -175,7 +171,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 		 * version of the c Algol 60 procedure localmin given in Richard Brent,
 		 * Algorithms For c Minimization Without Derivatives, Prentice-Hall,
 		 * Inc. (1973). c
-		 * 
+		 *
 		 */
 
 		// start value
@@ -229,8 +225,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 				e = d;
 			}
 
-			if ((Math.abs(p) < Math.abs(.5 * q * r)) && (p > q * (a - x))
-					&& (p < q * (b - x))) {
+			if ((Math.abs(p) < Math.abs(.5 * q * r)) && (p > q * (a - x)) && (p < q * (b - x))) {
 
 				// a parabolic interpolation step
 
@@ -316,8 +311,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 					tol1 = eps * Math.abs(x) + tol3;
 					t2 = 2.0 * tol1;
 
-				} else if ((fu > fv) && !MyDouble.exactEqual(v, x)
-						&& !MyDouble.exactEqual(v, w)) {
+				} else if ((fu > fv) && !MyDouble.exactEqual(v, x) && !MyDouble.exactEqual(v, w)) {
 
 					xm = .5 * (a + b);
 					tol1 = eps * Math.abs(x) + tol3;
@@ -331,17 +325,13 @@ public class ExtremumFinder implements ExtremumFinderI {
 					xm = .5 * (a + b);
 					tol1 = eps * Math.abs(x) + tol3;
 					t2 = 2.0 * tol1;
-
 				}
-
 			}
 
 			// brace below corresponds to statement 190
 		}
 		return x;
-
 	}
-
 }
 
 // use -f for maximum

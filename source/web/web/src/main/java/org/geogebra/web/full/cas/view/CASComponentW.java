@@ -29,8 +29,8 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  * Widget representing the CAS View
  *
  */
-public final class CASComponentW extends ScrollPanel implements ScrollHandler,
-        NativePreviewHandler {
+public final class CASComponentW extends ScrollPanel
+		implements ScrollHandler, NativePreviewHandler {
 
 	private boolean scrollHappened;
 
@@ -56,10 +56,10 @@ public final class CASComponentW extends ScrollPanel implements ScrollHandler,
 		}
 		Element element = Element.as(target);
 		if (this.getElement().isOrHasChild(element)
-				&& event.getTypeInt() == Event.ONTOUCHEND && scrollHappened) {
-					event.cancel();
-					scrollHappened = false;
+				&& event.getTypeInt() == Event.ONTOUCHEND
+				&& scrollHappened) {
+			event.cancel();
+			scrollHappened = false;
 		}
 	}
-
 }

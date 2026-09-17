@@ -33,9 +33,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public class UploadRequest implements Request {
 
-	private final static String API = "1.0.0";
-	private final static String GGB = "geogebra";
-	private final static String TASK = "upload";
+	private static final String API = "1.0.0";
+	private static final String GGB = "geogebra";
+	private static final String TASK = "upload";
 	private final String type;
 	private final String consTitle;
 	private String uniqueID;
@@ -45,12 +45,12 @@ public class UploadRequest implements Request {
 
 	/**
 	 * Used to upload the actual opened application to GeoGebraTube
-	 * 
+	 *
 	 * @param tubeID
 	 *            tube ID
 	 * @param visibility
 	 *            visibility
-	 * 
+	 *
 	 * @param consTitle
 	 *            title of construction
 	 * @param base64
@@ -58,8 +58,13 @@ public class UploadRequest implements Request {
 	 * @param type
 	 *            material type
 	 */
-	UploadRequest(String tubeID, String visibility, String consTitle,
-			String base64, MaterialType type, Material parent) {
+	UploadRequest(
+			String tubeID,
+			String visibility,
+			String consTitle,
+			String base64,
+			MaterialType type,
+			Material parent) {
 		this.consTitle = consTitle;
 		this.type = typeString(type);
 		this.uniqueID = tubeID;
@@ -77,7 +82,7 @@ public class UploadRequest implements Request {
 
 	/**
 	 * Used for local files. Files are saved as "private"
-	 * 
+	 *
 	 * @param mat
 	 *            Material
 	 */
@@ -93,7 +98,7 @@ public class UploadRequest implements Request {
 
 	/**
 	 * UploadRequest to rename files
-	 * 
+	 *
 	 * @param newTitle
 	 *            String
 	 * @param id
@@ -107,7 +112,7 @@ public class UploadRequest implements Request {
 
 	/**
 	 * to upload active construction
-	 * 
+	 *
 	 * @param tubeID
 	 *            tube material ID
 	 * @param visibility
@@ -123,15 +128,19 @@ public class UploadRequest implements Request {
 	 *            parent material
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(String tubeID, String visibility,
-			String filename, String base64, MaterialType type, Material parent) {
-		return new UploadRequest(tubeID, visibility, filename, base64, type,
-				parent);
+	public static UploadRequest getRequestElement(
+			String tubeID,
+			String visibility,
+			String filename,
+			String base64,
+			MaterialType type,
+			Material parent) {
+		return new UploadRequest(tubeID, visibility, filename, base64, type, parent);
 	}
 
 	/**
 	 * to upload local files
-	 * 
+	 *
 	 * @param mat
 	 *            {@link Material}
 	 * @return the upload XML as JSON String
@@ -155,8 +164,7 @@ public class UploadRequest implements Request {
 
 	@Override
 	public String toJSONString(ClientInfo client) {
-		if (client.getModel() == null
-				|| client.getModel().getLoggedInUser() == null) {
+		if (client.getModel() == null || client.getModel().getLoggedInUser() == null) {
 			Log.warn("No user.");
 			return null;
 		}
@@ -169,8 +177,7 @@ public class UploadRequest implements Request {
 			// login
 			JSONObject login = new JSONObject();
 			login.put("-type", UploadRequest.GGB);
-			login.put("-token",
-					client.getModel().getLoggedInUser().getLoginToken());
+			login.put("-token", client.getModel().getLoggedInUser().getLoginToken());
 			api.put("login", login);
 
 			// task
@@ -248,7 +255,6 @@ public class UploadRequest implements Request {
 			Log.debug("problem building request: " + e.getMessage());
 			return null;
 		}
-
 	}
 
 	private static void addPhoneTag(JSONObject task, ClientInfo client) {

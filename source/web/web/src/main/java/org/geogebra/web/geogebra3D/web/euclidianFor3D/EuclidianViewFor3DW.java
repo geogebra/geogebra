@@ -25,9 +25,9 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 
 /**
  * Simple extension of EuclidianView to implement handling of 3D objects
- * 
+ *
  * @author mathieu
- * 
+ *
  */
 public final class EuclidianViewFor3DW extends EuclidianViewW {
 
@@ -41,8 +41,10 @@ public final class EuclidianViewFor3DW extends EuclidianViewW {
 	 * @param settings
 	 *            settings
 	 */
-	public EuclidianViewFor3DW(EuclidianPanelWAbstract euclidianViewPanel,
-			EuclidianController euclidianController, int evNo,
+	public EuclidianViewFor3DW(
+			EuclidianPanelWAbstract euclidianViewPanel,
+			EuclidianController euclidianController,
+			int evNo,
 			EuclidianSettings settings) {
 		super(euclidianViewPanel, euclidianController, evNo, settings);
 	}
@@ -51,5 +53,4 @@ public final class EuclidianViewFor3DW extends EuclidianViewW {
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewFor3DCompanion(this);
 	}
-
 }

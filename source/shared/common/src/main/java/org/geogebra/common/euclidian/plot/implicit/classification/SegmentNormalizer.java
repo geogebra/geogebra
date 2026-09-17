@@ -47,13 +47,12 @@ public class SegmentNormalizer {
 	 */
 	public void process(Collection<ContourSegment> segments) {
 		invalidSegments.clear();
-		segments
-				.forEach(segment -> {
-					segment.normalizeSortDedup(epsilonPolicy.getIntersection());
-					if (!segment.isValid()) {
-						invalidSegments.add(segment);
-					}
-				});
+		segments.forEach(segment -> {
+			segment.normalizeSortDedup(epsilonPolicy.getIntersection());
+			if (!segment.isValid()) {
+				invalidSegments.add(segment);
+			}
+		});
 
 		if (!isSuccessful()) {
 			Log.debug("There are invalid segments: " + invalidSegments);
@@ -66,5 +65,4 @@ public class SegmentNormalizer {
 	public boolean isSuccessful() {
 		return invalidSegments.isEmpty();
 	}
-
 }

@@ -26,14 +26,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public interface AlgoJoinPointsSegmentInterface {
 
 	/**
-	 * 
+	 *
 	 * @return polygon/polyhedron of this algo (or null)
 	 */
 	GeoElement getPoly();
 
 	/**
 	 * modify input points
-	 * 
+	 *
 	 * @param A
 	 *            first point
 	 * @param B
@@ -43,5 +43,4 @@ public interface AlgoJoinPointsSegmentInterface {
 
 	/** @see org.geogebra.common.kernel.algos.AlgoElement#compute() */
 	void compute();
-
 }

@@ -34,8 +34,10 @@ public class AxisFixedDistanceProperty extends AbstractValuedProperty<Boolean>
 	 * @param axis axis index
 	 * @param euclidianView euclidian view
 	 */
-	public AxisFixedDistanceProperty(Localization localization,
-			EuclidianSettings euclidianSettings, int axis,
+	public AxisFixedDistanceProperty(
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			int axis,
 			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "SettingsView.FixedDistance");
 		this.euclidianSettings = euclidianSettings;

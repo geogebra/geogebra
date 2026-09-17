@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  * Finds Spearman's correlation coefficient from a list of points or two lists
  * of numbers.
- * 
+ *
  * @author G. Sturr
  */
 public class AlgoSpearman extends AlgoElement {
@@ -54,8 +54,7 @@ public class AlgoSpearman extends AlgoElement {
 	 * @param geoListY
 	 *            list of numbers
 	 */
-	public AlgoSpearman(Construction cons, String label, GeoList geoListX,
-			GeoList geoListY) {
+	public AlgoSpearman(Construction cons, String label, GeoList geoListX, GeoList geoListY) {
 		super(cons);
 		this.geoListX = geoListX;
 		this.geoListY = geoListY;
@@ -157,8 +156,7 @@ public class AlgoSpearman extends AlgoElement {
 			// input is two lists
 			int sizeX = geoListX.size();
 			int sizeY = geoListY.size();
-			if (!geoListX.isDefined() || !geoListY.isDefined() || sizeX < 2
-					|| sizeX != sizeY) {
+			if (!geoListX.isDefined() || !geoListY.isDefined() || sizeX < 2 || sizeX != sizeY) {
 				result.setUndefined();
 				return;
 			}
@@ -184,5 +182,4 @@ public class AlgoSpearman extends AlgoElement {
 
 		result.setValue(sp.correlation(valX, valY));
 	}
-
 }

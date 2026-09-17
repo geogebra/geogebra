@@ -50,14 +50,14 @@ import org.gwtproject.dom.style.shared.TextAlign;
 import org.gwtproject.dom.style.shared.Unit;
 import org.jspecify.annotations.NonNull;
 
-public final class SpreadsheetControlsDelegateW implements
-		SpreadsheetControlsDelegate, AutoCompleteW {
+public final class SpreadsheetControlsDelegateW
+		implements SpreadsheetControlsDelegate, AutoCompleteW {
 
 	private final SpreadsheetCellEditorW editor;
 	private final GPopupMenuW contextMenu;
 	private final Localization loc;
-	private final static int CONTEXT_MENU_PADDING = 8;
-	private final static int MARGIN_FROM_SCREEN_EDGE = 16;
+	private static final int CONTEXT_MENU_PADDING = 8;
+	private static final int MARGIN_FROM_SCREEN_EDGE = 16;
 	private final ClipboardInterface clipboard;
 	private final SpreadsheetPanel parent;
 	private AutoCompletePopup autocomplete;
@@ -70,11 +70,11 @@ public final class SpreadsheetControlsDelegateW implements
 		private DefaultSpreadsheetCellProcessor cellProcessor;
 		private Rectangle editorBounds;
 
-		private SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent,
-				MathTextFieldW mathField) {
+		private SpreadsheetCellEditorW(AppW app, SpreadsheetPanel parent, MathTextFieldW mathField) {
 			this.mathField = mathField;
-			this.mathField.getMathField().setForegroundColor(
-					GColor.getColorString(GeoGebraColorConstants.NEUTRAL_900));
+			this.mathField
+					.getMathField()
+					.setForegroundColor(GColor.getColorString(GeoGebraColorConstants.NEUTRAL_900));
 			mathField.addStyleName("spreadsheetEditor");
 			SyntaxController syntaxController = new SyntaxController();
 			this.toastController = new ToastController(app, () -> editorBounds);
@@ -94,12 +94,16 @@ public final class SpreadsheetControlsDelegateW implements
 		}
 
 		@Override
-		public void show(@NonNull Rectangle editorBounds, @NonNull Rectangle viewport, int textAlignment) {
+		public void show(
+				@NonNull Rectangle editorBounds, @NonNull Rectangle viewport, int textAlignment) {
 			mathField.attach(parent);
 			updatePosition(editorBounds, viewport);
 			mathField.setRightMargin(8);
-			mathField.asWidget().getElement().getStyle().setTextAlign(
-					textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
+			mathField
+					.asWidget()
+					.getElement()
+					.getStyle()
+					.setTextAlign(textAlignment == CellFormat.ALIGN_LEFT ? TextAlign.LEFT : TextAlign.RIGHT);
 			mathField.setVisible(true);
 			mathField.editorClicked();
 			mathField.scrollCursorVisibleHorizontally();
@@ -111,9 +115,11 @@ public final class SpreadsheetControlsDelegateW implements
 			Rectangle bounds = editorBounds.insetBy(-2, -2);
 			double dx = parent.getAbsoluteLeft() - app.getAbsLeft();
 			double dy = parent.getAbsoluteTop() - app.getAbsTop();
-			this.editorBounds = new Rectangle(editorBounds.getMinX() + dx,
+			this.editorBounds = new Rectangle(
+					editorBounds.getMinX() + dx,
 					parent.getOffsetWidth() + dx,
-					editorBounds.getMinY() + dy, editorBounds.getMaxY() + dy);
+					editorBounds.getMinY() + dy,
+					editorBounds.getMaxY() + dy);
 			mathField.getStyle().setLeft(bounds.getMinX(), Unit.PX);
 			mathField.getStyle().setTop(bounds.getMinY(), Unit.PX);
 			mathField.getStyle().setWidth(bounds.getWidth(), Unit.PX);
@@ -136,8 +142,7 @@ public final class SpreadsheetControlsDelegateW implements
 		@Override
 		public @NonNull DefaultSpreadsheetCellProcessor getCellProcessor() {
 			if (cellProcessor == null) {
-				cellProcessor = new DefaultSpreadsheetCellProcessor(
-						app.getKernel().getAlgebraProcessor());
+				cellProcessor = new DefaultSpreadsheetCellProcessor(app.getKernel().getAlgebraProcessor());
 			}
 			return cellProcessor;
 		}
@@ -154,8 +159,8 @@ public final class SpreadsheetControlsDelegateW implements
 	 * @param parent - parent panel
 	 * @param mathTextField - math text field
 	 */
-	public SpreadsheetControlsDelegateW(AppW app, SpreadsheetPanel parent,
-			MathTextFieldW mathTextField) {
+	public SpreadsheetControlsDelegateW(
+			AppW app, SpreadsheetPanel parent, MathTextFieldW mathTextField) {
 		editor = new SpreadsheetCellEditorW(app, parent, mathTextField);
 		mathTextField.addBlurHandler(blur -> {
 			if (!isSuggesting()) {
@@ -183,13 +188,13 @@ public final class SpreadsheetControlsDelegateW implements
 	@Override
 	public void showContextMenu(@NonNull List<ContextMenuItem> items, @NonNull Point location) {
 		getApplication().registerPopup(contextMenu.getPopupPanel());
-		contextMenu.getPopupPanel().addCloseHandler(
-				ignore -> getApplication().unregisterPopup(contextMenu.getPopupPanel()));
+		contextMenu
+				.getPopupPanel()
+				.addCloseHandler(ignore -> getApplication().unregisterPopup(contextMenu.getPopupPanel()));
 		contextMenu.clearItems();
 		parent.cancelFocus();
 		contextMenu.getApp().getAsyncManager().prefetch(null, "scripting", "stats");
-		new SpreadsheetMenuBuilder(loc, this::hideContextMenu)
-				.addItems(contextMenu, items);
+		new SpreadsheetMenuBuilder(loc, this::hideContextMenu).addItems(contextMenu, items);
 		positionContextMenu((int) Math.round(location.x), (int) Math.round(location.y));
 		contextMenu.getPopupMenu().focus();
 	}
@@ -201,13 +206,16 @@ public final class SpreadsheetControlsDelegateW implements
 		contextMenu.showAtPoint(0, 0);
 
 		if (!popupFitsHorizontally(left)) {
-			left = (int) (contextMenu.getApp().getWidth() - contextMenu.getPopupMenu()
-					.getElement().getClientWidth() - MARGIN_FROM_SCREEN_EDGE);
+			left = (int) (contextMenu.getApp().getWidth()
+					- contextMenu.getPopupMenu().getElement().getClientWidth()
+					- MARGIN_FROM_SCREEN_EDGE);
 		}
 
 		if (!popupFitsVertically(top)) {
-			top = (int) (contextMenu.getApp().getHeight() - contextMenu.getPopupMenu().getElement()
-					.getClientHeight() - 2 * CONTEXT_MENU_PADDING - MARGIN_FROM_SCREEN_EDGE);
+			top = (int) (contextMenu.getApp().getHeight()
+					- contextMenu.getPopupMenu().getElement().getClientHeight()
+					- 2 * CONTEXT_MENU_PADDING
+					- MARGIN_FROM_SCREEN_EDGE);
 		}
 
 		contextMenu.showAtPoint(left, top);
@@ -257,8 +265,7 @@ public final class SpreadsheetControlsDelegateW implements
 
 	@Override
 	public void showAutoCompleteSuggestions(@NonNull String input, @NonNull Rectangle editorBounds) {
-		int left = (int) editorBounds.getMinX() + getAbsoluteSpreadsheetLeft()
-				- getAbsoluteAppLeft();
+		int left = (int) editorBounds.getMinX() + getAbsoluteSpreadsheetLeft() - getAbsoluteAppLeft();
 		int top = (int) editorBounds.getMinY() + getAbsoluteSpreadsheetTop() - getAbsoluteAppTop();
 		int height = (int) editorBounds.getHeight();
 
@@ -282,18 +289,18 @@ public final class SpreadsheetControlsDelegateW implements
 		}
 
 		switch (keyCode) {
-		case JavaKeyCodes.VK_DOWN:
-		case JavaKeyCodes.VK_UP:
-		case JavaKeyCodes.VK_LEFT:
-		case JavaKeyCodes.VK_RIGHT:
-			autocomplete.onArrowKeyPressed(keyCode);
-			return true;
-		case JavaKeyCodes.VK_ENTER:
-			autocomplete.handleEnter();
-			return true;
-		case JavaKeyCodes.VK_ESCAPE:
-			hideAutoCompleteSuggestions();
-			return true;
+			case JavaKeyCodes.VK_DOWN:
+			case JavaKeyCodes.VK_UP:
+			case JavaKeyCodes.VK_LEFT:
+			case JavaKeyCodes.VK_RIGHT:
+				autocomplete.onArrowKeyPressed(keyCode);
+				return true;
+			case JavaKeyCodes.VK_ENTER:
+				autocomplete.handleEnter();
+				return true;
+			case JavaKeyCodes.VK_ESCAPE:
+				hideAutoCompleteSuggestions();
+				return true;
 		}
 
 		return false;
@@ -304,8 +311,8 @@ public final class SpreadsheetControlsDelegateW implements
 	 */
 	private AutoCompletePopup getAutocompletePopup() {
 		if (autocomplete == null) {
-			autocomplete = new AutoCompletePopup(getApplication(),
-					new AutocompleteProvider(getApplication(), false), this);
+			autocomplete = new AutoCompletePopup(
+					getApplication(), new AutocompleteProvider(getApplication(), false), this);
 		}
 		return autocomplete;
 	}
@@ -366,7 +373,6 @@ public final class SpreadsheetControlsDelegateW implements
 	@Override
 	public void showSnackbar(@NonNull String messageKey) {
 		String translatedMessage = loc.getMenu(messageKey);
-		getApplication().getToolTipManager().showBottomMessage(translatedMessage,
-				getApplication());
+		getApplication().getToolTipManager().showBottomMessage(translatedMessage, getApplication());
 	}
 }

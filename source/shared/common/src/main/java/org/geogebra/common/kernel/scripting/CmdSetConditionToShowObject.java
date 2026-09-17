@@ -32,7 +32,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,26 +45,26 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg2;
 		switch (n) {
-		case 2:
-			arg2 = resArgs(c);
-			if (arg2[1].isGeoBoolean()) {
+			case 2:
+				arg2 = resArgs(c);
+				if (arg2[1].isGeoBoolean()) {
 
-				GeoElement geo = arg2[0];
+					GeoElement geo = arg2[0];
 
-				try {
-					geo.setShowObjectCondition((GeoBoolean) arg2[1]);
-				} catch (CircularDefinitionException e) {
-					Log.debug(e);
-					throw argErr(c.getName(), arg2[1], e);
+					try {
+						geo.setShowObjectCondition((GeoBoolean) arg2[1]);
+					} catch (CircularDefinitionException e) {
+						Log.debug(e);
+						throw argErr(c.getName(), arg2[1], e);
+					}
+					geo.updateRepaint();
+
+					return new GeoElement[0];
 				}
-				geo.updateRepaint();
+				throw argErr(c, arg2[1]);
 
-				return new GeoElement[0];
-			}
-			throw argErr(c, arg2[1]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

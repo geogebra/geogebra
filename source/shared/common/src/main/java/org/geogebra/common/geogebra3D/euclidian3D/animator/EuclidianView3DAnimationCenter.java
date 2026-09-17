@@ -31,14 +31,14 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 	private double zEnd;
 
 	/**
-	 * 
+	 *
 	 * @param view3D 3D view
 	 * @param animator animator
 	 * @param p
 	 *            point to center about
 	 */
-	EuclidianView3DAnimationCenter(EuclidianView3D view3D, EuclidianView3DAnimator animator,
-			Coords p) {
+	EuclidianView3DAnimationCenter(
+			EuclidianView3D view3D, EuclidianView3DAnimator animator, Coords p) {
 
 		super(view3D, animator);
 		xEnd = -p.getX();
@@ -70,5 +70,4 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 		view3D.setViewChangedByTranslate();
 		end();
 	}
-
 }

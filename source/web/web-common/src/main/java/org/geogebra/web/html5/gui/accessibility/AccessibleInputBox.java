@@ -82,8 +82,8 @@ public class AccessibleInputBox implements AccessibleWidget {
 	 * @return message for syntax error
 	 */
 	public static String getErrorText(Localization loc) {
-		return loc.getMenuDefault("InputContainsSyntaxError",
-				"The input you entered contains a syntax error");
+		return loc.getMenuDefault(
+				"InputContainsSyntaxError", "The input you entered contains a syntax error");
 	}
 
 	@Override

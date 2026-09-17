@@ -11,5 +11,4 @@ public class CommandTilde1 extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AccentedAtom(a, Symbols.TILDE);
 	}
-
 }

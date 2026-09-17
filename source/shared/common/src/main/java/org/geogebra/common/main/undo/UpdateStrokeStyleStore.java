@@ -64,7 +64,6 @@ public class UpdateStrokeStyleStore extends StrokeHelper {
 	 * adds the updated strokes (coloring/thickness etc) to the StrokeSplitHelper object
 	 * @param updatedStrokes newly created stroke with the modifications
 	 */
-
 	public void addUpdatedStrokes(List<GeoElement> updatedStrokes) {
 		this.updatedStrokes = updatedStrokes;
 		modifiedStateXML = getStrokesXML(updatedStrokes);
@@ -74,16 +73,14 @@ public class UpdateStrokeStyleStore extends StrokeHelper {
 	 * stores an undo for the stroke style update
 	 */
 	public void storeStrokeStyleUpdateUndo() {
-		undoManager.buildAction(ActionType.UPDATE, toStyledStrokeArray())
+		undoManager
+				.buildAction(ActionType.UPDATE, toStyledStrokeArray())
 				.withUndo(ActionType.UPDATE, toUnStyledStrokeArray())
 				.withLabels(getLabelsThatNeedRemoval())
 				.storeAndNotifyUnsaved();
 	}
 
 	private String[] getLabelsThatNeedRemoval() {
-		return updatedStrokes
-				.stream()
-				.map(s -> DEL + s.getLabelSimple())
-				.toArray(String[]::new);
+		return updatedStrokes.stream().map(s -> DEL + s.getLabelSimple()).toArray(String[]::new);
 	}
 }

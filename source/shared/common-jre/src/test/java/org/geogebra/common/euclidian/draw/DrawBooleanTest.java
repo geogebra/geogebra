@@ -56,9 +56,11 @@ class DrawBooleanTest extends BaseEuclidianControllerTest {
 		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		click(101, 101);
-		assertEquals(Collections.singletonList("UPDATE a"), listener.getEvents().stream()
-				.filter(evt -> evt.startsWith("UPDATE")).collect(
-				Collectors.toList()));
+		assertEquals(
+				Collections.singletonList("UPDATE a"),
+				listener.getEvents().stream()
+						.filter(evt -> evt.startsWith("UPDATE"))
+						.collect(Collectors.toList()));
 	}
 
 	@Test

@@ -58,5 +58,4 @@ public class AlgoAngleVector3D extends AlgoAngleElement3D {
 			o = start.getInhomCoordsInD3();
 		}
 	}
-
 }

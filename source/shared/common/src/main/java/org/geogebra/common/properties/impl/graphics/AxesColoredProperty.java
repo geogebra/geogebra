@@ -34,8 +34,7 @@ public class AxesColoredProperty extends AbstractValuedProperty<Boolean>
 	 * @param localization localization for the title
 	 * @param euclidianSettings euclidian settings
 	 */
-	public AxesColoredProperty(Localization localization,
-			EuclidianSettings3D euclidianSettings) {
+	public AxesColoredProperty(Localization localization, EuclidianSettings3D euclidianSettings) {
 		super(localization, "AxesColored");
 		this.euclidianSettings = euclidianSettings;
 	}

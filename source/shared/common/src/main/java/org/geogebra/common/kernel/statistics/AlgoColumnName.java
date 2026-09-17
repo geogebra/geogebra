@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Returns the column name of a GeoElement as a GeoText.
- * 
+ *
  * @author Markus
  */
 public class AlgoColumnName extends AlgoElement {
@@ -83,5 +83,4 @@ public class AlgoColumnName extends AlgoElement {
 			text.setTextString(col);
 		}
 	}
-
 }

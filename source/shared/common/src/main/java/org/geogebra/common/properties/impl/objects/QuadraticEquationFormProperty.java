@@ -52,31 +52,31 @@ public class QuadraticEquationFormProperty extends AbstractNamedEnumeratedProper
 
 		List<Map.Entry<Integer, String>> values = new ArrayList<>();
 		if (allMatch(element, QuadraticEquationRepresentable::isSpecificFormPossible)) {
-			values.add(entry(QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
+			values.add(entry(
+					QuadraticEquationRepresentable.Form.SPECIFIC.rawValue,
 					firstQuadratic.getSpecificEquationLabelKey()));
 		}
 		if (allMatch(element, QuadraticEquationRepresentable::isExplicitFormPossible)) {
-			values.add(entry(QuadraticEquationRepresentable.Form.EXPLICIT.rawValue,
-					"ExplicitConicEquation"));
+			values.add(
+					entry(QuadraticEquationRepresentable.Form.EXPLICIT.rawValue, "ExplicitConicEquation"));
 		}
 		if (element.getDefinition() != null) {
 			values.add(entry(QuadraticEquationRepresentable.Form.USER.rawValue, "InputForm"));
 		}
-		//if (quadratic.isImplicitFormPossible()) { // TODO always possible?
-		values.add(entry(QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
+		// if (quadratic.isImplicitFormPossible()) { // TODO always possible?
+		values.add(entry(
+				QuadraticEquationRepresentable.Form.IMPLICIT.rawValue,
 				firstQuadratic.getImplicitEquationLabelKey()));
-		//}
+		// }
 		if (allMatch(element, QuadraticEquationRepresentable::isVertexFormPossible)) {
-			values.add(entry(QuadraticEquationRepresentable.Form.VERTEX.rawValue,
-					"ParabolaVertexForm"));
+			values.add(entry(QuadraticEquationRepresentable.Form.VERTEX.rawValue, "ParabolaVertexForm"));
 		}
 		if (allMatch(element, QuadraticEquationRepresentable::isConicFormPossible)) {
-			values.add(entry(QuadraticEquationRepresentable.Form.CONICFORM.rawValue,
-					"ParabolaConicForm"));
+			values.add(
+					entry(QuadraticEquationRepresentable.Form.CONICFORM.rawValue, "ParabolaConicForm"));
 		}
 		if (allMatch(element, QuadraticEquationRepresentable::isParametricFormPossible)) {
-			values.add(entry(QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue,
-					"ParametricForm"));
+			values.add(entry(QuadraticEquationRepresentable.Form.PARAMETRIC.rawValue, "ParametricForm"));
 		}
 		setNamedValues(values);
 	}
@@ -142,10 +142,12 @@ public class QuadraticEquationFormProperty extends AbstractNamedEnumeratedProper
 			return (QuadraticEquationRepresentable) geoElement;
 		} else if (geoElement instanceof GeoList) {
 			GeoList geoList = (GeoList) geoElement;
-			return geoList.elements()
+			return geoList
+					.elements()
 					.map(QuadraticEquationFormProperty::findFirstQuadraticEquationRepresentable)
 					.filter(Objects::nonNull)
-					.findFirst().orElse(null);
+					.findFirst()
+					.orElse(null);
 		}
 		return null;
 	}

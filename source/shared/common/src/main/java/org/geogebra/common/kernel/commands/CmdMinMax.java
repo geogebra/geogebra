@@ -41,7 +41,7 @@ public class CmdMinMax extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param minOrMax
@@ -49,7 +49,7 @@ public class CmdMinMax extends CommandProcessor {
 	 */
 	public CmdMinMax(Kernel kernel, Commands minOrMax) {
 		super(kernel);
-		this.isMin =  minOrMax == Commands.Min;
+		this.isMin = minOrMax == Commands.Min;
 	}
 
 	@Override
@@ -59,69 +59,69 @@ public class CmdMinMax extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList()) {
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList()) {
 
-				AlgoElement algo = new AlgoListMinMax(cons, (GeoList) arg[0], isMin);
-				algo.getOutput(0).setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getOutput(0) };
-				return ret;
-			} else if (arg[0].isGeoFunctionBoolean()) {
-				AlgoIntervalAbstract algo = isMin ? new AlgoIntervalMin(cons,
-						(GeoFunction) arg[0]) : new AlgoIntervalMax(cons, (GeoFunction) arg[0]);
-				algo.getOutput(0).setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else {
+					AlgoElement algo = new AlgoListMinMax(cons, (GeoList) arg[0], isMin);
+					algo.getOutput(0).setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getOutput(0)};
+					return ret;
+				} else if (arg[0].isGeoFunctionBoolean()) {
+					AlgoIntervalAbstract algo = isMin
+							? new AlgoIntervalMin(cons, (GeoFunction) arg[0])
+							: new AlgoIntervalMax(cons, (GeoFunction) arg[0]);
+					algo.getOutput(0).setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else {
+					throw argErr(c, arg[0]);
+				}
+
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+
+					AlgoTwoNumFunction algo = isMin
+							? new AlgoMin(cons, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1])
+							: new AlgoMax(cons, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+
+				} else if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
+
+					// value and frequency list
+					AlgoListMinMax algo = new AlgoListMinMax(cons, (GeoList) arg[0], (GeoList) arg[1], isMin);
+					algo.getMin().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getMin()};
+					return ret;
+				}
+
 				throw argErr(c, arg[0]);
-			}
 
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+			case 3: // Min[f,a,b]
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoTwoNumFunction algo = isMin ? new AlgoMin(cons,
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1])
-						: new AlgoMax(cons,
-								(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					AlgoFunctionMinMax algo = new AlgoFunctionMinMax(
+							cons,
+							c.getLabel(),
+							(GeoFunction) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							isMin);
 
-			} else if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isGeoList())) {
+					GeoElement[] ret = {algo.getPoint()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-				// value and frequency list
-				AlgoListMinMax algo = new AlgoListMinMax(cons, (GeoList) arg[0],
-						(GeoList) arg[1], isMin);
-				algo.getMin().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getMin() };
-				return ret;
-			}
-
-			throw argErr(c, arg[0]);
-
-		case 3: // Min[f,a,b]
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-
-				AlgoFunctionMinMax algo = new AlgoFunctionMinMax(cons,
-						c.getLabel(), (GeoFunction) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						isMin);
-
-				GeoElement[] ret = { algo.getPoint() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

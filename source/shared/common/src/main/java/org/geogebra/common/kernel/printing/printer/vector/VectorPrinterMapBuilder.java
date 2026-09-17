@@ -27,9 +27,9 @@ import org.jspecify.annotations.Nullable;
  */
 public interface VectorPrinterMapBuilder {
 
-    /**
-     * @param settings general settings
-     * @return printer map
-     */
-    Map<VectorPrintingMode, Printer> build(@Nullable GeneralSettings settings);
+	/**
+	 * @param settings general settings
+	 * @return printer map
+	 */
+	Map<VectorPrintingMode, Printer> build(@Nullable GeneralSettings settings);
 }

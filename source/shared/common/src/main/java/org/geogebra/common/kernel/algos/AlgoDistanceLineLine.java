@@ -45,8 +45,7 @@ public class AlgoDistanceLineLine extends AlgoElement {
 	 * @param h
 	 *            line #2
 	 */
-	public AlgoDistanceLineLine(Construction cons, String label, GeoLine g,
-			GeoLine h) {
+	public AlgoDistanceLineLine(Construction cons, String label, GeoLine g, GeoLine h) {
 		super(cons);
 		this.h = h;
 		this.g = g;
@@ -93,12 +92,11 @@ public class AlgoDistanceLineLine extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("DistanceOfAandB",
-				"Distance between %0 and %1", g.getLabel(tpl),
-				h.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"DistanceOfAandB", "Distance between %0 and %1", g.getLabel(tpl), h.getLabel(tpl));
 	}
-
 }

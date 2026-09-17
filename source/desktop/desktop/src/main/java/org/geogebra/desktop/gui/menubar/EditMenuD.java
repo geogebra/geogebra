@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -162,17 +162,14 @@ public class EditMenuD extends BaseMenu {
 			deleteItem = add(deleteAction);
 
 			if (AppD.MAC_OS) {
-				deleteItem.setAccelerator(
-						KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
+				deleteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
 			} else {
-				deleteItem.setAccelerator(
-						KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
+				deleteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 			}
 		}
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-
 	}
 
 	/**
@@ -180,20 +177,18 @@ public class EditMenuD extends BaseMenu {
 	 */
 	@Override
 	protected void initActions() {
-		propertiesAction = new AbstractAction(
-				loc.getMenu("Properties") + " ...",
-				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
-			private static final long serialVersionUID = 1L;
+		propertiesAction =
+				new AbstractAction(
+						loc.getMenu("Properties") + " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
-						null);
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
+					}
+				};
 
-		selectAllAction = new AbstractAction(loc.getMenu("SelectAll"),
-				app.getEmptyIcon()) {
+		selectAllAction = new AbstractAction(loc.getMenu("SelectAll"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -202,56 +197,52 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		selectCurrentLayerAction = new AbstractAction(
-				loc.getMenu("SelectCurrentLayer"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+		selectCurrentLayerAction =
+				new AbstractAction(loc.getMenu("SelectCurrentLayer"), app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int layer = selection.getSelectedLayer();
-				if (layer != -1) {
-					selection.selectAll(layer); // select all objects in layer
-				}
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						int layer = selection.getSelectedLayer();
+						if (layer != -1) {
+							selection.selectAll(layer); // select all objects in layer
+						}
+					}
+				};
 
-			}
-		};
+		selectAllAncestorsAction =
+				new AbstractAction(loc.getMenu("SelectAncestors"), app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-		selectAllAncestorsAction = new AbstractAction(
-				loc.getMenu("SelectAncestors"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+					@Override
+					public void actionPerformed(ActionEvent e) {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+						selection.selectAllPredecessors();
+					}
+				};
 
-				selection.selectAllPredecessors();
-			}
-		};
+		selectAllDescendantsAction =
+				new AbstractAction(loc.getMenu("SelectDescendants"), app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-		selectAllDescendantsAction = new AbstractAction(
-				loc.getMenu("SelectDescendants"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+					@Override
+					public void actionPerformed(ActionEvent e) {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
+						selection.selectAllDescendants();
+					}
+				};
 
-				selection.selectAllDescendants();
-			}
-		};
-
-		showhideAction = new AbstractAction(loc.getMenu("ShowHide"),
-				app.getEmptyIcon()) {
+		showhideAction = new AbstractAction(loc.getMenu("ShowHide"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				selection.showHideSelection();
-
 			}
 		};
 
-		showhideLabelsAction = new AbstractAction(loc.getMenu("ShowHideLabels"),
-				app.getEmptyIcon()) {
+		showhideLabelsAction = new AbstractAction(loc.getMenu("ShowHideLabels"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -261,22 +252,19 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		copyAction = new AbstractAction(loc.getMenu("Copy"),
-				app.getEmptyIcon()) {
+		copyAction = new AbstractAction(loc.getMenu("Copy"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(),
-						false);
+				app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(), false);
 				app.updateMenubar();
 				app.setDefaultCursor();
 			}
 		};
 
-		pasteAction = new AbstractAction(loc.getMenu("Paste"),
-				app.getEmptyIcon()) {
+		pasteAction = new AbstractAction(loc.getMenu("Paste"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -287,33 +275,32 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		copyToClipboardAction = new AbstractAction(
-				loc.getMenu("DrawingPadToClipboard"),
-				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
-			private static final long serialVersionUID = 1L;
+		copyToClipboardAction =
+				new AbstractAction(
+						loc.getMenu("DrawingPadToClipboard"), app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.setWaitCursor();
-				app.copyGraphicsViewToClipboard();
-				app.setDefaultCursor();
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.setWaitCursor();
+						app.copyGraphicsViewToClipboard();
+						app.setDefaultCursor();
+					}
+				};
 
-		insertImageFromClipboardAction = new AbstractAction(
-				loc.getMenu("Clipboard"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
+		insertImageFromClipboardAction =
+				new AbstractAction(loc.getMenu("Clipboard"), app.getEmptyIcon()) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.setWaitCursor();
-				((GuiManagerD) app.getGuiManager()).loadImage(null, true);
-				app.setDefaultCursor();
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.setWaitCursor();
+						((GuiManagerD) app.getGuiManager()).loadImage(null, true);
+						app.setDefaultCursor();
+					}
+				};
 
-		insertImageFromFileAction = new AbstractAction(loc.getMenu("File"),
-				app.getEmptyIcon()) {
+		insertImageFromFileAction = new AbstractAction(loc.getMenu("File"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -324,18 +311,17 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		deleteAction = new AbstractAction(loc.getMenu("Delete"),
-				app.getMenuIcon(GuiResourcesD.DELETE_SMALL)) {
-			private static final long serialVersionUID = 1L;
+		deleteAction =
+				new AbstractAction(loc.getMenu("Delete"), app.getMenuIcon(GuiResourcesD.DELETE_SMALL)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.deleteSelectedObjects(false);
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						app.deleteSelectedObjects(false);
+					}
+				};
 
-		invertAction = new AbstractAction(loc.getMenu("InvertSelection"),
-				app.getEmptyIcon()) {
+		invertAction = new AbstractAction(loc.getMenu("InvertSelection"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -367,7 +353,9 @@ public class EditMenuD extends BaseMenu {
 		 */
 
 		boolean justCreated = !app.getActiveEuclidianView()
-				.getEuclidianController().getJustCreatedGeos().isEmpty();
+				.getEuclidianController()
+				.getJustCreatedGeos()
+				.isEmpty();
 
 		copyAction.setEnabled(!selection.getSelectedGeos().isEmpty());
 		pasteAction.setEnabled(!app.getCopyPaste().isEmpty());
@@ -409,11 +397,8 @@ public class EditMenuD extends BaseMenu {
 		if (!e.getSource().equals(this)) { // ie submenu opened
 
 			// check if there's an image on the clipboard
-			String[] fileName = ((GuiManagerD) app.getGuiManager())
-					.getImageFromTransferable(null);
+			String[] fileName = ((GuiManagerD) app.getGuiManager()).getImageFromTransferable(null);
 			clipboardMenu.setEnabled(fileName != null && fileName.length > 0);
 		}
-
 	}
-
 }

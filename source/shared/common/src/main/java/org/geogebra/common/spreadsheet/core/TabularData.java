@@ -26,7 +26,10 @@ import org.jspecify.annotations.Nullable;
  */
 public interface TabularData<T> extends HasTabularValues<T> {
 	/** Controls how cell content is serialised (e.g. for the clipboard). */
-	enum SerializationFormat { FORMULAS, VALUES }
+	enum SerializationFormat {
+		FORMULAS,
+		VALUES
+	}
 
 	// -- Delegates & Listeners --
 

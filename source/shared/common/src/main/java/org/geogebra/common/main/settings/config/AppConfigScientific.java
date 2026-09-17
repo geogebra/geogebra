@@ -68,7 +68,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public String getAppNameWithoutCalc() {
-		return  "Scientific";
+		return "Scientific";
 	}
 
 	@Override

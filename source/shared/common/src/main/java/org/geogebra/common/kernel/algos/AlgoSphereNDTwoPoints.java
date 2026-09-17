@@ -39,8 +39,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 	 * @param P
 	 *            point on sphere
 	 */
-	public AlgoSphereNDTwoPoints(Construction cons, GeoPointND M,
-			GeoPointND P) {
+	public AlgoSphereNDTwoPoints(Construction cons, GeoPointND M, GeoPointND P) {
 		super(cons);
 		this.M = M;
 		this.P = P;
@@ -52,10 +51,9 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 		sphereND.setToSpecificForm();
 	}
 
-	abstract protected GeoQuadricND createSphereND(Construction cons1);
+	protected abstract GeoQuadricND createSphereND(Construction cons1);
 
-	protected AlgoSphereNDTwoPoints(Construction cons, String label,
-			GeoPointND M, GeoPointND P) {
+	protected AlgoSphereNDTwoPoints(Construction cons, String label, GeoPointND M, GeoPointND P) {
 		this(cons, M, P);
 		sphereND.setLabel(label);
 	}
@@ -80,7 +78,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
 	/**
 	 * Method added for LocusEqu project.
-	 * 
+	 *
 	 * @return center of sphere.
 	 */
 	public GeoPointND getCenter() {
@@ -93,7 +91,7 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 
 	/**
 	 * Method added for LocusEqu project.
-	 * 
+	 *
 	 * @return external point of sphere.
 	 */
 	public GeoPointND getExternalPoint() {
@@ -109,5 +107,4 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 	public final void compute() {
 		sphereND.setSphereND(M, P);
 	}
-
 }

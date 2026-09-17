@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,13 +41,15 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 	@Test
 	void testConnect() {
 		GeoElement cassini = addCassini(2.9, 2.98);
-		bounds = newBounds(-14.900000000000029, 9.220000000000018,
-				-24.190000000000026, 1.1100000000000014,
-				1206, 1265);
+		bounds = newBounds(
+				-14.900000000000029,
+				9.220000000000018,
+				-24.190000000000026,
+				1.1100000000000014,
+				1206,
+				1265);
 
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(bounds);
@@ -58,9 +60,7 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 		bounds = newBounds(-2, 2, -2, 2, 800, 800);
 		GeoElement curve = evaluateGeoElement("x^4 + y^4 = 1");
 
-		ContourInfo info = builder.withImplicitCurve(curve)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(curve).withBounds(bounds).build();
 
 		clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
@@ -76,21 +76,21 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 	@Test
 	void clippedContourShouldProduceOpenFragmentWithEndpointMetadata() {
 		GeoElement cassini = addCassini(2.9, 2.98);
-		bounds = newBounds(-14.900000000000029, 9.220000000000018,
-				-24.190000000000026, 1.1100000000000014,
-				1206, 1265);
+		bounds = newBounds(
+				-14.900000000000029,
+				9.220000000000018,
+				-24.190000000000026,
+				1.1100000000000014,
+				1206,
+				1265);
 
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(bounds);
 
-		ClippedFragment fragment = clipper.getFragments().stream()
-				.filter(f -> !f.closed())
-				.findFirst()
-				.orElseThrow();
+		ClippedFragment fragment =
+				clipper.getFragments().stream().filter(f -> !f.closed()).findFirst().orElseThrow();
 
 		assertNotNull(fragment.start());
 		assertNotNull(fragment.end());
@@ -103,13 +103,15 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 	@Test
 	void openFragmentsShouldNotContainSyntheticClosingSegment() {
 		GeoElement cassini = addCassini(2.9, 2.98);
-		bounds = newBounds(-14.900000000000029, 9.220000000000018,
-				-24.190000000000026, 1.1100000000000014,
-				1206, 1265);
+		bounds = newBounds(
+				-14.900000000000029,
+				9.220000000000018,
+				-24.190000000000026,
+				1.1100000000000014,
+				1206,
+				1265);
 
-		ContourInfo info = builder.withImplicitCurve(cassini)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(cassini).withBounds(bounds).build();
 		clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(bounds);
@@ -127,14 +129,11 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 
 	@Test
 	void cornerTouchingFragmentsShouldKeepDistinctOpenEndpoints() {
-		bounds = newBounds(-9.395869166756096, 4.373346528513022,
-				-5.3507289140592444, 4.779874762138851,
-				1245, 916);
+		bounds = newBounds(
+				-9.395869166756096, 4.373346528513022, -5.3507289140592444, 4.779874762138851, 1245, 916);
 		GeoElement curve = evaluateGeoElement("x^4 + y^4 = 1000");
 
-		ContourInfo info = builder.withImplicitCurve(curve)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(curve).withBounds(bounds).build();
 		clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(bounds);
@@ -151,14 +150,11 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 
 	@Test
 	void topRightCornerShouldBeInside() {
-		bounds = newBounds(-9.395869166756096, 4.373346528513022,
-				-5.3507289140592444, 4.779874762138851,
-				1245, 916);
+		bounds = newBounds(
+				-9.395869166756096, 4.373346528513022, -5.3507289140592444, 4.779874762138851, 1245, 916);
 		GeoElement curve = evaluateGeoElement("x^4 + y^4 = 1000");
 
-		ContourInfo info = builder.withImplicitCurve(curve)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(curve).withBounds(bounds).build();
 		MyPoint topRightCorner = ClipEdge.TOP.cwCorner(info.getClipRect());
 		Log.debug("topRight: " + topRightCorner);
 		BernsteinPolynomial2D polynomial = info.getPolynomial();
@@ -166,8 +162,8 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 	}
 
 	private boolean isInsideTest(BernsteinPolynomial2D polynomial, MyPoint topRightCorner) {
-		return PerimeterContourClipper.isInsideTest(bounds, polynomial, topRightCorner.x,
-				topRightCorner.y);
+		return PerimeterContourClipper.isInsideTest(
+				bounds, polynomial, topRightCorner.x, topRightCorner.y);
 	}
 
 	@Test
@@ -177,14 +173,15 @@ class PerimeterContourClipperTest extends BaseContourTestSetup {
 				+ "\"width\":1091,\"height\":795}");
 		GeoFunctionNVar f = evaluateGeoElement("x^3 < y^3");
 		ExpressionNode expr = f.getFunctionExpression();
-		Inequality inequality =
-				new Inequality(getKernel(), expr.getLeft(), expr.getRight(),
-						expr.getOperation(), f.getFunctionVariables());
+		Inequality inequality = new Inequality(
+				getKernel(),
+				expr.getLeft(),
+				expr.getRight(),
+				expr.getOperation(),
+				f.getFunctionVariables());
 		GeoImplicitCurve curve = inequality.getImplicitCurveBorder();
 
-		ContourInfo info = builder.withImplicitCurve(curve)
-				.withBounds(bounds)
-				.build();
+		ContourInfo info = builder.withImplicitCurve(curve).withBounds(bounds).build();
 		BernsteinPolynomial2D polynomial = info.getPolynomial();
 		ClipRect clipRect = info.getClipRect();
 		assertTrue(isInsideTest(polynomial, ClipEdge.BOTTOM.cwCorner(clipRect)));

@@ -35,13 +35,12 @@ public final class Measure implements JFugueElement {
 	 * Creates a new Measure object, which is simply an indicator that a measure
 	 * line has been parsed in a MusicString
 	 */
-	public Measure() {
-	}
+	public Measure() {}
 
 	/**
 	 * Returns the Music String representing this element. For a Measure object,
 	 * the Music String is <code>|</code>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -51,7 +50,7 @@ public final class Measure implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: Measure
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override

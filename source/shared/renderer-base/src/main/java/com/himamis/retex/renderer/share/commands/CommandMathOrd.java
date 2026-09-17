@@ -11,5 +11,4 @@ public class CommandMathOrd extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new TypedAtom(TeXConstants.TYPE_ORDINARY, a);
 	}
-
 }

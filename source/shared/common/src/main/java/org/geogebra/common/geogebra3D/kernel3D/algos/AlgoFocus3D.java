@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
  * Focus for 3D conic
- * 
+ *
  * @author mathieu
  *
  */
@@ -31,7 +31,7 @@ public class AlgoFocus3D extends AlgoFocus {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -55,5 +55,4 @@ public class AlgoFocus3D extends AlgoFocus {
 	protected void setCoords(int i, double x, double y) {
 		((GeoPoint3D) focus[i]).setCoords(c.getCoordSys().getPoint(x, y));
 	}
-
 }

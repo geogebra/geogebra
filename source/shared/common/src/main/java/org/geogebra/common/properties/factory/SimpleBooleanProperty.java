@@ -39,8 +39,8 @@ public class SimpleBooleanProperty extends AbstractValuedProperty<Boolean>
 	 * @param setter property setter
 	 * @param getter property getter
 	 */
-	public SimpleBooleanProperty(Localization localization, String name,
-			Supplier<Boolean> getter, Consumer<Boolean> setter) {
+	public SimpleBooleanProperty(
+			Localization localization, String name, Supplier<Boolean> getter, Consumer<Boolean> setter) {
 		super(localization, name);
 		this.getter = getter;
 		this.setter = setter;

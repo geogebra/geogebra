@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  * Filling style
  */
 public class FillingStyleProperty extends AbstractEnumeratedProperty<FillType>
-			implements IconsEnumeratedProperty<FillType> {
+		implements IconsEnumeratedProperty<FillType> {
 
 	private static final Map<FillType, PropertyResource> icons = Map.of(
 			FillType.STANDARD, PropertyResource.ICON_NO_FILLING,
@@ -56,7 +56,8 @@ public class FillingStyleProperty extends AbstractEnumeratedProperty<FillType>
 			throws NotApplicablePropertyException {
 		super(localization, "Filling");
 		delegate = new FillingStylePropertyDelegate(element);
-		setValues(List.of(FillType.STANDARD,
+		setValues(List.of(
+				FillType.STANDARD,
 				FillType.HATCH,
 				FillType.DOTTED,
 				FillType.CROSSHATCHED,

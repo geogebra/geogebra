@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -124,7 +124,8 @@ class EventDispatcherTest extends BaseUnitTest implements EventListener {
 			batch = true;
 		} else if (evt.getType() == EventType.BATCH_ADD_COMPLETE) {
 			batch = false;
-		} if (evt.getType() == EventType.ADD) {
+		}
+		if (evt.getType() == EventType.ADD) {
 			assertTrue(batch, evt.getTarget() + "added outside of batch");
 			objectsAdded++;
 		}
@@ -133,7 +134,6 @@ class EventDispatcherTest extends BaseUnitTest implements EventListener {
 	private void verifyClientListenersNotified(EventType eventType) {
 		Event event = new Event(eventType);
 		eventDispatcher.dispatchEvent(event);
-		verify(scriptManager, times(1))
-				.callClientListeners(scriptManager.clientListeners, event);
+		verify(scriptManager, times(1)).callClientListeners(scriptManager.clientListeners, event);
 	}
 }

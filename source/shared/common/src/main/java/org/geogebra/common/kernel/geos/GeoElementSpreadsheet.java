@@ -39,23 +39,23 @@ public class GeoElementSpreadsheet {
 	/**
 	 * match A1, ABG1, A123 but not A0, A000, A0001 etc
 	 */
-	public static final RegExp spreadsheetPattern = RegExp
-			.compile("^(\\$?)([A-Z]+)(\\$?)([1-9][0-9]*)$");
+	public static final RegExp spreadsheetPattern =
+			RegExp.compile("^(\\$?)([A-Z]+)(\\$?)([1-9][0-9]*)$");
 
 	/** regex group with "$" or "" for column */
-	public final static int MATCH_COLUMN_DOLLAR = 1;
+	public static final int MATCH_COLUMN_DOLLAR = 1;
 	/** regex group for column name */
-	public final static int MATCH_COLUMN = 2;
+	public static final int MATCH_COLUMN = 2;
 	/** regex group with "$" or "" for row */
-	public final static int MATCH_ROW_DOLLAR = 3;
+	public static final int MATCH_ROW_DOLLAR = 3;
 	/** regex group for row number */
-	public final static int MATCH_ROW = 4;
+	public static final int MATCH_ROW = 4;
 
 	private static StringBuilder sb;
 
 	/**
 	 * Converts column index to name
-	 * 
+	 *
 	 * @param columnIndex
 	 *            column index
 	 * @return column name
@@ -72,7 +72,7 @@ public class GeoElementSpreadsheet {
 
 	/**
 	 * Extracts column from cell name
-	 * 
+	 *
 	 * @param label
 	 *            cell label
 	 * @return column name
@@ -87,7 +87,7 @@ public class GeoElementSpreadsheet {
 
 	/**
 	 * Converts coordinates into cell name
-	 * 
+	 *
 	 * @param column
 	 *            cell column
 	 * @param row
@@ -97,9 +97,7 @@ public class GeoElementSpreadsheet {
 	 */
 	public static String getSpreadsheetCellName(int column, int row) {
 
-		if (column >= Spreadsheet.MAX_COLUMNS
-				|| row >= Spreadsheet.MAX_ROWS || column < 0
-				|| row < 0) {
+		if (column >= Spreadsheet.MAX_COLUMNS || row >= Spreadsheet.MAX_ROWS || column < 0 || row < 0) {
 			return null;
 		}
 
@@ -110,7 +108,7 @@ public class GeoElementSpreadsheet {
 	 * Determines spreadsheet row and column indices for a given cell name (e.g.
 	 * "B3" sets column = 1 and row = 2. If the cell name does not match a
 	 * possible spreadsheet cell then both row and column are returned as -1.
-	 * 
+	 *
 	 * @param cellName
 	 *            given cell name
 	 * @return coordinates of spreadsheet cell as (column index,row index) or (-1, -1)
@@ -124,7 +122,7 @@ public class GeoElementSpreadsheet {
 	/**
 	 * Checks whether geo has valid cell name. We use getLabel() rather than
 	 * getLabelSimple() here because of labels like $A$1
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if label is valid cell name
@@ -136,7 +134,7 @@ public class GeoElementSpreadsheet {
 
 	/**
 	 * Checks whether str is valid cell name
-	 * 
+	 *
 	 * @param str
 	 *            label
 	 * @return true if label is valid cell name
@@ -153,8 +151,7 @@ public class GeoElementSpreadsheet {
 		}
 
 		// check not outside range, eg A10000
-		return getSpreadsheetColumn(matcher) != -1
-				&& getSpreadsheetRow(matcher) != -1;
+		return getSpreadsheetColumn(matcher) != -1 && getSpreadsheetRow(matcher) != -1;
 	}
 
 	/**
@@ -186,7 +183,7 @@ public class GeoElementSpreadsheet {
 	/**
 	 * Returns row number based on matcher, which was obtained using
 	 * spreadsheetPattern
-	 * 
+	 *
 	 * @author Cong Liu
 	 * @param matcher
 	 *            matcher
@@ -216,7 +213,7 @@ public class GeoElementSpreadsheet {
 	 * Returns a point with the spreadsheet coordinates of the given inputLabel.
 	 * Note that this can also be used for names that include $ signs like
 	 * "$A1".
-	 * 
+	 *
 	 * @param inputLabel
 	 *            label of spreadsheet cell
 	 * @return spreadsheet coordinates as (column index,row index); null for
@@ -238,7 +235,7 @@ public class GeoElementSpreadsheet {
 
 	/**
 	 * used to set a cell to another geo used by FillCells[] etc
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param row
@@ -248,9 +245,7 @@ public class GeoElementSpreadsheet {
 	 * @param cellGeo
 	 *            source element
 	 */
-
-	public void setSpreadsheetCell(App app, int row, int col,
-			GeoElement cellGeo) {
+	public void setSpreadsheetCell(App app, int row, int col, GeoElement cellGeo) {
 		String cellName = getSpreadsheetCellName(col, row);
 
 		if (sb == null) {
@@ -262,8 +257,7 @@ public class GeoElementSpreadsheet {
 		sb.append(cellName);
 		if (cellGeo instanceof FunctionalNVar) {
 			sb.append("(");
-			sb.append(((FunctionalNVar) cellGeo)
-					.getVarString(StringTemplate.defaultTemplate));
+			sb.append(((FunctionalNVar) cellGeo).getVarString(StringTemplate.defaultTemplate));
 			sb.append(")");
 		}
 
@@ -287,13 +281,11 @@ public class GeoElementSpreadsheet {
 		// B2(x)=x^2
 		if (cellGeo instanceof FunctionalNVar && cellGeo.isLabelSet()) {
 			sb.append("(");
-			sb.append(((FunctionalNVar) cellGeo)
-					.getVarString(StringTemplate.defaultTemplate));
+			sb.append(((FunctionalNVar) cellGeo).getVarString(StringTemplate.defaultTemplate));
 			sb.append(")");
 		}
 
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(sb.toString(), false);
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(sb.toString(), false);
 
 		GeoElement cell = app.getKernel().lookupLabel(cellName);
 		if (cell != null) {
@@ -339,7 +331,7 @@ public class GeoElementSpreadsheet {
 	/**
 	 * copies the background color from the cell to the object when an object is
 	 * created (or renamed)
-	 * 
+	 *
 	 * @param geo
 	 *            to check
 	 */
@@ -351,8 +343,7 @@ public class GeoElementSpreadsheet {
 
 		App app = geo.getKernel().getApplication();
 		// TODO avoid hidden dependencies on GuiManager and SpreadsheetModel
-		GuiManagerInterface guiManager = app
-				.getGuiManager();
+		GuiManagerInterface guiManager = app.getGuiManager();
 
 		if (guiManager == null || !guiManager.hasSpreadsheetView()) {
 			// no spreadsheet
@@ -364,16 +355,12 @@ public class GeoElementSpreadsheet {
 		if (GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
 			SpreadsheetCoords coords = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(label);
 
-			CellFormatInterface formatHandler = app.getSpreadsheetTableModel()
-					.getCellFormat(null);
-			Object c = formatHandler.getCellFormat(coords.column, coords.row,
-					CellFormat.FORMAT_BGCOLOR);
+			CellFormatInterface formatHandler = app.getSpreadsheetTableModel().getCellFormat(null);
+			Object c = formatHandler.getCellFormat(coords.column, coords.row, CellFormat.FORMAT_BGCOLOR);
 
 			if (c instanceof GColor) {
 				geo.setBackgroundColor((GColor) c);
 			}
-
 		}
-
 	}
 }

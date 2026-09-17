@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.cloud;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,8 +72,7 @@ class MaterialRestAPITest {
 		return new LoginOperationD();
 	}
 
-	private static void authorise(GeoGebraTubeUser usr,
-			LoginOperationD loginOp) {
+	private static void authorise(GeoGebraTubeUser usr, LoginOperationD loginOp) {
 		MaterialRestAPI api = authAPI();
 		final TestAsyncOperation<Boolean> callback = new TestAsyncOperation<>();
 		loginOp.getView().add(event -> {
@@ -110,10 +109,14 @@ class MaterialRestAPITest {
 		MaterialRestAPI api = new MaterialRestAPI(BASE_URL, new MarvlService());
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		TestMaterialCallback t = new TestMaterialCallback();
-		api.uploadMaterial("", "S", "This should fail",
-				Base64.encodeToString(UtilD.loadFileIntoByteArray(
-						"src/test/resources/slides.ggs"), false),
-				t, MaterialType.ggs, false);
+		api.uploadMaterial(
+				"",
+				"S",
+				"This should fail",
+				Base64.encodeToString(UtilD.loadFileIntoByteArray("src/test/resources/slides.ggs"), false),
+				t,
+				MaterialType.ggs,
+				false);
 		t.await(5);
 		t.verifyError(".*401.*");
 	}
@@ -130,12 +133,11 @@ class MaterialRestAPITest {
 		final TestAsyncOperation<List<GroupIdentifier>> groupCallback =
 				new TestAsyncOperation<List<GroupIdentifier>>() {
 
-			@Override
-			public void callback(List<GroupIdentifier> obj) {
-				success[0] = obj == null ? "FAIL" : obj.size() + "";
-
-			}
-		};
+					@Override
+					public void callback(List<GroupIdentifier> obj) {
+						success[0] = obj == null ? "FAIL" : obj.size() + "";
+					}
+				};
 		doUpload(api, "Test material", new TestMaterialCallback() {
 			@Override
 			public boolean handleMaterial(Material mat) {
@@ -148,12 +150,16 @@ class MaterialRestAPITest {
 		assertEquals("0", success[0]);
 	}
 
-	private static void doUpload(MaterialRestAPI api, String title,
-			TestMaterialCallback testCallback) {
-		api.uploadMaterial("", "S", title,
-				Base64.encodeToString(UtilD.loadFileIntoByteArray(
-						"src/test/resources/slides.ggs"), false),
-				testCallback, MaterialType.ggs, false);
+	private static void doUpload(
+			MaterialRestAPI api, String title, TestMaterialCallback testCallback) {
+		api.uploadMaterial(
+				"",
+				"S",
+				title,
+				Base64.encodeToString(UtilD.loadFileIntoByteArray("src/test/resources/slides.ggs"), false),
+				testCallback,
+				MaterialType.ggs,
+				false);
 		testCallback.await(5);
 		testCallback.verify(title);
 	}
@@ -190,22 +196,23 @@ class MaterialRestAPITest {
 
 	private static void deleteAll(final MaterialRestAPI api) {
 		final TestMaterialCallback deleteCallback = new TestMaterialCallback();
-		api.getUsersOwnMaterials(new MaterialCallbackI() {
+		api.getUsersOwnMaterials(
+				new MaterialCallbackI() {
 
-			@Override
-			public void onLoaded(List<Material> result,
-					Pagination meta) {
-				deleteCallback.setExpectedCount(result.size());
-				for (Material material : result) {
-					api.deleteMaterial(material, deleteCallback);
-				}
-			}
+					@Override
+					public void onLoaded(List<Material> result, Pagination meta) {
+						deleteCallback.setExpectedCount(result.size());
+						for (Material material : result) {
+							api.deleteMaterial(material, deleteCallback);
+						}
+					}
 
-			@Override
-			public void onError(Throwable exception) {
-				//
-			}
-		}, ResourceOrdering.title);
+					@Override
+					public void onError(Throwable exception) {
+						//
+					}
+				},
+				ResourceOrdering.title);
 		deleteCallback.await(10);
 	}
 
@@ -234,8 +241,7 @@ class MaterialRestAPITest {
 
 			@Override
 			public boolean handleMaterial(Material mat) {
-				api.copy(mat, MaterialRestAPI.getCopyTitle(loc, mat.getTitle()),
-						copyCallback);
+				api.copy(mat, MaterialRestAPI.getCopyTitle(loc, mat.getTitle()), copyCallback);
 				return true;
 			}
 		};
@@ -258,14 +264,16 @@ class MaterialRestAPITest {
 		doUpload(api, "Test Material", new TestMaterialCallback());
 		// load list of materials, delete the first one
 		final TestMaterialCallback deleteCallback = new TestMaterialCallback();
-		api.getUsersOwnMaterials(new TestMaterialCallback() {
+		api.getUsersOwnMaterials(
+				new TestMaterialCallback() {
 
-			@Override
-			public boolean handleMaterial(Material mat) {
-				api.deleteMaterial(mat, deleteCallback);
-				return true;
-			}
-		}, ResourceOrdering.title);
+					@Override
+					public boolean handleMaterial(Material mat) {
+						api.deleteMaterial(mat, deleteCallback);
+						return true;
+					}
+				},
+				ResourceOrdering.title);
 		deleteCallback.await(5);
 		deleteCallback.verify("Test Material");
 
@@ -288,30 +296,26 @@ class MaterialRestAPITest {
 		getCallback.await(5);
 		getCallback.verify("");
 		assertEquals(i, count.length());
-
 	}
 
 	// Hack Java to understand PATCH method:
 	// https://stackoverflow.com/a/46323891
 	private static void allowMethods(String... methods) {
 		try {
-			Field methodsField = HttpURLConnection.class
-					.getDeclaredField("methods");
+			Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
 
 			Field modifiersField = Field.class.getDeclaredField("modifiers");
 			modifiersField.setAccessible(true);
-			modifiersField.setInt(methodsField,
-					methodsField.getModifiers() & ~Modifier.FINAL);
+			modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
 
 			methodsField.setAccessible(true);
 
 			String[] oldMethods = (String[]) methodsField.get(null);
-			Set<String> methodsSet = new LinkedHashSet<>(
-					Arrays.asList(oldMethods));
+			Set<String> methodsSet = new LinkedHashSet<>(Arrays.asList(oldMethods));
 			methodsSet.addAll(Arrays.asList(methods));
 			String[] newMethods = methodsSet.toArray(new String[0]);
 
-			methodsField.set(null/* static field */, newMethods);
+			methodsField.set(null /* static field */, newMethods);
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			throw new IllegalStateException(e);
 		}
@@ -321,10 +325,8 @@ class MaterialRestAPITest {
 	void copyTitles() {
 		LocalizationD loc = new LocalizationD(3);
 		assertEquals("Copy of A", MaterialRestAPI.getCopyTitle(loc, "A"));
-		assertEquals("Copy of A (2)",
-				MaterialRestAPI.getCopyTitle(loc, "Copy of A"));
-		assertEquals("Copy of A (3)",
-				MaterialRestAPI.getCopyTitle(loc, "Copy of A (2)"));
+		assertEquals("Copy of A (2)", MaterialRestAPI.getCopyTitle(loc, "Copy of A"));
+		assertEquals("Copy of A (3)", MaterialRestAPI.getCopyTitle(loc, "Copy of A (2)"));
 	}
 
 	@Test
@@ -367,13 +369,15 @@ class MaterialRestAPITest {
 			public boolean handleMaterial(Material mat) {
 				filenames[0] = mat.getFileName();
 				pause();
-				api.uploadMaterial(mat.getSharingKey(), "S",
+				api.uploadMaterial(
+						mat.getSharingKey(),
+						"S",
 						"Test material",
 						Base64.encodeToString(
-								UtilD.loadFileIntoByteArray(
-										"src/test/resources/slides.ggs"),
-								false),
-						reuploadCallback, MaterialType.ggs, false);
+								UtilD.loadFileIntoByteArray("src/test/resources/slides.ggs"), false),
+						reuploadCallback,
+						MaterialType.ggs,
+						false);
 				return true;
 			}
 		};
@@ -393,22 +397,16 @@ class MaterialRestAPITest {
 		GeoGebraTubeUser usr = new GeoGebraTubeUser("");
 		LoginOperationD loginOp = buildLoginOperation();
 
-		assertTrue(loginOp.owns(mat),
-				"Should overwrite anonymous materials");
+		assertTrue(loginOp.owns(mat), "Should overwrite anonymous materials");
 		authorise(usr, loginOp);
 		mat.setCreator(new UserPublic(42, "Bart"));
-		assertFalse(loginOp.owns(mat),
-				"Should not overwrite foreign materials");
+		assertFalse(loginOp.owns(mat), "Should not overwrite foreign materials");
 		assertTrue(usr.getUserId() > 0, "User ID should be set");
-		mat.setCreator(new UserPublic(loginOp.getModel().getUserId(),
-				loginOp.getUserName()));
-		assertTrue(loginOp.owns(mat),
-				"Should overwrite own materials");
-
+		mat.setCreator(new UserPublic(loginOp.getModel().getUserId(), loginOp.getUserName()));
+		assertTrue(loginOp.owns(mat), "Should overwrite own materials");
 	}
 
 	private static void needsAuth() {
 		Assumptions.assumeFalse(System.getProperty("marvl.auth.basic") == null);
 	}
-
 }

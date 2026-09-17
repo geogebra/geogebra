@@ -34,8 +34,8 @@ public final class SpreadsheetCellReference {
 		this(rowIndex, false, columnIndex, false);
 	}
 
-	SpreadsheetCellReference(int rowIndex, boolean rowIsAbsolute, int columnIndex,
-			boolean columnIsAbsolute) {
+	SpreadsheetCellReference(
+			int rowIndex, boolean rowIsAbsolute, int columnIndex, boolean columnIsAbsolute) {
 		assert columnIndex >= 0;
 		assert rowIndex >= 0;
 		this.rowIndex = rowIndex;

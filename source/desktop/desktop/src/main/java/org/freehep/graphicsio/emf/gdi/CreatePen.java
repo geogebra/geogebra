@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * CreatePen TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: CreatePen.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -30,8 +30,7 @@ public class CreatePen extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		CreatePen tag = new CreatePen(emf.readDWORD(), new LogPen(emf));
 		return tag;
@@ -45,8 +44,8 @@ public class CreatePen extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  index: 0x"
-				+ Integer.toHexString(index) + "\n" + pen.toString();
+		return super.toString() + "\n" + "  index: 0x" + Integer.toHexString(index) + "\n"
+				+ pen.toString();
 	}
 
 	public int getIndex() {
@@ -56,5 +55,4 @@ public class CreatePen extends EMFTag {
 	public LogPen getPen() {
 		return pen;
 	}
-
 }

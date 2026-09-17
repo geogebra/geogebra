@@ -29,7 +29,8 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /** UI-ready table data for the probability calculator table values view. */
-public record ProbabilityCalculatorTableValues(@NonNull Row header, @NonNull List<Row> rows) {
+public record ProbabilityCalculatorTableValues(
+		@NonNull Row header, @NonNull List<Row> rows) {
 	private static final double NEARLY_ONE = 1 - 1E-6;
 
 	/** UI-ready row data for the probability calculator table values view. */
@@ -64,20 +65,20 @@ public record ProbabilityCalculatorTableValues(@NonNull Row header, @NonNull Lis
 				: view.getLow() <= k && k <= view.getHigh();
 	}
 
-	private static List<Row> createBinomialRows(ProbabilityCalculatorView view,
-			GeoNumberValue[] parameters) {
+	private static List<Row> createBinomialRows(
+			ProbabilityCalculatorView view, GeoNumberValue[] parameters) {
 		try {
 			int numberOfTrials = integerParameter(parameters, 0);
 			double probabilityOfSuccess = parameters[1].getDouble();
-			return createRows(view, 0, numberOfTrials,
-					new BinomialDistribution(numberOfTrials, probabilityOfSuccess));
+			return createRows(
+					view, 0, numberOfTrials, new BinomialDistribution(numberOfTrials, probabilityOfSuccess));
 		} catch (RuntimeException exception) {
 			return List.of();
 		}
 	}
 
-	private static List<Row> createPascalRows(ProbabilityCalculatorView view,
-			GeoNumberValue[] parameters) {
+	private static List<Row> createPascalRows(
+			ProbabilityCalculatorView view, GeoNumberValue[] parameters) {
 		try {
 			int numberOfSuccess = integerParameter(parameters, 0);
 			double probabilityOfSuccess = parameters[1].getDouble();
@@ -90,41 +91,50 @@ public record ProbabilityCalculatorTableValues(@NonNull Row header, @NonNull Lis
 		}
 	}
 
-	private static List<Row> createPoissonRows(ProbabilityCalculatorView view,
-			GeoNumberValue[] parameters) {
+	private static List<Row> createPoissonRows(
+			ProbabilityCalculatorView view, GeoNumberValue[] parameters) {
 		try {
 			double poissonMean = parameters[0].getDouble();
 			PoissonDistribution distribution = new PoissonDistribution(poissonMean);
-			return createRows(view, 0, distribution.inverseCumulativeProbability(NEARLY_ONE),
-					distribution);
+			return createRows(
+					view, 0, distribution.inverseCumulativeProbability(NEARLY_ONE), distribution);
 		} catch (RuntimeException exception) {
 			return List.of();
 		}
 	}
 
-	private static List<Row> createHyperGeometricRows(ProbabilityCalculatorView view,
-			GeoNumberValue[] parameters) {
+	private static List<Row> createHyperGeometricRows(
+			ProbabilityCalculatorView view, GeoNumberValue[] parameters) {
 		try {
 			int populationSize = integerParameter(parameters, 0);
 			int numberOfSuccesses = integerParameter(parameters, 1);
 			int sampleSize = integerParameter(parameters, 2);
 			int lowerBound = Math.max(0, numberOfSuccesses + sampleSize - populationSize);
 			int upperBound = Math.min(numberOfSuccesses, sampleSize);
-			return createRows(view, lowerBound, upperBound,
+			return createRows(
+					view,
+					lowerBound,
+					upperBound,
 					new HypergeometricDistribution(populationSize, numberOfSuccesses, sampleSize));
 		} catch (RuntimeException exception) {
 			return List.of();
 		}
 	}
 
-	private static List<Row> createRows(ProbabilityCalculatorView view, int lowerBound,
-			int upperBound, IntegerDistribution distribution) {
-		return IntStream.rangeClosed(lowerBound, upperBound).mapToObj(k -> new Row(
-				String.valueOf(k),
-				view.format(view.isCumulative()
-						? distribution.cumulativeProbability(k) : distribution.probability(k)),
-				isHighlighted(view, k))
-		).toList();
+	private static List<Row> createRows(
+			ProbabilityCalculatorView view,
+			int lowerBound,
+			int upperBound,
+			IntegerDistribution distribution) {
+		return IntStream.rangeClosed(lowerBound, upperBound)
+				.mapToObj(k -> new Row(
+						String.valueOf(k),
+						view.format(
+								view.isCumulative()
+										? distribution.cumulativeProbability(k)
+										: distribution.probability(k)),
+						isHighlighted(view, k)))
+				.toList();
 	}
 
 	private static int integerParameter(GeoNumberValue[] parameters, int index) {

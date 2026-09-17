@@ -40,15 +40,13 @@ public class ArrowVectorShape implements VectorShape {
 
 	@Override
 	public GLine2D body() {
-		line.setLine(model.getStartX(), model.getStartY(),
-				model.getEndX(), model.getEndY());
+		line.setLine(model.getStartX(), model.getStartY(), model.getEndX(), model.getEndY());
 		return line;
 	}
 
 	@Override
 	public GShape head() {
-		RotatedArrow rotatedArrow = new RotatedArrow(line, model.getLineThickness(),
-				model.getStroke());
+		RotatedArrow rotatedArrow = new RotatedArrow(line, model.getLineThickness(), model.getStroke());
 		return rotatedArrow.get();
 	}
 

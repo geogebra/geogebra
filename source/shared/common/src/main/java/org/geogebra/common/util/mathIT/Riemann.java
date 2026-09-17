@@ -13,20 +13,20 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see http://www.gnu.org/licenses
  * or write to the Free Software Foundation,Inc., 51 Franklin Street,
  * Fifth Floor, Boston, MA 02110-1301  USA
- * 
- * As a special exception, the copyright holders of this program give you permission 
- * to link this program with independent modules to produce an executable, 
- * regardless of the license terms of these independent modules, and to copy and 
- * distribute the resulting executable under terms of your choice, provided that 
- * you also meet, for each linked independent module, the terms and conditions of 
- * the license of that module. An independent module is a module which is not derived 
- * from or based on this program. If you modify this program, you may extend 
- * this exception to your version of the program, but you are not obligated to do so. 
+ *
+ * As a special exception, the copyright holders of this program give you permission
+ * to link this program with independent modules to produce an executable,
+ * regardless of the license terms of these independent modules, and to copy and
+ * distribute the resulting executable under terms of your choice, provided that
+ * you also meet, for each linked independent module, the terms and conditions of
+ * the license of that module. An independent module is a module which is not derived
+ * from or based on this program. If you modify this program, you may extend
+ * this exception to your version of the program, but you are not obligated to do so.
  * If you do not wish to do so, delete this exception statement from your version.
  */
 
@@ -56,7 +56,7 @@ import static org.geogebra.common.util.mathIT.Complex.subtract;
  * and the Riemann-Siegel functions <i>Z</i> and &theta;.
  *
  * @author Andreas de Vries, GeoGebra
- * 
+ *
  *         forked from
  *         https://github.com/vriesa/mathIT/blob/master/src/org/mathIT/numbers/
  *         Riemann.java
@@ -64,7 +64,7 @@ import static org.geogebra.common.util.mathIT.Complex.subtract;
 public final class Riemann {
 	/**
 	 * The predefined accuracy up to which infinite sums are approximated.
-	 * 
+	 *
 	 * @see #zeta(double[])
 	 */
 	public static final double EPSILON = 1e-6;
@@ -82,8 +82,7 @@ public final class Riemann {
 
 		dterm[0] = 1;
 		for (int k = 1; k <= maxTermNo; k++) {
-			dterm[k] = dterm[k - 1] * 2.0 * (maxTermNo + k - 1)
-					* (maxTermNo - k + 1) / ((2 * k - 1) * k);
+			dterm[k] = dterm[k - 1] * 2.0 * (maxTermNo + k - 1) * (maxTermNo - k + 1) / ((2 * k - 1) * k);
 			tempdnn += dterm[k];
 		}
 
@@ -102,8 +101,7 @@ public final class Riemann {
 	}
 
 	// Suppresses default constructor, ensuring non-instantiability.
-	private Riemann() {
-	}
+	private Riemann() {}
 
 	/**
 	 * Returns the value &#967;(<i>s</i>) for a complex number <i>s</i> &#8712;
@@ -154,7 +152,7 @@ public final class Riemann {
 	 * <a href="https://books.google.com/books?id=1CyfApMt8JYC&pg=PA89" target=
 	 * "_new">https://books.google.com/books?id=1CyfApMt8JYC&amp;pg=PA89</a>.
 	 * </p>
-	 * 
+	 *
 	 * @param s
 	 *            a complex value
 	 * @return &#967;(<i>s</i>)
@@ -165,12 +163,12 @@ public final class Riemann {
 	public static double[] chi(double[] s) {
 		// /*
 		if (s[0] > .5) { // gamma is approximated fast only for Re s <= .5 <=>
-							// Re(1 - s) >= .5
+			// Re(1 - s) >= .5
 			return divide(1.0, chi(subtract(ONE_, s)));
 		}
 		double[] result;
 		if (PI * abs(s[1]) > 709) { // for large imaginary parts use
-									// log-versions
+			// log-versions
 			// s ln 2 + (s-1) ln pi + lnGamma(1-s) + lnSin (pi s/2)
 			result = multiply(log(2), s);
 			result = add(result, multiply(log(PI), subtract(s, ONE_)));
@@ -338,7 +336,7 @@ public final class Riemann {
 	 * <a href="https://books.google.de/books?id=ruVmGFPwNhQC&pg=PA119" target=
 	 * "_new">https://books.google.de/books?id=ruVmGFPwNhQC&amp;pg=PA119</a>).
 	 * </p>
-	 * 
+	 *
 	 * @param s
 	 *            the argument
 	 * @return the zeta function value &zeta;(<i>s</i>)
@@ -371,8 +369,7 @@ public final class Riemann {
 			return sum;
 		} else if (abs(s[0] - 0.5) < EPSILON && abs(s[1]) > 10) {
 			double temp = abs(s[1]);
-			double[] ret = multiply(z(temp),
-					exp(new double[] { 0, -theta(temp) }));
+			double[] ret = multiply(z(temp), exp(new double[] {0, -theta(temp)}));
 
 			if (s[1] < 0) {
 				ret[1] = -ret[1];
@@ -386,8 +383,7 @@ public final class Riemann {
 				sum = add(sum, divide(dkn[k], power(k + 1, s)));
 			}
 
-			sum = divide(sum,
-					multiply(dnn, subtract(ONE_, power(2, subtract(ONE_, s)))));
+			sum = divide(sum, multiply(dnn, subtract(ONE_, power(2, subtract(ONE_, s)))));
 		}
 		return sum;
 	}
@@ -397,7 +393,7 @@ public final class Riemann {
 	 * <sub>0</sub>, -<i>C</i><sub>1</sub>, <i>C</i><sub>2</sub>, -<i>C</i>
 	 * <sub>3</sub>, <i>C</i><sub>4</sub>, cf. H.M. Edwards, Riemann's Zeta
 	 * Function. Academic Press, Ne York 1974, p 158.
-	 * 
+	 *
 	 * @author Jose Menez (https://gist.github.com/cab1729/1317706).
 	 * @param n
 	 *            the index of the coefficient <i>C<sub>n</sub></i>
@@ -609,7 +605,7 @@ public final class Riemann {
 	 * <a href="https://books.google.de/books?id=ruVmGFPwNhQC&pg=PA119" target=
 	 * "_new">https://books.google.de/books?id=ruVmGFPwNhQC&amp;pg=PA119</a>).
 	 * </p>
-	 * 
+	 *
 	 * @param t
 	 *            value on the critical line <i>s</i> = &#189; + i<i>t</i>.
 	 * @return <i>Z</i>(<i>t</i>)
@@ -628,7 +624,7 @@ public final class Riemann {
 		// correction term (Edwards 1974, pp 154):
 		double p = sqrt(t / (2 * PI)) % 1; // fractional part
 		double R = 0; // pow(2*PI/t, 0.25) * cos(2*PI * (p*p - p - 1./16)) /
-						// cos(2*PI*p);
+		// cos(2*PI*p);
 
 		// add remainder R here
 		double pi2t = 2 * PI / t;
@@ -805,7 +801,7 @@ public final class Riemann {
 	 * <a href="https://books.google.de/books?id=ruVmGFPwNhQC&pg=PA119" target=
 	 * "_new">https://books.google.de/books?id=ruVmGFPwNhQC&amp;pg=PA119</a>).
 	 * </p>
-	 * 
+	 *
 	 * @param t
 	 *            value on the critical line <i>s</i> = &#189; + i<i>t</i>.
 	 * @return <i>&theta;</i>(<i>t</i>)
@@ -813,8 +809,10 @@ public final class Riemann {
 	 * @see #z(double)
 	 */
 	public static double theta(double t) {
-		return -0.5 * t * (1 + log(2) + log(PI) + log(1 / t)) - PI / 8
-				+ 1 / (48 * t) + 7 / (5760 * t * t * t)
+		return -0.5 * t * (1 + log(2) + log(PI) + log(1 / t))
+				- PI / 8
+				+ 1 / (48 * t)
+				+ 7 / (5760 * t * t * t)
 				+ 31 / (80640 * t * t * t * t * t)
 				+ 127 / (430080 * t * t * t * t * t * t * t);
 	}

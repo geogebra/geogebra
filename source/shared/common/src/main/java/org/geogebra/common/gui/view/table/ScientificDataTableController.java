@@ -133,9 +133,8 @@ public final class ScientificDataTableController {
 	 * @param input The new definition for the function.
 	 * @return True if the definition of the function did change, false otherwise.
 	 */
-	private boolean defineFunction(DefineFunctionHandler handler,
-			GeoFunction function,
-			String input) {
+	private boolean defineFunction(
+			DefineFunctionHandler handler, GeoFunction function, String input) {
 		String oldDefinition = getDefinitionOf(function);
 		handler.handle(input, function);
 		String newDefinition = getDefinitionOf(function);

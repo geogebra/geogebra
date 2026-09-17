@@ -25,8 +25,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoZProportion2Estimate extends AlgoElement {
@@ -55,8 +55,12 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 	 * @param level
 	 *            confidence level
 	 */
-	public AlgoZProportion2Estimate(Construction cons, GeoNumeric proportion,
-			GeoNumeric n, GeoNumeric proportion2, GeoNumeric n_2,
+	public AlgoZProportion2Estimate(
+			Construction cons,
+			GeoNumeric proportion,
+			GeoNumeric n,
+			GeoNumeric proportion2,
+			GeoNumeric n_2,
 			GeoNumeric level) {
 		super(cons);
 		this.proportion = proportion;
@@ -136,7 +140,5 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 		result.clear();
 		result.addNumber(stat - me, null);
 		result.addNumber(stat + me, null);
-
 	}
-
 }

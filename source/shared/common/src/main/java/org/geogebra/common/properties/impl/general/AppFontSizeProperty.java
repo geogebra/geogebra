@@ -44,7 +44,8 @@ public class AppFontSizeProperty extends AbstractNamedEnumeratedProperty<Integer
 	 */
 	public AppFontSizeProperty(
 			Localization localization,
-			FontSettings fontSettings, FontSettingsUpdater fontSettingsUpdater) {
+			FontSettings fontSettings,
+			FontSettingsUpdater fontSettingsUpdater) {
 		super(localization, "FontSize");
 		this.fontSettings = fontSettings;
 		this.fontSettingsUpdater = fontSettingsUpdater;
@@ -55,8 +56,9 @@ public class AppFontSizeProperty extends AbstractNamedEnumeratedProperty<Integer
 	private void setupValues(Localization localization) {
 		List<Map.Entry<Integer, String>> values = IntStream.range(0, Util.menuFontSizesLength())
 				.boxed()
-				.map(fontIndex -> entry(Util.menuFontSizes(fontIndex), localization
-						.getPlain("Apt", String.valueOf(Util.menuFontSizes(fontIndex)))))
+				.map(fontIndex -> entry(
+						Util.menuFontSizes(fontIndex),
+						localization.getPlain("Apt", String.valueOf(Util.menuFontSizes(fontIndex)))))
 				.collect(Collectors.toList());
 		setNamedValues(values);
 	}

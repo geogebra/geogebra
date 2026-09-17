@@ -44,5 +44,4 @@ public class GTexturePaintW implements GPaint {
 	public GRectangle getAnchor() {
 		return anchor;
 	}
-
 }

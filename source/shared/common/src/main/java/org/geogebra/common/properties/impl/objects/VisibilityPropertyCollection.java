@@ -41,18 +41,22 @@ public final class VisibilityPropertyCollection extends AbstractPropertyCollecti
 	 * @param elements the elements to create the property for
 	 */
 	public VisibilityPropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
 			List<GeoElement> elements) {
 		super(localization, "ObjectProperties.Visibility");
 		boolean isWhiteboard = elements.get(0).getApp().isWhiteboardActive();
 		setProperties(Stream.of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ShowConditionProperty(localization, element),
-						StringPropertyListFacade::new),
-				isWhiteboard ? null : new LocationPropertyCollection(
-						propertiesFactory, localization, elements),
-				tryOrNull(() -> new AlgebraViewVisibilityPropertyCollection(
-						propertiesFactory, localization, elements))
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ShowConditionProperty(localization, element),
+								StringPropertyListFacade::new),
+						isWhiteboard
+								? null
+								: new LocationPropertyCollection(propertiesFactory, localization, elements),
+						tryOrNull(() -> new AlgebraViewVisibilityPropertyCollection(
+								propertiesFactory, localization, elements)))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 	}
 }

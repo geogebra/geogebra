@@ -52,8 +52,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private final AltTextTimer timer;
 
 	private final Comparator<FocusableComponent> componentComparator = (o1, o2) -> {
-		int viewDiff = o1.getAccessibilityGroup().ordinal()
-				- o2.getAccessibilityGroup().ordinal();
+		int viewDiff =
+				o1.getAccessibilityGroup().ordinal() - o2.getAccessibilityGroup().ordinal();
 		if (viewDiff != 0) {
 			return viewDiff;
 		}
@@ -78,27 +78,25 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		selection = app.getSelectionManager();
 		this.geoTabber = new GeoTabber(app);
 		altTexts = new ViewAltTexts(app);
-		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader(),
-				app.getLocalization());
+		timer = new AltTextTimer(app.getActiveEuclidianView().getScreenReader(), app.getLocalization());
 		altGeoTabber = new AltGeoTabber(app, altTexts);
 		components.add(altGeoTabber);
 		components.add(geoTabber);
 		components.add(new PlayButtonTabber(app.getActiveEuclidianView()));
 		components.add(new ResetButtonTabber(app.getActiveEuclidianView()));
-		List<String> externalControlSelectors  = Arrays.stream(
-				app.getAppletParameters().getParamExternalControls().split(","))
-				.filter(s -> ! s.isEmpty())
+		List<String> externalControlSelectors = Arrays.stream(
+						app.getAppletParameters().getParamExternalControls().split(","))
+				.filter(s -> !s.isEmpty())
 				.collect(Collectors.toList());
 		if (!externalControlSelectors.isEmpty()) {
-			components.add(new ExternalControl(externalControlSelectors, this,
-					app.getGlobalHandlers()));
+			components.add(new ExternalControl(externalControlSelectors, this, app.getGlobalHandlers()));
 		}
 	}
 
 	@Override
 	public boolean focusNext() {
 		removeFocusFromInternals();
-		for (FocusableComponent entry: components) {
+		for (FocusableComponent entry : components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusNext()) {
 					focusFirstVisible(findNext(entry));
@@ -152,7 +150,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public boolean focusPrevious() {
 		removeFocusFromInternals();
-		for (FocusableComponent entry: components) {
+		for (FocusableComponent entry : components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusPrevious()) {
 					return focusLastVisible(findPrevious(entry));
@@ -302,7 +300,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (activeCompositeFocus == null) {
 			return false;
 		}
-		return activeCompositeFocus.hasFocus() ? activeCompositeFocus.focusNext()
+		return activeCompositeFocus.hasFocus()
+				? activeCompositeFocus.focusNext()
 				: activeCompositeFocus.focusFirst();
 	}
 
@@ -312,7 +311,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (activeCompositeFocus == null) {
 			return false;
 		}
-		return activeCompositeFocus.hasFocus() ? activeCompositeFocus.focusPrevious()
+		return activeCompositeFocus.hasFocus()
+				? activeCompositeFocus.focusPrevious()
 				: activeCompositeFocus.focusLast();
 	}
 
@@ -327,8 +327,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean handlesEnterInComposite() {
-		return activeCompositeFocus != null
-				&& activeCompositeFocus.handlesEnterKeyForSelectedPart();
+		return activeCompositeFocus != null && activeCompositeFocus.handlesEnterKeyForSelectedPart();
 	}
 
 	@Override
@@ -344,7 +343,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (activeCompositeFocus == null) {
 			activeCompositeFocus = compositeFocusOwners.stream()
 					.filter(FocusableComposite::isFocused)
-					.findFirst().orElse(null);
+					.findFirst()
+					.orElse(null);
 		}
 	}
 
@@ -352,7 +352,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void readSliderUpdate(GeoNumeric geo) {
 		if (!app.getKernel().getConstruction().isFileLoading()
 				&& (!app.getAppletParameters().preventFocus()
-				|| !geo.isAnimating() || !app.getKernel().isAnimationRunning())) {
+						|| !geo.isAnimating()
+						|| !app.getKernel().isAnimationRunning())) {
 			timer.feed(geo);
 		}
 	}

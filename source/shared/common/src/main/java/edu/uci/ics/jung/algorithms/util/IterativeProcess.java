@@ -1,12 +1,12 @@
 /*
-* Copyright (c) 2003, the JUNG Project and the Regents of the University 
-* of California
-* All rights reserved.
-*
-* This software is open-source under the BSD license; see either
-* "license.txt" or
-* http://jung.sourceforge.net/license.txt for a description.
-*/
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
+ * of California
+ * All rights reserved.
+ *
+ * This software is open-source under the BSD license; see either
+ * "license.txt" or
+ * http://jung.sourceforge.net/license.txt for a description.
+ */
 package edu.uci.ics.jung.algorithms.util;
 
 /**
@@ -21,7 +21,7 @@ package edu.uci.ics.jung.algorithms.util;
  * <p>
  * Algorithms that subclass this class are typically used in the following way:
  * <br>
- * 
+ *
  * <pre>
  * FooAlgorithm foo = new FooAlgorithm(...)
  * foo.setMaximumIterations(100); //set up conditions
@@ -29,7 +29,7 @@ package edu.uci.ics.jung.algorithms.util;
  * foo.evaluate(); //key method which initiates iterative process
  * foo.getSomeResult();
  * </pre>
- * 
+ *
  * @author Scott White (originally written by Didier Besset)
  */
 public abstract class IterativeProcess implements IterativeContext {
@@ -53,8 +53,7 @@ public abstract class IterativeProcess implements IterativeContext {
 	/**
 	 * Generic constructor.
 	 */
-	public IterativeProcess() {
-	}
+	public IterativeProcess() {}
 
 	/**
 	 * Performs the iterative process. Note: this method does not return
@@ -77,14 +76,13 @@ public abstract class IterativeProcess implements IterativeContext {
 	 * Evaluate the result of the current iteration.
 	 */
 	@Override
-	abstract public void step();
+	public abstract void step();
 
 	/**
 	 * Perform eventual clean-up operations (must be implement by subclass when
 	 * needed).
 	 */
-	protected void finalizeIterations() {
-	}
+	protected void finalizeIterations() {}
 
 	/**
 	 * Returns the desired precision.
@@ -125,7 +123,7 @@ public abstract class IterativeProcess implements IterativeContext {
 	/**
 	 *
 	 * Check to see if the result has been attained.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public boolean hasConverged() {
@@ -140,14 +138,12 @@ public abstract class IterativeProcess implements IterativeContext {
 	/**
 	 * Initializes internal parameters to start the iterative process.
 	 */
-	protected void initializeIterations() {
-	}
+	protected void initializeIterations() {}
 
 	/**
-	 * 
+	 *
 	 */
-	public void reset() {
-	}
+	public void reset() {}
 
 	/**
 	 * @return double
@@ -163,11 +159,9 @@ public abstract class IterativeProcess implements IterativeContext {
 	/**
 	 * Defines the desired precision.
 	 */
-	public void setDesiredPrecision(double prec)
-			throws IllegalArgumentException {
+	public void setDesiredPrecision(double prec) throws IllegalArgumentException {
 		if (prec <= 0) {
-			throw new IllegalArgumentException(
-					"Non-positive precision: " + prec);
+			throw new IllegalArgumentException("Non-positive precision: " + prec);
 		}
 		desiredPrecision = prec;
 	}
@@ -175,11 +169,9 @@ public abstract class IterativeProcess implements IterativeContext {
 	/**
 	 * Defines the maximum allowed number of iterations.
 	 */
-	public void setMaximumIterations(int maxIter)
-			throws IllegalArgumentException {
+	public void setMaximumIterations(int maxIter) throws IllegalArgumentException {
 		if (maxIter < 1) {
-			throw new IllegalArgumentException(
-					"Non-positive maximum iteration: " + maxIter);
+			throw new IllegalArgumentException("Non-positive maximum iteration: " + maxIter);
 		}
 		maximumIterations = maxIter;
 	}

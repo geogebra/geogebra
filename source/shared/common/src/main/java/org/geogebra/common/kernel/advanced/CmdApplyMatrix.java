@@ -27,14 +27,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * ApplyMatrix[&lt;Matrix&gt;, &lt;Object&gt;]
- * 
+ *
  * @author Michael Borcherds
  */
 public class CmdApplyMatrix extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,7 +43,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 
@@ -51,28 +51,29 @@ public class CmdApplyMatrix extends CommandProcessor {
 		GeoElement[] ret;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
+			case 2:
+				arg = resArgs(c, info);
 
-			if (arg[0].isGeoList()) {
+				if (arg[0].isGeoList()) {
 
-				if (arg[1].isMatrixTransformable() || arg[1].isGeoFunction()
-						|| arg[1].isGeoPolygon() || arg[1].isGeoPolyLine()
-						|| arg[1].isGeoList()) {
-					ret = applyMatrix(label, arg[1], (GeoList) arg[0]);
-					return ret;
+					if (arg[1].isMatrixTransformable()
+							|| arg[1].isGeoFunction()
+							|| arg[1].isGeoPolygon()
+							|| arg[1].isGeoPolyLine()
+							|| arg[1].isGeoList()) {
+						ret = applyMatrix(label, arg[1], (GeoList) arg[0]);
+						return ret;
+					}
+					throw argErr(c, arg[1]);
 				}
-				throw argErr(c, arg[1]);
-			}
-			throw argErr(c, arg[0]);
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
-	private GeoElement[] applyMatrix(String label, GeoElement Q,
-			GeoList matrix) {
+	private GeoElement[] applyMatrix(String label, GeoElement Q, GeoList matrix) {
 		Transform t = new TransformApplyMatrix(cons, matrix);
 		return t.transform(Q, label);
 	}

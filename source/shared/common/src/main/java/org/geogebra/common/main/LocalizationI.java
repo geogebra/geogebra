@@ -26,7 +26,7 @@ public abstract class LocalizationI {
 	/**
 	 * eg Function.sin
 	 */
-	public final static String FUNCTION_PREFIX = "Function.";
+	public static final String FUNCTION_PREFIX = "Function.";
 
 	/**
 	 * Gets the current locale as a well-formed BCP-47 language tag.
@@ -89,24 +89,18 @@ public abstract class LocalizationI {
 		// change eg asin into sin^{-1}
 		if (changeInverse && key.startsWith("a")) {
 			switch (key) {
-			case "asin":
-				return getFunction("sin")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			case "acos":
-				return getFunction("cos")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			case "atan":
-				return getFunction("tan")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			case "asinh":
-				return getFunction("sinh")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			case "acosh":
-				return getFunction("cosh")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			case "atanh":
-				return getFunction("tanh")
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+				case "asin":
+					return getFunction("sin") + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+				case "acos":
+					return getFunction("cos") + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+				case "atan":
+					return getFunction("tan") + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+				case "asinh":
+					return getFunction("sinh") + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+				case "acosh":
+					return getFunction("cosh") + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
+				case "atanh":
+					return getFunction("tanh") + Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
 			}
 		}
 
@@ -125,9 +119,7 @@ public abstract class LocalizationI {
 	}
 
 	private String stripPrefix(String key) {
-		return key == null ? ""
-				: key.contains(".") ? key.substring(key.indexOf(".") + 1)
-				: key;
+		return key == null ? "" : key.contains(".") ? key.substring(key.indexOf(".") + 1) : key;
 	}
 
 	/** @return true if the localized keyboard has latin characters. */

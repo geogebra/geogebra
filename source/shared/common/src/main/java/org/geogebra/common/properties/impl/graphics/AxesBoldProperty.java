@@ -21,8 +21,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
-public class AxesBoldProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty {
+public class AxesBoldProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 	private EuclidianSettings euclidianSettings;
 
 	/**

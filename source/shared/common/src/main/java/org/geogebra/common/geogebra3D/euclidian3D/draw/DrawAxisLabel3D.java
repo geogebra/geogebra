@@ -29,15 +29,21 @@ public class DrawAxisLabel3D extends DrawLabel3D {
 	 * @param view 3D view
 	 * @param drawable the 3D drawable
 	 */
-	public DrawAxisLabel3D(EuclidianView3D view,
-			Drawable3D drawable) {
+	public DrawAxisLabel3D(EuclidianView3D view, Drawable3D drawable) {
 		super(view, drawable);
 		setCaption(new AxisCaptionText(view.getSettings()));
 	}
 
 	@Override
-	public void update(String text0, GFont font0, GColor fgColor, Coords v,
-			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
+	public void update(
+			String text0,
+			GFont font0,
+			GColor fgColor,
+			Coords v,
+			float xOffset0,
+			float yOffset0,
+			float zOffset0,
+			GGraphics2D measuringGraphics) {
 		if (caption != null) {
 			caption.update(text0, font0, fgColor);
 			if (view.drawsLabels()) {

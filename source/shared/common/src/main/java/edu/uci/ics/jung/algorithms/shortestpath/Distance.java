@@ -1,7 +1,7 @@
 /*
  * Created on Apr 2, 2004
  *
- * Copyright (c) 2004, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2004, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * An interface for classes which calculate the distance between one vertex and
  * another.
- * 
+ *
  * @author Joshua O'Madadhain
  */
 public interface Distance<V> {

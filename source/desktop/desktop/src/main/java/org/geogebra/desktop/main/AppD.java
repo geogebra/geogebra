@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -249,8 +249,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * Names for geogebra.jar.
 	 */
-	public final static String GEOGEBRA_JAR = "geogebra.jar";
-	private final static int MEMORY_CRITICAL = 100 * 1024;
+	public static final String GEOGEBRA_JAR = "geogebra.jar";
+
+	private static final int MEMORY_CRITICAL = 100 * 1024;
 
 	/*
 	 * current possible values https://www.mindprod.com/jgloss/properties.html AIX
@@ -258,10 +259,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
 	 * Windows Vista Windows XP
 	 */
-	private static final String OS = StringUtil
-			.toLowerCaseUS(System.getProperty("os.name"));
-	private static final String VERSION = StringUtil
-			.toLowerCaseUS(System.getProperty("os.version"));
+	private static final String OS = StringUtil.toLowerCaseUS(System.getProperty("os.name"));
+	private static final String VERSION = StringUtil.toLowerCaseUS(System.getProperty("os.version"));
 
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");
@@ -279,13 +278,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	static Runtime runtime = Runtime.getRuntime();
 	private static Rectangle screenSize = null;
+
 	@SuppressWarnings("PMD.AvoidMessageDigestField")
 	private static volatile MessageDigest md5Encryptor;
+
 	private static boolean versionCheckAllowed = true;
 	private static boolean virtualKeyboardActive = false;
 
-	private final ScheduledExecutorService scheduler = Executors
-			.newScheduledThreadPool(1);
+	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 	private ScheduledFuture<?> handler;
 
@@ -318,6 +318,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/** Panels that form the main content panel */
 	protected JPanel centerPanel;
+
 	protected JPanel northPanel;
 	protected JPanel southPanel;
 	protected JPanel eastPanel;
@@ -339,6 +340,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Preferred application frame size. Used in case frame size needs updating.
 	 */
 	private GDimension preferredSize;
+
 	private OFFHandler offHandler;
 
 	/** Horizontal page margin in cm */
@@ -360,6 +362,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/** GUI manager */
 	protected GuiManagerInterfaceD guiManager;
+
 	private DialogManager dialogManager;
 
 	private GlobalKeyDispatcherD globalKeyDispatcher;
@@ -382,7 +385,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private int centerY;
 	private static URL codebase;
 	private static boolean runningFromJar = false;
-	final private static String packgz = ".pack.gz";
+	private static final String packgz = ".pack.gz";
 	private GlassPaneListener glassPaneListener;
 	private ErrorHandler defaultErrorHandler;
 	private boolean controlDown = false;
@@ -396,7 +399,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/*************************************************************
 	 * Construct application within JFrame
-	 * 
+	 *
 	 * @param args command line arguments
 	 * @param frame frame
 	 * @param undoActive whether undo is active
@@ -407,7 +410,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/*************************************************************
 	 * Construct application within Container (e.g. GeoGebraPanel)
-	 * 
+	 *
 	 * @param args command line arguments
 	 * @param comp parent panel
 	 * @param undoActive whether undo is active
@@ -425,7 +428,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param undoActive whether undo is active
 	 * @param loc localization
 	 */
-	public AppD(CommandLineArguments args, JFrame frame, Container comp,
+	public AppD(
+			CommandLineArguments args,
+			JFrame frame,
+			Container comp,
 			boolean undoActive,
 			LocalizationD loc) {
 
@@ -435,8 +441,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		loc.setApp(this);
 		this.cmdArgs = args;
 
-		setFileVersion(GeoGebraConstants.VERSION_STRING,
-				getConfig().getAppCode());
+		setFileVersion(GeoGebraConstants.VERSION_STRING, getConfig().getAppCode());
 
 		if (args != null) {
 			handleHelpVersionArgs(args);
@@ -478,8 +483,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// init settings
 		initSettings();
-		getSettings().getFontSettings().addListener(settings ->
-				getFontManager().setFontSize(settings.getGuiFontSizeSafe()));
+		getSettings()
+				.getFontSettings()
+				.addListener(settings -> getFontManager().setFontSize(settings.getGuiFontSizeSafe()));
 
 		// init euclidian view
 		initEuclidianViews();
@@ -519,8 +525,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// load XML preferences
 		currentPath = GeoGebraPreferencesD.getPref().getDefaultFilePath();
-		currentImagePath = GeoGebraPreferencesD.getPref()
-				.getDefaultImagePath();
+		currentImagePath = GeoGebraPreferencesD.getPref().getDefaultImagePath();
 
 		if (!fileLoaded && !ggtloading) {
 			GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
@@ -538,8 +543,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		if (isUsingFullGui()) {
-			getGuiManager().getLayout()
-					.setPerspectiveOrDefault(getTmpPerspective());
+			getGuiManager().getLayout().setPerspectiveOrDefault(getTmpPerspective());
 		}
 
 		if (needsSpreadsheetTableModel) {
@@ -559,8 +563,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		initing = false;
 
 		// for key listening
-		KeyboardFocusManager.getCurrentKeyboardFocusManager()
-				.addKeyEventDispatcher(this);
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(this);
 
 		getFactory();
 
@@ -617,7 +620,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Sets the look and feel.
-	 * 
+	 *
 	 * @param isSystemLAF
 	 *            true &rarr; set system LAF, false &rarr; set cross-platform
 	 *            LAF
@@ -636,11 +639,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		try {
 			if (isSystemLAF) {
-				UIManager.setLookAndFeel(
-						UIManager.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			} else {
-				UIManager.setLookAndFeel(
-						UIManager.getCrossPlatformLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			}
 		} catch (Exception e) {
 			Log.debug(e + "");
@@ -678,7 +679,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (StringUtil.getPrototype() == null) {
 			StringUtil.setPrototypeIfNull(new StringUtilD());
 		}
-
 	}
 
 	@SuppressWarnings("PMD.SystemPrintln")
@@ -710,49 +710,47 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					+ "  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file\n"
 					+ "  --resetSettings\treset current settings\n"
 					+ "  --regressionFile=FILENAME"
-							+ "\texport textual representations of dependent objects, then exit\n"
+					+ "\texport textual representations of dependent objects, then exit\n"
 					+ "  --versionCheckAllow=SETTING"
-							+ "\tallow version check (on/off or true/false for single launch)\n"
+					+ "\tallow version check (on/off or true/false for single launch)\n"
 					+ "  --logLevel=LEVEL\tset logging level "
-							+ "(EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
+					+ "(EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
 					+ "  --logFile=FILENAME\tset log file\n"
 					+ "  --silent\tCompletely mute logging\n"
 					+ "  --prover=OPTIONS\tSet options for the prover subsystem "
-							+ "(use --proverhelp for more information)\n"
-			);
+					+ "(use --proverhelp for more information)\n");
 
 			AppD.exit(0);
 		}
 		if (args.containsArg("proverhelp")) {
 			ProverSettings proverSettings = ProverSettings.get();
 			// help message for the prover
-			System.out.println(
-					"  --prover=OPTIONS\tset options for the prover subsystem\n"
-							+ "    where OPTIONS is a comma separated list, formed with the "
-							+ "following available settings (defaults in brackets):\n"
-							+ "      engine:ENGINE\tset engine "
-							+ "(Auto|OpenGeoProver|Recio|Botana|PureSymbolic) ["
-							+ proverSettings.proverEngine + "]\n"
-							+ "      timeout:SECS\tset the maximum time attributed to the prover"
-							+ " (in seconds) ["
-							+ proverSettings.proverTimeout + "]\n"
-							+ "      maxterms:NUMBER\tset the maximal number of terms ["
-							+ proverSettings.getMaxTerms()
-							+ "] (OpenGeoProver only)\n"
-							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
-							+ proverSettings.proverMethod
-							+ "] (OpenGeoProver/Recio only)\n"
-							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first"
-							+ " NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
-							+ proverSettings.useFixCoordinatesProve
-							+ proverSettings.useFixCoordinatesProveDetails
-							+ "] (Botana only)\n"
-							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information"
-							+ " in object captions ["
-							+ proverSettings.captionAlgebra
-							+ "] (Botana only)\n"
-							+ "  Example: --prover=engine:Botana,timeout:10,"
-							+ "fpnevercoll:true,usefixcoords:43\n");
+			System.out.println("  --prover=OPTIONS\tset options for the prover subsystem\n"
+					+ "    where OPTIONS is a comma separated list, formed with the "
+					+ "following available settings (defaults in brackets):\n"
+					+ "      engine:ENGINE\tset engine "
+					+ "(Auto|OpenGeoProver|Recio|Botana|PureSymbolic) ["
+					+ proverSettings.proverEngine + "]\n"
+					+ "      timeout:SECS\tset the maximum time attributed to the prover"
+					+ " (in seconds) ["
+					+ proverSettings.proverTimeout + "]\n"
+					+ "      maxterms:NUMBER\tset the maximal number of terms ["
+					+ proverSettings.getMaxTerms()
+					+ "] (OpenGeoProver only)\n"
+					+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
+					+ proverSettings.proverMethod
+					+ "] (OpenGeoProver/Recio only)\n"
+					+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first"
+					+ " NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
+					+ proverSettings.useFixCoordinatesProve
+					+ proverSettings.useFixCoordinatesProveDetails
+					+ "] (Botana only)\n"
+					+ "      captionalgebra:BOOLEAN\tshow algebraic debug information"
+					+ " in object captions ["
+					+ proverSettings.captionAlgebra
+					+ "] (Botana only)\n"
+					+ "  Example: --prover=engine:Botana,timeout:10,"
+					+ "fpnevercoll:true,usefixcoords:43\n");
 			AppD.exit(0);
 		}
 		if (args.containsArg("v")) {
@@ -766,15 +764,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxesFlags,
-			boolean showGridFlags) {
-		return new EuclidianViewD(getEuclidianController(), showAxesFlags,
-				showGridFlags, getSettings().getEuclidian(1));
+	protected EuclidianView newEuclidianView(boolean[] showAxesFlags, boolean showGridFlags) {
+		return new EuclidianViewD(
+				getEuclidianController(), showAxesFlags, showGridFlags, getSettings().getEuclidian(1));
 	}
 
 	/**
 	 * init the ImageManager (and ImageManager3D for 3D)
-	 * 
+	 *
 	 * @param component component
 	 */
 	protected void initImageManager(Component component) {
@@ -786,7 +783,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 *         view is displayed.
 	 */
 	@Override
-	final public synchronized boolean isUsingFullGui() {
+	public final synchronized boolean isUsingFullGui() {
 		return useFullGui;
 	}
 
@@ -794,7 +791,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * Initialize the gui manager.
 	 */
 	@Override
-	final protected void initGuiManager() {
+	protected final void initGuiManager() {
 		setWaitCursor();
 		guiManager = newGuiManager();
 
@@ -823,16 +820,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		if (args.containsArg("showAlgebraInput")) {
-			boolean showInputBar = args.getBooleanValue("showAlgebraInput",
-					true);
+			boolean showInputBar = args.getBooleanValue("showAlgebraInput", true);
 			if (!showInputBar) {
 				setShowAlgebraInput(false, false);
 			}
 		}
 
 		if (args.containsArg("showAlgebraInputTop")) {
-			boolean showAlgebraInputTop = args
-					.getBooleanValue("showAlgebraInputTop", true);
+			boolean showAlgebraInputTop = args.getBooleanValue("showAlgebraInputTop", true);
 			if (showAlgebraInputTop) {
 				setInputPosition(InputPosition.top, false);
 			}
@@ -840,8 +835,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		String fontSize = args.getStringValue("fontSize");
 		if (fontSize.length() > 0) {
-			setFontSize(Util.getValidFontSize(Integer.parseInt(fontSize)),
-					true);
+			setFontSize(Util.getValidFontSize(Integer.parseInt(fontSize)), true);
 		}
 
 		boolean enableUndo = args.getBooleanValue("enableUndo", true);
@@ -853,10 +847,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			boolean showAxesParam = args.getBooleanValue("showAxes", true);
 			this.showAxes[0] = showAxesParam;
 			this.showAxes[1] = showAxesParam;
-			this.getSettings().getEuclidian(1).setShowAxes(showAxesParam,
-					showAxesParam);
-			this.getSettings().getEuclidian(2).setShowAxes(showAxesParam,
-					showAxesParam);
+			this.getSettings().getEuclidian(1).setShowAxes(showAxesParam, showAxesParam);
+			this.getSettings().getEuclidian(2).setShowAxes(showAxesParam, showAxesParam);
 		}
 
 		if (args.containsArg("showGrid")) {
@@ -872,7 +864,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		setVersionCheckAllowed(args.getStringValue("versionCheckAllow"));
-
 	}
 
 	/**
@@ -904,13 +895,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				versionCheckAllowed = true;
 				return;
 			}
-			Log.warn("Option versionCheckAllow not recognized : "
-					.concat(versionCheckAllow));
+			Log.warn("Option versionCheckAllow not recognized : ".concat(versionCheckAllow));
 		}
 
-		versionCheckAllowed = GeoGebraPreferencesD.getPref()
-				.loadVersionCheckAllow("true");
-
+		versionCheckAllowed = GeoGebraPreferencesD.getPref().loadVersionCheckAllow("true");
 	}
 
 	private static void setProverOption(String option) {
@@ -948,8 +936,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return;
 		}
 		if ("fpnevercoll".equalsIgnoreCase(str[0])) {
-			proverSettings.freePointsNeverCollinear = Boolean
-					.parseBoolean(str[1]);
+			proverSettings.freePointsNeverCollinear = Boolean.parseBoolean(str[1]);
 			return;
 		}
 		if ("usefixcoords".equalsIgnoreCase(str[0])) {
@@ -957,15 +944,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			int fixcoordsPD = Integer.parseInt(str[1].substring(1, 2));
 
 			if (fixcoordsP < 0 || fixcoordsP > 4) {
-				Log.error(
-						"Improper value for usefixcoords for Prove, using default instead");
+				Log.error("Improper value for usefixcoords for Prove, using default instead");
 			} else {
 				proverSettings.useFixCoordinatesProve = fixcoordsP;
 			}
 
 			if (fixcoordsPD < 0 || fixcoordsPD > 4) {
-				Log.error(
-						"Improper value for usefixcoords for ProveDetails, using default instead");
+				Log.error("Improper value for usefixcoords for ProveDetails, using default instead");
 			} else {
 				proverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
 			}
@@ -989,7 +974,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * option --versionCheckAllow (off/on). For changing the behavior for a
 	 * single run, the same command line option must be used with false/true
 	 * parameters.
-	 * 
+	 *
 	 * @return if the check is allowed
 	 * @author Zoltan Kovacs
 	 */
@@ -1039,7 +1024,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	// **************************************************************************
 
 	@Override
-	final public boolean isApplet() {
+	public final boolean isApplet() {
 		return false;
 	}
 
@@ -1186,7 +1171,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * This function helps determine if a ggt file was loaded because if a ggt
 	 * file was loaded we will need to load something instead of the ggb
-	 * 
+	 *
 	 * @return true if file is loading and is a ggt file
 	 */
 	private static boolean isLoadingTool(CommandLineArguments args) {
@@ -1200,7 +1185,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Opens a file specified as last command line argument
-	 * 
+	 *
 	 * @return true if a file was loaded successfully
 	 */
 	private boolean handleFileArg(final CommandLineArguments args) {
@@ -1225,48 +1210,41 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					String lowerCase = StringUtil.toLowerCaseUS(fileArgument);
 					FileExtensions ext = StringUtil.getFileExtension(lowerCase);
 
-					boolean isMacroFile = ext
-							.equals(FileExtensions.GEOGEBRA_TOOL);
+					boolean isMacroFile = ext.equals(FileExtensions.GEOGEBRA_TOOL);
 
 					if (lowerCase.startsWith("http:")
 							|| lowerCase.startsWith("https:")
 							|| lowerCase.startsWith("file:")) {
 						// replace all whitespace characters by %20 in URL
 						// string
-						String fileArgument2 = fileArgument.replaceAll("\\s",
-								"%20");
+						String fileArgument2 = fileArgument.replaceAll("\\s", "%20");
 						URL url = new URL(fileArgument2);
 						success = loadXML(url, isMacroFile);
 
 						// check if full GUI is necessary
 						if (success && !isMacroFile && !isUsingFullGui()) {
-							if (showConsProtNavigation()
-									|| !isJustEuclidianVisible()) {
+							if (showConsProtNavigation() || !isJustEuclidianVisible()) {
 								useFullGui = true;
 							}
 						}
 					} else if (lowerCase.startsWith("base64://")) {
 
 						// substring to strip off base64://
-						byte[] zipFile = Base64
-								.decode(fileArgument.substring(9));
+						byte[] zipFile = Base64.decode(fileArgument.substring(9));
 						success = loadXML(zipFile);
 
 						if (success && !isMacroFile && !isUsingFullGui()) {
-							if (showConsProtNavigation()
-									|| !isJustEuclidianVisible()) {
+							if (showConsProtNavigation() || !isJustEuclidianVisible()) {
 								useFullGui = true;
 							}
 						}
-					} else if (ext.equals(FileExtensions.HTM)
-							|| ext.equals(FileExtensions.HTML)) {
+					} else if (ext.equals(FileExtensions.HTM) || ext.equals(FileExtensions.HTML)) {
 						loadBase64File(new File(fileArgument));
 						success = true;
 					} else {
 						File f = new File(fileArgument);
 						f = f.getCanonicalFile();
 						success = loadFile(f, isMacroFile);
-
 					}
 
 					successRet = successRet && success;
@@ -1283,7 +1261,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * loads an html file with &lt;param name="ggbBase64"
 	 * value="UEsDBBQACAAI..."&gt;
-	 * 
+	 *
 	 * @param file
 	 *            html file
 	 * @return success
@@ -1291,11 +1269,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public boolean loadBase64File(final File file) {
 		if (!file.exists()) {
 			// show file not found message
-			JOptionPane.showConfirmDialog(getMainComponent(),
-					getLocalization().getError("FileNotFound") + ":\n"
-							+ file.getAbsolutePath(),
+			JOptionPane.showConfirmDialog(
+					getMainComponent(),
+					getLocalization().getError("FileNotFound") + ":\n" + file.getAbsolutePath(),
 					getLocalization().getError("Error"),
-					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
@@ -1315,12 +1294,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			showError(Errors.LoadFileFailed, file.getName());
 			Log.debug(e);
 			return false;
-
 		}
 		// updateGUIafterLoadFile(success, false);
 		setDefaultCursor();
 		return success;
-
 	}
 
 	/**
@@ -1349,13 +1326,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		page = page.replace('"', '\''); // Replace double quotes (") with single
 		// quotes (')
 		String lowerCasedPage = StringUtil.toLowerCaseUS(page); // We must
-																// preserve
+		// preserve
 		// casing for base64 strings and case-sensitive file systems
 
-		String val = getAttributeValue(page, lowerCasedPage,
-				"data-param-ggbbase64='");
-		val = val == null ? getAttributeValue(page, lowerCasedPage,
-				"name='ggbbase64' value='") : val;
+		String val = getAttributeValue(page, lowerCasedPage, "data-param-ggbbase64='");
+		val = val == null ? getAttributeValue(page, lowerCasedPage, "name='ggbbase64' value='") : val;
 
 		if (val != null) { // 'val' is the base64 string
 			byte[] zipFile = Base64.decode(val);
@@ -1364,8 +1339,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		val = getAttributeValue(page, lowerCasedPage, "data-param-filename='");
-		val = val == null ? getAttributeValue(page, lowerCasedPage,
-				"name='filename' value='") : val;
+		val = val == null ? getAttributeValue(page, lowerCasedPage, "name='filename' value='") : val;
 
 		if (val != null) { // 'val' is the relative path to *.ggb file
 			String path = url.getPath(); // http://www.geogebra.org/mobile/test.html?test=true
@@ -1395,14 +1369,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			if (index > -1) {
 				index += iframeURL2.length();
 			}
-
 		}
 
 		if (index > -1) {
-			StringBuilder sb = new StringBuilder(
-					"http://www.geogebratube.org/material/download/format/file/id/");
-			while (index < lowerCasedPage.length()
-					&& Character.isDigit(lowerCasedPage.charAt(index))) {
+			StringBuilder sb =
+					new StringBuilder("http://www.geogebratube.org/material/download/format/file/id/");
+			while (index < lowerCasedPage.length() && Character.isDigit(lowerCasedPage.charAt(index))) {
 				sb.append(lowerCasedPage.charAt(index));
 				index++;
 			}
@@ -1414,8 +1386,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return false;
 	}
 
-	private static String getAttributeValue(String page, String lowerCasedPage,
-			String attrName0) {
+	private static String getAttributeValue(String page, String lowerCasedPage, String attrName0) {
 		String attrName = attrName0;
 		int index;
 		if (-1 != (index = lowerCasedPage.indexOf(attrName))) { // value='test.ggb'
@@ -1437,17 +1408,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return null;
 	}
 
-	private static String getAttributeValue(String page, int begin,
-			char... attributeEndMarkers) {
+	private static String getAttributeValue(String page, int begin, char... attributeEndMarkers) {
 		int end = begin;
-		while (end < page.length()
-				&& !isMarker(attributeEndMarkers, page.charAt(end))) {
+		while (end < page.length() && !isMarker(attributeEndMarkers, page.charAt(end))) {
 			end++;
 		}
 
 		return end == page.length() || end == begin // attribute value not
-		// terminated or empty
-				? null : page.substring(begin, end);
+				// terminated or empty
+				? null
+				: page.substring(begin, end);
 	}
 
 	private static boolean isMarker(char[] markers, char character) {
@@ -1460,9 +1430,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	private static String fetchPage(URL url) throws IOException {
-		try (BufferedReader reader = new BufferedReader(
-				new InputStreamReader(url.openStream(),
-						StandardCharsets.UTF_8))) {
+		try (BufferedReader reader =
+				new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
 			StringBuilder page = new StringBuilder();
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -1497,8 +1466,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		boolean justEuclidianVisible = false;
 
 		for (DockPanelData panel : docPerspective.getDockPanelData()) {
-			if ((panel.getViewId() == App.VIEW_EUCLIDIAN)
-					&& panel.isVisible()) {
+			if ((panel.getViewId() == App.VIEW_EUCLIDIAN) && panel.isVisible()) {
 				justEuclidianVisible = true;
 			} else if (panel.isVisible()) {
 				justEuclidianVisible = false;
@@ -1534,13 +1502,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
-		return (guiManager != null)
-				&& getGuiManager().hasEuclidianView2EitherShowingOrNot(1);
+		return (guiManager != null) && getGuiManager().hasEuclidianView2EitherShowingOrNot(1);
 	}
 
 	@Override
 	public boolean isShowingEuclidianView2(int idx) {
-		return (guiManager != null) && getGuiManager().hasEuclidianView2(idx)
+		return (guiManager != null)
+				&& getGuiManager().hasEuclidianView2(idx)
 				&& getGuiManager().getEuclidianView2(idx).isShowing();
 	}
 
@@ -1610,23 +1578,22 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private static int ptToPx(int points) {
 		int px;
 		switch (points) {
-		case 12:
-		case 14:
-		case 16:
-			px = 16;
-			break;
-		default:
-		case 18:
-		case 20:
-		case 24:
-		case 28:
-			px = 24;
-			break;
-		case 32:
-		case 48:
-			px = 48;
-			break;
-
+			case 12:
+			case 14:
+			case 16:
+				px = 16;
+				break;
+			default:
+			case 18:
+			case 20:
+			case 24:
+			case 28:
+				px = 24;
+				break;
+			case 32:
+			case 48:
+				px = 48;
+				break;
 		}
 		return px;
 	}
@@ -1668,10 +1635,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (icon == null || iconSize == 0) {
 			return null;
 		}
-		Image img = icon.getScaledInstance((int) (iconSize * scale),
-				(int) (iconSize * scale), Image.SCALE_SMOOTH);
+		Image img = icon.getScaledInstance(
+				(int) (iconSize * scale), (int) (iconSize * scale), Image.SCALE_SMOOTH);
 		return new ScaledIcon(img, scale);
-
 	}
 
 	/**
@@ -1693,8 +1659,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public ScaledIcon getToolBarImage(String modeText, Color borderColor) {
 
 		Image icon = imageManager.getImageIcon(
-				imageManager.getToolImageResource(modeText), borderColor,
-				Color.WHITE);
+				imageManager.getToolImageResource(modeText), borderColor, Color.WHITE);
 
 		/*
 		 * mathieu 2010-04-10 see ImageManager3D.getImageResourceGeoGebra() if
@@ -1753,8 +1718,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public Image getPlayImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_CIRCLE)
-				.getImage();
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_CIRCLE).getImage();
 	}
 
 	/***
@@ -1762,8 +1726,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public Image getPlayImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_HOVER)
-				.getImage();
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_HOVER).getImage();
 	}
 
 	/***
@@ -1771,8 +1734,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public Image getPauseImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE)
-				.getImage();
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE).getImage();
 	}
 
 	/***
@@ -1780,9 +1742,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public Image getPauseImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager
-				.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE_HOVER)
-				.getImage();
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE_HOVER).getImage();
 	}
 
 	/***
@@ -1803,8 +1763,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return returns image by path
 	 */
 	@Override
-	public final MyImage getExternalImageAdapter(String filename, int width,
-			int height) {
+	public final MyImage getExternalImageAdapter(String filename, int width, int height) {
 		return ImageManagerD.getStaticExternalImage(filename);
 	}
 
@@ -1846,9 +1805,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				} else {
 					// use image as icon
 					int size = imageManager.getMaxScaledIconSize();
-					icon = new ScaledIcon(ImageManagerD.addBorder(img.getImage()
-							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
-							border, null), imageManager.getPixelRatio());
+					icon = new ScaledIcon(
+							ImageManagerD.addBorder(
+									img.getImage().getScaledInstance(size, -1, Image.SCALE_SMOOTH), border, null),
+							imageManager.getPixelRatio());
 				}
 			} catch (Exception e) {
 				Log.debug("macro does not exist: ID = " + macroID);
@@ -1865,7 +1825,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * stores an image in the application's imageManager.
-	 * 
+	 *
 	 * @return fileName of image stored in imageManager
 	 */
 	public String createImage(MyImageD image, String imageFileName) {
@@ -1931,7 +1891,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			setDefaultCursor();
 		});
 		runner.start();
-
 	}
 
 	static void simpleExportToClipboard(EuclidianView ev) {
@@ -1944,7 +1903,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Copy image to system clipboard
-	 * 
+	 *
 	 * @param dataURI data URI of image to copy
 	 */
 	@Override
@@ -1964,13 +1923,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public static Rectangle getScreenSize() {
 		if (screenSize == null) {
-			GraphicsEnvironment env = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
+			GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			screenSize = env.getMaximumWindowBounds();
 		}
 
 		return screenSize;
-
 	}
 
 	/**
@@ -1983,11 +1940,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 *             error
 	 */
 	@Override
-	public MyImage getExportImage(double maxX, double maxY)
-			throws OutOfMemoryError {
+	public MyImage getExportImage(double maxX, double maxY) throws OutOfMemoryError {
 
-		return new MyImageD(GBufferedImageD.getAwtBufferedImage(
-				getActiveEuclidianViewExportImage(maxX, maxY)));
+		return new MyImageD(
+				GBufferedImageD.getAwtBufferedImage(getActiveEuclidianViewExportImage(maxX, maxY)));
 	}
 
 	// **************************************************************************
@@ -2001,7 +1957,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * language: English , no country specified, "deAT" or "de_AT" ... language:
 	 * German , country: Austria, "noNONY" or "no_NO_NY" ... language: Norwegian
 	 * , country: Norway, variant: Nynorsk
-	 * 
+	 *
 	 * @param languageISOCode
 	 *            locale iso code (may contain _ or not)
 	 * @return locale
@@ -2013,8 +1969,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void setTooltipLanguage(String ttLanguage) {
-		setTooltipLanguage(StringUtil.empty(ttLanguage) ? null
-				: Language.fromLanguageTagOrLocaleString(ttLanguage));
+		setTooltipLanguage(
+				StringUtil.empty(ttLanguage) ? null : Language.fromLanguageTagOrLocaleString(ttLanguage));
 	}
 
 	/**
@@ -2050,8 +2006,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public void setLanguage(Locale locale) {
 
-		if ((locale == null)
-				|| loc.getLocale().toString().equals(locale.toString())) {
+		if ((locale == null) || loc.getLocale().toString().equals(locale.toString())) {
 			return;
 		}
 
@@ -2114,17 +2069,19 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Shows localized help message
-	 * 
+	 *
 	 * @param key
 	 *            key (for plain) to be localized
 	 */
 	public void showHelp(String key) {
 		final String text = loc.getMenu(key);
 
-		JOptionPane.showConfirmDialog(mainComp, text,
-				GeoGebraConstants.APPLICATION_NAME + " - "
-						+ loc.getMenu("Help"),
-				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showConfirmDialog(
+				mainComp,
+				text,
+				GeoGebraConstants.APPLICATION_NAME + " - " + loc.getMenu("Help"),
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.PLAIN_MESSAGE);
 	}
 
 	// **************************************************************************
@@ -2176,7 +2133,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				SwingUtilities.updateComponentTreeUI(frame);
 			}
 		}
-
 	}
 
 	private void setLabels() {
@@ -2216,7 +2172,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * Builds a panel with all components that should be shown on screen (like
 	 * toolbar, input field, algebra view).
-	 * 
+	 *
 	 * @return application panel
 	 */
 	public JPanel buildApplicationPanel() {
@@ -2229,8 +2185,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} else {
 			centerPanel = new JPanel(new BorderLayout());
 		}
-		centerPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-				SystemColor.controlShadow));
+		centerPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow));
 		updateCenterPanel(true);
 
 		// full GUI => use layout manager, add other GUI elements as requested
@@ -2268,10 +2223,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// sliding a
 			// help panel in/out of the center application panel.
 			if (applicationSplitPane == null) {
-				applicationSplitPane = new JSplitPane(
-						JSplitPane.HORIZONTAL_SPLIT, centerPanel, null);
-				applicationSplitPane
-						.setBorder(BorderFactory.createEmptyBorder());
+				applicationSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, centerPanel, null);
+				applicationSplitPane.setBorder(BorderFactory.createEmptyBorder());
 				// set all resize weight to the left pane
 				applicationSplitPane.setResizeWeight(1.0);
 				applicationSplitPane.setDividerSize(0);
@@ -2294,11 +2247,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 			if (showDockBar) {
 				if (dockBar.isEastOrientation()) {
-					applicationPanel.add((Component) dockBar,
-							getLocalization().borderEast());
+					applicationPanel.add((Component) dockBar, getLocalization().borderEast());
 				} else {
-					applicationPanel.add((Component) dockBar,
-							getLocalization().borderWest());
+					applicationPanel.add((Component) dockBar, getLocalization().borderWest());
 				}
 			}
 
@@ -2322,11 +2273,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// Minimal applet case: return only the center panel with the EV
 		applicationPanel.add(
-				((EuclidianViewInterfaceD) euclidianView).getJPanel(),
-				BorderLayout.CENTER);
+				((EuclidianViewInterfaceD) euclidianView).getJPanel(), BorderLayout.CENTER);
 		centerPanel.add(applicationPanel, BorderLayout.CENTER);
 		return applicationPanel;
-
 	}
 
 	/**
@@ -2334,21 +2283,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public void setShowInputHelpPanel(boolean isVisible) {
 		if (isVisible) {
-			applicationSplitPane
-					.setRightComponent(getGuiManager().getInputHelpPanel());
+			applicationSplitPane.setRightComponent(getGuiManager().getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
-				applicationSplitPane
-						.setLastDividerLocation(applicationSplitPane.getWidth()
-								- ((GuiManagerD) getGuiManager())
-										.getInputHelpPanelMinimumWidth());
+				applicationSplitPane.setLastDividerLocation(applicationSplitPane.getWidth()
+						- ((GuiManagerD) getGuiManager()).getInputHelpPanelMinimumWidth());
 			}
-			applicationSplitPane.setDividerLocation(
-					applicationSplitPane.getLastDividerLocation());
+			applicationSplitPane.setDividerLocation(applicationSplitPane.getLastDividerLocation());
 			applicationSplitPane.setDividerSize(8);
 
 		} else {
-			applicationSplitPane.setLastDividerLocation(
-					applicationSplitPane.getDividerLocation());
+			applicationSplitPane.setLastDividerLocation(applicationSplitPane.getDividerLocation());
 			applicationSplitPane.setRightComponent(null);
 			applicationSplitPane.setDividerSize(0);
 		}
@@ -2361,7 +2305,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	@Override
 	public void updateApplicationLayout() {
-		if ((northPanel == null) || (southPanel == null) || (eastPanel == null)
+		if ((northPanel == null)
+				|| (southPanel == null)
+				|| (eastPanel == null)
 				|| (westPanel == null)) {
 			return;
 		}
@@ -2373,19 +2319,23 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// handle input bar
 		if (showAlgebraInput) {
-			initInputBar(this, getInputPosition() == InputPosition.top,
-					northPanel, southPanel);
+			initInputBar(this, getInputPosition() == InputPosition.top, northPanel, southPanel);
 		}
 
 		if (showToolBar) {
-			initToolbar(this, getToolbarPosition(), showToolBarHelp, northPanel,
-					eastPanel, southPanel, westPanel);
+			initToolbar(
+					this,
+					getToolbarPosition(),
+					showToolBarHelp,
+					northPanel,
+					eastPanel,
+					southPanel,
+					westPanel);
 		}
 
 		if (frame != null && frame.getContentPane() != null) {
 			frame.getContentPane().validate();
 		}
-
 	}
 
 	/**
@@ -2403,8 +2353,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (isUsingFullGui()) {
 			centerPanel.add(getRootComponent(this), BorderLayout.CENTER);
 		} else {
-			centerPanel.add(getEuclidianView1().getJPanel(),
-					BorderLayout.CENTER);
+			centerPanel.add(getEuclidianView1().getJPanel(), BorderLayout.CENTER);
 		}
 
 		if (updateUI) {
@@ -2507,7 +2456,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return this application's GUI manager.
 	 */
 	@Override
-	final public synchronized GuiManagerInterfaceD getGuiManager() {
+	public final synchronized GuiManagerInterfaceD getGuiManager() {
 		return guiManager;
 	}
 
@@ -2548,7 +2497,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			return frame.getContentPane();
 		}
 		return null;
-
 	}
 
 	public JPanel getCenterPanel() {
@@ -2628,7 +2576,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Set show dockBar with GUI update
-	 * 
+	 *
 	 * @param showDockBar whether to show the dockbar
 	 */
 	public void setShowDockBar(boolean showDockBar) {
@@ -2663,7 +2611,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML
 	 * text that is useful for tooltips.
-	 * 
+	 *
 	 * @param mode
 	 *            : tool ID
 	 */
@@ -2679,31 +2627,30 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		loc.clearTooltipFlag();
 
 		return toolTipHtml;
-
 	}
 
 	// ***************************************************************************
 	// FONTS
 	// **************************************************************************
 
-	final public Font getBoldFont() {
+	public final Font getBoldFont() {
 		return ((GFontD) fontManager.getBoldFont()).getAwtFont();
 	}
 
-	final public Font getItalicFont() {
+	public final Font getItalicFont() {
 		return ((GFontD) fontManager.getItalicFont()).getAwtFont();
 	}
 
-	final public Font getPlainFont() {
+	public final Font getPlainFont() {
 		return ((GFontD) fontManager.getPlainFont()).getAwtFont();
 	}
 
 	@Override
-	final public GFont getPlainFontCommon() {
+	public final GFont getPlainFontCommon() {
 		return fontManager.getPlainFont();
 	}
 
-	final public Font getSmallFont() {
+	public final Font getSmallFont() {
 		return ((GFontD) fontManager.getSmallFont()).getAwtFont();
 	}
 
@@ -2713,7 +2660,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param size font size
 	 * @return font
 	 */
-	final public GFont getFont(boolean serif, int style, double size) {
+	public final GFont getFont(boolean serif, int style, double size) {
 		return fontManager.getFont(serif, style, size);
 	}
 
@@ -2721,7 +2668,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @return the font manager to access fonts for different tasks
 	 */
 	@Override
-	final public FontManagerD getFontManager() {
+	public final FontManagerD getFontManager() {
 		return fontManager;
 	}
 
@@ -2735,8 +2682,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		mainComp.setCursor(waitCursor);
 
 		if (euclidianView != null) {
-			((EuclidianViewInterfaceD) getActiveEuclidianView())
-					.setCursor(waitCursor);
+			((EuclidianViewInterfaceD) getActiveEuclidianView()).setCursor(waitCursor);
 		}
 
 		if (guiManager != null) {
@@ -2751,14 +2697,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (guiManager != null) {
 			for (int i = 0; i < guiManager.getEuclidianViewCount(); i++) {
 				if (guiManager.hasEuclidianView2EitherShowingOrNot(i)) {
-					guiManager.getEuclidianView2(i)
-									.setCursor(EuclidianCursor.HIT);
+					guiManager.getEuclidianView2(i).setCursor(EuclidianCursor.HIT);
 				}
 			}
 		} else if (euclidianView != null) {
 			getEuclidianView1().setCursor(Cursor.getDefaultCursor());
 		}
-
 	}
 
 	/**
@@ -2769,11 +2713,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		if (transparentCursor == null) {
 			int[] pixels = new int[16 * 16];
-			Image image = Toolkit.getDefaultToolkit()
-					.createImage(new MemoryImageSource(16, 16, pixels, 0, 16));
+			Image image =
+					Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, pixels, 0, 16));
 
-			transparentCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-					image, new Point(0, 0), "invisibleCursor");
+			transparentCursor =
+					Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), "invisibleCursor");
 		}
 		return transparentCursor;
 	}
@@ -2857,7 +2801,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		return loadExistingFile(file, isMacroFile);
-
 	}
 
 	/**
@@ -2897,11 +2840,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			 * missing file was loaded through the command line, which causes
 			 * some nasty rendering problems.
 			 */
-			JOptionPane.showConfirmDialog(null,
-					getLocalization().getError("FileNotFound") + ":\n"
-							+ file.getAbsolutePath(),
+			JOptionPane.showConfirmDialog(
+					null,
+					getLocalization().getError("FileNotFound") + ":\n" + file.getAbsolutePath(),
 					getLocalization().getError("Error"),
-					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+					JOptionPane.DEFAULT_OPTION,
+					JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
@@ -2927,10 +2871,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Loads construction file
-	 * 
+	 *
 	 * @return true if successful
 	 */
-	final public boolean loadXML(File file, boolean isMacroFile) {
+	public final boolean loadXML(File file, boolean isMacroFile) {
 		try (FileInputStream fis = new FileInputStream(file)) {
 			boolean success;
 
@@ -2961,14 +2905,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Loads construction file from URL
-	 * 
+	 *
 	 * @return true if successful
 	 */
-	final public boolean loadXML(URL url, boolean isMacroFile) {
+	public final boolean loadXML(URL url, boolean isMacroFile) {
 
 		try {
-			boolean success = doLoadXML(url.openStream(),
-					isMacroFile);
+			boolean success = doLoadXML(url.openStream(), isMacroFile);
 
 			// don't clear JavaScript here -- we may have just read one from the
 			// file.
@@ -3055,7 +2998,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Saves all objects.
-	 * 
+	 *
 	 * @return true if successful
 	 */
 	public boolean saveGeoGebraFile(File file) {
@@ -3075,10 +3018,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Saves given macros to file.
-	 * 
+	 *
 	 * @return true if successful
 	 */
-	final public boolean saveMacroFile(File file, ArrayList<Macro> macros) {
+	public final boolean saveMacroFile(File file, ArrayList<Macro> macros) {
 		try {
 			setWaitCursor();
 			getXMLio().writeMacroFile(file, macros);
@@ -3102,7 +3045,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public byte[] getMacrosBefore(Macro untilMacro) {
 		ArrayList<Macro> previousMacros = new ArrayList<>();
-		for (Macro macro: kernel.getAllMacros()) {
+		for (Macro macro : kernel.getAllMacros()) {
 			if (macro == untilMacro) {
 				break;
 			}
@@ -3128,8 +3071,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param byteArray byteArray
 	 * @param removeOldMacros removeOldMacros
 	 */
-	public void loadMacroFileFromByteArray(byte[] byteArray,
-			boolean removeOldMacros) {
+	public void loadMacroFileFromByteArray(byte[] byteArray, boolean removeOldMacros) {
 		try {
 			if (removeOldMacros) {
 				kernel.removeAllMacros();
@@ -3146,7 +3088,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	final public MyXMLioD getXMLio() {
+	public final MyXMLioD getXMLio() {
 		return (MyXMLioD) super.getXMLio();
 	}
 
@@ -3207,7 +3149,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * final public void clearAll() { // load preferences
 	 * GeoGebraPreferences.loadXMLPreferences(this); updateContentPane(); //
 	 * clear construction kernel.clearConstruction(); kernel.initUndoInfo();
-	 * 
+	 *
 	 * isSaved = true; System.gc(); }
 	 */
 
@@ -3232,8 +3174,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private static void initCodeBase() {
 		try {
 			// application codebase
-			String path = GeoGebra.class.getProtectionDomain().getCodeSource()
-					.getLocation().toExternalForm();
+			String path =
+					GeoGebra.class.getProtectionDomain().getCodeSource().getLocation().toExternalForm();
 
 			// remove .pack.gz from end
 			// not sure why we've started getting this (maybe when using the
@@ -3247,8 +3189,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// remove "geogebra.jar" from end of codebase string
 			if (path.endsWith(GEOGEBRA_JAR)) {
 				runningFromJar = true;
-				path = path.substring(0,
-						path.length() - GEOGEBRA_JAR.length());
+				path = path.substring(0, path.length() - GEOGEBRA_JAR.length());
 			}
 
 			// set codebase
@@ -3260,7 +3201,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			// eg ggbApi.getPNGBase64()
 			ImageIO.setUseCache(false);
 		}
-
 	}
 
 	// **************************************************************************
@@ -3278,8 +3218,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		if (glassPaneListener == null) {
 			Component glassPane = getGlassPane();
-			glassPaneListener = new GlassPaneListener(glassPane,
-					getContentPane(), comp);
+			glassPaneListener = new GlassPaneListener(glassPane, getContentPane(), comp);
 
 			// mouse
 			glassPane.addMouseListener(glassPaneListener);
@@ -3386,7 +3325,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * handle shift key pressed or released
-	 * 
+	 *
 	 * @param isShiftDown
 	 *            whether shift is pressed
 	 */
@@ -3395,7 +3334,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	final public GlobalKeyDispatcherD getGlobalKeyDispatcher() {
+	public final GlobalKeyDispatcherD getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
 			globalKeyDispatcher = newGlobalKeyDispatcher();
 		}
@@ -3443,8 +3382,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param isControlDown whether ctrl key is down
 	 * @return whether to treat event as ctrl key down (depends on OS)
 	 */
-	public static boolean isControlDown(boolean isMetaDown,
-			boolean isControlDown) {
+	public static boolean isControlDown(boolean isMetaDown, boolean isControlDown) {
 
 		// multiple selection
 		return (MAC_OS && isMetaDown) // Mac: meta down for
@@ -3467,7 +3405,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public static boolean isRightClickForceMetaDown(MouseEvent e) {
 		return (MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-						|| e.isMetaDown(); // non-Mac: right click = meta click
+				|| e.isMetaDown(); // non-Mac: right click = meta click
 	}
 
 	/**
@@ -3475,17 +3413,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param p panel
 	 */
 	public void removeTraversableKeys(JPanel p) {
-		Set<AWTKeyStroke> set = p.getFocusTraversalKeys(
-				KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS);
+		Set<AWTKeyStroke> set = p.getFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS);
 		set.clear();
-		p.setFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS,
-				set);
-		p.setFocusTraversalKeys(KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS,
-				set);
-		p.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-				set);
-		p.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-				set);
+		p.setFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, set);
+		p.setFocusTraversalKeys(KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS, set);
+		p.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, set);
+		p.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, set);
 	}
 
 	// **************************************************************************
@@ -3504,7 +3437,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * Show error dialog with given message
-	 * 
+	 *
 	 * @param msg
 	 *            (localized) message
 	 */
@@ -3516,7 +3449,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (this.getErrorHandler() != null) {
 			this.getErrorHandler().showError(msg);
 		}
-
 	}
 
 	@Override
@@ -3536,23 +3468,21 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					GeoGebra.hideSplash();
 
 					isErrorDialogShowing = true;
-					final String msgDisplay = msg.substring(0,
-							Math.min(msg.length(), 1000));
+					final String msgDisplay = msg.substring(0, Math.min(msg.length(), 1000));
 					// use SwingUtilities to make sure this gets executed in the
 					// correct
 					// (=GUI) thread.
 					SwingUtilities.invokeLater(() -> {
 						// TODO investigate why this freezes Firefox
 						// sometimes
-						JOptionPane.showConfirmDialog(mainComp, msgDisplay,
-								GeoGebraConstants.APPLICATION_NAME + " - "
-										+ getLocalization()
-												.getError("Error"),
+						JOptionPane.showConfirmDialog(
+								mainComp,
+								msgDisplay,
+								GeoGebraConstants.APPLICATION_NAME + " - " + getLocalization().getError("Error"),
 								JOptionPane.DEFAULT_OPTION,
 								JOptionPane.WARNING_MESSAGE);
 						isErrorDialogShowing = false;
 					});
-
 				}
 
 				@Override
@@ -3561,10 +3491,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				}
 
 				@Override
-				public boolean onUndefinedVariables(String string,
-						AsyncOperation<String[]> callback) {
-					return getGuiManager().checkAutoCreateSliders(string,
-							callback);
+				public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+					return getGuiManager().checkAutoCreateSliders(string, callback);
 				}
 
 				@Override
@@ -3573,32 +3501,33 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					// make sure splash screen not showing (will be in front)
 					GeoGebra.hideSplash();
 
-					Object[] options = { getLocalization().getMenu("OK"),
-							getLocalization().getMenu("ShowOnlineHelp") };
-					int n = JOptionPane.showOptionDialog(mainComp, message,
-							GeoGebraConstants.APPLICATION_NAME + " - "
-									+ getLocalization().getError("Error"),
+					Object[] options = {
+						getLocalization().getMenu("OK"), getLocalization().getMenu("ShowOnlineHelp")
+					};
+					int n = JOptionPane.showOptionDialog(
+							mainComp,
+							message,
+							GeoGebraConstants.APPLICATION_NAME + " - " + getLocalization().getError("Error"),
 							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, // do
-																// not
-																// use
-																// a
-																// custom
-																// Icon
+							JOptionPane.QUESTION_MESSAGE,
+							null, // do
+							// not
+							// use
+							// a
+							// custom
+							// Icon
 							options, // the titles of buttons
 							options[0]); // default button title
 
 					if (n == 1) {
 						getGuiManager().openHelp(ManualPage.COMMAND, command);
 					}
-
 				}
 
 				@Override
 				public String getCurrentCommand() {
 					return null;
 				}
-
 			};
 		}
 		return defaultErrorHandler;
@@ -3617,9 +3546,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void showMessage(final String message) {
 		// use SwingUtilities to make sure this gets executed in the correct
 		// (=GUI) thread.
-		SwingUtilities.invokeLater(() -> JOptionPane.showConfirmDialog(mainComp, message,
-				GeoGebraConstants.APPLICATION_NAME + " - "
-						+ getLocalization().getMenu("Info"),
+		SwingUtilities.invokeLater(() -> JOptionPane.showConfirmDialog(
+				mainComp,
+				message,
+				GeoGebraConstants.APPLICATION_NAME + " - " + getLocalization().getMenu("Info"),
 				JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE));
 	}
@@ -3657,8 +3587,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		Log.debug("Setting up logging");
 		if (Log.getLogDestination() == LogDestination.FILE) {
 			// File logging already set up, don't override:
-			Log.debug(
-					"Logging into explicitly defined file, not using LogManager");
+			Log.debug("Logging into explicitly defined file, not using LogManager");
 			return;
 		}
 		// initialize logging to go to rolling log file
@@ -3681,12 +3610,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// log file max size 10K, 1 file, append-on-open
 		Handler fileHandler;
 		try {
-			fileHandler = new FileHandler(logFile.toString(),
-					Log.LOGFILE_MAXLENGTH, 1, false);
+			fileHandler = new FileHandler(logFile.toString(), Log.LOGFILE_MAXLENGTH, 1, false);
 		} catch (Exception e) {
 			logFile = null;
 			return;
-
 		}
 		fileHandler.setFormatter(new SimpleFormatter());
 		Logger.getLogger("").addHandler(fileHandler);
@@ -3792,8 +3719,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (ttt > 0) {
 			ToolTipManager.sharedInstance().setDismissDelay(ttt * 1000);
 			// make it fit into tooltipTimeouts array:
-			ToolTipManager.sharedInstance()
-					.setDismissDelay(getTooltipTimeout() * 1000);
+			ToolTipManager.sharedInstance().setDismissDelay(getTooltipTimeout() * 1000);
 		} else {
 			ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		}
@@ -3840,8 +3766,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
 		if (tableModel == null) {
-			tableModel = new SpreadsheetTableModelD(this, SPREADSHEET_INI_ROWS,
-					SPREADSHEET_INI_COLS);
+			tableModel = new SpreadsheetTableModelD(this, SPREADSHEET_INI_ROWS, SPREADSHEET_INI_COLS);
 		}
 		return tableModel;
 	}
@@ -3859,10 +3784,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param size font size
 	 * @return AWT Font
 	 */
-	public Font getFontCanDisplayAwt(String string, boolean serif, int fontStyle,
-			int size) {
-		return ((GFontD) getFontManager().getFontCanDisplay(string, serif, fontStyle,
-				size)).getAwtFont();
+	public Font getFontCanDisplayAwt(String string, boolean serif, int fontStyle, int size) {
+		return ((GFontD) getFontManager().getFontCanDisplay(string, serif, fontStyle, size))
+				.getAwtFont();
 	}
 
 	/**
@@ -3947,9 +3871,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Left/Right as appropriate for eg Hebrew / Arabic
-	 * 
+	 *
 	 * return int rather than FlowLayout.LEFT so we're not dependent on awt
 	 */
 	public int flowLeft() {
@@ -3960,9 +3884,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return Left/Right as appropriate for eg Hebrew / Arabic
-	 * 
+	 *
 	 * return int rather than FlowLayout.RIGHT so we're not dependent on awt
 	 */
 	public int flowRight() {
@@ -3978,15 +3902,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 */
 	public void repaintEuclidianViews(Component c) {
 
-		ComponentEvent event = new ComponentEvent(c,
-				ComponentEvent.COMPONENT_RESIZED);
+		ComponentEvent event = new ComponentEvent(c, ComponentEvent.COMPONENT_RESIZED);
 		getEuclidianView1().dispatchEvent(event);
 		getEuclidianView2(1).dispatchEvent(event);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return eg Java 1.7.0_03-64bit
 	 */
 	public static String getJavaVersion() {
@@ -3994,7 +3916,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder
 	 * @return StringBuilder with eg "Java 1.7.0_03-64bit" added
@@ -4035,7 +3957,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		return ret;
-
 	}
 
 	@Override
@@ -4048,7 +3969,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		return ret;
-
 	}
 
 	// **************************************************************************
@@ -4060,12 +3980,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * based on the reading order of the current localization
 	 * @param c Component
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public void setComponentOrientation(Component c) {
 		boolean rtl = getLocalization().isRightToLeftReadingOrder();
-		ComponentOrientation orientation = rtl
-				? ComponentOrientation.RIGHT_TO_LEFT
-				: ComponentOrientation.LEFT_TO_RIGHT;
+		ComponentOrientation orientation =
+				rtl ? ComponentOrientation.RIGHT_TO_LEFT : ComponentOrientation.LEFT_TO_RIGHT;
 		c.setComponentOrientation(orientation);
 		// c.applyComponentOrientation(orientation);
 
@@ -4076,8 +3995,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				setComponentOrientation(menu.getMenuComponent(i));
 			}
 		} else if (c instanceof JTextField) {
-			((JTextField) c).setHorizontalAlignment(
-					rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
+			((JTextField) c).setHorizontalAlignment(rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
@@ -4087,13 +4005,12 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					|| renderer instanceof PointStyleListRenderer)) {
 				// if we didn't load GUI yet, assume there is no tool creation
 				// dialog
-				if (getGuiManager() == null
-						|| !getGuiManager().belongsToToolCreator(renderer)) {
+				if (getGuiManager() == null || !getGuiManager().belongsToToolCreator(renderer)) {
 					renderer = new DefaultListCellRenderer();
 					cb.setRenderer(renderer);
 				}
-				((JLabel) renderer).setHorizontalAlignment(
-						rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
+				((JLabel) renderer)
+						.setHorizontalAlignment(rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
 			}
 		} else if (c instanceof Container) {
 			Container container = (Container) c;
@@ -4106,7 +4023,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/**
 	 * set a flow layout for the panel with correct orientation
-	 * 
+	 *
 	 * @param panel panel
 	 */
 	public void setFlowLayoutOrientation(JPanel panel) {
@@ -4134,9 +4051,15 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param max max
 	 * @param stepSize stepSize
 	 */
-	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
-			AnimationExportSlider num, int n, double initVal, double min,
-			double max, double stepSize) {
+	public void exportAnimatedGIF(
+			EuclidianView ev,
+			FrameCollector gifEncoder,
+			AnimationExportSlider num,
+			int n,
+			double initVal,
+			double min,
+			double max,
+			double stepSize) {
 		double val = initVal;
 		double step = stepSize;
 		for (int i = 0; i < n; i++) {
@@ -4147,8 +4070,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			num.setValue(val);
 			num.updateRepaint();
 
-			BufferedImage img = GBufferedImageD.getAwtBufferedImage(
-					ev.getExportImage(1));
+			BufferedImage img = GBufferedImageD.getAwtBufferedImage(ev.getExportImage(1));
 			if (img == null) {
 				Log.error("image null");
 			} else {
@@ -4157,16 +4079,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 			val += step;
 
-			if (val > max + Kernel.STANDARD_PRECISION
-					|| val < min - Kernel.STANDARD_PRECISION) {
+			if (val > max + Kernel.STANDARD_PRECISION || val < min - Kernel.STANDARD_PRECISION) {
 				val -= 2 * step;
 				step *= -1;
 			}
-
 		}
 
 		gifEncoder.finish();
-
 	}
 
 	@Override
@@ -4198,14 +4117,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void set1rstMode() {
-		setMode(((GuiManagerD) this.getGuiManager()).getToolbarPanel()
-				.getFirstToolbar().getFirstMode());
+		setMode(
+				((GuiManagerD) this.getGuiManager()).getToolbarPanel().getFirstToolbar().getFirstMode());
 	}
 
 	/**
 	 * @param file file to insert
 	 */
-	final public void insertFile(File file) {
+	public final void insertFile(File file) {
 
 		// using code from newWindowAction, combined with
 		// Michael's suggestion
@@ -4230,17 +4149,15 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		Set<String> existingLabels = getKernel().getConstruction().getAllLabels();
-		Set<String> duplicateLabels = ad.getKernel().getConstruction()
-				.getGeoSetWithCasCellsConstructionOrder()
-				.stream()
-				.map(GeoElement::getLabelSimple)
-				.filter(existingLabels::contains)
-				.collect(Collectors.toSet());
+		Set<String> duplicateLabels =
+				ad.getKernel().getConstruction().getGeoSetWithCasCellsConstructionOrder().stream()
+						.map(GeoElement::getLabelSimple)
+						.filter(existingLabels::contains)
+						.collect(Collectors.toSet());
 
 		boolean overwrite = false;
 		if (!duplicateLabels.isEmpty()) {
-			ExtendedBoolean rename = ad.getGuiManager()
-					.shouldRenameObjectsOnInsertFile(duplicateLabels);
+			ExtendedBoolean rename = ad.getGuiManager().shouldRenameObjectsOnInsertFile(duplicateLabels);
 			if (!rename.isDefined()) {
 				return;
 			}
@@ -4257,7 +4174,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// this is also needed to make it possible
 		// to load the same file once again
 		ad.getFrame().dispose();
-
 	}
 
 	protected AppD newAppForTemplateOrInsertFile() {
@@ -4267,7 +4183,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	/**
 	 * @param file template file
 	 */
-	final public void applyTemplate(File file) {
+	public final void applyTemplate(File file) {
 
 		// using code from newWindowAction, combined with
 		// Michael's suggestion
@@ -4285,7 +4201,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// this is also needed to make it possible
 		// to load the same style file once again
 		ad.getFrame().dispose();
-
 	}
 
 	/**
@@ -4386,8 +4301,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		cancelPreview();
 
 		Runnable threadSafeCallback = () -> SwingUtilities.invokeLater(scheduledPreview);
-		handler = scheduler.schedule(threadSafeCallback,
-				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
+		handler = scheduler.schedule(
+				threadSafeCallback, SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
@@ -4411,41 +4326,45 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param southPanel southPanel
 	 * @param westPanel westPanel
 	 */
-	public static void initToolbar(AppD app, int toolbarPosition,
-			boolean showToolBarHelp, JPanel northPanel, JPanel eastPanel,
-			JPanel southPanel, JPanel westPanel) {
+	public static void initToolbar(
+			AppD app,
+			int toolbarPosition,
+			boolean showToolBarHelp,
+			JPanel northPanel,
+			JPanel eastPanel,
+			JPanel southPanel,
+			JPanel westPanel) {
 
 		GuiManagerD guiManager = getGuiManager(app);
 		LocalizationD loc = app.getLocalization();
 		// initialize toolbar panel even if it's not used (hack)
 		guiManager.getToolbarPanel();
 
-		ToolbarContainer toolBarContainer = guiManager
-				.getToolbarPanel();
+		ToolbarContainer toolBarContainer = guiManager.getToolbarPanel();
 		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
 		toolBarContainer.setOrientation(toolbarPosition);
 		app.setShowToolBarHelpNoUpdate(showToolBarHelp);
 
 		switch (toolbarPosition) {
-		default:
-		case SwingConstants.NORTH:
-			northPanel.add(toolBarContainer, BorderLayout.NORTH);
-			break;
-		case SwingConstants.SOUTH:
-			southPanel.add(toolBarContainer, BorderLayout.NORTH);
-			break;
-		case SwingConstants.EAST:
-			eastPanel.add(toolBarContainer, loc.borderEast());
-			if (showToolBarHelp && helpPanel != null) {
-				northPanel.add(helpPanel, BorderLayout.NORTH);
-			}
-			break;
-		case SwingConstants.WEST:
-			westPanel.add(toolBarContainer, loc.borderWest());
-			if (showToolBarHelp && helpPanel != null) {
-				northPanel.add(helpPanel, BorderLayout.NORTH);
-			}
-			break;
+			default:
+			case SwingConstants.NORTH:
+				northPanel.add(toolBarContainer, BorderLayout.NORTH);
+				break;
+			case SwingConstants.SOUTH:
+				southPanel.add(toolBarContainer, BorderLayout.NORTH);
+				break;
+			case SwingConstants.EAST:
+				eastPanel.add(toolBarContainer, loc.borderEast());
+				if (showToolBarHelp && helpPanel != null) {
+					northPanel.add(helpPanel, BorderLayout.NORTH);
+				}
+				break;
+			case SwingConstants.WEST:
+				westPanel.add(toolBarContainer, loc.borderWest());
+				if (showToolBarHelp && helpPanel != null) {
+					northPanel.add(helpPanel, BorderLayout.NORTH);
+				}
+				break;
 		}
 
 		northPanel.revalidate();
@@ -4465,8 +4384,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	 * @param northPanel JPanel
 	 * @param southPanel JPanel
 	 */
-	public static void initInputBar(AppD app, boolean showInputTop,
-			JPanel northPanel, JPanel southPanel) {
+	public static void initInputBar(
+			AppD app, boolean showInputTop, JPanel northPanel, JPanel southPanel) {
 		GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 		if (showInputTop) {
 			northPanel.add(gui.getAlgebraInput(), BorderLayout.SOUTH);
@@ -4531,7 +4450,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public void invokeLater(Runnable runnable) {
 		SwingUtilities.invokeLater(runnable);
-
 	}
 
 	@Override
@@ -4540,8 +4458,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public void newGeoGebraToAsymptote(
-			AsyncOperation<GeoGebraExport> callback) {
+	public void newGeoGebraToAsymptote(AsyncOperation<GeoGebraExport> callback) {
 		callback.callback(new GeoGebraToAsymptote(this, new ExportGraphicsFactoryD()));
 	}
 
@@ -4588,14 +4505,14 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public void exportStringToFile(String ext, String content, boolean showDialog) {
 		try {
-			File exportFile = getGuiManager().showSaveDialog(FileExtensions.get(ext),
-					null, ext + " " + loc.getMenu("Files"), true, false);
+			File exportFile = getGuiManager()
+					.showSaveDialog(
+							FileExtensions.get(ext), null, ext + " " + loc.getMenu("Files"), true, false);
 			if (exportFile == null) {
 				return;
 			}
 			BufferedWriter objBufferedWriter = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(exportFile),
-							StandardCharsets.UTF_8));
+					new OutputStreamWriter(new FileOutputStream(exportFile), StandardCharsets.UTF_8));
 			Log.debug("Export to " + exportFile.getName());
 			objBufferedWriter.write(content);
 			objBufferedWriter.close();
@@ -4603,10 +4520,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			Log.debug(e);
 		}
 	}
-	
+
 	@Override
 	public void handleImageExport(String base64image) {
-		if (base64image.startsWith("<svg") || base64image.startsWith("<?xml")
+		if (base64image.startsWith("<svg")
+				|| base64image.startsWith("<?xml")
 				|| base64image.startsWith("%PDF")) {
 			getCopyPaste().copyTextToSystemClipboard(base64image);
 			return;
@@ -4625,19 +4543,20 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	private static void copyImageToClipboard(Image img) {
 		ImageSelection imgSel = new ImageSelection(img);
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
-				null);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);
 	}
 
 	@Override
-	public GeoImage createImageFromString(final String imgFileName,
-			String imgBase64, GeoImage imageOld, boolean autoCorners, GeoPointND c1,
+	public GeoImage createImageFromString(
+			final String imgFileName,
+			String imgBase64,
+			GeoImage imageOld,
+			boolean autoCorners,
+			GeoPointND c1,
 			GeoPointND c2) {
-		GeoImage geoImage = imageOld != null ? imageOld
-				: new GeoImage(getKernel().getConstruction());
+		GeoImage geoImage = imageOld != null ? imageOld : new GeoImage(getKernel().getConstruction());
 
-		kernel.getApplication().getImageManager().addExternalImage(imgFileName,
-				imgBase64);
+		kernel.getApplication().getImageManager().addExternalImage(imgFileName, imgBase64);
 		geoImage.setImageFileName(imgFileName);
 		geoImage.setCorner(c1, 0);
 		geoImage.setCorner(c2, 1);
@@ -4705,8 +4624,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public AbstractSettings getKeyboardSettings(
-			AbstractSettings keyboardSettings) {
+	public AbstractSettings getKeyboardSettings(AbstractSettings keyboardSettings) {
 		if (keyboardSettings == null) {
 			return new KeyboardSettings();
 		}
@@ -4717,8 +4635,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void updateKeyboardSettings(Map<String, String> attrs) {
 		try {
 			int width = Integer.parseInt(attrs.get("width"));
-			KeyboardSettings kbs = (KeyboardSettings) getSettings()
-					.getKeyboard();
+			KeyboardSettings kbs = (KeyboardSettings) getSettings().getKeyboard();
 			kbs.setKeyboardWidth(width);
 			int height = Integer.parseInt(attrs.get("height"));
 			kbs.setKeyboardHeight(height);

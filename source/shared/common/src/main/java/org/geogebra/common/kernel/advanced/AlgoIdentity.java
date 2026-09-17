@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Algo for Identity[n]
- * 
+ *
  * @author zbynek
  *
  */
@@ -53,7 +53,7 @@ public class AlgoIdentity extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { n.toGeoElement() };
+		input = new GeoElement[] {n.toGeoElement()};
 		setOnlyOutput(result);
 		setDependencies();
 	}
@@ -73,7 +73,6 @@ public class AlgoIdentity extends AlgoElement {
 			}
 			result.add(toAdd);
 		}
-
 	}
 
 	/**
@@ -87,5 +86,4 @@ public class AlgoIdentity extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.Identity;
 	}
-
 }

@@ -25,7 +25,7 @@ import jsinterop.base.Js;
 
 /**
  * buffers for openGL
- * 
+ *
  * @author mathieu
  *
  */
@@ -114,19 +114,16 @@ public final class GLBufferW implements GLBuffer {
 	}
 
 	@Override
-	public void set(ArrayList<Double> array, int arrayOffset, int offset,
-			int length) {
+	public void set(ArrayList<Double> array, int arrayOffset, int offset, int length) {
 		for (int i = 0; i < length; i++) {
 			impl.setAt(i + offset, array.get(arrayOffset + i));
 		}
 	}
 
 	@Override
-	public void set(ArrayList<Double> array, float[] translate, float scale,
-			int offset, int length) {
+	public void set(ArrayList<Double> array, float[] translate, float scale, int offset, int length) {
 		for (int i = 0; i < length; i++) {
-			impl.setAt(i + offset,
-					(double) (array.get(i).floatValue() * scale + translate[i % 3]));
+			impl.setAt(i + offset, (double) (array.get(i).floatValue() * scale + translate[i % 3]));
 		}
 	}
 
@@ -153,7 +150,7 @@ public final class GLBufferW implements GLBuffer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return buffer
 	 */
 	public Float32Array getBuffer() {
@@ -171,5 +168,4 @@ public final class GLBufferW implements GLBuffer {
 	public void position(int newPosition) {
 		index = newPosition;
 	}
-
 }

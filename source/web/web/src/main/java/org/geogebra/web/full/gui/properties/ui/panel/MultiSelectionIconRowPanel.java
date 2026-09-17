@@ -32,8 +32,8 @@ public final class MultiSelectionIconRowPanel extends FlowPanel {
 	 * @param multiSelectionIconRow {@code PropertyView.MultiSelectionIconRow}
 	 * @param appW see {@link AppW}
 	 */
-	public MultiSelectionIconRowPanel(PropertyView.MultiSelectionIconRow multiSelectionIconRow,
-			AppW appW) {
+	public MultiSelectionIconRowPanel(
+			PropertyView.MultiSelectionIconRow multiSelectionIconRow, AppW appW) {
 		this.appW = appW;
 		addStyleName("labelStyle");
 		buildGUI(multiSelectionIconRow);
@@ -42,8 +42,10 @@ public final class MultiSelectionIconRowPanel extends FlowPanel {
 	private void buildGUI(PropertyView.MultiSelectionIconRow multiSelectionIconRow) {
 		add(BaseWidgetFactory.INSTANCE.newPrimaryText(multiSelectionIconRow.getLabel()));
 		for (ToggleableIcon toggleableIcon : multiSelectionIconRow.getToggleableIcons()) {
-			IconButton button = new IconButton(appW, null, ((AppWFull) appW)
-					.getPropertiesIconResource().getImageResource(toggleableIcon.getIcon()),
+			IconButton button = new IconButton(
+					appW,
+					null,
+					((AppWFull) appW).getPropertiesIconResource().getImageResource(toggleableIcon.getIcon()),
 					toggleableIcon.getTooltipLabel());
 			button.setActive(toggleableIcon.isSelected());
 			button.addFastClickHandler(source -> {

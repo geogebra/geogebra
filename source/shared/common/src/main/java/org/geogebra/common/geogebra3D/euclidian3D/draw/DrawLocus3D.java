@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 
 /**
  * @author mathieu
- * 
+ *
  *         Drawable for locus
- * 
+ *
  */
 public class DrawLocus3D extends Drawable3DCurves {
 
@@ -47,8 +47,11 @@ public class DrawLocus3D extends Drawable3DCurves {
 	 * @param transformSys
 	 *            transformation coord sys for implicit curves
 	 */
-	public DrawLocus3D(EuclidianView3D a_view3d, GeoLocusND<? extends MyPoint> locus,
-			GeoElement geo, CoordSys transformSys) {
+	public DrawLocus3D(
+			EuclidianView3D a_view3d,
+			GeoLocusND<? extends MyPoint> locus,
+			GeoElement geo,
+			CoordSys transformSys) {
 		super(a_view3d, geo);
 		this.locus = locus;
 		this.transformCoordSys = transformSys;
@@ -69,8 +72,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 		setPackCurve(true);
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(getGeoElement().getLineThickness(),
-				(float) view.getScale());
+		brush.setThickness(getGeoElement().getLineThickness(), (float) view.getScale());
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
 
@@ -92,8 +94,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByZoom()
-				|| getView3D().viewChangedByTranslate()) {
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()) {
 			setWaitForUpdate();
 		}
 	}
@@ -134,5 +135,4 @@ public class DrawLocus3D extends Drawable3DCurves {
 			exportToPrinter3D.exportCurve(this, ExportToPrinter3D.Export3DType.CURVE);
 		}
 	}
-
 }

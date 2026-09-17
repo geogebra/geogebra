@@ -45,8 +45,7 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
 	 * @param h3D
 	 *            other line
 	 */
-	public AlgoClosestPointLines3D(Construction c, String label, GeoLineND g3D,
-			GeoLineND h3D) {
+	public AlgoClosestPointLines3D(Construction c, String label, GeoLineND g3D, GeoLineND h3D) {
 		super(c);
 		this.g3D = g3D;
 		this.h3D = h3D;
@@ -103,7 +102,5 @@ public class AlgoClosestPointLines3D extends AlgoElement3D {
 				h3D.getStartInhomCoords(), h3D.getDirectionInD3());
 
 		geoPointOnG.setCoords(points[0], false);
-
 	}
-
 }

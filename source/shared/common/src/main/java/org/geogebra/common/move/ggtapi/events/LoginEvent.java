@@ -21,7 +21,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 
 /**
  * Event for login operations
- * 
+ *
  * @author gabor
  *
  */
@@ -33,7 +33,7 @@ public class LoginEvent extends BaseEvent {
 
 	/**
 	 * Creates a new Login event,
-	 * 
+	 *
 	 * @param user
 	 *            The user that was logged in
 	 * @param successful
@@ -44,8 +44,7 @@ public class LoginEvent extends BaseEvent {
 	 * @param userJSON
 	 *            JSON with user data
 	 */
-	public LoginEvent(GeoGebraTubeUser user, boolean successful,
-			boolean automatic, String userJSON) {
+	public LoginEvent(GeoGebraTubeUser user, boolean successful, boolean automatic, String userJSON) {
 		super("login" + successful + "," + automatic);
 		this.user = user;
 		this.successful = successful;

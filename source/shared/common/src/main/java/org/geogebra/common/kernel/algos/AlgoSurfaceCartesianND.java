@@ -33,7 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
  * to]
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoSurfaceCartesianND extends AlgoElement {
@@ -47,7 +47,7 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 
 	/**
 	 * Creates new algo for Surface
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param point
@@ -61,8 +61,13 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 	 * @param to
 	 *            range max
 	 */
-	public AlgoSurfaceCartesianND(Construction cons, ExpressionNode point, GeoNumberValue[] coords,
-			GeoNumeric[] localVar, GeoNumberValue[] from, GeoNumberValue[] to) {
+	public AlgoSurfaceCartesianND(
+			Construction cons,
+			ExpressionNode point,
+			GeoNumberValue[] coords,
+			GeoNumeric[] localVar,
+			GeoNumberValue[] from,
+			GeoNumberValue[] to) {
 		super(cons);
 
 		this.coords = coords;
@@ -82,8 +87,7 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 		FunctionNVar[] fun = new FunctionNVar[coords.length];
 
 		for (int i = 0; i < coords.length; i++) {
-			exp[i] = kernel.convertNumberValueToExpressionNode(
-					coords[i].toGeoElement());
+			exp[i] = kernel.convertNumberValueToExpressionNode(coords[i].toGeoElement());
 			for (int j = 0; j < localVar.length; j++) {
 				exp[i] = exp[i].replace(localVar[j], funVar[j]).wrap();
 			}
@@ -102,15 +106,15 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 
 	/**
 	 * creates the surface
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @param fun
 	 *            functions
 	 * @return a surface
 	 */
-	protected GeoSurfaceCartesianND createCurve(Construction cons1,
-			ExpressionNode point, FunctionNVar[] fun) {
+	protected GeoSurfaceCartesianND createCurve(
+			Construction cons1, ExpressionNode point, FunctionNVar[] fun) {
 		return kernel.getGeoFactory().newSurface(cons1, point, fun);
 	}
 
@@ -149,10 +153,9 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 		if (surface.getPointExpression() != null) {
 			input = new GeoElement[1 + 3 * localVar.length];
 			offset = 1;
-			input[0] = new AlgoDependentFunction(cons,
-					new Function(surface.getPointExpression(),
-							new FunctionVariable(kernel)),
-					false).getFunction();
+			input[0] = new AlgoDependentFunction(
+							cons, new Function(surface.getPointExpression(), new FunctionVariable(kernel)), false)
+					.getFunction();
 			for (int i = 0; i < offset; i++) {
 				coords[i].toGeoElement().addAlgorithm(this);
 			}
@@ -207,18 +210,14 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 				}
 			}
 			if (vectorFunctions) {
-				ExpressionNode exp = VectorArithmetic
-						.computeCoord(surface.getPointExpression(), i);
+				ExpressionNode exp = VectorArithmetic.computeCoord(surface.getPointExpression(), i);
 				if (exp != null) {
 					for (int var = 0; var < 2; var++) {
-						exp = exp.replace(localVar[var],
-								surface.getFunctions()[i]
-										.getFunctionVariables()[var])
-							.wrap();
+						exp = exp.replace(localVar[var], surface.getFunctions()[i].getFunctionVariables()[var])
+								.wrap();
 					}
-					ExpressionValue ev = AlgoDependentFunction
-							.expandFunctionDerivativeNodes(exp.deepCopy(kernel),
-									false);
+					ExpressionValue ev =
+							AlgoDependentFunction.expandFunctionDerivativeNodes(exp.deepCopy(kernel), false);
 					surface.getFunctions()[i].setExpression(ev.wrap());
 				} else {
 					surface.setUndefined();
@@ -229,7 +228,6 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 		// the coord-functions don't have to be updated,
 		// so we only set the interval
 		surface.setIntervals(min, max);
-
 	}
 
 	/**

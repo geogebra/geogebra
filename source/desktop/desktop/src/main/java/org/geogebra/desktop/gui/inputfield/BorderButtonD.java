@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,12 +35,11 @@ import org.geogebra.desktop.main.ScaledIcon;
 /**
  * Extended Border class that adds simulated buttons to the right border of a
  * JTextField. See MyTextField and AutoCompleteTextField for usage.
- * 
+ *
  * @author G. Sturr
  *
  */
-public class BorderButtonD extends AbstractBorder
-		implements MouseListener, MouseMotionListener {
+public class BorderButtonD extends AbstractBorder implements MouseListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,7 +60,7 @@ public class BorderButtonD extends AbstractBorder
 
 	/**************************************
 	 * Constructs a BorderButton
-	 * 
+	 *
 	 * @param borderOwner target component
 	 */
 	public BorderButtonD(Component borderOwner) {
@@ -98,8 +97,7 @@ public class BorderButtonD extends AbstractBorder
 	}
 
 	@Override
-	public void paintBorder(Component c, Graphics g, int x, int y, int w,
-			int h) {
+	public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
 
 		int offset = hGap;
 		int xStart = x + w - getTotalInsetWidth();
@@ -107,8 +105,7 @@ public class BorderButtonD extends AbstractBorder
 
 		for (int i = 0; i < icon.length; i++) {
 			if (icon[i] != null && isVisibleIcon[i]) {
-				g.drawImage(icon[i].getImage(), xStart + offset,
-						yMid - icon[i].getIconHeight() / 2, null);
+				g.drawImage(icon[i].getImage(), xStart + offset, yMid - icon[i].getIconHeight() / 2, null);
 
 				iconRect[i].x = xStart + offset;
 				iconRect[i].y = yMid - icon[i].getIconHeight() / 2;
@@ -125,8 +122,7 @@ public class BorderButtonD extends AbstractBorder
 	 * @param icon icon
 	 * @param listener listener
 	 */
-	public void setBorderButton(int index, ScaledIcon icon,
-			ActionListener listener) {
+	public void setBorderButton(int index, ScaledIcon icon, ActionListener listener) {
 		if (index < 0 || index > maxIconCount) {
 			return;
 		}
@@ -227,8 +223,7 @@ public class BorderButtonD extends AbstractBorder
 		for (int i = 0; i < iconRect.length; i++) {
 			if (isMouseOverIcon[i]) {
 				e.consume();
-				ActionEvent ae = new ActionEvent(this,
-						ActionEvent.ACTION_PERFORMED, i + cmdSuffix);
+				ActionEvent ae = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, i + cmdSuffix);
 				al[i].actionPerformed(ae);
 			}
 		}
@@ -242,5 +237,4 @@ public class BorderButtonD extends AbstractBorder
 			}
 		}
 	}
-
 }

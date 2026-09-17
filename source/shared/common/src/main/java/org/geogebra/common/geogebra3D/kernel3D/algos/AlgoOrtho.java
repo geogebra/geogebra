@@ -43,8 +43,7 @@ public abstract class AlgoOrtho extends AlgoElement3D {
 	 * @param ortho
 	 *            orthogonal object (line or plane)
 	 */
-	public AlgoOrtho(Construction cons, String label, GeoPointND point,
-			GeoElement ortho) {
+	public AlgoOrtho(Construction cons, String label, GeoPointND point, GeoElement ortho) {
 		super(cons);
 		this.point = point;
 		this.inputOrtho = ortho;
@@ -61,8 +60,7 @@ public abstract class AlgoOrtho extends AlgoElement3D {
 	 * set specific input/output for this algo
 	 */
 	protected void setSpecificInputOutput() {
-		setInputOutput(new GeoElement[] { (GeoElement) point, inputOrtho },
-				new GeoElement[] { line });
+		setInputOutput(new GeoElement[] {(GeoElement) point, inputOrtho}, new GeoElement[] {line});
 	}
 
 	public GeoLine3D getLine() {
@@ -79,7 +77,7 @@ public abstract class AlgoOrtho extends AlgoElement3D {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LineThroughAPerpendicularToB",
-				point.getLabel(tpl), inputOrtho.getLabel(tpl));
+		return getLoc()
+				.getPlain("LineThroughAPerpendicularToB", point.getLabel(tpl), inputOrtho.getLabel(tpl));
 	}
 }

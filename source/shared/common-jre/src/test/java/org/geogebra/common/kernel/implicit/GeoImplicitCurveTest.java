@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -45,7 +45,8 @@ class GeoImplicitCurveTest extends BaseUnitTest {
 	@Test
 	void toValueStringTest() {
 		GeoElement implicit = add("sqrt(2)/sqrt(x)=4");
-		assertThat(implicit.toValueString(StringTemplate.algebraTemplate),
+		assertThat(
+				implicit.toValueString(StringTemplate.algebraTemplate),
 				is("r(2) / r(x) = 4".replace('r', Unicode.SQUARE_ROOT)));
 	}
 
@@ -86,10 +87,10 @@ class GeoImplicitCurveTest extends BaseUnitTest {
 		AtomicInteger counter = new AtomicInteger(0);
 		MockedConstruction.MockInitializer<BigDecimal> init = (decimal, context) -> {
 			Mockito.when(decimal.multiply(ArgumentMatchers.any())).thenReturn(decimal);
-			Mockito.when(decimal.divide(ArgumentMatchers.any(),
-					ArgumentMatchers.<RoundingMode>any())).thenReturn(decimal);
-			Mockito.when(decimal.divide(ArgumentMatchers.any(),
-					ArgumentMatchers.<MathContext>any())).thenReturn(decimal);
+			Mockito.when(decimal.divide(ArgumentMatchers.any(), ArgumentMatchers.<RoundingMode>any()))
+					.thenReturn(decimal);
+			Mockito.when(decimal.divide(ArgumentMatchers.any(), ArgumentMatchers.<MathContext>any()))
+					.thenReturn(decimal);
 			Mockito.when(decimal.add(ArgumentMatchers.any())).thenReturn(decimal);
 			Mockito.when(decimal.subtract(ArgumentMatchers.any())).thenReturn(decimal);
 			Mockito.when(decimal.pow(ArgumentMatchers.anyInt())).thenReturn(decimal);
@@ -112,8 +113,8 @@ class GeoImplicitCurveTest extends BaseUnitTest {
 				</element>
 				""");
 		assertFalse(lookup("c").isDefined());
-		assertEquals("x, y",
-				((GeoImplicitCurve) lookup("c")).getVarString(StringTemplate.testTemplate));
+		assertEquals(
+				"x, y", ((GeoImplicitCurve) lookup("c")).getVarString(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -127,7 +128,6 @@ class GeoImplicitCurveTest extends BaseUnitTest {
 				</element>
 				""");
 		assertTrue(lookup("c").isDefined());
-		assertEquals("x^3 + y^3 = 1",
-				lookup("c").toValueString(StringTemplate.testTemplate));
+		assertEquals("x^3 + y^3 = 1", lookup("c").toValueString(StringTemplate.testTemplate));
 	}
 }

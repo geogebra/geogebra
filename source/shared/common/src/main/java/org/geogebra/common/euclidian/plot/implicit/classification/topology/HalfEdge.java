@@ -38,7 +38,11 @@ public final class HalfEdge {
 	 * @param segmentKind source kind of the edge
 	 * @param sourceContourId contour id for contour edges, {@code -1} for viewport edges
 	 */
-	public HalfEdge(int id, int originVertexId, int targetVertexId, SegmentKind segmentKind,
+	public HalfEdge(
+			int id,
+			int originVertexId,
+			int targetVertexId,
+			SegmentKind segmentKind,
 			int sourceContourId) {
 		this.id = id;
 		this.originVertexId = originVertexId;

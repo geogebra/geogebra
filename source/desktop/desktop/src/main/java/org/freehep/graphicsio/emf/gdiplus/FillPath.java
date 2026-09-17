@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The FillPath metafile record represents a call to Graphics.FillPath, which
  * fills the interior of a GraphicsPath object.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: FillPath.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -30,8 +30,7 @@ public class FillPath extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		FillPath tag = new FillPath();
 		tag.flags = flags;
 		if ((flags & 0x8000) > 0) {
@@ -43,8 +42,7 @@ public class FillPath extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		if (brushColor != null) {
 			emf.writeCOLOR(brushColor);
 		} else {
@@ -54,7 +52,7 @@ public class FillPath extends EMFPlusTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n  " + (brushColor != null
-				? "brushColor: " + brushColor : "brushIndex: " + brushIndex);
+		return super.toString() + "\n  "
+				+ (brushColor != null ? "brushColor: " + brushColor : "brushIndex: " + brushIndex);
 	}
 }

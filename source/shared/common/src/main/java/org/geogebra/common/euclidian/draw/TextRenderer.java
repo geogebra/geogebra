@@ -37,8 +37,8 @@ public interface TextRenderer {
 	 * @param xPos x coordinate
 	 * @param yPos y coordinate
 	 */
-	void drawText(GeoInputBox geo, GGraphics2D graphics,
-			GFont font, String text, double xPos, double yPos);
+	void drawText(
+			GeoInputBox geo, GGraphics2D graphics, GFont font, String text, double xPos, double yPos);
 
 	/**
 	 * Measure the text that is draw.
@@ -50,8 +50,8 @@ public interface TextRenderer {
 	 *
 	 * @return size of the drawn text
 	 */
-	GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
-			String labelDescription);
+	GRectangle measureBounds(
+			GGraphics2D graphics, GeoInputBox geo, GFont font, String labelDescription);
 
 	/**
 	 *

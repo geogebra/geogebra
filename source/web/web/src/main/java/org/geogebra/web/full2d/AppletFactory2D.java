@@ -39,8 +39,12 @@ public final class AppletFactory2D implements AppletFactory {
 	}
 
 	@Override
-	public AppW getApplet(GeoGebraElement element, AppletParameters parameters,
-			GeoGebraFrameFull gf, GLookAndFeelI laf, GDevice device) {
+	public AppW getApplet(
+			GeoGebraElement element,
+			AppletParameters parameters,
+			GeoGebraFrameFull gf,
+			GLookAndFeelI laf,
+			GDevice device) {
 		return new AppWFull(element, parameters, 2, laf, device, gf);
 	}
 }

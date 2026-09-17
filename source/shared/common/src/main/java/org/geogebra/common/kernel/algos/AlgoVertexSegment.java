@@ -36,14 +36,13 @@ public class AlgoVertexSegment extends AlgoElement {
 	private GeoPointND Q; // endpoints of segment
 
 	/** Creates new AlgoVector */
-	public AlgoVertexSegment(Construction cons, String label,
-			GeoSegmentND segment, GeoNumberValue index) {
+	public AlgoVertexSegment(
+			Construction cons, String label, GeoSegmentND segment, GeoNumberValue index) {
 		this(cons, segment, index);
 		M.setLabel(label);
 	}
 
-	AlgoVertexSegment(Construction cons, GeoSegmentND segment,
-			GeoNumberValue index) {
+	AlgoVertexSegment(Construction cons, GeoSegmentND segment, GeoNumberValue index) {
 		super(cons);
 		this.segment = segment;
 		this.index = index;
@@ -111,5 +110,4 @@ public class AlgoVertexSegment extends AlgoElement {
 			M.setUndefined();
 		}
 	}
-
 }

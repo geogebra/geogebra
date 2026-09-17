@@ -42,8 +42,7 @@ class SideSheetPanel extends FlowPanel implements SetLabels {
 	 * @param addBackButton whether back button should be added in the title panel
 	 * @param onClose close button handler
 	 */
-	SideSheetPanel(AppW appW, SideSheetData data, boolean addBackButton,
-			Runnable onClose) {
+	SideSheetPanel(AppW appW, SideSheetData data, boolean addBackButton, Runnable onClose) {
 		this.appW = appW;
 		this.hasBackButton = addBackButton;
 		this.onClose = onClose;
@@ -76,8 +75,8 @@ class SideSheetPanel extends FlowPanel implements SetLabels {
 	}
 
 	private void buildTitlePanel(boolean addBackButton) {
-		titlePanel = new SheetTitlePanel(appW, data.getTitleTransKey(),
-				this::onClose, addBackButton ? this::onBack : null);
+		titlePanel = new SheetTitlePanel(
+				appW, data.getTitleTransKey(), this::onClose, addBackButton ? this::onBack : null);
 		add(titlePanel);
 	}
 

@@ -40,8 +40,7 @@ public final class AlgebraViewScroller {
 	 */
 	public void toActiveItem() {
 
-		final RadioTreeItem item = view == null ? null
-				: view.getActiveTreeItem();
+		final RadioTreeItem item = view == null ? null : view.getActiveTreeItem();
 		if (item == null || !item.hasFocus()) {
 			return;
 		}
@@ -50,7 +49,6 @@ public final class AlgebraViewScroller {
 			Scheduler.get().scheduleDeferred(this::toBottom);
 		} else {
 			Scheduler.get().scheduleDeferred(this::setPositionToActiveItem);
-
 		}
 	}
 

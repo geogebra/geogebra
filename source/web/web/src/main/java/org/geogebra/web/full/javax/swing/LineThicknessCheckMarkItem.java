@@ -51,8 +51,8 @@ public final class LineThicknessCheckMarkItem extends FlowPanel {
 	 * @param value thickness
 	 * @param checkMark icon
 	 */
-	public LineThicknessCheckMarkItem(String itemText, String thicknessStyle, int value,
-			IconSpec checkMark) {
+	public LineThicknessCheckMarkItem(
+			String itemText, String thicknessStyle, int value, IconSpec checkMark) {
 		addStyleName("lineThicknessItem");
 		addStyleName(thicknessStyle);
 		this.value = value;

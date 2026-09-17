@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
  * Common processor for scripting commands -- the execution is delayed
  * (GeoScriptAction is created and the command is not executed until you call
  * {@link GeoScriptAction#perform()}) so that they work nicely with If.
- * 
+ *
  * @author Zbynek
  *
  */
@@ -36,7 +36,7 @@ public abstract class CmdScripting extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,7 +46,7 @@ public abstract class CmdScripting extends CommandProcessor {
 
 	/**
 	 * Perform the actual command
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @return elements that may be removed after this action
@@ -55,15 +55,14 @@ public abstract class CmdScripting extends CommandProcessor {
 
 	/**
 	 * Perform the actual command and remove all unlabeled inputs
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 */
 	public final void performAndClean(Command c) {
 		GeoElement[] arg = perform(c);
 		for (int i = 0; arg != null && i < arg.length; i++) {
-			if (arg[i] != null && !arg[i].isLabelSet()
-					&& !arg[i].isGeoCasCell()) {
+			if (arg[i] != null && !arg[i].isLabelSet() && !arg[i].isGeoCasCell()) {
 				arg[i].remove();
 			}
 		}
@@ -73,7 +72,7 @@ public abstract class CmdScripting extends CommandProcessor {
 	public final GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		GeoScriptAction sa = new GeoScriptAction(cons, this, c);
-		return new GeoElement[] { sa };
+		return new GeoElement[] {sa};
 	}
 
 	/**
@@ -82,5 +81,4 @@ public abstract class CmdScripting extends CommandProcessor {
 	public App getApp() {
 		return app;
 	}
-
 }

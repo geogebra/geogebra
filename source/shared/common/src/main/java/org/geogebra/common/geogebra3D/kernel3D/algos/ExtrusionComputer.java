@@ -18,20 +18,20 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 /**
  * computer used for extrusions (prism, cylinder)
- * 
+ *
  * @author Mathieu
  *
  */
 public class ExtrusionComputer {
 
-    private static final int MIN_COMPUTATIONS_VALIDATING_DRAGGING = 1;
+	private static final int MIN_COMPUTATIONS_VALIDATING_DRAGGING = 1;
 	private static final int MIN_COMPUTATIONS_VALIDATING_DRAGGING_AR = 15;
 
 	private AlgoForExtrusion algo;
 	private int computed;
 
 	/**
-	 * 
+	 *
 	 * @param algo
 	 *            algorithm
 	 */
@@ -49,7 +49,7 @@ public class ExtrusionComputer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if computed at least once
 	 */
 	public boolean getWasComputedByDragging(boolean isAREnabled) {
@@ -64,8 +64,8 @@ public class ExtrusionComputer {
 	}
 
 	private int getComputationsThreshold(boolean isAREnabled) {
-		return isAREnabled ? MIN_COMPUTATIONS_VALIDATING_DRAGGING_AR
+		return isAREnabled
+				? MIN_COMPUTATIONS_VALIDATING_DRAGGING_AR
 				: MIN_COMPUTATIONS_VALIDATING_DRAGGING;
 	}
-
 }

@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
  * Represents geos that can be mirrored at a line or point
- * 
+ *
  */
 public interface ConicMirrorable {
 
@@ -29,5 +29,4 @@ public interface ConicMirrorable {
 	 * @param conic mirror circle
 	 */
 	void mirror(GeoConicND conic);
-
 }

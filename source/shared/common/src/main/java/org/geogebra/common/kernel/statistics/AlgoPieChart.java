@@ -52,8 +52,8 @@ public class AlgoPieChart extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = radius == null
-                ? new GeoElement[] {data, center}
-                : new GeoElement[] {data, center, radius.toGeoElement()};
+				? new GeoElement[] {data, center}
+				: new GeoElement[] {data, center, radius.toGeoElement()};
 		setOnlyOutput(chart);
 		setDependencies();
 	}
@@ -89,11 +89,11 @@ public class AlgoPieChart extends AlgoElement {
 	}
 
 	private void updateDefaultStyle() {
-		for (int i = 0; i < chart.getData().size() ; i++) {
+		for (int i = 0; i < chart.getData().size(); i++) {
 			if (chart.getStyle().getBarColor(i + 1) != null) {
 				continue;
 			}
-			int[] order = new int[]{0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70};
+			int[] order = new int[] {0x6557d2, 0xe0bf00, 0x3bb4a6, 0xda6a9d, 0x3b1c32, 0xff8c70};
 			GColor baseColor = GColor.newColorRGB(order[i % 6]);
 			double overlay = Math.pow(0.6, Math.floor(i / 6.0));
 			GColor color = GColor.mixColors(GColor.WHITE, baseColor, overlay, 255);
@@ -117,21 +117,21 @@ public class AlgoPieChart extends AlgoElement {
 		return 0;
 	}
 
-    /**
-     * @return The index to {@link #getInput(int)} for the {@code center} (Point) parameter.
-     */
-    public int getCenterParamIndex() {
-        return 1;
-    }
+	/**
+	 * @return The index to {@link #getInput(int)} for the {@code center} (Point) parameter.
+	 */
+	public int getCenterParamIndex() {
+		return 1;
+	}
 
-    /**
-     * @return The index to {@link #getInput(int)} for the {@code radius} (Number) parameter.
-     */
-    public int getRadiusParamIndex() {
-        return 2;
-    }
+	/**
+	 * @return The index to {@link #getInput(int)} for the {@code radius} (Number) parameter.
+	 */
+	public int getRadiusParamIndex() {
+		return 2;
+	}
 
-    private boolean isValidValue(double value) {
+	private boolean isValidValue(double value) {
 		return Double.isFinite(value) && value >= 0;
 	}
 }

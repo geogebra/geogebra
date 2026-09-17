@@ -21,8 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
 public class AlgoConicCoefficients extends AlgoEquationCoefficients {
 
-	public AlgoConicCoefficients(Construction cons, String label,
-			GeoQuadricND c) {
+	public AlgoConicCoefficients(Construction cons, String label, GeoQuadricND c) {
 		super(cons, label, c, 6);
 	}
 

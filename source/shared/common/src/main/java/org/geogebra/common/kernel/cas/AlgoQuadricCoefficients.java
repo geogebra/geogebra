@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
 /**
  * Algorithm for coefficients of a quadric
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoQuadricCoefficients extends AlgoEquationCoefficients {
@@ -34,8 +34,7 @@ public class AlgoQuadricCoefficients extends AlgoEquationCoefficients {
 	 * @param c
 	 *            quadric
 	 */
-	public AlgoQuadricCoefficients(Construction cons, String label,
-			GeoQuadricND c) {
+	public AlgoQuadricCoefficients(Construction cons, String label, GeoQuadricND c) {
 		super(cons, label, c, 10);
 	}
 
@@ -46,5 +45,4 @@ public class AlgoQuadricCoefficients extends AlgoEquationCoefficients {
 			setCoeff(i, i < 4 ? matrix[i] : matrix[i] * 2);
 		}
 	}
-
 }

@@ -50,7 +50,6 @@ package com.himamis.retex.renderer.share;
  */
 public class BreakMarkAtom extends Atom {
 
-
 	BreakMarkAtom() {
 		//
 	}

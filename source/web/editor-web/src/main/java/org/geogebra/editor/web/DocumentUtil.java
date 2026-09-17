@@ -23,7 +23,7 @@ import elemental2.dom.DomGlobal;
 
 public final class DocumentUtil {
 
-	private DocumentUtil() { }
+	private DocumentUtil() {}
 
 	/**
 	 * Copy currently selected text

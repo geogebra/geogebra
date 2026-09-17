@@ -114,8 +114,7 @@ public class Macro {
 							// TODO: se referer a la string definissant la
 							// macro, plutot
 							// qu'a tp pr localiser l'erreur
-							throw new ParseException(tp,
-									"Argument number greater than the number of arguments");
+							throw new ParseException(tp, "Argument number greater than the number of arguments");
 						}
 						--x;
 						posArgs.add(x);

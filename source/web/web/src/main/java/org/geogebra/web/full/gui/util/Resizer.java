@@ -35,5 +35,4 @@ public final class Resizer {
 			element.getStyle().setWidth(width, Unit.PX);
 		}
 	}
-
 }

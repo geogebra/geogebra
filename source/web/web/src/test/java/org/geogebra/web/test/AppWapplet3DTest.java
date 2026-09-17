@@ -40,15 +40,14 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	 * @param laf    laf
 	 * @param device device
 	 */
-	public AppWapplet3DTest(AppletParameters ae, GeoGebraFrameFull gf,
-							GLookAndFeel laf, GDevice device) {
+	public AppWapplet3DTest(
+			AppletParameters ae, GeoGebraFrameFull gf, GLookAndFeel laf, GDevice device) {
 		super(DomMocker.getGeoGebraElement(), ae, gf, laf, device);
 	}
 
 	@Override
 	public CommandDispatcherW newCommandDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcher3DWSync(cmdKernel);
-
 	}
 
 	@Override

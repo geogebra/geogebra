@@ -25,17 +25,21 @@ import org.geogebra.common.euclidian.plot.implicit.ClippedFragment;
 import org.geogebra.common.euclidian.plot.implicit.classification.topology.HalfEdge;
 import org.geogebra.common.euclidian.plot.implicit.classification.topology.PlanarGraph;
 
-record OpenFragmentClosureInput(List<Integer> orderedViewportVertexIds,
-		ViewportTopology viewportTopology, List<OpenFragmentChain> chains,
+record OpenFragmentClosureInput(
+		List<Integer> orderedViewportVertexIds,
+		ViewportTopology viewportTopology,
+		List<OpenFragmentChain> chains,
 		int openFragmentCount) {
 
-	record OpenFragmentChain(int fragmentId, ClippedFragment fragment,
-			ViewportEndpoint start, ViewportEndpoint end, List<Integer> forwardChain,
-			List<Integer> reverseChain) {
-	}
+	record OpenFragmentChain(
+			int fragmentId,
+			ClippedFragment fragment,
+			ViewportEndpoint start,
+			ViewportEndpoint end,
+			List<Integer> forwardChain,
+			List<Integer> reverseChain) {}
 
-	record ViewportEndpoint(int vertexId, int viewportIndex) {
-	}
+	record ViewportEndpoint(int vertexId, int viewportIndex) {}
 
 	static final class ViewportTopology {
 		private final PlanarGraph graph;
@@ -93,7 +97,8 @@ record OpenFragmentClosureInput(List<Integer> orderedViewportVertexIds,
 		int viewportEdge(int startVertex, int endVertex) {
 			for (int halfEdgeId : graph.vertex(startVertex).getOutgoingHalfEdges()) {
 				HalfEdge halfEdge = graph.halfEdge(halfEdgeId);
-				if (halfEdge.isActive() && halfEdge.isViewportEdge()
+				if (halfEdge.isActive()
+						&& halfEdge.isViewportEdge()
 						&& halfEdge.getTargetVertexId() == endVertex) {
 					return halfEdgeId;
 				}

@@ -50,7 +50,7 @@ public final class OpenSearch {
 
 	/**
 	 * Show the corresponding browser view.
-
+	 *
 	 * @param query to filter the materials.
 	 */
 	public void show(String query) {
@@ -86,18 +86,15 @@ public final class OpenSearch {
 	}
 
 	private boolean hasSearchPerspective() {
-		return appletParameters.getDataParamPerspective()
-				.startsWith("search:");
+		return appletParameters.getDataParamPerspective().startsWith("search:");
 	}
 
 	private boolean isOnMebisWithoutLogin() {
-		return app.isByCS()
-				&& !app.getLoginOperation().isLoggedIn();
+		return app.isByCS() && !app.getLoginOperation().isLoggedIn();
 	}
 
 	private void updateMaterials() {
-		((OpenFileViewMebis) guiManager.getBrowseView())
-				.updateMaterials();
+		((OpenFileViewMebis) guiManager.getBrowseView()).updateMaterials();
 	}
 
 	private boolean hasOpenFileViewOnWhiteboard(String query) {
@@ -129,8 +126,7 @@ public final class OpenSearch {
 	 */
 	public void openInExamMode() {
 		app.hideMenu();
-		OpenTemporaryFileView openFileView =
-				(OpenTemporaryFileView) guiManager.getBrowseView();
+		OpenTemporaryFileView openFileView = (OpenTemporaryFileView) guiManager.getBrowseView();
 		if (guiManager.isOpenFileViewLoaded()) {
 			openFileView.loadAllMaterials(0);
 		}

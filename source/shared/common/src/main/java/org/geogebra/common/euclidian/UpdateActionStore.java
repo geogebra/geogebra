@@ -39,6 +39,7 @@ public class UpdateActionStore {
 
 	@Weak
 	protected final SelectionManager selection;
+
 	private final UndoManager undoManager;
 	private boolean stitching;
 	private boolean hasMeasurementTools;
@@ -70,13 +71,11 @@ public class UpdateActionStore {
 				if (num.isLabelSet()) {
 					addUndoItem(num, MoveMode.NUMERIC);
 				} else {
-					addUndoItem(geo.getChangeableParent3D().getSurface(),
-							defaultMode);
+					addUndoItem(geo.getChangeableParent3D().getSurface(), defaultMode);
 				}
 				continue;
 			}
-			if (geo.getParentAlgorithm() != null
-					&& !geo.isPointOnPath() && !geo.isPointInRegion()) {
+			if (geo.getParentAlgorithm() != null && !geo.isPointOnPath() && !geo.isPointInRegion()) {
 				addAll(geo.getParentAlgorithm().getDefinedAndLabeledInput(), defaultMode);
 			} else if (geo instanceof GeoImage image) {
 				addAll(image.getDefinedAndLabeledStartPoints(), defaultMode);
@@ -131,7 +130,7 @@ public class UpdateActionStore {
 		List<String> actions = new ArrayList<>(undoItems.size());
 		List<String> undoActions = new ArrayList<>(undoItems.size());
 		List<String> labels = new ArrayList<>(undoItems.size());
-		for (UndoItem item: undoItems) {
+		for (UndoItem item : undoItems) {
 			actions.add(item.content());
 			undoActions.add(item.previousContent());
 			labels.add(item.getLabel());

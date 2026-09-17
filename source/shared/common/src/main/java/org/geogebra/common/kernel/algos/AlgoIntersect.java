@@ -47,7 +47,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	/**
 	 * Returns the index in output[] of the intersection point that is closest
 	 * to the coordinates (xRW, yRW)
-	 * 
+	 *
 	 * @param xRW
 	 *            initial x-coordinate
 	 * @param yRW
@@ -73,7 +73,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	/**
 	 * Returns the index in output[] of the intersection point that is closest
 	 * to the GeoPoint refPoint
-	 * 
+	 *
 	 * @param refPoint
 	 *            initial point
 	 * @return closest intersection point
@@ -101,7 +101,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 
 	/**
 	 * Implemented for LocusEqu.
-	 * 
+	 *
 	 * @return a new array with the exact same members as getIntersectionPoints.
 	 */
 	public GeoPoint[] getCopyOfIntersectionPoints() {

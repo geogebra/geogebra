@@ -52,10 +52,8 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 			return;
 		}
 
-		if (getListener() instanceof GeoComboListener
-				&& this instanceof MultipleGeosModel) {
-			for (GeoElement geo : ((MultipleGeosModel) this)
-					.getGeoChoices(loc)) {
+		if (getListener() instanceof GeoComboListener && this instanceof MultipleGeosModel) {
+			for (GeoElement geo : ((MultipleGeosModel) this).getGeoChoices(loc)) {
 				((GeoComboListener) getListener()).addItem(geo);
 			}
 			return;

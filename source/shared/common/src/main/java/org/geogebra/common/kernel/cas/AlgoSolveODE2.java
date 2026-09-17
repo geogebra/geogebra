@@ -56,7 +56,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 	/**
 	 * SolveODE[ &lt;b(x)&gt;, &lt;c(x)&gt;, &lt;f(x)&gt;, &lt;Start x&gt;, &lt;Start y&gt;,
 	 * &lt;Start y'&gt;, &lt;End x&gt;, &lt;Step&gt;]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -78,9 +78,17 @@ public class AlgoSolveODE2 extends AlgoElement {
 	 * @param step
 	 *            step
 	 */
-	public AlgoSolveODE2(Construction cons, String label, GeoFunctionable b,
-			GeoFunctionable c, GeoFunctionable f, GeoNumeric x, GeoNumeric y,
-			GeoNumeric yDot, GeoNumeric end, GeoNumeric step) {
+	public AlgoSolveODE2(
+			Construction cons,
+			String label,
+			GeoFunctionable b,
+			GeoFunctionable c,
+			GeoFunctionable f,
+			GeoNumeric x,
+			GeoNumeric y,
+			GeoNumeric yDot,
+			GeoNumeric end,
+			GeoNumeric step) {
 		super(cons);
 		this.b = b;
 		this.c = c;
@@ -129,9 +137,15 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (!b.isDefined() || !c.isDefined() || !f.isDefined() || !x.isDefined()
-				|| !y.isDefined() || !yDot.isDefined() || !step.isDefined()
-				|| !end.isDefined() || DoubleUtil.isZero(step.getDouble())) {
+		if (!b.isDefined()
+				|| !c.isDefined()
+				|| !f.isDefined()
+				|| !x.isDefined()
+				|| !y.isDefined()
+				|| !yDot.isDefined()
+				|| !step.isDefined()
+				|| !end.isDefined()
+				|| DoubleUtil.isZero(step.getDouble())) {
 			locus.setUndefined();
 			return;
 		}
@@ -143,8 +157,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 			al.clear();
 		}
 
-		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(
-				step.getDouble());
+		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(step.getDouble());
 		FirstOrderDifferentialEquations ode;
 
 		ode = new ODE2(b, c, f);
@@ -156,8 +169,8 @@ public class AlgoSolveODE2 extends AlgoElement {
 		al.add(new MyPoint(x.getDouble(), y.getDouble(), SegmentType.MOVE_TO));
 		// cons.setSuppressLabelCreation(oldState);
 
-		double[] yy2 = new double[] { y.getDouble(), yDot.getDouble() }; // initial
-																			// state
+		double[] yy2 = new double[] {y.getDouble(), yDot.getDouble()}; // initial
+		// state
 		try {
 			integrator.integrate(ode, x.getDouble(), yy2, end.getDouble(), yy2);
 		} catch (RuntimeException e) {
@@ -175,7 +188,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 		@Override
 		public void init(double t0, double[] y0, double t) {
-			//Log.error("unimplemented");
+			// Log.error("unimplemented");
 		}
 
 		@Override
@@ -218,5 +231,4 @@ public class AlgoSolveODE2 extends AlgoElement {
 			yDot[1] = f.value(t) - b.value(t) * y[1] - c.value(t) * y[0]; // (2)
 		}
 	}
-
 }

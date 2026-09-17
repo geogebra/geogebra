@@ -42,8 +42,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	 * @param locus
 	 *            locus
 	 */
-	public AlgoPerimeterLocus(Construction cons,
-			GeoLocusNDInterface locus) {
+	public AlgoPerimeterLocus(Construction cons, GeoLocusNDInterface locus) {
 		super(cons);
 		this.locus = locus;
 
@@ -101,11 +100,10 @@ public class AlgoPerimeterLocus extends AlgoElement {
 
 	/**
 	 * Get the GeoPolygon's circumference.
-	 * 
+	 *
 	 * @return circumference
 	 */
 	public GeoNumeric getResult() {
 		return circum;
 	}
-
 }

@@ -22,11 +22,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Sigma(xy) of a list of Points
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoListSigmaXY extends AlgoStats2D {
 
 	public AlgoListSigmaXY(Construction cons, String label, GeoList geoListx) {

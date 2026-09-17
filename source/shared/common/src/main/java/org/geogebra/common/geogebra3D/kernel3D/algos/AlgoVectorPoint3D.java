@@ -25,15 +25,14 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Vector between two points P and Q. Extends AlgoVector
- * 
+ *
  * @author ggb3D
  */
-
 public class AlgoVectorPoint3D extends AlgoVectorPoint {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -59,14 +58,11 @@ public class AlgoVectorPoint3D extends AlgoVectorPoint {
 	protected GeoVectorND createNewVector() {
 
 		return new GeoVector3D(cons);
-
 	}
 
 	@Override
 	protected void setCoords() {
 		Coords coords = getP().getInhomCoordsInD3();
-		getVector().setCoords(new double[] { coords.getX(), coords.getY(),
-				coords.getZ(), 0 });
+		getVector().setCoords(new double[] {coords.getX(), coords.getY(), coords.getZ(), 0});
 	}
-
 }

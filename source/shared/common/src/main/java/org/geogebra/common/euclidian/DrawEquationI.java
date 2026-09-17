@@ -58,9 +58,20 @@ public interface DrawEquationI {
 	 *            callback for complete render (needed if font loading is async)
 	 * @return dimensions of result
 	 */
-	GDimension drawEquation(App app, GeoElementND geo, GGraphics2D g2, int x, int y,
-			String text, GFont font, boolean serif, GColor fgColor, GColor bgColor,
-			boolean useCache, boolean updateAgain, Runnable callback);
+	GDimension drawEquation(
+			App app,
+			GeoElementND geo,
+			GGraphics2D g2,
+			int x,
+			int y,
+			String text,
+			GFont font,
+			boolean serif,
+			GColor fgColor,
+			GColor bgColor,
+			boolean useCache,
+			boolean updateAgain,
+			Runnable callback);
 
 	/**
 	 * @param text
@@ -78,8 +89,8 @@ public interface DrawEquationI {
 	 *            dimension return array
 	 * @return cached image
 	 */
-	Image getCachedDimensions(String text, GeoElementND geo, GColor fgColor,
-			GFont font, int style, int[] ret);
+	Image getCachedDimensions(
+			String text, GeoElementND geo, GColor fgColor, GFont font, int style, int[] ret);
 
 	/**
 	 * Initialize commands if this is the first run
@@ -98,6 +109,5 @@ public interface DrawEquationI {
 	 *            whether to use serif font
 	 * @return equation size
 	 */
-	GDimension measureEquation(App app, String text, GFont font,
-			boolean serif);
+	GDimension measureEquation(App app, String text, GFont font, boolean serif);
 }

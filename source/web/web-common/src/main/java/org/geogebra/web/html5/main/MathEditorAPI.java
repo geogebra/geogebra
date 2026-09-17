@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * API for getting / setting the state of equation editor
- * 
+ *
  * @author Zbynek
  */
 public interface MathEditorAPI {
@@ -37,5 +37,4 @@ public interface MathEditorAPI {
 	 * @return JSON encoded editor state
 	 */
 	String getState();
-
 }

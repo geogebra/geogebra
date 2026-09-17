@@ -22,10 +22,10 @@ package org.geogebra.common.properties;
  */
 public interface PropertyCollection<P extends Property> extends Property {
 
-    /**
-     * Returns the properties that belong to this property group.
-     *
-     * @return an array of properties.
-     */
-    P[] getProperties();
+	/**
+	 * Returns the properties that belong to this property group.
+	 *
+	 * @return an array of properties.
+	 */
+	P[] getProperties();
 }

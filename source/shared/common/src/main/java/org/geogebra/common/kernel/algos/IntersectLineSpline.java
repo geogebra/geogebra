@@ -48,8 +48,8 @@ public final class IntersectLineSpline {
 	public List<Double> compute() {
 		ArrayList<Double> roots = new ArrayList<>();
 		for (int i = 0; i < spline.size(); i++) {
-			ExpressionNode enx = AlgoIntersectLineCurve.getMultiplyExpression(spline.getFuncX(i),
-					spline.getFuncY(i), coeffs);
+			ExpressionNode enx = AlgoIntersectLineCurve.getMultiplyExpression(
+					spline.getFuncX(i), spline.getFuncY(i), coeffs);
 			GeoFunction functionX = enx.buildFunction(spline.getFunctionVariable());
 			Solution solution = solve(functionX);
 			if (solution.curRoots != null) {
@@ -74,8 +74,7 @@ public final class IntersectLineSpline {
 
 	private Solution solve(GeoFunction fX) {
 		Solution solution = new Solution();
-		AlgoRootsPolynomial.calcRootsMultiple(fX.getFunction(),
-				0, solution, solver);
+		AlgoRootsPolynomial.calcRootsMultiple(fX.getFunction(), 0, solution, solver);
 
 		solution.sortAndMakeUnique();
 		return solution;

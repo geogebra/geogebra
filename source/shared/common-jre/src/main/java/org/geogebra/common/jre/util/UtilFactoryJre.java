@@ -26,7 +26,7 @@ import org.geogebra.common.util.URLEncoder;
 import org.geogebra.regexp.server.JavaRegExpFactory;
 import org.geogebra.regexp.shared.RegExpFactory;
 
-public abstract class UtilFactoryJre extends UtilFactory  {
+public abstract class UtilFactoryJre extends UtilFactory {
 
 	public UtilFactoryJre() {
 		setupRegexFactory();

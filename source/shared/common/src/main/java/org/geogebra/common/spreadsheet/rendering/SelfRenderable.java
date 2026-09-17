@@ -45,9 +45,19 @@ public final class SelfRenderable {
 	 * @param fontStyle optional font style ({@link GFont#getStyle})
 	 * @param alignment text alignment
 	 */
-	public SelfRenderable(CellRenderer renderer, double fontSize, Integer fontStyle,
-			Integer alignment, Object renderable) {
-		this(renderer, fontSize, fontStyle, alignment, renderable, null,
+	public SelfRenderable(
+			CellRenderer renderer,
+			double fontSize,
+			Integer fontStyle,
+			Integer alignment,
+			Object renderable) {
+		this(
+				renderer,
+				fontSize,
+				fontStyle,
+				alignment,
+				renderable,
+				null,
 				SpreadsheetStyling.getDefaultTextColor());
 	}
 
@@ -60,8 +70,14 @@ public final class SelfRenderable {
 	 * @param background background color
 	 * @param textColor text color
 	 */
-	public SelfRenderable(CellRenderer renderer, double fontSize, Integer fontStyle,
-			Integer alignment, Object renderable, GColor background, GColor textColor) {
+	public SelfRenderable(
+			CellRenderer renderer,
+			double fontSize,
+			Integer fontStyle,
+			Integer alignment,
+			Object renderable,
+			GColor background,
+			GColor textColor) {
 		this.renderer = renderer;
 		this.renderable = renderable;
 		this.background = background;
@@ -88,8 +104,8 @@ public final class SelfRenderable {
 		} else if (alignment == CellFormat.ALIGN_RIGHT) {
 			offset = cellBorder.getWidth() - width - HORIZONTAL_PADDING;
 		}
-		graphics.setClip(cellBorder.getMinX(), cellBorder.getMinY(),
-				cellBorder.getWidth(), cellBorder.getHeight());
+		graphics.setClip(
+				cellBorder.getMinX(), cellBorder.getMinY(), cellBorder.getWidth(), cellBorder.getHeight());
 		renderer.draw(renderable, fontSize, fontStyle, offset, graphics, cellBorder);
 		graphics.resetClip();
 	}

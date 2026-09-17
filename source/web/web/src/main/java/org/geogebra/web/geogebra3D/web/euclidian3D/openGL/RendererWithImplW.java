@@ -36,18 +36,18 @@ import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
- * 
+ *
  * Renderer for web, using impl.
- * 
+ *
  * @author mathieu
  *
  */
-public class RendererWithImplW extends Renderer implements
-		RendererWInterface {
+public class RendererWithImplW extends Renderer implements RendererWInterface {
 	/** canvas */
 	protected Canvas webGLCanvas;
 	/** context */
 	protected WebGLRenderingContext glContext;
+
 	private double ratio = 1;
 	private boolean readyToRender = false;
 	private double loopTimer;
@@ -108,8 +108,7 @@ public class RendererWithImplW extends Renderer implements
 				firstPowerOfTwoGreaterThan(label.getHeight()));
 
 		// create and return a buffered image with power-of-two dimensions
-		return new GBufferedImageW(label.getWidthPowerOfTwo(),
-				label.getHeightPowerOfTwo(), 1d);
+		return new GBufferedImageW(label.getWidthPowerOfTwo(), label.getHeightPowerOfTwo(), 1d);
 	}
 
 	@Override
@@ -124,11 +123,11 @@ public class RendererWithImplW extends Renderer implements
 			HTMLImageElement image = imgw.getImageElement();
 			if (!image.complete) {
 				image.addEventListener("load", (event) -> {
-						// image ready : create the texture
-						createAlphaTexture(label, image, (GBufferedImageW) img);
+					// image ready : create the texture
+					createAlphaTexture(label, image, (GBufferedImageW) img);
 
-						// repaint the view
-						getView().repaintView();
+					// repaint the view
+					getView().repaintView();
 				});
 			} else {
 				createAlphaTexture(label, image, imgw);
@@ -153,28 +152,34 @@ public class RendererWithImplW extends Renderer implements
 
 	@Override
 	public void setTextureLinear() {
-		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
+		glContext.texParameteri(
+				WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_MAG_FILTER,
 				WebGLRenderingContext.LINEAR);
-		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
+		glContext.texParameteri(
+				WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_MIN_FILTER,
 				WebGLRenderingContext.LINEAR);
-		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
+		glContext.texParameteri(
+				WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_WRAP_S,
 				WebGLRenderingContext.CLAMP_TO_EDGE); // prevent repeating the
-														// texture
-		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
+		// texture
+		glContext.texParameteri(
+				WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_WRAP_T,
 				WebGLRenderingContext.CLAMP_TO_EDGE); // prevent repeating the
-														// texture
+		// texture
 	}
 
 	@Override
 	public void setTextureNearest() {
-		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
+		glContext.texParameteri(
+				WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_MAG_FILTER,
 				WebGLRenderingContext.NEAREST);
-		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
+		glContext.texParameteri(
+				WebGLRenderingContext.TEXTURE_2D,
 				WebGLRenderingContext.TEXTURE_MIN_FILTER,
 				WebGLRenderingContext.NEAREST);
 	}
@@ -191,8 +196,7 @@ public class RendererWithImplW extends Renderer implements
 
 	@Override
 	protected void setBlendFunc() {
-		glContext.blendFunc(WebGLRenderingContext.SRC_ALPHA,
-				WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);
+		glContext.blendFunc(WebGLRenderingContext.SRC_ALPHA, WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);
 	}
 
 	@Override
@@ -212,7 +216,7 @@ public class RendererWithImplW extends Renderer implements
 
 	/**
 	 * create the webGL context
-	 * 
+	 *
 	 * @param preserveDrawingBuffer
 	 *            whether to use preserveDrawingBuffer flag
 	 */
@@ -241,8 +245,7 @@ public class RendererWithImplW extends Renderer implements
 		return Js.uncheckedCast(canvas.getContext("webgl2", options));
 	}
 
-	private static WebGLRenderingContext getBufferedContext(
-			Element element) {
+	private static WebGLRenderingContext getBufferedContext(Element element) {
 		HTMLCanvasElement canvas = Js.uncheckedCast(element);
 		JsPropertyMap<?> options = JsPropertyMap.of("preserveDrawingBuffer", true);
 		return Js.uncheckedCast(canvas.getContext("webgl2", options));
@@ -288,12 +291,13 @@ public class RendererWithImplW extends Renderer implements
 		readyToRender = true;
 		view3D.repaintView();
 		// use loop timer for e.g. automatic rotation
-		loopTimer = DomGlobal.setInterval(p0 -> {
-			if (view3D.isAnimated()) {
-				view3D.repaintView();
-			}
-		}, CoordSystemAnimation.DELAY);
-
+		loopTimer = DomGlobal.setInterval(
+				p0 -> {
+					if (view3D.isAnimated()) {
+						view3D.repaintView();
+					}
+				},
+				CoordSystemAnimation.DELAY);
 	}
 
 	@Override
@@ -303,7 +307,7 @@ public class RendererWithImplW extends Renderer implements
 
 	/**
 	 * create alpha texture from image for the label
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param image
@@ -311,10 +315,9 @@ public class RendererWithImplW extends Renderer implements
 	 * @param bimg
 	 *            buffered image
 	 */
-	protected void createAlphaTexture(DrawableTexture3D label, HTMLImageElement image,
-			GBufferedImageW bimg) {
-		((RendererImplShadersW) getRendererImpl()).createAlphaTexture(label, image,
-				bimg);
+	protected void createAlphaTexture(
+			DrawableTexture3D label, HTMLImageElement image, GBufferedImageW bimg) {
+		((RendererImplShadersW) getRendererImpl()).createAlphaTexture(label, image, bimg);
 	}
 
 	@Override
@@ -331,5 +334,4 @@ public class RendererWithImplW extends Renderer implements
 	protected void doStartAR() {
 		// used in AR implementations
 	}
-
 }

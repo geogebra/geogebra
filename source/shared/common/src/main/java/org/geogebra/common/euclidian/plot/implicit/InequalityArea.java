@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -71,20 +71,26 @@ final class InequalityArea {
 		}
 		area = filled;
 		panZoom.snapshot();
-		ImplicitPlotTimings.log("InequalityArea.createRegionAreas",
+		ImplicitPlotTimings.log(
+				"InequalityArea.createRegionAreas",
 				elapsedStart(stats.createRegionAreasElapsed),
 				"regions=" + results.size() + " filled=" + filledCount);
-		ImplicitPlotTimings.log("InequalityArea.subtractHoles",
+		ImplicitPlotTimings.log(
+				"InequalityArea.subtractHoles",
 				elapsedStart(stats.subtractHolesElapsed),
 				"holes=" + holeCount);
-		ImplicitPlotTimings.log("InequalityArea.subtractExplicitFalseRegions",
+		ImplicitPlotTimings.log(
+				"InequalityArea.subtractExplicitFalseRegions",
 				elapsedStart(stats.subtractExplicitFalseRegionsElapsed),
-				"falseRegionsChecked=" + stats.falseRegionsChecked
-						+ " falseRegionsSubtracted=" + stats.falseRegionsSubtracted);
-		ImplicitPlotTimings.log("InequalityArea.addFilledRegions",
+				"falseRegionsChecked=" + stats.falseRegionsChecked + " falseRegionsSubtracted="
+						+ stats.falseRegionsSubtracted);
+		ImplicitPlotTimings.log(
+				"InequalityArea.addFilledRegions",
 				elapsedStart(stats.addFilledRegionsElapsed),
 				"filled=" + filledCount);
-		ImplicitPlotTimings.log("InequalityArea.areaAssembly", totalStart,
+		ImplicitPlotTimings.log(
+				"InequalityArea.areaAssembly",
+				totalStart,
 				"regions=" + results.size()
 						+ " filled=" + filledCount
 						+ " holes=" + holeCount
@@ -92,24 +98,26 @@ final class InequalityArea {
 						+ " falseRegionsSubtracted=" + stats.falseRegionsSubtracted);
 	}
 
-	private void subtractExplicitFalseRegions(GArea filledRegionArea,
-			List<ClassifiedRegion> regions, ClassifiedRegion filledRegion,
-			EuclidianViewBounds bounds, AreaAssemblyStats stats) {
+	private void subtractExplicitFalseRegions(
+			GArea filledRegionArea,
+			List<ClassifiedRegion> regions,
+			ClassifiedRegion filledRegion,
+			EuclidianViewBounds bounds,
+			AreaAssemblyStats stats) {
 		long stageStart = ImplicitPlotTimings.start();
 		if (bounds == null) {
 			stats.subtractExplicitFalseRegionsElapsed += ImplicitPlotTimings.delta(stageStart);
 			return;
 		}
 		for (ClassifiedRegion region : regions) {
-			if (region == filledRegion || region.isFilled()
-					|| region.getOuterBoundary() == null) {
+			if (region == filledRegion || region.isFilled() || region.getOuterBoundary() == null) {
 				continue;
 			}
 			stats.falseRegionsChecked++;
 			GPoint2D samplePoint = region.getSamplePoint();
-			if (samplePoint == null || !filledRegionArea.contains(
-					bounds.toScreenCoordXd(samplePoint.x),
-					bounds.toScreenCoordYd(samplePoint.y))) {
+			if (samplePoint == null
+					|| !filledRegionArea.contains(
+							bounds.toScreenCoordXd(samplePoint.x), bounds.toScreenCoordYd(samplePoint.y))) {
 				continue;
 			}
 			filledRegionArea.subtract(areaOf(region));
@@ -158,5 +166,4 @@ final class InequalityArea {
 	void onZoomStop() {
 		// not used;
 	}
-
 }

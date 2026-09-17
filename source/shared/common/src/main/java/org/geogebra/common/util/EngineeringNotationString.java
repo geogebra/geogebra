@@ -36,8 +36,8 @@ public final class EngineeringNotationString {
 	 * @param formatBaseNumber Function used for formatting the base number
 	 * @return The formatted engineering notation string
 	 */
-	public static String format(double value, StringType stringType,
-			Function<Double, String> formatBaseNumber) {
+	public static String format(
+			double value, StringType stringType, Function<Double, String> formatBaseNumber) {
 		if (value == 0) {
 			return formatEngineeringNotation("0", 0, stringType);
 		}
@@ -62,8 +62,8 @@ public final class EngineeringNotationString {
 		return exponent - adjustment;
 	}
 
-	private static String formatEngineeringNotation(String baseNumber, int exponent,
-			StringType stringType) {
+	private static String formatEngineeringNotation(
+			String baseNumber, int exponent, StringType stringType) {
 		if (stringType == StringType.LATEX) {
 			return baseNumber + " \\cdot 10^{" + exponent + "}";
 		}

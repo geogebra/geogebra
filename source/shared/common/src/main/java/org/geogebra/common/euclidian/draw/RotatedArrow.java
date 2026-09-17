@@ -16,12 +16,12 @@
 
 package org.geogebra.common.euclidian.draw;
 
-	import org.geogebra.common.awt.AwtFactory;
-	import org.geogebra.common.awt.GAffineTransform;
-	import org.geogebra.common.awt.GBasicStroke;
-	import org.geogebra.common.awt.GGeneralPath;
-	import org.geogebra.common.awt.GLine2D;
-	import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.AwtFactory;
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GGeneralPath;
+import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GShape;
 
 public class RotatedArrow {
 	private final GLine2D line;
@@ -70,8 +70,7 @@ public class RotatedArrow {
 		return t.createTransformedShape(strokedArrow);
 	}
 
-	private void initRotateTrans(double angle, double transX, double transY,
-			GAffineTransform trans) {
+	private void initRotateTrans(double angle, double transX, double transY, GAffineTransform trans) {
 		trans.translate(transX, transY);
 		trans.rotate(angle);
 		trans.translate(-transX, -transY);

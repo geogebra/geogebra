@@ -31,11 +31,10 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for PDF / CDF of T Distribution TDistribution[a,x]
- * 
+ *
  * @author Michael
  */
-public class AlgoTDistributionDF extends AlgoElement
-		implements AlgoDistributionDF {
+public class AlgoTDistributionDF extends AlgoElement implements AlgoDistributionDF {
 
 	private GeoNumberValue v; // input
 	private BooleanValue cumulative; // optional input
@@ -49,8 +48,7 @@ public class AlgoTDistributionDF extends AlgoElement
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoTDistributionDF(Construction cons, GeoNumberValue a,
-			BooleanValue cumulative) {
+	public AlgoTDistributionDF(Construction cons, GeoNumberValue a, BooleanValue cumulative) {
 		super(cons);
 		this.v = a;
 		this.cumulative = cumulative;
@@ -109,10 +107,8 @@ public class AlgoTDistributionDF extends AlgoElement
 			ExpressionValue half = new MyDouble(kernel, 0.5);
 			ExpressionNode halfV = vEn.divide(2);
 
-			ExpressionNode beta1 = halfV.betaRegularized(half,
-					new MyDouble(kernel, 1));
-			ExpressionNode beta2 = halfV.betaRegularized(half,
-					vEn.divide(vEn.plus(xEn.square())));
+			ExpressionNode beta1 = halfV.betaRegularized(half, new MyDouble(kernel, 1));
+			ExpressionNode beta2 = halfV.betaRegularized(half, vEn.divide(vEn.plus(xEn.square())));
 
 			en = new ExpressionNode(kernel, half);
 			en = en.plus(xEn.sgn().divide(2).multiply(beta1.subtract(beta2)));
@@ -121,8 +117,7 @@ public class AlgoTDistributionDF extends AlgoElement
 			en = new ExpressionNode(kernel, v);
 			ExpressionNode mult = new ExpressionNode(kernel, x);
 
-			mult = mult.square().divide(v).plus(1)
-					.power(vEn.plus(1).divide(2).reverseSign());
+			mult = mult.square().divide(v).plus(1).power(vEn.plus(1).divide(2).reverseSign());
 
 			div = div.divide(2).gamma().multiply(pi.multiply(v).sqrt());
 
@@ -133,7 +128,5 @@ public class AlgoTDistributionDF extends AlgoElement
 		tempFun.initFunction();
 
 		ret.setFunction(tempFun);
-
 	}
-
 }

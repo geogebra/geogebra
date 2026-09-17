@@ -22,10 +22,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoInverseBinomial extends AlgoDistribution {
 
 	/**
@@ -38,8 +37,8 @@ public class AlgoInverseBinomial extends AlgoDistribution {
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoInverseBinomial(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
+	public AlgoInverseBinomial(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 
@@ -51,14 +50,12 @@ public class AlgoInverseBinomial extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
 			double param2 = b.getDouble();
 			double val = c.getDouble();
 			try {
-				BinomialDistribution dist = getBinomialDistribution(param,
-						param2);
+				BinomialDistribution dist = getBinomialDistribution(param, param2);
 
 				// subtract eps to fix eg
 				// InverseBinomial[10,1/10,617003001/625000000]
@@ -79,5 +76,4 @@ public class AlgoInverseBinomial extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

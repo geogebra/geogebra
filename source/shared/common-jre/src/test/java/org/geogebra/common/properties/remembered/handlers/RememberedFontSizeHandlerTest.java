@@ -65,8 +65,7 @@ class RememberedFontSizeHandlerTest extends BaseAppTestSetup {
 				() -> assertTrue(handler.supports(new GeoMindMapNode(construction, null))),
 				() -> assertTrue(handler.supports(new GeoInlineTable(construction, null))),
 				() -> assertFalse(handler.supports(new GeoText(construction, null))),
-				() -> assertFalse(handler.supports(new GeoAngle(construction, 0)))
-		);
+				() -> assertFalse(handler.supports(new GeoAngle(construction, 0))));
 	}
 
 	@Test
@@ -74,8 +73,7 @@ class RememberedFontSizeHandlerTest extends BaseAppTestSetup {
 		Construction construction = getConstruction();
 		assertAll(
 				() -> assertFalse(handler.apply(new GeoText(construction, null), "10")),
-				() -> assertFalse(handler.apply(new GeoAngle(construction, 0), "6"))
-		);
+				() -> assertFalse(handler.apply(new GeoAngle(construction, 0), "6")));
 	}
 
 	@Test

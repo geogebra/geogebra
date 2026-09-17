@@ -55,24 +55,30 @@ public class CellBox extends Box {
 	private Box box;
 	private double left;
 
-	public CellBox(Box box, double height, double depth, double left,
-			double right, double colW, TeXConstants.Align alignment) {
+	public CellBox(
+			Box box,
+			double height,
+			double depth,
+			double left,
+			double right,
+			double colW,
+			TeXConstants.Align alignment) {
 		this.width = left + colW + right;
 		this.height = height;
 		this.depth = depth;
 		this.box = box;
 		switch (alignment) {
-		case LEFT:
-			this.left = left;
-			break;
-		case RIGHT:
-			this.left = left + colW - box.width;
-			break;
-		case CENTER:
-			this.left = left + (colW - box.width) / 2.;
-			break;
-		default:
-			this.left = left;
+			case LEFT:
+				this.left = left;
+				break;
+			case RIGHT:
+				this.left = left + colW - box.width;
+				break;
+			case CENTER:
+				this.left = left + (colW - box.width) / 2.;
+				break;
+			default:
+				this.left = left;
 		}
 	}
 

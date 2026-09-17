@@ -45,8 +45,7 @@ public final class RenderMathApps implements RenderGgbElementFunction {
 		AttributeProvider provider = AttributeProvider.as(options);
 		AppletParameters parameters = new AppletParameters(provider);
 		GeoGebraElement element = GeoGebraElement.as(provider.getElement());
-		final GeoGebraFrameFull full = new GeoGebraFrameFull(factory, laf,
-				null, element, parameters);
+		final GeoGebraFrameFull full = new GeoGebraFrameFull(factory, laf, null, element, parameters);
 		full.renderArticleElementWithFrame(element, provider, callback);
 		full.updateArticleHeight();
 	}

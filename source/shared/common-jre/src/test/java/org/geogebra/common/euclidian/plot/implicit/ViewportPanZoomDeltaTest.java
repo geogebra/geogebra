@@ -54,8 +54,7 @@ class ViewportPanZoomDeltaTest {
 				() -> assertEquals(25, transformedBounds.getX(), DELTA),
 				() -> assertEquals(12, transformedBounds.getY(), DELTA),
 				() -> assertEquals(30, transformedBounds.getWidth(), DELTA),
-				() -> assertEquals(40, transformedBounds.getHeight(), DELTA)
-		);
+				() -> assertEquals(40, transformedBounds.getHeight(), DELTA));
 	}
 
 	@Test

@@ -31,7 +31,7 @@ public class CmdIdentity extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,7 +40,7 @@ public class CmdIdentity extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c, info);
@@ -51,9 +51,8 @@ public class CmdIdentity extends CommandProcessor {
 			throw argErr(c, arg[0]);
 		}
 
-		AlgoIdentity algo = new AlgoIdentity(kernel.getConstruction(),
-				c.getLabel(), (GeoNumberValue) arg[0]);
-		return new GeoElement[] { algo.getResult() };
-
+		AlgoIdentity algo =
+				new AlgoIdentity(kernel.getConstruction(), c.getLabel(), (GeoNumberValue) arg[0]);
+		return new GeoElement[] {algo.getResult()};
 	}
 }

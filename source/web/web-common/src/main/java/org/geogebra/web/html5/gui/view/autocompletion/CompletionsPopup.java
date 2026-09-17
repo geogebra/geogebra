@@ -38,7 +38,7 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 	public CompletionsPopup() {
 		super();
 		clear();
-    }
+	}
 
 	/**
 	 * @param autoCompleteTextField
@@ -46,7 +46,7 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 	 */
 	public void addTextField(AutoCompleteTextFieldW autoCompleteTextField) {
 		this.textField = autoCompleteTextField;
-    }
+	}
 
 	/**
 	 * @param history
@@ -57,7 +57,7 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 			clear();
 			addAll(history);
 		}
-    }
+	}
 
 	@Override
 	public void requestSuggestions(Request request, Callback callback) {
@@ -67,16 +67,14 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		}
 
 		if (!textField.getAutoComplete()) {
-			callback.onSuggestionsReady(request,
-					new Response(Collections.<Suggestion> emptyList()));
+			callback.onSuggestionsReady(request, new Response(Collections.<Suggestion>emptyList()));
 			return;
 		}
 		textField.resetCompletions();
 		String query = request.getQuery();
 		List<MatchedString> completions = textField.getCompletions();
 		if (completions == null || completions.size() == 0) {
-			callback.onSuggestionsReady(request,
-					new Response(Collections.<Suggestion> emptyList()));
+			callback.onSuggestionsReady(request, new Response(Collections.<Suggestion>emptyList()));
 			return;
 		}
 		int limit = request.getLimit();
@@ -88,27 +86,25 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		}
 
 		// convert candidates to suggestions
-		List<MultiWordSuggestion> suggestions = convertToFormattedSuggestions(
-				query, completions);
+		List<MultiWordSuggestion> suggestions = convertToFormattedSuggestions(query, completions);
 
 		Response response = new Response(suggestions);
 		response.setMoreSuggestionsCount(numberTruncated);
 
 		callback.onSuggestionsReady(request, response);
 	}
-	
+
 	private static List<MultiWordSuggestion> convertToFormattedSuggestions(
 			String query, List<MatchedString> candidates) {
 		List<MultiWordSuggestion> suggestions = new ArrayList<>();
 		for (int i = 0; i < candidates.size(); i++) {
 			MatchedString candidate = candidates.get(i);
-			
+
 			SafeHtmlBuilder accum = new SafeHtmlBuilder();
 			if (query.length() < candidate.content.length()) {
 				String part1 = candidate.content.substring(0, candidate.from);
-				String part2 = candidate.content.substring(candidate.from,
-						candidate.from  + query.length());
-				String part3 = candidate.content.substring(candidate.from  + query.length());
+				String part2 = candidate.content.substring(candidate.from, candidate.from + query.length());
+				String part3 = candidate.content.substring(candidate.from + query.length());
 				accum.appendEscaped(part1);
 				accum.appendHtmlConstant("<strong>");
 				accum.appendEscaped(part2);
@@ -117,8 +113,8 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 			} else {
 				accum.appendEscaped(candidate.content);
 			}
-			suggestions.add(new MultiWordSuggestion(candidate.content,
-					accum.toSafeHtml().asString()));
+			suggestions.add(
+					new MultiWordSuggestion(candidate.content, accum.toSafeHtml().asString()));
 		}
 		return suggestions;
 	}

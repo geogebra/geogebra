@@ -58,8 +58,7 @@ public class SMatrixAtom extends ArrayAtom {
 		this.small = small;
 	}
 
-	public SMatrixAtom(ArrayOfAtoms array, ArrayOptions options,
-			boolean spaceAround, boolean small) {
+	public SMatrixAtom(ArrayOfAtoms array, ArrayOptions options, boolean spaceAround, boolean small) {
 		super(array, options, spaceAround);
 		this.small = small;
 	}
@@ -88,5 +87,4 @@ public class SMatrixAtom extends ArrayAtom {
 		}
 		return super.createBox(env);
 	}
-
 }

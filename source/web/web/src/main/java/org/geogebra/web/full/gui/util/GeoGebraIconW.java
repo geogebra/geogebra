@@ -35,49 +35,64 @@ public final class GeoGebraIconW {
 	private static final MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
 
 	private static final SVGResource[] segmentStartStyleIcons = {
-			matIcons.stylingbar_start_default(), matIcons.stylingbar_start_line(),
-			matIcons.stylingbar_start_arrow(), matIcons.stylingbar_start_crows_foot(),
-			matIcons.stylingbar_start_arrow_outlined(), matIcons.stylingbar_start_arrow_filled(),
-			matIcons.stylingbar_start_circle_outlined(), matIcons.stylingbar_start_circle(),
-			matIcons.stylingbar_start_square_outlined(), matIcons.stylingbar_start_square(),
-			matIcons.stylingbar_start_diamond_outlined(),
-			matIcons.stylingbar_start_diamond_filled()
+		matIcons.stylingbar_start_default(),
+		matIcons.stylingbar_start_line(),
+		matIcons.stylingbar_start_arrow(),
+		matIcons.stylingbar_start_crows_foot(),
+		matIcons.stylingbar_start_arrow_outlined(),
+		matIcons.stylingbar_start_arrow_filled(),
+		matIcons.stylingbar_start_circle_outlined(),
+		matIcons.stylingbar_start_circle(),
+		matIcons.stylingbar_start_square_outlined(),
+		matIcons.stylingbar_start_square(),
+		matIcons.stylingbar_start_diamond_outlined(),
+		matIcons.stylingbar_start_diamond_filled()
 	};
 
 	private static final SVGResource[] segmentEndStyleIcons = {
-			matIcons.stylingbar_end_default(), matIcons.stylingbar_end_line(),
-			matIcons.stylingbar_end_arrow(), matIcons.stylingbar_end_crows_foot(),
-			matIcons.stylingbar_end_arrow_outlined(), matIcons.stylingbar_end_arrow_filled(),
-			matIcons.stylingbar_end_circle_outlined(), matIcons.stylingbar_end_circle(),
-			matIcons.stylingbar_end_square_outlined(), matIcons.stylingbar_end_square(),
-			matIcons.stylingbar_end_diamond_outlined(), matIcons.stylingbar_end_diamond_filled()
+		matIcons.stylingbar_end_default(), matIcons.stylingbar_end_line(),
+		matIcons.stylingbar_end_arrow(), matIcons.stylingbar_end_crows_foot(),
+		matIcons.stylingbar_end_arrow_outlined(), matIcons.stylingbar_end_arrow_filled(),
+		matIcons.stylingbar_end_circle_outlined(), matIcons.stylingbar_end_circle(),
+		matIcons.stylingbar_end_square_outlined(), matIcons.stylingbar_end_square(),
+		matIcons.stylingbar_end_diamond_outlined(), matIcons.stylingbar_end_diamond_filled()
 	};
 
 	private static final SVGResource[] vectorHeadStyleIcons = {
-			matIcons.stylingbar_end_arrow_filled(),
-			matIcons.stylingbar_end_arrow()};
+		matIcons.stylingbar_end_arrow_filled(), matIcons.stylingbar_end_arrow()
+	};
 
 	private static final SVGResource[] gridStyleIcons = {
-			matIcons.stylebar_empty(), matIcons.grid_black(),
-			matIcons.grid_polar(), matIcons.grid_isometric() };
+		matIcons.stylebar_empty(), matIcons.grid_black(),
+		matIcons.grid_polar(), matIcons.grid_isometric()
+	};
 
 	private static final SVGResource[] pointStyleSVGIcons = {
-			matIcons.point_full(),
-			matIcons.point_cross_diag(), matIcons.point_empty(),
-			matIcons.point_cross(), matIcons.point_diamond(),
-			matIcons.point_diamond_empty(), matIcons.point_up(),
-			matIcons.point_down(), matIcons.point_right(),
-			matIcons.point_left(), matIcons.point_no_outline() };
+		matIcons.point_full(),
+		matIcons.point_cross_diag(),
+		matIcons.point_empty(),
+		matIcons.point_cross(),
+		matIcons.point_diamond(),
+		matIcons.point_diamond_empty(),
+		matIcons.point_up(),
+		matIcons.point_down(),
+		matIcons.point_right(),
+		matIcons.point_left(),
+		matIcons.point_no_outline()
+	};
 
 	private static final SVGResource[] lineStyleSVGIcons = {
-			matIcons.line_solid(),
-			matIcons.line_dashed_long(), matIcons.line_dashed_short(),
-			matIcons.line_dotted(), matIcons.line_dash_dot(),
-			matIcons.point_cross_diag() };
+		matIcons.line_solid(),
+		matIcons.line_dashed_long(),
+		matIcons.line_dashed_short(),
+		matIcons.line_dotted(),
+		matIcons.line_dash_dot(),
+		matIcons.point_cross_diag()
+	};
 
 	/**
 	 * creates LineStyle icon
-	 * 
+	 *
 	 * @param dashStyle
 	 *            dash index (see lineStyleIcons)
 	 * @return Canvas with icon drawn
@@ -142,10 +157,7 @@ public final class GeoGebraIconW {
 	 *            {@link GColor}
 	 * @return {@link ImageOrText}
 	 */
-
-	public static ImageOrText createColorSwatchIcon(double alpha,
-			GColor fgColor,
-			GColor bgColor) {
+	public static ImageOrText createColorSwatchIcon(double alpha, GColor fgColor, GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
 		if (fgColor != null) {
 			ret.setFgColor(fgColor.deriveWithAlpha((int) (alpha * 255)));
@@ -171,29 +183,29 @@ public final class GeoGebraIconW {
 	public static ImageOrText createDecorAngleIcon(int id) {
 		SVGResource svgResource;
 		switch (id) {
-		case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
-				svgResource =  GuiResources.INSTANCE.deco_angle_2lines();
-			break;
-		case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
-				svgResource =  GuiResources.INSTANCE.deco_angle_3lines();
-			break;
-		case GeoElementND.DECORATION_ANGLE_ONE_TICK:
-				svgResource =  GuiResources.INSTANCE.deco_angle_1stroke();
-			break;
-		case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
-				svgResource =  GuiResources.INSTANCE.deco_angle_2strokes();
-			break;
-		case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
-				svgResource =  GuiResources.INSTANCE.deco_angle_3strokes();
-			break;
-		case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-				svgResource =  GuiResources.INSTANCE.deco_angle_arrow_up();
-			break;
-		case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
-				svgResource =  GuiResources.INSTANCE.deco_angle_arrow_down();
-			break;
+			case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
+				svgResource = GuiResources.INSTANCE.deco_angle_2lines();
+				break;
+			case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
+				svgResource = GuiResources.INSTANCE.deco_angle_3lines();
+				break;
+			case GeoElementND.DECORATION_ANGLE_ONE_TICK:
+				svgResource = GuiResources.INSTANCE.deco_angle_1stroke();
+				break;
+			case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
+				svgResource = GuiResources.INSTANCE.deco_angle_2strokes();
+				break;
+			case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
+				svgResource = GuiResources.INSTANCE.deco_angle_3strokes();
+				break;
+			case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
+				svgResource = GuiResources.INSTANCE.deco_angle_arrow_up();
+				break;
+			case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
+				svgResource = GuiResources.INSTANCE.deco_angle_arrow_down();
+				break;
 			default:
-				svgResource =  GuiResources.INSTANCE.deco_angle_1line();
+				svgResource = GuiResources.INSTANCE.deco_angle_1line();
 		}
 		return new ImageOrText(svgResource, 24);
 	}
@@ -206,30 +218,30 @@ public final class GeoGebraIconW {
 	public static ImageOrText createDecorSegmentIcon(int id) {
 		SVGResource svgResource;
 		switch (id) {
-		case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
-			svgResource =  GuiResources.INSTANCE.deco_segment_1stroke();
-			break;
-		case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
-			svgResource =  GuiResources.INSTANCE.deco_segment_2strokes();
-			break;
-		case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
-			svgResource =  GuiResources.INSTANCE.deco_segment_3strokes();
-			break;
-		case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
-			svgResource =  GuiResources.INSTANCE.deco_segment_1arrow();
-			break;
-		case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
-			svgResource =  GuiResources.INSTANCE.deco_segment_2arrows();
-			break;
-		case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
-			svgResource =  GuiResources.INSTANCE.deco_segment_3arrows();
-			break;
-		default:
-			svgResource =  GuiResources.INSTANCE.deco_segment_none();
-			break;
+			case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
+				svgResource = GuiResources.INSTANCE.deco_segment_1stroke();
+				break;
+			case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
+				svgResource = GuiResources.INSTANCE.deco_segment_2strokes();
+				break;
+			case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
+				svgResource = GuiResources.INSTANCE.deco_segment_3strokes();
+				break;
+			case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
+				svgResource = GuiResources.INSTANCE.deco_segment_1arrow();
+				break;
+			case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
+				svgResource = GuiResources.INSTANCE.deco_segment_2arrows();
+				break;
+			case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
+				svgResource = GuiResources.INSTANCE.deco_segment_3arrows();
+				break;
+			default:
+				svgResource = GuiResources.INSTANCE.deco_segment_none();
+				break;
 		}
 		return new ImageOrText(svgResource, 24);
-    }
+	}
 
 	/**
 	 * @param id
@@ -239,20 +251,20 @@ public final class GeoGebraIconW {
 	public static ImageOrText createAxesStyleIcon(int id) {
 		SVGResource svgResource;
 		switch (id) {
-		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-			svgResource = GuiResources.INSTANCE.deco_axes_arrow();
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
-			svgResource = GuiResources.INSTANCE.deco_axes_arrows();
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
-			svgResource = GuiResources.INSTANCE.deco_axes_arrow_filled();
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
-			svgResource = GuiResources.INSTANCE.deco_axes_arrows_filled();
-			break;
-		default:
-			svgResource = GuiResources.INSTANCE.deco_axes_none();
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
+				svgResource = GuiResources.INSTANCE.deco_axes_arrow();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+				svgResource = GuiResources.INSTANCE.deco_axes_arrows();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
+				svgResource = GuiResources.INSTANCE.deco_axes_arrow_filled();
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+				svgResource = GuiResources.INSTANCE.deco_axes_arrows_filled();
+				break;
+			default:
+				svgResource = GuiResources.INSTANCE.deco_axes_none();
 		}
 
 		return new ImageOrText(svgResource, 24);
@@ -295,8 +307,7 @@ public final class GeoGebraIconW {
 	 * @return icons for all available segment decorations
 	 */
 	public static ImageOrText[] getSegmentDecoIcons() {
-		final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel
-				.getDecoTypeLength()];
+		final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel.getDecoTypeLength()];
 		for (int i = 0; i < iconArray.length; i++) {
 			iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
 		}
@@ -306,9 +317,8 @@ public final class GeoGebraIconW {
 	/**
 	 * @return icons for all available angle decorations
 	 */
-	public static  ImageOrText[] getAngleDecoIcons() {
-		final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel
-				.getDecoTypeLength()];
+	public static ImageOrText[] getAngleDecoIcons() {
+		final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel.getDecoTypeLength()];
 		for (int i = 0; i < iconArray.length; i++) {
 			iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
 		}

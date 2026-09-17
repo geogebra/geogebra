@@ -33,34 +33,33 @@ class IntervalSetOpsTest {
 		assertAll(
 				() -> assertEquals(IntervalSet.Kind.EMPTY, IntervalSetOps.empty().kind()),
 				() -> assertEquals(IntervalSet.Kind.WHOLE, IntervalSetOps.whole().kind()),
-				() -> assertEquals(IntervalSet.Kind.CONNECTED,
-						IntervalSetOps.connected(1, 2).kind()),
-				() -> assertEquals(IntervalSet.Kind.CONNECTED,
+				() -> assertEquals(
+						IntervalSet.Kind.CONNECTED, IntervalSetOps.connected(1, 2).kind()),
+				() -> assertEquals(
+						IntervalSet.Kind.CONNECTED,
 						IntervalSetOps.connected(new Interval(1, 2)).kind()),
-				() -> assertEquals(IntervalSet.Kind.INVERTED,
-						IntervalSetOps.inverted(1, 2).kind()));
+				() -> assertEquals(
+						IntervalSet.Kind.INVERTED, IntervalSetOps.inverted(1, 2).kind()));
 	}
 
 	@Test
 	void payloadBearingConstructorsRejectInvalidInput() {
 		assertAll(
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.connected((Interval) null)),
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.inverted((Interval) null)),
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.connected(undefined())),
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.inverted(undefined())));
+				() -> assertThrows(
+						IllegalArgumentException.class, () -> IntervalSetOps.connected((Interval) null)),
+				() -> assertThrows(
+						IllegalArgumentException.class, () -> IntervalSetOps.inverted((Interval) null)),
+				() -> assertThrows(
+						IllegalArgumentException.class, () -> IntervalSetOps.connected(undefined())),
+				() -> assertThrows(
+						IllegalArgumentException.class, () -> IntervalSetOps.inverted(undefined())));
 	}
 
 	@Test
 	void legacyBridgeRejectsNull() {
 		assertAll(
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.fromLegacy(null)),
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.toLegacy(null)));
+				() -> assertThrows(IllegalArgumentException.class, () -> IntervalSetOps.fromLegacy(null)),
+				() -> assertThrows(IllegalArgumentException.class, () -> IntervalSetOps.toLegacy(null)));
 	}
 
 	@Test
@@ -84,26 +83,30 @@ class IntervalSetOpsTest {
 		invertedGap.set(30, 40);
 
 		assertAll(
-				() -> assertEquals(new Interval(1, 2),
-						IntervalSetOps.connectedInterval(connectedSet)),
-				() -> assertEquals(new Interval(3, 4),
-						IntervalSetOps.invertedGap(invertedSet)));
+				() -> assertEquals(new Interval(1, 2), IntervalSetOps.connectedInterval(connectedSet)),
+				() -> assertEquals(new Interval(3, 4), IntervalSetOps.invertedGap(invertedSet)));
 	}
 
 	@Test
 	void extractionRejectsWrongKinds() {
 		assertAll(
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.connectedInterval(IntervalSetOps.inverted(1, 2))),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.connectedInterval(IntervalSetOps.empty())),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.connectedInterval(IntervalSetOps.whole())),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.invertedGap(IntervalSetOps.connected(1, 2))),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.invertedGap(IntervalSetOps.empty())),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.invertedGap(IntervalSetOps.whole())));
 	}
 
@@ -116,12 +119,10 @@ class IntervalSetOpsTest {
 
 		assertAll(
 				() -> assertEquals(new Interval(1, 2), connected),
-				() -> assertEquals(IntervalSetOps.connected(1, 2),
-						IntervalSetOps.fromLegacy(connected)),
+				() -> assertEquals(IntervalSetOps.connected(1, 2), IntervalSetOps.fromLegacy(connected)),
 				() -> assertEquals(3, inverted.getLow()),
 				() -> assertEquals(4, inverted.getHigh()),
-				() -> assertEquals(IntervalSetOps.inverted(3, 4),
-						IntervalSetOps.fromLegacy(inverted)),
+				() -> assertEquals(IntervalSetOps.inverted(3, 4), IntervalSetOps.fromLegacy(inverted)),
 				() -> assertTrue(whole.isWhole()),
 				() -> assertTrue(empty.isUndefined()));
 	}
@@ -131,14 +132,13 @@ class IntervalSetOpsTest {
 		Interval inverted = legacyInverted(1, 2);
 
 		assertAll(
-				() -> assertEquals(IntervalSet.connected(1, 2),
-						IntervalSetOps.fromLegacy(new Interval(1, 2))),
-				() -> assertEquals(IntervalSet.inverted(1, 2),
-						IntervalSetOps.fromLegacy(inverted)),
-				() -> assertEquals(IntervalSet.whole(),
-						IntervalSetOps.fromLegacy(IntervalConstants.whole())),
-				() -> assertEquals(IntervalSet.empty(),
-						IntervalSetOps.fromLegacy(IntervalConstants.undefined())));
+				() -> assertEquals(
+						IntervalSet.connected(1, 2), IntervalSetOps.fromLegacy(new Interval(1, 2))),
+				() -> assertEquals(IntervalSet.inverted(1, 2), IntervalSetOps.fromLegacy(inverted)),
+				() ->
+						assertEquals(IntervalSet.whole(), IntervalSetOps.fromLegacy(IntervalConstants.whole())),
+				() -> assertEquals(
+						IntervalSet.empty(), IntervalSetOps.fromLegacy(IntervalConstants.undefined())));
 	}
 
 	@Test
@@ -170,26 +170,32 @@ class IntervalSetOpsTest {
 		IntervalSet inverted = IntervalSetOps.inverted(2, 5);
 
 		assertAll(
-				() -> assertEquals(IntervalSetOps.connected(Double.NEGATIVE_INFINITY, 2),
+				() -> assertEquals(
+						IntervalSetOps.connected(Double.NEGATIVE_INFINITY, 2),
 						IntervalSetOps.leftRayFromInverted(inverted)),
-				() -> assertEquals(IntervalSetOps.connected(5, Double.POSITIVE_INFINITY),
+				() -> assertEquals(
+						IntervalSetOps.connected(5, Double.POSITIVE_INFINITY),
 						IntervalSetOps.rightRayFromInverted(inverted)));
 	}
 
 	@Test
 	void leftAndRightRayFromInvertedRejectInvalidInput() {
 		assertAll(
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.leftRayFromInverted(null)),
-				() -> assertThrows(IllegalArgumentException.class,
-						() -> IntervalSetOps.rightRayFromInverted(null)),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class, () -> IntervalSetOps.leftRayFromInverted(null)),
+				() -> assertThrows(
+						IllegalArgumentException.class, () -> IntervalSetOps.rightRayFromInverted(null)),
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.leftRayFromInverted(IntervalSetOps.connected(1, 2))),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.rightRayFromInverted(IntervalSetOps.connected(1, 2))),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.leftRayFromInverted(IntervalSetOps.empty())),
-				() -> assertThrows(IllegalArgumentException.class,
+				() -> assertThrows(
+						IllegalArgumentException.class,
 						() -> IntervalSetOps.rightRayFromInverted(IntervalSetOps.whole())));
 	}
 
@@ -201,5 +207,4 @@ class IntervalSetOpsTest {
 				() -> assertFalse(IntervalSetOps.isPositive(IntervalSetOps.inverted(1, 2))),
 				() -> assertFalse(IntervalSetOps.isPositive(null)));
 	}
-
 }

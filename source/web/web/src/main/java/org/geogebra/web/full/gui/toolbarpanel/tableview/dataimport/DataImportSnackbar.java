@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -94,16 +94,18 @@ public final class DataImportSnackbar extends FlowPanel {
 		FlowPanel titleHolder = new FlowPanel();
 		titleHolder.addStyleName("titleHolder");
 
-		Image dataImg = new Image(MaterialDesignResources.INSTANCE.upload_file().withFill(
-				svgFiller.toString()).getSafeUri());
+		Image dataImg = new Image(MaterialDesignResources.INSTANCE
+				.upload_file()
+				.withFill(svgFiller.toString())
+				.getSafeUri());
 		Label titleLbl = new Label(title);
 
 		titleHolder.add(dataImg);
 		titleHolder.add(titleLbl);
 
 		if (addCloseBtn) {
-			StandardButton xButton = new StandardButton(MaterialDesignResources.INSTANCE.clear()
-					.withFill(NEUTRAL_300.toString()), 24);
+			StandardButton xButton = new StandardButton(
+					MaterialDesignResources.INSTANCE.clear().withFill(NEUTRAL_300.toString()), 24);
 			xButton.addFastClickHandler(source -> {
 				hide();
 			});
@@ -120,8 +122,8 @@ public final class DataImportSnackbar extends FlowPanel {
 		errorHolder.addStyleName("errorHolder");
 		Label errorLbl = new Label(appW.getLocalization().getMenu("General.ImportFailed"));
 		errorLbl.addStyleName("errorMsg");
-		StandardButton tryAgain = new StandardButton(appW.getLocalization()
-				.getMenu("phone_try_again_loading"));
+		StandardButton tryAgain =
+				new StandardButton(appW.getLocalization().getMenu("phone_try_again_loading"));
 		tryAgain.addFastClickHandler(source -> {
 			hide();
 			tryAgainRunnable.execute();

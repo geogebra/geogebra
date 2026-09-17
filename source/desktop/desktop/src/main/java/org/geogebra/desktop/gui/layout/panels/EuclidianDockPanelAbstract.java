@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,13 +34,12 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigation
 
 /**
  * Abstract class for all "euclidian" panels.
- * 
+ *
  * @author Mathieu
  * Remark: {@link #getEuclidianView()} has to be overridden if
  *         {@link #getComponent()} does not return the euclidian view directly
  */
-public abstract class EuclidianDockPanelAbstract extends DockPanelD
-		implements GetViewId {
+public abstract class EuclidianDockPanelAbstract extends DockPanelD implements GetViewId {
 	/** */
 	private static final long serialVersionUID = 1L;
 
@@ -54,15 +53,15 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param id view ID
 	 * @param title title
 	 * @param toolbar toolbar definition
 	 * @param hasStyleBar whether stylebar exists
 	 * @param menuOrder order in view menu
 	 */
-	public EuclidianDockPanelAbstract(int id, String title, String toolbar,
-			boolean hasStyleBar, int menuOrder, char shortcut) {
+	public EuclidianDockPanelAbstract(
+			int id, String title, String toolbar, boolean hasStyleBar, int menuOrder, char shortcut) {
 		super(id, title, toolbar, hasStyleBar, menuOrder, shortcut);
 	}
 
@@ -77,11 +76,11 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 	 * Remark: This method has to be overridden if the component of the dock
 	 *         panel is not the euclidian view itself
 	 */
-	abstract public EuclidianView getEuclidianView();
+	public abstract EuclidianView getEuclidianView();
 
 	/**
 	 * sets this euclidian panel to have the "euclidian focus"
-	 * 
+	 *
 	 * @param hasFocus whether it has focus
 	 */
 	public final void setEuclidianFocus(boolean hasFocus) {
@@ -96,7 +95,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 	/**
 	 * create the focus panel (composed of titleLabel, and, for
 	 * EuclidianDockPanels, focus icon)
-	 * 
+	 *
 	 * @return the focus panel
 	 */
 	@Override
@@ -105,8 +104,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 		panel1.setLayout(new BorderLayout());
 
 		// add title label
-		panel1.add(super.createFocusPanel(),
-				app.getLocalization().borderWest());
+		panel1.add(super.createFocusPanel(), app.getLocalization().borderWest());
 
 		return panel1;
 	}
@@ -127,34 +125,28 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 		if (panel == null) {
 			panel = new JPanel(new BorderLayout());
 
-			panel.add(
-					((EuclidianViewInterfaceD) getEuclidianView()).getJPanel(),
-					BorderLayout.CENTER);
+			panel.add(((EuclidianViewInterfaceD) getEuclidianView()).getJPanel(), BorderLayout.CENTER);
 
-			consProtNav = (ConstructionProtocolNavigationD) app.getGuiManager()
-					.getConstructionProtocolNavigation(id);
+			consProtNav = (ConstructionProtocolNavigationD)
+					app.getGuiManager().getConstructionProtocolNavigation(id);
 
-			ConstructionProtocolSettings cps = app.getSettings()
-					.getConstructionProtocol();
+			ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 			consProtNav.settingsChanged(cps);
 			cps.addListener(consProtNav);
 
 			if (app.getShowCPNavNeedsUpdate(id)) {
-				app.setShowConstructionProtocolNavigation(
-						app.showConsProtNavigation(id), id);
+				app.setShowConstructionProtocolNavigation(app.showConsProtNavigation(id), id);
 			}
-			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1,
-					0, 0, 0, Color.lightGray));
+			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.lightGray));
 			consProtNav.getImpl().setVisible(app.showConsProtNavigation(id));
 
 			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be
-																	// invisible,
-																	// but made
-																	// visible
-																	// later
+			// invisible,
+			// but made
+			// visible
+			// later
 		}
 
 		return panel;
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,8 +43,7 @@ class RelativeCopyTest extends BaseUnitTest {
 		GeoBoolean b1 = add("B1=true");
 		add("B2=false");
 		a1.setShowObjectCondition(b1);
-		newRelativeCopy().doDragCopy(0, 0, 0, 0,
-				0, 1, 0, 1);
+		newRelativeCopy().doDragCopy(0, 0, 0, 0, 0, 1, 0, 1);
 		assertEquals(lookup("A2").getShowObjectCondition(), lookup("B2"));
 	}
 
@@ -53,16 +52,14 @@ class RelativeCopyTest extends BaseUnitTest {
 		GeoElement a1 = add("A1=(1,1)");
 		GeoBoolean b = add("b=true");
 		a1.setShowObjectCondition(b);
-		newRelativeCopy().doDragCopy(0, 0, 0, 0,
-				0, 1, 0, 1);
+		newRelativeCopy().doDragCopy(0, 0, 0, 0, 0, 1, 0, 1);
 		assertEquals(lookup("A2").getShowObjectCondition(), b);
 	}
 
 	@Test
 	void numericCopy() {
 		add("A1=1");
-		newRelativeCopy().doDragCopy(0, 0, 0, 0,
-				0, 1, 0, 1);
+		newRelativeCopy().doDragCopy(0, 0, 0, 0, 0, 1, 0, 1);
 		assertThat(lookup("A2"), hasValue("1"));
 	}
 
@@ -70,8 +67,7 @@ class RelativeCopyTest extends BaseUnitTest {
 	void numericCopyHasCorrectPrecision() {
 		add("C3 = 1 / 8");
 		getApp().setRounding("2");
-		newRelativeCopy().doDragCopy(2, 2, 2, 2,
-				3, 2, 3, 2);
+		newRelativeCopy().doDragCopy(2, 2, 2, 2, 3, 2, 3, 2);
 		getApp().setRounding("3");
 		assertThat(lookup("D3"), hasValue("0.125"));
 	}
@@ -82,8 +78,7 @@ class RelativeCopyTest extends BaseUnitTest {
 		add("B1=6");
 		add("A2=A1^2");
 		getApp().setRounding("2");
-		newRelativeCopy().doDragCopy(0, 1, 0, 1,
-				1, 1, 1, 1);
+		newRelativeCopy().doDragCopy(0, 1, 0, 1, 1, 1, 1, 1);
 		getApp().setRounding("3");
 		assertThat(lookup("B2").getDefinitionForEditor(), equalTo(unicode("B2=B1^2")));
 	}
@@ -94,8 +89,7 @@ class RelativeCopyTest extends BaseUnitTest {
 		add("D2 = 5 / 8 ");
 		add("C3 = C2 + x");
 		getApp().setRounding("2");
-		newRelativeCopy().doDragCopy(2, 2, 2, 2,
-				3, 2, 3, 2);
+		newRelativeCopy().doDragCopy(2, 2, 2, 2, 3, 2, 3, 2);
 		getApp().setRounding("3");
 		assertThat(lookup("D3"), hasValue("0.625 + x"));
 	}
@@ -110,8 +104,7 @@ class RelativeCopyTest extends BaseUnitTest {
 		}
 
 		add("C1 = Circle(B1, 0.4)");
-		newRelativeCopy().doDragCopy(2, 0, 2, 0,
-				2, 1, 2, 10);
+		newRelativeCopy().doDragCopy(2, 0, 2, 0, 2, 1, 2, 10);
 		for (int row = 2; row < 10; row++) {
 			assertThat(lookup("C" + row), hasValue("(x - " + row + ")\u00B2 + y\u00B2 = 0.16"));
 			shouldBeInEditor("C" + row, "=Circle(B" + row + "," + "0.4)");
@@ -135,7 +128,7 @@ class RelativeCopyTest extends BaseUnitTest {
 	}
 
 	private GeoElementND prepareAddingValue(String inputText) {
-		return newRelativeCopy().prepareAddingValueToTableNoStoringUndoInfo(
-				inputText, null, 1, 1, false);
+		return newRelativeCopy()
+				.prepareAddingValueToTableNoStoringUndoInfo(inputText, null, 1, 1, false);
 	}
 }

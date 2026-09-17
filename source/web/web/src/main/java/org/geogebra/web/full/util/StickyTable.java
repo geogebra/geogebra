@@ -68,28 +68,28 @@ public abstract class StickyTable<T> extends FlowPanel {
 	}
 
 	protected void addBodyPointerDownHandler(CellClickHandler clickHandler) {
-		Dom.addEventListener(cellTable.getTableBodyElement(), "pointerdown",
-				getDomEventHandler(clickHandler));
+		Dom.addEventListener(
+				cellTable.getTableBodyElement(), "pointerdown", getDomEventHandler(clickHandler));
 	}
 
 	protected void addBodyKeyDownHandler(CellClickHandler keyHandler) {
-		Dom.addEventListener(cellTable.getTableBodyElement(), "keydown",
-				getDomEventHandler(keyHandler));
+		Dom.addEventListener(
+				cellTable.getTableBodyElement(), "keydown", getDomEventHandler(keyHandler));
 	}
 
 	protected void addHeadClickHandler(CellClickHandler clickHandler) {
-		Dom.addEventListener(cellTable.getTableHeadElement(), "click",
-				getDomEventHandler(clickHandler));
+		Dom.addEventListener(
+				cellTable.getTableHeadElement(), "click", getDomEventHandler(clickHandler));
 	}
 
 	protected void addMouseOverHandler(CellClickHandler clickHandler) {
-		Dom.addEventListener(cellTable.getTableBodyElement(), "mouseover",
-				getDomEventHandler(clickHandler));
+		Dom.addEventListener(
+				cellTable.getTableBodyElement(), "mouseover", getDomEventHandler(clickHandler));
 	}
 
 	protected void addMouseOutHandler(CellClickHandler clickHandler) {
-		Dom.addEventListener(cellTable.getTableBodyElement(), "mouseout",
-				getDomEventHandler(clickHandler));
+		Dom.addEventListener(
+				cellTable.getTableBodyElement(), "mouseout", getDomEventHandler(clickHandler));
 	}
 
 	private EventListener getDomEventHandler(CellClickHandler eventHandler) {
@@ -151,8 +151,8 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 * @return the header element.
 	 */
 	public Element getHeaderElement(int column) {
-		return Dom.querySelectorForElement(cellTable.getTableHeadElement(),
-				".values tr th:nth-child(" + (column + 1) + ") .content");
+		return Dom.querySelectorForElement(
+				cellTable.getTableHeadElement(), ".values tr th:nth-child(" + (column + 1) + ") .content");
 	}
 
 	/**
@@ -279,8 +279,10 @@ public abstract class StickyTable<T> extends FlowPanel {
 	 * @return whether a cell at given coordinates exists and is not hidden by shadow
 	 */
 	public boolean hasCell(int col, int row) {
-		return col >= 0 && col < cellTable.getColumnCount() - 1
-				&& row >= 0 && row < cellTable.getRowCount() - 1;
+		return col >= 0
+				&& col < cellTable.getColumnCount() - 1
+				&& row >= 0
+				&& row < cellTable.getRowCount() - 1;
 	}
 
 	private final class CellTableWithBody extends CellTable<T> {

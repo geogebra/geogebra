@@ -64,8 +64,8 @@ final class BoundaryCycleExtractor {
 		List<BoundaryCycle> cycles = new ArrayList<>(boundaries.size());
 		for (int i = 0; i < boundaries.size(); i++) {
 			List<Integer> boundary = boundaries.get(i);
-			BoundaryCycle cycle = new BoundaryCycle(i, boundary, signedAreaOfCycle(graph,
-					boundary), containmentProbePoint(boundary));
+			BoundaryCycle cycle = new BoundaryCycle(
+					i, boundary, signedAreaOfCycle(graph, boundary), containmentProbePoint(boundary));
 			cycle.ensureGeometry(graph);
 			cycles.add(cycle);
 		}
@@ -95,26 +95,21 @@ final class BoundaryCycleExtractor {
 			double leftNormalY = dx / length;
 			double epsilon = Math.max(GEOMETRY_EPSILON, length * 1e-3);
 			for (int attempt = 0; attempt < 12; attempt++) {
-				GPoint2D probe = new GPoint2D(midX + epsilon * leftNormalX,
-						midY + epsilon * leftNormalY);
-				if (classifyPointOnCycleBoundary(probe, cycle)
-						!= PlanarGraph.Containment.BOUNDARY) {
+				GPoint2D probe = new GPoint2D(midX + epsilon * leftNormalX, midY + epsilon * leftNormalY);
+				if (classifyPointOnCycleBoundary(probe, cycle) != PlanarGraph.Containment.BOUNDARY) {
 					return probe;
 				}
 				epsilon *= 0.5;
 			}
 		}
 
-		throw new IllegalStateException(
-				"Cannot compute probe point for degenerate boundary cycle");
+		throw new IllegalStateException("Cannot compute probe point for degenerate boundary cycle");
 	}
 
-	private PlanarGraph.Containment classifyPointOnCycleBoundary(GPoint2D p,
-			List<Integer> cycle) {
+	private PlanarGraph.Containment classifyPointOnCycleBoundary(GPoint2D p, List<Integer> cycle) {
 		for (int i = 0, size = cycle.size(); i < size; i++) {
 			Vertex vi = graph.vertex(graph.halfEdge(cycle.get(i)).getOriginVertexId());
-			Vertex vj = graph.vertex(graph.halfEdge(cycle.get((i + 1) % size))
-					.getOriginVertexId());
+			Vertex vj = graph.vertex(graph.halfEdge(cycle.get((i + 1) % size)).getOriginVertexId());
 			if (isPointOnSegment(p, vi.getX(), vi.getY(), vj.getX(), vj.getY())) {
 				return PlanarGraph.Containment.BOUNDARY;
 			}

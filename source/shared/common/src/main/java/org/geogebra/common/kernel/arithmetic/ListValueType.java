@@ -22,7 +22,7 @@ import java.util.Map;
 public final class ListValueType implements ExpressionValueType {
 
 	private final ExpressionValueType elementType;
-	private final static Map<ExpressionValueType, ListValueType> listTypes = new HashMap<>();
+	private static final Map<ExpressionValueType, ListValueType> listTypes = new HashMap<>();
 
 	/**
 	 * @param elementType the list element type

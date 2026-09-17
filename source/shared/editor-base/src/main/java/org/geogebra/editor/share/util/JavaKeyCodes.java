@@ -39,28 +39,28 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the non-numpad <b>left</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_KP_LEFT
 	 */
 	public static final int VK_LEFT = 0x25;
 
 	/**
 	 * Constant for the non-numpad <b>up</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_KP_UP
 	 */
 	public static final int VK_UP = 0x26;
 
 	/**
 	 * Constant for the non-numpad <b>right</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_KP_RIGHT
 	 */
 	public static final int VK_RIGHT = 0x27;
 
 	/**
 	 * Constant for the non-numpad <b>down</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_KP_DOWN
 	 */
 	public static final int VK_DOWN = 0x28;
@@ -72,7 +72,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the minus key, "-"
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_MINUS = 0x2D;
@@ -120,6 +120,7 @@ public class JavaKeyCodes {
 
 	/** VK_A thru VK_Z are the same as ASCII 'A' thru 'Z' (0x41 - 0x5A) */
 	public static final int VK_A = 0x41;
+
 	public static final int VK_B = 0x42;
 	public static final int VK_C = 0x43;
 	public static final int VK_D = 0x44;
@@ -177,14 +178,14 @@ public class JavaKeyCodes {
 	/**
 	 * Constant for the Numpad Separator key. ie decimal comma eg German
 	 * keyboards
-	 * 
+	 *
 	 * @since 1.4
 	 */
 	public static final int VK_SEPARATOR = 0x6C;
 
 	public static final int VK_SUBTRACT = 0x6D;
 	public static final int VK_DECIMAL = 0x6E; // decimal point on numeric
-												// keypad
+	// keypad
 	public static final int VK_DIVIDE = 0x6F;
 	public static final int VK_DELETE = 0x7F; /* ASCII DEL */
 	public static final int VK_NUM_LOCK = 0x90;
@@ -228,7 +229,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the F13 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/*
@@ -238,77 +239,77 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the F14 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F14 = 0xF001;
 
 	/**
 	 * Constant for the F15 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F15 = 0xF002;
 
 	/**
 	 * Constant for the F16 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F16 = 0xF003;
 
 	/**
 	 * Constant for the F17 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F17 = 0xF004;
 
 	/**
 	 * Constant for the F18 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F18 = 0xF005;
 
 	/**
 	 * Constant for the F19 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F19 = 0xF006;
 
 	/**
 	 * Constant for the F20 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F20 = 0xF007;
 
 	/**
 	 * Constant for the F21 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F21 = 0xF008;
 
 	/**
 	 * Constant for the F22 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F22 = 0xF009;
 
 	/**
 	 * Constant for the F23 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F23 = 0xF00A;
 
 	/**
 	 * Constant for the F24 function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_F24 = 0xF00B;
@@ -323,7 +324,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the numeric keypad <b>up</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_UP
 	 * @since 1.2
 	 */
@@ -331,7 +332,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the numeric keypad <b>down</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_DOWN
 	 * @since 1.2
 	 */
@@ -339,7 +340,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the numeric keypad <b>left</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_LEFT
 	 * @since 1.2
 	 */
@@ -347,7 +348,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the numeric keypad <b>right</b> arrow key.
-	 * 
+	 *
 	 * @see #VK_RIGHT
 	 * @since 1.2
 	 */
@@ -405,84 +406,84 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the "@" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_AT = 0x0200;
 
 	/**
 	 * Constant for the ":" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_COLON = 0x0201;
 
 	/**
 	 * Constant for the "^" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_CIRCUMFLEX = 0x0202;
 
 	/**
 	 * Constant for the "$" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_DOLLAR = 0x0203;
 
 	/**
 	 * Constant for the Euro currency sign key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_EURO_SIGN = 0x0204;
 
 	/**
 	 * Constant for the "!" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_EXCLAMATION_MARK = 0x0205;
 
 	/**
 	 * Constant for the inverted exclamation mark key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_INVERTED_EXCLAMATION_MARK = 0x0206;
 
 	/**
 	 * Constant for the "(" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_LEFT_PARENTHESIS = 0x0207;
 
 	/**
 	 * Constant for the "#" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_NUMBER_SIGN = 0x0208;
 
 	/**
 	 * Constant for the "+" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_PLUS = 0x0209;
 
 	/**
 	 * Constant for the ")" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_RIGHT_PARENTHESIS = 0x020A;
 
 	/**
 	 * Constant for the "_" key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_UNDERSCORE = 0x020B;
@@ -490,14 +491,14 @@ public class JavaKeyCodes {
 	/**
 	 * Constant for the Microsoft Windows "Windows" key. It is used for both the
 	 * left and right version of the key.
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	public static final int VK_WINDOWS = 0x020C;
 
 	/**
 	 * Constant for the Microsoft Windows Context Menu key.
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	public static final int VK_CONTEXT_MENU = 0x020D;
@@ -536,7 +537,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Alphanumeric function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard: eisuu */
@@ -544,7 +545,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Katakana function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard: katakana */
@@ -552,7 +553,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Hiragana function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard: hiragana */
@@ -560,7 +561,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Full-Width Characters function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard: zenkaku */
@@ -568,7 +569,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Half-Width Characters function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard: hankaku */
@@ -576,7 +577,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Roman Characters function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard: roumaji */
@@ -584,7 +585,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the All Candidates function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard - VK_CONVERT + ALT: zenkouho */
@@ -592,7 +593,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Previous Candidate function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard - VK_CONVERT + SHIFT: maekouho */
@@ -600,7 +601,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Code Input function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese PC 106 keyboard - VK_ALPHANUMERIC + ALT: kanji bangou */
@@ -609,7 +610,7 @@ public class JavaKeyCodes {
 	/**
 	 * Constant for the Japanese-Katakana function key. This key switches to a
 	 * Japanese input method and selects its Katakana input mode.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese Macintosh keyboard - VK_JAPANESE_HIRAGANA + SHIFT */
@@ -618,7 +619,7 @@ public class JavaKeyCodes {
 	/**
 	 * Constant for the Japanese-Hiragana function key. This key switches to a
 	 * Japanese input method and selects its Hiragana input mode.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese Macintosh keyboard */
@@ -627,7 +628,7 @@ public class JavaKeyCodes {
 	/**
 	 * Constant for the Japanese-Roman function key. This key switches to a
 	 * Japanese input method and selects its Roman-Direct input mode.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	/* Japanese Macintosh keyboard */
@@ -636,7 +637,7 @@ public class JavaKeyCodes {
 	/**
 	 * Constant for the locking Kana function key. This key locks the keyboard
 	 * into a Kana layout.
-	 * 
+	 *
 	 * @since 1.3
 	 */
 	/*
@@ -647,7 +648,7 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the input method on/off key.
-	 * 
+	 *
 	 * @since 1.3
 	 */
 	/* Japanese PC 106 keyboard: kanji. Japanese Solaris keyboard: nihongo */
@@ -673,21 +674,21 @@ public class JavaKeyCodes {
 
 	/**
 	 * Constant for the Compose function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_COMPOSE = 0xFF20;
 
 	/**
 	 * Constant for the AltGraph function key.
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static final int VK_ALT_GRAPH = 0xFF7E;
 
 	/**
 	 * Constant for the Begin key.
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	public static final int VK_BEGIN = 0xFF58;

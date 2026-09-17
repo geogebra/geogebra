@@ -32,8 +32,7 @@ public class Surds {
 	 * @param kernel {@link Kernel}
 	 * @return the surd if exists, null otherwise.
 	 */
-	public ExpressionNode getResolution(ExpressionNode expr,
-			Kernel kernel) {
+	public ExpressionNode getResolution(ExpressionNode expr, Kernel kernel) {
 		ExpressionValue left = expr.getLeft();
 		Operation op = expr.getOperation();
 		ExpressionValue evaluated = left.evaluate(StringTemplate.defaultTemplate).unwrap();
@@ -73,7 +72,6 @@ public class Surds {
 		}
 		ExpressionValue innerLeft = new MyDouble(kernel, innerValue);
 		ExpressionValue sqrt = new ExpressionNode(kernel, innerLeft, Operation.SQRT, null);
-		return new ExpressionNode(kernel, new MyDouble(kernel, outerValue), Operation.MULTIPLY,
-				sqrt);
+		return new ExpressionNode(kernel, new MyDouble(kernel, outerValue), Operation.MULTIPLY, sqrt);
 	}
 }

@@ -32,8 +32,7 @@ public class Canvas2Svg {
 
 	public native String getSerializedSvg(boolean useNumericEntities);
 
-	public native SVGPattern createPattern(CanvasRenderingContext2D context,
-			String repetition);
+	public native SVGPattern createPattern(CanvasRenderingContext2D context, String repetition);
 
 	@JsProperty
 	public native void setFillStyle(SVGPattern pattern);

@@ -2,22 +2,22 @@
  * JFugue - API for Music Programming
  * Copyright (C) 2003-2008  David Koelle
  *
- * http://www.jfugue.org 
- * 
+ * http://www.jfugue.org
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *  
+ *
  */
 
 package org.jfugue;
@@ -34,7 +34,7 @@ import javax.sound.midi.Transmitter;
 /**
  * Represents an attached MIDI device, such as a keyboard. This class uses
  * javax.sound.MidiDevice, but is not derived from javax.sound.MidiDevice.
- * 
+ *
  * @author David Koelle
  * @version 3.0
  */
@@ -47,7 +47,7 @@ public class DeviceThatWillTransmitMidi {
 	/**
 	 * Creates a new DeviceThatWillTransmitMidi using JFugue's Intelligent
 	 * Device Resolver to pick the most likely device to open.
-	 * 
+	 *
 	 * @throws MidiUnavailableException
 	 */
 	public DeviceThatWillTransmitMidi() throws MidiUnavailableException {
@@ -55,8 +55,7 @@ public class DeviceThatWillTransmitMidi {
 		init();
 	}
 
-	public DeviceThatWillTransmitMidi(MidiDevice.Info info)
-			throws MidiUnavailableException {
+	public DeviceThatWillTransmitMidi(MidiDevice.Info info) throws MidiUnavailableException {
 		this.device = MidiSystem.getMidiDevice(info);
 		init();
 	}
@@ -90,7 +89,7 @@ public class DeviceThatWillTransmitMidi {
 	/**
 	 * Reads a pattern from the external device - use this to record the keys
 	 * you're pressing on the keyboard!
-	 * 
+	 *
 	 * This method will return a JFugue Pattern, which you can then manipulate
 	 * to your heart's content.
 	 */
@@ -170,6 +169,5 @@ public class DeviceThatWillTransmitMidi {
 		public Sequence getSequence() {
 			return sequencer.getSequence();
 		}
-
 	}
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -32,22 +32,22 @@ import org.geogebra.common.scientific.LabelController;
  */
 public class GeoElementFactory {
 
-    private BaseUnitTest unitTest;
+	private BaseUnitTest unitTest;
 
-    /**
-     * Constructs a GeoElementFactory.
-     *
-     * @param unitTest the test class
-     */
-    public GeoElementFactory(BaseUnitTest unitTest) {
-        this.unitTest = unitTest;
-    }
+	/**
+	 * Constructs a GeoElementFactory.
+	 *
+	 * @param unitTest the test class
+	 */
+	public GeoElementFactory(BaseUnitTest unitTest) {
+		this.unitTest = unitTest;
+	}
 
-    /**
-     * Create a GeoLine.
-     *
-     * @return line
-     */
+	/**
+	 * Create a GeoLine.
+	 *
+	 * @return line
+	 */
 	public GeoLine createGeoLine() {
 		return (GeoLine) create("x=y");
 	}
@@ -80,25 +80,25 @@ public class GeoElementFactory {
 		return processor.processAlgebraCommand(definition, false)[0];
 	}
 
-    /**
-     * Create a GeoFunction based on function definition.
-     *
-     * @param definition function definition
-     * @return function
-     */
-    public GeoFunction createFunction(String definition) {
+	/**
+	 * Create a GeoFunction based on function definition.
+	 *
+	 * @param definition function definition
+	 * @return function
+	 */
+	public GeoFunction createFunction(String definition) {
 		return (GeoFunction) create(definition);
-    }
+	}
 
-    /**
-     * Create a function based on a Function object.
-     *
-     * @param function function object
-     * @return function
-     */
-    public GeoFunction createFunction(Function function) {
-        return new GeoFunction(unitTest.getConstruction(), function);
-    }
+	/**
+	 * Create a function based on a Function object.
+	 *
+	 * @param function function object
+	 * @return function
+	 */
+	public GeoFunction createFunction(Function function) {
+		return new GeoFunction(unitTest.getConstruction(), function);
+	}
 
 	/**
 	 * @return line with a hidden label

@@ -35,7 +35,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**************
- * 
+ *
  * Fits a+b*sin(c*x+d) to a list of points. Adapted from: Nonlinear regression
  * algorithms are well known, see:
  * mathworld.wolfram.com/NonlinearLeastSquaresFitting.html
@@ -71,26 +71,25 @@ import org.geogebra.common.util.debug.Log;
  * Fourier Transform instead of step II and III. Experiments show that this adds
  * surprisingly little to the robustness of my simple algorithm, so this will
  * not be done unless user feedback indicates a need for more sophistication.
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 22.11.08 (november)
  */
-
 public class AlgoFitSin extends AlgoElement implements FitAlgo {
 
 	// Tuning of noisefilter, Levenberg-Marquardt iteration, debug, rounding off
 	// errors
-	private final static double NOISEKILLER = 0.2D; // Kill local extremums
-													// inside a+/-noisekiller*b;
-													// 0.2 seems to be a good
-													// value?
-	private final static double LMFACTORDIV = 3.0d;
-	private final static double LMFACTORMULT = 2.0d;
-	private final static int MAXITERATIONS = 200;
-	private final static double EPSILON = 1E-14d;
-	private final static double EPSSING = 1E-20d;
-	private final static double PI = Math.PI;
-	private final static double TWO_PI = PI * 2;
+	private static final double NOISEKILLER = 0.2D; // Kill local extremums
+	// inside a+/-noisekiller*b;
+	// 0.2 seems to be a good
+	// value?
+	private static final double LMFACTORDIV = 3.0d;
+	private static final double LMFACTORMULT = 2.0d;
+	private static final int MAXITERATIONS = 200;
+	private static final double EPSILON = 1E-14d;
+	private static final double EPSSING = 1E-20d;
+	private static final double PI = Math.PI;
+	private static final double TWO_PI = PI * 2;
 
 	// a+bsin(cx+d)
 	private double a;
@@ -112,7 +111,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 
 	/**
 	 * Implements AlgoElement
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param geolist
@@ -149,10 +148,9 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		size = geolist.size();
 		error = false; // General flag
 		if (!geolist.isDefined() || size < 2 || size == 3) { // Direction-algo needs two
-													// flanks, 3 in each.
+			// flanks, 3 in each.
 			geofunction.setUndefined();
-			Log.debug(
-					"List not properly defined or too small (4 points needed).");
+			Log.debug("List not properly defined or too small (4 points needed).");
 			return;
 		}
 		getPoints();
@@ -187,18 +185,16 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		MyDouble C = new MyDouble(kernel, c);
 		MyDouble D = new MyDouble(kernel, d);
 		FunctionVariable X = new FunctionVariable(kernel);
-		ExpressionValue expr = new ExpressionNode(kernel, C,
-				Operation.MULTIPLY, X);
+		ExpressionValue expr = new ExpressionNode(kernel, C, Operation.MULTIPLY, X);
 		expr = new ExpressionNode(kernel, expr, Operation.PLUS, D);
 		expr = new ExpressionNode(kernel, expr, Operation.SIN, null);
 		expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, expr);
 
-		ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS,
-				expr);
+		ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS, expr);
 		Function f = new Function(node, X);
 		geofunction.setFunction(f);
-		geofunction.setDefined(Double.isFinite(a) && Double.isFinite(b)
-				&& Double.isFinite(c) && Double.isFinite(d));
+		geofunction.setDefined(
+				Double.isFinite(a) && Double.isFinite(b) && Double.isFinite(c) && Double.isFinite(d));
 	}
 
 	// / ============= IMPLEMENTATION
@@ -213,7 +209,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	public final void findParameters() {
 		double y;
 		int xMaxAbs = 0, xMinAbs = 0; // Update in case changes=0 later
-										// (few-data-case)
+		// (few-data-case)
 		size = xd.length;
 		double sum = 0.0d, max = -Double.MAX_VALUE, min = Double.MAX_VALUE;
 		// Find a and b:
@@ -237,7 +233,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		// vv
 		// Last y in a rise or decrease *is* the local extremum!
 		int xmax = xMaxAbs, xmin = xMinAbs; // Keep absolute xmax/xmin in case
-												// changes=0 or 1 later
+		// changes=0 or 1 later
 		int state = 0; // undecided so far...
 		int current;
 		int changes = 0; // undecided so far...
@@ -279,19 +275,19 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			xmin = xMinAbs;
 			xmax = xMaxAbs;
 			minMaxDistance = Math.abs(xd[xmin] - xd[xmax]); // Update for
-																// final c
-																// further down
+			// final c
+			// further down
 			// min_max_distance might be 1,3,5,... halfperiods...find the one
 			// that gives the least sse
 			numberofhalfperiods = findNumberOfHalfPeriods(size / 4, xmin, xmax); // At
-																					// least
-																					// 6
-																					// (14.02.09:4)
-																					// points
-																					// in
-																					// a
-																					// period,
-																					// hopefully
+			// least
+			// 6
+			// (14.02.09:4)
+			// points
+			// in
+			// a
+			// period,
+			// hopefully
 		} // if too few extrema
 		c = PI * numberofhalfperiods / minMaxDistance;
 		double c2 = 2 * Math.PI / ((xd[size - 1] - xd[0]) * 2 / changes);
@@ -352,17 +348,16 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		} // for all datapoints
 		double startfaktor = Math.max(Math.max(Math.max(m11, m22), m33), m44);
 		double lambda = startfaktor * 0.001; // Heuristic, suggested by several
-										// articles
+		// articles
 		double da = EPSILON, db = EPSILON, dc = EPSILON, dd = EPSILON;
 		double m12, m13, m14, m23, m24, m34;
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
-		while (Math.abs(da) + Math.abs(db) + Math.abs(dc)
-				+ Math.abs(dd) > EPSILON) {
+		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) + Math.abs(dd) > EPSILON) {
 
 			iterations++; // debug(""+iterations+" : ");
 			if ((iterations > MAXITERATIONS) || error) { // From experience:
-															// >100 gives
-															// unusable result
+				// >100 gives
+				// unusable result
 				Log.debug("More than " + MAXITERATIONS + " iterations...");
 				error = true; // 14.02.09: No use=>undefined!
 				break;
@@ -404,34 +399,38 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			double m42 = m24;
 			double m43 = m34;
 
-			double n = RegressionMath.det44(m11, m12, m13, m14, m21, m22, m23, m24,
-					m31, m32, m33, m34, m41, m42, m43, m44);
+			double n = RegressionMath.det44(
+					m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44);
 
 			if (Math.abs(n) < EPSSING) { // Singular matrix?
 				error = true;
 				Log.debug("Singular matrix...");
 				da = db = dc = dd = 0; // To stop it all...
 			} else {
-				da = RegressionMath.det44(b1, m12, m13, m14, b2, m22, m23, m24,
-						b3, m32, m33, m34, b4, m42, m43, m44) / n;
-				db = RegressionMath.det44(m11, b1, m13, m14, m21, b2, m23, m24,
-						m31, b3, m33, m34, m41, b4, m43, m44) / n;
-				dc = RegressionMath.det44(m11, m12, b1, m14, m21, m22, b2, m24,
-						m31, m32, b3, m34, m41, m42, b4, m44) / n;
-				dd = RegressionMath.det44(m11, m12, m13, b1, m21, m22, m23, b2,
-						m31, m32, m33, b3, m41, m42, m43, b4) / n;
+				da = RegressionMath.det44(
+								b1, m12, m13, m14, b2, m22, m23, m24, b3, m32, m33, m34, b4, m42, m43, m44)
+						/ n;
+				db = RegressionMath.det44(
+								m11, b1, m13, m14, m21, b2, m23, m24, m31, b3, m33, m34, m41, b4, m43, m44)
+						/ n;
+				dc = RegressionMath.det44(
+								m11, m12, b1, m14, m21, m22, b2, m24, m31, m32, b3, m34, m41, m42, b4, m44)
+						/ n;
+				dd = RegressionMath.det44(
+								m11, m12, m13, b1, m21, m22, m23, b2, m31, m32, m33, b3, m41, m42, m43, b4)
+						/ n;
 
 				double newa = a + da;
 				double newb = b + db;
 				double newc = c + dc;
 				double newd = d + dd; // Remember this, in case we have to go back...
 				double residual = beta2(xd, yd, newa, newb, newc, newd); // debug("ChiSqError:
-																	// +"+residual);
+				// +"+residual);
 				// diff=residual-old_residual;
 				// //debug("Residual difference: "+diff+" lambda: "+lambda);
 				if (residual < oldResidual) {
 					lambda = lambda / LMFACTORDIV; // going well :-) But don't
-													// overdo it...
+					// overdo it...
 					oldResidual = residual;
 					multfaktor = LMFACTORMULT; // Reset this!
 					a = newa;
@@ -458,8 +457,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			}
 		}
 
-		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)
-				|| Double.isNaN(d) || error) {
+		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c) || Double.isNaN(d) || error) {
 			a = b = c = d = Double.NaN;
 			error = true;
 		}
@@ -476,8 +474,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/* f(x)=A+Bsin(Cx+D) */
-	private static double f(double x, double a, double b, double c,
-			double d) {
+	private static double f(double x, double a, double b, double c, double d) {
 		return a + b * sin(x, c, d);
 	}
 
@@ -502,14 +499,12 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	/* Difference to be reduced */
-	private static double beta(double x, double y, double a, double b,
-			double c, double d) {
+	private static double beta(double x, double y, double a, double b, double c, double d) {
 		return y - f(x, a, b, c, d);
 	}
 
 	/* Sum of quadratic errors */
-	private static double beta2(double[] x, double[] y, double a,
-			double b, double c, double d) {
+	private static double beta2(double[] x, double[] y, double a, double b, double c, double d) {
 		double sum = 0.0d, beta;
 		int n = x.length;
 		for (int i = 0; i < n; i++) {
@@ -520,8 +515,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	// Sum of errors (absolute values)
-	private static double beta(double[] x, double[] y, double a, double b,
-			double c, double d) {
+	private static double beta(double[] x, double[] y, double a, double b, double c, double d) {
 		double sum = 0.0d;
 		int n = x.length;
 		for (int i = 0; i < n; i++) {
@@ -563,7 +557,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		double[] xlist = new double[size];
 		double[] ylist = new double[size];
 		double[] xy = new double[2];
-		for (GeoPoint gp: sortedSet) {
+		for (GeoPoint gp : sortedSet) {
 			gp.getInhomCoords(xy);
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];
@@ -577,8 +571,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	// Noisekiller
-	private static boolean nearmaxmin(double a, double b, int state,
-			int current, double max, double min) {
+	private static boolean nearmaxmin(
+			double a, double b, int state, int current, double max, double min) {
 		if ((state == 1) && (current == -1)) { // A real max-change?
 			return max > a + NOISEKILLER * b;
 		} else if ((state == -1) && (current == 1)) { // A real min-change?
@@ -612,7 +606,6 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		return new double[]{ a, b, c, d };
+		return new double[] {a, b, c, d};
 	}
-
 }

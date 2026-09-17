@@ -30,13 +30,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * 
+ *
  * @author Markus + ggb3D
  */
-public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
-		Vector3DValue, Traceable, SpreadsheetTraceable {
+public abstract class GeoVec4D extends GeoElement3D
+		implements GeoCoords4D, Vector3DValue, Traceable, SpreadsheetTraceable {
 	/** vector coordinates */
 	protected Coords v;
+
 	protected int toStringMode = Kernel.COORD_CARTESIAN;
 
 	/**
@@ -51,7 +52,7 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 
 	/**
 	 * Creates new GeoVec4D with coordinates (x,y,z,w) and label
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param x
@@ -70,12 +71,12 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 
 	@Override
 	public void setCoords(double x, double y, double z, double w) {
-		setCoords(new double[] { x, y, z, w });
+		setCoords(new double[] {x, y, z, w});
 	}
 
 	/**
 	 * Set this to (x,y,0,w)
-	 * 
+	 *
 	 * @param x
 	 *            homogeneous x-coord
 	 * @param y
@@ -121,15 +122,17 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 	@Override
 	protected void getXMLTags(XMLStringBuilder sb) {
 		super.getXMLTags(sb);
-		sb.startTag("coords").attr("x", getX())
+		sb.startTag("coords")
+				.attr("x", getX())
 				.attr("y", getY())
 				.attr("z", getZ())
-				.attr("w", getW()).endTag();
+				.attr("w", getW())
+				.endTag();
 	}
 
 	/**
 	 * Sets the coord style
-	 * 
+	 *
 	 * @param mode
 	 *            new coord style
 	 */
@@ -163,7 +166,7 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 
 	/**
 	 * Copy coords from other vector
-	 * 
+	 *
 	 * @param vec
 	 *            other vector
 	 */
@@ -173,24 +176,24 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 
 	/**
 	 * set coords to point's coords (in 3D)
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 */
-	final public void setCoords(GeoPointND p) {
+	public final void setCoords(GeoPointND p) {
 		setCoords(p.getCoordsInD3());
 	}
 
 	/**
 	 * @return homogeneous coords
 	 */
-	final public Coords getCoords() {
+	public final Coords getCoords() {
 		return v;
 	}
 
 	/**
 	 * Add v0 to this
-	 * 
+	 *
 	 * @param v0
 	 *            translation vector
 	 */
@@ -216,5 +219,4 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 			toStringMode = ((VectorNDValue) other).getToStringMode();
 		}
 	}
-
 }

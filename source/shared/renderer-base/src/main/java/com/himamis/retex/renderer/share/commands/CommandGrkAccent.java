@@ -12,5 +12,4 @@ public class CommandGrkAccent extends Command2A {
 		// TODO: instanceof
 		return new AccentedAtom(b, (SymbolAtom) a);
 	}
-
 }

@@ -67,5 +67,4 @@ public class CommandDisplaylines extends CommandMatrix {
 
 		return new MultlineAtom(aoa, MultlineAtom.GATHER);
 	}
-
 }

@@ -38,8 +38,7 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 	 * @param c
 	 *            quadric
 	 */
-	public AlgoCenterQuadricND(Construction cons,
-			GeoQuadricND c) {
+	public AlgoCenterQuadricND(Construction cons, GeoQuadricND c) {
 		super(cons);
 		this.c = c;
 		midpoint = newGeoPoint(cons);
@@ -53,7 +52,7 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 	 *            construction
 	 * @return new GeoPoint
 	 */
-	abstract public GeoPointND newGeoPoint(Construction cons1);
+	public abstract GeoPointND newGeoPoint(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -95,14 +94,12 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 	/**
 	 * set midpoint coords
 	 */
-	abstract protected void setCoords();
+	protected abstract void setCoords();
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("CenterOfA", "Center of %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("CenterOfA", "Center of %0", c.getLabel(tpl));
 	}
-
 }

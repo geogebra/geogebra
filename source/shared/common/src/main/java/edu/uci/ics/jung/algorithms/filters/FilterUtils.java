@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2008, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -7,7 +7,7 @@
  * "license.txt" or
  * http://jung.sourceforge.net/license.txt for a description.
  * Created on Jun 7, 2008
- * 
+ *
  */
 package edu.uci.ics.jung.algorithms.filters;
 
@@ -26,7 +26,7 @@ public class FilterUtils {
 	 * <code>vertices</code> as its vertex set, and includes all edges from
 	 * <code>graph</code> which are incident only to elements of
 	 * <code>vertices</code>.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -50,8 +50,7 @@ public class FilterUtils {
 
 			for (V v : vertices) {
 				if (!graph.containsVertex(v)) {
-					throw new IllegalArgumentException(
-							"Vertex " + v + " is not an element of " + graph);
+					throw new IllegalArgumentException("Vertex " + v + " is not an element of " + graph);
 				}
 				subgraph.addVertex(v);
 			}
@@ -63,8 +62,7 @@ public class FilterUtils {
 				}
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(
-					"Unable to create copy of existing graph: ", e);
+			throw new RuntimeException("Unable to create copy of existing graph: ", e);
 		}
 		return subgraph;
 	}
@@ -73,7 +71,7 @@ public class FilterUtils {
 	 * Creates the induced subgraphs of <code>graph</code> associated with each
 	 * element of <code>vertex_collections</code>. Note that these vertex
 	 * collections need not be disjoint.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>

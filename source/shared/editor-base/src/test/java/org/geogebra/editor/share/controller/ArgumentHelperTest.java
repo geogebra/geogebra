@@ -50,12 +50,10 @@ class ArgumentHelperTest {
 	void shouldNotParseWhitespaces() {
 		SequenceNode numerator;
 
-		//Test if whitespace and horizontal tab are passed
-		CharacterNode whitespace =
-				new CharacterNode(new CharacterTemplate(" ", ' ', 1));
+		// Test if whitespace and horizontal tab are passed
+		CharacterNode whitespace = new CharacterNode(new CharacterTemplate(" ", ' ', 1));
 		CharacterNode horizontalTab =
-				new CharacterNode(
-						new CharacterTemplate(Character.toString((char) 9), (char) 9, 1));
+				new CharacterNode(new CharacterTemplate(Character.toString((char) 9), (char) 9, 1));
 
 		numerator = new SequenceNode();
 		numerator.addChild(characterNodeOne);
@@ -69,7 +67,7 @@ class ArgumentHelperTest {
 		editorState.setCurrentOffset(numerator.size());
 		ArgumentHelper.passArgument(editorState, fraction);
 
-		//There should be no whitespaces passed
+		// There should be no whitespaces passed
 		assertEquals(characterNodeOne, fraction.getChild(0).getChild(0));
 		assertEquals(1, fraction.getChild(0).size());
 		assertNull(fraction.getChild(1));
@@ -92,7 +90,7 @@ class ArgumentHelperTest {
 
 		ArgumentHelper.passSingleCharacter(editorState, passTo);
 
-		//Expecting only one character to be passed
+		// Expecting only one character to be passed
 		assertEquals(1, passTo.size());
 		assertEquals(characterNodeTwo, passTo.getChild(0));
 	}

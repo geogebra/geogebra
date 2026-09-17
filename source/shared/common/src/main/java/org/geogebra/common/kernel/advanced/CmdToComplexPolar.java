@@ -64,14 +64,12 @@ public class CmdToComplexPolar extends CommandProcessor {
 			algo = new AlgoToComplexPolar(cons, (GeoList) arg[0], coordStyle);
 		}
 		if (arg[0] instanceof GeoNumberValue) {
-			algo = new AlgoToComplexPolar(cons,
-					(GeoNumberValue) arg[0], coordStyle);
+			algo = new AlgoToComplexPolar(cons, (GeoNumberValue) arg[0], coordStyle);
 		}
 		if (algo == null) {
 			throw argErr(arg[0], c);
 		}
 		algo.getResult().setLabel(c.getLabel());
-		return new GeoElement[] { algo.getResult() };
+		return new GeoElement[] {algo.getResult()};
 	}
-
 }

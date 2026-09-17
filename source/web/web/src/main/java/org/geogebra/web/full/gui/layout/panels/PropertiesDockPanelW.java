@@ -26,18 +26,18 @@ import org.gwtproject.user.client.ui.Widget;
 public final class PropertiesDockPanelW extends DockPanelW {
 
 	private PropertiesViewW view;
-	
+
 	/**
 	 * @param app
 	 *            application
 	 */
 	public PropertiesDockPanelW(AppWFull app) {
 		super(
-			App.VIEW_PROPERTIES, // view id
-			null, // toolbar string
-			false // style bar?
-		);
-		
+				App.VIEW_PROPERTIES, // view id
+				null, // toolbar string
+				false // style bar?
+				);
+
 		this.app = app;
 		super.setDialog(true);
 		this.setShowStyleBar(true);
@@ -61,7 +61,7 @@ public final class PropertiesDockPanelW extends DockPanelW {
 			view.repaintView();
 		}
 	}
-	
+
 	@Override
 	public boolean isStyleBarEmpty() {
 		return false;
@@ -71,5 +71,4 @@ public final class PropertiesDockPanelW extends DockPanelW {
 	protected ResourcePrototype getViewIcon() {
 		return null;
 	}
-
 }

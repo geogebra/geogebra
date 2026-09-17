@@ -36,8 +36,7 @@ public abstract class AlgoUnitVector extends AlgoElement {
 	protected double length;
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVector(Construction cons, GeoElement inputGeo,
-			boolean normalize) {
+	public AlgoUnitVector(Construction cons, GeoElement inputGeo, boolean normalize) {
 		super(cons);
 		this.normalize = normalize;
 		this.inputGeo = inputGeo;
@@ -58,14 +57,14 @@ public abstract class AlgoUnitVector extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new vector
 	 */
-	abstract protected GeoVectorND createVector(Construction cons1);
+	protected abstract GeoVectorND createVector(Construction cons1);
 
-	abstract protected GeoPointND getInputStartPoint();
+	protected abstract GeoPointND getInputStartPoint();
 
 	// for AlgoElement
 	@Override
@@ -87,13 +86,10 @@ public abstract class AlgoUnitVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		if (!normalize) {
-			return getLoc().getPlainDefault("DirectionOfA", "Direction of %0",
-					inputGeo.getLabel(tpl));
+			return getLoc().getPlainDefault("DirectionOfA", "Direction of %0", inputGeo.getLabel(tpl));
 		}
-		return getLoc().getPlainDefault("UnitVectorOfA", "Unit vector of %0",
-				inputGeo.getLabel(tpl));
+		return getLoc().getPlainDefault("UnitVectorOfA", "Unit vector of %0", inputGeo.getLabel(tpl));
 	}
-
 }

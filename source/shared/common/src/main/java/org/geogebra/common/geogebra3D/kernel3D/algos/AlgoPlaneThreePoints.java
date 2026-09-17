@@ -37,12 +37,13 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 
 	/** 3D points */
 	private GeoPointND A;
+
 	private GeoPointND B;
 	private GeoPointND C;
 
 	/**
 	 * create a plane joining points, with label.
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param label
@@ -54,17 +55,16 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	 * @param C
 	 *            third point
 	 */
-	public AlgoPlaneThreePoints(Construction c, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C) {
+	public AlgoPlaneThreePoints(
+			Construction c, String label, GeoPointND A, GeoPointND B, GeoPointND C) {
 		this(c, A, B, C);
 
 		cs.setLabel(label);
-
 	}
 
 	/**
 	 * create a plane joining points, with label.
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param A
@@ -74,8 +74,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	 * @param C
 	 *            third point
 	 */
-	public AlgoPlaneThreePoints(Construction c, GeoPointND A, GeoPointND B,
-			GeoPointND C) {
+	public AlgoPlaneThreePoints(Construction c, GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(c);
 
 		this.A = A;
@@ -85,9 +84,9 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 		cs = new GeoPlane3D(c);
 
 		// set input and output
-		setInputOutput(new GeoElement[] { (GeoElement) A, (GeoElement) B,
-				(GeoElement) C }, new GeoElement[] { (GeoElement) cs });
-
+		setInputOutput(
+				new GeoElement[] {(GeoElement) A, (GeoElement) B, (GeoElement) C},
+				new GeoElement[] {(GeoElement) cs});
 	}
 
 	@Override
@@ -119,7 +118,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 
 	/**
 	 * return the cs
-	 * 
+	 *
 	 * @return the cs
 	 */
 	public GeoCoordSys2D getCoordSys() {
@@ -132,10 +131,7 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PlaneThroughABC", A.getLabel(tpl),
-				B.getLabel(tpl), C.getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc().getPlain("PlaneThroughABC", A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl));
 	}
-
 }

@@ -24,8 +24,8 @@ import org.geogebra.common.main.App;
  */
 public class GeoCursor3D extends GeoPoint3D {
 
-	static final public long NO_SOURCE = App.CE_ID_COUNTER_START - 1;
-	static final public long CAPTURED = App.CE_ID_COUNTER_START - 2;
+	public static final long NO_SOURCE = App.CE_ID_COUNTER_START - 1;
+	public static final long CAPTURED = App.CE_ID_COUNTER_START - 2;
 
 	private boolean isCaptured;
 	private long source1;
@@ -33,7 +33,7 @@ public class GeoCursor3D extends GeoPoint3D {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -43,7 +43,7 @@ public class GeoCursor3D extends GeoPoint3D {
 
 	/**
 	 * set that the cursor is captured (e.g. snapped to grid)
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -52,7 +52,7 @@ public class GeoCursor3D extends GeoPoint3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if the cursor is captured (e.g. snapped to grid)
 	 */
 	public boolean getIsCaptured() {
@@ -90,7 +90,6 @@ public class GeoCursor3D extends GeoPoint3D {
 	 * @return second source for cursor
 	 */
 	public long getSource2() {
-        return source2;
-    }
-
+		return source2;
+	}
 }

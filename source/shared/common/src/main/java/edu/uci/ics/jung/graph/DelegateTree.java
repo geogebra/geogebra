@@ -30,7 +30,7 @@ import edu.uci.ics.jung.graph.util.Pair;
 /**
  * An implementation of <code>Tree&lt;V,E&gt;</code> that delegates to a specified
  * instance of <code>DirectedGraph&lt;V,E&gt;</code>.
- * 
+ *
  * @author Tom Nelson
  *
  * @param <V>
@@ -39,11 +39,10 @@ import edu.uci.ics.jung.graph.util.Pair;
  *            the edge type
  */
 @SuppressWarnings("serial")
-public class DelegateTree<V, E> extends GraphDecorator<V, E>
-		implements Tree<V, E> {
+public class DelegateTree<V, E> extends GraphDecorator<V, E> implements Tree<V, E> {
 	/**
 	 * Returns a {@code Factory} that creates an instance of this graph type.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type for the graph factory
 	 * @param <E>
@@ -53,8 +52,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 		return new Supplier<Tree<V, E>>() {
 			@Override
 			public Tree<V, E> get() {
-				return new DelegateTree<V, E>(
-						new DirectedSparseMultigraph<V, E>());
+				return new DelegateTree<V, E>(new DirectedSparseMultigraph<V, E>());
 			}
 		};
 	}
@@ -66,12 +64,12 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * Creates an instance.
 	 */
 	public DelegateTree() {
-		this(DirectedSparseMultigraph.<V, E> getFactory());
+		this(DirectedSparseMultigraph.<V, E>getFactory());
 	}
 
 	/**
 	 * create an instance with passed values.
-	 * 
+	 *
 	 * @param graphFactory
 	 *            must create a DirectedGraph to use as a delegate
 	 */
@@ -98,7 +96,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * edge must be unique in the tree. Passing an edgeType other than
 	 * EdgeType.DIRECTED may cause an illegal argument exception in the delegate
 	 * graph.
-	 * 
+	 *
 	 * @param e
 	 *            a unique edge to add
 	 * @param v1
@@ -121,7 +119,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 * Add an edge to the tree, connecting v1, the parent and v2, the child. v1
 	 * must already exist in the tree, and v2 must not already exist the passed
 	 * edge must be unique in the tree.
-	 * 
+	 *
 	 * @param e
 	 *            a unique edge to add
 	 * @param v1
@@ -140,7 +138,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * Will set the root of the Tree, only if the Tree is empty and the root is
 	 * currently unset.
-	 * 
+	 *
 	 * @param vertex
 	 *            the tree root to set
 	 * @return true if this call mutates the underlying graph
@@ -155,14 +153,13 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 			vertex_depths.put(vertex, 0);
 			return delegate.addVertex(vertex);
 		}
-		throw new UnsupportedOperationException(
-				"Unless you are setting the root, use addChild()");
+		throw new UnsupportedOperationException("Unless you are setting the root, use addChild()");
 	}
 
 	/**
 	 * remove the passed node, and all nodes that are descendants of the passed
 	 * node.
-	 * 
+	 *
 	 * @param vertex vertex
 	 * @return <code>true</code> iff the tree was modified
 	 * @see edu.uci.ics.jung.graph.Graph#removeVertex(java.lang.Object)
@@ -185,7 +182,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * add the passed child node as a child of parent. parent must exist in the
 	 * tree, and child must not already exist.
-	 * 
+	 *
 	 * @param edge
 	 *            the unique edge to connect the parent and child nodes
 	 * @param parent
@@ -200,12 +197,10 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	public boolean addChild(E edge, V parent, V child, EdgeType edgeType) {
 		Collection<V> vertices = delegate.getVertices();
 		if (vertices.contains(parent) == false) {
-			throw new IllegalArgumentException(
-					"Tree must already contain parent " + parent);
+			throw new IllegalArgumentException("Tree must already contain parent " + parent);
 		}
 		if (vertices.contains(child)) {
-			throw new IllegalArgumentException(
-					"Tree must not already contain child " + child);
+			throw new IllegalArgumentException("Tree must not already contain child " + child);
 		}
 		vertex_depths.put(child, vertex_depths.get(parent) + 1);
 		return delegate.addEdge(edge, parent, child, edgeType);
@@ -214,7 +209,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * add the passed child node as a child of parent. parent must exist in the
 	 * tree, and child must not already exist
-	 * 
+	 *
 	 * @param edge
 	 *            the unique edge to connect the parent and child nodes
 	 * @param parent
@@ -226,12 +221,10 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	public boolean addChild(E edge, V parent, V child) {
 		Collection<V> vertices = delegate.getVertices();
 		if (vertices.contains(parent) == false) {
-			throw new IllegalArgumentException(
-					"Tree must already contain parent " + parent);
+			throw new IllegalArgumentException("Tree must already contain parent " + parent);
 		}
 		if (vertices.contains(child)) {
-			throw new IllegalArgumentException(
-					"Tree must not already contain child " + child);
+			throw new IllegalArgumentException("Tree must not already contain child " + child);
 		}
 		vertex_depths.put(child, vertex_depths.get(parent) + 1);
 		return delegate.addEdge(edge, parent, child);
@@ -277,7 +270,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * Returns an ordered list of the nodes beginning at the root and ending at
 	 * {@code vertex}, including all intermediate nodes.
-	 * 
+	 *
 	 * @param vertex
 	 *            the last node in the path from the root
 	 * @return an ordered list of the nodes from root to child
@@ -303,7 +296,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 
 	/**
 	 * getter for the root of the tree
-	 * 
+	 *
 	 * @return the root
 	 */
 	@Override
@@ -313,7 +306,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 
 	/**
 	 * sets the root to the passed value, only if the root is previously unset
-	 * 
+	 *
 	 * @param root
 	 *            the initial tree root
 	 */
@@ -324,7 +317,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * removes a node from the tree, causing all descendants of the removed node
 	 * also to be removed
-	 * 
+	 *
 	 * @param orphan
 	 *            the node to remove
 	 * @return whether this call mutates the underlying graph
@@ -336,7 +329,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * computes and returns the depth of the tree from the root to the passed
 	 * vertex
-	 * 
+	 *
 	 * @param v
 	 *            the node who's depth is computed
 	 * @return the depth to the passed node.
@@ -348,7 +341,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 
 	/**
 	 * Computes and returns the height of the tree.
-	 * 
+	 *
 	 * @return the height
 	 */
 	@Override
@@ -363,7 +356,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	/**
 	 * Returns <code>true</code> if <code>v</code> is neither a leaf nor the
 	 * root of this tree.
-	 * 
+	 *
 	 * @return <code>true</code> if <code>v</code> is neither a leaf nor the
 	 *         root of this tree
 	 */
@@ -376,7 +369,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 
 	/**
 	 * Returns <code>true</code> if the passed node has no children.
-	 * 
+	 *
 	 * @return <code>true</code> if the passed node has no children
 	 */
 	public boolean isLeaf(V v) {
@@ -424,7 +417,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 
 	@Override
 	public Collection<Tree<V, E>> getTrees() {
-		return Collections.<Tree<V, E>> singleton(this);
+		return Collections.<Tree<V, E>>singleton(this);
 	}
 
 	@Override

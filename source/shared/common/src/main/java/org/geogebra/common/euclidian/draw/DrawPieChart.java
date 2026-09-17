@@ -66,8 +66,7 @@ public class DrawPieChart extends Drawable {
 		centerY = view.toScreenCoordYd(chart.getCenter().getY());
 		radiusX = chart.getRadius() * view.getXscale();
 		radiusY = chart.getRadius() * view.getYscale();
-		outline.setFrameFromCenter(centerX, centerY,
-				centerX + radiusX, centerY + radiusY);
+		outline.setFrameFromCenter(centerX, centerY, centerX + radiusX, centerY + radiusY);
 		updateSlices();
 		updateStrokes(geo);
 		updateLabel();
@@ -85,16 +84,24 @@ public class DrawPieChart extends Drawable {
 
 	private void updateSlices() {
 		double old = INITIAL_ANGLE;
-		for (Double val: chart.getData()) {
+		for (Double val : chart.getData()) {
 			GArc2D slice = AwtFactory.getPrototype().newArc2D();
-			slice.setArc(centerX - radiusX, centerY - radiusY,
-					2 * radiusX, 2 * radiusY,
-					old * 360, - val * 360, GArc2D.PIE);
+			slice.setArc(
+					centerX - radiusX,
+					centerY - radiusY,
+					2 * radiusX,
+					2 * radiusY,
+					old * 360,
+					-val * 360,
+					GArc2D.PIE);
 			old = old - val;
 			slices.add(slice);
 			if (geo.getLineThickness() > 0) {
 				GLine2D ray = AwtFactory.getPrototype().newLine2D();
-				ray.setLine(centerX, centerY, centerX + Math.cos(old * Kernel.PI_2) * radiusX,
+				ray.setLine(
+						centerX,
+						centerY,
+						centerX + Math.cos(old * Kernel.PI_2) * radiusX,
 						centerY - Math.sin(old * Kernel.PI_2) * radiusY);
 				rays.add(ray);
 			}
@@ -140,8 +147,7 @@ public class DrawPieChart extends Drawable {
 		double radius = chart.getRadius();
 		double rwx = view.toRealWorldCoordX(x);
 		double rwy = view.toRealWorldCoordY(y);
-		double distSquare = (centerX - rwx) * (centerX - rwx)
-				+ (centerY - rwy) * (centerY - rwy) ;
+		double distSquare = (centerX - rwx) * (centerX - rwx) + (centerY - rwy) * (centerY - rwy);
 		return distSquare <= radius * radius;
 	}
 

@@ -18,7 +18,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 
 /**
  * Interface for updating card container visuals.
- * 
+ *
  * @author laszlo
  *
  */
@@ -28,7 +28,7 @@ public interface CardListInterface {
 
 	/**
 	 * Scroll the panel by diff.
-	 * 
+	 *
 	 * @param diff
 	 *            to scroll by.
 	 */
@@ -55,4 +55,3 @@ public interface CardListInterface {
 	 */
 	void updateIndexes(int index);
 }
-

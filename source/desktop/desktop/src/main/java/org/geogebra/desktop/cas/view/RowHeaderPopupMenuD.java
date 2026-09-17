@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,10 +35,9 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Popup menu for row headers
- * 
+ *
  */
-public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
-		implements ActionListener {
+public class RowHeaderPopupMenuD extends RowHeaderPopupMenu implements ActionListener {
 
 	private final AppD app;
 	private final JList rowHeader;
@@ -48,7 +47,7 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 
 	/**
 	 * Creates new popup menu
-	 * 
+	 *
 	 * @param rowHeader
 	 *            row headers
 	 * @param table
@@ -111,7 +110,6 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		latexItem.setActionCommand("copyAsLaTeX");
 		latexItem.addActionListener(this);
 		rowHeaderPopupMenu.add(latexItem);
-
 	}
 
 	@Override
@@ -143,11 +141,9 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 			String text = table.getCASView().getLaTeXfromCells(selRows);
 			if (text != null) {
 				StringSelection data = new StringSelection(text);
-				Clipboard sysClip = Toolkit.getDefaultToolkit()
-						.getSystemClipboard();
+				Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
 				sysClip.setContents(data, null);
 			}
-
 		}
 
 		if (undoNeeded) {

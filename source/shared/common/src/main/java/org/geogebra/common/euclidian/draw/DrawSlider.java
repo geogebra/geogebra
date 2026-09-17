@@ -51,15 +51,11 @@ public class DrawSlider extends Drawable {
 	private int lineThickness = GeoNumeric.DEFAULT_SLIDER_THICKNESS;
 
 	// for dot and selection
-	private GEllipse2DDouble circle = AwtFactory.getPrototype()
-			.newEllipse2DDouble();
-	private GEllipse2DDouble circleOuter = AwtFactory.getPrototype()
-			.newEllipse2DDouble();
-	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
-			.newEllipse2DDouble();
+	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
+	private GEllipse2DDouble circleOuter = AwtFactory.getPrototype().newEllipse2DDouble();
+	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype().newEllipse2DDouble();
 
-	private static final GBasicStroke borderStroke = EuclidianStatic
-			.getDefaultStroke();
+	private static final GBasicStroke borderStroke = EuclidianStatic.getDefaultStroke();
 	GBasicStroke highlightStroke = AwtFactory.getPrototype().newBasicStroke(2);
 
 	private double[] coords = new double[2];
@@ -104,16 +100,15 @@ public class DrawSlider extends Drawable {
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
 				widthScreen = number.getSliderWidth();
-				widthRW = horizontal ? widthScreen * view.getInvXscale()
-						: widthScreen * view.getInvYscale();
+				widthRW =
+						horizontal ? widthScreen * view.getInvXscale() : widthScreen * view.getInvYscale();
 			} else {
 				coordsRW[0] = location.x;
 				coordsRW[1] = location.y;
 				coordsScreen[0] = view.toScreenCoordXd(coordsRW[0]);
 				coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
 				widthRW = number.getSliderWidth();
-				widthScreen = horizontal ? widthRW * view.getXscale()
-						: widthRW * view.getYscale();
+				widthScreen = horizontal ? widthRW * view.getXscale() : widthRW * view.getYscale();
 			}
 
 			// point on slider that moves
@@ -131,8 +126,8 @@ public class DrawSlider extends Drawable {
 					this.yLabel -= 5;
 				}
 				// horizontal line
-				this.line.setLine(coordsScreen[0], coordsScreen[1],
-						coordsScreen[0] + widthScreen, coordsScreen[1]);
+				this.line.setLine(
+						coordsScreen[0], coordsScreen[1], coordsScreen[0] + widthScreen, coordsScreen[1]);
 			}
 			// vertical slider
 			else {
@@ -141,8 +136,8 @@ public class DrawSlider extends Drawable {
 					this.xLabel += 5;
 					this.yLabel += 2 * number.getSliderBlobSize() + 4;
 				}
-				this.line.setLine(coordsScreen[0], coordsScreen[1],
-						coordsScreen[0], coordsScreen[1] - widthScreen);
+				this.line.setLine(
+						coordsScreen[0], coordsScreen[1], coordsScreen[0], coordsScreen[1] - widthScreen);
 				// vertical line
 			}
 
@@ -172,7 +167,7 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		updateScreenCoords();
 		// if (needsAdjusted()) {
 		// // Log.debug(ADJUST + " needed for " + geo.getNameDescription());
@@ -181,24 +176,24 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// horizontal line
-			GColor trackColor = geo.getBackgroundColor() == null
-					? geo.getSelColor()
-					: geo.getBackgroundColor();
+			GColor trackColor =
+					geo.getBackgroundColor() == null ? geo.getSelColor() : geo.getBackgroundColor();
 			g2.setPaint(trackColor.deriveWithAlpha(geo.getLineOpacity()));
 			g2.setStroke(objStroke);
-			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
-					line.getP2().getX(), line.getP2().getY());
+			g2.drawStraightLine(
+					line.getP1().getX(),
+					line.getP1().getY(),
+					line.getP2().getX(),
+					line.getP2().getY());
 			GColor selColor = geo.getSelColor();
 
-			if (selColor.getRed() == 255 && selColor.getGreen() == 255
-					&& selColor.getBlue() == 255) {
+			if (selColor.getRed() == 255 && selColor.getGreen() == 255 && selColor.getBlue() == 255) {
 
 				if (blueHalo == null) {
-					blueHalo = GColor.newColor(0x84, 0xbe, 0xe9,
-							selColor.getAlpha());
+					blueHalo = GColor.newColor(0x84, 0xbe, 0xe9, selColor.getAlpha());
 				}
 				// use blue "halo" when blob is white
 				g2.setPaint(blueHalo);
@@ -236,12 +231,12 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public final boolean hit(int x, int y, int hitThreshold) {
 		return hitPoint(x, y, hitThreshold) || hitSlider(x, y, hitThreshold);
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
 
@@ -252,9 +247,8 @@ public class DrawSlider extends Drawable {
 	 * @param hitThreshold threshold
 	 * @return true iff the movable point was hit
 	 */
-	final public boolean hitPoint(int x, int y, int hitThreshold) {
-		int r = hitThreshold
-				+ Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
+	public final boolean hitPoint(int x, int y, int hitThreshold) {
+		int r = hitThreshold + Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
@@ -268,8 +262,7 @@ public class DrawSlider extends Drawable {
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y, int hitThreshold) {
-		int r = hitThreshold
-				+ Math.max(lineThickness, GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+		int r = hitThreshold + Math.max(lineThickness, GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 		return line.intersects(x - r, y - r, 2 * r, 2 * r);
 	}
 
@@ -287,24 +280,25 @@ public class DrawSlider extends Drawable {
 		}
 		int r2 = hitThreshold * App.DEFAULT_THRESHOLD_FACTOR_FOR_BLOB_IN_SLIDER
 				+ Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
-		return x < coords[0] - r2 || x > coords[0] + r2
-				|| y < coords[1] - r2 || y > coords[1] + r2;
+		return x < coords[0] - r2 || x > coords[0] + r2 || y < coords[1] - r2 || y > coords[1] + r2;
 	}
 
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
-		if (!geo.isDefined() || ((GeoNumeric) geo).isAbsoluteScreenLocActive()
-				|| !geo.isEuclidianVisible() || line == null) {
+	public final GRectangle getBounds() {
+		if (!geo.isDefined()
+				|| ((GeoNumeric) geo).isAbsoluteScreenLocActive()
+				|| !geo.isEuclidianVisible()
+				|| line == null) {
 			return null;
 		}
 		return line.getBounds();
 	}
 
 	@Override
-	final public GRectangle getBoundsForStylebarPosition() {
+	public final GRectangle getBoundsForStylebarPosition() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
@@ -334,18 +328,21 @@ public class DrawSlider extends Drawable {
 		int highlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
-		if (xUL + diameter < 0 || xUL > view.getWidth() || yUL + diameter < 0
+		if (xUL + diameter < 0
+				|| xUL > view.getWidth()
+				|| yUL + diameter < 0
 				|| yUL > view.getHeight()) {
 			labelVisible = false;
 		}
 		// selection area
-		circleHighlight.setFrame(xUL - 2 * HIGHLIGHT_OFFSET,
+		circleHighlight.setFrame(
+				xUL - 2 * HIGHLIGHT_OFFSET,
 				yUL - HIGHLIGHT_OFFSET * 2,
 				highlightDiameter + 2 * HIGHLIGHT_OFFSET,
 				highlightDiameter + 2 * HIGHLIGHT_OFFSET);
 
-		circleOuter.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET,
-				highlightDiameter, highlightDiameter);
+		circleOuter.setFrame(
+				xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET, highlightDiameter, highlightDiameter);
 
 		// draw trace
 
@@ -356,5 +353,4 @@ public class DrawSlider extends Drawable {
 			addLabelOffsetEnsureOnScreen(view.getFontPoint());
 		}
 	}
-
 }

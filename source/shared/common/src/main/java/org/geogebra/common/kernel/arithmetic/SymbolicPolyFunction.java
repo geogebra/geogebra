@@ -32,7 +32,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 
 	/**
 	 * Creates new symbolicpolynomial function
-	 * 
+	 *
 	 * @param degree
 	 *            degree of polynomial
 	 */
@@ -43,7 +43,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 
 	/**
 	 * Creates new polynomial function
-	 * 
+	 *
 	 * @param coeff
 	 *            array of coefficients
 	 */
@@ -64,7 +64,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 	 * degree = getDegree(); SymbolicPolyFunction deriv; if (degree < 1) { deriv
 	 * = new SymbolicPolyFunction(0); deriv.symbCoeffs[0] = new
 	 * ExpressionNode(kernel, new MyDouble(kernel, 0)); return deriv; }
-	 * 
+	 *
 	 * // standard case deriv = new SymbolicPolyFunction(degree - 1); for (int
 	 * i=1; i <= degree; i++) { deriv.symbCoeffs[i-1] = new
 	 * ExpressionNode(kernel, new MyDouble(kernel, i), ExpressionNode.MULTIPLY,
@@ -74,17 +74,16 @@ public class SymbolicPolyFunction extends PolyFunction {
 	/**
 	 * Evaluates all symbolic coefficients and stores the results in this
 	 * polynomial's double coefficients.
-	 * 
+	 *
 	 * @return true when successful
 	 */
 	@Override
-	final public boolean updateCoeffValues() {
+	public final boolean updateCoeffValues() {
 		try {
 			// evaluate all the coefficients
 			double coeff;
 			for (int i = 0; i < symbCoeffs.length; i++) {
-				ExpressionValue eval = symbCoeffs[i]
-						.evaluate(StringTemplate.defaultTemplate);
+				ExpressionValue eval = symbCoeffs[i].evaluate(StringTemplate.defaultTemplate);
 				coeff = eval.evaluateDouble();
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 					return false; // no valid values
@@ -104,12 +103,11 @@ public class SymbolicPolyFunction extends PolyFunction {
 		// standard case
 		SymbolicPolyFunction integ = new SymbolicPolyFunction(getDegree() + 1);
 		if (symbCoeffs.length > 0) {
-			integ.symbCoeffs[0] = new ExpressionNode(symbCoeffs[0].getKernel(),
-					0);
+			integ.symbCoeffs[0] = new ExpressionNode(symbCoeffs[0].getKernel(), 0);
 		}
 		for (int i = 0; i <= getDegree(); i++) {
-			integ.symbCoeffs[i + 1] = symbCoeffs[i]
-					.divide(new MyDouble(symbCoeffs[i].getKernel(), i + 1));
+			integ.symbCoeffs[i + 1] =
+					symbCoeffs[i].divide(new MyDouble(symbCoeffs[i].getKernel(), i + 1));
 			integ.coeffs[i + 1] = integ.symbCoeffs[i + 1].evaluateDouble();
 		}
 		return integ;
@@ -117,8 +115,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 
 	@Override
 	protected ExpressionValue getCoeff(int i, boolean fraction, Kernel kernel) {
-		if (fraction && symbCoeffs[i] != null
-				&& symbCoeffs[i].asFraction() != null) {
+		if (fraction && symbCoeffs[i] != null && symbCoeffs[i].asFraction() != null) {
 			return symbCoeffs[i].asFraction();
 		}
 		return new MyDouble(kernel, coeffs[i]);
@@ -133,11 +130,9 @@ public class SymbolicPolyFunction extends PolyFunction {
 		// standard case
 		SymbolicPolyFunction deriv = new SymbolicPolyFunction(getDegree() - 1);
 		for (int i = 1; i <= getDegree(); i++) {
-			deriv.symbCoeffs[i - 1] = symbCoeffs[i]
-					.multiply(new MyDouble(symbCoeffs[i].getKernel(), i));
+			deriv.symbCoeffs[i - 1] = symbCoeffs[i].multiply(new MyDouble(symbCoeffs[i].getKernel(), i));
 			deriv.coeffs[i - 1] = deriv.symbCoeffs[i - 1].evaluateDouble();
 		}
 		return deriv;
 	}
-
 }

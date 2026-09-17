@@ -11,8 +11,7 @@ public class CommandRenewEnvironment extends Command {
 		final int nbargs = tp.getOptionAsPositiveInteger(0);
 		final String before = tp.getArgAsString();
 		final String after = tp.getArgAsString();
-		NewEnvironmentMacro.addNewEnvironment(tp, name, before, after, nbargs,
-				true);
+		NewEnvironmentMacro.addNewEnvironment(tp, name, before, after, nbargs, true);
 		return false;
 	}
 }

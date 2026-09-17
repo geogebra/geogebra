@@ -209,8 +209,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 * @param storeUndo
 	 *            true to store undo
 	 */
-	void zoom(double px, double py, double factor, int steps,
-			boolean storeUndo);
+	void zoom(double px, double py, double factor, int steps, boolean storeUndo);
 
 	/**
 	 * Returns point capturing mode.
@@ -248,8 +247,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 * @param ymax
 	 *            y max
 	 */
-	void setRealWorldCoordSystem(double xmin, double xmax, double ymin,
-			double ymax);
+	void setRealWorldCoordSystem(double xmin, double xmax, double ymin, double ymax);
 
 	/**
 	 * center the view on point
@@ -306,6 +304,4 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 * @return screen y-coord
 	 */
 	double toScreenCoordYd(double rwY);
-
 }
-

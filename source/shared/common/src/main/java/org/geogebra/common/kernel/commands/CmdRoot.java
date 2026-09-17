@@ -40,7 +40,7 @@ public class CmdRoot extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -49,59 +49,60 @@ public class CmdRoot extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		// roots of polynomial
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isRealValuedFunction()) {
-				GeoFunctionable gf = (GeoFunctionable) arg[0];
-				return root(c, gf);
-			}
-			throw argErr(c, arg[0]);
+			// roots of polynomial
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isRealValuedFunction()) {
+					GeoFunctionable gf = (GeoFunctionable) arg[0];
+					return root(c, gf);
+				}
+				throw argErr(c, arg[0]);
 
 			// root with start value
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoRootNewton algo = new AlgoRootNewton(cons, c.getLabel(),
-						(GeoFunctionable) arg[0],
-						(GeoNumberValue) arg[1]);
+					AlgoRootNewton algo = new AlgoRootNewton(
+							cons, c.getLabel(), (GeoFunctionable) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getRootPoint() };
-				return ret;
-			}
-			if (arg[0].isGeoFunction() && arg[1].isGeoFunction()) {
-				c.setName("Intersect"); // bug in some GGB versions saving
-										// Intersect(f,g) as Root(f,g)
-				return kernel.getAlgebraProcessor().processCommand(c, info);
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = {algo.getRootPoint()};
+					return ret;
+				}
+				if (arg[0].isGeoFunction() && arg[1].isGeoFunction()) {
+					c.setName("Intersect"); // bug in some GGB versions saving
+					// Intersect(f,g) as Root(f,g)
+					return kernel.getAlgebraProcessor().processCommand(c, info);
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
 			// root in interval
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoRootInterval algo = new AlgoRootInterval(cons, c.getLabel(),
-						(GeoFunctionable) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+					AlgoRootInterval algo = new AlgoRootInterval(
+							cons,
+							c.getLabel(),
+							(GeoFunctionable) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getRootPoint() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = {algo.getRootPoint()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -117,21 +118,17 @@ public class CmdRoot extends CommandProcessor {
 		ExpressionNode exp = fun.getFunctionExpression();
 		if (exp.getOperation().isIf()) {
 
-			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
-					cons, c.getLabels(), f);
+			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(cons, c.getLabels(), f);
 			GeoPoint[] g = algo.getRootPoints();
 			return g;
-
 		}
 
 		// allow functions that can be simplified to factors of polynomials
-		if (!f.getConstruction().isFileLoading()
-				&& !f.isPolynomialFunction(true) && f.isDefined()) {
+		if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(true) && f.isDefined()) {
 			return nonPolyRoots(c, kernel, f);
 		}
 
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(),
-				f, true);
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(), f, true);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
 	}
@@ -145,15 +142,10 @@ public class CmdRoot extends CommandProcessor {
 	 *            function
 	 * @return root points
 	 */
-	public static GeoPoint[] nonPolyRoots(Command c, Kernel kernel,
-			GeoFunctionable geoElement) {
-		EuclidianViewInterfaceCommon view = kernel.getApplication()
-				.getActiveEuclidianView();
+	public static GeoPoint[] nonPolyRoots(Command c, Kernel kernel, GeoFunctionable geoElement) {
+		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
 
-		AlgoRoots algo = new AlgoRoots(kernel.getConstruction(), c.getLabels(),
-				geoElement, view);
+		AlgoRoots algo = new AlgoRoots(kernel.getConstruction(), c.getLabels(), geoElement, view);
 		return algo.getRootPoints();
-
 	}
-
 }

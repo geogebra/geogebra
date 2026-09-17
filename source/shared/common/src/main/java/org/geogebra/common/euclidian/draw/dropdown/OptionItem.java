@@ -54,19 +54,16 @@ class OptionItem {
 	}
 
 	private void setDimension(double width, double height) {
-		dimension = AwtFactory.getPrototype().newDimension(
-				(int) width, (int) height);
+		dimension = AwtFactory.getPrototype().newDimension((int) width, (int) height);
 	}
 
 	private void formatText(GeoList list, int idx) {
 		GeoElement geoItem = list.get(idx);
 		if (GeoList.needsLatex(geoItem)) {
-			text = geoItem.toLaTeXString(false,
-					StringTemplate.latexTemplate);
+			text = geoItem.toLaTeXString(false, StringTemplate.latexTemplate);
 			latex = true;
 		} else {
-			text = list.getItemDisplayString(geoItem,
-					StringTemplate.defaultTemplate);
+			text = list.getItemDisplayString(geoItem, StringTemplate.defaultTemplate);
 			latex = CanvasDrawable.isLatexString(text);
 		}
 	}
@@ -85,14 +82,13 @@ class OptionItem {
 
 	private void calculateDimensionsOfLayout() {
 		GTextLayout layout = drawable.getLayout(text, font);
-		setDimension(Math.round(layout.getBounds().getWidth()),
-				 Math.round(layout.getBounds().getHeight()));
+		setDimension(
+				Math.round(layout.getBounds().getWidth()), Math.round(layout.getBounds().getHeight()));
 	}
 
 	private void calculateDimensionsForLatex() {
-		dimension = CanvasDrawable.measureLatex(list.getApp(),
-				font, text, CanvasDrawable.shouldBeSerif(text, list.get(index),
-						false));
+		dimension = CanvasDrawable.measureLatex(
+				list.getApp(), font, text, CanvasDrawable.shouldBeSerif(text, list.get(index), false));
 	}
 
 	int getWidth() {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -21,79 +21,78 @@ package org.geogebra.ar;
  * Utiles for AR for iOS and Android
  *
  */
-
 public final class ARUtil {
 
-    private final static float corner = 0.07f;
-    private final static float thickness = corner / 30f;
-    private final static float length = corner / 2f;
+	private static final float corner = 0.07f;
+	private static final float thickness = corner / 30f;
+	private static final float length = corner / 2f;
 
-    private static final int COORDS_PER_VERTEX = 2; // x, z
-    private static final int VERTICES_PER_CORNER = 6;
-    private static final int CORNERS_NB = 4;
-    private static final int INDICES_PER_TRIANGLE = 3;
-    private static final int TRIANGLES_PER_CORNER = 4;
+	private static final int COORDS_PER_VERTEX = 2; // x, z
+	private static final int VERTICES_PER_CORNER = 6;
+	private static final int CORNERS_NB = 4;
+	private static final int INDICES_PER_TRIANGLE = 3;
+	private static final int TRIANGLES_PER_CORNER = 4;
 
-    /**
-     * @return indexData for focus square in AR
-     */
-    static public short[] getFocusSquareIndexData() {
-        short[] indexData = new short[TRIANGLES_PER_CORNER * INDICES_PER_TRIANGLE * CORNERS_NB];
-        int index = 0;
-        for (int i = 0; i < CORNERS_NB; i++) {
-            short shift = (short) (i * VERTICES_PER_CORNER);
-            indexData[index++] = shift;
-            indexData[index++] = (short) (shift + 1);
-            indexData[index++] = (short) (shift + 2);
+	/**
+	 * @return indexData for focus square in AR
+	 */
+	public static short[] getFocusSquareIndexData() {
+		short[] indexData = new short[TRIANGLES_PER_CORNER * INDICES_PER_TRIANGLE * CORNERS_NB];
+		int index = 0;
+		for (int i = 0; i < CORNERS_NB; i++) {
+			short shift = (short) (i * VERTICES_PER_CORNER);
+			indexData[index++] = shift;
+			indexData[index++] = (short) (shift + 1);
+			indexData[index++] = (short) (shift + 2);
 
-            indexData[index++] = shift;
-            indexData[index++] = (short) (shift + 2);
-            indexData[index++] = (short) (shift + 3);
+			indexData[index++] = shift;
+			indexData[index++] = (short) (shift + 2);
+			indexData[index++] = (short) (shift + 3);
 
-            indexData[index++] = (short) (shift + 2);
-            indexData[index++] = (short) (shift + 4);
-            indexData[index++] = (short) (shift + 5);
+			indexData[index++] = (short) (shift + 2);
+			indexData[index++] = (short) (shift + 4);
+			indexData[index++] = (short) (shift + 5);
 
-            indexData[index++] = (short) (shift + 2);
-            indexData[index++] = (short) (shift + 5);
-            indexData[index++] = (short) (shift + 3);
-        }
-        return indexData;
-    }
+			indexData[index++] = (short) (shift + 2);
+			indexData[index++] = (short) (shift + 5);
+			indexData[index++] = (short) (shift + 3);
+		}
+		return indexData;
+	}
 
-    /**
-     * @return positionData for focus square in AR
-     */
-    static public float[] getFocusSquarePositionData() {
-        float[] positionData = new float[VERTICES_PER_CORNER * COORDS_PER_VERTEX * CORNERS_NB];
-        int index = 0;
-        index = addCorner(positionData, index, 1, 1);
-        index = addCorner(positionData, index, -1, 1);
-        index = addCorner(positionData, index, -1, -1);
-        addCorner(positionData, index, 1, -1);
+	/**
+	 * @return positionData for focus square in AR
+	 */
+	public static float[] getFocusSquarePositionData() {
+		float[] positionData = new float[VERTICES_PER_CORNER * COORDS_PER_VERTEX * CORNERS_NB];
+		int index = 0;
+		index = addCorner(positionData, index, 1, 1);
+		index = addCorner(positionData, index, -1, 1);
+		index = addCorner(positionData, index, -1, -1);
+		addCorner(positionData, index, 1, -1);
 
-        return positionData;
-    }
+		return positionData;
+	}
 
-    static private int addCorner(float[] positionData, int startIndex, int cornerX, int cornerY) {
-        int index = startIndex;
-        positionData[index++] = (corner - length) * cornerX;
-        positionData[index++] = (corner + thickness) * cornerY;
+	private static int addCorner(float[] positionData, int startIndex, int cornerX, int cornerY) {
+		int index = startIndex;
+		positionData[index++] = (corner - length) * cornerX;
+		positionData[index++] = (corner + thickness) * cornerY;
 
-        positionData[index++] = (corner - length) * cornerX;
-        positionData[index++] = (corner - thickness) * cornerY;
+		positionData[index++] = (corner - length) * cornerX;
+		positionData[index++] = (corner - thickness) * cornerY;
 
-        positionData[index++] = (corner - thickness) * cornerX;
-        positionData[index++] = (corner - thickness) * cornerY;
+		positionData[index++] = (corner - thickness) * cornerX;
+		positionData[index++] = (corner - thickness) * cornerY;
 
-        positionData[index++] = (corner + thickness) * cornerX;
-        positionData[index++] = (corner + thickness) * cornerY;
+		positionData[index++] = (corner + thickness) * cornerX;
+		positionData[index++] = (corner + thickness) * cornerY;
 
-        positionData[index++] = (corner - thickness) * cornerX;
-        positionData[index++] = (corner - length) * cornerY;
+		positionData[index++] = (corner - thickness) * cornerX;
+		positionData[index++] = (corner - length) * cornerY;
 
-        positionData[index++] = (corner + thickness) * cornerX;
-        positionData[index++] = (corner - length) * cornerY;
-        return index;
-    }
+		positionData[index++] = (corner + thickness) * cornerX;
+		positionData[index++] = (corner - length) * cornerY;
+		return index;
+	}
 }

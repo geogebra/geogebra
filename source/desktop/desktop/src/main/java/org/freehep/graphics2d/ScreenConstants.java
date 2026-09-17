@@ -7,30 +7,31 @@ import java.util.Map;
 
 /**
  * This class defines a set of constants which describe a screen.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ScreenConstants.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
 public class ScreenConstants {
-	public final static String VGA = "600x480";
+	public static final String VGA = "600x480";
 
-	public final static String SVGA = "800x600";
+	public static final String SVGA = "800x600";
 
-	public final static String XGA = "1024x768";
+	public static final String XGA = "1024x768";
 
-	public final static String SXGA = "1280x1024";
+	public static final String SXGA = "1280x1024";
 
-	public final static String SXGA_PLUS = "1400x1050";
+	public static final String SXGA_PLUS = "1400x1050";
 
-	public final static String UXGA = "1600x1200";
+	public static final String UXGA = "1600x1200";
 
-	public final static String WSXGA_PLUS = "1680x1050";
+	public static final String WSXGA_PLUS = "1680x1050";
 
-	public final static String WUXGA = "1920x1200";
+	public static final String WUXGA = "1920x1200";
 
 	private static Dimension UNDEFINED = new Dimension(0, 0);
 
 	private static final Map sizes;
+
 	static {
 		sizes = new HashMap();
 		sizes.put(VGA, new Dimension(640, 480));

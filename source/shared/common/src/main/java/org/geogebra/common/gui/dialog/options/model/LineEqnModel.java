@@ -39,10 +39,12 @@ public class LineEqnModel extends MultipleOptionsModel {
 	public LineEqnModel(App app) {
 		super(app);
 
-		eqnValues = Arrays.asList(LinearEquationRepresentable.Form.IMPLICIT,
-				LinearEquationRepresentable.Form.EXPLICIT, LinearEquationRepresentable.Form.PARAMETRIC,
-				LinearEquationRepresentable.Form.GENERAL, LinearEquationRepresentable.Form.USER);
-
+		eqnValues = Arrays.asList(
+				LinearEquationRepresentable.Form.IMPLICIT,
+				LinearEquationRepresentable.Form.EXPLICIT,
+				LinearEquationRepresentable.Form.PARAMETRIC,
+				LinearEquationRepresentable.Form.GENERAL,
+				LinearEquationRepresentable.Form.USER);
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 	/**
 	 * For user equations force input form, for command equations
 	 * either don't show them (conic) or force command output (line)
-	 * 
+	 *
 	 * @param geo
 	 *            equation
 	 * @return whether to force input form
@@ -72,8 +74,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 			}
 			if (geo instanceof GeoLine) {
 				AlgoElement algo = geo.getParentAlgorithm();
-				boolean isFitLineOutput = (algo instanceof AlgoFitLineX)
-						|| (algo instanceof AlgoFitLineY);
+				boolean isFitLineOutput = (algo instanceof AlgoFitLineX) || (algo instanceof AlgoFitLineY);
 				if (isFitLineOutput) {
 					return equationBehaviour.getFitLineCommandEquationForm() != null
 							&& !equationBehaviour.allowsChangingEquationFormsByUser();
@@ -106,19 +107,18 @@ public class LineEqnModel extends MultipleOptionsModel {
 			}
 		}
 
-		getListener()
-				.setSelectedIndex(equalMode ? value0 : -1);
+		getListener().setSelectedIndex(equalMode ? value0 : -1);
 	}
 
 	@Override
 	public List<String> getChoices(Localization loc) {
 
-		return Arrays.asList(loc.getMenu("ImplicitLineEquation"), // index 0
+		return Arrays.asList(
+				loc.getMenu("ImplicitLineEquation"), // index 0
 				loc.getMenu("ExplicitLineEquation"), // index 1
 				loc.getMenu("ParametricForm"), // index 2
 				loc.getMenu("GeneralLineEquation"), // index 3
 				loc.getMenu("InputForm"));
-
 	}
 
 	@Override
@@ -139,5 +139,4 @@ public class LineEqnModel extends MultipleOptionsModel {
 	public String getTitle() {
 		return "Equation";
 	}
-
 }

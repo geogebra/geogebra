@@ -33,7 +33,7 @@ class HittingTest extends BaseEuclidianControllerTest {
 	void polygonTool() {
 		add("p1=Polygon((0, 0), (2, 0),(2, -2), (0, -2))");
 		add("p2=Polygon((2, 0), (4, 0),(4, -2), (2, -2))");
-		for (String segment: getApp().getGgbApi().getAllObjectNames("segment")) {
+		for (String segment : getApp().getGgbApi().getAllObjectNames("segment")) {
 			getApp().getGgbApi().setFixed(segment, true, false);
 		}
 		setMode(EuclidianConstants.MODE_MOVE);

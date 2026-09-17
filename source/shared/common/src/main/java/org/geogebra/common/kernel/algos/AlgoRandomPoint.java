@@ -27,11 +27,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Random point
- * 
+ *
  * @author Rrubaa
  */
-
-public class AlgoRandomPoint extends AlgoElement implements SetRandomValue  {
+public class AlgoRandomPoint extends AlgoElement implements SetRandomValue {
 	// input
 	private GeoNumberValue a;
 	private GeoNumberValue b;
@@ -51,8 +50,8 @@ public class AlgoRandomPoint extends AlgoElement implements SetRandomValue  {
 	 * @param d
 	 *            y max
 	 */
-	public AlgoRandomPoint(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
+	public AlgoRandomPoint(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -96,17 +95,21 @@ public class AlgoRandomPoint extends AlgoElement implements SetRandomValue  {
 		double cNum = c.getDouble();
 		double dNum = d.getDouble();
 
-		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()
-				&& input[3].isDefined() && !Double.isInfinite(aNum)
-				&& !Double.isNaN(aNum) && !Double.isInfinite(bNum)
-				&& !Double.isNaN(bNum) && !Double.isInfinite(cNum)
-				&& !Double.isNaN(cNum) && !Double.isInfinite(dNum)
+		if (input[0].isDefined()
+				&& input[1].isDefined()
+				&& input[2].isDefined()
+				&& input[3].isDefined()
+				&& !Double.isInfinite(aNum)
+				&& !Double.isNaN(aNum)
+				&& !Double.isInfinite(bNum)
+				&& !Double.isNaN(bNum)
+				&& !Double.isInfinite(cNum)
+				&& !Double.isNaN(cNum)
+				&& !Double.isInfinite(dNum)
 				&& !Double.isNaN(dNum)) {
 
-			double p = aNum
-					+ (bNum - aNum) * kernel.randomNumberGenerator.getRandomNumber();
-			double q = cNum
-					+ (dNum - cNum) * kernel.randomNumberGenerator.getRandomNumber();
+			double p = aNum + (bNum - aNum) * kernel.randomNumberGenerator.getRandomNumber();
+			double q = cNum + (dNum - cNum) * kernel.randomNumberGenerator.getRandomNumber();
 			getPoint().setCoords(p, q, 1.0);
 		} else {
 			M.setUndefined();

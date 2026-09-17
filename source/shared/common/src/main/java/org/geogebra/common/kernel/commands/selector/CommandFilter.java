@@ -25,10 +25,10 @@ import org.geogebra.common.kernel.commands.Commands;
 @FunctionalInterface
 public interface CommandFilter {
 
-    /**
+	/**
 	 * @param command
 	 *            command
 	 * @return Returns true if the command is allowed, otherwise false
 	 */
-    boolean isCommandAllowed(Commands command);
+	boolean isCommandAllowed(Commands command);
 }

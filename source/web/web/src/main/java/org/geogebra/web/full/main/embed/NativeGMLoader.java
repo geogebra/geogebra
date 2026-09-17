@@ -29,6 +29,5 @@ final class NativeGMLoader {
 		// not instantiable
 	}
 
-	static native void loadGM(JsRunnable onLoadCallback,
-			JsPropertyMap<Object> settings);
+	static native void loadGM(JsRunnable onLoadCallback, JsPropertyMap<Object> settings);
 }

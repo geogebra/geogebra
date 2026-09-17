@@ -54,10 +54,15 @@ import org.gwtproject.user.client.ui.Widget;
  * HTML5 version of CAS controller
  *
  */
-public final class CASTableControllerW extends CASTableCellController implements
-        MouseDownHandler, MouseUpHandler, MouseMoveHandler, KeyHandler,
-        TouchStartHandler, TouchEndHandler, TouchMoveHandler,
-        LongTouchHandler {
+public final class CASTableControllerW extends CASTableCellController
+		implements MouseDownHandler,
+				MouseUpHandler,
+				MouseMoveHandler,
+				KeyHandler,
+				TouchStartHandler,
+				TouchEndHandler,
+				TouchMoveHandler,
+				LongTouchHandler {
 
 	private CASViewW view;
 	private AppW app;
@@ -89,8 +94,7 @@ public final class CASTableControllerW extends CASTableCellController implements
 		}
 		if (table.getSelectedRows().length > 0) {
 			// TODO select cells for copy
-			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager())
-					.getCASContextMenu(table);
+			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager()).getCASContextMenu(table);
 			popupMenu.show(x, y);
 			contextOpened = true;
 		}
@@ -109,7 +113,7 @@ public final class CASTableControllerW extends CASTableCellController implements
 	/**
 	 * Copies the output of a cell into the cell being edited if there is an
 	 * editing cell and a cell output was clicked.
-	 * 
+	 *
 	 * @param event
 	 *            event
 	 * @return true if copying happened
@@ -126,7 +130,8 @@ public final class CASTableControllerW extends CASTableCellController implements
 	private boolean copyOutputToEditingCell(CASTableCellW clickedCell) {
 		CASTableW table = view.getConsoleTable();
 		CASTableCellW editingCell = table.getEditingCell();
-		if (editingCell != null && clickedCell != null
+		if (editingCell != null
+				&& clickedCell != null
 				&& clickedCell.getCASCell() != null
 				&& !clickedCell.getCASCell().isError()) {
 			editingCell.insertInput(clickedCell.getOutputString());
@@ -171,10 +176,10 @@ public final class CASTableControllerW extends CASTableCellController implements
 			}
 
 			// CASTableCellEditor tableCellEditor = table.getEditor();
-			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager())
-					.getCASContextMenu(table);
-			popupMenu.show(event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
-							event.getClientY() + NavigatorUtil.getWindowScrollTop());
+			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager()).getCASContextMenu(table);
+			popupMenu.show(
+					event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
+					event.getClientY() + NavigatorUtil.getWindowScrollTop());
 		} else {
 			onPointerUp(event);
 		}
@@ -201,7 +206,6 @@ public final class CASTableControllerW extends CASTableCellController implements
 		mouseDown = true;
 		handleMouseDownSelection(event);
 		onPointerDown();
-
 	}
 
 	private void onPointerDown() {
@@ -240,9 +244,8 @@ public final class CASTableControllerW extends CASTableCellController implements
 			longTouchManager.cancelTimer();
 			return;
 		}
-		longTouchManager.rescheduleTimerIfRunning(this,
-		        EventUtil.getTouchOrClickClientX(event),
-		        EventUtil.getTouchOrClickClientY(event));
+		longTouchManager.rescheduleTimerIfRunning(
+				this, EventUtil.getTouchOrClickClientX(event), EventUtil.getTouchOrClickClientY(event));
 		handleTouchMoveSelection(event);
 		CancelEventTimer.touchEventOccurred();
 	}
@@ -264,9 +267,8 @@ public final class CASTableControllerW extends CASTableCellController implements
 		event.stopPropagation();
 		handleTouchStartSelection(event);
 		touchDown = true;
-		longTouchManager.scheduleTimer(this,
-		        EventUtil.getTouchOrClickClientX(event),
-		        EventUtil.getTouchOrClickClientY(event));
+		longTouchManager.scheduleTimer(
+				this, EventUtil.getTouchOrClickClientX(event), EventUtil.getTouchOrClickClientY(event));
 		onPointerDown();
 		CancelEventTimer.touchEventOccurred();
 	}
@@ -305,8 +307,10 @@ public final class CASTableControllerW extends CASTableCellController implements
 	private void handleMouseMoveSelection(MouseMoveEvent event) {
 		CASTableW table = view.getConsoleTable();
 		GPoint point = table.getPointForEvent(event);
-		if (point == null || point.getX() != CASTableW.COL_CAS_HEADER
-				|| startSelectRow < 0 || !mouseDown) {
+		if (point == null
+				|| point.getX() != CASTableW.COL_CAS_HEADER
+				|| startSelectRow < 0
+				|| !mouseDown) {
 			return;
 		}
 		int currentRow = point.getY();
@@ -373,37 +377,30 @@ public final class CASTableControllerW extends CASTableCellController implements
 	 *            editor
 	 * @return true if special handling was necessary
 	 */
-	public boolean handleFirstLetter(char ch, int editingRow,
-			CASTableCellEditor editor) {
+	public boolean handleFirstLetter(char ch, int editingRow, CASTableCellEditor editor) {
 		switch (ch) {
-		case ' ':
-		case '|':
-			// insert output of previous row (not in parentheses)
+			case ' ':
+			case '|':
+				// insert output of previous row (not in parentheses)
 
-				GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
-						editingRow - 1);
-				editor.setInput(selCellValue
-						.getOutputRHS(StringTemplate.defaultTemplate) + " ");
-			return true;
+				GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);
+				editor.setInput(selCellValue.getOutputRHS(StringTemplate.defaultTemplate) + " ");
+				return true;
 
-		case ')':
-			// insert output of previous row in parentheses
+			case ')':
+				// insert output of previous row in parentheses
 
-			selCellValue = view.getConsoleTable().getGeoCasCell(
-						editingRow - 1);
-				String prevOutput = selCellValue
-						.getOutputRHS(StringTemplate.defaultTemplate);
+				selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);
+				String prevOutput = selCellValue.getOutputRHS(StringTemplate.defaultTemplate);
 				editor.setInput("(" + prevOutput + ")");
-			return true;
+				return true;
 
-		case '=':
-			// insert input of previous row
+			case '=':
+				// insert input of previous row
 
-			selCellValue = view.getConsoleTable().getGeoCasCell(
-						editingRow - 1);
-				editor.setInput(selCellValue
-						.getLocalizedInput());
-			return true;
+				selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);
+				editor.setInput(selCellValue.getLocalizedInput());
+				return true;
 		}
 		return false;
 	}

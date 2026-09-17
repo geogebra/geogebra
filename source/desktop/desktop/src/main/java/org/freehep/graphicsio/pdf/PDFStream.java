@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,7 +43,7 @@ import org.freehep.util.io.FlateOutputStream;
  * automatically, referencing an object which will also be written just after
  * the stream is closed and the length is calculated.
  * <p>
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PDFStream.java,v 1.7 2009-08-17 21:44:44 murkle Exp $
  */
@@ -61,14 +61,13 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	private String[] encode;
 
-	PDFStream(PDF pdf, PDFByteWriter writer, String name, PDFObject parent,
-			String[] encode) throws IOException {
+	PDFStream(PDF pdf, PDFByteWriter writer, String name, PDFObject parent, String[] encode)
+			throws IOException {
 		super(pdf, writer);
 		this.name = name;
 		object = parent;
 		if (object == null) {
-			System.err.println(
-					"PDFWriter: 'PDFStream' cannot have a null parent");
+			System.err.println("PDFWriter: 'PDFStream' cannot have a null parent");
 		}
 		// first write the dictionary
 		dictionaryOpen = true;
@@ -119,8 +118,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 		if ((encode != null) && (encode.length != 0)) {
 			filters = new PDFName[encode.length];
 			for (int i = 0; i < filters.length; i++) {
-				filters[i] = new PDFName(
-						encode[encode.length - i - 1] + "Decode");
+				filters[i] = new PDFName(encode[encode.length - i - 1] + "Decode");
 			}
 		}
 		return filters;
@@ -128,8 +126,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	// open new stream using Standard Filters (see table 3.5)
 	// stream[0] is the one to write to, the last one is s
-	private static OutputStream[] openFilters(OutputStream s,
-			String[] filters) {
+	private static OutputStream[] openFilters(OutputStream s, String[] filters) {
 		OutputStream[] os;
 		if ((filters != null) && (filters.length != 0)) {
 			os = new OutputStream[filters.length + 1];
@@ -144,8 +141,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 				} else if (filters[i].equals("DCT")) {
 					os[i] = os[i + 1];
 				} else {
-					System.err.println(
-							"PDFWriter: unknown stream filter: " + filters[i]);
+					System.err.println("PDFWriter: unknown stream filter: " + filters[i]);
 				}
 			}
 		} else {
@@ -226,13 +222,17 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	}
 
 	public void matrix(AffineTransform xform) throws IOException {
-		matrix(xform.getScaleX(), xform.getShearY(), xform.getShearX(),
-				xform.getScaleY(), xform.getTranslateX(),
+		matrix(
+				xform.getScaleX(),
+				xform.getShearY(),
+				xform.getShearX(),
+				xform.getScaleY(),
+				xform.getTranslateX(),
 				xform.getTranslateY());
 	}
 
-	public void matrix(double m00, double m10, double m01, double m11,
-			double m02, double m12) throws IOException {
+	public void matrix(double m00, double m10, double m01, double m11, double m02, double m12)
+			throws IOException {
 		println(PDFUtil.fixedPrecision(m00) + " " + PDFUtil.fixedPrecision(m10)
 				+ " " + PDFUtil.fixedPrecision(m01) + " "
 				+ PDFUtil.fixedPrecision(m11) + " "
@@ -283,44 +283,39 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	//
 	// Path Construction operators (see Table 4.9)
 	//
-	public void cubic(double x1, double y1, double x2, double y2, double x3,
-			double y3) throws IOException {
+	public void cubic(double x1, double y1, double x2, double y2, double x3, double y3)
+			throws IOException {
 		println(PDFUtil.fixedPrecision(x1) + " " + PDFUtil.fixedPrecision(y1)
 				+ " " + PDFUtil.fixedPrecision(x2) + " "
 				+ PDFUtil.fixedPrecision(y2) + " " + PDFUtil.fixedPrecision(x3)
 				+ " " + PDFUtil.fixedPrecision(y3) + " c");
 	}
 
-	public void cubicV(double x2, double y2, double x3, double y3)
-			throws IOException {
+	public void cubicV(double x2, double y2, double x3, double y3) throws IOException {
 		println(PDFUtil.fixedPrecision(x2) + " " + PDFUtil.fixedPrecision(y2)
 				+ " " + PDFUtil.fixedPrecision(x3) + " "
 				+ PDFUtil.fixedPrecision(y3) + " v");
 	}
 
-	public void cubicY(double x1, double y1, double x3, double y3)
-			throws IOException {
+	public void cubicY(double x1, double y1, double x3, double y3) throws IOException {
 		println(PDFUtil.fixedPrecision(x1) + " " + PDFUtil.fixedPrecision(y1)
 				+ " " + PDFUtil.fixedPrecision(x3) + " "
 				+ PDFUtil.fixedPrecision(y3) + " y");
 	}
 
 	public void move(double x, double y) throws IOException {
-		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y)
-				+ " m");
+		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y) + " m");
 	}
 
 	public void line(double x, double y) throws IOException {
-		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y)
-				+ " l");
+		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y) + " l");
 	}
 
 	public void closePath() throws IOException {
 		println("h");
 	}
 
-	public void rectangle(double x, double y, double width, double height)
-			throws IOException {
+	public void rectangle(double x, double y, double width, double height) throws IOException {
 		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y)
 				+ " " + PDFUtil.fixedPrecision(width) + " "
 				+ PDFUtil.fixedPrecision(height) + " re");
@@ -391,8 +386,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	public void endText() throws IOException {
 		if (!textOpen) {
-			System.err.println(
-					"PDFStream: unbalanced use of beginText()/endText().");
+			System.err.println("PDFStream: unbalanced use of beginText()/endText().");
 		}
 		println("ET");
 		textOpen = false;
@@ -436,17 +430,15 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	// Text Positioning operators (see Table 5.5)
 	//
 	public void text(double x, double y) throws IOException {
-		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y)
-				+ " Td");
+		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y) + " Td");
 	}
 
 	public void textLeading(double x, double y) throws IOException {
-		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y)
-				+ " TD");
+		println(PDFUtil.fixedPrecision(x) + " " + PDFUtil.fixedPrecision(y) + " TD");
 	}
 
-	public void textMatrix(double a, double b, double c, double d, double e,
-			double f) throws IOException {
+	public void textMatrix(double a, double b, double c, double d, double e, double f)
+			throws IOException {
 		println(PDFUtil.fixedPrecision(a) + " " + PDFUtil.fixedPrecision(b)
 				+ " " + PDFUtil.fixedPrecision(c) + " "
 				+ PDFUtil.fixedPrecision(d) + " " + PDFUtil.fixedPrecision(e)
@@ -462,37 +454,30 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	//
 	public void show(String text) throws IOException {
 		if (!fontWasSet) {
-			System.err.println(
-					"PDFStream: cannot use Text Showing operator before font is set.");
+			System.err.println("PDFStream: cannot use Text Showing operator before font is set.");
 		}
 		if (!textOpen) {
-			System.err.println(
-					"PDFStream: Text Showing operator only allowed inside Text section.");
+			System.err.println("PDFStream: Text Showing operator only allowed inside Text section.");
 		}
 		println("(" + PDFUtil.escape(text) + ") Tj");
 	}
 
 	public void showLine(String text) throws IOException {
 		if (!fontWasSet) {
-			System.err.println(
-					"PDFStream: cannot use Text Showing operator before font is set.");
+			System.err.println("PDFStream: cannot use Text Showing operator before font is set.");
 		}
 		if (!textOpen) {
-			System.err.println(
-					"PDFStream: Text Showing operator only allowed inside Text section.");
+			System.err.println("PDFStream: Text Showing operator only allowed inside Text section.");
 		}
 		println("(" + PDFUtil.escape(text) + ") '");
 	}
 
-	public void showLine(double wordSpace, double charSpace, String text)
-			throws IOException {
+	public void showLine(double wordSpace, double charSpace, String text) throws IOException {
 		if (!fontWasSet) {
-			System.err.println(
-					"PDFStream: cannot use Text Showing operator before font is set.");
+			System.err.println("PDFStream: cannot use Text Showing operator before font is set.");
 		}
 		if (!textOpen) {
-			System.err.println(
-					"PDFStream: Text Showing operator only allowed inside Text section.");
+			System.err.println("PDFStream: Text Showing operator only allowed inside Text section.");
 		}
 		println(PDFUtil.fixedPrecision(wordSpace) + " "
 				+ PDFUtil.fixedPrecision(charSpace) + " ("
@@ -521,12 +506,11 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	// Type 3 Font operators (see Table 5.10)
 	//
 	public void glyph(double wx, double wy) throws IOException {
-		println(PDFUtil.fixedPrecision(wx) + " " + PDFUtil.fixedPrecision(wy)
-				+ " d0");
+		println(PDFUtil.fixedPrecision(wx) + " " + PDFUtil.fixedPrecision(wy) + " d0");
 	}
 
-	public void glyph(double wx, double wy, double llx, double lly, double urx,
-			double ury) throws IOException {
+	public void glyph(double wx, double wy, double llx, double lly, double urx, double ury)
+			throws IOException {
 		println(PDFUtil.fixedPrecision(wx) + " " + PDFUtil.fixedPrecision(wy)
 				+ " " + PDFUtil.fixedPrecision(llx) + " "
 				+ PDFUtil.fixedPrecision(lly) + " "
@@ -568,8 +552,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 		println(name + " scn");
 	}
 
-	public void colorSpaceStroke(double[] color, PDFName name)
-			throws IOException {
+	public void colorSpaceStroke(double[] color, PDFName name) throws IOException {
 		if (color != null) {
 			for (int i = 0; i < color.length; i++) {
 				print(PDFUtil.fixedPrecision(color[i]) + " ");
@@ -587,25 +570,22 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	}
 
 	public void colorSpace(double r, double g, double b) throws IOException {
-		println(PDFUtil.fixedPrecision(r) + " " + PDFUtil.fixedPrecision(g)
-				+ " " + PDFUtil.fixedPrecision(b) + " rg");
+		println(PDFUtil.fixedPrecision(r) + " " + PDFUtil.fixedPrecision(g) + " "
+				+ PDFUtil.fixedPrecision(b) + " rg");
 	}
 
-	public void colorSpaceStroke(double r, double g, double b)
-			throws IOException {
-		println(PDFUtil.fixedPrecision(r) + " " + PDFUtil.fixedPrecision(g)
-				+ " " + PDFUtil.fixedPrecision(b) + " RG");
+	public void colorSpaceStroke(double r, double g, double b) throws IOException {
+		println(PDFUtil.fixedPrecision(r) + " " + PDFUtil.fixedPrecision(g) + " "
+				+ PDFUtil.fixedPrecision(b) + " RG");
 	}
 
-	public void colorSpace(double c, double m, double y, double k)
-			throws IOException {
+	public void colorSpace(double c, double m, double y, double k) throws IOException {
 		println(PDFUtil.fixedPrecision(c) + " " + PDFUtil.fixedPrecision(m)
 				+ " " + PDFUtil.fixedPrecision(y) + " "
 				+ PDFUtil.fixedPrecision(k) + " k");
 	}
 
-	public void colorSpaceStroke(double c, double m, double y, double k)
-			throws IOException {
+	public void colorSpaceStroke(double c, double m, double y, double k) throws IOException {
 		println(PDFUtil.fixedPrecision(c) + " " + PDFUtil.fixedPrecision(m)
 				+ " " + PDFUtil.fixedPrecision(y) + " "
 				+ PDFUtil.fixedPrecision(k) + " K");
@@ -622,8 +602,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	 * Image convenience function (see Table 4.35). Outputs the data of the image
 	 * using "DeviceRGB" colorspace, and the requested encodings
 	 */
-	public void image(RenderedImage image, Color bkg, String[] encode)
-			throws IOException {
+	public void image(RenderedImage image, Color bkg, String[] encode) throws IOException {
 		byte[] imageBytes = imageToBytes(image, bkg, encode);
 		PDFName[] filters = decodeFilters(encode);
 
@@ -637,10 +616,9 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 		write(imageBytes);
 	}
 
-	public void imageMask(RenderedImage image, String[] encode)
-			throws IOException {
+	public void imageMask(RenderedImage image, String[] encode) throws IOException {
 		// FIXME hardcoded to A85, Flate
-		PDFName[] filters = decodeFilters(new String[] { "Flate", "ASCII85" });
+		PDFName[] filters = decodeFilters(new String[] {"Flate", "ASCII85"});
 		entry("Width", image.getWidth());
 		entry("Height", image.getHeight());
 		entry("BitsPerComponent", 8);
@@ -665,8 +643,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	 * data of the image using "DeviceRGB" colorspace, and the requested
 	 * encoding.
 	 */
-	public void inlineImage(RenderedImage image, Color bkg, String[] encode)
-			throws IOException {
+	public void inlineImage(RenderedImage image, Color bkg, String[] encode) throws IOException {
 		byte[] imageBytes = imageToBytes(image, bkg, encode);
 
 		println("BI");
@@ -690,8 +667,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	 * bytes and sets the encoding[0] to the encoding which gives the smallest
 	 * image. If the image is transparent, Flate encoding is used by default.
 	 */
-	private byte[] imageToBytes(RenderedImage image, Color bkg, String[] encode)
-			throws IOException {
+	private byte[] imageToBytes(RenderedImage image, Color bkg, String[] encode) throws IOException {
 		if (encode[0] == null) {
 			if (image.getColorModel().hasAlpha() && (bkg == null)) {
 				encode[0] = "Flate";
@@ -725,8 +701,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 			ImageGraphics2D.writeImage(image, "raw", props, imageStream);
 		} else {
 			imageStream = a85;
-			ImageGraphics2D.writeImage(image, "jpg", new Properties(),
-					imageStream);
+			ImageGraphics2D.writeImage(image, "jpg", new Properties(), imageStream);
 		}
 		imageStream.close();
 		a85.close();
@@ -756,7 +731,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	/**
 	 * Draws the <i>points</i> of the shape using path <i>construction</i>
 	 * operators. The path is neither stroked nor filled.
-	 * 
+	 *
 	 * @return true if even-odd winding rule should be used, false if non-zero
 	 *         winding rule should be used.
 	 */
@@ -784,8 +759,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	public void beginCompatibility() throws IOException {
 		if (compatibilityOpen) {
-			System.err.println(
-					"PDFStream: nested use of Compatibility sections not allowed.");
+			System.err.println("PDFStream: nested use of Compatibility sections not allowed.");
 		}
 		println("BX");
 		compatibilityOpen = true;
@@ -793,11 +767,9 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	public void endCompatibility() throws IOException {
 		if (!compatibilityOpen) {
-			System.err.println(
-					"PDFStream: unbalanced use of begin/endCompatibilty().");
+			System.err.println("PDFStream: unbalanced use of begin/endCompatibilty().");
 		}
 		println("EX");
 		compatibilityOpen = false;
 	}
-
 }

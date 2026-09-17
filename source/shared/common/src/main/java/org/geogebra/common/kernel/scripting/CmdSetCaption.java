@@ -33,7 +33,7 @@ public class CmdSetCaption extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,30 +46,30 @@ public class CmdSetCaption extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
-			GeoElement[] arg = resArgs(c);
-			if (arg[1].isGeoText()) {
+			case 2:
+				GeoElement[] arg = resArgs(c);
+				if (arg[1].isGeoText()) {
 
-				GeoElement geo = arg[0];
-				String txt = ((GeoText) arg[1]).getTextString();
-				if (geo instanceof GeoAxis) {
-					app.getActiveEuclidianView().getSettings()
-							.setAxisLabel(((GeoAxis) geo).getType(), txt);
-					app.getActiveEuclidianView().repaintView();
-				} else {
-					if (geo.getCaptionSimple() == null || !geo.getCaptionSimple().equals(txt)
-							|| geo.getLabelMode() != GeoElementND.LABEL_CAPTION) {
-						geo.setCaption(txt);
-						geo.setLabelMode(GeoElementND.LABEL_CAPTION);
-						geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
+					GeoElement geo = arg[0];
+					String txt = ((GeoText) arg[1]).getTextString();
+					if (geo instanceof GeoAxis) {
+						app.getActiveEuclidianView().getSettings().setAxisLabel(((GeoAxis) geo).getType(), txt);
+						app.getActiveEuclidianView().repaintView();
+					} else {
+						if (geo.getCaptionSimple() == null
+								|| !geo.getCaptionSimple().equals(txt)
+								|| geo.getLabelMode() != GeoElementND.LABEL_CAPTION) {
+							geo.setCaption(txt);
+							geo.setLabelMode(GeoElementND.LABEL_CAPTION);
+							geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
+						}
 					}
+					return arg;
 				}
-				return arg;
-			}
-			throw argErr(c, arg[1]);
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

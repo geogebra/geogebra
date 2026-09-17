@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.matrix;
 
 /**
  * Simple class for quaternions operations
- * 
+ *
  * @author mathieu
  *
  */
@@ -31,7 +31,7 @@ public class Quaternion {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param x
 	 *            x coord (vector part)
 	 * @param y
@@ -60,7 +60,7 @@ public class Quaternion {
 
 	/**
 	 * construct a quaternion corresponding to rotations around X then Y
-	 * 
+	 *
 	 * @param rotX
 	 *            rotation around X
 	 * @param rotZ
@@ -81,7 +81,7 @@ public class Quaternion {
 
 	/**
 	 * set the values
-	 * 
+	 *
 	 * @param values
 	 *            values
 	 */
@@ -94,7 +94,7 @@ public class Quaternion {
 
 	/**
 	 * set the values
-	 * 
+	 *
 	 * @param q
 	 *            values
 	 */
@@ -106,7 +106,7 @@ public class Quaternion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return inverse
 	 */
 	public Quaternion inverse() {
@@ -115,7 +115,7 @@ public class Quaternion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param q
 	 *            quaternion
 	 * @return this**q
@@ -128,11 +128,10 @@ public class Quaternion {
 		double mw = w * q.w - x * q.x - y * q.y - z * q.z;
 
 		return new Quaternion(mx, my, mz, mw);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param q
 	 *            quaternion
 	 * @return (this^(-1))**q
@@ -159,7 +158,7 @@ public class Quaternion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 3x3 rotation matrix (for unit quaternion)
 	 */
 	public CoordMatrix getRotMatrix() {
@@ -178,11 +177,10 @@ public class Quaternion {
 		ret.set(3, 3, 1 - 2 * (x * x + y * y));
 
 		return ret;
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return (x,y,z) vector part of the quaternion
 	 */
 	public Coords getVector() {
@@ -190,7 +188,7 @@ public class Quaternion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return scalar value
 	 */
 	public double getScalar() {
@@ -199,7 +197,7 @@ public class Quaternion {
 
 	/**
 	 * set vector v to (x,y,z)
-	 * 
+	 *
 	 * @param v
 	 *            3D vector
 	 */
@@ -217,7 +215,7 @@ public class Quaternion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if this quaternion is defined
 	 */
 	public boolean isDefined() {
@@ -227,7 +225,7 @@ public class Quaternion {
 	/**
 	 * assuming angle t between this and q verifies cos(t) = 2 dotproduct(this,
 	 * q)^2 - 1 we return 1 - dotproduct(this, q)^2 = (1-cos(t))/2
-	 * 
+	 *
 	 * @param q
 	 *            quaternion
 	 * @return distance between this and q
@@ -240,5 +238,4 @@ public class Quaternion {
 		double dot = x * q.x + y * q.y + z * q.z + w * q.w;
 		return 1 - dot * dot / (norm2 * qnorm2);
 	}
-
 }

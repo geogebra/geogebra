@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * CMAP Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFCMapTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -38,21 +38,19 @@ public class TTFCMapTable extends TTFTable {
 			length = ttf.readUShort();
 			version = ttf.readUShort();
 			switch (format) {
-			case 0:
-				tableFormat = new TableFormat0();
-				break;
-			case 4:
-				tableFormat = new TableFormat4();
-				break;
-			case 2:
-			case 6:
-				System.err.println(
-						"Unimplementet encoding table format: " + format);
-				break;
-			default:
-				System.err.println(
-						"Illegal value for encoding table format: " + format);
-				break;
+				case 0:
+					tableFormat = new TableFormat0();
+					break;
+				case 4:
+					tableFormat = new TableFormat4();
+					break;
+				case 2:
+				case 6:
+					System.err.println("Unimplementet encoding table format: " + format);
+					break;
+				default:
+					System.err.println("Illegal value for encoding table format: " + format);
+					break;
 			}
 			if (tableFormat != null) {
 				tableFormat.read();
@@ -63,8 +61,7 @@ public class TTFCMapTable extends TTFTable {
 		public String toString() {
 			return "[encoding] PID:" + platformID + " EID:" + encodingID
 					+ " format:" + format + " v" + version
-					+ (tableFormat != null ? tableFormat.toString()
-							: " [no data read]");
+					+ (tableFormat != null ? tableFormat.toString() : " [no data read]");
 		}
 	}
 
@@ -125,8 +122,7 @@ public class TTFCMapTable extends TTFTable {
 			endCount = ttf.readUShortArray(segCount);
 			int reservedPad = ttf.readUShort();
 			if (reservedPad != 0) {
-				System.err
-						.println("reservedPad not 0, but " + reservedPad + ".");
+				System.err.println("reservedPad not 0, but " + reservedPad + ".");
 			}
 
 			startCount = ttf.readUShortArray(endCount.length);
@@ -140,8 +136,14 @@ public class TTFCMapTable extends TTFTable {
 		public String toString() {
 			StringBuilder str = new StringBuilder("\n   " + endCount.length + " sections:");
 			for (int i = 0; i < endCount.length; i++) {
-				str.append("\n    ").append(startCount[i]).append(" to ").append(endCount[i])
-						.append(" : ").append(idDelta[i]).append(" (").append(idRangeOffset[i])
+				str.append("\n    ")
+						.append(startCount[i])
+						.append(" to ")
+						.append(endCount[i])
+						.append(" : ")
+						.append(idDelta[i])
+						.append(" (")
+						.append(idRangeOffset[i])
 						.append(")");
 			}
 			return str.toString();

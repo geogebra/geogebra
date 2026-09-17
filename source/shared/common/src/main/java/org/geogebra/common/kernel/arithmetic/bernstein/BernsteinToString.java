@@ -36,16 +36,15 @@ public class BernsteinToString {
 			if (c == 0) {
 				continue;
 			}
-			String fs = sb.length() == 0 && c > 0 ? ""
-					: c > 0 ? "+ " : "- ";
+			String fs = sb.length() == 0 && c > 0 ? "" : c > 0 ? "+ " : "- ";
 			sb.append(fs);
 			if (c != 1 && c != -1) {
 				double abs = Math.abs(c);
 				sb.append((abs - (int) abs) > 1E-6 ? abs : String.valueOf((int) abs));
 			}
 			String powerX = powerString(polynomial.variableName + "", i);
-			String powerOneMinusX = powerString("(1 - " + polynomial.variableName + ")",
-					polynomial.degree - i);
+			String powerOneMinusX =
+					powerString("(1 - " + polynomial.variableName + ")", polynomial.degree - i);
 			sb.append(powerX);
 			if (!powerX.isEmpty()) {
 				sb.append(" ");
@@ -78,9 +77,8 @@ public class BernsteinToString {
 	public static String toString2Var(BernsteinPolynomial2D polynomial) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = polynomial.degreeX; i >= 0; i--) {
-			BernsteinPolynomial c = i < polynomial.bernsteinCoeffs.length
-					? polynomial.bernsteinCoeffs[i]
-					: null;
+			BernsteinPolynomial c =
+					i < polynomial.bernsteinCoeffs.length ? polynomial.bernsteinCoeffs[i] : null;
 			if (c == null || "0".equals(c.toString())) {
 				continue;
 			}
@@ -109,6 +107,5 @@ public class BernsteinToString {
 		}
 		String trimmed = sb.toString().trim();
 		return trimmed.isEmpty() ? "0" : trimmed;
-
 	}
 }

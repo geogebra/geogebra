@@ -74,8 +74,9 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 				// Find the two neighboring font sizes between which this multiplier falls
 				if (multiplier <= currentFontSize.multiplier) {
 					// Return the nearest neighbouring font size
-					return (previousFontSize.multiplier + currentFontSize.multiplier) / 2.0
-							< multiplier ? currentFontSize : previousFontSize;
+					return (previousFontSize.multiplier + currentFontSize.multiplier) / 2.0 < multiplier
+							? currentFontSize
+							: previousFontSize;
 				}
 			}
 			// If the multiplier is above the maximum value, use the largest font size
@@ -137,5 +138,4 @@ public class FontSizeProperty extends AbstractNamedEnumeratedProperty<FontSize>
 	public GeoElement getGeoElement() {
 		return delegate.getElement();
 	}
-
 }

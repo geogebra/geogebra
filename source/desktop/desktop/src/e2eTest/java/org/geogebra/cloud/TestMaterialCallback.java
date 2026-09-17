@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.cloud;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,15 +67,14 @@ public class TestMaterialCallback implements MaterialCallbackI {
 
 	/**
 	 * Periodically check if it's done, if not fail after timeout.
-	 * 
+	 *
 	 * @param time
 	 *            timeout in seconds
 	 */
 	public void await(int time) {
 		for (int i = 0; i < time * 5; i++) {
 			Log.debug(titles.size() + " of " + expectedCount);
-			if ((loaded && titles.size() >= expectedCount)
-					|| !errors.isEmpty()) {
+			if ((loaded && titles.size() >= expectedCount) || !errors.isEmpty()) {
 				return;
 			}
 			try {
@@ -89,5 +88,4 @@ public class TestMaterialCallback implements MaterialCallbackI {
 	public void setExpectedCount(int size) {
 		expectedCount = size;
 	}
-
 }

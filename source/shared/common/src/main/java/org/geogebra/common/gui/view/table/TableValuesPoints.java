@@ -25,42 +25,42 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
  */
 public interface TableValuesPoints {
 
-    /**
-     * Returns true if points are visible for this evaluatable.
-     *
-     * @param column column
-     * @return true iff points are visible
-     */
-    boolean arePointsVisible(int column);
+	/**
+	 * Returns true if points are visible for this evaluatable.
+	 *
+	 * @param column column
+	 * @return true iff points are visible
+	 */
+	boolean arePointsVisible(int column);
 
-    /**
-     * Sets if points should be visible for this evaluatable
-     *
-     * @param column column
-     * @param visible visibility
-     */
-    void setPointsVisible(int column, boolean visible);
+	/**
+	 * Sets if points should be visible for this evaluatable
+	 *
+	 * @param column column
+	 * @param visible visibility
+	 */
+	void setPointsVisible(int column, boolean visible);
 
-    /**
-     * Remove all point lists.
-     */
-    void clear();
+	/**
+	 * Remove all point lists.
+	 */
+	void clear();
 
-    /**
-     * Add point list if relevant
-     * @param evaluatable point list
-     */
-    void notifyPointsAdded(AlgoDependentListExpression evaluatable);
+	/**
+	 * Add point list if relevant
+	 * @param evaluatable point list
+	 */
+	void notifyPointsAdded(AlgoDependentListExpression evaluatable);
 
-    /**
-     * Remove a point list.
-     * @param element list of points
-     */
-    void removeList(GeoElement element);
+	/**
+	 * Remove a point list.
+	 * @param element list of points
+	 */
+	void removeList(GeoElement element);
 
-    /**
-     * Create a list of points for a column.
-     * @param evaluatable evaluatable
-     */
-    void createPointsIfNeeded(GeoEvaluatable evaluatable);
+	/**
+	 * Create a list of points for a column.
+	 * @param evaluatable evaluatable
+	 */
+	void createPointsIfNeeded(GeoEvaluatable evaluatable);
 }

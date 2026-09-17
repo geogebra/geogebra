@@ -193,6 +193,5 @@ final class EUFB10 extends FontInfo {
 		setMetrics(125, 254, 691);
 
 		setMetrics(196, 542, 691);
-
 	}
 }

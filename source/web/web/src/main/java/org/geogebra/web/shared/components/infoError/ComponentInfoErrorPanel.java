@@ -34,8 +34,7 @@ public final class ComponentInfoErrorPanel extends FlowPanel {
 	 * @param data - data of the panel including title, subtext, icon and button text
 	 * @param buttonAction - handler for the button
 	 */
-	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data,
-			Runnable buttonAction) {
+	public ComponentInfoErrorPanel(Localization loc, InfoErrorData data, Runnable buttonAction) {
 		this.loc = loc;
 		addStyleName("infoErrorPanel");
 		buildGUI(data, buttonAction);
@@ -55,24 +54,24 @@ public final class ComponentInfoErrorPanel extends FlowPanel {
 		add(infoImage);
 
 		if (data.getTitle() != null) {
-			Label titleLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
-					loc.getMenu(data.getTitle()), "title");
+			Label titleLabel =
+					BaseWidgetFactory.INSTANCE.newPrimaryText(loc.getMenu(data.getTitle()), "title");
 			add(titleLabel);
 		}
 
 		if (data.getSubtext() != null) {
-			Label subtextLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
-					loc.getMenu(data.getSubtext()), "subtext");
+			Label subtextLabel =
+					BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu(data.getSubtext()), "subtext");
 			add(subtextLabel);
 		}
 
 		if (data.getActionButtonText() != null) {
-			actionButton = BaseWidgetFactory.INSTANCE.newFilledButton(
-					loc.getMenu(data.getActionButtonText()));
+			actionButton =
+					BaseWidgetFactory.INSTANCE.newFilledButton(loc.getMenu(data.getActionButtonText()));
 			actionButton.addFastClickHandler(source -> {
-					if (!actionButton.getStyleName().contains("disabled")) {
-						buttonAction.run();
-					}
+				if (!actionButton.getStyleName().contains("disabled")) {
+					buttonAction.run();
+				}
 			});
 			add(actionButton);
 		}

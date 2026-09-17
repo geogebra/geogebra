@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -22,15 +22,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Sigma(xy) of 2 lists
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoDoubleListSigmaXY extends AlgoStats2D {
 
-	public AlgoDoubleListSigmaXY(Construction cons, String label,
-			GeoList geoListx, GeoList geoListy) {
+	public AlgoDoubleListSigmaXY(
+			Construction cons, String label, GeoList geoListx, GeoList geoListy) {
 		super(cons, label, geoListx, geoListy, AlgoStats2D.STATS_SIGMAXY);
 	}
 

@@ -1,13 +1,13 @@
 /*
  * Copyright (c) 2003, the JUNG Project and the Regents of the University of
  * California All rights reserved.
- * 
+ *
  * This software is open-source under the BSD license; see either "license.txt"
  * or http://jung.sourceforge.net/license.txt for a description.
  */
 /*
  * Created on Jul 2, 2003
- *  
+ *
  */
 package edu.uci.ics.jung.graph.util;
 
@@ -32,12 +32,18 @@ public class TestGraphs {
 	 * A series of pairs that may be useful for generating graphs. The miniature
 	 * graph consists of 8 edges, 10 nodes, and is formed of two connected
 	 * components, one of 8 nodes, the other of 2.
-	 * 
+	 *
 	 */
-	final private static String[][] pairs = { { "a", "b", "3" },
-			{ "a", "c", "4" }, { "a", "d", "5" }, { "d", "c", "6" },
-			{ "d", "e", "7" }, { "e", "f", "8" }, { "f", "g", "9" },
-			{ "h", "i", "1" } };
+	private static final String[][] pairs = {
+		{"a", "b", "3"},
+		{"a", "c", "4"},
+		{"a", "d", "5"},
+		{"d", "c", "6"},
+		{"d", "e", "7"},
+		{"e", "f", "8"},
+		{"f", "g", "9"},
+		{"h", "i", "1"}
+	};
 
 	/**
 	 * Creates a small sample graph that can be used for testing purposes. The
@@ -45,7 +51,7 @@ public class TestGraphs {
 	 * <code>isDirected</code>, the graph is a {@link DirectedSparseMultigraph
 	 * DirectedSparseMultigraph}, otherwise, it is an
 	 * {@link UndirectedSparseMultigraph UndirectedSparseMultigraph}.
-	 * 
+	 *
 	 * @return a graph consisting of eight edges and ten nodes.
 	 */
 	public static Graph<String, Number> createTestGraph(boolean directed) {
@@ -67,8 +73,7 @@ public class TestGraphs {
 	 * Returns a graph consisting of a chain of <code>vertex_count - 1</code>
 	 * vertices plus one isolated vertex.
 	 */
-	public static Graph<String, Number> createChainPlusIsolates(
-			int chain_length, int isolate_count) {
+	public static Graph<String, Number> createChainPlusIsolates(int chain_length, int isolate_count) {
 		Graph<String, Number> g = new UndirectedSparseMultigraph<String, Number>();
 		if (chain_length > 0) {
 			String[] v = new String[chain_length];
@@ -92,11 +97,11 @@ public class TestGraphs {
 	 * and connecting nodes (randomly) to nodes in earlier (but never later)
 	 * layers. Each layer has some random number of nodes in it 1 less than n
 	 * less than maxNodesPerLayer.
-	 * 
+	 *
 	 * @return the created graph
 	 */
-	public static Graph<String, Number> createDirectedAcyclicGraph(int layers,
-			int maxNodesPerLayer, double linkprob) {
+	public static Graph<String, Number> createDirectedAcyclicGraph(
+			int layers, int maxNodesPerLayer, double linkprob) {
 
 		DirectedGraph<String, Number> dag = new DirectedSparseMultigraph<String, Number>();
 		Set<String> previousLayers = new HashSet<String>();
@@ -123,8 +128,7 @@ public class TestGraphs {
 		return dag;
 	}
 
-	private static void createEdge(Graph<String, Number> g, String v1Label,
-			String v2Label) {
+	private static void createEdge(Graph<String, Number> g, String v1Label, String v2Label) {
 		g.addEdge(Math.random(), v1Label, v2Label);
 	}
 
@@ -133,7 +137,7 @@ public class TestGraphs {
 	 * graph consists of a clique of ten edges, a partial clique (randomly
 	 * generated, with edges of 0.6 probability), and one series of edges
 	 * running from the first node to the last.
-	 * 
+	 *
 	 * @return the testgraph
 	 */
 	public static Graph<String, Number> getOneComponentGraph() {
@@ -173,7 +177,7 @@ public class TestGraphs {
 	/**
 	 * Returns a bigger test graph with a clique, several components, and other
 	 * parts.
-	 * 
+	 *
 	 * @return a demonstration graph of type {@code UndirectedSparseMultigraph}
 	 *         with 28 vertices.
 	 */

@@ -20,14 +20,14 @@ import org.gwtproject.user.cellview.client.CellTable;
 
 /**
  * Method collection to manipulate CellTables
- * 
+ *
  * @author laszlo
  *
  */
 public final class TableUtils {
 	/**
 	 * Remove all columns from table.
-	 * 
+	 *
 	 * @param table
 	 *            to clear.
 	 */
@@ -37,5 +37,4 @@ public final class TableUtils {
 			table.removeColumn(0);
 		}
 	}
-
 }

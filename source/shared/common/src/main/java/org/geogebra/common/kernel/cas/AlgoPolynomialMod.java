@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
  * Polynomial remainder
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoPolynomialMod extends AlgoElement {
@@ -43,8 +43,7 @@ public class AlgoPolynomialMod extends AlgoElement {
 	 * @param f2
 	 *            divisor function
 	 */
-	public AlgoPolynomialMod(Construction cons, String label, GeoFunction f1,
-			GeoFunction f2) {
+	public AlgoPolynomialMod(Construction cons, String label, GeoFunction f1, GeoFunction f2) {
 		super(cons);
 		this.f1 = f1;
 		this.f2 = f2;
@@ -86,7 +85,5 @@ public class AlgoPolynomialMod extends AlgoElement {
 		}
 
 		AlgoPolynomialDivision.nonCASDivision(kernel, f1, f2, null, g);
-
 	}
-
 }

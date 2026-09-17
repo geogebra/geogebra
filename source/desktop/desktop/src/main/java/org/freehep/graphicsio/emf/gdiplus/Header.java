@@ -9,14 +9,14 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The Header metafile record marks the beginning of EMF+ data within the
  * metafile, and contains general information about the metafile itself.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: Header.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
 public class Header extends EMFPlusTag {
 
-	public final static int EMF_PLUS_ONLY = 0x00;
-	public final static int EMF_PLUS_DUAL = 0x01;
+	public static final int EMF_PLUS_ONLY = 0x00;
+	public static final int EMF_PLUS_DUAL = 0x01;
 
 	private int hDpi = 120;
 	private int vDpi = 120;
@@ -31,8 +31,7 @@ public class Header extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		Header tag = new Header();
 		tag.flags = flags;
 		emf.readUINT();
@@ -43,8 +42,7 @@ public class Header extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		emf.writeUINT(0xDBC01001);
 		emf.writeUINT(0x00000001);
 		emf.writeUINT(hDpi);

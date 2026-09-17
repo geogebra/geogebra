@@ -51,7 +51,8 @@ final class GraphBuildSignature {
 			return 0x9e3779b97f4a7c15L;
 		}
 		long signature = 0x84222325cbf29ce4L;
-		signature = mix(signature, endpoint.getEdge() == null ? -1 : endpoint.getEdge().ordinal());
+		signature =
+				mix(signature, endpoint.getEdge() == null ? -1 : endpoint.getEdge().ordinal());
 		signature = mix(signature, Double.doubleToLongBits(endpoint.getPoint().x));
 		signature = mix(signature, Double.doubleToLongBits(endpoint.getPoint().y));
 		signature = mix(signature, Double.doubleToLongBits(endpoint.getSPerimeter()));
@@ -63,5 +64,4 @@ final class GraphBuildSignature {
 		mixed *= 0x100000001b3L;
 		return mixed;
 	}
-
 }

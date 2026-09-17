@@ -34,19 +34,18 @@ public class Value {
 	private Object obj;
 	private Class<?> type;
 
-	public final static Class<?> TYPE_INTEGER = Integer.TYPE;
-	public final static Class<?> TYPE_SHORT = Short.TYPE;
-	public final static Class<?> TYPE_LONG = Long.TYPE;
-	public final static Class<?> TYPE_FLOAT = Float.TYPE;
-	public final static Class<?> TYPE_DOUBLE = Double.TYPE;
-	public final static Class<?> TYPE_BOOLEAN = Boolean.TYPE;
-	public final static Class<?> TYPE_BYTE = Byte.TYPE;
-	public final static Class<?> TYPE_CHAR = Character.TYPE;
-	public final static Class<?> TYPE_STRING = String.class;
-	public final static Class<?> TYPE_DATE = Date.class;
+	public static final Class<?> TYPE_INTEGER = Integer.TYPE;
+	public static final Class<?> TYPE_SHORT = Short.TYPE;
+	public static final Class<?> TYPE_LONG = Long.TYPE;
+	public static final Class<?> TYPE_FLOAT = Float.TYPE;
+	public static final Class<?> TYPE_DOUBLE = Double.TYPE;
+	public static final Class<?> TYPE_BOOLEAN = Boolean.TYPE;
+	public static final Class<?> TYPE_BYTE = Byte.TYPE;
+	public static final Class<?> TYPE_CHAR = Character.TYPE;
+	public static final Class<?> TYPE_STRING = String.class;
+	public static final Class<?> TYPE_DATE = Date.class;
 
-	public Value() {
-	}
+	public Value() {}
 
 	public Value(Value v) {
 		setValue(v);
@@ -68,7 +67,7 @@ public class Value {
 
 	/**
 	 * Get the Value's type
-	 * 
+	 *
 	 * @return The Class of this Value.
 	 *
 	 */
@@ -78,7 +77,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to an integer.
-	 * 
+	 *
 	 * @param val
 	 *            The integer value.
 	 * @return The Value object with the given internal value.
@@ -92,7 +91,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a short.
-	 * 
+	 *
 	 * @param val
 	 *            The short value.
 	 * @return The Value object with the given internal value.
@@ -106,7 +105,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a long.
-	 * 
+	 *
 	 * @param val
 	 *            The long value.
 	 * @return The Value object with the given internal value.
@@ -120,7 +119,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a float.
-	 * 
+	 *
 	 * @param val
 	 *            The float value.
 	 * @return The Value object with the given internal value.
@@ -134,7 +133,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a double.
-	 * 
+	 *
 	 * @param val
 	 *            The double value.
 	 * @return The Value object with the given internal value.
@@ -148,7 +147,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a boolean.
-	 * 
+	 *
 	 * @param val
 	 *            The boolean value.
 	 * @return The Value object with the given internal value.
@@ -162,7 +161,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a byte.
-	 * 
+	 *
 	 * @param val
 	 *            The byte value.
 	 * @return The Value object with the given internal value.
@@ -176,7 +175,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a char.
-	 * 
+	 *
 	 * @param val
 	 *            The char value.
 	 * @return The Value object with the given internal value.
@@ -190,7 +189,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a String.
-	 * 
+	 *
 	 * @param val
 	 *            The String value.
 	 * @return The Value object with the given internal value.
@@ -204,7 +203,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to a Date.
-	 * 
+	 *
 	 * @param val
 	 *            The Date value.
 	 * @return The Value object with the given internal value.
@@ -218,7 +217,7 @@ public class Value {
 
 	/**
 	 * Set the Value's internal value to an Object.
-	 * 
+	 *
 	 * @param val
 	 *            The Object value.
 	 * @return The Value object with the given internal value.
@@ -232,7 +231,7 @@ public class Value {
 
 	/**
 	 * Get the integer value.
-	 * 
+	 *
 	 * @return The int value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -246,14 +245,13 @@ public class Value {
 		} else if (type == TYPE_BYTE) {
 			return byteValue;
 		} else {
-			throw new ClassCastException(
-					"getInt cannot be called for type " + type.toString());
+			throw new ClassCastException("getInt cannot be called for type " + type.toString());
 		}
 	}
 
 	/**
 	 * Get the short value.
-	 * 
+	 *
 	 * @return The short value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -265,14 +263,13 @@ public class Value {
 		} else if (type == TYPE_BYTE) {
 			return byteValue;
 		} else {
-			throw new ClassCastException(
-					"getShort cannot be called for type " + type.toString());
+			throw new ClassCastException("getShort cannot be called for type " + type.toString());
 		}
 	}
 
 	/**
 	 * Get the long value.
-	 * 
+	 *
 	 * @return The long value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -288,14 +285,13 @@ public class Value {
 		} else if (type == TYPE_BYTE) {
 			return byteValue;
 		} else {
-			throw new ClassCastException(
-					"getLong cannot be called for type " + type.toString());
+			throw new ClassCastException("getLong cannot be called for type " + type.toString());
 		}
 	}
 
 	/**
 	 * Get the float value.
-	 * 
+	 *
 	 * @return The float value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -313,14 +309,13 @@ public class Value {
 		} else if (type == TYPE_BYTE) {
 			return byteValue;
 		} else {
-			throw new ClassCastException(
-					"getFloat cannot be called for type " + type.toString());
+			throw new ClassCastException("getFloat cannot be called for type " + type.toString());
 		}
 	}
 
 	/**
 	 * Get the double value.
-	 * 
+	 *
 	 * @return The double value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -342,14 +337,13 @@ public class Value {
 		} else if (type == TYPE_DATE) {
 			return ((Date) obj).getTime();
 		} else {
-			throw new ClassCastException(
-					"getDouble cannot be called for type " + type.toString());
+			throw new ClassCastException("getDouble cannot be called for type " + type.toString());
 		}
 	}
 
 	/**
 	 * Get the boolean value.
-	 * 
+	 *
 	 * @return The boolean value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -359,13 +353,12 @@ public class Value {
 		if (type == TYPE_BOOLEAN) {
 			return boolValue;
 		}
-		throw new ClassCastException(
-				"getBoolean cannot be called for type " + type.toString());
+		throw new ClassCastException("getBoolean cannot be called for type " + type.toString());
 	}
 
 	/**
 	 * Get the byte value.
-	 * 
+	 *
 	 * @return The byte value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -375,13 +368,12 @@ public class Value {
 		if (type == TYPE_BYTE) {
 			return byteValue;
 		}
-		throw new ClassCastException(
-				"getByte cannot be called for type " + type.toString());
+		throw new ClassCastException("getByte cannot be called for type " + type.toString());
 	}
 
 	/**
 	 * Get the char value.
-	 * 
+	 *
 	 * @return The char value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -391,13 +383,12 @@ public class Value {
 		if (type == TYPE_CHAR) {
 			return charValue;
 		}
-		throw new ClassCastException(
-				"getChar cannot be called for type " + type.toString());
+		throw new ClassCastException("getChar cannot be called for type " + type.toString());
 	}
 
 	/**
 	 * Get the String value.
-	 * 
+	 *
 	 * @return The String representation of the internal value.
 	 *
 	 */
@@ -429,7 +420,7 @@ public class Value {
 
 	/**
 	 * Get the Date value.
-	 * 
+	 *
 	 * @return The Date value.
 	 * @exception ClassCastException
 	 *                is thrown if this Value has incompatible type.
@@ -439,13 +430,12 @@ public class Value {
 		if (type == TYPE_DATE) {
 			return (Date) obj;
 		}
-		throw new ClassCastException(
-				"getDate cannot be called for type " + type.toString());
+		throw new ClassCastException("getDate cannot be called for type " + type.toString());
 	}
 
 	/**
 	 * Get the Object value.
-	 * 
+	 *
 	 * @return The Object value.
 	 *
 	 */
@@ -475,7 +465,7 @@ public class Value {
 
 	/**
 	 * Get the String value.
-	 * 
+	 *
 	 * @return The String representation of the internal value.
 	 */
 	@Override

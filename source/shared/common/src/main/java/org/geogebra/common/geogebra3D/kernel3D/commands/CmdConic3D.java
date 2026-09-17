@@ -53,5 +53,4 @@ public class CmdConic3D extends CmdConic {
 
 		return super.conic(label, arg);
 	}
-
 }

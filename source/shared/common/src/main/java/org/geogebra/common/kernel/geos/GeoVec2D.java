@@ -46,27 +46,26 @@ import org.geogebra.common.util.mathIT.Riemann;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * 
+ *
  * @author Markus
  */
-
-final public class GeoVec2D extends ValidExpression
-		implements VectorValue, GeoVecInterface {
+public final class GeoVec2D extends ValidExpression implements VectorValue, GeoVecInterface {
 
 	private double x = Double.NaN;
 	private double y = Double.NaN;
 	private static final int MAXIT = 100; // Maximum number of iterations
-											// allowed in Ei.
+	// allowed in Ei.
 
 	private int mode; // POLAR or CARTESIAN
 
 	@Weak
 	private Kernel kernel;
+
 	private StringBuilder sbToString;
 
 	/**
 	 * Creates new GeoVec2D
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -76,7 +75,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * Creates new GeoVec2D with coordinates (x,y)
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param x
@@ -92,7 +91,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param v
 	 *            vector to copy
 	 */
@@ -107,8 +106,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @return true for imaginary unit
 	 */
 	public boolean isImaginaryUnit() {
-		return mode == Kernel.COORD_COMPLEX && MyDouble.exactEqual(x, 0)
-				&& MyDouble.exactEqual(y, 1);
+		return mode == Kernel.COORD_COMPLEX && MyDouble.exactEqual(x, 0) && MyDouble.exactEqual(y, 1);
 	}
 
 	@Override
@@ -143,7 +141,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * Copy coords from other vector
-	 * 
+	 *
 	 * @param v
 	 *            orher vector
 	 */
@@ -197,13 +195,13 @@ final public class GeoVec2D extends ValidExpression
 	 * @return coordinates as array
 	 */
 	public double[] getCoords() {
-		return new double[]{ x, y };
+		return new double[] {x, y};
 	}
 
 	/**
 	 * Calculates the eucilidian length of this 2D vector. The result is
 	 * sqrt(x^2 + y^2).
-	 * 
+	 *
 	 * @return length of this vector
 	 */
 	public double length() {
@@ -223,7 +221,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * Returns a new vector with the same direction and orientation, but length
 	 * 1.
-	 * 
+	 *
 	 * @return unit vector with same direction
 	 */
 	public GeoVec2D getUnitVector() {
@@ -234,17 +232,17 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * Returns the coordinates of a vector with the same direction and
 	 * orientation, but length 1.
-	 * 
+	 *
 	 * @return normalized coords
 	 */
 	public double[] getUnitCoords() {
 		double len = this.length();
-		return new double[]{ x / len, y / len };
+		return new double[] {x / len, y / len};
 	}
 
 	/**
 	 * Calculates the inner product of this vector and vector v.
-	 * 
+	 *
 	 * @param v
 	 *            other vector
 	 * @return this * v
@@ -255,7 +253,8 @@ final public class GeoVec2D extends ValidExpression
 
 	@Override
 	public boolean isEqual(GeoVecInterface v) {
-		return DoubleUtil.isEqual(x, v.getX()) && DoubleUtil.isEqual(y, v.getY())
+		return DoubleUtil.isEqual(x, v.getX())
+				&& DoubleUtil.isEqual(y, v.getY())
 				&& DoubleUtil.isZero(v.getZ());
 	}
 
@@ -263,7 +262,7 @@ final public class GeoVec2D extends ValidExpression
 	 * Yields true if this vector and v are linear dependent This is done by
 	 * calculating the determinant of this vector and v:
 	 * this = const * v &lt;=&gt; det(this, v) = zero vector.
-	 * 
+	 *
 	 * @param v
 	 *            other vector
 	 * @return true if this is linear dependent on v
@@ -274,7 +273,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * calculates the determinant of u and v. det(u,v) = u1*v2 - u2*v1
-	 * 
+	 *
 	 * @param u
 	 *            u
 	 * @param v
@@ -292,7 +291,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * translate this vector by vector v
-	 * 
+	 *
 	 * @param v
 	 *            translation vector
 	 */
@@ -303,7 +302,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * rotate this vector by angle phi
-	 * 
+	 *
 	 * @param phi
 	 *            angle
 	 */
@@ -318,7 +317,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * mirror this point at point Q
-	 * 
+	 *
 	 * @param Q
 	 *            mirror point
 	 */
@@ -330,7 +329,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * mirror transform with angle phi [ cos(phi) sin(phi) ] [ sin(phi)
 	 * -cos(phi) ]
-	 * 
+	 *
 	 * @param phi
 	 *            parameter
 	 */
@@ -353,7 +352,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a + b
-	 * 
+	 *
 	 * @param a
 	 *            addend
 	 * @param b
@@ -373,7 +372,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * (xc,yc) = (xa + b , yx) ie complex + real for complex nos or (xc,yc) =
 	 * (xa + b , yx + b) for Points/Vectors
-	 * 
+	 *
 	 * @param a
 	 *            addend
 	 * @param b
@@ -395,7 +394,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * vector + 2D list (to give another vector)
-	 * 
+	 *
 	 * @param a
 	 *            addend
 	 * @param b
@@ -437,8 +436,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param reverse
 	 *            true to compute subtrahend - minuend
 	 */
-	public static void sub(GeoVec2D a, ListValue b, GeoVec2D c,
-			boolean reverse) {
+	public static void sub(GeoVec2D a, ListValue b, GeoVec2D c, boolean reverse) {
 
 		MyList list = b.getMyList();
 		if (list.size() != 2) {
@@ -462,7 +460,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * (xc,yc) = (b - xa, -yx) ie real - complex or (xc,yc) = (b - xa, b - yx)
 	 * for Vectors/Points
-	 * 
+	 *
 	 * @param b
 	 *            minuend
 	 * @param a
@@ -484,7 +482,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * (xc,yc) = (xa - b , yx) ie complex - real or (xc,yc) = (xa - b , yx - b)
 	 * for Vectors/Points
-	 * 
+	 *
 	 * @param a
 	 *            minuend
 	 * @param b
@@ -505,7 +503,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a - b
-	 * 
+	 *
 	 * @param a
 	 *            minuend
 	 * @param b
@@ -524,7 +522,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * Multiplies this vector by b
-	 * 
+	 *
 	 * @param b
 	 *            factor
 	 * @return reference to self
@@ -545,7 +543,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * Extend definition of Ei to complex numbers
-	 * 
+	 *
 	 * @return exponential integral
 	 */
 	public GeoVec2D ei() {
@@ -566,7 +564,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a * b
-	 * 
+	 *
 	 * @param a
 	 *            factor
 	 * @param b
@@ -581,14 +579,14 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a / b Michael Borcherds 2007-12-09
-	 * 
+	 *
 	 * @param a
 	 *            dividend
 	 * @param b
 	 *            divisor
 	 * @param c
 	 *            result
-	 * 
+	 *
 	 */
 	public static void complexDivide(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
@@ -598,17 +596,16 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a / b Michael Borcherds 2008-08-12
-	 * 
+	 *
 	 * @param a
 	 *            dividend
 	 * @param b
 	 *            divisor
 	 * @param c
 	 *            result
-	 * 
+	 *
 	 */
-	public static void complexDivide(NumberValue a, GeoVec2D b,
-			GeoVec2D c) {
+	public static void complexDivide(NumberValue a, GeoVec2D b, GeoVec2D c) {
 		Complex out = new Complex(a.getDouble(), 0);
 		out = out.divide(new Complex(b.x, b.y));
 		fromComplex(c, out);
@@ -616,7 +613,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a * b Michael Borcherds 2007-12-09
-	 * 
+	 *
 	 * @param a
 	 *            factor
 	 * @param b
@@ -624,8 +621,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	public static void complexMultiply(GeoVec2D a, GeoVec2D b,
-			GeoVec2D c) {
+	public static void complexMultiply(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.multiply(new Complex(b.x, b.y));
 		fromComplex(c, out);
@@ -633,7 +629,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a ^ b Michael Borcherds 2009-03-10
-	 * 
+	 *
 	 * @param a
 	 *            base
 	 * @param b
@@ -641,8 +637,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	public static void complexPower(GeoVec2D a, NumberValue b,
-			GeoVec2D c) {
+	public static void complexPower(GeoVec2D a, NumberValue b, GeoVec2D c) {
 
 		double power = b.getDouble();
 		if (a.x == 0 && a.y == 0 && power > 0) {
@@ -667,7 +662,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = sqrt(a) Michael Borcherds 2010-02-07
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -680,7 +675,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = sin(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -693,7 +688,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = cos(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -706,7 +701,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = tan(a)
-	 * 
+	 *
 	 * @param a
 	 *            input
 	 * @param c
@@ -749,7 +744,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = sinh(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -763,7 +758,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = cosh(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -777,7 +772,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = tanh(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -790,7 +785,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = sec(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -804,7 +799,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = csc(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -818,7 +813,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = cot(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -832,7 +827,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = sech(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -846,7 +841,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = csc(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -860,7 +855,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = cot(a)
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -874,14 +869,14 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = zeta(a) Michael Borcherds 2010-02-07
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
 	 *            c
 	 */
 	public static void complexZeta(GeoVec2D a, GeoVec2D c) {
-		double[] s = { a.x, a.y };
+		double[] s = {a.x, a.y};
 		s = Riemann.zeta(s);
 		c.x = s[0]; // real
 		c.y = s[1]; // imaginary
@@ -890,7 +885,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = cbrt(a) Michael Borcherds 2010-02-07
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -904,7 +899,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = conjugate(a) Michael Borcherds 2010-02-07
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -918,7 +913,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a ^ b Michael Borcherds 2009-03-10
-	 * 
+	 *
 	 * @param a
 	 *            base
 	 * @param b
@@ -926,8 +921,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	public static void complexPower(NumberValue a, GeoVec2D b,
-			GeoVec2D c) {
+	public static void complexPower(NumberValue a, GeoVec2D b, GeoVec2D c) {
 		Complex out;
 		if (MyDouble.exactEqual(a.getDouble(), Math.E)) {
 			// special case for e^(i theta)
@@ -944,7 +938,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = e ^ a Michael Borcherds 2009-03-10
-	 * 
+	 *
 	 * @param a
 	 *            power
 	 * @param c
@@ -958,7 +952,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = natural log(a) Michael Borcherds 2009-03-10
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @param c
@@ -972,7 +966,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = abs(a) Michael Borcherds 2009-03-10
-	 * 
+	 *
 	 * @param a
 	 *            a
 	 * @return absolute value of a
@@ -985,7 +979,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a ^ b Michael Borcherds 2009-03-14
-	 * 
+	 *
 	 * @param a
 	 *            base
 	 * @param b
@@ -1001,7 +995,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * see also GeoVec3D#vectorProduct()
-	 * 
+	 *
 	 * @param a
 	 *            factor
 	 * @param b
@@ -1009,8 +1003,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            vector product
 	 */
-	public static void vectorProduct(GeoVecInterface a, GeoVecInterface b,
-			MyDouble c) {
+	public static void vectorProduct(GeoVecInterface a, GeoVecInterface b, MyDouble c) {
 		c.set(a.getX() * b.getY() - a.getY() * b.getX());
 	}
 
@@ -1028,7 +1021,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * c = a / b
-	 * 
+	 *
 	 * @param a
 	 *            vector
 	 * @param b
@@ -1139,8 +1132,7 @@ final public class GeoVec2D extends ValidExpression
 
 	@Override
 	public ValueType getValueType() {
-		return this.mode != Kernel.COORD_COMPLEX ? ValueType.NONCOMPLEX2D
-				: ValueType.COMPLEX;
+		return this.mode != Kernel.COORD_COMPLEX ? ValueType.NONCOMPLEX2D : ValueType.COMPLEX;
 	}
 
 	@Override
@@ -1155,7 +1147,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * multiplies 2D vector by a 2x2 matrix
-	 * 
+	 *
 	 * @param list
 	 *            2x2 matrix
 	 */
@@ -1176,7 +1168,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * ret = list * v
-	 * 
+	 *
 	 * @param list
 	 *            matrix (assume 2x2)
 	 * @param v
@@ -1184,8 +1176,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param ret
 	 *            list * v
 	 */
-	static public void multiplyMatrix(MyList list, GeoVecInterface v,
-			GeoVec2D ret) {
+	public static void multiplyMatrix(MyList list, GeoVecInterface v, GeoVec2D ret) {
 
 		double a, b, c, d;
 
@@ -1199,12 +1190,11 @@ final public class GeoVec2D extends ValidExpression
 
 		ret.x = x1;
 		ret.y = y1;
-
 	}
 
 	/**
 	 * multiplies 2D vector by a 2x2 matrix
-	 * 
+	 *
 	 * @param list
 	 *            2x2 matrix
 	 */
@@ -1226,7 +1216,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * (1,2)*{{2,0},{0,3}} Transforms the object using the matrix a00 a01 a10
 	 * a11
-	 * 
+	 *
 	 * @param a
 	 *            a00
 	 * @param b
@@ -1247,7 +1237,7 @@ final public class GeoVec2D extends ValidExpression
 
 	/**
 	 * multiplies 2D vector by a 3x3 affine matrix a b c d e f g h i
-	 * 
+	 *
 	 * @param list
 	 *            3x3 matrix
 	 * @param rt
@@ -1285,8 +1275,8 @@ final public class GeoVec2D extends ValidExpression
 			zz = 1;
 
 		} else {
-			Log.warn("error in GeoVec2D.multiplyMatrixAffine"
-					+ (rt == null ? "null" : rt.getValueType()));
+			Log.warn(
+					"error in GeoVec2D.multiplyMatrixAffine" + (rt == null ? "null" : rt.getValueType()));
 		}
 
 		double a = MyList.getCellAsDouble(list, 0, 0);
@@ -1326,7 +1316,7 @@ final public class GeoVec2D extends ValidExpression
 	/**
 	 * Transforms the object using the matrix a00 a01 a02 a10 a11 a12 a20 a21
 	 * a22
-	 * 
+	 *
 	 * @param a00
 	 *            a00
 	 * @param a01
@@ -1346,8 +1336,16 @@ final public class GeoVec2D extends ValidExpression
 	 * @param a22
 	 *            a22
 	 */
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 
 		double xx = x;
 		double yy = y;
@@ -1420,7 +1418,7 @@ final public class GeoVec2D extends ValidExpression
 
 	@Override
 	public double[] getPointAsDouble() {
-		return new double[] { x, y, 0 };
+		return new double[] {x, y, 0};
 	}
 
 	@Override

@@ -79,9 +79,8 @@ public class ArchiveEntry {
 		}
 		BlobPropertyBag options = BlobPropertyBag.create();
 		options.setType(extension.getMime());
-		return URL.createObjectURL(new Blob(
-				new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data)),
-				options));
+		return URL.createObjectURL(
+				new Blob(new JsArray<>(Blob.ConstructorBlobPartsArrayUnionType.of(data)), options));
 	}
 
 	/**

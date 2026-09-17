@@ -155,8 +155,8 @@ public final class CodeMirrorEditorWidget extends FlowPanel {
 			CodeMirrorOptions options = CodeMirrorOptions.create();
 			options.setValue(text);
 			options.setOnChange(value -> text = value);
-			codeMirrorEditor = CodeMirror.createEditor(
-					Js.uncheckedCast(editorHost.getElement()), options);
+			codeMirrorEditor =
+					CodeMirror.createEditor(Js.uncheckedCast(editorHost.getElement()), options);
 			refreshEditor();
 			if (focusOnCodeMirrorLoad) {
 				codeMirrorEditor.focus();
@@ -205,7 +205,7 @@ public final class CodeMirrorEditorWidget extends FlowPanel {
 	 * Access to global window properties.
 	 */
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
-	private final static class Window {
+	private static final class Window {
 		@JsProperty(name = "GeoGebraCodeMirror")
 		private static native Object getCodeMirror();
 	}
@@ -214,16 +214,15 @@ public final class CodeMirrorEditorWidget extends FlowPanel {
 	 * Minimal JsInterop surface for CodeMirror 6.
 	 */
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "GeoGebraCodeMirror")
-	private final static class CodeMirror {
-		private static native CodeMirrorEditor createEditor(Element element,
-				CodeMirrorOptions options);
+	private static final class CodeMirror {
+		private static native CodeMirrorEditor createEditor(Element element, CodeMirrorOptions options);
 	}
 
 	/**
 	 * CodeMirror editor options.
 	 */
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-	public final static class CodeMirrorOptions {
+	public static final class CodeMirrorOptions {
 		@JsProperty
 		public native void setValue(String value);
 
@@ -243,7 +242,7 @@ public final class CodeMirrorEditorWidget extends FlowPanel {
 	 * CodeMirror editor instance.
 	 */
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
-	private final static class CodeMirrorEditor {
+	private static final class CodeMirrorEditor {
 		private native void destroy();
 
 		private native void focus();

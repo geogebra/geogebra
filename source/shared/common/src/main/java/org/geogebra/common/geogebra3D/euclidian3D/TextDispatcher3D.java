@@ -57,11 +57,18 @@ public class TextDispatcher3D extends TextDispatcher {
 
 		Coords coords = view3D.getCursor3D().getCoords();
 
-		return view3D.getEuclidianController().createNewPoint(
-				removeUnderscoresAndBraces(loc.getMenu("Point")
-						+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, object, coords.getX(), coords.getY(), coords.getZ(),
-				false, false);
+		return view3D
+				.getEuclidianController()
+				.createNewPoint(
+						removeUnderscoresAndBraces(
+								loc.getMenu("Point") + object.getLabel(StringTemplate.defaultTemplate)),
+						false,
+						object,
+						coords.getX(),
+						coords.getY(),
+						coords.getZ(),
+						false,
+						false);
 	}
 
 	@Override
@@ -69,11 +76,19 @@ public class TextDispatcher3D extends TextDispatcher {
 
 		Coords coords = view3D.getCursor3D().getCoords();
 
-		return view3D.getEuclidianController().getCompanion().createNewPoint(
-				removeUnderscoresAndBraces(loc.getMenu("Point")
-						+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, object, coords.getX(), coords.getY(), coords.getZ(),
-				false, false);
+		return view3D
+				.getEuclidianController()
+				.getCompanion()
+				.createNewPoint(
+						removeUnderscoresAndBraces(
+								loc.getMenu("Point") + object.getLabel(StringTemplate.defaultTemplate)),
+						false,
+						object,
+						coords.getX(),
+						coords.getY(),
+						coords.getZ(),
+						false,
+						false);
 	}
 
 	@Override
@@ -110,19 +125,15 @@ public class TextDispatcher3D extends TextDispatcher {
 	 *            text location
 	 */
 	public void createVolumeText(GeoElement hasVolume, GPoint corner) {
-		GeoNumeric volume = kernel.getManager3D().volume(null,
-				(HasVolume) hasVolume);
+		GeoNumeric volume = kernel.getManager3D().volume(null, (HasVolume) hasVolume);
 
 		// text
-		GeoText text = createDynamicTextForMouseLoc("VolumeOfA", "Volume of %0",
-				hasVolume,
-				volume, corner);
+		GeoText text =
+				createDynamicTextForMouseLoc("VolumeOfA", "Volume of %0", hasVolume, volume, corner);
 		if (text != null && hasVolume.isLabelSet()) {
 			volume.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCaseUS(loc.getCommand("Volume"))
-							+ hasVolume.getLabelSimple()));
-			text.setLabel(removeUnderscoresAndBraces(
-					loc.getMenu("Text") + hasVolume.getLabelSimple()));
+					StringUtil.toLowerCaseUS(loc.getCommand("Volume")) + hasVolume.getLabelSimple()));
+			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text") + hasVolume.getLabelSimple()));
 		}
 	}
 }

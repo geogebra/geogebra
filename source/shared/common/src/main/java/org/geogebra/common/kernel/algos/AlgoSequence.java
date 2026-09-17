@@ -32,7 +32,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Algorithm for the Sequence[ expression of var, var, from-value, to-value,
  * step ] command.
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoSequence extends AlgoElement implements SetRandomValue {
@@ -57,7 +57,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -73,9 +73,14 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 	 * @param var_step
 	 *            step
 	 */
-	public AlgoSequence(Construction cons, String label,
-			GeoElementND expression, GeoNumeric var, GeoNumberValue var_from,
-			GeoNumberValue var_to, GeoNumberValue var_step) {
+	public AlgoSequence(
+			Construction cons,
+			String label,
+			GeoElementND expression,
+			GeoNumeric var,
+			GeoNumberValue var_from,
+			GeoNumberValue var_to,
+			GeoNumberValue var_step) {
 
 		this(cons, expression, var, var_from, var_to, var_step);
 		list.setLabel(label);
@@ -83,7 +88,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param expression
@@ -97,8 +102,12 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 	 * @param var_step
 	 *            step
 	 */
-	public AlgoSequence(Construction cons, GeoElementND expression,
-			GeoNumeric var, GeoNumberValue var_from, GeoNumberValue var_to,
+	public AlgoSequence(
+			Construction cons,
+			GeoElementND expression,
+			GeoNumeric var,
+			GeoNumberValue var_from,
+			GeoNumberValue var_to,
 			GeoNumberValue var_step) {
 		super(cons);
 
@@ -155,7 +164,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 	 * Returns contents of input array excluding var (var is not input object,
 	 * but must be in input array because of GetCommandDescription method). see
 	 * ticket #72 2010-05-13 null pointer error fixed
-	 * 
+	 *
 	 * @author Zbynek Konecny
 	 * @version 2010-05-13
 	 */
@@ -178,7 +187,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	/**
 	 * Returns list of all contained elements.
-	 * 
+	 *
 	 * @return list of elements
 	 */
 	GeoList getList() {
@@ -194,9 +203,9 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 		updateRunning = true;
 		for (int i = 1; i < input.length; i++) {
 			if (input[i] != var && !input[i].isDefined()) { // don't check the
-															// var itself (maybe
-															// undefined at last
-															// loop)
+				// var itself (maybe
+				// undefined at last
+				// loop)
 				list.setUndefined();
 				updateRunning = false;
 				return;
@@ -217,8 +226,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 		// changed:
 		// in this case it is much more efficient not to create all objects
 		// for the list again, but just to set their new values
-		boolean setValuesOnly = from == last_from && to == last_to
-				&& step == last_step;
+		boolean setValuesOnly = from == last_from && to == last_to && step == last_step;
 
 		// setValues does not work for functions
 		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;
@@ -264,8 +272,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 					long mem = kernel.getApplication().freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					Log.debug(
-							"AlgoSequence aborted: free memory reached " + mem);
+					Log.debug("AlgoSequence aborted: free memory reached " + mem);
 					return;
 				}
 
@@ -331,18 +338,14 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 
 	private void copyDrawAlgo(GeoElement listElement) {
 		AlgoElement drawAlgo = expression.getDrawAlgorithm();
-		if (listElement instanceof GeoNumeric
-				&& drawAlgo instanceof DrawInformationAlgo) {
-			DrawInformationAlgo algoCopy = ((DrawInformationAlgo) drawAlgo)
-					.copy();
+		if (listElement instanceof GeoNumeric && drawAlgo instanceof DrawInformationAlgo) {
+			DrawInformationAlgo algoCopy = ((DrawInformationAlgo) drawAlgo).copy();
 			if (algoCopy instanceof ReplaceChildrenByValues) {
-				((ReplaceChildrenByValues) algoCopy)
-						.replaceChildrenByValues(var);
+				((ReplaceChildrenByValues) algoCopy).replaceChildrenByValues(var);
 			}
 			listElement.setDrawAlgorithm(algoCopy);
 			listElement.setEuclidianVisible(true);
 		}
-
 	}
 
 	private GeoElement createNewListElement() {
@@ -450,8 +453,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 				GeoList d1 = (GeoList) d;
 				if (counter < d1.size()) {
 					GeoElement elem = d1.get(counter);
-					allGood = ((SetRandomValue) expressionParentAlgo)
-							.setRandomValue(elem) && allGood;
+					allGood = ((SetRandomValue) expressionParentAlgo).setRandomValue(elem) && allGood;
 				}
 				if (counter < list.size()) {
 					list.get(counter).set(expression);

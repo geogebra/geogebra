@@ -82,8 +82,11 @@ public final class AlgebraContextMenuActionHandler {
 	 * @param geoElement the element in the algebra view for which the context menu was open
 	 * @param delegate the delegate for the platform-specific operations
 	 */
-	public AlgebraContextMenuActionHandler(@NonNull App app, @NonNull TableValues tableValues,
-			@Nullable GeoElement geoElement, @NonNull Delegate delegate) {
+	public AlgebraContextMenuActionHandler(
+			@NonNull App app,
+			@NonNull TableValues tableValues,
+			@Nullable GeoElement geoElement,
+			@NonNull Delegate delegate) {
 		this.app = app;
 		this.tableValues = tableValues;
 		this.geoElement = geoElement;
@@ -141,8 +144,9 @@ public final class AlgebraContextMenuActionHandler {
 	private void showSettings() {
 		app.getSelectionManager().clearSelectedGeos();
 		app.getSelectionManager().addSelectedGeo(geoElement);
-		PropertyView.TabbedPageSelector tabbedPageSelector = PropertyViewFactory
-				.propertyViewOfObjectSettings(app, app.getSelectionManager().getSelectedGeos());
+		PropertyView.TabbedPageSelector tabbedPageSelector =
+				PropertyViewFactory.propertyViewOfObjectSettings(
+						app, app.getSelectionManager().getSelectedGeos());
 		if (tabbedPageSelector != null) {
 			delegate.showObjectProperties(tabbedPageSelector);
 		}

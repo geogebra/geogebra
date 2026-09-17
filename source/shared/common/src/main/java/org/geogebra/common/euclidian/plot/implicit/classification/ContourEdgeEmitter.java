@@ -56,26 +56,29 @@ final class ContourEdgeEmitter {
 				double x1 = segment.xAt(endT);
 				double y1 = segment.yAt(endT);
 				int endVertex = vertexCache.findOrAddToGraph(x1, y1);
-				if (startVertex != endVertex && shouldAddContourSubEdge(segment,
-						startVertex, endVertex, segment.contourId, emittedEdges)) {
+				if (startVertex != endVertex
+						&& shouldAddContourSubEdge(
+								segment, startVertex, endVertex, segment.contourId, emittedEdges)) {
 					int halfEdgeId = addContourSubEdge(startVertex, endVertex, segment.contourId);
 					List<Integer> list = state.getForwardContourEdgesBy(segment.fragmentId);
 					// GWT does not have full support for computeIfAbsent with lambda expression.
 					if (list == null) {
 						list = new ArrayList<>();
 						state.recordForwardContourEdgesBy(segment.fragmentId, list);
-
 					}
 					list.add(halfEdgeId);
 				}
 				startVertex = endVertex;
 			}
 		}
-
 	}
 
-	private boolean shouldAddContourSubEdge(BoundarySegment segment, int startVertex, int endVertex,
-			int contourId, LinkedHashSet<String> emittedEdges) {
+	private boolean shouldAddContourSubEdge(
+			BoundarySegment segment,
+			int startVertex,
+			int endVertex,
+			int contourId,
+			LinkedHashSet<String> emittedEdges) {
 		String edgeKey = undirectedContourEdgeKey(startVertex, endVertex, contourId);
 		if (emittedEdges.add(edgeKey)) {
 			return true;

@@ -59,21 +59,21 @@ public class PenPreviewLineW extends PenPreviewLine {
 			MyPoint[] controls = new MyPoint[2];
 			GeoLocusStroke.processContinuous(penPoints, 1, pt -> {
 				switch (pt.getSegmentType()) {
-				case MOVE_TO -> g2w.moveTo(pt.x, pt.y);
-				case LINE_TO -> g2w.lineTo(pt.x, pt.y);
-				case CONTROL -> {
-					if (controls[0] == null) {
-						controls[0] = pt;
-					} else if (controls[1] == null) {
-						controls[1] = pt;
+					case MOVE_TO -> g2w.moveTo(pt.x, pt.y);
+					case LINE_TO -> g2w.lineTo(pt.x, pt.y);
+					case CONTROL -> {
+						if (controls[0] == null) {
+							controls[0] = pt;
+						} else if (controls[1] == null) {
+							controls[1] = pt;
+						}
 					}
-				}
-				case CURVE_TO -> {
-						g2w.bezierCurveTo(controls[0].x, controls[0].y,
-								controls[0].x, controls[0].y, pt.x, pt.y);
+					case CURVE_TO -> {
+						g2w.bezierCurveTo(
+								controls[0].x, controls[0].y, controls[0].x, controls[0].y, pt.x, pt.y);
 						controls[0] = controls[1] = null;
-				}
-				case ARC_TO, AUXILIARY -> throw new IllegalStateException();
+					}
+					case ARC_TO, AUXILIARY -> throw new IllegalStateException();
 				}
 			});
 		}

@@ -121,7 +121,8 @@ public interface SvgPerspectiveResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_3d.svg")
 	SVGResource menu_icon_graphics3D_transparent();
 
-	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_construction_protocol.svg")
+	@Source(
+			"org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_construction_protocol.svg")
 	SVGResource menu_icon_construction_protocol_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_probability.svg")
@@ -143,5 +144,4 @@ public interface SvgPerspectiveResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_arrow_back_black_24px.svg")
 	SVGResource menu_header_back();
-
 }

@@ -39,11 +39,11 @@ import org.gwtproject.user.client.ui.Panel;
 import org.gwtproject.user.client.ui.Widget;
 
 /**
- * 
+ *
  * Web implementation of TextPreviewPanel
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public final class TextPreviewPanelW extends TextPreviewer {
 
@@ -69,39 +69,54 @@ public final class TextPreviewPanelW extends TextPreviewer {
 	 * the given preview geo. This forces the enclosing scrollpane to show
 	 * scrollbars when the size of the preview geo grows larger than the
 	 * scrollpane viewport.
-	 * 
+	 *
 	 * Note: The preview geo uses absolute screen coords, so we can't easily get
 	 * the bounding box dimensions and must use dummy containers to estimate
 	 * these dimensions.
-	 * 
+	 *
 	 * @param previewGeo
 	 *            preview content
 	 */
 	@Override
 	protected void updateViewportSize(GeoText previewGeo) {
-		
+
 		int padding = 5; // account for inset
-		
+
 		boolean isLatex = previewGeo.isLaTeX();
 		boolean serif = previewGeo.isSerifFont();
-		
-		int size = (int) (previewGeo.getFontSizeMultiplier() * getApp()
-				.getFontSize());
+
+		int size = (int) (previewGeo.getFontSizeMultiplier() * getApp().getFontSize());
 		GFont textFont = getApp().getFontCommon(serif, previewGeo.getFontStyle(), size);
 
 		GRectangle rect = AwtFactory.getPrototype().newRectangle();
 		if (isLatex) {
-			EuclidianStatic.drawMultilineLaTeX(getApp(),
-					ev.getTempGraphics2D(textFont), previewGeo,
-					ev.getTempGraphics2D(textFont), textFont, GColor.BLACK,
+			EuclidianStatic.drawMultilineLaTeX(
+					getApp(),
+					ev.getTempGraphics2D(textFont),
+					previewGeo,
+					ev.getTempGraphics2D(textFont),
+					textFont,
+					GColor.BLACK,
 					GColor.WHITE,
-					previewGeo.getTextString(), 0, 0, serif, null, rect);
-			
+					previewGeo.getTextString(),
+					0,
+					0,
+					serif,
+					null,
+					rect);
+
 		} else {
-			EuclidianStatic.drawMultiLineText(getApp(),
-					previewGeo.getTextString(), 0, 0,
+			EuclidianStatic.drawMultiLineText(
+					getApp(),
+					previewGeo.getTextString(),
+					0,
+					0,
 					((EuclidianViewW) ev).getG2P(),
-					serif, textFont, rect, null, DrawText.DEFAULT_MARGIN);
+					serif,
+					textFont,
+					rect,
+					null,
+					DrawText.DEFAULT_MARGIN);
 		}
 		int w = (int) rect.getWidth() + padding;
 		int h = (int) rect.getHeight() + padding;
@@ -117,8 +132,8 @@ public final class TextPreviewPanelW extends TextPreviewer {
 	@Override
 	protected EuclidianViewW getEuclidianView() {
 		if (ev == null) {
-			ev = new PreviewEuclidianView(getEVPanel(), new EuclidianControllerW(
-					kernel), EuclidianView.EVNO_GENERAL, null);
+			ev = new PreviewEuclidianView(
+					getEVPanel(), new EuclidianControllerW(kernel), EuclidianView.EVNO_GENERAL, null);
 		}
 		return (EuclidianViewW) ev;
 	}
@@ -142,8 +157,11 @@ public final class TextPreviewPanelW extends TextPreviewer {
 	 */
 	private static final class PreviewEuclidianView extends EuclidianViewW {
 
-		private PreviewEuclidianView(TextPreviewEuclidianViewPanelW panel,
-				EuclidianController ec, int evno, EuclidianSettings settings) {
+		private PreviewEuclidianView(
+				TextPreviewEuclidianViewPanelW panel,
+				EuclidianController ec,
+				int evno,
+				EuclidianSettings settings) {
 			super(panel, ec, evno, settings);
 
 			// the show axis and show grid parameters currently do nothing, so
@@ -232,7 +250,5 @@ public final class TextPreviewPanelW extends TextPreviewer {
 		public void enableZoomPanelEvents(boolean enable) {
 			// not needed
 		}
-
 	}
-
 }

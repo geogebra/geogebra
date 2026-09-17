@@ -129,12 +129,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		exportToEVAction = () -> {
 			// if null ID then use EV1 unless shift is down, then use EV2
 			int euclidianViewID = GlobalKeyDispatcherW.getShiftDown()
-						? getApp().getEuclidianView2(1).getViewID()
-						: getApp().getEuclidianView1().getViewID();
+					? getApp().getEuclidianView2(1).getViewID()
+					: getApp().getEuclidianView1().getViewID();
 			// do the export, preload Take, Pascal/Binomial, Integral, ...
 			AsyncManager manager = ((AppW) app).getAsyncManager();
-			manager.prefetch(() -> exportGeosToEV(euclidianViewID),
-					"advanced", "stats", "cas");
+			manager.prefetch(() -> exportGeosToEV(euclidianViewID), "advanced", "stats", "cas");
 		};
 	}
 
@@ -169,11 +168,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	private void createGUIElements() {
 		setLabelArrays();
 
-		overlayIconButton = new IconButton((AppW) app, null,
+		overlayIconButton = new IconButton(
+				(AppW) app,
+				null,
 				new ImageIconSpec(GuiResources.INSTANCE.normal_overlay_black()),
 				"OverlayNormalCurve");
-		overlayIconButton.addStyleName(app.isUnbundled() ? "probCalcStylbarBtn singleButton"
-				: "probCalcStylbarBtn");
+		overlayIconButton.addStyleName(
+				app.isUnbundled() ? "probCalcStylbarBtn singleButton" : "probCalcStylbarBtn");
 		overlayIconButton.setTooltipPositionRight();
 		overlayIconButton.addFastClickHandler(source -> onOverlayClicked());
 		new FocusableWidget(AccessibilityGroup.PROBABILITY_OVERLAY, null, overlayIconButton)
@@ -182,18 +183,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 			createTableButtonAndSideSheet();
 		}
 
-		btnLineGraph = new IconButton((AppW) app, null,
-				new ImageIconSpec(GuiResources.INSTANCE.line_graph()), "LineGraph");
+		btnLineGraph = new IconButton(
+				(AppW) app, null, new ImageIconSpec(GuiResources.INSTANCE.line_graph()), "LineGraph");
 		btnLineGraph.addStyleName("probCalcStylbarBtn");
 		btnLineGraph.addFastClickHandler(event -> setGraphType(GRAPH_LINE));
 
-		btnStepGraph = new IconButton((AppW) app, null,
-				new ImageIconSpec(GuiResources.INSTANCE.step_graph()), "StepGraph");
+		btnStepGraph = new IconButton(
+				(AppW) app, null, new ImageIconSpec(GuiResources.INSTANCE.step_graph()), "StepGraph");
 		btnStepGraph.addStyleName("probCalcStylbarBtn");
 		btnStepGraph.addFastClickHandler(event -> setGraphType(GRAPH_STEP));
 
-		btnBarGraph = new IconButton((AppW) app, null,
-				new ImageIconSpec(GuiResources.INSTANCE.bar_chart()), "BarChart");
+		btnBarGraph = new IconButton(
+				(AppW) app, null, new ImageIconSpec(GuiResources.INSTANCE.bar_chart()), "BarChart");
 		btnBarGraph.addStyleName("probCalcStylbarBtn");
 		btnBarGraph.addFastClickHandler(event -> setGraphType(GRAPH_BAR));
 	}
@@ -201,11 +202,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 	// TODO APPS-7848: Cancel subscription in Web State integration
 	@SuppressWarnings("CheckReturnValue")
 	private void createTableButtonAndSideSheet() {
-		tableIconButton = new IconButton((AppW) app, null,
+		tableIconButton = new IconButton(
+				(AppW) app,
+				null,
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.toolbar_table_view_black()),
 				"Table");
-		tableIconButton.addStyleName(app.isUnbundled() ? "probCalcStylbarBtn singleButton"
-				: "probCalcStylbarBtn");
+		tableIconButton.addStyleName(
+				app.isUnbundled() ? "probCalcStylbarBtn singleButton" : "probCalcStylbarBtn");
 		tableIconButton.setTooltipPositionRight();
 		tableIconButton.addFastClickHandler(source -> onTableClicked());
 		new FocusableWidget(AccessibilityGroup.PROBABILITY_TABLE, null, tableIconButton)
@@ -286,8 +289,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 
 	@Override
 	protected void plotPanelUpdateSettings(PlotSettings settings) {
-		getPlotPanel().commonFields
-				.updateSettings(getPlotPanel(), plotSettings);
+		getPlotPanel().commonFields.updateSettings(getPlotPanel(), plotSettings);
 	}
 
 	@Override
@@ -296,8 +298,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 			return;
 		}
 		int[] firstXLastX = generateFirstXLastXCommon();
-		getTable().setTable(selectedDist, parameters,
-				firstXLastX[0], firstXLastX[1]);
+		getTable().setTable(selectedDist, parameters, firstXLastX[0], firstXLastX[1]);
 		selectProbabilityTableRows();
 		tabResized();
 	}
@@ -319,12 +320,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		btnStepGraph.setVisible(isDiscreteProbability());
 		btnBarGraph.setVisible(isDiscreteProbability());
 
-		btnLineGraph.setActive(getGraphType()
-				== ProbabilityCalculatorView.GRAPH_LINE);
-		btnStepGraph.setActive(getGraphType()
-				== ProbabilityCalculatorView.GRAPH_STEP);
-		btnBarGraph.setActive(getGraphType()
-				== ProbabilityCalculatorView.GRAPH_BAR);
+		btnLineGraph.setActive(getGraphType() == ProbabilityCalculatorView.GRAPH_LINE);
+		btnStepGraph.setActive(getGraphType() == ProbabilityCalculatorView.GRAPH_STEP);
+		btnBarGraph.setActive(getGraphType() == ProbabilityCalculatorView.GRAPH_BAR);
 	}
 
 	/**
@@ -361,7 +359,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		updateIntervalProbability();
 		updateGUI();
 	}
-	
+
 	@Override
 	public boolean suggestRepaint() {
 		return false;
@@ -399,8 +397,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView {
 		getPlotPanel().setPreferredSize(new Dimension(width, height));
 		double margin = (maxHeight - height) / 2.0;
 
-		getPlotPanel().getCanvasElement().getStyle().setMarginTop(margin,
-					Unit.PX);
+		getPlotPanel().getCanvasElement().getStyle().setMarginTop(margin, Unit.PX);
 
 		getPlotPanel().repaintView();
 		getPlotPanel().getEuclidianController().calculateEnvironment();

@@ -47,14 +47,14 @@ public final class SheetTitlePanel extends FlowPanel implements SetLabels {
 	 * @param onClose close button callback
 	 * @param onBack back button callback (null = no back button)
 	 */
-	public SheetTitlePanel(AppW appW, String titleTransKey,
-			@NonNull Runnable onClose, @Nullable Runnable onBack) {
+	public SheetTitlePanel(
+			AppW appW, String titleTransKey, @NonNull Runnable onClose, @Nullable Runnable onBack) {
 		this.appW = appW;
 		this.titleTransKey = titleTransKey;
 		if (onBack != null) {
 			addStyleName("withBackBtn");
-			IconButton backButton = new IconButton(appW, onBack, new ImageIconSpec(
-					GuiResourcesSimple.INSTANCE.arrow_back()), "Back");
+			IconButton backButton = new IconButton(
+					appW, onBack, new ImageIconSpec(GuiResourcesSimple.INSTANCE.arrow_back()), "Back");
 			backButton.addStyleName("backBtn");
 			add(backButton);
 		}
@@ -63,13 +63,12 @@ public final class SheetTitlePanel extends FlowPanel implements SetLabels {
 		titleLabel.addStyleName("title");
 		add(titleLabel);
 
-		closeButton = new IconButton(appW, onClose,
-				new ImageIconSpec(GuiResourcesSimple.INSTANCE.close()), "Close");
+		closeButton = new IconButton(
+				appW, onClose, new ImageIconSpec(GuiResourcesSimple.INSTANCE.close()), "Close");
 		closeButton.addStyleName("closeBtn");
 		closeButton.getElement().setAttribute("tooltip-position", "right");
 		closeButton.setTabIndex(0);
-		new FocusableWidget(AccessibilityGroup.SETTINGS_CLOSE_BUTTON,
-				null, closeButton) {
+		new FocusableWidget(AccessibilityGroup.SETTINGS_CLOSE_BUTTON, null, closeButton) {
 			@Override
 			protected void focus(Widget widget) {
 				closeButton.addStyleName("keyboardFocus");

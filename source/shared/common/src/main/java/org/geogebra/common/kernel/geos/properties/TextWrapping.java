@@ -22,7 +22,8 @@ import java.util.Locale;
  * Text wrapping for tables.
  */
 public enum TextWrapping {
-	WRAP, CLIP;
+	WRAP,
+	CLIP;
 
 	@Override
 	public String toString() {

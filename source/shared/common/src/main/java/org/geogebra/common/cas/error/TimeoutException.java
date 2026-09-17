@@ -21,10 +21,10 @@ import org.geogebra.common.main.MyError.Errors;
 
 /**
  * Signals a Timeout exception from the CAS.
- * 
+ *
  * This exception gets thrown when the CAS is unable to produce a valid response
  * in the allowed time.
- * 
+ *
  * @author Thomas
  *
  */
@@ -34,7 +34,7 @@ public class TimeoutException extends CASException {
 
 	/**
 	 * Creates new timeout exception
-	 * 
+	 *
 	 * @param message
 	 *            exception message
 	 */
@@ -46,5 +46,4 @@ public class TimeoutException extends CASException {
 	public String getKey() {
 		return Errors.CASTimeoutError.getKey();
 	}
-
 }

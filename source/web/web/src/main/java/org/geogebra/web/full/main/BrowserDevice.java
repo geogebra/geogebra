@@ -70,9 +70,12 @@ public final class BrowserDevice implements GDevice {
 				if (fileInput.files.length > 0) {
 					File fileToHandle = fileInput.files.getAt(0);
 					openFileView.close();
-					app.getSaveController().showDialogIfNeeded((ignore) -> {
-						app.openFile(fileToHandle);
-					}, false);
+					app.getSaveController()
+							.showDialogIfNeeded(
+									(ignore) -> {
+										app.openFile(fileToHandle);
+									},
+									false);
 					fileInput.value = "";
 				}
 			});
@@ -90,8 +93,8 @@ public final class BrowserDevice implements GDevice {
 
 			FlowPanel holder = new FlowPanel();
 			holder.addStyleName("materialTonalButton");
-			holder.add(new NoDragImage(svgResource.withFill(
-					GeoGebraColorConstants.PURPLE_700.toString()), 24, 24));
+			holder.add(new NoDragImage(
+					svgResource.withFill(GeoGebraColorConstants.PURPLE_700.toString()), 24, 24));
 			holder.add(new Label(text));
 			div.appendChild(holder.getElement());
 			div.appendChild(form);
@@ -123,8 +126,7 @@ public final class BrowserDevice implements GDevice {
 
 	@Override
 	public void resizeView(int width0, int height0) {
-		if (width0 > Browser.getScreenWidth()
-				|| height0 > Browser.getScreenHeight()) {
+		if (width0 > Browser.getScreenWidth() || height0 > Browser.getScreenHeight()) {
 			int width = Browser.getScreenWidth();
 			int height = Browser.getScreenHeight();
 			DomGlobal.window.moveTo(0, 0);
@@ -132,6 +134,5 @@ public final class BrowserDevice implements GDevice {
 		} else {
 			DomGlobal.window.resizeTo(width0, height0);
 		}
-
 	}
 }

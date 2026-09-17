@@ -31,8 +31,8 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 /**
  * Utility class to handle toolbar menu mode changes
- * 
- * 
+ *
+ *
  * @author G. Sturr
  *
  */
@@ -62,65 +62,57 @@ public final class SpreadsheetToolbarManagerW {
 		}
 		List<TabularRange> selections = spreadsheet.getSelections();
 		switch (mode) {
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
+				if (!selections.isEmpty()
+						&& !CellRangeUtil.isEmpty(selections.get(0), app.getSpreadsheetTableModel())) {
+					openDialog(CreateObjectModel.TYPE_LIST);
+				}
+				break;
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-			if (!selections.isEmpty()
-					&& !CellRangeUtil.isEmpty(selections.get(0),
-							app.getSpreadsheetTableModel())) {
-				openDialog(CreateObjectModel.TYPE_LIST);
-			}
-			break;
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
+				if (toolProcessor.isCreatePointListPossible(selections)) {
+					openDialog(CreateObjectModel.TYPE_LISTOFPOINTS);
+				}
+				break;
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
-			if (toolProcessor
-					.isCreatePointListPossible(selections)) {
-				openDialog(CreateObjectModel.TYPE_LISTOFPOINTS);
-			}
-			break;
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
+				if (toolProcessor.isCreateMatrixPossible(selections)) {
+					openDialog(CreateObjectModel.TYPE_MATRIX);
+				}
+				break;
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
-			if (toolProcessor
-					.isCreateMatrixPossible(selections)) {
-				openDialog(CreateObjectModel.TYPE_MATRIX);
-			}
-			break;
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
+				if (toolProcessor.isCreateMatrixPossible(selections)) {
+					openDialog(CreateObjectModel.TYPE_TABLETEXT);
+				}
+				break;
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
-			if (toolProcessor
-					.isCreateMatrixPossible(selections)) {
-				openDialog(CreateObjectModel.TYPE_TABLETEXT);
-			}
-			break;
+			case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
+				if (toolProcessor.isCreatePointListPossible(selections)) {
+					openDialog(CreateObjectModel.TYPE_POLYLINE);
+				}
+				break;
 
-		case EuclidianConstants.MODE_SPREADSHEET_CREATE_POLYLINE:
-			if (toolProcessor
-					.isCreatePointListPossible(selections)) {
-				openDialog(CreateObjectModel.TYPE_POLYLINE);
-			}
-			break;
-			
-		case EuclidianConstants.MODE_SPREADSHEET_SUM:
-		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
-		case EuclidianConstants.MODE_SPREADSHEET_COUNT:
-		case EuclidianConstants.MODE_SPREADSHEET_MIN:
-		case EuclidianConstants.MODE_SPREADSHEET_MAX:
-			// Handle autofunction modes
-			if (!selections.isEmpty()) {
-				new SpreadsheetModeProcessor(app, null).performAutoFunctionCreation(
-						selections.get(0),
-						GlobalKeyDispatcherW.getShiftDown());
-			}
-			break;
+			case EuclidianConstants.MODE_SPREADSHEET_SUM:
+			case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
+			case EuclidianConstants.MODE_SPREADSHEET_COUNT:
+			case EuclidianConstants.MODE_SPREADSHEET_MIN:
+			case EuclidianConstants.MODE_SPREADSHEET_MAX:
+				// Handle autofunction modes
+				if (!selections.isEmpty()) {
+					new SpreadsheetModeProcessor(app, null)
+							.performAutoFunctionCreation(selections.get(0), GlobalKeyDispatcherW.getShiftDown());
+				}
+				break;
 
-		default:
+			default:
 			// ignore other modes
 		}
 	}
 
 	private void openDialog(int type) {
 		if (spreadsheet != null) {
-			new CreateObjectDialogW(app, spreadsheet, type,
-					CreateObjectModel.getTitle(type)).show();
+			new CreateObjectDialogW(app, spreadsheet, type, CreateObjectModel.getTitle(type)).show();
 		}
 	}
 }

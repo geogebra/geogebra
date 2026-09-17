@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdTTestPaired extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,28 +47,27 @@ public class CmdTTestPaired extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
+			case 3:
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoText())) {
 
-		case 3:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoText())) {
+					AlgoTTestPaired algo = new AlgoTTestPaired(
+							cons, c.getLabel(), (GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2]);
 
-				AlgoTTestPaired algo = new AlgoTTestPaired(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else {
+					throw argErr(c, arg[2]);
+				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[2]);
-			}
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

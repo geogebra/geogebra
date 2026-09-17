@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * MAXP Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFMaxPTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -14,7 +14,6 @@ public class TTFMaxPTable extends TTFVersionTable {
 	public int numGlyphs;
 
 	public int maxPoints, maxContours;
-
 	public int maxCompositePoints, maxCompositeContours;
 
 	public int maxZones;

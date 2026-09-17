@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class CmdSampleSDX extends CmdOneOrTwoListsFunction {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -36,14 +36,13 @@ public class CmdSampleSDX extends CmdOneOrTwoListsFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoListSampleSDX algo = new AlgoListSampleSDX(cons, a, b);
 		return algo.getResult();
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b, GeoList c) {
+	protected final GeoElement doCommand(String a, GeoList b, GeoList c) {
 		return null;
 	}
-
 }

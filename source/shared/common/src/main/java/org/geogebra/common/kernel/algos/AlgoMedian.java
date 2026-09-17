@@ -29,11 +29,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Find median of a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-16
  */
-
 public class AlgoMedian extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -124,10 +123,8 @@ public class AlgoMedian extends AlgoElement {
 			// do the sorting
 			Arrays.sort(sortList);
 
-			if (MyDouble.exactEqual(Math.floor((double) size / 2),
-					size / 2.0)) {
-				median.setValue(
-						(sortList[size / 2] + sortList[size / 2 - 1]) / 2);
+			if (MyDouble.exactEqual(Math.floor((double) size / 2), size / 2.0)) {
+				median.setValue((sortList[size / 2] + sortList[size / 2 - 1]) / 2);
 			} else {
 				median.setValue(sortList[(size - 1) / 2]);
 			}
@@ -138,16 +135,15 @@ public class AlgoMedian extends AlgoElement {
 		// ================================================
 		else if (inputList.size() == freqList.size()) {
 
-			if (!freqList.isDefined() || !(inputList.size() == freqList.size()
-					|| inputList.size() == freqList.size() + 1)) {
+			if (!freqList.isDefined()
+					|| !(inputList.size() == freqList.size() || inputList.size() == freqList.size() + 1)) {
 				median.setUndefined();
 				return;
 			}
 
 			// check for bad frequency
 			for (int i = 0; i < freqList.size(); i++) {
-				if (!(freqList.get(i) instanceof NumberValue)
-						|| freqList.get(i).evaluateDouble() < 0) {
+				if (!(freqList.get(i) instanceof NumberValue) || freqList.get(i).evaluateDouble() < 0) {
 					median.setUndefined();
 					return;
 				}
@@ -173,9 +169,7 @@ public class AlgoMedian extends AlgoElement {
 
 			// find the median
 			if (MyDouble.exactEqual(Math.floor((double) n / 2), n / 2.0)) {
-				median.setValue(
-						(getValueAt(n / 2, v, f) + getValueAt(n / 2 - 1, v, f))
-								/ 2);
+				median.setValue((getValueAt(n / 2, v, f) + getValueAt(n / 2 - 1, v, f)) / 2);
 			} else {
 				median.setValue(getValueAt((n - 1) / 2, v, f));
 			}
@@ -187,8 +181,8 @@ public class AlgoMedian extends AlgoElement {
 
 		else {
 
-			if (!freqList.isDefined() || !(inputList.size() == freqList.size()
-					|| inputList.size() == freqList.size() + 1)) {
+			if (!freqList.isDefined()
+					|| !(inputList.size() == freqList.size() || inputList.size() == freqList.size() + 1)) {
 				median.setUndefined();
 				return;
 			}
@@ -227,7 +221,7 @@ public class AlgoMedian extends AlgoElement {
 	/**
 	 * Returns the value at an index position in a list of data constructed from
 	 * a sorted list of values and frequencies
-	 * 
+	 *
 	 * @param index
 	 *            index in expanded list
 	 * @param val
@@ -255,8 +249,7 @@ public class AlgoMedian extends AlgoElement {
 	 *            frequencies
 	 * @return {sorted unique values, frequencies, sum of frequencies}
 	 */
-	public static Object[] convertValueFreqListToArrays(GeoList inputList,
-			GeoList freqList) {
+	public static Object[] convertValueFreqListToArrays(GeoList inputList, GeoList freqList) {
 
 		// create a tree map to sort the value/frequency pairs
 		double val;
@@ -285,8 +278,7 @@ public class AlgoMedian extends AlgoElement {
 		}
 
 		// return the arrays in an Object array
-		Object[] obj = { v, f, n };
+		Object[] obj = {v, f, n};
 		return obj;
 	}
-
 }

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * HEAD Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFHeadTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -32,8 +32,7 @@ public class TTFHeadTable extends TTFVersionTable {
 
 	public long magicNumber;
 
-	public boolean baseline0, sidebearing0, instrDependOnSize, forcePPEM2Int,
-			instrAlterAdvance;
+	public boolean baseline0, sidebearing0, instrDependOnSize, forcePPEM2Int, instrAlterAdvance;
 
 	public int unitsPerEm;
 
@@ -42,7 +41,6 @@ public class TTFHeadTable extends TTFVersionTable {
 	public byte[] modified = new byte[8];
 
 	public short xMin, yMin, xMax, yMax;
-
 	public boolean macBold, macItalic;
 
 	public int lowestRecPPEM;
@@ -91,8 +89,7 @@ public class TTFHeadTable extends TTFVersionTable {
 		fontDirectionHint = ttf.readShort();
 		indexToLocFormat = ttf.readShort();
 		if ((indexToLocFormat != ITLF_LONG) && (indexToLocFormat != ITLF_SHORT)) {
-			System.err.println(
-					"Unknown value for indexToLocFormat: " + indexToLocFormat);
+			System.err.println("Unknown value for indexToLocFormat: " + indexToLocFormat);
 		}
 		glyphDataFormat = ttf.readShort();
 	}
@@ -110,8 +107,7 @@ public class TTFHeadTable extends TTFVersionTable {
 		} else {
 			str += "(illegal value)\n";
 		}
-		str += "  bbox: (" + xMin + "," + yMin + ") : (" + xMax + "," + yMax
-				+ ")";
+		str += "  bbox: (" + xMin + "," + yMin + ") : (" + xMax + "," + yMax + ")";
 		return str;
 	}
 

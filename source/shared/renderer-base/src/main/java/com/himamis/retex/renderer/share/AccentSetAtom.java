@@ -77,8 +77,7 @@ public class AccentSetAtom extends Atom implements IsAccentedAtom {
 		final int style = env.getStyle();
 
 		// set base in cramped style
-		Box b = base == null ? StrutBox.getEmpty()
-				: base.createBox(env.crampStyle());
+		Box b = base == null ? StrutBox.getEmpty() : base.createBox(env.crampStyle());
 		final double u = b.getWidth();
 		double s = 0.;
 		if (underbase instanceof CharSymbol) {
@@ -116,8 +115,7 @@ public class AccentSetAtom extends Atom implements IsAccentedAtom {
 		vBox.setHeight(total - d);
 
 		if (diff < 0) {
-			HorizontalBox hb = new HorizontalBox(
-					new StrutBox(diff, 0., 0., 0.));
+			HorizontalBox hb = new HorizontalBox(new StrutBox(diff, 0., 0., 0.));
 			hb.add(vBox);
 			hb.setWidth(u);
 			return hb;

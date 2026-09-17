@@ -86,16 +86,14 @@ public class CommandUnicode extends Command {
 		}
 
 		if (fontName != null && !fontName.isEmpty()) {
-			font = FactoryProvider.getInstance().getFontFactory()
-					.createFont(fontName, Font.PLAIN, 10);
+			font = FactoryProvider.getInstance().getFontFactory().createFont(fontName, Font.PLAIN, 10);
 		}
 
 		if (font == null) {
 			if (hd == null) {
 				if (c <= 0xFFFF) {
 					final char ch = (char) c;
-					if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z')
-							|| (ch >= 'A' && ch <= 'Z')) {
+					if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
 						tp.convertASCIIChar(ch, true);
 					} else {
 						tp.convertCharacter(ch, true);
@@ -107,19 +105,16 @@ public class CommandUnicode extends Command {
 				Atom atom;
 				if (c <= 0xFFFF) {
 					final char ch = (char) c;
-					if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z')
-							|| (ch >= 'A' && ch <= 'Z')) {
+					if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
 						atom = tp.convertASCIICharToAtom(ch, true);
 					} else {
 						atom = tp.getCharMapping().getAtom(ch, tp.isMathMode());
 						if (atom == null) {
-							atom = new JavaFontRenderingAtom(
-									String.valueOf(ch));
+							atom = new JavaFontRenderingAtom(String.valueOf(ch));
 						}
 					}
 				} else {
-					atom = new JavaFontRenderingAtom(
-							new String(new int[] { c }, 0, 1));
+					atom = new JavaFontRenderingAtom(new String(new int[] {c}, 0, 1));
 				}
 				tp.addToConsumer(new HeightDepthAtom(hd[0], hd[1], atom));
 			}
@@ -130,7 +125,7 @@ public class CommandUnicode extends Command {
 		if (c <= 0xFFFF) {
 			s = String.valueOf((char) c);
 		} else {
-			s = new String(new int[] { c }, 0, 1);
+			s = new String(new int[] {c}, 0, 1);
 		}
 		Atom a = new JavaFontRenderingAtom(s, font);
 		if (hd != null) {

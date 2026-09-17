@@ -46,89 +46,117 @@ public class StylePropertyCollection extends AbstractPropertyCollection<Property
 	 * elements
 	 */
 	public StylePropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");
 		boolean isNotes = elements.get(0).getApp().isWhiteboardActive();
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		setProperties(Stream.<Property>of(
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new ChartSegmentSelectionProperty(localization, element,
-								chartSegmentSelection),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new ObjectColorProperty(localization, element),
-						ColorPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new ChartStyleGeoColorProperty(localization, element,
-								chartSegmentSelection),
-						ColorPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new OpacityProperty(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new ChartStyleGeoOpacityProperty(
-								localization, element, chartSegmentSelection),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new PointSizeProperty(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new PointStyleProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new AngleArcSizeProperty(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new SlopeSizeProperty(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new LineStyleProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						isNotes ? new NotesThicknessProperty(localization, element)
-								: new ThicknessProperty(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						LineOpacityProperty.forLine(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new SegmentStartProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new SegmentEndProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new VectorHeadProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new SegmentDecorationProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new AngleDecorationProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new EmphasizeRightAngleProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new InequalityOnAxisProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new ImageInterpolationProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new TrimmedIntersectionsProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new HiddenLineStyleProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new LevelOfDetailProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new SliderOrientationProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element ->
+										new ChartSegmentSelectionProperty(localization, element, chartSegmentSelection),
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ObjectColorProperty(localization, element),
+								ColorPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element ->
+										new ChartStyleGeoColorProperty(localization, element, chartSegmentSelection),
+								ColorPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new OpacityProperty(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element ->
+										new ChartStyleGeoOpacityProperty(localization, element, chartSegmentSelection),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new PointSizeProperty(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new PointStyleProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new AngleArcSizeProperty(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SlopeSizeProperty(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new LineStyleProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> isNotes
+										? new NotesThicknessProperty(localization, element)
+										: new ThicknessProperty(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> LineOpacityProperty.forLine(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SegmentStartProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SegmentEndProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new VectorHeadProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SegmentDecorationProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new AngleDecorationProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new EmphasizeRightAngleProperty(localization, element),
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new InequalityOnAxisProperty(localization, element),
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new ImageInterpolationProperty(localization, element),
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new TrimmedIntersectionsProperty(localization, element),
+								BooleanPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new HiddenLineStyleProperty(localization, element),
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new LevelOfDetailProperty(localization, element),
+								NamedEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SliderOrientationProperty(localization, element),
+								NamedEnumeratedPropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

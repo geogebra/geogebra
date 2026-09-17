@@ -65,7 +65,8 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 	}
 
 	private void setDefaultAriaLabel() {
-		AriaHelper.setLabel(textField.getTextField(),
+		AriaHelper.setLabel(
+				textField.getTextField(),
 				geo != null ? null : app.getLocalization().getMenu("EnterExpression"));
 	}
 
@@ -279,8 +280,9 @@ public final class LinearNotationTreeItem extends RadioTreeItem implements KeyDo
 
 	@Override
 	protected void updatePreview() {
-		kernel.getInputPreviewHelper().updatePreviewFromInputBar(
-				textField.getText(), AlgebraInputW.getWarningHandler(this, app));
+		kernel
+				.getInputPreviewHelper()
+				.updatePreviewFromInputBar(textField.getText(), AlgebraInputW.getWarningHandler(this, app));
 	}
 
 	@Override

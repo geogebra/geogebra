@@ -15,7 +15,7 @@ import java.util.List;
  * By calling append(), the previous buffer will be appended to the underlying
  * one. This way one can write into a buffer, retrieve its length, create some
  * header bytes and insert those in front of the just written buffer.
- * 
+ *
  * @author Mark Donszelmann
  * @author Ian Graham - added popBufferBytes() for use by CGMOutputStream
  * @version $Id: ByteCountOutputStream.java,v 1.4 2008-08-07 18:33:54 murkle Exp
@@ -29,7 +29,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 
 	/**
 	 * Create a Byte Count output stream from given stream
-	 * 
+	 *
 	 * @param out
 	 *            stream to write to
 	 * @param littleEndian
@@ -55,7 +55,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 
 	/**
 	 * Pushes the buffer and strat writing to a new one.
-	 * 
+	 *
 	 * @throws IOException
 	 *             if the write fails
 	 */
@@ -72,7 +72,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	 * also puts the write pointer at the start of the buffer, to be able to
 	 * "insert" a header. If no buffer was ever pushed, or the last one has been
 	 * popped -1 is returned.
-	 * 
+	 *
 	 * @return number of bytes written or -1
 	 * @throws IOException
 	 *             if the write fails
@@ -94,7 +94,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	 * buffered data as desired. The byte[] array will usually be larger than
 	 * the actual content, so to determine the length of the actual data, you
 	 * must call getBufferLength() <i>before</i> invoking this method.
-	 * 
+	 *
 	 * @return byte array of bytes that need to be written
 	 * @throws IOException
 	 *             if write fails
@@ -112,8 +112,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	 * @return valid number of bytes in the buffer
 	 */
 	public int getBufferLength() {
-		return (currentBuffer >= 0)
-				? ((Buffer) bufferList.get(currentBuffer)).getLength() : -1;
+		return (currentBuffer >= 0) ? ((Buffer) bufferList.get(currentBuffer)).getLength() : -1;
 	}
 
 	/**
@@ -130,7 +129,7 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	/**
 	 * Inserts the bytes written as header and puts the write pointer at the end
 	 * of the stream.
-	 * 
+	 *
 	 * @throws IOException
 	 *             if write fails
 	 */

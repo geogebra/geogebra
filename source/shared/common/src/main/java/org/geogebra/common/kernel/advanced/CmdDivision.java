@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Division[number, number] Division[number, polynomial]
- * 
+ *
  * @author zbynek
  *
  */
@@ -43,41 +43,38 @@ public class CmdDivision extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoDivision algo = new AlgoDivision(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+					AlgoDivision algo = new AlgoDivision(
+							cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if ((ok[0] = arg[0].isGeoFunction())
-					&& (ok[1] = arg[1].isGeoFunction())) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if ((ok[0] = arg[0].isGeoFunction()) && (ok[1] = arg[1].isGeoFunction())) {
 
-				AlgoPolynomialDivision algo = new AlgoPolynomialDivision(cons,
-						c.getLabel(), (GeoFunction) arg[0],
-						(GeoFunction) arg[1]);
+					AlgoPolynomialDivision algo = new AlgoPolynomialDivision(
+							cons, c.getLabel(), (GeoFunction) arg[0], (GeoFunction) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else {
-				if (!ok[0]) {
-					throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else {
+					if (!ok[0]) {
+						throw argErr(c, arg[0]);
+					}
+					throw argErr(c, arg[1]);
 				}
-				throw argErr(c, arg[1]);
-			}
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

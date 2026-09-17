@@ -40,8 +40,7 @@ import org.geogebra.regexp.shared.RegExp;
  */
 public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensitiveAlgo {
 	// get the lrc.a%p from middle of ABCDlrc.a%pEFGH
-	private final static RegExp matchLRC = RegExp
-			.compile("([^.%lrcap]*)([.%lrcap]*)([^.%lrcap]*)");
+	private static final RegExp matchLRC = RegExp.compile("([^.%lrcap]*)([.%lrcap]*)([^.%lrcap]*)");
 
 	private final GeoList geoList; // input
 	private final GeoText text; // output
@@ -53,7 +52,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	private final StringBuffer sb = new StringBuffer();
 
 	private enum Alignment {
-		VERTICAL, HORIZONTAL
+		VERTICAL,
+		HORIZONTAL
 	}
 
 	// style variables
@@ -135,8 +135,13 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	 * @param args
 	 *            table formatting, see parseArgs()
 	 */
-	public AlgoTableText(Construction cons, GeoElement[] input, String label, GeoList geoList,
-			GeoText args, GeoNumberValue[] minWidthHeight) {
+	public AlgoTableText(
+			Construction cons,
+			GeoElement[] input,
+			String label,
+			GeoList geoList,
+			GeoText args,
+			GeoNumberValue[] minWidthHeight) {
 		this(cons, input, geoList, args, minWidthHeight);
 		text.setLabel(label);
 	}
@@ -151,7 +156,11 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	 * @param args
 	 *            table formatting, see parseArgs()
 	 */
-	AlgoTableText(Construction cons, GeoElement[] input, GeoList geoList, GeoText args,
+	AlgoTableText(
+			Construction cons,
+			GeoElement[] input,
+			GeoList geoList,
+			GeoText args,
 			GeoNumberValue[] minWidthHeight) {
 		super(cons);
 		this.input = input;
@@ -212,12 +221,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 			}
 
 			if (Unicode.currencyList.indexOf(optionsStr.charAt(0)) > -1) {
-				currencyStart = (optionsStr.charAt(0) + "").replace("$",
-						"\\dollar ");
-			} else if (Unicode.currencyList
-					.indexOf(optionsStr.charAt(optionsStr.length() - 1)) > -1) {
-				currencyEnd = (optionsStr.charAt(optionsStr.length() - 1) + "")
-						.replace("$", "\\dollar ");
+				currencyStart = (optionsStr.charAt(0) + "").replace("$", "\\dollar ");
+			} else if (Unicode.currencyList.indexOf(optionsStr.charAt(optionsStr.length() - 1)) > -1) {
+				currencyEnd = (optionsStr.charAt(optionsStr.length() - 1) + "").replace("$", "\\dollar ");
 			}
 
 			if (optionsStr.contains(",")) {
@@ -226,8 +232,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 
 			int pos;
 
-			if ((pos = optionsStr.indexOf("|")) > -1
-					&& !optionsStr.contains("||")) {
+			if ((pos = optionsStr.indexOf("|")) > -1 && !optionsStr.contains("||")) {
 				verticalLines = true;
 
 				verticalLinesArray = new StringBuilder();
@@ -319,14 +324,12 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 			if ("".equals(justification)) {
 				justification = "l";
 			}
-
 		}
 
 		if ("\\left.".equals(openBracket) && "\\right.".equals(closeBracket)) {
 			openBracket = "";
 			closeBracket = "";
 		}
-
 	}
 
 	// default: return '1'
@@ -370,7 +373,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	private void initDimensions() {
 		rows = 0;
 		if (geoList.elements().noneMatch(GeoElement::isGeoList)) {
-			geoLists = new GeoList[]{geoList};
+			geoLists = new GeoList[] {geoList};
 			columns = 1;
 			rows = geoList.size();
 		} else if (columns >= 1) {
@@ -407,7 +410,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		if (alignment == Alignment.VERTICAL) {
 
 			for (int c = 0; c < columns; c++) {
-				if (verticalLines && (!verticalLinesJustEdges || c == 0)
+				if (verticalLines
+						&& (!verticalLinesJustEdges || c == 0)
 						&& charAt(verticalLinesArray, c) == '1') {
 					sb.append("|");
 				}
@@ -439,7 +443,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		} else { // alignment == HORIZONTAL
 
 			for (int c = 0; c < rows; c++) {
-				if (verticalLines && (!verticalLinesJustEdges || c == 0)
+				if (verticalLines
+						&& (!verticalLinesJustEdges || c == 0)
 						&& charAt(verticalLinesArray, c) == '1') {
 					sb.append("|");
 				}
@@ -488,8 +493,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		if (minWidthHeight == null) {
 			sb.append(getJustificationLaTeX(c)); // "l", "r" or "c"
 		} else {
-			sb.append(Character.toUpperCase(getJustification(c))).append("{")
-					.append(minWidthHeight[0].evaluateDouble()).append("}");
+			sb.append(Character.toUpperCase(getJustification(c)))
+					.append("{")
+					.append(minWidthHeight[0].evaluateDouble())
+					.append("}");
 		}
 	}
 
@@ -505,7 +512,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	}
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            column/row
 	 * @return 'l', 'r', 'c' for left/right/center
@@ -521,7 +528,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	}
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            column/row
 	 * @return 'l', 'r', 'c' for left/right/center
@@ -531,30 +538,29 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 		char j = getJustification(c);
 
 		switch (j) {
-		case 'r':
-		case 'c':
-		case 'l':
-			return j;
+			case 'r':
+			case 'c':
+			case 'l':
+				return j;
 
-		// for 'a', '.', '%"
-		default:
-			return 'r';
+			// for 'a', '.', '%"
+			default:
+				return 'r';
 		}
-
 	}
 
-	private void addCellLaTeX(int c, int r, boolean finalCell,
-			StringTemplate tpl, char justification1) {
+	private void addCellLaTeX(
+			int c, int r, boolean finalCell, StringTemplate tpl, char justification1) {
 
 		if (geoLists[c].size() > r) { // check list has an element at this
-										// position
+			// position
 			GeoElement geo1 = geoLists[c].get(r);
 
 			GColor col = geo1.getObjectColor();
 			GColor bgCol = geo1.getBackgroundColor();
-			
+
 			int fontStyle = 0;
-			
+
 			if (geo1 instanceof TextProperties) {
 				fontStyle = ((TextProperties) geo1).getFontStyle();
 			}
@@ -564,8 +570,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 				col = null;
 			}
 
-			if (bgCol != null
-					&& (!geo1.isLabelSet() || bgCol.getAlpha() == 0)) {
+			if (bgCol != null && (!geo1.isLabelSet() || bgCol.getAlpha() == 0)) {
 				bgCol = null;
 			}
 
@@ -588,34 +593,31 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 			}
 
 			switch (justification1) {
-			default:
-				// do nothing
-				break;
-			case '.':
-			case 'a':
-				if (geo1 instanceof GeoNumberValue) {
+				default:
+					// do nothing
+					break;
+				case '.':
+				case 'a':
+					if (geo1 instanceof GeoNumberValue) {
 
-					double num = ((GeoNumberValue) geo1).getDouble();
+						double num = ((GeoNumberValue) geo1).getDouble();
 
-					text1 = kernel.format(num, tpl);
-				}
-				text1 = tpl.padZerosAfterDecimalPoint(text1,
-						justification1 == '.', kernel.getPrintDecimals(), "");
-				break;
-			case '%':
-			case 'p':
+						text1 = kernel.format(num, tpl);
+					}
+					text1 = tpl.padZerosAfterDecimalPoint(
+							text1, justification1 == '.', kernel.getPrintDecimals(), "");
+					break;
+				case '%':
+				case 'p':
+					if (geo1 instanceof GeoNumberValue) {
 
-				if (geo1 instanceof GeoNumberValue) {
+						double num = ((GeoNumberValue) geo1).getDouble();
 
-					double num = ((GeoNumberValue) geo1).getDouble();
+						String numStr = kernel.format(num * 100, tpl);
 
-					String numStr = kernel.format(num * 100, tpl);
-
-					text1 = tpl.padZerosAfterDecimalPoint(numStr,
-							justification1 == '%', kernel.getPrintDecimals(),
-							"%");
-				}
-
+						text1 = tpl.padZerosAfterDecimalPoint(
+								numStr, justification1 == '%', kernel.getPrintDecimals(), "%");
+					}
 			}
 
 			if (decimalComma) {
@@ -641,49 +643,51 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 
 					// check for "raw" LaTeX
 					// eg TableText[{"\frac{2}{3}","2","3"},{"4","5","6"}]
-					&& text1.contains(" ") && !text1.contains("^")
-					&& !text1.contains("{") && !text1.contains("}")
-					&& !text1.contains("+") && !text1.contains("-")
-					&& !text1.contains("=") && !text1.contains("\\")
-
-			) {
+					&& text1.contains(" ")
+					&& !text1.contains("^")
+					&& !text1.contains("{")
+					&& !text1.contains("}")
+					&& !text1.contains("+")
+					&& !text1.contains("-")
+					&& !text1.contains("=")
+					&& !text1.contains("\\")) {
 
 				switch (fontStyle) {
-				default:
-					stylePre = "\\text{";
-					stylePost = "}";
-					break;
-				case GFont.BOLD:
-					stylePre = "\\textbf{";
-					stylePost = "}";
-					break;
-				case GFont.ITALIC:
-					stylePre = "\\textit{";
-					stylePost = "}";
-					break;
-				case GFont.BOLD + GFont.ITALIC:
-					stylePre = "\\textit{\\textbf{";
-					stylePost = "}}";
-					break;
+					default:
+						stylePre = "\\text{";
+						stylePost = "}";
+						break;
+					case GFont.BOLD:
+						stylePre = "\\textbf{";
+						stylePost = "}";
+						break;
+					case GFont.ITALIC:
+						stylePre = "\\textit{";
+						stylePost = "}";
+						break;
+					case GFont.BOLD + GFont.ITALIC:
+						stylePre = "\\textit{\\textbf{";
+						stylePost = "}}";
+						break;
 				}
 
 			} else {
 				switch (fontStyle) {
-				default:
-					// do nothing
-					break;
-				case GFont.BOLD:
-					stylePre = "\\mathbf{";
-					stylePost = "}";
-					break;
-				case GFont.ITALIC:
-					stylePre = "\\mathit{";
-					stylePost = "}";
-					break;
-				case GFont.BOLD + GFont.ITALIC:
-					stylePre = "\\mathit{\\mathbf{";
-					stylePost = "}}";
-					break;
+					default:
+						// do nothing
+						break;
+					case GFont.BOLD:
+						stylePre = "\\mathbf{";
+						stylePost = "}";
+						break;
+					case GFont.ITALIC:
+						stylePre = "\\mathit{";
+						stylePost = "}";
+						break;
+					case GFont.BOLD + GFont.ITALIC:
+						stylePre = "\\mathit{\\mathbf{";
+						stylePost = "}}";
+						break;
 				}
 			}
 
@@ -697,7 +701,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 			if (bgCol != null) {
 				sb.append('}');
 			}
-
 		}
 		if (!finalCell) {
 			sb.append("&"); // separate columns

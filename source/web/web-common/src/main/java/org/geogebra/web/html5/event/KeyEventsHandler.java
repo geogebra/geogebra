@@ -22,11 +22,10 @@ import org.gwtproject.event.dom.client.KeyUpHandler;
 
 /**
  * Union of GWT key-handling interfaces
- * 
+ *
  * @author Zbynek Konecny
  *
  */
-public interface KeyEventsHandler extends KeyDownHandler, KeyPressHandler,
-        KeyUpHandler {
+public interface KeyEventsHandler extends KeyDownHandler, KeyPressHandler, KeyUpHandler {
 	// methods declared in parent interfaces
 }

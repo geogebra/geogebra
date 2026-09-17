@@ -30,7 +30,7 @@ public class AlgoDiameterVector extends AlgoDiameterVectorND {
 
 	/**
 	 * Creates new AlgoDiameterVector
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -40,8 +40,7 @@ public class AlgoDiameterVector extends AlgoDiameterVectorND {
 	 * @param v
 	 *            vector
 	 */
-	public AlgoDiameterVector(Construction cons, String label, GeoConicND c,
-			GeoVectorND v) {
+	public AlgoDiameterVector(Construction cons, String label, GeoConicND c, GeoVectorND v) {
 		super(cons, label, c, v);
 	}
 
@@ -55,5 +54,4 @@ public class AlgoDiameterVector extends AlgoDiameterVectorND {
 	public final void compute() {
 		c.diameterLine((GeoVector) v, (GeoLine) diameter);
 	}
-
 }

@@ -57,7 +57,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class CommandDefinecolor extends Command {
 
-	private static abstract class Converter {
+	private abstract static class Converter {
 		final double[] doubles = new double[4];
 		final int[] ints = new int[4];
 
@@ -76,15 +76,13 @@ public class CommandDefinecolor extends Command {
 		}
 	}
 
-	private static Map<String, Converter> converters = new HashMap<String, Converter>(
-			11) {
+	private static Map<String, Converter> converters = new HashMap<String, Converter>(11) {
 		{
 			put("gray", new Converter() {
 				@Override
 				public GColor to(TeXParser tp) {
 					final double gray = Colors.clamp(tp.getArgAsDecimal());
-					return FactoryProvider.getInstance().getGraphicsFactory()
-							.createColor(gray, gray, gray);
+					return FactoryProvider.getInstance().getGraphicsFactory().createColor(gray, gray, gray);
 				}
 			});
 			put("wave", new Converter() {
@@ -99,7 +97,8 @@ public class CommandDefinecolor extends Command {
 				public GColor to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 3);
 					clampf(3);
-					return FactoryProvider.getInstance().getGraphicsFactory()
+					return FactoryProvider.getInstance()
+							.getGraphicsFactory()
 							.createColor(doubles[0], doubles[1], doubles[2]);
 				}
 			});
@@ -108,7 +107,8 @@ public class CommandDefinecolor extends Command {
 				public GColor to(TeXParser tp) {
 					tp.getArgAsPositiveIntegers(ints, 3);
 					clampi(3);
-					return FactoryProvider.getInstance().getGraphicsFactory()
+					return FactoryProvider.getInstance()
+							.getGraphicsFactory()
 							.createColor(ints[0], ints[1], ints[2]);
 				}
 			});
@@ -117,9 +117,9 @@ public class CommandDefinecolor extends Command {
 				public GColor to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 4);
 					clampf(4);
-					return FactoryProvider.getInstance().getGraphicsFactory()
-							.createColor(doubles[0], doubles[1], doubles[2],
-									doubles[3]);
+					return FactoryProvider.getInstance()
+							.getGraphicsFactory()
+							.createColor(doubles[0], doubles[1], doubles[2], doubles[3]);
 				}
 			});
 			put("RGBA", new Converter() {
@@ -127,7 +127,8 @@ public class CommandDefinecolor extends Command {
 				public GColor to(TeXParser tp) {
 					tp.getArgAsPositiveIntegers(ints, 4);
 					clampi(4);
-					return FactoryProvider.getInstance().getGraphicsFactory()
+					return FactoryProvider.getInstance()
+							.getGraphicsFactory()
 							.createColor(ints[0], ints[1], ints[2], ints[3]);
 				}
 			});
@@ -136,8 +137,7 @@ public class CommandDefinecolor extends Command {
 				public GColor to(TeXParser tp) {
 					tp.getArgAsDecimals(doubles, 4);
 					clampf(4);
-					return Colors.conv(doubles[0], doubles[1], doubles[2],
-							doubles[3]);
+					return Colors.conv(doubles[0], doubles[1], doubles[2], doubles[3]);
 				}
 			});
 			put("hsl", new Converter() {
@@ -156,8 +156,7 @@ public class CommandDefinecolor extends Command {
 					doubles[1] = Colors.clamp(doubles[1]);
 					doubles[2] = Colors.clamp(doubles[2]);
 					doubles[3] = Colors.clamp(doubles[3]);
-					return Colors.convHSL(doubles[0], doubles[1], doubles[2],
-							doubles[3]);
+					return Colors.convHSL(doubles[0], doubles[1], doubles[2], doubles[3]);
 				}
 			});
 			put("hsb", new Converter() {
@@ -173,8 +172,7 @@ public class CommandDefinecolor extends Command {
 				@Override
 				public GColor to(TeXParser tp) {
 					final int c = tp.getArgAsHexNumber(6);
-					return FactoryProvider.getInstance().getGraphicsFactory()
-							.createColor(c);
+					return FactoryProvider.getInstance().getGraphicsFactory().createColor(c);
 				}
 			});
 		}

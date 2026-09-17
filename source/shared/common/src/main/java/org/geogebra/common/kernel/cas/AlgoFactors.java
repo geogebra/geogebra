@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Try to expand the given function
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoFactors extends AlgoElement implements UsesCAS {
@@ -98,8 +98,7 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 			sb.append("))");
 			// cached evaluation of MPReduce as we are only using variable
 			// values
-			String listOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-					arbconst);
+			String listOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(), arbconst);
 
 			if (listOut == null || listOut.length() == 0) {
 				g.setUndefined();
@@ -116,8 +115,7 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 
 				// force first element in each row to be a function, even if
 				// constant
-				for (int i = 0; i < g.size()
-						&& g.get(i) instanceof GeoList; i++) {
+				for (int i = 0; i < g.size() && g.get(i) instanceof GeoList; i++) {
 					GeoList factor = (GeoList) g.get(i);
 					if (factor.get(0) instanceof GeoNumeric) {
 						GeoElement constant = factor.get(0);
@@ -135,5 +133,4 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 			g.setUndefined();
 		}
 	}
-
 }

@@ -34,8 +34,7 @@ public class GridVisibilityProperty extends AbstractValuedProperty<Boolean>
 	 * @param localization localization for the name
 	 * @param euclidianSettings euclidian settings
 	 */
-	public GridVisibilityProperty(Localization localization,
-			EuclidianSettings euclidianSettings) {
+	public GridVisibilityProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "ShowGrid");
 		this.euclidianSettings = euclidianSettings;
 	}

@@ -35,12 +35,16 @@ public class AlgebraController {
 
 	@Weak
 	protected Kernel kernel;
+
 	@Weak
 	protected App app;
+
 	@Weak
 	protected SelectionManager selection;
+
 	@Weak
 	private AlgebraView view;
+
 	private boolean isAutoCreateSliders = true;
 	private boolean isStoringUndo = true;
 
@@ -123,23 +127,22 @@ public class AlgebraController {
 			}
 
 			if (showJustFirstGeoInDrag) {
-				latex = selection.getSelectedGeos().get(0)
-						.getLaTeXAlgebraDescription(true,
-								StringTemplate.latexTemplate);
+				latex = selection
+						.getSelectedGeos()
+						.get(0)
+						.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 			} else {
 
 				// create drag image
 				StringBuilder sb = new StringBuilder();
 				sb.append("\\fbox{\\begin{array}{l}");
 				for (GeoElement geo : selection.getSelectedGeos()) {
-					sb.append(geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplate));
+					sb.append(geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate));
 					sb.append("\\\\");
 				}
 				sb.append("\\end{array}}");
 				latex = sb.toString();
 			}
-
 		}
 		return latex;
 	}
@@ -169,16 +172,14 @@ public class AlgebraController {
 	 * @return evaluation was successful
 	 */
 	public boolean onTextEntered(
-			String input,
-			ErrorHandler errorHandler,
-			final AsyncOperation<GeoElementND[]> cb) {
+			String input, ErrorHandler errorHandler, final AsyncOperation<GeoElementND[]> cb) {
 
 		return onTextEntered(input, errorHandler, null, cb);
 	}
 
 	/**
 	 * Evaluate the text entered in input. Used in Android and iOS.
-	 * 
+	 *
 	 * @param input
 	 *            input string
 	 * @param errorHandler
@@ -206,12 +207,14 @@ public class AlgebraController {
 
 			EvalInfo processingInfo = info;
 			if (processingInfo == null) {
-				processingInfo = kernel.getAlgebraProcessor()
-						.getEvalInfo(isAutoCreateSliders, true);
+				processingInfo = kernel.getAlgebraProcessor().getEvalInfo(isAutoCreateSliders, true);
 			}
-			geos = kernel.getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(input,
-							isStoringUndo, errorHandler,
+			geos = kernel
+					.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(
+							input,
+							isStoringUndo,
+							errorHandler,
 							processingInfo.withSliders(isAutoCreateSliders),
 							callback);
 
@@ -219,8 +222,7 @@ public class AlgebraController {
 				geos[0].setLabel(geos[0].getDefaultLabel());
 			}
 		} catch (Exception ee) {
-			errorHandler
-					.showError(app.getLocalization().getInvalidInputError());
+			errorHandler.showError(app.getLocalization().getInvalidInputError());
 			return false;
 		} catch (Error ee) {
 			errorHandler.showError(ee.getLocalizedMessage());
@@ -235,62 +237,62 @@ public class AlgebraController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param property
 	 *            visual style property
 	 * @return true if changes for this property needs update in AV
 	 */
-	static public boolean needsUpdateVisualstyle(GProperty property) {
+	public static boolean needsUpdateVisualstyle(GProperty property) {
 		switch (property) {
-		case FONT:
-			return true;
-		case COLOR:
-			return true;
-		case POSITION:
-			return false;
-		case CAPTION:
-			return false;
-		case COMBINED:
-			return true;
-		case ANGLE_INTERVAL:
-			return false;
-		case COLOR_BG:
-			return true;
-		case LINE_STYLE:
-			return false;
-		case POINT_STYLE:
-			return false;
-		case VISIBLE:
-			return true;
-		case LAYER:
-			return false;
-		case ANGLE_STYLE:
-			return false;
-		case LABEL_STYLE:
-			return true;
-		case LENGTH:
-			return true;
-		case HATCHING:
-			return false;
-		case HIGHLIGHT:
-			return true;
-		default:
-			return true;
+			case FONT:
+				return true;
+			case COLOR:
+				return true;
+			case POSITION:
+				return false;
+			case CAPTION:
+				return false;
+			case COMBINED:
+				return true;
+			case ANGLE_INTERVAL:
+				return false;
+			case COLOR_BG:
+				return true;
+			case LINE_STYLE:
+				return false;
+			case POINT_STYLE:
+				return false;
+			case VISIBLE:
+				return true;
+			case LAYER:
+				return false;
+			case ANGLE_STYLE:
+				return false;
+			case LABEL_STYLE:
+				return true;
+			case LENGTH:
+				return true;
+			case HATCHING:
+				return false;
+			case HIGHLIGHT:
+				return true;
+			default:
+				return true;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @param geoElement
 	 *            geo
 	 * @return true if geo is shown in AV
 	 */
-	static public boolean show(App app, GeoElement geoElement) {
-		return geoElement.isLabelSet() && geoElement.showInAlgebraView()
+	public static boolean show(App app, GeoElement geoElement) {
+		return geoElement.isLabelSet()
+				&& geoElement.showInAlgebraView()
 				&& geoElement.isSetAlgebraVisible()
-				&& (app.showAuxiliaryObjects()
-						|| !geoElement.isAuxiliaryObject());
+				&& (app.showAuxiliaryObjects() || !geoElement.isAuxiliaryObject());
 	}
 }

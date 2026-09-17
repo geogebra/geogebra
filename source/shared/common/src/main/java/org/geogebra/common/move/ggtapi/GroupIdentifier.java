@@ -29,7 +29,8 @@ public class GroupIdentifier {
 	 * Group category.
 	 */
 	public enum GroupCategory {
-		CLASS, COURSE
+		CLASS,
+		COURSE
 	}
 
 	/**
@@ -58,5 +59,4 @@ public class GroupIdentifier {
 	public String getCategory() {
 		return category.name().toLowerCase(Locale.ROOT);
 	}
-
 }

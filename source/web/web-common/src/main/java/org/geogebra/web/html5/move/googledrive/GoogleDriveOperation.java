@@ -47,5 +47,4 @@ public interface GoogleDriveOperation {
 	 * @param runnable callback
 	 */
 	void afterLogin(Runnable runnable);
-
 }

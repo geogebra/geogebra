@@ -48,7 +48,10 @@ public class InputTokenizer {
 	 * @param input to split to tokens
 	 * @param multipleUnassignedAllowed whether to allow splitting spreadsheet references
 	 */
-	public InputTokenizer(Kernel kernel, ParserFunctions parserFunctions, String input,
+	public InputTokenizer(
+			Kernel kernel,
+			ParserFunctions parserFunctions,
+			String input,
 			boolean multipleUnassignedAllowed) {
 		this.kernel = kernel;
 		this.parserFunctions = parserFunctions;
@@ -150,7 +153,8 @@ public class InputTokenizer {
 					return label;
 				}
 			}
-			if (!multipleUnassignedAllowed && !digitAfter
+			if (!multipleUnassignedAllowed
+					&& !digitAfter
 					&& GeoElementSpreadsheet.spreadsheetPattern.test(label)) {
 				return label;
 			}
@@ -210,7 +214,6 @@ public class InputTokenizer {
 	 */
 	public boolean hasToken() {
 		return !StringUtil.empty(input);
-
 	}
 
 	/**

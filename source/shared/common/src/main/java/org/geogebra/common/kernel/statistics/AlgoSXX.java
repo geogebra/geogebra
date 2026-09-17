@@ -23,11 +23,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Sxx of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-18
  */
-
 public class AlgoSXX extends AlgoStats1D {
 
 	/**

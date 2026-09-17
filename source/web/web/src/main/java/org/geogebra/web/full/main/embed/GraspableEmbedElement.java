@@ -41,15 +41,14 @@ public final class GraspableEmbedElement extends EmbedElement {
 	 * @param embedManager
 	 *            embed manager
 	 */
-	public GraspableEmbedElement(Widget widget,
-			final EmbedManagerW embedManager) {
+	public GraspableEmbedElement(Widget widget, final EmbedManagerW embedManager) {
 		super(widget);
 		this.embedManager = embedManager;
 	}
 
 	/**
 	 * Set API, execute waiting actions
-	 * 
+	 *
 	 * @param core
 	 *            core API
 	 */
@@ -63,8 +62,7 @@ public final class GraspableEmbedElement extends EmbedElement {
 
 	void initCanvas(int id) {
 		Object ggbApi = embedManager.getScriptManager().getApi();
-		GMCanvas canvas = new GMCanvas("#gm-div" + id,
-				JsPropertyMap.of("ggbNotesAPI", ggbApi));
+		GMCanvas canvas = new GMCanvas("#gm-div" + id, JsPropertyMap.of("ggbNotesAPI", ggbApi));
 
 		canvas.controller.on("undoable-action", () -> {
 			embedManager.createUndoAction(id);
@@ -99,10 +97,8 @@ public final class GraspableEmbedElement extends EmbedElement {
 	public void setSize(int contentWidth, int contentHeight) {
 		getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
 		getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
-		Browser.scale(getElement(),
-				getGreatParent().getElement().getOffsetWidth()
-						/ (double) contentWidth,
-				0, 0);
+		Browser.scale(
+				getElement(), getGreatParent().getElement().getOffsetWidth() / (double) contentWidth, 0, 0);
 	}
 
 	@Override

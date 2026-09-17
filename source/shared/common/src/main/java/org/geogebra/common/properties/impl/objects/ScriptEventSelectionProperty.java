@@ -59,8 +59,8 @@ public class ScriptEventSelectionProperty extends AbstractNamedEnumeratedPropert
 	 * @param geoElement the element whose enabled events determine the available script events
 	 * @param jsEnabled whether JavaScript is enabled in the app
 	 */
-	public ScriptEventSelectionProperty(Localization localization, GeoElement geoElement,
-			boolean jsEnabled) {
+	public ScriptEventSelectionProperty(
+			Localization localization, GeoElement geoElement, boolean jsEnabled) {
 		super(localization, "Script");
 		this.availableScriptEvents = buildEnabledScriptEvents(geoElement, jsEnabled);
 		this.selectedScriptEvent = availableScriptEvents.get(0);
@@ -88,8 +88,8 @@ public class ScriptEventSelectionProperty extends AbstractNamedEnumeratedPropert
 		return selectedScriptEvent;
 	}
 
-	private static List<ScriptEvent> buildEnabledScriptEvents(GeoElement geoElement,
-			boolean jsEnabled) {
+	private static List<ScriptEvent> buildEnabledScriptEvents(
+			GeoElement geoElement, boolean jsEnabled) {
 		List<ScriptEvent> enabled = new ArrayList<>();
 		if (geoElement.canHaveClickScript()) {
 			enabled.add(ScriptEvent.OnClick);
@@ -97,10 +97,12 @@ public class ScriptEventSelectionProperty extends AbstractNamedEnumeratedPropert
 		if (geoElement.canHaveUpdateScript()) {
 			enabled.add(ScriptEvent.OnUpdate);
 		}
-		EuclidianViewInterfaceCommon euclidianView = SelectionManager.getViewOf(
-				geoElement, geoElement.getApp());
-		boolean isDraggable = !geoElement.isLocked() && (geoElement.isPointerChangeable()
-				|| geoElement.isMoveable() || geoElement.hasMoveableInputPoints(euclidianView));
+		EuclidianViewInterfaceCommon euclidianView =
+				SelectionManager.getViewOf(geoElement, geoElement.getApp());
+		boolean isDraggable = !geoElement.isLocked()
+				&& (geoElement.isPointerChangeable()
+						|| geoElement.isMoveable()
+						|| geoElement.hasMoveableInputPoints(euclidianView));
 		if (isDraggable && !geoElement.isGeoBoolean()) {
 			enabled.add(ScriptEvent.OnDragEnd);
 		}

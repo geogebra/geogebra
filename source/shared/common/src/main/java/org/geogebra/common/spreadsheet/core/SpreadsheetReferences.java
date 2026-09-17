@@ -29,7 +29,8 @@ final class SpreadsheetReferences {
 	final @NonNull List<SpreadsheetReference> cellReferences;
 	final @Nullable SpreadsheetReference currentCellReference;
 
-	SpreadsheetReferences(@Nullable List<SpreadsheetReference> cellReferences,
+	SpreadsheetReferences(
+			@Nullable List<SpreadsheetReference> cellReferences,
 			@Nullable SpreadsheetReference currentCellReference) {
 		this.cellReferences = cellReferences != null ? cellReferences : List.of();
 		this.currentCellReference = currentCellReference;

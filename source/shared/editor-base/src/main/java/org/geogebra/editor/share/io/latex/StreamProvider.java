@@ -18,5 +18,4 @@ package org.geogebra.editor.share.io.latex;
 
 // Having this file in Git prevents the JavaCC Gradle plugin
 // from adding a GWT-incompatible one to the generated source
-public class StreamProvider {
-}
+public class StreamProvider {}

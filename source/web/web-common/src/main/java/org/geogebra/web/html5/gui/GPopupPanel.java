@@ -88,8 +88,8 @@ import jsinterop.base.Js;
  * </dl>
  */
 @SuppressWarnings("deprecation")
-public class GPopupPanel extends SimplePanel implements
-		HasAnimation, HasCloseHandlers<GPopupPanel>, HasHide {
+public class GPopupPanel extends SimplePanel
+		implements HasAnimation, HasCloseHandlers<GPopupPanel>, HasHide {
 
 	/**
 	 * The duration of the animation.
@@ -213,7 +213,9 @@ public class GPopupPanel extends SimplePanel implements
 	 * </ul>
 	 */
 	public enum AnimationType {
-		CENTER, ONE_WAY_CORNER, ROLL_DOWN
+		CENTER,
+		ONE_WAY_CORNER,
+		ROLL_DOWN
 	}
 
 	/**
@@ -236,6 +238,7 @@ public class GPopupPanel extends SimplePanel implements
 		 * The offset height and width of the current {@link GPopupPanel}.
 		 */
 		private int offsetHeight;
+
 		private int offsetWidth = -1;
 
 		/**
@@ -316,14 +319,11 @@ public class GPopupPanel extends SimplePanel implements
 					// the PopupPanel will appear to 'jump' from its
 					// static/relative
 					// position to its absolute position (issue #1231).
-					curPanel.getElement().getStyle()
-							.setProperty("position", "absolute");
+					curPanel.getElement().getStyle().setProperty("position", "absolute");
 					if (curPanel.topPosition != -1) {
-						curPanel.setPopupPosition(curPanel.leftPosition,
-								curPanel.topPosition);
+						curPanel.setPopupPosition(curPanel.leftPosition, curPanel.topPosition);
 					}
-					impl.setClip(curPanel.getElement(),
-							getRectString(0, 0, 0, 0));
+					impl.setClip(curPanel.getElement(), getRectString(0, 0, 0, 0));
 					getRootPanel().add(curPanel);
 
 					// Wait for the popup panel and iframe to be attached before
@@ -382,36 +382,33 @@ public class GPopupPanel extends SimplePanel implements
 			int height = (int) (progress * offsetHeight);
 			int width = (int) (progress * offsetWidth);
 			switch (curPanel.animType) {
-			case ROLL_DOWN:
-				right = offsetWidth;
-				bottom = height;
-				break;
-			case CENTER:
-				top = (offsetHeight - height) >> 1;
-				left = (offsetWidth - width) >> 1;
-				right = left + width;
-				bottom = top + height;
-				break;
-			case ONE_WAY_CORNER:
-				if (app.getLocalization().isRightToLeftReadingOrder()) {
-					left = offsetWidth - width;
-				}
-				right = left + width;
-				bottom = top + height;
-				break;
+				case ROLL_DOWN:
+					right = offsetWidth;
+					bottom = height;
+					break;
+				case CENTER:
+					top = (offsetHeight - height) >> 1;
+					left = (offsetWidth - width) >> 1;
+					right = left + width;
+					bottom = top + height;
+					break;
+				case ONE_WAY_CORNER:
+					if (app.getLocalization().isRightToLeftReadingOrder()) {
+						left = offsetWidth - width;
+					}
+					right = left + width;
+					bottom = top + height;
+					break;
 			}
 			// Set the rect clipping
-			impl.setClip(curPanel.getElement(),
-					getRectString(top, right, bottom, left));
+			impl.setClip(curPanel.getElement(), getRectString(top, right, bottom, left));
 		}
 
 		/**
 		 * Returns a rect string.
 		 */
-		private String getRectString(int top, int right, int bottom,
-				int left) {
-			return "rect(" + top + "px, " + right + "px, " + bottom + "px, "
-					+ left + "px)";
+		private String getRectString(int top, int right, int bottom, int left) {
+			return "rect(" + top + "px, " + right + "px, " + bottom + "px, " + left + "px)";
 		}
 
 		/**
@@ -423,8 +420,9 @@ public class GPopupPanel extends SimplePanel implements
 					getRootPanel().getElement().appendChild(curPanel.glass);
 
 					resizeRegistration = evt -> curPanel.resizeGlass();
-					((AppW) app).getGlobalHandlers().addEventListener(
-							DomGlobal.window, "resize", resizeRegistration);
+					((AppW) app)
+							.getGlobalHandlers()
+							.addEventListener(DomGlobal.window, "resize", resizeRegistration);
 					curPanel.resizeGlass();
 
 					glassShowing = true;
@@ -446,11 +444,9 @@ public class GPopupPanel extends SimplePanel implements
 				// Otherwise,
 				// the PopupPanel will appear to 'jump' from its static/relative
 				// position to its absolute position (issue #1231).
-				curPanel.getElement().getStyle()
-						.setProperty("position", "absolute");
+				curPanel.getElement().getStyle().setProperty("position", "absolute");
 				if (curPanel.topPosition != -1) {
-					curPanel.setPopupPosition(curPanel.leftPosition,
-							curPanel.topPosition);
+					curPanel.setPopupPosition(curPanel.leftPosition, curPanel.topPosition);
 				}
 				getRootPanel().add(curPanel);
 			} else {
@@ -519,7 +515,7 @@ public class GPopupPanel extends SimplePanel implements
 		this(autoHide, root, app);
 		this.modal = modal;
 	}
-	
+
 	/**
 	 * Temporary function to set feature flag. After releasing
 	 * DIALOGS_OVERLAP_KEYBOARD it can be removed and the class name setting
@@ -527,8 +523,7 @@ public class GPopupPanel extends SimplePanel implements
 	 */
 	protected void addMainChildClass() {
 		if (this instanceof HasKeyboardPopup) {
-			super.getContainerElement().getFirstChildElement()
-					.addClassName("mainChild");
+			super.getContainerElement().getFirstChildElement().addClassName("mainChild");
 		}
 	}
 
@@ -559,24 +554,23 @@ public class GPopupPanel extends SimplePanel implements
 	public void center() {
 		center(0);
 	}
-	
+
 	/**
 	 * Center and resize this within area not covered by keyboard.
-	 * 
+	 *
 	 * @param keyboardHeight
 	 *            keyboard height
 	 */
 	public void centerAndResize(double keyboardHeight) {
-		Element childElement = super.getContainerElement()
-				.getFirstChildElement();
-		
+		Element childElement = super.getContainerElement().getFirstChildElement();
+
 		childElement.getStyle().clearHeight();
 
 		center(keyboardHeight);
 		resizeGlass();
 
-		int maxHeight = (int) Math.min(getRootPanel().getOffsetHeight() - keyboardHeight
-				- VERTICAL_PADDING, getMaxHeight());
+		int maxHeight = (int) Math.min(
+				getRootPanel().getOffsetHeight() - keyboardHeight - VERTICAL_PADDING, getMaxHeight());
 
 		if (childElement.getOffsetHeight() > maxHeight) {
 			childElement.getStyle().setHeight(maxHeight, Unit.PX);
@@ -627,8 +621,10 @@ public class GPopupPanel extends SimplePanel implements
 		elem.getStyle().setPropertyPx("top", 0);
 
 		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
-		int top = (getRootPanel().getOffsetHeight() - Math.min(getOffsetHeight(), getMaxHeight())
-				- (int) keyboardHeight) >> 1;
+		int top = (getRootPanel().getOffsetHeight()
+						- Math.min(getOffsetHeight(), getMaxHeight())
+						- (int) keyboardHeight)
+				>> 1;
 		setPopupPosition(Math.max(left, 0), Math.max(top, 0));
 	}
 
@@ -792,8 +788,7 @@ public class GPopupPanel extends SimplePanel implements
 	 */
 	@Override
 	public boolean isVisible() {
-		return !"hidden".equals(getElement().getStyle().getProperty(
-				"visibility"));
+		return !"hidden".equals(getElement().getStyle().getProperty("visibility"));
 	}
 
 	/**
@@ -1001,15 +996,13 @@ public class GPopupPanel extends SimplePanel implements
 		// Because the panel is absolutely positioned, this will not create
 		// "holes" in displayed contents and it allows normal layout passes
 		// to occur so the size of the PopupPanel can be reliably determined.
-		getElement().getStyle().setProperty("visibility",
-				visible ? "visible" : "hidden");
+		getElement().getStyle().setProperty("visibility", visible ? "visible" : "hidden");
 
 		// If the PopupImpl creates an iframe shim, it's also necessary to hide
 		// it
 		// as well.
 		if (glass != null) {
-			glass.getStyle().setProperty("visibility",
-					visible ? "visible" : "hidden");
+			glass.getStyle().setProperty("visibility", visible ? "visible" : "hidden");
 		}
 	}
 
@@ -1227,8 +1220,7 @@ public class GPopupPanel extends SimplePanel implements
 	 * @param offsetHeight
 	 *            the drop down's offset height
 	 */
-	private void position(final UIObject relativeObject, int offsetWidth,
-			int offsetHeight) {
+	private void position(final UIObject relativeObject, int offsetWidth, int offsetHeight) {
 		// Calculate left position for the popup. The computation for
 		// the left position is bidi-sensitive.
 
@@ -1239,8 +1231,7 @@ public class GPopupPanel extends SimplePanel implements
 		int offsetWidthDiff = offsetWidth - textBoxOffsetWidth;
 
 		int left = app.getLocalization().isRightToLeftReadingOrder()
-				? calculateLeftPositionRTL(relativeObject, offsetWidth, textBoxOffsetWidth,
-						offsetWidthDiff)
+				? calculateLeftPositionRTL(relativeObject, offsetWidth, textBoxOffsetWidth, offsetWidthDiff)
 				: calculateLeftPosition(relativeObject, offsetWidth, offsetWidthDiff);
 
 		// RTL case
@@ -1248,7 +1239,7 @@ public class GPopupPanel extends SimplePanel implements
 		// Calculate top position for the popup
 
 		int top = (int) ((relativeObject.getAbsoluteTop() - root.getAbsoluteTop())
-								/ getScale(root.getElement(), "y"));
+				/ getScale(root.getElement(), "y"));
 
 		// Make sure scrolling is taken into account, since
 		// box.getAbsoluteTop() takes scrolling into account.
@@ -1261,8 +1252,7 @@ public class GPopupPanel extends SimplePanel implements
 
 		// Distance from the bottom edge of the window to the bottom edge of
 		// the text box
-		int distanceToWindowBottom = windowBottom
-				- (top + relativeObject.getOffsetHeight());
+		int distanceToWindowBottom = windowBottom - (top + relativeObject.getOffsetHeight());
 
 		// If there is not enough space for the popup's height below the text
 		// box and there IS enough space for the popup's height above the text
@@ -1270,8 +1260,7 @@ public class GPopupPanel extends SimplePanel implements
 		// there
 		// is not enough space on either side, then stick with displaying the
 		// popup below the text box.
-		if (distanceToWindowBottom < offsetHeight
-				&& distanceFromWindowTop >= offsetHeight) {
+		if (distanceToWindowBottom < offsetHeight && distanceFromWindowTop >= offsetHeight) {
 			top -= offsetHeight;
 		} else {
 			// Position above the text box
@@ -1281,11 +1270,11 @@ public class GPopupPanel extends SimplePanel implements
 		setPopupPosition(left, top);
 	}
 
-	private int calculateLeftPositionRTL(UIObject relativeObject, int offsetWidth,
-			int textBoxOffsetWidth, int offsetWidthDiff) {
+	private int calculateLeftPositionRTL(
+			UIObject relativeObject, int offsetWidth, int textBoxOffsetWidth, int offsetWidthDiff) {
 		int left;
-		int textBoxAbsoluteLeft = (int) ((relativeObject.getAbsoluteLeft() - root
-						.getAbsoluteLeft()) / getScale(root.getElement(), "x"));
+		int textBoxAbsoluteLeft = (int) ((relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
+				/ getScale(root.getElement(), "x"));
 
 		// Right-align the popup. Note that this computation is
 		// valid in the case where offsetWidthDiff is negative.
@@ -1306,20 +1295,17 @@ public class GPopupPanel extends SimplePanel implements
 			// int windowLeft = Window.getScrollLeft();
 
 			// Compute the left value for the right edge of the textbox
-			int textBoxLeftValForRightEdge = textBoxAbsoluteLeft
-					+ textBoxOffsetWidth;
+			int textBoxLeftValForRightEdge = textBoxAbsoluteLeft + textBoxOffsetWidth;
 
 			// Distance from the right edge of the text box to the right
 			// edge
 			// of the window
-			int distanceToWindowRight = windowRight
-					- textBoxLeftValForRightEdge;
+			int distanceToWindowRight = windowRight - textBoxLeftValForRightEdge;
 
 			// Distance from the right edge of the text box to the left edge
 			// of the
 			// window
-			int distanceFromWindowLeft = textBoxLeftValForRightEdge
-					- windowLeft;
+			int distanceFromWindowLeft = textBoxLeftValForRightEdge - windowLeft;
 
 			// If there is not enough space for the overflow of the popup's
 			// width to the right of the text box and there IS enough space
@@ -1329,8 +1315,7 @@ public class GPopupPanel extends SimplePanel implements
 			// However, if there is not enough space on either side, stick
 			// with
 			// right-alignment.
-			if (distanceFromWindowLeft < offsetWidth
-					&& distanceToWindowRight >= offsetWidthDiff) {
+			if (distanceFromWindowLeft < offsetWidth && distanceToWindowRight >= offsetWidthDiff) {
 				// Align with the left edge of the text box.
 				left = textBoxAbsoluteLeft;
 			}
@@ -1338,10 +1323,9 @@ public class GPopupPanel extends SimplePanel implements
 		return left;
 	}
 
-	private int calculateLeftPosition(UIObject relativeObject, int offsetWidth,
-			int offsetWidthDiff) {
+	private int calculateLeftPosition(UIObject relativeObject, int offsetWidth, int offsetWidthDiff) {
 		int left = (int) ((relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
-								/ getScale(root.getElement(), "x"));
+				/ getScale(root.getElement(), "x"));
 		// If the suggestion popup is not as wide as the text box, always
 		// align to
 		// the left edge of the text box. Otherwise, figure out whether to
@@ -1356,8 +1340,7 @@ public class GPopupPanel extends SimplePanel implements
 			// Distance from the left edge of the text box to the left edge
 			// of the
 			// window
-			int distanceFromWindowLeft = relativeObject.getAbsoluteLeft()
-					- root.getAbsoluteLeft();
+			int distanceFromWindowLeft = relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft();
 
 			// If there is not enough space for the overflow of the popup's
 			// width to the right of the text box, and there IS enough space
@@ -1367,8 +1350,7 @@ public class GPopupPanel extends SimplePanel implements
 			// However, if there is not enough space on either side, then
 			// stick with
 			// left-alignment.
-			if (distanceToWindowRight < offsetWidth
-					&& distanceFromWindowLeft >= offsetWidthDiff) {
+			if (distanceToWindowRight < offsetWidth && distanceFromWindowLeft >= offsetWidthDiff) {
 				// Align with the right edge of the text box.
 				left -= offsetWidthDiff;
 			}
@@ -1400,8 +1382,7 @@ public class GPopupPanel extends SimplePanel implements
 	 */
 	private void previewNativeEvent(NativePreviewEvent event) {
 		// If the event has been canceled or consumed, ignore it
-		if (event.isCanceled()
-				|| (!previewAllNativeEvents && event.isConsumed())) {
+		if (event.isCanceled() || (!previewAllNativeEvents && event.isConsumed())) {
 			// We need to ensure that we cancel the event even if its been
 			// consumed so
 			// that popups lower on the stack do not auto hide
@@ -1419,8 +1400,8 @@ public class GPopupPanel extends SimplePanel implements
 
 		// If the event targets the popup or the partner, consume it
 		Event nativeEvent = Event.as(event.getNativeEvent());
-		boolean eventTargetsPopupOrPartner = eventTargetsPopup(nativeEvent)
-				|| eventTargetsPartner(nativeEvent);
+		boolean eventTargetsPopupOrPartner =
+				eventTargetsPopup(nativeEvent) || eventTargetsPartner(nativeEvent);
 		if (eventTargetsPopupOrPartner) {
 			event.consume();
 		}
@@ -1434,53 +1415,54 @@ public class GPopupPanel extends SimplePanel implements
 		// Switch on the event type
 		int type = DOM.eventGetType(nativeEvent);
 		switch (type) {
-		case Event.ONKEYDOWN: {
-			if (nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
-					&& nativeEvent.getCtrlKey() && nativeEvent.getAltKey()) {
-				hide(true, false);
-				app.getAccessibilityManager().focusInput(true, true);
-				event.getNativeEvent().preventDefault();
-			}
-			return;
-		}
-
-		case Event.ONMOUSEDOWN:
-		case Event.ONTOUCHSTART:
-			// Don't eat events if event capture is enabled, as this can
-			// interfere with dialog dragging, for example.
-			if (DOM.getCaptureElement() != null) {
-				event.consume();
+			case Event.ONKEYDOWN: {
+				if (nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
+						&& nativeEvent.getCtrlKey()
+						&& nativeEvent.getAltKey()) {
+					hide(true, false);
+					app.getAccessibilityManager().focusInput(true, true);
+					event.getNativeEvent().preventDefault();
+				}
 				return;
 			}
 
-			if (!eventTargetsPopupOrPartner && autoHide) {
-				hide(true);
-				return;
-			}
-			break;
-		case Event.ONMOUSEUP:
-		case Event.ONMOUSEMOVE:
-		case Event.ONCLICK:
-		case Event.ONDBLCLICK:
-		case Event.ONTOUCHEND: {
-			// Don't eat events if event capture is enabled, as this can
-			// interfere with dialog dragging, for example.
-			if (DOM.getCaptureElement() != null) {
-				event.consume();
-				return;
-			}
-			break;
-		}
+			case Event.ONMOUSEDOWN:
+			case Event.ONTOUCHSTART:
+				// Don't eat events if event capture is enabled, as this can
+				// interfere with dialog dragging, for example.
+				if (DOM.getCaptureElement() != null) {
+					event.consume();
+					return;
+				}
 
-		case Event.ONFOCUS: {
-			Element target = nativeEvent.getTarget();
-			if (modal && !eventTargetsPopupOrPartner && (target != null)) {
-				target.blur();
-				event.cancel();
-				return;
+				if (!eventTargetsPopupOrPartner && autoHide) {
+					hide(true);
+					return;
+				}
+				break;
+			case Event.ONMOUSEUP:
+			case Event.ONMOUSEMOVE:
+			case Event.ONCLICK:
+			case Event.ONDBLCLICK:
+			case Event.ONTOUCHEND: {
+				// Don't eat events if event capture is enabled, as this can
+				// interfere with dialog dragging, for example.
+				if (DOM.getCaptureElement() != null) {
+					event.consume();
+					return;
+				}
+				break;
 			}
-			break;
-		}
+
+			case Event.ONFOCUS: {
+				Element target = nativeEvent.getTarget();
+				if (modal && !eventTargetsPopupOrPartner && (target != null)) {
+					target.blur();
+					event.cancel();
+					return;
+				}
+				break;
+			}
 		}
 	}
 
@@ -1496,11 +1478,10 @@ public class GPopupPanel extends SimplePanel implements
 
 		// Create handlers if showing.
 		if (showing) {
-			nativePreviewHandlerRegistration = Event
-					.addNativePreviewHandler(this::previewNativeEvent);
+			nativePreviewHandlerRegistration = Event.addNativePreviewHandler(this::previewNativeEvent);
 		}
 	}
-	
+
 	/**
 	 * @return app
 	 */

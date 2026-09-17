@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Divisors[number] DivisorsSum[number]
- * 
+ *
  * @author Zbynek
  */
 public class CmdDivisorsOrDivisorsSum extends CmdOneNumber {
@@ -46,5 +46,4 @@ public class CmdDivisorsOrDivisorsSum extends CmdOneNumber {
 		AlgoDivisorsSum algo = new AlgoDivisorsSum(cons, label, num, sum);
 		return algo.getResult();
 	}
-
 }

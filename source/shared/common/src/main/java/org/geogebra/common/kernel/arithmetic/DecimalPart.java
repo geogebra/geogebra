@@ -47,10 +47,7 @@ class DecimalPart {
 
 	@Override
 	public String toString() {
-		return value != null ? "DecimalPart{"
-				+ "value=" + value
-				+ ", length=" + length
-				+ '}' : "";
+		return value != null ? "DecimalPart{" + "value=" + value + ", length=" + length + '}' : "";
 	}
 
 	@Override

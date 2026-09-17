@@ -81,5 +81,4 @@ public interface Geo3DVecInterface extends GeoVecInterface {
 	 *            coordinates mode
 	 */
 	void setMode(int mode);
-
 }

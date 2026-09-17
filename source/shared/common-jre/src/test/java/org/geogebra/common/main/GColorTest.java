@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -91,7 +91,8 @@ class GColorTest {
 	void testContrastAll() {
 		double contrast = 10;
 		GColor leastContrast = BLACK;
-		List<String> lines = new ArrayList<>(List.of("<style>",
+		List<String> lines = new ArrayList<>(List.of(
+				"<style>",
 				"div {",
 				"height:30px;",
 				"width:200px;",
@@ -102,7 +103,6 @@ class GColorTest {
 				"margin: 10px;",
 				"border-radius: 4px;",
 				"}",
-
 				"body {",
 				"display: flex;",
 				"flex-wrap: wrap;",
@@ -116,8 +116,8 @@ class GColorTest {
 					GColor base = GColor.newColor(r, g, b);
 					GColor border = GColor.getBorderColorFrom(base);
 					double contrast1 = base.getContrast(border);
-					lines.add("<div style=\"background-color:" + base + ";border-color:" + border
-										+ "\">" + contrast1 + "</div>");
+					lines.add("<div style=\"background-color:" + base + ";border-color:" + border + "\">"
+							+ contrast1 + "</div>");
 					if (contrast > contrast1 && BLACK.getContrast(base) > 2.5) {
 						contrast = contrast1;
 						leastContrast = base;
@@ -125,11 +125,12 @@ class GColorTest {
 				}
 			}
 		}
-		assertTrue(contrast >= 2,
-				leastContrast + "\n"
-				+ GColor.getBorderColorFrom(leastContrast).toString() + ": " + contrast);
+		assertTrue(
+				contrast >= 2,
+				leastContrast + "\n" + GColor.getBorderColorFrom(leastContrast).toString() + ": "
+						+ contrast);
 		assertFalse(String.join("\n", lines).contains("NaN"));
 		// This test can be used to generate a report like this:
-		//Files.writeString(Path.of("build/divs.html"), String.join("\n", lines));
+		// Files.writeString(Path.of("build/divs.html"), String.join("\n", lines));
 	}
 }

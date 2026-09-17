@@ -27,7 +27,7 @@ import elemental2.dom.DomGlobal;
 
 /**
  * GeoGebraLogger implementation for the web platform
- * 
+ *
  * @author Zoltan Kovacs
  */
 public class LoggerW extends Log {
@@ -42,38 +42,38 @@ public class LoggerW extends Log {
 		Console console = DomGlobal.console;
 
 		switch (level) {
-		case INFO:
-			if (Browser.hasProperty(console, "info")) {
-				DomGlobal.console.info(logEntry);
-			}
-			break;
-		case WARN:
-			if (Browser.hasProperty(console, "warn")) {
-				DomGlobal.console.warn(logEntry);
-			}
-			break;
-		case ERROR:
-			if (Browser.hasProperty(console, "error")) {
-				DomGlobal.console.error(logEntry);
-			}
-			break;
-		case TRACE:
-			if (Browser.hasProperty(console, "trace")) {
-				DomGlobal.console.trace(logEntry);
-			}
-			break;
-		default:
-		case DEBUG:
-			if (Browser.hasProperty(console, "log")) {
-				DomGlobal.console.log(logEntry);
-			}
-			break;
+			case INFO:
+				if (Browser.hasProperty(console, "info")) {
+					DomGlobal.console.info(logEntry);
+				}
+				break;
+			case WARN:
+				if (Browser.hasProperty(console, "warn")) {
+					DomGlobal.console.warn(logEntry);
+				}
+				break;
+			case ERROR:
+				if (Browser.hasProperty(console, "error")) {
+					DomGlobal.console.error(logEntry);
+				}
+				break;
+			case TRACE:
+				if (Browser.hasProperty(console, "trace")) {
+					DomGlobal.console.trace(logEntry);
+				}
+				break;
+			default:
+			case DEBUG:
+				if (Browser.hasProperty(console, "log")) {
+					DomGlobal.console.log(logEntry);
+				}
+				break;
 		}
 	}
 
 	/**
 	 * Start logger if parameters allow it.
-	 * 
+	 *
 	 * @param article
 	 *            parameters
 	 */

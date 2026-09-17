@@ -41,8 +41,7 @@ public class AlgoFromBase extends AlgoElement {
 	 * @param base
 	 *            base
 	 */
-	public AlgoFromBase(Construction c, String label, GeoText number,
-			GeoNumberValue base) {
+	public AlgoFromBase(Construction c, String label, GeoText number, GeoNumberValue base) {
 		super(c);
 		this.base = base;
 		this.number = number;
@@ -54,7 +53,7 @@ public class AlgoFromBase extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { number, base.toGeoElement() };
+		input = new GeoElement[] {number, base.toGeoElement()};
 		setOnlyOutput(result);
 		setDependencies();
 	}
@@ -81,8 +80,8 @@ public class AlgoFromBase extends AlgoElement {
 
 		String in = number.getTextStringSafe();
 		int pos = in.indexOf('.');
-		String s = pos > -1 ? StringUtil.toLowerCaseUS(in.substring(0, pos))
-				: StringUtil.toLowerCaseUS(in);
+		String s =
+				pos > -1 ? StringUtil.toLowerCaseUS(in.substring(0, pos)) : StringUtil.toLowerCaseUS(in);
 		for (int i = 0; i < s.length(); i++) {
 			int last = s.charAt(i) - 0x30;
 			if (last > 9) {
@@ -111,12 +110,10 @@ public class AlgoFromBase extends AlgoElement {
 			}
 		}
 		result.setValue(val);
-
 	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.FromBase;
 	}
-
 }

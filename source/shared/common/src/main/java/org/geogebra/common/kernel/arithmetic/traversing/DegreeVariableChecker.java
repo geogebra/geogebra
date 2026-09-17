@@ -62,31 +62,34 @@ public final class DegreeVariableChecker implements Inspecting {
 	 */
 	private int getHighestTermKind(ExpressionNode en) {
 		switch (en.getOperation()) {
-		case NO_OPERATION:
-			if (en.getLeft() instanceof MySpecialDouble
-					&& ((MySpecialDouble) en.getLeft()).isAngleUnit()) {
-				return ANGLE_UNIT;
-			}
-			return en.getLeft() instanceof FunctionVariable ? VARIABLE : 0;
-		case MULTIPLY:
-			int leftDeg = getHighestTermKind(en.getLeftTree());
-			int rightDeg = getHighestTermKind(en.getRightTree());
-			return (leftDeg & rightDeg) > 0 ? NONLINEAR : (leftDeg | rightDeg);
-		case PLUS:
-		case MINUS:
-			return Math.max(getHighestTermKind(en.getLeftTree()),
-					getHighestTermKind(en.getRightTree()));
-		case DIVIDE:
-			return getHighestTermKind(en.getRightTree()) == 0
-					? getHighestTermKind(en.getLeftTree()) : NONLINEAR;
-		case ABS:
-			return getHighestTermKind(en.getLeftTree());
-		default:
-			if (en.getRightTree() == null) {
-				return getHighestTermKind(en.getLeftTree()) == 0 ? 0 : NONLINEAR;
-			}
-			return getHighestTermKind(en.getLeftTree()) == 0
-					&& getHighestTermKind(en.getRightTree()) == 0 ? 0 : NONLINEAR;
+			case NO_OPERATION:
+				if (en.getLeft() instanceof MySpecialDouble
+						&& ((MySpecialDouble) en.getLeft()).isAngleUnit()) {
+					return ANGLE_UNIT;
+				}
+				return en.getLeft() instanceof FunctionVariable ? VARIABLE : 0;
+			case MULTIPLY:
+				int leftDeg = getHighestTermKind(en.getLeftTree());
+				int rightDeg = getHighestTermKind(en.getRightTree());
+				return (leftDeg & rightDeg) > 0 ? NONLINEAR : (leftDeg | rightDeg);
+			case PLUS:
+			case MINUS:
+				return Math.max(
+						getHighestTermKind(en.getLeftTree()), getHighestTermKind(en.getRightTree()));
+			case DIVIDE:
+				return getHighestTermKind(en.getRightTree()) == 0
+						? getHighestTermKind(en.getLeftTree())
+						: NONLINEAR;
+			case ABS:
+				return getHighestTermKind(en.getLeftTree());
+			default:
+				if (en.getRightTree() == null) {
+					return getHighestTermKind(en.getLeftTree()) == 0 ? 0 : NONLINEAR;
+				}
+				return getHighestTermKind(en.getLeftTree()) == 0
+								&& getHighestTermKind(en.getRightTree()) == 0
+						? 0
+						: NONLINEAR;
 		}
 	}
 

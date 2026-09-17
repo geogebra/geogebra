@@ -34,16 +34,15 @@ public class FunctionTemplate extends Template {
 	 * @param texName tex name
 	 * @param arguments arguments
 	 */
-	FunctionTemplate(Tag name, String texName, Parameter @NonNull[] arguments,
-			int insertIndex, int defaultSize) {
+	FunctionTemplate(
+			Tag name, String texName, Parameter @NonNull [] arguments, int insertIndex, int defaultSize) {
 		super(name, texName);
 		this.arguments = arguments;
 		this.insertIndex = insertIndex;
 		this.defaultSize = defaultSize;
 	}
 
-	FunctionTemplate(Tag name, String texName, Parameter @NonNull[] arguments,
-			int insertIndex) {
+	FunctionTemplate(Tag name, String texName, Parameter @NonNull [] arguments, int insertIndex) {
 		this(name, texName, arguments, insertIndex, -1);
 	}
 
@@ -106,5 +105,4 @@ public class FunctionTemplate extends Template {
 	public char getClosingBracket() {
 		return getTag() == Tag.APPLY_SQUARE ? ']' : ')';
 	}
-
 }

@@ -31,9 +31,7 @@ import org.jspecify.annotations.Nullable;
 public class SegmentDecorationProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 
-	private static List<Integer> values = List.of(
-		GeoSegment.getDecoTypes()
-	);
+	private static List<Integer> values = List.of(GeoSegment.getDecoTypes());
 	private final GeoElement element;
 
 	/**
@@ -53,14 +51,14 @@ public class SegmentDecorationProperty extends AbstractEnumeratedProperty<Intege
 
 	@Override
 	public PropertyResource[] getValueIcons() {
-		return new PropertyResource[]{
-				PropertyResource.ICON_SEGMENT_DECO_NONE,
-				PropertyResource.ICON_SEGMENT_DECO_1STROKE,
-				PropertyResource.ICON_SEGMENT_DECO_2STROKES,
-				PropertyResource.ICON_SEGMENT_DECO_3STROKES,
-				PropertyResource.ICON_SEGMENT_DECO_1ARROW,
-				PropertyResource.ICON_SEGMENT_DECO_2ARROWS,
-				PropertyResource.ICON_SEGMENT_DECO_3ARROWS
+		return new PropertyResource[] {
+			PropertyResource.ICON_SEGMENT_DECO_NONE,
+			PropertyResource.ICON_SEGMENT_DECO_1STROKE,
+			PropertyResource.ICON_SEGMENT_DECO_2STROKES,
+			PropertyResource.ICON_SEGMENT_DECO_3STROKES,
+			PropertyResource.ICON_SEGMENT_DECO_1ARROW,
+			PropertyResource.ICON_SEGMENT_DECO_2ARROWS,
+			PropertyResource.ICON_SEGMENT_DECO_3ARROWS
 		};
 	}
 

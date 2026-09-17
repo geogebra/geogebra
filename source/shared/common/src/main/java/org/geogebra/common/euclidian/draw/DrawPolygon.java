@@ -89,7 +89,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 	public DrawPolygon(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
-		geo = view.getKernel().getConstruction().getConstructionDefaults()
+		geo = view.getKernel()
+				.getConstruction()
+				.getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
 		gp = new GeneralPathClipped(view);
 		gp.resetWithThickness(geo.getLineThickness());
@@ -97,7 +99,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			labelVisible = geo.isLabelVisible();
@@ -192,7 +194,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// fill using default/hatching/image as appropriate
 			fill(g2, fillShape ? getShape() : gp.getGeneralPath());
@@ -204,8 +206,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
-			if (!poly.wasInitLabelsCalled()
-					&& poly.getLineThickness() > 0) {
+			if (!poly.wasInitLabelsCalled() && poly.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				gp.draw(g2);
@@ -220,7 +221,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void updatePreview() {
+	public final void updatePreview() {
 		int size = points.size();
 		isVisible = size > 0;
 
@@ -230,7 +231,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void updateMousePos(double mouseRWx, double mouseRWy) {
+	public final void updateMousePos(double mouseRWx, double mouseRWy) {
 		if (isVisible) {
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
@@ -275,10 +276,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 					} else if (DoubleUtil.isEqual(ang2, 90)) {
 						l2.setCoords(1.0, 0, -px2);
 					} else {
-						double gradient2 = Math
-								.tan(ang2 * Math.PI / 180.0);
-						l2.setCoords(gradient2, -1.0,
-								py2 - gradient2 * px2);
+						double gradient2 = Math.tan(ang2 * Math.PI / 180.0);
+						l2.setCoords(gradient2, -1.0, py2 - gradient2 * px2);
 					}
 
 					// calculate intersection
@@ -299,10 +298,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 			xRW = nearestX;
 			yRW = nearestY;
 		} else {
-			double angle = Math.atan2(yRW - py, xRW - px) * 180
-					/ Math.PI;
-			double radius = Math.sqrt(
-					(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
+			double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
+			double radius = Math.sqrt((py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 			// round angle to nearest 15 degrees
 			angle = Math.round(angle / 15) * 15;
@@ -320,7 +317,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void drawPreview(GGraphics2D g2) {
+	public final void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 			fill(g2, geo.isInverseFill() ? getShape() : gp.getGeneralPath());
 
@@ -337,18 +334,17 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public final boolean hit(int x, int y, int hitThreshold) {
 		GShape t = geo.isInverseFill() ? getShape() : gp.getGeneralPath();
 		int eps = getFillingHitThreshold(hitThreshold, getBounds());
-		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - eps,
-				y - eps, 2 * eps, 2 * eps));
+		boolean contains =
+				t.contains(AwtFactory.getPrototype().newRectangle(x - eps, y - eps, 2 * eps, 2 * eps));
 
 		if (geo.isFilled() && contains) {
 			return true;
 		}
 
-		boolean intersects = t.intersects(x - eps,
-				y - eps, 2 * eps, 2 * eps);
+		boolean intersects = t.intersects(x - eps, y - eps, 2 * eps, 2 * eps);
 
 		return intersects && !contains;
 	}
@@ -363,7 +359,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return gp.getBounds() != null && rect.contains(gp.getBounds());
 	}
 
@@ -371,7 +367,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
@@ -394,8 +390,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> pts) {
 		for (int i = 0; i < pts.size(); i++) {
-			poly.getPoint(i).setCoords(view.toRealWorldCoordX(pts.get(i).getX()),
-					view.toRealWorldCoordY(pts.get(i).getY()), 1);
+			poly.getPoint(i)
+					.setCoords(
+							view.toRealWorldCoordX(pts.get(i).getX()),
+							view.toRealWorldCoordY(pts.get(i).getY()),
+							1);
 		}
 	}
 
@@ -404,8 +403,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		List<GPoint2D> ret = new ArrayList<>(this.poly.getNumPoints());
 		for (GeoPointND pt : this.poly.getPoints()) {
 			pt.updateCoords2D();
-			MyPoint screenPt = new MyPoint(view.toScreenCoordXd(pt.getX2D()),
-					view.toScreenCoordYd(pt.getY2D()));
+			MyPoint screenPt =
+					new MyPoint(view.toScreenCoordXd(pt.getX2D()), view.toScreenCoordYd(pt.getY2D()));
 			ret.add(screenPt);
 		}
 		return ret;

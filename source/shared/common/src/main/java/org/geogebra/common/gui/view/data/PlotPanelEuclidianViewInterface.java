@@ -24,8 +24,7 @@ import org.geogebra.common.kernel.Kernel;
  * common interface for plot panel's Euclidian views
  * @author gabor
  */
-public interface PlotPanelEuclidianViewInterface
-		extends EuclidianViewInterfaceCommon {
+public interface PlotPanelEuclidianViewInterface extends EuclidianViewInterfaceCommon {
 
 	/**
 	 * @param kernel
@@ -45,5 +44,4 @@ public interface PlotPanelEuclidianViewInterface
 
 	@MissingDoc
 	void updateSizeKeepDrawables();
-
 }

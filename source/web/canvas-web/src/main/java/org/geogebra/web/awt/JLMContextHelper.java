@@ -20,7 +20,7 @@ import jsinterop.base.Js;
 
 public final class JLMContextHelper {
 
-	private JLMContextHelper() { }
+	private JLMContextHelper() {}
 
 	/**
 	 * Gets 2D context
@@ -32,5 +32,4 @@ public final class JLMContextHelper {
 	public static JLMContext2D as(Object context) {
 		return Js.uncheckedCast(context);
 	}
-
 }

@@ -39,9 +39,9 @@ import org.gwtproject.user.client.ui.ListBox;
 /**
  * Extended JPanel that contains interactive sub-panels for performing one
  * variable inference with the current data set.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public final class OneVarInferencePanelW extends FlowPanel
 		implements ClickHandler, BlurHandler, StatPanelInterfaceW {
@@ -82,7 +82,7 @@ public final class OneVarInferencePanelW extends FlowPanel
 
 	/***************************************
 	 * Construct a OneVarInference panel
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param statDialog
@@ -177,7 +177,6 @@ public final class OneVarInferencePanelW extends FlowPanel
 		}
 
 		mainPanel.add(resultPanel);
-
 	}
 
 	private void setResultTable() {
@@ -190,54 +189,52 @@ public final class OneVarInferencePanelW extends FlowPanel
 
 	private void updateResultTable() {
 		evaluate();
-		String cInt = statDialog.format(model.getMean()) + " \u00B1 "
-				+ statDialog.format(model.getMe());
+		String cInt =
+				statDialog.format(model.getMean()) + " \u00B1 " + statDialog.format(model.getMe());
 
 		switch (model.selectedPlot) {
-		default:
-			// do nothing
-			break;
-		case StatisticsModel.INFER_Z_TEST:
-			resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
-			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1,
-					1);
-			resultTable.setValueAt("", 2, 1);
-			resultTable.setValueAt(statDialog.format(model.getN()), 3, 1);
-			resultTable.setValueAt(statDialog.format(model.getMean()), 4, 1);
-			break;
+			default:
+				// do nothing
+				break;
+			case StatisticsModel.INFER_Z_TEST:
+				resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
+				resultTable.setValueAt(statDialog.format(model.getTestStat()), 1, 1);
+				resultTable.setValueAt("", 2, 1);
+				resultTable.setValueAt(statDialog.format(model.getN()), 3, 1);
+				resultTable.setValueAt(statDialog.format(model.getMean()), 4, 1);
+				break;
 
-		case StatisticsModel.INFER_T_TEST:
-			resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
-			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1,
-					1);
-			resultTable.setValueAt(statDialog.format(model.getDf()), 2, 1);
-			resultTable.setValueAt(statDialog.format(model.getSe()), 3, 1);
-			resultTable.setValueAt("", 4, 1);
-			resultTable.setValueAt(statDialog.format(model.getN()), 5, 1);
-			resultTable.setValueAt(statDialog.format(model.getMean()), 6, 1);
-			break;
+			case StatisticsModel.INFER_T_TEST:
+				resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
+				resultTable.setValueAt(statDialog.format(model.getTestStat()), 1, 1);
+				resultTable.setValueAt(statDialog.format(model.getDf()), 2, 1);
+				resultTable.setValueAt(statDialog.format(model.getSe()), 3, 1);
+				resultTable.setValueAt("", 4, 1);
+				resultTable.setValueAt(statDialog.format(model.getN()), 5, 1);
+				resultTable.setValueAt(statDialog.format(model.getMean()), 6, 1);
+				break;
 
-		case StatisticsModel.INFER_Z_INT:
-			resultTable.setValueAt(cInt, 0, 1);
-			resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
-			resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
-			resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
-			resultTable.setValueAt("", 4, 1);
-			resultTable.setValueAt(statDialog.format(model.getN()), 5, 1);
-			resultTable.setValueAt(statDialog.format(model.getMean()), 6, 1);
-			break;
+			case StatisticsModel.INFER_Z_INT:
+				resultTable.setValueAt(cInt, 0, 1);
+				resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
+				resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
+				resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
+				resultTable.setValueAt("", 4, 1);
+				resultTable.setValueAt(statDialog.format(model.getN()), 5, 1);
+				resultTable.setValueAt(statDialog.format(model.getMean()), 6, 1);
+				break;
 
-		case StatisticsModel.INFER_T_INT:
-			resultTable.setValueAt(cInt, 0, 1);
-			resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
-			resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
-			resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
-			resultTable.setValueAt(statDialog.format(model.getDf()), 4, 1);
-			resultTable.setValueAt(statDialog.format(model.getSe()), 5, 1);
-			resultTable.setValueAt("", 6, 1);
-			resultTable.setValueAt(statDialog.format(model.getN()), 7, 1);
-			resultTable.setValueAt(statDialog.format(model.getMean()), 8, 1);
-			break;
+			case StatisticsModel.INFER_T_INT:
+				resultTable.setValueAt(cInt, 0, 1);
+				resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
+				resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
+				resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
+				resultTable.setValueAt(statDialog.format(model.getDf()), 4, 1);
+				resultTable.setValueAt(statDialog.format(model.getSe()), 5, 1);
+				resultTable.setValueAt("", 6, 1);
+				resultTable.setValueAt(statDialog.format(model.getN()), 7, 1);
+				resultTable.setValueAt(statDialog.format(model.getMean()), 8, 1);
+				break;
 		}
 	}
 
@@ -295,7 +292,7 @@ public final class OneVarInferencePanelW extends FlowPanel
 
 	/**
 	 * Handle text input
-	 * 
+	 *
 	 * @param source
 	 *            event source
 	 */
@@ -306,9 +303,7 @@ public final class OneVarInferencePanelW extends FlowPanel
 
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
-		}
-
-		else if (source == lbAltHyp) {
+		} else if (source == lbAltHyp) {
 
 			if (lbAltHyp.getSelectedIndex() == 0) {
 				model.tail = OneVarModel.tail_right;
@@ -328,8 +323,7 @@ public final class OneVarInferencePanelW extends FlowPanel
 			return;
 		}
 
-		double value = model.evaluateExpression(kernel,
-				source.getText().trim());
+		double value = model.evaluateExpression(kernel, source.getText().trim());
 
 		if (source == fldConfLevel) {
 			model.confLevel = value;
@@ -377,7 +371,6 @@ public final class OneVarInferencePanelW extends FlowPanel
 	@Override
 	public void onBlur(BlurEvent event) {
 		doTextFieldActionPerformed((AutoCompleteTextFieldW) event.getSource());
-
 	}
 
 	public boolean isEnablePooled() {
@@ -387,5 +380,4 @@ public final class OneVarInferencePanelW extends FlowPanel
 	public void setEnablePooled(boolean enablePooled) {
 		this.enablePooled = enablePooled;
 	}
-
 }

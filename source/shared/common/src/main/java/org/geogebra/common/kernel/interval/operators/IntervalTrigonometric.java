@@ -63,10 +63,9 @@ public class IntervalTrigonometric {
 			return empty();
 		}
 
-		double low = interval.getLow() <= -1 ? -PI_HALF_HIGH
-				: RMath.prev(Math.asin(interval.getLow()));
-		double high = interval.getHigh() >= 1 ? PI_HALF_HIGH
-				: RMath.next(Math.asin(interval.getHigh()));
+		double low = interval.getLow() <= -1 ? -PI_HALF_HIGH : RMath.prev(Math.asin(interval.getLow()));
+		double high =
+				interval.getHigh() >= 1 ? PI_HALF_HIGH : RMath.next(Math.asin(interval.getHigh()));
 		return connected(low, high);
 	}
 
@@ -124,8 +123,7 @@ public class IntervalTrigonometric {
 			return empty();
 		}
 		double low = interval.getHigh() >= 1 ? 0 : RMath.prev(Math.acos(interval.getHigh()));
-		double high = interval.getLow() <= -1 ? PI_HIGH
-				: RMath.next(Math.acos(interval.getLow()));
+		double high = interval.getLow() <= -1 ? PI_HIGH : RMath.next(Math.acos(interval.getLow()));
 		return connected(low, high);
 	}
 
@@ -173,13 +171,12 @@ public class IntervalTrigonometric {
 
 		if (set.isInverted()) {
 			Interval gap = invertedGap(set);
-			return inverted(RMath.prev(Math.atan(gap.getLow())),
-					RMath.next(Math.atan(gap.getHigh())));
+			return inverted(RMath.prev(Math.atan(gap.getLow())), RMath.next(Math.atan(gap.getHigh())));
 		}
 
 		Interval interval = connectedInterval(set);
-		return connected(RMath.prev(Math.atan(interval.getLow())),
-				RMath.next(Math.atan(interval.getHigh())));
+		return connected(
+				RMath.prev(Math.atan(interval.getLow())), RMath.next(Math.atan(interval.getHigh())));
 	}
 
 	/**
@@ -298,11 +295,10 @@ public class IntervalTrigonometric {
 
 		if (set.isInverted()) {
 			Interval gap = invertedGap(set);
-			return inverted(RMath.prev(Math.tanh(gap.getLow())),
-					RMath.next(Math.tanh(gap.getHigh())));
+			return inverted(RMath.prev(Math.tanh(gap.getLow())), RMath.next(Math.tanh(gap.getHigh())));
 		}
 		Interval interval = connectedInterval(set);
-		return connected(RMath.prev(Math.tanh(interval.getLow())),
-				RMath.next(Math.tanh(interval.getHigh())));
+		return connected(
+				RMath.prev(Math.tanh(interval.getLow())), RMath.next(Math.tanh(interval.getHigh())));
 	}
 }

@@ -70,11 +70,10 @@ public class FunctionMathKeyboardFactory implements KeyboardModelFactory {
 		getVarsLimited().forEach(varName -> {
 			String cursiveBoldLetter = Cursive.getCursiveCaption(varName);
 			String buttonCaption = cursiveBoldLetter == null ? varName : cursiveBoldLetter;
-			addInputButton(row, buttonFactory, buttonCaption,
-					FunctionVariableAdapter.wrap(varName));
+			addInputButton(row, buttonFactory, buttonCaption, FunctionVariableAdapter.wrap(varName));
 		});
-		addButton(row, buttonFactory.createEmptySpace(
-				vars.size() > MAX_VARS ? 0.2f : 4.2f - vars.size()));
+		addButton(
+				row, buttonFactory.createEmptySpace(vars.size() > MAX_VARS ? 0.2f : 4.2f - vars.size()));
 	}
 
 	private Stream<String> getVarsLimited() {

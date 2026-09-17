@@ -33,8 +33,7 @@ import org.junit.runner.RunWith;
 import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GgbMockitoTestRunner.class)
-@WithClassesToStub({EuclidianSimplePanelW.class,
-		JLMContext2D.class, RootPanel.class})
+@WithClassesToStub({EuclidianSimplePanelW.class, JLMContext2D.class, RootPanel.class})
 public class AppWSimpleLoadTest {
 	private static final String jsonPath =
 			"src/test/resources/org/geogebra/web/html5/io/inRegion.json";
@@ -47,5 +46,4 @@ public class AppWSimpleLoadTest {
 		AppWsimple app = AppMocker.mockAppletSimple(articleElement);
 		assertTrue(((GeoBoolean) app.getKernel().lookupLabel("visible")).getBoolean());
 	}
-
 }

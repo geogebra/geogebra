@@ -49,8 +49,8 @@ public class AlgoLineGraph extends AlgoElement {
 		this.xValuesCopy = new MyList(c.getKernel());
 		this.yValuesCopy = new MyList(c.getKernel());
 		FunctionVariable var = new FunctionVariable(kernel);
-		ExpressionNode graphExpr = new ExpressionNode(kernel, var, Operation.DATA,
-				new MyNumberPair(kernel, xValuesCopy, yValuesCopy));
+		ExpressionNode graphExpr = new ExpressionNode(
+				kernel, var, Operation.DATA, new MyNumberPair(kernel, xValuesCopy, yValuesCopy));
 		this.graph = new GeoFunction(c, new Function(kernel, graphExpr));
 		setInputOutput();
 		compute();
@@ -58,7 +58,7 @@ public class AlgoLineGraph extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{xValues, yValues};
+		input = new GeoElement[] {xValues, yValues};
 		setOnlyOutput(graph);
 		setDependencies();
 	}
@@ -77,8 +77,8 @@ public class AlgoLineGraph extends AlgoElement {
 		xValues.deepCopyListElements(xValuesCopy);
 		yValues.deepCopyListElements(yValuesCopy);
 		graph.setDefined(true);
-		graph.setInterval(xValues.get(0).evaluateDouble(),
-				xValues.get(xValues.size() - 1).evaluateDouble());
+		graph.setInterval(
+				xValues.get(0).evaluateDouble(), xValues.get(xValues.size() - 1).evaluateDouble());
 	}
 
 	private boolean areXValuesFiniteAndSorted() {

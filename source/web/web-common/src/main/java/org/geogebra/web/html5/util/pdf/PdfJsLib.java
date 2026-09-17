@@ -21,7 +21,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
-final public class PdfJsLib {
+public final class PdfJsLib {
 
 	private PdfJsLib() {
 		// use PdfJsLib.get() instead, may return null

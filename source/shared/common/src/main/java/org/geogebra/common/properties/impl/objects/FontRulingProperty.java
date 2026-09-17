@@ -25,8 +25,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.FontStyleUtil;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class FontRulingProperty extends AbstractValuedProperty<Boolean>
-		implements BooleanProperty {
+public class FontRulingProperty extends AbstractValuedProperty<Boolean> implements BooleanProperty {
 	private final HasTextFormatter geoElement;
 
 	/**
@@ -65,7 +64,6 @@ public class FontRulingProperty extends AbstractValuedProperty<Boolean>
 	}
 
 	private String getNewFont(String oldFont, boolean hasRuling) {
-		return hasRuling ? oldFont.replace(",", "Farbband,")
-				: oldFont.replace("Farbband", "");
+		return hasRuling ? oldFont.replace(",", "Farbband,") : oldFont.replace("Farbband", "");
 	}
 }

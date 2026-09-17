@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 /**
  * Algo for cylinder between two end points and given radius. TODO implements
  * AlgoTransformable ?
- * 
+ *
  * @author mathieu
  *
  */
@@ -56,7 +56,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	private AlgoQuadricEnds algoEnds;
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -70,8 +70,12 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	 * @param type
 	 *            quadric type
 	 */
-	public AlgoQuadricLimitedPointPointRadius(Construction c, String[] labels,
-			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue r,
+	public AlgoQuadricLimitedPointPointRadius(
+			Construction c,
+			String[] labels,
+			GeoPointND origin,
+			GeoPointND secondPoint,
+			GeoNumberValue r,
 			int type) {
 		super(c);
 
@@ -81,8 +85,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 		quadric = new GeoQuadric3DLimited(c, type);
 
-		input = new GeoElement[] { (GeoElement) origin,
-				(GeoElement) secondPoint, (GeoElement) r };
+		input = new GeoElement[] {(GeoElement) origin, (GeoElement) secondPoint, (GeoElement) r};
 
 		origin.addAlgorithm(this);
 		secondPoint.addAlgorithm(this);
@@ -105,9 +108,9 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		top.setParentAlgorithm(this);
 		quadric.setBottomTop(bottom, top);
 
-        side.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-        bottom.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-        top.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+		side.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+		bottom.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+		top.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 
 		// output = new GeoElement[] {quadric,bottom,top,side};
 		setOutput();
@@ -122,9 +125,9 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	/**
 	 * sets the output
 	 */
-	abstract protected void setOutput();
+	protected abstract void setOutput();
 
-	abstract protected AlgoQuadricEnds createEnds();
+	protected abstract AlgoQuadricEnds createEnds();
 
 	private void computeHelpers() {
 		// side must be done before ends (for midpoint)
@@ -134,9 +137,11 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 	private boolean setQuadric() {
 		// check end points
-		if (!origin.isDefined() || origin.isInfinite()
+		if (!origin.isDefined()
+				|| origin.isInfinite()
 				|| !secondPoint.isDefined()
-				|| secondPoint.isInfinite() || !radius.isDefined()) {
+				|| secondPoint.isInfinite()
+				|| !radius.isDefined()) {
 			getQuadric().setUndefined();
 			return false;
 		}
@@ -177,8 +182,8 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		quadric.calcVolume();
 	}
 
-	abstract protected void setQuadric(Coords o1, Coords o2, Coords d, double r,
-			double min, double max);
+	protected abstract void setQuadric(
+			Coords o1, Coords o2, Coords d, double r, double min, double max);
 
 	public GeoQuadric3DLimited getQuadric() {
 		return quadric;
@@ -189,7 +194,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	// //////////////////////
 
 	/**
-	 * 
+	 *
 	 * @param labels
 	 *            transformed labels
 	 * @param p1
@@ -200,8 +205,8 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	 *            transformed radius
 	 * @return new algo for transformed inputs
 	 */
-	protected abstract AlgoElement getTransformedAlgo(String[] labels,
-			GeoPointND p1, GeoPointND p2, GeoNumeric r);
+	protected abstract AlgoElement getTransformedAlgo(
+			String[] labels, GeoPointND p1, GeoPointND p2, GeoNumeric r);
 
 	/**
 	 * @param t
@@ -210,17 +215,13 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	 */
 	public GeoElement[] getTransformedOutput(Transform t) {
 
-		GeoPointND p1 = (GeoPointND) t.transform(origin,
-				Transform.transformedGeoLabel(origin))[0];
-		GeoPointND p2 = (GeoPointND) t.transform(secondPoint,
-				Transform.transformedGeoLabel(secondPoint))[0];
-		Transform.setVisualStyleForTransformations((GeoElement) origin,
-				(GeoElement) p1);
-		Transform.setVisualStyleForTransformations((GeoElement) secondPoint,
-				(GeoElement) p2);
+		GeoPointND p1 = (GeoPointND) t.transform(origin, Transform.transformedGeoLabel(origin))[0];
+		GeoPointND p2 =
+				(GeoPointND) t.transform(secondPoint, Transform.transformedGeoLabel(secondPoint))[0];
+		Transform.setVisualStyleForTransformations((GeoElement) origin, (GeoElement) p1);
+		Transform.setVisualStyleForTransformations((GeoElement) secondPoint, (GeoElement) p2);
 
-		GeoNumeric r = new AlgoRadius(this.cons,
-				getQuadric().getBottom()).getRadius();
+		GeoNumeric r = new AlgoRadius(this.cons, getQuadric().getBottom()).getRadius();
 		r.setLabel(null);
 		r.setAuxiliaryObject(true);
 

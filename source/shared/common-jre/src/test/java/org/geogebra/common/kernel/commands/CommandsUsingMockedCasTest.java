@@ -70,10 +70,7 @@ class CommandsUsingMockedCasTest extends CommandTestSetup {
 	}
 
 	@Test
-	@MockedCasValues({
-			"Solve(x = 0) -> {x = 0}",
-			"Numeric(Limit(x / x, x, 0), 50) -> 1"
-	})
+	@MockedCasValues({"Solve(x = 0) -> {x = 0}", "Numeric(Limit(x / x, x, 0), 50) -> 1"})
 	void cmdRemovableDiscontinuity() {
 		t("RemovableDiscontinuity(x/x)", "(0, 1)");
 	}
@@ -122,12 +119,12 @@ class CommandsUsingMockedCasTest extends CommandTestSetup {
 
 	@Test
 	@MockedCasValues({
-			"Limit(1 / x, x, ∞) -> 0",
-			"Limit(1 / x, x, -∞) -> 0",
-			"Solve(Numerator(Simplify(1 / (1 / x))) = 0, x) -> {x = 0}",
-			"ExpSimplify(ℯ^Numerator(1 / x)) -> ℯ",
-			"Solve(ExpSimplify(ℯ^Numerator(1 / x)) = 0, x) -> {}",
-			"Numeric(Limit(1 / x, x, 0)) -> ∞"
+		"Limit(1 / x, x, ∞) -> 0",
+		"Limit(1 / x, x, -∞) -> 0",
+		"Solve(Numerator(Simplify(1 / (1 / x))) = 0, x) -> {x = 0}",
+		"ExpSimplify(ℯ^Numerator(1 / x)) -> ℯ",
+		"Solve(ExpSimplify(ℯ^Numerator(1 / x)) = 0, x) -> {}",
+		"Numeric(Limit(1 / x, x, 0)) -> ∞"
 	})
 	void cmdAsymptote() {
 		t("Asymptote(1/x)", "{y = 0, x = 0}");
@@ -183,8 +180,8 @@ class CommandsUsingMockedCasTest extends CommandTestSetup {
 
 	@Test
 	@MockedCasValues({
-			"TrigExpand(sin(2x)) -> 2 * sin(x) * cos(x)",
-			"TrigExpand(sin(2x), sin(x)) -> 2 * sin(x) * cos(x)"
+		"TrigExpand(sin(2x)) -> 2 * sin(x) * cos(x)",
+		"TrigExpand(sin(2x), sin(x)) -> 2 * sin(x) * cos(x)"
 	})
 	void cmdTrigExpand() {
 		t("TrigExpand(sin(2x))", "((2 * sin(x)) * cos(x))");
@@ -198,10 +195,7 @@ class CommandsUsingMockedCasTest extends CommandTestSetup {
 	}
 
 	@Test
-	@MockedCasValues({
-			"TrigCombine(sin(2x)) -> sin(2x)",
-			"TrigCombine(sin(2x), sin(x)) -> sin(2x)"
-	})
+	@MockedCasValues({"TrigCombine(sin(2x)) -> sin(2x)", "TrigCombine(sin(2x), sin(x)) -> sin(2x)"})
 	void cmdTrigCombine() {
 		t("TrigCombine(sin(2x))", "sin((2 * x))");
 		t("TrigCombine(sin(2x),sin(x))", "sin((2 * x))");

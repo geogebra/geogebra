@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,8 +31,7 @@ import org.geogebra.desktop.main.AppD;
  * Renderer for tools tree
  *
  */
-public class ModeCellRenderer extends DefaultTreeCellRenderer
-		implements ListCellRenderer<Integer> {
+public class ModeCellRenderer extends DefaultTreeCellRenderer implements ListCellRenderer<Integer> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +39,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 
 	/**
 	 * Creates new cell renderer
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -51,8 +50,13 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 	}
 
 	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value,
-			boolean componentSelected, boolean expanded, boolean leaf, int row,
+	public Component getTreeCellRendererComponent(
+			JTree tree,
+			Object value,
+			boolean componentSelected,
+			boolean expanded,
+			boolean leaf,
+			int row,
 			boolean componentHasFocus) {
 
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
@@ -73,8 +77,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 			if (row == 0) {
 				handleRootNode(node);
 			} else {
-				DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node
-						.getFirstChild();
+				DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node.getFirstChild();
 				Object ob = childNode.getUserObject();
 				handleModeNode((Integer) ob);
 			}
@@ -86,8 +89,8 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Integer value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(
+			JList list, Integer value, int index, boolean isSelected, boolean cellHasFocus) {
 		handleModeNode(value);
 		handleSelection(isSelected);
 		return this;
@@ -105,8 +108,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 
 	private void handleModeNode(int mode) {
 		if (mode == -1) {
-			setText("\u2500\u2500\u2500 "
-					+ app.getLocalization().getMenu("Separator"));
+			setText("\u2500\u2500\u2500 " + app.getLocalization().getMenu("Separator"));
 			setIcon(null);
 		} else {
 			setText(app.getToolName(mode));
@@ -121,5 +123,4 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 			setBackground(getBackgroundNonSelectionColor());
 		}
 	}
-
 }

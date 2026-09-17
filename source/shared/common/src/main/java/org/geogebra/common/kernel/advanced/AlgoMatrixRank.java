@@ -55,7 +55,7 @@ public class AlgoMatrixRank extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(rank);
-		input = new GeoElement[] { inputList };
+		input = new GeoElement[] {inputList};
 		setDependencies();
 	}
 
@@ -85,7 +85,6 @@ public class AlgoMatrixRank extends AlgoElement {
 			}
 		}
 		rank.setValue(rows);
-
 	}
 
 	@Override
@@ -99,5 +98,4 @@ public class AlgoMatrixRank extends AlgoElement {
 	public GeoNumeric getResult() {
 		return rank;
 	}
-
 }

@@ -25,11 +25,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes RandomUniform[a, b]
- * 
+ *
  * @author Michael Borcherds
  */
-public class AlgoRandomUniform extends AlgoTwoNumFunction
-		implements SetRandomValue {
+public class AlgoRandomUniform extends AlgoTwoNumFunction implements SetRandomValue {
 
 	/**
 	 * @param cons
@@ -41,8 +40,7 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction
 	 * @param b
 	 *            upper bound for the distribution
 	 */
-	public AlgoRandomUniform(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoRandomUniform(Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 
 		// output is random number
@@ -64,5 +62,4 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction
 		num.setValue(Math.max(a.getDouble(), Math.min(d.evaluateDouble(), b.getDouble())));
 		return true;
 	}
-
 }

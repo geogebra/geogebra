@@ -21,5 +21,7 @@ package org.geogebra.common.gui.view.algebra;
  * TODO move to desktop
  */
 public enum DialogType {
-	TextArea, DynamicText, GeoGebraEditor
+	TextArea,
+	DynamicText,
+	GeoGebraEditor
 }

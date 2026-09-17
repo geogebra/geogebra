@@ -32,7 +32,6 @@ public interface ExamControllerDelegate {
 	/**
 	 * Clear (reset) all subapps
 	 */
-
 	void examClearApps();
 
 	/**

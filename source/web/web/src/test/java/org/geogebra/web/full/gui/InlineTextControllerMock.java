@@ -26,8 +26,7 @@ import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 public class InlineTextControllerMock implements InlineTextController {
 	private String url;
 
-	public InlineTextControllerMock() {
-	}
+	public InlineTextControllerMock() {}
 
 	public InlineTextControllerMock(String url) {
 		this.url = url;
@@ -192,5 +191,4 @@ public class InlineTextControllerMock implements InlineTextController {
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
 		// mock
 	}
-
 }

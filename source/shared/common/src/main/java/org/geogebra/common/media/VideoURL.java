@@ -18,7 +18,7 @@ package org.geogebra.common.media;
 
 /**
  * Data class for results of video URL check.
- * 
+ *
  * @author laszlo
  *
  */
@@ -29,7 +29,7 @@ public class VideoURL {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param url
 	 *            The video URL
 	 * @param valid
@@ -44,7 +44,7 @@ public class VideoURL {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if the URL points to a valid video.
 	 */
 	public boolean isValid() {
@@ -52,7 +52,7 @@ public class VideoURL {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the media format of the URL.
 	 */
 	public MediaFormat getFormat() {
@@ -61,7 +61,7 @@ public class VideoURL {
 
 	/**
 	 * Creates object with a valid result.
-	 * 
+	 *
 	 * @param url
 	 *            the URL of the video.
 	 * @param format
@@ -74,10 +74,10 @@ public class VideoURL {
 
 	/**
 	 * Creates object with an invalid result.
-	 * 
+	 *
 	 * @param url
 	 *            the URL of the video.
-	 * 
+	 *
 	 * @param format
 	 *            {@link MediaFormat}
 	 * @return an {@link VideoURL} instance.
@@ -87,7 +87,7 @@ public class VideoURL {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the URL of the video.
 	 */
 	public String getUrl() {

@@ -31,8 +31,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
  *
  * @author Markus
  */
-public class AlgoDependentConic extends AlgoElement
-		implements DependentAlgo {
+public class AlgoDependentConic extends AlgoElement implements DependentAlgo {
 
 	private Equation equation;
 	private ExpressionValue[] ev = new ExpressionValue[6]; // input
@@ -40,7 +39,7 @@ public class AlgoDependentConic extends AlgoElement
 
 	/**
 	 * Creates new AlgoDependentConic
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param equ
@@ -65,8 +64,7 @@ public class AlgoDependentConic extends AlgoElement
 				ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
 			}
 			// check that coefficient is a number: this may throw an exception
-			ExpressionValue eval = ev[i]
-					.evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
 			((NumberValue) eval).getDouble();
 		}
 
@@ -89,8 +87,7 @@ public class AlgoDependentConic extends AlgoElement
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = equation.getGeoElementVariables(
-				SymbolicMode.NONE);
+		input = equation.getGeoElementVariables(SymbolicMode.NONE);
 
 		setOnlyOutput(conic);
 		setDependencies(); // done by AlgoElement
@@ -108,9 +105,13 @@ public class AlgoDependentConic extends AlgoElement
 	public final void compute() {
 		try {
 			ExpressionNode def = conic.getDefinition();
-			conic.setCoeffs(ev[0].evaluateDouble(), ev[1].evaluateDouble(),
-					ev[2].evaluateDouble(), ev[3].evaluateDouble(),
-					ev[4].evaluateDouble(), ev[5].evaluateDouble());
+			conic.setCoeffs(
+					ev[0].evaluateDouble(),
+					ev[1].evaluateDouble(),
+					ev[2].evaluateDouble(),
+					ev[3].evaluateDouble(),
+					ev[4].evaluateDouble(),
+					ev[5].evaluateDouble());
 			conic.setDefinition(def);
 		} catch (Throwable e) {
 			conic.setUndefined();

@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
- * 
+ *
+ *
  * @author Michael
  */
 public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
@@ -44,8 +44,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	 * @param f
 	 *            function
 	 */
-	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
-			GeoFunctionable f) {
+	public AlgoRootsPolynomialInterval(Construction cons, String[] labels, GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
 
@@ -59,8 +58,8 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	 * @param g
 	 *            line
 	 */
-	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
-			GeoFunctionable f, GeoLine g) {
+	public AlgoRootsPolynomialInterval(
+			Construction cons, String[] labels, GeoFunctionable f, GeoLine g) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), f, null, g);
 	}
 
@@ -74,8 +73,8 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	 * @param polynomial
 	 *            polynomial function
 	 */
-	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
-			GeoFunctionable conditional, GeoFunctionable polynomial) {
+	public AlgoRootsPolynomialInterval(
+			Construction cons, String[] labels, GeoFunctionable conditional, GeoFunctionable polynomial) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), conditional, polynomial, null);
 	}
 
@@ -115,17 +114,12 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 
 	private void updateIntervalFun() {
 		Function function = f.getFunction();
-		ExpressionNode polyExpression = function
-				.getFunctionExpression().getRight()
-				.wrap();
-		ExpressionNode condExpression = function
-				.getFunctionExpression().getLeft()
-				.wrap();
+		ExpressionNode polyExpression = function.getFunctionExpression().getRight().wrap();
+		ExpressionNode condExpression = function.getFunctionExpression().getLeft().wrap();
 		if (intervalFun == null
 				|| intervalFun.getFunctionExpression() != polyExpression
 				|| interval.getExpression() != condExpression) {
-			FunctionVariable fVar = function
-					.getFunctionVariable();
+			FunctionVariable fVar = function.getFunctionVariable();
 			// extract poly from If[0<x<10, poly]
 			intervalFun = new Function(polyExpression, fVar);
 
@@ -149,12 +143,14 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	@Override
 	public final String toString(StringTemplate tpl) {
 		if (line != null || g != null) {
-			return getLoc().getPlainDefault("IntersectionPointOfAB",
-					"Intersection point of %0, %1", input[0].getLabel(tpl),
-					input[1].getLabel(tpl));
+			return getLoc()
+					.getPlainDefault(
+							"IntersectionPointOfAB",
+							"Intersection point of %0, %1",
+							input[0].getLabel(tpl),
+							input[1].getLabel(tpl));
 		}
 		// Root of ...
 		return super.toString(tpl);
 	}
-
 }

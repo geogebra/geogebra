@@ -35,7 +35,8 @@ public final class BayernCasExamRestrictions extends Restrictions {
 
 	/** Constructs the restrictions for Bayern CAS exam. */
 	public BayernCasExamRestrictions() {
-		super(Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+		super(
+				Set.of(GRAPHING, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
 				CAS,
 				null,
 				null,

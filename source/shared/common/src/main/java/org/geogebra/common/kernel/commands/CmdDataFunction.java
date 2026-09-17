@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -37,7 +37,7 @@ import org.geogebra.common.plugin.Operation;
 public class CmdDataFunction extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -50,16 +50,16 @@ public class CmdDataFunction extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0:
-		case 2:
-		case 3:
-			FunctionVariable fv = new FunctionVariable(kernel);
-			ExpressionValue en = simplify(c, fv);
-			GeoFunction geo = new GeoFunction(kernel, en.wrap(), fv);
-			geo.setLabel(c.getLabel());
-			return new GeoElement[] { geo };
-		default:
-			throw argNumErr(c);
+			case 0:
+			case 2:
+			case 3:
+				FunctionVariable fv = new FunctionVariable(kernel);
+				ExpressionValue en = simplify(c, fv);
+				GeoFunction geo = new GeoFunction(kernel, en.wrap(), fv);
+				geo.setLabel(c.getLabel());
+				return new GeoElement[] {geo};
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -78,8 +78,12 @@ public class CmdDataFunction extends CommandProcessor {
 	 *            variable
 	 * @return data function expression
 	 */
-	public static ExpressionValue getDataFunction(Kernel kernelA, String label,
-			ListValue xlist, ListValue ylist, ExpressionNode arg0,
+	public static ExpressionValue getDataFunction(
+			Kernel kernelA,
+			String label,
+			ListValue xlist,
+			ListValue ylist,
+			ExpressionNode arg0,
 			FunctionVariable fv) {
 
 		// ml.addListElement(new MyDouble(kernelA));
@@ -89,9 +93,8 @@ public class CmdDataFunction extends CommandProcessor {
 			arg0.replaceVariables("x", fv);
 			arg = arg0;
 		}
-		return new ExpressionNode(kernelA, arg, Operation.DATA,
-				new MyNumberPair(kernelA, xlist, ylist));
-
+		return new ExpressionNode(
+				kernelA, arg, Operation.DATA, new MyNumberPair(kernelA, xlist, ylist));
 	}
 
 	@Override
@@ -103,15 +106,14 @@ public class CmdDataFunction extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0:
-			return getDataFunction(kernel, c.getLabel(), new MyList(kernel),
-					new MyList(kernel), null, fv);
-		case 2:
-			return getDataFunction(kernel, c.getLabel(), toList(c, 0),
-					toList(c, 1), null, fv);
-		case 3:
-			return getDataFunction(kernel, c.getLabel(), toList(c, 0),
-					toList(c, 1), c.getArgument(2), fv);
+			case 0:
+				return getDataFunction(
+						kernel, c.getLabel(), new MyList(kernel), new MyList(kernel), null, fv);
+			case 2:
+				return getDataFunction(kernel, c.getLabel(), toList(c, 0), toList(c, 1), null, fv);
+			case 3:
+				return getDataFunction(
+						kernel, c.getLabel(), toList(c, 0), toList(c, 1), c.getArgument(2), fv);
 		}
 		return null;
 	}
@@ -119,16 +121,14 @@ public class CmdDataFunction extends CommandProcessor {
 	private ListValue toList(Command c, int argIndex) {
 		ExpressionValue ev = c.getArgument(argIndex).unwrap();
 		if (ev instanceof Variable) {
-			ev = kernel
-					.lookupLabel(ev.toString(StringTemplate.noLocalDefault));
+			ev = kernel.lookupLabel(ev.toString(StringTemplate.noLocalDefault));
 		}
 		if (ev instanceof ListValue) {
 			return (ListValue) ev;
 		}
 
 		// eg DataFunction(x({A,B,C}), y({A,B,C}))
-		GeoElement res = this.resArg(c.getArgument(argIndex),
-				new EvalInfo(false));
+		GeoElement res = this.resArg(c.getArgument(argIndex), new EvalInfo(false));
 		if (res instanceof ListValue) {
 			return (ListValue) res;
 		}
@@ -145,11 +145,10 @@ public class CmdDataFunction extends CommandProcessor {
 	 */
 	public static GeoElement[] emptyFunction(Kernel kernelA, String label) {
 		FunctionVariable fv = new FunctionVariable(kernelA);
-		ExpressionValue en = CmdDataFunction.getDataFunction(kernelA, label,
-				new MyList(kernelA), new MyList(kernelA), null, fv);
+		ExpressionValue en = CmdDataFunction.getDataFunction(
+				kernelA, label, new MyList(kernelA), new MyList(kernelA), null, fv);
 		GeoFunction geo = new GeoFunction(kernelA, en.wrap(), fv);
 		geo.setLabel(label);
-		return new GeoElement[] { geo };
+		return new GeoElement[] {geo};
 	}
-
 }

@@ -38,9 +38,12 @@ public class DrawingRecorder {
 	 */
 	public void recordCoordinate(int x, int y, long time) {
 		events
-				.append("{\"x\":").append(x)
-				.append(", \"y\":").append(y)
-				.append(", \"time\":").append(time)
+				.append("{\"x\":")
+				.append(x)
+				.append(", \"y\":")
+				.append(y)
+				.append(", \"time\":")
+				.append(time)
 				.append("},\n");
 	}
 

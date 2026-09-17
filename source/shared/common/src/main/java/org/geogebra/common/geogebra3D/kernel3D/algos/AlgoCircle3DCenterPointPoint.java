@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param center
@@ -40,27 +40,24 @@ public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
 	 * @param forAxis
 	 *            point in plane
 	 */
-	public AlgoCircle3DCenterPointPoint(Construction cons, GeoPointND center,
-			GeoPointND pointThrough, GeoPointND forAxis) {
+	public AlgoCircle3DCenterPointPoint(
+			Construction cons, GeoPointND center, GeoPointND pointThrough, GeoPointND forAxis) {
 		super(cons, center, pointThrough, forAxis);
-
 	}
 
 	@Override
 	protected final double getRadius() {
 
 		GeoPointND pointThrough = (GeoPointND) getSecondInput();
-		Coords radius = pointThrough.getInhomCoordsInD3()
-				.sub(getCenter().getInhomCoordsInD3());
+		Coords radius = pointThrough.getInhomCoordsInD3().sub(getCenter().getInhomCoordsInD3());
 
 		radius.calcNorm();
 
 		return radius.getNorm();
-
 	}
 
 	@Override
-	final protected boolean setCoordSys() {
+	protected final boolean setCoordSys() {
 
 		coordsys.resetCoordSys();
 
@@ -79,12 +76,11 @@ public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return command string
 	 */
 	@Override
-	final protected String getCommandString() {
+	protected final String getCommandString() {
 		return "CircleWithCenterAThroughBParallelToABC";
 	}
-
 }

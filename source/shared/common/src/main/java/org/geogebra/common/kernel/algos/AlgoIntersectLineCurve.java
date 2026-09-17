@@ -36,7 +36,7 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  * Algo for intersection of a line with a curve adapted from
  * AlgoIntersectLinePolyLine
- * 
+ *
  * @author Michael
  */
 public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
@@ -50,8 +50,7 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	 * @param l line
 	 * @param p curve
 	 */
-	public AlgoIntersectLineCurve(Construction c, String[] labels, GeoLine l,
-			GeoCurveCartesianND p) {
+	public AlgoIntersectLineCurve(Construction c, String[] labels, GeoLine l, GeoCurveCartesianND p) {
 
 		super(c);
 
@@ -100,13 +99,12 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 			Spline spline = new Spline(xFun, yFun, functionVariable);
 			findIntersectionWithSpline(spline, functionVariable, coeffs);
 		} else {
-			findIntersections(getMultiplyExpression(xFun, yFun, coeffs),
-					functionVariable);
+			findIntersections(getMultiplyExpression(xFun, yFun, coeffs), functionVariable);
 		}
 	}
 
-	static ExpressionNode getMultiplyExpression(ExpressionNode xFun,
-			ExpressionNode yFun, Coords coeffs) {
+	static ExpressionNode getMultiplyExpression(
+			ExpressionNode xFun, ExpressionNode yFun, Coords coeffs) {
 		ExpressionNode enx, eny;
 		if (DoubleUtil.isZero(coeffs.getZ())) {
 			enx = xFun.multiply(coeffs.getX());
@@ -121,8 +119,8 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		return enx;
 	}
 
-	private void findIntersectionWithSpline(Spline spline,
-			FunctionVariable functionVariable, Coords coeffs) {
+	private void findIntersectionWithSpline(
+			Spline spline, FunctionVariable functionVariable, Coords coeffs) {
 		IntersectLineSpline lineSpline =
 				new IntersectLineSpline(spline, coeffs, kernel.getEquationSolver());
 
@@ -131,23 +129,23 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		outputPoints.adjustOutputSize(roots.size());
 		if (!roots.isEmpty()) {
 			for (int i = 0; i < roots.size(); i++) {
-				getCoordsBySubstitution(functionVariable, roots.get(i),
-						outputPoints.getElement(i), curve);
+				getCoordsBySubstitution(functionVariable, roots.get(i), outputPoints.getElement(i), curve);
 			}
 		}
 	}
 
 	@Override
 	protected boolean inCoordSys(GeoPointND point) {
-		return line.isIntersectionPointIncident((GeoPoint) point,
-				Kernel.MIN_PRECISION);
+		return line.isIntersectionPointIncident((GeoPoint) point, Kernel.MIN_PRECISION);
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("IntersectionOfAandB",
-				"Intersection of %0 and %1",
-				line.getLabel(tpl),
-				curve.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"IntersectionOfAandB",
+						"Intersection of %0 and %1",
+						line.getLabel(tpl),
+						curve.getLabel(tpl));
 	}
 }

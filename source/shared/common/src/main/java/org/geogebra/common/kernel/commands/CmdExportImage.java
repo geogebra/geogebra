@@ -48,7 +48,7 @@ public class CmdExportImage extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -57,7 +57,7 @@ public class CmdExportImage extends CmdScripting {
 	}
 
 	@Override
-	final public GeoElement[] perform(Command c) throws MyError {
+	public final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		app.getSelectionManager().clearSelectedGeos();
@@ -74,8 +74,7 @@ public class CmdExportImage extends CmdScripting {
 			if (!key.isGeoText()) {
 				throw argErr(c, key);
 			}
-			argMap.put(StringUtil.toLowerCaseUS(key
-					.toValueString(StringTemplate.maxDecimals)), value);
+			argMap.put(StringUtil.toLowerCaseUS(key.toValueString(StringTemplate.maxDecimals)), value);
 		}
 		final ExportType type = toExportType(getString(argMap, "type", ""));
 		final int view = (int) getValue(argMap, "view", 1);
@@ -91,9 +90,11 @@ public class CmdExportImage extends CmdScripting {
 		final GeoPoint corner = getCorner(argMap, "corner");
 		final GeoPoint corner2 = getCorner(argMap, "corner2");
 		GeoElement sliderObject = argMap.remove("slider");
-		final String sliderName = sliderObject == null ? null
-				: sliderObject instanceof GeoNumeric ? sliderObject.getLabelSimple()
-				: sliderObject.toValueString(StringTemplate.maxDecimals);
+		final String sliderName = sliderObject == null
+				? null
+				: sliderObject instanceof GeoNumeric
+						? sliderObject.getLabelSimple()
+						: sliderObject.toValueString(StringTemplate.maxDecimals);
 		final String filename = getString(argMap, "filename", null);
 		int dpi = (int) getValue(argMap, "dpi", -1);
 		double exportScale = getValue(argMap, "scale", Double.NaN);
@@ -110,16 +111,16 @@ public class CmdExportImage extends CmdScripting {
 
 		// see CmdSetActiveView
 		switch (view) {
-		case 2:
-			app.setActiveView(App.VIEW_EUCLIDIAN2);
-			break;
-		case -1:
-			app.setActiveView(App.VIEW_EUCLIDIAN3D);
-			break;
-		case 1:
-		default:
-			app.setActiveView(App.VIEW_EUCLIDIAN);
-			break;
+			case 2:
+				app.setActiveView(App.VIEW_EUCLIDIAN2);
+				break;
+			case -1:
+				app.setActiveView(App.VIEW_EUCLIDIAN3D);
+				break;
+			case 1:
+			default:
+				app.setActiveView(App.VIEW_EUCLIDIAN);
+				break;
 		}
 
 		EuclidianView ev = app.getActiveEuclidianView();
@@ -165,65 +166,67 @@ public class CmdExportImage extends CmdScripting {
 		GgbAPI api = kernel.getApplication().getGgbApi();
 		String label = c.getLabel();
 		switch (type) {
-		case SVG:
-			api.exportSVG(filename, (svg) -> {
-				if (label != null) {
-					addImageToConstruction(label, svg, corner, corner2, true);
-				} else if (filename == null) {
-					kernel.getApplication().handleImageExport(svg);
-				}
-			});
-			break;
+			case SVG:
+				api.exportSVG(filename, (svg) -> {
+					if (label != null) {
+						addImageToConstruction(label, svg, corner, corner2, true);
+					} else if (filename == null) {
+						kernel.getApplication().handleImageExport(svg);
+					}
+				});
+				break;
 
-		case PDF_HTML5:
-			api.exportPDF(exportScale, filename, (pdf) -> {
-				if (filename == null) {
-					kernel.getApplication().handleImageExport(pdf);
-				}
-			}, sliderName, dpi > 0 ? dpi : PDF_DPI);
-			break;
+			case PDF_HTML5:
+				api.exportPDF(
+						exportScale,
+						filename,
+						(pdf) -> {
+							if (filename == null) {
+								kernel.getApplication().handleImageExport(pdf);
+							}
+						},
+						sliderName,
+						dpi > 0 ? dpi : PDF_DPI);
+				break;
 
-		case ANIMATED_GIF:
-			api.exportGIF(sliderName, exportScale, time, loop,
-					filename == null ? "anim.gif" : filename, rotate);
-			break;
-		case WEBM:
-			api.exportWebM(sliderName, exportScale, time, loop,
-					filename == null ? "anim.webm" : filename, rotate);
-			break;
-		case PNG:
-		default:
-			if (filename != null) {
-				api.writePNGtoFile(filename, exportScale, transparent, dpi,
-						grayscale);
-			} else {
-
-				String pngBase64 = api.getPNGBase64(exportScale, transparent, dpi,
-						false, grayscale);
-
-				if (pngBase64 == null) {
-
-					int w = (int) Math.floor(ev.getExportWidth() * exportScale);
-					int h = (int) Math
-							.floor(ev.getExportHeight() * exportScale);
-
-					throw MyError.forCommand(loc, loc.getPlain("ImageErrorAB",
-							w + "", h + ""), c.getName(), null);
-				}
-
-				if (clipboard) {
-					kernel.getApplication().copyImageToClipboard(StringUtil.pngMarker + pngBase64);
-					return null;
-				}
-
-				if (label != null) {
-					addImageToConstruction(label, pngBase64, corner, corner2, false);
+			case ANIMATED_GIF:
+				api.exportGIF(
+						sliderName, exportScale, time, loop, filename == null ? "anim.gif" : filename, rotate);
+				break;
+			case WEBM:
+				api.exportWebM(
+						sliderName, exportScale, time, loop, filename == null ? "anim.webm" : filename, rotate);
+				break;
+			case PNG:
+			default:
+				if (filename != null) {
+					api.writePNGtoFile(filename, exportScale, transparent, dpi, grayscale);
 				} else {
-					kernel.getApplication().handleImageExport(pngBase64);
-				}
-			}
 
-			break;
+					String pngBase64 = api.getPNGBase64(exportScale, transparent, dpi, false, grayscale);
+
+					if (pngBase64 == null) {
+
+						int w = (int) Math.floor(ev.getExportWidth() * exportScale);
+						int h = (int) Math.floor(ev.getExportHeight() * exportScale);
+
+						throw MyError.forCommand(
+								loc, loc.getPlain("ImageErrorAB", w + "", h + ""), c.getName(), null);
+					}
+
+					if (clipboard) {
+						kernel.getApplication().copyImageToClipboard(StringUtil.pngMarker + pngBase64);
+						return null;
+					}
+
+					if (label != null) {
+						addImageToConstruction(label, pngBase64, corner, corner2, false);
+					} else {
+						kernel.getApplication().handleImageExport(pngBase64);
+					}
+				}
+
+				break;
 		}
 
 		return new GeoElement[0];
@@ -267,8 +270,8 @@ public class CmdExportImage extends CmdScripting {
 		return fallback;
 	}
 
-	private void addImageToConstruction(String label, String imageStr,
-			GeoPoint corner1, GeoPoint corner2, boolean svg) {
+	private void addImageToConstruction(
+			String label, String imageStr, GeoPoint corner1, GeoPoint corner2, boolean svg) {
 		String targetLabel = label;
 		GeoElementND oldImage = kernel.lookupLabel(label);
 		if (!(oldImage instanceof GeoImage) && oldImage != null) {
@@ -276,15 +279,18 @@ public class CmdExportImage extends CmdScripting {
 			targetLabel = null;
 		}
 
-		String imageFilename = kernel.getApplication().md5Encrypt(imageStr)
-				+ "/image."
-				+ (svg ? "svg" : "png");
+		String imageFilename =
+				kernel.getApplication().md5Encrypt(imageStr) + "/image." + (svg ? "svg" : "png");
 
 		GeoPointND c1 = corner1 == null ? new GeoPoint(cons, 0, 0, 1) : corner1;
 		GeoPointND c2 = corner2 == null ? new GeoPoint(cons, 1, 0, 1) : corner2;
-		final GeoImage geoImage = app.createImageFromString(imageFilename,
-				svg ? imageStr : StringUtil.pngMarker + imageStr, (GeoImage) oldImage,
-				false, c1, c2);
+		final GeoImage geoImage = app.createImageFromString(
+				imageFilename,
+				svg ? imageStr : StringUtil.pngMarker + imageStr,
+				(GeoImage) oldImage,
+				false,
+				c1,
+				c2);
 		boolean oldSuppress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(false);
 		geoImage.setLabel(targetLabel);
@@ -292,5 +298,4 @@ public class CmdExportImage extends CmdScripting {
 		// invokeLater needed in web to make sure image appears
 		app.invokeLater(geoImage::updateRepaint);
 	}
-
 }

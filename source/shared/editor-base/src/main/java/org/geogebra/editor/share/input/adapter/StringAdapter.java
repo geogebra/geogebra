@@ -21,7 +21,7 @@ import org.geogebra.editor.share.input.KeyboardInputAdapter;
 
 public class StringAdapter extends StringInput {
 
-    private final String input;
+	private final String input;
 
 	/**
 	 * @param keyboard
@@ -29,9 +29,9 @@ public class StringAdapter extends StringInput {
 	 * @param input
 	 *            to be added to editor
 	 */
-    public StringAdapter(char keyboard, String input) {
-        this(keyboard + "", input);
-    }
+	public StringAdapter(char keyboard, String input) {
+		this(keyboard + "", input);
+	}
 
 	/**
 	 * @param keyboard
@@ -39,13 +39,13 @@ public class StringAdapter extends StringInput {
 	 * @param input
 	 *            to be added to editor
 	 */
-    public StringAdapter(String keyboard, String input) {
-        super(keyboard);
-        this.input = input;
-    }
+	public StringAdapter(String keyboard, String input) {
+		super(keyboard);
+		this.input = input;
+	}
 
-    @Override
+	@Override
 	public void commit(MathFieldInternal mfi, String unused) {
-        KeyboardInputAdapter.type(mfi, this.input);
-    }
+		KeyboardInputAdapter.type(mfi, this.input);
+	}
 }

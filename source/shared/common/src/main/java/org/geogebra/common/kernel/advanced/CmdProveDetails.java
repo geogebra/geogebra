@@ -32,7 +32,7 @@ import org.geogebra.common.main.MyError;
 public class CmdProveDetails extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,16 +48,15 @@ public class CmdProveDetails extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 2:
-			if (arg[1].isGeoBoolean()) {
-				return proveDetails(arg[0], ((GeoBoolean) arg[1]).getBoolean(), c);
-			}
-		case 1:
-			return proveDetails(arg[0], false, c);
+			case 2:
+				if (arg[1].isGeoBoolean()) {
+					return proveDetails(arg[0], ((GeoBoolean) arg[1]).getBoolean(), c);
+				}
+			case 1:
+				return proveDetails(arg[0], false, c);
 
-		default:
-			throw argNumErr(c);
-
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -66,7 +65,7 @@ public class CmdProveDetails extends CommandProcessor {
 
 			AlgoProveDetails algo = new AlgoProveDetails(cons, geoElement, html);
 			algo.getGeoList().setLabel(c.getLabel());
-			GeoElement[] ret = { algo.getGeoList() };
+			GeoElement[] ret = {algo.getGeoList()};
 			return ret;
 		}
 		throw argErr(c, geoElement);

@@ -51,8 +51,7 @@ public class AlgoLinePointLine extends AlgoElement
 	private PVariable[] botanaVars;
 
 	/** Creates new AlgoLinePointLine */
-	public AlgoLinePointLine(Construction cons, String label, GeoPoint P,
-			Lineable2D l) {
+	public AlgoLinePointLine(Construction cons, String label, GeoPoint P, Lineable2D l) {
 		super(cons);
 		this.P = P;
 		this.l = l;
@@ -76,7 +75,7 @@ public class AlgoLinePointLine extends AlgoElement
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -121,13 +120,15 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("LineThroughAParallelToB",
-				"Line through %0 parallel to %1", P.getLabel(tpl),
-				((GeoElement) l).getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"LineThroughAParallelToB",
+						"Line through %0 parallel to %1",
+						P.getLabel(tpl),
+						((GeoElement) l).getLabel(tpl));
 	}
 
 	// Simon Weitzhofer 2012-05-07
@@ -138,8 +139,7 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 
 		if (P != null && l instanceof GeoLine) {
 			P.getFreeVariables(variables);
@@ -151,8 +151,7 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 
 		if (P != null && l instanceof GeoLine) {
 			int[] degreeP = P.getDegrees(a);
@@ -160,8 +159,7 @@ public class AlgoLinePointLine extends AlgoElement
 			int[] degrees = new int[3];
 			degrees[0] = degreeL[0] + degreeP[2];
 			degrees[1] = degreeL[1] + degreeP[2];
-			degrees[2] = Math.max(degreeL[0] + degreeP[0],
-					degreeL[1] + degreeP[1]);
+			degrees[2] = Math.max(degreeL[0] + degreeP[0], degreeL[1] + degreeP[1]);
 			return degrees;
 		}
 
@@ -169,8 +167,7 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 
 		if (P != null && l instanceof GeoLine) {
@@ -179,8 +176,8 @@ public class AlgoLinePointLine extends AlgoElement
 			BigInteger[] coords = new BigInteger[3];
 			coords[0] = coordsL[0].multiply(coordsP[2]);
 			coords[1] = coordsL[1].multiply(coordsP[2]);
-			coords[2] = coordsL[0].multiply(coordsP[0])
-					.add(coordsL[1].multiply(coordsP[1])).negate();
+			coords[2] =
+					coordsL[0].multiply(coordsP[0]).add(coordsL[1].multiply(coordsP[1])).negate();
 			return coords;
 		}
 
@@ -200,8 +197,8 @@ public class AlgoLinePointLine extends AlgoElement
 			polynomials = new PPolynomial[3];
 			polynomials[0] = coordsl[0].multiply(coordsP[2]);
 			polynomials[1] = coordsl[1].multiply(coordsP[2]);
-			polynomials[2] = coordsl[0].multiply(coordsP[0])
-					.add(coordsl[1].multiply(coordsP[1])).negate();
+			polynomials[2] =
+					coordsl[0].multiply(coordsP[0]).add(coordsl[1].multiply(coordsP[1])).negate();
 			return polynomials;
 		}
 
@@ -214,8 +211,7 @@ public class AlgoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -232,7 +228,7 @@ public class AlgoLinePointLine extends AlgoElement
 
 			if (botanaVars == null) {
 				botanaVars = new PVariable[4]; // storing 2 new variables, plus
-												// the coordinates of P
+				// the coordinates of P
 				botanaVars[0] = new PVariable(kernel); // d1
 				botanaVars[1] = new PVariable(kernel); // d2
 				botanaVars[2] = vP[0];
@@ -250,5 +246,4 @@ public class AlgoLinePointLine extends AlgoElement
 		}
 		throw new NoSymbolicParametersException();
 	}
-
 }

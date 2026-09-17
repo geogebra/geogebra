@@ -7,7 +7,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * NAME Table.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: TTFNameTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -20,7 +20,7 @@ public class TTFNameTable extends TTFTable {
 	private int stringStorage;
 
 	private String[][] name = new String[4][19]; // 18 NameIDs according to
-													// OpenType
+	// OpenType
 
 	@Override
 	public String getTag() {
@@ -68,8 +68,7 @@ public class TTFNameTable extends TTFTable {
 				}
 				// ignore other languages
 			} else {
-				Log.debug("Unimplemented PID, EID, LID scheme: " + pid + ", "
-						+ eid + ", " + lid);
+				Log.debug("Unimplemented PID, EID, LID scheme: " + pid + ", " + eid + ", " + lid);
 				Log.debug("NID = " + nid);
 				name[pid][nid] = new String(b, "Default");
 			}

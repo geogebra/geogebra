@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -44,8 +44,7 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.regexp.shared.MatchResult;
 
-public class SpreadsheetMouseListenerD
-		implements MouseListener, MouseMotionListener {
+public class SpreadsheetMouseListenerD implements MouseListener, MouseMotionListener {
 
 	protected String selectedCellName;
 	protected String prefix0;
@@ -94,16 +93,13 @@ public class SpreadsheetMouseListenerD
 				// otherwise, doubleClick edits cell
 
 				if (!table.isEditing()
-						&& !(table.getOneClickEditMap().containsKey(point)
-								&& view.allowSpecialEditor())) {
+						&& !(table.getOneClickEditMap().containsKey(point) && view.allowSpecialEditor())) {
 					table.setAllowEditing(true);
-					table.editCellAt(table.getSelectedRow(),
-							table.getSelectedColumn());
+					table.editCellAt(table.getSelectedRow(), table.getSelectedColumn());
 
 					// workaround, see
 					// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4192625
-					final JTextComponent f = (JTextComponent) table
-							.getEditorComponent();
+					final JTextComponent f = (JTextComponent) table.getEditorComponent();
 					if (f != null) {
 						f.requestFocus();
 						f.getCaret().setVisible(true);
@@ -121,8 +117,7 @@ public class SpreadsheetMouseListenerD
 				if (point != null) {
 					int column = point.column;
 					int row = point.row;
-					GeoElement geo =
-							RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
+					GeoElement geo = RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
 					if (geo != null) {
 						e.consume();
 					}
@@ -132,8 +127,7 @@ public class SpreadsheetMouseListenerD
 			prefix0 = null;
 			table.isDragging2 = false;
 			table.repaint();
-		} else if (app
-				.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
+		} else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			int row = table.rowAtPoint(e.getPoint());
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
@@ -163,21 +157,18 @@ public class SpreadsheetMouseListenerD
 			// count nonempty cells below selection
 			// if no cells below, count left ... if none on the left, count
 			// right
-			while (row < table.getRowCount() - 1
-					&& model.getValueAt(row + 1, col) != null) {
+			while (row < table.getRowCount() - 1 && model.getValueAt(row + 1, col) != null) {
 				row++;
 			}
 			if (row - table.maxSelectionRow == 0 && col > 0) {
-				while (row < table.getRowCount() - 1
-						&& model.getValueAt(row + 1, col - 1) != null) {
+				while (row < table.getRowCount() - 1 && model.getValueAt(row + 1, col - 1) != null) {
 					row++;
 				}
 			}
 			if (row - table.maxSelectionRow == 0
 					&& table.maxSelectionColumn <= table.getColumnCount() - 1) {
 				while (row < table.getRowCount() - 1
-						&& model.getValueAt(row + 1,
-								table.maxSelectionColumn + 1) != null) {
+						&& model.getValueAt(row + 1, table.maxSelectionColumn + 1) != null) {
 					row++;
 				}
 			}
@@ -185,10 +176,14 @@ public class SpreadsheetMouseListenerD
 
 			// now fill down
 			if (rowCount != 0) {
-				boolean succ = relativeCopy.doDragCopy(table.minSelectionColumn,
-						table.minSelectionRow, table.maxSelectionColumn,
-						table.maxSelectionRow, table.minSelectionColumn,
-						table.maxSelectionRow + 1, table.maxSelectionColumn,
+				boolean succ = relativeCopy.doDragCopy(
+						table.minSelectionColumn,
+						table.minSelectionRow,
+						table.maxSelectionColumn,
+						table.maxSelectionRow,
+						table.minSelectionColumn,
+						table.maxSelectionRow + 1,
+						table.maxSelectionColumn,
 						table.maxSelectionRow + rowCount);
 				if (succ) {
 					app.storeUndoInfo();
@@ -214,13 +209,13 @@ public class SpreadsheetMouseListenerD
 		boolean rightClick = MouseEventUtil.isRightClick(e);
 
 		if (!view.hasViewFocus()) {
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+			((LayoutD) app.getGuiManager().getLayout())
+					.getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 		}
 
 		// tell selection listener about click on GeoElement
-		if (!rightClick && app
-				.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
+		if (!rightClick && app.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
 			int row = table.rowAtPoint(e.getPoint());
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
@@ -277,17 +272,14 @@ public class SpreadsheetMouseListenerD
 						int column = point.column;
 						int row = point.row;
 
-						GeoElement geo =
-								RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
+						GeoElement geo = RelativeCopy.getValue(app.getSpreadsheetTableModel(), column, row);
 						if (geo != null) {
 							GeoClass geoType = geo.getGeoClassType();
-							if (geoType == GeoClass.BUTTON
-									|| geoType == GeoClass.BOOLEAN) {
+							if (geoType == GeoClass.BUTTON || geoType == GeoClass.BOOLEAN) {
 								return;
 							}
 							// get cell name
-							String name = GeoElementSpreadsheet
-									.getSpreadsheetCellName(column, row);
+							String name = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 							if (geo.isGeoFunction()) {
 								name += "(x)";
 							}
@@ -398,15 +390,22 @@ public class SpreadsheetMouseListenerD
 				}
 
 				// copy the cells
-				boolean succ = relativeCopy.doDragCopy(table.minSelectionColumn,
-						table.minSelectionRow, table.maxSelectionColumn,
-						table.maxSelectionRow, x1, y1, x2, y2);
+				boolean succ = relativeCopy.doDragCopy(
+						table.minSelectionColumn,
+						table.minSelectionRow,
+						table.maxSelectionColumn,
+						table.maxSelectionRow,
+						x1,
+						y1,
+						x2,
+						y2);
 				if (succ) {
 					app.storeUndoInfo();
 				}
 
 				// extend the selection to include the drag copy selection
-				table.setSelection(Math.min(x1, table.minSelectionColumn),
+				table.setSelection(
+						Math.min(x1, table.minSelectionColumn),
 						Math.min(y1, table.minSelectionRow),
 						Math.max(x2, table.maxSelectionColumn),
 						Math.max(y2, table.maxSelectionRow));
@@ -422,7 +421,6 @@ public class SpreadsheetMouseListenerD
 				e.consume();
 
 				table.repaint();
-
 			}
 		}
 
@@ -434,8 +432,7 @@ public class SpreadsheetMouseListenerD
 
 			if (geo != null) {
 				// F3 key: copy definition to input bar
-				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
-						geo);
+				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3, geo);
 				return;
 			}
 		}
@@ -464,12 +461,11 @@ public class SpreadsheetMouseListenerD
 			}
 
 			// create and show context menu
-			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
-					table, table.getToolProcessor(app));
+			SpreadsheetContextMenuD contextMenu =
+					new SpreadsheetContextMenuD(table, table.getToolProcessor(app));
 			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
 		}
-
 	}
 
 	@Override
@@ -487,10 +483,8 @@ public class SpreadsheetMouseListenerD
 				int column2 = point.column;
 				int row2 = point.row;
 
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-						.exec(selectedCellName);
-				int column1 = GeoElementSpreadsheet
-						.getSpreadsheetColumn(matcher);
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(selectedCellName);
+				int column1 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 				int row1 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
 				if (column1 > column2) {
@@ -503,10 +497,8 @@ public class SpreadsheetMouseListenerD
 					row1 = row2;
 					row2 = temp;
 				}
-				String name1 = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column1, row1);
-				String name2 = GeoElementSpreadsheet
-						.getSpreadsheetCellName(column2, row2);
+				String name1 = GeoElementSpreadsheet.getSpreadsheetCellName(column1, row1);
+				String name2 = GeoElementSpreadsheet.getSpreadsheetCellName(column2, row2);
 				if (!name1.equals(name2)) {
 					name1 += ":" + name2;
 				}
@@ -536,7 +528,7 @@ public class SpreadsheetMouseListenerD
 			TabularRange oldSelection = table.getFirstSelection();
 
 			if (mouseCell == null) { // user has dragged outside the table, to
-										// left or above
+				// left or above
 				table.draggingToRow = -1;
 				table.draggingToColumn = -1;
 			} else {
@@ -546,15 +538,13 @@ public class SpreadsheetMouseListenerD
 
 				// increase size if we're at the bottom of the spreadsheet
 				if (table.draggingToRow + 1 == table.getRowCount()
-						&& table.draggingToRow < app
-								.getMaxSpreadsheetRowsVisible()) {
+						&& table.draggingToRow < app.getMaxSpreadsheetRowsVisible()) {
 					model.setRowCount(table.getRowCount() + 1);
 				}
 
 				// increase size if we go beyond the right edge
 				if (table.draggingToColumn + 1 == table.getColumnCount()
-						&& table.draggingToColumn < app
-								.getMaxSpreadsheetColumnsVisible()) {
+						&& table.draggingToColumn < app.getMaxSpreadsheetColumnsVisible()) {
 					model.setColumnCount(table.getColumnCount() + 1);
 					view.getColumnHeader().revalidate();
 					// Java's addColumn method will clear selection, so
@@ -563,51 +553,48 @@ public class SpreadsheetMouseListenerD
 				}
 
 				// scroll to show "highest" selected cell
-				table.scrollRectToVisible(
-						table.getCellRect(mouseCell.row, mouseCell.column, true));
+				table.scrollRectToVisible(table.getCellRect(mouseCell.row, mouseCell.column, true));
 
 				if (!selRect.contains(e.getPoint())) {
 
 					int rowOffset = 0, colOffset = 0;
 
 					// get row distance
-					if (table.minSelectionRow > 0
-							&& table.draggingToRow < table.minSelectionRow) {
+					if (table.minSelectionRow > 0 && table.draggingToRow < table.minSelectionRow) {
 						rowOffset = mouseY - selRect.y;
-						if (-rowOffset < 0.5
-								* table.getCellRect(table.minSelectionRow - 1,
-										table.minSelectionColumn, true).height) {
+						if (-rowOffset
+								< 0.5
+										* table.getCellRect(table.minSelectionRow - 1, table.minSelectionColumn, true)
+												.height) {
 							rowOffset = 0;
 						}
-					} else if (table.maxSelectionRow < app
-							.getMaxSpreadsheetRowsVisible()
+					} else if (table.maxSelectionRow < app.getMaxSpreadsheetRowsVisible()
 							&& table.draggingToRow > table.maxSelectionRow) {
 						rowOffset = mouseY - (selRect.y + selRect.height);
-						if (rowOffset < 0.5
-								* table.getCellRect(table.maxSelectionRow + 1,
-										table.maxSelectionColumn, true).height) {
+						if (rowOffset
+								< 0.5
+										* table.getCellRect(table.maxSelectionRow + 1, table.maxSelectionColumn, true)
+												.height) {
 							rowOffset = 0;
 						}
 					}
 
 					// get column distance
-					if (table.minSelectionColumn > 0
-							&& table.draggingToColumn < table.minSelectionColumn) {
+					if (table.minSelectionColumn > 0 && table.draggingToColumn < table.minSelectionColumn) {
 						colOffset = mouseX - selRect.x;
-						if (-colOffset < 0.5
-								* table.getCellRect(table.minSelectionRow,
-										table.minSelectionColumn - 1,
-										true).width) {
+						if (-colOffset
+								< 0.5
+										* table.getCellRect(table.minSelectionRow, table.minSelectionColumn - 1, true)
+												.width) {
 							colOffset = 0;
 						}
-					} else if (table.maxSelectionColumn < app
-							.getMaxSpreadsheetColumnsVisible()
+					} else if (table.maxSelectionColumn < app.getMaxSpreadsheetColumnsVisible()
 							&& table.draggingToColumn > table.maxSelectionColumn) {
 						colOffset = mouseX - (selRect.x + selRect.width);
-						if (colOffset < 0.5
-								* table.getCellRect(table.maxSelectionRow,
-										table.maxSelectionColumn + 1,
-										true).width) {
+						if (colOffset
+								< 0.5
+										* table.getCellRect(table.maxSelectionRow, table.maxSelectionColumn + 1, true)
+												.width) {
 							colOffset = 0;
 						}
 					}
@@ -617,13 +604,11 @@ public class SpreadsheetMouseListenerD
 						table.draggingToRow = -1;
 					} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
 						table.draggingToRow = mouseCell.row;
-						table.draggingToColumn = (colOffset > 0)
-								? table.maxSelectionColumn
-								: table.minSelectionColumn;
+						table.draggingToColumn =
+								(colOffset > 0) ? table.maxSelectionColumn : table.minSelectionColumn;
 					} else {
 						table.draggingToColumn = mouseCell.column;
-						table.draggingToRow = (rowOffset > 0)
-								? table.maxSelectionRow : table.minSelectionRow;
+						table.draggingToRow = (rowOffset > 0) ? table.maxSelectionRow : table.minSelectionRow;
 					}
 					table.repaint();
 				}
@@ -696,7 +681,6 @@ public class SpreadsheetMouseListenerD
 				setTableCursor();
 			}
 		}
-
 	}
 
 	/**
@@ -709,7 +693,5 @@ public class SpreadsheetMouseListenerD
 		} else {
 			table.setCursor(table.defaultCursor);
 		}
-
 	}
-
 }

@@ -32,14 +32,13 @@ class LegacyIntervalAdapterTest {
 
 	@Test
 	void toIntervalSetRejectsNull() {
-		assertThrows(IllegalArgumentException.class,
-				() -> LegacyIntervalAdapter.toIntervalSet(null));
+		assertThrows(IllegalArgumentException.class, () -> LegacyIntervalAdapter.toIntervalSet(null));
 	}
 
 	@Test
 	void toLegacyIntervalRejectsNull() {
-		assertThrows(IllegalArgumentException.class,
-				() -> LegacyIntervalAdapter.toLegacyInterval(null));
+		assertThrows(
+				IllegalArgumentException.class, () -> LegacyIntervalAdapter.toLegacyInterval(null));
 	}
 
 	@Test
@@ -54,29 +53,33 @@ class LegacyIntervalAdapterTest {
 
 	@Test
 	void finiteLegacyIntervalMapsToConnected() {
-		assertEquals(IntervalSet.connected(1, 2),
-				LegacyIntervalAdapter.toIntervalSet(new Interval(1, 2)));
+		assertEquals(
+				IntervalSet.connected(1, 2), LegacyIntervalAdapter.toIntervalSet(new Interval(1, 2)));
 	}
 
 	@Test
 	void singletonLegacyIntervalMapsToConnected() {
-		assertEquals(IntervalSet.connected(3, 3),
-				LegacyIntervalAdapter.toIntervalSet(new Interval(3, 3)));
+		assertEquals(
+				IntervalSet.connected(3, 3), LegacyIntervalAdapter.toIntervalSet(new Interval(3, 3)));
 	}
 
 	@Test
 	void semiInfiniteLegacyIntervalsMapToConnected() {
-		assertEquals(IntervalSet.connected(Double.NEGATIVE_INFINITY, 5),
+		assertEquals(
+				IntervalSet.connected(Double.NEGATIVE_INFINITY, 5),
 				LegacyIntervalAdapter.toIntervalSet(new Interval(Double.NEGATIVE_INFINITY, 5)));
-		assertEquals(IntervalSet.connected(7, Double.POSITIVE_INFINITY),
+		assertEquals(
+				IntervalSet.connected(7, Double.POSITIVE_INFINITY),
 				LegacyIntervalAdapter.toIntervalSet(new Interval(7, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
 	void infinitySingletonsMapToConnected() {
-		assertEquals(IntervalSet.connected(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
+		assertEquals(
+				IntervalSet.connected(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY),
 				LegacyIntervalAdapter.toIntervalSet(positiveInfinity()));
-		assertEquals(IntervalSet.connected(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
+		assertEquals(
+				IntervalSet.connected(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY),
 				LegacyIntervalAdapter.toIntervalSet(negativeInfinity()));
 	}
 
@@ -90,8 +93,7 @@ class LegacyIntervalAdapterTest {
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(IntervalSet.whole());
 		assertAll(
 				() -> assertTrue(legacy.isWhole()),
-				() -> assertEquals(IntervalSet.whole(),
-						LegacyIntervalAdapter.toIntervalSet(legacy)));
+				() -> assertEquals(IntervalSet.whole(), LegacyIntervalAdapter.toIntervalSet(legacy)));
 	}
 
 	@Test
@@ -99,8 +101,8 @@ class LegacyIntervalAdapterTest {
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(IntervalSet.connected(1, 2));
 		assertAll(
 				() -> assertEquals(new Interval(1, 2), legacy),
-				() -> assertEquals(IntervalSet.connected(1, 2),
-						LegacyIntervalAdapter.toIntervalSet(legacy)));
+				() ->
+						assertEquals(IntervalSet.connected(1, 2), LegacyIntervalAdapter.toIntervalSet(legacy)));
 	}
 
 	@Test
@@ -109,8 +111,8 @@ class LegacyIntervalAdapterTest {
 		assertAll(
 				() -> assertEquals(1, legacy.getLow()),
 				() -> assertEquals(2, legacy.getHigh()),
-				() -> assertEquals(IntervalSet.inverted(1, 2),
-						LegacyIntervalAdapter.toIntervalSet(legacy)));
+				() ->
+						assertEquals(IntervalSet.inverted(1, 2), LegacyIntervalAdapter.toIntervalSet(legacy)));
 	}
 
 	@Test
@@ -138,10 +140,9 @@ class LegacyIntervalAdapterTest {
 		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(
 				IntervalSet.connected(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY));
 		assertAll(
-				() -> assertEquals(new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
-						legacy),
-				() -> assertEquals(IntervalSet.whole(),
-						LegacyIntervalAdapter.toIntervalSet(legacy)));
+				() ->
+						assertEquals(new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY), legacy),
+				() -> assertEquals(IntervalSet.whole(), LegacyIntervalAdapter.toIntervalSet(legacy)));
 	}
 
 	@Test
@@ -149,19 +150,15 @@ class LegacyIntervalAdapterTest {
 		Interval legacy = new Interval(1E-13, 1E-13);
 		legacy.setPrecision(0);
 
-		Interval roundTripped = LegacyIntervalAdapter.toLegacyInterval(
-				LegacyIntervalAdapter.toIntervalSet(legacy));
+		Interval roundTripped =
+				LegacyIntervalAdapter.toLegacyInterval(LegacyIntervalAdapter.toIntervalSet(legacy));
 
-		assertAll(
-				() -> assertEquals(legacy, roundTripped),
-				() -> assertFalse(roundTripped.isZero()));
+		assertAll(() -> assertEquals(legacy, roundTripped), () -> assertFalse(roundTripped.isZero()));
 	}
 
 	@Test
 	void overflowIntervalCollapsesToUndefined() {
-		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(
-				IntervalSet.overflow());
+		Interval legacy = LegacyIntervalAdapter.toLegacyInterval(IntervalSet.overflow());
 		assertEquals(undefined(), legacy);
-
 	}
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -45,12 +45,11 @@ import org.geogebra.desktop.util.CASTransferHandler;
 
 /**
  * Transfer handler for EuclidianView
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class EuclidianViewTransferHandler extends TransferHandler
-		implements Transferable {
+public class EuclidianViewTransferHandler extends TransferHandler implements Transferable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,8 +60,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 	static {
 		try {
-			textReaderFlavor = new DataFlavor(
-					"text/plain;class=java.io.Reader");
+			textReaderFlavor = new DataFlavor("text/plain;class=java.io.Reader");
 		} catch (ClassNotFoundException cnfe) {
 			Log.debug(cnfe);
 		}
@@ -89,13 +87,12 @@ public class EuclidianViewTransferHandler extends TransferHandler
 			}
 
 			supportedFlavors = supportedFlavors0;
-
 		}
 	}
 
 	/****************************************
 	 * Constructor
-	 * 
+	 *
 	 * @param ev
 	 *            euclidian view
 	 */
@@ -155,8 +152,8 @@ public class EuclidianViewTransferHandler extends TransferHandler
 		if (t.isDataFlavorSupported(PlotPanelEuclidianViewD.plotPanelFlavor)) {
 
 			try {
-				AbstractAction act = (AbstractAction) t.getTransferData(
-						PlotPanelEuclidianViewD.plotPanelFlavor);
+				AbstractAction act =
+						(AbstractAction) t.getTransferData(PlotPanelEuclidianViewD.plotPanelFlavor);
 				act.putValue("euclidianViewID", ev.getViewID());
 				act.actionPerformed(new ActionEvent(act, 0, null));
 			} catch (UnsupportedFlavorException | IOException e) {
@@ -168,8 +165,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 		}
 
 		// try to get an image
-		boolean imageDropped = ((GuiManagerD) ev.getApplication()
-				.getGuiManager()).loadImage(t, false);
+		boolean imageDropped = ((GuiManagerD) ev.getApplication().getGuiManager()).loadImage(t, false);
 		if (imageDropped) {
 			return true;
 		}
@@ -188,16 +184,15 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 				// String tableRef;
 				StringBuilder sb = new StringBuilder("FormulaText[$");
-				sb.append(1 + (Integer) t
-						.getTransferData(CASTransferHandler.casTableFlavor));
+				sb.append(1 + (Integer) t.getTransferData(CASTransferHandler.casTableFlavor));
 				sb.append("]");
 				// tableRef = "$" + (cellnumber+1);
 
 				// create a GeoText on the specific mouse position
-				GeoElementND[] ret = ev.getApplication().getKernel()
+				GeoElementND[] ret = ev.getApplication()
+						.getKernel()
 						.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionsOrErrors(
-								sb.toString(), false);
+						.processAlgebraCommandNoExceptionsOrErrors(sb.toString(), false);
 
 				if (ret != null && ret[0] instanceof TextValue) {
 					GeoText geo = (GeoText) ret[0];
@@ -207,8 +202,8 @@ public class EuclidianViewTransferHandler extends TransferHandler
 					// estimate
 					double h = 2 * app.getFontSize();
 
-					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
-							ev.toRealWorldCoordY(mousePos.y - h));
+					geo.setRealWorldLoc(
+							ev.toRealWorldCoordX(mousePos.x), ev.toRealWorldCoordY(mousePos.y - h));
 					geo.updateRepaint();
 					app.storeUndoInfo();
 				}
@@ -221,31 +216,27 @@ public class EuclidianViewTransferHandler extends TransferHandler
 		}
 
 		// check for ggb file drop
-		boolean ggbFileDropped = ((GuiManagerD) app.getGuiManager())
-				.handleGGBFileDrop(t);
+		boolean ggbFileDropped = ((GuiManagerD) app.getGuiManager()).handleGGBFileDrop(t);
 		if (ggbFileDropped) {
 			return true;
 		}
 
 		// handle all text flavors
 		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
-				|| t.isDataFlavorSupported(
-						AlgebraViewTransferHandler.algebraViewFlavor)) {
+				|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
 			try {
 
 				String text = null; // expression to be converted into GeoText
 				boolean isLaTeX = false;
 
 				// get text from AlgebraView flavor
-				if (t.isDataFlavorSupported(
-						AlgebraViewTransferHandler.algebraViewFlavor)) {
+				if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
 
 					isLaTeX = true;
 
 					// get list of selected geo labels
-					ArrayList<String> list = (ArrayList<String>) t
-							.getTransferData(
-									AlgebraViewTransferHandler.algebraViewFlavor);
+					ArrayList<String> list =
+							(ArrayList<String>) t.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
 
 					text = EuclidianView.getDraggedLabels(list);
 
@@ -271,15 +262,13 @@ public class EuclidianViewTransferHandler extends TransferHandler
 							text = sb.toString();
 						}
 					} catch (Exception e) {
-						Log.debug("Caught exception decoding text transfer:"
-								+ e.getMessage());
+						Log.debug("Caught exception decoding text transfer:" + e.getMessage());
 					}
 
 					// if the reader didn't work, try to get whatever string is
 					// available
 					if (text == null) {
-						text = (String) t
-								.getTransferData(DataFlavor.stringFlavor);
+						text = (String) t.getTransferData(DataFlavor.stringFlavor);
 					}
 
 					// exit if no text found
@@ -296,9 +285,8 @@ public class EuclidianViewTransferHandler extends TransferHandler
 				// ---------------------------------
 				// create GeoText
 
-				GeoElementND[] ret = ev.getApplication().getKernel()
-						.getAlgebraProcessor()
-						.processAlgebraCommand(text, true);
+				GeoElementND[] ret =
+						ev.getApplication().getKernel().getAlgebraProcessor().processAlgebraCommand(text, true);
 
 				if (ret != null && ret[0] instanceof TextValue) {
 					GeoText geo = (GeoText) ret[0];
@@ -308,10 +296,9 @@ public class EuclidianViewTransferHandler extends TransferHandler
 					// estimate
 					double h = 2 * app.getFontSize();
 
-					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
-							ev.toRealWorldCoordY(mousePos.y - h));
+					geo.setRealWorldLoc(
+							ev.toRealWorldCoordX(mousePos.x), ev.toRealWorldCoordY(mousePos.y - h));
 					geo.updateRepaint();
-
 				}
 
 				return true;
@@ -329,11 +316,15 @@ public class EuclidianViewTransferHandler extends TransferHandler
 	 */
 	private void requestViewFocus() {
 		if (ev.equals(app.getEuclidianView1())) {
-			((GuiManagerD) app.getGuiManager()).getLayout()
-					.getDockManager().setFocusedPanel(App.VIEW_EUCLIDIAN);
+			((GuiManagerD) app.getGuiManager())
+					.getLayout()
+					.getDockManager()
+					.setFocusedPanel(App.VIEW_EUCLIDIAN);
 		} else {
-			((GuiManagerD) app.getGuiManager()).getLayout()
-					.getDockManager().setFocusedPanel(App.VIEW_EUCLIDIAN2);
+			((GuiManagerD) app.getGuiManager())
+					.getLayout()
+					.getDockManager()
+					.setFocusedPanel(App.VIEW_EUCLIDIAN2);
 		}
 	}
 

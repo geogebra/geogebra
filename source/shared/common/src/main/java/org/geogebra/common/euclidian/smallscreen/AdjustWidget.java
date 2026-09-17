@@ -20,7 +20,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 
 /**
- * 
+ *
  * @author lac
  *
  */
@@ -36,14 +36,11 @@ public abstract class AdjustWidget {
 	public AdjustWidget(EuclidianView view) {
 		this.view = view;
 		App app = view.getApplication();
-		int fileWidth = app.getSettings()
-				.getEuclidian(view.getEuclidianViewNo()).getFileWidth();
-		int fileHeight = app.getSettings()
-				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
+		int fileWidth = app.getSettings().getEuclidian(view.getEuclidianViewNo()).getFileWidth();
+		int fileHeight = app.getSettings().getEuclidian(view.getEuclidianViewNo()).getFileHeight();
 
 		ratioX = fileWidth == 0 ? 1 : (double) view.getViewWidth() / fileWidth;
-		ratioY = fileHeight == 0 ? 1
-				: (double) view.getViewHeight() / fileHeight;
+		ratioY = fileHeight == 0 ? 1 : (double) view.getViewHeight() / fileHeight;
 
 		// Log.debug("[ADJUST] ratioX: " + ratioX + " ratioY: " + ratioY);
 
@@ -59,5 +56,4 @@ public abstract class AdjustWidget {
 	 * on screen entirely.
 	 */
 	public abstract void apply();
-
 }

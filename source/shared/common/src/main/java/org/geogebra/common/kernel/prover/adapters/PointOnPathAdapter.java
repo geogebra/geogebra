@@ -32,8 +32,7 @@ public class PointOnPathAdapter extends ProverAdapter {
 	 * @return Botana polynomials
 	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
 	 */
-	public PPolynomial[] getBotanaPolynomials(GeoElement path)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElement path) throws NoSymbolicParametersException {
 		Kernel kernel = path.getKernel();
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -45,15 +44,14 @@ public class PointOnPathAdapter extends ProverAdapter {
 				botanaVars[0] = new PVariable(kernel); // ,true
 				botanaVars[1] = new PVariable(kernel);
 			}
-			PVariable[] fv = ((SymbolicParametersBotanaAlgo) path)
-					.getBotanaVars(path); // 4 variables
+			PVariable[] fv = ((SymbolicParametersBotanaAlgo) path).getBotanaVars(path); // 4 variables
 			if (fv == null) {
 				fallback(kernel);
 				return null;
 			}
 			botanaPolynomials = new PPolynomial[1];
-			botanaPolynomials[0] = PPolynomial.collinear(fv[0], fv[1], fv[2],
-					fv[3], botanaVars[0], botanaVars[1]);
+			botanaPolynomials[0] =
+					PPolynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]);
 			return botanaPolynomials;
 		}
 
@@ -64,8 +62,7 @@ public class PointOnPathAdapter extends ProverAdapter {
 					botanaVars[0] = new PVariable(kernel); // ,true
 					botanaVars[1] = new PVariable(kernel);
 				}
-				PVariable[] fv = ((SymbolicParametersBotanaAlgo) path)
-						.getBotanaVars(path); // 4 variables
+				PVariable[] fv = ((SymbolicParametersBotanaAlgo) path).getBotanaVars(path); // 4 variables
 				if (fv == null) {
 					fallback(kernel);
 					return null;
@@ -75,8 +72,8 @@ public class PointOnPathAdapter extends ProverAdapter {
 				// If this new point is D, and ABC is already a triangle with
 				// the circumcenter O,
 				// then here we must claim that e.g. AO=OD:
-				botanaPolynomials[0] = PPolynomial.equidistant(fv[2], fv[3],
-						fv[0], fv[1], botanaVars[0], botanaVars[1]);
+				botanaPolynomials[0] =
+						PPolynomial.equidistant(fv[2], fv[3], fv[0], fv[1], botanaVars[0], botanaVars[1]);
 				return botanaPolynomials;
 			}
 			if (((GeoConic) path).isParabola()) {
@@ -89,8 +86,7 @@ public class PointOnPathAdapter extends ProverAdapter {
 					botanaVars[2] = new PVariable(kernel);
 					botanaVars[3] = new PVariable(kernel);
 				}
-				PVariable[] vparabola = ((SymbolicParametersBotanaAlgo) path)
-						.getBotanaVars(path);
+				PVariable[] vparabola = ((SymbolicParametersBotanaAlgo) path).getBotanaVars(path);
 				if (vparabola == null) {
 					fallback(kernel);
 					return null;
@@ -99,24 +95,27 @@ public class PointOnPathAdapter extends ProverAdapter {
 				botanaPolynomials = new PPolynomial[3];
 
 				// FP = PT
-				botanaPolynomials[0] = PPolynomial.equidistant(vparabola[8],
-						vparabola[9], botanaVars[0], botanaVars[1],
-						botanaVars[2], botanaVars[3]);
+				botanaPolynomials[0] = PPolynomial.equidistant(
+						vparabola[8], vparabola[9], botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3]);
 
 				// A,T,B collinear
-				botanaPolynomials[1] = PPolynomial.collinear(vparabola[4],
-						vparabola[5], botanaVars[2], botanaVars[3],
-						vparabola[6], vparabola[7]);
+				botanaPolynomials[1] = PPolynomial.collinear(
+						vparabola[4], vparabola[5], botanaVars[2], botanaVars[3], vparabola[6], vparabola[7]);
 
 				// PT orthogonal AB
-				botanaPolynomials[2] = PPolynomial.perpendicular(botanaVars[0],
-						botanaVars[1], botanaVars[2], botanaVars[3],
-						vparabola[4], vparabola[5], vparabola[6], vparabola[7]);
+				botanaPolynomials[2] = PPolynomial.perpendicular(
+						botanaVars[0],
+						botanaVars[1],
+						botanaVars[2],
+						botanaVars[3],
+						vparabola[4],
+						vparabola[5],
+						vparabola[6],
+						vparabola[7]);
 
 				return botanaPolynomials;
 			}
-			if (((GeoConic) path).isEllipse()
-					|| ((GeoConic) path).isHyperbola()) {
+			if (((GeoConic) path).isEllipse() || ((GeoConic) path).isHyperbola()) {
 				if (botanaVars == null) {
 					botanaVars = new PVariable[4];
 					// P - point on ellipse/hyperbola
@@ -128,8 +127,7 @@ public class PointOnPathAdapter extends ProverAdapter {
 					botanaVars[3] = new PVariable(kernel);
 				}
 
-				PVariable[] vellipse = ((SymbolicParametersBotanaAlgo) path)
-						.getBotanaVars(path);
+				PVariable[] vellipse = ((SymbolicParametersBotanaAlgo) path).getBotanaVars(path);
 				if (vellipse == null) {
 					fallback(kernel);
 					return null;
@@ -137,10 +135,10 @@ public class PointOnPathAdapter extends ProverAdapter {
 
 				if (path.getParentAlgorithm() instanceof AlgoConicFivePoints) {
 					botanaPolynomials = new PPolynomial[2];
-					botanaPolynomials[0] = new PPolynomial(vellipse[0])
-							.subtract(new PPolynomial(botanaVars[0]));
-					botanaPolynomials[1] = new PPolynomial(vellipse[1])
-							.subtract(new PPolynomial(botanaVars[1]));
+					botanaPolynomials[0] =
+							new PPolynomial(vellipse[0]).subtract(new PPolynomial(botanaVars[0]));
+					botanaPolynomials[1] =
+							new PPolynomial(vellipse[1]).subtract(new PPolynomial(botanaVars[1]));
 					return botanaPolynomials;
 				}
 
@@ -155,17 +153,16 @@ public class PointOnPathAdapter extends ProverAdapter {
 				botanaPolynomials[0] = d1.add(d2).subtract(e_1).subtract(e_2);
 
 				// e1'^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-				botanaPolynomials[1] = PPolynomial.sqrDistance(botanaVars[0],
-						botanaVars[1], vellipse[6], vellipse[7])
+				botanaPolynomials[1] = PPolynomial.sqrDistance(
+								botanaVars[0], botanaVars[1], vellipse[6], vellipse[7])
 						.subtract(e_1.multiply(e_1));
 
 				// e2'^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-				botanaPolynomials[2] = PPolynomial.sqrDistance(botanaVars[0],
-						botanaVars[1], vellipse[8], vellipse[9])
+				botanaPolynomials[2] = PPolynomial.sqrDistance(
+								botanaVars[0], botanaVars[1], vellipse[8], vellipse[9])
 						.subtract(e_2.multiply(e_2));
 
 				return botanaPolynomials;
-
 			}
 		}
 		fallback(kernel);
@@ -183,5 +180,4 @@ public class PointOnPathAdapter extends ProverAdapter {
 		botanaVars[0] = new PVariable(kernel);
 		botanaVars[1] = new PVariable(kernel);
 	}
-
 }

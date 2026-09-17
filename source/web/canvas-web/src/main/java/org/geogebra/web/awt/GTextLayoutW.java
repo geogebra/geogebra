@@ -88,5 +88,4 @@ public class GTextLayoutW implements GTextLayout {
 		g2.drawString(str, x, y);
 		g2.setFont(tempFont);
 	}
-
 }

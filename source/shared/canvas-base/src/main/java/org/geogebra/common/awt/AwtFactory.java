@@ -74,8 +74,8 @@ public abstract class AwtFactory {
 	 * @param pixelRatio ratio between physical pixels and DIP
 	 * @return a new buffered image
 	 */
-	public abstract GBufferedImage newBufferedImage(int pixelWidth,
-			int pixelHeight, double pixelRatio);
+	public abstract GBufferedImage newBufferedImage(
+			int pixelWidth, int pixelHeight, double pixelRatio);
 
 	/**
 	 * @param pixelWidth
@@ -86,8 +86,7 @@ public abstract class AwtFactory {
 	 *            graphics (used for the pixel ratio)
 	 * @return image
 	 */
-	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-			GGraphics2D g2) {
+	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight, GGraphics2D g2) {
 		return newBufferedImage(pixelWidth, pixelHeight, 1);
 	}
 
@@ -97,8 +96,7 @@ public abstract class AwtFactory {
 	 * @param transparency whether to enable alpha
 	 * @return a new image
 	 */
-	public abstract GBufferedImage createBufferedImage(int width, int height,
-			boolean transparency);
+	public abstract GBufferedImage createBufferedImage(int width, int height, boolean transparency);
 
 	/**
 	 * @param width width
@@ -149,8 +147,8 @@ public abstract class AwtFactory {
 	 * @param dash dash pattern
 	 * @return stroke definition
 	 */
-	public abstract GBasicStroke newBasicStroke(double width, int endCap,
-			int lineJoin, double miterLimit, double[] dash);
+	public abstract GBasicStroke newBasicStroke(
+			double width, int endCap, int lineJoin, double miterLimit, double[] dash);
 
 	/**
 	 * @param f thickness
@@ -182,8 +180,8 @@ public abstract class AwtFactory {
 	 * @param height height
 	 * @return ellipse of given size.
 	 */
-	public abstract GEllipse2DDouble newEllipse2DDouble(double x, double y,
-			double width, double height);
+	public abstract GEllipse2DDouble newEllipse2DDouble(
+			double x, double y, double width, double height);
 
 	/**
 	 * @return a new empty arc
@@ -219,8 +217,7 @@ public abstract class AwtFactory {
 	 * @param frc font rendering context
 	 * @return text layout
 	 */
-	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
-			GFontRenderContext frc);
+	public abstract GTextLayout newTextLayout(String string, GFont fontLine, GFontRenderContext frc);
 
 	/**
 	 * @param alpha opacity
@@ -244,16 +241,15 @@ public abstract class AwtFactory {
 	 * @param color2 end color
 	 * @return gradient paint
 	 */
-	public abstract GGradientPaint newGradientPaint(double x1, double y1,
-			GColor color1, double x2, double y2, GColor color2);
+	public abstract GGradientPaint newGradientPaint(
+			double x1, double y1, GColor color1, double x2, double y2, GColor color2);
 
 	/**
 	 * @param subimage texture image
 	 * @param rect target rectangle
 	 * @return texture paint
 	 */
-	public abstract GPaint newTexturePaint(GBufferedImage subimage,
-			GRectangle rect);
+	public abstract GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect);
 
 	/**
 	 * @param subimage texture image
@@ -320,8 +316,7 @@ public abstract class AwtFactory {
 	 *            center y
 	 * @return rotation transform
 	 */
-	public static GAffineTransform getRotateInstance(double theta, double x,
-			double y) {
+	public static GAffineTransform getRotateInstance(double theta, double x, double y) {
 		GAffineTransform Tx = prototype.newAffineTransform();
 		Tx.setToRotation(theta, x, y);
 		return Tx;
@@ -343,9 +338,8 @@ public abstract class AwtFactory {
 	 * @param y3
 	 *            y-coord of the third point
 	 */
-	public static void fillTriangle(GGraphics2D g2, double x1, double y1,
-			double x2,
-			int y2, int x3, int y3) {
+	public static void fillTriangle(
+			GGraphics2D g2, double x1, double y1, double x2, int y2, int x3, int y3) {
 		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
 		gp.moveTo(x1, y1);
 		gp.lineTo(x2, y2);
@@ -358,7 +352,7 @@ public abstract class AwtFactory {
 	/**
 	 * web (GWT) doesn't have a native float object so keep things as double as
 	 * much as possible
-	 * 
+	 *
 	 * @param array
 	 *            input array
 	 * @return array with elements cast to (float)
@@ -378,7 +372,7 @@ public abstract class AwtFactory {
 	/**
 	 * web (GWT) doesn't have a native float object so keep things as double as
 	 * much as possible
-	 * 
+	 *
 	 * @param array
 	 *            input array
 	 * @return array with elements cast to (double)

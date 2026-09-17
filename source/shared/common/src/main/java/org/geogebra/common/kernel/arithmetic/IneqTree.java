@@ -28,9 +28,9 @@ import org.geogebra.common.util.ExtendedBoolean;
 /**
  * Tree containing inequalities (possibly with NOT) in leaves and AND or OR
  * operations in other nodes
- * 
+ *
  * @author Zbynek Konecny
- * 
+ *
  */
 public class IneqTree {
 	private IneqTree left;
@@ -101,7 +101,7 @@ public class IneqTree {
 
 	/**
 	 * Recomputes coefficients
-	 * 
+	 *
 	 * @return true if this tree contains valid inequalities
 	 */
 	public boolean updateCoef() {
@@ -162,7 +162,6 @@ public class IneqTree {
 			right.recomputeSize();
 			size += right.size;
 		}
-
 	}
 
 	/**
@@ -186,12 +185,10 @@ public class IneqTree {
 	 * @return whether all inequalities are valid
 	 */
 	public boolean isValid() {
-		if (this.ineq != null
-				&& this.ineq.getType() == IneqType.INEQUALITY_INVALID) {
+		if (this.ineq != null && this.ineq.getType() == IneqType.INEQUALITY_INVALID) {
 			return false;
 		}
-		return (left == null || left.isValid())
-				&& (right == null || right.isValid());
+		return (left == null || left.isValid()) && (right == null || right.isValid());
 	}
 
 	/**
@@ -207,15 +204,15 @@ public class IneqTree {
 		}
 		ExtendedBoolean leftVal = expr.getLeft().valueAround(x, y);
 		switch (expr.getOperation()) {
-		case AND_INTERVAL:
-		case AND:
-			return leftVal.and(expr.getRight().valueAround(x, y));
-		case OR:
-			return leftVal.or(expr.getRight().valueAround(x, y));
-		case IMPLICATION:
-			return leftVal.and(expr.getRight().valueAround(x, y).negate()).negate();
-		case NOT:
-			return leftVal.negate();
+			case AND_INTERVAL:
+			case AND:
+				return leftVal.and(expr.getRight().valueAround(x, y));
+			case OR:
+				return leftVal.or(expr.getRight().valueAround(x, y));
+			case IMPLICATION:
+				return leftVal.and(expr.getRight().valueAround(x, y).negate()).negate();
+			case NOT:
+				return leftVal.negate();
 		}
 		return ExtendedBoolean.UNKNOWN;
 	}

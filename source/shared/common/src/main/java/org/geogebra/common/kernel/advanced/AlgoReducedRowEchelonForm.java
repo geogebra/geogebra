@@ -25,11 +25,10 @@ import org.geogebra.common.util.GgbMat;
 
 /**
  * ReducedRowEchelonForm a matrix. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 16-02-2008
  */
-
 public class AlgoReducedRowEchelonForm extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -37,7 +36,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
 
 	/**
 	 * Creates new reduced echelon form algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -45,8 +44,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
 	 * @param inputList
 	 *            original matrix
 	 */
-	public AlgoReducedRowEchelonForm(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoReducedRowEchelonForm(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 
@@ -73,7 +71,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
 
 	/**
 	 * Returns the reduced matrix
-	 * 
+	 *
 	 * @return reduced matrix
 	 */
 	public GeoList getResult() {
@@ -95,5 +93,4 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
 
 		matrix.getGeoList(outputList, cons);
 	}
-
 }

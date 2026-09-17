@@ -52,8 +52,7 @@ import com.himamis.retex.renderer.share.serialize.HasElements;
  */
 public class MultlineAtom extends Atom implements HasElements {
 
-	public static final SpaceAtom vsep_in = new SpaceAtom(Unit.EX, 0.,
-			1., 0.);
+	public static final SpaceAtom vsep_in = new SpaceAtom(Unit.EX, 0., 1., 0.);
 	public static final int MULTLINE = 0;
 	public static final int GATHER = 1;
 	public static final int GATHERED = 2;
@@ -69,8 +68,7 @@ public class MultlineAtom extends Atom implements HasElements {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (type == GATHERED) {
-			return new ArrayAtom(column, ArrayOptions.getEmpty())
-					.createBox(env);
+			return new ArrayAtom(column, ArrayOptions.getEmpty()).createBox(env);
 		}
 		Box[] boxes = new Box[column.row];
 		for (int i = 0; i < column.row; ++i) {
@@ -91,8 +89,7 @@ public class MultlineAtom extends Atom implements HasElements {
 		if (atAlignment != TeXConstants.Align.NONE) {
 			alignment = atAlignment;
 		} else {
-			alignment = type == GATHER ? TeXConstants.Align.CENTER
-					: TeXConstants.Align.LEFT;
+			alignment = type == GATHER ? TeXConstants.Align.CENTER : TeXConstants.Align.LEFT;
 		}
 
 		vb.add(new HorizontalBox(boxes[0], tw, alignment));
@@ -100,8 +97,7 @@ public class MultlineAtom extends Atom implements HasElements {
 		for (int i = 1; i < column.row - 1; i++) {
 			at = column.get(i, 0);
 			atAlignment = at.getAlignment();
-			alignment = atAlignment == TeXConstants.Align.NONE
-					? TeXConstants.Align.CENTER : atAlignment;
+			alignment = atAlignment == TeXConstants.Align.NONE ? TeXConstants.Align.CENTER : atAlignment;
 			vb.add(Vsep);
 			vb.add(new HorizontalBox(boxes[i], tw, alignment));
 		}
@@ -112,8 +108,7 @@ public class MultlineAtom extends Atom implements HasElements {
 			if (atAlignment != TeXConstants.Align.NONE) {
 				alignment = atAlignment;
 			} else {
-				alignment = type == GATHER ? TeXConstants.Align.CENTER
-						: TeXConstants.Align.RIGHT;
+				alignment = type == GATHER ? TeXConstants.Align.CENTER : TeXConstants.Align.RIGHT;
 			}
 			vb.add(Vsep);
 			vb.add(new HorizontalBox(boxes[column.row - 1], tw, alignment));

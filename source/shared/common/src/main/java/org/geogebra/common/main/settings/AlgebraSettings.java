@@ -66,7 +66,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 
 	/**
 	 * set tree mode (as int value)
-	 * 
+	 *
 	 * @param val
 	 *            value
 	 */
@@ -85,7 +85,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return tree mode (as int value)
 	 */
 	public SortMode getTreeMode() {
@@ -94,7 +94,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 
 	/**
 	 * set if auxiliary objects have to be shown
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -104,7 +104,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if auxiliary objects have to be shown
 	 */
 	public boolean getShowAuxiliaryObjects() {
@@ -157,7 +157,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 
 	/**
 	 * set the collapsed nodes indices
-	 * 
+	 *
 	 * @param collapsedNodes
 	 *            array of indices
 	 */
@@ -174,7 +174,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return list of indices of collapsed nodes
 	 */
 	public List<Integer> getCollapsedNodes() {
@@ -220,8 +220,7 @@ public class AlgebraSettings extends AbstractSettings<AlgebraSettings> {
 	 */
 	public static List<String> getDescriptionModes(App app) {
 		Localization loc = app.getLocalization();
-		return AlgebraStyle.getAvailableValues(app)
-				.stream()
+		return AlgebraStyle.getAvailableValues(app).stream()
 				.map(style -> loc.getMenu(style.getTranslationKey()))
 				.collect(Collectors.toList());
 	}

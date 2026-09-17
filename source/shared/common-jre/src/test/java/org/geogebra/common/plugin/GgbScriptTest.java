@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -54,8 +54,7 @@ class GgbScriptTest extends BaseUnitTest {
 		MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
 		((EuclidianViewNoGui) getApp().getActiveEuclidianView()).setSymbolicEditor(editor);
-		editor.attach(ib, new Rectangle(0, 0),
-				new LatexRendererSettings(0, 0, 0));
+		editor.attach(ib, new Rectangle(0, 0), new LatexRendererSettings(0, 0, 0));
 		GgbScript ggs = makeScript("label=\"%0\"", "value=\"%1\"", "valid=%2");
 		ggs.run(new Event(EventType.EDITOR_KEY_TYPED, ib));
 		assertThat(lookup("label"), hasValue("ib"));
@@ -70,17 +69,16 @@ class GgbScriptTest extends BaseUnitTest {
 		GgbScript addPoint = makeScript("(2,2)");
 		pt.setClickScript(addPoint);
 		add("RunClickScript(P)");
-		assertThat(getApp().getKernel().getConstruction()
-				.getUndoManager().undoPossible(), equalTo(false));
+		assertThat(
+				getApp().getKernel().getConstruction().getUndoManager().undoPossible(), equalTo(false));
 		pt.runClickScripts(null);
-		assertThat(getApp().getKernel().getConstruction()
-				.getUndoManager().undoPossible(), equalTo(true));
+		assertThat(
+				getApp().getKernel().getConstruction().getUndoManager().undoPossible(), equalTo(true));
 	}
 
 	@Test
 	@Issue("APPS-5162")
-	void scriptShouldNotTriggeredConcurrentModification()
-			throws CircularDefinitionException {
+	void scriptShouldNotTriggeredConcurrentModification() throws CircularDefinitionException {
 		GeoBoolean show = add("show=true");
 		GeoNumeric scriptable = add("scriptable=7");
 		GeoNumeric length = add("length=4");
@@ -89,9 +87,10 @@ class GgbScriptTest extends BaseUnitTest {
 		GeoList list = add("a=Sequence((k,k),k,1,length)");
 		scriptable.setShowObjectCondition(show);
 		list.setShowObjectCondition(show);
-		getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-				"SetValue(show,false)", false, TestErrorHandler.INSTANCE,
-				false, foo -> {});
+		getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(
+						"SetValue(show,false)", false, TestErrorHandler.INSTANCE, false, foo -> {});
 		assertThat(length, hasValue("5"));
 	}
 
@@ -102,8 +101,8 @@ class GgbScriptTest extends BaseUnitTest {
 		GgbScript doNothing = makeScript("# do nothing");
 		pt.setClickScript(doNothing);
 		pt.runClickScripts(null);
-		assertThat(getApp().getKernel().getConstruction()
-				.getUndoManager().undoPossible(), equalTo(false));
+		assertThat(
+				getApp().getKernel().getConstruction().getUndoManager().undoPossible(), equalTo(false));
 	}
 
 	@Test
@@ -135,8 +134,8 @@ class GgbScriptTest extends BaseUnitTest {
 		add("B = (2, 2)");
 		pt.setUpdateScript(makeScript("Execute[{\"SetValue(B,B)\"}]"));
 		pt.update();
-		assertThat(getApp().getKernel().getConstruction()
-				.getUndoManager().undoPossible(), equalTo(false));
+		assertThat(
+				getApp().getKernel().getConstruction().getUndoManager().undoPossible(), equalTo(false));
 	}
 
 	private GgbScript makeScript(String... lines) {

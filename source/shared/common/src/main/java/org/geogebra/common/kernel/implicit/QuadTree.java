@@ -53,8 +53,14 @@ abstract class QuadTree {
 	 * @param slX scaleX
 	 * @param slY scaleY
 	 */
-	void updatePath(double startX, double startY, double width,
-			double height, double slX, double slY, GeoLocus locus) {
+	void updatePath(
+			double startX,
+			double startY,
+			double width,
+			double height,
+			double slX,
+			double slY,
+			GeoLocus locus) {
 		this.x = startX;
 		this.y = startY;
 		this.w = width;

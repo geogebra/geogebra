@@ -35,23 +35,23 @@ public class Dimension3DPropertiesCollection
 	 * @param localization localization
 	 * @param euclidianView euclidian view
 	 */
-	public Dimension3DPropertiesCollection(App app, Localization localization,
-			EuclidianViewInterfaceCommon euclidianView) {
+	public Dimension3DPropertiesCollection(
+			App app, Localization localization, EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Dimensions");
 
 		ArrayList<DimensionMinMaxProperty> properties = new ArrayList<>();
-		properties.add(new DimensionMinMaxProperty(app, localization, "xmin", euclidianView,
-				EuclidianOptionsModel.MinMaxType.minX));
-		properties.add(new DimensionMinMaxProperty(app, localization, "xmax", euclidianView,
-				EuclidianOptionsModel.MinMaxType.maxX));
-		properties.add(new DimensionMinMaxProperty(app, localization, "ymin", euclidianView,
-				EuclidianOptionsModel.MinMaxType.minY));
-		properties.add(new DimensionMinMaxProperty(app, localization, "ymax", euclidianView,
-				EuclidianOptionsModel.MinMaxType.maxY));
-		properties.add(new DimensionMinMaxProperty(app, localization, "zmin", euclidianView,
-				EuclidianOptionsModel.MinMaxType.minZ));
-		properties.add(new DimensionMinMaxProperty(app, localization, "zmax", euclidianView,
-				EuclidianOptionsModel.MinMaxType.maxZ));
+		properties.add(new DimensionMinMaxProperty(
+				app, localization, "xmin", euclidianView, EuclidianOptionsModel.MinMaxType.minX));
+		properties.add(new DimensionMinMaxProperty(
+				app, localization, "xmax", euclidianView, EuclidianOptionsModel.MinMaxType.maxX));
+		properties.add(new DimensionMinMaxProperty(
+				app, localization, "ymin", euclidianView, EuclidianOptionsModel.MinMaxType.minY));
+		properties.add(new DimensionMinMaxProperty(
+				app, localization, "ymax", euclidianView, EuclidianOptionsModel.MinMaxType.maxY));
+		properties.add(new DimensionMinMaxProperty(
+				app, localization, "zmin", euclidianView, EuclidianOptionsModel.MinMaxType.minZ));
+		properties.add(new DimensionMinMaxProperty(
+				app, localization, "zmax", euclidianView, EuclidianOptionsModel.MinMaxType.maxZ));
 		setProperties(properties.toArray(new DimensionMinMaxProperty[0]));
 	}
 }

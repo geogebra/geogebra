@@ -51,15 +51,21 @@ public final class UndoRedoProvider {
 	}
 
 	private void initUndoButton(AccessibilityGroup undoGroup) {
-		btnUndo = new IconButton(app, () -> onUndoPressed(app), app.getTopBarIconResource()
-				.getImageResource(TopBarIcon.UNDO), "Undo");
+		btnUndo = new IconButton(
+				app,
+				() -> onUndoPressed(app),
+				app.getTopBarIconResource().getImageResource(TopBarIcon.UNDO),
+				"Undo");
 		new FocusableWidget(undoGroup, null, btnUndo).attachTo(app);
 		btnUndo.addStyleName("undo");
 	}
 
 	private void initRedoButton(AccessibilityGroup redoGroup) {
-		btnRedo = new IconButton(app, () -> onRedoPressed(app), app.getTopBarIconResource()
-				.getImageResource(TopBarIcon.REDO), "Redo");
+		btnRedo = new IconButton(
+				app,
+				() -> onRedoPressed(app),
+				app.getTopBarIconResource().getImageResource(TopBarIcon.REDO),
+				"Redo");
 		new FocusableWidget(redoGroup, null, btnRedo).attachTo(app);
 		btnRedo.addStyleName("redo");
 	}

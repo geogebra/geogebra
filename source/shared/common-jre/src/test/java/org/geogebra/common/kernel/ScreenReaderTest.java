@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,15 +43,18 @@ class ScreenReaderTest extends BaseAppTestSetup {
 
 	private void tsc(String string, String expected) {
 		GeoElementND geo = evaluateGeoElement(string);
-		assertEquals(expected, geo.toValueString(
-				StringTemplate.screenReaderAscii.deriveWithoutCoefficientSimplification())
-				.trim().replaceAll(" +", " "));
+		assertEquals(
+				expected,
+				geo.toValueString(StringTemplate.screenReaderAscii.deriveWithoutCoefficientSimplification())
+						.trim()
+						.replaceAll(" +", " "));
 	}
 
 	@Test
 	void testLaTeXWithZero() {
 		String function = "sin((2x)/(3) (4-5)) + 0";
-		tsc(function,
+		tsc(
+				function,
 				"sin open parenthesis start of fraction 2 times x over 3 end of fraction "
 						+ "times open parenthesis 4 minus 5 close parenthesis close parenthesis "
 						+ "plus 0");
@@ -60,7 +63,8 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	@Test
 	void testLaTeXWithNegative() {
 		String funct = "sin((2x)/(3) (4-5)) + -2";
-		tsc(funct,
+		tsc(
+				funct,
 				"sin open parenthesis start of fraction 2 times x over 3"
 						+ " end of fraction times"
 						+ " open parenthesis 4 minus 5 close parenthesis close parenthesis"
@@ -70,7 +74,8 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	@Test
 	void testLaTeXWithOneTimes() {
 		String funct = "1 * (sin((2x)/(3) (4-5)) + -2)";
-		tsc(funct,
+		tsc(
+				funct,
 				"1 times open parenthesis sin open parenthesis start of fraction 2 times x over"
 						+ " 3 end of fraction times open parenthesis 4 minus 5 close parenthesis"
 						+ " close parenthesis minus 2 close parenthesis");
@@ -80,8 +85,7 @@ class ScreenReaderTest extends BaseAppTestSetup {
 	void testFunctions() {
 		tsc("x^2+2x-1", "x squared plus 2 times x minus 1");
 		tsc("sqrt(x+1)", "start of square root x plus 1 end of square root");
-		tsc("(x+1)/(x-1)",
-				"start of fraction x plus 1 over x minus 1 end of fraction");
+		tsc("(x+1)/(x-1)", "start of fraction x plus 1 over x minus 1 end of fraction");
 		tsc("sin(2x)", "sin open parenthesis 2 times x close parenthesis");
 		tsc("1*(x+0)", "1 times open parenthesis x plus 0 close parenthesis");
 		tsc("1*(x+0)/1", "1 times start of fraction x plus 0 over 1 end of fraction");
@@ -119,8 +123,8 @@ class ScreenReaderTest extends BaseAppTestSetup {
 		assertEquals("6 times 7 = 42", forReader);
 		Formula formulaList = new FormulaConverter().buildFormula("Length({3})");
 		String forReaderList = ScreenReader.getAriaExpression(getApp(), formulaList, "1");
-		assertEquals("Length open parenthesis  open brace 3"
-				+ " close brace  close parenthesis  = 1", forReaderList);
+		assertEquals(
+				"Length open parenthesis  open brace 3" + " close brace  close parenthesis  = 1",
+				forReaderList);
 	}
-
 }

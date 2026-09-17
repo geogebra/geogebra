@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,7 +38,7 @@ import org.geogebra.common.gui.layout.DockComponent;
 /**
  * Glass pane is used to draw the drag-preview area on the panels if the user
  * enters the drag'n'drop mode.
- * 
+ *
  * @author Florian Sonner
  */
 public class DockGlassPane extends JPanel implements AWTEventListener {
@@ -71,7 +71,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 
 	/**
 	 * Start the dragging process by adding the mouse listeners.
-	 * 
+	 *
 	 * @param state dragging state
 	 */
 	public void startDrag(DnDState state) {
@@ -81,8 +81,8 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 
 		dragInProgress = true;
 
-		Toolkit.getDefaultToolkit().addAWTEventListener(this,
-				AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK);
+		Toolkit.getDefaultToolkit()
+				.addAWTEventListener(this, AWTEvent.MOUSE_MOTION_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK);
 		setVisible(true);
 
 		dndState = state;
@@ -102,8 +102,8 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 			}
 
 			tmpRect = dockPanels[i].getBounds();
-			tmpRect.setLocation(SwingUtilities.convertPoint(dockPanels[i],
-					dockPanels[i].getLocation(), this));
+			tmpRect.setLocation(
+					SwingUtilities.convertPoint(dockPanels[i], dockPanels[i].getLocation(), this));
 			tmpRect.x -= dockPanels[i].getX();
 			tmpRect.y -= dockPanels[i].getY();
 
@@ -153,8 +153,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		g2d.setColor(color);
 
 		// draw the preview rectangle
-		g2d.drawRect(previewRect.x, previewRect.y, previewRect.width,
-				previewRect.height);
+		g2d.drawRect(previewRect.x, previewRect.y, previewRect.width, previewRect.height);
 	}
 
 	private void setColorEnoughHeight(DockPanelD target) {
@@ -171,23 +170,20 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 
 	/**
 	 * Calculate where the panel would be placed if the mouse is released.
-	 * 
+	 *
 	 * @param event mouse event
 	 */
 	public void mouseDragged(MouseEvent event) {
-		Point mousePosition = SwingUtilities.convertPoint(event.getComponent(),
-				event.getPoint(), this);
+		Point mousePosition = SwingUtilities.convertPoint(event.getComponent(), event.getPoint(), this);
 
 		boolean update = false;
 
 		// Check if the mouse intersects with any DockPanel
 		for (int i = 0; i < dockPanelsBounds.length; ++i) {
 			if (mousePosition.x >= dockPanelsBounds[i].x
-					&& mousePosition.x <= dockPanelsBounds[i].x
-							+ dockPanelsBounds[i].getWidth()
+					&& mousePosition.x <= dockPanelsBounds[i].x + dockPanelsBounds[i].getWidth()
 					&& mousePosition.y >= dockPanelsBounds[i].y
-					&& mousePosition.y <= dockPanelsBounds[i].y
-							+ dockPanelsBounds[i].getHeight()) {
+					&& mousePosition.y <= dockPanelsBounds[i].y + dockPanelsBounds[i].getHeight()) {
 				update = true;
 				dndState.setTarget(dockPanels[i]);
 				break;
@@ -197,15 +193,13 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		if (update) {
 			DockPanelD target = dndState.getTarget();
 
-			Point targetAbsPosition = SwingUtilities.convertPoint(
-					target.getParent(), target.getLocation(), this);
+			Point targetAbsPosition =
+					SwingUtilities.convertPoint(target.getParent(), target.getLocation(), this);
 
 			Point mouseRelPosition = mousePosition;
-			mouseRelPosition.translate(-targetAbsPosition.x,
-					-targetAbsPosition.y);
+			mouseRelPosition.translate(-targetAbsPosition.x, -targetAbsPosition.y);
 
-			int orientation = ((DockSplitPane) target.getParent())
-					.getOrientation();
+			int orientation = ((DockSplitPane) target.getParent()).getOrientation();
 			float leftPercent = mouseRelPosition.x * 1.0f / target.getWidth();
 			float topPercent = mouseRelPosition.y * 1.0f / target.getHeight();
 			float maxDist = 0.35f;
@@ -222,11 +216,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						dndState.setRegion(DnDState.LEFT_OUT);
 						setColorEnoughWidth(target);
 
-						DockSplitPane splitPane = (DockSplitPane) target
-								.getParent();
-						previewRect.setLocation(SwingUtilities.convertPoint(
-								splitPane.getParent(), splitPane.getLocation(),
-								this));
+						DockSplitPane splitPane = (DockSplitPane) target.getParent();
+						previewRect.setLocation(
+								SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
 						previewRect.width *= maxDist / 2;
 						previewRect.height = splitPane.getHeight();
 					} else {
@@ -240,11 +232,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						dndState.setRegion(DnDState.RIGHT_OUT);
 						setColorEnoughWidth(target);
 
-						DockSplitPane splitPane = (DockSplitPane) target
-								.getParent();
-						previewRect.setLocation(SwingUtilities.convertPoint(
-								splitPane.getParent(), splitPane.getLocation(),
-								this));
+						DockSplitPane splitPane = (DockSplitPane) target.getParent();
+						previewRect.setLocation(
+								SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
 						previewRect.x += previewRect.width * (1 - maxDist / 2);
 						previewRect.width *= maxDist / 2;
 						previewRect.height = splitPane.getHeight();
@@ -276,11 +266,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						dndState.setRegion(DnDState.TOP_OUT);
 						setColorEnoughHeight(target);
 
-						DockSplitPane splitPane = (DockSplitPane) target
-								.getParent();
-						previewRect.setLocation(SwingUtilities.convertPoint(
-								splitPane.getParent(), splitPane.getLocation(),
-								this));
+						DockSplitPane splitPane = (DockSplitPane) target.getParent();
+						previewRect.setLocation(
+								SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
 						previewRect.height *= maxDist / 2;
 						previewRect.width = splitPane.getWidth();
 					} else {
@@ -294,11 +282,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						dndState.setRegion(DnDState.BOTTOM_OUT);
 						setColorEnoughHeight(target);
 
-						DockSplitPane splitPane = (DockSplitPane) target
-								.getParent();
-						previewRect.setLocation(SwingUtilities.convertPoint(
-								splitPane.getParent(), splitPane.getLocation(),
-								this));
+						DockSplitPane splitPane = (DockSplitPane) target.getParent();
+						previewRect.setLocation(
+								SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
 						previewRect.y += previewRect.height * (1 - maxDist / 2);
 						previewRect.height *= maxDist / 2;
 						previewRect.width = splitPane.getWidth();
@@ -323,7 +309,6 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						previewRect.width *= 0.5f;
 					}
 				}
-
 			}
 
 			// nothing changed
@@ -352,8 +337,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	public void eventDispatched(AWTEvent event) {
 		if (event instanceof MouseEvent) {
 			if (event.getID() == MouseEvent.MOUSE_DRAGGED
-					&& ((MouseEvent) event)
-							.getModifiers() == InputEvent.BUTTON1_MASK) {
+					&& ((MouseEvent) event).getModifiers() == InputEvent.BUTTON1_MASK) {
 				mouseDragged((MouseEvent) event);
 			} else if (event.getID() == MouseEvent.MOUSE_RELEASED) {
 				stopDrag();

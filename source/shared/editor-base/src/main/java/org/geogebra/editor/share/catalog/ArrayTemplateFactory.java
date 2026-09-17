@@ -28,46 +28,54 @@ final class ArrayTemplateFactory {
 
 	List<ArrayTemplate> createArrays() {
 		return Arrays.asList(
-				new ArrayTemplate(Tag.CURLY, 1,
+				new ArrayTemplate(
+						Tag.CURLY,
+						1,
 						new ArrayDelimiter('{', "\\left\\{"),
 						new ArrayDelimiter('}', "\\right\\}"),
 						new ArrayDelimiter(','),
 						new ArrayDelimiter(';')),
-
-				new ArrayTemplate(Tag.REGULAR, 1,
+				new ArrayTemplate(
+						Tag.REGULAR,
+						1,
 						new ArrayDelimiter('(', "\\left("),
 						new ArrayDelimiter(')', "\\right)"),
 						new ArrayDelimiter(','),
 						new ArrayDelimiter(';')),
-
-				new ArrayTemplate(Tag.SQUARE, 1,
+				new ArrayTemplate(
+						Tag.SQUARE,
+						1,
 						new ArrayDelimiter('[', "\\left["),
 						new ArrayDelimiter(']', "\\right]"),
 						new ArrayDelimiter(','),
 						new ArrayDelimiter(';')),
-
-				new ArrayTemplate(Tag.APOSTROPHES, 1,
+				new ArrayTemplate(
+						Tag.APOSTROPHES,
+						1,
 						new ArrayDelimiter('\"', " \\text{" + Unicode.OPEN_DOUBLE_QUOTE),
 						new ArrayDelimiter('\"', Unicode.CLOSE_DOUBLE_QUOTE + "} "),
 						new ArrayDelimiter('\0'),
 						new ArrayDelimiter('\0')),
-
-				new ArrayTemplate(Tag.CEIL, 1,
+				new ArrayTemplate(
+						Tag.CEIL,
+						1,
 						new ArrayDelimiter(Unicode.LCEIL, "\\left\\lceil "),
 						new ArrayDelimiter(Unicode.RCEIL, "\\right\\rceil "),
 						new ArrayDelimiter('\0'),
 						new ArrayDelimiter(';')),
-
-				new ArrayTemplate(Tag.FLOOR, 1,
+				new ArrayTemplate(
+						Tag.FLOOR,
+						1,
 						new ArrayDelimiter(Unicode.LFLOOR, "\\left\\lfloor "),
 						new ArrayDelimiter(Unicode.RFLOOR, "\\right\\rfloor "),
 						new ArrayDelimiter(','),
-						new ArrayDelimiter(';'))
-		);
+						new ArrayDelimiter(';')));
 	}
 
 	ArrayTemplate createMatrix() {
-		return new ArrayTemplate(Tag.MATRIX, 2,
+		return new ArrayTemplate(
+				Tag.MATRIX,
+				2,
 				new ArrayDelimiter('{', "\\begin{pmatrix} "),
 				new ArrayDelimiter('}', " \\end{pmatrix}"),
 				new ArrayDelimiter(',', " & "),

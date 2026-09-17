@@ -72,34 +72,29 @@ public final class ScriptAreaProcessing implements KeyboardListener {
 				field.removeDummyCursor();
 			}
 			String oldText = field.getText();
-			String newText = oldText.substring(0, start)
-					+ oldText.substring(end);
+			String newText = oldText.substring(0, start) + oldText.substring(end);
 			field.setText(newText);
 			field.setCursorPos(start);
 			if (Browser.isAndroid()) {
 				field.addDummyCursor();
 			}
 		}
-
 	}
 
 	@Override
 	public void onArrow(ArrowType type) {
 		int cursorPos = field.getCursorPos();
 		if (type == ArrowType.left && cursorPos > 0) {
-				field.setCursorPos(cursorPos - 1);
-		} else if (type == ArrowType.right
-				&& cursorPos < field.getText().length()) {
-				field.setCursorPos(cursorPos + 1);
+			field.setCursorPos(cursorPos - 1);
+		} else if (type == ArrowType.right && cursorPos < field.getText().length()) {
+			field.setCursorPos(cursorPos + 1);
 		}
-
 	}
 
 	@Override
 	public void insertString(String text) {
 		field.insertString(text);
-		if (text.startsWith("(") || text.startsWith("{")
-				|| text.startsWith("[")) {
+		if (text.startsWith("(") || text.startsWith("{") || text.startsWith("[")) {
 			// moves inside the brackets
 			onArrow(ArrowType.left);
 		} else if (text.equals(KeyboardConstants.A_POWER_X)) {
@@ -108,7 +103,6 @@ public final class ScriptAreaProcessing implements KeyboardListener {
 			field.insertString("()");
 			onArrow(ArrowType.left);
 		}
-
 	}
 
 	@Override

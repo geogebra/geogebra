@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -64,9 +64,8 @@ final class ContextMenuBuilderTest {
 		clipboard = new TestClipboard();
 		controller = new SpreadsheetController<>(data, new SpreadsheetStyling());
 		builder = new ContextMenuBuilder(controller);
-		CopyPasteCutTabularDataImpl<?> copyPasteCut =
-				new CopyPasteCutTabularDataImpl<>(data, clipboard, controller.getLayout(),
-						new SpreadsheetSelectionController());
+		CopyPasteCutTabularDataImpl<?> copyPasteCut = new CopyPasteCutTabularDataImpl<>(
+				data, clipboard, controller.getLayout(), new SpreadsheetSelectionController());
 		controller.setCopyPasteCut(copyPasteCut);
 	}
 
@@ -84,10 +83,24 @@ final class ContextMenuBuilderTest {
 
 	@Test
 	void testCellMenuOrder() {
-		testMenuOrder(1, 1,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
-						INSERT_ROW_ABOVE, INSERT_ROW_BELOW, INSERT_COLUMN_LEFT,
-						INSERT_COLUMN_RIGHT, DIVIDER, DELETE_ROW, DELETE_COLUMN));
+		testMenuOrder(
+				1,
+				1,
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW,
+						INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT,
+						DIVIDER,
+						DELETE_ROW,
+						DELETE_COLUMN));
 	}
 
 	private void testMenuOrder(int row, int column, List<Identifier> expected) {
@@ -96,59 +109,105 @@ final class ContextMenuBuilderTest {
 	}
 
 	private List<Identifier> getIdentifiers(List<ContextMenuItem> menuItems) {
-		return menuItems.stream().map(ContextMenuItem::getIdentifier)
-				.collect(Collectors.toList());
+		return menuItems.stream().map(ContextMenuItem::getIdentifier).collect(Collectors.toList());
 	}
 
 	@Test
 	void testRowMenuOrder() {
-		testMenuOrder(1, HEADER_INDEX,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
-						INSERT_ROW_ABOVE, INSERT_ROW_BELOW, DIVIDER, DELETE_ROW));
+		testMenuOrder(
+				1,
+				HEADER_INDEX,
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW,
+						DIVIDER,
+						DELETE_ROW));
 	}
 
 	@Test
 	void testRowMenuOrderFull() {
 		List<ContextMenuItem> menuItems = builder.build(0, 99, HEADER_INDEX, HEADER_INDEX);
-		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
-						INSERT_ROW_ABOVE, INSERT_ROW_BELOW),
+		assertEquals(
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_ROW_ABOVE,
+						INSERT_ROW_BELOW),
 				getIdentifiers(menuItems));
 	}
 
 	@Test
 	void testRowMenuOrderMaxSize() {
 		setupWithSize(Spreadsheet.MAX_ROWS, 7);
-		testMenuOrder(1, HEADER_INDEX,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
-						DIVIDER, DELETE_ROW));
+		testMenuOrder(
+				1,
+				HEADER_INDEX,
+				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER, DIVIDER, DELETE_ROW));
 	}
 
 	@Test
 	void testColumnMenuOrder() {
-		testMenuOrder(HEADER_INDEX, 1,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
-						INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT, DIVIDER, DELETE_COLUMN));
+		testMenuOrder(
+				HEADER_INDEX,
+				1,
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT,
+						DIVIDER,
+						DELETE_COLUMN));
 	}
 
 	@Test
 	void testColumnMenuOrderFull() {
 		List<ContextMenuItem> menuItems = builder.build(HEADER_INDEX, HEADER_INDEX, 0, 99);
-		assertEquals(List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
-						INSERT_COLUMN_LEFT, INSERT_COLUMN_RIGHT),
+		assertEquals(
+				List.of(
+						CUT,
+						COPY,
+						PASTE,
+						DIVIDER,
+						CALCULATE,
+						CREATE_CHART,
+						DIVIDER,
+						INSERT_COLUMN_LEFT,
+						INSERT_COLUMN_RIGHT),
 				getIdentifiers(menuItems));
 	}
 
 	@Test
 	void testColumnMenuOrderMaxSize() {
 		setupWithSize(7, Spreadsheet.MAX_COLUMNS);
-		testMenuOrder(HEADER_INDEX, 1,
-				List.of(CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER,
-						DIVIDER, DELETE_COLUMN));
+		testMenuOrder(
+				HEADER_INDEX,
+				1,
+				List.of(
+						CUT, COPY, PASTE, DIVIDER, CALCULATE, CREATE_CHART, DIVIDER, DIVIDER, DELETE_COLUMN));
 	}
 
 	private void runItemAt(int row, int column, Identifier id) {
 		ContextMenuItem contextMenuItem = builder.build(row, column).stream()
-				.filter(item -> item.getIdentifier().equals(id)).findAny().orElse(null);
+				.filter(item -> item.getIdentifier().equals(id))
+				.findAny()
+				.orElse(null);
 		if (contextMenuItem == null) {
 			fail("No such menu item at (" + row + ", " + column + "): " + id);
 		}
@@ -278,14 +337,13 @@ final class ContextMenuBuilderTest {
 	void testCopyCellSelection() {
 		selectCells(1, 1, 4, 2);
 		runItemAt(1, 1, COPY);
-		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
-				clipboard.getContent());
+		assertEquals(
+				"cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42", clipboard.getContent());
 	}
 
 	private void selectCells(int fromRow, int fromColumn, int toRow, int toColumn) {
-		controller.selectionController.select(new Selection(
-						new TabularRange(fromRow, fromColumn, toRow, toColumn)),
-				false, false);
+		controller.selectionController.select(
+				new Selection(new TabularRange(fromRow, fromColumn, toRow, toColumn)), false, false);
 	}
 
 	@Test
@@ -299,8 +357,8 @@ final class ContextMenuBuilderTest {
 	void testCutCellSelection() {
 		selectCells(1, 1, 4, 2);
 		runItemAt(1, 1, CUT);
-		assertEquals("cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42",
-				clipboard.getContent());
+		assertEquals(
+				"cell11\tcell12\ncell21\tcell22\ncell31\tcell32\ncell41\tcell42", clipboard.getContent());
 		TabularRange range = new TabularRange(1, 1, 4, 2);
 		for (int row = range.getFromRow(); row < range.getToRow() + 1; row++) {
 			for (int column = range.getFromColumn(); column < range.getToColumn() + 1; column++) {
@@ -377,7 +435,8 @@ final class ContextMenuBuilderTest {
 	@Test
 	void testSelectingAllCellsDisablesDeletingColumn() {
 		controller.selectAll();
-		assertThrows(AssertionError.class,
+		assertThrows(
+				AssertionError.class,
 				() -> runItemAt(1, 1, DELETE_COLUMN),
 				"The DELETE_COLUMN item should not pop up if all cells are selected!");
 	}
@@ -385,7 +444,8 @@ final class ContextMenuBuilderTest {
 	@Test
 	void testSelectingAllCellsDisablesDeletingRows() {
 		controller.selectAll();
-		assertThrows(AssertionError.class,
+		assertThrows(
+				AssertionError.class,
 				() -> runItemAt(1, 1, DELETE_ROW),
 				"The DELETE_ROW item should not pop up if all cells are selected!");
 	}
@@ -395,8 +455,8 @@ final class ContextMenuBuilderTest {
 		controller.selectRow(1, false, false);
 		controller.selectColumn(2, false, true);
 		List<ContextMenuItem> contextMenuItems = builder.build(1, 2);
-		assertTrue(contextMenuItems.stream().anyMatch(
-				item -> item.getIdentifier() == INSERT_ROW_ABOVE));
+		assertTrue(
+				contextMenuItems.stream().anyMatch(item -> item.getIdentifier() == INSERT_ROW_ABOVE));
 	}
 
 	private void shouldStayDefault(int row, int column) {

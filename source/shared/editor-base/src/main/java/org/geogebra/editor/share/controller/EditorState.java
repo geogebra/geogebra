@@ -222,7 +222,8 @@ public class EditorState {
 			endDepth--;
 		}
 		while (startNode != endNode) {
-			if (startNode.getParent() != null && startNode.getParent().getParent() != null
+			if (startNode.getParent() != null
+					&& startNode.getParent().getParent() != null
 					&& startNode.getParent().getParent().isProtected()) {
 				break;
 			}
@@ -249,8 +250,10 @@ public class EditorState {
 		}
 
 		if (!(startNode instanceof SequenceNode)) {
-			selectSubsequence(startNode.getParentSequence(),
-					startNode.getParentIndex(), startNode.getParentIndex() + 1);
+			selectSubsequence(
+					startNode.getParentSequence(),
+					startNode.getParentIndex(),
+					startNode.getParentIndex() + 1);
 			return didSelectionChange(oldStart, oldEnd);
 		}
 		int startOffset;
@@ -358,9 +361,9 @@ public class EditorState {
 	 * @return field directly left or right to the caret
 	 */
 	public Node getCursorField(boolean left) {
-		return getCurrentNode().getChild(
-				Math.max(0, Math.min(getCurrentOffset() + (left ? 0 : -1),
-						getCurrentNode().size() - 1)));
+		return getCurrentNode()
+				.getChild(Math.max(
+						0, Math.min(getCurrentOffset() + (left ? 0 : -1), getCurrentNode().size() - 1)));
 	}
 
 	/**
@@ -368,8 +371,8 @@ public class EditorState {
 	 * @return cursor position adjusted by 0 or -1
 	 */
 	public int getCursorOffset(boolean left) {
-		return Math.max(0, Math.min(getCurrentOffset() + (left ? 0 : -1),
-						getCurrentNode().size()));
+		return Math.max(
+				0, Math.min(getCurrentOffset() + (left ? 0 : -1), getCurrentNode().size()));
 	}
 
 	/**
@@ -415,8 +418,8 @@ public class EditorState {
 	public void cursorToSelectionEnd() {
 		if (currentSelEnd != null) {
 			currentNode = getClosestSequenceAncestor(currentSelEnd);
-			currentOffset = currentSelEnd == currentNode
-					? rootNode.size() : currentSelEnd.getParentIndex() + 1;
+			currentOffset =
+					currentSelEnd == currentNode ? rootNode.size() : currentSelEnd.getParentIndex() + 1;
 		}
 	}
 
@@ -426,8 +429,7 @@ public class EditorState {
 	public boolean isInsideQuotes() {
 		InternalNode fieldParent = currentNode;
 		while (fieldParent != null) {
-			if (fieldParent instanceof ArrayNode node
-					&& node.getOpenDelimiter().getCharacter() == '"') {
+			if (fieldParent instanceof ArrayNode node && node.getOpenDelimiter().getCharacter() == '"') {
 				return true;
 			}
 			fieldParent = fieldParent.getParent();
@@ -446,46 +448,37 @@ public class EditorState {
 		StringBuilder sb = new StringBuilder();
 		if (currentNode.getParent() == null) {
 			if (prev == null) {
-				return er
-						.localize(ExpRelation.START_FORMULA,
-								ScreenReaderSerializer.fullDescription(
-										currentNode, er.getAdapter()))
+				return er.localize(
+								ExpRelation.START_FORMULA,
+								ScreenReaderSerializer.fullDescription(currentNode, er.getAdapter()))
 						.trim();
 			}
 			if (next == null) {
-				return er
-						.localize(ExpRelation.END_FORMULA,
-								ScreenReaderSerializer.fullDescription(
-										currentNode, er.getAdapter()))
+				return er.localize(
+								ExpRelation.END_FORMULA,
+								ScreenReaderSerializer.fullDescription(currentNode, er.getAdapter()))
 						.trim();
 			}
 		}
 		if (next == null && prev == null) {
 			sb.append(" ");
-			return describeParent(ExpRelation.EMPTY, currentNode.getParent(),
-					er);
+			return describeParent(ExpRelation.EMPTY, currentNode.getParent(), er);
 		}
 		if (next == null) {
-			sb.append(
-					describeParent(ExpRelation.END_OF, currentNode.getParent(),
-							er));
+			sb.append(describeParent(ExpRelation.END_OF, currentNode.getParent(), er));
 			sb.append(" ");
 		}
 		if (prev != null) {
 			sb.append(describePrev(prev, er, editorFeatures));
 		} else {
-			sb.append(describeParent(ExpRelation.START_OF,
-					currentNode.getParent(),
-					er));
+			sb.append(describeParent(ExpRelation.START_OF, currentNode.getParent(), er));
 		}
 		sb.append(" ");
 
 		if (next != null) {
 			sb.append(describeNext(next, er));
 		} else if (endOfFunctionName()) {
-			sb.append(
-					er.localize(ExpRelation.BEFORE,
-							er.getAdapter().getCharacterName('(')));
+			sb.append(er.localize(ExpRelation.BEFORE, er.getAdapter().getCharacterName('(')));
 		}
 		return sb.toString().trim();
 	}
@@ -522,16 +515,14 @@ public class EditorState {
 				&& currentNode.getParentIndex() == 0;
 	}
 
-	private String describePrev(Node node, ExpressionReader er,
-			EditorFeatures editorFeatures) {
-		if (node instanceof FunctionNode functionNode
-				&& Tag.SUPERSCRIPT == functionNode.getName()) {
-			return er.localize(ExpRelation.AFTER, er.power(
-					GeoGebraSerializer.serialize(currentNode
-							.getChild(currentNode.indexOf(node) - 1), editorFeatures),
-					GeoGebraSerializer
-							.serialize(
-									functionNode.getChild(0), editorFeatures)));
+	private String describePrev(Node node, ExpressionReader er, EditorFeatures editorFeatures) {
+		if (node instanceof FunctionNode functionNode && Tag.SUPERSCRIPT == functionNode.getName()) {
+			return er.localize(
+					ExpRelation.AFTER,
+					er.power(
+							GeoGebraSerializer.serialize(
+									currentNode.getChild(currentNode.indexOf(node) - 1), editorFeatures),
+							GeoGebraSerializer.serialize(functionNode.getChild(0), editorFeatures)));
 		}
 		if (node instanceof CharacterNode) {
 			StringBuilder sb = new StringBuilder();
@@ -541,11 +532,9 @@ public class EditorState {
 			}
 			if (!sb.isEmpty() && !isInsideQuotes()) {
 				try {
-					return er.localize(ExpRelation.AFTER,
-							convertCharacters(sb.reverse().toString(), er));
+					return er.localize(ExpRelation.AFTER, convertCharacters(sb.reverse().toString(), er));
 				} catch (Exception e) {
-					FactoryProvider.getInstance()
-							.debug("Invalid: " + sb.reverse());
+					FactoryProvider.getInstance().debug("Invalid: " + sb.reverse());
 				}
 			}
 		}
@@ -561,8 +550,7 @@ public class EditorState {
 			}
 			if (!sb.isEmpty() && !isInsideQuotes()) {
 				try {
-					return er.localize(ExpRelation.BEFORE,
-							convertCharacters(sb.toString(), er));
+					return er.localize(ExpRelation.BEFORE, convertCharacters(sb.toString(), er));
 				} catch (Exception expected) {
 					// no math alt text, fall back to reading as is
 				}
@@ -582,21 +570,19 @@ public class EditorState {
 		return sb.toString();
 	}
 
-	private static String describe(ExpRelation pattern, Node prev,
-			ExpressionReader er) {
+	private static String describe(ExpRelation pattern, Node prev, ExpressionReader er) {
 		String name = describe(pattern, prev, -1, er);
 		if (name != null) {
 			return er.localize(pattern, name);
 		}
-		return er.localize(pattern,
-				ScreenReaderSerializer.fullDescription(prev, er.getAdapter()));
+		return er.localize(pattern, ScreenReaderSerializer.fullDescription(prev, er.getAdapter()));
 	}
 
-	private static String describe(ExpRelation pattern, Node prev,
-			int index, ExpressionReader er) {
+	private static String describe(ExpRelation pattern, Node prev, int index, ExpressionReader er) {
 		String key = getBaseKey(pattern, prev, index);
-		return key == null ? null : er.localize(getPrefix(pattern) + key,
-				camelCaseToWords(key)).toLowerCase(Locale.ROOT);
+		return key == null
+				? null
+				: er.localize(getPrefix(pattern) + key, camelCaseToWords(key)).toLowerCase(Locale.ROOT);
 	}
 
 	private static String camelCaseToWords(String key) {
@@ -618,9 +604,8 @@ public class EditorState {
 	private static String getBaseKey(ExpRelation pattern, Node prev, int index) {
 		if (prev instanceof FunctionNode node) {
 			return switch (node.getName()) {
-				case FRAC -> new String[]{"Fraction", "Numerator",
-						"Denominator"}[index + 1];
-				case NROOT -> new String[]{"Root", "Index", "Radicand"}[index + 1];
+				case FRAC -> new String[] {"Fraction", "Numerator", "Denominator"}[index + 1];
+				case NROOT -> new String[] {"Root", "Index", "Radicand"}[index + 1];
 				case SQRT -> "SquareRoot";
 				case CBRT -> "CubeRoot";
 				case SUPERSCRIPT -> "Superscript";
@@ -654,11 +639,9 @@ public class EditorState {
 		};
 	}
 
-	private String describeParent(ExpRelation pattern, InternalNode parent,
-			ExpressionReader er) {
+	private String describeParent(ExpRelation pattern, InternalNode parent, ExpressionReader er) {
 		if (parent instanceof FunctionNode) {
-			String name = describe(pattern, parent,
-					parent.indexOf(currentNode), er);
+			String name = describe(pattern, parent, parent.indexOf(currentNode), er);
 			if (name == null || name.isEmpty()) {
 				return "";
 			}
@@ -686,8 +669,7 @@ public class EditorState {
 	 */
 	public boolean isPreventingNestedFractions() {
 		InternalNode parent = currentNode.getParent();
-		return parent instanceof FunctionNode fn
-				&& fn.isPreventingNestedFractions();
+		return parent instanceof FunctionNode fn && fn.isPreventingNestedFractions();
 	}
 
 	/**
@@ -702,8 +684,7 @@ public class EditorState {
 	 * @return whether current field is inside a sub/superscript or not.
 	 */
 	public boolean isInScript() {
-		return hasParent(parent -> parent.hasTag(Tag.SUBSCRIPT)
-				|| parent.hasTag(Tag.SUPERSCRIPT));
+		return hasParent(parent -> parent.hasTag(Tag.SUBSCRIPT) || parent.hasTag(Tag.SUPERSCRIPT));
 	}
 
 	/**
@@ -728,7 +709,8 @@ public class EditorState {
 	 * Select the topmost ancestor that's not root or root's child.
 	 */
 	public void selectUpToRootComponent() {
-		while (currentNode.getParent() != null && currentNode.getParent().getParent() != null
+		while (currentNode.getParent() != null
+				&& currentNode.getParent().getParent() != null
 				&& !currentNode.getParent().getParent().isProtected()) {
 			currentNode = currentNode.getParentSequence();
 		}

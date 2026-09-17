@@ -106,10 +106,10 @@ public final class InlineFormulaControllerW implements InlineFormulaController {
 	@Override
 	public void setLocation(int x, int y) {
 		// clamp forces the  editor to be in visible area, may still be behind keyboard
-		style.setLeft(MyMath.clamp(x, 0,
-				widget.getParent().getOffsetWidth() - formula.getMinWidth()), Unit.PX);
-		style.setTop(MyMath.clamp(y, 0,
-				widget.getParent().getOffsetHeight() - formula.getMinHeight()), Unit.PX);
+		style.setLeft(
+				MyMath.clamp(x, 0, widget.getParent().getOffsetWidth() - formula.getMinWidth()), Unit.PX);
+		style.setTop(
+				MyMath.clamp(y, 0, widget.getParent().getOffsetHeight() - formula.getMinHeight()), Unit.PX);
 	}
 
 	@Override
@@ -223,9 +223,10 @@ public final class InlineFormulaControllerW implements InlineFormulaController {
 
 				saveTimer.schedule(500);
 
-				int width = (int) ((mathFieldEditor.getMathField().asWidget().getOffsetWidth()
-						- DrawFormula.PADDING) * formula.getWidth() / formula
-							.getContentWidth());
+				int width = (int)
+						((mathFieldEditor.getMathField().asWidget().getOffsetWidth() - DrawFormula.PADDING)
+								* formula.getWidth()
+								/ formula.getContentWidth());
 				int height = (int) mathFieldEditor.getMathField().getHeightWithMargin();
 
 				formula.setMinWidth(width);

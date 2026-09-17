@@ -30,7 +30,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Settings for 3D view
- * 
+ *
  * @author mathieu
  *
  */
@@ -42,7 +42,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	private double a = EuclidianView3DInterface.ANGLE_ROT_OZ;
 	private double b = EuclidianView3DInterface.ANGLE_ROT_XOY; // angles (in
-																// degrees)
+	// degrees)
 
 	private boolean hadSettingChanged = false;
 	private boolean hasSameScales = true;
@@ -103,7 +103,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if some setting has been changed
 	 */
 	public boolean hadSettingChanged() {
@@ -255,7 +255,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return x scale * y scale
 	 */
 	public double getXYscale() {
@@ -263,7 +263,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return y scale * z scale
 	 */
 	public double getYZscale() {
@@ -271,7 +271,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return z scale * x scale
 	 */
 	public double getZXscale() {
@@ -279,7 +279,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if scales are equals on x,y,z
 	 */
 	public boolean hasSameScales() {
@@ -302,7 +302,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	/**
 	 * we won't call settingChanged() here since it's called from view
-	 * 
+	 *
 	 * @param a2
 	 *            OZ rotation
 	 * @param b2
@@ -330,8 +330,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 *            z-coord of the origin
 	 */
 	public void updateOrigin(double xZero2, double yZero2, double zZero2) {
-		if (this.xZero != xZero2 || this.yZero != yZero2
-				|| this.zZero != zZero2) {
+		if (this.xZero != xZero2 || this.yZero != yZero2 || this.zZero != zZero2) {
 			this.xZero = xZero2;
 			this.yZero = yZero2;
 			this.zZero = zZero2;
@@ -341,7 +340,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	/**
 	 * we won't call settingChanged() here since it's called from view
-	 * 
+	 *
 	 * @param xZero2
 	 *            origin x-coord
 	 * @param yZero2
@@ -349,8 +348,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @param zZero2
 	 *            origin z-coord
 	 */
-	public void updateOriginFromView(double xZero2, double yZero2,
-			double zZero2) {
+	public void updateOriginFromView(double xZero2, double yZero2, double zZero2) {
 		this.xZero = xZero2;
 		this.yZero = yZero2;
 		this.zZero = zZero2;
@@ -408,7 +406,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	/**
 	 * Change clipping cube size.
-	 * 
+	 *
 	 * @param value
 	 *            GeoClippingCube3D.REDUCTION_*
 	 */
@@ -447,7 +445,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public void togglePlane() {
 		showPlate = !showPlate;
 		settingChanged();
-
 	}
 
 	/**
@@ -466,7 +463,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return eye distance to the screen for perspective
 	 */
 	public int getProjectionPerspectiveEyeDistance() {
@@ -476,7 +473,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	/**
 	 * set the near distance regarding eye distance to the screen for
 	 * perspective (in pixels)
-	 * 
+	 *
 	 * @param distance
 	 *            eye distance
 	 */
@@ -561,7 +558,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if y axis is vertical (and not z axis)
 	 */
 	public boolean getYAxisVertical() {
@@ -649,7 +646,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	/**
 	 * set x, y, z scale, don't call settingsChanged()
-	 * 
+	 *
 	 * @param scale
 	 *            scale value
 	 */
@@ -669,7 +666,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	/**
 	 * returns settings in XML format, read by xml handlers
-	 * 
+	 *
 	 * @param sb
 	 *            xml builder
 	 * @param asPreference
@@ -707,9 +704,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 		sb.attr("grid", getShowGrid());
 		sb.attr("gridIsBold", gridIsBold);
-		sb.attr("pointCapturing",
+		sb.attr(
+				"pointCapturing",
 
-		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML
+				// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML
 				getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX
 						? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT
 						: getPointCapturingMode());
@@ -724,7 +722,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		// axis settings
 		for (int i = 0; i < 3; i++) {
 			addAxisXML(i, sb);
-
 		}
 
 		// xOy plane settings
@@ -760,12 +757,12 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		sb.startTag("projection");
 		sb.attr("type", getProjection());
 		getXMLForStereo(sb);
-		if (!DoubleUtil.isEqual(projectionObliqueAngle,
-				EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
+		if (!DoubleUtil.isEqual(
+				projectionObliqueAngle, EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
 			sb.attr("obliqueAngle", projectionObliqueAngle);
 		}
-		if (!DoubleUtil.isEqual(projectionObliqueFactor,
-				EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT)) {
+		if (!DoubleUtil.isEqual(
+				projectionObliqueFactor, EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT)) {
 			sb.attr("obliqueFactor", projectionObliqueFactor);
 		}
 
@@ -773,8 +770,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 		// axes label style
 		int style = getAxisFontStyle();
-		if (style == GFont.BOLD || style == GFont.ITALIC
-				|| style == GFont.BOLD + GFont.ITALIC) {
+		if (style == GFont.BOLD || style == GFont.ITALIC || style == GFont.BOLD + GFont.ITALIC) {
 			sb.startTag("labelStyle").attr("axes", style).endTag();
 		}
 
@@ -805,7 +801,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param flag
 	 *            iff axes are rgb colored
 	 * @return true if it has changed
@@ -820,7 +816,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return iff axes are rgb colored
 	 */
 	public boolean getHasColoredAxes() {
@@ -843,17 +839,26 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @param fire
 	 *            whether to notify listeners
 	 */
-	public void setCoordSystem(double xZero, double yZero, double zZero, double xscale,
-			double yscale, double zscale, boolean fire) {
-		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
+	public void setCoordSystem(
+			double xZero,
+			double yZero,
+			double zZero,
+			double xscale,
+			double yscale,
+			double zscale,
+			boolean fire) {
+		if (Double.isNaN(xscale)
+				|| (xscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
-		if (Double.isNaN(yscale) || (yscale < Kernel.MAX_DOUBLE_PRECISION)
+		if (Double.isNaN(yscale)
+				|| (yscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
-		if (Double.isNaN(zscale) || (zscale < Kernel.MAX_DOUBLE_PRECISION)
+		if (Double.isNaN(zscale)
+				|| (zscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (zscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}

@@ -37,21 +37,21 @@ public class CmdSetLineOpacity extends CmdScripting {
 	protected GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 2:
-			GeoElement[] arg = resArgs(c);
-			if (arg[1].isNumberValue()) {
+			case 2:
+				GeoElement[] arg = resArgs(c);
+				if (arg[1].isNumberValue()) {
 
-				int percentage = (int) (Math.max(0, Math.min(1, arg[1].evaluateDouble())) * 100);
-				int opacity = Math.round(percentage / 100f * 255);
+					int percentage = (int) (Math.max(0, Math.min(1, arg[1].evaluateDouble())) * 100);
+					int opacity = Math.round(percentage / 100f * 255);
 
-				arg[0].setLineOpacity(opacity);
-				arg[0].updateVisualStyleRepaint(GProperty.LINE_STYLE);
+					arg[0].setLineOpacity(opacity);
+					arg[0].updateVisualStyleRepaint(GProperty.LINE_STYLE);
 
-				return arg;
-			}
-			throw argErr(c, arg[1]);
-		default:
-			throw argNumErr(c);
+					return arg;
+				}
+				throw argErr(c, arg[1]);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

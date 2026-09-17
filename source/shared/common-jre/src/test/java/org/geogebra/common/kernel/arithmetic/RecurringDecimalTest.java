@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -44,10 +44,8 @@ class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	private void shouldBeAsFraction(String preperiod, String recurring, String fraction) {
-		RecurringDecimal recurringDecimal = RecurringDecimal.parse(getKernel(),
-				preperiod, recurring);
-		assertThat(recurringDecimal.toFraction(StringTemplate.defaultTemplate),
-				is(fraction));
+		RecurringDecimal recurringDecimal = RecurringDecimal.parse(getKernel(), preperiod, recurring);
+		assertThat(recurringDecimal.toFraction(StringTemplate.defaultTemplate), is(fraction));
 	}
 
 	@Test
@@ -62,8 +60,7 @@ class RecurringDecimalTest extends BaseUnitTest {
 	}
 
 	private void shouldBeDouble(String preperiod, String recurring, double value) {
-		RecurringDecimal recurringDecimal = RecurringDecimal.parse(getKernel(),
-				preperiod, recurring);
+		RecurringDecimal recurringDecimal = RecurringDecimal.parse(getKernel(), preperiod, recurring);
 		assertThat(recurringDecimal.toDouble(), is(value));
 	}
 
@@ -76,37 +73,37 @@ class RecurringDecimalTest extends BaseUnitTest {
 
 	@Test
 	void testToString() {
-		assertThat(createRecurringDecimal(1, "2", "34")
-						.toString(StringTemplate.defaultTemplate),
+		assertThat(
+				createRecurringDecimal(1, "2", "34").toString(StringTemplate.defaultTemplate),
 				is("1.23\u03054\u0305"));
-		assertThat(createRecurringDecimal(0, null, "3")
-						.toString(StringTemplate.latexTemplate),
+		assertThat(
+				createRecurringDecimal(0, null, "3").toString(StringTemplate.latexTemplate),
 				is("0.\\overline{3}"));
-		assertThat(createRecurringDecimal(1, "2", "34")
-						.toString(StringTemplate.giacTemplate),
+		assertThat(
+				createRecurringDecimal(1, "2", "34").toString(StringTemplate.giacTemplate),
 				is("(611)/(495)"));
 	}
 
 	@Test
 	void testToStringWithLeadingZeros() {
-		assertThat(parse("1.02", "03").toString(StringTemplate.defaultTemplate),
-				is("1.020\u03053\u0305"));
-		assertThat(parse("1.00002", "0003")
-						.toString(StringTemplate.defaultTemplate),
+		assertThat(
+				parse("1.02", "03").toString(StringTemplate.defaultTemplate), is("1.020\u03053\u0305"));
+		assertThat(
+				parse("1.00002", "0003").toString(StringTemplate.defaultTemplate),
 				is("1.000020\u03050\u03050\u03053\u0305"));
-		assertThat(parse("1.0304", "05")
-				.toString(StringTemplate.latexTemplate),
-				is("1.0304\\overline{05}"));
+		assertThat(
+				parse("1.0304", "05").toString(StringTemplate.latexTemplate), is("1.0304\\overline{05}"));
 	}
 
 	private RecurringDecimal parse(String preperiod, String recurring) {
 		return RecurringDecimal.parse(getKernel(), preperiod, recurring);
 	}
 
-	private RecurringDecimal createRecurringDecimal(int integerPart, String nonRecurringPart,
-			String recurringPart) {
-		return new RecurringDecimal(getKernel(), RecurringDecimalModelTest.newModel(integerPart,
-				nonRecurringPart, recurringPart));
+	private RecurringDecimal createRecurringDecimal(
+			int integerPart, String nonRecurringPart, String recurringPart) {
+		return new RecurringDecimal(
+				getKernel(),
+				RecurringDecimalModelTest.newModel(integerPart, nonRecurringPart, recurringPart));
 	}
 
 	@Test
@@ -125,7 +122,8 @@ class RecurringDecimalTest extends BaseUnitTest {
 
 	@Test
 	void testAsRecurringDecimal() {
-		assertThat(this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal().getModel(),
+		assertThat(
+				this.<GeoNumeric>add("1.02\u03053\u0305").asRecurringDecimal().getModel(),
 				CoreMatchers.is(RecurringDecimal.parse(getKernel(), "1.0", "23").getModel()));
 	}
 

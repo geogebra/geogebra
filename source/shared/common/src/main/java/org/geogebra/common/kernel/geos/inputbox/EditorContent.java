@@ -43,8 +43,7 @@ public class EditorContent {
 
 	protected void removeCommas(Localization loc) {
 		for (int i = 0; i < entries.length; i++) {
-			entries[i] = StringUtil.preprocessForParser(entries[i],
-					loc.isUsingDecimalComma());
+			entries[i] = StringUtil.preprocessForParser(entries[i], loc.isUsingDecimalComma());
 		}
 	}
 

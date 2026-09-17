@@ -21,7 +21,7 @@ import jsinterop.base.Js;
 
 public final class ExceptionUnwrapper {
 
-	private ExceptionUnwrapper() { }
+	private ExceptionUnwrapper() {}
 
 	/**
 	 * @param thrown exception

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -49,8 +49,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaultsD
-		implements OptionPanelD, TreeSelectionListener, SetLabels {
+public class OptionsDefaultsD implements OptionPanelD, TreeSelectionListener, SetLabels {
 
 	/**
 	 * An instance of the GeoGebra application.
@@ -84,6 +83,7 @@ public class OptionsDefaultsD
 	 * Nodes for points.
 	 */
 	private DefaultMutableTreeNode pointsNode;
+
 	private DefaultMutableTreeNode pointsFreeNode;
 	private DefaultMutableTreeNode pointsDepNode;
 	private DefaultMutableTreeNode pointsPathNode;
@@ -134,7 +134,7 @@ public class OptionsDefaultsD
 	/**
 	 * Construct an panel where the user can assign new values to the default
 	 * objects.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -179,8 +179,8 @@ public class OptionsDefaultsD
 		GeoGebraColorChooser colorChooser = new GeoGebraColorChooser(app);
 		propPanel = new PropertiesPanelD(app, colorChooser, true);
 		propPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
-		propPanel.updateSelection(new Object[] { defaults
-				.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE) });
+		propPanel.updateSelection(
+				new Object[] {defaults.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE)});
 
 		// apply defaults button
 		defaultsButton = new JButton();
@@ -198,18 +198,15 @@ public class OptionsDefaultsD
 		JScrollPane treeScroller = new JScrollPane(tree);
 		treeScroller.setMinimumSize(new Dimension(120, 200));
 		treeScroller.setBackground(tree.getBackground());
-		treeScroller.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				SystemColor.controlShadow));
+		treeScroller.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, SystemColor.controlShadow));
 
 		// split pane
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				treeScroller, propPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treeScroller, propPanel);
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
 
 		// add components
 		wrappedPanel.add(splitPane, BorderLayout.CENTER);
-		wrappedPanel.add(LayoutUtil.flowPanel(0, 0, 20, defaultsButton),
-				BorderLayout.SOUTH);
+		wrappedPanel.add(LayoutUtil.flowPanel(0, 0, 20, defaultsButton), BorderLayout.SOUTH);
 
 		app.setComponentOrientation(wrappedPanel);
 	}
@@ -286,26 +283,19 @@ public class OptionsDefaultsD
 
 		typeToNode = new HashMap<>(15);
 		typeToNode.put(pointsFreeNode, ConstructionDefaults.DEFAULT_POINT_FREE);
-		typeToNode.put(pointsDepNode,
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
-		typeToNode.put(pointsPathNode,
-				ConstructionDefaults.DEFAULT_POINT_ON_PATH);
-		typeToNode.put(pointsInRegionNode,
-				ConstructionDefaults.DEFAULT_POINT_IN_REGION);
-		typeToNode.put(pointsComplexNode,
-				ConstructionDefaults.DEFAULT_POINT_COMPLEX);
+		typeToNode.put(pointsDepNode, ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
+		typeToNode.put(pointsPathNode, ConstructionDefaults.DEFAULT_POINT_ON_PATH);
+		typeToNode.put(pointsInRegionNode, ConstructionDefaults.DEFAULT_POINT_IN_REGION);
+		typeToNode.put(pointsComplexNode, ConstructionDefaults.DEFAULT_POINT_COMPLEX);
 		typeToNode.put(lineNode, ConstructionDefaults.DEFAULT_LINE);
 		typeToNode.put(segmentNode, ConstructionDefaults.DEFAULT_SEGMENT);
 		typeToNode.put(rayNode, ConstructionDefaults.DEFAULT_RAY);
 		typeToNode.put(vectorNode, ConstructionDefaults.DEFAULT_VECTOR);
 		typeToNode.put(conicNode, ConstructionDefaults.DEFAULT_CONIC);
-		typeToNode.put(conicSectorNode,
-				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
+		typeToNode.put(conicSectorNode, ConstructionDefaults.DEFAULT_CONIC_SECTOR);
 		typeToNode.put(functionNode, ConstructionDefaults.DEFAULT_FUNCTION);
-		typeToNode.put(functionNVarNode,
-				ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
-		typeToNode.put(solidsNode,
-				ConstructionDefaults.DEFAULT_POLYHEDRON);
+		typeToNode.put(functionNVarNode, ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
+		typeToNode.put(solidsNode, ConstructionDefaults.DEFAULT_POLYHEDRON);
 		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
 		typeToNode.put(polylineNode, ConstructionDefaults.DEFAULT_POLYLINE);
 		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);
@@ -315,9 +305,7 @@ public class OptionsDefaultsD
 		typeToNode.put(angleNode, ConstructionDefaults.DEFAULT_ANGLE);
 		typeToNode.put(booleanNode, ConstructionDefaults.DEFAULT_BOOLEAN);
 		typeToNode.put(listNode, ConstructionDefaults.DEFAULT_LIST);
-		typeToNode.put(inequalitiesNode,
-				ConstructionDefaults.DEFAULT_INEQUALITY);
-
+		typeToNode.put(inequalitiesNode, ConstructionDefaults.DEFAULT_INEQUALITY);
 	}
 
 	/**
@@ -390,8 +378,7 @@ public class OptionsDefaultsD
 	 */
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
-				.getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
 		if (node == null || node == rootNode) {
 			propPanel.setVisible(false);
@@ -404,15 +391,13 @@ public class OptionsDefaultsD
 				Object[] selection = new Object[pointsNode.getChildCount()];
 
 				for (int i = 0; i < pointsNode.getChildCount(); ++i) {
-					selection[i] = defaults.getDefaultGeo(
-							typeToNode.get(pointsNode.getChildAt(i)));
+					selection[i] = defaults.getDefaultGeo(typeToNode.get(pointsNode.getChildAt(i)));
 				}
 
 				propPanel.updateSelection(selection);
 			} else {
 				if (typeToNode.containsKey(node)) {
-					propPanel.updateSelection(new Object[] {
-							defaults.getDefaultGeo(typeToNode.get(node)) });
+					propPanel.updateSelection(new Object[] {defaults.getDefaultGeo(typeToNode.get(node))});
 				}
 			}
 		}
@@ -434,7 +419,6 @@ public class OptionsDefaultsD
 	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
-
 	}
 
 	@Override
@@ -444,7 +428,7 @@ public class OptionsDefaultsD
 
 	/**
 	 * Reset the visual style of the selected elements.
-	 * 
+	 *
 	 * TODO Does not work with lists (F.S.)
 	 */
 	private void applyDefaults() {
@@ -453,7 +437,6 @@ public class OptionsDefaultsD
 			defaults.setDefaultVisualStyles(geo, true);
 			geo.updateRepaint();
 		}
-
 	}
 
 	@Override

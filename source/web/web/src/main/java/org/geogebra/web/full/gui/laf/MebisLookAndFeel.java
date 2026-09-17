@@ -34,5 +34,4 @@ public final class MebisLookAndFeel extends GLookAndFeel {
 	public boolean hasLoginButton() {
 		return false;
 	}
-
 }

@@ -44,13 +44,12 @@ public final class InputKeyboardButtonW implements InputKeyboardButton, IsWidget
 		button = new ToggleButton(KeyboardResources.INSTANCE.keyboard_show_material());
 		button.setStyleName("matKeyboardOpenBtn");
 		GeoGebraFrameFull listener = app.getAppletFrame();
-		ClickStartHandler.init(button,
-				new ClickStartHandler(true, true) {
-					@Override
-					public void onClickStart(int x, int y, PointerEventType type) {
-						showKeyboard(listener);
-					}
-				});
+		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				showKeyboard(listener);
+			}
+		});
 	}
 
 	private void showKeyboard(GeoGebraFrameFull listener) {

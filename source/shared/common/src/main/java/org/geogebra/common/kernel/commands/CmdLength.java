@@ -42,23 +42,23 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Length[ &lt;GeoVector&gt; ] Length[ &lt;GeoPoint&gt; ]
- * 
+ *
  * Length[ &lt;GeoList&gt; ]
- * 
+ *
  * Length[ &lt;Function&gt;, &lt;Number&gt;, &lt;Number&gt; ]
- * 
+ *
  * Length[ &lt;Function&gt;, &lt;Point&gt;, &lt;Point&gt; ] add Length[ &lt;Curve&gt;,
  * &lt;Number&gt;, &lt;Number&gt; ]
- * 
+ *
  * Length[ &lt;Curve&gt;, &lt;Point&gt;, &lt;Point&gt; ]
- * 
+ *
  * @author Markus, Victor Franco
  */
 public class CmdLength extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -73,117 +73,100 @@ public class CmdLength extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoVector()) {
-				GeoElement[] ret = {
-						length(c.getLabel(), (GeoVectorND) arg[0]) };
-				return ret;
-			} else if (arg[0].isGeoPoint()) {
-				GeoElement[] ret = {
-						length(c.getLabel(), (GeoPointND) arg[0]) };
-				return ret;
-			} else if (arg[0].isGeoList()) {
-				GeoElement[] ret = { getAlgoDispatcher().length(c.getLabel(),
-						(GeoList) arg[0]) };
-				return ret;
-			} else if (arg[0].isGeoText()) {
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoVector()) {
+					GeoElement[] ret = {length(c.getLabel(), (GeoVectorND) arg[0])};
+					return ret;
+				} else if (arg[0].isGeoPoint()) {
+					GeoElement[] ret = {length(c.getLabel(), (GeoPointND) arg[0])};
+					return ret;
+				} else if (arg[0].isGeoList()) {
+					GeoElement[] ret = {getAlgoDispatcher().length(c.getLabel(), (GeoList) arg[0])};
+					return ret;
+				} else if (arg[0].isGeoText()) {
 
-				AlgoTextLength algo = new AlgoTextLength(cons, c.getLabel(),
-						(GeoText) arg[0]);
+					AlgoTextLength algo = new AlgoTextLength(cons, c.getLabel(), (GeoText) arg[0]);
 
-				GeoElement[] ret = { algo.getLength() };
-				return ret;
-			} else if (arg[0].isGeoLocusable()) {
-				GeoElement[] ret = { getAlgoDispatcher().length(c.getLabel(),
-						(GeoLocusable) arg[0]) };
-				return ret;
-			} else if (arg[0].isGeoSegment()) {
+					GeoElement[] ret = {algo.getLength()};
+					return ret;
+				} else if (arg[0].isGeoLocusable()) {
+					GeoElement[] ret = {getAlgoDispatcher().length(c.getLabel(), (GeoLocusable) arg[0])};
+					return ret;
+				} else if (arg[0].isGeoSegment()) {
 
-				AlgoLengthSegment algo = new AlgoLengthSegment(cons,
-						c.getLabel(), (GeoSegmentND) arg[0]);
+					AlgoLengthSegment algo = new AlgoLengthSegment(cons, c.getLabel(), (GeoSegmentND) arg[0]);
 
-				GeoElement[] ret = { algo.getLength() };
-				return ret;
+					GeoElement[] ret = {algo.getLength()};
+					return ret;
 
-			} else if (arg[0].isGeoConicPart()) {
-				// Arc length
+				} else if (arg[0].isGeoConicPart()) {
+					// Arc length
 
-				AlgoArcLength algo = new AlgoArcLength(cons, c.getLabel(),
-						(GeoConicPartND) arg[0]);
+					AlgoArcLength algo = new AlgoArcLength(cons, c.getLabel(), (GeoConicPartND) arg[0]);
 
-				GeoElement[] ret = { algo.getArcLength() };
-				return ret;
+					GeoElement[] ret = {algo.getArcLength()};
+					return ret;
 
-			} else {
-				throw argErr(c, arg[0]);
-			}
+				} else {
+					throw argErr(c, arg[0]);
+				}
 
 			// Victor Franco 18-04-2007
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())) {
 
-				AlgoLengthFunction algo = new AlgoLengthFunction(cons,
-						c.getLabel(), (GeoFunction) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2]);
+					AlgoLengthFunction algo = new AlgoLengthFunction(
+							cons, c.getLabel(), (GeoFunction) arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2]);
 
-				GeoElement[] ret = { algo.getLength() };
-				return ret;
-			}
+					GeoElement[] ret = {algo.getLength()};
+					return ret;
+				} else if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1].isGeoPoint())
+						&& (ok[2] = arg[2].isGeoPoint())) {
 
-			else if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2].isGeoPoint())) {
+					AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points(
+							cons, c.getLabel(), (GeoFunction) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2]);
 
-				AlgoLengthFunction2Points algo = new AlgoLengthFunction2Points(
-						cons, c.getLabel(), (GeoFunction) arg[0],
-						(GeoPointND) arg[1], (GeoPointND) arg[2]);
+					GeoElement[] ret = {algo.getLength()};
+					return ret;
+				} else if ((ok[0] = arg[0].isGeoCurveCartesian())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())) {
 
-				GeoElement[] ret = { algo.getLength() };
-				return ret;
-			}
+					AlgoLengthCurve algo = new AlgoLengthCurve(
+							cons, c.getLabel(), (GeoCurveCartesianND) arg[0], (GeoNumeric) arg[1], (GeoNumeric)
+									arg[2]);
 
-			else if ((ok[0] = arg[0].isGeoCurveCartesian())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())) {
+					GeoElement[] ret = {algo.getLength()};
+					return ret;
 
-				AlgoLengthCurve algo = new AlgoLengthCurve(cons, c.getLabel(),
-						(GeoCurveCartesianND) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2]);
+				} else if ((ok[0] = arg[0].isGeoCurveCartesian())
+						&& (ok[1] = arg[1].isGeoPoint())
+						&& (ok[2] = arg[2].isGeoPoint())) {
 
-				GeoElement[] ret = { algo.getLength() };
-				return ret;
+					AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(
+							cons, c.getLabel(), (GeoCurveCartesianND) arg[0], (GeoPointND) arg[1], (GeoPointND)
+									arg[2]);
 
-			}
+					GeoElement[] ret = {algo.getLength()};
+					return ret;
+				} else {
 
-			else if ((ok[0] = arg[0].isGeoCurveCartesian())
-					&& (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2].isGeoPoint())) {
-
-				AlgoLengthCurve2Points algo = new AlgoLengthCurve2Points(cons,
-						c.getLabel(), (GeoCurveCartesianND) arg[0],
-						(GeoPointND) arg[1], (GeoPointND) arg[2]);
-
-				GeoElement[] ret = { algo.getLength() };
-				return ret;
-			}
-
-			else {
-
-				throw argErr(c, getBadArg(ok, arg));
-			}
+					throw argErr(c, getBadArg(ok, arg));
+				}
 
 			// Victor Franco 18-04-2007 (end)
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param v
@@ -197,7 +180,7 @@ public class CmdLength extends CommandProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param p
@@ -209,5 +192,4 @@ public class CmdLength extends CommandProcessor {
 
 		return algo.getLength();
 	}
-
 }

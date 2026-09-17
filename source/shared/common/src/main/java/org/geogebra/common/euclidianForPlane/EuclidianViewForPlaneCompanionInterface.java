@@ -18,12 +18,12 @@ package org.geogebra.common.euclidianForPlane;
 
 /**
  * interface for EuclidianViewForPlaneCompanion
- * 
+ *
  */
 public interface EuclidianViewForPlaneCompanionInterface {
 
 	/**
-	 * 
+	 *
 	 * @return view id
 	 */
 	int getId();
@@ -50,10 +50,9 @@ public interface EuclidianViewForPlaneCompanionInterface {
 
 	/**
 	 * update all drawables
-	 * 
+	 *
 	 * @param repaint
 	 *            says if repaint is needed
 	 */
 	void updateAllDrawables(boolean repaint);
-
 }

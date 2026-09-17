@@ -84,8 +84,7 @@ public class ButtonDialogModel {
 		}
 
 		// XXX See Remark 1 above
-		Script script = app.createScript(scriptType, scriptText,
-				true);
+		Script script = app.createScript(scriptType, scriptText, true);
 		button.setClickScript(script);
 
 		// set caption text
@@ -114,8 +113,7 @@ public class ButtonDialogModel {
 	 * @return initial caption
 	 */
 	public String getInitString() {
-		return button == null ? ""
-				: button.getCaption(StringTemplate.defaultTemplate);
+		return button == null ? "" : button.getCaption(StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -130,8 +128,7 @@ public class ButtonDialogModel {
 	 */
 	public String getClickScript() {
 		String result = "";
-		Script clickScript = button == null ? null
-				: button.getScript(EventType.CLICK);
+		Script clickScript = button == null ? null : button.getScript(EventType.CLICK);
 		if (clickScript != null) {
 			result = clickScript.getText();
 		}
@@ -153,8 +150,8 @@ public class ButtonDialogModel {
 		ArrayList<GeoElement> options = new ArrayList<>();
 		options.add(null);
 		// combo box to link GeoElement to TextField
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
+		TreeSet<GeoElement> sortedSet =
+				app.getKernel().getConstruction().getGeoSetNameDescriptionOrder();
 		for (GeoElement geo : sortedSet) {
 			if (GeoInputBox.isGeoLinkable(geo)) {
 				options.add(geo);

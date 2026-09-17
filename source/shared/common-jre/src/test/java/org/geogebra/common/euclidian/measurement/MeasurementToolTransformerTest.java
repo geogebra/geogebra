@@ -47,7 +47,7 @@ class MeasurementToolTransformerTest extends BaseUnitTest {
 	void setUp() {
 		view = getApp().getActiveEuclidianView();
 		measurementController = new MeasurementController((mode, file) ->
-				createToolImage(mode, file, getConstruction(), getApp().getActiveEuclidianView())) ;
+				createToolImage(mode, file, getConstruction(), getApp().getActiveEuclidianView()));
 	}
 
 	/**
@@ -57,14 +57,12 @@ class MeasurementToolTransformerTest extends BaseUnitTest {
 	 * @param view active view
 	 * @return ruler or protractor image
 	 */
-	static GeoImage createToolImage(int mode, String fileName, Construction cons,
-			EuclidianView view) {
+	static GeoImage createToolImage(
+			int mode, String fileName, Construction cons, EuclidianView view) {
 		GeoImage image = new GeoImage(cons);
 		image.setImageFileName(fileName, 400, mode == MODE_RULER ? 40 : 300);
-		image.initStartPoint(new GeoPoint(cons, rwX(100.0, view),
-				rwY(300, view), 1), 0);
-		image.initStartPoint(new GeoPoint(cons, rwX(500, view),
-				rwY(300, view), 1), 1);
+		image.initStartPoint(new GeoPoint(cons, rwX(100.0, view), rwY(300, view), 1), 0);
+		image.initStartPoint(new GeoPoint(cons, rwX(500, view), rwY(300, view), 1), 1);
 		image.setLabel(null);
 		return image;
 	}
@@ -91,5 +89,4 @@ class MeasurementToolTransformerTest extends BaseUnitTest {
 		assertEquals(0, new GPoint2D(200, 302).distance(previewPoints.get(0)), 0.5);
 		assertEquals(0, new GPoint2D(220, 302).distance(previewPoints.get(1)), 0.5);
 	}
-
 }

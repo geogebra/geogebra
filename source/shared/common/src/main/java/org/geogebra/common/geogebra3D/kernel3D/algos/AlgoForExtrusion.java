@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Interface for algos used for extrusion
- * 
+ *
  * @author matthieu
  *
  */
@@ -38,7 +38,7 @@ public interface AlgoForExtrusion {
 
 	/**
 	 * AlgoElement.getOutput(int i)
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return output
@@ -47,7 +47,7 @@ public interface AlgoForExtrusion {
 
 	/**
 	 * sets the extrusion computer
-	 * 
+	 *
 	 * @param extrusionComputer
 	 *            extrusion computer
 	 */
@@ -65,7 +65,7 @@ public interface AlgoForExtrusion {
 
 	/**
 	 * set output points invisible (use for previewable)
-	 * 
+	 *
 	 * @param b
 	 *            flag
 	 */
@@ -77,14 +77,14 @@ public interface AlgoForExtrusion {
 	void notifyUpdateOutputPoints();
 
 	/**
-	 * 
+	 *
 	 * @return top face
 	 */
 	GeoElement getGeoToHandle();
 
 	/**
 	 * set visibility of output other than points
-	 * 
+	 *
 	 * @param b
 	 *            flag
 	 */
@@ -94,5 +94,4 @@ public interface AlgoForExtrusion {
 	 * notify kernel update of output other than points
 	 */
 	void notifyUpdateOutputOther();
-
 }

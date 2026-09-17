@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScaleAbstract {
 
 	/**
-	 * 
+	 *
 	 * @param view3D 3D view
 	 * @param animator animator
 	 */
@@ -40,7 +40,7 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 	}
 
 	/**
-	 * 
+	 *
 	 * @param newScale
 	 *            new scale
 	 */
@@ -79,5 +79,4 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 
 		animatedScaleTimeFactor = ANIMATION_DURATION;
 	}
-
 }

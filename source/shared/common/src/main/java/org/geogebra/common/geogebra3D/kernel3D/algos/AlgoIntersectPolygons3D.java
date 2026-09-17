@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Algo for finding intersect points for 3D polygons
- * 
+ *
  * @author thilina
  *
  */
@@ -50,7 +50,7 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 
 	/**
 	 * constructor with labels
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -60,8 +60,8 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	 * @param polyB
 	 *            second polygon
 	 */
-	public AlgoIntersectPolygons3D(Construction c, String[] labels,
-			GeoPolygon polyA, GeoPolygon polyB) {
+	public AlgoIntersectPolygons3D(
+			Construction c, String[] labels, GeoPolygon polyA, GeoPolygon polyB) {
 		super(c);
 		this.polyA = polyA;
 		this.polyB = polyB;
@@ -112,32 +112,25 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 		for (int i = 0; i < segA.length; i++) {
 
 			o1 = segA[i].getPointInD(3, 0).getInhomCoordsInSameDimension();
-			d1 = segA[i].getPointInD(3, 1).getInhomCoordsInSameDimension()
-					.sub(o1);
+			d1 = segA[i].getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
 
 			for (int k = 0; k < segB.length; k++) {
 
 				o2 = segB[k].getPointInD(3, 0).getInhomCoordsInSameDimension();
-				d2 = segB[k].getPointInD(3, 1).getInhomCoordsInSameDimension()
-						.sub(o2);
+				d2 = segB[k].getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
 
-				project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2,
-						d2);
+				project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2, d2);
 
-				if (project != null && !Double.isNaN(project[2].get(1))
-						&& project[0].equalsForKernel(project[1],
-								Kernel.STANDARD_PRECISION)) {
+				if (project != null
+						&& !Double.isNaN(project[2].get(1))
+						&& project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)) {
 					double t1 = project[2].get(1); // parameter on line 1
 					double t2 = project[2].get(2); // parameter on line 2
 
-					if (t1 > segA[i].getMinParameter()
-							- Kernel.STANDARD_PRECISION
-							&& t1 < segA[i].getMaxParameter()
-									+ Kernel.STANDARD_PRECISION
-							&& t2 > segB[k].getMinParameter()
-									- Kernel.STANDARD_PRECISION
-							&& t2 < segB[k].getMaxParameter()
-									+ Kernel.STANDARD_PRECISION) {
+					if (t1 > segA[i].getMinParameter() - Kernel.STANDARD_PRECISION
+							&& t1 < segA[i].getMaxParameter() + Kernel.STANDARD_PRECISION
+							&& t2 > segB[k].getMinParameter() - Kernel.STANDARD_PRECISION
+							&& t2 < segB[k].getMaxParameter() + Kernel.STANDARD_PRECISION) {
 						intersectingCoords.add(new Coords(project[0]));
 					}
 				}
@@ -145,8 +138,8 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 		}
 
 		// update and/or create points
-		this.outputPoints.adjustOutputSize(this.intersectingCoords.size() > 0
-				? this.intersectingCoords.size() : 1);
+		this.outputPoints.adjustOutputSize(
+				this.intersectingCoords.size() > 0 ? this.intersectingCoords.size() : 1);
 
 		// affect new computed points
 		int index = 0;

@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Take first n objects from a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoFirstString extends AlgoElement {
 
 	protected GeoText inputText; // input
@@ -46,8 +45,7 @@ public class AlgoFirstString extends AlgoElement {
 	 * @param n
 	 *            number of characters (null for 1)
 	 */
-	public AlgoFirstString(Construction cons, String label, GeoText inputText,
-			GeoNumeric n) {
+	public AlgoFirstString(Construction cons, String label, GeoText inputText, GeoNumeric n) {
 		super(cons);
 		this.inputText = inputText;
 		this.n = n;
@@ -97,8 +95,7 @@ public class AlgoFirstString extends AlgoElement {
 		size = str.length();
 		int outsize = n == null ? 1 : (int) n.getDouble();
 
-		if (!inputText.isDefined() || size == 0 || outsize < 0
-				|| outsize > size) {
+		if (!inputText.isDefined() || size == 0 || outsize < 0 || outsize > size) {
 			outputText.setUndefined();
 			return;
 		}
@@ -113,5 +110,4 @@ public class AlgoFirstString extends AlgoElement {
 	protected String getString(String str, int outsize) {
 		return str.substring(0, outsize);
 	}
-
 }

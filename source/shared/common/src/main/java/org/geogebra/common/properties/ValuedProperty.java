@@ -66,7 +66,7 @@ public interface ValuedProperty<V> extends Property {
 	/**
 	 * Removes a property value observer. Removing an observer that is
 	 * not registered with this property has no effect.
-	 * 
+	 *
 	 * @param observer value observer
 	 */
 	void removeValueObserver(PropertyValueObserver observer);

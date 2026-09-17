@@ -43,11 +43,9 @@ public class EmbedURLChecker implements URLChecker {
 	}
 
 	@Override
-	public void check(final String url,
-			final AsyncOperation<URLStatus> callback) {
+	public void check(final String url, final AsyncOperation<URLStatus> callback) {
 		HttpRequest xhr = UtilFactory.getPrototype().newHttpRequest();
-		xhr.sendRequestPost("GET", baseURL + "/meta?url=" + url, null,
-				new AjaxCallback() {
+		xhr.sendRequestPost("GET", baseURL + "/meta?url=" + url, null, new AjaxCallback() {
 			@Override
 			public void onSuccess(String response) {
 				try {
@@ -59,9 +57,7 @@ public class EmbedURLChecker implements URLChecker {
 					}
 					boolean frame = json.getBoolean("frameAllowed");
 					callback.callback(
-							frame ? new URLStatus(null)
-									.withUrl(url)
-									: new URLStatus("FrameLoadError"));
+							frame ? new URLStatus(null).withUrl(url) : new URLStatus("FrameLoadError"));
 				} catch (JSONException e) {
 					callback.callback(new URLStatus("InvalidInput"));
 				}
@@ -72,7 +68,6 @@ public class EmbedURLChecker implements URLChecker {
 				// network problem
 				callback.callback(new URLStatus("InvalidInput"));
 			}
-
 		});
 	}
 

@@ -34,24 +34,24 @@ public class CmdRemovableDiscontinuity extends CommandProcessor implements UsesC
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 1:
-			GeoElement[] arg = resArgs(c, info);
-			GeoElement element = arg[0];
-			if (element.isGeoFunction()) {
-				return removableDiscontinuity((GeoFunction) element, c);
-			}
-			throw argErr(c, element);
-		default:
-			throw argNumErr(c);
+			case 1:
+				GeoElement[] arg = resArgs(c, info);
+				GeoElement element = arg[0];
+				if (element.isGeoFunction()) {
+					return removableDiscontinuity((GeoFunction) element, c);
+				}
+				throw argErr(c, element);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	private GeoElement[] removableDiscontinuity(GeoFunction function, Command cmd) {
-		AlgoRemovableDiscontinuity algo
-				= new AlgoRemovableDiscontinuity(cons, function, cmd.getLabels());
+		AlgoRemovableDiscontinuity algo =
+				new AlgoRemovableDiscontinuity(cons, function, cmd.getLabels());
 		return algo.getOutput();
 	}
 }

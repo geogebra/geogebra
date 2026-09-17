@@ -23,7 +23,7 @@ public interface GEllipse2DDouble extends GRectangularShape {
 
 	/**
 	 * @param xUL left
-	 * @param yUL top 
+	 * @param yUL top
 	 * @param width width
 	 * @param height height
 	 */
@@ -35,7 +35,5 @@ public interface GEllipse2DDouble extends GRectangularShape {
 	 * @param cornerX x-coordinate of a bounding box corner
 	 * @param cornerY y-coordinate of the same corner
 	 */
-	void setFrameFromCenter(double centerX, double centerY,
-			double cornerX, double cornerY);
-
+	void setFrameFromCenter(double centerX, double centerY, double cornerX, double cornerY);
 }

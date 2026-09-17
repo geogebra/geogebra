@@ -71,5 +71,4 @@ public abstract class Command5A extends Command {
 	}
 
 	public abstract Atom newI(Atom a, Atom b, Atom c, Atom d, Atom e);
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -54,12 +54,17 @@ import org.geogebra.desktop.main.AppD;
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 class ColorFunctionPanel extends JPanel
-		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
-		SetLabels, UpdateFonts, ColorFunctionModel.IColorFunctionListener {
+		implements ActionListener,
+				FocusListener,
+				UpdateablePropertiesPanel,
+				SetLabels,
+				UpdateFonts,
+				ColorFunctionModel.IColorFunctionListener {
 
 	private static final long serialVersionUID = 1L;
 	/** color fun model */
 	ColorFunctionModel model;
+
 	private JTextField tfRed;
 	private JTextField tfGreen;
 	private JTextField tfBlue;
@@ -139,9 +144,15 @@ class ColorFunctionPanel extends JPanel
 		colorsPanel.add(nameLabelA);
 		colorsPanel.add(inputPanelA);
 
-		SpringUtilities.makeCompactGrid(colorsPanel, layout, 4, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
+		SpringUtilities.makeCompactGrid(
+				colorsPanel,
+				layout,
+				4,
+				2, // rows, cols
+				6,
+				6, // initX, initY
+				6,
+				6); // xPad, yPad
 
 		add(colorsPanel, BorderLayout.CENTER);
 
@@ -155,9 +166,15 @@ class ColorFunctionPanel extends JPanel
 		buttonsPanel.add(leftPanel);
 		buttonsPanel.add(rightPanel);
 
-		SpringUtilities.makeCompactGrid(buttonsPanel, buttonsLayout, 1, 2, // rows, cols
-				6, 6, // initX, initY
-				6, 6); // xPad, yPad
+		SpringUtilities.makeCompactGrid(
+				buttonsPanel,
+				buttonsLayout,
+				1,
+				2, // rows, cols
+				6,
+				6, // initX, initY
+				6,
+				6); // xPad, yPad
 
 		add(buttonsPanel, BorderLayout.SOUTH);
 
@@ -168,8 +185,7 @@ class ColorFunctionPanel extends JPanel
 	public void setLabels() {
 		Localization loc = kernel.getLocalization();
 
-		setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("DynamicColors")));
+		setBorder(BorderFactory.createTitledBorder(loc.getMenu("DynamicColors")));
 
 		if (allowSetComboBoxLabels) {
 			cbColorSpace.removeActionListener(this);
@@ -182,26 +198,22 @@ class ColorFunctionPanel extends JPanel
 		allowSetComboBoxLabels = true;
 
 		switch (colorSpace) {
-		default:
-		case GeoElement.COLORSPACE_RGB:
-			nameLabelR
-					.setText(StringUtil.capitalize(loc.getColor("red")) + ":");
-			nameLabelG
-					.setText(
-							StringUtil.capitalize(loc.getColor("green")) + ":");
-			nameLabelB
-					.setText(StringUtil.capitalize(loc.getColor("blue")) + ":");
-			break;
-		case GeoElement.COLORSPACE_HSB:
-			nameLabelR.setText(loc.getMenu("Hue") + ":");
-			nameLabelG.setText(loc.getMenu("Saturation") + ":");
-			nameLabelB.setText(loc.getMenu("Value") + ":");
-			break;
-		case GeoElement.COLORSPACE_HSL:
-			nameLabelR.setText(loc.getMenu("Hue") + ":");
-			nameLabelG.setText(loc.getMenu("Saturation") + ":");
-			nameLabelB.setText(loc.getMenu("Lightness") + ":");
-			break;
+			default:
+			case GeoElement.COLORSPACE_RGB:
+				nameLabelR.setText(StringUtil.capitalize(loc.getColor("red")) + ":");
+				nameLabelG.setText(StringUtil.capitalize(loc.getColor("green")) + ":");
+				nameLabelB.setText(StringUtil.capitalize(loc.getColor("blue")) + ":");
+				break;
+			case GeoElement.COLORSPACE_HSB:
+				nameLabelR.setText(loc.getMenu("Hue") + ":");
+				nameLabelG.setText(loc.getMenu("Saturation") + ":");
+				nameLabelB.setText(loc.getMenu("Value") + ":");
+				break;
+			case GeoElement.COLORSPACE_HSL:
+				nameLabelR.setText(loc.getMenu("Hue") + ":");
+				nameLabelG.setText(loc.getMenu("Saturation") + ":");
+				nameLabelB.setText(loc.getMenu("Lightness") + ":");
+				break;
 		}
 
 		nameLabelA.setText(loc.getMenu("Opacity") + ":");
@@ -241,8 +253,10 @@ class ColorFunctionPanel extends JPanel
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == tfRed || e.getSource() == tfGreen
-				|| e.getSource() == tfBlue || e.getSource() == tfAlpha) {
+		if (e.getSource() == tfRed
+				|| e.getSource() == tfGreen
+				|| e.getSource() == tfBlue
+				|| e.getSource() == tfAlpha) {
 			doActionPerformed();
 		}
 		if (e.getSource() == cbColorSpace) {
@@ -266,9 +280,8 @@ class ColorFunctionPanel extends JPanel
 		strBlue = PropertiesPanelD.replaceEqualsSigns(strBlue);
 		strAlpha = PropertiesPanelD.replaceEqualsSigns(strAlpha);
 
-		model.applyChanges(strRed, strGreen, strBlue, strAlpha, colorSpace,
-				defaultR, defaultG, defaultB, defaultA);
-
+		model.applyChanges(
+				strRed, strGreen, strBlue, strAlpha, colorSpace, defaultR, defaultG, defaultB, defaultA);
 	}
 
 	@Override
@@ -307,7 +320,6 @@ class ColorFunctionPanel extends JPanel
 	@Override
 	public void setRedText(final String text) {
 		tfRed.setText(text);
-
 	}
 
 	@Override
@@ -320,13 +332,11 @@ class ColorFunctionPanel extends JPanel
 	@Override
 	public void setBlueText(final String text) {
 		tfBlue.setText(text);
-
 	}
 
 	@Override
 	public void setAlphaText(final String text) {
 		tfAlpha.setText(text);
-
 	}
 
 	@Override
@@ -343,7 +353,6 @@ class ColorFunctionPanel extends JPanel
 		cbColorSpace.setSelectedIndex(colorSpace);
 		allowSetComboBoxLabels = false;
 		setLabels();
-
 	}
 
 	@Override
@@ -355,7 +364,5 @@ class ColorFunctionPanel extends JPanel
 	@Override
 	public void updateSelection(Object[] geos) {
 		propPanel.updateSelection(geos);
-
 	}
-
 }

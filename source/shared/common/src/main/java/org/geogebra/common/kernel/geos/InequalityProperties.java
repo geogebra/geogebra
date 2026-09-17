@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 public interface InequalityProperties extends GeoElementND {
 	/**
 	 * For inequalities.
-	 * 
+	 *
 	 * @param showOnAxis
 	 *            true iff should be drawn on x-Axis only
 	 */
@@ -32,7 +32,7 @@ public interface InequalityProperties extends GeoElementND {
 
 	/**
 	 * For inequalities.
-	 * 
+	 *
 	 * @return true iff should be drawn on x-Axis only
 	 */
 	boolean showOnAxis();

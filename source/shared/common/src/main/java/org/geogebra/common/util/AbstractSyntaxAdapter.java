@@ -69,7 +69,7 @@ public abstract class AbstractSyntaxAdapter implements SyntaxAdapter {
 		// might start <math> or <mrow> etc
 		if (exp.startsWith("<")) {
 			return convertMathMLtoGGB(exp);
-		} else  {
+		} else {
 			return convertLaTeXtoGGB(exp);
 		}
 	}

@@ -35,8 +35,8 @@ public class DistanceBetweenEyesProperty extends AbstractValuedProperty<String>
 	 * @param euclidianSettings euclidian settings
 	 *
 	 */
-	public DistanceBetweenEyesProperty(Localization localization,
-			EuclidianSettings3D euclidianSettings) {
+	public DistanceBetweenEyesProperty(
+			Localization localization, EuclidianSettings3D euclidianSettings) {
 		super(localization, "EyesSeparation");
 		this.euclidianSettings = euclidianSettings;
 	}

@@ -39,30 +39,35 @@ public final class CvteCommandArgumentFilter implements CommandArgumentFilter {
 	private final Set<VisibilityRestriction> visibilityRestrictions =
 			CvteExamRestrictions.createVisibilityRestrictions();
 	private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
-			Circle, Set.of(
-					Syntax.of(Circle, GeoElement::isGeoPoint, isNumber())),
-			Extremum, Set.of(
-					Syntax.of(Extremum, GeoElement::isGeoFunction, isNumber(), isNumber())),
-			Root, Set.of(
-					Syntax.of(Root, GeoElement::isGeoFunction, isNumber(), isNumber())),
-			Intersect, Set.of(
-					Syntax.of(Intersect, isElementWithUnrestrictedVisibility(),
-							isElementWithUnrestrictedVisibility()),
-					Syntax.of(Intersect, isElementWithUnrestrictedVisibility(),
-							isElementWithUnrestrictedVisibility(), any()),
-					Syntax.of(Intersect, isElementWithUnrestrictedVisibility(),
-							isElementWithUnrestrictedVisibility(), any(), any())));
+			Circle, Set.of(Syntax.of(Circle, GeoElement::isGeoPoint, isNumber())),
+			Extremum, Set.of(Syntax.of(Extremum, GeoElement::isGeoFunction, isNumber(), isNumber())),
+			Root, Set.of(Syntax.of(Root, GeoElement::isGeoFunction, isNumber(), isNumber())),
+			Intersect,
+					Set.of(
+							Syntax.of(
+									Intersect,
+									isElementWithUnrestrictedVisibility(),
+									isElementWithUnrestrictedVisibility()),
+							Syntax.of(
+									Intersect,
+									isElementWithUnrestrictedVisibility(),
+									isElementWithUnrestrictedVisibility(),
+									any()),
+							Syntax.of(
+									Intersect,
+									isElementWithUnrestrictedVisibility(),
+									isElementWithUnrestrictedVisibility(),
+									any(),
+									any())));
 
 	@Override
-	public void checkAllowed(Command command, CommandProcessor commandProcessor)
-			throws MyError {
-		Syntax.checkRestrictedSyntaxes(
-				allowedSyntaxesForRestrictedCommands, command, commandProcessor);
+	public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
+		Syntax.checkRestrictedSyntaxes(allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 	}
 
 	private Syntax.ArgumentMatcher isElementWithUnrestrictedVisibility() {
-		return argument -> !VisibilityRestriction.isVisibilityRestricted(argument,
-				visibilityRestrictions);
+		return argument ->
+				!VisibilityRestriction.isVisibilityRestricted(argument, visibilityRestrictions);
 	}
 
 	private Syntax.ArgumentMatcher any() {

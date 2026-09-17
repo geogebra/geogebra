@@ -59,18 +59,13 @@ public class IddotsAtom extends Atom implements HasCharacter {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		final Box ldots = ((Command0A) Commands.getUnsafe("ldots")).newI(null)
-				.createBox(env);
+		final Box ldots = ((Command0A) Commands.getUnsafe("ldots")).newI(null).createBox(env);
 		final double w = ldots.getWidth();
 		final Box dot = Symbols.LDOTP.createBox(env);
-		final HorizontalBox hb1 = new HorizontalBox(dot, w,
-				TeXConstants.Align.RIGHT);
-		final HorizontalBox hb2 = new HorizontalBox(dot, w,
-				TeXConstants.Align.CENTER);
-		final HorizontalBox hb3 = new HorizontalBox(dot, w,
-				TeXConstants.Align.LEFT);
-		final Box pt4 = new SpaceAtom(Unit.MU, 0, 4, 0)
-				.createBox(env);
+		final HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.Align.RIGHT);
+		final HorizontalBox hb2 = new HorizontalBox(dot, w, TeXConstants.Align.CENTER);
+		final HorizontalBox hb3 = new HorizontalBox(dot, w, TeXConstants.Align.LEFT);
+		final Box pt4 = new SpaceAtom(Unit.MU, 0, 4, 0).createBox(env);
 		final VerticalBox vb = new VerticalBox();
 		vb.add(hb1);
 		vb.add(pt4);

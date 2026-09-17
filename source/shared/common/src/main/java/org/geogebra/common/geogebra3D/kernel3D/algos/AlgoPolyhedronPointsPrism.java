@@ -32,13 +32,13 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author ggb3D
- * 
+ *
  *         Creates a new Prism
  *
  */
 public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	private Coords uptranslation;
-	
+
 	/**
 	 * @param c
 	 *            construction
@@ -49,8 +49,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	 * @param point
 	 *            point on top
 	 */
-	public AlgoPolyhedronPointsPrism(Construction c, String[] labels,
-			GeoPolygon polygon, GeoPointND point) {
+	public AlgoPolyhedronPointsPrism(
+			Construction c, String[] labels, GeoPolygon polygon, GeoPointND point) {
 		super(c, labels, polygon, point);
 	}
 
@@ -62,8 +62,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	 * @param points
 	 *            points (base + last one on top)
 	 */
-	public AlgoPolyhedronPointsPrism(Construction c, String[] labels,
-			GeoPointND[] points) {
+	public AlgoPolyhedronPointsPrism(Construction c, String[] labels, GeoPointND[] points) {
 		super(c, labels, points);
 	}
 
@@ -77,8 +76,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	 * @param height
 	 *            height
 	 */
-	public AlgoPolyhedronPointsPrism(Construction c, String[] labels,
-			GeoPolygon polygon, NumberValue height) {
+	public AlgoPolyhedronPointsPrism(
+			Construction c, String[] labels, GeoPolygon polygon, NumberValue height) {
 		super(c, labels, polygon, height);
 	}
 
@@ -117,10 +116,8 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		for (int i = 0; i < bottomPointsLength; i++) {
 			polyhedron.startNewFace();
 			polyhedron.addPointToCurrentFace(points[i]);
-			polyhedron.addPointToCurrentFace(
-					points[(i + 1) % bottomPointsLength]);
-			polyhedron.addPointToCurrentFace(points[bottomPointsLength
-					+ ((i + 1) % bottomPointsLength)]);
+			polyhedron.addPointToCurrentFace(points[(i + 1) % bottomPointsLength]);
+			polyhedron.addPointToCurrentFace(points[bottomPointsLength + ((i + 1) % bottomPointsLength)]);
 			polyhedron.addPointToCurrentFace(points[bottomPointsLength + i]);
 			polyhedron.endCurrentFace();
 		}
@@ -141,7 +138,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 *            index of the point
 	 * @return top point #index
@@ -184,17 +181,16 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 				polyhedron.addPointToCurrentFace(getTopPoint(i));
 				polyhedron.endCurrentFace();
 				GeoPolygon3D polygon = polyhedron.createPolygon(i + 1); // i+1
-																		// due
-																		// to
-																		// top
-																		// face
+				// due
+				// to
+				// top
+				// face
 				if (polyhedron.allLabelsAreSet()) {
 					polygon.setLabel(null);
 				}
 				outputPolygonsSide.addOutput(polygon, false);
 				addToOutputIf3D(outputSegmentsSide, polygon.getSegments()[3]);
-				outputSegmentsTop.addOutput(
-						(GeoSegment3D) polygon.getSegments()[2], false);
+				outputSegmentsTop.addOutput((GeoSegment3D) polygon.getSegments()[2], false);
 			}
 
 			if (getPolyhedron().allLabelsAreSet()) {
@@ -213,9 +209,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 			updateOutputPoints();
 
 			// update top side
-			outputSegmentsTop.getElement(newBottomPointsLength - 1)
-					.modifyInputPoints(getTopPoint(newBottomPointsLength - 1),
-							getTopPoint());
+			outputSegmentsTop
+					.getElement(newBottomPointsLength - 1)
+					.modifyInputPoints(getTopPoint(newBottomPointsLength - 1), getTopPoint());
 			GeoPolygon polygon = getTopFace();
 			GeoPointND[] p = new GeoPointND[newBottomPointsLength];
 			p[0] = getTopPoint();
@@ -223,8 +219,7 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 				p[1 + i] = getTopPoint(i + 1);
 			}
 			polygon.modifyInputPoints(p);
-			polygon.setSegments(outputSegmentsTop
-					.getOutput(new GeoSegment3D[newBottomPointsLength]));
+			polygon.setSegments(outputSegmentsTop.getOutput(new GeoSegment3D[newBottomPointsLength]));
 			polygon.calcArea();
 
 			// update last side
@@ -276,9 +271,9 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		polygon.calcArea();
 	}
 
-	private void updateSide(int index, GeoPointND[] bottomPoints,
-			GeoSegmentND[] bottomSegments) {
-		outputSegmentsTop.getElement(index - 1)
+	private void updateSide(int index, GeoPointND[] bottomPoints, GeoSegmentND[] bottomSegments) {
+		outputSegmentsTop
+				.getElement(index - 1)
 				.modifyInputPoints(getTopPoint(index - 1), getTopPoint(index));
 		GeoPolygon polygon = outputPolygonsSide.getElement(index - 1);
 		GeoPointND[] p = new GeoPointND[4];
@@ -300,7 +295,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		for (int i = bottomPointsLength; i < bottomPointsLength + length; i++) {
 			outputPoints.getElement(i - getShift()).setUndefined();
 		}
-
 	}
 
 	// ///////////////////////////////////////////
@@ -310,25 +304,22 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	@Override
 	protected void updateOutputPoints() {
 		if (height == null) {
-			uptranslation = getTopPoint().getInhomCoordsInD3()
-					.sub(getBottomPoints()[0].getInhomCoordsInD3());
+			uptranslation =
+					getTopPoint().getInhomCoordsInD3().sub(getBottomPoints()[0].getInhomCoordsInD3());
 		} else {
-			uptranslation = bottom.getMainDirection().normalized()
-					.mul(height.getDouble());
+			uptranslation = bottom.getMainDirection().normalized().mul(height.getDouble());
 		}
 
 		GeoPointND[] bottomPoints = getBottomPoints();
 
 		// translation from bottom to top
 		if (bottomPoints != null) {
-			for (int i = 0; i < outputPoints.size()
-					&& i + getShift() < bottomPoints.length; i++) {
-				outputPoints.getElement(i)
-						.setCoords(bottomPoints[i + getShift()]
-								.getInhomCoordsInD3().add(uptranslation), true);
+			for (int i = 0; i < outputPoints.size() && i + getShift() < bottomPoints.length; i++) {
+				outputPoints
+						.getElement(i)
+						.setCoords(bottomPoints[i + getShift()].getInhomCoordsInD3().add(uptranslation), true);
 			}
 		}
-
 	}
 
 	@Override
@@ -345,7 +336,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		if (!bottomAsInput) {
 			updateOutputPoints();
 		}
-
 	}
 
 	@Override
@@ -364,16 +354,14 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 			if (step == 1 && !bottomAsInput) { // bottom
 				outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
 				for (int i = 0; i < segments.length; i++) {
-					outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],
-							false);
+					outputSegmentsBottom.addOutput((GeoSegment3D) segments[i], false);
 				}
 				step++;
 				continue;
 			} else if (step == top) { // top
 				outputPolygonsTop.addOutput((GeoPolygon3D) polygon, false);
 				for (int i = 0; i < segments.length; i++) {
-					outputSegmentsTop.addOutput((GeoSegment3D) segments[i],
-							false);
+					outputSegmentsTop.addOutput((GeoSegment3D) segments[i], false);
 				}
 				step++;
 				continue;
@@ -386,7 +374,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		}
 
 		refreshOutput();
-
 	}
 
 	@Override
@@ -397,7 +384,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		}
 
 		return (length + getShift() - 3) / 5;
-
 	}
 
 	@Override
@@ -420,7 +406,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 			outputPolygonsSide.updateParentAlgorithm();
 			outputPolygonsTop.updateParentAlgorithm();
 		}
-
 	}
 
 	@Override
@@ -432,5 +417,4 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 		outputPolygonsSide.updateParentAlgorithm();
 		outputPolygonsTop.updateParentAlgorithm();
 	}
-
 }

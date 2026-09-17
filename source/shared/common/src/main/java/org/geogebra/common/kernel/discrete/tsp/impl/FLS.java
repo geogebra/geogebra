@@ -71,8 +71,8 @@ public final class FLS {
 	 * longer edges, avoid 4 square root operations by comparing squares. this
 	 * results in a 40% speed up in this code.
 	 */
-	private static double moveCost(final MyPoint a, final MyPoint b, final MyPoint c,
-			final MyPoint d) {
+	private static double moveCost(
+			final MyPoint a, final MyPoint b, final MyPoint c, final MyPoint d) {
 
 		// original edges (ab) (cd)
 		final double _ab = a.distanceSq(b), _cd = c.distanceSq(d);
@@ -88,15 +88,13 @@ public final class FLS {
 		}
 
 		// otherwise must calculate distance delta.
-		return Math.sqrt(_ac) + Math.sqrt(_bd)
-				- (Math.sqrt(_ab) + Math.sqrt(_cd));
+		return Math.sqrt(_ac) + Math.sqrt(_bd) - (Math.sqrt(_ab) + Math.sqrt(_cd));
 	}
 
 	/**
 	 * set active bits for 4 vertices making up edges ab, cd.
 	 */
-	private static void activate(final MyPoint a, final MyPoint b, final MyPoint c,
-			final MyPoint d) {
+	private static void activate(final MyPoint a, final MyPoint b, final MyPoint c, final MyPoint d) {
 		a.setActive(true);
 		b.setActive(true);
 		c.setActive(true);
@@ -110,8 +108,8 @@ public final class FLS {
 	 * (currentPoint,nextPoint) are compared to all over edges (c,d), starting
 	 * at (c=currentPoint+2, d=currentPoint+3) until an improvement is found.
 	 */
-	private static double findMove(final int current, final MyPoint currentPoint,
-			final MyPoint[] points, final int numCities) {
+	private static double findMove(
+			final int current, final MyPoint currentPoint, final MyPoint[] points, final int numCities) {
 
 		// previous and next city index and point object.
 		final int prev = wrap(current - 1, numCities);
@@ -123,8 +121,9 @@ public final class FLS {
 		// until i = current+numCities-2, j = current+numCities-1.
 		// if points = {0,1,2,3,4,5,6,7,8,9}, current = 4, this will produce:
 		// (6,7) (7,8) (8,9) (9,0) (0,1) (1,2) (2,3)
-		for (int i = wrap(current + 2, numCities), j = wrap(current + 3,
-				numCities); j != current; i = j, j = wrap(j + 1, numCities)) {
+		for (int i = wrap(current + 2, numCities), j = wrap(current + 3, numCities);
+				j != current;
+				i = j, j = wrap(j + 1, numCities)) {
 
 			final MyPoint c = points[i];
 			final MyPoint d = points[j];
@@ -156,14 +155,13 @@ public final class FLS {
 				reverse(points, Math.min(current, i) + 1, Math.max(current, i));
 				return delta2;
 			}
-
 		}
 		return 0.0;
 	}
 
 	/**
 	 * optimise a tour.
-	 * 
+	 *
 	 * @return a 2-Optimal tour.
 	 */
 	public static double optimise(final MyPoint[] points) {
@@ -187,8 +185,7 @@ public final class FLS {
 			if (currentPoint.isActive()) {
 
 				// from the current city, try to find a move.
-				final double modified = findMove(current, currentPoint, points,
-						numCities);
+				final double modified = findMove(current, currentPoint, points, numCities);
 
 				// if a move was found, go to previous city.
 				// best is += modified delta.
@@ -219,5 +216,4 @@ public final class FLS {
 		}
 		return d;
 	}
-
 }

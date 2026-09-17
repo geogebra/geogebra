@@ -23,4 +23,3 @@ public enum SegmentKind {
 	CONTOUR,
 	VIEWPORT
 }
-

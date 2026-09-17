@@ -46,8 +46,7 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 	 * @param next
 	 *            true for NextPrime, false for PreviousPrime
 	 */
-	public AlgoNextPreviousPrime(Construction cons, String label,
-			GeoNumberValue init, boolean next) {
+	public AlgoNextPreviousPrime(Construction cons, String label, GeoNumberValue init, boolean next) {
 		super(cons);
 		this.init = init;
 		this.next = next;
@@ -60,7 +59,7 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[] { init.toGeoElement() };
+		input = new GeoElement[] {init.toGeoElement()};
 		setDependencies();
 	}
 
@@ -75,8 +74,7 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 		sb.append(init.toValueString(StringTemplate.maxPrecision));
 		sb.append(")");
 		try {
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-					arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(), arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				result.setUndefined();
 			} else {
@@ -86,7 +84,6 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 		} catch (Throwable e) {
 			result.setUndefined();
 		}
-
 	}
 
 	@Override

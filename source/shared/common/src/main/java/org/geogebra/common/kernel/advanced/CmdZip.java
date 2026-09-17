@@ -30,7 +30,7 @@ import org.geogebra.common.main.MyError;
 public class CmdZip extends CommandProcessor {
 	/**
 	 * Creates new zip command
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,7 +39,7 @@ public class CmdZip extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		// avoid
@@ -68,7 +68,5 @@ public class CmdZip extends CommandProcessor {
 
 		AlgoZip algo = new AlgoZip(cons, c.getLabel(), arg, vars, over);
 		return algo.getOutput();
-
 	}
-
 }

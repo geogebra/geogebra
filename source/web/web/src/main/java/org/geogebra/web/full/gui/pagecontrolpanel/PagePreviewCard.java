@@ -34,8 +34,7 @@ import org.jspecify.annotations.NonNull;
 /**
  * Page Preview Card showing preview of EuclidianView
  */
-public final class PagePreviewCard extends FlowPanel
-		implements SetLabels {
+public final class PagePreviewCard extends FlowPanel implements SetLabels {
 
 	/** Margin of the cards. */
 	static final int MARGIN = 16;
@@ -75,21 +74,20 @@ public final class PagePreviewCard extends FlowPanel
 
 	/**
 	 * Duplicates card with pageIndex incremented by 1.
-	 * 
+	 *
 	 * @param source
 	 *            to duplicate.
 	 * @param targetID
 	 *            ID of the new slide
 	 * @return The duplicated card.
 	 */
-	public static PagePreviewCard pasteAfter(PagePreviewCard source,
-			@NonNull String targetID, String json) {
+	public static PagePreviewCard pasteAfter(
+			PagePreviewCard source, @NonNull String targetID, String json) {
 		GgbFile file = new GgbFile(targetID);
 		source.app.getArchiveLoader().setFileFromJsonString(json, file);
-		return new PagePreviewCard(source.app, source.getPageIndex() + 1,
-				file);
+		return new PagePreviewCard(source.app, source.getPageIndex() + 1, file);
 	}
-	
+
 	private void initGUI() {
 		resetTop();
 		addStyleName("cardRow");
@@ -140,8 +138,7 @@ public final class PagePreviewCard extends FlowPanel
 
 	private boolean setPreviewImage(ArchiveEntry image) {
 		if (image != null && !image.createUrl().isEmpty()) {
-			imagePanel.getElement().getStyle().setBackgroundImage(
-					"url(" + image.createUrl() + ")");
+			imagePanel.getElement().getStyle().setBackgroundImage("url(" + image.createUrl() + ")");
 			return true;
 		}
 		return false;
@@ -163,7 +160,7 @@ public final class PagePreviewCard extends FlowPanel
 
 	/**
 	 * get the index of the page
-	 * 
+	 *
 	 * @return page index
 	 */
 	public int getPageIndex() {
@@ -173,7 +170,7 @@ public final class PagePreviewCard extends FlowPanel
 	/**
 	 * set index of page
 	 * note: this will also update the title of the page
-	 * 
+	 *
 	 * @param index
 	 *            new index
 	 */
@@ -189,7 +186,7 @@ public final class PagePreviewCard extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 * @param top
 	 *            to set.
 	 */
@@ -205,7 +202,7 @@ public final class PagePreviewCard extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 * @param y
 	 *            the top position of the drag.
 	 * @return top of the card after drag
@@ -215,7 +212,7 @@ public final class PagePreviewCard extends FlowPanel
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the bottom of the card.
 	 */
 	public int getBottom() {
@@ -224,7 +221,7 @@ public final class PagePreviewCard extends FlowPanel
 
 	/**
 	 * Checks if (x, y) is within the card.
-	 * 
+	 *
 	 * @param x
 	 *            coordinate to check.
 	 * @param y
@@ -242,7 +239,7 @@ public final class PagePreviewCard extends FlowPanel
 
 	/**
 	 * Make card grabbed (by pointer) at y.
-	 * 
+	 *
 	 * @param y
 	 *            coordinate where user has grabbed the card.
 	 */

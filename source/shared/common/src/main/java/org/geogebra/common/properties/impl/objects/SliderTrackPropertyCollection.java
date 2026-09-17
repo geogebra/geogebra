@@ -43,23 +43,30 @@ public class SliderTrackPropertyCollection extends AbstractPropertyCollection<Pr
 	 * @param elements list of GeoElements to create properties for
 	 * @throws NotApplicablePropertyException if the property is not applicable to the elements
 	 */
-	public SliderTrackPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			AlgebraProcessor processor, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+	public SliderTrackPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			AlgebraProcessor processor,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Line");
 		Property[] properties = Stream.of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SliderTrackWidthProperty(processor, localization, element),
-						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SliderTrackThicknessProperty(localization, element),
-						RangePropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> LineOpacityProperty.forSlider(localization, element),
-						RangePropertyListFacade::new),
-				tryOrNull(() -> new SliderTrackColorPropertyCollection(
-						propertiesFactory, localization, elements))
-		).filter(Objects::nonNull).toArray(Property[]::new);
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SliderTrackWidthProperty(processor, localization, element),
+								StringPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new SliderTrackThicknessProperty(localization, element),
+								RangePropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> LineOpacityProperty.forSlider(localization, element),
+								RangePropertyListFacade::new),
+						tryOrNull(() ->
+								new SliderTrackColorPropertyCollection(propertiesFactory, localization, elements)))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new);
 		if (properties.length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

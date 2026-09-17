@@ -84,8 +84,7 @@ public final class AlgebraOutputPanel extends FlowPanel {
 	 * add arrow prefix for av output
 	 */
 	void addEqualSignPrefix() {
-		final Image arrow = new NoDragImage(
-				MaterialDesignResources.INSTANCE.equal_sign_black(), 24);
+		final Image arrow = new NoDragImage(MaterialDesignResources.INSTANCE.equal_sign_black(), 24);
 		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}
@@ -105,7 +104,8 @@ public final class AlgebraOutputPanel extends FlowPanel {
 	 * @return The multi-state toggle button (symbolic, engineering mode)
 	 */
 	public static AlgebraOutputFormatButton createOutputFormatButton(
-			GeoElement geo, boolean engineeringNotation,
+			GeoElement geo,
+			boolean engineeringNotation,
 			Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
 		final AlgebraOutputFormatButton button = new AlgebraOutputFormatButton();
 
@@ -115,18 +115,19 @@ public final class AlgebraOutputPanel extends FlowPanel {
 				applyNextFormat(geo, engineeringNotation, algebraOutputFormatFilters, button);
 			}
 		});
-		button.addKeyActivateHandler(() -> applyNextFormat(geo,
-				engineeringNotation, algebraOutputFormatFilters, button));
+		button.addKeyActivateHandler(
+				() -> applyNextFormat(geo, engineeringNotation, algebraOutputFormatFilters, button));
 		return button;
 	}
 
-	private static void applyNextFormat(GeoElement geo, boolean engineeringNotation,
+	private static void applyNextFormat(
+			GeoElement geo,
+			boolean engineeringNotation,
 			Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters,
 			AlgebraOutputFormatButton button) {
-		AlgebraOutputFormat nextFormat = AlgebraOutputFormat.getNextFormat(
-				geo, engineeringNotation, algebraOutputFormatFilters);
-		AlgebraOutputFormat.switchToNextFormat(
-				geo, engineeringNotation, algebraOutputFormatFilters);
+		AlgebraOutputFormat nextFormat =
+				AlgebraOutputFormat.getNextFormat(geo, engineeringNotation, algebraOutputFormatFilters);
+		AlgebraOutputFormat.switchToNextFormat(geo, engineeringNotation, algebraOutputFormatFilters);
 		if (nextFormat != null) {
 			button.select(nextFormat);
 		}
@@ -138,15 +139,18 @@ public final class AlgebraOutputPanel extends FlowPanel {
 	 * @param parent Parent panel
 	 * @param geo GeoElement
 	 */
-	public static void updateOutputPanelButton(AlgebraOutputFormatButton button, FlowPanel parent,
-			GeoElement geo, boolean engineering,
+	public static void updateOutputPanelButton(
+			AlgebraOutputFormatButton button,
+			FlowPanel parent,
+			GeoElement geo,
+			boolean engineering,
 			Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters) {
-		AlgebraOutputFormat nextFormat = AlgebraOutputFormat.getNextFormat(
-				geo, engineering, algebraOutputFormatFilters);
+		AlgebraOutputFormat nextFormat =
+				AlgebraOutputFormat.getNextFormat(geo, engineering, algebraOutputFormatFilters);
 		if (nextFormat != null) {
 			button.select(nextFormat);
-			AriaHelper.setLabel(button,
-					geo.getApp().getLocalization().getMenu(nextFormat.getScreenReaderLabel()));
+			AriaHelper.setLabel(
+					button, geo.getApp().getLocalization().getMenu(nextFormat.getScreenReaderLabel()));
 		}
 		parent.add(button);
 	}
@@ -179,10 +183,8 @@ public final class AlgebraOutputPanel extends FlowPanel {
 	 * @param fontSize size in pixels
 	 * @return whether update was successful (AV has value panel)
 	 */
-	boolean updateValuePanel(GeoElement geo1, String text,
-			boolean latex, int fontSize) {
-		if (geo1 == null || geo1
-				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE) {
+	boolean updateValuePanel(GeoElement geo1, String text, boolean latex, int fontSize) {
+		if (geo1 == null || geo1.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE) {
 			return false;
 		}
 		clear();
@@ -196,14 +198,13 @@ public final class AlgebraOutputPanel extends FlowPanel {
 
 		if (latex
 				&& (geo1.isLaTeXDrawableGeo()
-				|| AlgebraItem.evaluatesToFraction(geo1)
-				|| AlgebraItem.isRationalizableFraction(geo1)
-				|| AlgebraItem.isGeoSurd(geo1))) {
+						|| AlgebraItem.evaluatesToFraction(geo1)
+						|| AlgebraItem.isRationalizableFraction(geo1)
+						|| AlgebraItem.isGeoSurd(geo1))) {
 			showLaTeXValue(text, geo1, fontSize);
 		} else {
 			HTML html = new HTML();
-			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(html,
-					geo1.getKernel().getApplication());
+			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(html, geo1.getKernel().getApplication());
 			if (AlgebraItem.needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
 			} else {
@@ -223,11 +224,9 @@ public final class AlgebraOutputPanel extends FlowPanel {
 	 * @param fontSize
 	 *            size in pixels
 	 */
-	public void showLaTeXValue(String text, GeoElementND geo,
-			int fontSize) {
+	public void showLaTeXValue(String text, GeoElementND geo, int fontSize) {
 		// LaTeX
-		Canvas canvas = DrawEquationW.paintOnCanvas(geo, text, valCanvas,
-				fontSize);
+		Canvas canvas = DrawEquationW.paintOnCanvas(geo, text, valCanvas, fontSize);
 		canvas.addStyleName("canvasVal");
 		valuePanel.clear();
 		valuePanel.add(canvas);

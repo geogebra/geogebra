@@ -130,8 +130,7 @@ public class PenToolsSettings extends AbstractSettings<PenToolsSettings> {
 		sbxml.endTag();
 
 		// size of highlighter
-		sbxml.startTag("highlighterSize")
-				.attr("val", getLastHighlighterThickness()).endTag();
+		sbxml.startTag("highlighterSize").attr("val", getLastHighlighterThickness()).endTag();
 
 		// highlighter of pen
 		sbxml.startTag("highlighterColor");

@@ -87,7 +87,6 @@ public class CommandMathStyles {
 		public Atom getLastAtom() {
 			return ra.getLastAtom();
 		}
-
 	}
 
 	public static class CloseBracket extends Command {
@@ -96,8 +95,7 @@ public class CommandMathStyles {
 		private final int style;
 		private final String err;
 
-		public CloseBracket(final TeXConstants.Opener opener, final int style,
-				final String err) {
+		public CloseBracket(final TeXConstants.Opener opener, final int style, final String err) {
 			this.opener = opener;
 			this.style = style;
 			this.err = err;

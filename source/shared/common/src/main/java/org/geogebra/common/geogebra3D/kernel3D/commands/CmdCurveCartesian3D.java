@@ -39,7 +39,6 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 	 */
 	public CmdCurveCartesian3D(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
@@ -63,10 +62,12 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernel.getManager3D().curveCartesian3D(
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], (GeoNumeric) arg[3],
-						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5]);
+				ret[0] = kernel
+						.getManager3D()
+						.curveCartesian3D(
+								(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+								(GeoNumberValue) arg[2], (GeoNumeric) arg[3],
+								(GeoNumberValue) arg[4], (GeoNumberValue) arg[5]);
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
@@ -75,21 +76,18 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 					throw argErr(c, arg[i]);
 				}
 			}
-
 		}
 
 		return super.process(c, info);
 	}
 
 	@Override
-	protected AlgoCurveCartesian getCurveAlgo(ExpressionNode point,
-			GeoNumberValue[] coords, GeoElement[] arg) {
+	protected AlgoCurveCartesian getCurveAlgo(
+			ExpressionNode point, GeoNumberValue[] coords, GeoElement[] arg) {
 		if (coords.length == 2) {
 			return super.getCurveAlgo(point, coords, arg);
 		}
-		return new AlgoCurveCartesian3D(cons, point, coords,
-				(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
-				(GeoNumberValue) arg[3]);
+		return new AlgoCurveCartesian3D(
+				cons, point, coords, (GeoNumeric) arg[1], (GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 	}
-
 }

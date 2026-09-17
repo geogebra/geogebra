@@ -67,9 +67,7 @@ public class IntervalSinCos {
 		}
 
 		IntervalSet cache = evaluator.fmodSet(
-				connectedInterval(set).getLow() < 0
-						? normalizeNegativeLowerBound(set)
-						: set,
+				connectedInterval(set).getLow() < 0 ? normalizeNegativeLowerBound(set) : set,
 				connected(piTwice()));
 		Interval cacheInterval = connectedInterval(cache);
 
@@ -81,8 +79,8 @@ public class IntervalSinCos {
 		double high = cacheInterval.getHigh();
 
 		if (low >= PI_HIGH) {
-			IntervalSet result = cos(connected(cacheInterval.getLow() - PI_HIGH,
-					cacheInterval.getHigh() - PI_LOW));
+			IntervalSet result =
+					cos(connected(cacheInterval.getLow() - PI_HIGH, cacheInterval.getHigh() - PI_LOW));
 			Interval cosInterval = connectedInterval(result);
 			return connected(-cosInterval.getHigh(), -cosInterval.getLow());
 		}
@@ -120,7 +118,6 @@ public class IntervalSinCos {
 
 		double n = Math.ceil(-low / PI_TWICE_LOW);
 		return connected(low + PI_TWICE_LOW * n, high + PI_TWICE_LOW * n);
-
 	}
 
 	/**
@@ -152,5 +149,4 @@ public class IntervalSinCos {
 				connectedInterval(set).getLow() - IntervalConstants.PI_HALF_HIGH,
 				connectedInterval(set).getHigh() - IntervalConstants.PI_HALF_LOW);
 	}
-
 }

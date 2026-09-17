@@ -43,8 +43,7 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 	 * @param w
 	 *            second vector
 	 */
-	public AlgoAngleVectorsND(Construction cons, GeoVectorND v,
-			GeoVectorND w) {
+	public AlgoAngleVectorsND(Construction cons, GeoVectorND v, GeoVectorND w) {
 
 		this(cons, v, w, null);
 	}
@@ -59,8 +58,8 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 	 * @param orientation
 	 *            plane orientation
 	 */
-	public AlgoAngleVectorsND(Construction cons, GeoVectorND v,
-			GeoVectorND w, GeoDirectionND orientation) {
+	public AlgoAngleVectorsND(
+			Construction cons, GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
 		super(cons);
 		setInput(v, w, orientation);
 		angle = newGeoAngle(cons);
@@ -83,7 +82,7 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 
 	/**
 	 * set inputs
-	 * 
+	 *
 	 * @param v
 	 *            first vector
 	 * @param w
@@ -91,8 +90,7 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 	 * @param orientation
 	 *            orientation
 	 */
-	protected void setInput(GeoVectorND v, GeoVectorND w,
-			GeoDirectionND orientation) {
+	protected void setInput(GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
 		this.v = v;
 		this.w = w;
 	}
@@ -122,15 +120,13 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("AngleBetweenAB",
-				"Angle between %0, %1", v.getLabel(tpl),
-				w.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"AngleBetweenAB", "Angle between %0, %1", v.getLabel(tpl), w.getLabel(tpl));
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		GeoPointND vertex = getStartPoint(v);
 		if (centerIsNotDrawable(vertex)) {
 			return false;
@@ -155,7 +151,6 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 		firstVec[1] = direction.getY();
 
 		return true;
-
 	}
 
 	@Override
@@ -171,5 +166,4 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 
 		return true;
 	}
-
 }

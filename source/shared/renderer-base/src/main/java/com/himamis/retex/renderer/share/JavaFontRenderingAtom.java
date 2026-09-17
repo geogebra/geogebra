@@ -57,7 +57,7 @@ public class JavaFontRenderingAtom extends Atom {
 	private final int style;
 	private final Font font;
 
-	private final static FontAdapter fontAdapter = new FontAdapter();
+	private static final FontAdapter fontAdapter = new FontAdapter();
 
 	private JavaFontRenderingAtom(final String str, final int style, final Font font) {
 		this.str = str;
@@ -85,8 +85,7 @@ public class JavaFontRenderingAtom extends Atom {
 				final TeXFont dtf = env.getTeXFont();
 				int style = dtf.isIt ? Font.ITALIC : Font.PLAIN;
 				style = style | (dtf.isBold ? Font.BOLD : 0);
-				return new JavaFontRenderingBox(str, style, factor, font,
-						dtf.isRoman).setAtom(this);
+				return new JavaFontRenderingBox(str, style, factor, font, dtf.isRoman).setAtom(this);
 			} else {
 				return new JavaFontRenderingBox(str, style, factor, font).setAtom(this);
 			}
@@ -103,8 +102,7 @@ public class JavaFontRenderingAtom extends Atom {
 			} else {
 				font = fontAdapter.createFont(sf, Font.PLAIN, 10);
 			}
-			return new JavaFontRenderingBox(str, style, factor, font,
-					dtf.isRoman).setAtom(this);
+			return new JavaFontRenderingBox(str, style, factor, font, dtf.isRoman).setAtom(this);
 		}
 	}
 
@@ -116,5 +114,4 @@ public class JavaFontRenderingAtom extends Atom {
 	public String getString() {
 		return str;
 	}
-
 }

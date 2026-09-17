@@ -20,7 +20,7 @@ import org.geogebra.common.awt.GAlphaComposite;
 
 public class GAlphaCompositeW implements GAlphaComposite {
 
-	final public static GAlphaCompositeW SRC = new GAlphaCompositeW(1.0);
+	public static final GAlphaCompositeW SRC = new GAlphaCompositeW(1.0);
 	private double alpha;
 
 	public GAlphaCompositeW(double alpha) {
@@ -30,5 +30,4 @@ public class GAlphaCompositeW implements GAlphaComposite {
 	public double getAlpha() {
 		return alpha;
 	}
-
 }

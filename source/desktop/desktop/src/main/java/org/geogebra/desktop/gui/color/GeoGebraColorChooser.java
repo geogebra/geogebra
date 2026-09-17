@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -32,7 +32,7 @@ import org.geogebra.desktop.main.AppD;
  * Extends JColorChooser to do the following: 1) Replace the default color
  * chooser panels with an instance of GeoGebraColorChooserPanel 2) Handle null
  * color selection 3) Localize dialog button strings using GeoGebra properties
- * 
+ *
  * @author G Sturr
  *
  */
@@ -51,8 +51,7 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 		setSelectionModel(new NullableColorSelectionModel());
 
 		// remove default chooser panels and replace with our custom panel
-		AbstractColorChooserPanel[] panels = {
-				new GeoGebraColorChooserPanel(app) };
+		AbstractColorChooserPanel[] panels = {new GeoGebraColorChooserPanel(app)};
 		setChooserPanels(panels);
 
 		// hide the default preview panel
@@ -114,5 +113,4 @@ public class GeoGebraColorChooser extends JColorChooser implements SetLabels {
 			}
 		}
 	}
-
 }

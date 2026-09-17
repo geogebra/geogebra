@@ -32,7 +32,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Compute the Hilbert dimension of the hypothesis ideal appearing in an
  * algebraic geometry proof.
- * 
+ *
  * @author kovzol
  *
  */
@@ -45,7 +45,7 @@ public class HilbertDimension {
 	/**
 	 * Get a maximum size independent set that contains the same amount element
 	 * as the Hilbert dimension of the ideal.
-	 * 
+	 *
 	 * @return a maximum size independent set
 	 */
 	/* Using static here is dangerous. FIXME */
@@ -53,12 +53,10 @@ public class HilbertDimension {
 		return aMaximalSet;
 	}
 
-	private static boolean eliminationIsZero(Set<PPolynomial> polys,
-			Set<PVariable> vars, HashMap<PVariable, BigInteger> substitutions) {
+	private static boolean eliminationIsZero(
+			Set<PPolynomial> polys, Set<PVariable> vars, HashMap<PVariable, BigInteger> substitutions) {
 		Set<Set<PPolynomial>> eliminationIdeal = PPolynomial.eliminate(
-				polys.toArray(new PPolynomial[polys.size()]), substitutions,
-				kernel, 0,
-				true, false, vars);
+				polys.toArray(new PPolynomial[polys.size()]), substitutions, kernel, 0, true, false, vars);
 		Iterator<Set<PPolynomial>> ndgSet;
 		ndgSet = eliminationIdeal.iterator();
 		while (ndgSet.hasNext()) {
@@ -78,8 +76,8 @@ public class HilbertDimension {
 	 * @param minDim minimal dimension
 	 * @return whether dimension of given statement is greater than {@code minDim}
 	 */
-	public static boolean isDimGreaterThan(AlgebraicStatement as,
-			HashMap<PVariable, BigInteger> substitutions, int minDim) {
+	public static boolean isDimGreaterThan(
+			AlgebraicStatement as, HashMap<PVariable, BigInteger> substitutions, int minDim) {
 
 		int dim = 0;
 
@@ -102,20 +100,17 @@ public class HilbertDimension {
 		boolean loop = true;
 		while (loop) {
 			dim++;
-			Log.debug(useful.size() + " useful sets to be checked for " + dim
-					+ " dimensions");
+			Log.debug(useful.size() + " useful sets to be checked for " + dim + " dimensions");
 			/* lastUseful = nextUseful; */
 			nextUseful = new HashSet<>();
 			// Check the useful set if they are useful in the future:
 			for (HashSet<PVariable> set : useful) {
-				if (eliminationIsZero(as.getPolynomials(), set,
-						substitutions)) {
+				if (eliminationIsZero(as.getPolynomials(), set, substitutions)) {
 					nextUseful.add(set);
 					if (dim > minDim) {
-						Log.debug(
-								"Found a useful set " + set + " with dimension "
-										+ dim + ": Hilbert dimension > "
-										+ minDim);
+						Log.debug("Found a useful set " + set + " with dimension "
+								+ dim + ": Hilbert dimension > "
+								+ minDim);
 						return true;
 					}
 				}
@@ -133,33 +128,30 @@ public class HilbertDimension {
 				}
 			}
 
-			Log.debug(
-					"There are " + useful.size() + " useful sets = " + useful);
+			Log.debug("There are " + useful.size() + " useful sets = " + useful);
 			if (useful.isEmpty()) {
 				loop = false;
 			}
 		}
-		Log.debug("No useful sets found with " + dim
-				+ " dimensions: Hilbert dimension = " + (dim - 1));
+		Log.debug("No useful sets found with " + dim + " dimensions: Hilbert dimension = " + (dim - 1));
 		return false;
 	}
 
 	/**
 	 * Compute Hilbert dimension of the ideal described by the polynomials.
 	 * Before calling this, ensure that the input does not contain the thesis.
-	 * 
+	 *
 	 * TODO: This algorithm is very slow when there are more variables, find a
 	 * faster method. Using substitutions may speed up computations
 	 * dramatically.
-	 * 
+	 *
 	 * @param as
 	 *            the algebraic statement
 	 * @param substitutions
 	 *            variables and their BigInteger substitutions
 	 * @return the Hilbert dimension
 	 */
-	public static int compute(AlgebraicStatement as,
-			HashMap<PVariable, BigInteger> substitutions) {
+	public static int compute(AlgebraicStatement as, HashMap<PVariable, BigInteger> substitutions) {
 		int dim = 0;
 
 		kernel = as.geoStatement.getKernel();
@@ -182,15 +174,12 @@ public class HilbertDimension {
 
 		while (!useful.isEmpty()) {
 			dim++;
-			Log.debug(
-					useful.size() + " useful sets to be checked for " + dim
-							+ " dimensions");
+			Log.debug(useful.size() + " useful sets to be checked for " + dim + " dimensions");
 			lastUseful = nextUseful;
 			nextUseful = new HashSet<>();
 			// Check the useful set if they are useful in the future:
 			for (HashSet<PVariable> set : useful) {
-				if (eliminationIsZero(as.getPolynomials(), set,
-						substitutions)) {
+				if (eliminationIsZero(as.getPolynomials(), set, substitutions)) {
 					nextUseful.add(set);
 				}
 			}
@@ -207,8 +196,7 @@ public class HilbertDimension {
 				}
 			}
 		}
-		Log.debug(
-				"Sets with full dimension (" + (dim - 1) + ") = " + lastUseful);
+		Log.debug("Sets with full dimension (" + (dim - 1) + ") = " + lastUseful);
 		return dim - 1;
 	}
 
@@ -218,8 +206,8 @@ public class HilbertDimension {
 	 * @param minDim minimal dimension
 	 * @return whether dimension of the statement is greater than minDim
 	 */
-	public static boolean isDimGreaterThan2(AlgebraicStatement as,
-			HashMap<PVariable, BigInteger> substitutions, int minDim) {
+	public static boolean isDimGreaterThan2(
+			AlgebraicStatement as, HashMap<PVariable, BigInteger> substitutions, int minDim) {
 
 		kernel = as.geoStatement.getKernel();
 		HashSet<PVariable> allVars = PPolynomial.getVars(as.getPolynomials());
@@ -252,15 +240,14 @@ public class HilbertDimension {
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 
 		as.computeStrings();
-		String gbasisProgram = cas.getCurrentCAS().createGroebnerInitialsScript(
-				substitutions, as.getPolys(), freeVars.toString(),
-				depVars.toString());
+		String gbasisProgram = cas.getCurrentCAS()
+				.createGroebnerInitialsScript(
+						substitutions, as.getPolys(), freeVars.toString(), depVars.toString());
 		String gbasisResult = cas.evaluate(gbasisProgram);
 
 		// parse the result
 		// https://stackoverflow.com/a/8910767
-		int gbasisSize = gbasisResult.length()
-				- gbasisResult.replace("{", "").length() - 1;
+		int gbasisSize = gbasisResult.length() - gbasisResult.replace("{", "").length() - 1;
 		HashSet<HashSet<PVariable>> initials = new HashSet<>();
 		int pos = 1;
 		for (int i = 0; i < gbasisSize; ++i) {
@@ -271,8 +258,7 @@ public class HilbertDimension {
 				pos++;
 				int oldpos = pos;
 				String thischar;
-				while (!","
-						.equals(thischar = gbasisResult.substring(pos, pos + 1))
+				while (!",".equals(thischar = gbasisResult.substring(pos, pos + 1))
 						&& !"}".equals(thischar)) {
 					pos++;
 				}
@@ -305,15 +291,13 @@ public class HilbertDimension {
 		// In this case we will use the geometrically free variables.
 		aMaximalSet = new HashSet<>();
 		aMaximalSet.addAll(freeVariables);
-		Log.debug("The geometrically free variables should be independent: "
-				+ aMaximalSet);
+		Log.debug("The geometrically free variables should be independent: " + aMaximalSet);
 
 		int dim = minDim + 1;
 
 		while (true) {
 
-			Combinations<PVariable> allSubsets = new Combinations<>(allVars,
-					dim);
+			Combinations<PVariable> allSubsets = new Combinations<>(allVars, dim);
 			boolean independentFound = false;
 
 			while (allSubsets.hasNext() && !independentFound) {
@@ -321,8 +305,7 @@ public class HilbertDimension {
 				boolean independent = true;
 				// Log.debug(X);
 				// in(g) \not\in K[X] means in(g) is not completely in X
-				Iterator<HashSet<PVariable>> initialIterator = initials
-						.iterator();
+				Iterator<HashSet<PVariable>> initialIterator = initials.iterator();
 				while (initialIterator.hasNext() && independent) {
 					HashSet<PVariable> initial = initialIterator.next();
 					if (X.containsAll(initial)) {
@@ -347,5 +330,4 @@ public class HilbertDimension {
 			dim++;
 		}
 	}
-
 }

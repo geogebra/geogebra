@@ -70,7 +70,10 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	@Override
 	public void process(String input, int row, int column) {
 		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
-		algebraProcessor.getKernel().getApplication().getAsyncManager()
+		algebraProcessor
+				.getKernel()
+				.getApplication()
+				.getAsyncManager()
 				.scheduleCallback(() -> process(input, cellName));
 	}
 
@@ -98,13 +101,12 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 			return;
 		}
 		try {
-			processInput(buildProperInput(input, cellName), this,
-					(geos) -> {
-						if (geos != null && geos.length > 0 && geos[0] != null) {
-							Arrays.stream(geos).forEach(this::setInitialProperties);
-							kernel.getApplication().storeUndoInfo();
-						}
-					});
+			processInput(buildProperInput(input, cellName), this, (geos) -> {
+				if (geos != null && geos.length > 0 && geos[0] != null) {
+					Arrays.stream(geos).forEach(this::setInitialProperties);
+					kernel.getApplication().storeUndoInfo();
+				}
+			});
 		} catch (Exception e) {
 			Log.debug("error " + e.getLocalizedMessage());
 		}
@@ -118,8 +120,7 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 	private boolean checkCircularDefinition(String input, Kernel kernel) {
 		try {
 			ValidExpression parsed = kernel.getParser().parseGeoGebraExpression(input);
-			if (parsed.any(v -> v instanceof Variable
-					&& cellName.equals(((Variable) v).getName()))) {
+			if (parsed.any(v -> v instanceof Variable && cellName.equals(((Variable) v).getName()))) {
 				return true;
 			}
 		} catch (ParseException | TokenMgrException | MyError expected) {
@@ -159,12 +160,11 @@ public class DefaultSpreadsheetCellProcessor implements SpreadsheetCellProcessor
 		sb.append("\"");
 	}
 
-	private void processInput(String command, ErrorHandler handler, AsyncOperation<GeoElementND[]>
-			callback) {
-		EvalInfo info = algebraProcessor.getEvalInfo(false,
-				false).withSpreadsheet();
-		algebraProcessor.processAlgebraCommandNoExceptionHandling(command, false,
-				handler, info, callback);
+	private void processInput(
+			String command, ErrorHandler handler, AsyncOperation<GeoElementND[]> callback) {
+		EvalInfo info = algebraProcessor.getEvalInfo(false, false).withSpreadsheet();
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(
+				command, false, handler, info, callback);
 	}
 
 	private static boolean isCommand(String input) {

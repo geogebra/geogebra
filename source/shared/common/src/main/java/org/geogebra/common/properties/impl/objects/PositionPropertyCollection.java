@@ -53,8 +53,6 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.common.properties.util.StringPropertyWithSuggestions;
 import org.jspecify.annotations.Nullable;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * {@code PropertyCollection} containing {@code Property}s related to {@code GeoElement}
  * positioning. Depending on the selected {@link Placement} in
@@ -81,51 +79,61 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * elements
 	 */
 	public PositionPropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Properties.Position");
-		this.placementProperty = propertiesFactory.createOptionalPropertyFacade(elements,
+		this.placementProperty = propertiesFactory.createOptionalPropertyFacade(
+				elements,
 				element -> new PlacementProperty(localization, element),
 				NamedEnumeratedPropertyListFacade::new);
 		this.absoluteScreenPositionPropertyCollection = tryOrNull(() ->
-				new AbsoluteScreenPositionPropertyCollection(
-						propertiesFactory, localization, elements));
+				new AbsoluteScreenPositionPropertyCollection(propertiesFactory, localization, elements));
 		this.penStrokeAbsolutePositionProperty = propertiesFactory.createOptionalPropertyFacade(
-				elements, element -> new PenStrokeAbsolutePositionProperty(localization, element),
+				elements,
+				element -> new PenStrokeAbsolutePositionProperty(localization, element),
 				BooleanPropertyListFacade::new);
 		this.startingPointPositionProperty = propertiesFactory.createOptionalPropertyFacade(
-				elements, element -> new StartingPointPositionProperty(localization, element),
+				elements,
+				element -> new StartingPointPositionProperty(localization, element),
 				StringPropertyWithSuggestionsListFacade::new);
-		this.cornerPositionProperty1 = propertiesFactory.createOptionalPropertyFacade(elements,
+		this.cornerPositionProperty1 = propertiesFactory.createOptionalPropertyFacade(
+				elements,
 				element -> new CornerPositionProperty(localization, element, 0),
 				StringPropertyWithSuggestionsListFacade::new);
-		this.cornerPositionProperty2 = propertiesFactory.createOptionalPropertyFacade(elements,
+		this.cornerPositionProperty2 = propertiesFactory.createOptionalPropertyFacade(
+				elements,
 				element -> new CornerPositionProperty(localization, element, 1),
 				StringPropertyWithSuggestionsListFacade::new);
-		this.cornerPositionProperty4 = propertiesFactory.createOptionalPropertyFacade(elements,
+		this.cornerPositionProperty4 = propertiesFactory.createOptionalPropertyFacade(
+				elements,
 				element -> new CornerPositionProperty(localization, element, 2),
 				StringPropertyWithSuggestionsListFacade::new);
-		this.centerImagePositionProperty = propertiesFactory.createOptionalPropertyFacade(elements,
+		this.centerImagePositionProperty = propertiesFactory.createOptionalPropertyFacade(
+				elements,
 				element -> new CenterImagePositionProperty(localization, element),
 				StringPropertyWithSuggestionsListFacade::new);
 		this.pieChartCenterPositionProperty = propertiesFactory.createOptionalPropertyFacade(
-				elements, element -> new PieChartCenterPositionProperty(localization, element),
+				elements,
+				element -> new PieChartCenterPositionProperty(localization, element),
 				StringPropertyWithSuggestionsListFacade::new);
 		setProperties(Stream.of(
-				placementProperty,
-				absoluteScreenPositionPropertyCollection,
-				penStrokeAbsolutePositionProperty,
-				startingPointPositionProperty,
-				cornerPositionProperty1,
-				cornerPositionProperty2,
-				cornerPositionProperty4,
-				centerImagePositionProperty,
-				pieChartCenterPositionProperty
-		).filter(Objects::nonNull).toArray(Property[]::new));
-        if (getProperties().length == 0) {
-            throw new NotApplicablePropertyException(elements.get(0));
-        }
-    }
+						placementProperty,
+						absoluteScreenPositionPropertyCollection,
+						penStrokeAbsolutePositionProperty,
+						startingPointPositionProperty,
+						cornerPositionProperty1,
+						cornerPositionProperty2,
+						cornerPositionProperty4,
+						centerImagePositionProperty,
+						pieChartCenterPositionProperty)
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
+		if (getProperties().length == 0) {
+			throw new NotApplicablePropertyException(elements.get(0));
+		}
+	}
 
 	/**
 	 * @return the placement property if it can be applied to the given element,
@@ -140,7 +148,7 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * or {@code null} otherwise
 	 */
 	public @Nullable PropertyCollection<StringProperty>
-		getAbsoluteScreenPositionPropertyCollection() {
+			getAbsoluteScreenPositionPropertyCollection() {
 		return absoluteScreenPositionPropertyCollection;
 	}
 
@@ -157,10 +165,11 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	 * or {@code null} otherwise
 	 */
 	public @Nullable List<StringPropertyWithSuggestions> getCornerPositionProperties() {
-		List<StringPropertyWithSuggestions> cornerPositionProperties = Arrays.asList(
-				cornerPositionProperty1, cornerPositionProperty2, cornerPositionProperty4);
+		List<StringPropertyWithSuggestions> cornerPositionProperties =
+				Arrays.asList(cornerPositionProperty1, cornerPositionProperty2, cornerPositionProperty4);
 		return cornerPositionProperties.stream().noneMatch(Objects::isNull)
-				? cornerPositionProperties : null;
+				? cornerPositionProperties
+				: null;
 	}
 
 	/**
@@ -198,7 +207,8 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 
 	/** Utility method for getting the list of suggested points */
 	static List<String> getSuggestedPointLabels(Construction construction) {
-		return getSuggestedPoints(construction).stream().limit(50)
+		return getSuggestedPoints(construction).stream()
+				.limit(50)
 				.map(element -> element.getLabel(StringTemplate.editTemplate))
 				.collect(Collectors.toList());
 	}
@@ -212,16 +222,15 @@ public class PositionPropertyCollection extends AbstractPropertyCollection<Prope
 	}
 
 	/** Utility method for setting point with validated expression */
-	@SuppressFBWarnings("DE_MIGHT_IGNORE")
 	static void setCornerPoint(GeoElement geoElement, int cornerIndex, String pointExpression) {
 		try {
 			AlgebraProcessor algebraProcessor = geoElement.getKernel().getAlgebraProcessor();
 			ErrorHandler errorHandler = geoElement.getApp().getErrorHandler();
-			GeoPointND geoPointND = algebraProcessor.evaluateToPoint(
-					pointExpression, errorHandler, true);
+			GeoPointND geoPointND = algebraProcessor.evaluateToPoint(pointExpression, errorHandler, true);
 			((Locateable) geoElement).setStartPoint(geoPointND, cornerIndex);
 			geoElement.updateRepaint();
-		} catch (CircularDefinitionException ignored) { }
+		} catch (CircularDefinitionException ignored) {
+		}
 	}
 
 	private static List<GeoPoint> getSuggestedPoints(Construction construction) {

@@ -33,11 +33,15 @@ public final class NumberInputDialog extends ComponentInputDialog {
 	 * @param labelText - label of input text field
 	 * @param initText - initial text of the field
 	 */
-	public NumberInputDialog(AppW app, DialogData dialogData,
-			boolean autoHide, boolean hasScrim, InputHandler inputHandler,
-			String labelText, String initText) {
-		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText
-		);
+	public NumberInputDialog(
+			AppW app,
+			DialogData dialogData,
+			boolean autoHide,
+			boolean hasScrim,
+			InputHandler inputHandler,
+			String labelText,
+			String initText) {
+		super(app, dialogData, autoHide, hasScrim, inputHandler, labelText, initText);
 	}
 
 	@Override

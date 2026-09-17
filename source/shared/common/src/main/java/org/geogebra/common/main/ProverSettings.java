@@ -96,5 +96,4 @@ public final class ProverSettings {
 	public int getMaxTerms() {
 		return maxTerms;
 	}
-
 }

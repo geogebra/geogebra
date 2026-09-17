@@ -28,20 +28,19 @@ class FunctionSamplerTopologyTest extends BaseFunctionSamplerSetup {
 
 	@ParameterizedTest
 	@CsvSource({
-			"1/x",
-			"1 - exp(-5x)",
-			"0/sin(x)",
-			"((1*10^(-13) x)/(1*10^(-13)))",
-			"((1*10^(-13))/(1*10^(-13)))x"
+		"1/x",
+		"1 - exp(-5x)",
+		"0/sin(x)",
+		"((1*10^(-13) x)/(1*10^(-13)))",
+		"((1*10^(-13))/(1*10^(-13)))x"
 	})
 	void testNoEmptyGapsInData(String definition) {
 		withDefaultScreen();
 		QueryFunctionData data = query(definition);
 		assertAll(
 				() -> assertTrue(data.hasValidData(), "Data is empty"),
-				() -> assertEquals(0, data.stream().filter(
-						tuple -> tuple.ySet().isEmpty()).count())
-		);
+				() -> assertEquals(
+						0, data.stream().filter(tuple -> tuple.ySet().isEmpty()).count()));
 	}
 
 	@Test
@@ -50,9 +49,7 @@ class FunctionSamplerTopologyTest extends BaseFunctionSamplerSetup {
 		QueryFunctionData data = query("tan(x)");
 		assertAll(
 				() -> assertTrue(data.hasValidData(), "Data is empty"),
-				() -> assertEquals(0, data.stream().filter(tuple
-						-> !tuple.ySet().isWhole()).count())
-		);
+				() -> assertEquals(
+						0, data.stream().filter(tuple -> !tuple.ySet().isWhole()).count()));
 	}
-
 }

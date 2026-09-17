@@ -45,8 +45,7 @@ public class AngleUnitProperty extends AbstractNamedEnumeratedProperty<Integer> 
 		setNamedValues(List.of(
 				entry(Kernel.ANGLE_DEGREE, "Degree"),
 				entry(Kernel.ANGLE_RADIANT, "Radiant"),
-				entry(Kernel.ANGLE_DEGREES_MINUTES_SECONDS, "DegreesMinutesSeconds")
-		));
+				entry(Kernel.ANGLE_DEGREES_MINUTES_SECONDS, "DegreesMinutesSeconds")));
 	}
 
 	@Override

@@ -23,7 +23,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 
 /**
  * Manager to create GLLists using GL elements methods
- * 
+ *
  * @author mathieu
  *
  */
@@ -50,8 +50,8 @@ public class ManagerElementForGLList extends Manager {
 	 * @param managerOriginal
 	 *            wrapped manager
 	 */
-	public ManagerElementForGLList(Renderer renderer, EuclidianView3D view3d,
-			Manager managerOriginal) {
+	public ManagerElementForGLList(
+			Renderer renderer, EuclidianView3D view3d, Manager managerOriginal) {
 		super(view3d);
 		setRenderer(renderer);
 		this.managerOriginal = managerOriginal;
@@ -189,8 +189,7 @@ public class ManagerElementForGLList extends Manager {
 	}
 
 	@Override
-	protected void rectangleGeometry(double x, double y, double z, double width,
-			double height) {
+	protected void rectangleGeometry(double x, double y, double z, double width, double height) {
 		// TODO Auto-generated method stub
 	}
 
@@ -225,7 +224,6 @@ public class ManagerElementForGLList extends Manager {
 		@Override
 		public void put(short value) {
 			manager.put(value);
-
 		}
 
 		@Override
@@ -276,12 +274,11 @@ public class ManagerElementForGLList extends Manager {
 		public void position(int newPosition) {
 			// not needed
 		}
-
 	}
 
 	/**
 	 * Put normal, texture and vertex for given index to the original manager
-	 * 
+	 *
 	 * @param value
 	 *            index
 	 */
@@ -292,14 +289,13 @@ public class ManagerElementForGLList extends Manager {
 			managerOriginal.texture(tx.get(value), ty.get(value));
 		}
 		managerOriginal.vertex(vx.get(value), vy.get(value), vz.get(value));
-
 	}
-	
+
 	@Override
 	protected ScalerXYZ getScalerXYZ() {
 		return managerOriginal.getScalerXYZ();
 	}
-	
+
 	@Override
 	public void setScalerIdentity() {
 		managerOriginal.setScalerIdentity();
@@ -309,5 +305,4 @@ public class ManagerElementForGLList extends Manager {
 	public void setScalerView() {
 		managerOriginal.setScalerView();
 	}
-
 }

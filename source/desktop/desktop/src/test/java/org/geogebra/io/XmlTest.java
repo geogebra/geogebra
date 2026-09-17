@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.io;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -132,13 +132,15 @@ class XmlTest {
 	@Test
 	@Issue("APPS-7032")
 	void constantElementsShouldBeOverwrittenWhenLoadingXML() {
-		app.setXML("<geogebra><construction>"
-				+ "<element type=\"boolean\" label=\"zAxis\"></element>"
-				+ "<element type=\"conic\" label=\"xOyPlane\"></element>"
-				+ "<element type=\"numeric\" label=\"space\"> </element>"
-				+ "<element type=\"button\" label=\"xAxis\"></element>"
-				+ "<element type=\"point\" label=\"yAxis\"></element>"
-				+ "</construction></geogebra>", false);
+		app.setXML(
+				"<geogebra><construction>"
+						+ "<element type=\"boolean\" label=\"zAxis\"></element>"
+						+ "<element type=\"conic\" label=\"xOyPlane\"></element>"
+						+ "<element type=\"numeric\" label=\"space\"> </element>"
+						+ "<element type=\"button\" label=\"xAxis\"></element>"
+						+ "<element type=\"point\" label=\"yAxis\"></element>"
+						+ "</construction></geogebra>",
+				false);
 		assertEquals(GeoBoolean.class, app.getKernel().lookupLabel("zAxis").getClass());
 		assertEquals(GeoConic.class, app.getKernel().lookupLabel("xOyPlane").getClass());
 		assertEquals(GeoNumeric.class, app.getKernel().lookupLabel("space").getClass());
@@ -156,7 +158,8 @@ class XmlTest {
 		String xml = app.getXML();
 		xml = xml.replace("<simplifyCoefficients val=\"true\"/>", "");
 		app.setXML(xml, true);
-		assertEquals("1x + 0x + 1",
+		assertEquals(
+				"1x + 0x + 1",
 				app.getKernel().lookupLabel("f").toValueString(StringTemplate.defaultTemplate));
 	}
 
@@ -166,12 +169,12 @@ class XmlTest {
 		processAlgebraCommand("a = " + MyMath.LARGEST_INTEGER);
 
 		String xml = app.getXML();
-		xml = xml.replace("version=\"" + GeoGebraConstants.VERSION_STRING + "\"",
-				"version=\"5.4.923.0\"");
+		xml = xml.replace(
+				"version=\"" + GeoGebraConstants.VERSION_STRING + "\"", "version=\"5.4.923.0\"");
 		app.setXML(xml, true);
 
-		String largestInteger = app.getKernel().lookupLabel("a")
-				.toValueString(StringTemplate.defaultTemplate);
+		String largestInteger =
+				app.getKernel().lookupLabel("a").toValueString(StringTemplate.defaultTemplate);
 		assertEquals("9007199254740992", largestInteger);
 	}
 
@@ -181,10 +184,12 @@ class XmlTest {
 		processAlgebraCommand("a = " + MyMath.LARGEST_INTEGER);
 		app.setXML(app.getXML(), true);
 
-		String largestInteger = app.getKernel().lookupLabel("a")
-				.toValueString(StringTemplate.defaultTemplate);
-		assertEquals("9.00719925474099 " + Unicode.CENTER_DOT + " 10"
-				+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_5, largestInteger);
+		String largestInteger =
+				app.getKernel().lookupLabel("a").toValueString(StringTemplate.defaultTemplate);
+		assertEquals(
+				"9.00719925474099 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_1
+						+ Unicode.SUPERSCRIPT_5,
+				largestInteger);
 	}
 
 	@ParameterizedTest

@@ -96,8 +96,8 @@ public class StaticText3D implements CaptionText {
 		double newFontSize = text.getFontSize(view.getFontSize());
 		int newFontStyle = text.getFontStyle();
 		serif = text.isSerifFont();
-		font = view.getApplication().getFontCanDisplay(
-				text.getTextString(), serif, newFontStyle, newFontSize);
+		font = view.getApplication()
+				.getFontCanDisplay(text.getTextString(), serif, newFontStyle, newFontSize);
 	}
 
 	@Override

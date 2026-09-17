@@ -97,8 +97,7 @@ public final class CASDockPanelW extends NavigableDockPanelW {
 		if (casView == null) {
 			return;
 		}
-		boolean oldFocus = ((CASTableCellEditor) casView.getEditor())
-				.hasFocus();
+		boolean oldFocus = ((CASTableCellEditor) casView.getEditor()).hasFocus();
 		super.onResize();
 		if (oldFocus) {
 			casView.getEditor().setFocus(true);

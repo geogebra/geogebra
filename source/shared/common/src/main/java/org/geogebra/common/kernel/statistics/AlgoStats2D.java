@@ -28,11 +28,10 @@ import org.geogebra.common.kernel.matrix.Coords;
 /**
  * Mean, covariance, sum, sum of squares, etc from two lists or a list of points
  * adapted from AlgoListMin to replace AlgoMean, AlgoSum
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public abstract class AlgoStats2D extends AlgoElement {
 
 	private GeoList geoListx; // input
@@ -41,25 +40,25 @@ public abstract class AlgoStats2D extends AlgoElement {
 
 	private int mode;
 
-	final static int MODE_DOUBLELIST = 0;
-	final static int MODE_LISTOFPOINTS = 1;
+	static final int MODE_DOUBLELIST = 0;
+	static final int MODE_LISTOFPOINTS = 1;
 
 	private int stat;
 
-	final static int STATS_MEANX = 0;
-	final static int STATS_MEANY = 1;
-	final static int STATS_COVARIANCE = 2;
-	final static int STATS_SIGMAXY = 3;
-	final static int STATS_SXX = 4;
-	final static int STATS_SYY = 5;
-	final static int STATS_SXY = 6;
-	final static int STATS_PMCC = 7;
-	final static int STATS_SIGMAXX = 8;
-	final static int STATS_SIGMAYY = 9;
-	final static int STATS_SAMPLESDX = 10;
-	final static int STATS_SAMPLESDY = 11;
-	final static int STATS_SDX = 12;
-	final static int STATS_SDY = 13;
+	static final int STATS_MEANX = 0;
+	static final int STATS_MEANY = 1;
+	static final int STATS_COVARIANCE = 2;
+	static final int STATS_SIGMAXY = 3;
+	static final int STATS_SXX = 4;
+	static final int STATS_SYY = 5;
+	static final int STATS_SXY = 6;
+	static final int STATS_PMCC = 7;
+	static final int STATS_SIGMAXX = 8;
+	static final int STATS_SIGMAYY = 9;
+	static final int STATS_SAMPLESDX = 10;
+	static final int STATS_SAMPLESDY = 11;
+	static final int STATS_SDX = 12;
+	static final int STATS_SDY = 13;
 
 	/**
 	 * @param cons
@@ -73,8 +72,8 @@ public abstract class AlgoStats2D extends AlgoElement {
 	 * @param stat
 	 *            stat type
 	 */
-	public AlgoStats2D(Construction cons, String label, GeoList geoListx,
-			GeoList geoListy, int stat) {
+	public AlgoStats2D(
+			Construction cons, String label, GeoList geoListx, GeoList geoListy, int stat) {
 		super(cons);
 		mode = MODE_DOUBLELIST;
 		this.geoListx = geoListx;
@@ -98,8 +97,7 @@ public abstract class AlgoStats2D extends AlgoElement {
 	 * @param stat
 	 *            stat type
 	 */
-	public AlgoStats2D(Construction cons, String label, GeoList geoListx,
-			int stat) {
+	public AlgoStats2D(Construction cons, String label, GeoList geoListx, int stat) {
 		this(cons, geoListx, stat);
 		result.setLabel(label);
 	}
@@ -147,7 +145,7 @@ public abstract class AlgoStats2D extends AlgoElement {
 	}
 
 	@Override
-	final public void compute() {
+	public final void compute() {
 		double sumx = 0;
 		double sumy = 0;
 		double sumxx = 0;
@@ -157,8 +155,7 @@ public abstract class AlgoStats2D extends AlgoElement {
 		int sizey = sizex;
 		if (mode == MODE_DOUBLELIST) {
 			sizey = geoListy.size();
-			if (!geoListx.isDefined() || !geoListy.isDefined() || sizex == 0
-					|| sizex != sizey) {
+			if (!geoListx.isDefined() || !geoListy.isDefined() || sizex == 0 || sizex != sizey) {
 				result.setUndefined();
 				return;
 			}
@@ -166,8 +163,7 @@ public abstract class AlgoStats2D extends AlgoElement {
 			for (int i = 0; i < sizex; i++) {
 				GeoElement geox = geoListx.get(i);
 				GeoElement geoy = geoListy.get(i);
-				if (geox instanceof NumberValue
-						&& geoy instanceof NumberValue) {
+				if (geox instanceof NumberValue && geoy instanceof NumberValue) {
 					double valx = geox.evaluateDouble();
 					double valy = geoy.evaluateDouble();
 					sumx += valx;
@@ -198,7 +194,6 @@ public abstract class AlgoStats2D extends AlgoElement {
 					return;
 				}
 			}
-
 		}
 
 		double mux = sumx / sizex;
@@ -206,58 +201,56 @@ public abstract class AlgoStats2D extends AlgoElement {
 		double var;
 
 		switch (stat) {
-		default:
-			result.setValue(Double.NaN);
-			break;
-		case STATS_MEANX:
-			result.setValue(mux);
-			break;
-		case STATS_MEANY:
-			result.setValue(muy);
-			break;
-		case STATS_COVARIANCE:
-			result.setValue(sumxy / sizex - mux * muy);
-			break;
-		case STATS_SIGMAXY:
-			result.setValue(sumxy);
-			break;
-		case STATS_SIGMAXX:
-			result.setValue(sumxx);
-			break;
-		case STATS_SIGMAYY:
-			result.setValue(sumyy);
-			break;
-		case STATS_SXX:
-			result.setValue(sumxx - sumx * sumx / sizex);
-			break;
-		case STATS_SYY:
-			result.setValue(sumyy - sumy * sumy / sizex);
-			break;
-		case STATS_SXY:
-			result.setValue(sumxy - sumx * sumy / sizex);
-			break;
-		case STATS_PMCC:
-			result.setValue((sumxy * sizex - sumx * sumy)
-					/ Math.sqrt((sumxx * sizex - sumx * sumx)
-							* (sumyy * sizex - sumy * sumy)));
-			break;
-		case STATS_SAMPLESDX:
-			var = (sumxx - sumx * sumx / sizex) / (sizex - 1);
-			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SAMPLESDY:
-			var = (sumyy - sumy * sumy / sizey) / (sizey - 1);
-			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SDX:
-			var = (sumxx - sumx * sumx / sizex) / sizex;
-			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SDY:
-			var = (sumyy - sumy * sumy / sizey) / sizey;
-			result.setValue(Math.sqrt(var));
-			break;
+			default:
+				result.setValue(Double.NaN);
+				break;
+			case STATS_MEANX:
+				result.setValue(mux);
+				break;
+			case STATS_MEANY:
+				result.setValue(muy);
+				break;
+			case STATS_COVARIANCE:
+				result.setValue(sumxy / sizex - mux * muy);
+				break;
+			case STATS_SIGMAXY:
+				result.setValue(sumxy);
+				break;
+			case STATS_SIGMAXX:
+				result.setValue(sumxx);
+				break;
+			case STATS_SIGMAYY:
+				result.setValue(sumyy);
+				break;
+			case STATS_SXX:
+				result.setValue(sumxx - sumx * sumx / sizex);
+				break;
+			case STATS_SYY:
+				result.setValue(sumyy - sumy * sumy / sizex);
+				break;
+			case STATS_SXY:
+				result.setValue(sumxy - sumx * sumy / sizex);
+				break;
+			case STATS_PMCC:
+				result.setValue((sumxy * sizex - sumx * sumy)
+						/ Math.sqrt((sumxx * sizex - sumx * sumx) * (sumyy * sizex - sumy * sumy)));
+				break;
+			case STATS_SAMPLESDX:
+				var = (sumxx - sumx * sumx / sizex) / (sizex - 1);
+				result.setValue(Math.sqrt(var));
+				break;
+			case STATS_SAMPLESDY:
+				var = (sumyy - sumy * sumy / sizey) / (sizey - 1);
+				result.setValue(Math.sqrt(var));
+				break;
+			case STATS_SDX:
+				var = (sumxx - sumx * sumx / sizex) / sizex;
+				result.setValue(Math.sqrt(var));
+				break;
+			case STATS_SDY:
+				var = (sumyy - sumy * sumy / sizey) / sizey;
+				result.setValue(Math.sqrt(var));
+				break;
 		}
 	}
-
 }

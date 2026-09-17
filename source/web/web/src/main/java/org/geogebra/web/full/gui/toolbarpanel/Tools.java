@@ -72,7 +72,7 @@ public final class Tools extends FlowPanel implements SetLabels {
 
 	/**
 	 * Changes visual settings of selected mode.
-	 * 
+	 *
 	 * @param mode
 	 *            the mode will be selected
 	 */
@@ -85,18 +85,14 @@ public final class Tools extends FlowPanel implements SetLabels {
 			if (w instanceof CategoryPanel) {
 				FlowPanel panelTools = ((CategoryPanel) w).getToolsPanel();
 				for (int j = 0; j < panelTools.getWidgetCount(); j++) {
-					if ((mode + "").equals(panelTools.getWidget(j).getElement()
-							.getAttribute("mode"))) {
-						panelTools.getWidget(j).getElement()
-								.setAttribute("selected", "true");
+					if ((mode + "").equals(panelTools.getWidget(j).getElement().getAttribute("mode"))) {
+						panelTools.getWidget(j).getElement().setAttribute("selected", "true");
 					} else {
-						panelTools.getWidget(j).getElement()
-								.setAttribute("selected", "false");
+						panelTools.getWidget(j).getElement().setAttribute("selected", "false");
 					}
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -128,8 +124,7 @@ public final class Tools extends FlowPanel implements SetLabels {
 		for (int i = 0; i < categories.size(); i++) {
 			ToolCategory category = categories.get(i);
 			if (!GlobalScope.isExamActive(app) || category == null || category.isAllowedInExam()) {
-				CategoryPanel catPanel = new CategoryPanel(category,
-						parentTab.toolCollection.getTools(i));
+				CategoryPanel catPanel = new CategoryPanel(category, parentTab.toolCollection.getTools(i));
 				categoryPanelList.add(catPanel);
 				add(catPanel);
 			}
@@ -216,8 +211,7 @@ public final class Tools extends FlowPanel implements SetLabels {
 
 	private boolean allowTooltips() {
 		// allow tooltips for iPad
-		boolean isIpad = DomGlobal.navigator.userAgent.toLowerCase(Locale.ROOT)
-				.contains("ipad");
+		boolean isIpad = DomGlobal.navigator.userAgent.toLowerCase(Locale.ROOT).contains("ipad");
 		return (!NavigatorUtil.isMobile() || isIpad) && app.showToolBarHelp();
 	}
 
@@ -229,9 +223,13 @@ public final class Tools extends FlowPanel implements SetLabels {
 		if (allowTooltips()) {
 			app.getToolTipManager().setBlockToolTip(false);
 			app.getToolTipManager()
-					.showBottomInfoToolTip(new ToolTip(app.getToolName(mode), app.getToolHelp(mode),
-							"Help",
-							app.getGuiManager().getTooltipURL(mode)), app,
+					.showBottomInfoToolTip(
+							new ToolTip(
+									app.getToolName(mode),
+									app.getToolHelp(mode),
+									"Help",
+									app.getGuiManager().getTooltipURL(mode)),
+							app,
 							ComponentSnackbar.TOOL_TOOLTIP_DURATION);
 			app.getToolTipManager().setBlockToolTip(true);
 		}

@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.matrix.Coords;
  * sqrt(a'(t)^2+b'(t)^2)
  * <a href="http://en.wikipedia.org/w/index.php?title=Curvature&amp;section=8#Local_expressions_2">wiki</a>
  */
-
 public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 
 	private GeoPointND A; // input
@@ -63,8 +62,8 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	 * @param f
 	 *            curve
 	 */
-	public AlgoCurvatureVectorCurve3D(Construction cons, String label,
-			GeoPointND pt, GeoCurveCartesian3D f) {
+	public AlgoCurvatureVectorCurve3D(
+			Construction cons, String label, GeoPointND pt, GeoCurveCartesian3D f) {
 		this(cons, pt, f);
 
 		if (label != null) {
@@ -75,8 +74,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		}
 	}
 
-	AlgoCurvatureVectorCurve3D(Construction cons, GeoPointND A,
-			GeoCurveCartesian3D f) {
+	AlgoCurvatureVectorCurve3D(Construction cons, GeoPointND A, GeoCurveCartesian3D f) {
 		super(cons);
 		this.A = A;
 		this.f = f;
@@ -103,8 +101,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	 * @param geoConic3D
 	 *            conic
 	 */
-	public AlgoCurvatureVectorCurve3D(Construction cons,
-			GeoPoint3D arg, GeoConic3D geoConic3D) {
+	public AlgoCurvatureVectorCurve3D(Construction cons, GeoPoint3D arg, GeoConic3D geoConic3D) {
 		super(cons);
 		this.gc = geoConic3D;
 		this.A = arg;
@@ -173,8 +170,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 				w2[1] = rw.getY();
 				w2[2] = rw.getZ();
 			} else {
-				double tvalue = f.getClosestParameterForCurvature(A,
-						f.getMinParameter());
+				double tvalue = f.getClosestParameterForCurvature(A, f.getMinParameter());
 				f1.evaluateCurve(tvalue, f1eval);
 				f2.evaluateCurve(tvalue, f2eval);
 				curvature = f.evaluateCurvature(tvalue);
@@ -215,5 +211,4 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		A.removeAlgorithm(algoCAS2);
 		f.removeAlgorithm(algoCAS2);
 	}
-
 }

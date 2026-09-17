@@ -60,8 +60,7 @@ class VerticalBox extends Box {
 	private double rightMostPos = -Double.MAX_VALUE;
 	protected final ArrayList<Box> children = new ArrayList<Box>();
 
-	public VerticalBox() {
-	}
+	public VerticalBox() {}
 
 	public VerticalBox(Box b) {
 		add(b);
@@ -109,8 +108,7 @@ class VerticalBox extends Box {
 
 	private void recalculateWidth(Box b) {
 		leftMostPos = Math.min(leftMostPos, b.shift);
-		rightMostPos = Math.max(rightMostPos,
-				b.shift + (b.width > 0 ? b.width : 0));
+		rightMostPos = Math.max(rightMostPos, b.shift + (b.width > 0 ? b.width : 0));
 		width = rightMostPos - leftMostPos;
 	}
 
@@ -154,9 +152,8 @@ class VerticalBox extends Box {
 		// highest)
 		// until a font id is found that's not equal to NO_FONT
 		FontInfo fontId = null;
-		for (ListIterator it = children
-				.listIterator(children.size()); fontId == null
-						&& it.hasPrevious();) {
+		for (ListIterator it = children.listIterator(children.size());
+				fontId == null && it.hasPrevious(); ) {
 			fontId = ((Box) it.previous()).getLastFont();
 		}
 
@@ -172,8 +169,8 @@ class VerticalBox extends Box {
 		for (Box box : children) {
 			yPos += box.getHeight();
 			baseline += box.getHeight();
-			BoxPosition current = new BoxPosition(position.x() + box.getShift() - leftMostPos,
-					yPos, position.scale(), baseline);
+			BoxPosition current = new BoxPosition(
+					position.x() + box.getShift() - leftMostPos, yPos, position.scale(), baseline);
 			box.inspect(handler, current);
 			yPos += box.getDepth();
 			baseline += box.getDepth();

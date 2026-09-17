@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,14 +39,16 @@ public enum ManualPage {
 	 * Url for wiki article about exporting to HTML changed to GeoGebra
 	 * Materials upload from ggb44
 	 */
-	EXPORT_WORKSHEET("Export_Worksheet_Dialog"), COMMAND(""), TOOL("");
+	EXPORT_WORKSHEET("Export_Worksheet_Dialog"),
+	COMMAND(""),
+	TOOL("");
 
 	private final String url;
 
 	ManualPage(String url) {
 		this.url = url;
 	}
-	
+
 	public String getURL() {
 		return this.url;
 	}

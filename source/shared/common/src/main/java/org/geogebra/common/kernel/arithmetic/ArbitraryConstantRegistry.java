@@ -56,6 +56,7 @@ public class ArbitraryConstantRegistry {
 
 	@Weak
 	private ConstructionElement ce;
+
 	private int position = 0;
 	private boolean blocking;
 	private boolean symbolic;
@@ -82,8 +83,8 @@ public class ArbitraryConstantRegistry {
 	 * @return real constant
 	 */
 	public GeoNumeric nextConst(double myDouble, double initialValue) {
-		return nextConst(consts, ce.getConstruction().getArbitraryConstants(),
-				"c", myDouble, initialValue, 0);
+		return nextConst(
+				consts, ce.getConstruction().getArbitraryConstants(), "c", myDouble, initialValue, 0);
 	}
 
 	/**
@@ -99,8 +100,8 @@ public class ArbitraryConstantRegistry {
 	 * @return complex constant
 	 */
 	public GeoNumeric nextComplex(double myDouble) {
-		return nextConst(complexNumbers, ce.getConstruction().getArbitraryComplexNumbers(),
-				"c", myDouble, 0, 0);
+		return nextConst(
+				complexNumbers, ce.getConstruction().getArbitraryComplexNumbers(), "c", myDouble, 0, 0);
 	}
 
 	/**
@@ -121,8 +122,13 @@ public class ArbitraryConstantRegistry {
 	 * map take that one, otherwise pick the next one from consts2 (or
 	 * create one if there are not enough)
 	 */
-	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2, Map<Integer, GeoNumeric> map,
-			String prefix, double index, double initialValue, double increment) {
+	protected GeoNumeric nextConst(
+			ArrayList<GeoNumeric> consts2,
+			Map<Integer, GeoNumeric> map,
+			String prefix,
+			double index,
+			double initialValue,
+			double increment) {
 		int indexInt = (int) Math.round(index);
 		GeoNumeric found = lookupConstant(map, indexInt);
 		if (found != null) {
@@ -162,9 +168,13 @@ public class ArbitraryConstantRegistry {
 		return null;
 	}
 
-	private GeoNumeric createConstant(ArrayList<GeoNumeric> consts2,
-			Map<Integer, GeoNumeric> map, String prefix, int index,
-			double initialValue, double increment) {
+	private GeoNumeric createConstant(
+			ArrayList<GeoNumeric> consts2,
+			Map<Integer, GeoNumeric> map,
+			String prefix,
+			int index,
+			double initialValue,
+			double increment) {
 		Construction construction = ce.getConstruction();
 		GeoNumeric constant = symbolic ? null : getNextFreeNumber(prefix + "_");
 		if (constant == null) {
@@ -188,18 +198,20 @@ public class ArbitraryConstantRegistry {
 			return null;
 		}
 		GeoElementND geoElement = ce.getGeoElements()[0];
-		SortedSet<GeoElement> after = ce.getConstruction().getGeoSetConstructionOrder()
-				.tailSet(geoElement.toGeoElement());
+		SortedSet<GeoElement> after =
+				ce.getConstruction().getGeoSetConstructionOrder().tailSet(geoElement.toGeoElement());
 		int found = 0;
-		for (GeoElement next: after) {
+		for (GeoElement next : after) {
 			if (!next.isGeoElement()) {
 				continue;
 			}
 			if (next.getCorrespondingCasCell() != null) {
 				continue;
 			}
-			if (next.isGeoNumeric() && next.isIndependent()
-					&& next.getLabelSimple() != null && next.getLabelSimple().startsWith(prefix)) {
+			if (next.isGeoNumeric()
+					&& next.isIndependent()
+					&& next.getLabelSimple() != null
+					&& next.getLabelSimple().startsWith(prefix)) {
 				found++;
 				if (found > position && !((GeoNumeric) next).isDependentConst()) {
 					return wrapInAlgo((GeoNumeric) next);
@@ -211,8 +223,8 @@ public class ArbitraryConstantRegistry {
 		return null;
 	}
 
-	private GeoNumeric createNumericConstant(Construction cons,
-			String label, double initialValue, double increment) {
+	private GeoNumeric createNumericConstant(
+			Construction cons, String label, double initialValue, double increment) {
 		GeoNumeric numeric = new GeoNumeric(cons, initialValue);
 		numeric.setAVSliderOrCheckboxVisible(true);
 		numeric.setSendValueToCas(false);
@@ -237,8 +249,8 @@ public class ArbitraryConstantRegistry {
 	}
 
 	private GeoNumeric wrapInAlgo(GeoNumeric numeric) {
-		AlgoDependentArbitraryConstant
-				algo = new AlgoDependentArbitraryConstant(ce.getConstruction(), numeric, ce);
+		AlgoDependentArbitraryConstant algo =
+				new AlgoDependentArbitraryConstant(ce.getConstruction(), numeric, ce);
 		ce.getConstruction().removeFromConstructionList(algo);
 		numeric.setIsDependentConst(true);
 		return numeric;
@@ -311,8 +323,8 @@ public class ArbitraryConstantRegistry {
 		 * @param constant the constant as a (complex) number
 		 * @param outCE element that needs updating if the constant changes
 		 */
-		public AlgoDependentArbitraryConstant(Construction c, GeoElement constant,
-				ConstructionElement outCE) {
+		public AlgoDependentArbitraryConstant(
+				Construction c, GeoElement constant, ConstructionElement outCE) {
 			super(c, false);
 			this.constant = constant;
 			this.outCE = outCE;
@@ -322,15 +334,14 @@ public class ArbitraryConstantRegistry {
 
 		@Override
 		protected void setInputOutput() {
-			input = new GeoElement[]{constant};
+			input = new GeoElement[] {constant};
 			setOutput(new GeoElement[0]);
 			setDependencies();
 		}
 
 		@Override
 		public void compute() {
-			if (outCE instanceof AlgoElement
-					&& ((AlgoElement) outCE).getOutputLength() == 1) {
+			if (outCE instanceof AlgoElement && ((AlgoElement) outCE).getOutputLength() == 1) {
 				((AlgoElement) outCE).getOutput(0).updateCascade();
 			} else if (outCE instanceof GeoCasCell) {
 				outCE.update();
@@ -359,11 +370,9 @@ public class ArbitraryConstantRegistry {
 		 */
 		public void replaceOutCE() {
 			if (outCE instanceof GeoCasCell) {
-				this.outCE = cons
-						.getCasCell(((GeoCasCell) outCE).getRowNumber());
+				this.outCE = cons.getCasCell(((GeoCasCell) outCE).getRowNumber());
 			}
 		}
-
 	}
 
 	/**
@@ -423,17 +432,13 @@ public class ArbitraryConstantRegistry {
 				return handleSpecialCase(en);
 			}
 			if (en.getOperation() == Operation.MULTIPLY) {
-				if (en.getLeft() != null && en.getLeftTree()
-						.getOperation() == Operation.ARBCONST) {
-					GeoNumeric newLeft = arbconst.nextConst(
-							en.getLeftTree().getLeft().evaluateDouble(), 1);
+				if (en.getLeft() != null && en.getLeftTree().getOperation() == Operation.ARBCONST) {
+					GeoNumeric newLeft = arbconst.nextConst(en.getLeftTree().getLeft().evaluateDouble(), 1);
 					en.getRight().traverse(this);
 					en.setLeft(newLeft);
 				}
-				if (en.getRight() != null && en.getRightTree()
-						.getOperation() == Operation.ARBCONST) {
-					GeoNumeric newRight = arbconst.nextConst(
-							en.getRightTree().getLeft().evaluateDouble(), 1);
+				if (en.getRight() != null && en.getRightTree().getOperation() == Operation.ARBCONST) {
+					GeoNumeric newRight = arbconst.nextConst(en.getRightTree().getLeft().evaluateDouble(), 1);
 					en.getLeft().traverse(this);
 					en.setRight(newRight);
 				}
@@ -459,9 +464,8 @@ public class ArbitraryConstantRegistry {
 				if (isMultipleOfArbconst(en.getLeft())) {
 					ExpressionValue ret = en.getRight();
 					if (en.getOperation() == Operation.MINUS) {
-						ret = new ExpressionNode(arbconst.getKernel(),
-								new MinusOne(arbconst.getKernel()),
-								Operation.MULTIPLY, ret);
+						ret = new ExpressionNode(
+								arbconst.getKernel(), new MinusOne(arbconst.getKernel()), Operation.MULTIPLY, ret);
 					}
 					return ret;
 				}
@@ -475,8 +479,7 @@ public class ArbitraryConstantRegistry {
 		 * @param arbconst arbitrary constant handler
 		 * @return replacer
 		 */
-		public static ArbconstReplacer getReplacer(
-				ArbitraryConstantRegistry arbconst) {
+		public static ArbconstReplacer getReplacer(ArbitraryConstantRegistry arbconst) {
 			replacer.arbconst = arbconst;
 			return replacer;
 		}
@@ -490,17 +493,16 @@ public class ArbitraryConstantRegistry {
 		if (right.isExpressionNode()) {
 			ExpressionNode en = right.wrap();
 			switch (en.getOperation()) {
-			case ARBCONST:
-			case ARBCOMPLEX:
-			case ARBINT:
-				return true;
-			case MULTIPLY:
-				return isMultipleOfArbconst(en.getLeft())
-						|| isMultipleOfArbconst(en.getRight());
-			case DIVIDE:
-				return isMultipleOfArbconst(en.getLeft());
-			default:
-				return false;
+				case ARBCONST:
+				case ARBCOMPLEX:
+				case ARBINT:
+					return true;
+				case MULTIPLY:
+					return isMultipleOfArbconst(en.getLeft()) || isMultipleOfArbconst(en.getRight());
+				case DIVIDE:
+					return isMultipleOfArbconst(en.getLeft());
+				default:
+					return false;
 			}
 		}
 		return false;
@@ -509,5 +511,4 @@ public class ArbitraryConstantRegistry {
 	public Kernel getKernel() {
 		return ce.getKernel();
 	}
-
 }

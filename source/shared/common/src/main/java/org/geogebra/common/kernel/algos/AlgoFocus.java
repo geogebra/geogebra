@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoFocus extends AlgoElement {
@@ -36,8 +36,8 @@ public class AlgoFocus extends AlgoElement {
 	protected GeoConicND c; // input
 	protected GeoPointND[] focus; // output
 
-	transient private double temp1;
-	transient private double temp2;
+	private transient double temp1;
+	private transient double temp2;
 	GeoVec2D b;
 	GeoVec2D[] eigenvec;
 
@@ -78,7 +78,7 @@ public class AlgoFocus extends AlgoElement {
 
 	/**
 	 * creates the focus
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 */
@@ -125,37 +125,36 @@ public class AlgoFocus extends AlgoElement {
 		}
 
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			setCoords(0, b.getX(), b.getY());
-			setCoords(1, b.getX(), b.getY());
-			break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				setCoords(0, b.getX(), b.getY());
+				setCoords(1, b.getX(), b.getY());
+				break;
 
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			temp1 = c.linearEccentricity * eigenvec[0].getX();
-			temp2 = c.linearEccentricity * eigenvec[0].getY();
-			setCoords(0, b.getX() - temp1, b.getY() - temp2);
-			setCoords(1, b.getX() + temp1, b.getY() + temp2);
-			break;
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+				temp1 = c.linearEccentricity * eigenvec[0].getX();
+				temp2 = c.linearEccentricity * eigenvec[0].getY();
+				setCoords(0, b.getX() - temp1, b.getY() - temp2);
+				setCoords(1, b.getX() + temp1, b.getY() + temp2);
+				break;
 
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			temp1 = c.p / 2;
-			setCoords(0, b.getX() + temp1 * eigenvec[0].getX(),
-					b.getY() + temp1 * eigenvec[0].getY());
-			// second focus undefined
-			focus[1].setUndefined();
-			break;
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				temp1 = c.p / 2;
+				setCoords(0, b.getX() + temp1 * eigenvec[0].getX(), b.getY() + temp1 * eigenvec[0].getY());
+				// second focus undefined
+				focus[1].setUndefined();
+				break;
 
-		default:
-			// both focus undefined
-			focus[0].setUndefined();
-			focus[1].setUndefined();
+			default:
+				// both focus undefined
+				focus[0].setUndefined();
+				focus[1].setUndefined();
 		}
 	}
 
 	/**
 	 * set the coords of the i-th focus
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @param x
@@ -171,9 +170,6 @@ public class AlgoFocus extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("FocusOfA", "Focus of %0",
-				c.getLabel(tpl));
-
+		return getLoc().getPlainDefault("FocusOfA", "Focus of %0", c.getLabel(tpl));
 	}
-
 }

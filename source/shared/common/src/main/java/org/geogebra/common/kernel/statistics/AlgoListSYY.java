@@ -22,11 +22,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Syy of a list of Points
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoListSYY extends AlgoStats2D {
 
 	public AlgoListSYY(Construction cons, String label, GeoList geoListx) {

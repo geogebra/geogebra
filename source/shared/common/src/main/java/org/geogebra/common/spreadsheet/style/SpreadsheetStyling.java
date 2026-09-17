@@ -38,12 +38,15 @@ public final class SpreadsheetStyling {
 
 	/** Font trait.*/
 	public enum FontTrait {
-		BOLD, ITALIC
+		BOLD,
+		ITALIC
 	}
 
 	/** Horizontal text alignment. */
 	public enum TextAlignment {
-		LEFT, CENTERED, RIGHT
+		LEFT,
+		CENTERED,
+		RIGHT
 	}
 
 	public static final GColor SPREADSHEET_ERROR_BORDER = GColor.newColorRGB(0xB00020);
@@ -125,10 +128,9 @@ public final class SpreadsheetStyling {
 	/**
 	 * Set the font traits for a list of ranges.
 	 */
-	public void setFontTraits(@NonNull Set<FontTrait> traits,
-			@NonNull List<TabularRange> ranges) {
-		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_FONTSTYLE,
-				cellFormatFromFontTraits(traits));
+	public void setFontTraits(@NonNull Set<FontTrait> traits, @NonNull List<TabularRange> ranges) {
+		boolean changed =
+				cellFormat.setFormat(ranges, CellFormat.FORMAT_FONTSTYLE, cellFormatFromFontTraits(traits));
 		if (changed) {
 			stylingChanged.notifyListeners(ranges);
 		}
@@ -173,10 +175,10 @@ public final class SpreadsheetStyling {
 	/**
 	 * Set the text alignment for a list of ranges.
 	 */
-	public void setTextAlignment(@NonNull TextAlignment textAlignment,
-			@NonNull List<TabularRange> ranges) {
-		boolean changed = cellFormat.setFormat(ranges, CellFormat.FORMAT_ALIGN,
-				cellFormatFromTextAlignment(textAlignment));
+	public void setTextAlignment(
+			@NonNull TextAlignment textAlignment, @NonNull List<TabularRange> ranges) {
+		boolean changed = cellFormat.setFormat(
+				ranges, CellFormat.FORMAT_ALIGN, cellFormatFromTextAlignment(textAlignment));
 		if (changed) {
 			stylingChanged.notifyListeners(ranges);
 		}
@@ -196,8 +198,7 @@ public final class SpreadsheetStyling {
 	 * @return The cell's text color if non-null, or the fallback color otherwise.
 	 */
 	public GColor getTextColor(int row, int column, @Nullable GColor fallback) {
-		GColor textColor = (GColor) cellFormat.getCellFormat(column, row,
-				CellFormat.FORMAT_FGCOLOR);
+		GColor textColor = (GColor) cellFormat.getCellFormat(column, row, CellFormat.FORMAT_FGCOLOR);
 		return textColor == null ? fallback : textColor;
 	}
 
@@ -257,8 +258,7 @@ public final class SpreadsheetStyling {
 	 * @param direction
 	 *            the shift direction
 	 */
-	public void shiftFormat(int startIndex, int shiftAmount,
-			Direction direction) {
+	public void shiftFormat(int startIndex, int shiftAmount, Direction direction) {
 		cellFormat.shiftFormats(startIndex, shiftAmount, direction);
 		stylingXmlChanged.notifyListeners(cellFormat.encodeFormats());
 	}
@@ -298,13 +298,13 @@ public final class SpreadsheetStyling {
 	 */
 	public static @NonNull TextAlignment textAlignmentFromCellFormat(@NonNull Integer cellFormat) {
 		switch (cellFormat) {
-		case CellFormat.ALIGN_LEFT:
-			return TextAlignment.LEFT;
-		case CellFormat.ALIGN_CENTER:
-			return TextAlignment.CENTERED;
-		case CellFormat.ALIGN_RIGHT:
-		default:
-			return TextAlignment.RIGHT;
+			case CellFormat.ALIGN_LEFT:
+				return TextAlignment.LEFT;
+			case CellFormat.ALIGN_CENTER:
+				return TextAlignment.CENTERED;
+			case CellFormat.ALIGN_RIGHT:
+			default:
+				return TextAlignment.RIGHT;
 		}
 	}
 
@@ -313,8 +313,7 @@ public final class SpreadsheetStyling {
 	 * @param textAlignment the text alignment to convert
 	 * @return one of the {@code CellFormat.ALIGN_*} fields
 	 */
-	public static @NonNull Integer cellFormatFromTextAlignment(
-			@NonNull TextAlignment textAlignment) {
+	public static @NonNull Integer cellFormatFromTextAlignment(@NonNull TextAlignment textAlignment) {
 		return switch (textAlignment) {
 			case LEFT -> CellFormat.ALIGN_LEFT;
 			case CENTERED -> CellFormat.ALIGN_CENTER;
@@ -326,18 +325,18 @@ public final class SpreadsheetStyling {
 		Set<FontTrait> traits = new HashSet<>();
 		if (cellFormat != null) {
 			switch (cellFormat) {
-			case CellFormat.STYLE_BOLD:
-				traits.add(FontTrait.BOLD);
-				break;
-			case CellFormat.STYLE_ITALIC:
-				traits.add(FontTrait.ITALIC);
-				break;
-			case CellFormat.STYLE_BOLD_ITALIC:
-				traits.add(FontTrait.BOLD);
-				traits.add(FontTrait.ITALIC);
-				break;
-			default:
-				break;
+				case CellFormat.STYLE_BOLD:
+					traits.add(FontTrait.BOLD);
+					break;
+				case CellFormat.STYLE_ITALIC:
+					traits.add(FontTrait.ITALIC);
+					break;
+				case CellFormat.STYLE_BOLD_ITALIC:
+					traits.add(FontTrait.BOLD);
+					traits.add(FontTrait.ITALIC);
+					break;
+				default:
+					break;
 			}
 		}
 		return traits;

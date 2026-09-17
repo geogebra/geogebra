@@ -88,8 +88,7 @@ public class EuclidianOptionsModel {
 		if (view == app.getEuclidianView1()) {
 			return app.getSettings().getEuclidian(1);
 		}
-		if (app.hasEuclidianView2EitherShowingOrNot(1)
-				&& app.getEuclidianView2(1) == view) {
+		if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
 			return app.getSettings().getEuclidian(2);
 		}
 		if (app.isEuclidianView3D(view)) {
@@ -236,25 +235,25 @@ public class EuclidianOptionsModel {
 	}
 
 	public void applyAxesRatio(double xval, double yval) {
-		if (!(Double.isInfinite(xval) || Double.isNaN(xval)
-				|| Double.isInfinite(yval) || Double.isNaN(yval))) {
+		if (!(Double.isInfinite(xval)
+				|| Double.isNaN(xval)
+				|| Double.isInfinite(yval)
+				|| Double.isNaN(yval))) {
 			// ratio = xval / yval
 			// xscale / yscale = ratio
 			// => yscale = xscale * xval/yval
-			view.setCoordSystem(view.getXZero(), view.getYZero(),
-					view.getXscale(), view.getXscale() * xval / yval);
+			view.setCoordSystem(
+					view.getXZero(), view.getYZero(), view.getXscale(), view.getXscale() * xval / yval);
 		}
 	}
 
 	public void applyLockRatio(double value, IBasicTab basicTab) {
 		view.getSettings().setLockedAxesRatio(value);
-		basicTab.enableAxesRatio(
-				view.isZoomable() && !view.isLockedAxesRatio());
+		basicTab.enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 	}
 
 	public void applyMinMax(String text, MinMaxType type, IBasicTab basicTab) {
-		NumberValue minMax = app.getKernel().getAlgebraProcessor()
-				.evaluateToNumeric(text, false);
+		NumberValue minMax = app.getKernel().getAlgebraProcessor().evaluateToNumeric(text, false);
 		// not parsed to number => return all
 		if (minMax == null) {
 			basicTab.setMinMaxText(
@@ -271,57 +270,56 @@ public class EuclidianOptionsModel {
 			}
 
 			switch (type) {
-			case maxX:
-				if (settings != null) {
-					settings.setXmaxObject(minMax, true);
-				} else {
-					view.setXmaxObject(minMax);
-				}
-				break;
-			case maxY:
-				if (settings != null) {
-					settings.setYmaxObject(minMax, true);
-				} else {
-					view.setYmaxObject(minMax);
-				}
+				case maxX:
+					if (settings != null) {
+						settings.setXmaxObject(minMax, true);
+					} else {
+						view.setXmaxObject(minMax);
+					}
+					break;
+				case maxY:
+					if (settings != null) {
+						settings.setYmaxObject(minMax, true);
+					} else {
+						view.setYmaxObject(minMax);
+					}
 
-				break;
-			case minX:
-				if (settings != null) {
-					settings.setXminObject(minMax, true);
-				} else {
-					view.setXminObject(minMax);
-				}
-				break;
-			case minY:
-				if (settings != null) {
-					settings.setYminObject(minMax, true);
-				} else {
-					view.setYminObject(minMax);
-				}
-				break;
-			case minZ:
-				if (settings != null) {
-					((EuclidianSettings3D) settings).setZminObject(minMax, true);
-				} else {
-					((EuclidianView3D) view).setZminObject(minMax);
-				}
-				break;
-			case maxZ:
-				if (settings != null) {
-					((EuclidianSettings3D) settings).setZmaxObject(minMax, true);
-				} else {
-					((EuclidianView3D) view).setZmaxObject(minMax);
-				}
-				break;
-			default:
-				break;
+					break;
+				case minX:
+					if (settings != null) {
+						settings.setXminObject(minMax, true);
+					} else {
+						view.setXminObject(minMax);
+					}
+					break;
+				case minY:
+					if (settings != null) {
+						settings.setYminObject(minMax, true);
+					} else {
+						view.setYminObject(minMax);
+					}
+					break;
+				case minZ:
+					if (settings != null) {
+						((EuclidianSettings3D) settings).setZminObject(minMax, true);
+					} else {
+						((EuclidianView3D) view).setZminObject(minMax);
+					}
+					break;
+				case maxZ:
+					if (settings != null) {
+						((EuclidianSettings3D) settings).setZmaxObject(minMax, true);
+					} else {
+						((EuclidianView3D) view).setZmaxObject(minMax);
+					}
+					break;
+				default:
+					break;
 			}
 
 			view.setXminObject(view.getXminObject());
 
-			basicTab.enableAxesRatio(
-					view.isZoomable() && !view.isLockedAxesRatio());
+			basicTab.enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 
 			view.updateBounds(true, true);
 		}
@@ -329,13 +327,12 @@ public class EuclidianOptionsModel {
 
 	public String[] fillTooltipCombo() {
 		Localization loc = app.getLocalization();
-		return new String[] { loc.getMenu("On"),
-				loc.getMenu("Automatic"), loc.getMenu("Off") };
+		return new String[] {loc.getMenu("On"), loc.getMenu("Automatic"), loc.getMenu("Off")};
 	}
 
 	public void updateBasicProperties(IBasicTab basicTab) {
-		basicTab.updateAxes(view.getAxesColor(),
-				view.getShowXaxis() && view.getShowYaxis(), view.areAxesBold());
+		basicTab.updateAxes(
+				view.getAxesColor(), view.getShowXaxis() && view.getShowYaxis(), view.areAxesBold());
 		basicTab.updateBackgroundColor(getBackgroundColor());
 		int ind = view.getAllowToolTips();
 		int idx = -1;
@@ -352,55 +349,52 @@ public class EuclidianOptionsModel {
 
 		basicTab.showMouseCoords(view.getAllowShowMouseCoords());
 
-		basicTab.enableAxesRatio(
-				view.isZoomable() && !view.isLockedAxesRatio());
+		basicTab.enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 		basicTab.enableLock(view.isZoomable());
 		basicTab.updateBounds();
 
 		// need style with bold removed for menu
-		for (int i = 0; i < EuclidianStyleConstants
-				.getLineStyleOptionsLength(); i++) {
-			if (EuclidianView.getBoldAxes(false,
-					view.getAxesLineStyle()) == EuclidianStyleConstants
-							.getLineStyleOptions(i)) {
+		for (int i = 0; i < EuclidianStyleConstants.getLineStyleOptionsLength(); i++) {
+			if (EuclidianView.getBoldAxes(false, view.getAxesLineStyle())
+					== EuclidianStyleConstants.getLineStyleOptions(i)) {
 				basicTab.selectAxesStyle(i);
 				break;
 			}
 		}
 		// cons protocol panel
-		basicTab.updateConsProtocolPanel(
-				app.showConsProtNavigation(view.getViewID()));
+		basicTab.updateConsProtocolPanel(app.showConsProtNavigation(view.getViewID()));
 		int fontStyle = view.getSettings().getAxisFontStyle();
 		boolean serif = view.getSettings().getAxesLabelsSerif();
-		basicTab.updateAxisFontStyle(serif,
-				(fontStyle & GFont.BOLD) == GFont.BOLD,
-				(fontStyle & GFont.ITALIC) == GFont.ITALIC);
+		basicTab.updateAxisFontStyle(
+				serif, (fontStyle & GFont.BOLD) == GFont.BOLD, (fontStyle & GFont.ITALIC) == GFont.ITALIC);
 	}
 
 	public void updateGridProperties(IGridTab gridTab) {
-		gridTab.updateGrid(view.getGridColor(), view.getShowGrid(),
-				view.getGridIsBold(), view.getGridType());
+		gridTab.updateGrid(
+				view.getGridColor(), view.getShowGrid(), view.getGridIsBold(), view.getGridType());
 		EuclidianSettings es = view.getSettings();
-		gridTab.updateRuler(es.getBackgroundType(), es.getBgRulerColor(),
-				es.getRulerLineStyle(), es.isRulerBold());
+		gridTab.updateRuler(
+				es.getBackgroundType(), es.getBgRulerColor(), es.getRulerLineStyle(), es.isRulerBold());
 		gridTab.selectGridStyle(view.getGridLineStyle());
 
-		gridTab.updateGridTicks(view.isAutomaticGridDistance(),
-				view.getGridDistances(), view.getGridType());
+		gridTab.updateGridTicks(
+				view.isAutomaticGridDistance(), view.getGridDistances(), view.getGridType());
 	}
 
 	public List<String> getAngleOptions() {
-		return Arrays.asList(Unicode.PI_STRING + "/12",
-				Unicode.PI_STRING + "/6", Unicode.PI_STRING + "/4",
-				Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2");
+		return Arrays.asList(
+				Unicode.PI_STRING + "/12",
+				Unicode.PI_STRING + "/6",
+				Unicode.PI_STRING + "/4",
+				Unicode.PI_STRING + "/3",
+				Unicode.PI_STRING + "/2");
 	}
 
 	public void applyGridTicks(String str, int idx) {
 		double value = Double.NaN;
 		final String text = str.trim();
 		if (!StringUtil.empty(text)) {
-			value = app.getKernel().getAlgebraProcessor()
-					.evaluateToDouble(text);
+			value = app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 		}
 		if (value > 0) {
 			double[] ticks = view.getGridDistances();
@@ -415,8 +409,7 @@ public class EuclidianOptionsModel {
 			double[] ticks = view.getGridDistances();
 			// val = 4 gives 5*PI/12, skip this and go to 6*Pi/2 = Pi/2
 
-			double value = app.getKernel().getAlgebraProcessor()
-					.evaluateToDouble(text);
+			double value = app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 			ticks[2] = getGridTickAngle(value);
 			view.setGridDistances(ticks);
 		}
@@ -428,8 +421,7 @@ public class EuclidianOptionsModel {
 	 * @return the angle
 	 */
 	public static double getGridTickAngle(double value) {
-		return Math.PI
-				/ Math.min(360, Math.round(Math.abs(Math.PI / value)));
+		return Math.PI / Math.min(360, Math.round(Math.abs(Math.PI / value)));
 	}
 
 	/**
@@ -439,7 +431,7 @@ public class EuclidianOptionsModel {
 	public String gridTickToString(Double value) {
 		if (DoubleUtil.isEqual(value, Math.PI)) {
 			return Unicode.PI_STRING;
-		}  else if (DoubleUtil.isEqual(value, Kernel.PI_HALF)) {
+		} else if (DoubleUtil.isEqual(value, Kernel.PI_HALF)) {
 			return Unicode.PI_HALF_STRING;
 		} else {
 			return view.getApplication().getKernel().format(value, StringTemplate.defaultTemplate);
@@ -448,8 +440,7 @@ public class EuclidianOptionsModel {
 
 	public String gridAngleToString() {
 		double val = view.getGridDistances(2) / Math.PI;
-		double[] frac = AlgoFractionText.decimalToFraction(val,
-				Kernel.MAX_PRECISION);
+		double[] frac = AlgoFractionText.decimalToFraction(val, Kernel.MAX_PRECISION);
 		StringBuilder sb = new StringBuilder();
 		if (frac[1] < 361) {
 			if (!DoubleUtil.isEqual(1, frac[0])) {
@@ -461,8 +452,7 @@ public class EuclidianOptionsModel {
 				sb.append(Math.round(frac[1]));
 			}
 		} else {
-			sb.append(app.getKernel().format(view.getGridDistances(2),
-					StringTemplate.editTemplate));
+			sb.append(app.getKernel().format(view.getGridDistances(2), StringTemplate.editTemplate));
 		}
 		return sb.toString();
 	}
@@ -528,7 +518,12 @@ public class EuclidianOptionsModel {
 	}
 
 	public enum MinMaxType {
-		minX, maxX, minY, maxY, minZ, maxZ
+		minX,
+		maxX,
+		minY,
+		maxY,
+		minZ,
+		maxZ
 	}
 
 	public interface IBasicTab {
@@ -536,8 +531,7 @@ public class EuclidianOptionsModel {
 		void updateAxes(GColor color, boolean isShown, boolean isBold);
 
 		@MissingDoc
-		void updateAxisFontStyle(boolean isSerif, boolean isBold,
-				boolean isItalic);
+		void updateAxisFontStyle(boolean isSerif, boolean isBold, boolean isItalic);
 
 		@MissingDoc
 		void updateBackgroundColor(GColor color);
@@ -576,8 +570,8 @@ public class EuclidianOptionsModel {
 		 * @param maxZ
 		 *            max z
 		 */
-		void setMinMaxText(String minX, String maxX, String minY, String maxY, String minZ,
-				String maxZ);
+		void setMinMaxText(
+				String minX, String maxX, String minY, String maxY, String minZ, String maxZ);
 		/**
 		 * Update xmin, xmax, ymin, ymax and scale inputs
 		 */
@@ -606,8 +600,7 @@ public class EuclidianOptionsModel {
 		void updateRuler(BackgroundType bgTypeIdx, GColor color, int lineStyle, boolean bold);
 
 		@MissingDoc
-		void updateGrid(GColor color, boolean isShown, boolean isBold,
-				int gridType);
+		void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType);
 		/**
 		 * @param style
 		 *            of grid lines
@@ -622,13 +615,12 @@ public class EuclidianOptionsModel {
 		 * @param gridType
 		 *            type of grid
 		 */
-		void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
-				int gridType);
+		void updateGridTicks(boolean isAutoGrid, double[] gridTicks, int gridType);
 	}
 
 	/**
 	 * Set ruler type from dropdown.
-	 * 
+	 *
 	 * @param type
 	 *            the selected index
 	 */

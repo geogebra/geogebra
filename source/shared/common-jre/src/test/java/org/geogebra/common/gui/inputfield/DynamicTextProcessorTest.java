@@ -39,10 +39,11 @@ class DynamicTextProcessorTest extends BaseUnitTest {
 		List<DynamicTextElement> foo = List.of(
 				new DynamicTextElement("foo", DynamicTextElement.DynamicTextType.STATIC),
 				new DynamicTextElement("yA", DynamicTextElement.DynamicTextType.FORMULA_TEXT));
-		new DynamicTextProcessor(getApp()).process(foo, dynamic, true,
-				TestErrorHandler.INSTANCE, () -> {});
+		new DynamicTextProcessor(getApp())
+				.process(foo, dynamic, true, TestErrorHandler.INSTANCE, () -> {});
 		assertFalse(getConstruction().isSuppressLabelsActive());
-		assertEquals("\"foo\" + (FormulaText(X = y * A)) + \"\"",
+		assertEquals(
+				"\"foo\" + (FormulaText(X = y * A)) + \"\"",
 				lookup("dynamic").getDefinition(StringTemplate.testTemplate));
 	}
 
@@ -51,11 +52,11 @@ class DynamicTextProcessorTest extends BaseUnitTest {
 		TextDispatcher td = new TextDispatcher(getKernel(), getApp().getEuclidianView1());
 		GeoText text = (GeoText) td.createDistanceText(add("(1,1)"), (GeoPointND) add("(2,1)"));
 		List<String> list = new DynamicTextProcessor(getApp())
-				.buildDynamicTextList(text).stream()
-				.map(Object::toString)
-				.collect(Collectors.toList());
+				.buildDynamicTextList(text).stream().map(Object::toString).collect(Collectors.toList());
 
-		assertEquals(List.of("DEFINITION: \"A\"", "DEFINITION: \"B\"",
-				"STATIC: \" = \"", "VALUE: \"distanceAB\""), list);
+		assertEquals(
+				List.of(
+						"DEFINITION: \"A\"", "DEFINITION: \"B\"", "STATIC: \" = \"", "VALUE: \"distanceAB\""),
+				list);
 	}
 }

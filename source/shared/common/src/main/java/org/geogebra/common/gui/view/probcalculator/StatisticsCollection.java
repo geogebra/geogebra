@@ -25,17 +25,27 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 
 /**
  * @author G. Sturr
- * 
+ *
  */
 public class StatisticsCollection {
 	public static final String tail_left = "<";
 	public static final String tail_right = ">";
 	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
-	public static final List<Procedure> statisticalTests = List.of(Procedure.ZMEAN_TEST,
-			Procedure.TMEAN_TEST, Procedure.ZMEAN2_TEST, Procedure.TMEAN2_TEST,
-			Procedure.ZPROP_TEST, Procedure.ZPROP2_TEST, Procedure.ZMEAN_CI, Procedure.TMEAN_CI,
-			Procedure.ZMEAN2_CI, Procedure.TMEAN2_CI, Procedure.ZPROP_CI, Procedure.ZPROP2_CI,
-			Procedure.GOF_TEST, Procedure.CHISQ_TEST);
+	public static final List<Procedure> statisticalTests = List.of(
+			Procedure.ZMEAN_TEST,
+			Procedure.TMEAN_TEST,
+			Procedure.ZMEAN2_TEST,
+			Procedure.TMEAN2_TEST,
+			Procedure.ZPROP_TEST,
+			Procedure.ZPROP2_TEST,
+			Procedure.ZMEAN_CI,
+			Procedure.TMEAN_CI,
+			Procedure.ZMEAN2_CI,
+			Procedure.TMEAN2_CI,
+			Procedure.ZPROP_CI,
+			Procedure.ZPROP2_CI,
+			Procedure.GOF_TEST,
+			Procedure.CHISQ_TEST);
 
 	public double mean;
 	public double mean2;
@@ -135,7 +145,6 @@ public class StatisticsCollection {
 
 		columnSum = new double[initColumns];
 		rowSum = new double[initRows];
-
 	}
 
 	/**
@@ -191,7 +200,7 @@ public class StatisticsCollection {
 
 	/**
 	 * Add this to XML string
-	 * 
+	 *
 	 * @param sb
 	 *            string builder
 	 */
@@ -237,8 +246,7 @@ public class StatisticsCollection {
 	private void addObservedRow(XMLStringBuilder sb, int row) {
 		for (int column = 0; column < chiSquareData[0].length; column++) {
 			sb.startTag("entry");
-			sb.attr("val", chiSquareData[row][column] != null
-					? chiSquareData[row][column] : "");
+			sb.attr("val", chiSquareData[row][column] != null ? chiSquareData[row][column] : "");
 			sb.endTag();
 		}
 	}
@@ -260,8 +268,7 @@ public class StatisticsCollection {
 	 *            one of &lt;, &gt;, !=
 	 */
 	public void setTail(String tail) {
-		if (tail_two.equals(tail) || tail_left.equals(tail)
-				|| tail_right.equals(tail)) {
+		if (tail_two.equals(tail) || tail_left.equals(tail) || tail_right.equals(tail)) {
 			this.tail = tail;
 		}
 	}

@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 public interface Vector3DValue extends VectorNDValue {
 	/**
 	 * Converts vector to array of coords
-	 * 
+	 *
 	 * @return array of coords
 	 */
 	@Override

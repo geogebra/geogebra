@@ -47,7 +47,7 @@ public class DataAnalysisSettings {
 
 	/**
 	 * Update mode and reset plot types.
-	 * 
+	 *
 	 * @param mode
 	 *            app mode
 	 */

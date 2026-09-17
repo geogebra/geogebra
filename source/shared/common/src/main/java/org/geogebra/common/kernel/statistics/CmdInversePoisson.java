@@ -31,7 +31,7 @@ public class CmdInversePoisson extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,27 +46,25 @@ public class CmdInversePoisson extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoInversePoisson algo = new AlgoInversePoisson(cons,
-						(GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					AlgoInversePoisson algo =
+							new AlgoInversePoisson(cons, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else {
-				throw argErr(c, arg[1]);
-			}
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else {
+					throw argErr(c, arg[1]);
+				}
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

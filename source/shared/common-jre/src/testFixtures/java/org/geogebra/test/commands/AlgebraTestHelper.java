@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.test.commands;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -59,19 +59,15 @@ public class AlgebraTestHelper {
 	 * @param app
 	 *            application
 	 */
-	public static void shouldFail(String string, String errorMsg,
-			String altErrorMsg, App app) {
+	public static void shouldFail(String string, String errorMsg, String altErrorMsg, App app) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
-		AlgebraProcessor algebraProcessor = app.getKernel()
-				.getAlgebraProcessor();
-		EvalInfo info = algebraProcessor.getEvalInfo(false, false)
-				.withNoRedefinitionAllowed();
-		algebraProcessor.processAlgebraCommandNoExceptionHandling(string, false,
-				errorStore, info, null);
-		if (!errorStore.getErrors().contains(errorMsg) && (altErrorMsg == null
-				|| !errorStore.getErrors().contains(altErrorMsg))) {
-			fail(string + ":" + errorStore.getErrors() + "," + errorMsg
-					+ " expected");
+		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
+		EvalInfo info = algebraProcessor.getEvalInfo(false, false).withNoRedefinitionAllowed();
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(
+				string, false, errorStore, info, null);
+		if (!errorStore.getErrors().contains(errorMsg)
+				&& (altErrorMsg == null || !errorStore.getErrors().contains(altErrorMsg))) {
+			fail(string + ":" + errorStore.getErrors() + "," + errorMsg + " expected");
 		}
 	}
 
@@ -83,13 +79,9 @@ public class AlgebraTestHelper {
 	public static void shouldPass(String cmd, App app) {
 		ErrorAccumulator errorStore = new ErrorAccumulator();
 		AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
-		EvalInfo info = algebraProcessor
-				.getEvalInfo(false, false)
-				.withNoRedefinitionAllowed();
-		GeoElementND[] elements = algebraProcessor
-				.processAlgebraCommandNoExceptionHandling(
-						cmd, false, errorStore, info, null
-				);
+		EvalInfo info = algebraProcessor.getEvalInfo(false, false).withNoRedefinitionAllowed();
+		GeoElementND[] elements = algebraProcessor.processAlgebraCommandNoExceptionHandling(
+				cmd, false, errorStore, info, null);
 		assertNotNull(elements);
 		assertEquals("", errorStore.getErrors());
 	}
@@ -104,9 +96,8 @@ public class AlgebraTestHelper {
 	 * @param tpl
 	 *            template
 	 */
-	public static void checkSyntaxSingle(String s,
-			List<Matcher<String>> expected, AlgebraProcessor proc,
-			StringTemplate tpl) {
+	public static void checkSyntaxSingle(
+			String s, List<Matcher<String>> expected, AlgebraProcessor proc, StringTemplate tpl) {
 		Throwable t = null;
 		GeoElementND[] result = null;
 		try {
@@ -134,11 +125,7 @@ public class AlgebraTestHelper {
 
 	private static GeoElementND[] getResult(String input, AlgebraProcessor algebraProcessor) {
 		return algebraProcessor.processAlgebraCommandNoExceptionHandling(
-				input,
-				false,
-				TestErrorHandler.INSTANCE,
-				false,
-				null);
+				input, false, TestErrorHandler.INSTANCE, false, null);
 	}
 
 	/**
@@ -169,8 +156,8 @@ public class AlgebraTestHelper {
 	 * @param template
 	 *            serialization template
 	 */
-	public static void assertOneOf(GeoElementND actualResult,
-			String[] validResultCombinations, StringTemplate template) {
+	public static void assertOneOf(
+			GeoElementND actualResult, String[] validResultCombinations, StringTemplate template) {
 		String actualResultString = actualResult.toValueString(template);
 		MultipleResultsMatcher validResultsMatcher =
 				new MultipleResultsMatcher(validResultCombinations);
@@ -187,8 +174,8 @@ public class AlgebraTestHelper {
 	 * @param tpl
 	 *            template
 	 */
-	public static void checkSyntaxSingle(String input, String[] expected,
-			AlgebraProcessor proc, StringTemplate tpl) {
+	public static void checkSyntaxSingle(
+			String input, String[] expected, AlgebraProcessor proc, StringTemplate tpl) {
 		checkSyntaxSingle(input, getMatchers(expected), proc, tpl);
 	}
 
@@ -222,5 +209,4 @@ public class AlgebraTestHelper {
 	public static boolean internalCAScommand(Commands cmd0) {
 		return cmd0 == Commands.SolveQuartic || cmd0 == Commands.Evaluate;
 	}
-
 }

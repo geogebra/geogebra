@@ -69,5 +69,4 @@ class GroupControllerTest extends BaseEuclidianControllerTest {
 		getApp().getKernel().getConstruction().createGroup(new ArrayList<>(list));
 		return list;
 	}
-
 }

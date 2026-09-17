@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,14 +36,14 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * StyleBar for 3D euclidian view
- * 
+ *
  * @author Mathieu
  *
  */
 public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	/**
 	 * Common constructor.
-	 * 
+	 *
 	 * @param ev view
 	 */
 	public EuclidianStyleBar3D(EuclidianView3D ev) {
@@ -90,50 +90,46 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 
 	@Override
-	protected void processSource(Object source,
-			ArrayList<GeoElement> targetGeos) {
+	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
 
 		if (source.equals(btnShowPlane)) {
 			getView().getSettings().togglePlane();
 		} else if (source.equals(btnRotateView)) {
 			if (btnRotateView.getMySlider().isShowing()) { // if slider is
-															// showing, start
-															// rotation
-				getView().setRotContinueAnimation(0,
-						btnRotateView.getSliderValue() * 0.01);
+				// showing, start
+				// rotation
+				getView().setRotContinueAnimation(0, btnRotateView.getSliderValue() * 0.01);
 			} else { // if button has been clicked, toggle rotation
 				if (getView().isRotAnimatedContinue()) {
 					getView().stopAnimation();
 					btnRotateView.setSelected(false);
 				} else {
-					getView().setRotContinueAnimation(0,
-							btnRotateView.getSliderValue() * 0.01);
+					getView().setRotContinueAnimation(0, btnRotateView.getSliderValue() * 0.01);
 					btnRotateView.setSelected(true);
 				}
 			}
 		} else if (source.equals(btnClipping)) {
 			if (btnClipping.getMySlider().isShowing()) {
-				getView().getSettings()
-						.setClippingReduction(btnClipping.getSliderValue());
+				getView().getSettings().setClippingReduction(btnClipping.getSliderValue());
 			} else {
 				getView().toggleShowAndUseClippingCube();
 			}
 		} else if (source.equals(btnViewDirection)) {
 			int si = btnViewDirection.getSelectedIndex();
 			switch (si) {
-			default:
-			case 0:
-				getView().setRotAnimation(-90, 90, true);
-				break;
-			case 1:
-				getView().setRotAnimation(-90, 0, true);
-				break;
-			case 2:
-				getView().setRotAnimation(0, 0, true);
-				break;
-			case 3:
-				getView().setDefaultRotAnimation();
-				break;
+				default:
+				case 0:
+					getView().setRotAnimation(-90, 90, true);
+					break;
+				case 1:
+					getView().setRotAnimation(-90, 0, true);
+					break;
+				case 2:
+					getView().setRotAnimation(0, 0, true);
+					break;
+				case 3:
+					getView().setDefaultRotAnimation();
+					break;
 			}
 		} else if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();
@@ -147,17 +143,20 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	private final class PopupMenuButtonForView3D extends PopupMenuButtonD {
 
 		private PopupMenuButtonForView3D(AppD app1) {
-			super(app1, null, -1, -1,
-					new Dimension(app1.getScaledIconSize(),
-							app1.getScaledIconSize()),
-					SelectionTable.MODE_ICON, false, true);
-
+			super(
+					app1,
+					null,
+					-1,
+					-1,
+					new Dimension(app1.getScaledIconSize(), app1.getScaledIconSize()),
+					SelectionTable.MODE_ICON,
+					false,
+					true);
 		}
 
 		@Override
 		public void update(List<GeoElement> geos) {
-			this.setVisible(
-					geos.size() == 0 && mode != EuclidianConstants.MODE_PEN);
+			this.setVisible(geos.size() == 0 && mode != EuclidianConstants.MODE_PEN);
 		}
 
 		/*
@@ -175,15 +174,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// ========================================
 		// show grid button
 		btnShowPlane = createToggleButtonForEV(
-				app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_PLANE),
-				iconHeight);
+				app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_PLANE), iconHeight);
 		btnShowPlane.addActionListener(this);
 
 		// ========================================
 		// rotate view button
 		btnRotateView = new PopupMenuButtonForView3D(app);
-		btnRotateView.setIcon(app.getScaledIcon(
-				GuiResources3D.STYLINGBAR_GRAPHICS3D_ROTATEVIEW_PLAY));
+		btnRotateView.setIcon(app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_ROTATEVIEW_PLAY));
 		btnRotateView.getMySlider().setMinimum(-10);
 		btnRotateView.getMySlider().setMaximum(10);
 		btnRotateView.getMySlider().setMajorTickSpacing(10);
@@ -198,8 +195,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// ========================================
 		// clipping button
 		btnClipping = new PopupMenuButtonForView3D(app);
-		btnClipping.setIcon(app.getScaledIcon(
-				GuiResources3D.STYLINGBAR_GRAPHICS3D_CLIPPING_MEDIUM));
+		btnClipping.setIcon(app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_CLIPPING_MEDIUM));
 		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
 		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
 		btnClipping.getMySlider().setMajorTickSpacing(1);
@@ -214,73 +210,66 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// ========================================
 		// view yz direction
 		Icon[] directionIcons = new Icon[4];
-		directionIcons[0] = app
-				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_XY);
-		directionIcons[1] = app
-				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_XZ);
-		directionIcons[2] = app
-				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_YZ);
-		directionIcons[3] = app.getScaledIcon(
-				GuiResources3D.STYLINGBAR_GRAPHICS3D_STANDARDVIEW_ROTATE);
+		directionIcons[0] = app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_XY);
+		directionIcons[1] = app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_XZ);
+		directionIcons[2] = app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_YZ);
+		directionIcons[3] = app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_STANDARDVIEW_ROTATE);
 		btnViewDirection = new ProjectionPopup(app, directionIcons);
 		btnViewDirection.addActionListener(this);
 
 		// ========================================
 		// projection view button
 		Icon[] projectionIcons = new Icon[4];
-		projectionIcons[0] = app
-				.getScaledIcon(GuiResources3D.PROJECTION_ORTHOGRAPHIC);
-		projectionIcons[1] = app
-				.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE);
-		projectionIcons[2] = app
-				.getScaledIcon(GuiResources3D.PROJECTION_GLASSES);
-		projectionIcons[3] = app
-				.getScaledIcon(GuiResources3D.PROJECTION_OBLIQUE);
+		projectionIcons[0] = app.getScaledIcon(GuiResources3D.PROJECTION_ORTHOGRAPHIC);
+		projectionIcons[1] = app.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE);
+		projectionIcons[2] = app.getScaledIcon(GuiResources3D.PROJECTION_GLASSES);
+		projectionIcons[3] = app.getScaledIcon(GuiResources3D.PROJECTION_OBLIQUE);
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addActionListener(this);
-
 	}
 
 	private final class ProjectionPopup extends PopupMenuButtonD {
 		private static final long serialVersionUID = 1L;
 
 		private ProjectionPopup(AppD app, Icon[] projectionIcons) {
-			super(app, projectionIcons, 1, projectionIcons.length,
-					new Dimension(app.getScaledIconSize(),
-							app.getScaledIconSize()),
-					SelectionTable.MODE_ICON, true, false);
+			super(
+					app,
+					projectionIcons,
+					1,
+					projectionIcons.length,
+					new Dimension(app.getScaledIconSize(), app.getScaledIconSize()),
+					SelectionTable.MODE_ICON,
+					true,
+					false);
 			setIcon(projectionIcons[getView().getProjection()]);
 		}
 
 		@Override
 		public void update(List<GeoElement> geos) {
-			this.setVisible(
-					geos.size() == 0 && mode != EuclidianConstants.MODE_PEN);
+			this.setVisible(geos.size() == 0 && mode != EuclidianConstants.MODE_PEN);
 		}
-
 	}
 
 	@Override
 	public void setLabels() {
 		super.setLabels();
 		btnShowPlane.setToolTipText(loc.getPlainTooltip("stylebar.xOyPlane"));
-		btnRotateView
-				.setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		btnViewDirection
-				.setToolTipText(loc.getPlainTooltip("stylebar.ViewDirection"));
-		btnViewDirection.setToolTipArray(
-				new String[] { loc.getPlainTooltip("stylebar.ViewXY"),
-						loc.getPlainTooltip("stylebar.ViewXZ"),
-						loc.getPlainTooltip("stylebar.ViewYZ"),
-						loc.getPlainTooltip("stylebar.ViewDefaultRotate") });
+		btnRotateView.setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
+		btnViewDirection.setToolTipText(loc.getPlainTooltip("stylebar.ViewDirection"));
+		btnViewDirection.setToolTipArray(new String[] {
+			loc.getPlainTooltip("stylebar.ViewXY"),
+			loc.getPlainTooltip("stylebar.ViewXZ"),
+			loc.getPlainTooltip("stylebar.ViewYZ"),
+			loc.getPlainTooltip("stylebar.ViewDefaultRotate")
+		});
 		btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
-		btnViewProjection
-				.setToolTipText(loc.getPlainTooltip("stylebar.ViewProjection"));
+		btnViewProjection.setToolTipText(loc.getPlainTooltip("stylebar.ViewProjection"));
 		btnViewProjection.setToolTipArray(new String[] {
-				loc.getPlainTooltip("stylebar.ParallelProjection"),
-				loc.getPlainTooltip("stylebar.PerspectiveProjection"),
-				loc.getPlainTooltip("stylebar.GlassesProjection"),
-				loc.getPlainTooltip("stylebar.ObliqueProjection") });
+			loc.getPlainTooltip("stylebar.ParallelProjection"),
+			loc.getPlainTooltip("stylebar.PerspectiveProjection"),
+			loc.getPlainTooltip("stylebar.GlassesProjection"),
+			loc.getPlainTooltip("stylebar.ObliqueProjection")
+		});
 
 		// btnViewProjection.setSelectedIndex(getView().getProjection());
 	}
@@ -316,7 +305,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		btnViewProjection.removeActionListener(this);
 		btnViewProjection.setSelectedIndex(getView().getProjection());
 		btnViewProjection.addActionListener(this);
-
 	}
 
 	@Override

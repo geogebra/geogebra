@@ -24,7 +24,7 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.jspecify.annotations.Nullable;
 
 public class ObliqueAngleProperty extends AbstractValuedProperty<String>
-	implements StringProperty, SettingsDependentProperty {
+		implements StringProperty, SettingsDependentProperty {
 	private EuclidianView3DInterface euclidianView;
 
 	/**

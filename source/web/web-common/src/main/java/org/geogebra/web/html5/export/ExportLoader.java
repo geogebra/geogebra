@@ -66,8 +66,7 @@ public final class ExportLoader {
 	@JsOverlay
 	public static void onCanvas2PdfLoaded(JsRunnable callback) {
 		Runnable onFontsLoaded = () -> {
-			Canvas2Pdf.get().setFontPath(StyleInjector.normalizeUrl(GWT.getModuleBaseURL())
-					+ "js/");
+			Canvas2Pdf.get().setFontPath(StyleInjector.normalizeUrl(GWT.getModuleBaseURL()) + "js/");
 			callback.run();
 		};
 		if (getCanvas2Pdf() != null) {

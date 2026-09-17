@@ -32,14 +32,12 @@ public class ModelEventCollector implements TableValuesListener {
 	private ModelEvent event = new ModelEvent();
 
 	@Override
-	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		event.columnsRemoved.add(new ColumnEvent(column, evaluatable));
 	}
 
 	@Override
-	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		event.columnsChanged.add(new ColumnEvent(column, evaluatable));
 	}
 
@@ -49,14 +47,14 @@ public class ModelEventCollector implements TableValuesListener {
 	}
 
 	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnHeaderChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		// Ignore
 	}
 
 	@Override
-	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
-			int row) {
+	public void notifyCellChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column, int row) {
 		event.cellsChanged.add(new CellEvent(column, row, evaluatable));
 	}
 
@@ -151,8 +149,7 @@ public class ModelEventCollector implements TableValuesListener {
 			model.notifyRowChanged(row);
 		}
 		for (CellEvent cellEvent : event.cellsChanged) {
-			model.notifyCellChanged(cellEvent.evaluatable, cellEvent.columnIndex,
-					cellEvent.rowIndex);
+			model.notifyCellChanged(cellEvent.evaluatable, cellEvent.columnIndex, cellEvent.rowIndex);
 		}
 	}
 

@@ -36,7 +36,7 @@ public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,40 +45,39 @@ public class CmdAsymptote extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
+			case 1:
+				arg = resArgs(c, info);
 
-			// asymptotes to conic
-			if (arg[0].isGeoConic()) {
+				// asymptotes to conic
+				if (arg[0].isGeoConic()) {
 
-				AlgoAsymptote algo = new AlgoAsymptote(cons, c.getLabels(),
-						(GeoConic) arg[0]);
-				return algo.getAsymptotes();
+					AlgoAsymptote algo = new AlgoAsymptote(cons, c.getLabels(), (GeoConic) arg[0]);
+					return algo.getAsymptotes();
 
-			} else if (arg[0].isGeoFunction()) {
+				} else if (arg[0].isGeoFunction()) {
 
-				AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons,
-						c.getLabel(), (GeoFunction) arg[0]);
+					AlgoAsymptoteFunction algo =
+							new AlgoAsymptoteFunction(cons, c.getLabel(), (GeoFunction) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[0].isGeoImplicitCurve()) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[0].isGeoImplicitCurve()) {
 
-				AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(
-						cons, c.getLabel(), (GeoImplicit) arg[0]);
+					AlgoAsymptoteImplicitPoly algo =
+							new AlgoAsymptoteImplicitPoly(cons, c.getLabel(), (GeoImplicit) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

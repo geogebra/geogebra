@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author Laszlo
- * 
+ *
  * DataAnalysis dockpanel for Web
  *
  */
@@ -37,7 +37,6 @@ public final class DataAnalysisViewDockPanelW extends DockPanelW {
 	 * Creates panel
 	 *
 	 */
-
 	public DataAnalysisViewDockPanelW(AppWFull app) {
 		super(App.VIEW_DATA_ANALYSIS, getDefaultToolbar(), true);
 		this.app = app;
@@ -47,15 +46,13 @@ public final class DataAnalysisViewDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		DataAnalysisViewW da = (DataAnalysisViewW) app
-				.getGuiManager().getDataAnalysisView();
+		DataAnalysisViewW da = (DataAnalysisViewW) app.getGuiManager().getDataAnalysisView();
 		return da.getDataAnalysisViewComponent();
 	}
 
 	@Override
 	protected Widget loadStyleBar() {
-		DataAnalysisViewW da = (DataAnalysisViewW) app
-				.getGuiManager().getDataAnalysisView();
+		DataAnalysisViewW da = (DataAnalysisViewW) app.getGuiManager().getDataAnalysisView();
 		return da.getStyleBar();
 	}
 

@@ -32,7 +32,7 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Creates stem and leaf plot for given list of numbers, output is a LaTeX table
- * 
+ *
  * @author Michael
  */
 public class AlgoStemPlot extends AlgoElement implements TableAlgo {
@@ -55,8 +55,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 	 * @param scaleAdjustment
 	 *            decimal point shift (+1/0/-1)
 	 */
-	public AlgoStemPlot(Construction cons, String label, GeoList geoList,
-			GeoNumeric scaleAdjustment) {
+	public AlgoStemPlot(
+			Construction cons, String label, GeoList geoList, GeoNumeric scaleAdjustment) {
 		this(cons, geoList, scaleAdjustment);
 		text.setLabel(label);
 	}
@@ -69,8 +69,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 	 * @param scaleAdjustment
 	 *            decimal point shift (+1/0/-1)
 	 */
-	public AlgoStemPlot(Construction cons, GeoList geoList,
-			GeoNumeric scaleAdjustment) {
+	public AlgoStemPlot(Construction cons, GeoList geoList, GeoNumeric scaleAdjustment) {
 		super(cons);
 		this.geoList = geoList;
 		this.scaleAdjustment = scaleAdjustment;
@@ -120,7 +119,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		// init the outlier indices using the data array bounds
 		int size = data.length;
-		int[] outlierIndex = { 0, size };
+		int[] outlierIndex = {0, size};
 
 		if (size <= 1) {
 			return outlierIndex;
@@ -129,46 +128,45 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		// find Q1 and Q3
 		double Q1;
 		switch (size % 4) {
-		case 0:
-			Q1 = (data[size / 4 - 1] + data[(size + 4) / 4 - 1]) / 2;
-			break;
-		case 1:
-			Q1 = (data[(size - 1) / 4 - 1] + data[(size + 3) / 4 - 1]) / 2;
-			break;
-		case 2:
-			Q1 = data[(size + 2) / 4 - 1];
-			break;
-		default:
-			Q1 = data[(size + 1) / 4 - 1];
-			break;
+			case 0:
+				Q1 = (data[size / 4 - 1] + data[(size + 4) / 4 - 1]) / 2;
+				break;
+			case 1:
+				Q1 = (data[(size - 1) / 4 - 1] + data[(size + 3) / 4 - 1]) / 2;
+				break;
+			case 2:
+				Q1 = data[(size + 2) / 4 - 1];
+				break;
+			default:
+				Q1 = data[(size + 1) / 4 - 1];
+				break;
 		}
 
 		double Q3;
 		switch (size % 4) {
-		case 0:
-			Q3 = (data[3 * size / 4 - 1] + data[(3 * size + 4) / 4 - 1]) / 2;
-			break;
-		case 1:
-			Q3 = (data[(3 * size + 1) / 4 - 1] + data[(3 * size + 5) / 4 - 1])
-					/ 2;
-			break;
-		case 2:
-			Q3 = data[(3 * size + 2) / 4 - 1];
-			break;
-		default:
-			Q3 = data[(3 * size + 3) / 4 - 1];
-			break;
+			case 0:
+				Q3 = (data[3 * size / 4 - 1] + data[(3 * size + 4) / 4 - 1]) / 2;
+				break;
+			case 1:
+				Q3 = (data[(3 * size + 1) / 4 - 1] + data[(3 * size + 5) / 4 - 1]) / 2;
+				break;
+			case 2:
+				Q3 = data[(3 * size + 2) / 4 - 1];
+				break;
+			default:
+				Q3 = data[(3 * size + 3) / 4 - 1];
+				break;
 		}
 
 		// test for outliers and adjust the indices accordingly
 		double IQRplus = 1.5 * (Q3 - Q1);
 
-		for (int i = 0; i < data.length
-				&& data[i] < Q1 - IQRplus - Kernel.STANDARD_PRECISION; i++) {
+		for (int i = 0; i < data.length && data[i] < Q1 - IQRplus - Kernel.STANDARD_PRECISION; i++) {
 			outlierIndex[0]++;
 		}
-		for (int i = data.length - 1; i >= 0
-				&& data[i] > Q3 + IQRplus + Kernel.STANDARD_PRECISION; i--) {
+		for (int i = data.length - 1;
+				i >= 0 && data[i] > Q3 + IQRplus + Kernel.STANDARD_PRECISION;
+				i--) {
 			outlierIndex[1]--;
 		}
 
@@ -178,7 +176,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 	/**
 	 * Processes an array of doubles to create a stem & leaf plot as a list of
 	 * ArrayLists. Each ArrayList stores a stem and associated leaf values.
-	 * 
+	 *
 	 * Each data value is converted into a stem/leaf pair by multiplying the
 	 * data value by the parameter stemFactor (a power of ten), rounding this to
 	 * an integer and then using the tens part for the stem and the unit for the
@@ -282,8 +280,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		// increment/decrement magnitude with user input
 		// don't adjust by more than 1 order
 		if (input.length == 2) {
-			int s = Math.abs(scaleAdjustment.getDouble()) > 1 ? 0
-					: (int) scaleAdjustment.getDouble();
+			int s = Math.abs(scaleAdjustment.getDouble()) > 1 ? 0 : (int) scaleAdjustment.getDouble();
 			magnitude = magnitude + s;
 		}
 
@@ -311,9 +308,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		// create stemLines -- a list of ArrayLists that stores the stem & leaf
 		// values for each line of the plot
 		double factor = Math.pow(10.0, 1 - magnitude); // factor for creating the stem plot
-		final ArrayList<ArrayList<Integer>> stemLines = createStemPlotArray(
-				data,
-				factor, outlierIndex);
+		final ArrayList<ArrayList<Integer>> stemLines = createStemPlotArray(data, factor, outlierIndex);
 		double multUnit = Math.pow(10.0, magnitude - 1); // factor for building
 		// the key
 		stemPlot(data, outlierIndex, multUnit, stemLines);
@@ -324,8 +319,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		text.setLaTeX(true, false);
 	}
 
-	private void stemPlot(double[] data, int[] outlierIndex, double multUnit,
-			ArrayList<ArrayList<Integer>> stemLines) {
+	private void stemPlot(
+			double[] data, int[] outlierIndex, double multUnit, ArrayList<ArrayList<Integer>> stemLines) {
 
 		// find the maximum length of the stem lines (used to create the LaTeX)
 		int maxSize = 0;
@@ -356,8 +351,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 			// add the stem and handle the case of -0
 			stem = currentLine.get(0);
-			if (stem == 0 && r < stemLines.size() - 2
-					&& stemLines.get(r + 1).get(0) == 0) {
+			if (stem == 0 && r < stemLines.size() - 2 && stemLines.get(r + 1).get(0) == 0) {
 				body.append("-");
 				body.append(stem);
 			} else {
@@ -367,8 +361,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 			// add the leaf values
 			for (int c = 1; c < maxSize; c++) {
-				body.append(
-						currentLine.size() > c ? currentLine.get(c) + "" : " ");
+				body.append(currentLine.size() > c ? currentLine.get(c) + "" : " ");
 				if (c < maxSize - 1) {
 					body.append("&"); // column separator
 				}
@@ -385,11 +378,9 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		key.append("\\fbox{\\text{");
 
 		// calculate the key string, avoid eg 31.0
-		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit
-				: "" + 31.0 * multUnit;
+		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit : "" + 31.0 * multUnit;
 
-		key.append(getLoc().getPlainDefault("StemPlot.KeyAMeansB",
-				"%0 means %1", "3|1", keyCode));
+		key.append(getLoc().getPlainDefault("StemPlot.KeyAMeansB", "%0 means %1", "3|1", keyCode));
 
 		key.append("}}");
 		key.append(" \\\\ "); // newline in LaTeX ie \\
@@ -421,5 +412,4 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
 }

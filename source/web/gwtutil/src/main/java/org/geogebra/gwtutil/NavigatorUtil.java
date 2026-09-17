@@ -23,7 +23,7 @@ import elemental2.dom.URLSearchParams;
 
 public final class NavigatorUtil {
 
-	private NavigatorUtil() { }
+	private NavigatorUtil() {}
 
 	/**
 	 * @return whether app is running in a mobile browser

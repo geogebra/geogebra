@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,7 +37,7 @@ import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Toolbar configuration dialog.
- * 
+ *
  * @author Markus Hohenwarter
  *
  */
@@ -52,7 +52,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 	/**
 	 * Creates new dialog
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -66,16 +66,15 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		JComboBox<KeyValue> switcher = new JComboBox<>();
 		switcher.addItem(new KeyValue(-1, loc.getMenu("General")));
 
-		DockPanelD[] panels = ((GuiManagerD) app.getGuiManager())
-				.getLayout().getDockManager().getPanels();
+		DockPanelD[] panels =
+				((GuiManagerD) app.getGuiManager()).getLayout().getDockManager().getPanels();
 
 		int toolbarId = app.getGuiManager().getActiveToolbarId();
 		int selIdx = 0;
 		for (DockPanelD panel : panels) {
 			if (panel.canCustomizeToolbar()) {
 				int viewId = panel.getViewId();
-				switcher.addItem(new KeyValue(viewId,
-						loc.getMenu(panel.getViewTitle())));
+				switcher.addItem(new KeyValue(viewId, loc.getMenu(panel.getViewTitle())));
 				if (viewId == toolbarId) {
 					selIdx = switcher.getItemCount() - 1;
 				}
@@ -83,7 +82,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		}
 
 		switcher.addActionListener(this); // add at the end to not be notified
-											// about items being added
+		// about items being added
 
 		JPanel switcherPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -98,7 +97,6 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 		switcherPanel.add(switcher);
 		switcher.setSelectedIndex(selIdx);
-
 	}
 
 	/**
@@ -188,15 +186,13 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int id = ((KeyValue) ((JComboBox) e.getSource()).getSelectedItem())
-				.getKey();
+		int id = ((KeyValue) ((JComboBox) e.getSource()).getSelectedItem()).getKey();
 
 		if (id == -1) {
-			confPanel.setToolbar(null,
-					app.getGuiManager().getToolbarDefinition());
+			confPanel.setToolbar(null, app.getGuiManager().getToolbarDefinition());
 		} else {
-			DockPanelD panel = ((GuiManagerD) app.getGuiManager()).getLayout()
-					.getDockManager().getPanel(id);
+			DockPanelD panel =
+					((GuiManagerD) app.getGuiManager()).getLayout().getDockManager().getPanel(id);
 			confPanel.setToolbar(panel, panel.getToolbarString());
 		}
 	}

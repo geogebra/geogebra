@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,15 +36,14 @@ import org.geogebra.desktop.main.AppD;
  * Panel with fields to enter width and height of graphic file to be exported.
  * The ratio of init width and height is kept constant. Use methods
  * getSelectedWidth() and getSelectedHeight() to retrieve the searched values.
- * 
+ *
  * @author Markus Hohenwarter
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
-public class GraphicSizePanel extends JPanel
-		implements ActionListener, FocusListener {
+public class GraphicSizePanel extends JPanel implements ActionListener, FocusListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -72,8 +71,7 @@ public class GraphicSizePanel extends JPanel
 	 * @param height height
 	 * @param keepRatio whether to keep x:y ratio
 	 */
-	public GraphicSizePanel(AppD app, int width, int height,
-			boolean keepRatio) {
+	public GraphicSizePanel(AppD app, int width, int height, boolean keepRatio) {
 		setLayout(new FlowLayout(5));
 		tfWidth = new MyTextFieldD(app, 5);
 		tfHeight = new MyTextFieldD(app, 5);
@@ -156,5 +154,4 @@ public class GraphicSizePanel extends JPanel
 	public void focusLost(FocusEvent ev) {
 		updateValues(ev.getSource());
 	}
-
 }

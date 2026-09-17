@@ -48,12 +48,14 @@ public final class MultiuserManager implements EventListener {
 	 * @param label label of the changed object
 	 * @param implicit whether the geo was interacted with (add, update) without explicit selection
 	 */
-	public void addSelection(App app, String clientId, String user, GColor color, String label,
-			boolean implicit) {
-		GColor withAlpha = GColor.newColor(adjustColor(color.getRed()),
-				adjustColor(color.getGreen()), adjustColor(color.getBlue()), 127);
-		User currentUser = activeInteractions
-				.computeIfAbsent(clientId, k -> new User(user, withAlpha));
+	public void addSelection(
+			App app, String clientId, String user, GColor color, String label, boolean implicit) {
+		GColor withAlpha = GColor.newColor(
+				adjustColor(color.getRed()),
+				adjustColor(color.getGreen()),
+				adjustColor(color.getBlue()),
+				127);
+		User currentUser = activeInteractions.computeIfAbsent(clientId, k -> new User(user, withAlpha));
 		app.getEventDispatcher().removeEventListener(this);
 		app.getEventDispatcher().addEventListener(this);
 		// TODO this removeSelection is not propagated to other users. Markers get

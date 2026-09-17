@@ -60,8 +60,8 @@ public final class DefaultMenuActionHandlerFactory implements MenuActionHandlerF
 	@Override
 	public DefaultMenuActionHandler create() {
 		DefaultMenuActionHandler actionHandler = new DefaultMenuActionHandler(app);
-		actionHandler.setMenuAction(Action.CLEAR_CONSTRUCTION,
-				new ClearAllAction(app.enableFileFeatures()));
+		actionHandler.setMenuAction(
+				Action.CLEAR_CONSTRUCTION, new ClearAllAction(app.enableFileFeatures()));
 		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new ShowSearchView());
 		actionHandler.setMenuAction(Action.SHOW_LICENSE, new ShowLicenseAction());
 		actionHandler.setMenuAction(Action.SHOW_PRIVACY_POLICY, new ShowPrivacyPolicyAction());

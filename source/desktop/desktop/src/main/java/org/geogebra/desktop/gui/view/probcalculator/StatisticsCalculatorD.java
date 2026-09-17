@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -56,7 +56,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * @author G. Sturr
- * 
+ *
  */
 public class StatisticsCalculatorD extends StatisticsCalculator
 		implements ActionListener, FocusListener, SetLabels {
@@ -103,7 +103,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	/**
 	 * Construct StatisticsCalculator
-	 * 
+	 *
 	 * @param app application
 	 */
 	public StatisticsCalculatorD(AppD app) {
@@ -126,16 +126,14 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		// prepare result panel
 		resultPane.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createEtchedBorder(),
-				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+				BorderFactory.createEtchedBorder(), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		JPanel resultPanel = new JPanel(new BorderLayout());
 		resultPanel.add(lblResult, BorderLayout.NORTH);
 		resultPanel.add(resultPane, BorderLayout.CENTER);
 
 		// procedure panel (procedure input fields + result panel)
 		JPanel procedurePanel = new JPanel();
-		procedurePanel
-				.setLayout(new BoxLayout(procedurePanel, BoxLayout.Y_AXIS));
+		procedurePanel.setLayout(new BoxLayout(procedurePanel, BoxLayout.Y_AXIS));
 		procedurePanel.add(panelBasicProcedures);
 		procedurePanel.add(panelChiSquare.getWrappedPanel());
 		procedurePanel.add(Box.createVerticalStrut(20));
@@ -145,8 +143,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		// wrapper for procedure panel
 		JPanel procedureWrapper = new JPanel(new BorderLayout());
 		procedureWrapper.add(procedurePanel, BorderLayout.NORTH);
-		procedureWrapper
-				.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		procedureWrapper.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		scroller = new JScrollPane(procedureWrapper);
 		scroller.getVerticalScrollBar().setUnitIncrement(30);
 
@@ -166,12 +163,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	private void createControlPanel() {
 
 		panelControl = new JPanel(new BorderLayout());
-		panelControl.add(LayoutUtil.flowPanel(cbProcedure),
-				loc.borderWest());
+		panelControl.add(LayoutUtil.flowPanel(cbProcedure), loc.borderWest());
 		// panelControl.add(LayoutUtil.flowPanel(btnCalculate),
 		// BorderLayout.CENTER);
 		panelControl.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
 	}
 
 	private void setInputPanelLayout() {
@@ -186,20 +181,17 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		if (panelSample1 == null) {
 			panelSample1 = new JPanel();
-			panelSample1
-					.setLayout(new BoxLayout(panelSample1, BoxLayout.Y_AXIS));
+			panelSample1.setLayout(new BoxLayout(panelSample1, BoxLayout.Y_AXIS));
 			panelSample1.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 		if (panelSample2 == null) {
 			panelSample2 = new JPanel();
-			panelSample2
-					.setLayout(new BoxLayout(panelSample2, BoxLayout.Y_AXIS));
+			panelSample2.setLayout(new BoxLayout(panelSample2, BoxLayout.Y_AXIS));
 			panelSample2.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 		if (panelTestAndCI == null) {
 			panelTestAndCI = new JPanel();
-			panelTestAndCI
-					.setLayout(new BoxLayout(panelTestAndCI, BoxLayout.Y_AXIS));
+			panelTestAndCI.setLayout(new BoxLayout(panelTestAndCI, BoxLayout.Y_AXIS));
 			panelTestAndCI.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 
@@ -212,56 +204,56 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		panelSample1.add(LayoutUtil.flowPanelRight(4, 2, 0, lblSampleHeader1));
 		for (int i = 0; i < lblSampleStat1.length; i++) {
-			panelSample1.add(LayoutUtil.flowPanelRight(4, 2, 0,
-					lblSampleStat1[i], (MyTextFieldD) fldSampleStat1[i]));
+			panelSample1.add(
+					LayoutUtil.flowPanelRight(4, 2, 0, lblSampleStat1[i], (MyTextFieldD) fldSampleStat1[i]));
 		}
 
-		panelSample2.add(LayoutUtil.flowPanelRight(4, 2, 0, new JLabel(" "),
-				lblSampleHeader2));
+		panelSample2.add(LayoutUtil.flowPanelRight(4, 2, 0, new JLabel(" "), lblSampleHeader2));
 		for (int i = 0; i < lblSampleStat2.length; i++) {
-			panelSample2.add(LayoutUtil.flowPanelRight(4, 2, 0,
-					lblSampleStat2[i], (MyTextFieldD) fldSampleStat2[i]));
+			panelSample2.add(
+					LayoutUtil.flowPanelRight(4, 2, 0, lblSampleStat2[i], (MyTextFieldD) fldSampleStat2[i]));
 		}
 
 		switch (sc.getSelectedProcedure()) {
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN2_TEST:
-		case TMEAN_TEST:
-		case TMEAN2_TEST:
-		case ZPROP_TEST:
-		case ZPROP2_TEST:
+			default:
+				// do nothing
+				break;
+			case ZMEAN_TEST:
+			case ZMEAN2_TEST:
+			case TMEAN_TEST:
+			case TMEAN2_TEST:
+			case ZPROP_TEST:
+			case ZPROP2_TEST:
+				if (app.getLocalization().isRightToLeftReadingOrder()) {
+					// eg 1.1 = mu
+					panelTestAndCI.add(LayoutUtil.flowPanel(
+							4,
+							2,
+							0,
+							lblNull,
+							Box.createHorizontalStrut(5),
+							(MyTextFieldD) fldNullHyp,
+							lblHypParameter));
+				} else {
+					// eg mu = 1.1
+					panelTestAndCI.add(LayoutUtil.flowPanel(
+							4, 2, 0, lblNull, Box.createHorizontalStrut(5), lblHypParameter, (MyTextFieldD)
+									fldNullHyp));
+				}
+				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblTailType, btnLeft, btnRight, btnTwo));
+				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
+				break;
 
-			if (app.getLocalization().isRightToLeftReadingOrder()) {
-				// eg 1.1 = mu
-				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
-						Box.createHorizontalStrut(5), (MyTextFieldD) fldNullHyp,
-						lblHypParameter));
-			} else {
-				// eg mu = 1.1
-				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
-						Box.createHorizontalStrut(5), lblHypParameter,
-						(MyTextFieldD) fldNullHyp));
-			}
-			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblTailType,
-					btnLeft, btnRight, btnTwo));
-			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
-			break;
-
-		case ZMEAN_CI:
-		case ZMEAN2_CI:
-		case TMEAN_CI:
-		case TMEAN2_CI:
-		case ZPROP_CI:
-		case ZPROP2_CI:
-
-			panelTestAndCI.add(
-					LayoutUtil.flowPanel(4, 2, 0, lblConfLevel,
-							(MyTextFieldD) fldConfLevel));
-			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
-			break;
+			case ZMEAN_CI:
+			case ZMEAN2_CI:
+			case TMEAN_CI:
+			case TMEAN2_CI:
+			case ZPROP_CI:
+			case ZPROP2_CI:
+				panelTestAndCI.add(
+						LayoutUtil.flowPanel(4, 2, 0, lblConfLevel, (MyTextFieldD) fldConfLevel));
+				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
+				break;
 		}
 
 		if (forceZeroHypothesis()) {
@@ -293,7 +285,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 
 		panelBasicProcedures.add(panelTestAndCI, c);
-
 	}
 
 	private void createGUIElements() {
@@ -389,18 +380,17 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		btnCalculate.setText(loc.getMenu("Calculate"));
 
 		switch (sc.getSelectedProcedure()) {
+			case ZMEAN2_TEST:
+			case TMEAN2_TEST:
+			case ZMEAN2_CI:
+			case TMEAN2_CI:
+			case ZPROP2_TEST:
+			case ZPROP2_CI:
+				lblSampleHeader1.setText(loc.getMenu("Sample1"));
+				break;
 
-		case ZMEAN2_TEST:
-		case TMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_CI:
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-			lblSampleHeader1.setText(loc.getMenu("Sample1"));
-			break;
-
-		default:
-			lblSampleHeader1.setText(loc.getMenu("Sample"));
+			default:
+				lblSampleHeader1.setText(loc.getMenu("Sample"));
 		}
 
 		lblSampleHeader2.setText(loc.getMenu("Sample2"));
@@ -416,36 +406,30 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		// reset the text in the result panel
 		recompute(false);
-
 	}
 
 	private void setHypParameterLabel() {
 		switch (sc.getSelectedProcedure()) {
+			case ZMEAN_TEST:
+			case TMEAN_TEST:
+				lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = ");
+				break;
 
-		case ZMEAN_TEST:
-		case TMEAN_TEST:
-			lblHypParameter
-					.setText(loc.getMenu("HypothesizedMean.short") + " = ");
-			break;
+			case ZMEAN2_TEST:
+			case TMEAN2_TEST:
+				lblHypParameter.setText(loc.getMenu("DifferenceOfMeans.short") + " = ");
+				break;
 
-		case ZMEAN2_TEST:
-		case TMEAN2_TEST:
-			lblHypParameter
-					.setText(loc.getMenu("DifferenceOfMeans.short") + " = ");
-			break;
+			case ZPROP_TEST:
+				lblHypParameter.setText(loc.getMenu("HypothesizedProportion.short") + " = ");
+				break;
 
-		case ZPROP_TEST:
-			lblHypParameter.setText(
-					loc.getMenu("HypothesizedProportion.short") + " = ");
-			break;
+			case ZPROP2_TEST:
+				lblHypParameter.setText(loc.getMenu("DifferenceOfProportions.short") + " = ");
+				break;
 
-		case ZPROP2_TEST:
-			lblHypParameter.setText(
-					loc.getMenu("DifferenceOfProportions.short") + " = ");
-			break;
-
-		default:
-			lblHypParameter.setText(loc.getMenu(""));
+			default:
+				lblHypParameter.setText(loc.getMenu(""));
 		}
 	}
 
@@ -482,57 +466,56 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		switch (sc.getSelectedProcedure()) {
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
-			lblSampleStat1[0].setText(strMean);
-			lblSampleStat1[1].setText(strSigma);
-			lblSampleStat1[2].setText(strN);
-			break;
+			default:
+				// do nothing
+				break;
+			case ZMEAN_TEST:
+			case ZMEAN_CI:
+				lblSampleStat1[0].setText(strMean);
+				lblSampleStat1[1].setText(strSigma);
+				lblSampleStat1[2].setText(strN);
+				break;
 
-		case TMEAN_TEST:
-		case TMEAN_CI:
-			lblSampleStat1[0].setText(strMean);
-			lblSampleStat1[1].setText(strSD);
-			lblSampleStat1[2].setText(strN);
-			break;
+			case TMEAN_TEST:
+			case TMEAN_CI:
+				lblSampleStat1[0].setText(strMean);
+				lblSampleStat1[1].setText(strSD);
+				lblSampleStat1[2].setText(strN);
+				break;
 
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
-			lblSampleStat1[0].setText(strMean);
-			lblSampleStat1[1].setText(strSigma);
-			lblSampleStat1[2].setText(strN);
-			lblSampleStat2[0].setText(strMean);
-			lblSampleStat2[1].setText(strSigma);
-			lblSampleStat2[2].setText(strN);
-			break;
+			case ZMEAN2_TEST:
+			case ZMEAN2_CI:
+				lblSampleStat1[0].setText(strMean);
+				lblSampleStat1[1].setText(strSigma);
+				lblSampleStat1[2].setText(strN);
+				lblSampleStat2[0].setText(strMean);
+				lblSampleStat2[1].setText(strSigma);
+				lblSampleStat2[2].setText(strN);
+				break;
 
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
-			lblSampleStat1[0].setText(strMean);
-			lblSampleStat1[1].setText(strSD);
-			lblSampleStat1[2].setText(strN);
-			lblSampleStat2[0].setText(strMean);
-			lblSampleStat2[1].setText(strSD);
-			lblSampleStat2[2].setText(strN);
-			break;
+			case TMEAN2_TEST:
+			case TMEAN2_CI:
+				lblSampleStat1[0].setText(strMean);
+				lblSampleStat1[1].setText(strSD);
+				lblSampleStat1[2].setText(strN);
+				lblSampleStat2[0].setText(strMean);
+				lblSampleStat2[1].setText(strSD);
+				lblSampleStat2[2].setText(strN);
+				break;
 
-		case ZPROP_TEST:
-		case ZPROP_CI:
-			lblSampleStat1[0].setText(strSuccesses);
-			lblSampleStat1[1].setText(strN);
-			break;
+			case ZPROP_TEST:
+			case ZPROP_CI:
+				lblSampleStat1[0].setText(strSuccesses);
+				lblSampleStat1[1].setText(strN);
+				break;
 
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-			lblSampleStat1[0].setText(strSuccesses);
-			lblSampleStat1[1].setText(strN);
-			lblSampleStat2[0].setText(strSuccesses);
-			lblSampleStat2[1].setText(strN);
-			break;
-
+			case ZPROP2_TEST:
+			case ZPROP2_CI:
+				lblSampleStat1[0].setText(strSuccesses);
+				lblSampleStat1[1].setText(strN);
+				lblSampleStat2[0].setText(strSuccesses);
+				lblSampleStat2[1].setText(strN);
+				break;
 		}
 	}
 
@@ -541,14 +524,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		setSampleFieldLabels();
 		setSampleFieldText();
 		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i]
-					.setVisible(isNotEmpty(lblSampleStat1[i].getText()));
-			fldSampleStat1[i]
-					.setVisible(isNotEmpty(lblSampleStat1[i].getText()));
-			lblSampleStat2[i]
-					.setVisible(isNotEmpty(lblSampleStat2[i].getText()));
-			fldSampleStat2[i]
-					.setVisible(isNotEmpty(lblSampleStat2[i].getText()));
+			lblSampleStat1[i].setVisible(isNotEmpty(lblSampleStat1[i].getText()));
+			fldSampleStat1[i].setVisible(isNotEmpty(lblSampleStat1[i].getText()));
+			lblSampleStat2[i].setVisible(isNotEmpty(lblSampleStat2[i].getText()));
+			fldSampleStat2[i].setVisible(isNotEmpty(lblSampleStat2[i].getText()));
 		}
 
 		lblSampleHeader2.setVisible(isNotEmpty(lblSampleStat2[0].getText()));
@@ -559,7 +538,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		setPanelLayout();
 		wrappedPanel.revalidate();
-
 	}
 
 	private static boolean isNotEmpty(String s) {
@@ -572,18 +550,16 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
 		switch (sc.getSelectedProcedure()) {
+			case CHISQ_TEST:
+			case GOF_TEST:
+				panelChiSquare.getWrappedPanel().setVisible(true);
+				panelChiSquare.updateGUI();
+				break;
 
-		case CHISQ_TEST:
-		case GOF_TEST:
-			panelChiSquare.getWrappedPanel().setVisible(true);
-			panelChiSquare.updateGUI();
-			break;
-
-		default:
-			setInputPanelLayout();
-			panelBasicProcedures.setVisible(true);
+			default:
+				setInputPanelLayout();
+				panelBasicProcedures.setVisible(true);
 		}
-
 	}
 
 	@Override
@@ -595,8 +571,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 		if (source == cbProcedure && cbProcedure.getSelectedIndex() >= 0) {
 			Optional<Procedure> selectedProcedure = StatisticsCollection.statisticalTests.stream()
-					.filter(procedure -> procedure.getName().equals(cbProcedure
-							.getItemAt(cbProcedure.getSelectedIndex()))).findFirst();
+					.filter(procedure ->
+							procedure.getName().equals(cbProcedure.getItemAt(cbProcedure.getSelectedIndex())))
+					.findFirst();
 			selectedProcedure.ifPresent(sc::setSelectedProcedure);
 
 			this.panelChiSquare.updateCollection();
@@ -607,7 +584,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			// reset the scrollpane to the top
 			javax.swing.SwingUtilities.invokeLater(
 					() -> scroller.getVerticalScrollBar().setValue(0));
-
 		}
 
 		if (source == btnLeft || source == btnRight || source == btnTwo) {
@@ -622,7 +598,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		if (source == btnCalculate) {
 			updateResult();
 		}
-
 	}
 
 	/**
@@ -645,7 +620,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		if (e.getSource() instanceof MyTextFieldD) {
 			((MyTextFieldD) e.getSource()).selectAll();
 		}
-
 	}
 
 	@Override
@@ -673,25 +647,20 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	private static void setStyleSheets(HTMLEditorKit kit) {
 		// add some styles to the html
 		StyleSheet styleSheet = kit.getStyleSheet();
-		styleSheet.addRule(
-				"body {color:#00008B; font : 9pt verdana; margin: 4px;  }");
+		styleSheet.addRule("body {color:#00008B; font : 9pt verdana; margin: 4px;  }");
 
 		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
-		styleSheet.addRule(
-				"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;"
-						+ "border-left-width: 1px;border-right-width: 1px;border-style:solid; "
-						+ "border-color:#00008B;"
-						+ padding + "}");
-
+		styleSheet.addRule("td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;"
+				+ "border-left-width: 1px;border-right-width: 1px;border-style:solid; "
+				+ "border-color:#00008B;"
+				+ padding + "}");
 	}
 
 	@Override
 	protected void updateResultText(String str) {
 
-		String htmlString = "<html><body>\n" + str
-				+ "</body>\n";
+		String htmlString = "<html><body>\n" + str + "</body>\n";
 		resultPane.setText(htmlString);
-
 	}
 
 	/**
@@ -708,21 +677,19 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	@Override
 	protected String getSelectedTail() {
-		return btnLeft.isSelected() ? StatisticsCollection.tail_left
-				: btnRight.isSelected() ? StatisticsCollection.tail_right
-				: StatisticsCollection.tail_two;
+		return btnLeft.isSelected()
+				? StatisticsCollection.tail_left
+				: btnRight.isSelected() ? StatisticsCollection.tail_right : StatisticsCollection.tail_two;
 	}
 
 	@Override
 	public void addActionListener(TextObject obj) {
 		((MyTextFieldD) obj).addActionListener(this);
-
 	}
 
 	@Override
 	public void removeActionListener(TextObject obj) {
 		((MyTextFieldD) obj).removeActionListener(this);
-
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 	private GeoConic c;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param h
@@ -50,8 +50,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 	 * @param c
 	 *            conic
 	 */
-	public AlgoIntersectPolynomialConic(Construction cons, GeoFunction h,
-			GeoConic c) {
+	public AlgoIntersectPolynomialConic(Construction cons, GeoFunction h, GeoConic c) {
 		super(cons, h, c);
 		this.h = h;
 		this.c = c;
@@ -67,18 +66,13 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 		double[] A = c.getFlatMatrix();
 		PolyFunction pf = null;
 		if (h.isPolynomialFunction(false)) {
-			pf = h.getFunction().getNumericPolynomialDerivative(0, false,
-					false, false);
-
+			pf = h.getFunction().getNumericPolynomialDerivative(0, false, false, false);
 		}
 		if (pf != null) {
 			PolynomialFunction y = new PolynomialFunction(pf.getCoeffs());
-			PolynomialFunction r = new PolynomialFunction(
-					new double[] { A[2], 2 * A[4], A[0] });
-			r = r.add(y.multiply(new PolynomialFunction(
-					new double[] { 2 * A[5], 2 * A[3] })));
-			r = r.add(y.multiply(
-					y.multiply(new PolynomialFunction(new double[] { A[1] }))));
+			PolynomialFunction r = new PolynomialFunction(new double[] {A[2], 2 * A[4], A[0]});
+			r = r.add(y.multiply(new PolynomialFunction(new double[] {2 * A[5], 2 * A[3]})));
+			r = r.add(y.multiply(y.multiply(new PolynomialFunction(new double[] {A[1]}))));
 			setRootsPolynomial(r);
 		} else {
 			Kernel ker = cons.getKernel();
@@ -123,21 +117,21 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 
 			AlgoRoots algo;
 			if (midPoint != null && halfAxes != null) {
-				algo = new AlgoRoots(cons, paramEquation,
-						new GeoNumeric(cons,
-								midPoint.getX() - ellipseCircleFactor
-										* Math.max(halfAxes[0], halfAxes[1])),
-						new GeoNumeric(cons,
-								midPoint.getX() + ellipseCircleFactor
-										* Math.max(halfAxes[0], halfAxes[1])));
+				algo = new AlgoRoots(
+						cons,
+						paramEquation,
+						new GeoNumeric(
+								cons, midPoint.getX() - ellipseCircleFactor * Math.max(halfAxes[0], halfAxes[1])),
+						new GeoNumeric(
+								cons, midPoint.getX() + ellipseCircleFactor * Math.max(halfAxes[0], halfAxes[1])));
 			} else {
-				algo = new AlgoRoots(cons, paramEquation,
-						new GeoNumeric(cons,
-								h.getMinParameter() - hyperParaBolaFactor
-										* Math.abs(h.getMinParameter())),
-						new GeoNumeric(cons,
-								h.getMaxParameter() + hyperParaBolaFactor
-										* Math.abs(h.getMaxParameter())));
+				algo = new AlgoRoots(
+						cons,
+						paramEquation,
+						new GeoNumeric(
+								cons, h.getMinParameter() - hyperParaBolaFactor * Math.abs(h.getMinParameter())),
+						new GeoNumeric(
+								cons, h.getMaxParameter() + hyperParaBolaFactor * Math.abs(h.getMaxParameter())));
 
 				// Log.debug("interval(hyperbola/parabola): "
 				// + (h.getMinParameter() - Math.abs(h.getMinParameter()
@@ -151,14 +145,13 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			List<double[]> valPairs = new ArrayList<>();
 			for (int i = 0; i < rootPoints.length; i++) {
 				double t = rootPoints[i].getX();
-				valPairs.add(new double[] { t, h.value(t) });
+				valPairs.add(new double[] {t, h.value(t)});
 			}
 
 			ker.setSilentMode(oldSilentMode);
 
 			setPoints(valPairs);
 		}
-
 	}
 
 	@Override
@@ -175,5 +168,4 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 	protected double getYValue(double x) {
 		return h.value(x);
 	}
-
 }

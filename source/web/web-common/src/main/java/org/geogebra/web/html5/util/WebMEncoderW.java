@@ -38,6 +38,7 @@ public class WebMEncoderW implements FrameCollectorW {
 	 * Milliseconds between frames.
 	 */
 	private final int frameDelay;
+
 	private final StringConsumer consumer;
 
 	private final List<String> images;
@@ -50,21 +51,20 @@ public class WebMEncoderW implements FrameCollectorW {
 		this.frameDelay = frameDelay;
 		this.consumer = consumer;
 		this.images = new ArrayList<>();
-		ExportLoader.onWhammyLoaded(() -> { /* preload while the images are being prepared */ });
+		ExportLoader.onWhammyLoaded(() -> {
+			/* preload while the images are being prepared */
+		});
 	}
 
 	@Override
-	public void addFrame(EuclidianViewWInterface view,
-			double exportScale) {
-		String url = view.getExportImageDataUrl(exportScale, false,
-				App.ExportType.WEBP, false);
+	public void addFrame(EuclidianViewWInterface view, double exportScale) {
+		String url = view.getExportImageDataUrl(exportScale, false, App.ExportType.WEBP, false);
 		images.add(url);
 	}
 
 	@Override
 	public void finish(int width, int height) {
-		ExportLoader.onWhammyLoaded(() ->
-				finish(images, frameDelay * 0.001));
+		ExportLoader.onWhammyLoaded(() -> finish(images, frameDelay * 0.001));
 	}
 
 	private void finish(List<String> images, double delaySeconds) {

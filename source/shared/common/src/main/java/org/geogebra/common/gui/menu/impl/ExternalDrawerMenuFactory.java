@@ -37,7 +37,8 @@ public class ExternalDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	 * @param isSuiteApp whether it is the Suite app
 	 * @param createSwitchCalcEntry whether the factory should create switch calculator entry
 	 */
-	public ExternalDrawerMenuFactory(GeoGebraConstants.Platform platform,
+	public ExternalDrawerMenuFactory(
+			GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			String versionNumber,
 			LogInOperation logInOperation,
@@ -45,8 +46,15 @@ public class ExternalDrawerMenuFactory extends DefaultDrawerMenuFactory {
 			boolean enableFileFeatures,
 			boolean isSuiteApp,
 			boolean createSwitchCalcEntry) {
-		super(platform, version, versionNumber, logInOperation,
-				createExamEntry, enableFileFeatures, isSuiteApp, createSwitchCalcEntry);
+		super(
+				platform,
+				version,
+				versionNumber,
+				logInOperation,
+				createExamEntry,
+				enableFileFeatures,
+				isSuiteApp,
+				createSwitchCalcEntry);
 	}
 
 	@Override

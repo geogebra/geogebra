@@ -41,7 +41,8 @@ public class CmdStadium extends CommandProcessor {
 		}
 		GeoElement[] args = resArgs(c, info);
 		boolean[] ok = new boolean[n];
-		if ((ok[0] = args[0].isGeoPoint()) && (ok[1] = args[1].isGeoPoint())
+		if ((ok[0] = args[0].isGeoPoint())
+				&& (ok[1] = args[1].isGeoPoint())
 				&& (ok[2] = args[2].isGeoNumeric())) {
 			GeoPoint a = (GeoPoint) args[0];
 			GeoPoint b = (GeoPoint) args[1];

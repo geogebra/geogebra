@@ -28,11 +28,10 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  * Command: SumSquaredErrors[&lt;List&gt;,&lt;Function&gt;] Calculates
  * Sum[(y(&lt;List&gt;)-f(x( &lt;List&gt;))^2] for a function f(x) fitted to the list.
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2010-02-21
  */
-
 public class AlgoSumSquaredErrors extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -50,8 +49,8 @@ public class AlgoSumSquaredErrors extends AlgoElement {
 	 * @param function
 	 *            function (model)
 	 */
-	public AlgoSumSquaredErrors(Construction cons, String label,
-			GeoList inputList, GeoFunctionable function) {
+	public AlgoSumSquaredErrors(
+			Construction cons, String label, GeoList inputList, GeoFunctionable function) {
 		this(cons, inputList, function);
 		sse.setLabel(label);
 	}
@@ -59,14 +58,13 @@ public class AlgoSumSquaredErrors extends AlgoElement {
 	/**
 	 * @param cons
 	 *            construction
-	 * 
+	 *
 	 * @param inputList
 	 *            list of points
 	 * @param function
 	 *            function (model)
 	 */
-	public AlgoSumSquaredErrors(Construction cons, GeoList inputList,
-			GeoFunctionable function) {
+	public AlgoSumSquaredErrors(Construction cons, GeoList inputList, GeoFunctionable function) {
 		super(cons);
 		this.inputList = inputList;
 		this.function = function;
@@ -129,5 +127,4 @@ public class AlgoSumSquaredErrors extends AlgoElement {
 
 		sse.setValue(errorsum);
 	}
-
 }

@@ -23,13 +23,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Transpose[ &lt;List&gt; ]
- * 
+ *
  * @author Michael Borcherds
  */
 public class CmdTranspose extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -38,10 +38,9 @@ public class CmdTranspose extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String label, GeoList b) {
+	protected final GeoElement doCommand(String label, GeoList b) {
 		AlgoTranspose algo = new AlgoTranspose(cons, b);
 		algo.getResult().setLabel(label);
 		return algo.getResult();
 	}
-
 }

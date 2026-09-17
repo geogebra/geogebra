@@ -35,8 +35,8 @@ public class GCheckmarkMenuItem {
 	 * @param checked initial value
 	 * @param cmd command to run
 	 */
-	public GCheckmarkMenuItem(ResourcePrototype img, String text, boolean checked,
-			final ScheduledCommand cmd) {
+	public GCheckmarkMenuItem(
+			ResourcePrototype img, String text, boolean checked, final ScheduledCommand cmd) {
 		panel = new GCheckMarkPanel(text, img, checked);
 		menuItem = newMenuItem(img == null);
 		AriaHelper.setRole(menuItem, "menuitemcheckbox");
@@ -50,8 +50,8 @@ public class GCheckmarkMenuItem {
 	 * @param checked initial value
 	 * @param cmd command to run
 	 */
-	public GCheckmarkMenuItem(IconSpec img, String text, boolean checked,
-			final ScheduledCommand cmd) {
+	public GCheckmarkMenuItem(
+			IconSpec img, String text, boolean checked, final ScheduledCommand cmd) {
 		panel = new GCheckMarkPanel(text, img, checked);
 		menuItem = newMenuItem(img == null);
 		AriaHelper.setRole(menuItem, "menuitemcheckbox");

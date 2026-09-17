@@ -43,8 +43,8 @@ public class QuickStyleBar implements EuclidianStyleBar {
 		this.app = app;
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		assert suiteScope != null;
-		this.model = new QuickStyleBarModel(app, suiteScope.geoElementPropertiesFactory,
-				localization, positioner);
+		this.model = new QuickStyleBarModel(
+				app, suiteScope.geoElementPropertiesFactory, localization, positioner);
 	}
 
 	/**

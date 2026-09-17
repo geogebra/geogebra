@@ -54,22 +54,24 @@ public class DomMocker {
 		Element element = mock(Element.class);
 		final Map<String, String> attributes = new HashMap<>();
 		Mockito.doAnswer((Answer<Void>) invocation -> {
-			attributes.put(invocation.getArgumentAt(0, String.class),
-					invocation.getArgumentAt(1, String.class));
-			return null;
-		}).when(element).setAttribute(Matchers.anyString(), Matchers.anyString());
+					attributes.put(
+							invocation.getArgumentAt(0, String.class), invocation.getArgumentAt(1, String.class));
+					return null;
+				})
+				.when(element)
+				.setAttribute(Matchers.anyString(), Matchers.anyString());
 
 		Mockito.doAnswer((Answer<Void>) invocation -> {
-			attributes.put("innerText", invocation.getArgumentAt(0, String.class));
-			return null;
-		}).when(element).setInnerText(Matchers.anyString());
+					attributes.put("innerText", invocation.getArgumentAt(0, String.class));
+					return null;
+				})
+				.when(element)
+				.setInnerText(Matchers.anyString());
 
-		when(element.getAttribute(Matchers.anyString()))
-				.thenAnswer((Answer<String>) invocation ->
-								attributes.get(invocation.getArgumentAt(0, String.class)));
+		when(element.getAttribute(Matchers.anyString())).thenAnswer((Answer<String>)
+				invocation -> attributes.get(invocation.getArgumentAt(0, String.class)));
 		when(element.getInnerText())
-				.thenAnswer((Answer<String>) invocation ->
-						String.valueOf(attributes.get("innerText")));
+				.thenAnswer((Answer<String>) invocation -> String.valueOf(attributes.get("innerText")));
 		Style mockStyle = mock(Style.class);
 		when(element.getStyle()).thenReturn(mockStyle);
 		return element;
@@ -98,8 +100,10 @@ public class DomMocker {
 
 	private static void bypassSetTextMethod(final Label lbl) {
 		doAnswer((Answer<Void>) invocation -> {
-			lbl.getElement().setInnerText(invocation.getArgumentAt(0, String.class));
-			return null;
-		}).when(lbl).setText(Matchers.anyString());
+					lbl.getElement().setInnerText(invocation.getArgumentAt(0, String.class));
+					return null;
+				})
+				.when(lbl)
+				.setText(Matchers.anyString());
 	}
 }

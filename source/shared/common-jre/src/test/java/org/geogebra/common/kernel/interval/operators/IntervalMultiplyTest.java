@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,7 +43,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulNegativeWithNegativeZeroHigh(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 * b2), next(a1 * b1)),
+		assertEquals(
+				interval(prev(a2 * b2), next(a1 * b1)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -51,15 +52,14 @@ class IntervalMultiplyTest {
 	void negativeWithMixed() {
 		// Table 6, row 1 column 2
 		mulNegativeWithMixed(-34.56, -1.24, -12.354, 12.34);
-		assertEquals(undefined(),
-				evaluator.multiply(interval(-1E234, -1E-4), interval(-98.76, 1E234)));
-		assertEquals(undefined(),
-				evaluator.multiply(interval(-1E234, 0), interval(-98.76, 1E234)));
+		assertEquals(undefined(), evaluator.multiply(interval(-1E234, -1E-4), interval(-98.76, 1E234)));
+		assertEquals(undefined(), evaluator.multiply(interval(-1E234, 0), interval(-98.76, 1E234)));
 		mulNegativeWithMixed(-1E234, 0, -98.76, 0);
 	}
 
 	private void mulNegativeWithMixed(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 * b2), next(a1 * b1)),
+		assertEquals(
+				interval(prev(a1 * b2), next(a1 * b1)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -70,12 +70,12 @@ class IntervalMultiplyTest {
 		mulNegativeWithPositive(-98.67, 0, 12.34, 56.78);
 		mulNegativeWithPositive(-98.67, -65.43, 0, 56.78);
 		mulNegativeWithPositive(-98.67, 0, 0, 56.78);
-		assertEquals(undefined(),
-				evaluator.multiply(interval(-1E234, -1e-4), interval(1E-4, 1E234)));
+		assertEquals(undefined(), evaluator.multiply(interval(-1E234, -1e-4), interval(1E-4, 1E234)));
 	}
 
 	private void mulNegativeWithPositive(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 * b2), next(a2 * b1)),
+		assertEquals(
+				interval(prev(a1 * b2), next(a2 * b1)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -114,7 +114,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulNegativeByNegativeOpenToNegativeInfinity(double a1, double a2, double b2) {
-		assertEquals(interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
 				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
@@ -123,14 +124,15 @@ class IntervalMultiplyTest {
 		// Table 6, row 1 column 6
 		mulNegativeByMixedOpenToNegativeInfinity(-98.7, -54.3, 12.3);
 		mulNegativeByMixedOpenToNegativeInfinity(-98.7, 0, 12.3);
-		assertEquals(undefined(),
-				evaluator.multiply(interval(-1E234, -1E111),
-						interval(Double.NEGATIVE_INFINITY, 1E234)));
+		assertEquals(
+				undefined(),
+				evaluator.multiply(interval(-1E234, -1E111), interval(Double.NEGATIVE_INFINITY, 1E234)));
 		mulNegativeByMixedOpenToNegativeInfinity(-1E234, -1E111, 0);
 	}
 
 	private void mulNegativeByMixedOpenToNegativeInfinity(double a1, double a2, double b2) {
-		assertEquals(interval(prev(a1 * b2), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a1 * b2), Double.POSITIVE_INFINITY),
 				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
@@ -145,7 +147,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulNegativeByMixedOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a1 * b1)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a1 * b1)),
 				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
@@ -159,7 +162,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulNegativeByPositiveOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b1)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a2 * b1)),
 				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
@@ -193,7 +197,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulMixedByNegative(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 * b1), next(a1 * b1)),
+		assertEquals(
+				interval(prev(a2 * b1), next(a1 * b1)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -205,8 +210,8 @@ class IntervalMultiplyTest {
 
 	private void mulMixedByMixed(double a1, double a2, double b1, double b2) {
 		// Table 6, row 2 column 2
-		assertEquals(interval(Math.min(prev(a1 * b2), next(a2 * b1)),
-						Math.max(next(a1 * b1), next(a2 * b2))),
+		assertEquals(
+				interval(Math.min(prev(a1 * b2), next(a2 * b1)), Math.max(next(a1 * b1), next(a2 * b2))),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -215,12 +220,12 @@ class IntervalMultiplyTest {
 		// Table 6, row 2 column 3
 		mulMixedByPositive(-87.76, 12.34, 12.23, 67.89);
 		mulMixedByPositive(-87.76, 12.34, 0, 67.89);
-		assertEquals(undefined(),
-				evaluator.multiply(interval(-1E234, 1E234), interval(12.34, 1E234)));
+		assertEquals(undefined(), evaluator.multiply(interval(-1E234, 1E234), interval(12.34, 1E234)));
 	}
 
 	private void mulMixedByPositive(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 * b2), next(a2 * b2)),
+		assertEquals(
+				interval(prev(a1 * b2), next(a2 * b2)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -234,7 +239,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulPositiveByNegative(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 * b1), next(a1 * b2)),
+		assertEquals(
+				interval(prev(a2 * b1), next(a1 * b2)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -246,7 +252,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulPositiveByMixed(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 * b1), next(a2 * b2)),
+		assertEquals(
+				interval(prev(a2 * b1), next(a2 * b2)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
 	}
 
@@ -257,14 +264,13 @@ class IntervalMultiplyTest {
 		mulPositiveByPositive(0, 56.78, 34.56, 78.98);
 		mulPositiveByPositive(43.5, 56.78, 0, 78.98);
 		mulPositiveByPositive(43.5, 56.78, 0, 1E234);
-		assertEquals(undefined(),
-				evaluator.multiply(interval(1E-4, 1E234), interval(1E-4, 1E234)));
+		assertEquals(undefined(), evaluator.multiply(interval(1E-4, 1E234), interval(1E-4, 1E234)));
 	}
 
 	private void mulPositiveByPositive(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 * b1), next(a2 * b2)),
+		assertEquals(
+				interval(prev(a1 * b1), next(a2 * b2)),
 				evaluator.multiply(interval(a1, a2), interval(b1, b2)));
-
 	}
 
 	@Test
@@ -277,7 +283,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulPositiveByOpenToNegativeInfinityAndNegative(double a1, double a2, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a1 * b2)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a1 * b2)),
 				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
@@ -291,7 +298,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulPositiveByOpenToNegativeInfinityAndPositive(double a1, double a2, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b2)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a2 * b2)),
 				evaluator.multiply(interval(a1, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
@@ -305,7 +313,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulPositiveByMixedOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(prev(a2 * b1), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a2 * b1), Double.POSITIVE_INFINITY),
 				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
@@ -320,7 +329,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulPositiveByPositiveOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(prev(a1 * b1), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a1 * b1), Double.POSITIVE_INFINITY),
 				evaluator.multiply(interval(a1, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
@@ -335,7 +345,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulNegativeOpenToNegativeInfinityByNegative(double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
 				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
 	}
 
@@ -350,7 +361,8 @@ class IntervalMultiplyTest {
 	}
 
 	private void mulNegativeOpenToNegativeInfinityByPositive(double a2, double b1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b1)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a2 * b1)),
 				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
 	}
 
@@ -363,11 +375,12 @@ class IntervalMultiplyTest {
 		mulNegativeOpenToNegativeInfinityByNegativeOpenToNegativeInfinity(-1E234, -1E-4);
 	}
 
-	private void mulNegativeOpenToNegativeInfinityByNegativeOpenToNegativeInfinity(double a2,
-			double b2) {
-		assertEquals(interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
-				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
-						interval(Double.NEGATIVE_INFINITY, b2)));
+	private void mulNegativeOpenToNegativeInfinityByNegativeOpenToNegativeInfinity(
+			double a2, double b2) {
+		assertEquals(
+				interval(prev(a2 * b2), Double.POSITIVE_INFINITY),
+				evaluator.multiply(
+						interval(Double.NEGATIVE_INFINITY, a2), interval(Double.NEGATIVE_INFINITY, b2)));
 	}
 
 	@Test
@@ -376,16 +389,18 @@ class IntervalMultiplyTest {
 		mulNegativeOpenToNegativeInfinityByPositiveOpenToPositiveInfinity(-12.34, 5.6);
 		mulNegativeOpenToNegativeInfinityByPositiveOpenToPositiveInfinity(0, 5.6);
 		mulNegativeOpenToNegativeInfinityByPositiveOpenToPositiveInfinity(-12.34, 0);
-		assertEquals(undefined(),
-				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, -1E234),
-						interval(1E234, Double.POSITIVE_INFINITY)));
+		assertEquals(
+				undefined(),
+				evaluator.multiply(
+						interval(Double.NEGATIVE_INFINITY, -1E234), interval(1E234, Double.POSITIVE_INFINITY)));
 	}
 
-	private void mulNegativeOpenToNegativeInfinityByPositiveOpenToPositiveInfinity(double a2,
-			double b1) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, prev(a2 * b1)),
-				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
-						interval(b1, Double.POSITIVE_INFINITY)));
+	private void mulNegativeOpenToNegativeInfinityByPositiveOpenToPositiveInfinity(
+			double a2, double b1) {
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, prev(a2 * b1)),
+				evaluator.multiply(
+						interval(Double.NEGATIVE_INFINITY, a2), interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -394,15 +409,15 @@ class IntervalMultiplyTest {
 		divMixedOpenToNegativeInfinityByNegative(12.34, -12.34, -3.14);
 		divMixedOpenToNegativeInfinityByNegative(0, -46.47, -3.14);
 		divMixedOpenToNegativeInfinityByNegative(12.34, -2.34, 0);
-		assertEquals(undefined(),
-				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, 1E234),
-						interval(-1E234, -1E-4)));
+		assertEquals(
+				undefined(),
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, 1E234), interval(-1E234, -1E-4)));
 	}
 
 	private void divMixedOpenToNegativeInfinityByNegative(double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 * b1), Double.POSITIVE_INFINITY),
-				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
-						interval(b1, b2)));
+		assertEquals(
+				interval(prev(a2 * b1), Double.POSITIVE_INFINITY),
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
 	}
 
 	@Test
@@ -416,16 +431,14 @@ class IntervalMultiplyTest {
 	}
 
 	private void divMixedOpenToNegativeInfinityByPositive(double a2, double b1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 * b2)),
-				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2),
-						interval(b1, b2)));
-
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a2 * b2)),
+				evaluator.multiply(interval(Double.NEGATIVE_INFINITY, a2), interval(b1, b2)));
 	}
 
 	@Test
 	void multiplyInvertedWithZero() {
-		assertEquals(zero(), evaluator.multiply(interval(0),
-				legacyInverted(1, 2)));
+		assertEquals(zero(), evaluator.multiply(interval(0), legacyInverted(1, 2)));
 	}
 
 	@Test
@@ -436,23 +449,19 @@ class IntervalMultiplyTest {
 
 	@Test
 	void multiplyInvertedWithOneShouldPreserveInvertedTopology() {
-		assertEquals(legacyInverted(1, 2),
-				evaluator.multiply(legacyInverted(1, 2), one()));
-		assertEquals(legacyInverted(1, 2),
-				evaluator.multiply(one(), legacyInverted(1, 2)));
+		assertEquals(legacyInverted(1, 2), evaluator.multiply(legacyInverted(1, 2), one()));
+		assertEquals(legacyInverted(1, 2), evaluator.multiply(one(), legacyInverted(1, 2)));
 	}
 
 	@Test
 	void multiplyInvertedWithMinusOneShouldFlipInvertedTopology() {
-		assertEquals(legacyInverted(-2, -1),
-				evaluator.multiply(interval(-1), legacyInverted(1, 2)));
-		assertEquals(legacyInverted(-2, -1),
-				evaluator.multiply(legacyInverted(1, 2), interval(-1)));
+		assertEquals(legacyInverted(-2, -1), evaluator.multiply(interval(-1), legacyInverted(1, 2)));
+		assertEquals(legacyInverted(-2, -1), evaluator.multiply(legacyInverted(1, 2), interval(-1)));
 	}
 
 	@Test
 	void finiteGeneratedOverflowShouldBeOverflowInternally() {
-		assertEquals(overflow(),
-				evaluator.multiplySet(connected(1E234, 1E234), connected(1E234, 1E234)));
+		assertEquals(
+				overflow(), evaluator.multiplySet(connected(1E234, 1E234), connected(1E234, 1E234)));
 	}
 }

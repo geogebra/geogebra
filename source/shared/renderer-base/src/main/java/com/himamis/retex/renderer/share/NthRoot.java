@@ -76,8 +76,7 @@ public class NthRoot extends Atom implements HasTrueBase {
 		double clr;
 		final double drt = tf.getDefaultRuleThickness(style);
 		if (style < TeXConstants.STYLE_TEXT) {
-			clr = tf.getXHeight(style,
-					tf.getChar(Symbols.SQRT.getCf(), style).getFontInfo());
+			clr = tf.getXHeight(style, tf.getChar(Symbols.SQRT.getCf(), style).getFontInfo());
 		} else {
 			clr = drt;
 		}
@@ -86,12 +85,10 @@ public class NthRoot extends Atom implements HasTrueBase {
 		// cramped style for the formula under the root sign
 		Box bs = base.createBox(env.crampStyle());
 		HorizontalBox b = new HorizontalBox(bs);
-		b.add(new SpaceAtom(Unit.MU, 1., 0., 0.)
-				.createBox(env.crampStyle()));
+		b.add(new SpaceAtom(Unit.MU, 1., 0., 0.).createBox(env.crampStyle()));
 		// create root sign
 		double totalH = b.getHeight() + b.getDepth();
-		Box rootSign = DelimiterFactory.create(Symbols.SQRT.getCf(), env,
-				totalH + clr + drt);
+		Box rootSign = DelimiterFactory.create(Symbols.SQRT.getCf(), env, totalH + clr + drt);
 
 		if (rootSign instanceof CharBox) {
 			rootSign = FactoryProvider.getInstance().getBoxDecorator().decorate(rootSign);
@@ -116,13 +113,11 @@ public class NthRoot extends Atom implements HasTrueBase {
 			Box r = root.createBox(env.rootStyle());
 
 			// shift root up
-			double bottomShift = FACTOR
-					* (squareRoot.getHeight() + squareRoot.getDepth());
+			double bottomShift = FACTOR * (squareRoot.getHeight() + squareRoot.getDepth());
 			r.setShift(squareRoot.getDepth() - r.getDepth() - bottomShift);
 
 			// negative kern
-			Box negativeKern = new SpaceAtom(Unit.MU, -10., 0., 0.)
-					.createBox(env);
+			Box negativeKern = new SpaceAtom(Unit.MU, -10., 0., 0.).createBox(env);
 
 			// arrange both boxes together with the negative kern
 			HorizontalBox res = new HorizontalBox();
@@ -146,5 +141,4 @@ public class NthRoot extends Atom implements HasTrueBase {
 	public Atom getTrueBase() {
 		return base;
 	}
-
 }

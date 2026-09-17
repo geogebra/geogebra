@@ -38,8 +38,8 @@ public final class BernsteinPlotterSettings {
 	 * @param visualDebug if plotter should display additional info like borders of the cells
 	 * @param minCellSizeInPixels the smallest cell the algorithm splits cells into
 	 */
-	public BernsteinPlotterSettings(boolean updateEnabled, boolean visualDebug,
-			int minCellSizeInPixels) {
+	public BernsteinPlotterSettings(
+			boolean updateEnabled, boolean visualDebug, int minCellSizeInPixels) {
 		this.updateEnabled = updateEnabled;
 		this.visualDebug = visualDebug;
 		this.minCellSizeInPixels = minCellSizeInPixels;

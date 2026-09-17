@@ -39,8 +39,8 @@ public class CursorBoxConsumer implements BoxConsumer {
 	private BoxPosition cursorPosition;
 	private double boxWidth;
 
-	CursorBoxConsumer(TeXBuilder texBuilder, SequenceNode sequenceNode, int currentOffset,
-			Node input) {
+	CursorBoxConsumer(
+			TeXBuilder texBuilder, SequenceNode sequenceNode, int currentOffset, Node input) {
 		this.texBuilder = texBuilder;
 		this.input = input;
 		beforeFirst = currentOffset == 0;
@@ -63,7 +63,8 @@ public class CursorBoxConsumer implements BoxConsumer {
 	protected static void highlightInput(Box box, Node node, Node input) {
 		if (node == input && input != null) {
 			if (box instanceof OvalBox ovalBox) {
-				ovalBox.setColor(FactoryProvider.getInstance().getGraphicsFactory()
+				ovalBox.setColor(FactoryProvider.getInstance()
+						.getGraphicsFactory()
 						.createColor(TeXBuilder.INPUT_BORDER));
 			}
 		}
@@ -82,8 +83,7 @@ public class CursorBoxConsumer implements BoxConsumer {
 				cursorPosition.x() + boxWidth,
 				cursorPosition.baseline() - cursorPosition.scale() * 0.8,
 				1,
-				cursorPosition.scale()
-		);
+				cursorPosition.scale());
 		return rectangle2D;
 	}
 }

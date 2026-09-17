@@ -35,20 +35,24 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class CornerPositionPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"f(x) = x^2",
-			"a = 1 + 2",
-			"\"abc\"",
-	})
+	@ValueSource(
+			strings = {
+				"(1, 2)",
+				"f(x) = x^2",
+				"a = 1 + 2",
+				"\"abc\"",
+			})
 	void testNotApplicableForAnythingOtherThanImages(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class, () -> new CornerPositionProperty(
-				getLocalization(), evaluateGeoElement(expression), 0));
-		assertThrows(NotApplicablePropertyException.class, () -> new CornerPositionProperty(
-				getLocalization(), evaluateGeoElement(expression), 1));
-		assertThrows(NotApplicablePropertyException.class, () -> new CornerPositionProperty(
-				getLocalization(), evaluateGeoElement(expression), 2));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new CornerPositionProperty(getLocalization(), evaluateGeoElement(expression), 0));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new CornerPositionProperty(getLocalization(), evaluateGeoElement(expression), 1));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new CornerPositionProperty(getLocalization(), evaluateGeoElement(expression), 2));
 	}
 
 	@Test
@@ -64,8 +68,8 @@ class CornerPositionPropertyTests extends BaseAppTestSetup {
 	void testSettingCustomCornerPoints() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		CornerPositionProperty cornerPositionProperty = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 0));
+		CornerPositionProperty cornerPositionProperty =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 0));
 
 		cornerPositionProperty.setValue("(1, 2)");
 		assertEquals("(1, 2)", cornerPositionProperty.getValue());
@@ -82,8 +86,8 @@ class CornerPositionPropertyTests extends BaseAppTestSetup {
 	void testSettingSuggestedCornerPoint() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		CornerPositionProperty cornerPositionProperty = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 0));
+		CornerPositionProperty cornerPositionProperty =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 0));
 		evaluate("P = (1, 2)");
 
 		cornerPositionProperty.setValue("P");
@@ -96,8 +100,8 @@ class CornerPositionPropertyTests extends BaseAppTestSetup {
 	void testDefaultUnsetFourthCornerPoint() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		CornerPositionProperty cornerPositionProperty = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 2));
+		CornerPositionProperty cornerPositionProperty =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 2));
 		assertNull(cornerPositionProperty.getValue());
 	}
 
@@ -105,12 +109,12 @@ class CornerPositionPropertyTests extends BaseAppTestSetup {
 	void testUnsettingCornerPoints() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		CornerPositionProperty cornerPositionProperty1 = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 0));
-		CornerPositionProperty cornerPositionProperty2 = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 1));
-		CornerPositionProperty cornerPositionProperty4 = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 2));
+		CornerPositionProperty cornerPositionProperty1 =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 0));
+		CornerPositionProperty cornerPositionProperty2 =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 1));
+		CornerPositionProperty cornerPositionProperty4 =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 2));
 
 		cornerPositionProperty1.setValue("(0, 0)");
 		cornerPositionProperty2.setValue("(0, 5)");
@@ -132,8 +136,8 @@ class CornerPositionPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		geoImage.setCentered(true);
-		CornerPositionProperty cornerPositionProperty = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 0));
+		CornerPositionProperty cornerPositionProperty =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 0));
 
 		evaluate("A = (1, 2)");
 		evaluate("B = (3, 4)");
@@ -147,8 +151,8 @@ class CornerPositionPropertyTests extends BaseAppTestSetup {
 		GeoPoint pointA = evaluateGeoElement("A = (200, 0)");
 		GeoPoint pointB = evaluateGeoElement("B = (0, 500)");
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		CornerPositionProperty cornerPositionProperty = assertDoesNotThrow(() ->
-				new CornerPositionProperty(getLocalization(), geoImage, 0));
+		CornerPositionProperty cornerPositionProperty =
+				assertDoesNotThrow(() -> new CornerPositionProperty(getLocalization(), geoImage, 0));
 
 		cornerPositionProperty.setValue("(x(A), y(B))");
 		assertEquals("(x(A), y(B))", cornerPositionProperty.getValue());
@@ -160,6 +164,5 @@ class CornerPositionPropertyTests extends BaseAppTestSetup {
 		assertEquals("(x(A), y(B))", cornerPositionProperty.getValue());
 		assertEquals(300.0, geoImage.getStartPoint().getX());
 		assertEquals(400.0, geoImage.getStartPoint().getY());
-
 	}
 }

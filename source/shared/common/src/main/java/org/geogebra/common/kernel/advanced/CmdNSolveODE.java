@@ -29,14 +29,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * NSolveODE
- * 
+ *
  * @author Bencze Balazs
  */
 public class CmdNSolveODE extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,7 +45,7 @@ public class CmdNSolveODE extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c, info);
@@ -79,12 +79,17 @@ public class CmdNSolveODE extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		if (n == 4) {
 			if ((ok[0] = true) // already checked before
-					&& (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = true) // already
-																			// checked
-																			// before
+					&& (ok[1] = arg[1].isGeoNumeric())
+					&& (ok[2] = true) // already
+					// checked
+					// before
 					&& (ok[3] = arg[3].isGeoNumeric())) {
-				AlgoNSolveODE algo = new AlgoNSolveODE(cons, c.getLabels(),
-						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoList) arg[2],
+				AlgoNSolveODE algo = new AlgoNSolveODE(
+						cons,
+						c.getLabels(),
+						(GeoList) arg[0],
+						(GeoNumeric) arg[1],
+						(GeoList) arg[2],
 						(GeoNumeric) arg[3]);
 				return algo.getResult();
 			}

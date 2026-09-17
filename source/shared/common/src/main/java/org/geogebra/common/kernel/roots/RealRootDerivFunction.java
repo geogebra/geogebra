@@ -25,11 +25,10 @@ public interface RealRootDerivFunction extends UnivariateFunction {
 
 	/**
 	 * returns array with function's value and derivative's value
-	 * 
+	 *
 	 * @param x
 	 *            argument value
 	 * @return [f(x), f'(x)]
 	 */
 	double[] evaluateDerivFunc(double x);
-
 }

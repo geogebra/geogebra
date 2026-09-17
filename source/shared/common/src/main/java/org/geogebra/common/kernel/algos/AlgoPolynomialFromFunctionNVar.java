@@ -48,8 +48,7 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 	 * @param label output label
 	 * @param f function, possibly polynomial
 	 */
-	public AlgoPolynomialFromFunctionNVar(Construction cons, String label,
-			GeoFunctionNVar f) {
+	public AlgoPolynomialFromFunctionNVar(Construction cons, String label, GeoFunctionNVar f) {
 		super(cons);
 		this.f = f;
 
@@ -114,7 +113,7 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 		if (poly == null) {
 			poly = new ExpressionNode(kernel, 0);
 		}
-		FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[]{var1, var2});
+		FunctionNVar functionNVar = new FunctionNVar(poly, new FunctionVariable[] {var1, var2});
 		g.setDefined(true);
 		g.setFunction(functionNVar);
 	}
@@ -134,10 +133,8 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 					continue; // this part vanished
 				}
 
-				CoeffPowerProduct product =
-						new CoeffPowerProduct(
-								makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)),
-								coeffValue, i + j, i);
+				CoeffPowerProduct product = new CoeffPowerProduct(
+						makeProduct(makePowerExp(var1, i), makePowerExp(var2, j)), coeffValue, i + j, i);
 				products.add(product);
 			}
 		}
@@ -145,9 +142,9 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 	}
 
 	private ExpressionNode createPolyFrom(List<CoeffPowerProduct> products) {
-		for (CoeffPowerProduct p: products) {
-			poly = AlgoPolynomialFromCoordinates.addToPoly(poly, p.getExpression(),
-					p.getCoeffValue(), kernel);
+		for (CoeffPowerProduct p : products) {
+			poly = AlgoPolynomialFromCoordinates.addToPoly(
+					poly, p.getExpression(), p.getCoeffValue(), kernel);
 		}
 		return poly;
 	}
@@ -164,15 +161,13 @@ public class AlgoPolynomialFromFunctionNVar extends AlgoElement {
 
 	private ExpressionValue makePowerExp(FunctionVariable fVar, int power) {
 		switch (power) {
-		case 0:
-			return null;
-		case 1:
-			return fVar;
+			case 0:
+				return null;
+			case 1:
+				return fVar;
 
-		default:
-			return new ExpressionNode(kernel, fVar, Operation.POWER,
-					new MyDouble(kernel, power));
+			default:
+				return new ExpressionNode(kernel, fVar, Operation.POWER, new MyDouble(kernel, power));
 		}
-
 	}
 }

@@ -25,14 +25,14 @@ public interface WrappableView extends CheckBeforeUpdateView {
 
 	/**
 	 * set if the view is currently wrapped
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
 	void setIsWrapped(boolean flag);
 
 	/**
-	 * 
+	 *
 	 * @return if the view is currently wrapped
 	 */
 	boolean getIsWrapped();

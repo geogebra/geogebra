@@ -46,7 +46,8 @@ class VisibleItemRange {
 
 	void adjustToSelected() {
 		start = list.getSelectedIndex() + getVisibleItemCount() < list.size()
-			? list.getSelectedIndex() : list.size() - getVisibleItemCount();
+				? list.getSelectedIndex()
+				: list.size() - getVisibleItemCount();
 	}
 
 	int getVisibleItemCount() {

@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * @author G. Sturr
  * @version 2011-06-21
  */
-
 public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 
 	/**
@@ -43,10 +42,13 @@ public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 	 * @param sampleSize
 	 *            sample size
 	 */
-	public AlgoHyperGeometricBarChart(Construction cons, String label,
-			GeoNumberValue n, GeoNumberValue p, GeoNumberValue sampleSize) {
-		super(cons, label, n, p, sampleSize, null,
-				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC);
+	public AlgoHyperGeometricBarChart(
+			Construction cons,
+			String label,
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoNumberValue sampleSize) {
+		super(cons, label, n, p, sampleSize, null, AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC);
 	}
 
 	/**
@@ -63,18 +65,35 @@ public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 	 * @param isCumulative
 	 *            cumulative?
 	 */
-	public AlgoHyperGeometricBarChart(Construction cons, String label,
-			GeoNumberValue n, GeoNumberValue p, GeoNumberValue sampleSize,
+	public AlgoHyperGeometricBarChart(
+			Construction cons,
+			String label,
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoNumberValue sampleSize,
 			GeoBoolean isCumulative) {
-		super(cons, label, n, p, sampleSize, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC);
+		super(cons, label, n, p, sampleSize, isCumulative, AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC);
 	}
 
-	private AlgoHyperGeometricBarChart(GeoNumberValue n, GeoNumberValue p,
-			GeoNumberValue sampleSize, GeoBoolean isCumulative,
-			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders) {
-		super(n, p, sampleSize, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC, a, b, vals, borders);
+	private AlgoHyperGeometricBarChart(
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoNumberValue sampleSize,
+			GeoBoolean isCumulative,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			double[] vals,
+			double[] borders) {
+		super(
+				n,
+				p,
+				sampleSize,
+				isCumulative,
+				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC,
+				a,
+				b,
+				vals,
+				borders);
 	}
 
 	@Override
@@ -91,10 +110,11 @@ public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 		return new AlgoHyperGeometricBarChart(
 				(GeoNumberValue) this.getP1().deepCopy(kernel),
 				(GeoNumberValue) this.getP2().deepCopy(kernel),
-				(GeoNumberValue) this.getP3().deepCopy(kernel), b,
+				(GeoNumberValue) this.getP3().deepCopy(kernel),
+				b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()));
+				Cloner.clone(getValues()),
+				Cloner.clone(getLeftBorder()));
 	}
-
 }

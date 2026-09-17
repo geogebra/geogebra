@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -40,8 +40,8 @@ public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 	 * @param vector
 	 *            vector
 	 */
-	public AlgoOrthoPlanePointVector(Construction cons, String label,
-			GeoPointND point, GeoVectorND vector) {
+	public AlgoOrthoPlanePointVector(
+			Construction cons, String label, GeoPointND point, GeoVectorND vector) {
 		super(cons, label, point, (GeoElement) vector);
 	}
 
@@ -49,5 +49,4 @@ public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 	protected Coords getNormal() {
 		return ((GeoVectorND) getSecondInput()).getCoordsInD3();
 	}
-
 }

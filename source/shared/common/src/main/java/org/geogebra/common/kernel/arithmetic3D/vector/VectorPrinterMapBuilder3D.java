@@ -27,12 +27,12 @@ import org.jspecify.annotations.Nullable;
 
 public class VectorPrinterMapBuilder3D implements VectorPrinterMapBuilder {
 
-    @Override
-    public Map<VectorPrintingMode, Printer> build(@Nullable GeneralSettings settings) {
-        Map<VectorPrintingMode, Printer> map = new EnumMap<>(VectorPrintingMode.class);
-        map.put(VectorPrintingMode.Cartesian, new CartesianPrinter3D(settings));
-        map.put(VectorPrintingMode.Polar, new SphericalPrinter());
-        map.put(VectorPrintingMode.Vector, new VectorPrinter());
-        return map;
-    }
+	@Override
+	public Map<VectorPrintingMode, Printer> build(@Nullable GeneralSettings settings) {
+		Map<VectorPrintingMode, Printer> map = new EnumMap<>(VectorPrintingMode.class);
+		map.put(VectorPrintingMode.Cartesian, new CartesianPrinter3D(settings));
+		map.put(VectorPrintingMode.Polar, new SphericalPrinter());
+		map.put(VectorPrintingMode.Vector, new VectorPrinter());
+		return map;
+	}
 }

@@ -37,10 +37,8 @@ public class CmdCylinderInfinite extends CmdCylinder {
 	}
 
 	@Override
-	protected GeoElement[] cylinderPointPointRadius(Command c, GeoPointND p1,
-			GeoPointND p2, GeoNumberValue r) {
-		return new GeoElement[] {
-				kernel.getManager3D().cylinder(c.getLabel(), p1, p2, r) };
+	protected GeoElement[] cylinderPointPointRadius(
+			Command c, GeoPointND p1, GeoPointND p2, GeoNumberValue r) {
+		return new GeoElement[] {kernel.getManager3D().cylinder(c.getLabel(), p1, p2, r)};
 	}
-
 }

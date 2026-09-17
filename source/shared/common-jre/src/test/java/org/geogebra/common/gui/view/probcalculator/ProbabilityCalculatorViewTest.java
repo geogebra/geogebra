@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -110,7 +110,6 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 		forEachProbabilityShouldBe(0.65023, highs, PASCAL, PROB_LEFT);
 		forEachProbabilityShouldBe(0.74998, lows, PASCAL, PROB_RIGHT);
 		forEachProbabilityShouldBe(0.79331, lows, highs, PASCAL, PROB_TWO_TAILED);
-
 	}
 
 	@ParameterizedTest
@@ -122,37 +121,29 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 		for (int repetition = 0; repetition < 2; repetition++) {
 			probCalc.handleResultChange(0.1);
 			probCalc.updateAll(false);
-			assertEquals(0.13158798217773438, probCalc.getProbability(),
-					Kernel.STANDARD_PRECISION);
+			assertEquals(0.13158798217773438, probCalc.getProbability(), Kernel.STANDARD_PRECISION);
 		}
 	}
 
-	private void forEachProbabilityShouldBe(double result, List<Double> lows, List<Double> highs,
-			Dist dist, int mode) {
-		assertEquals(highs.size(), lows.size(),
-				"Lows and highs size differs, please check your test");
+	private void forEachProbabilityShouldBe(
+			double result, List<Double> lows, List<Double> highs, Dist dist, int mode) {
+		assertEquals(highs.size(), lows.size(), "Lows and highs size differs, please check your test");
 		for (int i = 0; i < lows.size(); i++) {
-			discreteWithRealBoundsShouldBe(lows.get(i), highs.get(i), result,
-					dist, mode);
-
+			discreteWithRealBoundsShouldBe(lows.get(i), highs.get(i), result, dist, mode);
 		}
 	}
 
-	private void forEachProbabilityShouldBe(double result, List<Double> values,
-			Dist dist, int mode) {
+	private void forEachProbabilityShouldBe(double result, List<Double> values, Dist dist, int mode) {
 		for (Double value : values) {
 			boolean right = mode == PROB_RIGHT;
 			discreteWithRealBoundsShouldBe(
-					right ? value : Double.NaN,
-					right ? Double.NaN : value, result,
-					dist, mode);
+					right ? value : Double.NaN, right ? Double.NaN : value, result, dist, mode);
 		}
 	}
 
-	private void discreteWithRealBoundsShouldBe(double low, double high, double result,
-			Dist dist, int probMode) {
-		probCalc =
-				createProbabilityCalculatorView(dist, probMode, low, high);
+	private void discreteWithRealBoundsShouldBe(
+			double low, double high, double result, Dist dist, int probMode) {
+		probCalc = createProbabilityCalculatorView(dist, probMode, low, high);
 		probCalc.updateOutput(true);
 		double probability = probMode == PROB_TWO_TAILED
 				? probCalc.leftProbability + probCalc.rightProbability
@@ -160,8 +151,8 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 		assertThat(probability, closeTo(result, 0.0001));
 	}
 
-	private ProbabilityCalculatorView createProbabilityCalculatorView(Dist dist, int probMode,
-			double low, double high) {
+	private ProbabilityCalculatorView createProbabilityCalculatorView(
+			Dist dist, int probMode, double low, double high) {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		setParams(dist, 14, 0.6);
 		probCalc.setProbabilityMode(probMode);
@@ -176,9 +167,10 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	}
 
 	private void setParams(Dist dist, int p1, double p2) {
-		GeoNumberValue[] params = new GeoNumeric[]{
-				new GeoNumeric(getKernel().getConstruction(), p1),
-				new GeoNumeric(getKernel().getConstruction(), p2)};
+		GeoNumberValue[] params = new GeoNumeric[] {
+			new GeoNumeric(getKernel().getConstruction(), p1),
+			new GeoNumeric(getKernel().getConstruction(), p2)
+		};
 
 		probCalc.setProbabilityCalculator(dist, params, false);
 	}
@@ -187,7 +179,7 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 	void testXAxisIntervalForDiscreteDistShouldBeOne() {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		probCalc.plotSettings.xAxesInterval = 0.5;
-		for (Dist dist: Dist.values()) {
+		for (Dist dist : Dist.values()) {
 			probCalc.setProbabilityCalculator(dist, null, false);
 			double expected = probCalc.isDiscreteProbability() ? 1 : 0.5;
 			assertEquals(expected, probCalc.getPlotSettings().xAxesInterval, 0);
@@ -196,18 +188,12 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 
 	@Test
 	void testProbabilityTableRowSelection() {
-		withProbabilityTable(BINOMIAL, PROB_INTERVAL, 1.9, 10.1)
-				.shouldBeHighlightedBetween(2, 10);
-		withProbabilityTable(BINOMIAL, PROB_RIGHT, 1.9, Double.NaN)
-				.shouldBeHighlightedFrom(2);
-		withProbabilityTable(BINOMIAL, PROB_LEFT, Double.NaN, 10)
-				.shouldBeHighlightedBetween(-1, 10);
-		withProbabilityTable(PASCAL, PROB_INTERVAL, 0.9, 10.6)
-				.shouldBeHighlightedBetween(1, 11);
-		withProbabilityTable(POISSON, PROB_RIGHT, 19.43, Double.NaN)
-				.shouldBeHighlightedFrom(19);
-		withProbabilityTable(PASCAL, PROB_LEFT, Double.NaN, 5.55)
-				.shouldBeHighlightedBetween(-1, 6);
+		withProbabilityTable(BINOMIAL, PROB_INTERVAL, 1.9, 10.1).shouldBeHighlightedBetween(2, 10);
+		withProbabilityTable(BINOMIAL, PROB_RIGHT, 1.9, Double.NaN).shouldBeHighlightedFrom(2);
+		withProbabilityTable(BINOMIAL, PROB_LEFT, Double.NaN, 10).shouldBeHighlightedBetween(-1, 10);
+		withProbabilityTable(PASCAL, PROB_INTERVAL, 0.9, 10.6).shouldBeHighlightedBetween(1, 11);
+		withProbabilityTable(POISSON, PROB_RIGHT, 19.43, Double.NaN).shouldBeHighlightedFrom(19);
+		withProbabilityTable(PASCAL, PROB_LEFT, Double.NaN, 5.55).shouldBeHighlightedBetween(-1, 6);
 	}
 
 	@Test
@@ -215,10 +201,9 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 		probCalc = new HeadlessProbabilityCalculatorView(getApp());
 		probCalc.settingsChanged(getApp().getSettings().getProbCalcSettings());
 		DistributionParameterProperty distributionParameterProperty =
-				new DistributionParameterProperty(
-						getAlgebraProcessor(), probCalc, getLocalization(), 0);
-		PropertyView.TextField textField = (PropertyView.TextField)
-				PropertyView.of(distributionParameterProperty);
+				new DistributionParameterProperty(getAlgebraProcessor(), probCalc, getLocalization(), 0);
+		PropertyView.TextField textField =
+				(PropertyView.TextField) PropertyView.of(distributionParameterProperty);
 
 		probCalc.setProbabilityCalculator(Dist.EXPONENTIAL, null, probCalc.isCumulative());
 		assertEquals("1", textField.getValue());
@@ -228,8 +213,7 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 
 	@Test
 	void testStatisticsCalculatorXML() {
-		probCalc = new HeadlessProbabilityCalculatorView(getApp(),
-				new HeadlessStatisticsCalculator());
+		probCalc = new HeadlessProbabilityCalculatorView(getApp(), new HeadlessStatisticsCalculator());
 	}
 
 	@AfterEach
@@ -237,28 +221,27 @@ class ProbabilityCalculatorViewTest extends BaseAppTestSetup {
 		if (probCalc != null) {
 			XMLStringBuilder xs = new XMLStringBuilder();
 			probCalc.getXML(xs);
-			XmlTestUtil.checkXML("<geogebra><gui></gui>" + xs
-					+ "<kernel></kernel></geogebra>");
+			XmlTestUtil.checkXML("<geogebra><gui></gui>" + xs + "<kernel></kernel></geogebra>");
 		}
 	}
 
-	private ProbabilityCalculatorViewTest withProbabilityTable(Dist dist, int mode, double low,
-			double high) {
-		probCalc =
-				createProbabilityCalculatorView(dist, mode, low, high);
+	private ProbabilityCalculatorViewTest withProbabilityTable(
+			Dist dist, int mode, double low, double high) {
+		probCalc = createProbabilityCalculatorView(dist, mode, low, high);
 		table = new ProbabilityTableMock(getApp(), probCalc);
 		return this;
 	}
 
 	private void shouldBeHighlightedBetween(int from, int to) {
-		assertTrue(table.isRangeHighlighted(from, to),
-				"Highlight rows is not (" + from + ", " + to + ") but "
-						+ table.highlightRange());
+		assertTrue(
+				table.isRangeHighlighted(from, to),
+				"Highlight rows is not (" + from + ", " + to + ") but " + table.highlightRange());
 	}
 
 	private void shouldBeHighlightedFrom(int from) {
-		assertTrue(table.isHighlightedFrom(from), "Highlight rows is not from " + from + ", but "
-				+ table.highlightRange());
+		assertTrue(
+				table.isHighlightedFrom(from),
+				"Highlight rows is not from " + from + ", but " + table.highlightRange());
 	}
 
 	private final class HeadlessStatisticsCalculator extends StatisticsCalculator {

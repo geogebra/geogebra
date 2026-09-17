@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -30,7 +30,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Just adding 3D view for properties
- * 
+ *
  * @author mathieu
  *
  */
@@ -41,7 +41,7 @@ public class PropertiesView3DD extends PropertiesViewD {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -53,30 +53,29 @@ public class PropertiesView3DD extends PropertiesViewD {
 	public OptionPanelD getOptionPanel(OptionType type) {
 
 		switch (type) {
-		case EUCLIDIAN3D:
-			if (euclidianPanel3D == null) {
-				euclidianPanel3D = new OptionsEuclidian3DD((AppD) app,
-						((App3D) app).getEuclidianView3D());
-				euclidianPanel3D.setLabels();
-			}
+			case EUCLIDIAN3D:
+				if (euclidianPanel3D == null) {
+					euclidianPanel3D =
+							new OptionsEuclidian3DD((AppD) app, ((App3D) app).getEuclidianView3D());
+					euclidianPanel3D.setLabels();
+				}
 
-			return euclidianPanel3D;
+				return euclidianPanel3D;
 
-		case EUCLIDIAN_FOR_PLANE:
-			EuclidianView view = app.getActiveEuclidianView();
-			if (!view.isViewForPlane()) {
-				view = app.getViewForPlaneVisible();
-			}
-			if (euclidianForPlanePanel == null) {
-				euclidianForPlanePanel = new OptionsEuclidianForPlaneD(
-						(AppD) app, view);
-				euclidianForPlanePanel.setLabels();
-			} else {
-				euclidianForPlanePanel.updateView(view);
-				euclidianForPlanePanel.setLabels();
-			}
+			case EUCLIDIAN_FOR_PLANE:
+				EuclidianView view = app.getActiveEuclidianView();
+				if (!view.isViewForPlane()) {
+					view = app.getViewForPlaneVisible();
+				}
+				if (euclidianForPlanePanel == null) {
+					euclidianForPlanePanel = new OptionsEuclidianForPlaneD((AppD) app, view);
+					euclidianForPlanePanel.setLabels();
+				} else {
+					euclidianForPlanePanel.updateView(view);
+					euclidianForPlanePanel.setLabels();
+				}
 
-			return euclidianForPlanePanel;
+				return euclidianForPlanePanel;
 		}
 
 		return super.getOptionPanel(type);
@@ -94,7 +93,6 @@ public class PropertiesView3DD extends PropertiesViewD {
 		if (euclidianForPlanePanel != null) {
 			euclidianForPlanePanel.setLabels();
 		}
-
 	}
 
 	@Override
@@ -113,7 +111,6 @@ public class PropertiesView3DD extends PropertiesViewD {
 		if (euclidianForPlanePanel != null) {
 			euclidianForPlanePanel.updateFont();
 		}
-
 	}
 
 	@Override
@@ -129,5 +126,4 @@ public class PropertiesView3DD extends PropertiesViewD {
 			super.updatePanelGUI(id);
 		}
 	}
-
 }

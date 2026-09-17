@@ -32,7 +32,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a two sample t-test of the difference of means.
- * 
+ *
  * @author G. Sturr
  */
 public class AlgoTTest2 extends AlgoElement {
@@ -67,8 +67,13 @@ public class AlgoTTest2 extends AlgoElement {
 	 * @param pooled
 	 *            pooled?
 	 */
-	public AlgoTTest2(Construction cons, String label, GeoList geoList0,
-			GeoList geoList1, GeoText tail, GeoBoolean pooled) {
+	public AlgoTTest2(
+			Construction cons,
+			String label,
+			GeoList geoList0,
+			GeoList geoList1,
+			GeoText tail,
+			GeoBoolean pooled) {
 		super(cons);
 		this.geoList0 = geoList0;
 		this.geoList1 = geoList1;
@@ -96,15 +101,22 @@ public class AlgoTTest2 extends AlgoElement {
 	 *            second sample's standard deviation
 	 * @param n1
 	 *            second sample size
-	 * 
+	 *
 	 * @param tail
 	 *            one of &lt;, &gt; for one-sided test; two-sided otherwise
 	 * @param pooled
 	 *            pooled?
 	 */
-	public AlgoTTest2(Construction cons, GeoNumeric mean0, GeoNumeric sd0,
-			GeoNumeric n0, GeoNumeric mean1, GeoNumeric sd1, GeoNumeric n1,
-			GeoText tail, GeoBoolean pooled) {
+	public AlgoTTest2(
+			Construction cons,
+			GeoNumeric mean0,
+			GeoNumeric sd0,
+			GeoNumeric n0,
+			GeoNumeric mean1,
+			GeoNumeric sd1,
+			GeoNumeric n1,
+			GeoText tail,
+			GeoBoolean pooled) {
 		super(cons);
 		this.mean0 = mean0;
 		this.mean1 = mean1;
@@ -243,18 +255,15 @@ public class AlgoTTest2 extends AlgoElement {
 		} else {
 
 			// check for valid stand. deviation and sample size
-			if (sd0.getDouble() < 0 || sd1.getDouble() < 0 || n0.getDouble() < 2
-					|| n1.getDouble() < 2) {
+			if (sd0.getDouble() < 0 || sd1.getDouble() < 0 || n0.getDouble() < 2 || n1.getDouble() < 2) {
 				result.setUndefined();
 				return;
 			}
 
 			StatisticalSummaryValues sumStats0 = new StatisticalSummaryValues(
-					mean0.getDouble(), sd0.getDouble() * sd0.getDouble(),
-					(long) n0.getDouble(), -1, -1, -1);
+					mean0.getDouble(), sd0.getDouble() * sd0.getDouble(), (long) n0.getDouble(), -1, -1, -1);
 			StatisticalSummaryValues sumStats1 = new StatisticalSummaryValues(
-					mean1.getDouble(), sd1.getDouble() * sd1.getDouble(),
-					(long) n1.getDouble(), -1, -1, -1);
+					mean1.getDouble(), sd1.getDouble() * sd1.getDouble(), (long) n1.getDouble(), -1, -1, -1);
 
 			try {
 
@@ -283,9 +292,6 @@ public class AlgoTTest2 extends AlgoElement {
 				// ArithmeticException
 				Log.debug(e);
 			}
-
 		}
-
 	}
-
 }

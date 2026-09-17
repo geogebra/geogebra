@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,12 +31,11 @@ import org.geogebra.desktop.main.AppD;
  * The two data sets are taken from the current collection of data provided by a
  * MultiVar StatDialog. JComboBoxes for choosing data sets are embedded in the
  * table.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class TwoVarStatPanelD extends StatTable
-		implements ActionListener, TwoVarStatListener {
+public class TwoVarStatPanelD extends StatTable implements ActionListener, TwoVarStatListener {
 	private static final long serialVersionUID = 1L;
 	protected AppD app;
 	protected DataAnalysisViewD statDialog;
@@ -51,8 +50,11 @@ public class TwoVarStatPanelD extends StatTable
 	 * @param isPairedData whether to use paired data
 	 * @param parentActionListener action listener
 	 */
-	public TwoVarStatPanelD(AppD app, DataAnalysisViewD statDialog,
-			boolean isPairedData, ActionListener parentActionListener) {
+	public TwoVarStatPanelD(
+			AppD app,
+			DataAnalysisViewD statDialog,
+			boolean isPairedData,
+			ActionListener parentActionListener) {
 		super(app);
 		model = new TwoVarStatModel(app, isPairedData, this);
 		this.app = app;
@@ -61,7 +63,6 @@ public class TwoVarStatPanelD extends StatTable
 		this.parentActionListener = parentActionListener;
 
 		setTable(isPairedData);
-
 	}
 
 	/**
@@ -70,8 +71,8 @@ public class TwoVarStatPanelD extends StatTable
 	public void setTable(boolean isPairedData) {
 		isIniting = true;
 		model.setPairedData(isPairedData);
-		setStatTable(model.getRowCount(), model.getRowNames(),
-				model.getColumnCount(), model.getColumnNames());
+		setStatTable(
+				model.getRowCount(), model.getRowNames(), model.getColumnCount(), model.getColumnNames());
 
 		// create an array of data titles for the table cell comboboxes
 		// the array includes and extra element to store the combo box label
@@ -128,7 +129,6 @@ public class TwoVarStatPanelD extends StatTable
 	@Override
 	public void setValueAt(String value, int row, int col) {
 		statTable.setValueAt(value, row, col);
-
 	}
 
 	@Override
@@ -144,5 +144,4 @@ public class TwoVarStatPanelD extends StatTable
 	public Integer[] getSelectedDataIndex() {
 		return model.getSelectedDataIndex();
 	}
-
 }

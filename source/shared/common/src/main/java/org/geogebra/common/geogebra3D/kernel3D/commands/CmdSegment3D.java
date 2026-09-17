@@ -41,5 +41,4 @@ public class CmdSegment3D extends CmdSegment {
 
 		return super.segment(label, a, b);
 	}
-
 }

@@ -10,5 +10,4 @@ public class CommandH extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AccentedAtom(a, "doubleacute");
 	}
-
 }

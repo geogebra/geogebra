@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.geos.symbolic;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -72,26 +72,27 @@ class SymbolicRegressionTest extends BaseUnitTest {
 	@Test
 	@Issue("APPS-4104")
 	void regressionShouldNotBeSymbolic() {
-		GeoElement regression = view.plotRegression(1,
-				new RegressionSpecificationBuilder().getForListSize(3).get(0));
+		GeoElement regression = view.plotRegression(
+				1, new RegressionSpecificationBuilder().getForListSize(3).get(0));
 		assertThat(regression.getGeoClassType(), CoreMatchers.is(GeoClass.FUNCTION));
 		assertEquals("f", regression.getLabelSimple());
-		EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(getKernel(),
-				regression, true);
+		EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(getKernel(), regression, true);
 		ErrorAccumulator handler = new ErrorAccumulator();
-		getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(regression,
-				"FitPoly(RemoveUndefined((x_1,y_1)),3)+1", info, false,
-				null, handler);
+		getKernel()
+				.getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						regression, "FitPoly(RemoveUndefined((x_1,y_1)),3)+1", info, false, null, handler);
 		assertThat(lookup("f"), hasValue("x³ + 1"));
 		reload();
 		assertThat(lookup("f"), hasValue("x³ + 1"));
-		getKernel().getAlgebraProcessor().changeGeoElementNoExceptionHandling(lookup("f"),
-				"FitLogistic(RemoveUndefined((x_1,y_1)))+1", info, false,
-				null, handler);
+		getKernel()
+				.getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						lookup("f"), "FitLogistic(RemoveUndefined((x_1,y_1)))+1", info, false, null, handler);
 		GeoElement numeric = add("Numeric(f,2)");
-		assertThat(numeric, hasValue("(260e^(-1.5 x) + 111) / (260e^(-1.5 x) + 1)"
-				.replace("e", Unicode.EULER_STRING)));
+		assertThat(
+				numeric,
+				hasValue("(260e^(-1.5 x) + 111) / (260e^(-1.5 x) + 1)".replace("e", Unicode.EULER_STRING)));
 		assertEquals("", handler.getErrors());
 	}
-
 }

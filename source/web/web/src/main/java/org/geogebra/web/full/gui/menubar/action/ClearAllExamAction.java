@@ -36,4 +36,3 @@ public final class ClearAllExamAction implements MenuAction<AppWFull> {
 		}
 	}
 }
-

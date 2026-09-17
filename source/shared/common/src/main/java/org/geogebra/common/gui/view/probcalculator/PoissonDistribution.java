@@ -52,13 +52,13 @@ public class PoissonDistribution extends CachingDiscreteDistribution {
 	protected DiscreteProbability createProbability(DistributionParameters parameters) {
 		GeoNumberValue meanGeo = parameters.at(0);
 
-		AlgoInversePoisson maxSequenceValue = new AlgoInversePoisson(cons,
-				meanGeo, new GeoNumeric(cons, nearlyOne));
+		AlgoInversePoisson maxSequenceValue =
+				new AlgoInversePoisson(cons, meanGeo, new GeoNumeric(cons, nearlyOne));
 		cons.removeFromConstructionList(maxSequenceValue);
 		GeoNumberValue maxDiscreteGeo = maxSequenceValue.getResult();
 
-		AlgoSequenceRange algoSeq = new AlgoSequenceRange(cons, new GeoNumeric(cons, 0.0),
-				maxDiscreteGeo, null);
+		AlgoSequenceRange algoSeq =
+				new AlgoSequenceRange(cons, new GeoNumeric(cons, 0.0), maxDiscreteGeo, null);
 		cons.removeFromAlgorithmList(algoSeq);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
 
@@ -66,19 +66,25 @@ public class PoissonDistribution extends CachingDiscreteDistribution {
 		AlgoListElement algo = new AlgoListElement(cons, values, k);
 		cons.removeFromConstructionList(algo);
 
-		AlgoPoisson poisson = new AlgoPoisson(cons, meanGeo,
+		AlgoPoisson poisson = new AlgoPoisson(
+				cons,
+				meanGeo,
 				(GeoNumberValue) algo.getOutput(0),
 				new GeoBoolean(cons, parameters.isCumulative));
 		cons.removeFromConstructionList(poisson);
 
-		ExpressionNode nPlusOne = new ExpressionNode(kernel, maxDiscreteGeo,
-				Operation.PLUS, new MyDouble(kernel, 1.0));
+		ExpressionNode nPlusOne =
+				new ExpressionNode(kernel, maxDiscreteGeo, Operation.PLUS, new MyDouble(kernel, 1.0));
 		AlgoDependentNumber plusOneAlgo = new AlgoDependentNumber(cons, nPlusOne, false);
 		cons.removeFromConstructionList(plusOneAlgo);
 
-		AlgoSequence algoSeq2 = new AlgoSequence(cons, poisson.getOutput(0), k,
+		AlgoSequence algoSeq2 = new AlgoSequence(
+				cons,
+				poisson.getOutput(0),
+				k,
 				new GeoNumeric(cons, 1.0),
-				(GeoNumberValue) plusOneAlgo.getOutput(0), null);
+				(GeoNumberValue) plusOneAlgo.getOutput(0),
+				null);
 		cons.removeFromConstructionList(algoSeq2);
 
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);

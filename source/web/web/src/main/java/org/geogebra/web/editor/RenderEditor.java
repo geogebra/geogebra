@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -51,8 +51,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		EditorListener listener = new EditorListener();
 		MathFieldW mathField = initMathField(attributes, listener);
 		DomGlobal.window.addEventListener("resize", evt -> onResize(mathField));
-		EditorApi editorApi = new EditorApi(mathField, editorKeyboard.getTabbedKeyboard(),
-				listener);
+		EditorApi editorApi = new EditorApi(mathField, editorKeyboard.getTabbedKeyboard(), listener);
 		editorKeyboard.setListener(editorApi::closeKeyboard);
 		if (callback != null) {
 			callback.accept(editorApi);
@@ -70,8 +69,8 @@ public final class RenderEditor implements RenderGgbElementFunction {
 		wrapper.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		TemplateCatalog catalog = new TemplateCatalog();
 		catalog.enableSubstitutions();
-		MathFieldW mathField = new MathFieldW(null, wrapper, canvas, listener, catalog,
-						new EditorFeatures());
+		MathFieldW mathField =
+				new MathFieldW(null, wrapper, canvas, listener, catalog, new EditorFeatures());
 		if (el.hasAttribute("maxHeight")) {
 			mathField.setMaxHeight(Double.parseDouble(el.getAttribute("maxHeight")));
 		}
@@ -87,8 +86,7 @@ public final class RenderEditor implements RenderGgbElementFunction {
 
 		editorPanel.add(wrapper);
 		setBackgroundColor(wrapper.getElement(), editorParams.getBackgroundColor());
-		Dom.addEventListener(wrapper.getElement(), "pointerdown",
-				evt -> adjustCaret(evt, mathField));
+		Dom.addEventListener(wrapper.getElement(), "pointerdown", evt -> adjustCaret(evt, mathField));
 
 		MathFieldProcessing processing = new MathFieldProcessing(mathField);
 		editorPanel.addDomHandler(evt -> onFocus(mathField, processing), ClickEvent.getType());

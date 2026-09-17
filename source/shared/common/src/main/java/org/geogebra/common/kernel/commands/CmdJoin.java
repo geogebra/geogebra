@@ -31,7 +31,7 @@ public class CmdJoin extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,30 +47,26 @@ public class CmdJoin extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				ok[0] = arg[0].isGeoList();
 
-			ok[0] = arg[0].isGeoList();
+				if (ok[0]) {
+					GeoElement[] ret = {join(c.getLabel(), (GeoList) arg[0])};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else {
+					throw argErr(c, arg[1]);
+				}
 
-			if (ok[0]) {
-				GeoElement[] ret = { join(c.getLabel(), (GeoList) arg[0]) };
-				return ret;
-			} else
-
-			if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else {
-				throw argErr(c, arg[1]);
-			}
-
-		default:
-			// try to create list of numbers
-			GeoList list = wrapInList(arg, arg.length, GeoClass.LIST,
-					c);
-			if (list != null) {
-				GeoElement[] ret = { join(c.getLabel(), list) };
-				return ret;
-			}
-			throw argNumErr(c);
+			default:
+				// try to create list of numbers
+				GeoList list = wrapInList(arg, arg.length, GeoClass.LIST, c);
+				if (list != null) {
+					GeoElement[] ret = {join(c.getLabel(), list)};
+					return ret;
+				}
+				throw argNumErr(c);
 		}
 	}
 
@@ -81,5 +77,4 @@ public class CmdJoin extends CommandProcessor {
 		AlgoJoin algo = new AlgoJoin(cons, label, list);
 		return algo.getResult();
 	}
-
 }

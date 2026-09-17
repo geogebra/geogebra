@@ -135,7 +135,6 @@ class LayerManagerTest extends BaseEuclidianControllerTest {
 
 		layerManager.moveToBack(asList(geos[6], geos[2]));
 		assertSorted(geos, asList(-5d, -4d, -3d, -1d, 0d, 1d, 3d, 5d, 7d, 8d));
-
 	}
 
 	static void assertSorted(GeoElement[] geos, List<Double> expected) {
@@ -144,21 +143,21 @@ class LayerManagerTest extends BaseEuclidianControllerTest {
 
 		List<Double> actual = Arrays.stream(geos)
 				.sorted(Comparator.comparingDouble(GeoElement::getOrdering))
-				.map(GeoElement::getOrdering).collect(Collectors.toList());
+				.map(GeoElement::getOrdering)
+				.collect(Collectors.toList());
 
 		assertEquals(actual, expected);
-
 	}
 
 	static void assertOrdering(GeoElement[] geos, int... newOrder) {
 
-		List<GeoElement> sorted = Arrays.stream(geos).sorted(Group.orderComparator)
-						.collect(Collectors.toList());
+		List<GeoElement> sorted =
+				Arrays.stream(geos).sorted(Group.orderComparator).collect(Collectors.toList());
 		assertEquals(geos.length, newOrder.length);
 		List<Integer> actual = new ArrayList<>();
 		List<Integer> expected = new ArrayList<>();
 
-		int [] expectedVals = Arrays.stream(newOrder).toArray();
+		int[] expectedVals = Arrays.stream(newOrder).toArray();
 
 		for (int i = 0; i < sorted.size(); i++) {
 			actual.add(Integer.parseInt(sorted.get(i).getLabelSimple().substring(1)));
@@ -168,5 +167,4 @@ class LayerManagerTest extends BaseEuclidianControllerTest {
 		// assert once to have nice output when failing.
 		assertEquals(expected, actual);
 	}
-
 }

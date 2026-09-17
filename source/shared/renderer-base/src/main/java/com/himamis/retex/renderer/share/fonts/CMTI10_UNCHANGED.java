@@ -11,6 +11,5 @@ final class CMTI10_UNCHANGED extends FontInfo {
 	@Override
 	protected final void initMetrics() {
 		setMetrics(36, 769, 694);
-
 	}
 }

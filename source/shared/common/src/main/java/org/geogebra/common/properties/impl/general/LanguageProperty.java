@@ -38,41 +38,41 @@ import com.google.j2objc.annotations.Weak;
  */
 public class LanguageProperty extends AbstractNamedEnumeratedProperty<String> {
 
-    @Weak
-    private final App app;
+	@Weak
+	private final App app;
 
-    /**
-     * Constructs a language property.
-     *
-     * @param app          app
-     * @param localization localization
-     */
-    public LanguageProperty(App app, Localization localization) {
-        super(localization, "Language");
-        this.app = app;
-        setupValues(localization);
-    }
+	/**
+	 * Constructs a language property.
+	 *
+	 * @param app          app
+	 * @param localization localization
+	 */
+	public LanguageProperty(App app, Localization localization) {
+		super(localization, "Language");
+		this.app = app;
+		setupValues(localization);
+	}
 
-    private void setupValues(Localization localization) {
-        Language[] languages = localization.getSupportedLanguages(
-                PreviewFeature.isAvailable(ALL_LANGUAGES));
-        setNamedValues(Arrays.stream(languages)
-                .map(language -> entry(language.toLanguageTag(), language.name))
-                .collect(Collectors.toList()));
-    }
+	private void setupValues(Localization localization) {
+		Language[] languages =
+				localization.getSupportedLanguages(PreviewFeature.isAvailable(ALL_LANGUAGES));
+		setNamedValues(Arrays.stream(languages)
+				.map(language -> entry(language.toLanguageTag(), language.name))
+				.collect(Collectors.toList()));
+	}
 
-    @Override
-    protected void doSetValue(String value) {
-        app.setLanguage(value);
-    }
+	@Override
+	protected void doSetValue(String value) {
+		app.setLanguage(value);
+	}
 
-    @Override
-    public String getValue() {
-        return getLocalization().getPreferredLanguageTag();
-    }
+	@Override
+	public String getValue() {
+		return getLocalization().getPreferredLanguageTag();
+	}
 
-    @Override
-    public boolean isAvailable() {
-        return !GlobalScope.isExamActive(app);
-    }
+	@Override
+	public boolean isAvailable() {
+		return !GlobalScope.isExamActive(app);
+	}
 }

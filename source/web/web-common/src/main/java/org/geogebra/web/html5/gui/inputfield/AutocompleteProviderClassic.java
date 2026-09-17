@@ -51,7 +51,7 @@ public class AutocompleteProviderClassic {
 
 	/**
 	 * Update completions from input.
-	 * 
+	 *
 	 * @param currentWord
 	 *            sequence of alphanumeric characters around the cursor
 	 */
@@ -78,8 +78,7 @@ public class AutocompleteProviderClassic {
 		}
 
 		if (completionMatches == null && provider.isFallbackCompletionAllowed()) {
-			completionMatches = app.getEnglishCommandDictionary()
-					.getCompletions(cmdPrefix);
+			completionMatches = app.getEnglishCommandDictionary().getCompletions(cmdPrefix);
 		}
 
 		List<MatchedString> commandCompletions = provider.getSyntaxes(completionMatches);
@@ -117,7 +116,7 @@ public class AutocompleteProviderClassic {
 
 	/**
 	 * Lazy load the dictionary.
-	 * 
+	 *
 	 * @return dictionary of completions
 	 */
 	public AutoCompleteDictionary getDictionary() {
@@ -130,5 +129,4 @@ public class AutocompleteProviderClassic {
 	public void cancelAutoCompletion() {
 		completions = null;
 	}
-
 }

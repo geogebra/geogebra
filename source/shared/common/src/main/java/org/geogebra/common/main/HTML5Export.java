@@ -38,8 +38,7 @@ public class HTML5Export {
 		sb.append("<head>\n");
 
 		// make sure scaling works
-		sb.append(
-				"<meta name=viewport content=\"width=device-width,initial-scale=1\">\n");
+		sb.append("<meta name=viewport content=\"width=device-width,initial-scale=1\">\n");
 
 		// make sure translation files loaded OK
 		sb.append("<meta charset=\"utf-8\"/>\n");
@@ -68,7 +67,6 @@ public class HTML5Export {
 				sb.append("\",\n");
 			}
 			sb.append("\"showToolBarHelp\":").append(app.showToolBarHelp).append(",\n");
-
 		}
 		sb.append("\"showResetIcon\":false,\n");
 		sb.append("\"enableLabelDrags\":false,\n");
@@ -93,12 +91,9 @@ public class HTML5Export {
 		sb.append("\"appName\":\"").append(app.getConfig().getAppCode()).append("\",\n");
 		sb.append("\"buttonRounding\":0.7,\n");
 		sb.append("\"buttonShadows\":false,\n");
-		sb.append(
-				"\"language\":\"").append(app.getLocalization().getLanguageTag())
-				.append("\",\n");
+		sb.append("\"language\":\"").append(app.getLocalization().getLanguageTag()).append("\",\n");
 
-		sb.append(
-				"// use this instead of ggbBase64 to load a material from geogebra.org\n");
+		sb.append("// use this instead of ggbBase64 to load a material from geogebra.org\n");
 		sb.append("// \"material_id\":\"RHYH3UQ8\",\n");
 
 		sb.append("// use this instead of ggbBase64 to load a .ggb file\n");
@@ -124,11 +119,9 @@ public class HTML5Export {
 		sb.append(useWeb3D ? "1" : "0");
 		if (gui != null) {
 			sb.append(",'AV': ");
-			sb.append(gui.hasAlgebraView() && gui.getAlgebraView().isShowing()
-					? "1" : "0");
+			sb.append(gui.hasAlgebraView() && gui.getAlgebraView().isShowing() ? "1" : "0");
 			sb.append(",'SV': ");
-			sb.append(gui.hasSpreadsheetView()
-					&& app.showView(App.VIEW_SPREADSHEET) ? "1" : "0");
+			sb.append(gui.hasSpreadsheetView() && app.showView(App.VIEW_SPREADSHEET) ? "1" : "0");
 			sb.append(",'CV': ");
 			sb.append(gui.hasCasView() ? "1" : "0");
 			sb.append(",'EV2': ");
@@ -140,8 +133,7 @@ public class HTML5Export {
 			sb.append(",'DA': ");
 			sb.append(gui.hasDataAnalysisView() ? "1" : "0");
 			sb.append(",'FI': ");
-			sb.append(
-					app.getDialogManager().hasFunctionInspector() ? "1" : "0");
+			sb.append(app.getDialogManager().hasFunctionInspector() ? "1" : "0");
 		}
 		// TODO
 		sb.append(",'macro': 0");
@@ -154,10 +146,9 @@ public class HTML5Export {
 		// + codeBase + "/');\n");
 		sb.append("window.onload = function() {applet.inject('ggbApplet')};\n");
 
-		String GeoGebra_loading = app.convertImageToDataURIIfPossible(
-				GeoGebraConstants.GEOGEBRA_LOADING_PNG);
-		String applet_play = app.convertImageToDataURIIfPossible(
-				GeoGebraConstants.APPLET_PLAY_PNG);
+		String GeoGebra_loading =
+				app.convertImageToDataURIIfPossible(GeoGebraConstants.GEOGEBRA_LOADING_PNG);
+		String applet_play = app.convertImageToDataURIIfPossible(GeoGebraConstants.APPLET_PLAY_PNG);
 
 		sb.append("applet.setPreviewImage('");
 		sb.append(getPreviewImage(app));
@@ -187,5 +178,4 @@ public class HTML5Export {
 		// dummy (but valid) gif
 		return StringUtil.gifMarker + "R0lGODlhAQABAAAAADs=";
 	}
-
 }

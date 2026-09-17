@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -45,15 +45,14 @@ import org.jspecify.annotations.NonNull;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
- * 
+ *
  * @author mathieu
  *
  */
-public class EuclidianControllerInput3DCompanion extends
-		EuclidianController3DCompanion {
+public class EuclidianControllerInput3DCompanion extends EuclidianController3DCompanion {
 
-	static final private int DISTANCE_THRESHOLD = 6;
-	static final private double COS_THRESHOLD = Math.sin(Math.PI * 7.5 / 180);
+	private static final int DISTANCE_THRESHOLD = 6;
+	private static final double COS_THRESHOLD = Math.sin(Math.PI * 7.5 / 180);
 
 	private Input3D input3D;
 	private double startZNearest;
@@ -71,7 +70,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param ec
 	 *            controller
 	 */
@@ -109,13 +108,10 @@ public class EuclidianControllerInput3DCompanion extends
 				beamLength = 400;
 			}
 			beamLength /= ((EuclidianView3D) ec.getView()).getScale();
-			getViewCompanion()
-					.getStylusBeamEnd(tmpCoords3,
-					beamLength);
+			getViewCompanion().getStylusBeamEnd(tmpCoords3, beamLength);
 			getView().setZNearest(-beamLength);
 		} else {
-			((EuclidianView3D) ec.getView()).getPickPoint(ec.getMouseLoc(),
-					tmpCoords3);
+			((EuclidianView3D) ec.getView()).getPickPoint(ec.getMouseLoc(), tmpCoords3);
 			((EuclidianView3D) ec.getView()).toSceneCoords3D(tmpCoords3);
 		}
 		if (checkPointCapturingXYThenZ(tmpCoords3)) {
@@ -128,9 +124,8 @@ public class EuclidianControllerInput3DCompanion extends
 
 	@Override
 	public void movePoint(AbstractEvent event, @NonNull GeoPointND movedPoint) {
-		if (input3D.currentlyUseMouse2D() || (input3D
-						.hasMouseDirection() && !movedPoint
-						.isIndependent())) {
+		if (input3D.currentlyUseMouse2D()
+				|| (input3D.hasMouseDirection() && !movedPoint.isIndependent())) {
 			super.movePoint(event, movedPoint);
 		} else {
 			Coords v = new Coords(4);
@@ -138,8 +133,7 @@ public class EuclidianControllerInput3DCompanion extends
 				getViewCompanion().getStylusBeamEnd(v, startZNearest);
 				v.setSub(v, movedGeoPointStartCoords);
 			} else {
-				v.set(input3D.getMouse3DPosition()
-						.sub(input3D.getStartMouse3DPosition()));
+				v.set(input3D.getMouse3DPosition().sub(input3D.getStartMouse3DPosition()));
 				((EuclidianView3D) ec.getView()).toSceneCoords3D(v);
 			}
 
@@ -158,16 +152,13 @@ public class EuclidianControllerInput3DCompanion extends
 
 			if (input3D.hasCompletedGrabbingDelay()) {
 				long time = System.currentTimeMillis();
-				StationaryCoords stationaryCoords = getViewCompanion()
-						.getStationaryCoords();
-				stationaryCoords.setCoords(
-						movedPoint.getInhomCoordsInD3(), time);
+				StationaryCoords stationaryCoords = getViewCompanion().getStationaryCoords();
+				stationaryCoords.setCoords(movedPoint.getInhomCoordsInD3(), time);
 				if (stationaryCoords.hasLongDelay(time)) {
 					releaseGrabbing();
 				}
 			}
 		}
-
 	}
 
 	private static final class StickyPoint implements Comparable<StickyPoint> {
@@ -196,18 +187,15 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 
 			// check construction index
-			if (this.point.getConstructionIndex() < sp.point
-					.getConstructionIndex()) {
+			if (this.point.getConstructionIndex() < sp.point.getConstructionIndex()) {
 				return -1;
 			}
 
-			if (this.point.getConstructionIndex() > sp.point
-					.getConstructionIndex()) {
+			if (this.point.getConstructionIndex() > sp.point.getConstructionIndex()) {
 				return 1;
 			}
 
 			return 0;
-
 		}
 
 		@Override
@@ -222,7 +210,6 @@ public class EuclidianControllerInput3DCompanion extends
 		public int hashCode() {
 			return DoubleUtil.hashCode(distance) ^ point.hashCode();
 		}
-
 	}
 
 	private static final class StickyPointForDirection
@@ -231,8 +218,7 @@ public class EuclidianControllerInput3DCompanion extends
 		private final double distanceOrtho;
 		private final double distanceOrigin;
 
-		private StickyPointForDirection(StickyPoint origin, StickyPoint sp,
-				double distanceOrigin) {
+		private StickyPointForDirection(StickyPoint origin, StickyPoint sp, double distanceOrigin) {
 			this.sp = sp;
 			this.distanceOrtho = sp.distance - origin.distance;
 			this.distanceOrigin = distanceOrigin;
@@ -246,31 +232,30 @@ public class EuclidianControllerInput3DCompanion extends
 		public int compareTo(StickyPointForDirection spd) {
 
 			// compare cosinus
-			if (DoubleUtil.isGreater(Math.abs(spd.distanceOrtho * distanceOrigin),
+			if (DoubleUtil.isGreater(
+					Math.abs(spd.distanceOrtho * distanceOrigin),
 					Math.abs(distanceOrtho * spd.distanceOrigin))) {
 				return -1;
 			}
 
-			if (DoubleUtil.isGreater(Math.abs(distanceOrtho * spd.distanceOrigin), Math
-					.abs(spd.distanceOrtho * distanceOrigin))) {
+			if (DoubleUtil.isGreater(
+					Math.abs(distanceOrtho * spd.distanceOrigin),
+					Math.abs(spd.distanceOrtho * distanceOrigin))) {
 				return 1;
 			}
 
 			// check construction index
-			if (this.sp.point.getConstructionIndex() < spd.sp.point
-					.getConstructionIndex()) {
+			if (this.sp.point.getConstructionIndex() < spd.sp.point.getConstructionIndex()) {
 				return -1;
 			}
 
-			if (this.sp.point.getConstructionIndex() > spd.sp.point
-					.getConstructionIndex()) {
+			if (this.sp.point.getConstructionIndex() > spd.sp.point.getConstructionIndex()) {
 				return 1;
 			}
 
 			return 0;
-
 		}
-		
+
 		@Override
 		public boolean equals(Object spd) {
 			if (spd instanceof StickyPointForDirection) {
@@ -282,14 +267,14 @@ public class EuclidianControllerInput3DCompanion extends
 		@Override
 		public int hashCode() {
 			return DoubleUtil.hashCode(distanceOrtho)
-					^ DoubleUtil.hashCode(distanceOrigin) ^ sp.hashCode();
+					^ DoubleUtil.hashCode(distanceOrigin)
+					^ sp.hashCode();
 		}
-
 	}
 
 	private boolean stickToPoints() {
-		return ec.getView()
-				.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+		return ec.getView().getPointCapturingMode()
+				== EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 	}
 
 	@Override
@@ -303,13 +288,11 @@ public class EuclidianControllerInput3DCompanion extends
 
 	private void movePlaneMouse3D() {
 		Coords v = new Coords(4);
-		if (input3D.hasMouseDirection() && !input3D
-				.currentlyUseMouse2D()) {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			getViewCompanion().getStylusBeamEnd(v, startZNearest);
 			v.setSub(v, movedGeoPointStartCoords);
 		} else {
-			v.set(input3D.getMouse3DPosition()
-					.sub(input3D.getStartMouse3DPosition()));
+			v.set(input3D.getMouse3DPosition().sub(input3D.getStartMouse3DPosition()));
 			((EuclidianView3D) ec.getView()).toSceneCoords3D(v);
 		}
 
@@ -318,8 +301,7 @@ public class EuclidianControllerInput3DCompanion extends
 		plane.setCoordSys(movedGeoPlaneStartCoordSys);
 
 		input3D.calcCurrentRot();
-		plane.rotate(input3D.getCurrentRotMatrix(),
-				movedGeoPointStartCoords);
+		plane.rotate(input3D.getCurrentRotMatrix(), movedGeoPointStartCoords);
 
 		plane.translate(v);
 
@@ -332,8 +314,7 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 
 			for (GeoPointND point : stickyPointsList) {
-				StickyPoint sp = new StickyPoint(point,
-						plane.distanceWithSign(point));
+				StickyPoint sp = new StickyPoint(point, plane.distanceWithSign(point));
 				stickyPoints.add(sp);
 			}
 
@@ -349,8 +330,7 @@ public class EuclidianControllerInput3DCompanion extends
 		if (input3D.hasCompletedGrabbingDelay()) {
 
 			long time = System.currentTimeMillis();
-			StationaryCoords stationaryCoords = getViewCompanion()
-					.getStationaryCoords();
+			StationaryCoords stationaryCoords = getViewCompanion().getStationaryCoords();
 			stationaryCoords.setCoords(movedGeoPointStartCoords, v, time);
 			if (stationaryCoords.hasLongDelay(time)) {
 				releaseGrabbing();
@@ -364,8 +344,7 @@ public class EuclidianControllerInput3DCompanion extends
 		int step = 0;
 		Coords origin = null, secondPoint = null, thirdPoint = null;
 		StickyPoint sp = stickyPoints.pollFirst();
-		if (checkDistanceToStickyPoint(sp.getDistanceAbs(), scale,
-				DISTANCE_THRESHOLD)) {
+		if (checkDistanceToStickyPoint(sp.getDistanceAbs(), scale, DISTANCE_THRESHOLD)) {
 			origin = sp.point.getInhomCoordsInD3();
 			step++;
 			// check directions
@@ -377,26 +356,19 @@ public class EuclidianControllerInput3DCompanion extends
 				}
 
 				for (StickyPoint sp2 : stickyPoints) {
-					double distanceOrigin = sp2.point
-							.distance(sp.point);
+					double distanceOrigin = sp2.point.distance(sp.point);
 					// prevent same points
 					if (!DoubleUtil.isZero(distanceOrigin)) {
-						stickyPointsForDirection
-								.add(new StickyPointForDirection(
-										sp, sp2, distanceOrigin));
+						stickyPointsForDirection.add(new StickyPointForDirection(sp, sp2, distanceOrigin));
 					}
 				}
-				StickyPointForDirection spd2 = stickyPointsForDirection
-						.pollFirst();
+				StickyPointForDirection spd2 = stickyPointsForDirection.pollFirst();
 				if (spd2 != null && spd2.getCosAbs() < COS_THRESHOLD) {
-					secondPoint = spd2.sp.point
-							.getInhomCoordsInD3();
+					secondPoint = spd2.sp.point.getInhomCoordsInD3();
 					step++;
-					StickyPointForDirection spd3 = stickyPointsForDirection
-							.pollFirst();
+					StickyPointForDirection spd3 = stickyPointsForDirection.pollFirst();
 					if (spd3 != null && spd3.getCosAbs() < COS_THRESHOLD) {
-						thirdPoint = spd3.sp.point
-								.getInhomCoordsInD3();
+						thirdPoint = spd3.sp.point.getInhomCoordsInD3();
 						step++;
 					}
 				}
@@ -407,30 +379,28 @@ public class EuclidianControllerInput3DCompanion extends
 		}
 
 		switch (step) {
-		case 1: // only origin
-			plane.getCoordSys().updateToContainPoint(origin);
-			break;
-		case 2: // origin and second point
-			plane.getCoordSys().updateContinuousPointVx(origin,
-					secondPoint.sub(origin));
-			break;
-		case 3: // origin and two points
-			CoordSys cs = new CoordSys(2);
-			cs.addPoint(origin);
-			cs.addPoint(secondPoint);
-			cs.addPoint(thirdPoint);
-			if (cs.isMadeCoordSys()) {
-				cs.makeOrthoMatrix(false, false);
-				cs.makeEquationVector();
-				plane.getCoordSys().updateContinuous(cs);
-			} else {
-				plane.getCoordSys().updateContinuousPointVx(origin,
-						secondPoint.sub(origin));
-			}
-			break;
-		default:
-			// do nothing
-			break;
+			case 1: // only origin
+				plane.getCoordSys().updateToContainPoint(origin);
+				break;
+			case 2: // origin and second point
+				plane.getCoordSys().updateContinuousPointVx(origin, secondPoint.sub(origin));
+				break;
+			case 3: // origin and two points
+				CoordSys cs = new CoordSys(2);
+				cs.addPoint(origin);
+				cs.addPoint(secondPoint);
+				cs.addPoint(thirdPoint);
+				if (cs.isMadeCoordSys()) {
+					cs.makeOrthoMatrix(false, false);
+					cs.makeEquationVector();
+					plane.getCoordSys().updateContinuous(cs);
+				} else {
+					plane.getCoordSys().updateContinuousPointVx(origin, secondPoint.sub(origin));
+				}
+				break;
+			default:
+				// do nothing
+				break;
 		}
 	}
 
@@ -440,29 +410,25 @@ public class EuclidianControllerInput3DCompanion extends
 	public void releaseGrabbing() {
 		input3D.setHasCompletedGrabbingDelay(false);
 		ec.getApplication().getSelectionManager().clearSelectedGeos(true);
-		ec.endOfWrapMouseReleased(new Hits(), false, false, false,
-				PointerEventType.TOUCH);
+		ec.endOfWrapMouseReleased(new Hits(), false, false, false, PointerEventType.TOUCH);
 	}
 
-	private static boolean checkDistanceToStickyPoint(double d, double scale,
-			int threshold) {
+	private static boolean checkDistanceToStickyPoint(double d, double scale, int threshold) {
 		return d * scale < DrawPoint.getSelectionThreshold(threshold); // point.getPointSize()
-																		// +
-																		// threshold;
+		// +
+		// threshold;
 	}
 
 	@Override
 	protected boolean specificPointCapturingAutomatic() {
-		return ((EuclidianController3D) ec).isZSpace()
-				&& !input3D.currentlyUseMouse2D();
+		return ((EuclidianController3D) ec).isZSpace() && !input3D.currentlyUseMouse2D();
 	}
 
 	@Override
-	protected void updateMovedGeoPointStartValues(Coords coords,
-			GeoPointND movedGeoPoint, CoordMatrix4x4 currentPlane) {
+	protected void updateMovedGeoPointStartValues(
+			Coords coords, GeoPointND movedGeoPoint, CoordMatrix4x4 currentPlane) {
 		if (input3D.currentlyUseMouse2D()) {
-			super.updateMovedGeoPointStartValues(coords, movedGeoPoint,
-					currentPlane);
+			super.updateMovedGeoPointStartValues(coords, movedGeoPoint, currentPlane);
 		} else {
 			movedGeoPointStartCoords.set(coords);
 			if (input3D.hasMouseDirection()) {
@@ -473,7 +439,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 	/**
 	 * set plane to move
-	 * 
+	 *
 	 * @param geo
 	 *            moved geo
 	 */
@@ -491,8 +457,8 @@ public class EuclidianControllerInput3DCompanion extends
 		}
 		movedGeoStartPosition.set(input3D.getMouse3DPosition());
 
-		((EuclidianController3D) ec).updateMovedGeoPointStartValues(
-				getView().getCursor3D().getInhomCoordsInD(3));
+		((EuclidianController3D) ec)
+				.updateMovedGeoPointStartValues(getView().getCursor3D().getInhomCoordsInD(3));
 
 		getView().setDragCursor();
 
@@ -503,19 +469,15 @@ public class EuclidianControllerInput3DCompanion extends
 			stickyPointsList.clear();
 		}
 
-		for (GeoElement geo1 : geo.getConstruction()
-				.getGeoSetConstructionOrder()) {
-			if (geo1.isGeoPoint() && geo1.isVisibleInView3D()
-					&& !geo1.isChildOf(geo)) {
+		for (GeoElement geo1 : geo.getConstruction().getGeoSetConstructionOrder()) {
+			if (geo1.isGeoPoint() && geo1.isVisibleInView3D() && !geo1.isChildOf(geo)) {
 				stickyPointsList.add((GeoPointND) geo1);
 			}
 		}
-
 	}
 
 	@Override
-	final protected boolean handleMovedElementFreePlane(
-			GeoElement movedGeoElement) {
+	protected final boolean handleMovedElementFreePlane(GeoElement movedGeoElement) {
 		if (movedGeoElement.isGeoPlane()) {
 			setMovedGeoPlane(movedGeoElement);
 			return true;
@@ -536,8 +498,7 @@ public class EuclidianControllerInput3DCompanion extends
 	@Override
 	protected void setMouseOrigin(GeoPoint3D point, GPoint mouseLoc) {
 
-		if (input3D.hasMouseDirection()
-				&& !input3D.currentlyUseMouse2D()) {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			point.setWillingCoords(input3D.getMouse3DScenePosition());
 		} else {
 			super.setMouseOrigin(point, mouseLoc);

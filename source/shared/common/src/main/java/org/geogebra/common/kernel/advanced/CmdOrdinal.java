@@ -30,7 +30,7 @@ import org.geogebra.common.main.MyError;
 public class CmdOrdinal extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,21 +44,18 @@ public class CmdOrdinal extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoNumeric()) {
-				AlgoOrdinal algo = new AlgoOrdinal(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoNumeric()) {
+					AlgoOrdinal algo = new AlgoOrdinal(cons, c.getLabel(), (GeoNumeric) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

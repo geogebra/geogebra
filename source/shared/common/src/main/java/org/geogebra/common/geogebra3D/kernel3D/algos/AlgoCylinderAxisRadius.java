@@ -37,14 +37,13 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 	 * @param c
 	 *            construction
 	 */
-	public AlgoCylinderAxisRadius(Construction c, String label, GeoLineND axis,
-			GeoNumberValue r) {
+	public AlgoCylinderAxisRadius(Construction c, String label, GeoLineND axis, GeoNumberValue r) {
 		super(c, axis, r, new AlgoQuadricComputerCylinder());
 
 		this.axis = axis;
 
-		setInputOutput(new GeoElement[] { (GeoElement) axis, (GeoElement) r },
-				new GeoElement[] { getQuadric() });
+		setInputOutput(
+				new GeoElement[] {(GeoElement) axis, (GeoElement) r}, new GeoElement[] {getQuadric()});
 		compute();
 
 		getQuadric().setLabel(label);
@@ -79,24 +78,23 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 		getQuadric().setDefined();
 
 		getQuadric().setCylinder(o, d, null, r, r);
-
 	}
 
 	@Override
 	protected Coords getDirection() {
-		return axis.getPointInD(3, 1).getInhomCoordsInSameDimension()
+		return axis.getPointInD(3, 1)
+				.getInhomCoordsInSameDimension()
 				.sub(axis.getPointInD(3, 0).getInhomCoordsInSameDimension());
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("CylinderWithAxisARadiusB",
-				axis.getLabel(tpl), getNumber().getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain("CylinderWithAxisARadiusB", axis.getLabel(tpl), getNumber().getLabel(tpl));
 	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.CylinderInfinite;
 	}
-
 }

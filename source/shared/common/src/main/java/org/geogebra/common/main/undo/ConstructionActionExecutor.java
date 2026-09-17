@@ -31,8 +31,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.ActionType;
 import org.geogebra.common.util.debug.Log;
 
-public class ConstructionActionExecutor
-		implements ActionExecutor {
+public class ConstructionActionExecutor implements ActionExecutor {
 
 	private final App app;
 	public static final String DEL = "DEL::";
@@ -42,29 +41,32 @@ public class ConstructionActionExecutor
 	public ConstructionActionExecutor(App app) {
 		this.app = app;
 	}
-	
+
 	@Override
 	public boolean executeAction(ActionType action, String... args) {
 		if (action == ActionType.REMOVE) {
-			for (String arg: args) {
+			for (String arg : args) {
 				GeoElement element = app.getKernel().lookupLabel(arg);
 				if (element != null) {
 					element.remove();
 				}
 			}
 		} else if (action == ActionType.ADD) {
-			for (String arg: args) {
+			for (String arg : args) {
 				evalXML(arg);
 			}
 			app.getActiveEuclidianView().invalidateDrawableList();
-		} else if (action == ActionType.UPDATE || action == ActionType.MERGE_STROKE
-					|| action == ActionType.SPLIT_STROKE) {
+		} else if (action == ActionType.UPDATE
+				|| action == ActionType.MERGE_STROKE
+				|| action == ActionType.SPLIT_STROKE) {
 			executeUpdateAction(args);
-		} else  if (action == ActionType.UPDATE_ORDERING) {
-			for (String arg: args) {
-				String [] split = arg.split(",");
+		} else if (action == ActionType.UPDATE_ORDERING) {
+			for (String arg : args) {
+				String[] split = arg.split(",");
 				GeoElement geo = app.getKernel().lookupLabel(split[0]);
-				app.getKernel().getConstruction().getLayerManager()
+				app.getKernel()
+						.getConstruction()
+						.getLayerManager()
 						.updateDrawingListAndUI(geo, Double.parseDouble(split[1]));
 				app.getActiveEuclidianView().invalidateDrawableList();
 			}
@@ -84,7 +86,7 @@ public class ConstructionActionExecutor
 	}
 
 	private void executeUpdateAction(String[] args) {
-		for (String arg: args) {
+		for (String arg : args) {
 			if (arg.charAt(0) == '<') {
 				evalXML(arg);
 			} else if (arg.startsWith(DEL)) {
@@ -111,7 +113,8 @@ public class ConstructionActionExecutor
 			ve.setLabel(null);
 			AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
 
-			CmdSetValue.setValue2(app.getKernel().lookupLabel(label),
+			CmdSetValue.setValue2(
+					app.getKernel().lookupLabel(label),
 					algebraProcessor.processValidExpression(ve, new EvalInfo(false))[0]);
 		} catch (ParseException | MyError | CircularDefinitionException | RuntimeException e) {
 			Log.warn(e);

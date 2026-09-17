@@ -36,10 +36,9 @@ import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
  * @author G. Sturr
- * 
+ *
  */
-public abstract class StyleBarW extends FlowPanel implements
-        ViewsChangedListener, SetLabels {
+public abstract class StyleBarW extends FlowPanel implements ViewsChangedListener, SetLabels {
 
 	private ContextMenuPopup viewButton;
 	private StandardButton menuButton;
@@ -92,12 +91,10 @@ public abstract class StyleBarW extends FlowPanel implements
 		}
 		if (menuButton == null) {
 			if (app.isUnbundledOrWhiteboard()) {
-				menuButton = new StandardButton(
-						GuiResources.INSTANCE.stylebar_more());
+				menuButton = new StandardButton(GuiResources.INSTANCE.stylebar_more());
 				menuButton.addStyleName("IconButton-borderless");
 			} else {
-				menuButton = new StandardButton(
-						MaterialDesignResources.INSTANCE.gear(), null, 24);
+				menuButton = new StandardButton(MaterialDesignResources.INSTANCE.gear(), null, 24);
 				menuButton.setStyleName("IconButton");
 			}
 
@@ -105,37 +102,34 @@ public abstract class StyleBarW extends FlowPanel implements
 				// close keyboard first to avoid perspective mess
 				app.hideKeyboard();
 				if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
-					PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
-							.getGuiManager()).getCurrentPropertiesView();
+					PropertiesViewW pW =
+							(PropertiesViewW) ((GuiManagerW) app.getGuiManager()).getCurrentPropertiesView();
 
 					if (optionType == pW.getOptionType()) {
-						app.getGuiManager().setShowView(false,
-								App.VIEW_PROPERTIES);
+						app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 						return;
 					}
 				}
 				if ((!app.getSelectionManager().getSelectedGeos().isEmpty()
-						&& optionType != OptionType.ALGEBRA)
+								&& optionType != OptionType.ALGEBRA)
 						|| optionType == null) {
-					app.getDialogManager()
-							.showPropertiesDialog(OptionType.OBJECTS, null);
+					app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
 				} else {
-					app.getDialogManager().showPropertiesDialog(optionType,
-							null);
+					app.getDialogManager().showPropertiesDialog(optionType, null);
 				}
 			});
 		}
-			
+
 		add(menuButton);
 	}
-	
+
 	/**
 	 * @return view button
 	 */
 	protected ContextMenuPopup getViewButton() {
 		return this.viewButton;
 	}
-	
+
 	/**
 	 * adds a {@link PopupMenuButtonW button} to show a popup, where the user can
 	 * either close this view or open another one.
@@ -144,31 +138,30 @@ public abstract class StyleBarW extends FlowPanel implements
 		GPopupMenuW popup = new GPopupMenuW(app);
 		popup.getPopupMenu().addStyleName("viewsContextMenu");
 
-		final int numberOfOpenViews = app.getGuiManager().getLayout()
-					.getDockManager().getNumberOfOpenViews();
+		final int numberOfOpenViews =
+				app.getGuiManager().getLayout().getDockManager().getNumberOfOpenViews();
 
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
-			popup.addItem(MainMenu.getMenuBarItem(GuiResourcesSimple.INSTANCE.close(),
-					app.getLocalization().getMenu("Close"), () -> {
-				app.hideKeyboard();
-				app.updateMenubar();
-				app.getGuiManager().setShowView(false, viewID);
-				app.fireViewsChangedEvent();
-			}));
+			popup.addItem(MainMenu.getMenuBarItem(
+					GuiResourcesSimple.INSTANCE.close(), app.getLocalization().getMenu("Close"), () -> {
+						app.hideKeyboard();
+						app.updateMenubar();
+						app.getGuiManager().setShowView(false, viewID);
+						app.fireViewsChangedEvent();
+					}));
 			popup.addSeparator();
 		}
 
 		for (ViewType view : Views.getAll()) {
-			if (app.supportsView(view.getID())
-					&& !app.getGuiManager().showView(view.getID())) {
-				popup.addItem(MainMenu.getMenuBarItem(view.getIcon(),
-						app.getLocalization().getMenu(view.getKey()), () -> {
-					app.hideKeyboard();
-					app.updateMenubar();
-					app.getGuiManager().setShowView(true, view.getID());
-					app.fireViewsChangedEvent();
-				}));
+			if (app.supportsView(view.getID()) && !app.getGuiManager().showView(view.getID())) {
+				popup.addItem(MainMenu.getMenuBarItem(
+						view.getIcon(), app.getLocalization().getMenu(view.getKey()), () -> {
+							app.hideKeyboard();
+							app.updateMenubar();
+							app.getGuiManager().setShowView(true, view.getID());
+							app.fireViewsChangedEvent();
+						}));
 			}
 		}
 

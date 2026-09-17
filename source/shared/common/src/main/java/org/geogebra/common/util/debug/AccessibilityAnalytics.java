@@ -24,8 +24,7 @@ import java.util.Map;
  */
 public final class AccessibilityAnalytics {
 
-	private AccessibilityAnalytics() {
-	}
+	private AccessibilityAnalytics() {}
 
 	/**
 	 * Logs that the login button was clicked.
@@ -78,9 +77,13 @@ public final class AccessibilityAnalytics {
 	 * @param saved whether the current material was saved
 	 */
 	public static void logShareClicked(boolean fromHeader, boolean loggedIn, boolean saved) {
-		logEvent(Event.SHARE_CLICKED, fromHeader ? Value.HEADER : Value.BURGER_MENU,
+		logEvent(
+				Event.SHARE_CLICKED,
+				fromHeader ? Value.HEADER : Value.BURGER_MENU,
 				loggedIn ? Value.LOGGED_IN : Value.LOGGED_OUT,
-				saved ? Value.SAVED : Value.UNSAVED, Value.SHARE, null);
+				saved ? Value.SAVED : Value.UNSAVED,
+				Value.SHARE,
+				null);
 	}
 
 	/**
@@ -106,9 +109,13 @@ public final class AccessibilityAnalytics {
 	 * @param saved whether the current material was saved
 	 */
 	public static void logAssignClicked(boolean loggedIn, boolean saved) {
-		logEvent(Event.ASSIGN_CLICKED, Value.HEADER,
+		logEvent(
+				Event.ASSIGN_CLICKED,
+				Value.HEADER,
 				loggedIn ? Value.LOGGED_IN : Value.LOGGED_OUT,
-				saved ? Value.SAVED : Value.UNSAVED, Value.ASSIGN, null);
+				saved ? Value.SAVED : Value.UNSAVED,
+				Value.ASSIGN,
+				null);
 	}
 
 	/**
@@ -141,8 +148,13 @@ public final class AccessibilityAnalytics {
 		logEvent(Event.PROFILE_ACTION, Value.HEADER, null, null, Value.DIRECT, action);
 	}
 
-	private static void logEvent(String event, String trigger, String userState,
-			String materialState, String flow, String action) {
+	private static void logEvent(
+			String event,
+			String trigger,
+			String userState,
+			String materialState,
+			String flow,
+			String action) {
 		Map<String, Object> params = new HashMap<>();
 		addParam(params, Param.TRIGGER, trigger);
 		addParam(params, Param.USER_STATE, userState);
@@ -180,8 +192,7 @@ public final class AccessibilityAnalytics {
 		public static final String PROFILE_CLICKED = "profile_clicked";
 		public static final String PROFILE_ACTION = "profile_action";
 
-		private Event() {
-		}
+		private Event() {}
 	}
 
 	/**
@@ -194,8 +205,7 @@ public final class AccessibilityAnalytics {
 		public static final String FLOW = "flow";
 		public static final String ACTION = "action";
 
-		private Param() {
-		}
+		private Param() {}
 	}
 
 	/**
@@ -226,7 +236,6 @@ public final class AccessibilityAnalytics {
 		public static final String ACCOUNT_SETTINGS = "account_settings";
 		public static final String SIGN_OUT = "sign_out";
 
-		private Value() {
-		}
+		private Value() {}
 	}
 }

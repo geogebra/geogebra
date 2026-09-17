@@ -23,8 +23,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class BackgroundImageProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class BackgroundImageProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 	private final GeoImage element;
 
 	/**

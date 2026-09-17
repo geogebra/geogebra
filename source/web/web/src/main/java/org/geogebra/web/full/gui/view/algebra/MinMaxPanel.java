@@ -42,12 +42,13 @@ import org.gwtproject.user.client.ui.Label;
  * Min/max setting for slider
  *
  */
-public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
-		KeyHandler, MouseDownHandler, MouseUpHandler, HasDataTest {
+public final class MinMaxPanel extends AdvancedFlowPanel
+		implements SetLabels, KeyHandler, MouseDownHandler, MouseUpHandler, HasDataTest {
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
 	private SliderTreeItemRetex sliderTreeItem;
 	/** min width of the panel */
 	public static final int MINMAX_MIN_WIDTH = 326;
+
 	private MinMaxAVField tfMin;
 	private MinMaxAVField tfMax;
 	private MinMaxAVField tfStep;
@@ -76,7 +77,7 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 	/**
 	 * Closes min/max/step settings panel of the slider.
-	 * 
+	 *
 	 * @param restore
 	 *            Decides if the item size should be restored (AV was too arrow
 	 *            to fit min/max panel) or not.
@@ -108,8 +109,7 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		tfMax = new MinMaxAVField(this, 4, app);
 		tfStep = new MinMaxAVField(this, 4, app);
 		lblValue = new Label(Unicode.LESS_EQUAL + " "
-				+ num
-						.getCaption(StringTemplate.defaultTemplate)
+				+ num.getCaption(StringTemplate.defaultTemplate)
 				+ " "
 				+ Unicode.LESS_EQUAL);
 		// content set in update()->setLabels()
@@ -144,20 +144,16 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			return;
 		}
 		tfStep.selectAll();
-
 	}
 
 	/**
 	 * Update UIfrom geo
 	 */
 	public void update() {
-		tfMin.setText(kernel.format(num.getIntervalMin(),
-				StringTemplate.editTemplate));
-		tfMax.setText(kernel.format(num.getIntervalMax(),
-				StringTemplate.editTemplate));
+		tfMin.setText(kernel.format(num.getIntervalMin(), StringTemplate.editTemplate));
+		tfMax.setText(kernel.format(num.getIntervalMax(), StringTemplate.editTemplate));
 		tfStep.setText(
-				num.isAutoStep() ? "" : kernel.format(
-				num.getAnimationStep(), StringTemplate.editTemplate));
+				num.isAutoStep() ? "" : kernel.format(num.getAnimationStep(), StringTemplate.editTemplate));
 		setLabels();
 	}
 
@@ -219,8 +215,7 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		NumberValue max = getNumberFromInput(tfMax.getText().trim());
 		String stepText = tfStep.getText().trim();
 
-		if (min != null && max != null
-				&& min.getDouble() <= max.getDouble()) {
+		if (min != null && max != null && min.getDouble() <= max.getDouble()) {
 			num.setIntervalMin(min);
 			num.setIntervalMax(max);
 			if (stepText.isEmpty()) {
@@ -239,9 +234,7 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		boolean emptyString = "".equals(inputText);
 		NumberValue value = null; // new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
-			value = kernel.getAlgebraProcessor()
-					.evaluateToNumeric(
-					inputText, false);
+			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText, false);
 		}
 
 		return value;
@@ -266,7 +259,6 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 				|| handleInputFieldMouseEvent(tfStep, event))) {
 			apply();
 		}
-
 	}
 
 	@Override
@@ -280,11 +272,9 @@ public final class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		handleInputFieldMouseEvent(tfMin, event);
 		handleInputFieldMouseEvent(tfMax, event);
 		handleInputFieldMouseEvent(tfStep, event);
-
 	}
 
-	private static boolean handleInputFieldMouseEvent(MinMaxAVField avField,
-			MouseEvent<?> event) {
+	private static boolean handleInputFieldMouseEvent(MinMaxAVField avField, MouseEvent<?> event) {
 		if (RadioTreeItemController.isWidgetHit(avField, event)) {
 			avField.updateCursorOverlay();
 			return true;

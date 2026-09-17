@@ -24,7 +24,7 @@ package org.geogebra.web.html5.webcam;
 public interface WebcamDialogInterface {
 	/** Show the WebCam dialog*/
 	void show();
-	
+
 	/** resize the WebCam dialog */
 	void resize();
 
@@ -32,13 +32,13 @@ public interface WebcamDialogInterface {
 	 * Show and resize the dialog.
 	 */
 	void showAndResize();
-	
+
 	/** center WebCam dialog */
 	void center();
 
 	/** Called if camera stream is available */
 	void onCameraSuccess();
-	
+
 	/** Called if something is wrong with the camera */
 	void onCameraError(String title, String msg);
 }

@@ -23,8 +23,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 
 public class AlgoClosestPointLines extends AlgoIntersectLines {
 
-	public AlgoClosestPointLines(Construction cons, String label, GeoLine g,
-			GeoLine h) {
+	public AlgoClosestPointLines(Construction cons, String label, GeoLine g, GeoLine h) {
 		super(cons, label, g, h);
 	}
 

@@ -25,7 +25,7 @@ import org.geogebra.common.plugin.GeoClass;
  * Angle that may or may not be oriented
  *
  */
-final public class GeoAngle3D extends GeoAngle {
+public final class GeoAngle3D extends GeoAngle {
 	private boolean hasOrientation;
 
 	/**
@@ -57,7 +57,7 @@ final public class GeoAngle3D extends GeoAngle {
 
 	/**
 	 * set if it has orientation
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -68,28 +68,27 @@ final public class GeoAngle3D extends GeoAngle {
 	/**
 	 * create a new GeoAngle3D and set its interval (e.g. between 0 and 180
 	 * degrees) as default angle
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @return new GeoAngle
 	 */
-	static public GeoAngle3D newAngle3DWithDefaultInterval(
-			Construction cons) {
+	public static GeoAngle3D newAngle3DWithDefaultInterval(Construction cons) {
 		GeoAngle3D ret = new GeoAngle3D(cons);
 		// set the angle interval
 		ret.setHasOrientation(true);
 		ret.setDrawableNoSlider();
-		ret.setAngleStyle(((GeoAngle) cons.getConstructionDefaults()
-				.getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE))
-						.getAngleStyle());
+		ret.setAngleStyle(((GeoAngle)
+						cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE))
+				.getAngleStyle());
 		return ret;
 	}
 
 	@Override
 	public void setAngleStyle(AngleStyle angleStyle) {
 
-		if (!hasOrientation() && (angleStyle == AngleStyle.ANTICLOCKWISE
-				|| angleStyle == AngleStyle.UNBOUNDED)) {
+		if (!hasOrientation()
+				&& (angleStyle == AngleStyle.ANTICLOCKWISE || angleStyle == AngleStyle.UNBOUNDED)) {
 			super.setAngleStyle(AngleStyle.NOTREFLEX);
 		} else {
 			super.setAngleStyle(angleStyle);

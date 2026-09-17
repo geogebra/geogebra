@@ -69,7 +69,7 @@ public class DynamicPropertyList {
 	 * @param handler property setter
 	 */
 	public void process(Handler handler) {
-		for (GeoExpPair pair: pairs) {
+		for (GeoExpPair pair : pairs) {
 			try {
 				handler.accept(pair.getGeo(), pair.exp);
 			} catch (RuntimeException | CircularDefinitionException ex) {

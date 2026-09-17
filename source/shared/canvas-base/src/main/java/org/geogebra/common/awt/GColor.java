@@ -81,6 +81,7 @@ public final class GColor implements GPaint {
 	public static final GColor MOW_GREEN = newColor(46, 125, 50);
 	/** ERROR RED */
 	public static final GColor ERROR_RED_BACKGROUND = newColorRGB(0xF1D1D7);
+
 	public static final GColor ERROR_RED_BORDER = newColorRGB(0xce5c71);
 	/** Table values points color for y values */
 	public static final GColor Y_POINT_COLOR = newColor(76, 66, 161);
@@ -132,6 +133,7 @@ public final class GColor implements GPaint {
 	 * https://developer.android.com/reference/android/graphics/Color.html
 	 */
 	private final int valueARGB;
+
 	private double luminance = -1;
 
 	private static final double FACTOR = 0.7;
@@ -160,7 +162,7 @@ public final class GColor implements GPaint {
 	 * Creates an opaque sRGB color with the specified combined RGB value
 	 * consisting of the red component in bits 16-23, the green component in
 	 * bits 8-15, and the blue component in bits 0-7. Alpha is defaulted to 255.
-	 * 
+	 *
 	 * @param rgb
 	 *            RGB
 	 * @return new color
@@ -297,8 +299,7 @@ public final class GColor implements GPaint {
 	public static GColor updateForWhiteBackground(GColor color) {
 		GColor ret = color;
 		int loopCounter = 0;
-		while (WHITE.getContrast(ret) < 4.5
-				&& loopCounter < 50) {
+		while (WHITE.getContrast(ret) < 4.5 && loopCounter < 50) {
 			// create a slightly darker version of the color
 			int fgRed = Math.max(color.getRed() - 5 * loopCounter, 0);
 			int fgGreen = Math.max(color.getGreen() - 5 * loopCounter, 0);
@@ -317,7 +318,7 @@ public final class GColor implements GPaint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return gray scale value corresponding to this color (0 to 255)
 	 */
 	public double getGrayScale() {
@@ -329,7 +330,7 @@ public final class GColor implements GPaint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return gray scale GColor corresponding to this color
 	 */
 	public GColor createGrayScale() {
@@ -352,7 +353,7 @@ public final class GColor implements GPaint {
 	/**
 	 * This method could return Long, but it returns Integer for
 	 * backwards-compatibility, even if it's negative
-	 * 
+	 *
 	 * @return int ARBG
 	 */
 	public int getARGB() {
@@ -371,8 +372,7 @@ public final class GColor implements GPaint {
 	 * @return new color
 	 */
 	public static GColor newColor(double r, double g, double b, double a) {
-		return newColor((int) (r * 255), (int) (g * 255), (int) (b * 255),
-				(int) (a * 255));
+		return newColor((int) (r * 255), (int) (g * 255), (int) (b * 255), (int) (a * 255));
 	}
 
 	/**
@@ -397,8 +397,7 @@ public final class GColor implements GPaint {
 	 *            (0-1)
 	 * @return new color as ARGB
 	 */
-	public static GColor newColorHSB(double hue, double saturation,
-			double brightness) {
+	public static GColor newColorHSB(double hue, double saturation, double brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {
 			r = g = b = (int) (brightness * 255.0f + 0.5f);
@@ -409,37 +408,37 @@ public final class GColor implements GPaint {
 			double q = brightness * (1.0f - saturation * f);
 			double t = brightness * (1.0f - (saturation * (1.0f - f)));
 			switch ((int) h) {
-			default:
-			case 0:
-				r = (int) (brightness * 255.0f + 0.5f);
-				g = (int) (t * 255.0f + 0.5f);
-				b = (int) (p * 255.0f + 0.5f);
-				break;
-			case 1:
-				r = (int) (q * 255.0f + 0.5f);
-				g = (int) (brightness * 255.0f + 0.5f);
-				b = (int) (p * 255.0f + 0.5f);
-				break;
-			case 2:
-				r = (int) (p * 255.0f + 0.5f);
-				g = (int) (brightness * 255.0f + 0.5f);
-				b = (int) (t * 255.0f + 0.5f);
-				break;
-			case 3:
-				r = (int) (p * 255.0f + 0.5f);
-				g = (int) (q * 255.0f + 0.5f);
-				b = (int) (brightness * 255.0f + 0.5f);
-				break;
-			case 4:
-				r = (int) (t * 255.0f + 0.5f);
-				g = (int) (p * 255.0f + 0.5f);
-				b = (int) (brightness * 255.0f + 0.5f);
-				break;
-			case 5:
-				r = (int) (brightness * 255.0f + 0.5f);
-				g = (int) (p * 255.0f + 0.5f);
-				b = (int) (q * 255.0f + 0.5f);
-				break;
+				default:
+				case 0:
+					r = (int) (brightness * 255.0f + 0.5f);
+					g = (int) (t * 255.0f + 0.5f);
+					b = (int) (p * 255.0f + 0.5f);
+					break;
+				case 1:
+					r = (int) (q * 255.0f + 0.5f);
+					g = (int) (brightness * 255.0f + 0.5f);
+					b = (int) (p * 255.0f + 0.5f);
+					break;
+				case 2:
+					r = (int) (p * 255.0f + 0.5f);
+					g = (int) (brightness * 255.0f + 0.5f);
+					b = (int) (t * 255.0f + 0.5f);
+					break;
+				case 3:
+					r = (int) (p * 255.0f + 0.5f);
+					g = (int) (q * 255.0f + 0.5f);
+					b = (int) (brightness * 255.0f + 0.5f);
+					break;
+				case 4:
+					r = (int) (t * 255.0f + 0.5f);
+					g = (int) (p * 255.0f + 0.5f);
+					b = (int) (brightness * 255.0f + 0.5f);
+					break;
+				case 5:
+					r = (int) (brightness * 255.0f + 0.5f);
+					g = (int) (p * 255.0f + 0.5f);
+					b = (int) (q * 255.0f + 0.5f);
+					break;
 			}
 		}
 		return newColor(r, g, b);
@@ -450,8 +449,8 @@ public final class GColor implements GPaint {
 	 * @return HTML5 color string eg rgba(255,0,0,0.5)
 	 */
 	public static String getColorString(GColor color) {
-		return "rgba(" + color.getRed() + "," + color.getGreen() + ","
-				+ color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
+		return "rgba(" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + ","
+				+ (color.getAlpha() / 255d) + ")";
 	}
 
 	/**
@@ -462,8 +461,9 @@ public final class GColor implements GPaint {
 		if (colorStr != null && colorStr.startsWith("rgba(") && colorStr.endsWith(")")) {
 			String colorSubStr = colorStr.substring(5, colorStr.length() - 1);
 			String[] colorValues = colorSubStr.split(",");
-			return colorValues.length == 4 ? newColor(colorValues[0],
-					colorValues[1], colorValues[2], colorValues[3]) : null;
+			return colorValues.length == 4
+					? newColor(colorValues[0], colorValues[1], colorValues[2], colorValues[3])
+					: null;
 		}
 		return parseHexColor(colorStr);
 	}
@@ -472,7 +472,8 @@ public final class GColor implements GPaint {
 	 * @return darker color
 	 */
 	public GColor darker() {
-		return GColor.newColor(Math.max((int) (getRed() * FACTOR), 0),
+		return GColor.newColor(
+				Math.max((int) (getRed() * FACTOR), 0),
 				Math.max((int) (getGreen() * FACTOR), 0),
 				Math.max((int) (getBlue() * FACTOR), 0));
 	}
@@ -481,7 +482,8 @@ public final class GColor implements GPaint {
 	 * @return brighter color
 	 */
 	public GColor brighter() {
-		return GColor.newColor(Math.min((int) (getRed() / FACTOR), 255),
+		return GColor.newColor(
+				Math.min((int) (getRed() / FACTOR), 255),
 				Math.min((int) (getGreen() / FACTOR), 255),
 				Math.min((int) (getBlue() / FACTOR), 255));
 	}
@@ -512,8 +514,7 @@ public final class GColor implements GPaint {
 	 * @return ARGB as an int
 	 */
 	public static int hashRGBA(int r, int g, int b, int a) {
-		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8)
-				| (b & 0xFF);
+		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
 	}
 
 	@Override
@@ -531,7 +532,7 @@ public final class GColor implements GPaint {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param color1
 	 *            first color
 	 * @param color2
@@ -542,14 +543,12 @@ public final class GColor implements GPaint {
 	 *            output opacity
 	 * @return color1 * (1-mix) + color2 * mix and force alpha
 	 */
-	public static GColor mixColors(GColor color1, GColor color2,
-			double mix, int alpha) {
+	public static GColor mixColors(GColor color1, GColor color2, double mix, int alpha) {
 		int r = (int) (color1.getRed() * (1 - mix) + color2.getRed() * mix);
 		int g = (int) (color1.getGreen() * (1 - mix) + color2.getGreen() * mix);
 		int b = (int) (color1.getBlue() * (1 - mix) + color2.getBlue() * mix);
 
 		return newColor(r, g, b, alpha);
-
 	}
 
 	/**
@@ -557,8 +556,10 @@ public final class GColor implements GPaint {
 	 *         each part
 	 */
 	public GPaint slightlyDarker() {
-		return newColor(slightlyDarkerRed(getRed()),
-				slightlyDarkerGreen(getGreen()), slightlyDarkerBlue(getBlue()),
+		return newColor(
+				slightlyDarkerRed(getRed()),
+				slightlyDarkerGreen(getGreen()),
+				slightlyDarkerBlue(getBlue()),
 				getAlpha());
 	}
 
@@ -571,8 +572,7 @@ public final class GColor implements GPaint {
 	}
 
 	private static int slightlyDarkerBlue(double x) {
-		return (int) Math.round(
-				0.0000084096 * x * x * x + 0.0012150 * x * x + 0.049231 * x);
+		return (int) Math.round(0.0000084096 * x * x * x + 0.0012150 * x * x + 0.049231 * x);
 	}
 
 	/**
@@ -767,7 +767,7 @@ public final class GColor implements GPaint {
 			h /= 6.0f;
 		}
 
-		return new double[]{h, s, l};
+		return new double[] {h, s, l};
 	}
 
 	/**
@@ -785,7 +785,8 @@ public final class GColor implements GPaint {
 	 */
 	public double getLuminance() {
 		if (luminance < 0) {
-			double lumR = lumComponent(getRed()), lumG = lumComponent(getGreen()),
+			double lumR = lumComponent(getRed()),
+					lumG = lumComponent(getGreen()),
 					lumB = lumComponent(getBlue());
 			luminance = 0.2126 * lumR + 0.7152 * lumG + 0.0722 * lumB;
 		}

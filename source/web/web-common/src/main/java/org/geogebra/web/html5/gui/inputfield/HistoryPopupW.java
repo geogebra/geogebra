@@ -33,8 +33,8 @@ import org.gwtproject.user.client.ui.Panel;
 /**
  * Popup for history of inputs
  */
-public class HistoryPopupW extends GPopupPanel implements ClickHandler,
-        KeyUpHandler, ChangeHandler, UpDownArrowHandler {
+public class HistoryPopupW extends GPopupPanel
+		implements ClickHandler, KeyUpHandler, ChangeHandler, UpDownArrowHandler {
 
 	private AutoCompleteTextFieldW textField;
 	private boolean downPopup;
@@ -90,8 +90,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 		}
 
 		show();
-		setPopupPosition(textField.getAbsoluteLeft(),
-				textField.getAbsoluteTop() - getOffsetHeight());
+		setPopupPosition(textField.getAbsoluteLeft(), textField.getAbsoluteTop() - getOffsetHeight());
 
 		historyList.setSelectedIndex(list.size() - 1);
 
@@ -120,26 +119,26 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	public void onKeyUp(KeyUpEvent event) {
 		int charCode = event.getNativeKeyCode();
 		switch (charCode) {
-		default:
-			// do nothing
-			break;
-		case GWTKeycodes.KEY_ESCAPE:
-			hide();
-			textField.setText(originalTextEditorContent);
-			textField.setFocus(true);
-			break;
-		case GWTKeycodes.KEY_ENTER:
-			hide();
-			textField.setFocus(true);
-			break;
-		case GWTKeycodes.KEY_UP:
-			handleUpArrow();
-			historyList.setSelectedIndex(historyIndex);
-			break;
-		case GWTKeycodes.KEY_DOWN:
-			handleDownArrow();
-			historyList.setSelectedIndex(historyIndex);
-			break;
+			default:
+				// do nothing
+				break;
+			case GWTKeycodes.KEY_ESCAPE:
+				hide();
+				textField.setText(originalTextEditorContent);
+				textField.setFocus(true);
+				break;
+			case GWTKeycodes.KEY_ENTER:
+				hide();
+				textField.setFocus(true);
+				break;
+			case GWTKeycodes.KEY_UP:
+				handleUpArrow();
+				historyList.setSelectedIndex(historyIndex);
+				break;
+			case GWTKeycodes.KEY_DOWN:
+				handleDownArrow();
+				historyList.setSelectedIndex(historyIndex);
+				break;
 		}
 		event.stopPropagation();
 	}

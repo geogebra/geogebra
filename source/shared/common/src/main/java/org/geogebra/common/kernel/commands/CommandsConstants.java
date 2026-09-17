@@ -77,5 +77,4 @@ public interface CommandsConstants {
 	 * table should never be displayed in input help.
 	 */
 	int TABLE_ENGLISH = 20;
-
 }

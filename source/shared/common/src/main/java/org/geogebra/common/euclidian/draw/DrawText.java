@@ -30,7 +30,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Drawable representation of text
- * 
+ *
  * @author Markus
  */
 public final class DrawText extends Drawable {
@@ -73,8 +73,8 @@ public final class DrawText extends Drawable {
 		this.text = text;
 		geo = text;
 
-		textFont = view.getApplication().getPlainFontCommon()
-				.deriveFont(GFont.PLAIN, view.getFontSize());
+		textFont =
+				view.getApplication().getPlainFontCommon().deriveFont(GFont.PLAIN, view.getFontSize());
 		alignment = new AlignDrawText(text, this);
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
@@ -97,7 +97,8 @@ public final class DrawText extends Drawable {
 
 		String newText = text.getTextString();
 
-		final boolean textChanged = labelDesc == null || !labelDesc.equals(newText)
+		final boolean textChanged = labelDesc == null
+				|| !labelDesc.equals(newText)
 				|| isLaTeX != text.isLaTeX()
 				|| text.needsUpdatedBoundingBox() != needsBoundingBoxOld;
 		labelDesc = newText;
@@ -107,8 +108,7 @@ public final class DrawText extends Drawable {
 		// compute location of text
 		updateLabelPosition();
 
-		boolean positionChanged = xLabel != oldXpos || yLabel != oldYpos
-				|| alignment.hasChanged();
+		boolean positionChanged = xLabel != oldXpos || yLabel != oldYpos || alignment.hasChanged();
 		oldXpos = xLabel;
 		oldYpos = yLabel;
 		alignment.update();
@@ -130,8 +130,11 @@ public final class DrawText extends Drawable {
 			// update corners for Corner[] command
 			double xRW = view.toRealWorldCoordX(labelRectangle.getX());
 			double yRW = view.toRealWorldCoordY(labelRectangle.getY());
-			text.setBoundingBox(xRW, yRW, labelRectangle.getWidth() * view.getInvXscale(),
-					- labelRectangle.getHeight() * view.getInvYscale());
+			text.setBoundingBox(
+					xRW,
+					yRW,
+					labelRectangle.getWidth() * view.getInvXscale(),
+					-labelRectangle.getHeight() * view.getInvYscale());
 		} else if (text.hasAlignment()) {
 			align();
 		}
@@ -145,9 +148,10 @@ public final class DrawText extends Drawable {
 		if (geo.getBackgroundColor() != null) {
 			return true;
 		}
-		return (text.needsUpdatedBoundingBox() || text.hasAlignment()) && (changed
-				|| text.getKernel().getForceUpdatingBoundingBox()
-				|| text.getBoundingBox() == null);
+		return (text.needsUpdatedBoundingBox() || text.hasAlignment())
+				&& (changed
+						|| text.getKernel().getForceUpdatingBoundingBox()
+						|| text.getBoundingBox() == null);
 	}
 
 	private void updateLabelPosition() {
@@ -180,13 +184,15 @@ public final class DrawText extends Drawable {
 
 			text.setTotalWidth((int) labelRectangle.getWidth());
 			text.setTotalHeight((int) labelRectangle.getHeight());
-
 		}
 	}
 
 	private void updateLabelRectangle() {
 		if (isLaTeX) {
-			drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont, geo.getObjectColor(),
+			drawMultilineLaTeX(
+					view.getTempGraphics2D(textFont),
+					textFont,
+					geo.getObjectColor(),
 					view.getBackgroundCommon());
 		} else {
 			drawMultilineText(view.getTempGraphics2D(textFont), textFont);
@@ -198,9 +204,9 @@ public final class DrawText extends Drawable {
 	 * @param captionWidth caption width
 	 */
 	void updateLabelRectangleForCaption(int captionWidth) {
-		labelRectangle.setLocation(xLabel,
-				isLaTeX ? yLabel : (int) (yLabel - labelRectangle.getHeight()
-						+ 2 * DEFAULT_MARGIN));
+		labelRectangle.setLocation(
+				xLabel,
+				isLaTeX ? yLabel : (int) (yLabel - labelRectangle.getHeight() + 2 * DEFAULT_MARGIN));
 		labelRectangle.setSize(captionWidth, (int) labelRectangle.getHeight());
 	}
 
@@ -219,8 +225,8 @@ public final class DrawText extends Drawable {
 				g2.setPaint(geo.getObjectColor());
 				g2.setFont(textFont);
 				g2.setStroke(objStroke); // needed eg for \sqrt
-				drawMultilineLaTeX(g2, textFont, geo.getObjectColor(),
-						bg != null ? bg : view.getBackgroundCommon());
+				drawMultilineLaTeX(
+						g2, textFont, geo.getObjectColor(), bg != null ? bg : view.getBackgroundCommon());
 			} else {
 				if (geo.getAlphaValue() > 0.0) {
 					g2.setPaint(geo.getFillColor());
@@ -238,7 +244,7 @@ public final class DrawText extends Drawable {
 
 	/**
 	 * Adjust bounding box to editor/text bounds.
-	 * 
+	 *
 	 * @param rect
 	 *            editor bounds
 	 */
@@ -283,15 +289,15 @@ public final class DrawText extends Drawable {
 		boolean newSerifFont = text.isSerifFont();
 
 		if (incompatibleCharacters()
-				|| fontSize != newFontSize || fontStyle != newFontStyle
+				|| fontSize != newFontSize
+				|| fontStyle != newFontStyle
 				|| newSerifFont != serifFont) {
 			fontSize = newFontSize;
 			fontStyle = newFontStyle;
 			serifFont = newSerifFont;
 
 			App app = view.getApplication();
-			textFont = app.getFontCanDisplay(text.getTextString(), serifFont,
-					fontStyle, fontSize);
+			textFont = app.getFontCanDisplay(text.getTextString(), serifFont, fontStyle, fontSize);
 
 			return true;
 		}
@@ -300,8 +306,7 @@ public final class DrawText extends Drawable {
 	}
 
 	private boolean incompatibleCharacters() {
-		return text.getTextString() != null
-				&& textFont.canDisplayUpTo(text.getTextString()) != -1;
+		return text.getTextString() != null && textFont.canDisplayUpTo(text.getTextString()) != -1;
 	}
 
 	/**

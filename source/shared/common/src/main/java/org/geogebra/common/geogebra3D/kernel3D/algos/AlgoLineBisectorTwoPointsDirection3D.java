@@ -55,16 +55,17 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 	 * @param direction
 	 *            direction
 	 */
-	public AlgoLineBisectorTwoPointsDirection3D(Construction cons, String label,
-			GeoPointND a, GeoPointND b, GeoDirectionND direction) {
+	public AlgoLineBisectorTwoPointsDirection3D(
+			Construction cons, String label, GeoPointND a, GeoPointND b, GeoDirectionND direction) {
 		super(cons);
 		this.a = a;
 		this.b = b;
 		this.direction = direction;
 		line = new GeoLine3D(cons);
 
-		setInputOutput(new GeoElement[] { (GeoElement) a, (GeoElement) b,
-				(GeoElement) direction }, new GeoElement[] { line });
+		setInputOutput(
+				new GeoElement[] {(GeoElement) a, (GeoElement) b, (GeoElement) direction},
+				new GeoElement[] {line});
 
 		// compute line
 		compute();
@@ -105,12 +106,17 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 	public String toString(StringTemplate tpl) {
 		// direction is plane
 		if (direction instanceof GeoCoordSys2D) {
-			return getLoc().getPlain("PerpendicularBisectorOfAParallelToB",
-					a.getLabel(tpl) + b.getLabel(tpl), direction.getLabel(tpl));
+			return getLoc()
+					.getPlain(
+							"PerpendicularBisectorOfAParallelToB",
+							a.getLabel(tpl) + b.getLabel(tpl),
+							direction.getLabel(tpl));
 		}
 		// direction is line
-		return getLoc().getPlain("PerpendicularBisectorOfAPerpendicularToB",
-				a.getLabel(tpl) + b.getLabel(tpl), direction.getLabel(tpl));
+		return getLoc()
+				.getPlain(
+						"PerpendicularBisectorOfAPerpendicularToB",
+						a.getLabel(tpl) + b.getLabel(tpl),
+						direction.getLabel(tpl));
 	}
-
 }

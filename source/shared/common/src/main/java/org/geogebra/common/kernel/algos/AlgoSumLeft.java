@@ -29,7 +29,7 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 
 	/**
 	 * Creates lower sum
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -43,28 +43,40 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 	 * @param n
 	 *            number of columns
 	 */
-	public AlgoSumLeft(Construction cons, String label, GeoFunctionable f,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n) {
+	public AlgoSumLeft(
+			Construction cons,
+			String label,
+			GeoFunctionable f,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue n) {
 		super(cons, label, f, a, b, n, SumType.LEFTSUM);
 		cons.registerEuclidianViewCE(this);
 	}
 
-	private AlgoSumLeft(GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
-			double[] vals, double[] borders, Construction cons1) {
+	private AlgoSumLeft(
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue n,
+			double[] vals,
+			double[] borders,
+			Construction cons1) {
 		super(a, b, n, SumType.LEFTSUM, vals, borders, cons1);
 	}
 
 	@Override
 	public AlgoSumLeft copy() {
-		return new AlgoSumLeft((GeoNumberValue) this.getA().deepCopy(kernel),
+		return new AlgoSumLeft(
+				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				this.getN().copy(), Cloner.clone(getValues()),
-				Cloner.clone(getLeftBorder()), cons);
+				this.getN().copy(),
+				Cloner.clone(getValues()),
+				Cloner.clone(getLeftBorder()),
+				cons);
 	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.LeftSum;
 	}
-
 }

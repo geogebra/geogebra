@@ -48,11 +48,11 @@ public class DefineFunctionHandler implements ErrorHandler {
 		errorOccurred = false;
 		String input = nameWithVariable(geo) + (text.isEmpty() ? "?" : text);
 		if (geo instanceof GeoFunction) {
-			EvalInfo info = new EvalInfo(!kernel.getConstruction()
-					.isSuppressLabelsActive(), false, false)
+			EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(), false, false)
 					.withForceFunctionsEnabled(true);
-			kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo,
-						input, info, false, null, this);
+			kernel
+					.getAlgebraProcessor()
+					.changeGeoElementNoExceptionHandling(geo, input, info, false, null, this);
 		}
 	}
 

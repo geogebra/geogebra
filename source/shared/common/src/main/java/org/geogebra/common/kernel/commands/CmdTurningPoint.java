@@ -33,7 +33,7 @@ public class CmdTurningPoint extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -42,38 +42,36 @@ public class CmdTurningPoint extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isRealValuedFunction()) {
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isRealValuedFunction()) {
 
-				GeoFunctionable f = (GeoFunctionable) arg[0];
+					GeoFunctionable f = (GeoFunctionable) arg[0];
 
-				// special case for If
-				// non-polynomial -> undefined
-				ExpressionNode exp = f.getFunction()
-						.getFunctionExpression();
-				if (exp.getOperation().isIf()) {
+					// special case for If
+					// non-polynomial -> undefined
+					ExpressionNode exp = f.getFunction().getFunctionExpression();
+					if (exp.getOperation().isIf()) {
 
-					AlgoTurningPointPolyInterval algo = new AlgoTurningPointPolyInterval(
-							cons, c.getLabels(), f);
-					GeoPoint[] g = algo.getRootPoints();
-					return g;
+						AlgoTurningPointPolyInterval algo =
+								new AlgoTurningPointPolyInterval(cons, c.getLabels(), f);
+						GeoPoint[] g = algo.getRootPoints();
+						return g;
+					}
+
+					AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(cons, c.getLabels(), f);
+
+					return algo.getRootPoints();
 				}
+				throw argErr(c, arg[0]);
 
-				AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(
-						cons, c.getLabels(), f);
-
-				return algo.getRootPoints();
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

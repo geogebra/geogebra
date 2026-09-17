@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -33,13 +33,12 @@ public final class RadioButtonPanel<T> extends FlowPanel implements SetLabels {
 	 * @param loc - localization
 	 * @param data - radio button list data
 	 */
-	public RadioButtonPanel(Localization loc, List<RadioButtonData<T>> data, T defaultValue,
-			Consumer<T> callback) {
+	public RadioButtonPanel(
+			Localization loc, List<RadioButtonData<T>> data, T defaultValue, Consumer<T> callback) {
 		addStyleName("radioButtonPanel");
 		for (int i = 0; i < data.size(); i++) {
 			RadioButtonData<T> curData = data.get(i);
-			ComponentRadioButton<T> radioBtn = new ComponentRadioButton<>(loc, curData,
-					i, data.size());
+			ComponentRadioButton<T> radioBtn = new ComponentRadioButton<>(loc, curData, i, data.size());
 			radioBtn.setSelected(Objects.equals(defaultValue, curData.getValue()));
 			radioBtn.setCallback(() -> {
 				for (ComponentRadioButton<T> radioButton : radioButtonList) {
@@ -74,7 +73,7 @@ public final class RadioButtonPanel<T> extends FlowPanel implements SetLabels {
 	 * @return selected value
 	 */
 	public T getValue() {
-		for (ComponentRadioButton<T> btn: radioButtonList) {
+		for (ComponentRadioButton<T> btn : radioButtonList) {
 			if (btn.isSelected()) {
 				return btn.getValue();
 			}

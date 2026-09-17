@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -75,8 +75,7 @@ class ArbitraryConstIntegrationTest {
 		logger = new CASTestLogger();
 
 		// Setting the general timeout to 9 seconds. Feel free to change this.
-		kernel.getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(9000);
+		kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(9000);
 	}
 
 	/**
@@ -104,12 +103,10 @@ class ArbitraryConstIntegrationTest {
 	 * @param validResults
 	 *            Valid, but undesired results.
 	 */
-	private static void ta(String input, String expectedResult,
-			String... validResults) {
+	private static void ta(String input, String expectedResult, String... validResults) {
 		String result = getOutput(cellFromInput(input));
 
-		assertThat(result, equalToIgnoreWhitespaces(logger, input,
-				expectedResult, validResults));
+		assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
 	}
 
 	@Test
@@ -119,68 +116,70 @@ class ArbitraryConstIntegrationTest {
 
 	@Test
 	void solveODE_1() {
-		ta("SolveODE[y''-5y'+6y=0]", "y = c_{1} * (" + Unicode.EULER_STRING
-				+ "^(x))^(3) + c_{2} * (" + Unicode.EULER_STRING + "^(x))^(2)");
+		ta(
+				"SolveODE[y''-5y'+6y=0]",
+				"y = c_{1} * (" + Unicode.EULER_STRING + "^(x))^(3) + c_{2} * (" + Unicode.EULER_STRING
+						+ "^(x))^(2)");
 	}
 
 	@Test
 	void solveODE_2() {
-		ta("SolveODE[y'=5y-3]",
-				"y = c_{1} * " + Unicode.EULER_STRING + "^(5*x) + 3 / 5");
+		ta("SolveODE[y'=5y-3]", "y = c_{1} * " + Unicode.EULER_STRING + "^(5*x) + 3 / 5");
 	}
 
 	@Test
 	void solveODE_3() {
-		ta("SolveODE[y'+y=10]",
-				"y = c_{1} * " + Unicode.EULER_STRING + "^(-x) + 10");
+		ta("SolveODE[y'+y=10]", "y = c_{1} * " + Unicode.EULER_STRING + "^(-x) + 10");
 	}
 
 	@Test
 	void solveODE_4() {
-		ta("SolveODE[y' = (3 - y) / 2]",
-				"y = c_{1} * " + Unicode.EULER_STRING + "^((-x)/ 2) + 3");
+		ta("SolveODE[y' = (3 - y) / 2]", "y = c_{1} * " + Unicode.EULER_STRING + "^((-x)/ 2) + 3");
 	}
 
 	@Test
 	void solveODE_5() {
-		ta("SolveODE[y' = -2 + y]",
-				"y = c_{1} * " + Unicode.EULER_STRING + "^(x) + 2");
+		ta("SolveODE[y' = -2 + y]", "y = c_{1} * " + Unicode.EULER_STRING + "^(x) + 2");
 	}
 
 	@Test
 	void solveODE_6() {
-		ta("SolveODE[y' = y(y - 2)]",
-				"y = -2 / (c_{1} *" + Unicode.EULER_STRING + "^(2*x) - 1)");
+		ta("SolveODE[y' = y(y - 2)]", "y = -2 / (c_{1} *" + Unicode.EULER_STRING + "^(2*x) - 1)");
 	}
 
 	@Test
 	void solveODE_7() {
-		ta("SolveODE[y''=y]", "y = (c_{1} * (" + Unicode.EULER_STRING + "^(x))^(2) "
-				+ "+ c_{2}) / " + Unicode.EULER_STRING + "^(x)");
+		ta(
+				"SolveODE[y''=y]",
+				"y = (c_{1} * (" + Unicode.EULER_STRING + "^(x))^(2) " + "+ c_{2}) / "
+						+ Unicode.EULER_STRING + "^(x)");
 	}
 
 	@Test
 	void solveODE_8() {
-		ta("SolveODE[2y''+y'-y=0]",
-				"y = c_{1} * " + Unicode.EULER_STRING + "^(-x) + c_{2} * "
-						+ Unicode.EULER_STRING + "^(x / 2)");
+		ta(
+				"SolveODE[2y''+y'-y=0]",
+				"y = c_{1} * " + Unicode.EULER_STRING + "^(-x) + c_{2} * " + Unicode.EULER_STRING
+						+ "^(x / 2)");
 	}
 
 	@Test
 	void solveODE_9() {
-		ta("SolveODE[y''-5y=0]", "y = (c_{1} * (" + Unicode.EULER_STRING
-				+ "^(sqrt(5) * x))^(2) + c_{2}) / " + Unicode.EULER_STRING + "^(sqrt(5) * x)");
+		ta(
+				"SolveODE[y''-5y=0]",
+				"y = (c_{1} * (" + Unicode.EULER_STRING + "^(sqrt(5) * x))^(2) + c_{2}) / "
+						+ Unicode.EULER_STRING + "^(sqrt(5) * x)");
 	}
 
 	@Test
 	void solveODE_10() {
-		ta("SolveODE[2y''+3y'=0]",
-				"y = c_{1} *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_{2}");
+		ta("SolveODE[2y''+3y'=0]", "y = c_{1} *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_{2}");
 	}
 
 	@Test
 	void solveODE_11() {
-		ta("SolveODE[y''+2y' + 101y = 0]",
+		ta(
+				"SolveODE[y''+2y' + 101y = 0]",
 				"y=c_{1} * cos(10 * x) *" + Unicode.EULER_STRING
 						+ "^(-x) + c_{2} * " + Unicode.EULER_STRING
 						+ "^(-x)* sin(10 * x)");
@@ -188,14 +187,18 @@ class ArbitraryConstIntegrationTest {
 
 	@Test
 	void solveODE_12() {
-		ta("SolveODE[y'' + 4y' + 4y = 0]", "y=c_{1} * x * " + Unicode.EULER_STRING
-				+ "^(-2 * x) + c_{2} * " + Unicode.EULER_STRING + "^(-2 * x)");
+		ta(
+				"SolveODE[y'' + 4y' + 4y = 0]",
+				"y=c_{1} * x * " + Unicode.EULER_STRING + "^(-2 * x) + c_{2} * " + Unicode.EULER_STRING
+						+ "^(-2 * x)");
 	}
 
 	@Test
 	void solveODE_13() {
-		ta("SolveODE[y''=2y]", "y = (c_{1} * (" + Unicode.EULER_STRING
-				+ "^(sqrt(2) * x))^(2) + c_{2}) / " + Unicode.EULER_STRING + "^(sqrt(2) * x)");
+		ta(
+				"SolveODE[y''=2y]",
+				"y = (c_{1} * (" + Unicode.EULER_STRING + "^(sqrt(2) * x))^(2) + c_{2}) / "
+						+ Unicode.EULER_STRING + "^(sqrt(2) * x)");
 	}
 
 	@Test
@@ -216,8 +219,8 @@ class ArbitraryConstIntegrationTest {
 	 * @param validResults
 	 *            Valid, but undesired results.
 	 */
-	private static void casCellupdate(String input, String inputUpdate,
-			String expectedResult, String... validResults) {
+	private static void casCellupdate(
+			String input, String inputUpdate, String expectedResult, String... validResults) {
 		String result;
 
 		try {
@@ -233,8 +236,7 @@ class ArbitraryConstIntegrationTest {
 			result = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
 
-		assertThat(result, equalToIgnoreWhitespaces(logger, input,
-				expectedResult, validResults));
+		assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
 	}
 
 	private static GeoCasCell cellFromInput(String input) {
@@ -248,14 +250,16 @@ class ArbitraryConstIntegrationTest {
 
 	@Test
 	void arbConst_Integration_1() {
-		casCellupdate("Integral[x]", "SolveODE[2y''+3y'=0]",
+		casCellupdate(
+				"Integral[x]",
+				"SolveODE[2y''+3y'=0]",
 				"y = c_{1} *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_{2}");
 	}
 
 	@Test
 	void arbConst_Integration_2() {
-		casCellupdate("SolveODE[y''+9y=0]", "SolveODE[y''+4y=0]",
-				"y = c_{1} * cos(2 * x) + c_{2} * sin(2 * x)");
+		casCellupdate(
+				"SolveODE[y''+9y=0]", "SolveODE[y''+4y=0]", "y = c_{1} * cos(2 * x) + c_{2} * sin(2 * x)");
 	}
 
 	@Test
@@ -273,19 +277,16 @@ class ArbitraryConstIntegrationTest {
 			for (Command cmd : commands) {
 				String cmdName = cmd.getName();
 				// Numeric used
-				includesNumericCommand = includesNumericCommand
-						|| ("Numeric".equals(cmdName)
-								&& cmd.getArgumentNumber() > 1);
+				includesNumericCommand =
+						includesNumericCommand || ("Numeric".equals(cmdName) && cmd.getArgumentNumber() > 1);
 			}
 		}
 
 		return f2.getValue() != null
 				? f2.getValue()
-						.toString(includesNumericCommand
-								? StringTemplate.testNumeric
-								: StringTemplate.testTemplate)
+						.toString(
+								includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplate)
 				: f2.getOutput(StringTemplate.testTemplate);
-
 	}
 
 	/**
@@ -302,10 +303,14 @@ class ArbitraryConstIntegrationTest {
 		f1.setInput("SolveODE[y''+9y=0]");
 		f1.computeOutput();
 
-		assertThat(getOutput(f1), equalToIgnoreWhitespaces(logger, "Integral[x]",
-				"y = c_{1} * cos(3 * x) + c_{4} * sin(3 * x)"));
-		assertThat(getOutput(f2), equalToIgnoreWhitespaces(logger, "Integral[sin(x)]",
-				"y = c_{2} * cos(2 * x) + c_{3} * sin(2 * x)"));
+		assertThat(
+				getOutput(f1),
+				equalToIgnoreWhitespaces(
+						logger, "Integral[x]", "y = c_{1} * cos(3 * x) + c_{4} * sin(3 * x)"));
+		assertThat(
+				getOutput(f2),
+				equalToIgnoreWhitespaces(
+						logger, "Integral[sin(x)]", "y = c_{2} * cos(2 * x) + c_{3} * sin(2 * x)"));
 	}
 
 	/**
@@ -322,10 +327,14 @@ class ArbitraryConstIntegrationTest {
 		f2.setInput("SolveODE[y''+4y=0]");
 		f2.computeOutput();
 
-		assertThat(getOutput(f1), equalToIgnoreWhitespaces(logger, "Integral[x]",
-				"y = c_{1} * cos(3 * x) + c_{2} * sin(3 * x)"));
-		assertThat(getOutput(f2), equalToIgnoreWhitespaces(logger, "Integral[sin(x)]",
-				"y = c_{3} * cos(2 * x) + c_{4} * sin(2 * x)"));
+		assertThat(
+				getOutput(f1),
+				equalToIgnoreWhitespaces(
+						logger, "Integral[x]", "y = c_{1} * cos(3 * x) + c_{2} * sin(3 * x)"));
+		assertThat(
+				getOutput(f2),
+				equalToIgnoreWhitespaces(
+						logger, "Integral[sin(x)]", "y = c_{3} * cos(2 * x) + c_{4} * sin(2 * x)"));
 	}
 
 	@Test
@@ -341,18 +350,14 @@ class ArbitraryConstIntegrationTest {
 		ta("f(x):=sin(x)", "sin(x)");
 		ta("F(x):=Integral[sin(x)]", "-cos(x) + c_{1}");
 		for (int i = 0; i < 2; i++) {
-			app.getKernel().getAlgebraProcessor()
-					.processAlgebraCommand("P=(1,1)", true);
-			app.getKernel().getAlgebraProcessor()
-					.processAlgebraCommand("Q=(1,1)", true);
+			app.getKernel().getAlgebraProcessor().processAlgebraCommand("P=(1,1)", true);
+			app.getKernel().getAlgebraProcessor().processAlgebraCommand("Q=(1,1)", true);
 			app.getGgbApi().undo();
 			app.getGgbApi().undo();
 		}
-		assertEquals("F(x):=-cos(x) + c_{1}",
-				app.getGgbApi().getValueString("$2", true));
+		assertEquals("F(x):=-cos(x) + c_{1}", app.getGgbApi().getValueString("$2", true));
 		fullReload();
-		assertEquals("F(x):=-cos(x) + c_{1}",
-				app.getGgbApi().getValueString("$2", true));
+		assertEquals("F(x):=-cos(x) + c_{1}", app.getGgbApi().getValueString("$2", true));
 	}
 
 	private void fullReload() {
@@ -364,11 +369,9 @@ class ArbitraryConstIntegrationTest {
 	@Test
 	void reloadTestSolveODE() {
 		ta("f(x):=SolveODE(y''=x)", "1 / 6 * x^(3) + c_{1} * x + c_{2}");
-		assertEquals("f(x):=1 / 6 x³ + c_{1} x + c_{2}",
-				app.getGgbApi().getValueString("$1", true));
+		assertEquals("f(x):=1 / 6 x³ + c_{1} x + c_{2}", app.getGgbApi().getValueString("$1", true));
 		fullReload();
-		assertEquals("f(x):=1 / 6 x³ + c_{1} x + c_{2}",
-				app.getGgbApi().getValueString("$1", true));
+		assertEquals("f(x):=1 / 6 x³ + c_{1} x + c_{2}", app.getGgbApi().getValueString("$1", true));
 	}
 
 	@Test
@@ -376,8 +379,7 @@ class ArbitraryConstIntegrationTest {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoFunction gf = ap.evaluateToFunction("x+c_1", true, true);
 		assertEquals(
-				"x + arbconst(1)",
-				gf.getFunctionExpression().toString(StringTemplate.xmlTemplate));
+				"x + arbconst(1)", gf.getFunctionExpression().toString(StringTemplate.xmlTemplate));
 	}
 
 	@Test
@@ -388,12 +390,10 @@ class ArbitraryConstIntegrationTest {
 	}
 
 	private static void checkAfterReload(String name, String... valid) {
-		String current = kernel.lookupLabel(name)
-				.toString(StringTemplate.defaultTemplate);
+		String current = kernel.lookupLabel(name).toString(StringTemplate.defaultTemplate);
 		assertIn(valid, current);
 		app.setXML(app.getXML(), true);
-		current = kernel.lookupLabel(name)
-				.toString(StringTemplate.defaultTemplate);
+		current = kernel.lookupLabel(name).toString(StringTemplate.defaultTemplate);
 		assertIn(valid, current);
 	}
 
@@ -410,7 +410,9 @@ class ArbitraryConstIntegrationTest {
 	void reloadAppTestXY() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("F(x,y)=Integral(sin(x)*sin(y-x), x)", false);
-		checkAfterReload("F", "F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)",
+		checkAfterReload(
+				"F",
+				"F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)",
 				"F(x, y) = -1 / 2 x cos(y) + 1 / 4 sin(2x - y)");
 	}
 
@@ -418,7 +420,9 @@ class ArbitraryConstIntegrationTest {
 	void reloadAppTest2Var() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("F(t,x)=Integral(sin(x)*sin(t-x), x)", false);
-		checkAfterReload("F", "F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)",
+		checkAfterReload(
+				"F",
+				"F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)",
 				"F(t, x) = -1 / 2 x cos(t) - 1 / 4 sin(t - 2x)");
 	}
 
@@ -426,11 +430,12 @@ class ArbitraryConstIntegrationTest {
 	void solveOdeShouldNotCreateConstantsForTrig() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] f = ap.processAlgebraCommand("F:SolveODE(-1-y^2, (1,2))", false);
-		assertArrayEquals(new String[]{"F"}, app.getGgbApi().getAllObjectNames());
-		assertThat(f[0], CoreMatchers.anyOf(hasValue("tan(tan"
-				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 0π - x + 1)"),
-				hasValue("tan(0π + tan"
-						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) - x + 1)")));
+		assertArrayEquals(new String[] {"F"}, app.getGgbApi().getAllObjectNames());
+		assertThat(
+				f[0],
+				CoreMatchers.anyOf(
+						hasValue("tan(tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) + 0π - x + 1)"),
+						hasValue("tan(0π + tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(2) - x + 1)")));
 	}
 
 	@Test
@@ -439,8 +444,6 @@ class ArbitraryConstIntegrationTest {
 		ap.processAlgebraCommand("f:=SolveODE(x)", false);
 		ap.processAlgebraCommand("SetValue(c_1,3)", false);
 		app.setXML(app.getXML(), true);
-		assertThat(kernel.lookupLabel("f"), hasValue("3 + 1 / 2 x"
-				+ Unicode.SUPERSCRIPT_2));
+		assertThat(kernel.lookupLabel("f"), hasValue("3 + 1 / 2 x" + Unicode.SUPERSCRIPT_2));
 	}
-
 }

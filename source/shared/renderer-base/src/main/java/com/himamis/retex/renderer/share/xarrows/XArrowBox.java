@@ -17,32 +17,29 @@ public abstract class XArrowBox extends Box {
 		draw(g2, x, y, commands, data);
 	}
 
-	protected void draw(Graphics2DInterface g2, double x, double y,
-			String commands, double[] data) {
+	protected void draw(Graphics2DInterface g2, double x, double y, String commands, double[] data) {
 		startDraw(g2, x, y);
 		g2.translate(x, y);
 		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
 		int j = 0;
 		for (char c : commands.toCharArray()) {
 			switch (c) {
-			case 'M':
-				gp.moveTo(data[j], data[j + 1]);
-				j += 2;
-				break;
-			case 'L':
-				gp.lineTo(data[j], data[j + 1]);
-				j += 2;
-				break;
-			case 'Q':
-				gp.quadTo(data[j + 2], data[j + 3], data[j],
-						data[j + 1]);
-				j += 4;
-				break;
-			case 'C':
-				gp.curveTo(data[j], data[j + 1], data[j + 2], data[j + 3],
-						data[j + 4], data[j + 5]);
-				j += 6;
-				break;
+				case 'M':
+					gp.moveTo(data[j], data[j + 1]);
+					j += 2;
+					break;
+				case 'L':
+					gp.lineTo(data[j], data[j + 1]);
+					j += 2;
+					break;
+				case 'Q':
+					gp.quadTo(data[j + 2], data[j + 3], data[j], data[j + 1]);
+					j += 4;
+					break;
+				case 'C':
+					gp.curveTo(data[j], data[j + 1], data[j + 2], data[j + 3], data[j + 4], data[j + 5]);
+					j += 6;
+					break;
 			}
 		}
 		g2.fill(gp);

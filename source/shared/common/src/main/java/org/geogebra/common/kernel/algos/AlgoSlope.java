@@ -37,7 +37,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Creates new AlgoDirection
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param g
@@ -57,7 +57,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * For dummy copy only
-	 * 
+	 *
 	 * @param g
 	 *            line
 	 */
@@ -68,7 +68,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * For dummy copy only
-	 * 
+	 *
 	 * @param f
 	 *            function
 	 */
@@ -106,7 +106,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Get start point of the slope triangle into array of coords.
-	 * 
+	 *
 	 * @param coords
 	 *            output coords
 	 */
@@ -131,8 +131,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 			slope.setValue(g.getSlope());
 		} else {
 			if (f.isDefined()) {
-				slope.setValue(
-						f.getFunction().getDerivativeNoCAS(1).value(0));
+				slope.setValue(f.getFunction().getDerivativeNoCAS(1).value(0));
 			} else {
 				slope.setUndefined();
 			}
@@ -140,11 +139,10 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("SlopeOfA", "Slope of %0",
-				(g != null ? g : f).getLabel(tpl));
+		return getLoc().getPlainDefault("SlopeOfA", "Slope of %0", (g != null ? g : f).getLabel(tpl));
 	}
 
 	@Override
@@ -154,5 +152,4 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		}
 		return new AlgoSlope(f.copy());
 	}
-
 }

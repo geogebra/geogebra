@@ -33,8 +33,8 @@ public abstract class AbstractNumericProperty extends AbstractValuedProperty<Str
 	protected final NumericPropertyUtil util;
 
 	/***/
-	public AbstractNumericProperty(AlgebraProcessor algebraProcessor, Localization localization,
-			String name) {
+	public AbstractNumericProperty(
+			AlgebraProcessor algebraProcessor, Localization localization, String name) {
 		super(localization, name);
 		this.util = new NumericPropertyUtil(algebraProcessor);
 	}

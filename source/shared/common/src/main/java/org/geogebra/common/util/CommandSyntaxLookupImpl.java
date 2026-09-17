@@ -68,9 +68,10 @@ public final class CommandSyntaxLookupImpl implements CommandSyntaxLookup {
 		if (internalCommand == null) {
 			return -1;
 		}
-		String syntaxes = isCasSyntax ? localization.getCommandSyntaxCAS(internalCommand)
-				: algebraProcessor.getSyntax(localization.getCommandSyntax(), internalCommand,
-				app.getSettings());
+		String syntaxes = isCasSyntax
+				? localization.getCommandSyntaxCAS(internalCommand)
+				: algebraProcessor.getSyntax(
+						localization.getCommandSyntax(), internalCommand, app.getSettings());
 		String[] syntaxLines = syntaxes == null ? new String[0] : syntaxes.split("\\n");
 		for (int syntaxIndex = 0; syntaxIndex < syntaxLines.length; syntaxIndex++) {
 			if (CommandParser.parseCommand(syntax)

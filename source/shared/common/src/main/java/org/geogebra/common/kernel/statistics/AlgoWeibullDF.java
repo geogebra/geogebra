@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Weibull[0,1,x]
- * 
+ *
  * @author Michael
  */
 public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
@@ -39,7 +39,7 @@ public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 	private GeoFunction ret; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param k
@@ -49,8 +49,8 @@ public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoWeibullDF(Construction cons, GeoNumberValue k, GeoNumberValue l,
-			BooleanValue cumulative) {
+	public AlgoWeibullDF(
+			Construction cons, GeoNumberValue k, GeoNumberValue l, BooleanValue cumulative) {
 		super(cons);
 		this.k = k;
 		this.l = l;
@@ -128,5 +128,4 @@ public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 
 		ret.getFunctionExpression().setRight(en);
 	}
-
 }

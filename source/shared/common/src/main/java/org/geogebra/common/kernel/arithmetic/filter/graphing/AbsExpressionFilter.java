@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionNodeOperationFilte
 import org.geogebra.common.plugin.Operation;
 import org.jspecify.annotations.NonNull;
 
-final public class AbsExpressionFilter extends ExpressionNodeOperationFilter {
+public final class AbsExpressionFilter extends ExpressionNodeOperationFilter {
 
 	public AbsExpressionFilter() {
 		super(Operation.ABS);

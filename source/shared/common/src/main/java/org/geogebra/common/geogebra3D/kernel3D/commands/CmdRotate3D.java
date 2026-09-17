@@ -29,16 +29,16 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Extends rotation for 3D objects.
- * 
+ *
  * Rotate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt; ]
- * 
+ *
  * @author mathieu
  */
 public class CmdRotate3D extends CmdRotate {
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -53,48 +53,48 @@ public class CmdRotate3D extends CmdRotate {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			// ROTATE AS IN 2D
-			arg = resArgs(c, info);
-			return super.process2(c, arg, ok);
+			case 2:
+				// ROTATE AS IN 2D
+				arg = resArgs(c, info);
+				return super.process2(c, arg, ok);
 
-		case 3:
+			case 3:
+				arg = resArgs(c, info);
 
-			arg = resArgs(c, info);
+				// ROTATION AROUND LINE
+				if ((ok[1] = arg[1] instanceof GeoNumberValue) && (ok[2] = arg[2] instanceof GeoLineND)) {
 
-			// ROTATION AROUND LINE
-			if ((ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoLineND)) {
+					return kernel
+							.getManager3D()
+							.rotate3D(c.getLabel(), arg[0], (GeoNumberValue) arg[1], (GeoLineND) arg[2]);
+				}
 
-				return kernel.getManager3D().rotate3D(c.getLabel(), arg[0],
-						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
+				// ROTATION AROUND POINT (AND XOY PLANE)
 
-			}
+				return super.process3(c, arg, ok);
 
-			// ROTATION AROUND POINT (AND XOY PLANE)
+			case 4:
+				// ROTATION AROUND POINT AND DIRECTION
+				arg = resArgs(c, info);
 
-			return super.process3(c, arg, ok);
+				// rotate point
+				if ((ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2].isGeoPoint())
+						&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
 
-		case 4:
-			// ROTATION AROUND POINT AND DIRECTION
-			arg = resArgs(c, info);
+					return kernel
+							.getManager3D()
+							.rotate3D(
+									c.getLabel(),
+									arg[0],
+									(GeoNumberValue) arg[1],
+									(GeoPointND) arg[2],
+									(GeoDirectionND) arg[3]);
+				}
 
-			// rotate point
-			if ((ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2].isGeoPoint())
-					&& (ok[3] = arg[3] instanceof GeoDirectionND)) {
-
-				return kernel.getManager3D().rotate3D(c.getLabel(), arg[0],
-						(GeoNumberValue) arg[1], (GeoPointND) arg[2],
-						(GeoDirectionND) arg[3]);
-			}
-
-			throw argErr(c, getBadArg(ok, arg));
-
+				throw argErr(c, getBadArg(ok, arg));
 		}
 
 		return super.process(c, info);
-
 	}
-
 }

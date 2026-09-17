@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.main;
 
 import static org.geogebra.common.BaseUnitTest.hasValue;
@@ -82,8 +82,7 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		pt.setAnimationStep(evaluateGeoElement("pi/12"));
 		EuclidianSettings euclidian = getApp().getSettings().getEuclidian(1);
 		euclidian.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
-		euclidian.setGridDistances(
-				new double[]{ Math.PI / 12, Math.PI / 12, Math.PI / 12});
+		euclidian.setGridDistances(new double[] {Math.PI / 12, Math.PI / 12, Math.PI / 12});
 		selectGeo(pt);
 		List<String> xCoords = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
@@ -98,7 +97,8 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource(value = {"num=Slider(0,5,1);5;5;5", "pt=Point(Segment((0,0),(0.5,0)));5;0;10"},
+	@CsvSource(
+			value = {"num=Slider(0,5,1);5;5;5", "pt=Point(Segment((0,0),(0.5,0)));5;0;10"},
 			delimiter = ';')
 	void moveWithArrowNumber(String definition, int rightSteps, int upSteps, int plusSteps) {
 		List<GeoElement> geos = List.of(evaluateGeoElement(definition));
@@ -137,7 +137,8 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	@Test
 	void moveWithArrowRandom() {
 		getApp().setRandomSeed(42);
-		List<GeoElement> geos = Arrays.asList(evaluateGeoElement("num=random()"),
+		List<GeoElement> geos = Arrays.asList(
+				evaluateGeoElement("num=random()"),
 				evaluateGeoElement("pt=(random(),random())"),
 				evaluateGeoElement("norm=RandomNormal(0,1)"),
 				evaluateGeoElement("list=Shuffle(1..50)"));
@@ -148,19 +149,17 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		getApp().getEventDispatcher().addEventListener(listener);
 		handleKey(KeyCodes.LEFT, geos);
 		// each update fired exactly once
-		assertThat(listener.getEvents(), is(Arrays.asList("UPDATE num",
-				"UPDATE pt", "UPDATE norm", "UPDATE list")));
+		assertThat(
+				listener.getEvents(),
+				is(Arrays.asList("UPDATE num", "UPDATE pt", "UPDATE norm", "UPDATE list")));
 		// values actually changed
 		for (int i = 0; i < 4; i++) {
-			assertThat(geos.get(i).toValueString(StringTemplate.defaultTemplate),
-					not(oldVals.get(i)));
+			assertThat(geos.get(i).toValueString(StringTemplate.defaultTemplate), not(oldVals.get(i)));
 		}
 	}
 
 	private void handleKey(KeyCodes keyCodes, List<GeoElement> selection) {
-		dispatcher.handleSelectedGeosKeys(
-				keyCodes, selection,
-				false, false, false, false);
+		dispatcher.handleSelectedGeosKeys(keyCodes, selection, false, false, false, false);
 	}
 
 	@Test
@@ -201,8 +200,8 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	void handleSpaceOnHidingButton() {
 		GeoButton button = evaluateGeoElement("btn=Button()");
 		GeoNumeric counter = evaluateGeoElement("counter=1");
-		GgbScript script = new GgbScript(getApp(), "SetVisibleInView(btn,1,false)"
-				+ "\ncounter=counter+1");
+		GgbScript script =
+				new GgbScript(getApp(), "SetVisibleInView(btn,1,false)" + "\ncounter=counter+1");
 		button.setClickScript(script);
 		selectGeo(button);
 		handleSpace();
@@ -225,9 +224,7 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 	}
 
 	private void handleSpace() {
-		dispatcher.handleGeneralKeys(
-				KeyCodes.SPACE,
-				false, false, false, false, false);
+		dispatcher.handleGeneralKeys(KeyCodes.SPACE, false, false, false, false, false);
 	}
 
 	@Test
@@ -237,12 +234,10 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		getApp().storeUndoInfo();
 		evaluateGeoElement("a=0");
 		getApp().storeUndoInfo();
-		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
-				false);
+		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false, false);
 		assertThat(lookup("a"), notNullValue());
 		getApp().setUndoRedoMode(UndoRedoMode.GUI);
-		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false,
-				false);
+		dispatcher.handleCtrlKeys(KeyCodes.Z, false, false, false);
 		assertThat(lookup("a"), nullValue());
 	}
 
@@ -254,8 +249,8 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 		GeoPoint point = evaluateGeoElement("(1,1)");
 		assertEquals(2, getKernel().countViews());
 		getApp().getSelectionManager().addSelectedGeo(point);
-		dispatcher.handleSelectedGeosKeys(KeyCodes.BACKSPACE, List.of(point),
-				false, false, false, false);
+		dispatcher.handleSelectedGeosKeys(
+				KeyCodes.BACKSPACE, List.of(point), false, false, false, false);
 		assertEquals(0, getKernel().getConstruction().getGeoSetConstructionOrder().size());
 		assertEquals(2, getKernel().countViews());
 	}
@@ -290,8 +285,8 @@ class GlobalKeyDispatcherTest extends BaseAppTestSetup {
 
 	@Test
 	void multipleSlidersShouldMoveWithArrows() {
-		List<GeoElement> sliders = List.of(evaluateGeoElement("Slider(-5,5,1)"),
-		evaluateGeoElement("Slider(-5,5,1)"));
+		List<GeoElement> sliders =
+				List.of(evaluateGeoElement("Slider(-5,5,1)"), evaluateGeoElement("Slider(-5,5,1)"));
 		handleKey(KeyCodes.RIGHT, sliders);
 		handleKey(KeyCodes.UP, sliders);
 		handleKey(KeyCodes.UP, sliders);

@@ -2,14 +2,13 @@
 package org.freehep.graphicsio;
 
 /**
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ImageConstants.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
 public class ImageConstants {
 
-	private ImageConstants() {
-	}
+	private ImageConstants() {}
 
 	public static final String SMALLEST = "Smallest Size";
 

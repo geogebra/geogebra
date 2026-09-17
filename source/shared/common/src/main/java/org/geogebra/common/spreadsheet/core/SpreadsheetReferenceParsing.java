@@ -33,17 +33,17 @@ import org.jspecify.annotations.Nullable;
 public final class SpreadsheetReferenceParsing {
 
 	/** match A1, ABG1, $A$123 but not A0, A000, A0001 etc */
-	private static final RegExp CELL_REFERENCE_REGEX = RegExp
-			.compile("(?<![A-Za-z0-9\\$])(\\$?)([A-Z]+)(\\$?)([1-9][0-9]*)\\b");
+	private static final RegExp CELL_REFERENCE_REGEX =
+			RegExp.compile("(?<![A-Za-z0-9\\$])(\\$?)([A-Z]+)(\\$?)([1-9][0-9]*)\\b");
 
 	/** regex capture group with "$" or "" for column */
-	private final static int CAPTURE_GROUP_COLUMN_DOLLAR = 1;
+	private static final int CAPTURE_GROUP_COLUMN_DOLLAR = 1;
 	/** regex capture group for column name */
-	private final static int CAPTURE_GROUP_COLUMN = 2;
+	private static final int CAPTURE_GROUP_COLUMN = 2;
 	/** regex capture group with "$" or "" for row */
-	private final static int CAPTURE_GROUP_ROW_DOLLAR = 3;
+	private static final int CAPTURE_GROUP_ROW_DOLLAR = 3;
 	/** regex capture group for row number */
-	private final static int CAPTURE_GROUP_ROW = 4;
+	private static final int CAPTURE_GROUP_ROW = 4;
 
 	/**
 	 * Parse a cell or cell range reference.
@@ -107,8 +107,8 @@ public final class SpreadsheetReferenceParsing {
 		boolean rowIsAbsolute = "$".equals(match.getGroup(CAPTURE_GROUP_ROW_DOLLAR));
 		try {
 			int rowNumber = Integer.parseInt(match.getGroup(CAPTURE_GROUP_ROW));
-			return new SpreadsheetCellReference(rowNumber - 1, rowIsAbsolute,
-					columnIndex, columnIsAbsolute);
+			return new SpreadsheetCellReference(
+					rowNumber - 1, rowIsAbsolute, columnIndex, columnIsAbsolute);
 		} catch (NumberFormatException e) {
 			return null;
 		}

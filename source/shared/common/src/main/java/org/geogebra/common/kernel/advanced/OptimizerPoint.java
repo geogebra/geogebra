@@ -69,7 +69,5 @@ public class OptimizerPoint extends Optimizer {
 		indep.getPathParameter().setT(old);
 		indep.getPath().pathChanged(indep);
 		indep.updateCoords();
-
 	}
-
 }

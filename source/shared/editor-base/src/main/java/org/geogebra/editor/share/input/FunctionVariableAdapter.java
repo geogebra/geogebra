@@ -34,9 +34,7 @@ public class FunctionVariableAdapter
 
 	@Override
 	public boolean test(String input) {
-		return input.length() > 2
-				&& input.startsWith(VARIABLE_TAG)
-				&& input.endsWith(VARIABLE_TAG);
+		return input.length() > 2 && input.startsWith(VARIABLE_TAG) && input.endsWith(VARIABLE_TAG);
 	}
 
 	/**

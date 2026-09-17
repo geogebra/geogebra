@@ -17,7 +17,7 @@
 package org.geogebra.common.euclidianForPlane;
 
 /**
- * 
+ *
  * @author mathieu Interface for EuclidianForPlane
  */
 public interface EuclidianViewForPlaneInterface {
@@ -27,5 +27,4 @@ public interface EuclidianViewForPlaneInterface {
 	 *            true to repaint
 	 */
 	void updateAllDrawables(boolean repaint);
-
 }

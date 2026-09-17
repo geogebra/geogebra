@@ -29,9 +29,9 @@ import com.google.j2objc.annotations.Weak;
 @SuppressWarnings("deprecation")
 @Deprecated
 /*
-* This class is not UI independent that's why it can not be used by mobile. Logic needs changes later to
-* be commonly usable
-* */
+ * This class is not UI independent that's why it can not be used by mobile. Logic needs changes later to
+ * be commonly usable
+ * */
 public abstract class OptionsModel {
 	private Object[] geos; // currently selected geos
 
@@ -108,8 +108,7 @@ public abstract class OptionsModel {
 
 	public void storeUndoInfo() {
 		if (app != null) {
-			app.getKernel().getConstruction().getUndoManager()
-					.storeUndoInfo();
+			app.getKernel().getConstruction().getUndoManager().storeUndoInfo();
 		}
 	}
 

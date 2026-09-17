@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -26,9 +26,9 @@ import org.geogebra.common.main.SpreadsheetTableModel;
  * methods an instance of the Swing DefaultTableModel class is constructed. This
  * DefaultTableModel is used by the spreadsheet as the data model for MyTable
  * (an extended JTable).
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 
@@ -36,7 +36,7 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param rows
@@ -53,7 +53,7 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 
 	/**
 	 * Gets the JTable table model.
-	 * 
+	 *
 	 * @return instance of Swing DefaultTableModel class
 	 */
 	public DefaultTableModel getDefaultTableModel() {
@@ -73,13 +73,11 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 	@Override
 	public void setRowCount(int rowCount) {
 		defaultTableModel.setRowCount(rowCount);
-
 	}
 
 	@Override
 	public void setColumnCount(int columnCount) {
 		defaultTableModel.setColumnCount(columnCount);
-
 	}
 
 	@Override
@@ -106,5 +104,4 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 		return false;
 		// only for web
 	}
-
 }

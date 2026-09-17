@@ -24,16 +24,16 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.ListBox;
 
 /**
- * 
+ *
  * Extended JPanel that displays: (1) summary statistics for the current data
  * set (2) interactive panels for performing statistical inference with the
  * current data set
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public final class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
-		 IStatisticsModelListener {
+public final class StatisticsPanelW extends FlowPanel
+		implements StatPanelInterfaceW, IStatisticsModelListener {
 	private static final String SEPARATOR = "-------------------";
 
 	private StatisticsModel model;
@@ -56,7 +56,7 @@ public final class StatisticsPanelW extends FlowPanel implements StatPanelInterf
 
 	/*************************************
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param statDialog
@@ -107,31 +107,30 @@ public final class StatisticsPanelW extends FlowPanel implements StatPanelInterf
 		inferencePanel.clear();
 
 		switch (model.getSelectedMode()) {
+			case StatisticsModel.INFER_T_TEST:
+			case StatisticsModel.INFER_Z_TEST:
+			case StatisticsModel.INFER_Z_INT:
+			case StatisticsModel.INFER_T_INT:
+				inferencePanel.add(getOneVarInferencePanel());
+				break;
 
-		case StatisticsModel.INFER_T_TEST:
-		case StatisticsModel.INFER_Z_TEST:
-		case StatisticsModel.INFER_Z_INT:
-		case StatisticsModel.INFER_T_INT:
-			inferencePanel.add(getOneVarInferencePanel());
-			break;
+			case StatisticsModel.INFER_T_TEST_2MEANS:
+			case StatisticsModel.INFER_T_INT_2MEANS:
+				inferencePanel.add(getTwoVarInferencePanel(true));
+				break;
 
-		case StatisticsModel.INFER_T_TEST_2MEANS:
-		case StatisticsModel.INFER_T_INT_2MEANS:
-			inferencePanel.add(getTwoVarInferencePanel(true));
-			break;
+			case StatisticsModel.INFER_T_TEST_PAIRED:
+			case StatisticsModel.INFER_T_INT_PAIRED:
+				inferencePanel.add(getTwoVarInferencePanel(false));
+				break;
 
-		case StatisticsModel.INFER_T_TEST_PAIRED:
-		case StatisticsModel.INFER_T_INT_PAIRED:
-			inferencePanel.add(getTwoVarInferencePanel(false));
-			break;
+			case StatisticsModel.INFER_ANOVA:
+				inferencePanel.add(getAnovaTable());
+				inferencePanel.add(getMinMVStatPanel());
+				break;
 
-		case StatisticsModel.INFER_ANOVA:
-			inferencePanel.add(getAnovaTable());
-			inferencePanel.add(getMinMVStatPanel());
-			break;
-
-		default:
-			inferencePanel.add(statTable);
+			default:
+				inferencePanel.add(statTable);
 		}
 
 		statDialog.updateStatDataPanelVisibility();
@@ -211,14 +210,13 @@ public final class StatisticsPanelW extends FlowPanel implements StatPanelInterf
 
 	/**
 	 * Handle input event.
-	 * 
+	 *
 	 * @param source
 	 *            input element
 	 */
 	public void actionPerformed(Object source) {
 		int idx = lbInferenceMode.getSelectedIndex();
-		if (source == lbInferenceMode
-				&& idx != -1) {
+		if (source == lbInferenceMode && idx != -1) {
 
 			model.selectInferenceMode(lbInferenceMode.getValue(idx));
 			setInferencePanel();
@@ -264,7 +262,6 @@ public final class StatisticsPanelW extends FlowPanel implements StatPanelInterf
 	public void updateAnovaTable() {
 		getAnovaTable().updatePanel();
 		getMinMVStatPanel().updatePanel();
-
 	}
 
 	/**
@@ -274,30 +271,28 @@ public final class StatisticsPanelW extends FlowPanel implements StatPanelInterf
 	 */
 	public double estimateHeight(int rows) {
 		switch (model.getSelectedMode()) {
+			case StatisticsModel.INFER_T_TEST:
+			case StatisticsModel.INFER_Z_TEST:
+			case StatisticsModel.INFER_Z_INT:
+			case StatisticsModel.INFER_T_INT:
+				// inferencePanel.add(getOneVarInferencePanel());
+				return 150;
 
-		case StatisticsModel.INFER_T_TEST:
-		case StatisticsModel.INFER_Z_TEST:
-		case StatisticsModel.INFER_Z_INT:
-		case StatisticsModel.INFER_T_INT:
-			// inferencePanel.add(getOneVarInferencePanel());
-			return 150;
+			case StatisticsModel.INFER_T_TEST_2MEANS:
+			case StatisticsModel.INFER_T_INT_2MEANS:
+				// /inferencePanel.add(getTwoVarInferencePanel(true));
+				return 320;
 
-		case StatisticsModel.INFER_T_TEST_2MEANS:
-		case StatisticsModel.INFER_T_INT_2MEANS:
-			// /inferencePanel.add(getTwoVarInferencePanel(true));
-			return 320;
+			case StatisticsModel.INFER_T_TEST_PAIRED:
+			case StatisticsModel.INFER_T_INT_PAIRED:
+				// inferencePanel.add(getTwoVarInferencePanel(false));
+				return 320;
 
-		case StatisticsModel.INFER_T_TEST_PAIRED:
-		case StatisticsModel.INFER_T_INT_PAIRED:
-			// inferencePanel.add(getTwoVarInferencePanel(false));
-			return 320;
+			case StatisticsModel.INFER_ANOVA:
+				return 200 + rows * 20;
 
-		case StatisticsModel.INFER_ANOVA:
-			return 200 + rows * 20;
-
-		default:
-			return 70 + rows * 20;
+			default:
+				return 70 + rows * 20;
 		}
 	}
-
 }

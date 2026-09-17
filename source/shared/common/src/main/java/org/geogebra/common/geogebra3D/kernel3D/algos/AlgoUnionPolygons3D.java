@@ -24,14 +24,14 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 
 /**
  * AlgoElement class for finding UNION (region union) of two 3D polygons
- * 
+ *
  * @author thilina
  *
  */
 public class AlgoUnionPolygons3D extends AlgoPolygonOperations3D {
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -41,8 +41,7 @@ public class AlgoUnionPolygons3D extends AlgoPolygonOperations3D {
 	 * @param inPoly1
 	 *            input polygons
 	 */
-	public AlgoUnionPolygons3D(Construction cons, String[] labels,
-			GeoPoly inPoly0, GeoPoly inPoly1) {
+	public AlgoUnionPolygons3D(Construction cons, String[] labels, GeoPoly inPoly0, GeoPoly inPoly1) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 		initialize(null);

@@ -50,8 +50,8 @@ final class BoundaryCycleNormalizer {
 		return canonicalBoundaryCyclesOf(cycles, null);
 	}
 
-	List<BoundaryCycle> canonicalBoundaryCyclesOf(List<BoundaryCycle> cycles,
-			ViewportInfo viewportInfo) {
+	List<BoundaryCycle> canonicalBoundaryCyclesOf(
+			List<BoundaryCycle> cycles, ViewportInfo viewportInfo) {
 		List<BoundaryCycle> canonical = new ArrayList<>();
 		for (BoundaryCycle cycle : cycles) {
 			BoundaryCycle normalized = normalizeForHierarchy(viewportInfo, cycle);
@@ -116,8 +116,8 @@ final class BoundaryCycleNormalizer {
 		return new ArrayList<>(bySignature.values());
 	}
 
-	private boolean areGeometricallyEquivalentCanonicalCycles(BoundaryCycle first,
-			BoundaryCycle second) {
+	private boolean areGeometricallyEquivalentCanonicalCycles(
+			BoundaryCycle first, BoundaryCycle second) {
 		if (!hasNearlyEqualArea(first, second)) {
 			return false;
 		}
@@ -126,7 +126,8 @@ final class BoundaryCycleNormalizer {
 		return firstBounds.hasNearlyEqualBounds(secondBounds);
 	}
 
-	private void addDroppedContainingCycleRecoveryCandidate(ViewportInfo viewportInfo,
+	private void addDroppedContainingCycleRecoveryCandidate(
+			ViewportInfo viewportInfo,
 			List<BoundaryCycle> extractedCycles,
 			List<BoundaryCycle> canonical) {
 		if (canonical.size() < 2) {
@@ -135,7 +136,8 @@ final class BoundaryCycleNormalizer {
 		BoundaryCycle best = null;
 		int bestContainedCount = 0;
 		for (BoundaryCycle cycle : extractedCycles) {
-			if (cycle.getSignedArea() >= 0 || isDegenerateCanonicalCandidate(cycle)
+			if (cycle.getSignedArea() >= 0
+					|| isDegenerateCanonicalCandidate(cycle)
 					|| isViewportLike(viewportInfo, cycle)
 					|| !isRelevantCanonicalCandidate(viewportInfo, cycle)) {
 				continue;
@@ -144,9 +146,9 @@ final class BoundaryCycleNormalizer {
 			if (containedCount < 2) {
 				continue;
 			}
-			if (best == null || containedCount > bestContainedCount
-					|| (containedCount == bestContainedCount
-					&& cycle.getAbsArea() > best.getAbsArea())) {
+			if (best == null
+					|| containedCount > bestContainedCount
+					|| (containedCount == bestContainedCount && cycle.getAbsArea() > best.getAbsArea())) {
 				best = cycle;
 				bestContainedCount = containedCount;
 			}
@@ -163,12 +165,10 @@ final class BoundaryCycleNormalizer {
 		canonical.add(best);
 	}
 
-	private int countContainedCanonicalCycles(BoundaryCycle parent,
-			List<BoundaryCycle> canonical) {
+	private int countContainedCanonicalCycles(BoundaryCycle parent, List<BoundaryCycle> canonical) {
 		int count = 0;
 		for (BoundaryCycle child : canonical) {
-			if (child.getId() == parent.getId()
-					|| child.getAbsArea() >= parent.getAbsArea()) {
+			if (child.getId() == parent.getId() || child.getAbsArea() >= parent.getAbsArea()) {
 				continue;
 			}
 			if (classifyPointInPolygon(graph, child.getContainmentProbePoint(), parent)
@@ -236,9 +236,11 @@ final class BoundaryCycleNormalizer {
 		return candidate.getId() < current.getId();
 	}
 
-	private void addLargerNegativeRecoveryCandidate(ViewportInfo viewportInfo,
+	private void addLargerNegativeRecoveryCandidate(
+			ViewportInfo viewportInfo,
 			List<BoundaryCycle> extractedCycles,
-			BoundaryCycle viewportCycle, List<BoundaryCycle> canonical) {
+			BoundaryCycle viewportCycle,
+			List<BoundaryCycle> canonical) {
 		List<BoundaryCycle> boundedCanonical = new ArrayList<>();
 		for (BoundaryCycle cycle : canonical) {
 			if (cycle != viewportCycle && !isViewportLike(viewportInfo, cycle)) {
@@ -251,7 +253,8 @@ final class BoundaryCycleNormalizer {
 		BoundaryCycle tinyCanonical = boundedCanonical.get(0);
 		BoundaryCycle bestNegative = null;
 		for (BoundaryCycle cycle : extractedCycles) {
-			if (cycle.getSignedArea() >= 0 || cycle == viewportCycle
+			if (cycle.getSignedArea() >= 0
+					|| cycle == viewportCycle
 					|| isViewportLike(viewportInfo, cycle)) {
 				continue;
 			}
@@ -282,9 +285,11 @@ final class BoundaryCycleNormalizer {
 		canonical.add(normalized);
 	}
 
-	private void addViewportContainedFallbackCycles(ViewportInfo viewportInfo,
+	private void addViewportContainedFallbackCycles(
+			ViewportInfo viewportInfo,
 			List<BoundaryCycle> extractedCycles,
-			BoundaryCycle viewportCycle, List<BoundaryCycle> canonical) {
+			BoundaryCycle viewportCycle,
+			List<BoundaryCycle> canonical) {
 		Map<String, BoundaryCycle> fallbackBySignature = new HashMap<>();
 		for (BoundaryCycle cycle : extractedCycles) {
 			if (cycle == viewportCycle || isViewportLike(viewportInfo, cycle)) {
@@ -306,9 +311,8 @@ final class BoundaryCycleNormalizer {
 			}
 		}
 		if (fallbackBySignature.isEmpty()) {
-			BoundaryCycle contourCandidate = smallestNonViewportFallbackCycle(
-					viewportInfo, extractedCycles,
-					viewportCycle);
+			BoundaryCycle contourCandidate =
+					smallestNonViewportFallbackCycle(viewportInfo, extractedCycles, viewportCycle);
 			if (contourCandidate != null) {
 				BoundaryCycle normalized = normalizeForHierarchy(viewportInfo, contourCandidate);
 				if (!isDegenerateCanonicalCandidate(normalized)
@@ -320,12 +324,12 @@ final class BoundaryCycleNormalizer {
 		canonical.addAll(fallbackBySignature.values());
 	}
 
-	private BoundaryCycle smallestNonViewportFallbackCycle(ViewportInfo viewportInfo,
-			List<BoundaryCycle> extractedCycles,
-			BoundaryCycle viewportCycle) {
+	private BoundaryCycle smallestNonViewportFallbackCycle(
+			ViewportInfo viewportInfo, List<BoundaryCycle> extractedCycles, BoundaryCycle viewportCycle) {
 		BoundaryCycle best = null;
 		for (BoundaryCycle cycle : extractedCycles) {
-			if (cycle == viewportCycle || isViewportLike(viewportInfo, cycle)
+			if (cycle == viewportCycle
+					|| isViewportLike(viewportInfo, cycle)
 					|| isDegenerateCanonicalCandidate(cycle)) {
 				continue;
 			}
@@ -336,9 +340,11 @@ final class BoundaryCycleNormalizer {
 		return best;
 	}
 
-	private void addContainedFallbackCycles(ViewportInfo viewportInfo,
+	private void addContainedFallbackCycles(
+			ViewportInfo viewportInfo,
 			List<BoundaryCycle> extractedCycles,
-			BoundaryCycle parentCycle, List<BoundaryCycle> canonical) {
+			BoundaryCycle parentCycle,
+			List<BoundaryCycle> canonical) {
 		Map<String, BoundaryCycle> fallbackBySignature = new HashMap<>();
 		for (BoundaryCycle cycle : extractedCycles) {
 			if (cycle == parentCycle) {
@@ -363,8 +369,8 @@ final class BoundaryCycleNormalizer {
 		if (cycle.getAbsArea() >= parentCycle.getAbsArea()) {
 			return false;
 		}
-		PlanarGraph.Containment containment = classifyPointInPolygon(graph,
-				cycle.getContainmentProbePoint(), parentCycle);
+		PlanarGraph.Containment containment =
+				classifyPointInPolygon(graph, cycle.getContainmentProbePoint(), parentCycle);
 		return containment == PlanarGraph.Containment.INSIDE;
 	}
 
@@ -374,20 +380,24 @@ final class BoundaryCycleNormalizer {
 		}
 		List<Integer> reversedBoundary = new ArrayList<>(cycle.getHalfEdgeIds());
 		Collections.reverse(reversedBoundary);
-		BoundaryCycle reversed = new BoundaryCycle(cycle.getId(), reversedBoundary,
+		BoundaryCycle reversed = new BoundaryCycle(
+				cycle.getId(),
+				reversedBoundary,
 				signedAreaOfCycle(graph, reversedBoundary),
 				extractor.containmentProbePoint(reversedBoundary));
 		reversed.ensureGeometry(graph);
 		List<Integer> twinBoundary = extractTwinBoundaryCycle(cycle);
-		BoundaryCycle twin = new BoundaryCycle(cycle.getId(), twinBoundary,
+		BoundaryCycle twin = new BoundaryCycle(
+				cycle.getId(),
+				twinBoundary,
 				signedAreaOfCycle(graph, twinBoundary),
 				extractor.containmentProbePoint(twinBoundary));
 		twin.ensureGeometry(graph);
 		return preferredNormalizedCycle(viewportInfo, reversed, twin);
 	}
 
-	private BoundaryCycle preferredNormalizedCycle(ViewportInfo viewportInfo, BoundaryCycle first,
-			BoundaryCycle second) {
+	private BoundaryCycle preferredNormalizedCycle(
+			ViewportInfo viewportInfo, BoundaryCycle first, BoundaryCycle second) {
 		double epsilon = AREA_RELATIVE_TOLERANCE;
 		boolean firstMeaningful = first.getAbsArea() > epsilon;
 		boolean secondMeaningful = second.getAbsArea() > epsilon;
@@ -405,21 +415,20 @@ final class BoundaryCycleNormalizer {
 		return first.getId() <= second.getId() ? first : second;
 	}
 
-	private boolean isReasonableViewportFallback(ViewportInfo viewportInfo, BoundaryCycle cycle,
-			BoundaryCycle viewportCycle) {
+	private boolean isReasonableViewportFallback(
+			ViewportInfo viewportInfo, BoundaryCycle cycle, BoundaryCycle viewportCycle) {
 		if (cycle.getAbsArea() >= viewportCycle.getAbsArea()) {
 			return false;
 		}
-		if (viewportCornerCount(viewportInfo, cycle) == 0
-				&& cycle.getAbsArea() > GEOMETRY_EPSILON) {
+		if (viewportCornerCount(viewportInfo, cycle) == 0 && cycle.getAbsArea() > GEOMETRY_EPSILON) {
 			return true;
 		}
 		boolean hasInsideVertex = false;
 		double[] xCoordinates = cycle.getXCoordinates(graph);
 		double[] yCoordinates = cycle.getYCoordinates(graph);
 		for (int i = 0; i < cycle.size(); i++) {
-			PlanarGraph.Containment containment = classifyPointInPolygon(graph,
-					new GPoint2D(xCoordinates[i], yCoordinates[i]), viewportCycle);
+			PlanarGraph.Containment containment = classifyPointInPolygon(
+					graph, new GPoint2D(xCoordinates[i], yCoordinates[i]), viewportCycle);
 			if (containment == PlanarGraph.Containment.OUTSIDE) {
 				return false;
 			}
@@ -463,8 +472,9 @@ final class BoundaryCycleNormalizer {
 			if (!viewportInfo.hasValidAbsArea()) {
 				int cornerCount = viewportCornerCount(viewportInfo, cycle);
 				if (cornerCount > bestCornerCount
-						|| (cornerCount == bestCornerCount && best != null
-						&& cycle.getAbsArea() > best.getAbsArea())) {
+						|| (cornerCount == bestCornerCount
+								&& best != null
+								&& cycle.getAbsArea() > best.getAbsArea())) {
 					best = cycle;
 					bestCornerCount = cornerCount;
 				}
@@ -475,8 +485,9 @@ final class BoundaryCycleNormalizer {
 			}
 			int cornerCount = viewportCornerCount(viewportInfo, cycle);
 			if (cornerCount > bestCornerCount
-					|| (cornerCount == bestCornerCount && best != null
-					&& cycle.getAbsArea() > best.getAbsArea())) {
+					|| (cornerCount == bestCornerCount
+							&& best != null
+							&& cycle.getAbsArea() > best.getAbsArea())) {
 				best = cycle;
 				bestCornerCount = cornerCount;
 			}
@@ -510,5 +521,4 @@ final class BoundaryCycleNormalizer {
 		int twinStart = graph.halfEdge(cycle.getStartHalfEdgeId()).getTwinHalfEdgeId();
 		return extractFaceBoundary(graph, twinStart, new HashSet<>());
 	}
-
 }

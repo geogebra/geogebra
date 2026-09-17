@@ -25,11 +25,10 @@ import org.geogebra.common.util.GgbMat;
 
 /**
  * Invert a matrix.
- * 
+ *
  * @author Michael Borcherds
  * @version 16-02-2008
  */
-
 public class AlgoInvert extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -89,8 +88,7 @@ public class AlgoInvert extends AlgoElement {
 		if (integers) {
 			for (int i = 0; i < inputList.size(); i++) {
 				for (int j = 0; j < inputList.size(); j++) {
-					matrix.setEntry(i, j,
-							Math.round(matrix.getEntry(i, j) * det) / det);
+					matrix.setEntry(i, j, Math.round(matrix.getEntry(i, j) * det) / det);
 				}
 			}
 		}
@@ -99,5 +97,4 @@ public class AlgoInvert extends AlgoElement {
 
 		matrix.getGeoList(outputList, cons);
 	}
-
 }

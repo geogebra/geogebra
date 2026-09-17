@@ -36,6 +36,7 @@ public class Resolution implements ExpressionValue {
 
 	private ExpressionValueType type = ValueType.UNKNOWN;
 	private int listDepth = 0;
+
 	@Weak
 	@NonOwning
 	private final Localization loc;

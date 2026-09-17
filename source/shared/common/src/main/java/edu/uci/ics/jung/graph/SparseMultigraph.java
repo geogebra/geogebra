@@ -1,7 +1,7 @@
 /*
  * Created on Oct 18, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -27,12 +27,11 @@ import edu.uci.ics.jung.graph.util.Pair;
  * and permits directed, undirected, and parallel edges.
  */
 @SuppressWarnings("serial")
-public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
-		implements MultiGraph<V, E> {
+public class SparseMultigraph<V, E> extends AbstractGraph<V, E> implements MultiGraph<V, E> {
 
 	/**
 	 * Returns a {@code Factory} that creates an instance of this graph type.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type for the graph factory
 	 * @param <E>
@@ -51,8 +50,8 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	// have two references (in vertices and directedEdges)
 	// and undirected also have two (incoming and outgoing).
 	protected Map<V, Pair<Set<E>>> vertices; // Map of vertices to Pair of
-												// adjacency sets {incoming,
-												// outgoing}
+	// adjacency sets {incoming,
+	// outgoing}
 	protected Map<E, Pair<V>> edges; // Map of edges to incident vertex pairs
 	protected Set<E> directedEdges;
 
@@ -99,8 +98,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!vertices.containsKey(vertex)) {
-			vertices.put(vertex,
-					new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
+			vertices.put(vertex, new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
 			return true;
 		}
 		return false;
@@ -126,8 +124,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	}
 
 	@Override
-	public boolean addEdge(E edge, Pair<? extends V> endpoints,
-			EdgeType edgeType) {
+	public boolean addEdge(E edge, Pair<? extends V> endpoints, EdgeType edgeType) {
 
 		Pair<V> new_endpoints = getValidatedEndpoints(edge, endpoints);
 		if (new_endpoints == null) {
@@ -186,8 +183,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		return Collections
-				.unmodifiableCollection(vertices.get(vertex).getFirst());
+		return Collections.unmodifiableCollection(vertices.get(vertex).getFirst());
 	}
 
 	@Override
@@ -195,8 +191,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		return Collections
-				.unmodifiableCollection(vertices.get(vertex).getSecond());
+		return Collections.unmodifiableCollection(vertices.get(vertex).getSecond());
 	}
 
 	// TODO: this will need to get changed if we modify the internal
@@ -311,8 +306,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 
 	@Override
 	public EdgeType getEdgeType(E edge) {
-		return directedEdges.contains(edge) ? EdgeType.DIRECTED
-				: EdgeType.UNDIRECTED;
+		return directedEdges.contains(edge) ? EdgeType.DIRECTED : EdgeType.UNDIRECTED;
 	}
 
 	@Override
@@ -326,7 +320,6 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		} else {
 			return Collections.EMPTY_SET;
 		}
-
 	}
 
 	@Override
@@ -353,5 +346,4 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	public SparseMultigraph<V, E> newInstance() {
 		return new SparseMultigraph<V, E>();
 	}
-
 }

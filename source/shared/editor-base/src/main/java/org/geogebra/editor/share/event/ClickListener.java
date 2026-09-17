@@ -55,5 +55,4 @@ public interface ClickListener {
 	 * @param dy y distance from current call to last call
 	 */
 	void onScroll(int dx, int dy);
-
 }

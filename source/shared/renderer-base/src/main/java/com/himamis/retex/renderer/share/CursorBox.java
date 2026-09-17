@@ -52,7 +52,7 @@ public class CursorBox extends Box {
 	/**
 	 * Force cursor to be visible / invisible (gets switched periodically by
 	 * toggleBlink in web/desktop)
-	 * 
+	 *
 	 * @param blink
 	 *            blink state
 	 */

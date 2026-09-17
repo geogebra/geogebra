@@ -11,19 +11,18 @@ import org.freehep.graphicsio.ImageParamConverter;
 import org.freehep.util.UserProperties;
 
 /**
- * 
+ *
  * @version $Id: RawImageWriteParam.java,v 1.4 2009-08-17 21:44:46 murkle Exp $
  */
-public class RawImageWriteParam extends ImageWriteParam
-		implements ImageParamConverter {
+public class RawImageWriteParam extends ImageWriteParam implements ImageParamConverter {
 
-	private final static String rootKey = RawImageWriteParam.class.getName();
+	private static final String rootKey = RawImageWriteParam.class.getName();
 
-	public final static String BACKGROUND = rootKey + ".Background";
+	public static final String BACKGROUND = rootKey + ".Background";
 
-	public final static String CODE = rootKey + ".Code";
+	public static final String CODE = rootKey + ".Code";
 
-	public final static String PAD = rootKey + ".Pad";
+	public static final String PAD = rootKey + ".Pad";
 
 	private Color bkg;
 

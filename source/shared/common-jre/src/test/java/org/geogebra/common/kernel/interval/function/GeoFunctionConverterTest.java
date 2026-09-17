@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.interval.function;
 
 import static org.geogebra.common.kernel.interval.IntervalConstants.one;
@@ -52,8 +52,10 @@ class GeoFunctionConverterTest extends BaseUnitTest {
 	void testConvertSinXPlus1() {
 		IntervalNodeFunction function = convert("sin(x)+1");
 		assertEquals(one(), function.value(pi()));
-		assertEquals(new Interval(2), function.value(
-				new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
+		assertEquals(
+				new Interval(2),
+				function.value(
+						new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
 	}
 
 	@Test
@@ -66,8 +68,10 @@ class GeoFunctionConverterTest extends BaseUnitTest {
 	@Test
 	void testConvertSinBracketXPlus1Bracket() {
 		IntervalNodeFunction function = convert("sin(x+pi+pi)");
-		assertEquals(one(), function.value(
-				new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
+		assertEquals(
+				one(),
+				function.value(
+						new Interval(IntervalConstants.PI_HALF_LOW, IntervalConstants.PI_HALF_HIGH)));
 		assertEquals(zero(), function.value(pi()));
 	}
 
@@ -86,8 +90,7 @@ class GeoFunctionConverterTest extends BaseUnitTest {
 	@Test
 	void testConvertLnX() {
 		IntervalNodeFunction function = convert("ln(x)");
-		assertEquivalent(x -> x < 0 ? undefined() : new Interval(Math.log(x)),
-				function, -5, 5);
+		assertEquivalent(x -> x < 0 ? undefined() : new Interval(Math.log(x)), function, -5, 5);
 	}
 
 	@Test
@@ -176,5 +179,4 @@ class GeoFunctionConverterTest extends BaseUnitTest {
 		Interval interval = interval(700, 701);
 		assertEquals(interval, g.value(interval));
 	}
-
 }

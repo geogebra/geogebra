@@ -39,27 +39,24 @@ class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"f(x) = x^2",
-			"a = 1 + 2",
-			"BarChart({1,2,3},{4,5,6})"
-	})
+	@ValueSource(strings = {"(1, 2)", "f(x) = x^2", "a = 1 + 2", "BarChart({1,2,3},{4,5,6})"})
 	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement geoElement = evaluateGeoElement(expression);
-		assertThrows(NotApplicablePropertyException.class, () ->
-				new AbsoluteScreenPositionPropertyCollection(
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new AbsoluteScreenPositionPropertyCollection(
 						propertiesFactory, getLocalization(), List.of(geoElement)));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Slider(-5, 5, 1)", // number slider
-			"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)", // angle slider
-			"true",
-			"\"abc\"",
-	})
+	@ValueSource(
+			strings = {
+				"Slider(-5, 5, 1)", // number slider
+				"Slider(0, 10, 0.1, 0.1, 100, true, true, false, false)", // angle slider
+				"true",
+				"\"abc\"",
+			})
 	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new AbsoluteScreenPositionPropertyCollection(
@@ -91,8 +88,8 @@ class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSetup {
 				assertDoesNotThrow(() -> new AbsoluteScreenPositionPropertyCollection(
 						propertiesFactory, getLocalization(), List.of(geoText)));
 
-		assertNotNull(assertDoesNotThrow(() -> absoluteScreenPositionPropertyCollection
-				.getProperties()[0].validateValue("(")));
+		assertNotNull(assertDoesNotThrow(
+				() -> absoluteScreenPositionPropertyCollection.getProperties()[0].validateValue("(")));
 	}
 
 	@Test
@@ -126,8 +123,7 @@ class AbsoluteScreenPositionPropertyCollectionTests extends BaseAppTestSetup {
 						propertiesFactory, getLocalization(), List.of(geoText)));
 
 		absoluteScreenPositionPropertyCollection.getProperties()[0].setValue("x(A)");
-		assertEquals("x(A)", absoluteScreenPositionPropertyCollection
-				.getProperties()[0].getValue());
+		assertEquals("x(A)", absoluteScreenPositionPropertyCollection.getProperties()[0].getValue());
 		assertEquals(0.0, ((GeoPoint) geoText.getStartPoint()).getX(), 0.001);
 
 		slider.setValue(500.0);

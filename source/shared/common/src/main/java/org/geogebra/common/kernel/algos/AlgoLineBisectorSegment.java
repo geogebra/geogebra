@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -46,8 +46,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 	private PVariable[] botanaVars;
 
 	/** Creates new AlgoLineBisector */
-	public AlgoLineBisectorSegment(Construction cons, String label,
-			GeoSegment s) {
+	public AlgoLineBisectorSegment(Construction cons, String label, GeoSegment s) {
 		super(cons);
 		this.s = s;
 		g = new GeoLine(cons);
@@ -119,8 +118,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
 		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
 		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
@@ -133,8 +131,7 @@ public class AlgoLineBisectorSegment extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
 		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
 		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
@@ -142,21 +139,21 @@ public class AlgoLineBisectorSegment extends AlgoElement
 			int[] degree1 = A.getDegrees(a);
 			int[] degree2 = B.getDegrees(a);
 			int[] result = new int[3];
-			result[0] = Math.max(degree1[0] + degree1[2] + 2 * degree2[2],
-					2 * degree1[2] + degree2[0] + degree2[2]);
-			result[1] = Math.max(degree1[1] + degree1[2] + 2 * degree2[2],
-					2 * degree1[2] + degree2[1] + degree2[2]);
-			result[2] = 2 * Math.max(
-					Math.max(degree1[2] + degree2[0], degree1[2] + degree2[1]),
-					Math.max(degree1[0] + degree2[2], degree1[1] + degree2[2]));
+			result[0] = Math.max(
+					degree1[0] + degree1[2] + 2 * degree2[2], 2 * degree1[2] + degree2[0] + degree2[2]);
+			result[1] = Math.max(
+					degree1[1] + degree1[2] + 2 * degree2[2], 2 * degree1[2] + degree2[1] + degree2[2]);
+			result[2] = 2
+					* Math.max(
+							Math.max(degree1[2] + degree2[0], degree1[2] + degree2[1]),
+							Math.max(degree1[0] + degree2[2], degree1[1] + degree2[2]));
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
 		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
@@ -167,25 +164,25 @@ public class AlgoLineBisectorSegment extends AlgoElement
 
 			BigInteger[] result = new BigInteger[3];
 			// 2 az bz (-az bx + ax bz)
-			result[0] = BigInteger.valueOf(2).multiply(coords1[2])
+			result[0] = BigInteger.valueOf(2)
+					.multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(coords1[0].multiply(coords2[2])
-							.subtract(coords2[0].multiply(coords1[2])));
+					.multiply(coords1[0].multiply(coords2[2]).subtract(coords2[0].multiply(coords1[2])));
 			// 2 az bz (-az by + ay bz)
-			result[1] = BigInteger.valueOf(2).multiply(coords1[2])
+			result[1] = BigInteger.valueOf(2)
+					.multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(coords1[1].multiply(coords2[2])
-							.subtract(coords2[1].multiply(coords1[2])));
+					.multiply(coords1[1].multiply(coords2[2]).subtract(coords2[1].multiply(coords1[2])));
 			// (az bx - ax bz) (az bx + ax bz) - (-az by + ay bz) (az by + ay
 			// bz)
-			result[2] = coords1[2].multiply(coords2[0])
+			result[2] = coords1[2]
+					.multiply(coords2[0])
 					.subtract(coords1[0].multiply(coords2[2]))
-					.multiply(coords1[2].multiply(coords2[0])
-							.add(coords1[0].multiply(coords2[2])))
-					.subtract(coords1[1].multiply(coords2[2])
+					.multiply(coords1[2].multiply(coords2[0]).add(coords1[0].multiply(coords2[2])))
+					.subtract(coords1[1]
+							.multiply(coords2[2])
 							.subtract(coords1[2].multiply(coords2[1]))
-							.multiply(coords1[1].multiply(coords2[2])
-									.add(coords1[2].multiply(coords2[1]))));
+							.multiply(coords1[1].multiply(coords2[2]).add(coords1[2].multiply(coords2[1]))));
 			return result;
 		}
 		throw new NoSymbolicParametersException();
@@ -205,25 +202,25 @@ public class AlgoLineBisectorSegment extends AlgoElement
 
 			polynomials = new PPolynomial[3];
 			// 2 az bz (-az bx + ax bz)
-			polynomials[0] = new PPolynomial(2).multiply(coords1[2])
+			polynomials[0] = new PPolynomial(2)
+					.multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(coords1[0].multiply(coords2[2])
-							.subtract(coords2[0].multiply(coords1[2])));
+					.multiply(coords1[0].multiply(coords2[2]).subtract(coords2[0].multiply(coords1[2])));
 			// 2 az bz (-az by + ay bz)
-			polynomials[1] = new PPolynomial(2).multiply(coords1[2])
+			polynomials[1] = new PPolynomial(2)
+					.multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(coords1[1].multiply(coords2[2])
-							.subtract(coords2[1].multiply(coords1[2])));
+					.multiply(coords1[1].multiply(coords2[2]).subtract(coords2[1].multiply(coords1[2])));
 			// (az bx - ax bz) (az bx + ax bz) - (-az by + ay bz) (az by + ay
 			// bz)
-			polynomials[2] = coords1[2].multiply(coords2[0])
+			polynomials[2] = coords1[2]
+					.multiply(coords2[0])
 					.subtract(coords1[0].multiply(coords2[2]))
-					.multiply(coords1[2].multiply(coords2[0])
-							.add(coords1[0].multiply(coords2[2])))
-					.subtract(coords1[1].multiply(coords2[2])
+					.multiply(coords1[2].multiply(coords2[0]).add(coords1[0].multiply(coords2[2])))
+					.subtract(coords1[1]
+							.multiply(coords2[2])
 							.subtract(coords1[2].multiply(coords2[1]))
-							.multiply(coords1[1].multiply(coords2[2])
-									.add(coords1[2].multiply(coords2[1]))));
+							.multiply(coords1[1].multiply(coords2[2]).add(coords1[2].multiply(coords2[1]))));
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
@@ -237,12 +234,11 @@ public class AlgoLineBisectorSegment extends AlgoElement
 	/*
 	 * This is mostly the same as in AlgoLineBisector.java. TODO: maybe
 	 * commonize. (non-Javadoc)
-	 * 
+	 *
 	 * See SymbolicParametersBotanaAlgo#getBotanaPolynomials
 	 */
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -258,9 +254,8 @@ public class AlgoLineBisectorSegment extends AlgoElement
 				botanaVars[3] = new PVariable(kernel);
 			}
 
-			botanaPolynomials = SymbolicParameters
-					.botanaPolynomialsLineBisector(v[0], v[1], v[2], v[3],
-							botanaVars);
+			botanaPolynomials =
+					SymbolicParameters.botanaPolynomialsLineBisector(v[0], v[1], v[2], v[3], botanaVars);
 
 			return botanaPolynomials;
 		}
@@ -287,10 +282,9 @@ public class AlgoLineBisectorSegment extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
-		return getLoc().getPlainDefault("LineBisectorOfA",
-				"Perpendicular Bisector of %0", s.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault("LineBisectorOfA", "Perpendicular Bisector of %0", s.getLabel(tpl));
 	}
-
 }

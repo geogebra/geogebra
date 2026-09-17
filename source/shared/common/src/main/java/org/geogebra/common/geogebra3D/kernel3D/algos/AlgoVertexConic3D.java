@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
  * Class for vertices of a 3D conic
- * 
+ *
  * @author mathieu
  *
  */
@@ -31,7 +31,7 @@ public class AlgoVertexConic3D extends AlgoVertexConic {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels

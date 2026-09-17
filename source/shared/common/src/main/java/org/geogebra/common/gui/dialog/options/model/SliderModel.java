@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 
 public class SliderModel extends OptionsModel {
-	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
+	public static final int TEXT_FIELD_FRACTION_DIGITS = 8;
 
 	private ISliderOptionsListener listener;
 	private Kernel kernel;
@@ -122,14 +122,12 @@ public class SliderModel extends OptionsModel {
 			// the interval even if it's empty
 			if (num0.getIntervalMinObject() == null
 					|| temp.getIntervalMinObject() == null
-					|| !DoubleUtil.isEqual(num0.getIntervalMin(),
-							temp.getIntervalMin())) {
+					|| !DoubleUtil.isEqual(num0.getIntervalMin(), temp.getIntervalMin())) {
 				equalMin = false;
 			}
 			if (num0.getIntervalMaxObject() == null
 					|| temp.getIntervalMaxObject() == null
-					|| !DoubleUtil.isEqual(num0.getIntervalMax(),
-							temp.getIntervalMax())) {
+					|| !DoubleUtil.isEqual(num0.getIntervalMax(), temp.getIntervalMax())) {
 				equalMax = false;
 			}
 			if (!DoubleUtil.isEqual(num0.getSliderWidth(), temp.getSliderWidth())) {
@@ -144,18 +142,16 @@ public class SliderModel extends OptionsModel {
 			}
 		}
 
-		StringTemplate highPrecision = StringTemplate.printDecimals(
-				StringType.GEOGEBRA, TEXT_FIELD_FRACTION_DIGITS, false);
+		StringTemplate highPrecision =
+				StringTemplate.printDecimals(StringType.GEOGEBRA, TEXT_FIELD_FRACTION_DIGITS, false);
 		if (equalMin) {
 			GeoElement min0 = GeoElement.as(num0.getIntervalMinObject());
-			if (onlyAngles && (min0 == null
-					|| (!min0.isLabelSet() && min0.isIndependent()))) {
+			if (onlyAngles && (min0 == null || (!min0.isLabelSet() && min0.isIndependent()))) {
 				listener.setMinText(kernel
 						.formatAngle(num0.getIntervalMin(), num0.toDecimal(), highPrecision, true)
 						.toString());
 			} else {
-				listener.setMinText(
-						num0.getIntervalMinObject().getLabel(highPrecision));
+				listener.setMinText(num0.getIntervalMinObject().getLabel(highPrecision));
 			}
 		} else {
 			listener.setMinText("");
@@ -163,14 +159,12 @@ public class SliderModel extends OptionsModel {
 
 		if (equalMax) {
 			GeoElement max0 = GeoElement.as(num0.getIntervalMaxObject());
-			if (onlyAngles && (max0 == null
-					|| (!max0.isLabelSet() && max0.isIndependent()))) {
+			if (onlyAngles && (max0 == null || (!max0.isLabelSet() && max0.isIndependent()))) {
 				listener.setMaxText(kernel
 						.formatAngle(num0.getIntervalMax(), num0.toDecimal(), highPrecision, true)
 						.toString());
 			} else {
-				listener.setMaxText(
-						num0.getIntervalMaxObject().getLabel(highPrecision));
+				listener.setMaxText(num0.getIntervalMaxObject().getLabel(highPrecision));
 			}
 		} else {
 			listener.setMaxText("");
@@ -178,8 +172,7 @@ public class SliderModel extends OptionsModel {
 
 		widthUnit = false;
 		if (equalWidth && equalPinned) {
-			listener.setWidthText(
-					kernel.format(num0.getSliderWidth(), highPrecision));
+			listener.setWidthText(kernel.format(num0.getSliderWidth(), highPrecision));
 			if (num0.isPinned()) {
 				widthUnit = true;
 			}
@@ -196,12 +189,10 @@ public class SliderModel extends OptionsModel {
 		boolean equalSliderHorizontal = true;
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric temp = getNumericAt(i);
-			if (!DoubleUtil.isEqual(num0.getLineThickness(),
-					temp.getLineThickness())) {
+			if (!DoubleUtil.isEqual(num0.getLineThickness(), temp.getLineThickness())) {
 				equalLineThickness = false;
 			}
-			if (!DoubleUtil.isEqual(num0.getSliderBlobSize(),
-					temp.getSliderBlobSize())) {
+			if (!DoubleUtil.isEqual(num0.getSliderBlobSize(), temp.getSliderBlobSize())) {
 				equalBlobSize = false;
 			}
 			if (num0.getObjectColor() != temp.getObjectColor()) {
@@ -221,8 +212,7 @@ public class SliderModel extends OptionsModel {
 			}
 		}
 		if (equalBlobSize) {
-			listener.setBlobSizeText(
-					kernel.format(num0.getSliderBlobSize(), highPrecision));
+			listener.setBlobSizeText(kernel.format(num0.getSliderBlobSize(), highPrecision));
 		}
 		if (equalBlobColor) {
 			listener.setBlobColor(num0.getObjectColor());
@@ -236,8 +226,7 @@ public class SliderModel extends OptionsModel {
 		}
 		if (equalLineThickness) {
 			listener.setLineThicknessSizeText(
-					kernel.format(num0.getLineThickness() / 2.0,
-							highPrecision));
+					kernel.format(num0.getLineThickness() / 2.0, highPrecision));
 		}
 
 		listener.setLineOpacity(Math.round(num0.getLineOpacity() / 255f * 100f));
@@ -258,12 +247,10 @@ public class SliderModel extends OptionsModel {
 			// TODO why doesn't this work when you create a slider
 			listener.setSliderDirection(num0.isSliderHorizontal() ? 0 : 1);
 		}
-
 	}
 
 	public void setLabelForWidthUnit() {
-		listener.setWidthUnitText(
-				widthUnit ? app.getLocalization().getMenu("Pixels.short") : "");
+		listener.setWidthUnitText(widthUnit ? app.getLocalization().getMenu("Pixels.short") : "");
 	}
 
 	public void applyFixed(boolean value) {
@@ -317,7 +304,6 @@ public class SliderModel extends OptionsModel {
 				}
 			}
 			num.updateRepaint();
-
 		}
 		storeUndoInfo();
 	}

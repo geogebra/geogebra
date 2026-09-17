@@ -55,7 +55,9 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 public class CancelAtom extends Atom implements HasTrueBase {
 
 	public enum Type {
-		SLASH, BACKSLASH, X
+		SLASH,
+		BACKSLASH,
+		X
 	}
 
 	private static GColor cancelColor = null;
@@ -79,10 +81,8 @@ public class CancelAtom extends Atom implements HasTrueBase {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		final Box b = base.createBox(env);
-		final double drt = env.getTeXFont()
-				.getDefaultRuleThickness(env.getStyle());
-		final double extra = new TeXLength(Unit.EX, 0.5)
-				.getValue(env);
+		final double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+		final double extra = new TeXLength(Unit.EX, 0.5).getValue(env);
 		return new CancelBox(b, ctype, drt, extra, color);
 	}
 
@@ -159,5 +159,4 @@ public class CancelAtom extends Atom implements HasTrueBase {
 	public Atom getTrueBase() {
 		return base;
 	}
-
 }

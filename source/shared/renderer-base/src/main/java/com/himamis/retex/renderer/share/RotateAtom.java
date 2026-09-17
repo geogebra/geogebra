@@ -102,9 +102,8 @@ public class RotateAtom extends Atom implements HasTrueBase {
 		if (option != -1) {
 			return new RotateBox(base.createBox(env), angle, option);
 		}
-		return new RotateBox(base.createBox(env), angle,
-				x * xunit.getFactor(env),
-				y * yunit.getFactor(env));
+		return new RotateBox(
+				base.createBox(env), angle, x * xunit.getFactor(env), y * yunit.getFactor(env));
 	}
 
 	@Override

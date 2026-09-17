@@ -38,8 +38,11 @@ public class GridDistancePropertyCollection extends AbstractPropertyCollection<P
 	 * @param euclidianSettings EV settings
 	 * @param euclidianView euclidian view
 	 */
-	public GridDistancePropertyCollection(App app, Localization localization, EuclidianSettings
-			euclidianSettings, EuclidianViewInterfaceCommon euclidianView) {
+	public GridDistancePropertyCollection(
+			App app,
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Distance");
 
 		ArrayList<Property> properties = new ArrayList<>();

@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -55,7 +55,7 @@ public final class WindowReference implements EventRenderable {
 	 */
 	private static volatile LoginOperationW loginOperation;
 
-	private final static Object lock = new Object();
+	private static final Object lock = new Object();
 
 	/**
 	 * protected constructor as superclass of js object
@@ -132,8 +132,7 @@ public final class WindowReference implements EventRenderable {
 
 	@Override
 	public void renderEvent(BaseEvent event) {
-		if (event instanceof LoginEvent
-				&& !((LoginEvent) event).isSuccessful()) {
+		if (event instanceof LoginEvent && !((LoginEvent) event).isSuccessful()) {
 			return;
 		}
 		if (event instanceof LoginAttemptEvent) {
@@ -156,8 +155,7 @@ public final class WindowReference implements EventRenderable {
 		}
 	}
 
-	private static Window createWindowReference(String name,
-			String loginUrl, String callback) {
+	private static Window createWindowReference(String name, String loginUrl, String callback) {
 		HTMLHtmlElement documentElement = DomGlobal.document.documentElement;
 		int left = (documentElement.clientWidth / 2) - (WIDTH / 2);
 		int top = (documentElement.clientHeight / 2) - (HEIGHT / 2);
@@ -166,9 +164,7 @@ public final class WindowReference implements EventRenderable {
 				+ "width=" + WIDTH + "," + "height=" + HEIGHT + "," + "left="
 				+ left + ", " + "top=" + top;
 		String separator = loginUrl.contains("?") ? "&" : "?";
-		String url = loginUrl + separator
-				+ "url=" + Global.encodeURIComponent(callback);
+		String url = loginUrl + separator + "url=" + Global.encodeURIComponent(callback);
 		return DomGlobal.window.open(url, name, settings);
 	}
-
 }

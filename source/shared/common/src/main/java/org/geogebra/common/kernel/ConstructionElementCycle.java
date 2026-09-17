@@ -23,23 +23,22 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * @author mathieu
- * 
+ *
  *         Class that stores an ordered set of ConstructionElements, beginning
  *         with the minor ceID value, and going in the direction of the second
  *         minor ceID value.
- * 
+ *
  *         This allow to compare cycles between each others.
- * 
+ *
  *         Warning: the cycle supposes that there's no ConstructionElement that
  *         appears twice; but there's no test to ensure this when using add()
  *         method.
- * 
+ *
  *         Use setDirection() when the cycle is fed to ensure good direction
  *         comparison.
  *
  *         This class is used e.g. for describing points of polygons.
  */
-
 public class ConstructionElementCycle extends ArrayList<GeoElementND>
 		implements Comparable<ConstructionElementCycle> {
 
@@ -56,15 +55,14 @@ public class ConstructionElementCycle extends ArrayList<GeoElementND>
 
 	/**
 	 * return the cycle constituted of P1 and P2
-	 * 
+	 *
 	 * @param P1
 	 *            first element
 	 * @param P2
 	 *            second element
 	 * @return the cycle constituted of P1 and P2
 	 */
-	static public ConstructionElementCycle segmentDescription(
-			GeoElement P1, GeoElement P2) {
+	public static ConstructionElementCycle segmentDescription(GeoElement P1, GeoElement P2) {
 		ConstructionElementCycle cycle = new ConstructionElementCycle();
 		cycle.add(P1);
 		cycle.add(P2);
@@ -127,8 +125,7 @@ public class ConstructionElementCycle extends ArrayList<GeoElementND>
 		int diff = 0;
 		// find the first two different elements, return the difference or 0
 		for (int i = 0; diff == 0 && i < size(); i++) {
-			diff = getCycleNext()
-					.compareTo(cycle.getCycleNext().toGeoElement());
+			diff = getCycleNext().compareTo(cycle.getCycleNext().toGeoElement());
 		}
 		return diff;
 	}
@@ -179,5 +176,4 @@ public class ConstructionElementCycle extends ArrayList<GeoElementND>
 
 		return sb.toString();
 	}
-
 }

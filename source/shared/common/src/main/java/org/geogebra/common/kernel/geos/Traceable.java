@@ -29,7 +29,7 @@ public interface Traceable extends GeoElementND {
 
 	/**
 	 * Turn tracing on/off
-	 * 
+	 *
 	 * @param flag
 	 *            true to switch tracing on
 	 */
@@ -40,5 +40,4 @@ public interface Traceable extends GeoElementND {
 	 */
 	@Override
 	void updateRepaint();
-
 }

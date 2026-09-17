@@ -22,17 +22,16 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * for cones
- * 
+ *
  * @author mathieu
  *
  */
 public class AlgoQuadricComputerCone extends AlgoQuadricComputer {
 
 	@Override
-	public void setQuadric(GeoQuadric3D quadric, Coords origin,
-			Coords direction, Coords eigen, double r, double r2) {
+	public void setQuadric(
+			GeoQuadric3D quadric, Coords origin, Coords direction, Coords eigen, double r, double r2) {
 		quadric.setCone(origin, direction.normalize(), eigen, r, r2);
-
 	}
 
 	@Override

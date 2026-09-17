@@ -34,7 +34,7 @@ public class Smoothing {
 		return getStrokeOutlinePoints(getStrokePoints(toTransform));
 	}
 
-	private final static class StrokePoint {
+	private static final class StrokePoint {
 		final GPoint2D point;
 		GPoint2D dirVector;
 		final double runningLength;
@@ -46,7 +46,7 @@ public class Smoothing {
 		}
 	}
 
-	private static List<StrokePoint> getStrokePoints(List<? extends  GPoint2D> pts) {
+	private static List<StrokePoint> getStrokePoints(List<? extends GPoint2D> pts) {
 		double streamline = 0;
 
 		// If we don't have any points, return an empty array.
@@ -76,15 +76,14 @@ public class Smoothing {
 
 		// Iterate through all of the points, creating StrokePoints.
 		for (int i = 1; i < pts.size(); i++) {
-			GPoint2D point =
-					i == max
-							? // If we're at the last point, and `options.last` is true,
-							// then add the actual input point.
-							pts.get(i)
-							: // Otherwise, using the t calculated from the streamline
-							// option, interpolate a new point between the previous
-							// point the current point.
-							lrp(prev.point, pts.get(i), t);
+			GPoint2D point = i == max
+					? // If we're at the last point, and `options.last` is true,
+					// then add the actual input point.
+					pts.get(i)
+					: // Otherwise, using the t calculated from the streamline
+					// option, interpolate a new point between the previous
+					// point the current point.
+					lrp(prev.point, pts.get(i), t);
 
 			// If the new point is the same as the previous point, skip ahead.
 			if (Objects.equals(prev.point, point)) {
@@ -92,7 +91,7 @@ public class Smoothing {
 			}
 
 			// How far is the new point from the previous point?
-    double distance = prev.point.distance(point);
+			double distance = prev.point.distance(point);
 
 			// Add this distance to the total "running length" of the line.
 			runningLength += distance;
@@ -114,8 +113,7 @@ public class Smoothing {
 					uni(sub(prev.point, point)),
 
 					// The total distance so far
-					runningLength
-			);
+					runningLength);
 
 			// Push it to the strokePoints array.
 			strokePoints.add(prev);
@@ -127,8 +125,7 @@ public class Smoothing {
 		return strokePoints;
 	}
 
-	private static List<GPoint2D> getStrokeOutlinePoints(
-			List<StrokePoint> points) {
+	private static List<GPoint2D> getStrokeOutlinePoints(List<StrokePoint> points) {
 
 		// We can't do anything with an empty array or a stroke with negative size.
 		if (points.isEmpty()) {

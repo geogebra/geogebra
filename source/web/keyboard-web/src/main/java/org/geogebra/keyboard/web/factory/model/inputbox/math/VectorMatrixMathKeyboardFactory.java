@@ -55,10 +55,8 @@ public class VectorMatrixMathKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, "1");
 		addInputButton(row, buttonFactory, "2");
 		addInputButton(row, buttonFactory, "3");
-		addConstantCustomButton(row, buttonFactory, Resource.UP_ARROW,
-				Action.UP_CURSOR);
-		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-				Action.BACKSPACE_DELETE);
+		addConstantCustomButton(row, buttonFactory, Resource.UP_ARROW, Action.UP_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);
 
 		row = mathKeyboard.nextRow();
 		MathKeyUtil.addParenthesesFractionMixed(row, buttonFactory);

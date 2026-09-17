@@ -44,8 +44,8 @@ import org.gwtproject.user.client.ui.ListBox;
  * Dialog to create a GeoBoolean object (checkbox) that determines the
  * visibility of a list of objects.
  */
-public final class CheckboxCreationDialogW extends ComponentDialog implements
-		GeoElementSelectionListener, HasKeyboardPopup {
+public final class CheckboxCreationDialogW extends ComponentDialog
+		implements GeoElementSelectionListener, HasKeyboardPopup {
 	private ComponentInputField tfCaption;
 	private final List<GeoElement> availableObjects = new ArrayList<>();
 	private final List<String> availableObjectNames = new ArrayList<>();
@@ -71,7 +71,7 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 			if (contains(geo)) {
 				return;
 			}
-			
+
 			if (geo.isEuclidianVisible()) {
 				addItem(getDescription(geo));
 				geos.add(geo);
@@ -105,8 +105,7 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 		String text = geo.getLongDescription();
 		if (text.length() < 100) {
 			return text;
-		}
-		else {
+		} else {
 			return geo.getNameDescription();
 		}
 	}
@@ -115,8 +114,7 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 	 * Input Dialog for a GeoBoolean object Make this *not* modal to allow
 	 * adding geos by clicking in EV
 	 */
-	public CheckboxCreationDialogW(AppW app, DialogData data,
-			GPoint loc2, GeoBoolean geoBoolean) {
+	public CheckboxCreationDialogW(AppW app, DialogData data, GPoint loc2, GeoBoolean geoBoolean) {
 		super(app, data, false, false);
 		addStyleName("Checkbox");
 		this.location = loc2;
@@ -136,8 +134,8 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 	private void initLists() {
 		// fill combo box with all geos
 
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
+		TreeSet<GeoElement> sortedSet =
+				app.getKernel().getConstruction().getGeoSetNameDescriptionOrder();
 
 		// lists for combo boxes to select input and output objects
 		// fill combobox models
@@ -147,10 +145,9 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 			}
 		}
 		availableObjectNames.add("");
-		gbObjects = new ComponentDropDown((AppW) app, "Tool.SelectObjects",
-				availableObjectNames, -1);
+		gbObjects = new ComponentDropDown((AppW) app, "Tool.SelectObjects", availableObjectNames, -1);
 		rebuildNames();
-	
+
 		// fill list with all selected geos
 		gbList = new GeoAttachedListBox();
 
@@ -159,7 +156,7 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 		for (GeoElement geo : selectedGeos) {
 			gbList.add(geo);
 		}
-		
+
 		gbObjects.addChangeHandler(() -> {
 			GeoElement geo = availableObjects.get(gbObjects.getSelectedIndex());
 			if (geo != null) {
@@ -171,7 +168,8 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 	private void rebuildNames() {
 		availableObjectNames.clear();
 		availableObjects.stream()
-				.map(CheckboxCreationDialogW::getDescription).forEach(availableObjectNames::add);
+				.map(CheckboxCreationDialogW::getDescription)
+				.forEach(availableObjectNames::add);
 		gbObjects.setSelectedIndex(-1);
 		gbObjects.setLabels();
 		gbObjects.setDisabled(availableObjects.isEmpty());
@@ -186,20 +184,19 @@ public final class CheckboxCreationDialogW extends ComponentDialog implements
 
 	private void buildContent() {
 		// create caption panel
-		String initString = geoBoolean == null ? ""
-				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
+		String initString =
+				geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 
-		tfCaption = new ComponentInputField((AppW) app, null, "Button.Caption",
-				null, initString);
+		tfCaption = new ComponentInputField((AppW) app, null, "Button.Caption", null, initString);
 		tfCaption.getTextWidget().setAutoComplete(false);
 
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);
 		gbList.getElement().addClassName("cbCreationList");
-		StandardButton btnRemove = new StandardButton(MaterialDesignResources
-				.INSTANCE.delete_black(), 20);
+		StandardButton btnRemove =
+				new StandardButton(MaterialDesignResources.INSTANCE.delete_black(), 20);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
-		
+
 		btnRemove.addFastClickHandler(event -> {
 			GeoElement geo = gbList.getSelectedGeo();
 			if (geo != null) {

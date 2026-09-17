@@ -51,7 +51,7 @@ public interface KeyboardListener {
 
 	/**
 	 * Focus/Blur the text field
-	 * 
+	 *
 	 * @param focus
 	 *            true: focus; false: blur
 	 */
@@ -69,7 +69,7 @@ public interface KeyboardListener {
 
 	/**
 	 * simulates arrow events
-	 * 
+	 *
 	 * @param type
 	 *            {@link ArrowType}
 	 */
@@ -77,7 +77,7 @@ public interface KeyboardListener {
 
 	/**
 	 * Inserts the given text at the caret position
-	 * 
+	 *
 	 * @param text
 	 *            text to be inserted
 	 */

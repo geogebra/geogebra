@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,9 +39,9 @@ import org.geogebra.desktop.sound.mp3transform.Decoder;
 /**
  * Class to handle GeoGebra sound features. Calls to midi and streaming audio
  * methods are managed from here.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class SoundManagerD implements SoundManager {
 
@@ -60,7 +60,7 @@ public class SoundManagerD implements SoundManager {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app application
 	 */
 	public SoundManagerD(App app) {
@@ -114,8 +114,8 @@ public class SoundManagerD implements SoundManager {
 	// ====================================
 
 	@Override
-	public void playSequenceNote(final int note, final double duration,
-			final int instrument, final int velocity) {
+	public void playSequenceNote(
+			final int note, final double duration, final int instrument, final int velocity) {
 		try {
 			stopCurrentSound();
 			currentSoundType = SOUNDTYPE_MIDI;
@@ -127,7 +127,7 @@ public class SoundManagerD implements SoundManager {
 
 	/**
 	 * Plays an audio file with the .mid / .mp3
-	 * 
+	 *
 	 * @param fileName filename
 	 */
 	@Override
@@ -135,9 +135,9 @@ public class SoundManagerD implements SoundManager {
 
 		SwingUtilities.invokeLater(() -> {
 			try {
-				if (fileName.startsWith("data:") || fileName.startsWith("#")
-						|| !(fileName.endsWith(".midi")
-						&& fileName.endsWith(".mid"))) {
+				if (fileName.startsWith("data:")
+						|| fileName.startsWith("#")
+						|| !(fileName.endsWith(".midi") && fileName.endsWith(".mid"))) {
 
 					PauseControl control = new PauseControl();
 					controls.add(control);
@@ -145,7 +145,6 @@ public class SoundManagerD implements SoundManager {
 					thread.start();
 
 					return;
-
 				}
 
 				// not .mp3, must be .mid
@@ -156,9 +155,7 @@ public class SoundManagerD implements SoundManager {
 			} catch (Exception e) {
 				Log.debug(e);
 			}
-
 		});
-
 	}
 
 	private Runnable playMp3(String fileName, PauseControl control) {
@@ -175,8 +172,7 @@ public class SoundManagerD implements SoundManager {
 	private InputStream openStream(String fileName) {
 		try {
 			if (fileName.startsWith(StringUtil.mp3Marker)) {
-				String mp3base64 = fileName
-						.substring(StringUtil.mp3Marker.length());
+				String mp3base64 = fileName.substring(StringUtil.mp3Marker.length());
 				byte[] mp3 = Base64.decode(mp3base64);
 				return new ByteArrayInputStream(mp3);
 			} else if (fileName.startsWith("#")) {
@@ -186,8 +182,7 @@ public class SoundManagerD implements SoundManager {
 
 				// #5094
 				return new URL(url).openStream();
-			} else if (fileName.startsWith("http:")
-					|| fileName.startsWith("https:")) {
+			} else if (fileName.startsWith("http:") || fileName.startsWith("https:")) {
 
 				return new URL(fileName).openStream();
 			} else {
@@ -214,8 +209,12 @@ public class SoundManagerD implements SoundManager {
 	}
 
 	@Override
-	public void playFunction(final GeoFunction geoFunction, final double min,
-			final double max, final int sampleRate, final int bitDepth) {
+	public void playFunction(
+			final GeoFunction geoFunction,
+			final double min,
+			final double max,
+			final int sampleRate,
+			final int bitDepth) {
 		try {
 			stopCurrentSound();
 			currentSoundType = SOUNDTYPE_FUNCTION;
@@ -226,8 +225,7 @@ public class SoundManagerD implements SoundManager {
 	}
 
 	@Override
-	public void playFunction(final GeoFunction f, final double min,
-			final double max) {
+	public void playFunction(final GeoFunction f, final double min, final double max) {
 		try {
 			stopCurrentSound();
 			currentSoundType = SOUNDTYPE_FUNCTION;
@@ -255,7 +253,7 @@ public class SoundManagerD implements SoundManager {
 
 	/**
 	 * Pauses/resumes current sound.
-	 * 
+	 *
 	 * @param resume
 	 *            : true = resume play, false = pause
 	 */
@@ -269,7 +267,7 @@ public class SoundManagerD implements SoundManager {
 		if (currentSoundType == SOUNDTYPE_FUNCTION && functionSound != null) {
 			functionSound.pause(!resume);
 		}
-		for (PauseControl pauseControl: controls) {
+		for (PauseControl pauseControl : controls) {
 			pauseControl.pause = !resume;
 		}
 

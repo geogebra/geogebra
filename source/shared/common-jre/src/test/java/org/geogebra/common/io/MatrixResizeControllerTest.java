@@ -127,16 +127,19 @@ class MatrixResizeControllerTest {
 	}
 
 	private void assertEditorContents(String ascii) {
-		assertEquals(ascii, GeoGebraSerializer
-				.serialize(mathField.getInternal().getEditorState().getRootNode(),
-						(EditorFeatures) null));
+		assertEquals(
+				ascii,
+				GeoGebraSerializer.serialize(
+						mathField.getInternal().getEditorState().getRootNode(), (EditorFeatures) null));
 	}
 
 	private void assertDimensions(int rows, int columns) {
 		assertNotNull(matrixResizeController.getState().popupState());
-		assertEquals(String.valueOf(rows),
+		assertEquals(
+				String.valueOf(rows),
 				matrixResizeController.getState().popupState().controlState().rows());
-		assertEquals(String.valueOf(columns),
+		assertEquals(
+				String.valueOf(columns),
 				matrixResizeController.getState().popupState().controlState().columns());
 	}
 }

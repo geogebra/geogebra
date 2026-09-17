@@ -39,23 +39,21 @@ class LineGraphCoordinatesPropertyTests extends BaseAppTestSetup {
 	void testLineChartFromInlineLists() {
 		GeoElement lineChart = evaluateGeoElement("LineGraph({1,2,3},{2,3,1})");
 
-		LineGraphCoordinatesProperty x = assertDoesNotThrow(
-				() -> new LineGraphCoordinatesProperty(getLocalization(),
-						lineChart, LineGraphCoordinatesProperty.Axis.X));
+		LineGraphCoordinatesProperty x = assertDoesNotThrow(() -> new LineGraphCoordinatesProperty(
+				getLocalization(), lineChart, LineGraphCoordinatesProperty.Axis.X));
 		assertEquals("{1,2,3}", x.getValue());
 		x.setValue("{4,5,6}");
 		assertEquals("{4,5,6}", x.getValue());
-		assertEquals("LineGraph({4, 5, 6}, {2, 3, 1})", lookup("f")
-				.getDefinition(StringTemplate.testTemplate));
+		assertEquals(
+				"LineGraph({4, 5, 6}, {2, 3, 1})", lookup("f").getDefinition(StringTemplate.testTemplate));
 
-		LineGraphCoordinatesProperty y = assertDoesNotThrow(
-				() -> new LineGraphCoordinatesProperty(getLocalization(),
-						lineChart, LineGraphCoordinatesProperty.Axis.Y));
+		LineGraphCoordinatesProperty y = assertDoesNotThrow(() -> new LineGraphCoordinatesProperty(
+				getLocalization(), lineChart, LineGraphCoordinatesProperty.Axis.Y));
 		assertEquals("{2,3,1}", y.getValue());
 		y.setValue("{7,8,9}");
 		assertEquals("{7,8,9}", y.getValue());
-		assertEquals("LineGraph({4, 5, 6}, {7, 8, 9})", lookup("f")
-				.getDefinition(StringTemplate.testTemplate));
+		assertEquals(
+				"LineGraph({4, 5, 6}, {7, 8, 9})", lookup("f").getDefinition(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -66,17 +64,14 @@ class LineGraphCoordinatesPropertyTests extends BaseAppTestSetup {
 		evaluateGeoElement("l4={7,8,9}");
 		GeoElement lineChart = evaluateGeoElement("LineGraph(l1,l2)");
 
-		LineGraphCoordinatesProperty x = assertDoesNotThrow(
-				() -> new LineGraphCoordinatesProperty(getLocalization(),
-						lineChart, LineGraphCoordinatesProperty.Axis.X));
+		LineGraphCoordinatesProperty x = assertDoesNotThrow(() -> new LineGraphCoordinatesProperty(
+				getLocalization(), lineChart, LineGraphCoordinatesProperty.Axis.X));
 		assertEquals("l1", x.getValue());
 		x.setValue("l3");
-		assertEquals("LineGraph(l3, l2)", lookup("f")
-				.getDefinition(StringTemplate.testTemplate));
+		assertEquals("LineGraph(l3, l2)", lookup("f").getDefinition(StringTemplate.testTemplate));
 
-		LineGraphCoordinatesProperty y = assertDoesNotThrow(
-				() -> new LineGraphCoordinatesProperty(getLocalization(),
-						lineChart, LineGraphCoordinatesProperty.Axis.Y));
+		LineGraphCoordinatesProperty y = assertDoesNotThrow(() -> new LineGraphCoordinatesProperty(
+				getLocalization(), lineChart, LineGraphCoordinatesProperty.Axis.Y));
 		assertEquals("l2", y.getValue());
 	}
 
@@ -87,9 +82,8 @@ class LineGraphCoordinatesPropertyTests extends BaseAppTestSetup {
 		evaluateGeoElement("l3={4,5,6}");
 		GeoElement lineChart = evaluateGeoElement("LineGraph(l1,l2)");
 
-		LineGraphCoordinatesProperty x = assertDoesNotThrow(
-				() -> new LineGraphCoordinatesProperty(getLocalization(),
-						lineChart, LineGraphCoordinatesProperty.Axis.X));
+		LineGraphCoordinatesProperty x = assertDoesNotThrow(() -> new LineGraphCoordinatesProperty(
+				getLocalization(), lineChart, LineGraphCoordinatesProperty.Axis.X));
 		assertNull(x.validateValue("l3"));
 		assertNull(x.validateValue("{7,8,9}"));
 		assertNotNull(x.validateValue("f"));

@@ -22,7 +22,7 @@ package org.geogebra.common.main;
 public class BracketsError extends MyError {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -35,5 +35,4 @@ public class BracketsError extends MyError {
 	public BracketsError(Localization loc, String input) {
 		super(loc, Errors.UnbalancedBrackets, input);
 	}
-
 }

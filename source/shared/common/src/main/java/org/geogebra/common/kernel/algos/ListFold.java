@@ -44,13 +44,11 @@ public class ListFold implements FoldComputer {
 	@Override
 	public void add(GeoElement geoElement, Operation op) {
 		sum.applyLeft(op, geoElement, StringTemplate.defaultTemplate);
-
 	}
 
 	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
 		sum = ((GeoList) geoElement).getMyList();
-
 	}
 
 	@Override
@@ -66,15 +64,12 @@ public class ListFold implements FoldComputer {
 		result.getConstruction().setSuppressLabelCreation(true);
 		for (int i = 0; i < sum.size(); i++) {
 			try {
-				result.add(ap.processValidExpression(
-						sum.get(i).wrap())[0]);
+				result.add(ap.processValidExpression(sum.get(i).wrap())[0]);
 			} catch (MyError | Exception e) {
 				result.setUndefined();
 				Log.debug(e);
 			}
 		}
 		result.getConstruction().setSuppressLabelCreation(oldMode);
-
 	}
-
 }

@@ -33,7 +33,8 @@ public class RegressionSpecificationBuilder implements Restrictable {
 	private RegressionModelGroup modelGroup = RegressionModelGroup.STANDARD;
 
 	private enum RegressionModelGroup {
-		STANDARD, MMS
+		STANDARD,
+		MMS
 	}
 
 	/**
@@ -48,7 +49,8 @@ public class RegressionSpecificationBuilder implements Restrictable {
 				addStandardSpecs();
 			}
 		}
-		return specs.stream().filter(spec -> spec.getCoeffOrdering().length() <= listSize)
+		return specs.stream()
+				.filter(spec -> spec.getCoeffOrdering().length() <= listSize)
 				.collect(Collectors.toList());
 	}
 
@@ -59,16 +61,16 @@ public class RegressionSpecificationBuilder implements Restrictable {
 		specs.add(new CustomRegressionSpecification("a x^2 + b x", 2, 1));
 		specs.add(new CustomRegressionSpecification("a x^2 + c", 2, 0));
 		specs.add(new CustomRegressionSpecification("a x^2", 2));
-		specs.add(new CustomRegressionSpecification("a * exp(b x) + c",
-				"acb", CustomRegressionSpecification.Type.EXP_PLUS_CONSTANT));
-		specs.add(new CustomRegressionSpecification("a * exp(b x)",
-				"ab", CustomRegressionSpecification.Type.EXPONENTIAL));
+		specs.add(new CustomRegressionSpecification(
+				"a * exp(b x) + c", "acb", CustomRegressionSpecification.Type.EXP_PLUS_CONSTANT));
+		specs.add(new CustomRegressionSpecification(
+				"a * exp(b x)", "ab", CustomRegressionSpecification.Type.EXPONENTIAL));
 		specs.add(new CustomRegressionSpecification("a / x + b", -1, 0));
 		specs.add(new CustomRegressionSpecification("a / x", -1));
 		specs.add(new CustomRegressionSpecification("a / x^2 + b", -2, 0));
 		specs.add(new CustomRegressionSpecification("a / x^2", -2));
-		specs.add(new CustomRegressionSpecification("a " + Unicode.CENTER_DOT
-				+ Unicode.SQUARE_ROOT + "x", .5));
+		specs.add(new CustomRegressionSpecification(
+				"a " + Unicode.CENTER_DOT + Unicode.SQUARE_ROOT + "x", .5));
 	}
 
 	private void addStandardSpecs() {
@@ -89,16 +91,15 @@ public class RegressionSpecificationBuilder implements Restrictable {
 		specs.clear();
 	}
 
-	private void addSpec(Regression regression, int polynomialDegree, String formula,
-			String coefficientOrdering) {
-		specs.add(new StandardRegressionSpecification(regression, polynomialDegree, formula,
-				coefficientOrdering));
+	private void addSpec(
+			Regression regression, int polynomialDegree, String formula, String coefficientOrdering) {
+		specs.add(new StandardRegressionSpecification(
+				regression, polynomialDegree, formula, coefficientOrdering));
 	}
 
 	@Override
 	public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
-		if (featureRestrictions.contains(
-				FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS)) {
+		if (featureRestrictions.contains(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS)) {
 			setModelGroup(RegressionModelGroup.MMS);
 		}
 	}

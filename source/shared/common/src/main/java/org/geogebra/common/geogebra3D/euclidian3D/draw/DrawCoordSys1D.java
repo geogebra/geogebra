@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing 1D coord sys (lines, segments, ...)
- * 
+ *
  * @author matthieu
  *
  */
@@ -35,7 +35,7 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            3D view
 	 * @param cs1D
@@ -48,18 +48,17 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 
 	/**
 	 * common constructor for previewable
-	 * 
+	 *
 	 * @param a_view3d
 	 *            view
 	 */
 	public DrawCoordSys1D(EuclidianView3D a_view3d) {
 		super(a_view3d);
-
 	}
 
 	/**
 	 * constructor for previewable
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPoints
@@ -67,14 +66,13 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 	 * @param geo
 	 *            preview line
 	 */
-	public DrawCoordSys1D(EuclidianView3D a_view3D,
-			ArrayList<GeoPointND> selectedPoints,
-			GeoElement geo) {
+	public DrawCoordSys1D(
+			EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints, GeoElement geo) {
 		super(a_view3D, selectedPoints, geo);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return line
 	 */
 	protected GeoLineND getLine() {
@@ -82,11 +80,9 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 	}
 
 	@Override
-	protected void setPreviewableCoords(GeoPointND firstPoint,
-			GeoPointND secondPoint) {
-		((GeoCoordSys1D) getGeoElement()).setCoordFromPoints(
-				firstPoint.getInhomCoordsInD3(),
-				secondPoint.getInhomCoordsInD3());
+	protected void setPreviewableCoords(GeoPointND firstPoint, GeoPointND secondPoint) {
+		((GeoCoordSys1D) getGeoElement())
+				.setCoordFromPoints(firstPoint.getInhomCoordsInD3(), secondPoint.getInhomCoordsInD3());
 	}
 
 	@Override
@@ -94,9 +90,8 @@ public abstract class DrawCoordSys1D extends DrawJoinPoints {
 		GeoLineND cs = getLine();
 		double[] minmax = getDrawMinMax();
 		return new Coords[] {
-				cs.getPointInD(3, minmax[0]).getInhomCoordsInSameDimension(),
-				cs.getPointInD(3, minmax[1]).getInhomCoordsInSameDimension() };
-
+			cs.getPointInD(3, minmax[0]).getInhomCoordsInSameDimension(),
+			cs.getPointInD(3, minmax[1]).getInhomCoordsInSameDimension()
+		};
 	}
-
 }

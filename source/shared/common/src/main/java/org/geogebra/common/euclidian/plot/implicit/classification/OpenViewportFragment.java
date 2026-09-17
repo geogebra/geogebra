@@ -18,5 +18,4 @@ package org.geogebra.common.euclidian.plot.implicit.classification;
 
 import org.geogebra.common.euclidian.plot.implicit.ClippedFragment;
 
-record OpenViewportFragment(int fragmentId, ClippedFragment fragment) {
-}
+record OpenViewportFragment(int fragmentId, ClippedFragment fragment) {}

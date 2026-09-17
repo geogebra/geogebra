@@ -43,7 +43,7 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 
 	/**
 	 * Creates new AlgoPolarLine
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -53,8 +53,7 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 	 * @param P
 	 *            polar point
 	 */
-	public AlgoPolarLine3D(Construction cons, String label, GeoConicND c,
-			GeoPointND P) {
+	public AlgoPolarLine3D(Construction cons, String label, GeoConicND c, GeoPointND P) {
 		super(cons, label, c, P);
 	}
 
@@ -74,8 +73,7 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 	public final void compute() {
 
 		// check if point lies on conic coord sys
-		coords2D = c.getCoordSys()
-				.getNormalProjection(P.getInhomCoordsInD3())[1];
+		coords2D = c.getCoordSys().getNormalProjection(P.getInhomCoordsInD3())[1];
 		if (!DoubleUtil.isZero(coords2D.getZ())) {
 			polar.setUndefined();
 			return;
@@ -89,18 +87,13 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 
 		// update 3D polar
 		polar2D.getCoords(polarCoords);
-		polarDirection = c.getCoordSys().getVector(-polarCoords[1],
-				polarCoords[0]);
+		polarDirection = c.getCoordSys().getVector(-polarCoords[1], polarCoords[0]);
 		if (DoubleUtil.isZero(polarCoords[0])) {
-			polarOrigin = c.getCoordSys().getPoint(0,
-					-polarCoords[2] / polarCoords[1]);
+			polarOrigin = c.getCoordSys().getPoint(0, -polarCoords[2] / polarCoords[1]);
 		} else {
-			polarOrigin = c.getCoordSys()
-					.getPoint(-polarCoords[2] / polarCoords[0], 0);
+			polarOrigin = c.getCoordSys().getPoint(-polarCoords[2] / polarCoords[0], 0);
 		}
 
 		((GeoLine3D) polar).setCoord(polarOrigin, polarDirection);
-
 	}
-
 }

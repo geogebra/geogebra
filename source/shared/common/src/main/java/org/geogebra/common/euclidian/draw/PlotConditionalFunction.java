@@ -37,8 +37,8 @@ import org.geogebra.common.plugin.Operation;
 final class PlotConditionalFunction {
 	private final EuclidianView view;
 	private final PathPlotter gp;
-	private static final List<Operation> supported = Arrays.asList(Operation.IF_ELSE,
-			Operation.IF_LIST);
+	private static final List<Operation> supported =
+			Arrays.asList(Operation.IF_ELSE, Operation.IF_LIST);
 	private ExpressionNode node;
 	private Operation operation;
 	private GeoFunction geoFunction;
@@ -53,8 +53,7 @@ final class PlotConditionalFunction {
 		this.gp = gp;
 	}
 
-	boolean update(GeoFunction f, double min, double max,
-			boolean labelVisible, boolean fillCurve) {
+	boolean update(GeoFunction f, double min, double max, boolean labelVisible, boolean fillCurve) {
 		geoFunction = f;
 		node = geoFunction.getFunctionExpression();
 		operation = node.getOperation();
@@ -100,8 +99,13 @@ final class PlotConditionalFunction {
 	private void plotBetweenLimits(List<ExpressionValue> conditions) {
 		List<Double> limits = getLimits(conditions);
 		for (int i = 0; i < limits.size() - 1; i++) {
-			GPoint partialLabel = CurvePlotter.plotCurve(geoFunction, limits.get(i),
-					limits.get(i + 1), view, gp, labelVisible,
+			GPoint partialLabel = CurvePlotter.plotCurve(
+					geoFunction,
+					limits.get(i),
+					limits.get(i + 1),
+					view,
+					gp,
+					labelVisible,
 					fillCurve ? Gap.CORNER : Gap.MOVE_TO);
 			if (labelVisible && labelPoint == null) {
 				labelPoint = partialLabel;

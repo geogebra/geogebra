@@ -22,7 +22,11 @@ import java.util.Locale;
  * Table border type.
  */
 public enum BorderType {
-	ALL, INNER, OUTER, NONE, MIXED;
+	ALL,
+	INNER,
+	OUTER,
+	NONE,
+	MIXED;
 
 	@Override
 	public String toString() {

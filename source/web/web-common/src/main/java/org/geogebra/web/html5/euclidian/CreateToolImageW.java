@@ -45,23 +45,22 @@ public class CreateToolImageW implements CreateToolImage {
 		toolImage.setMeasurementTool(true);
 		SVGResource toolSVG = getMeasurementToolSVG(mode);
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(app, toolImage);
-		String path = ImageManagerW.getMD5FileName(internalName, toolSVG.getSafeUri().asString());
+		String path =
+				ImageManagerW.getMD5FileName(internalName, toolSVG.getSafeUri().asString());
 		factory.createInternalFile(path, toolSVG.getSafeUri().asString());
 		return toolImage;
-
 	}
 
 	private static SVGResource getMeasurementToolSVG(int mode) {
 		switch (mode) {
-		case EuclidianConstants.MODE_RULER:
-			return GuiResourcesSimple.INSTANCE.ruler();
-		case EuclidianConstants.MODE_PROTRACTOR:
-			return GuiResourcesSimple.INSTANCE.protractor();
-		case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
-			return GuiResourcesSimple.INSTANCE.triangle_protractor();
+			case EuclidianConstants.MODE_RULER:
+				return GuiResourcesSimple.INSTANCE.ruler();
+			case EuclidianConstants.MODE_PROTRACTOR:
+				return GuiResourcesSimple.INSTANCE.protractor();
+			case EuclidianConstants.MODE_TRIANGLE_PROTRACTOR:
+				return GuiResourcesSimple.INSTANCE.triangle_protractor();
 		}
 
 		return null;
 	}
-
 }

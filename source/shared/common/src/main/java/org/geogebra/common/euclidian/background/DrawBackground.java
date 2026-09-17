@@ -27,7 +27,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
  * Helper class for drawing the background
- * 
+ *
  * @author laszlo
  *
  */
@@ -48,7 +48,7 @@ public class DrawBackground {
 	private double width;
 
 	/**
-	 * 
+	 *
 	 * @param euclidianView
 	 *            view
 	 * @param settings
@@ -61,47 +61,47 @@ public class DrawBackground {
 
 	/**
 	 * Draws the background for MOW.
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
 	public void draw(GGraphics2D g2) {
-		GBasicStroke rulerStroke = EuclidianStatic.getStroke(settings.isRulerBold() ? 2f : 1f,
-				settings.getRulerLineStyle());
+		GBasicStroke rulerStroke =
+				EuclidianStatic.getStroke(settings.isRulerBold() ? 2f : 1f, settings.getRulerLineStyle());
 		g2.setStroke(rulerStroke);
 		updateRulerGap();
 		gap = settings.getBackgroundRulerGap();
 		width = RULING_BASE_WIDTH;
 		switch (settings.getBackgroundType()) {
-		case RULER:
-			drawRuledBackground(g2);
-			break;
-		case SQUARE_BIG:
-			drawSquaredSubgrid(g2);
-			drawSquaredBackground(g2);
-			break;
-		case SQUARE_SMALL:
-			gap = settings.getBackgroundRulerGap() / 2;
-			width = 21;
-			drawSquaredBackground(g2);
-			break;
-		case DOTS:
-			drawDottedBackground(g2);
-			break;
-		case ISOMETRIC:
-		case POLAR:
-			// do nothing; uses standard grid paint
-			break;
-		case SVG:
-		case ELEMENTARY12:
-		case ELEMENTARY12_HOUSE:
-		case ELEMENTARY12_COLORED:
-		case ELEMENTARY34:
-		case MUSIC:
-			drawSVG(g2);
-			break;
-		default:
-			break;
+			case RULER:
+				drawRuledBackground(g2);
+				break;
+			case SQUARE_BIG:
+				drawSquaredSubgrid(g2);
+				drawSquaredBackground(g2);
+				break;
+			case SQUARE_SMALL:
+				gap = settings.getBackgroundRulerGap() / 2;
+				width = 21;
+				drawSquaredBackground(g2);
+				break;
+			case DOTS:
+				drawDottedBackground(g2);
+				break;
+			case ISOMETRIC:
+			case POLAR:
+				// do nothing; uses standard grid paint
+				break;
+			case SVG:
+			case ELEMENTARY12:
+			case ELEMENTARY12_HOUSE:
+			case ELEMENTARY12_COLORED:
+			case ELEMENTARY34:
+			case MUSIC:
+				drawSVG(g2);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -173,15 +173,13 @@ public class DrawBackground {
 		double startX = infinite ? start - gap : getStartX();
 		double endX = infinite ? view.getWidth() : getEndX();
 
-		doDrawHorizontalLines(g2, subgrid, startX, endX, start - gap,
-				view.getHeight());
+		doDrawHorizontalLines(g2, subgrid, startX, endX, start - gap, view.getHeight());
 	}
 
-	private void doDrawHorizontalLines(GGraphics2D g2, boolean subgrid, double xStart, double xEnd,
-			double yStart, double yEnd) {
+	private void doDrawHorizontalLines(
+			GGraphics2D g2, boolean subgrid, double xStart, double xEnd, double yStart, double yEnd) {
 		// draw main grid
-		g2.setColor(subgrid ? settings.getBgSubLineColor()
-				: settings.getBgRulerColor());
+		g2.setColor(subgrid ? settings.getBgSubLineColor() : settings.getBgRulerColor());
 		g2.startGeneralPath();
 
 		double y = yStart;
@@ -209,15 +207,13 @@ public class DrawBackground {
 		double startX = (view.getXZero() % gap) - gap;
 		double endX = view.getWidth();
 
-		doDrawVerticalLines(g2, subgrid, startX, endX, start - gap,
-				view.getHeight() + 2 * gap);
+		doDrawVerticalLines(g2, subgrid, startX, endX, start - gap, view.getHeight() + 2 * gap);
 	}
 
-	private void doDrawVerticalLines(GGraphics2D g2, boolean subgrid, double xStart, double xEnd,
-			double yStart, double height) {
+	private void doDrawVerticalLines(
+			GGraphics2D g2, boolean subgrid, double xStart, double xEnd, double yStart, double height) {
 		// draw main grid
-		g2.setColor(subgrid ? settings.getBgSubLineColor()
-				: settings.getBgRulerColor());
+		g2.setColor(subgrid ? settings.getBgSubLineColor() : settings.getBgRulerColor());
 		g2.startGeneralPath();
 
 		double x = xStart;
@@ -257,8 +253,8 @@ public class DrawBackground {
 		drawVerticalLines(g2, true);
 	}
 
-	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,
-			double y1, double x2, double y2) {
+	private static void addStraightLineToGeneralPath(
+			GGraphics2D g2, double x1, double y1, double x2, double y2) {
 		g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
 	}
 
@@ -267,8 +263,7 @@ public class DrawBackground {
 		double startX = (view.getXZero() % gap) - gap;
 		double endX = view.getWidth();
 
-		drawDots(g2, startX, endX, start - gap, view.getHeight() + 2 * gap,
-				gap, gap, settings);
+		drawDots(g2, startX, endX, start - gap, view.getHeight() + 2 * gap, gap, gap, settings);
 	}
 
 	/**
@@ -282,8 +277,14 @@ public class DrawBackground {
 	 * @param dotDistanceY - vertical distance between dots
 	 * @param settings - determines color
 	 */
-	public static void drawDots(GGraphics2D g2, double xStart, double xEnd,
-			double yStart, double yEnd, double dotDistanceX, double dotDistanceY,
+	public static void drawDots(
+			GGraphics2D g2,
+			double xStart,
+			double xEnd,
+			double yStart,
+			double yEnd,
+			double dotDistanceX,
+			double dotDistanceY,
 			EuclidianSettings settings) {
 		if (dotDistanceX < MIN_DOT_DISTANCE || dotDistanceY < MIN_DOT_DISTANCE) {
 			return;

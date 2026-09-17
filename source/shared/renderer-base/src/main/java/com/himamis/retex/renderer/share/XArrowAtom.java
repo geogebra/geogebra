@@ -61,7 +61,19 @@ import com.himamis.retex.renderer.share.xarrows.XRightHarpoonUp;
 public class XArrowAtom extends XAtom {
 
 	public enum Kind {
-		Left, Right, LR, LeftAndRight, RightAndLeft, LeftHarpoonUp, LeftHarpoonDown, RightHarpoonUp, RightHarpoonDown, LeftRightHarpoons, RightLeftHarpoons, RightSmallLeftHarpoons, SmallRightLeftHarpoons,
+		Left,
+		Right,
+		LR,
+		LeftAndRight,
+		RightAndLeft,
+		LeftHarpoonUp,
+		LeftHarpoonDown,
+		RightHarpoonUp,
+		RightHarpoonDown,
+		LeftRightHarpoons,
+		RightLeftHarpoons,
+		RightSmallLeftHarpoons,
+		SmallRightLeftHarpoons,
 	}
 
 	private Kind kind;
@@ -78,88 +90,78 @@ public class XArrowAtom extends XAtom {
 	@Override
 	public Box createExtension(TeXEnvironment env, double width) {
 		switch (kind) {
-		case Left:
-			return new XLeftArrow(width);
-		case Right:
-			return new XRightArrow(width);
-		case LR:
-			return new XLeftRightArrow(width);
-		case LeftAndRight: {
-			final Box right = new XRightArrow(width);
-			final Box left = new XLeftArrow(width);
-			final VerticalBox vb = new VerticalBox(left);
-			vb.add(right);
-			return vb;
-		}
-		case RightAndLeft: {
-			final Box right = new XRightArrow(width);
-			final Box left = new XLeftArrow(width);
-			final VerticalBox vb = new VerticalBox(right);
-			vb.add(left);
-			return vb;
-		}
-		case LeftHarpoonUp:
-			return new XLeftHarpoonUp(width);
-		case LeftHarpoonDown:
-			return new XLeftHarpoonDown(width);
-		case RightHarpoonUp:
-			return new XRightHarpoonUp(width);
-		case RightHarpoonDown:
-			return new XRightHarpoonDown(width);
-		case LeftRightHarpoons:
-		// /___________
-		// ___________
-		// /
-		{
-			final Box right = new XRightHarpoonDown(width);
-			final Box left = new XLeftHarpoonUp(width);
-			final VerticalBox vb = new VerticalBox(left);
-			vb.add(new StrutBox(0.,
-					new TeXLength(Unit.MU, -2.).getValue(env), 0.,
-					0.));
-			vb.add(right);
-			return vb;
-		}
-		case RightLeftHarpoons:
-		// ___________\
-		// ___________
-		// \
-		{
-			final Box right = new XRightHarpoonUp(width);
-			final Box left = new XLeftHarpoonDown(width);
-			final VerticalBox vb = new VerticalBox(right);
-			vb.add(new StrutBox(0.,
-					new TeXLength(Unit.MU, -2.).getValue(env), 0.,
-					0.));
-			vb.add(left);
-			return vb;
-		}
-		case RightSmallLeftHarpoons: {
-			final Box right = new XRightHarpoonUp(width);
-			final Box left = SymbolAtom.get("leftharpoondown").createBox(env);
-			final VerticalBox vb = new VerticalBox(right);
-			vb.add(new StrutBox(0.,
-					new TeXLength(Unit.MU, -2.).getValue(env), 0.,
-					0.));
-			vb.add(new HorizontalBox(left, right.getWidth(),
-					TeXConstants.Align.CENTER));
-			return vb;
-		}
-		case SmallRightLeftHarpoons: {
-			final Box right = SymbolAtom.get("rightharpoonup").createBox(env);
-			final Box left = new XLeftHarpoonDown(width);
-			final VerticalBox vb = new VerticalBox(new HorizontalBox(right,
-					left.getWidth(), TeXConstants.Align.CENTER));
-			vb.add(new StrutBox(0.,
-					new TeXLength(Unit.MU, -2.).getValue(env), 0.,
-					0.));
-			vb.add(left);
-			return vb;
-		}
-		default:
-			FactoryProvider.debugS(kind + " not implemented");
-			return StrutBox.getEmpty();
+			case Left:
+				return new XLeftArrow(width);
+			case Right:
+				return new XRightArrow(width);
+			case LR:
+				return new XLeftRightArrow(width);
+			case LeftAndRight: {
+				final Box right = new XRightArrow(width);
+				final Box left = new XLeftArrow(width);
+				final VerticalBox vb = new VerticalBox(left);
+				vb.add(right);
+				return vb;
+			}
+			case RightAndLeft: {
+				final Box right = new XRightArrow(width);
+				final Box left = new XLeftArrow(width);
+				final VerticalBox vb = new VerticalBox(right);
+				vb.add(left);
+				return vb;
+			}
+			case LeftHarpoonUp:
+				return new XLeftHarpoonUp(width);
+			case LeftHarpoonDown:
+				return new XLeftHarpoonDown(width);
+			case RightHarpoonUp:
+				return new XRightHarpoonUp(width);
+			case RightHarpoonDown:
+				return new XRightHarpoonDown(width);
+			case LeftRightHarpoons:
+			// /___________
+			// ___________
+			// /
+			{
+				final Box right = new XRightHarpoonDown(width);
+				final Box left = new XLeftHarpoonUp(width);
+				final VerticalBox vb = new VerticalBox(left);
+				vb.add(new StrutBox(0., new TeXLength(Unit.MU, -2.).getValue(env), 0., 0.));
+				vb.add(right);
+				return vb;
+			}
+			case RightLeftHarpoons:
+			// ___________\
+			// ___________
+			// \
+			{
+				final Box right = new XRightHarpoonUp(width);
+				final Box left = new XLeftHarpoonDown(width);
+				final VerticalBox vb = new VerticalBox(right);
+				vb.add(new StrutBox(0., new TeXLength(Unit.MU, -2.).getValue(env), 0., 0.));
+				vb.add(left);
+				return vb;
+			}
+			case RightSmallLeftHarpoons: {
+				final Box right = new XRightHarpoonUp(width);
+				final Box left = SymbolAtom.get("leftharpoondown").createBox(env);
+				final VerticalBox vb = new VerticalBox(right);
+				vb.add(new StrutBox(0., new TeXLength(Unit.MU, -2.).getValue(env), 0., 0.));
+				vb.add(new HorizontalBox(left, right.getWidth(), TeXConstants.Align.CENTER));
+				return vb;
+			}
+			case SmallRightLeftHarpoons: {
+				final Box right = SymbolAtom.get("rightharpoonup").createBox(env);
+				final Box left = new XLeftHarpoonDown(width);
+				final VerticalBox vb =
+						new VerticalBox(new HorizontalBox(right, left.getWidth(), TeXConstants.Align.CENTER));
+				vb.add(new StrutBox(0., new TeXLength(Unit.MU, -2.).getValue(env), 0., 0.));
+				vb.add(left);
+				return vb;
+			}
+			default:
+				FactoryProvider.debugS(kind + " not implemented");
+				return StrutBox.getEmpty();
 		}
 	}
-
 }

@@ -38,17 +38,17 @@ public class PointStyleExtendedProperty extends AbstractEnumeratedProperty<Integ
 		implements IconsEnumeratedProperty<Integer> {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_POINT_STYLE_DOT,
-			PropertyResource.ICON_POINT_STYLE_CIRCLE,
-			PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND,
-			PropertyResource.ICON_POINT_STYLE_EMPTY_DIAMOND,
-			PropertyResource.ICON_POINT_STYLE_CROSS,
-			PropertyResource.ICON_POINT_STYLE_PLUS,
-			PropertyResource.ICON_POINT_STYLE_NO_OUTLINE,
-			PropertyResource.ICON_POINT_STYLE_TRIANGLE_NORTH,
-			PropertyResource.ICON_POINT_STYLE_TRIANGLE_SOUTH,
-			PropertyResource.ICON_POINT_STYLE_TRIANGLE_WEST,
-			PropertyResource.ICON_POINT_STYLE_TRIANGLE_EAST
+		PropertyResource.ICON_POINT_STYLE_DOT,
+		PropertyResource.ICON_POINT_STYLE_CIRCLE,
+		PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND,
+		PropertyResource.ICON_POINT_STYLE_EMPTY_DIAMOND,
+		PropertyResource.ICON_POINT_STYLE_CROSS,
+		PropertyResource.ICON_POINT_STYLE_PLUS,
+		PropertyResource.ICON_POINT_STYLE_NO_OUTLINE,
+		PropertyResource.ICON_POINT_STYLE_TRIANGLE_NORTH,
+		PropertyResource.ICON_POINT_STYLE_TRIANGLE_SOUTH,
+		PropertyResource.ICON_POINT_STYLE_TRIANGLE_WEST,
+		PropertyResource.ICON_POINT_STYLE_TRIANGLE_EAST
 	};
 
 	private final AbstractGeoElementDelegate delegate;
@@ -69,8 +69,7 @@ public class PointStyleExtendedProperty extends AbstractEnumeratedProperty<Integ
 				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH,
 				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH,
 				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST,
-				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST
-		));
+				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST));
 	}
 
 	@Override

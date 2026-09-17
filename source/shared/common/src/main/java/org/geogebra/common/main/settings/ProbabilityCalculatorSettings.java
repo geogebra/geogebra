@@ -77,7 +77,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings<ProbabilityC
 		 */
 		public static Dist forInverse(Commands command) {
 			return Arrays.stream(values())
-					.filter(s -> s.inverse == command).findFirst().orElse(null);
+					.filter(s -> s.inverse == command)
+					.findFirst()
+					.orElse(null);
 		}
 
 		/**
@@ -86,7 +88,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings<ProbabilityC
 		 */
 		public static Dist forCommand(Commands command) {
 			return Arrays.stream(values())
-					.filter(s -> s.command == command).findFirst().orElse(null);
+					.filter(s -> s.command == command)
+					.findFirst()
+					.orElse(null);
 		}
 	}
 
@@ -94,11 +98,11 @@ public class ProbabilityCalculatorSettings extends AbstractSettings<ProbabilityC
 	public static final int distCount = Dist.values().length;
 
 	private boolean enabled = true;
-	private GeoNumeric[] parameters = { };
+	private GeoNumeric[] parameters = {};
 	private Dist distributionType = Dist.NORMAL;
 	private boolean isCumulative = false;
 	private boolean intervalSet = false;
-	private boolean  isOverlayActive = false;
+	private boolean isOverlayActive = false;
 
 	private int probMode;
 
@@ -126,7 +130,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings<ProbabilityC
 
 	/**
 	 * Sets the parameter array
-	 * 
+	 *
 	 * @param parameters
 	 *            distribution parameters
 	 */
@@ -144,7 +148,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings<ProbabilityC
 
 	/**
 	 * Sets the distribution type
-	 * 
+	 *
 	 * @param distributionType
 	 *            dist type
 	 */
@@ -166,7 +170,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings<ProbabilityC
 
 	/**
 	 * Sets the cumulative flag
-	 * 
+	 *
 	 * @param isCumulative
 	 *            cumulative flag
 	 */

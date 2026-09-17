@@ -20,8 +20,7 @@ import org.geogebra.common.util.debug.Log;
 public class Factory {
 
 	// static class
-	private Factory() {
-	}
+	private Factory() {}
 
 	/**
 	 * Find the correct factory name, based on the following procedure:
@@ -42,8 +41,7 @@ public class Factory {
 	 *            name of the default factory
 	 * @return the name of the factory according to the procedure above
 	 */
-	public static String findFactory(String factoryName, String factoryFile,
-			String defaultFactory) {
+	public static String findFactory(String factoryName, String factoryFile, String defaultFactory) {
 		// try System Property
 		String factory = null;
 		try {
@@ -57,8 +55,7 @@ public class Factory {
 		// try JAVA_HOME/lib
 		try {
 			String javaHome = System.getProperty("java.home");
-			String configFile = javaHome + File.separator + "lib"
-					+ File.separator + factoryFile;
+			String configFile = javaHome + File.separator + "lib" + File.separator + factoryFile;
 			File file = new File(configFile);
 			if (file.exists()) {
 				Properties props = new Properties();
@@ -78,8 +75,7 @@ public class Factory {
 		try {
 			ClassLoader loader = null;
 			try {
-				loader = Class.forName("org.freehep.util.Factory")
-						.getClassLoader();
+				loader = Class.forName("org.freehep.util.Factory").getClassLoader();
 			} catch (ClassNotFoundException cnfe) {
 				cnfe.printStackTrace();
 			}
@@ -100,8 +96,8 @@ public class Factory {
 			}
 
 			if (stream != null) {
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(stream, StandardCharsets.UTF_8));
+				BufferedReader reader =
+						new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
 				factory = reader.readLine();
 				reader.close();
 				if (factory != null && !factory.equals("")) {
@@ -114,8 +110,7 @@ public class Factory {
 		return defaultFactory;
 	}
 
-	public static Object loadFactory(String name, String file,
-			String defaultImplementation) {
+	public static Object loadFactory(String name, String file, String defaultImplementation) {
 		String factoryName = findFactory(name, file, defaultImplementation);
 		try {
 			Log.debug("Loading factory: " + factoryName);

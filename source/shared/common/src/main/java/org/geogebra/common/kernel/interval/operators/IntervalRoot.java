@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -88,26 +88,22 @@ public class IntervalRoot {
 				return inverted(compute(invertedGap(set), n));
 			}
 
-			return evaluator.unionInvertedSet(computeSet(leftRayFromInverted(set), n),
-					computeSet(rightRayFromInverted(set), n));
+			return evaluator.unionInvertedSet(
+					computeSet(leftRayFromInverted(set), n), computeSet(rightRayFromInverted(set), n));
 		}
 
 		double power = 1 / n;
 		if (isPositiveOdd(n)) {
 			Interval interval = connectedInterval(set);
-			return IntervalSet.connected(oddFractionPower(interval.getLow(), power),
-					oddFractionPower(interval.getHigh(), power));
+			return IntervalSet.connected(
+					oddFractionPower(interval.getLow(), power), oddFractionPower(interval.getHigh(), power));
 		}
 		IntervalSet result = evaluator.powSet(set, power);
 		if (result.isConnected()) {
 			Interval interval1 = connectedInterval(result);
-			return connected(Math.abs(interval1.getLow()) < interval1.precision
-							? 0
-							: interval1.getLow(),
-					Math.abs(interval1.getHigh()) < interval1.precision
-							? 0
-							: interval1.getHigh());
-
+			return connected(
+					Math.abs(interval1.getLow()) < interval1.precision ? 0 : interval1.getLow(),
+					Math.abs(interval1.getHigh()) < interval1.precision ? 0 : interval1.getHigh());
 		}
 		return result;
 	}
@@ -129,8 +125,7 @@ public class IntervalRoot {
 			return empty();
 		}
 
-		return connected(rootLow(Math.max(0, interval.getLow()), n),
-				rootHigh(interval.getHigh(), n));
+		return connected(rootLow(Math.max(0, interval.getLow()), n), rootHigh(interval.getHigh(), n));
 	}
 
 	private IntervalSet positiveEvenRootOfInverted(IntervalSet set, double n) {

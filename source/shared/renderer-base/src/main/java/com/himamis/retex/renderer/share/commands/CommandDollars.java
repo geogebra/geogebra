@@ -96,7 +96,5 @@ public class CommandDollars {
 			ra = new RowAtom();
 			return _ra;
 		}
-
 	}
-
 }

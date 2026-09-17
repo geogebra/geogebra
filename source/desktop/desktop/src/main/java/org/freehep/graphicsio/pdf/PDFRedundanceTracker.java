@@ -13,9 +13,9 @@ import java.util.Vector;
  * This class keeps track of all kinds of objects written to a pdf file and
  * avoids to write them several times instead of referencing the same object
  * several times. Right now only encoding tables are supported.
- * 
+ *
  * An implementation for images and paint would be possible.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: PDFRedundanceTracker.java,v 1.5 2009-08-17 21:44:44 murkle Exp
  *          $
@@ -27,8 +27,7 @@ public class PDFRedundanceTracker {
 	 * been written.
 	 */
 	public interface Writer {
-		public void writeObject(Object o, PDFRef reference, PDFWriter pdf)
-				throws IOException;
+		public void writeObject(Object o, PDFRef reference, PDFWriter pdf) throws IOException;
 	}
 
 	private class Entry {
@@ -101,8 +100,7 @@ public class PDFRedundanceTracker {
 			if (!entry.written) {
 				try {
 					// System.out.println("PDFRT: Writing: " + entry.object);
-					entry.writer.writeObject(entry.object, entry.reference,
-							pdf);
+					entry.writer.writeObject(entry.object, entry.reference, pdf);
 					entry.written = true;
 				} catch (IOException e) {
 					e.printStackTrace();

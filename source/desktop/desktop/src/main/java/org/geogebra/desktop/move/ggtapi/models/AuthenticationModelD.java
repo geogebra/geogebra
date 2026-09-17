@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -21,7 +21,7 @@ import org.geogebra.desktop.main.GeoGebraPreferencesD;
 
 /**
  * @author stefan
- * 
+ *
  */
 public class AuthenticationModelD extends AuthenticationModel {
 
@@ -33,14 +33,13 @@ public class AuthenticationModelD extends AuthenticationModel {
 
 	@Override
 	public void storeLoginToken(String token) {
-		GeoGebraPreferencesD.getPref()
-				.savePreference(GeoGebraPreferencesD.USER_LOGIN_TOKEN, token);
+		GeoGebraPreferencesD.getPref().savePreference(GeoGebraPreferencesD.USER_LOGIN_TOKEN, token);
 	}
 
 	@Override
 	public String getLoginToken() {
-		String token = GeoGebraPreferencesD.getPref().loadPreference(
-				GeoGebraPreferencesD.USER_LOGIN_TOKEN, TOKEN_NOT_AVAILABLE);
+		String token = GeoGebraPreferencesD.getPref()
+				.loadPreference(GeoGebraPreferencesD.USER_LOGIN_TOKEN, TOKEN_NOT_AVAILABLE);
 		if (token.equals(TOKEN_NOT_AVAILABLE)) {
 			return null;
 		}
@@ -51,5 +50,4 @@ public class AuthenticationModelD extends AuthenticationModel {
 	public void clearLoginToken() {
 		storeLoginToken(TOKEN_NOT_AVAILABLE);
 	}
-
 }

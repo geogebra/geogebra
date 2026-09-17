@@ -37,7 +37,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 
 	/**
 	 * Create new transformation algo
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -47,7 +47,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 
 	/**
 	 * Returns the resulting GeoElement
-	 * 
+	 *
 	 * @return the resulting GeoElement
 	 */
 	public abstract GeoElement getResult();
@@ -58,8 +58,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 	 * @param target
 	 *            target
 	 */
-	abstract protected void setTransformedObject(GeoElement source,
-			GeoElement target);
+	protected abstract void setTransformedObject(GeoElement source, GeoElement target);
 
 	/**
 	 * @param ageo2
@@ -132,16 +131,13 @@ public abstract class AlgoTransformation extends AlgoElement {
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {
 
 		if (a instanceof GeoRay) {
-			setTransformedObject(((GeoRay) a).getStartPoint(),
-					((GeoRay) b).getStartPoint());
+			setTransformedObject(((GeoRay) a).getStartPoint(), ((GeoRay) b).getStartPoint());
 			compute();
 			setTransformedObject(a, b);
 		} else if (a instanceof GeoSegment) {
-			setTransformedObject(((GeoSegment) a).getStartPoint(),
-					((GeoSegment) b).getStartPoint());
+			setTransformedObject(((GeoSegment) a).getStartPoint(), ((GeoSegment) b).getStartPoint());
 			compute();
-			setTransformedObject(((GeoSegment) a).getEndPoint(),
-					((GeoSegment) b).getEndPoint());
+			setTransformedObject(((GeoSegment) a).getEndPoint(), ((GeoSegment) b).getEndPoint());
 			compute();
 			setTransformedObject(a, b);
 		}
@@ -193,17 +189,16 @@ public abstract class AlgoTransformation extends AlgoElement {
 			arc.pointChanged(transformedPoint);
 			transformedPoint.updateCoords();
 			double e = transformedPoint.getPathParameter().getT();
-			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2,
-					swapOrientation(source));
+			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2, swapOrientation(source));
 
 			setTransformedObject(a, b);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * used when transforming polygons
-	 * 
+	 *
 	 * @return area scale factor of the transformation (-1 for reflections)
 	 */
 	public abstract double getAreaScaleFactor();

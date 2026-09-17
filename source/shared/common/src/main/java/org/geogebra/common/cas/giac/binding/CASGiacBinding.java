@@ -24,7 +24,7 @@ public interface CASGiacBinding {
 	/**
 	 * @return evaluation context
 	 */
-    Context createContext();
+	Context createContext();
 
 	/**
 	 * @param string
@@ -33,5 +33,5 @@ public interface CASGiacBinding {
 	 *            evaluation context
 	 * @return parsed expression
 	 */
-    Gen createGen(String string, Context context);
+	Gen createGen(String string, Context context);
 }

@@ -1,7 +1,7 @@
 /*
  * Created on Mar 6, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -12,7 +12,7 @@
 /*
  * Created on Oct 18, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -43,7 +43,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		implements UndirectedGraph<V, E>, MultiGraph<V, E> {
 	/**
 	 * Returns a {@code Factory} that creates an instance of this graph type.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type for the graph factory
 	 * @param <E>
@@ -127,8 +127,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	}
 
 	@Override
-	public boolean addEdge(E edge, Pair<? extends V> endpoints,
-			EdgeType edge_type) {
+	public boolean addEdge(E edge, Pair<? extends V> endpoints, EdgeType edge_type) {
 		validateEdgeType(edge_type);
 
 		Pair<V> new_endpoints = getValidatedEndpoints(edge, endpoints);
@@ -232,8 +231,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			Pair<V> endpoints = this.getEndpoints(edge);
 			V e_a = endpoints.getFirst();
 			V e_b = endpoints.getSecond();
-			if ((v1.equals(e_a) && v2.equals(e_b))
-					|| (v1.equals(e_b) && v2.equals(e_a))) {
+			if ((v1.equals(e_a) && v2.equals(e_b)) || (v1.equals(e_b) && v2.equals(e_a))) {
 				return edge;
 			}
 		}
@@ -279,5 +277,4 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	public UndirectedSparseMultigraph<V, E> newInstance() {
 		return new UndirectedSparseMultigraph<V, E>();
 	}
-
 }

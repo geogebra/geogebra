@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,9 +40,9 @@ import org.geogebra.desktop.util.ImageResourceD;
 /**
  * Subclass of SpreadsheetContextMenu, implements the spreadsheet context menu
  * for desktop.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 
@@ -54,7 +54,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param table
 	 *            spreadsheet table
 	 */
@@ -79,8 +79,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 
 		File dataFile = ((AppD) app).getGuiManager().getDataFile();
 		if (dataFile != null) {
-			((SpreadsheetViewD) table.getView())
-					.loadSpreadsheetFromURL(dataFile);
+			((SpreadsheetViewD) table.getView()).loadSpreadsheetFromURL(dataFile);
 		}
 	}
 
@@ -97,7 +96,6 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 		popup.setBackground(bgColor);
 		((AppD) app).setComponentOrientation(popup);
 		initMenu();
-
 	}
 
 	// setTitle (copied from gui.ContextMenuGeoElement)
@@ -118,12 +116,10 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 				popup.setVisible(false);
 			}
 		});
-
 	}
 
 	@Override
-	public void addMenuItem(final MenuCommand command, String text,
-			boolean enabled) {
+	public void addMenuItem(final MenuCommand command, String text, boolean enabled) {
 		JMenuItem item = new JMenuItem(text);
 		item.setIcon(getIcon(command));
 		item.addActionListener(e -> doCommand(command));
@@ -132,8 +128,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 	}
 
 	@Override
-	public void addCheckBoxMenuItem(final MenuCommand command, String text,
-			boolean isSelected) {
+	public void addCheckBoxMenuItem(final MenuCommand command, String text, boolean isSelected) {
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem(text);
 		item.setIcon(getIcon(command));
 		item.addActionListener(e -> doCommand(command));
@@ -150,8 +145,8 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 	}
 
 	@Override
-	public void addSubMenuItem(JMenu menu, final MenuCommand cmdString, String text,
-			boolean enabled) {
+	public void addSubMenuItem(
+			JMenu menu, final MenuCommand cmdString, String text, boolean enabled) {
 		JMenuItem item = new JMenuItem(text, getIcon(cmdString));
 		item.addActionListener(e -> doCommand(cmdString));
 		item.setEnabled(enabled);
@@ -178,17 +173,18 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 			return ((AppD) app).getEmptyIcon();
 		}
 
-		ImageResourceD iconResource = switch (cmdString) {
-			case Copy -> GuiResourcesD.MENU_EDIT_COPY;
-			case Cut -> GuiResourcesD.MENU_EDIT_CUT;
-			case Paste -> GuiResourcesD.MENU_EDIT_PASTE;
-			case Delete, DeleteObjects -> GuiResourcesD.DELETE_SMALL;
-			case ShowObject -> GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF;
-			case ShowLabel -> GuiResourcesD.MODE_SHOWHIDELABEL;
-			case RecordToSpreadsheet -> GuiResourcesD.SPREADSHEETTRACE;
-			case Properties, SpreadsheetOptions -> GuiResourcesD.VIEW_PROPERTIES_16;
-			default -> null;
-		};
+		ImageResourceD iconResource =
+				switch (cmdString) {
+					case Copy -> GuiResourcesD.MENU_EDIT_COPY;
+					case Cut -> GuiResourcesD.MENU_EDIT_CUT;
+					case Paste -> GuiResourcesD.MENU_EDIT_PASTE;
+					case Delete, DeleteObjects -> GuiResourcesD.DELETE_SMALL;
+					case ShowObject -> GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF;
+					case ShowLabel -> GuiResourcesD.MODE_SHOWHIDELABEL;
+					case RecordToSpreadsheet -> GuiResourcesD.SPREADSHEETTRACE;
+					case Properties, SpreadsheetOptions -> GuiResourcesD.VIEW_PROPERTIES_16;
+					default -> null;
+				};
 
 		// convert string to icon
 		if (iconResource != null) {
@@ -196,5 +192,4 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 		}
 		return ((AppD) app).getEmptyIcon();
 	}
-
 }

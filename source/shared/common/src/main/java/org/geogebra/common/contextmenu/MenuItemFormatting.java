@@ -40,12 +40,11 @@ final class MenuItemFormatting {
 
 		Range subscriptRange = findRawSubscript(str, 0);
 		while (subscriptRange != null) {
-			String subscript = parsedString.substring(subscriptRange.getStart() + 2,
-					subscriptRange.getEnd() - 1);
+			String subscript =
+					parsedString.substring(subscriptRange.getStart() + 2, subscriptRange.getEnd() - 1);
 			parsedString.replace(subscriptRange.getStart(), subscriptRange.getEnd(), subscript);
 			subscriptRanges.add(new Range(subscriptRange.getStart(), subscriptRange.getEnd() - 3));
-			subscriptRange = findRawSubscript(parsedString.toString(),
-					subscriptRange.getEnd() - 3);
+			subscriptRange = findRawSubscript(parsedString.toString(), subscriptRange.getEnd() - 3);
 		}
 
 		AttributedString attributedString = new AttributedString(parsedString.toString());

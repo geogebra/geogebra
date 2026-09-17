@@ -82,20 +82,23 @@ public final class IntegralHelper {
 	 * @param isBooleanArgument predicate whether the argument at a given index is a boolean
 	 * @return integral argument form, or {@code null} for unsupported argument patterns
 	 */
-	public static IntegralForm getIntegralForm(Tag tag, int argumentCount,
-			IntPredicate isVariableArgument, IntPredicate isBooleanArgument) {
+	public static IntegralForm getIntegralForm(
+			Tag tag, int argumentCount, IntPredicate isVariableArgument, IntPredicate isBooleanArgument) {
 		if (argumentCount == 1) {
 			return IntegralForm.INTEGRAND_ONLY;
 		}
-		if ((tag == Tag.INTEGRAL || tag == Tag.INTEGRAL_SYMBOLIC) && argumentCount == 2
+		if ((tag == Tag.INTEGRAL || tag == Tag.INTEGRAL_SYMBOLIC)
+				&& argumentCount == 2
 				&& isVariableArgument.test(1)) {
 			return IntegralForm.INTEGRAND_VARIABLE;
 		}
 		if ((tag == Tag.INTEGRAL || tag == Tag.N_INTEGRAL) && argumentCount == 3) {
 			return IntegralForm.INTEGRAND_LIMITS;
 		}
-		if ((tag == Tag.INTEGRAL || tag == Tag.N_INTEGRAL) && argumentCount == 4
-				&& isVariableArgument.test(1) && !isBooleanArgument.test(3)) {
+		if ((tag == Tag.INTEGRAL || tag == Tag.N_INTEGRAL)
+				&& argumentCount == 4
+				&& isVariableArgument.test(1)
+				&& !isBooleanArgument.test(3)) {
 			return IntegralForm.INTEGRAND_VARIABLE_LIMITS;
 		}
 		if (tag == Tag.INTEGRAL && argumentCount == 4 && isBooleanArgument.test(3)) {
@@ -157,7 +160,8 @@ public final class IntegralHelper {
 				return IntegralForm.INTEGRAND_LIMITS;
 			}
 			if (syntaxIndex == 3) {
-				return cas ? IntegralForm.INTEGRAND_VARIABLE_LIMITS
+				return cas
+						? IntegralForm.INTEGRAND_VARIABLE_LIMITS
 						: IntegralForm.INTEGRAND_LIMITS_EVALUATE;
 			}
 		}
@@ -166,8 +170,7 @@ public final class IntegralHelper {
 				return cas ? IntegralForm.INTEGRAND_LIMITS : IntegralForm.INTEGRAND_ONLY;
 			}
 			if (syntaxIndex == 1) {
-				return cas ? IntegralForm.INTEGRAND_VARIABLE_LIMITS
-						: IntegralForm.INTEGRAND_LIMITS;
+				return cas ? IntegralForm.INTEGRAND_VARIABLE_LIMITS : IntegralForm.INTEGRAND_LIMITS;
 			}
 			if (!cas && syntaxIndex == 2) {
 				return IntegralForm.INTEGRAND_LIMITS_CURVE;
@@ -213,11 +216,12 @@ public final class IntegralHelper {
 	 * @return whether the lower and upper limits should be rendered for this render pass
 	 */
 	public static boolean shouldRenderLimits(FunctionNode integral, Node currentField) {
-		return hasLimits(integral.getName()) && (integral.isIntegralLimitsVisible()
-				|| integral.getChild(LOWER_LIMIT).size() > 0
-				|| integral.getChild(UPPER_LIMIT).size() > 0
-				|| currentField == integral.getChild(LOWER_LIMIT)
-				|| currentField == integral.getChild(UPPER_LIMIT));
+		return hasLimits(integral.getName())
+				&& (integral.isIntegralLimitsVisible()
+						|| integral.getChild(LOWER_LIMIT).size() > 0
+						|| integral.getChild(UPPER_LIMIT).size() > 0
+						|| currentField == integral.getChild(LOWER_LIMIT)
+						|| currentField == integral.getChild(UPPER_LIMIT));
 	}
 
 	/**
@@ -238,8 +242,8 @@ public final class IntegralHelper {
 		} else {
 			integral.setIntegralAutoDefaultVariable(false);
 		}
-		integral.setIntegralLimitsVisible(form == IntegralForm.INTEGRAND_LIMITS
-				|| form == IntegralForm.INTEGRAND_VARIABLE_LIMITS);
+		integral.setIntegralLimitsVisible(
+				form == IntegralForm.INTEGRAND_LIMITS || form == IntegralForm.INTEGRAND_VARIABLE_LIMITS);
 		return integral;
 	}
 }

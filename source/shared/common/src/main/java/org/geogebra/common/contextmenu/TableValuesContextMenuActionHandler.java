@@ -70,8 +70,11 @@ public final class TableValuesContextMenuActionHandler {
 	 * @param app the active {@link App}
 	 * @param delegate the delegate for the platform-specific operations
 	 */
-	public TableValuesContextMenuActionHandler(int columnIndex, @NonNull TableValues tableValues,
-			@NonNull App app, @NonNull Delegate delegate) {
+	public TableValuesContextMenuActionHandler(
+			int columnIndex,
+			@NonNull TableValues tableValues,
+			@NonNull App app,
+			@NonNull Delegate delegate) {
 		this.columnIndex = columnIndex;
 		this.tableValues = tableValues;
 		this.app = app;
@@ -93,8 +96,7 @@ public final class TableValuesContextMenuActionHandler {
 			case Statistics1 -> showStatistics(Mode.ONE_VARIABLE);
 			case Statistics2 -> showStatistics(Mode.TWO_VARIABLE);
 			case Regression -> showStatistics(Mode.REGRESSION);
-			case Separator -> {
-			}
+			case Separator -> {}
 		}
 	}
 
@@ -102,8 +104,7 @@ public final class TableValuesContextMenuActionHandler {
 		if (columnIndex == 0) {
 			delegate.showTableValuesDialog();
 		} else {
-			delegate.startEditingAlgebraViewItem((GeoElement)
-					tableValues.getEvaluatable(columnIndex));
+			delegate.startEditingAlgebraViewItem((GeoElement) tableValues.getEvaluatable(columnIndex));
 		}
 	}
 
@@ -123,13 +124,12 @@ public final class TableValuesContextMenuActionHandler {
 
 	private void setPointsVisibility(boolean visible) {
 		app.getGuiManager().getTableValuesPoints().setPointsVisible(columnIndex, visible);
-		app.dispatchEvent(new Event(EventType.SHOW_POINTS_TV).setJsonArgument(
-				Map.of("column", columnIndex, "show", visible)));
+		app.dispatchEvent(new Event(EventType.SHOW_POINTS_TV)
+				.setJsonArgument(Map.of("column", columnIndex, "show", visible)));
 	}
 
 	private void showStatistics(Mode mode) {
-		app.getAsyncManager().scheduleCallback(() ->
-			tableValues.getStatisticsViewModel().show(mode, columnIndex)
-		);
+		app.getAsyncManager()
+				.scheduleCallback(() -> tableValues.getStatisticsViewModel().show(mode, columnIndex));
 	}
 }

@@ -59,19 +59,18 @@ public class ModeShape {
 	 * start point of dragging movement
 	 */
 	private GPoint dragStartPoint = new GPoint();
+
 	private boolean dragPointSet = false;
 	private boolean moveEnded = false;
 	private boolean wasDragged = false;
 	/**
 	 * preview for ShapeRectangle/ShapeRectangleRoundEdges/ShapeSquare
 	 */
-	private final GRectangle rectangle = AwtFactory.getPrototype().newRectangle(0,
-			0);
+	private final GRectangle rectangle = AwtFactory.getPrototype().newRectangle(0, 0);
 	/**
 	 * preview for ShapeEllipse/ShapeCircle
 	 */
-	private final GEllipse2DDouble ellipse = AwtFactory.getPrototype()
-			.newEllipse2DDouble(0, 0, 0, 0);
+	private final GEllipse2DDouble ellipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 0, 0);
 	/**
 	 * preview for ShapeLine
 	 */
@@ -81,8 +80,8 @@ public class ModeShape {
 	/**
 	 * preview for ShapeTriangle
 	 */
-	private final GGeneralPath polygon = AwtFactory.getPrototype()
-			.newGeneralPath();
+	private final GGeneralPath polygon = AwtFactory.getPrototype().newGeneralPath();
+
 	private final ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
 	private final ModeShapeStadium modeShapeStadium;
 
@@ -93,8 +92,8 @@ public class ModeShape {
 	public ModeShape(EuclidianView view) {
 		this.ec = view.getEuclidianController();
 		this.view = view;
-		modeShapeStadium = new ModeShapeStadium(view.getKernel().getConstruction(),
-				new EuclidianViewBoundsImp(view));
+		modeShapeStadium =
+				new ModeShapeStadium(view.getKernel().getConstruction(), new EuclidianViewBoundsImp(view));
 	}
 
 	/**
@@ -106,7 +105,7 @@ public class ModeShape {
 
 	/**
 	 * get start point of dragging
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 */
@@ -116,8 +115,9 @@ public class ModeShape {
 			modeShapeStadium.setStartPoint(event.getX(), event.getY());
 			return;
 		}
-		if (!dragPointSet || (pointListFreePoly.isEmpty()
-				&& ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM)) {
+		if (!dragPointSet
+				|| (pointListFreePoly.isEmpty()
+						&& ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM)) {
 			dragStartPoint.setLocation(event.getX(), event.getY());
 			view.resetBoundingBoxes();
 			pointListFreePoly.clear();
@@ -126,8 +126,7 @@ public class ModeShape {
 			return;
 		}
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
-			if (pointListFreePoly.get(0)
-					.distance(new GPoint(event.getX(), event.getY())) < 15
+			if (pointListFreePoly.get(0).distance(new GPoint(event.getX(), event.getY())) < 15
 					&& pointListFreePoly.size() > 1) {
 				pointListFreePoly.add(pointListFreePoly.get(0));
 				pointListFreePoly.add(pointListFreePoly.get(0));
@@ -135,12 +134,11 @@ public class ModeShape {
 				pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
 			}
 		}
-
 	}
 
 	/**
 	 * draw shape preview for mouse dragging
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 */
@@ -172,21 +170,18 @@ public class ModeShape {
 			view.setShapeEllipse(ellipse);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_LINE) {
-			GPoint2D snap = snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(),
-					event.getY());
-			line.setLine(dragStartPoint.getX(), dragStartPoint.getY(),
-					snap.getX(), snap.getY());
+			GPoint2D snap =
+					snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(), event.getY());
+			line.setLine(dragStartPoint.getX(), dragStartPoint.getY(), snap.getX(), snap.getY());
 			view.setShapeLine(line);
 			view.repaintView();
-		}  else if (mode == EuclidianConstants.MODE_SHAPE_CURVE) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_CURVE) {
 			curve.reset();
 			curve.moveTo(dragStartPoint.getX(), dragStartPoint.getY());
-			GPoint2D control = getControl(event.getX(), event.getY(), dragStartPoint.x,
-					dragStartPoint.y);
-			GPoint2D control2 = getControl(dragStartPoint.x,
-					dragStartPoint.y, event.getX(), event.getY());
-			curve.curveTo(control.x, control.y, control2.x, control2.y,
-					event.getX(), event.getY());
+			GPoint2D control = getControl(event.getX(), event.getY(), dragStartPoint.x, dragStartPoint.y);
+			GPoint2D control2 =
+					getControl(dragStartPoint.x, dragStartPoint.y, event.getX(), event.getY());
+			curve.curveTo(control.x, control.y, control2.x, control2.y, event.getX(), event.getY());
 			view.setShapePath(curve);
 			view.repaintView();
 		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
@@ -211,7 +206,6 @@ public class ModeShape {
 			modeShapeStadium.updatePreview(event.getX(), event.getY());
 			view.setShapePath(modeShapeStadium.getGpPreview());
 			view.repaintView();
-
 		}
 	}
 
@@ -240,7 +234,7 @@ public class ModeShape {
 
 	/**
 	 * array of points of shape
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 * @param isSquare
@@ -272,11 +266,9 @@ public class ModeShape {
 		return points;
 	}
 
-	private double[] getEndPointScreenCoords(AbstractEvent event,
-			boolean isSquare) {
+	private double[] getEndPointScreenCoords(AbstractEvent event, boolean isSquare) {
 		double[] coords = new double[2];
-		double width = isSquare ? rectangle.getWidth()
-				: ellipse.getBounds().getWidth();
+		double width = isSquare ? rectangle.getWidth() : ellipse.getBounds().getWidth();
 		if (dragStartPoint.x >= event.getX()) {
 			coords[0] = dragStartPoint.x - width;
 		} else {
@@ -294,7 +286,7 @@ public class ModeShape {
 
 	/**
 	 * with mouse release create geoElement
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 * @return geo was created
@@ -335,8 +327,7 @@ public class ModeShape {
 			} else {
 				conicEqu = getEquationOfConic(event, true);
 			}
-			GeoConic conic = new GeoConic(view.getKernel().getConstruction(),
-					conicEqu);
+			GeoConic conic = new GeoConic(view.getKernel().getConstruction(), conicEqu);
 			conic.setLabelVisible(false);
 			conic.setLabel(null);
 			view.setShapeEllipse(null);
@@ -345,9 +336,7 @@ public class ModeShape {
 			return conic;
 		} else if (mode == EuclidianConstants.MODE_SHAPE_LINE) {
 			GeoPoint[] points = getRealPointsOfLine(event);
-			AlgoPolyLine algo = new AlgoPolyLine(
-					view.getKernel().getConstruction(),
-					points);
+			AlgoPolyLine algo = new AlgoPolyLine(view.getKernel().getConstruction(), points);
 			GeoPolyLine segment = algo.getPoly();
 			segment.setLabelVisible(false);
 			segment.setLabel(null);
@@ -374,24 +363,20 @@ public class ModeShape {
 		} else if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			if (wasDragged) {
 				if (pointListFreePoly.size() > 1
-						&& pointListFreePoly.get(0).distance(
-								new
-				GPoint(event.getX(), event.getY())) < 15) {
+						&& pointListFreePoly.get(0).distance(new GPoint(event.getX(), event.getY())) < 15) {
 					pointListFreePoly.add(pointListFreePoly.get(0));
 					pointListFreePoly.add(pointListFreePoly.get(0));
 				} else {
-					pointListFreePoly
-							.add(new GPoint(event.getX(), event.getY()));
+					pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
 				}
 			}
 			updateFreeFormPolygon(event, false);
 			// close with double click
 			if (pointListFreePoly.size() > 2
-					&& pointListFreePoly.get(pointListFreePoly.size() - 1)
-							.distance(
-									pointListFreePoly.get(
-											pointListFreePoly.size()
-													- 2)) == 0) {
+					&& pointListFreePoly
+									.get(pointListFreePoly.size() - 1)
+									.distance(pointListFreePoly.get(pointListFreePoly.size() - 2))
+							== 0) {
 				AlgoPolygon algo = getPolyAlgo(getRealPointsOfPolygon());
 				createPolygon(algo);
 				pointListFreePoly.clear();
@@ -403,8 +388,7 @@ public class ModeShape {
 			}
 		} else if (mode == EuclidianConstants.MODE_SHAPE_STADIUM) {
 			GeoElement stadium =
-					modeShapeStadium.create(view.getKernel().getConstruction(),
-							event.getX(), event.getY());
+					modeShapeStadium.create(view.getKernel().getConstruction(), event.getX(), event.getY());
 			wasDragged = false;
 			view.setShapePath(null);
 			view.repaintView();
@@ -412,15 +396,14 @@ public class ModeShape {
 		} else if (mode == EuclidianConstants.MODE_SHAPE_CURVE) {
 			GeoPoint start = invisibleScreenPoint(dragStartPoint.getX(), dragStartPoint.getY());
 			GeoPoint end = invisibleScreenPoint(event.getX(), event.getY());
-			GPoint2D control1 = getControl(event.getX(), event.getY(), dragStartPoint.x,
-					dragStartPoint.y);
-			GPoint2D control2 = getControl(dragStartPoint.x,
-					dragStartPoint.y, event.getX(), event.getY());
+			GPoint2D control1 =
+					getControl(event.getX(), event.getY(), dragStartPoint.x, dragStartPoint.y);
+			GPoint2D control2 =
+					getControl(dragStartPoint.x, dragStartPoint.y, event.getX(), event.getY());
 			GeoPoint controlPoint1 = invisibleScreenPoint(control1.x, control1.y);
 			GeoPoint controlPoint2 = invisibleScreenPoint(control2.x, control2.y);
 			AlgoBezierCurve algo = new AlgoBezierCurve(
-					view.getKernel().getConstruction(),
-					start, controlPoint1, controlPoint2, end);
+					view.getKernel().getConstruction(), start, controlPoint1, controlPoint2, end);
 			GeoCurveCartesian curve = algo.getResult();
 			curve.setLabelVisible(false);
 			curve.setLabel(null);
@@ -447,15 +430,15 @@ public class ModeShape {
 		double dx = x2 - x1;
 		double dy = y2 - y1;
 		if (Math.abs(dx) > Math.abs(dy)) {
-			return new GPoint2D((2 * x1 + x2) / 3.0 , y2);
+			return new GPoint2D((2 * x1 + x2) / 3.0, y2);
 		} else {
 			return new GPoint2D(x2, (2 * y1 + y2) / 3.0);
 		}
 	}
 
 	private AlgoPolygon getPolyAlgo(GeoPointND[] pointArray) {
-		return new AlgoPolygon(view.getKernel().getConstruction(), pointArray,
-				null, null, false, null, null);
+		return new AlgoPolygon(
+				view.getKernel().getConstruction(), pointArray, null, null, false, null, null);
 	}
 
 	private static void createPolygon(AlgoPolygon algo) {
@@ -477,7 +460,7 @@ public class ModeShape {
 
 	/**
 	 * needed only for free form polygon
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 */
@@ -491,12 +474,9 @@ public class ModeShape {
 					return;
 				}
 				polygon.reset();
-				polygon.moveTo(pointListFreePoly.get(0).x,
-						pointListFreePoly.get(0).y);
-				for (int index = 1; index < pointListFreePoly
-						.size(); index++) {
-					polygon.lineTo(pointListFreePoly.get(index).x,
-							pointListFreePoly.get(index).y);
+				polygon.moveTo(pointListFreePoly.get(0).x, pointListFreePoly.get(0).y);
+				for (int index = 1; index < pointListFreePoly.size(); index++) {
+					polygon.lineTo(pointListFreePoly.get(index).x, pointListFreePoly.get(index).y);
 				}
 				polygon.lineTo(event.getX(), event.getY());
 			}
@@ -506,8 +486,11 @@ public class ModeShape {
 	}
 
 	private GeoPoint invisibleScreenPoint(double startX, double startY) {
-		GeoPoint pt = new GeoPoint(view.getKernel().getConstruction(),
-				view.toRealWorldCoordX(startX), view.toRealWorldCoordY(startY), 1);
+		GeoPoint pt = new GeoPoint(
+				view.getKernel().getConstruction(),
+				view.toRealWorldCoordX(startX),
+				view.toRealWorldCoordY(startY),
+				1);
 		pt.setEuclidianVisible(false);
 		return pt;
 	}
@@ -530,8 +513,8 @@ public class ModeShape {
 		double startX = dragStartPoint.getX();
 		double startY = dragStartPoint.getY();
 		GeoPoint startPoint = invisibleScreenPoint(startX, startY);
-		GPoint2D snap = snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(),
-				event.getY());
+		GPoint2D snap =
+				snapPoint(dragStartPoint.getX(), dragStartPoint.getY(), event.getX(), event.getY());
 		double endX = snap.getX();
 		double endY = snap.getY();
 		GeoPoint endPoint = invisibleScreenPoint(endX, endY);
@@ -557,15 +540,19 @@ public class ModeShape {
 		double centerX = (startX + endX) / 2;
 		double centerY = (startY + endY) / 2;
 		// minor and major axis
-		double a = Math.hypot(0.0,
-				centerY - endY);
-		double b = Math.hypot(centerX - endX,
-				0.0);
+		double a = Math.hypot(0.0, centerY - endY);
+		double b = Math.hypot(centerX - endX, 0.0);
 
 		// construct equation (x-center_x)^2 / b^2 + (y-center_y)^2 / a^2 = 1
 
-		return new double[] { sq(1 / b), 0, sq(1 / a), -2 * centerX / sq(b),
-				-2 * centerY / sq(a), sq(centerX / b) + sq(centerY / a) - 1 };
+		return new double[] {
+			sq(1 / b),
+			0,
+			sq(1 / a),
+			-2 * centerX / sq(b),
+			-2 * centerY / sq(a),
+			sq(centerX / b) + sq(centerY / a) - 1
+		};
 	}
 
 	private static double sq(double d) {
@@ -574,7 +561,7 @@ public class ModeShape {
 
 	/**
 	 * update the coords of rectangle
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 * @param isSquare
@@ -596,7 +583,7 @@ public class ModeShape {
 
 	/**
 	 * update the coords of ellipse
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 * @param isCircle
@@ -604,13 +591,13 @@ public class ModeShape {
 	 */
 	protected void updateEllipse(AbstractEvent event, boolean isCircle) {
 		updateRectangle(event, isCircle);
-		ellipse.setFrame(rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(),
-				rectangle.getHeight());
+		ellipse.setFrame(
+				rectangle.getMinX(), rectangle.getMinY(), rectangle.getWidth(), rectangle.getHeight());
 	}
 
 	/**
 	 * update the coords of triangle
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 */
@@ -651,11 +638,11 @@ public class ModeShape {
 		polygon.reset();
 
 		pointsX[0] = dragStartPoint.x;
-		pointsX[1] = PARALLELOGRAM_RATIO * event.getX()
-				+ (1 - PARALLELOGRAM_RATIO) * dragStartPoint.getX();
+		pointsX[1] =
+				PARALLELOGRAM_RATIO * event.getX() + (1 - PARALLELOGRAM_RATIO) * dragStartPoint.getX();
 		pointsX[2] = event.getX();
-		pointsX[3] = (1 - PARALLELOGRAM_RATIO) * event.getX()
-				+ PARALLELOGRAM_RATIO * dragStartPoint.getX();
+		pointsX[3] =
+				(1 - PARALLELOGRAM_RATIO) * event.getX() + PARALLELOGRAM_RATIO * dragStartPoint.getX();
 		pointsY[0] = dragStartPoint.y;
 		pointsY[1] = dragStartPoint.y;
 		pointsY[2] = event.getY();
@@ -670,7 +657,7 @@ public class ModeShape {
 
 	/**
 	 * update the coords of regular polygon
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 */
@@ -693,7 +680,7 @@ public class ModeShape {
 
 	/**
 	 * update coords of free form polygon
-	 * 
+	 *
 	 * @param event
 	 *            - mouse event
 	 * @param wasDrag
@@ -709,8 +696,7 @@ public class ModeShape {
 			return;
 		}
 		for (int index = 1; index < pointListFreePoly.size(); index++) {
-			polygon.lineTo(pointListFreePoly.get(index).x,
-					pointListFreePoly.get(index).y);
+			polygon.lineTo(pointListFreePoly.get(index).x, pointListFreePoly.get(index).y);
 		}
 		if (wasDrag) {
 			polygon.lineTo(event.getX(), event.getY());
@@ -730,8 +716,7 @@ public class ModeShape {
 		return res;
 	}
 
-	private static int[] getYCoordinates(int centerY, int radius, int vertexNr,
-			double startAngle) {
+	private static int[] getYCoordinates(int centerY, int radius, int vertexNr, double startAngle) {
 		int[] res = new int[vertexNr];
 		double addAngle = 2 * Math.PI / vertexNr;
 		double angle = startAngle;

@@ -51,8 +51,11 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 	 * @param direction2
 	 *            orthogonal direction
 	 */
-	public AlgoOrthoLinePointDirectionDirection(Construction cons, String label,
-			GeoPointND point, GeoDirectionND direction1,
+	public AlgoOrthoLinePointDirectionDirection(
+			Construction cons,
+			String label,
+			GeoPointND point,
+			GeoDirectionND direction1,
 			GeoDirectionND direction2) {
 		super(cons);
 		this.point = point;
@@ -61,9 +64,8 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 		line = new GeoLine3D(cons);
 
 		setInputOutput(
-				new GeoElement[] { (GeoElement) point, (GeoElement) direction1,
-						(GeoElement) direction2 },
-				new GeoElement[] { getLine() });
+				new GeoElement[] {(GeoElement) point, (GeoElement) direction1, (GeoElement) direction2},
+				new GeoElement[] {getLine()});
 
 		// compute line
 		compute();
@@ -82,34 +84,40 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 	@Override
 	public void compute() {
 
-		Coords direction = direction1.getDirectionInD3()
-				.crossProduct(direction2.getDirectionInD3());
+		Coords direction = direction1.getDirectionInD3().crossProduct(direction2.getDirectionInD3());
 		if (direction.isZero()) {
 			line.setUndefined();
 		} else {
 			line.setCoord(point.getInhomCoordsInD3(), direction);
 		}
-
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
 		// point, plane, line
 		if (direction1 instanceof GeoCoordSys2D) {
-			return getLoc().getPlain("LineThroughAParallelToBPerpendicularToC",
-					point.getLabel(tpl), direction1.getLabel(tpl),
-					direction2.getLabel(tpl));
+			return getLoc()
+					.getPlain(
+							"LineThroughAParallelToBPerpendicularToC",
+							point.getLabel(tpl),
+							direction1.getLabel(tpl),
+							direction2.getLabel(tpl));
 		}
 		// point, line, plane
 		if (direction2 instanceof GeoCoordSys2D) {
-			return getLoc().getPlain("LineThroughAPerpendicularToBParallelToC",
-					point.getLabel(tpl), direction1.getLabel(tpl),
-					direction2.getLabel(tpl));
+			return getLoc()
+					.getPlain(
+							"LineThroughAPerpendicularToBParallelToC",
+							point.getLabel(tpl),
+							direction1.getLabel(tpl),
+							direction2.getLabel(tpl));
 		}
 		// point, line, line
-		return getLoc().getPlain("LineThroughAPerpendicularToBAndC",
-				point.getLabel(tpl), direction1.getLabel(tpl),
-				direction2.getLabel(tpl));
+		return getLoc()
+				.getPlain(
+						"LineThroughAPerpendicularToBAndC",
+						point.getLabel(tpl),
+						direction1.getLabel(tpl),
+						direction2.getLabel(tpl));
 	}
-
 }

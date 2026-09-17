@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Creates widgets for navigating the construction with Voiceover (iOS) or
  * Talkback (Android)
- * 
+ *
  * @author Zbynek
  */
 public class WidgetFactory {
@@ -49,8 +49,8 @@ public class WidgetFactory {
 	 * @param source listener
 	 * @return slider
 	 */
-	public static SliderW makeSlider(final int index, final HasSliders source,
-			BaseWidgetFactory factory) {
+	public static SliderW makeSlider(
+			final int index, final HasSliders source, BaseWidgetFactory factory) {
 		final SliderW range = factory.newSlider(0, 100);
 		hideSlider(range);
 		range.getElement().addClassName("slider");
@@ -58,5 +58,4 @@ public class WidgetFactory {
 		range.getElement().setTabIndex(5000);
 		return range;
 	}
-
 }

@@ -27,7 +27,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Find Numerator
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoNumeratorDenominator extends AlgoElement {
@@ -46,8 +46,7 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 	 * @param type
 	 *            numerator or denominator
 	 */
-	public AlgoNumeratorDenominator(Construction cons, GeoNumeric f,
-			Commands type) {
+	public AlgoNumeratorDenominator(Construction cons, GeoNumeric f, Commands type) {
 		super(cons);
 		this.f = f;
 		this.type = type;
@@ -65,7 +64,7 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { f };
+		input = new GeoElement[] {f};
 
 		super.setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
@@ -107,7 +106,9 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 				}
 			}
 
-			if (top != null && bottom != null && DoubleUtil.isInteger(top.evaluateDouble())
+			if (top != null
+					&& bottom != null
+					&& DoubleUtil.isInteger(top.evaluateDouble())
 					&& DoubleUtil.isInteger(bottom.evaluateDouble())) {
 				// cancel down to lowest terms
 				long num = (long) top.evaluateDouble();
@@ -127,18 +128,14 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 				g.setValue(val);
 				return;
 			}
-
 		}
 
 		// regular decimal -> find approximate fraction
-		double[] frac = AlgoFractionText.decimalToFraction(f.getDouble(),
-				Kernel.STANDARD_PRECISION);
+		double[] frac = AlgoFractionText.decimalToFraction(f.getDouble(), Kernel.STANDARD_PRECISION);
 		if (frac.length < 2) {
 			g.setUndefined();
 			return;
 		}
 		g.setValue(frac[type == Commands.Numerator ? 0 : 1]);
-
 	}
-
 }

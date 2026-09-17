@@ -28,16 +28,14 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
  *
  * @author Michael
  */
-public class AlgoDependentVector3D extends AlgoElement3D
-		implements DependentAlgo {
+public class AlgoDependentVector3D extends AlgoElement3D implements DependentAlgo {
 
 	private GeoVector3D vec; // output
 
 	private double[] temp;
 
 	/** Creates new AlgoDependentVector */
-	public AlgoDependentVector3D(Construction cons, String label,
-			ExpressionNode root) {
+	public AlgoDependentVector3D(Construction cons, String label, ExpressionNode root) {
 
 		this(cons, root);
 
@@ -82,9 +80,8 @@ public class AlgoDependentVector3D extends AlgoElement3D
 	public final void compute() {
 		ExpressionNode def = vec.getDefinition();
 		try {
-			temp = ((Vector3DValue) vec.getDefinition()
-					.evaluate(StringTemplate.defaultTemplate))
-							.getPointAsDouble();
+			temp = ((Vector3DValue) vec.getDefinition().evaluate(StringTemplate.defaultTemplate))
+					.getPointAsDouble();
 
 			vec.setCoords(temp);
 		} catch (Exception e) {
@@ -94,7 +91,7 @@ public class AlgoDependentVector3D extends AlgoElement3D
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return vec.getDefinition().toString(tpl);
 	}
 
@@ -102,5 +99,4 @@ public class AlgoDependentVector3D extends AlgoElement3D
 	public ExpressionNode getExpression() {
 		return vec.getDefinition();
 	}
-
 }

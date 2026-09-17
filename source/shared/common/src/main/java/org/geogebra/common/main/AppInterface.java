@@ -145,7 +145,7 @@ public interface AppInterface {
 	 * @deprecated FontCreator.newSansSerifFont should be used instead.
 	 *
 	 * In Desktop gives current font, in Web creates a new one
-	 * 
+	 *
 	 * @return font
 	 */
 	@Deprecated

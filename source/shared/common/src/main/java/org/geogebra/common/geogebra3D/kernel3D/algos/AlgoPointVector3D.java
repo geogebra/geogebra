@@ -42,5 +42,4 @@ public class AlgoPointVector3D extends AlgoPointVectorND {
 		tmpCoords = Coords.createInhomCoorsInD3();
 		return new GeoPoint3D(cons1);
 	}
-
 }

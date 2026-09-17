@@ -202,7 +202,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public GeoElementND evaluateToGeo() {
 		return evalInput.evaluateToGeo();
 	}
-	
+
 	/**
 	 * @param afterCb additional callback that runs after creation.
 	 */
@@ -222,8 +222,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 * Connect keyboard listener to keyboard
 	 */
 	public void setOnScreenKeyboardTextField() {
-		app.getKeyboardManager()
-				.setOnScreenKeyboardTextField(item);
+		app.getKeyboardManager().setOnScreenKeyboardTextField(item);
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();

@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Mirror at 3D point or 3D line
- * 
+ *
  * @author mathieu
  *
  */
@@ -34,7 +34,7 @@ public class CmdMirror3D extends CmdMirror {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,38 +43,34 @@ public class CmdMirror3D extends CmdMirror {
 	}
 
 	@Override
-	protected GeoElement[] process2(String label, GeoElement[] arg,
-			boolean[] ok) {
+	protected GeoElement[] process2(String label, GeoElement[] arg, boolean[] ok) {
 
 		GeoElement[] ret;
 
 		if (arg[1] instanceof GeoCoordSys2D && !arg[1].isGeoConic()) { // no
-																		// override
-																		// for
-																		// mirror
-																		// at
-																		// circle
-			ret = kernel.getManager3D().mirror3D(label, arg[0],
-					(GeoCoordSys2D) arg[1]);
+			// override
+			// for
+			// mirror
+			// at
+			// circle
+			ret = kernel.getManager3D().mirror3D(label, arg[0], (GeoCoordSys2D) arg[1]);
 			return ret;
 
 		} else if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) { // check
-																			// if
-																			// there
-																			// is
-																			// a
-																			// 3D
-																			// geo
+			// if
+			// there
+			// is
+			// a
+			// 3D
+			// geo
 
 			if (arg[0] instanceof Transformable) {
 				if (arg[1].isGeoPoint()) {
-					ret = kernel.getManager3D().mirror3D(label, arg[0],
-							(GeoPointND) arg[1]);
+					ret = kernel.getManager3D().mirror3D(label, arg[0], (GeoPointND) arg[1]);
 					return ret;
 				}
 				if (arg[1].isGeoLine()) {
-					ret = kernel.getManager3D().mirror3D(label, arg[0],
-							(GeoLineND) arg[1]);
+					ret = kernel.getManager3D().mirror3D(label, arg[0], (GeoLineND) arg[1]);
 					return ret;
 				}
 
@@ -86,5 +82,4 @@ public class CmdMirror3D extends CmdMirror {
 
 		return super.process2(label, arg, ok);
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -58,23 +58,41 @@ class StringTemplateTest {
 		long l = System.currentTimeMillis();
 		StringBuilder sb = new StringBuilder(1000);
 		FunctionVariable fv = new FunctionVariable(app.getKernel());
-		ExpressionNode plusNode = fv.wrap().plus(fv).plus(fv).plus(fv).plus(fv)
-				.plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv).plus(fv)
+		ExpressionNode plusNode = fv.wrap()
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
+				.plus(fv)
 				.plus(fv);
 		for (int i = 0; i < 1E4; i++) {
 			sb.append(plusNode.toValueString(StringTemplate.defaultTemplate));
 		}
 
 		StringBuilder sbm = new StringBuilder(1000);
-		ExpressionNode minusNode = fv.wrap().subtract(fv).subtract(fv).subtract(fv)
-				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
-				.subtract(fv).subtract(fv).subtract(fv).subtract(fv)
+		ExpressionNode minusNode = fv.wrap()
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
+				.subtract(fv)
 				.subtract(fv);
 		for (int i = 0; i < 1E4; i++) {
 			sbm.append(minusNode.toValueString(StringTemplate.defaultTemplate));
 		}
-		assertThat(System.currentTimeMillis() - l,
-				OrderingComparison.lessThan(10000L));
+		assertThat(System.currentTimeMillis() - l, OrderingComparison.lessThan(10000L));
 	}
 
 	@Test
@@ -101,9 +119,9 @@ class StringTemplateTest {
 	@Test
 	void testDegrees() {
 		plain("s:sin(8'3'')", "s = sin(8'3" + Unicode.SECONDS + ")");
-		plain("c:cos(1" + Unicode.DEGREE_STRING + "8'3'')", "c = cos(1"
-				+ Unicode.DEGREE_STRING + "8'3"
-				+ Unicode.SECONDS + ")");
+		plain(
+				"c:cos(1" + Unicode.DEGREE_STRING + "8'3'')",
+				"c = cos(1" + Unicode.DEGREE_STRING + "8'3" + Unicode.SECONDS + ")");
 	}
 
 	private void plain(String string, String string2) {
@@ -115,20 +133,22 @@ class StringTemplateTest {
 	void testConditionalLatex() {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
-		tcl("If[x>0,x,-x]", "\\left\\{\\begin{array}{ll} x& : x > 0\\\\"
-				+ " -x& : \\text{otherwise} \\end{array}\\right. ");
+		tcl(
+				"If[x>0,x,-x]",
+				"\\left\\{\\begin{array}{ll} x& : x > 0\\\\"
+						+ " -x& : \\text{otherwise} \\end{array}\\right. ");
 		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
 				+ " -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<0,-x,7]]", caseThree);
 		tcl("If[x>1,x,x<0,-x,7]", caseThree);
-		String caseTwo = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
-				+ " -x& : x <= 0 \\end{array}\\right. ";
+		String caseTwo =
+				"\\left\\{\\begin{array}{ll} x& : x > 1\\\\" + " -x& : x <= 0 \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<=0,-x]]", caseTwo);
 		tcl("If[x>1,x,x<=0,-x]", caseTwo);
 		// x>2 is impossible for x<=0
 		tcl("If[x>0,x,If[x>2,-x]]", caseSimple);
-		String caseImpossible = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
-				+ " -x& : x <= 1 \\end{array}\\right. ";
+		String caseImpossible =
+				"\\left\\{\\begin{array}{ll} x& : x > 1\\\\" + " -x& : x <= 1 \\end{array}\\right. ";
 		// x>1 and x<=2 cover the whole axis, further conditions are irrelevant
 		tcl("If[x>1,x,If[x<=2,-x,If[x>3,x^2,x^3]]]", caseImpossible);
 		tcl("If[x>1,x,If[x<=2,-x]]", caseImpossible);
@@ -139,49 +159,43 @@ class StringTemplateTest {
 		assertThat(geo, instanceOf(GeoFunction.class));
 		assertEquals(
 				expected.replace("<=", Unicode.LESS_EQUAL + ""),
-				((GeoFunction) geo).conditionalLaTeX(false,
-						StringTemplate.latexTemplate));
+				((GeoFunction) geo).conditionalLaTeX(false, StringTemplate.latexTemplate));
 	}
 
 	private void tex(String string, String string2) {
 		GeoElementND geo = add(string);
-		assertEquals(string2,
-				geo.getDefinition(StringTemplate.latexTemplate));
+		assertEquals(string2, geo.getDefinition(StringTemplate.latexTemplate));
 	}
 
 	private GeoElementND add(String string) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
-				string, false, TestErrorHandler.INSTANCE,
-				new EvalInfo(true).withSymbolic(true).addDegree(true), null);
+				string,
+				false,
+				TestErrorHandler.INSTANCE,
+				new EvalInfo(true).withSymbolic(true).addDegree(true),
+				null);
 		return result[0];
 	}
 
 	@Test
 	void editorTemplateShouldRetainPrecision() {
 		GeoElementND f = add("f:0.33333x");
-		assertEquals("f(x)=0.33333 x",
-				f.toString(StringTemplate.editorTemplate));
-		assertEquals("f(x) = 0.33333x",
-				f.toString(StringTemplate.editTemplate));
-		assertEquals("f(x) = 0.33x",
-				f.toString(StringTemplate.defaultTemplate));
+		assertEquals("f(x)=0.33333 x", f.toString(StringTemplate.editorTemplate));
+		assertEquals("f(x) = 0.33333x", f.toString(StringTemplate.editTemplate));
+		assertEquals("f(x) = 0.33x", f.toString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	void testInequality() {
-		String[] testI = new String[]{"(x>=3) && (7>=x) && (10>=x)"};
-		String[] test = new String[]{"aaa", "(a)+b", "3", "((a)+(b))+7"};
-		String[] testFalse = new String[]{"3(", "(((7)))"};
+		String[] testI = new String[] {"(x>=3) && (7>=x) && (10>=x)"};
+		String[] test = new String[] {"aaa", "(a)+b", "3", "((a)+(b))+7"};
+		String[] testFalse = new String[] {"3(", "(((7)))"};
 		for (String t : test) {
-			assertTrue(
-					RegExp.compile("^" + CASgiac.expression + "$").test(t));
-
+			assertTrue(RegExp.compile("^" + CASgiac.expression + "$").test(t));
 		}
 		for (String t : testFalse) {
-			assertFalse(
-					RegExp.compile("^" + CASgiac.expression + "$").test(t));
-
+			assertFalse(RegExp.compile("^" + CASgiac.expression + "$").test(t));
 		}
 		for (String t : testI) {
 			assertTrue(CASgiac.inequality.test(t));
@@ -192,19 +206,18 @@ class StringTemplateTest {
 	void shouldUseTrigPowerForConstantExponent() {
 		FunctionVariable x = new FunctionVariable(app.getKernel());
 		ExpressionNode node = x.wrap().sin().power(2);
-		assertEquals("sin" + Unicode.SUPERSCRIPT_2 + "(x)",
-				node.toString(StringTemplate.editTemplate));
-		assertEquals("\\operatorname{sin} ^{2}\\left( x \\right)",
-				node.toString(StringTemplate.latexTemplate));
+		assertEquals("sin" + Unicode.SUPERSCRIPT_2 + "(x)", node.toString(StringTemplate.editTemplate));
+		assertEquals(
+				"\\operatorname{sin} ^{2}\\left( x \\right)", node.toString(StringTemplate.latexTemplate));
 	}
 
 	@Test
 	void shouldUseTrigPowerForVarExponent() {
 		FunctionVariable x = new FunctionVariable(app.getKernel());
 		ExpressionNode node = x.wrap().sin().power(x.wrap().cos());
-		assertEquals("(sin(x))^cos(x)",
-				node.toString(StringTemplate.editTemplate));
-		assertEquals("\\left(\\operatorname{sin} \\left( x \\right) \\right)"
+		assertEquals("(sin(x))^cos(x)", node.toString(StringTemplate.editTemplate));
+		assertEquals(
+				"\\left(\\operatorname{sin} \\left( x \\right) \\right)"
 						+ "^{\\operatorname{cos} \\left( x \\right)}",
 				node.toString(StringTemplate.latexTemplate));
 	}
@@ -212,11 +225,9 @@ class StringTemplateTest {
 	@Test
 	void shouldUseBracketsForFunctionPowers() {
 		ExpressionNode node = functionPower(Operation.LOG, 2);
-		assertEquals(unicode("(ln(x))^2"),
-				node.toString(StringTemplate.editTemplate));
+		assertEquals(unicode("(ln(x))^2"), node.toString(StringTemplate.editTemplate));
 		node = functionPower(Operation.ARCSIN, 3);
-		assertEquals(unicode("(sin^-1(x))^3"),
-				node.toString(StringTemplate.editTemplate));
+		assertEquals(unicode("(sin^-1(x))^3"), node.toString(StringTemplate.editTemplate));
 	}
 
 	private ExpressionNode functionPower(Operation op, int exponent) {
@@ -237,15 +248,14 @@ class StringTemplateTest {
 	@Test
 	void definitionShouldKeepSmallNumbers() {
 		GeoElementND num = add("a=1E-20");
-		assertEquals("1*10^(-20)",
-				num.getDefinition(StringTemplate.editTemplate));
+		assertEquals("1*10^(-20)", num.getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
 	void definitionShouldKeepSmallNumbersScientific() {
 		GeoElementND num = add("a=1E-20");
-		StringTemplate latexNoLocal = StringTemplate.defaultTemplate
-				.derivePrecisionPreservingLaTeXTemplate();
+		StringTemplate latexNoLocal =
+				StringTemplate.defaultTemplate.derivePrecisionPreservingLaTeXTemplate();
 		latexNoLocal.setLocalizeCmds(false);
 		assertEquals("1 \\cdot 10^{-20}", num.getDefinition(latexNoLocal));
 	}
@@ -253,31 +263,25 @@ class StringTemplateTest {
 	@Test
 	void powerWithScientificNotationShouldHaveBrackets() {
 		GeoElementND fn = add("x^(3E-20)");
-		assertEquals("f(x) = x^(3*10^(-20))",
-				fn.toString(StringTemplate.editTemplate));
+		assertEquals("f(x) = x^(3*10^(-20))", fn.toString(StringTemplate.editTemplate));
 		GeoElementND fn2 = add("3E20^x");
-		assertEquals("g(x) = (3*10^(20))^x",
-				fn2.toString(StringTemplate.editTemplate));
+		assertEquals("g(x) = (3*10^(20))^x", fn2.toString(StringTemplate.editTemplate));
 		GeoElementND fn3 = add("x^3E20");
-		assertEquals("h(x) = x^(3*10^(20))",
-				fn3.toString(StringTemplate.editTemplate));
+		assertEquals("h(x) = x^(3*10^(20))", fn3.toString(StringTemplate.editTemplate));
 		GeoElementND num = add("3E-20!");
-		assertEquals("(3*10^(-20))!",
-				num.getDefinition(StringTemplate.editTemplate));
+		assertEquals("(3*10^(-20))!", num.getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
 	void factorialWithScientificNotationShouldHaveBrackets() {
 		GeoElementND num = add("3E-20!");
-		assertEquals("(3*10^(-20))!",
-				num.getDefinition(StringTemplate.editTemplate));
+		assertEquals("(3*10^(-20))!", num.getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
 	void fractionWithScientificNotationShouldHaveBrackets() {
 		GeoElementND num = add("1/3E-20");
-		assertEquals("1 / (3*10^(-20))",
-				num.getDefinition(StringTemplate.editTemplate));
+		assertEquals("1 / (3*10^(-20))", num.getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test

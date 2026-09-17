@@ -51,8 +51,8 @@ public class ThicknessProperty extends AbstractRangeProperty<Integer> {
 	 * @param max maximum of range
 	 * @param delegate delegate
 	 */
-	public ThicknessProperty(Localization localization, int max,
-			AbstractGeoElementDelegate delegate) {
+	public ThicknessProperty(
+			Localization localization, int max, AbstractGeoElementDelegate delegate) {
 		super(localization, "Thickness", null, max, 1);
 		this.delegate = delegate;
 	}

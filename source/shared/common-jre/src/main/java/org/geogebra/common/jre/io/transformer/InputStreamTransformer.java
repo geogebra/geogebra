@@ -31,45 +31,45 @@ import org.jspecify.annotations.Nullable;
  */
 public class InputStreamTransformer {
 
-    private XmlExtractor xmlExtractor;
+	private XmlExtractor xmlExtractor;
 
-    public InputStreamTransformer() {
-        this.xmlExtractor = new XmlExtractor();
-    }
+	public InputStreamTransformer() {
+		this.xmlExtractor = new XmlExtractor();
+	}
 
 	/**
 	 * @param inputStream input stream
 	 * @return reader reader
 	 */
 	public @Nullable Reader getReader(InputStream inputStream) {
-        return getReader(new InputStreamZipFile(inputStream));
-    }
+		return getReader(new InputStreamZipFile(inputStream));
+	}
 
-    private Reader getReader(InputStreamZipFile inputStreamZipFile) {
-        return getReader(new ZipInputStream(inputStreamZipFile.getInputStream()));
-    }
+	private Reader getReader(InputStreamZipFile inputStreamZipFile) {
+		return getReader(new ZipInputStream(inputStreamZipFile.getInputStream()));
+	}
 
-    private Reader getReader(ZipInputStream zip) {
-        byte[] bytes = xmlExtractor.getBytes(zip);
-        if (bytes != null) {
-            return getReader(bytes);
-        } else {
-            return null;
-        }
-    }
+	private Reader getReader(ZipInputStream zip) {
+		byte[] bytes = xmlExtractor.getBytes(zip);
+		if (bytes != null) {
+			return getReader(bytes);
+		} else {
+			return null;
+		}
+	}
 
-    private Reader getReader(byte[] bytes) {
-        ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
-        MyXMLioJre.XMLStreamInputStream ir = new MyXMLioJre.XMLStreamInputStream(bs);
-        return getReader(ir);
-    }
+	private Reader getReader(byte[] bytes) {
+		ByteArrayInputStream bs = new ByteArrayInputStream(bytes);
+		MyXMLioJre.XMLStreamInputStream ir = new MyXMLioJre.XMLStreamInputStream(bs);
+		return getReader(ir);
+	}
 
-    private Reader getReader(MyXMLio.XMLStream stream) {
-        MyXMLioJre.XMLStreamJre streamJre = (MyXMLioJre.XMLStreamJre) stream;
-        try {
-            return streamJre.getReader();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	private Reader getReader(MyXMLio.XMLStream stream) {
+		MyXMLioJre.XMLStreamJre streamJre = (MyXMLioJre.XMLStreamJre) stream;
+		try {
+			return streamJre.getReader();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

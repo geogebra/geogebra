@@ -8,10 +8,10 @@ import java.util.zip.InflaterInputStream;
 /**
  * Special stream that can be used to read uncompressed first and compressed
  * from a certain byte.
- * 
+ *
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: DecompressableInputStream.java,v 1.3 2008-05-04 12:21:17 murkle
  *          Exp $
@@ -26,7 +26,7 @@ public class DecompressableInputStream extends InputStream {
 
 	/**
 	 * Creates a Decompressable input stream from given stream.
-	 * 
+	 *
 	 * @param input
 	 *            stream to read from.
 	 */
@@ -48,7 +48,7 @@ public class DecompressableInputStream extends InputStream {
 
 	/**
 	 * Start reading in compressed mode from the next byte.
-	 * 
+	 *
 	 * @throws IOException
 	 *             if read fails.
 	 */

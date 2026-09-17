@@ -11,5 +11,4 @@ public class CommandMathPunct extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new TypedAtom(TeXConstants.TYPE_PUNCTUATION, a);
 	}
-
 }

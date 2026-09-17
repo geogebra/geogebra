@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,8 +48,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Layout options for the options dialog.
  */
-public class OptionsLayoutD
-		implements OptionPanelD, ActionListener, FocusListener, SetLabels {
+public class OptionsLayoutD implements OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private AppD app;
 	private Settings settings;
@@ -86,7 +85,7 @@ public class OptionsLayoutD
 
 	/**
 	 * Construct layout option panel.
-	 * 
+	 *
 	 * @param app application
 	 */
 	public OptionsLayoutD(AppD app) {
@@ -98,7 +97,6 @@ public class OptionsLayoutD
 		initGUI();
 		updateGUI();
 		setLabels();
-
 	}
 
 	private void reinit() {
@@ -110,7 +108,7 @@ public class OptionsLayoutD
 
 	/**
 	 * Initialize the user interface.
-	 * 
+	 *
 	 * <p>Remark: updateGUI() will be called directly after this method
 	 * <p>Remark: Do not use translations here, the option dialog will take care of
 	 *         calling setLabels()
@@ -136,7 +134,6 @@ public class OptionsLayoutD
 		// scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
-
 	}
 
 	/**
@@ -145,8 +142,7 @@ public class OptionsLayoutD
 	private void initPerspectivesPanel() {
 
 		perspectivesPanel = new JPanel();
-		perspectivesPanel
-				.setLayout(new BoxLayout(perspectivesPanel, BoxLayout.Y_AXIS));
+		perspectivesPanel.setLayout(new BoxLayout(perspectivesPanel, BoxLayout.Y_AXIS));
 
 		ckShowTitleBar = new JCheckBox();
 		ckShowTitleBar.addActionListener(this);
@@ -155,7 +151,6 @@ public class OptionsLayoutD
 		ckAllowStyleBar = new JCheckBox();
 		ckAllowStyleBar.addActionListener(this);
 		perspectivesPanel.add(LayoutUtil.flowPanel(ckAllowStyleBar));
-
 	}
 
 	/**
@@ -171,21 +166,18 @@ public class OptionsLayoutD
 
 		ButtonGroup inputbarPosGroup = new ButtonGroup();
 
-		rbInputBarNorth = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
+		rbInputBarNorth = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
 		rbInputBarNorth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarNorth);
 
-		rbInputBarSouth = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
+		rbInputBarSouth = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
 		rbInputBarSouth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarSouth);
 
 		lblInputBarPosition = new JLabel();
 
-		inputBarPanel.add(LayoutUtil.flowPanel(ckShowInputBar,
-				Box.createHorizontalStrut(5), rbInputBarNorth,
-				rbInputBarSouth));
+		inputBarPanel.add(LayoutUtil.flowPanel(
+				ckShowInputBar, Box.createHorizontalStrut(5), rbInputBarNorth, rbInputBarSouth));
 
 		ckShowInputHelp = new JCheckBox();
 		ckShowInputHelp.addActionListener(this);
@@ -206,12 +198,10 @@ public class OptionsLayoutD
 		ckShowSideBar.addActionListener(this);
 
 		ButtonGroup grp = new ButtonGroup();
-		rbSidebarWest = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
+		rbSidebarWest = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
 		rbSidebarWest.addActionListener(this);
 		grp.add(rbSidebarWest);
-		rbSidebarEast = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
+		rbSidebarEast = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
 		rbSidebarEast.setSelected(true);
 		rbSidebarEast.addActionListener(this);
 		grp.add(rbSidebarEast);
@@ -225,8 +215,8 @@ public class OptionsLayoutD
 		rbButtonSidebar.addActionListener(this);
 		grp2.add(rbButtonSidebar);
 
-		sideBarPanel.add(LayoutUtil.flowPanel(ckShowSideBar,
-				Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
+		sideBarPanel.add(LayoutUtil.flowPanel(
+				ckShowSideBar, Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
 	}
 
 	/**
@@ -249,40 +239,40 @@ public class OptionsLayoutD
 
 		ButtonGroup toolBarPosGroup = new ButtonGroup();
 
-		rbToolbarNorth = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
+		rbToolbarNorth = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
 		rbToolbarNorth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarNorth);
 
-		rbToolbarSouth = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
+		rbToolbarSouth = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
 		rbToolbarSouth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarSouth);
 
-		rbToolbarEast = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
+		rbToolbarEast = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
 		rbToolbarEast.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarEast);
 
-		rbToolbarWest = new JToggleButton(
-				app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
+		rbToolbarWest = new JToggleButton(app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
 		rbToolbarWest.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarWest);
 
 		lblInputBarPosition = new JLabel();
-		toolbarPanel.add(LayoutUtil.flowPanel(ckShowToolbar,
-				Box.createHorizontalStrut(5), rbToolbarNorth,
-				Box.createHorizontalStrut(5), rbToolbarSouth,
-				Box.createHorizontalStrut(5), rbToolbarWest,
-				Box.createHorizontalStrut(5), rbToolbarEast));
+		toolbarPanel.add(LayoutUtil.flowPanel(
+				ckShowToolbar,
+				Box.createHorizontalStrut(5),
+				rbToolbarNorth,
+				Box.createHorizontalStrut(5),
+				rbToolbarSouth,
+				Box.createHorizontalStrut(5),
+				rbToolbarWest,
+				Box.createHorizontalStrut(5),
+				rbToolbarEast));
 		int tab = 20;
 		toolbarPanel.add(LayoutUtil.flowPanel(tab, ckShowToolHelp));
-
 	}
 
 	/**
 	 * Update the user interface, ie change selected values.
-	 * 
+	 *
 	 * <p>Remark: Do not call setLabels() here
 	 */
 	@Override
@@ -292,14 +282,10 @@ public class OptionsLayoutD
 
 		ckShowInputHelp.setSelected(app.showInputHelpToggle());
 
-		rbToolbarNorth
-				.setSelected(app.getToolbarPosition() == SwingConstants.NORTH);
-		rbToolbarSouth
-				.setSelected(app.getToolbarPosition() == SwingConstants.SOUTH);
-		rbToolbarWest
-				.setSelected(app.getToolbarPosition() == SwingConstants.WEST);
-		rbToolbarEast
-				.setSelected(app.getToolbarPosition() == SwingConstants.EAST);
+		rbToolbarNorth.setSelected(app.getToolbarPosition() == SwingConstants.NORTH);
+		rbToolbarSouth.setSelected(app.getToolbarPosition() == SwingConstants.SOUTH);
+		rbToolbarWest.setSelected(app.getToolbarPosition() == SwingConstants.WEST);
+		rbToolbarEast.setSelected(app.getToolbarPosition() == SwingConstants.EAST);
 		boolean inputOnTop = app.getInputPosition() == InputPosition.top;
 		rbInputBarNorth.setSelected(inputOnTop);
 		rbInputBarSouth.setSelected(!inputOnTop);
@@ -336,7 +322,6 @@ public class OptionsLayoutD
 		rbButtonSidebar.addActionListener(this);
 		rbPespectiveSidebar.addActionListener(this);
 		revalidate();
-
 	}
 
 	/**
@@ -358,8 +343,7 @@ public class OptionsLayoutD
 
 			// tool bar settings
 		} else if (source == ckShowToolbar || source == ckShowToolHelp) {
-			app.setShowToolBar(ckShowToolbar.isSelected(),
-					ckShowToolHelp.isSelected());
+			app.setShowToolBar(ckShowToolbar.isSelected(), ckShowToolHelp.isSelected());
 			app.updateApplicationLayout();
 			app.updateToolBarLayout();
 			app.getGuiManager().updateToolbar();
@@ -395,7 +379,6 @@ public class OptionsLayoutD
 
 		wrappedPanel.requestFocus();
 		updateGUI();
-
 	}
 
 	/**
@@ -422,8 +405,7 @@ public class OptionsLayoutD
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		// input bar panel
-		inputBarPanel
-				.setBorder(LayoutUtil.titleBorder(loc.getMenu("InputField")));
+		inputBarPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("InputField")));
 		ckShowInputBar.setText(loc.getMenu("Show"));
 		ckShowInputHelp.setText(loc.getMenu("CmdList"));
 		lblInputBarPosition.setText(loc.getMenu("Position"));
@@ -434,8 +416,7 @@ public class OptionsLayoutD
 		ckShowToolHelp.setText(loc.getMenu("ShowToolBarHelp"));
 
 		// perspectives panel
-		perspectivesPanel
-				.setBorder(LayoutUtil.titleBorder(loc.getMenu("View")));
+		perspectivesPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("View")));
 		ckShowTitleBar.setText(loc.getMenu("ShowTitleBar"));
 		ckAllowStyleBar.setText(loc.getMenu("AllowStyleBar"));
 		// side bar panel
@@ -453,7 +434,6 @@ public class OptionsLayoutD
 	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
-
 	}
 
 	@Override

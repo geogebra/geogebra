@@ -37,8 +37,8 @@ class GeoElementDependentPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GeoElement penStroke = evaluateGeoElement("PenStroke((1, 2), (4, 3), (5, 6))");
-		PenStrokeAbsolutePositionProperty absolutePositionProperty = assertDoesNotThrow(() ->
-				new PenStrokeAbsolutePositionProperty(getLocalization(), penStroke));
+		PenStrokeAbsolutePositionProperty absolutePositionProperty = assertDoesNotThrow(
+				() -> new PenStrokeAbsolutePositionProperty(getLocalization(), penStroke));
 		Box<GeoElement> redefinedTo = new Box<>(null);
 		absolutePositionProperty.addRedefinitionObserver(
 				(originalElement, newElement) -> redefinedTo.value = newElement);

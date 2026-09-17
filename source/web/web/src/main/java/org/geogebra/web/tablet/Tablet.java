@@ -36,7 +36,6 @@ public final class Tablet implements EntryPoint {
 	/**
 	 * set true if Google Api Js loaded
 	 */
-
 	@Override
 	public void onModuleLoad() {
 		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
@@ -56,7 +55,8 @@ public final class Tablet implements EntryPoint {
 	 * Load in applet mode
 	 */
 	public static void loadAppletAsync() {
-		GeoGebraFrameFull.main(GeoGebraElement.getGeoGebraMobileTags(),
+		GeoGebraFrameFull.main(
+				GeoGebraElement.getGeoGebraMobileTags(),
 				new AppletFactory3D(),
 				new TabletLookAndFeel(),
 				new TabletDevice());
@@ -73,10 +73,8 @@ public final class Tablet implements EntryPoint {
 	 * @param clb
 	 *            rendering finished callback
 	 */
-	public void renderArticleElement(final Object options,
-			JsConsumer<Object> clb) {
-		GeoGebraFrameFull.renderArticleElement(AttributeProvider.as(options),
-				new AppletFactory3D(), new TabletLookAndFeel(), clb);
+	public void renderArticleElement(final Object options, JsConsumer<Object> clb) {
+		GeoGebraFrameFull.renderArticleElement(
+				AttributeProvider.as(options), new AppletFactory3D(), new TabletLookAndFeel(), clb);
 	}
-
 }

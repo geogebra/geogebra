@@ -30,8 +30,7 @@ import jsinterop.base.Js;
 /**
  * Connects cross-platform click handler to HTML5 editor.
  */
-public class ClickAdapterW
-		implements DoubleClickHandler {
+public class ClickAdapterW implements DoubleClickHandler {
 	private final ClickListener handler;
 	private boolean pointerIsDown = false;
 	private final MathFieldW field;
@@ -83,7 +82,7 @@ public class ClickAdapterW
 
 	/**
 	 * Register this as pointer event handler for a widget.
-	 * 
+	 *
 	 * @param html
 	 *            widget
 	 */
@@ -94,19 +93,15 @@ public class ClickAdapterW
 
 		HTMLElement element = Js.uncheckedCast(html.getElement());
 
-		element.addEventListener("pointerdown",
-				(event) -> onPointerDown(Js.uncheckedCast(event)));
-		element.addEventListener("pointerenter",
-				(event) -> {
+		element.addEventListener("pointerdown", (event) -> onPointerDown(Js.uncheckedCast(event)));
+		element.addEventListener("pointerenter", (event) -> {
 			PointerEvent ptr = Js.uncheckedCast(event);
 			if (ptr.buttons > 0) {
 				onPointerDown(ptr);
 			}
 		});
-		element.addEventListener("pointerup",
-				(event) -> onPointerUp(Js.uncheckedCast(event)));
-		element.addEventListener("pointermove",
-				(event) -> onPointerMove(Js.uncheckedCast(event)));
+		element.addEventListener("pointerup", (event) -> onPointerUp(Js.uncheckedCast(event)));
+		element.addEventListener("pointermove", (event) -> onPointerMove(Js.uncheckedCast(event)));
 
 		html.addDomHandler(this, DoubleClickEvent.getType());
 	}

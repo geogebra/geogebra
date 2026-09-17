@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -57,8 +57,7 @@ class SyntaxHintTest {
 
 	@Test
 	void readPlaceholdersInitial() {
-		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(),
-				"FitPoly(<Points>, <Degree>)");
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), "FitPoly(<Points>, <Degree>)");
 		SyntaxHint hint = controller.getSyntaxHint();
 		assertEquals("FitPoly(", hint.getPrefix());
 		assertEquals("Points", hint.getActivePlaceholder());
@@ -67,8 +66,7 @@ class SyntaxHintTest {
 
 	@Test
 	void readPlaceholdersAfterComma() {
-		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(),
-				"FitPoly(<Points>, <Degree>)");
+		KeyboardInputAdapter.onKeyboardInput(mathField.getInternal(), "FitPoly(<Points>, <Degree>)");
 		EditorTyper typer = new EditorTyper(mathField);
 		typer.type("{(1,1)},");
 		SyntaxHint hint = controller.getSyntaxHint();
@@ -132,5 +130,4 @@ class SyntaxHintTest {
 		assertEquals("Points", hint.getActivePlaceholder());
 		assertEquals(", Degree)", hint.getSuffix());
 	}
-
 }

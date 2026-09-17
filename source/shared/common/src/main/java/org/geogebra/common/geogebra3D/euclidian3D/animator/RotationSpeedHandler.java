@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -25,9 +25,9 @@ import org.geogebra.common.factories.UtilFactory;
 public class RotationSpeedHandler {
 
 	/** number of samples for calculating the speed */
-	static final private int SAMPLES = 5;
+	private static final int SAMPLES = 5;
 	/** max delay for a valid rotation occurrence */
-	static final private double MAX_DELAY = 100;
+	private static final double MAX_DELAY = 100;
 
 	private double timeOld;
 	private double xOld;
@@ -47,7 +47,7 @@ public class RotationSpeedHandler {
 
 	/**
 	 * start gesture for rotation
-	 * 
+	 *
 	 * @param x
 	 *            origin value
 	 */
@@ -61,7 +61,7 @@ public class RotationSpeedHandler {
 
 	/**
 	 * rotation occurred
-	 * 
+	 *
 	 * @param x
 	 *            new value
 	 */
@@ -80,7 +80,7 @@ public class RotationSpeedHandler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return delay between last two recorded values
 	 */
 	public double getLastDelay() {
@@ -88,7 +88,7 @@ public class RotationSpeedHandler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current recorded speed
 	 */
 	public double getSpeed() {
@@ -102,11 +102,11 @@ public class RotationSpeedHandler {
 		return sum / SAMPLES;
 	}
 
-    /**
-     *
-     * @return pointer event type for the current (last) rotation
-     */
-    public PointerEventType getPointerEventType() {
-        return pointerEventType;
-    }
+	/**
+	 *
+	 * @return pointer event type for the current (last) rotation
+	 */
+	public PointerEventType getPointerEventType() {
+		return pointerEventType;
+	}
 }

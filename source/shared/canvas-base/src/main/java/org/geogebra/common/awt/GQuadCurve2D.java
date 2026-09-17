@@ -41,7 +41,5 @@ public interface GQuadCurve2D extends GShape {
 	 * @param x2 end point's x-coordinate
 	 * @param y2 end point's y-coordinate
 	 */
-	void setCurve(double x1, double y1, double controlX,
-			double controlY, double x2, double y2);
-
+	void setCurve(double x1, double y1, double controlX, double controlY, double x2, double y2);
 }

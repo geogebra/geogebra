@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * PolyBezierTo16 TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PolyBezierTo16.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -27,8 +27,7 @@ public class PolyBezierTo16 extends EMFTag {
 		super(88, 1);
 	}
 
-	public PolyBezierTo16(Rectangle bounds, int numberOfPoints,
-			Point[] points) {
+	public PolyBezierTo16(Rectangle bounds, int numberOfPoints, Point[] points) {
 		this();
 		this.bounds = bounds;
 		this.numberOfPoints = numberOfPoints;
@@ -36,8 +35,7 @@ public class PolyBezierTo16 extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		Rectangle r = emf.readRECTL();
 		int n = emf.readDWORD();
@@ -54,7 +52,6 @@ public class PolyBezierTo16 extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-				+ "  #points: " + numberOfPoints;
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n" + "  #points: " + numberOfPoints;
 	}
 }

@@ -16,5 +16,4 @@
 
 package org.geogebra.common.awt.annotations;
 
-public @interface HasNativeSubclass {
-}
+public @interface HasNativeSubclass {}

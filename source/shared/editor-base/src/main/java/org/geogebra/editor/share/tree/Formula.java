@@ -63,5 +63,4 @@ public class Formula {
 	public boolean isEmpty() {
 		return rootNode.size() == 0;
 	}
-
 }

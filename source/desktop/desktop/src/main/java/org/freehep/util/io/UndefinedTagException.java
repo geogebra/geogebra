@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * Exception for the TaggedOutputStream. Signals that the user tries to write a
  * tag which is not defined at this version or below.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: UndefinedTagException.java,v 1.3 2008-05-04 12:21:33 murkle Exp
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class UndefinedTagException extends IOException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7504997713135869344L;
 
@@ -28,7 +28,7 @@ public class UndefinedTagException extends IOException {
 
 	/**
 	 * Create an Undefined Tag Exception.
-	 * 
+	 *
 	 * @param msg
 	 *            message
 	 */
@@ -38,7 +38,7 @@ public class UndefinedTagException extends IOException {
 
 	/**
 	 * Create an Undefined Tag Exception.
-	 * 
+	 *
 	 * @param code
 	 *            undefined tagID
 	 */

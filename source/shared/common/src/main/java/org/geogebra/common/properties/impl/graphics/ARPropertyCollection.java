@@ -28,13 +28,12 @@ public final class ARPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @param localization localization for the label translations
 	 * @param euclidianView3D the 3D euclidian view
 	 */
-	public ARPropertyCollection(Localization localization,
-			EuclidianView3DInterface euclidianView3D) {
+	public ARPropertyCollection(Localization localization, EuclidianView3DInterface euclidianView3D) {
 		super(localization, "AR");
 		setProperties(new Property[] {
-				new RestartARActionProperty(localization, euclidianView3D),
-				new ARRatioPropertyCollection(localization, euclidianView3D),
-				new ARBackgroundStyleProperty(localization, euclidianView3D)
+			new RestartARActionProperty(localization, euclidianView3D),
+			new ARRatioPropertyCollection(localization, euclidianView3D),
+			new ARBackgroundStyleProperty(localization, euclidianView3D)
 		});
 	}
 }

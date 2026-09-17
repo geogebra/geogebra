@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  *         Interface for ray in any dimension
  */
-
 public interface GeoRayND extends GeoLineND {
 
 	/**
@@ -35,5 +34,4 @@ public interface GeoRayND extends GeoLineND {
 	 * @return unlabeled copy of Ray with free input Point and Vector
 	 */
 	GeoElement copyFreeRay();
-
 }

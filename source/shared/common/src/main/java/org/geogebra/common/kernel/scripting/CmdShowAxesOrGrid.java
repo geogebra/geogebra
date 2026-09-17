@@ -28,9 +28,9 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
  * ShowAxex[] / ShowGrid[]
- * 
+ *
  * ShowAxes[Boolean] / ShowGrid[Boolean]
- * 
+ *
  * ShowAxes[View ID, Boolean] / ShowGrid[View ID/Boolean]
  */
 public class CmdShowAxesOrGrid extends CmdScripting {
@@ -39,7 +39,7 @@ public class CmdShowAxesOrGrid extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -56,40 +56,40 @@ public class CmdShowAxesOrGrid extends CmdScripting {
 
 		GeoElement[] arg = resArgs(c);
 		switch (n) {
-		case 0:
-			evs = app.getActiveEuclidianView().getSettings();
-			setAndRepaint(true, evs);
-			break;
-		case 1:
-			if (!(arg[0] instanceof BooleanValue)) {
-				throw argErr(c, arg[0]);
-			}
-
-			boolean show = ((BooleanValue) arg[0]).getBoolean();
-			evs = app.getActiveEuclidianView().getSettings();
-			setAndRepaint(show, evs);
-
-			break;
-		case 2:
-			if (!(arg[0] instanceof NumberValue)) {
-				throw argErr(c, arg[0]);
-			}
-			if (!(arg[1] instanceof BooleanValue)) {
-				throw argErr(c, arg[1]);
-			}
-
-			show = ((BooleanValue) arg[1]).getBoolean();
-			int evNo = (int) arg[0].evaluateDouble();
-			if (evNo >= 1 && evNo <= 3 || evNo == -1) {
-				evs = app.getSettings().getEuclidian(evNo);
-				if (evs != null) {
-					setAndRepaint(show, evs);
+			case 0:
+				evs = app.getActiveEuclidianView().getSettings();
+				setAndRepaint(true, evs);
+				break;
+			case 1:
+				if (!(arg[0] instanceof BooleanValue)) {
+					throw argErr(c, arg[0]);
 				}
-			}
-			break;
 
-		default:
-			throw argNumErr(c);
+				boolean show = ((BooleanValue) arg[0]).getBoolean();
+				evs = app.getActiveEuclidianView().getSettings();
+				setAndRepaint(show, evs);
+
+				break;
+			case 2:
+				if (!(arg[0] instanceof NumberValue)) {
+					throw argErr(c, arg[0]);
+				}
+				if (!(arg[1] instanceof BooleanValue)) {
+					throw argErr(c, arg[1]);
+				}
+
+				show = ((BooleanValue) arg[1]).getBoolean();
+				int evNo = (int) arg[0].evaluateDouble();
+				if (evNo >= 1 && evNo <= 3 || evNo == -1) {
+					evs = app.getSettings().getEuclidian(evNo);
+					if (evs != null) {
+						setAndRepaint(show, evs);
+					}
+				}
+				break;
+
+			default:
+				throw argNumErr(c);
 		}
 		return arg;
 	}

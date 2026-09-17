@@ -60,8 +60,8 @@ public final class UnbundledInitialViewState implements InitialViewState {
 			return;
 		}
 
-		DockPanelData dpd = app.getGuiManager().getLayout().getDockManager()
-						.getPanel(VIEW_ALGEBRA).createInfo();
+		DockPanelData dpd =
+				app.getGuiManager().getLayout().getDockManager().getPanel(VIEW_ALGEBRA).createInfo();
 		initialTabId = dpd.getTabId();
 	}
 

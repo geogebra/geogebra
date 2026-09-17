@@ -28,14 +28,14 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Conic[ &lt;List&gt; ]
- * 
+ *
  * Conic[ five GeoPoints ]
  */
 public class CmdConic extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,55 +44,53 @@ public class CmdConic extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c, info);
 		switch (n) {
-		case 1:
-			if (arg[0].isGeoList()) {
-				return conic(c.getLabel(), (GeoList) arg[0]);
-			}
-		case 5:
-			for (int i = 0; i < 5; i++) {
-				if (!arg[i].isGeoPoint()) {
-					throw argErr(c, arg[i]);
+			case 1:
+				if (arg[0].isGeoList()) {
+					return conic(c.getLabel(), (GeoList) arg[0]);
 				}
-			}
-			GeoElement[] ret = { conic(c.getLabel(), arg) };
-			return ret;
-		default:
-			if (n > 0 && arg[0] instanceof GeoNumberValue) {
-				// try to create list of numbers
-				GeoList list = wrapInList(arg, arg.length,
-						GeoClass.NUMERIC, c);
-				if (list != null) {
-					ret = conic(c.getLabel(), list);
-					return ret;
-				}
-			}
-			if (n == 6) {
-				for (GeoElement input : arg) {
-					if (!input.isNumberValue()) {
-						throw argErr(c, input);
+			case 5:
+				for (int i = 0; i < 5; i++) {
+					if (!arg[i].isGeoPoint()) {
+						throw argErr(c, arg[i]);
 					}
 				}
-			}
-			throw argNumErr(c);
+				GeoElement[] ret = {conic(c.getLabel(), arg)};
+				return ret;
+			default:
+				if (n > 0 && arg[0] instanceof GeoNumberValue) {
+					// try to create list of numbers
+					GeoList list = wrapInList(arg, arg.length, GeoClass.NUMERIC, c);
+					if (list != null) {
+						ret = conic(c.getLabel(), list);
+						return ret;
+					}
+				}
+				if (n == 6) {
+					for (GeoElement input : arg) {
+						if (!input.isNumberValue()) {
+							throw argErr(c, input);
+						}
+					}
+				}
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * conic from coefficients
-	 * 
+	 *
 	 * @param coeffList
 	 *            coefficients
 	 * @return conic
 	 */
 	private GeoElement[] conic(String label, GeoList coeffList) {
-		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(cons, label,
-				coeffList);
+		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(cons, label, coeffList);
 
-		return new GeoElement[] { algo.getConic() };
+		return new GeoElement[] {algo.getConic()};
 	}
 
 	/**
@@ -103,8 +101,9 @@ public class CmdConic extends CommandProcessor {
 	 * @return conic 5 points
 	 */
 	protected GeoElement conic(String label, GeoElement[] arg) {
-		GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
-				(GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4] };
+		GeoPoint[] points = {
+			(GeoPoint) arg[0], (GeoPoint) arg[1], (GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4]
+		};
 		return getAlgoDispatcher().conic(label, points);
 	}
 }

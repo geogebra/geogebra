@@ -31,13 +31,15 @@ import org.geogebra.common.util.MyMath;
 /**
  * Algorithm for the Sequence[ expression of var, var, from-value, to-value,
  * step ] command.
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoSequenceRange extends AlgoElement {
 
 	private enum SequenceType {
-		SIMPLE, RANGE, FULL
+		SIMPLE,
+		RANGE,
+		FULL
 	}
 
 	private final GeoNumberValue var_from;
@@ -51,7 +53,7 @@ public class AlgoSequenceRange extends AlgoElement {
 
 	/**
 	 * Creates simple sequence start..upTo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param from
@@ -61,9 +63,8 @@ public class AlgoSequenceRange extends AlgoElement {
 	 * @param step
 	 *            step
 	 */
-	public AlgoSequenceRange(Construction cons,
-			GeoNumberValue from,
-			GeoNumberValue upTo, GeoNumberValue step) {
+	public AlgoSequenceRange(
+			Construction cons, GeoNumberValue from, GeoNumberValue upTo, GeoNumberValue step) {
 		super(cons);
 
 		type = SequenceType.RANGE;
@@ -78,7 +79,7 @@ public class AlgoSequenceRange extends AlgoElement {
 
 	/**
 	 * Creates simple sequence 1..upTo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param upTo
@@ -109,17 +110,15 @@ public class AlgoSequenceRange extends AlgoElement {
 			input[0] = var_to.toGeoElement();
 		} else {
 			if (var_step == null) {
-				input = new GeoElement[] { var_from.toGeoElement(),
-						var_to.toGeoElement() };
+				input = new GeoElement[] {var_from.toGeoElement(), var_to.toGeoElement()};
 			} else {
-				input = new GeoElement[] { var_from.toGeoElement(),
-						var_to.toGeoElement(),
-						var_step.toGeoElement() };
+				input = new GeoElement[] {
+					var_from.toGeoElement(), var_to.toGeoElement(), var_step.toGeoElement()
+				};
 			}
 		}
 
-		list.setTypeStringForXML(var_to
-				.getGeoClassType().xmlName);
+		list.setTypeStringForXML(var_to.getGeoClassType().xmlName);
 		setOnlyOutput(list);
 
 		setDependencies(); // done by AlgoElement
@@ -127,7 +126,7 @@ public class AlgoSequenceRange extends AlgoElement {
 
 	/**
 	 * Returns list of all contained elements.
-	 * 
+	 *
 	 * @return list of elements
 	 */
 	GeoList getList() {
@@ -152,13 +151,14 @@ public class AlgoSequenceRange extends AlgoElement {
 			from = Math.round(from);
 			to = Math.round(to);
 		}
-		if (from > MyMath.LARGEST_INTEGER || from < -MyMath.LARGEST_INTEGER
+		if (from > MyMath.LARGEST_INTEGER
+				|| from < -MyMath.LARGEST_INTEGER
 				|| to > MyMath.LARGEST_INTEGER
 				|| to < -MyMath.LARGEST_INTEGER) {
 			list.setUndefined();
 			return;
 		}
-		
+
 		list.clear();
 		list.setDefined(true);
 		double step = 1;
@@ -173,12 +173,15 @@ public class AlgoSequenceRange extends AlgoElement {
 			step *= sign;
 		}
 		// also see Operation.java case Sequence:
-		if (var_from.toDecimal() == null || var_step == null || var_step.toDecimal() == null
+		if (var_from.toDecimal() == null
+				|| var_step == null
+				|| var_step.toDecimal() == null
 				|| (to - from) / step > 100) {
 			// Kernel.MIN_PRECISION and isInteger() check for eg
 			// Sequence(1, 2, 0.1)
 			double k = from;
-			for (int steps = 0; k * sign <= to * sign + Kernel.MIN_PRECISION;
+			for (int steps = 0;
+					k * sign <= to * sign + Kernel.MIN_PRECISION;
 					steps++, k = from + steps * step) {
 				if (DoubleUtil.isInteger(k)) {
 					k = Math.round(k);
@@ -215,5 +218,4 @@ public class AlgoSequenceRange extends AlgoElement {
 		}
 		last_to = to;
 	}
-
 }

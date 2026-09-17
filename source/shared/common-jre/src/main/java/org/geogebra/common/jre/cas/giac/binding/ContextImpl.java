@@ -16,15 +16,15 @@
 
 package org.geogebra.common.jre.cas.giac.binding;
 
-import org.geogebra.common.cas.giac.binding.Context;
-
 import javagiac.context;
+
+import org.geogebra.common.cas.giac.binding.Context;
 
 class ContextImpl implements Context {
 
-    context wrappedContext;
+	context wrappedContext;
 
-    ContextImpl() {
-        wrappedContext = new context();
-    }
+	ContextImpl() {
+		wrappedContext = new context();
+	}
 }

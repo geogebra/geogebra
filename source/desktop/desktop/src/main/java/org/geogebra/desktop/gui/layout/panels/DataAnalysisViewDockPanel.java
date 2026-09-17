@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,19 +35,19 @@ public class DataAnalysisViewDockPanel extends DockPanelD {
 	 * @param app application
 	 */
 	public DataAnalysisViewDockPanel(AppD app) {
-		super(App.VIEW_DATA_ANALYSIS, // view id
+		super(
+				App.VIEW_DATA_ANALYSIS, // view id
 				"DataAnalysis", // view title phrase
 				getDefaultToolbar(), // toolbar string
 				true, // style bar?
 				-1, // menu order
 				'D' // menu shortcut
-		);
+				);
 
 		this.app = app;
 		this.setOpenInFrame(false);
 		this.setDialog(true);
 		this.setShowStyleBar(true);
-
 	}
 
 	@Override
@@ -57,8 +57,7 @@ public class DataAnalysisViewDockPanel extends DockPanelD {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((GuiManagerD) app.getGuiManager()).getDataAnalysisView()
-				.getStyleBar();
+		return ((GuiManagerD) app.getGuiManager()).getDataAnalysisView().getStyleBar();
 	}
 
 	private static String getDefaultToolbar() {
@@ -74,5 +73,4 @@ public class DataAnalysisViewDockPanel extends DockPanelD {
 
 		return sb.toString();
 	}
-
 }

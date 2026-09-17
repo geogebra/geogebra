@@ -81,11 +81,10 @@ public final class ChromeLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public Promise<String> loadLanguage() {
-		ChromeStorage local =  Js.uncheckedCast(getStorage());
+		ChromeStorage local = Js.uncheckedCast(getStorage());
 		if (local != null) {
-			return new Promise<>((resolve, reject) ->
-					local.get(props -> resolve.onInvoke(props.get("GeoGebraLangUI")))
-			);
+			return new Promise<>(
+					(resolve, reject) -> local.get(props -> resolve.onInvoke(props.get("GeoGebraLangUI"))));
 		}
 		return Promise.resolve((String) null);
 	}

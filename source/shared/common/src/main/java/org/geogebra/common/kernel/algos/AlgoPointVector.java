@@ -30,13 +30,12 @@ public class AlgoPointVector extends AlgoPointVectorND {
 
 	@Override
 	public final void compute() {
-		Q.setCoords(((GeoPoint) P).inhomX + ((GeoVector) v).x,
-				((GeoPoint) P).inhomY + ((GeoVector) v).y, 1.0);
+		Q.setCoords(
+				((GeoPoint) P).inhomX + ((GeoVector) v).x, ((GeoPoint) P).inhomY + ((GeoVector) v).y, 1.0);
 	}
 
 	@Override
 	protected GeoPointND newGeoPoint(Construction cons1) {
 		return new GeoPoint(cons1);
 	}
-
 }

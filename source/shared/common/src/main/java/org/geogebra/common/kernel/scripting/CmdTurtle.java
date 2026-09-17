@@ -27,7 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Turtle Creation command Syntax: Turtle[]
- * 
+ *
  * @author arno
  *
  */
@@ -35,7 +35,7 @@ public class CmdTurtle extends CommandProcessor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            the kernel
 	 */
@@ -56,5 +56,4 @@ public class CmdTurtle extends CommandProcessor {
 		turtle.setAnimating(true);
 		return turtle.asArray();
 	}
-
 }

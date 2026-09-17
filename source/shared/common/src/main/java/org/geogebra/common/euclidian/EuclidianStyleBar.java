@@ -52,7 +52,7 @@ public interface EuclidianStyleBar {
 
 	/**
 	 * Update capture button
-	 * 
+	 *
 	 * @param mode
 	 *            euclidian view mode
 	 */
@@ -60,7 +60,7 @@ public interface EuclidianStyleBar {
 
 	/**
 	 * update the style bar if the geo is part of the active geo list
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */

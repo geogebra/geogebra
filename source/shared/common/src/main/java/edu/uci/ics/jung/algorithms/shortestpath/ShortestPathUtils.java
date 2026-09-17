@@ -1,7 +1,7 @@
 /*
  * Created on Jul 10, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -27,8 +27,8 @@ public class ShortestPathUtils {
 	 * <code>source</code> to <code>target</code>, in order of their occurrence
 	 * on this path.
 	 */
-	public static <V, E> List<E> getPath(Graph<V, E> graph,
-			ShortestPath<V, E> sp, V source, V target) {
+	public static <V, E> List<E> getPath(
+			Graph<V, E> graph, ShortestPath<V, E> sp, V source, V target) {
 		LinkedList<E> path = new LinkedList<E>();
 
 		Map<V, E> incomingEdges = sp.getIncomingEdgeMap(source);

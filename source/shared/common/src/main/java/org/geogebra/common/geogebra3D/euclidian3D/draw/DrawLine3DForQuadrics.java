@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Draw line for quadrics
- * 
+ *
  * @author mathieu
  *
  */
@@ -39,8 +39,7 @@ public class DrawLine3DForQuadrics extends DrawLine3D {
 	 * @param quadric
 	 *            quadric
 	 */
-	public DrawLine3DForQuadrics(EuclidianView3D a_view3D, GeoLine3D line,
-			GeoQuadric3D quadric) {
+	public DrawLine3DForQuadrics(EuclidianView3D a_view3D, GeoLine3D line, GeoQuadric3D quadric) {
 		super(a_view3D, line, quadric);
 	}
 
@@ -49,7 +48,6 @@ public class DrawLine3DForQuadrics extends DrawLine3D {
 
 		super.init(line);
 		this.quadric = (GeoQuadric3D) geo2;
-
 	}
 
 	@Override
@@ -61,5 +59,4 @@ public class DrawLine3DForQuadrics extends DrawLine3D {
 	protected GeoLine3D getLine() {
 		return (GeoLine3D) super.getGeoElement();
 	}
-
 }

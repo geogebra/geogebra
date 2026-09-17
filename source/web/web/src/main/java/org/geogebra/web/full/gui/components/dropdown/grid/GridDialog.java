@@ -36,8 +36,10 @@ public final class GridDialog extends ComponentDialog {
 		addStyleName("rulingDialog");
 		setOnPositiveAction(this::applyRuling);
 
-		rulingStyleProperty = new RulingStyleProperty(app.getLocalization(),
-				app.getActiveEuclidianView().getSettings(), app.getActiveEuclidianView());
+		rulingStyleProperty = new RulingStyleProperty(
+				app.getLocalization(),
+				app.getActiveEuclidianView().getSettings(),
+				app.getActiveEuclidianView());
 		selectedRuling = rulingStyleProperty.getValue();
 		buildGui();
 	}

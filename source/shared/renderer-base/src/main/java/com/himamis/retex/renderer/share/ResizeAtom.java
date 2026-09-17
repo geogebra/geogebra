@@ -57,8 +57,7 @@ public class ResizeAtom extends Atom implements HasTrueBase {
 	private TeXLength height;
 	private boolean keepaspectratio;
 
-	public ResizeAtom(Atom base, TeXLength width, TeXLength height,
-			boolean keepaspectratio) {
+	public ResizeAtom(Atom base, TeXLength width, TeXLength height, boolean keepaspectratio) {
 		this.base = base;
 		this.width = width;
 		this.height = height;

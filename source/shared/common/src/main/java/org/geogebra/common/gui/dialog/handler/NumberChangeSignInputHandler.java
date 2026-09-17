@@ -24,19 +24,19 @@ import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Handler of a number, with possibility of changing the sign
- * 
+ *
  * @author mathieu
- * 
+ *
  */
 public class NumberChangeSignInputHandler extends NumberInputHandler {
-	public NumberChangeSignInputHandler(AlgebraProcessor algebraProcessor,
-			AsyncOperation<GeoNumberValue> callback, App app) {
+	public NumberChangeSignInputHandler(
+			AlgebraProcessor algebraProcessor, AsyncOperation<GeoNumberValue> callback, App app) {
 		super(algebraProcessor, callback, app);
 	}
 
 	/**
 	 * If (changeSign==true), change sign of the number handled
-	 * 
+	 *
 	 * @param inputString
 	 *            input
 	 * @param changeSign
@@ -46,8 +46,11 @@ public class NumberChangeSignInputHandler extends NumberInputHandler {
 	 * @param callback
 	 *            callback
 	 */
-	public void processInput(String inputString, boolean changeSign,
-			ErrorHandler handler, AsyncOperation<Boolean> callback) {
+	public void processInput(
+			String inputString,
+			boolean changeSign,
+			ErrorHandler handler,
+			AsyncOperation<Boolean> callback) {
 		if (changeSign) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("-(");

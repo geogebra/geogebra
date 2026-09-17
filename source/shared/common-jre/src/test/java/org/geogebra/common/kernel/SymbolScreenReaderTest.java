@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -60,14 +60,14 @@ class SymbolScreenReaderTest extends BaseUnitTest {
 	}
 
 	private void shouldRead(GeoElement geo, String expected) {
-		String actual = ScreenReader.getAuralText(geo,
-				new ScreenReaderBuilder(geo.getKernel().getLocalization()));
+		String actual =
+				ScreenReader.getAuralText(geo, new ScreenReaderBuilder(geo.getKernel().getLocalization()));
 		assertEquals(expected, actual);
 	}
 
 	private void shouldRead(GeoText geo, String expected) {
-		String actual = ScreenReader.getAuralText(geo,
-				new ScreenReaderBuilder(geo.getKernel().getLocalization()));
+		String actual =
+				ScreenReader.getAuralText(geo, new ScreenReaderBuilder(geo.getKernel().getLocalization()));
 		assertEquals(expected, actual);
 	}
 
@@ -127,46 +127,53 @@ class SymbolScreenReaderTest extends BaseUnitTest {
 
 	@Test
 	void testOneDegreeInGeoText() {
-		shouldRead(this.<GeoText>add("\"sin(y)=1°\""),
+		shouldRead(
+				this.<GeoText>add("\"sin(y)=1°\""),
 				"sin open parenthesis y close parenthesis =1 degree"
 						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	void testMinusOneDegreeInGeoText() {
-		shouldRead(this.<GeoText>add("\"sin(y)=-1°\""),
+		shouldRead(
+				this.<GeoText>add("\"sin(y)=-1°\""),
 				"sin open parenthesis y close parenthesis = minus 1 degree"
-				+ " Press enter to edit Press tab to select next object");
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	void testDegreeInGeoTextPlurar() {
-		shouldRead(this.<GeoText>add("\"sin(y)=35°\""),
+		shouldRead(
+				this.<GeoText>add("\"sin(y)=35°\""),
 				"sin open parenthesis y close parenthesis =35 degrees"
-				+ " Press enter to edit Press tab to select next object");
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	void testDegreeInLabel() {
-		shouldRead((GeoText) add("\"15°=(1,1)\""),
+		shouldRead(
+				(GeoText) add("\"15°=(1,1)\""),
 				"15 degrees = open parenthesis 1 comma 1 close parenthesis"
 						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	void testDegreeAsLabel() {
-		shouldRead((GeoText) add("\"°=(1,1)\""), " degree = open parenthesis"
-				+ " 1 comma 1 close parenthesis Press enter to edit"
-				+ " Press tab to select next object");
+		shouldRead(
+				(GeoText) add("\"°=(1,1)\""),
+				" degree = open parenthesis"
+						+ " 1 comma 1 close parenthesis Press enter to edit"
+						+ " Press tab to select next object");
 	}
 
 	@Test
 	void testDegreeInGeoTextWithEqPlurar() {
 		GeoText text = add("text1 = \"sin(x)=75°\"");
 		text.setLaTeX(true, false);
-		shouldRead(text,
+		shouldRead(
+				text,
 				"sin open parenthesis x close parenthesis =75 degrees"
-				+ " Press enter to edit Press tab to select next object");
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
@@ -227,32 +234,39 @@ class SymbolScreenReaderTest extends BaseUnitTest {
 	private void atMinus1ShouldReadAsArc(String trigonometric) {
 		GeoText geo = add("\"\\" + trigonometric + "^{-1}(x)\"");
 		geo.setLaTeX(true, true);
-		shouldRead(geo, " arc " + trigonometric + " open parenthesis x close parenthesis"
-				+ " Press enter to edit Press tab to select next object");
+		shouldRead(
+				geo,
+				" arc " + trigonometric + " open parenthesis x close parenthesis"
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	private void atMinus1ShouldReadAsArcHyperbolic(String trigonometric) {
 		GeoText geo = add("\"\\" + trigonometric + "^{-1}(x)\"");
 		geo.setLaTeX(true, true);
-		shouldRead(geo, " arc hyperbolic " + trigonometric.replace("h", "")
-				+ " open parenthesis x close parenthesis"
-				+ " Press enter to edit Press tab to select next object");
+		shouldRead(
+				geo,
+				" arc hyperbolic " + trigonometric.replace("h", "")
+						+ " open parenthesis x close parenthesis"
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	void testPointWithDegrees() {
 		GeoPoint point = add("A=(1; 15°)");
-		shouldRead(point, "Point A = open parenthesis 1 semicolon "
-				+ " 15 degrees close parenthesis"
-				+ " Press the arrow keys to move the object"
-				+ " Press enter to edit Press tab to select next object");
+		shouldRead(
+				point,
+				"Point A = open parenthesis 1 semicolon "
+						+ " 15 degrees close parenthesis"
+						+ " Press the arrow keys to move the object"
+						+ " Press enter to edit Press tab to select next object");
 	}
 
 	@Test
 	void testPointMoved() {
 		GeoPoint point = add("A=(1, 1)");
 		point.movePoint(new Coords(1, 1, 0), null);
-		assertEquals("Point A  moved to  open parenthesis 2 comma 2 close parenthesis ",
+		assertEquals(
+				"Point A  moved to  open parenthesis 2 comma 2 close parenthesis ",
 				point.getAuralTextForMove());
 	}
 
@@ -261,8 +275,7 @@ class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoPoint point = add("A=(1, 1)");
 		point.setCaption("$%v\\%$");
 		point.movePoint(new Coords(1, 1, 0), null);
-		assertEquals(" open parenthesis 2 comma  2 close parenthesis % ",
-				point.getAuralTextForMove());
+		assertEquals(" open parenthesis 2 comma  2 close parenthesis % ", point.getAuralTextForMove());
 	}
 
 	@Test
@@ -270,8 +283,9 @@ class SymbolScreenReaderTest extends BaseUnitTest {
 		GeoPoint point = add("A=(1; 15°)");
 		GeoPoint endPosition = add("(2; 30°)");
 		point.movePoint(null, endPosition.getCoords());
-		assertEquals("Point A  moved to  open parenthesis 2 semicolon  30 degrees"
-						+ " close parenthesis ", point.getAuralTextForMove());
+		assertEquals(
+				"Point A  moved to  open parenthesis 2 semicolon  30 degrees" + " close parenthesis ",
+				point.getAuralTextForMove());
 	}
 
 	@Test
@@ -292,7 +306,8 @@ class SymbolScreenReaderTest extends BaseUnitTest {
 	void testSin4() {
 		GeoText text = add("\"sin^4\"");
 		text.setLaTeX(true, true);
-		shouldRead(text, "sin to the power of 4 end power "
-				+ "Press enter to edit Press tab to select next object");
+		shouldRead(
+				text,
+				"sin to the power of 4 end power " + "Press enter to edit Press tab to select next object");
 	}
 }

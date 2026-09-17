@@ -54,8 +54,12 @@ public class AlgoClasses extends AlgoElement {
 	 * @param numClasses
 	 *            number of classes
 	 */
-	public AlgoClasses(Construction cons, GeoList dataList, GeoNumeric start,
-			GeoNumeric width, GeoNumeric numClasses) {
+	public AlgoClasses(
+			Construction cons,
+			GeoList dataList,
+			GeoNumeric start,
+			GeoNumeric width,
+			GeoNumeric numClasses) {
 		super(cons);
 		this.dataList = dataList;
 		this.start = start;
@@ -142,13 +146,10 @@ public class AlgoClasses extends AlgoElement {
 			}
 
 		} else {
-			minGeoString = dataList.get(0)
-					.toValueString(StringTemplate.defaultTemplate);
-			maxGeoString = dataList.get(0)
-					.toValueString(StringTemplate.defaultTemplate);
+			minGeoString = dataList.get(0).toValueString(StringTemplate.defaultTemplate);
+			maxGeoString = dataList.get(0).toValueString(StringTemplate.defaultTemplate);
 			for (int i = 1; i < dataList.size(); i++) {
-				String geoString = dataList.get(i)
-						.toValueString(StringTemplate.defaultTemplate);
+				String geoString = dataList.get(i).toValueString(StringTemplate.defaultTemplate);
 				if (geoString.compareTo(minGeoString) < 0) {
 					minGeoString = geoString;
 				}
@@ -173,7 +174,6 @@ public class AlgoClasses extends AlgoElement {
 				classList.addNumber(minGeoValue + i * width1, null);
 			}
 			classList.addNumber(maxGeoValue, null);
-
 		}
 
 		// Create class list using start and width
@@ -196,5 +196,4 @@ public class AlgoClasses extends AlgoElement {
 			}
 		}
 	}
-
 }

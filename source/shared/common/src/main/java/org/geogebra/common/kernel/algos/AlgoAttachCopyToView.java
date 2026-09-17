@@ -36,7 +36,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.MyMath;
 
 /**
- * 
+ *
  * @author Zbynek
  */
 public class AlgoAttachCopyToView extends AlgoTransformation {
@@ -50,7 +50,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	/**
 	 * Creates new apply matrix algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -68,9 +68,14 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 * @param screenCorner3
 	 *            screen point corresponding to corner3
 	 */
-	public AlgoAttachCopyToView(Construction cons, String label,
-			GeoElementND in, GeoNumberValue viewID, GeoPointND corner1,
-			GeoPointND corner3, GeoPointND screenCorner1,
+	public AlgoAttachCopyToView(
+			Construction cons,
+			String label,
+			GeoElementND in,
+			GeoNumberValue viewID,
+			GeoPointND corner1,
+			GeoPointND corner3,
+			GeoPointND screenCorner1,
 			GeoPointND screenCorner3) {
 		this(cons, in, viewID, corner1, corner3, screenCorner1, screenCorner3);
 		outGeo.setLabel(label);
@@ -78,7 +83,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	/**
 	 * Creates new apply matrix algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param in
@@ -94,9 +99,14 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 * @param screenCorner3
 	 *            screen point corresponding to corner3
 	 */
-	public AlgoAttachCopyToView(Construction cons, GeoElementND in,
-			GeoNumberValue viewID, GeoPointND corner1, GeoPointND corner3,
-			GeoPointND screenCorner1, GeoPointND screenCorner3) {
+	public AlgoAttachCopyToView(
+			Construction cons,
+			GeoElementND in,
+			GeoNumberValue viewID,
+			GeoPointND corner1,
+			GeoPointND corner3,
+			GeoPointND screenCorner1,
+			GeoPointND screenCorner3) {
 		super(cons);
 
 		this.viewID = viewID;
@@ -121,7 +131,6 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		setInputOutput();
 		compute();
 		cons.registerEuclidianViewCE(this);
-
 	}
 
 	@Override
@@ -146,7 +155,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	/**
 	 * Returns the resulting element
-	 * 
+	 *
 	 * @return resulting element
 	 */
 	@Override
@@ -194,32 +203,31 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		double c1y = ev.toRealWorldCoordY(c5.getY());
 		double c3x = ev.toRealWorldCoordX(c7.getX());
 		double c3y = ev.toRealWorldCoordY(c7.getY());
-		double[][] m1 = MyMath.adjoint(c1.getX(), c1.getY(), 1, c3.getX(),
-				c3.getY(), 1, c1.getX(), c3.getY(), 1);
-		double[][] m2 = new double[][] { { c1x, c3x, c1x }, { c1y, c3y, c3y },
-				{ 1, 1, 1 } };
+		double[][] m1 =
+				MyMath.adjoint(c1.getX(), c1.getY(), 1, c3.getX(), c3.getY(), 1, c1.getX(), c3.getY(), 1);
+		double[][] m2 = new double[][] {{c1x, c3x, c1x}, {c1y, c3y, c3y}, {1, 1, 1}};
 		double[][] m = MyMath.multiply(m2, m1);
 		if (!(inGeo instanceof GeoFunction)) {
-			out.matrixTransform(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1],
-					m[1][2], m[2][0], m[2][1], m[2][2]);
+			out.matrixTransform(
+					m[0][0], m[0][1], m[0][2], m[1][0], m[1][1], m[1][2], m[2][0], m[2][1], m[2][2]);
 			// TODO check why we need this when result has points on it
 
 			outGeo.updateCascade();
 		} else {
-			transformFunction(m[0][0] / m[2][2], m[0][2] / m[2][2],
-					m[1][1] / m[2][2], m[1][2] / m[2][2]);
+			transformFunction(m[0][0] / m[2][2], m[0][2] / m[2][2], m[1][1] / m[2][2], m[1][2] / m[2][2]);
 		}
 	}
 
 	private void transformFunction(double d, double e, double f, double g) {
 		Function fun = ((GeoFunction) inGeo).getFunction();
 		ExpressionNode expr = fun.getExpression().getCopy(kernel);
-		expr = expr.replace(fun.getFunctionVariable(),
-				new ExpressionNode(kernel, fun.getFunctionVariable())
-						.multiply(1 / d).plus(-e / d))
+		expr = expr.replace(
+						fun.getFunctionVariable(),
+						new ExpressionNode(kernel, fun.getFunctionVariable())
+								.multiply(1 / d)
+								.plus(-e / d))
 				.wrap();
-		Function fun2 = new Function(expr.multiply(f).plus(g),
-				fun.getFunctionVariable());
+		Function fun2 = new Function(expr.multiply(f).plus(g), fun.getFunctionVariable());
 		((GeoFunction) outGeo).setFunction(fun2);
 	}
 
@@ -227,11 +235,9 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(out instanceof GeoList)
-				&& (outGeo instanceof MatrixTransformable)) {
+		if (!(out instanceof GeoList) && (outGeo instanceof MatrixTransformable)) {
 			out = (MatrixTransformable) outGeo;
 		}
-
 	}
 
 	@Override
@@ -249,7 +255,6 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		} else {
 			super.transformLimitedConic(a, b);
 		}
-
 	}
 
 	/**
@@ -260,12 +265,10 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		input[1].removeAlgorithm(this);
 		viewID = new GeoNumeric(cons, viewID2);
 		input[1] = viewID.toGeoElement();
-
 	}
 
 	@Override
 	public double getAreaScaleFactor() {
 		return 1;
 	}
-
 }

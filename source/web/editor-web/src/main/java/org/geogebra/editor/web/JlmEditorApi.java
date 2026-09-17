@@ -37,5 +37,4 @@ public class JlmEditorApi extends JlmApi {
 	public void edit(Element element) {
 		((JlmEditorLib) this.library).edit(element);
 	}
-
 }

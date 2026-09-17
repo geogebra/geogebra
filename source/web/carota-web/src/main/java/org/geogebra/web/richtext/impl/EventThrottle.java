@@ -52,5 +52,4 @@ public class EventThrottle {
 
 		editor.onEscape(listener::onEscape);
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -78,8 +78,7 @@ class AlgebraProcessorTests extends BaseUnitTest {
 	@Test
 	void testCopyingPlainVariables() {
 		EvalInfo info = new EvalInfo(true).withCopyingPlainVariables(true);
-		GeoElementND[] elements = evalCommand(
-				"a=1", info);
+		GeoElementND[] elements = evalCommand("a=1", info);
 		assertNotNull(elements);
 		assertEquals(1, elements.length);
 		GeoElementND a = elements[0];
@@ -138,8 +137,10 @@ class AlgebraProcessorTests extends BaseUnitTest {
 		};
 		Analytics.setInstance(mockAnalytics);
 		evalCommand("Midpoint((0,0),(2,2))", EvalInfoFactory.getEvalInfoForAV(getApp()));
-		evalCommand("Line((0,0),(2,2))", EvalInfoFactory.getEvalInfoForRedefinition(getKernel(),
-				new GeoLine(getConstruction()), true));
+		evalCommand(
+				"Line((0,0),(2,2))",
+				EvalInfoFactory.getEvalInfoForRedefinition(
+						getKernel(), new GeoLine(getConstruction()), true));
 		evalCommand("Ray((0,0),(2,2))", new EvalInfo(true, false));
 		assertThat(loggedCommands, is(Arrays.asList("Midpoint", "Line")));
 	}
@@ -186,19 +187,20 @@ class AlgebraProcessorTests extends BaseUnitTest {
 		assertNotEquals(GColor.RED, getKernel().lookupLabel("f").getObjectColor());
 
 		// Editing the function to an equation should also trigger the setup
-		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForRedefinition(
-				getKernel(), getKernel().lookupLabel("f"), true);
-		getAlgebraProcessor().changeGeoElementNoExceptionHandling(getKernel().lookupLabel("f"),
-				"f: x = 0", evalInfo, false, null, ErrorHelper.silent());
+		EvalInfo evalInfo =
+				EvalInfoFactory.getEvalInfoForRedefinition(getKernel(), getKernel().lookupLabel("f"), true);
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						getKernel().lookupLabel("f"), "f: x = 0", evalInfo, false, null, ErrorHelper.silent());
 		assertEquals(GColor.RED, getKernel().lookupLabel("f").getObjectColor());
 	}
 
 	@Test
 	void redefineWithShortPoints() {
 		GeoElement pt = add("A=(1,2)");
-		getAlgebraProcessor().changeGeoElementNoExceptionHandling(pt, "A(1,3)",
-				new EvalInfo(true), false, null,
-				TestErrorHandler.INSTANCE);
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						pt, "A(1,3)", new EvalInfo(true), false, null, TestErrorHandler.INSTANCE);
 		assertThat(lookup("A"), hasValue("(1, 3)"));
 	}
 
@@ -206,24 +208,23 @@ class AlgebraProcessorTests extends BaseUnitTest {
 	@Issue("APPS-1289")
 	void redefineWithFunctionOfZ() {
 		GeoElement function = add("f(z)=z");
-		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "f(z)=z+1",
-				new EvalInfo(true), false, null,
-				TestErrorHandler.INSTANCE);
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						function, "f(z)=z+1", new EvalInfo(true), false, null, TestErrorHandler.INSTANCE);
 		assertThat(lookup("f"), hasValue("z + 1"));
 	}
 
 	@Test
 	@Issue("APPS-1289")
 	void redefineWithFunctionOfX() {
-			GeoElement
-		function = add("g(x)=x");
-		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "z+1",
-				new EvalInfo(true), false, null,
-				TestErrorHandler.INSTANCE);
+		GeoElement function = add("g(x)=x");
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						function, "z+1", new EvalInfo(true), false, null, TestErrorHandler.INSTANCE);
 		assertThat(lookup("g"), hasValue("?"));
-		getAlgebraProcessor().changeGeoElementNoExceptionHandling(function, "g(z)=z+1",
-				new EvalInfo(true), false, null,
-				TestErrorHandler.INSTANCE);
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						function, "g(z)=z+1", new EvalInfo(true), false, null, TestErrorHandler.INSTANCE);
 		assertThat(lookup("g"), hasValue("z + 1"));
 	}
 
@@ -233,16 +234,15 @@ class AlgebraProcessorTests extends BaseUnitTest {
 		GeoElement geo = new GeoPoint(getConstruction());
 		// under normal circumstances label is set before replacing,
 		// but if a bug causes the object to be unlabeled we should handle it gracefully
-		getAlgebraProcessor().changeGeoElementNoExceptionHandling(geo, "(1,3)",
-				new EvalInfo(true), false, null,
-				TestErrorHandler.INSTANCE);
-		assertArrayEquals(new String[]{"A"}, getApp().getGgbApi().getAllObjectNames());
+		getAlgebraProcessor()
+				.changeGeoElementNoExceptionHandling(
+						geo, "(1,3)", new EvalInfo(true), false, null, TestErrorHandler.INSTANCE);
+		assertArrayEquals(new String[] {"A"}, getApp().getGgbApi().getAllObjectNames());
 		assertThat(lookup("A"), hasValue("(1, 3)"));
 	}
 
 	private GeoElementND[] evalCommand(String s, EvalInfo info) {
-		return processor.processAlgebraCommandNoExceptionHandling(s, false,
-				errorHandler, info, null);
+		return processor.processAlgebraCommandNoExceptionHandling(s, false, errorHandler, info, null);
 	}
 
 	private void shouldParseAs(String string, double i) {

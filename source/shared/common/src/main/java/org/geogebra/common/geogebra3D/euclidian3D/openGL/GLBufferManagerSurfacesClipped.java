@@ -21,16 +21,15 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 /**
  * manager for packing buffers (for surfaces)
  */
-public class GLBufferManagerSurfacesClipped
-		extends GLBufferManagerMergeSegments {
+public class GLBufferManagerSurfacesClipped extends GLBufferManagerMergeSegments {
 
 	// empirical values
-	static final private int ELEMENTS_SIZE_START = 4096;
-	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
+	private static final int ELEMENTS_SIZE_START = 4096;
+	private static final int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param manager
 	 *            geometries manager
 	 */
@@ -47,28 +46,27 @@ public class GLBufferManagerSurfacesClipped
 	}
 
 	@Override
-	protected void putIndices(int size, TypeElement type,
-			boolean reuseSegment) {
+	protected void putIndices(int size, TypeElement type, boolean reuseSegment) {
 		switch (type) {
-		case SURFACE:
-			ReusableArrayList<Short> indices = manager.getIndices();
-			for (int i = 0; i < indices.getLength(); i++) {
-				putToIndices(indices.get(i));
-			}
-			break;
-		case TRIANGLES:
-			for (int i = 0; i < 3 * size; i++) {
-				putToIndices(i);
-			}
-			break;
-		default:
-			break;
+			case SURFACE:
+				ReusableArrayList<Short> indices = manager.getIndices();
+				for (int i = 0; i < indices.getLength(); i++) {
+					putToIndices(indices.get(i));
+				}
+				break;
+			case TRIANGLES:
+				for (int i = 0; i < 3 * size; i++) {
+					putToIndices(i);
+				}
+				break;
+			default:
+				break;
 		}
 	}
 
 	/**
 	 * draw
-	 * 
+	 *
 	 * @param r
 	 *            renderer
 	 */
@@ -77,8 +75,7 @@ public class GLBufferManagerSurfacesClipped
 	}
 
 	@Override
-	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength,
-			TypeElement type) {
+	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength, TypeElement type) {
 		return true;
 	}
 
@@ -91,5 +88,4 @@ public class GLBufferManagerSurfacesClipped
 	protected int getIndicesSizeStart() {
 		return INDICES_SIZE_START;
 	}
-
 }

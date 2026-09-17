@@ -22,15 +22,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * PMCC of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoDoubleListPMCC extends AlgoStats2D {
 
-	public AlgoDoubleListPMCC(Construction cons, String label, GeoList geoListx,
-			GeoList geoListy) {
+	public AlgoDoubleListPMCC(Construction cons, String label, GeoList geoListx, GeoList geoListy) {
 		super(cons, label, geoListx, geoListy, AlgoStats2D.STATS_PMCC);
 	}
 

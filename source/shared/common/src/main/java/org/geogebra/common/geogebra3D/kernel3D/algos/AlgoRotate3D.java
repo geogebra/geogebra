@@ -37,7 +37,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 
 	/**
 	 * Creates new unlabeled rotation algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param in
@@ -45,8 +45,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	 * @param angle
 	 *            angle
 	 */
-	public AlgoRotate3D(Construction cons, GeoElement in,
-			GeoNumberValue angle) {
+	public AlgoRotate3D(Construction cons, GeoElement in, GeoNumberValue angle) {
 
 		super(cons);
 		this.inGeo = in;
@@ -69,7 +68,7 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 
 	/**
 	 * Returns the rotated point
-	 * 
+	 *
 	 * @return rotated point
 	 */
 	@Override
@@ -84,7 +83,6 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 		if (!(outGeo instanceof GeoList)) {
 			out = (RotatableND) outGeo;
 		}
-
 	}
 
 	@Override
@@ -105,5 +103,4 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	protected GeoElement copyInternal(Construction consCopy, GeoElement geo) {
 		return kernel.copyInternal3D(consCopy, geo);
 	}
-
 }

@@ -36,13 +36,16 @@ public class AxisUnitPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @param axis axis number
 	 * @param euclidianView euclidian view
 	 */
-	public AxisUnitPropertyCollection(Localization localization, EuclidianSettings
-			euclidianSettings, int axis, EuclidianViewInterfaceCommon euclidianView) {
+	public AxisUnitPropertyCollection(
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			int axis,
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "ShowAxisNumbers");
 
 		ArrayList<Property> properties = new ArrayList<>();
-		properties.add(new ShowAxisNumbersProperty(localization, axis, euclidianSettings,
-				euclidianView));
+		properties.add(
+				new ShowAxisNumbersProperty(localization, axis, euclidianSettings, euclidianView));
 		properties.add(new AxisUnitProperty(localization, euclidianSettings, euclidianView, axis));
 		setProperties(properties.toArray(new Property[0]));
 	}

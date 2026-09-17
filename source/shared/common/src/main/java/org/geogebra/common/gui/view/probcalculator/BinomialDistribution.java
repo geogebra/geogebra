@@ -45,22 +45,23 @@ public class BinomialDistribution extends CachingDiscreteDistribution {
 
 		GeoNumeric nPlusOneGeo = new GeoNumeric(cons, nGeo.getDouble() + 1);
 
-		AlgoSequenceRange algoSeq = new AlgoSequenceRange(cons,
-				new GeoNumeric(cons, 0.0), nGeo, null);
+		AlgoSequenceRange algoSeq = new AlgoSequenceRange(cons, new GeoNumeric(cons, 0.0), nGeo, null);
 		GeoList values = (GeoList) algoSeq.getOutput(0);
 
 		GeoNumeric k = new GeoNumeric(cons);
-		AlgoListElement algo = new AlgoListElement(cons, values,
-				k);
+		AlgoListElement algo = new AlgoListElement(cons, values, k);
 		cons.removeFromConstructionList(algo);
 
-		AlgoBinomialDist algo2 = new AlgoBinomialDist(cons, nGeo, pGeo,
+		AlgoBinomialDist algo2 = new AlgoBinomialDist(
+				cons,
+				nGeo,
+				pGeo,
 				(GeoNumberValue) algo.getOutput(0),
 				new GeoBoolean(cons, parameters.isCumulative));
 		cons.removeFromConstructionList(algo2);
 
-		AlgoSequence algoSeq2 = new AlgoSequence(cons, algo2.getOutput(0),
-				k, new GeoNumeric(cons, 1.0), nPlusOneGeo, null);
+		AlgoSequence algoSeq2 =
+				new AlgoSequence(cons, algo2.getOutput(0), k, new GeoNumeric(cons, 1.0), nPlusOneGeo, null);
 		cons.removeFromConstructionList(algoSeq2);
 
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);

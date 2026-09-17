@@ -16,7 +16,6 @@
 
 package org.geogebra.common.gui.dialog.options.model;
 
-
 import org.geogebra.common.annotation.MissingDoc;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Locateable;
@@ -120,16 +119,19 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 		if (value != null) {
 			for (GeoElement geo : getGeosAsList()) {
 				MyVecNode def = getPositionDef(geo);
-				String[] newDef = def == null ? new String[] {
-						((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX() + "",
-						((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocY() + "",
-				} : new String[] {
-						def.getX().toString(StringTemplate.editTemplate),
-						def.getY().toString(StringTemplate.editTemplate)
-				};
+				String[] newDef = def == null
+						? new String[] {
+							((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX() + "",
+							((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocY() + "",
+						}
+						: new String[] {
+							def.getX().toString(StringTemplate.editTemplate),
+							def.getY().toString(StringTemplate.editTemplate)
+						};
 				newDef[getIndex()] = str;
-				GeoPointND eval = app.getKernel().getAlgebraProcessor().evaluateToPoint(
-						"(" + String.join(",", newDef) + ")", ErrorHelper.silent(), true);
+				GeoPointND eval = app.getKernel()
+						.getAlgebraProcessor()
+						.evaluateToPoint("(" + String.join(",", newDef) + ")", ErrorHelper.silent(), true);
 
 				if (Inspecting.isDynamicGeoElement(eval)) {
 					try {
@@ -138,8 +140,8 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 						Log.warn(e);
 					}
 				} else {
-					((AbsoluteScreenLocateable) geo).setAbsoluteScreenLoc((int) eval.getInhomX(),
-							(int) eval.getInhomY());
+					((AbsoluteScreenLocateable) geo)
+							.setAbsoluteScreenLoc((int) eval.getInhomX(), (int) eval.getInhomY());
 				}
 				geo.updateVisualStyleRepaint(GProperty.POSITION);
 			}
@@ -178,7 +180,8 @@ public abstract class AbsoluteScreenPositionModel extends TextPropertyModel {
 	private MyVecNode getPositionDef(GeoElementND abs) {
 		if (abs instanceof Locateable) {
 			GeoPointND sp = ((Locateable) abs).getStartPoint();
-			if (sp != null && sp.getDefinition() != null
+			if (sp != null
+					&& sp.getDefinition() != null
 					&& sp.getDefinition().unwrap() instanceof MyVecNode) {
 				return (MyVecNode) sp.getDefinition().unwrap();
 			}

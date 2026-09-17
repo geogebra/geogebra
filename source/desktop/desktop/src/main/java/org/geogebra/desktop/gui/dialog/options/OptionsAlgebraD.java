@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,16 +38,16 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAlgebraD
-		implements SetLabels, OptionPanelD {
+public class OptionsAlgebraD implements SetLabels, OptionPanelD {
 
-	private static final List<SortMode> SUPPORTED_MODES = Arrays.asList(
-			SortMode.DEPENDENCY, SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
+	private static final List<SortMode> SUPPORTED_MODES =
+			Arrays.asList(SortMode.DEPENDENCY, SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
 	/**
 	 * Application object.
 	 */
 	private final AppD app;
+
 	private final LocalizationD loc;
 	private final List<AlgebraStyle> algebraStyles;
 
@@ -61,7 +61,7 @@ public class OptionsAlgebraD
 
 	/**
 	 * Construct advanced option panel.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -83,7 +83,6 @@ public class OptionsAlgebraD
 		sortMode.addActionListener(e -> onSortChange());
 
 		auxiliary.addActionListener(e -> onAuxChange());
-
 	}
 
 	/**
@@ -101,8 +100,7 @@ public class OptionsAlgebraD
 			return;
 		}
 		if (description.getSelectedIndex() >= 0) {
-			app.getSettings().getAlgebra().setStyle(
-					algebraStyles.get(description.getSelectedIndex()));
+			app.getSettings().getAlgebra().setStyle(algebraStyles.get(description.getSelectedIndex()));
 			app.getKernel().updateConstruction(false);
 		}
 	}
@@ -116,14 +114,13 @@ public class OptionsAlgebraD
 		}
 		if (sortMode.getSelectedIndex() >= 0) {
 			int index = sortMode.getSelectedIndex();
-			app.getSettings().getAlgebra()
-					.setTreeMode(SUPPORTED_MODES.get(index));
+			app.getSettings().getAlgebra().setTreeMode(SUPPORTED_MODES.get(index));
 		}
 	}
 
 	/**
 	 * Initialize the user interface.
-	 * 
+	 *
 	 * <p>Remark: updateGUI() will be called directly after this method
 	 * <p>Remark: Do not use translations here, the option dialog will take care of
 	 *         calling setLabels()
@@ -154,12 +151,11 @@ public class OptionsAlgebraD
 		panel.add(descriptionPanel);
 		setLabels();
 		wrappedPanel.add(panel);
-
 	}
 
 	/**
 	 * Update the user interface, ie change selected values.
-	 * 
+	 *
 	 * <p>Remark: Do not call setLabels() here
 	 */
 	@Override
@@ -200,19 +196,16 @@ public class OptionsAlgebraD
 		sortLabel.setText(loc.getMenu("SortBy") + ":");
 		updateDescription();
 		updateSortMode();
-
 	}
 
 	@Override
 	public void revalidate() {
 		wrappedPanel.revalidate();
-
 	}
 
 	@Override
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
-
 	}
 
 	@Override

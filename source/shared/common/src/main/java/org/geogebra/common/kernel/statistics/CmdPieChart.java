@@ -49,5 +49,4 @@ public class CmdPieChart extends CommandProcessor {
 		algo.getChart().setLabel(c.getLabel());
 		return new GeoElement[] {algo.getChart()};
 	}
-
 }

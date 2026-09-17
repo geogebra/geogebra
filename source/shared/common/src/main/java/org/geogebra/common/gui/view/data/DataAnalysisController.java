@@ -28,9 +28,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to control data management for the DataAnalysisView.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public abstract class DataAnalysisController {
 
@@ -51,7 +51,7 @@ public abstract class DataAnalysisController {
 
 	/****************************************************
 	 * Constructs a StatDialogController
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -131,7 +131,7 @@ public abstract class DataAnalysisController {
 	/**
 	 * Loads GeoElements from dataSource into (GeoList) dataListSelected and
 	 * (ArrayList) dataArray .
-	 * 
+	 *
 	 * @param doCopy
 	 *            if true lists are loaded as copies
 	 */
@@ -151,14 +151,14 @@ public abstract class DataAnalysisController {
 		ArrayList<GeoList> list;
 
 		switch (getMode()) {
-		default:
-		case DataAnalysisModel.MODE_ONEVAR:
-		case DataAnalysisModel.MODE_REGRESSION:
-			list = dataSource.toGeoList(getMode(), leftToRight, doCopy, 0);
-			break;
-		case DataAnalysisModel.MODE_MULTIVAR:
-			list = dataSource.toGeoListAll(getMode(), leftToRight, doCopy);
-			break;
+			default:
+			case DataAnalysisModel.MODE_ONEVAR:
+			case DataAnalysisModel.MODE_REGRESSION:
+				list = dataSource.toGeoList(getMode(), leftToRight, doCopy, 0);
+				break;
+			case DataAnalysisModel.MODE_MULTIVAR:
+				list = dataSource.toGeoListAll(getMode(), leftToRight, doCopy);
+				break;
 		}
 
 		// validate
@@ -207,7 +207,7 @@ public abstract class DataAnalysisController {
 	 * Loads the DataPanel array with references to all geos in the DataSource.
 	 * This is used by DataPanel to add/remove geos from the dataSelected list
 	 * without needing to change the DataSource.
-	 * 
+	 *
 	 * TODO: use a more efficient method: maintain a map of removed geos as
 	 * index/geo pairs
 	 */
@@ -241,7 +241,7 @@ public abstract class DataAnalysisController {
 	/**
 	 * Add/remove elements from the selected data list. Called by the data panel
 	 * on checkbox click.
-	 * 
+	 *
 	 * @param index
 	 *            data index
 	 * @param doAdd
@@ -268,7 +268,7 @@ public abstract class DataAnalysisController {
 
 	/**
 	 * Gets the data titles from the source cells.
-	 * 
+	 *
 	 * @return String array of data titles
 	 */
 	public String[] getDataTitles() {
@@ -304,7 +304,6 @@ public abstract class DataAnalysisController {
 			// TODO: internal geos are all redefined, this is not efficient and
 			// needs optimizing
 			updateAllPanels(true);
-
 		}
 
 		getModel().updateGUI();
@@ -322,7 +321,7 @@ public abstract class DataAnalysisController {
 
 	/**
 	 * Updates all panels in the DataAnalysisView.
-	 * 
+	 *
 	 * @param doRedefine
 	 *            if true then the internal GeoElements will be redefined.
 	 */
@@ -338,7 +337,6 @@ public abstract class DataAnalysisController {
 			this.setValidData(false);
 			updateDataAnalysisView();
 		}
-
 	}
 
 	/**
@@ -346,9 +344,8 @@ public abstract class DataAnalysisController {
 	 */
 	public void setRegressionGeo() {
 		removeRegressionGeo();
-		geoRegression = statGeo.createRegressionPlot(dataSelected,
-				getModel().getRegressionMode(), getModel().getRegressionOrder(),
-				false);
+		geoRegression = statGeo.createRegressionPlot(
+				dataSelected, getModel().getRegressionMode(), getModel().getRegressionOrder(), false);
 	}
 
 	/**
@@ -387,7 +384,7 @@ public abstract class DataAnalysisController {
 
 	/**
 	 * Converts numeric geos to values
-	 * 
+	 *
 	 * @param dataList
 	 *            list of geos
 	 * @return array of values
@@ -420,5 +417,4 @@ public abstract class DataAnalysisController {
 		this.model = model;
 		this.statGeo = model.getStatGeo();
 	}
-
 }

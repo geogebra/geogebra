@@ -27,14 +27,14 @@ public class GLBufferManagerPoints extends GLBufferManager {
 
 	// regular point is 98 vertices (others are 26 or 402), we start with up to
 	// 20 points = 1960 vertices
-	static final private int ELEMENTS_SIZE_START = 1960;
+	private static final int ELEMENTS_SIZE_START = 1960;
 	// regular point is 576 indices (others are 144 or 2400), we start with up
 	// to 20 points = 11520 indices
-	static final private int INDICES_SIZE_START = 11520;
+	private static final int INDICES_SIZE_START = 11520;
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param manager
 	 *            geometries manager
 	 */
@@ -48,11 +48,9 @@ public class GLBufferManagerPoints extends GLBufferManager {
 	}
 
 	@Override
-	protected void putIndices(int size, TypeElement type,
-			boolean reuseSegment) {
+	protected void putIndices(int size, TypeElement type, boolean reuseSegment) {
 		if (!reuseSegment) {
-			List<Short> indicesArray = manager.getBufferTemplates()
-					.getCurrentIndicesArray();
+			List<Short> indicesArray = manager.getBufferTemplates().getCurrentIndicesArray();
 			for (short i : indicesArray) {
 				putToIndices(i);
 			}
@@ -61,7 +59,7 @@ public class GLBufferManagerPoints extends GLBufferManager {
 
 	/**
 	 * draw
-	 * 
+	 *
 	 * @param r
 	 *            renderer
 	 */
@@ -81,12 +79,11 @@ public class GLBufferManagerPoints extends GLBufferManager {
 
 	@Override
 	protected void setElements(boolean reuseSegment, TypeElement type) {
-		currentBufferPack.setElements(manager.getTranslate(),
-				manager.getScale(), reuseSegment);
+		currentBufferPack.setElements(manager.getTranslate(), manager.getScale(), reuseSegment);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 *            old geometry index
 	 * @return point geometry index
@@ -97,5 +94,4 @@ public class GLBufferManagerPoints extends GLBufferManager {
 		manager.endList();
 		return ret;
 	}
-
 }

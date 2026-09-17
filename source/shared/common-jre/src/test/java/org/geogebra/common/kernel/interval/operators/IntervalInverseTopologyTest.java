@@ -57,8 +57,7 @@ class IntervalInverseTopologyTest {
 		Interval rightRay = interval(2, Double.POSITIVE_INFINITY);
 
 		Interval actual = evaluator.inverse(inverted);
-		Interval expected =
-				evaluator.union(evaluator.inverse(leftRay), evaluator.inverse(rightRay));
+		Interval expected = evaluator.union(evaluator.inverse(leftRay), evaluator.inverse(rightRay));
 
 		assertEquals(expected, actual);
 	}

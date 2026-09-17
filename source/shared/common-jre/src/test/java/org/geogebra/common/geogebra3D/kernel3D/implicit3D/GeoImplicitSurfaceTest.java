@@ -48,5 +48,4 @@ class GeoImplicitSurfaceTest extends BaseUnitTest {
 		GeoImplicitSurface surface = add("x^3+y^3+z^3=1");
 		assertThat(surface, isDefined());
 	}
-
 }

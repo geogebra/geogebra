@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 
 /**
  * Interface for GeoFunction and GeoFunctionNVar
- * 
+ *
  * @author Markus
  *
  */
@@ -41,7 +41,7 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 
 	/**
 	 * Returns true iff the function is boolean
-	 * 
+	 *
 	 * @return true iff the function is boolean
 	 */
 	boolean isBooleanFunction();
@@ -71,7 +71,7 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 	/**
 	 * For GeoElements sets the usual defined flag, also works for
 	 * ValidExpressions
-	 * 
+	 *
 	 * @param b
 	 *            whether this is defined
 	 */
@@ -90,7 +90,7 @@ public interface FunctionalNVar extends Evaluate2Var, VarString {
 
 	/**
 	 * GGB-605
-	 * 
+	 *
 	 * @param algo
 	 *            algorithm to be used for value string instead of secret
 	 *            expression

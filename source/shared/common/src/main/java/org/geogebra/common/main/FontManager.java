@@ -27,7 +27,7 @@ public abstract class FontManager {
 
 	/**
 	 * Get a font which can display given string
-	 * 
+	 *
 	 * @param testString
 	 *            test string
 	 * @param serif
@@ -38,7 +38,6 @@ public abstract class FontManager {
 	 *            size
 	 * @return usable font
 	 */
-	public abstract GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, double fontSize);
-
+	public abstract GFont getFontCanDisplay(
+			String testString, boolean serif, int fontStyle, double fontSize);
 }

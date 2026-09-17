@@ -62,8 +62,14 @@ public class OvalBox extends FramedBox {
 
 	final double cornersize;
 
-	public OvalBox(Box bbase, double drt, double space, GColor line, GColor bg,
-			double cornersize, double minHeight) {
+	public OvalBox(
+			Box bbase,
+			double drt,
+			double space,
+			GColor line,
+			GColor bg,
+			double cornersize,
+			double minHeight) {
 		super(bbase, drt, space, line, bg);
 		this.height = Math.max(height, minHeight);
 		this.cornersize = cornersize;
@@ -73,13 +79,12 @@ public class OvalBox extends FramedBox {
 	public void draw(Graphics2DInterface g2, double x, double y) {
 
 		GBasicStroke st = g2.getStroke();
-		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_MITER));
+		g2.setStroke(
+				graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		double th = thickness / 2;
-		double r = cornersize * Math.min(width - 2 * thickness,
-				height + depth - 2 * thickness);
-		roundRectangle.setRoundRect(x + th, y - height + th,
-				width - thickness, height + depth - thickness, r, r);
+		double r = cornersize * Math.min(width - 2 * thickness, height + depth - 2 * thickness);
+		roundRectangle.setRoundRect(
+				x + th, y - height + th, width - thickness, height + depth - thickness, r, r);
 		fillAndDraw(g2);
 
 		drawDebug(g2, x, y);

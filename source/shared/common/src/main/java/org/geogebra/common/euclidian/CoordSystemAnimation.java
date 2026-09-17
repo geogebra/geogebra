@@ -28,7 +28,11 @@ import org.geogebra.common.util.DoubleUtil;
 public abstract class CoordSystemAnimation {
 
 	private enum AnimationMode {
-		ZOOM, ZOOM_RW, AXES_X, AXES_Y, MOVE
+		ZOOM,
+		ZOOM_RW,
+		AXES_X,
+		AXES_Y,
+		MOVE
 	}
 
 	private static final int MAX_STEPS = 15; // frames
@@ -89,7 +93,7 @@ public abstract class CoordSystemAnimation {
 	 * Init this for axis ratio zooming. After zoom the axis ratio will be
 	 * ratioX:ratioY, zooming is done along x-axis if ratioY is 1 and ratioX !=
 	 * 1
-	 * 
+	 *
 	 * @param ratioX
 	 *            axis ratio numerator
 	 * @param ratioY
@@ -116,7 +120,7 @@ public abstract class CoordSystemAnimation {
 
 	/**
 	 * Init this for normal zoom
-	 * 
+	 *
 	 * @param ptx
 	 *            center x-coord
 	 * @param pty
@@ -128,8 +132,8 @@ public abstract class CoordSystemAnimation {
 	 * @param doStoreUndo
 	 *            true to store undo info
 	 */
-	public synchronized void init(double ptx, double pty, double zoomFactor, int noOfSteps,
-			boolean doStoreUndo) {
+	public synchronized void init(
+			double ptx, double pty, double zoomFactor, int noOfSteps, boolean doStoreUndo) {
 		this.px = ptx;
 		this.py = pty;
 		this.storeUndo = doStoreUndo;
@@ -155,8 +159,8 @@ public abstract class CoordSystemAnimation {
 	 * @param doStoreUndo
 	 *            true to store undo info
 	 */
-	public synchronized void initRW(double rwx0, double rwx1, double rwy0,
-			double rwy1, int noOfSteps, boolean doStoreUndo) {
+	public synchronized void initRW(
+			double rwx0, double rwx1, double rwy0, double rwy1, int noOfSteps, boolean doStoreUndo) {
 		this.x0 = rwx0;
 		this.x1 = rwx1;
 		this.y0 = rwy0;
@@ -201,39 +205,43 @@ public abstract class CoordSystemAnimation {
 			coordSystemInfo.setInteractive(true);
 			double factor;
 			switch (mode) {
-			case AXES_X:
-				factor = 1.0 + counter * add / oldScale;
-				view.setCoordSystem(view.getXZero(), view.getYZero(),
-						oldScale * factor, view.getYscale());
-				coordSystemInfo.setScaledAxis(ScaledAxis.X_AXIS);
-				break;
-			case AXES_Y:
-				factor = 1.0 + counter * add / oldScale;
-				view.setCoordSystem(view.getXZero(), view.getYZero(),
-						view.getXscale(), oldScale * factor);
-				coordSystemInfo.setScaledAxis(ScaledAxis.Y_AXIS);
-				break;
-			case ZOOM:
-				factor = 1.0 + counter * add / oldScale;
-				view.setCoordSystem(px + (dx * factor), py + (dy * factor),
-						oldScale * factor,
-						oldScale * factor * view.getScaleRatio());
-				coordSystemInfo.cancelScaledAxis();
-				break;
-			case ZOOM_RW:
-				double i = counter;
-				double j = steps - counter;
-				view.setRealWorldCoordSystemVisible(((x0 * i) + (xminOld * j)) / steps,
-						((x1 * i) + (xmaxOld * j)) / steps,
-						((y0 * i) + (yminOld * j)) / steps,
-						((y1 * i) + (ymaxOld * j)) / steps, true);
-				coordSystemInfo.cancelScaledAxis();
-				break;
-			case MOVE:
-				factor = 1.0 - (counter * add);
-				view.setCoordSystem(px + (dx * factor), py + (dy * factor),
-						view.getXscale(), view.getYscale());
-				coordSystemInfo.cancelScaledAxis();
+				case AXES_X:
+					factor = 1.0 + counter * add / oldScale;
+					view.setCoordSystem(
+							view.getXZero(), view.getYZero(), oldScale * factor, view.getYscale());
+					coordSystemInfo.setScaledAxis(ScaledAxis.X_AXIS);
+					break;
+				case AXES_Y:
+					factor = 1.0 + counter * add / oldScale;
+					view.setCoordSystem(
+							view.getXZero(), view.getYZero(), view.getXscale(), oldScale * factor);
+					coordSystemInfo.setScaledAxis(ScaledAxis.Y_AXIS);
+					break;
+				case ZOOM:
+					factor = 1.0 + counter * add / oldScale;
+					view.setCoordSystem(
+							px + (dx * factor),
+							py + (dy * factor),
+							oldScale * factor,
+							oldScale * factor * view.getScaleRatio());
+					coordSystemInfo.cancelScaledAxis();
+					break;
+				case ZOOM_RW:
+					double i = counter;
+					double j = steps - counter;
+					view.setRealWorldCoordSystemVisible(
+							((x0 * i) + (xminOld * j)) / steps,
+							((x1 * i) + (xmaxOld * j)) / steps,
+							((y0 * i) + (yminOld * j)) / steps,
+							((y1 * i) + (ymaxOld * j)) / steps,
+							true);
+					coordSystemInfo.cancelScaledAxis();
+					break;
+				case MOVE:
+					factor = 1.0 - (counter * add);
+					view.setCoordSystem(
+							px + (dx * factor), py + (dy * factor), view.getXscale(), view.getYscale());
+					coordSystemInfo.cancelScaledAxis();
 			}
 		}
 	}
@@ -243,37 +251,35 @@ public abstract class CoordSystemAnimation {
 		// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
 		EuclidianController controller = view.getEuclidianController();
 		switch (mode) {
-		case AXES_X:
-			view.setCoordSystem(view.getXZero(), view.getYZero(), newScale,
-					view.getYscale());
-			onAxisZoomEnd(controller);
-			break;
-		case AXES_Y:
-			view.setCoordSystem(view.getXZero(), view.getYZero(),
-					view.getXscale(), newScale);
-			onAxisZoomEnd(controller);
-			break;
-		case ZOOM:
-			double factor = newScale / oldScale;
-			view.setCoordSystem(px + (dx * factor), py + (dy * factor),
-					newScale, newScale * view.getScaleRatio());
-			controller.notifyZoomerStopped();
-			break;
-		case ZOOM_RW:
-			view.setRealWorldCoordSystemVisible(x0, x1, y0, y1, true);
-			controller.notifyZoomerStopped();
-			break;
-		case MOVE:
-			view.setCoordSystem(px, py, view.getXscale(), view.getYscale());
-			if (view.isStandardView()) {
+			case AXES_X:
+				view.setCoordSystem(view.getXZero(), view.getYZero(), newScale, view.getYscale());
+				onAxisZoomEnd(controller);
+				break;
+			case AXES_Y:
+				view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale(), newScale);
+				onAxisZoomEnd(controller);
+				break;
+			case ZOOM:
+				double factor = newScale / oldScale;
+				view.setCoordSystem(
+						px + (dx * factor), py + (dy * factor), newScale, newScale * view.getScaleRatio());
 				controller.notifyZoomerStopped();
-			}
-			break;
+				break;
+			case ZOOM_RW:
+				view.setRealWorldCoordSystemVisible(x0, x1, y0, y1, true);
+				controller.notifyZoomerStopped();
+				break;
+			case MOVE:
+				view.setCoordSystem(px, py, view.getXscale(), view.getYscale());
+				if (view.isStandardView()) {
+					controller.notifyZoomerStopped();
+				}
+				break;
 		}
 		if (setStandard) {
 			setStandard = false;
-			view.setAnimatedCoordSystem(standardX, standardY, 0,
-					EuclidianView.SCALE_STANDARD, MAX_STEPS, storeUndo);
+			view.setAnimatedCoordSystem(
+					standardX, standardY, 0, EuclidianView.SCALE_STANDARD, MAX_STEPS, storeUndo);
 		}
 		if (storeUndo) {
 			view.getApplication().storeUndoInfo();
@@ -289,7 +295,7 @@ public abstract class CoordSystemAnimation {
 
 	/**
 	 * Chain current zoom with resetting standard view
-	 * 
+	 *
 	 * @param xzero
 	 *            standard xzero
 	 * @param yzero
@@ -299,7 +305,6 @@ public abstract class CoordSystemAnimation {
 		setStandard = true;
 		standardX = xzero;
 		standardY = yzero;
-
 	}
 
 	/**
@@ -311,30 +316,30 @@ public abstract class CoordSystemAnimation {
 		}
 
 		switch (mode) {
-		case AXES_X:
-			add = (newScale - oldScale) / steps;
-			coordSystemInfo.setScaledAxis(ScaledAxis.X_AXIS);
-			break;
-		case AXES_Y:
-			add = (newScale - oldScale) / steps;
-			coordSystemInfo.setScaledAxis(ScaledAxis.Y_AXIS);
-			break;
-		case ZOOM:
-			add = (newScale - oldScale) / steps;
-			dx = view.getXZero() - px;
-			dy = view.getYZero() - py;
-			break;
-		case MOVE:
-			dx = view.getXZero() - px;
-			dy = view.getYZero() - py;
-			if (DoubleUtil.isZero(dx) && DoubleUtil.isZero(dy)) {
-				return;
-			}
-			// setDrawMode(DRAW_MODE_DIRECT_DRAW);
-			add = 1.0 / MAX_STEPS;
-			break;
-		case ZOOM_RW:
-			break;
+			case AXES_X:
+				add = (newScale - oldScale) / steps;
+				coordSystemInfo.setScaledAxis(ScaledAxis.X_AXIS);
+				break;
+			case AXES_Y:
+				add = (newScale - oldScale) / steps;
+				coordSystemInfo.setScaledAxis(ScaledAxis.Y_AXIS);
+				break;
+			case ZOOM:
+				add = (newScale - oldScale) / steps;
+				dx = view.getXZero() - px;
+				dy = view.getYZero() - py;
+				break;
+			case MOVE:
+				dx = view.getXZero() - px;
+				dy = view.getYZero() - py;
+				if (DoubleUtil.isZero(dx) && DoubleUtil.isZero(dy)) {
+					return;
+				}
+				// setDrawMode(DRAW_MODE_DIRECT_DRAW);
+				add = 1.0 / MAX_STEPS;
+				break;
+			case ZOOM_RW:
+				break;
 		}
 		counter = 0;
 

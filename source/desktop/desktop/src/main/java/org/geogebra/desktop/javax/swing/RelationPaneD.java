@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,9 +46,9 @@ import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Desktop implementation of the Relation Tool information window.
- * 
+ *
  * @author Zoltan "of Swing" Kovacs
- * 
+ *
  */
 public class RelationPaneD implements RelationPane, ActionListener {
 
@@ -64,29 +64,30 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	 * This stores the array of the actions to be fired when click on "More...".
 	 */
 	Relation[] callbacks;
+
 	private boolean areCallbacks = false;
 	private int morewidth = 0;
 
-	private final static int ORIG_INFOWIDTH = 300;
+	private static final int ORIG_INFOWIDTH = 300;
 	private int INFOWIDTH;
 	/**
 	 * Current row height computed by the window size (y), by default it uses
 	 * ORIG_ROWHEIGHT.
 	 */
 	double ROWHEIGHT;
-	private final static int ORIG_ROWHEIGHT = 30;
-	private final static int MARGIN = 10;
-	private final static int ROWMARGIN = 1;
 
-	private final static int ORIG_MOREWIDTH = 140;
+	private static final int ORIG_ROWHEIGHT = 30;
+	private static final int MARGIN = 10;
+	private static final int ROWMARGIN = 1;
 
-	private final static int ORIG_OKHEIGHT = 30;
+	private static final int ORIG_MOREWIDTH = 140;
+
+	private static final int ORIG_OKHEIGHT = 30;
 	private int OKHEIGHT;
-	private final static int ORIG_OKWIDTH = 140;
+	private static final int ORIG_OKWIDTH = 140;
 
 	@Override
-	public void showDialog(String title, final RelationRow[] relations,
-			App app) {
+	public void showDialog(String title, final RelationRow[] relations, App app) {
 
 		frame = new JFrame(title);
 
@@ -107,10 +108,10 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		String[] columnNames;
 		Object[][] data;
 		if (areCallbacks) {
-			columnNames = new String[] { "String", "" };
+			columnNames = new String[] {"String", ""};
 			data = new Object[rels][2];
 		} else {
-			columnNames = new String[] { "String" };
+			columnNames = new String[] {"String"};
 			data = new Object[rels][1];
 		}
 
@@ -121,8 +122,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			callbacks[i] = relations[i].getCallback();
 			if (areCallbacks) {
 				if (relations[i].getCallback() != null) {
-					data[i][1] = app.getLocalization().getMenu("More")
-							+ Unicode.ELLIPSIS;
+					data[i][1] = app.getLocalization().getMenu("More") + Unicode.ELLIPSIS;
 				} else {
 					data[i][1] = "";
 				}
@@ -142,20 +142,19 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		table.setTableHeader(null);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		if (areCallbacks) {
-			table.getColumnModel().getColumn(1)
-					.setCellRenderer(new ClientsTableButtonRenderer());
-			table.getColumnModel().getColumn(1).setCellEditor(
-					new ClientsTableRenderer(this, new JCheckBox()));
+			table.getColumnModel().getColumn(1).setCellRenderer(new ClientsTableButtonRenderer());
+			table
+					.getColumnModel()
+					.getColumn(1)
+					.setCellEditor(new ClientsTableRenderer(this, new JCheckBox()));
 		}
-		table.getColumnModel().getColumn(0)
-				.setCellRenderer(new ClientsTableTextRenderer());
+		table.getColumnModel().getColumn(0).setCellRenderer(new ClientsTableTextRenderer());
 		table.setBackground(UIManager.getColor("Label.background"));
 		int height = 0;
 		for (int i = 0; i < rels; ++i) {
-			int thisHeight = (int) (ROWHEIGHT
-					* countLines(relations[i].getInfo()));
+			int thisHeight = (int) (ROWHEIGHT * countLines(relations[i].getInfo()));
 			table.setRowHeight(i, thisHeight - 2 * (ROWMARGIN + 1)); // button
-																		// border
+			// border
 			height += thisHeight;
 		}
 
@@ -176,15 +175,12 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		panel.add(buttonrow, BorderLayout.SOUTH);
 		ok.addActionListener(this);
 
-		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN,
-				height + 3 * MARGIN + OKHEIGHT);
-		panel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN,
-				MARGIN));
+		panel.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
+		panel.setBorder(BorderFactory.createEmptyBorder(MARGIN, MARGIN, MARGIN, MARGIN));
 
 		panel.setBackground(UIManager.getColor("Label.background"));
 		frame.add(panel);
-		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN,
-				height + 3 * MARGIN + OKHEIGHT);
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(INFOWIDTH);
 		if (areCallbacks) {
@@ -197,27 +193,23 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				// Extremely ugly way to learn if this event comes from resizing
 				// or refresh.
 				// TODO: Find a better way.
-				String event = Thread.currentThread().getStackTrace()[3]
-						.getMethodName();
+				String event = Thread.currentThread().getStackTrace()[3].getMethodName();
 				if ("processEvent".equals(event)) {
 					return;
 				}
 				// Log.debug(event);
 
-				int ysize = frame.getContentPane().getHeight() - 3 * MARGIN
-						- OKHEIGHT;
+				int ysize = frame.getContentPane().getHeight() - 3 * MARGIN - OKHEIGHT;
 				int r = relations.length;
 				int currentHeight = 0;
 				for (int i = 0; i < r; ++i) {
-					int thisHeight = ORIG_ROWHEIGHT
-							* countLines(table.getValueAt(i, 0).toString());
+					int thisHeight = ORIG_ROWHEIGHT * countLines(table.getValueAt(i, 0).toString());
 					currentHeight += thisHeight;
 				}
 				ROWHEIGHT = ((double) ysize) / currentHeight * ORIG_ROWHEIGHT;
 				// Log.debug("resized to rh " + ROWHEIGHT);
 				for (int i = 0; i < r; ++i) {
-					int newHeight = (int) (ROWHEIGHT
-							* countLines(table.getValueAt(i, 0).toString()));
+					int newHeight = (int) (ROWHEIGHT * countLines(table.getValueAt(i, 0).toString()));
 					table.setRowHeight(i, newHeight - 2 * (ROWMARGIN + 1));
 				}
 			}
@@ -247,7 +239,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 	private static int countLines(String html) {
 		int ret = 1;
-		String[] words = { "<br>", "<li", "<ul>" };
+		String[] words = {"<br>", "<li", "<ul>"};
 		for (String word : words) {
 			int index = html.indexOf(word);
 			if (index != -1) {
@@ -266,7 +258,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 	/**
 	 * Update UI after More button clicked
-	 * 
+	 *
 	 * @param row
 	 *            row number
 	 */
@@ -274,8 +266,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		RelationRow relation = callbacks[row].getExpandedRow(row);
 		table.setValueAt(relation.getInfo(), row, 0);
 		callbacks[row] = relation.getCallback();
-		table.setRowHeight(row, (int) (ROWHEIGHT * countLines(relation.getInfo())
-				- 2 * (ROWMARGIN + 1)));
+		table.setRowHeight(
+				row, (int) (ROWHEIGHT * countLines(relation.getInfo()) - 2 * (ROWMARGIN + 1)));
 		int height = 0;
 
 		areCallbacks = false;
@@ -295,8 +287,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		table.setSize(INFOWIDTH + morewidth, height);
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
-		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN,
-				height + 3 * MARGIN + OKHEIGHT);
+		frame.setSize(INFOWIDTH + morewidth + 2 * MARGIN, height + 3 * MARGIN + OKHEIGHT);
 		frame.pack();
 		frame.paint(frame.getGraphics());
 	}
@@ -305,8 +296,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	 * This code is mostly copied from http://stackoverflow.com/a/10348919
 	 * shared by "Bitmap". Button column settings.
 	 */
-	private final class ClientsTableButtonRenderer extends JButton
-			implements TableCellRenderer {
+	private final class ClientsTableButtonRenderer extends JButton implements TableCellRenderer {
 
 		private static final long serialVersionUID = 5188521324132632032L;
 
@@ -315,8 +305,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable t, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) {
+		public Component getTableCellRendererComponent(
+				JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
 			setBackground(UIManager.getColor("Label.background"));
 			setOpaque(true);
@@ -329,8 +319,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	}
 
 	/* Text column settings. */
-	private static final class ClientsTableTextRenderer extends JLabel
-			implements TableCellRenderer {
+	private static final class ClientsTableTextRenderer extends JLabel implements TableCellRenderer {
 
 		private static final long serialVersionUID = 5188521324132632032L;
 
@@ -339,8 +328,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable t, Object value,
-				boolean isSelected, boolean hasFocus, int row, int column) {
+		public Component getTableCellRendererComponent(
+				JTable t, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			setForeground(Color.black);
 			setBackground(UIManager.getColor("Label.background"));
 			setHorizontalAlignment(CENTER);
@@ -368,8 +357,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable t, Object value,
-				boolean isSelected, int r, int column) {
+		public Component getTableCellEditorComponent(
+				JTable t, Object value, boolean isSelected, int r, int column) {
 			this.row = r;
 			this.col = column;
 

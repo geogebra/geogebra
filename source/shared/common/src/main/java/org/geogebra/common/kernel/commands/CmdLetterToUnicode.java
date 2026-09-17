@@ -29,7 +29,7 @@ import org.geogebra.common.main.MyError;
 public class CmdLetterToUnicode extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,20 +44,17 @@ public class CmdLetterToUnicode extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0].isGeoText()) {
+					AlgoLetterToUnicode algo = new AlgoLetterToUnicode(cons, c.getLabel(), (GeoText) arg[0]);
 
-			if (arg[0].isGeoText()) {
-				AlgoLetterToUnicode algo = new AlgoLetterToUnicode(cons,
-						c.getLabel(), (GeoText) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

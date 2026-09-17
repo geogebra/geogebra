@@ -30,8 +30,7 @@ public final class App3DCompanionHeadless extends App3DCompanion {
 
 	@Override
 	protected EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
-			ViewCreator plane, EuclidianSettings evSettings,
-			boolean panelSettings) {
+			ViewCreator plane, EuclidianSettings evSettings, boolean panelSettings) {
 		return null;
 	}
 

@@ -34,9 +34,7 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 	private boolean showSliders = false;
 	private Kernel kernel;
 
-	public interface IAnimationSpeedListener
-			extends IComboListener, ITextFieldListener {
-	}
+	public interface IAnimationSpeedListener extends IComboListener, ITextFieldListener {}
 
 	@Override
 	public IAnimationSpeedListener getListener() {
@@ -57,8 +55,8 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 
-		if (geo.isPointOnPath() || geo
-				.getDefaultGeoType() == ConstructionDefaults.DEFAULT_POINT_ON_PATH) {
+		if (geo.isPointOnPath()
+				|| geo.getDefaultGeoType() == ConstructionDefaults.DEFAULT_POINT_ON_PATH) {
 			if (!geo.isPointerChangeable()) {
 				return false;
 			}
@@ -82,8 +80,7 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			temp = getGeoAt(i);
 			// same object visible value
-			if (geo0.getAnimationSpeedObject() != temp
-					.getAnimationSpeedObject()) {
+			if (geo0.getAnimationSpeedObject() != temp.getAnimationSpeedObject()) {
 				equalSpeed = false;
 			}
 
@@ -92,29 +89,28 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 			}
 		}
 
-		getListener().setSelectedIndex(
-				equalAnimationType ? geo0.getAnimationType() : -1);
+		getListener().setSelectedIndex(equalAnimationType ? geo0.getAnimationType() : -1);
 
 		StringTemplate highPrecision = StringTemplate.printDecimals(
-				StringType.GEOGEBRA,
-				AnimationStepModel.TEXT_FIELD_FRACTION_DIGITS, false);
+				StringType.GEOGEBRA, AnimationStepModel.TEXT_FIELD_FRACTION_DIGITS, false);
 
 		if (equalSpeed) {
 			GeoElement speedObj = geo0.getAnimationSpeedObject();
-			GeoNumeric num = kernel.getAlgoDispatcher()
-					.getDefaultNumber(geo0.isAngle());
-			getListener().setText(speedObj == null
-					? num.getAnimationSpeedObject().getLabel(highPrecision)
-					: speedObj.getLabel(highPrecision));
+			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(geo0.isAngle());
+			getListener()
+					.setText(
+							speedObj == null
+									? num.getAnimationSpeedObject().getLabel(highPrecision)
+									: speedObj.getLabel(highPrecision));
 		} else {
 			getListener().setText("");
 		}
-
 	}
 
 	@Override
 	public List<String> getChoices(Localization loc) {
-		return Arrays.asList("\u21d4 " + loc.getMenu("Oscillating"), // index 0
+		return Arrays.asList(
+				"\u21d4 " + loc.getMenu("Oscillating"), // index 0
 				"\u21d2 " + loc.getMenu("Increasing"), // index 1
 				"\u21d0 " + loc.getMenu("Decreasing"), // index 2
 				"\u21d2 " + loc.getMenu("IncreasingOnce")); // index 3);
@@ -137,7 +133,6 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 
 		kernel.notifyRepaint();
 		storeUndoInfo();
-
 	}
 
 	@Override
@@ -160,5 +155,4 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 	public void setShowSliders(boolean showSliders) {
 		this.showSliders = showSliders;
 	}
-
 }

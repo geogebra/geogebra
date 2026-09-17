@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -21,68 +21,27 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import org.junit.jupiter.api.Test;
 
 class DoubleUtilTest {
-	private final static double PRECISION = 1E-18;
+	private static final double PRECISION = 1E-18;
 
 	@Test
 	void testRange() {
-		assertArrayEquals(
-				new double[] {42},
-				DoubleUtil.range(42, 42, 0.002),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {-3, -1, 1, 2},
-				DoubleUtil.range(-3, 2, 2),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {-1, -0.5, 0, 0.5, 1},
-				DoubleUtil.range(-1, 1, 0.5),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {1, 1.999, 2.998, 3},
-				DoubleUtil.range(1, 3, 0.999),
-				PRECISION
-		);
+		assertArrayEquals(new double[] {42}, DoubleUtil.range(42, 42, 0.002), PRECISION);
+		assertArrayEquals(new double[] {-3, -1, 1, 2}, DoubleUtil.range(-3, 2, 2), PRECISION);
+		assertArrayEquals(new double[] {-1, -0.5, 0, 0.5, 1}, DoubleUtil.range(-1, 1, 0.5), PRECISION);
+		assertArrayEquals(new double[] {1, 1.999, 2.998, 3}, DoubleUtil.range(1, 3, 0.999), PRECISION);
 		assertArrayEquals(
 				new double[] {0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4},
 				DoubleUtil.range(0, 1.4, 0.2),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {0.3, 0.5, 0.7},
-				DoubleUtil.range(0.3, 0.7, 0.2),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {0.3, 0.5},
-				DoubleUtil.range(0.3, 0.5, 0.2),
-				PRECISION
-		);
+				PRECISION);
+		assertArrayEquals(new double[] {0.3, 0.5, 0.7}, DoubleUtil.range(0.3, 0.7, 0.2), PRECISION);
+		assertArrayEquals(new double[] {0.3, 0.5}, DoubleUtil.range(0.3, 0.5, 0.2), PRECISION);
 	}
 
 	@Test
 	void testRangeInvalid() {
-		assertArrayEquals(
-				new double[] {0.3},
-				DoubleUtil.range(0.3, -0.5, 1),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {0.3},
-				DoubleUtil.range(0.3, -0.5, 0.8),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {0.3},
-				DoubleUtil.range(0.3, -0.5, 0.2),
-				PRECISION
-		);
-		assertArrayEquals(
-				new double[] {0.3},
-				DoubleUtil.range(0.3, 0.5, -0.2),
-				PRECISION
-		);
+		assertArrayEquals(new double[] {0.3}, DoubleUtil.range(0.3, -0.5, 1), PRECISION);
+		assertArrayEquals(new double[] {0.3}, DoubleUtil.range(0.3, -0.5, 0.8), PRECISION);
+		assertArrayEquals(new double[] {0.3}, DoubleUtil.range(0.3, -0.5, 0.2), PRECISION);
+		assertArrayEquals(new double[] {0.3}, DoubleUtil.range(0.3, 0.5, -0.2), PRECISION);
 	}
 }

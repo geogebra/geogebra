@@ -44,8 +44,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 /**
  * Classic (no toolbar) dock panel for algebra
  */
-public final class AlgebraDockPanelW extends NavigableDockPanelW
-		implements AlgebraPanelInterface {
+public final class AlgebraDockPanelW extends NavigableDockPanelW implements AlgebraPanelInterface {
 
 	private ScrollPanel algebrap;
 	private FlowPanel wrapper;
@@ -141,8 +140,7 @@ public final class AlgebraDockPanelW extends NavigableDockPanelW
 	public void onResize() {
 		DockSplitPaneW split = getParentSplitPane();
 		if (split != null && split.isForcedLayout()) {
-			if (aview != null
-					&& split.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
+			if (aview != null && split.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 				int w = getOffsetWidth();
 				aview.setUserWidth(w);
 			}
@@ -239,8 +237,7 @@ public final class AlgebraDockPanelW extends NavigableDockPanelW
 		if (!(ml instanceof RadioTreeItem)) {
 			return ml;
 		}
-		LatexTreeItemController itemController = ((RadioTreeItem) ml)
-				.getLatexController();
+		LatexTreeItemController itemController = ((RadioTreeItem) ml).getLatexController();
 		itemController.initAndShowKeyboard(false);
 		return ml;
 	}
@@ -261,14 +258,13 @@ public final class AlgebraDockPanelW extends NavigableDockPanelW
 	}
 
 	@Override
-	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			ViewCounter counter, int left, int top) {
+	public void paintToCanvas(
+			CanvasRenderingContext2D context2d, ViewCounter counter, int left, int top) {
 		drawWhiteBackground(context2d, left, top);
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
 		context2d.clip();
-		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d,
-				getOffsetWidth());
+		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d, getOffsetWidth());
 		exporter.paintToCanvas(left, top);
 		context2d.restore();
 		if (counter != null) {

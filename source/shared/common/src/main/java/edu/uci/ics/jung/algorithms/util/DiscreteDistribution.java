@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2003, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
  * This software is open-source under the BSD license; see either
  * "license.txt" or
  * http://jung.sourceforge.net/license.txt for a description.
- * 
+ *
  * Created on Feb 18, 2004
  */
 package edu.uci.ics.jung.algorithms.util;
@@ -19,7 +19,7 @@ import java.util.Iterator;
  * Generally, these distributions are represented as arrays of
  * <code>double</code> values, which are assumed to be normalized such that the
  * entries in a single array sum to 1.
- * 
+ *
  * @author Joshua O'Madadhain
  */
 public class DiscreteDistribution {
@@ -31,7 +31,7 @@ public class DiscreteDistribution {
 	 * <code>dist[i] * Math.log(dist[i] / reference[i])</code>. Note that this
 	 * value is not symmetric; see <code>symmetricKL</code> for a symmetric
 	 * variant.
-	 * 
+	 *
 	 * @see #symmetricKL(double[], double[])
 	 */
 	public static double KullbackLeibler(double[] dist, double[] reference) {
@@ -51,12 +51,11 @@ public class DiscreteDistribution {
 	 * Returns
 	 * <code>KullbackLeibler(dist, reference) + KullbackLeibler(reference, dist)</code>
 	 * .
-	 * 
+	 *
 	 * @see #KullbackLeibler(double[], double[])
 	 */
 	public static double symmetricKL(double[] dist, double[] reference) {
-		return KullbackLeibler(dist, reference)
-				+ KullbackLeibler(reference, dist);
+		return KullbackLeibler(dist, reference) + KullbackLeibler(reference, dist);
 	}
 
 	/**
@@ -134,8 +133,7 @@ public class DiscreteDistribution {
 	 */
 	protected static void checkLengths(double[] dist, double[] reference) {
 		if (dist.length != reference.length) {
-			throw new IllegalArgumentException(
-					"Arrays must be of the same length");
+			throw new IllegalArgumentException("Arrays must be of the same length");
 		}
 	}
 
@@ -145,7 +143,7 @@ public class DiscreteDistribution {
 	 * probabilities). The effect of the Lagrangian smoothing is to ensure that
 	 * all entries are nonzero; effectively, a value of <code>alpha</code> is
 	 * added to each entry in the original array prior to normalization.
-	 * 
+	 *
 	 * @param counts counts
 	 * @param alpha value to add before normalization
 	 */
@@ -157,8 +155,7 @@ public class DiscreteDistribution {
 		}
 
 		for (int i = 0; i < counts.length; i++) {
-			counts[i] = (counts[i] + alpha)
-					/ (total_count + counts.length * alpha);
+			counts[i] = (counts[i] + alpha) / (total_count + counts.length * alpha);
 		}
 	}
 
@@ -166,13 +163,12 @@ public class DiscreteDistribution {
 	 * Returns the mean of the specified <code>Collection</code> of
 	 * distributions, which are assumed to be normalized arrays of
 	 * <code>double</code> values.
-	 * 
+	 *
 	 * @see #mean(double[][])
 	 */
 	public static double[] mean(Collection<double[]> distributions) {
 		if (distributions.isEmpty()) {
-			throw new IllegalArgumentException(
-					"Distribution collection must be non-empty");
+			throw new IllegalArgumentException("Distribution collection must be non-empty");
 		}
 		Iterator<double[]> iter = distributions.iterator();
 		double[] first = iter.next();
@@ -205,5 +201,4 @@ public class DiscreteDistribution {
 
 		return d_mean;
 	}
-
 }

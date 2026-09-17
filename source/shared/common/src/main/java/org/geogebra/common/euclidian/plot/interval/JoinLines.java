@@ -56,8 +56,7 @@ public class JoinLines {
 			toTopCurrentXLow(neighbours);
 		} else if (DoubleUtil.isEqual(0, rightDiff, Kernel.MAX_PRECISION)) {
 			toTopCurrentXHigh(neighbours);
-		} else
-		if (leftDiff < rightDiff) {
+		} else if (leftDiff < rightDiff) {
 			toTopLeft(neighbours);
 		} else {
 			topToRight(neighbours);
@@ -71,8 +70,7 @@ public class JoinLines {
 	private void topToRight(TupleNeighbours neighbours) {
 		double y = neighbours.currentYHigh();
 		if (y < bounds.getYmax()) {
-			gp.segment(bounds, neighbours.rightXHigh(), bounds.getYmax(),
-					neighbours.rightXHigh(), y);
+			gp.segment(bounds, neighbours.rightXHigh(), bounds.getYmax(), neighbours.rightXHigh(), y);
 		}
 	}
 
@@ -128,15 +126,21 @@ public class JoinLines {
 	}
 
 	private void toBottomCurrentXLow(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.currentXLow(), neighbours.currentYLow(),
-				neighbours.currentXLow(), bounds.getYmin());
-
+		gp.segment(
+				bounds,
+				neighbours.currentXLow(),
+				neighbours.currentYLow(),
+				neighbours.currentXLow(),
+				bounds.getYmin());
 	}
 
 	private void toBottomCurrentXHigh(TupleNeighbours neighbours) {
-		gp.segment(bounds, neighbours.rightXHigh(), neighbours.currentYLow(),
-				neighbours.currentXHigh(), bounds.getYmin());
-
+		gp.segment(
+				bounds,
+				neighbours.rightXHigh(),
+				neighbours.currentYLow(),
+				neighbours.currentXHigh(),
+				bounds.getYmin());
 	}
 
 	private void toTopCurrentXLow(TupleNeighbours neighbours) {
@@ -145,9 +149,7 @@ public class JoinLines {
 			return;
 		}
 
-		gp.segment(bounds, neighbours.currentXLow(), y,
-				neighbours.currentXLow(), bounds.getYmax());
-
+		gp.segment(bounds, neighbours.currentXLow(), y, neighbours.currentXLow(), bounds.getYmax());
 	}
 
 	private boolean isOffScreenTop(double y) {
@@ -160,9 +162,7 @@ public class JoinLines {
 			return;
 		}
 
-		gp.segment(bounds, neighbours.rightXHigh(), y,
-				neighbours.currentXHigh(), bounds.getYmax());
-
+		gp.segment(bounds, neighbours.rightXHigh(), y, neighbours.currentXHigh(), bounds.getYmax());
 	}
 
 	private void toBottomLeft(TupleNeighbours neighbours) {
@@ -171,8 +171,7 @@ public class JoinLines {
 			return;
 		}
 
-		gp.segment(bounds, neighbours.rightXHigh(), y,
-				neighbours.currentXHigh(), bounds.getYmin());
+		gp.segment(bounds, neighbours.rightXHigh(), y, neighbours.currentXHigh(), bounds.getYmin());
 	}
 
 	private boolean isOffScreenBottom(double y) {
@@ -185,8 +184,7 @@ public class JoinLines {
 			return;
 		}
 
-		gp.segment(bounds, neighbours.currentXLow(), y,
-				neighbours.currentXHigh(), bounds.getYmin());
+		gp.segment(bounds, neighbours.currentXLow(), y, neighbours.currentXHigh(), bounds.getYmin());
 	}
 
 	/**
@@ -203,8 +201,8 @@ public class JoinLines {
 		if (neighbours.currentYLow() > -INFINITY_DISPLAYED) {
 			if (isInfiniteBoundary(neighbours.rightTopology())) {
 				double y1 = neighbours.hasLeft() ? neighbours.leftYLow() : neighbours.currentYLow();
-				gp.segment(bounds, neighbours.currentXLow(), y1,
-						neighbours.currentXLow(), bounds.getYmin());
+				gp.segment(
+						bounds, neighbours.currentXLow(), y1, neighbours.currentXLow(), bounds.getYmin());
 			} else {
 				toBottom(neighbours);
 			}
@@ -212,7 +210,6 @@ public class JoinLines {
 	}
 
 	private boolean isInfiniteBoundary(IntervalSet ySet) {
-		return !ySet.isEmpty()
-				&& IntervalSetOps.hasInfinity(ySet);
+		return !ySet.isEmpty() && IntervalSetOps.hasInfinity(ySet);
 	}
 }

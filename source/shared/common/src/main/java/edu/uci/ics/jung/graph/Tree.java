@@ -1,7 +1,7 @@
 /*
  * Created on Feb 3, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -19,14 +19,14 @@ package edu.uci.ics.jung.graph;
  * <i>depth</i>; the maximum over all such depths is the tree's <i>height</i>.
  * Note that for a tree, there is exactly one unique path from the root to any
  * vertex.)
- * 
+ *
  * @author Joshua O'Madadhain
  */
 public interface Tree<V, E> extends Forest<V, E> {
 	/**
 	 * Returns the (unweighted) distance of <code>vertex</code> from the root of
 	 * this tree.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose depth is to be returned.
 	 * @return the length of the shortest unweighted path from
@@ -37,7 +37,7 @@ public interface Tree<V, E> extends Forest<V, E> {
 
 	/**
 	 * Returns the maximum depth in this tree.
-	 * 
+	 *
 	 * @return the maximum depth in this tree
 	 * @see #getDepth(Object)
 	 */
@@ -47,7 +47,7 @@ public interface Tree<V, E> extends Forest<V, E> {
 	 * Returns the root of this tree. The root is defined to be the vertex
 	 * (designated either at the tree's creation time, or as the first vertex to
 	 * be added) with respect to which vertex depth is measured.
-	 * 
+	 *
 	 * @return the root of this tree
 	 */
 	public V getRoot();

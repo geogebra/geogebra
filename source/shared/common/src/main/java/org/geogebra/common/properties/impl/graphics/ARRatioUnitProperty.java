@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,8 +41,7 @@ public final class ARRatioUnitProperty extends AbstractNamedEnumeratedProperty<I
 		this.euclidianView3D = euclidianView3D;
 		setNamedValues(List.of(
 				entry(EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS, "Unit.cm"),
-				entry(EuclidianView3D.RATIO_UNIT_INCHES, "Unit.inch")
-		));
+				entry(EuclidianView3D.RATIO_UNIT_INCHES, "Unit.inch")));
 	}
 
 	@Override

@@ -130,8 +130,8 @@ public class CarotaEditor implements Editor {
 	@Override
 	public void format(String key, Object val) {
 		CarotaRange selection = editor.selectedRange();
-		CarotaRange range = selection.getStart() == selection.getEnd() ? editor.documentRange()
-				: selection;
+		CarotaRange range =
+				selection.getStart() == selection.getEnd() ? editor.documentRange() : selection;
 		range.setFormatting(key, val);
 	}
 

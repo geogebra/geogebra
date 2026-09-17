@@ -51,9 +51,8 @@ public final class PerspectivesPopup {
 
 	private void addResizeHandler() {
 		if (wrappedPopup.isMenuShown()) {
-			app.addWindowResizeListener(() ->
-					wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
-							(int) ((app.getHeight() - 426) / 2)));
+			app.addWindowResizeListener(() -> wrappedPopup.showAtPoint(
+					(int) (app.getWidth() - 280), (int) ((app.getHeight() - 426) / 2)));
 		}
 	}
 
@@ -94,17 +93,15 @@ public final class PerspectivesPopup {
 		Label geogebraText = new Label(app.getLocalization().getMenu("CreateYourOwn"));
 		headerPanel.add(geogebraText);
 
-		StandardButton helpButton = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
-				null, 24, 24);
+		StandardButton helpButton =
+				new StandardButton(SharedResources.INSTANCE.icon_help_black(), null, 24, 24);
 		helpButton.addStyleName("helpBtn");
 		helpButton.addFastClickHandler(source -> {
-			Browser.openWindow(app.getLocalization()
-					.getTutorialURL(app.getConfig()));
+			Browser.openWindow(app.getLocalization().getTutorialURL(app.getConfig()));
 			wrappedPopup.hide();
 		});
 		headerPanel.add(helpButton);
-		AriaMenuItem headerMenuItem = new AriaMenuItem(headerPanel,
-				(Scheduler.ScheduledCommand) null);
+		AriaMenuItem headerMenuItem = new AriaMenuItem(headerPanel, (Scheduler.ScheduledCommand) null);
 		headerMenuItem.addStyleName("headerItem");
 		wrappedPopup.addItem(headerMenuItem);
 	}
@@ -115,28 +112,26 @@ public final class PerspectivesPopup {
 
 		download.add(new NoDragImage(GuiResources.INSTANCE.get_app(), 24));
 		download.add(new Label(app.getLocalization().getMenu("Download")));
-		AriaMenuItem downloadMenuItem = new AriaMenuItem(download,
-				() -> Browser.openWindow("https://www.geogebra.org/download"));
+		AriaMenuItem downloadMenuItem =
+				new AriaMenuItem(download, () -> Browser.openWindow("https://www.geogebra.org/download"));
 		wrappedPopup.addItem(downloadMenuItem);
 	}
 
 	private void addPerspectiveItem(SVGResource img, int perspectiveID) {
 		Perspective perspective = app.getLayout().getDefaultPerspectives(perspectiveID);
 		String text = perspective != null ? perspective.getId() : "exam_menu_entry";
-		AriaMenuItem mi = MainMenu.getMenuBarItem(img,
-						app.getLocalization().getMenu(text),
-				() -> {
-					if (perspective != null) {
-						PerspectivesMenuW.setPerspective(app, perspective);
-						if (!GlobalScope.isExamActive(app)) {
-							app.showStartTooltip(perspective);
-						}
-					} else {
-						app.getLAF().toggleFullscreen(true);
-						app.showExamWelcomeMessage();
-					}
-					wrappedPopup.hide();
-				});
+		AriaMenuItem mi = MainMenu.getMenuBarItem(img, app.getLocalization().getMenu(text), () -> {
+			if (perspective != null) {
+				PerspectivesMenuW.setPerspective(app, perspective);
+				if (!GlobalScope.isExamActive(app)) {
+					app.showStartTooltip(perspective);
+				}
+			} else {
+				app.getLAF().toggleFullscreen(true);
+				app.showExamWelcomeMessage();
+			}
+			wrappedPopup.hide();
+		});
 		wrappedPopup.addItem(mi);
 	}
 
@@ -144,8 +139,7 @@ public final class PerspectivesPopup {
 	 * show popup
 	 */
 	public void show() {
-		wrappedPopup.showAtPoint((int) (app.getWidth() - 280),
-				(int) ((app.getHeight() - 426) / 2));
+		wrappedPopup.showAtPoint((int) (app.getWidth() - 280), (int) ((app.getHeight() - 426) / 2));
 	}
 
 	public boolean isShowing() {

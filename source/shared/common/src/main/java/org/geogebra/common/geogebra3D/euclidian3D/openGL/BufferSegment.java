@@ -27,11 +27,13 @@ class BufferSegment {
 	int elementsOffset;
 	/** length for elements in BufferPack */
 	private int elementsLength;
+
 	private int elementsAvailableLength;
 	/** offset for indices in BufferPack */
 	int indicesOffset;
 	/** length for indices in BufferPack */
 	private int indicesLength;
+
 	private int indicesAvailableLength;
 	/** BufferPack */
 	BufferPackAbstract bufferPack;
@@ -40,7 +42,7 @@ class BufferSegment {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param bufferPack
 	 *            buffer pack
 	 * @param elementsLength
@@ -48,15 +50,18 @@ class BufferSegment {
 	 * @param indicesLength
 	 *            indices length
 	 */
-	BufferSegment(BufferPackAbstract bufferPack, int elementsLength,
-			int indicesLength) {
-		this(bufferPack, bufferPack.elementsLength, elementsLength,
-				bufferPack.indicesLength, indicesLength);
+	BufferSegment(BufferPackAbstract bufferPack, int elementsLength, int indicesLength) {
+		this(
+				bufferPack,
+				bufferPack.elementsLength,
+				elementsLength,
+				bufferPack.indicesLength,
+				indicesLength);
 	}
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param bufferPack
 	 *            buffer pack
 	 * @param elementsOffset
@@ -68,8 +73,11 @@ class BufferSegment {
 	 * @param indicesLength
 	 *            indices length
 	 */
-	BufferSegment(BufferPackAbstract bufferPack, int elementsOffset,
-			int elementsLength, int indicesOffset,
+	BufferSegment(
+			BufferPackAbstract bufferPack,
+			int elementsOffset,
+			int elementsLength,
+			int indicesOffset,
 			int indicesLength) {
 		this.bufferPack = bufferPack;
 		this.elementsOffset = elementsOffset;
@@ -81,9 +89,9 @@ class BufferSegment {
 	}
 
 	/**
-	 * 
+	 *
 	 * set index to where start elements and indices
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 */
@@ -93,17 +101,16 @@ class BufferSegment {
 
 	/**
 	 * set index to where end elements and indices
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 */
 	void getEnd(Index index) {
-		index.set(elementsOffset + elementsAvailableLength,
-				indicesOffset + indicesAvailableLength);
+		index.set(elementsOffset + elementsAvailableLength, indicesOffset + indicesAvailableLength);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return element length
 	 */
 	int getElementsLength() {
@@ -111,7 +118,7 @@ class BufferSegment {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return elements available length
 	 */
 	int getElementsAvailableLength() {
@@ -119,7 +126,7 @@ class BufferSegment {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return indices length
 	 */
 	int getIndicesLength() {
@@ -127,7 +134,7 @@ class BufferSegment {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return indices available length
 	 */
 	int getIndicesAvailableLength() {
@@ -136,7 +143,7 @@ class BufferSegment {
 
 	/**
 	 * extend available lengths
-	 * 
+	 *
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
@@ -147,21 +154,20 @@ class BufferSegment {
 
 	/**
 	 * set available lengths
-	 * 
+	 *
 	 * @param elementsAvailableLength
 	 *            for elements
 	 * @param indicesAvailableLength
 	 *            for indices
 	 */
-	void setAvailableLengths(int elementsAvailableLength,
-			int indicesAvailableLength) {
+	void setAvailableLengths(int elementsAvailableLength, int indicesAvailableLength) {
 		this.elementsAvailableLength = elementsAvailableLength;
 		this.indicesAvailableLength = indicesAvailableLength;
 	}
 
 	/**
 	 * set lengths
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 */
@@ -178,5 +184,4 @@ class BufferSegment {
 				+ (indicesOffset + indicesAvailableLength) + "  "
 				+ bufferPack;
 	}
-
 }

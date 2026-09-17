@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 /**
  * Class to read bytes and pairs of bytes in both little and big endian order.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: ByteOrderInputStream.java,v 1.3 2008-05-04 12:21:49 murkle Exp
@@ -21,7 +21,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Create a byte order (big-endian) input stream from given stream.
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 */
@@ -31,7 +31,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Create a byte order input stream from given stream.
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 * @param littleEndian
@@ -105,7 +105,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Read n bytes and return in byte array.
-	 * 
+	 *
 	 * @param n
 	 *            number of bytes to read
 	 * @return byte array
@@ -142,7 +142,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Read n unsigned bytes and return in int array.
-	 * 
+	 *
 	 * @param n
 	 *            number of bytes to read
 	 * @return int array
@@ -176,7 +176,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Read n shorts and return in short array
-	 * 
+	 *
 	 * @param n
 	 *            number of shorts to read
 	 * @return short array
@@ -206,7 +206,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Read n unsigned shorts and return in int array
-	 * 
+	 *
 	 * @param n
 	 *            number of shorts to read
 	 * @return int array
@@ -232,13 +232,14 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		int i2 = readUnsignedByte();
 		int i3 = readUnsignedByte();
 		int i4 = readUnsignedByte();
-		return (little) ? (i4 << 24) + (i3 << 16) + (i2 << 8) + i1
+		return (little)
+				? (i4 << 24) + (i3 << 16) + (i2 << 8) + i1
 				: (i1 << 24) + (i2 << 16) + (i3 << 8) + i4;
 	}
 
 	/**
 	 * Read n ints and return in int array.
-	 * 
+	 *
 	 * @param n
 	 *            number of ints to read
 	 * @return int array
@@ -256,7 +257,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Read an unsigned integer.
-	 * 
+	 *
 	 * @return long
 	 * @throws IOException
 	 *             if read fails
@@ -267,13 +268,14 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 		long i2 = readUnsignedByte();
 		long i3 = readUnsignedByte();
 		long i4 = readUnsignedByte();
-		return (little) ? (i4 << 24) + (i3 << 16) + (i2 << 8) + i1
+		return (little)
+				? (i4 << 24) + (i3 << 16) + (i2 << 8) + i1
 				: (i1 << 24) + (i2 << 16) + (i3 << 8) + i4;
 	}
 
 	/**
 	 * Read n unsigned ints and return in long array.
-	 * 
+	 *
 	 * @param n
 	 *            number of ints to read
 	 * @return long array
@@ -293,8 +295,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	public long readLong() throws IOException {
 		long i1 = readInt();
 		long i2 = readInt();
-		return (little) ? (i2 << 32) + (i1 & 0xFFFFFFFFL)
-				: (i1 << 32) + (i2 & 0xFFFFFFFFL);
+		return (little) ? (i2 << 32) + (i1 & 0xFFFFFFFFL) : (i1 << 32) + (i2 & 0xFFFFFFFFL);
 	}
 
 	@Override
@@ -311,13 +312,12 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	 */
 	@Override
 	public String readLine() throws IOException {
-		throw new IOException(
-				"ByteOrderInputStream.readLine() is not implemented.");
+		throw new IOException("ByteOrderInputStream.readLine() is not implemented.");
 	}
 
 	/**
 	 * Read a string (UTF).
-	 * 
+	 *
 	 * @return string
 	 * @throws IOException
 	 *             if read fails
@@ -333,7 +333,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 
 	/**
 	 * Read an ascii-z (0 terminated c-string).
-	 * 
+	 *
 	 * @return string
 	 * @throws IOException
 	 *             if read fails

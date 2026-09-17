@@ -44,7 +44,7 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 	/**
 	 * Creates new unlabeled angle between line and plane
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param p
@@ -64,7 +64,7 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 	}
 
 	@Override
-	final protected GeoAngle newGeoAngle(Construction cons1) {
+	protected final GeoAngle newGeoAngle(Construction cons1) {
 		GeoAngle ret = new GeoAngle3D(cons1);
 		ret.setDrawableNoSlider();
 		return ret;
@@ -97,7 +97,7 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 	/**
 	 * Returns the resulting angle
-	 * 
+	 *
 	 * @return resulting angle
 	 */
 	public GeoAngle getAngle() {
@@ -105,12 +105,10 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("AngleBetweenAB", p.getLabel(tpl),
-				q.getLabel(tpl));
-
+		return getLoc().getPlain("AngleBetweenAB", p.getLabel(tpl), q.getLabel(tpl));
 	}
 
 	@Override
@@ -139,8 +137,10 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 		// projection of first plane origin on second plane
 		// direction orthogonal to v and collinear to first plane
-		p.getCoordSys().getMatrixOrthonormal().getOrigin().projectPlaneThruV(
-				q.getCoordSys().getMatrixOrthonormal(), v2, o);
+		p.getCoordSys()
+				.getMatrixOrthonormal()
+				.getOrigin()
+				.projectPlaneThruV(q.getCoordSys().getMatrixOrthonormal(), v2, o);
 		return AlgoAnglePoints3D.acos(vn1.dotproduct(vn2));
 	}
 
@@ -166,5 +166,4 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 		return true;
 	}
-
 }

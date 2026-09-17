@@ -67,113 +67,114 @@ class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 	@Test
 	void testHeaderReflectsCumulativeState() {
 		setProbabilityCalculator(BINOMIAL, false, 2, 0.5);
-		assertEquals("P(X = k)", ProbabilityCalculatorTableValues.from(probabilityCalculator)
-				.header().probability());
+		assertEquals(
+				"P(X = k)",
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).header().probability());
 
 		setProbabilityCalculator(BINOMIAL, true, 2, 0.5);
-		assertEquals("P(X ≤ k)", ProbabilityCalculatorTableValues.from(probabilityCalculator)
-				.header().probability());
+		assertEquals(
+				"P(X ≤ k)",
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).header().probability());
 	}
 
 	@Test
 	void testBinomialFormattedProbabilities() {
 		setProbabilityCalculator(BINOMIAL, false, 2, 0.5);
-		assertEquals(List.of(
-				new Row("0", "0.25", true),
-				new Row("1", "0.5", true),
-				new Row("2", "0.25", false)
-		), ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
+		assertEquals(
+				List.of(new Row("0", "0.25", true), new Row("1", "0.5", true), new Row("2", "0.25", false)),
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
 	}
 
 	@Test
 	void testBinomialFormattedCumulativeProbabilities() {
 		setProbabilityCalculator(BINOMIAL, true, 2, 0.5);
-		assertEquals(List.of(
-				new Row("0", "0.25", true),
-				new Row("1", "0.75", true),
-				new Row("2", "1", false)
-		), ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
+		assertEquals(
+				List.of(new Row("0", "0.25", true), new Row("1", "0.75", true), new Row("2", "1", false)),
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
 	}
 
 	@Test
 	void testPascalDistributionInverseCumulativeProbabilities() {
 		setProbabilityCalculator(PASCAL, false, 1, 0.9);
-		assertEquals(List.of(
-				new Row("0", "0.9", true),
-				new Row("1", "0.09", true),
-				new Row("2", "0.009", false),
-				new Row("3", "0.0009", false),
-				new Row("4", "0.0001", false),
-				new Row("5", "0", false)
-		), ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
+		assertEquals(
+				List.of(
+						new Row("0", "0.9", true),
+						new Row("1", "0.09", true),
+						new Row("2", "0.009", false),
+						new Row("3", "0.0009", false),
+						new Row("4", "0.0001", false),
+						new Row("5", "0", false)),
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
 	}
 
 	@Test
 	void testPoissonDistributionInverseCumulativeProbabilities() {
 		setProbabilityCalculator(POISSON, false, 0.1);
-		assertEquals(List.of(
-				new Row("0", "0.9048", true),
-				new Row("1", "0.0905", true),
-				new Row("2", "0.0045", false),
-				new Row("3", "0.0002", false),
-				new Row("4", "0", false)
-		), ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
+		assertEquals(
+				List.of(
+						new Row("0", "0.9048", true),
+						new Row("1", "0.0905", true),
+						new Row("2", "0.0045", false),
+						new Row("3", "0.0002", false),
+						new Row("4", "0", false)),
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
 	}
 
 	@Test
 	void testHyperGeometricRowsStartAtMinimumValidValue() {
 		setProbabilityCalculator(HYPERGEOMETRIC, false, 10, 8, 5);
-		assertEquals(List.of(
-				new Row("3", "0.2222", false),
-				new Row("4", "0.5556", false),
-				new Row("5", "0.2222", false)
-		), ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
+		assertEquals(
+				List.of(
+						new Row("3", "0.2222", false),
+						new Row("4", "0.5556", false),
+						new Row("5", "0.2222", false)),
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
 	}
 
 	@Test
 	void testInvalidBinomialParameters() {
 		setProbabilityCalculator(BINOMIAL, false, -1, 0.5);
-		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
-				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
+		ProbabilityCalculatorTableValues tableValues =
+				assertDoesNotThrow(() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
 		assertTrue(tableValues.rows().isEmpty());
 
 		setProbabilityCalculator(BINOMIAL, false, 1, -1);
-		tableValues = assertDoesNotThrow(
-				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
+		tableValues =
+				assertDoesNotThrow(() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
 		assertTrue(tableValues.rows().isEmpty());
 	}
 
 	@Test
 	void testInvalidPascalParameters() {
 		setProbabilityCalculator(PASCAL, false, 0, 0.5);
-		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
-				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
+		ProbabilityCalculatorTableValues tableValues =
+				assertDoesNotThrow(() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
 		assertTrue(tableValues.rows().isEmpty());
 
 		setProbabilityCalculator(PASCAL, false, 1, -1);
-		tableValues = assertDoesNotThrow(
-				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
+		tableValues =
+				assertDoesNotThrow(() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
 		assertTrue(tableValues.rows().isEmpty());
 	}
 
 	@Test
 	void testInvalidPoissonParameters() {
 		setProbabilityCalculator(POISSON, false, 0);
-		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
-				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
+		ProbabilityCalculatorTableValues tableValues =
+				assertDoesNotThrow(() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
 		assertTrue(tableValues.rows().isEmpty());
 	}
 
 	@Test
 	void testInvalidHyperGeometricParameters() {
 		setProbabilityCalculator(HYPERGEOMETRIC, false, 1, 2, 1);
-		ProbabilityCalculatorTableValues tableValues = assertDoesNotThrow(
-				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
+		ProbabilityCalculatorTableValues tableValues =
+				assertDoesNotThrow(() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
 		assertTrue(tableValues.rows().isEmpty());
 
 		setProbabilityCalculator(HYPERGEOMETRIC, false, 1, 1, 2);
-		tableValues = assertDoesNotThrow(
-				() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
+		tableValues =
+				assertDoesNotThrow(() -> ProbabilityCalculatorTableValues.from(probabilityCalculator));
 		assertTrue(tableValues.rows().isEmpty());
 	}
 
@@ -184,11 +185,10 @@ class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 		probabilityCalculator.setLow(0.5);
 		probabilityCalculator.setHigh(1.5);
 
-		assertEquals(List.of(
-				new Row("0", "0.25", false),
-				new Row("1", "0.5", true),
-				new Row("2", "0.25", false)
-		), ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
+		assertEquals(
+				List.of(
+						new Row("0", "0.25", false), new Row("1", "0.5", true), new Row("2", "0.25", false)),
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
 	}
 
 	@Test
@@ -198,15 +198,13 @@ class ProbabilityCalculatorTableValuesTests extends BaseAppTestSetup {
 		probabilityCalculator.setLow(0.5);
 		probabilityCalculator.setHigh(1.5);
 
-		assertEquals(List.of(
-				new Row("0", "0.25", true),
-				new Row("1", "0.5", false),
-				new Row("2", "0.25", true)
-		), ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
+		assertEquals(
+				List.of(new Row("0", "0.25", true), new Row("1", "0.5", false), new Row("2", "0.25", true)),
+				ProbabilityCalculatorTableValues.from(probabilityCalculator).rows());
 	}
 
-	private void setProbabilityCalculator(Dist distribution, boolean cumulative,
-			double... parameterValues) {
+	private void setProbabilityCalculator(
+			Dist distribution, boolean cumulative, double... parameterValues) {
 		GeoNumberValue[] parameters = new GeoNumberValue[parameterValues.length];
 		for (int i = 0; i < parameterValues.length; i++) {
 			parameters[i] = new GeoNumeric(getKernel().getConstruction(), parameterValues[i]);

@@ -67,5 +67,4 @@ public final class DefaultDockPanelDecorator implements DockPanelDecorator {
 	public boolean hasShadedColumns() {
 		return true;
 	}
-
 }

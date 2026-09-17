@@ -38,7 +38,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoTranslate extends AlgoTransformation
@@ -53,7 +53,7 @@ public class AlgoTranslate extends AlgoTransformation
 
 	/**
 	 * Creates labeled translation algo.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -63,15 +63,14 @@ public class AlgoTranslate extends AlgoTransformation
 	 * @param v
 	 *            translation vector
 	 */
-	public AlgoTranslate(Construction cons, String label, GeoElement in,
-			GeoVec3D v) {
+	public AlgoTranslate(Construction cons, String label, GeoElement in, GeoVec3D v) {
 		this(cons, in, v);
 		outGeo.setLabel(label);
 	}
 
 	/**
 	 * Creates unlabeled translation algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param in
@@ -152,12 +151,12 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-24 simplified code!
-		return getLoc().getPlainDefault("TranslationOfAbyB",
-				"Translation of %0 by %1",
-				inGeo.getLabel(tpl), v.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"TranslationOfAbyB", "Translation of %0 by %1", inGeo.getLabel(tpl), v.getLabel(tpl));
 	}
 
 	@Override
@@ -175,8 +174,7 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			((SymbolicParametersAlgo) inGeo).getFreeVariables(variables);
 			((SymbolicParametersAlgo) v).getFreeVariables(variables);
@@ -187,17 +185,14 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			int[] degree1 = ((SymbolicParametersAlgo) inGeo).getDegrees(a);
 			int[] degree2 = ((SymbolicParametersAlgo) v).getDegrees(a);
 			int[] result = new int[3];
 
-			result[0] = Math.max(degree1[0] + degree2[2],
-					degree2[0] + degree1[2]);
-			result[1] = Math.max(degree1[1] + degree2[2],
-					degree2[1] + degree1[2]);
+			result[0] = Math.max(degree1[0] + degree2[2], degree2[0] + degree1[2]);
+			result[1] = Math.max(degree1[1] + degree2[2], degree2[1] + degree1[2]);
 			result[2] = degree2[2] + degree1[2];
 
 			return result;
@@ -206,19 +201,14 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			final HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
-			BigInteger[] coords1 = ((SymbolicParametersAlgo) inGeo)
-					.getExactCoordinates(values);
-			BigInteger[] coords2 = ((SymbolicParametersAlgo) v)
-					.getExactCoordinates(values);
+			BigInteger[] coords1 = ((SymbolicParametersAlgo) inGeo).getExactCoordinates(values);
+			BigInteger[] coords2 = ((SymbolicParametersAlgo) v).getExactCoordinates(values);
 			BigInteger[] result = new BigInteger[3];
-			result[0] = coords1[0].multiply(coords2[2])
-					.add(coords2[0].multiply(coords1[2]));
-			result[1] = coords1[1].multiply(coords2[2])
-					.add(coords2[1].multiply(coords1[2]));
+			result[0] = coords1[0].multiply(coords2[2]).add(coords2[0].multiply(coords1[2]));
+			result[1] = coords1[1].multiply(coords2[2]).add(coords2[1].multiply(coords1[2]));
 			result[2] = coords1[2].multiply(coords2[2]);
 			return SymbolicParameters.reduce(result);
 		}
@@ -231,15 +221,11 @@ public class AlgoTranslate extends AlgoTransformation
 			return polynomials;
 		}
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
-			PPolynomial[] coords1 = ((SymbolicParametersAlgo) inGeo)
-					.getPolynomials();
-			PPolynomial[] coords2 = ((SymbolicParametersAlgo) v)
-					.getPolynomials();
+			PPolynomial[] coords1 = ((SymbolicParametersAlgo) inGeo).getPolynomials();
+			PPolynomial[] coords2 = ((SymbolicParametersAlgo) v).getPolynomials();
 			polynomials = new PPolynomial[3];
-			polynomials[0] = coords1[0].multiply(coords2[2])
-					.add(coords2[0].multiply(coords1[2]));
-			polynomials[1] = coords1[1].multiply(coords2[2])
-					.add(coords2[1].multiply(coords1[2]));
+			polynomials[0] = coords1[0].multiply(coords2[2]).add(coords2[0].multiply(coords1[2]));
+			polynomials[1] = coords1[1].multiply(coords2[2]).add(coords2[1].multiply(coords1[2]));
 			polynomials[2] = coords1[2].multiply(coords2[2]);
 			return polynomials;
 		}
@@ -257,8 +243,7 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -301,5 +286,4 @@ public class AlgoTranslate extends AlgoTransformation
 		}
 		throw new NoSymbolicParametersException();
 	}
-
 }

@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -27,16 +27,16 @@ import org.geogebra.common.kernel.matrix.Coords;
 /**
  *
  * @author ggb3D
- * 
+ *
  *         Calculate the GeoPoint3D intersection of two coord sys (eg line and
  *         plane).
- * 
+ *
  */
 public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param label
@@ -46,11 +46,9 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 	 * @param cs2
 	 *            second coord sys
 	 */
-	public AlgoIntersectCS1D1D(Construction cons, String label, GeoLineND cs1,
-			GeoLineND cs2) {
+	public AlgoIntersectCS1D1D(Construction cons, String label, GeoLineND cs1, GeoLineND cs2) {
 
 		super(cons, label, cs1, cs2, false);
-
 	}
 
 	// /////////////////////////////////////////////
@@ -67,27 +65,25 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 		GeoLineND line2 = (GeoLineND) getCS2();
 
 		Coords o1 = line1.getPointInD(3, 0).getInhomCoordsInSameDimension();
-		Coords d1 = line1.getPointInD(3, 1).getInhomCoordsInSameDimension()
-				.sub(o1);
+		Coords d1 = line1.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
 		Coords o2 = line2.getPointInD(3, 0).getInhomCoordsInSameDimension();
-		Coords d2 = line2.getPointInD(3, 1).getInhomCoordsInSameDimension()
-				.sub(o2);
+		Coords d2 = line2.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o2);
 
-		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2,
-				d2);
+		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2, d2);
 
 		GeoPoint3D p = (GeoPoint3D) getIntersection();
 
 		if (Double.isNaN(project[2].get(1))) { // infinite point
-			if (getCS1().isGeoSegment() || getCS1().isGeoRay()
-					|| getCS2().isGeoSegment() || getCS2().isGeoRay()) {
+			if (getCS1().isGeoSegment()
+					|| getCS1().isGeoRay()
+					|| getCS2().isGeoSegment()
+					|| getCS2().isGeoRay()) {
 				p.setUndefined();
 			} else { // set coords to direction only when lines
 				p.setCoords(project[0]);
 				p.updateCoords();
 			}
-		} else if (project[0].equalsForKernel(project[1],
-				Kernel.STANDARD_PRECISION)) {
+		} else if (project[0].equalsForKernel(project[1], Kernel.STANDARD_PRECISION)) {
 
 			double t1 = project[2].get(1); // parameter on line 1
 			double t2 = project[2].get(2); // parameter on line 2
@@ -103,7 +99,6 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 		} else {
 			p.setUndefined();
 		}
-
 	}
 
 	@Override
@@ -115,5 +110,4 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 	protected String getIntersectionTypeString() {
 		return "IntersectionPointOfAB";
 	}
-
 }

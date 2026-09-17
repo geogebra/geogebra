@@ -34,7 +34,7 @@ public class CmdCoefficients extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,41 +43,40 @@ public class CmdCoefficients extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0].isGeoFunction()) {
+			case 1:
+				if (arg[0].isGeoFunction()) {
 
-				AlgoCoefficients algo = new AlgoCoefficients(cons, c.getLabel(),
-						(GeoFunction) arg[0]);
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[0].isGeoConic()) {
-				AlgoEquationCoefficients algo = new AlgoConicCoefficients(cons,
-						c.getLabel(), (GeoConicND) arg[0]);
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[0].isGeoQuadric()) {
-				AlgoQuadricCoefficients algo = new AlgoQuadricCoefficients(cons,
-						c.getLabel(), (GeoQuadricND) arg[0]);
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[0].isGeoPlane()) {
-				AlgoPlaneCoefficients algo = new AlgoPlaneCoefficients(cons,
-						c.getLabel(), (GeoPlaneND) arg[0]);
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else {
-				throw argErr(c, arg[0]);
-			}
+					AlgoCoefficients algo = new AlgoCoefficients(cons, c.getLabel(), (GeoFunction) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[0].isGeoConic()) {
+					AlgoEquationCoefficients algo =
+							new AlgoConicCoefficients(cons, c.getLabel(), (GeoConicND) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[0].isGeoQuadric()) {
+					AlgoQuadricCoefficients algo =
+							new AlgoQuadricCoefficients(cons, c.getLabel(), (GeoQuadricND) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[0].isGeoPlane()) {
+					AlgoPlaneCoefficients algo =
+							new AlgoPlaneCoefficients(cons, c.getLabel(), (GeoPlaneND) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else {
+					throw argErr(c, arg[0]);
+				}
 
 			// more than one argument
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

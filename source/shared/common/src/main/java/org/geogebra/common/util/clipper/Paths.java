@@ -80,5 +80,4 @@ public class Paths extends ArrayList<Path> {
 			poly.reverse();
 		}
 	}
-
 }

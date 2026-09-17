@@ -33,8 +33,7 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 	private GeoVector direction;
 
 	/** Creates new AlgoTangentLine */
-	AlgoTangentLine(Construction cons, String label, GeoLineND g,
-			GeoConicND c) {
+	AlgoTangentLine(Construction cons, String label, GeoLineND g, GeoConicND c) {
 		super(cons, label, g, c);
 	}
 
@@ -48,8 +47,7 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 	 * @param c
 	 *            parallel line
 	 */
-	public AlgoTangentLine(Construction cons, String[] labels, GeoLineND g,
-			GeoConicND c) {
+	public AlgoTangentLine(Construction cons, String[] labels, GeoLineND g, GeoConicND c) {
 		super(cons, labels, g, c);
 	}
 
@@ -61,8 +59,7 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 		direction = new GeoVector(cons);
 		((GeoLine) g).getDirection(direction);
 		c.diameterLine(direction, diameter);
-		algoIntersect = new AlgoIntersectLineConic(cons, diameter,
-				(GeoConic) c);
+		algoIntersect = new AlgoIntersectLineConic(cons, diameter, (GeoConic) c);
 		// this is only an internal Algorithm that shouldn't be in the
 		// construction list
 		cons.removeFromConstructionList(algoIntersect);
@@ -85,8 +82,7 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 	 */
 	@Override
 	public void initForNearToRelationship() {
-		AlgoTangentPoint.initForNearToRelationship(tangentPoints, tangents[0],
-				algoIntersect);
+		AlgoTangentPoint.initForNearToRelationship(tangentPoints, tangents[0], algoIntersect);
 	}
 
 	@Override
@@ -103,8 +99,7 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 		// tangent.x = line.x;
 		// tangent.y = line.y;
 		// tangent.z = -(point.inhomX * line.x + point.inhomY * line.y);
-		tangent.setCoords(line.x, line.y,
-				-(point.inhomX * line.x + point.inhomY * line.y));
+		tangent.setCoords(line.x, line.y, -(point.inhomX * line.x + point.inhomY * line.y));
 	}
 
 	@Override
@@ -124,7 +119,6 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 			tangent0.setCoords(line.x, line.y, z0);
 		} else {
 			tangent0.setCoords(line.x, line.y, z1);
-
 		}
 		tangent1.setUndefined();
 	}

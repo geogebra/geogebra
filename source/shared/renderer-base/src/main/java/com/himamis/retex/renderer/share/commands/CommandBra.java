@@ -87,5 +87,4 @@ public class CommandBra extends Command1A {
 		}
 		return new FencedAtom(a, left, middles, right);
 	}
-
 }

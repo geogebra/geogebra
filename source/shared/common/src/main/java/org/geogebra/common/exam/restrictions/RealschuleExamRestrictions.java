@@ -245,7 +245,8 @@ public final class RealschuleExamRestrictions extends Restrictions {
 
 	/** Constructs the restrictions for Realschule exam. */
 	public RealschuleExamRestrictions() {
-		super(Set.of(CAS, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
+		super(
+				Set.of(CAS, GEOMETRY, G3D, PROBABILITY, SCIENTIFIC),
 				GRAPHING,
 				createFeatureRestrictions(),
 				getInputExpressionFilter(),
@@ -266,39 +267,181 @@ public final class RealschuleExamRestrictions extends Restrictions {
 	}
 
 	private static Set<FeatureRestriction> createFeatureRestrictions() {
-		return Set.of(FeatureRestriction.HIDE_CALCULATED_EQUATION,
+		return Set.of(
+				FeatureRestriction.HIDE_CALCULATED_EQUATION,
 				FeatureRestriction.RESTRICT_CHANGING_EQUATION_FORM);
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-		return Set.of(new CommandNameFilter(true,
-				Volume, Bottom, Cone, Cube, Cylinder, Dodecahedron, Ends, Icosahedron, Octahedron,
-				Plane, QuadricSide, Surface, Tetrahedron, Top, Sphere, Prism, Pyramid,
-				PlaneBisector, OrthogonalPlane, ConeInfinite, CylinderInfinite, IntersectConic,
-				Height, Net, Assume, CFactor, CIFactor, IntegralSymbolic,
-				Eliminate, GroebnerLex, GroebnerDegRevLex, GroebnerLexDeg, Numeric, MixedNumber,
-				Rationalize, SolveCubic, SolveQuartic, JordanDiagonalization, Eigenvectors, Laplace,
-				InverseLaplace, Substitute, ToExponential, ExtendedGCD, ModularExponent,
-				CharacteristicPolynomial, MinimalPolynomial, LUDecomposition, QRDecomposition,
-				PerpendicularVector, UnitPerpendicularVector, UnitVector, Cross, Dot, Dilate,
-				Reflect, Rotate, Shear, Stretch, Translate, AngleBisector, Angle, Axes, Center,
-				Circle, Conic, ConjugateDiameter, Directrix, Eccentricity, Ellipse, Focus,
-				Hyperbola, Incircle, LinearEccentricity, MajorAxis, MinorAxis, Parabola, Parameter,
-				Polar, SemiMajorAxisLength, SemiMinorAxisLength, Semicircle, Relation, AffineRatio,
-				Arc, AreCollinear, AreConcurrent, AreConcyclic, AreCongruent, AreEqual, AreParallel,
-				ArePerpendicular, Area, Barycenter, Centroid, CircularArc, CircularSector,
-				CircumcircularArc, CircumcircularSector, Circumference, ClosestPoint,
-				ClosestPointRegion, CrossRatio, Cubic, Direction, Distance, Envelope, IntersectPath,
-				Locus, LocusEquation, Midpoint, Perimeter, PerpendicularBisector, PerpendicularLine,
-				Polygon, Polyline, Prove, ProveDetails, Radius, RigidPolygon, Sector, Segment,
-				Slope, Tangent, TriangleCenter, TriangleCurve, Trilinear, Vertex, Polynomial,
-				TaylorPolynomial, Asymptote, OsculatingCircle, CommonDenominator, CompleteSquare,
-				Div, Mod, Division, Function,
-				Solve, NSolve, Solutions, NSolutions, CSolve, CSolutions,
-				Coefficients, Degree, Expand, Factor, Factors, IFactor, ImplicitDerivative,
-				IsTangent, IsVertexForm, Limit, LimitAbove, LimitBelow, NextPrime,
-				ParametricDerivative, PartialFractions, PlotSolve, PreviousPrime,
-				RemovableDiscontinuity, Simplify, SolveODE, SurdText, TrigCombine, TrigExpand,
+		return Set.of(new CommandNameFilter(
+				true,
+				Volume,
+				Bottom,
+				Cone,
+				Cube,
+				Cylinder,
+				Dodecahedron,
+				Ends,
+				Icosahedron,
+				Octahedron,
+				Plane,
+				QuadricSide,
+				Surface,
+				Tetrahedron,
+				Top,
+				Sphere,
+				Prism,
+				Pyramid,
+				PlaneBisector,
+				OrthogonalPlane,
+				ConeInfinite,
+				CylinderInfinite,
+				IntersectConic,
+				Height,
+				Net,
+				Assume,
+				CFactor,
+				CIFactor,
+				IntegralSymbolic,
+				Eliminate,
+				GroebnerLex,
+				GroebnerDegRevLex,
+				GroebnerLexDeg,
+				Numeric,
+				MixedNumber,
+				Rationalize,
+				SolveCubic,
+				SolveQuartic,
+				JordanDiagonalization,
+				Eigenvectors,
+				Laplace,
+				InverseLaplace,
+				Substitute,
+				ToExponential,
+				ExtendedGCD,
+				ModularExponent,
+				CharacteristicPolynomial,
+				MinimalPolynomial,
+				LUDecomposition,
+				QRDecomposition,
+				PerpendicularVector,
+				UnitPerpendicularVector,
+				UnitVector,
+				Cross,
+				Dot,
+				Dilate,
+				Reflect,
+				Rotate,
+				Shear,
+				Stretch,
+				Translate,
+				AngleBisector,
+				Angle,
+				Axes,
+				Center,
+				Circle,
+				Conic,
+				ConjugateDiameter,
+				Directrix,
+				Eccentricity,
+				Ellipse,
+				Focus,
+				Hyperbola,
+				Incircle,
+				LinearEccentricity,
+				MajorAxis,
+				MinorAxis,
+				Parabola,
+				Parameter,
+				Polar,
+				SemiMajorAxisLength,
+				SemiMinorAxisLength,
+				Semicircle,
+				Relation,
+				AffineRatio,
+				Arc,
+				AreCollinear,
+				AreConcurrent,
+				AreConcyclic,
+				AreCongruent,
+				AreEqual,
+				AreParallel,
+				ArePerpendicular,
+				Area,
+				Barycenter,
+				Centroid,
+				CircularArc,
+				CircularSector,
+				CircumcircularArc,
+				CircumcircularSector,
+				Circumference,
+				ClosestPoint,
+				ClosestPointRegion,
+				CrossRatio,
+				Cubic,
+				Direction,
+				Distance,
+				Envelope,
+				IntersectPath,
+				Locus,
+				LocusEquation,
+				Midpoint,
+				Perimeter,
+				PerpendicularBisector,
+				PerpendicularLine,
+				Polygon,
+				Polyline,
+				Prove,
+				ProveDetails,
+				Radius,
+				RigidPolygon,
+				Sector,
+				Segment,
+				Slope,
+				Tangent,
+				TriangleCenter,
+				TriangleCurve,
+				Trilinear,
+				Vertex,
+				Polynomial,
+				TaylorPolynomial,
+				Asymptote,
+				OsculatingCircle,
+				CommonDenominator,
+				CompleteSquare,
+				Div,
+				Mod,
+				Division,
+				Function,
+				Solve,
+				NSolve,
+				Solutions,
+				NSolutions,
+				CSolve,
+				CSolutions,
+				Coefficients,
+				Degree,
+				Expand,
+				Factor,
+				Factors,
+				IFactor,
+				ImplicitDerivative,
+				IsTangent,
+				IsVertexForm,
+				Limit,
+				LimitAbove,
+				LimitBelow,
+				NextPrime,
+				ParametricDerivative,
+				PartialFractions,
+				PlotSolve,
+				PreviousPrime,
+				RemovableDiscontinuity,
+				Simplify,
+				SolveODE,
+				SurdText,
+				TrigCombine,
+				TrigExpand,
 				TrigSimplify));
 	}
 
@@ -387,7 +530,7 @@ public final class RealschuleExamRestrictions extends Restrictions {
 		euclidian.endBatch();
 		settings.getAlgebra().setEquationChangeByDragRestricted(true);
 		settings.getAlgebra().setEngineeringNotationEnabled(true);
-		for (int index: ConstructionDefaults.POINT_INDICES) {
+		for (int index : ConstructionDefaults.POINT_INDICES) {
 			GeoPointND point = (GeoPointND) defaults.getDefaultGeo(index);
 			if (point != null) {
 				point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_CROSS);
@@ -397,16 +540,16 @@ public final class RealschuleExamRestrictions extends Restrictions {
 
 	private static final class RealschuleCommandArgumentFilter implements CommandArgumentFilter {
 		private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
-				Length, Set.of(
-						Syntax.of(Length, GeoElement::isGeoList),
-						Syntax.of(Length, GeoElement::isGeoText)),
-				Line, Set.of(
-						Syntax.of(Line, GeoElement::isGeoPoint, GeoElement::isGeoPoint),
-						Syntax.of(Line, GeoElement::isGeoPoint, GeoElement::isGeoVector)));
+				Length,
+						Set.of(
+								Syntax.of(Length, GeoElement::isGeoList), Syntax.of(Length, GeoElement::isGeoText)),
+				Line,
+						Set.of(
+								Syntax.of(Line, GeoElement::isGeoPoint, GeoElement::isGeoPoint),
+								Syntax.of(Line, GeoElement::isGeoPoint, GeoElement::isGeoVector)));
 
 		@Override
-		public void checkAllowed(Command command, CommandProcessor commandProcessor)
-				throws MyError {
+		public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
 			Syntax.checkRestrictedSyntaxes(
 					allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 		}
@@ -452,8 +595,9 @@ public final class RealschuleExamRestrictions extends Restrictions {
 		@Override
 		public @NonNull Effect getEffect(GeoElement geoElement) {
 			return (geoElement instanceof EquationValue
-					&& isOnlyX(((EquationValue) geoElement).getEquationVariables())
-			) ? HIDE : IGNORE;
+							&& isOnlyX(((EquationValue) geoElement).getEquationVariables()))
+					? HIDE
+					: IGNORE;
 		}
 
 		private boolean isOnlyX(String[] equationVariables) {

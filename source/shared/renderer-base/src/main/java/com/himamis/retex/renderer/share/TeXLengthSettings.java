@@ -9,7 +9,7 @@ public class TeXLengthSettings {
 	private static final Map<String, Double> defaultFactorMap;
 
 	static {
-		defaultMap= new HashMap<>();
+		defaultMap = new HashMap<>();
 		defaultFactorMap = new HashMap<>();
 
 		// make \fcolorbox margin compatible with jlm v1
@@ -36,7 +36,8 @@ public class TeXLengthSettings {
 
 	public TeXLengthSettings() {
 		map = new HashMap<>(defaultMap);
-		factorMap = new HashMap<>(defaultFactorMap);;
+		factorMap = new HashMap<>(defaultFactorMap);
+		;
 	}
 
 	public static boolean isLengthName(final String name) {
@@ -67,8 +68,7 @@ public class TeXLengthSettings {
 		return null;
 	}
 
-	public double getLength(final String name,
-			final TeXEnvironment env) {
+	public double getLength(final String name, final TeXEnvironment env) {
 		final TeXLength l = map.get(name);
 		if (l != null) {
 			return l.getL() * l.getUnit().getFactor(env);

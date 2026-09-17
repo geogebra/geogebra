@@ -37,7 +37,7 @@ public class CmdSlider extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,7 +46,7 @@ public class CmdSlider extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c, info);
@@ -75,7 +75,8 @@ public class CmdSlider extends CommandProcessor {
 
 		// Slider[0,360deg] should be angle
 		if ((n > 5 && ((BooleanValue) arg[5]).getBoolean())
-				|| arg[0] instanceof GeoAngle || arg[1] instanceof GeoAngle) {
+				|| arg[0] instanceof GeoAngle
+				|| arg[1] instanceof GeoAngle) {
 
 			if (slider == null || !slider.isAngle()) {
 				slider = new GeoAngle(kernel.getConstruction());
@@ -116,7 +117,6 @@ public class CmdSlider extends CommandProcessor {
 		slider.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
 		slider.setDrawable(true);
 		slider.setLabel(c.getLabel());
-		return new GeoElement[] { slider };
-
+		return new GeoElement[] {slider};
 	}
 }

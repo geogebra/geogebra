@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.test.euclidian.plot;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -86,8 +86,7 @@ class CurvePlotterTest extends BaseUnitTest {
 
 	@Test
 	void testPiecewise() {
-		resultShouldBeTheSame(add("If(x < 1, x + 1,"
-				+ " If(x > 1, -x + 1, 1))"), -3.22724, 3.83963);
+		resultShouldBeTheSame(add("If(x < 1, x + 1," + " If(x > 1, -x + 1, 1))"), -3.22724, 3.83963);
 	}
 
 	@Test
@@ -96,8 +95,7 @@ class CurvePlotterTest extends BaseUnitTest {
 		GeoFunction f = add("(x^4+1)/x");
 		EuclidianView view = getApp().getActiveEuclidianView();
 		add("ZoomIn(-7,-5,5,5)");
-		CurvePlotter.plotCurve(f, -7, 5, view,
-				gp, true, Gap.MOVE_TO);
+		CurvePlotter.plotCurve(f, -7, 5, view, gp, true, Gap.MOVE_TO);
 		assertThat(gp.getVerticals(), CoreMatchers.is(""));
 	}
 
@@ -107,8 +105,7 @@ class CurvePlotterTest extends BaseUnitTest {
 		GeoFunction f = add("10000x");
 		EuclidianView view = getApp().getActiveEuclidianView();
 		add("ZoomIn(-7,-5,5,5)");
-		CurvePlotter.plotCurve(f, -7, 5, view,
-				gp, true, Gap.MOVE_TO);
+		CurvePlotter.plotCurve(f, -7, 5, view, gp, true, Gap.MOVE_TO);
 		assertThat(gp.getVerticals(), CoreMatchers.is("0.00049,0.00195"));
 	}
 
@@ -116,17 +113,16 @@ class CurvePlotterTest extends BaseUnitTest {
 		resultShouldBeTheSame(f, tMin, tMax, 1500);
 	}
 
-	protected void resultShouldBeTheSame(CurveEvaluable f, double tMin, double tMax,
-			int maxEvaluations) {
+	protected void resultShouldBeTheSame(
+			CurveEvaluable f, double tMin, double tMax, int maxEvaluations) {
 		PathPlotterMock gp = new PathPlotterMock();
 		PathPlotterMock gpExpected = new PathPlotterMock();
 
 		EuclidianView view = getApp().getActiveEuclidianView();
-		GPoint pointExpected = CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
-				gpExpected, true, Gap.MOVE_TO);
+		GPoint pointExpected =
+				CurvePlotterOriginal.plotCurve(f, tMin, tMax, view, gpExpected, true, Gap.MOVE_TO);
 
-		GPoint pointActual = CurvePlotter.plotCurve(f, tMin, tMax, view,
-				gp, true, Gap.MOVE_TO);
+		GPoint pointActual = CurvePlotter.plotCurve(f, tMin, tMax, view, gp, true, Gap.MOVE_TO);
 		assertThat(gp.size(), OrderingComparison.lessThan(maxEvaluations));
 		assertEquals(gpExpected, gp);
 		assertEquals(pointExpected, pointActual);

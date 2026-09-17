@@ -40,8 +40,7 @@ final class VertexCache {
 		long qy = quantizeVertexCoordinate(y, mergeTolerance);
 		for (long dx = -1; dx <= 1; dx++) {
 			for (long dy = -1; dy <= 1; dy++) {
-				int vertexId = findInBucket(vertexBucketKey(qx + dx, qy + dy),
-						x, y, mergeTolerance);
+				int vertexId = findInBucket(vertexBucketKey(qx + dx, qy + dy), x, y, mergeTolerance);
 				if (vertexId > -1) {
 					return vertexId;
 				}
@@ -84,8 +83,8 @@ final class VertexCache {
 		if (tolerance <= 0) {
 			return vertexBucketKey(x, y);
 		}
-		return vertexBucketKey(quantizeVertexCoordinate(x, tolerance),
-				quantizeVertexCoordinate(y, tolerance));
+		return vertexBucketKey(
+				quantizeVertexCoordinate(x, tolerance), quantizeVertexCoordinate(y, tolerance));
 	}
 
 	private long vertexBucketKey(double x, double y) {

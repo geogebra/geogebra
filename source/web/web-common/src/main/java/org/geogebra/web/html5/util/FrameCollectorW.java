@@ -34,5 +34,4 @@ public interface FrameCollectorW {
 	 * @param scale export scale
 	 */
 	void addFrame(EuclidianViewWInterface ev, double scale);
-
 }

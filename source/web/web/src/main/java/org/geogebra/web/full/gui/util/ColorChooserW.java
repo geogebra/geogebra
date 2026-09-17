@@ -54,8 +54,7 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 	public static final GColor NORMAL_TILE_COLOR = GColor.newColorRGB(0);
 	public static final GColor EMPTY_TILE_COLOR = GColor.newColor(16, 16, 16);
 	public static final GColor SELECTED_TILE_COLOR = GColor.newColor(255, 0, 0);
-	public static final String TITLE_FONT = "14pt "
-			+ GFontW.GEOGEBRA_FONT_SANSERIF;
+	public static final String TITLE_FONT = "14pt " + GFontW.GEOGEBRA_FONT_SANSERIF;
 	public static final int TITLE_HEIGHT = 20;
 	public static final GColor FOCUS_COLOR = GColor.newColor(0, 0, 255);
 	public static final double BORDER_WIDTH = 2;
@@ -201,7 +200,9 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		void setFocus(int x, int y) {
 
-			if (x < left || x > (left + width) || y < top + tableOffsetY
+			if (x < left
+					|| x > (left + width)
+					|| y < top + tableOffsetY
 					|| y > (top + height + tableOffsetY)) {
 				focusLost();
 				return;
@@ -262,8 +263,7 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		private GColor getColorFromPalette(int col, int row) {
 			int idx = getIndex(col, row);
-			return palette != null && idx < palette.size() ? palette.get(idx)
-					: null;
+			return palette != null && idx < palette.size() ? palette.get(idx) : null;
 		}
 
 		void setHeight(int height) {
@@ -362,11 +362,9 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 
 		private void apply() {
-			Entry entry = entries
-					.get(getIndex(getSelectedCol(), getSelectedRow()));
+			Entry entry = entries.get(getIndex(getSelectedCol(), getSelectedRow()));
 			entry.table.select(entry.col, entry.row);
 		}
-
 	}
 
 	private final class PreviewPanel extends FlowPanel {
@@ -416,7 +414,6 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 		void setLabels(String previewTitle) {
 			titleLabel.setText(previewTitle);
 		}
-
 	}
 
 	/**
@@ -431,8 +428,7 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * @param padding
 	 *            padding
 	 */
-	public ColorChooserW(final App app, int width, int height,
-			Dimension colorIconSize, int padding) {
+	public ColorChooserW(final App app, int width, int height, Dimension colorIconSize, int padding) {
 		this.app = app;
 
 		canvas = Canvas.createIfSupported();
@@ -448,27 +444,32 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 		this.padding = padding;
 
 		int x = MARGIN_X;
-		leftTable = new ColorTable(x, MARGIN_TOP, 2, 8,
-				Arrays.asList(0xffffff, 0xff0000, 0xc0c0c0, 0xff7f00, 0xa0a0a0,
-						0xbfff00, 0x808080, 0x00ff00, 0x606060, 0x00ffff,
-						0x404040, 0x0000ff, 0x202020, 0x7f00ff, 0x000000,
-						0xff00ff));
+		leftTable = new ColorTable(
+				x,
+				MARGIN_TOP,
+				2,
+				8,
+				Arrays.asList(
+						0xffffff, 0xff0000, 0xc0c0c0, 0xff7f00, 0xa0a0a0, 0xbfff00, 0x808080, 0x00ff00,
+						0x606060, 0x00ffff, 0x404040, 0x0000ff, 0x202020, 0x7f00ff, 0x000000, 0xff00ff));
 
 		x += leftTable.getWidth() + 5;
 
-		mainTable = new ColorTable(x, 20, 8, 8, Arrays.asList(0xffc0cb,
-				0xff99cc, 0xff6699, 0xff3366, 0xff0033, 0xcc0000, 0x800000,
-				0x330000, 0xffefd5, 0xffcc33, 0xff9900, 0xff9933, 0xff6600,
-				0xcc6600, 0x996600, 0x333300, 0xffeacd, 0xffff99, 0xffff66,
-				0xffd700, 0xffcc66, 0xcc9900, 0x993300, 0x663300, 0xccffcc,
-				0xccff66, 0x99ff00, 0x99cc00, 0x66cc00, 0x669900, 0x339900,
-				0x006633, 0xd0f0c0, 0x99ff99, 0x66ff00, 0x33ff00, 0x00cc00,
-				0x009900, 0x006400, 0x003300, 0xafeeee, 0x99ffff, 0x33ffcc,
-				0x0099ff, 0x0099cc, 0x006699, 0x0033cc, 0x003399, 0xbcd4e6,
-				0x99ccff, 0x66ccff, 0x6699ff, 0x7d7dff, 0x3333ff, 0x0000cc,
-				0x000033, 0xccccff, 0xcc99ff, 0xcc66ff, 0x9966ff, 0x6600cc,
-				0x800080, 0x4b0082, 0x330033, 0xe0b0ff, 0xff99ff, 0xff9999,
-				0xff33cc, 0xdc143c, 0xcc0066, 0x990033, 0x660099));
+		mainTable = new ColorTable(
+				x,
+				20,
+				8,
+				8,
+				Arrays.asList(
+						0xffc0cb, 0xff99cc, 0xff6699, 0xff3366, 0xff0033, 0xcc0000, 0x800000, 0x330000,
+						0xffefd5, 0xffcc33, 0xff9900, 0xff9933, 0xff6600, 0xcc6600, 0x996600, 0x333300,
+						0xffeacd, 0xffff99, 0xffff66, 0xffd700, 0xffcc66, 0xcc9900, 0x993300, 0x663300,
+						0xccffcc, 0xccff66, 0x99ff00, 0x99cc00, 0x66cc00, 0x669900, 0x339900, 0x006633,
+						0xd0f0c0, 0x99ff99, 0x66ff00, 0x33ff00, 0x00cc00, 0x009900, 0x006400, 0x003300,
+						0xafeeee, 0x99ffff, 0x33ffcc, 0x0099ff, 0x0099cc, 0x006699, 0x0033cc, 0x003399,
+						0xbcd4e6, 0x99ccff, 0x66ccff, 0x6699ff, 0x7d7dff, 0x3333ff, 0x0000cc, 0x000033,
+						0xccccff, 0xcc99ff, 0xcc66ff, 0x9966ff, 0x6600cc, 0x800080, 0x4b0082, 0x330033,
+						0xe0b0ff, 0xff99ff, 0xff9999, 0xff33cc, 0xdc143c, 0xcc0066, 0x990033, 0x660099));
 
 		x += mainTable.getWidth() + 5;
 
@@ -504,7 +505,6 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 					break;
 				}
 			}
-
 		});
 
 		canvas.addMouseMoveHandler(event -> {
@@ -520,8 +520,7 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 		selectedColor = color;
 		previewPanel.update();
 
-		if (lastSource != null && lastSource != source
-				&& lastSource != recentTable) {
+		if (lastSource != null && lastSource != source && lastSource != recentTable) {
 			lastSource.unselect();
 		}
 
@@ -548,10 +547,11 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * @return colors are the same but not null
 	 */
 	public static boolean colorEquals(GColor color1, GColor color2) {
-		return color1 != null && color2 != null
+		return color1 != null
+				&& color2 != null
 				&& color1.getRed() == color2.getRed()
-						&& color1.getGreen() == color2.getGreen()
-						&& color1.getBlue() == color2.getBlue();
+				&& color1.getGreen() == color2.getGreen()
+				&& color1.getBlue() == color2.getBlue();
 	}
 
 	private void updateTables() {
@@ -621,5 +621,4 @@ public final class ColorChooserW extends FlowPanel implements ICustomColor {
 		otherTable.select(0, 0);
 		colorChanged(otherTable, color);
 	}
-
 }

@@ -25,9 +25,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Rotation
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public class TransformRotate extends Transform {
 	/** center of rotation */
@@ -54,8 +54,7 @@ public class TransformRotate extends Transform {
 	 * @param center
 	 *            rotation center
 	 */
-	public TransformRotate(Construction cons, GeoNumberValue angle,
-			GeoPointND center) {
+	public TransformRotate(Construction cons, GeoNumberValue angle, GeoPointND center) {
 		this.angle = angle;
 		this.center = center;
 		this.cons = cons;
@@ -71,5 +70,4 @@ public class TransformRotate extends Transform {
 		}
 		return algo;
 	}
-
 }

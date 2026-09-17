@@ -34,8 +34,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  * Circular arc or sector defined by the circle's center, one point on the
  * circle (start point) and another point (angle for end-point).
  */
-public class AlgoConicPartCircle extends AlgoConicPart implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoConicPartCircle extends AlgoConicPart implements SymbolicParametersBotanaAlgo {
 
 	private GeoPoint center;
 	private GeoPoint startPoint;
@@ -58,16 +57,15 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 	 * @param type
 	 *            GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
-	public AlgoConicPartCircle(Construction cons, GeoPoint center,
-			GeoPoint startPoint, GeoPoint endPoint, int type) {
+	public AlgoConicPartCircle(
+			Construction cons, GeoPoint center, GeoPoint startPoint, GeoPoint endPoint, int type) {
 		super(cons, type);
 		this.center = center;
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 
 		// create circle with center through startPoint
-		AlgoCircleTwoPoints algo = new AlgoCircleTwoPoints(cons, center,
-				startPoint);
+		AlgoCircleTwoPoints algo = new AlgoCircleTwoPoints(cons, center, startPoint);
 		cons.removeFromConstructionList(algo);
 		conic = algo.getCircle();
 
@@ -134,8 +132,7 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 	public final void compute() {
 
 		// needed for eg http://www.geogebra.org/m/mfafi40w
-		if (!startPoint.isDefined() || !endPoint.isDefined()
-				|| !center.isDefined()) {
+		if (!startPoint.isDefined() || !endPoint.isDefined() || !center.isDefined()) {
 			conicPart.setUndefined();
 			return;
 		}
@@ -149,13 +146,12 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 
 		// now take the parameters from the temp points
 		conicPart.set(conic);
-		((GeoConicPartND) conicPart).setParameters(P.getPathParameter().t,
-				Q.getPathParameter().t, true);
+		((GeoConicPartND) conicPart)
+				.setParameters(P.getPathParameter().t, Q.getPathParameter().t, true);
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircle();
 		}
@@ -163,8 +159,7 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		// It's OK to return null here since no constraint must be set:
 		return null;
 	}
@@ -192,5 +187,4 @@ public class AlgoConicPartCircle extends AlgoConicPart implements
 	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-
 }

@@ -123,13 +123,13 @@ public enum Tag {
 	 */
 	public boolean isRenderingOwnPlaceholders() {
 		switch (this) {
-		case POINT:
-		case POINT_AT:
-		case VECTOR:
-		case MATRIX:
-			return true;
-		default:
-			return false;
+			case POINT:
+			case POINT_AT:
+			case VECTOR:
+			case MATRIX:
+				return true;
+			default:
+				return false;
 		}
 	}
 }

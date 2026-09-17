@@ -39,8 +39,7 @@ public class AlgoImageCorner extends AlgoElement {
 	 * @param number
 	 *            corner index, see {@link AlgoDrawingPadCorner}
 	 */
-	public AlgoImageCorner(Construction cons, String label, GeoImage img,
-			GeoNumberValue number) {
+	public AlgoImageCorner(Construction cons, String label, GeoImage img, GeoNumberValue number) {
 		super(cons);
 		this.img = img;
 		this.number = number;
@@ -93,5 +92,4 @@ public class AlgoImageCorner extends AlgoElement {
 
 		return true; // update cascade of dependent objects done in Construction
 	}
-
 }

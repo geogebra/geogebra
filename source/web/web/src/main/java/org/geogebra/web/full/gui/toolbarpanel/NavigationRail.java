@@ -63,6 +63,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	 * Parent tool panel
 	 */
 	final ToolbarPanel toolbarPanel;
+
 	private FocusableWidget focusableMenuButton;
 	private final ExamController examController;
 
@@ -86,8 +87,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 		setStyleName("header");
-		updateIcons(toolbarPanel.isOpen() ? toolbarPanel.getSelectedTabId() : null,
-				useExamStyle());
+		updateIcons(toolbarPanel.isOpen() ? toolbarPanel.getSelectedTabId() : null, useExamStyle());
 		app.getExamEventBus().add(this);
 	}
 
@@ -129,32 +129,31 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	}
 
 	private void createAlgebraButton() {
-		btnAlgebra = createTabButton("Algebra",
-				MaterialDesignResources.INSTANCE.toolbar_algebra_graphing());
+		btnAlgebra =
+				createTabButton("Algebra", MaterialDesignResources.INSTANCE.toolbar_algebra_graphing());
 		btnAlgebra.addFastClickHandler(source -> onAlgebraPressed());
 	}
 
 	private void createToolsButton() {
-		btnTools = createTabButton("Tools",
-				MaterialDesignResources.INSTANCE.toolbar_tools());
+		btnTools = createTabButton("Tools", MaterialDesignResources.INSTANCE.toolbar_tools());
 		btnTools.addFastClickHandler(source -> onToolsPressed());
 	}
 
 	private void createTableViewButton() {
-		btnTableView = createTabButton("Table",
-				MaterialDesignResources.INSTANCE.toolbar_table_view_black());
+		btnTableView =
+				createTabButton("Table", MaterialDesignResources.INSTANCE.toolbar_table_view_black());
 		btnTableView.addFastClickHandler(source -> onTableViewPressed());
 	}
 
 	private void createDistributionButton() {
-		btnDistribution = createTabButton("Distribution",
-				MaterialDesignResources.INSTANCE.toolbar_distribution());
+		btnDistribution =
+				createTabButton("Distribution", MaterialDesignResources.INSTANCE.toolbar_distribution());
 		btnDistribution.addFastClickHandler(source -> onDistributionPressed());
 	}
 
 	private void createSpreadsheetButton() {
-		btnSpreadsheet = createTabButton("Perspective.Spreadsheet",
-				MaterialDesignResources.INSTANCE.toolbar_spreadsheet());
+		btnSpreadsheet = createTabButton(
+				"Perspective.Spreadsheet", MaterialDesignResources.INSTANCE.toolbar_spreadsheet());
 		btnSpreadsheet.addFastClickHandler(source -> onSpreadsheetPressed());
 	}
 
@@ -254,13 +253,11 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	}
 
 	private boolean useExamStyle() {
-		return GlobalScope.isExamActive(app)
-				&& app.getAppletParameters().getDataParamFitToScreen();
+		return GlobalScope.isExamActive(app) && app.getAppletParameters().getDataParamFitToScreen();
 	}
 
 	private void addCloseOrientationStyles() {
-		Dom.toggleClass(toolbarPanel, "closePortrait",
-				"closeLandscape", app.isPortrait());
+		Dom.toggleClass(toolbarPanel, "closePortrait", "closeLandscape", app.isPortrait());
 	}
 
 	void removeCloseOrientationStyles() {
@@ -319,8 +316,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	 */
 	void markMenuAsExpanded(boolean expanded) {
 		if (btnMenu != null) {
-			btnMenu.getElement().setAttribute("aria-expanded",
-					String.valueOf(expanded));
+			btnMenu.getElement().setAttribute("aria-expanded", String.valueOf(expanded));
 			btnMenu.getElement().removeAttribute("aria-pressed");
 		}
 	}
@@ -355,10 +351,12 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	}
 
 	private void addShareButton() {
-		GlobalHeader.INSTANCE.initShareButton(share -> {
-			app.hideMenu();
-			FileMenuW.share(app, share);
-		}, app);
+		GlobalHeader.INSTANCE.initShareButton(
+				share -> {
+					app.hideMenu();
+					FileMenuW.share(app, share);
+				},
+				app);
 	}
 
 	/**
@@ -394,8 +392,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		}
 
 		String orientation = app.isPortrait() ? "portrait" : "landscape";
-		Dom.toggleClass(this, "compact",
-				app.getAppletFrame().hasCompactNavigationRail());
+		Dom.toggleClass(this, "compact", app.getAppletFrame().hasCompactNavigationRail());
 		if (isOpen()) {
 			removeCloseStyles();
 			addStyleName("header-open-" + orientation);
@@ -421,8 +418,7 @@ class NavigationRail extends FlowPanel implements ExamListener {
 		if (btnMenu == null) {
 			return;
 		}
-		Dom.toggleClass(btnMenu, "portraitMenuBtn",
-				"landscapeMenuBtn", app.isPortrait());
+		Dom.toggleClass(btnMenu, "portraitMenuBtn", "landscapeMenuBtn", app.isPortrait());
 	}
 
 	/**
@@ -484,8 +480,8 @@ class NavigationRail extends FlowPanel implements ExamListener {
 				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					width = NavigatorUtil.getWindowWidth();
 				}
-				toolbarPanel.setLastOpenWidth((int) (width
-						* PerspectiveDecoder.landscapeRatio(app, width)));
+				toolbarPanel.setLastOpenWidth(
+						(int) (width * PerspectiveDecoder.landscapeRatio(app, width)));
 			}
 		}
 	}
@@ -557,8 +553,9 @@ class NavigationRail extends FlowPanel implements ExamListener {
 	void paintToCanvas(CanvasRenderingContext2D context2d, int left, int top) {
 		int btnTop = 40;
 		context2d.globalAlpha = 0.54;
-		for (StandardButton btn: new StandardButton[]{btnAlgebra, btnTools, btnTableView,
-				btnDistribution, btnSpreadsheet}) {
+		for (StandardButton btn :
+				new StandardButton[] {btnAlgebra, btnTools, btnTableView, btnDistribution, btnSpreadsheet
+				}) {
 			if (btn != null) {
 				HTMLImageElement el = Js.uncheckedCast(btn.getImage().getElement());
 				context2d.drawImage(el, left + 24, top + btnTop);

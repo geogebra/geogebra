@@ -28,12 +28,12 @@ public interface Gen {
 	 *            giac context
 	 * @return result of evaluation
 	 */
-    Gen eval(int level, Context context);
+	Gen eval(int level, Context context);
 
 	/**
 	 * @param context
 	 *            giac context
 	 * @return streing representation of this object
 	 */
-    String print(Context context);
+	String print(Context context);
 }

@@ -30,9 +30,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Boxplot algorithm. See AlgoFunctionAreaSums for implementation.
- * 
+ *
  * @author George Sturr
- * 
+ *
  */
 public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
@@ -61,7 +61,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Creates boxplot given all the quartiles, y-offset and y-scale
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -81,9 +81,16 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param max
 	 *            maximum
 	 */
-	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue min, GeoNumberValue Q1,
-			GeoNumberValue median, GeoNumberValue Q3, GeoNumberValue max) {
+	public AlgoBoxPlot(
+			Construction cons,
+			String label,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue min,
+			GeoNumberValue Q1,
+			GeoNumberValue median,
+			GeoNumberValue Q3,
+			GeoNumberValue max) {
 
 		super(cons);
 
@@ -110,7 +117,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Creates boxplot from list of raw data
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -124,8 +131,13 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param useOutliers
 	 *            whether to plot outliers separately
 	 */
-	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoList list1, GeoBoolean useOutliers) {
+	public AlgoBoxPlot(
+			Construction cons,
+			String label,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoList list1,
+			GeoBoolean useOutliers) {
 
 		this(cons, a, b, list1, useOutliers);
 
@@ -148,8 +160,13 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param useOutliers
 	 *            whether to plot outliers separately
 	 */
-	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoList list1, GeoList freqList,
+	public AlgoBoxPlot(
+			Construction cons,
+			String label,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoList list1,
+			GeoList freqList,
 			GeoBoolean useOutliers) {
 
 		this(cons, a, b, list1, freqList, useOutliers);
@@ -158,7 +175,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Creates boxplot from frequency table
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a
@@ -172,8 +189,13 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param useOutliers
 	 *            whether to plot outliers separately
 	 */
-	public AlgoBoxPlot(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoList list1, GeoList freqList, GeoBoolean useOutliers) {
+	public AlgoBoxPlot(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoList list1,
+			GeoList freqList,
+			GeoBoolean useOutliers) {
 
 		super(cons);
 
@@ -197,7 +219,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Creates boxplot from frequency table
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a
@@ -209,8 +231,12 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param useOutliers
 	 *            whether to plot outliers separately
 	 */
-	public AlgoBoxPlot(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoList list1, GeoBoolean useOutliers) {
+	public AlgoBoxPlot(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoList list1,
+			GeoBoolean useOutliers) {
 
 		super(cons);
 
@@ -231,8 +257,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		sum.setFixed(true);
 	}
 
-	private AlgoBoxPlot(Construction cons, double[] list1, GeoNumberValue a,
-			GeoNumberValue b) {
+	private AlgoBoxPlot(Construction cons, double[] list1, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, false);
 		type = TYPE_RAW;
 
@@ -260,9 +285,9 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	@Override
 	public AlgoBoxPlot copy() {
-		return new AlgoBoxPlot(cons, Cloner.clone(leftBorder),
-				(GeoNumberValue) yOffset.deepCopy(kernel),
-				(GeoNumberValue) yScale.deepCopy(kernel));
+		return new AlgoBoxPlot(
+				cons, Cloner.clone(leftBorder), (GeoNumberValue) yOffset.deepCopy(kernel), (GeoNumberValue)
+						yScale.deepCopy(kernel));
 	}
 
 	@Override
@@ -315,8 +340,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			for (int i = 0; i < list1.size(); i++) {
 				double x = list1.get(i).evaluateDouble();
 
-				if (type == TYPE_FREQUENCY
-						&& ((GeoNumeric) freqList.get(i)).getDouble() <= 0) {
+				if (type == TYPE_FREQUENCY && ((GeoNumeric) freqList.get(i)).getDouble() <= 0) {
 					continue;
 				}
 
@@ -360,9 +384,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			N = 5;
 
 			calcBoxPlot();
-		}
-
-		else { // TYPE_QUARTILES:
+		} else { // TYPE_QUARTILES:
 
 			tempList.add(minGeo.evaluateDouble());
 			tempList.add(Q1geo.evaluateDouble());
@@ -394,7 +416,6 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			}
 
 			yval[i] = 1.0; // dummy value
-
 		}
 
 		sum.setValue(leftBorder[2]); // median
@@ -404,45 +425,44 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	protected void setInputOutput() {
 
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case TYPE_QUARTILES:
-			input = new GeoElement[7];
-			input[0] = ageo;
-			input[1] = bgeo;
-			input[2] = minGeo;
-			input[3] = Q1geo;
-			input[4] = medianGeo;
-			input[5] = Q3geo;
-			input[6] = maxGeo;
-			break;
+			default:
+				// do nothing
+				break;
+			case TYPE_QUARTILES:
+				input = new GeoElement[7];
+				input[0] = ageo;
+				input[1] = bgeo;
+				input[2] = minGeo;
+				input[3] = Q1geo;
+				input[4] = medianGeo;
+				input[5] = Q3geo;
+				input[6] = maxGeo;
+				break;
 
-		case TYPE_RAW:
-			input = new GeoElement[3 + (useOutliersGeo == null ? 0 : 1)];
-			input[0] = ageo;
-			input[1] = bgeo;
-			input[2] = list1;
+			case TYPE_RAW:
+				input = new GeoElement[3 + (useOutliersGeo == null ? 0 : 1)];
+				input[0] = ageo;
+				input[1] = bgeo;
+				input[2] = list1;
 
-			if (useOutliersGeo != null) {
-				input[3] = useOutliersGeo;
-			}
+				if (useOutliersGeo != null) {
+					input[3] = useOutliersGeo;
+				}
 
-			break;
+				break;
 
-		case TYPE_FREQUENCY:
-			input = new GeoElement[4 + (useOutliersGeo == null ? 0 : 1)];
-			input[0] = ageo;
-			input[1] = bgeo;
-			input[2] = list1;
-			input[3] = freqList;
+			case TYPE_FREQUENCY:
+				input = new GeoElement[4 + (useOutliersGeo == null ? 0 : 1)];
+				input[0] = ageo;
+				input[1] = bgeo;
+				input[2] = list1;
+				input[3] = freqList;
 
-			if (useOutliersGeo != null) {
-				input[4] = useOutliersGeo;
-			}
+				if (useOutliersGeo != null) {
+					input[4] = useOutliersGeo;
+				}
 
-			break;
-
+				break;
 		}
 
 		setOnlyOutput(sum);
@@ -455,7 +475,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Returns minimum
-	 * 
+	 *
 	 * @return minimum
 	 */
 	public GeoElement getMinGeo() {
@@ -464,7 +484,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Returns maximum
-	 * 
+	 *
 	 * @return maximum
 	 */
 	public GeoElement getMaxGeo() {
@@ -473,7 +493,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Returns Q1
-	 * 
+	 *
 	 * @return Q1
 	 */
 	public GeoElement getQ1geo() {
@@ -482,7 +502,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Returns Q3
-	 * 
+	 *
 	 * @return Q3
 	 */
 	public GeoElement getQ3geo() {
@@ -491,7 +511,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	/**
 	 * Returns median
-	 * 
+	 *
 	 * @return median
 	 */
 	public GeoElement getMedianGeo() {
@@ -515,7 +535,5 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		}
 
 		outliers.add(x);
-
 	}
-
 }

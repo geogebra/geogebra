@@ -73,17 +73,19 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 
 	private void createContent() {
 		editPanel = new TextEditPanel(appW);
-		editPanel.getTextArea().addDomHandler(
-				event -> {
-					setPosBtnDisabled(editPanel.getText().isEmpty());
-					if (previewPanel != null && editPanel.getEditGeo().isLaTeX()) {
-						previewPanel.selectLatexCheckbox();
-						topBar.getTextStyle().setLatex(true);
-					}
-				}, KeyUpEvent.getType());
+		editPanel
+				.getTextArea()
+				.addDomHandler(
+						event -> {
+							setPosBtnDisabled(editPanel.getText().isEmpty());
+							if (previewPanel != null && editPanel.getEditGeo().isLaTeX()) {
+								previewPanel.selectLatexCheckbox();
+								topBar.getTextStyle().setLatex(true);
+							}
+						},
+						KeyUpEvent.getType());
 
-		topBar = new TextTopBar(appW, geoText, editPanel,
-				() -> {
+		topBar = new TextTopBar(appW, geoText, editPanel, () -> {
 			editPanel.updatePreviewPanel(false);
 			setPosBtnDisabled(false);
 			if (geoText.isLaTeX()) {
@@ -97,17 +99,19 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 		editor.addStyleName("textEditor");
 		addDialogContent(editor);
 
-		previewPanel = new PreviewPanel(appW, topBar.getTextStyle(),
-				editPanel, () -> centerAndResize(appW.getAppletFrame()
-				.getKeyboardHeight()));
+		previewPanel = new PreviewPanel(
+				appW,
+				topBar.getTextStyle(),
+				editPanel,
+				() -> centerAndResize(appW.getAppletFrame().getKeyboardHeight()));
 		addDialogContent(previewPanel);
 	}
 
 	private void processInput() {
 		closeIOSKeyboard();
 		String inputText = editPanel.getText();
-		new TextDialog.TextInputHandler().processInput(inputText, new TextInputErrorHandler(appW),
-				ok -> {
+		new TextDialog.TextInputHandler()
+				.processInput(inputText, new TextInputErrorHandler(appW), ok -> {
 					if (ok) {
 						hide();
 					}
@@ -158,8 +162,7 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 		appW.updateKeyboardField(editPanel.getTextArea());
 		KeyboardManagerInterface keyboardManager = appW.getKeyboardManager();
 		keyboardManager.setOnScreenKeyboardTextField(editPanel.getTextArea());
-		appW.getAppletFrame()
-				.showKeyboard(true, editPanel.getTextArea(), false);
+		appW.getAppletFrame().showKeyboard(true, editPanel.getTextArea(), false);
 		CancelEventTimer.keyboardSetVisible();
 	}
 
@@ -175,8 +178,7 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 		}
 
 		@Override
-		public void processInput(String input, ErrorHandler handler,
-				AsyncOperation<Boolean> callback) {
+		public void processInput(String input, ErrorHandler handler, AsyncOperation<Boolean> callback) {
 			if (input == null) {
 				setPosBtnDisabled(false);
 				callback.callback(false);
@@ -216,17 +218,16 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 			// create new GeoText
 			handler.resetError();
 			if (shouldCreateText) {
-				TextBuilder textBuilder = new TextBuilder(appW, startPoint, rw,
-						topBar.getTextStyle());
+				TextBuilder textBuilder = new TextBuilder(appW, startPoint, rw, topBar.getTextStyle());
 				textBuilder.createText(inputValue, handler, callback);
 				return;
 			}
 
 			// change existing text
 			try {
-				kernel.getAlgebraProcessor().changeGeoElement(geoText,
-						inputValue, true, true, handler,
-						newText -> {
+				kernel
+						.getAlgebraProcessor()
+						.changeGeoElement(geoText, inputValue, true, true, handler, newText -> {
 							if (newText instanceof GeoText) {
 								if (newText.getParentAlgorithm() != null) {
 									newText.getParentAlgorithm().update();
@@ -236,8 +237,7 @@ public final class TextDialog extends ComponentDialog implements TextInputDialog
 
 								app.doAfterRedefine(newText);
 								// make redefined text selected
-								app.getSelectionManager()
-										.addSelectedGeo(newText);
+								app.getSelectionManager().addSelectedGeo(newText);
 							}
 						});
 

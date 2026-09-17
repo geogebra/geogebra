@@ -25,5 +25,4 @@ public interface VirtualKeyboardListener {
 	 * @param string string to insert
 	 */
 	void insertString(String string);
-
 }

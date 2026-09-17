@@ -27,7 +27,7 @@ import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.collections.AbstractPropertyCollection;
 
 public class ProjectionPropertyCollection extends AbstractPropertyCollection<Property>
-	implements SettingsDependentProperty {
+		implements SettingsDependentProperty {
 
 	private final EuclidianSettings3D euclidianSettings;
 
@@ -37,8 +37,8 @@ public class ProjectionPropertyCollection extends AbstractPropertyCollection<Pro
 	 * @param localization localization for the title
 	 * @param euclidianSettings EV settings
 	 */
-	public ProjectionPropertyCollection(App app, Localization localization, EuclidianSettings3D
-			euclidianSettings) {
+	public ProjectionPropertyCollection(
+			App app, Localization localization, EuclidianSettings3D euclidianSettings) {
 		super(localization, "Projection");
 		this.euclidianSettings = euclidianSettings;
 

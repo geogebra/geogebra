@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,17 +35,23 @@ public class XHTMLWriter extends XMLWriter {
 		super(w, indentString, "xhtml");
 		openDoc("1.0", "UTF-8", false);
 		if (type.equals("strict")) {
-			referToDTD("html", "-//W3C//DTD XHTML 1.0 Strict//EN",
+			referToDTD(
+					"html",
+					"-//W3C//DTD XHTML 1.0 Strict//EN",
 					"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
 		} else if (type.equals("transitional")) {
-			referToDTD("html", "-//W3C//DTD XHTML 1.0 Transitional//EN",
+			referToDTD(
+					"html",
+					"-//W3C//DTD XHTML 1.0 Transitional//EN",
 					"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd");
 		} else if (type.equals("frameset")) {
-			referToDTD("html", "-//W3C//DTD XHTML 1.0 Frameset//EN",
+			referToDTD(
+					"html",
+					"-//W3C//DTD XHTML 1.0 Frameset//EN",
 					"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd");
 		} else {
-			Log.debug("XHTMLWriter: unknown type: " + type
-					+ ", allowed are: strict, transitional, frameset");
+			Log.debug(
+					"XHTMLWriter: unknown type: " + type + ", allowed are: strict, transitional, frameset");
 		}
 		setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
 		if (!type.equals("strict")) {

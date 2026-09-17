@@ -5,7 +5,7 @@ import org.freehep.util.io.TagSet;
 
 /**
  * EMF specific tagset.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EMFTagSet.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -23,23 +23,23 @@ public class EMFTagSet extends TagSet {
 			addTag(new org.freehep.graphicsio.emf.gdi.PolyPolygon()); // 8 08
 			addTag(new org.freehep.graphicsio.emf.gdi.SetWindowExtEx()); // 9 09
 			addTag(new org.freehep.graphicsio.emf.gdi.SetWindowOrgEx()); // 10
-																			// 0a
+			// 0a
 			addTag(new org.freehep.graphicsio.emf.gdi.SetViewportExtEx()); // 11
-																			// 0b
+			// 0b
 			addTag(new org.freehep.graphicsio.emf.gdi.SetViewportOrgEx()); // 12
-																			// 0c
+			// 0c
 			addTag(new org.freehep.graphicsio.emf.gdi.SetBrushOrgEx()); // 13 0d
 			addTag(new org.freehep.graphicsio.emf.gdi.EOF()); // 14 0e
 			addTag(new org.freehep.graphicsio.emf.gdi.SetPixelV()); // 15 0f
 			addTag(new org.freehep.graphicsio.emf.gdi.SetMapperFlags()); // 16
-																			// 10
+			// 10
 			addTag(new org.freehep.graphicsio.emf.gdi.SetMapMode()); // 17 11
 			addTag(new org.freehep.graphicsio.emf.gdi.SetBkMode()); // 18 12
 			addTag(new org.freehep.graphicsio.emf.gdi.SetPolyFillMode()); // 19
-																			// 13
+			// 13
 			addTag(new org.freehep.graphicsio.emf.gdi.SetROP2()); // 20 14
 			addTag(new org.freehep.graphicsio.emf.gdi.SetStretchBltMode()); // 21
-																			// 15
+			// 15
 			addTag(new org.freehep.graphicsio.emf.gdi.SetTextAlign()); // 22 16
 			// addTag(new org.freehep.graphicsio.emf.gdi.SetColorAdjustment());
 			// // 23 17
@@ -49,23 +49,23 @@ public class EMFTagSet extends TagSet {
 			addTag(new org.freehep.graphicsio.emf.gdi.MoveToEx()); // 27 1b
 			addTag(new org.freehep.graphicsio.emf.gdi.SetMetaRgn()); // 28 1c
 			addTag(new org.freehep.graphicsio.emf.gdi.ExcludeClipRect()); // 29
-																			// 1d
+			// 1d
 			addTag(new org.freehep.graphicsio.emf.gdi.IntersectClipRect()); // 30
-																			// 1e
+			// 1e
 			addTag(new org.freehep.graphicsio.emf.gdi.ScaleViewportExtEx()); // 31
-																				// 1f
+			// 1f
 			addTag(new org.freehep.graphicsio.emf.gdi.ScaleWindowExtEx()); // 32
-																			// 20
+			// 20
 			addTag(new org.freehep.graphicsio.emf.gdi.SaveDC()); // 33 21
 			addTag(new org.freehep.graphicsio.emf.gdi.RestoreDC()); // 34 22
 			addTag(new org.freehep.graphicsio.emf.gdi.SetWorldTransform()); // 35
-																			// 23
+			// 23
 			addTag(new org.freehep.graphicsio.emf.gdi.ModifyWorldTransform()); // 36
-																				// 24
+			// 24
 			addTag(new org.freehep.graphicsio.emf.gdi.SelectObject()); // 37 25
 			addTag(new org.freehep.graphicsio.emf.gdi.CreatePen()); // 38 26
 			addTag(new org.freehep.graphicsio.emf.gdi.CreateBrushIndirect()); // 39
-																				// 27
+			// 27
 			addTag(new org.freehep.graphicsio.emf.gdi.DeleteObject()); // 40 28
 			addTag(new org.freehep.graphicsio.emf.gdi.AngleArc()); // 41 29
 			addTag(new org.freehep.graphicsio.emf.gdi.Ellipse()); // 42 2a
@@ -81,25 +81,25 @@ public class EMFTagSet extends TagSet {
 			// // 50 32
 			addTag(new org.freehep.graphicsio.emf.gdi.ResizePalette()); // 51 33
 			addTag(new org.freehep.graphicsio.emf.gdi.RealizePalette()); // 52
-																			// 34
+			// 34
 			addTag(new org.freehep.graphicsio.emf.gdi.ExtFloodFill()); // 53 35
 			addTag(new org.freehep.graphicsio.emf.gdi.LineTo()); // 54 36
 			addTag(new org.freehep.graphicsio.emf.gdi.ArcTo()); // 55 37
 			addTag(new org.freehep.graphicsio.emf.gdi.PolyDraw()); // 56 38
 			addTag(new org.freehep.graphicsio.emf.gdi.SetArcDirection()); // 57
-																			// 39
+			// 39
 			addTag(new org.freehep.graphicsio.emf.gdi.SetMiterLimit()); // 58 3a
 			addTag(new org.freehep.graphicsio.emf.gdi.BeginPath()); // 59 3b
 			addTag(new org.freehep.graphicsio.emf.gdi.EndPath()); // 60 3c
 			addTag(new org.freehep.graphicsio.emf.gdi.CloseFigure()); // 61 3d
 			addTag(new org.freehep.graphicsio.emf.gdi.FillPath()); // 62 3e
 			addTag(new org.freehep.graphicsio.emf.gdi.StrokeAndFillPath()); // 63
-																			// 3f
+			// 3f
 			addTag(new org.freehep.graphicsio.emf.gdi.StrokePath()); // 64 40
 			addTag(new org.freehep.graphicsio.emf.gdi.FlattenPath()); // 65 41
 			addTag(new org.freehep.graphicsio.emf.gdi.WidenPath()); // 66 42
 			addTag(new org.freehep.graphicsio.emf.gdi.SelectClipPath()); // 67
-																			// 43
+			// 43
 			addTag(new org.freehep.graphicsio.emf.gdi.AbortPath()); // 68 44
 			// this tag does not exist // 69 45
 			addTag(new org.freehep.graphicsio.emf.gdi.GDIComment()); // 70 46
@@ -108,7 +108,7 @@ public class EMFTagSet extends TagSet {
 			// addTag(new org.freehep.graphicsio.emf.gdi.InvertRgn()); // 73 49
 			// addTag(new org.freehep.graphicsio.emf.gdi.PaintRgn()); // 74 4a
 			addTag(new org.freehep.graphicsio.emf.gdi.ExtSelectClipRgn()); // 75
-																			// 4b
+			// 4b
 			addTag(new org.freehep.graphicsio.emf.gdi.BitBlt()); // 76 4c
 			// addTag(new org.freehep.graphicsio.emf.gdi.StretchBlt()); // 77 4d
 			// addTag(new org.freehep.graphicsio.emf.gdi.MaskBlt()); // 78 4e
@@ -117,17 +117,17 @@ public class EMFTagSet extends TagSet {
 			// // 80 50
 			addTag(new org.freehep.graphicsio.emf.gdi.StretchDIBits()); // 81 51
 			addTag(new org.freehep.graphicsio.emf.gdi.ExtCreateFontIndirectW()); // 82
-																					// 52
+			// 52
 			addTag(new org.freehep.graphicsio.emf.gdi.ExtTextOutA()); // 83 53
 			addTag(new org.freehep.graphicsio.emf.gdi.ExtTextOutW()); // 84 54
 			addTag(new org.freehep.graphicsio.emf.gdi.PolyBezier16()); // 85 55
 			addTag(new org.freehep.graphicsio.emf.gdi.Polygon16()); // 86 56
 			addTag(new org.freehep.graphicsio.emf.gdi.Polyline16()); // 87 57
 			addTag(new org.freehep.graphicsio.emf.gdi.PolyBezierTo16()); // 88
-																			// 58
+			// 58
 			addTag(new org.freehep.graphicsio.emf.gdi.PolylineTo16()); // 89 59
 			addTag(new org.freehep.graphicsio.emf.gdi.PolyPolyline16()); // 90
-																			// 5a
+			// 5a
 			addTag(new org.freehep.graphicsio.emf.gdi.PolyPolygon16()); // 91 5b
 			addTag(new org.freehep.graphicsio.emf.gdi.PolyDraw16()); // 92 5c
 			// addTag(new org.freehep.graphicsio.emf.gdi.CreateMonoBrush()); //
@@ -265,7 +265,7 @@ public class EMFTagSet extends TagSet {
 			addTag(new org.freehep.graphicsio.emf.gdiplus.SetWorldTransform()); // 42
 			// addTag(new
 			// org.freehep.graphicsio.emf.gdiplus.ResetWorldTransform());// 43
-			addTag(new org.freehep.graphicsio.emf.gdiplus.MultiplyWorldTransform());// 44
+			addTag(new org.freehep.graphicsio.emf.gdiplus.MultiplyWorldTransform()); // 44
 			// addTag(new
 			// org.freehep.graphicsio.emf.gdiplus.TranslateWorldTransform());//45
 			// addTag(new

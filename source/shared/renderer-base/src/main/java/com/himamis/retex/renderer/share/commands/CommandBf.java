@@ -20,5 +20,4 @@ public class CommandBf extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new BoldAtom(new RomanAtom(a));
 	}
-
 }

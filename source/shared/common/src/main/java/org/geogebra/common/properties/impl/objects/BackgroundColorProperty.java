@@ -30,7 +30,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  */
 public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
 		implements ColorProperty, GeoElementDependentProperty {
-	
+
 	private final GeoElement element;
 
 	/**
@@ -39,8 +39,8 @@ public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
 	 * @param element the element to set background color for
 	 * @throws NotApplicablePropertyException if the element does not support background color
 	 */
-	public BackgroundColorProperty(Localization localization,
-			GeoElement element) throws NotApplicablePropertyException {
+	public BackgroundColorProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, "BackgroundColor");
 		if (!element.hasBackgroundColor()) {
 			throw new NotApplicablePropertyException(element);

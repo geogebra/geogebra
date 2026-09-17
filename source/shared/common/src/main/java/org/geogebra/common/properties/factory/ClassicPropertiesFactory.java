@@ -37,8 +37,8 @@ import org.geogebra.common.util.NonNullList;
 public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 
 	@Override
-	public List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	public List<PropertiesArray> createProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		return NonNullList.of(
 				createGeneralProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
@@ -50,8 +50,8 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 	}
 
 	@Override
-	protected PropertiesArray createGraphicsProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGraphicsProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
 			return null;
 		}
@@ -60,18 +60,21 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 	}
 
 	@Override
-	protected PropertiesArray createAlgebraProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
-		return new PropertiesArray("Algebra", localization,
-				registerProperties(propertiesRegistry,
+	protected PropertiesArray createAlgebraProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
+		return new PropertiesArray(
+				"Algebra",
+				localization,
+				registerProperties(
+						propertiesRegistry,
 						new SortByProperty(app.getSettings().getAlgebra(), localization),
 						new AlgebraDescriptionProperty(app, localization),
 						new ShowAuxiliaryProperty(app, localization)));
 	}
 
 	@Override
-	protected PropertiesArray createGraphics2Properties(App app,
-			Localization localization, PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGraphics2Properties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
 			return null;
 		}
@@ -80,11 +83,10 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 	}
 
 	@Override
-	protected PropertiesArray createGraphics3DProperties(App app,
-			Localization localization, PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGraphics3DProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		if (!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D)) {
 			return null;
-
 		}
 		return super.createGraphics3DProperties(app, localization, propertiesRegistry);
 	}
@@ -96,38 +98,55 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
 		List<Property> props = List.of(
-				new SimpleBooleanProperty(localization, "ShowGridlines",
-						settings::showGrid, settings::setShowGrid),
-				new SimpleBooleanProperty(localization, "ShowColumnHeader",
-						settings::showColumnHeader, settings::setShowColumnHeader),
-				new SimpleBooleanProperty(localization, "ShowRowHeader",
-						settings::showRowHeader, settings::setShowRowHeader),
-				new SimpleBooleanProperty(localization, "ShowVerticalScrollbars",
-						settings::showVScrollBar, settings::setShowVScrollBar),
-				new SimpleBooleanProperty(localization, "ShowHorizontalScrollbars",
-						settings::showHScrollBar, settings::setShowHScrollBar),
-				new SimpleBooleanProperty(localization, "UseButtonsAndCheckboxes",
-						settings::allowSpecialEditor, settings::setAllowSpecialEditor),
-				new SimpleBooleanProperty(localization, "AllowTooltips",
-						settings::allowToolTips, settings::setAllowToolTips),
-				new SimpleBooleanProperty(localization, "RequireEquals",
-						settings::equalsRequired, settings::setEqualsRequired),
-				new SimpleBooleanProperty(localization, "UseAutoComplete",
-						settings::isEnableAutoComplete, settings::setEnableAutoComplete),
+				new SimpleBooleanProperty(
+						localization, "ShowGridlines", settings::showGrid, settings::setShowGrid),
+				new SimpleBooleanProperty(
+						localization,
+						"ShowColumnHeader",
+						settings::showColumnHeader,
+						settings::setShowColumnHeader),
+				new SimpleBooleanProperty(
+						localization, "ShowRowHeader", settings::showRowHeader, settings::setShowRowHeader),
+				new SimpleBooleanProperty(
+						localization,
+						"ShowVerticalScrollbars",
+						settings::showVScrollBar,
+						settings::setShowVScrollBar),
+				new SimpleBooleanProperty(
+						localization,
+						"ShowHorizontalScrollbars",
+						settings::showHScrollBar,
+						settings::setShowHScrollBar),
+				new SimpleBooleanProperty(
+						localization,
+						"UseButtonsAndCheckboxes",
+						settings::allowSpecialEditor,
+						settings::setAllowSpecialEditor),
+				new SimpleBooleanProperty(
+						localization, "AllowTooltips", settings::allowToolTips, settings::setAllowToolTips),
+				new SimpleBooleanProperty(
+						localization, "RequireEquals", settings::equalsRequired, settings::setEqualsRequired),
+				new SimpleBooleanProperty(
+						localization,
+						"UseAutoComplete",
+						settings::isEnableAutoComplete,
+						settings::setEnableAutoComplete),
 				createNavBarProperty(app, App.VIEW_SPREADSHEET),
 				createSpreadsheetAlgebraDescriptionProperty(app));
 		return new PropertiesArray("Spreadsheet", localization, props);
 	}
 
 	private Property createNavBarProperty(App app, int viewID) {
-		return new SimpleBooleanProperty(app.getLocalization(), "NavigationBar",
+		return new SimpleBooleanProperty(
+				app.getLocalization(),
+				"NavigationBar",
 				() -> app.showConsProtNavigation(viewID),
 				flag -> app.setShowConstructionProtocolNavigation(flag, viewID));
 	}
 
 	private Property createSpreadsheetAlgebraDescriptionProperty(App app) {
-		AlgebraDescriptionProperty property = new AlgebraDescriptionProperty(app,
-				app.getLocalization());
+		AlgebraDescriptionProperty property =
+				new AlgebraDescriptionProperty(app, app.getLocalization());
 		property.usesSpreadsheet(true);
 
 		return property;
@@ -140,8 +159,11 @@ public class ClassicPropertiesFactory extends DefaultPropertiesFactory {
 
 		CASSettings settings = app.getSettings().getCasSettings();
 		List<Property> props = List.of(
-				new SimpleBooleanProperty(localization, "CASShowRationalExponentsAsRoots",
-						settings::getShowExpAsRoots, settings::setShowExpAsRoots),
+				new SimpleBooleanProperty(
+						localization,
+						"CASShowRationalExponentsAsRoots",
+						settings::getShowExpAsRoots,
+						settings::setShowExpAsRoots),
 				createNavBarProperty(app, App.VIEW_CAS));
 		return new PropertiesArray("CAS", localization, props);
 	}

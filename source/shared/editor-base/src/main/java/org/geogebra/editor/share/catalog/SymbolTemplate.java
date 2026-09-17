@@ -22,8 +22,7 @@ package org.geogebra.editor.share.catalog;
 public class SymbolTemplate extends CharacterTemplate {
 	private final String cas;
 
-	SymbolTemplate(String casName, String texName,
-			char unicode, int type) {
+	SymbolTemplate(String casName, String texName, char unicode, int type) {
 		super(texName, unicode, type);
 		this.cas = casName;
 	}

@@ -33,8 +33,7 @@ public class AlgoPlaneCoefficients extends AlgoEquationCoefficients {
 	 * @param plane
 	 *            plane
 	 */
-	public AlgoPlaneCoefficients(Construction cons, String label,
-			GeoPlaneND plane) {
+	public AlgoPlaneCoefficients(Construction cons, String label, GeoPlaneND plane) {
 		super(cons, label, plane, 4);
 	}
 
@@ -45,5 +44,4 @@ public class AlgoPlaneCoefficients extends AlgoEquationCoefficients {
 			setCoeff(i, matrix.get(i + 1));
 		}
 	}
-
 }

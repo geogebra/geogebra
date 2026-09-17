@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public interface Translateable extends GeoElementND {
 	/**
 	 * Translate by vector
-	 * 
+	 *
 	 * @param v
 	 *            translation vector
 	 */

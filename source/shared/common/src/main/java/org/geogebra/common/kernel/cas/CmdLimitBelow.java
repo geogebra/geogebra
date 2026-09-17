@@ -32,7 +32,7 @@ public class CmdLimitBelow extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -41,28 +41,27 @@ public class CmdLimitBelow extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean ok;
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 2:
-			if ((ok = arg[0].isGeoFunction())
-					&& (arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				if ((ok = arg[0].isGeoFunction()) && (arg[1] instanceof GeoNumberValue)) {
 
-				AlgoLimitBelow algo = new AlgoLimitBelow(cons, c.getLabel(),
-						(GeoFunction) arg[0], (GeoNumberValue) arg[1]);
+					AlgoLimitBelow algo =
+							new AlgoLimitBelow(cons, c.getLabel(), (GeoFunction) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, ok ? arg[1] : arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, ok ? arg[1] : arg[0]);
 
 			// more than one argument
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

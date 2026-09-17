@@ -102,7 +102,7 @@ public final class ContextMenuPopup extends StandardButton
 	public void onClose(CloseEvent<GPopupPanel> event) {
 		hideMenu();
 	}
-	
+
 	/**
 	 * @return in the menu open
 	 */

@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 
 /**
  * Computes union of two polygons
- * 
+ *
  * @author George Sturr
  */
 public class AlgoPolygonUnion extends AlgoPolygonOperation {
@@ -37,8 +37,8 @@ public class AlgoPolygonUnion extends AlgoPolygonOperation {
 	 * @param inPoly1
 	 *            second input polygon
 	 */
-	public AlgoPolygonUnion(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1) {
+	public AlgoPolygonUnion(
+			Construction cons, String[] labels, GeoPolygon inPoly0, GeoPolygon inPoly1) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 		initialize(null);
@@ -57,8 +57,12 @@ public class AlgoPolygonUnion extends AlgoPolygonOperation {
 	 *            sizes of the results of the operation. Consist of polygon
 	 *            size, point size, and segment size
 	 */
-	public AlgoPolygonUnion(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, int[] outputSizes) {
+	public AlgoPolygonUnion(
+			Construction cons,
+			String[] labels,
+			GeoPolygon inPoly0,
+			GeoPolygon inPoly1,
+			int[] outputSizes) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 		initialize(outputSizes);
@@ -68,5 +72,4 @@ public class AlgoPolygonUnion extends AlgoPolygonOperation {
 	public Commands getClassName() {
 		return Commands.Union;
 	}
-
 }

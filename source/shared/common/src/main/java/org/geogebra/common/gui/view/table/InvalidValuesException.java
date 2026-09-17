@@ -28,7 +28,7 @@ public class InvalidValuesException extends Exception {
 
 	/**
 	 * Construct an InvalidValuesException.
-	 * 
+	 *
 	 * @param key
 	 *            trans key
 	 */
@@ -38,7 +38,7 @@ public class InvalidValuesException extends Exception {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param loc
 	 *            {@link Localization}
 	 * @return the localized error message.

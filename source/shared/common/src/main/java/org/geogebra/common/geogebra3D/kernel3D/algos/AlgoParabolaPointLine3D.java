@@ -31,13 +31,11 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class AlgoParabolaPointLine3D extends AlgoParabolaPointLineND {
 
-	public AlgoParabolaPointLine3D(Construction cons, String label,
-			GeoPointND F, GeoLineND l) {
+	public AlgoParabolaPointLine3D(Construction cons, String label, GeoPointND F, GeoLineND l) {
 		super(cons, label, F, l);
 	}
 
-	public AlgoParabolaPointLine3D(Construction cons, GeoPointND F,
-			GeoLineND l) {
+	public AlgoParabolaPointLine3D(Construction cons, GeoPointND F, GeoLineND l) {
 		super(cons, F, l);
 	}
 
@@ -71,5 +69,4 @@ public class AlgoParabolaPointLine3D extends AlgoParabolaPointLineND {
 		double y0 = cs.getNormalProjection(lo)[1].getY();
 		parabola.setParabola(y0);
 	}
-
 }

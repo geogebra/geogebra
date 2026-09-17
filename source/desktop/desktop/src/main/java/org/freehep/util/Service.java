@@ -24,8 +24,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class Service {
 
-	private Service() {
-	}
+	private Service() {}
 
 	public static Collection providers(Class service, ClassLoader loader) {
 		List classList = new ArrayList();
@@ -33,8 +32,8 @@ public class Service {
 		String name = "META-INF/services/" + service.getName();
 		Enumeration services;
 		try {
-			services = (loader == null) ? ClassLoader.getSystemResources(name)
-					: loader.getResources(name);
+			services =
+					(loader == null) ? ClassLoader.getSystemResources(name) : loader.getResources(name);
 		} catch (IOException ioe) {
 			Log.debug("Service: cannot load " + name);
 			return classList;
@@ -46,8 +45,7 @@ public class Service {
 			BufferedReader reader = null;
 			try {
 				input = url.openStream();
-				reader = new BufferedReader(
-						new InputStreamReader(input, StandardCharsets.UTF_8));
+				reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));
 				String line = reader.readLine();
 				while (line != null) {
 					int ci = line.indexOf('#');
@@ -87,8 +85,7 @@ public class Service {
 		while (names.hasNext()) {
 			String className = (String) names.next();
 			try {
-				classList.add(
-						Class.forName(className, true, loader).newInstance());
+				classList.add(Class.forName(className, true, loader).newInstance());
 			} catch (ClassNotFoundException e) {
 				Log.debug("Service: cannot find class: " + className);
 			} catch (InstantiationException e) {

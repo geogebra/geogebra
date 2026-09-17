@@ -42,8 +42,7 @@ public final class CsvImportHandler {
 			csvChooser.click();
 		} else {
 			DialogData data = new DialogData(null, "Cancel", "Overwrite");
-			OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(
-					appW, data);
+			OverwriteDataDialog overwriteDataDialog = new OverwriteDataDialog(appW, data);
 			overwriteDataDialog.setOnPositiveAction(csvChooser::click);
 			overwriteDataDialog.show();
 		}
@@ -64,8 +63,7 @@ public final class CsvImportHandler {
 			progressSnackbar = new DataImportSnackbar(appW, fileToHandle.name);
 			getTable().getTableValuesModel().removeAllColumns();
 			getTable().clearView();
-			getTable().getTableValuesModel().setOnDataImportedRunnable(
-					progressSnackbar::hide);
+			getTable().getTableValuesModel().setOnDataImportedRunnable(progressSnackbar::hide);
 			openCSV(fileToHandle);
 		});
 
@@ -89,8 +87,7 @@ public final class CsvImportHandler {
 	}
 
 	private void importData(String csv, String fileName) {
-		DataImportHandler handler = new DataImportHandler((AppWFull) appW, fileName,
-				progressSnackbar);
+		DataImportHandler handler = new DataImportHandler((AppWFull) appW, fileName, progressSnackbar);
 		DataImporter importer = new DataImporter(getTable(), handler);
 		importer.importCSV(csv, appW.getLocalization().getDecimalPoint());
 	}

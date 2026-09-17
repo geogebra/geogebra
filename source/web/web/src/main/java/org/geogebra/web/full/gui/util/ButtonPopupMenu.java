@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.FocusPanel;
 import org.gwtproject.user.client.ui.Panel;
 
 public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
-	
+
 	private final FocusPanel container;
 	private final FlowPanel panel;
 
@@ -48,7 +48,7 @@ public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 		});
 		add(container);
 	}
-	
+
 	public FlowPanel getPanel() {
 		return panel;
 	}
@@ -56,5 +56,4 @@ public class ButtonPopupMenu extends GPopupPanel implements HasKeyboardPopup {
 	public FocusPanel getFocusPanel() {
 		return container;
 	}
-
 }

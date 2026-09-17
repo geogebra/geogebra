@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF ExtLogPen
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ExtLogPen.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class ExtLogPen implements EMFConstants {
 
 	private int[] style;
 
-	public ExtLogPen(int penStyle, int width, int brushStyle, Color color,
-			int hatch, int[] style) {
+	public ExtLogPen(int penStyle, int width, int brushStyle, Color color, int hatch, int[] style) {
 		this.penStyle = penStyle;
 		this.width = width;
 		this.brushStyle = brushStyle;

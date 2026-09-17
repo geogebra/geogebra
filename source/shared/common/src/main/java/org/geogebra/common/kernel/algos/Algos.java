@@ -44,10 +44,8 @@ public enum Algos implements GetCommand {
 	 *            command, macro or expression
 	 * @return whether geo is using given command
 	 */
-	public static boolean isUsedFor(GetCommand cmdOrExpression,
-			GeoElementND geo) {
+	public static boolean isUsedFor(GetCommand cmdOrExpression, GeoElementND geo) {
 		return geo.getParentAlgorithm() != null
 				&& cmdOrExpression.equals(geo.getParentAlgorithm().getClassName());
 	}
-
 }

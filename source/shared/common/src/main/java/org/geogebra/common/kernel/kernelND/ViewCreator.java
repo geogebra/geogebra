@@ -20,7 +20,7 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 
 /**
  * Geo that can create a new view (e.g. planes, polygons)
- * 
+ *
  * @author mathieu
  *
  */
@@ -34,32 +34,30 @@ public interface ViewCreator extends GeoCoordSys2D {
 
 	/**
 	 * set the euclidian view created
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 */
-	void setEuclidianViewForPlane(
-			EuclidianViewForPlaneCompanionInterface view);
+	void setEuclidianViewForPlane(EuclidianViewForPlaneCompanionInterface view);
 
 	/**
 	 * tells if the view2D is visible
-	 * 
+	 *
 	 * @return true if the view2D is visible
 	 */
 	boolean hasView2DVisible();
 
 	/**
 	 * sets the view 2D visibility
-	 * 
+	 *
 	 * @param flag
 	 *            visibility
 	 */
 	void setView2DVisible(boolean flag);
 
 	/**
-	 * 
+	 *
 	 * @return view id (if has a view)
 	 */
 	int getViewID();
-
 }

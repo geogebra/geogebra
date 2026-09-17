@@ -20,14 +20,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Extends the View functionality by layer listener
- * 
+ *
  * @author Zbynek
  *
  */
 public interface LayerView extends View {
 	/**
 	 * Called when layer is being changed
-	 * 
+	 *
 	 * @param geo
 	 *            element that changed layer
 	 * @param oldLayer
@@ -36,5 +36,4 @@ public interface LayerView extends View {
 	 *            new layer
 	 */
 	void changeLayer(GeoElement geo, int oldLayer, int newLayer);
-
 }

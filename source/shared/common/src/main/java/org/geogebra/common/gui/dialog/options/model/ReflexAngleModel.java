@@ -68,18 +68,15 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 			if (geo0.getAngleStyle() != temp.getAngleStyle()) {
 				equalangleStyle = false;
 			}
-
 		}
 
-		if (hasOrientation != hasOrientationOld
-				|| isDrawableOld != isDrawable) {
+		if (hasOrientation != hasOrientationOld || isDrawableOld != isDrawable) {
 			((IReflexAngleListener) getListener()).setComboLabels();
 		}
 
 		if (equalangleStyle) {
 			getListener().setSelectedIndex(geo0.getAngleStyle().getXmlVal());
 		}
-
 	}
 
 	@Override
@@ -111,9 +108,9 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		GeoElement geo = getGeoAt(index);
 
 		return (!(geo.isIndependent() && !isDefaults)
-				&& (geo instanceof AngleProperties) && !geo.isGeoList())
+						&& (geo instanceof AngleProperties)
+						&& !geo.isGeoList())
 				|| isAngleList(geo);
-
 	}
 
 	@Override
@@ -132,5 +129,4 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

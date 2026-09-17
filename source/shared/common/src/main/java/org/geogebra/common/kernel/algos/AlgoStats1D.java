@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -29,11 +29,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Mean, variance, sum, sum of squares, standard deviation of a list adapted
  * from AlgoListMin to replace AlgoMean, AlgoSum
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-18
  */
-
 public abstract class AlgoStats1D extends AlgoElement {
 
 	private GeoList geoList; // data
@@ -43,23 +42,22 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 	private int stat;
 
-	protected final static int STATS_MEAN = 0;
-	protected final static int STATS_VARIANCE = 1;
-	protected final static int STATS_SIGMAX = 2;
-	protected final static int STATS_SIGMAXX = 3;
-	protected final static int STATS_SD = 4;
-	protected final static int STATS_PRODUCT = 5;
-	protected final static int STATS_SXX = 6;
-	protected final static int STATS_SAMPLE_VARIANCE = 7;
-	protected final static int STATS_SAMPLE_SD = 8;
-	protected final static int STATS_MEAN_ABSOLUTE_DEVIATION = 9;
+	protected static final int STATS_MEAN = 0;
+	protected static final int STATS_VARIANCE = 1;
+	protected static final int STATS_SIGMAX = 2;
+	protected static final int STATS_SIGMAXX = 3;
+	protected static final int STATS_SD = 4;
+	protected static final int STATS_PRODUCT = 5;
+	protected static final int STATS_SXX = 6;
+	protected static final int STATS_SAMPLE_VARIANCE = 7;
+	protected static final int STATS_SAMPLE_SD = 8;
+	protected static final int STATS_MEAN_ABSOLUTE_DEVIATION = 9;
 
 	public AlgoStats1D(Construction cons, GeoList geoList, int stat) {
 		this(cons, geoList, null, null, stat);
 	}
 
-	public AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
-			int stat) {
+	public AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2, int stat) {
 		this(cons, geoList, geoList2, null, stat);
 	}
 
@@ -75,8 +73,8 @@ public abstract class AlgoStats1D extends AlgoElement {
 	 * @param stat
 	 *            stat type
 	 */
-	protected AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
-			GeoNumeric truncate, int stat) {
+	protected AlgoStats1D(
+			Construction cons, GeoList geoList, GeoList geoList2, GeoNumeric truncate, int stat) {
 		super(cons);
 		this.geoList = geoList;
 		this.geoList2 = geoList2;
@@ -135,8 +133,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			if (!geoList2.isDefined()
 					// return undefined if we can't use number * freq or
 					// midpoint * freq
-					|| !(geoList.size() == geoList2.size()
-							|| geoList.size() == geoList2.size() + 1)) {
+					|| !(geoList.size() == geoList2.size() || geoList.size() == geoList2.size() + 1)) {
 				result.setUndefined();
 				return;
 			}
@@ -170,16 +167,16 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 		if (size == 0) {
 			switch (stat) {
-			case STATS_SIGMAX:
-			case STATS_SIGMAXX:
-				result.setValue(0);
-				return;
-			case STATS_PRODUCT:
-				result.setValue(1);
-				return;
-			default:
-				result.setUndefined();
-				return;
+				case STATS_SIGMAX:
+				case STATS_SIGMAXX:
+					result.setValue(0);
+					return;
+				case STATS_PRODUCT:
+					result.setValue(1);
+					return;
+				default:
+					result.setUndefined();
+					return;
 			}
 		}
 
@@ -222,8 +219,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = geoList.get(i);
 				GeoElement geoFreq = geoList2.get(i);
-				if (!(geo instanceof NumberValue)
-						|| !(geoFreq instanceof NumberValue)) {
+				if (!(geo instanceof NumberValue) || !(geoFreq instanceof NumberValue)) {
 					result.setUndefined();
 					return;
 				}
@@ -253,7 +249,6 @@ public abstract class AlgoStats1D extends AlgoElement {
 				sumSquares += val * val_by_freq;
 				sumFreq += frequency;
 				product *= Math.pow(val, frequency);
-
 			}
 
 			n = sumFreq;
@@ -262,84 +257,81 @@ public abstract class AlgoStats1D extends AlgoElement {
 		double mu = sumVal / n;
 		double var;
 		switch (stat) {
-		default:
-			result.setValue(Double.NaN);
-			break;
-		case STATS_MEAN_ABSOLUTE_DEVIATION:
-
-			double sumAbsoluteDeviation = 0;
-			if (geoList2 == null) {
-				double val;
-				for (int i = 0; i < size; i++) {
-					GeoElement geo = geoList.get(i);
-					val = geo.evaluateDouble();
-					sumAbsoluteDeviation += Math.abs(mu - val);
-				}
-			}
-			// list of numbers with list of frequencies
-			else {
-
-				double val;
-				for (int i = 0; i < size; i++) {
-					GeoElement geo = geoList.get(i);
-					GeoElement geoFreq = geoList2.get(i);
-
-					val = geo.evaluateDouble();
-
-					// compute midpoint value if needed
-					if (useMidpoint) {
-						GeoElement geo2 = geoList.get(i + 1);
-						val = (val + geo2.evaluateDouble()) / 2;
+			default:
+				result.setValue(Double.NaN);
+				break;
+			case STATS_MEAN_ABSOLUTE_DEVIATION:
+				double sumAbsoluteDeviation = 0;
+				if (geoList2 == null) {
+					double val;
+					for (int i = 0; i < size; i++) {
+						GeoElement geo = geoList.get(i);
+						val = geo.evaluateDouble();
+						sumAbsoluteDeviation += Math.abs(mu - val);
 					}
-
-					frequency = geoFreq.evaluateDouble();
-
-					// handle bad frequency
-					if (frequency < 0) {
-						result.setUndefined();
-						return;
-					}
-
-					sumAbsoluteDeviation += Math.abs(mu - val) * frequency;
-
 				}
-			}
+				// list of numbers with list of frequencies
+				else {
 
-			result.setValue(sumAbsoluteDeviation / n);
-			break;
-		case STATS_MEAN:
-			result.setValue(mu);
-			break;
-		case STATS_SD:
-			var = sumSquares / n - mu * mu;
-			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SAMPLE_SD:
-			var = (sumSquares - sumVal * sumVal / n) / (n - 1);
-			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_VARIANCE:
-			var = sumSquares / n - mu * mu;
-			result.setValue(var);
-			break;
-		case STATS_SAMPLE_VARIANCE:
-			var = (sumSquares - sumVal * sumVal / n) / (n - 1);
-			result.setValue(var);
-			break;
-		case STATS_SXX:
-			var = sumSquares - sumVal * sumVal / n;
-			result.setValue(var);
-			break;
-		case STATS_SIGMAX:
-			result.setValue(sumVal);
-			break;
-		case STATS_SIGMAXX:
-			result.setValue(sumSquares);
-			break;
-		case STATS_PRODUCT:
-			result.setValue(product);
-			break;
+					double val;
+					for (int i = 0; i < size; i++) {
+						GeoElement geo = geoList.get(i);
+						GeoElement geoFreq = geoList2.get(i);
+
+						val = geo.evaluateDouble();
+
+						// compute midpoint value if needed
+						if (useMidpoint) {
+							GeoElement geo2 = geoList.get(i + 1);
+							val = (val + geo2.evaluateDouble()) / 2;
+						}
+
+						frequency = geoFreq.evaluateDouble();
+
+						// handle bad frequency
+						if (frequency < 0) {
+							result.setUndefined();
+							return;
+						}
+
+						sumAbsoluteDeviation += Math.abs(mu - val) * frequency;
+					}
+				}
+
+				result.setValue(sumAbsoluteDeviation / n);
+				break;
+			case STATS_MEAN:
+				result.setValue(mu);
+				break;
+			case STATS_SD:
+				var = sumSquares / n - mu * mu;
+				result.setValue(Math.sqrt(var));
+				break;
+			case STATS_SAMPLE_SD:
+				var = (sumSquares - sumVal * sumVal / n) / (n - 1);
+				result.setValue(Math.sqrt(var));
+				break;
+			case STATS_VARIANCE:
+				var = sumSquares / n - mu * mu;
+				result.setValue(var);
+				break;
+			case STATS_SAMPLE_VARIANCE:
+				var = (sumSquares - sumVal * sumVal / n) / (n - 1);
+				result.setValue(var);
+				break;
+			case STATS_SXX:
+				var = sumSquares - sumVal * sumVal / n;
+				result.setValue(var);
+				break;
+			case STATS_SIGMAX:
+				result.setValue(sumVal);
+				break;
+			case STATS_SIGMAXX:
+				result.setValue(sumSquares);
+				break;
+			case STATS_PRODUCT:
+				result.setValue(product);
+				break;
 		}
 	}
-
 }

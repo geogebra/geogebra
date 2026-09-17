@@ -31,7 +31,7 @@ public class Solution {
 	public int curRealRoots;
 
 	/**
-	 * 
+	 *
 	 * @param roots
 	 *            roots to be added
 	 * @param number
@@ -56,7 +56,7 @@ public class Solution {
 
 	/**
 	 * Removed root at given position
-	 * 
+	 *
 	 * @param pos
 	 *            position
 	 */
@@ -76,7 +76,7 @@ public class Solution {
 
 	/**
 	 * Remove roots where sign didn't change
-	 * 
+	 *
 	 * @param f
 	 *            function
 	 * @param DELTA
@@ -90,15 +90,13 @@ public class Solution {
 			right = curRoots[i] + DELTA;
 			// ensure we get a non-zero y value to the left
 			int count = 0;
-			while (Math.abs(leftEval = f.value(left)) < DELTA
-					&& count++ < 100) {
+			while (Math.abs(leftEval = f.value(left)) < DELTA && count++ < 100) {
 				left = left - DELTA;
 			}
 
 			// ensure we get a non-zero y value to the right
 			count = 0;
-			while (Math.abs(rightEval = f.value(right)) < DELTA
-					&& count++ < 100) {
+			while (Math.abs(rightEval = f.value(right)) < DELTA && count++ < 100) {
 				right = right + DELTA;
 			}
 
@@ -119,7 +117,6 @@ public class Solution {
 	public void setSingleRoot(double x) {
 		curRoots[0] = x;
 		curRealRoots = 1;
-
 	}
 
 	/**

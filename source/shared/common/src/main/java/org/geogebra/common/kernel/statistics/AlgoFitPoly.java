@@ -28,10 +28,10 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 /**
  * Fits a polynomial with given degree to list of points. Adapted from
  * AlgoFitLine and AlgoPolynomialFromCoordinates (Borcherds)
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 24.04.08
- * 
+ *
  *          27.01.09: Extended FitPoly to more than 4th degree ToDo: Put in a
  *          max degree limit, after some testing...
  */
@@ -51,8 +51,7 @@ public class AlgoFitPoly extends AlgoElement implements FitAlgo {
 	 * @param degree
 	 *            degree
 	 */
-	public AlgoFitPoly(Construction cons, GeoList geolist,
-			GeoNumberValue degree) {
+	public AlgoFitPoly(Construction cons, GeoList geolist, GeoNumberValue degree) {
 		super(cons);
 		regMath = new RegressionMath();
 		this.geolist = geolist;
@@ -70,9 +69,9 @@ public class AlgoFitPoly extends AlgoElement implements FitAlgo {
 	@Override
 	protected void setInputOutput() {
 		if (degree == null) {
-			input = new GeoElement[] { geolist };
+			input = new GeoElement[] {geolist};
 		} else {
-			input = new GeoElement[] { geolist, degree.toGeoElement() };
+			input = new GeoElement[] {geolist, degree.toGeoElement()};
 		}
 		setOnlyOutput(geofunction);
 		setDependencies();
@@ -102,34 +101,34 @@ public class AlgoFitPoly extends AlgoElement implements FitAlgo {
 		}
 		// if error in parameters :
 		switch (par) {
-		case RegressionMath.LINEAR: // moved up linear case from default
-			coeff = new double[2];
-			regok = regMath.doLinear(geolist, coeff);
-			break;
-		case RegressionMath.QUAD:
-			coeff = new double[3];
-			regok = regMath.doQuad(geolist, coeff);
-			break;
-		case RegressionMath.CUBIC:
-			coeff = new double[4];
-			regok = regMath.doCubic(geolist, coeff);
-			break;
-		default:
-			if (par < 300) { // ToDo: test speed for max limit!
-				coeff = new double[par + 1];
-				regok = regMath.doPolyN(geolist, par, coeff);
-				// else: ->
-			} else {
-				regok = false; // 24.04.08: Only 1<=degree
-			} // if
+			case RegressionMath.LINEAR: // moved up linear case from default
+				coeff = new double[2];
+				regok = regMath.doLinear(geolist, coeff);
+				break;
+			case RegressionMath.QUAD:
+				coeff = new double[3];
+				regok = regMath.doQuad(geolist, coeff);
+				break;
+			case RegressionMath.CUBIC:
+				coeff = new double[4];
+				regok = regMath.doCubic(geolist, coeff);
+				break;
+			default:
+				if (par < 300) { // ToDo: test speed for max limit!
+					coeff = new double[par + 1];
+					regok = regMath.doPolyN(geolist, par, coeff);
+					// else: ->
+				} else {
+					regok = false; // 24.04.08: Only 1<=degree
+				} // if
 		}
 		if (!regok) {
 			geofunction.setUndefined();
 			return;
 		}
 		// if error in regression
-		geofunction.setFunction(AlgoPolynomialFromCoordinates
-				.buildPolyFunctionExpression(cons.getKernel(), coeff));
+		geofunction.setFunction(
+				AlgoPolynomialFromCoordinates.buildPolyFunctionExpression(cons.getKernel(), coeff));
 		geofunction.setDefined(true);
 	}
 

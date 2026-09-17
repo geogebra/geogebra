@@ -45,8 +45,10 @@ public enum MeasurementToolId {
 	/**
 	 * Right triangle shaped protractor with three edges: hypo and two legs.
 	 */
-	TRIANGLE_PROTRACTOR(MODE_TRIANGLE_PROTRACTOR, true, List.of(new RectangleEdge(1, 2),
-			new LegEdge(1), new LegEdge(2)));
+	TRIANGLE_PROTRACTOR(
+			MODE_TRIANGLE_PROTRACTOR,
+			true,
+			List.of(new RectangleEdge(1, 2), new LegEdge(1), new LegEdge(2)));
 
 	private final int mode;
 	private final boolean protractor;

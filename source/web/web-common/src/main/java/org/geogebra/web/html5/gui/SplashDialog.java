@@ -59,13 +59,15 @@ public class SplashDialog extends SimplePanel {
 	 * @param frame
 	 *            frame
 	 */
-	public SplashDialog(boolean showLogo, GeoGebraElement geoGebraElement,
-			AppletParameters parameters, GeoGebraFrameW frame) {
+	public SplashDialog(
+			boolean showLogo,
+			GeoGebraElement geoGebraElement,
+			AppletParameters parameters,
+			GeoGebraFrameW frame) {
 		this.geoGebraElement = geoGebraElement;
 		this.geogebraFrame = frame;
 		previewExists = checkIfPreviewExists(geoGebraElement.getElement())
-				|| AppConfigDefault
-						.isUnbundledOrNotes(parameters.getDataParamAppName());
+				|| AppConfigDefault.isUnbundledOrNotes(parameters.getDataParamAppName());
 
 		if (!previewExists) {
 			FlowPanel panel = new FlowPanel();
@@ -74,8 +76,7 @@ public class SplashDialog extends SimplePanel {
 			style.setZIndex(1000000);
 			style.setBackgroundColor("white");
 			if (showLogo) {
-				NoDragImage logo = new NoDragImage(GuiResourcesSimple.INSTANCE
-						.ggb_logo_name(), 427 , 120);
+				NoDragImage logo = new NoDragImage(GuiResourcesSimple.INSTANCE.ggb_logo_name(), 427, 120);
 				panel.add(logo);
 			}
 			LoadSpinner spinner = new LoadSpinner();
@@ -100,14 +101,12 @@ public class SplashDialog extends SimplePanel {
 	}
 
 	private boolean checkIfPreviewExists(Element thisArticle) {
-		if (thisArticle != null && Dom.querySelectorForElement(thisArticle,
-				".ggb_preview") != null) {
+		if (thisArticle != null && Dom.querySelectorForElement(thisArticle, ".ggb_preview") != null) {
 			return true;
 		}
 		return thisArticle != null
 				&& thisArticle.getParentElement() != null
-				&& Dom.querySelectorForElement(thisArticle.getParentElement(),
-				".ggb_preview") != null;
+				&& Dom.querySelectorForElement(thisArticle.getParentElement(), ".ggb_preview") != null;
 	}
 
 	/**
@@ -143,5 +142,4 @@ public class SplashDialog extends SimplePanel {
 	public boolean isPreviewExists() {
 		return previewExists;
 	}
-
 }

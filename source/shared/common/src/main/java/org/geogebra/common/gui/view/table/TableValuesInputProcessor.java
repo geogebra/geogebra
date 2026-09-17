@@ -77,8 +77,8 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 		if (tableValues.getValues() == list && !list.isLabelSet()) {
 			model.setupXValues(list);
 			list.setLabel(cons.buildIndexedLabel("x", false));
-			if (GeoGebraConstants.PROBABILITY_APPCODE
-					.equals(cons.getApplication().getConfig().getSubAppCode())) {
+			if (GeoGebraConstants.PROBABILITY_APPCODE.equals(
+					cons.getApplication().getConfig().getSubAppCode())) {
 				cons.removeFromConstructionList(list);
 			}
 		}
@@ -94,9 +94,8 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 			return model.createValue(parsedInput);
 		} catch (NumberFormatException e) {
 			preloadScripting();
-			AlgoParseToNumberOrFunction algoParseToNumberOrFunction =
-					new AlgoParseToNumberOrFunction(cons,
-							new GeoText(cons, input), null, Commands.ParseToNumber, null);
+			AlgoParseToNumberOrFunction algoParseToNumberOrFunction = new AlgoParseToNumberOrFunction(
+					cons, new GeoText(cons, input), null, Commands.ParseToNumber, null);
 			GeoElement el = algoParseToNumberOrFunction.getOutput(0);
 			if (el.isDefined()) {
 				algoParseToNumberOrFunction.remove();
@@ -108,7 +107,9 @@ public class TableValuesInputProcessor implements TableValuesProcessor {
 
 	private void preloadScripting() {
 		try {
-			cons.getKernel().getAlgebraProcessor().getCommandDispatcher()
+			cons.getKernel()
+					.getAlgebraProcessor()
+					.getCommandDispatcher()
 					.getScriptingCommandProcessorFactory();
 		} catch (CommandNotLoadedError expected) {
 			// preloading

@@ -287,6 +287,5 @@ final class STMARY10 extends FontInfo {
 		setMetrics(158, 778, 40, 1760);
 
 		setMetrics(159, 778, 0, 600);
-
 	}
 }

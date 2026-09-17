@@ -42,20 +42,22 @@ import org.geogebra.common.util.StringUtil;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * 
+ *
  * @author Markus Hohenwarter
- * 
+ *
  */
 public class Variable extends ValidExpression {
 
 	private String name;
+
 	@Weak
 	private Kernel kernel;
+
 	private VariableReplacerAlgorithm variableReplacerAlgorithm;
 
 	/**
 	 * Creates new VarString
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param name
@@ -94,7 +96,7 @@ public class Variable extends ValidExpression {
 	/**
 	 * Looks up the name of this variable in the kernel and returns the
 	 * according GeoElement object.
-	 * 
+	 *
 	 * @param allowAutoCreateGeoElement
 	 *            true to allow creating new objects
 	 * @param throwError
@@ -107,15 +109,17 @@ public class Variable extends ValidExpression {
 	 *            symbolic mode
 	 * @return GeoElement with same label
 	 */
-	public GeoElement resolve(boolean allowAutoCreateGeoElement, boolean throwError,
-							  SymbolicMode mode, boolean allowMultiLetterVariables) {
+	public GeoElement resolve(
+			boolean allowAutoCreateGeoElement,
+			boolean throwError,
+			SymbolicMode mode,
+			boolean allowMultiLetterVariables) {
 		if (mode == SymbolicMode.SYMBOLIC) {
 			return new GeoDummyVariable(kernel.getConstruction(), name);
 		}
 		GeoElement resolvedElement = lookupLabel(allowAutoCreateGeoElement, mode);
 		boolean resolveVariable = allowMultiLetterVariables || acceptLabelInputbox();
-		if ((resolvedElement != null && resolveVariable)
-				|| (resolvedElement == null && !throwError)) {
+		if ((resolvedElement != null && resolveVariable) || (resolvedElement == null && !throwError)) {
 			return resolvedElement;
 		}
 		if (mode == SymbolicMode.SYMBOLIC_AV) {
@@ -135,8 +139,7 @@ public class Variable extends ValidExpression {
 			return true;
 		}
 		// single letter followed by subscript
-		if (name.charAt(1) == '_' && name.charAt(2) == '{'
-				&& name.charAt(name.length() - 1) == '}') {
+		if (name.charAt(1) == '_' && name.charAt(2) == '{' && name.charAt(name.length() - 1) == '}') {
 			return true;
 		}
 		// single letter followed by apostrophes
@@ -149,7 +152,7 @@ public class Variable extends ValidExpression {
 	 * according GeoElement object. For absolute spreadsheet reference names
 	 * like A$1 or $A$1 a special ExpressionNode wrapper object is returned that
 	 * preserves this special name for displaying of the expression.
-	 * 
+	 *
 	 * @param mode
 	 *            symbolic mode
 	 * @param multipleUnassignedAllowed
@@ -159,12 +162,15 @@ public class Variable extends ValidExpression {
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
 	 */
-	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
-				boolean multipleUnassignedAllowed, boolean allowMultiLetterVariables) {
-		boolean allowAutoCreateGeoElement = (mode == SymbolicMode.NONE)
-				&& !multipleUnassignedAllowed;
-		return resolveAsExpressionValue(mode, multipleUnassignedAllowed,
-				allowMultiLetterVariables, allowAutoCreateGeoElement, false);
+	public final ExpressionValue resolveAsExpressionValue(
+			SymbolicMode mode, boolean multipleUnassignedAllowed, boolean allowMultiLetterVariables) {
+		boolean allowAutoCreateGeoElement = (mode == SymbolicMode.NONE) && !multipleUnassignedAllowed;
+		return resolveAsExpressionValue(
+				mode,
+				multipleUnassignedAllowed,
+				allowMultiLetterVariables,
+				allowAutoCreateGeoElement,
+				false);
 	}
 
 	/**
@@ -175,17 +181,23 @@ public class Variable extends ValidExpression {
 	 * @param info contains flags defining how to handle automatic creation of objects
 	 * @return element with matching label or expression
 	 */
-	final public ExpressionValue resolveAsExpressionValue(EvalInfo info) {
-		boolean autoCreateObjects = info.isAutoCreateObjects()
-				&& (info.getSymbolicMode() == SymbolicMode.NONE);
-		return resolveAsExpressionValue(info.getSymbolicMode(),
-				info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed(),
-				autoCreateObjects, info.isForSpreadsheet());
+	public final ExpressionValue resolveAsExpressionValue(EvalInfo info) {
+		boolean autoCreateObjects =
+				info.isAutoCreateObjects() && (info.getSymbolicMode() == SymbolicMode.NONE);
+		return resolveAsExpressionValue(
+				info.getSymbolicMode(),
+				info.isMultipleUnassignedAllowed(),
+				info.isMultiLetterVariablesAllowed(),
+				autoCreateObjects,
+				info.isForSpreadsheet());
 	}
 
-	private ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
-		boolean multipleUnassignedAllowed, boolean allowMultiLetterVariables,
-		boolean autoCreateObjects, boolean forSpreadsheet) {
+	private ExpressionValue resolveAsExpressionValue(
+			SymbolicMode mode,
+			boolean multipleUnassignedAllowed,
+			boolean allowMultiLetterVariables,
+			boolean autoCreateObjects,
+			boolean forSpreadsheet) {
 		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 
 		GeoElement geo = resolve(autoCreateObjects, false, mode, allowMultiLetterVariables);
@@ -215,7 +227,8 @@ public class Variable extends ValidExpression {
 
 		// spreadsheet dollar sign reference
 		// need to avoid CAS cell references, eg $1 (see #3206)
-		if (name.indexOf('$') > -1 && !(geo instanceof GeoCasCell)
+		if (name.indexOf('$') > -1
+				&& !(geo instanceof GeoCasCell)
 				&& !(geo instanceof GeoDummyVariable)) {
 			// row and/or column dollar sign present?
 			boolean colDollar = name.indexOf('$') == 0;
@@ -240,8 +253,7 @@ public class Variable extends ValidExpression {
 
 	private ExpressionValue resolveUnknownForCAS(boolean spreadsheet) {
 		if (spreadsheet && GeoElementSpreadsheet.isSpreadsheetLabel(name)) {
-			return kernel.getConstruction()
-					.createSpreadsheetGeoElement(null, name);
+			return kernel.getConstruction().createSpreadsheetGeoElement(null, name);
 		}
 		return new GeoDummyVariable(kernel.getConstruction(), name);
 	}
@@ -276,7 +288,7 @@ public class Variable extends ValidExpression {
 	}
 
 	@Override
-	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+	public final String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
@@ -286,12 +298,12 @@ public class Variable extends ValidExpression {
 	}
 
 	@Override
-	final public boolean isVariable() {
+	public final boolean isVariable() {
 		return true;
 	}
 
 	@Override
-	final public boolean contains(ExpressionValue ev) {
+	public final boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
@@ -324,7 +336,7 @@ public class Variable extends ValidExpression {
 
 	/**
 	 * force the name to s, used by RelativeCopy
-	 * 
+	 *
 	 * @param s
 	 *            new name
 	 */
@@ -352,5 +364,4 @@ public class Variable extends ValidExpression {
 		}
 		return "O".equals(name) ? ValueType.NONCOMPLEX2D : ValueType.UNKNOWN;
 	}
-
 }

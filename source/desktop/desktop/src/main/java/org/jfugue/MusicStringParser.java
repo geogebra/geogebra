@@ -48,7 +48,7 @@ public final class MusicStringParser extends Parser {
 	/**
 	 * Creates a new Parser object, and populates the dictionary with initial
 	 * entries.
-	 * 
+	 *
 	 * @see JFugueDefinitions
 	 */
 	public MusicStringParser() {
@@ -92,8 +92,7 @@ public final class MusicStringParser extends Parser {
 		for (int t = 0; t < tokens.length; t++) {
 			parseToken(tokens[t]);
 			counter++;
-			fireProgressReported("Parsing music string...", counter,
-					tokens.length);
+			fireProgressReported("Parsing music string...", counter, tokens.length);
 		}
 	}
 
@@ -118,61 +117,61 @@ public final class MusicStringParser extends Parser {
 		trace("--------Processing Token: ", s);
 
 		switch (s.charAt(0)) {
-		case 'V':
-			parseVoiceElement(s);
-			break;
-		case 'T':
-			parseTempoElement(s);
-			break;
-		case 'I':
-			parseInstrumentElement(s);
-			break;
-		case 'L':
-			parseLayerElement(s);
-			break; // New in 3.0
-		case 'K':
-			parseKeySignatureElement(s);
-			break; // New in 3.0
-		case 'X':
-			parseControllerElement(s);
-			break; // New in 2.0
-		case '@':
-			parseTimeElement(s);
-			break; // New in 3.0
-		case '*':
-			parsePolyPressureElement(s);
-			break; // New in 3.0, also known as Key Pressure
-		case '+':
-			parseChannelPressureElement(s);
-			break; // New in 3.0
-		case '&':
-			parsePitchBendElement(s);
-			break; // New in 3.0
-		case '|':
-			parseMeasureElement(s);
-			break; // New in 3.0
-		case '$':
-			parseDictionaryElement(s);
-			break; // New in 2.0
-		case 'A':
-		case 'B':
-		case 'C':
-		case 'D':
-		case 'E':
-		case 'F':
-		case 'G':
-		case 'R':
-		case '[':
-			parseNoteElement(s);
-			break;
-		default:
-			break; // Unknown characters are okay
+			case 'V':
+				parseVoiceElement(s);
+				break;
+			case 'T':
+				parseTempoElement(s);
+				break;
+			case 'I':
+				parseInstrumentElement(s);
+				break;
+			case 'L':
+				parseLayerElement(s);
+				break; // New in 3.0
+			case 'K':
+				parseKeySignatureElement(s);
+				break; // New in 3.0
+			case 'X':
+				parseControllerElement(s);
+				break; // New in 2.0
+			case '@':
+				parseTimeElement(s);
+				break; // New in 3.0
+			case '*':
+				parsePolyPressureElement(s);
+				break; // New in 3.0, also known as Key Pressure
+			case '+':
+				parseChannelPressureElement(s);
+				break; // New in 3.0
+			case '&':
+				parsePitchBendElement(s);
+				break; // New in 3.0
+			case '|':
+				parseMeasureElement(s);
+				break; // New in 3.0
+			case '$':
+				parseDictionaryElement(s);
+				break; // New in 2.0
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'R':
+			case '[':
+				parseNoteElement(s);
+				break;
+			default:
+				break; // Unknown characters are okay
 		}
 	}
 
 	/**
 	 * Parses a voice element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a voice element
 	 * @throws JFugueException
@@ -199,7 +198,7 @@ public final class MusicStringParser extends Parser {
 	 * summarize: "Tempo120" (or "Tempo[Allegro]") --> Tempo will be is 120
 	 * beats per minute "T120" --> Tempo will be 120 milliseconds per beat.
 	 * Divide into 60000000 to get BPM.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a tempo element
 	 * @throws JFugueException
@@ -214,7 +213,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses an instrument element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains an instrument element
 	 * @throws JFugueException
@@ -229,7 +228,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a layer element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a layer element
 	 * @throws JFugueException
@@ -244,7 +243,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a time element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a time element
 	 * @throws JFugueException
@@ -259,7 +258,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a key signature element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a key signature
 	 * @throws JFugueException
@@ -276,57 +275,41 @@ public final class MusicStringParser extends Parser {
 			majOrMin = s.substring(3, 6);
 		}
 		trace("Key signature element: root=", rootNote, " majOrMin=", majOrMin);
-		if (!(majOrMin.equalsIgnoreCase("MAJ")
-				|| (majOrMin.equalsIgnoreCase("MIN")))) {
+		if (!(majOrMin.equalsIgnoreCase("MAJ") || (majOrMin.equalsIgnoreCase("MIN")))) {
 			throw new JFugueException(JFugueException.KEYSIG_EXC, majOrMin, s);
 		}
 		int scale = (majOrMin.equalsIgnoreCase("MAJ") ? 0 : 1);
 		int keySig = 0;
 
-		if (rootNote.equalsIgnoreCase("CBMAJ")
-				|| rootNote.equalsIgnoreCase("ABMIN")) {
+		if (rootNote.equalsIgnoreCase("CBMAJ") || rootNote.equalsIgnoreCase("ABMIN")) {
 			keySig = -7;
-		} else if (rootNote.equalsIgnoreCase("GBMAJ")
-				|| rootNote.equalsIgnoreCase("EBMIN")) {
+		} else if (rootNote.equalsIgnoreCase("GBMAJ") || rootNote.equalsIgnoreCase("EBMIN")) {
 			keySig = -6;
-		} else if (rootNote.equalsIgnoreCase("DBMAJ")
-				|| rootNote.equalsIgnoreCase("BBMIN")) {
+		} else if (rootNote.equalsIgnoreCase("DBMAJ") || rootNote.equalsIgnoreCase("BBMIN")) {
 			keySig = -5;
-		} else if (rootNote.equalsIgnoreCase("ABMAJ")
-				|| rootNote.equalsIgnoreCase("FMIN")) {
+		} else if (rootNote.equalsIgnoreCase("ABMAJ") || rootNote.equalsIgnoreCase("FMIN")) {
 			keySig = -4;
-		} else if (rootNote.equalsIgnoreCase("EBMAJ")
-				|| rootNote.equalsIgnoreCase("CMIN")) {
+		} else if (rootNote.equalsIgnoreCase("EBMAJ") || rootNote.equalsIgnoreCase("CMIN")) {
 			keySig = -3;
-		} else if (rootNote.equalsIgnoreCase("BBMAJ")
-				|| rootNote.equalsIgnoreCase("GMIN")) {
+		} else if (rootNote.equalsIgnoreCase("BBMAJ") || rootNote.equalsIgnoreCase("GMIN")) {
 			keySig = -2;
-		} else if (rootNote.equalsIgnoreCase("FMAJ")
-				|| rootNote.equalsIgnoreCase("DMIN")) {
+		} else if (rootNote.equalsIgnoreCase("FMAJ") || rootNote.equalsIgnoreCase("DMIN")) {
 			keySig = -1;
-		} else if (rootNote.equalsIgnoreCase("CMAJ")
-				|| rootNote.equalsIgnoreCase("AMIN")) {
+		} else if (rootNote.equalsIgnoreCase("CMAJ") || rootNote.equalsIgnoreCase("AMIN")) {
 			keySig = 0;
-		} else if (rootNote.equalsIgnoreCase("GMAJ")
-				|| rootNote.equalsIgnoreCase("EMIN")) {
+		} else if (rootNote.equalsIgnoreCase("GMAJ") || rootNote.equalsIgnoreCase("EMIN")) {
 			keySig = +1;
-		} else if (rootNote.equalsIgnoreCase("DMAJ")
-				|| rootNote.equalsIgnoreCase("BMIN")) {
+		} else if (rootNote.equalsIgnoreCase("DMAJ") || rootNote.equalsIgnoreCase("BMIN")) {
 			keySig = +2;
-		} else if (rootNote.equalsIgnoreCase("AMAJ")
-				|| rootNote.equalsIgnoreCase("F#MIN")) {
+		} else if (rootNote.equalsIgnoreCase("AMAJ") || rootNote.equalsIgnoreCase("F#MIN")) {
 			keySig = +3;
-		} else if (rootNote.equalsIgnoreCase("EMAJ")
-				|| rootNote.equalsIgnoreCase("C#MIN")) {
+		} else if (rootNote.equalsIgnoreCase("EMAJ") || rootNote.equalsIgnoreCase("C#MIN")) {
 			keySig = +4;
-		} else if (rootNote.equalsIgnoreCase("BMAJ")
-				|| rootNote.equalsIgnoreCase("G#MIN")) {
+		} else if (rootNote.equalsIgnoreCase("BMAJ") || rootNote.equalsIgnoreCase("G#MIN")) {
 			keySig = +5;
-		} else if (rootNote.equalsIgnoreCase("F#MAJ")
-				|| rootNote.equalsIgnoreCase("D#MIN")) {
+		} else if (rootNote.equalsIgnoreCase("F#MAJ") || rootNote.equalsIgnoreCase("D#MIN")) {
 			keySig = +6;
-		} else if (rootNote.equalsIgnoreCase("C#MAJ")
-				|| rootNote.equalsIgnoreCase("A#MIN")) {
+		} else if (rootNote.equalsIgnoreCase("C#MAJ") || rootNote.equalsIgnoreCase("A#MIN")) {
 			keySig = +7;
 		} else {
 			throw new JFugueException(JFugueException.KEYSIG_EXC, s);
@@ -338,7 +321,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a measure element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a measure element
 	 * @throws JFugueException
@@ -351,7 +334,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a controller element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a controller element
 	 * @throws JFugueException
@@ -398,22 +381,27 @@ public final class MusicStringParser extends Parser {
 
 			byte coarseValue = (byte) (controlValue / 128);
 			byte fineValue = (byte) (controlValue % 128);
-			trace("Combined controller element: coarse-index = ", coarseIndex,
-					", coarse-value = ", coarseValue, "; fine-index = ",
-					fineIndex, ", fine-value = ", fineValue);
+			trace(
+					"Combined controller element: coarse-index = ",
+					coarseIndex,
+					", coarse-value = ",
+					coarseValue,
+					"; fine-index = ",
+					fineIndex,
+					", fine-value = ",
+					fineValue);
 			fireControllerEvent(new Controller(coarseIndex, coarseValue));
 			fireControllerEvent(new Controller(fineIndex, fineValue));
 		} else {
 			byte controlValue = getByteFromDictionary(controlValueString);
-			trace("Controller element: index = ", controlIndex, ", value = ",
-					controlValue);
+			trace("Controller element: index = ", controlIndex, ", value = ", controlValue);
 			fireControllerEvent(new Controller(controlIndex, controlValue));
 		}
 	}
 
 	/**
 	 * Parses a channel pressure element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a channel pressure element
 	 * @throws JFugueException
@@ -434,7 +422,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a polyphonic pressure element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a polyphonic pressure element
 	 * @throws JFugueException
@@ -452,15 +440,13 @@ public final class MusicStringParser extends Parser {
 		String pressureString = s.substring(s.indexOf(',') + 1, s.length());
 		byte pressureNumber = getByteFromDictionary(pressureString);
 
-		trace("PolyphonicPressure element: key = ", keyNumber, ", pressure = ",
-				pressureNumber);
-		firePolyphonicPressureEvent(
-				new PolyphonicPressure(keyNumber, pressureNumber));
+		trace("PolyphonicPressure element: key = ", keyNumber, ", pressure = ", pressureNumber);
+		firePolyphonicPressureEvent(new PolyphonicPressure(keyNumber, pressureNumber));
 	}
 
 	/**
 	 * Parses a pitch bend element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a pitch bend pressure element
 	 * @throws JFugueException
@@ -499,7 +485,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a dictionary element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a dictionary element
 	 * @throws JFugueException
@@ -514,8 +500,7 @@ public final class MusicStringParser extends Parser {
 		// MusicString has already been tokenized.
 		// definition.replace('~', ' ');
 		word = word.toUpperCase();
-		trace("Dictionary Definition element: word = ", word, ", value = ",
-				definition);
+		trace("Dictionary Definition element: word = ", word, ", value = ", definition);
 		dictionaryMap.put(word, definition);
 	}
 
@@ -550,7 +535,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Parses a note element.
-	 * 
+	 *
 	 * @param s
 	 *            the token that contains a note element
 	 * @throws JFugueException
@@ -564,8 +549,8 @@ public final class MusicStringParser extends Parser {
 			decideSequentialOrParallel(context);
 			int index = 0;
 			int slen = s.length(); // We pass the length of the string because
-									// it is an invariant value that is used
-									// often
+			// it is an invariant value that is used
+			// often
 			index = parseNoteRoot(s, slen, index, context);
 			index = parseNoteOctave(s, slen, index, context);
 			index = parseNoteChord(s, slen, index, context);
@@ -600,15 +585,14 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNoteRoot(String s, int slen, int index,
-			NoteContext context) {
+	private int parseNoteRoot(String s, int slen, int index, NoteContext context) {
 		switch (s.charAt(index)) {
-		case '[':
-			return parseNumericNote(s, slen, index, context);
-		case 'R':
-			return parseRest(s, slen, index, context);
-		default:
-			return parseLetterNote(s, slen, index, context);
+			case '[':
+				return parseNumericNote(s, slen, index, context);
+			case 'R':
+				return parseRest(s, slen, index, context);
+			default:
+				return parseLetterNote(s, slen, index, context);
 		}
 	}
 
@@ -616,8 +600,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNumericNote(String s, int slen, int index,
-			NoteContext context) {
+	private int parseNumericNote(String s, int slen, int index, NoteContext context) {
 		int indexOfEndBracket = s.indexOf(']', index);
 		String stringInBrackets = s.substring(1, indexOfEndBracket);
 		context.noteNumber = getByteFromDictionary(stringInBrackets);
@@ -642,32 +625,31 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseLetterNote(String s, int slen, int index,
-			NoteContext context) {
+	private int parseLetterNote(String s, int slen, int index, NoteContext context) {
 		switch (s.charAt(index)) {
-		case 'C':
-			context.noteNumber = 0;
-			break;
-		case 'D':
-			context.noteNumber = 2;
-			break;
-		case 'E':
-			context.noteNumber = 4;
-			break;
-		case 'F':
-			context.noteNumber = 5;
-			break;
-		case 'G':
-			context.noteNumber = 7;
-			break;
-		case 'A':
-			context.noteNumber = 9;
-			break;
-		case 'B':
-			context.noteNumber = 11;
-			break;
-		default:
-			throw new JFugueException(JFugueException.NOTE_EXC, s);
+			case 'C':
+				context.noteNumber = 0;
+				break;
+			case 'D':
+				context.noteNumber = 2;
+				break;
+			case 'E':
+				context.noteNumber = 4;
+				break;
+			case 'F':
+				context.noteNumber = 5;
+				break;
+			case 'G':
+				context.noteNumber = 7;
+				break;
+			case 'A':
+				context.noteNumber = 9;
+				break;
+			case 'B':
+				context.noteNumber = 11;
+				break;
+			default:
+				throw new JFugueException(JFugueException.NOTE_EXC, s);
 		}
 		index++;
 
@@ -676,22 +658,22 @@ public final class MusicStringParser extends Parser {
 		while (checkForModifiers) {
 			if (index < slen) {
 				switch (s.charAt(index)) {
-				case '#':
-					index++;
-					context.noteNumber++;
-					/* if (context.noteNumber == 12) context.noteNumber = 0; */ break;
-				case 'B':
-					index++;
-					context.noteNumber--;
-					/* if (context.noteNumber == -1) context.noteNumber = 11; */ break;
-				case 'N':
-					index++;
-					context.isNatural = true;
-					checkForModifiers = false;
-					break;
-				default:
-					checkForModifiers = false;
-					break;
+					case '#':
+						index++;
+						context.noteNumber++;
+						/* if (context.noteNumber == 12) context.noteNumber = 0; */ break;
+					case 'B':
+						index++;
+						context.noteNumber--;
+						/* if (context.noteNumber == -1) context.noteNumber = 11; */ break;
+					case 'N':
+						index++;
+						context.isNatural = true;
+						checkForModifiers = false;
+						break;
+					default:
+						checkForModifiers = false;
+						break;
 				}
 			} else {
 				checkForModifiers = false;
@@ -706,8 +688,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private static int parseNoteOctave(String s, int slen, int index,
-			NoteContext context) {
+	private static int parseNoteOctave(String s, int slen, int index, NoteContext context) {
 		// Don't parse an octave for a rest or a numeric note
 		if (context.isRest || context.isNumericNote) {
 			return index;
@@ -732,17 +713,14 @@ public final class MusicStringParser extends Parser {
 				definiteOctaveLength = 2;
 			}
 
-			String octaveNumberString = s.substring(index,
-					index + definiteOctaveLength);
+			String octaveNumberString = s.substring(index, index + definiteOctaveLength);
 			try {
 				context.octaveNumber = Byte.parseByte(octaveNumberString);
 			} catch (NumberFormatException e) {
-				throw new JFugueException(JFugueException.OCTAVE_EXC,
-						octaveNumberString, s);
+				throw new JFugueException(JFugueException.OCTAVE_EXC, octaveNumberString, s);
 			}
 			if (context.octaveNumber > 10) {
-				throw new JFugueException(JFugueException.OCTAVE_EXC,
-						octaveNumberString, s);
+				throw new JFugueException(JFugueException.OCTAVE_EXC, octaveNumberString, s);
 			}
 		}
 
@@ -753,8 +731,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNoteChord(String s, int slen, int index,
-			NoteContext context) {
+	private int parseNoteChord(String s, int slen, int index, NoteContext context) {
 		// Don't parse chord for a rest
 		if (context.isRest) {
 			return index;
@@ -778,7 +755,7 @@ public final class MusicStringParser extends Parser {
 		}
 
 		int lengthOfChordString = 0; // This represents the length of the
-										// string, not the number of halfsteps
+		// string, not the number of halfsteps
 
 		// Below, 'chordLength' refers to the size of the text for the chord
 		// (for example, "min"=3, "dim7"=4),
@@ -1010,11 +987,22 @@ public final class MusicStringParser extends Parser {
 
 		if (lengthOfChordString > 0) {
 			context.isChord = true;
-			trace("Chord: chordLength=", lengthOfChordString,
-					", so chord is one of the following: [ 3=", possibleChord3,
-					" 4=", possibleChord4, " 5=", possibleChord5, " 6=",
-					possibleChord6, " 7=", possibleChord7, " 8=",
-					possibleChord8, " ]");
+			trace(
+					"Chord: chordLength=",
+					lengthOfChordString,
+					", so chord is one of the following: [ 3=",
+					possibleChord3,
+					" 4=",
+					possibleChord4,
+					" 5=",
+					possibleChord5,
+					" 6=",
+					possibleChord6,
+					" 7=",
+					possibleChord7,
+					" 8=",
+					possibleChord8,
+					" ]");
 		}
 
 		return index + lengthOfChordString;
@@ -1087,17 +1075,19 @@ public final class MusicStringParser extends Parser {
 				context.noteNumber = 0;
 				context.octaveNumber++;
 			}
-			trace("After adjusting for Key Signature, noteNumber=",
-					context.noteNumber, " octave=", context.octaveNumber);
+			trace(
+					"After adjusting for Key Signature, noteNumber=",
+					context.noteNumber,
+					" octave=",
+					context.octaveNumber);
 		}
 
 		// Compute the actual note number, based on octave and note
 		if (!context.isNumericNote) {
-			int intNoteNumber = (context.octaveNumber * 12)
-					+ context.noteNumber;
+			int intNoteNumber = (context.octaveNumber * 12) + context.noteNumber;
 			if (intNoteNumber > 127) {
-				throw new JFugueException(JFugueException.NOTE_OCTAVE_EXC,
-						Integer.toString(intNoteNumber), "");
+				throw new JFugueException(
+						JFugueException.NOTE_OCTAVE_EXC, Integer.toString(intNoteNumber), "");
 			}
 			context.noteNumber = (byte) intNoteNumber;
 			trace("Computed note number: ", context.noteNumber);
@@ -1108,8 +1098,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNoteChordInversion(String s, int slen, int index,
-			NoteContext context) {
+	private int parseNoteChordInversion(String s, int slen, int index, NoteContext context) {
 		if (!context.isChord) {
 			return index;
 		}
@@ -1122,103 +1111,102 @@ public final class MusicStringParser extends Parser {
 		while (checkForInversion) {
 			if (index < slen) {
 				switch (s.charAt(index)) {
-				case '^':
-					index++;
-					inversionCount++;
-					break;
-				case 'C':
-					index++;
-					inversionRootNote = 0;
-					break;
-				case 'D':
-					index++;
-					inversionRootNote = 2;
-					break;
-				case 'E':
-					index++;
-					inversionRootNote = 4;
-					break;
-				case 'F':
-					index++;
-					inversionRootNote = 5;
-					break;
-				case 'G':
-					index++;
-					inversionRootNote = 7;
-					break;
-				case 'A':
-					index++;
-					inversionRootNote = 9;
-					break;
-				// For 'B', need to differentiate between B note and 'b' flat
-				case 'B':
-					index++;
-					if (inversionRootNote == -1) {
-						inversionRootNote = 11;
-					} else {
-						inversionRootNote--;
-					}
-					break;
-				case '#':
-					index++;
-					inversionRootNote++;
-					break;
-				// For '0', need to differentiate between initial 0 and 0 as a
-				// second digit (i.e., 10)
-				case '0':
-					index++;
-					if (inversionOctave == -1) {
-						inversionOctave = 0;
-					} else {
-						inversionOctave = inversionOctave * 10;
-					}
-					break;
-				case '1':
-					index++;
-					inversionOctave = 1;
-					break;
-				case '2':
-					index++;
-					inversionOctave = 2;
-					break;
-				case '3':
-					index++;
-					inversionOctave = 3;
-					break;
-				case '4':
-					index++;
-					inversionOctave = 4;
-					break;
-				case '5':
-					index++;
-					inversionOctave = 5;
-					break;
-				case '6':
-					index++;
-					inversionOctave = 6;
-					break;
-				case '7':
-					index++;
-					inversionOctave = 7;
-					break;
-				case '8':
-					index++;
-					inversionOctave = 8;
-					break;
-				case '9':
-					index++;
-					inversionOctave = 9;
-					break;
-				// If [, whoo boy, we're checking for a note number
-				case '[':
-					int indexEndBracket = s.indexOf(']', index);
-					inversionRootNote = Integer.parseInt(
-							s.substring(index + 1, indexEndBracket - 1));
-					index = indexEndBracket + 1;
-					break;
-				default:
-					checkForInversion = false;
-					break;
+					case '^':
+						index++;
+						inversionCount++;
+						break;
+					case 'C':
+						index++;
+						inversionRootNote = 0;
+						break;
+					case 'D':
+						index++;
+						inversionRootNote = 2;
+						break;
+					case 'E':
+						index++;
+						inversionRootNote = 4;
+						break;
+					case 'F':
+						index++;
+						inversionRootNote = 5;
+						break;
+					case 'G':
+						index++;
+						inversionRootNote = 7;
+						break;
+					case 'A':
+						index++;
+						inversionRootNote = 9;
+						break;
+					// For 'B', need to differentiate between B note and 'b' flat
+					case 'B':
+						index++;
+						if (inversionRootNote == -1) {
+							inversionRootNote = 11;
+						} else {
+							inversionRootNote--;
+						}
+						break;
+					case '#':
+						index++;
+						inversionRootNote++;
+						break;
+					// For '0', need to differentiate between initial 0 and 0 as a
+					// second digit (i.e., 10)
+					case '0':
+						index++;
+						if (inversionOctave == -1) {
+							inversionOctave = 0;
+						} else {
+							inversionOctave = inversionOctave * 10;
+						}
+						break;
+					case '1':
+						index++;
+						inversionOctave = 1;
+						break;
+					case '2':
+						index++;
+						inversionOctave = 2;
+						break;
+					case '3':
+						index++;
+						inversionOctave = 3;
+						break;
+					case '4':
+						index++;
+						inversionOctave = 4;
+						break;
+					case '5':
+						index++;
+						inversionOctave = 5;
+						break;
+					case '6':
+						index++;
+						inversionOctave = 6;
+						break;
+					case '7':
+						index++;
+						inversionOctave = 7;
+						break;
+					case '8':
+						index++;
+						inversionOctave = 8;
+						break;
+					case '9':
+						index++;
+						inversionOctave = 9;
+						break;
+					// If [, whoo boy, we're checking for a note number
+					case '[':
+						int indexEndBracket = s.indexOf(']', index);
+						inversionRootNote = Integer.parseInt(s.substring(index + 1, indexEndBracket - 1));
+						index = indexEndBracket + 1;
+						break;
+					default:
+						checkForInversion = false;
+						break;
 				}
 			} else {
 				checkForInversion = false;
@@ -1232,13 +1220,10 @@ public final class MusicStringParser extends Parser {
 				// half-step
 				// before the inversion by 12, the number of notes in an octave.
 				trace("Inversion is base on count: " + inversionCount);
-				trace("Inverting " + context.noteNumber + " to be "
-						+ (context.noteNumber + 12));
+				trace("Inverting " + context.noteNumber + " to be " + (context.noteNumber + 12));
 				context.noteNumber += 12;
-				for (int i = inversionCount
-						- 1; i < context.numHalfsteps; i++) {
-					trace("Inverting " + context.halfsteps[i] + " to be "
-							+ (context.halfsteps[i] - 12));
+				for (int i = inversionCount - 1; i < context.numHalfsteps; i++) {
+					trace("Inverting " + context.halfsteps[i] + " to be " + (context.halfsteps[i] - 12));
 					context.halfsteps[i] -= 12;
 				}
 			} else {
@@ -1256,20 +1241,16 @@ public final class MusicStringParser extends Parser {
 
 				trace("Inversion is base on note: " + inversionRootNote);
 
-				if ((inversionRootNote > context.noteNumber
-						+ context.halfsteps[context.numHalfsteps - 1])
+				if ((inversionRootNote > context.noteNumber + context.halfsteps[context.numHalfsteps - 1])
 						|| (inversionRootNote < context.noteNumber)) {
 					throw new JFugueException(JFugueException.INVERSION_EXC);
 				}
 
-				trace("Inverting " + context.noteNumber + " to be "
-						+ (context.noteNumber + 12));
+				trace("Inverting " + context.noteNumber + " to be " + (context.noteNumber + 12));
 				context.noteNumber += 12;
 				for (int i = 0; i < context.numHalfsteps; i++) {
-					if (context.noteNumber
-							+ context.halfsteps[i] >= inversionRootNote + 12) {
-						trace("Inverting " + context.halfsteps[i] + " to be "
-								+ (context.halfsteps[i] - 12));
+					if (context.noteNumber + context.halfsteps[i] >= inversionRootNote + 12) {
+						trace("Inverting " + context.halfsteps[i] + " to be " + (context.halfsteps[i] - 12));
 						context.halfsteps[i] -= 12;
 					}
 				}
@@ -1283,51 +1264,50 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNoteDuration(String s, int slen, int index,
-			NoteContext context) {
+	private int parseNoteDuration(String s, int slen, int index, NoteContext context) {
 		context.decimalDuration = 0.0;
 		if (index < slen) {
 			switch (s.charAt(index)) {
-			case '/':
-				index = parseNumericDuration(s, slen, index, context);
-				break;
-			case 'W':
-			case 'H':
-			case 'Q':
-			case 'I':
-			case 'S':
-			case 'T':
-			case 'X':
-			case 'O':
-			case '-':
-				index = parseLetterDuration(s, slen, index, context);
-				break;
-			default:
-				break;
+				case '/':
+					index = parseNumericDuration(s, slen, index, context);
+					break;
+				case 'W':
+				case 'H':
+				case 'Q':
+				case 'I':
+				case 'S':
+				case 'T':
+				case 'X':
+				case 'O':
+				case '-':
+					index = parseLetterDuration(s, slen, index, context);
+					break;
+				default:
+					break;
 			}
 			index = parseTuplet(s, slen, index, context);
 		} else {
 			context.decimalDuration = 1.0 / 4.0; // Default duration is a
-													// quarter note
+			// quarter note
 		}
 
 		// context.duration = (long) (120.0 * 4.0 * context.decimalDuration); //
 		// javax.sound.midi.Sequence resolution is 120
 		context.duration = (long) (120.0 * context.decimalDuration); // DMK
-																		// 9/27/08:
-																		// The
-																		// *4.0
-																		// makes
-																		// quarter
-																		// notes
-																		// 4
-																		// times
-																		// as
-																		// long
-																		// as
-																		// they
-																		// should
-																		// be
+		// 9/27/08:
+		// The
+		// *4.0
+		// makes
+		// quarter
+		// notes
+		// 4
+		// times
+		// as
+		// long
+		// as
+		// they
+		// should
+		// be
 
 		// // Below is incorrect, as identified by M. Ahluwalia
 		// // Tempo is now in Beats Per Minute. Convert this to Pulses Per
@@ -1348,8 +1328,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseLetterDuration(String s, int slen, int index,
-			NoteContext context) {
+	private int parseLetterDuration(String s, int slen, int index, NoteContext context) {
 		// Check duration
 		boolean durationExists = true;
 		boolean isDotted = false;
@@ -1361,44 +1340,43 @@ public final class MusicStringParser extends Parser {
 			if (index < slen) {
 				char durationChar = s.charAt(index);
 				switch (durationChar) {
-				case '-':
-					if ((context.decimalDuration == 0)
-							&& (!context.isEndOfTie)) {
-						context.isEndOfTie = true;
-						trace("Note is end of tie");
-					} else {
-						context.isStartOfTie = true;
-						trace("Note is start of tie");
-					}
-					break;
-				case 'W':
-					durationNumber = 1;
-					break;
-				case 'H':
-					durationNumber = 2;
-					break;
-				case 'Q':
-					durationNumber = 4;
-					break;
-				case 'I':
-					durationNumber = 8;
-					break;
-				case 'S':
-					durationNumber = 16;
-					break;
-				case 'T':
-					durationNumber = 32;
-					break;
-				case 'X':
-					durationNumber = 64;
-					break;
-				case 'O':
-					durationNumber = 128;
-					break;
-				default:
-					index--;
-					durationExists = false;
-					break;
+					case '-':
+						if ((context.decimalDuration == 0) && (!context.isEndOfTie)) {
+							context.isEndOfTie = true;
+							trace("Note is end of tie");
+						} else {
+							context.isStartOfTie = true;
+							trace("Note is start of tie");
+						}
+						break;
+					case 'W':
+						durationNumber = 1;
+						break;
+					case 'H':
+						durationNumber = 2;
+						break;
+					case 'Q':
+						durationNumber = 4;
+						break;
+					case 'I':
+						durationNumber = 8;
+						break;
+					case 'S':
+						durationNumber = 16;
+						break;
+					case 'T':
+						durationNumber = 32;
+						break;
+					case 'X':
+						durationNumber = 64;
+						break;
+					case 'O':
+						durationNumber = 128;
+						break;
+					default:
+						index--;
+						durationExists = false;
+						break;
 				}
 				index++;
 				if ((index < slen) && (s.charAt(index) == '.')) {
@@ -1426,8 +1404,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNumericDuration(String s, int slen, int index,
-			NoteContext context) {
+	private int parseNumericDuration(String s, int slen, int index, NoteContext context) {
 		// The duration has come in as a number, like 0.25 for a quarter note.
 		// Advance pointer past the initial slash (/)
 		index++;
@@ -1437,8 +1414,8 @@ public final class MusicStringParser extends Parser {
 		// is required to be in brackets, we should support it.
 		if ('[' == s.charAt(index)) {
 			int indexOfEndingBracket = s.indexOf(']', index);
-			context.decimalDuration += getDoubleFromDictionary(
-					s.substring(index + 1, indexOfEndingBracket));
+			context.decimalDuration +=
+					getDoubleFromDictionary(s.substring(index + 1, indexOfEndingBracket));
 			index = indexOfEndingBracket + 1;
 		} else {
 			int endingIndex = index;
@@ -1446,11 +1423,10 @@ public final class MusicStringParser extends Parser {
 			while (keepAdvancingPointer) {
 				try {
 					char numericDurationChar = s.charAt(endingIndex);
-					if ((numericDurationChar >= '0')
-							&& (numericDurationChar <= '9')
+					if ((numericDurationChar >= '0') && (numericDurationChar <= '9')
 							|| (numericDurationChar == '.')) // Decimal dot, not
-																// dotted
-																// duration
+					// dotted
+					// duration
 					{
 						endingIndex++;
 					} else {
@@ -1473,8 +1449,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseTuplet(String s, int slen, int index,
-			NoteContext context) {
+	private int parseTuplet(String s, int slen, int index, NoteContext context) {
 		if (index < slen) {
 			if (s.charAt(index) == '*') {
 				trace("Note is a tuplet");
@@ -1491,8 +1466,7 @@ public final class MusicStringParser extends Parser {
 					if (slen > index + counter) {
 						if (s.charAt(index + counter) == ':') {
 							indexOfNumNotes = index + counter + 1;
-						} else if ((s.charAt(index + counter) >= '0')
-								&& (s.charAt(index + counter) <= '9')) {
+						} else if ((s.charAt(index + counter) >= '0') && (s.charAt(index + counter) <= '9')) {
 							if (indexOfUnitsToMatch == 0) {
 								indexOfUnitsToMatch = index + counter;
 							}
@@ -1511,16 +1485,13 @@ public final class MusicStringParser extends Parser {
 				double numerator = 2.0;
 				double denominator = 3.0;
 				if ((indexOfUnitsToMatch > 0) && (indexOfNumNotes > 0)) {
-					numerator = Double.parseDouble(s.substring(
-							indexOfUnitsToMatch, indexOfNumNotes - 1));
-					denominator = Double
-							.parseDouble(s.substring(indexOfNumNotes, index));
+					numerator = Double.parseDouble(s.substring(indexOfUnitsToMatch, indexOfNumNotes - 1));
+					denominator = Double.parseDouble(s.substring(indexOfNumNotes, index));
 				}
 				trace("Tuplet ratio is " + numerator + ":" + denominator);
 				double tupletRatio = numerator / denominator;
 				context.decimalDuration = context.decimalDuration * tupletRatio;
-				trace("Decimal duration after tuplet is ",
-						context.decimalDuration);
+				trace("Decimal duration after tuplet is ", context.decimalDuration);
 			}
 		}
 
@@ -1531,8 +1502,7 @@ public final class MusicStringParser extends Parser {
 	 * Returns the index with which to start parsing the next part of the
 	 * string, once this method is done with its part
 	 */
-	private int parseNoteVelocity(String s, int slen, int index,
-			NoteContext context) {
+	private int parseNoteVelocity(String s, int slen, int index, NoteContext context) {
 		// Don't compute note velocity for a rest
 		if (context.isRest) {
 			return index;
@@ -1565,24 +1535,23 @@ public final class MusicStringParser extends Parser {
 				endPoint = s.indexOf(']', startPoint) + 1;
 			}
 
-			byte velocityNumber = getByteFromDictionary(
-					s.substring(startPoint, endPoint));
+			byte velocityNumber = getByteFromDictionary(s.substring(startPoint, endPoint));
 
 			switch (velocityChar) {
-			case 'A':
-				context.attackVelocity = velocityNumber;
-				break;
-			case 'D':
-				context.decayVelocity = velocityNumber;
-				break;
-			default:
-				throw new JFugueException(JFugueException.NOTE_VELOCITY_EXC,
-						s.substring(startPoint, endPoint), s);
+				case 'A':
+					context.attackVelocity = velocityNumber;
+					break;
+				case 'D':
+					context.decayVelocity = velocityNumber;
+					break;
+				default:
+					throw new JFugueException(
+							JFugueException.NOTE_VELOCITY_EXC, s.substring(startPoint, endPoint), s);
 			}
 			index = endPoint;
 		}
-		trace("Attack velocity = ", context.attackVelocity,
-				"; Decay velocity = ", context.decayVelocity);
+		trace(
+				"Attack velocity = ", context.attackVelocity, "; Decay velocity = ", context.decayVelocity);
 		return index;
 	}
 
@@ -1590,14 +1559,11 @@ public final class MusicStringParser extends Parser {
 	 * Returns the String of the next sub-token (the parts after + or _), if one
 	 * exists; otherwise, returns null
 	 */
-	private String parseNoteConnector(String s, int slen, int index,
-			NoteContext context) {
+	private String parseNoteConnector(String s, int slen, int index, NoteContext context) {
 		context.existAnotherNote = false;
 		// See if there's another note to process
-		if ((index < slen)
-				&& ((s.charAt(index) == '+') || (s.charAt(index) == '_'))) {
-			trace("Another note: string = ",
-					s.substring(index, s.length() - 1));
+		if ((index < slen) && ((s.charAt(index) == '+') || (s.charAt(index) == '_'))) {
+			trace("Another note: string = ", s.substring(index, s.length() - 1));
 			if (s.charAt(index) == '_') {
 				context.anotherNoteIsSequential = true;
 				trace("Next note will be sequential");
@@ -1631,8 +1597,7 @@ public final class MusicStringParser extends Parser {
 			note.setAttackVelocity(context.attackVelocity);
 			note.setDecayVelocity(context.decayVelocity);
 		}
-		note.setHasAccompanyingNotes(
-				context.existAnotherNote || context.isChord);
+		note.setHasAccompanyingNotes(context.existAnotherNote || context.isChord);
 
 		// Fire note events
 		if (context.isFirstNote) {
@@ -1651,33 +1616,30 @@ public final class MusicStringParser extends Parser {
 
 		if (context.isChord) {
 			for (int i = 0; i < context.numHalfsteps; i++) {
-				Note chordNote = new Note(
-						(byte) (context.noteNumber + context.halfsteps[i]),
-						context.duration);
+				Note chordNote =
+						new Note((byte) (context.noteNumber + context.halfsteps[i]), context.duration);
 				chordNote.setDecimalDuration(context.decimalDuration); // This
-																		// won't
-																		// have
-																		// any
-																		// effect
-																		// on
-																		// the
-																		// note,
-																		// but
-																		// it's
-																		// good
-																		// bookkeeping
-																		// to
-																		// have
-																		// it
-																		// around.
+				// won't
+				// have
+				// any
+				// effect
+				// on
+				// the
+				// note,
+				// but
+				// it's
+				// good
+				// bookkeeping
+				// to
+				// have
+				// it
+				// around.
 				chordNote.setType(Note.PARALLEL);
-				trace("Chord note number: ",
-						(context.noteNumber + context.halfsteps[i]));
+				trace("Chord note number: ", (context.noteNumber + context.halfsteps[i]));
 				if (i == context.numHalfsteps - 1) {
 					chordNote.setHasAccompanyingNotes(context.existAnotherNote);
 				} else {
-					chordNote.setHasAccompanyingNotes(
-							context.existAnotherNote || context.isChord);
+					chordNote.setHasAccompanyingNotes(context.existAnotherNote || context.isChord);
 				}
 				fireParallelNoteEvent(chordNote);
 			}
@@ -1707,15 +1669,13 @@ public final class MusicStringParser extends Parser {
 	 * @throws JFugueException
 	 *             if there is a problem looking up bracketedString
 	 */
-	private String dictionaryLookup(String bracketedString)
-			throws JFugueException {
+	private String dictionaryLookup(String bracketedString) throws JFugueException {
 		int indexOfOpeningBracket = bracketedString.indexOf("[");
 		int indexOfClosingBracket = bracketedString.indexOf("]");
 
 		String word = null;
 		if ((indexOfOpeningBracket != -1) && (indexOfClosingBracket != -1)) {
-			word = bracketedString.substring(indexOfOpeningBracket + 1,
-					indexOfClosingBracket);
+			word = bracketedString.substring(indexOfOpeningBracket + 1, indexOfClosingBracket);
 		} else {
 			// It appears that "bracketedString" wasn't bracketed.
 			word = bracketedString;
@@ -1723,8 +1683,7 @@ public final class MusicStringParser extends Parser {
 		word = word.toUpperCase();
 
 		String definition = (String) dictionaryMap.get(word);
-		while ((definition != null)
-				&& (dictionaryMap.containsKey(definition.toUpperCase()))) {
+		while ((definition != null) && (dictionaryMap.containsKey(definition.toUpperCase()))) {
 			definition = (String) dictionaryMap.get(definition.toUpperCase());
 		}
 
@@ -1743,8 +1702,7 @@ public final class MusicStringParser extends Parser {
 				trace("Dictionary lookup returning the number ", word);
 				return word;
 			}
-			throw new JFugueException(JFugueException.WORD_NOT_DEFINED_EXC,
-					word, bracketedString);
+			throw new JFugueException(JFugueException.WORD_NOT_DEFINED_EXC, word, bracketedString);
 		}
 		trace("Word ", word, " is defined as ", definition);
 		return definition;
@@ -1752,7 +1710,7 @@ public final class MusicStringParser extends Parser {
 
 	/**
 	 * Look up a byte from the dictionary
-	 * 
+	 *
 	 * @param bracketedString
 	 *            the string to look up
 	 * @returns the byte value of the definition
@@ -1760,22 +1718,20 @@ public final class MusicStringParser extends Parser {
 	 *             if there is a problem getting a byte from the dictionary
 	 *             look-up
 	 */
-	private byte getByteFromDictionary(String bracketedString)
-			throws JFugueException {
+	private byte getByteFromDictionary(String bracketedString) throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
 		byte newbyte;
 		try {
 			newbyte = Byte.parseByte(definition);
 		} catch (NumberFormatException e) {
-			throw new JFugueException(JFugueException.EXPECTED_BYTE, definition,
-					bracketedString);
+			throw new JFugueException(JFugueException.EXPECTED_BYTE, definition, bracketedString);
 		}
 		return newbyte;
 	}
 
 	/**
 	 * Look up a long from the dictionary
-	 * 
+	 *
 	 * @param bracketedString
 	 *            the string to look up
 	 * @returns the long value of the definition
@@ -1783,22 +1739,20 @@ public final class MusicStringParser extends Parser {
 	 *             if there is a problem getting a long from the dictionary
 	 *             look-up
 	 */
-	private long getLongFromDictionary(String bracketedString)
-			throws JFugueException {
+	private long getLongFromDictionary(String bracketedString) throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
 		long newlong;
 		try {
 			newlong = Long.parseLong(definition);
 		} catch (NumberFormatException e) {
-			throw new JFugueException(JFugueException.EXPECTED_LONG, definition,
-					bracketedString);
+			throw new JFugueException(JFugueException.EXPECTED_LONG, definition, bracketedString);
 		}
 		return newlong;
 	}
 
 	/**
 	 * Look up an int from the dictionary
-	 * 
+	 *
 	 * @param bracketedString
 	 *            the string to look up
 	 * @returns the int value of the definition
@@ -1806,22 +1760,20 @@ public final class MusicStringParser extends Parser {
 	 *             if there is a problem getting a int from the dictionary
 	 *             look-up
 	 */
-	private int getIntFromDictionary(String bracketedString)
-			throws JFugueException {
+	private int getIntFromDictionary(String bracketedString) throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
 		Integer newint = null;
 		try {
 			newint = Integer.valueOf(definition);
 		} catch (NumberFormatException e) {
-			throw new JFugueException(JFugueException.EXPECTED_INT, definition,
-					bracketedString);
+			throw new JFugueException(JFugueException.EXPECTED_INT, definition, bracketedString);
 		}
 		return newint.intValue();
 	}
 
 	/**
 	 * Look up a double from the dictionary
-	 * 
+	 *
 	 * @param bracketedString
 	 *            the string to look up
 	 * @return the double value of the definition
@@ -1829,21 +1781,19 @@ public final class MusicStringParser extends Parser {
 	 *             if there is a problem getting a double from the dictionary
 	 *             look-up
 	 */
-	private double getDoubleFromDictionary(String bracketedString)
-			throws JFugueException {
+	private double getDoubleFromDictionary(String bracketedString) throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
 		try {
 			return Double.parseDouble(definition);
 		} catch (NumberFormatException e) {
-			throw new JFugueException(JFugueException.EXPECTED_DOUBLE,
-					definition, bracketedString);
+			throw new JFugueException(JFugueException.EXPECTED_DOUBLE, definition, bracketedString);
 		}
 	}
 
 	/**
 	 * Checks whether a token is valid. This method is provided for testing
 	 * purposes, and is not used during normal operation.
-	 * 
+	 *
 	 * @param token
 	 *            the token to test for validity
 	 * @return <code>true</code> is the token is valid; <code>false</code>
@@ -1870,8 +1820,7 @@ public final class MusicStringParser extends Parser {
 
 				if (!verifyString.startsWith(results.toString())) {
 					throw new JFugueException(
-							JFugueException.VERIFICATION_EXCEPTION,
-							results.toString(), verifyString);
+							JFugueException.VERIFICATION_EXCEPTION, results.toString(), verifyString);
 				}
 
 				results.append("; ");
@@ -1930,7 +1879,7 @@ public final class MusicStringParser extends Parser {
 	 * Pattern-to-MIDI parser. If you make any changes to this parser, run this
 	 * method ("java org.jfugue.MusicStringParser"), and make sure everything
 	 * works correctly.
-	 * 
+	 *
 	 * @param args
 	 *            not used
 	 */
@@ -1956,14 +1905,18 @@ public final class MusicStringParser extends Parser {
 			parser.verifyToken("C#3q", Note.createVerifyString(37, 0.25));
 			parser.verifyToken("C3i", Note.createVerifyString(36, 0.125));
 			parser.verifyToken("C3qh", Note.createVerifyString(36, 0.75));
-			parser.verifyToken("C5minw", Note.createCompoundVerifyString(
-					Note.createVerifyString(60, 1.0),
-					Note.createVerifyString(63, 1.0, false, true, false),
-					Note.createVerifyString(67, 1.0, false, true, false)));
-			parser.verifyToken("Cmaj", Note.createCompoundVerifyString(
-					Note.createVerifyString(36, 0.25),
-					Note.createVerifyString(40, 0.25, false, true, false),
-					Note.createVerifyString(43, 0.25, false, true, false)));
+			parser.verifyToken(
+					"C5minw",
+					Note.createCompoundVerifyString(
+							Note.createVerifyString(60, 1.0),
+							Note.createVerifyString(63, 1.0, false, true, false),
+							Note.createVerifyString(67, 1.0, false, true, false)));
+			parser.verifyToken(
+					"Cmaj",
+					Note.createCompoundVerifyString(
+							Note.createVerifyString(36, 0.25),
+							Note.createVerifyString(40, 0.25, false, true, false),
+							Note.createVerifyString(43, 0.25, false, true, false)));
 			parser.parseToken("Cdom9");
 			parser.parseToken("Cmin11");
 			parser.parseToken("Cdom7<5");
@@ -1985,7 +1938,7 @@ public final class MusicStringParser extends Parser {
 			parser.parseToken("[Cowbell]O");
 
 			parser.parseToken("P50"); // An unknown token should just pass
-										// through
+			// through
 
 			parser.parseToken("A");
 			parser.parseToken("A+B+C");

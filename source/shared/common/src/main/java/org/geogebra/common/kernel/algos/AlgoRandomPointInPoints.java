@@ -76,7 +76,7 @@ public class AlgoRandomPointInPoints extends AlgoElement implements SetRandomVal
 	@Override
 	protected void setInputOutput() {
 		if (list != null) {
-			input = new GeoElement[] { list };
+			input = new GeoElement[] {list};
 		} else {
 			input = new GeoElement[points.length];
 			for (int i = 0; i < points.length; i++) {
@@ -117,8 +117,10 @@ public class AlgoRandomPointInPoints extends AlgoElement implements SetRandomVal
 			double x = p.getInhomX();
 			double y = p.getInhomY();
 
-			if (p.isGeoElement3D() || Double.isInfinite(x)
-					|| Double.isInfinite(y) || Double.isNaN(x)
+			if (p.isGeoElement3D()
+					|| Double.isInfinite(x)
+					|| Double.isInfinite(y)
+					|| Double.isNaN(x)
 					|| Double.isNaN(y)) {
 				randomPoint.setUndefined();
 				return;
@@ -146,10 +148,8 @@ public class AlgoRandomPointInPoints extends AlgoElement implements SetRandomVal
 		double xRandom, yRandom;
 
 		while (!foundRandom) {
-			xRandom = xMin
-					+ (xMax - xMin) * kernel.randomNumberGenerator.getRandomNumber();
-			yRandom = yMin
-					+ (yMax - yMin) * kernel.randomNumberGenerator.getRandomNumber();
+			xRandom = xMin + (xMax - xMin) * kernel.randomNumberGenerator.getRandomNumber();
+			yRandom = yMin + (yMax - yMin) * kernel.randomNumberGenerator.getRandomNumber();
 
 			if (GeoPolygon.isInRegion(xRandom, yRandom, points)) {
 				randomPoint.setCoords(xRandom, yRandom, 1);
@@ -172,7 +172,6 @@ public class AlgoRandomPointInPoints extends AlgoElement implements SetRandomVal
 		for (int i = 0; i < size; i++) {
 			points[i] = (GeoPointND) list.get(i);
 		}
-
 	}
 
 	@Override

@@ -26,7 +26,7 @@ import org.geogebra.common.util.MyMath;
 
 /**
  * Length of a vector or point.
- * 
+ *
  * @author Markus
  */
 public class AlgoLengthVector extends AlgoElement {
@@ -89,12 +89,9 @@ public class AlgoLengthVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("LengthOfA", "Length of %0",
-				v.getLabel(tpl));
-
+		return getLoc().getPlainDefault("LengthOfA", "Length of %0", v.getLabel(tpl));
 	}
-
 }

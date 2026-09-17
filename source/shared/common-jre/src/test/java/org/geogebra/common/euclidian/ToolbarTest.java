@@ -29,11 +29,8 @@ class ToolbarTest {
 				+ " | 55 56 57 , 12 | 36 46 , 38 49  50 , 71  14  68 | 30 29 54 32 31 33"
 				+ " | 25 17 26 60 52 61 | 40 41 42 , 27 28 35 , 6";
 		assertTrue(ToolBar.isDefaultToolbar(def));
-		assertTrue(ToolBar.isDefaultToolbar(ToolBar.getAllToolsNoMacros(
-				false, false, false)));
-		assertTrue(ToolBar.isDefaultToolbar(
-				ToolBar.getAllToolsNoMacros(true, false, false)));
-		assertTrue(ToolBar.isDefaultToolbar(
-				ToolBar.getAllToolsNoMacros(true, false, true)));
+		assertTrue(ToolBar.isDefaultToolbar(ToolBar.getAllToolsNoMacros(false, false, false)));
+		assertTrue(ToolBar.isDefaultToolbar(ToolBar.getAllToolsNoMacros(true, false, false)));
+		assertTrue(ToolBar.isDefaultToolbar(ToolBar.getAllToolsNoMacros(true, false, true)));
 	}
 }

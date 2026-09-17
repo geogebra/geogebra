@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,6 +42,7 @@ public class Characters {
 
 	/** Greek */
 	public static final char ALPHA = '\u03B1';
+
 	public static final char BETA = '\u03B2';
 	public static final char GAMMA = '\u03B3';
 	public static final char DELTA = '\u03B4';
@@ -70,6 +71,7 @@ public class Characters {
 
 	/** Special symbols */
 	public static final char INFINITY = '\u221E';
+
 	public static final char QUESTIONED_EQUAL_TO = '\u225F';
 	public static final char NOT_EQUAL_TO = '\u2260';
 	public static final char LOGICAL_AND = '\u2227';

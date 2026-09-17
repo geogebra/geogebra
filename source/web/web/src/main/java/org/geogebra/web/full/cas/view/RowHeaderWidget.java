@@ -96,10 +96,11 @@ public final class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		if (value == oldValue) {
 			return;
 		}
-		marble.setUrl(value ? AppResources.INSTANCE.shown().getSafeUri().asString()
-				: AppResources.INSTANCE.hidden().getSafeUri().asString());
+		marble.setUrl(
+				value
+						? AppResources.INSTANCE.shown().getSafeUri().asString()
+						: AppResources.INSTANCE.hidden().getSafeUri().asString());
 		oldValue = value;
-
 	}
 
 	@Override
@@ -120,8 +121,7 @@ public final class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		 * @param rowHeaderWidget
 		 *            row header
 		 */
-		private MarbleClickHandler(GeoCasCell cell,
-				RowHeaderWidget rowHeaderWidget) {
+		private MarbleClickHandler(GeoCasCell cell, RowHeaderWidget rowHeaderWidget) {
 			this.cell = cell;
 			this.rowHeaderWidget = rowHeaderWidget;
 		}
@@ -138,5 +138,4 @@ public final class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	private void cancelAnyEditing() {
 		casTable.cancelEditing();
 	}
-
 }

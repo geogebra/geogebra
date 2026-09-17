@@ -37,8 +37,8 @@ public final class SpreadsheetFocusableAdapter implements FocusableComponent {
 	 * @param hasFocus Whether keyboard focus is currently inside the spreadsheet.
 	 * @param focus Focuses the spreadsheet element.
 	 */
-	public SpreadsheetFocusableAdapter(BooleanSupplier isVisible,
-			BooleanSupplier hasFocus, Runnable focus) {
+	public SpreadsheetFocusableAdapter(
+			BooleanSupplier isVisible, BooleanSupplier hasFocus, Runnable focus) {
 		this.isVisible = isVisible;
 		this.hasFocus = hasFocus;
 		this.focus = focus;

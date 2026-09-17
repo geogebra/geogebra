@@ -16,13 +16,13 @@ import org.freehep.util.io.TaggedInputStream;
 /**
  * This class extends the TaggedInputStream with several methods to read EMF
  * primitives from the stream and to read TagHeaders.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EMFInputStream.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
 public class EMFInputStream extends TaggedInputStream implements EMFConstants {
 
-	final public static int DEFAULT_VERSION = 1;
+	public static final int DEFAULT_VERSION = 1;
 
 	public EMFInputStream(InputStream is) throws IOException {
 
@@ -82,15 +82,13 @@ public class EMFInputStream extends TaggedInputStream implements EMFConstants {
 	}
 
 	public Color readCOLORREF() throws IOException {
-		Color c = new Color(readUnsignedByte(), readUnsignedByte(),
-				readUnsignedByte());
+		Color c = new Color(readUnsignedByte(), readUnsignedByte(), readUnsignedByte());
 		readByte();
 		return c;
 	}
 
 	public Color readCOLOR16() throws IOException {
-		return new Color(readShort() >> 8, readShort() >> 8, readShort() >> 8,
-				readShort() >> 8);
+		return new Color(readShort() >> 8, readShort() >> 8, readShort() >> 8, readShort() >> 8);
 	}
 
 	public Color readCOLOR() throws IOException {
@@ -103,8 +101,8 @@ public class EMFInputStream extends TaggedInputStream implements EMFConstants {
 	}
 
 	public AffineTransform readXFORM() throws IOException {
-		return new AffineTransform(readFLOAT(), readFLOAT(), readFLOAT(),
-				readFLOAT(), readFLOAT(), readFLOAT());
+		return new AffineTransform(
+				readFLOAT(), readFLOAT(), readFLOAT(), readFLOAT(), readFLOAT(), readFLOAT());
 	}
 
 	public Rectangle readRECTL() throws IOException {

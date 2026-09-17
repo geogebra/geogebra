@@ -54,22 +54,23 @@ public final class ChartBuilder {
 	 */
 	public static @Nullable String getPieChartCommand(TabularData<?> data, TabularRange range) {
 		if (range.isEntireColumn()) {
-			return getPieChartCommand(data, 0, range.getMinColumn(),
-					data.numberOfRows() - 2, range.getMaxColumn());
+			return getPieChartCommand(
+					data, 0, range.getMinColumn(), data.numberOfRows() - 2, range.getMaxColumn());
 		} else if (range.isPartialColumn() && !range.isPartialRow() && !range.isEntireRow()) {
-			return getPieChartCommand(data, range.getFromRow(),
-					range.getFromColumn(), range.getToRow(), range.getToColumn());
+			return getPieChartCommand(
+					data, range.getFromRow(), range.getFromColumn(), range.getToRow(), range.getToColumn());
 		}
 		return null;
 	}
 
-	private static @NonNull String getPieChartCommand(TabularData<?> data,
-			int fromRow, int fromCol, int toRow, int toCol) {
+	private static @NonNull String getPieChartCommand(
+			TabularData<?> data, int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("PieChart");
 		sb.append("(");
 		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
-			sb.append(data.getCellName(fromRow, fromCol)).append(":")
+			sb.append(data.getCellName(fromRow, fromCol))
+					.append(":")
 					.append(data.getCellName(toRow, toCol));
 		}
 		sb.append(",");
@@ -85,30 +86,37 @@ public final class ChartBuilder {
 	 * @param ranges List of ranges in {@code data} from which to create the chart.
 	 * @return Bar chart command, e.g. =BarChart(A1:A3,B1:B3)
 	 */
-	public static @Nullable String getBarChartCommand(TabularData<?> data, List<TabularRange> ranges) {
+	public static @Nullable String getBarChartCommand(
+			TabularData<?> data, List<TabularRange> ranges) {
 		return getChart(data, ranges, "BarChart");
 	}
 
-	private static String getChart(TabularData<?> data, List<TabularRange> ranges,
-			String chartName) {
+	private static String getChart(TabularData<?> data, List<TabularRange> ranges, String chartName) {
 		TabularRangePair pair = new TabularRangePair(ranges);
 		if (pair.isInvalid()) {
 			return null;
 		}
-		return getChartCommandWithTwoListParameter(chartName, data,
-				pair.start.getFromRow(), pair.start.getFromColumn(),
-				pair.end.getToRow(), pair.end.getToColumn());
+		return getChartCommandWithTwoListParameter(
+				chartName,
+				data,
+				pair.start.getFromRow(),
+				pair.start.getFromColumn(),
+				pair.end.getToRow(),
+				pair.end.getToColumn());
 	}
 
-	private static @NonNull String getChartCommandWithTwoListParameter(String commandName,
-			TabularData<?> data, int fromRow, int fromCol, int toRow, int toCol) {
+	private static @NonNull String getChartCommandWithTwoListParameter(
+			String commandName, TabularData<?> data, int fromRow, int fromCol, int toRow, int toCol) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(commandName);
 		sb.append("(");
 		if (fromRow > -1 && fromCol > -1 && toRow > -1 && toCol > -1) {
-			sb.append(data.getCellName(fromRow, fromCol)).append(":")
+			sb.append(data.getCellName(fromRow, fromCol))
+					.append(":")
 					.append(data.getCellName(toRow, fromCol));
-			sb.append(",").append(data.getCellName(fromRow, toCol)).append(":")
+			sb.append(",")
+					.append(data.getCellName(fromRow, toCol))
+					.append(":")
 					.append(data.getCellName(toRow, toCol));
 		}
 		sb.append(")");
@@ -122,7 +130,8 @@ public final class ChartBuilder {
 	 * @param ranges List of ranges in {@code data} from which to create the chart.
 	 * @return Histogram command, e.g. =Histogram(A1:A3,B1:B3)
 	 */
-	public static @Nullable String getHistogramCommand(TabularData<?> data, List<TabularRange> ranges) {
+	public static @Nullable String getHistogramCommand(
+			TabularData<?> data, List<TabularRange> ranges) {
 		return getChart(data, ranges, "Histogram");
 	}
 
@@ -145,11 +154,9 @@ public final class ChartBuilder {
 	 * @param toColumn The column to use as list of y-coordinates.
 	 * @return Line graph command, e.g. =LineGraph(A1:A3,B1:B3)
 	 */
-	public static String getLineGraphCommand(TabularData<?> data, TabularRange range,
-			int toColumn) {
-		return getChartCommandWithTwoListParameter("LineGraph", data,
-				range.getFromRow(), range.getFromColumn(),
-				range.getToRow(), toColumn);
+	public static String getLineGraphCommand(TabularData<?> data, TabularRange range, int toColumn) {
+		return getChartCommandWithTwoListParameter(
+				"LineGraph", data, range.getFromRow(), range.getFromColumn(), range.getToRow(), toColumn);
 	}
 
 	/**
@@ -160,8 +167,8 @@ public final class ChartBuilder {
 	 * must be passed, otherwise the resulting command may be garbage.
 	 * @return The BoxPlot command
 	 */
-	public static @NonNull String getBoxPlotCommand(@NonNull TabularData<?> data,
-			@NonNull List<TabularRange> ranges) {
+	public static @NonNull String getBoxPlotCommand(
+			@NonNull TabularData<?> data, @NonNull List<TabularRange> ranges) {
 		TabularRange rawDataRange = ranges.get(0);
 		TabularRange frequenciesRange = null;
 		if (ranges.size() > 1) {
@@ -211,11 +218,9 @@ public final class ChartBuilder {
 		return sb.toString();
 	}
 
-	private static String formatCellRange(@NonNull TabularRange range,
-			@NonNull TabularData<?> data) {
+	private static String formatCellRange(@NonNull TabularRange range, @NonNull TabularData<?> data) {
 		return data.getCellName(range.getFromRow(), range.getFromColumn())
 				+ ":"
 				+ data.getCellName(range.getToRow(), range.getToColumn());
 	}
 }
-

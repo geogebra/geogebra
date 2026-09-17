@@ -25,8 +25,7 @@ import elemental2.dom.DomGlobal;
  * Shows about board link for Mebis.
  */
 public final class OpenAboutBoardActionMebis extends DefaultMenuAction<AppWFull> {
-	String BYCS_ABOUT_BOARD_URL
-			= "https://www.bycs.de/uebersicht-und-funktionen/board/index.html";
+	String BYCS_ABOUT_BOARD_URL = "https://www.bycs.de/uebersicht-und-funktionen/board/index.html";
 
 	@Override
 	public void execute(AppWFull app) {

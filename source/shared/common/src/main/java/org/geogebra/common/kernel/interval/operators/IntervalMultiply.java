@@ -80,7 +80,8 @@ public class IntervalMultiply {
 	}
 
 	private boolean isFiniteSingleton(IntervalSet set) {
-		return set.isConnected() && connectedInterval(set).isExactSingleton()
+		return set.isConnected()
+				&& connectedInterval(set).isExactSingleton()
 				&& Double.isFinite(connectedInterval(set).getLow());
 	}
 
@@ -160,39 +161,40 @@ public class IntervalMultiply {
 
 	private Interval legacyMulPositiveWithZeroAnd(Interval interval, Interval other) {
 		if (other.isNegativeWithZero()) {
-			return new Interval(prev(interval.getHigh() * other.getLow()), next(
-					interval.getLow() * other.getHigh()));
+			return new Interval(
+					prev(interval.getHigh() * other.getLow()), next(interval.getLow() * other.getHigh()));
 		}
 
 		if (other.isPositiveWithZero()) {
-			return new Interval(prev(interval.getLow() * other.getLow()), next(
-					interval.getHigh() * other.getHigh()));
+			return new Interval(
+					prev(interval.getLow() * other.getLow()), next(interval.getHigh() * other.getHigh()));
 		}
 
 		if (isZeroInBetween(other)) {
-			return new Interval(prev(interval.getHigh() * other.getLow()), next(
-					interval.getHigh() * other.getHigh()));
+			return new Interval(
+					prev(interval.getHigh() * other.getLow()), next(interval.getHigh() * other.getHigh()));
 		}
 		return org.geogebra.common.kernel.interval.IntervalConstants.undefined();
 	}
 
 	private Interval legacyMulIsZeroInBetween(Interval interval, Interval other) {
 		if (isZeroInBetween(other)) {
-			return new Interval(Math.min(prev(interval.getLow() * other.getHigh()), prev(
-					interval.getHigh() * other.getLow())),
-					Math.max(next(interval.getLow() * other.getLow()), next(
-							interval.getHigh() * other.getHigh())));
+			return new Interval(
+					Math.min(
+							prev(interval.getLow() * other.getHigh()), prev(interval.getHigh() * other.getLow())),
+					Math.max(
+							next(interval.getLow() * other.getLow()),
+							next(interval.getHigh() * other.getHigh())));
 		}
 
 		if (other.isNegativeWithZero()) {
-			return new Interval(prev(interval.getHigh() * other.getLow()), next(
-					interval.getLow() * other.getLow()));
-
+			return new Interval(
+					prev(interval.getHigh() * other.getLow()), next(interval.getLow() * other.getLow()));
 		}
 
 		if (other.isPositiveWithZero()) {
-			return new Interval(prev(interval.getLow() * other.getHigh()), next(
-					interval.getHigh() * other.getHigh()));
+			return new Interval(
+					prev(interval.getLow() * other.getHigh()), next(interval.getHigh() * other.getHigh()));
 		}
 		return org.geogebra.common.kernel.interval.IntervalConstants.undefined();
 	}
@@ -203,23 +205,22 @@ public class IntervalMultiply {
 
 	private Interval legacyMulNegativeWithZeroAnd(Interval interval, Interval other) {
 		if (other.getHigh() <= 0) {
-			return new Interval(prev(interval.getHigh() * other.getHigh()), next(
-					interval.getLow() * other.getLow()));
+			return new Interval(
+					prev(interval.getHigh() * other.getHigh()), next(interval.getLow() * other.getLow()));
 		}
 
 		if (isZeroInBetween(other)) {
-			return new Interval(prev(interval.getLow() * other.getHigh()), next(
-					interval.getLow() * other.getLow()));
+			return new Interval(
+					prev(interval.getLow() * other.getHigh()), next(interval.getLow() * other.getLow()));
 		}
 
 		if (other.getLow() >= 0) {
-			return new Interval(prev(interval.getLow() * other.getHigh()), next(
-					interval.getHigh() * other.getLow()));
+			return new Interval(
+					prev(interval.getLow() * other.getHigh()), next(interval.getHigh() * other.getLow()));
 		}
 
 		if (other.lowEquals(Double.NEGATIVE_INFINITY) && other.getHigh() <= 0) {
-			return new Interval(prev(interval.getHigh() * other.getHigh()),
-					Double.POSITIVE_INFINITY);
+			return new Interval(prev(interval.getHigh() * other.getHigh()), Double.POSITIVE_INFINITY);
 		}
 
 		return org.geogebra.common.kernel.interval.IntervalConstants.undefined();

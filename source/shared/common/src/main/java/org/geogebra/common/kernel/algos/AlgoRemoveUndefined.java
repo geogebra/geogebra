@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Remove undefined objects from a list.
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoRemoveUndefined extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -37,7 +36,7 @@ public class AlgoRemoveUndefined extends AlgoElement {
 
 	/**
 	 * Creates new undefined removal algo.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -45,8 +44,7 @@ public class AlgoRemoveUndefined extends AlgoElement {
 	 * @param inputList
 	 *            list to be filtered
 	 */
-	public AlgoRemoveUndefined(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoRemoveUndefined(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 
@@ -78,7 +76,7 @@ public class AlgoRemoveUndefined extends AlgoElement {
 
 	/**
 	 * Returns the pruned list
-	 * 
+	 *
 	 * @return pruned list
 	 */
 	public GeoList getResult() {
@@ -112,12 +110,12 @@ public class AlgoRemoveUndefined extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if geo is defined (and finite for a point)
 	 */
-	static public boolean isDefined(GeoElement geo) {
+	public static boolean isDefined(GeoElement geo) {
 
 		boolean isDefined = geo.isDefined();
 
@@ -129,5 +127,4 @@ public class AlgoRemoveUndefined extends AlgoElement {
 
 		return isDefined;
 	}
-
 }

@@ -35,8 +35,8 @@ public class ShowAllObjectsAction extends AbstractActionableProperty
 	 * @param appConfig app config
 	 * @param euclidianView euclidean view
 	 */
-	public ShowAllObjectsAction(Localization localization, AppConfig appConfig,
-			EuclidianViewInterfaceCommon euclidianView) {
+	public ShowAllObjectsAction(
+			Localization localization, AppConfig appConfig, EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "ShowAllObjects");
 		this.appConfig = appConfig;
 		this.euclidianView = euclidianView;

@@ -39,44 +39,60 @@ public class DynamicColorPropertyCollection extends PropertyCollectionWithLead {
 	 * @param localization localization for translating property names
 	 * @param elements the elements to create the property for
 	 */
-	public DynamicColorPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> elements) {
-		super(localization, "DynamicColors",
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new DynamicColorModeProperty(localization, element),
+	public DynamicColorPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements) {
+		super(
+				localization,
+				"DynamicColors",
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> new DynamicColorModeProperty(localization, element),
 						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						new DynamicColorSpaceProperty(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> new DynamicColorSpaceProperty(localization, element),
 						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forRed(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forRed(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forGreen(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forGreen(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forBlue(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forBlue(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forHueHSB(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forHueHSB(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forHueHSL(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forHueHSL(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forSaturationHSB(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forSaturationHSB(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forSaturationHSL(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forSaturationHSL(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forBrightness(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forBrightness(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forLightness(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forLightness(localization, element),
 						StringPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements, element ->
-						DynamicColorComponentProperty.forOpacity(localization, element),
+				propertiesFactory.createOptionalPropertyFacade(
+						elements,
+						element -> DynamicColorComponentProperty.forOpacity(localization, element),
 						StringPropertyListFacade::new));
 	}
 }

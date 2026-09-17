@@ -92,7 +92,5 @@ public class AlgoOrdinal extends AlgoElement {
 		}
 
 		text.setTextString(getLoc().getLanguage().getOrdinalNumber((int) num));
-
 	}
-
 }

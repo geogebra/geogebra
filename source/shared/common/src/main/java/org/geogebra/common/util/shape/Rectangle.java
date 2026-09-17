@@ -135,7 +135,8 @@ public final class Rectangle {
 	 * @return A new rectangle inset by the given x and y margins.
 	 */
 	public Rectangle insetBy(double dx, double dy) {
-		return new Rectangle(new Point(getMinX() + dx, getMinY() + dy),
+		return new Rectangle(
+				new Point(getMinX() + dx, getMinY() + dy),
 				new Size(getWidth() - 2 * dx, getHeight() - 2 * dy));
 	}
 
@@ -145,8 +146,7 @@ public final class Rectangle {
 			return false;
 		}
 		Rectangle other = (Rectangle) object;
-		return Objects.equals(origin, other.origin)
-				&& Objects.equals(size, other.size);
+		return Objects.equals(origin, other.origin) && Objects.equals(size, other.size);
 	}
 
 	@Override

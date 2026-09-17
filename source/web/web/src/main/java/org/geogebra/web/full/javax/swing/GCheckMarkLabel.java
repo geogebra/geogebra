@@ -39,5 +39,4 @@ public final class GCheckMarkLabel extends GCheckMarkPanel {
 			}
 		});
 	}
-
 }

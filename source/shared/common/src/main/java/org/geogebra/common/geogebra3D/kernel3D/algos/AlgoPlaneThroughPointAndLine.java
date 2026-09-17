@@ -43,20 +43,18 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 	 * @param line
 	 *            line in plane
 	 */
-	public AlgoPlaneThroughPointAndLine(Construction cons, String label,
-			GeoPointND point, GeoLineND line) {
+	public AlgoPlaneThroughPointAndLine(
+			Construction cons, String label, GeoPointND point, GeoLineND line) {
 		super(cons, point);
 
 		this.line = line;
 
 		setInputOutput(
-				new GeoElement[] { (GeoElement) point, (GeoElement) line },
-				new GeoElement[] { getPlane() });
+				new GeoElement[] {(GeoElement) point, (GeoElement) line}, new GeoElement[] {getPlane()});
 
 		// compute plane
 		compute();
 		getPlane().setLabel(label);
-
 	}
 
 	@Override
@@ -78,7 +76,6 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 		if (coordsys.makeOrthoMatrix(true, false)) {
 			coordsys.setEquationVector(cA, cB, cC);
 		}
-
 	}
 
 	@Override
@@ -87,10 +84,8 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PlaneThroughAB", getPoint().getLabel(tpl),
-				getSecondInput().getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain("PlaneThroughAB", getPoint().getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
-
 }

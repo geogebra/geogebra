@@ -58,8 +58,7 @@ public class AlgoTranslate3D extends AlgoTranslate {
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if ((geo instanceof GeoFunction || geo instanceof GeoCurveCartesian)
-				&& v.isGeoElement3D()) {
+		if ((geo instanceof GeoFunction || geo instanceof GeoCurveCartesian) && v.isGeoElement3D()) {
 			return new GeoCurveCartesian3D(cons);
 		}
 
@@ -77,11 +76,10 @@ public class AlgoTranslate3D extends AlgoTranslate {
 	@Override
 	protected void setOutGeo() {
 		if (inGeo instanceof GeoFunction && v.isGeoElement3D()) {
-			AlgoTransformation3D.toGeoCurveCartesian(kernel,
-					(GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
+			AlgoTransformation3D.toGeoCurveCartesian(
+					kernel, (GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
 		} else {
 			super.setOutGeo();
 		}
 	}
-
 }

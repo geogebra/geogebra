@@ -35,7 +35,7 @@ public class CmdDelete extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,35 +47,39 @@ public class CmdDelete extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 1:
-			GeoElement[] arg;
-			try {
-				arg = resArgs(c);
-			} catch (Error e) {
-				return new GeoElement[0];
-			}
+			case 1:
+				GeoElement[] arg;
+				try {
+					arg = resArgs(c);
+				} catch (Error e) {
+					return new GeoElement[0];
+				}
 
-			GeoElement geo = arg[0];
+				GeoElement geo = arg[0];
 
-			AlgoElement algoParent = geo.getParentAlgorithm();
-			if (algoParent instanceof AlgoDependentGeoCopy) {
-				algoParent.getInput(0)
-						.removeOrSetUndefinedIfHasFixedDescendent();
-			} else if (algoParent instanceof AlgoCellRange cellRange) {
-				// delete cells
-				SpreadsheetCoords startCoords = cellRange.getStartCoords();
-				SpreadsheetCoords endCoords = cellRange.getEndCoords();
-				CopyPasteCut.delete(app, startCoords.column, startCoords.row,
-						endCoords.column, endCoords.row, SelectionType.CELLS);
-			} else if (geo.isLabelSet()) {
-				// delete object
-				geo.removeOrSetUndefinedIfHasFixedDescendent();
-			}
+				AlgoElement algoParent = geo.getParentAlgorithm();
+				if (algoParent instanceof AlgoDependentGeoCopy) {
+					algoParent.getInput(0).removeOrSetUndefinedIfHasFixedDescendent();
+				} else if (algoParent instanceof AlgoCellRange cellRange) {
+					// delete cells
+					SpreadsheetCoords startCoords = cellRange.getStartCoords();
+					SpreadsheetCoords endCoords = cellRange.getEndCoords();
+					CopyPasteCut.delete(
+							app,
+							startCoords.column,
+							startCoords.row,
+							endCoords.column,
+							endCoords.row,
+							SelectionType.CELLS);
+				} else if (geo.isLabelSet()) {
+					// delete object
+					geo.removeOrSetUndefinedIfHasFixedDescendent();
+				}
 
-			return arg;
+				return arg;
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -43,23 +43,31 @@ public class TextStyleProperty extends AbstractPropertyCollection<ToggleableIcon
 	 * elements
 	 */
 	public TextStyleProperty(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Properties.TextStyle");
-		setProperties(Arrays.stream(new ToggleableIconProperty[]{
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new BoldProperty(localization, element),
-						ToggleableIconPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new ItalicProperty(localization, element),
-						ToggleableIconPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new UnderlineProperty(localization, element),
-						ToggleableIconPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SerifProperty(localization, element),
-						ToggleableIconPropertyListFacade::new)
-		}).filter(Objects::nonNull).toArray(ToggleableIconProperty[]::new));
+		setProperties(Arrays.stream(new ToggleableIconProperty[] {
+					propertiesFactory.createOptionalPropertyFacade(
+							elements,
+							element -> new BoldProperty(localization, element),
+							ToggleableIconPropertyListFacade::new),
+					propertiesFactory.createOptionalPropertyFacade(
+							elements,
+							element -> new ItalicProperty(localization, element),
+							ToggleableIconPropertyListFacade::new),
+					propertiesFactory.createOptionalPropertyFacade(
+							elements,
+							element -> new UnderlineProperty(localization, element),
+							ToggleableIconPropertyListFacade::new),
+					propertiesFactory.createOptionalPropertyFacade(
+							elements,
+							element -> new SerifProperty(localization, element),
+							ToggleableIconPropertyListFacade::new)
+				})
+				.filter(Objects::nonNull)
+				.toArray(ToggleableIconProperty[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

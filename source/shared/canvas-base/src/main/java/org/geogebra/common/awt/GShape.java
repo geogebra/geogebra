@@ -87,5 +87,4 @@ public interface GShape {
 	 * @return whether this shape intersects the rectangle.
 	 */
 	boolean intersects(GRectangle2D r);
-
 }

@@ -69,7 +69,6 @@ class ShowConditionPropertyTests extends BaseAppTestSetup {
 		slider.setValue(-1);
 		slider.updateRepaint();
 		assertFalse(point.isEuclidianVisible());
-
 	}
 
 	@Test

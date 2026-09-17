@@ -22,5 +22,4 @@ public class CSVException extends Exception {
 	public CSVException(String s) {
 		super(s);
 	}
-
 }

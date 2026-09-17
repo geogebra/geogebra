@@ -26,4 +26,4 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
-public @interface TestOnly { }
+public @interface TestOnly {}

@@ -90,8 +90,7 @@ public final class IntervalConstants {
 	 * @return a newly created positive infinity singleton interval.
 	 */
 	public static Interval positiveInfinity() {
-		return new Interval(Double.POSITIVE_INFINITY,
-				Double.POSITIVE_INFINITY);
+		return new Interval(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 	}
 
 	/**
@@ -99,8 +98,7 @@ public final class IntervalConstants {
 	 * @return a newly created negative infinity singleton interval.
 	 */
 	public static Interval negativeInfinity() {
-		return new Interval(Double.NEGATIVE_INFINITY,
-				Double.NEGATIVE_INFINITY);
+		return new Interval(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 	}
 
 	/**

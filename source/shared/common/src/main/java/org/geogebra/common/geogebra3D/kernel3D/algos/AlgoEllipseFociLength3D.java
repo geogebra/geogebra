@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -27,13 +27,17 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Ellipse for given foci and first semi-axis length
- * 
+ *
  * @author Markus
  */
 public class AlgoEllipseFociLength3D extends AlgoConicFociLength3D {
 
-	public AlgoEllipseFociLength3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoNumberValue a,
+	public AlgoEllipseFociLength3D(
+			Construction cons,
+			String label,
+			GeoPointND A,
+			GeoPointND B,
+			GeoNumberValue a,
 			GeoDirectionND orientation) {
 		super(cons, label, A, B, a, orientation);
 	}
@@ -49,24 +53,29 @@ public class AlgoEllipseFociLength3D extends AlgoConicFociLength3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// direction is plane
 		if (orientation instanceof GeoCoordSys2D) {
-			return getLoc().getPlain(
-					conic.isHyperbola()
-							? "HyperbolaWithFociABandFirstAxisLengthCParallelToD"
-							: "EllipseWithFociABandFirstAxisLengthCParallelToD",
-					A.getLabel(tpl), B.getLabel(tpl),
-					a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
+			return getLoc()
+					.getPlain(
+							conic.isHyperbola()
+									? "HyperbolaWithFociABandFirstAxisLengthCParallelToD"
+									: "EllipseWithFociABandFirstAxisLengthCParallelToD",
+							A.getLabel(tpl),
+							B.getLabel(tpl),
+							a.toGeoElement().getLabel(tpl),
+							orientation.getLabel(tpl));
 		}
 
 		// direction is line
-		return getLoc().getPlain(
-				conic.isHyperbola()
-						? "HyperbolaWithFociABandFirstAxisLengthCPerpendicularToD"
-						: "EllipseWithFociABandFirstAxisLengthCPerpendicularToD",
-				A.getLabel(tpl), B.getLabel(tpl),
-				a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
+		return getLoc()
+				.getPlain(
+						conic.isHyperbola()
+								? "HyperbolaWithFociABandFirstAxisLengthCPerpendicularToD"
+								: "EllipseWithFociABandFirstAxisLengthCPerpendicularToD",
+						A.getLabel(tpl),
+						B.getLabel(tpl),
+						a.toGeoElement().getLabel(tpl),
+						orientation.getLabel(tpl));
 	}
-
 }

@@ -44,10 +44,10 @@ public class CmdReplaceAll extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoText())
 					&& (ok[1] = arg[1].isGeoText())
 					&& (ok[2] = arg[2].isGeoText())) {
-				AlgoReplaceAll algo = new AlgoReplaceAll(cons, (GeoText) arg[0],
-						(GeoText) arg[1], (GeoText) arg[2]);
+				AlgoReplaceAll algo =
+						new AlgoReplaceAll(cons, (GeoText) arg[0], (GeoText) arg[1], (GeoText) arg[2]);
 				algo.getOutput(0).setLabel(c.getLabel());
-				return new GeoElement[]{algo.getOutput(0)};
+				return new GeoElement[] {algo.getOutput(0)};
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		}

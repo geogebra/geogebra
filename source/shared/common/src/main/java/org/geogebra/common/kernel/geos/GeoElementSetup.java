@@ -22,10 +22,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * Contract for setting up or configuring a {@link GeoElementND}.
  */
 public interface GeoElementSetup {
-    /**
-     * Sets up or configures the given {@link GeoElementND}.
-     * @param geoElementND The {@link GeoElementND} to be configured
-     * @return true if this method changed anything on geoElementND; false otherwise
-     */
-    boolean applyTo(GeoElementND geoElementND);
+	/**
+	 * Sets up or configures the given {@link GeoElementND}.
+	 * @param geoElementND The {@link GeoElementND} to be configured
+	 * @return true if this method changed anything on geoElementND; false otherwise
+	 */
+	boolean applyTo(GeoElementND geoElementND);
 }

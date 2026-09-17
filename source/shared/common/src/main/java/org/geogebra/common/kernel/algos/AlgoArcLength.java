@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
  * Length of an arc.
- * 
+ *
  * @author michael
  */
 public class AlgoArcLength extends AlgoElement {
@@ -82,10 +82,8 @@ public class AlgoArcLength extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("ArcLengthOfA", "Arc length of %0",
-				((GeoElement) arc).getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault("ArcLengthOfA", "Arc length of %0", ((GeoElement) arc).getLabel(tpl));
 	}
-
 }

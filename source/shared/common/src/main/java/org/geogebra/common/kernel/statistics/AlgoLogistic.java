@@ -23,14 +23,17 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Cumulative Logistic[mean, s, val]
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoLogistic extends AlgoDistribution {
 
-	public AlgoLogistic(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue c, GeoBoolean cumulative) {
+	public AlgoLogistic(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoBoolean cumulative) {
 		super(cons, a, b, c, cumulative);
 	}
 
@@ -42,16 +45,14 @@ public class AlgoLogistic extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double mean = a.getDouble();
 			double s = b.getDouble();
 			double x = c.getDouble();
 			// en = en.subtract(mean).divide(absS).reverseSign().exp();
 			boolean pdf = isCumulative == null || isCumulative.getBoolean();
 			double exp = Math.exp((-(x - mean)) / Math.abs(s));
-			num.setValue(pdf ? 1 / (1 + exp)
-					: exp / Math.abs(s) / Math.pow(exp + 1, 2));
+			num.setValue(pdf ? 1 / (1 + exp) : exp / Math.abs(s) / Math.pow(exp + 1, 2));
 
 			// old hack
 			// processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))",
@@ -61,5 +62,4 @@ public class AlgoLogistic extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

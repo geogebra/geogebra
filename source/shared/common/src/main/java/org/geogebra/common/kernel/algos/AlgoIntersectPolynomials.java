@@ -26,13 +26,12 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  * Finds intersection points of two polynomials (using the roots of their
  * difference)
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoIntersectPolynomials extends AlgoRootsPolynomial {
 
-	public AlgoIntersectPolynomials(Construction cons, GeoFunctionable f,
-			GeoFunctionable g) {
+	public AlgoIntersectPolynomials(Construction cons, GeoFunctionable f, GeoFunctionable g) {
 		super(cons, f, g);
 	}
 
@@ -55,10 +54,11 @@ public class AlgoIntersectPolynomials extends AlgoRootsPolynomial {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlainDefault("IntersectionOfAandB",
-				"Intersection of %0, %1",
-				input[0].getLabel(tpl), input[1].getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"IntersectionOfAandB",
+						"Intersection of %0, %1",
+						input[0].getLabel(tpl),
+						input[1].getLabel(tpl));
 	}
-
 }

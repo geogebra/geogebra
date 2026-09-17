@@ -59,8 +59,8 @@ public final class ImagePickerPanel extends FlowPanel implements ConfigurationUp
 		if (imagePicker.getButtonAlignment() == ImagePicker.ButtonAlignment.START) {
 			fileChooser.addStyleName("buttonAlignmentStart");
 		}
-		fileChooser.addFastClickHandler(event -> UploadImagePanel.getUploadButton(appW,
-				this::uploadImageUpdateUI).click());
+		fileChooser.addFastClickHandler(event ->
+				UploadImagePanel.getUploadButton(appW, this::uploadImageUpdateUI).click());
 		add(fileChooser);
 
 		buildFileEditPanel();
@@ -76,15 +76,21 @@ public final class ImagePickerPanel extends FlowPanel implements ConfigurationUp
 		customIconButtonPanel.add(imagePreview);
 		customIconButtonPanel.add(imageName);
 
-		IconButton editButton = new IconButton(appW, () -> UploadImagePanel.getUploadButton(appW,
-				this::uploadImageUpdateUI).click(),
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.edit_black()), "edit");
+		IconButton editButton = new IconButton(
+				appW,
+				() -> UploadImagePanel.getUploadButton(appW, this::uploadImageUpdateUI).click(),
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.edit_black()),
+				"edit");
 		customIconButtonPanel.add(editButton);
 
-		IconButton deleteButton = new IconButton(appW, () -> {
-			imagePicker.clearImage();
-			updateCustomIconPanelVisibility(true);
-		}, new ImageIconSpec(MaterialDesignResources.INSTANCE.delete_black()), "delete");
+		IconButton deleteButton = new IconButton(
+				appW,
+				() -> {
+					imagePicker.clearImage();
+					updateCustomIconPanelVisibility(true);
+				},
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.delete_black()),
+				"delete");
 		customIconButtonPanel.add(deleteButton);
 
 		add(customIconButtonPanel);

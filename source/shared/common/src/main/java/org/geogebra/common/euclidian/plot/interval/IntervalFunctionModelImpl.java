@@ -37,8 +37,11 @@ public class IntervalFunctionModelImpl implements IntervalFunctionModel {
 	 * @param sampler to retrieve function data from.
 	 * @param bounds {@link EuclidianView}
 	 */
-	public IntervalFunctionModelImpl(IntervalFunctionData data, IntervalFunctionSampler sampler,
-			EuclidianViewBounds bounds, IntervalPath path) {
+	public IntervalFunctionModelImpl(
+			IntervalFunctionData data,
+			IntervalFunctionSampler sampler,
+			EuclidianViewBounds bounds,
+			IntervalPath path) {
 		this.data = data;
 		this.sampler = sampler;
 		this.bounds = bounds;

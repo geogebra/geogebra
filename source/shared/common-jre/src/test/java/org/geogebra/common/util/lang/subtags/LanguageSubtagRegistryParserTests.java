@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -30,10 +30,8 @@ import org.junit.jupiter.api.Test;
 class LanguageSubtagRegistryParserTests {
 
 	private static final String HEADER = "File-Date: 2023-05-11\n%%\n";
-	private static final String SINGLE_ENTRY = "Type: language\n"
-			+ "Subtag: aa\n"
-			+ "Description: Afar\n"
-			+ "Added: 2005-10-16";
+	private static final String SINGLE_ENTRY =
+			"Type: language\n" + "Subtag: aa\n" + "Description: Afar\n" + "Added: 2005-10-16";
 	private static final String TWO_ENTRIES = "Type: language\n"
 			+ "Subtag: aa\n"
 			+ "Description: Afar\n"
@@ -90,27 +88,26 @@ class LanguageSubtagRegistryParserTests {
 		List<Record> records = parse(HEADER + LINE_CONTINUATION);
 		assertThat(records, hasSize(1));
 		List<Field> fields = records.get(0).fields;
-		assertThat(fields.get(2).body,
+		assertThat(
+				fields.get(2).body,
 				is("Portuguese Language Orthographic Agreement of 1990 (Acordo\n"
-						+ "  Ortográfico da Língua Portuguesa de 1990)"
-				));
-		assertThat(fields.get(6).body,
+						+ "  Ortográfico da Língua Portuguesa de 1990)"));
+		assertThat(
+				fields.get(6).body,
 				is("Portuguese orthography conventions established in 1990 but\n"
-						+ "  not brought into effect until 2009"
-				));
+						+ "  not brought into effect until 2009"));
 	}
 
 	@Test
 	void testColonInFieldBody() throws Exception {
 		List<Record> records = parse(HEADER + COLON_IN_FIELD_BODY);
-		assertThat(records.get(0).fields.get(6).body,
-				is("published by error in Table 1 of ISO 639:1988"));
+		assertThat(
+				records.get(0).fields.get(6).body, is("published by error in Table 1 of ISO 639:1988"));
 	}
 
 	@Test
 	void testInvalidFormatThrowsException() {
-		assertThrows(Exception.class, () ->
-			parse("Invalid format"));
+		assertThrows(Exception.class, () -> parse("Invalid format"));
 	}
 
 	private static List<Record> parse(String string) throws Exception {

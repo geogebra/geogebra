@@ -25,7 +25,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for drawing surfaces.
- * 
+ *
  * @author Mathieu
  *
  */
@@ -42,20 +42,24 @@ public class PlotterSurface {
 
 	/** domain for plotting */
 	private float uMin;
+
 	private float uMax;
 	private float vMin;
 	private float vMax;
 
 	/** number of plotting */
 	private int uNb;
+
 	private int vNb;
 
 	/** delta for plotting */
 	private float du;
+
 	private float dv;
 
 	/** fading values */
 	private float uMinFade;
+
 	private float uMaxFade;
 	private float vMinFade;
 	private float vMaxFade;
@@ -84,24 +88,23 @@ public class PlotterSurface {
 
 	protected Coords center2 = new Coords(4);
 
-	private final Coords[] centers = new Coords[] { center1, center2 };
+	private final Coords[] centers = new Coords[] {center1, center2};
 
 	private Coords n = new Coords(4);
 
 	/** texture coord for out (alpha = 0) */
-	static final private float TEXTURE_FADE_OUT = 0.75f;
+	private static final float TEXTURE_FADE_OUT = 0.75f;
 	/** texture coord for in (alpha = 1) */
-	static final private float TEXTURE_FADE_IN = 0f;
+	private static final float TEXTURE_FADE_IN = 0f;
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param manager
 	 *            manager
 	 */
 	public PlotterSurface(Manager manager) {
 		this.manager = manager;
-
 	}
 
 	// //////////////////////////////////
@@ -110,7 +113,7 @@ public class PlotterSurface {
 
 	/**
 	 * start new surface
-	 * 
+	 *
 	 * @param old
 	 *            old index
 	 */
@@ -120,7 +123,7 @@ public class PlotterSurface {
 
 	/**
 	 * start new surface
-	 * 
+	 *
 	 * @param fun
 	 *            function
 	 * @param old
@@ -137,7 +140,7 @@ public class PlotterSurface {
 
 	/**
 	 * end surface
-	 * 
+	 *
 	 * @return gl index of the surface
 	 */
 	public int end() {
@@ -151,7 +154,7 @@ public class PlotterSurface {
 
 	/**
 	 * set domain for u parameter
-	 * 
+	 *
 	 * @param min
 	 *            min for u
 	 * @param max
@@ -164,7 +167,7 @@ public class PlotterSurface {
 
 	/**
 	 * set domain for v parameter
-	 * 
+	 *
 	 * @param min
 	 *            min for v
 	 * @param max
@@ -177,7 +180,7 @@ public class PlotterSurface {
 
 	/**
 	 * set number of plot for u
-	 * 
+	 *
 	 * @param n
 	 *            number of plot for u
 	 */
@@ -187,7 +190,7 @@ public class PlotterSurface {
 
 	/**
 	 * set number of plot for v
-	 * 
+	 *
 	 * @param n
 	 *            number of plot for v
 	 */
@@ -197,7 +200,7 @@ public class PlotterSurface {
 
 	/**
 	 * set fading frontiers for u parameter
-	 * 
+	 *
 	 * @param min
 	 *            min for u (fading)
 	 * @param max
@@ -210,7 +213,7 @@ public class PlotterSurface {
 
 	/**
 	 * set fading frontiers for v parameter
-	 * 
+	 *
 	 * @param min
 	 *            min for v (fading)
 	 * @param max
@@ -237,10 +240,9 @@ public class PlotterSurface {
 		float uT = getTextureCoord(1, uNb, uMinFadeNb, uMaxFadeNb);
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
-		
+
 		if (shouldPackConics()) {
-			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1),
-					tmpCoords2.setSub3(p3, p1));
+			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1), tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
 		}
 		manager.vertexToScale(p1);
@@ -251,10 +253,10 @@ public class PlotterSurface {
 
 	/**
 	 * draw a quadrilateral
-	 * 
+	 *
 	 * @param d
 	 *            drawable
-	 * 
+	 *
 	 * @param p1
 	 *            vertex 1
 	 * @param p2
@@ -273,8 +275,7 @@ public class PlotterSurface {
 		manager.texture(uT, vT);
 
 		if (shouldPackConics()) {
-			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1),
-					tmpCoords2.setSub3(p3, p1));
+			tmpCoords3.setCrossProduct4(tmpCoords.setSub3(p2, p1), tmpCoords2.setSub3(p3, p1));
 			manager.normalToScale(tmpCoords3.normalize());
 		}
 		manager.vertexToScale(p1);
@@ -383,9 +384,9 @@ public class PlotterSurface {
 	}
 
 	/**
-	 * 
+	 *
 	 * draw triangle
-	 * 
+	 *
 	 * @param p1
 	 *            first vertex
 	 * @param p2
@@ -399,8 +400,8 @@ public class PlotterSurface {
 	 * @param norm3
 	 *            third normal
 	 */
-	public void triangle(Coords3 p1, Coords3 p2, Coords3 p3, Coords3 norm1,
-			Coords3 norm2, Coords3 norm3) {
+	public void triangle(
+			Coords3 p1, Coords3 p2, Coords3 p3, Coords3 norm1, Coords3 norm2, Coords3 norm3) {
 		manager.normal(norm1.getXd(), norm1.getYd(), norm1.getZd());
 		manager.vertexToScale(p1.getXd(), p1.getYd(), p1.getZd());
 		manager.normal(norm2.getXd(), norm2.getYd(), norm2.getZd());
@@ -411,7 +412,7 @@ public class PlotterSurface {
 
 	/**
 	 * start triangles
-	 * 
+	 *
 	 * @param size
 	 *            vertices size
 	 */
@@ -420,7 +421,6 @@ public class PlotterSurface {
 		manager.startGeometryDirect(Manager.Type.TRIANGLES, size);
 
 		manager.setDummyTexture();
-
 	}
 
 	/**
@@ -457,7 +457,7 @@ public class PlotterSurface {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param radius
 	 *            radius of the sphere
 	 * @param viewScale
@@ -471,7 +471,7 @@ public class PlotterSurface {
 		// App.error(""+size);
 		while (longitude * longitude <= 16 * size
 				&& longitude < manager.getLongitudeMax()) { // find the correct
-															// longitude size
+			// longitude size
 			longitude *= 2;
 		}
 
@@ -482,7 +482,7 @@ public class PlotterSurface {
 	/**
 	 * draw a sphere with center and radius. view scaling is used to know how
 	 * many triangles are needed
-	 * 
+	 *
 	 * @param center
 	 *            center of the sphere
 	 * @param radius
@@ -497,7 +497,7 @@ public class PlotterSurface {
 
 	/**
 	 * draw an ellipsoid
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param ev0
@@ -515,23 +515,28 @@ public class PlotterSurface {
 	 * @param longitude
 	 *            longitude length for rendering
 	 */
-	public void drawEllipsoid(Coords center, Coords ev0, Coords ev1, Coords ev2,
-			double r0, double r1, double r2, int longitude) {
+	public void drawEllipsoid(
+			Coords center,
+			Coords ev0,
+			Coords ev1,
+			Coords ev2,
+			double r0,
+			double r1,
+			double r2,
+			int longitude) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(manager.getRenderer(),
-					manager.getView3D(), manager);
+			managerElements =
+					new ManagerElementForGLList(manager.getRenderer(), manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawEllipsoid(center, ev0, ev1, ev2, r0, r1, r2,
-				longitude);
-
+		plotterElements.drawEllipsoid(center, ev0, ev1, ev2, r0, r1, r2, longitude);
 	}
 
 	/**
 	 * draw an hyperboloid (one sheet)
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param ev0
@@ -554,25 +559,34 @@ public class PlotterSurface {
 	 *            maximum parameter for axis
 	 * @param fading
 	 *            if we need fading or not
-	 * 
+	 *
 	 */
-	public void drawHyperboloidOneSheet(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r0, double r1, double r2, int longitude,
-			double min, double max, boolean fading) {
+	public void drawHyperboloidOneSheet(
+			Coords center,
+			Coords ev0,
+			Coords ev1,
+			Coords ev2,
+			double r0,
+			double r1,
+			double r2,
+			int longitude,
+			double min,
+			double max,
+			boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(manager.getRenderer(),
-					manager.getView3D(), manager);
+			managerElements =
+					new ManagerElementForGLList(manager.getRenderer(), manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1,
-				r2, longitude, min, max, fading);
+		plotterElements.drawHyperboloidOneSheet(
+				center, ev0, ev1, ev2, r0, r1, r2, longitude, min, max, fading);
 	}
 
 	/**
 	 * draw an hyperboloid (two sheets)
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param ev0
@@ -595,25 +609,34 @@ public class PlotterSurface {
 	 *            maximum parameter for axis
 	 * @param fading
 	 *            if we need fading or not
-	 * 
+	 *
 	 */
-	public void drawHyperboloidTwoSheets(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r0, double r1, double r2, int longitude,
-			double min, double max, boolean fading) {
+	public void drawHyperboloidTwoSheets(
+			Coords center,
+			Coords ev0,
+			Coords ev1,
+			Coords ev2,
+			double r0,
+			double r1,
+			double r2,
+			int longitude,
+			double min,
+			double max,
+			boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(manager.getRenderer(),
-					manager.getView3D(), manager);
+			managerElements =
+					new ManagerElementForGLList(manager.getRenderer(), manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawHyperboloidTwoSheets(center, ev0, ev1, ev2, r0, r1,
-				r2, longitude, min, max, fading);
+		plotterElements.drawHyperboloidTwoSheets(
+				center, ev0, ev1, ev2, r0, r1, r2, longitude, min, max, fading);
 	}
 
 	/**
 	 * draw a paraboloid
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param ev0
@@ -634,25 +657,32 @@ public class PlotterSurface {
 	 *            maximum parameter for axis
 	 * @param fading
 	 *            if we need fading or not
-	 * 
+	 *
 	 */
-	public void drawParaboloid(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r0, double r1, int longitude, double min,
-			double max, boolean fading) {
+	public void drawParaboloid(
+			Coords center,
+			Coords ev0,
+			Coords ev1,
+			Coords ev2,
+			double r0,
+			double r1,
+			int longitude,
+			double min,
+			double max,
+			boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(manager.getRenderer(),
-					manager.getView3D(), manager);
+			managerElements =
+					new ManagerElementForGLList(manager.getRenderer(), manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawParaboloid(center, ev0, ev1, ev2, r0, r1, longitude,
-				min, max, fading);
+		plotterElements.drawParaboloid(center, ev0, ev1, ev2, r0, r1, longitude, min, max, fading);
 	}
 
 	/**
 	 * draw an hyperbolic paraboloid
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param ev0
@@ -675,25 +705,34 @@ public class PlotterSurface {
 	 *            maximum parameter for second axis
 	 * @param fading
 	 *            if we need fading or not
-	 * 
+	 *
 	 */
-	public void drawHyperbolicParaboloid(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r0, double r1, double min0, double max0,
-			double min1, double max1, boolean fading) {
+	public void drawHyperbolicParaboloid(
+			Coords center,
+			Coords ev0,
+			Coords ev1,
+			Coords ev2,
+			double r0,
+			double r1,
+			double min0,
+			double max0,
+			double min1,
+			double max1,
+			boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(manager.getRenderer(),
-					manager.getView3D(), manager);
+			managerElements =
+					new ManagerElementForGLList(manager.getRenderer(), manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawHyperbolicParaboloid(center, ev0, ev1, ev2, r0, r1,
-				min0, max0, min1, max1, fading);
+		plotterElements.drawHyperbolicParaboloid(
+				center, ev0, ev1, ev2, r0, r1, min0, max0, min1, max1, fading);
 	}
 
 	/**
 	 * draw a parabolic cylinder
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param ev0
@@ -714,25 +753,33 @@ public class PlotterSurface {
 	 *            maximum parameter for line axis
 	 * @param fading
 	 *            if we need fading or not
-	 * 
+	 *
 	 */
-	public void drawParabolicCylinder(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r, double min, double max, double lineMin,
-			double lineMax, boolean fading) {
+	public void drawParabolicCylinder(
+			Coords center,
+			Coords ev0,
+			Coords ev1,
+			Coords ev2,
+			double r,
+			double min,
+			double max,
+			double lineMin,
+			double lineMax,
+			boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(manager.getRenderer(),
-					manager.getView3D(), manager);
+			managerElements =
+					new ManagerElementForGLList(manager.getRenderer(), manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawParabolicCylinder(center, ev0, ev1, ev2, r, min,
-				max, lineMin, lineMax, fading);
+		plotterElements.drawParabolicCylinder(
+				center, ev0, ev1, ev2, r, min, max, lineMin, lineMax, fading);
 	}
 
 	/**
 	 * draw an hyperbolic cylinder
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param ev0
@@ -755,26 +802,35 @@ public class PlotterSurface {
 	 *            maximum parameter for line axis
 	 * @param fading
 	 *            if we need fading or not
-	 * 
+	 *
 	 */
-	public void drawHyperbolicCylinder(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r1, double r2, double min, double max,
-			double lineMin, double lineMax, boolean fading) {
+	public void drawHyperbolicCylinder(
+			Coords center,
+			Coords ev0,
+			Coords ev1,
+			Coords ev2,
+			double r1,
+			double r2,
+			double min,
+			double max,
+			double lineMin,
+			double lineMax,
+			boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(manager.getRenderer(),
-					manager.getView3D(), manager);
+			managerElements =
+					new ManagerElementForGLList(manager.getRenderer(), manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawHyperbolicCylinder(center, ev0, ev1, ev2, r1, r2,
-				min, max, lineMin, lineMax, fading);
+		plotterElements.drawHyperbolicCylinder(
+				center, ev0, ev1, ev2, r1, r2, min, max, lineMin, lineMax, fading);
 	}
 
 	/**
 	 * draw a sphere with center and radius. view scaling is used to know how
 	 * many triangles are needed
-	 * 
+	 *
 	 * @param center
 	 *            center of the sphere
 	 * @param radius
@@ -787,15 +843,20 @@ public class PlotterSurface {
 	 * @param longitudeLength
 	 *            for sphere parts, longitude width (must be power of 2)
 	 */
-	public void drawSphere(Coords center, double radius, int longitude,
-			double longitudeStart, int longitudeLength) {
-		drawSphere(center, radius, longitude, longitudeStart, longitudeLength,
+	public void drawSphere(
+			Coords center, double radius, int longitude, double longitudeStart, int longitudeLength) {
+		drawSphere(
+				center,
+				radius,
+				longitude,
+				longitudeStart,
+				longitudeLength,
 				manager.getView3D().getFrustumRadius());
 	}
 
 	/**
 	 * Draw a sphere
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param radius
@@ -809,8 +870,13 @@ public class PlotterSurface {
 	 * @param frustumRadius
 	 *            frustum radius
 	 */
-	public void drawSphere(Coords center, double radius, int longitude,
-			double longitudeStart, int longitudeLength, double frustumRadius) {
+	public void drawSphere(
+			Coords center,
+			double radius,
+			int longitude,
+			double longitudeStart,
+			int longitudeLength,
+			double frustumRadius) {
 
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
@@ -859,8 +925,7 @@ public class PlotterSurface {
 			}
 		}
 
-		Coords norm1 = new Coords(4), norm2 = new Coords(4),
-				n1b = new Coords(4), n2b = new Coords(4);
+		Coords norm1 = new Coords(4), norm2 = new Coords(4), n1b = new Coords(4), n2b = new Coords(4);
 
 		double[] cosSinV = new double[2];
 
@@ -870,8 +935,7 @@ public class PlotterSurface {
 		cosSin(latitudeMin, latitude, cosSinV);
 		double lastCos = 1;
 		for (int ui = 0; ui <= longitudeLength; ui++) {
-			sphericalCoords(ui, longitude, longitudeStart, cosSinV,
-					coordsArray[ui]);
+			sphericalCoords(ui, longitude, longitudeStart, cosSinV, coordsArray[ui]);
 		}
 
 		// shift for longitude
@@ -909,8 +973,7 @@ public class PlotterSurface {
 				if (jumpNeeded) {
 					if (jump) { // draw edge triangle and center triangle
 
-						sphericalCoords(ui + shift, longitude, longitudeStart,
-								cosSinV, n2b);
+						sphericalCoords(ui + shift, longitude, longitudeStart, cosSinV, n2b);
 
 						if (vi < latitudeMaxTop) { // top triangles
 							drawNCr(norm1, center, radius);
@@ -934,8 +997,7 @@ public class PlotterSurface {
 
 					} else { // draw edge triangle
 
-						sphericalCoords(ui, longitude, longitudeStart, cosSinV,
-								n2b);
+						sphericalCoords(ui, longitude, longitudeStart, cosSinV, n2b);
 
 						if (vi < latitudeMaxTop) { // top triangles
 							drawNCr(norm1, center, radius);
@@ -948,12 +1010,10 @@ public class PlotterSurface {
 							drawNCrm(n1b, center, radius);
 							drawNCrm(norm2, center, radius);
 						}
-
 					}
 				} else { // no jump : draw two triangles
 
-					sphericalCoords(ui, longitude, longitudeStart, cosSinV,
-							n2b);
+					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n2b);
 
 					if (vi < latitudeMaxTop) { // top triangles
 						drawNCr(norm1, center, radius);
@@ -974,7 +1034,6 @@ public class PlotterSurface {
 						drawNCrm(n1b, center, radius);
 						drawNCrm(n2b, center, radius);
 					}
-
 				}
 
 				coordsArray[ui].set(n2b);
@@ -982,7 +1041,6 @@ public class PlotterSurface {
 				if (jumpNeeded) {
 					jump = !jump;
 				}
-
 			}
 
 			// if just jumps done, next shift is twice
@@ -990,9 +1048,7 @@ public class PlotterSurface {
 				shift = shift * 2;
 			}
 
-			sphericalCoords(0, longitude, longitudeStart, cosSinV,
-					coordsArray[0]);
-
+			sphericalCoords(0, longitude, longitudeStart, cosSinV, coordsArray[0]);
 		}
 
 		if (latitudeMax == latitude) {
@@ -1017,7 +1073,6 @@ public class PlotterSurface {
 		}
 
 		manager.endGeometry();
-
 	}
 
 	/**
@@ -1029,7 +1084,7 @@ public class PlotterSurface {
 
 	/**
 	 * draw part of the surface
-	 * 
+	 *
 	 * @param packed
 	 *            if use packed buffer
 	 */
@@ -1077,8 +1132,7 @@ public class PlotterSurface {
 			longitude *= 2;
 		}
 
-		drawSphere(center, radius, longitude, 0, longitude,
-				Double.POSITIVE_INFINITY);
+		drawSphere(center, radius, longitude, 0, longitude, Double.POSITIVE_INFINITY);
 	}
 
 	protected static void cosSin(int vi, int latitude, double[] ret) {
@@ -1087,8 +1141,8 @@ public class PlotterSurface {
 		ret[1] = Math.sin(v);
 	}
 
-	protected static void sphericalCoords(int ui, int longitude,
-			double longitudeStart, double[] cosSinV, Coords n) {
+	protected static void sphericalCoords(
+			int ui, int longitude, double longitudeStart, double[] cosSinV, Coords n) {
 
 		double u = (double) ui / longitude * 2 * Math.PI + longitudeStart;
 
@@ -1099,7 +1153,7 @@ public class PlotterSurface {
 
 	/**
 	 * draws a parallelogram
-	 * 
+	 *
 	 * @param d
 	 *            drawable
 	 * @param center
@@ -1113,8 +1167,8 @@ public class PlotterSurface {
 	 * @param l2
 	 *            second edge length
 	 */
-	public void parallelogram(Drawable3D d, Coords center, Coords v1, Coords v2,
-			double l1, double l2) {
+	public void parallelogram(
+			Drawable3D d, Coords center, Coords v1, Coords v2, double l1, double l2) {
 
 		if (manager.packBuffers()) {
 			tmpCoords4.setAdd(center, tmpCoords4.setMul(v1, l1));
@@ -1146,10 +1200,10 @@ public class PlotterSurface {
 
 	/**
 	 * draws an ellipse
-	 * 
+	 *
 	 * @param d
 	 *            drawable
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -1165,12 +1219,17 @@ public class PlotterSurface {
 	 * @param extent
 	 *            extent
 	 */
-	public void ellipsePart(Drawable3D d, Coords center, Coords v1, Coords v2,
+	public void ellipsePart(
+			Drawable3D d,
+			Coords center,
+			Coords v1,
+			Coords v2,
 			double a,
-			double b, double start, double extent) {
+			double b,
+			double start,
+			double extent) {
 
 		ellipsePart(d, center, v1, v2, a, b, start, extent, true);
-
 	}
 
 	/**
@@ -1193,9 +1252,16 @@ public class PlotterSurface {
 	 * @param fromEllipseCenter
 	 *            says if the surface is drawn from center of the ellipse
 	 */
-	public void ellipsePart(Drawable3D d, Coords center, Coords v1, Coords v2,
+	public void ellipsePart(
+			Drawable3D d,
+			Coords center,
+			Coords v1,
+			Coords v2,
 			double a,
-			double b, double start, double extent, boolean fromEllipseCenter) {
+			double b,
+			double start,
+			double extent,
+			boolean fromEllipseCenter) {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
@@ -1268,9 +1334,17 @@ public class PlotterSurface {
 	 *            fading
 	 * @return center of the bottom
 	 */
-	public Coords cone(Coords center, Coords vx, Coords vy,
-                       Coords vz, double r1, double r2, double start, double extent,
-                       double height, float fading) {
+	public Coords cone(
+			Coords center,
+			Coords vx,
+			Coords vy,
+			Coords vz,
+			double r1,
+			double r2,
+			double start,
+			double extent,
+			double height,
+			float fading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		int longitude = manager.getLongitudeDefault();
 		if (fading == 1) { // no fading
@@ -1289,8 +1363,7 @@ public class PlotterSurface {
 			double u = Math.cos(start + i * da);
 			double v = Math.sin(start + i * da);
 
-			m.setAdd(tmpCoords2.setMul(vx, u * r1h),
-					tmpCoords3.setMul(vy, v * r2h));
+			m.setAdd(tmpCoords2.setMul(vx, u * r1h), tmpCoords3.setMul(vy, v * r2h));
 
 			n.setMul(vx, r2 * u);
 			tmpCoords.setMul(vy, r1 * v);
@@ -1346,10 +1419,19 @@ public class PlotterSurface {
 	 *            use fading for max
 	 * @return centers
 	 */
-	public Coords[] cone(Coords center, Coords vx,
-                         Coords vy, Coords vz,
-                         double r1, double r2, double start, double extent, double min,
-                         double max, boolean minFading, boolean maxFading) {
+	public Coords[] cone(
+			Coords center,
+			Coords vx,
+			Coords vy,
+			Coords vz,
+			double r1,
+			double r2,
+			double start,
+			double extent,
+			double min,
+			double max,
+			boolean minFading,
+			boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		center1.set(vz);
@@ -1383,8 +1465,7 @@ public class PlotterSurface {
 			double u = (float) Math.cos(start + i * da);
 			double v = (float) Math.sin(start + i * da);
 
-			m.setAdd(tmpCoords2.setMul(vx, u),
-					tmpCoords3.setMul(vy, v * ratio));
+			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v * ratio));
 
 			n.setMul(vx, r2 * u);
 			tmpCoords.setMul(vy, r1 * v);
@@ -1402,8 +1483,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normalToScale(n);
-			manager.vertexToScale(
-					tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, rmax)));
+			manager.vertexToScale(tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, rmax)));
 
 			// point on bottom circle
 			if (fading) {
@@ -1414,9 +1494,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normalToScale(n);
-			manager.vertexToScale(
-					tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, rmin)));
-
+			manager.vertexToScale(tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, rmin)));
 		}
 
 		manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
@@ -1453,9 +1531,20 @@ public class PlotterSurface {
 	 *            longitude
 	 * @return center at max height
 	 */
-	public Coords[] cylinder(Coords center, Coords vx, Coords vy, Coords vz,
-			double r1, double r2, double start, double extent, double min,
-			double max, boolean minFading, boolean maxFading, int longitude) {
+	public Coords[] cylinder(
+			Coords center,
+			Coords vx,
+			Coords vy,
+			Coords vz,
+			double r1,
+			double r2,
+			double start,
+			double extent,
+			double min,
+			double max,
+			boolean minFading,
+			boolean maxFading,
+			int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 		center1.set(vz);
@@ -1478,8 +1567,7 @@ public class PlotterSurface {
 			c = (float) Math.cos(start + i * da);
 			s = (float) Math.sin(start + i * da);
 
-			n.setAdd(tmpCoords.setMul(vx, r2 * c),
-					tmpCoords2.setMul(vy, r1 * s));
+			n.setAdd(tmpCoords.setMul(vx, r2 * c), tmpCoords2.setMul(vy, r1 * s));
 			n.normalize();
 
 			// point on top circle
@@ -1491,8 +1579,7 @@ public class PlotterSurface {
 				}
 			}
 
-			tmpCoords3.setAdd(tmpCoords.setMul(vx, r1 * c),
-					tmpCoords2.setMul(vy, r2 * s));
+			tmpCoords3.setAdd(tmpCoords.setMul(vx, r1 * c), tmpCoords2.setMul(vy, r2 * s));
 
 			manager.normalToScale(n);
 			manager.vertexToScale(tmpCoords.setAdd(center2, tmpCoords3));
@@ -1506,21 +1593,19 @@ public class PlotterSurface {
 			}
 			manager.normalToScale(n);
 			manager.vertexToScale(tmpCoords.setAdd(center1, tmpCoords3));
-
 		}
 
 		manager.endGeometry(longitude * 2, TypeElement.TRIANGLE_STRIP);
 
 		return centers;
-
 	}
 
 	/**
 	 * draws the inside of the hyperbola part
-	 * 
+	 *
 	 * @param d
 	 *            drawable
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -1536,8 +1621,15 @@ public class PlotterSurface {
 	 * @param tMax
 	 *            t max
 	 */
-	public void hyperbolaPart(Drawable3D d, Coords center, Coords v1, Coords v2,
-			double a, double b, double tMin, double tMax) {
+	public void hyperbolaPart(
+			Drawable3D d,
+			Coords center,
+			Coords v1,
+			Coords v2,
+			double a,
+			double b,
+			double tMin,
+			double tMax) {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
@@ -1552,9 +1644,7 @@ public class PlotterSurface {
 		// center of the fan is midpoint of branch ends
 		u = (float) Math.cosh(tMax);
 		v = (float) Math.sinh(tMax);
-		manager.triangleFanApex(
-				center.add(
-						m1.add(v1.mul(a * u).add(v2.mul(b * v))).mul(0.5)));
+		manager.triangleFanApex(center.add(m1.add(v1.mul(a * u).add(v2.mul(b * v))).mul(0.5)));
 
 		// first point
 		manager.triangleFanVertex(center.add(m1));
@@ -1573,10 +1663,10 @@ public class PlotterSurface {
 
 	/**
 	 * fill a parabola
-	 * 
+	 *
 	 * @param d
 	 *            drawable
-	 * 
+	 *
 	 * @param center
 	 *            center
 	 * @param v1
@@ -1590,8 +1680,8 @@ public class PlotterSurface {
 	 * @param tMax
 	 *            t max
 	 */
-	public void parabola(Drawable3D d, Coords center, Coords v1, Coords v2,
-			double p, double tMin, double tMax) {
+	public void parabola(
+			Drawable3D d, Coords center, Coords v1, Coords v2, double p, double tMin, double tMax) {
 
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
@@ -1607,8 +1697,7 @@ public class PlotterSurface {
 		t = tMax;
 		u = (float) (p * t * t / 2);
 		v = (float) (p * t);
-		manager.triangleFanApex(
-				center.add(m1.add(v1.mul(u).add(v2.mul(v))).mul(0.5)));
+		manager.triangleFanApex(center.add(m1.add(v1.mul(u).add(v2.mul(v))).mul(0.5)));
 
 		// first point
 		manager.triangleFanVertex(center.add(m1));
@@ -1635,7 +1724,6 @@ public class PlotterSurface {
 		drawTNV(ui, vi);
 		drawTNV(ui + 1, vi + 1);
 		drawTNV(ui, vi + 1);
-
 	}
 
 	private void drawTNV(int ui, int vi) {
@@ -1652,7 +1740,7 @@ public class PlotterSurface {
 
 	/**
 	 * draws normal and point at center + normal * radius
-	 * 
+	 *
 	 * @param normal
 	 *            normal
 	 * @param center
@@ -1669,7 +1757,7 @@ public class PlotterSurface {
 
 	/**
 	 * draws normal and point at center - normal * radius
-	 * 
+	 *
 	 * @param normal
 	 *            normal
 	 * @param center
@@ -1686,7 +1774,7 @@ public class PlotterSurface {
 
 	/**
 	 * Draw normal and vertex.
-	 * 
+	 *
 	 * @param normal
 	 *            normal
 	 * @param point
@@ -1697,8 +1785,7 @@ public class PlotterSurface {
 		manager.vertexToScale(point);
 	}
 
-	private static float getTextureCoord(int i, int n, float fadeMin,
-			float fadeMax) {
+	private static float getTextureCoord(int i, int n, float fadeMin, float fadeMax) {
 
 		float t;
 
@@ -1723,13 +1810,11 @@ public class PlotterSurface {
 		return manager.packBuffers();
 	}
 
-	private void endGeometryForConics(int longitude,
-			TypeElement type) {
+	private void endGeometryForConics(int longitude, TypeElement type) {
 		if (shouldPackConics()) {
 			manager.endGeometry(longitude, type);
 		} else {
 			manager.endGeometry();
 		}
 	}
-
 }

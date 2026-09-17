@@ -29,7 +29,7 @@ import org.gwtproject.user.client.Command;
 
 /**
  * web gui manager for 3D
- * 
+ *
  * @author mathieu
  *
  */
@@ -39,7 +39,7 @@ public final class GuiManager3DW extends GuiManagerW {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param device
@@ -59,7 +59,6 @@ public final class GuiManager3DW extends GuiManagerW {
 		}
 
 		return false;
-
 	}
 
 	@Override
@@ -71,8 +70,8 @@ public final class GuiManager3DW extends GuiManagerW {
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, GPoint p) {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
-		getDrawingPadPopupMenu3D().showScaled(
-				((EuclidianView3DW) view).getG2P().getElement(), p.x, p.y);
+		getDrawingPadPopupMenu3D()
+				.showScaled(((EuclidianView3DW) view).getG2P().getElement(), p.x, p.y);
 	}
 
 	private ContextMenuGeoElementW getDrawingPadPopupMenu3D() {
@@ -81,7 +80,7 @@ public final class GuiManager3DW extends GuiManagerW {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return command to show/hide 3D axis
 	 */
 	public Command getShowAxes3DAction() {
@@ -95,7 +94,7 @@ public final class GuiManager3DW extends GuiManagerW {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return command to show/hide 3D grid
 	 */
 	public Command getShowGrid3DAction() {
@@ -109,18 +108,16 @@ public final class GuiManager3DW extends GuiManagerW {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return command to show/hide 3D plane
 	 */
 	public Command getShowPlane3DAction() {
 		return () -> {
 			// toggle plane
-			((EuclidianView3DW) getApp().getEuclidianView3D())
-					.getSettings().togglePlane();
+			((EuclidianView3DW) getApp().getEuclidianView3D()).getSettings().togglePlane();
 			// getApp().getEuclidianView().repaint();
 			getApp().storeUndoInfo();
 			getApp().updateMenubar();
 		};
 	}
-
 }

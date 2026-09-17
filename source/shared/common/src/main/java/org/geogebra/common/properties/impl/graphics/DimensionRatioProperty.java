@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,13 +36,14 @@ public class DimensionRatioProperty extends AbstractPropertyCollection<Property>
 	 * @param localization localization
 	 * @param euclidianView euclidian view
 	 */
-	public DimensionRatioProperty(Localization localization,
-			EuclidianViewInterfaceCommon euclidianView) {
+	public DimensionRatioProperty(
+			Localization localization, EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Ratio");
 		setProperties(new Property[] {
-				new RatioNumericProperty(euclidianView, 0),
-				new RatioNumericProperty(euclidianView, 1),
-				new LockedRatioProperty(localization, euclidianView)});
+			new RatioNumericProperty(euclidianView, 0),
+			new RatioNumericProperty(euclidianView, 1),
+			new LockedRatioProperty(localization, euclidianView)
+		});
 	}
 
 	private static final class RatioNumericProperty extends AbstractNumericProperty
@@ -51,8 +52,10 @@ public class DimensionRatioProperty extends AbstractPropertyCollection<Property>
 		private final int axis;
 
 		RatioNumericProperty(EuclidianViewInterfaceCommon euclidianView, int axis) {
-			super(euclidianView.getKernel().getAlgebraProcessor(),
-					euclidianView.getKernel().getLocalization(), axis == 0 ? "xAxis" : "yAxis");
+			super(
+					euclidianView.getKernel().getAlgebraProcessor(),
+					euclidianView.getKernel().getLocalization(),
+					axis == 0 ? "xAxis" : "yAxis");
 			this.euclidianView = euclidianView;
 			this.axis = axis;
 		}
@@ -75,11 +78,9 @@ public class DimensionRatioProperty extends AbstractPropertyCollection<Property>
 			double v = value.getDouble();
 			double xscale = euclidianView.getXscale();
 			double yscale = euclidianView.getYscale();
-			double newYscale = axis == 0
-					? Math.min(xscale, yscale) * v
-					: Math.max(xscale, yscale) / v;
-			euclidianView.setCoordSystem(euclidianView.getXZero(),
-					euclidianView.getYZero(), xscale, newYscale);
+			double newYscale = axis == 0 ? Math.min(xscale, yscale) * v : Math.max(xscale, yscale) / v;
+			euclidianView.setCoordSystem(
+					euclidianView.getXZero(), euclidianView.getYZero(), xscale, newYscale);
 		}
 
 		@Override

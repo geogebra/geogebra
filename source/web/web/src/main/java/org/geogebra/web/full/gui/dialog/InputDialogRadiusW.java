@@ -35,7 +35,7 @@ public abstract class InputDialogRadiusW extends ComponentInputDialog {
 	protected Kernel kernel;
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param data
@@ -45,20 +45,21 @@ public abstract class InputDialogRadiusW extends ComponentInputDialog {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogRadiusW(AppW app, DialogData data, InputHandler handler,
-			Kernel kernel) {
-		super(app, data, false, false, handler, "Radius",
-				"");
+	public InputDialogRadiusW(AppW app, DialogData data, InputHandler handler, Kernel kernel) {
+		super(app, data, false, false, handler, "Radius", "");
 		this.kernel = kernel;
 	}
 
 	@Override
 	protected void toolAction() {
 		GeoElement circle = createOutput(getNumber());
-		GeoElement[] geos = { circle };
+		GeoElement[] geos = {circle};
 		app.storeUndoInfoAndStateForModeStarting();
-		kernel.getApplication().getActiveEuclidianView()
-				.getEuclidianController().memorizeJustCreatedGeos(geos);
+		kernel
+				.getApplication()
+				.getActiveEuclidianView()
+				.getEuclidianController()
+				.memorizeJustCreatedGeos(geos);
 	}
 
 	/**
@@ -69,10 +70,10 @@ public abstract class InputDialogRadiusW extends ComponentInputDialog {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param num
 	 *            radius value
 	 * @return the circle
 	 */
-	abstract protected GeoElement createOutput(GeoNumberValue num);
+	protected abstract GeoElement createOutput(GeoNumberValue num);
 }

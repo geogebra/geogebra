@@ -33,8 +33,10 @@ import com.google.j2objc.annotations.Weak;
 public class LaTeXTextRenderer implements TextRenderer {
 	private static final int CLIP_PADDING = 8;
 	public static final int BORDER_THICKNESS = 6;
+
 	@Weak
 	private final DrawInputBox drawInputBox;
+
 	private final TextRendererSettings settings;
 
 	LaTeXTextRenderer(DrawInputBox drawInputBox, TextRendererSettings settings) {
@@ -48,14 +50,14 @@ public class LaTeXTextRenderer implements TextRenderer {
 	}
 
 	@Override
-	public void drawText(GeoInputBox geo, GGraphics2D graphics,
-			GFont font, String text, double xPos, double yPos) {
+	public void drawText(
+			GeoInputBox geo, GGraphics2D graphics, GFont font, String text, double xPos, double yPos) {
 		int textLeft = (int) Math.round(xPos) + settings.getFixMargin();
 
 		GFont font1 = getFont(font, settings.getRendererFontSize());
 		GDimension textDimension = drawInputBox.measureLatex(geo, font1, text, true);
-		double inputBoxHeight = drawInputBox.getInputFieldBounds().getHeight()
-				+ 2 * settings.getFixMargin();
+		double inputBoxHeight =
+				drawInputBox.getInputFieldBounds().getHeight() + 2 * settings.getFixMargin();
 		double diffToCenter = (inputBoxHeight - textDimension.getHeight()) / 2.0;
 		int textTop = (int) Math.round(yPos + diffToCenter) - settings.getFixMargin();
 
@@ -66,39 +68,35 @@ public class LaTeXTextRenderer implements TextRenderer {
 			clipWidth = drawInputBox.boxWidth - DrawInputBox.TF_PADDING_HORIZONTAL;
 			textLeft -= DrawInputBox.TF_PADDING_HORIZONTAL;
 		}
-		rect.setRect(textLeft, 0, clipWidth - BORDER_THICKNESS, drawInputBox.getView().getHeight());
+		rect.setRect(
+				textLeft, 0, clipWidth - BORDER_THICKNESS, drawInputBox.getView().getHeight());
 		graphics.setClip(rect);
-		drawInputBox.drawLatex(graphics, geo, font1, text, textLeft - settings.getFixMargin(),
-				textTop, true);
+		drawInputBox.drawLatex(
+				graphics, geo, font1, text, textLeft - settings.getFixMargin(), textTop, true);
 
 		graphics.resetClip();
 	}
 
 	private int calculateInputBoxHeight(GDimension textDimension) {
-		int textHeightWithMargin = textDimension.getHeight() + settings.getFixMargin()
-				+ BORDER_THICKNESS;
-		return Math.max(textHeightWithMargin, settings.getMinHeight()
-				+ BORDER_THICKNESS);
+		int textHeightWithMargin =
+				textDimension.getHeight() + settings.getFixMargin() + BORDER_THICKNESS;
+		return Math.max(textHeightWithMargin, settings.getMinHeight() + BORDER_THICKNESS);
 	}
 
 	@Override
-	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
-									String labelDescription) {
+	public GRectangle measureBounds(
+			GGraphics2D graphics, GeoInputBox geo, GFont font, String labelDescription) {
 		GFont gFont = getFont(font, settings.getRendererFontSize());
-		GDimension textDimension =
-				CanvasDrawable.measureLatex(geo.getKernel().getApplication(), gFont,
-						geo.getDisplayText(), geo.isSerifContent());
+		GDimension textDimension = CanvasDrawable.measureLatex(
+				geo.getKernel().getApplication(), gFont, geo.getDisplayText(), geo.isSerifContent());
 
 		int inputBoxHeight = calculateInputBoxHeight(textDimension);
 		double labelHeight = drawInputBox.getHeightForLabel(labelDescription);
-		double inputBoxTop = drawInputBox.getLabelTop() + (labelHeight
-				- inputBoxHeight) / 2;
+		double inputBoxTop = drawInputBox.getLabelTop() + (labelHeight - inputBoxHeight) / 2;
 
-		return AwtFactory.getPrototype().newRectangle(
-				drawInputBox.boxLeft,
-				(int) inputBoxTop,
-				drawInputBox.boxWidth,
-				inputBoxHeight);
+		return AwtFactory.getPrototype()
+				.newRectangle(
+						drawInputBox.boxLeft, (int) inputBoxTop, drawInputBox.boxWidth, inputBoxHeight);
 	}
 
 	private GFont getFont(GFont font, int fontSize) {

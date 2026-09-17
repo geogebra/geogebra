@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -67,13 +67,18 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * panel color chooser and preview panel
  */
 class ColorPanel extends JPanel
-		implements ActionListener, UpdateablePropertiesPanel, ChangeListener,
-		SetLabels, UpdateFonts, IColorObjectListener {
+		implements ActionListener,
+				UpdateablePropertiesPanel,
+				ChangeListener,
+				SetLabels,
+				UpdateFonts,
+				IColorObjectListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private final PropertiesPanelD propertiesPanelD;
+
 	private static final long serialVersionUID = 1L;
 	private ColorObjectModel model;
 	private JLabel previewLabel;
@@ -98,8 +103,7 @@ class ColorPanel extends JPanel
 	private JPanel barsPanel;
 	private boolean isBarChart = false;
 
-	ColorPanel(PropertiesPanelD propertiesPanelD,
-			GeoGebraColorChooser colChooser) {
+	ColorPanel(PropertiesPanelD propertiesPanelD, GeoGebraColorChooser colChooser) {
 		this.propertiesPanelD = propertiesPanelD;
 		model = new ColorObjectModel(this.propertiesPanelD.app);
 		model.setListener(this);
@@ -131,14 +135,13 @@ class ColorPanel extends JPanel
 		rbtnBackgroundColor.addActionListener(this);
 		rbtnForegroundColor.addActionListener(this);
 
-		btnClearBackground = new JButton(this.propertiesPanelD.app
-				.getScaledIcon(GuiResourcesD.DELETE_SMALL));
+		btnClearBackground =
+				new JButton(this.propertiesPanelD.app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btnClearBackground.setFocusPainted(false);
 		btnClearBackground.addActionListener(this);
 
 		// panel to hold color chooser
-		AbstractColorChooserPanel colorChooserPanel = colChooser
-				.getChooserPanels()[0];
+		AbstractColorChooserPanel colorChooserPanel = colChooser.getChooserPanels()[0];
 		colorChooserContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		colorChooserContainer.add(colorChooserPanel);
 
@@ -181,7 +184,7 @@ class ColorPanel extends JPanel
 	 * the currently selected GeoElement(s). If the geo is fillable the panel
 	 * paints a transparent rectangle using the geo's alpha value. An opaque 2
 	 * pixel border is drawn around the transparent interior.
-	 * 
+	 *
 	 */
 	private final class PreviewPanel extends JPanel {
 
@@ -190,9 +193,8 @@ class ColorPanel extends JPanel
 		private Color alphaFillColor;
 
 		private PreviewPanel() {
-			setPreferredSize(new Dimension(80,
-					ColorPanel.this.propertiesPanelD.app.getGUIFontSize()
-							+ 16));
+			setPreferredSize(
+					new Dimension(80, ColorPanel.this.propertiesPanelD.app.getGUIFontSize() + 16));
 			setMaximumSize(this.getPreferredSize());
 			this.setBorder(BorderFactory.createEmptyBorder());
 			this.setBackground(null);
@@ -201,7 +203,7 @@ class ColorPanel extends JPanel
 
 		/**
 		 * Sets the preview colors.
-		 * 
+		 *
 		 * @param color color
 		 * @param alpha opacity between 0 and 1
 		 */
@@ -212,8 +214,7 @@ class ColorPanel extends JPanel
 			} else {
 				float[] rgb = new float[3];
 				color.getRGBColorComponents(rgb);
-				alphaFillColor = new Color(rgb[0], rgb[1], rgb[2],
-						(float) alpha);
+				alphaFillColor = new Color(rgb[0], rgb[1], rgb[2], (float) alpha);
 				setForeground(new Color(rgb[0], rgb[1], rgb[2], 1f));
 			}
 			this.repaint();
@@ -245,19 +246,15 @@ class ColorPanel extends JPanel
 			g2.setPaint(Color.WHITE);
 			g2.setStroke(new BasicStroke(1));
 			g2.drawRect(insets.left + 1, insets.top + 1, w - 3, h - 3);
-
 		}
 	}
 
 	@Override
 	public void setLabels() {
 		Localization loc = this.propertiesPanelD.app.getLocalization();
-		previewLabel
-				.setText(loc.getMenu("Preview") + ": ");
-		opacityPanel.setBorder(BorderFactory.createTitledBorder(
-				loc.getMenu("Opacity")));
-		this.propertiesPanelD.colChooser
-				.setLocale(this.propertiesPanelD.app.getLocale());
+		previewLabel.setText(loc.getMenu("Preview") + ": ");
+		opacityPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Opacity")));
+		this.propertiesPanelD.colChooser.setLocale(this.propertiesPanelD.app.getLocale());
 		rbtnBackgroundColor.setText(loc.getMenu("BackgroundColor"));
 		rbtnForegroundColor.setText(loc.getMenu("ForegroundColor"));
 		btnClearBackground.setToolTipText(loc.getMenu("Remove"));
@@ -281,12 +278,10 @@ class ColorPanel extends JPanel
 		model.updateProperties();
 		rbtnBackgroundColor.setVisible(model.hasBackground());
 		rbtnForegroundColor.setVisible(model.hasBackground());
-		btnClearBackground.setVisible(
-				rbtnBackgroundColor.isSelected() && model.hasBackground());
+		btnClearBackground.setVisible(rbtnBackgroundColor.isSelected() && model.hasBackground());
 		btnClearBackground.setEnabled(rbtnBackgroundColor.isSelected());
 		// hide the color chooser and preview if we have an image
-		colorChooserContainer
-				.setVisible(!model.hasImageGeo() && !model.isSequentialColor());
+		colorChooserContainer.setVisible(!model.hasImageGeo() && !model.isSequentialColor());
 		previewMetaPanel.setVisible(!model.hasImageGeo());
 		automatic.setVisible(model.hasDefaultGeos());
 		automatic.setSelected(model.isSequentialColor());
@@ -299,8 +294,7 @@ class ColorPanel extends JPanel
 	private void setPreview(GeoElement geo, double alpha0) {
 		ChartStyleGeo algo = (ChartStyleGeo) geo;
 		double alpha = alpha0;
-		if (selectedBarButton != 0
-				&& (algo.getStyle().getBarAlpha(selectedBarButton) != -1)) {
+		if (selectedBarButton != 0 && (algo.getStyle().getBarAlpha(selectedBarButton) != -1)) {
 			alpha = algo.getStyle().getBarAlpha(selectedBarButton);
 		}
 		previewPanel.setPreview(selectedColor, alpha);
@@ -320,15 +314,13 @@ class ColorPanel extends JPanel
 	private void setChooser(GeoElement geo0) {
 		if (geo0 instanceof ChartStyleGeo) {
 			ChartStyleGeo algo = (ChartStyleGeo) geo0;
-			if (selectedBarButton != 0
-					&& algo.getStyle().getBarColor(selectedBarButton) != null) {
+			if (selectedBarButton != 0 && algo.getStyle().getBarColor(selectedBarButton) != null) {
 				GColor color = algo.getStyle().getBarColor(selectedBarButton);
-				selectedColor = new Color(color.getRed(), color.getGreen(),
-						color.getBlue(), color.getAlpha());
+				selectedColor =
+						new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 			}
 		}
-		this.propertiesPanelD.colChooser.getSelectionModel()
-				.setSelectedColor(selectedColor);
+		this.propertiesPanelD.colChooser.getSelectionModel().setSelectedColor(selectedColor);
 	}
 
 	private void updateToolTipText() {
@@ -337,18 +329,17 @@ class ColorPanel extends JPanel
 		if (selectedColor == null) {
 			previewPanel.setToolTipText("");
 		} else {
-			previewPanel.setToolTipText(
-					getToolTipText(propertiesPanelD.app, selectedColor));
+			previewPanel.setToolTipText(getToolTipText(propertiesPanelD.app, selectedColor));
 		}
 		currentColorLabel.setText(previewPanel.getToolTipText());
 	}
 
 	/**
 	 * Sets the tooltip string for a given color
-	 * 
+	 *
 	 * @param app
 	 *            application
-	 * 
+	 *
 	 * @param color
 	 *            color
 	 * @return tooltip
@@ -358,9 +349,8 @@ class ColorPanel extends JPanel
 	}
 
 	// Add tag for color and alpha or remove if selected all bars
-	private void updateBarsColorAndAlpha(GeoElement geo, Color col,
-			double alpha,
-			boolean updateAlphaOnly) {
+	private void updateBarsColorAndAlpha(
+			GeoElement geo, Color col, double alpha, boolean updateAlphaOnly) {
 		ChartStyle algo = ((ChartStyleGeo) geo).getStyle();
 		if (selectedBarButton == 0) {
 			for (int i = 1; i < selectionBarButtons.length; i++) {
@@ -380,12 +370,11 @@ class ColorPanel extends JPanel
 		algo.setBarAlpha(alpha, selectedBarButton);
 		// For barchart opacity color and
 		// opacity image have same value if there is a tag
-		this.propertiesPanelD.fillingPanel.opacitySlider
-				.removeChangeListener(this.propertiesPanelD.fillingPanel);
-		this.propertiesPanelD.fillingPanel.opacitySlider
-				.setValue((int) Math.round(alpha * 100));
-		this.propertiesPanelD.fillingPanel.opacitySlider
-				.addChangeListener(this.propertiesPanelD.fillingPanel);
+		this.propertiesPanelD.fillingPanel.opacitySlider.removeChangeListener(
+				this.propertiesPanelD.fillingPanel);
+		this.propertiesPanelD.fillingPanel.opacitySlider.setValue((int) Math.round(alpha * 100));
+		this.propertiesPanelD.fillingPanel.opacitySlider.addChangeListener(
+				this.propertiesPanelD.fillingPanel);
 	}
 
 	// Add panel for single bar if is a BarChart
@@ -409,16 +398,15 @@ class ColorPanel extends JPanel
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(arg0 -> {
-					selectedBarButton = Integer
-							.parseInt(((JToggleButton) arg0.getSource())
-									.getActionCommand());
+					selectedBarButton =
+							Integer.parseInt(((JToggleButton) arg0.getSource()).getActionCommand());
 					this.update();
 				});
 				barsPanel.add(selectionBarButtons[i]);
 				group.add(selectionBarButtons[i]);
 			}
-			selectionBarButtons[0]
-					.setText(this.propertiesPanelD.loc.getMenu(isPie ? "AllSlices" : "AllBars"));
+			selectionBarButtons[0].setText(
+					this.propertiesPanelD.loc.getMenu(isPie ? "AllSlices" : "AllBars"));
 			selectionBarButtons[selectedBarButton].setSelected(true);
 			add(barsPanel, BorderLayout.SOUTH);
 		}
@@ -431,14 +419,12 @@ class ColorPanel extends JPanel
 	public void stateChanged(ChangeEvent e) {
 
 		float alpha = opacitySlider.getValue() / 100.0f;
-		GColor color = GColorD
-				.newColor(this.propertiesPanelD.colChooser.getColor());
+		GColor color = GColorD.newColor(this.propertiesPanelD.colChooser.getColor());
 		if (e.getSource() == opacitySlider) {
 			model.applyChanges(color, alpha, true);
 		} else {
 			model.applyChanges(color, alpha, false);
 		}
-
 	}
 
 	/**
@@ -476,7 +462,6 @@ class ColorPanel extends JPanel
 		btnClearBackground.setFont(font);
 
 		updateSliderFonts();
-
 	}
 
 	private void updateSliderFonts() {
@@ -491,9 +476,12 @@ class ColorPanel extends JPanel
 	}
 
 	@Override
-	public void updateChooser(boolean equalObjColor,
-			boolean equalObjColorBackground, boolean allFillable,
-			boolean hasBackground, boolean hasOpacity) {
+	public void updateChooser(
+			boolean equalObjColor,
+			boolean equalObjColorBackground,
+			boolean allFillable,
+			boolean hasBackground,
+			boolean hasOpacity) {
 		// initialize selected color and opacity
 		selectedColor = null;
 		Color selectedBGColor = null;
@@ -519,16 +507,13 @@ class ColorPanel extends JPanel
 		updateToolTipText();
 
 		// set the chooser color
-		this.propertiesPanelD.colChooser.getSelectionModel()
-				.removeChangeListener(this);
+		this.propertiesPanelD.colChooser.getSelectionModel().removeChangeListener(this);
 		if (isBarChart) {
 			setChooser(geo0);
 		} else {
-			this.propertiesPanelD.colChooser.getSelectionModel()
-					.setSelectedColor(selectedColor);
+			this.propertiesPanelD.colChooser.getSelectionModel().setSelectedColor(selectedColor);
 		}
-		this.propertiesPanelD.colChooser.getSelectionModel()
-				.addChangeListener(this);
+		this.propertiesPanelD.colChooser.getSelectionModel().addChangeListener(this);
 
 		// set the opacity
 		opacitySlider.removeChangeListener(this);
@@ -565,7 +550,6 @@ class ColorPanel extends JPanel
 			isBarChart = false;
 			previewPanel.setPreview(selectedColor, alpha);
 		}
-
 	}
 
 	@Override
@@ -573,10 +557,8 @@ class ColorPanel extends JPanel
 		// update preview panel
 		Color color = GColorD.getAwtColor(col);
 		previewPanel.setPreview(color, alpha);
-		previewPanel
-				.setToolTipText(getToolTipText(propertiesPanelD.app, color));
+		previewPanel.setToolTipText(getToolTipText(propertiesPanelD.app, color));
 		currentColorLabel.setText(previewPanel.getToolTipText());
-
 	}
 
 	@Override
@@ -585,8 +567,8 @@ class ColorPanel extends JPanel
 	}
 
 	@Override
-	public void updateNoBackground(GeoElement geo, GColor col, double alpha,
-			boolean updateAlphaOnly, boolean allFillable) {
+	public void updateNoBackground(
+			GeoElement geo, GColor col, double alpha, boolean updateAlphaOnly, boolean allFillable) {
 
 		Color color = GColorD.getAwtColor(col);
 		if (!updateAlphaOnly) {
@@ -604,7 +586,5 @@ class ColorPanel extends JPanel
 			}
 		}
 		automatic.setSelected(geo.isAutoColor());
-
 	}
-
 } // ColorPanel

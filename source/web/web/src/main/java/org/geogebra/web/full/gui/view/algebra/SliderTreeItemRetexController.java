@@ -68,8 +68,7 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 		evt.stopPropagation();
 
 		if (isWidgetHit(slider.controls.getAnimPanel(), evt)
-				|| (slider.getMinMax() != null
-						&& slider.getMinMax().isVisible())
+				|| (slider.getMinMax() != null && slider.getMinMax().isVisible())
 				|| checkMarbleHit(evt)) {
 			return;
 		}
@@ -89,7 +88,6 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 
 		if (isAnotherMinMaxOpen()) {
 			slider.selectItem(false);
-
 		}
 
 		if (slider.getMinMax() != null && slider.getMinMax().isVisible()) {
@@ -110,7 +108,6 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 		}
 
 		return false;
-
 	}
 
 	private void handleMinMaxHit(boolean minHit) {
@@ -122,7 +119,6 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 			slider.getMinMax().setMaxFocus();
 		}
 		getApp().getKernel().notifyRepaint();
-
 	}
 
 	@Override
@@ -137,8 +133,7 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 	@Override
 	protected boolean canEditStart(MouseEvent<?> event) {
 
-		return super.canEditStart(event)
-				&& isWidgetHit(item.getDefinitionValuePanel(), event);
+		return super.canEditStart(event) && isWidgetHit(item.getDefinitionValuePanel(), event);
 	}
 
 	private static boolean isWidgetHit(Widget w, int x, int y) {
@@ -157,13 +152,11 @@ public final class SliderTreeItemRetexController extends LatexTreeItemController
 	 * @return true if another SliderTreeItem's min/max panel is showing.
 	 */
 	boolean isAnotherMinMaxOpen() {
-		return !MinMaxPanel.isOpenedPanel(null)
-				&& !MinMaxPanel.isOpenedPanel(slider.getMinMax());
+		return !MinMaxPanel.isOpenedPanel(null) && !MinMaxPanel.isOpenedPanel(slider.getMinMax());
 	}
 
 	private boolean isClickedOutMinMax(int x, int y) {
-		return MinMaxPanel.isOpenedPanel(slider.getMinMax())
-				&& !isWidgetHit(slider.getMinMax(), x, y);
+		return MinMaxPanel.isOpenedPanel(slider.getMinMax()) && !isWidgetHit(slider.getMinMax(), x, y);
 	}
 
 	/**

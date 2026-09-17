@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class DrawVector extends Drawable implements Previewable, DrawableVisibility {
@@ -54,7 +54,7 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 
 	/**
 	 * Creates new DrawVector
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param v
@@ -77,7 +77,9 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 	public DrawVector(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
-		geo = view.getKernel().getConstruction().getConstructionDefaults()
+		geo = view.getKernel()
+				.getConstruction()
+				.getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_VECTOR);
 		this.drawStyledVector = new DrawStyledVector(this, this.view);
 		updatePreview();
@@ -193,7 +195,6 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 		if (labelVisible) {
 			drawVectorLabel(g2);
 		}
-
 	}
 
 	@Override
@@ -230,8 +231,7 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 		isVisible = points.size() == 1;
 		if (isVisible) {
 			// start point
-			view.getCoordsForView(points.get(0).getInhomCoordsInD3())
-					.get(tmpCoords);
+			view.getCoordsForView(points.get(0).getInhomCoordsInD3()).get(tmpCoords);
 			model.setStartCoords(tmpCoords[0], tmpCoords[1]);
 			model.setEndCoords(tmpCoords[0], tmpCoords[1]);
 		}
@@ -244,14 +244,12 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 		if (isVisible) {
 			model.update(1, objStroke);
 			// round angle to nearest 15 degrees if alt pressed
-			if (points.size() == 1
-					&& view.getEuclidianController().isAltDown()) {
+			if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
 				GeoPointND p = points.get(0);
 				double px = p.getInhomX();
 				double py = p.getInhomY();
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
-				double radius = Math.sqrt(
-						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
+				double radius = Math.sqrt((py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 				// round angle to nearest 15 degrees
 				angle = Math.round(angle / 15) * 15.0;
@@ -266,8 +264,7 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 			}
 
 			if (!points.isEmpty()) {
-				view.getCoordsForView(points.get(0).getInhomCoordsInD3())
-						.get(tmpCoords);
+				view.getCoordsForView(points.get(0).getInhomCoordsInD3()).get(tmpCoords);
 				model.setStartCoords(tmpCoords[0], tmpCoords[1]);
 			}
 
@@ -293,8 +290,8 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 
 	@Override
 	public final boolean hit(int x, int y, int hitThreshold) {
-		return drawStyledVector.intersects(x - hitThreshold, y - hitThreshold,
-				2 * hitThreshold, 2 * hitThreshold);
+		return drawStyledVector.intersects(
+				x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override
@@ -305,8 +302,8 @@ public class DrawVector extends Drawable implements Previewable, DrawableVisibil
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return drawStyledVector.intersects((int) rect.getMinX(), (int) rect.getMinY(),
-				(int) rect.getWidth(), (int) rect.getHeight());
+		return drawStyledVector.intersects(
+				(int) rect.getMinX(), (int) rect.getMinY(), (int) rect.getWidth(), (int) rect.getHeight());
 	}
 
 	/**

@@ -109,9 +109,13 @@ import org.gwtproject.user.client.ui.Widget;
  */
 @SuppressWarnings("deprecation")
 public class GSuggestBox extends Composite
-		implements HasText, Focusable, HasAnimation, HasEnabled,
-		HasAllKeyHandlers, HasValue<String>,
-		HasSelectionHandlers<Suggestion> {
+		implements HasText,
+				Focusable,
+				HasAnimation,
+				HasEnabled,
+				HasAllKeyHandlers,
+				HasValue<String>,
+				HasSelectionHandlers<Suggestion> {
 
 	private static final String STYLENAME_DEFAULT = "gwt-SuggestBox";
 	private int limit = 20;
@@ -127,10 +131,12 @@ public class GSuggestBox extends Composite
 			if (!isEnabled()) {
 				return;
 			}
-			display.setMoreSuggestions(response.hasMoreSuggestions(),
-					response.getMoreSuggestionsCount());
-			display.showSuggestions(GSuggestBox.this, response.getSuggestions(),
-					oracle.isDisplayStringHTML(), isAutoSelectEnabled(),
+			display.setMoreSuggestions(response.hasMoreSuggestions(), response.getMoreSuggestionsCount());
+			display.showSuggestions(
+					GSuggestBox.this,
+					response.getSuggestions(),
+					oracle.isDisplayStringHTML(),
+					isAutoSelectEnabled(),
 					suggestionCallback);
 		}
 	};
@@ -202,8 +208,7 @@ public class GSuggestBox extends Composite
 		 *            number of more matches available. If the specific number
 		 *            is unknown, 0 will be passed.
 		 */
-		protected void setMoreSuggestions(boolean hasMoreSuggestions,
-				int numMoreSuggestions) {
+		protected void setMoreSuggestions(boolean hasMoreSuggestions, int numMoreSuggestions) {
 			// Subclasses may optionally implement.
 		}
 
@@ -224,9 +229,11 @@ public class GSuggestBox extends Composite
 		 * @param callback
 		 *            the callback used when the user makes a suggestion
 		 */
-		protected abstract void showSuggestions(GSuggestBox suggestBox,
+		protected abstract void showSuggestions(
+				GSuggestBox suggestBox,
 				Collection<? extends Suggestion> suggestions,
-				boolean isDisplayStringHTML, boolean isAutoSelectEnabled,
+				boolean isDisplayStringHTML,
+				boolean isAutoSelectEnabled,
 				SuggestionCallback callback);
 
 		/**
@@ -437,8 +444,7 @@ public class GSuggestBox extends Composite
 		 * @return the popup panel
 		 */
 		protected GPopupPanel createPopup(Panel panel, App app) {
-			GPopupPanel p = new GPopupPanel(true, false,
-					panel, app);
+			GPopupPanel p = new GPopupPanel(true, false, panel, app);
 			p.addStyleName("suggestPopup");
 			p.setStyleName("gwt-SuggestBoxPopup");
 			p.setPreviewingAllNativeEvents(true);
@@ -466,8 +472,7 @@ public class GSuggestBox extends Composite
 				return null;
 			}
 			AriaMenuItem item = suggestionMenu.getSelectedItem();
-			return item == null ? null
-					: ((SuggestionMenuItem) item).getSuggestion();
+			return item == null ? null : ((SuggestionMenuItem) item).getSuggestion();
 		}
 
 		/**
@@ -496,8 +501,7 @@ public class GSuggestBox extends Composite
 				// If nothing is selected, getSelectedItemIndex will return -1
 				// and we
 				// will select index 0 (the first item) by default.
-				suggestionMenu
-						.selectItem(suggestionMenu.getSelectedItemIndex() + 1);
+				suggestionMenu.selectItem(suggestionMenu.getSelectedItemIndex() + 1);
 			}
 		}
 
@@ -520,8 +524,7 @@ public class GSuggestBox extends Composite
 				if (suggestionMenu.getSelectedItemIndex() == -1) {
 					suggestionMenu.selectItem(suggestionMenu.getItems().size() - 1);
 				} else {
-					suggestionMenu.selectItem(
-							suggestionMenu.getSelectedItemIndex() - 1);
+					suggestionMenu.selectItem(suggestionMenu.getSelectedItemIndex() - 1);
 				}
 			}
 		}
@@ -542,13 +545,14 @@ public class GSuggestBox extends Composite
 		}
 
 		@Override
-		protected void showSuggestions(final GSuggestBox suggestBox,
+		protected void showSuggestions(
+				final GSuggestBox suggestBox,
 				Collection<? extends Suggestion> suggestions,
-				boolean isDisplayStringHTML, boolean isAutoSelectEnabled,
+				boolean isDisplayStringHTML,
+				boolean isAutoSelectEnabled,
 				final SuggestionCallback callback) {
 			// Hide the popup if there are no suggestions to display.
-			boolean anySuggestions = suggestions != null
-					&& suggestions.size() > 0;
+			boolean anySuggestions = suggestions != null && suggestions.size() > 0;
 			if (!anySuggestions && hideWhenEmpty) {
 				hideSuggestions();
 				return;
@@ -580,16 +584,14 @@ public class GSuggestBox extends Composite
 			if (lastSuggestBox != suggestBox) {
 				// If the suggest box has changed, free the old one first.
 				if (lastSuggestBox != null) {
-					suggestionPopup
-							.removeAutoHidePartner(lastSuggestBox.getElement());
+					suggestionPopup.removeAutoHidePartner(lastSuggestBox.getElement());
 				}
 				lastSuggestBox = suggestBox;
 				suggestionPopup.addAutoHidePartner(suggestBox.getElement());
 			}
 
 			// Show the popup under the TextBox.
-			suggestionPopup.showRelativeTo(positionRelativeTo != null
-					? positionRelativeTo : suggestBox);
+			suggestionPopup.showRelativeTo(positionRelativeTo != null ? positionRelativeTo : suggestBox);
 		}
 
 		@Override
@@ -672,8 +674,7 @@ public class GSuggestBox extends Composite
 	 * @param box
 	 *            the text widget
 	 */
-	public GSuggestBox(SuggestOracle oracle, ValueBoxBase<String> box,
-			Panel panel, App app) {
+	public GSuggestBox(SuggestOracle oracle, ValueBoxBase<String> box, Panel panel, App app) {
 		this(oracle, box, new DefaultSuggestionDisplay(panel, app));
 	}
 
@@ -689,8 +690,8 @@ public class GSuggestBox extends Composite
 	 * @param suggestDisplay
 	 *            the class used to display suggestions
 	 */
-	public GSuggestBox(SuggestOracle oracle, ValueBoxBase<String> box,
-			SuggestionDisplay suggestDisplay) {
+	public GSuggestBox(
+			SuggestOracle oracle, ValueBoxBase<String> box, SuggestionDisplay suggestDisplay) {
 		this.box = box;
 		this.display = suggestDisplay;
 		initWidget(box);
@@ -717,14 +718,12 @@ public class GSuggestBox extends Composite
 	}
 
 	@Override
-	public HandlerRegistration addSelectionHandler(
-			SelectionHandler<Suggestion> handler) {
+	public HandlerRegistration addSelectionHandler(SelectionHandler<Suggestion> handler) {
 		return addHandler(handler, SelectionEvent.getType());
 	}
 
 	@Override
-	public HandlerRegistration addValueChangeHandler(
-			ValueChangeHandler<String> handler) {
+	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
 		return addHandler(handler, ValueChangeEvent.getType());
 	}
 
@@ -965,43 +964,41 @@ public class GSuggestBox extends Composite
 
 	void showSuggestions(String query) {
 		if (query.length() == 0) {
-			oracle.requestDefaultSuggestions(new Request(null, limit),
-					callback);
+			oracle.requestDefaultSuggestions(new Request(null, limit), callback);
 		} else {
 			oracle.requestSuggestions(new Request(query, limit), callback);
 		}
 	}
 
 	private void addEventsToTextBox() {
-		class TextBoxEvents implements KeyDownHandler, KeyUpHandler,
-				ValueChangeHandler<String> {
+		class TextBoxEvents implements KeyDownHandler, KeyUpHandler, ValueChangeHandler<String> {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				switch (event.getNativeKeyCode()) {
-				case KeyCodes.KEY_DOWN:
-					display.moveSelectionDown();
-					if (isSuggestionListShowing()) {
-						event.preventDefault();
-					}
-					break;
-				case KeyCodes.KEY_UP:
-					display.moveSelectionUp();
-					if (isSuggestionListShowing()) {
-						event.preventDefault();
-					}
-					break;
-				case KeyCodes.KEY_ENTER:
-				case KeyCodes.KEY_TAB:
-					Suggestion suggestion = display.getCurrentSelection();
-					if (suggestion == null) {
-						display.hideSuggestions();
-					} else {
-						setNewSelection(suggestion);
-					}
-					break;
-				default:
-					// nothing to do
-					break;
+					case KeyCodes.KEY_DOWN:
+						display.moveSelectionDown();
+						if (isSuggestionListShowing()) {
+							event.preventDefault();
+						}
+						break;
+					case KeyCodes.KEY_UP:
+						display.moveSelectionUp();
+						if (isSuggestionListShowing()) {
+							event.preventDefault();
+						}
+						break;
+					case KeyCodes.KEY_ENTER:
+					case KeyCodes.KEY_TAB:
+						Suggestion suggestion = display.getCurrentSelection();
+						if (suggestion == null) {
+							display.hideSuggestions();
+						} else {
+							setNewSelection(suggestion);
+						}
+						break;
+					default:
+						// nothing to do
+						break;
 				}
 			}
 

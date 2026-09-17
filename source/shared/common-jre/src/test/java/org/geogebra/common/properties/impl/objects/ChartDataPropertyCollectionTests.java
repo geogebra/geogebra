@@ -40,18 +40,18 @@ class ChartDataPropertyCollectionTests extends BaseAppTestSetup {
 	@Test
 	void testLineChart() {
 		GeoElement lineChart = evaluateGeoElement("LineGraph({1,2,3},{2,4,3})");
-		ChartDataPropertyCollection collection = assertDoesNotThrow(
-				() -> new ChartDataPropertyCollection(propertiesFactory,
-						getAlgebraProcessor(), getLocalization(), List.of(lineChart)));
+		ChartDataPropertyCollection collection =
+				assertDoesNotThrow(() -> new ChartDataPropertyCollection(
+						propertiesFactory, getAlgebraProcessor(), getLocalization(), List.of(lineChart)));
 		assertEquals(2, collection.getProperties().length); // x, y
 	}
 
 	@Test
 	void testHistogram() {
 		GeoElement histogram = evaluateGeoElement("Histogram({0,1,2,3},{2,3,1})");
-		ChartDataPropertyCollection collection = assertDoesNotThrow(
-				() -> new ChartDataPropertyCollection(propertiesFactory,
-						getAlgebraProcessor(), getLocalization(), List.of(histogram)));
+		ChartDataPropertyCollection collection =
+				assertDoesNotThrow(() -> new ChartDataPropertyCollection(
+						propertiesFactory, getAlgebraProcessor(), getLocalization(), List.of(histogram)));
 		assertEquals(7, collection.getProperties().length);
 	}
 }

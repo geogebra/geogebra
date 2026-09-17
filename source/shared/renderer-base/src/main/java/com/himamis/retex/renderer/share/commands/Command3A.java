@@ -65,5 +65,4 @@ public abstract class Command3A extends Command {
 	}
 
 	public abstract Atom newI(TeXParser tp, Atom a, Atom b, Atom c);
-
 }

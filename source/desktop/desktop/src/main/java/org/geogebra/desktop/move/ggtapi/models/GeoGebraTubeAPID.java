@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -28,9 +28,9 @@ import org.geogebra.desktop.util.HttpRequestD;
 
 /**
  * API Interface for GeoGebraTube requests and responses
- * 
+ *
  * @author stefan
- * 
+ *
  */
 public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 
@@ -41,7 +41,7 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 
 	/**
 	 * Create new GeoGebra Resources API
-	 * 
+	 *
 	 * @param beta
 	 *            use beta server?
 	 * @param client
@@ -55,8 +55,7 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 	}
 
 	@Override
-	public boolean parseUserDataFromResponse(GeoGebraTubeUser user,
-			String responseStr) {
+	public boolean parseUserDataFromResponse(GeoGebraTubeUser user, String responseStr) {
 		try {
 			JSONTokener tokener = new JSONTokener(responseStr);
 			JSONObject response = new JSONObject(tokener);
@@ -65,10 +64,8 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 			if (response.has("error")) {
 				return false;
 			}
-			JSONArray responseArray = response.getJSONObject("responses")
-					.getJSONArray("response");
-			JSONObject userinfo = ((JSONObject) responseArray.get(0))
-					.getJSONObject("userinfo");
+			JSONArray responseArray = response.getJSONObject("responses").getJSONArray("response");
+			JSONObject userinfo = ((JSONObject) responseArray.get(0)).getJSONObject("userinfo");
 			user.setUserId(userinfo.getInt("user_id"));
 			user.setUserName(userinfo.getString("username"));
 			user.setIdentifier(userinfo.get("identifier").toString());
@@ -90,5 +87,4 @@ public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 	protected String getToken() {
 		return client.getModel().getLoginToken();
 	}
-
 }

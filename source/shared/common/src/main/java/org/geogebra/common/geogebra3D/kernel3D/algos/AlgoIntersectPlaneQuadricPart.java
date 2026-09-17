@@ -23,16 +23,14 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
-public class AlgoIntersectPlaneQuadricPart
-		extends AlgoIntersectPlaneQuadricLimited {
+public class AlgoIntersectPlaneQuadricPart extends AlgoIntersectPlaneQuadricLimited {
 
 	private GeoConicND bottom;
 	private GeoConicND top;
 
 	private AlgoQuadricEnds algoEnds = null;
 
-	public AlgoIntersectPlaneQuadricPart(Construction cons, GeoPlane3D plane,
-			GeoQuadricND quadric) {
+	public AlgoIntersectPlaneQuadricPart(Construction cons, GeoPlane3D plane, GeoQuadricND quadric) {
 		super(cons, plane, quadric);
 	}
 
@@ -41,8 +39,8 @@ public class AlgoIntersectPlaneQuadricPart
 
 		if (quadric.getParentAlgorithm() instanceof AlgoQuadricSide) {
 			// use quadric limited parent ends
-			GeoQuadric3DLimited parent = ((AlgoQuadricSide) quadric
-					.getParentAlgorithm()).getInputQuadric();
+			GeoQuadric3DLimited parent =
+					((AlgoQuadricSide) quadric.getParentAlgorithm()).getInputQuadric();
 			bottom = parent.getBottom();
 			top = parent.getTop();
 		} else {
@@ -50,7 +48,6 @@ public class AlgoIntersectPlaneQuadricPart
 			cons.removeFromConstructionList(algoEnds);
 			bottom = algoEnds.getSection1();
 			top = algoEnds.getSection2();
-
 		}
 
 		super.end();
@@ -90,5 +87,4 @@ public class AlgoIntersectPlaneQuadricPart
 	protected double getTopParameter() {
 		return ((GeoQuadric3DPart) quadric).getTopParameter();
 	}
-
 }

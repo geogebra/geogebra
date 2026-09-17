@@ -37,12 +37,11 @@ public class CmdArea3D extends CmdArea {
 	}
 
 	@Override
-	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons1,
-			GeoPointND[] points, boolean is3D) {
+	protected AlgoAreaPoints getAlgoAreaPoints(
+			Construction cons1, GeoPointND[] points, boolean is3D) {
 		if (is3D) {
 			return new AlgoAreaPoints3D(cons1, points);
 		}
 		return new AlgoAreaPoints(cons1, points);
 	}
-
 }

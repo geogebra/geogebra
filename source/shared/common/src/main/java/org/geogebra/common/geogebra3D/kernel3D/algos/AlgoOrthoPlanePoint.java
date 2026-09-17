@@ -34,7 +34,7 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 	private GeoElement secondInput; // input
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -44,14 +44,14 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 	 * @param secondInput
 	 *            orthogonal element
 	 */
-	public AlgoOrthoPlanePoint(Construction cons, String label,
-			GeoPointND point, GeoElement secondInput) {
+	public AlgoOrthoPlanePoint(
+			Construction cons, String label, GeoPointND point, GeoElement secondInput) {
 		super(cons);
 		this.point = point;
 		this.secondInput = secondInput;
 
-		setInputOutput(new GeoElement[] { (GeoElement) point, secondInput },
-				new GeoElement[] { getPlane() });
+		setInputOutput(
+				new GeoElement[] {(GeoElement) point, secondInput}, new GeoElement[] {getPlane()});
 
 		// compute plane
 		compute();
@@ -69,7 +69,7 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return second input
 	 */
 	protected GeoElement getSecondInput() {
@@ -77,9 +77,8 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PlaneThroughAPerpendicularToB",
-				point.getLabel(tpl), secondInput.getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain("PlaneThroughAPerpendicularToB", point.getLabel(tpl), secondInput.getLabel(tpl));
 	}
 }

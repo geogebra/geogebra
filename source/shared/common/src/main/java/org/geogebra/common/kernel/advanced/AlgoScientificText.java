@@ -27,9 +27,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
- * 
+ *
  * writes numbers in the forum 1.23 * 10 ^ -3 (in LaTeX)
- * 
+ *
  * @author michael
  *
  */
@@ -49,8 +49,7 @@ public class AlgoScientificText extends AlgoElement {
 	 * @param precision
 	 *            precision
 	 */
-	public AlgoScientificText(Construction cons, GeoNumeric num,
-			GeoNumeric precision) {
+	public AlgoScientificText(Construction cons, GeoNumeric num, GeoNumeric precision) {
 		super(cons);
 		this.num = num;
 		this.precision = precision;
@@ -82,7 +81,7 @@ public class AlgoScientificText extends AlgoElement {
 
 	/**
 	 * Returns resulting text
-	 * 
+	 *
 	 * @return resulting text
 	 */
 	public GeoText getResult() {
@@ -107,8 +106,7 @@ public class AlgoScientificText extends AlgoElement {
 				return;
 			}
 
-			StringTemplate stl = StringTemplate
-					.printScientific(StringType.GEOGEBRA, prec, false);
+			StringTemplate stl = StringTemplate.printScientific(StringType.GEOGEBRA, prec, false);
 
 			// returns string like 3456E-7
 			String str = kernel.format(decimal, stl);
@@ -163,5 +161,4 @@ public class AlgoScientificText extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
 }

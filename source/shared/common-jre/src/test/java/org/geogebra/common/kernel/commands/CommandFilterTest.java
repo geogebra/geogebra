@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,8 +41,7 @@ class CommandFilterTest extends BaseUnitTest {
 
 	@Test
 	void noCasFilterTest() {
-		CommandFilter cf = CommandFilterFactory
-				.createNoCasCommandFilter();
+		CommandFilter cf = CommandFilterFactory.createNoCasCommandFilter();
 		App app = getApp();
 		app.getKernel().getAlgebraProcessor().addCommandFilter(cf);
 		for (Commands cmd0 : Commands.values()) {
@@ -50,7 +49,8 @@ class CommandFilterTest extends BaseUnitTest {
 			if (cmd0 == Commands.Derivative) {
 				cmd = Commands.NDerivative;
 			}
-			if (cmd0 == Commands.Integral || cmd0 == Commands.IntegralBetween
+			if (cmd0 == Commands.Integral
+					|| cmd0 == Commands.IntegralBetween
 					|| cmd0 == Commands.NIntegral
 					|| cmd0 == Commands.Factors
 					|| cmd0 == Commands.Polyhedron
@@ -58,27 +58,23 @@ class CommandFilterTest extends BaseUnitTest {
 				continue;
 			}
 			if (cf.isCommandAllowed(cmd)) {
-				List<Integer> signature = CommandSignatures
-						.getSignature(cmd.name(), app);
+				List<Integer> signature = CommandSignatures.getSignature(cmd.name(), app);
 				if (signature != null && !signature.contains(0)) {
-					AlgebraTestHelper.shouldFail(cmd + "()", "number of arg",
-							"only",
-							app);
+					AlgebraTestHelper.shouldFail(cmd + "()", "number of arg", "only", app);
 				}
 			} else {
-				AlgebraTestHelper.shouldFail(cmd + "()", "Unknown command",
-						"only", app);
+				AlgebraTestHelper.shouldFail(cmd + "()", "Unknown command", "only", app);
 			}
-
 		}
 	}
 
 	@Test
 	void noCasCommandsInSuiteAndClassic() {
-		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ")
-				.stream().map(c -> c.content).collect(Collectors.toList());
+		List<String> integralsClassic = getApp().getCommandDictionary().getCompletions("Integ").stream()
+				.map(c -> c.content)
+				.collect(Collectors.toList());
 		// should not contain IntegralSymbolic
-		assertEquals(Arrays.asList("Integral", "IntegralBetween",
-				"IsInteger", "NIntegral"), integralsClassic);
+		assertEquals(
+				Arrays.asList("Integral", "IntegralBetween", "IsInteger", "NIntegral"), integralsClassic);
 	}
 }

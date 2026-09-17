@@ -69,7 +69,8 @@ public final class AVFocusContributorFactory {
 	}
 
 	private static boolean shouldUseDualRepresentation(AlgebraStyle style, RadioTreeItem item) {
-		return DEFINITION_AND_VALUE == style || LINEAR_NOTATION == style
+		return DEFINITION_AND_VALUE == style
+				|| LINEAR_NOTATION == style
 				|| (DESCRIPTION == style && item.shouldBuildItemWithTwoRows());
 	}
 }

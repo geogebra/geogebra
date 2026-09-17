@@ -25,10 +25,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Prime factors of a number. Adapted from AlgoMode
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoPrimeFactors extends AlgoElement {
 
 	private GeoNumberValue num; // input
@@ -44,8 +43,7 @@ public class AlgoPrimeFactors extends AlgoElement {
 	 * @param num
 	 *            number
 	 */
-	public AlgoPrimeFactors(Construction cons, String label,
-			GeoNumberValue num) {
+	public AlgoPrimeFactors(Construction cons, String label, GeoNumberValue num) {
 		super(cons);
 		this.num = num;
 
@@ -103,5 +101,4 @@ public class AlgoPrimeFactors extends AlgoElement {
 			outputList.addNumber(n, this);
 		}
 	}
-
 }

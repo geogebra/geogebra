@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Concrete implementation of the TrueType Font, read from a TTF File.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: TTFFile.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -75,12 +75,10 @@ public class TTFFile extends TTFFont {
 		super.show();
 
 		System.out.println("Font: " + fileName);
-		System.out.println(
-				"  sfnt: " + sfntMajorVersion + "." + sfntMinorVersion);
+		System.out.println("  sfnt: " + sfntMajorVersion + "." + sfntMinorVersion);
 		System.out.println("  numTables: " + numberOfTables);
 		System.out.println("  searchRange: " + searchRange);
 		System.out.println("  entrySelector: " + entrySelector);
 		System.out.println("  rangeShift: " + rangeShift);
 	}
-
 }

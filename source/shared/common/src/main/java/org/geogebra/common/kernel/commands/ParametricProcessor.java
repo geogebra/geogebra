@@ -61,7 +61,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Processing
- * 
+ *
  * f(a)=(a,a) X=(a,a) (t,t)
  *
  */
@@ -100,17 +100,17 @@ public class ParametricProcessor {
 	 *            processing information
 	 * @return resulting elements
 	 */
-	final GeoElement[] checkParametricEquation(ValidExpression ve0,
+	final GeoElement[] checkParametricEquation(
+			ValidExpression ve0,
 			TreeSet<String> undefinedVariables,
-			AsyncOperation<GeoElementND[]> callback, EvalInfo info) {
+			AsyncOperation<GeoElementND[]> callback,
+			EvalInfo info) {
 		if (undefinedVariables.isEmpty()) {
 			return null;
 		}
-		boolean parametricExpression = "X".equals(ve0.getLabel())
-				|| undefinedVariables.contains("t");
+		boolean parametricExpression = "X".equals(ve0.getLabel()) || undefinedVariables.contains("t");
 		boolean parametricEquation = ve0.unwrap() instanceof Equation
-				&& "X".equals(((Equation) ve0.unwrap()).getLHS()
-						.toString(StringTemplate.defaultTemplate));
+				&& "X".equals(((Equation) ve0.unwrap()).getLHS().toString(StringTemplate.defaultTemplate));
 		if (!parametricEquation && !parametricExpression) {
 			return null;
 		}
@@ -126,8 +126,8 @@ public class ParametricProcessor {
 
 		TreeSet<GeoNumeric> num = new TreeSet<>();
 		// Iteration[a+1, a, {1},4]
-		ap.replaceUndefinedVariables(ve, num, new String[] {varName, "X" },
-				info.isMultipleUnassignedAllowed());
+		ap.replaceUndefinedVariables(
+				ve, num, new String[] {varName, "X"}, info.isMultipleUnassignedAllowed());
 		for (GeoNumeric slider : num) {
 			undefinedVariables.remove(slider.getLabelSimple());
 		}
@@ -135,17 +135,17 @@ public class ParametricProcessor {
 			try {
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
 
-				ExpressionNode exp = ve.deepCopy(kernel).traverse(
-						VariableReplacer.getReplacer(varName, fv, kernel))
+				ExpressionNode exp = ve.deepCopy(kernel)
+						.traverse(VariableReplacer.getReplacer(varName, fv, kernel))
 						.wrap();
 				exp.resolveVariables(new EvalInfo(false));
-				GeoElement[] ret = processParametricFunction(exp,
+				GeoElement[] ret = processParametricFunction(
+						exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
-						new FunctionVariable[] { fv },
-						getParametricLabel(ve), info);
-				if (ret != null
-						&& (num.isEmpty() || info.isAutocreateSliders()
-								&& info.isLabelOutput())) {
+						new FunctionVariable[] {fv},
+						getParametricLabel(ve),
+						info);
+				if (ret != null && (num.isEmpty() || info.isAutocreateSliders() && info.isLabelOutput())) {
 					cons.setSuppressLabelCreation(oldMacroMode);
 					ap.processReplace(replaceable, ret, null, info);
 					return ret;
@@ -161,16 +161,19 @@ public class ParametricProcessor {
 			try {
 
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
-				ExpressionNode exp = ((Equation) ve.unwrap()).getRHS()
-						.deepCopy(kernel).traverse(VariableReplacer
-								.getReplacer(varName, fv, kernel))
+				ExpressionNode exp = ((Equation) ve.unwrap())
+						.getRHS()
+						.deepCopy(kernel)
+						.traverse(VariableReplacer.getReplacer(varName, fv, kernel))
 						.wrap();
 				exp.resolveVariables(info);
-				GeoElement[] ret = processParametricFunction(exp,
+				GeoElement[] ret = processParametricFunction(
+						exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
-						new FunctionVariable[] { fv }, ve.getLabel(), info);
-				if (ret != null
-						&& (num.isEmpty() || info.isAutocreateSliders())) {
+						new FunctionVariable[] {fv},
+						ve.getLabel(),
+						info);
+				if (ret != null && (num.isEmpty() || info.isAutocreateSliders())) {
 					cons.setSuppressLabelCreation(oldMacroMode);
 					ap.processReplace(replaceable, ret, null, info);
 					return ret;
@@ -212,13 +215,11 @@ public class ParametricProcessor {
 		return varName;
 	}
 
-	private static void removeSliders(TreeSet<GeoNumeric> num,
-			TreeSet<String> undefined) {
+	private static void removeSliders(TreeSet<GeoNumeric> num, TreeSet<String> undefined) {
 		for (GeoNumeric slider : num) {
 			slider.remove();
 			undefined.add(slider.getLabelSimple());
 		}
-
 	}
 
 	/**
@@ -246,9 +247,8 @@ public class ParametricProcessor {
 	 *            processing information
 	 * @return parametric curve (or line, conic)
 	 */
-	protected GeoElement[] processParametricFunction(ExpressionNode exp,
-			ExpressionValue ev, FunctionVariable[] fv, String label,
-			EvalInfo info) {
+	protected GeoElement[] processParametricFunction(
+			ExpressionNode exp, ExpressionValue ev, FunctionVariable[] fv, String label, EvalInfo info) {
 		Construction cons = kernel.getConstruction();
 		if (ev instanceof MyList) {
 			GeoElement ge = kernel.getAlgebraProcessor().listExpression(exp);
@@ -267,26 +267,20 @@ public class ParametricProcessor {
 				ExpressionNode exp1 = exp.getRightTree();
 				ExpressionNode cx = VectorArithmetic.computeCoord(exp1, 0);
 				ExpressionNode cy = VectorArithmetic.computeCoord(exp1, 1);
-				return cartesianCurve(cons, label, exp1, locVar,
-						new ExpressionNode[] { cx, cy },
-						exp.getLeftTree());
+				return cartesianCurve(
+						cons, label, exp1, locVar, new ExpressionNode[] {cx, cy}, exp.getLeftTree());
 			}
 			ExpressionNode cx = VectorArithmetic.computeCoord(exp, 0);
 			ExpressionNode cy = VectorArithmetic.computeCoord(exp, 1);
 
-			ExpressionValue[] coefX = new ExpressionValue[5],
-					coefY = new ExpressionValue[5];
-			if (ap.getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0),
-					locVar)
-					&& ap.getTrigCoeffs(cy, coefY,
-							new ExpressionNode(kernel, 1.0), locVar)) {
+			ExpressionValue[] coefX = new ExpressionValue[5], coefY = new ExpressionValue[5];
+			if (ap.getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0), locVar)
+					&& ap.getTrigCoeffs(cy, coefY, new ExpressionNode(kernel, 1.0), locVar)) {
 
 				ExpressionNode a, b, c, d, xx, xy, yy;
 
-				ExpressionNode x = new FunctionVariable(kernel, "x").wrap()
-						.subtract(expr(coefX[0]));
-				ExpressionNode y = new FunctionVariable(kernel, "y").wrap()
-						.subtract(expr(coefY[0]));
+				ExpressionNode x = new FunctionVariable(kernel, "x").wrap().subtract(expr(coefX[0]));
+				ExpressionNode y = new FunctionVariable(kernel, "y").wrap().subtract(expr(coefY[0]));
 
 				if (coefX[1] != null || coefX[2] != null) {
 					a = expr(coefX[1]);
@@ -294,54 +288,45 @@ public class ParametricProcessor {
 					c = expr(coefY[1]);
 					d = expr(coefY[2]);
 					xx = c.power(2).plus(d.power(2)).multiply(x).multiply(x);
-					xy = c.multiply(a).plus(d.multiply(b)).multiply(-2)
-							.multiply(x).multiply(y);
+					xy = c.multiply(a).plus(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
 					yy = a.power(2).plus(b.power(2)).multiply(y).multiply(y);
 				} else {
 					a = expr(coefX[3]);
 					b = expr(coefX[4]);
 					c = expr(coefY[3]);
 					d = expr(coefY[4]);
-					xx = c.power(2).subtract(d.power(2)).multiply(x)
-							.multiply(x);
-					xy = c.multiply(a).subtract(d.multiply(b)).multiply(-2)
-							.multiply(x).multiply(y);
-					yy = a.power(2).subtract(b.power(2)).multiply(y)
-							.multiply(y);
+					xx = c.power(2).subtract(d.power(2)).multiply(x).multiply(x);
+					xy = c.multiply(a).subtract(d.multiply(b)).multiply(-2).multiply(x).multiply(y);
+					yy = a.power(2).subtract(b.power(2)).multiply(y).multiply(y);
 				}
 
-				ExpressionNode den = a.power(2).multiply(d.power(2))
+				ExpressionNode den = a.power(2)
+						.multiply(d.power(2))
 						.plus(b.power(2).multiply(c.power(2)))
-						.subtract(a.multiply(b).multiply(c).multiply(d)
-								.multiply(2));
-				Equation eq = new Equation(kernel, xx.plus(xy).plus(yy).wrap(),
-						den);
-				return paramConic(eq, exp, label, fv[0].getSetVarString(),
-						info);
+						.subtract(a.multiply(b).multiply(c).multiply(d).multiply(2));
+				Equation eq = new Equation(kernel, xx.plus(xy).plus(yy).wrap(), den);
+				return paramConic(eq, exp, label, fv[0].getSetVarString(), info);
 			}
 
 			coefX = ap.arrayOfZeros(coefX.length);
 			coefY = ap.arrayOfZeros(coefY.length);
 
-			int degX = ap.getPolyCoeffs(cx, coefX,
-					new ExpressionNode(kernel, 1.0), locVar);
-			int degY = ap.getPolyCoeffs(cy, coefY,
-					new ExpressionNode(kernel, 1.0), locVar);
+			int degX = ap.getPolyCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0), locVar);
+			int degY = ap.getPolyCoeffs(cy, coefY, new ExpressionNode(kernel, 1.0), locVar);
 
 			// line
 			if (degX >= 0 && degY >= 0 && degX < 2 && degY < 2) {
 				FunctionVariable px = new FunctionVariable(kernel, "x");
 				FunctionVariable py = new FunctionVariable(kernel, "y");
-				Equation eq = new Equation(kernel,
-						coefX[1].wrap().multiply(py)
-								.subtract(coefY[1].wrap().multiply(px)),
-						coefX[1].wrap().multiply(coefY[0])
-								.subtract(coefX[0].wrap().multiply(coefY[1])));
+				Equation eq = new Equation(
+						kernel,
+						coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),
+						coefX[1].wrap().multiply(coefY[0]).subtract(coefX[0].wrap().multiply(coefY[1])));
 				eq.setForceLine();
 				eq.initEquation();
 				eq.setLabel(label);
-				Traversing.GeoNumericReplacer repl = Traversing.GeoNumericReplacer
-						.getReplacer(locVar, fv[0], kernel);
+				Traversing.GeoNumericReplacer repl =
+						Traversing.GeoNumericReplacer.getReplacer(locVar, fv[0], kernel);
 				// replace GeoNumeric with function variable
 				exp.traverse(repl);
 				GeoElement[] line = ap.processLine(eq, buildParamEq(exp, label), info);
@@ -356,38 +341,38 @@ public class ParametricProcessor {
 				FunctionVariable px = new FunctionVariable(kernel, "x");
 				FunctionVariable py = new FunctionVariable(kernel, "y");
 				Log.debug(coefX[2] + "," + coefX[1] + "," + coefX[0]);
-				ExpressionNode t = px.wrap().multiply(coefY[2])
+				ExpressionNode t = px.wrap()
+						.multiply(coefY[2])
 						.subtract(py.wrap().multiply(coefX[2]))
 						.plus(coefX[2].wrap().multiply(coefY[0]))
 						.subtract(coefY[2].wrap().multiply(coefX[0]));
 
-				ExpressionNode d = coefX[1].wrap().multiply(coefY[2])
-						.subtract(coefY[1].wrap().multiply(coefX[2]));
+				ExpressionNode d =
+						coefX[1].wrap().multiply(coefY[2]).subtract(coefY[1].wrap().multiply(coefX[2]));
 
 				Equation eq;
 
 				// Numerically unstable
-				eq = new Equation(kernel,
-						d.power(2).multiply(px).multiply(coefX[2])
-								.plus(d.power(2).multiply(py)
-										.multiply(coefY[2])),
+				eq = new Equation(
+						kernel,
+						d.power(2)
+								.multiply(px)
+								.multiply(coefX[2])
+								.plus(d.power(2).multiply(py).multiply(coefY[2])),
 						t.power(2)
-								.multiply(coefY[2].wrap().power(2)
-										.plus(coefX[2].wrap().power(2)))
+								.multiply(coefY[2].wrap().power(2).plus(coefX[2].wrap().power(2)))
 								.plus(t.multiply(
-										coefY[1].wrap().multiply(coefY[2])
-												.plus(coefX[1].wrap()
-														.multiply(coefX[2])))
+												coefY[1].wrap().multiply(coefY[2]).plus(coefX[1].wrap().multiply(coefX[2])))
 										.multiply(d))
-								.plus(d.power(2).multiply(coefY[0].wrap()
-										.multiply(coefY[2]).plus(coefX[0].wrap()
-												.multiply(coefX[2])))));
+								.plus(d.power(2)
+										.multiply(coefY[0]
+												.wrap()
+												.multiply(coefY[2])
+												.plus(coefX[0].wrap().multiply(coefX[2])))));
 
-				return paramConic(eq, exp, label, fv[0].getSetVarString(),
-						info);
+				return paramConic(eq, exp, label, fv[0].getSetVarString(), info);
 			}
-			return cartesianCurve(cons, label, exp, locVar,
-					new ExpressionNode[] { cx, cy }, null);
+			return cartesianCurve(cons, label, exp, locVar, new ExpressionNode[] {cx, cy}, null);
 		} else if (ev instanceof Function) {
 			return ap.processFunction((Function) ev, info);
 		} else if (ev instanceof FunctionNVar) {
@@ -396,9 +381,7 @@ public class ParametricProcessor {
 		Log.debug("InvalidFunction:"
 				+ exp.toString(StringTemplate.defaultTemplate) + ","
 				+ ev.getClass() + "," + fv.length);
-		throw new MyError(kernel.getApplication().getLocalization(),
-				Errors.InvalidFunction);
-
+		throw new MyError(kernel.getApplication().getLocalization(), Errors.InvalidFunction);
 	}
 
 	/**
@@ -410,8 +393,8 @@ public class ParametricProcessor {
 	 *            dimension
 	 * @return surface
 	 */
-	protected GeoElement[] processSurface(ExpressionNode exp,
-			FunctionVariable[] fv, int dim, boolean complex) {
+	protected GeoElement[] processSurface(
+			ExpressionNode exp, FunctionVariable[] fv, int dim, boolean complex) {
 		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
 		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
 		Construction cons = kernel.getConstruction();
@@ -422,12 +405,13 @@ public class ParametricProcessor {
 			cons.removeFromConstructionList(nx);
 			coords[i] = nx.getNumber();
 		}
-		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons,
+		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(
+				cons,
 				exp,
 				coords,
-				new GeoNumeric[] { loc0, loc1 },
-				new GeoNumberValue[] { num(-10), num(-10) },
-				new GeoNumberValue[] { num(10), num(10) });
+				new GeoNumeric[] {loc0, loc1},
+				new GeoNumberValue[] {num(-10), num(-10)},
+				new GeoNumberValue[] {num(10), num(10)});
 		return algo.getOutput();
 	}
 
@@ -441,16 +425,16 @@ public class ParametricProcessor {
 	 * @param label label
 	 * @return function
 	 */
-	public GeoElement[] complexSurface(ExpressionNode exp,
-			FunctionVariable fv, String label) {
+	public GeoElement[] complexSurface(ExpressionNode exp, FunctionVariable fv, String label) {
 		FunctionVariable u = new FunctionVariable(kernel, "u");
 		FunctionVariable v = new FunctionVariable(kernel, "v");
-		ExpressionNode complex = new ExpressionNode(kernel, u, Operation.PLUS,
-				new ExpressionNode(kernel, v, Operation.MULTIPLY,
-						kernel.getImaginaryUnit()));
+		ExpressionNode complex = new ExpressionNode(
+				kernel,
+				u,
+				Operation.PLUS,
+				new ExpressionNode(kernel, v, Operation.MULTIPLY, kernel.getImaginaryUnit()));
 		ExpressionNode exp2 = exp.deepCopy(kernel).replace(fv, complex).wrap();
-		GeoElement[] surface =  processSurface(exp2,
-				new FunctionVariable[] { u, v }, 2, true);
+		GeoElement[] surface = processSurface(exp2, new FunctionVariable[] {u, v}, 2, true);
 		surface[0].setDefinition(exp);
 		((GeoSurfaceCartesianND) surface[0]).setComplexVariable(fv);
 		surface[0].setLabel(label);
@@ -472,8 +456,12 @@ public class ParametricProcessor {
 	 *            limitation for input variable
 	 * @return curve
 	 */
-	protected GeoElement[] cartesianCurve(Construction cons, String label,
-			ExpressionNode exp, GeoNumeric locVar, ExpressionNode[] c,
+	protected GeoElement[] cartesianCurve(
+			Construction cons,
+			String label,
+			ExpressionNode exp,
+			GeoNumeric locVar,
+			ExpressionNode[] c,
 			ExpressionNode condition) {
 		for (int i = 0; i < c.length; i++) {
 			checkNumber(c[i]);
@@ -493,15 +481,12 @@ public class ParametricProcessor {
 		boolean trig = c[0].has2piPeriodicOperations();
 		if (from == null) {
 			from = new GeoNumeric(cons, trig ? 0 : -10);
-
 		}
 		if (to == null) {
 			to = trig ? piTimes(2, cons) : new GeoNumeric(cons, 10);
 		}
-		AlgoCurveCartesian ac = makeCurveAlgo(cons,
-				exp.deepCopy(kernel).wrap(),
-				coords, locVar,
-				from, to);
+		AlgoCurveCartesian ac =
+				makeCurveAlgo(cons, exp.deepCopy(kernel).wrap(), coords, locVar, from, to);
 		ac.getCurve().setLabel(label);
 		return ac.getOutput();
 	}
@@ -521,9 +506,13 @@ public class ParametricProcessor {
 	 *            max
 	 * @return curve algo
 	 */
-	protected AlgoCurveCartesian makeCurveAlgo(Construction cons,
-			ExpressionNode wrap, GeoNumberValue[] coords, GeoNumeric locVar,
-			GeoNumberValue from, GeoNumberValue to) {
+	protected AlgoCurveCartesian makeCurveAlgo(
+			Construction cons,
+			ExpressionNode wrap,
+			GeoNumberValue[] coords,
+			GeoNumeric locVar,
+			GeoNumberValue from,
+			GeoNumberValue to) {
 		return new AlgoCurveCartesian(cons, wrap, coords, locVar, from, to);
 	}
 
@@ -533,52 +522,46 @@ public class ParametricProcessor {
 	 */
 	protected void checkNumber(ExpressionNode cx) {
 		if (!cx.evaluate(StringTemplate.maxPrecision).isNumberValue()) {
-			throw new MyError(kernel.getApplication().getLocalization(),
-					Errors.InvalidFunction);
+			throw new MyError(kernel.getApplication().getLocalization(), Errors.InvalidFunction);
 		}
-
 	}
 
-	private GeoNumberValue getBound(GeoNumeric locVar, ExpressionNode condition,
-			boolean swap) {
+	private GeoNumberValue getBound(GeoNumeric locVar, ExpressionNode condition, boolean swap) {
 		if (condition.getOperation() == Operation.AND
 				|| condition.getOperation() == Operation.AND_INTERVAL) {
 			GeoNumberValue lt = getBound(locVar, condition.getLeftTree(), swap);
 			if (lt != null) {
 				return lt;
 			}
-			GeoNumberValue rt = getBound(locVar, condition.getRightTree(),
-					swap);
+			GeoNumberValue rt = getBound(locVar, condition.getRightTree(), swap);
 			if (rt != null) {
 				return rt;
 			}
 		}
-		ExpressionValue checkVar = swap ? condition.getLeft()
-				: condition.getRight();
-		ExpressionValue checkNum = !swap ? condition.getLeft()
-				: condition.getRight();
+		ExpressionValue checkVar = swap ? condition.getLeft() : condition.getRight();
+		ExpressionValue checkNum = !swap ? condition.getLeft() : condition.getRight();
 		if ((condition.getOperation() == Operation.GREATER
-				|| condition.getOperation() == Operation.GREATER_EQUAL)
+						|| condition.getOperation() == Operation.GREATER_EQUAL)
 				&& checkVar == locVar) {
-			return (GeoNumberValue) ap.processNumber(checkNum.wrap(),
-					checkNum.evaluate(StringTemplate.defaultTemplate),
-					new EvalInfo(false))[0];
-
+			return (GeoNumberValue) ap.processNumber(
+							checkNum.wrap(),
+							checkNum.evaluate(StringTemplate.defaultTemplate),
+							new EvalInfo(false))[0];
 		}
 		if ((condition.getOperation() == Operation.LESS
-				|| condition.getOperation() == Operation.LESS_EQUAL)
+						|| condition.getOperation() == Operation.LESS_EQUAL)
 				&& checkNum == locVar) {
-			return (GeoNumberValue) ap.processNumber(checkVar.wrap(),
-					checkVar.evaluate(StringTemplate.defaultTemplate),
-					new EvalInfo(false))[0];
-
+			return (GeoNumberValue) ap.processNumber(
+							checkVar.wrap(),
+							checkVar.evaluate(StringTemplate.defaultTemplate),
+							new EvalInfo(false))[0];
 		}
 		return null;
 	}
 
 	private GeoNumberValue piTimes(int i, Construction cons) {
-		ExpressionNode en = new ExpressionNode(kernel, new MyDouble(kernel, i),
-				Operation.MULTIPLY, new MyDouble(kernel, Math.PI));
+		ExpressionNode en = new ExpressionNode(
+				kernel, new MyDouble(kernel, i), Operation.MULTIPLY, new MyDouble(kernel, Math.PI));
 		GeoNumeric ret = new GeoNumeric(cons, i * Math.PI);
 		ret.setDefinition(en);
 		return ret;
@@ -596,8 +579,8 @@ public class ParametricProcessor {
 		return ret;
 	}
 
-	private GeoElement[] paramConic(Equation eq, ExpressionNode exp,
-			String label, String param, EvalInfo info) {
+	private GeoElement[] paramConic(
+			Equation eq, ExpressionNode exp, String label, String param, EvalInfo info) {
 		eq.initEquation();
 		eq.setForceConic();
 		eq.setLabel(label);
@@ -609,7 +592,7 @@ public class ParametricProcessor {
 
 	/**
 	 * Creates a number and replaces all occurrences of the variable with it
-	 * 
+	 *
 	 * @param exp
 	 *            expression
 	 * @param fv
@@ -635,8 +618,8 @@ public class ParametricProcessor {
 	 *            processing information
 	 * @return parametric curve (or line, conic) or fallback
 	 */
-	public ValidExpression checkParametricEquationF(ValidExpression ve,
-			ValidExpression fallback, Construction cons, EvalInfo info) {
+	public ValidExpression checkParametricEquationF(
+			ValidExpression ve, ValidExpression fallback, Construction cons, EvalInfo info) {
 		CollectUndefinedVariables collector = new Traversing.CollectUndefinedVariables();
 		ve.any(collector);
 		final TreeSet<String> undefinedVariables = collector.getResult();
@@ -644,15 +627,18 @@ public class ParametricProcessor {
 			try {
 				String varName = undefinedVariables.first();
 				FunctionVariable fv = new FunctionVariable(kernel, varName);
-				ExpressionNode exp = ve.deepCopy(kernel).traverse(
-						VariableReplacer.getReplacer(varName, fv, kernel))
+				ExpressionNode exp = ve.deepCopy(kernel)
+						.traverse(VariableReplacer.getReplacer(varName, fv, kernel))
 						.wrap();
 				exp.resolveVariables(info);
 				boolean flag = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
-				GeoElement[] ret = processParametricFunction(exp,
+				GeoElement[] ret = processParametricFunction(
+						exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
-						new FunctionVariable[] { fv }, null, info);
+						new FunctionVariable[] {fv},
+						null,
+						info);
 				cons.setSuppressLabelCreation(flag);
 				if (ret != null) {
 					return ret[0].wrap();
@@ -682,13 +668,17 @@ public class ParametricProcessor {
 		}
 		String varName = getPreferredName(undefinedVariables);
 		FunctionVariable fv = new FunctionVariable(kernel, varName);
-		ExpressionNode exp = equ.getRHS().deepCopy(kernel)
+		ExpressionNode exp = equ.getRHS()
+				.deepCopy(kernel)
 				.traverse(VariableReplacer.getReplacer(varName, fv, kernel))
 				.wrap();
 		exp.resolveVariables(info);
-		GeoElement[] ret = processParametricFunction(exp,
+		GeoElement[] ret = processParametricFunction(
+				exp,
 				exp.evaluate(StringTemplate.defaultTemplate),
-				new FunctionVariable[] { fv }, equ.getLabel(), info);
+				new FunctionVariable[] {fv},
+				equ.getLabel(),
+				info);
 		return ret;
 	}
 
@@ -697,7 +687,7 @@ public class ParametricProcessor {
 	 * ExpressionValue. For "a + x(A)" this returns a, for "x(A)" this returns
 	 * null where A is a free point. If A is a dependent point, "a + x(A)"
 	 * throws an Exception.
-	 * 
+	 *
 	 * @param ev
 	 *            expression
 	 * @return number
@@ -714,11 +704,11 @@ public class ParametricProcessor {
 				}
 			}
 
-			GeoElement geo = kernel.lookupLabel(ev.isGeoElement()
-					? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate)
-					: ev.toString(StringTemplate.defaultTemplate));
-			if (geo != null && geo.isGeoNumeric()
-					&& geo.isPointerChangeable()) {
+			GeoElement geo = kernel.lookupLabel(
+					ev.isGeoElement()
+							? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate)
+							: ev.toString(StringTemplate.defaultTemplate));
+			if (geo != null && geo.isGeoNumeric() && geo.isPointerChangeable()) {
 				return (GeoNumeric) geo;
 			}
 			return null;
@@ -729,8 +719,7 @@ public class ParametricProcessor {
 
 		// expression + expression
 		ExpressionNode en = (ExpressionNode) ev;
-		if (en.getOperation().equals(Operation.PLUS)
-				&& en.getLeft() instanceof GeoNumeric) {
+		if (en.getOperation().equals(Operation.PLUS) && en.getLeft() instanceof GeoNumeric) {
 
 			// left branch needs to be a single number variable: get it
 			// e.g. a + x(D)
@@ -740,8 +729,7 @@ public class ParametricProcessor {
 			}
 			// check that variables in right branch are all independent to avoid
 			// circular definitions
-			Set<GeoElement> rightVars = en.getRight()
-					.getVariables(SymbolicMode.NONE);
+			Set<GeoElement> rightVars = en.getRight().getVariables(SymbolicMode.NONE);
 			if (rightVars != null) {
 				for (GeoElement var : rightVars) {
 					if (var.isChildOrEqual(coordNumeric)) {

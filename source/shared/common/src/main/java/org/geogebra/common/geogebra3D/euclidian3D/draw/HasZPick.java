@@ -33,12 +33,11 @@ public interface HasZPick {
 	 * @param positionOnHitting
 	 *            position on hitting ray
 	 */
-	void setZPickIfBetter(double zNear, double zFar, boolean discardPositive,
-			double positionOnHitting);
+	void setZPickIfBetter(
+			double zNear, double zFar, boolean discardPositive, double positionOnHitting);
 
 	/**
 	 * @return drawn element
 	 */
 	GeoElement getGeoElement();
-
 }

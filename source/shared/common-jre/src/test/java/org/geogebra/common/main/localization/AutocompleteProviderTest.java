@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -93,15 +93,17 @@ class AutocompleteProviderTest extends BaseUnitTest {
 	@Test
 	void initialMatchesShouldComeFirst() {
 		List<String> completionList = getStringCompletions("Row");
-		assertThat(completionList, equalTo(Arrays.asList("Row", "FillRow", "FitGrowth",
-				"ReducedRowEchelonForm")));
+		assertThat(
+				completionList,
+				equalTo(Arrays.asList("Row", "FillRow", "FitGrowth", "ReducedRowEchelonForm")));
 	}
 
 	@Test
 	void commandSuggestionTest() {
 		List<AutocompleteProvider.Completion> completionList = getCompletions("int");
 		assertEquals("Integral", completionList.get(0).getCommand());
-		assertEquals(Arrays.asList("Integral( <Function> )", "Integral( <Function>, <Variable> )"),
+		assertEquals(
+				Arrays.asList("Integral( <Function> )", "Integral( <Function>, <Variable> )"),
 				completionList.get(0).syntaxes.subList(0, 2));
 	}
 
@@ -110,12 +112,12 @@ class AutocompleteProviderTest extends BaseUnitTest {
 		AppConfig config = Mockito.spy(new AppConfigGraphing());
 		SyntaxFilter commandSyntax = Mockito.spy(new GraphingSyntaxFilter());
 		// Filter every syntax for InverseBinomial
-		when(commandSyntax.getFilteredSyntax(
-				eq(Commands.InverseBinomial.name()), anyString())).thenReturn("");
+		when(commandSyntax.getFilteredSyntax(eq(Commands.InverseBinomial.name()), anyString()))
+				.thenReturn("");
 		when(config.newCommandSyntaxFilter()).thenReturn(commandSyntax);
 
-		assertEquals(0, getExactSyntaxMatchOf(config, Commands.InverseBinomial.name())
-				.count());
+		assertEquals(
+				0, getExactSyntaxMatchOf(config, Commands.InverseBinomial.name()).count());
 	}
 
 	@Test
@@ -125,8 +127,8 @@ class AutocompleteProviderTest extends BaseUnitTest {
 		assertEquals(0, casProvider.getCompletions("ExpSimplify").count());
 	}
 
-	private Stream<AutocompleteProvider.Completion> getExactSyntaxMatchOf(AppConfig config,
-			String name) {
+	private Stream<AutocompleteProvider.Completion> getExactSyntaxMatchOf(
+			AppConfig config, String name) {
 		App app = AppCommonFactory.create(config);
 		AutocompleteProvider provider = new AutocompleteProvider(app, false);
 		return provider.getCompletions(name).filter(c -> Objects.equals(c.match.content, name));
@@ -134,8 +136,10 @@ class AutocompleteProviderTest extends BaseUnitTest {
 
 	@Test
 	void shouldUpdateOnAppSwitch() {
-		getApp().getKernel().getAlgebraProcessor().addCommandFilter(
-				cmd -> !cmd.name().startsWith("Bezier"));
+		getApp()
+				.getKernel()
+				.getAlgebraProcessor()
+				.addCommandFilter(cmd -> !cmd.name().startsWith("Bezier"));
 		shouldUpdateOnAppSwitch("en", "Curve");
 	}
 
@@ -164,8 +168,7 @@ class AutocompleteProviderTest extends BaseUnitTest {
 	}
 
 	private void swapConfig(AppConfig config) {
-		CommandDispatcher commandDispatcher =
-				getKernel().getAlgebraProcessor().getCommandDispatcher();
+		CommandDispatcher commandDispatcher = getKernel().getAlgebraProcessor().getCommandDispatcher();
 		CommandFilter commandFilter = getApp().getConfig().getCommandFilter();
 		if (commandFilter != null) {
 			commandDispatcher.removeCommandFilter(commandFilter);
@@ -198,7 +201,9 @@ class AutocompleteProviderTest extends BaseUnitTest {
 	}
 
 	private List<String> getStringCompletions(String sin) {
-		return provider.getCompletions(sin)
-				.map(AutocompleteProvider.Completion::getCommand).collect(Collectors.toList());
+		return provider
+				.getCompletions(sin)
+				.map(AutocompleteProvider.Completion::getCommand)
+				.collect(Collectors.toList());
 	}
 }

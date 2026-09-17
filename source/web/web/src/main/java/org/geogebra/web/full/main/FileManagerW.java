@@ -36,7 +36,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 /**
  * Manager for files from localStorage
- * 
+ *
  * JSON including the base64 and metadata is stored under
  * "file_[local-id]_[title]" key. The id field inside JSON is for Tube id, is
  * not affected by local id. Local id can still be found inside title, hence we need
@@ -48,6 +48,7 @@ public final class FileManagerW extends FileManager {
 	private static final String TIMESTAMP = "timestamp";
 	/** locale storage */
 	BrowserStorage stockStore = BrowserStorage.LOCAL;
+
 	private int freeBytes = -1;
 	private TreeSet<Integer> offlineIDs = new TreeSet<>();
 
@@ -66,7 +67,6 @@ public final class FileManagerW extends FileManager {
 			removeFile(mat);
 			onSuccess.run();
 		}
-
 	}
 
 	@Override
@@ -84,8 +84,7 @@ public final class FileManagerW extends FileManager {
 		} else {
 			id = getApp().getLocalID();
 		}
-		String key = createKeyString(id, getApp().getKernel().getConstruction()
-				.getTitle());
+		String key = createKeyString(id, getApp().getKernel().getConstruction().getTitle());
 		updateViewerId(mat);
 		mat.setLocalID(id);
 		try {
@@ -99,20 +98,17 @@ public final class FileManagerW extends FileManager {
 			}
 			cb.onError();
 		}
-
 	}
 
 	private void updateViewerId(Material mat) {
-		if (app.getLoginOperation() != null
-				&& app.getLoginOperation().getModel() != null) {
+		if (app.getLoginOperation() != null && app.getLoginOperation().getModel() != null) {
 			mat.setViewerID(app.getLoginOperation().getModel().getUserId());
 		}
-
 	}
 
 	/**
 	 * creates a new ID
-	 * 
+	 *
 	 * @return int ID
 	 */
 	int createID() {
@@ -149,7 +145,7 @@ public final class FileManagerW extends FileManager {
 		}
 		this.freeBytes = 5000000;
 	}
-	
+
 	@Override
 	public void rename(String newTitle, Material mat) {
 		rename(newTitle, mat, null);
@@ -165,8 +161,7 @@ public final class FileManagerW extends FileManager {
 		mat.setLocalID(createID());
 		mat.setTitle(newTitle);
 		this.stockStore.setItem(
-				MaterialsManager.createKeyString(newID, newTitle),
-				mat.toJson().toString());
+				MaterialsManager.createKeyString(newID, newTitle), mat.toJson().toString());
 	}
 
 	@Override
@@ -175,12 +170,10 @@ public final class FileManagerW extends FileManager {
 			return;
 		}
 		final StringConsumer base64saver = s -> {
-			final Material mat = createMaterial(s,
-					System.currentTimeMillis() / 1000);
+			final Material mat = createMaterial(s, System.currentTimeMillis() / 1000);
 			try {
 				mat.setAppName(app.getConfig().getAppCode());
-				stockStore.setItem(getAutosaveKey(),
-						mat.toJson().toString());
+				stockStore.setItem(getAutosaveKey(), mat.toJson().toString());
 			} catch (Exception e) {
 				Log.warn("Autosave failed");
 			}
@@ -208,8 +201,7 @@ public final class FileManagerW extends FileManager {
 					Log.warn("Invalid timestamp.");
 				}
 				if (l > System.currentTimeMillis() - 2000) {
-					Log.debug(
-							"App still running, autosave timestamp: " + l);
+					Log.debug("App still running, autosave timestamp: " + l);
 					return null;
 				}
 			}
@@ -224,8 +216,7 @@ public final class FileManagerW extends FileManager {
 	 */
 	@Override
 	public void restoreAutoSavedFile(String materialJSON) {
-		Material autoSaved = JSONParserGGT
-				.parseMaterial(materialJSON);
+		Material autoSaved = JSONParserGGT.parseMaterial(materialJSON);
 		// maybe another user restores the file, so reset
 		// sensitive data
 		autoSaved.setCreator(null);
@@ -251,8 +242,7 @@ public final class FileManagerW extends FileManager {
 		if (this.stockStore == null) {
 			return;
 		}
-		final Material oldMat = JSONParserGGT
-				.parseMaterial(this.stockStore.getItem(localID));
+		final Material oldMat = JSONParserGGT.parseMaterial(this.stockStore.getItem(localID));
 		mat.setBase64(oldMat.getBase64());
 		updateViewerId(mat);
 		try {
@@ -261,7 +251,6 @@ public final class FileManagerW extends FileManager {
 			Log.warn("setting tube ID failed");
 		}
 		this.offlineIDs.add(mat.getLocalID());
-
 	}
 
 	@Override
@@ -284,19 +273,17 @@ public final class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void showExportAsPictureDialog(final String url, String filename,
-			String extension, String titleKey, final App app1) {
+	public void showExportAsPictureDialog(
+			final String url, String filename, String extension, String titleKey, final App app1) {
 		final String extension2 = extension;
 		DialogData data = new DialogData(titleKey, "Cancel", "Export");
 		ComponentDialog dialog = new ComponentDialog(app, data, false, true);
-		ComponentInputField inputTextField = new ComponentInputField(app, "", null, "",
-				filename + "." + extension, "");
+		ComponentInputField inputTextField =
+				new ComponentInputField(app, "", null, "", filename + "." + extension, "");
 		dialog.addDialogContent(inputTextField);
 		dialog.setOnPositiveAction(() -> {
 			exportImage(url, inputTextField.getText(), extension2);
-			getApp().dispatchEvent(new Event(
-					EventType.EXPORT, null,
-					"[\"" + extension2 + "\"]"));
+			getApp().dispatchEvent(new Event(EventType.EXPORT, null, "[\"" + extension2 + "\"]"));
 		});
 		dialog.show();
 		dialogEvent(app, "exportPNG");
@@ -317,12 +304,10 @@ public final class FileManagerW extends FileManager {
 	}
 
 	private boolean mayLogIn() {
-		return !isOfflinePlatform()
-				&& app.getLoginOperation().mayLogIn();
+		return !isOfflinePlatform() && app.getLoginOperation().mayLogIn();
 	}
 
 	private static void dialogEvent(AppW app, String string) {
 		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
 	}
-
 }

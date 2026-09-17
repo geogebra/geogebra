@@ -32,8 +32,7 @@ class MenuView extends AriaMenuBar {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) == Event.ONKEYDOWN
-				&& event.getKeyCode() == KeyCodes.KEY_ESCAPE) {
+		if (DOM.eventGetType(event) == Event.ONKEYDOWN && event.getKeyCode() == KeyCodes.KEY_ESCAPE) {
 			if (controller.isSubMenu(getParent())) {
 				controller.hideSubmenuAndMoveFocus();
 			} else {

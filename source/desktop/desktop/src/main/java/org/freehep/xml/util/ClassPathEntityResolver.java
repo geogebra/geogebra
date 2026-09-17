@@ -22,7 +22,7 @@ public class ClassPathEntityResolver implements EntityResolver {
 
 	/**
 	 * Create a ClassPathEntityResolver that will handle a single DTD.
-	 * 
+	 *
 	 * @param DTDName
 	 *            The DTDName to resolve (e.g. myStuff.dtd)
 	 * @param root
@@ -35,7 +35,7 @@ public class ClassPathEntityResolver implements EntityResolver {
 
 	/**
 	 * Create a ClassPathEntityResolver that can handle a collection of DTD's
-	 * 
+	 *
 	 * @param root
 	 *            A class in the package to be used as the root of the DTD path
 	 * @param DTDPrefix
@@ -50,8 +50,7 @@ public class ClassPathEntityResolver implements EntityResolver {
 	 * Implementation of resolveEntity method
 	 */
 	@Override
-	public InputSource resolveEntity(String publicId, String systemId)
-			throws SAXException {
+	public InputSource resolveEntity(String publicId, String systemId) throws SAXException {
 		if (name != null && systemId.endsWith(name)) {
 			InputStream in = root.getResourceAsStream(name);
 			if (in == null) {

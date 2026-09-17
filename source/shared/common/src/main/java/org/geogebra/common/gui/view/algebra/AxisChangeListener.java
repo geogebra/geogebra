@@ -27,8 +27,10 @@ public class AxisChangeListener implements SettingListener<EuclidianSettings> {
 
 	@Weak
 	private AlgebraView view;
+
 	@Weak
 	private Kernel kernel;
+
 	private boolean isAnyAxisVisible;
 
 	/**
@@ -39,16 +41,14 @@ public class AxisChangeListener implements SettingListener<EuclidianSettings> {
 	 * @param defaultSetting
 	 *            view settings (for initialization)
 	 */
-	public AxisChangeListener(AlgebraView view, Kernel kernel,
-			EuclidianSettings defaultSetting) {
+	public AxisChangeListener(AlgebraView view, Kernel kernel, EuclidianSettings defaultSetting) {
 		this.view = view;
 		this.kernel = kernel;
 		this.isAnyAxisVisible = isAnyAxisVisible(defaultSetting);
 	}
 
 	private boolean isAnyAxisVisible(EuclidianSettings euclidianSettings) {
-		return euclidianSettings.getShowAxis(0)
-				|| euclidianSettings.getShowAxis(1);
+		return euclidianSettings.getShowAxis(0) || euclidianSettings.getShowAxis(1);
 	}
 
 	@Override
@@ -56,9 +56,11 @@ public class AxisChangeListener implements SettingListener<EuclidianSettings> {
 		boolean anyAxisVisible = isAnyAxisVisible(settings);
 		if (anyAxisVisible != isAnyAxisVisible) {
 			isAnyAxisVisible = anyAxisVisible;
-			kernel.getApplication().getSettings().getAlgebra().setStyle(anyAxisVisible
-					? AlgebraStyle.DEFINITION_AND_VALUE
-					: AlgebraStyle.DESCRIPTION);
+			kernel
+					.getApplication()
+					.getSettings()
+					.getAlgebra()
+					.setStyle(anyAxisVisible ? AlgebraStyle.DEFINITION_AND_VALUE : AlgebraStyle.DESCRIPTION);
 			view.repaintView();
 		}
 	}

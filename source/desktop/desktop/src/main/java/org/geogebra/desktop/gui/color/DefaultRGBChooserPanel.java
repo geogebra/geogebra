@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,7 +41,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppD;
 
 /* Note: this class shares name, but not implementation, with Swing's DefaultRGBChooserPanel,
- copyright notice from https://github.com/geogebra/geogebra/commit/3919aba8 does not apply. */
+copyright notice from https://github.com/geogebra/geogebra/commit/3919aba8 does not apply. */
 /**
  * RGB color chooser panel for the JColorChooser adapted for GeoGebra. The color
  * is selected using three sliders that represent the RGB values.
@@ -239,12 +239,12 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 		G.setMinorTickSpacing(17);
 		B.setMinorTickSpacing(17);
 
-		RSpinner = new JSpinner(new SpinnerNumberModel(R.getValue(),
-				R.getMinimum(), R.getMaximum(), 1));
-		GSpinner = new JSpinner(new SpinnerNumberModel(G.getValue(),
-				G.getMinimum(), G.getMaximum(), 1));
-		BSpinner = new JSpinner(new SpinnerNumberModel(B.getValue(),
-				B.getMinimum(), B.getMaximum(), 1));
+		RSpinner =
+				new JSpinner(new SpinnerNumberModel(R.getValue(), R.getMinimum(), R.getMaximum(), 1));
+		GSpinner =
+				new JSpinner(new SpinnerNumberModel(G.getValue(), G.getMinimum(), G.getMaximum(), 1));
+		BSpinner =
+				new JSpinner(new SpinnerNumberModel(B.getValue(), B.getMinimum(), B.getMaximum(), 1));
 
 		redLabel.setLabelFor(R);
 		greenLabel.setLabelFor(G);
@@ -387,7 +387,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	/**
 	 * Extension of JPanel the displays the currently selected color next to the
 	 * originally chosen color.
-	 * 
+	 *
 	 */
 	static class ColorPreviewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -410,5 +410,4 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 			g.fillRect(0, 0, (getWidth() - 1) / 2, getHeight() - 1);
 		}
 	}
-
 }

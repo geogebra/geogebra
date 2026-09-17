@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Area between two functions (GeoFunction) f(x) and g(x) over an interval [a,
  * b]. The value equals Integral[f(x) - g(x), a, b] = Integral[f(x), a, b] -
  * Integral[g(x), a, b]
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoIntegralFunctions extends AlgoElement
@@ -62,8 +62,13 @@ public class AlgoIntegralFunctions extends AlgoElement
 	 * @param b
 	 *            right bound
 	 */
-	public AlgoIntegralFunctions(Construction cons, String label, GeoFunction f,
-			GeoFunction g, GeoNumberValue a, GeoNumberValue b) {
+	public AlgoIntegralFunctions(
+			Construction cons,
+			String label,
+			GeoFunction f,
+			GeoFunction g,
+			GeoNumberValue a,
+			GeoNumberValue b) {
 		this(cons, label, f, g, a, b, null);
 		n.setLabel(label);
 	}
@@ -84,8 +89,13 @@ public class AlgoIntegralFunctions extends AlgoElement
 	 * @param evaluate
 	 *            true to evaluate, false = just shade
 	 */
-	public AlgoIntegralFunctions(Construction cons, String label, GeoFunction f,
-			GeoFunction g, GeoNumberValue a, GeoNumberValue b,
+	public AlgoIntegralFunctions(
+			Construction cons,
+			String label,
+			GeoFunction f,
+			GeoFunction g,
+			GeoNumberValue a,
+			GeoNumberValue b,
 			GeoBoolean evaluate) {
 		super(cons);
 		this.f = f;
@@ -95,8 +105,7 @@ public class AlgoIntegralFunctions extends AlgoElement
 		this.evaluate = evaluate;
 
 		// helper algorithms for integral f and g
-		AlgoIntegralDefinite algoInt = new AlgoIntegralDefinite(cons, f, a, b,
-				evaluate);
+		AlgoIntegralDefinite algoInt = new AlgoIntegralDefinite(cons, f, a, b, evaluate);
 		cons.removeFromConstructionList(algoInt);
 		intF = algoInt.getIntegral();
 
@@ -125,8 +134,8 @@ public class AlgoIntegralFunctions extends AlgoElement
 	 * @param evaluate
 	 *            true to evaluate, false = just shade
 	 */
-	public AlgoIntegralFunctions(GeoFunction f, GeoFunction g, MyDouble a,
-			MyDouble b, GeoBoolean evaluate) {
+	public AlgoIntegralFunctions(
+			GeoFunction f, GeoFunction g, MyDouble a, MyDouble b, GeoBoolean evaluate) {
 		super(f.getConstruction(), false);
 		this.f = f;
 		this.g = g;
@@ -143,11 +152,12 @@ public class AlgoIntegralFunctions extends AlgoElement
 	@Override
 	public AlgoIntegralFunctions copy() {
 
-		return new AlgoIntegralFunctions(f.copy(), g.copy(),
+		return new AlgoIntegralFunctions(
+				f.copy(),
+				g.copy(),
 				new MyDouble(kernel, a.getDouble()),
 				new MyDouble(kernel, b.getDouble()),
 				evaluate == null ? null : evaluate.copy());
-
 	}
 
 	// for AlgoElement
@@ -208,8 +218,7 @@ public class AlgoIntegralFunctions extends AlgoElement
 
 	@Override
 	public final void compute() {
-		if (!f.isDefined() || !g.isDefined() || !a.isDefined()
-				|| !b.isDefined()) {
+		if (!f.isDefined() || !g.isDefined() || !a.isDefined() || !b.isDefined()) {
 			n.setUndefined();
 			return;
 		}
@@ -234,7 +243,5 @@ public class AlgoIntegralFunctions extends AlgoElement
 	public void replaceChildrenByValues(GeoElement geo) {
 		f.replaceChildrenByValues(geo);
 		g.replaceChildrenByValues(geo);
-
 	}
-
 }

@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.commands;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -121,16 +121,14 @@ class RandomCmdTest extends BaseUnitTest {
 	void randomSequenceShouldStoreValueInXML() {
 		GeoElement list = add("Sequence(RandomUniform(1,3),k,1,5)");
 		assertNotNull(list.getParentAlgorithm());
-		assertThat(list.getParentAlgorithm().getXML(),
-				containsString("randomResult"));
+		assertThat(list.getParentAlgorithm().getXML(), containsString("randomResult"));
 	}
 
 	@Test
 	void genericSequenceShouldNotStoreValueInXML() {
 		GeoElement list = add("Sequence(SolveODE(x^2, k, k+1, 10, 0.01), k, 1, 10)");
 		assertNotNull(list.getParentAlgorithm());
-		assertThat(list.getParentAlgorithm().getXML(),
-				not(containsString("randomResult")));
+		assertThat(list.getParentAlgorithm().getXML(), not(containsString("randomResult")));
 	}
 
 	@Test
@@ -138,8 +136,7 @@ class RandomCmdTest extends BaseUnitTest {
 		// simple numbers should store value in <element>, not command's <output>
 		GeoElement num = add("RandomUniform(1,2)");
 		assertNotNull(num.getParentAlgorithm());
-		assertThat(num.getParentAlgorithm().getXML(),
-				not(containsString("randomResult")));
+		assertThat(num.getParentAlgorithm().getXML(), not(containsString("randomResult")));
 	}
 
 	private void addLatex(String label, String latex) {
@@ -157,7 +154,7 @@ class RandomCmdTest extends BaseUnitTest {
 		} catch (XMLParseException e) {
 			throw new IllegalStateException(e);
 		}
-		assertEquals(old, lookup("a").toValueString(StringTemplate.editTemplate),
-				cmd + " is not stable");
+		assertEquals(
+				old, lookup("a").toValueString(StringTemplate.editTemplate), cmd + " is not stable");
 	}
 }

@@ -34,21 +34,21 @@ class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 
 	@Test
 	void freehandPenShouldRecognizeSegment() {
-		EuclidianPenFreehand freehandPen
-				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
+		EuclidianPenFreehand freehandPen =
+				new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 
 		freehandPen.addPointPenMode(new GPoint2D(10, 10));
 		freehandPen.addPointPenMode(new GPoint2D(15, 15));
 		freehandPen.addPointPenMode(new GPoint2D(20, 20));
 
-		assertEquals(GeoClass.SEGMENT,
-				freehandPen.checkExpectedShape(PointerEventType.MOUSE).getGeoClassType());
+		assertEquals(
+				GeoClass.SEGMENT, freehandPen.checkExpectedShape(PointerEventType.MOUSE).getGeoClassType());
 	}
 
 	@Test
 	void restrictedFreehandPenShouldRecognizeFunction() {
-		EuclidianPenFreehand freehandPen
-				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
+		EuclidianPenFreehand freehandPen =
+				new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 
 		freehandPen.setExpected(EuclidianPenFreehand.ShapeType.function);
 
@@ -56,14 +56,15 @@ class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 		freehandPen.addPointPenMode(new GPoint2D(15, 15));
 		freehandPen.addPointPenMode(new GPoint2D(20, 20));
 
-		assertEquals(GeoClass.FUNCTION,
+		assertEquals(
+				GeoClass.FUNCTION,
 				freehandPen.checkExpectedShape(PointerEventType.MOUSE).getGeoClassType());
 	}
 
 	@Test
 	void freehandPenShouldRecognizeConic() {
-		EuclidianPenFreehand freehandPen
-				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
+		EuclidianPenFreehand freehandPen =
+				new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 
 		freehandPen.addPointPenMode(new GPoint2D(0, 10));
 		freehandPen.addPointPenMode(new GPoint2D(7, 7));
@@ -74,14 +75,14 @@ class EuclidianPenFreehandTest extends BaseEuclidianControllerTest {
 		freehandPen.addPointPenMode(new GPoint2D(-10, 0));
 		freehandPen.addPointPenMode(new GPoint2D(-7, 7));
 
-		assertEquals(GeoClass.CONIC,
-				freehandPen.checkExpectedShape(PointerEventType.MOUSE).getGeoClassType());
+		assertEquals(
+				GeoClass.CONIC, freehandPen.checkExpectedShape(PointerEventType.MOUSE).getGeoClassType());
 	}
 
 	@Test
 	void restrictedFreehandPenShouldFailRecognizingConic() {
-		EuclidianPenFreehand freehandPen
-				= new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
+		EuclidianPenFreehand freehandPen =
+				new EuclidianPenFreehand(getApp(), getApp().getActiveEuclidianView());
 
 		freehandPen.setExpected(EuclidianPenFreehand.ShapeType.function);
 

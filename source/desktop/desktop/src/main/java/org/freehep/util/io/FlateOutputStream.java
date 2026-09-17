@@ -9,16 +9,15 @@ import java.util.zip.DeflaterOutputStream;
  * The FlateOutputStream uses the Deflate mechanism to compress data. The exact
  * definition of Deflate encoding can be found in the PostScript Language
  * Reference (3rd ed.) chapter 3.13.3.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: FlateOutputStream.java,v 1.3 2008-05-04 12:21:46 murkle Exp $
  */
-public class FlateOutputStream extends DeflaterOutputStream
-		implements FinishableOutputStream {
+public class FlateOutputStream extends DeflaterOutputStream implements FinishableOutputStream {
 
 	/**
 	 * Creates a (In-)Flate output stream.
-	 * 
+	 *
 	 * @param out
 	 *            stream to write to
 	 */

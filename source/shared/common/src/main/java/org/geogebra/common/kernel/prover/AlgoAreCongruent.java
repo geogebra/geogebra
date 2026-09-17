@@ -58,7 +58,7 @@ public class AlgoAreCongruent extends AlgoElement
 
 	/**
 	 * Creates a new AlgoAreCongruent function
-	 * 
+	 *
 	 * @param cons
 	 *            the Construction
 	 * @param a
@@ -66,8 +66,7 @@ public class AlgoAreCongruent extends AlgoElement
 	 * @param b
 	 *            the second object
 	 */
-	public AlgoAreCongruent(final Construction cons, final GeoElement a,
-			final GeoElement b) {
+	public AlgoAreCongruent(final Construction cons, final GeoElement a, final GeoElement b) {
 		super(cons);
 		this.inputElement1 = a;
 		this.inputElement2 = b;
@@ -80,7 +79,7 @@ public class AlgoAreCongruent extends AlgoElement
 
 	/**
 	 * Creates a new AlgoAreCongruent function
-	 * 
+	 *
 	 * @param cons
 	 *            the Construction
 	 * @param label
@@ -90,8 +89,8 @@ public class AlgoAreCongruent extends AlgoElement
 	 * @param b
 	 *            the second object
 	 */
-	public AlgoAreCongruent(final Construction cons, final String label,
-			final GeoElement a, final GeoElement b) {
+	public AlgoAreCongruent(
+			final Construction cons, final String label, final GeoElement a, final GeoElement b) {
 		this(cons, a, b);
 		outputBoolean.setLabel(label);
 	}
@@ -113,7 +112,7 @@ public class AlgoAreCongruent extends AlgoElement
 
 	/**
 	 * Returns the result of the test
-	 * 
+	 *
 	 * @return true if the two objects are congruent, false if not, undefined if
 	 *         testing is unimplemented in that case
 	 */
@@ -139,23 +138,16 @@ public class AlgoAreCongruent extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
+		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint)
-					&& (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine)
-							&& (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector)
-							&& (inputElement2 instanceof GeoVector))) {
-				((SymbolicParametersAlgo) inputElement1)
-						.getFreeVariables(variables);
-				((SymbolicParametersAlgo) inputElement2)
-						.getFreeVariables(variables);
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
+					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
+					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
+				((SymbolicParametersAlgo) inputElement1).getFreeVariables(variables);
+				((SymbolicParametersAlgo) inputElement2).getFreeVariables(variables);
 				return;
 			}
 		}
@@ -163,29 +155,20 @@ public class AlgoAreCongruent extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
+		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint)
-					&& (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine)
-							&& (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector)
-							&& (inputElement2 instanceof GeoVector))) {
-				int[] degrees1 = ((SymbolicParametersAlgo) inputElement1)
-						.getDegrees(a);
-				int[] degrees2 = ((SymbolicParametersAlgo) inputElement2)
-						.getDegrees(a);
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
+					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
+					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
+				int[] degrees1 = ((SymbolicParametersAlgo) inputElement1).getDegrees(a);
+				int[] degrees2 = ((SymbolicParametersAlgo) inputElement2).getDegrees(a);
 				int[] degrees = new int[1];
 				degrees[0] = Math.max(
-						Math.max(degrees1[0] + degrees2[2],
-								degrees2[0] + degrees1[2]),
-						Math.max(degrees1[1] + degrees2[2],
-								degrees2[1] + degrees1[2]));
+						Math.max(degrees1[0] + degrees2[2], degrees2[0] + degrees1[2]),
+						Math.max(degrees1[1] + degrees2[2], degrees2[1] + degrees1[2]));
 				return degrees;
 			}
 		}
@@ -193,28 +176,24 @@ public class AlgoAreCongruent extends AlgoElement
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
+		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint)
-					&& (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine)
-							&& (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector)
-							&& (inputElement2 instanceof GeoVector))) {
-				BigInteger[] coords1 = ((SymbolicParametersAlgo) inputElement1)
-						.getExactCoordinates(values);
-				BigInteger[] coords2 = ((SymbolicParametersAlgo) inputElement2)
-						.getExactCoordinates(values);
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
+					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
+					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
+				BigInteger[] coords1 = ((SymbolicParametersAlgo) inputElement1).getExactCoordinates(values);
+				BigInteger[] coords2 = ((SymbolicParametersAlgo) inputElement2).getExactCoordinates(values);
 				BigInteger[] coords = new BigInteger[1];
-				coords[0] = coords1[0].multiply(coords2[2])
-						.subtract(coords2[0].multiply(coords1[2])).abs()
-						.add(coords1[1].multiply(coords2[2])
+				coords[0] = coords1[0]
+						.multiply(coords2[2])
+						.subtract(coords2[0].multiply(coords1[2]))
+						.abs()
+						.add(coords1[1]
+								.multiply(coords2[2])
 								.subtract(coords2[1].multiply(coords1[2]))
 								.abs());
 				return coords;
@@ -229,26 +208,18 @@ public class AlgoAreCongruent extends AlgoElement
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if ((inputElement1 instanceof GeoSegment)
-				|| (inputElement2 instanceof GeoSegment)) {
+		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint)
-					&& (inputElement2 instanceof GeoPoint))
-					|| ((inputElement1 instanceof GeoLine)
-							&& (inputElement2 instanceof GeoLine))
-					|| ((inputElement1 instanceof GeoVector)
-							&& (inputElement2 instanceof GeoVector))) {
-				PPolynomial[] coords1 = ((SymbolicParametersAlgo) inputElement1)
-						.getPolynomials();
-				PPolynomial[] coords2 = ((SymbolicParametersAlgo) inputElement2)
-						.getPolynomials();
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
+					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
+					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
+				PPolynomial[] coords1 = ((SymbolicParametersAlgo) inputElement1).getPolynomials();
+				PPolynomial[] coords2 = ((SymbolicParametersAlgo) inputElement2).getPolynomials();
 				polynomials = new PPolynomial[2];
-				polynomials[0] = coords1[0].multiply(coords2[2])
-						.subtract(coords2[0].multiply(coords1[2]));
-				polynomials[1] = coords1[1].multiply(coords2[2])
-						.subtract(coords2[1].multiply(coords1[2]));
+				polynomials[0] = coords1[0].multiply(coords2[2]).subtract(coords2[0].multiply(coords1[2]));
+				polynomials[1] = coords1[1].multiply(coords2[2]).subtract(coords2[1].multiply(coords1[2]));
 				return polynomials;
 			}
 		}
@@ -256,14 +227,12 @@ public class AlgoAreCongruent extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[][] getBotanaPolynomials()
-			throws NoSymbolicParametersException {
+	public PPolynomial[][] getBotanaPolynomials() throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 
-		if (inputElement1 instanceof GeoPoint
-				&& inputElement2 instanceof GeoPoint) {
+		if (inputElement1 instanceof GeoPoint && inputElement2 instanceof GeoPoint) {
 			// Same as in AreEqual.
 			botanaPolynomials = new PPolynomial[2][1];
 
@@ -271,16 +240,13 @@ public class AlgoAreCongruent extends AlgoElement
 			PVariable[] v2 = ((GeoPoint) inputElement2).getBotanaVars(inputElement2); // B=(x2,y2)
 
 			// We want to prove: 1) x1-x2==0, 2) y1-y2==0
-			botanaPolynomials[0][0] = new PPolynomial(v1[0])
-					.subtract(new PPolynomial(v2[0]));
-			botanaPolynomials[1][0] = new PPolynomial(v1[1])
-					.subtract(new PPolynomial(v2[1]));
+			botanaPolynomials[0][0] = new PPolynomial(v1[0]).subtract(new PPolynomial(v2[0]));
+			botanaPolynomials[1][0] = new PPolynomial(v1[1]).subtract(new PPolynomial(v2[1]));
 			return botanaPolynomials;
 		}
 
 		// Order is important here: a GeoSegment is also a GeoLine!
-		if (inputElement1 instanceof GeoSegment
-				&& inputElement2 instanceof GeoSegment) {
+		if (inputElement1 instanceof GeoSegment && inputElement2 instanceof GeoSegment) {
 			// We check whether their length are equal.
 			botanaPolynomials = new PPolynomial[1][1];
 
@@ -306,8 +272,7 @@ public class AlgoAreCongruent extends AlgoElement
 			return botanaPolynomials;
 		}
 
-		if (inputElement1 instanceof GeoLine
-				&& inputElement2 instanceof GeoLine) {
+		if (inputElement1 instanceof GeoLine && inputElement2 instanceof GeoLine) {
 			// Same as in AreEqual.
 			botanaPolynomials = new PPolynomial[2][1];
 
@@ -315,17 +280,13 @@ public class AlgoAreCongruent extends AlgoElement
 			PVariable[] v2 = ((GeoLine) inputElement2).getBotanaVars(inputElement2); // CD
 
 			// We want to prove: 1) A,B,C collinear, 2) A,B,D collinear
-			botanaPolynomials[0][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],
-					v1[3], v2[0], v2[1]);
-			botanaPolynomials[1][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],
-					v1[3], v2[2], v2[3]);
+			botanaPolynomials[0][0] = PPolynomial.collinear(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1]);
+			botanaPolynomials[1][0] = PPolynomial.collinear(v1[0], v1[1], v1[2], v1[3], v2[2], v2[3]);
 			return botanaPolynomials;
 		}
 
-		if (inputElement1 instanceof GeoConic
-				&& inputElement2 instanceof GeoConic) {
-			if (((GeoConic) inputElement1).isCircle()
-					&& ((GeoConic) inputElement2).isCircle()) {
+		if (inputElement1 instanceof GeoConic && inputElement2 instanceof GeoConic) {
+			if (((GeoConic) inputElement1).isCircle() && ((GeoConic) inputElement2).isCircle()) {
 				botanaPolynomials = new PPolynomial[1][1];
 
 				// circle with center A and point B
@@ -334,15 +295,12 @@ public class AlgoAreCongruent extends AlgoElement
 				PVariable[] v2 = ((GeoConic) inputElement2).getBotanaVars(inputElement2);
 
 				// We want to prove: |AB|^2 = |CD|^2
-				botanaPolynomials[0][0] = PPolynomial
-						.sqrDistance(v1[0], v1[1], v1[2], v1[3])
-						.subtract(PPolynomial.sqrDistance(v2[0], v2[1], v2[2],
-								v2[3]));
+				botanaPolynomials[0][0] = PPolynomial.sqrDistance(v1[0], v1[1], v1[2], v1[3])
+						.subtract(PPolynomial.sqrDistance(v2[0], v2[1], v2[2], v2[3]));
 				return botanaPolynomials;
 			}
 
-			if (((GeoConic) inputElement1).isParabola()
-					&& ((GeoConic) inputElement2).isParabola()) {
+			if (((GeoConic) inputElement1).isParabola() && ((GeoConic) inputElement2).isParabola()) {
 				botanaPolynomials = new PPolynomial[1][5];
 
 				PVariable[] v1 = ((GeoConic) inputElement1).getBotanaVars(inputElement1);
@@ -360,34 +318,30 @@ public class AlgoAreCongruent extends AlgoElement
 				// We want to prove, that the distance between foci points and
 				// directrices are equal
 				// FP orthogonal to AB
-				botanaPolynomials[0][0] = PPolynomial.perpendicular(v1[8], v1[9],
-						auxVars[0], auxVars[1], v1[4], v1[5], v1[6], v1[7]);
+				botanaPolynomials[0][0] = PPolynomial.perpendicular(
+						v1[8], v1[9], auxVars[0], auxVars[1], v1[4], v1[5], v1[6], v1[7]);
 
 				// A, B, P collinear
-				botanaPolynomials[0][1] = PPolynomial.collinear(auxVars[0],
-						auxVars[1], v1[4], v1[5], v1[6], v1[7]);
+				botanaPolynomials[0][1] =
+						PPolynomial.collinear(auxVars[0], auxVars[1], v1[4], v1[5], v1[6], v1[7]);
 
 				// F'P' orthogonal to A'B'
-				botanaPolynomials[0][2] = PPolynomial.perpendicular(v2[8], v2[9],
-						auxVars[2], auxVars[3], v2[4], v2[5], v2[6], v2[7]);
+				botanaPolynomials[0][2] = PPolynomial.perpendicular(
+						v2[8], v2[9], auxVars[2], auxVars[3], v2[4], v2[5], v2[6], v2[7]);
 
 				// A', B', P' collinear
-				botanaPolynomials[0][3] = PPolynomial.collinear(auxVars[2],
-						auxVars[3], v2[4], v2[5], v2[6], v2[7]);
+				botanaPolynomials[0][3] =
+						PPolynomial.collinear(auxVars[2], auxVars[3], v2[4], v2[5], v2[6], v2[7]);
 
 				// |FP|^2 = |F'P'|^2
-				botanaPolynomials[0][4] = PPolynomial
-						.sqrDistance(v1[8], v1[9], auxVars[0], auxVars[1])
-						.subtract(PPolynomial.sqrDistance(v2[8], v2[9],
-								auxVars[2], auxVars[3]));
+				botanaPolynomials[0][4] = PPolynomial.sqrDistance(v1[8], v1[9], auxVars[0], auxVars[1])
+						.subtract(PPolynomial.sqrDistance(v2[8], v2[9], auxVars[2], auxVars[3]));
 				return botanaPolynomials;
 			}
 		}
 
-		if (inputElement1 instanceof GeoAngle
-				&& inputElement2 instanceof GeoAngle) {
-			AlgoAnglePoints algo1 = (AlgoAnglePoints) inputElement1
-					.getParentAlgorithm();
+		if (inputElement1 instanceof GeoAngle && inputElement2 instanceof GeoAngle) {
+			AlgoAnglePoints algo1 = (AlgoAnglePoints) inputElement1.getParentAlgorithm();
 			// get points of first angle
 			GeoPoint A = (GeoPoint) algo1.input[0];
 			GeoPoint B = (GeoPoint) algo1.input[1];
@@ -396,8 +350,7 @@ public class AlgoAreCongruent extends AlgoElement
 			PVariable[] vB = B.getBotanaVars(B);
 			PVariable[] vC = C.getBotanaVars(C);
 
-			AlgoAnglePoints algo2 = (AlgoAnglePoints) inputElement2
-					.getParentAlgorithm();
+			AlgoAnglePoints algo2 = (AlgoAnglePoints) inputElement2.getParentAlgorithm();
 			// get points of second angle
 			GeoPoint D = (GeoPoint) algo2.input[0];
 			GeoPoint E = (GeoPoint) algo2.input[1];
@@ -423,10 +376,8 @@ public class AlgoAreCongruent extends AlgoElement
 			PPolynomial p2 = a2.subtract(c2).multiply(b2.subtract(a2));
 			// (CA*AB)^2
 			PPolynomial numerator1 = PPolynomial.sqr(p1.add(p2));
-			PPolynomial p3 = PPolynomial.sqr(a1.subtract(c1))
-					.add(PPolynomial.sqr(a2.subtract(c2)));
-			PPolynomial p4 = PPolynomial.sqr(b1.subtract(a1))
-					.add(PPolynomial.sqr(b2.subtract(a2)));
+			PPolynomial p3 = PPolynomial.sqr(a1.subtract(c1)).add(PPolynomial.sqr(a2.subtract(c2)));
+			PPolynomial p4 = PPolynomial.sqr(b1.subtract(a1)).add(PPolynomial.sqr(b2.subtract(a2)));
 			// ||CA||^2 * ||AB||^2
 			PPolynomial denominator1 = p3.multiply(p4);
 
@@ -434,24 +385,20 @@ public class AlgoAreCongruent extends AlgoElement
 			PPolynomial p6 = d2.subtract(f2).multiply(e2.subtract(d2));
 			// (FD*DE)^2
 			PPolynomial numerator2 = PPolynomial.sqr(p5.add(p6));
-			PPolynomial p7 = PPolynomial.sqr(d1.subtract(f1))
-					.add(PPolynomial.sqr(d2.subtract(f2)));
-			PPolynomial p8 = PPolynomial.sqr(e1.subtract(d1))
-					.add(PPolynomial.sqr(e2.subtract(d2)));
+			PPolynomial p7 = PPolynomial.sqr(d1.subtract(f1)).add(PPolynomial.sqr(d2.subtract(f2)));
+			PPolynomial p8 = PPolynomial.sqr(e1.subtract(d1)).add(PPolynomial.sqr(e2.subtract(d2)));
 			// ||FD||^2 * ||DE||^2
 			PPolynomial denominator2 = p7.multiply(p8);
 
 			// We want to prove: (CA*AB)^2 / (||CA||^2 * ||AB||^2) = (FD*DE)^2 /
 			// (||FD||^2 * ||DE||^2)
 			botanaPolynomials = new PPolynomial[1][1];
-			botanaPolynomials[0][0] = numerator1.multiply(denominator2)
-					.subtract(denominator1.multiply(numerator2));
+			botanaPolynomials[0][0] =
+					numerator1.multiply(denominator2).subtract(denominator1.multiply(numerator2));
 
 			return botanaPolynomials;
-
 		}
 
 		throw new NoSymbolicParametersException();
 	}
-
 }

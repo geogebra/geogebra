@@ -60,8 +60,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Weak
 	protected Kernel kernel;
+
 	@Weak
 	protected App app;
+
 	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
 	private HashMap<Integer, PlotPanelEuclidianViewInterface> plotPanelIDMap;
 	private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
@@ -72,7 +74,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	/**
 	 * Abstract constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -105,8 +107,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			getConsProtocolXML(sb);
 		}
 		if (this.hasDataAnalysisView()) {
-			((IDataAnalysisListener) getDataAnalysisView()).getModel()
-					.getXML(sb);
+			((IDataAnalysisListener) getDataAnalysisView()).getModel().getXML(sb);
 		}
 	}
 
@@ -120,12 +121,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 			sb.attr("id", getApp().getConsProtNavigationIds());
 			sb.attr("playButton", getConstructionProtocolNavigation().isPlayButtonVisible());
 			sb.attr("playDelay", getConstructionProtocolNavigation().getPlayDelay());
-			sb.attr("protButton", getConstructionProtocolNavigation()
-					.isConsProtButtonVisible());
+			sb.attr("protButton", getConstructionProtocolNavigation().isConsProtButtonVisible());
 			sb.attr("consStep", kernel.getConstructionStep());
 			sb.endTag();
 		}
-
 	}
 
 	@Override
@@ -193,47 +192,48 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	/**
 	 * Attach a view which by using the view ID.
-	 * 
+	 *
 	 * @author Florian Sonner
-	 * 
+	 *
 	 * @param viewId
 	 *            view ID
 	 */
 	@Override
 	public void attachView(int viewId) {
 		switch (viewId) {
-		case App.VIEW_ALGEBRA:
-			attachAlgebraView();
-			break;
-		case App.VIEW_SPREADSHEET:
-			attachSpreadsheetView();
-			break;
-		case App.VIEW_CAS:
-			attachCasView();
-			break;
-		case App.VIEW_CONSTRUCTION_PROTOCOL:
-			attachConstructionProtocolView();
-			break;
-		case App.VIEW_PROBABILITY_CALCULATOR:
-			attachProbabilityCalculatorView();
-			break;
-		case App.VIEW_DATA_ANALYSIS:
-			attachDataAnalysisView();
-			break;
-		case App.VIEW_PROPERTIES:
-			attachPropertiesView();
-			break;
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-		case App.VIEW_FUNCTION_INSPECTOR:
-			// handled elsewhere
-			break;
-		default:
-			// ignore 3D view
-			if (!App.isView3D(viewId) && (viewId < App.VIEW_EUCLIDIAN_FOR_PLANE_START
-					|| viewId > App.VIEW_EUCLIDIAN_FOR_PLANE_START)) {
-				Log.error("Error attaching VIEW: " + viewId);
-			}
+			case App.VIEW_ALGEBRA:
+				attachAlgebraView();
+				break;
+			case App.VIEW_SPREADSHEET:
+				attachSpreadsheetView();
+				break;
+			case App.VIEW_CAS:
+				attachCasView();
+				break;
+			case App.VIEW_CONSTRUCTION_PROTOCOL:
+				attachConstructionProtocolView();
+				break;
+			case App.VIEW_PROBABILITY_CALCULATOR:
+				attachProbabilityCalculatorView();
+				break;
+			case App.VIEW_DATA_ANALYSIS:
+				attachDataAnalysisView();
+				break;
+			case App.VIEW_PROPERTIES:
+				attachPropertiesView();
+				break;
+			case App.VIEW_EUCLIDIAN:
+			case App.VIEW_EUCLIDIAN2:
+			case App.VIEW_FUNCTION_INSPECTOR:
+				// handled elsewhere
+				break;
+			default:
+				// ignore 3D view
+				if (!App.isView3D(viewId)
+						&& (viewId < App.VIEW_EUCLIDIAN_FOR_PLANE_START
+								|| viewId > App.VIEW_EUCLIDIAN_FOR_PLANE_START)) {
+					Log.error("Error attaching VIEW: " + viewId);
+				}
 		}
 	}
 
@@ -244,13 +244,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
 		if (getApp().getEuclidianView1() == ev) {
-			getApp().getSettings().getEuclidian(1).setShowAxes(!bothAxesShown,
-					!bothAxesShown);
+			getApp().getSettings().getEuclidian(1).setShowAxes(!bothAxesShown, !bothAxesShown);
 
 		} else if (getApp().hasEuclidianView2EitherShowingOrNot(1)
 				&& getApp().getEuclidianView2(1) == ev) {
-			getApp().getSettings().getEuclidian(2).setShowAxes(!bothAxesShown,
-					!bothAxesShown);
+			getApp().getSettings().getEuclidian(2).setShowAxes(!bothAxesShown, !bothAxesShown);
 		} else if (getApp().isEuclidianView3D(ev)) {
 			getApp().getSettings().getEuclidian(3).setShowAxes(!bothAxesShown);
 
@@ -290,58 +288,57 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// if a tracing geo has been redefined, then put it back into the
 		// traceGeoCollection
 		if (geo.getSpreadsheetTrace()) {
-			getApp().getTraceManager()
-					.addSpreadsheetTraceGeo(geo.toGeoElement());
+			getApp().getTraceManager().addSpreadsheetTraceGeo(geo.toGeoElement());
 		}
 	}
 
 	/**
 	 * Detach a view which by using the view ID.
-	 * 
+	 *
 	 * @author Florian Sonner
-	 * 
+	 *
 	 * @param viewId
 	 *            view ID
 	 */
 	@Override
 	public void detachView(int viewId) {
 		switch (viewId) {
-		case App.VIEW_ALGEBRA:
-			detachAlgebraView();
-			break;
-		case App.VIEW_SPREADSHEET:
-			detachSpreadsheetView();
-			break;
-		case App.VIEW_CAS:
-			detachCasView();
-			break;
-		case App.VIEW_CONSTRUCTION_PROTOCOL:
-			detachConstructionProtocolView();
-			break;
-		case App.VIEW_PROBABILITY_CALCULATOR:
-			detachProbabilityCalculatorView();
-			break;
-		case App.VIEW_PROPERTIES:
-			detachPropertiesView();
-			break;
-		case App.VIEW_DATA_ANALYSIS:
-			detachDataAnalysisView();
-			break;
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-			Log.debug("TODO: should we detach EV1/2?");
-			break;
-		default:
-			if (App.isView3D(viewId)) {
-				Log.debug("TODO: should we detach EV3D?");
-			} else {
-				Log.error("Error detaching VIEW: " + viewId);
-			}
+			case App.VIEW_ALGEBRA:
+				detachAlgebraView();
+				break;
+			case App.VIEW_SPREADSHEET:
+				detachSpreadsheetView();
+				break;
+			case App.VIEW_CAS:
+				detachCasView();
+				break;
+			case App.VIEW_CONSTRUCTION_PROTOCOL:
+				detachConstructionProtocolView();
+				break;
+			case App.VIEW_PROBABILITY_CALCULATOR:
+				detachProbabilityCalculatorView();
+				break;
+			case App.VIEW_PROPERTIES:
+				detachPropertiesView();
+				break;
+			case App.VIEW_DATA_ANALYSIS:
+				detachDataAnalysisView();
+				break;
+			case App.VIEW_EUCLIDIAN:
+			case App.VIEW_EUCLIDIAN2:
+				Log.debug("TODO: should we detach EV1/2?");
+				break;
+			default:
+				if (App.isView3D(viewId)) {
+					Log.debug("TODO: should we detach EV3D?");
+				} else {
+					Log.error("Error detaching VIEW: " + viewId);
+				}
 		}
 	}
 
 	@Override
-	final public View getConstructionProtocolData() {
+	public final View getConstructionProtocolData() {
 		ConstructionProtocolView view = getConstructionProtocolView();
 		if (view != null) {
 			return view.getData();
@@ -367,35 +364,31 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public void setShowConstructionProtocolNavigation(boolean show, int id,
-			boolean playButton, double playDelay, boolean showProtButton) {
+	public void setShowConstructionProtocolNavigation(
+			boolean show, int id, boolean playButton, double playDelay, boolean showProtButton) {
 		setShowConstructionProtocolNavigation(show, id);
 
 		getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
 		getConstructionProtocolNavigation().setPlayDelay(playDelay);
-		getConstructionProtocolNavigation()
-				.setConsProtButtonVisible(showProtButton);
+		getConstructionProtocolNavigation().setConsProtButtonVisible(showProtButton);
 	}
 
 	@Override
 	public void updateNavBars() {
 		if (constProtocolNavigationMap != null) {
-			for (ConstructionProtocolNavigation navBar
-					: constProtocolNavigationMap.values()) {
+			for (ConstructionProtocolNavigation navBar : constProtocolNavigationMap.values()) {
 				navBar.update();
 			}
 		}
 	}
 
 	@Override
-	final public ConstructionProtocolNavigation getConstructionProtocolNavigation(
-			int id) {
+	public final ConstructionProtocolNavigation getConstructionProtocolNavigation(int id) {
 		if (constProtocolNavigationMap == null) {
 			constProtocolNavigationMap = new HashMap<>();
 		}
 
-		ConstructionProtocolNavigation constProtocolNavigation = constProtocolNavigationMap
-				.get(id);
+		ConstructionProtocolNavigation constProtocolNavigation = constProtocolNavigationMap.get(id);
 		if (constProtocolNavigation == null) {
 			constProtocolNavigation = newConstructionProtocolNavigation(id);
 			constProtocolNavigationMap.put(id, constProtocolNavigation);
@@ -405,7 +398,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	final public Collection<ConstructionProtocolNavigation> getAllCPNavigations() {
+	public final Collection<ConstructionProtocolNavigation> getAllCPNavigations() {
 		if (constProtocolNavigationMap == null) {
 			return null;
 		}
@@ -414,31 +407,28 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	final public void setNavBarButtonPause() {
+	public final void setNavBarButtonPause() {
 		if (constProtocolNavigationMap != null) {
-			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
-					.values()) {
+			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap.values()) {
 				cpn.setButtonPause();
 			}
 		}
 	}
 
 	@Override
-	final public void setNavBarButtonPlay() {
+	public final void setNavBarButtonPlay() {
 		if (constProtocolNavigationMap != null) {
-			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
-					.values()) {
+			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap.values()) {
 				cpn.setButtonPlay();
 			}
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return new construction protocol navigation bar instance
 	 */
-	protected abstract ConstructionProtocolNavigation newConstructionProtocolNavigation(
-			int viewID);
+	protected abstract ConstructionProtocolNavigation newConstructionProtocolNavigation(int viewID);
 
 	@Override
 	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
@@ -458,8 +448,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	public abstract void updateCheckBoxesForShowConstructionProtocolNavigation(
-			int id);
+	public abstract void updateCheckBoxesForShowConstructionProtocolNavigation(int id);
 
 	@Override
 	public void applyCPsettings(ConstructionProtocolSettings cps) {
@@ -467,8 +456,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			return;
 		}
 
-		Collection<ConstructionProtocolNavigation> navigations = constProtocolNavigationMap
-				.values();
+		Collection<ConstructionProtocolNavigation> navigations = constProtocolNavigationMap.values();
 		for (ConstructionProtocolNavigation constProtocolNavigation : navigations) {
 			constProtocolNavigation.setConsProtButtonVisible(cps.showConsProtButton());
 			constProtocolNavigation.setPlayDelay(cps.getPlayDelay());
@@ -482,8 +470,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			ConstructionProtocolNavigation cpn = getConstructionProtocolNavigation();
 			cpn.register(cpv);
 		} else {
-			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap
-					.values()) {
+			for (ConstructionProtocolNavigation cpn : constProtocolNavigationMap.values()) {
 				cpn.register(cpv);
 			}
 		}
@@ -503,7 +490,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	/**
 	 * Adds the given PlotPanelEuclidianView instance to the plotPanelIDMap and
 	 * returns a unique viewID
-	 * 
+	 *
 	 * @param plotPanel
 	 *            plot panel
 	 * @return plot panel ID
@@ -536,8 +523,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		int newMode = setToolbarMode(mode, modeSetter);
 
-		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER
-				&& newMode != mode) {
+		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
 			mode = newMode;
 			kernel.notifyModeChanged(mode, modeSetter);
 		}
@@ -546,12 +532,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 			// show or focus the probability calculator
 			if (showView(App.VIEW_PROBABILITY_CALCULATOR)) {
-				this.getLayout().getDockManager()
-						.setFocusedPanel(App.VIEW_PROBABILITY_CALCULATOR);
+				this.getLayout().getDockManager().setFocusedPanel(App.VIEW_PROBABILITY_CALCULATOR);
 			} else {
 				setShowView(true, App.VIEW_PROBABILITY_CALCULATOR);
-				probCalculator.setProbabilityCalculator(Dist.NORMAL, null,
-						false);
+				probCalculator.setProbabilityCalculator(Dist.NORMAL, null, false);
 			}
 
 			// nothing more to do, so reset to move mode
@@ -559,8 +543,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 
 		if ((mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
-				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
-				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)
+						|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
+						|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)
 				&& modeSetter == ModeSetter.TOOLBAR) {
 			// save the selected geos so they can be re-selected later
 			ArrayList<GeoElement> temp = new ArrayList<>();
@@ -597,7 +581,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
-	final public String getHelpURL(final ManualPage type, String pageName) {
+	public final String getHelpURL(final ManualPage type, String pageName) {
 		// try to get help for given language
 		// eg http://help.geogebra.org/en-GB/cmd/FitLogistic
 
@@ -605,22 +589,21 @@ public abstract class GuiManager implements GuiManagerInterface {
 		urlSB.append(GeoGebraConstants.GEOGEBRA_HELP_WEBSITE).append("en/");
 
 		switch (type) {
-		case COMMAND:
-			String cmdPageName = getApp().getLocalization().getEnglishCommand(
-					pageName);
-			if (StringUtil.empty(cmdPageName)) {
-				urlSB.append("Commands");
-			} else {
-				urlSB.append("commands/");
-				urlSB.append(cmdPageName);
-			}
-			break;
-		case TOOL:
-			urlSB.append("tools/");
-			urlSB.append(pageName);
-			break;
-		default:
-			urlSB.append(type.getURL());
+			case COMMAND:
+				String cmdPageName = getApp().getLocalization().getEnglishCommand(pageName);
+				if (StringUtil.empty(cmdPageName)) {
+					urlSB.append("Commands");
+				} else {
+					urlSB.append("commands/");
+					urlSB.append(cmdPageName);
+				}
+				break;
+			case TOOL:
+				urlSB.append("tools/");
+				urlSB.append(pageName);
+				break;
+			default:
+				urlSB.append(type.getURL());
 		}
 		if (!app.getLocalization().languageIs("en")) {
 			urlSB.append("?redirect=").append(getApp().getLocalization().getLanguageTag());
@@ -663,14 +646,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void refreshCustomToolsInToolBar() {
-		String oldToolbar = getToolbarDefinition() == null
-				? ToolBar.getAllTools(getApp()) : getToolbarDefinition();
+		String oldToolbar =
+				getToolbarDefinition() == null ? ToolBar.getAllTools(getApp()) : getToolbarDefinition();
 		setToolBarDefinition(refreshCustomToolsInToolBar(oldToolbar));
 	}
 
 	/**
 	 * Add / remove macros from the toolbar.
-	 * 
+	 *
 	 * @param initial
 	 *            initial toolbar definition
 	 * @return new toolbar definition
@@ -686,8 +669,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
 			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
-			int macroViewId = macro.getViewId() != null ? macro.getViewId()
-					: App.VIEW_EUCLIDIAN;
+			int macroViewId = macro.getViewId() != null ? macro.getViewId() : App.VIEW_EUCLIDIAN;
 			int activeViewId = getActiveToolbarId();
 
 			if (macro.isShowInToolBar()
@@ -709,7 +691,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				return toolbarDef + customToolBar.toString();
 			}
-			return "".equals(customToolBar.toString()) ? toolbarDef
+			return "".equals(customToolBar.toString())
+					? toolbarDef
 					: toolbarDef + " ||" + customToolBar.toString();
 		} catch (NumberFormatException e) {
 			// could not identify the last tool so just add the custom tools
@@ -717,7 +700,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (last.contains("|")) {
 				return toolbarDef + customToolBar.toString();
 			}
-			return "".equals(customToolBar.toString()) ? toolbarDef
+			return "".equals(customToolBar.toString())
+					? toolbarDef
 					: toolbarDef + " ||" + customToolBar.toString();
 		}
 	}
@@ -734,7 +718,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	/**
 	 * Loads the image and sets its corners
-	 * 
+	 *
 	 * @param geoImage
 	 *            The image.
 	 */
@@ -743,15 +727,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 		getApp().getImageManager().setCornersFromSelection(geoImage, getApp());
 
 		// make sure only the last image will be selected
-		GeoElement[] geos = { geoImage };
+		GeoElement[] geos = {geoImage};
 		getApp().getActiveEuclidianView().getEuclidianController().clearSelections();
-		getApp().getActiveEuclidianView().getEuclidianController()
-				.memorizeJustCreatedGeos(geos);
+		getApp().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(geos);
 		if (!app.isWhiteboardActive()) {
 			getApp().setMoveMode();
 		}
 		getApp().getActiveEuclidianView().resetMode();
-
 	}
 
 	@Override
@@ -764,8 +746,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		if (tableValues == null) {
 			tableValues = createTableValuesView();
 			kernel.attach(tableValues);
-			tableValuesPoints = TableValuesPointsImpl.create(kernel, kernel.getConstruction(),
-					tableValues);
+			tableValuesPoints =
+					TableValuesPointsImpl.create(kernel, kernel.getConstruction(), tableValues);
 			kernel.notifyAddAll(tableValues);
 		}
 		return tableValues;

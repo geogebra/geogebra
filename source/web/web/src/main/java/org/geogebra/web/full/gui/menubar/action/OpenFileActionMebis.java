@@ -40,7 +40,6 @@ public final class OpenFileActionMebis extends DefaultMenuAction<AppWFull> {
 	 * @return true if the whiteboard is active and the user logged in
 	 */
 	static boolean isLoggedOut(App app) {
-		return app.getLoginOperation() != null
-				&& !app.getLoginOperation().isLoggedIn();
+		return app.getLoginOperation() != null && !app.getLoginOperation().isLoggedIn();
 	}
 }

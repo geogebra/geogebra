@@ -23,7 +23,7 @@ class GiacMacro {
 
 	static String last(String... commands) {
 		StringBuilder sb = new StringBuilder("[");
-		for (String command: commands) {
+		for (String command : commands) {
 			sb.append(command);
 			sb.append(',');
 		}

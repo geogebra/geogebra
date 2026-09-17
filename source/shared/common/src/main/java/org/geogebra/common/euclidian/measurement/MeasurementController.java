@@ -46,16 +46,15 @@ public final class MeasurementController {
 		addTool(MeasurementToolId.TRIANGLE_PROTRACTOR, "TriangleProtractor.svg", 0.5, 0.0);
 	}
 
-	private void addTool(MeasurementToolId id, String fileName,
-			double rotCenterRatioX, double rotCenterRatioY) {
-		add(new MeasurementTool(id, fileName, rotCenterRatioX, rotCenterRatioY,
-				toolImageFactory, createTransformer(id)));
+	private void addTool(
+			MeasurementToolId id, String fileName, double rotCenterRatioX, double rotCenterRatioY) {
+		add(new MeasurementTool(
+				id, fileName, rotCenterRatioX, rotCenterRatioY, toolImageFactory, createTransformer(id)));
 	}
 
 	private PenTransformer createTransformer(MeasurementToolId id) {
 		List<MeasurementToolEdge> edges = id.getEdges();
-		return edges != null ? new MeasurementToolTransformer(this, edges)
-				: NullPenTransformer.get();
+		return edges != null ? new MeasurementToolTransformer(this, edges) : NullPenTransformer.get();
 	}
 
 	private void add(MeasurementTool tool) {
@@ -67,9 +66,7 @@ public final class MeasurementController {
 	 * @return the image of the currently active measurement tool if any.
 	 */
 	public GeoImage getActiveToolImage() {
-		return hasSelectedTool()
-				? activeTool().getImage()
-				: null;
+		return hasSelectedTool() ? activeTool().getImage() : null;
 	}
 
 	/**
@@ -136,8 +133,8 @@ public final class MeasurementController {
 	 * @param previewPoints the existing preview points of penstroke.
 	 * @return whether transform happened
 	 */
-	public boolean applyTransformer(EuclidianView view, GPoint2D newPoint,
-			List<GPoint2D> previewPoints) {
+	public boolean applyTransformer(
+			EuclidianView view, GPoint2D newPoint, List<GPoint2D> previewPoints) {
 		PenTransformer transformer = getTransformer();
 		transformer.reset(view, previewPoints);
 		if (transformer.isActive() && previewPoints.size() > 1) {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -72,35 +72,37 @@ class GeoFormulaTest extends BaseUnitTest {
 	@Test
 	void definiteIntegral() {
 		equationEditor.setContent("$defint(0,1)xdx");
-		assertEquals("\\int_0^1{}xdx",
-				equationEditor.toValueString(StringTemplate.latexTemplate));
+		assertEquals("\\int_0^1{}xdx", equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
 	void limes() {
 		equationEditor.setContent("$limeq(x→∞)x^(2)");
-		assertEquals("\\lim_{x\\rightarrow{}\\infty{}} x^{2}",
+		assertEquals(
+				"\\lim_{x\\rightarrow{}\\infty{}} x^{2}",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
 	void product() {
 		equationEditor.setContent("$prodeq(i=1,10)x_{i}");
-		assertEquals("\\prod_{i\\,=\\,1}^{10}{}x_{i}",
+		assertEquals(
+				"\\prod_{i\\,=\\,1}^{10}{}x_{i}",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
 	void sum() {
 		equationEditor.setContent("$sumeq(i=0,10)i");
-		assertEquals("\\sum_{i\\,=\\,0}^{10}{}i",
-				equationEditor.toValueString(StringTemplate.latexTemplate));
+		assertEquals(
+				"\\sum_{i\\,=\\,0}^{10}{}i", equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
 	void vector() {
 		equationEditor.setContent("$vec(AB)=b-a");
-		assertEquals("\\overrightarrow{AB}\\,=\\,b-a",
+		assertEquals(
+				"\\overrightarrow{AB}\\,=\\,b-a",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 }

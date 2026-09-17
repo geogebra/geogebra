@@ -188,5 +188,4 @@ public interface EuclidianViewBounds {
 	 * @return y-axis scale (pixels per world unit)
 	 */
 	double getYScale();
-
 }

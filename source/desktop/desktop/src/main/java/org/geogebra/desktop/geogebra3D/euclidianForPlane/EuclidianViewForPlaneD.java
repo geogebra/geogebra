@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -27,7 +27,7 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 
 /**
  * 2D view for plane.
- * 
+ *
  * @author Mathieu
  *
  */
@@ -37,7 +37,7 @@ public class EuclidianViewForPlaneD extends EuclidianViewD
 	private int panelID;
 
 	/**
-	 * 
+	 *
 	 * @param ec
 	 *            controller
 	 * @param plane
@@ -45,12 +45,11 @@ public class EuclidianViewForPlaneD extends EuclidianViewD
 	 * @param settings
 	 *            euclidian settings
 	 */
-	public EuclidianViewForPlaneD(EuclidianController ec, ViewCreator plane,
-			EuclidianSettings settings) {
-		super(ec, new boolean[] { false, false }, false, EVNO_GENERAL,
-				settings); // TODO
-							// euclidian
-							// settings
+	public EuclidianViewForPlaneD(
+			EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
+		super(ec, new boolean[] {false, false}, false, EVNO_GENERAL, settings); // TODO
+		// euclidian
+		// settings
 
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}
@@ -77,12 +76,11 @@ public class EuclidianViewForPlaneD extends EuclidianViewD
 
 	/**
 	 * set panel id
-	 * 
+	 *
 	 * @param panelID
 	 *            panel id
 	 */
 	public void setPanelID(int panelID) {
 		this.panelID = panelID;
 	}
-
 }

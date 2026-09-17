@@ -22,7 +22,7 @@ public class AriaMenuCheckMock extends AriaMenuItemMock {
 	private boolean checked = false;
 
 	public AriaMenuCheckMock(String text) {
-		super(text, (ResourcePrototype) null, () -> { });
+		super(text, (ResourcePrototype) null, () -> {});
 	}
 
 	public boolean isChecked() {

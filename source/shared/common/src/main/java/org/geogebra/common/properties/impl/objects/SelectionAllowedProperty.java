@@ -27,8 +27,8 @@ import org.geogebra.common.properties.impl.AbstractValuedProperty;
 /**
  * Object settings / Advanced tab: Interaction / selection allowed
  */
-public class SelectionAllowedProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class SelectionAllowedProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 
 	private final GeoElement element;
 

@@ -32,8 +32,7 @@ class RecurringDecimalModel {
 	 * @param nonRecurringPart of the recurring decimal number.
 	 * @param recurringPart of the recurring decimal number.
 	 */
-	RecurringDecimalModel(int integerPart, DecimalPart nonRecurringPart,
-			DecimalPart recurringPart) {
+	RecurringDecimalModel(int integerPart, DecimalPart nonRecurringPart, DecimalPart recurringPart) {
 		this.integerPart = integerPart;
 		this.nonRecurring = nonRecurringPart;
 		this.recurring = recurringPart;
@@ -52,8 +51,7 @@ class RecurringDecimalModel {
 			throw new NumberFormatException("Missing . in recurring decimal");
 		}
 		// integer part of .3 is 0, for xyz.3 it's xyz
-		int integerPart = point == 0 ? 0
-				: (int) StringUtil.parseDouble(preperiod.substring(0, point));
+		int integerPart = point == 0 ? 0 : (int) StringUtil.parseDouble(preperiod.substring(0, point));
 		DecimalPart nonRecurring;
 		if (preperiod.length() > point + 1) {
 			String nonRec = preperiod.substring(point + 1);

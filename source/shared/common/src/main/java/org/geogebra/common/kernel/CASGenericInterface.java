@@ -37,7 +37,7 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 	 * Translates a variable/constant assignment like "x := 3" into the format
 	 * expected by the CAS. Function-Assignments have to be translated
 	 * using @see translateFunctionDeclaration().
-	 * 
+	 *
 	 * @param label
 	 *            the label of the assignment, e.g. x
 	 * @param body
@@ -49,7 +49,7 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra
 	 * notation.
-	 * 
+	 *
 	 * @param casInput
 	 *            in GeoGebraCAS syntax
 	 * @param arbconst
@@ -64,13 +64,17 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 	 * @throws CASException
 	 *             if evaluation fails
 	 */
-	String evaluateGeoGebraCAS(ValidExpression casInput,
-			ArbitraryConstantRegistry arbconst, StringTemplate tpl, GeoCasCell cell,
-			Kernel kernel) throws CASException;
+	String evaluateGeoGebraCAS(
+			ValidExpression casInput,
+			ArbitraryConstantRegistry arbconst,
+			StringTemplate tpl,
+			GeoCasCell cell,
+			Kernel kernel)
+			throws CASException;
 
 	/**
 	 * Evaluates an expression in the syntax of the currently active CAS (Giac).
-	 * 
+	 *
 	 * @param exp
 	 *            The expression to be evaluated.
 	 * @return result string (null possible)
@@ -81,7 +85,7 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 
 	/**
 	 * Appends list start marker to the builder (eg {)
-	 * 
+	 *
 	 * @param sbCASCommand
 	 *            string builder
 	 */
@@ -89,14 +93,14 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 
 	/**
 	 * Appends list start marker to the builder (eg })
-	 * 
+	 *
 	 * @param sbCASCommand
 	 *            string builder
 	 */
 	void appendListEnd(StringBuilder sbCASCommand);
 
 	/**
-	 * 
+	 *
 	 * @param inputExpression
 	 *            input
 	 * @param arbconst
@@ -106,8 +110,7 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 	 * @return evaluated input
 	 */
 	ExpressionValue evaluateToExpression(
-			ValidExpression inputExpression, ArbitraryConstantRegistry arbconst,
-			Kernel kernel);
+			ValidExpression inputExpression, ArbitraryConstantRegistry arbconst, Kernel kernel);
 
 	/**
 	 * @param exp
@@ -118,19 +121,18 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 
 	/**
 	 * Creates a program to return the elimination ideal in factorized form.
-	 * 
+	 *
 	 * @param polys
 	 *            input polynomials (comma separated strings)
 	 * @param elimVars
 	 *            variables to eliminate (comma separated strings)
 	 * @return factors in the same form as Singular gives
 	 */
-	String createEliminateFactorizedScript(String polys,
-			String elimVars);
+	String createEliminateFactorizedScript(String polys, String elimVars);
 
 	/**
 	 * Creates a program to return the elimination ideal in non-factorized form.
-	 * 
+	 *
 	 * @param polys
 	 *            input polynomials (comma separated strings)
 	 * @param elimVars
@@ -143,13 +145,12 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 	 *            the size of a unit on the screen in pixels
 	 * @return the elimination ideal
 	 */
-	String createEliminateScript(String polys, String elimVars,
-			boolean oneCurve, Long precision);
+	String createEliminateScript(String polys, String elimVars, boolean oneCurve, Long precision);
 
 	/**
 	 * Creates a program to check if an equation system has no solution, using
 	 * Groebner basis w.r.t. the revgradlex order.
-	 * 
+	 *
 	 * @param substitutions
 	 *            e.g [v1=0,v2=1]
 	 * @param polys
@@ -163,8 +164,11 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 	 * @return the program code
 	 */
 	String createGroebnerSolvableScript(
-			HashMap<PVariable, BigInteger> substitutions, String polys,
-			String freeVars, String dependantVars, boolean transcext);
+			HashMap<PVariable, BigInteger> substitutions,
+			String polys,
+			String freeVars,
+			String dependantVars,
+			boolean transcext);
 
 	/**
 	 * @param rawResult
@@ -202,7 +206,9 @@ public interface CASGenericInterface extends SettingListener<CASSettings> {
 	 */
 	String createGroebnerInitialsScript(
 			HashMap<PVariable, BigInteger> substitutions,
-			String polys, String freeVars, String dependantVars);
+			String polys,
+			String freeVars,
+			String dependantVars);
 
 	/**
 	 * Clear the raw evaluation cache.

@@ -31,8 +31,9 @@ public class AnimationSpeedProperty extends AbstractNumericProperty {
 	private final GeoElement element;
 
 	/***/
-	public AnimationSpeedProperty(AlgebraProcessor algebraProcessor,
-			Localization localization, GeoElement element) throws NotApplicablePropertyException {
+	public AnimationSpeedProperty(
+			AlgebraProcessor algebraProcessor, Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(algebraProcessor, localization, "AnimationSpeed");
 		if (!element.isAnimatable()) {
 			throw new NotApplicablePropertyException(element);
@@ -50,8 +51,8 @@ public class AnimationSpeedProperty extends AbstractNumericProperty {
 	protected NumberValue getNumberValue() {
 		NumberValue value = (NumberValue) element.getAnimationSpeedObject();
 		if (value == null) {
-			GeoNumeric defaultNumber = element.getKernel().getAlgoDispatcher()
-					.getDefaultNumber(element.isAngle());
+			GeoNumeric defaultNumber =
+					element.getKernel().getAlgoDispatcher().getDefaultNumber(element.isAngle());
 			return (NumberValue) defaultNumber.getAnimationSpeedObject();
 		}
 		return value;

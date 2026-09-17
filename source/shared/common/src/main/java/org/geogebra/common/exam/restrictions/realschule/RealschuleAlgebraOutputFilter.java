@@ -40,10 +40,10 @@ public final class RealschuleAlgebraOutputFilter implements AlgebraOutputFilter 
 			return true;
 		}
 		if ((element.isGeoLine()
-				|| element.isGeoRay()
-				|| element.isGeoConic()
-				|| element.isGeoFunction()
-				|| element.isImplicitEquation())
+						|| element.isGeoRay()
+						|| element.isGeoConic()
+						|| element.isGeoFunction()
+						|| element.isImplicitEquation())
 				&& (element.getParentAlgorithm() != null)) {
 			return false;
 		}
@@ -54,7 +54,9 @@ public final class RealschuleAlgebraOutputFilter implements AlgebraOutputFilter 
 		if (algo == null) {
 			return false;
 		}
-		return algo instanceof FitAlgo || algo instanceof AlgoFitLineX
-				|| algo instanceof AlgoFitLineY || algo instanceof AlgoFitImplicit;
+		return algo instanceof FitAlgo
+				|| algo instanceof AlgoFitLineX
+				|| algo instanceof AlgoFitLineY
+				|| algo instanceof AlgoFitImplicit;
 	}
 }

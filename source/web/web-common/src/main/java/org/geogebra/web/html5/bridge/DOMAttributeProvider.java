@@ -52,5 +52,4 @@ public class DOMAttributeProvider implements AttributeProvider {
 	public Element getElement() {
 		return el;
 	}
-
 }

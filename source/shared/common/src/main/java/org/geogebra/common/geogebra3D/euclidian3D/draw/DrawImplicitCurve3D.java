@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -24,9 +24,9 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 
 /**
  * @author mathieu
- * 
+ *
  *         Drawable for locus
- * 
+ *
  */
 public class DrawImplicitCurve3D extends DrawLocus3D {
 
@@ -37,14 +37,11 @@ public class DrawImplicitCurve3D extends DrawLocus3D {
 	 *            the curve to draw
 	 */
 	public DrawImplicitCurve3D(EuclidianView3D a_view3d, GeoImplicit curve) {
-		super(a_view3d, curve.getLocus(), curve.toGeoElement(),
-				curve.getTransformedCoordSys());
-
+		super(a_view3d, curve.getLocus(), curve.toGeoElement(), curve.getTransformedCoordSys());
 	}
 
 	@Override
 	protected GeoLocusND<? extends MyPoint> getLocus() {
 		return ((GeoImplicitCurve) getGeoElement()).getLocus();
 	}
-
 }

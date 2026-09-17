@@ -37,8 +37,7 @@ public final class CoordinatesParser {
 
 	private static CoordinatesParser instance;
 
-	private CoordinatesParser() {
-	}
+	private CoordinatesParser() {}
 
 	private static CoordinatesParser getInstance() {
 		if (instance == null) {
@@ -63,8 +62,7 @@ public final class CoordinatesParser {
 		Coordinate prevCoordinate = null;
 		for (int i = 0; i < coordsJsonArray.length(); i++) {
 			Coordinate coordinate =
-					coordinatesParserInstance
-							.parseCoordinateOrTouchEnd(coordsJsonArray.getJSONObject(i));
+					coordinatesParserInstance.parseCoordinateOrTouchEnd(coordsJsonArray.getJSONObject(i));
 			if (coordinate != null) {
 				coordinates.add(coordinate);
 				prevCoordinate = coordinate;

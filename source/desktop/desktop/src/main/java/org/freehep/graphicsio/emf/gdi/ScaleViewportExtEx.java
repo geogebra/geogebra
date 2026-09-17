@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * ScaleViewportExtEx TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ScaleViewportExtEx.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -30,12 +30,11 @@ public class ScaleViewportExtEx extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		/* int[] bytes = */ emf.readUnsignedByte(len);
-		ScaleViewportExtEx tag = new ScaleViewportExtEx(emf.readLONG(),
-				emf.readLONG(), emf.readLONG(), emf.readLONG());
+		ScaleViewportExtEx tag =
+				new ScaleViewportExtEx(emf.readLONG(), emf.readLONG(), emf.readLONG(), emf.readLONG());
 		return tag;
 	}
 

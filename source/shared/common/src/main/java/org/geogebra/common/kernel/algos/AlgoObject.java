@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Returns the GeoElement from an object's label.
- * 
+ *
  * @author Michael, Markus
  */
 public class AlgoObject extends AlgoElement {
@@ -39,7 +39,7 @@ public class AlgoObject extends AlgoElement {
 
 	/**
 	 * Creates new algorithm for Object[name].
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -120,8 +120,7 @@ public class AlgoObject extends AlgoElement {
 		// }
 
 		// check if updateInput has same type
-		if (refObject != null
-				&& refObject.getGeoClassType() == geo.getGeoClassType()) {
+		if (refObject != null && refObject.getGeoClassType() == geo.getGeoClassType()) {
 			geo.set(refObject);
 		} else {
 			geo.setUndefined();
@@ -137,7 +136,7 @@ public class AlgoObject extends AlgoElement {
 		 * object: This will speed up the calls to
 		 * refObject.addToUpdateSetOnly() below, because it will always stop
 		 * propagating up at refObject.
-		 * 
+		 *
 		 * if (refObject != null) { refObject.getAlgoUpdateSet().remove(this); }
 		 */
 
@@ -169,5 +168,4 @@ public class AlgoObject extends AlgoElement {
 		}
 		return inputForUpdateSetPropagation;
 	}
-
 }

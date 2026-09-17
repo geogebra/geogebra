@@ -26,5 +26,4 @@ public interface GeoComboListener extends IComboListener {
 
 	@MissingDoc
 	void setSelectedItem(String item);
-
 }

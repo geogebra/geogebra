@@ -33,11 +33,11 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
- * 
+ *
  * @author Markus added TYPE_SEGMENT Michael Borcherds 2008-03-14
  */
-public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
-		AlgoCirclePointRadiusInterface, SymbolicParametersBotanaAlgo {
+public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius
+		implements AlgoCirclePointRadiusInterface, SymbolicParametersBotanaAlgo {
 
 	private PVariable[] botanaVars;
 	private PPolynomial[] botanaPolynomials;
@@ -84,12 +84,15 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("CircleWithCenterAandRadiusB",
-				"Circle with center %0 and radius %1",
-				getM().getLabel(tpl), getRGeo().getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"CircleWithCenterAandRadiusB",
+						"Circle with center %0 and radius %1",
+						getM().getLabel(tpl),
+						getRGeo().getLabel(tpl));
 	}
 
 	@Override
@@ -98,8 +101,7 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -191,11 +193,11 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		}
 
 		// define circle
-		botanaPolynomials[k] = PPolynomial.sqrDistance(botanaVars[0],
-				botanaVars[1], botanaVars[2], botanaVars[3]).subtract(sqrR);
+		botanaPolynomials[k] = PPolynomial.sqrDistance(
+						botanaVars[0], botanaVars[1], botanaVars[2], botanaVars[3])
+				.subtract(sqrR);
 
 		return botanaPolynomials;
-
 	}
 
 	@Override

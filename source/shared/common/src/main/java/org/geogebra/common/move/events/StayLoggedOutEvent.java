@@ -28,5 +28,4 @@ public class StayLoggedOutEvent extends BaseEvent {
 	public StayLoggedOutEvent(String name) {
 		super(name);
 	}
-
 }

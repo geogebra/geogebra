@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class CmdSigmaYY extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -36,9 +36,8 @@ public class CmdSigmaYY extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoListSigmaYY algo = new AlgoListSigmaYY(cons, a, b);
 		return algo.getResult();
 	}
-
 }

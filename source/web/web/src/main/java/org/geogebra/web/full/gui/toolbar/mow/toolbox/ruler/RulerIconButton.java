@@ -35,8 +35,8 @@ public final class RulerIconButton extends ToolIconButton {
 	 * @param dataTitle - title
 	 * @param dataTest - ui test id
 	 */
-	public RulerIconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
-			String dataTest) {
+	public RulerIconButton(
+			AppW appW, IconSpec icon, String ariaLabel, String dataTitle, String dataTest) {
 		super(appW, icon, ariaLabel, dataTitle, dataTest, null);
 		this.appW = appW;
 		ec = appW.getActiveEuclidianView().getEuclidianController();

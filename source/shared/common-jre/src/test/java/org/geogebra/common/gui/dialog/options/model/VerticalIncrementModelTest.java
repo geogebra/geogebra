@@ -29,7 +29,7 @@ class VerticalIncrementModelTest extends BaseUnitTest {
 	void shouldChangeStep() {
 		VerticalIncrementModel model = new VerticalIncrementModel(getApp());
 		GeoPoint pt = add("A=(1,2)");
-		model.setGeos(new GeoElement[]{pt});
+		model.setGeos(new GeoElement[] {pt});
 		model.applyChanges("3+4");
 		assertThat(pt.getVerticalIncrement(), hasValue("7"));
 		reload();

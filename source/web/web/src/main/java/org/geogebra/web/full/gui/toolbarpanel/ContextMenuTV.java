@@ -53,6 +53,7 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 	 * application
 	 */
 	private final AppWFull app;
+
 	private final int columnIdx;
 
 	/**
@@ -95,19 +96,24 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 		GeoEvaluatable column = view.getEvaluatable(getColumnIdx());
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
 		Set<ContextMenuItemFilter> contextMenuFilters = suiteScope != null
-				? suiteScope.restrictionsController.getContextMenuItemFilters() : Set.of();
+				? suiteScope.restrictionsController.getContextMenuItemFilters()
+				: Set.of();
 		boolean isExamActive = suiteScope != null && suiteScope.examController.isExamActive();
-		List<TableValuesContextMenuItem> items = ContextMenuFactory
-				.makeTableValuesContextMenu(column, columnIdx, view.getTableValuesModel(),
+		List<TableValuesContextMenuItem> items = ContextMenuFactory.makeTableValuesContextMenu(
+				column,
+				columnIdx,
+				view.getTableValuesModel(),
 				app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC,
-						isExamActive, contextMenuFilters);
+				isExamActive,
+				contextMenuFilters);
 		TableValuesContextMenuActionHandler tableValuesContextMenuActionHandler =
 				new TableValuesContextMenuActionHandler(columnIdx, view, app, this);
-		for (TableValuesContextMenuItem item: items) {
+		for (TableValuesContextMenuItem item : items) {
 			if (item.getItem() == TableValuesContextMenuItem.Item.Separator) {
 				wrappedPopup.addVerticalSeparator();
 			} else {
-				addCommand(() -> tableValuesContextMenuActionHandler.handleSelectedItem(item),
+				addCommand(
+						() -> tableValuesContextMenuActionHandler.handleSelectedItem(item),
 						item.getLocalizedTitle(app.getLocalization()),
 						getTestTitle(item.getItem()));
 			}
@@ -116,31 +122,30 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 
 	private String getTestTitle(TableValuesContextMenuItem.Item item) {
 		switch (item) {
-		case Edit:
-			return "edit";
-		case ClearColumn:
-			return "clear";
-		case RemoveColumn:
-			return "delete";
-		case ShowPoints:
-		case HidePoints:
-			return "showhide";
-		case ImportData:
-			return "importData";
-		case Regression:
-			return "regression";
-		case Statistics1:
-		case Statistics2:
-			return "stats";
-		case Separator:
-			break;
+			case Edit:
+				return "edit";
+			case ClearColumn:
+				return "clear";
+			case RemoveColumn:
+				return "delete";
+			case ShowPoints:
+			case HidePoints:
+				return "showhide";
+			case ImportData:
+				return "importData";
+			case Regression:
+				return "regression";
+			case Statistics1:
+			case Statistics2:
+				return "stats";
+			case Separator:
+				break;
 		}
 		return "";
 	}
 
 	private void addCommand(Command command, AttributedString localizedName, String testTitle) {
-		AriaMenuItem item = new AriaMenuItem(localizedName,
-				null, command);
+		AriaMenuItem item = new AriaMenuItem(localizedName, null, command);
 		addItem(item, testTitle);
 	}
 
@@ -152,7 +157,7 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 
 	/**
 	 * Show the context menu at the (x, y) screen coordinates.
-	 * 
+	 *
 	 * @param x
 	 *            y coordinate.
 	 * @param y
@@ -189,5 +194,4 @@ public final class ContextMenuTV implements TableValuesContextMenuActionHandler.
 	public void startDataImport() {
 		app.getCsvHandler().execute();
 	}
-
 }

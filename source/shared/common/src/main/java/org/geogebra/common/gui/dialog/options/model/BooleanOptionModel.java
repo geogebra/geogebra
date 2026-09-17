@@ -49,7 +49,6 @@ public abstract class BooleanOptionModel extends OptionsModel {
 			}
 		}
 		getListener().updateCheckbox(isEqual && value0);
-
 	}
 
 	public void applyChanges(boolean value) {

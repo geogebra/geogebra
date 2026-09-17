@@ -31,5 +31,4 @@ public class LoginAttemptEvent extends BaseEvent {
 	public LoginAttemptEvent() {
 		super("Attempt");
 	}
-
 }

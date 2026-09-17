@@ -49,7 +49,10 @@ class ButtonIconPropertyCollectionTests extends BaseAppTestSetup {
 			}
 		};
 		ButtonIconPropertyCollection propertyCollection = new ButtonIconPropertyCollection(
-				new GeoElementPropertiesFactory(), getLocalization(), imageManager, getKernel(),
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				imageManager,
+				getKernel(),
 				List.of(evaluateGeoElement("Button[]")));
 		iconShownProperty = propertyCollection.leadProperty;
 		iconProperty = (IconsEnumeratedProperty<?>) propertyCollection.getProperties()[0];
@@ -65,8 +68,8 @@ class ButtonIconPropertyCollectionTests extends BaseAppTestSetup {
 
 	@Test
 	void testChangingCustomImage() {
-		customImageProperty.setValue(new ImageProperty.Value(new MyImageCommon(10, 10),
-				"custom/play.svg"));
+		customImageProperty.setValue(
+				new ImageProperty.Value(new MyImageCommon(10, 10), "custom/play.svg"));
 
 		assertEquals(-1, iconProperty.getIndex());
 		assertEquals("custom/play.svg", customImageProperty.getValue().path());
@@ -74,8 +77,7 @@ class ButtonIconPropertyCollectionTests extends BaseAppTestSetup {
 
 	@Test
 	void testChangingCustomImageToIcon() {
-		customImageProperty.setValue(new ImageProperty.Value(new MyImageCommon(10, 10),
-				"custom.png"));
+		customImageProperty.setValue(new ImageProperty.Value(new MyImageCommon(10, 10), "custom.png"));
 		iconProperty.setIndex(1);
 
 		assertEquals(1, iconProperty.getIndex());
@@ -85,8 +87,7 @@ class ButtonIconPropertyCollectionTests extends BaseAppTestSetup {
 	@Test
 	void testChangingIconToCustomImage() {
 		iconProperty.setIndex(1);
-		customImageProperty.setValue(new ImageProperty.Value(new MyImageCommon(10, 10),
-				"custom.png"));
+		customImageProperty.setValue(new ImageProperty.Value(new MyImageCommon(10, 10), "custom.png"));
 
 		assertEquals(-1, iconProperty.getIndex());
 		assertEquals("custom.png", customImageProperty.getValue().path());
@@ -94,8 +95,7 @@ class ButtonIconPropertyCollectionTests extends BaseAppTestSetup {
 
 	@Test
 	void testRemovingCustomImageSetsDefaultIcon() {
-		customImageProperty.setValue(new ImageProperty.Value(new MyImageCommon(10, 10),
-				"custom.png"));
+		customImageProperty.setValue(new ImageProperty.Value(new MyImageCommon(10, 10), "custom.png"));
 		customImageProperty.setValue(null);
 
 		assertTrue(iconShownProperty.getValue());

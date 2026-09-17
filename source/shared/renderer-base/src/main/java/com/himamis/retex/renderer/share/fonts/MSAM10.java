@@ -265,6 +265,5 @@ final class MSAM10 extends FontInfo {
 		setMetrics(126, 778, 582, 82);
 
 		setMetrics(196, 778, 582, 82);
-
 	}
 }

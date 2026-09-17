@@ -33,9 +33,12 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 public class AppletFactory3D implements AppletFactory {
 
 	@Override
-	public AppWFull getApplet(GeoGebraElement element,
-			AppletParameters parameters, GeoGebraFrameFull fr,
-			GLookAndFeelI laf, GDevice device) {
+	public AppWFull getApplet(
+			GeoGebraElement element,
+			AppletParameters parameters,
+			GeoGebraFrameFull fr,
+			GLookAndFeelI laf,
+			GDevice device) {
 		return new AppWapplet3D(element, parameters, fr, (GLookAndFeel) laf, device);
 	}
 }

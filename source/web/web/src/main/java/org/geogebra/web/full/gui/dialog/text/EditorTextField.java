@@ -43,8 +43,8 @@ public final class EditorTextField extends GTextBox implements KeyUpHandler {
 		double fontSize = font.getFontSize();
 		String fontFamily = font.getFontFamily();
 
-		getStyleElement().setAttribute("style",
-				"font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
+		getStyleElement()
+				.setAttribute("style", "font-family:" + fontFamily + "; font-size:" + fontSize + "pt");
 	}
 
 	private void updateTarget() {
@@ -61,5 +61,4 @@ public final class EditorTextField extends GTextBox implements KeyUpHandler {
 	public void onKeyUp(KeyUpEvent e) {
 		updateTarget();
 	}
-
 }

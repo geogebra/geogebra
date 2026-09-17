@@ -148,8 +148,7 @@ public final class MainMenu extends FlowPanel
 				dispatchOpenEvent();
 
 				if (index >= 0 && index < menus.size()) {
-					app.getGuiManager().setDraggingViews(
-							menus.get(index).isViewDraggingMenu(), false);
+					app.getGuiManager().setDraggingViews(menus.get(index).isViewDraggingMenu(), false);
 				}
 			}
 
@@ -173,8 +172,7 @@ public final class MainMenu extends FlowPanel
 					// check if SignIn was clicked
 					// if we are offline, the last item is actually Help
 					Widget clicked = index >= 0 ? this.getWidget(index) : null;
-					if (clicked instanceof Submenu clickedSubmenu
-							&& clickedSubmenu.isEmpty()) {
+					if (clicked instanceof Submenu clickedSubmenu && clickedSubmenu.isEmpty()) {
 						clickedSubmenu.handleHeaderClick();
 						app.hideMenu();
 						return;
@@ -212,7 +210,8 @@ public final class MainMenu extends FlowPanel
 					return;
 				}
 
-				String menuText = expand ? getHTMLExpand(menu.getImage(), title)
+				String menuText = expand
+						? getHTMLExpand(menu.getImage(), title)
 						: getHTMLCollapse(menu.getImage(), title);
 
 				setStackText(index, menuText, title, expand);
@@ -238,8 +237,7 @@ public final class MainMenu extends FlowPanel
 			 * @param expanded
 			 *            for compatibility with AriaStackPanel
 			 */
-			void setStackText(int index, @IsSafeHtml String text, String ariaLabel,
-					Boolean expanded) {
+			void setStackText(int index, @IsSafeHtml String text, String ariaLabel, Boolean expanded) {
 				super.setStackText(index, text);
 				setAriaLabel(index, ariaLabel, expanded);
 			}
@@ -248,10 +246,8 @@ public final class MainMenu extends FlowPanel
 			public void add(Widget w, @IsSafeHtml String stackText, boolean asHTML) {
 				add(w);
 				int index = getWidgetCount() - 1;
-				setStackText(index, stackText, getMenuAt(index).getTitle(app.getLocalization()),
-						null);
-				TestHarness.setAttr(w,
-						"menu_" + getMenuAt(index).getTitleTranslationKey());
+				setStackText(index, stackText, getMenuAt(index).getTitle(app.getLocalization()), null);
+				TestHarness.setAttr(w, "menu_" + getMenuAt(index).getTitleTranslationKey());
 			}
 
 			@Override
@@ -444,8 +440,8 @@ public final class MainMenu extends FlowPanel
 			if (index < 0 || index > menus.size() - 1) {
 				index = 0;
 			}
-			app.dispatchEvent(new org.geogebra.common.plugin.Event(EventType.OPEN_MENU, null,
-					menus.get(index).getMenuTitle()));
+			app.dispatchEvent(new org.geogebra.common.plugin.Event(
+					EventType.OPEN_MENU, null, menus.get(index).getMenuTitle()));
 		}
 	}
 
@@ -565,8 +561,8 @@ public final class MainMenu extends FlowPanel
 	 *            localized text
 	 * @return HTML
 	 */
-	public static AriaMenuItem getMenuBarItem(final ResourcePrototype imgRes,
-			String name, Scheduler.ScheduledCommand cmd) {
+	public static AriaMenuItem getMenuBarItem(
+			final ResourcePrototype imgRes, String name, Scheduler.ScheduledCommand cmd) {
 		return new AriaMenuItem(name, imgRes, cmd);
 	}
 
@@ -577,8 +573,8 @@ public final class MainMenu extends FlowPanel
 	 *            localized text
 	 * @return HTML
 	 */
-	public static AriaMenuItem getMenuBarItem(final IconSpec imgRes,
-			String name, Scheduler.ScheduledCommand cmd) {
+	public static AriaMenuItem getMenuBarItem(
+			final IconSpec imgRes, String name, Scheduler.ScheduledCommand cmd) {
 		return new AriaMenuItem(name, cmd, imgRes);
 	}
 
@@ -587,8 +583,7 @@ public final class MainMenu extends FlowPanel
 	 *            manu item localized name
 	 * @return item HTML
 	 */
-	public static AriaMenuItem getMenuBarHtmlEmptyIcon(String name,
-			Scheduler.ScheduledCommand cmd) {
+	public static AriaMenuItem getMenuBarHtmlEmptyIcon(String name, Scheduler.ScheduledCommand cmd) {
 		return MainMenu.getMenuBarItem(AppResources.INSTANCE.empty(), name, cmd);
 	}
 }

@@ -13,5 +13,4 @@ public class CommandDeclareMathOperator extends Command {
 		NewCommandMacro.addNewCommand(tp, name, code, 0, false);
 		return false;
 	}
-
 }

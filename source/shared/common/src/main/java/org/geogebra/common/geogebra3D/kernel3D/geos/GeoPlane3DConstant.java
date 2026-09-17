@@ -31,15 +31,15 @@ import org.geogebra.common.plugin.EventType;
  * Constant plane
  *
  */
-public class GeoPlane3DConstant extends GeoPlane3D
-		implements SymbolicParametersBotanaAlgo {
+public class GeoPlane3DConstant extends GeoPlane3D implements SymbolicParametersBotanaAlgo {
 	/** xYo plane */
 	public static final int XOY_PLANE = 1;
+
 	private boolean gridVisible;
 
 	/**
 	 * construct the plane xOy, ...
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param type
@@ -66,11 +66,11 @@ public class GeoPlane3DConstant extends GeoPlane3D
 
 	/*
 	 * public GgbVector getPoint(double x2d, double y2d){
-	 * 
+	 *
 	 * if (x2d>getXmax()) x2d=getXmax(); else if (x2d<getXmin()) x2d=getXmin();
-	 * 
+	 *
 	 * if (y2d>getYmax()) y2d=getYmax(); else if (y2d<getYmin()) y2d=getYmin();
-	 * 
+	 *
 	 * return super.getPoint(x2d,y2d); }
 	 */
 
@@ -93,7 +93,6 @@ public class GeoPlane3DConstant extends GeoPlane3D
 			return getLoc().getMenu(label);
 		}
 		return label;
-
 	}
 
 	@Override
@@ -108,8 +107,7 @@ public class GeoPlane3DConstant extends GeoPlane3D
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -137,7 +135,7 @@ public class GeoPlane3DConstant extends GeoPlane3D
 
 	/**
 	 * Show or hide grid
-	 * 
+	 *
 	 * @param grid
 	 *            grid visibility flag
 	 * @return whether it changed
@@ -159,5 +157,4 @@ public class GeoPlane3DConstant extends GeoPlane3D
 	public boolean isConstant() {
 		return true;
 	}
-
 }

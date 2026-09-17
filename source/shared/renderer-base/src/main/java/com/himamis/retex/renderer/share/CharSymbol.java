@@ -57,6 +57,7 @@ public abstract class CharSymbol extends Atom {
 	 * this property for a certain spacing rule.
 	 */
 	protected boolean textSymbol = false;
+
 	protected boolean italic = true;
 
 	/**

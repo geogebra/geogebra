@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -94,11 +94,10 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Input dialog for GeoText objects with additional option to set a
  * "LaTeX formula" flag
- * 
+ *
  * @author hohenwarter
  */
-public class TextInputDialogD extends InputDialogD
-		implements DocumentListener, TextInputDialog {
+public class TextInputDialogD extends InputDialogD implements DocumentListener, TextInputDialog {
 
 	// editor and preview panels
 	private final DynamicTextInputPane editor;
@@ -150,7 +149,7 @@ public class TextInputDialogD extends InputDialogD
 
 	/**
 	 * Input Dialog for a GeoText object
-	 * 
+	 *
 	 * @param app2 application
 	 * @param title title
 	 * @param editGeo edited geo
@@ -159,8 +158,14 @@ public class TextInputDialogD extends InputDialogD
 	 * @param rows rows
 	 * @param isTextMode text mode
 	 */
-	public TextInputDialogD(App app2, String title, GeoText editGeo,
-			GeoPointND startPoint, boolean rw, int cols, int rows,
+	public TextInputDialogD(
+			App app2,
+			String title,
+			GeoText editGeo,
+			GeoPointND startPoint,
+			boolean rw,
+			int cols,
+			int rows,
 			boolean isTextMode) {
 
 		super(((AppD) app2).getFrame(), false, ((AppD) app2).getLocalization());
@@ -173,8 +178,7 @@ public class TextInputDialogD extends InputDialogD
 		isIniting = true;
 
 		// build input dialog GUI
-		createGUI(title, "", false, cols, rows, false, false, false, false,
-				DialogType.DynamicText);
+		createGUI(title, "", false, cols, rows, false, false, false, false, DialogType.DynamicText);
 		addHelpButton();
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();
 		textPreviewer = new TextPreviewPanelD(app2.getKernel());
@@ -239,9 +243,8 @@ public class TextInputDialogD extends InputDialogD
 
 	private void addHelpButton() {
 		btHelp = new JButton();
-		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
-				ManualPage.TEXT_TOOL);
+		HelpAction helpAction = new HelpAction(
+				app, app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"), ManualPage.TEXT_TOOL);
 		btHelp.setAction(helpAction);
 		btPanel2.add(btHelp);
 	}
@@ -324,8 +327,7 @@ public class TextInputDialogD extends InputDialogD
 		// textPreviewer.setPreferredSize(editor.getPreferredSize());
 
 		// put the preview and edit panels into a split pane
-		JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editPanel,
-				previewPanel);
+		JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editPanel, previewPanel);
 		previewPanel.setPreferredSize(editPanel.getPreferredSize());
 		sp.setResizeWeight(0.75);
 		sp.setBorder(BorderFactory.createEmptyBorder());
@@ -336,7 +338,6 @@ public class TextInputDialogD extends InputDialogD
 		centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		centerOnScreen();
-
 	}
 
 	/**
@@ -354,49 +355,41 @@ public class TextInputDialogD extends InputDialogD
 		String[][] map = TableSymbols.basicSymbolsMap(loc);
 
 		JMenu menu = new JMenu(loc.getMenu("Properties.Basic"));
-		menu.add(new LatexTable(app, this, btInsertUnicode,
-				TableSymbols.basicSymbols(app.getLocalization(), map), -1, 11,
+		menu.add(new LatexTable(
+				app,
+				this,
+				btInsertUnicode,
+				TableSymbols.basicSymbols(app.getLocalization(), map),
+				-1,
+				11,
 				SelectionTable.MODE_TEXT));
 		btInsertUnicode.addPopupMenuItem(menu);
 		// btInsertUnicode.addPopupMenuItem(createMenuItem(SymbolTable.math_ops,0,1,2));
-		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.OPERATORS, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.OPERATORS, -1, 8));
 		btInsertUnicode.addPopupMenuItem(
 				createMenuItem(TableSymbols.greekLettersPlusVariants(), -1, 8));
-		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.ANALYSIS, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.ANALYSIS, -1, 8));
 
-		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.SETS, -1, 8));
-		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.LOGICAL, -1, 8));
-		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.SUB_SUPERSCRIPTS, -1, 10));
-		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.BASIC_ARROWS, -1, 8));
-		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.OTHER_ARROWS, -1, 8));
-		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.GEOMETRIC_SHAPES, -1, 8));
-		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.GAMES_MUSIC, -1, 7));
-		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.CURRENCY, -1, 8));
-		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.HAND_POINTERS, -1, 6));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.SETS, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.LOGICAL, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.SUB_SUPERSCRIPTS, -1, 10));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.BASIC_ARROWS, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.OTHER_ARROWS, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.GEOMETRIC_SHAPES, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.GAMES_MUSIC, -1, 7));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.CURRENCY, -1, 8));
+		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.HAND_POINTERS, -1, 6));
 
 		app.setComponentOrientation(menu);
-
 	}
 
 	/**
 	 * Creates a sub-menu for the unicode insert button.
 	 */
 	private JMenu createMenuItem(String[] table, int rows, int columns) {
-		JMenu menu = new JMenu(
-				table[0] + " " + table[1] + " " + table[2] + "  ");
-		menu.add(new LatexTable(app, this, btInsertUnicode, table, rows,
-				columns, SelectionTable.MODE_TEXT));
+		JMenu menu = new JMenu(table[0] + " " + table[1] + " " + table[2] + "  ");
+		menu.add(
+				new LatexTable(app, this, btInsertUnicode, table, rows, columns, SelectionTable.MODE_TEXT));
 		return menu;
 	}
 
@@ -417,67 +410,76 @@ public class TextInputDialogD extends InputDialogD
 		JMenu menu;
 		menu = new JMenu();
 		laTexButtonTitleMap.put("RootsAndFractions", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.roots_fractions, 1, -1,
+		menu.add(new LatexTable(
+				app,
+				this,
+				btInsertLaTeX,
+				TableSymbolsLaTeX.roots_fractions,
+				1,
+				-1,
 				SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("SumsAndIntegrals", menu);
-		LatexTable table = new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.sums, 1, -1, SelectionTable.MODE_LATEX);
+		LatexTable table = new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsLaTeX.sums, 1, -1, SelectionTable.MODE_LATEX);
 		// table.setCaretPosition(-3);
 		menu.add(table);
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("Brackets", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.brackets, 2, -1, SelectionTable.MODE_LATEX));
+		menu.add(new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsLaTeX.brackets, 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("Accents", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.accents, 2, -1, SelectionTable.MODE_LATEX));
+		menu.add(new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsLaTeX.accents, 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("AccentsExt", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.accentsExtended, 2, -1,
+		menu.add(new LatexTable(
+				app,
+				this,
+				btInsertLaTeX,
+				TableSymbolsLaTeX.accentsExtended,
+				2,
+				-1,
 				SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("Matrices", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.matrices, 1, -1, SelectionTable.MODE_LATEX));
+		menu.add(new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsLaTeX.matrices, 1, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("FrakturLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsD.mathfrak(), 4, -1,
-				SelectionTable.MODE_LATEX));
+		menu.add(new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsD.mathfrak(), 4, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("CalligraphicLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsD.mathCal(), 2, -1, SelectionTable.MODE_LATEX));
+		menu.add(new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsD.mathCal(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("BlackboardLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsD.mathbb(), 2, -1, SelectionTable.MODE_LATEX));
+		menu.add(new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsD.mathbb(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("CursiveLetters", menu);
-		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsD.mathscr(), 2, -1, SelectionTable.MODE_LATEX));
+		menu.add(new LatexTable(
+				app, this, btInsertLaTeX, TableSymbolsD.mathscr(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		JMenuItem menuItem = new JMenuItem();
@@ -487,7 +489,6 @@ public class TextInputDialogD extends InputDialogD
 
 		isBtnInsertLatexLoaded = true;
 		updateInsertLaTeXButtonLabels();
-
 	}
 
 	private void updateInsertLaTeXButtonLabels() {
@@ -507,8 +508,7 @@ public class TextInputDialogD extends InputDialogD
 	 */
 	private String[] getGeoObjectList() {
 
-		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
-				.getGeoSetLabelOrder();
+		TreeSet<GeoElement> ts = app.getKernel().getConstruction().getGeoSetLabelOrder();
 		ArrayList<String> list = new ArrayList<>();
 
 		// first possibility : create empty box
@@ -537,25 +537,22 @@ public class TextInputDialogD extends InputDialogD
 		geoList.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
 		JScrollPane scroller = new JScrollPane(geoList);
 		scroller.setBorder(BorderFactory.createEmptyBorder());
-		scroller.setVerticalScrollBarPolicy(
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		// add a list selection listener that will insert a selected geo into
 		// the editor
-		geoList.getSelectionModel()
-				.addListSelectionListener(e -> {
-					if (!e.getValueIsAdjusting()) {
-						String label = (String) geoList.getSelectedValue();
-						if (label != null && e.getFirstIndex() == 0) {
-							insertEmptyDynamicText();
-						} else {
-							insertGeoElement(
-									app.getKernel().lookupLabel(label));
-						}
-						btInsertGeo.handlePopupActionEvent();
-						geoList.getSelectionModel().clearSelection();
-					}
-				});
+		geoList.getSelectionModel().addListSelectionListener(e -> {
+			if (!e.getValueIsAdjusting()) {
+				String label = (String) geoList.getSelectedValue();
+				if (label != null && e.getFirstIndex() == 0) {
+					insertEmptyDynamicText();
+				} else {
+					insertGeoElement(app.getKernel().lookupLabel(label));
+				}
+				btInsertGeo.handlePopupActionEvent();
+				geoList.getSelectionModel().clearSelection();
+			}
+		});
 
 		// create a popup button and add the list to it
 		btInsertGeo = new PopupMenuButtonD(app) {
@@ -583,19 +580,21 @@ public class TextInputDialogD extends InputDialogD
 
 	private JToolBar createRecentSymbolTable() {
 
-		recentSymbolList = ((GuiManagerD) app.getGuiManager())
-				.getRecentSymbolList();
+		recentSymbolList = ((GuiManagerD) app.getGuiManager()).getRecentSymbolList();
 
-		recentSymbolTable = new SelectionTableD(app, recentSymbolList.toArray(),
-				1, recentSymbolList.size(), new Dimension(24, 24),
+		recentSymbolTable = new SelectionTableD(
+				app,
+				recentSymbolList.toArray(),
+				1,
+				recentSymbolList.size(),
+				new Dimension(24, 24),
 				SelectionTable.MODE_TEXT);
 
 		recentSymbolTable.setHorizontalAlignment(SwingConstants.CENTER);
 		recentSymbolTable.setSelectedIndex(0);
 		// this.setUseColorSwatchBorder(true);
 		recentSymbolTable.setShowGrid(true);
-		recentSymbolTable.setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		recentSymbolTable.setGridColor(GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		recentSymbolTable.setBorder(BorderFactory.createLoweredBevelBorder());
 		recentSymbolTable.setShowSelection(false);
 
@@ -603,8 +602,7 @@ public class TextInputDialogD extends InputDialogD
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				insertString(
-						recentSymbolList
-								.get(recentSymbolTable.getSelectedIndex()),
+						recentSymbolList.get(recentSymbolTable.getSelectedIndex()),
 						TextInputDialogD.this.isLaTeX);
 			}
 		});
@@ -677,13 +675,12 @@ public class TextInputDialogD extends InputDialogD
 		btInsertLaTeX.setText(loc.getMenu("LaTeXFormula"));
 		btInsertUnicode.setText(loc.getMenu("Symbols"));
 		btInsertGeo.setText(loc.getMenu("Objects"));
-
 	}
 
 	/**
 	 * Sets the GeoText element to be edited. Also sets the editor content to
 	 * fit the new GeoText string and sets the LaTeX flag.
-	 * 
+	 *
 	 * @param geo
 	 *            GeoText element to be edited
 	 */
@@ -708,8 +705,7 @@ public class TextInputDialogD extends InputDialogD
 					setInitString("\"" + getInitString() + "\"");
 				}
 			} else {
-				setInitString(
-						geo.getDefinition(StringTemplate.defaultTemplate));
+				setInitString(geo.getDefinition(StringTemplate.defaultTemplate));
 			}
 			isLaTeX = geo.isLaTeX();
 		}
@@ -725,7 +721,6 @@ public class TextInputDialogD extends InputDialogD
 		handlingDocumentEventOff = false;
 		updatePreviewText();
 		editOccurred = false;
-
 	}
 
 	/**
@@ -752,7 +747,7 @@ public class TextInputDialogD extends InputDialogD
 
 	/**
 	 * Returns state of LaTeX Formula checkbox.
-	 * 
+	 *
 	 * @return true if switched to LaTeX mode
 	 */
 	public boolean isLaTeX() {
@@ -771,35 +766,30 @@ public class TextInputDialogD extends InputDialogD
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				isLaTeX = cbLaTeX.isSelected();
 				editOccurred = false;
-				getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX),
-						this, finished -> {
-							editOccurred = false;
+				getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX), this, finished -> {
+					editOccurred = false;
 
-							if (wrappedDialog.isShowing()) {
-								// text dialog window is used and open
+					if (wrappedDialog.isShowing()) {
+						// text dialog window is used and open
 
-								if (isTextMode) {
-									// don't set mode
-									setVisibleForTools(!finished);
-								} else {
-									setVisible(!finished);
-								}
+						if (isTextMode) {
+							// don't set mode
+							setVisibleForTools(!finished);
+						} else {
+							setVisible(!finished);
+						}
 
-								if (isTextMode) {
-									app.setMode(
-											EuclidianConstants.MODE_TEXT);
-									return;
-								}
-							}
-							if (finished) {
-								app.setMode(EuclidianConstants.MODE_MOVE);
-							}
+						if (isTextMode) {
+							app.setMode(EuclidianConstants.MODE_TEXT);
+							return;
+						}
+					}
+					if (finished) {
+						app.setMode(EuclidianConstants.MODE_MOVE);
+					}
+				});
 
-						});
-
-			}
-
-			else if (source == btCancel) {
+			} else if (source == btCancel) {
 				if (wrappedDialog.isShowing()) {
 					setVisible(false);
 				} else {
@@ -808,9 +798,7 @@ public class TextInputDialogD extends InputDialogD
 				if (isTextMode) {
 					app.setMode(EuclidianConstants.MODE_TEXT);
 				}
-			}
-
-			else if (source == cbLaTeX) {
+			} else if (source == cbLaTeX) {
 
 				if (!isBtnInsertLatexLoaded) {
 					buildInsertLaTeXButton();
@@ -831,7 +819,6 @@ public class TextInputDialogD extends InputDialogD
 				// }
 
 				editOccurred = true;
-
 			}
 
 		} catch (Exception ex) {
@@ -843,8 +830,7 @@ public class TextInputDialogD extends InputDialogD
 	private final class TextInputKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if ((e.isControlDown() || AppD.isControlDown(e))
-					&& e.getKeyCode() == KeyEvent.VK_SPACE) {
+			if ((e.isControlDown() || AppD.isControlDown(e)) && e.getKeyCode() == KeyEvent.VK_SPACE) {
 				if (isLaTeX) {
 					inputPanel.insertString("\\:");
 				}
@@ -852,49 +838,48 @@ public class TextInputDialogD extends InputDialogD
 
 			if (e.isAltDown() || AppD.isAltDown(e)) {
 				switch (e.getKeyCode()) {
-				default:
-					// do nothing
-					break;
-				case KeyEvent.VK_LEFT:
-					Element elem;
-					int i;
-					for (i = editor.getCaretPosition() - 1; i >= 0; i--) {
-						elem = editor.getDoc().getCharacterElement(i);
-						// give focus to first dynamic text field
-						if (elem.getName().equals("component")) {
-							DynamicTextField tf = (DynamicTextField) StyleConstants
-									.getComponent(elem.getAttributes());
-							tf.requestFocus();
-							tf.setCaretPosition(tf.getText().length());
-							break;
+					default:
+						// do nothing
+						break;
+					case KeyEvent.VK_LEFT:
+						Element elem;
+						int i;
+						for (i = editor.getCaretPosition() - 1; i >= 0; i--) {
+							elem = editor.getDoc().getCharacterElement(i);
+							// give focus to first dynamic text field
+							if (elem.getName().equals("component")) {
+								DynamicTextField tf =
+										(DynamicTextField) StyleConstants.getComponent(elem.getAttributes());
+								tf.requestFocus();
+								tf.setCaretPosition(tf.getText().length());
+								break;
+							}
 						}
-					}
-					// set caret: most left position before next component
-					editor.setCaretPosition(i + 1);
-					break;
-				case KeyEvent.VK_RIGHT:
-					for (i = editor.getCaretPosition(); i < editor.getDoc()
-							.getLength(); i++) {
-						elem = editor.getDoc().getCharacterElement(i);
-						// give focus to first dynamic text field
-						if (elem.getName().equals("component")) {
-							DynamicTextField tf = (DynamicTextField) StyleConstants
-									.getComponent(elem.getAttributes());
-							tf.requestFocus();
-							tf.setCaretPosition(0);
-							break;
+						// set caret: most left position before next component
+						editor.setCaretPosition(i + 1);
+						break;
+					case KeyEvent.VK_RIGHT:
+						for (i = editor.getCaretPosition(); i < editor.getDoc().getLength(); i++) {
+							elem = editor.getDoc().getCharacterElement(i);
+							// give focus to first dynamic text field
+							if (elem.getName().equals("component")) {
+								DynamicTextField tf =
+										(DynamicTextField) StyleConstants.getComponent(elem.getAttributes());
+								tf.requestFocus();
+								tf.setCaretPosition(0);
+								break;
+							}
 						}
-					}
 
-					// set caret: most right position before next component
-					editor.setCaretPosition(i);
-					break;
+						// set caret: most right position before next component
+						editor.setCaretPosition(i);
+						break;
 
-				case KeyEvent.VK_ENTER:
-				case KeyEvent.VK_UP:
-				case KeyEvent.VK_DOWN:
-					insertEmptyDynamicText();
-					break;
+					case KeyEvent.VK_ENTER:
+					case KeyEvent.VK_UP:
+					case KeyEvent.VK_DOWN:
+						insertEmptyDynamicText();
+						break;
 				}
 			}
 		}
@@ -902,7 +887,7 @@ public class TextInputDialogD extends InputDialogD
 
 	/**
 	 * exit the text field, ie set the caret just before/after the text field
-	 * 
+	 *
 	 * @param tf
 	 *            the text field
 	 * @param isLeft
@@ -915,8 +900,7 @@ public class TextInputDialogD extends InputDialogD
 			elem = editor.getDoc().getCharacterElement(i);
 			// find elem corresponding the text field
 			if (elem.getName().equals("component")) {
-				if (tf == (DynamicTextField) StyleConstants
-						.getComponent(elem.getAttributes())) {
+				if (tf == (DynamicTextField) StyleConstants.getComponent(elem.getAttributes())) {
 					break;
 				}
 			}
@@ -924,8 +908,7 @@ public class TextInputDialogD extends InputDialogD
 
 		if (isLeft) {
 			editor.setCaretPosition(i); // set caret: just before field
-		}
-		else {
+		} else {
 			editor.setCaretPosition(i + 1); // set caret: just after field
 		}
 
@@ -956,7 +939,6 @@ public class TextInputDialogD extends InputDialogD
 
 		previewHeader.setFont(font);
 		textPreviewer.updateFonts();
-
 	}
 
 	// =============================================================
@@ -970,7 +952,7 @@ public class TextInputDialogD extends InputDialogD
 
 	/**
 	 * Called when an insertion is made in the textarea
-	 * 
+	 *
 	 * @param e
 	 *            the event
 	 */
@@ -981,7 +963,7 @@ public class TextInputDialogD extends InputDialogD
 
 	/**
 	 * Called when a remove is made in the textarea
-	 * 
+	 *
 	 * @param e
 	 *            the event
 	 */
@@ -991,14 +973,14 @@ public class TextInputDialogD extends InputDialogD
 	}
 
 	/**
-	 * 
+	 *
 	 * apply edit modifications
 	 */
 	public void applyModifications() {
 		if (editOccurred) {
 			editOccurred = false; // do this first to ensure no circular call
-			getInputHandler().processInput(editor.buildGeoGebraString(isLaTeX), this,
-					obj -> editOccurred = false);
+			getInputHandler()
+					.processInput(editor.buildGeoGebraString(isLaTeX), this, obj -> editOccurred = false);
 		}
 	}
 
@@ -1015,15 +997,14 @@ public class TextInputDialogD extends InputDialogD
 
 	private void updatePreviewText() {
 		boolean wasLaTeX = isLaTeX;
-		isLaTeX = textPreviewer.updatePreviewText(editGeo,
-				editor.buildGeoGebraString(isLaTeX), isLaTeX, mayDetectLaTeX);
+		isLaTeX = textPreviewer.updatePreviewText(
+				editGeo, editor.buildGeoGebraString(isLaTeX), isLaTeX, mayDetectLaTeX);
 		if (isLaTeX && !wasLaTeX) {
 			if (editGeo != null) {
 				editGeo.setLaTeX(true, false);
 			}
 			cbLaTeX.setSelected(true);
 		}
-
 	}
 
 	@Override
@@ -1048,7 +1029,7 @@ public class TextInputDialogD extends InputDialogD
 
 	/**
 	 * insert dynamic text with string s in it
-	 * 
+	 *
 	 * @param s
 	 *            string in the dynamic text
 	 * @return dynamic text field
@@ -1065,7 +1046,7 @@ public class TextInputDialogD extends InputDialogD
 
 	/**
 	 * Handles creating or redefining GeoText using the current editor string.
-	 * 
+	 *
 	 */
 	private class TextInputHandler implements InputHandler {
 
@@ -1076,11 +1057,10 @@ public class TextInputDialogD extends InputDialogD
 		}
 
 		@Override
-		public void processInput(String inputValue0, ErrorHandler handler,
-				final AsyncOperation<Boolean> callback) {
+		public void processInput(
+				String inputValue0, ErrorHandler handler, final AsyncOperation<Boolean> callback) {
 			if (inputValue0 == null
-					|| (editGeo != null
-							&& editGeo.isProtected(EventType.UPDATE))
+					|| (editGeo != null && editGeo.isProtected(EventType.UPDATE))
 					|| (editGeo != null && !editGeo.isLabelSet())) {
 				callback.callback(false);
 				return;
@@ -1119,16 +1099,15 @@ public class TextInputDialogD extends InputDialogD
 			boolean createText = editGeo == null;
 			handler.resetError();
 			if (createText) {
-				new TextBuilder(app, startPoint, rw, isLaTeX)
-						.createText(inputValue, handler, callback);
+				new TextBuilder(app, startPoint, rw, isLaTeX).createText(inputValue, handler, callback);
 				return;
 			}
 
 			// change existing text
 			try {
-				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
-						inputValue, true, true, TextInputDialogD.this,
-						obj -> {
+				kernel
+						.getAlgebraProcessor()
+						.changeGeoElement(editGeo, inputValue, true, true, TextInputDialogD.this, obj -> {
 							if (obj instanceof GeoText) {
 								// update editGeo
 								GeoText newText = (GeoText) obj;
@@ -1179,8 +1158,7 @@ public class TextInputDialogD extends InputDialogD
 
 			// update the PropertiesView text editor
 			if (app.getGuiManager().hasPropertiesView()) {
-				((PropertiesViewD) app.getGuiManager().getPropertiesView())
-						.updateTextEditor(editGeo);
+				((PropertiesViewD) app.getGuiManager().getPropertiesView()).updateTextEditor(editGeo);
 			}
 		}
 	}
@@ -1191,5 +1169,4 @@ public class TextInputDialogD extends InputDialogD
 	public void reset() {
 		this.editOccurred = false;
 	}
-
 }

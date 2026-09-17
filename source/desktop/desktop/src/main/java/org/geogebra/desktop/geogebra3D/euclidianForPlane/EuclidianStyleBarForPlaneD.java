@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,14 +29,14 @@ import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * StyleBar for view for plane
- * 
+ *
  * @author Mathieu
  *
  */
 public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 
 	/**
 	 * Common constructor.
-	 * 
+	 *
 	 * @param ev
 	 *            view
 	 */
@@ -62,7 +62,6 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 	protected void addBtnRotateView() {
 
 		add(btnCenterAndOrientation);
-
 	}
 
 	@Override
@@ -71,12 +70,11 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 	}
 
 	@Override
-	protected void processSource(Object source,
-			ArrayList<GeoElement> targetGeos) {
+	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
 
 		if (source.equals(btnCenterAndOrientation)) {
-			EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion)
-					((EuclidianView) ev).getCompanion();
+			EuclidianViewForPlaneCompanion companion =
+					(EuclidianViewForPlaneCompanion) ((EuclidianView) ev).getCompanion();
 			companion.updateCenterAndOrientationRegardingView();
 			companion.updateScaleRegardingView();
 		} else {
@@ -91,27 +89,24 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 
 		// ========================================
 		// button
-		btnCenterAndOrientation = new ToggleButtonD(
-				app.getScaledIcon(GuiResourcesD.STANDARD_VIEW), iconHeight) {
+		btnCenterAndOrientation =
+				new ToggleButtonD(app.getScaledIcon(GuiResourcesD.STANDARD_VIEW), iconHeight) {
 
-			private static final long serialVersionUID = 1L;
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void update(List<GeoElement> geos) {
-				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
-			}
-		};
+					@Override
+					public void update(List<GeoElement> geos) {
+						// always show this button unless in pen mode
+						this.setVisible(mode != EuclidianConstants.MODE_PEN);
+					}
+				};
 		btnCenterAndOrientation.addActionListener(this);
-
 	}
 
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		btnCenterAndOrientation
-				.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
-
+		btnCenterAndOrientation.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
 	}
 
 	@Override
@@ -121,7 +116,5 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 		btnCenterAndOrientation.removeActionListener(this);
 		btnCenterAndOrientation.setSelected(false);
 		btnCenterAndOrientation.addActionListener(this);
-
 	}
-
 }

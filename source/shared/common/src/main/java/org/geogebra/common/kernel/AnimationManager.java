@@ -34,11 +34,11 @@ import com.google.j2objc.annotations.Weak;
  */
 public class AnimationManager implements GTimerListener {
 	/** animation time */
-	public final static int STANDARD_ANIMATION_TIME = 10; // secs
+	public static final int STANDARD_ANIMATION_TIME = 10; // secs
 	/** max frames per second */
-	public final static int MAX_ANIMATION_FRAME_RATE = 30; // frames per second
+	public static final int MAX_ANIMATION_FRAME_RATE = 30; // frames per second
 	/** min frames per second */
-	public final static int MIN_ANIMATION_FRAME_RATE = 6; // frames per second
+	public static final int MIN_ANIMATION_FRAME_RATE = 6; // frames per second
 	/** kernel */
 	@Weak
 	protected Kernel kernel;
@@ -48,6 +48,7 @@ public class AnimationManager implements GTimerListener {
 	protected ArrayList<GeoElementND> changedGeos;
 	/** current frame rate */
 	protected double frameRate = MAX_ANIMATION_FRAME_RATE;
+
 	private boolean needToShowAnimationButton;
 
 	private final GTimer timer;
@@ -63,18 +64,17 @@ public class AnimationManager implements GTimerListener {
 		this.kernel = kernel2;
 		animatedGeos = new ArrayList<>();
 		changedGeos = new ArrayList<>();
-		timer = kernel.getApplication().newTimer(this,
-				1000 / MAX_ANIMATION_FRAME_RATE);
+		timer = kernel.getApplication().newTimer(this, 1000 / MAX_ANIMATION_FRAME_RATE);
 	}
 
 	/**
 	 * Returns whether the animation button needs to be drawn in the graphics
 	 * view. This is only needed when there are animated geos with non-dynamic
 	 * speed.
-	 * 
+	 *
 	 * @return true if we need to draw animation button
 	 */
-	final public boolean needToShowAnimationButton() {
+	public final boolean needToShowAnimationButton() {
 		return needToShowAnimationButton;
 	}
 
@@ -91,8 +91,7 @@ public class AnimationManager implements GTimerListener {
 		// if one animated geo has a static speed, we need to get out of here
 		for (GeoElement geo : animatedGeos) {
 			GeoElement animObj = geo.getAnimationSpeedObject();
-			if (animObj == null
-					|| !animObj.isLabelSet() && animObj.isIndependent()) {
+			if (animObj == null || !animObj.isLabelSet() && animObj.isIndependent()) {
 				needToShowAnimationButton = true;
 				return;
 			}
@@ -104,11 +103,11 @@ public class AnimationManager implements GTimerListener {
 
 	/**
 	 * Adds geo to the list of animated GeoElements.
-	 * 
+	 *
 	 * @param geo
 	 *            the GeoElement to add
 	 */
-	final public synchronized void addAnimatedGeo(GeoElement geo) {
+	public final synchronized void addAnimatedGeo(GeoElement geo) {
 		if (geo.isAnimating() && !animatedGeos.contains(geo)) {
 			animatedGeos.add(geo);
 			// if (animatedGeos.size() == 1) removed, might have geos with
@@ -119,16 +118,16 @@ public class AnimationManager implements GTimerListener {
 
 	/**
 	 * Removes geo from the list of animated GeoElements.
-	 * 
+	 *
 	 * @param geo
 	 *            the GeoElement to remove
 	 */
-	final public synchronized void removeAnimatedGeo(GeoElement geo) {
+	public final synchronized void removeAnimatedGeo(GeoElement geo) {
 		if (animatedGeos.remove(geo) && animatedGeos.size() == 0) {
 			stopAnimation();
 		}
 		updateNeedToShowAnimationButton(); // added, might have geos with
-											// variable controlling speed
+		// variable controlling speed
 	}
 
 	/**
@@ -160,7 +159,7 @@ public class AnimationManager implements GTimerListener {
 	/**
 	 * Returns whether the animation is currently paused, i.e. the animation is
 	 * not running but there are elements with "Animation on" set.
-	 * 
+	 *
 	 * @return true when paused
 	 */
 	public boolean isPaused() {
@@ -183,7 +182,7 @@ public class AnimationManager implements GTimerListener {
 	/**
 	 * Adapts the frame rate depending on how long it took to compute the last
 	 * frame.
-	 * 
+	 *
 	 * @param compTime
 	 *            computation time
 	 */
@@ -203,7 +202,6 @@ public class AnimationManager implements GTimerListener {
 			frameRate = Math.min(framesPossible, MAX_ANIMATION_FRAME_RATE);
 			setTimerDelay((int) Math.round(1000.0 / frameRate));
 		}
-
 	}
 
 	private TreeSet<AlgoElement> getTempSet() {
@@ -227,8 +225,10 @@ public class AnimationManager implements GTimerListener {
 		long startTime = System.currentTimeMillis();
 		double actualFrameRate = lastStart == 0
 				? MAX_ANIMATION_FRAME_RATE
-				: MyMath.clamp(1000.0 / (startTime - this.lastStart),
-				MIN_ANIMATION_FRAME_RATE, MAX_ANIMATION_FRAME_RATE);
+				: MyMath.clamp(
+						1000.0 / (startTime - this.lastStart),
+						MIN_ANIMATION_FRAME_RATE,
+						MAX_ANIMATION_FRAME_RATE);
 		this.lastStart = startTime;
 
 		// clear list of geos that need to be updated
@@ -255,12 +255,10 @@ public class AnimationManager implements GTimerListener {
 			// check frame rate
 			long compTime = System.currentTimeMillis() - startTime;
 			if (kernel.getApplication().getEuclidianView1() != null) {
-				compTime += kernel.getApplication().getEuclidianView1()
-						.getLastRepaintTime();
+				compTime += kernel.getApplication().getEuclidianView1().getLastRepaintTime();
 			}
 			if (kernel.getApplication().hasEuclidianView2(1)) {
-				compTime += kernel.getApplication().getEuclidianView2(1)
-						.getLastRepaintTime();
+				compTime += kernel.getApplication().getEuclidianView2(1).getLastRepaintTime();
 			}
 			adaptFrameRate(compTime);
 
@@ -282,7 +280,6 @@ public class AnimationManager implements GTimerListener {
 	 * @param i
 	 *            delay in milliseconds
 	 */
-
 	protected void setTimerDelay(int i) {
 		timer.setDelay(i);
 	}
@@ -310,11 +307,10 @@ public class AnimationManager implements GTimerListener {
 
 	/**
 	 * current frame rate
-	 * 
+	 *
 	 * @return in seconds
 	 */
 	public double getFrameRate() {
 		return frameRate;
 	}
-
 }

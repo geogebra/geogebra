@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,8 +48,7 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
-public class FormulaBar extends JToolBar
-		implements ActionListener, FocusListener, SetLabels {
+public class FormulaBar extends JToolBar implements ActionListener, FocusListener, SetLabels {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private SpreadsheetViewD view;
@@ -77,8 +76,7 @@ public class FormulaBar extends JToolBar
 
 		// create GUI objects
 
-		btnCancelFormula = new JButton(
-				app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
+		btnCancelFormula = new JButton(app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btnCancelFormula.setFocusable(false);
 		btnCancelFormula.addActionListener(this);
 		btnCancelFormula.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
@@ -113,8 +111,7 @@ public class FormulaBar extends JToolBar
 
 		// add an instance of the spreadsheet cell editor listener
 		// to enable auto-update while dragging cell ranges during editing
-		fldFormula.addKeyListener(
-				editor.new SpreadsheetCellEditorKeyListener(true));
+		fldFormula.addKeyListener(editor.new SpreadsheetCellEditorKeyListener(true));
 
 		// prevent the focus system from stealing TAB; this allows tabbing
 		// through auto-complete cycles
@@ -140,8 +137,7 @@ public class FormulaBar extends JToolBar
 		}
 
 		private void updateCellEditor() {
-			((MyTableD) view.getSpreadsheetTable())
-					.updateEditor(fldFormula.getText());
+			((MyTableD) view.getSpreadsheetTable()).updateEditor(fldFormula.getText());
 		}
 	};
 
@@ -167,8 +163,7 @@ public class FormulaBar extends JToolBar
 		int row = table.minSelectionRow;
 		int column = table.minSelectionColumn;
 
-		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column,
-				row);
+		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 		fldCellName.removeActionListener(this);
 		fldCellName.setText(cellName);
 		fldCellName.addActionListener(this);
@@ -196,13 +191,13 @@ public class FormulaBar extends JToolBar
 		// make sure the spreadsheet gets the view focus in case first click is
 		// here
 		if (!view.hasViewFocus()) {
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+			((LayoutD) app.getGuiManager().getLayout())
+					.getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 		}
 
 		// select the upper left corner cell if nothing is selected
-		if (table.isSelectNone() || table.getSelectedRow() < 0
-				|| table.getSelectedColumn() < 0) {
+		if (table.isSelectNone() || table.getSelectedRow() < 0 || table.getSelectedColumn() < 0) {
 			table.setSelection(0, 0);
 			update();
 		}
@@ -210,10 +205,8 @@ public class FormulaBar extends JToolBar
 		// start cell editing in the currently selected cell
 		// TODO: should these be an anchor cell?
 		table.setAllowEditing(true);
-		view.getSpreadsheetTable().editCellAt(table.getSelectedRow(),
-				table.getSelectedColumn());
+		view.getSpreadsheetTable().editCellAt(table.getSelectedRow(), table.getSelectedColumn());
 		view.getSpreadsheetTable().repaint();
-
 	}
 
 	@Override
@@ -297,5 +290,4 @@ public class FormulaBar extends JToolBar
 	public boolean editorHasFocus() {
 		return fldFormula.hasFocus();
 	}
-
 }

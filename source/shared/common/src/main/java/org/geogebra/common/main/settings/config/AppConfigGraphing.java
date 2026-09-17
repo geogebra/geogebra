@@ -135,12 +135,12 @@ public class AppConfigGraphing extends AbstractAppConfig {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[]{0, 1, 2, 3, 4, 5, 10, 13, 15};
+		return new int[] {0, 1, 2, 3, 4, 5, 10, 13, 15};
 	}
 
 	@Override
 	public int[] getSignificantFigures() {
-		return new int[]{3, 5, 10, 15};
+		return new int[] {3, 5, 10, 15};
 	}
 
 	@Override

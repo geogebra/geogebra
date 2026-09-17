@@ -37,8 +37,7 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 	/**
 	 * Euclidian 3D view for tests.
 	 */
-	public EuclidianView3DNoGui(EuclidianController3D ec,
-			EuclidianSettings settings) {
+	public EuclidianView3DNoGui(EuclidianController3D ec, EuclidianSettings settings) {
 		super(ec, settings);
 		settings.addListener(this);
 		start();
@@ -230,8 +229,7 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 
 		@Override
 		public GBufferedImage createBufferedImage(DrawableTexture3D label) {
-			return AwtFactory.getPrototype().newBufferedImage(
-					label.getWidth(), label.getHeight(), 1.0);
+			return AwtFactory.getPrototype().newBufferedImage(label.getWidth(), label.getHeight(), 1.0);
 		}
 
 		@Override

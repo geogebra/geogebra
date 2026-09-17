@@ -109,7 +109,7 @@ public final class ProbabilityModeGroup extends FlowPanel implements SetLabels {
 	 * -1 for none.
 	 */
 	public int getValue() {
-		for (Map.Entry<Integer, ToggleButton> entry: buttons.entrySet()) {
+		for (Map.Entry<Integer, ToggleButton> entry : buttons.entrySet()) {
 			if (entry.getValue().isSelected()) {
 				return entry.getKey();
 			}

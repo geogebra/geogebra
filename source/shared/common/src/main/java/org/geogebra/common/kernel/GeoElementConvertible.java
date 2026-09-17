@@ -23,9 +23,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public interface GeoElementConvertible {
 
-    /**
-     * @param cons construction for the new GeoElement
-     * @return new GeoElement
-     */
-    GeoElement toGeoElement(Construction cons);
+	/**
+	 * @param cons construction for the new GeoElement
+	 * @return new GeoElement
+	 */
+	GeoElement toGeoElement(Construction cons);
 }

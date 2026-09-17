@@ -58,7 +58,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Common interface for all interfaces that represent GeoElements.
- * 
+ *
  * @author Zbynek
  *
  */
@@ -84,6 +84,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	int LABEL_DEFAULT_CAPTION = 8;
 	/** caption + value */
 	int LABEL_CAPTION_VALUE = 9;
+
 	int LABEL_HIDDEN = -1;
 
 	/** tooltip mode: iff AV showing */
@@ -152,7 +153,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * null, a new free label is assigned starting with label as a prefix. If
 	 * newLabel is not already used, this object is renamed to newLabel.
 	 * Otherwise nothing is done.
-	 * 
+	 *
 	 * @param labelNew
 	 *            new label
 	 */
@@ -171,7 +172,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Allows drawing this in EV
-	 * 
+	 *
 	 * @param visible
 	 *            true to allow drawing this in EV
 	 */
@@ -184,7 +185,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns whether the label should be shown in Euclidian view.
-	 * 
+	 *
 	 * @return true if label should be shown
 	 */
 	boolean isLabelVisible();
@@ -193,7 +194,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * Returns whether this object's label has been set and is valid now. (this
 	 * is needed for saving: only object's with isLabelSet() == true should be
 	 * saved)
-	 * 
+	 *
 	 * @return true if this geo has valid label
 	 */
 	boolean isLabelSet();
@@ -201,7 +202,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Returns label or local variable label if set, returns output value string
 	 * otherwise
-	 * 
+	 *
 	 * @param tpl
 	 *            string template
 	 * @return label or output value string
@@ -229,7 +230,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Update visual style and notify kernel
-	 * 
+	 *
 	 * @param prop
 	 *            property being changed
 	 */
@@ -248,7 +249,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * This method always returns a GeoElement of the SAME CLASS as this
 	 * GeoElement. Furthermore the resulting geo is in construction cons.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @return copy in given construction
@@ -258,7 +259,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * every subclass implements it's own copy method this is needed for
 	 * assignment copies like: a = 2.7 b = a (here copy() is needed)
-	 * 
+	 *
 	 * @return copy of current element
 	 */
 	GeoElementND copy();
@@ -275,7 +276,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns false for undefined objects
-	 * 
+	 *
 	 * @return false when undefined
 	 */
 	boolean isDefined();
@@ -305,7 +306,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Sets the line opacity for this {@code GeoElement}. <br>
-	 * 
+	 *
 	 * @param opacity
 	 *            opacity value between 0 - 255
 	 */
@@ -319,7 +320,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * sets whether the object's label should be drawn in an EuclidianView
-	 * 
+	 *
 	 * @param visible
 	 *            true to make label visible
 	 */
@@ -327,14 +328,14 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns whether this GeoElement is a point on a path.
-	 * 
+	 *
 	 * @return true for points on path
 	 */
 	boolean isPointOnPath();
 
 	/**
 	 * Returns whether this GeoElement is a point in a region
-	 * 
+	 *
 	 * @return true for points in region
 	 */
 	boolean isPointInRegion();
@@ -402,7 +403,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	boolean isGeoElement3D();
 
 	/**
-	 * 
+	 *
 	 * @return true if is region that produces 3D points
 	 */
 	boolean isRegion3D();
@@ -414,7 +415,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns how should label look like in Euclidian view
-	 * 
+	 *
 	 * @return label mode (name, value, name + value, caption) may be
 	 *         GeoElement.LABEL_NAME, LABEL_VALUE etc
 	 */
@@ -422,7 +423,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Switch label mode among value, name, value+name and caption
-	 * 
+	 *
 	 * @param labelMode
 	 *            LABEL_ mode
 	 */
@@ -431,8 +432,8 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	// Kernel getKernel();
 	/**
 	 * We may need a simple method to get the label, as in the CopyPaste class.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return get the label if set; do not fallback to definition (unlike
 	 *         {@link #getLabel(StringTemplate)})
 	 */
@@ -441,7 +442,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Update value and basic properties from other geo. Implemented in each
 	 * subclass.
-	 * 
+	 *
 	 * @param geo
 	 *            other geo
 	 */
@@ -449,7 +450,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Sets visibility if not given by condition to show object
-	 * 
+	 *
 	 * @param visible
 	 *            whether it should be visible
 	 */
@@ -527,7 +528,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns the {@link GeoClass}
-	 * 
+	 *
 	 * @return GeoClass
 	 */
 	GeoClass getGeoClassType();
@@ -575,7 +576,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Copy 3D visibility from other element
-	 * 
+	 *
 	 * @param geo
 	 *            other element
 	 */
@@ -583,7 +584,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Make visible in given views.
-	 * 
+	 *
 	 * @param viewSet
 	 *            set of views where this may appear
 	 */
@@ -591,7 +592,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Copy plane visibility from other element
-	 * 
+	 *
 	 * @param geo
 	 *            other element
 	 */
@@ -615,7 +616,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns whether geo depends on this object.
-	 * 
+	 *
 	 * @param geo
 	 *            other geo
 	 * @return true if geo depends on this object.
@@ -629,7 +630,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns whether this object is parent of other geos.
-	 * 
+	 *
 	 * @return true if this object is parent of other geos.
 	 */
 	boolean hasChildren();
@@ -642,7 +643,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * @param geo
 	 *            other geo
-	 * 
+	 *
 	 * @return whether the elements are equal in geometric sense (for congruency
 	 *         use isCongruent)
 	 */
@@ -660,7 +661,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * @return alpha value (transparency)
-	 * 
+	 *
 	 * @apiNote can be -1 for lists, see GeoList.getAlphaValue(),
 	 *         GeoList.setAlphaValue()
 	 */
@@ -677,7 +678,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	GPaint getFillColor();
 
 	/**
-	 * 
+	 *
 	 * @return color of background
 	 */
 	GColor getBackgroundColor();
@@ -688,7 +689,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	FillType getFillType();
 
 	/**
-	 * 
+	 *
 	 * @return color of label
 	 */
 	GColor getLabelColor();
@@ -697,7 +698,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * Returns the label and/or value of this object for showing in
 	 * EuclidianView. This depends on the current setting of labelMode:
 	 * LABEL_NAME : only label LABEL_NAME_VALUE : label and value
-	 * 
+	 *
 	 * @return label, value, label+value or caption
 	 */
 	String getLabelDescription();
@@ -735,7 +736,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Changes transparency of this geo
-	 * 
+	 *
 	 * @param alpha
 	 *            new alpha value between 0 and 1
 	 */
@@ -743,7 +744,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Caption string (with substitutions)
-	 * 
+	 *
 	 * @param tpl
 	 *            string template
 	 * @return caption (or label if caption is null)
@@ -773,7 +774,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Just sets the fill symbol, fill type must be changed to SYMBOL separately
-	 * 
+	 *
 	 * @param symbol
 	 *            Unicode symbol used for fill
 	 */
@@ -799,7 +800,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Tries to load the image using the given fileName.
-	 * 
+	 *
 	 * @param fileName
 	 *            filename
 	 */
@@ -822,7 +823,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Updates visual properties and repaints this object
-	 * 
+	 *
 	 * @param prop
 	 *            property
 	 */
@@ -831,7 +832,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Just changes the basic visual styles. If the style of a geo is reset this
 	 * is required as we don't want to overwrite advanced settings in that case.
-	 * 
+	 *
 	 * @param geo
 	 *            source geo
 	 */
@@ -844,7 +845,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * We may need a simple method to set the label, as in the CopyPaste class.
-	 * 
+	 *
 	 * @param labelSimple
 	 *            the label to set
 	 */
@@ -873,7 +874,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Copy advanced properties -- cond. visibility, dynamic colors, TODO
 	 * corners Used in macros where we can't reference the objects directly
-	 * 
+	 *
 	 * @param geo
 	 *            style source
 	 */
@@ -888,7 +889,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Returns whether this GeoElement can be moved in Euclidian View. Note:
 	 * this is needed for texts and points on path
-	 * 
+	 *
 	 * @return true for moveable objects
 	 */
 	boolean isMoveable();
@@ -910,7 +911,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Used to convert various interfaces into GeoElement
-	 * 
+	 *
 	 * @return this
 	 */
 	GeoElement toGeoElement();
@@ -928,7 +929,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * add algorithm to dependency list of this GeoElement
-	 * 
+	 *
 	 * @param algorithm
 	 *            algorithm directly dependent on this
 	 */
@@ -936,7 +937,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Get a free label. Try the suggestedLabel first
-	 * 
+	 *
 	 * @param suggestedLabel
 	 *            label to be tried first
 	 * @return free label -- either suggestedLabel or suggestedLabel_index
@@ -950,7 +951,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * remove algorithm from dependency list of this GeoElement
-	 * 
+	 *
 	 * @param algorithm
 	 *            algorithm to be removed
 	 */
@@ -958,7 +959,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * add algorithm to update sets up the construction graph
-	 * 
+	 *
 	 * @param algorithm
 	 *            algo to be added
 	 * @return true if added
@@ -967,7 +968,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * remove algorithm from update sets up the construction graph
-	 * 
+	 *
 	 * @param algorithm
 	 *            algo to be removed
 	 * @return true if removed
@@ -978,7 +979,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * Adds the given algorithm to the update set this GeoElement. Note: the
 	 * algorithm is NOT added to the algorithm list, i.e. the dependency graph
 	 * of the construction.
-	 * 
+	 *
 	 * @param algorithm
 	 *            algorithm to be added
 	 */
@@ -1023,28 +1024,28 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * Adds the given algorithm to the dependency list of this GeoElement. The
 	 * algorithm is NOT added to the updateSet of this GeoElement! I.e. when
 	 * updateCascade() is called the given algorithm will not be updated.
-	 * 
+	 *
 	 * @param algorithm
 	 *            algo to be added
 	 */
 	void addToAlgorithmListOnly(AlgoElement algorithm);
 
 	/**
-	 * 
+	 *
 	 * @return true if this can be listed as input for a macro
 	 */
 	boolean isVisibleInputForMacro();
 
 	/**
 	 * @see ConstructionElement#getNameDescription()
-	 * 
+	 *
 	 * @return type and name of this construction element (e.g. "Point A").
 	 */
 	String getNameDescription();
 
 	/**
 	 * Return script for event type (localized if ggbscript)
-	 * 
+	 *
 	 * @param type
 	 *            event type
 	 * @return script
@@ -1064,7 +1065,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * return black if the color is white, so it can be seen
-	 * 
+	 *
 	 * @return color for algebra view (same as label or black)
 	 */
 	GColor getAlgebraColor();
@@ -1076,7 +1077,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns the label of this object before rename() was called.
-	 * 
+	 *
 	 * @return label before renaming
 	 */
 	String getOldLabel();
@@ -1090,7 +1091,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns all children (of type GeoElement) that depend on this object.
-	 * 
+	 *
 	 * @return set of all children of this geo
 	 */
 	TreeSet<GeoElement> getAllChildren();
@@ -1114,7 +1115,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Sets layer
-	 * 
+	 *
 	 * @param layer
 	 *            layer from 0 to 9
 	 */
@@ -1128,7 +1129,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Make this invisible in given view
-	 * 
+	 *
 	 * @param viewId
 	 *            view id
 	 */
@@ -1137,7 +1138,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * In future, this can be used to turn on/off whether transformed objects
 	 * have the same style as the original object
-	 * 
+	 *
 	 * @param geo
 	 *            source geo
 	 */
@@ -1151,7 +1152,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Decides if definition differs from value as String. If so, AV should
 	 * display both rows.
-	 * 
+	 *
 	 * @return true, only if AV should display 2 rows in 'Definition And Value'
 	 *         style.
 	 */
@@ -1160,7 +1161,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Check that this is a GeoFunctionable representing a function R-&gt; R
 	 * (i.e. not a circle or boolean function)
-	 * 
+	 *
 	 * @return true for functionables
 	 */
 	boolean isRealValuedFunction();
@@ -1173,7 +1174,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns the next free indexed label using the given prefix.
-	 * 
+	 *
 	 * @param prefix
 	 *            e.g. "c"
 	 * @return indexed label, e.g. "c_2"
@@ -1187,7 +1188,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns whether this object is dependent on geo.
-	 * 
+	 *
 	 * @param geo
 	 *            other geo
 	 * @return true if this object is dependent on geo.
@@ -1197,7 +1198,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Sets all visual values from given GeoElement. This will also affect
 	 * tracing, label location and the location of texts for example.
-	 * 
+	 *
 	 * @param geo
 	 *            source geo
 	 * @param keepAdvanced
@@ -1211,8 +1212,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * @throws CircularDefinitionException
 	 *             if this == cond
 	 */
-	void setShowObjectCondition(GeoBoolean cond)
-			throws CircularDefinitionException;
+	void setShowObjectCondition(GeoBoolean cond) throws CircularDefinitionException;
 
 	/**
 	 *
@@ -1233,8 +1233,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 *            if true, use outputValueString rather than valueString
 	 * @return definition or value string of this object
 	 */
-	String getRedefineString(boolean useChangeable, boolean useOutputValueString,
-							 StringTemplate tpl);
+	String getRedefineString(boolean useChangeable, boolean useOutputValueString, StringTemplate tpl);
 
 	/**
 	 * @return true for auxiliary objects
@@ -1250,7 +1249,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 * getFormulaString(StringType.LIBRE_OFFICE) eg sqrt {x}
 	 * getFormulaString(StringType.GEOGEBRA) eg sqrt(x)
 	 * getFormulaString(StringType.GEOGEBRA_XML)
-	 * 
+	 *
 	 * @param tpl
 	 *            string template
 	 * @param substituteNumbers
@@ -1262,7 +1261,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Returns the value of this GeoElement for the input field, e.g. A1 = 5, B1
 	 * = A1 + 2
-	 * 
+	 *
 	 * @return value for input field
 	 */
 	String getValueForInputBar();
@@ -1279,7 +1278,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * renames this GeoElement to newLabel.
-	 * 
+	 *
 	 * @param newLabel
 	 *            new label
 	 * @return true if label was changed
@@ -1296,7 +1295,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Sets label of a GeoElement and updates GeoElement table (label,
 	 * GeoElement). This method should only be used by MyXMLHandler.
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 */
@@ -1305,7 +1304,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * copies the scripts from another geo. Used when redefining (so that the
 	 * scripts aren't "deleted")
-	 * 
+	 *
 	 * @param oldGeo
 	 *            old GeoElement
 	 */
@@ -1322,7 +1321,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	boolean isGeoBoolean();
 
 	/**
-	 * 
+	 *
 	 * @return true if has changeable coord parent numbers (e.g. point defined
 	 *         by sliders)
 	 */
@@ -1342,18 +1341,17 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns all free parent points of this GeoElement.
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @return all free parent points of this GeoElement.
 	 */
-	ArrayList<GeoElementND> getFreeInputPoints(
-			EuclidianViewInterfaceSlim view);
+	ArrayList<GeoElementND> getFreeInputPoints(EuclidianViewInterfaceSlim view);
 
 	/**
 	 * Returns whether this object's class implements the interface
 	 * Translateable.
-	 * 
+	 *
 	 * @return whether this object's class implements the interface
 	 *         Translateable.
 	 */
@@ -1374,7 +1372,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Returns whether this (dependent) GeoElement has input points that can be
 	 * moved in Euclidian View.
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @return whether this geo has only moveable input points
@@ -1384,7 +1382,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * Returns whether this GeoElement can be changed directly. Note: for points
 	 * on lines this is different than isIndependent()
-	 * 
+	 *
 	 * @return whether this geo can be changed directly
 	 */
 	boolean isChangeable();
@@ -1396,7 +1394,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns whether the label contains any indices (i.e. '_' chars).
-	 * 
+	 *
 	 * @return whether the label contains any indices (i.e. '_' chars).
 	 */
 	boolean hasIndexLabel();
@@ -1435,13 +1433,13 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Returns true if color was explicitly set
-	 * 
+	 *
 	 * @return true if color was explicitly set
 	 */
 	boolean isColorSet();
 
 	/**
-	 * 
+	 *
 	 * @return true if the geo is drawable in 3D view
 	 */
 	boolean hasDrawable3D();
@@ -1454,7 +1452,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * @param flag
 	 *            true to make this highlighted
-	 * 
+	 *
 	 * @return true if state is changed
 	 */
 	boolean setHighlighted(boolean flag);
@@ -1469,7 +1467,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * add Caption simple for reader.
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder to add to.
 	 * @return true if caption was added - i.e. when it is not empty.
@@ -1478,7 +1476,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * add geo type for reader.
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
@@ -1486,7 +1484,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * add geo type and its label for reader.
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
@@ -1502,7 +1500,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * add Caption for reader if defined, type and label otherwise.
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
@@ -1510,7 +1508,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Add content aural description if any.
-	 * 
+	 *
 	 * @param loc
 	 *            The Localization object
 	 *
@@ -1521,10 +1519,10 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Add aural text for status of the geo.
-	 * 
+	 *
 	 * @param loc
 	 *            The Localization object
-	 * 
+	 *
 	 * @param sb
 	 *            StringBuilder to add to.
 	 */
@@ -1532,7 +1530,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 
 	/**
 	 * Add aural text for the possible operations of the geo.
-	 * 
+	 *
 	 * @param loc
 	 *            The Localization object
 	 * @param sb
@@ -1541,20 +1539,20 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	void addAuralOperations(Localization loc, ScreenReaderBuilder sb);
 
 	/**
-	 * 
+	 *
 	 * @return text to be read when pressing space key.
 	 */
 	String getAuralTextForSpace();
 
 	/**
-	 * 
+	 *
 	 * @return text to be read when geo was moved.
 	 */
 	String getAuralTextForMove();
 
 	/**
 	 * See DECORATION_ constants
-	 * 
+	 *
 	 * @return decoration type, eg 3 lines
 	 */
 	int getDecorationType();
@@ -1590,7 +1588,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	boolean hasTableOfValues();
 
 	/**
-	 * 
+	 *
 	 * @return auto color scheme
 	 */
 	AutoColor getAutoColorScheme();

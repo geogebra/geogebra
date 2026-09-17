@@ -41,11 +41,14 @@ public final class ButtonFocusablePart extends FocusablePartW {
 	 * @param am accessibility manager used to manage focus anchoring
 	 * @param onFocusCallback on focus callback
 	 */
-	public ButtonFocusablePart(StandardButton button, String focusKey,
-			String label, AccessibilityManagerInterface am, Runnable onFocusCallback) {
+	public ButtonFocusablePart(
+			StandardButton button,
+			String focusKey,
+			String label,
+			AccessibilityManagerInterface am,
+			Runnable onFocusCallback) {
 		super(button, focusKey, label, onFocusCallback);
 		this.am = am;
-
 	}
 
 	@Override
@@ -68,5 +71,4 @@ public final class ButtonFocusablePart extends FocusablePartW {
 	public boolean handlesEnterKey() {
 		return true;
 	}
-
 }

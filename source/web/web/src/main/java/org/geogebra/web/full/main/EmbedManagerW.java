@@ -139,8 +139,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 				addExtension(drawEmbed, "");
 			}
 			if (content.get(embedID) != null) {
-				widgets.get(drawEmbed)
-						.setContent(content.get(embedID));
+				widgets.get(drawEmbed).setContent(content.get(embedID));
 			}
 		} else {
 			addEmbed(drawEmbed);
@@ -185,11 +184,15 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 
 		AppletParameters parameters = new AppletParameters("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
-				app.getAppletFrame().getAppletFactory(), app.getLAF(),
-				app.getDevice(), GeoGebraElement.as(parent.getElement()), parameters);
+				app.getAppletFrame().getAppletFactory(),
+				app.getLAF(),
+				app.getDevice(),
+				GeoGebraElement.as(parent.getElement()),
+				parameters);
 		scaler.add(fr);
 
-		parameters.setAttribute("scaleContainerClass", "embedContainer")
+		parameters
+				.setAttribute("scaleContainerClass", "embedContainer")
 				.setAttribute("allowUpscale", "true")
 				.setAttribute("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.setAttribute("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
@@ -197,10 +200,11 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 				.setAttribute("featureSet", app.getAppletParameters().getParamFeatureSet())
 				.setAttribute("borderColor", "#CCC");
 		if (examType != null) {
-			parameters.setAttribute("appName", SUITE_APPCODE)
+			parameters
+					.setAttribute("appName", SUITE_APPCODE)
 					.setAttribute("featureSet", examType.name().toLowerCase(Locale.ROOT));
 		}
-		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
+		for (Entry<String, String> entry : drawEmbed.getGeoEmbed().getSettings()) {
 			parameters.setAttribute(entry.getKey(), entry.getValue());
 		}
 		String fileName = urls.get(drawEmbed.getEmbedID());
@@ -213,16 +217,20 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 			Map<String, Object> jsonArgument = new HashMap<>();
 			jsonArgument.put("api", exportedApi);
 			jsonArgument.put("loadedWithFile", fileName != null);
-			app.dispatchEvent(new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed())
-					.setJsonArgument(jsonArgument));
+			app.dispatchEvent(
+					new Event(EventType.EMBED_LOADED, drawEmbed.getGeoEmbed()).setJsonArgument(jsonArgument));
 		});
 		final String jsonContent = content.get(drawEmbed.getEmbedID());
 		if (SUITE_APPCODE.equals(drawEmbed.getGeoEmbed().getAppName())) {
 			parameters.setAttribute("preventFocus", "true");
 		}
 		fr.runAsyncAfterSplash();
-		fr.getApp().getKernel().getConstruction().getLabelManager().setMultiuserSuffix(
-				app.getKernel().getConstruction().getLabelManager().getMultiuserSuffix());
+		fr.getApp()
+				.getKernel()
+				.getConstruction()
+				.getLabelManager()
+				.setMultiuserSuffix(
+						app.getKernel().getConstruction().getLabelManager().getMultiuserSuffix());
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
 		addDragHandler(Js.uncheckedCast(fr.getElement()));
@@ -230,13 +238,11 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 		element.setJsEnabled(isJsEnabled(), isJsRunningEnabled());
 		AppWFull appEmbedded = fr.getApp();
 		if (fileName != null) {
-			appEmbedded.registerOpenFileListener(
-					getListener(drawEmbed, parameters, appEmbedded));
+			appEmbedded.registerOpenFileListener(getListener(drawEmbed, parameters, appEmbedded));
 			appEmbedded.getEventDispatcher().disableListeners();
 		} else if (jsonContent != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
-			appEmbedded.getGgbApi().setFileJSON(
-					Global.JSON.parse(jsonContent));
+			appEmbedded.getGgbApi().setFileJSON(Global.JSON.parse(jsonContent));
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
 			}
@@ -246,17 +252,19 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 
 	private void addDragHandler(elemental2.dom.Element element) {
 		Style evPanelStyle = ((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getCanvasElement().getParentElement().getStyle();
+				.getCanvasElement()
+				.getParentElement()
+				.getStyle();
 
-		element.addEventListener("dragstart", (event) ->
-				evPanelStyle.setProperty("pointerEvents", "none"));
+		element.addEventListener(
+				"dragstart", (event) -> evPanelStyle.setProperty("pointerEvents", "none"));
 
-		element.addEventListener("dragend", (event) ->
-				evPanelStyle.setProperty("pointerEvents", "initial"));
+		element.addEventListener(
+				"dragend", (event) -> evPanelStyle.setProperty("pointerEvents", "initial"));
 	}
 
 	private boolean hasWidgetWithId(int embedId) {
-		for (DrawWidget drawable: widgets.keySet()) {
+		for (DrawWidget drawable : widgets.keySet()) {
 			if (drawable.getEmbedID() == embedId) {
 				return true;
 			}
@@ -269,12 +277,12 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 		container.add(scaler);
 		container.getElement().addClassName("embedContainer");
 		container.getElement().addClassName("mowWidget");
-		DockPanelW panel = app.getGuiManager().getLayout().getDockManager()
-				.getPanel(App.VIEW_EUCLIDIAN);
+		DockPanelW panel =
+				app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(container);
 		// do NOT block pointerup here, it is registered on window because of capturing
-		Dom.addEventListener(container.getElement(), "pointerdown",
-				elemental2.dom.Event::stopPropagation);
+		Dom.addEventListener(
+				container.getElement(), "pointerdown", elemental2.dom.Event::stopPropagation);
 	}
 
 	private void addExtension(DrawEmbed drawEmbed, String content) {
@@ -342,8 +350,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 	 * @param element frame element
 	 */
 	public static void setDefaultReferrerPolicy(Element element) {
-		element.setAttribute("referrerpolicy",
-				"strict-origin-when-cross-origin");
+		element.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
 	}
 
 	private static FlowPanel createContainer(DrawEmbed embed, String idPrefix) {
@@ -354,11 +361,10 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 		return panel;
 	}
 
-	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
-			final AppletParameters parameters, final AppWFull fr) {
+	private static OpenFileListener getListener(
+			final DrawEmbed drawEmbed, final AppletParameters parameters, final AppWFull fr) {
 		return () -> {
-			drawEmbed.getGeoEmbed()
-					.setAppName(parameters.getDataParamAppName());
+			drawEmbed.getGeoEmbed().setAppName(parameters.getDataParamAppName());
 			fr.getEventDispatcher().enableListeners();
 			return true;
 		};
@@ -376,9 +382,9 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 		style.setProperty("transformOrigin", "0 0");
 		style.setProperty("transform", "rotate(" + drawEmbed.getGeoElement().getAngle() + "rad)");
 		if (drawEmbed.getWidth() > 0) {
-			embedElement.getGreatParent().setSize(
-					(int) drawEmbed.getWidth() + "px",
-					(int) drawEmbed.getHeight() + "px");
+			embedElement
+					.getGreatParent()
+					.setSize((int) drawEmbed.getWidth() + "px", (int) drawEmbed.getHeight() + "px");
 			// above the object canvas (50) and below MOW toolbar (51)
 			toggleBackground(embedElement, drawEmbed);
 			int contentWidth = drawEmbed.getGeoEmbed().getContentWidth();
@@ -387,11 +393,9 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 		}
 	}
 
-	private void toggleBackground(EmbedElement frame,
-			DrawWidget drawEmbed) {
+	private void toggleBackground(EmbedElement frame, DrawWidget drawEmbed) {
 		boolean background = drawEmbed.isBackground();
-		Dom.toggleClass(frame.getGreatParent(), "background",
-				background);
+		Dom.toggleClass(frame.getGreatParent(), "background", background);
 		if (!background) {
 			app.getMaskWidgets().masksToForeground();
 			frame.getGreatParent().getElement().getStyle().clearZIndex();
@@ -409,8 +413,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 	@Override
 	public void storeEmbeds() {
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
-			cache.put(entry.getKey().getEmbedID(),
-					entry.getValue());
+			cache.put(entry.getKey().getEmbedID(), entry.getValue());
 		}
 		for (EmbedElement frame : widgets.values()) {
 			frame.setVisible(false);
@@ -430,8 +433,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 		List<Integer> entries = new ArrayList<>();
 		for (Entry<Integer, EmbedElement> entry : cache.entrySet()) {
 			GeoElement geoEmbed = findById(entry.getKey());
-			DrawEmbed drawEmbed = (DrawEmbed) app.getActiveEuclidianView()
-					.getDrawableFor(geoEmbed);
+			DrawEmbed drawEmbed = (DrawEmbed) app.getActiveEuclidianView().getDrawableFor(geoEmbed);
 			if (drawEmbed != null) {
 				EmbedElement frame = entry.getValue();
 				widgets.put(drawEmbed, frame);
@@ -439,7 +441,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 				entries.add(entry.getKey());
 			}
 		}
-		for (Integer entry: entries) {
+		for (Integer entry : entries) {
 			cache.remove(entry);
 		}
 	}
@@ -450,11 +452,9 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 	 * @return GeoEmbed, if found, null otherwise
 	 */
 	public GeoElement findById(int id) {
-		Set<GeoElement> set = app.getKernel().getConstruction()
-				.getGeoSetConstructionOrder();
+		Set<GeoElement> set = app.getKernel().getConstruction().getGeoSetConstructionOrder();
 		for (GeoElement geo : set) {
-			if (geo instanceof GeoEmbed
-					&& ((GeoEmbed) geo).getEmbedID() == id) {
+			if (geo instanceof GeoEmbed && ((GeoEmbed) geo).getEmbedID() == id) {
 				return geo;
 			}
 		}
@@ -500,8 +500,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 				int id = ((GeoEmbed) geo).getEmbedID();
 				String encoded = content.get(id);
 				if (!StringUtil.empty(encoded)) {
-					((GgbFile) archiveContent).put("embed_" + id + ".json",
-							encoded);
+					((GgbFile) archiveContent).put("embed_" + id + ".json", encoded);
 				}
 			}
 		}
@@ -560,13 +559,13 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 	private void showAndSelect(final GeoEmbed ge) {
 		ge.setLabel(null);
 		app.storeUndoInfo();
-		app.invokeLater(() -> app.getActiveEuclidianView().getEuclidianController()
-				.selectAndShowSelectionUI(ge));
+		app.invokeLater(
+				() -> app.getActiveEuclidianView().getEuclidianController().selectAndShowSelectionUI(ge));
 	}
 
 	@Override
-	public void drawPreview(GGraphics2D g2, DrawEmbed drawEmbed,
-			int width, int height, double angle) {
+	public void drawPreview(
+			GGraphics2D g2, DrawEmbed drawEmbed, int width, int height, double angle) {
 		EmbedElement widget = widgets.get(drawEmbed);
 		if (widget != null) {
 			widget.drawPreview(g2, width, height, angle);
@@ -575,19 +574,18 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 
 	/**
 	 * Store undo action in undo manager
-	 * 
+	 *
 	 * @param id
 	 *            embed ID
 	 */
 	public void createUndoAction(int id) {
-		String[] args = new String[]{String.valueOf(id)};
-		app.getUndoManager().storeUndoableAction(ActionType.REDO,
-				args, ActionType.UNDO, args);
+		String[] args = new String[] {String.valueOf(id)};
+		app.getUndoManager().storeUndoableAction(ActionType.REDO, args, ActionType.UNDO, args);
 	}
 
 	private void executeAction(ActionType action, int embedId) {
 		restoreEmbeds();
-		for (Entry<DrawWidget, EmbedElement> entry: widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			if (entry.getKey().getEmbedID() == embedId) {
 				entry.getValue().executeAction(action);
 			}
@@ -636,8 +634,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 
 		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			Object api = entry.getValue().getApi();
-			if (api != null && (includeGraspableMath
-					|| entry.getValue() instanceof CalcEmbedElement)) {
+			if (api != null && (includeGraspableMath || entry.getValue() instanceof CalcEmbedElement)) {
 				jso.set(entry.getKey().getGeoElement().getLabelSimple(), api);
 			}
 		}
@@ -664,8 +661,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 	}
 
 	private boolean isJsEnabled() {
-		return !app.isByCS()
-				|| app.getLoginOperation().isTeacherLoggedIn();
+		return !app.isByCS() || app.getLoginOperation().isTeacherLoggedIn();
 	}
 
 	private boolean isJsRunningEnabled() {
@@ -771,9 +767,11 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 	}
 
 	private void onEmbedResolverRegistered(String type, EmbedResolver resolver) {
-		unresolvedEmbeds.stream().filter(embed -> embed.isTypeOf(type))
+		unresolvedEmbeds.stream()
+				.filter(embed -> embed.isTypeOf(type))
 				.forEach((embed) -> resolveAndAdd(embed, resolver));
-		unresolvedEmbeds = unresolvedEmbeds.stream().filter(embed -> !embed.isTypeOf(type))
+		unresolvedEmbeds = unresolvedEmbeds.stream()
+				.filter(embed -> !embed.isTypeOf(type))
 				.collect(Collectors.toList());
 	}
 
@@ -783,8 +781,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 			DrawEmbed drawEmbed = (DrawEmbed) view.getDrawableFor(embed);
 			if (drawEmbed != null) {
 				addExtension(drawEmbed, content);
-				CustomEmbedElement embedElement =
-						(CustomEmbedElement) widgets.get(drawEmbed);
+				CustomEmbedElement embedElement = (CustomEmbedElement) widgets.get(drawEmbed);
 				embedElement.setInnerHTML(content);
 			} else {
 				embedCustomElement(embed);
@@ -798,8 +795,7 @@ public final class EmbedManagerW implements EmbedManager, EventRenderable, Actio
 
 	@Override
 	public boolean insertEmbed(String type, String id) {
-		GeoEmbed embed =
-				new GeoEmbed(app.getKernel().getConstruction());
+		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
 		embed.setExternalProtocol(type, id);
 		embed.setEmbedId(nextID());
 		if (!hasResolverForType(type)) {

@@ -34,12 +34,9 @@ public class StyleBarTest {
 
 	@Test
 	public void updateGraphingStylebar() {
-		AppWFull app = AppMocker
-				.mockApplet(new AppletParameters("graphing"));
-		AppMocker.mockLocalization(key ->
-				"ContextMenu.Font".equals(key) ? "Font" : key);
-		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
-				app.getActiveEuclidianView(), 1);
+		AppWFull app = AppMocker.mockApplet(new AppletParameters("graphing"));
+		AppMocker.mockLocalization(key -> "ContextMenu.Font".equals(key) ? "Font" : key);
+		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);
 	}
 
@@ -53,11 +50,8 @@ public class StyleBarTest {
 
 	@Test
 	public void updateWhiteboardStylebar() {
-		AppWFull app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
-		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
-				app.getActiveEuclidianView(), 1);
+		AppWFull app = AppMocker.mockApplet(new AppletParameters("notes"));
+		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);
 	}
-
 }

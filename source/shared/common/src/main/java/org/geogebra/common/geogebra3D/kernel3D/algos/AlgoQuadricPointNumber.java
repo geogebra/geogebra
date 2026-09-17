@@ -36,17 +36,20 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 	 * @param c
 	 *            construction
 	 */
-	public AlgoQuadricPointNumber(Construction c, String label,
-			GeoPointND origin, GeoElementND secondInput, GeoNumberValue r,
+	public AlgoQuadricPointNumber(
+			Construction c,
+			String label,
+			GeoPointND origin,
+			GeoElementND secondInput,
+			GeoNumberValue r,
 			AlgoQuadricComputer computer) {
 		super(c, secondInput, r, computer);
 
 		this.origin = origin;
 
 		setInputOutput(
-				new GeoElement[] { (GeoElement) origin,
-						(GeoElement) secondInput, (GeoElement) r },
-				new GeoElement[] { getQuadric() });
+				new GeoElement[] {(GeoElement) origin, (GeoElement) secondInput, (GeoElement) r},
+				new GeoElement[] {getQuadric()});
 
 		compute();
 
@@ -79,13 +82,11 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 
 		// compute the quadric
 		getQuadric().setDefined();
-		getComputer().setQuadric(getQuadric(), origin.getInhomCoordsInD3(), d,
-				null, r, r);
-
+		getComputer().setQuadric(getQuadric(), origin.getInhomCoordsInD3(), d, null, r, r);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return origin point
 	 */
 	protected GeoPointND getOrigin() {
@@ -93,9 +94,8 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return plain name
 	 */
-	abstract protected String getPlainName();
-
+	protected abstract String getPlainName();
 }

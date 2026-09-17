@@ -68,8 +68,7 @@ public final class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCa
 	}
 
 	private void initURLChecker() {
-		if (DomGlobal.location.host != null
-				&& DomGlobal.location.host.contains("geogebra")) {
+		if (DomGlobal.location.host != null && DomGlobal.location.host.contains("geogebra")) {
 			urlChecker = new EmbedURLChecker(app.getAppletParameters().getParamBackendURL());
 		} else {
 			urlChecker = new MarvlURLChecker();
@@ -151,8 +150,7 @@ public final class EmbedFactory implements AsyncOperation<URLStatus>, MaterialCa
 		if (obj.getErrorKey() == null) {
 			GeoElement geo = createAndShowEmbeddedElement(obj.getUrl());
 			runHideCallback();
-			app.getActiveEuclidianView()
-					.getEuclidianController().selectAndShowSelectionUI(geo);
+			app.getActiveEuclidianView().getEuclidianController().selectAndShowSelectionUI(geo);
 		} else {
 			mediaInputPanel.showError(obj.getErrorKey());
 		}

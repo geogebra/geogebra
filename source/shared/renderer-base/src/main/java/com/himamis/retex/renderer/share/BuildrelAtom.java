@@ -80,8 +80,8 @@ public class BuildrelAtom extends Atom implements HasUnderOver {
 		final TeXFont tf = env.getTeXFont();
 		final int style = env.getStyle();
 		final double bigop5 = tf.getBigOpSpacing5(style);
-		final double kern = Math.max(tf.getBigOpSpacing1(style),
-				tf.getBigOpSpacing3(style) - o.getDepth());
+		final double kern =
+				Math.max(tf.getBigOpSpacing1(style), tf.getBigOpSpacing3(style) - o.getDepth());
 
 		// create vertical box
 		VerticalBox vBox = new VerticalBox();
@@ -98,8 +98,7 @@ public class BuildrelAtom extends Atom implements HasUnderOver {
 		vBox.add(new StrutBox(0., kern, 0., 0.));
 		vBox.add(b);
 
-		final double h = b.getHeight() + bigop5 + kern + o.getHeight()
-				+ o.getDepth();
+		final double h = b.getHeight() + bigop5 + kern + o.getHeight() + o.getDepth();
 		final double total = vBox.getHeight() + vBox.getDepth();
 		vBox.setHeight(h);
 		vBox.setDepth(total - h);
@@ -110,8 +109,7 @@ public class BuildrelAtom extends Atom implements HasUnderOver {
 	private static Box changeWidth(Box b, double maxWidth) {
 		if (b != null) {
 			if (Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
-				return new HorizontalBox(b, maxWidth,
-						TeXConstants.Align.CENTER);
+				return new HorizontalBox(b, maxWidth, TeXConstants.Align.CENTER);
 			} else {
 				b.setHeight(Math.max(b.getHeight(), 0.));
 				b.setDepth(Math.max(b.getDepth(), 0.));

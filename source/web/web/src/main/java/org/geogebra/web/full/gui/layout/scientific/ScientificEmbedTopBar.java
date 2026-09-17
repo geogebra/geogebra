@@ -26,13 +26,14 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public final class ScientificEmbedTopBar extends FlowPanel {
-	private final static int LEFT_PADDING_WITH_NAV_RAIL = 88;
-	private final static int LEFT_PADDING = 16;
+	private static final int LEFT_PADDING_WITH_NAV_RAIL = 88;
+	private static final int LEFT_PADDING = 16;
 	/**
 	 * Padding if floating menu is shown on top of calc.
 	 * It would be better to have the menu button in the top bar to fix centering,
 	 * but that's out of scope for APPS-6498 */
 	private static final int LEFT_PADDING_WITH_MENU = 56;
+
 	public final AppW appW;
 	private final UndoRedoProvider undoRedoProvider;
 
@@ -61,9 +62,11 @@ public final class ScientificEmbedTopBar extends FlowPanel {
 	}
 
 	private void addSettingsButton() {
-		IconButton settingsButton = new IconButton(appW, () -> appW.getDialogManager()
-				.showPropertiesDialog(OptionType.GLOBAL, null), new ImageIconSpec(
-				MaterialDesignResources.INSTANCE.gear()), "Settings");
+		IconButton settingsButton = new IconButton(
+				appW,
+				() -> appW.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null),
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.gear()),
+				"Settings");
 		settingsButton.addStyleName("settingsBtnScientific");
 		add(settingsButton);
 	}
@@ -89,8 +92,7 @@ public final class ScientificEmbedTopBar extends FlowPanel {
 	 */
 	private void updateTopBarVisibility() {
 		setVisible(appW.getAppletParameters().getDataParamShowMenuBar(false)
-				|| (appW.getAppletParameters().getDataParamShowToolBar(false)
-				&& getWidgetCount() != 0));
+				|| (appW.getAppletParameters().getDataParamShowToolBar(false) && getWidgetCount() != 0));
 	}
 
 	/**
@@ -105,8 +107,10 @@ public final class ScientificEmbedTopBar extends FlowPanel {
 	 * portrait/landscape view.
 	 */
 	public void updateUndoRedoPosition() {
-		getElement().getStyle().setPaddingLeft(appW.isPortrait() ? getPortraitPadding()
-				: LEFT_PADDING_WITH_NAV_RAIL, Unit.PX);
+		getElement()
+				.getStyle()
+				.setPaddingLeft(
+						appW.isPortrait() ? getPortraitPadding() : LEFT_PADDING_WITH_NAV_RAIL, Unit.PX);
 	}
 
 	private double getPortraitPadding() {

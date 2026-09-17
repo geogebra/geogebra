@@ -47,12 +47,12 @@ public class SmartLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public void addWindowClosingHandler(AppW app) {
-		//no close message for SMART
+		// no close message for SMART
 	}
-	
+
 	@Override
 	public void removeWindowClosingHandler() {
-		//no close message for SMART
+		// no close message for SMART
 	}
 
 	@Override
@@ -108,7 +108,8 @@ public class SmartLookAndFeel extends GLookAndFeel {
 	@Override
 	public ResourceAction getDisplayAction(ResourceAction action) {
 		return action == ResourceAction.EDIT
-				? ResourceAction.INSERT_ACTIVITY : super.getDisplayAction(action);
+				? ResourceAction.INSERT_ACTIVITY
+				: super.getDisplayAction(action);
 	}
 
 	@Override

@@ -64,7 +64,6 @@ public final class ToolbarSubmenuP extends ToolbarSubmenuW {
 	@Override
 	public void setVisible(boolean visible) {
 		setStyleName("visible", visible);
-
 	}
 
 	/**
@@ -74,5 +73,4 @@ public final class ToolbarSubmenuP extends ToolbarSubmenuW {
 		int count = this.getItemList().getWidgetCount();
 		return count;
 	}
-
 }

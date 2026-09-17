@@ -19,5 +19,4 @@ public class CommandTiny2 extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MonoScaleAtom(a, 0.6);
 	}
-
 }

@@ -30,16 +30,26 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 public class DrawEquationStub extends DrawEquation {
 
 	@Override
-	public GDimension drawEquation(App app, GeoElementND geo, GGraphics2D g2, int x, int y,
-								   String text, GFont font, boolean serif, GColor fgColor,
-								   GColor bgColor, boolean useCache, boolean updateAgain,
-								   Runnable callback) {
+	public GDimension drawEquation(
+			App app,
+			GeoElementND geo,
+			GGraphics2D g2,
+			int x,
+			int y,
+			String text,
+			GFont font,
+			boolean serif,
+			GColor fgColor,
+			GColor bgColor,
+			boolean useCache,
+			boolean updateAgain,
+			Runnable callback) {
 		return AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
 	@Override
-	public Image getCachedDimensions(String text, GeoElementND geo, GColor fgColor,
-									 GFont font, int style, int[] ret) {
+	public Image getCachedDimensions(
+			String text, GeoElementND geo, GColor fgColor, GFont font, int style, int[] ret) {
 		return null;
 	}
 

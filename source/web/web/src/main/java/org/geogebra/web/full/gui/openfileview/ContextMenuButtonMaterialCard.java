@@ -58,8 +58,7 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 * @param card
 	 *            related card
 	 */
-	public ContextMenuButtonMaterialCard(AppWFull app, Material mat,
-			MaterialCard card) {
+	public ContextMenuButtonMaterialCard(AppWFull app, Material mat, MaterialCard card) {
 		super(app);
 		this.material = mat;
 		this.card = card;
@@ -69,50 +68,52 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	@Override
 	protected void initPopup() {
 		super.initPopup();
-		Collection<ResourceAction> actions = app.getLoginOperation()
-				.getResourcesAPI().getActions(material);
-		for (ResourceAction action: actions) {
+		Collection<ResourceAction> actions =
+				app.getLoginOperation().getResourcesAPI().getActions(material);
+		for (ResourceAction action : actions) {
 			ResourceAction displayAction = app.getLAF().getDisplayAction(action);
-			addItem(getActionIcon(displayAction), loc.getMenu(displayAction.getTranslationKey()),
+			addItem(
+					getActionIcon(displayAction),
+					loc.getMenu(displayAction.getTranslationKey()),
 					() -> getCommand(displayAction));
 		}
 	}
 
 	private void getCommand(ResourceAction action) {
 		switch (action) {
-		case EDIT:
-			card.openMaterial();
-			break;
-		case INSERT_ACTIVITY:
-			insertActivity();
-			break;
-		case VIEW:
-			Browser.openWindow(GeoGebraConstants.GEOGEBRA_WEBSITE
-					+ "m/" + material.getSharingKeySafe());
-			break;
-		case COPY:
-			card.copy();
-			break;
-		case SHARE:
-			onShare();
-			break;
-		case DELETE:
-			card.onDelete();
-			break;
-		case RENAME:
-			onRename();
-			break;
+			case EDIT:
+				card.openMaterial();
+				break;
+			case INSERT_ACTIVITY:
+				insertActivity();
+				break;
+			case VIEW:
+				Browser.openWindow(
+						GeoGebraConstants.GEOGEBRA_WEBSITE + "m/" + material.getSharingKeySafe());
+				break;
+			case COPY:
+				card.copy();
+				break;
+			case SHARE:
+				onShare();
+				break;
+			case DELETE:
+				card.onDelete();
+				break;
+			case RENAME:
+				onRename();
+				break;
 		}
 		hide();
 	}
 
 	private void insertActivity() {
-		app.getLoginOperation().getResourcesAPI()
+		app.getLoginOperation()
+				.getResourcesAPI()
 				.getItem(material.getSharingKey(), new MaterialCallback() {
 
 					@Override
-					public void onLoaded(List<Material> parseResponse,
-							Pagination meta) {
+					public void onLoaded(List<Material> parseResponse, Pagination meta) {
 						String json = parseResponse.get(0).toJson().toString();
 						if (GeoGebraGlobal.getLoadWorksheet() != null) {
 							GeoGebraGlobal.getLoadWorksheet().accept(Global.JSON.parse(json));
@@ -123,13 +124,13 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 
 	private IconSpec getActionIcon(ResourceAction action) {
 		return switch (action) {
-		case EDIT -> new ImageIconSpec(MaterialDesignResources.INSTANCE.edit_black());
-		case INSERT_ACTIVITY, VIEW -> new ImageIconSpec(
-				MaterialDesignResources.INSTANCE.visibility());
-		case COPY -> generalIconResource.getImageResource(GeneralIcon.COPY);
-		case SHARE -> new ImageIconSpec(DefaultMenuIconResources.INSTANCE.exportFile());
-		case DELETE -> generalIconResource.getImageResource(GeneralIcon.DELETE);
-		case RENAME -> generalIconResource.getImageResource(GeneralIcon.RENAME);
+			case EDIT -> new ImageIconSpec(MaterialDesignResources.INSTANCE.edit_black());
+			case INSERT_ACTIVITY, VIEW ->
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.visibility());
+			case COPY -> generalIconResource.getImageResource(GeneralIcon.COPY);
+			case SHARE -> new ImageIconSpec(DefaultMenuIconResources.INSTANCE.exportFile());
+			case DELETE -> generalIconResource.getImageResource(GeneralIcon.DELETE);
+			case RENAME -> generalIconResource.getImageResource(GeneralIcon.RENAME);
 		};
 	}
 
@@ -138,19 +139,18 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 */
 	private void onShare() {
 		Material activeMaterial = app.getActiveMaterial();
-		if (activeMaterial != null && activeMaterial
-				.getSharingKeySafe().equals(material.getSharingKeySafe())) {
+		if (activeMaterial != null
+				&& activeMaterial.getSharingKeySafe().equals(material.getSharingKeySafe())) {
 			app.getShareController().share(); // make sure we save unsaved changes
 			return;
 		}
 		DialogData data = new DialogData("Share", "Cancel", "Save");
-		ShareDialogMow dialog = new ShareDialogMow(app, data,
-				app.getCurrentURL(material.getSharingKey(), true), material);
+		ShareDialogMow dialog =
+				new ShareDialogMow(app, data, app.getCurrentURL(material.getSharingKey(), true), material);
 		dialog.setCallback(new MaterialCallbackI() {
 
 			@Override
-			public void onLoaded(List<Material> result,
-					Pagination meta) {
+			public void onLoaded(List<Material> result, Pagination meta) {
 				updateCardVisibility(result);
 			}
 
@@ -177,8 +177,7 @@ public final class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	private void onRename() {
 		hide();
 		DialogData data = new DialogData("rename.resource", "Cancel", "Rename");
-		MaterialRenameDialog renameDialog = new MaterialRenameDialog(
-				app, data, card);
+		MaterialRenameDialog renameDialog = new MaterialRenameDialog(app, data, card);
 		renameDialog.show();
 	}
 

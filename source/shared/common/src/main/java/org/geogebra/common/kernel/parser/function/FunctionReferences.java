@@ -70,7 +70,10 @@ class FunctionReferences {
 		return reservedFunctions.contains(s);
 	}
 
-	void getCompletions(String prefix, Set<String> completions, Set<Operation> ops,
+	void getCompletions(
+			String prefix,
+			Set<String> completions,
+			Set<Operation> ops,
 			@Nullable OperationFilter operationFilter) {
 		for (OperationSyntax operationSyntax : syntaxes) {
 			if (operationFilter != null && !operationFilter.isAllowed(operationSyntax.operation)) {
@@ -87,9 +90,9 @@ class FunctionReferences {
 		final Operation operation;
 		final String syntax;
 
-        private OperationSyntax(Operation operation, String syntax) {
-            this.operation = operation;
-            this.syntax = syntax;
-        }
-    }
+		private OperationSyntax(Operation operation, String syntax) {
+			this.operation = operation;
+			this.syntax = syntax;
+		}
+	}
 }

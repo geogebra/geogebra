@@ -43,8 +43,7 @@ public class LabelProperty extends AbstractNamedEnumeratedProperty<Integer>
 			entry(GeoElementND.LABEL_NAME_VALUE, "NameAndValue"),
 			entry(GeoElementND.LABEL_VALUE, "Value"),
 			entry(GeoElementND.LABEL_CAPTION, "Caption"),
-			entry(GeoElementND.LABEL_CAPTION_VALUE, "CaptionAndValue")
-	);
+			entry(GeoElementND.LABEL_CAPTION_VALUE, "CaptionAndValue"));
 	private final AbstractGeoElementDelegate delegate;
 
 	/**

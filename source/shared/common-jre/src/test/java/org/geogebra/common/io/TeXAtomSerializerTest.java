@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,7 +43,7 @@ class TeXAtomSerializerTest {
 		List<Class<? extends Atom>> cls = new ArrayList<>();
 		findClasses(Paths.get("../../shared/renderer-base/src"), cls);
 		List<String> missing = new ArrayList<>();
-		for (Class<? extends Atom> clazz: cls) {
+		for (Class<? extends Atom> clazz : cls) {
 			try {
 				String s = new TeXAtomSerializer(null).serialize(mock(clazz));
 				if ("?".equals(s)) {
@@ -54,14 +54,17 @@ class TeXAtomSerializerTest {
 			}
 		}
 		Collections.sort(missing);
-		assertEquals(Arrays.asList("Atom", "CharSymbol", // abstract
-				"FixedCharAtom", // only used in dummy
-				"MhchemBondAtom"), // advanced
+		assertEquals(
+				Arrays.asList(
+						"Atom",
+						"CharSymbol", // abstract
+						"FixedCharAtom", // only used in dummy
+						"MhchemBondAtom"), // advanced
 				missing);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void findClasses(Path path, List<Class <? extends Atom>> classNames) {
+	private void findClasses(Path path, List<Class<? extends Atom>> classNames) {
 		if (Files.isDirectory(path)) {
 			try (Stream<Path> list = Files.list(path)) {
 				list.forEach(p -> findClasses(p, classNames));
@@ -69,8 +72,8 @@ class TeXAtomSerializerTest {
 				throw new RuntimeException(e);
 			}
 		} else {
-			String cname = path.toString().split(".java")[1].substring(1)
-					.replace("/", ".").replace("\\", ".");
+			String cname =
+					path.toString().split(".java")[1].substring(1).replace("/", ".").replace("\\", ".");
 			try {
 				Class<?> clazz = Class.forName(cname);
 				if (Atom.class.isAssignableFrom(clazz)) {
@@ -82,4 +85,3 @@ class TeXAtomSerializerTest {
 		}
 	}
 }
-

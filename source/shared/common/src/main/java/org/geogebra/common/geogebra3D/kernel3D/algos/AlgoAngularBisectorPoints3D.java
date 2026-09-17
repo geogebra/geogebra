@@ -44,7 +44,7 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 
 	/**
 	 * Creates new AlgoLineBisector
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -56,14 +56,14 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	 * @param C
 	 *            leg
 	 */
-	public AlgoAngularBisectorPoints3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C) {
+	public AlgoAngularBisectorPoints3D(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoPointND C) {
 		this(cons, label, A, B, C, null);
 	}
 
 	/**
 	 * Creates new AlgoLineBisector
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -77,8 +77,12 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	 * @param orientation
 	 *            direction
 	 */
-	protected AlgoAngularBisectorPoints3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C,
+	protected AlgoAngularBisectorPoints3D(
+			Construction cons,
+			String label,
+			GeoPointND A,
+			GeoPointND B,
+			GeoPointND C,
 			GeoDirectionND orientation) {
 		super(cons);
 		this.A = A;
@@ -107,7 +111,7 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	// for AlgoElement
 	/**
 	 * set input
-	 * 
+	 *
 	 * @param orientation
 	 *            orientation
 	 */
@@ -165,8 +169,7 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 		if (infiniteB) {
 			// if B is at infinity then use it for direction
 			// and midpoint(A,B) for start point
-			o.setAdd3(A.getInhomCoordsInD3(), C.getInhomCoordsInD3())
-					.mulInside3(0.5);
+			o.setAdd3(A.getInhomCoordsInD3(), C.getInhomCoordsInD3()).mulInside3(0.5);
 			d.set3(B.getCoordsInD3());
 			bisector.setCoord(o, d);
 		}
@@ -184,7 +187,7 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 
 	/**
 	 * set bisector coords when B is finite
-	 * 
+	 *
 	 * @param o
 	 *            origin
 	 * @param d
@@ -200,14 +203,13 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("AngleBisectorOfABC", A.getLabel(tpl),
-				B.getLabel(tpl), C.getLabel(tpl));
-
+		return getLoc()
+				.getPlain("AngleBisectorOfABC", A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl));
 	}
 
 	/*
 	 * @Override public boolean isLocusEquable() { return true; }
-	 * 
+	 *
 	 * public EquationElementInterface buildEquationElementForGeo(GeoElement
 	 * geo, EquationScopeInterface scope) { return
 	 * LocusEquation.eqnAngularBisectorPoints(geo, this, scope); }

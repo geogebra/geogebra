@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * @author ggb3D
- * 
+ *
  *         Creates a new GeoPolyhedron
  *
  */
@@ -69,7 +69,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			}
 			super.addOutput(geo, setDependencies);
 		}
-
 	}
 
 	@Override
@@ -97,7 +96,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			}
 			super.addOutput(geo, setDependencies);
 		}
-
 	}
 
 	@Override
@@ -105,8 +103,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		return new OutputSegmentsHandler(() -> {
 			GeoSegment3D s = new GeoSegment3D(cons);
 			if (heightChangeableParent != null) {
-				s.setChangeableParentIfNull(
-						heightChangeableParent);
+				s.setChangeableParentIfNull(heightChangeableParent);
 			}
 			return s;
 		});
@@ -120,8 +117,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 				public GeoPoint3D newElement() {
 					GeoPoint3D ret = super.newElement();
 					if (heightChangeableParent != null) {
-						ret.setChangeableParentIfNull(
-								heightChangeableParent);
+						ret.setChangeableParentIfNull(heightChangeableParent);
 					}
 					return ret;
 				}
@@ -135,7 +131,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			}
 			super.addOutput(geo, setDependencies);
 		}
-
 	}
 
 	@Override
@@ -149,7 +144,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * creates a polyhedron regarding vertices
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -157,8 +152,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * @param points
 	 *            points (base + one from top)
 	 */
-	public AlgoPolyhedronPoints(Construction c, String[] labels,
-			GeoPointND[] points) {
+	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPointND[] points) {
 		super(c);
 		init();
 
@@ -196,7 +190,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * creates a polyhedron regarding bottom face and top vertex
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -206,8 +200,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * @param point
 	 *            first vertex on top
 	 */
-	public AlgoPolyhedronPoints(Construction c, String[] labels,
-			GeoPolygon polygon, GeoPointND point) {
+	public AlgoPolyhedronPoints(
+			Construction c, String[] labels, GeoPolygon polygon, GeoPointND point) {
 		super(c);
 		init();
 
@@ -241,7 +235,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * creates a polyhedron regarding bottom face and top vertex
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -251,16 +245,16 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	 * @param height
 	 *            height
 	 */
-	public AlgoPolyhedronPoints(Construction c, String[] labels, GeoPolygon polygon,
-			NumberValue height) {
+	public AlgoPolyhedronPoints(
+			Construction c, String[] labels, GeoPolygon polygon, NumberValue height) {
 		super(c);
 		init();
 
 		// create ChangeableParent if possible
 		GeoNumeric changeableHeight = ChangeableParent.getGeoNumeric(height);
 		if (changeableHeight != null) {
-			heightChangeableParent = new ChangeableParent(changeableHeight,
-					polygon, new ExtrudeConverter(), getPolyhedron());
+			heightChangeableParent =
+					new ChangeableParent(changeableHeight, polygon, new ExtrudeConverter(), getPolyhedron());
 		}
 
 		initCoords();
@@ -309,7 +303,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	/**
 	 * augment the output size if needed (in case of undefined but labelled
 	 * outputs)
-	 * 
+	 *
 	 * @param length
 	 *            labels length
 	 */
@@ -317,10 +311,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		int n = getSideLengthFromLabelsLength(length);
 
 		if (n > outputSegmentsSide.size()) {
-			if (getBottom()
-					.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
-				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom()
-						.getParentAlgorithm();
+			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND) {
+				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom().getParentAlgorithm();
 				// if no sufficient bottom points, force augment outputs for
 				// AlgoPolygonRegular
 				int nOld = algo.getCurrentPointsLength();
@@ -343,17 +335,16 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 				}
 				updateOutput(n);
 			}
-
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param length
 	 *            labels length
 	 * @return side segments length
 	 */
-	abstract protected int getSideLengthFromLabelsLength(int length);
+	protected abstract int getSideLengthFromLabelsLength(int length);
 
 	/**
 	 * init Coords values
@@ -365,12 +356,12 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	/**
 	 * translate all output points
 	 */
-	abstract protected void updateOutputPoints();
+	protected abstract void updateOutputPoints();
 
 	/**
 	 * update output segments and parents algorithms
 	 */
-	abstract protected void updateOutputSegmentsAndPolygonsParentAlgorithms();
+	protected abstract void updateOutputSegmentsAndPolygonsParentAlgorithms();
 
 	/**
 	 * create the polyhedron (faces and edges)
@@ -381,10 +372,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		if (bottomPoints1 == null) {
 			// force polygon regular to have at least 3 points
-			if (getBottom()
-					.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
-				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom()
-						.getParentAlgorithm();
+			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND) {
+				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom().getParentAlgorithm();
 				algo.compute(3);
 				bottomPoints1 = getBottomPoints();
 				createPolyhedron(bottomPoints1);
@@ -397,7 +386,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * create the polyhedron (faces and edges) with given bottom points
-	 * 
+	 *
 	 * @param bottomPoints1
 	 *            bottom points
 	 */
@@ -405,7 +394,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * update output
-	 * 
+	 *
 	 * @param newBottomPointsLength
 	 *            new bottom points length
 	 */
@@ -413,7 +402,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * sets the bottom of the polyhedron
-	 * 
+	 *
 	 * @param polyhedron
 	 *            polyhedron
 	 */
@@ -444,7 +433,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * shift used when first top point is input
-	 * 
+	 *
 	 * @return 1 when first top point is input, 0 else
 	 */
 	protected int getShift() {
@@ -453,7 +442,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * pre computation
-	 * 
+	 *
 	 * @return true if the polyhedron is defined
 	 */
 	public boolean preCompute() {
@@ -477,17 +466,18 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		if (height != null) {
 			h = height.getDouble();
 		} else {
-			h = getTopPoint().getInhomCoordsInD3().distPlaneOriented(
-					getBottomPoints()[0].getInhomCoordsInD3(),
-					getBottom().getDirectionInD3());
+			h = getTopPoint()
+					.getInhomCoordsInD3()
+					.distPlaneOriented(
+							getBottomPoints()[0].getInhomCoordsInD3(), getBottom().getDirectionInD3());
 		}
 		updateVolume(Math.abs(h));
 		polyhedron.setOrientedHeight(h);
 
 		// if prism/pyramid is down-oriented, reverse normals for blending
 		if (height != null) {
-			boolean isBottomInverse = bottomAsInput && bottom != null
-					&& bottom.isConvexInverseDirection();
+			boolean isBottomInverse =
+					bottomAsInput && bottom != null && bottom.isConvexInverseDirection();
 			polyhedron.setReverseNormalsForDrawing(isBottomInverse ^ (height.getDouble() < 0));
 		}
 
@@ -496,7 +486,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * updates the polyhedron's volume
-	 * 
+	 *
 	 * @param heightVal
 	 *            height
 	 */
@@ -511,7 +501,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return bottom points
 	 */
 	protected GeoPointND[] getBottomPoints() {
@@ -522,7 +512,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return top point
 	 */
 	protected GeoPointND getTopPoint() {
@@ -539,7 +529,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * set visibility of output other than points
-	 * 
+	 *
 	 * @param visible
 	 *            flag
 	 */
@@ -554,12 +544,10 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			outputSegmentsTop.getElement(i).setEuclidianVisible(visible);
 		}
 		for (int i = 0; i < outputPolygonsBottom.size(); i++) {
-			outputPolygonsBottom.getElement(i).setEuclidianVisible(visible,
-					false);
+			outputPolygonsBottom.getElement(i).setEuclidianVisible(visible, false);
 		}
 		for (int i = 0; i < outputPolygonsSide.size(); i++) {
-			outputPolygonsSide.getElement(i).setEuclidianVisible(visible,
-					false);
+			outputPolygonsSide.getElement(i).setEuclidianVisible(visible, false);
 		}
 		for (int i = 0; i < outputPolygonsTop.size(); i++) {
 			outputPolygonsTop.getElement(i).setEuclidianVisible(visible, false);
@@ -592,7 +580,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	/**
 	 * set output points invisible (use for previewable)
-	 * 
+	 *
 	 * @param visible
 	 *            flag
 	 */
@@ -612,16 +600,15 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return top face
 	 */
 	public GeoPolygon getTopFace() {
 		return outputPolygonsTop.getElement(0);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            side id
 	 * @return i-th side of the prism/pyramid
@@ -638,28 +625,27 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	}
 
 	@Override
-	final protected boolean isFirstInputPointVisible() {
+	protected final boolean isFirstInputPointVisible() {
 		GeoElement point = (GeoElement) getBottomPoints()[0];
 		return point.isEuclidianVisible() && point.isLabelSet();
 	}
 
 	@Override
-	final protected boolean isFirstInputPointLabelVisible() {
+	protected final boolean isFirstInputPointLabelVisible() {
 		return ((GeoElement) getBottomPoints()[0]).getLabelVisible();
 	}
 
 	/**
 	 * if the user clicks a 2D polygon for bottom, and one of the bottom vertex
 	 * for apex, segment can be a 2D segment
-	 * 
+	 *
 	 * @param outputSegmentsHandler
 	 *            output handler
 	 * @param segment
 	 *            segment to add
 	 */
-	static protected void addToOutputIf3D(
-			OutputHandler<GeoSegment3D> outputSegmentsHandler,
-			GeoSegmentND segment) {
+	protected static void addToOutputIf3D(
+			OutputHandler<GeoSegment3D> outputSegmentsHandler, GeoSegmentND segment) {
 		if (segment instanceof GeoSegment3D) {
 			outputSegmentsHandler.addOutput((GeoSegment3D) segment, false);
 		}

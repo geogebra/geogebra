@@ -9,7 +9,7 @@ import org.freehep.graphicsio.QuadToCubicPathConstructor;
 
 /**
  * Encoder to encode "CharStrings" used in PostScript and Type 1 Fonts.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: CharstringEncoder.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
@@ -125,17 +125,17 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 	@Override
 	public void move(double x, double y) throws IOException {
 		switch (to(x, y)) {
-		case BOTH:
-			writeCommand(21);
-			break;
-		case HORIZONTAL:
-			writeCommand(22);
-			break;
-		case VERTICAL:
-			writeCommand(4);
-			break;
-		case LAST_POINT:
-			break;
+			case BOTH:
+				writeCommand(21);
+				break;
+			case HORIZONTAL:
+				writeCommand(22);
+				break;
+			case VERTICAL:
+				writeCommand(4);
+				break;
+			case LAST_POINT:
+				break;
 		}
 		super.move(x, y);
 	}
@@ -143,24 +143,24 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 	@Override
 	public void line(double x, double y) throws IOException {
 		switch (to(x, y)) {
-		case BOTH:
-			writeCommand(5);
-			break;
-		case HORIZONTAL:
-			writeCommand(6);
-			break;
-		case VERTICAL:
-			writeCommand(7);
-			break;
-		case LAST_POINT:
-			break;
+			case BOTH:
+				writeCommand(5);
+				break;
+			case HORIZONTAL:
+				writeCommand(6);
+				break;
+			case VERTICAL:
+				writeCommand(7);
+				break;
+			case LAST_POINT:
+				break;
 		}
 		super.line(x, y);
 	}
 
 	@Override
-	public void cubic(double x1, double y1, double x2, double y2, double x3,
-			double y3) throws IOException {
+	public void cubic(double x1, double y1, double x2, double y2, double x3, double y3)
+			throws IOException {
 		writePoint(x1, y1);
 		writePoint(x2, y2);
 		writePoint(x3, y3);
@@ -177,5 +177,4 @@ public class CharstringEncoder extends QuadToCubicPathConstructor {
 	public void drawPath(Shape s) throws IOException {
 		addPath(s);
 	}
-
 }

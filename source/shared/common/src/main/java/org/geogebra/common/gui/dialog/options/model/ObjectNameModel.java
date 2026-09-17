@@ -69,7 +69,6 @@ public class ObjectNameModel extends OptionsModel {
 		setNameInputHandler(new RenameInputHandler(app, null, false));
 		// DEFINITION PANEL
 		setDefInputHandler(new RedefineInputHandler(app, null, null));
-
 	}
 
 	@Override
@@ -118,10 +117,9 @@ public class ObjectNameModel extends OptionsModel {
 		}
 
 		nameInputHandler.setGeoElement(currentGeo);
-		nameInputHandler.processInput(name, handler,
-				obj -> {
-					// failure handled in resetLabel
-				});
+		nameInputHandler.processInput(name, handler, obj -> {
+			// failure handled in resetLabel
+		});
 
 		// reset label if not successful
 		resetLabel(name);
@@ -162,18 +160,17 @@ public class ObjectNameModel extends OptionsModel {
 
 	public void applyDefinitionChange(final String definition, ErrorHandler handler) {
 		if (!definition.equals(getDefText(currentGeo))) {
-			defInputHandler.processInput(definition, handler,
-					ok -> {
-						if (ok) {
-							// if succeeded, switch current geo
-							currentGeo = defInputHandler.getGeoElement();
-							app.getSelectionManager().clearSelectedGeos(false, false);
-							app.getSelectionManager().addSelectedGeo(currentGeo);
-						} else {
-							setRedefinitionFailed(true);
-						}
-						storeUndoInfo();
-					});
+			defInputHandler.processInput(definition, handler, ok -> {
+				if (ok) {
+					// if succeeded, switch current geo
+					currentGeo = defInputHandler.getGeoElement();
+					app.getSelectionManager().clearSelectedGeos(false, false);
+					app.getSelectionManager().addSelectedGeo(currentGeo);
+				} else {
+					setRedefinitionFailed(true);
+				}
+				storeUndoInfo();
+			});
 		}
 	}
 
@@ -192,8 +189,8 @@ public class ObjectNameModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
-	public void redefineCurrentGeo(GeoElementND geo, final String text,
-			final String redefinitionText, ErrorHandler handler) {
+	public void redefineCurrentGeo(
+			GeoElementND geo, final String text, final String redefinitionText, ErrorHandler handler) {
 		setBusy(true);
 
 		if (isRedefinitionFailed()) {
@@ -206,23 +203,21 @@ public class ObjectNameModel extends OptionsModel {
 
 				listener.setDefinitionText(text);
 				defInputHandler.setGeoElement(geo);
-				defInputHandler.processInput(text, handler,
-						ok -> {
-							if (ok) {
-								setCurrentGeo(defInputHandler.getGeoElement());
-								storeUndoInfo();
-							}
-						});
+				defInputHandler.processInput(text, handler, ok -> {
+					if (ok) {
+						setCurrentGeo(defInputHandler.getGeoElement());
+						storeUndoInfo();
+					}
+				});
 			}
 		} else {
 			String strDefinition = redefinitionText;
 			if (!strDefinition.equals(getDefText(geo))) {
 				defInputHandler.setGeoElement(geo);
-				defInputHandler.processInput(strDefinition, handler,
-						obj -> {
-							// TODO handle failure?
+				defInputHandler.processInput(strDefinition, handler, obj -> {
+					// TODO handle failure?
 
-						});
+				});
 				defInputHandler.setGeoElement(currentGeo);
 			}
 		}

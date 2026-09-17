@@ -40,8 +40,11 @@ public class SafeImage {
 	 * @param originalExtension extension of the original file,
 	 *          null to use the extension of {@code imageFile}
 	 */
-	public SafeImage(ArchiveEntry imageFile, SafeImageProvider provider,
-			List<ImagePreprocessor> preprocessors, FileExtensions originalExtension) {
+	public SafeImage(
+			ArchiveEntry imageFile,
+			SafeImageProvider provider,
+			List<ImagePreprocessor> preprocessors,
+			FileExtensions originalExtension) {
 		this.imageFile = imageFile;
 		this.provider = provider;
 		this.preprocessors = preprocessors;

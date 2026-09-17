@@ -37,8 +37,9 @@ public class IntersectConicsAdapter {
 	 * @return Botana polynomials
 	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
 	 */
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo, GeoConic a, GeoConic b,
-			AlgoIntersectConics algo) throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(
+			GeoElementND geo, GeoConic a, GeoConic b, AlgoIntersectConics algo)
+			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			PPolynomial[] ret = botanaPolynomials.get(geo);
 			if (ret != null) {
@@ -100,11 +101,10 @@ public class IntersectConicsAdapter {
 				if (!otherGeo.equals(geo)) {
 					botanaPolynomialsThis = new PPolynomial[3 + excludePoint];
 					botanaVarsOther = entry.getValue();
-					botanaPolynomialsThis[2 + excludePoint] = PPolynomial
-							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0],
-									botanaVarsOther[1])
+					botanaPolynomialsThis[2 + excludePoint] = PPolynomial.sqrDistance(
+									botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0], botanaVarsOther[1])
 							.multiply(new PPolynomial(new PVariable(kernel)))
-									.subtract(new PPolynomial(1));
+							.subtract(new PPolynomial(1));
 					found = true;
 				}
 			}
@@ -113,14 +113,14 @@ public class IntersectConicsAdapter {
 			}
 
 			PVariable[] vA = a.getBotanaVars(a); // 4 variables from the first
-													// circle
+			// circle
 			PVariable[] vB = b.getBotanaVars(b); // 4 variables from the first
-													// circle
+			// circle
 
-			botanaPolynomialsThis[0] = PPolynomial.equidistant(vA[2], vA[3], vA[0], vA[1],
-					botanaVarsThis[0], botanaVarsThis[1]);
-			botanaPolynomialsThis[1] = PPolynomial.equidistant(vB[2], vB[3], vB[0], vB[1],
-					botanaVarsThis[0], botanaVarsThis[1]);
+			botanaPolynomialsThis[0] =
+					PPolynomial.equidistant(vA[2], vA[3], vA[0], vA[1], botanaVarsThis[0], botanaVarsThis[1]);
+			botanaPolynomialsThis[1] =
+					PPolynomial.equidistant(vB[2], vB[3], vB[0], vB[1], botanaVarsThis[0], botanaVarsThis[1]);
 
 			if (botanaPolynomials == null) {
 				botanaPolynomials = new HashMap<>();
@@ -131,13 +131,12 @@ public class IntersectConicsAdapter {
 			 * symbolic intersection must differ from that point. See above.
 			 */
 			if (excludePoint > 0) {
-				botanaVarsOther = ((GeoPoint) algo.getPreexistPoint(0))
-						.getBotanaVars(algo.getPreexistPoint(0));
-				botanaPolynomialsThis[botanaPolynomialsThis.length - 1] = PPolynomial
-						.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0],
-								botanaVarsOther[1])
+				botanaVarsOther =
+						((GeoPoint) algo.getPreexistPoint(0)).getBotanaVars(algo.getPreexistPoint(0));
+				botanaPolynomialsThis[botanaPolynomialsThis.length - 1] = PPolynomial.sqrDistance(
+								botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0], botanaVarsOther[1])
 						.multiply(new PPolynomial(new PVariable(kernel)))
-								.subtract(new PPolynomial(1));
+						.subtract(new PPolynomial(1));
 			}
 
 			botanaPolynomials.put(geo, botanaPolynomialsThis);
@@ -173,8 +172,7 @@ public class IntersectConicsAdapter {
 			int conic1PolysNo = conic1Polys.length;
 			int conic2PolysNo = conic2Polys.length;
 
-			PPolynomial[] botanaPolynomialsThis = new PPolynomial[conic1PolysNo
-					+ conic2PolysNo];
+			PPolynomial[] botanaPolynomialsThis = new PPolynomial[conic1PolysNo + conic2PolysNo];
 
 			for (int i = 0; i < conic1PolysNo; i++) {
 				botanaPolynomialsThis[i] = conic1Polys[i]

@@ -66,8 +66,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 	private Atom superscript;
 	private TeXConstants.Align align;
 
-	public ScriptsAtom(Atom base, Atom sub, Atom sup,
-			TeXConstants.Align align) {
+	public ScriptsAtom(Atom base, Atom sub, Atom sup, TeXConstants.Align align) {
 		this.base = base;
 		subscript = sub;
 		superscript = sup;
@@ -75,8 +74,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 	}
 
 	public ScriptsAtom(Atom base, Atom sub, Atom sup, boolean left) {
-		this(base, sub, sup,
-				left ? TeXConstants.Align.LEFT : TeXConstants.Align.RIGHT);
+		this(base, sub, sup, left ? TeXConstants.Align.LEFT : TeXConstants.Align.RIGHT);
 	}
 
 	public ScriptsAtom(Atom base, Atom sub, Atom sup) {
@@ -134,8 +132,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 			return base.createBox(env);
 		} else {
 			final Atom trueBase = base.getBase();
-			if (trueBase instanceof RowAtom
-					&& ((RowAtom) trueBase).lookAtLast()) {
+			if (trueBase instanceof RowAtom && ((RowAtom) trueBase).lookAtLast()) {
 				return createBoxForRowAtom(env);
 			}
 
@@ -144,16 +141,15 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 			if (base.type_limits == TeXConstants.SCRIPT_LIMITS
 					|| (base.type_limits == TeXConstants.SCRIPT_NORMAL
 							&& style == TeXConstants.STYLE_DISPLAY)) {
-				return new BigOperatorAtom(base, subscript, superscript)
-						.createBox(env).setAtom(this);
+				return new BigOperatorAtom(base, subscript, superscript).createBox(env).setAtom(this);
 			}
 
 			final boolean it = base.setAddItalicCorrection(subscript == null);
 			Box b = base.createBox(env);
 			base.setAddItalicCorrection(it);
 
-			Box scriptspace = new StrutBox(
-					env.lengthSettings().getLength("scriptspace", env), 0., 0., 0.);
+			Box scriptspace =
+					new StrutBox(env.lengthSettings().getLength("scriptspace", env), 0., 0., 0.);
 			TeXFont tf = env.getTeXFont();
 
 			HorizontalBox hor = new HorizontalBox(b);
@@ -176,15 +172,13 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 				final CharAtom ca = (CharAtom) trueBase;
 				shiftUp = shiftDown = 0.;
 				CharFont cf = ca.getCharFont(tf);
-				if ((!ca.isMarkedAsTextSymbol() || !tf.hasSpace(cf.fontInfo))
-						&& subscript != null) {
+				if ((!ca.isMarkedAsTextSymbol() || !tf.hasSpace(cf.fontInfo)) && subscript != null) {
 					delta = tf.getChar(cf, style).getItalic();
 				}
 			} else {
-				if (trueBase instanceof SymbolAtom && trueBase
-						.getType() == TeXConstants.TYPE_BIG_OPERATOR) {
-					if (trueBase.isMathMode()
-							&& trueBase.mustAddItalicCorrection()) {
+				if (trueBase instanceof SymbolAtom
+						&& trueBase.getType() == TeXConstants.TYPE_BIG_OPERATOR) {
+					if (trueBase.isMathMode() && trueBase.mustAddItalicCorrection()) {
 						delta = trueBase.getItalic(env);
 					}
 				}
@@ -195,11 +189,9 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 			if (superscript == null) { // only subscript
 				Box x = subscript.createBox(subStyle);
 				// calculate and set shift amount
-				x.setShift(
-						Math.max(Math.max(shiftDown, tf.getSub1(style)),
-								x.getHeight() - 4. * Math
-										.abs(tf.getXHeight(style, lastFontId))
-										/ 5.));
+				x.setShift(Math.max(
+						Math.max(shiftDown, tf.getSub1(style)),
+						x.getHeight() - 4. * Math.abs(tf.getXHeight(style, lastFontId)) / 5.));
 				hor.add(x);
 
 				return hor.setAtom(this);
@@ -207,8 +199,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 				Box x = superscript.createBox(supStyle);
 				double msiz = x.getWidth();
 				if (subscript != null && align == TeXConstants.Align.RIGHT) {
-					msiz = Math.max(msiz,
-							subscript.createBox(subStyle).getWidth());
+					msiz = Math.max(msiz, subscript.createBox(subStyle).getWidth());
 				}
 
 				HorizontalBox sup = new HorizontalBox(x, msiz, align);
@@ -223,8 +214,8 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 				} else {
 					p = tf.getSup2(style);
 				}
-				shiftUp = Math.max(Math.max(shiftUp, p), x.getDepth()
-						+ Math.abs(tf.getXHeight(style, lastFontId)) / 4.);
+				shiftUp = Math.max(
+						Math.max(shiftUp, p), x.getDepth() + Math.abs(tf.getXHeight(style, lastFontId)) / 4.);
 
 				if (subscript == null) { // only superscript
 					sup.setShift(-shiftUp);
@@ -239,17 +230,15 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 					// position both sub- and superscript
 					double drt = tf.getDefaultRuleThickness(style);
 					// space between sub- en
-					double interSpace = shiftUp - x.getDepth() + shiftDown
-							- y.getHeight();
+					double interSpace = shiftUp - x.getDepth() + shiftDown - y.getHeight();
 					// superscript
 					if (interSpace < 4. * drt) { // too small
 						shiftUp += 4. * drt - interSpace;
 						// set bottom superscript at least 4/5 of X-height
 						// above
 						// baseline
-						double psi = 4.
-								* Math.abs(tf.getXHeight(style, lastFontId))
-								/ 5. - (shiftUp - x.getDepth());
+						double psi =
+								4. * Math.abs(tf.getXHeight(style, lastFontId)) / 5. - (shiftUp - x.getDepth());
 
 						if (psi > 0.) {
 							shiftUp += psi;
@@ -262,8 +251,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 					sup.setShift(delta);
 					vBox.add(sup);
 					// recalculate interspace
-					interSpace = shiftUp - x.getDepth() + shiftDown
-							- y.getHeight();
+					interSpace = shiftUp - x.getDepth() + shiftDown - y.getHeight();
 					vBox.add(new StrutBox(0., interSpace, 0., 0.));
 					vBox.add(sub);
 					vBox.setHeight(shiftUp + x.getHeight());
@@ -280,8 +268,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 		final Atom trueBase = base.getBase();
 		final RowAtom ra = (RowAtom) trueBase;
 		final Atom last = ra.last();
-		final Box b = new ScriptsAtom(last, subscript, superscript, align)
-				.createBox(env);
+		final Box b = new ScriptsAtom(last, subscript, superscript, align).createBox(env);
 		final HorizontalBox hb = new HorizontalBox(base.createBox(env));
 		if (subscript != null) {
 			final double italic = last.getItalic(env);

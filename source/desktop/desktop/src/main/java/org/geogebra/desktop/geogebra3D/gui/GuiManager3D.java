@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,9 +51,9 @@ import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Extending DefaultGuiManager class for 3D
- * 
+ *
  * @author Mathieu
- * 
+ *
  */
 public class GuiManager3D extends GuiManagerD {
 
@@ -63,20 +63,20 @@ public class GuiManager3D extends GuiManagerD {
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
 	public GuiManager3D(AppD app) {
 		super(app);
 		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false); // popups
-																			// over
-																			// the
-																			// 3D
-																			// canvas
+		// over
+		// the
+		// 3D
+		// canvas
 		javax.swing.ToolTipManager.sharedInstance()
 				.setLightWeightPopupEnabled(false); // tooltips over the 3D
-													// canvas
+		// canvas
 
 		dialogManagerFactory = new DialogManager3D.Factory();
 	}
@@ -103,54 +103,48 @@ public class GuiManager3D extends GuiManagerD {
 			return false;
 		}
 		Localization loc = getApp().getLocalization();
-		showAxes3DAction = new AbstractAction(
-				loc.getMenu("Axes"),
-				getApp().getScaledIcon(GuiResourcesD.AXES)) {
-			private static final long serialVersionUID = 1L;
+		showAxes3DAction =
+				new AbstractAction(loc.getMenu("Axes"), getApp().getScaledIcon(GuiResourcesD.AXES)) {
+					private static final long serialVersionUID = 1L;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// toggle axes
-				((App3D) getApp()).getEuclidianView3D().toggleAxis();
-				// getApp().getEuclidianView().repaint();
-				getApp().storeUndoInfo();
-				getApp().updateMenubar();
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// toggle axes
+						((App3D) getApp()).getEuclidianView3D().toggleAxis();
+						// getApp().getEuclidianView().repaint();
+						getApp().storeUndoInfo();
+						getApp().updateMenubar();
+					}
+				};
 
-			}
-		};
+		showGrid3DAction =
+				new AbstractAction(loc.getMenu("Grid"), getApp().getScaledIcon(GuiResourcesD.GRID)) {
+					private static final long serialVersionUID = 1L;
 
-		showGrid3DAction = new AbstractAction(
-				loc.getMenu("Grid"),
-				getApp().getScaledIcon(GuiResourcesD.GRID)) {
-			private static final long serialVersionUID = 1L;
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// toggle grid
+						((App3D) getApp()).getEuclidianView3D().toggleGrid();
+						// getApp().getEuclidianView().repaint();
+						getApp().storeUndoInfo();
+						getApp().updateMenubar();
+					}
+				};
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// toggle grid
-				((App3D) getApp()).getEuclidianView3D().toggleGrid();
-				// getApp().getEuclidianView().repaint();
-				getApp().storeUndoInfo();
-				getApp().updateMenubar();
+		showPlaneAction =
+				new AbstractAction(loc.getMenu("Plane"), getApp().getScaledIcon(GuiResources3D.PLANE)) {
+					private static final long serialVersionUID = 1L;
 
-			}
-		};
-
-		showPlaneAction = new AbstractAction(
-				loc.getMenu("Plane"),
-				getApp().getScaledIcon(GuiResources3D.PLANE)) {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// toggle plane
-				((App3D) getApp()).getEuclidianView3D().getSettings().togglePlane();
-				getApp().storeUndoInfo();
-				getApp().updateMenubar();
-			}
-		};
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// toggle plane
+						((App3D) getApp()).getEuclidianView3D().getSettings().togglePlane();
+						getApp().storeUndoInfo();
+						getApp().updateMenubar();
+					}
+				};
 
 		return true;
-
 	}
 
 	/**
@@ -184,29 +178,26 @@ public class GuiManager3D extends GuiManagerD {
 	/**
 	 * Displays the zoom menu at the position p in the coordinate space of
 	 * euclidianView
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param p
 	 *            zoom point
 	 */
 	@Override
-	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
-			GPoint p) {
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, GPoint p) {
 		// clear highlighting and selections in views
 		getApp().getEuclidianView3D().resetMode();
 
 		// menu for drawing pane context menu
-		ContextMenuGraphicsWindow3DD popupMenu = new ContextMenuGraphicsWindow3DD(
-				getApp());
-		popupMenu.getWrappedPopup()
-				.show(((EuclidianViewInterfaceD) view).getJPanel(), p.x, p.y);
+		ContextMenuGraphicsWindow3DD popupMenu = new ContextMenuGraphicsWindow3DD(getApp());
+		popupMenu.getWrappedPopup().show(((EuclidianViewInterfaceD) view).getJPanel(), p.x, p.y);
 	}
 
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
 	 * of the component invoker
-	 * 
+	 *
 	 * @param selectedGeos
 	 *            first geos
 	 * @param geos
@@ -217,11 +208,13 @@ public class GuiManager3D extends GuiManagerD {
 	 *            place to show the popup menu
 	 */
 	@Override
-	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, EuclidianView view, GPoint p) {
+	public void showPopupChooseGeo(
+			ArrayList<GeoElement> selectedGeos,
+			ArrayList<GeoElement> geos,
+			EuclidianView view,
+			GPoint p) {
 
-		if (selectedGeos == null || selectedGeos.isEmpty()
-				|| selectedGeos.get(0) == null) {
+		if (selectedGeos == null || selectedGeos.isEmpty() || selectedGeos.get(0) == null) {
 			return;
 		}
 
@@ -230,14 +223,12 @@ public class GuiManager3D extends GuiManagerD {
 
 		Component invoker = ((EuclidianViewInterfaceD) view).getJPanel();
 
-		Point screenPos = (invoker == null) ? new Point(0, 0)
-				: invoker.getLocationOnScreen();
+		Point screenPos = (invoker == null) ? new Point(0, 0) : invoker.getLocationOnScreen();
 		screenPos.translate(p.x, p.y);
 
-		ContextMenuGeoElementD popupMenu = new ContextMenuChooseGeoD(getApp(),
-				view, selectedGeos, geos, screenPos, p);
+		ContextMenuGeoElementD popupMenu =
+				new ContextMenuChooseGeoD(getApp(), view, selectedGeos, geos, screenPos, p);
 		popupMenu.getWrappedPopup().show(invoker, p.x, p.y);
-
 	}
 
 	// ////////////////////////////
@@ -250,13 +241,12 @@ public class GuiManager3D extends GuiManagerD {
 	}
 
 	@Override
-	protected EuclidianViewD newEuclidianView(boolean[] showAxis,
-			boolean showGrid, int viewId) {
+	protected EuclidianViewD newEuclidianView(boolean[] showAxis, boolean showGrid, int viewId) {
 
 		EuclidianSettings settings = getApp().getSettings().getEuclidian(viewId);
 
-		return new EuclidianViewFor3DD(new EuclidianControllerFor3DD(kernel),
-				showAxis, showGrid, viewId, settings);
+		return new EuclidianViewFor3DD(
+				new EuclidianControllerFor3DD(kernel), showAxis, showGrid, viewId, settings);
 	}
 
 	// ////////////////////////////
@@ -278,7 +268,6 @@ public class GuiManager3D extends GuiManagerD {
 			if (view != null && view.hasStyleBar()) {
 				view.getStyleBar().setLabels();
 			}
-
 		}
 	}
 

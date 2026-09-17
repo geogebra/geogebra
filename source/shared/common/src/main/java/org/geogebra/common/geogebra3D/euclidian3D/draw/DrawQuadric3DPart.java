@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
  * draws a quadric part
- * 
+ *
  * @author mathieu
  *
  */
@@ -46,8 +46,7 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 
 		GeoQuadric3DPart quadric = (GeoQuadric3DPart) getGeoElement();
 
-		return new double[] { quadric.getMinParameter(1),
-				quadric.getMaxParameter(1) };
+		return new double[] {quadric.getMinParameter(1), quadric.getMaxParameter(1)};
 	}
 
 	@Override
@@ -55,25 +54,25 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 
 		switch (quadric.getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
-		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
-			if (getView3D().viewChangedByZoom()) {
-				updateForItSelf();
-			}
-			break;
-		case GeoQuadricNDConstants.QUADRIC_CONE:
-			if (getView3D().viewChanged()) {
-				updateForItSelf();
-			}
-			break;
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-			if (getView3D().viewChangedByZoom()) {
-				updateForItSelf();
-			}
-			break;
+			default:
+				// do nothing
+				break;
+			case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
+			case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
+				if (getView3D().viewChangedByZoom()) {
+					updateForItSelf();
+				}
+				break;
+			case GeoQuadricNDConstants.QUADRIC_CONE:
+				if (getView3D().viewChanged()) {
+					updateForItSelf();
+				}
+				break;
+			case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+				if (getView3D().viewChangedByZoom()) {
+					updateForItSelf();
+				}
+				break;
 		}
 	}
 

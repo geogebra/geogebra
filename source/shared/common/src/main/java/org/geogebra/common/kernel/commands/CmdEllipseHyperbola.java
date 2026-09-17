@@ -29,11 +29,11 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdEllipseHyperbola extends CommandProcessor {
 	/** ellipse or hyperbola, eg GeoConicNDConstants.CONIC_HYPERBOLA */
-	final protected int type;
+	protected final int type;
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param type
@@ -45,39 +45,41 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-				return new GeoElement[] {
-						ellipseHyperbola(c.getLabel(), (GeoPointND) arg[0],
-								(GeoPointND) arg[1], (GeoNumberValue) arg[2]) };
-			} else if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2].isGeoPoint())) {
-				GeoElement[] ret = { ellipse(c.getLabel(), (GeoPointND) arg[0],
-						(GeoPointND) arg[1], (GeoPointND) arg[2]) };
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPoint())
+						&& (ok[1] = arg[1].isGeoPoint())
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+					return new GeoElement[] {
+						ellipseHyperbola(
+								c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoNumberValue) arg[2])
+					};
+				} else if ((ok[0] = arg[0].isGeoPoint())
+						&& (ok[1] = arg[1].isGeoPoint())
+						&& (ok[2] = arg[2].isGeoPoint())) {
+					GeoElement[] ret = {
+						ellipse(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2])
+					};
+					return ret;
+				} else {
+					throw argErr(c, getBadArg(ok, arg));
+				}
+
+			case 4:
+				arg = resArgs(c, info);
+
+				GeoElement[] ret = process4(c, arg, ok);
+
 				return ret;
-			} else {
-				throw argErr(c, getBadArg(ok, arg));
-			}
 
-		case 4:
-			arg = resArgs(c, info);
-
-			GeoElement[] ret = process4(c, arg, ok);
-
-			return ret;
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -92,14 +94,13 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	 *            point on ellipse
 	 * @return ellipse
 	 */
-	protected GeoElement ellipse(String label, GeoPointND a, GeoPointND b,
-			GeoPointND c) {
+	protected GeoElement ellipse(String label, GeoPointND a, GeoPointND b, GeoPointND c) {
 		return getAlgoDispatcher().ellipseHyperbola(label, a, b, c, type);
 	}
 
 	/**
 	 * process when 4 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -110,13 +111,12 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	 * @throws MyError
 	 *             in 2D, not possible with 4 args
 	 */
-	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 		throw argNumErr(c);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param a
@@ -127,8 +127,8 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	 *            value
 	 * @return ellipse/hypebola
 	 */
-	protected GeoElement ellipseHyperbola(String label, GeoPointND a,
-			GeoPointND b, GeoNumberValue v) {
+	protected GeoElement ellipseHyperbola(
+			String label, GeoPointND a, GeoPointND b, GeoNumberValue v) {
 		if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
 			return getAlgoDispatcher().hyperbola(label, a, b, v);
 		}

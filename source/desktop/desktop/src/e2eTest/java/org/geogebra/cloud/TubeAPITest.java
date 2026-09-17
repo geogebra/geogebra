@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.cloud;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,8 +48,7 @@ import org.junit.jupiter.api.Test;
 
 public class TubeAPITest {
 	public static final String circleBase64 = Base64.encodeToString(
-			UtilD.loadFileIntoByteArray("src/e2eTest/resources/circles.ggb"),
-			false);
+			UtilD.loadFileIntoByteArray("src/e2eTest/resources/circles.ggb"), false);
 	private AppDNoGui app;
 
 	@BeforeEach
@@ -93,16 +92,18 @@ public class TubeAPITest {
 		awaitValidTitlesExact("upload", titles, 2);
 	}
 
-	private void uploadMaterial(GeoGebraTubeAPID api,
-			final ArrayList<String> titles, String id, final IdCallback callback) {
+	private void uploadMaterial(
+			GeoGebraTubeAPID api, final ArrayList<String> titles, String id, final IdCallback callback) {
 
-		api.uploadMaterial(id + "", "O",
-				"testfile" + new Date() + Math.random(), circleBase64,
+		api.uploadMaterial(
+				id + "",
+				"O",
+				"testfile" + new Date() + Math.random(),
+				circleBase64,
 				new MaterialCallbackI() {
 
 					@Override
-					public void onLoaded(List<Material> result,
-							Pagination meta) {
+					public void onLoaded(List<Material> result, Pagination meta) {
 						if (result.size() > 0) {
 							for (Material m : result) {
 								titles.add(m.getTitle());
@@ -113,24 +114,21 @@ public class TubeAPITest {
 						} else {
 							titles.add("FAIL nothing uploaded");
 						}
-
 					}
 
 					@Override
 					public void onError(Throwable exception) {
 						exception.printStackTrace();
 						titles.add("FAIL " + exception.getMessage());
-
 					}
-
-				}, MaterialType.ggb, false);
+				},
+				MaterialType.ggb,
+				false);
 	}
 
-	private static void awaitValidTitlesExact(String description,
-			ArrayList<String> titles, int len) {
+	private static void awaitValidTitlesExact(String description, ArrayList<String> titles, int len) {
 		awaitValidTitles(description, titles, len);
-		assertEquals(len, titles.size(),
-				"Wrong number of " + description + " results");
+		assertEquals(len, titles.size(), "Wrong number of " + description + " results");
 	}
 
 	private static void awaitValidTitles(String description, ArrayList<String> titles, int len) {
@@ -142,8 +140,7 @@ public class TubeAPITest {
 			}
 		}
 		for (String title : titles) {
-			assertFalse(title.contains("FAIL"),
-					"Wrong " + description + " result: " + title);
+			assertFalse(title.contains("FAIL"), "Wrong " + description + " result: " + title);
 		}
 	}
 
@@ -158,8 +155,7 @@ public class TubeAPITest {
 
 	private GeoGebraTubeAPID getAuthAPI(String token) {
 		boolean isBeta = PreviewFeature.isAvailable(PreviewFeature.RESOURCES_API_BETA);
-		GeoGebraTubeAPID geoGebraTubeAPID = new GeoGebraTubeAPID(isBeta,
-				getAuthClient(null, token));
+		GeoGebraTubeAPID geoGebraTubeAPID = new GeoGebraTubeAPID(isBeta, getAuthClient(null, token));
 		updateUrls(geoGebraTubeAPID);
 		return geoGebraTubeAPID;
 	}
@@ -175,11 +171,9 @@ public class TubeAPITest {
 		return client;
 	}
 
-	private static ClientInfo getAuthClient(LogInOperation op,
-			String token) {
+	private static ClientInfo getAuthClient(LogInOperation op, String token) {
 		ClientInfo client = getClient();
-		AuthenticationModel auth = op != null ? op.getModel()
-				: new AuthenticationModelD();
+		AuthenticationModel auth = op != null ? op.getModel() : new AuthenticationModelD();
 		GeoGebraTubeUser user = new GeoGebraTubeUser(token);
 
 		user.setUserId(4951854);
@@ -187,5 +181,4 @@ public class TubeAPITest {
 		client.setModel(auth);
 		return client;
 	}
-
 }

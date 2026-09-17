@@ -32,9 +32,8 @@ class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty =
-				assertDoesNotThrow(() -> new ChartSegmentFillCategoryProperty(
-						getLocalization(), pieChart, chartSegmentSelection));
+		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(() ->
+				new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(1);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.IMAGE);
@@ -61,9 +60,8 @@ class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty =
-				assertDoesNotThrow(() -> new ChartSegmentFillCategoryProperty(
-						getLocalization(), pieChart, chartSegmentSelection));
+		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(() ->
+				new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(0);
 		chartSegmentFillCategoryProperty.setValue(FillCategory.IMAGE);
@@ -91,9 +89,8 @@ class ChartSegmentFillCategoryPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty =
-				assertDoesNotThrow(() -> new ChartSegmentFillCategoryProperty(
-						getLocalization(), pieChart, chartSegmentSelection));
+		ChartSegmentFillCategoryProperty chartSegmentFillCategoryProperty = assertDoesNotThrow(() ->
+				new ChartSegmentFillCategoryProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		pieChart.getStyle().setBarFillType(FillType.DOTTED, 1);
 		pieChart.getStyle().setBarFillType(FillType.BRICK, 2);

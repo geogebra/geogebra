@@ -31,7 +31,7 @@ public class CmdComplexRoot extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,34 +40,32 @@ public class CmdComplexRoot extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		// roots of polynomial
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isRealValuedFunction()) {
+			// roots of polynomial
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isRealValuedFunction()) {
 
-				GeoFunctionable f = (GeoFunctionable) arg[0];
+					GeoFunctionable f = (GeoFunctionable) arg[0];
 
-				// allow functions that can be simplified to factors of
-				// polynomials
-				if (!f.getConstruction().isFileLoading()
-						&& !f.isPolynomialFunction(true)) {
-					return null;
+					// allow functions that can be simplified to factors of
+					// polynomials
+					if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(true)) {
+						return null;
+					}
+
+					AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(cons, c.getLabels(), f);
+
+					return algo.getRootPoints();
 				}
+				throw argErr(c, arg[0]);
 
-				AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(
-						cons, c.getLabels(), f);
-
-				return algo.getRootPoints();
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

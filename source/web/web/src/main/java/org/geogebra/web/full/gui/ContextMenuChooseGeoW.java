@@ -50,7 +50,7 @@ public final class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private ArrayList<GeoElement> tmpAnotherMenuItemList;
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param view
@@ -62,9 +62,13 @@ public final class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	 * @param invokerLocation
 	 *            place to show
 	 */
-	public ContextMenuChooseGeoW(AppW app, EuclidianView view,
-								 ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
-								 GPoint invokerLocation, ContextMenuItemFactory factory) {
+	public ContextMenuChooseGeoW(
+			AppW app,
+			EuclidianView view,
+			ArrayList<GeoElement> selectedGeos,
+			ArrayList<GeoElement> geos,
+			GPoint invokerLocation,
+			ContextMenuItemFactory factory) {
 		super(app, selectedGeos, factory);
 		// return if just one geo, or if first geos more than one
 		if (geos.size() < 2 || selectedGeos.size() > 1) {
@@ -106,8 +110,8 @@ public final class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		addOtherItems();
 	}
 
-	private void addGeosToTmpAnotherMenuItemList(TreeSet<GeoElement> metaElements,
-			ArrayList<GeoElement> geos, GeoElement geoSelected) {
+	private void addGeosToTmpAnotherMenuItemList(
+			TreeSet<GeoElement> metaElements, ArrayList<GeoElement> geos, GeoElement geoSelected) {
 		tmpAnotherMenuItemList = new ArrayList<>();
 
 		for (GeoElement geo1 : geos) {
@@ -119,7 +123,6 @@ public final class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 				}
 			}
 		}
-
 	}
 
 	private void addMetas(GeoElement geo1, TreeSet<GeoElement> metaElements) {
@@ -136,10 +139,10 @@ public final class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			return;
 		}
 
-		AriaMenuItem mi = new AriaMenuItem(new InlineHTML(getDescription(geo, false)),
-				() -> geoActionCmd(geo));
-		mi.addDomHandler(evt -> view.getEuclidianController().doSingleHighlighting(geo),
-				MouseOverEvent.getType());
+		AriaMenuItem mi =
+				new AriaMenuItem(new InlineHTML(getDescription(geo, false)), () -> geoActionCmd(geo));
+		mi.addDomHandler(
+				evt -> view.getEuclidianController().doSingleHighlighting(geo), MouseOverEvent.getType());
 
 		selectAnotherMenu.addItem(mi);
 		if (app.isUnbundledOrWhiteboard()) {
@@ -154,12 +157,10 @@ public final class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		Localization localization = app.getLocalization();
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			selectAnotherMenuItem = new AriaMenuItem(
-					localization.getMenu("SelectAnother"), (ResourcePrototype) null,
-					selectAnotherMenu);
+					localization.getMenu("SelectAnother"), (ResourcePrototype) null, selectAnotherMenu);
 		} else {
 			selectAnotherMenuItem = new AriaMenuItem(
-					localization.getMenu("PerformToolOn"), (ResourcePrototype) null,
-					selectAnotherMenu);
+					localization.getMenu("PerformToolOn"), (ResourcePrototype) null, selectAnotherMenu);
 		}
 		wrappedPopup.addItem(selectAnotherMenuItem);
 	}

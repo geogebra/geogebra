@@ -29,7 +29,7 @@ public class FunctionVariable extends MyDouble {
 
 	/**
 	 * Creates new function variable
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,7 +39,7 @@ public class FunctionVariable extends MyDouble {
 
 	/**
 	 * Creates new function variable
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param varStr
@@ -54,18 +54,18 @@ public class FunctionVariable extends MyDouble {
 	 * Returns true to avoid deep copies in an ExpressionNode tree.
 	 */
 	@Override
-	final public boolean isConstant() {
+	public final boolean isConstant() {
 		return false;
 	}
 
 	@Override
-	final public FunctionVariable deepCopy(Kernel k) {
+	public final FunctionVariable deepCopy(Kernel k) {
 		return new FunctionVariable(k, varStr);
 	}
 
 	/**
 	 * Changes variable name
-	 * 
+	 *
 	 * @param varStr
 	 *            new variable name
 	 */
@@ -81,7 +81,7 @@ public class FunctionVariable extends MyDouble {
 	}
 
 	@Override
-	final public String toString(final StringTemplate tpl) {
+	public final String toString(final StringTemplate tpl) {
 		return tpl.printVariableName(varStr);
 	}
 
@@ -104,8 +104,7 @@ public class FunctionVariable extends MyDouble {
 	@Override
 	public ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
 		if (fv == this) {
-			return new ExpressionNode(kernel0, this, Operation.POWER,
-					new MyDouble(kernel0, 2)).divide(2);
+			return new ExpressionNode(kernel0, this, Operation.POWER, new MyDouble(kernel0, 2)).divide(2);
 		}
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
@@ -114,5 +113,4 @@ public class FunctionVariable extends MyDouble {
 	public boolean isDigits() {
 		return false;
 	}
-
 }

@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,32 +42,32 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Returns number of algos
-	 * 
+	 *
 	 * @return number of algos
 	 */
-	final public int getSize() {
+	public final int getSize() {
 		return size;
 	}
 
 	/**
 	 * Returns true iff empty
-	 * 
+	 *
 	 * @return true iff empty
 	 */
-	final public boolean isEmpty() {
+	public final boolean isEmpty() {
 		return size == 0;
 	}
 
 	/**
 	 * Inserts algo into set sorted by constructionIndex. Note: this leads to a
 	 * topological sorting of the algorithms which is important for updating.
-	 * 
+	 *
 	 * @return true = the algo was added, false = the algo was already in the
 	 *         set
 	 * @param algo
 	 *            algo to be added
 	 */
-	final public boolean add(AlgoElement algo) {
+	public final boolean add(AlgoElement algo) {
 		if (contains(algo)) {
 			return false;
 		}
@@ -179,7 +179,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Inserts all algos of set at the end of this set.
-	 * 
+	 *
 	 * @param algoSet
 	 *            set of algos to be added
 	 */
@@ -193,7 +193,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Inserts all algos of set into this set.
-	 * 
+	 *
 	 * @param algoSet
 	 *            set of algos to be added
 	 */
@@ -207,12 +207,12 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Returns true if this set contains algo.
-	 * 
+	 *
 	 * @return true iff this set contains algo.
 	 * @param algo
 	 *            algorithm
 	 */
-	final public boolean contains(AlgoElement algo) {
+	public final boolean contains(AlgoElement algo) {
 		if (size == 0 || algo == null) {
 			return false;
 		}
@@ -222,12 +222,12 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Removes algo from set.
-	 * 
+	 *
 	 * @return true if found and removed, false if not found
 	 * @param algo
 	 *            algo to be removed
 	 */
-	final public boolean remove(AlgoElement algo) {
+	public final boolean remove(AlgoElement algo) {
 		if (set == null) {
 			return false;
 		}
@@ -266,7 +266,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 	/**
 	 * Updates all algorithms of this set.
 	 */
-	final public void updateAll() {
+	public final void updateAll() {
 		Link cur = getHead();
 		while (cur != null) {
 			cur.algo.update();
@@ -276,11 +276,11 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Updates all algorithms of this set until the given algorithm is reached.
-	 * 
+	 *
 	 * @param lastAlgoToUpdate
 	 *            last algorithm to update
 	 */
-	final public void updateAllUntil(AlgoElement lastAlgoToUpdate) {
+	public final void updateAllUntil(AlgoElement lastAlgoToUpdate) {
 		Link cur = getHead();
 		while (cur != null) {
 			cur.algo.update();
@@ -294,11 +294,11 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Adds all algorithms in this set to the given collection
-	 * 
+	 *
 	 * @param collection
 	 *            collection of algorithms
 	 */
-	final public void addAllToCollection(Collection<AlgoElement> collection) {
+	public final void addAllToCollection(Collection<AlgoElement> collection) {
 		Link cur = getHead();
 		while (cur != null) {
 			collection.add(cur.algo);
@@ -308,12 +308,11 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Removes all algorithms in this set from the given collection
-	 * 
+	 *
 	 * @param collection
 	 *            collection of algorithms
 	 */
-	final public void removeAllFromCollection(
-			Collection<AlgoElement> collection) {
+	public final void removeAllFromCollection(Collection<AlgoElement> collection) {
 		Link cur = getHead();
 		while (cur != null) {
 			collection.remove(cur.algo);
@@ -329,8 +328,10 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 		Link cur = getHead();
 		while (cur != null) {
 			sb.append("\n\t");
-			sb.append(cur.algo).append(", constIndex: ")
-					.append(cur.algo.getConstructionIndex()).append(", ceID: ")
+			sb.append(cur.algo)
+					.append(", constIndex: ")
+					.append(cur.algo.getConstructionIndex())
+					.append(", ceID: ")
 					.append(cur.algo.getID());
 			cur = cur.next;
 		}
@@ -350,7 +351,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	/**
 	 * Returns iterator for this set
-	 * 
+	 *
 	 * @return iterator for this set
 	 */
 	public AlgorithmSetIterator getIterator() {

@@ -88,7 +88,7 @@ public class ChartStyle {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		GColor color = null;
 		if (hm != null) {
-			color =  (GColor) hm.get(0);
+			color = (GColor) hm.get(0);
 		}
 		if (color != null) {
 			return color;
@@ -97,8 +97,7 @@ public class ChartStyle {
 			int colorRgb = colorOrder[(numBar - 1) % colorOrder.length];
 			GColor baseColor = GColor.newColorRGB(colorRgb);
 			int overlay = (numBar - 1) / colorOrder.length;
-			return GColor.mixColors(GColor.WHITE, baseColor,
-					Math.pow(0.6, overlay), 255);
+			return GColor.mixColors(GColor.WHITE, baseColor, Math.pow(0.6, overlay), 255);
 		}
 		return null;
 	}
@@ -269,7 +268,8 @@ public class ChartStyle {
 		for (int i = 1; i <= count; i++) {
 			if (getBarColor(i) != null) {
 				startTag(sb, "barColor", i)
-						.attr("value", GColor.getColorString(getBarColor(i))).endTag();
+						.attr("value", GColor.getColorString(getBarColor(i)))
+						.endTag();
 			}
 
 			double barAlpha = getBarAlpha(i);
@@ -277,13 +277,17 @@ public class ChartStyle {
 				startTag(sb, "barAlpha", i).attr("value", barAlpha).endTag();
 			}
 			if (getBarHatchDistance(i) != -1) {
-				startTag(sb, "barHatchDistance", i).attr("value", getBarHatchDistance(i)).endTag();
+				startTag(sb, "barHatchDistance", i)
+						.attr("value", getBarHatchDistance(i))
+						.endTag();
 			}
 			if (getBarHatchAngle(i) != -1) {
 				startTag(sb, "barHatchAngle", i).attr("value", getBarHatchAngle(i)).endTag();
 			}
 			if (getBarFillType(i) != FillType.STANDARD) {
-				startTag(sb, "barFillType", i).attr("value", getBarFillType(i).ordinal()).endTag();
+				startTag(sb, "barFillType", i)
+						.attr("value", getBarFillType(i).ordinal())
+						.endTag();
 			}
 			if (getBarImage(i) != null) {
 				startTag(sb, "barImage", i).attr("value", getBarImage(i)).endTag();

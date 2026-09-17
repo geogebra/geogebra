@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * GradientFill TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: GradientFill.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -29,8 +29,7 @@ public class GradientFill extends EMFTag implements EMFConstants {
 		super(118, 1);
 	}
 
-	public GradientFill(Rectangle bounds, int mode, TriVertex[] vertices,
-			Gradient[] gradients) {
+	public GradientFill(Rectangle bounds, int mode, TriVertex[] vertices, Gradient[] gradients) {
 		this();
 		this.bounds = bounds;
 		this.mode = mode;
@@ -39,8 +38,7 @@ public class GradientFill extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		Rectangle bounds = emf.readRECTL();
 		TriVertex[] vertices = new TriVertex[emf.readDWORD()];

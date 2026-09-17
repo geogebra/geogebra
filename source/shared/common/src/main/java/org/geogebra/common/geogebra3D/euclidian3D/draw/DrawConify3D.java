@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
  * Class for extrusions
- * 
+ *
  * @author matthieu
  *
  */
@@ -36,7 +36,7 @@ public final class DrawConify3D extends DrawExtrusionOrConify3D {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPolygons
@@ -44,7 +44,8 @@ public final class DrawConify3D extends DrawExtrusionOrConify3D {
 	 * @param selectedConics
 	 *            conics
 	 */
-	public DrawConify3D(EuclidianView3D a_view3D,
+	public DrawConify3D(
+			EuclidianView3D a_view3D,
 			ArrayList<GeoPolygon> selectedPolygons,
 			ArrayList<GeoConicND> selectedConics) {
 		super(a_view3D, selectedPolygons, selectedConics);
@@ -61,5 +62,4 @@ public final class DrawConify3D extends DrawExtrusionOrConify3D {
 		return new AlgoQuadricLimitedConicHeightConeForExtrusion(
 				getView3D().getKernel().getConstruction(), null, basis, height);
 	}
-
 }

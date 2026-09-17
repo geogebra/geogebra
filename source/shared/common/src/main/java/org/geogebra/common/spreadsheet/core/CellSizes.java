@@ -32,7 +32,8 @@ public final class CellSizes {
 	 * @param customColumnWidths map {@code columnIndex => width} for columns with non-default size
 	 * @param customRowHeights map {@code rowIndex => height} for rows with non-default size
 	 */
-	public CellSizes(@NonNull Map<Integer, Double> customColumnWidths,
+	public CellSizes(
+			@NonNull Map<Integer, Double> customColumnWidths,
 			@NonNull Map<Integer, Double> customRowHeights) {
 		this.customColumnWidths = customColumnWidths;
 		this.customRowHeights = customRowHeights;

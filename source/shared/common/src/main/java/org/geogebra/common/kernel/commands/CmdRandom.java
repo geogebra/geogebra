@@ -37,7 +37,7 @@ import org.geogebra.common.plugin.Operation;
 public class CmdRandom extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -51,64 +51,56 @@ public class CmdRandom extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 0:
+			case 0:
+				GeoNumeric num = new GeoNumeric(cons, 0);
+				cons.addRandomGeo(num);
+				num.setValue(kernel.randomNumberGenerator.getRandomNumber());
+				AlgoDependentNumber algoDepNumber = new AlgoDependentNumber(
+						cons, new ExpressionNode(kernel, num, Operation.RANDOM, null), false);
+				algoDepNumber.getOutput(0).setLabel(c.getLabel());
+				return algoDepNumber.getOutput();
+			case 3:
+				arg = resArgs(c, info);
+				if (arg[2] instanceof BooleanValue) {
 
-			GeoNumeric num = new GeoNumeric(cons, 0);
-			cons.addRandomGeo(num);
-			num.setValue(kernel.randomNumberGenerator.getRandomNumber());
-			AlgoDependentNumber algoDepNumber = new AlgoDependentNumber(cons,
-					new ExpressionNode(kernel, num,
-							Operation.RANDOM, null),
-					false);
-			algoDepNumber.getOutput(0).setLabel(c.getLabel());
-			return algoDepNumber.getOutput();
-		case 3:
-			arg = resArgs(c, info);
-			if (arg[2] instanceof BooleanValue) {
+					if (((BooleanValue) arg[2]).getBoolean()) {
+						// don't pass (BooleanValue)arg[2] (dummy variable, always
+						// true)
 
-				if (((BooleanValue) arg[2]).getBoolean()) {
-					// don't pass (BooleanValue)arg[2] (dummy variable, always
-					// true)
+						AlgoRandomFixed algo = new AlgoRandomFixed(
+								cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+						GeoElement[] ret = {algo.getResult()};
 
-					AlgoRandomFixed algo = new AlgoRandomFixed(cons,
-							c.getLabel(), (GeoNumberValue) arg[0],
-							(GeoNumberValue) arg[1]);
-					GeoElement[] ret = { algo.getResult() };
+						return ret;
+					}
+					// else fall through to case 2:
 
+				} else if (arg[2] instanceof GeoNumberValue) {
+					AlgoRandomUniformList algo = new AlgoRandomList(
+							cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue)
+									arg[2]);
+					GeoElement[] ret = {algo.getResult()};
 					return ret;
+				} else {
+					throw argErr(c, arg[2]);
 				}
-				// else fall through to case 2:
-
-			} else if (arg[2] instanceof GeoNumberValue) {
-				AlgoRandomUniformList algo = new AlgoRandomList(cons,
-						c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else {
-				throw argErr(c, arg[2]);
-			}
 
 			// fall through if arg[2] == false
 
-		case 2:
-			arg = resArgs(c, info);
-			if ((arg[0] instanceof GeoNumberValue)
-					&& (arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((arg[0] instanceof GeoNumberValue) && (arg[1] instanceof GeoNumberValue)) {
 
-				AlgoRandom algo = new AlgoRandom(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
-				GeoElement[] ret = { algo.getResult() };
+					AlgoRandom algo =
+							new AlgoRandom(cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+					GeoElement[] ret = {algo.getResult()};
 
-				return ret;
+					return ret;
+				}
+				throw argErr(c, arg[0] instanceof GeoNumberValue ? arg[1] : arg[0]);
 
-			}
-			throw argErr(c,
-					arg[0] instanceof GeoNumberValue ? arg[1] : arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

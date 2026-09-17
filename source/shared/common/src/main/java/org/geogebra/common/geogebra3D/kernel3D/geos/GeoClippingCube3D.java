@@ -26,21 +26,21 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Simple geo class for clipping cube
- * 
+ *
  * @author mathieu
  *
  */
 public class GeoClippingCube3D extends GeoElement3D {
 	/** cube reduction: small */
-	final static public int REDUCTION_SMALL = 0;
+	public static final int REDUCTION_SMALL = 0;
 	/** cube reduction: medium */
-	final static public int REDUCTION_MEDIUM = 1;
+	public static final int REDUCTION_MEDIUM = 1;
 	/** cube reduction: large */
-	final static public int REDUCTION_LARGE = 2;
+	public static final int REDUCTION_LARGE = 2;
 	/** cube reduction: min */
-	final static public int REDUCTION_MIN = 0;
+	public static final int REDUCTION_MIN = 0;
 	/** cube reduction: max */
-	final static public int REDUCTION_MAX = 2;
+	public static final int REDUCTION_MAX = 2;
 
 	private int reduction = REDUCTION_MEDIUM;
 
@@ -102,7 +102,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 
 	/**
 	 * sets the reduction of the cube
-	 * 
+	 *
 	 * @param value
 	 *            reduction
 	 */
@@ -111,7 +111,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the reduction of the cube
 	 */
 	public int getReduction() {
@@ -119,7 +119,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return HitType.NONE;
 	}
 

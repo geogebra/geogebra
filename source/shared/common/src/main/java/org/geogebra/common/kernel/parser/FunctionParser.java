@@ -72,8 +72,10 @@ import com.google.j2objc.annotations.Weak;
 public class FunctionParser {
 	@Weak
 	private final Kernel kernel;
+
 	@Weak
 	private final App app;
+
 	private boolean inputBoxParsing = false;
 	private final ArrayList<ExpressionNode> multiplyOrFunctionNodes;
 
@@ -107,13 +109,13 @@ public class FunctionParser {
 			if (cell == null && geo == null && label.startsWith("log_")) {
 				indexVal = getLogIndex(label, kernel);
 				return;
-
 			}
 
 			if (cell == null && (geo == null || !hasDerivative(geo))) {
 
 				int index = funcName.length() - 1;
-				while (index >= 0 && isDerivativeChar(funcName.charAt(index))
+				while (index >= 0
+						&& isDerivativeChar(funcName.charAt(index))
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					order++;
 					index--;
@@ -147,9 +149,14 @@ public class FunctionParser {
 	 * @param nestedCommands number of commands/functions this one is nested in
 	 * @return function node
 	 */
-	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
-			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing,
-			boolean topLevelExpression, int nestedCommands) {
+	public ExpressionNode makeFunctionNode(
+			String cimage,
+			MyList myList,
+			ArrayList<ExpressionNode> undecided,
+			boolean giacParsing,
+			boolean geoGebraCASParsing,
+			boolean topLevelExpression,
+			int nestedCommands) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
 		if (giacParsing) {
@@ -166,8 +173,8 @@ public class FunctionParser {
 		boolean forceCommand = cimage.charAt(cimage.length() - 1) == '[';
 		// f(t)=t(t+1)
 		if (!forceCommand && kernel.getConstruction().isRegisteredFunctionVariable(funcName)) {
-			ExpressionNode expr = new ExpressionNode(kernel, new Variable(kernel, funcName),
-					Operation.MULTIPLY_OR_FUNCTION, myList.get(0));
+			ExpressionNode expr = new ExpressionNode(
+					kernel, new Variable(kernel, funcName), Operation.MULTIPLY_OR_FUNCTION, myList.get(0));
 			undecided.add(expr);
 			return expr;
 		}
@@ -176,8 +183,7 @@ public class FunctionParser {
 			parsedLabel.parseDerivativeLabel(funcName);
 		}
 		if (parsedLabel.indexVal != null) {
-			return new ExpressionNode(kernel, parsedLabel.indexVal, Operation.LOGB,
-					myList.get(0));
+			return new ExpressionNode(kernel, parsedLabel.indexVal, Operation.LOGB, myList.get(0));
 		}
 		String label = parsedLabel.label;
 		GeoElement geo = parsedLabel.geo;
@@ -193,8 +199,8 @@ public class FunctionParser {
 				return multiplication(pi, undecided, myList, funcName);
 			}
 			if (myList.size() == 1) {
-				ExpressionNode splitCommand = makeSplitCommand(funcName,
-						myList.get(0), giacParsing || geoGebraCASParsing);
+				ExpressionNode splitCommand =
+						makeSplitCommand(funcName, myList.get(0), giacParsing || geoGebraCASParsing);
 				if (splitCommand != null) {
 					return splitCommand;
 				}
@@ -202,7 +208,8 @@ public class FunctionParser {
 			Localization loc = kernel.getLocalization();
 			if (!inputBoxParsing || "If".equals(loc.getReverseCommand(funcName))) {
 				if (!isCommand(funcName)
-						&& !forceCommand && funcName.length() == 1
+						&& !forceCommand
+						&& funcName.length() == 1
 						&& nestedCommands < 1
 						&& kernel.getAlgebraProcessor().enableStructures()) {
 					if (topLevelExpression) {
@@ -213,9 +220,10 @@ public class FunctionParser {
 						}
 					}
 					if (kernel.getSymbolicMode() == SymbolicMode.NONE
-							&& !geoGebraCASParsing && myList.size() == 1) {
-						return new ExpressionNode(kernel, new Variable(kernel, funcName),
-								Operation.MULTIPLY,	myList.get(0));
+							&& !geoGebraCASParsing
+							&& myList.size() == 1) {
+						return new ExpressionNode(
+								kernel, new Variable(kernel, funcName), Operation.MULTIPLY, myList.get(0));
 					}
 				}
 
@@ -231,48 +239,47 @@ public class FunctionParser {
 		if (cell != null && parsedLabel.order > 0) {
 
 			return derivativeNode(kernel, cell, parsedLabel.order, false, myList.getItem(0));
-
 		}
 		boolean list = geo != null && geo.isGeoList();
 		// f(t):=(t,t) produces line, we do not want CAS to use that line
 		// Perhaps we should prefer cell over geo in all cases ?
-		if (cell != null && (geo == null || geo.isGeoLine() || geo.isGeoConic()
-				|| geo.isGeoSurfaceCartesian() || list)) {
+		if (cell != null
+				&& (geo == null
+						|| geo.isGeoLine()
+						|| geo.isGeoConic()
+						|| geo.isGeoSurfaceCartesian()
+						|| list)) {
 			if (cell.getFunctionVariables().length < 2) {
 				Operation operation = list ? Operation.ELEMENT_OF : Operation.FUNCTION;
 				if (geo != null && geo.isGeoSurfaceCartesian() && myList.size() == 1) {
 					operation = Operation.VEC_FUNCTION;
 				}
-				return new ExpressionNode(kernel, cell,
-						operation,
-						list ? myList : myList.get(0));
+				return new ExpressionNode(kernel, cell, operation, list ? myList : myList.get(0));
 			}
-			return new ExpressionNode(kernel, cell,
-					list ? Operation.ELEMENT_OF : Operation.FUNCTION_NVAR, myList);
-
+			return new ExpressionNode(
+					kernel, cell, list ? Operation.ELEMENT_OF : Operation.FUNCTION_NVAR, myList);
 		}
 		// create variable object for label to make sure
 		// to handle labels like $A$1 correctly and keep the expression
 		Variable geoVar = new Variable(kernel, label);
-		ExpressionValue geoExp = geoVar.resolveAsExpressionValue(SymbolicMode.NONE,
-				false, !inputBoxParsing);
+		ExpressionValue geoExp =
+				geoVar.resolveAsExpressionValue(SymbolicMode.NONE, false, !inputBoxParsing);
 		// number of arguments
 
 		if (parsedLabel.order > 0) {
 			// n-th derivative of geo function
 			if (hasDerivative(geo)) {
-				ExpressionValue varString = geo.isGeoConic() ? ((GeoConic) geo).getFunction()
-						: geo;
+				ExpressionValue varString = geo.isGeoConic() ? ((GeoConic) geo).getFunction() : geo;
 				registerFunctionVars((VarString) varString);
-				return derivativeNode(kernel, geoExp, parsedLabel.order, geo.isGeoCurveCartesian(),
-						myList.get(0));
+				return derivativeNode(
+						kernel, geoExp, parsedLabel.order, geo.isGeoCurveCartesian(), myList.get(0));
 			}
 			throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected, funcName);
-
 		}
 		if (geo instanceof GeoFunctionNVar) {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR, myList);
-		} if (geo instanceof GeoSymbolic) {
+		}
+		if (geo instanceof GeoSymbolic) {
 			Operation operation = getOperationFor((GeoSymbolic) geo);
 			boolean extract = operation == Operation.MULTIPLY || operation == Operation.FUNCTION;
 			return new ExpressionNode(kernel, geoExp, operation, extract ? myList.get(0) : myList);
@@ -289,8 +296,7 @@ public class FunctionParser {
 			// vector function
 			// at this point we have eg myList={{1,2}}, so we need first element
 			// of myList
-			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION,
-					myList.get(0));
+			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION, myList.get(0));
 		} else if (geo != null && geo.isGeoSurfaceCartesian()) {
 			ExpressionValue vecArg = myList;
 			if (myList.size() == 1 && !(myList.getItem(0) instanceof ListValue)) {
@@ -305,8 +311,12 @@ public class FunctionParser {
 		if (inputBoxParsing && geoExp.wrap().getRight() instanceof Evaluatable) {
 			ExpressionValue left = geoExp.wrap().getLeft();
 
-			return new ExpressionNode(kernel, geoExp.wrap().getRight(),
-					Operation.FUNCTION, toFunctionArgument(myList, funcName)).multiply(left);
+			return new ExpressionNode(
+							kernel,
+							geoExp.wrap().getRight(),
+							Operation.FUNCTION,
+							toFunctionArgument(myList, funcName))
+					.multiply(left);
 		}
 
 		// a(b) becomes a*b because a is not a function, no list, and no curve
@@ -314,8 +324,8 @@ public class FunctionParser {
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
-	private ExpressionNode checkPointFunctions(String funcName, MyList myList,
-			boolean topLevelExpression) {
+	private ExpressionNode checkPointFunctions(
+			String funcName, MyList myList, boolean topLevelExpression) {
 		if ("$point".equals(funcName) || "$pointAt".equals(funcName)) {
 			return asPoint(myList);
 		}
@@ -339,12 +349,9 @@ public class FunctionParser {
 
 	private ExpressionNode asPoint(MyList myList) {
 		if (myList.size() == 2) {
-			return new MyVecNode(kernel,
-					myList.get(0), myList.get(1)).wrap();
+			return new MyVecNode(kernel, myList.get(0), myList.get(1)).wrap();
 		} else if (myList.size() == 3) {
-			return new MyVec3DNode(kernel,
-					myList.get(0), myList.get(1),
-					myList.get(2)).wrap();
+			return new MyVec3DNode(kernel, myList.get(0), myList.get(1), myList.get(2)).wrap();
 		}
 		return null;
 	}
@@ -357,15 +364,16 @@ public class FunctionParser {
 		if (variableCount > 0) {
 			return Operation.FUNCTION_NVAR;
 		}
-		return symbolic.getTwinGeo() instanceof GeoList	? Operation.ELEMENT_OF : Operation.MULTIPLY;
+		return symbolic.getTwinGeo() instanceof GeoList ? Operation.ELEMENT_OF : Operation.MULTIPLY;
 	}
 
 	private void registerFunctionVars(VarString geo) {
 		if (!kernel.getConstruction().hasRegisteredFunctionVariable()
 				&& geo.getFunctionVariables() != null) {
-			kernel.getConstruction()
-					.registerFunctionVariable(geo.getFunctionVariables()[0]
-							.toString(StringTemplate.defaultTemplate));
+			kernel
+					.getConstruction()
+					.registerFunctionVariable(
+							geo.getFunctionVariables()[0].toString(StringTemplate.defaultTemplate));
 		}
 	}
 
@@ -373,25 +381,24 @@ public class FunctionParser {
 		return ch == '\'' || ch == '\u2018' || ch == '\u2019';
 	}
 
-	private ExpressionNode makeSplitCommand(String funcName, ExpressionValue arg,
-			boolean casParsing) {
-		if (!casParsing
-				&& !kernel.getLoadingMode()
-				&& !isCommand(funcName)) {
+	private ExpressionNode makeSplitCommand(
+			String funcName, ExpressionValue arg, boolean casParsing) {
+		if (!casParsing && !kernel.getLoadingMode() && !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
 			replacer.setMultipleUnassignedAllowed(inputBoxParsing);
 			String dummyArgName = Unicode.CURRENCY_EURO + "";
-			ExpressionNode exprWithDummyArg = replacer.replace(funcName + dummyArgName).wrap();
+			ExpressionNode exprWithDummyArg =
+					replacer.replace(funcName + dummyArgName).wrap();
 			if (exprWithDummyArg.getOperation() == Operation.MULTIPLY
 					&& (Operation.isSimpleFunction(exprWithDummyArg.getRightTree().getOperation())
-					|| exprWithDummyArg.getRightTree().getOperation() == Operation.LOGB)) {
+							|| exprWithDummyArg.getRightTree().getOperation() == Operation.LOGB)) {
 				if (exprWithDummyArg.getOperation() == Operation.MULTIPLY) {
 					// MULTIPLY_OR_FUNCTION is handled correctly when followed by power
 					exprWithDummyArg.setOperation(Operation.MULTIPLY_OR_FUNCTION);
 					multiplyOrFunctionNodes.add(exprWithDummyArg);
 				}
-				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
-						.getReplacer(dummyArgName, arg, kernel);
+				Traversing.VariableReplacer dummyArgReplacer =
+						Traversing.VariableReplacer.getReplacer(dummyArgName, arg, kernel);
 				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
 			}
 		}
@@ -426,15 +433,16 @@ public class FunctionParser {
 		if (geo == null) {
 			return false;
 		}
-		return geo.isGeoFunction() || geo.isGeoCurveCartesian() || (geo instanceof GeoSymbolic)
+		return geo.isGeoFunction()
+				|| geo.isGeoCurveCartesian()
+				|| (geo instanceof GeoSymbolic)
 				|| (geo.isGeoConic() && ((GeoConic) geo).getFunction().isDefined());
 	}
 
-	private ExpressionNode multiplication(ExpressionValue geoExp,
-			ArrayList<ExpressionNode> undecided, MyList myList, String funcName) {
+	private ExpressionNode multiplication(
+			ExpressionValue geoExp, ArrayList<ExpressionNode> undecided, MyList myList, String funcName) {
 		ExpressionValue right = toFunctionArgument(myList, funcName);
-		ExpressionNode expr = new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION,
-				right);
+		ExpressionNode expr = new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION, right);
 		if (!kernel.getAlgebraProcessor().enableStructures() && right instanceof MyVecNDNode) {
 			throw new MyError(kernel.getLocalization(), Errors.InvalidInput);
 		}
@@ -467,17 +475,14 @@ public class FunctionParser {
 
 	private ExpressionValue toFunctionArgument(MyList list, String funcName) {
 		switch (list.size()) {
-		case 1:
-			return list.get(0);
-		case 2:
-			return new MyVecNode(kernel, list.get(0), list.get(1));
-		case 3:
-			return new MyVec3DNode(kernel, list.get(0), list.get(1),
-					list.get(2));
-
+			case 1:
+				return list.get(0);
+			case 2:
+				return new MyVecNode(kernel, list.get(0), list.get(1));
+			case 3:
+				return new MyVec3DNode(kernel, list.get(0), list.get(1), list.get(2));
 		}
 		throw new MyParseError(kernel.getLocalization(), Errors.FunctionExpected, funcName);
-
 	}
 
 	/**
@@ -489,22 +494,23 @@ public class FunctionParser {
 	 */
 	public ExpressionNode buildOpNode(Operation op, MyList list) {
 		switch (list.size()) {
-		case 1:
-			return new ExpressionNode(kernel, list.get(0), op, null);
-		case 2:
-			return new ExpressionNode(kernel, list.get(0), op, list.get(1));
-		// for beta regularized
-		case 3:
-			return new ExpressionNode(kernel,
-					new MyNumberPair(kernel, list.get(0), list.get(1)), op,
-					list.get(2));
-		// for sum (from CAS)
-		case 4:
-			return new ExpressionNode(kernel,
-					new MyNumberPair(kernel, list.get(0), list.get(1)), op,
-					new MyNumberPair(kernel, list.get(2), list.get(3)));
-		default:
-			return null;
+			case 1:
+				return new ExpressionNode(kernel, list.get(0), op, null);
+			case 2:
+				return new ExpressionNode(kernel, list.get(0), op, list.get(1));
+			// for beta regularized
+			case 3:
+				return new ExpressionNode(
+						kernel, new MyNumberPair(kernel, list.get(0), list.get(1)), op, list.get(2));
+			// for sum (from CAS)
+			case 4:
+				return new ExpressionNode(
+						kernel,
+						new MyNumberPair(kernel, list.get(0), list.get(1)),
+						op,
+						new MyNumberPair(kernel, list.get(2), list.get(3)));
+			default:
+				return null;
 		}
 	}
 
@@ -521,11 +527,15 @@ public class FunctionParser {
 	 *            function argument
 	 * @return expression for geo'''(functionArgument)
 	 */
-	public static ExpressionNode derivativeNode(Kernel kernel, ExpressionValue geo, int order,
-			boolean curve, ExpressionValue functionArgument) {
+	public static ExpressionNode derivativeNode(
+			Kernel kernel,
+			ExpressionValue geo,
+			int order,
+			boolean curve,
+			ExpressionValue functionArgument) {
 
-		ExpressionValue left = new ExpressionNode(kernel, geo, Operation.DERIVATIVE,
-				new MyDouble(kernel, order));
+		ExpressionValue left =
+				new ExpressionNode(kernel, geo, Operation.DERIVATIVE, new MyDouble(kernel, order));
 		Operation operation = curve ? Operation.VEC_FUNCTION : Operation.FUNCTION;
 		return new ExpressionNode(kernel, left, operation, functionArgument);
 	}
@@ -541,19 +551,24 @@ public class FunctionParser {
 	 * @param forceAssignment if ":=" was used instead of "="
 	 * @return assignment or equation
 	 */
-	public ExpressionNode assignment(ExpressionNode rhs, String funLabel, List<String> localVars,
-			ExpressionValue condition, boolean forceAssignment) {
+	public ExpressionNode assignment(
+			ExpressionNode rhs,
+			String funLabel,
+			List<String> localVars,
+			ExpressionValue condition,
+			boolean forceAssignment) {
 		ExpressionNode rhsWithCondition = rhs;
 		if (condition != null) {
-			rhsWithCondition = new ExpressionNode(kernel, condition,
-					Operation.IF_SHORT, rhsWithCondition);
+			rhsWithCondition =
+					new ExpressionNode(kernel, condition, Operation.IF_SHORT, rhsWithCondition);
 		}
 		return assignment(rhsWithCondition, funLabel, localVars, forceAssignment);
 	}
 
-	private ExpressionNode assignment(ExpressionNode rhs, String funLabel, List<String> localVars,
-				boolean forceAssignment) {
-		if  (!kernel.getLoadingMode() && !forceAssignment
+	private ExpressionNode assignment(
+			ExpressionNode rhs, String funLabel, List<String> localVars, boolean forceAssignment) {
+		if (!kernel.getLoadingMode()
+				&& !forceAssignment
 				&& kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
 			// Command mistaken for function label - force equation (only on creation)
 			if (isCommand(funLabel)) {
@@ -567,8 +582,12 @@ public class FunctionParser {
 			if (parsedLabel.order > 0) {
 				if (hasDerivative(parsedLabel.geo)) { // function
 					registerFunctionVars((VarString) parsedLabel.geo);
-					ExpressionNode lhs = derivativeNode(kernel, parsedLabel.geo, parsedLabel.order,
-							false, new FunctionVariable(kernel, localVars.get(0)));
+					ExpressionNode lhs = derivativeNode(
+							kernel,
+							parsedLabel.geo,
+							parsedLabel.order,
+							false,
+							new FunctionVariable(kernel, localVars.get(0)));
 					return new Equation(kernel, lhs, rhs).wrap();
 				}
 			}
@@ -588,20 +607,20 @@ public class FunctionParser {
 		Operation op = getOperation(funLabel, n);
 		if (op != null) {
 			if (n == 1) {
-				return new Equation(kernel,
-						new FunctionVariable(kernel, localVars.get(0)).wrap().apply(op), rhs)
-								.wrap();
+				return new Equation(
+								kernel, new FunctionVariable(kernel, localVars.get(0)).wrap().apply(op), rhs)
+						.wrap();
 			}
 			MyList vars = createListOfVariables(localVars, FunctionVariable::new);
 			return new Equation(kernel, buildOpNode(op, vars), rhs).wrap();
 		}
 		GeoElement existing = kernel.lookupLabel(funLabel);
-		if (existing instanceof GeoSymbolic && functionVariablesAreEqual(
-				((GeoSymbolic) existing).getFunctionVariables(), localVars)) {
+		if (existing instanceof GeoSymbolic
+				&& functionVariablesAreEqual(((GeoSymbolic) existing).getFunctionVariables(), localVars)) {
 			ExpressionNode lhs = null;
 			if (localVars.size() == 1) {
-				lhs = new ExpressionNode(kernel, existing, Operation.FUNCTION,
-						new FunctionVariable(kernel, localVars.get(0)));
+				lhs = new ExpressionNode(
+						kernel, existing, Operation.FUNCTION, new FunctionVariable(kernel, localVars.get(0)));
 
 			} else { // assume localVars.size() > 1
 				MyList argList = createListOfVariables(localVars, FunctionVariable::new);
@@ -625,8 +644,8 @@ public class FunctionParser {
 	 * @param constructor Constructor for either a {@link FunctionVariable} or a {@link Variable}
 	 * @return A list of FunctionVariables or Variables, depending on the constructor used
 	 */
-	private MyList createListOfVariables(List<String> localVars,
-			BiFunction<Kernel, String, ExpressionValue> constructor) {
+	private MyList createListOfVariables(
+			List<String> localVars, BiFunction<Kernel, String, ExpressionValue> constructor) {
 		MyList vars = new MyList(kernel, localVars.size());
 		for (String var : localVars) {
 			vars.addListElement(constructor.apply(kernel, var));
@@ -657,29 +676,38 @@ public class FunctionParser {
 	 *            argument
 	 * @return sin^2(x) or x^2*(x+1)
 	 */
-	final public ExpressionNode handleTrigPower(String image, ValidExpression en) {
+	public final ExpressionNode handleTrigPower(String image, ValidExpression en) {
 		int pos = image.length() - 2;
-		while (pos >= 0 && (Unicode.isSuperscriptDigit(image.charAt(pos))
-				|| Unicode.SUPERSCRIPT_MINUS == image.charAt(pos))) {
+		while (pos >= 0
+				&& (Unicode.isSuperscriptDigit(image.charAt(pos))
+						|| Unicode.SUPERSCRIPT_MINUS == image.charAt(pos))) {
 			pos--;
 		}
 		String operation = image.substring(0, pos + 1);
 		String power = image.substring(pos + 1, image.length() - 1);
-		if ("x".equals(operation) || "y".equals(operation)
-				|| "z".equals(operation)) {
-			return new ExpressionNode(kernel,
-					new ExpressionNode(kernel,
+		if ("x".equals(operation) || "y".equals(operation) || "z".equals(operation)) {
+			return new ExpressionNode(
+					kernel,
+					new ExpressionNode(
+							kernel,
 							new FunctionVariable(kernel, operation),
-							Operation.POWER, convertIndexToNumber(power)),
-					Operation.MULTIPLY_OR_FUNCTION, en);
+							Operation.POWER,
+							convertIndexToNumber(power)),
+					Operation.MULTIPLY_OR_FUNCTION,
+					en);
 		}
 		GeoElement ge = kernel.lookupLabel(operation);
 		Operation type = getOperation(operation, 1);
 		if (ge != null || type == null) {
-			return new ExpressionNode(kernel,
-					new ExpressionNode(kernel, new Variable(kernel, operation),
-							Operation.POWER, convertIndexToNumber(power)),
-					Operation.MULTIPLY_OR_FUNCTION, en);
+			return new ExpressionNode(
+					kernel,
+					new ExpressionNode(
+							kernel,
+							new Variable(kernel, operation),
+							Operation.POWER,
+							convertIndexToNumber(power)),
+					Operation.MULTIPLY_OR_FUNCTION,
+					en);
 		}
 
 		// sin^(-1)(x) -> arcsin(x), log^(-1)(x) -> (log(x))^(-1)
@@ -687,8 +715,10 @@ public class FunctionParser {
 			return minusFirstPower(type, en);
 		}
 
-		return new ExpressionNode(kernel,
-				new ExpressionNode(kernel, en, type, null), Operation.POWER,
+		return new ExpressionNode(
+				kernel,
+				new ExpressionNode(kernel, en, type, null),
+				Operation.POWER,
 				convertIndexToNumber(power));
 	}
 
@@ -699,7 +729,7 @@ public class FunctionParser {
 	 *            superscript text
 	 * @return number
 	 */
-	final public MyDouble convertIndexToNumber(String str) {
+	public final MyDouble convertIndexToNumber(String str) {
 		int val = StringUtil.indexToNumber(str);
 		return new MySpecialDouble(kernel, val, String.valueOf(val));
 	}
@@ -715,8 +745,11 @@ public class FunctionParser {
 	 *            whether this is from GIAC
 	 * @return product of factors
 	 */
-	public ExpressionValue multiplySpecial(ExpressionValue left,
-			ExpressionValue right, boolean giacParsing, boolean geogebraCasParsing) {
+	public ExpressionValue multiplySpecial(
+			ExpressionValue left,
+			ExpressionValue right,
+			boolean giacParsing,
+			boolean geogebraCasParsing) {
 
 		String leftImg;
 		App app = kernel.getApplication();
@@ -729,14 +762,11 @@ public class FunctionParser {
 			if (op != null) {
 				return new ExpressionNode(kernel, right, op, null);
 			}
-			if (leftImg.startsWith("log_")
-					&& kernel.lookupLabel(leftImg) == null) {
-				ExpressionValue index = FunctionParser.getLogIndex(leftImg,
-						kernel);
+			if (leftImg.startsWith("log_") && kernel.lookupLabel(leftImg) == null) {
+				ExpressionValue index = FunctionParser.getLogIndex(leftImg, kernel);
 
 				if (index != null) {
-					return new ExpressionNode(kernel, index, Operation.LOGB,
-							right);
+					return new ExpressionNode(kernel, index, Operation.LOGB, right);
 				}
 			}
 			ExpressionNode splitFunctionExp = makeSplitCommand(leftImg, right, giacParsing);
@@ -747,52 +777,46 @@ public class FunctionParser {
 		} else if (left instanceof ExpressionNode
 				&& ((ExpressionNode) left).getOperation() == Operation.POWER
 				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
-			leftImg = ((ExpressionNode) left).getLeft()
-					.toString(StringTemplate.defaultTemplate);
+			leftImg = ((ExpressionNode) left).getLeft().toString(StringTemplate.defaultTemplate);
 			Operation op = app.getParserFunctions(inputBoxParsing).getSingleArgumentOp(leftImg);
 			if (op != null) {
-				ExpressionValue exponent = ((ExpressionNode) left).getRight()
-						.unwrap();
+				ExpressionValue exponent = ((ExpressionNode) left).getRight().unwrap();
 				return inverseOrPower(op, right, exponent);
 
 			} else {
-				ExpressionNode splitCommand = makeSplitCommand(leftImg, right,
-						giacParsing || geogebraCasParsing);
+				ExpressionNode splitCommand =
+						makeSplitCommand(leftImg, right, giacParsing || geogebraCasParsing);
 				if (splitCommand != null) {
-					ExpressionValue exponent = ((ExpressionNode) left).getRight()
-							.unwrap();
+					ExpressionValue exponent = ((ExpressionNode) left).getRight().unwrap();
 					return buildTrigPower(splitCommand, exponent);
 				}
 			}
 			// x * sin x in GGB is function applied on the right if "sin" is not
 			// a variable
 			// a * b * f -- check if b*f needs special handling
-		} else if (left instanceof ExpressionNode && (((ExpressionNode) left)
-				.getOperation() == Operation.MULTIPLY)) {
+		} else if (left instanceof ExpressionNode
+				&& (((ExpressionNode) left).getOperation() == Operation.MULTIPLY)) {
 			ExpressionValue bf = multiplySpecial(
-					((ExpressionNode) left).getRight(), right,
-					giacParsing, geogebraCasParsing);
-			return bf == null ? null
-					: new ExpressionNode(kernel,
-					((ExpressionNode) left).getLeft(),
-					Operation.MULTIPLY, bf);
+					((ExpressionNode) left).getRight(), right, giacParsing, geogebraCasParsing);
+			return bf == null
+					? null
+					: new ExpressionNode(kernel, ((ExpressionNode) left).getLeft(), Operation.MULTIPLY, bf);
 			// +-b * f is parsed as (b +- ()) *f
 		} else if (left instanceof ExpressionNode
 				&& (((ExpressionNode) left).getOperation() == Operation.PLUSMINUS)
 				&& (((ExpressionNode) left).getRight() instanceof MyNumberPair)) {
-			ExpressionValue bf = multiplySpecial(((ExpressionNode) left).getLeft(), right,
-					giacParsing, geogebraCasParsing);
-			return bf == null ? null
-					: new ExpressionNode(kernel, bf, Operation.PLUSMINUS,
-					((ExpressionNode) left).getRight());
+			ExpressionValue bf = multiplySpecial(
+					((ExpressionNode) left).getLeft(), right, giacParsing, geogebraCasParsing);
+			return bf == null
+					? null
+					: new ExpressionNode(kernel, bf, Operation.PLUSMINUS, ((ExpressionNode) left).getRight());
 		}
 
 		if (giacParsing) {
 			// (a)(b) in Giac is function application
 			if (left instanceof Variable) {
-				Command ret = new Command(kernel,
-						left.toString(StringTemplate.defaultTemplate), true,
-						true);
+				Command ret =
+						new Command(kernel, left.toString(StringTemplate.defaultTemplate), true, true);
 				ret.addArgument(right.wrap());
 				return ret;
 				// c*(a)(b) in Giac: function applied on right subtree
@@ -801,28 +825,25 @@ public class FunctionParser {
 		return null;
 	}
 
-	private ExpressionValue inverseOrPower(Operation op, ExpressionValue right,
-			ExpressionValue exponent) {
+	private ExpressionValue inverseOrPower(
+			Operation op, ExpressionValue right, ExpressionValue exponent) {
 		if (right.isOperation(Operation.POWER)
 				&& !right.wrap().hasBrackets()
 				&& right.wrap().getLeftTree().hasBrackets()) {
 			ExpressionValue base = inverseOrPower(op, right.wrap().getLeft(), exponent);
 			return new ExpressionNode(kernel, base, Operation.POWER, right.wrap().getRight());
 		}
-		if (exponent.isConstant()
-				&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
+		if (exponent.isConstant() && DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
 			return minusFirstPower(op, right);
 		}
-		return new ExpressionNode(kernel, right, op, null)
-				.power(exponent);
+		return new ExpressionNode(kernel, right, op, null).power(exponent);
 	}
 
-	private ExpressionValue buildTrigPower(ExpressionNode splitCommand,
-			ExpressionValue exponent) {
+	private ExpressionValue buildTrigPower(ExpressionNode splitCommand, ExpressionValue exponent) {
 		ExpressionValue coefficient = splitCommand.getLeft();
 		ExpressionNode trigExpression = splitCommand.getRight().wrap();
-		ExpressionValue power = inverseOrPower(trigExpression.getOperation(),
-				trigExpression.getLeft(), exponent);
+		ExpressionValue power =
+				inverseOrPower(trigExpression.getOperation(), trigExpression.getLeft(), exponent);
 		return coefficient.wrap().multiplyR(power);
 	}
 
@@ -835,48 +856,47 @@ public class FunctionParser {
 	 */
 	private ExpressionNode minusFirstPower(Operation type, ExpressionValue en) {
 		switch (type) {
-		case SIN:
-		case COS:
-		case TAN:
-		case SINH:
-		case COSH:
-		case TANH:
-			Operation inverse = Operation.inverse(type);
-			if (kernel.getAngleUnitUsesDegrees()) {
-				inverse = ArcTrigReplacer.getDegreeInverseTrigOp(inverse);
-			}
-			return new ExpressionNode(kernel, en, inverse, null);
+			case SIN:
+			case COS:
+			case TAN:
+			case SINH:
+			case COSH:
+			case TANH:
+				Operation inverse = Operation.inverse(type);
+				if (kernel.getAngleUnitUsesDegrees()) {
+					inverse = ArcTrigReplacer.getDegreeInverseTrigOp(inverse);
+				}
+				return new ExpressionNode(kernel, en, inverse, null);
 
-		// asec(x) = acos(1/x)
-		case SEC:
-			return reciprocal(en).apply(Operation.ARCCOS);
-		case CSC:
-			return reciprocal(en).apply(Operation.ARCSIN);
-		case SECH:
-			return reciprocal(en).apply(Operation.ACOSH);
-		case CSCH:
-			return reciprocal(en).apply(Operation.ASINH);
-		case COTH:
-			return reciprocal(en).apply(Operation.ATANH);
+			// asec(x) = acos(1/x)
+			case SEC:
+				return reciprocal(en).apply(Operation.ARCCOS);
+			case CSC:
+				return reciprocal(en).apply(Operation.ARCSIN);
+			case SECH:
+				return reciprocal(en).apply(Operation.ACOSH);
+			case CSCH:
+				return reciprocal(en).apply(Operation.ASINH);
+			case COTH:
+				return reciprocal(en).apply(Operation.ATANH);
 
-		// acot(x) = pi/2 - atan(x)
-		case COT:
+			// acot(x) = pi/2 - atan(x)
+			case COT:
+				ExpressionNode halfPi = new ExpressionNode(
+						kernel, new MyDouble(kernel, Math.PI), Operation.DIVIDE, new MyDouble(kernel, 2));
+				return new ExpressionNode(
+						kernel,
+						halfPi,
+						Operation.MINUS,
+						new ExpressionNode(kernel, en, Operation.ARCTAN, null));
 
-			ExpressionNode halfPi = new ExpressionNode(kernel,
-					new MyDouble(kernel, Math.PI), Operation.DIVIDE,
-					new MyDouble(kernel, 2));
-			return new ExpressionNode(kernel, halfPi, Operation.MINUS,
-					new ExpressionNode(kernel, en, Operation.ARCTAN, null));
-
-		default:
-			ExpressionNode base = new ExpressionNode(kernel, en, type, null);
-			return new ExpressionNode(kernel, base, Operation.POWER,
-					new MyDouble(kernel, -1));
+			default:
+				ExpressionNode base = new ExpressionNode(kernel, en, type, null);
+				return new ExpressionNode(kernel, base, Operation.POWER, new MyDouble(kernel, -1));
 		}
 	}
 
 	private ExpressionNode reciprocal(ExpressionValue en) {
-		return new ExpressionNode(kernel,
-				new MyDouble(kernel, 1), Operation.DIVIDE, en);
+		return new ExpressionNode(kernel, new MyDouble(kernel, 1), Operation.DIVIDE, en);
 	}
 }

@@ -35,7 +35,8 @@ public interface GeoImplicit extends Path, EquationValue {
 
 	/** Equation form */
 	enum Form {
-		IMPLICIT, USER
+		IMPLICIT,
+		USER
 	}
 
 	/**
@@ -161,25 +162,25 @@ public interface GeoImplicit extends Path, EquationValue {
 	double evaluateImplicitCurve(double x, double y);
 
 	/**
-	 * 
+	 *
 	 * @return coord sys for transformations
 	 */
 	CoordSys getTransformedCoordSys();
 
 	/**
-	 * 
+	 *
 	 * @return function expression creating this implicit curve
 	 */
 	FunctionNVar getFunctionDefinition();
 
 	/**
-	 * 
+	 *
 	 * @return plane equation
 	 */
 	Coords getPlaneEquation();
 
 	/**
-	 * 
+	 *
 	 * @return z-coord translation (if exists)
 	 */
 	double getTranslateZ();

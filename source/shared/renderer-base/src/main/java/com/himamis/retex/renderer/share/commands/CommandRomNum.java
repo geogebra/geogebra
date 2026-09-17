@@ -49,10 +49,10 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandRomNum extends Command {
 
-	private final static int[] NUMBERS = { 1000, 900, 500, 400, 100, 90, 50, 40,
-			10, 9, 5, 4, 1 };
-	private final static String[] LETTERS = { "m", "cm", "d", "cd", "c", "xc",
-			"l", "xl", "x", "ix", "v", "iv", "i" };
+	private static final int[] NUMBERS = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+	private static final String[] LETTERS = {
+		"m", "cm", "d", "cd", "c", "xc", "l", "xl", "x", "ix", "v", "iv", "i"
+	};
 	private final boolean u;
 
 	public CommandRomNum(boolean u) {

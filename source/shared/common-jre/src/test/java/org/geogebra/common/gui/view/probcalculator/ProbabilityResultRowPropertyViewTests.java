@@ -46,14 +46,17 @@ class ProbabilityResultRowPropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.PROBABILITY);
 		getApp().setRounding("4");
 		probabilityCalculatorView = new HeadlessProbabilityCalculatorView(getApp());
-		probabilityCalculatorView.setProbabilityCalculator(Dist.NORMAL, new GeoNumberValue[] {
-				new GeoNumeric(getKernel().getConstruction(), 0),
-				new GeoNumeric(getKernel().getConstruction(), 1)
-		}, false);
-		property = new ProbabilityResultValuesProperty(getLocalization(), getAlgebraProcessor(),
-				probabilityCalculatorView);
-		propertyView = assertInstanceOf(PropertyView.ProbabilityResultRow.class,
-				PropertyView.of(property));
+		probabilityCalculatorView.setProbabilityCalculator(
+				Dist.NORMAL,
+				new GeoNumberValue[] {
+					new GeoNumeric(getKernel().getConstruction(), 0),
+					new GeoNumeric(getKernel().getConstruction(), 1)
+				},
+				false);
+		property = new ProbabilityResultValuesProperty(
+				getLocalization(), getAlgebraProcessor(), probabilityCalculatorView);
+		propertyView =
+				assertInstanceOf(PropertyView.ProbabilityResultRow.class, PropertyView.of(property));
 	}
 
 	@Test

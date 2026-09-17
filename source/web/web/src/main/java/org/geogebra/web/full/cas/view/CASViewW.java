@@ -83,12 +83,10 @@ public final class CASViewW extends CASView implements PrintableW {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				CASEditorW editor = getConsoleTable().getEditor();
-				if (!StringUtil.empty(editor.getText())
-						&& getConsoleTable().isEditing()) {
+				if (!StringUtil.empty(editor.getText()) && getConsoleTable().isEditing()) {
 					editor.onEnter(true);
 				}
 			}
-
 		});
 	}
 
@@ -120,8 +118,7 @@ public final class CASViewW extends CASView implements PrintableW {
 	}
 
 	@Override
-	public void showSubstituteDialog(String prefix, String evalText,
-	        String postfix, int selRow) {
+	public void showSubstituteDialog(String prefix, String evalText, String postfix, int selRow) {
 		if (subDialog != null && subDialog.getDialog().isShowing()) {
 			return;
 		}
@@ -177,17 +174,14 @@ public final class CASViewW extends CASView implements PrintableW {
 	 *            make keyboard immediately visible
 	 */
 	public void maybeOpenKeyboard(final boolean force) {
-		if (app.isStartedWithFile()
-				|| app.showView(App.VIEW_ALGEBRA)) {
+		if (app.isStartedWithFile() || app.showView(App.VIEW_ALGEBRA)) {
 			return;
 		}
 		final AppW app1 = app;
 		app.invokeLater(() -> {
 			app1.showKeyboard(getEditor(), force);
 			getEditor().setFocus(true);
-			getConsoleTable().startEditingRow(
-					getConsoleTable().getRowCount() - 1);
-
+			getConsoleTable().startEditingRow(getConsoleTable().getRowCount() - 1);
 		});
 		/*
 		 * getEditor().ensureEditing(); getEditor().setFocus(true);
@@ -196,17 +190,16 @@ public final class CASViewW extends CASView implements PrintableW {
 
 	/**
 	 * Update inputs and outputs on zoom
-	 * 
+	 *
 	 * @param ratio
 	 *            CSS pixel ratio
 	 */
 	public void setPixelRatio(double ratio) {
 		if (this.consoleTable != null) {
 			for (int row = 0; row < this.getRowCount(); row++) {
-				if (consoleTable.getWidget(row,
-						CASTableW.COL_CAS_CELLS_WEB) instanceof CASTableCellW) {
-					((CASTableCellW) consoleTable.getWidget(row,
-							CASTableW.COL_CAS_CELLS_WEB)).setPixelRatio(ratio);
+				if (consoleTable.getWidget(row, CASTableW.COL_CAS_CELLS_WEB) instanceof CASTableCellW) {
+					((CASTableCellW) consoleTable.getWidget(row, CASTableW.COL_CAS_CELLS_WEB))
+							.setPixelRatio(ratio);
 				}
 			}
 			if (consoleTable.hasEditor()) {

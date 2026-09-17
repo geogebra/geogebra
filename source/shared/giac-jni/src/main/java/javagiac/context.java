@@ -9,36 +9,35 @@
 package javagiac;
 
 public class context {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected context(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected context(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(context obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(context obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        giacJNI.delete_context(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				giacJNI.delete_context(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public context() {
-    this(giacJNI.new_context__SWIG_0(), true);
-  }
+	public context() {
+		this(giacJNI.new_context__SWIG_0(), true);
+	}
 
-  @Override
-  public context clone() {
-    long cPtr = giacJNI.context_clone(swigCPtr, this);
-    return (cPtr == 0) ? null : new context(cPtr, false);
-  }
-
+	@Override
+	public context clone() {
+		long cPtr = giacJNI.context_clone(swigCPtr, this);
+		return (cPtr == 0) ? null : new context(cPtr, false);
+	}
 }

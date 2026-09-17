@@ -60,8 +60,6 @@ public class MHeightAtom extends Atom {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0.,
-				0.);
+		return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0., 0.);
 	}
-
 }

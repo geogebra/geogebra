@@ -34,7 +34,7 @@ import org.geogebra.web.html5.main.AppW;
 public final class App3DW {
 
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @return new controller for 3D view
@@ -48,7 +48,7 @@ public final class App3DW {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ec
 	 *            controller for 3D view
 	 * @param settings
@@ -66,26 +66,23 @@ public final class App3DW {
 
 	/**
 	 * Sets the physical size of the 3D Canvas.
-	 * 
+	 *
 	 * @param app
 	 *            application instance
 	 *
 	 * @param width
 	 *            new width
-	 * 
+	 *
 	 * @param height
 	 *            new height
 	 */
-	public static void ggwGraphicsView3DDimChanged(AppW app, int width,
-			int height) {
+	public static void ggwGraphicsView3DDimChanged(AppW app, int width, int height) {
 		GDimension dimension = AwtFactory.getPrototype().newDimension(width, height);
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
-		if (!app.getSettings().getEuclidian(3).setPreferredSize(
-				dimension)) {
+		if (!app.getSettings().getEuclidian(3).setPreferredSize(dimension)) {
 			view.setPreferredSize(dimension);
 		}
 		view.setCoordinateSpaceSize(width, height);
 		view.doRepaint2();
 	}
-
 }

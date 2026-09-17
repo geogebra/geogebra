@@ -86,7 +86,7 @@ public class AlgoRayPointVector extends AlgoElement {
 
 	/**
 	 * Returns the ray
-	 * 
+	 *
 	 * @return resulting ray
 	 */
 	public GeoRay getRay() {
@@ -95,7 +95,7 @@ public class AlgoRayPointVector extends AlgoElement {
 
 	/**
 	 * Returns the endpoint
-	 * 
+	 *
 	 * @return the endpoint
 	 */
 	GeoPoint getP() {
@@ -104,7 +104,7 @@ public class AlgoRayPointVector extends AlgoElement {
 
 	/**
 	 * Returns the direction
-	 * 
+	 *
 	 * @return direction vector
 	 */
 	public GeoVector getv() {
@@ -119,12 +119,14 @@ public class AlgoRayPointVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("RayThroughAWithDirectionB",
-				"Ray through %0 with direction %1", P.getLabel(tpl),
-				v.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"RayThroughAWithDirectionB",
+						"Ray through %0 with direction %1",
+						P.getLabel(tpl),
+						v.getLabel(tpl));
 	}
-
 }

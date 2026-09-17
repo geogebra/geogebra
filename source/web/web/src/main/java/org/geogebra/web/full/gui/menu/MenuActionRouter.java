@@ -34,9 +34,10 @@ class MenuActionRouter {
 	private final MenuViewController menuViewController;
 	private final Localization localization;
 
-	MenuActionRouter(MenuActionHandler menuActionHandler,
-					 MenuViewController menuViewController,
-					 Localization localization) {
+	MenuActionRouter(
+			MenuActionHandler menuActionHandler,
+			MenuViewController menuViewController,
+			Localization localization) {
 		this.menuActionHandler = menuActionHandler;
 		this.menuViewController = menuViewController;
 		this.localization = localization;
@@ -57,16 +58,17 @@ class MenuActionRouter {
 
 	private void handleSubmenu(SubmenuItem submenuItem) {
 		final MenuView menuView = new MenuView(menuViewController);
-		menuViewController.setMenuItemGroups(menuView,
-				Collections.singletonList(submenuItem.getGroup()));
+		menuViewController.setMenuItemGroups(
+				menuView, Collections.singletonList(submenuItem.getGroup()));
 		HeaderView headerView = menuViewController.createHeaderView();
 		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
-		headerView.getBackButton().addFastClickHandler(source ->
-				menuViewController.hideSubmenuAndMoveFocus());
+		headerView
+				.getBackButton()
+				.addFastClickHandler(source -> menuViewController.hideSubmenuAndMoveFocus());
 		HeaderedMenuView submenu = new HeaderedMenuView(menuView);
 		if (submenuItem.getBottomText() != null) {
-			Label version = BaseWidgetFactory.INSTANCE.newDisabledText(
-					submenuItem.getBottomText(), "versionNumber");
+			Label version =
+					BaseWidgetFactory.INSTANCE.newDisabledText(submenuItem.getBottomText(), "versionNumber");
 			submenu.add(version);
 		}
 		submenu.setHeaderView(headerView);

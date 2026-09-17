@@ -36,7 +36,7 @@ public class Context<G, E> {
 
 	/**
 	 * Returns an instance of this type for the specified graph and element.
-	 * 
+	 *
 	 * @param <G>
 	 *            the graph type
 	 * @param <E>

@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * A to B on T = sqrt(1+(f')^2)
  * @author Victor Franco Espino
  */
-
 public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 
 	private GeoPointND A;
@@ -50,8 +49,8 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 	 * @param B
 	 *            end point
 	 */
-	public AlgoLengthFunction2Points(Construction cons, String label,
-			GeoFunction f, GeoPointND A, GeoPointND B) {
+	public AlgoLengthFunction2Points(
+			Construction cons, String label, GeoFunction f, GeoPointND A, GeoPointND B) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -100,8 +99,7 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		// First derivative of function f
-		algoCAS = new AlgoDerivative(cons, f, null, null, true,
-				new EvalInfo(false));
+		algoCAS = new AlgoDerivative(cons, f, null, null, true, new EvalInfo(false));
 		cons.removeFromConstructionList(algoCAS);
 		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 		lengthFunction = new LengthFunction(f1, f);

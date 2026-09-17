@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing lines
- * 
+ *
  * @author mathieu
  *
  */
@@ -37,7 +37,7 @@ public class DrawLine3D extends DrawCoordSys1D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param line
@@ -49,7 +49,7 @@ public class DrawLine3D extends DrawCoordSys1D {
 
 	/**
 	 * Constructor for helpers
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param line
@@ -57,15 +57,14 @@ public class DrawLine3D extends DrawCoordSys1D {
 	 * @param geo2
 	 *            parent geo
 	 */
-	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line,
-			GeoElement geo2) {
+	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line, GeoElement geo2) {
 		super(a_view3D);
 		init((GeoElement) line, geo2);
 	}
 
 	/**
 	 * constructor for previewable
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPoints
@@ -93,7 +92,7 @@ public class DrawLine3D extends DrawCoordSys1D {
 
 	/**
 	 * update the drawable when the element changes
-	 * 
+	 *
 	 * @param updateDrawMinMax
 	 *            update min and max values
 	 */
@@ -113,19 +112,18 @@ public class DrawLine3D extends DrawCoordSys1D {
 		GeoLineND line = getLine();
 
 		Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
-		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension()
-				.sub(o);
+		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
 
-		double[] minmax = getView3D().getIntervalClippedLarge(new double[] {
-				Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY }, o, v);
+		double[] minmax = getView3D()
+				.getIntervalClippedLarge(
+						new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY}, o, v);
 
 		setDrawMinMax(minmax[0], minmax[1]);
 	}
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByZoom()
-				|| getView3D().viewChangedByTranslate()) {
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()) {
 			updateForItSelf();
 		}
 	}
@@ -155,11 +153,10 @@ public class DrawLine3D extends DrawCoordSys1D {
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		if (!Double.isNaN(boundsMin.getX())) {
-            if (dontExtend) {
-                reduceBounds(boundsMin, boundsMax);
-            }
+			if (dontExtend) {
+				reduceBounds(boundsMin, boundsMax);
+			}
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}
-
 }

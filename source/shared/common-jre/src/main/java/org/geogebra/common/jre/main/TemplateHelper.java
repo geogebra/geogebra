@@ -51,8 +51,7 @@ public class TemplateHelper {
 	 * Use construction defaults to style current geos
 	 */
 	private void setAllGeoStylesFromDefaults() {
-		ArrayList<GeoElement> selected = app.getSelectionManager()
-				.getSelectedGeos();
+		ArrayList<GeoElement> selected = app.getSelectionManager().getSelectedGeos();
 
 		Collection<GeoElement> target;
 		if (selected.isEmpty()) {
@@ -60,10 +59,9 @@ public class TemplateHelper {
 		} else {
 			target = selected;
 		}
-		ConstructionDefaults objectDefaults = kernel.getConstruction()
-				.getConstructionDefaults();
+		ConstructionDefaults objectDefaults = kernel.getConstruction().getConstructionDefaults();
 
-		for (GeoElement actual: target) {
+		for (GeoElement actual : target) {
 			boolean oldLabelVisible = actual.isLabelVisible();
 			objectDefaults.setDefaultVisualStyles(actual, false, false, false);
 			// label visibility is tricky because of labeling options: safer to keep old value
@@ -72,7 +70,9 @@ public class TemplateHelper {
 	}
 
 	private void setConstructionDefaults(Kernel otherKernel) {
-		kernel.getConstruction().getConstructionDefaults().setConstructionDefaults(
-				otherKernel.getConstruction().getConstructionDefaults());
+		kernel
+				.getConstruction()
+				.getConstructionDefaults()
+				.setConstructionDefaults(otherKernel.getConstruction().getConstructionDefaults());
 	}
 }

@@ -43,8 +43,7 @@ public final class ScientificHeaderResizer implements HeaderResizer {
 				header.removeClassName("compact");
 			}
 
-			Dom.toggleClass(header, "portrait", "landscape",
-					frame.getApp().isPortrait());
+			Dom.toggleClass(header, "portrait", "landscape", frame.getApp().isPortrait());
 		}
 	}
 
@@ -57,8 +56,10 @@ public final class ScientificHeaderResizer implements HeaderResizer {
 	public void reset(Element header) {
 		header.removeClassName("compact");
 		header.addClassName("scientificHeader");
-		frame.getApp().getAppletParameters().setAttribute("marginTop",
-				String.valueOf(getHeaderHeight()));
+		frame
+				.getApp()
+				.getAppletParameters()
+				.setAttribute("marginTop", String.valueOf(getHeaderHeight()));
 
 		Element el = DOM.getElementById("undoRedoSettingsPanel");
 		if (el != null) {

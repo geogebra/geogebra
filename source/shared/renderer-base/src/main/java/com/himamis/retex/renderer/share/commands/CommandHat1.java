@@ -11,5 +11,4 @@ public class CommandHat1 extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new AccentedAtom(a, Symbols.HAT);
 	}
-
 }

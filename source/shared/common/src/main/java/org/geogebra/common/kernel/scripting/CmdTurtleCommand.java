@@ -39,7 +39,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 
 	/**
 	 * Return the turtle in the command
-	 * 
+	 *
 	 * @param args
 	 *            the resolved command args
 	 * @return the first arg as a GeoTurtle
@@ -51,7 +51,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 
 	/**
 	 * Return the second arg of the command as a double
-	 * 
+	 *
 	 * @param c
 	 *            the command
 	 * @param args
@@ -60,8 +60,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	 * @throws MyError
 	 *             thrown can't be done
 	 */
-	protected final double getNumArg(Command c, GeoElement[] args)
-			throws MyError {
+	protected final double getNumArg(Command c, GeoElement[] args) throws MyError {
 		if (args.length != 2) {
 			throw argNumErr(c);
 		}
@@ -73,7 +72,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 
 	/**
 	 * Actually perform the command on the turtle
-	 * 
+	 *
 	 * @param c
 	 *            the command
 	 * @param args
@@ -81,8 +80,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	 * @throws MyError
 	 *             possible error
 	 */
-	protected abstract void performTurtleCommand(Command c,
-			GeoElement[] args) throws MyError;
+	protected abstract void performTurtleCommand(Command c, GeoElement[] args) throws MyError;
 
 	@Override
 	public final GeoElement[] perform(Command c) throws MyError {

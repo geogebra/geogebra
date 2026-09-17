@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -27,11 +27,11 @@ import org.jspecify.annotations.NonNull;
 
 /**
  * Class which contains references to all settings of the application.
- * 
+ *
  * To add new setting containers to this class perform the following steps: 1.
  * Add attributes and getters (no setters allowed!) 2. Init in constructor 3.
  * Modify beginBatch() and endBatch()
- * 
+ *
  * @author Florian Sonner
  */
 public class Settings {
@@ -72,10 +72,10 @@ public class Settings {
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
-	 * 
+	 *
 	 * @param app
 	 *            - app
-	 * 
+	 *
 	 * @param euclidianLength
 	 *            2 or 3 euclidian views
 	 */
@@ -96,7 +96,7 @@ public class Settings {
 
 	/**
 	 * clear settings
-	 * 
+	 *
 	 * @param app
 	 *            - app
 	 */
@@ -122,8 +122,7 @@ public class Settings {
 		if (consProtSettings == null) {
 			consProtSettings = new ConstructionProtocolSettings();
 		} else {
-			consProtSettings = new ConstructionProtocolSettings(
-					consProtSettings.getListeners());
+			consProtSettings = new ConstructionProtocolSettings(consProtSettings.getListeners());
 		}
 
 		if (layoutSettings == null) {
@@ -135,8 +134,7 @@ public class Settings {
 		if (generalSettings == null) {
 			generalSettings = new GeneralSettings();
 		} else {
-			generalSettings = new GeneralSettings(
-					generalSettings.getListeners());
+			generalSettings = new GeneralSettings(generalSettings.getListeners());
 		}
 
 		if (keyboardSettings == null) {
@@ -155,8 +153,7 @@ public class Settings {
 		if (probCalcSettings == null) {
 			probCalcSettings = new ProbabilityCalculatorSettings();
 		} else {
-			probCalcSettings = new ProbabilityCalculatorSettings(
-					probCalcSettings.getListeners());
+			probCalcSettings = new ProbabilityCalculatorSettings(probCalcSettings.getListeners());
 		}
 
 		tableSettings = new TableSettings();
@@ -173,7 +170,7 @@ public class Settings {
 
 	/**
 	 * Begin batch for all settings at once (helper).
-	 * 
+	 *
 	 * Remark: Recommended to be used just for file loading, in other situations
 	 * individual setting containers should be used to start batching.
 	 */
@@ -199,7 +196,7 @@ public class Settings {
 
 	/**
 	 * End batch for all settings at once (helper).
-	 * 
+	 *
 	 * Remark: Recommended to be used just for file loading, in other situations
 	 * individual setting containers should be used to end batching.
 	 */
@@ -232,7 +229,7 @@ public class Settings {
 	public final EuclidianSettings getEuclidian(int number) {
 		return euclidianSettings[number == -1 ? 2 : number - 1];
 	}
-	
+
 	/**
 	 * @return - if support 3d
 	 */
@@ -244,7 +241,7 @@ public class Settings {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param plane
 	 *            name of the plane creator
 	 * @return settings of view for this plane
@@ -255,14 +252,13 @@ public class Settings {
 
 	/**
 	 * map the plane/settings
-	 * 
+	 *
 	 * @param plane
 	 *            name of the plane creator
 	 * @param settings
 	 *            settings
 	 */
-	public final void setEuclidianSettingsForPlane(String plane,
-			EuclidianSettings settings) {
+	public final void setEuclidianSettingsForPlane(String plane, EuclidianSettings settings) {
 		euclidianSettingsForPlane.put(plane, settings);
 	}
 
@@ -275,7 +271,7 @@ public class Settings {
 
 	/**
 	 * remove settings for this plane
-	 * 
+	 *
 	 * @param plane
 	 *            name of the plane creator
 	 */
@@ -371,12 +367,10 @@ public class Settings {
 	 *            - app
 	 * @return -
 	 */
-	public EuclidianSettings getEuclidianForView(
-			EuclidianViewInterfaceCommon ev, App app) {
+	public EuclidianSettings getEuclidianForView(EuclidianViewInterfaceCommon ev, App app) {
 		if (app.getEuclidianView1() == ev) {
 			return getEuclidian(1);
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-				&& app.getEuclidianView2(1) == ev) {
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == ev) {
 			return getEuclidian(2);
 		} else if (app.isEuclidianView3D(ev)) {
 			return getEuclidian(3);

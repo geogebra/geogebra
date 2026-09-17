@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * @author G. Sturr
  * @version 2011-06-21
  */
-
 public class AlgoPascalBarChart extends AlgoBarChart {
 
 	/**
@@ -41,8 +40,7 @@ public class AlgoPascalBarChart extends AlgoBarChart {
 	 * @param p
 	 *            probability
 	 */
-	public AlgoPascalBarChart(Construction cons, String label, GeoNumberValue n,
-			GeoNumberValue p) {
+	public AlgoPascalBarChart(Construction cons, String label, GeoNumberValue n, GeoNumberValue p) {
 		super(cons, label, n, p, null, null, AlgoBarChart.TYPE_BARCHART_PASCAL);
 		cons.registerEuclidianViewCE(this);
 	}
@@ -59,18 +57,25 @@ public class AlgoPascalBarChart extends AlgoBarChart {
 	 * @param isCumulative
 	 *            cumulative?
 	 */
-	public AlgoPascalBarChart(Construction cons, String label, GeoNumberValue n,
-			GeoNumberValue p, GeoBoolean isCumulative) {
-		super(cons, label, n, p, null, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_PASCAL);
+	public AlgoPascalBarChart(
+			Construction cons,
+			String label,
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoBoolean isCumulative) {
+		super(cons, label, n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_PASCAL);
 		cons.registerEuclidianViewCE(this);
 	}
 
-	private AlgoPascalBarChart(GeoNumberValue n, GeoNumberValue p,
-			GeoBoolean isCumulative, GeoNumberValue a, GeoNumberValue b,
-			double[] vals, double[] borders) {
-		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_PASCAL, a, b,
-				vals, borders);
+	private AlgoPascalBarChart(
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoBoolean isCumulative,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			double[] vals,
+			double[] borders) {
+		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_PASCAL, a, b, vals, borders);
 	}
 
 	@Override
@@ -86,11 +91,11 @@ public class AlgoPascalBarChart extends AlgoBarChart {
 		}
 		return new AlgoPascalBarChart(
 				(GeoNumberValue) this.getP1().deepCopy(kernel),
-				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
+				(GeoNumberValue) this.getP2().deepCopy(kernel),
+				b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()));
-
+				Cloner.clone(getValues()),
+				Cloner.clone(getLeftBorder()));
 	}
-
 }

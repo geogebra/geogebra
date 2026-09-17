@@ -60,8 +60,8 @@ public class RenameInputHandler implements InputHandler {
 	}
 
 	@Override
-	public void processInput(String inputValue, ErrorHandler handler,
-			AsyncOperation<Boolean> callback) {
+	public void processInput(
+			String inputValue, ErrorHandler handler, AsyncOperation<Boolean> callback) {
 		GeoElementND geo1 = this.geo;
 
 		if (inputValue == null) {
@@ -90,7 +90,6 @@ public class RenameInputHandler implements InputHandler {
 		}
 
 		callback.callback(true);
-
 	}
 
 	/**
@@ -115,5 +114,4 @@ public class RenameInputHandler implements InputHandler {
 		}
 		return newLabel;
 	}
-
 }

@@ -33,11 +33,10 @@ import org.geogebra.web.html5.util.CSSEvents;
 
 /**
  * Web implementation of onscreen keyboard
- * 
+ *
  * @author Zbynek, based on Balazs's cross-platform model
  */
-public final class OnscreenTabbedKeyboard extends TabbedKeyboard
-		implements VirtualKeyboardGUI {
+public final class OnscreenTabbedKeyboard extends TabbedKeyboard implements VirtualKeyboardGUI {
 
 	private InputBarHelpPopup helpPopup = null;
 
@@ -51,18 +50,17 @@ public final class OnscreenTabbedKeyboard extends TabbedKeyboard
 		super(app, hasMoreButton);
 		ClickStartHandler.initDefaults(this, true, true);
 	}
-	
+
 	private void createHelpPopup() {
 		if (helpPopup != null) {
 			return;
 		}
 		AlgebraViewW av = (AlgebraViewW) ((AppW) hasKeyboard).getAlgebraView();
-		helpPopup = new InputBarHelpPopup((AppW) hasKeyboard,
-				av != null ? av.getInputTreeItem() : null,
-				"helpPopupAV");
+		helpPopup = new InputBarHelpPopup(
+				(AppW) hasKeyboard, av != null ? av.getInputTreeItem() : null, "helpPopupAV");
 		helpPopup.addAutoHidePartner(this.getElement());
 	}
-	
+
 	@Override
 	public void show() {
 		this.keyboardWanted = true;
@@ -108,10 +106,13 @@ public final class OnscreenTabbedKeyboard extends TabbedKeyboard
 	@Override
 	public void remove(final Runnable runnable) {
 		this.addStyleName("animatingOut");
-		CSSEvents.runOnAnimation(() -> {
-			setVisible(false);
-			runnable.run();
-		}, getElement(), "animatingOut");
+		CSSEvents.runOnAnimation(
+				() -> {
+					setVisible(false);
+					runnable.run();
+				},
+				getElement(),
+				"animatingOut");
 	}
 
 	@Override
@@ -120,17 +121,15 @@ public final class OnscreenTabbedKeyboard extends TabbedKeyboard
 		if (!show) {
 			createHelpPopup();
 			GuiManagerInterfaceW gm = ((AppW) hasKeyboard).getGuiManager();
-			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) gm
-					.getInputHelpPanel();
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) gm.getInputHelpPanel();
 			updateHelpPosition(helpPanel, x, y);
-			
+
 		} else if (helpPopup != null) {
 			helpPopup.hide();
 		}
 	}
-	
-	private void updateHelpPosition(final InputBarHelpPanelW helpPanel,
-			final int x, final int y) {
+
+	private void updateHelpPosition(final InputBarHelpPanelW helpPanel, final int x, final int y) {
 		helpPopup.setPopupPositionAndShow(
 				(offsetWidth, offsetHeight) -> doUpdateHelpPosition(helpPanel, x, y));
 	}
@@ -143,34 +142,30 @@ public final class OnscreenTabbedKeyboard extends TabbedKeyboard
 	 * @param y
 	 *            popup y-coord
 	 */
-	private void doUpdateHelpPosition(final InputBarHelpPanelW helpPanel,
-			final int x, final int y) {
+	private void doUpdateHelpPosition(final InputBarHelpPanelW helpPanel, final int x, final int y) {
 		AppW appw = (AppW) hasKeyboard;
 		double scale = appw.getGeoGebraElement().getScaleX();
-		double renderScale = appw.getAppletParameters().getDataParamApp() ? scale
-				: 1;
-		double left = x - appw.getAbsLeft()
-				- helpPanel.getPreferredWidth(scale);
+		double renderScale = appw.getAppletParameters().getDataParamApp() ? scale : 1;
+		double left = x - appw.getAbsLeft() - helpPanel.getPreferredWidth(scale);
 
-		helpPopup.getElement().getStyle().setProperty("left",
-				left * renderScale + "px");
+		helpPopup.getElement().getStyle().setProperty("left", left * renderScale + "px");
 		int maxOffsetHeight;
 		int totalHeight = (int) appw.getHeight();
 		int toggleButtonTop = (int) ((y - (int) appw.getAbsTop()) / scale);
 		if (toggleButtonTop < totalHeight / 2) {
 			maxOffsetHeight = totalHeight - toggleButtonTop;
-			helpPopup.getElement().getStyle().setProperty("top",
-					toggleButtonTop * renderScale + "px");
+			helpPopup.getElement().getStyle().setProperty("top", toggleButtonTop * renderScale + "px");
 			helpPopup.getElement().getStyle().setProperty("bottom", "auto");
 			helpPopup.removeStyleName("helpPopupAVBottom");
 			helpPopup.addStyleName("helpPopupAV");
 		} else {
 			int minBottom = appw.isApplet() ? 0 : 10;
 			int bottom = totalHeight - toggleButtonTop;
-			maxOffsetHeight = bottom > 0 ? totalHeight - bottom
-					: totalHeight - minBottom;
-			helpPopup.getElement().getStyle().setProperty("bottom",
-					(bottom > 0 ? bottom : minBottom) * renderScale + "px");
+			maxOffsetHeight = bottom > 0 ? totalHeight - bottom : totalHeight - minBottom;
+			helpPopup
+					.getElement()
+					.getStyle()
+					.setProperty("bottom", (bottom > 0 ? bottom : minBottom) * renderScale + "px");
 			helpPopup.getElement().getStyle().setProperty("top", "auto");
 			helpPopup.removeStyleName("helpPopupAV");
 			helpPopup.addStyleName("helpPopupAVBottom");

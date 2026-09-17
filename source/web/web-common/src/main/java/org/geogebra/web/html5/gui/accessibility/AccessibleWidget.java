@@ -38,7 +38,7 @@ public interface AccessibleWidget {
 
 	/**
 	 * Delegate to the setFocus method of the first widget if possible.
-	 * 
+	 *
 	 * @param focus whether to focus or blur
 	 */
 	void setFocus(boolean focus);

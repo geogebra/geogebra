@@ -126,8 +126,8 @@ public class IntervalMiscOperands {
 			if (interval.isExactSingleton() && interval.isOne()) {
 				return connected(0, 0);
 			}
-			return connected(low <= 0 ? NEGATIVE_INFINITY : RMath.prev(Math.log(low)),
-					RMath.next(Math.log(high)));
+			return connected(
+					low <= 0 ? NEGATIVE_INFINITY : RMath.prev(Math.log(low)), RMath.next(Math.log(high)));
 		}
 
 		return IntervalSetOps.empty();
@@ -190,13 +190,13 @@ public class IntervalMiscOperands {
 			return set2;
 		} else if (set2.isEmpty()) {
 			return set1;
-		} else if (set1.isWhole() || set2.isWhole()
-				|| set1.isInverted() || set2.isInverted()) {
+		} else if (set1.isWhole() || set2.isWhole() || set1.isInverted() || set2.isInverted()) {
 			return whole();
 		} else {
 			Interval interval1 = connectedInterval(set1);
 			Interval interval2 = connectedInterval(set2);
-			return connected(Math.min(interval1.getLow(), interval2.getLow()),
+			return connected(
+					Math.min(interval1.getLow(), interval2.getLow()),
 					Math.max(interval1.getHigh(), interval2.getHigh()));
 		}
 	}
@@ -306,7 +306,8 @@ public class IntervalMiscOperands {
 		}
 		Interval interval1 = connectedInterval(set1);
 		Interval interval2 = connectedInterval(set2);
-		return connected(Math.min(interval1.getLow(), interval2.getLow()),
+		return connected(
+				Math.min(interval1.getLow(), interval2.getLow()),
 				Math.max(interval1.getHigh(), interval2.getHigh()));
 	}
 
@@ -332,12 +333,11 @@ public class IntervalMiscOperands {
 		double high1 = interval1.getHigh();
 		double low2 = interval2.getLow();
 		double high2 = interval2.getHigh();
-		return (low1 <= low2 && low2 <= high1)
-				|| (low2 <= low1 && low1 <= high2);
+		return (low1 <= low2 && low2 <= high1) || (low2 <= low1 && low1 <= high2);
 	}
 
-	private IntervalSet unionInvertedWithConnected(IntervalSet invertedSet,
-			IntervalSet connectedSet) {
+	private IntervalSet unionInvertedWithConnected(
+			IntervalSet invertedSet, IntervalSet connectedSet) {
 		Interval gap = invertedGap(invertedSet);
 		Interval interval = connectedInterval(connectedSet);
 		double gapLow = gap.getLow();
@@ -394,8 +394,7 @@ public class IntervalMiscOperands {
 
 			if ((low2 <= low1 && high2 >= high1)
 					|| (low2 <= low1 && high2 == POSITIVE_INFINITY)
-					|| (high2 >= high1
-					&& low2 == NEGATIVE_INFINITY)) {
+					|| (high2 >= high1 && low2 == NEGATIVE_INFINITY)) {
 				return empty();
 			}
 
@@ -404,7 +403,6 @@ public class IntervalMiscOperands {
 			}
 
 			return halfOpenRight(low1, low2);
-
 		}
 		return set1;
 	}
@@ -452,10 +450,10 @@ public class IntervalMiscOperands {
 		double low = gap.getLow();
 		double high = gap.getHigh();
 
-			if (low >= 0 || high <= 0) {
-				return connected(0, POSITIVE_INFINITY);
-			} else {
-				return connected(Math.min(-low, high), POSITIVE_INFINITY);
-			}
+		if (low >= 0 || high <= 0) {
+			return connected(0, POSITIVE_INFINITY);
+		} else {
+			return connected(Math.min(-low, high), POSITIVE_INFINITY);
+		}
 	}
 }

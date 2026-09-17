@@ -71,8 +71,11 @@ public class DrawStyledVector {
 		// A or B off screen
 		// clip at screen, that's important for huge coordinates
 		// check if any of vector is on-screen
-		GPoint2D[] clippedPoints = ClipLine.getClipped(model.getStartX(),
-				model.getStartY(), model.getEndX(), model.getEndY(),
+		GPoint2D[] clippedPoints = ClipLine.getClipped(
+				model.getStartX(),
+				model.getStartY(),
+				model.getEndX(),
+				model.getEndY(),
 				view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
 				view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
 				view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
@@ -80,7 +83,7 @@ public class DrawStyledVector {
 				tmpClipPoints);
 		return clippedPoints == null;
 	}
-	
+
 	private void createVectorShape(GBasicStroke stroke, double length, VectorShape vectorShape) {
 		area = AwtFactory.getPrototype().newArea();
 		GShape strokedLine = stroke.createStrokedShape(line, 255);

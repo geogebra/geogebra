@@ -27,8 +27,8 @@ class GridColorPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupApp(SuiteSubApp.GRAPHING);
-		GridColorProperty gridColorProperty = new GridColorProperty(
-				getLocalization(), getEuclidianSettings());
+		GridColorProperty gridColorProperty =
+				new GridColorProperty(getLocalization(), getEuclidianSettings());
 
 		gridColorProperty.setValue(GColor.GREEN);
 		assertEquals(GColor.GREEN, gridColorProperty.getValue());

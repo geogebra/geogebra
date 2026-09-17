@@ -35,9 +35,9 @@ import org.geogebra.common.kernel.statistics.FitAlgo;
 
 /**
  * returns coefficients of a Polynomial as a list
- * 
+ *
  * Uses CAS sometimes, eg Coefficients[x^n] so needs "implements UsesCAS"
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoCoefficients extends AlgoElement implements UsesCAS {
@@ -111,8 +111,7 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		}
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(expression,
-				false, false);
+		PolyFunction poly = inFun.expandToPolyFunction(expression, false, false);
 		g.clear();
 		g.setDefined(true);
 		if (poly != null) {
@@ -128,7 +127,7 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 			}
 		} else {
 			ArrayList<Double> constants = extractConstants(expression);
-			for (Double coeff: constants) {
+			for (Double coeff : constants) {
 				g.add(new GeoNumeric(cons, coeff));
 			}
 		}
@@ -147,5 +146,4 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		});
 		return constants;
 	}
-
 }

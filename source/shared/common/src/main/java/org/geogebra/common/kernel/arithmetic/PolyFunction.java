@@ -27,10 +27,10 @@ import org.geogebra.common.util.DoubleUtil;
  * Fast polynomial evaluation of Function
  */
 @SuppressWarnings("deprecation")
-public class PolyFunction
-		implements RealRootDerivFunction, DifferentiableUnivariateFunction {
+public class PolyFunction implements RealRootDerivFunction, DifferentiableUnivariateFunction {
 	/** coefficients */
 	protected double[] coeffs;
+
 	private int degree;
 
 	private PolyFunction derivative;
@@ -39,7 +39,7 @@ public class PolyFunction
 
 	// private double [] // for value and derivative's value
 	/**
-	 * 
+	 *
 	 * @param degree
 	 *            degree
 	 */
@@ -63,7 +63,7 @@ public class PolyFunction
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param pf
 	 *            function to copy
 	 */
@@ -73,7 +73,7 @@ public class PolyFunction
 	}
 
 	/**
-	 * 
+	 *
 	 * @return array of coefficients
 	 */
 	public double[] getCoeffs() {
@@ -81,7 +81,7 @@ public class PolyFunction
 	}
 
 	/**
-	 * 
+	 *
 	 * @return copy of coefficients array
 	 */
 	public double[] getCoeffsCopy() {
@@ -114,7 +114,7 @@ public class PolyFunction
 	/**
 	 * Returns true. This method is overwritten by the subclass
 	 * SymbolicPolyFunction.
-	 * 
+	 *
 	 * @return true if coeffs were updated
 	 */
 	public boolean updateCoeffValues() {
@@ -123,7 +123,7 @@ public class PolyFunction
 	}
 
 	/**
-	 * 
+	 *
 	 * @return degree of polynomial
 	 */
 	public int getDegree() {
@@ -138,10 +138,10 @@ public class PolyFunction
 	}
 
 	/**
-	 * 
+	 *
 	 * @return first derivative
 	 */
-	final public PolyFunction getDerivative() {
+	public final PolyFunction getDerivative() {
 		if (derivative == null) {
 			derivative = buildDerivative();
 		}
@@ -149,10 +149,10 @@ public class PolyFunction
 	}
 
 	/**
-	 * 
+	 *
 	 * @return first derivative
 	 */
-	final public PolyFunction getIntegral() {
+	public final PolyFunction getIntegral() {
 		if (integral == null) {
 			integral = buildIntegral();
 		}
@@ -192,7 +192,7 @@ public class PolyFunction
 	 * Evaluates polynomial and its derivative
 	 */
 	@Override
-	final public double[] evaluateDerivFunc(double x) {
+	public final double[] evaluateDerivFunc(double x) {
 		double[] ret = new double[2];
 		ret[0] = coeffs[degree];
 		ret[1] = 0;
@@ -207,7 +207,7 @@ public class PolyFunction
 	 * Evaluates polynomial
 	 */
 	@Override
-	final public double value(double x) {
+	public final double value(double x) {
 		double p = coeffs[degree];
 		for (int i = degree - 1; i >= 0; i--) {
 			p = p * x + coeffs[i];
@@ -218,7 +218,7 @@ public class PolyFunction
 	/**
 	 * This routine evaluates this polynomial and its first order derivatives at
 	 * x.
-	 * 
+	 *
 	 * @param x
 	 *            point for function evaluation
 	 * @param order
@@ -226,7 +226,7 @@ public class PolyFunction
 	 * @return array a with polynomial value as a[0] and nd derivatives as
 	 *         a[1..order].
 	 */
-	final public double[] evaluateDerivatives(double x, int order) {
+	public final double[] evaluateDerivatives(double x, int order) {
 		double[] pd = new double[order + 1];
 
 		int nnd, j, i;
@@ -243,7 +243,7 @@ public class PolyFunction
 			pd[0] = pd[0] * x + coeffs[i];
 		}
 		for (i = 2; i <= order; i++) { // After the first derivative, factorial
-										// constants come in.
+			// constants come in.
 			cnst *= i;
 			pd[i] *= cnst;
 		}
@@ -259,25 +259,22 @@ public class PolyFunction
 	 *            whether to keep fractions
 	 * @return Function containing ExpressionNode built from coefficients
 	 */
-	public Function getFunction(Kernel kernel, FunctionVariable fv,
-			boolean fraction) {
+	public Function getFunction(Kernel kernel, FunctionVariable fv, boolean fraction) {
 
 		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
 
 		if (degree == 0) {
 			// constant
-			ExpressionNode en = new ExpressionNode(kernel,
-					getCoeff(0, fraction, kernel));
+			ExpressionNode en = new ExpressionNode(kernel, getCoeff(0, fraction, kernel));
 			return new Function(en, fv);
 		} else if (degree == 1) {
 			// linear
-			ExpressionNode en = fvEn.multiply(getCoeff(1, fraction, kernel))
-					.plus(getCoeff(0, fraction, kernel));
+			ExpressionNode en =
+					fvEn.multiply(getCoeff(1, fraction, kernel)).plus(getCoeff(0, fraction, kernel));
 			return new Function(en, fv);
 		}
 
-		ExpressionNode en = fvEn.power(degree)
-				.multiply(getCoeff(degree, fraction, kernel));
+		ExpressionNode en = fvEn.power(degree).multiply(getCoeff(degree, fraction, kernel));
 
 		if (degree > 2) {
 			for (int i = degree - 1; i > 1; i--) {
@@ -285,9 +282,9 @@ public class PolyFunction
 				// don't use !Kernel.isZero() as we don't want to lose eg
 				// leading term
 				if (coeffs[i] != 0) {
-					ExpressionNode term = new ExpressionNode(kernel, fv,
-							Operation.POWER, new MyDouble(kernel, i))
-									.multiply(getCoeff(i, fraction, kernel));
+					ExpressionNode term = new ExpressionNode(
+									kernel, fv, Operation.POWER, new MyDouble(kernel, i))
+							.multiply(getCoeff(i, fraction, kernel));
 					en = en.plus(term);
 				}
 			}
@@ -304,7 +301,6 @@ public class PolyFunction
 		}
 
 		return new Function(en, fv);
-
 	}
 
 	/**
@@ -343,7 +339,6 @@ public class PolyFunction
 		}
 
 		return true;
-
 	}
 
 	/**

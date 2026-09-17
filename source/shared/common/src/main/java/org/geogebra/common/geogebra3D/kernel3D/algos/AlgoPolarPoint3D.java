@@ -39,7 +39,7 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 
 	/**
 	 * Creates new AlgoPolarLine
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -49,8 +49,7 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 	 * @param line
 	 *            polar line
 	 */
-	public AlgoPolarPoint3D(Construction cons, String label, GeoConicND c,
-			GeoLineND line) {
+	public AlgoPolarPoint3D(Construction cons, String label, GeoConicND c, GeoLineND line) {
 		super(cons, label, c, line);
 	}
 
@@ -70,8 +69,7 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 	public final void compute() {
 
 		// check if line lies on conic coord sys
-		equation2D = line.getCartesianEquationVector(
-				c.getCoordSys().getMatrixOrthonormal());
+		equation2D = line.getCartesianEquationVector(c.getCoordSys().getMatrixOrthonormal());
 		if (equation2D == null) {
 			polar.setUndefined();
 			return;
@@ -83,9 +81,7 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 		polar2D.getCoords(polarCoords);
 
 		// update 3D polar
-		((GeoPoint3D) polar).setCoords(c.getCoordSys().getPoint(polarCoords[0],
-				polarCoords[1], polarCoords[2]));
-
+		((GeoPoint3D) polar)
+				.setCoords(c.getCoordSys().getPoint(polarCoords[0], polarCoords[1], polarCoords[2]));
 	}
-
 }

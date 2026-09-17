@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -62,8 +62,7 @@ class GraphingExpressionFilterFactoryTest extends BaseUnitTest {
 		ExpressionValue number = new MyDouble(getKernel());
 		assertAllowed(Operation.ABS, number, null);
 
-		ExpressionValue function = new Function(getKernel(),
-				new ExpressionNode(getKernel(), 0));
+		ExpressionValue function = new Function(getKernel(), new ExpressionNode(getKernel(), 0));
 		assertAllowed(Operation.ABS, function, null);
 		assertNotAllowed(Operation.ABS, add("2+i"), null);
 		ValidExpression complex = getKernel().getParser().parseGeoGebraExpression("1/i");
@@ -99,17 +98,19 @@ class GraphingExpressionFilterFactoryTest extends BaseUnitTest {
 	}
 
 	private void assertAllowed(Operation op, ExpressionValue left, ExpressionValue right) {
-		assertTrue(filter.isAllowed(new ExpressionNode(getKernel(), left, op, right)),
+		assertTrue(
+				filter.isAllowed(new ExpressionNode(getKernel(), left, op, right)),
 				op + " should be allowed for " + left + ", " + right);
 	}
 
 	private void assertNotAllowed(Operation op, ExpressionValue left, ExpressionValue right) {
-		assertFalse(filter.isAllowed(new ExpressionNode(getKernel(), left, op, right)),
+		assertFalse(
+				filter.isAllowed(new ExpressionNode(getKernel(), left, op, right)),
 				op + " should be allowed for " + left + ", " + right);
 	}
 
 	private ExpressionValue getVector() {
-		return new MyVecNode(getKernel(), new ExpressionNode(getKernel(), 0),
-				new ExpressionNode(getKernel(), 0));
+		return new MyVecNode(
+				getKernel(), new ExpressionNode(getKernel(), 0), new ExpressionNode(getKernel(), 0));
 	}
 }

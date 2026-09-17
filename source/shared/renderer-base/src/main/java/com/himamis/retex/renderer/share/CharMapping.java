@@ -102,8 +102,7 @@ public final class CharMapping {
 		final String text;
 		SymbolAtom textSym;
 
-		public SymbolMapping(final char c, final SymbolAtom sym,
-				final String text) {
+		public SymbolMapping(final char c, final SymbolAtom sym, final String text) {
 			this.c = c;
 			this.sym = sym;
 			if (sym != null) {
@@ -117,8 +116,7 @@ public final class CharMapping {
 			this(c, sym, null);
 		}
 
-		public SymbolMapping(final char c, final String sym,
-				final String text) {
+		public SymbolMapping(final char c, final String sym, final String text) {
 			this(c, SymbolAtom.get(sym), text);
 		}
 
@@ -211,7 +209,7 @@ public final class CharMapping {
 		}
 	}
 
-	private final static CharMapping defaultMappings = new CharMapping();
+	private static final CharMapping defaultMappings = new CharMapping();
 
 	private final Mapping[] mapToSym;
 
@@ -258,8 +256,7 @@ public final class CharMapping {
 		return replace(c, tp, tp.isMathMode());
 	}
 
-	public boolean replace(final char c, final TeXParser tp,
-			final boolean mathMode) {
+	public boolean replace(final char c, final TeXParser tp, final boolean mathMode) {
 		final Mapping m = mapToSym[c];
 		if (m != null) {
 			m.map(tp, mathMode);
@@ -647,8 +644,7 @@ public final class CharMapping {
 		putForm('\u1FB8', "\\u{\u0391}");
 		putForm('\u1FB9', "\\={\u0391}");
 		putForm('\u1FBA', "\\grkaccent{\u1FEF}{\\vphantom{\u03B9}}\u0391");
-		putForm('\u1FBB',
-				"\\grkaccent{\u0374}{\\vphantom{\u03B9}}\\!\\!\u0391");
+		putForm('\u1FBB', "\\grkaccent{\u0374}{\\vphantom{\u03B9}}\\!\\!\u0391");
 		putForm('\u1FC8', "\\grkaccent{\u1FEF}{\\vphantom{\u03B9}}\u0395");
 		putForm('\u1FC9', "\\grkaccent{\u0374}{\\vphantom{\u03B9}}\u0395");
 		putForm('\u1FCA', "\\grkaccent{\u1FEF}{\\vphantom{\u03B9}}\u0397");

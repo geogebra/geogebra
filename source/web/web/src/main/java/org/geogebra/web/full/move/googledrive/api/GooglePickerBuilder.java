@@ -36,7 +36,10 @@ public final class GooglePickerBuilder {
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
 	public static class PickerCallbackParam {
-		@InjectJsInterop public String action;
-		@InjectJsInterop public JsArray<GoogleDriveDocument> docs;
+		@InjectJsInterop
+		public String action;
+
+		@InjectJsInterop
+		public JsArray<GoogleDriveDocument> docs;
 	}
 }

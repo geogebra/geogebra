@@ -25,15 +25,14 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Algo for cone from a conic and a height
- * 
+ *
  * @author mathieu
  *
  */
-public class AlgoQuadricLimitedConicHeightCone
-		extends AlgoQuadricLimitedConicHeight {
+public class AlgoQuadricLimitedConicHeightCone extends AlgoQuadricLimitedConicHeight {
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -43,14 +42,14 @@ public class AlgoQuadricLimitedConicHeightCone
 	 * @param height
 	 *            height
 	 */
-	public AlgoQuadricLimitedConicHeightCone(Construction c, String[] labels,
-			GeoConicND bottom, GeoNumberValue height) {
+	public AlgoQuadricLimitedConicHeightCone(
+			Construction c, String[] labels, GeoConicND bottom, GeoNumberValue height) {
 		super(c, labels, bottom, height, GeoQuadricNDConstants.QUADRIC_CONE);
 	}
 
 	@Override
-	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
-			double r, double r2, double min, double max) {
+	protected void setQuadric(
+			Coords o1, Coords o2, Coords d, Coords eigen, double r, double r2, double min, double max) {
 		// getQuadric().setCone(o1,d,r, min, max);
 		getQuadric().setCone(o2, d, r / max, -max, 0);
 	}
@@ -59,5 +58,4 @@ public class AlgoQuadricLimitedConicHeightCone
 	public Commands getClassName() {
 		return Commands.Cone;
 	}
-
 }

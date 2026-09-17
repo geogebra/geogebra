@@ -37,8 +37,11 @@ public final class TextIconButton extends ToolIconButton {
 	 * @param tools list of tools
 	 */
 	public TextIconButton(AppW appW, Runnable deselectButtons, List<Integer> tools) {
-		super(tools.get(0), appW, appW.getToolboxIconResource()
-				.getImageResource(ToolboxIcon.TEXTS), () -> {});
+		super(
+				tools.get(0),
+				appW,
+				appW.getToolboxIconResource().getImageResource(ToolboxIcon.TEXTS),
+				() -> {});
 		this.appW = appW;
 		this.tools = tools;
 
@@ -49,8 +52,9 @@ public final class TextIconButton extends ToolIconButton {
 			setActive(true);
 
 			appW.setMode(textCategoryPopup.getLastSelectedMode());
-			textCategoryPopup.getPopupPanel().addCloseHandler(e ->
-					AriaHelper.setAriaExpanded(this, false));
+			textCategoryPopup
+					.getPopupPanel()
+					.addCloseHandler(e -> AriaHelper.setAriaExpanded(this, false));
 		});
 	}
 
@@ -67,8 +71,7 @@ public final class TextIconButton extends ToolIconButton {
 		if (getPopup().isShowing()) {
 			getPopup().hide();
 		} else {
-			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(),
-					this, appW);
+			ToolboxPopupPositioner.showRelativeToToolbox(getPopup(), this, appW);
 		}
 
 		AriaHelper.setAriaExpanded(this, getPopup().isShowing());
@@ -76,8 +79,7 @@ public final class TextIconButton extends ToolIconButton {
 
 	@Override
 	public int getMode() {
-		return textCategoryPopup != null ? textCategoryPopup.getLastSelectedMode()
-				: tools.get(0);
+		return textCategoryPopup != null ? textCategoryPopup.getLastSelectedMode() : tools.get(0);
 	}
 
 	@Override

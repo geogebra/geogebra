@@ -33,7 +33,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Taylor series of a function (GeoFunction)
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoTaylorSeries extends AlgoElement {
@@ -49,7 +49,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 
 	/**
 	 * Creates new Taylor series for function f about the point x=a of order n.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -61,8 +61,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 	 * @param n
 	 *            degree
 	 */
-	public AlgoTaylorSeries(Construction cons, String label, GeoFunctionable f,
-			GeoNumberValue a, GeoNumberValue n) {
+	public AlgoTaylorSeries(
+			Construction cons, String label, GeoFunctionable f, GeoNumberValue a, GeoNumberValue n) {
 		super(cons);
 		this.f = f;
 		this.a = a;
@@ -146,11 +146,9 @@ public class AlgoTaylorSeries extends AlgoElement {
 			if (DoubleUtil.isZero(ad)) { // only x
 				diffExp = fVar;
 			} else if (ad > 0) { // (x - a)
-				diffExp = new ExpressionNode(kernel, fVar, Operation.MINUS,
-						new MyDouble(kernel, ad));
+				diffExp = new ExpressionNode(kernel, fVar, Operation.MINUS, new MyDouble(kernel, ad));
 			} else { // (x + a)
-				diffExp = new ExpressionNode(kernel, fVar, Operation.PLUS,
-						new MyDouble(kernel, -ad));
+				diffExp = new ExpressionNode(kernel, fVar, Operation.PLUS, new MyDouble(kernel, -ad));
 			}
 
 			Function deriv = f.getFunction();
@@ -185,12 +183,11 @@ public class AlgoTaylorSeries extends AlgoElement {
 				if (k == 1) {
 					powerExp = diffExp;
 				} else {
-					powerExp = new ExpressionNode(kernel,
-							new ExpressionNode(kernel, diffExp, Operation.POWER,
-									new MyDouble(kernel, k)),
+					powerExp = new ExpressionNode(
+							kernel,
+							new ExpressionNode(kernel, diffExp, Operation.POWER, new MyDouble(kernel, k)),
 							Operation.DIVIDE,
-							new ExpressionNode(kernel, new MyDouble(kernel, k),
-									Operation.FACTORIAL, null));
+							new ExpressionNode(kernel, new MyDouble(kernel, k), Operation.FACTORIAL, null));
 				}
 
 				// build the expression
@@ -201,8 +198,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 					partExp = powerExp;
 				} else {
 					coeffMyDouble = new MyDouble(kernel, coeff);
-					partExp = new ExpressionNode(kernel, coeffMyDouble,
-							Operation.MULTIPLY, powerExp);
+					partExp = new ExpressionNode(kernel, coeffMyDouble, Operation.MULTIPLY, powerExp);
 				}
 
 				// add part to series
@@ -212,11 +208,9 @@ public class AlgoTaylorSeries extends AlgoElement {
 					if (coeffMyDouble != null) {
 						coeffMyDouble.set(-coeff); // change sign
 					}
-					series = new ExpressionNode(kernel, series,
-							Operation.MINUS, partExp);
+					series = new ExpressionNode(kernel, series, Operation.MINUS, partExp);
 				} else {
-					series = new ExpressionNode(kernel, series,
-							Operation.PLUS, partExp);
+					series = new ExpressionNode(kernel, series, Operation.PLUS, partExp);
 				}
 			}
 		}
@@ -230,5 +224,4 @@ public class AlgoTaylorSeries extends AlgoElement {
 		g.setFunction(seriesFun);
 		g.setDefined(true);
 	}
-
 }

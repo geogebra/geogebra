@@ -29,7 +29,7 @@ import org.jspecify.annotations.Nullable;
 public interface AlgebraView extends Editing, SetLabels {
 	/**
 	 * Returns whether this view is currently visible
-	 * 
+	 *
 	 * @return whether this view is currently visible
 	 */
 	boolean isVisible();
@@ -99,14 +99,14 @@ public interface AlgebraView extends Editing, SetLabels {
 		 */
 		public static SortMode fromInt(int mode) {
 			switch (mode) {
-			case 0:
-				return SortMode.DEPENDENCY;
-			case 1:
-				return SortMode.TYPE;
-			case 2:
-				return SortMode.LAYER;
-			case 3:
-				return SortMode.ORDER;
+				case 0:
+					return SortMode.DEPENDENCY;
+				case 1:
+					return SortMode.TYPE;
+				case 2:
+					return SortMode.LAYER;
+				case 3:
+					return SortMode.ORDER;
 			}
 			return SortMode.TYPE;
 		}
@@ -116,18 +116,17 @@ public interface AlgebraView extends Editing, SetLabels {
 		 */
 		public int toInt() {
 			switch (this) {
-			case DEPENDENCY:
-				return 0;
-			case TYPE:
-				return 1;
-			case LAYER:
-				return 2;
-			case ORDER:
-				return 3;
+				case DEPENDENCY:
+					return 0;
+				case TYPE:
+					return 1;
+				case LAYER:
+					return 2;
+				case ORDER:
+					return 3;
 			}
 			return 1;
 		}
-
 	}
 
 	/**
@@ -164,16 +163,15 @@ public interface AlgebraView extends Editing, SetLabels {
 
 	/**
 	 * This is just used from Html5/Web, but interface is in Common
-	 * 
+	 *
 	 * @param visible
 	 *            whether to show AV input
 	 */
 	void setShowAlgebraInput(boolean visible);
 
-    /**
-     * remove the geo (with no check)
-     * @param geo geo
-     */
-    void doRemove(GeoElement geo);
-
+	/**
+	 * remove the geo (with no check)
+	 * @param geo geo
+	 */
+	void doRemove(GeoElement geo);
 }

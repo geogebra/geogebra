@@ -39,9 +39,7 @@ public class GgbArchive {
 		construction = ggbFile.remove(MyXMLio.XML_FILE);
 		macros = ggbFile.remove(MyXMLio.XML_FILE_MACRO);
 		defaults2d = ggbFile.remove(MyXMLio.XML_FILE_DEFAULTS_2D);
-		defaults3d = is3D
-				? ggbFile.remove(MyXMLio.XML_FILE_DEFAULTS_3D) : null;
-
+		defaults3d = is3D ? ggbFile.remove(MyXMLio.XML_FILE_DEFAULTS_3D) : null;
 	}
 
 	/**

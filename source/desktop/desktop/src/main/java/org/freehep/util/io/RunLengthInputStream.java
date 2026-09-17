@@ -8,10 +8,10 @@ import java.io.InputStream;
  * The RunLengthStream decodes Run Length encoding. The exact definition of Run
  * Length encoding can be found in the PostScript Language Reference (3rd ed.)
  * chapter 3.13.3.
- * 
+ *
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: RunLengthInputStream.java,v 1.3 2008-05-04 12:21:33 murkle Exp
  *          $
@@ -28,7 +28,7 @@ public class RunLengthInputStream extends InputStream implements RunLength {
 
 	/**
 	 * Create a Run Length input stream
-	 * 
+	 *
 	 * @param input
 	 *            stream to read from
 	 */

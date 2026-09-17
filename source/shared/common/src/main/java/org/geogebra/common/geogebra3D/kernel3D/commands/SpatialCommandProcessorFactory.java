@@ -39,7 +39,7 @@ public class SpatialCommandProcessorFactory implements CommandProcessorFactory {
 				return new CmdPlane(kernel);
 			// English for scripting
 			case PerpendicularPlane:
-				// internal name
+			// internal name
 			case OrthogonalPlane:
 				return new CmdOrthogonalPlane(kernel);
 			case PlaneBisector:

@@ -32,7 +32,7 @@ import org.geogebra.common.plugin.Operation;
 /**
  * Fits a+bln(x) to a list of points. Adapted from AlgoFitLine and
  * AlgoPolynomialFromCoordinates (Borcherds)
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 24.04.08
  */
@@ -43,7 +43,7 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 	private final RegressionMath regMath;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param geolist
@@ -90,11 +90,9 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 			MyDouble A = new MyDouble(kernel, a);
 			MyDouble B = new MyDouble(kernel, b);
 			FunctionVariable X = new FunctionVariable(kernel);
-			ExpressionValue expr = new ExpressionNode(kernel, X, Operation.LOG,
-					X);
+			ExpressionValue expr = new ExpressionNode(kernel, X, Operation.LOG, X);
 			expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, expr);
-			ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS,
-					expr);
+			ExpressionNode node = new ExpressionNode(kernel, A, Operation.PLUS, expr);
 			Function f = new Function(node, X);
 			geofunction.setFunction(f);
 			geofunction.setDefined(true);
@@ -105,8 +103,7 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = { regMath.getP1(), regMath.getP2() };
+		double[] ret = {regMath.getP1(), regMath.getP2()};
 		return ret;
 	}
-
 }

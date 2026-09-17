@@ -23,14 +23,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * FitGrowth[&lt;List of Points&gt;]
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2010-02-25
  */
 public class CmdFitGrowth extends CmdOneListFunction {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,10 +39,9 @@ public class CmdFitGrowth extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoFitGrowth algo = new AlgoFitGrowth(cons, b);
 		algo.getFitGrowth().setLabel(a);
 		return algo.getFitGrowth();
 	}
-
 }

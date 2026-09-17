@@ -43,8 +43,10 @@ public class GeoSpotlight extends GeoConic {
 		EuclidianView ev = getApp().getActiveEuclidianView();
 		int screenHorizontalMiddle = ev.getWidth() / 2;
 		int screenVerticalMiddle = ev.getHeight() / 2;
-		Coords coords = new Coords(ev.toRealWorldCoordX(screenHorizontalMiddle),
-				ev.toRealWorldCoordY(screenVerticalMiddle), 1);
+		Coords coords = new Coords(
+				ev.toRealWorldCoordX(screenHorizontalMiddle),
+				ev.toRealWorldCoordY(screenVerticalMiddle),
+				1);
 		double rSqr = SPOTLIGHT_RADIUS / ev.getXscale();
 		setSphereND(coords, rSqr);
 	}

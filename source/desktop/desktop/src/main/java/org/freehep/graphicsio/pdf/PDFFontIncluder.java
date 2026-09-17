@@ -10,7 +10,7 @@ import org.freehep.graphicsio.font.FontIncluder;
 
 /**
  * Includes one of the 14 Type1 fonts in PDF documents
- * 
+ *
  * @author Simon Fischer
  * @version $id$
  */
@@ -35,12 +35,12 @@ public class PDFFontIncluder extends FontIncluder {
 	private static final int DINGBATS = 4;
 
 	private static final String[][] STANDARD_FONT = {
-			{ "Courier", "Courier-Bold", "Courier-Oblique",
-					"Courier-BoldOblique" },
-			{ "Helvetica", "Helvetica-Bold", "Helvetica-Oblique",
-					"Helvetica-BoldOblique" },
-			{ "Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic" },
-			{ "Symbol" }, { "ZapfDingbats" } };
+		{"Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique"},
+		{"Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique"},
+		{"Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic"},
+		{"Symbol"},
+		{"ZapfDingbats"}
+	};
 
 	private PDFWriter pdf;
 
@@ -48,8 +48,11 @@ public class PDFFontIncluder extends FontIncluder {
 
 	private PDFRedundanceTracker redundanceTracker;
 
-	public PDFFontIncluder(FontRenderContext context, PDFWriter pdf,
-			String reference, PDFRedundanceTracker redundanceTracker) {
+	public PDFFontIncluder(
+			FontRenderContext context,
+			PDFWriter pdf,
+			String reference,
+			PDFRedundanceTracker redundanceTracker) {
 		super(context);
 		this.pdf = pdf;
 		this.reference = reference;
@@ -68,14 +71,14 @@ public class PDFFontIncluder extends FontIncluder {
 		font.entry("Name", pdf.name(reference));
 		font.entry("BaseFont", pdf.name(STANDARD_FONT[fontBaseIndex][style]));
 		// font.entry("Encoding", pdf.ref(reference+"Encoding"));
-		font.entry("Encoding", redundanceTracker.getReference(
-				getEncodingTable(), PDFCharTableWriter.getInstance()));
+		font.entry(
+				"Encoding",
+				redundanceTracker.getReference(getEncodingTable(), PDFCharTableWriter.getInstance()));
 		pdf.close(font);
 	}
 
 	@Override
-	protected void writeEncoding(CharTable charTable) throws IOException {
-	}
+	protected void writeEncoding(CharTable charTable) throws IOException {}
 
 	public static boolean isStandardFont(Font font) {
 		String fontName = font.getName().toLowerCase();
@@ -127,5 +130,4 @@ public class PDFFontIncluder extends FontIncluder {
 		}
 		return PLAIN;
 	}
-
 }

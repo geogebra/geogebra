@@ -23,8 +23,7 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public class Firebase {
 
-	protected Firebase() {
-	}
+	protected Firebase() {}
 
 	@JsProperty(name = "firebase")
 	public static native FirebaseAnalytics get();

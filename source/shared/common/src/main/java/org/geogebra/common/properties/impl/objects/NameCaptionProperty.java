@@ -64,12 +64,12 @@ public class NameCaptionProperty extends AbstractValuedProperty<String> implemen
 				String newLabel = element.getFreeLabel(value);
 				element.rename(newLabel);
 			}
-			element.setLabelMode(showsValue(element) ? GeoElementND.LABEL_NAME_VALUE
-					: GeoElementND.LABEL_NAME);
+			element.setLabelMode(
+					showsValue(element) ? GeoElementND.LABEL_NAME_VALUE : GeoElementND.LABEL_NAME);
 		} else {
 			element.setCaption(value);
-			element.setLabelMode(showsValue(element) ? GeoElementND.LABEL_CAPTION_VALUE
-					: GeoElementND.LABEL_CAPTION);
+			element.setLabelMode(
+					showsValue(element) ? GeoElementND.LABEL_CAPTION_VALUE : GeoElementND.LABEL_CAPTION);
 		}
 
 		element.setAlgebraLabelVisible(true);
@@ -91,7 +91,6 @@ public class NameCaptionProperty extends AbstractValuedProperty<String> implemen
 
 	private boolean hasCaptionStyle(GeoElementND element) {
 		int labelMode = element.getLabelMode();
-		return labelMode == GeoElementND.LABEL_CAPTION
-				|| labelMode == GeoElementND.LABEL_CAPTION_VALUE;
+		return labelMode == GeoElementND.LABEL_CAPTION || labelMode == GeoElementND.LABEL_CAPTION_VALUE;
 	}
 }

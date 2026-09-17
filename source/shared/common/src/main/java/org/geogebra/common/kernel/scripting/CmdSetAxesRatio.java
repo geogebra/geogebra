@@ -33,7 +33,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,51 +46,48 @@ public class CmdSetAxesRatio extends CmdScripting {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		switch (n) {
+			case 2:
+				GeoElement[] arg = resArgs(c);
 
-		case 2:
-			GeoElement[] arg = resArgs(c);
+				if ((ok[0] = arg[0].isGeoNumeric()) && (ok[1] = arg[1].isGeoNumeric())) {
 
-			if ((ok[0] = arg[0].isGeoNumeric()) && (ok[1] = arg[1].isGeoNumeric())) {
+					GeoNumeric numGeo = (GeoNumeric) arg[0];
+					GeoNumeric numGeo2 = (GeoNumeric) arg[1];
+					EuclidianView ev = app.getActiveEuclidianView();
+					if (ev.isDefault2D()) {
+						ev.zoomAxesRatio(numGeo.getDouble(), numGeo2.getDouble(), true);
+					} else if (ev.isEuclidianView3D()) {
+						((EuclidianView3DInterface) ev)
+								.zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(), 0);
+					}
 
-				GeoNumeric numGeo = (GeoNumeric) arg[0];
-				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
-				EuclidianView ev = app.getActiveEuclidianView();
-				if (ev.isDefault2D()) {
-					ev.zoomAxesRatio(numGeo.getDouble(), numGeo2.getDouble(),
-							true);
-				} else if (ev.isEuclidianView3D()) {
-					((EuclidianView3DInterface) ev).zoomAxesRatio(
-							numGeo.getDouble() / numGeo2.getDouble(), 0);
+					return arg;
 				}
+				throw argErr(c, getBadArg(ok, arg));
+			case 3:
+				arg = resArgs(c);
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())) {
 
-				return arg;
+					GeoNumeric numGeo = (GeoNumeric) arg[0];
+					GeoNumeric numGeo2 = (GeoNumeric) arg[1];
+					GeoNumeric numGeo3 = (GeoNumeric) arg[2];
+					EuclidianView ev = app.getActiveEuclidianView();
+					if (ev.isDefault2D()) {
+						ev.zoomAxesRatio(numGeo.getDouble(), numGeo2.getDouble(), true);
+					} else if (ev.isEuclidianView3D()) {
+						((EuclidianView3DInterface) ev)
+								.zoomAxesRatio(
+										numGeo.getDouble() / numGeo2.getDouble(),
+										numGeo.getDouble() / numGeo3.getDouble());
+					}
 
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		case 3:
-			arg = resArgs(c);
-			if ((ok[0] = arg[0].isGeoNumeric()) && (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())) {
-				
-				GeoNumeric numGeo = (GeoNumeric) arg[0];
-				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
-				GeoNumeric numGeo3 = (GeoNumeric) arg[2];
-				EuclidianView ev = app.getActiveEuclidianView();
-				if (ev.isDefault2D()) {
-					ev.zoomAxesRatio(numGeo.getDouble(), numGeo2.getDouble(),
-							true);
-				} else if (ev.isEuclidianView3D()) {
-					((EuclidianView3DInterface) ev).zoomAxesRatio(
-							numGeo.getDouble() / numGeo2.getDouble(),
-							numGeo.getDouble() / numGeo3.getDouble());
+					return arg;
 				}
-
-				return arg;
-
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+				throw argErr(c, getBadArg(ok, arg));
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

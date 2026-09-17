@@ -39,5 +39,4 @@ public class ScriptError extends Exception {
 	public String getScriptError() {
 		return message;
 	}
-
 }

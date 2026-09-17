@@ -24,10 +24,8 @@ import org.junit.jupiter.api.Test;
 class FormulaConverterTest {
 	static final String END_PMATRIX = " \\end{pmatrix}";
 	static final String BEGIN_PMATRIX = "\\begin{pmatrix} ";
-	static final String GREY_BOX =
-			"\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}";
-	private final static String PLACEHOLDER
-			= "{" + GREY_BOX + "}";
+	static final String GREY_BOX = "\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}";
+	private static final String PLACEHOLDER = "{" + GREY_BOX + "}";
 	private final FormulaConverter converter = new FormulaConverter();
 
 	@BeforeEach
@@ -37,77 +35,72 @@ class FormulaConverterTest {
 
 	@Test
 	void testConvertColumnVector() {
-		assertEquals(BEGIN_PMATRIX + "1 \\\\ 2" + END_PMATRIX,
-				converter.convert("{{1}, {2}}"));
+		assertEquals(BEGIN_PMATRIX + "1 \\\\ 2" + END_PMATRIX, converter.convert("{{1}, {2}}"));
 	}
 
 	@Test
 	void testConvertEmptyColumnVector() {
-		assertEquals(BEGIN_PMATRIX + PLACEHOLDER
-						+ " \\\\ " + PLACEHOLDER
-						+ " \\\\ " + PLACEHOLDER + END_PMATRIX,
+		assertEquals(
+				BEGIN_PMATRIX + PLACEHOLDER + " \\\\ " + PLACEHOLDER + " \\\\ " + PLACEHOLDER + END_PMATRIX,
 				converter.convert("{{}, {}, {}}"));
 	}
 
 	@Test
 	void testConvertColumnVectorWithEmptyValue() {
-		assertEquals(BEGIN_PMATRIX + PLACEHOLDER
-						+ " \\\\ 2" + END_PMATRIX,
-				converter.convert("{{?}, {2}}"));
+		assertEquals(
+				BEGIN_PMATRIX + PLACEHOLDER + " \\\\ 2" + END_PMATRIX, converter.convert("{{?}, {2}}"));
 	}
 
 	@Test
 	void testConvertMatrix() {
-		assertEquals(BEGIN_PMATRIX + "1 & {\\nbsp{}2} \\\\ 3 & {\\nbsp{}4}" + END_PMATRIX,
+		assertEquals(
+				BEGIN_PMATRIX + "1 & {\\nbsp{}2} \\\\ 3 & {\\nbsp{}4}" + END_PMATRIX,
 				converter.convert("{{1, 2}, {3, 4}}"));
 	}
 
 	@Test
 	void testConvertEmptyMatrix() {
-		assertEquals(BEGIN_PMATRIX + PLACEHOLDER + " & " + PLACEHOLDER + " \\\\ "
-						+ PLACEHOLDER + " & " + PLACEHOLDER + END_PMATRIX,
+		assertEquals(
+				BEGIN_PMATRIX + PLACEHOLDER + " & " + PLACEHOLDER + " \\\\ " + PLACEHOLDER + " & "
+						+ PLACEHOLDER + END_PMATRIX,
 				converter.convert("{{,},{,}}"));
 	}
 
 	@Test
 	void testConvertMatrixWithEmptyValue() {
-		assertEquals(BEGIN_PMATRIX + "1 & {\\nbsp{}2} \\\\ 3 & "
-						+ PLACEHOLDER + END_PMATRIX,
+		assertEquals(
+				BEGIN_PMATRIX + "1 & {\\nbsp{}2} \\\\ 3 & " + PLACEHOLDER + END_PMATRIX,
 				converter.convert("{{1, 2}, {3,}}"));
 	}
 
 	@Test
 	void testConvertEmpty2DPoint() {
-		assertEquals("\\left({" + PLACEHOLDER
-				+ "," + PLACEHOLDER + "}\\right)", converter.convert("(?,?)"));
+		assertEquals(
+				"\\left({" + PLACEHOLDER + "," + PLACEHOLDER + "}\\right)", converter.convert("(?,?)"));
 	}
 
 	@Test
 	void testConvertEmpty3DPoint() {
-		assertEquals("\\left({" + PLACEHOLDER
-				+ "," + PLACEHOLDER + "," + PLACEHOLDER
-				+ "}\\right)", converter.convert("(,,)"));
+		assertEquals(
+				"\\left({" + PLACEHOLDER + "," + PLACEHOLDER + "," + PLACEHOLDER + "}\\right)",
+				converter.convert("(,,)"));
 	}
 
 	@Test
 	void testConvertSemiEmptyPointNumberInLeft() {
-		assertEquals("\\left({4," + PLACEHOLDER + ","
-						+ PLACEHOLDER + "}\\right)",
-				converter.convert("(4,,)"));
+		assertEquals(
+				"\\left({4," + PLACEHOLDER + "," + PLACEHOLDER + "}\\right)", converter.convert("(4,,)"));
 	}
 
 	@Test
 	void testConvertSemiEmptyPointNumberInMiddle() {
-		assertEquals("\\left({" + PLACEHOLDER + ",4,"
-						+ PLACEHOLDER + "}\\right)",
-				converter.convert("(,4,)"));
+		assertEquals(
+				"\\left({" + PLACEHOLDER + ",4," + PLACEHOLDER + "}\\right)", converter.convert("(,4,)"));
 	}
 
 	@Test
 	void testConvertSemiEmptyPointNumberInRight() {
-		assertEquals("\\left({" + PLACEHOLDER + ","
-						+ PLACEHOLDER + ",4}\\right)",
-				converter.convert("(,,4)"));
+		assertEquals(
+				"\\left({" + PLACEHOLDER + "," + PLACEHOLDER + ",4}\\right)", converter.convert("(,,4)"));
 	}
-
 }

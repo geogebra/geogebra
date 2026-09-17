@@ -31,7 +31,7 @@ public class SVGFontTable {
 	 * Stores fonts and a glyph-hashtable. The font key ist normalized using
 	 * {@link #untransform(java.awt.Font)}
 	 */
-	private Hashtable <Font, Hashtable<String, SVGGlyph>> glyphs = new Hashtable<>();
+	private Hashtable<Font, Hashtable<String, SVGGlyph>> glyphs = new Hashtable<>();
 
 	/**
 	 * creates a glyph for the string character
@@ -42,7 +42,7 @@ public class SVGFontTable {
 	 */
 	private SVGGlyph addGlyph(int c, Font font) {
 		// is the font stored?
-		Hashtable/* <String, SVGGlyph> */ glyphs = getGlyphs(font);
+		Hashtable /* <String, SVGGlyph> */ glyphs = getGlyphs(font);
 
 		// does a glyph already exist?
 		SVGGlyph result = (SVGGlyph) glyphs.get(String.valueOf(c));
@@ -70,8 +70,7 @@ public class SVGFontTable {
 				String.valueOf((char) c));
 
 		// create and store the SVG Glyph
-		return new SVGGlyph(glyphVector.getGlyphOutline(0), c,
-				glyphVector.getGlyphMetrics(0));
+		return new SVGGlyph(glyphVector.getGlyphOutline(0), c, glyphVector.getGlyphMetrics(0));
 	}
 
 	/**
@@ -93,16 +92,15 @@ public class SVGFontTable {
 	 * @param font
 	 * @return glyph vectors for font
 	 */
-	private Hashtable/* <String SVGGlyph> */ getGlyphs(Font font) {
+	private Hashtable /* <String SVGGlyph> */ getGlyphs(Font font) {
 		// derive a default font for the font table
 		font = untransform(font);
 
-		Hashtable/* <String SVGGlyph> */ result = (Hashtable/*
+		Hashtable /* <String SVGGlyph> */ result = (Hashtable /*
 															 * <String SVGGlyph>
-															 */) glyphs
-				.get(font);
+															 */) glyphs.get(font);
 		if (result == null) {
-			result = new Hashtable/* <String SVGGlyph> */();
+			result = new Hashtable /* <String SVGGlyph> */();
 			glyphs.put(font, result);
 		}
 		return result;
@@ -110,7 +108,7 @@ public class SVGFontTable {
 
 	/**
 	 * creates the font entry:
-	 * 
+	 *
 	 * <PRE>
 	 * &lt;font&gt;
 	 * &lt;glyph ... /&gt;
@@ -124,7 +122,7 @@ public class SVGFontTable {
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 
-		Enumeration/* <Font> */ fonts = this.glyphs.keys();
+		Enumeration /* <Font> */ fonts = this.glyphs.keys();
 		while (fonts.hasMoreElements()) {
 			Font font = (Font) fonts.nextElement();
 
@@ -147,16 +145,14 @@ public class SVGFontTable {
 			result.append("\" ");
 
 			// bold
-			if (TextAttribute.WEIGHT_BOLD
-					.equals(attributes.get(TextAttribute.WEIGHT))) {
+			if (TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT))) {
 				result.append("font-weight=\"bold\" ");
 			} else {
 				result.append("font-weight=\"normal\" ");
 			}
 
 			// italic
-			if (TextAttribute.POSTURE_OBLIQUE
-					.equals(attributes.get(TextAttribute.POSTURE))) {
+			if (TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE))) {
 				result.append("font-style=\"italic\" ");
 			} else {
 				result.append("font-style=\"normal\" ");
@@ -174,8 +170,8 @@ public class SVGFontTable {
 			result.append(SVGGraphics2D.fixedPrecision(SVGGlyph.FONT_SIZE));
 			result.append("\" ");
 
-			TextLayout tl = new TextLayout("By", font,
-					new FontRenderContext(new AffineTransform(), true, true));
+			TextLayout tl =
+					new TextLayout("By", font, new FontRenderContext(new AffineTransform(), true, true));
 
 			// The maximum unaccented height of the font within the font
 			// coordinate system.
@@ -261,6 +257,7 @@ public class SVGFontTable {
 	 * all font settings, even the family fame
 	 */
 	private static final Properties replaceFonts = new Properties();
+
 	static {
 		replaceFonts.setProperty("dialog", "Helvetica");
 		replaceFonts.setProperty("dialoginput", "Courier New");
@@ -297,8 +294,8 @@ public class SVGFontTable {
 		FontTable.normalize(attributes);
 
 		// get replaced font family name (Yes it's right, not the name!)
-		String family = replaceFonts.getProperty(
-				((String) attributes.get(TextAttribute.FAMILY)).toLowerCase());
+		String family =
+				replaceFonts.getProperty(((String) attributes.get(TextAttribute.FAMILY)).toLowerCase());
 		if (family == null) {
 			family = (String) attributes.get(TextAttribute.FAMILY);
 		}

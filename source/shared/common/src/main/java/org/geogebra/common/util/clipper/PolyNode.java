@@ -27,7 +27,9 @@ import org.geogebra.common.util.clipper.Point.DoublePoint;
 class PolyNode {
 	/** Node type. */
 	enum NodeType {
-		ANY, OPEN, CLOSED
+		ANY,
+		OPEN,
+		CLOSED
 	}
 
 	private PolyNode parent;
@@ -126,5 +128,4 @@ class PolyNode {
 	void setParent(PolyNode n) {
 		parent = n;
 	}
-
 }

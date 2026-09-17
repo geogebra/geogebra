@@ -38,8 +38,7 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 	 * @param poly
 	 *            polygon
 	 */
-	public AlgoAnglePolygon3D(Construction cons, String[] labels,
-			GeoPolygon poly) {
+	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly) {
 		this(cons, labels, poly, false);
 	}
 
@@ -53,8 +52,8 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 	 * @param internalAngle
 	 *            whether to return internal angles
 	 */
-	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly,
-			boolean internalAngle) {
+	public AlgoAnglePolygon3D(
+			Construction cons, String[] labels, GeoPolygon poly, boolean internalAngle) {
 		this(cons, labels, poly, null, internalAngle);
 	}
 
@@ -70,20 +69,22 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 	 * @param internalAngle
 	 *            if angles are internal
 	 */
-	public AlgoAnglePolygon3D(Construction cons, String[] labels,
-			GeoPolygon poly, GeoDirectionND orientation, boolean internalAngle) {
+	public AlgoAnglePolygon3D(
+			Construction cons,
+			String[] labels,
+			GeoPolygon poly,
+			GeoDirectionND orientation,
+			boolean internalAngle) {
 		super(cons, labels, poly, orientation, internalAngle);
 	}
 
 	@Override
 	protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1) {
-		return new AlgoAnglePoints3DOrientation(cons1, getPolygon(),
-				getPolygon().hasReverseNormal());
+		return new AlgoAnglePoints3DOrientation(cons1, getPolygon(), getPolygon().hasReverseNormal());
 	}
 
 	@Override
-	final protected GeoAngle newGeoAngle(Construction cons1) {
+	protected final GeoAngle newGeoAngle(Construction cons1) {
 		return GeoAngle3D.newAngle3DWithDefaultInterval(cons1);
 	}
-
 }

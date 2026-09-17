@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
-abstract sealed public class Suggestion
+public abstract sealed class Suggestion
 		permits SuggestionIntersectExtremum, SuggestionSolve, SuggestionStatistics {
 
 	/**
@@ -39,14 +39,12 @@ abstract sealed public class Suggestion
 	 *            needed
 	 * @return whether all algos related to a suggestion were found
 	 */
-	static boolean checkDependentAlgo(GeoElementND geo, Suggestion sug,
-			boolean[] algosMissing) {
+	static boolean checkDependentAlgo(GeoElementND geo, Suggestion sug, boolean[] algosMissing) {
 		for (AlgoElement algo : geo.getAlgorithmList()) {
 			if (algo != null
 					&& algo.getOutputLength() > 0
 					&& algo.getOutput(0).isLabelSet()
-					&& sug.allAlgosExist(extractClassName(algo), algo.getInput(),
-							algosMissing)) {
+					&& sug.allAlgosExist(extractClassName(algo), algo.getInput(), algosMissing)) {
 				return true;
 			}
 			if (algo instanceof AlgoDependentList
@@ -57,7 +55,7 @@ abstract sealed public class Suggestion
 		return false;
 	}
 
-	static private GetCommand extractClassName(AlgoElement algo) {
+	private static GetCommand extractClassName(AlgoElement algo) {
 		if (algo instanceof AlgoDependentSymbolic) {
 			ExpressionValue definition = algo.getOutput(0).getDefinition().unwrap();
 			if (definition instanceof Command) {
@@ -80,8 +78,8 @@ abstract sealed public class Suggestion
 	 *            previously found algos
 	 * @return whether all algos already exist
 	 */
-	protected abstract boolean allAlgosExist(GetCommand className,
-			GeoElement[] input, boolean[] algosMissing);
+	protected abstract boolean allAlgosExist(
+			GetCommand className, GeoElement[] input, boolean[] algosMissing);
 
 	/**
 	 * This method runs the necessary commands to execute this suggestion.
@@ -90,7 +88,7 @@ abstract sealed public class Suggestion
 	 *
 	 * @param geo geo element to perform the suggestion on
 	 */
-	abstract protected void runCommands(GeoElementND geo);
+	protected abstract void runCommands(GeoElementND geo);
 
 	/**
 	 * Execute this suggestion.

@@ -30,12 +30,12 @@ public class CompositionEndEvent extends DomEvent<CompositionEndHandler> {
 	 * Event type for composition events. Represents the meta-data associated
 	 * with this event.
 	 */
-	private static final Type<CompositionEndHandler> TYPE = new Type<>(
-			"compositionend", new CompositionEndEvent());
+	private static final Type<CompositionEndHandler> TYPE =
+			new Type<>("compositionend", new CompositionEndEvent());
 
 	/**
 	 * Gets the event type associated with focus events.
-	 * 
+	 *
 	 * @return the handler type
 	 */
 	public static Type<CompositionEndHandler> getType() {
@@ -47,8 +47,7 @@ public class CompositionEndEvent extends DomEvent<CompositionEndHandler> {
 	 * {@link DomEvent#fireNativeEvent(org.gwtproject.dom.client.NativeEvent, org.gwtproject.event.shared.HasHandlers)}
 	 * to fire focus events.
 	 */
-	protected CompositionEndEvent() {
-	}
+	protected CompositionEndEvent() {}
 
 	@Override
 	public final Type<CompositionEndHandler> getAssociatedType() {
@@ -67,5 +66,4 @@ public class CompositionEndEvent extends DomEvent<CompositionEndHandler> {
 		CompositionEvent ce = Js.uncheckedCast(getNativeEvent());
 		return ce.data;
 	}
-
 }

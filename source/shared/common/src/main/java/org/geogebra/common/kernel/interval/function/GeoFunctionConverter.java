@@ -61,17 +61,17 @@ public class GeoFunctionConverter {
 	public IntervalNodeFunction convert(GeoFunction geoFunction) {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalNode expression = convert(
-				Objects.requireNonNull(geoFunction.getFunctionExpression()),
-				functionVariable).simplify();
+						Objects.requireNonNull(geoFunction.getFunctionExpression()), functionVariable)
+				.simplify();
 		if (expression.asExpressionNode() == null) {
-			expression = new IntervalExpressionNode(evaluator, expression,
-					IntervalOperation.NO_OPERATION);
+			expression =
+					new IntervalExpressionNode(evaluator, expression, IntervalOperation.NO_OPERATION);
 		}
 		return new IntervalNodeFunction(expression.asExpressionNode(), functionVariable);
 	}
 
-	private IntervalNode convert(ExpressionNode expressionNode,
-			IntervalFunctionVariable functionVariable) {
+	private IntervalNode convert(
+			ExpressionNode expressionNode, IntervalFunctionVariable functionVariable) {
 		IntervalExpressionNode node = new IntervalExpressionNode(evaluator);
 		node.setLeft(nodeValue(functionVariable, expressionNode.getLeft()));
 		node.setOperation(operationSupport.convert(expressionNode.getOperation()));
@@ -79,8 +79,7 @@ public class GeoFunctionConverter {
 		return node;
 	}
 
-	private IntervalNode nodeValue(IntervalFunctionVariable functionVariable,
-			ExpressionValue value) {
+	private IntervalNode nodeValue(IntervalFunctionVariable functionVariable, ExpressionValue value) {
 		if (value == null) {
 			return null;
 		}
@@ -90,16 +89,16 @@ public class GeoFunctionConverter {
 				: convert(unwrapped.wrap(), functionVariable);
 	}
 
-	private IntervalNode newLeafValue(ExpressionValue value,
-			IntervalFunctionVariable functionVariable) {
+	private IntervalNode newLeafValue(
+			ExpressionValue value, IntervalFunctionVariable functionVariable) {
 		return value instanceof FunctionVariable
-				? functionVariable : newSingletonValue(value.evaluateDouble());
+				? functionVariable
+				: newSingletonValue(value.evaluateDouble());
 	}
 
 	private IntervalNode newSingletonValue(double value) {
-		return new IntervalFunctionValue(Double.isNaN(value)
-				? IntervalConstants.undefined()
-				: new Interval(value));
+		return new IntervalFunctionValue(
+				Double.isNaN(value) ? IntervalConstants.undefined() : new Interval(value));
 	}
 
 	/**

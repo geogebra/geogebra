@@ -60,7 +60,6 @@ public class StartPointModel extends MultipleGeosModel {
 				equalLocation = false;
 				break;
 			}
-
 		}
 
 		GeoPointND p = geo0.getStartPoint();
@@ -69,7 +68,6 @@ public class StartPointModel extends MultipleGeosModel {
 		} else {
 			getListener().setSelectedIndex(-1);
 		}
-
 	}
 
 	@Override
@@ -81,8 +79,7 @@ public class StartPointModel extends MultipleGeosModel {
 		GeoPointND newLoc = null;
 		handler.resetError();
 		if (!StringUtil.emptyTrim(strLoc)) {
-			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-					handler, true);
+			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc, handler, true);
 		}
 		if (newLoc == null) {
 			return;

@@ -25,8 +25,7 @@ import org.jspecify.annotations.NonNull;
  */
 public interface ImageProperty extends ValuedProperty<ImageProperty.Value> {
 
-	record Value(@NonNull MyImage image, @NonNull String path) {
-	}
+	record Value(@NonNull MyImage image, @NonNull String path) {}
 
 	/**
 	 * @return label for the choose from file button

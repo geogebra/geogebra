@@ -33,7 +33,7 @@ public final class DoubleArrayFactory {
 	 * <P>
 	 * If arrays of that size have previously been stored in this factory, then
 	 * an existing array will be returned.
-	 * 
+	 *
 	 * @param size
 	 *            the array size you need.
 	 * @return a double array of the size indicated.
@@ -57,7 +57,7 @@ public final class DoubleArrayFactory {
 	 * this array by calling <code>getArray()</code>, then you may have two
 	 * entities using the same array to manipulate data... and that can be
 	 * really hard to debug!
-	 * 
+	 *
 	 * @param array
 	 *            the array you no longer need that might be needed later.
 	 */

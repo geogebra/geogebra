@@ -33,5 +33,4 @@ public interface GeoElementDelegate {
 	 * @throws NotApplicablePropertyException if it's not applicable
 	 */
 	void checkIsApplicable() throws NotApplicablePropertyException;
-
 }

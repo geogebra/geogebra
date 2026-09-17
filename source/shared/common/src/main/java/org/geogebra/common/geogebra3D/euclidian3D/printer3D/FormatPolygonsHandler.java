@@ -36,16 +36,16 @@ public class FormatPolygonsHandler {
 	private TreeSet<Integer> polygonsLeft;
 	private Polygon currentPolygon;
 
-	final private Coords tmp1;
-	final private Coords tmp2;
+	private final Coords tmp1;
+	private final Coords tmp2;
 
-	static private class Polygon {
+	private static class Polygon {
 		private Coords normal;
 		private ArrayList<Coords> normalsList;
 		private ArrayList<Coords> vertices;
 		private ArrayList<Integer> indices;
-		final private int id;
-		final private boolean isFlat;
+		private final int id;
+		private final boolean isFlat;
 
 		Polygon(int id, boolean isFlat) {
 			this.id = id;
@@ -82,8 +82,7 @@ public class FormatPolygonsHandler {
 			indices.add(v3);
 		}
 
-		private int getRandomPointAndNormal(Coords retPoint, Coords retNormal,
-				Coords tmp, Random r) {
+		private int getRandomPointAndNormal(Coords retPoint, Coords retNormal, Coords tmp, Random r) {
 			int index = 3 * r.nextInt(indices.size() / 3);
 			double a = Math.random();
 			double b = Math.random() * (1 - a);
@@ -113,8 +112,14 @@ public class FormatPolygonsHandler {
 		}
 
 		@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
-		private void setPosition(int sourceId, int sourceTriangle, Coords start,
-				Coords n, Coords tmp1, Coords tmp2, Coords tmpO,
+		private void setPosition(
+				int sourceId,
+				int sourceTriangle,
+				Coords start,
+				Coords n,
+				Coords tmp1,
+				Coords tmp2,
+				Coords tmpO,
 				Coords inPlaneCoords,
 				TreeMap<Double, PolygonWithTraversedNormal> sortedPolygons) {
 			int sourceIndex = -1;
@@ -134,18 +139,15 @@ public class FormatPolygonsHandler {
 					tmpO.set3(vertices.get(indices.get(i)));
 					tmp1.setSub3(vertices.get(indices.get(i + 1)), tmpO);
 					tmp2.setSub3(vertices.get(indices.get(i + 2)), tmpO);
-					start.projectPlaneInPlaneCoords(tmp1, tmp2, n, tmpO,
-							inPlaneCoords);
+					start.projectPlaneInPlaneCoords(tmp1, tmp2, n, tmpO, inPlaneCoords);
 					if (!DoubleUtil.isZero(inPlaneCoords.getW())) {
 						double x = inPlaneCoords.getX();
 						double y = inPlaneCoords.getY();
 						if (x > 0 && y > 0 && x + y < 1) {
 							// inside the triangle
-							Coords traversedNormal = isFlat ? normal
-									: normalsList.get(indices.get(i));
-							sortedPolygons.put(-inPlaneCoords.getZ(),
-									new PolygonWithTraversedNormal(this,
-											traversedNormal));
+							Coords traversedNormal = isFlat ? normal : normalsList.get(indices.get(i));
+							sortedPolygons.put(
+									-inPlaneCoords.getZ(), new PolygonWithTraversedNormal(this, traversedNormal));
 							if (isFlat) {
 								// can be traversed only once
 								return;
@@ -156,16 +158,14 @@ public class FormatPolygonsHandler {
 			}
 		}
 
-		private void getTriangles(StringBuilder sb, FormatSTL format,
-				Coords tmp1, Coords tmp2) {
+		private void getTriangles(StringBuilder sb, FormatSTL format, Coords tmp1, Coords tmp2) {
 			for (int i = 0; i < indices.size(); i += 3) {
 				Coords v1 = vertices.get(indices.get(i));
 				Coords v2 = vertices.get(indices.get(i + 1));
 				Coords v3 = vertices.get(indices.get(i + 2));
 				tmp1.setSub3(v2, v1);
 				tmp2.setSub3(v3, v1);
-				Coords orientedNormal = isFlat ? normal
-						: normalsList.get(indices.get(i));
+				Coords orientedNormal = isFlat ? normal : normalsList.get(indices.get(i));
 				if (orientedNormal.dotCrossProduct(tmp1, tmp2) > 0) {
 					getTriangle(sb, format, v1, v2, v3, orientedNormal);
 				} else {
@@ -174,12 +174,26 @@ public class FormatPolygonsHandler {
 			}
 		}
 
-		static private void getTriangle(StringBuilder sb,
-				FormatSTL format, Coords v1, Coords v2, Coords v3,
+		private static void getTriangle(
+				StringBuilder sb,
+				FormatSTL format,
+				Coords v1,
+				Coords v2,
+				Coords v3,
 				Coords orientedNormal) {
-			format.getTriangle(sb, orientedNormal.getX(), orientedNormal.getY(),
-					orientedNormal.getZ(), v1.getX(), v1.getY(), v1.getZ(),
-					v2.getX(), v2.getY(), v2.getZ(), v3.getX(), v3.getY(),
+			format.getTriangle(
+					sb,
+					orientedNormal.getX(),
+					orientedNormal.getY(),
+					orientedNormal.getZ(),
+					v1.getX(),
+					v1.getY(),
+					v1.getZ(),
+					v2.getX(),
+					v2.getY(),
+					v2.getZ(),
+					v3.getX(),
+					v3.getY(),
 					v3.getZ());
 		}
 
@@ -213,13 +227,12 @@ public class FormatPolygonsHandler {
 
 			return sb.toString();
 		}
-
 	}
 
-	static private class PolygonWithTraversedNormal {
+	private static class PolygonWithTraversedNormal {
 		private Polygon p;
 		private Coords traversedNormal;
-		
+
 		PolygonWithTraversedNormal(Polygon p, Coords traversedNormal) {
 			this.p = p;
 			this.traversedNormal = traversedNormal;
@@ -247,7 +260,7 @@ public class FormatPolygonsHandler {
 
 	/**
 	 * start a polygon
-	 * 
+	 *
 	 * @param isFlat
 	 *            all geometries are in the same plane
 	 */
@@ -258,7 +271,7 @@ public class FormatPolygonsHandler {
 
 	/**
 	 * add a vertex to the current polygon
-	 * 
+	 *
 	 * @param x
 	 *            x coord
 	 * @param y
@@ -272,7 +285,7 @@ public class FormatPolygonsHandler {
 
 	/**
 	 * set current polygon normal
-	 * 
+	 *
 	 * @param x
 	 *            x coord
 	 * @param y
@@ -286,7 +299,7 @@ public class FormatPolygonsHandler {
 
 	/**
 	 * add a triangle to current polygon
-	 * 
+	 *
 	 * @param v1
 	 *            first vertex index
 	 * @param v2
@@ -318,16 +331,22 @@ public class FormatPolygonsHandler {
 		while (attempts > 0 && polygonsLeft.size() > 0) {
 			int currentId = polygonsLeft.first();
 			Polygon p0 = polygons.get(currentId);
-			int triangleIndex = p0.getRandomPointAndNormal(start, normal, tmp1,
-					r);
+			int triangleIndex = p0.getRandomPointAndNormal(start, normal, tmp1, r);
 			sortedPolygons.put(0.0, new PolygonWithTraversedNormal(p0, normal));
 			// find polygons traversed and position on line
 			for (Polygon p : polygons) {
-				p.setPosition(currentId, triangleIndex, start, normal, tmp1,
-						tmp2, tmpP, inPlaneCoords, sortedPolygons);
+				p.setPosition(
+						currentId,
+						triangleIndex,
+						start,
+						normal,
+						tmp1,
+						tmp2,
+						tmpP,
+						inPlaneCoords,
+						sortedPolygons);
 			}
-			Collection<PolygonWithTraversedNormal> sorted = sortedPolygons
-					.values();
+			Collection<PolygonWithTraversedNormal> sorted = sortedPolygons.values();
 			// successful only if there is an even count of polygons traversed
 			if (sorted.size() % 2 == 0) {
 				double orientation = -1;
@@ -342,12 +361,11 @@ public class FormatPolygonsHandler {
 			sortedPolygons.clear();
 			attempts--;
 		}
-
 	}
 
 	/**
 	 * get triangles from polygons
-	 * 
+	 *
 	 * @param sb
 	 *            string builder
 	 * @param format

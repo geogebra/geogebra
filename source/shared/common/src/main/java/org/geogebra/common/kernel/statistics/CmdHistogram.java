@@ -34,7 +34,7 @@ public class CmdHistogram extends CommandProcessor {
 
 	/**
 	 * Create new command processor for left histogram
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,7 +44,7 @@ public class CmdHistogram extends CommandProcessor {
 
 	/**
 	 * Create new command processor for right/left histogram
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param right
@@ -56,167 +56,210 @@ public class CmdHistogram extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isGeoList())) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
-				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], right);
+					AlgoHistogram algo =
+							new AlgoHistogram(cons, c.getLabel(), (GeoList) arg[0], (GeoList) arg[1], right);
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else {
-				throw argErr(c, arg[1]);
-			}
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else {
+					throw argErr(c, arg[1]);
+				}
 
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { histogram(c.getLabel(), (GeoList) arg[0],
-						(GeoList) arg[1], (GeoBoolean) arg[2], null, right) };
-				return ret;
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[2]);
-			}
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoBoolean())) {
+					GeoElement[] ret = {
+						histogram(
+								c.getLabel(), (GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2], null, right)
+					};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else {
+					throw argErr(c, arg[2]);
+				}
 
-		case 4:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoBoolean())
-					&& (ok[3] = arg[3].isGeoNumeric())) {
-				GeoElement[] ret = { histogram(c.getLabel(), (GeoList) arg[0],
-						(GeoList) arg[1], (GeoBoolean) arg[2],
-						(GeoNumeric) arg[3], right) };
-				return ret;
-			}
+			case 4:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoBoolean())
+						&& (ok[3] = arg[3].isGeoNumeric())) {
+					GeoElement[] ret = {
+						histogram(
+								c.getLabel(),
+								(GeoList) arg[0],
+								(GeoList) arg[1],
+								(GeoBoolean) arg[2],
+								(GeoNumeric) arg[3],
+								right)
+					};
+					return ret;
+				} else if ((ok[0] = arg[0].isGeoBoolean())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoList())
+						&& (ok[3] = arg[3].isGeoBoolean())) {
 
-			else if ((ok[0] = arg[0].isGeoBoolean())
-					&& (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoList())
-					&& (ok[3] = arg[3].isGeoBoolean())) {
+					AlgoHistogram algo = new AlgoHistogram(
+							cons,
+							c.getLabel(),
+							(GeoBoolean) arg[0],
+							(GeoList) arg[1],
+							(GeoList) arg[2],
+							null,
+							(GeoBoolean) arg[3],
+							null,
+							right);
 
-				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
-						null, (GeoBoolean) arg[3], null, right);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else {
+					throw argErr(c, arg[3]);
+				}
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
+			case 5:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoBoolean())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoList())
+						&& (ok[3] = arg[3].isGeoBoolean())
+						&& (ok[4] = arg[4].isGeoNumeric())) {
+					GeoElement[] ret = {
+						histogram(
+								c.getLabel(),
+								(GeoBoolean) arg[0],
+								(GeoList) arg[1],
+								(GeoList) arg[2],
+								(GeoBoolean) arg[3],
+								(GeoNumeric) arg[4],
+								right)
+					};
+					return ret;
+				} else if ((ok[0] = arg[0].isGeoBoolean())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoList())
+						&& (ok[3] = arg[3].isGeoList())
+						&& (ok[4] = arg[4].isGeoBoolean())) {
 
-			else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else {
-				throw argErr(c, arg[3]);
-			}
+					AlgoHistogram algo = new AlgoHistogram(
+							cons,
+							c.getLabel(),
+							(GeoBoolean) arg[0],
+							(GeoList) arg[1],
+							(GeoList) arg[2],
+							(GeoList) arg[3],
+							(GeoBoolean) arg[4],
+							null,
+							right);
 
-		case 5:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoBoolean())
-					&& (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoList())
-					&& (ok[3] = arg[3].isGeoBoolean())
-					&& (ok[4] = arg[4].isGeoNumeric())) {
-				GeoElement[] ret = { histogram(c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
-						(GeoBoolean) arg[3], (GeoNumeric) arg[4], right) };
-				return ret;
-			} else if ((ok[0] = arg[0].isGeoBoolean())
-					&& (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoList())
-					&& (ok[3] = arg[3].isGeoList())
-					&& (ok[4] = arg[4].isGeoBoolean())) {
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
 
-				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
-						(GeoList) arg[3], (GeoBoolean) arg[4], null, right);
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else if (!ok[3]) {
+					throw argErr(c, arg[3]);
+				} else {
+					throw argErr(c, arg[4]);
+				}
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
+			case 6:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoBoolean())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoList())
+						&& (ok[3] = arg[3].isGeoBoolean())
+						&& (ok[4] = arg[4].isGeoNumeric())) {
+					GeoElement[] ret = {
+						histogram(
+								c.getLabel(),
+								(GeoBoolean) arg[0],
+								(GeoList) arg[1],
+								(GeoList) arg[2],
+								(GeoBoolean) arg[3],
+								(GeoNumeric) arg[4],
+								right)
+					};
+					return ret;
+				} else if ((ok[0] = arg[0].isGeoBoolean())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoList())
+						&& (ok[3] = arg[3].isGeoList())
+						&& (ok[4] = arg[4].isGeoBoolean())
+						&& (ok[4] = arg[5].isGeoNumeric())) {
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else if (!ok[3]) {
-				throw argErr(c, arg[3]);
-			} else {
-				throw argErr(c, arg[4]);
-			}
+					AlgoHistogram algo = new AlgoHistogram(
+							cons,
+							c.getLabel(),
+							(GeoBoolean) arg[0],
+							(GeoList) arg[1],
+							(GeoList) arg[2],
+							(GeoList) arg[3],
+							(GeoBoolean) arg[4],
+							(GeoNumeric) arg[5],
+							right);
 
-		case 6:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoBoolean())
-					&& (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoList())
-					&& (ok[3] = arg[3].isGeoBoolean())
-					&& (ok[4] = arg[4].isGeoNumeric())) {
-				GeoElement[] ret = { histogram(c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
-						(GeoBoolean) arg[3], (GeoNumeric) arg[4], right) };
-				return ret;
-			} else if ((ok[0] = arg[0].isGeoBoolean())
-					&& (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoList())
-					&& (ok[3] = arg[3].isGeoList())
-					&& (ok[4] = arg[4].isGeoBoolean())
-					&& (ok[4] = arg[5].isGeoNumeric())) {
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
 
-				AlgoHistogram algo = new AlgoHistogram(cons, c.getLabel(),
-						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2],
-						(GeoList) arg[3], (GeoBoolean) arg[4],
-						(GeoNumeric) arg[5], right);
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else if (!ok[3]) {
+					throw argErr(c, arg[3]);
+				} else if (!ok[4]) {
+					throw argErr(c, arg[4]);
+				} else {
+					throw argErr(c, arg[5]);
+				}
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else if (!ok[3]) {
-				throw argErr(c, arg[3]);
-			} else if (!ok[4]) {
-				throw argErr(c, arg[4]);
-			} else {
-				throw argErr(c, arg[5]);
-			}
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
-
 	}
 
 	/**
 	 * Histogram[isCumulative, classList, dataList, useDensity, density]
 	 */
-	private GeoNumeric histogram(String label, GeoBoolean isCumulative,
-			GeoList list1, GeoList list2, GeoBoolean useDensity,
-			GeoNumeric density, boolean rightHistogram) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, isCumulative, list1,
-				list2, null, useDensity, density, rightHistogram);
+	private GeoNumeric histogram(
+			String label,
+			GeoBoolean isCumulative,
+			GeoList list1,
+			GeoList list2,
+			GeoBoolean useDensity,
+			GeoNumeric density,
+			boolean rightHistogram) {
+		AlgoHistogram algo = new AlgoHistogram(
+				cons, label, isCumulative, list1, list2, null, useDensity, density, rightHistogram);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}
@@ -224,11 +267,15 @@ public class CmdHistogram extends CommandProcessor {
 	/**
 	 * Histogram[classList, dataList, useDensity, density]
 	 */
-	private GeoNumeric histogram(String label, GeoList list1,
-			GeoList list2, GeoBoolean useDensity, GeoNumeric density,
+	private GeoNumeric histogram(
+			String label,
+			GeoList list1,
+			GeoList list2,
+			GeoBoolean useDensity,
+			GeoNumeric density,
 			boolean rightHistogram) {
-		AlgoHistogram algo = new AlgoHistogram(cons, label, null, list1, list2,
-				null, useDensity, density, rightHistogram);
+		AlgoHistogram algo = new AlgoHistogram(
+				cons, label, null, list1, list2, null, useDensity, density, rightHistogram);
 		GeoNumeric sum = algo.getSum();
 		return sum;
 	}

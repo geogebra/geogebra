@@ -39,8 +39,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 	private Coords polarDirection;
 	private Coords coords2D;
 
-	public AlgoTangentPoint3D(Construction cons, String[] labels, GeoPointND P,
-			GeoConicND c) {
+	public AlgoTangentPoint3D(Construction cons, String[] labels, GeoPointND P, GeoConicND c) {
 		super(cons, labels, P, c);
 	}
 
@@ -65,19 +64,15 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 
 		if (i == 0) { // for second tangent, calculations are already done
 			polar.getCoords(polarCoords);
-			polarDirection = c.getCoordSys().getVector(-polarCoords[1],
-					polarCoords[0]);
+			polarDirection = c.getCoordSys().getVector(-polarCoords[1], polarCoords[0]);
 			if (DoubleUtil.isZero(polarCoords[0])) {
-				polarOrigin = c.getCoordSys().getPoint(0,
-						-polarCoords[2] / polarCoords[1]);
+				polarOrigin = c.getCoordSys().getPoint(0, -polarCoords[2] / polarCoords[1]);
 			} else {
-				polarOrigin = c.getCoordSys()
-						.getPoint(-polarCoords[2] / polarCoords[0], 0);
+				polarOrigin = c.getCoordSys().getPoint(-polarCoords[2] / polarCoords[0], 0);
 			}
 		}
 
 		((GeoLine3D) tangents[i]).setCoord(polarOrigin, polarDirection);
-
 	}
 
 	@Override
@@ -96,8 +91,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 			return true;
 		}
 
-		coords2D = c.getCoordSys()
-				.getNormalProjection(P.getInhomCoordsInD3())[1];
+		coords2D = c.getCoordSys().getNormalProjection(P.getInhomCoordsInD3())[1];
 		if (!DoubleUtil.isZero(coords2D.getZ())) {
 			return true;
 		}
@@ -116,9 +110,8 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 	@Override
 	protected boolean isIntersectionPointIncident() {
 		// Too low precision causes tangent not touching the conic GGB-1018
-		return c.isIntersectionPointIncident(coords2D,
-				Kernel.STANDARD_PRECISION); // ||
-											// P.getIncidenceList().contains(c);
+		return c.isIntersectionPointIncident(coords2D, Kernel.STANDARD_PRECISION); // ||
+		// P.getIncidenceList().contains(c);
 	}
 
 	@Override
@@ -162,12 +155,10 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 	 *            algo used
 	 */
 	public static void initForNearToRelationship(
-			GeoPointND[] tangentPoints, GeoLineND tangent,
-			AlgoIntersectND algoIntersect) {
+			GeoPointND[] tangentPoints, GeoLineND tangent, AlgoIntersectND algoIntersect) {
 		Coords firstTangentPoint = tangentPoints[0].getInhomCoordsInD3();
 
-		if (!tangent.isOnFullLine(firstTangentPoint,
-				Kernel.MIN_PRECISION)) {
+		if (!tangent.isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
 			algoIntersect.initForNearToRelationship();
 
 			// first = second
@@ -178,5 +169,4 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 			algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
 		}
 	}
-
 }

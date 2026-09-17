@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF BitmapInfoHeader
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: BlendFunction.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -25,8 +25,7 @@ public class BlendFunction implements EMFConstants {
 
 	private int alphaFormat;
 
-	public BlendFunction(int blendOp, int blendFlags, int sourceConstantAlpha,
-			int alphaFormat) {
+	public BlendFunction(int blendOp, int blendFlags, int sourceConstantAlpha, int alphaFormat) {
 		this.blendOp = blendOp;
 		this.blendFlags = blendFlags;
 		this.sourceConstantAlpha = sourceConstantAlpha;

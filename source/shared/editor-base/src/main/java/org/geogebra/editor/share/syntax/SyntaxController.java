@@ -68,8 +68,8 @@ public class SyntaxController implements MathFieldInternalListener {
 			int commasAfter = editorState.countCommasAfterCurrent();
 			if (commasBefore < fn.getPlaceholders().size()
 					&& (commasBefore + commasAfter + 1 == fn.getPlaceholders().size())) {
-				String serializedCommand = GeoGebraSerializer.serialize(fn.getChild(0),
-						(EditorFeatures) null);
+				String serializedCommand =
+						GeoGebraSerializer.serialize(fn.getChild(0), (EditorFeatures) null);
 				if (serializedCommand.equals(fn.getCommandForSyntax())) {
 					hint.update(serializedCommand, fn.getPlaceholders(), commasBefore);
 				}

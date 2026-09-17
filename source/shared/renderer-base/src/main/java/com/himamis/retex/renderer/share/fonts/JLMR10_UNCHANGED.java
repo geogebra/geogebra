@@ -13,6 +13,5 @@ final class JLMR10_UNCHANGED extends FontInfo {
 		setMetrics(126, 1389, 1900);
 
 		setMetrics(127, 1389, 800);
-
 	}
 }

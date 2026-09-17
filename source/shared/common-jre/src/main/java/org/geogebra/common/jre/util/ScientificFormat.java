@@ -33,7 +33,7 @@ public class ScientificFormat extends ScientificFormatAdapter {
 	/**
 	 * Sets the significant digits, maximum allowable width and number
 	 * formatting style (SciNote == true for Pure formatting).
-	 * 
+	 *
 	 * @param sigDigit
 	 *            significant digits
 	 * @param maxWidth
@@ -64,8 +64,7 @@ public class ScientificFormat extends ScientificFormatAdapter {
 	}
 
 	private static DecimalFormat getDecimalFormat(int sigDig) {
-		String buffer = "0." + "0".repeat(Math.max(0, sigDig - 1))
-				+ "E0";
+		String buffer = "0." + "0".repeat(Math.max(0, sigDig - 1)) + "E0";
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
 		symbols.setNaN("NaN");
 		DecimalFormat format = new DecimalFormat(buffer, symbols);
@@ -81,5 +80,4 @@ public class ScientificFormat extends ScientificFormatAdapter {
 		String preliminaryResult = decimalFormat.format(d);
 		return prettyPrint(preliminaryResult);
 	}
-
 }

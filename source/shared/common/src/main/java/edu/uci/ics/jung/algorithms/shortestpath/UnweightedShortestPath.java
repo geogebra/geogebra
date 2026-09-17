@@ -1,12 +1,12 @@
 /*
-* Copyright (c) 2003, the JUNG Project and the Regents of the University 
-* of California
-* All rights reserved.
-*
-* This software is open-source under the BSD license; see either
-* "license.txt" or
-* http://jung.sourceforge.net/license.txt for a description.
-*/
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
+ * of California
+ * All rights reserved.
+ *
+ * This software is open-source under the BSD license; see either
+ * "license.txt" or
+ * http://jung.sourceforge.net/license.txt for a description.
+ */
 package edu.uci.ics.jung.algorithms.shortestpath;
 
 import java.util.HashMap;
@@ -17,11 +17,10 @@ import edu.uci.ics.jung.graph.Hypergraph;
 /**
  * Computes the shortest path distances for graphs whose edges are not weighted
  * (using BFS).
- * 
+ *
  * @author Scott White
  */
-public class UnweightedShortestPath<V, E>
-		implements ShortestPath<V, E>, Distance<V> {
+public class UnweightedShortestPath<V, E> implements ShortestPath<V, E>, Distance<V> {
 	private Map<V, Map<V, Number>> mDistanceMap;
 	private Map<V, Map<V, E>> mIncomingEdgeMap;
 	private Hypergraph<V, E> mGraph;
@@ -29,7 +28,7 @@ public class UnweightedShortestPath<V, E>
 
 	/**
 	 * Constructs and initializes algorithm
-	 * 
+	 *
 	 * @param g
 	 *            the graph
 	 */
@@ -78,7 +77,7 @@ public class UnweightedShortestPath<V, E>
 	/**
 	 * Computes the shortest path distances from a given node to all other
 	 * nodes.
-	 * 
+	 *
 	 * @param source
 	 *            the source node
 	 */
@@ -98,12 +97,11 @@ public class UnweightedShortestPath<V, E>
 				currentSourceSPMap.put(vertex, distanceVal);
 				int minDistance = distanceVal.intValue();
 				for (E incomingEdge : mGraph.getInEdges(vertex)) {
-					for (V neighbor : mGraph
-							.getIncidentVertices(incomingEdge)) {
+					for (V neighbor : mGraph.getIncidentVertices(incomingEdge)) {
 						if (neighbor.equals(vertex)) {
 							continue;
-						// V neighbor = mGraph.getOpposite(vertex,
-						// incomingEdge);
+							// V neighbor = mGraph.getOpposite(vertex,
+							// incomingEdge);
 						}
 
 						Number predDistanceVal = distances.get(neighbor);
@@ -126,7 +124,7 @@ public class UnweightedShortestPath<V, E>
 	 * the graph is modified (edge weights changed or edges added/removed). If
 	 * the user knows that some currently calculated distances are unaffected by
 	 * a change, <code>reset(V)</code> may be appropriate instead.
-	 * 
+	 *
 	 * @see #reset(Object)
 	 */
 	public void reset() {
@@ -138,7 +136,7 @@ public class UnweightedShortestPath<V, E>
 	 * Clears all stored distances for the specified source vertex
 	 * <code>source</code>. Should be called whenever the stored distances from
 	 * this vertex are invalidated by changes to the graph.
-	 * 
+	 *
 	 * @see #reset()
 	 */
 	public void reset(V v) {

@@ -31,7 +31,7 @@ public class CmdRectangleSum extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,32 +40,36 @@ public class CmdRectangleSum extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 5:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3] instanceof GeoNumberValue)
-					&& (ok[4] = arg[4] instanceof GeoNumberValue)) {
+			case 5:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumberValue)
+						&& (ok[4] = arg[4] instanceof GeoNumberValue)) {
 
-				AlgoSumRectangle algo = new AlgoSumRectangle(cons, c.getLabel(),
-						(GeoFunctionable) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
+					AlgoSumRectangle algo = new AlgoSumRectangle(
+							cons,
+							c.getLabel(),
+							(GeoFunctionable) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3],
+							(GeoNumberValue) arg[4]);
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -116,8 +116,7 @@ public final class CurveSignature {
 		long mixedHash = mix(hash, input.length);
 		for (GeoElement geo : input) {
 			if (geo instanceof GeoNumeric) {
-				mixedHash = mix(mixedHash,
-						Double.doubleToLongBits(((GeoNumeric) geo).getValue()));
+				mixedHash = mix(mixedHash, Double.doubleToLongBits(((GeoNumeric) geo).getValue()));
 			}
 		}
 		return mixedHash;

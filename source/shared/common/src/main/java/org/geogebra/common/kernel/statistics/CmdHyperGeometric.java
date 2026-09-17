@@ -32,7 +32,7 @@ public class CmdHyperGeometric extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,83 +47,88 @@ public class CmdHyperGeometric extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+					AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
+							cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue)
+									arg[2]);
 
-				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
-						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else {
+					throw argErr(c, arg[2]);
+				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[2]);
-			}
+			case 4:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3].isGeoBoolean())) {
 
-		case 4:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3].isGeoBoolean())) {
+					AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
+							cons,
+							c.getLabel(),
+							(GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoBoolean) arg[3]);
 
-				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
-						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						(GeoBoolean) arg[3]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else {
+					throw argErr(c, arg[3]);
+				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else {
-				throw argErr(c, arg[3]);
-			}
+			case 5:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumberValue)
+						&& (ok[4] = arg[4].isGeoBoolean())) {
 
-		case 5:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3] instanceof GeoNumberValue)
-					&& (ok[4] = arg[4].isGeoBoolean())) {
+					AlgoHyperGeometric algo = new AlgoHyperGeometric(
+							cons,
+							(GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3],
+							(GeoBoolean) arg[4]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 
-				AlgoHyperGeometric algo = new AlgoHyperGeometric(cons,
-						(GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						(GeoNumberValue) arg[3], (GeoBoolean) arg[4]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else if (!ok[3]) {
+					throw argErr(c, arg[3]);
+				} else {
+					throw argErr(c, arg[4]);
+				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else if (!ok[3]) {
-				throw argErr(c, arg[3]);
-			} else {
-				throw argErr(c, arg[4]);
-			}
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

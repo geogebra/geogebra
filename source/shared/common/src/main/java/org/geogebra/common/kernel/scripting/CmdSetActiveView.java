@@ -32,7 +32,7 @@ import org.geogebra.common.main.MyError;
 public class CmdSetActiveView extends CmdScripting {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -59,52 +59,50 @@ public class CmdSetActiveView extends CmdScripting {
 
 			// ignore all errors (eg when a view is not available etc)
 			switch (view) {
-			default:
-				// do nothing for now
-				// might be needed when support for more than 2
-				// Euclidian Views added
-				break;
-			case 1:
-				app.setActiveView(App.VIEW_EUCLIDIAN);
-				break;
-			case 2:
-				app.setActiveView(App.VIEW_EUCLIDIAN2);
-				break;
-			case -1:
-				app.setActiveView(App.VIEW_EUCLIDIAN3D);
-				break;
+				default:
+					// do nothing for now
+					// might be needed when support for more than 2
+					// Euclidian Views added
+					break;
+				case 1:
+					app.setActiveView(App.VIEW_EUCLIDIAN);
+					break;
+				case 2:
+					app.setActiveView(App.VIEW_EUCLIDIAN2);
+					break;
+				case -1:
+					app.setActiveView(App.VIEW_EUCLIDIAN3D);
+					break;
 			}
 
 			return arg;
 
 		} else if (arg[0].isGeoText()) {
-			String code = arg[0]
-					.toValueString(StringTemplate.defaultTemplate);
+			String code = arg[0].toValueString(StringTemplate.defaultTemplate);
 			if (code.length() == 1) {
 				char letter = code.charAt(0);
 				switch (letter) {
-				default:
-					// do nothing
-					break;
-				case 'G':
-					app.setActiveView(App.VIEW_EUCLIDIAN);
-					break;
-				case 'D':
-					app.setActiveView(App.VIEW_EUCLIDIAN2);
-					break;
-				case 'T':
-					app.setActiveView(App.VIEW_EUCLIDIAN3D);
-					break;
-				case 'S':
-					app.setActiveView(App.VIEW_SPREADSHEET);
-					break;
-				case 'A':
-					app.setActiveView(App.VIEW_ALGEBRA);
-					break;
-				case 'C':
-					app.setActiveView(App.VIEW_CAS);
-					break;
-
+					default:
+						// do nothing
+						break;
+					case 'G':
+						app.setActiveView(App.VIEW_EUCLIDIAN);
+						break;
+					case 'D':
+						app.setActiveView(App.VIEW_EUCLIDIAN2);
+						break;
+					case 'T':
+						app.setActiveView(App.VIEW_EUCLIDIAN3D);
+						break;
+					case 'S':
+						app.setActiveView(App.VIEW_SPREADSHEET);
+						break;
+					case 'A':
+						app.setActiveView(App.VIEW_ALGEBRA);
+						break;
+					case 'C':
+						app.setActiveView(App.VIEW_CAS);
+						break;
 				}
 			}
 
@@ -120,6 +118,5 @@ public class CmdSetActiveView extends CmdScripting {
 			}
 		}
 		throw argErr(c, arg[0]);
-
 	}
 }

@@ -33,8 +33,8 @@ class GridLineStylePropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupApp(SuiteSubApp.GRAPHING);
-		GridLineStyleProperty gridLineStyleProperty = new GridLineStyleProperty(getLocalization(),
-				getEuclidianSettings());
+		GridLineStyleProperty gridLineStyleProperty =
+				new GridLineStyleProperty(getLocalization(), getEuclidianSettings());
 
 		gridLineStyleProperty.setValue(LINE_TYPE_DASHED_SHORT);
 		assertEquals(LINE_TYPE_DASHED_SHORT, gridLineStyleProperty.getValue());
@@ -46,16 +46,17 @@ class GridLineStylePropertyTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(ints = {
-			EuclidianView.GRID_CARTESIAN,
-			EuclidianView.GRID_CARTESIAN_WITH_SUBGRID,
-			EuclidianView.GRID_ISOMETRIC,
-			EuclidianView.GRID_POLAR,
-	})
+	@ValueSource(
+			ints = {
+				EuclidianView.GRID_CARTESIAN,
+				EuclidianView.GRID_CARTESIAN_WITH_SUBGRID,
+				EuclidianView.GRID_ISOMETRIC,
+				EuclidianView.GRID_POLAR,
+			})
 	void testGridTypesWithAvailableLineStyleProperty(int gridType) {
 		setupApp(SuiteSubApp.GRAPHING);
-		GridLineStyleProperty gridLineStyleProperty = new GridLineStyleProperty(
-				getLocalization(), getEuclidianSettings());
+		GridLineStyleProperty gridLineStyleProperty =
+				new GridLineStyleProperty(getLocalization(), getEuclidianSettings());
 		getEuclidianSettings().setGridType(gridType);
 
 		assertTrue(gridLineStyleProperty.isAvailable());
@@ -64,8 +65,8 @@ class GridLineStylePropertyTests extends BaseAppTestSetup {
 	@Test
 	void testUnavailableLineStylePropertyForDotGridType() {
 		setupApp(SuiteSubApp.GRAPHING);
-		GridLineStyleProperty gridLineStyleProperty = new GridLineStyleProperty(
-				getLocalization(), getEuclidianSettings());
+		GridLineStyleProperty gridLineStyleProperty =
+				new GridLineStyleProperty(getLocalization(), getEuclidianSettings());
 		getEuclidianSettings().setGridType(EuclidianView.GRID_DOTS);
 
 		assertFalse(gridLineStyleProperty.isAvailable());

@@ -49,7 +49,7 @@ public class LayoutUtilW {
 
 	/**
 	 * Add widgets ito one row and add indentation CSS.
-	 * 
+	 *
 	 * @param widgets
 	 *            widgets
 	 * @return widgets merged in a row
@@ -88,8 +88,7 @@ public class LayoutUtilW {
 	 *            yscale
 	 * @return smaller scale
 	 */
-	public static double getDeviceScale(double xscale, double yscale,
-			boolean allowUpscale) {
+	public static double getDeviceScale(double xscale, double yscale, boolean allowUpscale) {
 		if (xscale < 1 || yscale < 1 || !allowUpscale) {
 			return Math.min(1d, Math.min(xscale, yscale));
 		}

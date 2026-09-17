@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Compute the bottom of a limited quadric
- * 
+ *
  * @author Mathieu
  *
  */
@@ -36,8 +36,7 @@ public class AlgoQuadricEndBottom extends AlgoQuadricEnd {
 	 * @param quadric
 	 *            quadric
 	 */
-	public AlgoQuadricEndBottom(Construction cons, String label,
-			GeoQuadric3DLimited quadric) {
+	public AlgoQuadricEndBottom(Construction cons, String label, GeoQuadric3DLimited quadric) {
 		super(cons, label, quadric);
 	}
 
@@ -55,5 +54,4 @@ public class AlgoQuadricEndBottom extends AlgoQuadricEnd {
 	public Commands getClassName() {
 		return Commands.Bottom;
 	}
-
 }

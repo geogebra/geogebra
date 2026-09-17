@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.interval.operators;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
@@ -46,10 +46,8 @@ class IntervalMiscTest {
 
 	@Test
 	void testExp() {
-		assertEquals(interval(0.3678794411714423, 2.7182818284590455),
-				evaluator.exp(interval(-1, 1)));
-		assertEquals(interval(0.04978706836786394, 20.08553692318767),
-				evaluator.exp(interval(-3, 3)));
+		assertEquals(interval(0.3678794411714423, 2.7182818284590455), evaluator.exp(interval(-1, 1)));
+		assertEquals(interval(0.04978706836786394, 20.08553692318767), evaluator.exp(interval(-3, 3)));
 		assertEquals(overflow(), evaluator.expSet(overflow()));
 		assertTrue(evaluator.expSet(connected(711, 711)).isOverflow());
 		assertTrue(evaluator.expSet(connected(711, 712)).isOverflow());
@@ -84,9 +82,8 @@ class IntervalMiscTest {
 	void expOfInvertedShouldNotOverflow() {
 		assertFalse(evaluator.expSet(inverted(-711, 711)).isOverflow());
 		assertFalse(evaluator.expSet(inverted(-1000, 1000)).isOverflow());
-		assertFalse(evaluator.expSet(inverted(-Double.MAX_VALUE / 2,
-				Double.MAX_VALUE / 2)).isOverflow());
-
+		assertFalse(
+				evaluator.expSet(inverted(-Double.MAX_VALUE / 2, Double.MAX_VALUE / 2)).isOverflow());
 	}
 
 	@Test
@@ -96,7 +93,6 @@ class IntervalMiscTest {
 		assertTrue(result.isConnected());
 		assertEquals(0, connectedInterval(result).getLow(), 0);
 		assertTrue(Double.isInfinite(connectedInterval(result).getHigh()));
-
 	}
 
 	@Test
@@ -109,8 +105,7 @@ class IntervalMiscTest {
 	void testLog() {
 		assertEquals(interval(0, 0), evaluator.log(interval(1, 1)));
 		assertEquals(interval(0, 3), evaluator.log(interval(1, Math.exp(3))));
-		assertEquals(IntervalConstants.undefined(),
-				evaluator.log(interval(NEGATIVE_INFINITY, -1)));
+		assertEquals(IntervalConstants.undefined(), evaluator.log(interval(NEGATIVE_INFINITY, -1)));
 		assertEquals(overflow(), evaluator.logSet(overflow()));
 	}
 
@@ -120,7 +115,6 @@ class IntervalMiscTest {
 		assertEquals(interval(0, 1), evaluator.log10(interval(1, 10)));
 		assertEquals(interval(0, 2), evaluator.log10(interval(1, 100)));
 		assertEquals(overflow(), evaluator.log10Set(overflow()));
-
 	}
 
 	@Test
@@ -133,53 +127,36 @@ class IntervalMiscTest {
 
 	@Test
 	void testLogB() {
-		assertEquals(interval(0, 0), evaluator.logBase(interval(3, 3),
-				interval(1, 1)));
-		assertEquals(interval(2, 3), evaluator.logBase(interval(2, 2),
-				interval(4, 8)));
-		assertEquals(interval(2, 4), evaluator.logBase(interval(2, 4),
-				interval(16, 16)));
-		assertEquals(undefined(), evaluator.logBase(interval(1, 1),
-				interval(3, 3)));
-		assertEquals(overflow(), evaluator.logBaseSet(connected(1, 2),
-				overflow()));
+		assertEquals(interval(0, 0), evaluator.logBase(interval(3, 3), interval(1, 1)));
+		assertEquals(interval(2, 3), evaluator.logBase(interval(2, 2), interval(4, 8)));
+		assertEquals(interval(2, 4), evaluator.logBase(interval(2, 4), interval(16, 16)));
+		assertEquals(undefined(), evaluator.logBase(interval(1, 1), interval(3, 3)));
+		assertEquals(overflow(), evaluator.logBaseSet(connected(1, 2), overflow()));
 		assertEquals(overflow(), evaluator.logBaseSet(overflow(), connected(1, 2)));
 		assertEquals(overflow(), evaluator.logBaseSet(overflow(), overflow()));
-
 	}
 
 	@Test
 	void testIntersection() {
 		assertTrue(evaluator.intersect(interval(-1, 1), interval(5, 7)).isUndefined());
 		assertTrue(evaluator.intersect(interval(-1, 1), undefined()).isUndefined());
-		assertEquals(interval(0, 1),
-				evaluator.intersect(interval(-1, 1), interval(0, 7)));
-		assertEquals(interval(-1, 1),
-				evaluator.intersect(whole(), interval(-1, 1)));
-		assertEquals(interval(2, 4),
-				evaluator.intersect(legacyInverted(-1, 1), interval(2, 4)));
+		assertEquals(interval(0, 1), evaluator.intersect(interval(-1, 1), interval(0, 7)));
+		assertEquals(interval(-1, 1), evaluator.intersect(whole(), interval(-1, 1)));
+		assertEquals(interval(2, 4), evaluator.intersect(legacyInverted(-1, 1), interval(2, 4)));
 
-		assertEquals(overflow(), evaluator.intersectSet(connected(1, 2),
-				overflow()));
+		assertEquals(overflow(), evaluator.intersectSet(connected(1, 2), overflow()));
 		assertEquals(overflow(), evaluator.intersectSet(overflow(), connected(1, 2)));
 		assertEquals(overflow(), evaluator.intersectSet(overflow(), overflow()));
-
 	}
 
 	@Test
 	void testUnion() {
-		assertEquals(interval(1, 4),
-				evaluator.union(interval(1, 3), interval(2, 4)));
-		assertEquals(whole(),
-				evaluator.union(whole(), interval(1, 3)));
-		assertEquals(whole(),
-				evaluator.union(legacyInverted(-1, 1), interval(-2, 2)));
-		assertEquals(overflow(),
-				evaluator.unionSet(connected(-1, 1), overflow()));
-		assertEquals(overflow(),
-				evaluator.unionSet(overflow(), connected(-1, 1)));
-		assertEquals(overflow(),
-				evaluator.unionSet(overflow(), overflow()));
+		assertEquals(interval(1, 4), evaluator.union(interval(1, 3), interval(2, 4)));
+		assertEquals(whole(), evaluator.union(whole(), interval(1, 3)));
+		assertEquals(whole(), evaluator.union(legacyInverted(-1, 1), interval(-2, 2)));
+		assertEquals(overflow(), evaluator.unionSet(connected(-1, 1), overflow()));
+		assertEquals(overflow(), evaluator.unionSet(overflow(), connected(-1, 1)));
+		assertEquals(overflow(), evaluator.unionSet(overflow(), overflow()));
 	}
 
 	@Test

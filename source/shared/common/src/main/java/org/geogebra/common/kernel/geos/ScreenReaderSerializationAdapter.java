@@ -51,8 +51,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		if (sup != null) {
 			ret.append(' ');
 			if (isDegrees(sup)) {
-				ret.append("1".equals(base) ? ScreenReader.getDegree(loc)
-						: ScreenReader.getDegrees(loc));
+				ret.append("1".equals(base) ? ScreenReader.getDegree(loc) : ScreenReader.getDegrees(loc));
 			} else {
 				ScreenReader.appendPower(ret, sup, loc);
 			}
@@ -70,7 +69,8 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		if ("|".equals(left) && "|".equals(right)) {
 			return ScreenReader.getStartAbs(loc) + base + ScreenReader.getEndAbs(loc);
 		}
-		if (base.isEmpty() && ScreenReader.getOpenParenthesis(loc).equals(left)
+		if (base.isEmpty()
+				&& ScreenReader.getOpenParenthesis(loc).equals(left)
 				&& ScreenReader.getCloseParenthesis(loc).equals(right)) {
 			return " " + localize("EmptyParentheses", "empty parentheses");
 		}
@@ -118,15 +118,15 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 	@Override
 	public String getLigature(String toString) {
 		switch (toString) {
-		case "``":
-		case "''":
-			return "\"";
-		case "\u0338=":
-			return "\u2260";
-		case "\u0338\u2208":
-			return "\u2209";
-		default:
-			return null;
+			case "``":
+			case "''":
+				return "\"";
+			case "\u0338=":
+				return "\u2260";
+			case "\u0338\u2208":
+				return "\u2209";
+			default:
+				return null;
 		}
 	}
 
@@ -136,8 +136,7 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 		for (int i = 0; i < s.length(); i++) {
 			char character = s.charAt(i);
 			if (character == '_') {
-				sb.append(" ").append(localize("Subscript", "subscript"))
-						.append(" ");
+				sb.append(" ").append(localize("Subscript", "subscript")).append(" ");
 			} else {
 				String str = convertCharacter(character);
 				if (!"".equals(str)) {
@@ -188,8 +187,8 @@ public class ScreenReaderSerializationAdapter implements SerializationAdapter {
 
 	@Override
 	public String operatorFromTo(String operator, String from, String to) {
-		return loc.getPlainDefault("ScreenReader.AFromBToC", "%0 from %1 to %2",
-				operator, from, to) + " ";
+		return loc.getPlainDefault("ScreenReader.AFromBToC", "%0 from %1 to %2", operator, from, to)
+				+ " ";
 	}
 
 	@Override

@@ -37,7 +37,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo for intersection of a line with a polyLine
- * 
+ *
  * @author Tam
  */
 public class AlgoIntersectLinePolyLine extends AlgoElement {
@@ -56,7 +56,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -66,8 +66,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	 * @param p
 	 *            polyline
 	 */
-	public AlgoIntersectLinePolyLine(Construction c, String[] labels,
-			GeoLineND g, GeoPoly p) {
+	public AlgoIntersectLinePolyLine(Construction c, String[] labels, GeoLineND g, GeoPoly p) {
 
 		super(c);
 
@@ -76,8 +75,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		this.g = g;
 		this.pi = p;
 
-		newCoords = new TreeMap<>(
-				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
+		newCoords = new TreeMap<>(Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 
 		compute();
 
@@ -89,7 +87,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
@@ -121,8 +119,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	protected void intersectionsCoords(GeoLineND line, GeoPolyLine poly,
-			TreeMap<Double, Coords> paramToCoords) {
+	protected void intersectionsCoords(
+			GeoLineND line, GeoPolyLine poly, TreeMap<Double, Coords> paramToCoords) {
 
 		double min = line.getMinParameter();
 		double max = line.getMaxParameter();
@@ -137,15 +135,12 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 
 			if (DoubleUtil.isZero(coords.getLast())) {
 				if (line.isOnPath(segStart, Kernel.STANDARD_PRECISION)
-						&& line.isOnPath(segEnd,
-								Kernel.STANDARD_PRECISION)) {
-					paramToCoords.put(((GeoLine) line).getPossibleParameter(segStart),
-							segStart);
-					paramToCoords.put(((GeoLine) line).getPossibleParameter(segEnd),
-							segEnd);
+						&& line.isOnPath(segEnd, Kernel.STANDARD_PRECISION)) {
+					paramToCoords.put(((GeoLine) line).getPossibleParameter(segStart), segStart);
+					paramToCoords.put(((GeoLine) line).getPossibleParameter(segEnd), segEnd);
 				}
-			} else if (GeoSegment.checkOnPath(segStart, segEnd, coords, false,
-					Kernel.STANDARD_PRECISION)) {
+			} else if (GeoSegment.checkOnPath(
+					segStart, segEnd, coords, false, Kernel.STANDARD_PRECISION)) {
 				double t = ((GeoLine) line).getPossibleParameter(coords);
 				if (t >= min && t <= max) {
 					paramToCoords.put(t, coords);
@@ -164,8 +159,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		intersectionsCoords(g, p, newCoords);
 
 		// update and/or create points
-		outputPoints
-				.adjustOutputSize(newCoords.size() > 0 ? newCoords.size() : 1);
+		outputPoints.adjustOutputSize(newCoords.size() > 0 ? newCoords.size() : 1);
 
 		// affect new computed points
 		int index = 0;
@@ -182,11 +176,9 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("IntersectionOfAandB",
-				"Intersection of %0 and %1",
-				g.getLabel(tpl),
-				pi.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault(
+						"IntersectionOfAandB", "Intersection of %0 and %1", g.getLabel(tpl), pi.getLabel(tpl));
 	}
-
 }

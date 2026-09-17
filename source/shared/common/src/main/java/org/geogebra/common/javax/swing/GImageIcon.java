@@ -16,6 +16,4 @@
 
 package org.geogebra.common.javax.swing;
 
-public class GImageIcon {
-
-}
+public class GImageIcon {}

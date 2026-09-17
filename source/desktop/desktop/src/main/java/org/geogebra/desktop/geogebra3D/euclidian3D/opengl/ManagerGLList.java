@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -26,9 +26,9 @@ import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 
 /**
- * 
+ *
  * Manager using GL lists
- * 
+ *
  * @author ggb3D
  *
  */
@@ -43,7 +43,7 @@ public class ManagerGLList extends Manager {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 * @param joglAndGluProvider
@@ -51,8 +51,8 @@ public class ManagerGLList extends Manager {
 	 * @param view3D
 	 *            3D view
 	 */
-	public ManagerGLList(Renderer renderer,
-			JoglAndGluProvider joglAndGluProvider, EuclidianView3D view3D) {
+	public ManagerGLList(
+			Renderer renderer, JoglAndGluProvider joglAndGluProvider, EuclidianView3D view3D) {
 
 		super();
 
@@ -72,7 +72,7 @@ public class ManagerGLList extends Manager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return JOGL renderer
 	 */
 	public RendererJogl getJogl() {
@@ -147,7 +147,7 @@ public class ManagerGLList extends Manager {
 
 	/**
 	 * remove the polygon from gl memory
-	 * 
+	 *
 	 * @param index
 	 *            geometry index
 	 */
@@ -219,32 +219,30 @@ public class ManagerGLList extends Manager {
 	}
 
 	@Override
-	public void rectangleGeometry(double x, double y, double z, double width,
-			double height) {
+	public void rectangleGeometry(double x, double y, double z, double width, double height) {
 		getText().rectangle(x, y, z, width, height);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param type
 	 *            Manager type
 	 * @return GL type
 	 */
 	protected static int getGLType(Type type) {
 		switch (type) {
-		case TRIANGLE_STRIP:
-			return GL.GL_TRIANGLE_STRIP;
-		case TRIANGLE_FAN:
-			return GL.GL_TRIANGLE_FAN;
-		case TRIANGLES:
-			return GL.GL_TRIANGLES;
-		case LINE_LOOP:
-			return GL.GL_LINE_LOOP;
-		case LINE_STRIP:
-			return GL.GL_LINE_STRIP;
+			case TRIANGLE_STRIP:
+				return GL.GL_TRIANGLE_STRIP;
+			case TRIANGLE_FAN:
+				return GL.GL_TRIANGLE_FAN;
+			case TRIANGLES:
+				return GL.GL_TRIANGLES;
+			case LINE_LOOP:
+				return GL.GL_LINE_LOOP;
+			case LINE_STRIP:
+				return GL.GL_LINE_STRIP;
 		}
 
 		return 0;
 	}
-
 }

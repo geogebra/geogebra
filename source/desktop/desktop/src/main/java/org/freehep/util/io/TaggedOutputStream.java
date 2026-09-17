@@ -9,17 +9,16 @@ import java.io.OutputStream;
  * tagID and a Length, so that known and unknown tags (read with the
  * TaggedInputStream) can again be written. The stream also allows to write
  * Actions, which again come with a actionCode and a length.
- * 
+ *
  * A concrete implementation of this stream should encode/write the TagHeader.
  * All Concrete tags should be inherited from the Tag class and implement their
  * write methods.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: TaggedOutputStream.java,v 1.3 2008-05-04 12:20:54 murkle Exp $
  */
-public abstract class TaggedOutputStream extends ByteCountOutputStream
-		implements TaggedOutput {
+public abstract class TaggedOutputStream extends ByteCountOutputStream implements TaggedOutput {
 	/**
 	 * Set of tags that can be used by this Stream
 	 */
@@ -32,7 +31,7 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 
 	/**
 	 * Create a Tagged Output stream.
-	 * 
+	 *
 	 * @param out
 	 *            stream to write
 	 * @param tagSet
@@ -40,14 +39,13 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 	 * @param actionSet
 	 *            allowable action set
 	 */
-	public TaggedOutputStream(OutputStream out, TagSet tagSet,
-			ActionSet actionSet) {
+	public TaggedOutputStream(OutputStream out, TagSet tagSet, ActionSet actionSet) {
 		this(out, tagSet, actionSet, false);
 	}
 
 	/**
 	 * Create a Tagged Output stream.
-	 * 
+	 *
 	 * @param out
 	 *            stream to write
 	 * @param tagSet
@@ -57,8 +55,8 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 	 * @param littleEndian
 	 *            true if stream is little endian
 	 */
-	public TaggedOutputStream(OutputStream out, TagSet tagSet,
-			ActionSet actionSet, boolean littleEndian) {
+	public TaggedOutputStream(
+			OutputStream out, TagSet tagSet, ActionSet actionSet, boolean littleEndian) {
 		super(out, littleEndian);
 
 		this.tagSet = tagSet;
@@ -67,7 +65,7 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 
 	/**
 	 * Writes the TagHeader, which includes a TagID and a length.
-	 * 
+	 *
 	 * @param header
 	 *            TagHeader to write
 	 * @throws IOException
@@ -77,7 +75,7 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 
 	/**
 	 * Specifies tag alignment: 1 byte, 2 short, 4 int and 8 long.
-	 * 
+	 *
 	 * @return tag alignment
 	 */
 	protected int getTagAlignment() {
@@ -122,18 +120,17 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 
 	/**
 	 * Writes the ActionHeader, which includes an actionCode and a length.
-	 * 
+	 *
 	 * @param header
 	 *            ActionHeader to write
 	 * @throws IOException
 	 *             if write fails
 	 */
-	protected abstract void writeActionHeader(ActionHeader header)
-			throws IOException;
+	protected abstract void writeActionHeader(ActionHeader header) throws IOException;
 
 	/**
 	 * Write action.
-	 * 
+	 *
 	 * @param action
 	 *            action to write
 	 * @throws IOException
@@ -159,5 +156,4 @@ public abstract class TaggedOutputStream extends ByteCountOutputStream
 		writeActionHeader(header);
 		append();
 	}
-
 }

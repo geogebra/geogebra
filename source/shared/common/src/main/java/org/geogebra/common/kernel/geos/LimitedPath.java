@@ -28,7 +28,7 @@ public interface LimitedPath extends Path {
 	/**
 	 * Returns whether intersection points with this path are allowed that lie
 	 * on the extension of this path.
-	 * 
+	 *
 	 * @return true iff outlying intersection should be allowed
 	 */
 	boolean allowOutlyingIntersections();
@@ -36,7 +36,7 @@ public interface LimitedPath extends Path {
 	/**
 	 * Sets whether intersection points with this path are allowed that lie on
 	 * the extension of this path.
-	 * 
+	 *
 	 * @param flag
 	 *            true iff outlying intersection should be allowed
 	 */
@@ -44,20 +44,20 @@ public interface LimitedPath extends Path {
 
 	/**
 	 * Returns true iff the intersection point P lies on this limited path.
-	 * 
+	 *
 	 * @param P
 	 *            intersection point
 	 * @param eps
 	 *            epsilon precision for testing
 	 * @return true iff the intersection point P lies on this limited path.
-	 * 
+	 *
 	 */
 	boolean isIntersectionPointIncident(GeoPoint P, double eps);
 
 	/**
 	 * Returns whether a geometric transform of this path should yield an object
 	 * of the same kind (i.e. segment becomes segment).
-	 * 
+	 *
 	 * @return true iff the geo keeps type on transform
 	 */
 	boolean keepsTypeOnGeometricTransform();
@@ -65,7 +65,7 @@ public interface LimitedPath extends Path {
 	/**
 	 * Sets whether a geometric transform of this path should yield an object of
 	 * the same kind (i.e. segment becomes segment).
-	 * 
+	 *
 	 * @param flag
 	 *            true when a geometric transform of this path should yield an
 	 *            object of the same kind
@@ -74,7 +74,7 @@ public interface LimitedPath extends Path {
 
 	/**
 	 * Creates a new object using the geometrical transform of the given type.
-	 * 
+	 *
 	 * @param t
 	 *            transform
 	 * @param label
@@ -85,9 +85,8 @@ public interface LimitedPath extends Path {
 
 	/**
 	 * Returns true iff all endpoints are labeled
-	 * 
+	 *
 	 * @return true iff all endpoints are labeled
 	 */
 	boolean isAllEndpointsLabelsSet();
-
 }

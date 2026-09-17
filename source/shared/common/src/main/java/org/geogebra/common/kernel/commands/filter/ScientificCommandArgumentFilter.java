@@ -31,19 +31,19 @@ import org.geogebra.common.main.syntax.Syntax;
 
 public final class ScientificCommandArgumentFilter implements CommandArgumentFilter {
 	private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
-			BinomialDist, Set.of(
-					Syntax.of(BinomialDist, isNumber(), isNumber(), GeoElement::isGeoBoolean),
-					Syntax.of(BinomialDist, isNumber(), isNumber(), isNumber(),
-							GeoElement::isGeoBoolean),
-					Syntax.of(BinomialDist, isNumber(), isNumber(), GeoElement::isGeoList)),
-			Normal, Set.of(
-					Syntax.of(Normal, isNumber(), isNumber(), isNumber()),
-					Syntax.of(Normal, isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean),
-					Syntax.of(Normal, isNumber(), isNumber(), isNumber(), isNumber())));
+			BinomialDist,
+					Set.of(
+							Syntax.of(BinomialDist, isNumber(), isNumber(), GeoElement::isGeoBoolean),
+							Syntax.of(BinomialDist, isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean),
+							Syntax.of(BinomialDist, isNumber(), isNumber(), GeoElement::isGeoList)),
+			Normal,
+					Set.of(
+							Syntax.of(Normal, isNumber(), isNumber(), isNumber()),
+							Syntax.of(Normal, isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean),
+							Syntax.of(Normal, isNumber(), isNumber(), isNumber(), isNumber())));
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor) {
-		Syntax.checkRestrictedSyntaxes(
-				allowedSyntaxesForRestrictedCommands, command, commandProcessor);
+		Syntax.checkRestrictedSyntaxes(allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 	}
 }

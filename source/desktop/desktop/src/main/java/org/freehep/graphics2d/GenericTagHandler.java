@@ -22,7 +22,7 @@ public class GenericTagHandler extends TagHandler {
 	/**
 	 * TextAttribute for overline, not a standard
 	 */
-	final public static Integer UNDERLINE_OVERLINE = Integer.valueOf(128);
+	public static final Integer UNDERLINE_OVERLINE = Integer.valueOf(128);
 
 	/**
 	 * context to draw AttributedString
@@ -38,7 +38,7 @@ public class GenericTagHandler extends TagHandler {
 	/**
 	 * stores AttributeEntries created by {@link #closeTag(String)}
 	 */
-	private Vector/* <AttributeEntry> */ attributes;
+	private Vector /* <AttributeEntry> */ attributes;
 
 	/**
 	 * stores all open tags, e.g. "&lt;sub&gt;" an the position on which it placed in
@@ -50,7 +50,7 @@ public class GenericTagHandler extends TagHandler {
 	/**
 	 * store the names of font families before they are changed by openTag()
 	 */
-	private Stack/* <String> */ fontFamilyStack;
+	private Stack /* <String> */ fontFamilyStack;
 
 	/**
 	 * if we aplly TextAttribute.SUPERSCRIPT with correction of transformation
@@ -81,8 +81,7 @@ public class GenericTagHandler extends TagHandler {
 	 * @param y
 	 *            coordinate for drawing
 	 */
-	public void print(TagString s, double x, double y,
-			double superscriptCorrection) {
+	public void print(TagString s, double x, double y, double superscriptCorrection) {
 
 		fontFamilyStack = new Stack();
 
@@ -100,16 +99,15 @@ public class GenericTagHandler extends TagHandler {
 
 		// create attributed string to print
 		// with current font settings
-		AttributedString attributedString = new AttributedString(
-				clearedText.toString(), graphics.getFont().getAttributes());
+		AttributedString attributedString =
+				new AttributedString(clearedText.toString(), graphics.getFont().getAttributes());
 
 		// aplly attributes
 		for (int i = 0; i < attributes.size(); i++) {
 			((AttributeEntry) attributes.elementAt(i)).apply(attributedString);
 		}
 
-		graphics.drawString(attributedString.getIterator(), (float) x,
-				(float) y);
+		graphics.drawString(attributedString.getIterator(), (float) x, (float) y);
 	}
 
 	/**
@@ -119,8 +117,7 @@ public class GenericTagHandler extends TagHandler {
 	 *            string to calculate
 	 * @return bouding box after parsing s
 	 */
-	public TextLayout createTextLayout(TagString s,
-			double superscriptCorrection) {
+	public TextLayout createTextLayout(TagString s, double superscriptCorrection) {
 
 		fontFamilyStack = new Stack();
 
@@ -138,8 +135,8 @@ public class GenericTagHandler extends TagHandler {
 
 		// create attributed string to print
 		// with current font settings
-		AttributedString attributedString = new AttributedString(
-				clearedText.toString(), graphics.getFont().getAttributes());
+		AttributedString attributedString =
+				new AttributedString(clearedText.toString(), graphics.getFont().getAttributes());
 
 		// aplly attributes
 		for (int i = 0; i < attributes.size(); i++) {
@@ -147,8 +144,7 @@ public class GenericTagHandler extends TagHandler {
 		}
 
 		// create the layout
-		return new TextLayout(attributedString.getIterator(),
-				graphics.getFontRenderContext());
+		return new TextLayout(attributedString.getIterator(), graphics.getFontRenderContext());
 	}
 
 	/**
@@ -196,55 +192,63 @@ public class GenericTagHandler extends TagHandler {
 
 		// change attributes
 		if (tag.equalsIgnoreCase("b")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD));
+			this.attributes.add(new AttributeEntry(
+					begin, clearedText.length(), TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD));
 		} else if (tag.equalsIgnoreCase("i")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE));
-		} else if (tag.equalsIgnoreCase("s")
-				|| tag.equalsIgnoreCase("strike")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
+			this.attributes.add(new AttributeEntry(
+					begin, clearedText.length(), TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE));
+		} else if (tag.equalsIgnoreCase("s") || tag.equalsIgnoreCase("strike")) {
+			this.attributes.add(new AttributeEntry(
+					begin,
+					clearedText.length(),
 					TextAttribute.STRIKETHROUGH,
 					TextAttribute.STRIKETHROUGH_ON));
 		} else if (tag.equalsIgnoreCase("udash")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
+			this.attributes.add(new AttributeEntry(
+					begin,
+					clearedText.length(),
 					TextAttribute.UNDERLINE,
 					TextAttribute.UNDERLINE_LOW_DASHED));
 		} else if (tag.equalsIgnoreCase("udot")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
+			this.attributes.add(new AttributeEntry(
+					begin,
+					clearedText.length(),
 					TextAttribute.UNDERLINE,
 					TextAttribute.UNDERLINE_LOW_DOTTED));
 		} else if (tag.equalsIgnoreCase("u")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON));
+			this.attributes.add(new AttributeEntry(
+					begin, clearedText.length(), TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON));
 		} else if (tag.equalsIgnoreCase("tt")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.FAMILY, fontFamilyStack.pop()));
+			this.attributes.add(new AttributeEntry(
+					begin, clearedText.length(), TextAttribute.FAMILY, fontFamilyStack.pop()));
 		} else if (tag.equalsIgnoreCase("v")) {
 			// vertical = false;
 		} else if (tag.equalsIgnoreCase("over")) {
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.UNDERLINE, UNDERLINE_OVERLINE));
+			this.attributes.add(new AttributeEntry(
+					begin, clearedText.length(), TextAttribute.UNDERLINE, UNDERLINE_OVERLINE));
 		} else if (tag.equalsIgnoreCase("sup")) {
 
 			// FIXME: not quite clear why this is necessary
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.TRANSFORM, AffineTransform
-							.getTranslateInstance(0, superscriptCorrection)));
+			this.attributes.add(new AttributeEntry(
+					begin,
+					clearedText.length(),
+					TextAttribute.TRANSFORM,
+					AffineTransform.getTranslateInstance(0, superscriptCorrection)));
 
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.SUPERSCRIPT,
-					TextAttribute.SUPERSCRIPT_SUPER));
+			this.attributes.add(new AttributeEntry(
+					begin, clearedText.length(), TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER));
 
 		} else if (tag.equalsIgnoreCase("sub")) {
 
 			// FIXME: not quite clear why this is necessary
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.TRANSFORM, AffineTransform
-							.getTranslateInstance(0, -superscriptCorrection)));
+			this.attributes.add(new AttributeEntry(
+					begin,
+					clearedText.length(),
+					TextAttribute.TRANSFORM,
+					AffineTransform.getTranslateInstance(0, -superscriptCorrection)));
 
-			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
-					TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB));
+			this.attributes.add(new AttributeEntry(
+					begin, clearedText.length(), TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB));
 		} else {
 			return super.closeTag(tag);
 		}
@@ -307,8 +311,7 @@ public class GenericTagHandler extends TagHandler {
 		 * @param textAttribute
 		 * @param value
 		 */
-		protected AttributeEntry(int begin, int end,
-				TextAttribute textAttribute, Object value) {
+		protected AttributeEntry(int begin, int end, TextAttribute textAttribute, Object value) {
 			this.begin = begin;
 			this.end = end;
 			this.textAttribute = textAttribute;

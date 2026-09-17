@@ -26,8 +26,8 @@ import org.geogebra.common.util.debug.Log;
 public class ExportGraphicsFactoryW implements ExportGraphicsFactory {
 
 	@Override
-	public GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality, GeoGebraExport export) {
+	public GGraphics2D createGraphics(
+			FunctionalNVar ef, Inequality inequality, GeoGebraExport export) {
 
 		try {
 			return new ExportGraphicsW(ef, inequality, export);
@@ -36,5 +36,4 @@ public class ExportGraphicsFactoryW implements ExportGraphicsFactory {
 			return null;
 		}
 	}
-
 }

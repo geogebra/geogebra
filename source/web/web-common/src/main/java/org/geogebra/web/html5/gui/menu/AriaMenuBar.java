@@ -46,8 +46,12 @@ public class AriaMenuBar extends FlowPanel {
 	 */
 	public AriaMenuBar() {
 		super("UL");
-		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
-				| Event.ONFOCUS | Event.ONKEYPRESS | Event.ONKEYDOWN);
+		sinkEvents(Event.ONCLICK
+				| Event.ONMOUSEOVER
+				| Event.ONMOUSEOUT
+				| Event.ONFOCUS
+				| Event.ONKEYPRESS
+				| Event.ONKEYDOWN);
 		getElement().setAttribute("role", "menubar");
 		getElement().setTabIndex(0);
 		addStyleName("gwt-MenuBar");
@@ -75,7 +79,7 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * Add a collapsible submenu as a new item
-	 * 
+	 *
 	 * @param item
 	 *            collapsible submenu
 	 */
@@ -103,10 +107,10 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * Get a {@link AriaMenuItem} at a given index.
-	 * 
+	 *
 	 * @param index
 	 *            of the item to get.
-	 * 
+	 *
 	 * @return the item at the given index.
 	 */
 	public AriaMenuItem getItemAt(int index) {
@@ -115,7 +119,7 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * Get the index of a {@link AriaMenuItem}.
-	 * 
+	 *
 	 * @param item
 	 *            item we are looking for
 	 *
@@ -138,7 +142,7 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * Mark item as selected and move focus to it
-	 * 
+	 *
 	 * @param item
 	 *            item to be selected
 	 */
@@ -190,7 +194,7 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * Move focus to an item, may be overridden
-	 * 
+	 *
 	 * @param item
 	 *            item to move focus to
 	 */
@@ -230,7 +234,7 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * Set next item as selected
-	 * 
+	 *
 	 * @return whether it was possible
 	 */
 	public boolean moveSelectionDown() {
@@ -287,7 +291,7 @@ public class AriaMenuBar extends FlowPanel {
 
 	/**
 	 * Set previous item as selected
-	 * 
+	 *
 	 * @return whether it was possible
 	 */
 	public boolean moveSelectionUp() {
@@ -337,56 +341,56 @@ public class AriaMenuBar extends FlowPanel {
 			item = submenu.findItem(DOM.eventGetTarget(event));
 		}
 		switch (DOM.eventGetType(event)) {
-		case Event.ONCLICK:
-			// Fire an item's command when the user clicks on it.
-			if (item != null) {
-				doItemAction(item);
-			}
-			break;
-		case Event.ONTOUCHSTART:
-		case Event.ONMOUSEOVER:
-			if (item != null) {
-				itemOver(item);
-			}
-			break;
-
-		case Event.ONMOUSEOUT:
-			if (item != null) {
-				itemOver(null);
-			}
-			break;
-
-		case Event.ONFOCUS: {
-			// selectFirstItemIfNoneSelected();
-			break;
-		}
-
-		case Event.ONKEYPRESS:
-			handleActionKey(event, item);
-			break;
-
-		case Event.ONKEYDOWN:
-			int keyCode = event.getKeyCode();
-			if (keyCode == KeyCodes.KEY_UP && handleArrows) {
-				moveSelectionUp();
-				eatEvent(event);
-				return;
-			} else if (keyCode == KeyCodes.KEY_DOWN && handleArrows) {
-				moveSelectionDown();
-				eatEvent(event);
-				return;
-			} else if (keyCode == KeyCodes.KEY_RIGHT && handleArrows) {
-				openSubmenu();
-				eatEvent(event);
-				return;
-			} else if (keyCode == KeyCodes.KEY_LEFT && handleArrows) {
-				if (closeHandler != null) {
-					closeHandler.run();
+			case Event.ONCLICK:
+				// Fire an item's command when the user clicks on it.
+				if (item != null) {
+					doItemAction(item);
 				}
-				eatEvent(event);
-				return;
+				break;
+			case Event.ONTOUCHSTART:
+			case Event.ONMOUSEOVER:
+				if (item != null) {
+					itemOver(item);
+				}
+				break;
+
+			case Event.ONMOUSEOUT:
+				if (item != null) {
+					itemOver(null);
+				}
+				break;
+
+			case Event.ONFOCUS: {
+				// selectFirstItemIfNoneSelected();
+				break;
 			}
-			break;
+
+			case Event.ONKEYPRESS:
+				handleActionKey(event, item);
+				break;
+
+			case Event.ONKEYDOWN:
+				int keyCode = event.getKeyCode();
+				if (keyCode == KeyCodes.KEY_UP && handleArrows) {
+					moveSelectionUp();
+					eatEvent(event);
+					return;
+				} else if (keyCode == KeyCodes.KEY_DOWN && handleArrows) {
+					moveSelectionDown();
+					eatEvent(event);
+					return;
+				} else if (keyCode == KeyCodes.KEY_RIGHT && handleArrows) {
+					openSubmenu();
+					eatEvent(event);
+					return;
+				} else if (keyCode == KeyCodes.KEY_LEFT && handleArrows) {
+					if (closeHandler != null) {
+						closeHandler.run();
+					}
+					eatEvent(event);
+					return;
+				}
+				break;
 		}
 
 		super.onBrowserEvent(event);
@@ -412,13 +416,12 @@ public class AriaMenuBar extends FlowPanel {
 	}
 
 	private boolean isActionKey(int keyCode) {
-		return keyCode == KeyCodes.KEY_ENTER
-				|| keyCode == KeyCodes.KEY_SPACE;
+		return keyCode == KeyCodes.KEY_ENTER || keyCode == KeyCodes.KEY_SPACE;
 	}
 
 	/**
 	 * Stops event propagation and prevents default behavior.
-	 * 
+	 *
 	 * @param event
 	 *            to eat.
 	 */
@@ -464,9 +467,7 @@ public class AriaMenuBar extends FlowPanel {
 			onItemHover();
 			selectItem(item);
 		}
-		if (item != null
-				&& "true".equals(item.getElement().getAttribute("hasPopup"))
-				&& autoOpen) {
+		if (item != null && "true".equals(item.getElement().getAttribute("hasPopup")) && autoOpen) {
 			doItemAction(item);
 		}
 	}
@@ -490,7 +491,8 @@ public class AriaMenuBar extends FlowPanel {
 	 * @return horizontal coordinate of menu
 	 */
 	public int getAbsoluteHorizontalPos(AriaMenuItem item, boolean submenuLeft) {
-		return submenuLeft ? item.getElement().getAbsoluteLeft()
+		return submenuLeft
+				? item.getElement().getAbsoluteLeft()
 				: item.getElement().getAbsoluteRight() + 8;
 	}
 
@@ -547,5 +549,4 @@ public class AriaMenuBar extends FlowPanel {
 	public void setCloseHandler(Runnable closeHandler) {
 		this.closeHandler = closeHandler;
 	}
-
 }

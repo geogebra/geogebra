@@ -43,14 +43,13 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 	 * @param orientation
 	 *            orientation
 	 */
-	AlgoAngleLines3DOrientation(Construction cons, GeoLineND g,
-			GeoLineND h, GeoDirectionND orientation) {
+	AlgoAngleLines3DOrientation(
+			Construction cons, GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
 		super(cons, g, h, orientation);
 	}
 
 	@Override
-	protected void setInput(GeoLineND g, GeoLineND h,
-			GeoDirectionND orientation) {
+	protected void setInput(GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
 		super.setInput(g, h, orientation);
 		this.orientation = orientation;
 	}
@@ -84,8 +83,7 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 		// geth().getLabel(tpl), orientation.getLabel(tpl));
 
 		// clearer just as "angle between u and v"
-		return getLoc().getPlain("AngleBetweenAB", getg().getLabel(tpl),
-				geth().getLabel(tpl));
+		return getLoc().getPlain("AngleBetweenAB", getg().getLabel(tpl), geth().getLabel(tpl));
 	}
 
 	@Override
@@ -97,7 +95,5 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 
 		setOnlyOutput(getAngle());
 		setDependencies(); // done by AlgoElement
-
 	}
-
 }

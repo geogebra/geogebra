@@ -29,7 +29,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * IsTangent[&lt;Line&gt;, &lt;Conic&gt;]
- * 
+ *
  * @author Zoltan Kovacs
  *
  */
@@ -53,11 +53,10 @@ public class CmdIsTangent extends CommandProcessor {
 		arg = resArgs(c, info);
 		if (n == 2) {
 
-			if ((ok[0] = arg[0].isGeoLine())
-					&& (ok[1] = arg[1].isGeoConic())) {
+			if ((ok[0] = arg[0].isGeoLine()) && (ok[1] = arg[1].isGeoConic())) {
 
-				AlgoIsTangent algo = new AlgoIsTangent(cons, c.getLabel(),
-						(GeoLine) arg[0], (GeoConic) arg[1]);
+				AlgoIsTangent algo =
+						new AlgoIsTangent(cons, c.getLabel(), (GeoLine) arg[0], (GeoConic) arg[1]);
 				GeoElement[] ret = {algo.getResult()};
 
 				return ret;
@@ -67,4 +66,3 @@ public class CmdIsTangent extends CommandProcessor {
 		throw argNumErr(c);
 	}
 }
-

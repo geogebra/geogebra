@@ -22,7 +22,7 @@ import elemental2.core.Int16Array;
 
 /**
  * buffers for openGL
- * 
+ *
  * @author mathieu
  *
  */
@@ -59,7 +59,6 @@ public final class GLBufferIndicesW implements GLBufferIndices {
 		}
 
 		mIndex = 0;
-
 	}
 
 	@Override
@@ -114,7 +113,7 @@ public final class GLBufferIndicesW implements GLBufferIndices {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return buffer
 	 */
 	public Int16Array getBuffer() {
@@ -132,5 +131,4 @@ public final class GLBufferIndicesW implements GLBufferIndices {
 	public void position(int newPosition) {
 		mIndex = newPosition;
 	}
-
 }

@@ -70,7 +70,7 @@ public class DropDownList {
 
 	/**
 	 * Start click timer.
-	 * 
+	 *
 	 * @param x
 	 *            pointer x
 	 * @param y
@@ -86,7 +86,7 @@ public class DropDownList {
 
 	/**
 	 * Start scroll timer.
-	 * 
+	 *
 	 * @param x
 	 *            pointer x
 	 * @param y

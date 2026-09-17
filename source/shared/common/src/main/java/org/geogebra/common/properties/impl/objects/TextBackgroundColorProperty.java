@@ -35,8 +35,8 @@ public class TextBackgroundColorProperty extends ElementColorProperty {
 	 * @param element - element
 	 * @throws NotApplicablePropertyException when one of the elements has no color
 	 */
-	public TextBackgroundColorProperty(Localization localization,
-			GeoElement element) throws NotApplicablePropertyException {
+	public TextBackgroundColorProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, new TextColorPropertyDelegate(element), "stylebar.BgColor");
 		this.element = element;
 		setValues(GeoColorValues.values());

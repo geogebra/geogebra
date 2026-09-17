@@ -53,8 +53,11 @@ public interface AlgebraicExpression extends GeoElementND, ReplaceChildrenByValu
 	 *            arbitrary constant manager
 	 *
 	 */
-	void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f,
-			boolean symbolic, ArbitraryConstantRegistry arbconst);
+	void setUsingCasCommand(
+			String ggbCasCmd,
+			AlgebraicExpression f,
+			boolean symbolic,
+			ArbitraryConstantRegistry arbconst);
 
 	/**
 	 * @param tpl

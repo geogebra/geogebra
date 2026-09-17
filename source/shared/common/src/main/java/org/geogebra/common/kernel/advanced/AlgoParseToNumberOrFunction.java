@@ -52,8 +52,8 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 	 * @param vars function variables (for multivariable)
 	 * @param cmd ParseToNumber or ParseToFunction
 	 */
-	public AlgoParseToNumberOrFunction(Construction cons, GeoText text,
-			GeoList vars, Commands cmd, String label) {
+	public AlgoParseToNumberOrFunction(
+			Construction cons, GeoText text, GeoList vars, Commands cmd, String label) {
 		super(cons);
 		this.cmd = cmd;
 		this.text = text;
@@ -84,8 +84,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 		AlgebraProcessor ap = kernel.getAlgebraProcessor();
 		String textToParse = text.getTextStringSafe();
 		if (cmd == Commands.ParseToNumber) {
-			EvalInfo evalInfo = new EvalInfo(!cons.isSuppressLabelsActive(), true)
-					.withAutocreate(false);
+			EvalInfo evalInfo = new EvalInfo(!cons.isSuppressLabelsActive(), true).withAutocreate(false);
 			num = ap.evaluateToNumeric(textToParse, ErrorHelper.silent(), evalInfo);
 			if (num != null) {
 				updateReferences(num.getDefinition());
@@ -99,10 +98,10 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 				updateReferences(((GeoFunction) num).getFunctionExpression());
 			}
 		} else {
-			vars.elements().filter(GeoElement::isGeoText).forEach(fVar ->
-					cons.registerFunctionVariable(((GeoText) fVar).getTextString()));
-			num = ap.evaluateToFunctionNVar(textToParse,
-							true, false);
+			vars.elements()
+					.filter(GeoElement::isGeoText)
+					.forEach(fVar -> cons.registerFunctionVariable(((GeoText) fVar).getTextString()));
+			num = ap.evaluateToFunctionNVar(textToParse, true, false);
 			if (num != null) {
 				updateReferences(((GeoFunctionNVar) num).getFunctionExpression());
 			}
@@ -131,7 +130,7 @@ public class AlgoParseToNumberOrFunction extends AlgoElement {
 				i++;
 				geo.addToUpdateSetOnly(this);
 				if (result.hasAlgoUpdateSet()) {
-					for (AlgoElement child: result.getAlgoUpdateSet()) {
+					for (AlgoElement child : result.getAlgoUpdateSet()) {
 						geo.addToUpdateSetOnly(child);
 					}
 				}

@@ -53,12 +53,10 @@ public class Validation {
 		} catch (NumberFormatException e) {
 			Log.debug("invalid number:" + tf.getText());
 		}
-		if (!Double.isNaN(val) && !Double.isInfinite(val)
-				&& check.test(val)) {
+		if (!Double.isNaN(val) && !Double.isInfinite(val) && check.test(val)) {
 			return val;
 		}
 		tf.setText(def + "");
 		return def;
 	}
-
 }

@@ -40,14 +40,14 @@ public interface DockPanel {
 
 	/**
 	 * change the visibility of the DockPanel
-	 * 
+	 *
 	 * @param visible
 	 *            visibility
 	 */
 	void setVisible(boolean visible);
 
 	/**
-	 * 
+	 *
 	 * @return true if set visible
 	 */
 	boolean isVisible();

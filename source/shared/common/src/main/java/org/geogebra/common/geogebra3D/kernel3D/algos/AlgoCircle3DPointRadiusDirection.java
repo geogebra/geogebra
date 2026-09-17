@@ -28,11 +28,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author matthieu
  */
-public class AlgoCircle3DPointRadiusDirection
-		extends AlgoCircle3DPointDirection {
+public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection {
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param point
@@ -42,10 +41,9 @@ public class AlgoCircle3DPointRadiusDirection
 	 * @param radius
 	 *            radius
 	 */
-	public AlgoCircle3DPointRadiusDirection(Construction cons, GeoPointND point,
-			GeoNumberValue radius, GeoDirectionND forAxis) {
+	public AlgoCircle3DPointRadiusDirection(
+			Construction cons, GeoPointND point, GeoNumberValue radius, GeoDirectionND forAxis) {
 		super(cons, point, radius, forAxis);
-
 	}
 
 	@Override
@@ -59,11 +57,11 @@ public class AlgoCircle3DPointRadiusDirection
 	}
 
 	/**
-	 * 
+	 *
 	 * @return command string
 	 */
 	@Override
-	final protected String getCommandString() {
+	protected final String getCommandString() {
 		if (getForAxis() instanceof GeoCoordSys2D) {
 			return "CircleWithCenterARadiusBParallelToC";
 		}
@@ -72,13 +70,12 @@ public class AlgoCircle3DPointRadiusDirection
 	}
 
 	@Override
-	final protected boolean setCoordSys() {
+	protected final boolean setCoordSys() {
 		if (((GeoDirectionND) getForAxis()).getDirectionInD3() == null) { // e.g.
-																			// space
+			// space
 			return false;
 		}
 
 		return super.setCoordSys();
 	}
-
 }

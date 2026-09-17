@@ -33,19 +33,19 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	void setAbsoluteScreenLoc(int x, int y);
 
 	/**
-	 * 
+	 *
 	 * @return x offset (in pixels)
 	 */
 	int getAbsoluteScreenLocX();
 
 	/**
-	 * 
+	 *
 	 * @return y offset (in pixels)
 	 */
 	int getAbsoluteScreenLocY();
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            real world x coordinate
 	 * @param y
@@ -54,13 +54,13 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	void setRealWorldLoc(double x, double y);
 
 	/**
-	 * 
+	 *
 	 * @return real world x-coordinate
 	 */
 	double getRealWorldLocX();
 
 	/**
-	 * 
+	 *
 	 * @return real world y-coordinate
 	 */
 	double getRealWorldLocY();
@@ -79,7 +79,7 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	/**
 	 * E.g. GeoNumeric implements this, but not all numbers can have abs.
 	 * location
-	 * 
+	 *
 	 * @return true if this element can have absolute screen location
 	 */
 	boolean isAbsoluteScreenLocateable();
@@ -109,5 +109,4 @@ public interface AbsoluteScreenLocateable extends Locateable {
 	default boolean needsUpdatedBoundingBox() {
 		return false;
 	}
-
 }

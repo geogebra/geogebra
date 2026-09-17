@@ -26,19 +26,18 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * AlgoMinimize Command Minimize[ &lt;dependent variable&gt;, &lt;independent
  * variable&gt; ] which searches for the independent variable which gives the
  * smallest result for the dependent variable.
- * 
+ *
  * Extends abstract class AlgoOptimize
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 20.02.2011
- * 
+ *
  */
-
 public class AlgoMinimize extends AlgoOptimize {
 
 	/**
 	 * Constructor for Minimize
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -48,10 +47,8 @@ public class AlgoMinimize extends AlgoOptimize {
 	 * @param indep
 	 *            independent number
 	 */
-	public AlgoMinimize(Construction cons, String label, GeoNumberValue dep,
-			GeoNumeric indep) {
-		super(cons, label, dep, new OptimizerNumeric(dep, indep),
-				OptimizationType.MINIMIZE);
+	public AlgoMinimize(Construction cons, String label, GeoNumberValue dep, GeoNumeric indep) {
+		super(cons, label, dep, new OptimizerNumeric(dep, indep), OptimizationType.MINIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
 	}
 
@@ -65,10 +62,8 @@ public class AlgoMinimize extends AlgoOptimize {
 	 * @param indep
 	 *            moving point
 	 */
-	public AlgoMinimize(Construction cons, String label, GeoNumberValue dep,
-			GeoPointND indep) {
-		super(cons, label, dep, new OptimizerPoint(dep, indep),
-				OptimizationType.MINIMIZE);
+	public AlgoMinimize(Construction cons, String label, GeoNumberValue dep, GeoPointND indep) {
+		super(cons, label, dep, new OptimizerPoint(dep, indep), OptimizationType.MINIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
 	}
 
@@ -78,5 +73,4 @@ public class AlgoMinimize extends AlgoOptimize {
 	public Commands getClassName() {
 		return Commands.Minimize;
 	}
-
 }

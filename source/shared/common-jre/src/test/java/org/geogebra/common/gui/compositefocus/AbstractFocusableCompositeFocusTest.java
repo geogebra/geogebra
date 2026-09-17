@@ -52,7 +52,6 @@ class AbstractFocusableCompositeFocusTest {
 			}
 		};
 		echo.clear();
-
 	}
 
 	@Test
@@ -63,8 +62,7 @@ class AbstractFocusableCompositeFocusTest {
 				() -> assertFalse(compositeFocus.focusNext()),
 				() -> assertFalse(compositeFocus.focusPrevious()),
 				() -> assertFalse(compositeFocus.hasFocus()),
-				() -> assertNull(compositeFocus.getSelectedKey())
-		);
+				() -> assertNull(compositeFocus.getSelectedKey()));
 	}
 
 	@Test
@@ -74,15 +72,13 @@ class AbstractFocusableCompositeFocusTest {
 		assertAll(
 				() -> assertTrue(compositeFocus.hasFocus()),
 				() -> assertEquals("Part0", compositeFocus.getSelectedKey()),
-				() -> assertEquals("Test Part 0", echo.getAnnouncements())
-		);
+				() -> assertEquals("Test Part 0", echo.getAnnouncements()));
 	}
 
 	private void addTestParts(int count) {
 		compositeFocus.clearParts();
 		for (int i = 0; i < count; i++) {
-			compositeFocus.addPart(new TestFocusablePart("Test Part " + i,
-					"Part" + i, false));
+			compositeFocus.addPart(new TestFocusablePart("Test Part " + i, "Part" + i, false));
 		}
 	}
 
@@ -93,8 +89,7 @@ class AbstractFocusableCompositeFocusTest {
 		assertAll(
 				() -> assertTrue(compositeFocus.hasFocus()),
 				() -> assertEquals("Part2", compositeFocus.getSelectedKey()),
-				() -> assertEquals("Test Part 2", echo.getAnnouncements())
-		);
+				() -> assertEquals("Test Part 2", echo.getAnnouncements()));
 	}
 
 	@Test
@@ -105,21 +100,18 @@ class AbstractFocusableCompositeFocusTest {
 		assertAll(
 				() -> assertTrue(compositeFocus.hasFocus()),
 				() -> assertEquals("Part1", compositeFocus.getSelectedKey()),
-				() -> assertEquals("Test Part 0;Test Part 1", echo.getAnnouncements())
-		);
+				() -> assertEquals("Test Part 0;Test Part 1", echo.getAnnouncements()));
 	}
 
 	@Test
 	void testFocusPrevious() {
 		addTestParts(3);
 		compositeFocus.focusLast();
-		assertTrue(compositeFocus.focusPrevious(),
-				"focusPrevious should succeed with parts present");
+		assertTrue(compositeFocus.focusPrevious(), "focusPrevious should succeed with parts present");
 		assertAll(
 				() -> assertTrue(compositeFocus.hasFocus()),
 				() -> assertEquals("Part1", compositeFocus.getSelectedKey()),
-				() -> assertEquals("Test Part 2;Test Part 1", echo.getAnnouncements())
-		);
+				() -> assertEquals("Test Part 2;Test Part 1", echo.getAnnouncements()));
 	}
 
 	@Test
@@ -130,21 +122,18 @@ class AbstractFocusableCompositeFocusTest {
 		assertAll(
 				() -> assertTrue(compositeFocus.hasFocus()),
 				() -> assertEquals("Part0", compositeFocus.getSelectedKey()),
-				() -> assertEquals("Test Part 2;Test Part 0", echo.getAnnouncements())
-		);
+				() -> assertEquals("Test Part 2;Test Part 0", echo.getAnnouncements()));
 	}
 
 	@Test
 	void testFocusPreviousCyclingToLast() {
 		addTestParts(3);
 		compositeFocus.focusFirst();
-		assertTrue(compositeFocus.focusPrevious(),
-				"focusPrevious should succeed with parts present");
+		assertTrue(compositeFocus.focusPrevious(), "focusPrevious should succeed with parts present");
 		assertAll(
 				() -> assertTrue(compositeFocus.hasFocus()),
 				() -> assertEquals("Part2", compositeFocus.getSelectedKey()),
-				() -> assertEquals("Test Part 0;Test Part 2", echo.getAnnouncements())
-		);
+				() -> assertEquals("Test Part 0;Test Part 2", echo.getAnnouncements()));
 	}
 
 	@Test
@@ -210,8 +199,8 @@ class AbstractFocusableCompositeFocusTest {
 		compositeFocus.blur();
 
 		assertFalse(compositeFocus.hasFocus());
-		assertEquals("", echo.getAnnouncements(),
-				"removeFocus should not trigger additional announcements");
+		assertEquals(
+				"", echo.getAnnouncements(), "removeFocus should not trigger additional announcements");
 	}
 
 	@Test
@@ -228,7 +217,9 @@ class AbstractFocusableCompositeFocusTest {
 			compositeFocus.restoreSelection(key);
 		}
 
-		assertEquals("Part1", compositeFocus.getSelectedKey(),
+		assertEquals(
+				"Part1",
+				compositeFocus.getSelectedKey(),
 				"selection should persist after repeated rebuilds");
 	}
 
@@ -247,13 +238,12 @@ class AbstractFocusableCompositeFocusTest {
 	void testForwardThenBackwardTraversal() {
 		addTestParts(4);
 		compositeFocus.focusFirst(); // 0
-		compositeFocus.focusNext();  // 1
-		compositeFocus.focusNext();  // 2
+		compositeFocus.focusNext(); // 1
+		compositeFocus.focusNext(); // 2
 		compositeFocus.focusPrevious(); // back to 1
 
 		assertEquals("Part1", compositeFocus.getSelectedKey());
-		assertEquals("Test Part 0;Test Part 1;Test Part 2;Test Part 1",
-				echo.getAnnouncements());
+		assertEquals("Test Part 0;Test Part 1;Test Part 2;Test Part 1", echo.getAnnouncements());
 	}
 
 	@Test

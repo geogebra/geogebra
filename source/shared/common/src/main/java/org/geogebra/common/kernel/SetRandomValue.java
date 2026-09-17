@@ -26,7 +26,7 @@ public interface SetRandomValue {
 
 	/**
 	 * Changes the random value
-	 * 
+	 *
 	 * @param d
 	 *            random value
 	 * @return whether setting was successful (argument in range)

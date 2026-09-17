@@ -32,7 +32,7 @@ public class CmdInsert extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,21 +47,19 @@ public class CmdInsert extends CommandProcessor {
 		arg = resArgs(c, info);
 		boolean[] ok = new boolean[2];
 		switch (n) {
-		case 3:
+			case 3:
+				if ((ok[0] = arg[1].isGeoList()) && (ok[1] = arg[2].isGeoNumeric())) {
 
-			if ((ok[0] = arg[1].isGeoList())
-					&& (ok[1] = arg[2].isGeoNumeric())) {
+					AlgoInsert algo =
+							new AlgoInsert(cons, c.getLabel(), arg[0], (GeoList) arg[1], (GeoNumeric) arg[2]);
 
-				AlgoInsert algo = new AlgoInsert(cons, c.getLabel(), arg[0],
-						(GeoList) arg[1], (GeoNumeric) arg[2]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

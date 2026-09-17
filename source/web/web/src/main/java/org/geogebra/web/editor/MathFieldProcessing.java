@@ -32,7 +32,7 @@ public class MathFieldProcessing implements KeyboardListener {
 	/**
 	 * @param mf
 	 *            math input field
-	 * 
+	 *
 	 */
 	public MathFieldProcessing(MathFieldW mf) {
 		this.mf = mf;
@@ -45,27 +45,27 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-		mf.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_ENTER,
-				KeyEvent.KeyboardType.INTERNAL));
-		mf.getKeyListener().onKeyReleased(new KeyEvent(JavaKeyCodes.VK_ENTER,
-				KeyEvent.KeyboardType.INTERNAL));
+		mf.getKeyListener()
+				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_ENTER, KeyEvent.KeyboardType.INTERNAL));
+		mf.getKeyListener()
+				.onKeyReleased(new KeyEvent(JavaKeyCodes.VK_ENTER, KeyEvent.KeyboardType.INTERNAL));
 	}
 
 	@Override
 	public void onBackSpace() {
 		mf.getKeyListener()
-				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE,
-						KeyEvent.KeyboardType.INTERNAL));
+				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE, KeyEvent.KeyboardType.INTERNAL));
 	}
 
 	@Override
 	public void onArrow(ArrowType type) {
-		int arrowType = switch (type) {
-			case right -> JavaKeyCodes.VK_RIGHT;
-			case left -> JavaKeyCodes.VK_LEFT;
-			case up -> JavaKeyCodes.VK_UP;
-			case down -> JavaKeyCodes.VK_DOWN;
-		};
+		int arrowType =
+				switch (type) {
+					case right -> JavaKeyCodes.VK_RIGHT;
+					case left -> JavaKeyCodes.VK_LEFT;
+					case up -> JavaKeyCodes.VK_UP;
+					case down -> JavaKeyCodes.VK_DOWN;
+				};
 
 		KeyEvent keyEvent = new KeyEvent(arrowType, 0, KeyEvent.KeyboardType.INTERNAL);
 		mf.getKeyListener().onKeyPressed(keyEvent);

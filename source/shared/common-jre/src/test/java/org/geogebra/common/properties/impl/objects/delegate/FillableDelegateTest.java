@@ -27,25 +27,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 class FillableDelegateTest extends BaseAppTestSetup {
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Circle((0,0), 10)",
-			"Polygon({(0,0),(1,1),(2,0)})"
-	})
+	@ValueSource(strings = {"Circle((0,0), 10)", "Polygon({(0,0),(1,1),(2,0)})"})
 	void testApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new FillableDelegate(evaluateGeoElement(expression)));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"f(x) = x^2",
-			"a = 1 + 2",
-			"InputBox()"
-	})
+	@ValueSource(strings = {"(1, 2)", "f(x) = x^2", "a = 1 + 2", "InputBox()"})
 	void testNotApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class,
+		assertThrows(
+				NotApplicablePropertyException.class,
 				() -> new FillableDelegate(evaluateGeoElement(expression)));
 	}
 }

@@ -40,7 +40,6 @@ public class ViewLocationModel extends OptionsModel {
 	public ViewLocationModel(App app, IGraphicsViewLocationListener listener) {
 		super(app);
 		this.listener = listener;
-
 	}
 
 	@Override
@@ -74,7 +73,6 @@ public class ViewLocationModel extends OptionsModel {
 			if (geo.isAlgebraVisible()) {
 				isInAV = true;
 			}
-
 		}
 
 		listener.selectView(0, isInEV);
@@ -83,7 +81,6 @@ public class ViewLocationModel extends OptionsModel {
 		listener.selectView(3, isInEVForPlane);
 
 		listener.selectView(4, isInAV);
-
 	}
 
 	public void applyToEuclidianView1(boolean value) {
@@ -109,7 +106,6 @@ public class ViewLocationModel extends OptionsModel {
 				geo.removeView(App.VIEW_EUCLIDIAN2);
 				ev2.remove(geo);
 			}
-
 		}
 		storeUndoInfo();
 	}
@@ -131,7 +127,6 @@ public class ViewLocationModel extends OptionsModel {
 				geo.removeViews3D();
 				ev3D.remove(geo);
 			}
-
 		}
 		storeUndoInfo();
 	}
@@ -147,7 +142,6 @@ public class ViewLocationModel extends OptionsModel {
 				geo.setVisibleInViewForPlane(false);
 				app.removeFromViewsForPlane(geo);
 			}
-
 		}
 		storeUndoInfo();
 	}
@@ -164,7 +158,6 @@ public class ViewLocationModel extends OptionsModel {
 				av.remove(geo);
 			}
 			geo.updateRepaint();
-
 		}
 		storeUndoInfo();
 	}
@@ -210,5 +203,4 @@ public class ViewLocationModel extends OptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	}
-
 }

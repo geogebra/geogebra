@@ -27,23 +27,24 @@ import org.gwtproject.user.client.ui.Image;
 /**
  * A keyboard button with functional character. This button doesn't insert a
  * character or anything else, this button performs an action.
- * 
+ *
  */
 public class FunctionalKeyboardButton extends BaseKeyboardButton {
 
 	/**
 	 * the possible actions for a functional button
-	 * 
+	 *
 	 */
 	// public enum Action {
 	// ENTER, BACKSPACE, SHIFT, ARROW_LEFT, ARROW_RIGHT, SWITCH_KEYBOARD;
 	// }
 	private Image image;
+
 	private Action action;
 
 	/**
 	 * used for keyboardButtons with an image.
-	 * 
+	 *
 	 * @param image
 	 *            {@link ImageResource}
 	 * @param handler
@@ -55,9 +56,8 @@ public class FunctionalKeyboardButton extends BaseKeyboardButton {
 	 * @param altText
 	 *            alternate text for icon
 	 */
-	public FunctionalKeyboardButton(SVGResource image,
-			ButtonHandler handler,
-			Action action, LocalizationI loc, String altText) {
+	public FunctionalKeyboardButton(
+			SVGResource image, ButtonHandler handler, Action action, LocalizationI loc, String altText) {
 		super(handler);
 		this.image = new NoDragImage(image, 24);
 
@@ -83,8 +83,11 @@ public class FunctionalKeyboardButton extends BaseKeyboardButton {
 	 * @param altText
 	 *            alternate text for icon
 	 */
-	public FunctionalKeyboardButton(ImageResource image,
-			String feedback, ButtonHandler handler, LocalizationI loc,
+	public FunctionalKeyboardButton(
+			ImageResource image,
+			String feedback,
+			ButtonHandler handler,
+			LocalizationI loc,
 			String altText) {
 		super(handler);
 		this.image = new Image(image.getSafeUri().asString());
@@ -105,9 +108,8 @@ public class FunctionalKeyboardButton extends BaseKeyboardButton {
 	 * @param altText
 	 *            alternate text for icon
 	 */
-	public FunctionalKeyboardButton(SVGResource svg, String feedback,
-			ButtonHandler handler, LocalizationI loc,
-			String altText) {
+	public FunctionalKeyboardButton(
+			SVGResource svg, String feedback, ButtonHandler handler, LocalizationI loc, String altText) {
 		super(handler);
 
 		String altTextTranslated = loc.getAltText(altText);
@@ -122,17 +124,16 @@ public class FunctionalKeyboardButton extends BaseKeyboardButton {
 
 	/**
 	 * used for keyboardButtons with an image.
-	 * 
+	 *
 	 * @param caption
 	 *            String
-	 * 
+	 *
 	 * @param handler
 	 *            {@link ClickHandler}
 	 * @param action
 	 *            {@link Action}
 	 */
-	public FunctionalKeyboardButton(String caption, ButtonHandler handler,
-			Action action) {
+	public FunctionalKeyboardButton(String caption, ButtonHandler handler, Action action) {
 		super(caption, caption, handler);
 		this.action = action;
 		addStyleName("colored");

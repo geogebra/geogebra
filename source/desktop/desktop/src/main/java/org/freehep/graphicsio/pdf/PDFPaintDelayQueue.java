@@ -20,7 +20,7 @@ import org.freehep.graphicsio.ImageConstants;
  * complete.<br>
  * TODO: - reuse pattern dictionaries if possible - cyclic function not working
  * yet (ps calculation)
- * 
+ *
  * @author Simon Fischer
  * @version $Id: PDFPaintDelayQueue.java,v 1.6 2009-08-17 21:44:44 murkle Exp $
  */
@@ -57,8 +57,7 @@ public class PDFPaintDelayQueue {
 	private AffineTransform pageMatrix;
 
 	/** Don't forget to call {@code setPageMatrix()}. */
-	public PDFPaintDelayQueue(PDFWriter pdf,
-			PDFImageDelayQueue imageDelayQueue) {
+	public PDFPaintDelayQueue(PDFWriter pdf, PDFImageDelayQueue imageDelayQueue) {
 		this.pdf = pdf;
 		this.paintList = new LinkedList();
 		// this.imageDelayQueue = imageDelayQueue;
@@ -75,8 +74,7 @@ public class PDFPaintDelayQueue {
 		pageMatrix = new AffineTransform(t);
 	}
 
-	public PDFName delayPaint(Paint paint, AffineTransform transform,
-			String writeAs) {
+	public PDFName delayPaint(Paint paint, AffineTransform transform, String writeAs) {
 		Entry e = new Entry(paint, transform, writeAs);
 		paintList.add(e);
 		return pdf.name(e.name);
@@ -95,8 +93,8 @@ public class PDFPaintDelayQueue {
 				} else if (e.paint instanceof TexturePaint) {
 					addTexturePaint(e);
 				} else {
-					System.err.println("PDFWriter: Paint of class '"
-							+ e.paint.getClass() + "' not supported.");
+					System.err.println(
+							"PDFWriter: Paint of class '" + e.paint.getClass() + "' not supported.");
 					// FIXME, we could write a color here, to keep the file
 					// valid.
 				}
@@ -136,16 +134,15 @@ public class PDFPaintDelayQueue {
 		shading.entry("ColorSpace", pdf.name("DeviceRGB"));
 		Point2D p1 = gp.getPoint1();
 		Point2D p2 = gp.getPoint2();
-		shading.entry("Coords",
-				new double[] { p1.getX(), p1.getY(), p2.getX(), p2.getY() });
-		double[] domain = new double[] { 0, 1 };
+		shading.entry("Coords", new double[] {p1.getX(), p1.getY(), p2.getX(), p2.getY()});
+		double[] domain = new double[] {0, 1};
 		shading.entry("Domain", domain);
 
 		// the function subdictionary (necessarily by reference, because
 		// the type 4 function is a stream)
 		String functionRef = e.name + "Function";
 		shading.entry("Function", pdf.ref(functionRef));
-		shading.entry("Extend", new boolean[] { true, true });
+		shading.entry("Extend", new boolean[] {true, true});
 
 		pattern.close(shading);
 
@@ -154,10 +151,10 @@ public class PDFPaintDelayQueue {
 		// get color components and generate the functions
 		float[] col0 = new float[3];
 		gp.getColor1().getRGBColorComponents(col0);
-		double c0[] = new double[] { col0[0], col0[1], col0[2] };
+		double c0[] = new double[] {col0[0], col0[1], col0[2]};
 		float[] col1 = new float[3];
 		gp.getColor2().getRGBColorComponents(col1);
-		double c1[] = new double[] { col1[0], col1[1], col1[2] };
+		double c1[] = new double[] {col1[0], col1[1], col1[2]};
 		if (gp.isCyclic()) {
 			// FIXME: cyclic function only eveluated between 0 and 1 for short
 			// range, not repetitive.
@@ -171,12 +168,12 @@ public class PDFPaintDelayQueue {
 	/**
 	 * Writes a type 2 (exponential) function (exponent N=1) to the pdf file.
 	 */
-	private void addLinearFunction(String functionRef, double[] c0, double[] c1,
-			double[] dom) throws IOException {
+	private void addLinearFunction(String functionRef, double[] c0, double[] c1, double[] dom)
+			throws IOException {
 		PDFDictionary function = pdf.openDictionary(functionRef);
 		function.entry("FunctionType", 2);
 		function.entry("Domain", dom);
-		function.entry("Range", new double[] { 0., 1., 0., 1., 0., 1. });
+		function.entry("Range", new double[] {0., 1., 0., 1., 0., 1.});
 		function.entry("C0", c0);
 		function.entry("C1", c1);
 		function.entry("N", 1);
@@ -188,15 +185,15 @@ public class PDFPaintDelayQueue {
 	 * triangle function to the pdf file.
 	 */
 	// NOT USED
-	protected void addCyclicFunction(String functionRef, double[] c0,
-			double[] c1, double[] dom) throws IOException {
+	protected void addCyclicFunction(String functionRef, double[] c0, double[] c1, double[] dom)
+			throws IOException {
 		// PDFStream function = pdf.openStream(functionRef, new String[] {
 		// "Flate", "ASCII85" });
 		PDFStream function = pdf.openStream(functionRef);
 		function.entry("FunctionType", 4);
 		// function.entry("Domain", new double[] {-1000.0, 1000.0} );
 		function.entry("Domain", dom);
-		function.entry("Range", new double[] { 0., 1., 0., 1., 0., 1. });
+		function.entry("Range", new double[] {0., 1., 0., 1., 0., 1.});
 		function.println("{");
 		/*
 		 * function.println("2 mod"); function.println("1 sub");
@@ -234,12 +231,11 @@ public class PDFPaintDelayQueue {
 		double height = tp.getAnchorRect().getHeight();
 		double offsX = tp.getAnchorRect().getX();
 		double offsY = tp.getAnchorRect().getY();
-		pattern.entry("BBox", new double[] { 0, 0, width, height });
+		pattern.entry("BBox", new double[] {0, 0, width, height});
 		pattern.entry("XStep", width);
 		pattern.entry("YStep", height);
 		PDFDictionary resources = pattern.openDictionary("Resources");
-		resources.entry("ProcSet",
-				new Object[] { pdf.name("PDF"), pdf.name("ImageC") });
+		resources.entry("ProcSet", new Object[] {pdf.name("PDF"), pdf.name("ImageC")});
 		pattern.close(resources);
 		setMatrix(pattern, e, offsX, offsY);
 
@@ -248,11 +244,11 @@ public class PDFPaintDelayQueue {
 
 		String[] encode;
 		if (e.writeAs.equals(ImageConstants.ZLIB)) {
-			encode = new String[] { "Flate", "ASCII85" };
+			encode = new String[] {"Flate", "ASCII85"};
 		} else if (e.writeAs.equals(ImageConstants.JPG)) {
-			encode = new String[] { "DCT", "ASCII85" };
+			encode = new String[] {"DCT", "ASCII85"};
 		} else {
-			encode = new String[] { null, "ASCII85" };
+			encode = new String[] {null, "ASCII85"};
 		}
 		pattern.inlineImage(image, null, encode);
 		pdf.close(pattern);
@@ -262,15 +258,15 @@ public class PDFPaintDelayQueue {
 	 * Sets both the page (flip) matrix and the actual transformation matrix
 	 * plus a translation offset (which may of course be be 0).
 	 */
-	private void setMatrix(PDFDictionary dict, Entry e, double translX,
-			double translY) throws IOException {
+	private void setMatrix(PDFDictionary dict, Entry e, double translX, double translY)
+			throws IOException {
 		// concatenate the page matrix and the actual transformation matrix
 		AffineTransform trafo = new AffineTransform(pageMatrix);
 		trafo.concatenate(e.trafo);
 		trafo.translate(translX, translY);
 		double[] matrix = new double[6];
 		trafo.getMatrix(matrix);
-		dict.entry("Matrix", new double[] { matrix[0], matrix[1], matrix[2],
-				matrix[3], matrix[4], matrix[5] });
+		dict.entry(
+				"Matrix", new double[] {matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]});
 	}
 }

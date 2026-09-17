@@ -56,7 +56,7 @@ import jsinterop.base.Js;
 
 /**
  * @author gabor
- * 
+ *
  * PropertiesView for Web
  *
  */
@@ -73,7 +73,7 @@ public final class PropertiesViewW extends PropertiesView
 	private boolean objectPropertiesVisible;
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @param optionType
@@ -124,8 +124,8 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	@Override
-    public void updateVisualStyle(GeoElement geo, GProperty prop) {
-        // do nothing
+	public void updateVisualStyle(GeoElement geo, GProperty prop) {
+		// do nothing
 	}
 
 	@Override
@@ -178,8 +178,10 @@ public final class PropertiesViewW extends PropertiesView
 			if (app.getActiveEuclidianView().isEuclidianView3D()) {
 				setOptionPanel(OptionType.EUCLIDIAN3D);
 			} else if (app.getActiveEuclidianView().isDefault2D()) {
-				setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
-						? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
+				setOptionPanel(
+						app.getActiveEuclidianView().getEuclidianViewNo() == 1
+								? OptionType.EUCLIDIAN
+								: OptionType.EUCLIDIAN2);
 			} else {
 				setOptionPanel(OptionType.EUCLIDIAN_FOR_PLANE);
 			}
@@ -269,7 +271,7 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	/**
-	 * 
+	 *
 	 * @return GWT panel of this view
 	 */
 	public Widget getWrappedPanel() {
@@ -289,12 +291,12 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	@Override
-    public void setLabels() {
+	public void setLabels() {
 		if (settingsTab != null) {
 			settingsTab.setLabels();
 		}
 		rebuildContent();
-    }
+	}
 
 	@Override
 	public void updateStyleBar() {
@@ -368,12 +370,11 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	private void rebuildContent() {
-		List<GeoElement> showableGeos = optionType == OptionType.OBJECTS
-				? getShowableElements() : List.of();
+		List<GeoElement> showableGeos =
+				optionType == OptionType.OBJECTS ? getShowableElements() : List.of();
 		List<PropertiesArray> propLists;
 		String titleKey;
-		boolean isScientific = app.getConfig().getVersion()
-				== GeoGebraConstants.Version.SCIENTIFIC;
+		boolean isScientific = app.getConfig().getVersion() == GeoGebraConstants.Version.SCIENTIFIC;
 		boolean showObjectProperties = !showableGeos.isEmpty() && !isScientific;
 		if (showObjectProperties) {
 			GeoElementPropertiesFactory propertiesFactory =
@@ -384,20 +385,19 @@ public final class PropertiesViewW extends PropertiesView
 					app.getImageManager(),
 					app.getEventDispatcher().availableTypes().contains(ScriptType.JAVASCRIPT),
 					showableGeos);
-			titleKey = showableGeos.size() == 1
-					? showableGeos.get(0).getTypeString() : "Selection";
+			titleKey = showableGeos.size() == 1 ? showableGeos.get(0).getTypeString() : "Selection";
 		} else {
 			titleKey = "Settings";
-			propLists = app.getConfig().createPropertiesFactory().createProperties(
-					app, app.getLocalization(), app.appScope.propertiesRegistry);
+			propLists = app.getConfig()
+					.createPropertiesFactory()
+					.createProperties(app, app.getLocalization(), app.appScope.propertiesRegistry);
 		}
 		rebuildTabs(propLists, showObjectProperties);
 		if (sideSheet == null) {
 			wrappedPanel.clear();
 			FlowPanel fixedPanel = new FlowPanel();
 			fixedPanel.addStyleName("sideSheet");
-			SheetTitlePanel titlePanel = new SheetTitlePanel((AppWFull) app, titleKey,
-					this::close, null);
+			SheetTitlePanel titlePanel = new SheetTitlePanel((AppWFull) app, titleKey, this::close, null);
 			fixedPanel.add(titlePanel);
 			FlowPanel contentPanel = new FlowPanel();
 			contentPanel.addStyleName("contentPanel");
@@ -421,8 +421,7 @@ public final class PropertiesViewW extends PropertiesView
 	}
 
 	private void rebuildTabs(List<PropertiesArray> propLists, boolean showObjectProperties) {
-		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(),
-				(AppW) app);
+		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(app.getLocalization(), (AppW) app);
 		ArrayList<TabData> tabs = new ArrayList<>();
 		for (PropertiesArray props : propLists) {
 			FlowPanel propertiesPanel = adapter.buildPanel(props);
@@ -434,7 +433,9 @@ public final class PropertiesViewW extends PropertiesView
 		} else if (optionType != OptionType.OBJECTS) {
 			oldTab = ComponentTab.indexOf(tabs, optionType.getName());
 		}
-		settingsTab = new ComponentTab((AppW) app, "Settings",
+		settingsTab = new ComponentTab(
+				(AppW) app,
+				"Settings",
 				oldTab != -1 && oldTab < tabs.size() ? oldTab : 0,
 				tabs.toArray(new TabData[0]));
 		if (!showObjectProperties) {

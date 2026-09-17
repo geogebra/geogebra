@@ -10,5 +10,4 @@ public class CommandTextBf extends CommandText {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new BoldAtom(a);
 	}
-
 }

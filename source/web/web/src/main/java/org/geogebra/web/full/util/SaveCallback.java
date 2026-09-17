@@ -77,21 +77,18 @@ public final class SaveCallback {
 					&& !activeMaterial.getVisibility().equals("P")
 					&& state != SaveState.ERROR) {
 				if (state == SaveState.FORKED) {
-					msg += loc.getPlain("SeveralVersionsOf",
-							app.getKernel().getConstruction().getTitle());
+					msg += loc.getPlain(
+							"SeveralVersionsOf", app.getKernel().getConstruction().getTitle());
 				}
 				app.getToolTipManager().setBlockToolTip(false);
-				ToolTip toolTip = new ToolTip(msg, null, "Share",
-						activeMaterial.getURL());
-				app.getToolTipManager().showBottomInfoToolTip(toolTip, app,
-						ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
+				ToolTip toolTip = new ToolTip(msg, null, "Share", activeMaterial.getURL());
+				app.getToolTipManager()
+						.showBottomInfoToolTip(toolTip, app, ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 			} else {
-				app.getToolTipManager().showBottomMessage(
-						msg, app);
+				app.getToolTipManager().showBottomMessage(msg, app);
 			}
 		} else {
-			app.getToolTipManager().showBottomMessage(
-					loc.getMenu("SavedSuccessfully"), app);
+			app.getToolTipManager().showBottomMessage(loc.getMenu("SavedSuccessfully"), app);
 		}
 	}
 
@@ -108,23 +105,21 @@ public final class SaveCallback {
 
 	/**
 	 * shows info to user and sets app saved
-	 * 
+	 *
 	 * @param mat
 	 *            Material
 	 * @param isLocal
 	 *            boolean
 	 */
 	public void onSaved(final Material mat, final boolean isLocal) {
-		if (mat.getType() == MaterialType.ggb
-				|| mat.getType() == MaterialType.ggs) {
+		if (mat.getType() == MaterialType.ggb || mat.getType() == MaterialType.ggs) {
 			app.setActiveMaterial(mat);
 			onSaved(app, state, false);
 			if (app.getGuiManager().isOpenFileViewLoaded()) {
 				if (!isLocal) {
 					mat.setSyncStamp(mat.getModified());
 				}
-				app.getGuiManager().getBrowseView()
-						.refreshMaterial(mat, isLocal);
+				app.getGuiManager().getBrowseView().refreshMaterial(mat, isLocal);
 			}
 		} else {
 			onSaved(app, state, true);
@@ -136,14 +131,12 @@ public final class SaveCallback {
 	 */
 	public void onError() {
 		if (state == SaveState.OK) {
-			app.getGgbApi().showTooltip(
-					app.getLocalization().getMenu("SavedToAccountSuccessfully")
-							+ "\n" + app.getLocalization()
-									.getMenu("SaveLocalCopyFailed"));
+			app.getGgbApi()
+					.showTooltip(app.getLocalization().getMenu("SavedToAccountSuccessfully") + "\n"
+							+ app.getLocalization().getMenu("SaveLocalCopyFailed"));
 		} else {
 			app.showError(Errors.SaveFileFailed);
 		}
-
 	}
 
 	/**

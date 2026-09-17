@@ -81,8 +81,8 @@ import org.jspecify.annotations.Nullable;
 public class DefaultPropertiesFactory implements PropertiesFactory {
 
 	@Override
-	public List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	public List<PropertiesArray> createProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		return Arrays.asList(
 				createGeneralProperties(app, localization, propertiesRegistry),
 				createAlgebraProperties(app, localization, propertiesRegistry),
@@ -96,20 +96,25 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 * @param propertiesRegistry properties registry
 	 * @return an array of general properties
 	 */
-	protected PropertiesArray createGeneralProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGeneralProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		Kernel kernel = app.getKernel();
 		Settings settings = app.getSettings();
-		return new PropertiesArray("General", localization,
-				registerProperties(propertiesRegistry, NonNullList.of(
-						app.appScope.getLanguageProperty(),
-						new RoundingIndexProperty(app, localization),
-						new CoordinatesProperty(kernel, localization),
-						new AngleUnitProperty(kernel, localization),
-						new AppFontSizeProperty(localization, settings.getFontSettings(),
-								app.getFontSettingsUpdater()),
-						app.getPlatform().isMobile() ? null : createSaveRestoreSettingsProperties(
-								app, localization))));
+		return new PropertiesArray(
+				"General",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						NonNullList.of(
+								app.appScope.getLanguageProperty(),
+								new RoundingIndexProperty(app, localization),
+								new CoordinatesProperty(kernel, localization),
+								new AngleUnitProperty(kernel, localization),
+								new AppFontSizeProperty(
+										localization, settings.getFontSettings(), app.getFontSettingsUpdater()),
+								app.getPlatform().isMobile()
+										? null
+										: createSaveRestoreSettingsProperties(app, localization))));
 	}
 
 	/**
@@ -118,141 +123,183 @@ public class DefaultPropertiesFactory implements PropertiesFactory {
 	 * @param localization localization for properties
 	 * @return an array of algebra-specific properties
 	 */
-	protected PropertiesArray createAlgebraProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
-		return new PropertiesArray("Algebra", localization,
-				registerProperties(propertiesRegistry,
+	protected PropertiesArray createAlgebraProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
+		return new PropertiesArray(
+				"Algebra",
+				localization,
+				registerProperties(
+						propertiesRegistry,
 						new AlgebraDescriptionProperty(app, localization),
 						new ShowAuxiliaryProperty(app, localization)));
 	}
 
-	protected PropertiesArray createGraphicsProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGraphicsProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		EuclidianView view1 = app.getEuclidianView1();
 		EuclidianSettings euclidianSettings = view1.getSettings();
-		return new PropertiesArray("DrawingPad", localization,
-				registerProperties(propertiesRegistry, NonNullList.of(
-						app.getPlatform().isMobile() ? new GraphicsActionsPropertyCollection(
-								app, localization, view1) : null,
-						new PropertyCollectionWithLead(localization, "Grid",
+		return new PropertiesArray(
+				"DrawingPad",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						NonNullList.of(
+								app.getPlatform().isMobile()
+										? new GraphicsActionsPropertyCollection(app, localization, view1)
+										: null,
+								new PropertyCollectionWithLead(
+										localization,
+										"Grid",
+										new GridVisibilityProperty(localization, euclidianSettings),
+										new GridStyleIconProperty(localization, euclidianSettings),
+										new GridColorProperty(localization, euclidianSettings),
+										new GridLineStyleProperty(localization, euclidianSettings),
+										new GridBoldProperty(localization, euclidianSettings),
+										new GridDistancePropertyCollection(
+												app, localization, euclidianSettings, view1)),
+								new PropertyCollectionWithLead(
+										localization,
+										"Axes",
+										new AxesVisibilityProperty(localization, euclidianSettings),
+										new AxesColorProperty(localization, euclidianSettings),
+										new AxesLineStyleProperty(localization, euclidianSettings),
+										new AxesBoldProperty(localization, euclidianSettings),
+										new LabelStylePropertyCollection(localization, euclidianSettings)),
+								new Dimension2DPropertiesCollection(app, localization, view1),
+								axisExpandableProperty2D(0, "xAxis", app, localization, view1),
+								axisExpandableProperty2D(1, "yAxis", app, localization, view1),
+								app.isUnbundled()
+										? new AdvancedApps2DPropertiesCollection(
+												app, localization, euclidianSettings, view1)
+										: new AdvancedClassic2DPropertiesCollection(
+												app, localization, euclidianSettings, view1))));
+	}
+
+	protected PropertiesArray createGraphics2Properties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
+		EuclidianView activeView = app.getEuclidianView2(1);
+		EuclidianSettings euclidianSettings = activeView.getSettings();
+		return new PropertiesArray(
+				"DrawingPad2",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						new PropertyCollectionWithLead(
+								localization,
+								"Grid",
 								new GridVisibilityProperty(localization, euclidianSettings),
 								new GridStyleIconProperty(localization, euclidianSettings),
 								new GridColorProperty(localization, euclidianSettings),
 								new GridLineStyleProperty(localization, euclidianSettings),
 								new GridBoldProperty(localization, euclidianSettings),
-								new GridDistancePropertyCollection(app, localization,
-										euclidianSettings, view1)),
-						new PropertyCollectionWithLead(localization, "Axes",
+								new GridDistancePropertyCollection(
+										app, localization, euclidianSettings, activeView)),
+						new PropertyCollectionWithLead(
+								localization,
+								"Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings),
 								new AxesColorProperty(localization, euclidianSettings),
 								new AxesLineStyleProperty(localization, euclidianSettings),
 								new AxesBoldProperty(localization, euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)),
-						new Dimension2DPropertiesCollection(app, localization, view1),
-						axisExpandableProperty2D(0, "xAxis", app, localization, view1),
-						axisExpandableProperty2D(1, "yAxis", app, localization, view1),
-						app.isUnbundled()
-								? new AdvancedApps2DPropertiesCollection(app, localization,
-								euclidianSettings, view1)
-								: new AdvancedClassic2DPropertiesCollection(app, localization,
-								euclidianSettings, view1))));
-	}
-
-	protected PropertiesArray createGraphics2Properties(App app,
-			Localization localization, PropertiesRegistry propertiesRegistry) {
-		EuclidianView activeView = app.getEuclidianView2(1);
-		EuclidianSettings euclidianSettings = activeView.getSettings();
-		return new PropertiesArray("DrawingPad2", localization,
-				registerProperties(propertiesRegistry,
-						new PropertyCollectionWithLead(localization, "Grid",
-								new GridVisibilityProperty(localization, euclidianSettings),
-								new GridStyleIconProperty(localization, euclidianSettings),
-								new GridColorProperty(localization, euclidianSettings),
-								new GridLineStyleProperty(localization, euclidianSettings),
-								new GridBoldProperty(localization, euclidianSettings),
-								new GridDistancePropertyCollection(app, localization,
-										euclidianSettings, activeView)),
-						new PropertyCollectionWithLead(localization, "Axes",
-								new AxesVisibilityProperty(localization, euclidianSettings),
-								new AxesColorProperty(localization, euclidianSettings),
-								new AxesLineStyleProperty(localization, euclidianSettings),
-								new AxesBoldProperty(localization, euclidianSettings),
-								new LabelStylePropertyCollection(localization, euclidianSettings)
-						),
 						new Dimension2DPropertiesCollection(app, localization, activeView),
 						axisExpandableProperty2D(0, "xAxis", app, localization, activeView),
 						axisExpandableProperty2D(1, "yAxis", app, localization, activeView),
 						app.isUnbundled()
-								? new AdvancedApps2DPropertiesCollection(app, localization,
-								euclidianSettings, activeView)
-								: new AdvancedClassic2DPropertiesCollection(app, localization,
-								euclidianSettings, activeView)));
+								? new AdvancedApps2DPropertiesCollection(
+										app, localization, euclidianSettings, activeView)
+								: new AdvancedClassic2DPropertiesCollection(
+										app, localization, euclidianSettings, activeView)));
 	}
 
-	protected PropertiesArray createGraphics3DProperties(App app,
-			Localization localization, PropertiesRegistry propertiesRegistry) {
+	protected PropertiesArray createGraphics3DProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		EuclidianSettings euclidianSettings = app.getSettings().getEuclidian(-1);
 		EuclidianViewInterfaceCommon view = app.getEuclidianView3D();
-		return new PropertiesArray("GraphicsView3D", localization,
-				registerProperties(propertiesRegistry,
-						new PropertyCollectionWithLead(localization, "Grid",
+		return new PropertiesArray(
+				"GraphicsView3D",
+				localization,
+				registerProperties(
+						propertiesRegistry,
+						new PropertyCollectionWithLead(
+								localization,
+								"Grid",
 								new GridVisibilityProperty(localization, euclidianSettings),
-								new GridDistancePropertyCollection(app, localization,
-										euclidianSettings, view)),
-						new PropertyCollectionWithLead(localization, "Axes",
+								new GridDistancePropertyCollection(app, localization, euclidianSettings, view)),
+						new PropertyCollectionWithLead(
+								localization,
+								"Axes",
 								new AxesVisibilityProperty(localization, euclidianSettings),
-								new VerticalYAxis(localization,
-										(EuclidianSettings3D) euclidianSettings),
-								new AxesColoredProperty(localization,
-										(EuclidianSettings3D) euclidianSettings),
+								new VerticalYAxis(localization, (EuclidianSettings3D) euclidianSettings),
+								new AxesColoredProperty(localization, (EuclidianSettings3D) euclidianSettings),
 								new LabelStylePropertyCollection(localization, euclidianSettings)),
 						axisExpandableProperty3D(0, "xAxis", app, localization, view),
 						axisExpandableProperty3D(1, "yAxis", app, localization, view),
 						axisExpandableProperty3D(2, "zAxis", app, localization, view),
-						new ProjectionPropertyCollection(app, localization,
-								(EuclidianSettings3D) euclidianSettings),
+						new ProjectionPropertyCollection(
+								app, localization, (EuclidianSettings3D) euclidianSettings),
 						app.isUnbundled()
-								? new AdvancedApps3DPropertiesCollection(app, localization,
-								euclidianSettings, (EuclidianView3D) view)
-								: new AdvancedClassic3DPropertiesCollection(app, localization,
-								euclidianSettings, (EuclidianView3D) view),
+								? new AdvancedApps3DPropertiesCollection(
+										app, localization, euclidianSettings, (EuclidianView3D) view)
+								: new AdvancedClassic3DPropertiesCollection(
+										app, localization, euclidianSettings, (EuclidianView3D) view),
 						new ARPropertyCollection(localization, (EuclidianView3D) view)));
 	}
 
 	protected ActionablePropertyCollection<ActionableProperty> createSaveRestoreSettingsProperties(
 			App app, Localization localization) {
-		return new ActionablePropertyCollection<>(localization, List.of(
-				new SaveSettingsAction(app, localization),
-				new RestoreSettingsAction(app, localization)));
+		return new ActionablePropertyCollection<>(
+				localization,
+				List.of(
+						new SaveSettingsAction(app, localization),
+						new RestoreSettingsAction(app, localization)));
 	}
 
-	protected Property axisExpandableProperty2D(int axis, String label, App app,
-			Localization localization, EuclidianViewInterfaceCommon view) {
-		return axisExpandableProperty(axis, label, app, localization, view,
-				new AxisCrossPropertyCollection(app.getKernel().getAlgebraProcessor(),
-						localization, view.getSettings(), axis, view));
+	protected Property axisExpandableProperty2D(
+			int axis,
+			String label,
+			App app,
+			Localization localization,
+			EuclidianViewInterfaceCommon view) {
+		return axisExpandableProperty(
+				axis,
+				label,
+				app,
+				localization,
+				view,
+				new AxisCrossPropertyCollection(
+						app.getKernel().getAlgebraProcessor(), localization, view.getSettings(), axis, view));
 	}
 
-	protected Property axisExpandableProperty3D(int axis, String label, App app,
-			Localization localization, EuclidianViewInterfaceCommon view) {
+	protected Property axisExpandableProperty3D(
+			int axis,
+			String label,
+			App app,
+			Localization localization,
+			EuclidianViewInterfaceCommon view) {
 		return axisExpandableProperty(axis, label, app, localization, view, null);
 	}
 
-	private Property axisExpandableProperty(int axis, String label, App app,
-			Localization localization, EuclidianViewInterfaceCommon view,
+	private Property axisExpandableProperty(
+			int axis,
+			String label,
+			App app,
+			Localization localization,
+			EuclidianViewInterfaceCommon view,
 			@Nullable Property crossProperty) {
 		EuclidianSettings euclidianSettings = view.getSettings();
 		Property[] properties = NonNullList.of(
-				new AxisLabelProperty(localization, euclidianSettings, "Label", axis),
-				new AxisTickProperty(localization, euclidianSettings, axis, view),
-				new AxisDistancePropertyCollection(app, localization, euclidianSettings, axis,
-						view),
-				new AxisUnitPropertyCollection(localization, euclidianSettings, axis, view),
-				crossProperty,
-				new AxisPositiveDirectionProperty(localization, euclidianSettings, axis, view),
-				new AxisSelectionAllowedProperty(localization, euclidianSettings, axis, view)
-		).toArray(new Property[0]);
-		return new PropertyCollectionWithLead(localization, label,
+						new AxisLabelProperty(localization, euclidianSettings, "Label", axis),
+						new AxisTickProperty(localization, euclidianSettings, axis, view),
+						new AxisDistancePropertyCollection(app, localization, euclidianSettings, axis, view),
+						new AxisUnitPropertyCollection(localization, euclidianSettings, axis, view),
+						crossProperty,
+						new AxisPositiveDirectionProperty(localization, euclidianSettings, axis, view),
+						new AxisSelectionAllowedProperty(localization, euclidianSettings, axis, view))
+				.toArray(new Property[0]);
+		return new PropertyCollectionWithLead(
+				localization,
+				label,
 				new AxisVisibilityProperty(localization, euclidianSettings, axis, label),
 				properties);
 	}

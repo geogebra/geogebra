@@ -29,8 +29,7 @@ import org.geogebra.common.util.debug.Log;
  * f(x,y) = a x^2 + b y that depends on a and b.
  * @author Markus Hohenwarter
  */
-public class AlgoDependentFunctionNVar extends AlgoElement
-		implements DependentAlgo {
+public class AlgoDependentFunctionNVar extends AlgoElement implements DependentAlgo {
 
 	private FunctionNVar fun;
 	private GeoFunctionNVar f; // output
@@ -51,8 +50,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 		f.setFunction(fun);
 
 		expression = fun.getExpression();
-		expContainsFunctions = AlgoDependentFunction
-				.containsFunctions(expression);
+		expContainsFunctions = AlgoDependentFunction.containsFunctions(expression);
 		if (expContainsFunctions) {
 			expandedFun = new FunctionNVar(fun, kernel);
 		}
@@ -106,8 +104,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 			ExpressionValue ev = null;
 
 			try { // needed for eg f(x)=floor(x) f'(x)
-				ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
-						expression.deepCopy(kernel), false);
+				ev =
+						AlgoDependentFunction.expandFunctionDerivativeNodes(expression.deepCopy(kernel), false);
 			} catch (Exception e) {
 				Log.debug(e);
 				Log.debug("derivative failed");
@@ -154,5 +152,4 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 	public ExpressionNode getExpression() {
 		return expression;
 	}
-
 }

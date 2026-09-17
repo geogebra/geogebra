@@ -38,11 +38,12 @@ import elemental2.dom.CanvasRenderingContext2D;
  */
 public final class AlgebraTab extends ToolbarTab {
 
-	final private App app;
+	private final App app;
 	private final ToolbarPanel toolbarPanel;
 	private FlowPanel wrapper;
 	/** Algebra view **/
 	AlgebraViewW aview = null;
+
 	private final LogoAndName logo;
 
 	private final AlgebraViewScroller scroller;
@@ -98,8 +99,7 @@ public final class AlgebraTab extends ToolbarTab {
 	private void emptyAVclicked(ClickEvent evt) {
 		int bt = wrapper.getAbsoluteTop() + wrapper.getOffsetHeight();
 		if (evt.getClientY() > bt && aview != null) {
-			app.getSelectionManager()
-					.clearSelectedGeos();
+			app.getSelectionManager().clearSelectedGeos();
 			aview.resetItems(true);
 		}
 	}
@@ -122,7 +122,6 @@ public final class AlgebraTab extends ToolbarTab {
 		DockPanelDecorator decorator = getDecorator();
 		decorator.onResize(aview, getTabHeight());
 		resizeAlgebraView(tabWidth);
-
 	}
 
 	private void resizeAlgebraView(int tabWidth) {
@@ -155,7 +154,7 @@ public final class AlgebraTab extends ToolbarTab {
 
 	/**
 	 * Give focus to AV Input.
-	 * 
+	 *
 	 * @return if focusing was successful.
 	 */
 	public boolean focusInput() {
@@ -193,10 +192,9 @@ public final class AlgebraTab extends ToolbarTab {
 	}
 
 	@Override
-	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			ViewCounter counter, int left, int top) {
-		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d,
-				getOffsetWidth());
+	public void paintToCanvas(
+			CanvasRenderingContext2D context2d, ViewCounter counter, int left, int top) {
+		AlgebraCanvasExporter exporter = new AlgebraCanvasExporter(aview, context2d, getOffsetWidth());
 		exporter.paintToCanvas(left, top);
 		if (counter != null) {
 			counter.decrement();

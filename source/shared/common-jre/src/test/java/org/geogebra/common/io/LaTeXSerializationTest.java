@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -64,8 +64,7 @@ class LaTeXSerializationTest {
 	void testExpr() {
 		checkCanonical("1 * 2", "1 * 2");
 		checkCanonical("1 == 2", "1 == 2");
-		checkCanonical("1 " + Unicode.PARALLEL + " 2",
-				"1 " + Unicode.PARALLEL + " 2");
+		checkCanonical("1 " + Unicode.PARALLEL + " 2", "1 " + Unicode.PARALLEL + " 2");
 		checkCanonical("1 = 2", "1 = 2");
 		checkCanonical("(1 * 2)", "(1 * 2)");
 		checkCanonical("(1*2)", "(1*2)");
@@ -93,10 +92,8 @@ class LaTeXSerializationTest {
 
 	@Test
 	void testInverseTrig() {
-		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
-				"((cos^(-1)(1))/(2))");
-		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
-				"cos^(-1) ((1)/(2))");
+		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2", "((cos^(-1)(1))/(2))");
+		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2", "cos^(-1) ((1)/(2))");
 	}
 
 	@Test
@@ -120,13 +117,13 @@ class LaTeXSerializationTest {
 	@Test
 	void testExponent() {
 		checkCanonical("exp(-30)", "exp(-30)");
-		checkCanonical(Unicode.EULER_STRING + "^-30",
-				Unicode.EULER_STRING + "^(-30)");
-		checkCanonical(Unicode.EULER_STRING + "^-30+1",
-				Unicode.EULER_STRING + "^(-30)+1");
+		checkCanonical(Unicode.EULER_STRING + "^-30", Unicode.EULER_STRING + "^(-30)");
+		checkCanonical(Unicode.EULER_STRING + "^-30+1", Unicode.EULER_STRING + "^(-30)+1");
 		checkCanonical(
-				Unicode.EULER_STRING + Unicode.SUPERSCRIPT_MINUS
-						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0,
+				Unicode.EULER_STRING
+						+ Unicode.SUPERSCRIPT_MINUS
+						+ Unicode.SUPERSCRIPT_1
+						+ Unicode.SUPERSCRIPT_0,
 				Unicode.EULER_STRING + "^(-10)");
 	}
 
@@ -144,12 +141,12 @@ class LaTeXSerializationTest {
 		checkCanonical("x ^ 2 ^3", "x ^(2) ^(3)");
 		checkCanonical("(x ^ 2) ^3", "(x ^(2)) ^(3)");
 		checkCanonical("x ^ 2 + 1", "x ^(2) + 1");
-		checkCanonical("x" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3,
-				"x^(23)");
-		checkCanonical("x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
-				+ Unicode.SUPERSCRIPT_3, "x^(-23)");
-		checkCanonical("1 + x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
-				+ Unicode.SUPERSCRIPT_3, "1 + x^(-23)");
+		checkCanonical("x" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3, "x^(23)");
+		checkCanonical(
+				"x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3, "x^(-23)");
+		checkCanonical(
+				"1 + x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3,
+				"1 + x^(-23)");
 		checkCanonical("e^x*sin(x)", "e^(x)*sin(x)");
 		checkCanonical("e^(-10/x)*sin(x)", "e^(-((10)/(x)))*sin(x)");
 	}
@@ -203,8 +200,7 @@ class LaTeXSerializationTest {
 
 	@Test
 	void testComma() {
-		checkCanonical("If[x<1/x,x/2,sqrt(x/2)]",
-				"If[x<((1)/(x)),((x)/(2)),sqrt(((x)/(2)))]");
+		checkCanonical("If[x<1/x,x/2,sqrt(x/2)]", "If[x<((1)/(x)),((x)/(2)),sqrt(((x)/(2)))]");
 		checkCanonical("(1;sqrt(2))", "(1;sqrt(2))");
 		checkCanonical("(t^n;t)", "(t^(n);t)");
 	}
@@ -227,27 +223,25 @@ class LaTeXSerializationTest {
 		checkLaTeX("\\sqrt{x+y}", "sqrt(x+y)");
 		checkLaTeX("\\sqrt{x}+2", "sqrt(x)+2");
 		checkLaTeX("1-\\sqrt[3]{x}", "1" + Unicode.MINUS + "nroot(x,3)");
-		checkLaTeX("X=\\left(x_0+2x_x,y_0+2x_y\\right)",
-				"X=(x_0+2x_x,y_0+2x_y)");
-		checkLaTeX("i=\\left[0,\\frac{6\\pi}{p}...24\\pi\\right]",
+		checkLaTeX("X=\\left(x_0+2x_x,y_0+2x_y\\right)", "X=(x_0+2x_x,y_0+2x_y)");
+		checkLaTeX(
+				"i=\\left[0,\\frac{6\\pi}{p}...24\\pi\\right]",
 				"i=[0,(6pi)/(p)...24pi]".replace("pi", Unicode.PI_STRING));
 		checkLaTeX(
 				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ "
 						+ "f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)"
 						+ "+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
-				"((1" + Unicode.MINUS + "t)(x_1)+t(x_1+R f(j)),(1"
-						+ Unicode.MINUS + "t)(y_1)+t(y_1+Rg(j)))");
-		checkLaTeX("\\frac{x^2}{m^2}+\\frac{y^2}{n^2}\\ge2",
-				"(x^(2))/(m^(2))+(y^(2))/(n^(2))" + Unicode.GREATER_EQUAL
-						+ "2");
+				"((1" + Unicode.MINUS + "t)(x_1)+t(x_1+R f(j)),(1" + Unicode.MINUS
+						+ "t)(y_1)+t(y_1+Rg(j)))");
+		checkLaTeX(
+				"\\frac{x^2}{m^2}+\\frac{y^2}{n^2}\\ge2",
+				"(x^(2))/(m^(2))+(y^(2))/(n^(2))" + Unicode.GREATER_EQUAL + "2");
 		checkLaTeX("a\\leq b", "a" + Unicode.LESS_EQUAL + "b");
 		checkLaTeX("f\\left(x\\right)=\\sin\\left(x\\right)", "f(x)=sin(x)");
-		checkLaTeX("r\\ =\\ g^{\\theta}",
-				"r = g^(" + Unicode.theta_STRING + ")");
+		checkLaTeX("r\\ =\\ g^{\\theta}", "r = g^(" + Unicode.theta_STRING + ")");
 		checkLaTeX("7\\cdot 6", "7" + Unicode.MULTIPLY + "6");
 		checkLaTeX("7\\times 6", "7" + Unicode.MULTIPLY + "6");
-		checkLaTeX("\\left( \\alpha + \\beta \\right)",
-				"(" + Unicode.alpha + "+" + Unicode.beta + ")");
+		checkLaTeX("\\left( \\alpha + \\beta \\right)", "(" + Unicode.alpha + "+" + Unicode.beta + ")");
 		checkLaTeX("\\sqrt[3]{x}", "nroot(x,3)");
 		checkLaTeX("{1}\\frac{2}{3}", "1(2)/(3)");
 		checkLaTeX("\\sqrt{{3}\\frac{4}{5}}", "sqrt(3(4)/(5))");
@@ -259,20 +253,24 @@ class LaTeXSerializationTest {
 
 	@Test
 	void testParseLaTeXAdapter() {
-		checkLaTeX("a=\\left[1,...,4\\right]", "a=(1...4)",
+		checkLaTeX("a=\\left[1,...,4\\right]", "a=(1...4)", new ListSerializationAdapter());
+		checkLaTeX(
+				"a=\\left[0.8,1.2,...,4\\right]",
+				"a=Sequence[0.8,4,1.2-(0.8)]",
 				new ListSerializationAdapter());
-		checkLaTeX("a=\\left[0.8,1.2,...,4\\right]",
-				"a=Sequence[0.8,4,1.2-(0.8)]", new ListSerializationAdapter());
 	}
 
 	@Test
 	void testBinaryOp() {
-		for (char op : new char[] { Unicode.LESS_EQUAL, Unicode.GREATER_EQUAL,
-				Unicode.IS_SUBSET_OF, Unicode.IS_ELEMENT_OF,
-				Unicode.IS_SUBSET_OF_STRICT }) {
+		for (char op : new char[] {
+			Unicode.LESS_EQUAL,
+			Unicode.GREATER_EQUAL,
+			Unicode.IS_SUBSET_OF,
+			Unicode.IS_ELEMENT_OF,
+			Unicode.IS_SUBSET_OF_STRICT
+		}) {
 			checkCanonical("5 " + op + " 3", "5 " + op + " 3");
-			checkCanonical("5 " + op + " (2/3*x+5/3)",
-					"5 " + op + " (((2)/(3))*x+((5)/(3)))");
+			checkCanonical("5 " + op + " (2/3*x+5/3)", "5 " + op + " (((2)/(3))*x+((5)/(3)))");
 		}
 	}
 
@@ -308,31 +306,27 @@ class LaTeXSerializationTest {
 	}
 
 	private static void testKorean(String s) {
-		assertEquals(Normalizer.normalize(s, Normalizer.Form.NFD),
-				Korean.flattenKorean(s));
+		assertEquals(Normalizer.normalize(s, Normalizer.Form.NFD), Korean.flattenKorean(s));
 	}
 
 	private static void checkLaTeX(String string, String string2) {
 		checkLaTeX(string, string2, null);
 	}
 
-	private static void checkLaTeX(String string, String string2,
-			ListSerializationAdapter ad) {
+	private static void checkLaTeX(String string, String string2, ListSerializationAdapter ad) {
 		TeXFormula tf = new TeXFormula(string);
-		assertEquals(string2,
-				new TeXAtomSerializer(ad).serialize(tf.root));
+		assertEquals(string2, new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
 	private static void checkCanonical(String input, String output) {
 		checkCanonical(input, output, new GeoGebraSerializer(null));
 	}
 
-	private static void checkCanonical(String input, String output,
-			GeoGebraSerializer geoGebraSerializer) {
+	private static void checkCanonical(
+			String input, String output, GeoGebraSerializer geoGebraSerializer) {
 		Formula mf = checkLaTeXRender(parser, input);
 		assertNotNull(mf);
-		assertEquals(output, geoGebraSerializer.serialize(mf),
-				mf.getRootNode() + "");
+		assertEquals(output, geoGebraSerializer.serialize(mf), mf.getRootNode() + "");
 		checkLaTeXRender(parser, input);
 	}
 

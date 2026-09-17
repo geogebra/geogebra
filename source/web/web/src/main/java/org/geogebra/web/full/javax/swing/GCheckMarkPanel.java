@@ -30,7 +30,6 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Adds a panel with a optional image, text and checkmark
  */
-
 public class GCheckMarkPanel extends FlowPanel {
 	private Label label;
 	private String text;
@@ -79,10 +78,12 @@ public class GCheckMarkPanel extends FlowPanel {
 
 	private void updateCheckImg() {
 		SVGResource svgResource = checked
-				? MaterialDesignResources.INSTANCE.checkbox_checked()
-				.withFill(GeoGebraColorConstants.PURPLE_600.toString())
-				: MaterialDesignResources.INSTANCE.checkbox_unchecked()
-				.withFill(GeoGebraColorConstants.NEUTRAL_700.toString());
+				? MaterialDesignResources.INSTANCE
+						.checkbox_checked()
+						.withFill(GeoGebraColorConstants.PURPLE_600.toString())
+				: MaterialDesignResources.INSTANCE
+						.checkbox_unchecked()
+						.withFill(GeoGebraColorConstants.NEUTRAL_700.toString());
 		checkImg.setUrl(svgResource.getSafeUri());
 	}
 
@@ -91,8 +92,12 @@ public class GCheckMarkPanel extends FlowPanel {
 		label.setStyleName("gwt-HTML");
 		add(label);
 
-		checkImg = new NoDragImage(MaterialDesignResources.INSTANCE.checkbox_checked()
-				.withFill(GeoGebraColorConstants.PURPLE_600.toString()), 24, 24);
+		checkImg = new NoDragImage(
+				MaterialDesignResources.INSTANCE
+						.checkbox_checked()
+						.withFill(GeoGebraColorConstants.PURPLE_600.toString()),
+				24,
+				24);
 		checkImg.addStyleName("checkImg");
 		add(checkImg);
 		AriaHelper.setAlt(checkImg, "");

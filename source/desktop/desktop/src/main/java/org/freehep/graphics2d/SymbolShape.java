@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
  * factory methods don't return a new shape, but set the object to the selected
  * shape. Hence, the class is not thread-safe and only one PathIterator can be
  * used at the same time.<br>
- * 
+ *
  * @author Simon Fischer
  * @version $Id: SymbolShape.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -105,8 +105,7 @@ public class SymbolShape implements Shape {
 
 	@Override
 	public boolean contains(double x, double y, double w, double h) {
-		return contains(x, y) && contains(x + w, y) && contains(x, y + h)
-				&& contains(x + w, y + h);
+		return contains(x, y) && contains(x + w, y) && contains(x, y + h) && contains(x + w, y + h);
 	}
 
 	@Override
@@ -124,8 +123,7 @@ public class SymbolShape implements Shape {
 	 */
 	@Override
 	public boolean intersects(double x, double y, double w, double h) {
-		return contains(x, y) || contains(x + w, y) || contains(x, y + h)
-				|| contains(x + w, y + h);
+		return contains(x, y) || contains(x + w, y) || contains(x, y + h) || contains(x + w, y + h);
 	}
 
 	@Override
@@ -175,7 +173,7 @@ public class SymbolShape implements Shape {
 	/**
 	 * Type must be one of the symbols defined in VectorGraphicsConstants except
 	 * TYPE_CIRCLE.
-	 * 
+	 *
 	 * @see org.freehep.graphics2d.VectorGraphicsConstants
 	 */
 	public void create(int symbol, double x, double y, double size) {
@@ -184,40 +182,39 @@ public class SymbolShape implements Shape {
 		this.y = y;
 		this.size = size;
 		switch (symbol) {
-		case VectorGraphicsConstants.SYMBOL_VLINE:
-			createVLine(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_HLINE:
-			createHLine(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_PLUS:
-			createPlus(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_CROSS:
-			createCross(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_STAR:
-			createStar(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_BOX:
-			createBox(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_UP_TRIANGLE:
-			createUpTriangle(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_DN_TRIANGLE:
-			createDownTriangle(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_DIAMOND:
-			createDiamond(x, y, size);
-			break;
+			case VectorGraphicsConstants.SYMBOL_VLINE:
+				createVLine(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_HLINE:
+				createHLine(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_PLUS:
+				createPlus(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_CROSS:
+				createCross(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_STAR:
+				createStar(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_BOX:
+				createBox(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_UP_TRIANGLE:
+				createUpTriangle(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_DN_TRIANGLE:
+				createDownTriangle(x, y, size);
+				break;
+			case VectorGraphicsConstants.SYMBOL_DIAMOND:
+				createDiamond(x, y, size);
+				break;
 		}
 	}
 
 	@Override
 	public String toString() {
-		return getClass() + ": " + symbol + " (" + x + ", " + y + ") size: "
-				+ size;
+		return getClass() + ": " + symbol + " (" + x + ", " + y + ") size: " + size;
 	}
 
 	private void createHLine(double x, double y, double size) {

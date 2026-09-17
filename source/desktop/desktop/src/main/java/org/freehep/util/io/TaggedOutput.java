@@ -11,7 +11,7 @@ public interface TaggedOutput {
 
 	/**
 	 * Write a tag.
-	 * 
+	 *
 	 * @param tag
 	 *            tag to write
 	 * @throws IOException
@@ -21,7 +21,7 @@ public interface TaggedOutput {
 
 	/**
 	 * Close the stream
-	 * 
+	 *
 	 * @throws IOException
 	 *             if close fails
 	 */

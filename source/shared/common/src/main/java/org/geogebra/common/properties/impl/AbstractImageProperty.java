@@ -35,8 +35,7 @@ public abstract class AbstractImageProperty extends AbstractValuedProperty<Image
 	 * @param imageManager image manager
 	 * @param name the name to be localized
 	 */
-	public AbstractImageProperty(Localization localization, ImageManager imageManager,
-			String name) {
+	public AbstractImageProperty(Localization localization, ImageManager imageManager, String name) {
 		super(localization, name);
 		this.imageManager = imageManager;
 	}
@@ -73,7 +72,7 @@ public abstract class AbstractImageProperty extends AbstractValuedProperty<Image
 	}
 
 	protected abstract @Nullable String getImagePath();
-	
+
 	protected abstract void setImagePath(@Nullable String path);
 
 	@Override

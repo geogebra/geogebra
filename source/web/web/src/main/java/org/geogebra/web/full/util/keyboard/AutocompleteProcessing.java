@@ -31,7 +31,7 @@ public final class AutocompleteProcessing implements KeyboardListener {
 
 	/**
 	 * Connector for keyboartd and input boxes
-	 * 
+	 *
 	 * @param field
 	 *            input box
 	 */
@@ -50,16 +50,13 @@ public final class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-		NativeEvent event = Document.get().createKeyDownEvent(false, false,
-				false, false, ENTER);
+		NativeEvent event = Document.get().createKeyDownEvent(false, false, false, false, ENTER);
 		field.getTextField().onBrowserEvent(Event.as(event));
 
-		event = Document.get().createKeyPressEvent(false, false, false, false,
-				ENTER);
+		event = Document.get().createKeyPressEvent(false, false, false, false, ENTER);
 		field.getTextField().onBrowserEvent(Event.as(event));
 
-		event = Document.get().createKeyUpEvent(false, false, false, false,
-				ENTER);
+		event = Document.get().createKeyUpEvent(false, false, false, false, ENTER);
 		field.getTextField().onBrowserEvent(Event.as(event));
 	}
 

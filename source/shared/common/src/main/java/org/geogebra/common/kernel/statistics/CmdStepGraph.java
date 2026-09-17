@@ -29,14 +29,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Stick Graph
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class CmdStepGraph extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,92 +45,92 @@ public class CmdStepGraph extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+			case 1:
 
-			// StepGraph[ <list of points> ]
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList()) {
-				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0]);
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+				// StepGraph[ <list of points> ]
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList()) {
+					AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(), (GeoList) arg[0]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		case 2:
+			case 2:
 
-			// StepGraph[ <x List>, <y list> ]
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isGeoList())) {
+				// StepGraph[ <x List>, <y list> ]
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
-				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1]);
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			// StepGraph[ <list of points>, <join> ]
-			else if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isGeoBoolean())) {
+					AlgoStepGraph algo =
+							new AlgoStepGraph(cons, c.getLabel(), (GeoList) arg[0], (GeoList) arg[1]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				// StepGraph[ <list of points>, <join> ]
+				else if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoBoolean())) {
 
-				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoBoolean) arg[1]);
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
+					AlgoStepGraph algo =
+							new AlgoStepGraph(cons, c.getLabel(), (GeoList) arg[0], (GeoBoolean) arg[1]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
 
-			throw argErr(c, getBadArg(ok, arg));
+				throw argErr(c, getBadArg(ok, arg));
 
-		case 3:
+			case 3:
 
-			// StepGraph[ <x List>, <y list>, <join> ]
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoBoolean())) {
+				// StepGraph[ <x List>, <y list>, <join> ]
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoBoolean())) {
 
-				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1],
-						(GeoBoolean) arg[2]);
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
+					AlgoStepGraph algo = new AlgoStepGraph(
+							cons, c.getLabel(), (GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
 
-				// StepGraph[ <list of points>, <join>, <point style> ]
-			} else if ((ok[0] = arg[0].isGeoList())
-					&& (ok[1] = arg[1].isGeoBoolean())
-					&& (ok[2] = arg[2].isGeoNumeric())) {
-				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoBoolean) arg[1],
-						(GeoNumeric) arg[2]);
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					// StepGraph[ <list of points>, <join>, <point style> ]
+				} else if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoBoolean())
+						&& (ok[2] = arg[2].isGeoNumeric())) {
+					AlgoStepGraph algo = new AlgoStepGraph(
+							cons, c.getLabel(), (GeoList) arg[0], (GeoBoolean) arg[1], (GeoNumeric) arg[2]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		case 4:
+			case 4:
 
-			// StepGraph[ <x List>, <y list>, <join>, <point style> ]
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoBoolean())
-					&& (ok[3] = arg[3].isGeoNumeric())) {
+				// StepGraph[ <x List>, <y list>, <join>, <point style> ]
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isGeoBoolean())
+						&& (ok[3] = arg[3].isGeoNumeric())) {
 
-				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2],
-						(GeoNumeric) arg[3]);
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					AlgoStepGraph algo = new AlgoStepGraph(
+							cons,
+							c.getLabel(),
+							(GeoList) arg[0],
+							(GeoList) arg[1],
+							(GeoBoolean) arg[2],
+							(GeoNumeric) arg[3]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

@@ -33,7 +33,7 @@ import jsinterop.base.Js;
 /**
  * Widget to allow screen readers to read text from
  * non-accessible areas like EV1, EV3D
- * 
+ *
  * @author laszlo
  *
  */
@@ -44,7 +44,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param idSuffix
 	 *            ID suffix identifying the view
 	 * @param anchor
@@ -64,7 +64,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 
 	/**
 	 * Set text to read.
-	 * 
+	 *
 	 * @param text
 	 *            to set.
 	 */
@@ -80,7 +80,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param text
 	 *            to read.
 	 */
@@ -141,13 +141,14 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 
 	private boolean isDomSliderActive() {
 		Element activeElement = Dom.getActiveElement();
-		return activeElement != null && activeElement.hasTagName("INPUT")
+		return activeElement != null
+				&& activeElement.hasTagName("INPUT")
 				&& "range".equals(activeElement.getAttribute("type"));
 	}
 
 	private void updateScrollElement() {
 		if (Js.isTruthy(DomGlobal.document.documentElement.scrollTop)
-			&& Js.isFalsy(DomGlobal.document.body.scrollTop)) {
+				&& Js.isFalsy(DomGlobal.document.body.scrollTop)) {
 			scrollElement = DomGlobal.document.documentElement;
 		} else {
 			scrollElement = DomGlobal.document.body;

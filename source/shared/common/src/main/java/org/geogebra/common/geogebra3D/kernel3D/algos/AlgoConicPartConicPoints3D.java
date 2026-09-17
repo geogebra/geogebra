@@ -39,11 +39,14 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
-	public AlgoConicPartConicPoints3D(Construction cons, String label,
-			GeoConicND circle, GeoPointND startPoint, GeoPointND endPoint,
+	public AlgoConicPartConicPoints3D(
+			Construction cons,
+			String label,
+			GeoConicND circle,
+			GeoPointND startPoint,
+			GeoPointND endPoint,
 			int type) {
 		super(cons, label, circle, startPoint, endPoint, type);
-
 	}
 
 	@Override
@@ -66,16 +69,13 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 
 		CoordSys cs = conic.getCoordSys();
 
-		startPoint.getInhomCoordsInD3()
-				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
+		startPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChangedUnlimited(p2d, paramP);
 
-		endPoint.getInhomCoordsInD3()
-				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
+		endPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChangedUnlimited(p2d, paramQ);
-
 	}
 
 	@Override
@@ -92,5 +92,4 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 	protected double getEndParameter() {
 		return paramQ.t;
 	}
-
 }

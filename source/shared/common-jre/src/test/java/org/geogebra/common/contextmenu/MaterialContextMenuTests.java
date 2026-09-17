@@ -28,9 +28,6 @@ class MaterialContextMenuTests {
 
 	@Test
 	void testSingleContextMenuItem() {
-		assertEquals(
-				List.of(Delete),
-				ContextMenuFactory.makeMaterialContextMenu(Set.of())
-		);
+		assertEquals(List.of(Delete), ContextMenuFactory.makeMaterialContextMenu(Set.of()));
 	}
 }

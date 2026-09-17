@@ -131,8 +131,7 @@ public class ScriptManagerW extends ScriptManager {
 		if (appletFrame != null
 				&& appletFrame.getOnLoadCallback() != null
 				&& !appletFrame.appletOnLoadCalled()) {
-			JsEval.callNativeFunction(
-					appletFrame.getOnLoadCallback(), exportedApi);
+			JsEval.callNativeFunction(appletFrame.getOnLoadCallback(), exportedApi);
 			// callback only needed on first file load, not switching slides
 			appletFrame.appletOnLoadCalled(true);
 		}
@@ -140,8 +139,7 @@ public class ScriptManagerW extends ScriptManager {
 
 	private void ggbOnInitInternal(String param) {
 		String libraryJavaScript = app.getKernel().getLibraryJavaScript();
-		boolean standardJS = libraryJavaScript
-				.equals(Kernel.defaultLibraryJavaScript);
+		boolean standardJS = libraryJavaScript.equals(Kernel.defaultLibraryJavaScript);
 		if (!standardJS) {
 			libraryJavaScript += ";ggbOnInit(\"" + param + "\",ggbApplet)";
 			app.evalJavaScript(app, libraryJavaScript, null);
@@ -225,9 +223,10 @@ public class ScriptManagerW extends ScriptManager {
 			Object object = entry.getValue();
 			if (object instanceof Integer) {
 				jsMap.set(entry.getKey(), unbox((Integer) object));
-			} if (object instanceof String[]) {
+			}
+			if (object instanceof String[]) {
 				JsArray<String> clean = JsArray.of();
-				for (String s: (String[]) object) {
+				for (String s : (String[]) object) {
 					clean.push(s);
 				}
 				jsMap.set(entry.getKey(), clean);
@@ -271,8 +270,7 @@ public class ScriptManagerW extends ScriptManager {
 	private void updateGlobalApplet() {
 		// if one applet has "ggbApplet" as ID, keep the global reference
 		// also only export it if it's already global (see ASSESSMENT_APP_PREFIX)
-		if (mayExportDefaultApplet
-				&& JsObject.of(DomGlobal.window).has("ggbApplet")) {
+		if (mayExportDefaultApplet && JsObject.of(DomGlobal.window).has("ggbApplet")) {
 			export("ggbApplet", exportedApi);
 		}
 	}

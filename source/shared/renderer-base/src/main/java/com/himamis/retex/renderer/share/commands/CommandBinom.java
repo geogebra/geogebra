@@ -15,5 +15,4 @@ public class CommandBinom extends Command2A {
 		final SymbolAtom right = Symbols.RBRACK;
 		return new FencedAtom(new FractionAtom(a, b, false), left, right);
 	}
-
 }

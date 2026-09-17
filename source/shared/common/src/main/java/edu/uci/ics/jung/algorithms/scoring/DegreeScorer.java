@@ -1,7 +1,7 @@
 /*
  * Created on Jul 6, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -27,7 +27,7 @@ public class DegreeScorer<V> implements VertexScorer<V, Integer> {
 
 	/**
 	 * Creates an instance for the specified graph.
-	 * 
+	 *
 	 * @param graph
 	 *            the input graph
 	 */
@@ -37,7 +37,7 @@ public class DegreeScorer<V> implements VertexScorer<V, Integer> {
 
 	/**
 	 * Returns the degree of the vertex.
-	 * 
+	 *
 	 * @return the degree of the vertex
 	 */
 	@Override

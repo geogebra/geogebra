@@ -45,9 +45,12 @@ public class ConditionalSerializer {
 	 * @param tpl string template
 	 * @return latex representation of piecewise function
 	 */
-	public String appendConditionalLaTeX(ArrayList<ExpressionNode> cases,
-		ArrayList<Bounds> conditions, boolean complete,
-			boolean substituteNumbers, StringTemplate tpl) {
+	public String appendConditionalLaTeX(
+			ArrayList<ExpressionNode> cases,
+			ArrayList<Bounds> conditions,
+			boolean complete,
+			boolean substituteNumbers,
+			StringTemplate tpl) {
 		StringBuilder sbLaTeX = new StringBuilder();
 		FunctionVariable fv = function.getFunctionVariables()[0];
 		int lastValid = conditions.size() - 1;
@@ -55,33 +58,28 @@ public class ConditionalSerializer {
 			lastValid--;
 		}
 		int firstValid = 0;
-		while (firstValid < conditions.size()
-				&& !conditions.get(firstValid).isValid()) {
+		while (firstValid < conditions.size() && !conditions.get(firstValid).isValid()) {
 			firstValid++;
 		}
 		if (firstValid > lastValid) {
 			sbLaTeX.append('?');
 			return sbLaTeX.toString();
-
 		}
 		if (firstValid == lastValid) {
-			sbLaTeX.append(cases.get(firstValid)
-					.toLaTeXString(!substituteNumbers, tpl));
+			sbLaTeX.append(cases.get(firstValid).toLaTeXString(!substituteNumbers, tpl));
 			if (!complete) {
 
 				sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-				sbLaTeX.append(conditions.get(firstValid).toLaTeXString(
-						!substituteNumbers, fv.toString(tpl), tpl));
+				sbLaTeX.append(
+						conditions.get(firstValid).toLaTeXString(!substituteNumbers, fv.toString(tpl), tpl));
 				sbLaTeX.append(" \\right)");
-
 			}
 			return sbLaTeX.toString();
 		}
 		sbLaTeX.append("\\left\\{\\begin{array}{ll} ");
 		for (int i = firstValid; i <= lastValid; i++) {
 			if (conditions.get(i).isValid()) {
-				sbLaTeX.append(cases.get(i)
-						.toLaTeXString(!substituteNumbers, tpl));
+				sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
 				sbLaTeX.append("& : ");
 				if (i == cases.size() - 1 && complete) {
 					sbLaTeX.append("\\text{");
@@ -89,9 +87,8 @@ public class ConditionalSerializer {
 					sbLaTeX.append("}");
 				} else {
 
-					sbLaTeX.append(conditions.get(i).toLaTeXString(
-							!substituteNumbers, fv.toString(tpl),
-							tpl));
+					sbLaTeX.append(
+							conditions.get(i).toLaTeXString(!substituteNumbers, fv.toString(tpl), tpl));
 					if (i != lastValid) {
 						sbLaTeX.append("\\\\ ");
 					}
@@ -108,21 +105,17 @@ public class ConditionalSerializer {
 	 * @param substituteNumbers whether to print child elements as values
 	 * @return conditional LaTeX string
 	 */
-	public StringBuilder getSingleCondition(ExpressionValue condition,
-			ExpressionValue expression, boolean substituteNumbers) {
+	public StringBuilder getSingleCondition(
+			ExpressionValue condition, ExpressionValue expression, boolean substituteNumbers) {
 		StringBuilder sbLaTeX = new StringBuilder();
 		if (substituteNumbers) {
-			sbLaTeX.append(expression
-					.toValueString(StringTemplate.latexTemplate));
+			sbLaTeX.append(expression.toValueString(StringTemplate.latexTemplate));
 			sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-			sbLaTeX.append(condition
-					.toValueString(StringTemplate.latexTemplate));
+			sbLaTeX.append(condition.toValueString(StringTemplate.latexTemplate));
 		} else {
-			sbLaTeX.append(
-					expression.toString(StringTemplate.latexTemplate));
+			sbLaTeX.append(expression.toString(StringTemplate.latexTemplate));
 			sbLaTeX.append(", \\;\\;\\;\\; \\left(");
-			sbLaTeX.append(
-					condition.toString(StringTemplate.latexTemplate));
+			sbLaTeX.append(condition.toString(StringTemplate.latexTemplate));
 		}
 
 		sbLaTeX.append(" \\right)");

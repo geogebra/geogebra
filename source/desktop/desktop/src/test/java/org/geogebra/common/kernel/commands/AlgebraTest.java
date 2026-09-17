@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -50,8 +50,7 @@ public class AlgebraTest {
 		// make sure x=y is a line, not plane
 		app.getGgbApi().setPerspective("1");
 		// Setting the general timeout to 11 seconds. Feel free to change this.
-		app.getKernel().getApplication().getSettings().getCasSettings()
-				.setTimeoutMilliseconds(11000);
+		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
 		return app;
 	}
 
@@ -63,17 +62,20 @@ public class AlgebraTest {
 	}
 
 	protected void t(String s, String... expected) {
-		AlgebraTestHelper.checkSyntaxSingle(s, AlgebraTestHelper.getMatchers(expected),
-				ap, StringTemplate.xmlTemplate);
+		AlgebraTestHelper.checkSyntaxSingle(
+				s, AlgebraTestHelper.getMatchers(expected), ap, StringTemplate.xmlTemplate);
 	}
 
 	protected void tRound(String s, String... expected) {
-		AlgebraTestHelper.checkSyntaxSingle(s, AlgebraTestHelper.getMatchers(expected),
-				ap, StringTemplate.editTemplate.deriveWithoutCoefficientSimplification());
+		AlgebraTestHelper.checkSyntaxSingle(
+				s,
+				AlgebraTestHelper.getMatchers(expected),
+				ap,
+				StringTemplate.editTemplate.deriveWithoutCoefficientSimplification());
 	}
 
 	protected void t(String s, Matcher<String> expected) {
-		AlgebraTestHelper.checkSyntaxSingle(s, Collections.singletonList(expected), ap,
-				StringTemplate.xmlTemplate);
+		AlgebraTestHelper.checkSyntaxSingle(
+				s, Collections.singletonList(expected), ap, StringTemplate.xmlTemplate);
 	}
 }

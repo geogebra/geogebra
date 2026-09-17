@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,7 +29,7 @@ import org.geogebra.common.main.App.ExportType;
 
 /**
  * interface for 2D/3D view in desktop
- * 
+ *
  * @author Mathieu
  *
  */
@@ -74,13 +74,12 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * @throws OutOfMemoryError
 	 *             if the requested image is too big
 	 */
-	GBufferedImage getExportImage(double scale, boolean transparency,
-			ExportType exportType)
+	GBufferedImage getExportImage(double scale, boolean transparency, ExportType exportType)
 			throws OutOfMemoryError;
 
 	/**
 	 * export the current image
-	 * 
+	 *
 	 * @param scale
 	 *            scale factor
 	 * @param transparency
@@ -92,8 +91,13 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * @param exportToClipboard
 	 *            if we want to export to clipboard
 	 */
-	void exportImagePNG(double scale, boolean transparency, int dpi,
-			File file, boolean exportToClipboard, ExportType exportType);
+	void exportImagePNG(
+			double scale,
+			boolean transparency,
+			int dpi,
+			File file,
+			boolean exportToClipboard,
+			ExportType exportType);
 
 	/**
 	 * @return printing scale
@@ -110,5 +114,4 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 *            box to be added
 	 */
 	void add(Box box);
-
 }

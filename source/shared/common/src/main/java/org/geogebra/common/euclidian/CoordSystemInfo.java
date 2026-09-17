@@ -131,5 +131,4 @@ public class CoordSystemInfo {
 	public boolean hasScaledAxis() {
 		return scaledAxis != ScaledAxis.NONE;
 	}
-
 }

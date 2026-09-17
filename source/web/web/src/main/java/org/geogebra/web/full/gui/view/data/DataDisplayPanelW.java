@@ -55,8 +55,8 @@ import org.gwtproject.user.client.ui.ScrollPanel;
  * Class to dynamically display plots and statistics in coordination with the
  * DataAnalysisView.
  */
-public final class DataDisplayPanelW extends FlowPanel implements
-		StatPanelInterfaceW, RequiresResize, IDataDisplayListener {
+public final class DataDisplayPanelW extends FlowPanel
+		implements StatPanelInterfaceW, RequiresResize, IDataDisplayListener {
 	private static final int NUM_CLASSES_IDX = 0;
 	private static final int MANUAL_CLASSES_IDX = 1;
 	private static final int STEM_IDX = 2;
@@ -146,7 +146,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 	/**
 	 * Sets the plot to be displayed and the GUI corresponding to the given data
 	 * analysis mode
-	 * 
+	 *
 	 * @param plotIndex - the plot to be displayed
 	 * @param mode - the data analysis mode
 	 */
@@ -192,8 +192,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("daOptionButtons");
-		buttonPanel.add(
-				LayoutUtilW.panelRow(btnOptions, btnExport.getPopupMenu()));
+		buttonPanel.add(LayoutUtilW.panelRow(btnOptions, btnExport.getPopupMenu()));
 
 		// control panel
 		controlPanel = new FlowPanel();
@@ -313,8 +312,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 
 		sliderNumClasses.addInputHandler(() -> {
 			getModel().getSettings().setNumClasses(sliderNumClasses.getValue());
-			fldNumClasses.setText("" + getModel().getSettings()
-					.getNumClasses());
+			fldNumClasses.setText("" + getModel().getSettings().getNumClasses());
 			getModel().updatePlot(true);
 		});
 
@@ -360,8 +358,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 		addInsertHandler(fldWidth);
 
 		manualClassesPanel = new FlowPanel();
-		manualClassesPanel.add(LayoutUtilW.panelRow(lblStart, fldStart,
-				lblWidth, fldWidth));
+		manualClassesPanel.add(LayoutUtilW.panelRow(lblStart, fldStart, lblWidth, fldWidth));
 		fldStart.addEnterPressHandler(() -> actionPerformed(fldStart));
 
 		fldWidth.addEnterPressHandler(() -> actionPerformed(fldWidth));
@@ -374,31 +371,26 @@ public final class DataDisplayPanelW extends FlowPanel implements
 
 	private void createExportMenu() {
 		AriaMenuBar menu = new AriaMenuBar();
-		AriaMenuItem miToGraphich = new AriaMenuItem(
-				loc.getMenu("CopyToGraphics"), null,
-				() -> {
-					exportToEV();
-					btnExport.removeSubPopup();
-				});
+		AriaMenuItem miToGraphich = new AriaMenuItem(loc.getMenu("CopyToGraphics"), null, () -> {
+			exportToEV();
+			btnExport.removeSubPopup();
+		});
 
 		menu.addItem(miToGraphich);
 
 		if (app.getLAF().copyToClipboardSupported()) {
-			AriaMenuItem miAsPicture = new AriaMenuItem(
-					loc.getMenu("ExportAsPicture"), null,
-					() -> {
-						exportAsPicture();
-						btnExport.removeSubPopup();
-					});
+			AriaMenuItem miAsPicture = new AriaMenuItem(loc.getMenu("ExportAsPicture"), null, () -> {
+				exportAsPicture();
+				btnExport.removeSubPopup();
+			});
 			menu.addItem(miAsPicture);
 		}
-		btnExport.addItem(new AriaMenuItem("",
-				MaterialDesignResources.INSTANCE.prob_calc_export(), menu));
+		btnExport.addItem(
+				new AriaMenuItem("", MaterialDesignResources.INSTANCE.prob_calc_export(), menu));
 	}
 
 	private void exportAsPicture() {
-		app.getSelectionManager().clearSelectedGeos(true,
-				false);
+		app.getSelectionManager().clearSelectedGeos(true, false);
 		app.updateSelection(false);
 
 		app.setWaitCursor();
@@ -440,9 +432,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 	private void actionPerformed(Object source) {
 		if (source instanceof AutoCompleteTextFieldW) {
 			doTextFieldActionPerformed(source);
-		}
-
-		else if (source == minus || source == plus || source == none) {
+		} else if (source == minus || source == plus || source == none) {
 			minus.setSelected(source == minus);
 			none.setSelected(source == none);
 			plus.setSelected(source == plus);
@@ -478,13 +468,15 @@ public final class DataDisplayPanelW extends FlowPanel implements
 
 	private void doTextFieldActionPerformed(Object source) {
 		if (source == fldStart) {
-			getModel().getSettings().setClassStart(
-					Validation.validateDouble(fldStart, getModel()
-							.getSettings().getClassStart()));
+			getModel()
+					.getSettings()
+					.setClassStart(
+							Validation.validateDouble(fldStart, getModel().getSettings().getClassStart()));
 		} else if (source == fldWidth) {
-			getModel().getSettings().setClassWidth(
-					Validation.validateDoublePositive(fldWidth, getModel()
-							.getSettings().getClassWidth()));
+			getModel()
+					.getSettings()
+					.setClassWidth(Validation.validateDoublePositive(
+							fldWidth, getModel().getSettings().getClassWidth()));
 		}
 		getModel().updatePlot(true);
 	}
@@ -543,8 +535,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	@Override
-	public void setTableFromGeoFrequencyTable(
-			AlgoFrequencyTable frequencyTable, boolean useClasses) {
+	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable frequencyTable, boolean useClasses) {
 		Log.debug("setTableFromGeoFrequencyTable");
 		this.frequencyTable.setTableFromGeoFrequencyTable(frequencyTable, useClasses);
 		resize(false);
@@ -560,8 +551,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 
 	@Override
 	public void updatePlotPanelSettings() {
-		plotPanel.commonFields.updateSettings(plotPanel, getModel()
-				.getSettings());
+		plotPanel.commonFields.updateSettings(plotPanel, getModel().getSettings());
 	}
 
 	@Override
@@ -584,8 +574,7 @@ public final class DataDisplayPanelW extends FlowPanel implements
 		btnOptions.setVisible(false);
 		btnExport.setVisible(false);
 
-		DrawEquationW.paintOnCanvas(sample, latex, latexCanvas,
-				app.getFontSize());
+		DrawEquationW.paintOnCanvas(sample, latex, latexCanvas, app.getFontSize());
 
 		controlDecks.showWidget(STEM_IDX);
 		displayDeckPanel.showWidget(IMAGE_IDX);
@@ -633,10 +622,10 @@ public final class DataDisplayPanelW extends FlowPanel implements
 		int w = offsetWidth;
 		int h = offsetHeight;
 
-		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN
-				: w;
-		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight()
-				: h) - lbDisplayType.getOffsetHeight() -  PLOTPANEL_MARGIN;
+		int width = optionsPanel.isVisible() ? w - optionsPanel.getOffsetWidth() - PLOTPANEL_MARGIN : w;
+		int height = (frequencyTable.isVisible() ? h - spFrequencyTable.getOffsetHeight() : h)
+				- lbDisplayType.getOffsetHeight()
+				- PLOTPANEL_MARGIN;
 
 		if (daModel.isRegressionMode()) {
 			height -= 2 * lblTitleX.getOffsetHeight();
@@ -644,11 +633,11 @@ public final class DataDisplayPanelW extends FlowPanel implements
 		}
 
 		if (width < PLOTPANEL_MIN_WIDTH) {
-			width =  PLOTPANEL_MIN_WIDTH;
+			width = PLOTPANEL_MIN_WIDTH;
 		}
 
 		if (height < PLOTPANEL_MIN_HEIGHT) {
-			height =  PLOTPANEL_MIN_HEIGHT;
+			height = PLOTPANEL_MIN_HEIGHT;
 		}
 
 		if (oldWidth == width && oldHeight == height) {
@@ -695,6 +684,5 @@ public final class DataDisplayPanelW extends FlowPanel implements
 	 */
 	public void update() {
 		model.updatePlot(true);
-    }
-
+	}
 }

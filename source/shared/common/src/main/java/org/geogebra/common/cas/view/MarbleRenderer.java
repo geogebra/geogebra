@@ -18,7 +18,7 @@ package org.geogebra.common.cas.view;
 
 /**
  * Interface for GUI component rendering the marble
- * 
+ *
  * @author Zbynek
  *
  */
@@ -35,5 +35,4 @@ public interface MarbleRenderer {
 	 *            whether the marble itself should be visible
 	 */
 	void setMarbleVisible(boolean visible);
-
 }

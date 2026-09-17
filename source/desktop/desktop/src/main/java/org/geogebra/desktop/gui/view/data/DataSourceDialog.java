@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,9 +38,9 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Dialog to manage data sources for the DataAnalysisView
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class DataSourceDialog extends Dialog
 		implements ActionListener, WindowFocusListener, SetLabels {
@@ -57,7 +57,7 @@ public class DataSourceDialog extends Dialog
 
 	/*******************************************
 	 * Constructs the dialog
-	 * 
+	 *
 	 * @param app application
 	 * @param mode app mode
 	 */
@@ -74,7 +74,6 @@ public class DataSourceDialog extends Dialog
 		this.setResizable(true);
 		pack();
 		setLocation();
-
 	}
 
 	private void createGUI() {
@@ -96,15 +95,13 @@ public class DataSourceDialog extends Dialog
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(titlePanel, BorderLayout.NORTH);
 		mainPanel.add(dataSourcePanel, BorderLayout.CENTER);
-		mainPanel.add(LayoutUtil.flowPanelRight(5, 0, 0, btnCancel, btnOK),
-				BorderLayout.SOUTH);
+		mainPanel.add(LayoutUtil.flowPanelRight(5, 0, 0, btnCancel, btnOK), BorderLayout.SOUTH);
 
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 		setLabels();
-
 	}
 
 	@Override
@@ -131,7 +128,6 @@ public class DataSourceDialog extends Dialog
 			app.setMoveMode();
 			setVisible(false);
 		}
-
 	}
 
 	/**
@@ -170,11 +166,10 @@ public class DataSourceDialog extends Dialog
 
 	private void setLocation() {
 		if (app.getGuiManager().showView(App.VIEW_DATA_ANALYSIS)) {
-			setLocationRelativeTo(((DataAnalysisViewD) app.getGuiManager()
-					.getDataAnalysisView()).getDataAnalysisViewComponent());
+			setLocationRelativeTo(((DataAnalysisViewD) app.getGuiManager().getDataAnalysisView())
+					.getDataAnalysisViewComponent());
 		} else {
 			setLocationRelativeTo(app.getMainComponent());
 		}
-
 	}
 }

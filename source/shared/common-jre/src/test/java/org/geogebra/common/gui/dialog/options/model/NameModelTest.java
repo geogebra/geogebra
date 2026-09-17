@@ -91,19 +91,17 @@ class NameModelTest {
 			}
 
 			@Override
-			public void update(boolean isEqualVal, boolean isEqualMode,
-					int mode) {
+			public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
 				// TODO Auto-generated method stub
 
 			}
 		});
-
 	}
 
 	@Test
 	void labelChangeShouldNotChangeCaption() {
 		GeoPoint p = makePoint("P");
-		model.setGeos(new Object[] { p });
+		model.setGeos(new Object[] {p});
 		model.updateProperties();
 		model.applyNameChange("Q", TestErrorHandler.INSTANCE);
 		assertEquals("Q", p.getLabelSimple());
@@ -113,7 +111,7 @@ class NameModelTest {
 	@Test
 	void labelChangeToSameShouldHaveNoEffect() {
 		GeoPoint p = makePoint("P");
-		model.setGeos(new Object[] { p });
+		model.setGeos(new Object[] {p});
 		model.updateProperties();
 		model.applyNameChange("P", TestErrorHandler.INSTANCE);
 		assertNull(p.getCaptionSimple());
@@ -126,12 +124,12 @@ class NameModelTest {
 		makePoint("P");
 		GeoPoint r = makePoint("R");
 
-		model.setGeos(new Object[] { r });
+		model.setGeos(new Object[] {r});
 		model.updateProperties();
 		model.applyNameChange("P", TestErrorHandler.INSTANCE);
 		assertEquals("R", r.getLabelSimple());
 
-		model.setGeos(new Object[] { r });
+		model.setGeos(new Object[] {r});
 		model.updateProperties();
 		model.applyNameChange("T", TestErrorHandler.INSTANCE);
 		assertEquals("R", r.getLabelSimple());
@@ -141,23 +139,19 @@ class NameModelTest {
 	void invalidLabelShouldSetCaption() {
 		GeoPoint r = makePoint("R");
 
-		model.setGeos(new Object[] { r });
+		model.setGeos(new Object[] {r});
 		model.updateProperties();
 		model.applyNameChange("P Q", TestErrorHandler.INSTANCE);
 		assertEquals("R", r.getLabelSimple());
-		assertEquals("P Q",
-				r.getCaption(StringTemplate.defaultTemplate));
+		assertEquals("P Q", r.getCaption(StringTemplate.defaultTemplate));
 		model.applyNameChange("!!!", TestErrorHandler.INSTANCE);
 		assertEquals("R", r.getLabelSimple());
-		assertEquals("!!!",
-				r.getCaption(StringTemplate.defaultTemplate));
-
+		assertEquals("!!!", r.getCaption(StringTemplate.defaultTemplate));
 	}
 
 	@BeforeEach
 	void cleanup() {
 		app.getKernel().clearConstruction(true);
-
 	}
 
 	private static GeoPoint makePoint(String string) {
@@ -166,5 +160,4 @@ class NameModelTest {
 		p.setLabel(string);
 		return p;
 	}
-
 }

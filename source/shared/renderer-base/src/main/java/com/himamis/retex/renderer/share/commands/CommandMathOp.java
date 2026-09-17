@@ -12,5 +12,4 @@ public class CommandMathOp extends Command1A {
 		a.type_limits = TeXConstants.SCRIPT_NORMAL;
 		return a;
 	}
-
 }

@@ -31,8 +31,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
  * List expression, e.g. with L1 = {3, 2, 1}, L2 = {5, 1, 7} such an expression
  * could be L1 + L2
  */
-public class AlgoDependentEquationList extends AlgoElement
-		implements DependentAlgo {
+public class AlgoDependentEquationList extends AlgoElement implements DependentAlgo {
 
 	private GeoList list; // output
 	private ExpressionNode lhs;
@@ -41,13 +40,12 @@ public class AlgoDependentEquationList extends AlgoElement
 
 	/**
 	 * Creates new dependent list algo.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param root
 	 *            expression deining the list
 	 */
-
 	public AlgoDependentEquationList(Construction cons, Equation root) {
 		super(cons);
 
@@ -76,7 +74,7 @@ public class AlgoDependentEquationList extends AlgoElement
 
 	/**
 	 * Returns the resulting list
-	 * 
+	 *
 	 * @return resulting list
 	 */
 	public GeoList getList() {
@@ -85,7 +83,7 @@ public class AlgoDependentEquationList extends AlgoElement
 
 	/**
 	 * Returns the input expression
-	 * 
+	 *
 	 * @return input expression
 	 */
 	@Override
@@ -112,20 +110,17 @@ public class AlgoDependentEquationList extends AlgoElement
 		}
 	}
 
-	private void computeAndCheckTypes(ExpressionValue leftList,
-			ExpressionValue rightList, int max) {
+	private void computeAndCheckTypes(ExpressionValue leftList, ExpressionValue rightList, int max) {
 		list.clear();
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		for (int i = 0; i < max; i++) {
-			Equation eq = new Equation(kernel, get(leftList, i),
-					get(rightList, i));
-			eq.setLHS(AlgoDependentFunction
-					.expandFunctionDerivativeNodes(eq.getLHS(), true).wrap());
+			Equation eq = new Equation(kernel, get(leftList, i), get(rightList, i));
+			eq.setLHS(
+					AlgoDependentFunction.expandFunctionDerivativeNodes(eq.getLHS(), true).wrap());
 
-			GeoElement element = kernel.getAlgebraProcessor()
-					.processEquation(eq, eq.wrap(), true,
-							new EvalInfo(false))[0];
+			GeoElement element =
+					kernel.getAlgebraProcessor().processEquation(eq, eq.wrap(), true, new EvalInfo(false))[0];
 			if (element != null) {
 				list.add(element);
 				if (element.isGeoImplicitCurve()) {
@@ -141,17 +136,15 @@ public class AlgoDependentEquationList extends AlgoElement
 		if (evlist instanceof MyList) {
 			return evlist;
 		}
-		return (evlist instanceof GeoList)
-				? ((GeoList) evlist).getMyList() : lhs2.unwrap();
+		return (evlist instanceof GeoList) ? ((GeoList) evlist).getMyList() : lhs2.unwrap();
 	}
 
 	private ExpressionValue get(ExpressionValue leftList, int i) {
-		return leftList instanceof MyList ? ((MyList) leftList).getItem(i)
-				: leftList.deepCopy(kernel);
+		return leftList instanceof MyList ? ((MyList) leftList).getItem(i) : leftList.deepCopy(kernel);
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// was defined as e.g. L = 3 * {a, b, c}
 		return list.getDefinition().toString(tpl);
 	}

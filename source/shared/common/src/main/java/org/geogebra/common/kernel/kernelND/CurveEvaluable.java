@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Interface for geos that can be evaluate as a curve. evaluateCurve() may
  * compute 2D or 3D points.
- * 
+ *
  * @author mathieu
  *
  */
@@ -30,7 +30,7 @@ public interface CurveEvaluable {
 	/**
 	 * Returns the smallest possible parameter value for this path (may be
 	 * Double.NEGATIVE_INFINITY)
-	 * 
+	 *
 	 * @return minimum parameter value for this path
 	 */
 	double getMinParameter();
@@ -38,20 +38,20 @@ public interface CurveEvaluable {
 	/**
 	 * Returns the largest possible parameter value for this path (may be
 	 * Double.POSITIVE_INFINITY)
-	 * 
+	 *
 	 * @return maximum parameter value for this path
 	 */
 	double getMaxParameter();
 
 	/**
 	 * create new double[] to store point coords
-	 * 
+	 *
 	 * @return new double[] with correct dimension
 	 */
 	double[] newDoubleArray();
 
 	/**
-	 * 
+	 *
 	 * @param p1
 	 *            first point
 	 * @param p2
@@ -62,7 +62,7 @@ public interface CurveEvaluable {
 
 	/**
 	 * Evaluates the curve for given parameter value
-	 * 
+	 *
 	 * @param t
 	 *            parameter value
 	 * @param out
@@ -76,7 +76,7 @@ public interface CurveEvaluable {
 	 * @param b
 	 *            end parameter
 	 * @return an interval within [a, b] where the curve is defined.
-	 * 
+	 *
 	 */
 	double[] getDefinedInterval(double a, double b);
 

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,15 +42,15 @@ class GeoListTest extends BaseUnitTest {
 	@BeforeEach
 	void setupTemplate() {
 		latexTemplate = StringTemplate.latexTemplate;
-		engineeringNotationTemplate = StringTemplate.defaultTemplate
-				.deriveWithEngineeringNotation();
+		engineeringNotationTemplate = StringTemplate.defaultTemplate.deriveWithEngineeringNotation();
 	}
 
 	@Test
 	void latexValueStringShouldContainValues() {
 		add("a=1");
 		GeoList matrix = add("{{a,2},{a+2,4}}");
-		assertEquals("\\left(\\begin{array}{rr}1&2\\\\3&4\\\\ \\end{array}\\right)",
+		assertEquals(
+				"\\left(\\begin{array}{rr}1&2\\\\3&4\\\\ \\end{array}\\right)",
 				matrix.toLaTeXString(false, latexTemplate));
 	}
 
@@ -58,7 +58,8 @@ class GeoListTest extends BaseUnitTest {
 	void latexDefinitionStringShouldContainLabels() {
 		add("a=1");
 		GeoList matrix = add("{{a,2},{a+2,4}}");
-		assertEquals("\\left(\\begin{array}{rr}a&2\\\\a + 2&4\\\\ \\end{array}\\right)",
+		assertEquals(
+				"\\left(\\begin{array}{rr}a&2\\\\a + 2&4\\\\ \\end{array}\\right)",
 				matrix.toLaTeXString(true, latexTemplate));
 	}
 
@@ -66,9 +67,11 @@ class GeoListTest extends BaseUnitTest {
 	void matrixDefinitionShouldWorkForSequenceOperator() {
 		add("a=3");
 		GeoList matrix = add("{0..a}");
-		assertEquals("\\left(\\begin{array}{rrrr}0&1&2&3\\\\ \\end{array}\\right)",
+		assertEquals(
+				"\\left(\\begin{array}{rrrr}0&1&2&3\\\\ \\end{array}\\right)",
 				matrix.toLaTeXString(true, latexTemplate));
-		assertEquals("\\left\\{0" + Unicode.ELLIPSIS + "a\\right\\}",
+		assertEquals(
+				"\\left\\{0" + Unicode.ELLIPSIS + "a\\right\\}",
 				matrix.getDefinition().unwrap().toString(latexTemplate));
 	}
 
@@ -101,16 +104,18 @@ class GeoListTest extends BaseUnitTest {
 	@Test
 	void listShouldDisplayCorrectEngineeringNotation1() {
 		GeoList list = add("{1, 2, 3}");
-		assertThat(list.get(0).toValueString(engineeringNotationTemplate),
+		assertThat(
+				list.get(0).toValueString(engineeringNotationTemplate),
 				is("1 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_0));
 	}
 
 	@Test
 	void listShouldDisplayCorrectEngineeringNotation2() {
 		GeoList list = add("{1 / 2, 2 / 4}");
-		assertThat(list.get(1).toValueString(engineeringNotationTemplate),
-				is("500 " + Unicode.CENTER_DOT + " 10"
-						+ Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_3));
+		assertThat(
+				list.get(1).toValueString(engineeringNotationTemplate),
+				is("500 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_MINUS
+						+ Unicode.SUPERSCRIPT_3));
 	}
 
 	@Test
@@ -124,7 +129,8 @@ class GeoListTest extends BaseUnitTest {
 	void nestedCommandList() {
 		// same issue with CSolutions, but use Sequence so that we don't need CAS
 		GeoList list = add("{Sequence(x=k,k,1,3)}");
-		assertEquals("m1\\, = \\,\\left\\{Sequence\\left(x\\, = \\,k, k, 1, 3 \\right)\\right\\}",
+		assertEquals(
+				"m1\\, = \\,\\left\\{Sequence\\left(x\\, = \\,k, k, 1, 3 \\right)\\right\\}",
 				list.getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
 	}
 
@@ -132,7 +138,8 @@ class GeoListTest extends BaseUnitTest {
 	@Issue("APPS-6955")
 	void nestedCommandListValue() {
 		GeoList list = add("Sequence(Sequence(x=k,k,1,3),m,1,2)");
-		assertEquals("m1\\, = \\,\\left(\\begin{array}{rrr}x\\, = \\,1&x\\, = \\,2&x\\,"
+		assertEquals(
+				"m1\\, = \\,\\left(\\begin{array}{rrr}x\\, = \\,1&x\\, = \\,2&x\\,"
 						+ " = \\,3\\\\x\\, = \\,1&x\\, = \\,2&x\\, = \\,3\\\\ \\end{array}\\right)",
 				list.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate));
 	}

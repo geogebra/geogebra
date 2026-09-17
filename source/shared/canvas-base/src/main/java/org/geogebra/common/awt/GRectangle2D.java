@@ -68,8 +68,7 @@ public interface GRectangle2D extends GRectangularShape {
 	void setFrame(double x, double y, double width, double height);
 
 	@Override
-	boolean intersects(double minX, double minY, double lengthX,
-			double lengthY);
+	boolean intersects(double minX, double minY, double lengthX, double lengthY);
 
 	@Override
 	boolean intersects(GRectangle2D viewRect);
@@ -137,5 +136,4 @@ public interface GRectangle2D extends GRectangularShape {
 	 * @param y point's y-coordinate
 	 */
 	void add(double x, double y);
-
 }

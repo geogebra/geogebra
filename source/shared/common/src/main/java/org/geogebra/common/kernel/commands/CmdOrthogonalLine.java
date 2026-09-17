@@ -32,14 +32,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Orthogonal[ &lt;GeoPoint&gt;, &lt;GeoVector&gt; ]
- * 
+ *
  * Orthogonal[ &lt;GeoPoint&gt;, &lt;GeoLine&gt; ]
  */
 public class CmdOrthogonalLine extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -52,14 +52,13 @@ public class CmdOrthogonalLine extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
+			case 3:
+				return process3(c, info);
+			case 2:
+				return process2(c, resArgs(c, info));
 
-		case 3:
-			return process3(c, info);
-		case 2:
-			return process2(c, resArgs(c, info));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -73,24 +72,23 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	protected GeoElement[] process2(Command c, GeoElement[] arg) {
 		boolean[] ok = new boolean[2];
 		// line through point orthogonal to vector
-		if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = arg[1].isGeoVector())) {
-			GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
-					c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoVector())) {
+			GeoElement[] ret = {
+				getAlgoDispatcher().orthogonalLine(c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1])
+			};
 			return ret;
 		}
 
 		// line through point orthogonal to another line
-		else if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = arg[1] instanceof Lineable2D)) {
-			GeoElement[] ret = { getAlgoDispatcher().orthogonalLine(
-					c.getLabel(), (GeoPoint) arg[0], (Lineable2D) arg[1]) };
+		else if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1] instanceof Lineable2D)) {
+			GeoElement[] ret = {
+				getAlgoDispatcher().orthogonalLine(c.getLabel(), (GeoPoint) arg[0], (Lineable2D) arg[1])
+			};
 			return ret;
-		} else if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = arg[1].isGeoConic())) {
+		} else if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoConic())) {
 
-			AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(cons,
-					c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);
+			AlgoOrthoLinePointConic algo =
+					new AlgoOrthoLinePointConic(cons, c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);
 
 			return algo.getOutput();
 		}
@@ -117,7 +115,9 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	}
 
 	private boolean planeOrSpace(String name) {
-		return "xOyPlane".equals(name) || loc.getMenu("xOyPlane").equals(name)
-				|| "space".equals(name) || loc.getMenu("space").equals(name);
+		return "xOyPlane".equals(name)
+				|| loc.getMenu("xOyPlane").equals(name)
+				|| "space".equals(name)
+				|| loc.getMenu("space").equals(name);
 	}
 }

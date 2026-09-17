@@ -23,7 +23,7 @@ import jsinterop.base.JsPropertyMap;
 
 public final class JsObject {
 
-	private JsObject() { }
+	private JsObject() {}
 
 	/**
 	 * @param object DOM object

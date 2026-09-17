@@ -45,7 +45,8 @@ public class AccessibleContentProviderTest extends AddGeosSetup {
 
 	@Test
 	public void testCircle() {
-		tAll("Circle((1.0, 1.0), 2)",
+		tAll(
+				"Circle((1.0, 1.0), 2)",
 				"c = Circle((1.0, 1.0), 2)",
 				"c = Circle with center (1.0, 1.0) and radius 2",
 				"c: (x - 1.0)\u00b2 + (y - 1.0)\u00b2 = 4.0");
@@ -56,7 +57,6 @@ public class AccessibleContentProviderTest extends AddGeosSetup {
 		tAll("f(x) = 2x + 1", "f(x) = 2x + 1", "f(x) = 2x + 1", "f(x) = 2x + 1");
 		t("f(x) = 2x + 1", DEFINITION_AND_VALUE, "f(x) = 2x + 1");
 		t("f(x) = 2x + 1", LINEAR_NOTATION, "f(x) = 2x + 1");
-
 	}
 
 	private void tAll(String cmd, String... expected) {

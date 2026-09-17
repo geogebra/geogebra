@@ -53,21 +53,23 @@ final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement
 	 * will be the same as the copied ones.
 	 */
 	@Override
-	public void pasteInternal(TabularData<GeoElement> tabularData,
-			TabularClipboard<GeoElement> clipboard, TabularRange destination) {
+	public void pasteInternal(
+			TabularData<GeoElement> tabularData,
+			TabularClipboard<GeoElement> clipboard,
+			TabularRange destination) {
 		CopyPasteCellOperationList operations = collectOperations(clipboard, destination);
 		operations.sort();
 		operations.apply(tabularData);
 	}
 
 	@Override
-	public void pasteExternal(TabularData<GeoElement> tabularData, String[][] data,
-			TabularRange destination) {
+	public void pasteExternal(
+			TabularData<GeoElement> tabularData, String[][] data, TabularRange destination) {
 		adapter.pasteExternalMultiple(data, destination);
 	}
 
-	private CopyPasteCellOperationList collectOperations(TabularClipboard<GeoElement> buffer,
-			TabularRange destination) {
+	private CopyPasteCellOperationList collectOperations(
+			TabularClipboard<GeoElement> buffer, TabularRange destination) {
 		CopyPasteCellOperationList operations = new CopyPasteCellOperationList();
 		TabularRange source = buffer.getSourceRange();
 		for (int col = source.getFromColumn(); col <= source.getToColumn(); ++col) {
@@ -84,8 +86,8 @@ final class TabularDataPasteGeos implements TabularDataPasteInterface<GeoElement
 					try {
 						GeoElement geo = (GeoElement) relativeCopy.doCopyNoStoringUndoInfo0(
 								buffer.contentAt(bufferRow, bufferCol),
-								RelativeCopy.getValue(app.getSpreadsheetTableModel(),
-										destinationColumn, destinationRow),
+								RelativeCopy.getValue(
+										app.getSpreadsheetTableModel(), destinationColumn, destinationRow),
 								destination.getFromColumn() - source.getFromColumn(),
 								destination.getFromRow() - source.getFromRow());
 						if (geo != null) {

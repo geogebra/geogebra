@@ -76,8 +76,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            template needed for nodes containing string concatenation
 	 * @return corresponding ExpressionValue
 	 */
-	public ExpressionValue evaluate(ExpressionNode expressionNode,
-			StringTemplate tpl) {
+	public ExpressionValue evaluate(ExpressionNode expressionNode, StringTemplate tpl) {
 		boolean leaf = expressionNode.leaf;
 		ExpressionValue left = expressionNode.getLeft();
 
@@ -103,8 +102,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			lt = wrapComplex(lt);
 		}
 		// handle list operations first
-		ExpressionValue special = handleSpecial(lt, rt, left, right, operation,
-				tpl);
+		ExpressionValue special = handleSpecial(lt, rt, left, right, operation, tpl);
 		if (special != null) {
 			return special;
 		}
@@ -115,8 +113,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	private ExpressionValue wrapComplex(ExpressionValue lt) {
 		if (lt instanceof NumberValue) {
-			GeoVec2D ret = new GeoVec2D(kernel, lt.evaluateDouble(),
-					0);
+			GeoVec2D ret = new GeoVec2D(kernel, lt.evaluateDouble(), 0);
 			ret.setMode(Kernel.COORD_COMPLEX);
 			return ret;
 		}
@@ -140,9 +137,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            whether result should be latex
 	 * @return operation result
 	 */
-	protected ExpressionValue handleOp(Operation op, ExpressionValue lt,
-			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
-			StringTemplate tpl, boolean holdsLaTeX) {
+	protected ExpressionValue handleOp(
+			Operation op,
+			ExpressionValue lt,
+			ExpressionValue rt,
+			ExpressionValue left,
+			ExpressionValue right,
+			StringTemplate tpl,
+			boolean holdsLaTeX) {
 		return op.handle(this, lt, rt, left, right, tpl, holdsLaTeX);
 	}
 
@@ -156,8 +158,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	protected ExpressionValue multiply(MyList myList, VectorNDValue rt) {
 		if (rt instanceof VectorValue) {
-			return multiply2D(myList, myList.getMatrixRows(),
-					myList.getMatrixCols(), (VectorValue) rt);
+			return multiply2D(myList, myList.getMatrixRows(), myList.getMatrixCols(), (VectorValue) rt);
 		}
 
 		return null;
@@ -175,8 +176,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            vector
 	 * @return list (matrix) * 2D vector / point
 	 */
-	static protected ExpressionValue multiply2D(MyList myList, int rows,
-			int cols, VectorValue rt) {
+	protected static ExpressionValue multiply2D(MyList myList, int rows, int cols, VectorValue rt) {
 
 		return multiply2D(myList, rows, cols, rt, rt.getVector());
 	}
@@ -194,8 +194,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            vector set to result
 	 * @return list (matrix) * 2D vector / point
 	 */
-	protected static ExpressionValue multiply2D(MyList myList, int rows,
-			int cols, VectorNDValue rt, GeoVec2D myVec) {
+	protected static ExpressionValue multiply2D(
+			MyList myList, int rows, int cols, VectorNDValue rt, GeoVec2D myVec) {
 
 		if ((rows == 2) && (cols == 2)) {
 			// 2x2 matrix
@@ -211,11 +211,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return null;
 	}
 
-	private ExpressionValue handleSpecial(ExpressionValue ltWrapped,
-			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
-			Operation operation, StringTemplate tpl) {
-		ExpressionValue lt = ltWrapped instanceof GeoElement
-				? ((GeoElement) ltWrapped).unwrapSymbolic() : ltWrapped;
+	private ExpressionValue handleSpecial(
+			ExpressionValue ltWrapped,
+			ExpressionValue rt,
+			ExpressionValue left,
+			ExpressionValue right,
+			Operation operation,
+			StringTemplate tpl) {
+		ExpressionValue lt =
+				ltWrapped instanceof GeoElement ? ((GeoElement) ltWrapped).unwrapSymbolic() : ltWrapped;
 		if (lt instanceof ListValue) {
 			return handleListOperation(lt, rt, right, operation, tpl);
 		} else if (rt instanceof ListValue
@@ -230,9 +234,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !operation.equals(Operation.DATA)
 				&& (operation != Operation.PLUSMINUS)
 				&& !(lt instanceof VectorValue && operation.isPlusorMinus()) // eg
-																				// {1,2}
-																				// +
-																				// (1,2)
+				// {1,2}
+				// +
+				// (1,2)
 				&& !(lt instanceof TextValue) // e.g. "" + {1,2}
 				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
 
@@ -252,41 +256,37 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			// lt operation list rt
 
-			return listOperation((ListValue) rt, operation, lt, left, false,
-					tpl);
-		}
-
-		else if ((lt instanceof FunctionalNVar)
+			return listOperation((ListValue) rt, operation, lt, left, false, tpl);
+		} else if ((lt instanceof FunctionalNVar)
 				&& (rt instanceof FunctionalNVar)
 				&& isNotEqualityCheck(operation)) {
-			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt,
-					(FunctionalNVar) rt);
+			return GeoFunction.operationSymb(operation, (FunctionalNVar) lt, (FunctionalNVar) rt);
 		} else if ((lt instanceof GeoCurveCartesianND)
 				&& (operation == Operation.XCOORD
 						|| operation == Operation.YCOORD
 						|| operation == Operation.ZCOORD)) {
-			return GeoFunction.operationSymb(operation,
-					(GeoCurveCartesianND) lt);
+			return GeoFunction.operationSymb(operation, (GeoCurveCartesianND) lt);
 		}
 		// we want to use function arithmetic in cases like f*2 or f+x^2, but
 		// not for f(2), f'(2) etc.
-		else if ((lt instanceof FunctionalNVar) && rt instanceof NumberValue
+		else if ((lt instanceof FunctionalNVar)
+				&& rt instanceof NumberValue
 				&& (operation.ordinal() < Operation.FUNCTION.ordinal())
 				&& isNotEqualityCheck(operation)) {
-			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt,
-					right, true);
-		} else if ((rt instanceof FunctionalNVar)
-				&& lt instanceof NumberValue) {
-			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt,
-					left, false);
+			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) lt, right, true);
+		} else if ((rt instanceof FunctionalNVar) && lt instanceof NumberValue) {
+			return GeoFunction.applyNumberSymb(operation, (FunctionalNVar) rt, left, false);
 		}
 		return null;
 	}
 
-	private ExpressionValue handleListOperation(ExpressionValue lt, ExpressionValue rt,
-			ExpressionValue right, Operation operation, StringTemplate tpl) {
-		if ((operation == Operation.MULTIPLY)
-				&& rt instanceof VectorNDValue) {
+	private ExpressionValue handleListOperation(
+			ExpressionValue lt,
+			ExpressionValue rt,
+			ExpressionValue right,
+			Operation operation,
+			StringTemplate tpl) {
+		if ((operation == Operation.MULTIPLY) && rt instanceof VectorNDValue) {
 			MyList myList = ((ListValue) lt).getMyList();
 			if (myList.isMatrix()) {
 				ExpressionValue ret = multiply(myList, (VectorNDValue) rt);
@@ -295,8 +295,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 			}
 
-		} else if ((operation == Operation.VECTORPRODUCT)
-				&& rt instanceof ListValue) {
+		} else if ((operation == Operation.VECTORPRODUCT) && rt instanceof ListValue) {
 
 			MyList listL = ((ListValue) lt.evaluate(tpl)).getMyList();
 			MyList listR = ((ListValue) rt.evaluate(tpl)).getMyList();
@@ -305,7 +304,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				listL.vectorProduct(listR);
 				return listL;
 			}
-
 		}
 		// we cannot use elseif here as we might need multiplication
 		if ((operation != Operation.IF_LIST)
@@ -322,25 +320,25 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !(rt instanceof VectorValue) // eg {1,2} + (1,2)
 				&& !(rt instanceof TextValue)) { // bugfix "" + {1,2}
 			// list lt operation rt
-			return listOperation((ListValue) lt, operation, rt, right,
-					true, tpl);
+			return listOperation((ListValue) lt, operation, rt, right, true, tpl);
 		}
 		return null;
 	}
 
 	private boolean isNotEqualityCheck(Operation operation) {
-		return !operation.equals(Operation.EQUAL_BOOLEAN)
-				&& !operation.equals(Operation.NOT_EQUAL);
+		return !operation.equals(Operation.EQUAL_BOOLEAN) && !operation.equals(Operation.NOT_EQUAL);
 	}
 
-	private ExpressionValue listOperation(ListValue lt, Operation operation,
-			ExpressionValue rt, ExpressionValue right, boolean b,
+	private ExpressionValue listOperation(
+			ListValue lt,
+			Operation operation,
+			ExpressionValue rt,
+			ExpressionValue right,
+			boolean b,
 			StringTemplate tpl) {
 		boolean symbolic = right.wrap().containsFreeFunctionVariable(null);
-		ExpressionValue myRt = symbolic && !(rt instanceof ListValue) ? right
-				: rt;
-		MyList myList = symbolic ? lt.getMyList().deepCopy(kernel) : lt
-				.getMyList();
+		ExpressionValue myRt = symbolic && !(rt instanceof ListValue) ? right : rt;
+		MyList myList = symbolic ? lt.getMyList().deepCopy(kernel) : lt.getMyList();
 		// list lt operation rt
 		myList.apply(operation, myRt, b, tpl);
 		return myList;
@@ -367,10 +365,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof GeoDummyVariable) {
 			return Double.NaN;
 		} else {
-			throw illegalArgument(arg,
-					op == Operation.XCOORD ? "x(" : "real(");
+			throw illegalArgument(arg, op == Operation.XCOORD ? "x(" : "real(");
 		}
-
 	}
 
 	/**
@@ -395,8 +391,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof GeoDummyVariable) {
 			return Double.NaN;
 		} else {
-			throw illegalArgument(arg,
-					op == Operation.YCOORD ? "y(" : "imaginary(");
+			throw illegalArgument(arg, op == Operation.YCOORD ? "y(" : "imaginary(");
 		}
 	}
 
@@ -431,8 +426,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            whether parent node holds LaTeX
 	 * @return result
 	 */
-	public ExpressionValue handleMult(ExpressionValue lt, ExpressionValue rt,
-			StringTemplate tpl, boolean holdsLaTeXtext) {
+	public ExpressionValue handleMult(
+			ExpressionValue lt, ExpressionValue rt, StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyDouble num;
 
 		if (lt instanceof NumberValue) {
@@ -464,16 +459,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// vector * vector (inner/dot product)
 			else if (rt instanceof VectorNDValue) {
-				if (((VectorNDValue) lt)
-						.getToStringMode() == Kernel.COORD_COMPLEX
-						|| ((VectorNDValue) rt)
-								.getToStringMode() == Kernel.COORD_COMPLEX) {
+				if (((VectorNDValue) lt).getToStringMode() == Kernel.COORD_COMPLEX
+						|| ((VectorNDValue) rt).getToStringMode() == Kernel.COORD_COMPLEX) {
 					// complex multiply
-					return complexMult((VectorNDValue) lt, (VectorNDValue) rt,
-							kernel);
+					return complexMult((VectorNDValue) lt, (VectorNDValue) rt, kernel);
 				}
-				return innerProduct((VectorNDValue) lt, (VectorNDValue) rt,
-						kernel);
+				return innerProduct((VectorNDValue) lt, (VectorNDValue) rt, kernel);
 			}
 			throw illegalBinary(lt, rt, Errors.IllegalMultiplication, "*");
 		}
@@ -512,8 +503,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            kernel
 	 * @return ev1*ev2 complex product
 	 */
-	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2,
-			Kernel kernel0) {
+	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel0) {
 		GeoVec2D vec = ((VectorValue) ev1).getVector();
 		GeoVec2D.complexMultiply(vec, ((VectorValue) ev2).getVector(), vec);
 		return vec;
@@ -529,11 +519,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            kernel
 	 * @return ev1*ev2 inner product
 	 */
-	protected ExpressionValue innerProduct(VectorNDValue ev1, VectorNDValue ev2,
-			Kernel kernel0) {
+	protected ExpressionValue innerProduct(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel0) {
 		MyDouble num = new MyDouble(kernel0);
-		GeoVec2D.inner(((VectorValue) ev1).getVector(),
-				((VectorValue) ev2).getVector(), num);
+		GeoVec2D.inner(((VectorValue) ev1).getVector(), ((VectorValue) ev2).getVector(), num);
 		return num;
 	}
 
@@ -550,8 +538,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            whether parent node holds LaTeX
 	 * @return result
 	 */
-	public ExpressionValue handlePlus(ExpressionValue lt, ExpressionValue rt,
-			StringTemplate tpl, boolean holdsLaTeXtext) {
+	public ExpressionValue handlePlus(
+			ExpressionValue lt, ExpressionValue rt, StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyDouble num;
 		GeoVec2D vec;
 		if (lt instanceof NumberValue && rt instanceof NumberValue) {
@@ -583,8 +571,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (list.size() > 0) {
 				ExpressionValue ev = list.get(0);
 				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as
-													// point, ev is evaluated
-													// before
+					// point, ev is evaluated
+					// before
 					// + point
 					vec = ((VectorValue) rt).getVector();
 					GeoVec2D.add(vec, (ListValue) lt, vec);
@@ -604,8 +592,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (list.size() > 0) {
 				ExpressionValue ev = list.get(0);
 				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as
-													// point, ev is evaluated
-													// before
+					// point, ev is evaluated
+					// before
 					// + point
 					vec = ((VectorValue) lt).getVector();
 					GeoVec2D.add(vec, (ListValue) rt, vec);
@@ -631,8 +619,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 	}
 
-	private ExpressionValue appendTextValueRight(ExpressionValue lt, TextValue rt,
-			StringTemplate tpl, boolean holdsLaTeXtext) {
+	private ExpressionValue appendTextValueRight(
+			ExpressionValue lt, TextValue rt, StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyStringBuffer msb = rt.getText();
 		if (holdsLaTeXtext) {
 			msb.insert(0, lt.toLaTeXString(false, tpl));
@@ -647,8 +635,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return msb;
 	}
 
-	private ExpressionValue appendTextValueLeft(TextValue lt, ExpressionValue rt,
-			StringTemplate tpl, boolean holdsLaTeXtext) {
+	private ExpressionValue appendTextValueLeft(
+			TextValue lt, ExpressionValue rt, StringTemplate tpl, boolean holdsLaTeXtext) {
 		MyStringBuffer msb = lt.getText();
 		if (holdsLaTeXtext) {
 			msb.append(rt.toLaTeXString(false, tpl));
@@ -671,8 +659,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param right Right argument before evaluation
 	 * @return Result
 	 */
-	public ExpressionValue handleInvisiblePlus(ExpressionValue lt, ExpressionValue rt,
-			ExpressionValue left, ExpressionValue right) {
+	public ExpressionValue handleInvisiblePlus(
+			ExpressionValue lt, ExpressionValue rt, ExpressionValue left, ExpressionValue right) {
 		// Basic checks, throw an error if any of them fails
 		if (!canHandleInvisiblePlus(lt, rt, left, right)) {
 			throw new MyError(loc, Errors.IllegalAddition, lt, "\u2064", rt);
@@ -690,15 +678,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param right Right argument before evaluation
 	 * @return True if all requirements to form a mixed number are met, false else
 	 */
-	private boolean canHandleInvisiblePlus(ExpressionValue lt, ExpressionValue rt,
-			ExpressionValue left, ExpressionValue right) {
-		return lt instanceof NumberValue && ((NumberValue) lt).getNumber().evaluateDouble() % 1 == 0
-				&& !(lt instanceof FunctionVariable) && rt instanceof NumberValue
+	private boolean canHandleInvisiblePlus(
+			ExpressionValue lt, ExpressionValue rt, ExpressionValue left, ExpressionValue right) {
+		return lt instanceof NumberValue
+				&& ((NumberValue) lt).getNumber().evaluateDouble() % 1 == 0
+				&& !(lt instanceof FunctionVariable)
+				&& rt instanceof NumberValue
 				&& right instanceof ExpressionNode
 				&& !((ExpressionNode) right).containsFunctionVariable()
-				&& ((ExpressionNode) right).isProperFraction() && right.evaluateDouble() >= 0
+				&& ((ExpressionNode) right).isProperFraction()
+				&& right.evaluateDouble() >= 0
 				&& (!(left instanceof ExpressionNode)
-				|| !((ExpressionNode) left).containsFunctionVariable());
+						|| !((ExpressionNode) left).containsFunctionVariable());
 	}
 
 	/**
@@ -726,8 +717,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *
 	 * @return result
 	 */
-	public ExpressionValue handleDivide(ExpressionValue lt, ExpressionValue rt,
-			ExpressionValue left, ExpressionValue right) {
+	public ExpressionValue handleDivide(
+			ExpressionValue lt, ExpressionValue rt, ExpressionValue left, ExpressionValue right) {
 		// sin(number)
 		MyDouble num;
 		GeoVec2D vec;
@@ -744,10 +735,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				GeoVec2D.div(vec, rt.evaluateDouble(), vec);
 				return vec;
 			} else if (lt instanceof GeoFunction) {
-				return GeoFunction.applyNumberSymb(Operation.DIVIDE,
-						(GeoFunction) lt, right, true);
-			}
-			else {
+				return GeoFunction.applyNumberSymb(Operation.DIVIDE, (GeoFunction) lt, right, true);
+			} else {
 				throw new MyError(loc, Errors.IllegalDivision, lt, "/", rt);
 			}
 		}
@@ -763,17 +752,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// number / vector (complex division)
 		else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector(); // just to
-													// initialise
-													// vec
-			GeoVec2D.complexDivide((NumberValue) lt,
-					((VectorValue) rt).getVector(), vec);
+			// initialise
+			// vec
+			GeoVec2D.complexDivide((NumberValue) lt, ((VectorValue) rt).getVector(), vec);
 			return vec;
 
-		}
-
-		else if ((rt instanceof GeoFunction) && lt instanceof NumberValue) {
-			return GeoFunction.applyNumberSymb(Operation.DIVIDE,
-					(GeoFunction) rt, left, false);
+		} else if ((rt instanceof GeoFunction) && lt instanceof NumberValue) {
+			return GeoFunction.applyNumberSymb(Operation.DIVIDE, (GeoFunction) rt, left, false);
 		} else {
 			throw new MyError(loc, Errors.IllegalDivision, lt, "/", rt);
 		}
@@ -834,10 +819,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return vec;
 		} else if (lt instanceof TextValue) {
 
-			return handlePlus(lt,
-					rt.wrap().multiply(-1)
-							.evaluate(StringTemplate.defaultTemplate),
-					StringTemplate.defaultTemplate, false);
+			return handlePlus(
+					lt,
+					rt.wrap().multiply(-1).evaluate(StringTemplate.defaultTemplate),
+					StringTemplate.defaultTemplate,
+					false);
 		}
 		// polynomial - polynomial
 		else {
@@ -857,8 +843,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *
 	 * @return result
 	 */
-	public ExpressionValue handlePower(ExpressionValue lt, ExpressionValue rt,
-			ExpressionValue right) {
+	public ExpressionValue handlePower(
+			ExpressionValue lt, ExpressionValue rt, ExpressionValue right) {
 		MyDouble num;
 		GeoVec2D vec, vec2;
 		// number ^ number
@@ -911,7 +897,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// complex power
 				GeoVec2D.complexPower(vec, (NumberValue) rt, vec);
 				return vec;
-
 			}
 			num = ((NumberValue) rt).getNumber();
 			// inner/scalar/dot product
@@ -923,8 +908,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return num;
 		} else if (lt instanceof TextValue && rt instanceof NumberValue) {
 			String txt = ((TextValue) lt).getTextString();
-			return new MyStringBuffer(kernel,
-					StringUtil.string(txt, (int) rt.evaluateDouble()));
+			return new MyStringBuffer(kernel, StringUtil.string(txt, (int) rt.evaluateDouble()));
 		} else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			// if (!rt.isConstant()) {
 			// String [] str = new String[]{ "ExponentMustBeConstant",
@@ -983,7 +967,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// (x^a)^(1/0)
 				return Double.NaN;
 			} else if (DoubleUtil.isEqual(b, bl)) { // b is
-												// integer
+				// integer
 				// divide through greatest common divisor of a
 				// and b
 				long gcd = Kernel.gcd(al, bl);
@@ -1032,40 +1016,33 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            left (function) before evaluation
 	 * @return value of function at given point
 	 */
-	public ExpressionValue handleFunction(ExpressionValue lt,
-			ExpressionValue rt, ExpressionValue left) {
+	public ExpressionValue handleFunction(
+			ExpressionValue lt, ExpressionValue rt, ExpressionValue left) {
 		// function(number)
 		if (rt instanceof NumberValue arg) {
 			if (lt instanceof Evaluatable) {
-				if ((lt instanceof GeoFunction)
-						&& ((GeoFunction) lt).isGeoFunctionBoolean()) {
-					return new MyBoolean(kernel, ((GeoFunction) lt)
-							.evaluateBoolean(arg.getDouble()));
+				if ((lt instanceof GeoFunction) && ((GeoFunction) lt).isGeoFunctionBoolean()) {
+					return new MyBoolean(kernel, ((GeoFunction) lt).evaluateBoolean(arg.getDouble()));
 				}
 				return arg.getNumber().apply((Evaluatable) lt);
-			} else if (lt instanceof GeoCasCell && ((GeoCasCell) lt)
-					.getValue() instanceof Function) {
+			} else if (lt instanceof GeoCasCell && ((GeoCasCell) lt).getValue() instanceof Function) {
 				// first we give the expression to the cas
 				// and then the result of that to the geogebra
 				// so that the cas result will be converted
-				ExpressionNode node = new ExpressionNode(kernel, lt,
-						Operation.FUNCTION, rt);
+				ExpressionNode node = new ExpressionNode(kernel, lt, Operation.FUNCTION, rt);
 				FunctionExpander fex = FunctionExpander.newFunctionExpander();
-				node = (ExpressionNode) node.wrap().getCopy(kernel)
-						.traverse(fex);
-				String result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
-						node, null, StringTemplate.numericNoLocal, null,
-						kernel);
+				node = (ExpressionNode) node.wrap().getCopy(kernel).traverse(fex);
+				String result = kernel
+						.getGeoGebraCAS()
+						.evaluateGeoGebraCAS(node, null, StringTemplate.numericNoLocal, null, kernel);
 				boolean mode = kernel.isSilentMode();
 				kernel.setSilentMode(true);
-				GeoElementND geo = kernel.getAlgebraProcessor()
-						.processAlgebraCommand(result, false)[0];
+				GeoElementND geo = kernel.getAlgebraProcessor().processAlgebraCommand(result, false)[0];
 				kernel.setSilentMode(mode);
 				return geo;
 			} else if (left instanceof GeoCasCell
 					&& ((GeoCasCell) left).getTwinGeo() instanceof GeoLine) {
-				return arg.getNumber()
-						.apply((Evaluatable) ((GeoCasCell) left).getTwinGeo());
+				return arg.getNumber().apply((Evaluatable) ((GeoCasCell) left).getTwinGeo());
 			} else {
 				Log.debug(lt);
 			}
@@ -1075,21 +1052,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				if (fun == null) {
 					return new MyDouble(kernel, Double.NaN);
 				}
-				if (pt.getToStringMode() == Kernel.COORD_COMPLEX
-						&& rt instanceof VectorValue) {
+				if (pt.getToStringMode() == Kernel.COORD_COMPLEX && rt instanceof VectorValue) {
 					return fun.evalComplex(((VectorValue) rt).getVector());
 				}
 				return evaluateFunctionNvar(fun, pt, lt);
 			} else if (lt instanceof GeoFunctionable) {
 				// eg GeoLine
-				return evaluateFunctionNvar(((GeoFunctionable) lt)
-						.getFunction(), pt, lt);
+				return evaluateFunctionNvar(((GeoFunctionable) lt).getFunction(), pt, lt);
 			} else {
 				Log.warn("missing case in ExpressionNodeEvaluator");
 			}
 		}
 		throw new MyError(loc, Errors.IllegalArgument, MyError.toErrorString(rt));
-
 	}
 
 	/**
@@ -1101,29 +1075,26 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            right argument (MyList of variable values)
 	 * @return result (number)
 	 */
-	public ExpressionValue handleFunctionNVar(ExpressionValue lt,
-			ExpressionValue rt) {
+	public ExpressionValue handleFunctionNVar(ExpressionValue lt, ExpressionValue rt) {
 		if (rt instanceof ListValue && (lt instanceof FunctionalNVar)) {
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
 			if (funN == null) {
 				return new MyDouble(kernel, Double.NaN);
 			}
 			ListValue list = (ListValue) rt;
-			if (funN.getVarNumber() == list.size()
-					|| funN.getVarNumber() == 1) {
+			if (funN.getVarNumber() == list.size() || funN.getVarNumber() == 1) {
 				double[] args = list.toDouble(0);
 				return evaluateFunctionNvar(funN, args, lt);
 			} else if (list.size() == 1) {
-				ExpressionValue ev = list.getMyList().get(0)
-						.evaluate(StringTemplate.defaultTemplate);
+				ExpressionValue ev = list.getMyList().get(0).evaluate(StringTemplate.defaultTemplate);
 				if ((funN.getVarNumber() == 2 || funN.getVarNumber() == 3)
 						&& (ev instanceof VectorNDValue)) {
 					VectorNDValue pt = (VectorNDValue) ev;
 					return evaluateFunctionNvar(funN, pt, lt);
-				} else if ((ev instanceof ListValue) && (((ListValue) ev)
-						.getMyList().size() > 0) && ((ListValue) ev)
-						.getMyList().get(0).evaluate(
-								StringTemplate.defaultTemplate) instanceof NumberValue) {
+				} else if ((ev instanceof ListValue)
+						&& (((ListValue) ev).getMyList().size() > 0)
+						&& ((ListValue) ev).getMyList().get(0).evaluate(StringTemplate.defaultTemplate)
+								instanceof NumberValue) {
 					// TODO can we avoid evaluate here
 					double[] vals = ((ListValue) ev).toDouble(0);
 					return evaluateFunctionNvar(funN, vals, lt);
@@ -1137,8 +1108,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						// f(x,y) in
 						// MyList
 						lArg.addListElement(l.get(i));
-						ret.addListElement(new ExpressionNode(kernel, lt,
-								Operation.FUNCTION_NVAR, lArg));
+						ret.addListElement(new ExpressionNode(kernel, lt, Operation.FUNCTION_NVAR, lArg));
 					}
 					return ret;
 				}
@@ -1147,8 +1117,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		throw new MyError(loc, Errors.IllegalArgument, MyError.toErrorString(rt));
 	}
 
-	private ExpressionValue evaluateFunctionNvar(FunctionNVar funN,
-												 VectorNDValue pt, ExpressionValue lt) {
+	private ExpressionValue evaluateFunctionNvar(
+			FunctionNVar funN, VectorNDValue pt, ExpressionValue lt) {
 		if (funN.isBooleanFunction()) {
 			return new MyBoolean(kernel, funN.evaluate(pt) > 0);
 		} else if (lt.isGeoElement() && !((GeoElement) lt).isDefined()) {
@@ -1157,12 +1127,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return new MyDouble(kernel, funN.evaluate(pt));
 	}
 
-	private ExpressionValue evaluateFunctionNvar(FunctionNVar funN,
-				double[] vals, ExpressionValue lt) {
+	private ExpressionValue evaluateFunctionNvar(
+			FunctionNVar funN, double[] vals, ExpressionValue lt) {
 		if (vals != null) {
 			if (funN.isBooleanFunction()) {
-				return new MyBoolean(kernel,
-						funN.evaluateBoolean(vals));
+				return new MyBoolean(kernel, funN.evaluateBoolean(vals));
 			} else if (lt.isGeoElement() && !((GeoElement) lt).isDefined()) {
 				return new MyDouble(kernel, Double.NaN);
 			}
@@ -1197,8 +1166,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            operation name
 	 * @return MyError
 	 */
-	public MyError illegalArgument(ExpressionValue lt,
-			ExpressionValue rt, String opname) {
+	public MyError illegalArgument(ExpressionValue lt, ExpressionValue rt, String opname) {
 		return new MyError(loc, Errors.IllegalArgument, lt, opname, rt);
 	}
 
@@ -1224,10 +1192,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return nothing (error is thrown)
 	 * @throws MyError (always)
 	 */
-	public MyError illegalBinary(ExpressionValue lt, ExpressionValue rt, Errors type,
-			String opname) {
+	public MyError illegalBinary(ExpressionValue lt, ExpressionValue rt, Errors type, String opname) {
 		return new MyError(loc, type, lt, opname, rt);
-
 	}
 
 	/**
@@ -1239,10 +1205,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return nothing (error is thrown)
 	 * @throws MyError (always)
 	 */
-	public MyError illegalComparison(ExpressionValue lt,
-			ExpressionValue rt, String opname) {
+	public MyError illegalComparison(ExpressionValue lt, ExpressionValue rt, String opname) {
 		return new MyError(loc, Errors.IllegalComparison, lt, opname, rt);
-
 	}
 
 	/**
@@ -1256,10 +1220,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            list operator
 	 * @return error for list operation
 	 */
-	public MyError illegalListOp(ExpressionValue lt, ExpressionValue rt,
-			String opName) {
+	public MyError illegalListOp(ExpressionValue lt, ExpressionValue rt, String opName) {
 		return new MyError(loc, Errors.IllegalListOperation, lt, opName, rt);
-
 	}
 
 	/**
@@ -1305,8 +1267,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return vectorProduct((VectorNDValue) lt, (VectorNDValue) rt);
 		}
 
-		throw illegalBinary(lt, rt, Errors.IllegalMultiplication,
-				ExpressionNodeConstants.strVECTORPRODUCT);
+		throw illegalBinary(
+				lt, rt, Errors.IllegalMultiplication, ExpressionNodeConstants.strVECTORPRODUCT);
 	}
 
 	/**
@@ -1317,8 +1279,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 *            second vector
 	 * @return v1 * v2 vector product
 	 */
-	protected ExpressionValue vectorProduct(VectorNDValue v1,
-			VectorNDValue v2) {
+	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2) {
 		GeoVecInterface vec1 = v1.getVector();
 		GeoVecInterface vec2 = v2.getVector();
 		MyDouble num = new MyDouble(kernel);
@@ -1343,8 +1304,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return list element
 	 */
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
-	public ExpressionValue handleElementOf(ExpressionValue lt,
-			ExpressionValue rt, int skip) {
+	public ExpressionValue handleElementOf(ExpressionValue lt, ExpressionValue rt, int skip) {
 		// TODO not implemented #1115
 		if (lt instanceof GeoList && rt instanceof ListValue) {
 			GeoList sublist = (GeoList) lt;
@@ -1353,8 +1313,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// convert list1(1,2) into Element[Element[list1,1],2]
 			boolean sublistUndefined = false;
 			for (int i = 0; i < lv.size(); i++) {
-				ExpressionNode ith = (ExpressionNode) lv.getMyList()
-						.get(i);
+				ExpressionNode ith = (ExpressionNode) lv.getMyList().get(i);
 				idx = (int) Math.round(ith.evaluateDouble()) - 1;
 				if (i < lv.size() - 1) {
 					GeoElement nextSublist;
@@ -1370,32 +1329,24 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					}
 					if (nextSublist instanceof GeoList) {
 						sublist = (GeoList) nextSublist;
-					} else if (i == lv.size() - 2
-							&& nextSublist instanceof GeoFunction) {
+					} else if (i == lv.size() - 2 && nextSublist instanceof GeoFunction) {
 						if (skip > 0) {
 							return functionOrUndefined(nextSublist);
 						}
-						return new MyDouble(getKernel(),
-								((GeoFunction) nextSublist)
-										.value(lv.get(i + 1)
-												.evaluateDouble()));
+						return new MyDouble(
+								getKernel(), ((GeoFunction) nextSublist).value(lv.get(i + 1).evaluateDouble()));
 					} else if (nextSublist instanceof GeoFunctionNVar
-							&& i == lv.size() - ((GeoFunctionNVar) nextSublist)
-									.getVarNumber() - 1) {
+							&& i == lv.size() - ((GeoFunctionNVar) nextSublist).getVarNumber() - 1) {
 						if (skip > 0) {
 							return functionNvarOrUndefined(nextSublist);
 						}
-						return new MyDouble(getKernel(),
-								((GeoFunctionNVar) nextSublist)
-										.evaluate(lv.toDouble(1)));
+						return new MyDouble(
+								getKernel(), ((GeoFunctionNVar) nextSublist).evaluate(lv.toDouble(1)));
 					} else {
-						Log.debug("Wrong depth for Element: " + nextSublist
-								+ " :" + (lv.size() - i - 1));
+						Log.debug("Wrong depth for Element: " + nextSublist + " :" + (lv.size() - i - 1));
 						return new MyDouble(getKernel(), Double.NaN);
 					}
-
 				}
-
 			}
 			if (idx < 0) {
 				idx = sublist.size() + 1 + idx;
@@ -1413,19 +1364,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				MyList list = lv.getMyList();
 				FunctionVariable fv = new FunctionVariable(kernel);
 				list.addListElement(fv);
-				return new Function(new ExpressionNode(kernel, lt,
-						Operation.ELEMENT_OF, list), fv);
+				return new Function(new ExpressionNode(kernel, lt, Operation.ELEMENT_OF, list), fv);
 			}
 
 			if (ret instanceof GeoFunctionNVar) {
 				MyList list = lv.getMyList();
-				FunctionVariable[] vars = ((GeoFunctionNVar) ret)
-						.getFunctionVariables();
+				FunctionVariable[] vars = ((GeoFunctionNVar) ret).getFunctionVariables();
 				for (FunctionVariable var : vars) {
 					list.addListElement(var);
 				}
-				return new FunctionNVar(new ExpressionNode(kernel, lt,
-						Operation.ELEMENT_OF, list), vars);
+				return new FunctionNVar(new ExpressionNode(kernel, lt, Operation.ELEMENT_OF, list), vars);
 			}
 
 			return ret;
@@ -1434,15 +1382,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	private ExpressionValue functionOrUndefined(GeoElement nextSublist) {
-		return nextSublist.isDefined() ? nextSublist
-				: new Function(new ExpressionNode(getKernel(), Double.NaN),
-						new FunctionVariable(getKernel()));
+		return nextSublist.isDefined()
+				? nextSublist
+				: new Function(
+						new ExpressionNode(getKernel(), Double.NaN), new FunctionVariable(getKernel()));
 	}
 
 	private ExpressionValue functionNvarOrUndefined(GeoElement nextSublist) {
-		return nextSublist.isDefined() ? nextSublist
-				: new FunctionNVar(new ExpressionNode(getKernel(), Double.NaN),
-						new FunctionVariable[0]);
+		return nextSublist.isDefined()
+				? nextSublist
+				: new FunctionNVar(new ExpressionNode(getKernel(), Double.NaN), new FunctionVariable[0]);
 	}
 
 	/**

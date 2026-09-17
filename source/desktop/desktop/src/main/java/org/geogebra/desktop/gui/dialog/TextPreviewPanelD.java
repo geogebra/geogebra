@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,11 +40,11 @@ import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
 /**
- * 
+ *
  * Desktop implementation of TextPreviewPanel
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class TextPreviewPanelD extends TextPreviewer {
 
@@ -67,11 +67,11 @@ public class TextPreviewPanelD extends TextPreviewer {
 	 * the given preview geo. This forces the enclosing scrollpane to show
 	 * scrollbars when the size of the preview geo grows larger than the
 	 * scrollpane viewport.
-	 * 
+	 *
 	 * Note: The preview geo uses absolute screen coords, so we can't easily get
 	 * the bounding box dimensions and must use dummy containers to estimate
 	 * these dimensions.
-	 * 
+	 *
 	 * @param previewGeo preview element
 	 */
 	@Override
@@ -87,9 +87,13 @@ public class TextPreviewPanelD extends TextPreviewer {
 		if (previewGeo.isLaTeX()) {
 			// LaTex geo, use dummy ImageIcon
 
-			Rectangle bounds = GeoGebraIconD.measureLatexImage((AppD) getApp(),
-					previewGeo.getTextString(), ((AppD) getApp()).getPlainFont(),
-					true, Color.black, null);
+			Rectangle bounds = GeoGebraIconD.measureLatexImage(
+					(AppD) getApp(),
+					previewGeo.getTextString(),
+					((AppD) getApp()).getPlainFont(),
+					true,
+					Color.black,
+					null);
 
 			// get the dimensions from the icon and add some padding
 			d.height = (int) bounds.getHeight() + padding;
@@ -120,21 +124,21 @@ public class TextPreviewPanelD extends TextPreviewer {
 
 	@Override
 	protected void removeEVMouseListeners() {
-		((EuclidianViewD) ev).removeMouseListener(
-				(EuclidianControllerListeners) ev.getEuclidianController());
-		((EuclidianViewD) ev).removeMouseMotionListener(
-				(EuclidianControllerListeners) ev.getEuclidianController());
-		((EuclidianViewD) ev).removeMouseWheelListener(
-				(EuclidianControllerListeners) ev.getEuclidianController());
+		((EuclidianViewD) ev)
+				.removeMouseListener((EuclidianControllerListeners) ev.getEuclidianController());
+		((EuclidianViewD) ev)
+				.removeMouseMotionListener((EuclidianControllerListeners) ev.getEuclidianController());
+		((EuclidianViewD) ev)
+				.removeMouseWheelListener((EuclidianControllerListeners) ev.getEuclidianController());
 	}
 
 	@Override
 	protected EuclidianViewD getEuclidianView() {
-		boolean[] showAxes = { false, false };
+		boolean[] showAxes = {false, false};
 		boolean showGrid = false;
 		if (ev == null) {
-			ev = new EuclidianViewTextPreview(new EuclidianControllerD(kernel),
-					showAxes, showGrid, EuclidianView.EVNO_GENERAL, null);
+			ev = new EuclidianViewTextPreview(
+					new EuclidianControllerD(kernel), showAxes, showGrid, EuclidianView.EVNO_GENERAL, null);
 		}
 		return (EuclidianViewD) ev;
 	}
@@ -142,12 +146,15 @@ public class TextPreviewPanelD extends TextPreviewer {
 	/****************************************************************************
 	 * Extension of EuclidianViewD for displaying preview text strings in the
 	 * text editor.
-	 * 
+	 *
 	 */
 	private static final class EuclidianViewTextPreview extends EuclidianViewD {
 
-		private EuclidianViewTextPreview(EuclidianController ec,
-				boolean[] showAxes, boolean showGrid, int evno,
+		private EuclidianViewTextPreview(
+				EuclidianController ec,
+				boolean[] showAxes,
+				boolean showGrid,
+				int evno,
 				EuclidianSettings settings) {
 			super(ec, showAxes, showGrid, evno, settings);
 		}
@@ -171,5 +178,4 @@ public class TextPreviewPanelD extends TextPreviewer {
 			return true;
 		}
 	}
-
 }

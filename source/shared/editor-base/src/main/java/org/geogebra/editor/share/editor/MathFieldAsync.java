@@ -24,10 +24,9 @@ public interface MathFieldAsync {
 
 	/**
 	 * Focus and run callback
-	 * 
+	 *
 	 * @param callback
 	 *            callback
 	 */
 	void requestViewFocus(Runnable callback);
-
 }

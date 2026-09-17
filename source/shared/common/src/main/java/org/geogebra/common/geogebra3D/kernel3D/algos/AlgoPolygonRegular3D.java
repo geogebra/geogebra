@@ -31,7 +31,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Regular polygon with 3D points
- * 
+ *
  * @author mathieu
  *
  */
@@ -45,7 +45,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -59,8 +59,13 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 	 * @param direction
 	 *            direction of the plane
 	 */
-	public AlgoPolygonRegular3D(Construction c, String[] labels, GeoPointND A1,
-			GeoPointND B1, GeoNumberValue num, GeoDirectionND direction) {
+	public AlgoPolygonRegular3D(
+			Construction c,
+			String[] labels,
+			GeoPointND A1,
+			GeoPointND B1,
+			GeoNumberValue num,
+			GeoDirectionND direction) {
 		super(c, labels, A1, B1, num, direction);
 	}
 
@@ -94,7 +99,6 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 
 		// parent of output
 		getPoly().setParentAlgorithm(this);
-
 	}
 
 	@Override
@@ -114,7 +118,6 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 		// center point of regular polygon
 		double tanBetaHalf = Math.tan(beta) / 2;
 		((GeoPoint3D) centerPoint).setCoords(m.add(vn.mul(tanBetaHalf)));
-
 	}
 
 	@Override
@@ -140,7 +143,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 				outputPoints.getElement(i).setUndefined();
 			}
 			if (getPoly().getPointsND() == null) {
-				getPoly().setPoints(new GeoPointND[] { A, B }, null, false);
+				getPoly().setPoints(new GeoPointND[] {A, B}, null, false);
 			}
 
 			numOld = 2;
@@ -155,5 +158,4 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 		// TODO Auto-generated method stub
 
 	}
-
 }

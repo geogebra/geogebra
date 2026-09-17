@@ -23,17 +23,17 @@ import org.geogebra.editor.share.tree.Node;
  */
 public interface Inspecting {
 
-    /**
-     * @param node node
-     * @return whether the node has this property
-     */
-    boolean check(Node node);
+	/**
+	 * @param node node
+	 * @return whether the node has this property
+	 */
+	boolean check(Node node);
 
-    /**
-     * @param node to check against
-     * @return {@code true} if {@code this} contains {@code node} 
-     */
-    static Inspecting containsNode(Node node) {
-        return (currentNode) -> currentNode == node;
-    }
+	/**
+	 * @param node to check against
+	 * @return {@code true} if {@code this} contains {@code node}
+	 */
+	static Inspecting containsNode(Node node) {
+		return (currentNode) -> currentNode == node;
+	}
 }

@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -30,50 +30,72 @@ import org.geogebra.common.ownership.GlobalScope;
  * @author gabor
  */
 public class ToolBar {
-	static private ToolsRemover defaultToolsRemover = new ToolsRemover();
+	private static ToolsRemover defaultToolsRemover = new ToolsRemover();
 
 	/**
 	 * any toolbar composed of a set of following menus should be considered as
 	 * default toolbar (old default toolbar)
 	 */
-	static private final String[][] DEFAULT_TOOLBAR_PRE_5_0_280 = {
-			{ "0", "0 39" }, { "1 501 67 5 19 72", "1 501 67 5 19 72 75 76" },
-			{ "2 15 45 18 65 7 37" }, { "4 3 8 9 13 44 58 47" },
-			{ "16 51 64 70" }, { "10 34 53 11 24 20 22 21 23" },
-			{ "55 56 57 12" }, { "36 46 38 49 50 71" }, { "30 29 54 32 31 33" },
-			{ "17 26 62 73 14 68", "17 26 62 14 66 68",
-					"17 26 62 73 14 66 68" },
-			{ "25 52 60 61" }, { "40 41 42 27 28 35 6" } };
+	private static final String[][] DEFAULT_TOOLBAR_PRE_5_0_280 = {
+		{"0", "0 39"},
+		{"1 501 67 5 19 72", "1 501 67 5 19 72 75 76"},
+		{"2 15 45 18 65 7 37"},
+		{"4 3 8 9 13 44 58 47"},
+		{"16 51 64 70"},
+		{"10 34 53 11 24 20 22 21 23"},
+		{"55 56 57 12"},
+		{"36 46 38 49 50 71"},
+		{"30 29 54 32 31 33"},
+		{"17 26 62 73 14 68", "17 26 62 14 66 68", "17 26 62 73 14 66 68"},
+		{"25 52 60 61"},
+		{"40 41 42 27 28 35 6"}
+	};
 
 	/**
 	 * any toolbar composed of a set of following menus should be considered as
 	 * default toolbar
-	 * 
+	 *
 	 * The first group depends on selection tool and rotate tool (different for
 	 * desktop x web x phone and prerelease x stable): accept all
 	 */
-	static private final String[][] DEFAULT_TOOLBAR = {
-			{ "0 39 73 62 110", "0 39 73 62", "0 73 62", "0 77 73 62", "0 39 77 73 62",
-					"0 77 73 74 62"},
-			{ "1 501 67 5 19 72 75 76" }, { "2 15 45 18 65 7 37" },
-			{ "4 3 8 9 13 44 58 47" }, { "16 51 64 70" },
-			{ "10 34 53 11 24 20 22 21 23" }, { "55 56 57 12" },
-			{ "36 46 38 49 50 71 14 68" }, { "30 29 54 32 31 33" },
-			{ "25 17 26 60 52 61", "25 17 60 52 61", "25 60 52 61" }, { "40 41 42 27 28 35 6" } };
+	private static final String[][] DEFAULT_TOOLBAR = {
+		{"0 39 73 62 110", "0 39 73 62", "0 73 62", "0 77 73 62", "0 39 77 73 62", "0 77 73 74 62"},
+		{"1 501 67 5 19 72 75 76"},
+		{"2 15 45 18 65 7 37"},
+		{"4 3 8 9 13 44 58 47"},
+		{"16 51 64 70"},
+		{"10 34 53 11 24 20 22 21 23"},
+		{"55 56 57 12"},
+		{"36 46 38 49 50 71 14 68"},
+		{"30 29 54 32 31 33"},
+		{"25 17 26 60 52 61", "25 17 60 52 61", "25 60 52 61"},
+		{"40 41 42 27 28 35 6"}
+	};
 
 	/**
 	 * any toolbar composed of a set of following menus should be considered as
 	 * default toolbar
 	 */
-	static private final String[][] DEFAULT_TOOLBAR_3D = { { "0" },
-			{ "1 501 5 19 67" }, { "2 15 45 18 7 37" }, { "514 3 9 13 44 47" },
-			{ "16", "16 51" },
-            { "551 550 11 20 22 21 23 55 56 57 12", "551 550 11 22 23 55 56 57 12" }, { "69" },
-			{ "510 511 512 513" },
-			{ "533 531 534 532 522 523 537 536 535", "533 531 534 532 522 523 537 536 535 538",
-					"533 531 534 532 538 522 523 537 536 535" },
-			{ "521 520" }, { "36 38 49 560" }, { "571 30 29 570 31 33" },
-			{ "17" }, { "540 40 41 42 27 28 35 6 502" } };
+	private static final String[][] DEFAULT_TOOLBAR_3D = {
+		{"0"},
+		{"1 501 5 19 67"},
+		{"2 15 45 18 7 37"},
+		{"514 3 9 13 44 47"},
+		{"16", "16 51"},
+		{"551 550 11 20 22 21 23 55 56 57 12", "551 550 11 22 23 55 56 57 12"},
+		{"69"},
+		{"510 511 512 513"},
+		{
+			"533 531 534 532 522 523 537 536 535",
+			"533 531 534 532 522 523 537 536 535 538",
+			"533 531 534 532 538 522 523 537 536 535"
+		},
+		{"521 520"},
+		{"36 38 49 560"},
+		{"571 30 29 570 31 33"},
+		{"17"},
+		{"540 40 41 42 27 28 35 6 502"}
+	};
 
 	/**
 	 * Integer used to indicate a separator in the toolbar.
@@ -83,7 +105,7 @@ public class ToolBar {
 	/**
 	 * Returns with the default definition of the general tool bar without
 	 * macros.
-	 * 
+	 *
 	 * @param html5
 	 *            true, if all menus must appear. (On the web there are some
 	 *            tools, which don't appear.)
@@ -93,15 +115,14 @@ public class ToolBar {
 	 *            TODO
 	 * @return The default definition of the general tool bar without macros.
 	 */
-	public static String getAllToolsNoMacros(boolean html5, boolean exam,
-			App app) {
+	public static String getAllToolsNoMacros(boolean html5, boolean exam, App app) {
 		return getAllToolsNoMacros(html5, exam, app.isUnbundled());
 	}
 
 	/**
 	 * Returns with the default definition of the general tool bar without
 	 * macros.
-	 * 
+	 *
 	 * @param html5
 	 *            true, if all menus must appear. (On the web there are some
 	 *            tools, which don't appear.)
@@ -657,10 +678,10 @@ public class ToolBar {
 	 * Parses a toolbar definition string like "0 , 1 2 | 3 4 5 || 7 8 9" where
 	 * the int values are mode numbers, "," adds a separator within a menu, "|"
 	 * starts a new menu and "||" adds a separator before starting a new menu.
-	 * 
+	 *
 	 * @param toolbarString
 	 *            toolbar definition string
-	 * 
+	 *
 	 * @return toolbar as nested Vector objects with Integers for the modes.
 	 *         Note: separators have negative values.
 	 * @throws NumberFormatException
@@ -680,8 +701,8 @@ public class ToolBar {
 	 * @throws NumberFormatException
 	 *             when toolbar string is not valid
 	 */
-	public static Vector<ToolbarItem> parseToolbarString(String toolbarString,
-			ToolsRemover toolsRemover) throws NumberFormatException {
+	public static Vector<ToolbarItem> parseToolbarString(
+			String toolbarString, ToolsRemover toolsRemover) throws NumberFormatException {
 		Vector<ToolbarItem> toolbar = new Vector<>();
 		StringBuilder currentNumber = new StringBuilder();
 		Vector<Integer> menu = new Vector<>();
@@ -709,8 +730,8 @@ public class ToolBar {
 		return toolbar;
 	}
 
-	private static void flush(StringBuilder currentNumber, Vector<Integer> menu,
-			ToolsRemover toolsRemover) {
+	private static void flush(
+			StringBuilder currentNumber, Vector<Integer> menu, ToolsRemover toolsRemover) {
 		if (currentNumber.length() > 0) {
 			int mode = Integer.parseInt(currentNumber.toString());
 			if (toolsRemover.keep(mode)) {
@@ -718,7 +739,6 @@ public class ToolBar {
 			}
 			currentNumber.setLength(0);
 		}
-
 	}
 
 	/**
@@ -755,8 +775,7 @@ public class ToolBar {
 	public static String getAllTools(App app) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
-				GlobalScope.isExamActive(app), app));
+		sb.append(ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), GlobalScope.isExamActive(app), app));
 
 		// macros
 		Kernel kernel = app.getKernel();
@@ -790,7 +809,7 @@ public class ToolBar {
 	/**
 	 * Filter for tools
 	 */
-	static public class ToolsRemover {
+	public static class ToolsRemover {
 
 		/**
 		 * Default constructor
@@ -821,7 +840,7 @@ public class ToolBar {
 	 *            toolbar definition
 	 * @return whether this is default toolbar of any version
 	 */
-	static public boolean isDefaultToolbar(String definition) {
+	public static boolean isDefaultToolbar(String definition) {
 		if (definition == null) {
 			return false;
 		}
@@ -833,7 +852,7 @@ public class ToolBar {
 				|| isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_3D);
 	}
 
-	static private boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
+	private static boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
 		if (split.length != defaultToolbar.length) {
 			return false;
 		}
@@ -856,7 +875,7 @@ public class ToolBar {
 		return true;
 	}
 
-	static private String[] split(String definition) {
+	private static String[] split(String definition) {
 		String def2 = definition.replaceAll(",", ""); // remove comas
 		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
 		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical

@@ -9,7 +9,7 @@ import java.io.OutputStream;
  * The ASCII85InputStream encodes binary data as ASCII base-85 encoding. The
  * exact definition of ASCII base-85 encoding can be found in the PostScript
  * Language Reference (3rd ed.) chapter 3.13.3.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ASCII85OutputStream.java,v 1.3 2008-05-04 12:20:55 murkle Exp $
  */
@@ -30,7 +30,7 @@ public class ASCII85OutputStream extends FilterOutputStream
 
 	/**
 	 * Create an ASCII85 Output Stream from given stream
-	 * 
+	 *
 	 * @param out
 	 *            output stream to use
 	 */
@@ -84,8 +84,7 @@ public class ASCII85OutputStream extends FilterOutputStream
 		}
 
 		// convert
-		long d = ((b[0] << 24) | (b[1] << 16) | (b[2] << 8) | b[3])
-				& 0x00000000FFFFFFFFL;
+		long d = ((b[0] << 24) | (b[1] << 16) | (b[2] << 8) | b[3]) & 0x00000000FFFFFFFFL;
 
 		c[0] = (int) (d / a85p4 + '!');
 		d = d % a85p4;
@@ -97,8 +96,12 @@ public class ASCII85OutputStream extends FilterOutputStream
 		c[4] = (int) (d % a85p1 + '!');
 
 		// convert !!!!! to z
-		if ((bIndex >= b.length) && (c[0] == '!') && (c[1] == '!')
-				&& (c[2] == '!') && (c[3] == '!') && (c[4] == '!')) {
+		if ((bIndex >= b.length)
+				&& (c[0] == '!')
+				&& (c[1] == '!')
+				&& (c[2] == '!')
+				&& (c[3] == '!')
+				&& (c[4] == '!')) {
 			writeChar('z');
 		} else {
 			for (int i = 0; i < bIndex + 1; i++) {

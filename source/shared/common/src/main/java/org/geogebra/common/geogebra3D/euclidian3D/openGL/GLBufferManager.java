@@ -30,6 +30,7 @@ abstract class GLBufferManager {
 
 	/** alpha value for invisible geometries */
 	static final int ALPHA_INVISIBLE = -1;
+
 	protected final ManagerShaders manager;
 
 	private final Index currentIndex;
@@ -37,6 +38,7 @@ abstract class GLBufferManager {
 	protected Index currentLengths;
 	/** current buffer segment */
 	protected BufferSegment currentBufferSegment;
+
 	private final TreeMap<Index, BufferSegment> bufferSegments;
 	/** indices index for writing */
 	protected int indicesIndex;
@@ -62,7 +64,7 @@ abstract class GLBufferManager {
 	int layer;
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 *            curve size
 	 * @return elements length for given curve size
@@ -72,7 +74,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param elementsLength
 	 *            elements length
 	 * @return size for given curve elements length
@@ -82,7 +84,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 *            curve size
 	 * @return indices length for given curve size
@@ -106,7 +108,7 @@ abstract class GLBufferManager {
 
 	/**
 	 * set current geometry set and geometry indices
-	 * 
+	 *
 	 * @param index
 	 *            geometry set index
 	 * @param geometryIndex
@@ -117,7 +119,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param array
 	 *            array
 	 * @param length
@@ -129,7 +131,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param array
 	 *            array
 	 * @param length
@@ -141,7 +143,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param array
 	 *            array
 	 */
@@ -151,7 +153,7 @@ abstract class GLBufferManager {
 
 	/**
 	 * set colors buffer
-	 * 
+	 *
 	 * @param color
 	 *            color
 	 */
@@ -161,7 +163,7 @@ abstract class GLBufferManager {
 
 	/**
 	 * set layer
-	 * 
+	 *
 	 * @param layer
 	 *            layer
 	 */
@@ -174,13 +176,12 @@ abstract class GLBufferManager {
 	 */
 	protected void setAlphaToTransparent() {
 		currentBufferPack.setAlphaToTransparent(
-				currentBufferSegment.elementsOffset,
-				currentBufferSegment.getElementsLength());
+				currentBufferSegment.elementsOffset, currentBufferSegment.getElementsLength());
 	}
 
 	/**
 	 * update color for all geometries from geometry set index
-	 * 
+	 *
 	 * @param index
 	 *            geometry set index
 	 * @param geometriesLength
@@ -190,14 +191,15 @@ abstract class GLBufferManager {
 	 * @param objLayer
 	 *            layer
 	 */
-	void updateColorAndLayer(int index, int geometriesLength,
-			GColor objColor, int objLayer) {
+	void updateColorAndLayer(int index, int geometriesLength, GColor objColor, int objLayer) {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			if (currentBufferSegment != null) {
 				currentBufferPack = currentBufferSegment.bufferPack;
-				currentBufferPack.setColorAndLayer(objColor, objLayer,
+				currentBufferPack.setColorAndLayer(
+						objColor,
+						objLayer,
 						currentBufferSegment.elementsOffset,
 						currentBufferSegment.getElementsLength());
 			}
@@ -206,7 +208,7 @@ abstract class GLBufferManager {
 
 	/**
 	 * update visibility for all geometries from geometry set index
-	 * 
+	 *
 	 * @param index
 	 *            geometry set index
 	 * @param start
@@ -220,8 +222,8 @@ abstract class GLBufferManager {
 	 * @param objLayer
 	 *            object layer
 	 */
-	void updateVisibility(int index, int start, int geometriesLength, boolean visible,
-			int alpha, int objLayer) {
+	void updateVisibility(
+			int index, int start, int geometriesLength, boolean visible, int alpha, int objLayer) {
 		int alphaOrInvisible = visible ? alpha : ALPHA_INVISIBLE;
 		for (int i = start; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
@@ -235,7 +237,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 *            geometry set index
 	 * @param geometriesLength
@@ -275,7 +277,7 @@ abstract class GLBufferManager {
 
 	/**
 	 * add buffer segment to available list
-	 * 
+	 *
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
@@ -300,18 +302,18 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param size
 	 *            geometry size
 	 * @param type
 	 *            element type
 	 * @return indices length for this size
 	 */
-	abstract protected int calculateIndicesLength(int size, TypeElement type);
+	protected abstract int calculateIndicesLength(int size, TypeElement type);
 
 	/**
 	 * put indices to buffer
-	 * 
+	 *
 	 * @param size
 	 *            geometry size
 	 * @param type
@@ -319,11 +321,9 @@ abstract class GLBufferManager {
 	 * @param reuseSegment
 	 *            says if it is reusing a segment
 	 */
-	abstract protected void putIndices(int size, TypeElement type,
-			boolean reuseSegment);
+	protected abstract void putIndices(int size, TypeElement type, boolean reuseSegment);
 
-	private boolean currentBufferSegmentDoesNotFit(int indicesLength,
-			TypeElement type) {
+	private boolean currentBufferSegmentDoesNotFit(int indicesLength, TypeElement type) {
 		if (checkCurrentBufferSegmentDoesNotFit(indicesLength, type)) {
 			addCurrentToAvailableSegments();
 			return true;
@@ -332,22 +332,21 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param indicesLength
 	 *            indices length
 	 * @param type
 	 *            element type
 	 * @return true if current buffer segment doesn't fit length and type
 	 */
-	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength,
-			TypeElement type) {
+	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength, TypeElement type) {
 		return elementsLength != currentBufferSegment.getElementsLength()
 				|| indicesLength != currentBufferSegment.getIndicesLength();
 	}
 
 	/**
 	 * set indices
-	 * 
+	 *
 	 * @param size
 	 *            size to set
 	 * @param type
@@ -363,12 +362,10 @@ abstract class GLBufferManager {
 			currentLengths.set(elementsLength, indicesLength);
 			currentBufferSegment = getAvailableSegment();
 			if (currentBufferSegment == null) {
-				if (currentBufferPack == null || !currentBufferPack
-						.canAdd(elementsLength, indicesLength)) {
+				if (currentBufferPack == null || !currentBufferPack.canAdd(elementsLength, indicesLength)) {
 					useAnotherBufferPack();
 				}
-				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength,
-						indicesLength);
+				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength, indicesLength);
 				addToLengthToCurrentBufferPack(elementsLength, indicesLength);
 			} else {
 				reuseSegment = true;
@@ -394,14 +391,13 @@ abstract class GLBufferManager {
 		textureArray = null;
 	}
 
-	protected void addToLengthToCurrentBufferPack(int elementsLengthToAdd,
-			int indicesLengthToAdd) {
+	protected void addToLengthToCurrentBufferPack(int elementsLengthToAdd, int indicesLengthToAdd) {
 		currentBufferPack.addToLength(elementsLengthToAdd, indicesLengthToAdd);
 	}
 
 	/**
 	 * set elements to current buffer pack
-	 * 
+	 *
 	 * @param reuseSegment
 	 *            says if segment is reused
 	 * @param type
@@ -413,19 +409,19 @@ abstract class GLBufferManager {
 
 	/**
 	 * put index in indices buffer, using current buffer pack and segment
-	 * 
+	 *
 	 * @param index
 	 *            index to write
 	 */
 	protected void putToIndices(int index) {
-		currentBufferPack.putToIndices(indicesIndex,
-				(short) (currentBufferSegment.elementsOffset + index));
+		currentBufferPack.putToIndices(
+				indicesIndex, (short) (currentBufferSegment.elementsOffset + index));
 		indicesIndex++;
 	}
 
 	/**
 	 * draw buffer packs
-	 * 
+	 *
 	 * @param r
 	 *            renderer
 	 */
@@ -457,19 +453,19 @@ abstract class GLBufferManager {
 
 	/**
 	 * WARNING: must be power of 2, and less than ELEMENT_SIZE_MAX = Short.MAX_VALUE
-	 * 
+	 *
 	 * @return elements size at start
 	 */
-	abstract protected int getElementSizeStart();
+	protected abstract int getElementSizeStart();
 
 	/**
-	 * 
+	 *
 	 * @return indices size at start
 	 */
-	abstract protected int getIndicesSizeStart();
+	protected abstract int getIndicesSizeStart();
 
 	/**
-	 * 
+	 *
 	 * @return current buffer segment elements length
 	 */
 	int getCurrentElementsLength() {
@@ -477,25 +473,23 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return vertex buffer positioned to current buffer segment offset
 	 */
 	GLBuffer getCurrentBufferVertices() {
-		return currentBufferSegment.bufferPack
-				.getVertexBuffer(currentBufferSegment.elementsOffset * 3);
+		return currentBufferSegment.bufferPack.getVertexBuffer(currentBufferSegment.elementsOffset * 3);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return normal buffer positioned to current buffer segment offset
 	 */
 	GLBuffer getCurrentBufferNormals() {
-		return currentBufferSegment.bufferPack
-				.getNormalBuffer(currentBufferSegment.elementsOffset * 3);
+		return currentBufferSegment.bufferPack.getNormalBuffer(currentBufferSegment.elementsOffset * 3);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current buffer segment elements offset
 	 */
 	int getCurrentElementsOffset() {
@@ -503,7 +497,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current buffer segment indices length
 	 */
 	int getCurrentIndicesLength() {
@@ -511,12 +505,11 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return indices buffer positioned to current buffer segment offset
 	 */
 	GLBufferIndices getCurrentBufferIndices() {
-		return currentBufferSegment.bufferPack
-				.getIndicesBuffer(currentBufferSegment.indicesOffset);
+		return currentBufferSegment.bufferPack.getIndicesBuffer(currentBufferSegment.indicesOffset);
 	}
 
 	/**
@@ -527,7 +520,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if buffer manager for creating points templates
 	 */
 	boolean isTemplateForPoints() {
@@ -535,7 +528,7 @@ abstract class GLBufferManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * use another buffer pack
 	 */
 	protected void useAnotherBufferPack() {
@@ -545,7 +538,7 @@ abstract class GLBufferManager {
 
 	/**
 	 * put to indices for curve
-	 * 
+	 *
 	 * @param size
 	 *            curve size
 	 */

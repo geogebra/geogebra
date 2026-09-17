@@ -35,8 +35,8 @@ public class CurvePlotterUtils {
 	 *            coordinate system to be applied on 2D points
 	 * @return last point drawn
 	 */
-	static public double[] draw(PathPlotter gp,
-			List<? extends MyPoint> pointList, CoordSys transformSys) {
+	public static double[] draw(
+			PathPlotter gp, List<? extends MyPoint> pointList, CoordSys transformSys) {
 		double[] coords = gp.newDoubleArray();
 		int size = pointList.size();
 		boolean supports = gp.supports(transformSys);
@@ -75,8 +75,7 @@ public class CurvePlotterUtils {
 		return coords;
 	}
 
-	private static double[] moveTo(PathPlotter gp, double[] coords,
-			double[] previousLastMove) {
+	private static double[] moveTo(PathPlotter gp, double[] coords, double[] previousLastMove) {
 		double[] lastMove;
 		if (previousLastMove != null) {
 			gp.lineTo(previousLastMove);

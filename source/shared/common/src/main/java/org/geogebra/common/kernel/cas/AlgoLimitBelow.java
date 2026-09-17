@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Find a limit
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoLimitBelow extends AlgoLimit {
@@ -37,8 +37,7 @@ public class AlgoLimitBelow extends AlgoLimit {
 	 * @param num
 	 *            number
 	 */
-	public AlgoLimitBelow(Construction cons, String label, GeoFunction f,
-			GeoNumberValue num) {
+	public AlgoLimitBelow(Construction cons, String label, GeoFunction f, GeoNumberValue num) {
 		super(cons, label, f, num);
 	}
 
@@ -51,5 +50,4 @@ public class AlgoLimitBelow extends AlgoLimit {
 	protected int getDirection() {
 		return 1;
 	}
-
 }

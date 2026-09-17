@@ -33,21 +33,20 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Creates a Normal Quantile Plot.
- * 
+ *
  * Input: list of unsorted raw numeric data Output: list containing (1) points
  * forming a normal quantile plot for the raw data and (2) a linear function for
  * the qq line.
- * 
+ *
  * Point ordering: x-coords = data values y-coords = expected z-scores
- * 
- * 
+ *
+ *
  * The algorithm follows the description given by:
  * http://en.wikipedia.org/wiki/Normal_probability_plot
  * http://www.itl.nist.gov/div898/handbook/eda/section3/normprpl.htm
- * 
+ *
  * @author G.Sturr
  */
-
 public class AlgoNormalQuantilePlot extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -68,8 +67,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	 * @param inputList
 	 *            list of numbers
 	 */
-	public AlgoNormalQuantilePlot(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoNormalQuantilePlot(Construction cons, String label, GeoList inputList) {
 		this(cons, inputList);
 		outputList.setLabel(label);
 	}
@@ -136,7 +134,6 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 			// ArithmeticException
 			Log.debug(e);
 		}
-
 	}
 
 	private GeoSegment getQQLineSegment() {
@@ -194,7 +191,6 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 			GeoElement extraGeo = outputList.get(i);
 			extraGeo.remove();
 			outputList.remove(extraGeo);
-
 		}
 		int oldListSize = outputList.size();
 
@@ -210,15 +206,11 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 					outputList.add(new GeoPoint(cons, sortedData[i], zValues[i], 1.0));
 				}
 			} else {
-				outputList.add(
-						new GeoPoint(cons, sortedData[i],
-						zValues[i], 1.0));
+				outputList.add(new GeoPoint(cons, sortedData[i], zValues[i], 1.0));
 			}
 		}
 
 		// create qq line segment and add it to the list
 		outputList.add(getQQLineSegment());
-
 	}
-
 }

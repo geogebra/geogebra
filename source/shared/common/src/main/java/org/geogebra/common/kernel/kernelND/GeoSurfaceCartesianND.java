@@ -45,13 +45,12 @@ import org.geogebra.common.util.ExtendedBoolean;
 
 /**
  * Abstract class for cartesian curves in any dimension
- * 
+ *
  * @author Mathieu
  *
  */
 public abstract class GeoSurfaceCartesianND extends GeoElement
-		implements SurfaceEvaluable, Translateable, Dilateable,
-		CasEvaluableFunction {
+		implements SurfaceEvaluable, Translateable, Dilateable, CasEvaluableFunction {
 	protected static final int BIVARIATE_SAMPLES = 8;
 	protected static final int BIVARIATE_JUMPS = 10;
 	private static final int GRADIENT_JUMPS = 100;
@@ -71,6 +70,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	/** flag for isDefined() */
 	protected boolean isDefined = true;
+
 	private ExpressionNode point;
 	protected double[] xyz;
 	protected double[] xyzDu;
@@ -90,7 +90,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -105,7 +105,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	/**
 	 * constructor with functions
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param point
@@ -113,8 +113,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 * @param fun
 	 *            functions
 	 */
-	public GeoSurfaceCartesianND(Construction c, ExpressionNode point,
-			FunctionNVar[] fun) {
+	public GeoSurfaceCartesianND(Construction c, ExpressionNode point, FunctionNVar[] fun) {
 		this(c);
 		this.fun = fun;
 		this.point = point;
@@ -141,11 +140,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			functionExpander = new FunctionExpander();
 		}
 		for (int i = 0; i < fun.length; i++) {
-			ExpressionValue ve = fun[i].deepCopy(getKernel())
-					.traverse(functionExpander);
+			ExpressionValue ve = fun[i].deepCopy(getKernel()).traverse(functionExpander);
 			for (int j = 0; j < vars.length; j++) {
-				fun1[j][i] = new FunctionNVar(
-						ve.derivative(vars[j], getKernel()).wrap(), vars);
+				fun1[j][i] = new FunctionNVar(ve.derivative(vars[j], getKernel()).wrap(), vars);
 			}
 		}
 	}
@@ -175,11 +172,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				functionExpander = new FunctionExpander();
 			}
 			for (int i = 0; i < fun.length; i++) {
-				ExpressionValue ve = fun1[k][i].deepCopy(getKernel())
-						.traverse(functionExpander);
+				ExpressionValue ve = fun1[k][i].deepCopy(getKernel()).traverse(functionExpander);
 				for (int j = 0; j < vars.length; j++) {
-					fun2[k][j][i] = new FunctionNVar(
-							ve.derivative(vars[j], getKernel()).wrap(), vars);
+					fun2[k][j][i] = new FunctionNVar(ve.derivative(vars[j], getKernel()).wrap(), vars);
 					// Log.debug(k + "," + j + "," + i + ": " + fun2[k][j][i]);
 				}
 			}
@@ -198,7 +193,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	/**
 	 * Replaces geo and all its dependent geos in this function's expression by
 	 * copies of their values.
-	 * 
+	 *
 	 * @param geo
 	 *            Element to be replaced
 	 */
@@ -213,7 +208,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	/**
 	 * Sets the start and end parameter value of this curve.
-	 * 
+	 *
 	 * @param startParam
 	 *            start parameter
 	 * @param endParam
@@ -234,7 +229,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 *            index of parameter
 	 * @return the ith start parameter value for this surface (may be
 	 *         Double.NEGATIVE_INFINITY)
-	 * 
+	 *
 	 */
 	@Override
 	public double getMinParameter(int i) {
@@ -246,7 +241,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 *            index of parameter
 	 * @return the largest possible ith parameter value for this surface (may be
 	 *         Double.POSITIVE_INFINITY)
-	 * 
+	 *
 	 */
 	@Override
 	public double getMaxParameter(int i) {
@@ -264,7 +259,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	@Override
-	final public boolean isDefined() {
+	public final boolean isDefined() {
 		return isDefined && fun != null && (point == null || point.isDefined());
 	}
 
@@ -304,14 +299,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		sbToString.append(label);
 		sbToString.append('(');
 		if (complexVariable != null) {
-			sbToString
-					.append(complexVariable.toString(tpl));
+			sbToString.append(complexVariable.toString(tpl));
 		} else {
-			sbToString
-					.append(fun[0].getFunctionVariables()[0].toString(tpl));
+			sbToString.append(fun[0].getFunctionVariables()[0].toString(tpl));
 			sbToString.append(',');
-			sbToString
-					.append(fun[0].getFunctionVariables()[1].toString(tpl));
+			sbToString.append(fun[0].getFunctionVariables()[1].toString(tpl));
 		}
 		sbToString.append(") = ");
 		sbToString.append(toValueString(tpl));
@@ -447,7 +439,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	/**
 	 * calc closest point to line (x0,y0,z0) (vx,vy,vz) with (uold, vold) start
 	 * parameters
-	 * 
+	 *
 	 * @param x0
 	 *            point x
 	 * @param y0
@@ -462,11 +454,18 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 *            direction z
 	 * @param xyzuv1
 	 *            output coords
-	 * 
+	 *
 	 * @return true if found
 	 */
-	protected boolean getClosestParameters(double uold, double vold, double x0,
-			double y0, double z0, double vx, double vy, double vz,
+	protected boolean getClosestParameters(
+			double uold,
+			double vold,
+			double x0,
+			double y0,
+			double z0,
+			double vx,
+			double vy,
+			double vz,
 			double[] xyzuv1) {
 
 		// check (uold,vold) are correct starting parameters
@@ -513,8 +512,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	// private static final int GRADIENT_SAMPLES = 8;
 
-	private boolean findMinimumDistanceGradient(double x0, double y0, double z0,
-			double vx, double vy, double vz, double[] uvOut) {
+	private boolean findMinimumDistanceGradient(
+			double x0, double y0, double z0, double vx, double vy, double vz, double[] uvOut) {
 
 		for (int i = 0; i < GRADIENT_JUMPS; i++) {
 			// calc current f(u,v) point
@@ -627,11 +626,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			if (DoubleUtil.isZero(gnorm)) {
 				return true;
 			}
-
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -645,8 +642,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 *            (x,y,z,u,v) where x,y,z are coords of closest point and u,v
 	 *            are parameters
 	 */
-	protected void getClosestParameters(double x0, double y0, double z0,
-			double[] xzyzuvOut) {
+	protected void getClosestParameters(double x0, double y0, double z0, double[] xzyzuvOut) {
 
 		// set derivatives if needed
 		setSecondDerivatives();
@@ -707,8 +703,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		}
 	}
 
-	private double findBivariateNormalZero(double x0, double y0, double z0,
-			double[] uvOut) {
+	private double findBivariateNormalZero(double x0, double y0, double z0, double[] uvOut) {
 
 		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 			// compare point to current f(u,v) point
@@ -755,21 +750,28 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			}
 
 			// set jacobian matrix
-			double xyzDuDv = xyzDu[0] * xyzDv[0] + xyzDu[1] * xyzDv[1]
-					+ xyzDu[2] * xyzDv[2];
-			jacobian.set(1, 1,
-					xyzDu[0] * xyzDu[0] + xyzDu[1] * xyzDu[1]
-							+ xyzDu[2] * xyzDu[2] + dx * xyzDuu[0]
-							+ dy * xyzDuu[1] + dz * xyzDuu[2]);
-			jacobian.set(1, 2,
-					xyzDuDv + dx * xyzDuv[0] + dy * xyzDuv[1] + dz * xyzDuv[2]);
+			double xyzDuDv = xyzDu[0] * xyzDv[0] + xyzDu[1] * xyzDv[1] + xyzDu[2] * xyzDv[2];
+			jacobian.set(
+					1,
+					1,
+					xyzDu[0] * xyzDu[0]
+							+ xyzDu[1] * xyzDu[1]
+							+ xyzDu[2] * xyzDu[2]
+							+ dx * xyzDuu[0]
+							+ dy * xyzDuu[1]
+							+ dz * xyzDuu[2]);
+			jacobian.set(1, 2, xyzDuDv + dx * xyzDuv[0] + dy * xyzDuv[1] + dz * xyzDuv[2]);
 
-			jacobian.set(2, 1,
-					xyzDuDv + dx * xyzDvu[0] + dy * xyzDvu[1] + dz * xyzDvu[2]);
-			jacobian.set(2, 2,
-					xyzDv[0] * xyzDv[0] + xyzDv[1] * xyzDv[1]
-							+ xyzDv[2] * xyzDv[2] + dx * xyzDvv[0]
-							+ dy * xyzDvv[1] + dz * xyzDvv[2]);
+			jacobian.set(2, 1, xyzDuDv + dx * xyzDvu[0] + dy * xyzDvu[1] + dz * xyzDvu[2]);
+			jacobian.set(
+					2,
+					2,
+					xyzDv[0] * xyzDv[0]
+							+ xyzDv[1] * xyzDv[1]
+							+ xyzDv[2] * xyzDv[2]
+							+ dx * xyzDvv[0]
+							+ dy * xyzDvv[1]
+							+ dz * xyzDvv[2]);
 
 			// solve jacobian
 			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
@@ -785,31 +787,25 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 			// check bounds
 			randomBackInIntervalsIfNeeded(uvOut);
-
 		}
 
 		return Double.NaN;
-
 	}
 
 	/**
 	 * check if parameters u, v are between min/max parameters; if not, replace
 	 * by a random number in interval
-	 * 
+	 *
 	 * @param uvInOut
 	 *            u,v parameters
 	 */
 	public void randomBackInIntervalsIfNeeded(double[] uvInOut) {
-		if (uvInOut[0] > getMaxParameter(0)
-				|| uvInOut[0] < getMinParameter(0)) {
-			uvInOut[0] = getRandomBetween(getMinParameter(0),
-					getMaxParameter(0));
+		if (uvInOut[0] > getMaxParameter(0) || uvInOut[0] < getMinParameter(0)) {
+			uvInOut[0] = getRandomBetween(getMinParameter(0), getMaxParameter(0));
 		}
 
-		if (uvInOut[1] > getMaxParameter(1)
-				|| uvInOut[1] < getMinParameter(1)) {
-			uvInOut[1] = getRandomBetween(getMinParameter(1),
-					getMaxParameter(1));
+		if (uvInOut[1] > getMaxParameter(1) || uvInOut[1] < getMinParameter(1)) {
+			uvInOut[1] = getRandomBetween(getMinParameter(1), getMaxParameter(1));
 		}
 	}
 
@@ -847,7 +843,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	/**
 	 * Mirror in point.
-	 * 
+	 *
 	 * @param Q
 	 *            center
 	 */
@@ -860,11 +856,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		translate(P.mul(-1));
 		for (int i = 0; i < 3; i++) {
 			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
-			fun[i].setExpression(new ExpressionNode(kernel, ratio,
-					Operation.MULTIPLY, expr));
+			fun[i].setExpression(new ExpressionNode(kernel, ratio, Operation.MULTIPLY, expr));
 		}
 		translate(P);
-
 	}
 
 	@Override
@@ -878,8 +872,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	@Override
-	public void setUsingCasCommand(String ggbCasCmd, AlgebraicExpression f,
-			boolean symbolic, ArbitraryConstantRegistry arbconst) {
+	public void setUsingCasCommand(
+			String ggbCasCmd,
+			AlgebraicExpression f,
+			boolean symbolic,
+			ArbitraryConstantRegistry arbconst) {
 		GeoSurfaceCartesianND c = (GeoSurfaceCartesianND) f;
 
 		if (c.getDefinition() != null) {
@@ -900,7 +897,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public FunctionVariable[] getFunctionVariables() {
 		if (complexVariable != null) {
-			return new FunctionVariable[]{complexVariable};
+			return new FunctionVariable[] {complexVariable};
 		}
 		return fun[0].getFunctionVariables();
 	}
@@ -987,7 +984,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 			if (point != null && otherSurface.point != null) {
 				return isDifferenceZeroInCAS(other);
 			} else {
-				return fun.length == otherSurface.fun.length ? ExtendedBoolean.UNKNOWN
+				return fun.length == otherSurface.fun.length
+						? ExtendedBoolean.UNKNOWN
 						: ExtendedBoolean.FALSE;
 			}
 		}
@@ -997,8 +995,10 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public String getAssignmentLHS(StringTemplate tpl) {
 		if (complexVariable != null) {
-			return tpl.printVariableName(label) + tpl.leftBracket(kernel.getLocalization())
-					+ getVarString(tpl) + tpl.rightBracket(kernel.getLocalization());
+			return tpl.printVariableName(label)
+					+ tpl.leftBracket(kernel.getLocalization())
+					+ getVarString(tpl)
+					+ tpl.rightBracket(kernel.getLocalization());
 		}
 		return super.getAssignmentLHS(tpl);
 	}
@@ -1021,8 +1021,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public boolean isMoveable() { // to make SetValue work
-		return getDefinition() != null
-				&& !getDefinition().any(Inspecting::isDynamicGeoElement);
+		return getDefinition() != null && !getDefinition().any(Inspecting::isDynamicGeoElement);
 	}
 
 	public FunctionVariable getComplexVariable() {

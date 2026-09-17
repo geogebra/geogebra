@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.matrix.Coords;
 /**
  *
  * @author ggb3D
- * 
+ *
  *         Calculate the ortho vector of a plane (or polygon, ...)
- * 
+ *
  */
 public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
@@ -47,7 +47,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param label
@@ -60,8 +60,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 		vCoords = new Coords(4);
 		this.plane = plane;
 		vector = new GeoVector3D(cons);
-		setInputOutput(new GeoElement[] { (GeoElement) plane },
-				new GeoElement[] { vector });
+		setInputOutput(new GeoElement[] {(GeoElement) plane}, new GeoElement[] {vector});
 
 		compute();
 		vector.setLabel(label);
@@ -69,7 +68,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
 	/**
 	 * return the ortho vector
-	 * 
+	 *
 	 * @return the ortho vector
 	 */
 	public GeoVector3D getVector() {
@@ -109,10 +108,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("VectorPerpendicularToA",
-				plane.getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc().getPlain("VectorPerpendicularToA", plane.getLabel(tpl));
 	}
-
 }

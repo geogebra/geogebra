@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 
 /**
  * Try to expand the given function to a polynomial.
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoPolynomialFromFunction extends AlgoElement {
@@ -42,8 +42,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 	 * @param f
 	 *            function, possibly polynomial
 	 */
-	public AlgoPolynomialFromFunction(Construction cons, String label,
-			GeoFunctionable f) {
+	public AlgoPolynomialFromFunction(Construction cons, String label, GeoFunctionable f) {
 		super(cons);
 		this.f = f;
 
@@ -86,8 +85,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 		Function inFun = f.getFunction();
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),
-				false, false);
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false, false);
 
 		if (poly == null) {
 			g.setDefined(false);
@@ -96,8 +94,7 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 
 		double[] coeffs = poly.getCoeffs();
 
-		Function polyFun = AlgoPolynomialFromCoordinates
-				.buildPolyFunctionExpression(kernel, coeffs);
+		Function polyFun = AlgoPolynomialFromCoordinates.buildPolyFunctionExpression(kernel, coeffs);
 
 		if (polyFun == null) {
 			g.setUndefined();
@@ -107,5 +104,4 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 		g.setFunction(polyFun);
 		g.setDefined(true);
 	}
-
 }

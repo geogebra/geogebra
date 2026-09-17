@@ -27,7 +27,8 @@ public interface DrawInline extends RemoveNeeded, HasTransformation {
 
 	/** Type of event that triggered suspension. */
 	enum SuspensionTrigger {
-		RESIZE, BLUR
+		RESIZE,
+		BLUR
 	}
 
 	/**

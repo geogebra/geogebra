@@ -48,8 +48,8 @@ public final class ComponentDropDownPopup {
 	 * @param labelKey label
 	 * @param anchor to align the selected item.
 	 */
-	public ComponentDropDownPopup(AppW app, int itemHeight, Widget anchor, String labelKey,
-			Runnable onClose) {
+	public ComponentDropDownPopup(
+			AppW app, int itemHeight, Widget anchor, String labelKey, Runnable onClose) {
 		this.app = app;
 		this.itemHeight = itemHeight;
 		this.anchor = anchor;
@@ -118,8 +118,8 @@ public final class ComponentDropDownPopup {
 	public void positionAtBottomAnchor() {
 		int anchorBottom = (int) (anchor.getElement().getAbsoluteBottom() - app.getAbsTop());
 		int spaceBottom = (int) (app.getHeight() - anchorBottom);
-		int spaceTop = (int) (anchor.getElement().getAbsoluteTop() - app.getAbsTop()
-				- MARGIN_FROM_SCREEN);
+		int spaceTop =
+				(int) (anchor.getElement().getAbsoluteTop() - app.getAbsTop() - MARGIN_FROM_SCREEN);
 		int minSpaceBottom = 3 * getItemHeight() + MARGIN_FROM_SCREEN + POPUP_PADDING;
 		int popupHeight = getPopupHeight();
 
@@ -131,7 +131,8 @@ public final class ComponentDropDownPopup {
 	}
 
 	private void showAtTopOfAnchor(int popupHeight, int spaceTop) {
-		int popupTop = popupHeight > spaceTop ? MARGIN_FROM_SCREEN
+		int popupTop = popupHeight > spaceTop
+				? MARGIN_FROM_SCREEN
 				: (int) (anchor.asWidget().getAbsoluteTop() - app.getAbsTop() - popupHeight);
 		showAtPoint(getLeft(), popupTop);
 
@@ -208,7 +209,7 @@ public final class ComponentDropDownPopup {
 	 * @param x - horizontal pos
 	 * @param y - vertical pos
 	 */
-	private void showAtPoint(int x, int  y) {
+	private void showAtPoint(int x, int y) {
 		menu.showAtPoint(x, y);
 		Scheduler.get().scheduleDeferred(() -> {
 			menu.getPopupPanel().addStyleName("show");

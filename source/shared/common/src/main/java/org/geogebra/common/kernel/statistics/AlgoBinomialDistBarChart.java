@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * @author G. Sturr
  * @version 2011-06-21
  */
-
 public class AlgoBinomialDistBarChart extends AlgoBarChart {
 
 	/**
@@ -41,10 +40,9 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 	 * @param p
 	 *            probability of success
 	 */
-	public AlgoBinomialDistBarChart(Construction cons, String label,
-			GeoNumberValue n, GeoNumberValue p) {
-		super(cons, label, n, p, null, null,
-				AlgoBarChart.TYPE_BARCHART_BINOMIAL);
+	public AlgoBinomialDistBarChart(
+			Construction cons, String label, GeoNumberValue n, GeoNumberValue p) {
+		super(cons, label, n, p, null, null, AlgoBarChart.TYPE_BARCHART_BINOMIAL);
 	}
 
 	/**
@@ -59,17 +57,24 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 	 * @param isCumulative
 	 *            cumulative
 	 */
-	public AlgoBinomialDistBarChart(Construction cons, String label,
-			GeoNumberValue n, GeoNumberValue p, GeoBoolean isCumulative) {
-		super(cons, label, n, p, null, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_BINOMIAL);
+	public AlgoBinomialDistBarChart(
+			Construction cons,
+			String label,
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoBoolean isCumulative) {
+		super(cons, label, n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_BINOMIAL);
 	}
 
-	private AlgoBinomialDistBarChart(GeoNumberValue n, GeoNumberValue p,
-			GeoBoolean isCumulative, GeoNumberValue a, GeoNumberValue b,
-			double[] vals, double[] borders) {
-		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_BINOMIAL, a,
-				b, vals, borders);
+	private AlgoBinomialDistBarChart(
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoBoolean isCumulative,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			double[] vals,
+			double[] borders) {
+		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_BINOMIAL, a, b, vals, borders);
 	}
 
 	@Override
@@ -86,10 +91,11 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 
 		return new AlgoBinomialDistBarChart(
 				(GeoNumberValue) this.getP1().deepCopy(kernel),
-				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
+				(GeoNumberValue) this.getP2().deepCopy(kernel),
+				b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()));
+				Cloner.clone(getValues()),
+				Cloner.clone(getLeftBorder()));
 	}
-
 }

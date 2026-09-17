@@ -116,8 +116,7 @@ public class IntervalNodePowerEvaluator {
 		return NegPowerResult.deferred();
 	}
 
-	private NegPowerResult calculateNegPowerInverted(IntervalExpressionNode node,
-			IntervalSet base) {
+	private NegPowerResult calculateNegPowerInverted(IntervalExpressionNode node, IntervalSet base) {
 		NegPowerResult left = calculateNegPowerConnected(node, leftRayFromInverted(base));
 		NegPowerResult right = calculateNegPowerConnected(node, rightRayFromInverted(base));
 		if (!left.handled || !right.handled) {
@@ -126,8 +125,7 @@ public class IntervalNodePowerEvaluator {
 		return NegPowerResult.handled(combineRayResults(left.result, right.result));
 	}
 
-	private NegPowerResult calculateNegPowerConnected(IntervalExpressionNode node,
-			IntervalSet base) {
+	private NegPowerResult calculateNegPowerConnected(IntervalExpressionNode node, IntervalSet base) {
 		if (isPositiveFraction(node)) {
 			return negativePowerConnected(base, node);
 		} else if (isNegativeFraction(node)) {
@@ -156,17 +154,15 @@ public class IntervalNodePowerEvaluator {
 		return node != null && node.value().isMinusOne();
 	}
 
-	private NegPowerResult negativePowerConnected(IntervalSet baseSet,
-			IntervalExpressionNode node) {
+	private NegPowerResult negativePowerConnected(IntervalSet baseSet, IntervalExpressionNode node) {
 		Interval nominator = node.getLeft().value();
 		if (nominator.isSingletonInteger()) {
 			Interval denominator = node.getRight().value();
 			if (denominator.isUndefined()) {
 				return NegPowerResult.handled(empty());
 			} else if (denominator.isSingletonInteger()) {
-				return NegPowerResult.handled(powerFractionConnected(baseSet,
-						(long) nominator.getLow(), (long) denominator.getLow()));
-
+				return NegPowerResult.handled(powerFractionConnected(
+						baseSet, (long) nominator.getLow(), (long) denominator.getLow()));
 			}
 		}
 		return NegPowerResult.deferred();
@@ -198,7 +194,8 @@ public class IntervalNodePowerEvaluator {
 		if (hasZero(base)) {
 			Interval interval = connectedInterval(base);
 			if (isOdd(denominator)) {
-				return connected(-Math.pow(-interval.getLow(), 1d / denominator),
+				return connected(
+						-Math.pow(-interval.getLow(), 1d / denominator),
 						Math.pow(interval.getHigh(), 1d / denominator));
 			}
 

@@ -29,8 +29,8 @@ import jsinterop.base.Js;
  */
 public class CSSEvents {
 
-	private static void runOnEvent(Runnable runnable, String eventName, elemental2.dom.Element root,
-			String classname) {
+	private static void runOnEvent(
+			Runnable runnable, String eventName, elemental2.dom.Element root, String classname) {
 		RegExp reClass = RegExp.compile(classname);
 		EventListener callback = new EventListener() {
 			@Override
@@ -61,8 +61,7 @@ public class CSSEvents {
 	 * @param classname
 	 *            class to be checked for the animation and removed afterwards
 	 */
-	public static void runOnAnimation(Runnable runnable, Element root,
-			String classname) {
+	public static void runOnAnimation(Runnable runnable, Element root, String classname) {
 		runOnEvent(runnable, "animationend", Js.uncheckedCast(root), classname);
 	}
 }

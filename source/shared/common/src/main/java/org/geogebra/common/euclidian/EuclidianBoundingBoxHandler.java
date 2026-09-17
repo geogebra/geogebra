@@ -18,7 +18,7 @@ package org.geogebra.common.euclidian;
 
 /**
  * handlers type for bounding box
- * 
+ *
  * @author csilla
  *
  */
@@ -95,10 +95,7 @@ public enum EuclidianBoundingBoxHandler implements ShapeManipulationHandler {
 
 	@Override
 	public boolean isAddHandler() {
-		return this == ADD_TOP
-				|| this == ADD_RIGHT
-				|| this == ADD_BOTTOM
-				|| this == ADD_LEFT;
+		return this == ADD_TOP || this == ADD_RIGHT || this == ADD_BOTTOM || this == ADD_LEFT;
 	}
 
 	public int getDx() {
@@ -108,5 +105,4 @@ public enum EuclidianBoundingBoxHandler implements ShapeManipulationHandler {
 	public int getDy() {
 		return dy;
 	}
-
 }

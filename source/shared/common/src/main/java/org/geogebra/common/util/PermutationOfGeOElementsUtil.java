@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 // http://stackoverflow.com/a/2799190
 /**
  * Utility Class to permute the array of GeoElements
- * 
+ *
  * @author Eyal Schneider, http://stackoverflow.com/a/2799190
  * @author Adaption: Christoph Stadlbauer
  */
@@ -70,7 +70,7 @@ class PermutationOfGeOElementsUtil {
 		int i = permSwaps.length - 1;
 		while (i >= 0 && permSwaps[i] == arr.length - 1) {
 			swap(i, permSwaps[i]); // Undo the swap represented by
-										// permSwaps[i]
+			// permSwaps[i]
 			permSwaps[i] = i;
 			i--;
 		}
@@ -93,5 +93,4 @@ class PermutationOfGeOElementsUtil {
 		arr[i] = arr[j];
 		arr[j] = tmp;
 	}
-
 }

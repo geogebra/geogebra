@@ -33,7 +33,7 @@ class Index implements Comparable<Index> {
 
 	/**
 	 * create a copy
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 */
@@ -43,7 +43,7 @@ class Index implements Comparable<Index> {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param v1
 	 *            first value
 	 * @param v2
@@ -56,7 +56,7 @@ class Index implements Comparable<Index> {
 
 	/**
 	 * set index parameters
-	 * 
+	 *
 	 * @param v1
 	 *            first parameter
 	 * @param v2
@@ -69,24 +69,22 @@ class Index implements Comparable<Index> {
 
 	/**
 	 * set index parameters
-	 * 
+	 *
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
 	void setAvailableLengths(BufferSegment bufferSegment) {
-		set(bufferSegment.getElementsAvailableLength(),
-				bufferSegment.getIndicesAvailableLength());
+		set(bufferSegment.getElementsAvailableLength(), bufferSegment.getIndicesAvailableLength());
 	}
 
 	/**
 	 * set index parameters
-	 * 
+	 *
 	 * @param bufferSegment
 	 *            buffer segment
 	 */
 	void setLengths(BufferSegment bufferSegment) {
-		set(bufferSegment.getElementsLength(),
-				bufferSegment.getIndicesLength());
+		set(bufferSegment.getElementsLength(), bufferSegment.getIndicesLength());
 	}
 
 	@Override

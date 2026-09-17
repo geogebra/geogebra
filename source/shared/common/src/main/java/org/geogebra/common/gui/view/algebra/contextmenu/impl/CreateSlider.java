@@ -29,8 +29,7 @@ import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
 
 /** Creates sliders from simple GeoSymbolics */
-public class CreateSlider implements MenuAction<GeoElement>,
-		AsyncOperation<GeoElementND> {
+public class CreateSlider implements MenuAction<GeoElement>, AsyncOperation<GeoElementND> {
 
 	private final AlgebraProcessor processor;
 	private final LabelController labelController;
@@ -40,8 +39,7 @@ public class CreateSlider implements MenuAction<GeoElement>,
 	 * @param processor processor
 	 * @param labelController label controller
 	 */
-	public CreateSlider(AlgebraProcessor processor,
-			LabelController labelController) {
+	public CreateSlider(AlgebraProcessor processor, LabelController labelController) {
 		this.processor = processor;
 		this.labelController = labelController;
 	}
@@ -68,8 +66,13 @@ public class CreateSlider implements MenuAction<GeoElement>,
 		}
 		GeoSymbolic symbolic = (GeoSymbolic) element;
 		symbolic.setEuclidianVisible(false);
-		processor.changeGeoElementNoExceptionHandling(symbolic, symbolic.getDefinition(),
-				new EvalInfo(false).withKeepDefinition(false), false, this, ErrorHelper.silent());
+		processor.changeGeoElementNoExceptionHandling(
+				symbolic,
+				symbolic.getDefinition(),
+				new EvalInfo(false).withKeepDefinition(false),
+				false,
+				this,
+				ErrorHelper.silent());
 	}
 
 	@Override

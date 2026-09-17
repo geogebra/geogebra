@@ -56,8 +56,8 @@ public final class OrderSubMenu extends AriaMenuBar {
 	}
 
 	private void addItem(String key, JsConsumer<List<GeoElement>> command) {
-		addItem(factory.newAriaMenuItem((ResourcePrototype) null,
-				app.getLocalization().getMenu(key), wrap(command)));
+		addItem(factory.newAriaMenuItem(
+				(ResourcePrototype) null, app.getLocalization().getMenu(key), wrap(command)));
 	}
 
 	private ScheduledCommand wrap(final JsConsumer<List<GeoElement>> command) {

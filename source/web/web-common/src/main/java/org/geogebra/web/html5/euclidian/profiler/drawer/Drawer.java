@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -53,11 +53,8 @@ class Drawer extends Timer {
 	}
 
 	private void initPointerEvent() {
-		pointerEvent =
-				new PointerEvent(
-						coordinate.getX(), coordinate.getY(),
-						PointerEventType.TOUCH,
-						mouseTouchGestureController);
+		pointerEvent = new PointerEvent(
+				coordinate.getX(), coordinate.getY(), PointerEventType.TOUCH, mouseTouchGestureController);
 	}
 
 	private void startTouch() {
@@ -66,8 +63,7 @@ class Drawer extends Timer {
 	}
 
 	private void moveTouch() {
-		mouseTouchGestureController
-				.onMouseMoveNow(pointerEvent, coordinate.getTime(), false);
+		mouseTouchGestureController.onMouseMoveNow(pointerEvent, coordinate.getTime(), false);
 	}
 
 	private void endTouch() {

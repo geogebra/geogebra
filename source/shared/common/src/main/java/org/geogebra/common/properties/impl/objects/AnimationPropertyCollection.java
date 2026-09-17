@@ -40,17 +40,22 @@ public class AnimationPropertyCollection extends AbstractPropertyCollection<Prop
 	 * @param elements the elements to control
 	 * @throws NotApplicablePropertyException if animation properties are not applicable
 	 */
-	public AnimationPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			AlgebraProcessor processor, Localization localization, List<GeoElement> elements)
+	public AnimationPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			AlgebraProcessor processor,
+			Localization localization,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "Animation");
-		setProperties(new Property[]{
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						(element) -> new AnimationSpeedProperty(processor, localization, element),
-						StringPropertyListFacade::new),
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						(element) -> new AnimationModeProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
+		setProperties(new Property[] {
+			propertiesFactory.createPropertyFacadeThrowing(
+					elements,
+					(element) -> new AnimationSpeedProperty(processor, localization, element),
+					StringPropertyListFacade::new),
+			propertiesFactory.createPropertyFacadeThrowing(
+					elements,
+					(element) -> new AnimationModeProperty(localization, element),
+					NamedEnumeratedPropertyListFacade::new),
 		});
 	}
 }

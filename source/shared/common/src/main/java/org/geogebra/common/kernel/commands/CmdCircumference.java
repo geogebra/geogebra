@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.Kernel;
 public class CmdCircumference extends CmdPerimeter {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */

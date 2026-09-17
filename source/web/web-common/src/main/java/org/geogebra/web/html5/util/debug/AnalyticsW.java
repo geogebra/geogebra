@@ -50,8 +50,7 @@ public class AnalyticsW extends Analytics {
 
 	@Override
 	protected void setDefaultEventParametersInternal(@NonNull Map<String, Object> params) {
-		if ("function".equals(Js.typeof(JsObject.of(analytics)
-				.get("setDefaultEventParameters")))) {
+		if ("function".equals(Js.typeof(JsObject.of(analytics).get("setDefaultEventParameters")))) {
 			analytics.setDefaultEventParameters(convertToJsPropertyMap(params));
 		}
 	}

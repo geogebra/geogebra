@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -71,6 +71,7 @@ public final class AlgebraViewItems {
 	 * as we identify grouping use cases.
 	 */
 	private final List<AlgebraViewItem> items = new ArrayList<>();
+
 	private final Map<Integer, AlgebraViewItem> itemsById = new HashMap<>();
 	private final Set<Integer> modifiedItemIds = new HashSet<>();
 	// TODO is AtomicInteger available with GWT? otherwise use simple int
@@ -105,9 +106,7 @@ public final class AlgebraViewItems {
 	 * @return The (ordered) list of item ids currently in the AV.
 	 */
 	public List<Integer> getItemIds() {
-		return items.stream()
-				.map(AlgebraViewItem::getId)
-				.collect(Collectors.toList());
+		return items.stream().map(AlgebraViewItem::getId).collect(Collectors.toList());
 	}
 
 	/**
@@ -172,8 +171,8 @@ public final class AlgebraViewItems {
 		int lastSiblingIndex = -1;
 		if (AlgebraItem.isCompactItem(geo)) {
 			// find position of last geo in our list that has the same parent algo
-			lastSiblingIndex = lastIndexWhere(item ->
-					item.geo.getParentAlgorithm() == geo.getParentAlgorithm());
+			lastSiblingIndex =
+					lastIndexWhere(item -> item.geo.getParentAlgorithm() == geo.getParentAlgorithm());
 		}
 		if (lastSiblingIndex == -1) {
 			newItem.index = items.size();
@@ -312,8 +311,8 @@ public final class AlgebraViewItems {
 		boolean isEngineeringNotationEnabled = algebraSettings.isEngineeringNotationEnabled();
 		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters =
 				algebraSettings.getAlgebraOutputFormatFilters();
-		AlgebraOutputFormat.switchToNextFormat(item.geo,
-				isEngineeringNotationEnabled, algebraOutputFormatFilters);
+		AlgebraOutputFormat.switchToNextFormat(
+				item.geo, isEngineeringNotationEnabled, algebraOutputFormatFilters);
 		app.getKernel().storeUndoInfo();
 		item.updateOutputFormat();
 	}
@@ -324,8 +323,8 @@ public final class AlgebraViewItems {
 	 * @param item The item.
 	 */
 	public void playButtonPressed(AlgebraViewItem item) {
-		boolean animating = !(item.geo.isAnimating()
-				&& item.geo.getKernel().getAnimationManager().isRunning());
+		boolean animating =
+				!(item.geo.isAnimating() && item.geo.getKernel().getAnimationManager().isRunning());
 		item.geo.setAnimating(animating);
 		item.geo.updateRepaint();
 		app.getKernel().notifyRepaint();

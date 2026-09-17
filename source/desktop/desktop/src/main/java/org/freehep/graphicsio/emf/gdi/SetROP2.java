@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * SetROP2 TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: SetROP2.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class SetROP2 extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		SetROP2 tag = new SetROP2(emf.readDWORD());
 		return tag;

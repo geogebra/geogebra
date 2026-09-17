@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,7 +29,7 @@ import org.hamcrest.TypeSafeMatcher;
 /**
  * Used for comparing multivariate polynomial equations which have to be in the
  * syntax of the CAS output (for example "(a * x^(2) + b * x + c) / a = 0")
- * 
+ *
  * @author Johannes Renner
  */
 public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
@@ -71,7 +71,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	/**
 	 * Tests if a polynomial equation is equal to another one ignoring the
 	 * ordering of the terms on each side of the '=' character.
-	 * 
+	 *
 	 * @param expected
 	 *            the expected polynomial equation
 	 * @return <b>true</b> if the equations are same (ignoring the term ordering
@@ -84,7 +84,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 
 	/**
 	 * Extracts the terms out of the equation
-	 * 
+	 *
 	 * @param equation
 	 *            the equation to handle
 	 * @param isExpectedResult
@@ -122,15 +122,14 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 
 	/**
 	 * Extracts all terms of the given parts of the equation
-	 * 
+	 *
 	 * @param parts
 	 *            the parts to handle
 	 * @param terms
 	 *            the array of {@link HashMap}s which contain all terms of the
 	 *            parts of the equation
 	 */
-	private static void extractTermsOfParts(String[] parts,
-			HashMap<String, String>[] terms) {
+	private static void extractTermsOfParts(String[] parts, HashMap<String, String>[] terms) {
 		for (int i = 0; i < parts.length; i++) {
 			String part = parts[i];
 
@@ -172,7 +171,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 
 	/**
 	 * Handles one term of the equation
-	 * 
+	 *
 	 * @param term
 	 *            the term to handle
 	 * @param sign
@@ -181,8 +180,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	 *            the {@link HashMap} which contains all terms of this part of
 	 *            the equation
 	 */
-	private static void handleTerm(String term, char sign,
-			HashMap<String, String> terms) {
+	private static void handleTerm(String term, char sign, HashMap<String, String> terms) {
 		String numericalFactor = "1";
 
 		String[] splitTerm = term.split("\\*");
@@ -214,14 +212,13 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	/**
 	 * Adds one variable to the given list, so that the list is alphabetically
 	 * ordered
-	 * 
+	 *
 	 * @param variable
 	 *            the variable to add to the list
 	 * @param list
 	 *            the list where the given variable will be added
 	 */
-	private static void addAlphabetically(String variable,
-			LinkedList<String> list) {
+	private static void addAlphabetically(String variable, LinkedList<String> list) {
 		if (list.isEmpty()) {
 			list.add(variable);
 			return;
@@ -243,7 +240,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	/**
 	 * Compares the expected result and the test result and returns if they are
 	 * equal or not
-	 * 
+	 *
 	 * @return true if the equations are equal (except their term ordering),
 	 *         false otherwise
 	 */
@@ -259,7 +256,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 
 	/**
 	 * Compares one side of the equation
-	 * 
+	 *
 	 * @param expectedTerms
 	 *            the array of the expected terms of all parts of one side of
 	 *            the equation
@@ -269,16 +266,15 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	 * @return true if the compared side of the expected result and the test
 	 *         result are equal, false otherwise
 	 */
-	private static boolean compareSide(HashMap<String, String>[] expectedTerms,
-			HashMap<String, String>[] testResultTerms) {
+	private static boolean compareSide(
+			HashMap<String, String>[] expectedTerms, HashMap<String, String>[] testResultTerms) {
 		for (int i = 0; i < expectedTerms.length; i++) {
 			Set<String> keys = expectedTerms[i].keySet();
 			Iterator<String> it = keys.iterator();
 			// compare the factors of every variable
 			while (it.hasNext()) {
 				String key = it.next();
-				if (!expectedTerms[i].get(key).equals(
-						testResultTerms[i].get(key))) {
+				if (!expectedTerms[i].get(key).equals(testResultTerms[i].get(key))) {
 					return false;
 				}
 			}

@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Compute a plane through a point and parallel to another plane (or polygon)
- * 
+ *
  *
  * @author Mathieu
  */
@@ -44,13 +44,13 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 	 * @param cs
 	 *            parallel plane
 	 */
-	public AlgoPlaneThroughPointAndPlane(Construction cons, String label,
-			GeoPointND point, GeoCoordSys2D cs) {
+	public AlgoPlaneThroughPointAndPlane(
+			Construction cons, String label, GeoPointND point, GeoCoordSys2D cs) {
 		super(cons, point);
 		this.cs = cs;
 
-		setInputOutput(new GeoElement[] { (GeoElement) point, (GeoElement) cs },
-				new GeoElement[] { getPlane() });
+		setInputOutput(
+				new GeoElement[] {(GeoElement) point, (GeoElement) cs}, new GeoElement[] {getPlane()});
 
 		// compute plane
 		compute();
@@ -84,12 +84,10 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 		} else {
 			coordsys.setEquationVector(o, inputCS.getVz());
 		}
-
 	}
 
 	@Override
 	protected GeoElement getSecondInput() {
 		return (GeoElement) cs;
 	}
-
 }

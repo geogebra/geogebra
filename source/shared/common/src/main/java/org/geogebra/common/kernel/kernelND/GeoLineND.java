@@ -31,7 +31,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	/**
 	 * returns the point at position lambda on the coord sys in the dimension
 	 * given
-	 * 
+	 *
 	 * @param dimension
 	 *            dimension of returned point
 	 * @param lambda
@@ -66,20 +66,20 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 
 	/**
 	 * see PathOrPoint
-	 * 
+	 *
 	 * @return min parameter
 	 */
 	double getMinParameter();
 
 	/**
 	 * see PathOrPoint
-	 * 
+	 *
 	 * @return max parameter
 	 */
 	double getMaxParameter();
 
 	/**
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 * @param minPrecision
@@ -100,7 +100,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	/**
 	 * when intersection point is calculated, check if not outside limited path
 	 * (segment, ray)
-	 * 
+	 *
 	 * @param coords
 	 *            point
 	 * @param eps
@@ -111,7 +111,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 
 	/**
 	 * check if the parameter is possible on the line
-	 * 
+	 *
 	 * @param parameter
 	 *            parameter
 	 * @return true if possible
@@ -140,7 +140,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	/**
 	 * Removes a point from list of points that are registered as points on this
 	 * line
-	 * 
+	 *
 	 * @param point
 	 *            point to be removed
 	 */
@@ -148,7 +148,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 
 	/**
 	 * Adds a point to the list of points that this line passes through.
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -156,7 +156,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 
 	/**
 	 * returns the distance from this line to line g.
-	 * 
+	 *
 	 * @param g
 	 *            line
 	 * @return distance distance between this and g
@@ -164,7 +164,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	double distance(GeoLineND g);
 
 	/**
-	 * 
+	 *
 	 * @return copy
 	 */
 	@Override
@@ -172,7 +172,7 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 
 	/**
 	 * make parallel line through (pointX, pointY)
-	 * 
+	 *
 	 * @param pointX
 	 *            x coord
 	 * @param pointY
@@ -181,14 +181,14 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	void setLineThrough(double pointX, double pointY);
 
 	/**
-	 * 
+	 *
 	 * @return line direction for equation (to keep integers if some)
 	 */
 	Coords getDirectionForEquation();
 
 	/**
 	 * Initialize startpoint to the closest point to (0,0,0)
-	 * 
+	 *
 	 * @return the start point
 	 */
 	GeoPointND setStandardStartPoint();
@@ -210,5 +210,4 @@ public interface GeoLineND extends GeoDirectionND, LinearEquationRepresentable {
 	 * @return value at given parameter as vector
 	 */
 	ExpressionValue evaluateCurve(double t);
-
 }

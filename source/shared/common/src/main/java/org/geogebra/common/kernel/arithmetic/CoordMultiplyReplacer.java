@@ -27,9 +27,9 @@ import org.geogebra.common.plugin.Operation;
  */
 public class CoordMultiplyReplacer implements Traversing {
 
-	final private FunctionVariable xVar;
-	final private FunctionVariable yVar;
-	final private FunctionVariable zVar;
+	private final FunctionVariable xVar;
+	private final FunctionVariable yVar;
+	private final FunctionVariable zVar;
 
 	/**
 	 * Create a new CoordMultiplyReplacer
@@ -37,8 +37,8 @@ public class CoordMultiplyReplacer implements Traversing {
 	 * @param yVar y variable
 	 * @param zVar z variable
 	 */
-	public CoordMultiplyReplacer(FunctionVariable xVar,
-			FunctionVariable yVar, FunctionVariable zVar) {
+	public CoordMultiplyReplacer(
+			FunctionVariable xVar, FunctionVariable yVar, FunctionVariable zVar) {
 		this.xVar = xVar;
 		this.yVar = yVar;
 		this.zVar = zVar;
@@ -54,26 +54,28 @@ public class CoordMultiplyReplacer implements Traversing {
 
 	private ExpressionValue processExpressionNode(ExpressionNode node) {
 		switch (node.getOperation()) {
-		case XCOORD:
-			return nodeOrMultiplication(node, "x", xVar);
-		case YCOORD:
-			return nodeOrMultiplication(node, "y", yVar);
-		case ZCOORD:
-			return nodeOrMultiplication(node, "z", zVar);
-		default:
-			return node;
+			case XCOORD:
+				return nodeOrMultiplication(node, "x", xVar);
+			case YCOORD:
+				return nodeOrMultiplication(node, "y", yVar);
+			case ZCOORD:
+				return nodeOrMultiplication(node, "z", zVar);
+			default:
+				return node;
 		}
 	}
 
 	private ExpressionValue asMultiplication(ExpressionNode node, FunctionVariable fVar) {
-		ExpressionNode mul = new ExpressionNode(node.getKernel(), fVar,
-				Operation.MULTIPLY_OR_FUNCTION, node.getLeft()).traverse(this).wrap();
+		ExpressionNode mul = new ExpressionNode(
+						node.getKernel(), fVar, Operation.MULTIPLY_OR_FUNCTION, node.getLeft())
+				.traverse(this)
+				.wrap();
 		mul.setBrackets(node.hasBrackets());
 		return mul;
 	}
 
-	private ExpressionValue nodeOrMultiplication(ExpressionNode node, String varName,
-			FunctionVariable var) {
+	private ExpressionValue nodeOrMultiplication(
+			ExpressionNode node, String varName, FunctionVariable var) {
 		leftResolveVariables(node);
 		if (var != null && !leftHasCoord(node)) {
 			return asMultiplication(node, var);

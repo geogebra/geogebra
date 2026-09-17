@@ -56,25 +56,34 @@ public final class TableValuesStatisticsViewModel implements TableValuesListener
 		@NonNull AttributedString header();
 
 		/** Statistics state with its calculated groups. */
-		record Statistics(@NonNull String title, @NonNull AttributedString header,
+		record Statistics(
+				@NonNull String title,
+				@NonNull AttributedString header,
 				@NonNull State<@NonNull List<StatisticGroup>> groups)
-				implements Content { }
+				implements Content {}
 
 		/** Regression state with the available specifications and selected result. */
-		record Regression(@NonNull String title, @NonNull AttributedString header,
+		record Regression(
+				@NonNull String title,
+				@NonNull AttributedString header,
 				@NonNull State<@NonNull List<String>> regressionModels,
 				@NonNull State<@NonNull Integer> selectedRegressionIndex,
 				@NonNull State<@NonNull List<StatisticGroup>> groups,
-				@Nullable Runnable plotAction) implements Content { }
+				@Nullable Runnable plotAction)
+				implements Content {}
 
 		/** State shown when the selected data cannot produce statistics. */
-		record Error(@NonNull String title, @NonNull AttributedString header,
-				@NonNull String message) implements Content { }
+		record Error(
+				@NonNull String title,
+				@NonNull AttributedString header,
+				@NonNull String message) implements Content {}
 	}
 
 	/** Statistics sheet modes. */
 	public enum Mode {
-		ONE_VARIABLE, TWO_VARIABLE, REGRESSION
+		ONE_VARIABLE,
+		TWO_VARIABLE,
+		REGRESSION
 	}
 
 	/**
@@ -82,8 +91,8 @@ public final class TableValuesStatisticsViewModel implements TableValuesListener
 	 * @param tableValues table of values supplying the statistics
 	 * @param localization localization used for sheet labels
 	 */
-	public TableValuesStatisticsViewModel(@NonNull TableValues tableValues,
-			@NonNull Localization localization) {
+	public TableValuesStatisticsViewModel(
+			@NonNull TableValues tableValues, @NonNull Localization localization) {
 		this.tableValues = tableValues;
 		this.localization = localization;
 	}
@@ -153,12 +162,13 @@ public final class TableValuesStatisticsViewModel implements TableValuesListener
 	private void updateVariableContent(int columnIndex, boolean twoVariable) {
 		AttributedString header = TableUtil.getLabeledColumnHeader(
 				tableValues.getTableValuesModel(), columnIndex, twoVariable, localization);
-		List<StatisticGroup> groups = twoVariable ? tableValues.getStatistics2Var(columnIndex)
+		List<StatisticGroup> groups = twoVariable
+				? tableValues.getStatistics2Var(columnIndex)
 				: tableValues.getStatistics1Var(columnIndex);
-		String title = localization.getMenu(twoVariable ? "2VariableStatistics"
-				: "1VariableStatistics");
-		String noDataMessage = twoVariable ? "StatsDialog.NoDataMsg2VarStats"
-				: "StatsDialog.NoDataMsg1VarStats";
+		String title =
+				localization.getMenu(twoVariable ? "2VariableStatistics" : "1VariableStatistics");
+		String noDataMessage =
+				twoVariable ? "StatsDialog.NoDataMsg2VarStats" : "StatsDialog.NoDataMsg1VarStats";
 		if (groups.isEmpty()) {
 			setErrorContent(title, header, localization.getMenu(noDataMessage));
 		} else if (statisticsGroups != null) {
@@ -197,10 +207,16 @@ public final class TableValuesStatisticsViewModel implements TableValuesListener
 			regressionSpecifications = new MutableState<>(specifications);
 			selectedRegressionIndex = new MutableState<>(selectedIndex);
 			regressionGroups = new MutableState<>(List.copyOf(groups));
-			content.set(new Content.Regression(title, header, DerivedState.of(
-					regressionSpecifications, specs -> specs.stream()
-							.map(spec -> localization.getMenu(spec.getLabel())).toList()),
-					selectedRegressionIndex, regressionGroups,
+			content.set(new Content.Regression(
+					title,
+					header,
+					DerivedState.of(
+							regressionSpecifications,
+							specs -> specs.stream()
+									.map(spec -> localization.getMenu(spec.getLabel()))
+									.toList()),
+					selectedRegressionIndex,
+					regressionGroups,
 					canPlot ? this::plotRegression : null));
 		}
 	}
@@ -217,18 +233,18 @@ public final class TableValuesStatisticsViewModel implements TableValuesListener
 		if (selectedEvaluatable == null || selectedRegressionSpecification == null) {
 			return;
 		}
-		tableValues.plotRegression(tableValues.getColumn(selectedEvaluatable),
-				selectedRegressionSpecification);
+		tableValues.plotRegression(
+				tableValues.getColumn(selectedEvaluatable), selectedRegressionSpecification);
 	}
 
 	private boolean isRelevantColumn(int column) {
-		return selectedEvaluatable != null && (column == tableValues.getColumn(selectedEvaluatable)
-				|| mode != Mode.ONE_VARIABLE && column == 0);
+		return selectedEvaluatable != null
+				&& (column == tableValues.getColumn(selectedEvaluatable)
+						|| mode != Mode.ONE_VARIABLE && column == 0);
 	}
 
 	@Override
-	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		if (evaluatable == selectedEvaluatable) {
 			close();
 		} else if (mode != Mode.ONE_VARIABLE && column == 0) {
@@ -237,8 +253,7 @@ public final class TableValuesStatisticsViewModel implements TableValuesListener
 	}
 
 	@Override
-	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		if (isRelevantColumn(column)) {
 			refreshContent();
 		}
@@ -250,16 +265,16 @@ public final class TableValuesStatisticsViewModel implements TableValuesListener
 	}
 
 	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnHeaderChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		if (isRelevantColumn(column)) {
 			rebuildContent();
 		}
 	}
 
 	@Override
-	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
-			int row) {
+	public void notifyCellChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column, int row) {
 		if (isRelevantColumn(column)) {
 			refreshContent();
 		}

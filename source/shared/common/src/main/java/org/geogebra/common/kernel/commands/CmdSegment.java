@@ -27,13 +27,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Segment[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
- * 
+ *
  * Segment[ &lt;GeoPoint&gt;, &lt;Number&gt; ]
  */
 public class CmdSegment extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,42 +48,39 @@ public class CmdSegment extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
+			case 2:
+				arg = resArgs(c, info);
 
-			// segment between two points
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				GeoElement[] ret = { segment(c.getLabel(), (GeoPointND) arg[0],
-						(GeoPointND) arg[1]) };
-				return ret;
-			}
-
-			// segment from point with given length
-			else if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				return getAlgoDispatcher().segment(c.getLabels(),
-						(GeoPointND) arg[0], (GeoNumberValue) arg[1]);
-			} else {
-				if (!ok[0]) {
-					throw argErr(c, arg[0]);
+				// segment between two points
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+					GeoElement[] ret = {segment(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1])};
+					return ret;
 				}
-				throw argErr(c, arg[1]);
-			}
 
-		case 3: // special case for Segment[A,B,poly1] -> do nothing!
-			arg = resArgs(c, info);
+				// segment from point with given length
+				else if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
+					return getAlgoDispatcher()
+							.segment(c.getLabels(), (GeoPointND) arg[0], (GeoNumberValue) arg[1]);
+				} else {
+					if (!ok[0]) {
+						throw argErr(c, arg[0]);
+					}
+					throw argErr(c, arg[1]);
+				}
 
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2].isGeoPolygon())) {
-				GeoElement[] ret = {};
-				return ret;
-			}
-			throw argNumErr(c);
+			case 3: // special case for Segment[A,B,poly1] -> do nothing!
+				arg = resArgs(c, info);
 
-		default:
-			throw argNumErr(c);
+				if ((ok[0] = arg[0].isGeoPoint())
+						&& (ok[1] = arg[1].isGeoPoint())
+						&& (ok[2] = arg[2].isGeoPolygon())) {
+					GeoElement[] ret = {};
+					return ret;
+				}
+				throw argNumErr(c);
+
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -98,7 +95,7 @@ public class CmdSegment extends CommandProcessor {
 	 */
 	protected GeoElement segment(String label, GeoPointND a, GeoPointND b) {
 		if (app.isWhiteboardActive()) {
-			AlgoPolyLine algo = new AlgoPolyLine(cons, new GeoPointND[]{a, b});
+			AlgoPolyLine algo = new AlgoPolyLine(cons, new GeoPointND[] {a, b});
 			algo.getPoly().setLabel(label);
 			return algo.getPoly();
 		}

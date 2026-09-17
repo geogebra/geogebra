@@ -32,7 +32,6 @@ import jsinterop.base.Js;
  *         Also originally: Added to allow ctx.fill("evenodd") (new winding rule
  *         from ggb50) ignored in IE9, IE10
  */
-
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class JLMContext2D extends CanvasRenderingContext2D {
 	private double ggbDevicePixelRatio;
@@ -86,8 +85,8 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 	 * TODO use DOMMatrix to avoid separate tracking
 	 */
 	@JsOverlay
-	public final void saveTransform(double m00, double m10, double m01,
-			double m11, double m02, double m12) {
+	public final void saveTransform(
+			double m00, double m10, double m01, double m11, double m02, double m12) {
 		this.ggbTransformCache.push(JsArray.of(m00, m10, m01, m11, m02, m12));
 	}
 
@@ -100,8 +99,7 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 			this.ggbTransformCache = JsArray.of();
 		}
 
-		JsArray t = JsArray.of(this.m00_, this.m10_, this.m01_, this.m11_, this.m02_,
-				this.m12_);
+		JsArray t = JsArray.of(this.m00_, this.m10_, this.m01_, this.m11_, this.m02_, this.m12_);
 
 		this.ggbTransformCache.push(t);
 
@@ -159,7 +157,7 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 
 		double sin = Math.sin(theta);
 		if (sin == 1.0) {
-			//rotate90();
+			// rotate90();
 			double M0 = this.m00_;
 			this.m00_ = this.m01_;
 			this.m01_ = -M0;
@@ -167,7 +165,7 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 			this.m10_ = this.m11_;
 			this.m11_ = -M0;
 		} else if (sin == -1.0) {
-			//rotate270();
+			// rotate270();
 			double M0 = this.m00_;
 			this.m00_ = -this.m01_;
 			this.m01_ = M0;
@@ -178,7 +176,7 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 		} else {
 			double cos = Math.cos(theta);
 			if (cos == -1.0) {
-				//rotate180();
+				// rotate180();
 				this.m00_ = -this.m00_;
 				this.m11_ = -this.m11_;
 			} else if (cos != 1.0) {
@@ -201,8 +199,8 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 	 * TODO use DOMMatrix to avoid separate tracking
 	 */
 	@JsOverlay
-	public final void setTransform2(double m00, double m10, double m01,
-			double m11, double m02, double m12) {
+	public final void setTransform2(
+			double m00, double m10, double m01, double m11, double m02, double m12) {
 		this.m00_ = m00;
 		this.m10_ = m10;
 		this.m01_ = m01;
@@ -219,8 +217,13 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 	@JsOverlay
 	public final void resetTransform(double dp) {
 		this.ggbDevicePixelRatio = dp;
-		this.setTransform(dp * this.m00_, dp * this.m10_, dp * this.m01_, dp
-				* this.m11_, dp * this.m02_, dp * this.m12_);
+		this.setTransform(
+				dp * this.m00_,
+				dp * this.m10_,
+				dp * this.m01_,
+				dp * this.m11_,
+				dp * this.m02_,
+				dp * this.m12_);
 	}
 
 	// adapted from goog.graphics.AffineTransform.prototype.concatenate
@@ -228,8 +231,8 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 	 * TODO use DOMMatrix to avoid separate tracking
 	 */
 	@JsOverlay
-	public final void transform2(double m00, double m10, double m01,
-			double m11, double m02, double m12) {
+	public final void transform2(
+			double m00, double m10, double m01, double m11, double m02, double m12) {
 
 		double m0 = this.m00_;
 		double m1 = this.m01_;
@@ -268,8 +271,6 @@ public class JLMContext2D extends CanvasRenderingContext2D {
 	 */
 	@JsOverlay
 	public final double[] getTransformMatrix() {
-		return new double[] {
-				this.m00_, this.m10_, this.m01_, this.m11_, this.m02_, this.m12_
-		};
+		return new double[] {this.m00_, this.m10_, this.m01_, this.m11_, this.m02_, this.m12_};
 	}
 }

@@ -11,15 +11,16 @@ public class CommandJlmCursor extends Command {
 	public boolean init(TeXParser tp) {
 		double size = tp.getArgAsDecimal();
 
-		CursorAtom atom = new CursorAtom(FactoryProvider.getInstance()
-				.getGraphicsFactory().createColor(GraphicsFactory.CURSOR_RED,
-						GraphicsFactory.CURSOR_GREEN,
-						GraphicsFactory.CURSOR_BLUE),
+		CursorAtom atom = new CursorAtom(
+				FactoryProvider.getInstance()
+						.getGraphicsFactory()
+						.createColor(
+								GraphicsFactory.CURSOR_RED,
+								GraphicsFactory.CURSOR_GREEN,
+								GraphicsFactory.CURSOR_BLUE),
 				size);
 
 		tp.addToConsumer(atom);
 		return false;
-
 	}
-
 }

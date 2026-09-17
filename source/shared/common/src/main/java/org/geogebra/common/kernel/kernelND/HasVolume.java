@@ -18,22 +18,21 @@ package org.geogebra.common.kernel.kernelND;
 
 /**
  * Interface for geos that have volume (spheres, prisms, etc.)
- * 
+ *
  * @author mathieu
  *
  */
 public interface HasVolume {
 
 	/**
-	 * 
+	 *
 	 * @return volume
 	 */
 	double getVolume();
 
 	/**
-	 * 
+	 *
 	 * @return true if the volume is finite
 	 */
 	boolean hasFiniteVolume();
-
 }

@@ -82,8 +82,8 @@ public final class AppScope {
 	public @NonNull RememberedProperties getRememberedProperties() {
 		if (rememberedProperties == null) {
 			// inlined resetRememberedProperties to make nullness analysis pass
-			rememberedProperties = new RememberedProperties(
-					app.getConfig().getRememberedPropertyHandlers());
+			rememberedProperties =
+					new RememberedProperties(app.getConfig().getRememberedPropertyHandlers());
 		}
 		return rememberedProperties;
 	}
@@ -92,7 +92,7 @@ public final class AppScope {
 	 * Reset remembered properties from config.
 	 */
 	public void resetRememberedProperties() {
-		rememberedProperties = new RememberedProperties(
-				app.getConfig().getRememberedPropertyHandlers());
+		rememberedProperties =
+				new RememberedProperties(app.getConfig().getRememberedPropertyHandlers());
 	}
 }

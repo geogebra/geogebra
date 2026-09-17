@@ -27,13 +27,13 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Vertices of a 3D polygon
- * 
+ *
  * @author mathieu
  *
  */
 public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -56,7 +56,7 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -66,8 +66,7 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 	 * @param v
 	 *            vertex index
 	 */
-	public AlgoVertexPolygon3D(Construction cons, String label, GeoPoly p,
-			GeoNumberValue v) {
+	public AlgoVertexPolygon3D(Construction cons, String label, GeoPoly p, GeoNumberValue v) {
 		super(cons, label, p, v);
 	}
 
@@ -90,5 +89,4 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 			return pt;
 		});
 	}
-
 }

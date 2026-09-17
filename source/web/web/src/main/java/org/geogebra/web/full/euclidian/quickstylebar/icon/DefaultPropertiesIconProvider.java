@@ -137,8 +137,7 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_AXES_LINE_TYPE_ARROW -> GuiResources.INSTANCE.deco_axes_arrow();
 			case ICON_AXES_LINE_TYPE_ARROW_FILLED -> GuiResources.INSTANCE.deco_axes_arrow_filled();
 			case ICON_AXES_LINE_TYPE_TWO_ARROWS -> GuiResources.INSTANCE.deco_axes_arrows();
-			case ICON_AXES_LINE_TYPE_TWO_ARROWS_FILLED ->
-					GuiResources.INSTANCE.deco_axes_arrows_filled();
+			case ICON_AXES_LINE_TYPE_TWO_ARROWS_FILLED -> GuiResources.INSTANCE.deco_axes_arrows_filled();
 			case ICON_RIGHT_ANGLE_STYLE_NONE -> res.right_angle_style_off();
 			case ICON_RIGHT_ANGLE_STYLE_SQUARE -> res.right_angle_style_rectangle();
 			case ICON_RIGHT_ANGLE_STYLE_DOT -> res.right_angle_style_dot();
@@ -164,10 +163,8 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 			case ICON_ANGLE_DECO_ARROW_ANTICLOCKWISE -> GuiResources.INSTANCE.deco_angle_arrow_up();
 			case ICON_ANGLE_DECO_ARROW_CLOCKWISE -> GuiResources.INSTANCE.deco_angle_arrow_down();
 			case ICON_ANGLE_DECO_NONE -> GuiResources.INSTANCE.deco_angle_1line();
-			case ICON_VECTOR_DECO_ARROW ->
-					MaterialDesignResources.INSTANCE.stylingbar_end_arrow_filled();
-			case ICON_VECTOR_DECO_DEFAULT ->
-					MaterialDesignResources.INSTANCE.stylingbar_end_arrow();
+			case ICON_VECTOR_DECO_ARROW -> MaterialDesignResources.INSTANCE.stylingbar_end_arrow_filled();
+			case ICON_VECTOR_DECO_DEFAULT -> MaterialDesignResources.INSTANCE.stylingbar_end_arrow();
 			case ICON_BUTTON_PLAY -> GuiResourcesSimple.INSTANCE.play();
 			case ICON_BUTTON_PAUSE -> GuiResourcesSimple.INSTANCE.pause();
 			case ICON_BUTTON_STOP -> GuiResourcesSimple.INSTANCE.stop();
@@ -209,7 +206,8 @@ public class DefaultPropertiesIconProvider implements PropertiesIconProvider {
 		if (property instanceof IconsEnumeratedProperty<?> enumeratedProperty) {
 			PropertyResource[] propertyIcons = enumeratedProperty.getValueIcons();
 			int selectedIndex = enumeratedProperty.getIndex();
-			return selectedIndex == -1 ? matchIconWithResource(propertyIcons[0])
+			return selectedIndex == -1
+					? matchIconWithResource(propertyIcons[0])
 					: matchIconWithResource(propertyIcons[selectedIndex]);
 		} else if (property instanceof AbstractPropertyListFacade<?> listFacade) {
 			Property firstProperty = listFacade.getFirstProperty();

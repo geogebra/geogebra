@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -64,8 +64,8 @@ class ExpressionFilterTests extends BaseUnitTest {
 		ExpressionFilter filter = ev -> !ev.isOperation(Operation.PLUS);
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
 		process(algebraProcessor, "1+2");
-		assertEquals("Sorry, something went wrong. Please check your input",
-				errorAccumulator.getErrors());
+		assertEquals(
+				"Sorry, something went wrong. Please check your input", errorAccumulator.getErrors());
 	}
 
 	@Test
@@ -73,8 +73,8 @@ class ExpressionFilterTests extends BaseUnitTest {
 		ExpressionFilter filter = ScientificOperationArgumentFilter.INSTANCE;
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
 		process(algebraProcessor, "{1,2,3} + 3");
-		assertEquals("Sorry, something went wrong. Please check your input",
-				errorAccumulator.getErrors());
+		assertEquals(
+				"Sorry, something went wrong. Please check your input", errorAccumulator.getErrors());
 	}
 
 	@Test
@@ -82,8 +82,8 @@ class ExpressionFilterTests extends BaseUnitTest {
 		ExpressionFilter filter = ScientificOperationArgumentFilter.INSTANCE;
 		AlgebraProcessor algebraProcessor = createAlgebraProcessor(filter);
 		process(algebraProcessor, "{{1,2},{3,4}}");
-		assertEquals("Sorry, something went wrong. Please check your input",
-				errorAccumulator.getErrors());
+		assertEquals(
+				"Sorry, something went wrong. Please check your input", errorAccumulator.getErrors());
 	}
 
 	@Test
@@ -96,9 +96,8 @@ class ExpressionFilterTests extends BaseUnitTest {
 	}
 
 	private GeoElementND[] process(AlgebraProcessor ap, String input) {
-		return ap.processAlgebraCommandNoExceptionHandling(parseExpression(input),
-				false, errorAccumulator,
-				null, new EvalInfo(false));
+		return ap.processAlgebraCommandNoExceptionHandling(
+				parseExpression(input), false, errorAccumulator, null, new EvalInfo(false));
 	}
 
 	private ValidExpression parse(String input) throws Exception {
@@ -106,8 +105,7 @@ class ExpressionFilterTests extends BaseUnitTest {
 	}
 
 	private AlgebraProcessor createAlgebraProcessor(ExpressionFilter filter) {
-		AlgebraProcessor ap = new AlgebraProcessor(getKernel(),
-				new CommandDispatcherJre(getKernel()));
+		AlgebraProcessor ap = new AlgebraProcessor(getKernel(), new CommandDispatcherJre(getKernel()));
 		ap.addInputExpressionFilter(filter);
 		return ap;
 	}

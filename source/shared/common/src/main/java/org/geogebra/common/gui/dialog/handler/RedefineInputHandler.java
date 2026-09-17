@@ -60,7 +60,7 @@ public class RedefineInputHandler implements InputHandler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current geo
 	 */
 	public GeoElementND getGeoElement() {
@@ -68,8 +68,8 @@ public class RedefineInputHandler implements InputHandler {
 	}
 
 	@Override
-	public void processInput(String rawInput, ErrorHandler handler,
-			final AsyncOperation<Boolean> callback) {
+	public void processInput(
+			String rawInput, ErrorHandler handler, final AsyncOperation<Boolean> callback) {
 		if (rawInput == null) {
 			callback.callback(false);
 			return;
@@ -77,7 +77,6 @@ public class RedefineInputHandler implements InputHandler {
 		if (rawInput.equals(this.oldString)) {
 			callback.callback(true);
 			return;
-
 		}
 		try {
 			String inputValue = rawInput;
@@ -85,14 +84,13 @@ public class RedefineInputHandler implements InputHandler {
 				// string like f(x,y)=x^2
 				// or f(\theta) = \theta
 				inputValue = geo.getLabelSimple() + "("
-						+ ((FunctionalNVar) geo)
-								.getVarString(StringTemplate.defaultTemplate)
+						+ ((FunctionalNVar) geo).getVarString(StringTemplate.defaultTemplate)
 						+ ")=" + inputValue;
 			}
 			final String input = inputValue;
-			app.getKernel().getAlgebraProcessor().changeGeoElement(geo,
-					inputValue, true, true, handler,
-					newGeo -> {
+			app.getKernel()
+					.getAlgebraProcessor()
+					.changeGeoElement(geo, inputValue, true, true, handler, newGeo -> {
 						app.getKernel().clearJustCreatedGeosInViews();
 
 						if (newGeo != null) {

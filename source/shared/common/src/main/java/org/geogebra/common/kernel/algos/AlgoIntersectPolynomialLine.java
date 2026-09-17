@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  * Finds intersection points of a polynomial and a line (using the roots of
  * their difference)
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
@@ -40,15 +40,14 @@ public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
 	 * @param g
 	 *            line
 	 */
-	public AlgoIntersectPolynomialLine(Construction cons, GeoFunctionable f,
-			GeoLine g) {
+	public AlgoIntersectPolynomialLine(Construction cons, GeoFunctionable f, GeoLine g) {
 		super(cons, f, g);
 		addIncidence();
 	}
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -74,10 +73,11 @@ public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlainDefault("IntersectionOfAandB",
-				"Intersection of %0, %1",
-				input[0].getLabel(tpl), input[1].getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"IntersectionOfAandB",
+						"Intersection of %0, %1",
+						input[0].getLabel(tpl),
+						input[1].getLabel(tpl));
 	}
-
 }

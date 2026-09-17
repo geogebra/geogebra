@@ -29,7 +29,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Collection of static methods to find intersection of implicit with line, function, conic and
  * other implicit curve
- * 
+ *
  * @author GSoCImplicitCurve2015
  *
  */
@@ -63,13 +63,13 @@ public final class ImplicitIntersectionFinder {
 	private static final double MOMENT_RATE = 0.92;
 
 	private static final double MIN_LAMBDA = 0.0001;
-	
+
 	private ImplicitIntersectionFinder() {
 		// utility class
 	}
 
 	/**
-	 * 
+	 *
 	 * @param fun1
 	 *            first function
 	 * @param fun2
@@ -89,16 +89,22 @@ public final class ImplicitIntersectionFinder {
 	 * @param vals
 	 *            points at which two functions intersect. The output size is
 	 *            bounded above by parameter samples.
-	 * 
+	 *
 	 */
-	public static void findIntersections(FunctionNVar fun1, FunctionNVar fun2,
-			double xMin, double yMin, double xMax, double yMax, int samples,
-			int outputs, List<double[]> vals) {
+	public static void findIntersections(
+			FunctionNVar fun1,
+			FunctionNVar fun2,
+			double xMin,
+			double yMin,
+			double xMax,
+			double yMax,
+			int samples,
+			int outputs,
+			List<double[]> vals) {
 
-		double[] params = new double[] { xMin, yMin, xMax, yMax };
+		double[] params = new double[] {xMin, yMin, xMax, yMax};
 
-		List<Coords> guess = GeoImplicitCurve.probableInitialPoints(fun1, fun2,
-				params, samples);
+		List<Coords> guess = GeoImplicitCurve.probableInitialPoints(fun1, fun2, params, samples);
 		boolean derivative = false;
 		try {
 			FunctionVariable x = fun1.getFunctionVariables()[0];
@@ -129,7 +135,7 @@ public final class ImplicitIntersectionFinder {
 
 	/**
 	 * Damped newton's method with Armijo's line search
-	 * 
+	 *
 	 * @param f
 	 *            {f1(x,y), f2(x,y), f1'(x), f1'(y), f2'(x), f2'(y)}
 	 * @param params
@@ -141,8 +147,8 @@ public final class ImplicitIntersectionFinder {
 	 * @param vals
 	 *            output array
 	 */
-	static void intersections(FunctionNVar[] f, double[] params,
-			List<Coords> guess, int outputs, List<double[]> vals) {
+	static void intersections(
+			FunctionNVar[] f, double[] params, List<Coords> guess, int outputs, List<double[]> vals) {
 		double f1, f2, jx1, jx2, jy1, jy2, det, x, y;
 		double delta1, delta2;
 		double[] evals;
@@ -213,12 +219,14 @@ public final class ImplicitIntersectionFinder {
 			}
 
 			// check whether root is within view bound
-			boolean add = (evals[0] >= params[0]) && (evals[0] <= params[2])
-					&& (evals[1] >= params[1]) && (evals[1] <= params[3]);
+			boolean add = (evals[0] >= params[0])
+					&& (evals[0] <= params[2])
+					&& (evals[1] >= params[1])
+					&& (evals[1] <= params[3]);
 
 			// check if we have already calculated the same root
 			if (add) {
-				insert(new double[] { evals[0], evals[1] }, vals);
+				insert(new double[] {evals[0], evals[1]}, vals);
 			}
 		}
 	}
@@ -253,7 +261,7 @@ public final class ImplicitIntersectionFinder {
 
 	/**
 	 * Find the intersections between two curves using Broyden's method
-	 * 
+	 *
 	 * @param fn1
 	 *            first function
 	 * @param fn2
@@ -267,9 +275,13 @@ public final class ImplicitIntersectionFinder {
 	 * @param vals
 	 *            intersection between functions
 	 */
-	public static void intersects(final FunctionNVar fn1,
-			final FunctionNVar fn2, double[] params, List<Coords> guess,
-			final int outputs, List<double[]> vals) {
+	public static void intersects(
+			final FunctionNVar fn1,
+			final FunctionNVar fn2,
+			double[] params,
+			List<Coords> guess,
+			final int outputs,
+			List<double[]> vals) {
 
 		boolean add;
 
@@ -370,17 +382,19 @@ public final class ImplicitIntersectionFinder {
 			}
 
 			// check whether root is within view bound
-			add = (evals[0] >= params[0]) && (evals[0] <= params[2])
-					&& (evals[1] >= params[1]) && (evals[1] <= params[3]);
+			add = (evals[0] >= params[0])
+					&& (evals[0] <= params[2])
+					&& (evals[1] >= params[1])
+					&& (evals[1] <= params[3]);
 
 			if (add) {
-				insert(new double[] { evals[0], evals[1] }, vals);
+				insert(new double[] {evals[0], evals[1]}, vals);
 			}
 		}
 	}
 
 	private static double finiteDiffX(FunctionNVar func, double x, double y) {
-		double[] eval = { x - EPS, y };
+		double[] eval = {x - EPS, y};
 		double left, right;
 		left = func.evaluate(eval);
 		eval[0] = x + EPS;
@@ -389,7 +403,7 @@ public final class ImplicitIntersectionFinder {
 	}
 
 	private static double finiteDiffY(FunctionNVar func, double x, double y) {
-		double[] eval = { x, y - EPS };
+		double[] eval = {x, y - EPS};
 		double left, right;
 		left = func.evaluate(eval);
 		eval[1] = y + EPS;

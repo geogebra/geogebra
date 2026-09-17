@@ -28,7 +28,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Simple geo class for the whole space
- * 
+ *
  * @author Mathieu
  *
  */
@@ -112,11 +112,10 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 			return getLoc().getMenu(label);
 		}
 		return label;
-
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return HitType.NONE;
 	}
 
@@ -134,5 +133,4 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	public boolean isProtected(EventType eventType) {
 		return true;
 	}
-
 }

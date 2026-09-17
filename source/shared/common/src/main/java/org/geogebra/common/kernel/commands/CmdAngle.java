@@ -38,22 +38,22 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Angle[ number ] Angle[ &lt;GeoPolygon&gt; ]
- * 
+ *
  * Angle[ &lt;GeoConic&gt; ] Angle[ &lt;GeoVector&gt; ]
- * 
+ *
  * Angle[ &lt;GeoPoint&gt; ] Angle[ &lt;GeoVector&gt;, &lt;GeoVector&gt; ]
- * 
+ *
  * Angle[ &lt;GeoLine&gt;, &lt;GeoLine&gt; ]
- * 
+ *
  * Angle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
- * 
+ *
  * Angle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;Number&gt; ]
  */
 public class CmdAngle extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -70,7 +70,7 @@ public class CmdAngle extends CommandProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param n
@@ -81,94 +81,91 @@ public class CmdAngle extends CommandProcessor {
 	 * @throws MyError
 	 *             argument / length error
 	 */
-	protected GeoElement[] process(Command c, int n, boolean[] ok, EvalInfo info)
-			throws MyError {
+	protected GeoElement[] process(Command c, int n, boolean[] ok, EvalInfo info) throws MyError {
 
 		GeoElement[] arg;
 
 		switch (n) {
-		// Angle[ constant number ]
-		case 1:
-			arg = resArgs(c, info);
+			// Angle[ constant number ]
+			case 1:
+				arg = resArgs(c, info);
 
-			// wrap angle as angle (needed to avoid ambiguities between numbers
-			// and angles in XML)
-			if (arg[0].isGeoAngle()) {
-				// maybe we have to set a label here
-				if (!cons.isSuppressLabelsActive() && !arg[0].isLabelSet()) {
-					arg[0].setLabel(c.getLabel());
+				// wrap angle as angle (needed to avoid ambiguities between numbers
+				// and angles in XML)
+				if (arg[0].isGeoAngle()) {
+					// maybe we have to set a label here
+					if (!cons.isSuppressLabelsActive() && !arg[0].isLabelSet()) {
+						arg[0].setLabel(c.getLabel());
 
-					// make sure that arg[0] is in construction list
-					if (arg[0].isIndependent()) {
-						cons.addToConstructionList(arg[0], true);
-					} else {
-						cons.addToConstructionList(arg[0].getParentAlgorithm(),
-								true);
+						// make sure that arg[0] is in construction list
+						if (arg[0].isIndependent()) {
+							cons.addToConstructionList(arg[0], true);
+						} else {
+							cons.addToConstructionList(arg[0].getParentAlgorithm(), true);
+						}
+					}
+					GeoElement[] ret = {arg[0]};
+					return ret;
+				}
+				// angle from number
+				else if (arg[0].isGeoNumeric()) {
+
+					AlgoAngleNumeric algo = new AlgoAngleNumeric(cons, c.getLabel(), (GeoNumeric) arg[0]);
+
+					GeoElement[] ret = {algo.getAngle()};
+					return ret;
+				}
+				// angle from number
+				else if (arg[0].isGeoPoint() || arg[0].isGeoVector()) {
+
+					return anglePointOrVector(c.getLabel(), arg[0]);
+				}
+				// angle of conic or polygon
+				else {
+					if (arg[0].isGeoConic()) {
+						return angle(c.getLabel(), (GeoConicND) arg[0]);
+					} else if (arg[0].isGeoPolygon()) {
+						return angle(c.getLabels(), (GeoPolygon) arg[0]);
 					}
 				}
-				GeoElement[] ret = { arg[0] };
-				return ret;
-			}
-			// angle from number
-			else if (arg[0].isGeoNumeric()) {
 
-				AlgoAngleNumeric algo = new AlgoAngleNumeric(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+				throw argErr(c, arg[0]);
 
-				GeoElement[] ret = { algo.getAngle() };
-				return ret;
-			}
-			// angle from number
-			else if (arg[0].isGeoPoint() || arg[0].isGeoVector()) {
+			case 2:
+				arg = resArgs(c, info);
 
-				return anglePointOrVector(c.getLabel(), arg[0]);
-			}
-			// angle of conic or polygon
-			else {
-				if (arg[0].isGeoConic()) {
-					return angle(c.getLabel(), (GeoConicND) arg[0]);
-				} else if (arg[0].isGeoPolygon()) {
-					return angle(c.getLabels(), (GeoPolygon) arg[0]);
+				GeoElement[] ret = process2(c, arg, ok);
+
+				if (ret != null) {
+					return ret;
 				}
-			}
 
-			throw argErr(c, arg[0]);
+				// syntax error
+				if (ok[0] && !ok[1]) {
+					throw argErr(c, arg[1]);
+				}
+				throw argErr(c, arg[0]);
 
-		case 2:
-			arg = resArgs(c, info);
+			case 3:
+				arg = resArgs(c, info);
 
-			GeoElement[] ret = process2(c, arg, ok);
+				ret = process3(c, arg, ok);
 
-			if (ret != null) {
-				return ret;
-			}
+				if (ret != null) {
+					return ret;
+				}
 
-			// syntax error
-			if (ok[0] && !ok[1]) {
-				throw argErr(c, arg[1]);
-			}
-			throw argErr(c, arg[0]);
+				// syntax error
+				throw argErr(c, getBadArg(ok, arg));
 
-		case 3:
-			arg = resArgs(c, info);
-
-			ret = process3(c, arg, ok);
-
-			if (ret != null) {
-				return ret;
-			}
-
-			// syntax error
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * process angle when 2 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -205,7 +202,7 @@ public class CmdAngle extends CommandProcessor {
 
 	/**
 	 * process angle when 3 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -217,17 +214,18 @@ public class CmdAngle extends CommandProcessor {
 	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) {
 
 		// angle between three points
-		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoPoint())
 				&& (ok[2] = arg[2].isGeoPoint())) {
-			return angle(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
-					(GeoPointND) arg[2]);
+			return angle(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2]);
 		}
 
 		// fixed angle
-		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoPoint())
 				&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-			return angle(c.getLabels(), (GeoPointND) arg[0],
-					(GeoPointND) arg[1], (GeoNumberValue) arg[2]);
+			return angle(
+					c.getLabels(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoNumberValue) arg[2]);
 		}
 
 		return null;
@@ -235,7 +233,7 @@ public class CmdAngle extends CommandProcessor {
 
 	/**
 	 * fixed angle
-	 * 
+	 *
 	 * @param labels
 	 *            labels
 	 * @param p1
@@ -246,10 +244,8 @@ public class CmdAngle extends CommandProcessor {
 	 *            angle
 	 * @return angle and rotated point
 	 */
-	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2,
-			GeoNumberValue a) {
-		return getAlgoDispatcher().angle(labels, (GeoPoint) p1, (GeoPoint) p2,
-				a, true);
+	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumberValue a) {
+		return getAlgoDispatcher().angle(labels, (GeoPoint) p1, (GeoPoint) p2, a, true);
 	}
 
 	/**
@@ -263,10 +259,10 @@ public class CmdAngle extends CommandProcessor {
 	 *            third point
 	 * @return angle between 3 points
 	 */
-	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2,
-			GeoPointND p3) {
-		GeoElement[] ret = { getAlgoDispatcher().angle(label, (GeoPoint) p1,
-				(GeoPoint) p2, (GeoPoint) p3) };
+	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2, GeoPointND p3) {
+		GeoElement[] ret = {
+			getAlgoDispatcher().angle(label, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3)
+		};
 		return ret;
 	}
 
@@ -280,8 +276,7 @@ public class CmdAngle extends CommandProcessor {
 	 * @return angle between lines
 	 */
 	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h) {
-		GeoElement[] ret = {
-				getAlgoDispatcher().angle(label, (GeoLine) g, (GeoLine) h) };
+		GeoElement[] ret = {getAlgoDispatcher().angle(label, (GeoLine) g, (GeoLine) h)};
 		return ret;
 	}
 
@@ -295,8 +290,7 @@ public class CmdAngle extends CommandProcessor {
 	 * @return angle between vectors
 	 */
 	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w) {
-		GeoElement[] ret = { getAlgoDispatcher().angle(label, (GeoVector) v,
-				(GeoVector) w) };
+		GeoElement[] ret = {getAlgoDispatcher().angle(label, (GeoVector) v, (GeoVector) w)};
 		return ret;
 	}
 
@@ -309,7 +303,7 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] anglePointOrVector(String label, GeoElement v) {
 		AlgoAngleVector algo = new AlgoAngleVector(cons, (GeoVec3D) v);
-		GeoElement[] ret = { algo.getAngle() };
+		GeoElement[] ret = {algo.getAngle()};
 		ret[0].setLabel(label);
 		return ret;
 	}
@@ -323,7 +317,7 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] angle(String label, GeoConicND c) {
 		AlgoAngleConic algo = new AlgoAngleConic(cons, label, (GeoConic) c);
-		GeoElement[] ret = { algo.getAngle() };
+		GeoElement[] ret = {algo.getAngle()};
 		return ret;
 	}
 
@@ -337,5 +331,4 @@ public class CmdAngle extends CommandProcessor {
 	protected GeoElement[] angle(String[] labels, GeoPolygon p) {
 		return getAlgoDispatcher().angles(labels, p);
 	}
-
 }

@@ -69,6 +69,5 @@ final class DSROM10 extends FontInfo {
 		setMetrics(104, 656, 694);
 
 		setMetrics(107, 628, 694);
-
 	}
 }

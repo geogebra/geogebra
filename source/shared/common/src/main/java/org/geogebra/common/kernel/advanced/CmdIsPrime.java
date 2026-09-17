@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * IsPrime[number]
- * 
+ *
  * @author Zbynek Konecny
  *
  */
@@ -42,5 +42,4 @@ public class CmdIsPrime extends CmdOneNumber {
 		AlgoIsPrime algo = new AlgoIsPrime(cons, label, num);
 		return algo.getResult();
 	}
-
 }

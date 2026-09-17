@@ -32,7 +32,7 @@ import org.geogebra.common.main.MyError;
 public class CmdMinimize extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,32 +47,29 @@ public class CmdMinimize extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isGeoNumeric())) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isNumberValue()) && (ok[1] = arg[1].isGeoNumeric())) {
 
-				AlgoMinimize algo = new AlgoMinimize(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumeric) arg[1]);
+					AlgoMinimize algo =
+							new AlgoMinimize(cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumeric) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+					GeoElement[] ret = {algo.getResult()};
 
-				return ret;
-			}
-			if ((ok[0] = arg[0].isNumberValue())
-					&& (ok[1] = arg[1].isGeoPoint())) {
+					return ret;
+				}
+				if ((ok[0] = arg[0].isNumberValue()) && (ok[1] = arg[1].isGeoPoint())) {
 
-				AlgoMinimize algo = new AlgoMinimize(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoPointND) arg[1]);
+					AlgoMinimize algo =
+							new AlgoMinimize(cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoPointND) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+					GeoElement[] ret = {algo.getResult()};
 
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

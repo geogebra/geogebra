@@ -41,7 +41,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	protected CoordSys coordsys;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param point
@@ -51,8 +51,8 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	 * @param forAxis
 	 *            point in plane
 	 */
-	protected AlgoCircle3DPointDirection(Construction cons, GeoPointND point,
-			GeoElementND secondInput, GeoElementND forAxis) {
+	protected AlgoCircle3DPointDirection(
+			Construction cons, GeoPointND point, GeoElementND secondInput, GeoElementND forAxis) {
 		super(cons);
 
 		this.point = point;
@@ -62,16 +62,16 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 		coordsys = new CoordSys(2);
 		circle.setCoordSys(coordsys);
 
-		setInputOutput(new GeoElement[] { (GeoElement) point,
-				(GeoElement) secondInput, (GeoElement) forAxis },
-				new GeoElement[] { circle });
+		setInputOutput(
+				new GeoElement[] {(GeoElement) point, (GeoElement) secondInput, (GeoElement) forAxis},
+				new GeoElement[] {circle});
 
 		// compute line
 		compute();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the circle
 	 */
 	public GeoConic3D getCircle() {
@@ -88,12 +88,11 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 		} else {
 			circle.setUndefined();
 		}
-
 	}
 
 	/**
 	 * reset the coord sys
-	 * 
+	 *
 	 * @return true if coord sys can be set
 	 */
 	protected boolean setCoordSys() {
@@ -101,8 +100,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 		coordsys.resetCoordSys();
 
 		coordsys.addPoint(point.getInhomCoordsInD3());
-		Coords[] v = ((GeoDirectionND) forAxis).getDirectionInD3()
-				.completeOrthonormal();
+		Coords[] v = ((GeoDirectionND) forAxis).getDirectionInD3().completeOrthonormal();
 		coordsys.addVector(v[0]);
 		coordsys.addVector(v[1]);
 
@@ -112,13 +110,13 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the radius
 	 */
 	protected abstract double getRadius();
 
 	/**
-	 * 
+	 *
 	 * @return center
 	 */
 	protected GeoPointND getCenter() {
@@ -126,7 +124,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return direction
 	 */
 	protected Coords getDirection() {
@@ -134,7 +132,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return second input (radius or point)
 	 */
 	protected GeoElementND getSecondInput() {
@@ -142,7 +140,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return direction of the axis
 	 */
 	protected GeoElementND getForAxis() {
@@ -155,17 +153,20 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain(getCommandString(),
-				point.getLabel(tpl), secondInput.getLabel(tpl),
-				forAxis.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain(
+						getCommandString(),
+						point.getLabel(tpl),
+						secondInput.getLabel(tpl),
+						forAxis.getLabel(tpl));
 	}
 
 	/**
-	 * 
+	 *
 	 * @return command string
 	 */
-	abstract protected String getCommandString();
+	protected abstract String getCommandString();
 
 	/*
 	 * This should apply to every subclass. In case it does not, a case per case

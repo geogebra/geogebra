@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,14 +46,13 @@ public class CopyPasteCutD extends CopyPasteCut {
 	}
 
 	@Override
-	public void copy(int column1, int row1, int column2, int row2,
-			boolean skipGeoCopy) {
+	public void copy(int column1, int row1, int column2, int row2, boolean skipGeoCopy) {
 
 		/*
 		 * disabled as we don't want commas when pasting from spreadsheet into
 		 * other parts of GeoGebra eg input bar also see
 		 * DataImport.parseExternalData()
-		 * 
+		 *
 		 * //boolean changeDecimalSeparator = '.' != decimalSeparator; if
 		 * (changeDecimalSeparator) { Log.debug(
 		 * "changing decimal separator to: "+decimalSeparator); }
@@ -62,8 +61,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 		// store the tab-delimited values in the clipboard
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
-		StringSelection stringSelection = new StringSelection(
-				copyStringToBuffer(column1, row1, column2, row2));
+		StringSelection stringSelection =
+				new StringSelection(copyStringToBuffer(column1, row1, column2, row2));
 		clipboard.setContents(stringSelection, null);
 
 		// store copies of the actual geos in the internal buffer
@@ -72,8 +71,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		} else {
 			sourceColumn1 = column1;
 			sourceRow1 = row1;
-			setCellBufferGeo(RelativeCopy.getValues(tableModel, column1, row1, column2,
-					row2));
+			setCellBufferGeo(RelativeCopy.getValues(tableModel, column1, row1, column2, row2));
 		}
 	}
 
@@ -89,7 +87,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 	/**
 	 * Pastes data from given Transferable into the given spreadsheet cells.
-	 * 
+	 *
 	 * @param column1
 	 *            first column of the target cell range
 	 * @param row1
@@ -101,8 +99,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 * @param contents clipboard contents
 	 * @return whether paste succeeded
 	 */
-	public boolean paste(int column1, int row1, int column2, int row2,
-			Transferable contents) {
+	public boolean paste(int column1, int row1, int column2, int row2, Transferable contents) {
 
 		boolean succ;
 		boolean isCSV;
@@ -132,8 +129,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 			// use the transferString data to create and paste new geos
 			// into the target cells without relative cell references
 
-			String[][] data = DataImport.parseExternalData(app, transferString,
-					isCSV);
+			String[][] data = DataImport.parseExternalData(app, transferString, isCSV);
 			succ = pasteExternalMultiple(data, new TabularRange(row1, column1, row2, column2));
 		}
 
@@ -156,8 +152,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 	 * @param clearSpreadsheet whether to clear cells
 	 * @return success
 	 */
-	public boolean pasteFromURL(URL url, TabularRange targetRange,
-			boolean clearSpreadsheet) {
+	public boolean pasteFromURL(URL url, TabularRange targetRange, boolean clearSpreadsheet) {
 
 		// read file
 		StringBuilder contents = new StringBuilder();
@@ -166,8 +161,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		try {
 			InputStream is = url.openStream();
-			try (BufferedReader input = new BufferedReader(
-					new InputStreamReader(is, StandardCharsets.UTF_8))) {
+			try (BufferedReader input =
+					new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
 				String line;
 				while ((line = input.readLine()) != null) {
 					contents.append(line);
@@ -181,8 +176,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		boolean succ;
 
-		String[][] data = DataImport.parseExternalData(app,
-				contents.toString(), isCSV);
+		String[][] data = DataImport.parseExternalData(app, contents.toString(), isCSV);
 
 		if (data != null) {
 			if (clearSpreadsheet) {
@@ -194,7 +188,6 @@ public class CopyPasteCutD extends CopyPasteCut {
 		}
 
 		return succ;
-
 	}
 
 	/**
@@ -206,7 +199,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 	/**
 	 * Return the extension portion of the file's name.
-	 * 
+	 *
 	 * @param filename file name
 	 * @return "ext" for file "filename.ext"
 	 */
@@ -219,5 +212,4 @@ public class CopyPasteCutD extends CopyPasteCut {
 		}
 		return null;
 	}
-
 }

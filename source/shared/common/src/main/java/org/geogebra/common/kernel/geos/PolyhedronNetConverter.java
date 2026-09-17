@@ -25,8 +25,8 @@ public class PolyhedronNetConverter extends ExtrudeConverter {
 	private double lengthDirection;
 
 	@Override
-	public double translationToValue(Coords direction, Coords rwTransVec, double startValue,
-			EuclidianView view) {
+	public double translationToValue(
+			Coords direction, Coords rwTransVec, double startValue, EuclidianView view) {
 		return direction.dotproduct3(rwTransVec) / lengthDirection + startValue;
 	}
 
@@ -34,5 +34,4 @@ public class PolyhedronNetConverter extends ExtrudeConverter {
 	public void record(ChangeableParent parent, Coords startPoint) {
 		lengthDirection = parent.getDirection().calcNorm();
 	}
-
 }

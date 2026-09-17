@@ -60,7 +60,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private DrawSegment3D stylusBeamDrawable;
 	boolean stylusBeamIsVisible;
 
-	static private int STYLUS_BEAM_THICKNESS = 9;
+	private static int STYLUS_BEAM_THICKNESS = 9;
 
 	private HitGeo hitGeo = new HitGeo();
 
@@ -68,9 +68,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	private Coords tmpCoords1 = new Coords(4);
 
-	final static protected float LONG_DELAY = 1500f;
+	protected static final float LONG_DELAY = 1500f;
 
-	final private static double GRAY_SCALE_FOR_INPUT3D = 255 * 0.75;
+	private static final double GRAY_SCALE_FOR_INPUT3D = 255 * 0.75;
 
 	/**
 	 * @param view
@@ -116,7 +116,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			// draw mouse cursor at the same place
 			renderer1.drawMouseCursor();
 			return;
-
 		}
 
 		getView().drawMouseCursor(renderer1, mouse3DScreenPosition);
@@ -134,24 +133,19 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		if (hitGeoCompletingDelay > PlotterCompletingCursor.START_DRAW
 				&& hitGeoCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.identity(tmpMatrix4x4_3);
-			completingCursorOrigin
-					.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
+			completingCursorOrigin.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
-			return drawCompletingCursor(renderer1, completingCursorOrigin,
-					hitGeoCompletingDelay);
+			return drawCompletingCursor(renderer1, completingCursorOrigin, hitGeoCompletingDelay);
 		}
 
 		// are we releasing?
-		float stationaryCoordsCompletingDelay = stationaryCoords
-				.getCompletingDelay();
+		float stationaryCoordsCompletingDelay = stationaryCoords.getCompletingDelay();
 		if (stationaryCoordsCompletingDelay > PlotterCompletingCursor.START_DRAW
 				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.END_DRAW) {
 			CoordMatrix4x4.identity(tmpMatrix4x4_3);
-			completingCursorOrigin
-					.setValues(stationaryCoords.getCurrentCoords(), 3);
+			completingCursorOrigin.setValues(stationaryCoords.getCurrentCoords(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
-			drawCompletingCursor(renderer1, completingCursorOrigin,
-					1 - stationaryCoordsCompletingDelay);
+			drawCompletingCursor(renderer1, completingCursorOrigin, 1 - stationaryCoordsCompletingDelay);
 			return true;
 		}
 
@@ -159,19 +153,16 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		if (stationaryCoordsCompletingDelay >= 0
 				&& stationaryCoordsCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
 			CoordMatrix4x4.identity(tmpMatrix4x4_3);
-			completingCursorOrigin
-					.setValues(stationaryCoords.getCurrentCoords(), 3);
+			completingCursorOrigin.setValues(stationaryCoords.getCurrentCoords(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
 			drawCompletingCursor(renderer1, completingCursorOrigin, 1);
 			return true;
 		}
 
 		// are we over a moveable geo?
-		if (hitGeo.getGeo() != null
-				&& hitGeoCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
+		if (hitGeo.getGeo() != null && hitGeoCompletingDelay <= PlotterCompletingCursor.START_DRAW) {
 			CoordMatrix4x4.identity(tmpMatrix4x4_3);
-			completingCursorOrigin
-					.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
+			completingCursorOrigin.setValues(getView().getCursor3D().getInhomCoordsInD3(), 3);
 			getView().toScreenCoords3D(completingCursorOrigin);
 			return drawCompletingCursor(renderer1, completingCursorOrigin, 0);
 		}
@@ -179,47 +170,45 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		// nothing is hit
 		completingCursorOrigin.setValues(mouse3DScreenPosition, 3);
 		return drawCompletingCursor(renderer1, completingCursorOrigin, 0);
-
 	}
 
 	/**
 	 * @return false if we need also the mouse cursor
 	 */
-	private boolean drawCompletingCursor(Renderer renderer1, Coords origin,
-			float completingDelay) {
+	private boolean drawCompletingCursor(Renderer renderer1, Coords origin, float completingDelay) {
 
 		switch (input3D.getOutOfField()) {
-		case RIGHT:
-			origin.setX(renderer1.getRight());
-			origin.setY(0);
-			origin.setZ(0);
-			break;
-		case LEFT:
-			origin.setX(renderer1.getLeft());
-			origin.setY(0);
-			origin.setZ(0);
-			break;
-		case TOP:
-			origin.setX(0);
-			origin.setY(renderer1.getTop());
-			origin.setZ(0);
-			break;
-		case BOTTOM:
-			origin.setX(0);
-			origin.setY(renderer1.getBottom());
-			origin.setZ(0);
-			break;
-		case FAR:
-			origin.setX(0);
-			origin.setY(0);
-			origin.setZ(renderer1.getFar());
-			break;
-		default:
-		case NEAR:
-			origin.setX(0);
-			origin.setY(0);
-			origin.setZ(renderer1.getNear());
-			break;
+			case RIGHT:
+				origin.setX(renderer1.getRight());
+				origin.setY(0);
+				origin.setZ(0);
+				break;
+			case LEFT:
+				origin.setX(renderer1.getLeft());
+				origin.setY(0);
+				origin.setZ(0);
+				break;
+			case TOP:
+				origin.setX(0);
+				origin.setY(renderer1.getTop());
+				origin.setZ(0);
+				break;
+			case BOTTOM:
+				origin.setX(0);
+				origin.setY(renderer1.getBottom());
+				origin.setZ(0);
+				break;
+			case FAR:
+				origin.setX(0);
+				origin.setY(0);
+				origin.setZ(renderer1.getFar());
+				break;
+			default:
+			case NEAR:
+				origin.setX(0);
+				origin.setY(0);
+				origin.setZ(renderer1.getNear());
+				break;
 		}
 
 		// draw at the mouse location
@@ -262,8 +251,8 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	@Override
 	public void setHits(PointerEventType type) {
 
-		if (!input3D.currentlyUseMouse2D() && (input3D.isRightPressed()
-				|| input3D.isThirdButtonPressed())) {
+		if (!input3D.currentlyUseMouse2D()
+				&& (input3D.isRightPressed() || input3D.isThirdButtonPressed())) {
 			return;
 		}
 
@@ -275,14 +264,13 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		// not moving a geo : see if user stays on the same hit to select it
 		if (input3D.useCompletingDelay()
-				&& getView().getEuclidianController()
-						.getMoveMode() == MoveMode.NONE
+				&& getView().getEuclidianController().getMoveMode() == MoveMode.NONE
 				&& !input3D.hasCompletedGrabbingDelay()) {
 			long time = System.currentTimeMillis();
 			hitGeo.setHit(
-					getView().getHits3D().getTopHits()
-							.getFirstGeo6dofMoveable(),
-					time, mouse3DScreenPosition);
+					getView().getHits3D().getTopHits().getFirstGeo6dofMoveable(),
+					time,
+					mouse3DScreenPosition);
 			// reset hits
 			GeoElement geoToHit = hitGeo.getGeo();
 			getView().getHits3D().init(geoToHit);
@@ -290,11 +278,11 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			getView().getApplication().setMode(EuclidianConstants.MODE_MOVE);
 			if (hitGeo.hasLongDelay(time)) {
 				input3D.setHasCompletedGrabbingDelay(true);
-				getView().getEuclidianController().handleMovedElement(geoToHit,
-						false, PointerEventType.TOUCH);
+				getView()
+						.getEuclidianController()
+						.handleMovedElement(geoToHit, false, PointerEventType.TOUCH);
 			}
 		}
-
 	}
 
 	@Override
@@ -304,8 +292,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			return super.isMoveable(geo);
 		}
 
-		if (geo.isGeoPlane() && geo.isIndependent()
-				&& !(geo instanceof GeoPlane3DConstant)) {
+		if (geo.isGeoPlane() && geo.isIndependent() && !(geo instanceof GeoPlane3DConstant)) {
 			return true;
 		}
 
@@ -334,8 +321,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	public void initAxisAndPlane() {
 
 		if (input3D.hasMouseDirection()) {
-			stylusBeam = new GeoSegment3D(
-					getView().getKernel().getConstruction());
+			stylusBeam = new GeoSegment3D(getView().getKernel().getConstruction());
 			stylusBeam.setCoord(Coords.O, Coords.VX);
 			stylusBeam.setObjColor(GColor.GREEN);
 			stylusBeam.setLineThickness(STYLUS_BEAM_THICKNESS);
@@ -348,7 +334,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 				}
 			};
 		}
-
 	}
 
 	@Override
@@ -367,17 +352,13 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	@Override
 	public void updateStylusBeamForMovedGeo() {
 
-		if (getView().getEuclidianController()
-				.getMoveMode() == MoveMode.NONE) {
+		if (getView().getEuclidianController().getMoveMode() == MoveMode.NONE) {
 			return;
 		}
 
-		if (getView().getEuclidianController()
-				.getMoveMode() != MoveMode.PLANE) {
-			getView().getCursor3D().setCoords(input3D.getMouse3DScenePosition(),
-					false);
-			GeoElement movedGeo = getView().getEuclidianController()
-					.getMovedGeoElement();
+		if (getView().getEuclidianController().getMoveMode() != MoveMode.PLANE) {
+			getView().getCursor3D().setCoords(input3D.getMouse3DScenePosition(), false);
+			GeoElement movedGeo = getView().getEuclidianController().getMovedGeoElement();
 			if (movedGeo != null) {
 				zNearest = movedGeo.distance(getView().getCursor3D());
 			}
@@ -388,25 +369,24 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	private void updateStylusBeam() {
 		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
-			stylusBeam.setCoord(input3D.getMouse3DScenePosition(),
-					input3D.getMouse3DDirection().mul(zNearest));
+			stylusBeam.setCoord(
+					input3D.getMouse3DScenePosition(), input3D.getMouse3DDirection().mul(zNearest));
 			stylusBeamDrawable.setWaitForUpdate();
 			stylusBeamDrawable.update();
 		}
-
 	}
 
 	/**
 	 * set coords to stylus end for given length
-	 * 
+	 *
 	 * @param coords
 	 *            returned coords
 	 * @param l
 	 *            length
 	 */
 	public void getStylusBeamEnd(Coords coords, double l) {
-		coords.setAdd(input3D.getMouse3DScenePosition(),
-				coords.setMul(input3D.getMouse3DDirection(), l));
+		coords.setAdd(
+				input3D.getMouse3DScenePosition(), coords.setMul(input3D.getMouse3DDirection(), l));
 	}
 
 	@Override
@@ -430,10 +410,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 				stylusBeamIsVisible = false;
 			} else if (input3D.isLeftPressed()) {
 				// show stylus beam only if object is moved
-				stylusBeamIsVisible = getView().getEuclidianController()
-						.getMoveMode() != MoveMode.NONE && hasMouse();
-			} else if (input3D.isRightPressed()
-					|| input3D.isThirdButtonPressed()) {
+				stylusBeamIsVisible =
+						getView().getEuclidianController().getMoveMode() != MoveMode.NONE && hasMouse();
+			} else if (input3D.isRightPressed() || input3D.isThirdButtonPressed()) {
 				stylusBeamIsVisible = false;
 			} else {
 				stylusBeamIsVisible = hasMouse();
@@ -452,16 +431,15 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		if (point.hasRegion()) {
 			super.drawPointAlready(point);
-		} else if (!point.isPointOnPath()
-				&& point.getMoveMode() != GeoPointND.MOVE_MODE_NONE) {
+		} else if (!point.isPointOnPath() && point.getMoveMode() != GeoPointND.MOVE_MODE_NONE) {
 			getView().getRenderer().drawCursor(PlotterCursor.Type.ALREADY_XYZ);
 		}
 	}
 
 	@Override
 	public void setDefaultRotAnimation() {
-		getView().setRotAnimation(input3D.getDefaultRotationOz(),
-				input3D.getDefaultRotationXOY(), false);
+		getView()
+				.setRotAnimation(input3D.getDefaultRotationOz(), input3D.getDefaultRotationXOY(), false);
 	}
 
 	@Override
@@ -478,25 +456,24 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			double grayScale = color.getGrayScale();
 			if (grayScale > GRAY_SCALE_FOR_INPUT3D) {
 				double factor = GRAY_SCALE_FOR_INPUT3D / grayScale;
-				GColor darker = GColor.newColor((int) (color.getRed() * factor),
+				GColor darker = GColor.newColor(
+						(int) (color.getRed() * factor),
 						(int) (color.getGreen() * factor),
-						(int) (color.getBlue() * factor), 255);
+						(int) (color.getBlue() * factor),
+						255);
 				getView().setBackground(color, darker);
 				return;
 			}
 		}
 
 		super.setBackground(color);
-
 	}
 
 	@Override
 	public boolean handleSpaceKey() {
-		if (getView().getEuclidianController()
-				.getMoveMode() == MoveMode.NONE) {
+		if (getView().getEuclidianController().getMoveMode() == MoveMode.NONE) {
 
-			hitGeo.setHit(getView().getHits3D().getTopHits()
-					.getFirstGeo6dofMoveable());
+			hitGeo.setHit(getView().getHits3D().getTopHits().getFirstGeo6dofMoveable());
 			// reset hits
 			GeoElement geoToHit = hitGeo.getGeo();
 			getView().getHits3D().init(geoToHit);
@@ -505,8 +482,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			if (geoToHit != null) {
 				hitGeo.consumeLongDelay();
 				input3D.setHasCompletedGrabbingDelay(true);
-				getView().getEuclidianController().handleMovedElement(geoToHit,
-						false, PointerEventType.TOUCH);
+				getView()
+						.getEuclidianController()
+						.handleMovedElement(geoToHit, false, PointerEventType.TOUCH);
 				return true;
 			}
 
@@ -521,17 +499,17 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private void releaseGrabbing() {
 		getStationaryCoords().consumeLongDelay();
 		input3D.setHasCompletedGrabbingDelay(false);
-		getView().getApplication().getSelectionManager()
-				.clearSelectedGeos(true);
-		getView().getEuclidianController().endOfWrapMouseReleased(new Hits(),
-				false, false, false, PointerEventType.TOUCH);
+		getView().getApplication().getSelectionManager().clearSelectedGeos(true);
+		getView()
+				.getEuclidianController()
+				.endOfWrapMouseReleased(new Hits(), false, false, false, PointerEventType.TOUCH);
 	}
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {
 
-		if (input3D.useHandGrabbing() && getView().getEuclidianController()
-				.getMoveMode() != MoveMode.NONE) {
+		if (input3D.useHandGrabbing()
+				&& getView().getEuclidianController().getMoveMode() != MoveMode.NONE) {
 			releaseGrabbing();
 		}
 
@@ -549,48 +527,45 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	@Override
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
-	protected void drawTranslateViewCursor(Renderer renderer1,
-			EuclidianCursor cursor, GeoPoint3D cursorOnXOYPlane,
+	protected void drawTranslateViewCursor(
+			Renderer renderer1,
+			EuclidianCursor cursor,
+			GeoPoint3D cursorOnXOYPlane,
 			CoordMatrix4x4 cursorMatrix) {
 		if (!input3D.hasMouseDirection()) {
-			super.drawTranslateViewCursor(renderer1, cursor, cursorOnXOYPlane,
-					cursorMatrix);
+			super.drawTranslateViewCursor(renderer1, cursor, cursorOnXOYPlane, cursorMatrix);
 		} else {
 			if (input3D.currentlyUseMouse2D()) {
-				GPoint mouseLoc = getView().getEuclidianController()
-						.getMouseLoc();
+				GPoint mouseLoc = getView().getEuclidianController().getMouseLoc();
 				if (mouseLoc == null) {
-					super.drawTranslateViewCursor(renderer1, cursor,
-							cursorOnXOYPlane, cursorMatrix);
+					super.drawTranslateViewCursor(renderer1, cursor, cursorOnXOYPlane, cursorMatrix);
 				} else {
 
 					Coords v;
-					if (getView()
-							.getCursor3DType() == EuclidianView3D.CURSOR_DEFAULT) {
+					if (getView().getCursor3DType() == EuclidianView3D.CURSOR_DEFAULT) {
 						// if mouse is over nothing, use mouse coords and screen
 						// for depth
-						v = new Coords(mouseLoc.x + renderer1.getLeft(),
-								-mouseLoc.y + renderer1.getTop(), 0, 1);
+						v = new Coords(
+								mouseLoc.x + renderer1.getLeft(), -mouseLoc.y + renderer1.getTop(), 0, 1);
 					} else {
 						// if mouse is over an object, use its depth and mouse
 						// coords
 						Coords eye = renderer1.getPerspEye();
-						double z = getView().getToScreenMatrix()
-								.mul(getView().getCursor3D().getCoords()).getZ()
+						double z = getView()
+										.getToScreenMatrix()
+										.mul(getView().getCursor3D().getCoords())
+										.getZ()
 								+ 20; // to
-										// be
-										// over
+						// be
+						// over
 						double eyeSep = renderer1.getEyeSep();
 
-						double x = mouseLoc.x + renderer1.getLeft() + eyeSep
-								- eye.getX();
-						double y = -mouseLoc.y + renderer1.getTop()
-								- eye.getY();
+						double x = mouseLoc.x + renderer1.getLeft() + eyeSep - eye.getX();
+						double y = -mouseLoc.y + renderer1.getTop() - eye.getY();
 						double dz = eye.getZ() - z;
 						double coeff = dz / eye.getZ();
 
-						v = new Coords(x * coeff - eyeSep + eye.getX(),
-								y * coeff + eye.getY(), z, 1);
+						v = new Coords(x * coeff - eyeSep + eye.getX(), y * coeff + eye.getY(), z, 1);
 					}
 
 					tmpMatrix4x4_3.setDiagonal3(1 / getView().getScale());
@@ -598,13 +573,12 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 					tmpMatrix4x4_3.setOrigin(tmpCoords1);
 
 					renderer1.setMatrix(tmpMatrix4x4_3);
-					getView().drawPointAlready(
-							cursorOnXOYPlane.getRealMoveMode());
+					getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
 					renderer1.drawCursor(PlotterCursor.Type.CUBE);
 				}
 			} else {
 				if (input3D.isThirdButtonPressed()) { // third button: translate
-														// view
+					// view
 					// let's scale it a bit more
 					tmpMatrix4x4_3.setDiagonal3(1.5 / getView().getScale());
 					// show the cursor at mid beam
@@ -619,11 +593,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 					// let's scale it a bit more
 					tmpMatrix4x4_3.setDiagonal3(1.5 / getView().getScale());
 
-					tmpCoords1.setMul(getView().getToSceneMatrix(),
-							input3D.getRightDragElevation().val);
+					tmpCoords1.setMul(getView().getToSceneMatrix(), input3D.getRightDragElevation().val);
 					tmpCoords1.setW(0);
-					tmpCoords1.addInside(
-							getView().getToSceneMatrix().getOrigin());
+					tmpCoords1.addInside(getView().getToSceneMatrix().getOrigin());
 					tmpMatrix4x4_3.setOrigin(tmpCoords1);
 
 					renderer1.setMatrix(tmpMatrix4x4_3);
@@ -646,7 +618,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		/**
 		 * say if we should forget current
-		 * 
+		 *
 		 * @param time
 		 *            current time
 		 * @return true if from last time enough delay has passed to forget
@@ -656,8 +628,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			return (time - lastTime) * 8 > LONG_DELAY;
 		}
 
-		void setHit(GeoElement newGeo, long time,
-				Coords mousePosition) {
+		void setHit(GeoElement newGeo, long time, Coords mousePosition) {
 			if (newGeo == null || mousePosition == null) { // reinit geo
 				if (forgetCurrent(time)) {
 					geo = null;
@@ -668,12 +639,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 				if (newGeo == geo) { // remember last time
 					// check if mouse has changed too much: reset the timer
 					int threshold = 30; // getCapturingThreshold(PointerEventType.TOUCH);
-					if (Math.abs(mousePosition.getX()
-							- startMousePosition.getX()) > threshold
-							|| Math.abs(mousePosition.getY()
-									- startMousePosition.getY()) > threshold
-							|| Math.abs(mousePosition.getZ()
-									- startMousePosition.getZ()) > threshold) {
+					if (Math.abs(mousePosition.getX() - startMousePosition.getX()) > threshold
+							|| Math.abs(mousePosition.getY() - startMousePosition.getY()) > threshold
+							|| Math.abs(mousePosition.getZ() - startMousePosition.getZ()) > threshold) {
 						startTime = time;
 						startMousePosition.setValues(mousePosition, 3);
 					} else {
@@ -691,7 +659,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		/**
 		 * set hit geo
-		 * 
+		 *
 		 * @param newGeo
 		 *            hit geo
 		 */
@@ -703,7 +671,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return current geo
 		 */
 		GeoElement getGeo() {
@@ -711,7 +679,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param time
 		 *            current time
 		 * @return true if hit was long enough to process left press
@@ -740,7 +708,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		float getCompletingDelay() {
 			return delay / LONG_DELAY;
 		}
-
 	}
 
 	public class StationaryCoords {
@@ -790,8 +757,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		 */
 		public void updateCoords(long time) {
 			if (startCoords.isDefined()) {
-				double distance = Math
-						.abs(startCoords.getX() - newCoords.getX())
+				double distance = Math.abs(startCoords.getX() - newCoords.getX())
 						+ Math.abs(startCoords.getY() - newCoords.getY())
 						+ Math.abs(startCoords.getZ() - newCoords.getZ());
 				// Log.debug("\n -- "+(distance * ((EuclidianView3D)
@@ -813,7 +779,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param time
 		 *            current time
 		 * @return true if hit was long enough to process left release
@@ -923,10 +889,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	public boolean useOnlyProjectionGlasses() {
 		return input3D.useOnlyProjectionGlasses();
 	}
-	
+
 	@Override
 	public boolean shouldDrawCursor() {
 		return super.shouldDrawCursor() && hasMouse();
 	}
-
 }

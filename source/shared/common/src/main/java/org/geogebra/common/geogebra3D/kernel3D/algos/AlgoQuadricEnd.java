@@ -42,7 +42,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
 	// private GeoPoint3D help;
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param quadric
@@ -60,8 +60,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	 * @param helper
 	 *            whether this is helper (don't add to construction)
 	 */
-	public AlgoQuadricEnd(Construction cons, GeoQuadric3DLimited quadric,
-			boolean helper) {
+	public AlgoQuadricEnd(Construction cons, GeoQuadric3DLimited quadric, boolean helper) {
 		super(cons, !helper);
 
 		this.quadric = quadric;
@@ -70,15 +69,14 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		section.setCoordSys(coordsys);
 		section.setIsEndOfQuadric(true);
 		if (!helper) {
-			setInputOutput(new GeoElement[] { quadric },
-					new GeoElement[] { section });
+			setInputOutput(new GeoElement[] {quadric}, new GeoElement[] {section});
 		}
 
 		compute();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -86,14 +84,13 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	 * @param quadric
 	 *            quadric
 	 */
-	public AlgoQuadricEnd(Construction cons, String label,
-			GeoQuadric3DLimited quadric) {
+	public AlgoQuadricEnd(Construction cons, String label, GeoQuadric3DLimited quadric) {
 		this(cons, quadric);
 		section.setLabel(label);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return section
 	 */
 	public GeoConic3D getSection() {
@@ -109,15 +106,12 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		}
 
 		section.setDefined();
-		if (quadric
-				.getType() == GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER) {
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER) {
 
 			Coords d = quadric.getEigenvec3D(1).normalize();
 
-			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d,
-					quadric.getBottomParameter());
-			Coords o2 = quadric.getMidpoint3D().copy().addInsideMul(d,
-					quadric.getTopParameter());
+			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d, quadric.getBottomParameter());
+			Coords o2 = quadric.getMidpoint3D().copy().addInsideMul(d, quadric.getTopParameter());
 			pm.setOrigin(getOrigin(o1, o2));
 			Coords[] v = new Coords[3]; // d.completeOrthonormal();
 			v[2] = quadric.getEigenvec3D(2).normalize();
@@ -144,14 +138,11 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		} else {
 
 			Coords d = quadric.getEigenvec3D(2);
-			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d,
-					quadric.getBottomParameter());
-			Coords o2 = quadric.getMidpoint3D().copy().addInsideMul(d,
-					quadric.getTopParameter());
+			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d, quadric.getBottomParameter());
+			Coords o2 = quadric.getMidpoint3D().copy().addInsideMul(d, quadric.getTopParameter());
 
 			if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
-					|| quadric
-							.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
+					|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
 				// cylinder or cone equal to a segment
 				if (DoubleUtil.isZero(quadric.getHalfAxis(0))
 						&& (Double.isNaN(quadric.getHalfAxis(1))
@@ -216,14 +207,13 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	 *            top origin
 	 * @return origin of given end
 	 */
-	abstract protected Coords getOrigin(Coords o1, Coords o2);
+	protected abstract Coords getOrigin(Coords o1, Coords o2);
 
 	/**
-	 * 
+	 *
 	 * @param v1
 	 *            orientation out of the quadric
 	 * @return orientation out of the end
 	 */
-	abstract protected Coords getV1(Coords v1);
-
+	protected abstract Coords getV1(Coords v1);
 }

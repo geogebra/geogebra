@@ -50,5 +50,4 @@ public abstract class LaTeXFactory {
 	 * @return LaTeX cache
 	 */
 	public abstract LaTeXCache newLaTeXCache();
-
 }

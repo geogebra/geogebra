@@ -43,8 +43,7 @@ public final class EditorApi {
 	 * @param listener editor input listener
 	 */
 	@JsIgnore
-	public EditorApi(MathFieldW mathField, TabbedKeyboard kb,
-			EditorListener listener) {
+	public EditorApi(MathFieldW mathField, TabbedKeyboard kb, EditorListener listener) {
 		this.mathField = mathField;
 		this.kb = kb;
 		this.listener = listener;
@@ -92,10 +91,9 @@ public final class EditorApi {
 	 * @param callback called with {svg: base64 encoded SVG,
 	 *             baseline: relative baseline position} or error
 	 */
-	public void exportImage(JsPropertyMap<String> options,
-			MathFieldExporter.ImageConsumer callback) {
-		new MathFieldExporter(mathField).export(options.get("type"),
-				Js.isTruthy(options.get("transparent")), callback);
+	public void exportImage(JsPropertyMap<String> options, MathFieldExporter.ImageConsumer callback) {
+		new MathFieldExporter(mathField)
+				.export(options.get("type"), Js.isTruthy(options.get("transparent")), callback);
 	}
 
 	/**
@@ -125,5 +123,4 @@ public final class EditorApi {
 	public String getVersion() {
 		return GeoGebraConstants.VERSION_STRING;
 	}
-
 }

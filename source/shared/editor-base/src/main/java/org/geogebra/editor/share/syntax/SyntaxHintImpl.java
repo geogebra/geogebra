@@ -43,8 +43,8 @@ public class SyntaxHintImpl implements SyntaxHint {
 			return "";
 		}
 
-		return command + "(" + placeholders.stream().limit(index)
-				.collect(Collectors.joining(", ")) + (index > 0 ? ", " : "");
+		return command + "(" + placeholders.stream().limit(index).collect(Collectors.joining(", "))
+				+ (index > 0 ? ", " : "");
 	}
 
 	@Override

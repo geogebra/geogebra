@@ -37,7 +37,7 @@ public class LongTouchTimer extends Timer {
 	public interface LongTouchHandler {
 		/**
 		 * Handles the long touch event.
-		 * 
+		 *
 		 * @param x
 		 *            the x coordinate of the long touch
 		 * @param y
@@ -70,7 +70,7 @@ public class LongTouchTimer extends Timer {
 
 	/**
 	 * Schedules the timer with a default delay value.
-	 * 
+	 *
 	 * @param handler
 	 *            the handler to use when the timer fires
 	 * @param x
@@ -84,7 +84,7 @@ public class LongTouchTimer extends Timer {
 
 	/**
 	 * Schedules the timer with {@code delayMillis} ms.
-	 * 
+	 *
 	 * @param handler
 	 *            the handler to use when the timer fires
 	 * @param x
@@ -94,8 +94,7 @@ public class LongTouchTimer extends Timer {
 	 * @param delayMillis
 	 *            how long to wait before the timer elapses, in milliseconds
 	 */
-	public void schedule(LongTouchHandler handler, double x, double y,
-			int delayMillis) {
+	public void schedule(LongTouchHandler handler, double x, double y, int delayMillis) {
 		this.touchHandler = handler;
 		this.mX = x;
 		this.mY = y;
@@ -104,7 +103,7 @@ public class LongTouchTimer extends Timer {
 
 	/**
 	 * Reschedules the timer if it is running, with {@code delayMillis} ms.
-	 * 
+	 *
 	 * @param x
 	 *            the x coordinate passed to the handler
 	 * @param y
@@ -112,8 +111,7 @@ public class LongTouchTimer extends Timer {
 	 * @param delayMillis
 	 *            how long to wait before the timer elapses, in milliseconds
 	 */
-	public void rescheduleIfRunning(LongTouchHandler handler, double x, double y,
-			int delayMillis) {
+	public void rescheduleIfRunning(LongTouchHandler handler, double x, double y, int delayMillis) {
 		if (isRunning()) {
 			cancel();
 			if (pointWithinLimit(x, y)) {
@@ -145,7 +143,6 @@ public class LongTouchTimer extends Timer {
 	}
 
 	private boolean pointWithinLimit(double nx, double ny) {
-		return Math.abs(nx - mX) < MOVE_THRESHOLD
-				&& Math.abs(ny - mY) < MOVE_THRESHOLD;
+		return Math.abs(nx - mX) < MOVE_THRESHOLD && Math.abs(ny - mY) < MOVE_THRESHOLD;
 	}
 }

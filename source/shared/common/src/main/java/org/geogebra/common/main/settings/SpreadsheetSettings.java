@@ -188,8 +188,8 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 * @param columnWidths a map of column indices to column widths
 	 * @param rowHeights a map of row indices to row heights
 	 */
-	public void setCellSizesNoFire(@NonNull Map<Integer, Double> columnWidths,
-			@NonNull Map<Integer, Double> rowHeights) {
+	public void setCellSizesNoFire(
+			@NonNull Map<Integer, Double> columnWidths, @NonNull Map<Integer, Double> rowHeights) {
 		this.columnWidths = columnWidths;
 		this.rowHeights = rowHeights;
 	}
@@ -446,8 +446,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 *            the scrollPosition to set
 	 */
 	public void setScrollPosition(GPoint scrollPosition) {
-		if (this.scrollPosition == null
-				|| !this.scrollPosition.equals(scrollPosition)) {
+		if (this.scrollPosition == null || !this.scrollPosition.equals(scrollPosition)) {
 			this.scrollPosition = scrollPosition;
 			settingChanged();
 		}
@@ -465,8 +464,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 *            the selectedCell to set
 	 */
 	public void setSelectedCell(GPoint selectedCell) {
-		if (this.selectedCell == null
-				|| !this.selectedCell.equals(selectedCell)) {
+		if (this.selectedCell == null || !this.selectedCell.equals(selectedCell)) {
 			this.selectedCell = selectedCell;
 			settingChanged();
 		}
@@ -487,8 +485,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 *            the preferredSize to set
 	 */
 	public void setPreferredSize(GDimension preferredSize) {
-		if (this.preferredSize == null
-				|| !this.preferredSize.equals(preferredSize)) {
+		if (this.preferredSize == null || !this.preferredSize.equals(preferredSize)) {
 			this.preferredSize = preferredSize;
 			settingChanged();
 		}
@@ -536,8 +533,10 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 * @return whether all settings are default
 	 */
 	public boolean isAllDefaults() {
-		return isDefaultPreferredSize() && isSelectionDefaults()
-				&& isLayoutDefaults() && !hasCellFormat()
+		return isDefaultPreferredSize()
+				&& isSelectionDefaults()
+				&& isLayoutDefaults()
+				&& !hasCellFormat()
 				&& isRowColumnSizeDefaults();
 	}
 
@@ -547,27 +546,36 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	private boolean isRowColumnSizeDefaults() {
 		return preferredColumnWidth == TABLE_CELL_WIDTH
 				&& preferredRowHeight == TABLE_CELL_HEIGHT
-				&& getColumnWidths().isEmpty() && getRowHeights().isEmpty();
+				&& getColumnWidths().isEmpty()
+				&& getRowHeights().isEmpty();
 	}
 
 	/**
 	 * @return whether the selection is default
 	 */
 	private boolean isSelectionDefaults() {
-		return hScrollBarValue == 0 && vScrollBarValue == 0
-				&& selectedCell.getX() == 0 && selectedCell.getY() == 0;
+		return hScrollBarValue == 0
+				&& vScrollBarValue == 0
+				&& selectedCell.getX() == 0
+				&& selectedCell.getY() == 0;
 	}
 
 	/**
 	 * @return whether layout settings are all default
 	 */
 	private boolean isLayoutDefaults() {
-		return isDefaultShowFormulaBar() && isDefaultShowGrid()
-				&& isDefaultShowRowHeader() && isDefaultShowColumnHeader()
-				&& isDefaultVScrollBar() && isDefaultHScrollBar()
-				&& isDefaultColumnSelect() && isDefaultSpecialEditorAllowed()
-				&& isDefaultToolTipsAllowed() && isDefaultSpecialEditorAllowed()
-				&& !equalsRequired() && !isEnableAutoComplete();
+		return isDefaultShowFormulaBar()
+				&& isDefaultShowGrid()
+				&& isDefaultShowRowHeader()
+				&& isDefaultShowColumnHeader()
+				&& isDefaultVScrollBar()
+				&& isDefaultHScrollBar()
+				&& isDefaultColumnSelect()
+				&& isDefaultSpecialEditorAllowed()
+				&& isDefaultToolTipsAllowed()
+				&& isDefaultSpecialEditorAllowed()
+				&& !equalsRequired()
+				&& !isEnableAutoComplete();
 	}
 
 	private boolean isDefaultToolTipsAllowed() {
@@ -613,8 +621,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 		int w = preferredSize.getWidth();
 		int h = preferredSize.getHeight();
 
-		return (w == 0 && h == 0)
-				|| (w == TABLE_CELL_WIDTH && h == TABLE_CELL_HEIGHT);
+		return (w == 0 && h == 0) || (w == TABLE_CELL_WIDTH && h == TABLE_CELL_HEIGHT);
 	}
 
 	// ============================================
@@ -623,7 +630,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 
 	/**
 	 * returns settings in XML format
-	 * 
+	 *
 	 * @param xmlBuilder
 	 *            string builder
 	 * @param asPreference
@@ -689,8 +696,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 
 		// cell formats
 		if (!asPreference && hasCellFormat()) {
-			xb.startTag("spreadsheetCellFormat")
-					.attrRaw("formatMap", cellFormat).endTag();
+			xb.startTag("spreadsheetCellFormat").attrRaw("formatMap", cellFormat).endTag();
 		}
 
 		if (sb.length() != 0) { // can't be simplified https://github.com/google/j2objc/issues/2823
@@ -702,7 +708,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 
 	/**
 	 * Add layout settings.
-	 * 
+	 *
 	 * @param sb
 	 *            XML string builder
 	 */
@@ -740,7 +746,6 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 
 			if (allowToolTips) {
 				sb.attr("allowToolTips", true);
-
 			}
 
 			if (equalsRequired) {
@@ -753,12 +758,11 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 
 			sb.endTag();
 		}
-
 	}
 
 	/**
 	 * Append width / height settings to XML.
-	 * 
+	 *
 	 * @param sb
 	 *            XML string builder
 	 */
@@ -773,8 +777,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 			int col = entry.getKey();
 			double colWidth = entry.getValue();
 			if (colWidth != preferredColumnWidth()) {
-				sb.startTag("spreadsheetColumn").attr("id", col)
-						.attr("width", colWidth).endTag();
+				sb.startTag("spreadsheetColumn").attr("id", col).attr("width", colWidth).endTag();
 			}
 		}
 
@@ -784,11 +787,9 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 			int row = entry.getKey();
 			double rowHeight = entry.getValue();
 			if (rowHeight != preferredRowHeight()) {
-				sb.startTag("spreadsheetRow").attr("id", row)
-						.attr("height", rowHeight).endTag();
+				sb.startTag("spreadsheetRow").attr("id", row).attr("height", rowHeight).endTag();
 			}
 		}
-
 	}
 
 	/**
@@ -797,8 +798,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 */
 	public void getDimensionsXML(XMLStringBuilder sb) {
 		if (rows != DEFAULT_NR_ROWS || columns != DEFAULT_NR_COLUMNS) {
-			sb.startTag("dimensions").attr("rows", rows)
-					.attr("columns", columns).endTag();
+			sb.startTag("dimensions").attr("rows", rows).attr("columns", columns).endTag();
 		}
 	}
 
@@ -818,7 +818,8 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 * @param minColumns minimal number of columns
 	 */
 	public void ensureDimensions(int minRows, int minColumns) {
-		setDimensions(Math.min(Math.max(rows, minRows), Spreadsheet.MAX_ROWS),
+		setDimensions(
+				Math.min(Math.max(rows, minRows), Spreadsheet.MAX_ROWS),
 				Math.min(Math.max(columns, minColumns), Spreadsheet.MAX_COLUMNS));
 	}
 
@@ -826,14 +827,14 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	 * @param rows number of rows
 	 */
 	public void setRowsNoFire(int rows) {
-		this.rows  = rows;
+		this.rows = rows;
 	}
 
 	/**
 	 * @param columns number of columns
 	 */
 	public void setColumnsNoFire(int columns) {
-		this.columns  = columns;
+		this.columns = columns;
 	}
 
 	/**
@@ -864,7 +865,7 @@ public class SpreadsheetSettings extends AbstractSettings<SpreadsheetSettings>
 	public void setCellFormatXml(@Nullable String xml) {
 		cellFormat = xml;
 	}
-	
+
 	// -- SpreadsheetDimensions --
 
 	@Override

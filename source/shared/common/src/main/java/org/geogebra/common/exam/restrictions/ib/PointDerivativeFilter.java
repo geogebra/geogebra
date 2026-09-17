@@ -52,12 +52,16 @@ public final class PointDerivativeFilter implements ExpressionFilter {
 	private boolean checkFunction(ExpressionNode node) {
 		ExpressionValue left = node.getLeft();
 		ExpressionValue right = node.getRight();
-		return left != null && left.isOperation(Operation.DERIVATIVE) && right != null
+		return left != null
+				&& left.isOperation(Operation.DERIVATIVE)
+				&& right != null
 				&& right.any(e -> e instanceof FunctionVariable);
 	}
 
 	private boolean checkVariable(Variable variable) {
-		EvalInfo info = new EvalInfo().withAutocreate(false).withSymbolic(false)
+		EvalInfo info = new EvalInfo()
+				.withAutocreate(false)
+				.withSymbolic(false)
 				.withSymbolicMode(SymbolicMode.NONE);
 		try {
 			ExpressionValue value = variable.resolveAsExpressionValue(info);

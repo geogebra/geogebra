@@ -26,11 +26,10 @@ import org.gwtproject.dom.client.Element;
  * Interface for app frame
  *
  */
-public interface HeaderPanelDeck
-		extends HasAppletProperties, KeyboardCloseListener {
+public interface HeaderPanelDeck extends HasAppletProperties, KeyboardCloseListener {
 	/**
 	 * Hide the full-sized GUI, e.g. material browser
-	 * 
+	 *
 	 * @param panel
 	 *            full-sized GUI
 	 */
@@ -41,7 +40,7 @@ public interface HeaderPanelDeck
 
 	/**
 	 * Update component heights to account for input bar
-	 * 
+	 *
 	 * @param inputShowing
 	 *            whether horizontal input bar is shown
 	 */
@@ -67,7 +66,5 @@ public interface HeaderPanelDeck
 	 *            whether to force showing
 	 * @return whether keyboard visibility changed
 	 */
-	boolean showKeyboard(boolean show, MathKeyboardListener textField,
-			boolean forceShow);
-
+	boolean showKeyboard(boolean show, MathKeyboardListener textField, boolean forceShow);
 }

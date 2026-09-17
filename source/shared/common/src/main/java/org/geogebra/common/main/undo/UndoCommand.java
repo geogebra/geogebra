@@ -23,7 +23,7 @@ import org.geogebra.common.plugin.ActionType;
 
 /**
  * Item of undo list; can be either a checkpoint or undoable action
- * 
+ *
  * @author Zbynek
  */
 public class UndoCommand {
@@ -76,8 +76,8 @@ public class UndoCommand {
 	 * @param args
 	 *            action arguments
 	 */
-	public UndoCommand(String slideId, ActionType action, String[] args,
-			ActionType undoAction, String[] undoArgs) {
+	public UndoCommand(
+			String slideId, ActionType action, String[] args, ActionType undoAction, String[] undoArgs) {
 		this.action = action;
 		this.args = args;
 		this.slideID = slideId;
@@ -103,7 +103,7 @@ public class UndoCommand {
 
 	/**
 	 * Execute the command again
-	 * 
+	 *
 	 * @param undoManager
 	 *            undo manager
 	 */
@@ -155,7 +155,7 @@ public class UndoCommand {
 			withCurrentSlide(undoManager, () -> {
 				undoManager.executeAction(undoAction, undoArgs);
 
-				//TODO: maybe these actions should also take care of reloading
+				// TODO: maybe these actions should also take care of reloading
 				// the correct information without replay?
 				if (action == ActionType.CLEAR_PAGE || action == ActionType.REMOVE_PAGE) {
 					undoManager.replayActions(slideID, this);
@@ -175,7 +175,7 @@ public class UndoCommand {
 
 	/**
 	 * Get the app to the state right after this was executed.
-	 * 
+	 *
 	 * @param mgr
 	 *            undo manager
 	 */

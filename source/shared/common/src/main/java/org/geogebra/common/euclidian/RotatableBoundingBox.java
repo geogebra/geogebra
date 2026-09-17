@@ -66,17 +66,16 @@ public class RotatableBoundingBox implements BoundingBoxDelegate {
 	public void setHandlerFromCenter(int handlerIndex, double x, double y) {
 		GShape handler = box.handlers.get(handlerIndex);
 		if (box.isRotationHandler(handlerIndex)) {
-			((GEllipse2DDouble) handler).setFrameFromCenter(x, y,
-					x + ROTATION_HANDLER_RADIUS, y + ROTATION_HANDLER_RADIUS);
+			((GEllipse2DDouble) handler)
+					.setFrameFromCenter(x, y, x + ROTATION_HANDLER_RADIUS, y + ROTATION_HANDLER_RADIUS);
 		} else if (box.isCornerHandler(handler)) {
-			((GEllipse2DDouble) handler).setFrameFromCenter(x, y, x + BoundingBox.HANDLER_RADIUS,
-					y + BoundingBox.HANDLER_RADIUS);
+			((GEllipse2DDouble) handler)
+					.setFrameFromCenter(x, y, x + BoundingBox.HANDLER_RADIUS, y + BoundingBox.HANDLER_RADIUS);
 		} else if (box.isSideHandler(handler)) {
 			GRectangle2D rectangleHandler = (GRectangle2D) handler;
 			int width = handlerIndex % 2 == 0 ? SIDE_HANDLER_WIDTH : SIDE_HANDLER_HEIGHT;
 			int height = handlerIndex % 2 == 0 ? SIDE_HANDLER_HEIGHT : SIDE_HANDLER_WIDTH;
-			rectangleHandler.setFrame(x - width, y - height,
-					width * 2, height * 2);
+			rectangleHandler.setFrame(x - width, y - height, width * 2, height * 2);
 		}
 	}
 }

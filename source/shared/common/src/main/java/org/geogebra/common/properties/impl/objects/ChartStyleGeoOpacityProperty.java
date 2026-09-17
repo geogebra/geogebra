@@ -38,8 +38,8 @@ public class ChartStyleGeoOpacityProperty extends AbstractRangeProperty<Integer>
 	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartStyleGeoOpacityProperty(Localization localization, GeoElement geoElement,
-			ChartSegmentSelection chartSegmentSelection)
+	public ChartStyleGeoOpacityProperty(
+			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
 			throws NotApplicablePropertyException {
 		super(localization, "Opacity", 0, 100, 5);
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
@@ -51,7 +51,8 @@ public class ChartStyleGeoOpacityProperty extends AbstractRangeProperty<Integer>
 
 	@Override
 	protected void setValueSafe(Integer value) {
-		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(),
+		chartSegmentSelection.forEachSelectedSegment(
+				chartStyleGeo.getIntervals(),
 				index -> chartStyleGeo.getStyle().setBarAlpha(value / 100d, index));
 		((GeoElement) chartStyleGeo).getKernel().notifyRepaint();
 	}

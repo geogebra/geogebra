@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
  * Polynomial common denominator
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoPolynomialCD extends AlgoElement {
@@ -47,8 +47,7 @@ public class AlgoPolynomialCD extends AlgoElement {
 	 * @param f2
 	 *            second function
 	 */
-	public AlgoPolynomialCD(Construction cons, String label, GeoFunction f1,
-			GeoFunction f2) {
+	public AlgoPolynomialCD(Construction cons, String label, GeoFunction f1, GeoFunction f2) {
 		super(cons);
 		this.f1 = f1;
 		this.f2 = f2;
@@ -105,18 +104,15 @@ public class AlgoPolynomialCD extends AlgoElement {
 			sb.append(")");
 			// cached evaluation of MPReduce as we are only using variable
 			// values
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-					arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(), arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				g.setUndefined();
 			} else {
 				// read result back into function
-				g.set(kernel.getAlgebraProcessor()
-						.evaluateToFunction(functionOut, false));
+				g.set(kernel.getAlgebraProcessor().evaluateToFunction(functionOut, false));
 			}
 		} catch (Throwable th) {
 			g.setUndefined();
 		}
 	}
-
 }

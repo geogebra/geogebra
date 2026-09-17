@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -86,12 +86,12 @@ class SymbolicTableTest {
 		processor.processInput("2", view.getValues(), 1);
 		GeoSymbolic f = (GeoSymbolic) add("f:x+1");
 		view.showColumn(f);
-		assertArrayEquals(new String[] {"x_{1}", "f", "TableValuesPoints"},
-				app.getGgbApi().getAllObjectNames());
+		assertArrayEquals(
+				new String[] {"x_{1}", "f", "TableValuesPoints"}, app.getGgbApi().getAllObjectNames());
 		app.setXML(app.getXML(), true);
 		assertThat(view.getTableValuesModel().getValueAt(0, 1), is(2.0));
-		assertArrayEquals(new String[] {"x_{1}", "f", "TableValuesPoints"},
-				app.getGgbApi().getAllObjectNames());
+		assertArrayEquals(
+				new String[] {"x_{1}", "f", "TableValuesPoints"}, app.getGgbApi().getAllObjectNames());
 	}
 
 	@Test
@@ -102,10 +102,14 @@ class SymbolicTableTest {
 		processor.processInput("4", null, 1);
 		assertEquals("List", kernel.lookupLabel("x_1").getTypeString());
 		assertEquals("List", kernel.lookupLabel("y_1").getTypeString());
-		kernel.getAlgebraProcessor().changeGeoElement(kernel.lookupLabel("x_1"), "{1, 3}",
-				true, false, TestErrorHandler.INSTANCE, null);
-		kernel.getAlgebraProcessor().changeGeoElement(kernel.lookupLabel("y_1"), "{2, 6}",
-				false, false, TestErrorHandler.INSTANCE, null);
+		kernel
+				.getAlgebraProcessor()
+				.changeGeoElement(
+						kernel.lookupLabel("x_1"), "{1, 3}", true, false, TestErrorHandler.INSTANCE, null);
+		kernel
+				.getAlgebraProcessor()
+				.changeGeoElement(
+						kernel.lookupLabel("y_1"), "{2, 6}", false, false, TestErrorHandler.INSTANCE, null);
 		assertEquals("List", kernel.lookupLabel("x_1").getTypeString());
 		assertEquals("List", kernel.lookupLabel("y_1").getTypeString());
 	}

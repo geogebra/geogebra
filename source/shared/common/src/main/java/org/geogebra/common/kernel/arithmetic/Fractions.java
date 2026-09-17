@@ -40,8 +40,8 @@ public class Fractions {
 	 *            whether to allow multiples of pi
 	 * @return resolved expression: either MyDouble or simple fraction
 	 */
-	protected static ExpressionValue getResolution(ExpressionNode expr,
-			Kernel kernel, boolean allowPi, boolean expandPlusAndDecimals) {
+	protected static ExpressionValue getResolution(
+			ExpressionNode expr, Kernel kernel, boolean allowPi, boolean expandPlusAndDecimals) {
 		if (!expr.any(Fractions::isDecimal)) {
 			ExpressionValue[] fraction = new ExpressionValue[2];
 			expr.getFraction(fraction, expandPlusAndDecimals);
@@ -52,8 +52,10 @@ public class Fractions {
 				boolean pi = false;
 				double piDiv = lt / Math.PI;
 				boolean leftIsInteger;
-				if (allowPi && DoubleUtil.isInteger(piDiv)
-						&& !DoubleUtil.isZero(piDiv) && Math.abs(piDiv) < ALLOW_PI_LIMIT) {
+				if (allowPi
+						&& DoubleUtil.isInteger(piDiv)
+						&& !DoubleUtil.isZero(piDiv)
+						&& Math.abs(piDiv) < ALLOW_PI_LIMIT) {
 					lt = piDiv;
 					pi = true;
 					// we just multiplied and divided by pi, some tolerance needed
@@ -69,16 +71,16 @@ public class Fractions {
 					// keep angle dimension
 					return ltVal.deepCopy(kernel).wrap();
 				}
-				if (isExactInteger(rt) && leftIsInteger && !DoubleUtil.isZero(rt)
+				if (isExactInteger(rt)
+						&& leftIsInteger
+						&& !DoubleUtil.isZero(rt)
 						&& Math.abs(lt) < MAX_NUM_DENOMINATOR
 						&& Math.abs(rt) < MAX_NUM_DENOMINATOR) {
 
-					double g =
-							Math.abs(Kernel.gcd(Math.round(lt), Math.round(rt))) * Math.signum(rt);
+					double g = Math.abs(Kernel.gcd(Math.round(lt), Math.round(rt))) * Math.signum(rt);
 					lt = lt / g;
 					rt = rt / g;
-					return (pi ? multiplyPi(lt, kernel)
-							: new ExpressionNode(kernel, lt)).divide(rt);
+					return (pi ? multiplyPi(lt, kernel) : new ExpressionNode(kernel, lt)).divide(rt);
 				}
 				double ratio = lt / rt;
 				return numericResolve(pi, ratio, expr, kernel);
@@ -103,16 +105,16 @@ public class Fractions {
 		}
 	}
 
-	private static ExpressionValue numericResolve(boolean pi, double ratio, ExpressionNode expr,
-			Kernel kernel) {
+	private static ExpressionValue numericResolve(
+			boolean pi, double ratio, ExpressionNode expr, Kernel kernel) {
 		if (!Double.isFinite(ratio)) {
 			return new ExpressionNode(kernel, expr.evaluateDouble());
 		}
 		return new ExpressionNode(kernel, pi ? Math.PI * ratio : ratio);
 	}
 
-	private static boolean checkFraction(ExpressionValue[] parts, ExpressionValue lt,
-			boolean expandPlusAndDecimals) {
+	private static boolean checkFraction(
+			ExpressionValue[] parts, ExpressionValue lt, boolean expandPlusAndDecimals) {
 		if (lt == null) {
 			return false;
 		}
@@ -140,8 +142,8 @@ public class Fractions {
 	 * @param expandPlusAndDecimals
 	 *            whether to expand a/d+b/c to a single fraction and convert 0.5 to 1/2
 	 */
-	public static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
-			boolean expandPlusAndDecimals) {
+	public static void getFraction(
+			ExpressionValue[] parts, ExpressionNode expr, boolean expandPlusAndDecimals) {
 		if (expr.unwrap().isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, expr);
 			return;
@@ -173,56 +175,56 @@ public class Fractions {
 		}
 		Kernel kernel;
 		switch (expr.getOperation()) {
-		case MULTIPLY:
-			parts[0] = numL.wrap().multiply(numR);
-			parts[1] = multiplyCheck(denR, denL);
-			return;
-		case DIVIDE:
-			parts[0] = multiplyCheck(denR, numL);
-			parts[1] = multiplyCheck(denL, numR);
-			return;
-		case POWER:
-
-			ExpressionValue exponent = expr.getRight();
-			kernel = expr.getKernel();
-
-			if (exponent.evaluateDouble() < 0) {
-				parts[1] = powerCheck(numL, ExpressionNode.unaryMinus(kernel, exponent));
-				parts[0] = denL == null ? new MyDouble(kernel, 1) : powerCheck(denL,
-						ExpressionNode.unaryMinus(kernel, exponent));
-			} else {
-				parts[0] = powerCheck(numL, exponent);
-				parts[1] = powerCheck(denL, exponent);
-			}
-			return;
-		case PLUS:
-		case INVISIBLE_PLUS:
-			if (expandPlusAndDecimals) {
-				parts[0] = multiplyCheck(denR, numL).wrap().plus(multiplyCheck(denL, numR));
+			case MULTIPLY:
+				parts[0] = numL.wrap().multiply(numR);
 				parts[1] = multiplyCheck(denR, denL);
 				return;
-			}
-		case MINUS:
-			if (expandPlusAndDecimals) {
-				parts[0] = multiplyCheck(denR, numL).wrap().subtract(multiplyCheck(denL, numR));
-				parts[1] = multiplyCheck(denR, denL);
+			case DIVIDE:
+				parts[0] = multiplyCheck(denR, numL);
+				parts[1] = multiplyCheck(denL, numR);
 				return;
-			}
-		case FUNCTION:
-			if (expandPlusAndDecimals && expr.getLeft() instanceof Functional) {
-				Function fn = ((Functional) expr.getLeft()).getFunction();
-				ExpressionValue at = denR == null ? numR : numR.wrap().divide(denR);
-				if (fn != null && at instanceof NumberValue) {
-					ExpressionNode expCopy = fn.getExpression().deepCopy(fn.getKernel());
+			case POWER:
+				ExpressionValue exponent = expr.getRight();
+				kernel = expr.getKernel();
 
-					expCopy.replace(fn.getFunctionVariables()[0], at);
-					expCopy.getFraction(parts, expandPlusAndDecimals);
+				if (exponent.evaluateDouble() < 0) {
+					parts[1] = powerCheck(numL, ExpressionNode.unaryMinus(kernel, exponent));
+					parts[0] = denL == null
+							? new MyDouble(kernel, 1)
+							: powerCheck(denL, ExpressionNode.unaryMinus(kernel, exponent));
+				} else {
+					parts[0] = powerCheck(numL, exponent);
+					parts[1] = powerCheck(denL, exponent);
+				}
+				return;
+			case PLUS:
+			case INVISIBLE_PLUS:
+				if (expandPlusAndDecimals) {
+					parts[0] = multiplyCheck(denR, numL).wrap().plus(multiplyCheck(denL, numR));
+					parts[1] = multiplyCheck(denR, denL);
 					return;
 				}
-			}
-		default:
-			parts[0] = expr;
-			parts[1] = null;
+			case MINUS:
+				if (expandPlusAndDecimals) {
+					parts[0] = multiplyCheck(denR, numL).wrap().subtract(multiplyCheck(denL, numR));
+					parts[1] = multiplyCheck(denR, denL);
+					return;
+				}
+			case FUNCTION:
+				if (expandPlusAndDecimals && expr.getLeft() instanceof Functional) {
+					Function fn = ((Functional) expr.getLeft()).getFunction();
+					ExpressionValue at = denR == null ? numR : numR.wrap().divide(denR);
+					if (fn != null && at instanceof NumberValue) {
+						ExpressionNode expCopy = fn.getExpression().deepCopy(fn.getKernel());
+
+						expCopy.replace(fn.getFunctionVariables()[0], at);
+						expCopy.getFraction(parts, expandPlusAndDecimals);
+						return;
+					}
+				}
+			default:
+				parts[0] = expr;
+				parts[1] = null;
 		}
 	}
 
@@ -274,8 +276,7 @@ public class Fractions {
 		if (kernel.useSignificantFigures) {
 			// here we care about total digits; assume no trailing zeros since fraction is not int
 			double num = fraction.getLeft().evaluateDouble();
-			double expandedNum = Math.abs(num)
-					* Math.pow(2, maxDeg - deg2) * Math.pow(5, maxDeg - deg5);
+			double expandedNum = Math.abs(num) * Math.pow(2, maxDeg - deg2) * Math.pow(5, maxDeg - deg5);
 			return Math.log10(expandedNum) < kernel.getPrintFigures();
 		} else {
 			// here we only care about digits after the "."

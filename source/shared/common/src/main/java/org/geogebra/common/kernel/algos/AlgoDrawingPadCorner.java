@@ -35,18 +35,22 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoDrawingPadCorner extends AlgoElement {
 
 	/** index for view direction corner */
-	static public final int CORNER_VIEW_DIRECTION = 11;
+	public static final int CORNER_VIEW_DIRECTION = 11;
 	/** index for screen left-to-right direction corner */
-	static public final int CORNER_SCREEN_RIGHT = 12;
+	public static final int CORNER_SCREEN_RIGHT = 12;
 	/** index for x/y/z axes scales */
-	static public final int CORNER_AXES_SCALE = 13;
+	public static final int CORNER_AXES_SCALE = 13;
 
 	protected GeoPointND corner; // output
 	protected GeoNumberValue number;
 	protected GeoNumberValue evNum;
 
-	protected AlgoDrawingPadCorner(Construction cons, String label,
-			GeoNumberValue number, GeoNumberValue evNum, double absCorner) {
+	protected AlgoDrawingPadCorner(
+			Construction cons,
+			String label,
+			GeoNumberValue number,
+			GeoNumberValue evNum,
+			double absCorner) {
 		super(cons);
 		this.number = number;
 		this.evNum = evNum; // can be null
@@ -83,8 +87,8 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	 * @param absCorner
 	 *            index of abs corner in active view
 	 */
-	public AlgoDrawingPadCorner(Construction cons, GeoNumberValue number,
-			GeoNumberValue evNum, double absCorner) {
+	public AlgoDrawingPadCorner(
+			Construction cons, GeoNumberValue number, GeoNumberValue evNum, double absCorner) {
 		super(cons);
 		this.number = number;
 		this.evNum = evNum; // can be null
@@ -107,8 +111,8 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	 * @param evNum
 	 *            view number
 	 */
-	public AlgoDrawingPadCorner(Construction cons, String label,
-			GeoNumberValue number, GeoNumberValue evNum) {
+	public AlgoDrawingPadCorner(
+			Construction cons, String label, GeoNumberValue number, GeoNumberValue evNum) {
 		this(cons, label, number, evNum, 5);
 	}
 
@@ -136,7 +140,6 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			input = new GeoElement[2];
 			input[0] = evNum.toGeoElement();
 			input[1] = number.toGeoElement();
-
 		}
 
 		setOnlyOutput(corner);
@@ -177,34 +180,34 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		double xmax = ev.toRealWorldCoordX((double) ev.getWidth() + 1);
 		double ymin = ev.toRealWorldCoordY((double) ev.getHeight() + 1);
 		double zeroX = ev.toRealWorldCoordX(-1);
-		double zeroY = ev.toRealWorldCoordY(- 1);
+		double zeroY = ev.toRealWorldCoordY(-1);
 
 		switch ((int) number.getDouble()) {
-		case 1:
-			corner.setCoords(zeroX, ymin, 1.0);
-			break;
-		case 2:
-			corner.setCoords(xmax, ymin, 1.0);
-			break;
-		case 3:
-			corner.setCoords(xmax, zeroY, 1.0);
-			break;
-		case 4:
-			corner.setCoords(zeroX, zeroY, 1.0);
-			break;
-		case 5: // return size of Graphics View in pixels
-			corner.setCoords(getWidth(ev), getHeight(ev), 1.0);
-			break;
-		case 6: // return size of Window in pixels
-			// (to help with sizing for export to applet)
-			// doesn't work very well as it receives updates only when
-			// EuclidianView is changed
-			corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
+			case 1:
+				corner.setCoords(zeroX, ymin, 1.0);
+				break;
+			case 2:
+				corner.setCoords(xmax, ymin, 1.0);
+				break;
+			case 3:
+				corner.setCoords(xmax, zeroY, 1.0);
+				break;
+			case 4:
+				corner.setCoords(zeroX, zeroY, 1.0);
+				break;
+			case 5: // return size of Graphics View in pixels
+				corner.setCoords(getWidth(ev), getHeight(ev), 1.0);
+				break;
+			case 6: // return size of Window in pixels
+				// (to help with sizing for export to applet)
+				// doesn't work very well as it receives updates only when
+				// EuclidianView is changed
+				corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
 
-			break;
-		default:
-			corner.setUndefined();
-			break;
+				break;
+			default:
+				corner.setUndefined();
+				break;
 		}
 	}
 
@@ -226,5 +229,4 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		corner.updateCascade();
 		return false;
 	}
-
 }

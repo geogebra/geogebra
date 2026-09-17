@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,7 +39,7 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 
 	/**
 	 * Remove the dummy cursor
-	 * 
+	 *
 	 * @return the position of removed cursor
 	 */
 	int removeDummyCursor();
@@ -52,14 +52,14 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 
 	/**
 	 * get current position of cursor
-	 * 
+	 *
 	 * @return position
 	 */
 	int getCursorPos();
 
 	/**
 	 * set position of cursor
-	 * 
+	 *
 	 * @param pos
 	 *            position
 	 */
@@ -67,7 +67,7 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 
 	/**
 	 * set text of text field
-	 * 
+	 *
 	 * @param text
 	 *            text to set
 	 */

@@ -30,69 +30,77 @@ class FunctionTemplateCatalog {
 	List<FunctionTemplate> createGeneralFunctions() {
 		return Arrays.asList(
 				new FunctionTemplate(Tag.SUBSCRIPT),
-
 				new FunctionTemplate(Tag.SUPERSCRIPT),
-
 				new FunctionTemplate(Tag.RECURRING_DECIMAL),
-
-				new FunctionTemplate(Tag.FRAC, "\\frac", createDownParameter(1),
-						createUpParameter(0)),
-
+				new FunctionTemplate(Tag.FRAC, "\\frac", createDownParameter(1), createUpParameter(0)),
 				new FunctionTemplate(Tag.SQRT, "\\sqrt", Parameter.BASIC),
-
 				new FunctionTemplate(Tag.CBRT, "\\sqrt[3]", Parameter.BASIC),
-
-				new FunctionTemplate(Tag.NROOT, "\\sqrt",
-						new Parameter[]{createDownParameter(0), createUpParameter(1)}, 1),
-
-				new FunctionTemplate(Tag.LOG, "\\log",
-						new Parameter[]{Parameter.BASIC, Parameter.BASIC}, 1),
-
-				new FunctionTemplate(Tag.LOG_POWER, "\\log",
-						new Parameter[]{Parameter.BASIC, Parameter.BASIC, Parameter.BASIC}, 1),
-
-				new FunctionTemplate(Tag.DEF_INT, "\\int",
-						new Parameter[]{createUpParameter(1), createDownParameter(0)}, 2),
-
-				new FunctionTemplate(Tag.INTEGRAL, "\\int",
-						Parameter.BASIC, Parameter.BASIC, Parameter.BASIC, Parameter.BASIC),
-
-				new FunctionTemplate(Tag.N_INTEGRAL, "\\int",
-						Parameter.BASIC, Parameter.BASIC, Parameter.BASIC, Parameter.BASIC),
-
-				new FunctionTemplate(Tag.INTEGRAL_SYMBOLIC, "\\int",
-						Parameter.BASIC, Parameter.BASIC, Parameter.BASIC, Parameter.BASIC),
-
-				new FunctionTemplate(Tag.LIM_EQ, "\\lim", new Parameter[]{
-						Parameter.BASIC}, 1),
-
-				new FunctionTemplate(Tag.PROD_EQ, "\\prod",
-						new Parameter[]{createUpParameter(1), createDownParameter(0)}, 2),
-
-				new FunctionTemplate(Tag.SUM_EQ, "\\sum",
-						new Parameter[]{createUpParameter(1), createDownParameter(0)}, 2),
-
+				new FunctionTemplate(
+						Tag.NROOT, "\\sqrt", new Parameter[] {createDownParameter(0), createUpParameter(1)}, 1),
+				new FunctionTemplate(
+						Tag.LOG, "\\log", new Parameter[] {Parameter.BASIC, Parameter.BASIC}, 1),
+				new FunctionTemplate(
+						Tag.LOG_POWER,
+						"\\log",
+						new Parameter[] {Parameter.BASIC, Parameter.BASIC, Parameter.BASIC},
+						1),
+				new FunctionTemplate(
+						Tag.DEF_INT,
+						"\\int",
+						new Parameter[] {createUpParameter(1), createDownParameter(0)},
+						2),
+				new FunctionTemplate(
+						Tag.INTEGRAL,
+						"\\int",
+						Parameter.BASIC,
+						Parameter.BASIC,
+						Parameter.BASIC,
+						Parameter.BASIC),
+				new FunctionTemplate(
+						Tag.N_INTEGRAL,
+						"\\int",
+						Parameter.BASIC,
+						Parameter.BASIC,
+						Parameter.BASIC,
+						Parameter.BASIC),
+				new FunctionTemplate(
+						Tag.INTEGRAL_SYMBOLIC,
+						"\\int",
+						Parameter.BASIC,
+						Parameter.BASIC,
+						Parameter.BASIC,
+						Parameter.BASIC),
+				new FunctionTemplate(Tag.LIM_EQ, "\\lim", new Parameter[] {Parameter.BASIC}, 1),
+				new FunctionTemplate(
+						Tag.PROD_EQ,
+						"\\prod",
+						new Parameter[] {createUpParameter(1), createDownParameter(0)},
+						2),
+				new FunctionTemplate(
+						Tag.SUM_EQ, "\\sum", new Parameter[] {createUpParameter(1), createDownParameter(0)}, 2),
 				new FunctionTemplate(Tag.VEC, "\\vec", Parameter.BASIC),
-
-				new FunctionTemplate(Tag.ATOMIC_PRE, "\\atomicpre", createUpParameter(1),
-						createDownParameter(0), Parameter.BASIC),
-
-				new FunctionTemplate(Tag.ATOMIC_POST, "\\atomicpost",
-						Parameter.BASIC, createUpParameter(2), createDownParameter(1)),
-
+				new FunctionTemplate(
+						Tag.ATOMIC_PRE,
+						"\\atomicpre",
+						createUpParameter(1),
+						createDownParameter(0),
+						Parameter.BASIC),
+				new FunctionTemplate(
+						Tag.ATOMIC_POST,
+						"\\atomicpost",
+						Parameter.BASIC,
+						createUpParameter(2),
+						createDownParameter(1)),
 				new FunctionTemplate(Tag.POINT_AT, "", Parameter.BASIC, Parameter.BASIC),
-
 				new FunctionTemplate(Tag.POINT, "", Parameter.BASIC, Parameter.BASIC),
-
-				new FunctionTemplate(Tag.VECTOR, "",
-						new Parameter[]{createDownParameter(1), new Parameter(0, 2),
-								createUpParameter(1)}, 0, 2),
-
+				new FunctionTemplate(
+						Tag.VECTOR,
+						"",
+						new Parameter[] {createDownParameter(1), new Parameter(0, 2), createUpParameter(1)},
+						0,
+						2),
 				new FunctionTemplate(Tag.ABS),
-
 				new FunctionTemplate(Tag.FLOOR),
-
-				new FunctionTemplate(Tag.CEIL)
-		);
+				new FunctionTemplate(Tag.CEIL));
 	}
 }

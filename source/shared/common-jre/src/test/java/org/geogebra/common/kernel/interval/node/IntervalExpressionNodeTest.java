@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,8 +34,8 @@ class IntervalExpressionNodeTest extends BaseUnitTest {
 	@Test
 	void testCreation() {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
-		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, functionVariable,
-				IntervalOperation.SIN);
+		IntervalExpressionNode node =
+				new IntervalExpressionNode(evaluator, functionVariable, IntervalOperation.SIN);
 		functionVariable.set(Math.PI);
 		assertEquals(IntervalConstants.zero(), node.evaluate().value());
 		functionVariable.set(Math.PI / 2);
@@ -61,10 +61,9 @@ class IntervalExpressionNodeTest extends BaseUnitTest {
 		IntervalFunctionVariable functionVariable = new IntervalFunctionVariable();
 		IntervalFunctionValue constant = new IntervalFunctionValue(one());
 		IntervalExpressionNode inner =
-				new IntervalExpressionNode(evaluator, functionVariable, IntervalOperation.PLUS,
-						constant);
-		IntervalExpressionNode node = new IntervalExpressionNode(evaluator, inner,
-				IntervalOperation.SIN);
+				new IntervalExpressionNode(evaluator, functionVariable, IntervalOperation.PLUS, constant);
+		IntervalExpressionNode node =
+				new IntervalExpressionNode(evaluator, inner, IntervalOperation.SIN);
 		assertTrue(node.hasFunctionVariable());
 		assertFalse(node.getLeft().asExpressionNode().getRight().hasFunctionVariable());
 	}
@@ -75,8 +74,7 @@ class IntervalExpressionNodeTest extends BaseUnitTest {
 		functionVariable.set(1000);
 		IntervalExpressionNode exp =
 				new IntervalExpressionNode(evaluator, functionVariable, IntervalOperation.EXP);
-		IntervalExpressionNode log =
-				new IntervalExpressionNode(evaluator, exp, IntervalOperation.LOG);
+		IntervalExpressionNode log = new IntervalExpressionNode(evaluator, exp, IntervalOperation.LOG);
 
 		IntervalNode actual = log.simplify();
 

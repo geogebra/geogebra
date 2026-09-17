@@ -31,8 +31,8 @@ class RulingGridColorPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupNotesApp();
-		RulingGridColorProperty rulingGridColorProperty = new RulingGridColorProperty(
-				getLocalization(), getEuclidianSettings());
+		RulingGridColorProperty rulingGridColorProperty =
+				new RulingGridColorProperty(getLocalization(), getEuclidianSettings());
 
 		rulingGridColorProperty.setValue(GColor.GREEN);
 		assertEquals(GColor.GREEN, rulingGridColorProperty.getValue());
@@ -44,37 +44,41 @@ class RulingGridColorPropertyTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@EnumSource(value = BackgroundType.class, names = {
-			"RULER",
-			"SQUARE_SMALL",
-			"SQUARE_BIG",
-	})
+	@EnumSource(
+			value = BackgroundType.class,
+			names = {
+				"RULER",
+				"SQUARE_SMALL",
+				"SQUARE_BIG",
+			})
 	void testBackgroundTypesWithAvailableColorProperty(BackgroundType backgroundType) {
 		setupNotesApp();
-		RulingGridColorProperty rulingGridColorProperty = new RulingGridColorProperty(
-				getLocalization(), getEuclidianSettings());
+		RulingGridColorProperty rulingGridColorProperty =
+				new RulingGridColorProperty(getLocalization(), getEuclidianSettings());
 		getEuclidianSettings().setBackgroundType(backgroundType);
 
 		assertTrue(rulingGridColorProperty.isAvailable());
 	}
 
 	@ParameterizedTest
-	@EnumSource(value = BackgroundType.class, names = {
-			"NONE",
-			"ELEMENTARY12",
-			"ELEMENTARY12_HOUSE",
-			"ELEMENTARY34",
-			"MUSIC",
-			"SVG",
-			"ELEMENTARY12_COLORED",
-			"ISOMETRIC",
-			"POLAR",
-			"DOTS",
-	})
+	@EnumSource(
+			value = BackgroundType.class,
+			names = {
+				"NONE",
+				"ELEMENTARY12",
+				"ELEMENTARY12_HOUSE",
+				"ELEMENTARY34",
+				"MUSIC",
+				"SVG",
+				"ELEMENTARY12_COLORED",
+				"ISOMETRIC",
+				"POLAR",
+				"DOTS",
+			})
 	void testBackgroundTypesWithUnavailableColorProperty(BackgroundType backgroundType) {
 		setupNotesApp();
-		RulingGridColorProperty rulingGridColorProperty = new RulingGridColorProperty(
-				getLocalization(), getEuclidianSettings());
+		RulingGridColorProperty rulingGridColorProperty =
+				new RulingGridColorProperty(getLocalization(), getEuclidianSettings());
 		getEuclidianSettings().setBackgroundType(backgroundType);
 
 		assertFalse(rulingGridColorProperty.isAvailable());

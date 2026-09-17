@@ -36,8 +36,7 @@ public final class PortraitAnimationCallback extends NavRailAnimationCallback {
 	 * @param app application
 	 * @param dockParent parent split pane
 	 */
-	public PortraitAnimationCallback(NavigationRail header, AppW app,
-			DockSplitPaneW dockParent) {
+	public PortraitAnimationCallback(NavigationRail header, AppW app, DockSplitPaneW dockParent) {
 		super(header);
 		this.app = app;
 		this.dockParent = dockParent;
@@ -60,9 +59,7 @@ public final class PortraitAnimationCallback extends NavRailAnimationCallback {
 		}
 		int d = navRail.isOpen() ? -1 : 1;
 
-		ev.translateCoordSystemForAnimation(
-				d * navRail.toolbarPanel.getOpenHeightInPortrait() / 2);
+		ev.translateCoordSystemForAnimation(d * navRail.toolbarPanel.getOpenHeightInPortrait() / 2);
 		dockParent.forceLayout();
 	}
-
 }

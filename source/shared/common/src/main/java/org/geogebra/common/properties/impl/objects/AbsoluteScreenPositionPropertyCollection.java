@@ -76,8 +76,8 @@ public class AbsoluteScreenPositionPropertyCollection
 				return "";
 			}
 			try {
-				ValidExpression validExpression = absoluteScreenLocateable.getKernel().getParser()
-						.parseGeoGebraExpression(value);
+				ValidExpression validExpression =
+						absoluteScreenLocateable.getKernel().getParser().parseGeoGebraExpression(value);
 				if (!validExpression.evaluatesToNumber(false)) {
 					return "";
 				}
@@ -90,21 +90,26 @@ public class AbsoluteScreenPositionPropertyCollection
 		@Override
 		protected void doSetValue(String value) {
 			MyVecNode positionDefinition = getPositionDefinition(absoluteScreenLocateable);
-			String[] newPositionDefinition = positionDefinition == null ? new String[] {
-					String.valueOf(absoluteScreenLocateable.getAbsoluteScreenLocX()),
-					String.valueOf(absoluteScreenLocateable.getAbsoluteScreenLocY())
-			} : new String [] {
-					positionDefinition.getX().toString(StringTemplate.editTemplate),
-					positionDefinition.getY().toString(StringTemplate.editTemplate)
-			};
+			String[] newPositionDefinition = positionDefinition == null
+					? new String[] {
+						String.valueOf(absoluteScreenLocateable.getAbsoluteScreenLocX()),
+						String.valueOf(absoluteScreenLocateable.getAbsoluteScreenLocY())
+					}
+					: new String[] {
+						positionDefinition.getX().toString(StringTemplate.editTemplate),
+						positionDefinition.getY().toString(StringTemplate.editTemplate)
+					};
 			newPositionDefinition[axis] = value;
-			GeoPointND newPositionPoint = absoluteScreenLocateable.getKernel().getAlgebraProcessor()
-					.evaluateToPoint("(" + String.join(",", newPositionDefinition) + ")",
-							ErrorHelper.silent(), true);
+			GeoPointND newPositionPoint = absoluteScreenLocateable
+					.getKernel()
+					.getAlgebraProcessor()
+					.evaluateToPoint(
+							"(" + String.join(",", newPositionDefinition) + ")", ErrorHelper.silent(), true);
 			if (Inspecting.isDynamicGeoElement(newPositionPoint)) {
 				try {
 					absoluteScreenLocateable.setStartPoint(newPositionPoint);
-				} catch (CircularDefinitionException ignored) { }
+				} catch (CircularDefinitionException ignored) {
+				}
 			} else {
 				absoluteScreenLocateable.setAbsoluteScreenLoc(
 						(int) newPositionPoint.getInhomX(), (int) newPositionPoint.getInhomY());
@@ -162,16 +167,20 @@ public class AbsoluteScreenPositionPropertyCollection
 	 * elements
 	 */
 	public AbsoluteScreenPositionPropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "");
-		setProperties(new StringProperty[]{
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new AbsoluteScreenPositionProperty(localization, element, 0),
-						StringPropertyListFacade::new),
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new AbsoluteScreenPositionProperty(localization, element, 1),
-						StringPropertyListFacade::new)
+		setProperties(new StringProperty[] {
+			propertiesFactory.createPropertyFacadeThrowing(
+					elements,
+					element -> new AbsoluteScreenPositionProperty(localization, element, 0),
+					StringPropertyListFacade::new),
+			propertiesFactory.createPropertyFacadeThrowing(
+					elements,
+					element -> new AbsoluteScreenPositionProperty(localization, element, 1),
+					StringPropertyListFacade::new)
 		});
 	}
 }

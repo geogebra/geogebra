@@ -27,8 +27,7 @@ import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.Label;
 
-public final class SessionExpireNotifyDialog extends ComponentDialog
-		implements GTimerListener {
+public final class SessionExpireNotifyDialog extends ComponentDialog implements GTimerListener {
 
 	/**
 	 * dialog to notify user that will be logged out when session expires

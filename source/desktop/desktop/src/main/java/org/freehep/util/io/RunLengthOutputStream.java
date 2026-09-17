@@ -9,7 +9,7 @@ import java.io.OutputStream;
  * The RunLengthOutputStream encodes data as Run Length encoding. The exact
  * definition of Run Length encoding can be found in the PostScript Language
  * Reference (3rd ed.) chapter 3.13.3.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: RunLengthOutputStream.java,v 1.3 2008-05-04 12:21:35 murkle Exp
  *          $
@@ -29,7 +29,7 @@ public class RunLengthOutputStream extends FilterOutputStream
 
 	/**
 	 * Create a Run Length output stream
-	 * 
+	 *
 	 * @param out
 	 *            stream to write
 	 */

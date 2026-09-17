@@ -70,16 +70,16 @@ public abstract class StyleBarW2 extends StyleBarW {
 		setPopupHandlerWithUndoAction(btnLineStyle, this::processLineStyle);
 	}
 
-	protected void setPopupHandlerWithUndoAction(PopupMenuButtonW popupBtn,
-			ElementPropertySetter action) {
+	protected void setPopupHandlerWithUndoAction(
+			PopupMenuButtonW popupBtn, ElementPropertySetter action) {
 		popupBtn.addPopupHandler(w -> processSelectionWithUndoAction(action));
 		// no undo in slider handler
 		UndoableSliderHandler ush = new UndoableSliderHandler(action, this);
 		popupBtn.setChangeEventHandler(ush);
 	}
 
-	protected void setPopupHandlerWithUndoPoint(PopupMenuButtonW popupBtn,
-			Function<ArrayList<GeoElement>, Boolean> action) {
+	protected void setPopupHandlerWithUndoPoint(
+			PopupMenuButtonW popupBtn, Function<ArrayList<GeoElement>, Boolean> action) {
 		popupBtn.addPopupHandler(w -> processSelectionWithUndo(action));
 	}
 
@@ -104,8 +104,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 		if (btnPointStyle.getSelectedValue() != null) {
 			int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
 			int pointSize = btnPointStyle.getSliderValue();
-			return EuclidianStyleBarStatic.applyPointStyle(targetGeos,
-					pointStyleSelIndex, pointSize);
+			return EuclidianStyleBarStatic.applyPointStyle(targetGeos, pointStyleSelIndex, pointSize);
 		}
 		return false;
 	}
@@ -115,8 +114,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 			int selectedIndex = btnLineStyle.getSelectedIndex();
 			int lineSize = btnLineStyle.getSliderValue();
 			btnLineStyle.setSelectedIndex(selectedIndex);
-			return EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app,
-					targetGeos);
+			return EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app, targetGeos);
 		}
 		return false;
 	}
@@ -133,15 +131,14 @@ public abstract class StyleBarW2 extends StyleBarW {
 	}
 
 	protected void openPropertiesForColor(boolean background, List<GeoElement> targetGeos) {
-		((DialogManagerW) app.getDialogManager()).showColorChooserDialog(
-				targetGeos.get(0).getObjectColor(), color -> {
+		((DialogManagerW) app.getDialogManager())
+				.showColorChooserDialog(targetGeos.get(0).getObjectColor(), color -> {
 					if (background) {
 						targetGeos.forEach(geo -> geo.setBackgroundColor(color));
 					} else {
 						targetGeos.forEach(geo -> geo.setObjColor(color));
 					}
-					targetGeos.forEach(
-							geo -> geo.updateVisualStyleRepaint(GProperty.COLOR));
+					targetGeos.forEach(geo -> geo.updateVisualStyleRepaint(GProperty.COLOR));
 					app.storeUndoInfo();
 				});
 	}
@@ -162,8 +159,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 	 * @param action action to be executed on geos
 	 */
 	public void processSelectionWithUndoAction(ElementPropertySetter action) {
-		UpdateStyleActionStore store = new UpdateStyleActionStore(getTargetGeos(),
-				app.getUndoManager());
+		UpdateStyleActionStore store =
+				new UpdateStyleActionStore(getTargetGeos(), app.getUndoManager());
 		boolean needUndo = action.apply(getTargetGeos()) && store.needUndo();
 		if (needUndo) {
 			if (app.getGuiManager().getPropertiesView() instanceof PropertiesView propView) {
@@ -181,22 +178,18 @@ public abstract class StyleBarW2 extends StyleBarW {
 
 	protected void createColorBtn() {
 		Localization loc = app.getLocalization();
-		btnColor = new ColorPopupMenuButton(app,
-				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
+		btnColor = new ColorPopupMenuButton(app, ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
 				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
 					super.setVisible(false);
-					Log.debug(
-							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
+					Log.debug("MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
-					boolean geosOK = !geos.isEmpty()
-							|| EuclidianView.isPenMode(mode);
+					boolean geosOK = !geos.isEmpty() || EuclidianView.isPenMode(mode);
 					boolean hasOpacity = true;
 					for (GeoElement geoElement : geos) {
-						GeoElement geo = geoElement
-								.getGeoElementForPropertiesDialog();
+						GeoElement geo = geoElement.getGeoElementForPropertiesDialog();
 						if (geo instanceof TextStyle || geo instanceof GeoWidget) {
 							geosOK = false;
 							break;
@@ -210,9 +203,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 					if (geosOK) {
 						// get color from first geo
 						GColor geoColor;
-						geoColor = !geos.isEmpty()
-								? geos.get(0).getObjectColor()
-								: GColor.BLACK;
+						geoColor = !geos.isEmpty() ? geos.get(0).getObjectColor() : GColor.BLACK;
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
 						// value
@@ -224,8 +215,7 @@ public abstract class StyleBarW2 extends StyleBarW {
 								alpha = geo.getAlphaValue();
 								break;
 							}
-							if (geo instanceof GeoPolyLine
-									&& EuclidianView.isPenMode(mode)) {
+							if (geo instanceof GeoPolyLine && EuclidianView.isPenMode(mode)) {
 								hasFillable = true;
 								alpha = geo.getLineOpacity();
 
@@ -238,15 +228,13 @@ public abstract class StyleBarW2 extends StyleBarW {
 						setSliderVisible(hasFillable && hasOpacity);
 
 						if (EuclidianView.isPenMode(mode)) {
-							setSliderValue(
-									(int) Math.round(alpha * 100 / 255));
+							setSliderValue((int) Math.round(alpha * 100 / 255));
 						} else {
 							setSliderValue((int) Math.round(alpha * 100));
 						}
 
 						updateColorTable();
-						setEnableTable(!geos.isEmpty()
-								&& !(geos.get(0) instanceof GeoImage));
+						setEnableTable(!geos.isEmpty() && !(geos.get(0) instanceof GeoImage));
 						// find the geoColor in the table and select it
 						int index = this.getColorIndex(geoColor);
 						setSelectedIndex(index);
@@ -264,8 +252,8 @@ public abstract class StyleBarW2 extends StyleBarW {
 		setPopupHandlerWithUndoAction(btnColor, this::processColor);
 	}
 
-	private void updateColorTitleAndVisibility(boolean hasFillable, boolean hasOpacity,
-			List<GeoElement> geos, Localization loc) {
+	private void updateColorTitleAndVisibility(
+			boolean hasFillable, boolean hasOpacity, List<GeoElement> geos, Localization loc) {
 		if (hasFillable) {
 			if (geos.get(0) instanceof GeoImage) {
 				if (hasOpacity) {

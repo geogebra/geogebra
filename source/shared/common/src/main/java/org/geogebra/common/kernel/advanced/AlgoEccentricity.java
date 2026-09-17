@@ -78,30 +78,28 @@ public class AlgoEccentricity extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			num.setValue(0.0);
-			break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				num.setValue(0.0);
+				break;
 
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			num.setValue(1.0);
-			break;
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				num.setValue(1.0);
+				break;
 
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			num.setValue(c.eccentricity);
-			break;
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				num.setValue(c.eccentricity);
+				break;
 
-		default:
-			num.setUndefined();
+			default:
+				num.setUndefined();
 		}
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("EccentricityOfA", "Eccentricity of %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("EccentricityOfA", "Eccentricity of %0", c.getLabel(tpl));
 	}
-
 }

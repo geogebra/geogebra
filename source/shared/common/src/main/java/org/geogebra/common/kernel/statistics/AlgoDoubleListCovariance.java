@@ -22,15 +22,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Covariance of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoDoubleListCovariance extends AlgoStats2D {
 
-	public AlgoDoubleListCovariance(Construction cons, String label,
-			GeoList geoListx, GeoList geoListy) {
+	public AlgoDoubleListCovariance(
+			Construction cons, String label, GeoList geoListx, GeoList geoListy) {
 		super(cons, label, geoListx, geoListy, AlgoStats2D.STATS_COVARIANCE);
 	}
 

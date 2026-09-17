@@ -35,11 +35,10 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Convex hull of a set of points
- * 
+ *
  * @author Michael Borcherds
- * 
+ *
  */
-
 public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 	private GeoList inputList; // input
@@ -145,9 +144,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 		for (int i = 0; i < hull.size(); i++) {
 			Point2D p = hull.get(i);
-			al.add(new MyPoint(p.getX(), p.getY(), i != 0 ? SegmentType.LINE_TO
-					: SegmentType.MOVE_TO));
-
+			al.add(new MyPoint(p.getX(), p.getY(), i != 0 ? SegmentType.LINE_TO : SegmentType.MOVE_TO));
 		}
 
 		if (hull.size() == 0) {
@@ -161,11 +158,9 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 		locus.setPoints(al);
 		locus.setDefined(true);
-
 	}
 
-	private static boolean contains(ArrayList<Point2D> vl2, double x,
-			double y) {
+	private static boolean contains(ArrayList<Point2D> vl2, double x, double y) {
 		for (int i = 0; i < vl2.size(); i++) {
 			Point2D p = vl2.get(i);
 			if (DoubleUtil.isEqual(p.getX(), x) && DoubleUtil.isEqual(p.getY(), y)) {
@@ -175,5 +170,4 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 		return false;
 	}
-
 }

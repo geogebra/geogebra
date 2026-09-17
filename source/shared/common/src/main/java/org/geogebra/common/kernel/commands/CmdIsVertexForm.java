@@ -37,7 +37,7 @@ public class CmdIsVertexForm extends CommandProcessor {
 			if (arg[0] instanceof GeoFunctionable) {
 				AlgoIsVertexForm algo = new AlgoIsVertexForm(cons, (GeoFunctionable) arg[0]);
 				algo.getOutput(0).setLabel(c.getLabel());
-				return new GeoElement[]{algo.getOutput(0)};
+				return new GeoElement[] {algo.getOutput(0)};
 			}
 			throw argErr(c, arg[0]);
 		}

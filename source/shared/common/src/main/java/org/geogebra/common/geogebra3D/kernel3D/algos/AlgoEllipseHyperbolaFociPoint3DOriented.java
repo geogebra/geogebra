@@ -27,8 +27,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
-public class AlgoEllipseHyperbolaFociPoint3DOriented
-		extends AlgoEllipseHyperbolaFociPoint3D {
+public class AlgoEllipseHyperbolaFociPoint3DOriented extends AlgoEllipseHyperbolaFociPoint3D {
 
 	private GeoDirectionND orientation;
 
@@ -48,9 +47,14 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented
 	 * @param type
 	 *            conic type
 	 */
-	public AlgoEllipseHyperbolaFociPoint3DOriented(Construction cons,
-			String label, GeoPointND A, GeoPointND B, GeoPointND C,
-			GeoDirectionND orientation, final int type) {
+	public AlgoEllipseHyperbolaFociPoint3DOriented(
+			Construction cons,
+			String label,
+			GeoPointND A,
+			GeoPointND B,
+			GeoPointND C,
+			GeoDirectionND orientation,
+			final int type) {
 		super(cons, label, A, B, C, orientation, type);
 	}
 
@@ -69,8 +73,7 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented
 	}
 
 	@Override
-	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc,
-			Coords Cc) {
+	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc, Coords Cc) {
 
 		Coords vn = orientation.getDirectionInD3();
 
@@ -103,32 +106,39 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented
 		// direction is plane
 		if (orientation instanceof GeoCoordSys2D) {
 			if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
-				return getLoc().getPlain(
-						"HyperbolaWithFociABPassingThroughCParallelToD",
-						getFocus1().getLabel(tpl), getFocus2().getLabel(tpl),
-						getConicPoint().getLabel(tpl),
-						orientation.getLabel(tpl));
+				return getLoc()
+						.getPlain(
+								"HyperbolaWithFociABPassingThroughCParallelToD",
+								getFocus1().getLabel(tpl),
+								getFocus2().getLabel(tpl),
+								getConicPoint().getLabel(tpl),
+								orientation.getLabel(tpl));
 			}
-			return getLoc().getPlain(
-					"EllipseWithFociABPassingThroughCParallelToD",
-					getFocus1().getLabel(tpl), getFocus2().getLabel(tpl),
-					getConicPoint().getLabel(tpl),
-					orientation.getLabel(tpl));
+			return getLoc()
+					.getPlain(
+							"EllipseWithFociABPassingThroughCParallelToD",
+							getFocus1().getLabel(tpl),
+							getFocus2().getLabel(tpl),
+							getConicPoint().getLabel(tpl),
+							orientation.getLabel(tpl));
 		}
 
 		// direction is line
 		if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
-			return getLoc().getPlain(
-					"HyperbolaWithFociABPassingThroughCPerpendicularToD",
-					getFocus1().getLabel(tpl), getFocus2().getLabel(tpl),
-					getConicPoint().getLabel(tpl),
-					orientation.getLabel(tpl));
+			return getLoc()
+					.getPlain(
+							"HyperbolaWithFociABPassingThroughCPerpendicularToD",
+							getFocus1().getLabel(tpl),
+							getFocus2().getLabel(tpl),
+							getConicPoint().getLabel(tpl),
+							orientation.getLabel(tpl));
 		}
-		return getLoc().getPlain(
-				"EllipseWithFociABPassingThroughCPerpendicularToD",
-				getFocus1().getLabel(tpl), getFocus2().getLabel(tpl),
-				getConicPoint().getLabel(tpl),
-				orientation.getLabel(tpl));
-
+		return getLoc()
+				.getPlain(
+						"EllipseWithFociABPassingThroughCPerpendicularToD",
+						getFocus1().getLabel(tpl),
+						getFocus2().getLabel(tpl),
+						getConicPoint().getLabel(tpl),
+						orientation.getLabel(tpl));
 	}
 }

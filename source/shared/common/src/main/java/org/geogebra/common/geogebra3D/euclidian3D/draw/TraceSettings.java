@@ -18,8 +18,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.awt.GColor;
 
-final public class TraceSettings
-		implements Comparable<TraceSettings> {
+public final class TraceSettings implements Comparable<TraceSettings> {
 
 	private GColor c;
 	private int alpha;

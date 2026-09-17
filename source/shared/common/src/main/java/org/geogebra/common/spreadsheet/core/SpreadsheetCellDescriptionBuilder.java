@@ -35,8 +35,8 @@ public final class SpreadsheetCellDescriptionBuilder {
 	 * @param tabularData Spreadsheet data
 	 * @param localization Localization used for accessibility descriptions
 	 */
-	public SpreadsheetCellDescriptionBuilder(@NonNull TabularData<?> tabularData,
-			@Nullable Localization localization) {
+	public SpreadsheetCellDescriptionBuilder(
+			@NonNull TabularData<?> tabularData, @Nullable Localization localization) {
 		this.tabularData = tabularData;
 		this.localization = localization;
 	}

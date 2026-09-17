@@ -21,7 +21,7 @@ package org.geogebra.common.kernel.discrete.delaunay;
  * it is used by the Delaunay Triangulation class. <br>
  * <br>
  * note that this class is immutable.
- * 
+ *
  * @see DelaunayTriangulation
  */
 public class CircleDt {
@@ -32,7 +32,7 @@ public class CircleDt {
 	/**
 	 * Constructor. <br>
 	 * Constructs a new Circle_dt.
-	 * 
+	 *
 	 * @param c
 	 *            Center of the circle.
 	 * @param r
@@ -46,7 +46,7 @@ public class CircleDt {
 	/**
 	 * Copy Constructor. <br>
 	 * Creates a new Circle with same properties of <code>circ</code>.
-	 * 
+	 *
 	 * @param circ
 	 *            Circle to clone.
 	 */
@@ -57,13 +57,12 @@ public class CircleDt {
 
 	@Override
 	public String toString() {
-		return " Circle[" + c.toString() + "|" + r + "|"
-				+ (int) Math.round(Math.sqrt(r)) + "]";
+		return " Circle[" + c.toString() + "|" + r + "|" + (int) Math.round(Math.sqrt(r)) + "]";
 	}
 
 	/**
 	 * Gets the center of the circle.
-	 * 
+	 *
 	 * @return the center of the circle.
 	 */
 	public PointDt center() {
@@ -72,7 +71,7 @@ public class CircleDt {
 
 	/**
 	 * Gets the radius of the circle.
-	 * 
+	 *
 	 * @return the radius of the circle.
 	 */
 	public double radius() {

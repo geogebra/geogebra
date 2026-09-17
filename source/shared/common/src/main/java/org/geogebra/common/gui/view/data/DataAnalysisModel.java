@@ -39,9 +39,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * View to display plots and statistical analysis of data.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class DataAnalysisModel {
 	// ggb
@@ -104,8 +104,7 @@ public class DataAnalysisModel {
 		 * @param plotType1 plot type in the first panel
 		 * @param plotType2 plot type in the second panel
 		 */
-		void setPlotPanelOVNotNumeric(int mode, PlotType plotType1,
-				PlotType plotType2);
+		void setPlotPanelOVNotNumeric(int mode, PlotType plotType1, PlotType plotType2);
 
 		/**
 		 * Sets the plot types for raw data grouping.
@@ -121,8 +120,7 @@ public class DataAnalysisModel {
 		 * @param plotType1 plot type in the first panel
 		 * @param plotType2 plot type in the second panel
 		 */
-		void setPlotPanelOVFrequency(int mode, PlotType plotType1,
-				PlotType plotType2);
+		void setPlotPanelOVFrequency(int mode, PlotType plotType1, PlotType plotType2);
 
 		/**
 		 * Sets the plot types for class grouping.
@@ -130,8 +128,7 @@ public class DataAnalysisModel {
 		 * @param plotType1 plot type in the first panel
 		 * @param plotType2 plot type in the second panel
 		 */
-		void setPlotPanelOVClass(int mode, PlotType plotType1,
-				PlotType plotType2);
+		void setPlotPanelOVClass(int mode, PlotType plotType1, PlotType plotType2);
 
 		/**
 		 * Sets the plot types for regressions.
@@ -139,8 +136,7 @@ public class DataAnalysisModel {
 		 * @param plotType1 plot type in the first panel
 		 * @param plotType2 plot type in the second panel
 		 */
-		void setPlotPanelRegression(int mode, PlotType plotType1,
-				PlotType plotType2);
+		void setPlotPanelRegression(int mode, PlotType plotType1, PlotType plotType2);
 
 		/**
 		 * Sets the plot types for multi-variable plot.
@@ -201,14 +197,13 @@ public class DataAnalysisModel {
 
 	/**
 	 * Constructs the model for DA view.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param listener
 	 *            dialog listening to this
 	 */
-	public DataAnalysisModel(App app, IDataAnalysisListener listener,
-			DataAnalysisController ctrl) {
+	public DataAnalysisModel(App app, IDataAnalysisListener listener, DataAnalysisController ctrl) {
 		setIniting(true);
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -226,8 +221,12 @@ public class DataAnalysisModel {
 		});
 	}
 
-	private void setView(DataSource dataSource, int mode, PlotType plotType1,
-			PlotType plotType2, boolean forceModeUpdate) {
+	private void setView(
+			DataSource dataSource,
+			int mode,
+			PlotType plotType1,
+			PlotType plotType2,
+			boolean forceModeUpdate) {
 		ctrl.setDataSource(dataSource);
 
 		if (dataSource == null) {
@@ -237,8 +236,7 @@ public class DataAnalysisModel {
 		}
 
 		if (mode == MODE_ONEVAR) {
-			if (showDataPanel
-					&& dataSource.getGroupType() != GroupType.RAWDATA) {
+			if (showDataPanel && dataSource.getGroupType() != GroupType.RAWDATA) {
 				setShowDataPanel(false);
 			}
 		}
@@ -268,7 +266,7 @@ public class DataAnalysisModel {
 
 	/**
 	 * set the data plot panels with default plots
-	 * 
+	 *
 	 * @param plotType1
 	 *            plot type in first panel
 	 * @param plotType2
@@ -277,36 +275,31 @@ public class DataAnalysisModel {
 	public void setDataPlotPanels(PlotType plotType1, PlotType plotType2) {
 
 		switch (getMode()) {
+			default:
+			case MODE_ONEVAR:
+				if (!isNumericData()) {
+					getListener()
+							.setPlotPanelOVNotNumeric(getMode(), barchart(plotType1), barchart(plotType2));
 
-		default:
-		case MODE_ONEVAR:
-			if (!isNumericData()) {
-				getListener().setPlotPanelOVNotNumeric(getMode(),
-						barchart(plotType1), barchart(plotType2));
+				} else if (groupType() == GroupType.RAWDATA) {
+					getListener().setPlotPanelOVRawData(getMode(), histogram(plotType1), boxplot(plotType2));
+				} else if (groupType() == GroupType.FREQUENCY) {
+					getListener().setPlotPanelOVFrequency(getMode(), barchart(plotType1), boxplot(plotType2));
 
-			} else if (groupType() == GroupType.RAWDATA) {
-				getListener().setPlotPanelOVRawData(getMode(),
-						histogram(plotType1), boxplot(plotType2));
-			} else if (groupType() == GroupType.FREQUENCY) {
-				getListener().setPlotPanelOVFrequency(getMode(),
-						barchart(plotType1), boxplot(plotType2));
+				} else if (groupType() == GroupType.CLASS) {
+					getListener().setPlotPanelOVClass(getMode(), histogram(plotType1), histogram(plotType2));
+				}
+				break;
 
-			} else if (groupType() == GroupType.CLASS) {
-				getListener().setPlotPanelOVClass(getMode(),
-						histogram(plotType1), histogram(plotType2));
-			}
-			break;
+			case MODE_REGRESSION:
+				getListener()
+						.setPlotPanelRegression(getMode(), scatterplot(plotType1), residual(plotType2));
+				break;
 
-		case MODE_REGRESSION:
-			getListener().setPlotPanelRegression(getMode(),
-					scatterplot(plotType1), residual(plotType2));
-			break;
-
-		case MODE_MULTIVAR:
-			getListener().setPlotPanelMultiVar(getMode(),
-					multiboxplot(plotType1));
-			showDataDisplayPanel2 = false;
-			break;
+			case MODE_MULTIVAR:
+				getListener().setPlotPanelMultiVar(getMode(), multiboxplot(plotType1));
+				showDataDisplayPanel2 = false;
+				break;
 		}
 	}
 
@@ -507,7 +500,7 @@ public class DataAnalysisModel {
 
 	/**
 	 * Converts a double numeric value to formatted String
-	 * 
+	 *
 	 * @param val
 	 *            number to be converted
 	 * @return formatted number string
@@ -518,11 +511,9 @@ public class DataAnalysisModel {
 		// override the default decimal place setting if less than 4 decimals
 		if (printDecimals >= 0) {
 			int d = printDecimals < 4 ? 4 : printDecimals;
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d,
-					false);
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d, false);
 		} else {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					printFigures, false);
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
 		}
 		// get the formatted string
 
@@ -639,8 +630,8 @@ public class DataAnalysisModel {
 		DataAnalysisSettings settings = app.getSettings().getDataAnalysis();
 		if (!settings.getItems().isEmpty()) {
 			DataSource source = new DataSource(app, selectionSupplier);
-			source.setDataListFromSettings(settings.getItems(), settings.getFrequencies(),
-					settings.getMode());
+			source.setDataListFromSettings(
+					settings.getItems(), settings.getFrequencies(), settings.getMode());
 			// no need to guess here
 			setView(source, settings.getMode(), settings, true);
 			settings.getItems().clear();
@@ -649,19 +640,17 @@ public class DataAnalysisModel {
 
 	/**
 	 * Serialize to XML
-	 * 
+	 *
 	 * @param sb
 	 *            XML builder
 	 */
 	public void getXML(XMLStringBuilder sb) {
 		sb.startOpeningTag("dataAnalysis", 0).attr("mode", getMode());
 		if (getListener().getDisplayModel(0).getSelectedPlot() != null) {
-			sb.attr("plot1",
-					getListener().getDisplayModel(0).getSelectedPlot());
+			sb.attr("plot1", getListener().getDisplayModel(0).getSelectedPlot());
 		}
 		if (getListener().getDisplayModel(1).getSelectedPlot() != null) {
-			sb.attr("plot2",
-					getListener().getDisplayModel(1).getSelectedPlot());
+			sb.attr("plot2", getListener().getDisplayModel(1).getSelectedPlot());
 		}
 		if (getRegressionMode() != null) {
 			sb.attr("regression", getRegressionMode());
@@ -681,10 +670,12 @@ public class DataAnalysisModel {
 	 * @param forceModeUpdate
 	 *            whether to force reset for new mode
 	 */
-	public void setView(DataSource dataSource, int mode,
-			DataAnalysisSettings dataAnalysis, boolean forceModeUpdate) {
+	public void setView(
+			DataSource dataSource, int mode, DataAnalysisSettings dataAnalysis, boolean forceModeUpdate) {
 		dataAnalysis.setMode(mode);
-		setView(dataSource, mode,
+		setView(
+				dataSource,
+				mode,
 				dataAnalysis.getPlotType(0, null),
 				dataAnalysis.getPlotType(1, null),
 				forceModeUpdate);

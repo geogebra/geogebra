@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Computes CommonDenominator[a, b]
- * 
+ *
  * @author Zbynek Konecny
  */
 public class AlgoCommonDenominator extends AlgoTwoNumFunction {
@@ -40,8 +40,8 @@ public class AlgoCommonDenominator extends AlgoTwoNumFunction {
 	 * @param b
 	 *            second number
 	 */
-	public AlgoCommonDenominator(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b) {
+	public AlgoCommonDenominator(
+			Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 
@@ -55,8 +55,7 @@ public class AlgoCommonDenominator extends AlgoTwoNumFunction {
 		double[] afrac = AlgoFractionText.decimalToFraction(aVal, Kernel.STANDARD_PRECISION);
 		double[] bfrac = AlgoFractionText.decimalToFraction(bVal, Kernel.STANDARD_PRECISION);
 
-		if (afrac.length < 2 || bfrac.length < 2 || Double.isNaN(afrac[1])
-				|| Double.isNaN(bfrac[1])) {
+		if (afrac.length < 2 || bfrac.length < 2 || Double.isNaN(afrac[1]) || Double.isNaN(bfrac[1])) {
 			return Double.NaN;
 		}
 		return afrac[1] * bfrac[1] / Kernel.gcd(Math.round(afrac[1]), Math.round(bfrac[1]));

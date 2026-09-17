@@ -56,8 +56,8 @@ public class GeoGebraProfiler {
 	 */
 	public static void printAlgebraMeasurementData() {
 		if (algebra > 0) {
-			Log.debug("Profile Algebra: " + algebra + " x "
-					+ (algebraTime / algebra) + " = " + algebraTime);
+			Log.debug(
+					"Profile Algebra: " + algebra + " x " + (algebraTime / algebra) + " = " + algebraTime);
 		}
 	}
 
@@ -66,8 +66,8 @@ public class GeoGebraProfiler {
 	 */
 	public static void printEventMeasurementData() {
 		if (event > 0) {
-			Log.debug("Profile EventDispatcher: " + event + " x "
-					+ (eventTime / event) + " = " + eventTime);
+			Log.debug(
+					"Profile EventDispatcher: " + event + " x " + (eventTime / event) + " = " + eventTime);
 		}
 	}
 
@@ -76,14 +76,14 @@ public class GeoGebraProfiler {
 	 */
 	public static void printCascadeMeasurementData() {
 		if (cascades > 0) {
-			Log.debug("Profile Cascades: " + cascades + " x "
-					+ (cascadeTime / cascades) + " = " + cascadeTime);
+			Log.debug(
+					"Profile Cascades: " + cascades + " x " + (cascadeTime / cascades) + " = " + cascadeTime);
 		}
 	}
 
 	/**
 	 * Log a repaint
-	 * 
+	 *
 	 * @param time
 	 *            repaint duration
 	 */

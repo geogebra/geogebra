@@ -30,14 +30,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Last[ &lt;List&gt;,n ]
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
 public class CmdLast extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -52,41 +52,34 @@ public class CmdLast extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0].isGeoList()) {
+					GeoElement[] ret = {last(c.getLabel(), (GeoList) arg[0], null)};
+					return ret;
+				} else if (arg[0].isGeoText()) {
+					GeoElement[] ret = {last(c.getLabel(), (GeoText) arg[0], null)};
+					return ret;
+				} else if (arg[0].isGeoFunction()) {
+					AlgoLastFunction algo = new AlgoLastFunction(cons, c.getLabel(), (GeoFunction) arg[0]);
+					return new GeoElement[] {algo.getResult()};
+				}
+				throw argErr(c, arg[0]);
 
-			if (arg[0].isGeoList()) {
-				GeoElement[] ret = {
-						last(c.getLabel(), (GeoList) arg[0], null) };
-				return ret;
-			} else if (arg[0].isGeoText()) {
-				GeoElement[] ret = {
-						last(c.getLabel(), (GeoText) arg[0], null) };
-				return ret;
-			} else if (arg[0].isGeoFunction()) {
-				AlgoLastFunction algo = new AlgoLastFunction(cons, c.getLabel(),
-						(GeoFunction) arg[0]);
-				return new GeoElement[] { algo.getResult() };
-			}
-			throw argErr(c, arg[0]);
+			case 2:
+				boolean list = arg[0].isGeoList();
+				boolean text = arg[0].isGeoText();
+				if (list && arg[1].isGeoNumeric()) {
+					GeoElement[] ret = {last(c.getLabel(), (GeoList) arg[0], (GeoNumeric) arg[1])};
+					return ret;
+				} else if (text && arg[1].isGeoNumeric()) {
+					GeoElement[] ret = {last(c.getLabel(), (GeoText) arg[0], (GeoNumeric) arg[1])};
+					return ret;
+				} else {
+					throw argErr(c, (list && text) ? arg[1] : arg[0]);
+				}
 
-		case 2:
-			boolean list = arg[0].isGeoList();
-			boolean text = arg[0].isGeoText();
-			if (list && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { last(c.getLabel(), (GeoList) arg[0],
-						(GeoNumeric) arg[1]) };
-				return ret;
-			} else if (text && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { last(c.getLabel(), (GeoText) arg[0],
-						(GeoNumeric) arg[1]) };
-				return ret;
-			} else {
-				throw argErr(c,
-						(list && text) ? arg[1] : arg[0]);
-			}
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -105,5 +98,4 @@ public class CmdLast extends CommandProcessor {
 		AlgoLast algo = new AlgoLast(cons, label, list, n);
 		return algo.getResult();
 	}
-
 }

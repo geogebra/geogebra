@@ -1,7 +1,7 @@
 /*
  * Created on Oct 17, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -34,7 +34,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  * </ul>
  * Extensions or implementations of this interface may enforce or disallow any
  * or all of these variations.
- * 
+ *
  * <p>
  * Definitions (with respect to a given vertex <code>v</code>):
  * <ul>
@@ -48,14 +48,14 @@ import edu.uci.ics.jung.graph.util.Pair;
  * outgoing edge of <code>v</code>
  * </li>
  * </ul>
- * 
+ *
  * @author Joshua O'Madadhain
  */
 public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Returns a <code>Collection</code> view of the incoming edges incident to
 	 * <code>vertex</code> in this graph.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose incoming edges are to be returned
 	 * @return a <code>Collection</code> view of the incoming edges incident to
@@ -67,7 +67,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Returns a <code>Collection</code> view of the outgoing edges incident to
 	 * <code>vertex</code> in this graph.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose outgoing edges are to be returned
 	 * @return a <code>Collection</code> view of the outgoing edges incident to
@@ -83,7 +83,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * <code>vertex</code> by an edge <code>e</code>, where <code>e</code> is an
 	 * outgoing edge of <code>v</code> and an incoming edge of
 	 * <code>vertex</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose predecessors are to be returned
 	 * @return a <code>Collection</code> view of the predecessors of
@@ -99,7 +99,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * <code>vertex</code> by an edge <code>e</code>, where <code>e</code> is an
 	 * incoming edge of <code>v</code> and an outgoing edge of
 	 * <code>vertex</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose predecessors are to be returned
 	 * @return a <code>Collection</code> view of the successors of
@@ -111,7 +111,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Returns the number of incoming edges incident to <code>vertex</code>.
 	 * Equivalent to <code>getInEdges(vertex).size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose indegree is to be calculated
 	 * @return the number of incoming edges incident to <code>vertex</code>
@@ -122,7 +122,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Returns the number of outgoing edges incident to <code>vertex</code>.
 	 * Equivalent to <code>getOutEdges(vertex).size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose outdegree is to be calculated
 	 * @return the number of outgoing edges incident to <code>vertex</code>
@@ -134,7 +134,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * Returns <code>true</code> if <code>v1</code> is a predecessor of
 	 * <code>v2</code> in this graph. Equivalent to
 	 * <code>v1.getPredecessors().contains(v2)</code>.
-	 * 
+	 *
 	 * @param v1
 	 *            the first vertex to be queried
 	 * @param v2
@@ -148,7 +148,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * Returns <code>true</code> if <code>v1</code> is a successor of
 	 * <code>v2</code> in this graph. Equivalent to
 	 * <code>v1.getSuccessors().contains(v2)</code>.
-	 * 
+	 *
 	 * @param v1
 	 *            the first vertex to be queried
 	 * @param v2
@@ -161,7 +161,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Returns the number of predecessors that <code>vertex</code> has in this
 	 * graph. Equivalent to <code>vertex.getPredecessors().size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose predecessor count is to be returned
 	 * @return the number of predecessors that <code>vertex</code> has in this
@@ -172,7 +172,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	/**
 	 * Returns the number of successors that <code>vertex</code> has in this
 	 * graph. Equivalent to <code>vertex.getSuccessors().size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose successor count is to be returned
 	 * @return the number of successors that <code>vertex</code> has in this
@@ -186,7 +186,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * edge <code>d</code> is defined to be the vertex for which <code>d</code>
 	 * is an outgoing edge. <code>directed_edge</code> is guaranteed to be a
 	 * directed edge if its <code>EdgeType</code> is <code>DIRECTED</code>.
-	 * 
+	 *
 	 * @param directed_edge directed edge
 	 * @return the source of <code>directed_edge</code> if it is a directed edge
 	 *         in this graph, or <code>null</code> otherwise
@@ -201,7 +201,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * <code>d</code> for which <code>d</code> is an incoming edge.
 	 * <code>directed_edge</code> is guaranteed to be a directed edge if its
 	 * <code>EdgeType</code> is <code>DIRECTED</code>.
-	 * 
+	 *
 	 * @param directed_edge directed edge
 	 * @return the destination of <code>directed_edge</code> if it is a directed
 	 *         edge in this graph, or <code>null</code> otherwise
@@ -213,7 +213,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * Returns <code>true</code> if <code>vertex</code> is the source of
 	 * <code>edge</code>. Equivalent to
 	 * <code>getSource(edge).equals(vertex)</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex to be queried
 	 * @param edge
@@ -227,7 +227,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * Returns <code>true</code> if <code>vertex</code> is the destination of
 	 * <code>edge</code>. Equivalent to
 	 * <code>getDest(edge).equals(vertex)</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex to be queried
 	 * @param edge
@@ -247,7 +247,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * to its edges, the edge type of <code>e</code> will be the default for
 	 * this graph. See <code>Hypergraph.addEdge()</code> for a listing of
 	 * possible reasons for failure.
-	 * 
+	 *
 	 * @param e
 	 *            the edge to be added
 	 * @param v1
@@ -272,7 +272,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * <code>IllegalArgumentException</code>. See
 	 * <code>Hypergraph.addEdge()</code> for a listing of possible reasons for
 	 * failure.
-	 * 
+	 *
 	 * @param e
 	 *            the edge to be added
 	 * @param v1
@@ -290,7 +290,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 
 	/**
 	 * Returns the endpoints of <code>edge</code> as a <code>Pair&lt;V&gt;</code>.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge whose endpoints are to be returned
 	 * @return the endpoints (incident vertices) of <code>edge</code>
@@ -301,7 +301,7 @@ public interface Graph<V, E> extends Hypergraph<V, E> {
 	 * Returns the vertex at the other end of <code>edge</code> from
 	 * <code>vertex</code>. (That is, returns the vertex incident to
 	 * <code>edge</code> which is not <code>vertex</code>.)
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex to be queried
 	 * @param edge

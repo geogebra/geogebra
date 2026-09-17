@@ -39,8 +39,7 @@ class TextBuilderTest extends BaseUnitTest {
 			assertThat(((GeoText) evt.target).isLaTeX(), equalTo(true));
 			eventCounter++;
 		});
-		textBuilder.createText("\"\\sqrt{2}\"", TestErrorHandler.INSTANCE,
-				Assertions::assertTrue);
+		textBuilder.createText("\"\\sqrt{2}\"", TestErrorHandler.INSTANCE, Assertions::assertTrue);
 		assertThat(eventCounter, equalTo(1));
 	}
 }

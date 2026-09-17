@@ -58,8 +58,7 @@ import org.jspecify.annotations.Nullable;
 
 /** {@code Property} responsible for choosing a preset icon for a button. */
 public class ButtonIconProperty extends AbstractEnumeratedProperty<ButtonIconProperty.ButtonIcon>
-		implements IconsEnumeratedProperty<ButtonIconProperty.ButtonIcon>,
-		GeoElementDependentProperty {
+		implements IconsEnumeratedProperty<ButtonIconProperty.ButtonIcon>, GeoElementDependentProperty {
 	/** Preset icons that can be displayed on a button. */
 	public enum ButtonIcon {
 		PLAY(ICON_BUTTON_PLAY, "play.svg"),
@@ -99,7 +98,8 @@ public class ButtonIconProperty extends AbstractEnumeratedProperty<ButtonIconPro
 		private static ButtonIcon fromImagePath(String imagePath, ImageManager imageManager) {
 			return Arrays.stream(values())
 					.filter(icon -> imagePath.equals(imageManager.getButtonIconPath(icon.fileName)))
-					.findFirst().orElse(null);
+					.findFirst()
+					.orElse(null);
 		}
 	}
 
@@ -113,8 +113,9 @@ public class ButtonIconProperty extends AbstractEnumeratedProperty<ButtonIconPro
 	 * @param element button element to configure
 	 * @throws NotApplicablePropertyException if not filled by image
 	 */
-	public ButtonIconProperty(Localization localization, ImageManager imageManager,
-			GeoElement element) throws NotApplicablePropertyException {
+	public ButtonIconProperty(
+			Localization localization, ImageManager imageManager, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, null);
 		this.imageManager = imageManager;
 		delegate = new IconStylePropertyDelegate(element);
@@ -123,7 +124,8 @@ public class ButtonIconProperty extends AbstractEnumeratedProperty<ButtonIconPro
 
 	@Override
 	public PropertyResource[] getValueIcons() {
-		return Arrays.stream(ButtonIcon.values()).map(icon -> icon.resource)
+		return Arrays.stream(ButtonIcon.values())
+				.map(icon -> icon.resource)
 				.toArray(PropertyResource[]::new);
 	}
 
@@ -139,8 +141,8 @@ public class ButtonIconProperty extends AbstractEnumeratedProperty<ButtonIconPro
 
 	@Override
 	protected void doSetValue(ButtonIcon value) {
-		String imagePath = imageManager.applyButtonIcon(value.fileName,
-				delegate.getElement().getKernel());
+		String imagePath =
+				imageManager.applyButtonIcon(value.fileName, delegate.getElement().getKernel());
 		delegate.getElement().setFillImage(imagePath);
 		delegate.getElement().updateVisualStyleRepaint(GProperty.COMBINED);
 	}

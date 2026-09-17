@@ -32,7 +32,7 @@ public class CmdBernoulli extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,14 +48,12 @@ public class CmdBernoulli extends CommandProcessor {
 
 		if (n == 2) {
 			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1].isGeoBoolean())) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue) && (ok[1] = arg[1].isGeoBoolean())) {
 
-				AlgoBernoulliBarChart algo = new AlgoBernoulliBarChart(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoBoolean) arg[1]);
+				AlgoBernoulliBarChart algo = new AlgoBernoulliBarChart(
+						cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoBoolean) arg[1]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 			} else if (!ok[0]) {

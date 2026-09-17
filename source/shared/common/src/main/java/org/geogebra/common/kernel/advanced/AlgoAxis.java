@@ -59,8 +59,7 @@ public class AlgoAxis extends AlgoElement {
 	 * @param axisId
 	 *            0 for major, 1 for minor
 	 */
-	public AlgoAxis(Construction cons, String label, GeoConicND c,
-			int axisId) {
+	public AlgoAxis(Construction cons, String label, GeoConicND c, int axisId) {
 		this(cons, c, axisId);
 
 		eigenvec = c.eigenvec;
@@ -77,7 +76,6 @@ public class AlgoAxis extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 		compute();
 		getAxis().setLabel(label);
-
 	}
 
 	@Override
@@ -120,13 +118,10 @@ public class AlgoAxis extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		if (axisId == 1) {
-			return getLoc().getPlainDefault("SecondAxisOfA", "Minor axis of %0",
-					c.getLabel(tpl));
+			return getLoc().getPlainDefault("SecondAxisOfA", "Minor axis of %0", c.getLabel(tpl));
 		}
-		return getLoc().getPlainDefault("FirstAxisOfA", "Major axis of %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("FirstAxisOfA", "Major axis of %0", c.getLabel(tpl));
 	}
-
 }

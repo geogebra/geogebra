@@ -29,7 +29,7 @@ public class CmdInteriorAngles extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -51,7 +51,7 @@ public class CmdInteriorAngles extends CommandProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param labels
 	 *            labels
 	 * @param poly
@@ -61,5 +61,4 @@ public class CmdInteriorAngles extends CommandProcessor {
 	protected GeoElement[] process(String[] labels, GeoPolygon poly) {
 		return getAlgoDispatcher().angles(labels, poly, true);
 	}
-
 }

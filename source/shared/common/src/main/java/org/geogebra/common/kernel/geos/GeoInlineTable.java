@@ -67,8 +67,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public GeoElement copy() {
-		GeoInlineTable copy = new GeoInlineTable(cons,
-				new GPoint2D(getLocation().getX(), getLocation().getY()));
+		GeoInlineTable copy = new GeoInlineTable(
+				cons, new GPoint2D(getLocation().getX(), getLocation().getY()));
 		copy.set(this);
 		return copy;
 	}

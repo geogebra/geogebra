@@ -23,23 +23,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.web.graphics;
@@ -81,7 +81,6 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
-import jsinterop.base.Js;
 
 public class Graphics2DW implements Graphics2DInterface {
 
@@ -119,10 +118,13 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	private void initBasicStroke() {
-		basicStroke = AwtFactory.getPrototype().newBasicStroke(context.getLineWidth(),
-				StrokeUtil.getLineCap(context.getLineCap()),
-				StrokeUtil.getLineJoin(context.getLineJoin()),
-				context.getMiterLimit(), null);
+		basicStroke = AwtFactory.getPrototype()
+				.newBasicStroke(
+						context.getLineWidth(),
+						StrokeUtil.getLineCap(context.getLineCap()),
+						StrokeUtil.getLineJoin(context.getLineJoin()),
+						context.getMiterLimit(),
+						null);
 	}
 
 	private void initColor() {
@@ -133,8 +135,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	private void initFont() {
 		FONT_PARSER.font = context.getFont();
 		String fontFamily = FONT_PARSER.fontFamily;
-		font = new DefaultFont(fontFamily, Font.PLAIN,
-				(int) Math.round(FontLoader.PIXELS_PER_POINT));
+		font = new DefaultFont(fontFamily, Font.PLAIN, (int) Math.round(FontLoader.PIXELS_PER_POINT));
 	}
 
 	public CanvasRenderingContext2D getContext() {
@@ -155,7 +156,6 @@ public class Graphics2DW implements Graphics2DInterface {
 		} else {
 			context.setLineDash(JsArray.of());
 		}
-
 	}
 
 	@Override
@@ -267,8 +267,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	@Override
 	public void drawChars(char[] data, int offset, int length, int x, int y) {
 		if (length > 1) {
-			throw new UnsupportedOperationException(
-					"Cannot draw multiple chars");
+			throw new UnsupportedOperationException("Cannot draw multiple chars");
 		}
 		String string = String.valueOf(data, offset, length);
 		drawText(string, x, y);
@@ -288,8 +287,7 @@ public class Graphics2DW implements Graphics2DInterface {
 		private FontW font;
 		private GColor color;
 
-		public FontDrawContext(Graphics2DW graphics, String text, int x,
-				int y) {
+		public FontDrawContext(Graphics2DW graphics, String text, int x, int y) {
 			this.graphics = graphics;
 			this.text = text;
 			this.x = x;
@@ -318,7 +316,6 @@ public class Graphics2DW implements Graphics2DInterface {
 			graphics.setFont(oldFont);
 			graphics.setColor(oldColor);
 		}
-
 	}
 
 	private ArrayList<FontLoadCallback> charDrawingRequests = new ArrayList<>();
@@ -373,8 +370,7 @@ public class Graphics2DW implements Graphics2DInterface {
 		}
 	}
 
-	public void setDrawingFinishedCallback(
-			DrawingFinishedCallback drawingFinishedCallback) {
+	public void setDrawingFinishedCallback(DrawingFinishedCallback drawingFinishedCallback) {
 		this.drawingFinishedCallback = drawingFinishedCallback;
 	}
 
@@ -401,21 +397,18 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	@Override
-	public void drawArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
+	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		doArcPath(x, y, width, height, startAngle, arcAngle);
 		context.stroke();
 	}
 
 	@Override
-	public void fillArc(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
+	public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		doArcPath(x, y, width, height, startAngle, arcAngle);
 		context.fill();
 	}
 
-	private void doArcPath(int x, int y, int width, int height, int startAngle,
-			int arcAngle) {
+	private void doArcPath(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		context.saveTransform();
 		context.beginPath();
 
@@ -464,9 +457,13 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void drawImage(Image image, GAffineTransform transform) {
-		context.saveTransform(transform.getScaleX(), transform.getShearY(),
-				transform.getShearX(), transform.getScaleY(),
-				transform.getTranslateX(), transform.getTranslateY());
+		context.saveTransform(
+				transform.getScaleX(),
+				transform.getShearY(),
+				transform.getShearX(),
+				transform.getScaleY(),
+				transform.getTranslateX(),
+				transform.getTranslateY());
 
 		transform(transform);
 		drawImage(image, 0, 0);
@@ -478,20 +475,24 @@ public class Graphics2DW implements Graphics2DInterface {
 	 * Applies the transformation matrix to the context. Please ensure one call
 	 * to graphics.save() before this method and graphics.restore() after this
 	 * method.
-	 * 
+	 *
 	 * @param transform
 	 *            transformation matrix
 	 */
 	protected void transform(GAffineTransform transform) {
-		context.transform(transform.getScaleX(), transform.getShearY(),
-				transform.getShearX(), transform.getScaleY(),
-				transform.getTranslateX(), transform.getTranslateY());
+		context.transform(
+				transform.getScaleX(),
+				transform.getShearY(),
+				transform.getShearX(),
+				transform.getScaleY(),
+				transform.getTranslateX(),
+				transform.getTranslateY());
 	}
 
 	/**
 	 * Sets the transformation matrix. Please ensure one call to graphics.save()
 	 * before this method and graphics.restore() after this method.
-	 * 
+	 *
 	 * @param transform
 	 *            transformation matrix
 	 */
@@ -499,9 +500,12 @@ public class Graphics2DW implements Graphics2DInterface {
 
 		double dp = context.getDevicePixelRatio();
 
-		context.setTransform2(transform.getScaleX() * dp,
-				transform.getShearY() * dp, transform.getShearX() * dp,
-				transform.getScaleY() * dp, transform.getTranslateX() * dp,
+		context.setTransform2(
+				transform.getScaleX() * dp,
+				transform.getShearY() * dp,
+				transform.getShearX() * dp,
+				transform.getScaleY() * dp,
+				transform.getTranslateX() * dp,
 				transform.getTranslateY() * dp);
 	}
 
@@ -525,5 +529,4 @@ public class Graphics2DW implements Graphics2DInterface {
 	public void dispose() {
 		// NO-OP
 	}
-
 }

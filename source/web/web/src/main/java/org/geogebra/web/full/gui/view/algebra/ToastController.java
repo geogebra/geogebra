@@ -45,8 +45,8 @@ public final class ToastController implements SyntaxTooltipUpdater {
 		if (!sh.isEmpty()) {
 			Rectangle bounds = boundsSupplier.get();
 
-			String hintHtml = sh.getPrefix() + "<strong>"
-					+ sh.getActivePlaceholder() + "</strong>" + sh.getSuffix();
+			String hintHtml =
+					sh.getPrefix() + "<strong>" + sh.getActivePlaceholder() + "</strong>" + sh.getSuffix();
 
 			if (toast == null) {
 				toast = new ComponentToast(app, hintHtml);
@@ -54,8 +54,8 @@ public final class ToastController implements SyntaxTooltipUpdater {
 				toast.updateContent(hintHtml);
 			}
 			if (!toast.isShowing()) {
-				toast.show((int) bounds.getMinX(), (int) bounds.getMinY(), (int) bounds.getMaxY(),
-						(int) bounds.getWidth());
+				toast.show((int) bounds.getMinX(), (int) bounds.getMinY(), (int) bounds.getMaxY(), (int)
+						bounds.getWidth());
 			}
 		} else {
 			hide();

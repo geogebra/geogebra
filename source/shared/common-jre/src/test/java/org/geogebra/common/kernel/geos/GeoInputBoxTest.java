@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.geos;
 
 import static org.geogebra.test.TestStringUtil.unicode;
@@ -92,41 +92,39 @@ class GeoInputBoxTest extends BaseUnitTest {
 		inputBox2.setSymbolicMode(true, false);
 		assertEquals("x*y+1", inputBox1.getTextForEditor());
 		assertEquals("2*f(x+2,y)+1", inputBox2.getTextForEditor());
-		assertEquals("2 \\cdot f\\left(x + 2,\\;y \\right) + 1",
-				inputBox2.getText());
+		assertEquals("2 \\cdot f\\left(x + 2,\\;y \\right) + 1", inputBox2.getText());
 	}
 
 	@Test
 	void symbolicInputBoxTextShouldBeInLaTeX() {
-        add("f = x + 12");
-        add("g = 2f(x + 1) + 2");
-        GeoInputBox inputBox2 = add("InputBox(g)");
-        inputBox2.setSymbolicMode(true, false);
-        assertEquals("2 \\cdot f\\left(x + 1 \\right) + 2", inputBox2.getText());
-    }
+		add("f = x + 12");
+		add("g = 2f(x + 1) + 2");
+		GeoInputBox inputBox2 = add("InputBox(g)");
+		inputBox2.setSymbolicMode(true, false);
+		assertEquals("2 \\cdot f\\left(x + 1 \\right) + 2", inputBox2.getText());
+	}
 
 	@Test
 	void testMatrixShouldBeInLaTeX() {
-        add("m1 = {{1, 2, 3}, {4, 5, 6}}");
-        GeoInputBox inputBox = add("InputBox(m1)");
-        inputBox.setSymbolicMode(true, false);
-        assertEquals("\\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\end{pmatrix}",
-				inputBox.getText());
-    }
+		add("m1 = {{1, 2, 3}, {4, 5, 6}}");
+		GeoInputBox inputBox = add("InputBox(m1)");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("\\begin{pmatrix} 1 & 2 & 3 \\\\ 4 & 5 & 6 \\end{pmatrix}", inputBox.getText());
+	}
 
 	@Test
 	void inputBoxTextAlignmentIsInXMLTest() {
-        App app = getApp();
-        add("A = (1,1)");
-        GeoInputBox inputBox = add("B = Inputbox(A)");
-        assertEquals(HorizontalAlignment.LEFT, inputBox.getAlignment());
-        inputBox.setAlignment(HorizontalAlignment.CENTER);
-        assertEquals(HorizontalAlignment.CENTER, inputBox.getAlignment());
-        String appXML = app.getXML();
-        app.setXML(appXML, true);
-        inputBox = (GeoInputBox) lookup("B");
-        assertEquals(HorizontalAlignment.CENTER, inputBox.getAlignment());
-    }
+		App app = getApp();
+		add("A = (1,1)");
+		GeoInputBox inputBox = add("B = Inputbox(A)");
+		assertEquals(HorizontalAlignment.LEFT, inputBox.getAlignment());
+		inputBox.setAlignment(HorizontalAlignment.CENTER);
+		assertEquals(HorizontalAlignment.CENTER, inputBox.getAlignment());
+		String appXML = app.getXML();
+		app.setXML(appXML, true);
+		inputBox = (GeoInputBox) lookup("B");
+		assertEquals(HorizontalAlignment.CENTER, inputBox.getAlignment());
+	}
 
 	@Test
 	void testTempUserInputNotInXml() {
@@ -177,8 +175,8 @@ class GeoInputBoxTest extends BaseUnitTest {
 		String tempDisplayInput = "\\? \\frac{\\nbsp}{\\nbsp}";
 		inputBox.updateLinkedGeo("? /", tempDisplayInput);
 
-		String texInputBox
-				= "\\{\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}} \\frac{\\nbsp}{\\nbsp}";
+		String texInputBox =
+				"\\{\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}} \\frac{\\nbsp}{\\nbsp}";
 		assertEquals(texInputBox, inputBox.getDisplayText());
 	}
 
@@ -187,12 +185,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 		GeoList m1 = add("m1 = {{1,5},{2,3}}");
 		GeoInputBox inputBox = add("B = Inputbox(m1)");
 
-		inputBox.updateLinkedGeo("{{,},{,}}", "\\begin{matrix}",
-				"", "", "", "");
+		inputBox.updateLinkedGeo("{{,},{,}}", "\\begin{matrix}", "", "", "", "");
 
 		assertTrue(m1.isMatrix(), "List should remain a matrix");
-		String texMatrix = "\\left(\\begin{array}{rr}?&?\\\\"
-				+ "?&?\\\\ \\end{array}\\right)";
+		String texMatrix = "\\left(\\begin{array}{rr}?&?\\\\" + "?&?\\\\ \\end{array}\\right)";
 		assertThat(m1.toLaTeXString(false, StringTemplate.latexTemplate), is(texMatrix));
 		reload();
 		m1 = (GeoList) lookup("m1");
@@ -226,7 +222,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	void testSymbolicUserInput() {
 		add("a = 5");
-		GeoInputBox inputBox =  add("Inputbox(a)");
+		GeoInputBox inputBox = add("Inputbox(a)");
 		String tempDisplayInput = "\\frac{5}{\\nbsp}";
 		inputBox.updateLinkedGeo("5/", tempDisplayInput);
 		inputBox.setSymbolicMode(true);
@@ -265,7 +261,6 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 		inputBox.setSymbolicMode(false, false);
 		assertEquals("", inputBox.getText());
-
 	}
 
 	@Test
@@ -371,7 +366,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals(point.getToStringMode(), type);
 
 		String[] inputs = {"(1, 2)", "1 + i", "(2; 3)"};
-		for (String input: inputs) {
+		for (String input : inputs) {
 			inputBox.updateLinkedGeo(input);
 			assertEquals(point.getToStringMode(), type);
 		}
@@ -380,7 +375,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void test2DVectorRedefinition() {
-		testRedefinition("v", "=", POINT_2D,
+		testRedefinition(
+				"v",
+				"=",
+				POINT_2D,
 				GeoClass.VECTOR,
 				new String[] {FUNCTION, CONIC, LINE, PLANE, NUMBER, POINT_3D},
 				new String[] {POINT_2D});
@@ -388,7 +386,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void test3DVectorRedefinition() {
-		testRedefinition("v", "=", POINT_3D,
+		testRedefinition(
+				"v",
+				"=",
+				POINT_3D,
 				GeoClass.VECTOR3D,
 				new String[] {FUNCTION, CONIC, LINE, PLANE, NUMBER},
 				new String[] {POINT_3D, POINT_2D});
@@ -396,7 +397,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void testPlaneRedefinition() {
-		testRedefinition("a", ":", PLANE,
+		testRedefinition(
+				"a",
+				":",
+				PLANE,
 				GeoClass.PLANE3D,
 				new String[] {FUNCTION, CONIC, NUMBER, POINT_3D, POINT_2D},
 				new String[] {LINE, PLANE});
@@ -404,7 +408,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void test2DPointRedefinition() {
-		testRedefinition("A", "=", POINT_2D,
+		testRedefinition(
+				"A",
+				"=",
+				POINT_2D,
 				GeoClass.POINT,
 				new String[] {FUNCTION, CONIC, LINE, PLANE, POINT_3D},
 				new String[] {POINT_2D, NUMBER});
@@ -412,7 +419,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void test3DPointRedefinition() {
-		testRedefinition("A", "=", POINT_3D,
+		testRedefinition(
+				"A",
+				"=",
+				POINT_3D,
 				GeoClass.POINT3D,
 				new String[] {FUNCTION, CONIC, LINE, PLANE},
 				new String[] {POINT_3D, POINT_2D, NUMBER});
@@ -420,7 +430,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void testConicRedefinition() {
-		testRedefinition("eq1", ":", CONIC,
+		testRedefinition(
+				"eq1",
+				":",
+				CONIC,
 				GeoClass.CONIC,
 				new String[] {FUNCTION, PLANE, NUMBER, POINT_3D, POINT_2D},
 				new String[] {CONIC, LINE});
@@ -428,7 +441,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void testFunctionRedefinition() {
-		testRedefinition("f", "=", FUNCTION,
+		testRedefinition(
+				"f",
+				"=",
+				FUNCTION,
 				GeoClass.FUNCTION,
 				new String[] {CONIC, LINE, PLANE, POINT_3D, POINT_2D},
 				new String[] {FUNCTION, NUMBER});
@@ -436,7 +452,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void testLineRedefinition() {
-		testRedefinition("f", ":", LINE,
+		testRedefinition(
+				"f",
+				":",
+				LINE,
 				GeoClass.LINE,
 				new String[] {CONIC, FUNCTION, PLANE, POINT_3D, POINT_2D},
 				new String[] {LINE, NUMBER});
@@ -444,7 +463,10 @@ class GeoInputBoxTest extends BaseUnitTest {
 
 	@Test
 	void testNumberRedefinition() {
-		testRedefinition("a", "=", NUMBER,
+		testRedefinition(
+				"a",
+				"=",
+				NUMBER,
 				GeoClass.NUMERIC,
 				new String[] {CONIC, FUNCTION, PLANE, POINT_3D, POINT_2D, LINE},
 				new String[] {NUMBER});
@@ -476,27 +498,36 @@ class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("\\frac{1}{2}", plain.getTextString());
 	}
 
-	private void testRedefinition(String label, String sign, String expression, GeoClass keepType,
-								  String[] refusedRedefinitions, String[] acceptedRedefinitions) {
-		for (String refused: refusedRedefinitions) {
+	private void testRedefinition(
+			String label,
+			String sign,
+			String expression,
+			GeoClass keepType,
+			String[] refusedRedefinitions,
+			String[] acceptedRedefinitions) {
+		for (String refused : refusedRedefinitions) {
 			assertRedefinition(label, sign, expression, refused, keepType, false);
 		}
-		for (String refused: acceptedRedefinitions) {
+		for (String refused : acceptedRedefinitions) {
 			assertRedefinition(label, sign, expression, refused, keepType, true);
 		}
 	}
 
-	private void assertRedefinition(String label, String sign, String expression,
-									String redefinition, GeoClass keepType,
-									boolean assertDefined) {
+	private void assertRedefinition(
+			String label,
+			String sign,
+			String expression,
+			String redefinition,
+			GeoClass keepType,
+			boolean assertDefined) {
 		String input = label + sign + expression;
 		add(input);
 		GeoInputBox inputBox = add("InputBox(" + label + ")");
 		inputBox.updateLinkedGeo(redefinition);
 
 		GeoElementND element = inputBox.getLinkedGeo();
-		String message = (assertDefined ? "should keep " : "should not keep ")
-				+ keepType + " " + redefinition;
+		String message =
+				(assertDefined ? "should keep " : "should not keep ") + keepType + " " + redefinition;
 		assertEquals(assertDefined, element.isDefined(), message);
 		assertEquals(keepType, element.getGeoClassType());
 		element.remove();
@@ -728,8 +759,9 @@ class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("floor(1+2)+3+4", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("e^36-1");
-		assertEquals(Unicode.EULER_STRING + Unicode.SUPERSCRIPT_3
-				+ Unicode.SUPERSCRIPT_6 + "-1", inputBox.getTextForEditor());
+		assertEquals(
+				Unicode.EULER_STRING + Unicode.SUPERSCRIPT_3 + Unicode.SUPERSCRIPT_6 + "-1",
+				inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -742,8 +774,8 @@ class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("1+1+t", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("10^10 + t");
-		assertEquals("10" + Unicode.SUPERSCRIPT_1
-				+ Unicode.SUPERSCRIPT_0 + "+t", inputBox.getTextForEditor());
+		assertEquals(
+				"10" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0 + "+t", inputBox.getTextForEditor());
 
 		inputBox.updateLinkedGeo("-3/4t + 2*3/2");
 		assertEquals("(-3)/(4)*t+2*(3)/(2)", inputBox.getTextForEditor());
@@ -809,7 +841,6 @@ class GeoInputBoxTest extends BaseUnitTest {
 		add("t=1");
 		inputBox.updateLinkedGeo("t + 10,000");
 		assertEquals("t + 10000", inputBox.getText());
-
 	}
 
 	@Test
@@ -856,8 +887,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 		GeoElement linked = add(s);
 		GeoInputBox input = add("InputBox(" + linked.getLabelSimple() + ")");
 		input.updateLinkedGeo(s1);
-		assertEquals(s1, linked.getRedefineString(false, false,
-				StringTemplate.testTemplate));
+		assertEquals(s1, linked.getRedefineString(false, false, StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -865,8 +895,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 		GeoElement linked = add("a:3>x");
 		GeoInputBox input = add("InputBox(a)");
 		input.updateLinkedGeo("3,500 > x");
-		assertEquals("3500 > x", linked.getRedefineString(false, false,
-				StringTemplate.testTemplate));
+		assertEquals("3500 > x", linked.getRedefineString(false, false, StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -943,8 +972,7 @@ class GeoInputBoxTest extends BaseUnitTest {
 		input.setSymbolicMode(true);
 		assertTrue(input.isSymbolicMode(), "input box initially symbolic");
 		reload();
-		assertTrue(((GeoInputBox) lookup("ib")).isSymbolicMode(),
-				"input box symbolic after reload");
+		assertTrue(((GeoInputBox) lookup("ib")).isSymbolicMode(), "input box symbolic after reload");
 	}
 
 	@Test

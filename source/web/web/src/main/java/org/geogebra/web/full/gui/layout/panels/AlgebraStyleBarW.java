@@ -52,6 +52,7 @@ public final class AlgebraStyleBarW extends StyleBarW2 implements SettingListene
 	private GeoElement selectedEntry;
 	/** localization */
 	private final Localization loc;
+
 	private final List<AlgebraStyle> algebraStyles;
 
 	/**
@@ -121,23 +122,20 @@ public final class AlgebraStyleBarW extends StyleBarW2 implements SettingListene
 
 		ImageOrText[] strTreeMode = getTreeModeStr();
 		if (treeModeButton == null) {
-			treeModeButton = new PopupMenuButtonW(app, strTreeMode,
-					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
-	
-			ImageOrText icon = new ImageOrText(
-					MaterialDesignResources.INSTANCE.sortObjects());
+			treeModeButton =
+					new PopupMenuButtonW(app, strTreeMode, strTreeMode.length, 1, SelectionTable.MODE_TEXT);
+
+			ImageOrText icon = new ImageOrText(MaterialDesignResources.INSTANCE.sortObjects());
 			treeModeButton.setFixedIcon(icon);
-	
+
 			treeModeButton.addFastClickHandler(event -> {
 				SortMode selectedMode = app.getAlgebraView().getTreeMode();
-				treeModeButton.setSelectedIndex(supportedModes
-						.indexOf(selectedMode));
+				treeModeButton.setSelectedIndex(supportedModes.indexOf(selectedMode));
 			});
-	
+
 			treeModeButton.addPopupHandler(index -> {
 				// called if a object of the popup is clicked
-				app.getSettings().getAlgebra()
-						.setTreeMode(supportedModes.get(index));
+				app.getSettings().getAlgebra().setTreeMode(supportedModes.get(index));
 				app.closePopups();
 			});
 		}
@@ -147,16 +145,14 @@ public final class AlgebraStyleBarW extends StyleBarW2 implements SettingListene
 	private void addDescriptionButton() {
 		ImageOrText[] strTreeMode = getDescriptionModes();
 		if (descriptionButton == null) {
-			descriptionButton = new PopupMenuButtonW(app, strTreeMode,
-					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
+			descriptionButton =
+					new PopupMenuButtonW(app, strTreeMode, strTreeMode.length, 1, SelectionTable.MODE_TEXT);
 
-			ImageOrText icon = new ImageOrText(
-					MaterialDesignResources.INSTANCE.description(), 24);
+			ImageOrText icon = new ImageOrText(MaterialDesignResources.INSTANCE.description(), 24);
 			descriptionButton.setFixedIcon(icon);
 
 			descriptionButton.addFastClickHandler(event ->
-					descriptionButton.setSelectedIndex(
-							algebraStyles.indexOf(app.getAlgebraStyle())));
+					descriptionButton.setSelectedIndex(algebraStyles.indexOf(app.getAlgebraStyle())));
 
 			descriptionButton.addPopupHandler(index -> {
 				// called if a object of the popup is clicked
@@ -174,16 +170,16 @@ public final class AlgebraStyleBarW extends StyleBarW2 implements SettingListene
 	/**
 	 * creates an array from all available supported modes and converts it to an
 	 * array of {@link ImageOrText} elements
-	 * 
+	 *
 	 * @return {@link ImageOrText ImageOrText[]}
 	 */
-    private ImageOrText[] getTreeModeStr() {
+	private ImageOrText[] getTreeModeStr() {
 		String[] modes = new String[supportedModes.size()];
 		for (int i = 0; i < supportedModes.size(); i++) {
 			modes[i] = loc.getMenu(supportedModes.get(i).toString());
 		}
 		return ImageOrText.convert(modes);
-    }
+	}
 
 	private ImageOrText[] getDescriptionModes() {
 		return ImageOrText.convert(AlgebraSettings.getDescriptionModes(app).toArray(new String[0]));
@@ -191,8 +187,7 @@ public final class AlgebraStyleBarW extends StyleBarW2 implements SettingListene
 
 	private void setToolTips() {
 		treeModeButton.setTitle(app.getLocalization().getPlainTooltip("SortBy"));
-		descriptionButton.setTitle(app.getLocalization().getMenu(
-				"AlgebraDescriptions"));
+		descriptionButton.setTitle(app.getLocalization().getMenu("AlgebraDescriptions"));
 	}
 
 	@Override

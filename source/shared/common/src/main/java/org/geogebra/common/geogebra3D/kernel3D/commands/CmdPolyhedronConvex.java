@@ -56,7 +56,5 @@ public class CmdPolyhedronConvex extends CommandProcessor {
 		}
 
 		return kernel.getManager3D().polyhedronConvex(c.getLabels(), arg);
-
 	}
-
 }

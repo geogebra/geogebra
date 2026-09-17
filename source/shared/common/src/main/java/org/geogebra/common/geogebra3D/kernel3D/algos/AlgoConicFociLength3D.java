@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
+ *
  * @author Markus
  */
 public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
@@ -41,9 +41,13 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 	private GeoPoint B2d;
 	private Coords project;
 
-	protected AlgoConicFociLength3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B,
-			GeoNumberValue a, GeoDirectionND orientation) {
+	protected AlgoConicFociLength3D(
+			Construction cons,
+			String label,
+			GeoPointND A,
+			GeoPointND B,
+			GeoNumberValue a,
+			GeoDirectionND orientation) {
 		super(cons, label, A, B, a, orientation);
 	}
 

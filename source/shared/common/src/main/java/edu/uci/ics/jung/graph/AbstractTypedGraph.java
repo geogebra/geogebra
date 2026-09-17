@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2008, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -7,7 +7,7 @@
  * "license.txt" or
  * http://jung.sourceforge.net/license.txt for a description.
  * Created on Sep 1, 2008
- * 
+ *
  */
 package edu.uci.ics.jung.graph;
 
@@ -29,7 +29,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 
 	/**
 	 * Creates an instance with the specified edge type.
-	 * 
+	 *
 	 * @param edge_type
 	 *            the type of edges that this graph accepts
 	 */
@@ -60,8 +60,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	 */
 	@Override
 	public Collection<E> getEdges(EdgeType edge_type) {
-		return hasEqualEdgeType(edge_type) ? this.getEdges()
-				: Collections.<E> emptySet();
+		return hasEqualEdgeType(edge_type) ? this.getEdges() : Collections.<E>emptySet();
 	}
 
 	/**
@@ -76,7 +75,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	/**
 	 * Returns {@code true} if {@code edge_type} matches the default edge type
 	 * for this graph, and {@code false} otherwise.
-	 * 
+	 *
 	 * @param edge_type
 	 *            the edge type to compare to this instance's default edge type
 	 */
@@ -87,7 +86,7 @@ public abstract class AbstractTypedGraph<V, E> extends AbstractGraph<V, E> {
 	/**
 	 * Throws an {@code IllegalArgumentException} if {@code edge_type} does not
 	 * match the default edge type for this graph.
-	 * 
+	 *
 	 * @param edge_type
 	 *            the edge type to compare to this instance's default edge type
 	 */

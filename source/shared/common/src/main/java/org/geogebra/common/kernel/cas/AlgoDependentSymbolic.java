@@ -37,7 +37,7 @@ import org.jspecify.annotations.NonNull;
 
 /**
  * Algo for updating GeoSymbolic when dependencies change
- * 
+ *
  * @author Zbynek
  *
  */
@@ -78,13 +78,16 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 	@Override
 	public void compute() {
 		symbolic.computeOutput();
-		for (ExpressionValue val: symbolic.getDefinition()) {
-			if (val instanceof Command
-					&& Commands.CellRange.name().equals(((Command) val).getName())) {
+		for (ExpressionValue val : symbolic.getDefinition()) {
+			if (val instanceof Command && Commands.CellRange.name().equals(((Command) val).getName())) {
 				String start = getCellName(((Command) val).getArgument(0));
 				String end = getCellName(((Command) val).getArgument(1));
-				kernel.getApplication().getSpreadsheetTableModel().getCellRangeManager()
-						.getAlgoCellRange(cons, null, start, end).getList()
+				kernel
+						.getApplication()
+						.getSpreadsheetTableModel()
+						.getCellRangeManager()
+						.getAlgoCellRange(cons, null, start, end)
+						.getList()
 						.addToUpdateSetOnly(this);
 			}
 		}

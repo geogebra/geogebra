@@ -53,8 +53,7 @@ import com.himamis.retex.renderer.share.serialize.IsAccentedAtom;
 public class CedillaAtom extends Atom implements IsAccentedAtom {
 
 	private Atom base;
-	public static final SymbolAtom CEDILLA = SymbolAtom
-			.get("jlatexmathcedilla");
+	public static final SymbolAtom CEDILLA = SymbolAtom.get("jlatexmathcedilla");
 
 	public CedillaAtom(Atom base) {
 		this.base = base;
@@ -70,8 +69,7 @@ public class CedillaAtom extends Atom implements IsAccentedAtom {
 		Box cedilla = new CharBox(ch);
 		Box y;
 		if (Math.abs(italic) > TeXFormula.PREC) {
-			HorizontalBox hb = new HorizontalBox(
-					new StrutBox(-italic, 0, 0, 0));
+			HorizontalBox hb = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
 			hb.add(cedilla);
 			y = hb;
 		} else {

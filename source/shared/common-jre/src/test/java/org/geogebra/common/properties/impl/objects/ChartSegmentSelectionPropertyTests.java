@@ -31,14 +31,15 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class ChartSegmentSelectionPropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"BarChart({1, 2, 3, 4, 5}, {1, 1, 4, 3, 2})",
-			"PieChart({1, 2, 3, 4, 5})",
-	})
+	@ValueSource(
+			strings = {
+				"BarChart({1, 2, 3, 4, 5}, {1, 1, 4, 3, 2})",
+				"PieChart({1, 2, 3, 4, 5})",
+			})
 	void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertDoesNotThrow(() -> new ChartSegmentSelectionProperty(getLocalization(),
-				evaluateGeoElement(expression), new ChartSegmentSelection()));
+		assertDoesNotThrow(() -> new ChartSegmentSelectionProperty(
+				getLocalization(), evaluateGeoElement(expression), new ChartSegmentSelection()));
 	}
 
 	@Test
@@ -47,8 +48,7 @@ class ChartSegmentSelectionPropertyTests extends BaseAppTestSetup {
 		GeoPieChart geoPieChart = evaluateGeoElement("PieChart({1, 2, 3, 4, 5})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		ChartSegmentSelectionProperty chartSegmentSelectionProperty = assertDoesNotThrow(() ->
-				new ChartSegmentSelectionProperty(getLocalization(), geoPieChart,
-						chartSegmentSelection));
+				new ChartSegmentSelectionProperty(getLocalization(), geoPieChart, chartSegmentSelection));
 
 		chartSegmentSelectionProperty.setValue(0);
 		assertEquals(0, chartSegmentSelectionProperty.getValue());
@@ -69,8 +69,7 @@ class ChartSegmentSelectionPropertyTests extends BaseAppTestSetup {
 		GeoElement geoElement = evaluateGeoElement("PieChart({1, 2, 3, 4, 5})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
 		ChartSegmentSelectionProperty chartSegmentSelectionProperty = assertDoesNotThrow(() ->
-				new ChartSegmentSelectionProperty(getLocalization(), geoElement,
-						chartSegmentSelection));
+				new ChartSegmentSelectionProperty(getLocalization(), geoElement, chartSegmentSelection));
 		AtomicInteger listener1CalledCount = new AtomicInteger();
 		ChartSegmentSelection.Listener listener1 = listener1CalledCount::incrementAndGet;
 		AtomicInteger listener2CalledCount = new AtomicInteger();

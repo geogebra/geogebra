@@ -25,8 +25,8 @@ public abstract class AbstractPolygon extends EMFTag {
 		super(id, version);
 	}
 
-	protected AbstractPolygon(int id, int version, Rectangle bounds,
-			int numberOfPoints, Point[] points) {
+	protected AbstractPolygon(
+			int id, int version, Rectangle bounds, int numberOfPoints, Point[] points) {
 		super(id, version);
 		this.bounds = bounds;
 		this.numberOfPoints = numberOfPoints;
@@ -42,8 +42,7 @@ public abstract class AbstractPolygon extends EMFTag {
 
 	@Override
 	public String toString() {
-		String result = super.toString() + "\n  bounds: " + bounds
-				+ "\n  #points: " + numberOfPoints;
+		String result = super.toString() + "\n  bounds: " + bounds + "\n  #points: " + numberOfPoints;
 		if (points != null) {
 			result += "\n  points: ";
 			for (int i = 0; i < points.length; i++) {

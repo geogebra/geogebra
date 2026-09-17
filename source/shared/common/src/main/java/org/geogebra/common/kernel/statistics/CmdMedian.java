@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class CmdMedian extends CmdOneListFunction {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -38,18 +38,16 @@ public class CmdMedian extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoMedian algo = new AlgoMedian(cons, b);
 		algo.getMedian().setLabel(a);
 		return algo.getMedian();
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, Command c, GeoList list,
-			GeoList freq) {
+	protected final GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
 		AlgoMedian algo = new AlgoMedian(cons, list, freq);
 		algo.getMedian().setLabel(a);
 		return algo.getMedian();
 	}
-
 }

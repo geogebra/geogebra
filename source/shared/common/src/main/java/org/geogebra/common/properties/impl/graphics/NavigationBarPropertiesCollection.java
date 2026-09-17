@@ -30,16 +30,15 @@ public class NavigationBarPropertiesCollection extends AbstractPropertyCollectio
 	 * @param localization localization
 	 * @param settings view settings
 	 */
-	public NavigationBarPropertiesCollection(Localization localization, App app, int viewID,
-			EuclidianSettings settings) {
+	public NavigationBarPropertiesCollection(
+			Localization localization, App app, int viewID, EuclidianSettings settings) {
 		super(localization, "");
 
 		ArrayList<Property> properties = new ArrayList<>();
 		properties.add(new NavigationBarProperty(localization, app, viewID));
-		properties.add(new NavigationBarPlayButtonProperty(localization, app, viewID,
-				settings));
-		properties.add(new NavigationBarConstructionProtocolButtonProperty(localization, app,
-				viewID, settings));
+		properties.add(new NavigationBarPlayButtonProperty(localization, app, viewID, settings));
+		properties.add(
+				new NavigationBarConstructionProtocolButtonProperty(localization, app, viewID, settings));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

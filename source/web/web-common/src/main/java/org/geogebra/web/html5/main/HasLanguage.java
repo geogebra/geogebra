@@ -28,5 +28,4 @@ public interface HasLanguage {
 	 *            whether to call this asynchronously
 	 */
 	void doSetLanguage(String lang, boolean asyncCall);
-
 }

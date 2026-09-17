@@ -34,13 +34,15 @@ import org.geogebra.common.main.syntax.Syntax;
  */
 public final class ExamCommandArgumentFilter implements CommandArgumentFilter {
 	private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
-			SetFixed, Set.of(
-					Syntax.of(SetFixed, this::notFunctionOrEquationFromUser,
-							GeoElement::isGeoBoolean),
-					Syntax.of(SetFixed, this::notFunctionOrEquationFromUser,
-							GeoElement::isGeoBoolean, GeoElement::isGeoBoolean)),
-			CopyFreeObject, Set.of(
-					Syntax.of(CopyFreeObject, this::notEquationValue)));
+			SetFixed,
+					Set.of(
+							Syntax.of(SetFixed, this::notFunctionOrEquationFromUser, GeoElement::isGeoBoolean),
+							Syntax.of(
+									SetFixed,
+									this::notFunctionOrEquationFromUser,
+									GeoElement::isGeoBoolean,
+									GeoElement::isGeoBoolean)),
+			CopyFreeObject, Set.of(Syntax.of(CopyFreeObject, this::notEquationValue)));
 
 	private boolean notFunctionOrEquationFromUser(GeoElement argument) {
 		return !argument.isFunctionOrEquationFromUser();
@@ -52,7 +54,6 @@ public final class ExamCommandArgumentFilter implements CommandArgumentFilter {
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor) {
-		Syntax.checkRestrictedSyntaxes(
-				allowedSyntaxesForRestrictedCommands, command, commandProcessor);
+		Syntax.checkRestrictedSyntaxes(allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 	}
 }

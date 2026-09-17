@@ -35,12 +35,13 @@ public class GridStyleIconProperty extends AbstractEnumeratedProperty<Integer>
 
 	private EuclidianSettings euclidianSettings;
 
-	private PropertyResource[] icons = new PropertyResource[]{
-			PropertyResource.ICON_CARTESIAN_MINOR, PropertyResource.ICON_CARTESIAN,
-			PropertyResource.ICON_POLAR, PropertyResource.ICON_ISOMETRIC,
-			PropertyResource.ICON_DOTS};
+	private PropertyResource[] icons = new PropertyResource[] {
+		PropertyResource.ICON_CARTESIAN_MINOR, PropertyResource.ICON_CARTESIAN,
+		PropertyResource.ICON_POLAR, PropertyResource.ICON_ISOMETRIC,
+		PropertyResource.ICON_DOTS
+	};
 	private static final String[] rawLabels = {
-			"Grid.MajorAndMinor", "Grid.Major", "Polar", "Isometric", "Dots"
+		"Grid.MajorAndMinor", "Grid.Major", "Polar", "Isometric", "Dots"
 	};
 
 	/**
@@ -51,8 +52,11 @@ public class GridStyleIconProperty extends AbstractEnumeratedProperty<Integer>
 	public GridStyleIconProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "GridType");
 		this.euclidianSettings = euclidianSettings;
-		setValues(List.of(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID, EuclidianView.GRID_CARTESIAN,
-				EuclidianView.GRID_POLAR, EuclidianView.GRID_ISOMETRIC,
+		setValues(List.of(
+				EuclidianView.GRID_CARTESIAN_WITH_SUBGRID,
+				EuclidianView.GRID_CARTESIAN,
+				EuclidianView.GRID_POLAR,
+				EuclidianView.GRID_ISOMETRIC,
 				EuclidianView.GRID_DOTS));
 	}
 

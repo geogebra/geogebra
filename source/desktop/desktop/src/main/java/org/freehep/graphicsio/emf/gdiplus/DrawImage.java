@@ -10,9 +10,9 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The DrawImage metafile record represents a call to Graphics.DrawImage, which
  * draws a bitmap or other image to the drawing surface.
- * 
+ *
  * FIXME no 16 bit handling
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: DrawImage.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -31,8 +31,7 @@ public class DrawImage extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		DrawImage tag = new DrawImage();
 		tag.flags = flags;
 		emf.readInt(); // image attributes
@@ -49,8 +48,7 @@ public class DrawImage extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		emf.writeInt(-1); // image attributes
 		emf.writeUINT(0x02); // source unit: pixel
 		emf.writeFLOAT(0); // X, Y, W, H (src)

@@ -48,15 +48,16 @@ public class AngleArcSizeModel extends OptionsModel {
 	}
 
 	public static int getMinSizeForDecoration(AngleProperties angle) {
-		return (angle
-				.getDecorationType() == GeoElementND.DECORATION_ANGLE_THREE_ARCS
-				|| angle.getDecorationType() == GeoElementND.DECORATION_ANGLE_TWO_ARCS) ? 20 : 10;
+		return (angle.getDecorationType() == GeoElementND.DECORATION_ANGLE_THREE_ARCS
+						|| angle.getDecorationType() == GeoElementND.DECORATION_ANGLE_TWO_ARCS)
+				? 20
+				: 10;
 	}
 
 	@Override
 	public void updateProperties() {
 		int min = 10;
-		for (GeoElement geo: getGeosAsList()) {
+		for (GeoElement geo : getGeosAsList()) {
 			if (geo instanceof AngleProperties) {
 				min = Math.max(min, getMinSizeForDecoration((AngleProperties) geo));
 			}

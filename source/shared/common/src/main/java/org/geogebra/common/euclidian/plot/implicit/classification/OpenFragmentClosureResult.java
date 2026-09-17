@@ -21,9 +21,7 @@ import java.util.List;
 
 final class OpenFragmentClosureResult {
 	private static final OpenFragmentClosureResult SUCCESS_EMPTY =
-			new OpenFragmentClosureResult(Status.SUCCESS, 0, 0, 0, 0, 0,
-					0, 0,
-					List.of());
+			new OpenFragmentClosureResult(Status.SUCCESS, 0, 0, 0, 0, 0, 0, 0, List.of());
 
 	private final Status status;
 	private final int openFragments;
@@ -53,9 +51,12 @@ final class OpenFragmentClosureResult {
 		FAILED_COMPLEMENT_WIRING
 	}
 
-	record Failure(int fragmentId, FailureReason reason, int halfEdgeId,
-			int ownerFragmentId, EdgeKind edgeKind) {
-	}
+	record Failure(
+			int fragmentId,
+			FailureReason reason,
+			int halfEdgeId,
+			int ownerFragmentId,
+			EdgeKind edgeKind) {}
 
 	enum EdgeKind {
 		NONE,
@@ -64,9 +65,16 @@ final class OpenFragmentClosureResult {
 		OTHER
 	}
 
-	private OpenFragmentClosureResult(Status status, int openFragments, int acceptedClosures,
-			int skippedClosures, int conflicts, int missingEndpoints, int missingChains,
-			int failedComplementWirings, List<Failure> failures) {
+	private OpenFragmentClosureResult(
+			Status status,
+			int openFragments,
+			int acceptedClosures,
+			int skippedClosures,
+			int conflicts,
+			int missingEndpoints,
+			int missingChains,
+			int failedComplementWirings,
+			List<Failure> failures) {
 		this.status = status;
 		this.openFragments = openFragments;
 		this.acceptedClosures = acceptedClosures;
@@ -143,8 +151,12 @@ final class OpenFragmentClosureResult {
 			addFailure(fragmentId, reason, -1, -1, EdgeKind.NONE);
 		}
 
-		void addFailure(int fragmentId, FailureReason reason, int halfEdgeId,
-				int ownerFragmentId, EdgeKind edgeKind) {
+		void addFailure(
+				int fragmentId,
+				FailureReason reason,
+				int halfEdgeId,
+				int ownerFragmentId,
+				EdgeKind edgeKind) {
 			failures.add(new Failure(fragmentId, reason, halfEdgeId, ownerFragmentId, edgeKind));
 			if (reason == FailureReason.CONFLICT) {
 				conflicts++;
@@ -164,9 +176,16 @@ final class OpenFragmentClosureResult {
 
 		OpenFragmentClosureResult build() {
 			Status status = failures.isEmpty() ? Status.SUCCESS : Status.INCOMPLETE;
-			return new OpenFragmentClosureResult(status, openFragments, acceptedClosures,
-					failures.size(), conflicts, missingEndpoints, missingChains,
-					failedComplementWirings, failures);
+			return new OpenFragmentClosureResult(
+					status,
+					openFragments,
+					acceptedClosures,
+					failures.size(),
+					conflicts,
+					missingEndpoints,
+					missingChains,
+					failedComplementWirings,
+					failures);
 		}
 	}
 }

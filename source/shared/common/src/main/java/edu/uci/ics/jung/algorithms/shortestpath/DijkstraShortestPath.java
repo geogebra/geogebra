@@ -1,12 +1,12 @@
 /*
-* Copyright (c) 2003, the JUNG Project and the Regents of the University 
-* of California
-* All rights reserved.
-*
-* This software is open-source under the BSD license; see either
-* "license.txt" or
-* http://jung.sourceforge.net/license.txt for a description.
-*/
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
+ * of California
+ * All rights reserved.
+ *
+ * This software is open-source under the BSD license; see either
+ * "license.txt" or
+ * http://jung.sourceforge.net/license.txt for a description.
+ */
 package edu.uci.ics.jung.algorithms.shortestpath;
 
 import java.util.HashMap;
@@ -27,13 +27,13 @@ import edu.uci.ics.jung.graph.Graph;
  * <code>DijkstraDistance</code> that also stores path information, so that the
  * shortest paths can be reconstructed.
  * </p>
- * 
+ *
  * <p>
  * The elements in the maps returned by <code>getIncomingEdgeMap</code> are
  * ordered (that is, returned by the iterator) by nondecreasing distance from
  * <code>source</code>.
  * </p>
- * 
+ *
  * @author Joshua O'Madadhain
  * @author Tom Nelson converted to jung2
  * @see DijkstraDistance
@@ -46,7 +46,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * specified graph and the specified method of extracting weights from
 	 * edges, which caches results locally if and only if <code>cached</code> is
 	 * <code>true</code>.
-	 * 
+	 *
 	 * @param g
 	 *            the graph on which distances will be calculated
 	 * @param nev
@@ -54,8 +54,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * @param cached
 	 *            specifies whether the results are to be cached
 	 */
-	public DijkstraShortestPath(Graph<V, E> g,
-			Function<E, ? extends Number> nev, boolean cached) {
+	public DijkstraShortestPath(Graph<V, E> g, Function<E, ? extends Number> nev, boolean cached) {
 		super(g, nev, cached);
 	}
 
@@ -64,14 +63,13 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * Creates an instance of <code>DijkstraShortestPath</code> for the
 	 * specified graph and the specified method of extracting weights from
 	 * edges, which caches results locally.
-	 * 
+	 *
 	 * @param g
 	 *            the graph on which distances will be calculated
 	 * @param nev
 	 *            the class responsible for returning weights for edges
 	 */
-	public DijkstraShortestPath(Graph<V, E> g,
-			Function<E, ? extends Number> nev) {
+	public DijkstraShortestPath(Graph<V, E> g, Function<E, ? extends Number> nev) {
 		super(g, nev);
 	}
 
@@ -80,7 +78,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * Creates an instance of <code>DijkstraShortestPath</code> for the
 	 * specified unweighted graph (that is, all weights 1) which caches results
 	 * locally.
-	 * 
+	 *
 	 * @param g
 	 *            the graph on which distances will be calculated
 	 */
@@ -93,7 +91,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * Creates an instance of <code>DijkstraShortestPath</code> for the
 	 * specified unweighted graph (that is, all weights 1) which caches results
 	 * locally.
-	 * 
+	 *
 	 * @param g
 	 *            the graph on which distances will be calculated
 	 * @param cached
@@ -118,7 +116,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * <code>target</code>, or null if <code>target</code> is not reachable from
 	 * <code>source</code>.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * If either vertex is not in the graph for which this instance was created,
 	 * throws <code>IllegalArgumentException</code>.
@@ -126,20 +124,19 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 */
 	public E getIncomingEdge(V source, V target) {
 		if (!g.containsVertex(source)) {
-			throw new IllegalArgumentException("Specified source vertex "
-					+ source + " is not part of graph " + g);
+			throw new IllegalArgumentException(
+					"Specified source vertex " + source + " is not part of graph " + g);
 		}
 
 		if (!g.containsVertex(target)) {
-			throw new IllegalArgumentException("Specified target vertex "
-					+ target + " is not part of graph " + g);
+			throw new IllegalArgumentException(
+					"Specified target vertex " + target + " is not part of graph " + g);
 		}
 
 		Set<V> targets = new HashSet<V>();
 		targets.add(target);
 		singleSourceShortestPath(source, targets, g.getVertexCount());
-		Map<V, E> incomingEdgeMap = ((SourcePathData) sourceMap
-				.get(source)).incomingEdges;
+		Map<V, E> incomingEdgeMap = ((SourcePathData) sourceMap.get(source)).incomingEdges;
 		E incomingEdge = incomingEdgeMap.get(target);
 
 		if (!cached) {
@@ -157,7 +154,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * will return the elements in order of increasing distance from
 	 * <code>source</code>.
 	 * </p>
-	 * 
+	 *
 	 * @see DijkstraDistance#getDistanceMap(Object,int)
 	 * @see DijkstraDistance#getDistance(Object,Object)
 	 * @param source
@@ -176,13 +173,13 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 */
 	public List<E> getPath(V source, V target) {
 		if (!g.containsVertex(source)) {
-			throw new IllegalArgumentException("Specified source vertex "
-					+ source + " is not part of graph " + g);
+			throw new IllegalArgumentException(
+					"Specified source vertex " + source + " is not part of graph " + g);
 		}
 
 		if (!g.containsVertex(target)) {
-			throw new IllegalArgumentException("Specified target vertex "
-					+ target + " is not part of graph " + g);
+			throw new IllegalArgumentException(
+					"Specified target vertex " + target + " is not part of graph " + g);
 		}
 
 		LinkedList<E> path = new LinkedList<E>();
@@ -193,8 +190,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 		Set<V> targets = new HashSet<V>();
 		targets.add(target);
 		singleSourceShortestPath(source, targets, g.getVertexCount());
-		Map<V, E> incomingEdges = ((SourcePathData) sourceMap
-				.get(source)).incomingEdges;
+		Map<V, E> incomingEdges = ((SourcePathData) sourceMap.get(source)).incomingEdges;
 
 		if (incomingEdges.isEmpty() || incomingEdges.get(target) == null) {
 			return path;
@@ -217,7 +213,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * <code>IllegalArgumentException</code> if <code>source</code> is not in
 	 * this instance's graph, or if <code>numDests</code> is either less than 1
 	 * or greater than the number of vertices in the graph.
-	 * 
+	 *
 	 * @see #getIncomingEdgeMap(Object)
 	 * @see #getPath(Object,Object)
 	 * @param source
@@ -227,19 +223,17 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 */
 	public LinkedHashMap<V, E> getIncomingEdgeMap(V source, int numDests) {
 		if (g.getVertices().contains(source) == false) {
-			throw new IllegalArgumentException("Specified source vertex "
-					+ source + " is not part of graph " + g);
+			throw new IllegalArgumentException(
+					"Specified source vertex " + source + " is not part of graph " + g);
 		}
 
 		if (numDests < 1 || numDests > g.getVertexCount()) {
-			throw new IllegalArgumentException(
-					"numDests must be >= 1 " + "and <= g.numVertices()");
+			throw new IllegalArgumentException("numDests must be >= 1 " + "and <= g.numVertices()");
 		}
 
 		singleSourceShortestPath(source, null, numDests);
 
-		LinkedHashMap<V, E> incomingEdgeMap = ((SourcePathData) sourceMap
-				.get(source)).incomingEdges;
+		LinkedHashMap<V, E> incomingEdgeMap = ((SourcePathData) sourceMap.get(source)).incomingEdges;
 
 		if (!cached) {
 			reset(source);
@@ -253,7 +247,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 	 * tentative and final assignments of incoming edges on the shortest path
 	 * from the source vertex, and a priority queue (ordered by estimaed
 	 * distance) of the vertices for which distances are unknown.
-	 * 
+	 *
 	 * @author Joshua O'Madadhain
 	 */
 	protected class SourcePathData extends SourceData {
@@ -293,7 +287,5 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 			super.createRecord(w, e, new_dist);
 			tentativeIncomingEdges.put(w, e);
 		}
-
 	}
-
 }

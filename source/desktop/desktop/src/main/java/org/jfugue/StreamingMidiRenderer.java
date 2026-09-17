@@ -2,22 +2,22 @@
  * JFugue - API for Music Programming
  * Copyright (C) 2003-2007  David Koelle
  *
- * http://www.jfugue.org 
- * 
+ * http://www.jfugue.org
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *  
+ *
  */
 
 package org.jfugue;
@@ -51,7 +51,7 @@ public class StreamingMidiRenderer implements ParserListener {
 	 * means that the second time render() is called, it will contain music left
 	 * over from the first time it was called. (This wasn't a problem with Java
 	 * 1.4)
-	 * 
+	 *
 	 * @since 3.0
 	 */
 	public void reset() {
@@ -73,8 +73,7 @@ public class StreamingMidiRenderer implements ParserListener {
 
 	@Override
 	public void instrumentEvent(Instrument instrument) {
-		this.eventManager.addEvent(ShortMessage.PROGRAM_CHANGE,
-				instrument.getInstrument(), 0);
+		this.eventManager.addEvent(ShortMessage.PROGRAM_CHANGE, instrument.getInstrument(), 0);
 	}
 
 	@Override
@@ -94,32 +93,30 @@ public class StreamingMidiRenderer implements ParserListener {
 
 	@Override
 	public void keySignatureEvent(KeySignature keySig) {
-		this.eventManager.addMetaMessage(0x59,
-				new byte[] { keySig.getKeySig(), keySig.getScale() });
+		this.eventManager.addMetaMessage(0x59, new byte[] {keySig.getKeySig(), keySig.getScale()});
 	}
 
 	@Override
 	public void controllerEvent(Controller controller) {
-		this.eventManager.addEvent(ShortMessage.CONTROL_CHANGE,
-				controller.getIndex(), controller.getValue());
+		this.eventManager.addEvent(
+				ShortMessage.CONTROL_CHANGE, controller.getIndex(), controller.getValue());
 	}
 
 	@Override
 	public void channelPressureEvent(ChannelPressure channelPressure) {
-		this.eventManager.addEvent(ShortMessage.CHANNEL_PRESSURE,
-				channelPressure.getPressure());
+		this.eventManager.addEvent(ShortMessage.CHANNEL_PRESSURE, channelPressure.getPressure());
 	}
 
 	@Override
 	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
-		this.eventManager.addEvent(ShortMessage.POLY_PRESSURE,
-				polyphonicPressure.getKey(), polyphonicPressure.getPressure());
+		this.eventManager.addEvent(
+				ShortMessage.POLY_PRESSURE, polyphonicPressure.getKey(), polyphonicPressure.getPressure());
 	}
 
 	@Override
 	public void pitchBendEvent(PitchBend pitchBend) {
-		this.eventManager.addEvent(ShortMessage.PITCH_BEND,
-				pitchBend.getBend()[0], pitchBend.getBend()[1]);
+		this.eventManager.addEvent(
+				ShortMessage.PITCH_BEND, pitchBend.getBend()[0], pitchBend.getBend()[1]);
 	}
 
 	@Override
@@ -138,8 +135,8 @@ public class StreamingMidiRenderer implements ParserListener {
 			initialNoteTime = eventManager.getTrackTimer();
 			byte attackVelocity = note.getAttackVelocity();
 			byte decayVelocity = note.getDecayVelocity();
-			this.eventManager.addNoteEvents(note.getValue(), attackVelocity,
-					decayVelocity, duration, noteOn, noteOff);
+			this.eventManager.addNoteEvents(
+					note.getValue(), attackVelocity, decayVelocity, duration, noteOn, noteOff);
 		}
 	}
 
@@ -158,8 +155,12 @@ public class StreamingMidiRenderer implements ParserListener {
 		} else {
 			byte attackVelocity = note.getAttackVelocity();
 			byte decayVelocity = note.getDecayVelocity();
-			this.eventManager.addNoteEvents(note.getValue(), attackVelocity,
-					decayVelocity, duration, !note.isEndOfTie(),
+			this.eventManager.addNoteEvents(
+					note.getValue(),
+					attackVelocity,
+					decayVelocity,
+					duration,
+					!note.isEndOfTie(),
 					!note.isStartOfTie());
 		}
 	}

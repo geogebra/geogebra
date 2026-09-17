@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Interface for GeoElements that can be evaluated as a 3D curve
- * 
+ *
  * @author Mathieu
  *
  */
@@ -28,7 +28,7 @@ public interface GeoCurveCartesian3DInterface {
 
 	/**
 	 * return point at parameter t
-	 * 
+	 *
 	 * @param t
 	 *            parameter
 	 * @return point at parameter t
@@ -37,7 +37,7 @@ public interface GeoCurveCartesian3DInterface {
 
 	/**
 	 * return tangent at parameter t
-	 * 
+	 *
 	 * @param t
 	 *            parameter
 	 * @return tangent at parameter t
@@ -46,11 +46,10 @@ public interface GeoCurveCartesian3DInterface {
 
 	/**
 	 * return curvature at parameter t
-	 * 
+	 *
 	 * @param t
 	 *            parameter
 	 * @return curvature at parameter t
 	 */
 	double evaluateCurvature(double t);
-
 }

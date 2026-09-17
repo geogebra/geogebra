@@ -27,7 +27,7 @@ public interface CASParserInterface {
 	/**
 	 * Parses the given expression and resolves variables as GeoDummy objects.
 	 * The result is returned as a ValidExpression.
-	 * 
+	 *
 	 * @param inValue
 	 *            GeoGebraCAS input
 	 * @param kernel
@@ -38,12 +38,12 @@ public interface CASParserInterface {
 	 * @throws CASException
 	 *             if something goes wrong (invalid input)
 	 */
-	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue,
-			Kernel kernel, GeoSymbolicI cell) throws CASException;
+	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(
+			String inValue, Kernel kernel, GeoSymbolicI cell) throws CASException;
 
 	/**
 	 * Parses the given expression and returns it as a ValidExpression.
-	 * 
+	 *
 	 * @param inValue
 	 *            GeoGebraCAS input
 	 * @param cell
@@ -52,20 +52,18 @@ public interface CASParserInterface {
 	 * @throws CASException
 	 *             something goes wrong
 	 */
-	ValidExpression parseGeoGebraCASInput(String inValue,
-			GeoSymbolicI cell) throws CASException;
+	ValidExpression parseGeoGebraCASInput(String inValue, GeoSymbolicI cell) throws CASException;
 
 	/**
 	 * Replace variables with dummy objects
-	 * 
+	 *
 	 * @param outputVe
 	 *            value to process
 	 * @param kernel
 	 *            kernel
 	 * @return resolved expression
 	 */
-	ExpressionValue resolveVariablesForCAS(ExpressionValue outputVe,
-			Kernel kernel);
+	ExpressionValue resolveVariablesForCAS(ExpressionValue outputVe, Kernel kernel);
 
 	/**
 	 * @param string
@@ -73,5 +71,4 @@ public interface CASParserInterface {
 	 * @return localized name of command
 	 */
 	String getTranslatedCASCommand(String string);
-
 }

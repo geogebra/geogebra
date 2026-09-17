@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class CmdVariance extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -38,18 +38,16 @@ public class CmdVariance extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoVariance algo = new AlgoVariance(cons, b);
 		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list,
-			GeoList freq) {
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
 		AlgoVariance algo = new AlgoVariance(cons, list, freq);
 		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
-
 }

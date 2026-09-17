@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -32,8 +32,7 @@ import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 /**
  * Dispatches all mouse and key events from the glass pane to a given component.
  */
-public class GlassPaneListener
-		implements MouseListener, MouseMotionListener, KeyEventDispatcher {
+public class GlassPaneListener implements MouseListener, MouseMotionListener, KeyEventDispatcher {
 
 	private final Component glassPane;
 	private final Component destComp;
@@ -47,8 +46,7 @@ public class GlassPaneListener
 	 * @param destComp
 	 *            destination component
 	 */
-	public GlassPaneListener(Component glassPane, Container contentPane,
-			Component destComp) {
+	public GlassPaneListener(Component glassPane, Container contentPane, Component destComp) {
 		this.glassPane = glassPane;
 		this.contentPane = contentPane;
 		this.destComp = destComp;
@@ -92,20 +90,24 @@ public class GlassPaneListener
 	private void redispatchMouseEvent(MouseEvent e) {
 		Point glassPanePoint = e.getPoint();
 		Container container = contentPane;
-		Point containerPoint = SwingUtilities.convertPoint(glassPane,
-				glassPanePoint, contentPane);
+		Point containerPoint = SwingUtilities.convertPoint(glassPane, glassPanePoint, contentPane);
 
 		// Find out exactly which component the mouse event is over.
-		Component component = SwingUtilities.getDeepestComponentAt(container,
-				containerPoint.x, containerPoint.y);
+		Component component =
+				SwingUtilities.getDeepestComponentAt(container, containerPoint.x, containerPoint.y);
 
 		if (component != null && component.equals(destComp)) {
 			// Forward events to the destination comp
-			Point componentPoint = SwingUtilities.convertPoint(glassPane,
-					glassPanePoint, component);
-			component.dispatchEvent(new MouseEvent(component, e.getID(),
-					e.getWhen(), e.getModifiers(), componentPoint.x,
-					componentPoint.y, e.getClickCount(), MouseEventUtil.isRightClick(e)));
+			Point componentPoint = SwingUtilities.convertPoint(glassPane, glassPanePoint, component);
+			component.dispatchEvent(new MouseEvent(
+					component,
+					e.getID(),
+					e.getWhen(),
+					e.getModifiers(),
+					componentPoint.x,
+					componentPoint.y,
+					e.getClickCount(),
+					MouseEventUtil.isRightClick(e)));
 		}
 	}
 

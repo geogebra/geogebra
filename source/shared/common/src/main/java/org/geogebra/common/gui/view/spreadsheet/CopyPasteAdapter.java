@@ -63,8 +63,7 @@ public class CopyPasteAdapter {
 		// maybe overflow a bit)
 		for (int c = tiledRange.getMinColumn(); c <= tiledRange.getMaxColumn(); c += columnStep) {
 			for (int r = tiledRange.getMinRow(); r <= tiledRange.getMaxRow(); r += rowStep) {
-				succ = succ && pasteExternal(data, c, r, tiledRange.getMaxColumn(),
-						tiledRange.getMaxRow());
+				succ = succ && pasteExternal(data, c, r, tiledRange.getMaxColumn(), tiledRange.getMaxRow());
 			}
 		}
 
@@ -81,8 +80,8 @@ public class CopyPasteAdapter {
 	 * @param maxRow max row (inclusive)
 	 * @return success
 	 */
-	public boolean pasteExternal(String[][] data, int minColumn, int minRow,
-			int maxColumn, int maxRow) {
+	public boolean pasteExternal(
+			String[][] data, int minColumn, int minRow, int maxColumn, int maxRow) {
 		app.setWaitCursor();
 		boolean success = false;
 		try {
@@ -99,12 +98,10 @@ public class CopyPasteAdapter {
 				if (maxLen < data[relY].length) {
 					maxLen = data[relY].length;
 				}
-				if (tableModel != null
-						&& tableModel.getColumnCount() < minColumn + data[relY].length) {
+				if (tableModel != null && tableModel.getColumnCount() < minColumn + data[relY].length) {
 					tableModel.setColumnCount(minColumn + data[relY].length);
 				}
-				for (int column = minColumn; column < minColumn
-						+ data[relY].length; ++column) {
+				for (int column = minColumn; column < minColumn + data[relY].length; ++column) {
 					if (column < 0 || column > maxColumn) {
 						continue;
 					}
@@ -114,16 +111,14 @@ public class CopyPasteAdapter {
 					}
 					data[relY][relX] = data[relY][relX].trim();
 					if (data[relY][relX].isEmpty()) {
-						GeoElement value0 = RelativeCopy.getValue(tableModel, column,
-								row);
+						GeoElement value0 = RelativeCopy.getValue(tableModel, column, row);
 						if (value0 != null) {
 							value0.removeOrSetUndefinedIfHasFixedDescendent();
 						}
 					} else {
 						GeoElement value0 = RelativeCopy.getValue(tableModel, column, row);
-						GeoElementND created = relativeCopy
-								.prepareAddingValueToTableNoStoringUndoInfo(
-										data[relY][relX], value0, column, row, true);
+						GeoElementND created = relativeCopy.prepareAddingValueToTableNoStoringUndoInfo(
+								data[relY][relX], value0, column, row, true);
 						if (created != null) {
 							created.setAuxiliaryObject(true);
 						}

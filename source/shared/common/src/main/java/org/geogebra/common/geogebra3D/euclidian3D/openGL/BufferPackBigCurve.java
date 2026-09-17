@@ -20,7 +20,7 @@ import org.geogebra.common.awt.GColor;
 
 /**
  * Buffer for big curves (e.g. cartesian curves)
- * 
+ *
  *
  */
 public class BufferPackBigCurve extends BufferPackAbstract {
@@ -41,15 +41,14 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 
 	/**
 	 * creates a new buffer pack for big geometries
-	 * 
+	 *
 	 * @param manager
 	 *            geometries manager
 	 */
 	BufferPackBigCurve(GLBufferManager manager) {
 		this.manager = manager;
 		curveSizeMax = getCurveSizeMax(manager);
-		indicesLengthMax = manager
-				.getIndicesLengthForCurve(curveSizeMax);
+		indicesLengthMax = manager.getIndicesLengthForCurve(curveSizeMax);
 		elementsLength = 0;
 		indicesLength = 0;
 	}
@@ -59,8 +58,7 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	 * @return maximum length of a curve
 	 */
 	static int getCurveSizeMax(GLBufferManager manager3D) {
-		return (Short.MAX_VALUE + 1)
-				/ manager3D.getCurveLatitudeSplits() - 1;
+		return (Short.MAX_VALUE + 1) / manager3D.getCurveLatitudeSplits() - 1;
 	}
 
 	@Override
@@ -76,25 +74,19 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 		bufferCount = size / curveSizeMax;
 		bufferPacks = new BufferPack[bufferCount];
 		for (int i = 0; i < bufferCount; i++) {
-			bufferPacks[i] = new BufferPack(manager, ELEMENT_SIZE_MAX,
-					indicesLengthMax);
+			bufferPacks[i] = new BufferPack(manager, ELEMENT_SIZE_MAX, indicesLengthMax);
 			bufferPacks[i].addToLength(ELEMENT_SIZE_MAX, indicesLengthMax);
 		}
 		int lastBufferSize = size % curveSizeMax;
 		if (lastBufferSize > 0) {
-			lastBufferElementsLength = manager
-					.getElementsLengthForCurve(lastBufferSize);
-			lastBufferIndicesLength = manager
-					.getIndicesLengthForCurve(lastBufferSize);
-			lastBuffer = new BufferPack(manager, lastBufferElementsLength,
-					lastBufferIndicesLength);
-			lastBuffer.addToLength(lastBufferElementsLength,
-					lastBufferIndicesLength);
+			lastBufferElementsLength = manager.getElementsLengthForCurve(lastBufferSize);
+			lastBufferIndicesLength = manager.getIndicesLengthForCurve(lastBufferSize);
+			lastBuffer = new BufferPack(manager, lastBufferElementsLength, lastBufferIndicesLength);
+			lastBuffer.addToLength(lastBufferElementsLength, lastBufferIndicesLength);
 		} else {
 			lastBufferElementsLength = 0;
 			lastBufferIndicesLength = 0;
 		}
-
 	}
 
 	@Override
@@ -103,8 +95,7 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 			bufferPacks[i].setElementsForBigCurve(i, ELEMENT_SIZE_MAX);
 		}
 		if (lastBufferElementsLength > 0) {
-			lastBuffer.setElementsForBigCurve(bufferCount,
-					lastBufferElementsLength);
+			lastBuffer.setElementsForBigCurve(bufferCount, lastBufferElementsLength);
 		}
 	}
 
@@ -127,8 +118,7 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	}
 
 	@Override
-	public void setElements(float[] translate, float scale,
-			boolean reuseSegment) {
+	public void setElements(float[] translate, float scale, boolean reuseSegment) {
 		// not used
 	}
 
@@ -204,5 +194,4 @@ public class BufferPackBigCurve extends BufferPackAbstract {
 	public boolean isBigBuffer() {
 		return true;
 	}
-
 }

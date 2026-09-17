@@ -96,7 +96,7 @@ public abstract class ViewTextField {
 
 	/**
 	 * Paint all components to graphics
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */

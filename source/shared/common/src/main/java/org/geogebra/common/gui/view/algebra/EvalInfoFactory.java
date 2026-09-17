@@ -49,8 +49,8 @@ public class EvalInfoFactory {
 	 * @param redefine whether independent geos may be redefined
 	 * @return eval info
 	 */
-	public static EvalInfo getEvalInfoForRedefinition(Kernel kernel, GeoElement geo,
-			boolean redefine) {
+	public static EvalInfo getEvalInfoForRedefinition(
+			Kernel kernel, GeoElement geo, boolean redefine) {
 		return new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(), redefine)
 				.withSymbolicMode(AlgebraProcessor.getRedefinitionMode(geo, kernel))
 				.withLabelRedefinitionAllowedFor(geo.getLabelSimple())

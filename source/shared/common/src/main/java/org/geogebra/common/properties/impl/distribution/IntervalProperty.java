@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -29,17 +29,17 @@ import org.jspecify.annotations.Nullable;
 /**
  * Interval property.
  */
-public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implements
-		IconsEnumeratedProperty<Integer>, ProbabilityCalculatorViewDependentProperty {
+public class IntervalProperty extends AbstractEnumeratedProperty<Integer>
+		implements IconsEnumeratedProperty<Integer>, ProbabilityCalculatorViewDependentProperty {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_PROBABILITY_MODE_LEFT,
-			PropertyResource.ICON_PROBABILITY_MODE_INTERVAL,
-			PropertyResource.ICON_PROBABILITY_MODE_TWO_TAILED,
-			PropertyResource.ICON_PROBABILITY_MODE_RIGHT
+		PropertyResource.ICON_PROBABILITY_MODE_LEFT,
+		PropertyResource.ICON_PROBABILITY_MODE_INTERVAL,
+		PropertyResource.ICON_PROBABILITY_MODE_TWO_TAILED,
+		PropertyResource.ICON_PROBABILITY_MODE_RIGHT
 	};
 	private static final String[] rawLabels = {
-			"LeftProb", "IntervalProb", "TwoTailedProb", "RightProb"
+		"LeftProb", "IntervalProb", "TwoTailedProb", "RightProb"
 	};
 
 	private final ProbabilityCalculatorView view;
@@ -56,8 +56,7 @@ public class IntervalProperty extends AbstractEnumeratedProperty<Integer> implem
 				ProbabilityCalculatorView.PROB_LEFT,
 				ProbabilityCalculatorView.PROB_INTERVAL,
 				ProbabilityCalculatorView.PROB_TWO_TAILED,
-				ProbabilityCalculatorView.PROB_RIGHT
-		));
+				ProbabilityCalculatorView.PROB_RIGHT));
 	}
 
 	@Override

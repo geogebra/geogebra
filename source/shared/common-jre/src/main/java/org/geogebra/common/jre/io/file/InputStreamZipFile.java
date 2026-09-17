@@ -22,13 +22,13 @@ import org.geogebra.common.io.file.ZipFile;
 
 public class InputStreamZipFile implements ZipFile {
 
-    private InputStream zipData;
+	private InputStream zipData;
 
-    public InputStreamZipFile(InputStream zipData) {
-        this.zipData = zipData;
-    }
+	public InputStreamZipFile(InputStream zipData) {
+		this.zipData = zipData;
+	}
 
-    public InputStream getInputStream() {
-        return zipData;
-    }
+	public InputStream getInputStream() {
+		return zipData;
+	}
 }

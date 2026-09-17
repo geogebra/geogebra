@@ -30,5 +30,4 @@ public class CommandColor extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new ColorAtom(a, null, fg);
 	}
-
 }

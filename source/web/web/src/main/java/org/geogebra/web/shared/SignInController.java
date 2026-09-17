@@ -58,9 +58,8 @@ public class SignInController implements EventRenderable, SignInControllerI {
 	@Override
 	public void login() {
 		if (signInDialog == null || signInDialog.closed()) {
-			signInDialog = WindowReference.createSignInWindow(app,
-					callbackURL == null ? StaticFileUrls.getCallbackUrl()
-							: callbackURL);
+			signInDialog = WindowReference.createSignInWindow(
+					app, callbackURL == null ? StaticFileUrls.getCallbackUrl() : callbackURL);
 		} else {
 			signInDialog.close();
 			signInDialog = null;

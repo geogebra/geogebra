@@ -23,18 +23,17 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Extension of BasicStatTable that displays summary statistics for multiple
  * data sets.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public final class MultiVarStatPanelW extends BasicStatTableW implements
-		MultiVarStatTableListener {
+public final class MultiVarStatPanelW extends BasicStatTableW implements MultiVarStatTableListener {
 
 	private boolean minimalTable = false;
 
 	/***************************************************
 	 * Constructs a MultiVarStatPanel
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param statDialog
@@ -77,12 +76,12 @@ public final class MultiVarStatPanelW extends BasicStatTableW implements
 	@Override
 	protected void initStatTable() {
 		statTable = new StatTableW();
-		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
-				getColumnCount() + 1, getColumnNames());
+		statTable.setStatTable(
+				getModel().getRowCount(), getModel().getRowNames(), getColumnCount() + 1, getColumnNames());
 		clear();
 		add(statTable);
 	}
-	
+
 	@Override
 	public int getColumnCount() {
 		return getModel().getColumnCount();
@@ -102,5 +101,4 @@ public final class MultiVarStatPanelW extends BasicStatTableW implements
 	public boolean isMinimalTable() {
 		return minimalTable;
 	}
-
 }

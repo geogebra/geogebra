@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdZProportion2Test extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,28 +47,29 @@ public class CmdZProportion2Test extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
+			case 5:
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())
+						&& (ok[3] = arg[3].isGeoNumeric())
+						&& (ok[4] = arg[4].isGeoText())) {
 
-		case 5:
-			if ((ok[0] = arg[0].isGeoNumeric())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoText())) {
+					AlgoZProportion2Test algo = new AlgoZProportion2Test(
+							cons,
+							(GeoNumeric) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							(GeoNumeric) arg[3],
+							(GeoText) arg[4]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
 
-				AlgoZProportion2Test algo = new AlgoZProportion2Test(cons,
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoText) arg[4]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				throw argErr(c, getBadArg(ok, arg));
 
-			}
-
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

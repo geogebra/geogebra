@@ -23,9 +23,9 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Move turtle forward
- * 
+ *
  * TurtleForward[ &lt;Turtle&gt;, &lt;distance&gt; ]
- * 
+ *
  * @author arno
  */
 public class CmdTurtleForward extends CmdTurtleCommand {
@@ -39,9 +39,7 @@ public class CmdTurtleForward extends CmdTurtleCommand {
 	}
 
 	@Override
-	protected void performTurtleCommand(Command c, GeoElement[] args)
-			throws MyError {
+	protected void performTurtleCommand(Command c, GeoElement[] args) throws MyError {
 		getTurtle(args).forward(getNumArg(c, args));
 	}
-
 }

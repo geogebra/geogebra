@@ -10,5 +10,4 @@ public class CommandFrac extends Command2A {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new FractionAtom(a, b);
 	}
-
 }

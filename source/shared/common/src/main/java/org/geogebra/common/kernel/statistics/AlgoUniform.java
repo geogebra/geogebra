@@ -22,14 +22,17 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoUniform extends AlgoDistribution {
 
-	public AlgoUniform(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue c, GeoBoolean cumulative) {
+	public AlgoUniform(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoBoolean cumulative) {
 		super(cons, a, b, c, cumulative);
 	}
 
@@ -41,14 +44,12 @@ public class AlgoUniform extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double A = a.getDouble();
 			double B = b.getDouble();
 			double x = c.getDouble();
 			try {
-				boolean cdf = this.isCumulative == null
-						|| this.isCumulative.getBoolean();
+				boolean cdf = this.isCumulative == null || this.isCumulative.getBoolean();
 				if (A >= B) {
 					num.setUndefined();
 				} else if (x > B) {
@@ -66,5 +67,4 @@ public class AlgoUniform extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

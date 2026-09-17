@@ -31,11 +31,10 @@ import org.geogebra.common.util.MyMath;
 /**
  * Osculating Circle of a curve f in point A: center = A + (radius)^2 * v radius
  * = 1/abs(k(x)), k(x)=curvature of f v = curvature vector of f in point A
- * 
+ *
  * @author Victor Franco Espino
  * @version 11-02-2007
  */
-
 public class AlgoOsculatingCircleCurve extends AlgoElement {
 
 	private GeoPoint A; // input
@@ -56,8 +55,8 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 	 * @param f
 	 *            curve
 	 */
-	public AlgoOsculatingCircleCurve(Construction cons, String label,
-			GeoPoint A, GeoCurveCartesian f) {
+	public AlgoOsculatingCircleCurve(
+			Construction cons, String label, GeoPoint A, GeoCurveCartesian f) {
 		super(cons);
 		this.A = A;
 		this.f = f;
@@ -85,8 +84,7 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 	 * @param geoConic
 	 *            conic
 	 */
-	public AlgoOsculatingCircleCurve(Construction cons, String label,
-			GeoPoint A, GeoConic geoConic) {
+	public AlgoOsculatingCircleCurve(Construction cons, String label, GeoPoint A, GeoConic geoConic) {
 		super(cons);
 		this.A = A;
 		gc = geoConic;
@@ -101,7 +99,6 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 		setInputOutput();
 		compute();
 		circle.setLabel(label);
-
 	}
 
 	@Override
@@ -178,5 +175,4 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 			cv.remove();
 		}
 	}
-
 }

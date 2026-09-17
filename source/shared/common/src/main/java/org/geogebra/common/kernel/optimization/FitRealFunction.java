@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,28 +38,28 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *   Class with FitRealFunction which will be used when Fit[&lt;List&gt;,&lt;Function&gt;] does
  *   nonlinear curve-fitting on a copy of &lt;Function&gt; where gliders a,b,c,...
  *   are used as parameters.
- *   
+ *
  *   Implements:
- * 
+ *
  *         org.apache.commons.math.optimization.fitting.ParametricUnivariateFunction
  *         which can be given to org.apache....fitting.CurveFitter which
  *         does the rest of the job.
- *   
+ *
  *   Interface:
- *   
+ *
  *       FitRealFunction(Function)                Makes a copy of Function with sliders
  *                                                replaced by MyDouble parameters
  *       value(double,double[])                    Evaluates for x and pars[]
  *       gradient(double,double[])                Evaluates a gradient for x and pars[] numerically
- *   
+ *
  *   For AlgoFitNL:
- *   
+ *
  *       getNumberOfParameters()             Get number of gliders/parameters found and changed
  *       getStartParameters()                Get array of start values for parameters.
  *       getGeoFunction(double[])            Get FitFunction as GeoFunction with parameters replaced
- *   
+ *
  *   For later extensions and external use:
- *   
+ *
  *       evaluate(double,double[])                As value(...), perhaps implementing
  *                                               other interfaces later?
  *       evaluate(double)                        As an ordinary function
@@ -72,7 +72,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *                Should probably make an abstract, and make this a subclass,
  *                will do if the need arises.
  * </pre>
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 15.03.2011
  */
@@ -82,7 +82,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	private Kernel kernel = null;
 	private int numberOfParameters = 0;
 	private GeoElement[] sliders = null; // Pointers to sliders, need for new
-										// start values
+	// start values
 	private Function bestFitFunction = null;
 	private final List<MyDouble> parameterValues = new ArrayList<>();
 	private boolean parametersOK = true;
@@ -91,7 +91,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 
 	/**
 	 * Main constructor
-	 * 
+	 *
 	 * @param f
 	 *            Function to be copied and manipulated
 	 */
@@ -102,7 +102,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 
 	/**
 	 * Implementing org.apache...fitting.ParametricUnivariateFunction
-	 * 
+	 *
 	 * @param x
 	 *            double variable
 	 * @param pars
@@ -132,7 +132,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	public final double[] gradient(double x, double... parameters) {
 		double oldValue, newValue;
 		double deltaP = 1.0E-5; // 1E-10 and 1E-15 is far too small, keep E-5
-								// until search algo is made
+		// until search algo is made
 		double[] gradient = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
 			oldValue = value(x, parameters);
@@ -154,7 +154,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 
 	/**
 	 * Converts function to FitRealFunction
-	 * 
+	 *
 	 * @param f
 	 *            function depending on GeoNumeric parameters
 	 */
@@ -177,8 +177,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 				parameters.add(adHocParam);
 				paramToValue.put(adHocParam, paramValue);
 				return paramValue;
-			} else if (val instanceof GeoNumeric
-					&& ((GeoNumeric) val).isLabelSet()) {
+			} else if (val instanceof GeoNumeric && ((GeoNumeric) val).isLabelSet()) {
 				GeoNumeric numericVal = (GeoNumeric) val;
 				if (parameters.add(numericVal)) {
 					MyDouble paramValue = new MyDouble(kernel);
@@ -195,7 +194,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		} else {
 			sliders = parameters.toArray(new GeoElement[0]);
 		}
-		for (GeoNumeric param: parameters) {
+		for (GeoNumeric param : parameters) {
 			parameterValues.add(paramToValue.get(param));
 		}
 
@@ -252,5 +251,4 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	public boolean isParametersOK() {
 		return parametersOK;
 	}
-
 }

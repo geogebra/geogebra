@@ -40,7 +40,7 @@ public class LightBox {
 
 		if (!pdf) {
 			div.style.backgroundImage = "url('" + dataUrl + "')";
-			div.style.backgroundSize =  "contain";
+			div.style.backgroundSize = "contain";
 			div.style.backgroundRepeat = "no-repeat";
 			div.style.backgroundPosition = "center";
 		}

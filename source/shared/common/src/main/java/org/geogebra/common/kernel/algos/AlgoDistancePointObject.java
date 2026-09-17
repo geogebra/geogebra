@@ -41,8 +41,7 @@ import org.geogebra.common.util.MyMath;
  *
  * @author Markus
  */
-public class AlgoDistancePointObject extends AlgoElement
-		implements DistanceAlgo {
+public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo {
 
 	private static final double MAX_INTERVAL = 10000;
 	private static final double MIN_INTERVAL = 200;
@@ -55,7 +54,7 @@ public class AlgoDistancePointObject extends AlgoElement
 
 	/**
 	 * Distance between point and object.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -65,14 +64,12 @@ public class AlgoDistancePointObject extends AlgoElement
 	 * @param g
 	 *            object
 	 */
-	public AlgoDistancePointObject(Construction cons, String label,
-			GeoPointND P, GeoElementND g) {
+	public AlgoDistancePointObject(Construction cons, String label, GeoPointND P, GeoElementND g) {
 		super(cons);
 		this.P = P;
 		this.g = g;
 		dist = new GeoNumeric(cons);
-		closePt = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons,
-				(Path) g, P);
+		closePt = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons, (Path) g, P);
 		cons.removeFromConstructionList(closePt);
 		setInputOutput(); // for AlgoElement
 
@@ -126,17 +123,17 @@ public class AlgoDistancePointObject extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("DistanceOfAandB",
-				"Distance between %0 and %1", P.getLabel(tpl),
-				g.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"DistanceOfAandB", "Distance between %0 and %1", P.getLabel(tpl), g.getLabel(tpl));
 	}
 
 	/**
 	 * Other classes are invited to use this method.
-	 * 
+	 *
 	 * @param function
 	 *            Function
 	 * @param x
@@ -146,13 +143,12 @@ public class AlgoDistancePointObject extends AlgoElement
 	 * @return val such as the point (val, function(val)) is closest to point
 	 *         (x, y)
 	 */
-	public static double getClosestFunctionValueToPoint(Function function,
-			double x, double y) {
+	public static double getClosestFunctionValueToPoint(Function function, double x, double y) {
 		// Algorithm inspired by
 		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf
 		Kernel kernel = function.getKernel();
-		PolyFunction polyFunction = function
-				.expandToPolyFunction(function.getExpression(), false, true);
+		PolyFunction polyFunction =
+				function.expandToPolyFunction(function.getExpression(), false, true);
 		if (polyFunction != null) {
 			return closestValPoly(polyFunction, x, y, kernel);
 		}
@@ -160,8 +156,8 @@ public class AlgoDistancePointObject extends AlgoElement
 			double xLeft = getClosestDefined(function, x, y, -1);
 			double xRight = getClosestDefined(function, x, y, 1);
 			if (MyMath.distanceSquaredToFunctionAt(function, x, y, xLeft)
-				< MyMath.distanceSquaredToFunctionAt(function, x, y, xRight)) {
-					return xLeft;
+					< MyMath.distanceSquaredToFunctionAt(function, x, y, xRight)) {
+				return xLeft;
 			} else {
 				return xRight;
 			}
@@ -171,16 +167,14 @@ public class AlgoDistancePointObject extends AlgoElement
 		Function deriv = function.getDerivative(1, true);
 		// replace derivatives' function variable with functions'
 		// we need this, so our new function created below, can be evaluated
-		deriv.traverse(Traversing.Replacer
-				.getReplacer(deriv.getFunctionVariable(), fVar));
+		deriv.traverse(Traversing.Replacer.getReplacer(deriv.getFunctionVariable(), fVar));
 		// build expression 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the
 		// coordinates of point
-		ExpressionNode expr = new ExpressionNode(kernel, fVar, Operation.MINUS,
-				new MyDouble(kernel, x));
+		ExpressionNode expr =
+				new ExpressionNode(kernel, fVar, Operation.MINUS, new MyDouble(kernel, x));
 		expr = expr.multiply(2);
-		ExpressionNode expr2 = new ExpressionNode(kernel,
-				function.getExpression(), Operation.MINUS,
-				new MyDouble(kernel, y));
+		ExpressionNode expr2 = new ExpressionNode(
+				kernel, function.getExpression(), Operation.MINUS, new MyDouble(kernel, y));
 		expr2 = expr2.multiplyR(deriv.getExpression());
 		expr2 = expr2.multiply(2);
 		expr = expr.plus(expr2);
@@ -191,14 +185,13 @@ public class AlgoDistancePointObject extends AlgoElement
 		double minAt = x;
 		double min = Math.sqrt(minSq);
 		// calculate root; can only yield better distance than min if it's in [x-min, x+min]
-		double[] roots = AlgoRoots.findRoots(func, x - min, x + min,
-				(int) MyMath.clamp(20 * min, MIN_INTERVAL, MAX_INTERVAL));
+		double[] roots = AlgoRoots.findRoots(
+				func, x - min, x + min, (int) MyMath.clamp(20 * min, MIN_INTERVAL, MAX_INTERVAL));
 		if (roots == null || roots.length == 0) {
 			return minAt;
 		}
 		for (double root : roots) {
-			double val = MyMath.distanceSquaredToFunctionAt(function, x, y,
-					root);
+			double val = MyMath.distanceSquaredToFunctionAt(function, x, y, root);
 			if (DoubleUtil.isGreater(minSq, val)) {
 				minSq = val;
 				minAt = root;
@@ -207,9 +200,9 @@ public class AlgoDistancePointObject extends AlgoElement
 		return minAt;
 	}
 
-	private static double getClosestDefined(Function function,
-			double x, double y, double direction) {
-		for (double offset = direction * 0.1; Math.abs(offset) < Kernel.INV_MAX_DOUBLE_PRECISION;
+	private static double getClosestDefined(Function function, double x, double y, double direction) {
+		for (double offset = direction * 0.1;
+				Math.abs(offset) < Kernel.INV_MAX_DOUBLE_PRECISION;
 				offset *= 2) {
 			if (!Double.isNaN(function.value(x + offset))) {
 				return fineTuneClosestDefined(function, x + offset / 2, x + offset, x, y);
@@ -218,8 +211,8 @@ public class AlgoDistancePointObject extends AlgoElement
 		return Double.NaN;
 	}
 
-	private static double fineTuneClosestDefined(Function function,
-			double from, double to, double x, double y) {
+	private static double fineTuneClosestDefined(
+			Function function, double from, double to, double x, double y) {
 		double x1 = from;
 		double x2 = to;
 		for (int i = 0; i < FINE_TUNE_STEPS; i++) {
@@ -237,7 +230,7 @@ public class AlgoDistancePointObject extends AlgoElement
 
 	/**
 	 * Find all local extrema and pick the closest one.
-	 * 
+	 *
 	 * @param polyFunction
 	 *            polynomial
 	 * @param x
@@ -248,8 +241,8 @@ public class AlgoDistancePointObject extends AlgoElement
 	 *            kernel
 	 * @return x value for closest point on function
 	 */
-	public static double closestValPoly(PolyFunction polyFunction, double x,
-			double y, Kernel kernel) {
+	public static double closestValPoly(
+			PolyFunction polyFunction, double x, double y, Kernel kernel) {
 		PolyFunction polyDervi = polyFunction.getDerivative();
 		// calculate coeffs for 2*(x - a) + 2(f(x) - b)f'(x) where a and b
 		// are the coordinates of point
@@ -282,8 +275,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		int k = 0;
 		double min = MyMath.distanceSquaredToFunctionAt(polyFunction, x, y, eq[0]);
 		for (int i = 1; i < nrOfRoots; i++) {
-			double val = MyMath.distanceSquaredToFunctionAt(polyFunction, x, y,
-					eq[i]);
+			double val = MyMath.distanceSquaredToFunctionAt(polyFunction, x, y, eq[i]);
 			if (DoubleUtil.isGreater(min, val)) {
 				min = val;
 				k = i;
@@ -291,5 +283,4 @@ public class AlgoDistancePointObject extends AlgoElement
 		}
 		return eq[k];
 	}
-
 }

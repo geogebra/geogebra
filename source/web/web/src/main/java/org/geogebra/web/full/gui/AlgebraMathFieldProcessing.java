@@ -43,10 +43,9 @@ public final class AlgebraMathFieldProcessing extends MathFieldProcessing {
 		}
 		boolean isInputInTextMode = mf.getInternal().getInputController().getPlainTextMode();
 		String currentInput = mf.getText();
-		String ans =
-				isInputInTextMode
-						? ansProvider.getAnsForTextInput(avInput.getGeo(), currentInput)
-						: ansProvider.getAns(avInput.getGeo(), currentInput);
+		String ans = isInputInTextMode
+				? ansProvider.getAnsForTextInput(avInput.getGeo(), currentInput)
+				: ansProvider.getAns(avInput.getGeo(), currentInput);
 		mf.insertString(ans);
 	}
 

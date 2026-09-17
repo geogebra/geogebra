@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -52,27 +52,39 @@ class GeoFunctionTest extends BaseUnitTest {
 
 	@Test
 	void testIntervalsOnesided() {
-		ExpressionNode less = new ExpressionNode(getKernel(), new FunctionVariable(getKernel()),
-				Operation.LESS, new MyDouble(getKernel(), 4));
-		ExpressionNode more = new ExpressionNode(getKernel(), new FunctionVariable(getKernel()),
-				Operation.GREATER, new MyDouble(getKernel(), 3));
+		ExpressionNode less = new ExpressionNode(
+				getKernel(),
+				new FunctionVariable(getKernel()),
+				Operation.LESS,
+				new MyDouble(getKernel(), 4));
+		ExpressionNode more = new ExpressionNode(
+				getKernel(),
+				new FunctionVariable(getKernel()),
+				Operation.GREATER,
+				new MyDouble(getKernel(), 3));
 		double[] bounds = new double[2];
 		GeoIntervalUtil.updateBoundaries(less, bounds);
-		assertArrayEquals(new double[]{Double.NEGATIVE_INFINITY, 4}, bounds, .01);
+		assertArrayEquals(new double[] {Double.NEGATIVE_INFINITY, 4}, bounds, .01);
 		GeoIntervalUtil.updateBoundaries(more, bounds);
-		assertArrayEquals(new double[]{3, Double.POSITIVE_INFINITY}, bounds, .01);
+		assertArrayEquals(new double[] {3, Double.POSITIVE_INFINITY}, bounds, .01);
 	}
 
 	@Test
 	void testIntervals() {
-		ExpressionNode less = new ExpressionNode(getKernel(), new FunctionVariable(getKernel()),
-				Operation.LESS, new MyDouble(getKernel(), 4));
-		ExpressionNode more = new ExpressionNode(getKernel(), new FunctionVariable(getKernel()),
-				Operation.GREATER, new MyDouble(getKernel(), 3));
+		ExpressionNode less = new ExpressionNode(
+				getKernel(),
+				new FunctionVariable(getKernel()),
+				Operation.LESS,
+				new MyDouble(getKernel(), 4));
+		ExpressionNode more = new ExpressionNode(
+				getKernel(),
+				new FunctionVariable(getKernel()),
+				Operation.GREATER,
+				new MyDouble(getKernel(), 3));
 		ExpressionNode interval = new ExpressionNode(getKernel(), less, Operation.AND, more);
 		double[] bounds = new double[2];
 		GeoIntervalUtil.updateBoundaries(interval, bounds);
-		assertArrayEquals(new double[]{3, 4}, bounds, .01);
+		assertArrayEquals(new double[] {3, 4}, bounds, .01);
 	}
 
 	@Test
@@ -106,8 +118,11 @@ class GeoFunctionTest extends BaseUnitTest {
 		t("f(5)", "4");
 		t("f(-5)", "NaN");
 		ExpressionNode functionExpression = Objects.requireNonNull(f.getFunctionExpression());
-		assertEquals("d", functionExpression.getUnconditionalVars(new HashSet<>())
-				.stream().map(GeoElement::getLabelSimple).collect(Collectors.joining()));
+		assertEquals(
+				"d",
+				functionExpression.getUnconditionalVars(new HashSet<>()).stream()
+						.map(GeoElement::getLabelSimple)
+						.collect(Collectors.joining()));
 	}
 
 	@Test
@@ -219,7 +234,6 @@ class GeoFunctionTest extends BaseUnitTest {
 	void shouldSkipZeroTermsInFormula() {
 		add("c:0");
 		GeoFunction f = add("f(x)=c xx + c x + c");
-		assertEquals("0",
-				f.getFormulaString(StringTemplate.latexTemplate, true));
+		assertEquals("0", f.getFormulaString(StringTemplate.latexTemplate, true));
 	}
 }

@@ -23,14 +23,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * FitSin[&lt;List of Points&gt;]
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 15.11.08
  */
 public class CmdFitSin extends CmdOneListFunction {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,10 +39,9 @@ public class CmdFitSin extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoFitSin algo = new AlgoFitSin(cons, b);
 		algo.getFitSin().setLabel(a);
 		return algo.getFitSin();
 	}
-
 }

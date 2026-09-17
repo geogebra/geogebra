@@ -24,10 +24,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
+ *
  * @author G. Sturr
  */
-
 public class AlgoBinomialDist extends AlgoDistribution {
 
 	/**
@@ -42,8 +41,12 @@ public class AlgoBinomialDist extends AlgoDistribution {
 	 * @param isCumulative
 	 *            cumulative
 	 */
-	public AlgoBinomialDist(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
+	public AlgoBinomialDist(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoBoolean isCumulative) {
 		super(cons, a, b, c, isCumulative);
 	}
 
@@ -55,17 +58,18 @@ public class AlgoBinomialDist extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()
+		if (input[0].isDefined()
+				&& input[1].isDefined()
+				&& input[2].isDefined()
 				&& input[3].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
 			double param2 = b.getDouble();
 			int val = (int) Math.round(c.getDouble());
 			try {
-				BinomialDistribution dist = getBinomialDistribution(param,
-						param2);
+				BinomialDistribution dist = getBinomialDistribution(param, param2);
 				if (isCumulative.getBoolean()) {
 					num.setValue(dist.cumulativeProbability(val)); // P(X <=
-																	// val)
+					// val)
 				} else {
 					num.setValue(dist.probability(val)); // P(X = val)
 				}
@@ -77,5 +81,4 @@ public class AlgoBinomialDist extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

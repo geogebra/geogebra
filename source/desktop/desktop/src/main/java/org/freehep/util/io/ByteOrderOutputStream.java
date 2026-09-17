@@ -8,14 +8,13 @@ import java.io.UTFDataFormatException;
 
 /**
  * Class to write bytes and pairs of bytes in both little and big endian order.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: ByteOrderOutputStream.java,v 1.3 2008-05-04 12:20:56 murkle Exp
  *          $
  */
-public class ByteOrderOutputStream extends BitOutputStream
-		implements DataOutput {
+public class ByteOrderOutputStream extends BitOutputStream implements DataOutput {
 
 	protected boolean little;
 
@@ -23,7 +22,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Create a (Big Endian) Byte Order output stream from given stream
-	 * 
+	 *
 	 * @param out
 	 *            stream to write to
 	 */
@@ -33,7 +32,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Create a Byte Order output stream from the given stream
-	 * 
+	 *
 	 * @param out
 	 *            stream to write to
 	 * @param littleEndian
@@ -92,7 +91,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Writes array of bytes
-	 * 
+	 *
 	 * @param bytes
 	 *            byte array to be written
 	 * @throws IOException
@@ -108,7 +107,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an unsigned byte.
-	 * 
+	 *
 	 * @param ub
 	 *            byte to write
 	 * @throws IOException
@@ -122,7 +121,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an array of unsigned bytes.
-	 * 
+	 *
 	 * @param bytes
 	 *            int array to write as bytes
 	 * @throws IOException
@@ -154,7 +153,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an array of shorts.
-	 * 
+	 *
 	 * @param shorts
 	 *            short array to write
 	 * @throws IOException
@@ -169,7 +168,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an unsigned short.
-	 * 
+	 *
 	 * @param s
 	 *            int to write as unsigned short
 	 * @throws IOException
@@ -189,7 +188,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an array of unsigned shorts.
-	 * 
+	 *
 	 * @param shorts
 	 *            int array to write as unsigned shorts
 	 * @throws IOException
@@ -223,7 +222,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an array of ints
-	 * 
+	 *
 	 * @param ints
 	 *            int array to write
 	 * @throws IOException
@@ -238,7 +237,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an unsigned integer.
-	 * 
+	 *
 	 * @param i
 	 *            long to write as unsigned int
 	 * @throws IOException
@@ -261,7 +260,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an array of unsigned ints
-	 * 
+	 *
 	 * @param ints
 	 *            long array to write as unsigned ints
 	 * @throws IOException
@@ -323,7 +322,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write a string (UTF)
-	 * 
+	 *
 	 * @param s
 	 *            string to write
 	 * @throws IOException
@@ -340,7 +339,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 
 	/**
 	 * Write an ascii-z (0 terminated c-string).
-	 * 
+	 *
 	 * @param s
 	 *            string to write
 	 * @throws IOException
@@ -354,7 +353,7 @@ public class ByteOrderOutputStream extends BitOutputStream
 	/**
 	 * Write a UTF string to the data output stream. This method should have
 	 * been in DataOutputStream, but is not visible.
-	 * 
+	 *
 	 * @param s
 	 *            string to write
 	 * @param dos

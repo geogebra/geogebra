@@ -82,7 +82,8 @@ public class FunctionNode extends InternalNode {
 			return getChild(0).size() == 0 ? 0 : 1;
 		} else if (getName() == Tag.LOG) {
 			return 1;
-		} else if (getName() == Tag.LOG_POWER || getName() == Tag.ATOMIC_PRE
+		} else if (getName() == Tag.LOG_POWER
+				|| getName() == Tag.ATOMIC_PRE
 				|| IntegralHelper.isIntegral(getName())) {
 			return 2;
 		}
@@ -137,8 +138,7 @@ public class FunctionNode extends InternalNode {
 	 */
 	public static boolean isScript(Node argument) {
 		return argument instanceof FunctionNode
-				&& (argument.hasTag(Tag.SUPERSCRIPT)
-				|| argument.hasTag(Tag.SUBSCRIPT));
+				&& (argument.hasTag(Tag.SUPERSCRIPT) || argument.hasTag(Tag.SUBSCRIPT));
 	}
 
 	public List<String> getPlaceholders() {
@@ -175,7 +175,7 @@ public class FunctionNode extends InternalNode {
 	public boolean isIntegralAutoDefaultVariable() {
 		return integralAutoDefaultVariable;
 	}
-	
+
 	public void setIntegralAutoDefaultVariable(boolean autoDefaultVariable) {
 		this.integralAutoDefaultVariable = autoDefaultVariable;
 	}

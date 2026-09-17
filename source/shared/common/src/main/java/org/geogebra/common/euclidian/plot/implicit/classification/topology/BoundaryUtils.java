@@ -32,15 +32,14 @@ import org.geogebra.common.euclidian.plot.implicit.classification.ViewportInfo;
  * Shared boundary-cycle predicates and measurements used by topology builders.
  */
 final class BoundaryUtils {
-	private BoundaryUtils() {
-	}
+	private BoundaryUtils() {}
 
 	/**
 	 * @return the closed boundary reached from the given half-edge, or an empty
 	 * list if the boundary was already visited
 	 */
-	static List<Integer> extractFaceBoundary(PlanarGraph graph, int startHalfEdgeId,
-			Set<Integer> visited) {
+	static List<Integer> extractFaceBoundary(
+			PlanarGraph graph, int startHalfEdgeId, Set<Integer> visited) {
 		List<Integer> cycle = new ArrayList<>();
 		Set<Integer> cycleVisited = new HashSet<>();
 		int nextId = startHalfEdgeId;
@@ -86,8 +85,7 @@ final class BoundaryUtils {
 			}
 			int next = graph.halfEdge(current).getNextHalfEdgeId();
 			if (next == -1) {
-				throw new IllegalStateException(
-						"Broken half-edge linkage: face boundary has next = -1");
+				throw new IllegalStateException("Broken half-edge linkage: face boundary has next = -1");
 			}
 			Vertex v1 = graph.vertex(graph.halfEdge(current).getOriginVertexId());
 			Vertex v2 = graph.vertex(graph.halfEdge(next).getOriginVertexId());
@@ -115,15 +113,15 @@ final class BoundaryUtils {
 	static boolean hasNearlyEqualArea(BoundaryCycle first, BoundaryCycle second) {
 		double area0 = first.getAbsArea();
 		double area1 = second.getAbsArea();
-		return Math.abs(area0 - area1) <= Math.max(GEOMETRY_EPSILON,
-					Math.max(area0, area1) * AREA_RELATIVE_TOLERANCE);
+		return Math.abs(area0 - area1)
+				<= Math.max(GEOMETRY_EPSILON, Math.max(area0, area1) * AREA_RELATIVE_TOLERANCE);
 	}
 
 	/**
 	 * @return point containment relative to the given boundary cycle
 	 */
-	static PlanarGraph.Containment classifyPointInPolygon(PlanarGraph graph,
-			GPoint2D p, BoundaryCycle polygon) {
+	static PlanarGraph.Containment classifyPointInPolygon(
+			PlanarGraph graph, GPoint2D p, BoundaryCycle polygon) {
 		PlanarGeometry.BoundingBox boundingBox = polygon.getBoundingBox(graph);
 		if (!containsInBoundingBox(boundingBox, p)) {
 			return PlanarGraph.Containment.OUTSIDE;
@@ -140,8 +138,8 @@ final class BoundaryUtils {
 			if (PlanarGeometry.isPointOnSegment(p, xj, yj, xi, yi)) {
 				return PlanarGraph.Containment.BOUNDARY;
 			}
-			boolean intersects = ((yi > p.y) != (yj > p.y))
-					&& (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi);
+			boolean intersects =
+					((yi > p.y) != (yj > p.y)) && (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi);
 			if (intersects) {
 				inside = !inside;
 			}
@@ -152,8 +150,8 @@ final class BoundaryUtils {
 	/**
 	 * @return point containment relative to the given half-edge boundary
 	 */
-	static PlanarGraph.Containment classifyPointInPolygon(PlanarGraph graph,
-			GPoint2D p, List<Integer> cycle) {
+	static PlanarGraph.Containment classifyPointInPolygon(
+			PlanarGraph graph, GPoint2D p, List<Integer> cycle) {
 		boolean inside = false;
 		int size = cycle.size();
 		for (int i = 0, j = size - 1; i < size; j = i++) {
@@ -166,8 +164,8 @@ final class BoundaryUtils {
 			if (PlanarGeometry.isPointOnSegment(p, xj, yj, xi, yi)) {
 				return PlanarGraph.Containment.BOUNDARY;
 			}
-			boolean intersects = ((yi > p.y) != (yj > p.y))
-					&& (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi);
+			boolean intersects =
+					((yi > p.y) != (yj > p.y)) && (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi);
 			if (intersects) {
 				inside = !inside;
 			}
@@ -194,8 +192,8 @@ final class BoundaryUtils {
 		return cycle.getBoundingBox(graph);
 	}
 
-	private static boolean containsInBoundingBox(PlanarGeometry.BoundingBox boundingBox,
-			GPoint2D point) {
+	private static boolean containsInBoundingBox(
+			PlanarGeometry.BoundingBox boundingBox, GPoint2D point) {
 		return point.x >= boundingBox.minX - GEOMETRY_EPSILON
 				&& point.x <= boundingBox.maxX + GEOMETRY_EPSILON
 				&& point.y >= boundingBox.minY - GEOMETRY_EPSILON
@@ -206,8 +204,8 @@ final class BoundaryUtils {
 	 * @return whether the cycle area matches the viewport area at graph tolerance
 	 */
 	static boolean hasViewportArea(ViewportInfo viewportInfo, BoundaryCycle cycle) {
-		double tolerance = Math.max(
-				AREA_RELATIVE_TOLERANCE, viewportInfo.absArea() * AREA_RELATIVE_TOLERANCE);
+		double tolerance =
+				Math.max(AREA_RELATIVE_TOLERANCE, viewportInfo.absArea() * AREA_RELATIVE_TOLERANCE);
 		return Math.abs(cycle.getAbsArea() - viewportInfo.absArea()) <= tolerance;
 	}
 }

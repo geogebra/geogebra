@@ -23,13 +23,11 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoSampleVariance extends AlgoStats1D {
 
-	public AlgoSampleVariance(Construction cons,
-			GeoList geoList) {
+	public AlgoSampleVariance(Construction cons, GeoList geoList) {
 		super(cons, geoList, AlgoStats1D.STATS_SAMPLE_VARIANCE);
 	}
 
-	public AlgoSampleVariance(Construction cons, GeoList geoList,
-			GeoList freq) {
+	public AlgoSampleVariance(Construction cons, GeoList geoList, GeoList freq) {
 		super(cons, geoList, freq, AlgoStats1D.STATS_SAMPLE_VARIANCE);
 	}
 
@@ -37,5 +35,4 @@ public class AlgoSampleVariance extends AlgoStats1D {
 	public Commands getClassName() {
 		return Commands.SampleVariance;
 	}
-
 }

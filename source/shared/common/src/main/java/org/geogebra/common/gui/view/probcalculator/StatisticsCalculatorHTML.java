@@ -22,7 +22,7 @@ import org.geogebra.editor.share.util.Unicode;
 
 /**
  * @author G. Sturr
- * 
+ *
  */
 public class StatisticsCalculatorHTML {
 
@@ -48,11 +48,11 @@ public class StatisticsCalculatorHTML {
 	private String strPooled;
 	private Localization loc;
 
-	private final static String newline = "<br/>";
+	private static final String newline = "<br/>";
 
 	/*********************************************
 	 * Constructs StatisticsCalculatorHTML
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param statCalc
@@ -60,8 +60,7 @@ public class StatisticsCalculatorHTML {
 	 * @param sc
 	 *            data
 	 */
-	public StatisticsCalculatorHTML(App app, StatisticsCalculator statCalc,
-			StatisticsCollection sc) {
+	public StatisticsCalculatorHTML(App app, StatisticsCalculator statCalc, StatisticsCollection sc) {
 
 		this.loc = app.getLocalization();
 		this.statCalc = statCalc;
@@ -103,10 +102,10 @@ public class StatisticsCalculatorHTML {
 
 	/**
 	 * append table with resulting stats to a stringbuilder
-	 * 
+	 *
 	 * @param sb
 	 *            builder
-	 * 
+	 *
 	 */
 	public void getStatString(StringBuilder sb) {
 		sb.append(loc.getMenu(statCalc.getSelectedProcedure().getName()));
@@ -114,171 +113,193 @@ public class StatisticsCalculatorHTML {
 		sb.append(newline);
 
 		switch (sc.getSelectedProcedure()) {
+			case ZMEAN_TEST:
+				String[][] zTestTable = {
+					{strMean, format(sc.mean)},
+					{strSigma, format(sc.sd)},
+					{strSE, format(sc.se)},
+					{strN, format(sc.n)},
+					{strZ, format(sc.testStat)},
+					{strP, format(sc.P)}
+				};
 
-		case ZMEAN_TEST:
+				sb.append(htmlTable(zTestTable, true));
 
-			String[][] zTestTable = { { strMean, format(sc.mean) },
-					{ strSigma, format(sc.sd) }, { strSE, format(sc.se) },
-					{ strN, format(sc.n) }, { strZ, format(sc.testStat) },
-					{ strP, format(sc.P) } };
+				break;
 
-			sb.append(htmlTable(zTestTable, true));
+			case TMEAN_TEST:
+				String[][] tTestTable = {
+					{strMean, format(sc.mean)},
+					{strSD, format(sc.sd)},
+					{strSE, format(sc.se)},
+					{strN, format(sc.n)},
+					{strDF, format(sc.df)},
+					{strT, format(sc.testStat)},
+					{strP, format(sc.P)}
+				};
 
-			break;
+				sb.append(htmlTable(tTestTable, true));
 
-		case TMEAN_TEST:
+				break;
 
-			String[][] tTestTable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },
-					{ strN, format(sc.n) }, { strDF, format(sc.df) },
-					{ strT, format(sc.testStat) }, { strP, format(sc.P) } };
+			case ZMEAN_CI:
+				String[][] zCITable = {
+					{strMean, format(sc.mean)},
+					{strSigma, format(sc.sd)},
+					{strSE, format(sc.se)},
+					{strN, format(sc.n)},
+					{strLower, format(sc.lower)},
+					{strUpper, format(sc.upper)},
+					{strInterval, getInterval(sc.mean, sc.me)}
+				};
 
-			sb.append(htmlTable(tTestTable, true));
+				sb.append(htmlTable(zCITable, true));
 
-			break;
+				break;
 
-		case ZMEAN_CI:
+			case TMEAN_CI:
+				String[][] tCITable = {
+					{strMean, format(sc.mean)},
+					{strSD, format(sc.sd)},
+					{strSE, format(sc.se)},
+					{strN, format(sc.n)},
+					{strDF, format(sc.df)},
+					{strLower, format(sc.lower)},
+					{strUpper, format(sc.upper)},
+					{strInterval, getInterval(sc.mean, sc.me)}
+				};
 
-			String[][] zCITable = { { strMean, format(sc.mean) },
-					{ strSigma, format(sc.sd) }, { strSE, format(sc.se) },
-					{ strN, format(sc.n) }, { strLower, format(sc.lower) },
-					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval(sc.mean, sc.me) } };
+				sb.append(htmlTable(tCITable, true));
 
-			sb.append(htmlTable(zCITable, true));
+				break;
 
-			break;
+			case ZMEAN2_TEST:
+				String[][] zTest2SampleTable = {
+					{"&nbsp;", strSample1, strSample2},
+					{strMean, format(sc.mean), format(sc.mean2)},
+					{strSigma, format(sc.sd), format(sc.sd2)},
+					{strN, format(sc.n), format(sc.n2)},
+					{strSE, format(sc.se)},
+					{strZ, format(sc.testStat)},
+					{strP, format(sc.P)}
+				};
 
-		case TMEAN_CI:
+				sb.append(htmlTable(zTest2SampleTable, true));
 
-			String[][] tCITable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },
-					{ strN, format(sc.n) }, { strDF, format(sc.df) },
-					{ strLower, format(sc.lower) },
-					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval(sc.mean, sc.me) } };
+				break;
 
-			sb.append(htmlTable(tCITable, true));
+			case ZMEAN2_CI:
+				String[][] zCI2SampleTable = {
+					{"&nbsp;", strSample1, strSample2},
+					{strMean, format(sc.mean), format(sc.mean2)},
+					{strSigma, format(sc.sd), format(sc.sd2)},
+					{strN, format(sc.n), format(sc.n2)},
+					{strSE, format(sc.se)},
+					{strLower, format(sc.lower)},
+					{strUpper, format(sc.upper)},
+					{strInterval, getInterval(sc.mean - sc.mean2, sc.me)}
+				};
 
-			break;
+				sb.append(htmlTable(zCI2SampleTable, true));
 
-		case ZMEAN2_TEST:
+				break;
 
-			String[][] zTest2SampleTable = {
-					{ "&nbsp;", strSample1, strSample2 },
-					{ strMean, format(sc.mean), format(sc.mean2) },
-					{ strSigma, format(sc.sd), format(sc.sd2) },
-					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strZ, format(sc.testStat) },
-					{ strP, format(sc.P) } };
+			case TMEAN2_TEST:
+				String[][] tTest2SampleTable = {
+					{"&nbsp;", strSample1, strSample2},
+					{strMean, format(sc.mean), format(sc.mean2)},
+					{strSD, format(sc.sd), format(sc.sd2)},
+					{strN, format(sc.n), format(sc.n2)},
+					{strSE, format(sc.se)},
+					{strDF, format(sc.df)},
+					{strT, format(sc.testStat)},
+					{strP, format(sc.P)}
+				};
 
-			sb.append(htmlTable(zTest2SampleTable, true));
+				sb.append(htmlTable(tTest2SampleTable, true));
 
-			break;
+				break;
 
-		case ZMEAN2_CI:
+			case TMEAN2_CI:
+				String[][] tCI2SampleTable = {
+					{"&nbsp;", strSample1, strSample2},
+					{strMean, format(sc.mean), format(sc.mean2)},
+					{strSD, format(sc.sd), format(sc.sd2)},
+					{strN, format(sc.n), format(sc.n2)},
+					{strSE, format(sc.se)},
+					{strDF, format(sc.df)},
+					{strLower, format(sc.lower)},
+					{strUpper, format(sc.upper)},
+					{strInterval, getInterval(sc.mean - sc.mean2, sc.me)},
+					{strPooled, isPooled()}
+				};
 
-			String[][] zCI2SampleTable = { { "&nbsp;", strSample1, strSample2 },
-					{ strMean, format(sc.mean), format(sc.mean2) },
-					{ strSigma, format(sc.sd), format(sc.sd2) },
-					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
-					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval(sc.mean - sc.mean2, sc.me) } };
+				sb.append(htmlTable(tCI2SampleTable, true));
 
-			sb.append(htmlTable(zCI2SampleTable, true));
+				break;
 
-			break;
+			case ZPROP_TEST:
+				String[][] zPropTestTable = {
+					{strSuccesses, format(sc.count)},
+					{strN, format(sc.n)},
+					{strZ, format(sc.testStat)},
+					{strP, format(sc.P)}
+				};
 
-		case TMEAN2_TEST:
+				sb.append(htmlTable(zPropTestTable, true));
 
-			String[][] tTest2SampleTable = {
-					{ "&nbsp;", strSample1, strSample2 },
-					{ strMean, format(sc.mean), format(sc.mean2) },
-					{ strSD, format(sc.sd), format(sc.sd2) },
-					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strDF, format(sc.df) },
-					{ strT, format(sc.testStat) }, { strP, format(sc.P) } };
+				break;
 
-			sb.append(htmlTable(tTest2SampleTable, true));
+			case ZPROP_CI:
+				String[][] zPropEstTable = {
+					{strSuccesses, format(sc.count)},
+					{strN, format(sc.n)},
+					{strSE, format(sc.se)},
+					{strLower, format(sc.lower)},
+					{strUpper, format(sc.upper)},
+					{strInterval, getInterval(sc.getProportion(), sc.me)}
+				};
 
-			break;
+				sb.append(htmlTable(zPropEstTable, true));
 
-		case TMEAN2_CI:
+				break;
 
-			String[][] tCI2SampleTable = { { "&nbsp;", strSample1, strSample2 },
-					{ strMean, format(sc.mean), format(sc.mean2) },
-					{ strSD, format(sc.sd), format(sc.sd2) },
-					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strDF, format(sc.df) },
-					{ strLower, format(sc.lower) },
-					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval(sc.mean - sc.mean2, sc.me) },
-					{ strPooled, isPooled() } };
+			case ZPROP2_TEST:
+				String[][] zProp2TestSampleTable = {
+					{"&nbsp;", strSample1, strSample2},
+					{strSuccesses, format(sc.count), format(sc.count2)},
+					{strN, format(sc.n), format(sc.n2)},
+					{strSE, format(sc.se)},
+					{strZ, format(sc.testStat)},
+					{strP, format(sc.P)}
+				};
 
-			sb.append(htmlTable(tCI2SampleTable, true));
+				sb.append(htmlTable(zProp2TestSampleTable, true));
 
-			break;
+				break;
 
-		case ZPROP_TEST:
+			case ZPROP2_CI:
+				String[][] zProp2CISampleTable = {
+					{"&nbsp;", strSample1, strSample2},
+					{strSuccesses, format(sc.count), format(sc.count2)},
+					{strN, format(sc.n), format(sc.n2)},
+					{strSE, format(sc.se)},
+					{strLower, format(sc.lower)},
+					{strUpper, format(sc.upper)},
+					{strInterval, getInterval(sc.getProportion() - sc.getProportion2(), sc.me)}
+				};
 
-			String[][] zPropTestTable = { { strSuccesses, format(sc.count) },
-					{ strN, format(sc.n) }, { strZ, format(sc.testStat) },
-					{ strP, format(sc.P) } };
+				sb.append(htmlTable(zProp2CISampleTable, true));
 
-			sb.append(htmlTable(zPropTestTable, true));
+				break;
 
-			break;
+			case CHISQ_TEST:
+			case GOF_TEST:
+				String[][] chiSqTestTable = {
+					{strDF, format(sc.df)}, {strChiSq, format(sc.testStat)}, {strP, format(sc.P)}
+				};
 
-		case ZPROP_CI:
-
-			String[][] zPropEstTable = { { strSuccesses, format(sc.count) },
-					{ strN, format(sc.n) }, { strSE, format(sc.se) },
-					{ strLower, format(sc.lower) },
-					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval(sc.getProportion(), sc.me) } };
-
-			sb.append(htmlTable(zPropEstTable, true));
-
-			break;
-
-		case ZPROP2_TEST:
-			String[][] zProp2TestSampleTable = {
-					{ "&nbsp;", strSample1, strSample2 },
-					{ strSuccesses, format(sc.count), format(sc.count2) },
-					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strZ, format(sc.testStat) },
-					{ strP, format(sc.P) } };
-
-			sb.append(htmlTable(zProp2TestSampleTable, true));
-
-			break;
-
-		case ZPROP2_CI:
-
-			String[][] zProp2CISampleTable = {
-					{ "&nbsp;", strSample1, strSample2 },
-					{ strSuccesses, format(sc.count), format(sc.count2) },
-					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
-					{ strUpper, format(sc.upper) },
-					{ strInterval,
-							getInterval(
-									sc.getProportion() - sc.getProportion2(),
-									sc.me) } };
-
-			sb.append(htmlTable(zProp2CISampleTable, true));
-
-			break;
-
-		case CHISQ_TEST:
-		case GOF_TEST:
-
-			String[][] chiSqTestTable = { { strDF, format(sc.df) },
-					{ strChiSq, format(sc.testStat) }, { strP, format(sc.P) } };
-
-			sb.append(htmlTable(chiSqTestTable, true));
-
+				sb.append(htmlTable(chiSqTestTable, true));
 		}
 	}
 
@@ -287,8 +308,7 @@ public class StatisticsCalculatorHTML {
 	}
 
 	private String getInterval(double stat, double me) {
-		return format(stat) + "&nbsp;" + Unicode.PLUSMINUS + "&nbsp;"
-				+ format(me);
+		return format(stat) + "&nbsp;" + Unicode.PLUSMINUS + "&nbsp;" + format(me);
 	}
 
 	private static StringBuilder htmlTable(String[][] s, boolean isRowBased) {
@@ -316,7 +336,5 @@ public class StatisticsCalculatorHTML {
 		}
 		sb.append("</table> ");
 		return sb;
-
 	}
-
 }

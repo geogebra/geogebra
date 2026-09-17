@@ -46,8 +46,7 @@ public class CoordinatesProperty extends AbstractNamedEnumeratedProperty<Integer
 		setNamedValues(List.of(
 				entry(CoordinatesFormat.COORD_FORMAT_DEFAULT, "A = (x, y)"),
 				entry(CoordinatesFormat.COORD_FORMAT_AUSTRIAN, "A(x | y)"),
-				entry(CoordinatesFormat.COORD_FORMAT_FRENCH, "A: (x, y)")
-		));
+				entry(CoordinatesFormat.COORD_FORMAT_FRENCH, "A: (x, y)")));
 	}
 
 	@Override

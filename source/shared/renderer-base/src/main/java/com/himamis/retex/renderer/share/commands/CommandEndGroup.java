@@ -9,5 +9,4 @@ public class CommandEndGroup extends Command {
 		tp.processRBrace();
 		return false;
 	}
-
 }

@@ -37,5 +37,4 @@ public interface AlgebraInput {
 	 * Focus the input element.
 	 */
 	void requestFocus();
-
 }

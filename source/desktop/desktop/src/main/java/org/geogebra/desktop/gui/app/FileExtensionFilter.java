@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -63,7 +63,7 @@ public class FileExtensionFilter extends FileFilter implements java.io.FileFilte
 	/**
 	 * Creates a file filter that accepts files with the given extension.
 	 * Example: new MyFileFilter("jpg");
-	 * 
+	 *
 	 * @param extension
 	 *            either "ext" or ".ext"
 	 * @see #addExtension
@@ -100,7 +100,7 @@ public class FileExtensionFilter extends FileFilter implements java.io.FileFilte
 
 	/**
 	 * Return the extension portion of the file's name .
-	 * 
+	 *
 	 * @param f file
 	 * @return "ext" for file "filename.ext"
 	 *
@@ -127,7 +127,7 @@ public class FileExtensionFilter extends FileFilter implements java.io.FileFilte
 	 * filter.addExtension("tif");
 	 *
 	 * Note that the "." before the extension is not needed and will be ignored.
-	 * 
+	 *
 	 * @param extension
 	 *            either ".ext" or "ext"
 	 */
@@ -155,8 +155,7 @@ public class FileExtensionFilter extends FileFilter implements java.io.FileFilte
 	@Override
 	public String getDescription() {
 		if (fullDescription == null) {
-			fullDescription = description == null ? "("
-					: description + " (";
+			fullDescription = description == null ? "(" : description + " (";
 			// build the description from the extension list
 
 			if (filters.size() > 0) {
@@ -175,7 +174,7 @@ public class FileExtensionFilter extends FileFilter implements java.io.FileFilte
 	/**
 	 * Sets the human readable description of this filter. For example:
 	 * filter.setDescription("Gif and JPG Images");
-	 * 
+	 *
 	 * @param description description
 	 */
 	public void setDescription(String description) {
@@ -185,7 +184,7 @@ public class FileExtensionFilter extends FileFilter implements java.io.FileFilte
 
 	/**
 	 * Returns the first extension contained in the extension list.
-	 * 
+	 *
 	 * @return first extension (without ".")
 	 */
 	public FileExtensions getExtension() {

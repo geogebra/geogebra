@@ -40,8 +40,7 @@ public final class AVCompositeFocusAssembler {
 	 * @param focus the composite focus container to populate
 	 * @param am the accessibility manager used for registration and focus handling
 	 */
-	public AVCompositeFocusAssembler(FocusableCompositeW focus,
-			AccessibilityManagerInterface am) {
+	public AVCompositeFocusAssembler(FocusableCompositeW focus, AccessibilityManagerInterface am) {
 		this.focus = focus;
 		this.am = am;
 	}

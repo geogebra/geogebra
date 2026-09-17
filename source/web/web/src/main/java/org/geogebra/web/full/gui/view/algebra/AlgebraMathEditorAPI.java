@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -46,15 +46,13 @@ public final class AlgebraMathEditorAPI implements MathEditorAPI {
 		} else {
 			algebraItem = algebraView.getInputTreeItem();
 		}
-		
-		EditorStateDescription editorJsonHandler = EditorStateDescription
-				.fromJSON(text);
+
+		EditorStateDescription editorJsonHandler = EditorStateDescription.fromJSON(text);
 		if (editorJsonHandler != null) {
 			algebraItem.prepareEdit(editorJsonHandler.getContent());
 			if (algebraItem.getMathField() != null) {
 				CursorBox.setBlink(true);
-				algebraItem.getMathField()
-						.setCaretPath(editorJsonHandler.getCaretPath());
+				algebraItem.getMathField().setCaretPath(editorJsonHandler.getCaretPath());
 				algebraItem.getMathField().keepFocus();
 				algebraItem.getMathField().repaintWeb();
 			}
@@ -66,10 +64,8 @@ public final class AlgebraMathEditorAPI implements MathEditorAPI {
 		RadioTreeItem algebraItem = algebraView.getActiveTreeItem();
 		MathFieldW mathField = algebraItem.getMathField();
 		if (mathField != null) {
-			return new EditorStateDescription(mathField.getText(),
-					mathField.getCaretPath()).asJSON();
+			return new EditorStateDescription(mathField.getText(), mathField.getCaretPath()).asJSON();
 		}
 		return "";
 	}
-
 }

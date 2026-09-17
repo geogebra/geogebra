@@ -25,7 +25,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Extends Construction (for 3D stuff)
- * 
+ *
  * @author Mathieu
  *
  */
@@ -37,10 +37,10 @@ public class ConstructionCompanion {
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
-	 * 
+	 *
 	 */
 	public ConstructionCompanion(Construction cons) {
 		this.cons = cons;
@@ -86,10 +86,7 @@ public class ConstructionCompanion {
 	 */
 	public ConstructionDefaults newConstructionDefaults() {
 		ConstructionDefaults constructionDefaults = new ConstructionDefaults(cons);
-		cons.getApplication()
-				.getSettings()
-				.getLabelSettings()
-				.addListener(constructionDefaults);
+		cons.getApplication().getSettings().getLabelSettings().addListener(constructionDefaults);
 		return constructionDefaults;
 	}
 

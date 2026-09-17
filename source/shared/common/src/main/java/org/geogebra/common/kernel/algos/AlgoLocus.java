@@ -32,8 +32,8 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoLocus extends AlgoLocusND<MyPoint> {
 
-	public AlgoLocus(Construction cons, GeoPointND Q, GeoPointND P,
-			int min_steps, boolean registerCE) {
+	public AlgoLocus(
+			Construction cons, GeoPointND Q, GeoPointND P, int min_steps, boolean registerCE) {
 		super(cons, Q, P, min_steps, registerCE);
 	}
 
@@ -48,21 +48,19 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 		return new GeoLocus(cons1);
 	}
 
-	public AlgoLocus(Construction cons, String label, GeoPointND Q,
-			GeoPointND P) {
+	public AlgoLocus(Construction cons, String label, GeoPointND Q, GeoPointND P) {
 		super(cons, label, Q, P);
 	}
 
 	@Override
 	protected boolean isFarAway(GeoPointND point, int i) {
-		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY,
-				i);
+		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY, i);
 	}
 
 	@Override
 	protected boolean distanceOK(GeoPointND point, int i) {
-		double[] min = { this.farXmin[i], farYmin[i] };
-		double[] max = { this.farXmax[i], farYmax[i] };
+		double[] min = {this.farXmin[i], farYmin[i]};
+		double[] max = {this.farXmax[i], farYmax[i]};
 		GRectangle2D rectangle = AwtFactory.getPrototype().newRectangle2D();
 		rectangle.setRect(min[0], min[1], max[0] - min[0], max[1] - min[1]);
 		GeoPoint Q = (GeoPoint) point;
@@ -98,8 +96,8 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 
 		boolean[] distSmall = new boolean[3];
 		for (int i = 0; i < distSmall.length; i++) {
-			distSmall[i] = Math.abs(Q.inhomX - lastX) < maxXdist[i]
-					&& Math.abs(Q.inhomY - lastY) < maxYdist[i];
+			distSmall[i] =
+					Math.abs(Q.inhomX - lastX) < maxXdist[i] && Math.abs(Q.inhomY - lastY) < maxYdist[i];
 		}
 
 		if (orInsteadOfAnd) {
@@ -121,14 +119,12 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 
 	@Override
 	protected void insertPoint(GeoPointND point, boolean lineTo) {
-		insertPoint(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY,
-				lineTo);
+		insertPoint(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY, lineTo);
 	}
 
 	private void insertPoint(double x, double y, boolean lineTo) {
 		pointCount++;
-		((GeoLocus) locus).insertPoint(x, y, lineTo ? SegmentType.LINE_TO
-				: SegmentType.MOVE_TO);
+		((GeoLocus) locus).insertPoint(x, y, lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO);
 		lastX = x;
 		lastY = y;
 		for (int i = 0; i < lastFarAway.length; i++) {
@@ -137,14 +133,12 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	}
 
 	private boolean isFarAway(double x, double y, int i) {
-		return x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
-				|| y < farYmin[i];
+		return x > farXmax[i] || x < farXmin[i] || y > farYmax[i] || y < farYmin[i];
 	}
 
 	@Override
 	protected boolean differentFromLast(GeoPointND point) {
-		return ((GeoPoint) point).inhomX != lastX
-				|| ((GeoPoint) point).inhomY != lastY;
+		return ((GeoPoint) point).inhomX != lastX || ((GeoPoint) point).inhomY != lastY;
 	}
 
 	@Override
@@ -166,5 +160,4 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	protected MyPoint newCache() {
 		return new MyPoint();
 	}
-
 }

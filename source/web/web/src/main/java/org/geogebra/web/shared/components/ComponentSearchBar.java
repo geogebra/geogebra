@@ -49,8 +49,11 @@ public final class ComponentSearchBar extends FlowPanel implements FocusListener
 		clearButton.setVisible(false);
 
 		inputTextField = new InputPanelW(app, -1, false);
-		inputTextField.getTextComponent().getTextBox().getElement().setAttribute(
-				"placeholder", app.getLocalization().getMenu("search_geogebra_materials"));
+		inputTextField
+				.getTextComponent()
+				.getTextBox()
+				.getElement()
+				.setAttribute("placeholder", app.getLocalization().getMenu("search_geogebra_materials"));
 		inputTextField.addStyleName("searchInputField");
 		inputTextField.getTextComponent().addFocusListener(this);
 		inputTextField.getTextComponent().addKeyHandler(evt -> {
@@ -83,8 +86,8 @@ public final class ComponentSearchBar extends FlowPanel implements FocusListener
 	}
 
 	private void addSearchButton() {
-		StandardButton searchButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.search_black(), 24);
+		StandardButton searchButton =
+				new StandardButton(MaterialDesignResources.INSTANCE.search_black(), 24);
 		searchButton.addStyleName("searchBtn");
 		searchButton.addStyleName("flatButtonHeader");
 		searchButton.addFastClickHandler((event) -> {

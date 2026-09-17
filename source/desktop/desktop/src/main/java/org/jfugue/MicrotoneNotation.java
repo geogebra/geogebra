@@ -62,21 +62,20 @@ public class MicrotoneNotation {
 	/**
 	 * Converts the given frequency to a music string that involves the Pitch
 	 * Wheel and notes to create the frequency
-	 * 
+	 *
 	 * @param freq
 	 *            the frequency
 	 * @return a MusicString that represents the frequency
 	 */
 	public static String convertFrequencyToMusicString(double freq) {
-		double totalCents = 1200 * Math.log(freq / 16.3515978312876)
-				/ Math.log(2);
+		double totalCents = 1200 * Math.log(freq / 16.3515978312876) / Math.log(2);
 		double octave = Math.round(totalCents / 1200.0);
 		double semitoneCents = totalCents - (octave * 1200.0);
 		double semitone = Math.round(semitoneCents / 100.0);
 		double cents = 8192 + Math.round(semitoneCents - (semitone * 100));
 
 		double note = ((octave + 1) * 12) + semitone; // This gives a MIDI
-														// value, 0 - 128
+		// value, 0 - 128
 		if (note > 127) {
 			note = 127;
 		}
@@ -92,7 +91,7 @@ public class MicrotoneNotation {
 
 	public static String getResetPitchWheelString() {
 		return (" &8192"); // Reset the pitch wheel. 8192 = original pitch wheel
-							// position
+		// position
 	}
 
 	public Pattern getPattern(String notation) {
@@ -107,13 +106,12 @@ public class MicrotoneNotation {
 				String possibleKey = tokens[i].substring(1, end);
 				if (keyToMusicStringDict.containsKey(possibleKey)) {
 					buddy.append(keyToMusicStringDict.get(possibleKey));
-					buddy.append(
-							tokens[i].substring(end + 1, tokens[i].length())); // Add
-																				// the
-																				// rest
-																				// of
-																				// the
-																				// token
+					buddy.append(tokens[i].substring(end + 1, tokens[i].length())); // Add
+					// the
+					// rest
+					// of
+					// the
+					// token
 					buddy.append(getResetPitchWheelString());
 				} else {
 					buddy.append(tokens[i]);

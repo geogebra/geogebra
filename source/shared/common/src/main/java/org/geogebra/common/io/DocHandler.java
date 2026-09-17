@@ -20,8 +20,7 @@ public interface DocHandler {
 	 * @throws XMLParseException
 	 *             if invalid
 	 */
-	void startElement(String tag, Map<String, String> h)
-			throws XMLParseException;
+	void startElement(String tag, Map<String, String> h) throws XMLParseException;
 
 	/**
 	 * @param tag
@@ -50,5 +49,4 @@ public interface DocHandler {
 	 *             if invalid
 	 */
 	void text(String str) throws XMLParseException;
-
 }

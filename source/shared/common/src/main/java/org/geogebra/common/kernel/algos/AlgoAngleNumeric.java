@@ -75,5 +75,4 @@ public class AlgoAngleNumeric extends AlgoElement {
 		// copy number to angle
 		angle.setValue(num.value);
 	}
-
 }

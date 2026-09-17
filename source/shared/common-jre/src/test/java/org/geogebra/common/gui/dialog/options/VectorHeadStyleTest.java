@@ -36,7 +36,7 @@ class VectorHeadStyleTest extends BaseUnitTest {
 	void setupModel() {
 		model = new VectorHeadStyleModel(getApp());
 		vector = add("v=(1,1)");
-		GeoElement[] geos = new GeoElement[]{vector};
+		GeoElement[] geos = new GeoElement[] {vector};
 		model.setGeos(geos);
 	}
 

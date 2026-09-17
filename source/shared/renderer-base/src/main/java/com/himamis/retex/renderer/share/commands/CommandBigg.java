@@ -65,5 +65,4 @@ public class CommandBigg extends Command {
 		}
 		tp.closeConsumer(a);
 	}
-
 }

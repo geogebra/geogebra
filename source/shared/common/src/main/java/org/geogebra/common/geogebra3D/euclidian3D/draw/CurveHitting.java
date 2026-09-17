@@ -47,23 +47,21 @@ public class CurveHitting {
 	/**
 	 * @param hitting
 	 *            hitting
-	 * 
+	 *
 	 * @param curve
 	 *            curve
 	 * @param hitLineThickness
 	 *            thickness of the hitting curve
 	 * @return whether the curve was hit
 	 */
-	public boolean hit(Hitting hitting,
-			Path curve, double hitLineThickness) {
+	public boolean hit(Hitting hitting, Path curve, double hitLineThickness) {
 		hittingPoint.setWillingCoords(hitting.getOrigin());
 		hittingPoint.setWillingDirection(hitting.getDirection());
 		GeoElement geo = parent.getGeoElement();
 		curve.pointChanged(hittingPoint);
 
 		Coords closestPoint = hittingPoint.getInhomCoordsInD3();
-		closestPoint.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
-				lineCoords);
+		closestPoint.projectLine(hitting.getOrigin(), hitting.getDirection(), project, lineCoords);
 
 		// check if point on line is visible
 		if (!hitting.isInsideClipping(project)) {
@@ -74,9 +72,7 @@ public class CurveHitting {
 		if (d <= hitLineThickness) {
 			double z = -lineCoords[0];
 			double dz = geo.getLineThickness() / view.getScale();
-			parent.setZPickIfBetter(z + dz, z - dz,
-					hitting.discardPositiveHits(),
-					lineCoords[0]);
+			parent.setZPickIfBetter(z + dz, z - dz, hitting.discardPositiveHits(), lineCoords[0]);
 			return true;
 		}
 

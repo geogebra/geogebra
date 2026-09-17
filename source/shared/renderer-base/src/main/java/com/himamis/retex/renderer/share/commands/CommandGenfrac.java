@@ -62,8 +62,7 @@ public class CommandGenfrac extends Command {
 	private int style;
 	private Atom num;
 
-	public CommandGenfrac(Atom left, Atom right, TeXLength l, int style,
-			Atom num) {
+	public CommandGenfrac(Atom left, Atom right, TeXLength l, int style, Atom num) {
 		this.left = left;
 		this.right = right;
 		this.l = l;
@@ -106,10 +105,9 @@ public class CommandGenfrac extends Command {
 		}
 	}
 
-	public static Atom get(SymbolAtom left, Atom num, Atom den,
-			SymbolAtom right, TeXLength l, int style) {
+	public static Atom get(
+			SymbolAtom left, Atom num, Atom den, SymbolAtom right, TeXLength l, int style) {
 		final Atom a = new FractionAtom(num, den, l);
 		return new StyleAtom(style * 2, new FencedAtom(a, left, right));
 	}
-
 }

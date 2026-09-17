@@ -53,7 +53,7 @@ import org.freehep.util.UserProperties;
  * settings like page size can then be made by the appropriate setter methods.
  * Before starting to draw, {@code startExport()} must be called. When drawing
  * is finished, call {@code endExport()}.
- * 
+ *
  * @author Simon Fischer
  * @author Mark Donszelmann
  * @version $Id: PDFGraphics2D.java,v 1.7 2009-08-17 21:44:44 murkle Exp $
@@ -84,32 +84,23 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 	public static final String VERSION4 = "Acrobat Reader 4.x";
 
-	public static final String TRANSPARENT = rootKey + "."
-			+ PageConstants.TRANSPARENT;
+	public static final String TRANSPARENT = rootKey + "." + PageConstants.TRANSPARENT;
 
-	public static final String BACKGROUND = rootKey + "."
-			+ PageConstants.BACKGROUND;
+	public static final String BACKGROUND = rootKey + "." + PageConstants.BACKGROUND;
 
-	public static final String BACKGROUND_COLOR = rootKey + "."
-			+ PageConstants.BACKGROUND_COLOR;
+	public static final String BACKGROUND_COLOR = rootKey + "." + PageConstants.BACKGROUND_COLOR;
 
-	public static final String PAGE_SIZE = rootKey + "."
-			+ PageConstants.PAGE_SIZE;
+	public static final String PAGE_SIZE = rootKey + "." + PageConstants.PAGE_SIZE;
 
-	public static final String PAGE_MARGINS = rootKey + "."
-			+ PageConstants.PAGE_MARGINS;
+	public static final String PAGE_MARGINS = rootKey + "." + PageConstants.PAGE_MARGINS;
 
-	public static final String ORIENTATION = rootKey + "."
-			+ PageConstants.ORIENTATION;
+	public static final String ORIENTATION = rootKey + "." + PageConstants.ORIENTATION;
 
-	public static final String FIT_TO_PAGE = rootKey + "."
-			+ PageConstants.FIT_TO_PAGE;
+	public static final String FIT_TO_PAGE = rootKey + "." + PageConstants.FIT_TO_PAGE;
 
-	public static final String EMBED_FONTS = rootKey + "."
-			+ FontConstants.EMBED_FONTS;
+	public static final String EMBED_FONTS = rootKey + "." + FontConstants.EMBED_FONTS;
 
-	public static final String EMBED_FONTS_AS = rootKey + "."
-			+ FontConstants.EMBED_FONTS_AS;
+	public static final String EMBED_FONTS_AS = rootKey + "." + FontConstants.EMBED_FONTS_AS;
 
 	public static final String THUMBNAILS = rootKey + ".Thumbnails";
 
@@ -119,8 +110,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 	public static final String VERSION = rootKey + ".Version";
 
-	public static final String WRITE_IMAGES_AS = rootKey + "."
-			+ ImageConstants.WRITE_IMAGES_AS;
+	public static final String WRITE_IMAGES_AS = rootKey + "." + ImageConstants.WRITE_IMAGES_AS;
 
 	public static final String AUTHOR = rootKey + "." + InfoConstants.AUTHOR;
 
@@ -128,10 +118,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 	public static final String SUBJECT = rootKey + "." + InfoConstants.SUBJECT;
 
-	public static final String KEYWORDS = rootKey + "."
-			+ InfoConstants.KEYWORDS;
+	public static final String KEYWORDS = rootKey + "." + InfoConstants.KEYWORDS;
 
 	private static final UserProperties defaultProperties = new UserProperties();
+
 	static {
 		defaultProperties.setProperty(TRANSPARENT, true);
 		defaultProperties.setProperty(BACKGROUND, false);
@@ -140,15 +130,13 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		defaultProperties.setProperty(VERSION, VERSION5);
 		defaultProperties.setProperty(COMPRESS, true);
 		defaultProperties.setProperty(PAGE_SIZE, PageConstants.INTERNATIONAL);
-		defaultProperties.setProperty(PAGE_MARGINS,
-				PageConstants.getMargins(PageConstants.SMALL));
+		defaultProperties.setProperty(PAGE_MARGINS, PageConstants.getMargins(PageConstants.SMALL));
 		defaultProperties.setProperty(ORIENTATION, PageConstants.PORTRAIT);
 		defaultProperties.setProperty(FIT_TO_PAGE, true);
 		defaultProperties.setProperty(EMBED_FONTS, false);
-		defaultProperties.setProperty(EMBED_FONTS_AS,
-				FontConstants.EMBED_FONTS_TYPE3);
-		defaultProperties.setProperty(THUMBNAILS,
-				defaultProperties.getProperty(VERSION).equals(VERSION4));
+		defaultProperties.setProperty(EMBED_FONTS_AS, FontConstants.EMBED_FONTS_TYPE3);
+		defaultProperties.setProperty(
+				THUMBNAILS, defaultProperties.getProperty(VERSION).equals(VERSION4));
 		defaultProperties.setProperty(THUMBNAIL_SIZE, new Dimension(128, 128));
 		defaultProperties.setProperty(WRITE_IMAGES_AS, ImageConstants.SMALLEST);
 
@@ -173,7 +161,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 	private static final String PDF_VERSION = "1.4";
 
-	private static final String[] COMPRESS_FILTERS = { "Flate", "ASCII85" };
+	private static final String[] COMPRESS_FILTERS = {"Flate", "ASCII85"};
 
 	private static final String[] NO_FILTERS = {};
 
@@ -184,7 +172,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * Lookup.getInstance().getTable("PDFLatin"),
 	 * Lookup.getInstance().getTable("Symbol"),
 	 * Lookup.getInstance().getTable("Zapfdingbats") };
-	 * 
+	 *
 	 * private static final Font STANDARD_FONT[] = { null, new Font("Symbol",
 	 * Font.PLAIN, 10), new Font("ZapfDingbats", Font.PLAIN, 10), };
 	 */
@@ -240,13 +228,11 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 * ================================================
 	 */
 
-	public PDFGraphics2D(File file, Dimension size)
-			throws FileNotFoundException {
+	public PDFGraphics2D(File file, Dimension size) throws FileNotFoundException {
 		this(new FileOutputStream(file), size);
 	}
 
-	public PDFGraphics2D(File file, Component component)
-			throws FileNotFoundException {
+	public PDFGraphics2D(File file, Component component) throws FileNotFoundException {
 		this(new FileOutputStream(file), component);
 	}
 
@@ -270,8 +256,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	/** Cloneconstructor */
-	protected PDFGraphics2D(PDFGraphics2D graphics,
-			boolean doRestoreOnDispose) {
+	protected PDFGraphics2D(PDFGraphics2D graphics, boolean doRestoreOnDispose) {
 		super(graphics, doRestoreOnDispose);
 
 		this.os = graphics.os;
@@ -364,7 +349,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		catalog.setOutlines("Outlines");
 		catalog.setPageMode("UseOutlines");
 		catalog.setViewerPreferences("Preferences");
-		catalog.setOpenAction(new Object[] { os.ref("Page1"), os.name("Fit") });
+		catalog.setOpenAction(new Object[] {os.ref("Page1"), os.name("Fit")});
 		os.close(catalog);
 
 		// preferences
@@ -392,8 +377,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 			setBackground(getPropertyColor(BACKGROUND_COLOR));
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		} else {
-			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+			setBackground(getComponent() != null ? getComponent().getBackground() : Color.WHITE);
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		}
 	}
@@ -409,15 +393,13 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		for (int i = 1; i <= currentPage; i++) {
 			pages.addPage("Page" + i);
 		}
-		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
-				getProperty(ORIENTATION));
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE), getProperty(ORIENTATION));
 		pages.setMediaBox(0, 0, pageSize.getWidth(), pageSize.getHeight());
 		pages.setResources("Resources");
 		os.close(pages);
 
 		// ProcSet
-		os.object("PageProcSet", new Object[] { os.name("PDF"), os.name("Text"),
-				os.name("ImageC") });
+		os.object("PageProcSet", new Object[] {os.name("PDF"), os.name("Text"), os.name("ImageC")});
 
 		// Font
 		int nFonts = fontTable.addFontDictionary();
@@ -432,11 +414,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		if (extGStates.size() > 0) {
 			PDFDictionary extGState = os.openDictionary("ExtGState");
 
-			for (Iterator i = extGStates.keySet().iterator(); i.hasNext();) {
+			for (Iterator i = extGStates.keySet().iterator(); i.hasNext(); ) {
 				Float alpha = (Float) i.next();
 				String alphaName = (String) extGStates.get(alpha);
-				PDFDictionary alphaDictionary = extGState
-						.openDictionary(alphaName);
+				PDFDictionary alphaDictionary = extGState.openDictionary(alphaName);
 				alphaDictionary.entry("ca", alpha.floatValue());
 				alphaDictionary.entry("CA", alpha.floatValue());
 				alphaDictionary.entry("BM", os.name("Normal"));
@@ -464,17 +445,15 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		os.close(resources);
 
 		// outlines
-		PDFOutlineList outlines = os.openOutlineList("Outlines", "Outline1",
-				"Outline" + currentPage);
+		PDFOutlineList outlines = os.openOutlineList("Outlines", "Outline1", "Outline" + currentPage);
 		os.close(outlines);
 
 		for (int i = 1; i <= currentPage; i++) {
 			String prev = i > 1 ? "Outline" + (i - 1) : null;
 			String next = i < currentPage ? "Outline" + (i + 1) : null;
-			PDFOutline outline = os.openOutline("Outline" + i,
-					(String) titles.get(i - 1), "Outlines", prev, next);
-			outline.setDest(
-					new Object[] { os.ref("Page" + i), os.name("Fit") });
+			PDFOutline outline =
+					os.openOutline("Outline" + i, (String) titles.get(i - 1), "Outlines", prev, next);
+			outline.setDest(new Object[] {os.ref("Page" + i), os.name("Fit")});
 			os.close(outline);
 		}
 
@@ -490,8 +469,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	private void processDelayed() throws IOException {
 		delayImageQueue.processAll();
 		delayPaintQueue.processAll();
-		fontTable.embedAll(getFontRenderContext(), isProperty(EMBED_FONTS),
-				getProperty(EMBED_FONTS_AS));
+		fontTable.embedAll(
+				getFontRenderContext(), isProperty(EMBED_FONTS), getProperty(EMBED_FONTS_AS));
 	}
 
 	/* 3.2 MultipageDocument methods */
@@ -505,8 +484,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		openPage(size, title, null);
 	}
 
-	private void openPage(Dimension size, String title, Component component)
-			throws IOException {
+	private void openPage(Dimension size, String title, Component component) throws IOException {
 		if (size == null) {
 			size = component.getSize();
 		}
@@ -522,8 +500,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		BufferedImage thumbnail = null;
 		// prepare thumbnail if possible
 		if ((component != null) && isProperty(PDFGraphics2D.THUMBNAILS)) {
-			thumbnail = ImageGraphics2D.generateThumbnail(component,
-					getPropertyDimension(PDFGraphics2D.THUMBNAIL_SIZE));
+			thumbnail = ImageGraphics2D.generateThumbnail(
+					component, getPropertyDimension(PDFGraphics2D.THUMBNAIL_SIZE));
 		}
 
 		currentPage++;
@@ -548,28 +526,25 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 			os.close(thumbnailStream);
 		}
 
-		pageStream = os.openStream("PageContents" + currentPage,
-				isProperty(COMPRESS) ? COMPRESS_FILTERS : NO_FILTERS);
+		pageStream = os.openStream(
+				"PageContents" + currentPage, isProperty(COMPRESS) ? COMPRESS_FILTERS : NO_FILTERS);
 
 		// transform the coordinate system as necessary
 		// 1. flip the coordinate system down and translate it upwards again
 		// so that the origin is the upper left corner of the page.
 		AffineTransform pageTrafo = new AffineTransform();
 		pageTrafo.scale(1, -1);
-		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
-				getProperty(ORIENTATION));
-		Insets margins = PageConstants.getMargins(
-				getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
-		pageTrafo.translate(margins.left,
-				-(pageSize.getHeight() - margins.top));
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE), getProperty(ORIENTATION));
+		Insets margins =
+				PageConstants.getMargins(getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
+		pageTrafo.translate(margins.left, -(pageSize.getHeight() - margins.top));
 
 		// in between write the header and footer (which should not be scaled!)
 		writeHeadline(pageTrafo);
 		writeFootline(pageTrafo);
 
 		// 2. check whether we have to rescale the image to fit onto the page
-		double scaleFactor = Math.min(getWidth() / size.width,
-				getHeight() / size.height);
+		double scaleFactor = Math.min(getWidth() / size.width, getHeight() / size.height);
 		if ((scaleFactor < 1) || isProperty(FIT_TO_PAGE)) {
 			pageTrafo.scale(scaleFactor, scaleFactor);
 		} else {
@@ -600,8 +575,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	@Override
 	public void closePage() throws IOException {
 		if (pageStream == null) {
-			writeWarning("Page " + currentPage + " already closed. "
-					+ "Call openPage() to start a new one.");
+			writeWarning(
+					"Page " + currentPage + " already closed. " + "Call openPage() to start a new one.");
 			return;
 		}
 
@@ -619,8 +594,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	@Override
-	public void setHeader(Font font, TagString left, TagString center,
-			TagString right, int underlineThickness) {
+	public void setHeader(
+			Font font, TagString left, TagString center, TagString right, int underlineThickness) {
 		this.headerFont = font;
 		this.headerText = new TagString[3];
 		this.headerText[0] = left;
@@ -630,8 +605,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	}
 
 	@Override
-	public void setFooter(Font font, TagString left, TagString center,
-			TagString right, int underlineThickness) {
+	public void setFooter(
+			Font font, TagString left, TagString center, TagString right, int underlineThickness) {
 		this.footerFont = font;
 		this.footerText = new TagString[3];
 		this.footerText[0] = left;
@@ -642,27 +617,41 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 	private void writeHeadline(AffineTransform pageTrafo) throws IOException {
 		if (headerText != null) {
-			LineMetrics metrics = headerFont.getLineMetrics("mM",
-					getFontRenderContext());
-			writeLine(pageTrafo, headerFont, headerText,
+			LineMetrics metrics = headerFont.getLineMetrics("mM", getFontRenderContext());
+			writeLine(
+					pageTrafo,
+					headerFont,
+					headerText,
 					-metrics.getLeading() - headerFont.getSize2D() / 2,
-					TEXT_BOTTOM, -headerFont.getSize2D() / 2, headerUnderline);
-
+					TEXT_BOTTOM,
+					-headerFont.getSize2D() / 2,
+					headerUnderline);
 		}
 	}
 
 	private void writeFootline(AffineTransform pageTrafo) throws IOException {
 		if (footerText != null) {
-			LineMetrics metrics = footerFont.getLineMetrics("mM",
-					getFontRenderContext());
+			LineMetrics metrics = footerFont.getLineMetrics("mM", getFontRenderContext());
 			double y = getHeight() + footerFont.getSize2D() / 2;
-			writeLine(pageTrafo, footerFont, footerText,
-					y + metrics.getLeading(), TEXT_TOP, y, footerUnderline);
+			writeLine(
+					pageTrafo,
+					footerFont,
+					footerText,
+					y + metrics.getLeading(),
+					TEXT_TOP,
+					y,
+					footerUnderline);
 		}
 	}
 
-	private void writeLine(AffineTransform trafo, Font font, TagString[] text,
-			double ty, int yAlign, double ly, int underline)
+	private void writeLine(
+			AffineTransform trafo,
+			Font font,
+			TagString[] text,
+			double ty,
+			int yAlign,
+			double ly,
+			int underline)
 			throws IOException {
 		writeGraphicsSave();
 		setColor(Color.black);
@@ -781,18 +770,16 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	/* 5.2 Images */
 	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
-		writeWarning(getClass()
-				+ ": copyArea(int, int, int, int, int, int) not implemented.");
+		writeWarning(getClass() + ": copyArea(int, int, int, int, int, int) not implemented.");
 	}
 
 	@Override
-	protected void writeImage(RenderedImage image, AffineTransform xform,
-			Color bkg) throws IOException {
-		PDFName ref = delayImageQueue.delayImage(image, bkg,
-				getProperty(WRITE_IMAGES_AS));
+	protected void writeImage(RenderedImage image, AffineTransform xform, Color bkg)
+			throws IOException {
+		PDFName ref = delayImageQueue.delayImage(image, bkg, getProperty(WRITE_IMAGES_AS));
 
-		AffineTransform imageTransform = new AffineTransform(image.getWidth(),
-				0.0, 0.0, -image.getHeight(), 0.0, image.getHeight());
+		AffineTransform imageTransform =
+				new AffineTransform(image.getWidth(), 0.0, 0.0, -image.getHeight(), 0.0, image.getHeight());
 		xform.concatenate(imageTransform);
 
 		writeGraphicsSave();
@@ -803,8 +790,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 	/* 5.3. Strings */
 	@Override
-	protected void writeString(String str, double x, double y)
-			throws IOException {
+	protected void writeString(String str, double x, double y) throws IOException {
 		// save the graphics context, especially the transformation matrix
 		writeGraphicsSave();
 
@@ -872,14 +858,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		}
 
 		if (s instanceof Rectangle2D) {
-			pageStream.move(((Rectangle2D) s).getMinX(),
-					((Rectangle2D) s).getMinY());
-			pageStream.line(((Rectangle2D) s).getMaxX(),
-					((Rectangle2D) s).getMinY());
-			pageStream.line(((Rectangle2D) s).getMaxX(),
-					((Rectangle2D) s).getMaxY());
-			pageStream.line(((Rectangle2D) s).getMinX(),
-					((Rectangle2D) s).getMaxY());
+			pageStream.move(((Rectangle2D) s).getMinX(), ((Rectangle2D) s).getMinY());
+			pageStream.line(((Rectangle2D) s).getMaxX(), ((Rectangle2D) s).getMinY());
+			pageStream.line(((Rectangle2D) s).getMaxX(), ((Rectangle2D) s).getMaxY());
+			pageStream.line(((Rectangle2D) s).getMinX(), ((Rectangle2D) s).getMaxY());
 			pageStream.closePath();
 			pageStream.clip();
 			pageStream.endPath();
@@ -910,32 +892,32 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	@Override
 	protected void writeCap(int cap) throws IOException {
 		switch (cap) {
-		default:
-		case BasicStroke.CAP_BUTT:
-			pageStream.cap(0);
-			break;
-		case BasicStroke.CAP_ROUND:
-			pageStream.cap(1);
-			break;
-		case BasicStroke.CAP_SQUARE:
-			pageStream.cap(2);
-			break;
+			default:
+			case BasicStroke.CAP_BUTT:
+				pageStream.cap(0);
+				break;
+			case BasicStroke.CAP_ROUND:
+				pageStream.cap(1);
+				break;
+			case BasicStroke.CAP_SQUARE:
+				pageStream.cap(2);
+				break;
 		}
 	}
 
 	@Override
 	protected void writeJoin(int join) throws IOException {
 		switch (join) {
-		default:
-		case BasicStroke.JOIN_MITER:
-			pageStream.join(0);
-			break;
-		case BasicStroke.JOIN_ROUND:
-			pageStream.join(1);
-			break;
-		case BasicStroke.JOIN_BEVEL:
-			pageStream.join(2);
-			break;
+			default:
+			case BasicStroke.JOIN_MITER:
+				pageStream.join(0);
+				break;
+			case BasicStroke.JOIN_ROUND:
+				pageStream.join(1);
+				break;
+			case BasicStroke.JOIN_BEVEL:
+				pageStream.join(2);
+				break;
 		}
 	}
 
@@ -990,8 +972,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	protected void writePaint(Paint paint) throws IOException {
 		pageStream.colorSpace(os.name("Pattern"));
 		pageStream.colorSpaceStroke(os.name("Pattern"));
-		PDFName shadingName = delayPaintQueue.delayPaint(paint, getTransform(),
-				getProperty(WRITE_IMAGES_AS));
+		PDFName shadingName =
+				delayPaintQueue.delayPaint(paint, getTransform(), getProperty(WRITE_IMAGES_AS));
 		pageStream.colorSpace(null, shadingName);
 		pageStream.colorSpaceStroke(new double[] {}, shadingName);
 	}
@@ -1020,15 +1002,13 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 */
 	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
-		writeWarning(
-				getClass() + ": getDeviceConfiguration() not implemented.");
+		writeWarning(getClass() + ": getDeviceConfiguration() not implemented.");
 		return null;
 	}
 
 	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
-		writeWarning(getClass()
-				+ ": hit(Rectangle, Shape, boolean) not implemented.");
+		writeWarning(getClass() + ": hit(Rectangle, Shape, boolean) not implemented.");
 		return false;
 	}
 
@@ -1051,43 +1031,40 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	 */
 	@Override
 	public void showString(Font font, String str) throws IOException {
-		String fontRef = fontTable.fontReference(font, isProperty(EMBED_FONTS),
-				getProperty(EMBED_FONTS_AS));
+		String fontRef =
+				fontTable.fontReference(font, isProperty(EMBED_FONTS), getProperty(EMBED_FONTS_AS));
 		pageStream.font(os.name(fontRef), font.getSize() * FONTSIZE_CORRECTION);
 		pageStream.show(str);
 	}
 
 	/**
 	 * See the comment of VectorGraphicsUtitlies1.
-	 * 
+	 *
 	 * @see FontUtilities#showString(java.awt.Font, String,
 	 *      org.freehep.graphics2d.font.CharTable,
 	 *      org.freehep.graphicsio.font.FontUtilities.ShowString)
 	 */
 	private void showCharacterCodes(String str) throws IOException {
-		FontUtilities.showString(getFont(), str,
-				Lookup.getInstance().getTable("PDFLatin"), this);
+		FontUtilities.showString(getFont(), str, Lookup.getInstance().getTable("PDFLatin"), this);
 	}
 
 	private double getWidth() {
-		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
-				getProperty(ORIENTATION));
-		Insets margins = PageConstants.getMargins(
-				getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE), getProperty(ORIENTATION));
+		Insets margins =
+				PageConstants.getMargins(getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
 		return pageSize.getWidth() - margins.left - margins.right;
 	}
 
 	private double getHeight() {
-		Dimension pageSize = getSize(getProperty(PAGE_SIZE),
-				getProperty(ORIENTATION));
-		Insets margins = PageConstants.getMargins(
-				getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
+		Dimension pageSize = getSize(getProperty(PAGE_SIZE), getProperty(ORIENTATION));
+		Insets margins =
+				PageConstants.getMargins(getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
 		return pageSize.getHeight() - margins.top - margins.bottom;
 	}
 
 	/**
 	 * Michael Borcherds (GeoGebra) added to allow override of page size
-	 * 
+	 *
 	 * @param size
 	 * @param orientation
 	 * @return
@@ -1102,11 +1079,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 	/**
 	 * Michael Borcherds (GeoGebra) added to allow override of page size
-	 * 
+	 *
 	 * @param d
 	 */
 	public void setPageSize(Dimension d) {
 		pageSize = d;
 	}
-
 }

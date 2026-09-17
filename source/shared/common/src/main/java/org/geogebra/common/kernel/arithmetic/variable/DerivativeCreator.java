@@ -56,14 +56,15 @@ class DerivativeCreator {
 		}
 
 		if (hasGeoDerivative) {
-			return FunctionParser.derivativeNode(kernel, geo, order,
-					geo.isGeoCurveCartesian(), new FunctionVariable(kernel));
+			return FunctionParser.derivativeNode(
+					kernel, geo, order, geo.isGeoCurveCartesian(), new FunctionVariable(kernel));
 		}
 		return null;
 	}
 
 	private boolean hasDerivative(GeoElement geoElement) {
-		return geoElement.isRealValuedFunction() || geoElement.isGeoCurveCartesian()
+		return geoElement.isRealValuedFunction()
+				|| geoElement.isGeoCurveCartesian()
 				|| (geoElement instanceof GeoSymbolic symbolic
 						&& symbolic.getFunctionVariables().length == 1);
 	}

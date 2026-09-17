@@ -85,9 +85,7 @@ public final class MaterialCard extends FlowPanel implements MaterialCardI {
 	}
 
 	private String getCardAuthor() {
-		return getMaterial().getCreator() != null
-				? getMaterial().getCreator().getDisplayName()
-				: "";
+		return getMaterial().getCreator() != null ? getMaterial().getCreator().getDisplayName() : "";
 	}
 
 	/**
@@ -158,23 +156,23 @@ public final class MaterialCard extends FlowPanel implements MaterialCardI {
 			visibilityTxt = getCardAuthor();
 		} else {
 			switch (visibility) {
-			case "P":
-				visibilityImg = new NoDragImage(res.mow_card_private(), 24);
-				visibilityTxt = app.getLocalization().getMenu("Private");
-				break;
-			case "S":
-				if (app.isByCS()) {
-					visibilityImg = new NoDragImage(res.mow_card_shared(), 24);
-				} else {
-					visibilityImg = new NoDragImage(res.resource_card_shared(), 24);
-				}
-				visibilityTxt = app.getLocalization().getMenu("Shared");
-				break;
-			case "O":
-			default:
-				visibilityImg = new NoDragImage(res.mow_card_public(), 24);
-				visibilityTxt = app.getLocalization().getMenu("Public");
-				break;
+				case "P":
+					visibilityImg = new NoDragImage(res.mow_card_private(), 24);
+					visibilityTxt = app.getLocalization().getMenu("Private");
+					break;
+				case "S":
+					if (app.isByCS()) {
+						visibilityImg = new NoDragImage(res.mow_card_shared(), 24);
+					} else {
+						visibilityImg = new NoDragImage(res.resource_card_shared(), 24);
+					}
+					visibilityTxt = app.getLocalization().getMenu("Shared");
+					break;
+				case "O":
+				default:
+					visibilityImg = new NoDragImage(res.mow_card_public(), 24);
+					visibilityTxt = app.getLocalization().getMenu("Public");
+					break;
 			}
 		}
 
@@ -183,8 +181,7 @@ public final class MaterialCard extends FlowPanel implements MaterialCardI {
 
 		if (visibilityImg != null) {
 			infoPanelContent.setStyleName("visibilityPanel");
-			infoPanelContent
-					.add(LayoutUtilW.panelRow(visibilityImg, visibilityLbl));
+			infoPanelContent.add(LayoutUtilW.panelRow(visibilityImg, visibilityLbl));
 		} else {
 			infoPanelContent.setStyleName("cardAuthor");
 			infoPanelContent.add(visibilityLbl);
@@ -192,8 +189,7 @@ public final class MaterialCard extends FlowPanel implements MaterialCardI {
 	}
 
 	private NoDragImage getMultiuserIcon() {
-		return new NoDragImage(
-				MaterialDesignResources.INSTANCE.mow_card_multiuser(), 24);
+		return new NoDragImage(MaterialDesignResources.INSTANCE.mow_card_multiuser(), 24);
 	}
 
 	/**

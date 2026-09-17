@@ -80,7 +80,6 @@ public class ExpressionReducer implements SimplifyNode {
 			num = utils.applyOrLet(num, operation, node);
 			return true;
 		}
-		return node.getLeft().any(this::numbersFirst)
-				&& node.getRight().any(this::numbersFirst);
+		return node.getLeft().any(this::numbersFirst) && node.getRight().any(this::numbersFirst);
 	}
 }

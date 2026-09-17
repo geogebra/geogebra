@@ -41,8 +41,7 @@ class EuclidianConstantsTest extends BaseUnitTest {
 	/** Collect all modes other than macros */
 	@BeforeAll
 	static void collectModes() throws IllegalAccessException {
-		Field[] fields = EuclidianConstants.class
-			.getFields();
+		Field[] fields = EuclidianConstants.class.getFields();
 
 		for (Field f : fields) {
 			if (f.getName().startsWith("MODE_") && !"MODE_MACRO".equals(f.getName())) {
@@ -58,9 +57,10 @@ class EuclidianConstantsTest extends BaseUnitTest {
 		assumeTrue(manual.isDirectory());
 		StringBuilder missing = new StringBuilder();
 		List<String> files = Arrays.asList(Objects.requireNonNull(manual.list()));
-		for (int mode: modes) {
+		for (int mode : modes) {
 			String modeText = EuclidianConstants.getModeText(mode);
-			if (!StringUtil.empty(modeText) && !EuclidianConstants.isNotesTool(mode)
+			if (!StringUtil.empty(modeText)
+					&& !EuclidianConstants.isNotesTool(mode)
 					&& mode != EuclidianConstants.MODE_PROBABILITY_CALCULATOR
 					&& mode != EuclidianConstants.MODE_PHOTO_LIBRARY) {
 				String english = EuclidianConstants.getModeHelpPage(mode);
@@ -84,10 +84,10 @@ class EuclidianConstantsTest extends BaseUnitTest {
 
 	@Test
 	void allModesShouldHaveName() {
-		String missing = modes.stream().map(EuclidianConstants::getModeText)
+		String missing = modes.stream()
+				.map(EuclidianConstants::getModeText)
 				.filter(Predicate.not(getApp().getLocalization()::hasMenu))
 				.collect(Collectors.joining(", "));
 		assertEquals("Graspable Math, PDF", missing);
 	}
-
 }

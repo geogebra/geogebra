@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -50,7 +50,7 @@ import org.geogebra.desktop.awt.GColorD;
 /**
  * Prepares and shows a JPopupMenu containing the history list for an
  * AutoCompleteTextField. Adapted from OptionsPopup.
- * 
+ *
  * @author G. Sturr
  *
  */
@@ -89,7 +89,7 @@ public class HistoryPopupD implements ListSelectionListener {
 
 	/**
 	 * Set the font to display the history commands
-	 * 
+	 *
 	 * @param font
 	 *            the new font
 	 */
@@ -127,7 +127,6 @@ public class HistoryPopupD implements ListSelectionListener {
 			}
 			historyList.addKeyListener(keyListener);
 		}
-
 	}
 
 	private void registerListeners() {
@@ -213,7 +212,6 @@ public class HistoryPopupD implements ListSelectionListener {
 		} else {
 			popup.show(textField, 0, -popup.getPreferredSize().height - 4);
 		}
-
 	}
 
 	public boolean isDownPopup() {
@@ -262,36 +260,36 @@ public class HistoryPopupD implements ListSelectionListener {
 			return;
 		}
 		switch (keyEvent.getKeyCode()) {
-		case VK_ESCAPE: // [ESC] cancel the popup and undo any changes
-			undoPopupChange();
-			hidePopup();
-			keyEvent.consume();
-			break;
-
-		case VK_ENTER:
-			hidePopup();
-			keyEvent.consume();
-			break;
-
-		case VK_DOWN:
-			if (!isDownPopup && historyList
-					.getSelectedIndex() == historyList.getModel().getSize() - 1) {
+			case VK_ESCAPE: // [ESC] cancel the popup and undo any changes
+				undoPopupChange();
 				hidePopup();
-			} else {
-				navigateRelative(+1);
-			}
-			break;
+				keyEvent.consume();
+				break;
 
-		case VK_UP:
-			if (isDownPopup && historyList.getSelectedIndex() == 0) {
+			case VK_ENTER:
 				hidePopup();
-			} else {
-				navigateRelative(-1);
-			}
-			break;
+				keyEvent.consume();
+				break;
 
-		default:
-			hidePopup();
+			case VK_DOWN:
+				if (!isDownPopup
+						&& historyList.getSelectedIndex() == historyList.getModel().getSize() - 1) {
+					hidePopup();
+				} else {
+					navigateRelative(+1);
+				}
+				break;
+
+			case VK_UP:
+				if (isDownPopup && historyList.getSelectedIndex() == 0) {
+					hidePopup();
+				} else {
+					navigateRelative(-1);
+				}
+				break;
+
+			default:
+				hidePopup();
 		}
 	}
 
@@ -322,8 +320,7 @@ public class HistoryPopupD implements ListSelectionListener {
 	 * custom cell renderer for the history list, draws grid lines
 	 *
 	 */
-	private static final class HistoryListCellRenderer
-			extends DefaultListCellRenderer {
+	private static final class HistoryListCellRenderer extends DefaultListCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
@@ -335,24 +332,22 @@ public class HistoryPopupD implements ListSelectionListener {
 
 		// create grid lines with this border
 		private Border gridBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						GColorD.getAwtColor(
-								GeoGebraColorConstants.TABLE_GRID_COLOR)),
+				BorderFactory.createMatteBorder(
+						0, 0, 1, 0, GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(
+				JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
-			super.getListCellRendererComponent(list, value, index, isSelected,
-					cellHasFocus);
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
 			setText((String) value);
 			setBorder(gridBorder);
 
 			/*
 			 * setForeground(Color.black);
-			 * 
+			 *
 			 * // paint roll-over row Point point = list.getMousePosition(); int
 			 * mouseOver = point==null ? -1 : list.locationToIndex(point); if
 			 * (index == mouseOver) bgColor = rolloverBackground; else bgColor =
@@ -362,5 +357,4 @@ public class HistoryPopupD implements ListSelectionListener {
 			return this;
 		}
 	}
-
 }

@@ -87,8 +87,7 @@ public class PointList {
 	void mergeTo(PointList pl) {
 		this.pts.addLast(this.end);
 		if (pl == this) {
-			MyPoint startCopy = new MyPoint(this.start.x, this.start.y,
-					SegmentType.LINE_TO);
+			MyPoint startCopy = new MyPoint(this.start.x, this.start.y, SegmentType.LINE_TO);
 			this.pts.addLast(startCopy);
 			return;
 		}
@@ -158,8 +157,7 @@ public class PointList {
 	 * @apiNote Uses {@link DoubleUtil#isEqual(double, double, double)} for x and y.
 	 */
 	static boolean equal(MyPoint q1, MyPoint q2) {
-		return DoubleUtil.isEqual(q1.x, q2.x, 1e-10)
-				&& DoubleUtil.isEqual(q1.y, q2.y, 1e-10);
+		return DoubleUtil.isEqual(q1.x, q2.x, 1e-10) && DoubleUtil.isEqual(q1.y, q2.y, 1e-10);
 	}
 
 	/**

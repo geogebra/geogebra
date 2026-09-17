@@ -36,8 +36,7 @@ public abstract class AbstractPropertyCollection<P extends Property> extends Abs
 	 * @param localization localization
 	 * @param name name
 	 */
-	public AbstractPropertyCollection(Localization localization,
-			String name) {
+	public AbstractPropertyCollection(Localization localization, String name) {
 		super(localization, name);
 	}
 

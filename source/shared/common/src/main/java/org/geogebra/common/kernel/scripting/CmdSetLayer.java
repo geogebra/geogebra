@@ -31,7 +31,7 @@ public class CmdSetLayer extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,20 +44,20 @@ public class CmdSetLayer extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
-			GeoElement[] arg = resArgs(c);
-			if (arg[1].isGeoNumeric()) {
+			case 2:
+				GeoElement[] arg = resArgs(c);
+				if (arg[1].isGeoNumeric()) {
 
-				GeoElement geo = arg[0];
+					GeoElement geo = arg[0];
 
-				geo.setLayer((int) ((GeoNumeric) arg[1]).getDouble());
-				geo.updateVisualStyleRepaint(GProperty.LAYER);
-				return arg;
-			}
-			throw argErr(c, arg[1]);
+					geo.setLayer((int) ((GeoNumeric) arg[1]).getDouble());
+					geo.updateVisualStyleRepaint(GProperty.LAYER);
+					return arg;
+				}
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

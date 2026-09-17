@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.arithmetic.filter.ExpressionFilter;
 /**
  * ExpressionFilter factory for the Graphing app.
  */
-final public class GraphingExpressionFilterFactory {
+public final class GraphingExpressionFilterFactory {
 
 	private GraphingExpressionFilterFactory() {
 		// Factory class
@@ -37,12 +37,12 @@ final public class GraphingExpressionFilterFactory {
 	 * @return expression filter
 	 */
 	public static ExpressionFilter createFilter() {
-		List<ExpressionFilter> filters = Arrays.asList(new AbsExpressionFilter(),
+		List<ExpressionFilter> filters = Arrays.asList(
+				new AbsExpressionFilter(),
 				new InnerProductExpressionFilter(),
 				new PowerInnerProductExpressionFilter(),
 				new VectorProductExpressionFilter());
-		CompositeExpressionFilter compositeExpressionFilter =
-				new CompositeExpressionFilter(filters);
+		CompositeExpressionFilter compositeExpressionFilter = new CompositeExpressionFilter(filters);
 		return new DeepExpressionFilter(compositeExpressionFilter);
 	}
 }

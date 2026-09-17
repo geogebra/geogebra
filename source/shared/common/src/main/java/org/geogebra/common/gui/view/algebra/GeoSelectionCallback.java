@@ -30,8 +30,8 @@ public class GeoSelectionCallback implements AsyncOperation<GeoElementND[]>, Res
 
 	@Override
 	public void applyRestrictions(@NonNull Set<FeatureRestriction> featureRestrictions) {
-		restrictGraphSelectionForFunctions = featureRestrictions
-				.contains(FeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
+		restrictGraphSelectionForFunctions =
+				featureRestrictions.contains(FeatureRestriction.AUTOMATIC_GRAPH_SELECTION_FOR_FUNCTIONS);
 	}
 
 	@Override

@@ -37,16 +37,15 @@ public class TooltipProperty extends AbstractNamedEnumeratedProperty<Integer> {
 	 * @param settings - euclidian settings
 	 * @param view - euclidian view
 	 */
-	public TooltipProperty(Localization localization, EuclidianSettings settings,
-			EuclidianView view) {
+	public TooltipProperty(
+			Localization localization, EuclidianSettings settings, EuclidianView view) {
 		super(localization, "Labeling");
 		this.settings = settings;
 		this.view = view;
 		setNamedValues(List.of(
 				entry(EuclidianStyleConstants.TOOLTIPS_ON, "On"),
 				entry(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC, "Automatic"),
-				entry(EuclidianStyleConstants.TOOLTIPS_OFF, "Off")
-		));
+				entry(EuclidianStyleConstants.TOOLTIPS_OFF, "Off")));
 	}
 
 	@Override

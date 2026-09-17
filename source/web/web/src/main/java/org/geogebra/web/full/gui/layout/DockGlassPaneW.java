@@ -40,7 +40,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 /**
  * Glass pane is used to draw the drag-preview area on the panels if the user
  * enters the drag'n'drop mode.
- * 
+ *
  * @author Florian Sonner, adapted by G.Sturr
  */
 public final class DockGlassPaneW extends AbsolutePanel
@@ -76,10 +76,8 @@ public final class DockGlassPaneW extends AbsolutePanel
 		setStyleName("DockGlassPane");
 
 		previewPanel = new SimplePanel();
-		previewPanel.getElement().getStyle()
-			.setBorderWidth(BORDER_WIDTH, Unit.PX);
-		previewPanel.getElement().getStyle()
-				.setBorderStyle(BorderStyle.SOLID);
+		previewPanel.getElement().getStyle().setBorderWidth(BORDER_WIDTH, Unit.PX);
+		previewPanel.getElement().getStyle().setBorderStyle(BorderStyle.SOLID);
 		previewPanel.getElement().getStyle().setBorderColor("gray");
 
 		previewPanel.setVisible(false);
@@ -120,7 +118,7 @@ public final class DockGlassPaneW extends AbsolutePanel
 
 	/**
 	 * Start the dragging process by adding the mouse listeners.
-	 * 
+	 *
 	 * @param state
 	 *            drag state
 	 */
@@ -131,16 +129,14 @@ public final class DockGlassPaneW extends AbsolutePanel
 		setVisible(true);
 		reg0 = addBitlessDomHandler(this, TouchMoveEvent.getType());
 		reg1 = addDomHandler(this, MouseMoveEvent.getType());
-		reg2 =
-		ClickEndHandler.init(this, new ClickEndHandler() {
+		reg2 = ClickEndHandler.init(this, new ClickEndHandler() {
 
 			@Override
 			public void onClickEnd(int x, int y, PointerEventType type) {
 				onMouseUp();
-
 			}
 		});
-		
+
 		// this.getElement().getStyle().setZIndex(50);
 		if (dragInProgress) {
 			return;
@@ -161,7 +157,8 @@ public final class DockGlassPaneW extends AbsolutePanel
 			// window for the drag'n'drop
 			if (dockPanel.isVisible()) {
 				// tmpRect = dockPanels[i].getBounds();
-				Rectangle tmpRect = new Rectangle(dockPanel.getAbsoluteLeft(),
+				Rectangle tmpRect = new Rectangle(
+						dockPanel.getAbsoluteLeft(),
 						dockPanel.getAbsoluteTop(),
 						dockPanel.getOffsetWidth(),
 						dockPanel.getOffsetHeight());
@@ -214,7 +211,7 @@ public final class DockGlassPaneW extends AbsolutePanel
 
 	/**
 	 * Calculate where the panel would be placed if the mouse is released.
-	 * 
+	 *
 	 * @param mouseX
 	 *            mouse x-coord
 	 * @param mouseY
@@ -226,11 +223,9 @@ public final class DockGlassPaneW extends AbsolutePanel
 		// Check if the mouse intersects with any DockPanel
 		for (int i = 0; i < dockPanelsBounds.length; ++i) {
 			if (mouseX >= dockPanelsBounds[i].getX()
-					&& mouseX <= dockPanelsBounds[i].getX()
-							+ dockPanelsBounds[i].getWidth()
+					&& mouseX <= dockPanelsBounds[i].getX() + dockPanelsBounds[i].getWidth()
 					&& mouseY >= dockPanelsBounds[i].getY()
-					&& mouseY <= dockPanelsBounds[i].getY()
-							+ dockPanelsBounds[i].getHeight()) {
+					&& mouseY <= dockPanelsBounds[i].getY() + dockPanelsBounds[i].getHeight()) {
 				update = true;
 				dndState.setTarget(dockPanels[i]);
 				break;
@@ -385,9 +380,10 @@ public final class DockGlassPaneW extends AbsolutePanel
 		w -= 2 * BORDER_WIDTH;
 		h -= 2 * BORDER_WIDTH;
 
-		setWidgetPosition(previewPanel, x2
-				- (int) (this.getAbsoluteLeft() / ae.getScaleX()), y2
-				- (int) (this.getAbsoluteTop() / ae.getScaleY()));
+		setWidgetPosition(
+				previewPanel,
+				x2 - (int) (this.getAbsoluteLeft() / ae.getScaleX()),
+				y2 - (int) (this.getAbsoluteTop() / ae.getScaleY()));
 		previewPanel.setPixelSize(w, h);
 		previewPanel.getElement().getStyle().setBackgroundColor(color);
 		previewPanel.getElement().getStyle().setOpacity(0.6f);
@@ -398,7 +394,8 @@ public final class DockGlassPaneW extends AbsolutePanel
 	public void onMouseMove(MouseMoveEvent event) {
 		if (dragInProgress) {
 			// Use getClientX rather than getX, see #4049
-			mouseDragged(event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
+			mouseDragged(
+					event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
 					event.getClientY() + NavigatorUtil.getWindowScrollTop());
 		}
 	}
@@ -409,10 +406,8 @@ public final class DockGlassPaneW extends AbsolutePanel
 			if (event.getTouches().length() == 1) {
 				event.preventDefault();
 				mouseDragged(
-						event.getTouches().get(0).getClientX()
-								+ NavigatorUtil.getWindowScrollLeft(), event.getTouches()
-								.get(0).getClientY()
-								+ NavigatorUtil.getWindowScrollTop());
+						event.getTouches().get(0).getClientX() + NavigatorUtil.getWindowScrollLeft(),
+						event.getTouches().get(0).getClientY() + NavigatorUtil.getWindowScrollTop());
 			}
 		}
 	}
@@ -429,5 +424,4 @@ public final class DockGlassPaneW extends AbsolutePanel
 	public GeoGebraElement getGeoGebraElement() {
 		return ae;
 	}
-
 }

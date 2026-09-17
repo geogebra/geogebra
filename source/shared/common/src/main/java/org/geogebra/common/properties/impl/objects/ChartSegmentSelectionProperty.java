@@ -43,8 +43,8 @@ public class ChartSegmentSelectionProperty extends AbstractNamedEnumeratedProper
 	 * @param geoElement the element to create the property for
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartSegmentSelectionProperty(Localization localization, GeoElement geoElement,
-			ChartSegmentSelection chartSegmentSelection)
+	public ChartSegmentSelectionProperty(
+			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
 			throws NotApplicablePropertyException {
 		super(localization, "Selection");
 		if (!(geoElement instanceof ChartStyleGeo)) {
@@ -66,10 +66,11 @@ public class ChartSegmentSelectionProperty extends AbstractNamedEnumeratedProper
 		String firstValueTransKey = geoElement instanceof GeoPieChart ? "AllSlices" : "AllBars";
 		String valueTransKey = geoElement instanceof GeoPieChart ? "SliceA" : "BarA";
 		return Stream.concat(
-				Stream.of(getLocalization().getMenu(firstValueTransKey)),
-				IntStream.rangeClosed(1, numberOfIntervals).mapToObj(index ->
-						getLocalization().getPlain(valueTransKey, String.valueOf(index)))
-		).toArray(String[]::new);
+						Stream.of(getLocalization().getMenu(firstValueTransKey)),
+						IntStream.rangeClosed(1, numberOfIntervals)
+								.mapToObj(
+										index -> getLocalization().getPlain(valueTransKey, String.valueOf(index))))
+				.toArray(String[]::new);
 	}
 
 	@Override

@@ -101,8 +101,7 @@ public class EuclidianViewBoundsMock implements EuclidianViewBounds {
 
 	@Override
 	public Interval toScreenIntervalY(Interval y) {
-		return new Interval(toScreenCoordXd(y.getLow()),
-				toScreenCoordYd(y.getHigh()));
+		return new Interval(toScreenCoordXd(y.getLow()), toScreenCoordYd(y.getHigh()));
 	}
 
 	@Override

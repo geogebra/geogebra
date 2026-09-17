@@ -36,8 +36,8 @@ public interface UnhandledKeyListener {
 	 * @param keyboardType keyboard type
 	 * @return whether the keyCode was handled
 	 */
-	default boolean onUnhandledKey(int keyCode, KeyEvent.KeyboardType keyboardType,
-			int keyModifiers) {
+	default boolean onUnhandledKey(
+			int keyCode, KeyEvent.KeyboardType keyboardType, int keyModifiers) {
 		// nothing to do by default
 		return false;
 	}

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -45,8 +45,7 @@ class FileLoadTest extends BaseUnitTest {
 		String xml = load("quadric.xml");
 		getApp().setXML(xml, true);
 		GeoQuadric3D quadric = (GeoQuadric3D) lookup("eq1");
-		assertEquals(3.872983346207417,
-				quadric.getHalfAxis(0), Kernel.STANDARD_PRECISION);
+		assertEquals(3.872983346207417, quadric.getHalfAxis(0), Kernel.STANDARD_PRECISION);
 	}
 
 	@Test

@@ -62,39 +62,52 @@ public final class PagePreviewCardContextMenu extends IconButtonCardContextMenu 
 	}
 
 	private void addNewPage() {
-		addItem(generalIconResource.getImageResource(GeneralIcon.PLUS),
+		addItem(
+				generalIconResource.getImageResource(GeneralIcon.PLUS),
 				loc.getMenu("ContextMenu.NewPage"),
 				menuItemController.addNewPage(card.getPageIndex() + 1));
 	}
 
 	private void addDuplicatePage() {
-		addItem(generalIconResource.getImageResource(GeneralIcon.DUPLICATE),
-				loc.getMenu("ContextMenu.DuplicatePage"), menuItemController.onDuplicatePage());
+		addItem(
+				generalIconResource.getImageResource(GeneralIcon.DUPLICATE),
+				loc.getMenu("ContextMenu.DuplicatePage"),
+				menuItemController.onDuplicatePage());
 	}
 
 	private void addRenameItem() {
-		addItem(generalIconResource.getImageResource(GeneralIcon.RENAME),
-				loc.getMenu("Rename"), menuItemController.onRenamePage());
+		addItem(
+				generalIconResource.getImageResource(GeneralIcon.RENAME),
+				loc.getMenu("Rename"),
+				menuItemController.onRenamePage());
 	}
 
 	private void addDeleteItem() {
-		addItem(generalIconResource.getImageResource(GeneralIcon.DELETE),
-				loc.getMenu("Delete"), menuItemController.onDelete());
+		addItem(
+				generalIconResource.getImageResource(GeneralIcon.DELETE),
+				loc.getMenu("Delete"),
+				menuItemController.onDelete());
 	}
 
 	private void addCutItem() {
-		addItem(generalIconResource.getImageResource(GeneralIcon.CUT),
-				loc.getMenu("Cut"), menuItemController.onCut());
+		addItem(
+				generalIconResource.getImageResource(GeneralIcon.CUT),
+				loc.getMenu("Cut"),
+				menuItemController.onCut());
 	}
 
 	private void addCopyItem() {
-		addItem(generalIconResource.getImageResource(GeneralIcon.COPY),
-				loc.getMenu("Copy"), menuItemController.onCopy());
+		addItem(
+				generalIconResource.getImageResource(GeneralIcon.COPY),
+				loc.getMenu("Copy"),
+				menuItemController.onCopy());
 	}
 
 	private void addPasteItem() {
-		paste = addItem(generalIconResource.getImageResource(GeneralIcon.PASTE),
-				loc.getMenu("Paste"), menuItemController.onPaste(card, paste));
+		paste = addItem(
+				generalIconResource.getImageResource(GeneralIcon.PASTE),
+				loc.getMenu("Paste"),
+				menuItemController.onPaste(card, paste));
 	}
 
 	@Override

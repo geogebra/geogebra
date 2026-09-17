@@ -47,10 +47,11 @@ public class MediaFactory {
 	public GeoElement addAudio(String url) {
 		EuclidianView ev = app.getActiveEuclidianView();
 		GeoAudio audio = new GeoAudio(app.getKernel().getConstruction(), url);
-		audio.getLocation().setLocation(
-				ev.toRealWorldCoordX((ev.getWidth() - audio.getWidth()) / 2),
-				ev.toRealWorldCoordY((ev.getHeight() - audio.getHeight()) / 2)
-		);
+		audio
+				.getLocation()
+				.setLocation(
+						ev.toRealWorldCoordX((ev.getWidth() - audio.getWidth()) / 2),
+						ev.toRealWorldCoordY((ev.getHeight() - audio.getHeight()) / 2));
 		audio.setLabel(null);
 		app.storeUndoInfo();
 		app.getActiveEuclidianView().repaint();
@@ -66,15 +67,15 @@ public class MediaFactory {
 	 */
 	public GeoElement addVideo(VideoURL videoUrl) {
 		final EuclidianView ev = app.getActiveEuclidianView();
-		final GeoVideo video = app.getVideoManager().createVideo(
-				app.getKernel().getConstruction(),
-				videoUrl);
+		final GeoVideo video =
+				app.getVideoManager().createVideo(app.getKernel().getConstruction(), videoUrl);
 		video.setBackground(true);
 		video.afterSizeSet(() -> {
-			video.getLocation().setLocation(
-					ev.toRealWorldCoordX((ev.getWidth() - video.getWidth()) / 2),
-					ev.toRealWorldCoordY((ev.getHeight() - video.getHeight()) / 2)
-			);
+			video
+					.getLocation()
+					.setLocation(
+							ev.toRealWorldCoordX((ev.getWidth() - video.getWidth()) / 2),
+							ev.toRealWorldCoordY((ev.getHeight() - video.getHeight()) / 2));
 			video.notifyUpdate();
 			ev.getEuclidianController().selectAndShowSelectionUI(video);
 			app.storeUndoInfo();

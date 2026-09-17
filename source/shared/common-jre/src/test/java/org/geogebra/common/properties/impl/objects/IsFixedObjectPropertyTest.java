@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,7 +48,8 @@ class IsFixedObjectPropertyTest extends BaseUnitTest {
 	void testConstructorThrowsError() {
 		getApp().setGraphingConfig();
 		GeoElement f = addAvInput("f: x");
-		assertThrows(NotApplicablePropertyException.class,
+		assertThrows(
+				NotApplicablePropertyException.class,
 				() -> new IsFixedObjectProperty(getLocalization(), f));
 	}
 
@@ -59,8 +60,7 @@ class IsFixedObjectPropertyTest extends BaseUnitTest {
 		GeoElement point = addAvInput("pt=(1,2)");
 		getApp().storeUndoInfo();
 		ValuedProperty<Boolean> prop = Objects.requireNonNull(new GeoElementPropertiesFactory()
-				.createIsFixedObjectProperty(getApp().getLocalization(),
-						Collections.singletonList(point)));
+				.createIsFixedObjectProperty(getApp().getLocalization(), Collections.singletonList(point)));
 		prop.addValueObserver(new UndoSavingPropertyObserver(getConstruction().getUndoManager()));
 		prop.setValue(true);
 		assertThat(point.isLocked(), is(true));

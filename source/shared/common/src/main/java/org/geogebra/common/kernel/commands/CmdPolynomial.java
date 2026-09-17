@@ -36,7 +36,7 @@ public class CmdPolynomial extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,47 +45,44 @@ public class CmdPolynomial extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0].isRealValuedFunction()) {
+			case 1:
+				if (arg[0].isRealValuedFunction()) {
 
-				AlgoPolynomialFromFunction algo = new AlgoPolynomialFromFunction(
-						cons, c.getLabel(),
-						(GeoFunctionable) arg[0]);
+					AlgoPolynomialFromFunction algo =
+							new AlgoPolynomialFromFunction(cons, c.getLabel(), (GeoFunctionable) arg[0]);
 
-				GeoElement[] ret = { algo.getPolynomial() };
-				return ret;
-			} else if (arg[0].isGeoFunctionNVar()) {
-				AlgoPolynomialFromFunctionNVar algo = new AlgoPolynomialFromFunctionNVar(
-						cons, c.getLabel(),
-						(GeoFunctionNVar) arg[0]);
-				GeoElement[] ret = { algo.getPolynomial() };
-				return ret;
-			}
-			// PolynomialFromCoordinates
-			else if (arg[0].isGeoList()) {
-				GeoElement[] ret = {
-						polynomialFunction(c.getLabel(), (GeoList) arg[0]) };
-				return ret;
-			} else {
-				throw argErr(c, arg[0]);
-			}
+					GeoElement[] ret = {algo.getPolynomial()};
+					return ret;
+				} else if (arg[0].isGeoFunctionNVar()) {
+					AlgoPolynomialFromFunctionNVar algo =
+							new AlgoPolynomialFromFunctionNVar(cons, c.getLabel(), (GeoFunctionNVar) arg[0]);
+					GeoElement[] ret = {algo.getPolynomial()};
+					return ret;
+				}
+				// PolynomialFromCoordinates
+				else if (arg[0].isGeoList()) {
+					GeoElement[] ret = {polynomialFunction(c.getLabel(), (GeoList) arg[0])};
+					return ret;
+				} else {
+					throw argErr(c, arg[0]);
+				}
 
 			// more than one argument
-		default:
-			// try to create list of points
-			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
-			if (list != null) {
-				GeoElement[] ret = { polynomialFunction(c.getLabel(), list) };
-				return ret;
-			}
-			throw argNumErr(c);
+			default:
+				// try to create list of points
+				GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
+				if (list != null) {
+					GeoElement[] ret = {polynomialFunction(c.getLabel(), list)};
+					return ret;
+				}
+				throw argNumErr(c);
 		}
 	}
 
@@ -93,8 +90,7 @@ public class CmdPolynomial extends CommandProcessor {
 	 * Fits a polynomial exactly to a list of coordinates.
 	 */
 	private GeoFunction polynomialFunction(String label, GeoList list) {
-		AlgoPolynomialFromCoordinates algo = new AlgoPolynomialFromCoordinates(
-				cons, label, list);
+		AlgoPolynomialFromCoordinates algo = new AlgoPolynomialFromCoordinates(cons, label, list);
 		return algo.getPolynomial();
 	}
 }

@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.HasVolume;
 
 /**
  * Computes the area of a polygon
- * 
+ *
  * @author mathieu
  */
 public class AlgoVolume extends AlgoElement {
@@ -35,7 +35,7 @@ public class AlgoVolume extends AlgoElement {
 	private GeoNumeric volume; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -76,7 +76,7 @@ public class AlgoVolume extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return volume output
 	 */
 	public GeoNumeric getVolume() {
@@ -87,5 +87,4 @@ public class AlgoVolume extends AlgoElement {
 	public final void compute() {
 		volume.setValue(hasVolume.getVolume());
 	}
-
 }

@@ -32,8 +32,8 @@ import org.gwtproject.user.client.ui.RequiresResize;
  * Euclidian panel for WebSimple
  *
  */
-public class EuclidianSimplePanelW extends AbsolutePanel implements
-        EuclidianPanelWAbstract, RequiresResize {
+public class EuclidianSimplePanelW extends AbsolutePanel
+		implements EuclidianPanelWAbstract, RequiresResize {
 
 	private AppW app;
 	private int oldHeight = 0;
@@ -44,7 +44,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 
 	/**
 	 * This constructor is used by the applet
-	 * 
+	 *
 	 * @param application
 	 *            application
 	 */
@@ -64,7 +64,6 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		eview1.setCoordinateSpaceWidth(1);
 		getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		add(eview1);
-
 	}
 
 	@Override
@@ -146,5 +145,4 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 			app.getZoomPanel().setStyleName("pointerEventsNoneWhenDragging", !enable);
 		}
 	}
-
 }

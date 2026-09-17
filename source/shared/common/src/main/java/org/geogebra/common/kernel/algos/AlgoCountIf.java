@@ -39,7 +39,7 @@ public class AlgoCountIf extends AlgoElement {
 
 	/**
 	 * Algorithm for handling of a CountIf construct
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -49,8 +49,7 @@ public class AlgoCountIf extends AlgoElement {
 	 * @param list
 	 *            filtered list
 	 */
-	public AlgoCountIf(Construction cons, String label, GeoFunction boolFun,
-			GeoList list) {
+	public AlgoCountIf(Construction cons, String label, GeoFunction boolFun, GeoList list) {
 		super(cons);
 		this.boolFun = boolFun;
 		this.list = list;
@@ -107,14 +106,9 @@ public class AlgoCountIf extends AlgoElement {
 						count++;
 					}
 				} else {
-					ExpressionNode ex = boolFun.getFunction()
-							.getExpression().deepCopy(kernel);
-					ex = ex.replace(var,
-							val.evaluate(StringTemplate.defaultTemplate))
-							.wrap();
-					if (((MyBoolean) ex
-							.evaluate(StringTemplate.defaultTemplate))
-									.getBoolean()) {
+					ExpressionNode ex = boolFun.getFunction().getExpression().deepCopy(kernel);
+					ex = ex.replace(var, val.evaluate(StringTemplate.defaultTemplate)).wrap();
+					if (((MyBoolean) ex.evaluate(StringTemplate.defaultTemplate)).getBoolean()) {
 						count++;
 					}
 				}
@@ -125,5 +119,4 @@ public class AlgoCountIf extends AlgoElement {
 			result.setUndefined();
 		}
 	}
-
 }

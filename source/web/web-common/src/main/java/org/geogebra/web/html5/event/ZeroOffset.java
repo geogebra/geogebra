@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 public class ZeroOffset implements HasOffsets {
 	/** singleton instance */
 	public static final ZeroOffset INSTANCE = new ZeroOffset();
+
 	private LinkedList<PointerEvent> mousePool = new LinkedList<>();
 	private LinkedList<PointerEvent> touchPool = new LinkedList<>();
 
@@ -50,5 +51,4 @@ public class ZeroOffset implements HasOffsets {
 	public double getZoomLevel() {
 		return 1;
 	}
-
 }

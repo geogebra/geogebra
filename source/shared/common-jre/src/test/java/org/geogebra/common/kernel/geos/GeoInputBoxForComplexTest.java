@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,8 +38,7 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 		add("z_1 = 3 + 2i");
 		add("i = 7");
 		shouldBeUpdatedAs("2i", "2i");
-		assertEquals("2i",
-				lookup("z_1").toValueString(StringTemplate.latexTemplate));
+		assertEquals("2i", lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
@@ -47,8 +46,7 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 		add("i = 7");
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("2i", "2i");
-		assertEquals("14",
-				lookup("z_1").toValueString(StringTemplate.latexTemplate));
+		assertEquals("14", lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
@@ -180,8 +178,7 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 	void rootOfNegativeNumberShouldBeImaginary() {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("sqrt(-25)", "sqrt(-25)");
-		assertEquals("5" + Unicode.IMAGINARY,
-				lookup("z_1").toValueString(StringTemplate.testTemplate));
+		assertEquals("5" + Unicode.IMAGINARY, lookup("z_1").toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -189,7 +186,6 @@ class GeoInputBoxForComplexTest extends BaseUnitTest {
 	void rootOfNegativeNumberShouldBeImaginaryInSum() {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("sqrt(-25)+i", "sqrt(-25)+i");
-		assertEquals("6" + Unicode.IMAGINARY,
-				lookup("z_1").toValueString(StringTemplate.testTemplate));
+		assertEquals("6" + Unicode.IMAGINARY, lookup("z_1").toValueString(StringTemplate.testTemplate));
 	}
 }

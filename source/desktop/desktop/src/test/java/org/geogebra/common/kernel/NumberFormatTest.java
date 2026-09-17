@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,14 +50,13 @@ class NumberFormatTest {
 			String in = testCase.getString("in");
 			GeoElementND geo = processor.processAlgebraCommand(in, false)[0];
 			JSONObject out = testCase.getJSONObject("out");
-			for (String key: out.keySet()) {
+			for (String key : out.keySet()) {
 				app.setRounding(key);
 				String valueString = geo.toValueString(StringTemplate.defaultTemplate);
 				if (!out.get(key).equals(valueString)) {
 					fails.add(in + " rounded incorrectly at " + key
 							+ " expected " + out.get(key) + " got "
 							+ valueString);
-
 				}
 			}
 		}
@@ -68,7 +67,7 @@ class NumberFormatTest {
 	void bigDecimalRounding() {
 		AppCommon app = AppCommonFactory.create();
 		app.setRounding("3s");
-		assertEquals("123000", app.getKernel().format(new BigDecimal("123456"),
-				StringTemplate.defaultTemplate));
+		assertEquals(
+				"123000", app.getKernel().format(new BigDecimal("123456"), StringTemplate.defaultTemplate));
 	}
 }

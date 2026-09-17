@@ -50,7 +50,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
 
-
 public class ArrayOfAtoms implements AtomConsumer {
 
 	protected RowAtom ra;
@@ -121,12 +120,10 @@ public class ArrayOfAtoms implements AtomConsumer {
 	}
 
 	@Override
-	public void lbrace(TeXParser tp) {
-	}
+	public void lbrace(TeXParser tp) {}
 
 	@Override
-	public void rbrace(TeXParser tp) {
-	}
+	public void rbrace(TeXParser tp) {}
 
 	public final boolean isOneColumn() {
 		return oneColumn;
@@ -159,8 +156,7 @@ public class ArrayOfAtoms implements AtomConsumer {
 			ra.add(a);
 			if (a instanceof HlineAtom) {
 				addRow();
-			} else if (a instanceof HdotsforAtom
-					|| a instanceof MulticolumnAtom) {
+			} else if (a instanceof HdotsforAtom || a instanceof MulticolumnAtom) {
 				final MulticolumnAtom ma = (MulticolumnAtom) a;
 				addCol(ma.getSkipped());
 			}

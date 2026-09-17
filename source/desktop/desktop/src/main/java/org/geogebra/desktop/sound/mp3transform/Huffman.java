@@ -1,48 +1,28 @@
 /*
- * 11/19/04 1.0 moved to LGPL.
- * 16/11/99 Renamed class, added javadoc, and changed table
- * name from String to 3 chars. mdm@techie.com
- * 02/15/99 Java Conversion by E.B, javalayer@javazoom.net
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
  *
- * 04/19/97 : Adapted from the ISO MPEG Audio Subgroup Software Simulation
- *  Group's public c source for its MPEG audio decoder. Miscellaneous
- *  changes by Jeff Tsay (ctsay@pasteur.eecs.berkeley.edu).
- *-----------------------------------------------------------------------
- * Copyright (c) 1991 MPEG/audio software simulation group, All Rights Reserved
- * MPEG/audio coding/decoding software, work in progress              
- *   NOT for public distribution until verified and approved by the   
- *   MPEG/audio committee.  For further information, please contact   
- *   Davis Pan, 508-493-2241, e-mail: pan@3d.enet.dec.com             
- *                                                                    
- * VERSION 4.1                                                        
- *   changes made since last update:                                  
- *   date   programmers         comment                        
- *  27.2.92 F.O.Witte (ITT Intermetall)
- *  8/24/93 M. Iwadare          Changed for 1 pass decoding.          
- *  7/14/94 J. Koller useless 'typedef' before huffcodetab  removed
- *-----------------------------------------------------------------------
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU Library General Public License as published
- *   by the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU Library General Public License for more details.
- *
- *   You should have received a copy of the GNU Library General Public
- *   License along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *----------------------------------------------------------------------
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
+
 package org.geogebra.desktop.sound.mp3transform;
 
 final class Huffman {
 	private static final int MX_OFF = 250;
 	private static final int HUFFMAN_COUNT = 34;
+
 	@SuppressWarnings("PMD.AvoidFieldNameMatchingTypeName")
 	static final Huffman[] HUFFMAN;
+
 	private final char tableName0;
 	private final char tableName1;
 	private final int xlen; // max. x-index+
@@ -52,8 +32,7 @@ final class Huffman {
 	private final int[] val1; // decoder tree
 	private final int treeLen; // length of decoder tree
 
-	private Huffman(String name, int xlen, int ylen, int linbits, int[][] val,
-			int treeLen) {
+	private Huffman(String name, int xlen, int ylen, int linbits, int[][] val, int treeLen) {
 		tableName0 = name.charAt(0);
 		tableName1 = name.charAt(1);
 		this.xlen = xlen;

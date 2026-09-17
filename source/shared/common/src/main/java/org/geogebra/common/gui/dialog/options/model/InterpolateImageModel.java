@@ -50,5 +50,4 @@ public class InterpolateImageModel extends BooleanOptionModel {
 	protected boolean isValidAt(int index) {
 		return getObjectAt(index) instanceof GeoImage;
 	}
-
 }

@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public interface Rotatable extends GeoElementND {
 	/**
 	 * Rotates this element around origin
-	 * 
+	 *
 	 * @param r
 	 *            angle
 	 */
@@ -38,5 +38,4 @@ public interface Rotatable extends GeoElementND {
 	 * @param S center of rotation
 	 */
 	void rotate(NumberValue r, GeoPointND S);
-
 }

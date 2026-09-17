@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Take a substring from a text
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoTakeString extends AlgoElement {
 
 	private GeoText inputText; // input
@@ -49,8 +48,8 @@ public class AlgoTakeString extends AlgoElement {
 	 * @param n
 	 *            end index (1 based)
 	 */
-	public AlgoTakeString(Construction cons, String label, GeoText inputText,
-			GeoNumeric m, GeoNumeric n) {
+	public AlgoTakeString(
+			Construction cons, String label, GeoText inputText, GeoNumeric m, GeoNumeric n) {
 		super(cons);
 		this.inputText = inputText;
 		this.m = m;
@@ -94,8 +93,7 @@ public class AlgoTakeString extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		if (!m.isDefined() || (n != null && !n.isDefined())
-				|| inputText == null) {
+		if (!m.isDefined() || (n != null && !n.isDefined()) || inputText == null) {
 			outputText.setTextString("");
 			return;
 		}
@@ -117,14 +115,11 @@ public class AlgoTakeString extends AlgoElement {
 			return;
 		}
 
-		if (!inputText.isDefined() || size == 0 || start <= 0 || end > size
-				|| start > end) {
+		if (!inputText.isDefined() || size == 0 || start <= 0 || end > size || start > end) {
 			outputText.setUndefined();
 			return;
 		}
 
 		outputText.setTextString(str.substring(start - 1, end));
-
 	}
-
 }

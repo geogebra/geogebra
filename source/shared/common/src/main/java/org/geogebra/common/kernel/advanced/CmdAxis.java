@@ -34,7 +34,7 @@ public class CmdAxis extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -49,22 +49,22 @@ public class CmdAxis extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
+			case 1:
+				arg = resArgs(c, info);
 
-			// asymptotes to conic
-			if (arg[0].isGeoConic()) {
+				// asymptotes to conic
+				if (arg[0].isGeoConic()) {
 
-				AlgoAxis algo = kernel.getAlgoDispatcher().axis(c.getLabel(),
-						(GeoConicND) arg[0], axisId);
+					AlgoAxis algo =
+							kernel.getAlgoDispatcher().axis(c.getLabel(), (GeoConicND) arg[0], axisId);
 
-				GeoElement[] ret = { algo.getAxis().toGeoElement() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getAxis().toGeoElement()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

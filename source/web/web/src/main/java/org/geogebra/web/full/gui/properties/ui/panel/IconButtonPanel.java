@@ -38,8 +38,8 @@ import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
-public final class IconButtonPanel extends FlowPanel implements
-		SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus {
+public final class IconButtonPanel extends FlowPanel
+		implements SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate, HasFocus {
 	private final AppW appW;
 	private Label label;
 	private final @Nullable String labelKey;
@@ -86,8 +86,8 @@ public final class IconButtonPanel extends FlowPanel implements
 	 * @param addTitle whether title should be added or not
 	 * @param callback callback
 	 */
-	public IconButtonPanel(AppW appW, SingleSelectionIconRow property,
-			boolean addTitle, Runnable callback) {
+	public IconButtonPanel(
+			AppW appW, SingleSelectionIconRow property, boolean addTitle, Runnable callback) {
 		this(appW, property, addTitle);
 		this.callback = callback;
 	}
@@ -116,7 +116,9 @@ public final class IconButtonPanel extends FlowPanel implements
 
 			for (PropertyResource icon : icons) {
 				String label = labels != null && labels[idx] != null ? labels[idx] : "";
-				IconButton btn = new IconButton(appW, null,
+				IconButton btn = new IconButton(
+						appW,
+						null,
 						((AppWFull) appW).getPropertiesIconResource().getImageResource(icon),
 						label);
 				updateButton(property, btn, idx);
@@ -124,13 +126,12 @@ public final class IconButtonPanel extends FlowPanel implements
 				buttons.add(btn);
 				final int index = idx;
 				addRadioKeyHandler(buttons, btn, index);
-				btn.addClickHandler(appW.getGlobalHandlers(),
-						(w) -> {
-							property.setSelectedIconIndex(index);
-							if (callback != null) {
-								callback.run();
-							}
-						});
+				btn.addClickHandler(appW.getGlobalHandlers(), (w) -> {
+					property.setSelectedIconIndex(index);
+					if (callback != null) {
+						callback.run();
+					}
+				});
 				idx++;
 			}
 
@@ -198,18 +199,18 @@ public final class IconButtonPanel extends FlowPanel implements
 		Dom.addEventListener(button.getElement(), "keydown", event -> {
 			KeyboardEvent keyEvent = (KeyboardEvent) event;
 			switch (keyEvent.code) {
-			case "ArrowRight":
-			case "ArrowDown":
-				int nextButtonIndex = (index + 1) % buttons.size();
-				buttons.get(nextButtonIndex).getElement().focus();
-				break;
-			case "ArrowLeft":
-			case "ArrowUp":
-				int previousButtonIndex = (index - 1 + buttons.size()) % buttons.size();
-				buttons.get(previousButtonIndex).getElement().focus();
-				break;
-			default:
-				break;
+				case "ArrowRight":
+				case "ArrowDown":
+					int nextButtonIndex = (index + 1) % buttons.size();
+					buttons.get(nextButtonIndex).getElement().focus();
+					break;
+				case "ArrowLeft":
+				case "ArrowUp":
+					int previousButtonIndex = (index - 1 + buttons.size()) % buttons.size();
+					buttons.get(previousButtonIndex).getElement().focus();
+					break;
+				default:
+					break;
 			}
 		});
 	}
@@ -221,8 +222,8 @@ public final class IconButtonPanel extends FlowPanel implements
 		}
 	}
 
-	private void updateButton(SingleSelectionIconRow property, IconButton iconButton,
-			int buttonIndex) {
+	private void updateButton(
+			SingleSelectionIconRow property, IconButton iconButton, int buttonIndex) {
 		Integer selectedIndex = property.getSelectedIconIndex();
 		boolean selected = selectedIndex != null && selectedIndex == buttonIndex;
 		iconButton.setDisabled(!property.isEnabled());

@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing GeoList (3D part)
- * 
+ *
  * @author matthieu
  *
  */
@@ -43,7 +43,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param view3D
 	 *            view
 	 * @param geo
@@ -58,7 +58,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	synchronized protected boolean updateForItSelf() {
+	protected synchronized boolean updateForItSelf() {
 
 		// Log.debug("LIST -- "+getGeoElement());
 
@@ -83,11 +83,9 @@ public abstract class DrawComposite3D extends Drawable3D {
 			}
 
 			// add drawable for listElement
-			if (drawables.addToDrawableList(listElement, drawablePos,
-					oldDrawableSize, this)) {
+			if (drawables.addToDrawableList(listElement, drawablePos, oldDrawableSize, this)) {
 				drawablePos++;
 			}
-
 		}
 
 		// remove end of list
@@ -133,7 +131,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	protected abstract int size();
 
 	@Override
-	synchronized public void addLastTrace() {
+	public synchronized void addLastTrace() {
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
 			d.addLastTrace();
@@ -141,7 +139,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	synchronized protected void updateForView() {
+	protected synchronized void updateForView() {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
@@ -155,7 +153,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	synchronized protected void clearTraceForViewChangedByZoomOrTranslate() {
+	protected synchronized void clearTraceForViewChangedByZoomOrTranslate() {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
@@ -176,10 +174,10 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return drawable lists
 	 */
-	synchronized public Drawable3DListsForDrawList3D getDrawable3DLists() {
+	public synchronized Drawable3DListsForDrawList3D getDrawable3DLists() {
 		return drawable3DLists;
 	}
 
@@ -226,12 +224,10 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	public Drawable3D drawForPicking(Renderer renderer, boolean intersection,
-			PickingType type) {
+	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
 
 		// not picked as drawable
 		return null;
-
 	}
 
 	@Override
@@ -255,24 +251,21 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized protected void updateLabel() {
+	protected synchronized void updateLabel() {
 		for (DrawableND d : drawables) {
-			if (d.createdByDrawList()
-					&& (d instanceof DrawList3D || d instanceof DrawText3D)) {
+			if (d.createdByDrawList() && (d instanceof DrawList3D || d instanceof DrawText3D)) {
 				((Drawable3D) d).updateLabel();
 			}
 		}
 	}
 
 	@Override
-    synchronized protected void updateLabelPosition() {
+	protected synchronized void updateLabelPosition() {
 		for (DrawableND d : drawables) {
-			if (d.createdByDrawList()
-					&& (d instanceof DrawList3D || d instanceof DrawText3D)) {
+			if (d.createdByDrawList() && (d instanceof DrawList3D || d instanceof DrawText3D)) {
 				((Drawable3D) d).updateLabelPosition();
 			}
 		}
-
 	}
 
 	@Override
@@ -281,7 +274,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized public void setWaitForUpdateVisualStyle(GProperty prop) {
+	public synchronized void setWaitForUpdateVisualStyle(GProperty prop) {
 
 		super.setWaitForUpdateVisualStyle(prop);
 		for (DrawableND d : drawables) {
@@ -295,7 +288,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized public void setWaitForReset() {
+	public synchronized void setWaitForReset() {
 
 		super.setWaitForReset();
 		for (DrawableND d : drawables) {
@@ -306,8 +299,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	synchronized protected Drawable3D getDrawablePicked(
-			Drawable3D drawableSource) {
+	protected synchronized Drawable3D getDrawablePicked(Drawable3D drawableSource) {
 
 		pickOrder = drawableSource.getPickOrder();
 		setPickingType(drawableSource.getPickingType());
@@ -316,12 +308,12 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-	synchronized public int getPickOrder() {
+	public synchronized int getPickOrder() {
 		return pickOrder;
 	}
 
 	@Override
-    synchronized public boolean hit(Hitting hitting) {
+	public synchronized boolean hit(Hitting hitting) {
 
 		boolean ret = false;
 
@@ -350,15 +342,14 @@ public abstract class DrawComposite3D extends Drawable3D {
 		}
 
 		if (ret) {
-			setZPick(listZNear, listZFar, hitting.discardPositiveHits(),
-					listPositionOnHitting);
+			setZPick(listZNear, listZFar, hitting.discardPositiveHits(), listPositionOnHitting);
 		}
 
 		return ret;
 	}
 
 	@Override
-    synchronized public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
+	public synchronized void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		for (DrawableND d : drawables) {
 			if (d.createdByDrawList()) {
 				((Drawable3D) d).enlargeBounds(min, max, dontExtend);
@@ -367,20 +358,19 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D, boolean
-            exportSurface) {
+	public synchronized void exportToPrinter3D(
+			ExportToPrinter3D exportToPrinter3D, boolean exportSurface) {
 		if (isVisible()) {
 			for (DrawableND d : drawables) {
 				if (d.createdByDrawList()) {
-					((Drawable3D) d).exportToPrinter3D(exportToPrinter3D,
-							exportSurface);
+					((Drawable3D) d).exportToPrinter3D(exportToPrinter3D, exportSurface);
 				}
 			}
 		}
 	}
 
 	@Override
-    synchronized protected void updateGeometriesVisibility() {
+	protected synchronized void updateGeometriesVisibility() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				if (d.createdByDrawList()) {
@@ -391,7 +381,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized final protected void setGeometriesVisibility(boolean visible) {
+	protected final synchronized void setGeometriesVisibility(boolean visible) {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				if (d.createdByDrawList()) {
@@ -402,7 +392,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized final protected void updateGeometriesColor() {
+	protected final synchronized void updateGeometriesColor() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				if (d.createdByDrawList()) {
@@ -420,7 +410,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized final protected void updateForViewNotVisible() {
+	protected final synchronized void updateForViewNotVisible() {
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
 				if (d.createdByDrawList()) {
@@ -431,7 +421,7 @@ public abstract class DrawComposite3D extends Drawable3D {
 	}
 
 	@Override
-    synchronized public void removeFromGL() {
+	public synchronized void removeFromGL() {
 		super.removeFromGL();
 		if (shouldBePackedForManager()) {
 			for (DrawableND d : drawables) {
@@ -446,5 +436,4 @@ public abstract class DrawComposite3D extends Drawable3D {
 	public boolean shouldBePacked() {
 		return true;
 	}
-
 }

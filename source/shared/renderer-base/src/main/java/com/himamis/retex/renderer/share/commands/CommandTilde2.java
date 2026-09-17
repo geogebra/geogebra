@@ -21,5 +21,4 @@ public class CommandTilde2 extends Command1A {
 	public boolean isClosable() {
 		return true;
 	}
-
 }

@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * PolyPolyline TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PolyPolyline.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -29,8 +29,8 @@ public class PolyPolyline extends EMFTag {
 		super(7, 1);
 	}
 
-	public PolyPolyline(Rectangle bounds, int start, int end,
-			int[] numberOfPoints, Point[][] points) {
+	public PolyPolyline(
+			Rectangle bounds, int start, int end, int[] numberOfPoints, Point[][] points) {
 		this();
 		this.bounds = bounds;
 		this.start = start;
@@ -40,8 +40,7 @@ public class PolyPolyline extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		Rectangle bounds = emf.readRECTL();
 		int np = emf.readDWORD();
@@ -78,7 +77,6 @@ public class PolyPolyline extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-				+ "  #polys: " + (end - start);
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n" + "  #polys: " + (end - start);
 	}
 }

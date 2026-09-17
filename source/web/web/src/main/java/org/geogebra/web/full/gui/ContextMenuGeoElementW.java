@@ -71,8 +71,7 @@ import org.gwtproject.user.client.ui.InlineHTML;
  *         ContextMenuGeoElement for Web
  *
  */
-public class ContextMenuGeoElementW extends ContextMenuGeoElement
-		implements AttachedToDOM {
+public class ContextMenuGeoElementW extends ContextMenuGeoElement implements AttachedToDOM {
 
 	/**
 	 * popup menu
@@ -82,6 +81,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * localization
 	 */
 	protected Localization loc;
+
 	private LabelController labelController;
 	private final ContextMenuItemFactory factory;
 	private final GeneralIconResource generalIconResource;
@@ -109,8 +109,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @param geos
 	 *            selected elements
 	 */
-	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos,
-								  ContextMenuItemFactory factory) {
+	public ContextMenuGeoElementW(
+			AppW app, ArrayList<GeoElement> geos, ContextMenuItemFactory factory) {
 		this(app, factory);
 		initPopup(geos);
 	}
@@ -149,16 +149,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (labelController == null) {
 			labelController = new LabelController();
 		}
-		return !app.getConfig().hasAutomaticLabels()
-				&& !labelController.hasLabel(getGeo());
+		return !app.getConfig().hasAutomaticLabels() && !labelController.hasLabel(getGeo());
 	}
 
 	/**
 	 * add other items like special for lines and conics
 	 */
 	public void addOtherItems() {
-		if (app.getGuiManager() != null
-				&& app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
+		if (app.getGuiManager() != null && app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			addCoordsModeItems();
 			if (app.getSettings().getCasSettings().isEnabled()) {
 				addLineItems();
@@ -228,9 +226,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		// SHOW, HIDE
-		if (getGeo().isDrawable() || (getGeo().isSpreadsheetTraceable()
-				&& app.getGuiManager() != null
-				&& app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
+		if (getGeo().isDrawable()
+				|| (getGeo().isSpreadsheetTraceable()
+						&& app.getGuiManager() != null
+						&& app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
 
 			addShowObjectItem();
 			addShowLabelItem();
@@ -266,8 +265,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return false;
 		}
 
-		wrappedPopup.addItem(newSubMenuItem("General.Order",
-				new OrderSubMenu(app, geos, factory)));
+		wrappedPopup.addItem(newSubMenuItem("General.Order", new OrderSubMenu(app, geos, factory)));
 		return true;
 	}
 
@@ -291,23 +289,27 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addPropertiesItem() {
 		// Object properties menuitem
-		if (app.showMenuBar() && app.letShowPropertiesDialog()
-				&& getGeo().hasProperties()) {
+		if (app.showMenuBar() && app.letShowPropertiesDialog() && getGeo().hasProperties()) {
 			if (!app.isUnbundledOrWhiteboard()) {
 				wrappedPopup.addSeparator();
 			}
 
 			// open properties dialog
-			addHtmlAction(this::openPropertiesDialogCmd, generalIconResource
-							.getImageResource(GeneralIcon.SETTINGS), loc.getMenu("Settings"));
+			addHtmlAction(
+					this::openPropertiesDialogCmd,
+					generalIconResource.getImageResource(GeneralIcon.SETTINGS),
+					loc.getMenu("Settings"));
 		}
 	}
 
 	private void addDeleteItem() {
-		if (app.letDelete() && !getGeo().isProtected(EventType.REMOVE)
+		if (app.letDelete()
+				&& !getGeo().isProtected(EventType.REMOVE)
 				&& !app.isUnbundledOrWhiteboard()) {
-			addHtmlAction(() -> deleteCmd(false), generalIconResource
-					.getImageResource(GeneralIcon.DELETE), loc.getMenu("Delete"));
+			addHtmlAction(
+					() -> deleteCmd(false),
+					generalIconResource.getImageResource(GeneralIcon.DELETE),
+					loc.getMenu("Delete"));
 		}
 	}
 
@@ -316,11 +318,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			ResourcePrototype img = GuiResourcesSimple.INSTANCE.play_circle();
 
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("Animation"),
-					getGeo().isAnimating()
-							&& app.getKernel().getAnimationManager().isRunning(),
-					this::animationCmd
-			);
+					img,
+					loc.getMenu("Animation"),
+					getGeo().isAnimating() && app.getKernel().getAnimationManager().isRunning(),
+					this::animationCmd);
 			wrappedPopup.addItem(cmItem);
 		}
 	}
@@ -328,21 +329,21 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addAuxiliaryItem() {
 		if (app.getGuiManager() != null
 				&& app.getGuiManager().showView(App.VIEW_ALGEBRA)
-				&& app.showAuxiliaryObjects() && getGeo().isAlgebraShowable()) {
+				&& app.showAuxiliaryObjects()
+				&& getGeo().isAlgebraShowable()) {
 			ResourcePrototype img = AppResources.INSTANCE.aux_folder();
 
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("AuxiliaryObject"),
+					img,
+					loc.getMenu("AuxiliaryObject"),
 					getGeo().isAuxiliaryObject(),
-					this::showObjectAuxiliaryCmd
-			);
+					this::showObjectAuxiliaryCmd);
 			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addSpreadsheetTraceItem() {
-		if (getGeo().isSpreadsheetTraceable()
-				&& app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
+		if (getGeo().isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
 			// check if other geos are recordable
 			for (int i = 1; i < getGeos().size(); i++) {
 				if (!getGeos().get(i).isSpreadsheetTraceable()) {
@@ -353,10 +354,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			ResourcePrototype img = MaterialDesignResources.INSTANCE.record_to_spreadsheet_black();
 
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("RecordToSpreadsheet"),
+					img,
+					loc.getMenu("RecordToSpreadsheet"),
 					getGeo().getSpreadsheetTrace(),
-					() -> app.getTraceManager().toggleTraceElement(getGeo())
-			);
+					() -> app.getTraceManager().toggleTraceElement(getGeo()));
 			wrappedPopup.addItem(cmItem);
 		}
 	}
@@ -365,11 +366,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (getGeo().isTraceable() && !app.getConfig().disableTraceCM()) {
 			ResourcePrototype img = MaterialDesignResources.INSTANCE.trace_black();
 
-			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("ShowTrace"),
-					isTracing(),
-					this::traceCmd
-			);
+			GCheckmarkMenuItem cmItem =
+					new GCheckmarkMenuItem(img, loc.getMenu("ShowTrace"), isTracing(), this::traceCmd);
 			wrappedPopup.addItem(cmItem);
 		}
 	}
@@ -377,11 +375,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addShowLabelItem() {
 		if (!app.isUnbundledOrWhiteboard() && getGeo().isLabelShowable()) {
 			ResourcePrototype img = ToolbarSvgResourcesSync.INSTANCE.mode_showhidelabel_32();
-			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("ShowLabel"),
-					isLabelShown(),
-					this::showLabelCmd
-			);
+			GCheckmarkMenuItem cmItem =
+					new GCheckmarkMenuItem(img, loc.getMenu("ShowLabel"), isLabelShown(), this::showLabelCmd);
 			wrappedPopup.addItem(cmItem);
 		}
 	}
@@ -390,10 +385,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (!app.isUnbundledOrWhiteboard() && getGeo().isEuclidianToggleable()) {
 			ResourcePrototype img = ToolbarSvgResources.INSTANCE.mode_showhideobject_32();
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("ShowObject"),
-					getGeo().isSetEuclidianVisible(),
-					this::showObjectCmd
-			);
+					img, loc.getMenu("ShowObject"), getGeo().isSetEuclidianVisible(), this::showObjectCmd);
 			wrappedPopup.addItem(cmItem);
 		}
 	}
@@ -401,53 +393,46 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addLockForClassic() {
 		ResourcePrototype img = MaterialDesignResources.INSTANCE.lock_black();
 
-		if (getGeo().isFixable() && (getGeo().isGeoText()
-				|| getGeo().isGeoImage() || getGeo().isGeoButton())) {
+		if (getGeo().isFixable()
+				&& (getGeo().isGeoText() || getGeo().isGeoImage() || getGeo().isGeoButton())) {
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("LockObject"),
+					img,
+					loc.getMenu("LockObject"),
 					getGeo().isLocked(),
-					() -> fixObjectCmd(!getGeo().isLocked())
-			);
+					() -> fixObjectCmd(!getGeo().isLocked()));
 			wrappedPopup.addItem(cmItem);
 		} else if (getGeo().isGeoNumeric()) {
 			final GeoNumeric num = (GeoNumeric) getGeo();
 			if (num.isSlider()) {
 				GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-						img, loc.getMenu("LockObject"),
-						num.isLockedPosition(),
-						() -> fixObjectNumericCmd(num)
-				);
+						img, loc.getMenu("LockObject"), num.isLockedPosition(), () -> fixObjectNumericCmd(num));
 				wrappedPopup.addItem(cmItem);
 			}
 		} else if (getGeo().isGeoBoolean()) {
 			GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("FixCheckbox"),
-					getGeo().isLockedPosition(),
-					this::fixCheckboxCmd
-			);
+					img, loc.getMenu("FixCheckbox"), getGeo().isLockedPosition(), this::fixCheckboxCmd);
 			wrappedPopup.addItem(cmItem);
 		}
 	}
 
 	private void addRenameForClassic() {
-		if (getGeos() == null || !(getGeos().size() == 1 && app.letRename()
-				&& getGeo().isRenameable())) {
+		if (getGeos() == null
+				|| !(getGeos().size() == 1 && app.letRename() && getGeo().isRenameable())) {
 			return;
 		}
 
 		SVGResource img = MaterialDesignResources.INSTANCE.rename_black();
 
-		addHtmlAction(this::renameCmd,
-				img, loc.getMenu("Rename"));
+		addHtmlAction(this::renameCmd, img, loc.getMenu("Rename"));
 
-		if (getGeos().size() == 1 && getGeo() instanceof TextValue
+		if (getGeos().size() == 1
+				&& getGeo() instanceof TextValue
 				&& !getGeo().isTextCommand()
 				&& !getGeo().isProtected(EventType.UPDATE)) {
 
 			SVGResource img2 = MaterialDesignResources.INSTANCE.edit_black();
 
-			addHtmlAction(this::editCmd,
-					img2, loc.getMenu("Edit"));
+			addHtmlAction(this::editCmd, img2, loc.getMenu("Edit"));
 		}
 	}
 
@@ -465,10 +450,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			ResourcePrototype img = MaterialDesignResources.INSTANCE.pin_black();
 
 			final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					img, loc.getMenu("PinToScreen"),
-					geo.isPinned(),
-					() -> pinCmd(geo.isPinned())
-			);
+					img, loc.getMenu("PinToScreen"), geo.isPinned(), () -> pinCmd(geo.isPinned()));
 
 			wrappedPopup.addItem(cmItem);
 		}
@@ -486,8 +468,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addFixObjectForOneGeo() {
 		final GeoElement geo = getGeo();
 		// change back to old name-> Fix instead of Lock
-		if (geo.isFixable() && (
-				!app.getSettings().getAlgebra().isEquationChangeByDragRestricted()
+		if (geo.isFixable()
+				&& (!app.getSettings().getAlgebra().isEquationChangeByDragRestricted()
 						|| !geo.isFunctionOrEquationFromUser())) {
 			addFixObjectMenuItem(geo.isLocked(), () -> fixObjectCmd(!geo.isLocked()));
 		}
@@ -496,15 +478,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addFixObjectMenuItem(boolean locked, Runnable command) {
 		final GCheckmarkMenuItem cmItem = factory.newCheckmarkMenuItem(
 				generalIconResource.getImageResource(GeneralIcon.LOCK),
-				loc.getMenu("FixObject"), locked, command::run);
+				loc.getMenu("FixObject"),
+				locked,
+				command::run);
 		wrappedPopup.addItem(cmItem);
 	}
 
 	private void addFixForSelection(ArrayList<GeoElement> selectedGeos) {
 		boolean fixable = true;
-		boolean locked = !app.getSettings().getAlgebra()
-				.isEquationChangeByDragRestricted();
-		for (GeoElement geo: selectedGeos) {
+		boolean locked = !app.getSettings().getAlgebra().isEquationChangeByDragRestricted();
+		for (GeoElement geo : selectedGeos) {
 			fixable = fixable && geo.isFixable();
 			locked = locked && geo.isLocked();
 		}
@@ -518,8 +501,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addCutCopyPaste() {
-		if (!(getGeo() instanceof GeoEmbed
-				&& ((GeoEmbed) getGeo()).isGraspableMath())) {
+		if (!(getGeo() instanceof GeoEmbed && ((GeoEmbed) getGeo()).isGraspableMath())) {
 			addCutCopy();
 		}
 		addPasteItem();
@@ -533,8 +515,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			app.setDefaultCursor();
 		};
 
-		addHtmlAction(cutCommand, generalIconResource.getImageResource(GeneralIcon.CUT),
-				loc.getMenu("Cut"));
+		addHtmlAction(
+				cutCommand, generalIconResource.getImageResource(GeneralIcon.CUT), loc.getMenu("Cut"));
 
 		Command copyCommand = () -> {
 			app.setWaitCursor();
@@ -542,8 +524,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			app.setDefaultCursor();
 		};
 
-		addHtmlAction(copyCommand, generalIconResource.getImageResource(GeneralIcon.COPY),
-				loc.getMenu("Copy"));
+		addHtmlAction(
+				copyCommand, generalIconResource.getImageResource(GeneralIcon.COPY), loc.getMenu("Copy"));
 	}
 
 	private void addDuplicate() {
@@ -553,10 +535,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			app.setDefaultCursor();
 		};
 
-		addHtmlAction(duplicateCommand,
-						MaterialDesignResources.INSTANCE.duplicate_black(),
-						loc.getMenu("Duplicate"));
-
+		addHtmlAction(
+				duplicateCommand,
+				MaterialDesignResources.INSTANCE.duplicate_black(),
+				loc.getMenu("Duplicate"));
 	}
 
 	/**
@@ -569,8 +551,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			app.setDefaultCursor();
 		};
 
-		final AriaMenuItem menuPaste = addHtmlAction(pasteCommand, generalIconResource
-						.getImageResource(GeneralIcon.PASTE), loc.getMenu("Paste"));
+		final AriaMenuItem menuPaste = addHtmlAction(
+				pasteCommand,
+				generalIconResource.getImageResource(GeneralIcon.PASTE),
+				loc.getMenu("Paste"));
 
 		CopyPasteW.checkClipboard(menuPaste::setEnabled);
 	}
@@ -586,8 +570,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			plane.setView2DVisible(true);
 			Log.debug("set plane visible : " + plane);
 		};
-		addAction(action, app.getLocalization().getPlain("ShowAAs2DView",
-				getGeo().getLabelSimple()));
+		addAction(action, app.getLocalization().getPlain("ShowAAs2DView", getGeo().getLabelSimple()));
 	}
 
 	private void addUserInputItem() {
@@ -608,7 +591,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					action = () -> inputFormCmd(geo);
 					addAction(action, loc.getMenu("InputForm"));
 				}
-
 			}
 		} else if (needsInputFormItem(geo)) {
 			Command action = () -> inputFormCmd(geo);
@@ -759,31 +741,31 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		Command action;
 
 		switch (mode) {
-		case Kernel.COORD_COMPLEX:
-		default:
-			return;
+			case Kernel.COORD_COMPLEX:
+			default:
+				return;
 
-		// 2D coords styles
-		case Kernel.COORD_POLAR:
-			action = () -> setCoordStyle(Kernel.COORD_CARTESIAN);
-			addAction(action, loc.getMenu("CartesianCoords"));
-			break;
+			// 2D coords styles
+			case Kernel.COORD_POLAR:
+				action = () -> setCoordStyle(Kernel.COORD_CARTESIAN);
+				addAction(action, loc.getMenu("CartesianCoords"));
+				break;
 
-		case Kernel.COORD_CARTESIAN:
-			action = () -> setCoordStyle(Kernel.COORD_POLAR);
-			addAction(action, loc.getMenu("PolarCoords"));
-			break;
+			case Kernel.COORD_CARTESIAN:
+				action = () -> setCoordStyle(Kernel.COORD_POLAR);
+				addAction(action, loc.getMenu("PolarCoords"));
+				break;
 
-		// 3D coords styles
-		case Kernel.COORD_SPHERICAL:
-			action = () -> setCoordStyle(Kernel.COORD_CARTESIAN_3D);
-			addAction(action, loc.getMenu("CartesianCoords"));
-			break;
+			// 3D coords styles
+			case Kernel.COORD_SPHERICAL:
+				action = () -> setCoordStyle(Kernel.COORD_CARTESIAN_3D);
+				addAction(action, loc.getMenu("CartesianCoords"));
+				break;
 
-		case Kernel.COORD_CARTESIAN_3D:
-			action = () -> setCoordStyle(Kernel.COORD_SPHERICAL);
-			addAction(action, loc.getMenu("Spherical"));
-			break;
+			case Kernel.COORD_CARTESIAN_3D:
+				action = () -> setCoordStyle(Kernel.COORD_SPHERICAL);
+				addAction(action, loc.getMenu("Spherical"));
+				break;
 		}
 	}
 
@@ -832,8 +814,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @param subMenu
 	 *            sub menu
 	 */
-	private void addSubmenuAction(ResourcePrototype img, String text,
-			AriaMenuBar subMenu) {
+	private void addSubmenuAction(ResourcePrototype img, String text, AriaMenuBar subMenu) {
 		AriaMenuItem mi = factory.newAriaMenuItem(text, img, subMenu);
 		wrappedPopup.addItem(mi);
 	}
@@ -843,8 +824,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            title of menu (first menu item)
 	 */
 	protected void setTitle(String str) {
-		AriaMenuItem title = new AriaMenuItem(new InlineHTML(str),
-				() -> wrappedPopup.setVisible(false));
+		AriaMenuItem title =
+				new AriaMenuItem(new InlineHTML(str), () -> wrappedPopup.setVisible(false));
 		title.addStyleName("menuTitle");
 
 		wrappedPopup.addItem(title);
@@ -879,20 +860,19 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		String[] angleIntervals = new String[GeoAngle.AngleStyle.values().length - 1];
 		for (int i = 0; i < angleIntervals.length; i++) {
 			GeoAngle.AngleStyle style = GeoAngle.AngleStyle.values()[i];
-			angleIntervals[i] = app.getLocalization()
-					.getPlain("AngleBetweenAB.short", style.getMin(), style.getMax());
+			angleIntervals[i] =
+					app.getLocalization().getPlain("AngleBetweenAB.short", style.getMin(), style.getMax());
 		}
 
 		AriaMenuBar mnu = new AriaMenuBar();
-		GeoElement[] geos = { getGeo() };
+		GeoElement[] geos = {getGeo()};
 		final ReflexAngleModel model = new ReflexAngleModel(app, false);
 		model.setGeos(geos);
 
 		for (int i = 0; i < angleIntervals.length; i++) {
 			final int idx = i;
 			AriaMenuItem mi = factory.newAriaMenuItem(
-					AppResources.INSTANCE.empty(), angleIntervals[i],
-					() -> model.applyChanges(idx));
+					AppResources.INSTANCE.empty(), angleIntervals[i], () -> model.applyChanges(idx));
 			mnu.addItem(mi);
 		}
 		return mnu;
@@ -902,8 +882,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * update whole popup
 	 */
 	public void update() {
-		initPopup(app.getActiveEuclidianView()
-				.getEuclidianController().getAppSelectedGeos());
+		initPopup(app.getActiveEuclidianView().getEuclidianController().getAppSelectedGeos());
 		addOtherItems();
 	}
 }

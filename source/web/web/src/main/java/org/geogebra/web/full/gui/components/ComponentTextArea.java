@@ -29,8 +29,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.TextArea;
 
-public final class ComponentTextArea extends FlowPanel implements SetLabels,
-		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
+public final class ComponentTextArea extends FlowPanel
+		implements SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final String title;
 	private final Localization loc;
 	private final TextArea textArea;
@@ -54,8 +54,8 @@ public final class ComponentTextArea extends FlowPanel implements SetLabels,
 	 * @param loc the localization instance used for translating the title
 	 * @param propertyView the PropertyView backing this component
 	 */
-	public ComponentTextArea(Localization loc,
-			org.geogebra.common.properties.PropertyView.TextArea propertyView) {
+	public ComponentTextArea(
+			Localization loc, org.geogebra.common.properties.PropertyView.TextArea propertyView) {
 		this(loc, propertyView.getLabel());
 		this.propertyView = propertyView;
 		setContent(propertyView.getValue());
@@ -73,8 +73,7 @@ public final class ComponentTextArea extends FlowPanel implements SetLabels,
 		FlowPanel optionHolder = new FlowPanel();
 		optionHolder.addStyleName("optionLabelHolder");
 		if (title != null && !title.isEmpty()) {
-			label = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu(title),
-					"label");
+			label = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu(title), "label");
 			optionHolder.add(label);
 		}
 		textArea.addStyleName("textArea");

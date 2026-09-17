@@ -39,8 +39,14 @@ final class BoundarySegment {
 	private double[] params = new double[8];
 	private int paramCount;
 
-	BoundarySegment(int fragmentId, int contourId, int segmentIndex, int segmentCount,
-			boolean closed, MyPoint start, MyPoint end) {
+	BoundarySegment(
+			int fragmentId,
+			int contourId,
+			int segmentIndex,
+			int segmentCount,
+			boolean closed,
+			MyPoint start,
+			MyPoint end) {
 		this.fragmentId = fragmentId;
 		this.contourId = contourId;
 		this.segmentIndex = segmentIndex;

@@ -68,18 +68,16 @@ public abstract class FileManagerT extends FileManager {
 
 	@Override
 	public void export(final App app1) {
-		((AppW) app1).getGgbApi().getBase64(true,
-				s -> nativeShare(s, app1.getExportTitle()));
+		((AppW) app1).getGgbApi().getBase64(true, s -> nativeShare(s, app1.getExportTitle()));
 	}
 
 	@Override
-	public void showExportAsPictureDialog(String url, String filename,
-			String extension, String titleKey, App appW) {
+	public void showExportAsPictureDialog(
+			String url, String filename, String extension, String titleKey, App appW) {
 
 		exportImage(url, filename, extension);
 		// TODO check if it really happened
-		appW.dispatchEvent(
-				new Event(EventType.EXPORT, null, "[\"" + extension + "\"]"));
+		appW.dispatchEvent(new Event(EventType.EXPORT, null, "[\"" + extension + "\"]"));
 	}
 
 	@Override

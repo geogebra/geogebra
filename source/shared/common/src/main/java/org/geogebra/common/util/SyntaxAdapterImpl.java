@@ -39,13 +39,12 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 	@Override
 	protected boolean mightBeLaTeXSyntax(String expression) {
 		try {
-			kernel.getAlgebraProcessor()
-					.getValidExpressionNoExceptionHandling(expression);
+			kernel.getAlgebraProcessor().getValidExpressionNoExceptionHandling(expression);
 			String[] parts = expression.split("\\\\");
 			// a\b is set difference: allow it
 			for (int i = 1; i < parts.length; i++) {
-				String command = parts[i].contains(" ")
-						? parts[i].substring(0, parts[i].indexOf(' ')) : parts[i];
+				String command =
+						parts[i].contains(" ") ? parts[i].substring(0, parts[i].indexOf(' ')) : parts[i];
 				if (kernel.lookupLabel(command) == null) {
 					return true;
 				}
@@ -61,8 +60,7 @@ public class SyntaxAdapterImpl extends AbstractSyntaxAdapter {
 
 	@Override
 	public String convertLaTeXtoGGB(String latexExpression) {
-		kernel.getApplication().getDrawEquation()
-				.checkFirstCall();
+		kernel.getApplication().getDrawEquation().checkFirstCall();
 		return super.convertLaTeXtoGGB(latexExpression);
 	}
 

@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Length of a vector
- * 
+ *
  * @author mathieu
  */
 public class AlgoLengthVector3D extends AlgoElement {
@@ -74,8 +74,7 @@ public class AlgoLengthVector3D extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return getLoc().getPlain("LengthOfA", v.getLabel(tpl));
 	}
-
 }

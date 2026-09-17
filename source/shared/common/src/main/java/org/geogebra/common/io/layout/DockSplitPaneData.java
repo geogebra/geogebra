@@ -21,7 +21,7 @@ import org.geogebra.common.io.XMLStringBuilder;
 /**
  * A storage container for a split pane. Just used for saving &amp; loading a
  * perspective as not all information can be stored in the DockPanelInfo.
- * 
+ *
  * @author Florian Sonner
  */
 public class DockSplitPaneData {
@@ -38,8 +38,7 @@ public class DockSplitPaneData {
 	 *            vertical or horizontal (JSplitPane.HORIZONTAL_SPLIT or
 	 *            JSplitPane.VERTICAL_SPLIT)
 	 */
-	public DockSplitPaneData(String location, double dividerLocation,
-			int orientation) {
+	public DockSplitPaneData(String location, double dividerLocation, int orientation) {
 		this.location = location;
 		this.dividerLocation = dividerLocation;
 		this.orientation = orientation;

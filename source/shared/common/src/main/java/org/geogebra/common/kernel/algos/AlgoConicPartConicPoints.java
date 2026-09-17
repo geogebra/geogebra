@@ -35,11 +35,14 @@ public class AlgoConicPartConicPoints extends AlgoConicPartConicPointsND {
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
-	public AlgoConicPartConicPoints(Construction cons, String label,
-			GeoConicND circle, GeoPointND startPoint, GeoPointND endPoint,
+	public AlgoConicPartConicPoints(
+			Construction cons,
+			String label,
+			GeoConicND circle,
+			GeoPointND startPoint,
+			GeoPointND endPoint,
 			int type) {
 		super(cons, label, circle, startPoint, endPoint, type);
-
 	}
 
 	@Override
@@ -80,5 +83,4 @@ public class AlgoConicPartConicPoints extends AlgoConicPartConicPointsND {
 	public GeoConicPart getConicPart() {
 		return (GeoConicPart) super.getConicPart();
 	}
-
 }

@@ -81,25 +81,30 @@ public final class ComponentExpandableList extends FlowPanel implements SetLabel
 	private void addArrowTo(FlowPanel header) {
 		SimplePanel arrow = new SimplePanel();
 		arrow.addStyleName("headerArrow");
-		arrow.getElement().setInnerHTML(KeyboardResources.INSTANCE.keyboard_arrowRight_black()
-				.getSVG());
+		arrow
+				.getElement()
+				.setInnerHTML(KeyboardResources.INSTANCE.keyboard_arrowRight_black().getSVG());
 		AriaHelper.setAriaHidden(arrow);
 		header.add(arrow);
 	}
 
 	private void addTitleTo(FlowPanel header) {
-		title = BaseWidgetFactory.INSTANCE.newPrimaryText(appW.getLocalization()
-				.getMenu(titleTransKey), "title");
+		title = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				appW.getLocalization().getMenu(titleTransKey), "title");
 		header.add(title);
 	}
 
 	private void addCheckBoxTo(FlowPanel header) {
-		checkbox = new ComponentCheckbox(appW.getLocalization(), booleanProperty, "",
+		checkbox = new ComponentCheckbox(
+				appW.getLocalization(),
+				booleanProperty,
+				"",
 				value -> {
-			booleanProperty.setSelected(value);
-			expanded = value;
-			updateUISelectedState();
-		}, true);
+					booleanProperty.setSelected(value);
+					expanded = value;
+					updateUISelectedState();
+				},
+				true);
 		AriaHelper.setLabel(this, appW.getLocalization().getMenu(titleTransKey));
 		header.add(checkbox);
 	}

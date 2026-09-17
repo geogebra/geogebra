@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Interface for functions convertible to GeoFunction
- * 
+ *
  * @author Markus
  *
  */
@@ -30,7 +30,7 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	/**
 	 * Convert to a function, the returned object stays in sync through an algo
 	 * (performance loss).
-	 * 
+	 *
 	 * @return this as GeoFunction
 	 * @deprecated if you need the expression, you can get it through
 	 *             getFunction
@@ -41,7 +41,7 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	/**
 	 * For GeoFunctions return the wrapped function, for other elements create
 	 * equivalent function on the fly (=no guaranteed to stay in sync).
-	 * 
+	 *
 	 * @return this as function
 	 */
 	Function getFunction();
@@ -49,14 +49,14 @@ public interface GeoFunctionable extends GeoElementND, UnivariateFunction {
 	/**
 	 * Like getFunction(), but for root finding we don't want to divide line
 	 * equations by y, so that Root(3x=6) works.
-	 * 
+	 *
 	 * @return this as function
 	 */
 	Function getFunctionForRoot();
 
 	/**
 	 * For root we consider abs(sqrt(x)) also polynomial
-	 * 
+	 *
 	 * @param forRoot
 	 *            whether we need this for root finding
 	 * @return whether the function is polynomial

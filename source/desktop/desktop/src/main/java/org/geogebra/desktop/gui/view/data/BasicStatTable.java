@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -32,12 +32,11 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Displays statistics for DataAnalysisView when in one variable or regression
  * mode.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class BasicStatTable extends JPanel
-		implements StatPanelInterface, StatTableListener {
+public class BasicStatTable extends JPanel implements StatPanelInterface, StatTableListener {
 	private static final long serialVersionUID = 1L;
 	private StatTableModel model;
 
@@ -47,7 +46,7 @@ public class BasicStatTable extends JPanel
 
 	/**
 	 * Construct the panel
-	 * 
+	 *
 	 * @param app application
 	 * @param statDialog DA dialog
 	 */
@@ -61,8 +60,7 @@ public class BasicStatTable extends JPanel
 	 * @param app application
 	 * @param statDialog DA dialog
 	 */
-	public BasicStatTable(AppD app, DataAnalysisViewD statDialog,
-			boolean defaultModel) {
+	public BasicStatTable(AppD app, DataAnalysisViewD statDialog, boolean defaultModel) {
 		this.app = app;
 		this.daView = statDialog;
 		this.setLayout(new BorderLayout());
@@ -83,8 +81,10 @@ public class BasicStatTable extends JPanel
 	protected void initStatTable() {
 
 		statTable = new StatTable(getApp());
-		statTable.setStatTable(getModel().getRowCount(),
-				getModel().getRowNames(), getModel().getColumnCount(),
+		statTable.setStatTable(
+				getModel().getRowCount(),
+				getModel().getRowNames(),
+				getModel().getColumnCount(),
 				getModel().getColumnNames());
 		this.removeAll();
 		this.add(statTable, BorderLayout.CENTER);
@@ -103,12 +103,14 @@ public class BasicStatTable extends JPanel
 	/**
 	 * Evaluates all statistics for the selected data list. If data source is
 	 * not valid, the result cells are set blank.
-	 * 
+	 *
 	 */
 	@Override
 	public void updatePanel() {
-		statTable.setStatTable(getModel().getRowCount(),
-				getModel().getRowNames(), getModel().getColumnCount(),
+		statTable.setStatTable(
+				getModel().getRowCount(),
+				getModel().getRowNames(),
+				getModel().getColumnCount(),
 				getModel().getColumnNames());
 		getModel().updatePanel();
 	}
@@ -120,8 +122,7 @@ public class BasicStatTable extends JPanel
 
 	@Override
 	public void setLabels() {
-		statTable.setLabels(getModel().getRowNames(),
-				getModel().getColumnNames());
+		statTable.setLabels(getModel().getRowNames(), getModel().getColumnNames());
 	}
 
 	@Override
@@ -146,8 +147,7 @@ public class BasicStatTable extends JPanel
 
 	@Override
 	public void setValueAt(double value, int row, int column) {
-		statTable.getModel().setValueAt(daView.getModel().format(value), row,
-				column);
+		statTable.getModel().setValueAt(daView.getModel().format(value), row, column);
 	}
 
 	@Override
@@ -181,5 +181,4 @@ public class BasicStatTable extends JPanel
 	public StatTableModel getModel() {
 		return model;
 	}
-
 }

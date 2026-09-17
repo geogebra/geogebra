@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 /**
  * Derivative of a function
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoDerivative extends AlgoCasBase {
@@ -61,8 +61,12 @@ public class AlgoDerivative extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoDerivative(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var, GeoNumberValue order,
+	public AlgoDerivative(
+			Construction cons,
+			String label,
+			CasEvaluableFunction f,
+			GeoNumeric var,
+			GeoNumberValue order,
 			EvalInfo info) {
 		this(cons, f, var, order, false, info);
 		g.toGeoElement().setLabel(label);
@@ -84,9 +88,14 @@ public class AlgoDerivative extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoDerivative(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var, GeoNumberValue order,
-			boolean fast, EvalInfo info) {
+	public AlgoDerivative(
+			Construction cons,
+			String label,
+			CasEvaluableFunction f,
+			GeoNumeric var,
+			GeoNumberValue order,
+			boolean fast,
+			EvalInfo info) {
 		this(cons, f, var, order, fast, info);
 		g.toGeoElement().setLabel(label);
 	}
@@ -99,8 +108,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
-			EvalInfo info) {
+	public AlgoDerivative(Construction cons, CasEvaluableFunction f, EvalInfo info) {
 		this(cons, f, null, null, false, info);
 	}
 
@@ -118,8 +126,13 @@ public class AlgoDerivative extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
-			GeoNumeric var, GeoNumberValue order, boolean fast, EvalInfo info) {
+	public AlgoDerivative(
+			Construction cons,
+			CasEvaluableFunction f,
+			GeoNumeric var,
+			GeoNumberValue order,
+			boolean fast,
+			EvalInfo info) {
 		super(cons, f, fast ? Commands.NDerivative : Commands.Derivative, info);
 		this.var = var;
 		this.order = order;
@@ -139,8 +152,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
-			boolean fast, EvalInfo info) {
+	public AlgoDerivative(Construction cons, CasEvaluableFunction f, boolean fast, EvalInfo info) {
 		this(cons, f, null, null, fast, info);
 	}
 
@@ -180,8 +192,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		boolean secret = getClassName() == Commands.NDerivative;
 		if (f instanceof GeoFunction) {
 
-			Function funDeriv = ((GeoFunction) f).getFunction()
-					.getDerivative(orderInt, fast);
+			Function funDeriv = ((GeoFunction) f).getFunction().getDerivative(orderInt, fast);
 			if (secret) {
 				funDeriv.setSecret(this);
 			}
@@ -191,10 +202,8 @@ public class AlgoDerivative extends AlgoCasBase {
 		}
 
 		if (f instanceof GeoCurveCartesianND) {
-			((GeoCurveCartesianND) g).setDerivative((GeoCurveCartesianND) f,
-					orderInt);
-			for (int i = 0; secret
-					&& i < ((GeoCurveCartesianND) g).getDimension(); i++) {
+			((GeoCurveCartesianND) g).setDerivative((GeoCurveCartesianND) f, orderInt);
+			for (int i = 0; secret && i < ((GeoCurveCartesianND) g).getDimension(); i++) {
 				((GeoCurveCartesianND) g).getFun(i).setSecret(this);
 			}
 			return;
@@ -243,11 +252,10 @@ public class AlgoDerivative extends AlgoCasBase {
 
 		// find symbolic derivative of f
 		g.setUsingCasCommand(sbAE.toString(), f, true, arbconst);
-
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 
 		if (var != null) {
@@ -260,20 +268,22 @@ public class AlgoDerivative extends AlgoCasBase {
 				char firstCh = orderStr.charAt(0);
 				if (firstCh >= '0' && firstCh <= '9') {
 					// numeric, convert 3 -> 3rd (in current locale)
-					orderStr = getLoc().getLanguage()
-							.getOrdinalNumber((int) order.getDouble());
+					orderStr = getLoc().getLanguage().getOrdinalNumber((int) order.getDouble());
 				} else {
 					// symbolic, convert n -> nth (in current locale)
 					orderStr = getLoc().getPlain("Ath", orderStr);
 				}
 
-				sb.append(getLoc().getPlainDefault("ADerivativeOfB",
-						"% Derivative of %1", orderStr,
-						f.toGeoElement().getLabel(tpl)));
+				sb.append(getLoc()
+						.getPlainDefault(
+								"ADerivativeOfB",
+								"% Derivative of %1",
+								orderStr,
+								f.toGeoElement().getLabel(tpl)));
 			} else {
-				sb.append(getLoc().getPlainDefault("DerivativeOfA",
-						"Derivative of %0",
-						f.toGeoElement().getLabel(tpl)));
+				sb.append(getLoc()
+						.getPlainDefault(
+								"DerivativeOfA", "Derivative of %0", f.toGeoElement().getLabel(tpl)));
 			}
 		}
 
@@ -289,5 +299,4 @@ public class AlgoDerivative extends AlgoCasBase {
 
 		return sb.toString();
 	}
-
 }

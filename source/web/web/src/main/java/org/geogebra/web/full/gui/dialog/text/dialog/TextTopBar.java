@@ -53,8 +53,8 @@ public final class TextTopBar extends FlowPanel {
 	 * @param textEditPanel {@link TextEditPanel}
 	 * @param previewUpdater runnable to update the preview panel
 	 */
-	public TextTopBar(AppWFull appW, GeoText geoText, TextEditPanel textEditPanel,
-			Runnable previewUpdater) {
+	public TextTopBar(
+			AppWFull appW, GeoText geoText, TextEditPanel textEditPanel, Runnable previewUpdater) {
 		this.appW = appW;
 		this.geoText = geoText;
 		propertiesFactory = appW.getGeoElementPropertiesFactory();
@@ -69,8 +69,8 @@ public final class TextTopBar extends FlowPanel {
 		Localization loc = appW.getLocalization();
 		List<GeoElement> geoList = List.of(geoText);
 
-		Property backgroundColorProperty
-				= propertiesFactory.createTextBackgroundColorProperty(loc, geoList);
+		Property backgroundColorProperty =
+				propertiesFactory.createTextBackgroundColorProperty(loc, geoList);
 		add(createIconButtonWithProperty(backgroundColorProperty, geoList, textStyle::setBgColor));
 
 		add(BaseWidgetFactory.INSTANCE.newDivider(true));
@@ -80,10 +80,13 @@ public final class TextTopBar extends FlowPanel {
 
 		fontSizeProperty = propertiesFactory.createFontSizeProperty(loc, geoList);
 		IconButtonWithProperty fontSizeButton = new IconButtonWithProperty(
-				appW, "gwt-PopupPanel contextSubMenu",
+				appW,
+				"gwt-PopupPanel contextSubMenu",
 				appW.getPropertiesIconResource().getImageResource(fontSizeProperty),
 				fontSizeProperty.getName(),
-				geoList, true, fontSizeProperty);
+				geoList,
+				true,
+				fontSizeProperty);
 		fontSizeButton.addStyleName("small");
 		add(fontSizeButton);
 
@@ -98,8 +101,8 @@ public final class TextTopBar extends FlowPanel {
 
 		add(BaseWidgetFactory.INSTANCE.newDivider(true));
 
-		IconButton insertButton = new IconButton(appW, () -> {},
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.add_black()), "Insert");
+		IconButton insertButton = new IconButton(
+				appW, () -> {}, new ImageIconSpec(MaterialDesignResources.INSTANCE.add_black()), "Insert");
 		insertButton.addFastClickHandler(source -> {
 			if (insertPopup == null) {
 				insertPopup = new InsertPopup(appW, textEditPanel, previewUpdater);
@@ -118,20 +121,23 @@ public final class TextTopBar extends FlowPanel {
 			appW.registerPopup(insertPopup);
 			insertPopup.show();
 			int left = (int) (insertButton.getAbsoluteLeft() - appW.getAbsLeft());
-			int top = (int) (insertButton.getAbsoluteTop() + insertButton.getOffsetHeight()
-					- appW.getAbsTop());
+			int top =
+					(int) (insertButton.getAbsoluteTop() + insertButton.getOffsetHeight() - appW.getAbsTop());
 			insertPopup.setPopupPosition(left, top);
 		}
 		insertButton.setActive(insertPopup.isShowing());
 	}
 
-	private IconButtonWithProperty createIconButtonWithProperty(Property property,
-			List<GeoElement> geos, Consumer<GColor> consumer) {
-		IconButtonWithProperty iconButtonWithProperty = new IconButtonWithProperty(appW,
+	private IconButtonWithProperty createIconButtonWithProperty(
+			Property property, List<GeoElement> geos, Consumer<GColor> consumer) {
+		IconButtonWithProperty iconButtonWithProperty = new IconButtonWithProperty(
+				appW,
 				"colorStyle",
 				appW.getPropertiesIconResource().getImageResource(property),
 				property.getName(),
-				geos, true, property);
+				geos,
+				true,
+				property);
 		iconButtonWithProperty.addPopupHandler((valuedProperty, value) -> {
 			appW.closePopups();
 			valuedProperty.setValue(value);
@@ -142,10 +148,12 @@ public final class TextTopBar extends FlowPanel {
 		return iconButtonWithProperty;
 	}
 
-	private IconButton createIconToggleButton(BooleanProperty property,
-			Consumer<Boolean> consumer) {
-		IconButton toggleButton = new IconButton(appW, null,
-				appW.getPropertiesIconResource().getImageResource(property), property.getName());
+	private IconButton createIconToggleButton(BooleanProperty property, Consumer<Boolean> consumer) {
+		IconButton toggleButton = new IconButton(
+				appW,
+				null,
+				appW.getPropertiesIconResource().getImageResource(property),
+				property.getName());
 		toggleButton.setActive(property.getValue());
 		toggleButton.addFastClickHandler(ignore -> {
 			appW.closePopups();

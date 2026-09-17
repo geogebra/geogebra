@@ -18,7 +18,7 @@ package org.geogebra.common.media;
 
 /**
  * Result of packUrl with error code.
- * 
+ *
  * @author laszlo
  *
  */
@@ -27,7 +27,7 @@ public class MebisURL extends VideoURL {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param url
 	 *            to set.
 	 * @param error
@@ -39,7 +39,7 @@ public class MebisURL extends VideoURL {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return error if any.
 	 */
 	public MebisError getError() {

@@ -105,26 +105,43 @@ class GraphBuilderTest {
 	@Test
 	void openTopRightFragmentShouldNotCollapseToZeroAreaCycle() {
 		GraphBuilder builder = new GraphBuilder(EpsilonPolicy.defaults());
-		builder.build(bounds(-12.198461432801118, -15.489628634034508,
-						11.589930649819534, 14.767628485014281),
-				new ClippedFragmentsResult(List.of(topRightOpenFragment()), List.of(
-						edgeHit(ClipEdge.TOP, 0.6767430927688882, 0, 0.0,
-								0.6767430927688882, -4.150824595037196, -0.14423690625754026,
-								0),
-						edgeHit(ClipEdge.RIGHT, 0.03404135588352595, 226, 0.03404135588352595,
-								1.034041355883526, -0.030767540218894274, -0.6862826913982158,
-								0))));
+		builder.build(
+				bounds(-12.198461432801118, -15.489628634034508, 11.589930649819534, 14.767628485014281),
+				new ClippedFragmentsResult(
+						List.of(topRightOpenFragment()),
+						List.of(
+								edgeHit(
+										ClipEdge.TOP,
+										0.6767430927688882,
+										0,
+										0.0,
+										0.6767430927688882,
+										-4.150824595037196,
+										-0.14423690625754026,
+										0),
+								edgeHit(
+										ClipEdge.RIGHT,
+										0.03404135588352595,
+										226,
+										0.03404135588352595,
+										1.034041355883526,
+										-0.030767540218894274,
+										-0.6862826913982158,
+										0))));
 
 		PlanarGraph graph = builder.getGraph();
 
-		assertTrue(graph.getLastExtractedBoundaryCycles().stream()
+		assertTrue(
+				graph.getLastExtractedBoundaryCycles().stream()
 						.anyMatch(cycle -> Math.abs(cycle.getSignedArea()) > 1e-6),
 				"Open TOP->RIGHT fragment should not collapse into a near-zero extracted cycle: "
 						+ describeCycles(graph.getLastExtractedBoundaryCycles()));
-		assertTrue(!graph.getLastCanonicalBoundaryCycles().isEmpty(),
+		assertTrue(
+				!graph.getLastCanonicalBoundaryCycles().isEmpty(),
 				"Open TOP->RIGHT fragment should keep bounded canonical cycles: "
 						+ describeCycles(graph.getLastCanonicalBoundaryCycles()));
-		assertTrue(hasBoundedCanonicalCycle(graph, 11.589930649819534 * 14.767628485014281),
+		assertTrue(
+				hasBoundedCanonicalCycle(graph, 11.589930649819534 * 14.767628485014281),
 				"Open TOP->RIGHT fragment should keep a bounded non-viewport canonical cycle: "
 						+ describeCycles(graph.getLastCanonicalBoundaryCycles()));
 	}
@@ -132,21 +149,24 @@ class GraphBuilderTest {
 	@Test
 	void openSameEdgeFragmentShouldNotCloseAsViewportOrRibbon() {
 		GraphBuilder builder = new GraphBuilder(EpsilonPolicy.defaults());
-		builder.build(bounds(0, 0, 10, 10),
-				new ClippedFragmentsResult(List.of(rightRightOpenFragment()), List.of(
-						edgeHit(ClipEdge.RIGHT, 0.2, 0, 0.0,
-								1.2, 10, 8, 0),
-						edgeHit(ClipEdge.RIGHT, 0.8, 2, 1.0,
-								1.8, 10, 2, 0))));
+		builder.build(
+				bounds(0, 0, 10, 10),
+				new ClippedFragmentsResult(
+						List.of(rightRightOpenFragment()),
+						List.of(
+								edgeHit(ClipEdge.RIGHT, 0.2, 0, 0.0, 1.2, 10, 8, 0),
+								edgeHit(ClipEdge.RIGHT, 0.8, 2, 1.0, 1.8, 10, 2, 0))));
 
 		PlanarGraph graph = builder.getGraph();
 
-		assertTrue(graph.getLastExtractedBoundaryCycles().stream()
-						.anyMatch(cycle -> Math.abs(cycle.getSignedArea()) > 1e-6
-								&& Math.abs(cycle.getSignedArea()) < 99),
+		assertTrue(
+				graph.getLastExtractedBoundaryCycles().stream()
+						.anyMatch(cycle ->
+								Math.abs(cycle.getSignedArea()) > 1e-6 && Math.abs(cycle.getSignedArea()) < 99),
 				"Same-edge open fragment should produce a bounded non-ribbon extracted cycle: "
 						+ describeCycles(graph.getLastExtractedBoundaryCycles()));
-		assertTrue(hasBoundedCanonicalCycle(graph, 100),
+		assertTrue(
+				hasBoundedCanonicalCycle(graph, 100),
 				"Same-edge open fragment should keep a bounded non-viewport canonical cycle: "
 						+ describeCycles(graph.getLastCanonicalBoundaryCycles()));
 	}
@@ -155,21 +175,36 @@ class GraphBuilderTest {
 	void repeatedOpenFragmentBuildsShouldNotAccumulateClosureState() {
 		GraphBuilder builder = new GraphBuilder(EpsilonPolicy.defaults());
 		ClippedFragmentsResult topRight = new ClippedFragmentsResult(
-				List.of(topRightOpenFragment()), List.of(
-						edgeHit(ClipEdge.TOP, 0.6767430927688882, 0, 0.0,
-								0.6767430927688882, -4.150824595037196,
-								-0.14423690625754026, 0),
-						edgeHit(ClipEdge.RIGHT, 0.03404135588352595, 226,
-								0.03404135588352595, 1.034041355883526,
-								-0.030767540218894274, -0.6862826913982158, 0)));
+				List.of(topRightOpenFragment()),
+				List.of(
+						edgeHit(
+								ClipEdge.TOP,
+								0.6767430927688882,
+								0,
+								0.0,
+								0.6767430927688882,
+								-4.150824595037196,
+								-0.14423690625754026,
+								0),
+						edgeHit(
+								ClipEdge.RIGHT,
+								0.03404135588352595,
+								226,
+								0.03404135588352595,
+								1.034041355883526,
+								-0.030767540218894274,
+								-0.6862826913982158,
+								0)));
 		ClippedFragmentsResult rightRight = new ClippedFragmentsResult(
-				List.of(rightRightOpenFragment()), List.of(
+				List.of(rightRightOpenFragment()),
+				List.of(
 						edgeHit(ClipEdge.RIGHT, 0.2, 0, 0.0, 1.2, 10, 8, 0),
 						edgeHit(ClipEdge.RIGHT, 0.8, 2, 1.0, 1.8, 10, 2, 0)));
 
 		for (int i = 0; i < 10; i++) {
-			builder.build(bounds(-12.198461432801118, -15.489628634034508,
-					11.589930649819534, 14.767628485014281), topRight);
+			builder.build(
+					bounds(-12.198461432801118, -15.489628634034508, 11.589930649819534, 14.767628485014281),
+					topRight);
 			assertTrue(builder.debugSummary().contains("openClosure={status=SUCCESS open=1"));
 			builder.build(bounds(0, 0, 10, 10), rightRight);
 			assertTrue(builder.debugSummary().contains("openClosure={status=SUCCESS open=1"));
@@ -196,13 +231,16 @@ class GraphBuilderTest {
 		MyPoint p10 = point(-0.22370886687429367, -0.7172650829963223, true);
 		MyPoint endPoint = point(-0.030767540218894274, -0.6862826913982158, true);
 
-		FragmentEndpoint startEndpoint = new FragmentEndpoint(start, ClipEdge.TOP,
-				0.6767430927688882, 0, 0, 0.0);
-		FragmentEndpoint endEndpoint = new FragmentEndpoint(endPoint, ClipEdge.RIGHT,
-				1.034041355883526, 0, 226, Double.NaN);
-		return new ClippedFragment(0,
+		FragmentEndpoint startEndpoint =
+				new FragmentEndpoint(start, ClipEdge.TOP, 0.6767430927688882, 0, 0, 0.0);
+		FragmentEndpoint endEndpoint =
+				new FragmentEndpoint(endPoint, ClipEdge.RIGHT, 1.034041355883526, 0, 226, Double.NaN);
+		return new ClippedFragment(
+				0,
 				List.of(start, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, endPoint),
-				false, startEndpoint, endEndpoint);
+				false,
+				startEndpoint,
+				endEndpoint);
 	}
 
 	private static ClippedFragment rightRightOpenFragment() {
@@ -212,16 +250,21 @@ class GraphBuilderTest {
 		MyPoint p3 = point(7.5, 3, true);
 		MyPoint endPoint = point(10, 2, true);
 
-		FragmentEndpoint startEndpoint = new FragmentEndpoint(start, ClipEdge.RIGHT,
-				1.2, 0, 0, 0.0);
-		FragmentEndpoint endEndpoint = new FragmentEndpoint(endPoint, ClipEdge.RIGHT,
-				1.8, 0, 2, 1.0);
-		return new ClippedFragment(0, List.of(start, p1, p2, p3, endPoint), false,
-				startEndpoint, endEndpoint);
+		FragmentEndpoint startEndpoint = new FragmentEndpoint(start, ClipEdge.RIGHT, 1.2, 0, 0, 0.0);
+		FragmentEndpoint endEndpoint = new FragmentEndpoint(endPoint, ClipEdge.RIGHT, 1.8, 0, 2, 1.0);
+		return new ClippedFragment(
+				0, List.of(start, p1, p2, p3, endPoint), false, startEndpoint, endEndpoint);
 	}
 
-	private static EdgeHit edgeHit(ClipEdge edge, double tOnEdge, int segIndex, double tSegment,
-			double sPerimeter, double x, double y, int contourId) {
+	private static EdgeHit edgeHit(
+			ClipEdge edge,
+			double tOnEdge,
+			int segIndex,
+			double tSegment,
+			double sPerimeter,
+			double x,
+			double y,
+			int contourId) {
 		EdgeHit hit = new EdgeHit(edge, tOnEdge, segIndex, tSegment, sPerimeter, x, y);
 		hit.setContourId(contourId);
 		return hit;
@@ -240,9 +283,12 @@ class GraphBuilderTest {
 			if (i > 0) {
 				sb.append(", ");
 			}
-			sb.append("{id=").append(cycle.getId())
-					.append(", area=").append(cycle.getSignedArea())
-					.append(", edges=").append(cycle.getHalfEdgeIds().size())
+			sb.append("{id=")
+					.append(cycle.getId())
+					.append(", area=")
+					.append(cycle.getSignedArea())
+					.append(", edges=")
+					.append(cycle.getHalfEdgeIds().size())
 					.append('}');
 		}
 		sb.append(']');
@@ -251,7 +297,6 @@ class GraphBuilderTest {
 
 	private static boolean hasBoundedCanonicalCycle(PlanarGraph graph, double viewportArea) {
 		return graph.getLastCanonicalBoundaryCycles().stream()
-				.anyMatch(cycle -> cycle.getAbsArea() > 1e-6
-						&& cycle.getAbsArea() < viewportArea * 0.99);
+				.anyMatch(cycle -> cycle.getAbsArea() > 1e-6 && cycle.getAbsArea() < viewportArea * 0.99);
 	}
 }

@@ -114,10 +114,7 @@ public class SliderBuilder {
 				return;
 			}
 			processedData.setMin(inputHandler.getNum());
-			inputHandler.processInput(
-					input.getMax(),
-					errorHandler,
-					getStepProcessingCallback());
+			inputHandler.processInput(input.getMax(), errorHandler, getStepProcessingCallback());
 		};
 	}
 
@@ -127,10 +124,7 @@ public class SliderBuilder {
 				return;
 			}
 			processedData.setMax(inputHandler.getNum());
-			inputHandler.processInput(
-					input.getStep(),
-					errorHandler,
-					getSliderSetupCallback());
+			inputHandler.processInput(input.getStep(), errorHandler, getSliderSetupCallback());
 		};
 	}
 

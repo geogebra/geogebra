@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -50,107 +50,97 @@ class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 			interval(-2.0539125955565396E-15, 0.19999999999999796);
 
 	@Test
-	void evaluateXSquared()  {
+	void evaluateXSquared() {
+		assertEquals(evaluator.pow(interval(1, 2), 2), valueOnInterval("x^2", 1, 2));
+	}
+
+	@Test
+	void evaluateXExponential() {
+		assertEquals(evaluator.pow(interval(1, 2), Math.E), valueOnInterval("x^e", 1, 2));
+	}
+
+	@Test
+	void evaluateXOnNegativePower() {
 		assertEquals(
-				evaluator.pow(interval(1, 2), 2),
-				valueOnInterval("x^2", 1, 2));
+				evaluator.inverse(evaluator.pow(interval(1, 2), 2)), valueOnInterval("x^-2", 1, 2));
 	}
 
 	@Test
-	void evaluateXExponential()  {
+	void evaluateXPowerHalf() {
+		assertEquals(evaluator.nthRoot(interval(1, 16), 2), valueOnInterval("x^(1/2)", 1, 16));
+	}
+
+	@Test
+	void evaluateXPowerForth() {
+		assertEquals(evaluator.nthRoot(interval(1, 16), 4), valueOnInterval("x^(1/4)", 1, 16));
+	}
+
+	@Test
+	void evaluateXPowerTwoThird() {
 		assertEquals(
-				evaluator.pow(interval(1, 2), Math.E),
-				valueOnInterval("x^e", 1, 2));
+				evaluator.nthRoot(evaluator.pow(interval(1, 16), 2), 3), valueOnInterval("x^(2/3)", 1, 16));
 	}
 
 	@Test
-	void evaluateXOnNegativePower()  {
-		assertEquals(
-				evaluator.inverse(evaluator.pow(interval(1, 2), 2)),
-				valueOnInterval("x^-2", 1, 2));
-	}
-
-	@Test
-	void evaluateXPowerHalf()  {
-		assertEquals(
-				evaluator.nthRoot(interval(1, 16), 2),
-				valueOnInterval("x^(1/2)", 1, 16));
-	}
-
-	@Test
-	void evaluateXPowerForth()  {
-		assertEquals(evaluator.nthRoot(interval(1, 16), 4),
-				valueOnInterval("x^(1/4)", 1, 16));
-	}
-
-	@Test
-	void evaluateXPowerTwoThird()  {
-		assertEquals(evaluator.nthRoot(evaluator.pow(interval(1, 16), 2), 3),
-				valueOnInterval("x^(2/3)", 1, 16));
-	}
-
-	@Test
-	void evaluateXOnNegativeFractionPower()  {
+	void evaluateXOnNegativeFractionPower() {
 		assertEquals(
 				evaluator.sqrt(evaluator.pow(evaluator.inverse(interval(9, 10)), 3)),
 				valueOnInterval("x^(-3/2)", 9, 10));
 	}
 
 	@Test
-	void evaluateXOnDoublePower()  {
-		assertEquals(evaluator.sqrt(interval(9, 10)),
-				valueOnInterval("x^0.5", 9, 10));
+	void evaluateXOnDoublePower() {
+		assertEquals(evaluator.sqrt(interval(9, 10)), valueOnInterval("x^0.5", 9, 10));
 	}
 
 	@Test
-	void evaluatePowerOfNegativeFraction()  {
+	void evaluatePowerOfNegativeFraction() {
 		String definition = "x^-(2/9)";
-		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
-				valueOnInterval(definition, -6, -5.88));
+		assertEquals(
+				interval(0.6715486801956773, 0.6745703694731457), valueOnInterval(definition, -6, -5.88));
 	}
 
 	@Test
-	void powerOfPower()  {
-		assertEquals(interval(0.7348672461377986),
-				valueOnInterval("(((x)^(1/9))^-1)^2", -4, -4));
-
+	void powerOfPower() {
+		assertEquals(interval(0.7348672461377986), valueOnInterval("(((x)^(1/9))^-1)^2", -4, -4));
 	}
 
 	@Test
-	void evaluatePowerOfFractionNegativeNominator()  {
+	void evaluatePowerOfFractionNegativeNominator() {
 		String definition = "x^(-2/9)";
-		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
-				valueOnInterval(definition, -6, -5.88));
-		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
-				valueOnInterval(definition, 5.88, 6));
+		assertEquals(
+				interval(0.6715486801956773, 0.6745703694731457), valueOnInterval(definition, -6, -5.88));
+		assertEquals(
+				interval(0.6715486801956773, 0.6745703694731457), valueOnInterval(definition, 5.88, 6));
 	}
 
 	@Test
-	void evaluatePowerOfNegativeFractionDenominator()  {
+	void evaluatePowerOfNegativeFractionDenominator() {
 		String definition = "x^(2/-9)";
-		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
-				valueOnInterval(definition, -6, -5.88));
-		assertEquals(interval(0.6715486801956773, 0.6745703694731457),
-				valueOnInterval(definition, 5.88, 6));
+		assertEquals(
+				interval(0.6715486801956773, 0.6745703694731457), valueOnInterval(definition, -6, -5.88));
+		assertEquals(
+				interval(0.6715486801956773, 0.6745703694731457), valueOnInterval(definition, 5.88, 6));
 	}
 
 	@Test
-	void evaluatePowerOfFractionMinus1under3()  {
+	void evaluatePowerOfFractionMinus1under3() {
 		shouldBeXPowerOnMinusThird();
 	}
 
-	private void shouldBeXPowerOnMinusThird()  {
+	private void shouldBeXPowerOnMinusThird() {
 		IntervalNodeFunction function = converter.convert(add("x^(-1/3)"));
 		assertEquals(IntervalConstants.one(), function.value(IntervalConstants.one()));
-		assertEquals(IntervalConstants.one().negative(),
+		assertEquals(
+				IntervalConstants.one().negative(),
 				function.value(IntervalConstants.one().negative()));
 	}
 
 	@Test
 	void evaluatePowerOfFraction1underMinus3() {
 		Interval result = valueOnInterval("x^(1/-3)", -1, 1);
-		assertTrue(LegacyIntervalAdapter.toIntervalSet(result).isInverted(),
-				"result should be inverted");
+		assertTrue(
+				LegacyIntervalAdapter.toIntervalSet(result).isInverted(), "result should be inverted");
 	}
 
 	private Interval valueOnInterval(String definition, double low, double high) {
@@ -159,18 +149,19 @@ class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 	}
 
 	@Test
-	void evaluatePowerOfNegativeFraction1under3()  {
+	void evaluatePowerOfNegativeFraction1under3() {
 		shouldBeXPowerOnMinusThird();
 	}
 
 	@Test
-	void evaluateZerothPowerOfX()  {
+	void evaluateZerothPowerOfX() {
 		shouldBeOne("x^0");
 	}
 
 	@Test
-	void evaluateXthPowerOfZero()  {
-		assertTrue(valueOnInterval("0^x", -PRECISION, PRECISION).isUndefined(),
+	void evaluateXthPowerOfZero() {
+		assertTrue(
+				valueOnInterval("0^x", -PRECISION, PRECISION).isUndefined(),
 				"0^x should be undefined around 0");
 	}
 
@@ -194,14 +185,13 @@ class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 
 	@Test
 	void xInverseAndPOWMinus1() {
-		shouldBeSameAt("x^-1", "1/x",
-				interval(-2.0539125955565396E-15, 0.19999999999999796));
+		shouldBeSameAt("x^-1", "1/x", interval(-2.0539125955565396E-15, 0.19999999999999796));
 	}
 
 	@Test
 	void nrootOfXInverseAndPowFraction() {
-		shouldBeSameAt("nroot(1/x, 9)", "(1/x)^(1/9)",
-				interval(-2.0539125955565396E-15, 0.19999999999999796));
+		shouldBeSameAt(
+				"nroot(1/x, 9)", "(1/x)^(1/9)", interval(-2.0539125955565396E-15, 0.19999999999999796));
 	}
 
 	@Test
@@ -226,7 +216,8 @@ class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 
 	@Test
 	void inverseOfXInverse() {
-		assertEquals(X_AROUND_ZERO,
+		assertEquals(
+				X_AROUND_ZERO,
 				evaluator.multiplicativeInverse(evaluator.multiplicativeInverse(X_AROUND_ZERO)));
 	}
 
@@ -271,15 +262,13 @@ class IntervalNodePowerEvaluatorTest extends BaseUnitTest {
 		IntervalSet exponent = evaluator.plusSet(
 				evaluator.multiplicativeInverseSet(IntervalSetOps.zero()), IntervalSetOps.one());
 
-		assertEquals(IntervalSet.overflow(),
-				evaluator.powSet(IntervalSet.connected(2, 2), exponent));
+		assertEquals(IntervalSet.overflow(), evaluator.powSet(IntervalSet.connected(2, 2), exponent));
 	}
 
 	@Test
 	void powOfE() {
 		IntervalSet e = connected(RMath.prev(Math.E), RMath.next(Math.E));
 		assertTrue(evaluator.powSet(e, connected(711, Double.POSITIVE_INFINITY)).isOverflow());
-		assertEquals(connected(0, 0), evaluator.powSet(e, connected(
-				Double.NEGATIVE_INFINITY, -800)));
+		assertEquals(connected(0, 0), evaluator.powSet(e, connected(Double.NEGATIVE_INFINITY, -800)));
 	}
 }

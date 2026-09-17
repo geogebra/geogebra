@@ -43,7 +43,7 @@ public class ListItem extends ComplexPanel {
 
 	/**
 	 * Focus or blur this.
-	 * 
+	 *
 	 * @param focused
 	 *            whether to focus
 	 */

@@ -56,8 +56,9 @@ public final class StartExamAction extends DefaultMenuAction<AppWFull> {
 	}
 
 	private void showDialog(AppWFull app, boolean startExamDirectly) {
-		if (app.getLAF().isOfflineExamSupported() || SafeExamBrowser.get() != null
-			|| startExamDirectly) {
+		if (app.getLAF().isOfflineExamSupported()
+				|| SafeExamBrowser.get() != null
+				|| startExamDirectly) {
 			showExamDialog(app, (examType) -> startExam(app, examType));
 		} else {
 			if (ExamStartDialog.mayChooseType(app)) {
@@ -72,10 +73,11 @@ public final class StartExamAction extends DefaultMenuAction<AppWFull> {
 	private void showSEBDialog(AppWFull app, ExamType examType) {
 		DialogData data = new DialogData("exam_menu_entry", "Cancel", "ExamSEBDialog.LaunchSEB");
 		ExamSEBDialog sebDialog = new ExamSEBDialog(app, data);
-		String examMode = examType == ExamType.GENERIC ? app.getConfig().getAppCode()
+		String examMode = examType == ExamType.GENERIC
+				? app.getConfig().getAppCode()
 				: examType.name().toLowerCase(Locale.ROOT);
-		sebDialog.setOnPositiveAction(() -> location.replace(app.getAppletParameters()
-				.getParamExamLaunchURL().replace("$mode", examMode)));
+		sebDialog.setOnPositiveAction(() -> location.replace(
+				app.getAppletParameters().getParamExamLaunchURL().replace("$mode", examMode)));
 		sebDialog.show();
 	}
 
@@ -100,11 +102,9 @@ public final class StartExamAction extends DefaultMenuAction<AppWFull> {
 
 	private ExamStartDialog createExamDialog(AppWFull app, Consumer<ExamType> callback) {
 		String cancel = app.isLockedExam() ? null : "Cancel";
-		DialogData data = new DialogData("exam_menu_enter", cancel,
-				"exam_start_button");
+		DialogData data = new DialogData("exam_menu_enter", cancel, "exam_start_button");
 		ExamStartDialog examStartDialog = new ExamStartDialog(app, data);
-		examStartDialog.setOnPositiveAction(() ->
-				callback.accept(examStartDialog.getSelectedRegion()));
+		examStartDialog.setOnPositiveAction(() -> callback.accept(examStartDialog.getSelectedRegion()));
 		return examStartDialog;
 	}
 

@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Triangular[a, b, mode,x, boolean]
- * 
+ *
  * @author Michael
  */
 public class AlgoTriangularDF extends AlgoElement {
@@ -52,8 +52,12 @@ public class AlgoTriangularDF extends AlgoElement {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoTriangularDF(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue mode, BooleanValue cumulative) {
+	public AlgoTriangularDF(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue mode,
+			BooleanValue cumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -110,7 +114,8 @@ public class AlgoTriangularDF extends AlgoElement {
 			return;
 		}
 
-		if (a.getDouble() >= b.getDouble() || mode.getDouble() > b.getDouble()
+		if (a.getDouble() >= b.getDouble()
+				|| mode.getDouble() > b.getDouble()
 				|| mode.getDouble() < a.getDouble()) {
 			ret.setUndefined();
 			return;
@@ -133,18 +138,20 @@ public class AlgoTriangularDF extends AlgoElement {
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			branchAtoMode = fv.wrap().subtract(a).square()
-					.divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
-			branchModeToB = fv.wrap().subtract(b).square()
+			branchAtoMode =
+					fv.wrap().subtract(a).square().divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
+			branchModeToB = fv.wrap()
+					.subtract(b)
+					.square()
 					.divide(bEn.subtract(a).multiply(modeEn.subtract(b)))
 					.plus(1);
 			rightBranch = new MyDouble(kernel, 1);
 		} else {
 
-			branchAtoMode = fv.wrap().subtract(a).multiplyR(2)
-					.divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
-			branchModeToB = fv.wrap().subtract(b).multiplyR(2)
-					.divide(bEn.subtract(a).multiply(modeEn.subtract(b)));
+			branchAtoMode =
+					fv.wrap().subtract(a).multiplyR(2).divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
+			branchModeToB =
+					fv.wrap().subtract(b).multiplyR(2).divide(bEn.subtract(a).multiply(modeEn.subtract(b)));
 			rightBranch = new MyDouble(kernel, 0);
 
 			// old hack:
@@ -154,12 +161,10 @@ public class AlgoTriangularDF extends AlgoElement {
 			// ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 0]]]",
 			// true );
 		}
-		ExpressionNode middleRight = lessThanMode.ifElse(branchAtoMode,
-				lessThanB.ifElse(branchModeToB, rightBranch));
+		ExpressionNode middleRight =
+				lessThanMode.ifElse(branchAtoMode, lessThanB.ifElse(branchModeToB, rightBranch));
 
 		ret.setDefined(true);
 		ret.getFunctionExpression().setRight(middleRight);
-
 	}
-
 }

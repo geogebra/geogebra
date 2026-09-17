@@ -23,19 +23,17 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Standard Deviation of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-18
  */
-
 public class AlgoStandardDeviation extends AlgoStats1D {
 
 	public AlgoStandardDeviation(Construction cons, GeoList geoList) {
 		super(cons, geoList, AlgoStats1D.STATS_SD);
 	}
 
-	public AlgoStandardDeviation(Construction cons, GeoList geoList,
-			GeoList freq) {
+	public AlgoStandardDeviation(Construction cons, GeoList geoList, GeoList freq) {
 		super(cons, geoList, freq, AlgoStats1D.STATS_SD);
 	}
 

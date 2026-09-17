@@ -23,8 +23,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class SymbolicValueProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class SymbolicValueProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 	private final HasSymbolicMode element;
 
 	/**

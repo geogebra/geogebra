@@ -54,8 +54,7 @@ public class EnvArray {
 
 	public static final class ColSep extends EmptyAtom {
 
-		private ColSep() {
-		}
+		private ColSep() {}
 
 		public static ColSep get() {
 			return new ColSep();
@@ -141,12 +140,11 @@ public class EnvArray {
 		}
 
 		@Override
-		final public boolean init(TeXParser tp) {
+		public final boolean init(TeXParser tp) {
 			if (type == ArrayTypes.ALIGNEDAT || type == ArrayTypes.ALIGNAT) {
 				n = tp.getArgAsPositiveInteger();
 				if (n <= 0) {
-					throw new ParseException(tp,
-							"Invalid argument in " + type.toString() + " environment");
+					throw new ParseException(tp, "Invalid argument in " + type.toString() + " environment");
 				}
 
 				aoa = new ArrayOfAtoms();
@@ -164,17 +162,16 @@ public class EnvArray {
 			tp.addConsumer(aoa);
 
 			switch (type) {
-			case MULTILINE:
-			case SUBARRAY:
-			case GATHER:
-			case GATHERED:
-				aoa.setOneColumn(true);
-				return false;
+				case MULTILINE:
+				case SUBARRAY:
+				case GATHER:
+				case GATHERED:
+					aoa.setOneColumn(true);
+					return false;
 
-			default:
-				return false;
+				default:
+					return false;
 			}
-
 		}
 
 		public final ArrayTypes getType() {
@@ -211,7 +208,7 @@ public class EnvArray {
 		}
 
 		@Override
-		final public boolean init(TeXParser tp) {
+		public final boolean init(TeXParser tp) {
 			tp.close();
 			final AtomConsumer ac = tp.pop();
 			if (ac instanceof ArrayOfAtoms) {
@@ -219,8 +216,8 @@ public class EnvArray {
 				if (c instanceof Begin) {
 					final Begin beg = (Begin) c;
 					if (type != beg.getType()) {
-						throw new ParseException(tp,
-								"Close a " + beg.getType().toString() + " with a " + type.toString());
+						throw new ParseException(
+								tp, "Close a " + beg.getType().toString() + " with a " + type.toString());
 					}
 					beg.aoa.checkDimensions();
 					if (op == null) {
@@ -229,12 +226,10 @@ public class EnvArray {
 						tp.addToConsumer(newFenced(beg));
 					}
 				} else {
-					throw new ParseException(tp,
-							"Close something which is not a " + type.toString());
+					throw new ParseException(tp, "Close something which is not a " + type.toString());
 				}
 			} else {
-				throw new ParseException(tp,
-						"Close something which is not a " + type.toString());
+				throw new ParseException(tp, "Close something which is not a " + type.toString());
 			}
 
 			return false;
@@ -242,72 +237,68 @@ public class EnvArray {
 
 		public Atom newFenced(Begin beg) {
 			final SymbolAtom op = SymbolAtom.get(this.op);
-			final SymbolAtom cl = this.cl == null ? op
-					: SymbolAtom.get(this.cl);
+			final SymbolAtom cl = this.cl == null ? op : SymbolAtom.get(this.cl);
 			final Atom mat = new SMatrixAtom(beg.aoa, false);
 			return new FencedAtom(mat, op, cl);
 		}
 
-		final public Atom newI(TeXParser tp, Begin beg) {
+		public final Atom newI(TeXParser tp, Begin beg) {
 			switch (type) {
-			case ALIGN:
-				return new AlignAtom(beg.aoa, false);
-			case CASES:
-				return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true),
-						Symbols.LBRACE, null, null);
+				case ALIGN:
+					return new AlignAtom(beg.aoa, false);
+				case CASES:
+					return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true), Symbols.LBRACE, null, null);
 
-			case MATRIX:
-				return new SMatrixAtom(beg.aoa, false);
+				case MATRIX:
+					return new SMatrixAtom(beg.aoa, false);
 
-			case SMALLMATRIX:
-				return new SMatrixAtom(beg.aoa, true);
+				case SMALLMATRIX:
+					return new SMatrixAtom(beg.aoa, true);
 
-			case ALIGNED:
-				return new AlignAtom(beg.aoa, true);
+				case ALIGNED:
+					return new AlignAtom(beg.aoa, true);
 
-			case FLALIGN:
-				return new FlalignAtom(beg.aoa);
+				case FLALIGN:
+					return new FlalignAtom(beg.aoa);
 
-			case ALIGNAT:
-				if (2 * beg.n != beg.aoa.col) {
-					throw new ParseException(tp,
-							"Bad number of equations in alignat environment !");
-				}
-				return new AlignAtAtom(beg.aoa, false);
+				case ALIGNAT:
+					if (2 * beg.n != beg.aoa.col) {
+						throw new ParseException(tp, "Bad number of equations in alignat environment !");
+					}
+					return new AlignAtAtom(beg.aoa, false);
 
-			case ALIGNEDAT:
-				if (2 * beg.n != beg.aoa.col) {
-					throw new ParseException(tp,
-							"Bad number of equations in alignedat environment !");
-				}
-				return new AlignAtAtom(beg.aoa, true);
+				case ALIGNEDAT:
+					if (2 * beg.n != beg.aoa.col) {
+						throw new ParseException(tp, "Bad number of equations in alignedat environment !");
+					}
+					return new AlignAtAtom(beg.aoa, true);
 
-			case MULTILINE:
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new MultlineAtom(beg.aoa, MultlineAtom.MULTLINE);
+				case MULTILINE:
+					if (beg.aoa.col == 0) {
+						return EmptyAtom.get();
+					}
+					return new MultlineAtom(beg.aoa, MultlineAtom.MULTLINE);
 
-			case SUBARRAY:
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new SubarrayAtom(beg.getAOA(), beg.getOptions());
+				case SUBARRAY:
+					if (beg.aoa.col == 0) {
+						return EmptyAtom.get();
+					}
+					return new SubarrayAtom(beg.getAOA(), beg.getOptions());
 
-			case GATHER:
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new MultlineAtom(beg.aoa, MultlineAtom.GATHER);
+				case GATHER:
+					if (beg.aoa.col == 0) {
+						return EmptyAtom.get();
+					}
+					return new MultlineAtom(beg.aoa, MultlineAtom.GATHER);
 
-			case GATHERED:
-				if (beg.aoa.col == 0) {
-					return EmptyAtom.get();
-				}
-				return new MultlineAtom(beg.aoa, MultlineAtom.GATHERED);
+				case GATHERED:
+					if (beg.aoa.col == 0) {
+						return EmptyAtom.get();
+					}
+					return new MultlineAtom(beg.aoa, MultlineAtom.GATHERED);
 
-			default:
-				return new ArrayAtom(beg.aoa, beg.opt, true);
+				default:
+					return new ArrayAtom(beg.aoa, beg.opt, true);
 			}
 		}
 	}

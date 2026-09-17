@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,13 +48,13 @@ import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class ButtonDialogD extends Dialog
-		implements ActionListener, KeyListener, WindowListener {
+public class ButtonDialogD extends Dialog implements ActionListener, KeyListener, WindowListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private JTextComponent tfCaption;
 	private JTextComponent tfScript;
 	// private DefaultListModel listModel;
@@ -70,10 +70,10 @@ public class ButtonDialogD extends Dialog
 
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
-	 * 
+	 *
 	 * @param app
 	 *            application
-	 * 
+	 *
 	 * @param x
 	 *            location of button in screen coords
 	 * @param y
@@ -105,8 +105,7 @@ public class ButtonDialogD extends Dialog
 
 		// create caption panel
 		JLabel captionLabel = new JLabel(loc.getMenu("Button.Caption") + ":");
-		InputPanelD ip = new InputPanelD(model.getInitString(), app, 25,
-				true, false);
+		InputPanelD ip = new InputPanelD(model.getInitString(), app, 25, true, false);
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextFieldD) {
 			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfCaption;
@@ -143,8 +142,7 @@ public class ButtonDialogD extends Dialog
 
 			// make sure it's not too wide (eg long GeoList)
 			Dimension size = new Dimension(
-					Math.min(AppD.getScreenSize().width / 2, width),
-					cbAdd.getPreferredSize().height);
+					Math.min(AppD.getScreenSize().width / 2, width), cbAdd.getPreferredSize().height);
 			cbAdd.setMaximumSize(size);
 			cbAdd.setPreferredSize(size);
 
@@ -154,8 +152,7 @@ public class ButtonDialogD extends Dialog
 				MyComboBoxListener ac = new MyComboBoxListener() {
 					@Override
 					public void doActionPerformed(Object source) {
-						model.setLinkedGeo(
-								(GeoElement) cbAdd.getSelectedItem());
+						model.setLinkedGeo((GeoElement) cbAdd.getSelectedItem());
 						// cbAdd.removeActionListener(this);
 						//
 						// cbAdd.setSelectedItem(null);
@@ -175,10 +172,10 @@ public class ButtonDialogD extends Dialog
 		// is GgbScript. However I'm only adapting it to the new scripting
 		// structure so it will need to be dealt with later
 
-		InputPanelD ip2 = new InputPanelD(model.getClickScript(), app, 10, 40,
-				false, DialogType.GeoGebraEditor);
-		Dimension dim = ((GeoGebraEditorPane) ip2.getTextComponent())
-				.getPreferredSizeFromRowColumn(10, 40);
+		InputPanelD ip2 =
+				new InputPanelD(model.getClickScript(), app, 10, 40, false, DialogType.GeoGebraEditor);
+		Dimension dim =
+				((GeoGebraEditorPane) ip2.getTextComponent()).getPreferredSizeFromRowColumn(10, 40);
 		ip2.setPreferredSize(dim);
 
 		ip2.setShowLineNumbering(true);
@@ -234,18 +231,18 @@ public class ButtonDialogD extends Dialog
 			app.setComponentOrientation(this);
 		}
 		/*
-		 * 
+		 *
 		 * inputPanel = new InputPanel("ggbApplet.evalCommand('A=(3,4)');", app,
 		 * 10, 50, false, true, false ); inputPanel2 = new InputPanel(
 		 * "function func() {\n}", app, 10, 50, false, true, false );
-		 * 
+		 *
 		 * JPanel centerPanel = new JPanel(new BorderLayout());
-		 * 
+		 *
 		 * centerPanel.add(inputPanel, BorderLayout.CENTER);
 		 * centerPanel.add(inputPanel2, BorderLayout.SOUTH);
 		 * getContentPane().add(centerPanel, BorderLayout.CENTER);
 		 * //centerOnScreen();
-		 * 
+		 *
 		 * setContentPane(centerPanel); pack();
 		 * setLocationRelativeTo(app.getFrame());
 		 */
@@ -266,17 +263,17 @@ public class ButtonDialogD extends Dialog
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_ENTER:
-			btOK.doClick();
-			break;
+			default:
+				// do nothing
+				break;
+			case KeyEvent.VK_ENTER:
+				btOK.doClick();
+				break;
 
-		case KeyEvent.VK_ESCAPE:
-			btCancel.doClick();
-			e.consume();
-			break;
+			case KeyEvent.VK_ESCAPE:
+				btCancel.doClick();
+				e.consume();
+				break;
 		}
 	}
 
@@ -324,5 +321,4 @@ public class ButtonDialogD extends Dialog
 	public void windowOpened(WindowEvent arg0) {
 		// setLabelFieldFocus();
 	}
-
 }

@@ -197,8 +197,8 @@ class StateTests {
 	void testTwoStateDependentDerivedStateValueChangesWithoutListeners() {
 		MutableState<@NonNull String> mutableState1 = new MutableState<>("Initial value 1");
 		MutableState<@NonNull String> mutableState2 = new MutableState<>("Initial value 2");
-		State<@NonNull String> derivedState = DerivedState.of(mutableState1, mutableState2,
-				(value1, value2) -> String.join(" - ", value1, value2));
+		State<@NonNull String> derivedState = DerivedState.of(
+				mutableState1, mutableState2, (value1, value2) -> String.join(" - ", value1, value2));
 
 		assertEquals("Initial value 1 - Initial value 2", derivedState.get());
 		mutableState1.set("First change 1");
@@ -213,11 +213,11 @@ class StateTests {
 	void testTwoStateDependentDerivedStateHasUpToDateValueAfterTheFirstListenerIsAttached() {
 		MutableState<@NonNull String> mutableState1 = new MutableState<>("Initial value 1");
 		MutableState<@NonNull String> mutableState2 = new MutableState<>("Initial value 2");
-		State<@NonNull String> derivedState = DerivedState.of(mutableState1, mutableState2,
-				(value1, value2) -> String.join(" - ", value1, value2));
+		State<@NonNull String> derivedState = DerivedState.of(
+				mutableState1, mutableState2, (value1, value2) -> String.join(" - ", value1, value2));
 
 		mutableState1.set("First change 1");
-		State.Subscription subscription = derivedState.subscribe(ignored -> { });
+		State.Subscription subscription = derivedState.subscribe(ignored -> {});
 
 		assertEquals("First change 1 - Initial value 2", derivedState.get());
 		subscription.cancel();
@@ -227,8 +227,8 @@ class StateTests {
 	void testTwoStateDependentDerivedStateValueChangesWithSingleListener() {
 		MutableState<@NonNull String> mutableState1 = new MutableState<>("Initial value 1");
 		MutableState<@NonNull String> mutableState2 = new MutableState<>("Initial value 2");
-		State<@NonNull String> derivedState = DerivedState.of(mutableState1, mutableState2,
-				(value1, value2) -> String.join(" - ", value1, value2));
+		State<@NonNull String> derivedState = DerivedState.of(
+				mutableState1, mutableState2, (value1, value2) -> String.join(" - ", value1, value2));
 		List<@NonNull String> changedValues = new ArrayList<>();
 
 		mutableState1.set("First change 1");
@@ -238,17 +238,17 @@ class StateTests {
 		subscription.cancel();
 		mutableState2.set("Second change 2");
 
-		assertEquals(List.of(
-				"Second change 1 - Initial value 2",
-				"Second change 1 - First change 2"), changedValues);
+		assertEquals(
+				List.of("Second change 1 - Initial value 2", "Second change 1 - First change 2"),
+				changedValues);
 	}
 
 	@Test
 	void testTwoStateDependentDerivedStateValueChangesWithMultipleListeners() {
 		MutableState<@NonNull String> mutableState1 = new MutableState<>("Initial value 1");
 		MutableState<@NonNull String> mutableState2 = new MutableState<>("Initial value 2");
-		State<@NonNull String> derivedState = DerivedState.of(mutableState1, mutableState2,
-				(value1, value2) -> String.join(" - ", value1, value2));
+		State<@NonNull String> derivedState = DerivedState.of(
+				mutableState1, mutableState2, (value1, value2) -> String.join(" - ", value1, value2));
 		List<@NonNull String> changedValues1 = new ArrayList<>();
 		List<@NonNull String> changedValues2 = new ArrayList<>();
 
@@ -262,20 +262,20 @@ class StateTests {
 		secondSubscription.cancel();
 		mutableState2.set("Second change 2");
 
-		assertEquals(List.of(
-				"Second change 1 - Initial value 2",
-				"Second change 1 - First change 2"), changedValues1);
-		assertEquals(List.of(
-				"Second change 1 - First change 2",
-				"Third change 1 - First change 2"), changedValues2);
+		assertEquals(
+				List.of("Second change 1 - Initial value 2", "Second change 1 - First change 2"),
+				changedValues1);
+		assertEquals(
+				List.of("Second change 1 - First change 2", "Third change 1 - First change 2"),
+				changedValues2);
 	}
 
 	@Test
 	void testTwoStateDependentDerivedStateValueChangedToTheSameValue() {
 		MutableState<@NonNull Integer> mutableState1 = new MutableState<>(1);
 		MutableState<@NonNull Integer> mutableState2 = new MutableState<>(0);
-		State<@NonNull Boolean> derivedState = DerivedState.of(mutableState1, mutableState2,
-				(a, b) -> a % 3 == b);
+		State<@NonNull Boolean> derivedState =
+				DerivedState.of(mutableState1, mutableState2, (a, b) -> a % 3 == b);
 		List<@NonNull Boolean> changedValues = new ArrayList<>();
 
 		State.Subscription subscription = derivedState.subscribe(changedValues::add);
@@ -295,9 +295,11 @@ class StateTests {
 		MutableState<@NonNull String> mutableState1 = new MutableState<>("Initial value 1");
 		MutableState<@NonNull String> mutableState2 = new MutableState<>("Initial value 2");
 		MutableState<@NonNull String> mutableState3 = new MutableState<>("Initial value 3");
-		State<@NonNull String> derivedState = DerivedState.of(mutableState1, mutableState2,
-				mutableState3, (value1, value2, value3) ->
-						String.join(" - ", value1, value2, value3));
+		State<@NonNull String> derivedState = DerivedState.of(
+				mutableState1,
+				mutableState2,
+				mutableState3,
+				(value1, value2, value3) -> String.join(" - ", value1, value2, value3));
 		List<@NonNull String> changedValues1 = new ArrayList<>();
 		List<@NonNull String> changedValues2 = new ArrayList<>();
 
@@ -311,11 +313,15 @@ class StateTests {
 		secondSubscription.cancel();
 		mutableState3.set("Second change 3");
 
-		assertEquals(List.of(
-				"Second change 1 - Initial value 2 - Initial value 3",
-				"Second change 1 - First change 2 - Initial value 3"), changedValues1);
-		assertEquals(List.of(
-				"Second change 1 - First change 2 - Initial value 3",
-				"Second change 1 - First change 2 - First change 3"), changedValues2);
+		assertEquals(
+				List.of(
+						"Second change 1 - Initial value 2 - Initial value 3",
+						"Second change 1 - First change 2 - Initial value 3"),
+				changedValues1);
+		assertEquals(
+				List.of(
+						"Second change 1 - First change 2 - Initial value 3",
+						"Second change 1 - First change 2 - First change 3"),
+				changedValues2);
 	}
 }

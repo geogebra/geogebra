@@ -58,13 +58,13 @@ class LayerManagerRedefineTest extends BaseUnitTest {
 
 	private void createPoly(String label) {
 		GeoPointND[] pointArray = new GeoPointND[] {
-				new GeoPoint(getConstruction(), 0, 0, 1),
-				new GeoPoint(getConstruction(), 0, 1, 1),
-				new GeoPoint(getConstruction(), 1, 0, 1),
-				new GeoPoint(getConstruction(), 1, 0, 1)
+			new GeoPoint(getConstruction(), 0, 0, 1),
+			new GeoPoint(getConstruction(), 0, 1, 1),
+			new GeoPoint(getConstruction(), 1, 0, 1),
+			new GeoPoint(getConstruction(), 1, 0, 1)
 		};
-		AlgoPolygon algo = new AlgoPolygon(getConstruction(), pointArray,
-				null, null, false, null, null);
+		AlgoPolygon algo =
+				new AlgoPolygon(getConstruction(), pointArray, null, null, false, null, null);
 		GeoPolygon poly = algo.getPoly();
 		poly.setLabel(label);
 	}

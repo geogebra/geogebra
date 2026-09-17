@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Event to be handled by EventListener
- * 
+ *
  * @author Arnaud
  */
 public class Event {
@@ -83,8 +83,7 @@ public class Event {
 	 * @param targets
 	 *            extra targets
 	 */
-	public Event(EventType type, GeoElement target,
-			 String argument, ArrayList<GeoElement> targets) {
+	public Event(EventType type, GeoElement target, String argument, ArrayList<GeoElement> targets) {
 		this.type = type;
 		this.target = target;
 		this.argument = argument;
@@ -126,7 +125,7 @@ public class Event {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return primary target
 	 */
 	public GeoElement getTarget() {
@@ -134,7 +133,7 @@ public class Event {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return secondary target
 	 */
 	public ArrayList<GeoElement> getTargets() {
@@ -142,7 +141,7 @@ public class Event {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return argument
 	 */
 	public String getArgument() {

@@ -23,14 +23,14 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * FitLogistic[&lt;List of Points&gt;]
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 15.11.08
  */
 public class CmdFitLogistic extends CmdOneListFunction {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,10 +39,9 @@ public class CmdFitLogistic extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoFitLogistic algo = new AlgoFitLogistic(cons, b);
 		algo.getFitLogistic().setLabel(a);
 		return algo.getFitLogistic();
 	}
-
 }

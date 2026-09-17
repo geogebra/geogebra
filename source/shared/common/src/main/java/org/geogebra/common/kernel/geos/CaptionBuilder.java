@@ -33,8 +33,7 @@ public class CaptionBuilder {
 	 *            template
 	 * @return caption with substitutions
 	 */
-	public static String getCaption(String caption, GeoElement geo,
-			StringTemplate tpl) {
+	public static String getCaption(String caption, GeoElement geo, StringTemplate tpl) {
 		StringBuilder captionSB = new StringBuilder();
 		Kernel kernel = geo.getKernel();
 		// replace %v with value and %n with name
@@ -45,78 +44,64 @@ public class CaptionBuilder {
 				i++;
 				ch = caption.charAt(i);
 				switch (ch) {
-				case 'c':
-					// (text value) of next cell to the right
-					String cText = buildCellText(geo, tpl);
-					captionSB.append(cText);
-					break;
-				case 'f':
-					captionSB.append(geo.getDefinition(tpl));
-					break;
-				case 'd':
-					captionSB.append(geo.getDefinitionDescription(tpl));
-					break;
-				case 'v':
-					captionSB.append(geo.toValueString(tpl));
-					break;
-				case 'n':
-					captionSB.append(geo.getLabel(tpl));
-					break;
-				case 'x':
-					if (geo.isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) geo).getInhomCoords().getX(),
-								tpl));
-					} else if (geo.isGeoVector()) {
-						captionSB.append(kernel.format(
-								((GeoVectorND) geo).getInhomCoords()[0], tpl));
-					} else if (geo.isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) geo).getX(), tpl));
-					} else {
-						captionSB.append("%x");
-					}
+					case 'c':
+						// (text value) of next cell to the right
+						String cText = buildCellText(geo, tpl);
+						captionSB.append(cText);
+						break;
+					case 'f':
+						captionSB.append(geo.getDefinition(tpl));
+						break;
+					case 'd':
+						captionSB.append(geo.getDefinitionDescription(tpl));
+						break;
+					case 'v':
+						captionSB.append(geo.toValueString(tpl));
+						break;
+					case 'n':
+						captionSB.append(geo.getLabel(tpl));
+						break;
+					case 'x':
+						if (geo.isGeoPoint()) {
+							captionSB.append(kernel.format(((GeoPointND) geo).getInhomCoords().getX(), tpl));
+						} else if (geo.isGeoVector()) {
+							captionSB.append(kernel.format(((GeoVectorND) geo).getInhomCoords()[0], tpl));
+						} else if (geo.isGeoLine()) {
+							captionSB.append(kernel.format(((GeoLine) geo).getX(), tpl));
+						} else {
+							captionSB.append("%x");
+						}
 
-					break;
-				case 'y':
-					if (geo.isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) geo).getInhomCoords().getY(),
-								tpl));
-					} else if (geo.isGeoVector()) {
-						captionSB.append(kernel.format(
-								((GeoVectorND) geo).getInhomCoords()[1], tpl));
-					} else if (geo.isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) geo).getY(), tpl));
-					} else {
-						captionSB.append("%y");
-					}
-					break;
-				case 'z':
-					if (geo.isGeoPoint()) {
-						captionSB.append(kernel.format(
-								((GeoPointND) geo).getInhomCoords().getZ(),
-								tpl));
-					} else if (geo.isGeoVector()) {
-						captionSB.append(
-								((GeoVectorND) geo).getInhomCoords().length < 3
-										? "0"
-										: kernel.format(
-												((GeoVectorND) geo)
-														.getInhomCoords()[2],
-												tpl));
-					} else if (geo.isGeoLine()) {
-						captionSB.append(
-								kernel.format(((GeoLine) geo).getZ(), tpl));
-					} else {
-						captionSB.append("%z");
-					}
-					break;
+						break;
+					case 'y':
+						if (geo.isGeoPoint()) {
+							captionSB.append(kernel.format(((GeoPointND) geo).getInhomCoords().getY(), tpl));
+						} else if (geo.isGeoVector()) {
+							captionSB.append(kernel.format(((GeoVectorND) geo).getInhomCoords()[1], tpl));
+						} else if (geo.isGeoLine()) {
+							captionSB.append(kernel.format(((GeoLine) geo).getY(), tpl));
+						} else {
+							captionSB.append("%y");
+						}
+						break;
+					case 'z':
+						if (geo.isGeoPoint()) {
+							captionSB.append(kernel.format(((GeoPointND) geo).getInhomCoords().getZ(), tpl));
+						} else if (geo.isGeoVector()) {
+							captionSB.append(
+									((GeoVectorND) geo).getInhomCoords().length < 3
+											? "0"
+											: kernel.format(((GeoVectorND) geo).getInhomCoords()[2], tpl));
+						} else if (geo.isGeoLine()) {
+							captionSB.append(kernel.format(((GeoLine) geo).getZ(), tpl));
+						} else {
+							captionSB.append("%z");
+						}
+						break;
 
-				default:
-					captionSB.append('%');
-					captionSB.append(ch);
+					default:
+						captionSB.append('%');
+						captionSB.append(ch);
 				}
 			} else {
 				captionSB.append(ch);
@@ -136,11 +121,9 @@ public class CaptionBuilder {
 		String cText = "";
 		String label = geo.getLabelSimple();
 		if (label != null) {
-			SpreadsheetCoords p = GeoElementSpreadsheet
-					.getSpreadsheetCoordsSafe(label);
+			SpreadsheetCoords p = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(label);
 			if (p.column > -1 && p.row > -1) {
-				String labelR1 = GeoElementSpreadsheet
-						.getSpreadsheetCellName(p.column + 1, p.row);
+				String labelR1 = GeoElementSpreadsheet.getSpreadsheetCellName(p.column + 1, p.row);
 				GeoElement geoR1 = geo.getKernel().lookupLabel(labelR1);
 				if (geoR1 != null) {
 					cText = geoR1.toValueString(tpl);
@@ -149,5 +132,4 @@ public class CaptionBuilder {
 		}
 		return cText;
 	}
-
 }

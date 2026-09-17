@@ -44,8 +44,7 @@ public class PDFEncoderW implements FrameCollectorW {
 	}
 
 	@Override
-	public void addFrame(EuclidianViewWInterface view,
-			double exportScale) {
+	public void addFrame(EuclidianViewWInterface view, double exportScale) {
 		if (ev == null) {
 			initialize(view);
 		} else {
@@ -74,7 +73,6 @@ public class PDFEncoderW implements FrameCollectorW {
 
 		g4copy = new GGraphics2DW(ctx);
 		ev.getApplication().setExporting(ExportType.PDF_HTML5, scale);
-
 	}
 
 	/**
@@ -84,8 +82,8 @@ public class PDFEncoderW implements FrameCollectorW {
 	 *            height
 	 * @return context if available (or null)
 	 */
-	public static Canvas2Pdf.PdfContext getContext(int width, int height,
-			JsPropertyMap<?> pageOptions) {
+	public static Canvas2Pdf.PdfContext getContext(
+			int width, int height, JsPropertyMap<?> pageOptions) {
 		if (Canvas2Pdf.get() != null) {
 			return new Canvas2Pdf.PdfContext(width, height, pageOptions);
 		}

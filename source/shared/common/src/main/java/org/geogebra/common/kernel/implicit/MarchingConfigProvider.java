@@ -41,8 +41,8 @@ public abstract class MarchingConfigProvider {
 
 	protected abstract boolean isConfigFinal(MarchingConfig gridType);
 
-	protected abstract MarchingConfig checkContinuity(MarchingConfig config,
-			MarchingRect marchingRect, MyPoint[] points);
+	protected abstract MarchingConfig checkContinuity(
+			MarchingConfig config, MarchingRect marchingRect, MyPoint[] points);
 
 	protected abstract MarchingConfig getConfigFrom(MarchingRect r);
 

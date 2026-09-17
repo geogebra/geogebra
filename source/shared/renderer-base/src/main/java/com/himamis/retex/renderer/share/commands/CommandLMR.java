@@ -103,8 +103,7 @@ public class CommandLMR {
 
 			Atom a;
 			if ((left instanceof SymbolAtom) && (right instanceof SymbolAtom)) {
-				a = new FencedAtom(base.simplify(), (SymbolAtom) left, middles,
-						(SymbolAtom) right);
+				a = new FencedAtom(base.simplify(), (SymbolAtom) left, middles, (SymbolAtom) right);
 			} else {
 				a = new RowAtom(left, base.simplify(), right);
 			}

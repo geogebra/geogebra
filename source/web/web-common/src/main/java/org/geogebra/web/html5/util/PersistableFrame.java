@@ -23,8 +23,7 @@ import org.gwtproject.user.client.ui.Frame;
  * or floating panels come up.
  *
  */
-public class PersistableFrame extends Frame
-		implements Persistable {
+public class PersistableFrame extends Frame implements Persistable {
 
 	/**
 	 * @param src

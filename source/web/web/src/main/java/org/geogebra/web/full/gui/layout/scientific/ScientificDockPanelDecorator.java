@@ -65,8 +65,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		panel.add(main);
 		main.addStyleName("algebraPanelScientific");
 
-		ScientificScrollHandler scrollController = new ScientificScrollHandler(
-				app, panel);
+		ScientificScrollHandler scrollController = new ScientificScrollHandler(app, panel);
 		panel.addDomHandler(scrollController, MouseDownEvent.getType());
 		panel.addBitlessDomHandler(scrollController, TouchStartEvent.getType());
 		return panel;
@@ -83,8 +82,7 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 	}
 
 	private void toggleSmallScreen(Widget w, boolean smallScreen) {
-		Dom.toggleClass(w, "algebraPanelScientificSmallScreen",
-				"panelScientificDefaults", smallScreen);
+		Dom.toggleClass(w, "algebraPanelScientificSmallScreen", "panelScientificDefaults", smallScreen);
 		Dom.toggleClass(algebraTab, "scientific", !smallScreen);
 	}
 
@@ -101,7 +99,6 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		return app.getAppletFrame().isKeyboardShowing()
 				? getTabHeight(tableHeight)
 				: tableHeight - TABLE_HEIGHT_DIFFERENCE;
-
 	}
 
 	@Override
@@ -142,8 +139,8 @@ public final class ScientificDockPanelDecorator implements DockPanelDecorator {
 		SimplePanel btnHolder = new SimplePanel();
 		btnHolder.addStyleName("btnRow");
 
-		defFuncBtn = BaseWidgetFactory.INSTANCE.newTextButton(
-				app.getLocalization().getMenu("DefineFunctions"));
+		defFuncBtn =
+				BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization().getMenu("DefineFunctions"));
 		btnHolder.add(defFuncBtn);
 		table.getElement().insertBefore(btnHolder.getElement(), table.getElement().getChild(0));
 

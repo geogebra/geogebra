@@ -2,7 +2,6 @@ package com.himamis.retex.renderer.share;
 
 import org.geogebra.common.awt.GColor;
 
-
 public class SelectionAtom extends ColorAtom {
 
 	public SelectionAtom(Atom atom, GColor bg, GColor c) {
@@ -14,5 +13,4 @@ public class SelectionAtom extends ColorAtom {
 		Box box = super.createBox(env);
 		return new SelectionBox(box);
 	}
-
 }

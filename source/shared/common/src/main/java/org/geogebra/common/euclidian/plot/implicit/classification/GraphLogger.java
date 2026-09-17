@@ -34,20 +34,19 @@ public class GraphLogger {
 
 	private final PlanarGraph graph;
 	private ViewportInfo viewportInfo = null;
-	private OpenFragmentClosureResult lastClosureResult =
-			OpenFragmentClosureResult.successEmpty();
+	private OpenFragmentClosureResult lastClosureResult = OpenFragmentClosureResult.successEmpty();
 
 	private String formatRect(GRectangle2D rect) {
-		return "[" + rect.getMinX() + "," + rect.getMaxX()
-				+ "]x[" + rect.getMinY() + "," + rect.getMaxY() + "]";
+		return "[" + rect.getMinX() + "," + rect.getMaxX() + "]x[" + rect.getMinY() + ","
+				+ rect.getMaxY() + "]";
 	}
 
 	public GraphLogger(PlanarGraph graph) {
 		this.graph = graph;
 	}
 
-	void logStage(String stage, GRectangle2D rect, List<ClippedFragment> fragments,
-			long buildSignature) {
+	void logStage(
+			String stage, GRectangle2D rect, List<ClippedFragment> fragments, long buildSignature) {
 		if (!TOPOLOGY_DEBUG_LOGGING || !"after-buildTopology".equals(stage)) {
 			return;
 		}
@@ -85,8 +84,8 @@ public class GraphLogger {
 		return sb.toString();
 	}
 
-	private void appendClosureFailures(StringBuilder sb,
-			List<OpenFragmentClosureResult.Failure> failures) {
+	private void appendClosureFailures(
+			StringBuilder sb, List<OpenFragmentClosureResult.Failure> failures) {
 		sb.append('[');
 		int limit = Math.min(failures.size(), 4);
 		for (int i = 0; i < limit; i++) {
@@ -131,12 +130,18 @@ public class GraphLogger {
 			Face face = faces.get(i);
 			sb.append(face.getId())
 					.append(face.isExterior() ? ":ext" : ":int")
-					.append(" outer=").append(face.getOuterHalfEdgeId())
-					.append(" holes=").append(face.getHoleHalfEdgeIds().size())
-					.append(" bbox=").append(face.getOuterHalfEdgeId() == -1 ? "n/a"
-							: boundaryBounds(graph.outerBoundaryOf(face)))
-					.append(" sample=").append(face.getSamplePoint() == null ? "null"
-							: formatPoint(face.getSamplePoint().x, face.getSamplePoint().y));
+					.append(" outer=")
+					.append(face.getOuterHalfEdgeId())
+					.append(" holes=")
+					.append(face.getHoleHalfEdgeIds().size())
+					.append(" bbox=")
+					.append(
+							face.getOuterHalfEdgeId() == -1 ? "n/a" : boundaryBounds(graph.outerBoundaryOf(face)))
+					.append(" sample=")
+					.append(
+							face.getSamplePoint() == null
+									? "null"
+									: formatPoint(face.getSamplePoint().x, face.getSamplePoint().y));
 		}
 		if (faces.size() > limit) {
 			sb.append("; ...");
@@ -146,15 +151,18 @@ public class GraphLogger {
 
 	private void appendCycleSummaryEntry(StringBuilder sb, BoundaryCycle cycle) {
 		sb.append(cycle.getId())
-				.append(":area=").append(cycle.getSignedArea())
-				.append(":edges=").append(cycle.getHalfEdgeIds().size())
-				.append(":parent=").append(cycle.getParentId())
-				.append(":depth=").append(cycle.getDepth());
+				.append(":area=")
+				.append(cycle.getSignedArea())
+				.append(":edges=")
+				.append(cycle.getHalfEdgeIds().size())
+				.append(":parent=")
+				.append(cycle.getParentId())
+				.append(":depth=")
+				.append(cycle.getDepth());
 
 		GPoint2D probePoint = cycle.getContainmentProbePoint();
 		if (probePoint != null) {
-			sb.append(":probe=").append(formatPoint(probePoint.x,
-					probePoint.y));
+			sb.append(":probe=").append(formatPoint(probePoint.x, probePoint.y));
 		} else {
 			sb.append(":probe=null");
 		}
@@ -225,8 +233,11 @@ public class GraphLogger {
 		sb.append(']');
 	}
 
-	void topologyError(GRectangle2D rect, String errorMessage,
-			List<ClippedFragment> fragments, long buildSignature) {
+	void topologyError(
+			GRectangle2D rect,
+			String errorMessage,
+			List<ClippedFragment> fragments,
+			long buildSignature) {
 		Log.debug("[GraphBuilder] build failed stageSummary=" + debugSummary()
 				+ " rect=" + formatRect(rect)
 				+ " fragments=" + fragments.size()
@@ -246,8 +257,7 @@ public class GraphLogger {
 		if (!TOPOLOGY_FAILURE_LOGGING || !result.isIncomplete()) {
 			return;
 		}
-		Log.debug("[GraphBuilder] open fragment closure incomplete "
-				+ closureSummary(result));
+		Log.debug("[GraphBuilder] open fragment closure incomplete " + closureSummary(result));
 	}
 
 	String closureSummary(OpenFragmentClosureResult result) {
@@ -266,5 +276,4 @@ public class GraphLogger {
 		}
 		return sb.toString();
 	}
-
 }

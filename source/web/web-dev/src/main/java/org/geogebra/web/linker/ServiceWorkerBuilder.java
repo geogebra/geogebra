@@ -30,18 +30,32 @@ import com.google.gwt.core.ext.linker.EmittedArtifact;
 
 /**
  * Generates code of the service worker using worker_template.js
- * 
+ *
  * @author Zbynek
  */
 public class ServiceWorkerBuilder {
 
 	private static final String CAS_CHUNK_FILENAME = "13.nocache.js";
-	private static final String[] SKIP_RESOURCE_SUFFIXES = { "symbolMap",
-			".xml.gz", "rpc.log", "gwt.rpc", "manifest.txt",
-			"rpcPolicyManifest", "cssmap", "MANIFEST.MF", ".txt", ".php",
-			"README", "COPYING", "LICENSE", "oauthWindow.html",
-			"windowslive.html", "devmode.js", "js/properties_",
-			CAS_CHUNK_FILENAME };
+	private static final String[] SKIP_RESOURCE_SUFFIXES = {
+		"symbolMap",
+		".xml.gz",
+		"rpc.log",
+		"gwt.rpc",
+		"manifest.txt",
+		"rpcPolicyManifest",
+		"cssmap",
+		"MANIFEST.MF",
+		".txt",
+		".php",
+		"README",
+		"COPYING",
+		"LICENSE",
+		"oauthWindow.html",
+		"windowslive.html",
+		"devmode.js",
+		"js/properties_",
+		CAS_CHUNK_FILENAME
+	};
 	private LinkerContext context;
 	private TreeLogger logger;
 	private ArtifactSet artifacts;
@@ -54,8 +68,7 @@ public class ServiceWorkerBuilder {
 	 * @param logger
 	 *            logger
 	 */
-	public ServiceWorkerBuilder(LinkerContext context, ArtifactSet artifacts,
-			TreeLogger logger) {
+	public ServiceWorkerBuilder(LinkerContext context, ArtifactSet artifacts, TreeLogger logger) {
 		this.context = context;
 		this.artifacts = artifacts;
 		this.logger = logger;
@@ -70,11 +83,10 @@ public class ServiceWorkerBuilder {
 	public String getWorkerCode(String version) {
 		StringBuilder allResourcesSb = new StringBuilder();
 		if (artifacts != null) {
-			StringBuilder publicSourcesSb = getAllCacheableArtifactsAsPartialJSON(
-					artifacts, getModuleUrl(version));
+			StringBuilder publicSourcesSb =
+					getAllCacheableArtifactsAsPartialJSON(artifacts, getModuleUrl(version));
 
-			String[] cacheExtraFiles = AppCacheLinkerSettings
-					.otherCachedFiles();
+			String[] cacheExtraFiles = AppCacheLinkerSettings.otherCachedFiles();
 			allResourcesSb.append(publicSourcesSb);
 			for (String staticFile : cacheExtraFiles) {
 				allResourcesSb.append(",\n    \"");
@@ -117,20 +129,16 @@ public class ServiceWorkerBuilder {
 	}
 
 	private String getModuleUrl(String version) {
-		return "https://www.geogebra.org/apps/" + version + "/"
-				+ context.getModuleName() + "/";
+		return "https://www.geogebra.org/apps/" + version + "/" + context.getModuleName() + "/";
 	}
 
-	private static String buildManifest(StringBuilder allResourcesSb,
-			TreeLogger logger) {
+	private static String buildManifest(StringBuilder allResourcesSb, TreeLogger logger) {
 		// we have to generate this unique id because the resources can change
 		// but the hashed cache.html files can remain the same. build cache list
-		String id = GeoGebraConstants.VERSION_STRING + ":"
-				+ System.currentTimeMillis();
+		String id = GeoGebraConstants.VERSION_STRING + ":" + System.currentTimeMillis();
 		String template = readTemplateAsString(logger);
-		String sworkerContent = template
-				.replace("%URLS%", allResourcesSb.toString())
-				.replace("%ID%", id);
+		String sworkerContent =
+				template.replace("%URLS%", allResourcesSb.toString()).replace("%ID%", id);
 		return sworkerContent;
 	}
 
@@ -138,8 +146,8 @@ public class ServiceWorkerBuilder {
 		StringBuilder sb = new StringBuilder();
 
 		// Create the manifest as a new artifact and return it:
-		try (InputStream s = AppCacheLinker.class.getResourceAsStream(
-				"/org/geogebra/web/worker_template.js")) {
+		try (InputStream s =
+				AppCacheLinker.class.getResourceAsStream("/org/geogebra/web/worker_template.js")) {
 			byte[] contents = new byte[1024];
 			int bytesRead = 0;
 			while ((bytesRead = s.read(contents)) != -1) {
@@ -152,5 +160,4 @@ public class ServiceWorkerBuilder {
 		}
 		return sb.toString();
 	}
-
 }

@@ -291,8 +291,7 @@ public class ArrayNode extends InternalNode {
 		while (last > idx && " ".equals(getChild(row).getChild(last).toString())) {
 			last--;
 		}
-		if (idx == last
-				&& getChild(row).getChild(idx) instanceof ArrayNode) {
+		if (idx == last && getChild(row).getChild(idx) instanceof ArrayNode) {
 			return (ArrayNode) getChild(row).getChild(idx);
 		}
 		return null;

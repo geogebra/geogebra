@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoZMean2Test extends AlgoElement {
@@ -64,8 +64,14 @@ public class AlgoZMean2Test extends AlgoElement {
 	 * @param tail
 	 *            &lt;, &gt; for one-sided test, anything else for two-sided
 	 */
-	public AlgoZMean2Test(Construction cons, GeoNumeric mean, GeoNumeric sd,
-			GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2,
+	public AlgoZMean2Test(
+			Construction cons,
+			GeoNumeric mean,
+			GeoNumeric sd,
+			GeoNumeric n,
+			GeoNumeric mean_2,
+			GeoNumeric sd_2,
+			GeoNumeric n_2,
 			GeoText tail) {
 		super(cons);
 		this.mean = mean;
@@ -96,10 +102,16 @@ public class AlgoZMean2Test extends AlgoElement {
 	 *            second standard deviation
 	 * @param tail
 	 *            &lt;, &gt; for one-sided test, anything else for two-sided
-	 * 
+	 *
 	 */
-	public AlgoZMean2Test(Construction cons, String label, GeoList list,
-			GeoNumeric sd, GeoList list2, GeoNumeric sd_2, GeoText tail) {
+	public AlgoZMean2Test(
+			Construction cons,
+			String label,
+			GeoList list,
+			GeoNumeric sd,
+			GeoList list2,
+			GeoNumeric sd_2,
+			GeoText tail) {
 		super(cons);
 
 		this.list = list;
@@ -202,5 +214,4 @@ public class AlgoZMean2Test extends AlgoElement {
 		result.addNumber(P, null);
 		result.addNumber(testStatistic, null);
 	}
-
 }

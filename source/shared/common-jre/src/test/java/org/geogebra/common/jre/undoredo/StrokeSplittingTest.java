@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -143,10 +143,10 @@ class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		int undoPoints = cons.getUndoManager().getHistorySize();
 		assertEquals(6, undoPoints);
 		String s3Original = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
-		getKernel().undo(); //undos dragging
+		getKernel().undo(); // undos dragging
 		String s3Dragged = lookup("stroke3").getDefinition(StringTemplate.testTemplate);
 		assertNotEquals(s3Original, s3Dragged);
-		getKernel().undo(); //undos split stroke
+		getKernel().undo(); // undos split stroke
 		assertEquals(3, cons.getUndoManager().getHistorySize());
 		getKernel().undo();
 		getKernel().undo();
@@ -171,7 +171,8 @@ class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		dragEnd(400, 200);
 		assertThat(lookup("stroke2"), notNullValue());
 		assertThat(lookup("stroke3"), notNullValue());
-		assertThat(lookup("stroke2").getXML(),
+		assertThat(
+				lookup("stroke2").getXML(),
 				containsString("\"3.0000E0,-2.0000E0,1,8.0000E0,-2.0000E0,0,NaN,NaN,0\""));
 		getKernel().undo();
 		assertThat(lookup("stroke1"), notNullValue());
@@ -189,10 +190,8 @@ class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
 		PropertySupplier lineStyleProp = propertyWrapper.withStrokeSplitting(
-				geos2 -> propFactory.createColorProperty(
-						getApp().getLocalization(), geos2), geos);
-		((ColorPropertyListFacade<?>) lineStyleProp.updateAndGet())
-				.setValue(GColor.GREEN);
+				geos2 -> propFactory.createColorProperty(getApp().getLocalization(), geos2), geos);
+		((ColorPropertyListFacade<?>) lineStyleProp.updateAndGet()).setValue(GColor.GREEN);
 
 		assertEquals(GColor.GREEN, lookup("stroke2").getObjectColor());
 		assertNotEquals(GColor.GREEN, lookup("stroke3").getObjectColor());
@@ -204,8 +203,7 @@ class StrokeSplittingTest extends BaseEuclidianControllerTest {
 		drawAndSelectStroke();
 		ArrayList<GeoElement> geos = selection.getGeos();
 		PropertySupplier lineStyleProp = propertyWrapper.withStrokeSplitting(
-				geos2 -> propFactory.createLineStyleProperty(
-						getApp().getLocalization(), geos2), geos);
+				geos2 -> propFactory.createLineStyleProperty(getApp().getLocalization(), geos2), geos);
 		((EnumeratedPropertyListFacade<?, Integer>) lineStyleProp.updateAndGet())
 				.setValue(LINE_TYPE_DASHED_DOTTED);
 		assertEquals(LINE_TYPE_DASHED_DOTTED, lookup("stroke2").getLineType());
@@ -223,35 +221,32 @@ class StrokeSplittingTest extends BaseEuclidianControllerTest {
 	@Test
 	void smoothingTest() {
 		List<? extends GPoint2D> pts = Smoothing.transform(List.of(
-			new MyPoint(3.78, -0.43),
-			new MyPoint(4.14, -0.47),
-			new MyPoint(4.7, -0.47),
-			new MyPoint(5.74, -0.41),
-			new MyPoint(7.12, -0.23),
-			new MyPoint(8.56, -0.03),
-			new MyPoint(10, 0.23),
-			new MyPoint(11.28, 0.47),
-			new MyPoint(12.24, 0.71),
-			new MyPoint(12.6, 0.79),
-			new MyPoint(12.02, 0.63),
-			new MyPoint(11.26, 0.41),
-			new MyPoint(10.4, 0.15),
-			new MyPoint(9.46, -0.17),
-			new MyPoint(8.76, -0.41),
-			new MyPoint(8.08, -0.75),
-			new MyPoint(7.46, -0.97),
-			new MyPoint(6.86, -1.25),
-			new MyPoint(6.58, -1.37),
-			new MyPoint(6.52, -1.39),
-			new MyPoint(6.58, -1.37),
-			new MyPoint(6.64, -1.33)
-		));
-		assertEquals(12.6, pts.stream().map(pt -> pt.x)
-				.max(Double::compare).orElse(Double.NaN), .01);
+				new MyPoint(3.78, -0.43),
+				new MyPoint(4.14, -0.47),
+				new MyPoint(4.7, -0.47),
+				new MyPoint(5.74, -0.41),
+				new MyPoint(7.12, -0.23),
+				new MyPoint(8.56, -0.03),
+				new MyPoint(10, 0.23),
+				new MyPoint(11.28, 0.47),
+				new MyPoint(12.24, 0.71),
+				new MyPoint(12.6, 0.79),
+				new MyPoint(12.02, 0.63),
+				new MyPoint(11.26, 0.41),
+				new MyPoint(10.4, 0.15),
+				new MyPoint(9.46, -0.17),
+				new MyPoint(8.76, -0.41),
+				new MyPoint(8.08, -0.75),
+				new MyPoint(7.46, -0.97),
+				new MyPoint(6.86, -1.25),
+				new MyPoint(6.58, -1.37),
+				new MyPoint(6.52, -1.39),
+				new MyPoint(6.58, -1.37),
+				new MyPoint(6.64, -1.33)));
+		assertEquals(12.6, pts.stream().map(pt -> pt.x).max(Double::compare).orElse(Double.NaN), .01);
 	}
 
 	private void assertSelected(GeoElement... geos) {
-		assertArrayEquals(getApp().getSelectionManager().getSelectedGeos().toArray(),
-				geos);
+		assertArrayEquals(getApp().getSelectionManager().getSelectedGeos().toArray(), geos);
 	}
 }

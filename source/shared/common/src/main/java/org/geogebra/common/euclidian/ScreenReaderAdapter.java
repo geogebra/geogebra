@@ -23,7 +23,7 @@ public interface ScreenReaderAdapter {
 
 	/**
 	 * Read text if possible.
-	 * 
+	 *
 	 * @param text
 	 *            text to be read
 	 */
@@ -35,7 +35,7 @@ public interface ScreenReaderAdapter {
 	 * @param text
 	 *            text to be read
 	 */
-    void readDelayed(String text);
+	void readDelayed(String text);
 
 	/**
 	 * Cancel currently scheduled read text action.

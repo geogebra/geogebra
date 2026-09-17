@@ -73,8 +73,7 @@ public class Rhythm {
 
 	public void setLayer(int layer, String rhythmString) {
 		if ((layer < 0) || (layer > MAX_LAYERS)) {
-			throw new JFugueException(JFugueException.LAYER_EXC,
-					Integer.toString(layer), rhythmString);
+			throw new JFugueException(JFugueException.LAYER_EXC, Integer.toString(layer), rhythmString);
 		}
 		layers[layer] = rhythmString;
 	}
@@ -88,10 +87,8 @@ public class Rhythm {
 	}
 
 	public void setVoice(int voice, String rhythmString) {
-		if ((voice < 0) || (voice > MAX_LAYERS)
-				|| (voice == PERCUSSION_TRACK)) {
-			throw new JFugueException(JFugueException.VOICE_EXC,
-					Integer.toString(voice), rhythmString);
+		if ((voice < 0) || (voice > MAX_LAYERS) || (voice == PERCUSSION_TRACK)) {
+			throw new JFugueException(JFugueException.VOICE_EXC, Integer.toString(voice), rhythmString);
 		}
 		voices[voice] = rhythmString;
 	}
@@ -105,10 +102,8 @@ public class Rhythm {
 	}
 
 	public void setVoiceDetails(int voice, String musicString) {
-		if ((voice < 0) || (voice > MAX_LAYERS)
-				|| (voice == PERCUSSION_TRACK)) {
-			throw new JFugueException(JFugueException.VOICE_EXC,
-					Integer.toString(voice), musicString);
+		if ((voice < 0) || (voice > MAX_LAYERS) || (voice == PERCUSSION_TRACK)) {
+			throw new JFugueException(JFugueException.VOICE_EXC, Integer.toString(voice), musicString);
 		}
 		voiceDetails[voice] = musicString;
 	}
@@ -195,5 +190,4 @@ public class Rhythm {
 		IntervalNotation interval = new IntervalNotation(getMusicString());
 		return interval.getPatternForRootNote(rootNote);
 	}
-
 }

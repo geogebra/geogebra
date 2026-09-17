@@ -74,7 +74,6 @@ public interface MyTable extends MyTableInterface {
 	 * @return processor for spreadsheet tools
 	 */
 	default SpreadsheetToolProcessor getToolProcessor(App app) {
-		return new SpreadsheetToolProcessor(app,
-				app.getSpreadsheetTableModel().getCellFormat(this));
+		return new SpreadsheetToolProcessor(app, app.getSpreadsheetTableModel().getCellFormat(this));
 	}
 }

@@ -64,4 +64,3 @@ public class FixSliderObjectProperty extends AbstractValuedProperty<Boolean>
 		return numeric;
 	}
 }
-

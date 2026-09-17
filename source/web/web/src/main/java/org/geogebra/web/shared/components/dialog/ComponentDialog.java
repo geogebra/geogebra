@@ -65,8 +65,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * @param autoHide if the dialog should be closed on click outside
 	 * @param hasScrim background should be greyed out
 	 */
-	public ComponentDialog(AppW app, DialogData dialogData, boolean autoHide,
-			boolean hasScrim) {
+	public ComponentDialog(AppW app, DialogData dialogData, boolean autoHide, boolean hasScrim) {
 		super(autoHide, app.getAppletFrame(), app);
 		this.dialogData = dialogData;
 		setGlassEnabled(hasScrim);
@@ -82,8 +81,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		FlowPanel dialogMainPanel = new FlowPanel();
 		dialogMainPanel.addStyleName("dialogMainPanel");
 
-		addTitleOfDialog(dialogMainPanel, dialogData.getTitleTransKey(),
-				dialogData.getSubTitleHTML());
+		addTitleOfDialog(dialogMainPanel, dialogData.getTitleTransKey(), dialogData.getSubTitleHTML());
 		createEmptyDialogContent(dialogMainPanel);
 		if (dialogData.getNegativeBtnTransKey() != null
 				|| dialogData.getPositiveBtnTransKey() != null) {
@@ -93,8 +91,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 		this.add(dialogMainPanel);
 	}
 
-	private void addTitleOfDialog(FlowPanel dialogMainPanel, String titleTransKey,
-			String subTitleHTML) {
+	private void addTitleOfDialog(
+			FlowPanel dialogMainPanel, String titleTransKey, String subTitleHTML) {
 		if (titleTransKey == null) {
 			return;
 		}
@@ -105,8 +103,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 
 		if (subTitleHTML != null) {
 			addStyleName("withSubtitle");
-			Label subTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(
-					"", "dialogSubTitle");
+			Label subTitle = BaseWidgetFactory.INSTANCE.newSecondaryText("", "dialogSubTitle");
 			subTitle.getElement().setInnerHTML(subTitleHTML);
 			dialogMainPanel.add(subTitle);
 		}
@@ -133,8 +130,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return;
 		}
 
-		negButton = BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization()
-				.getMenu(negTransKey));
+		negButton =
+				BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization().getMenu(negTransKey));
 		negButton.addClickHandler(((AppW) app).getGlobalHandlers(), source -> onNegativeAction());
 		dialogButtonPanel.add(negButton);
 	}
@@ -144,8 +141,8 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return;
 		}
 
-		posButton = BaseWidgetFactory.INSTANCE.newFilledButton(app.getLocalization()
-				.getMenu(posTransKey));
+		posButton =
+				BaseWidgetFactory.INSTANCE.newFilledButton(app.getLocalization().getMenu(posTransKey));
 		posButton.addClickHandler(((AppW) app).getGlobalHandlers(), source -> onPositiveAction());
 		dialogButtonPanel.add(posButton);
 	}
@@ -226,8 +223,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * runs the negative action and hides the dialog
 	 */
 	private void onNegativeAction() {
-		if (negButton != null
-			&& negButton.getStyleName().contains("disabled")) {
+		if (negButton != null && negButton.getStyleName().contains("disabled")) {
 			return;
 		}
 		if (negativeAction != null) {
@@ -240,8 +236,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 	 * runs the positive action and hides the dialog
 	 */
 	public void onPositiveAction() {
-		if (posButton != null
-			&& posButton.getStyleName().contains("disabled")) {
+		if (posButton != null && posButton.getStyleName().contains("disabled")) {
 			return;
 		}
 		if (positiveAction != null) {
@@ -314,12 +309,12 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 			return; // onPreviewNativeEvent is global: ignore for hidden dialogs
 		}
 		Event nativeEvent = Event.as(event.getNativeEvent());
-		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())
+		if (Event.ONKEYPRESS == event.getTypeInt()
+				&& isEnter(nativeEvent.getCharCode())
 				&& !isContentEditable(nativeEvent.getEventTarget())
 				&& !isTextarea(nativeEvent.getEventTarget())) {
 			EventTarget target = nativeEvent.getEventTarget();
-			if (Element.is(target)
-					&& Element.as(target).getClassName().contains("materialTextButton")) {
+			if (Element.is(target) && Element.as(target).getClassName().contains("materialTextButton")) {
 				onEscape();
 			} else {
 				onPositiveAction();
@@ -359,8 +354,7 @@ public class ComponentDialog extends GPopupPanel implements RequiresResize, Pers
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (DOM.eventGetType(event) == Event.ONKEYDOWN
-				&& event.getKeyCode() == KeyCodes.KEY_TAB) {
+		if (DOM.eventGetType(event) == Event.ONKEYDOWN && event.getKeyCode() == KeyCodes.KEY_TAB) {
 			handleTab(event.getShiftKey());
 			event.stopPropagation();
 			event.preventDefault();

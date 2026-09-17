@@ -29,20 +29,18 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Utility class for spreadsheet tabular ranges.
- * 
+ *
  * <p>Contains methods that cannot be part of TabularRange because they need to
  * depend on the particular data provider (by reference Kernel, App or SpreadsheetTableModel)
  */
-
-final public class CellRangeUtil {
+public final class CellRangeUtil {
 
 	/**
 	 * @param selection cell range
 	 * @param model spreadsheet model
 	 * @return true if this cell range contains no geos
 	 */
-	public static boolean isEmpty(@Nullable TabularRange selection,
-			SpreadsheetTableModel model) {
+	public static boolean isEmpty(@Nullable TabularRange selection, SpreadsheetTableModel model) {
 		return selection != null && toGeoList(selection, model).isEmpty();
 	}
 
@@ -70,8 +68,7 @@ final public class CellRangeUtil {
 	 * @return intersection of potential selection with table model
 	 */
 	public static TabularRange getActual(TabularRange general, SpreadsheetTableModel tableModel) {
-		return general.restrictInfiniteRangeTo(tableModel.getRowCount(),
-				tableModel.getColumnCount());
+		return general.restrictInfiniteRangeTo(tableModel.getRowCount(), tableModel.getColumnCount());
 	}
 
 	/**
@@ -80,8 +77,8 @@ final public class CellRangeUtil {
 	 * @param model spreadsheet model
 	 * @return list of elements
 	 */
-	public static ArrayList<GeoElement> toGeoList(TabularRange selection,
-			SpreadsheetTableModel model) {
+	public static ArrayList<GeoElement> toGeoList(
+			TabularRange selection, SpreadsheetTableModel model) {
 
 		ArrayList<GeoElement> list = new ArrayList<>();
 
@@ -101,10 +98,11 @@ final public class CellRangeUtil {
 	 * @return description e.g. A2:C3
 	 */
 	public static String getLabel(TabularRange selection) {
-		return GeoElementSpreadsheet.getSpreadsheetCellName(selection.getMinColumn(),
-				selection.getMinRow())
-				+ ":" + GeoElementSpreadsheet.getSpreadsheetCellName(selection.getMaxColumn(),
-						selection.getMaxRow());
+		return GeoElementSpreadsheet.getSpreadsheetCellName(
+						selection.getMinColumn(), selection.getMinRow())
+				+ ":"
+				+ GeoElementSpreadsheet.getSpreadsheetCellName(
+						selection.getMaxColumn(), selection.getMaxRow());
 	}
 
 	/**
@@ -112,8 +110,7 @@ final public class CellRangeUtil {
 	 * @param tableModel table model
 	 * @return true if at least one cell is empty (has no geo)
 	 */
-	public static  boolean hasEmptyCells(TabularRange selection,
-			SpreadsheetTableModel tableModel) {
+	public static boolean hasEmptyCells(TabularRange selection, SpreadsheetTableModel tableModel) {
 		boolean hasEmptyCells = false;
 		for (int col = selection.getMinColumn(); col <= selection.getMaxColumn(); ++col) {
 			for (int row = selection.getMinRow(); row <= selection.getMaxRow(); ++row) {
@@ -138,8 +135,8 @@ final public class CellRangeUtil {
 	 * @param tableModel table model
 	 * @return count of geos of given type in the range
 	 */
-	public static int getGeoCount(TabularRange selection, GeoClass geoClass,
-			SpreadsheetTableModel tableModel) {
+	public static int getGeoCount(
+			TabularRange selection, GeoClass geoClass, SpreadsheetTableModel tableModel) {
 		int count = 0;
 		if (geoClass != null) {
 			for (int col = selection.getMinColumn(); col <= selection.getMaxColumn(); ++col) {
@@ -158,7 +155,6 @@ final public class CellRangeUtil {
 					}
 				}
 			}
-
 		}
 		return count;
 	}
@@ -171,8 +167,8 @@ final public class CellRangeUtil {
 	 * @return true if this range contains a GeoElement of the given
 	 *         GeoClass type
 	 */
-	public static boolean containsGeoClass(TabularRange selection, GeoClass geoClass,
-			SpreadsheetTableModel tableModel) {
+	public static boolean containsGeoClass(
+			TabularRange selection, GeoClass geoClass, SpreadsheetTableModel tableModel) {
 		for (int col = selection.getMinColumn(); col <= selection.getMaxColumn(); ++col) {
 			for (int row = selection.getMinRow(); row <= selection.getMaxRow(); ++row) {
 				GeoElement geo = RelativeCopy.getValue(tableModel, col, row);
@@ -193,8 +189,8 @@ final public class CellRangeUtil {
 	 * @return true if the given ranges contains a GeoElement of the given
 	 *         GeoClass type
 	 */
-	public static boolean containsGeoClass(List<TabularRange> ranges,
-			GeoClass geoClass, SpreadsheetTableModel tableModel) {
+	public static boolean containsGeoClass(
+			List<TabularRange> ranges, GeoClass geoClass, SpreadsheetTableModel tableModel) {
 		for (TabularRange range : ranges) {
 			if (CellRangeUtil.containsGeoClass(range, geoClass, tableModel)) {
 				return true;
@@ -211,33 +207,29 @@ final public class CellRangeUtil {
 	 * @param loc localization
 	 * @return range description ("Row 7", "Column B", "A1:D3")
 	 */
-	public static String getCellRangeString(TabularRange range,
-			boolean onlyFirstRowColumn, Localization loc) {
+	public static String getCellRangeString(
+			TabularRange range, boolean onlyFirstRowColumn, Localization loc) {
 		String s;
 
 		if (range.isContiguousColumns()) {
-			s = loc.getCommand("Column") + " " + GeoElementSpreadsheet
-					.getSpreadsheetColumnName(range.getMinColumn());
+			s = loc.getCommand("Column") + " "
+					+ GeoElementSpreadsheet.getSpreadsheetColumnName(range.getMinColumn());
 			if (!onlyFirstRowColumn && !range.is1D()) {
 				s += " : " + loc.getCommand("Column") + " "
-						+ GeoElementSpreadsheet
-						.getSpreadsheetColumnName(range.getMaxColumn());
+						+ GeoElementSpreadsheet.getSpreadsheetColumnName(range.getMaxColumn());
 			}
 
 		} else if (range.isContiguousRows()) {
 			s = loc.getCommand("Row") + " " + (range.getMinRow() + 1);
 
 			if (!onlyFirstRowColumn && !range.is1D()) {
-				s += " : " + loc.getCommand("Row") + " "
-						+ (range.getMaxRow() + 1);
+				s += " : " + loc.getCommand("Row") + " " + (range.getMaxRow() + 1);
 			}
 
 		} else {
-			s = GeoElementSpreadsheet.getSpreadsheetCellName(
-					range.getMinColumn(), range.getMinRow());
+			s = GeoElementSpreadsheet.getSpreadsheetCellName(range.getMinColumn(), range.getMinRow());
 			s += ":";
-			s += GeoElementSpreadsheet.getSpreadsheetCellName(
-					range.getMaxColumn(), range.getMaxRow());
+			s += GeoElementSpreadsheet.getSpreadsheetCellName(range.getMaxColumn(), range.getMaxRow());
 		}
 
 		return s;
@@ -259,5 +251,4 @@ final public class CellRangeUtil {
 
 		return sb.toString();
 	}
-
 }

@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,8 +35,7 @@ public final class ToggleButtonWforEV extends ToggleButton {
 	 * @param img - image
 	 * @param stylebar - parent stylebar
 	 */
-	public ToggleButtonWforEV(SVGResource img,
-			EuclidianStyleBarW stylebar) {
+	public ToggleButtonWforEV(SVGResource img, EuclidianStyleBarW stylebar) {
 		super(img);
 		this.stylebar = stylebar;
 	}
@@ -47,7 +46,8 @@ public final class ToggleButtonWforEV extends ToggleButton {
 			this.setVisible(geos.size() == 0);
 		} else {
 			int mode = stylebar.mode;
-			this.setVisible(geos.size() == 0 && !EuclidianView.isPenMode(mode)
+			this.setVisible(geos.size() == 0
+					&& !EuclidianView.isPenMode(mode)
 					&& mode != EuclidianConstants.MODE_DELETE
 					&& mode != EuclidianConstants.MODE_ERASER);
 		}

@@ -31,7 +31,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Algo for the Prove command.
- * 
+ *
  * @author Zoltan Kovacs
  */
 public class AlgoProve extends AlgoElement implements UsesCAS {
@@ -42,7 +42,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Proves the given statement and gives a yes/no answer (boolean)
-	 * 
+	 *
 	 * @param cons
 	 *            The construction
 	 * @param label
@@ -61,7 +61,6 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		initialCompute();
 		compute();
 		bool.setLabel(label);
-		
 	}
 
 	@Override
@@ -82,7 +81,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Returns the output for the Prove command
-	 * 
+	 *
 	 * @return A boolean: true/false
 	 */
 	public GeoBoolean getGeoBoolean() {
@@ -120,8 +119,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		// Adding benchmarking:
 		double startTime = UtilFactory.getPrototype().getMillisecondTime();
 		p.compute(); // the computation of the proof
-		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime()
-				- startTime);
+		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime() - startTime);
 
 		/*
 		 * Don't remove this. It is needed for automated testing. (String match
@@ -134,8 +132,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		Log.debug("STATEMENT IS " + result);
 
 		if (result != null) {
-			if (result == ProofResult.UNKNOWN
-					|| result == ProofResult.PROCESSING) {
+			if (result == ProofResult.UNKNOWN || result == ProofResult.PROCESSING) {
 				bool.setUndefinedProverOnly();
 				return;
 			}
@@ -155,7 +152,6 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		 * match is assumed.)
 		 */
 		Log.debug("OUTPUT for Prove: " + bool);
-
 	}
 
 	@Override
@@ -182,8 +178,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		cons.addToConstructionList(this, true);
 		// TODO: consider moving setInputOutput() out from compute()
 
-		if (inputFingerprintPrev == null
-				|| !inputFingerprintPrev.equals(inputFingerprint)) {
+		if (inputFingerprintPrev == null || !inputFingerprintPrev.equals(inputFingerprint)) {
 			Log.trace(inputFingerprintPrev + " -> " + inputFingerprint);
 			initialCompute();
 		}
@@ -200,5 +195,4 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 	private static String fingerprint(GeoElement statement) {
 		return Prover.getTextFormat(statement);
 	}
-
 }

@@ -24,9 +24,9 @@ import org.jspecify.annotations.NonNull;
 /**
  * Combines a list of filters into a single ExpressionFilter.
  */
-final public class CompositeExpressionFilter implements ExpressionFilter {
+public final class CompositeExpressionFilter implements ExpressionFilter {
 
-	final private List<ExpressionFilter> filters;
+	private final List<ExpressionFilter> filters;
 
 	/**
 	 * Creates a new CompositeExpressionFilter

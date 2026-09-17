@@ -44,7 +44,13 @@ public class FillingModel extends MultipleOptionsModel {
 	private boolean hasGeoButton;
 	private boolean hasGeoTurtle;
 	private List<FillType> fillTypes;
-	enum FillingProperty {ALPHA, IMAGE, SYMBOL, FILL_TYPE}
+
+	enum FillingProperty {
+		ALPHA,
+		IMAGE,
+		SYMBOL,
+		FILL_TYPE
+	}
 
 	public interface IFillingListener extends IComboListener {
 		@MissingDoc
@@ -142,7 +148,7 @@ public class FillingModel extends MultipleOptionsModel {
 			types.remove(FillType.IMAGE);
 		}
 		List<String> choices = new ArrayList<>();
-		for (FillType fillType: types) {
+		for (FillType fillType : types) {
 			String key = getFillTypeTranslationKey(fillType);
 			choices.add(loc.getMenu(key));
 		}
@@ -151,7 +157,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 	private String getFillTypeTranslationKey(FillType fillType) {
 		switch (fillType) {
-				case HATCH:
+			case HATCH:
 				return "Filling.Hatch";
 			case CROSSHATCHED:
 				return "Filling.Crosshatch";
@@ -177,31 +183,30 @@ public class FillingModel extends MultipleOptionsModel {
 
 	private void updateFillType(FillType newFillType) {
 		switch (newFillType) {
-		case STANDARD:
-			getFillingListener().setStandardFillType();
-			break;
-		case HATCH:
-			getFillingListener().setHatchFillType();
-			break;
-		case CROSSHATCHED:
-		case CHESSBOARD:
-		case WEAVING:
-			getFillingListener().setCrossHatchedFillType();
-			break;
-		case BRICK:
-			getFillingListener().setBrickFillType();
-			break;
-		case SYMBOLS:
-			getFillingListener().setSymbolFillType();
-			break;
-		case HONEYCOMB:
-		case DOTTED:
-			getFillingListener().setDottedFillType();
-			break;
-		case IMAGE:
-			getFillingListener().setImageFillType();
-			break;
-
+			case STANDARD:
+				getFillingListener().setStandardFillType();
+				break;
+			case HATCH:
+				getFillingListener().setHatchFillType();
+				break;
+			case CROSSHATCHED:
+			case CHESSBOARD:
+			case WEAVING:
+				getFillingListener().setCrossHatchedFillType();
+				break;
+			case BRICK:
+				getFillingListener().setBrickFillType();
+				break;
+			case SYMBOLS:
+				getFillingListener().setSymbolFillType();
+				break;
+			case HONEYCOMB:
+			case DOTTED:
+				getFillingListener().setDottedFillType();
+				break;
+			case IMAGE:
+				getFillingListener().setImageFillType();
+				break;
 		}
 	}
 
@@ -210,8 +215,7 @@ public class FillingModel extends MultipleOptionsModel {
 		GeoElement geo0 = getGeoAt(0);
 		IFillingListener fillListener = getFillingListener();
 		// set selected fill type to first geo's fill type
-		ChartStyle chartStyle = isChart() ?
-			((ChartStyleGeo) geo0).getStyle() : null;
+		ChartStyle chartStyle = isChart() ? ((ChartStyleGeo) geo0).getStyle() : null;
 		if (chartStyle != null) {
 			setBarFillType(geo0);
 		} else {
@@ -220,7 +224,6 @@ public class FillingModel extends MultipleOptionsModel {
 
 		// set selected fill type to first geo's fill type
 		fillListener.setFillInverseSelected(geo0.isInverseFill());
-
 
 		if (chartStyle != null) {
 			updateBarFillTypePanel(geo0, chartStyle);
@@ -252,17 +255,14 @@ public class FillingModel extends MultipleOptionsModel {
 		}
 
 		if (chartStyle != null) {
-			fillListener.selectSymbol(
-					chartStyle.getBarSymbol(fillListener.getSelectedBarIndex()));
+			fillListener.selectSymbol(chartStyle.getBarSymbol(fillListener.getSelectedBarIndex()));
 		} else {
-			if (geo0.getFillSymbol() != null
-					&& !geo0.getFillSymbol().trim().equals("")) {
+			if (geo0.getFillSymbol() != null && !geo0.getFillSymbol().trim().equals("")) {
 				fillListener.selectSymbol(geo0.getFillSymbol());
 			}
 		}
 		// set selected image to first geo image
 		fillListener.setFillingImage(geo0.getImageFileName());
-
 	}
 
 	@Override
@@ -347,7 +347,6 @@ public class FillingModel extends MultipleOptionsModel {
 			}
 			geo.updateVisualStyleRepaint(GProperty.HATCHING);
 		}
-
 	}
 
 	private void setImage(GeoElement geo, String fileName) {
@@ -370,7 +369,6 @@ public class FillingModel extends MultipleOptionsModel {
 				}
 				geo.updateVisualStyleRepaint(GProperty.HATCHING);
 			}
-
 		}
 	}
 
@@ -383,7 +381,6 @@ public class FillingModel extends MultipleOptionsModel {
 				geo.setAlphaValue(value / 100.0f);
 			}
 			geo.updateVisualStyle(GProperty.COLOR);
-
 		}
 		kernel.notifyRepaint();
 	}
@@ -403,7 +400,6 @@ public class FillingModel extends MultipleOptionsModel {
 			geo.updateVisualStyle(GProperty.HATCHING);
 		}
 		kernel.notifyRepaint();
-
 	}
 
 	@Override
@@ -431,7 +427,6 @@ public class FillingModel extends MultipleOptionsModel {
 			getFillingListener().setFillingImage(geo0.getImageFileName());
 		} else {
 			getFillingListener().setFillingImage(null);
-
 		}
 
 		getFillingListener().setSymbolsVisible(fillType == FillType.SYMBOLS);
@@ -469,8 +464,7 @@ public class FillingModel extends MultipleOptionsModel {
 		storeUndoInfo();
 	}
 
-	private boolean updateBarsFillType(GeoElement geo, FillingProperty type,
-			String fileName) {
+	private boolean updateBarsFillType(GeoElement geo, FillingProperty type, String fileName) {
 		int selectedBarIndex = getFillingListener().getSelectedBarIndex();
 		ChartStyle algo = ((ChartStyleGeo) geo).getStyle();
 		if (selectedBarIndex == 0) {
@@ -485,48 +479,45 @@ public class FillingModel extends MultipleOptionsModel {
 			return false;
 		}
 		switch (type) {
-		default:
-		case FILL_TYPE:
-			algo.setBarFillType(getSelectedFillType(), selectedBarIndex);
-			algo.setBarHatchDistance(getDistanceValue(), selectedBarIndex);
-			algo.setBarHatchAngle(getAngleValue(), selectedBarIndex);
-			algo.setBarImage(null, selectedBarIndex);
-			if (getSelectedFillType() == FillType.SYMBOLS) {
-				algo.setBarFillType(FillType.SYMBOLS, selectedBarIndex);
-				algo.setBarHatchAngle(-1, selectedBarIndex);
-				if (getSelectedSymbolText() != null
-						&& !"".equals(getSelectedSymbolText())) {
-					algo.setBarSymbol(getSelectedSymbolText(),
-							selectedBarIndex);
-				} else {
-					algo.setBarSymbol("$", selectedBarIndex);
-				}
-			} else {
-				algo.setBarSymbol(null, selectedBarIndex);
-			}
-			break;
-		case ALPHA:
-			algo.setBarAlpha(getFillingValue() / 100f, selectedBarIndex);
-			break;
-		case IMAGE:
-			algo.setBarFillType(null, selectedBarIndex);
-			algo.setBarHatchDistance(-1, selectedBarIndex);
-			algo.setBarHatchAngle(-1, selectedBarIndex);
-			algo.setBarSymbol(null, selectedBarIndex);
-			algo.setBarImage(fileName, selectedBarIndex);
-			algo.setBarFillType(FillType.IMAGE, selectedBarIndex);
-			break;
-		case SYMBOL:
-			if (getSelectedSymbolText() != null
-					&& !"".equals(getSelectedSymbolText())) {
-				algo.setBarFillType(FillType.SYMBOLS, selectedBarIndex);
-				algo.setBarHatchAngle(-1, selectedBarIndex);
+			default:
+			case FILL_TYPE:
+				algo.setBarFillType(getSelectedFillType(), selectedBarIndex);
+				algo.setBarHatchDistance(getDistanceValue(), selectedBarIndex);
+				algo.setBarHatchAngle(getAngleValue(), selectedBarIndex);
 				algo.setBarImage(null, selectedBarIndex);
-				algo.setBarSymbol(getSelectedSymbolText(), selectedBarIndex);
-			} else {
+				if (getSelectedFillType() == FillType.SYMBOLS) {
+					algo.setBarFillType(FillType.SYMBOLS, selectedBarIndex);
+					algo.setBarHatchAngle(-1, selectedBarIndex);
+					if (getSelectedSymbolText() != null && !"".equals(getSelectedSymbolText())) {
+						algo.setBarSymbol(getSelectedSymbolText(), selectedBarIndex);
+					} else {
+						algo.setBarSymbol("$", selectedBarIndex);
+					}
+				} else {
+					algo.setBarSymbol(null, selectedBarIndex);
+				}
+				break;
+			case ALPHA:
+				algo.setBarAlpha(getFillingValue() / 100f, selectedBarIndex);
+				break;
+			case IMAGE:
+				algo.setBarFillType(null, selectedBarIndex);
+				algo.setBarHatchDistance(-1, selectedBarIndex);
+				algo.setBarHatchAngle(-1, selectedBarIndex);
 				algo.setBarSymbol(null, selectedBarIndex);
-			}
-			break;
+				algo.setBarImage(fileName, selectedBarIndex);
+				algo.setBarFillType(FillType.IMAGE, selectedBarIndex);
+				break;
+			case SYMBOL:
+				if (getSelectedSymbolText() != null && !"".equals(getSelectedSymbolText())) {
+					algo.setBarFillType(FillType.SYMBOLS, selectedBarIndex);
+					algo.setBarHatchAngle(-1, selectedBarIndex);
+					algo.setBarImage(null, selectedBarIndex);
+					algo.setBarSymbol(getSelectedSymbolText(), selectedBarIndex);
+				} else {
+					algo.setBarSymbol(null, selectedBarIndex);
+				}
+				break;
 		}
 		geo.updateVisualStyle(GProperty.HATCHING);
 		storeUndoInfo();
@@ -574,8 +565,10 @@ public class FillingModel extends MultipleOptionsModel {
 					getFillingListener().setFillInverseVisible(false);
 				}
 			}
-			if (!geo.isFillable() || geo instanceof GeoImage
-					|| geo instanceof GeoInputBox || geo.isGeoQuadric()) {
+			if (!geo.isFillable()
+					|| geo instanceof GeoImage
+					|| geo instanceof GeoInputBox
+					|| geo.isGeoQuadric()) {
 				geosOK = false;
 				break;
 			}

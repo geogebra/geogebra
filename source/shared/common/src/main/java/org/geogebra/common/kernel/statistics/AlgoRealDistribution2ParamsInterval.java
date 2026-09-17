@@ -37,8 +37,12 @@ public class AlgoRealDistribution2ParamsInterval extends AlgoDistribution {
 	 * @param upperBound interval upper bound
 	 * @param dist distribution
 	 */
-	public AlgoRealDistribution2ParamsInterval(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoNumberValue upperBound,
+	public AlgoRealDistribution2ParamsInterval(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoNumberValue upperBound,
 			ProbabilityCalculatorSettings.Dist dist) {
 		super(cons, a, b, c, upperBound, null);
 		this.dist = dist;
@@ -52,8 +56,7 @@ public class AlgoRealDistribution2ParamsInterval extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-		if (a.isDefined() && b.isDefined()
-				&& c.isDefined() && d.isDefined()) {
+		if (a.isDefined() && b.isDefined() && c.isDefined() && d.isDefined()) {
 			double param = a.getDouble();
 			double param2 = b.getDouble();
 			try {
@@ -73,5 +76,4 @@ public class AlgoRealDistribution2ParamsInterval extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

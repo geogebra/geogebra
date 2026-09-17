@@ -33,8 +33,7 @@ public class ClippingBoxSizeProperty extends AbstractNamedEnumeratedProperty<Int
 	 * @param localization localization
 	 * @param euclidianSettings euclidian settings
 	 */
-	public ClippingBoxSizeProperty(Localization localization,
-			EuclidianSettings3D euclidianSettings) {
+	public ClippingBoxSizeProperty(Localization localization, EuclidianSettings3D euclidianSettings) {
 		super(localization, "BoxSize");
 		this.euclidianSettings = euclidianSettings;
 		setNamedValues(List.of(

@@ -60,28 +60,24 @@ public class CmdTranslate3D extends CmdTranslate {
 			// check if there is a 3D geo
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
 				if (arg[0].isGeoVector() && arg[1].isGeoPoint()) {
-					AlgoTranslateVector algo = getAlgoTranslateVector(label,
-							arg[0], arg[1]);
+					AlgoTranslateVector algo = getAlgoTranslateVector(label, arg[0], arg[1]);
 
 					ret[0] = (GeoElement) algo.getTranslatedVector();
 					return ret;
 				}
-				ok[0] = arg[0] instanceof Translateable
-						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList();
+				ok[0] =
+						arg[0] instanceof Translateable || arg[0] instanceof GeoPolygon || arg[0].isGeoList();
 				// translate object
 				if (ok[0] && (ok[1] = arg[1].isGeoVector())) {
-					ret = kernel.getManager3D().translate3D(label, arg[0],
-							(GeoVectorND) arg[1]);
+					ret = kernel.getManager3D().translate3D(label, arg[0], (GeoVectorND) arg[1]);
 					return ret;
 				} else if (ok[0] && (ok[1] = arg[1] instanceof GeoPointND)) {
 
 					// wrap (1,2,3) as Vector[(1,2,3)]
-					AlgoVectorPoint3D algoVP = new AlgoVectorPoint3D(cons,
-							(GeoPointND) arg[1]);
+					AlgoVectorPoint3D algoVP = new AlgoVectorPoint3D(cons, (GeoPointND) arg[1]);
 					cons.removeFromConstructionList(algoVP);
 
-					ret = kernel.getManager3D().translate3D(label, arg[0],
-							algoVP.getVector());
+					ret = kernel.getManager3D().translate3D(label, arg[0], algoVP.getVector());
 					return ret;
 				}
 				throw argErr(c, getBadArg(ok, arg));
@@ -92,15 +88,12 @@ public class CmdTranslate3D extends CmdTranslate {
 	}
 
 	@Override
-	protected AlgoTranslateVector getAlgoTranslateVector(String label,
-			GeoElement v, GeoElement P) {
+	protected AlgoTranslateVector getAlgoTranslateVector(String label, GeoElement v, GeoElement P) {
 
 		if (v.isGeoElement3D()) {
-			return new AlgoTranslateVector3D(cons, label, (GeoVector3D) v,
-					(GeoPointND) P);
+			return new AlgoTranslateVector3D(cons, label, (GeoVector3D) v, (GeoPointND) P);
 		}
 
 		return super.getAlgoTranslateVector(label, v, P);
 	}
-
 }

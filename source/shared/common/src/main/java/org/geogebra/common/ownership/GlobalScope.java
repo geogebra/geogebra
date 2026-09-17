@@ -52,9 +52,9 @@ public final class GlobalScope {
 	 */
 	public static @NonNull SuiteScope registerNewSuiteScope() {
 		SuiteScope suiteScope = new SuiteScope();
-        suiteScopes.add(suiteScope);
+		suiteScopes.add(suiteScope);
 		return suiteScope;
-    }
+	}
 
 	/**
 	 * Unregister a (previously registered) {@link SuiteScope}.
@@ -112,6 +112,5 @@ public final class GlobalScope {
 	/**
 	 * Prevent instantiation.
 	 */
-	private GlobalScope() {
-	}
+	private GlobalScope() {}
 }

@@ -23,9 +23,14 @@ import org.geogebra.common.main.Localization;
 
 class SphericalPrinter implements Printer {
 
-    @Override
-	public String print(String xCoord, String yCoord, String zCoord,
-			PrintableVector vector, StringTemplate tpl, Localization loc) {
+	@Override
+	public String print(
+			String xCoord,
+			String yCoord,
+			String zCoord,
+			PrintableVector vector,
+			StringTemplate tpl,
+			Localization loc) {
 		if (tpl.getStringType().isGiac()) {
 			return "point(("
 					+ xCoord
@@ -45,12 +50,6 @@ class SphericalPrinter implements Printer {
 					+ zCoord
 					+ "))";
 		}
-        return tpl.leftBracket(loc)
-                + xCoord
-                + "; "
-                + yCoord
-                + "; "
-                + zCoord
-                + tpl.rightBracket(loc);
-    }
+		return tpl.leftBracket(loc) + xCoord + "; " + yCoord + "; " + zCoord + tpl.rightBracket(loc);
+	}
 }

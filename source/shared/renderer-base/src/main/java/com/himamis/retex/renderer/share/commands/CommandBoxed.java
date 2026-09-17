@@ -12,5 +12,4 @@ public class CommandBoxed extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new FBoxAtom(new MathAtom(a, TeXConstants.STYLE_DISPLAY));
 	}
-
 }

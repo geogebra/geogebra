@@ -51,8 +51,8 @@ public abstract class AbstractRangeProperty<T extends Number & Comparable<T>>
 		if (value.compareTo(getMin()) >= 0 && value.compareTo(getMax()) <= 0) {
 			setValueSafe(value);
 		} else {
-			throw new RuntimeException("The value " + value
-					+ " must be between [" + getMin() + ", " + getMax() + "]");
+			throw new RuntimeException(
+					"The value " + value + " must be between [" + getMin() + ", " + getMax() + "]");
 		}
 	}
 

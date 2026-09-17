@@ -32,21 +32,23 @@ class NiedersachsenExamTests extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"CSolve(x^2 = 0)",
-			"CSolutions(x^2 = 0)",
-	})
+	@ValueSource(
+			strings = {
+				"CSolve(x^2 = 0)",
+				"CSolutions(x^2 = 0)",
+			})
 	void testRestrictedCommands(String command) {
 		assertNull(evaluate(command));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Solve(x^2 = 0)",
-			"Solutions(x^2 = 0)",
-			"NSolve(x^2 = 0)",
-			"NSolutions(x^2 = 0)",
-	})
+	@ValueSource(
+			strings = {
+				"Solve(x^2 = 0)",
+				"Solutions(x^2 = 0)",
+				"NSolve(x^2 = 0)",
+				"NSolutions(x^2 = 0)",
+			})
 	void testUnrestrictedCommands(String command) {
 		assertNotNull(evaluate(command));
 	}

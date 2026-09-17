@@ -25,10 +25,9 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Creates textfield linked with geo
- * 
+ *
  * @author Zbynek Konecny
  */
-
 public class AlgoInputBox extends AlgoElement {
 
 	private @Nullable GeoElement linkedGeo; // input
@@ -93,5 +92,4 @@ public class AlgoInputBox extends AlgoElement {
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_TEXTFIELD_ACTION;
 	}
-
 }

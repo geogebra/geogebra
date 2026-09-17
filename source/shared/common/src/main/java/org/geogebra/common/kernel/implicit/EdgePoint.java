@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,8 +34,7 @@ public class EdgePoint extends MyPoint {
 	 * @param edgeType {@link EdgeType}
 	 * @param start if the endpoint is start or end of the list
 	 */
-	public EdgePoint(PointList list, MyPoint point, EdgeType edgeType,
-			boolean start) {
+	public EdgePoint(PointList list, MyPoint point, EdgeType edgeType, boolean start) {
 		this.list = list;
 		this.edgeType = edgeType;
 		this.x = point.x;
@@ -58,8 +57,7 @@ public class EdgePoint extends MyPoint {
 		}
 
 		EdgePoint point = (EdgePoint) obj;
-		return DoubleUtil.isEqual(this.x, point.x, 1E-7)
-				&& DoubleUtil.isEqual(this.y, point.y, 1E-7);
+		return DoubleUtil.isEqual(this.x, point.x, 1E-7) && DoubleUtil.isEqual(this.y, point.y, 1E-7);
 	}
 
 	@Override

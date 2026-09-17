@@ -10,5 +10,4 @@ public class CommandXMapsTo extends Command1O1A {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new XMapstoAtom(b, a);
 	}
-
 }

@@ -29,7 +29,7 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * algorithm for FDistribution[0,1,x]
- * 
+ *
  * @author Michael
  */
 public class AlgoErlangDF extends AlgoElement {
@@ -40,7 +40,7 @@ public class AlgoErlangDF extends AlgoElement {
 	private GeoFunction ret; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -52,14 +52,18 @@ public class AlgoErlangDF extends AlgoElement {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoErlangDF(Construction cons, String label, GeoNumberValue mean,
-			GeoNumberValue sd, BooleanValue cumulative) {
+	public AlgoErlangDF(
+			Construction cons,
+			String label,
+			GeoNumberValue mean,
+			GeoNumberValue sd,
+			BooleanValue cumulative) {
 		this(cons, mean, sd, cumulative);
 		ret.setLabel(label);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param mean
@@ -69,8 +73,8 @@ public class AlgoErlangDF extends AlgoElement {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoErlangDF(Construction cons, GeoNumberValue mean,
-			GeoNumberValue sd, BooleanValue cumulative) {
+	public AlgoErlangDF(
+			Construction cons, GeoNumberValue mean, GeoNumberValue sd, BooleanValue cumulative) {
 		super(cons);
 		this.k = mean;
 		this.l = sd;
@@ -136,7 +140,8 @@ public class AlgoErlangDF extends AlgoElement {
 
 		} else {
 
-			en = lEn.power(k).multiply(fvEn.power(kEn.subtract(1)))
+			en = lEn.power(k)
+					.multiply(fvEn.power(kEn.subtract(1)))
 					.multiply(lEn.multiplyR(fv).reverseSign().exp())
 					.divide(kEn.subtract(1).factorial());
 
@@ -146,7 +151,5 @@ public class AlgoErlangDF extends AlgoElement {
 		}
 
 		ret.getFunctionExpression().setRight(en);
-
 	}
-
 }

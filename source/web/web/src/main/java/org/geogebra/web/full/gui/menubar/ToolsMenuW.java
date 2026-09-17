@@ -66,30 +66,26 @@ public final class ToolsMenuW extends Submenu {
 
 		addItem(MainMenu.getMenuBarItem(
 				MaterialDesignResources.INSTANCE.tools_create_black(),
-				loc.getMenu(getApp().isOpenedForMacroEditing() ? "Tool.SaveAs"
-						: "Tool.CreateNew"),
+				loc.getMenu(getApp().isOpenedForMacroEditing() ? "Tool.SaveAs" : "Tool.CreateNew"),
 				new MenuCommand(getApp()) {
 
 					@Override
 					void doExecute() {
-						ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(
-								getApp());
+						ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(getApp());
 						toolCreationDialog.center();
 					}
 				}));
 
 		if (examController.isIdle()) {
-			addItem(MainMenu
-					.getMenuBarItem(
-							MaterialDesignResources.INSTANCE.tools_black(),
-							loc.getMenu("Tool.Manage"),
+			addItem(MainMenu.getMenuBarItem(
+					MaterialDesignResources.INSTANCE.tools_black(),
+					loc.getMenu("Tool.Manage"),
 					new MenuCommand(getApp()) {
 
 						@Override
 						void doExecute() {
 							DialogData data = new DialogData("Tool.Manage", "Close", null);
-							ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(
-									getApp(), data);
+							ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(getApp(), data);
 							toolManageDialog.show();
 						}
 					}));
@@ -105,5 +101,4 @@ public final class ToolsMenuW extends Submenu {
 	protected String getTitleTranslationKey() {
 		return "Tools";
 	}
-
 }

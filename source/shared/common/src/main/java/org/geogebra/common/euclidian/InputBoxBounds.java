@@ -66,14 +66,13 @@ public class InputBoxBounds {
 	}
 
 	private void handlePaddings() {
-		bounds.setSize((int) (bounds.getWidth() - 2 * settings.getFixMargin()),
-				(int) (bounds.getHeight() - 2 * settings.getFixMargin()));
+		bounds.setSize((int) (bounds.getWidth() - 2 * settings.getFixMargin()), (int)
+				(bounds.getHeight() - 2 * settings.getFixMargin()));
 	}
 
 	private void keepBoxOffscreen(int viewHeight) {
-		bounds.setLocation((int) bounds.getX(),
-				(int) MyMath.clamp(bounds.getMinY(), 0,
-						viewHeight - bounds.getHeight()));
+		bounds.setLocation((int) bounds.getX(), (int)
+				MyMath.clamp(bounds.getMinY(), 0, viewHeight - bounds.getHeight()));
 	}
 
 	private boolean hasWindowResized(double labelTop, int viewHeight) {

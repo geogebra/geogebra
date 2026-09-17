@@ -25,15 +25,14 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  * Vector between two points P and Q. Extends AlgoVector
- * 
+ *
  * @author ggb3D
  */
-
 public class AlgoVector3D extends AlgoVector {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param P
@@ -41,8 +40,7 @@ public class AlgoVector3D extends AlgoVector {
 	 * @param Q
 	 *            end point
 	 */
-	public AlgoVector3D(Construction cons, GeoPointND P,
-			GeoPointND Q) {
+	public AlgoVector3D(Construction cons, GeoPointND P, GeoPointND Q) {
 		super(cons, P, Q);
 	}
 
@@ -50,20 +48,17 @@ public class AlgoVector3D extends AlgoVector {
 	protected GeoVectorND createNewVector() {
 
 		return new GeoVector3D(cons);
-
 	}
 
 	@Override
 	protected GeoPointND newStartPoint() {
 
 		return new GeoPoint3D(getP());
-
 	}
 
 	@Override
 	protected void setCoords() {
-		getVector().setCoords(getQ().getInhomCoordsInD3()
-				.sub(getP().getInhomCoordsInD3()).get());
+		getVector()
+				.setCoords(getQ().getInhomCoordsInD3().sub(getP().getInhomCoordsInD3()).get());
 	}
-
 }

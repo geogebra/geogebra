@@ -37,8 +37,7 @@ import org.geogebra.common.util.DoubleUtil;
  * 3D extension of implicit curves
  *
  */
-public class GeoImplicitCurve3D extends GeoImplicitCurve
-		implements MirrorableAtPlane {
+public class GeoImplicitCurve3D extends GeoImplicitCurve implements MirrorableAtPlane {
 
 	/**
 	 * Curve type based on plane defining the intersection
@@ -55,7 +54,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	private CoordSys transformCoordSys;
 	private FunctionNVar functionExpression;
 	private double[] planeEquationNumbers;
-	private static final String[] VAR_STRING = { "x", "y" };
+	private static final String[] VAR_STRING = {"x", "y"};
 	private Coords tmpCoords = new Coords(4);
 	private Coords tmpCoords3d = new Coords(4);
 	private double translateZ = 0;
@@ -70,12 +69,11 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		super(c);
 		this.transformCoordSys = new CoordSys(2);
 		transformCoordSys.set(CoordSys.XOY);
-
 	}
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param geo
 	 *            curve to copy
 	 */
@@ -91,7 +89,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 
 	/**
 	 * set type for intersect function / plane
-	 * 
+	 *
 	 * @param type
 	 *            type
 	 */
@@ -139,8 +137,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		valueSb.append(tpl.leftBracket(kernel.getLocalization()));
 		appendSurfaceEquation(valueSb, tpl);
 		valueSb.append(",");
-		valueSb.append(
-				GeoPlane3D.buildValueString(tpl, kernel, planeEquation, false));
+		valueSb.append(GeoPlane3D.buildValueString(tpl, kernel, planeEquation, false));
 		valueSb.append(tpl.rightBracket(kernel.getLocalization()));
 		return valueSb.toString();
 	}
@@ -149,11 +146,9 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		if (!isInputForm() && getCoeff() != null) {
 			valueSb.append(toRawValueString(tpl));
 		} else if (functionExpression != null) {
-			valueSb.append(
-					functionExpression.getExpression().toValueString(tpl));
+			valueSb.append(functionExpression.getExpression().toValueString(tpl));
 			valueSb.append(" = ");
-			if (DoubleUtil.isEpsilon(planeEquation.getZ(), planeEquation.getY(),
-					planeEquation.getX())) {
+			if (DoubleUtil.isEpsilon(planeEquation.getZ(), planeEquation.getY(), planeEquation.getX())) {
 				// can't replace z by plane equation
 				valueSb.append("z");
 				kernel.appendConstant(valueSb, -translateZ, tpl);
@@ -162,14 +157,10 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 				if (planeEquationNumbers == null) {
 					planeEquationNumbers = new double[3];
 				}
-				planeEquationNumbers[0] = -planeEquation.getX()
-						/ planeEquation.getZ();
-				planeEquationNumbers[1] = -planeEquation.getY()
-						/ planeEquation.getZ();
-				planeEquationNumbers[2] = -planeEquation.getW()
-						/ planeEquation.getZ() - translateZ;
-				valueSb.append(kernel.buildLHS(planeEquationNumbers, VAR_STRING,
-						false, false, true, tpl));
+				planeEquationNumbers[0] = -planeEquation.getX() / planeEquation.getZ();
+				planeEquationNumbers[1] = -planeEquation.getY() / planeEquation.getZ();
+				planeEquationNumbers[2] = -planeEquation.getW() / planeEquation.getZ() - translateZ;
+				valueSb.append(kernel.buildLHS(planeEquationNumbers, VAR_STRING, false, false, true, tpl));
 			}
 		} else {
 			valueSb.append(" = 0");
@@ -179,10 +170,13 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	@Override
 	protected String[] getVariableNames() {
 		switch (type) {
-		default:
-		case DEFAULT: return super.getVariableNames();
-		case PLANE_XY: return new String[]{"x", "z"};
-		case PLANE_X: return new String[]{"y", "z"};
+			default:
+			case DEFAULT:
+				return super.getVariableNames();
+			case PLANE_XY:
+				return new String[] {"x", "z"};
+			case PLANE_X:
+				return new String[] {"y", "z"};
 		}
 	}
 
@@ -208,24 +202,29 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 			willingDirection = transformCoordSys.getVz();
 		}
 
-		willingCoords.projectPlaneInPlaneCoords(transformCoordSys.getVx(),
-				transformCoordSys.getVy(), willingDirection,
-				transformCoordSys.getOrigin(), tmpCoords);
+		willingCoords.projectPlaneInPlaneCoords(
+				transformCoordSys.getVx(),
+				transformCoordSys.getVy(),
+				willingDirection,
+				transformCoordSys.getOrigin(),
+				tmpCoords);
 		getLocus().pointChanged(tmpCoords, PI.getPathParameter());
 		transformCoordSys.getPointFromOriginVectors(tmpCoords, tmpCoords3d);
 		PI.setCoords(tmpCoords3d, false);
 
 		p3d.setWillingCoordsUndefined();
 		p3d.setWillingDirectionUndefined();
-
 	}
 
 	@Override
 	protected void locusPathChanged(GeoPointND PI) {
-		PI.getInhomCoordsInD3().projectPlaneInPlaneCoords(
-				transformCoordSys.getVx(), transformCoordSys.getVy(),
-				transformCoordSys.getVz(), transformCoordSys.getOrigin(),
-				tmpCoords);
+		PI.getInhomCoordsInD3()
+				.projectPlaneInPlaneCoords(
+						transformCoordSys.getVx(),
+						transformCoordSys.getVy(),
+						transformCoordSys.getVz(),
+						transformCoordSys.getOrigin(),
+						tmpCoords);
 		getLocus().pathChanged(tmpCoords, PI.getPathParameter());
 		transformCoordSys.getPointFromOriginVectors(tmpCoords, tmpCoords3d);
 		PI.setCoords(tmpCoords3d, false);
@@ -281,64 +280,60 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 
 	@Override
 	protected double[] getViewBounds() {
-		if (isVisibleInView3D()
-				&& kernel.getApplication().isEuclidianView3Dinited()) {
+		if (isVisibleInView3D() && kernel.getApplication().isEuclidianView3Dinited()) {
 			// see AlgoIntersectFunctionNVarPlane.compute() where type is set
 			switch (type) {
-			case PLANE_X:
-				EuclidianView3D view = (EuclidianView3D) kernel.getApplication()
-						.getEuclidianView3D();
-				return new double[] {
+				case PLANE_X:
+					EuclidianView3D view = (EuclidianView3D) kernel.getApplication().getEuclidianView3D();
+					return new double[] {
 						view.getYmin(),
 						view.getYmax(),
 						view.getZmin(),
 						view.getZmax(),
 						view.getYscale(),
 						view.getZscale()
-				};
-			case PLANE_XY:
-				view = (EuclidianView3D) kernel.getApplication()
-						.getEuclidianView3D();
+					};
+				case PLANE_XY:
+					view = (EuclidianView3D) kernel.getApplication().getEuclidianView3D();
 
-				double xmin1 = view.getXmin();
-				double xmax1 = view.getXmax();
-				double scale = view.getXscale();
+					double xmin1 = view.getXmin();
+					double xmax1 = view.getXmax();
+					double scale = view.getXscale();
 
-				// y = (-a/b) X + (-d/b) so we compute X min/max regarding that,
-				// and restrict the bounds if needed
-				Coords ev = getTransformedCoordSys().getEquationVector();
-				double a = ev.getX();
-				if (!DoubleUtil.isZero(a)) {
-					double b = ev.getY();
-					double d = ev.getW();
-					double xmin2 = -(b * view.getYmin() + d) / a;
-					double xmax2 = -(b * view.getYmax() + d) / a;
-					if (xmin2 > xmax2) {
-						d = xmin2;
-						xmin2 = xmax2;
-						xmax2 = d;
+					// y = (-a/b) X + (-d/b) so we compute X min/max regarding that,
+					// and restrict the bounds if needed
+					Coords ev = getTransformedCoordSys().getEquationVector();
+					double a = ev.getX();
+					if (!DoubleUtil.isZero(a)) {
+						double b = ev.getY();
+						double d = ev.getW();
+						double xmin2 = -(b * view.getYmin() + d) / a;
+						double xmax2 = -(b * view.getYmax() + d) / a;
+						if (xmin2 > xmax2) {
+							d = xmin2;
+							xmin2 = xmax2;
+							xmax2 = d;
+						}
+						if (xmin1 < xmin2) {
+							xmin1 = xmin2;
+						}
+						if (xmax1 > xmax2) {
+							xmax1 = xmax2;
+						}
+						d = view.getYscale() * Math.abs(a / b);
+						if (scale < d) {
+							scale = d;
+						}
 					}
-					if (xmin1 < xmin2) {
-						xmin1 = xmin2;
-					}
-					if (xmax1 > xmax2) {
-						xmax1 = xmax2;
-					}
-					d = view.getYscale() * Math.abs(a / b);
-					if (scale < d) {
-						scale = d;
-					}
-				}
 
-				return new double[] { xmin1, xmax1, view.getZmin(),
-						view.getZmax(), scale, view.getZscale() };
+					return new double[] {xmin1, xmax1, view.getZmin(), view.getZmax(), scale, view.getZscale()
+					};
 
-			case DEFAULT:
-			default:
-				return super.getViewBounds();
+				case DEFAULT:
+				default:
+					return super.getViewBounds();
 			}
 		}
 		return super.getViewBounds();
 	}
-
 }

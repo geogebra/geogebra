@@ -74,8 +74,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 		linkBox.setStyleName("linkBox");
 		addLinkBoxHandlers();
 
-		Label linkLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(
-				localize("Link"), "linkLabel");
+		Label linkLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(localize("Link"), "linkLabel");
 
 		StandardButton copyBtn = BaseWidgetFactory.INSTANCE.newTextButton(localize("Copy"));
 		copyBtn.addFastClickHandler(source -> {
@@ -90,8 +89,8 @@ public final class ShareLinkDialog extends ComponentDialog {
 		linkPanel.add(copyBtn);
 		contentPanel.add(linkPanel);
 
-		Label shareHelp = new Label(localize(((AppW) app).getVendorSettings()
-				.getMenuLocalizationKey("SharedLinkHelpTxt")));
+		Label shareHelp = new Label(
+				localize(((AppW) app).getVendorSettings().getMenuLocalizationKey("SharedLinkHelpTxt")));
 		shareHelp.addStyleName("shareHelpTxt");
 
 		// build button panel (print prev, export img)
@@ -100,24 +99,22 @@ public final class ShareLinkDialog extends ComponentDialog {
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 
-		StandardButton printBtn = roundButton(
-				SharedResources.INSTANCE.print_white(), "Print");
+		StandardButton printBtn = roundButton(SharedResources.INSTANCE.print_white(), "Print");
 		printBtn.addFastClickHandler(source -> {
 			logShareCompleted(AccessibilityAnalytics.Value.PRINT);
 			app.getDialogManager().showPrintPreview();
 			hide();
 		});
 
-		StandardButton exportImgBtn = roundButton(
-				SharedResources.INSTANCE.file_download_white(), "exportImage");
+		StandardButton exportImgBtn =
+				roundButton(SharedResources.INSTANCE.file_download_white(), "exportImage");
 		exportImgBtn.addFastClickHandler(source -> {
 			logShareCompleted(AccessibilityAnalytics.Value.EXPORT_IMAGE);
 			app.getDialogManager().showExportImageDialog(null);
 			hide();
 		});
 
-		StandardButton embedBtn = roundButton(
-				SharedResources.INSTANCE.code_white(), "Embed");
+		StandardButton embedBtn = roundButton(SharedResources.INSTANCE.code_white(), "Embed");
 		embedBtn.addFastClickHandler(source -> {
 			logShareCompleted(AccessibilityAnalytics.Value.EMBED);
 			copyEmbedCode();
@@ -139,8 +136,7 @@ public final class ShareLinkDialog extends ComponentDialog {
 	}
 
 	private StandardButton roundButton(SVGResource icon, String titleKey) {
-		StandardButton btn = new StandardButton(icon,
-				localize(titleKey), 24);
+		StandardButton btn = new StandardButton(icon, localize(titleKey), 24);
 		btn.setStyleName("roundButton");
 		return btn;
 	}
@@ -164,14 +160,12 @@ public final class ShareLinkDialog extends ComponentDialog {
 		Material m = appW.getActiveMaterial();
 		if (m != null) {
 			String url = appW.getCurrentURL(m.getSharingKeySafe(), true) + "?embed";
-			String code =
-					"<iframe src=\"" + url + "\""
+			String code = "<iframe src=\"" + url + "\""
 					+ " width=\"800\" height=\"600\" allowfullscreen"
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
 			this.app.getCopyPaste().copyTextToSystemClipboard(code);
-			((AppW) app).getToolTipManager().showBottomMessage(
-					localize("CopiedToClipboard"), appW);
+			((AppW) app).getToolTipManager().showBottomMessage(localize("CopiedToClipboard"), appW);
 		}
 		hide();
 	}
@@ -181,8 +175,9 @@ public final class ShareLinkDialog extends ComponentDialog {
 		if (anchor == null) {
 			super.onResize();
 		} else {
-			setPopupPosition(anchor.getAbsoluteLeft() - (this.getOffsetWidth()
-							- anchor.getOffsetWidth()), anchor.getAbsoluteTop() - 27);
+			setPopupPosition(
+					anchor.getAbsoluteLeft() - (this.getOffsetWidth() - anchor.getOffsetWidth()),
+					anchor.getAbsoluteTop() - 27);
 		}
 	}
 
@@ -197,15 +192,15 @@ public final class ShareLinkDialog extends ComponentDialog {
 			anchor.addStyleName("selected");
 		}
 		Scheduler.get().scheduleDeferred(this::focusLinkBox);
-
 	}
 
 	@Override
 	public void center() {
 		super.center();
 		if (anchor != null) {
-			setPopupPosition(anchor.getAbsoluteLeft() - (this.getOffsetWidth()
-					- anchor.getOffsetWidth()), anchor.getAbsoluteTop() - 27);
+			setPopupPosition(
+					anchor.getAbsoluteLeft() - (this.getOffsetWidth() - anchor.getOffsetWidth()),
+					anchor.getAbsoluteTop() - 27);
 		}
 	}
 

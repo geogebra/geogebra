@@ -23,6 +23,9 @@ import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Object")
 public final class GoogleDriveDocument {
-	@InjectJsInterop public String id;
-	@InjectJsInterop public String name;
+	@InjectJsInterop
+	public String id;
+
+	@InjectJsInterop
+	public String name;
 }

@@ -29,20 +29,26 @@ import org.geogebra.editor.share.util.Unicode;
  * - replace .. with ellipsis
  * - handle , as decimal or thousand separator based on locale
  */
-
- public class ParserPreprocessor {
+public class ParserPreprocessor {
 	private static final String BASIC_OPERANDS = ".+-*/ ";
-	private static final TreeSet<Character> SPLITTERS_BACKWARDS = new TreeSet<>(
-			Arrays.asList('*', '/', '^', '=',
-					Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
-					Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
-					Unicode.SUPERSCRIPT_4, Unicode.SUPERSCRIPT_5,
-					Unicode.SUPERSCRIPT_6, Unicode.SUPERSCRIPT_7,
-					Unicode.SUPERSCRIPT_8, Unicode.SUPERSCRIPT_9,
-					Unicode.SUPERSCRIPT_MINUS));
-	private static final TreeSet<Character> SPLITTERS_FORWARDS = new TreeSet<>(
-			Arrays.asList(Unicode.SQUARE_ROOT, '+', '-',
-					'*', '/', '^', '='));
+	private static final TreeSet<Character> SPLITTERS_BACKWARDS = new TreeSet<>(Arrays.asList(
+			'*',
+			'/',
+			'^',
+			'=',
+			Unicode.SUPERSCRIPT_0,
+			Unicode.SUPERSCRIPT_1,
+			Unicode.SUPERSCRIPT_2,
+			Unicode.SUPERSCRIPT_3,
+			Unicode.SUPERSCRIPT_4,
+			Unicode.SUPERSCRIPT_5,
+			Unicode.SUPERSCRIPT_6,
+			Unicode.SUPERSCRIPT_7,
+			Unicode.SUPERSCRIPT_8,
+			Unicode.SUPERSCRIPT_9,
+			Unicode.SUPERSCRIPT_MINUS));
+	private static final TreeSet<Character> SPLITTERS_FORWARDS =
+			new TreeSet<>(Arrays.asList(Unicode.SQUARE_ROOT, '+', '-', '*', '/', '^', '='));
 	private StringBuilder sb;
 	private int topLevelBars;
 	private boolean forward;
@@ -93,8 +99,7 @@ import org.geogebra.editor.share.util.Unicode;
 		sb.insert(0, "(");
 	}
 
-	private void scan(String parseString,
-			TreeSet<Character> splitters) {
+	private void scan(String parseString, TreeSet<Character> splitters) {
 		// When we have <splitter> || , we know that we should separate
 		// these bars (i. e., we want absolute value, not OR)
 		String ignoredIndices = StringUtil.ignoreIndices(parseString);
@@ -117,8 +122,7 @@ import org.geogebra.editor.share.util.Unicode;
 				handleComma(i);
 			}
 
-			if (Character.isWhitespace(ch)
-					|| (comment && !ch.equals('"'))) {
+			if (Character.isWhitespace(ch) || (comment && !ch.equals('"'))) {
 				continue;
 			}
 
@@ -136,19 +140,20 @@ import org.geogebra.editor.share.util.Unicode;
 		}
 	}
 
-	private void preprocessBars(TreeSet<Character> splitters, String ignoredIndices,
-			Character lastNonWhitespace, int i) {
+	private void preprocessBars(
+			TreeSet<Character> splitters, String ignoredIndices, Character lastNonWhitespace, int i) {
 		// We separate bars if the previous symbol was in splitters
 		// or we have ||| and there were an odd number of bars so
 		// far
 		int length = ignoredIndices.length();
 		if (i == 0
-				|| (MyDouble.isOdd(bars) && i < length - 2
-				&& ignoredIndices.charAt(i + 1) == '|'
-				&& ignoredIndices.charAt(i + 2) == '|')
+				|| (MyDouble.isOdd(bars)
+						&& i < length - 2
+						&& ignoredIndices.charAt(i + 1) == '|'
+						&& ignoredIndices.charAt(i + 2) == '|')
 				|| (i < length - 1
-				&& ignoredIndices.charAt(i + 1) == '|'
-				&& splitters.contains(lastNonWhitespace))) {
+						&& ignoredIndices.charAt(i + 1) == '|'
+						&& splitters.contains(lastNonWhitespace))) {
 			sb.append(' ');
 		}
 		bars++;
@@ -174,15 +179,16 @@ import org.geogebra.editor.share.util.Unicode;
 	}
 
 	private boolean isEllipsis(boolean comment, Character ch) {
-		return !comment && forward && sb.length() > 0 && ch.equals('.')
-				&& (sb.charAt(sb.length() - 1) == '.'
-				|| sb.charAt(sb.length()
-				- 1) == Unicode.ELLIPSIS);
+		return !comment
+				&& forward
+				&& sb.length() > 0
+				&& ch.equals('.')
+				&& (sb.charAt(sb.length() - 1) == '.' || sb.charAt(sb.length() - 1) == Unicode.ELLIPSIS);
 	}
 
 	private void replaceCommasStandard() {
 		for (int i = 0; i < sb.length(); i++) {
-				char currentChar = sb.charAt(i);
+			char currentChar = sb.charAt(i);
 			if (currentChar == ',') {
 				handleComma(i);
 			} else if (nonDigitOrOperand(currentChar)) {

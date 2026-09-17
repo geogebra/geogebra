@@ -31,7 +31,7 @@ public class CmdSelectedElement extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,25 +40,24 @@ public class CmdSelectedElement extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			// list
-			if (arg[0].isGeoList()) {
-				AlgoSelectedElement algo = new AlgoSelectedElement(cons,
-						c.getLabel(), (GeoList) arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				// list
+				if (arg[0].isGeoList()) {
+					AlgoSelectedElement algo = new AlgoSelectedElement(cons, c.getLabel(), (GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getElement() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getElement()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

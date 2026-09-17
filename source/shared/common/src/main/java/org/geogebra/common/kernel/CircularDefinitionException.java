@@ -31,5 +31,4 @@ public class CircularDefinitionException extends Exception {
 	public CircularDefinitionException() {
 		super(Errors.CircularDefinition.getKey());
 	}
-
 }

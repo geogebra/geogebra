@@ -69,13 +69,14 @@ public class PointStyleModel extends NumberOptionsModel {
 
 	/**
 	 * Decides if geo is accepted for this model.
-	 * 
+	 *
 	 * @param geo
 	 *            The geo to match.
 	 * @return if geo has point properties
 	 */
 	public static boolean match(GeoElement geo) {
-		return geo instanceof PointProperties && ((PointProperties)geo).showPointProperties()
+		return geo instanceof PointProperties
+				&& ((PointProperties) geo).showPointProperties()
 				&& !geo.isGeoElement3D();
 	}
 
@@ -90,7 +91,7 @@ public class PointStyleModel extends NumberOptionsModel {
 	@Override
 	protected int getValueAt(int index) {
 		// not used
-		return 0;// getPointPropertiesAt(index).getPointStyle();
+		return 0; // getPointPropertiesAt(index).getPointStyle();
 	}
 
 	@Override
@@ -100,7 +101,5 @@ public class PointStyleModel extends NumberOptionsModel {
 
 	public void setListener(IComboListener listener) {
 		this.listener = listener;
-
 	}
-
 }

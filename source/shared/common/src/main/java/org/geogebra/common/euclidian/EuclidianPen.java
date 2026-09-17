@@ -68,11 +68,12 @@ public class EuclidianPen implements GTimerListener {
 	protected ArrayList<GPoint2D> penPoints = new ArrayList<>();
 
 	// segment
-	private final static int PEN_SIZE_FACTOR = 2;
+	private static final int PEN_SIZE_FACTOR = 2;
 	/** skip intermediate points on segments longer than this */
 	private static final double MAX_POINT_DIST = 30;
 	/** ignore consecutive pen points closer than this */
 	private static final double MIN_POINT_DIST = 3;
+
 	private static final double MAX_POINT_COS = Math.cos(Math.PI / 36);
 
 	private boolean startNewStroke = false;
@@ -126,7 +127,8 @@ public class EuclidianPen implements GTimerListener {
 	public double getScaledPenSize() {
 		double zoom = view.getXscale() / EuclidianView.SCALE_STANDARD;
 		return view.getSettings().getLineThicknessScaled()
-				? defaultPenLine.getLineThickness() * zoom : defaultPenLine.getLineThickness();
+				? defaultPenLine.getLineThickness() * zoom
+				: defaultPenLine.getLineThickness();
 	}
 
 	/**
@@ -234,8 +236,7 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void handleMouseDraggedForPenMode(AbstractEvent e) {
 		if (isErasingEvent(e)) {
-			view.getEuclidianController().getDeleteMode()
-					.handleMouseDraggedForDelete(e, true);
+			view.getEuclidianController().getDeleteMode().handleMouseDraggedForDelete(e, true);
 			app.getKernel().notifyRepaint();
 		} else {
 			// drawing in progress, so we need repaint
@@ -278,7 +279,7 @@ public class EuclidianPen implements GTimerListener {
 
 	/**
 	 * Append point to the list
-	 * 
+	 *
 	 * @param newPoint
 	 *            new point
 	 */
@@ -304,8 +305,7 @@ public class EuclidianPen implements GTimerListener {
 				}
 				return;
 			}
-			GPoint2D p2 = penPoints.size() >= 2
-					? penPoints.get(penPoints.size() - 2) : null;
+			GPoint2D p2 = penPoints.size() >= 2 ? penPoints.get(penPoints.size() - 2) : null;
 			GPoint2D p3 = tailStart(newPoint);
 			if (dist > MIN_POINT_DIST) {
 				if (dist > MAX_POINT_DIST || p3 == null || p2 == null) {
@@ -318,7 +318,6 @@ public class EuclidianPen implements GTimerListener {
 				}
 			}
 		}
-
 	}
 
 	private GPoint2D tailStart(GPoint2D newPoint) {
@@ -329,8 +328,7 @@ public class EuclidianPen implements GTimerListener {
 			}
 			boolean anglesOK = true;
 			for (int j = 1; j < i; j++) {
-				if (angle(newPoint, penPoints.get(penPoints.size() - j),
-						current)) {
+				if (angle(newPoint, penPoints.get(penPoints.size() - j), current)) {
 					anglesOK = false;
 				}
 			}
@@ -349,8 +347,7 @@ public class EuclidianPen implements GTimerListener {
 		double dx2 = c.x - b.x;
 		double dy1 = a.y - b.y;
 		double dy2 = c.y - b.y;
-		double ret = Math.abs(dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1)
-				/ Math.hypot(dx2, dy2);
+		double ret = Math.abs(dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1) / Math.hypot(dx2, dy2);
 		return Double.isNaN(ret) || ret < EuclidianPen.MAX_POINT_COS;
 	}
 
@@ -366,8 +363,8 @@ public class EuclidianPen implements GTimerListener {
 	 * @param isPinchZooming whether we're currently pinch-zooming
 	 *
 	 */
-	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
-			boolean isPinchZooming, PointerEventType eventType) {
+	public void handleMouseReleasedForPenMode(
+			boolean right, int x, int y, boolean isPinchZooming, PointerEventType eventType) {
 		if (right || penPoints.isEmpty()) {
 			return;
 		}
@@ -401,8 +398,11 @@ public class EuclidianPen implements GTimerListener {
 		if (oldXML == null) {
 			app.getUndoManager().storeAddGeo(lastAlgo.getOutput(0));
 		} else {
-			app.getUndoManager().buildAction(ActionType.UPDATE, lastAlgo.getXML())
-					.withUndo(ActionType.UPDATE, oldXML).withLabels(label).storeAndNotifyUnsaved();
+			app.getUndoManager()
+					.buildAction(ActionType.UPDATE, lastAlgo.getXML())
+					.withUndo(ActionType.UPDATE, oldXML)
+					.withLabels(label)
+					.storeAndNotifyUnsaved();
 		}
 	}
 
@@ -483,7 +483,7 @@ public class EuclidianPen implements GTimerListener {
 
 	/**
 	 * Update state of the pen after geo is removed
-	 * 
+	 *
 	 * @param geo
 	 *            removed element
 	 */
@@ -491,7 +491,6 @@ public class EuclidianPen implements GTimerListener {
 		if (geo.getParentAlgorithm() == this.lastAlgo) {
 			lastAlgo = null;
 		}
-
 	}
 
 	@Override
@@ -512,8 +511,8 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public void setStyleAndRepaint(GGraphics2D g2) {
 		if (!previewPoints.isEmpty()) {
-			g2.setStroke(EuclidianStatic.getStroke(getScaledPenSize(),
-					getPenLineStyle(), GBasicStroke.JOIN_ROUND));
+			g2.setStroke(EuclidianStatic.getStroke(
+					getScaledPenSize(), getPenLineStyle(), GBasicStroke.JOIN_ROUND));
 			g2.setColor(getPenColorWithOpacity());
 		}
 		repaintIfNeeded(g2);

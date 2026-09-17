@@ -99,7 +99,7 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	private FixObjectModel createFixedEqnModel() {
 		GeoConic circle = evaluateGeoElement("x^2+y^2=0");
 		FixObjectModel model = new FixObjectModel(null, getApp());
-		model.setGeos(new Object[]{circle});
+		model.setGeos(new Object[] {circle});
 		return model;
 	}
 
@@ -138,20 +138,21 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			// Line
-			"x = y",
-			"Line((1, 2), (3, 4))",
-			"y = 5",
-			// Conics
-			"x^2 = y^2",
-			"y^2 = 0",
-			// Implicit curves
-			"x^3 = y^2",
-			"sin(x) = y^2",
-			// Unrelated types
-			"(1, 2)",
-	})
+	@ValueSource(
+			strings = {
+				// Line
+				"x = y",
+				"Line((1, 2), (3, 4))",
+				"y = 5",
+				// Conics
+				"x^2 = y^2",
+				"y^2 = 0",
+				// Implicit curves
+				"x^3 = y^2",
+				"sin(x) = y^2",
+				// Unrelated types
+				"(1, 2)",
+			})
 	void testUnrestrictedVisibility(String expression) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		GeoElement geoElement = evaluateGeoElement(expression);
@@ -159,15 +160,16 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			// Lines
-			"x = 0",
-			// Conics
-			"x^2 = 0",
-			// Implicit curves,
-			"x^2 = 0",
-			"sin(x) = 0",
-	})
+	@ValueSource(
+			strings = {
+				// Lines
+				"x = 0",
+				// Conics
+				"x^2 = 0",
+				// Implicit curves,
+				"x^2 = 0",
+				"sin(x) = 0",
+			})
 	void testRestrictedVisibility(String expression) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		GeoElement geoElement = evaluateGeoElement(expression);
@@ -175,14 +177,15 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Solve(x^2 = 0)",
-			"Solutions(x^2 = 0)",
-			"CSolve(x^2 = 0)",
-			"CSolutions(x^2 = 0)",
-			"NSolve(x^2 = 0)",
-			"NSolutions(x^2 = 0)",
-	})
+	@ValueSource(
+			strings = {
+				"Solve(x^2 = 0)",
+				"Solutions(x^2 = 0)",
+				"CSolve(x^2 = 0)",
+				"CSolutions(x^2 = 0)",
+				"NSolve(x^2 = 0)",
+				"NSolutions(x^2 = 0)",
+			})
 	void testRestrictedCommands(String command) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNull(evaluate(command));
@@ -193,10 +196,11 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 		PreviewFeature.enablePreviewFeatures = true;
 		examController.startExam(ExamType.BAYERN_GR, null);
 		boolean enableEngineeringNotation = getAlgebraSettings().isEngineeringNotationEnabled();
-		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters = getAlgebraSettings()
-				.getAlgebraOutputFormatFilters();
-		assertTrue(AlgebraOutputFormat.getPossibleFormats(evaluateGeoElement("1.234"),
-				enableEngineeringNotation, algebraOutputFormatFilters).contains(ENGINEERING));
+		Set<AlgebraOutputFormatFilter> algebraOutputFormatFilters =
+				getAlgebraSettings().getAlgebraOutputFormatFilters();
+		assertTrue(AlgebraOutputFormat.getPossibleFormats(
+						evaluateGeoElement("1.234"), enableEngineeringNotation, algebraOutputFormatFilters)
+				.contains(ENGINEERING));
 		PreviewFeature.enablePreviewFeatures = false;
 	}
 
@@ -212,25 +216,24 @@ class RealSchuleExamRestrictionsTest extends BaseExamTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Length(Vector((1, 1)))",
-			"Length((1, 1))",
-			"Line((0, 0), Line((-1, -1), (1, -1)))"
-	})
+	@ValueSource(
+			strings = {"Length(Vector((1, 1)))", "Length((1, 1))", "Line((0, 0), Line((-1, -1), (1, -1)))"
+			})
 	void testRestrictedCommandArguments(String command) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNull(evaluate(command));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Length({1, 2, 3})",
-			"Length(\"text\")",
-			"Line((0, 0), (1, 1))",
-			"Line(5 + i, (1, 1))",
-			"Line((1, 1), 5 + i)",
-			"Line((0, 0), Vector((1, 1)))",
-	})
+	@ValueSource(
+			strings = {
+				"Length({1, 2, 3})",
+				"Length(\"text\")",
+				"Line((0, 0), (1, 1))",
+				"Line(5 + i, (1, 1))",
+				"Line((1, 1), 5 + i)",
+				"Line((0, 0), Vector((1, 1)))",
+			})
 	void testUnrestrictedCommandArguments(String command) {
 		examController.startExam(ExamType.BAYERN_GR, null);
 		assertNotNull(evaluate(command));

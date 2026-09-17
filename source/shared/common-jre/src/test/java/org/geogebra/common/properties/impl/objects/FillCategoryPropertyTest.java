@@ -60,4 +60,3 @@ class FillCategoryPropertyTest extends BaseAppTestSetup {
 		assertEquals(FillCategory.IMAGE, property.getValue());
 	}
 }
-

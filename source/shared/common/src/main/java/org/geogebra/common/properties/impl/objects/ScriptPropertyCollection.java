@@ -47,22 +47,26 @@ public class ScriptPropertyCollection extends AbstractPropertyCollection<Propert
 	 * @param jsEnabled whether JavaScript is enabled in the app
 	 */
 	@SuppressFBWarnings("NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE")
-	public ScriptPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> geoElements, boolean jsEnabled) {
+	public ScriptPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> geoElements,
+			boolean jsEnabled) {
 		super(localization, "Script");
 		this.scriptEventSelectionProperty = propertiesFactory.createOptionalPropertyFacade(
-				geoElements, element -> new ScriptEventSelectionProperty(localization, element,
-						jsEnabled), NamedEnumeratedPropertyListFacade::new);
+				geoElements,
+				element -> new ScriptEventSelectionProperty(localization, element, jsEnabled),
+				NamedEnumeratedPropertyListFacade::new);
 		if (scriptEventSelectionProperty.getIndex() == -1) {
 			scriptEventSelectionProperty.setIndex(0);
 		}
 		this.scriptEventPropertyCollections = scriptEventSelectionProperty.getValues().stream()
-				.map(scriptEvent -> new ScriptEventPropertyCollection(propertiesFactory,
-						localization, geoElements, scriptEvent, jsEnabled)).toList();
+				.map(scriptEvent -> new ScriptEventPropertyCollection(
+						propertiesFactory, localization, geoElements, scriptEvent, jsEnabled))
+				.toList();
 		setProperties(Stream.concat(
-				Stream.of(scriptEventSelectionProperty),
-				scriptEventPropertyCollections.stream()
-		).toArray(Property[]::new));
+						Stream.of(scriptEventSelectionProperty), scriptEventPropertyCollections.stream())
+				.toArray(Property[]::new));
 	}
 
 	/**

@@ -34,7 +34,7 @@ public final class Time implements JFugueElement {
 
 	/**
 	 * Creates a new Time object, with the specified time number.
-	 * 
+	 *
 	 * @param time
 	 *            the number of the time to use
 	 */
@@ -44,7 +44,7 @@ public final class Time implements JFugueElement {
 
 	/**
 	 * Sets the value of the time for this object.
-	 * 
+	 *
 	 * @param time
 	 *            the number of the time to use
 	 */
@@ -54,7 +54,7 @@ public final class Time implements JFugueElement {
 
 	/**
 	 * Returns the time used in this object
-	 * 
+	 *
 	 * @return the time used in this object
 	 */
 	public long getTime() {
@@ -65,7 +65,7 @@ public final class Time implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a Time object, the Music String is <code>@</code>
 	 * <i>time</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -78,7 +78,7 @@ public final class Time implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: Time: time={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -88,5 +88,4 @@ public final class Time implements JFugueElement {
 		buffy.append(getTime());
 		return buffy.toString();
 	}
-
 }

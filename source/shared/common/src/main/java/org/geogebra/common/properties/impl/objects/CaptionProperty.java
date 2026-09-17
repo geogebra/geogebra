@@ -41,8 +41,8 @@ import org.jspecify.annotations.Nullable;
  * </ul>
  * The suggested elements are the text labels: the potential dynamic caption values.
  */
-public class CaptionProperty extends AbstractValuedProperty<String> implements
-		StringPropertyWithSuggestions {
+public class CaptionProperty extends AbstractValuedProperty<String>
+		implements StringPropertyWithSuggestions {
 	private final GeoElement geoElement;
 
 	/**

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -84,14 +84,11 @@ class IntervalAlgebraTest {
 
 	@Test
 	void testMultiplicativeInverse() {
-		assertTrue(interval(1, 1).almostEqual(
-				evaluator.inverse(one()), 1E-7));
+		assertTrue(interval(1, 1).almostEqual(evaluator.inverse(one()), 1E-7));
 
-		assertTrue(interval(1 / 6.0, 1 / 2.0).almostEqual(
-				evaluator.inverse(interval(2, 6)), 1E-7));
+		assertTrue(interval(1 / 6.0, 1 / 2.0).almostEqual(evaluator.inverse(interval(2, 6)), 1E-7));
 
-		assertTrue(interval(-1 / 2.0, -1 / 6.0).almostEqual(
-				evaluator.inverse(interval(-6, -2)), 1E-7));
+		assertTrue(interval(-1 / 2.0, -1 / 6.0).almostEqual(evaluator.inverse(interval(-6, -2)), 1E-7));
 		assertEquals(overflow(), evaluator.inverseSet(overflow()));
 	}
 
@@ -117,15 +114,15 @@ class IntervalAlgebraTest {
 
 	@Test
 	void testMultiplicativeInverseResultInverted() {
-		assertEquals(legacyInverted(-0.16666666666666669, 0.5000000000000001),
+		assertEquals(
+				legacyInverted(-0.16666666666666669, 0.5000000000000001),
 				evaluator.inverse(interval(-6, 2)));
 	}
 
 	@Test
 	void testPowOne() {
 		Interval interval = evaluator.pow(interval(Math.exp(-1), Math.exp(1)), 1);
-		assertEquals(interval(0.36787944117144233, 2.718281828459045),
-				interval);
+		assertEquals(interval(0.36787944117144233, 2.718281828459045), interval);
 	}
 
 	@Test
@@ -141,46 +138,38 @@ class IntervalAlgebraTest {
 
 	@Test
 	void testPowerOfZero() {
-		assertTrue(interval(1, 1).almostEqual(
-				evaluator.pow(interval(-321, 123), 0), 1E-7));
+		assertTrue(interval(1, 1).almostEqual(evaluator.pow(interval(-321, 123), 0), 1E-7));
 	}
 
 	@Test
 	void testNegativePowerOfEven() {
-		assertEquals(
-				interval(4), evaluator.pow(interval(-2), 2));
-		assertEquals(interval(4),
-				evaluator.pow(interval(-2), 1 + 1. / 3 + 1. / 3 + 1. / 3));
+		assertEquals(interval(4), evaluator.pow(interval(-2), 2));
+		assertEquals(interval(4), evaluator.pow(interval(-2), 1 + 1. / 3 + 1. / 3 + 1. / 3));
 	}
 
 	@Test
 	void testNegativePowerOfOdd() {
-		assertTrue(interval(-8, -8).almostEqual(
-				evaluator.pow(interval(-2, -2), 3), 1E-7));
+		assertTrue(interval(-8, -8).almostEqual(evaluator.pow(interval(-2, -2), 3), 1E-7));
 	}
 
 	@Test
 	void testMixedPowerOfEven() {
-		assertTrue(interval(0, 4).almostEqual(
-				evaluator.pow(interval(-2, 2), 2), 1E-7));
+		assertTrue(interval(0, 4).almostEqual(evaluator.pow(interval(-2, 2), 2), 1E-7));
 	}
 
 	@Test
 	void testMixedPowerOfOdd() {
-		assertTrue(interval(-2, 2).almostEqual(
-				evaluator.pow(interval(-2, 2), 1), 1E-7));
+		assertTrue(interval(-2, 2).almostEqual(evaluator.pow(interval(-2, 2), 1), 1E-7));
 	}
 
 	@Test
 	void testEvenPowerOfInvertedCollapsesToConnectedPositive() {
-		assertEquals(interval(4, Double.POSITIVE_INFINITY),
-				evaluator.pow(legacyInverted(-3, 2), 2));
+		assertEquals(interval(4, Double.POSITIVE_INFINITY), evaluator.pow(legacyInverted(-3, 2), 2));
 	}
 
 	@Test
 	void testOddPowerOfInvertedStaysInverted() {
-		assertEquals(legacyInverted(-27, 8),
-				evaluator.pow(legacyInverted(-3, 2), 3));
+		assertEquals(legacyInverted(-27, 8), evaluator.pow(legacyInverted(-3, 2), 3));
 	}
 
 	@Test
@@ -198,44 +187,37 @@ class IntervalAlgebraTest {
 
 	@Test
 	void testPowerOfIntervals() {
-		assertTrue(interval(4, 25).almostEqual(
-				evaluator.pow(interval(2, 5), interval(2, 2)), 1E-7));
+		assertTrue(interval(4, 25).almostEqual(evaluator.pow(interval(2, 5), interval(2, 2)), 1E-7));
 	}
 
 	@Test
 	void testPowerOfNegatives() {
-		assertTrue(interval(1 / 4.0, 1 / 4.0).almostEqual(
-				evaluator.pow(interval(2, 2), -2), 1E-7));
+		assertTrue(interval(1 / 4.0, 1 / 4.0).almostEqual(evaluator.pow(interval(2, 2), -2), 1E-7));
 
-		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(
-				evaluator.pow(interval(2, 3), -2), 1E-7));
+		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(evaluator.pow(interval(2, 3), -2), 1E-7));
 
-		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(
-				evaluator.pow(interval(-3, -2), -2), 1E-7));
+		assertTrue(interval(1 / 9.0, 1 / 4.0).almostEqual(evaluator.pow(interval(-3, -2), -2), 1E-7));
 
-		assertTrue(interval(1 / 27.0, 1 / 8.0).almostEqual(
-				evaluator.pow(interval(2, 3), -3), 1E-7));
+		assertTrue(interval(1 / 27.0, 1 / 8.0).almostEqual(evaluator.pow(interval(2, 3), -3), 1E-7));
 
-		assertTrue(interval(-1 / 8.0, -1 / 27.0).almostEqual(
-				evaluator.pow(interval(-3, -2), -3), 1E-7));
+		assertTrue(
+				interval(-1 / 8.0, -1 / 27.0).almostEqual(evaluator.pow(interval(-3, -2), -3), 1E-7));
 	}
 
 	@Test
-	void testNegativePowersOfPositive()  {
-		assertEquals(inverted(Double.NEGATIVE_INFINITY, 1 / 4.0),
-				evaluator.powSet(connected(0, 2), -2));
+	void testNegativePowersOfPositive() {
+		assertEquals(
+				inverted(Double.NEGATIVE_INFINITY, 1 / 4.0), evaluator.powSet(connected(0, 2), -2));
 	}
 
 	@Test
 	void negativeEvenPowerOfConnectedIntervalTouchingZeroReturnsInverted() {
-		assertEquals(inverted(Double.NEGATIVE_INFINITY, 1),
-				evaluator.powSet(connected(0, 1), -2));
+		assertEquals(inverted(Double.NEGATIVE_INFINITY, 1), evaluator.powSet(connected(0, 1), -2));
 	}
 
 	@Test
 	void negativeEvenPowerOfHalfOpenIntervalTouchingZeroMatchesConnectedContract() {
-		assertEquals(inverted(Double.NEGATIVE_INFINITY, 1),
-				evaluator.powSet(halfOpenLeft(0, 1), -2));
+		assertEquals(inverted(Double.NEGATIVE_INFINITY, 1), evaluator.powSet(halfOpenLeft(0, 1), -2));
 	}
 
 	@Test
@@ -260,28 +242,27 @@ class IntervalAlgebraTest {
 
 	@Test
 	void testPowerOnPositiveFraction() {
-		assertEquals(evaluator.sqrt(interval(1, 2)), evaluator.pow(
-				interval(1, 2), 0.5));
+		assertEquals(evaluator.sqrt(interval(1, 2)), evaluator.pow(interval(1, 2), 0.5));
 	}
 
 	@Test
 	void testBaseLessThanOne() {
-		assertEquals(
-				interval(0.5), evaluator.pow(interval(0.5), one()));
-		assertEquals(
-				interval(0.25, 0.5),
-				evaluator.pow(interval(0.5), interval(1, 2)));
+		assertEquals(interval(0.5), evaluator.pow(interval(0.5), one()));
+		assertEquals(interval(0.25, 0.5), evaluator.pow(interval(0.5), interval(1, 2)));
 	}
 
 	@Disabled
 	@Test
 	void testTwoOnXInverse() {
 		IntervalSet invert = inverted(0, Double.POSITIVE_INFINITY);
-		assertEquals(invert, evaluator.powSet(connected(2, 2),
-				evaluator.inverseSet(connected(aroundZero()))));
+		assertEquals(
+				invert, evaluator.powSet(connected(2, 2), evaluator.inverseSet(connected(aroundZero()))));
 
-		assertEquals(invert, evaluator.pow(interval(2),
-				evaluator.inverse(interval(-2.9351521213527576E-15, 0.019999999999997065))));
+		assertEquals(
+				invert,
+				evaluator.pow(
+						interval(2),
+						evaluator.inverse(interval(-2.9351521213527576E-15, 0.019999999999997065))));
 	}
 
 	@Test
@@ -291,6 +272,5 @@ class IntervalAlgebraTest {
 		assertEquals(interval(16), evaluator.pow(interval(-2), square));
 		assertEquals(interval(0), evaluator.pow(interval(0), square));
 		assertEquals(interval(16), evaluator.pow(interval(2), square));
-
 	}
 }

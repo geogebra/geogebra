@@ -10,23 +10,23 @@ import java.util.TooManyListenersException;
 /**
  * Counts line numbers, based on the first cr-lf, cr or lf it finds. Informs a
  * listener when the linenumber exceeds a threshold.
- * 
+ *
  * Listeners can only be informed from the second line only.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: LineNumberWriter.java,v 1.3 2008-05-04 12:21:42 murkle Exp $
  */
 public class LineNumberWriter extends Writer {
 
-	private final static int UNKNOWN = 0;
+	private static final int UNKNOWN = 0;
 
-	private final static int CR = 1;
+	private static final int CR = 1;
 
-	private final static int CRLF = 2;
+	private static final int CRLF = 2;
 
-	private final static int LF = 3;
+	private static final int LF = 3;
 
-	private final static int LFCR = 4;
+	private static final int LFCR = 4;
 
 	private int lineSeparator = UNKNOWN;
 
@@ -42,7 +42,7 @@ public class LineNumberWriter extends Writer {
 
 	/**
 	 * Creates a Line Number Writer
-	 * 
+	 *
 	 * @param out
 	 *            writer to write to
 	 */
@@ -81,51 +81,51 @@ public class LineNumberWriter extends Writer {
 			out.write(c);
 
 			switch (lineSeparator) {
-			default:
-			case UNKNOWN:
-				switch (previous) {
-				case '\r':
-					lineNo++;
-					lineSeparator = (c == '\n') ? CRLF : CR;
+				default:
+				case UNKNOWN:
+					switch (previous) {
+						case '\r':
+							lineNo++;
+							lineSeparator = (c == '\n') ? CRLF : CR;
+							if (c == '\r') {
+								lineNo++;
+							}
+							break;
+						case '\n':
+							lineNo++;
+							lineSeparator = (c == '\r') ? LFCR : LF;
+							if (c == '\n') {
+								lineNo++;
+							}
+							break;
+						default:
+							break;
+					}
+					break;
+				case CR:
 					if (c == '\r') {
 						lineNo++;
+						newLine = true;
 					}
 					break;
-				case '\n':
-					lineNo++;
-					lineSeparator = (c == '\r') ? LFCR : LF;
+				case CRLF:
+					if ((previous == '\r') && (c == '\n')) {
+						lineNo++;
+						newLine = true;
+					}
+					break;
+				case LF:
 					if (c == '\n') {
 						lineNo++;
+						newLine = true;
 					}
 					break;
-				default:
+				case LFCR:
+					if ((previous == '\n') && (c == '\r')) {
+						lineNo++;
+						newLine = true;
+					}
 					break;
-				}
-				break;
-			case CR:
-				if (c == '\r') {
-					lineNo++;
-					newLine = true;
-				}
-				break;
-			case CRLF:
-				if ((previous == '\r') && (c == '\n')) {
-					lineNo++;
-					newLine = true;
-				}
-				break;
-			case LF:
-				if (c == '\n') {
-					lineNo++;
-					newLine = true;
-				}
-				break;
-			case LFCR:
-				if ((previous == '\n') && (c == '\r')) {
-					lineNo++;
-					newLine = true;
-				}
-				break;
 			}
 			previous = c;
 		}
@@ -147,7 +147,7 @@ public class LineNumberWriter extends Writer {
 
 	/**
 	 * Returns the line number that is currently being written.
-	 * 
+	 *
 	 * @return current line number
 	 */
 	public int getLineNumber() {
@@ -156,7 +156,7 @@ public class LineNumberWriter extends Writer {
 
 	/**
 	 * Set the current line number
-	 * 
+	 *
 	 * @param lineNo
 	 *            new line number
 	 */
@@ -166,7 +166,7 @@ public class LineNumberWriter extends Writer {
 
 	/**
 	 * Add a LineNumberListener
-	 * 
+	 *
 	 * @param listener
 	 *            new listener
 	 * @param lineNoLimit
@@ -174,14 +174,13 @@ public class LineNumberWriter extends Writer {
 	 * @throws TooManyListenersException
 	 *             if there is more than one listener
 	 */
-	public void addLineNumberListener(LineNumberListener listener,
-			int lineNoLimit) throws TooManyListenersException {
+	public void addLineNumberListener(LineNumberListener listener, int lineNoLimit)
+			throws TooManyListenersException {
 		if (this.listener != null) {
 			throw new TooManyListenersException();
 		}
 		if (lineNoLimit < 2) {
-			throw new IllegalArgumentException(
-					"LineNoLimit cannot be less than 2");
+			throw new IllegalArgumentException("LineNoLimit cannot be less than 2");
 		}
 
 		this.listener = listener;
@@ -191,7 +190,7 @@ public class LineNumberWriter extends Writer {
 	/**
 	 * LineNumberListener interface can inform a listener about changes in the
 	 * line number, or when a linenumber limit has been reached.
-	 * 
+	 *
 	 * @author duns
 	 * @version $Id: LineNumberWriter.java,v 1.3 2008-05-04 12:21:42 murkle Exp
 	 *          $
@@ -200,7 +199,7 @@ public class LineNumberWriter extends Writer {
 
 		/**
 		 * Called when the line number limit has been reached.
-		 * 
+		 *
 		 * @param event
 		 *            line number event
 		 */
@@ -209,14 +208,14 @@ public class LineNumberWriter extends Writer {
 
 	/**
 	 * Event to be used by the LineNumberListener interface.
-	 * 
+	 *
 	 * @author duns
 	 * @version $Id: LineNumberWriter.java,v 1.3 2008-05-04 12:21:42 murkle Exp
 	 *          $
 	 */
 	public static class LineNumberEvent extends EventObject {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 2821724279014031198L;
 
@@ -224,7 +223,7 @@ public class LineNumberWriter extends Writer {
 
 		/**
 		 * Create a LineNumberEvent
-		 * 
+		 *
 		 * @param source
 		 *            event source
 		 * @param lineNo
@@ -244,8 +243,7 @@ public class LineNumberWriter extends Writer {
 
 		@Override
 		public String toString() {
-			return "LineNumberEvent: line=" + lineNo + "; "
-					+ getSource().toString();
+			return "LineNumberEvent: line=" + lineNo + "; " + getSource().toString();
 		}
 	}
 }

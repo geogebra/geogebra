@@ -39,32 +39,41 @@ public class AlgebraPropertyCollection extends AbstractPropertyCollection<Proper
 	 * @throws NotApplicablePropertyException if no algebra properties are applicable
 	 */
 	public AlgebraPropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Properties.Algebra");
 
-		Property[] properties = new Property[]{
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new CoordinatesModeProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new LinearEquationFormProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new QuadraticEquationFormProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SimplifyCoefficientsProperty(localization, element),
-						BooleanPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new AngleBetweenProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new InputBoxRoundingProperty(localization, element),
-						NamedEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new SymbolicValueProperty(localization, element),
-						BooleanPropertyListFacade::new)
+		Property[] properties = new Property[] {
+			propertiesFactory.createOptionalPropertyFacade(
+					elements,
+					element -> new CoordinatesModeProperty(localization, element),
+					NamedEnumeratedPropertyListFacade::new),
+			propertiesFactory.createOptionalPropertyFacade(
+					elements,
+					element -> new LinearEquationFormProperty(localization, element),
+					NamedEnumeratedPropertyListFacade::new),
+			propertiesFactory.createOptionalPropertyFacade(
+					elements,
+					element -> new QuadraticEquationFormProperty(localization, element),
+					NamedEnumeratedPropertyListFacade::new),
+			propertiesFactory.createOptionalPropertyFacade(
+					elements,
+					element -> new SimplifyCoefficientsProperty(localization, element),
+					BooleanPropertyListFacade::new),
+			propertiesFactory.createOptionalPropertyFacade(
+					elements,
+					element -> new AngleBetweenProperty(localization, element),
+					NamedEnumeratedPropertyListFacade::new),
+			propertiesFactory.createOptionalPropertyFacade(
+					elements,
+					element -> new InputBoxRoundingProperty(localization, element),
+					NamedEnumeratedPropertyListFacade::new),
+			propertiesFactory.createOptionalPropertyFacade(
+					elements,
+					element -> new SymbolicValueProperty(localization, element),
+					BooleanPropertyListFacade::new)
 		};
 		setProperties(Arrays.stream(properties).filter(Objects::nonNull).toArray(Property[]::new));
 		if (getProperties().length == 0) {

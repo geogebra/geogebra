@@ -28,24 +28,30 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * @author G. Sturr
  * @version 2011-06-21
  */
-
 public class AlgoZipfBarChart extends AlgoBarChart {
 
-	public AlgoZipfBarChart(Construction cons, String label, GeoNumberValue n,
-			GeoNumberValue p) {
+	public AlgoZipfBarChart(Construction cons, String label, GeoNumberValue n, GeoNumberValue p) {
 		super(cons, label, n, p, null, null, AlgoBarChart.TYPE_BARCHART_ZIPF);
 	}
 
-	public AlgoZipfBarChart(Construction cons, String label, GeoNumberValue n,
-			GeoNumberValue p, GeoBoolean isCumulative) {
+	public AlgoZipfBarChart(
+			Construction cons,
+			String label,
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoBoolean isCumulative) {
 		super(cons, label, n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_ZIPF);
 	}
 
-	private AlgoZipfBarChart(GeoNumberValue n, GeoNumberValue p,
-			GeoBoolean isCumulative, GeoNumberValue a, GeoNumberValue b,
-			double[] vals, double[] borders) {
-		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_ZIPF, a, b,
-				vals, borders);
+	private AlgoZipfBarChart(
+			GeoNumberValue n,
+			GeoNumberValue p,
+			GeoBoolean isCumulative,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			double[] vals,
+			double[] borders) {
+		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_ZIPF, a, b, vals, borders);
 	}
 
 	@Override
@@ -61,10 +67,11 @@ public class AlgoZipfBarChart extends AlgoBarChart {
 		}
 		return new AlgoZipfBarChart(
 				(GeoNumberValue) this.getP1().deepCopy(kernel),
-				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
+				(GeoNumberValue) this.getP2().deepCopy(kernel),
+				b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()));
+				Cloner.clone(getValues()),
+				Cloner.clone(getLeftBorder()));
 	}
-
 }

@@ -53,8 +53,7 @@ public class AlgoDependentPoint extends AlgoElement
 	 * @param complex
 	 *            whether output is complex
 	 */
-	public AlgoDependentPoint(Construction cons, ExpressionNode root,
-			boolean complex) {
+	public AlgoDependentPoint(Construction cons, ExpressionNode root, boolean complex) {
 		super(cons);
 
 		P = new GeoPoint(cons);
@@ -99,10 +98,8 @@ public class AlgoDependentPoint extends AlgoElement
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) P.getDefinition()
-					.evaluate(StringTemplate.defaultTemplate)).getVector();
-			if (Double.isInfinite(temp.getX())
-					|| Double.isInfinite(temp.getY())) {
+			temp = ((VectorValue) P.getDefinition().evaluate(StringTemplate.defaultTemplate)).getVector();
+			if (Double.isInfinite(temp.getX()) || Double.isInfinite(temp.getY())) {
 				P.setUndefined();
 			} else {
 				ExpressionNode def = P.getDefinition();
@@ -118,20 +115,17 @@ public class AlgoDependentPoint extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return P.getDefinition() == null ? "?"
-				: P.getDefinition().toString(tpl);
+	public final String toString(StringTemplate tpl) {
+		return P.getDefinition() == null ? "?" : P.getDefinition().toString(tpl);
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		return botanaVars;
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaVars == null) {
 			botanaVars = new PVariable[2];
 			botanaVars[0] = new PVariable(kernel);
@@ -141,20 +135,17 @@ public class AlgoDependentPoint extends AlgoElement
 			GeoElement right = P.getDefinition().getRight() instanceof GeoElement g ? g : null;
 			Operation op = P.getDefinition().getOperation();
 			if (op == Operation.NO_OPERATION && left != null) {
-				PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left)
-						.getBotanaVars(left);
+				PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left).getBotanaVars(left);
 				botanaPolynomials = new PPolynomial[2];
-				botanaPolynomials[0] = new PPolynomial(botanaVars[0])
-						.subtract(new PPolynomial(leftBotanaVars[0]));
-				botanaPolynomials[1] = new PPolynomial(botanaVars[1])
-						.subtract(new PPolynomial(leftBotanaVars[1]));
+				botanaPolynomials[0] =
+						new PPolynomial(botanaVars[0]).subtract(new PPolynomial(leftBotanaVars[0]));
+				botanaPolynomials[1] =
+						new PPolynomial(botanaVars[1]).subtract(new PPolynomial(leftBotanaVars[1]));
 			}
 			if (op == Operation.PLUS && left != null && right != null) {
 				if (left instanceof GeoPoint && right instanceof GeoVector) {
-					PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left)
-							.getBotanaVars(left);
-					PVariable[] rightBotanaVars = ((SymbolicParametersBotanaAlgo) right)
-							.getBotanaVars(right);
+					PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left).getBotanaVars(left);
+					PVariable[] rightBotanaVars = ((SymbolicParametersBotanaAlgo) right).getBotanaVars(right);
 					botanaPolynomials = new PPolynomial[2];
 					/* P=left+right => P-left-right=0 */
 					botanaPolynomials[0] = new PPolynomial(botanaVars[0])
@@ -167,10 +158,8 @@ public class AlgoDependentPoint extends AlgoElement
 			}
 			if (op == Operation.MINUS && left != null && right != null) {
 				if (left instanceof GeoPoint && right instanceof GeoVector) {
-					PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left)
-							.getBotanaVars(left);
-					PVariable[] rightBotanaVars = ((SymbolicParametersBotanaAlgo) right)
-							.getBotanaVars(right);
+					PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left).getBotanaVars(left);
+					PVariable[] rightBotanaVars = ((SymbolicParametersBotanaAlgo) right).getBotanaVars(right);
 					botanaPolynomials = new PPolynomial[2];
 					/* P=left-right => P-left+right=0 */
 					botanaPolynomials[0] = new PPolynomial(botanaVars[0])

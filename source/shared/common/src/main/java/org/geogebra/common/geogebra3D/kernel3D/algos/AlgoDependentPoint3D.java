@@ -28,8 +28,7 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
  *
  * @author Markus
  */
-public class AlgoDependentPoint3D extends AlgoElement3D
-		implements DependentAlgo {
+public class AlgoDependentPoint3D extends AlgoElement3D implements DependentAlgo {
 
 	private GeoPoint3D P; // output
 
@@ -37,14 +36,13 @@ public class AlgoDependentPoint3D extends AlgoElement3D
 
 	/**
 	 * Creates new dependent 3D point
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param root
 	 *            point expression
 	 */
-	public AlgoDependentPoint3D(Construction cons, ExpressionNode root,
-			boolean addToConsList) {
+	public AlgoDependentPoint3D(Construction cons, ExpressionNode root, boolean addToConsList) {
 		super(cons, addToConsList);
 
 		P = new GeoPoint3D(cons);
@@ -54,7 +52,6 @@ public class AlgoDependentPoint3D extends AlgoElement3D
 
 		// compute value of dependent number
 		compute();
-
 	}
 
 	@Override
@@ -86,11 +83,9 @@ public class AlgoDependentPoint3D extends AlgoElement3D
 	@Override
 	public final void compute() {
 		try {
-			temp = ((Vector3DValue) P.getDefinition()
-					.evaluate(StringTemplate.defaultTemplate))
-							.getPointAsDouble();
-			if (Double.isInfinite(temp[0]) || Double.isInfinite(temp[1])
-					|| Double.isInfinite(temp[2])) {
+			temp = ((Vector3DValue) P.getDefinition().evaluate(StringTemplate.defaultTemplate))
+					.getPointAsDouble();
+			if (Double.isInfinite(temp[0]) || Double.isInfinite(temp[1]) || Double.isInfinite(temp[2])) {
 				P.setUndefined();
 			} else {
 				ExpressionNode def = P.getDefinition();
@@ -106,8 +101,7 @@ public class AlgoDependentPoint3D extends AlgoElement3D
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return P.getDefinition().toString(tpl);
 	}
-
 }

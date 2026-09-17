@@ -32,19 +32,17 @@ public class CmdCircumcircleArc3D extends CmdCircumcircleArc {
 	 */
 	public CmdCircumcircleArc3D(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
-	protected GeoElement getArc(String label, GeoElement A, GeoElement B,
-			GeoElement C) {
+	protected GeoElement getArc(String label, GeoElement A, GeoElement B, GeoElement C) {
 
 		if (A.isGeoElement3D() || B.isGeoElement3D() || C.isGeoElement3D()) {
-			return (GeoElement) kernel.getManager3D().circumcircleArc3D(label,
-					(GeoPointND) A, (GeoPointND) B, (GeoPointND) C);
+			return (GeoElement) kernel
+					.getManager3D()
+					.circumcircleArc3D(label, (GeoPointND) A, (GeoPointND) B, (GeoPointND) C);
 		}
 
 		return super.getArc(label, A, B, C);
 	}
-
 }

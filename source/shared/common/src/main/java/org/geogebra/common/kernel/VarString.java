@@ -25,10 +25,10 @@ public interface VarString {
 
 	/**
 	 * Returns variable names separated by ", "
-	 * 
+	 *
 	 * @param tpl
 	 *            string template
-	 * 
+	 *
 	 * @return variable names separated by ", "
 	 */
 	String getVarString(StringTemplate tpl);

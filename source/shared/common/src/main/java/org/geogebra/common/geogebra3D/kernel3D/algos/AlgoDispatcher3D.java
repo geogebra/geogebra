@@ -52,7 +52,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * extending 2D AlgoDispatcher
- * 
+ *
  * @author mathieu
  *
  */
@@ -62,18 +62,16 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param cons
 	 *            Construction
 	 */
 	public AlgoDispatcher3D(Construction cons) {
 		super(cons);
-
 	}
 
 	@Override
-	public AlgoClosestPoint getNewAlgoClosestPoint(Construction cons2,
-			Path path, GeoPointND point) {
+	public AlgoClosestPoint getNewAlgoClosestPoint(Construction cons2, Path path, GeoPointND point) {
 
 		if (path.isGeoElement3D() || point.isGeoElement3D()) {
 			return new AlgoClosestPoint3D(cons2, path, point);
@@ -86,8 +84,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public GeoNumeric distance(String label, GeoLineND g, GeoLineND h) {
 
 		if (g.isGeoElement3D() || h.isGeoElement3D()) {
-			AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, g,
-					h);
+			AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, g, h);
 			algo.getDistance().setLabel(label);
 			return algo.getDistance();
 		}
@@ -113,12 +110,10 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		}
 
 		return super.createVector(label, P);
-
 	}
 
 	@Override
-	public GeoPointND[] intersectConics(String[] labels, GeoConicND a,
-			GeoConicND b) {
+	public GeoPointND[] intersectConics(String[] labels, GeoConicND a, GeoConicND b) {
 
 		if (a.isGeoElement3D() || b.isGeoElement3D()) {
 			return getManager3D().intersectConics(labels, a, b);
@@ -127,8 +122,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoPointND[] intersectLineConic(String[] labels, GeoLineND g,
-			GeoConicND c) {
+	public GeoPointND[] intersectLineConic(String[] labels, GeoLineND g, GeoConicND c) {
 
 		if (g.isGeoElement3D() || c.isGeoElement3D()) {
 			return getManager3D().intersectLineConic(null, g, c);
@@ -142,8 +136,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public AlgoVertexPolygon newAlgoVertexPolygon(Construction cons1,
-			String[] labels, GeoPoly p) {
+	public AlgoVertexPolygon newAlgoVertexPolygon(Construction cons1, String[] labels, GeoPoly p) {
 
 		if (p.isGeoElement3D()) {
 			return new AlgoVertexPolygon3D(cons1, labels, p);
@@ -153,12 +146,12 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	protected GeoElement[] segmentFixed(String pointLabel, String segmentLabel,
-			GeoPointND A, GeoNumberValue n) {
+	protected GeoElement[] segmentFixed(
+			String pointLabel, String segmentLabel, GeoPointND A, GeoNumberValue n) {
 
 		Kernel kernel = cons.getKernel();
-		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernel, cons.getApplication());
+		GeoDirectionND orientation =
+				CommandProcessor3D.getCurrentViewOrientation(kernel, cons.getApplication());
 
 		if (orientation == kernel.getSpace()) { // create a sphere
 			return segmentFixedSphere(pointLabel, segmentLabel, A, n);
@@ -171,8 +164,8 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			}
 
 			// create a circle around A with radius n
-			AlgoCircle3DPointRadiusDirection algoCircle = new AlgoCircle3DPointRadiusDirection(
-					cons, A, n, orientation);
+			AlgoCircle3DPointRadiusDirection algoCircle =
+					new AlgoCircle3DPointRadiusDirection(cons, A, n, orientation);
 
 			cons.removeFromConstructionList(algoCircle);
 			// place the new point on the circle
@@ -180,20 +173,19 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			if (orientation instanceof GeoCoordSys2D) {
 				CoordSys cs = ((GeoCoordSys2D) orientation).getCoordSys();
 				Coords project = cs.getNormalProjection(coords)[1];
-				coords = cs.getPoint(project.getX() + n.getDouble(),
-						project.getY());
+				coords = cs.getPoint(project.getX() + n.getDouble(), project.getY());
 			} else {
 				coords = coords.copyVector();
 				coords.setX(coords.getX() + n.getDouble());
 			}
-			AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons,
-					algoCircle.getCircle(), coords.getX(),
-					coords.getY(), coords.getZ());
+			AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(
+					cons, algoCircle.getCircle(), coords.getX(), coords.getY(), coords.getZ());
 			algoPoint.getP().setLabel(pointLabel);
 			// return segment and new point
-			GeoElement[] ret = { (GeoElement) getManager3D()
-					.segment3D(segmentLabel, A, algoPoint.getP()),
-					(GeoElement) algoPoint.getP() };
+			GeoElement[] ret = {
+				(GeoElement) getManager3D().segment3D(segmentLabel, A, algoPoint.getP()),
+				(GeoElement) algoPoint.getP()
+			};
 
 			return ret;
 		}
@@ -201,11 +193,10 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return super.segmentFixed(pointLabel, segmentLabel, A, n);
 	}
 
-	private GeoElement[] segmentFixedSphere(String pointLabel,
-			String segmentLabel, GeoPointND A, GeoNumberValue n) {
+	private GeoElement[] segmentFixedSphere(
+			String pointLabel, String segmentLabel, GeoPointND A, GeoNumberValue n) {
 		// create a sphere around A with radius n
-		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A,
-				n);
+		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A, n);
 
 		cons.removeFromConstructionList(algoSphere);
 		// place the new point on the circle
@@ -218,18 +209,19 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		tmpCoords.setX(coords.getX() + n.getDouble());
 		tmpCoords.setY(coords.getY());
 		tmpCoords.setZ(coords.getZ());
-		AlgoPoint3DInRegion algoPoint = new AlgoPoint3DInRegion(cons,
-				pointLabel, algoSphere.getSphere(), tmpCoords);
+		AlgoPoint3DInRegion algoPoint =
+				new AlgoPoint3DInRegion(cons, pointLabel, algoSphere.getSphere(), tmpCoords);
 
 		// return segment and new point
-		GeoElement[] ret = { (GeoElement) getManager3D().segment3D(segmentLabel,
-				A, algoPoint.getP()), algoPoint.getP() };
+		GeoElement[] ret = {
+			(GeoElement) getManager3D().segment3D(segmentLabel, A, algoPoint.getP()), algoPoint.getP()
+		};
 
 		return ret;
 	}
 
 	@Override
-	final public GeoElement[] polygon(String[] labels, GeoPointND[] P) {
+	public final GeoElement[] polygon(String[] labels, GeoPointND[] P) {
 
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isGeoElement3D()) {
@@ -241,45 +233,56 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	final public GeoConicND circle(String label, GeoPointND M,
-			GeoNumberValue r) {
+	public final GeoConicND circle(String label, GeoPointND M, GeoNumberValue r) {
 		if (M.isGeoElement3D()) {
 			return getManager3D().circle3D(label, M, r);
 		}
 
 		return super.circle(label, M, r);
-
 	}
 
 	@Override
-	public GeoPointND pointIn(String label, Region region, Coords coords,
-			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
+	public GeoPointND pointIn(
+			String label,
+			Region region,
+			Coords coords,
+			boolean addToConstruction,
+			boolean complexCoord,
+			boolean coords2D) {
 
 		if (region.isRegion3D()) {
-			return getManager3D().point3DIn(label, region, coords,
-					addToConstruction, coords2D);
+			return getManager3D().point3DIn(label, region, coords, addToConstruction, coords2D);
 		}
 
-		return super.pointIn(label, region, coords, addToConstruction, complexCoord,
-				coords2D);
+		return super.pointIn(label, region, coords, addToConstruction, complexCoord, coords2D);
 	}
 
 	@Override
-	public GeoPointND point(String label, Path path, Coords coords,
-			boolean addToConstruction, boolean complexCoord, boolean coords2D) {
+	public GeoPointND point(
+			String label,
+			Path path,
+			Coords coords,
+			boolean addToConstruction,
+			boolean complexCoord,
+			boolean coords2D) {
 
 		if (path.isGeoElement3D()) {
-			return getManager3D().point3D(label, path, coords.getX(),
-					coords.getY(), coords.getZ(), addToConstruction, coords2D);
+			return getManager3D()
+					.point3D(
+							label,
+							path,
+							coords.getX(),
+							coords.getY(),
+							coords.getZ(),
+							addToConstruction,
+							coords2D);
 		}
 
-		return super.point(label, path, coords, addToConstruction, complexCoord,
-				coords2D);
+		return super.point(label, path, coords, addToConstruction, complexCoord, coords2D);
 	}
 
 	@Override
-	protected GeoPointND copyFreePoint(GeoPointND point,
-			EuclidianViewInterfaceCommon view) {
+	protected GeoPointND copyFreePoint(GeoPointND point, EuclidianViewInterfaceCommon view) {
 		if (point.isGeoElement3D()) {
 			double xOffset = 0, yOffset = 0;
 			if (!view.isEuclidianView3D()) {
@@ -287,10 +290,12 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				yOffset = DETACH_OFFSET * view.getInvYscale();
 			}
 
-			GeoPointND ret = getManager3D().point3D(
-					point.getInhomX() + xOffset, point.getInhomY() + yOffset,
-					point.getInhomZ(),
-					point.getToStringMode() == Kernel.COORD_CARTESIAN);
+			GeoPointND ret = getManager3D()
+					.point3D(
+							point.getInhomX() + xOffset,
+							point.getInhomY() + yOffset,
+							point.getInhomZ(),
+							point.getToStringMode() == Kernel.COORD_CARTESIAN);
 			ret.setLabel(null);
 			return ret;
 		}
@@ -320,14 +325,12 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoElement[] translateND(String label, GeoElementND geoTrans,
-			GeoVectorND v) {
+	public GeoElement[] translateND(String label, GeoElementND geoTrans, GeoVectorND v) {
 		return getManager3D().translate3D(label, geoTrans, v);
 	}
 
 	@Override
-	protected GeoElement locusNoCheck(String label, GeoPointND Q,
-			GeoNumeric P) {
+	protected GeoElement locusNoCheck(String label, GeoPointND Q, GeoNumeric P) {
 		if (Q.isGeoElement3D()) {
 			return getManager3D().locus3D(label, Q, P);
 		}
@@ -335,17 +338,16 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoElement[] intersectImplicitSurfaceLine(String[] labels,
-			GeoImplicitSurfaceND surf, GeoElementND line) {
-		AlgoIntersectImplicitSurface algo = new AlgoIntersectImplicitSurface(
-				cons, labels, surf, line);
+	public GeoElement[] intersectImplicitSurfaceLine(
+			String[] labels, GeoImplicitSurfaceND surf, GeoElementND line) {
+		AlgoIntersectImplicitSurface algo = new AlgoIntersectImplicitSurface(cons, labels, surf, line);
 		GeoElement[] out = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return out;
 	}
 
 	@Override
-	final public GeoElement[] polygon(String[] labels, GeoList pointList) {
+	public final GeoElement[] polygon(String[] labels, GeoList pointList) {
 		AlgoPolygon algo;
 		if (pointList.getElementType() == GeoClass.POINT3D) {
 			algo = new AlgoPolygon3D(cons, labels, null, pointList);
@@ -383,8 +385,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	public GeoElement polarPoint(String label, GeoLineND line,
-			GeoConicND c) {
+	public GeoElement polarPoint(String label, GeoLineND line, GeoConicND c) {
 
 		if (line.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoPolarPoint3D algo = new AlgoPolarPoint3D(cons, label, c, line);
@@ -393,5 +394,4 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 		return super.polarPoint(label, line, c);
 	}
-
 }

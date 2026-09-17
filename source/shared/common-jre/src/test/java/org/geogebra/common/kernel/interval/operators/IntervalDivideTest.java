@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -71,60 +71,49 @@ class IntervalDivideTest {
 	@Test
 	void negativeByNegativeIncludingZeroAsHigh() {
 		//  Table 1 Case 3.
-		assertEquals(interval(1, Double.POSITIVE_INFINITY),
-				div(-4, -2, -2, 0));
-		assertEquals(interval(2, Double.POSITIVE_INFINITY),
-				div(-4, -2, -1, 0));
+		assertEquals(interval(1, Double.POSITIVE_INFINITY), div(-4, -2, -2, 0));
+		assertEquals(interval(2, Double.POSITIVE_INFINITY), div(-4, -2, -1, 0));
 	}
 
 	@Test
 	void negativeByMixed() {
 		//  Table 1 Case 4.
-		assertEquals(legacyInverted(RMath.next(-2.0 / 2), RMath.next(-2.0 / -2)),
-				div(-3, -2, -2, 2));
+		assertEquals(legacyInverted(RMath.next(-2.0 / 2), RMath.next(-2.0 / -2)), div(-3, -2, -2, 2));
 	}
 
 	@Test
 	void negativeByNegativeIncludingZeroAsLow() {
 		//  Table 1 Case 5.
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5),
-				div(-2, -2, 0, 4));
+		assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5), div(-2, -2, 0, 4));
 
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5),
-				div(-2, -2, 0, 4));
+		assertEquals(interval(Double.NEGATIVE_INFINITY, -0.5), div(-2, -2, 0, 4));
 	}
 
 	@Test
 	void positiveByNegativeIncludingZeroAsHigh() {
 		//  Table 1 Case 6
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -1),
-				div(2, 4, -2, 0));
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -1),
-				div(2, 4, -2, 0));
+		assertEquals(interval(Double.NEGATIVE_INFINITY, -1), div(2, 4, -2, 0));
+		assertEquals(interval(Double.NEGATIVE_INFINITY, -1), div(2, 4, -2, 0));
 	}
 
 	@Test
 	void positiveByMixed() {
 		// Table 1 Case 7
-		assertEquals(legacyInverted(2.0 / -1.0, 1.0),
-				div(2, 4, -1, 2));
+		assertEquals(legacyInverted(2.0 / -1.0, 1.0), div(2, 4, -1, 2));
 	}
 
 	@Test
 	void positiveByPositiveIncludingZeroAsLow() {
 		// Table 1 Case 8
-		assertEquals(interval(0.5, Double.POSITIVE_INFINITY),
-				div(2, 4, 0, 4));
-		assertEquals(interval(1, Double.POSITIVE_INFINITY),
-				div(2, 4, 0, 2));
+		assertEquals(interval(0.5, Double.POSITIVE_INFINITY), div(2, 4, 0, 4));
+		assertEquals(interval(1, Double.POSITIVE_INFINITY), div(2, 4, 0, 2));
 	}
 
 	@Test
 	void negativeByNegative() {
 		// Table 7, row 1 column 1
 		// [a1, a2] a2 <= 0, [b1, b2] b2 < 0
-		assertEquals(interval(1, 4),
-				div(-100, -50, -50, -25));
+		assertEquals(interval(1, 4), div(-100, -50, -50, -25));
 		assertEquals(interval(0, -4 / -3.0), div(-4, -2, Double.NEGATIVE_INFINITY, -3));
 	}
 
@@ -137,13 +126,11 @@ class IntervalDivideTest {
 		divNegativeByPositive(Double.NEGATIVE_INFINITY, -1.55, 2000, 1E16);
 		divNegativeByPositive(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, 2000, 1E16);
 		divNegativeByPositive(-1000.5, -55.5555, 2000, Double.POSITIVE_INFINITY);
-		divNegativeByPositive(-1000.5, -55.5555, Double.POSITIVE_INFINITY,
-				Double.POSITIVE_INFINITY);
+		divNegativeByPositive(-1000.5, -55.5555, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 	}
 
 	private void divNegativeByPositive(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 / b1), next(a2 / b2)),
-				div(a1, a2, b1, b2));
+		assertEquals(interval(prev(a1 / b1), next(a2 / b2)), div(a1, a2, b1, b2));
 	}
 
 	private Interval div(double a1, double a2, double b1, double b2) {
@@ -168,8 +155,7 @@ class IntervalDivideTest {
 	}
 
 	private void divNegativeByOpenToNegativeInfinity(double a1, double a2, double b2) {
-		assertEquals(interval(0, next(a1 / b2)),
-				div(a1, a2, Double.NEGATIVE_INFINITY, b2));
+		assertEquals(interval(0, next(a1 / b2)), div(a1, a2, Double.NEGATIVE_INFINITY, b2));
 	}
 
 	@Test
@@ -182,8 +168,7 @@ class IntervalDivideTest {
 	}
 
 	private void divNegativeByOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(prev(a1 / b1), 0),
-				div(a1, a2, b1, Double.POSITIVE_INFINITY));
+		assertEquals(interval(prev(a1 / b1), 0), div(a1, a2, b1, Double.POSITIVE_INFINITY));
 	}
 
 	@Test
@@ -197,8 +182,7 @@ class IntervalDivideTest {
 
 	private void divMixedByNegative(double a1, double a2, double b1, double b2) {
 		// Table 7, row 2 column 1
-		assertEquals(interval(prev(a2 / b2), next(a1 / b2)),
-				div(a1, a2, b1, b2));
+		assertEquals(interval(prev(a2 / b2), next(a1 / b2)), div(a1, a2, b1, b2));
 	}
 
 	@Test
@@ -209,8 +193,7 @@ class IntervalDivideTest {
 	}
 
 	private void divMixedByPositive(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 / b1), next(a2 / b1)),
-				div(a1, a2, b1, b2));
+		assertEquals(interval(prev(a1 / b1), next(a2 / b1)), div(a1, a2, b1, b2));
 	}
 
 	@Test
@@ -221,8 +204,7 @@ class IntervalDivideTest {
 	}
 
 	private void divMixedByOpenToNegativeInfinity(double a1, double a2, double b2) {
-		assertEquals(interval(prev(a2 / b2), next(a1 / b2)),
-				div(a1, a2, Double.NEGATIVE_INFINITY, b2));
+		assertEquals(interval(prev(a2 / b2), next(a1 / b2)), div(a1, a2, Double.NEGATIVE_INFINITY, b2));
 	}
 
 	@Test
@@ -233,8 +215,7 @@ class IntervalDivideTest {
 	}
 
 	private void divMixedByOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(prev(a1 / b1), next(a2 / b1)),
-				div(a1, a2, b1, Double.POSITIVE_INFINITY));
+		assertEquals(interval(prev(a1 / b1), next(a2 / b1)), div(a1, a2, b1, Double.POSITIVE_INFINITY));
 	}
 
 	@Test
@@ -247,8 +228,7 @@ class IntervalDivideTest {
 	}
 
 	private void divPositiveByNegative(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 / b2), next(a1 / b1)),
-				div(a1, a2, b1, b2));
+		assertEquals(interval(prev(a2 / b2), next(a1 / b1)), div(a1, a2, b1, b2));
 	}
 
 	@Test
@@ -260,8 +240,7 @@ class IntervalDivideTest {
 	}
 
 	private void divPositiveByPositive(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 / b2), next(a2 / b1)),
-				div(a1, a2, b1, b2));
+		assertEquals(interval(prev(a1 / b2), next(a2 / b1)), div(a1, a2, b1, b2));
 	}
 
 	@Test
@@ -275,8 +254,7 @@ class IntervalDivideTest {
 	}
 
 	private void divPositiveByOpenToNegativeInfinity(double a1, double a2, double b2) {
-		assertEquals(interval(prev(a2 / b2), 0),
-				div(a1, a2, Double.NEGATIVE_INFINITY, b2));
+		assertEquals(interval(prev(a2 / b2), 0), div(a1, a2, Double.NEGATIVE_INFINITY, b2));
 	}
 
 	@Test
@@ -289,8 +267,7 @@ class IntervalDivideTest {
 	}
 
 	private void divPositiveByOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(0, next(a2 / b1)),
-				div(a1, a2, b1, Double.POSITIVE_INFINITY));
+		assertEquals(interval(0, next(a2 / b1)), div(a1, a2, b1, Double.POSITIVE_INFINITY));
 	}
 
 	@Test
@@ -310,7 +287,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityByNegative(double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 / b1), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a2 / b1), Double.POSITIVE_INFINITY),
 				div(Double.NEGATIVE_INFINITY, a2, b1, b2));
 	}
 
@@ -323,7 +301,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityByPositive(double a2, double b1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 / b2)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a2 / b2)),
 				div(Double.NEGATIVE_INFINITY, a2, b1, b2));
 	}
 
@@ -338,7 +317,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityByOpenToNegativeInfinity(double a2, double b2) {
-		assertEquals(interval(0, Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(0, Double.POSITIVE_INFINITY),
 				div(Double.NEGATIVE_INFINITY, a2, Double.NEGATIVE_INFINITY, b2));
 	}
 
@@ -350,7 +330,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityByOpenToPositiveInfinity(double a2, double b1) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, 0),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, 0),
 				div(Double.NEGATIVE_INFINITY, a2, b1, Double.POSITIVE_INFINITY));
 	}
 
@@ -366,7 +347,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityMixedByNegative(double a2, double b1, double b2) {
-		assertEquals(interval(prev(a2 / b2), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a2 / b2), Double.POSITIVE_INFINITY),
 				div(Double.NEGATIVE_INFINITY, a2, b1, b2));
 	}
 
@@ -379,7 +361,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityMixedByPositive(double a2, double b1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 / b2)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a2 / b2)),
 				div(Double.NEGATIVE_INFINITY, a2, b1, b2));
 	}
 
@@ -391,7 +374,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityMixedByOpenToNegativeInfinity(double a2, double b2) {
-		assertEquals(interval(prev(a2 / b2), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a2 / b2), Double.POSITIVE_INFINITY),
 				div(Double.NEGATIVE_INFINITY, a2, Double.NEGATIVE_INFINITY, b2));
 	}
 
@@ -407,7 +391,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToNegativeInfinityMixedByOpenToPositiveInfinity(double a2, double b1) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a2 / b1)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a2 / b1)),
 				div(Double.NEGATIVE_INFINITY, a2, b1, Double.POSITIVE_INFINITY));
 	}
 
@@ -421,7 +406,8 @@ class IntervalDivideTest {
 	}
 
 	private void divMixedOpenToPositiveInfinityByNegative(double a1, double b1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a1 / b2)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a1 / b2)),
 				div(a1, Double.POSITIVE_INFINITY, b1, b2));
 	}
 
@@ -435,7 +421,8 @@ class IntervalDivideTest {
 	}
 
 	private void divMixedOpenToPositiveInfinityByPositive(double a1, double b1, double b2) {
-		assertEquals(interval(prev(a1 / b1), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a1 / b1), Double.POSITIVE_INFINITY),
 				div(a1, Double.POSITIVE_INFINITY, b1, b2));
 	}
 
@@ -449,7 +436,8 @@ class IntervalDivideTest {
 	}
 
 	private void divMixedOpenToPositiveInfinityByOpenToNegativeInfinity(double a1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a1 / b2)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a1 / b2)),
 				div(a1, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, b2));
 	}
 
@@ -462,7 +450,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToPositiveInfinityMixedByNegative(double a1, double b1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, next(a1 / b1)),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, next(a1 / b1)),
 				div(a1, Double.POSITIVE_INFINITY, b1, b2));
 	}
 
@@ -475,7 +464,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToPositiveInfinityByPositive(double a1, double b1, double b2) {
-		assertEquals(interval(prev(a1 / b2), Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(prev(a1 / b2), Double.POSITIVE_INFINITY),
 				div(a1, Double.POSITIVE_INFINITY, b1, b2));
 	}
 
@@ -489,7 +479,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToPositiveInfinityByOpenToNegativeInfinity(double a1, double b2) {
-		assertEquals(interval(Double.NEGATIVE_INFINITY, 0),
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, 0),
 				div(a1, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, b2));
 	}
 
@@ -503,7 +494,8 @@ class IntervalDivideTest {
 	}
 
 	private void divOpenToPositiveInfinityByOpenToPositiveInfinity(double a1, double b1) {
-		assertEquals(interval(0, Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(0, Double.POSITIVE_INFINITY),
 				div(a1, Double.POSITIVE_INFINITY, b1, Double.POSITIVE_INFINITY));
 	}
 
@@ -522,13 +514,11 @@ class IntervalDivideTest {
 
 	@Test
 	void divSingletonInfinityBy() {
-		assertEquals(positiveInfinity(), divide(positiveInfinity(),
-				interval(12.34, 56.78)));
-		assertEquals(negativeInfinity(), divide(positiveInfinity(),
-				interval(-985.654, -12.34)));
-		assertEquals(legacyInverted(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
-				divide(positiveInfinity(),
-				interval(-985.654, 12.34)));
+		assertEquals(positiveInfinity(), divide(positiveInfinity(), interval(12.34, 56.78)));
+		assertEquals(negativeInfinity(), divide(positiveInfinity(), interval(-985.654, -12.34)));
+		assertEquals(
+				legacyInverted(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY),
+				divide(positiveInfinity(), interval(-985.654, 12.34)));
 	}
 
 	@Test

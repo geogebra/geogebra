@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -67,11 +67,11 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 		double arg4 = PI / 2 + PI / 3;
 
 		MyPoint[] rotatedPoints = new MyPoint[] {
-				new MyPoint(r2 * cos(arg1), r2 * sin(arg1)),
-				new MyPoint(r2 * cos(arg2), r2 * sin(arg2)),
-				new MyPoint(r5 * cos(arg3), r5 * sin(arg3)),
-				new MyPoint(cos(arg4), sin(arg4)),
-				new MyPoint(0, 0)
+			new MyPoint(r2 * cos(arg1), r2 * sin(arg1)),
+			new MyPoint(r2 * cos(arg2), r2 * sin(arg2)),
+			new MyPoint(r5 * cos(arg3), r5 * sin(arg3)),
+			new MyPoint(cos(arg4), sin(arg4)),
+			new MyPoint(0, 0)
 		};
 
 		assertPointsEqual(rotatedPoints, stroke.getPoints());
@@ -81,8 +81,8 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 	void rotateLocusStrokeAroundPointTest() {
 		GeoLocusStroke stroke = getInitialStroke();
 
-		stroke.rotate(new MyDouble(getKernel(), PI / 6),
-				new GeoPoint(getConstruction(), 1.0, 1.0, 1.0));
+		stroke.rotate(
+				new MyDouble(getKernel(), PI / 6), new GeoPoint(getConstruction(), 1.0, 1.0, 1.0));
 
 		double arg1 = -3 * PI / 4 + PI / 6;
 		double arg2 = -PI / 2 + PI / 6;
@@ -91,11 +91,11 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 		double arg5 = -3 * PI / 4 + PI / 6;
 
 		MyPoint[] rotatedPoints = new MyPoint[] {
-				new MyPoint(r8 * cos(arg1) + 1, r8 * sin(arg1) + 1),
-				new MyPoint(2 * cos(arg2) + 1, 2 * sin(arg2) + 1),
-				new MyPoint(cos(arg3) + 1, sin(arg3) + 1),
-				new MyPoint(cos(arg4) + 1, sin(arg4) + 1),
-				new MyPoint(r2 * cos(arg5) + 1, r2 * sin(arg5) + 1)
+			new MyPoint(r8 * cos(arg1) + 1, r8 * sin(arg1) + 1),
+			new MyPoint(2 * cos(arg2) + 1, 2 * sin(arg2) + 1),
+			new MyPoint(cos(arg3) + 1, sin(arg3) + 1),
+			new MyPoint(cos(arg4) + 1, sin(arg4) + 1),
+			new MyPoint(r2 * cos(arg5) + 1, r2 * sin(arg5) + 1)
 		};
 
 		assertPointsEqual(rotatedPoints, stroke.getPoints());
@@ -108,11 +108,7 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 		stroke.mirror(new Coords(3, 2));
 
 		MyPoint[] mirroredPoints = new MyPoint[] {
-				new MyPoint(7, 5),
-				new MyPoint(5, 5),
-				new MyPoint(4, 3),
-				new MyPoint(6, 3),
-				new MyPoint(6, 4)
+			new MyPoint(7, 5), new MyPoint(5, 5), new MyPoint(4, 3), new MyPoint(6, 3), new MyPoint(6, 4)
 		};
 
 		assertPointsEqual(mirroredPoints, stroke.getPoints());
@@ -131,11 +127,11 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 		stroke.mirror(line);
 
 		MyPoint[] mirroredPoints = new MyPoint[] {
-				new MyPoint(1, -3),
-				new MyPoint(1, -1),
-				new MyPoint(3, 0),
-				new MyPoint(3, -2),
-				new MyPoint(2, -2)
+			new MyPoint(1, -3),
+			new MyPoint(1, -1),
+			new MyPoint(3, 0),
+			new MyPoint(3, -2),
+			new MyPoint(2, -2)
 		};
 
 		assertPointsEqual(mirroredPoints, stroke.getPoints());
@@ -148,11 +144,11 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 		stroke.dilate(new MyDouble(getKernel(), 2.0), new Coords(1, 0));
 
 		MyPoint[] dilatedPoints = new MyPoint[] {
-				new MyPoint(-3, -2),
-				new MyPoint(1, -2),
-				new MyPoint(3, 2),
-				new MyPoint(-1, 2),
-				new MyPoint(-1, 0)
+			new MyPoint(-3, -2),
+			new MyPoint(1, -2),
+			new MyPoint(3, 2),
+			new MyPoint(-1, 2),
+			new MyPoint(-1, 0)
 		};
 
 		assertPointsEqual(dilatedPoints, stroke.getPoints());
@@ -177,38 +173,38 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 		activateUndo();
 		SelectionManager selectionManager = getApp().getSelectionManager();
 		selectionManager.addSelectedGeo(stroke);
-		UpdateActionStore updateActionStore = new UpdateActionStore(selectionManager,
-				getConstruction().getUndoManager());
+		UpdateActionStore updateActionStore =
+				new UpdateActionStore(selectionManager, getConstruction().getUndoManager());
 		updateActionStore.storeSelection(MoveMode.DEPENDENT);
 
-		MoveGeos.moveObjects(List.of(stroke), new Coords(1, 0), null, null,
-				getApp().getActiveEuclidianView());
+		MoveGeos.moveObjects(
+				List.of(stroke), new Coords(1, 0), null, null, getApp().getActiveEuclidianView());
 		updateActionStore.storeUndo();
-		assertThat(stroke.toValueString(StringTemplate.defaultTemplate),
-				startsWith("PenStrokeBezier[-2"));
+		assertThat(
+				stroke.toValueString(StringTemplate.defaultTemplate), startsWith("PenStrokeBezier[-2"));
 
 		getConstruction().getUndoManager().undo();
-		assertThat(stroke.toValueString(StringTemplate.defaultTemplate),
-				startsWith("PenStrokeBezier[-3"));
+		assertThat(
+				stroke.toValueString(StringTemplate.defaultTemplate), startsWith("PenStrokeBezier[-3"));
 	}
 
 	@Test
 	@Issue("MOW-1826")
 	void undoDragShouldPreserveBezierPoints() {
 		GeoLocusStroke stroke = addAvInput("stroke = PenStroke()");
-		stroke.appendPointArray(List.of(new MyPoint(-3, 3), new MyPoint(4, 3),
-				new MyPoint(2, 5), new MyPoint(5, 2)), null);
+		stroke.appendPointArray(
+				List.of(new MyPoint(-3, 3), new MyPoint(4, 3), new MyPoint(2, 5), new MyPoint(5, 2)), null);
 		String originalPath = toSvg(stroke.getPoints());
 		activateUndo();
 
 		SelectionManager selectionManager = getApp().getSelectionManager();
 		selectionManager.addSelectedGeo(stroke);
-		UpdateActionStore updateActionStore = new UpdateActionStore(selectionManager,
-				getConstruction().getUndoManager());
+		UpdateActionStore updateActionStore =
+				new UpdateActionStore(selectionManager, getConstruction().getUndoManager());
 		updateActionStore.storeSelection(MoveMode.DEPENDENT);
 
-		MoveGeos.moveObjects(List.of(stroke), new Coords(1, 0), null, null,
-				getApp().getActiveEuclidianView());
+		MoveGeos.moveObjects(
+				List.of(stroke), new Coords(1, 0), null, null, getApp().getActiveEuclidianView());
 		updateActionStore.storeUndo();
 
 		getConstruction().getUndoManager().undo();
@@ -229,13 +225,14 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 	@Test
 	void testDeletePart() {
 		GeoLocusStroke stroke = add("stroke=PenStroke()");
-		stroke.getPoints().addAll(List.of(
-				new MyPoint(0, 0, SegmentType.MOVE_TO),
-				new MyPoint(1, 0, SegmentType.LINE_TO),
-				new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO),
-				new MyPoint(2, 0, SegmentType.MOVE_TO),
-				new MyPoint(3, 0, SegmentType.MOVE_TO)
-		));
+		stroke
+				.getPoints()
+				.addAll(List.of(
+						new MyPoint(0, 0, SegmentType.MOVE_TO),
+						new MyPoint(1, 0, SegmentType.LINE_TO),
+						new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO),
+						new MyPoint(2, 0, SegmentType.MOVE_TO),
+						new MyPoint(3, 0, SegmentType.MOVE_TO)));
 		stroke.deletePart(new Rectangle2D.Double(1.9, -0.1, .2, .2));
 		List<MyPoint> expected = List.of(
 				new MyPoint(0, 0, SegmentType.MOVE_TO),
@@ -243,9 +240,9 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 				new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO),
 				new MyPoint(2.1, -0.0, SegmentType.MOVE_TO),
 				new MyPoint(3, 0, SegmentType.MOVE_TO),
-				new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO)
-		);
-		assertEquals(expected.stream().map(Object::toString).collect(Collectors.joining()),
+				new MyPoint(Double.NaN, Double.NaN, SegmentType.LINE_TO));
+		assertEquals(
+				expected.stream().map(Object::toString).collect(Collectors.joining()),
 				stroke.getPoints().stream().map(Object::toString).collect(Collectors.joining()));
 	}
 
@@ -281,25 +278,25 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 				+ "-1.73C-0.7166666666666657 -1.7700000000000005,-0.699999999999999 "
 				+ "-1.8033333333333337,-0.6799999999999999 -1.83L-0.65 -1.87";
 		GeoLocusStroke stroke = fromSvg(svgPath);
-		stroke.deletePart(new Rectangle2D.Double(-2.43, 1.5100000000000005,
-				0.4, 0.40000000000000013));
+		stroke.deletePart(new Rectangle2D.Double(-2.43, 1.5100000000000005, 0.4, 0.40000000000000013));
 
-		assertEquals("M-4.0700E0 5.6900E0C-4.2167E0 5.5567E0,-4.3333E0 5.4333E0,-4.4200E0"
-				+ " 5.3200E0L-4.6783E0 4.9300E0M-2.0300E0 1.5510E0L-1.2800E0 1.2400E0C-1.0467E0"
-				+ " 1.1533E0,-8.5333E-1 1.0867E0,-7.0000E-1 1.0400E0C-5.4667E-1 9.9333E-1,"
-				+ "-4.4333E-1 9.6000E-1,-3.9000E-1 9.4000E-1C-3.3667E-1 9.2000E-1,-3.1000E-1"
-				+ " 8.9333E-1,-3.1000E-1 8.6000E-1C-3.1000E-1 8.2667E-1,-3.2000E-1 7.8667E-1,"
-				+ "-3.4000E-1 7.4000E-1C-3.6000E-1 6.9333E-1,-3.9333E-1 6.3667E-1,-4.4000E-1 "
-				+ "5.7000E-1C-4.8667E-1 5.0333E-1,-5.2667E-1 4.3000E-1,-5.6000E-1 3.5000E-1C"
-				+ "-5.9333E-1 2.7000E-1,-6.3667E-1 1.8000E-1,-6.9000E-1 8.0000E-2C-7.4333E-1"
-				+ " -2.0000E-2,-7.8333E-1 -1.1667E-1,-8.1000E-1 -2.1000E-1C-8.3667E-1 -3.0333E-1,"
-				+ "-8.5667E-1 -3.9667E-1,-8.7000E-1 -4.9000E-1C-8.8333E-1 -5.8333E-1,-8.9667E-1"
-				+ " -6.7000E-1,-9.1000E-1 -7.5000E-1C-9.2333E-1 -8.3000E-1,-9.3000E-1 -9.0333E-1,"
-				+ "-9.3000E-1 -9.7000E-1C-9.3000E-1 -1.0367E0,-9.2667E-1 -1.1067E0,-9.2000E-1"
-				+ " -1.1800E0C-9.1333E-1 -1.2533E0,-9.0000E-1 -1.3233E0,-8.8000E-1 -1.3900E0C"
-				+ "-8.6000E-1 -1.4567E0,-8.3333E-1 -1.5200E0,-8.0000E-1 -1.5800E0C-7.6667E-1"
-				+ " -1.6400E0,-7.4333E-1 -1.6900E0,-7.3000E-1 -1.7300E0C-7.1667E-1 -1.7700E0,"
-				+ "-7.0000E-1 -1.8033E0,-6.8000E-1 -1.8300E0L-6.5000E-1 -1.8700E0",
+		assertEquals(
+				"M-4.0700E0 5.6900E0C-4.2167E0 5.5567E0,-4.3333E0 5.4333E0,-4.4200E0"
+						+ " 5.3200E0L-4.6783E0 4.9300E0M-2.0300E0 1.5510E0L-1.2800E0 1.2400E0C-1.0467E0"
+						+ " 1.1533E0,-8.5333E-1 1.0867E0,-7.0000E-1 1.0400E0C-5.4667E-1 9.9333E-1,"
+						+ "-4.4333E-1 9.6000E-1,-3.9000E-1 9.4000E-1C-3.3667E-1 9.2000E-1,-3.1000E-1"
+						+ " 8.9333E-1,-3.1000E-1 8.6000E-1C-3.1000E-1 8.2667E-1,-3.2000E-1 7.8667E-1,"
+						+ "-3.4000E-1 7.4000E-1C-3.6000E-1 6.9333E-1,-3.9333E-1 6.3667E-1,-4.4000E-1 "
+						+ "5.7000E-1C-4.8667E-1 5.0333E-1,-5.2667E-1 4.3000E-1,-5.6000E-1 3.5000E-1C"
+						+ "-5.9333E-1 2.7000E-1,-6.3667E-1 1.8000E-1,-6.9000E-1 8.0000E-2C-7.4333E-1"
+						+ " -2.0000E-2,-7.8333E-1 -1.1667E-1,-8.1000E-1 -2.1000E-1C-8.3667E-1 -3.0333E-1,"
+						+ "-8.5667E-1 -3.9667E-1,-8.7000E-1 -4.9000E-1C-8.8333E-1 -5.8333E-1,-8.9667E-1"
+						+ " -6.7000E-1,-9.1000E-1 -7.5000E-1C-9.2333E-1 -8.3000E-1,-9.3000E-1 -9.0333E-1,"
+						+ "-9.3000E-1 -9.7000E-1C-9.3000E-1 -1.0367E0,-9.2667E-1 -1.1067E0,-9.2000E-1"
+						+ " -1.1800E0C-9.1333E-1 -1.2533E0,-9.0000E-1 -1.3233E0,-8.8000E-1 -1.3900E0C"
+						+ "-8.6000E-1 -1.4567E0,-8.3333E-1 -1.5200E0,-8.0000E-1 -1.5800E0C-7.6667E-1"
+						+ " -1.6400E0,-7.4333E-1 -1.6900E0,-7.3000E-1 -1.7300E0C-7.1667E-1 -1.7700E0,"
+						+ "-7.0000E-1 -1.8033E0,-6.8000E-1 -1.8300E0L-6.5000E-1 -1.8700E0",
 				toSvg(stroke.getPoints()));
 	}
 
@@ -309,8 +306,7 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 				new MyPoint(1, -1),
 				new MyPoint(2, 1),
 				new MyPoint(0, 1),
-				new MyPoint(0, 0)
-		));
+				new MyPoint(0, 0)));
 
 		GeoLocusStroke stroke = new GeoLocusStroke(getConstruction());
 		stroke.setPoints(initialPoints);
@@ -327,20 +323,21 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 			double x = Double.parseDouble(tokens[i + 1]);
 			double y = Double.parseDouble(tokens[i + 3]);
 			switch (type) {
-			case "M" -> {
-				stroke.ensureTrailingNaN(stroke.getPoints());
-				stroke.getPoints().add(new MyPoint(x, y, SegmentType.MOVE_TO));
-			}
-			case "L" -> stroke.getPoints().add(new MyPoint(x, y, SegmentType.LINE_TO));
-			case "C" -> {
-				stroke.getPoints().add(new MyPoint(x, y, SegmentType.CONTROL));
-				controls = 1;
-			}
-			case "," -> {
-				stroke.getPoints().add(new MyPoint(x, y,
-						controls == 2 ? SegmentType.CURVE_TO : SegmentType.CONTROL));
-				controls = (controls + 1) % 3;
-			}
+				case "M" -> {
+					stroke.ensureTrailingNaN(stroke.getPoints());
+					stroke.getPoints().add(new MyPoint(x, y, SegmentType.MOVE_TO));
+				}
+				case "L" -> stroke.getPoints().add(new MyPoint(x, y, SegmentType.LINE_TO));
+				case "C" -> {
+					stroke.getPoints().add(new MyPoint(x, y, SegmentType.CONTROL));
+					controls = 1;
+				}
+				case "," -> {
+					stroke
+							.getPoints()
+							.add(new MyPoint(x, y, controls == 2 ? SegmentType.CURVE_TO : SegmentType.CONTROL));
+					controls = (controls + 1) % 3;
+				}
 			}
 		}
 		return stroke;
@@ -351,7 +348,7 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 		StringBuilder control = new StringBuilder();
 		ScientificFormatAdapter format = FormatFactory.getPrototype().getFastScientificFormat(5);
 		boolean skip = false;
-		for (MyPoint pt: pts) {
+		for (MyPoint pt : pts) {
 			assert !skip || pt.getSegmentType() == SegmentType.MOVE_TO;
 			skip = false;
 			if (!pt.isDefined()) {
@@ -359,16 +356,26 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 				continue;
 			}
 			switch (pt.getSegmentType()) {
-			case MOVE_TO, LINE_TO -> path.append(pt.getSegmentType().name()
-					.charAt(0)).append(format.format(pt.x)).append(" ").append(format.format(pt.y));
-			case CONTROL -> control.append(format.format(pt.x)).append(" ")
-					.append(format.format(pt.y)).append(",");
-			case CURVE_TO -> {
-				assert !control.isEmpty();
-				path.append("C").append(control).append(format.format(pt.x)).append(" ")
-						.append(format.format(pt.y));
-				control.setLength(0);
-			}
+				case MOVE_TO, LINE_TO ->
+					path.append(pt.getSegmentType().name().charAt(0))
+							.append(format.format(pt.x))
+							.append(" ")
+							.append(format.format(pt.y));
+				case CONTROL ->
+					control
+							.append(format.format(pt.x))
+							.append(" ")
+							.append(format.format(pt.y))
+							.append(",");
+				case CURVE_TO -> {
+					assert !control.isEmpty();
+					path.append("C")
+							.append(control)
+							.append(format.format(pt.x))
+							.append(" ")
+							.append(format.format(pt.y));
+					control.setLength(0);
+				}
 			}
 		}
 		return path.toString();
@@ -376,10 +383,10 @@ class GeoLocusStrokeTest extends BaseUnitTest {
 
 	private void assertPointsEqual(MyPoint[] expected, ArrayList<MyPoint> actual) {
 		for (int i = 0; i < expected.length; i++) {
-			assertEquals(expected[i].x, actual.get(i).x,
-					Kernel.MAX_PRECISION, "differ at element " + i + ".x");
-			assertEquals(expected[i].y, actual.get(i).y,
-					Kernel.MAX_PRECISION, "differ at element " + i + ".x");
+			assertEquals(
+					expected[i].x, actual.get(i).x, Kernel.MAX_PRECISION, "differ at element " + i + ".x");
+			assertEquals(
+					expected[i].y, actual.get(i).y, Kernel.MAX_PRECISION, "differ at element " + i + ".x");
 		}
 	}
 }

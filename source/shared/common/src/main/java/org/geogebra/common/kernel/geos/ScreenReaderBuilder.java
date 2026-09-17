@@ -28,7 +28,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * String builder wrapper for screen reader; avoids double spaces and dots.
- * 
+ *
  * @author Zbynek
  */
 public class ScreenReaderBuilder {
@@ -56,7 +56,7 @@ public class ScreenReaderBuilder {
 
 	/**
 	 * Append string, make sure . is followed by space.
-	 * 
+	 *
 	 * @param o
 	 *            string to be appended
 	 */
@@ -95,7 +95,7 @@ public class ScreenReaderBuilder {
 	protected StringBuilder getStringBuilder() {
 		return sb;
 	}
-	
+
 	/**
 	 *
 	 * @return whether the user is on mobile or desktop

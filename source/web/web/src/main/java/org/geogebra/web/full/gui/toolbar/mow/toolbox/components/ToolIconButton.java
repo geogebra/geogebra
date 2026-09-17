@@ -58,8 +58,7 @@ public class ToolIconButton extends IconButton {
 	 * @param appW {@link AppW}
 	 */
 	public ToolIconButton(int mode, AppW appW) {
-		super(appW, new ImageIconSpec(SVGResourcePrototype.EMPTY),
-				appW.getToolAriaLabel(mode));
+		super(appW, new ImageIconSpec(SVGResourcePrototype.EMPTY), appW.getToolAriaLabel(mode));
 		this.mode = mode;
 		this.appW = appW;
 		AriaHelper.setDataTitle(this, appW.getToolName(mode));
@@ -77,22 +76,37 @@ public class ToolIconButton extends IconButton {
 	 * @param onHandler switch on handler
 	 */
 	public ToolIconButton(int mode, AppW appW, IconSpec icon, Runnable onHandler) {
-		super(appW, icon, appW.getToolAriaLabel(mode), appW.getToolAriaLabel(mode),
-				appW.getToolAriaLabel(mode), onHandler);
+		super(
+				appW,
+				icon,
+				appW.getToolAriaLabel(mode),
+				appW.getToolAriaLabel(mode),
+				appW.getToolAriaLabel(mode),
+				onHandler);
 		addPointerHandler();
 		this.appW = appW;
 		this.mode = mode;
 	}
 
-	protected ToolIconButton(AppW appW, IconSpec icon, String ariaLabel, String ariaLabel1,
-			Runnable onHandler, Runnable offHandler) {
+	protected ToolIconButton(
+			AppW appW,
+			IconSpec icon,
+			String ariaLabel,
+			String ariaLabel1,
+			Runnable onHandler,
+			Runnable offHandler) {
 		super(appW, icon, ariaLabel, ariaLabel1, onHandler, offHandler);
 		addPointerHandler();
 		this.appW = appW;
 	}
 
-	protected ToolIconButton(AppW appW, IconSpec imageResource, String ariaLabel, String ariaLabel1,
-			String s, Runnable offHandler) {
+	protected ToolIconButton(
+			AppW appW,
+			IconSpec imageResource,
+			String ariaLabel,
+			String ariaLabel1,
+			String s,
+			Runnable offHandler) {
 		super(appW, imageResource, ariaLabel, ariaLabel1, s, offHandler);
 		addPointerHandler();
 		this.appW = appW;
@@ -108,7 +122,6 @@ public class ToolIconButton extends IconButton {
 		} else {
 			super.setLabels();
 		}
-
 	}
 
 	public int getMode() {
@@ -125,33 +138,33 @@ public class ToolIconButton extends IconButton {
 	 * @param toolboxIconResource icon resource
 	 * @param  callback called when icon loaded
 	 */
-	public void getIconFromMode(Integer mode, ToolboxIconResource toolboxIconResource,
-			Consumer<IconSpec> callback) {
-		IconSpec immediate = switch (mode) {
-			case MODE_PEN -> toolboxIconResource.getImageResource(ToolboxIcon.PEN);
-			case MODE_HIGHLIGHTER -> toolboxIconResource.getImageResource(ToolboxIcon.HIGHLIGHTER);
-			case MODE_ERASER -> toolboxIconResource.getImageResource(ToolboxIcon.ERASER);
-			case MODE_SHAPE_SQUARE -> toolboxIconResource.getImageResource(ToolboxIcon.SQUARE);
-			case MODE_SHAPE_RECTANGLE ->
-					toolboxIconResource.getImageResource(ToolboxIcon.RECTANGLE);
-			case MODE_SHAPE_TRIANGLE -> toolboxIconResource.getImageResource(ToolboxIcon.TRIANGLE);
-			case MODE_SHAPE_CIRCLE -> toolboxIconResource.getImageResource(ToolboxIcon.CIRCLE);
-			case MODE_SHAPE_PENTAGON -> toolboxIconResource.getImageResource(ToolboxIcon.PENTAGON);
-			case MODE_SHAPE_LINE -> toolboxIconResource.getImageResource(ToolboxIcon.LINE);
-			case MODE_MASK -> toolboxIconResource.getImageResource(ToolboxIcon.MASK);
-			case MODE_SHAPE_ELLIPSE -> toolboxIconResource.getImageResource(ToolboxIcon.ELLIPSE);
-			case MODE_SHAPE_FREEFORM -> toolboxIconResource.getImageResource(ToolboxIcon.FREEFORM);
-			case MODE_SHAPE_PARALLELOGRAM ->
-					toolboxIconResource.getImageResource(ToolboxIcon.PARALLELOGRAM);
-			case MODE_SHAPE_STADIUM -> toolboxIconResource.getImageResource(ToolboxIcon.STADIUM);
-			case MODE_SHAPE_CURVE -> toolboxIconResource.getImageResource(ToolboxIcon.CURVE);
-			default -> {
-				GGWToolBar.getImageResource(mode, appW, toolImg -> {
-					callback.accept(new ImageIconSpec((SVGResource) toolImg));
-				});
-				yield null;
-			}
-		};
+	public void getIconFromMode(
+			Integer mode, ToolboxIconResource toolboxIconResource, Consumer<IconSpec> callback) {
+		IconSpec immediate =
+				switch (mode) {
+					case MODE_PEN -> toolboxIconResource.getImageResource(ToolboxIcon.PEN);
+					case MODE_HIGHLIGHTER -> toolboxIconResource.getImageResource(ToolboxIcon.HIGHLIGHTER);
+					case MODE_ERASER -> toolboxIconResource.getImageResource(ToolboxIcon.ERASER);
+					case MODE_SHAPE_SQUARE -> toolboxIconResource.getImageResource(ToolboxIcon.SQUARE);
+					case MODE_SHAPE_RECTANGLE -> toolboxIconResource.getImageResource(ToolboxIcon.RECTANGLE);
+					case MODE_SHAPE_TRIANGLE -> toolboxIconResource.getImageResource(ToolboxIcon.TRIANGLE);
+					case MODE_SHAPE_CIRCLE -> toolboxIconResource.getImageResource(ToolboxIcon.CIRCLE);
+					case MODE_SHAPE_PENTAGON -> toolboxIconResource.getImageResource(ToolboxIcon.PENTAGON);
+					case MODE_SHAPE_LINE -> toolboxIconResource.getImageResource(ToolboxIcon.LINE);
+					case MODE_MASK -> toolboxIconResource.getImageResource(ToolboxIcon.MASK);
+					case MODE_SHAPE_ELLIPSE -> toolboxIconResource.getImageResource(ToolboxIcon.ELLIPSE);
+					case MODE_SHAPE_FREEFORM -> toolboxIconResource.getImageResource(ToolboxIcon.FREEFORM);
+					case MODE_SHAPE_PARALLELOGRAM ->
+						toolboxIconResource.getImageResource(ToolboxIcon.PARALLELOGRAM);
+					case MODE_SHAPE_STADIUM -> toolboxIconResource.getImageResource(ToolboxIcon.STADIUM);
+					case MODE_SHAPE_CURVE -> toolboxIconResource.getImageResource(ToolboxIcon.CURVE);
+					default -> {
+						GGWToolBar.getImageResource(mode, appW, toolImg -> {
+							callback.accept(new ImageIconSpec((SVGResource) toolImg));
+						});
+						yield null;
+					}
+				};
 		if (immediate != null) {
 			callback.accept(immediate);
 		}
@@ -160,8 +173,9 @@ public class ToolIconButton extends IconButton {
 	private void addPointerHandler() {
 		Dom.addEventListener(getElement(), "pointerdown", evt -> {
 			PointerEvent pointerEvt = (PointerEvent) evt;
-			appW.getActiveEuclidianView().getEuclidianController().setDefaultEventTypeForNewMode(
-					PointerEventHandler.getType(pointerEvt));
+			appW.getActiveEuclidianView()
+					.getEuclidianController()
+					.setDefaultEventTypeForNewMode(PointerEventHandler.getType(pointerEvt));
 		});
 	}
 }

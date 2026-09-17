@@ -23,7 +23,7 @@ package org.geogebra.common.kernel.geos;
 public interface AnimationExportSlider {
 
 	/**
-	 * 
+	 *
 	 * @return string displayed in slider combo box
 	 */
 	@Override
@@ -40,28 +40,27 @@ public interface AnimationExportSlider {
 	int getAnimationType();
 
 	/**
-	 * 
+	 *
 	 * @return slider min value
 	 */
 	double getIntervalMin();
 
 	/**
-	 * 
+	 *
 	 * @return slider max value
 	 */
 	double getIntervalMax();
 
 	/**
-	 * 
+	 *
 	 * @return slider step value
 	 */
 	double getAnimationStep();
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            slider value
 	 */
 	void setValue(double x);
-
 }

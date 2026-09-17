@@ -41,7 +41,7 @@ public class AlgoFunctionInterval extends AlgoElement {
 	private final GeoFunction g; // output g
 	private ExpressionNode exp; // current expression of f
 	// (needed to notice change of f)
-	private final ExpressionNode condition; //for serialization only
+	private final ExpressionNode condition; // for serialization only
 
 	/**
 	 * @param cons
@@ -53,8 +53,8 @@ public class AlgoFunctionInterval extends AlgoElement {
 	 * @param b
 	 *            right bound
 	 */
-	public AlgoFunctionInterval(Construction cons, GeoFunctionable f,
-			GeoNumberValue a, GeoNumberValue b) {
+	public AlgoFunctionInterval(
+			Construction cons, GeoFunctionable f, GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.f = f;
 		this.a = a;
@@ -64,8 +64,7 @@ public class AlgoFunctionInterval extends AlgoElement {
 		FunctionVariable fv = f.getFunction().getFunctionVariable();
 		condition = CmdFunction.buildInterval(kernel, a, fv, b);
 
-		g = f instanceof GeoFunction ? ((GeoFunction) f).copy()
-				: new GeoFunction(cons);
+		g = f instanceof GeoFunction ? ((GeoFunction) f).copy() : new GeoFunction(cons);
 
 		// buildFunction();
 		// g = initHelperAlgorithm();
@@ -126,10 +125,14 @@ public class AlgoFunctionInterval extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("FunctionAonIntervalBC",
-				"Function %0 on interval [%1, %2]", f.getLabel(tpl),
-				ageo.getLabel(tpl), bgeo.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault(
+						"FunctionAonIntervalBC",
+						"Function %0 on interval [%1, %2]",
+						f.getLabel(tpl),
+						ageo.getLabel(tpl),
+						bgeo.getLabel(tpl));
 	}
 
 	public ExpressionNode getCondition() {

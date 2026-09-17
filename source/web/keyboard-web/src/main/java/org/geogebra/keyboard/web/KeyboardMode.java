@@ -33,8 +33,7 @@ public enum KeyboardMode {
 	/**
 	 * special characters.
 	 */
-	SPECIAL_CHARS(ExpressionNodeConstants.strPERPENDICULAR
-			+ ExpressionNodeConstants.strAND + "%");
+	SPECIAL_CHARS(ExpressionNodeConstants.strPERPENDICULAR + ExpressionNodeConstants.strAND + "%");
 	private final String internalName;
 
 	KeyboardMode(String internalName) {

@@ -47,8 +47,10 @@ public final class AnimPanel extends FlowPanel implements ClickHandler, HasDataT
 	/**
 	 * Animation speeds
 	 */
-	final static double[] ANIM_SPEEDS = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
-			1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
+	static final double[] ANIM_SPEEDS = {
+		0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1, 1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20
+	};
+
 	private final RadioTreeItem radioTreeItem;
 	private StandardButton btnSpeedDown;
 	private StandardButton btnSpeedUp;
@@ -99,12 +101,12 @@ public final class AnimPanel extends FlowPanel implements ClickHandler, HasDataT
 	private void buildSpeedPanel() {
 		speedPanel = new FlowPanel();
 		speedPanel.addStyleName("speedPanel-hidden");
-		btnSpeedDown = new StandardButton(
-				MaterialDesignResources.INSTANCE.speed_down_black(), PLAY_BUTTON_SIZE);
+		btnSpeedDown =
+				new StandardButton(MaterialDesignResources.INSTANCE.speed_down_black(), PLAY_BUTTON_SIZE);
 		btnSpeedDown.setStyleName("flatButton");
 
-		btnSpeedUp = new StandardButton(
-				MaterialDesignResources.INSTANCE.speed_up_black(), PLAY_BUTTON_SIZE);
+		btnSpeedUp =
+				new StandardButton(MaterialDesignResources.INSTANCE.speed_up_black(), PLAY_BUTTON_SIZE);
 		btnSpeedUp.setStyleName("flatButton");
 
 		btnSpeedDown.addFastClickHandler((e) -> {
@@ -134,20 +136,20 @@ public final class AnimPanel extends FlowPanel implements ClickHandler, HasDataT
 	}
 
 	private void createPlayButton() {
-		btnPlay = new ToggleButton(GuiResourcesSimple.INSTANCE.play_circle(),
-				GuiResourcesSimple.INSTANCE.pause_circle());
+		btnPlay = new ToggleButton(
+				GuiResourcesSimple.INSTANCE.play_circle(), GuiResourcesSimple.INSTANCE.pause_circle());
 		btnPlay.setTabIndex(-1);
 		btnPlay.setStyleName("avPlayButton");
 		btnPlay.addFastClickHandler((event) -> {
-				getController().stopEdit();
+			getController().stopEdit();
 
-				boolean value = !isGeoAnimating();
+			boolean value = !isGeoAnimating();
 
-				getGeo().setAnimating(value);
-				setPlay(value);
-				getGeo().updateRepaint();
+			getGeo().setAnimating(value);
+			setPlay(value);
+			getGeo().updateRepaint();
 
-				setAnimating(getGeo().isAnimating());
+			setAnimating(getGeo().isAnimating());
 		});
 	}
 
@@ -250,8 +252,7 @@ public final class AnimPanel extends FlowPanel implements ClickHandler, HasDataT
 	 * Update UI
 	 */
 	public void update() {
-		boolean visible = this.radioTreeItem.geo != null
-				&& this.radioTreeItem.geo.isAnimatable();
+		boolean visible = this.radioTreeItem.geo != null && this.radioTreeItem.geo.isAnimatable();
 		if (isGeoAnimating() != play || !isVisible()) {
 			boolean v = isGeoAnimating();
 			setPlay(v);

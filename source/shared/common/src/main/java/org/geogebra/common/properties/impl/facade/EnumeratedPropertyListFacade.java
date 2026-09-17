@@ -22,7 +22,7 @@ import org.geogebra.common.properties.EnumeratedProperty;
 import org.geogebra.common.properties.ValueFilter;
 import org.jspecify.annotations.NonNull;
 
-abstract public class EnumeratedPropertyListFacade<T extends EnumeratedProperty<S>, S>
+public abstract class EnumeratedPropertyListFacade<T extends EnumeratedProperty<S>, S>
 		extends AbstractValuedPropertyListFacade<T, S> implements EnumeratedProperty<S> {
 
 	public EnumeratedPropertyListFacade(List<T> properties) {

@@ -31,11 +31,10 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * FitLineY of a list. adapted from AlgoListMax
- * 
+ *
  * @author Michael Borcherds
  * @version 14-01-2008
  */
-
 public class AlgoFitLineY extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -160,8 +159,7 @@ public class AlgoFitLineY extends AlgoElement {
 		// normalize coefficients (copied from
 		// GeoLine.getnormalizedCoefficients())
 		// #5230
-		while (Math.abs(g.x) < 0.5 && Math.abs(g.y) < 0.5
-				&& Math.abs(g.z) < 0.5) {
+		while (Math.abs(g.x) < 0.5 && Math.abs(g.y) < 0.5 && Math.abs(g.z) < 0.5) {
 			g.x *= 2;
 			g.y *= 2;
 			g.z *= 2;
@@ -172,7 +170,5 @@ public class AlgoFitLineY extends AlgoElement {
 			g.y /= 2;
 			g.z /= 2;
 		}
-
 	}
-
 }

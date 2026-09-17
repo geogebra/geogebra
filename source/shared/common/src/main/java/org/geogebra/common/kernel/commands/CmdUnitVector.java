@@ -38,7 +38,7 @@ public class CmdUnitVector extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param normalize
@@ -50,38 +50,38 @@ public class CmdUnitVector extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoLine()) {
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoLine()) {
 
-				AlgoUnitVector algo = algo((GeoLineND) arg[0]);
-				algo.getVector().setLabel(c.getLabel());
-				GeoElement[] ret = { (GeoElement) algo.getVector() };
-				return ret;
-			} else if (arg[0] instanceof VectorNDValue) {
+					AlgoUnitVector algo = algo((GeoLineND) arg[0]);
+					algo.getVector().setLabel(c.getLabel());
+					GeoElement[] ret = {(GeoElement) algo.getVector()};
+					return ret;
+				} else if (arg[0] instanceof VectorNDValue) {
 
-				AlgoUnitVector algo = algo((VectorNDValue) arg[0]);
-				algo.getVector().setLabel(c.getLabel());
-				GeoElement[] ret = { (GeoElement) algo.getVector() };
-				return ret;
-			} else {
-				return processNotLineNotVector(c, arg[0]);
-			}
+					AlgoUnitVector algo = algo((VectorNDValue) arg[0]);
+					algo.getVector().setLabel(c.getLabel());
+					GeoElement[] ret = {(GeoElement) algo.getVector()};
+					return ret;
+				} else {
+					return processNotLineNotVector(c, arg[0]);
+				}
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * process command in case arg is not a line nor a vector
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -90,13 +90,12 @@ public class CmdUnitVector extends CommandProcessor {
 	 * @throws MyError
 	 *             always thrown in 2D; in 3D accepts planar geos
 	 */
-	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg)
-			throws MyError {
+	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg) throws MyError {
 		throw argErr(c, arg);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param line
 	 *            line
 	 * @return algo for this line
@@ -106,7 +105,7 @@ public class CmdUnitVector extends CommandProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @return algo for this vector

@@ -28,8 +28,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.Label;
 import org.gwtproject.user.client.ui.ListBox;
 
-public final class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfaceW,
-		TwoVarInferenceListener {
+public final class TwoVarInferencePanelW extends FlowPanel
+		implements StatPanelInterfaceW, TwoVarInferenceListener {
 
 	private AppW app;
 	private DataAnalysisViewW daView;
@@ -62,7 +62,7 @@ public final class TwoVarInferencePanelW extends FlowPanel implements StatPanelI
 
 	/**
 	 * Construct a TwoVarInference panel
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param view
@@ -98,8 +98,7 @@ public final class TwoVarInferencePanelW extends FlowPanel implements StatPanelI
 		lblTitle1 = new Label();
 		lblTitle2 = new Label();
 
-		ckPooled = new ComponentCheckbox(loc, false, "Pooled",
-				model::setPooled);
+		ckPooled = new ComponentCheckbox(loc, false, "Pooled", model::setPooled);
 		ckPooled.addStyleName("ckPooled");
 
 		lbAltHyp = new ListBox();
@@ -226,7 +225,7 @@ public final class TwoVarInferencePanelW extends FlowPanel implements StatPanelI
 
 	/**
 	 * Handle input event.
-	 * 
+	 *
 	 * @param source
 	 *            input field
 	 */
@@ -263,8 +262,7 @@ public final class TwoVarInferencePanelW extends FlowPanel implements StatPanelI
 	}
 
 	@Override
-	public void setStatTable(int row, String[] rowNames, int length,
-			String[] columnNames) {
+	public void setStatTable(int row, String[] rowNames, int length, String[] columnNames) {
 		resultTable.setStatTable(1, null, columnNames.length, columnNames);
 	}
 
@@ -308,5 +306,4 @@ public final class TwoVarInferencePanelW extends FlowPanel implements StatPanelI
 		this.enablePooled = enablePooled;
 		ckPooled.setVisible(enablePooled);
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,12 +46,11 @@ import jogamp.nativewindow.jawt.JAWTUtil;
 
 /**
  * Renderer checking if we can use shaders or not
- * 
+ *
  * @author mathieu
- * 
+ *
  */
-public class RendererCheckGLVersionD extends Renderer
-		implements GLEventListener {
+public class RendererCheckGLVersionD extends Renderer implements GLEventListener {
 
 	protected RendererJogl jogl;
 
@@ -66,7 +65,7 @@ public class RendererCheckGLVersionD extends Renderer
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param view view
 	 * @param useCanvas use canvas
 	 */
@@ -76,13 +75,12 @@ public class RendererCheckGLVersionD extends Renderer
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param view view
 	 * @param useCanvas use canvas
 	 * @param type type
 	 */
-	public RendererCheckGLVersionD(EuclidianView3D view, boolean useCanvas,
-			RendererType type) {
+	public RendererCheckGLVersionD(EuclidianView3D view, boolean useCanvas, RendererType type) {
 		super(view, type);
 		Log.debug("create jogl -- use Canvas : " + useCanvas);
 		jogl = new RendererJogl();
@@ -105,14 +103,13 @@ public class RendererCheckGLVersionD extends Renderer
 
 		Log.debug("start animator");
 		animator.start();
-
 	}
 
 	/**
 	 * Called by the drawable immediately after the OpenGL context is
 	 * initialized for the first time. Can be used to perform one-time OpenGL
 	 * initialization such as setup of lights and display lists.
-	 * 
+	 *
 	 * @param drawable
 	 *            The GLAutoDrawable object.
 	 */
@@ -127,14 +124,12 @@ public class RendererCheckGLVersionD extends Renderer
 		final String version = getGL().glGetString(GL.GL_VERSION);
 
 		// Check For VBO support
-		final boolean VBOsupported = getGL()
-				.isFunctionAvailable("glGenBuffersARB")
+		final boolean VBOsupported = getGL().isFunctionAvailable("glGenBuffersARB")
 				&& getGL().isFunctionAvailable("glBindBufferARB")
 				&& getGL().isFunctionAvailable("glBufferDataARB")
 				&& getGL().isFunctionAvailable("glDeleteBuffersARB");
 
-		Log.debug("openGL version : " + version + ", vbo supported : "
-				+ VBOsupported);
+		Log.debug("openGL version : " + version + ", vbo supported : " + VBOsupported);
 
 		getRendererImpl().initFBO();
 
@@ -168,8 +163,7 @@ public class RendererCheckGLVersionD extends Renderer
 					// "4.0 etc."
 					String[] version = glVersion.split("\\.");
 					int versionInt = Integer.parseInt(version[0]);
-					Log.debug("==== GL version is " + glVersion
-							+ " which means GL>=" + versionInt);
+					Log.debug("==== GL version is " + glVersion + " which means GL>=" + versionInt);
 					if (versionInt < 3) {
 						// GL 1.x: can't use shaders
 						// GL 2.x so GLSL < 1.3: not supported
@@ -210,7 +204,6 @@ public class RendererCheckGLVersionD extends Renderer
 		} else {
 			setRendererImpl(new RendererImplGL2(this, view3D, jogl));
 		}
-
 	}
 
 	@Override
@@ -243,7 +236,7 @@ public class RendererCheckGLVersionD extends Renderer
 	}
 
 	/**
-	 * 
+	 *
 	 * openGL method called when the display is to be computed.
 	 * <p>
 	 * For each {@link Drawable3D}, it calls:
@@ -269,88 +262,85 @@ public class RendererCheckGLVersionD extends Renderer
 	@Override
 	protected final void exportImage() {
 		switch (getExportType()) {
-		case ANIMATEDGIF:
-			Log.debug("Exporting frame: " + getExportI());
+			case ANIMATEDGIF:
+				Log.debug("Exporting frame: " + getExportI());
 
-			setExportImage();
-			if (bi == null) {
-				Log.error("image null");
-			} else {
-				gifEncoder.addFrame(bi);
-			}
-
-			setExportVal(getExportVal() + getExportStep());
-
-			if (getExportVal() > getExportMax() + Kernel.STANDARD_PRECISION
-					|| getExportVal() < getExportMin()
-							- Kernel.STANDARD_PRECISION) {
-				setExportVal(getExportVal() - 2 * getExportStep());
-				setExportStep(getExportStep() * -1);
-			}
-
-			setExportI(getExportI() + 1);
-
-			if (getExportI() >= getExportN()) {
-				setExportType(ExportType.NONE);
-				gifEncoder.finish();
-
-				Log.debug("GIF export finished");
-				getRendererImpl().endNeedExportImage();
-
-			} else {
-				getExportNum().setValue(getExportVal());
-				getExportNum().updateRepaint();
-			}
-			break;
-
-		case CLIPBOARD:
-			setExportType(ExportType.NONE);
-			Log.debug("Exporting to clipboard");
-
-			setExportImage();
-
-			if (bi == null) {
-				Log.error("image null");
-			} else {
-				ImageSelection imgSel = new ImageSelection(bi);
-				Toolkit.getDefaultToolkit().getSystemClipboard()
-						.setContents(imgSel, null);
-			}
-			getRendererImpl().endNeedExportImage();
-
-			break;
-		case UPLOAD_TO_GEOGEBRATUBE:
-			setExportType(ExportType.NONE);
-			Log.debug("Uploading to GeoGebraTube");
-
-			setExportImage();
-
-			if (bi == null) {
-				Log.error("image null, uploading with no preview");
-				// TODO: set 2D preview image
-			}
-
-			((AppD) view3D.getApplication()).uploadToGeoGebraTube();
-			getRendererImpl().endNeedExportImage();
-
-			break;
-
-		default:
-			if (needExportImage) {
 				setExportImage();
 				if (bi == null) {
-					getRendererImpl().endNeedExportImage();
-					return;
+					Log.error("image null");
+				} else {
+					gifEncoder.addFrame(bi);
 				}
-				if (!getExportImageForThumbnail()) {
-					// call write to file
-					((EuclidianView3DD) view3D).writeExportImage();
+
+				setExportVal(getExportVal() + getExportStep());
+
+				if (getExportVal() > getExportMax() + Kernel.STANDARD_PRECISION
+						|| getExportVal() < getExportMin() - Kernel.STANDARD_PRECISION) {
+					setExportVal(getExportVal() - 2 * getExportStep());
+					setExportStep(getExportStep() * -1);
+				}
+
+				setExportI(getExportI() + 1);
+
+				if (getExportI() >= getExportN()) {
+					setExportType(ExportType.NONE);
+					gifEncoder.finish();
+
+					Log.debug("GIF export finished");
+					getRendererImpl().endNeedExportImage();
+
+				} else {
+					getExportNum().setValue(getExportVal());
+					getExportNum().updateRepaint();
+				}
+				break;
+
+			case CLIPBOARD:
+				setExportType(ExportType.NONE);
+				Log.debug("Exporting to clipboard");
+
+				setExportImage();
+
+				if (bi == null) {
+					Log.error("image null");
+				} else {
+					ImageSelection imgSel = new ImageSelection(bi);
+					Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);
 				}
 				getRendererImpl().endNeedExportImage();
-			}
-			break;
-		}
 
+				break;
+			case UPLOAD_TO_GEOGEBRATUBE:
+				setExportType(ExportType.NONE);
+				Log.debug("Uploading to GeoGebraTube");
+
+				setExportImage();
+
+				if (bi == null) {
+					Log.error("image null, uploading with no preview");
+					// TODO: set 2D preview image
+				}
+
+				((AppD) view3D.getApplication()).uploadToGeoGebraTube();
+				getRendererImpl().endNeedExportImage();
+
+				break;
+
+			default:
+				if (needExportImage) {
+					setExportImage();
+					if (bi == null) {
+						getRendererImpl().endNeedExportImage();
+						return;
+					}
+					if (!getExportImageForThumbnail()) {
+						// call write to file
+						((EuclidianView3DD) view3D).writeExportImage();
+					}
+					getRendererImpl().endNeedExportImage();
+				}
+				break;
+		}
 	}
 
 	@Override
@@ -385,18 +375,17 @@ public class RendererCheckGLVersionD extends Renderer
 
 	/**
 	 * remove texture at index
-	 * 
+	 *
 	 * @param index
 	 *            texture index
 	 */
 	public void removeTexture(int index) {
-		getGL().glDeleteTextures(1, new int[] { index }, 0);
+		getGL().glDeleteTextures(1, new int[] {index}, 0);
 	}
 
 	@Override
 	public GBufferedImage createBufferedImage(DrawableTexture3D label) {
-		return new GBufferedImageD(label.getWidth(), label.getHeight(),
-				GBufferedImage.TYPE_INT_ARGB);
+		return new GBufferedImageD(label.getWidth(), label.getHeight(), GBufferedImage.TYPE_INT_ARGB);
 	}
 
 	@Override
@@ -404,9 +393,12 @@ public class RendererCheckGLVersionD extends Renderer
 
 		byte[] buffer = argbToAlpha(label, ((GBufferedImageD) img).getData());
 
-		label.setTextureIndex(createAlphaTexture(label.getTextureIndex(),
-				label.waitForReset(), label.getWidthPowerOfTwo(),
-				label.getHeightPowerOfTwo(), buffer));
+		label.setTextureIndex(createAlphaTexture(
+				label.getTextureIndex(),
+				label.waitForReset(),
+				label.getWidthPowerOfTwo(),
+				label.getHeightPowerOfTwo(),
+				buffer));
 	}
 
 	/**
@@ -419,8 +411,8 @@ public class RendererCheckGLVersionD extends Renderer
 	 * @param buf buffer
 	 * @return a texture for alpha channel
 	 */
-	private int createAlphaTexture(int textureIndex, boolean waitForReset,
-			int sizeX, int sizeY, byte[] buf) {
+	private int createAlphaTexture(
+			int textureIndex, boolean waitForReset, int sizeX, int sizeY, byte[] buf) {
 
 		if (textureIndex != 0 && !waitForReset) {
 			removeTexture(textureIndex);
@@ -447,8 +439,17 @@ public class RendererCheckGLVersionD extends Renderer
 
 	@Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf) {
-		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_ALPHA, sizeX, sizeY,
-				0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, ByteBuffer.wrap(buf));
+		getGL()
+				.glTexImage2D(
+						GL.GL_TEXTURE_2D,
+						0,
+						GL.GL_ALPHA,
+						sizeX,
+						sizeY,
+						0,
+						GL.GL_ALPHA,
+						GL.GL_UNSIGNED_BYTE,
+						ByteBuffer.wrap(buf));
 	}
 
 	@Override
@@ -461,27 +462,28 @@ public class RendererCheckGLVersionD extends Renderer
 
 	@Override
 	public void setTextureLinear() {
-		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
-				GL.GL_LINEAR);
-		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
-				GL.GL_LINEAR);
-		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S,
-				GL.GL_CLAMP_TO_EDGE); // prevent repeating the texture
-		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T,
-				GL.GL_CLAMP_TO_EDGE); // prevent repeating the texture
-
+		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
+		getGL()
+				.glTexParameteri(
+						GL.GL_TEXTURE_2D,
+						GL.GL_TEXTURE_WRAP_S,
+						GL.GL_CLAMP_TO_EDGE); // prevent repeating the texture
+		getGL()
+				.glTexParameteri(
+						GL.GL_TEXTURE_2D,
+						GL.GL_TEXTURE_WRAP_T,
+						GL.GL_CLAMP_TO_EDGE); // prevent repeating the texture
 	}
 
 	@Override
 	public void setTextureNearest() {
-		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER,
-				GL.GL_NEAREST);
-		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER,
-				GL.GL_NEAREST);
+		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_NEAREST);
+		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_NEAREST);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return GL instance
 	 */
 	protected GL getGL() {
@@ -490,7 +492,7 @@ public class RendererCheckGLVersionD extends Renderer
 
 	/**
 	 * set GL instance
-	 * 
+	 *
 	 * @param gLDrawable
 	 *            GL drawable
 	 */
@@ -515,8 +517,7 @@ public class RendererCheckGLVersionD extends Renderer
 			int width = right - left;
 			int height = top - bottom;
 			FloatBuffer buffer = FloatBuffer.allocate(3 * width * height);
-			getGL().glReadPixels(0, 0, width, height, GL.GL_RGB, GL.GL_FLOAT,
-					buffer);
+			getGL().glReadPixels(0, 0, width, height, GL.GL_RGB, GL.GL_FLOAT, buffer);
 			float[] pixels = buffer.array();
 
 			bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -535,7 +536,6 @@ public class RendererCheckGLVersionD extends Renderer
 		} catch (Throwable e) {
 			Log.error("setExportImage: " + e.getMessage());
 		}
-
 	}
 
 	@Override
@@ -544,12 +544,12 @@ public class RendererCheckGLVersionD extends Renderer
 	}
 
 	@Override
-	final public void enableTextures2D() {
+	public final void enableTextures2D() {
 		getRendererImpl().glEnable(GL.GL_TEXTURE_2D);
 	}
 
 	@Override
-	final public void disableTextures2D() {
+	public final void disableTextures2D() {
 		getRendererImpl().glDisable(GL.GL_TEXTURE_2D);
 	}
 
@@ -574,7 +574,7 @@ public class RendererCheckGLVersionD extends Renderer
 	@Override
 	public double getPixelRatio() {
 		float[] max = new float[2];
-		JAWTUtil.getPixelScale(canvas.getGraphicsConfiguration(), new float[]{1, 1}, max);
+		JAWTUtil.getPixelScale(canvas.getGraphicsConfiguration(), new float[] {1, 1}, max);
 		return max[0];
 	}
 }

@@ -34,7 +34,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Finds intersection path of surface and plane
- * 
+ *
  * @author zbynek
  *
  */
@@ -52,8 +52,7 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 	 * @param plane
 	 *            plane
 	 */
-	public AlgoIntersectFunctionNVarPlane(Construction c,
-			GeoFunctionNVar surface, GeoPlaneND plane) {
+	public AlgoIntersectFunctionNVarPlane(Construction c, GeoFunctionNVar surface, GeoPlaneND plane) {
 		super(c);
 		this.surface = surface;
 		this.plane = plane;
@@ -65,10 +64,9 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		this.input = new GeoElement[] { (GeoElement) plane, surface };
+		this.input = new GeoElement[] {(GeoElement) plane, surface};
 		setOnlyOutput(curve);
 		setDependencies();
-
 	}
 
 	@Override
@@ -100,10 +98,11 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 			double b = norm.getY();
 			double c = norm.getZ();
 			double d = norm.getW();
-			exp = x.wrap().multiply(a / c)
+			exp = x.wrap()
+					.multiply(a / c)
 					.plus(y.wrap()
-							.multiply(b / c).plus(surface
-									.getFunctionExpression().deepCopy(kernel))
+							.multiply(b / c)
+							.plus(surface.getFunctionExpression().deepCopy(kernel))
 							.plus(d / c));
 
 			curve.getTransformedCoordSys().setZequal(a, b, c, d);
@@ -124,15 +123,13 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 				double v = -norm.getW() / norm.getX();
 				ExpressionNode substY = new ExpressionNode(kernel, v);
 				vr.addVars("x", substY);
-				vr.addVars("y",
-						new FunctionVariable(kernel, "x"));
+				vr.addVars("y", new FunctionVariable(kernel, "x"));
 
 				// set transformed coord sys to x=value
 				curve.getTransformedCoordSys().setXequal(v);
 				curve.setType(CurveType.PLANE_X);
 			}
-			exp = exp.traverse(vr).wrap()
-					.subtract(new FunctionVariable(kernel, "y"));
+			exp = exp.traverse(vr).wrap().subtract(new FunctionVariable(kernel, "y"));
 		}
 		Equation eqn = new Equation(kernel, exp, new ExpressionNode(kernel, 0));
 		eqn.initEquation();
@@ -143,5 +140,4 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 	public GetCommand getClassName() {
 		return Commands.IntersectPath;
 	}
-
 }

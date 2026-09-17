@@ -32,11 +32,10 @@ import org.geogebra.common.main.MyError.Errors;
  * construction. This algorithm updates a given output GeoCasCell (e.g. m := c +
  * 3) and possibly a twin GeoElement object (e.g. GeoNumeric m = c + 3 when c is
  * defined).
- * 
+ *
  * @author Markus Hohenwarter
  */
-public class AlgoDependentCasCell extends AlgoElement
-		implements AlgoCasCellInterface {
+public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInterface {
 	/** error key for undefined var */
 	public static final String UNDEFINED_VARIABLE = "UndefinedVariable";
 	// output CAS cell of this algorithm
@@ -44,7 +43,7 @@ public class AlgoDependentCasCell extends AlgoElement
 
 	/**
 	 * Creates a new algorithm to handle updates of the given cell.
-	 * 
+	 *
 	 * @param casCell
 	 *            the output cell that this algorithm should update.
 	 */
@@ -73,8 +72,7 @@ public class AlgoDependentCasCell extends AlgoElement
 		// setLabel of twinGeo if we got one
 		casCell.setLabelOfTwinGeo();
 
-		if (casCell.getInputVE() != null
-				&& casCell.getInputVE().isTopLevelCommand("SlopeField")) {
+		if (casCell.getInputVE() != null && casCell.getInputVE().isTopLevelCommand("SlopeField")) {
 			cons.registerEuclidianViewCE(this);
 		}
 	}
@@ -102,7 +100,6 @@ public class AlgoDependentCasCell extends AlgoElement
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -164,7 +161,7 @@ public class AlgoDependentCasCell extends AlgoElement
 	 * in that case we want to show the symbolic version
 	 */
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// return input string, e.g. "m := c + 3"
 		return casCell.getLabel(tpl);
 	}
@@ -186,7 +183,6 @@ public class AlgoDependentCasCell extends AlgoElement
 			return getCasCell().getInputVE().toString(tpl);
 		}
 		return super.getDefinition(tpl);
-
 	}
 
 	@Override
@@ -203,7 +199,7 @@ public class AlgoDependentCasCell extends AlgoElement
 		compute();
 
 		if (!hadTwinGeo && casCell.hasTwinGeo()) { // we got a new twin
-													// GeoElement
+			// GeoElement
 			// reinitialize algo object
 			setInputOutput();
 			// set label of the newly created twin GeoElement

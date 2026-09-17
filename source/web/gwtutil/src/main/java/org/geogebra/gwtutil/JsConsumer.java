@@ -31,4 +31,3 @@ public interface JsConsumer<T> {
 	 */
 	void accept(T t);
 }
-

@@ -75,5 +75,4 @@ public class GTimerW implements GTimer {
 			timer.scheduleRepeating(delay);
 		}
 	}
-
 }

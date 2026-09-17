@@ -27,7 +27,7 @@ import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class InputFieldTouchTest extends BaseUnitTest  {
+class InputFieldTouchTest extends BaseUnitTest {
 
 	private GeoInputBox input1;
 	private GeoInputBox input2;
@@ -67,8 +67,8 @@ class InputFieldTouchTest extends BaseUnitTest  {
 
 	private GeoInputBox addInputBox(String name) {
 		String command = name + " = InputBox()";
-		GeoElementND[] results = getApp().getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(command, false);
+		GeoElementND[] results =
+				getApp().getKernel().getAlgebraProcessor().processAlgebraCommand(command, false);
 		return (GeoInputBox) results[0];
 	}
 }

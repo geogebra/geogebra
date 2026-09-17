@@ -40,8 +40,8 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
 	 * @param cs
 	 *            coordinate system
 	 */
-	public AlgoOrthoLinePointPlane(Construction cons, String label,
-			GeoPointND point, GeoCoordSys2D cs) {
+	public AlgoOrthoLinePointPlane(
+			Construction cons, String label, GeoPointND point, GeoCoordSys2D cs) {
 		super(cons, label, point, (GeoElement) cs);
 	}
 
@@ -60,7 +60,5 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
 		CoordSys coordsys = getCS().getCoordSys();
 
 		getLine().setCoord(getPoint().getInhomCoordsInD3(), coordsys.getVz());
-
 	}
-
 }

@@ -25,7 +25,7 @@ import org.gwtproject.user.client.ui.UIObject;
 
 /**
  * Label for form elements
- * 
+ *
  * @author zbynek
  */
 public class FormLabel extends FlowPanel {

@@ -52,35 +52,39 @@ public final class DistributionPanel extends FlowPanel {
 	}
 
 	private void buildGUI() {
-		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(
-				appW.getLocalization(), appW);
+		PropertiesPanelAdapter adapter = new PropertiesPanelAdapter(appW.getLocalization(), appW);
 		if (appW.isUnbundled()) {
-			List<PropertyView> propertyViewList = PropertyViewFactory
-					.propertyViewOfDistributionSettings(appW.getLocalization(),
-							appW.getKernel().getAlgebraProcessor(),
-							view, appW.appScope.propertiesRegistry);
+			List<PropertyView> propertyViewList = PropertyViewFactory.propertyViewOfDistributionSettings(
+					appW.getLocalization(),
+					appW.getKernel().getAlgebraProcessor(),
+					view,
+					appW.appScope.propertiesRegistry);
 			fillPanelWithWidgets(this, propertyViewList, adapter);
 		} else {
-			List<PropertyView> distributionParametersProperties = PropertyViewFactory
-					.propertyClassicDistributionParametersSettings(appW.getLocalization(),
+			List<PropertyView> distributionParametersProperties =
+					PropertyViewFactory.propertyClassicDistributionParametersSettings(
+							appW.getLocalization(),
 							appW.getKernel().getAlgebraProcessor(),
-							view, appW.appScope.propertiesRegistry);
+							view,
+							appW.appScope.propertiesRegistry);
 			FlowPanel holder = new FlowPanel();
 			holder.addStyleName("parameterHolder");
 			fillPanelWithWidgets(holder, distributionParametersProperties, adapter);
 
 			add(holder);
-			List<PropertyView> distributionViewProperties = PropertyViewFactory
-					.propertyClassicDistributionViewSettings(appW.getLocalization(),
+			List<PropertyView> distributionViewProperties =
+					PropertyViewFactory.propertyClassicDistributionViewSettings(
+							appW.getLocalization(),
 							appW.getKernel().getAlgebraProcessor(),
-							view, appW.appScope.propertiesRegistry);
+							view,
+							appW.appScope.propertiesRegistry);
 			fillPanelWithWidgets(this, distributionViewProperties, adapter);
 		}
 		adapter.addAccessibility(AccessibilityGroup.PROBABILITY);
 	}
 
-	private void fillPanelWithWidgets(FlowPanel parent, List<PropertyView> propertyViewList,
-			PropertiesPanelAdapter adapter) {
+	private void fillPanelWithWidgets(
+			FlowPanel parent, List<PropertyView> propertyViewList, PropertiesPanelAdapter adapter) {
 		for (PropertyView propertyView : propertyViewList) {
 			Widget widget = adapter.getWidget(propertyView);
 			parent.add(widget);

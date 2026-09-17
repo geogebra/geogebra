@@ -30,7 +30,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Cube[ &lt;GeoPoint3D&gt;, &lt;GeoPoint3D&gt;, &lt;GeoDirectionND&gt; ]
- * 
+ *
  * or Icosahedron etc.
  */
 public class CmdArchimedeanSolid extends CommandProcessor {
@@ -56,75 +56,81 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			ok[0] = arg[0].isGeoPolygon();
-			if (ok[0]) {
-				GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
-						c.getLabels(), (GeoPolygon) arg[0],
-						new GeoBoolean(kernel.getConstruction(), true), name);
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
-						c.getLabels(), (GeoPointND) arg[0], (GeoPointND) arg[1],
-						name);
-				return ret;
-
-			}
-			if ((ok[0] = arg[0].isGeoPolygon())
-					&& (ok[1] = arg[1].isGeoBoolean())) {
-				GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
-						c.getLabels(), (GeoPolygon) arg[0], (GeoBoolean) arg[1],
-						name);
-				return ret;
-			}
-			for (int i = 0; i < 2; i++) {
-				if (!ok[i]) {
-					throw argErr(c, arg[i]);
-				}
-			}
-			break;
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-
-				if (arg[2] instanceof GeoDirectionND) {
-
-					GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
-							c.getLabels(), (GeoPointND) arg[0],
-							(GeoPointND) arg[1], (GeoDirectionND) arg[2], name);
+			case 1:
+				arg = resArgs(c, info);
+				ok[0] = arg[0].isGeoPolygon();
+				if (ok[0]) {
+					GeoElement[] ret = kernel
+							.getManager3D()
+							.archimedeanSolid(
+									c.getLabels(),
+									(GeoPolygon) arg[0],
+									new GeoBoolean(kernel.getConstruction(), true),
+									name);
 					return ret;
-
 				}
-
-				if (arg[2] instanceof GeoPointND) {
-
-					GeoElement[] ret = kernel.getManager3D().archimedeanSolid(
-							c.getLabels(), (GeoPointND) arg[0],
-							(GeoPointND) arg[1], (GeoPointND) arg[2], name);
+				throw argErr(c, arg[0]);
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+					GeoElement[] ret = kernel
+							.getManager3D()
+							.archimedeanSolid(c.getLabels(), (GeoPointND) arg[0], (GeoPointND) arg[1], name);
 					return ret;
+				}
+				if ((ok[0] = arg[0].isGeoPolygon()) && (ok[1] = arg[1].isGeoBoolean())) {
+					GeoElement[] ret = kernel
+							.getManager3D()
+							.archimedeanSolid(c.getLabels(), (GeoPolygon) arg[0], (GeoBoolean) arg[1], name);
+					return ret;
+				}
+				for (int i = 0; i < 2; i++) {
+					if (!ok[i]) {
+						throw argErr(c, arg[i]);
+					}
+				}
+				break;
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
 
+					if (arg[2] instanceof GeoDirectionND) {
+
+						GeoElement[] ret = kernel
+								.getManager3D()
+								.archimedeanSolid(
+										c.getLabels(),
+										(GeoPointND) arg[0],
+										(GeoPointND) arg[1],
+										(GeoDirectionND) arg[2],
+										name);
+						return ret;
+					}
+
+					if (arg[2] instanceof GeoPointND) {
+
+						GeoElement[] ret = kernel
+								.getManager3D()
+								.archimedeanSolid(
+										c.getLabels(),
+										(GeoPointND) arg[0],
+										(GeoPointND) arg[1],
+										(GeoPointND) arg[2],
+										name);
+						return ret;
+					}
+
+					ok[2] = false;
 				}
 
-				ok[2] = false;
-			}
-
-			for (int i = 0; i < 3; i++) {
-				if (!ok[i]) {
-					throw argErr(c, arg[i]);
+				for (int i = 0; i < 3; i++) {
+					if (!ok[i]) {
+						throw argErr(c, arg[i]);
+					}
 				}
-			}
-			break;
+				break;
 		}
 
 		throw argNumErr(c);
-
 	}
-
 }

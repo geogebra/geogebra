@@ -32,7 +32,7 @@ import org.geogebra.common.main.MyError;
 public class CmdZMeanTest extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,43 +48,49 @@ public class CmdZMeanTest extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
+			case 4:
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())
+						&& (ok[3] = arg[3].isGeoText())) {
 
-		case 4:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoText())) {
+					AlgoZMeanTest algo = new AlgoZMeanTest(
+							cons,
+							c.getLabel(),
+							(GeoList) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							(GeoText) arg[3]);
 
-				AlgoZMeanTest algo = new AlgoZMeanTest(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoText) arg[3]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				throw argErr(c, getBadArg(ok, arg));
 
-			}
+			case 5:
+				if ((ok[0] = arg[0].isGeoNumeric())
+						&& (ok[1] = arg[1].isGeoNumeric())
+						&& (ok[2] = arg[2].isGeoNumeric())
+						&& (ok[3] = arg[3].isGeoNumeric())
+						&& (ok[4] = arg[4].isGeoText())) {
 
-			throw argErr(c, getBadArg(ok, arg));
+					AlgoZMeanTest algo = new AlgoZMeanTest(
+							cons,
+							(GeoNumeric) arg[0],
+							(GeoNumeric) arg[1],
+							(GeoNumeric) arg[2],
+							(GeoNumeric) arg[3],
+							(GeoText) arg[4]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
 
-		case 5:
-			if ((ok[0] = arg[0].isGeoNumeric())
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoText())) {
+				throw argErr(c, getBadArg(ok, arg));
 
-				AlgoZMeanTest algo = new AlgoZMeanTest(cons,
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoText) arg[4]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,12 +42,13 @@ public class CommandLineArguments {
 	 * Hash map to store the options.
 	 */
 	private HashMap<String, String> args;
+
 	private int noOfFiles = 0;
 	private int noOfTools;
 
 	/**
 	 * Parse the argument array created by Java.
-	 * 
+	 *
 	 * @param cmdArgs
 	 *            arguments
 	 */
@@ -66,15 +67,13 @@ public class CommandLineArguments {
 
 				if (equalSignIndex != -1) {
 					args.put(
-							StringUtil.toLowerCaseUS(
-									cmdArgs[i].substring(2, equalSignIndex)),
+							StringUtil.toLowerCaseUS(cmdArgs[i].substring(2, equalSignIndex)),
 							cmdArgs[i].substring(equalSignIndex + 1));
 				} else {
-					args.put(StringUtil.toLowerCaseUS(cmdArgs[i].substring(2)),
-							"");
+					args.put(StringUtil.toLowerCaseUS(cmdArgs[i].substring(2)), "");
 				}
 			} else if (!cmdArgs[i].startsWith("-")) { // make sure we don't
-														// process -open from eg
+				// process -open from eg
 				// javaws -open "file1.ggb,file2.ggb"
 				// http://jars.geogebra.org/webstart/4.2/jnlp/geogebra-42.jnlp
 				// no -- or - prefix, therefore a filename
@@ -86,7 +85,6 @@ public class CommandLineArguments {
 				Log.debug("unknown argument " + cmdArgs[i]);
 			}
 		}
-
 	}
 
 	/*
@@ -105,7 +103,7 @@ public class CommandLineArguments {
 	/**
 	 * returns number of files, eg geogebra.jar file1.ggb file2.ggb will return
 	 * 2
-	 * 
+	 *
 	 * @return the number of files
 	 */
 	public int getNoOfFiles() {
@@ -118,7 +116,7 @@ public class CommandLineArguments {
 
 	/**
 	 * Returns the string value of the requested argument.
-	 * 
+	 *
 	 * @param name
 	 *            argument name
 	 * @return The string value of the specified argument (or empty string)
@@ -130,7 +128,7 @@ public class CommandLineArguments {
 
 	/**
 	 * Returns the boolean value of the requested argument.
-	 * 
+	 *
 	 * @param name
 	 *            the argument
 	 * @param defaultValue
@@ -150,7 +148,7 @@ public class CommandLineArguments {
 	/**
 	 * Check if the requested argument is a boolean ie the value is "true" or
 	 * "false" (lettercase ignored).
-	 * 
+	 *
 	 * @param name
 	 *            the argument
 	 * @return true for valid booleans
@@ -166,7 +164,7 @@ public class CommandLineArguments {
 
 	/**
 	 * Check if the arguments contain a certain key
-	 * 
+	 *
 	 * @param name
 	 *            the name of the key
 	 * @return whether the args contain the key
@@ -177,7 +175,7 @@ public class CommandLineArguments {
 
 	/**
 	 * Adds a new key/value pair into the command line arguments.
-	 * 
+	 *
 	 * @param newKey
 	 *            the new key
 	 * @param newValue
@@ -206,9 +204,9 @@ public class CommandLineArguments {
 
 	/**
 	 * Removes non-global arguments from the command line arguments.
-	 * 
+	 *
 	 * @return the global arguments
-	 * 
+	 *
 	 */
 	public CommandLineArguments getGlobalArguments() {
 		CommandLineArguments ret = new CommandLineArguments(null);

@@ -30,11 +30,10 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Sort a list. Adapted from AlgoMax and AlgoIterationList
- * 
+ *
  * @author Michael Borcherds
  * @version 04-01-2008
  */
-
 public class AlgoSort extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -44,7 +43,7 @@ public class AlgoSort extends AlgoElement {
 
 	/**
 	 * Creates new list sorting algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -59,7 +58,7 @@ public class AlgoSort extends AlgoElement {
 
 	/**
 	 * Creates new list sorting algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -69,15 +68,14 @@ public class AlgoSort extends AlgoElement {
 	 * @param inputList
 	 *            list of keys which determines order of values in sorted list
 	 */
-	public AlgoSort(Construction cons, String label, GeoList valueList,
-			GeoList inputList) {
+	public AlgoSort(Construction cons, String label, GeoList valueList, GeoList inputList) {
 		this(cons, inputList, valueList);
 		outputList.setLabel(label);
 	}
 
 	/**
 	 * Creates new list sorting algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param inputList
@@ -98,7 +96,7 @@ public class AlgoSort extends AlgoElement {
 
 	/**
 	 * Creates new list sorting algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param inputList
@@ -147,8 +145,7 @@ public class AlgoSort extends AlgoElement {
 			return;
 		}
 
-		if (valueList != null
-				&& (!valueList.isDefined() || valueList.size() != size)) {
+		if (valueList != null && (!valueList.isDefined() || valueList.size() != size)) {
 			outputList.setUndefined();
 			return;
 		}
@@ -205,5 +202,4 @@ public class AlgoSort extends AlgoElement {
 			}
 		}
 	}
-
 }

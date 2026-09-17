@@ -30,7 +30,7 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 
 	/**
 	 * Creates new unlabeled angle between lines algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param g
@@ -40,8 +40,7 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 	 * @param orientation
 	 *            orientation (for 3D)
 	 */
-	AlgoAngleLines(Construction cons, GeoLineND g, GeoLineND h,
-			GeoDirectionND orientation) {
+	AlgoAngleLines(Construction cons, GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
 		super(cons);
 		setInput(g, h, orientation);
 		angle = newGeoAngle(cons);
@@ -49,7 +48,6 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 
 		// compute angle
 		compute();
-
 	}
 
 	private AlgoAngleLines(GeoLineND g, GeoLineND h) {
@@ -58,7 +56,7 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 
 	/**
 	 * Creates new labeled angle between lines algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -68,15 +66,13 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 	 * @param h
 	 *            second line
 	 */
-
-	public AlgoAngleLines(Construction cons, String label, GeoLineND g,
-			GeoLineND h) {
+	public AlgoAngleLines(Construction cons, String label, GeoLineND g, GeoLineND h) {
 		this(cons, label, g, h, null);
 	}
 
 	/**
 	 * Creates new labeled angle between lines algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -88,9 +84,8 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 	 * @param orientation
 	 *            orientation (for 3D)
 	 */
-
-	public AlgoAngleLines(Construction cons, String label, GeoLineND g,
-			GeoLineND h, GeoDirectionND orientation) {
+	public AlgoAngleLines(
+			Construction cons, String label, GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
 		this(cons, g, h, orientation);
 		angle.setLabel(label);
 	}
@@ -108,10 +103,8 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 		// cos(alpha) = v . w / (|v| * |w|)
 		// tan(alpha) = sin(alpha) / cos(alpha)
 		// => tan(alpha) = det(v, w) / v . w
-		double det = ((GeoLine) g).x * ((GeoLine) h).y
-				- ((GeoLine) g).y * ((GeoLine) h).x;
-		double prod = ((GeoLine) g).x * ((GeoLine) h).x
-				+ ((GeoLine) g).y * ((GeoLine) h).y;
+		double det = ((GeoLine) g).x * ((GeoLine) h).y - ((GeoLine) g).y * ((GeoLine) h).x;
+		double prod = ((GeoLine) g).x * ((GeoLine) h).x + ((GeoLine) g).y * ((GeoLine) h).y;
 		double value = Math.atan2(det, prod);
 
 		angle.setValue(value);
@@ -135,5 +128,4 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-
 }

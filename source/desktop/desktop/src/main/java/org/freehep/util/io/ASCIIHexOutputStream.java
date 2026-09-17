@@ -9,15 +9,14 @@ import java.io.OutputStream;
  * The ASCIIHexOutputStream encodes binary data as ASCII Hexadecimal. The exact
  * definition of ASCII Hex encoding can be found in the PostScript Language
  * Reference (3rd ed.) chapter 3.13.3.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ASCIIHexOutputStream.java,v 1.3 2008-05-04 12:21:25 murkle Exp
  *          $
  */
-public class ASCIIHexOutputStream extends FilterOutputStream
-		implements FinishableOutputStream {
+public class ASCIIHexOutputStream extends FilterOutputStream implements FinishableOutputStream {
 
-	private final static int MAX_CHARS_PER_LINE = 80;
+	private static final int MAX_CHARS_PER_LINE = 80;
 
 	private int characters;
 
@@ -27,7 +26,7 @@ public class ASCIIHexOutputStream extends FilterOutputStream
 
 	/**
 	 * Create an ASCIIHex Output Stream for given stream.
-	 * 
+	 *
 	 * @param out
 	 *            output stream to use
 	 */
@@ -46,17 +45,17 @@ public class ASCIIHexOutputStream extends FilterOutputStream
 	public void write(int b) throws IOException {
 		String s = Integer.toHexString(b & 0x00FF);
 		switch (s.length()) {
-		case 1:
-			writeChar('0');
-			writeChar(s.charAt(0));
-			break;
-		case 2:
-			writeChar(s.charAt(0));
-			writeChar(s.charAt(1));
-			break;
-		default:
-			throw new IOException("ASCIIHexOutputStream: byte '" + b
-					+ "' was encoded in less than 1 or more than 2 chars");
+			case 1:
+				writeChar('0');
+				writeChar(s.charAt(0));
+				break;
+			case 2:
+				writeChar(s.charAt(0));
+				writeChar(s.charAt(1));
+				break;
+			default:
+				throw new IOException("ASCIIHexOutputStream: byte '" + b
+						+ "' was encoded in less than 1 or more than 2 chars");
 		}
 	}
 

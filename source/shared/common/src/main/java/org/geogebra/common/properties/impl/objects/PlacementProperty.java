@@ -93,8 +93,7 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 			throw new NotApplicablePropertyException(geoElement);
 		}
 
-		if (!(geoElement instanceof AbsoluteScreenLocateable)
-				|| isDependentTextCommand(geoElement)) {
+		if (!(geoElement instanceof AbsoluteScreenLocateable) || isDependentTextCommand(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoElement = geoElement;
@@ -135,33 +134,34 @@ public class PlacementProperty extends AbstractNamedEnumeratedProperty<Placement
 	protected void doSetValue(Placement placement) {
 		// Unset previous placement
 		switch (getValue()) {
-		case ABSOLUTE_POSITION_ON_SCREEN:
-			toggleAbsoluteScreenPosition(false);
-			break;
-		case STARTING_POINT:
-			break;
-		case CORNERS:
-			try {
-				((Locateable) geoElement).setStartPoint(null, 1);
-				((Locateable) geoElement).setStartPoint(null, 2);
-			} catch (CircularDefinitionException ignored) { }
-			break;
-		case CENTER_IMAGE:
-			((GeoImage) geoElement).setCentered(false);
-			break;
+			case ABSOLUTE_POSITION_ON_SCREEN:
+				toggleAbsoluteScreenPosition(false);
+				break;
+			case STARTING_POINT:
+				break;
+			case CORNERS:
+				try {
+					((Locateable) geoElement).setStartPoint(null, 1);
+					((Locateable) geoElement).setStartPoint(null, 2);
+				} catch (CircularDefinitionException ignored) {
+				}
+				break;
+			case CENTER_IMAGE:
+				((GeoImage) geoElement).setCentered(false);
+				break;
 		}
 
 		// Set new placement
 		switch (placement) {
-		case ABSOLUTE_POSITION_ON_SCREEN:
-			toggleAbsoluteScreenPosition(true);
-			break;
-		case STARTING_POINT:
-		case CORNERS:
-			break;
-		case CENTER_IMAGE:
-			((GeoImage) geoElement).setCentered(true);
-			break;
+			case ABSOLUTE_POSITION_ON_SCREEN:
+				toggleAbsoluteScreenPosition(true);
+				break;
+			case STARTING_POINT:
+			case CORNERS:
+				break;
+			case CENTER_IMAGE:
+				((GeoImage) geoElement).setCentered(true);
+				break;
 		}
 	}
 

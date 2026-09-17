@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 
 /**
  * Draws 2D parametric surface
- * 
+ *
  * @author Zbynek
  */
 public class DrawSurface extends Drawable {
@@ -96,13 +96,12 @@ public class DrawSurface extends Drawable {
 			}
 			out[0] = surface.getFunctions()[0].evaluate(u, v);
 			out[1] = surface.getFunctions()[1].evaluate(u, v);
-
 		}
 
 		@Override
 		public double[] getDefinedInterval(double a, double b) {
 			// TODO Auto-generated method stub
-			return new double[] { a, b };
+			return new double[] {a, b};
 		}
 
 		@Override
@@ -143,21 +142,28 @@ public class DrawSurface extends Drawable {
 			return;
 		}
 		SurfaceCurve curve = new SurfaceCurve(surface);
-		for (double i = surface.getMinParameter(0); i <= surface
-				.getMaxParameter(0); i += 1) {
+		for (double i = surface.getMinParameter(0); i <= surface.getMaxParameter(0); i += 1) {
 			curve.set(i, false);
-			CurvePlotter.plotCurve(curve, surface.getMinParameter(1),
-					surface.getMaxParameter(1), view, gp, labelVisible,
+			CurvePlotter.plotCurve(
+					curve,
+					surface.getMinParameter(1),
+					surface.getMaxParameter(1),
+					view,
+					gp,
+					labelVisible,
 					Gap.MOVE_TO);
 		}
-		for (double i = surface.getMinParameter(1); i <= surface
-				.getMaxParameter(1); i++) {
+		for (double i = surface.getMinParameter(1); i <= surface.getMaxParameter(1); i++) {
 			curve.set(i, true);
-			CurvePlotter.plotCurve(curve, surface.getMinParameter(0),
-					surface.getMaxParameter(0), view, gp, labelVisible,
-				Gap.MOVE_TO);
+			CurvePlotter.plotCurve(
+					curve,
+					surface.getMinParameter(0),
+					surface.getMaxParameter(0),
+					view,
+					gp,
+					labelVisible,
+					Gap.MOVE_TO);
 		}
-
 	}
 
 	@Override
@@ -180,5 +186,4 @@ public class DrawSurface extends Drawable {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

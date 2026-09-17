@@ -3,7 +3,7 @@ package org.freehep.util.io;
 
 /**
  * Constants for the ASCII85 encoding.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ASCII85.java,v 1.3 2008-05-04 12:21:41 murkle Exp $
  */
@@ -12,7 +12,7 @@ public interface ASCII85 {
 	/**
 	 * Maxmimum line length for ASCII85
 	 */
-	public final static int MAX_CHARS_PER_LINE = 80;
+	public static final int MAX_CHARS_PER_LINE = 80;
 
 	/**
 	 * 85^1
@@ -33,5 +33,4 @@ public interface ASCII85 {
 	 * 85^4
 	 */
 	public static long a85p4 = a85p3 * a85p1;
-
 }

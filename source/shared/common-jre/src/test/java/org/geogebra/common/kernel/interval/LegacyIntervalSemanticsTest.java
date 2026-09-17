@@ -39,18 +39,16 @@ class LegacyIntervalSemanticsTest {
 	void wholeLegacyIntervalIsWholeAndNotSingleton() {
 		Interval interval = new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
-		assertAll(
-				() -> assertTrue(interval.isWhole()),
-				() -> assertFalse(interval.isSingleton()));
+		assertAll(() -> assertTrue(interval.isWhole()), () -> assertFalse(interval.isSingleton()));
 	}
 
 	@Test
 	void infinitySingletonsAndSemiInfiniteIntervalsAreNotWhole() {
 		assertAll(
-				() -> assertFalse(new Interval(Double.POSITIVE_INFINITY,
-						Double.POSITIVE_INFINITY).isWhole()),
-				() -> assertFalse(new Interval(Double.NEGATIVE_INFINITY,
-						Double.NEGATIVE_INFINITY).isWhole()),
+				() ->
+						assertFalse(new Interval(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY).isWhole()),
+				() ->
+						assertFalse(new Interval(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY).isWhole()),
 				() -> assertFalse(new Interval(Double.NEGATIVE_INFINITY, 5).isWhole()),
 				() -> assertFalse(new Interval(7, Double.POSITIVE_INFINITY).isWhole()));
 	}
@@ -58,14 +56,14 @@ class LegacyIntervalSemanticsTest {
 	@Test
 	void hasInfinityMatchesCurrentLegacyBehavior() {
 		assertAll(
-				() -> assertTrue(new Interval(Double.NEGATIVE_INFINITY,
-						Double.POSITIVE_INFINITY).hasInfinity()),
+				() -> assertTrue(
+						new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).hasInfinity()),
 				() -> assertTrue(new Interval(Double.NEGATIVE_INFINITY, 5).hasInfinity()),
 				() -> assertTrue(new Interval(7, Double.POSITIVE_INFINITY).hasInfinity()),
-				() -> assertTrue(new Interval(Double.POSITIVE_INFINITY,
-						Double.POSITIVE_INFINITY).hasInfinity()),
-				() -> assertTrue(new Interval(Double.NEGATIVE_INFINITY,
-						Double.NEGATIVE_INFINITY).hasInfinity()),
+				() -> assertTrue(
+						new Interval(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY).hasInfinity()),
+				() -> assertTrue(
+						new Interval(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY).hasInfinity()),
 				() -> assertFalse(undefined().hasInfinity()));
 	}
 
@@ -85,11 +83,11 @@ class LegacyIntervalSemanticsTest {
 	@Test
 	void wholeClassificationMatchesCurrentLegacyBoundRules() {
 		assertAll(
-				() -> assertTrue(new Interval(Double.NEGATIVE_INFINITY,
-						Double.POSITIVE_INFINITY).isWhole()),
-				() -> assertFalse(new Interval(Double.POSITIVE_INFINITY,
-						Double.POSITIVE_INFINITY).isWhole()),
-				() -> assertFalse(new Interval(Double.NEGATIVE_INFINITY,
-						Double.NEGATIVE_INFINITY).isWhole()));
+				() ->
+						assertTrue(new Interval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY).isWhole()),
+				() ->
+						assertFalse(new Interval(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY).isWhole()),
+				() -> assertFalse(
+						new Interval(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY).isWhole()));
 	}
 }

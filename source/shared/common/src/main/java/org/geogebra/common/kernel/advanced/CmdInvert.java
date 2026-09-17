@@ -27,7 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Invert[ &lt;Function&gt; ]
- * 
+ *
  * Invert[ &lt;Matrix&gt; ]
  */
 public class CmdInvert extends CommandProcessor {
@@ -36,7 +36,7 @@ public class CmdInvert extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param numeric
@@ -48,35 +48,32 @@ public class CmdInvert extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
+			case 1:
+				arg = resArgs(c, info);
 
-			if (arg[0].isGeoFunction()) {
+				if (arg[0].isGeoFunction()) {
 
-				AlgoFunctionInvert algo = new AlgoFunctionInvert(cons,
-						(GeoFunction) arg[0], numeric);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					AlgoFunctionInvert algo = new AlgoFunctionInvert(cons, (GeoFunction) arg[0], numeric);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 
-			} else if (arg[0].isGeoList() && !"NInvert".equals(c.getName())) {
+				} else if (arg[0].isGeoList() && !"NInvert".equals(c.getName())) {
 
-				AlgoInvert algo = new AlgoInvert(cons, c.getLabel(),
-						(GeoList) arg[0]);
+					AlgoInvert algo = new AlgoInvert(cons, c.getLabel(), (GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

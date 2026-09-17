@@ -48,7 +48,6 @@ public class Stub3DFragment {
 			public void onSuccess() {
 				// never called
 			}
-
 		});
 	}
 }

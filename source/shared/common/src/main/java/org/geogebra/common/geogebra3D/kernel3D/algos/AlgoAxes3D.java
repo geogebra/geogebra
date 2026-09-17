@@ -48,7 +48,6 @@ public class AlgoAxes3D extends AlgoAxesQuadricND {
 		for (int i = 0; i < d; i++) {
 			axes[i] = new GeoLine3D(cons);
 		}
-
 	}
 
 	// calc axes
@@ -58,14 +57,11 @@ public class AlgoAxes3D extends AlgoAxesQuadricND {
 		midpoint = c.getMidpoint3D();
 
 		super.compute();
-
 	}
 
 	@Override
 	protected void setAxisCoords(int i) {
 		GeoLine3D axis = (GeoLine3D) axes[i];
 		axis.setCoord(midpoint, c.getEigenvec3D(i));
-
 	}
-
 }

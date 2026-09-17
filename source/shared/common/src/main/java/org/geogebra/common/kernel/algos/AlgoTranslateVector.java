@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  * Vector w = v starting at A
- * 
+ *
  * @author Markus
  */
 public class AlgoTranslateVector extends AlgoElement {
@@ -38,13 +38,11 @@ public class AlgoTranslateVector extends AlgoElement {
 	protected GeoVectorND v; // input
 	protected GeoVectorND w; // output
 
-	public AlgoTranslateVector(Construction cons, String label, GeoVector v,
-			GeoPointND A) {
+	public AlgoTranslateVector(Construction cons, String label, GeoVector v, GeoPointND A) {
 		this(cons, label, (GeoVectorND) v, A);
 	}
 
-	protected AlgoTranslateVector(Construction cons, String label,
-			GeoVectorND v, GeoPointND A) {
+	protected AlgoTranslateVector(Construction cons, String label, GeoVectorND v, GeoPointND A) {
 		super(cons);
 		this.A = A;
 		this.v = v;
@@ -113,12 +111,11 @@ public class AlgoTranslateVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("TranslationOfAtoB",
-				"Translation of %0 to %1", v.getLabel(tpl), A.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"TranslationOfAtoB", "Translation of %0 to %1", v.getLabel(tpl), A.getLabel(tpl));
 	}
-
 }

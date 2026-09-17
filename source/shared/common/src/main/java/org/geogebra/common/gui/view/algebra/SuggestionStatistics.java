@@ -43,8 +43,11 @@ public final class SuggestionStatistics extends Suggestion {
 	private static final int MAX = 4;
 
 	private ArrayList<String> statCommands = new ArrayList<>(Arrays.asList(
-			Commands.Min.getCommand(), Commands.Q1.getCommand(), Commands.Median.getCommand(),
-			Commands.Q3.getCommand(), Commands.Max.getCommand()));
+			Commands.Min.getCommand(),
+			Commands.Q1.getCommand(),
+			Commands.Median.getCommand(),
+			Commands.Q3.getCommand(),
+			Commands.Max.getCommand()));
 
 	@Override
 	public void runCommands(GeoElementND geo) {
@@ -87,8 +90,8 @@ public final class SuggestionStatistics extends Suggestion {
 		}
 	}
 
-	private void processCommand(AlgebraProcessor algebraProcessor, String cmd,
-			boolean isSymbolicMode) {
+	private void processCommand(
+			AlgebraProcessor algebraProcessor, String cmd, boolean isSymbolicMode) {
 		LabelHiderCallback callback;
 		if (isSymbolicMode) {
 			callback = new LabelHiderCallback();
@@ -96,15 +99,15 @@ public final class SuggestionStatistics extends Suggestion {
 		} else {
 			callback = null;
 		}
-		algebraProcessor.processAlgebraCommandNoExceptionHandling(cmd, false,
-				ErrorHelper.silent(), false, callback);
+		algebraProcessor.processAlgebraCommandNoExceptionHandling(
+				cmd, false, ErrorHelper.silent(), false, callback);
 	}
 
 	private static boolean[] getNeededAlgos(GeoElementND geo) {
 		boolean[] neededAlgos = {true, true, true, true, true};
 
-		GeoElementND statGeoElement = geo instanceof GeoSymbolic
-				? ((GeoSymbolic) geo).getTwinGeo() : geo;
+		GeoElementND statGeoElement =
+				geo instanceof GeoSymbolic ? ((GeoSymbolic) geo).getTwinGeo() : geo;
 
 		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() < 2) {
 			neededAlgos[Q1] = false;
@@ -127,8 +130,8 @@ public final class SuggestionStatistics extends Suggestion {
 	}
 
 	private static boolean isListOfNumbers(GeoElementND geoElement) {
-		GeoElementND statGeoElement = geoElement instanceof GeoSymbolic
-				? ((GeoSymbolic) geoElement).getTwinGeo() : geoElement;
+		GeoElementND statGeoElement =
+				geoElement instanceof GeoSymbolic ? ((GeoSymbolic) geoElement).getTwinGeo() : geoElement;
 
 		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() > 0) {
 			GeoList geoList = (GeoList) statGeoElement;
@@ -138,14 +141,17 @@ public final class SuggestionStatistics extends Suggestion {
 	}
 
 	@Override
-	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
-			boolean[] algosMissing) {
+	protected boolean allAlgosExist(
+			GetCommand className, GeoElement[] input, boolean[] algosMissing) {
 
 		if (statCommands.contains(className.getCommand())) {
 			algosMissing[statCommands.indexOf(className.getCommand())] = false;
 		}
 
-		return !algosMissing[MIN] && !algosMissing[Q1] && !algosMissing[MEDIAN]
-				&& !algosMissing[Q3] && !algosMissing[MAX];
+		return !algosMissing[MIN]
+				&& !algosMissing[Q1]
+				&& !algosMissing[MEDIAN]
+				&& !algosMissing[Q3]
+				&& !algosMissing[MAX];
 	}
 }

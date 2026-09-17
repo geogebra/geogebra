@@ -22,11 +22,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Sum of squares of y-coords of a list of Points
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-23
  */
-
 public class AlgoListSigmaYY extends AlgoStats2D {
 
 	public AlgoListSigmaYY(Construction cons, String label, GeoList geoListx) {

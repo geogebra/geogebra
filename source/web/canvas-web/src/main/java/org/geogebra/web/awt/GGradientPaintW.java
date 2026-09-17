@@ -59,8 +59,7 @@ public class GGradientPaintW implements GGradientPaint {
 	 * @param color2
 	 *            terminal color
 	 */
-	public GGradientPaintW(double x1, double y1, GColor color1, double x2,
-			double y2, GColor color2) {
+	public GGradientPaintW(double x1, double y1, GColor color1, double x2, double y2, GColor color2) {
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;

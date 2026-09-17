@@ -29,5 +29,4 @@ public interface AbstractSuggestionDisplay {
 	 *            anchor
 	 */
 	void setPositionRelativeTo(UIObject content);
-
 }

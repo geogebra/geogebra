@@ -41,13 +41,11 @@ public class MowService implements Service {
 
 	@Override
 	public String getGgsTemplateEndpoint(int userId) {
-		return "/users/" + userId
-				+ "/materials?format=page&filter=ggs-template";
+		return "/users/" + userId + "/materials?format=page&filter=ggs-template";
 	}
 
 	@Override
-	public Collection<ResourceAction> getActions(
-			boolean owns, boolean isTeacher) {
+	public Collection<ResourceAction> getActions(boolean owns, boolean isTeacher) {
 		ArrayList<ResourceAction> actions = new ArrayList<>();
 		if (owns) {
 			if (isTeacher) {
@@ -85,5 +83,4 @@ public class MowService implements Service {
 	public String getSearchMaterialFilter() {
 		return "";
 	}
-
 }

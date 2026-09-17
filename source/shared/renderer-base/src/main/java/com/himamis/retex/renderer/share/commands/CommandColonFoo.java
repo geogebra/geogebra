@@ -55,8 +55,8 @@ import com.himamis.retex.renderer.share.VCenteredAtom;
 
 public class CommandColonFoo {
 
-	private final static Atom CENTERED_COLON = new VCenteredAtom(
-			Symbols.COLON.changeType(TeXConstants.TYPE_ORDINARY), false);
+	private static final Atom CENTERED_COLON =
+			new VCenteredAtom(Symbols.COLON.changeType(TeXConstants.TYPE_ORDINARY), false);
 
 	public static class ColonFoo extends Command {
 
@@ -74,7 +74,6 @@ public class CommandColonFoo {
 
 			return false;
 		}
-
 	}
 
 	public static class FooColon extends Command {
@@ -92,7 +91,6 @@ public class CommandColonFoo {
 
 			return false;
 		}
-
 	}
 
 	public static class ColonColonFoo extends Command {
@@ -117,7 +115,6 @@ public class CommandColonFoo {
 
 			return false;
 		}
-
 	}
 
 	public static class FooColonColon extends Command {
@@ -130,12 +127,10 @@ public class CommandColonFoo {
 
 		@Override
 		public boolean init(TeXParser tp) {
-			final RowAtom at = new RowAtom(SymbolAtom.get(sym), CENTERED_COLON,
-					CENTERED_COLON);
+			final RowAtom at = new RowAtom(SymbolAtom.get(sym), CENTERED_COLON, CENTERED_COLON);
 			tp.addToConsumer(at.changeType(TeXConstants.TYPE_RELATION));
 
 			return false;
 		}
-
 	}
 }

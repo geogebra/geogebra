@@ -193,8 +193,10 @@ public class KeyboardInputAdapter {
 
 			@Override
 			public boolean test(String keyboard) {
-				return (keyboard.startsWith("$point") || keyboard.startsWith("$vector")
-						|| keyboard.startsWith("$matrix")) && keyboard.contains(":");
+				return (keyboard.startsWith("$point")
+								|| keyboard.startsWith("$vector")
+								|| keyboard.startsWith("$matrix"))
+						&& keyboard.contains(":");
 			}
 		});
 		KeyboardAdapter commandAdapter = new KeyboardAdapter() {
@@ -301,9 +303,7 @@ public class KeyboardInputAdapter {
 		for (int i = currentNode.size() - 1; i > 0; i--) {
 			if (currentNode.getChild(i).isFieldSeparator()) {
 				CharacterTemplate template =
-						new CharacterTemplate(",",
-								',',
-								CharacterTemplate.TYPE_OPERATOR);
+						new CharacterTemplate(",", ',', CharacterTemplate.TYPE_OPERATOR);
 				currentNode.setChild(i, new CharacterNode(template));
 				return;
 			}

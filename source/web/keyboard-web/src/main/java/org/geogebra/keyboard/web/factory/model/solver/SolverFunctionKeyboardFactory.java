@@ -70,14 +70,13 @@ public class SolverFunctionKeyboardFactory implements KeyboardModelFactory {
 		addConstantInputCommandButton(row, buttonFactory, Resource.DERIVATIVE, "Derivative", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.INTEGRAL, "Integral", 1.0f);
 		addInputButton(row, buttonFactory, Characters.imaginaryI, "\u03af", "altText.Imaginaryi");
-		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-				Action.BACKSPACE_DELETE);
+		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);
 
 		row = functionKeyboard.nextRow();
 		addConstantInputButton(row, buttonFactory, Resource.POWE_X, EULER + "^", width);
 		addConstantInputButton(row, buttonFactory, Resource.POW10_X, "10^", width);
-		addConstantInputButton(row, buttonFactory, Resource.RECURRING_DECIMAL,
-				"recurringDecimal", width);
+		addConstantInputButton(
+				row, buttonFactory, Resource.RECURRING_DECIMAL, "recurringDecimal", width);
 		addButton(row, buttonFactory.createEmptySpace(0.2f));
 		addConstantInputButton(row, buttonFactory, Resource.A_N, "a_n");
 		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
@@ -87,4 +86,3 @@ public class SolverFunctionKeyboardFactory implements KeyboardModelFactory {
 		return functionKeyboard;
 	}
 }
-

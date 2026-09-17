@@ -44,7 +44,7 @@ import elemental2.dom.CanvasRenderingContext2D;
 
 /**
  * @author Arpad Fekete
- * 
+ *
  * Top level GUI for the spreadsheet view
  *
  */
@@ -81,15 +81,13 @@ public final class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	@Override
 	protected Widget loadStyleBar() {
 		if (sstylebar == null && spreadsheetPanel != null) {
-			sstylebar = new SpreadsheetStyleBar(app,
-					spreadsheetPanel.getSpreadsheet(),
-					spreadsheetPanel.getStyleBarModel());
-			IconButton settingsBtn = new IconButton(app,
+			sstylebar = new SpreadsheetStyleBar(
+					app, spreadsheetPanel.getSpreadsheet(), spreadsheetPanel.getStyleBarModel());
+			IconButton settingsBtn = new IconButton(
+					app,
 					new ImageIconSpec(MaterialDesignResources.INSTANCE.gear()),
 					"Settings",
-					() -> app.getDialogManager().showPropertiesDialog(OptionType.SPREADSHEET,
-							null)
-			);
+					() -> app.getDialogManager().showPropertiesDialog(OptionType.SPREADSHEET, null));
 			settingsBtn.getElement().getStyle().setPadding(6, Unit.PX);
 			sstylebar.add(settingsBtn);
 			sstylebar.addStyleName("noMargin");
@@ -172,8 +170,8 @@ public final class SpreadsheetDockPanelW extends NavigableDockPanelW {
 	}
 
 	@Override
-	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			ViewCounter counter, int left, int top) {
+	public void paintToCanvas(
+			CanvasRenderingContext2D context2d, ViewCounter counter, int left, int top) {
 		drawWhiteBackground(context2d, left, top);
 		context2d.save();
 		context2d.rect(left, top, getOffsetWidth(), getOffsetHeight());
@@ -199,10 +197,14 @@ public final class SpreadsheetDockPanelW extends NavigableDockPanelW {
 			location = GeoElementSpreadsheet.getSpreadsheetCoordsSafe(labelNew);
 		}
 
-		if (scrollToShow && location != null && (location.column > -1) && (location.row > -1)
+		if (scrollToShow
+				&& location != null
+				&& (location.column > -1)
+				&& (location.row > -1)
 				&& spreadsheetPanel != null) {
-			spreadsheetPanel.getSpreadsheet().scrollRangeIntoView(new TabularRange(location.row,
-					location.column));
+			spreadsheetPanel
+					.getSpreadsheet()
+					.scrollRangeIntoView(new TabularRange(location.row, location.column));
 		}
 	}
 

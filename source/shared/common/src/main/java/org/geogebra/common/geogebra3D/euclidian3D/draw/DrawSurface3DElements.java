@@ -29,7 +29,7 @@ import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 /**
  * Draw 3D surface with GL drawElements()
- * 
+ *
  * @author mathieu
  *
  */
@@ -38,20 +38,18 @@ public class DrawSurface3DElements extends DrawSurface3D {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param a_view3d
 	 *            view
 	 * @param surface
 	 *            surface
 	 */
-	public DrawSurface3DElements(EuclidianView3D a_view3d,
-			SurfaceEvaluable surface) {
+	public DrawSurface3DElements(EuclidianView3D a_view3d, SurfaceEvaluable surface) {
 		super(a_view3d, surface);
 	}
 
 	@Override
-	protected void drawTriangle(PlotterSurface surface, CornerAndCenter cc,
-			Corner c1, Corner c2) {
+	protected void drawTriangle(PlotterSurface surface, CornerAndCenter cc, Corner c1, Corner c2) {
 
 		if (!checkIdsAreShort(cornerListIndex + cc.id, c1.id, c2.id)) {
 			return;
@@ -76,12 +74,11 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		}
 
 		lastIndex = cornerListIndex + drawListIndex;
-
 	}
 
 	@Override
-	protected void drawTriangle(PlotterSurface surface, Coords3 p0, Coords3 n0,
-			Corner c1, Corner c2) {
+	protected void drawTriangle(
+			PlotterSurface surface, Coords3 p0, Coords3 n0, Corner c1, Corner c2) {
 
 		if (!checkIdsAreShort(lastIndex, c1.id, c2.id)) {
 			return;
@@ -91,7 +88,6 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		draw(surface, p0, n0);
 		draw(surface, c2);
 		draw(surface, c1);
-
 	}
 
 	private void draw(PlotterSurface surface, Coords3 p0, Coords3 n0) {
@@ -111,7 +107,6 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		} else {
 			((PlotterSurfaceElements) surface).drawIndex(c.id);
 		}
-
 	}
 
 	private static boolean checkIdsAreShort(int id1, int id2, int id3) {
@@ -134,13 +129,15 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		if (isVisible()) {
 			GeoElement geo = getGeoElement();
 			if (exportSurface) {
-				manager.export(geo, getSurfaceIndex(), geo.getObjectColor(),
-						geo.getAlphaValue(), GeometryType.SURFACE);
+				manager.export(
+						geo,
+						getSurfaceIndex(),
+						geo.getObjectColor(),
+						geo.getAlphaValue(),
+						GeometryType.SURFACE);
 			} else {
-				manager.export(geo, getGeometryIndex(), GColor.BLACK, 1,
-						GeometryType.CURVE);
+				manager.export(geo, getGeometryIndex(), GColor.BLACK, 1, GeometryType.CURVE);
 			}
 		}
 	}
-
 }

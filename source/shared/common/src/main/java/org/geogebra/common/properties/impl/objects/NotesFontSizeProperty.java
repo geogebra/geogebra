@@ -38,8 +38,8 @@ import org.jspecify.annotations.Nullable;
 public class NotesFontSizeProperty extends AbstractValuedProperty<String>
 		implements StringPropertyWithSuggestions, GeoElementDependentProperty {
 
-	private static final List<String> SUGGESTIONS = List.of(
-			"12", "16", "24", "36", "48", "60", "72", "96", "120");
+	private static final List<String> SUGGESTIONS =
+			List.of("12", "16", "24", "36", "48", "60", "72", "96", "120");
 	private static final int DEFAULT_SIZE = 16;
 	private static final int MIN_SIZE = 1;
 	private static final int MAX_SIZE = 999;
@@ -77,8 +77,7 @@ public class NotesFontSizeProperty extends AbstractValuedProperty<String>
 
 	@Override
 	public @Nullable String validateValue(String value) {
-		return parse(value) == null
-				? getLocalization().getError("InvalidInput") : null;
+		return parse(value) == null ? getLocalization().getError("InvalidInput") : null;
 	}
 
 	@Override

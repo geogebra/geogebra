@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,7 +46,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Export GeoGebra worksheet to GeoGebraTube.
- * 
+ *
  * @author Florian Sonner
  */
 public class GeoGebraTubeExportD {
@@ -75,6 +75,7 @@ public class GeoGebraTubeExportD {
 	 * Application instance.
 	 */
 	public App app;
+
 	private Localization loc;
 
 	/**
@@ -105,10 +106,10 @@ public class GeoGebraTubeExportD {
 				String value = line.substring(delimiterPos + 1).toLowerCase(Locale.ROOT);
 
 				switch (key) {
-				case "status" -> status = value;
-				case "uid" -> uid = value;
-				case "error" -> errorMessage = value;
-				default -> { }
+					case "status" -> status = value;
+					case "uid" -> uid = value;
+					case "error" -> errorMessage = value;
+					default -> {}
 				}
 			}
 		}
@@ -160,10 +161,8 @@ public class GeoGebraTubeExportD {
 			urlConn.setUseCaches(false);
 
 			// content type
-			urlConn.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded");
-			urlConn.setRequestProperty("Accept-Language",
-					app.getLocalization().getLanguageTag());
+			urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			urlConn.setRequestProperty("Accept-Language", app.getLocalization().getLanguageTag());
 
 			// send output
 			DataOutputStream printout;
@@ -221,8 +220,8 @@ public class GeoGebraTubeExportD {
 				// URL ok
 				if (responseCode == HttpURLConnection.HTTP_OK) {
 					// get response and read it into a string buffer
-					input = new BufferedReader(new InputStreamReader(
-							urlConn.getInputStream(), StandardCharsets.UTF_8));
+					input = new BufferedReader(
+							new InputStreamReader(urlConn.getInputStream(), StandardCharsets.UTF_8));
 
 					StringBuffer output = new StringBuffer();
 
@@ -233,26 +232,22 @@ public class GeoGebraTubeExportD {
 
 					input.close();
 
-					final UploadResults results = new UploadResults(
-							output.toString());
+					final UploadResults results = new UploadResults(output.toString());
 
 					if (results.hasError()) {
-						statusLabelSetText(getLoc().getPlain("UploadError",
-								results.getErrorMessage()));
+						statusLabelSetText(getLoc().getPlain("UploadError", results.getErrorMessage()));
 						progressBar.setEnabled(false);
 
-						Log.debug("Upload failed. Response: "
-								+ output);
+						Log.debug("Upload failed. Response: " + output);
 					} else {
 
-						String createMaterialURL = getUploadURL() + "/"
-								+ results.getUID();
+						String createMaterialURL = getUploadURL() + "/" + results.getUID();
 
 						// Add the login token to the URL if a user is logged in
 						if (app.getLoginOperation().getModel().isLoggedIn()) {
 
-							String token = app.getLoginOperation().getModel()
-									.getLoggedInUser().getLoginToken();
+							String token =
+									app.getLoginOperation().getModel().getLoggedInUser().getLoginToken();
 							if (token != null) {
 								createMaterialURL += "/lt/" + token;
 							}
@@ -260,8 +255,7 @@ public class GeoGebraTubeExportD {
 
 						// Add the language parameter to show the page in the
 						// user language
-						createMaterialURL += "/?lang="
-								+ ((AppD) app).getLocale().getLanguage();
+						createMaterialURL += "/?lang=" + ((AppD) app).getLocale().getLanguage();
 
 						app.showURLinBrowser(createMaterialURL);
 						hideDialog();
@@ -269,12 +263,10 @@ public class GeoGebraTubeExportD {
 
 					pack();
 				} else {
-					Log.debug("Upload failed. Response: #" + responseCode
-							+ " - " + responseMessage);
+					Log.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
 
 					BufferedReader errors = new BufferedReader(
-							new InputStreamReader(urlConn.getErrorStream(),
-									StandardCharsets.UTF_8));
+							new InputStreamReader(urlConn.getErrorStream(), StandardCharsets.UTF_8));
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;
@@ -285,22 +277,19 @@ public class GeoGebraTubeExportD {
 
 					Log.debug(errorBuffer.toString());
 
-					statusLabelSetText(getLoc().getPlain("UploadError",
-							Integer.toString(responseCode)));
+					statusLabelSetText(getLoc().getPlain("UploadError", Integer.toString(responseCode)));
 					progressBar.setEnabled(false);
 					pack();
 				}
 			} catch (IOException e) {
-				statusLabelSetText(
-						getLoc().getPlain("UploadError", Integer.toString(500)));
+				statusLabelSetText(getLoc().getPlain("UploadError", Integer.toString(500)));
 				progressBar.setEnabled(false);
 				pack();
 
 				Log.debug(e.getMessage());
 			}
 		} catch (IOException e) {
-			statusLabelSetText(
-					getLoc().getPlain("UploadError", Integer.toString(400)));
+			statusLabelSetText(getLoc().getPlain("UploadError", Integer.toString(400)));
 			progressBar.setEnabled(false);
 			pack();
 
@@ -320,8 +309,7 @@ public class GeoGebraTubeExportD {
 		abortButton = new JButton(getLoc().getMenu("Close"));
 		abortButton.addActionListener(arg0 -> hideDialog());
 
-		JPanel buttonPanel = new JPanel(
-				new FlowLayout(FlowLayout.RIGHT, 10, 0));
+		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 		buttonPanel.add(abortButton);
 
 		// main panel
@@ -333,8 +321,7 @@ public class GeoGebraTubeExportD {
 
 		// dialog options
 		progressDialog = new Dialog();
-		progressDialog
-				.setTitle(app.getLocalization().getMenu("UploadGeoGebraTube"));
+		progressDialog.setTitle(app.getLocalization().getMenu("UploadGeoGebraTube"));
 		progressDialog.setResizable(false);
 		progressDialog.add(panel);
 
@@ -375,8 +362,7 @@ public class GeoGebraTubeExportD {
 		// build post query
 		StringBuilder sb = new StringBuilder();
 		sb.append("data=");
-		sb.append(encode(
-				getBase64String()));
+		sb.append(encode(getBase64String()));
 
 		sb.append("&type=");
 		sb.append("ggb");
@@ -414,5 +400,4 @@ public class GeoGebraTubeExportD {
 	public void setLoc(Localization loc) {
 		this.loc = loc;
 	}
-
 }

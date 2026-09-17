@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -8,7 +8,7 @@
  * http://jung.sourceforge.net/license.txt for a description.
  */
 /*
- * 
+ *
  * Created on Oct 29, 2003
  */
 package edu.uci.ics.jung.algorithms.util;
@@ -32,27 +32,26 @@ import edu.uci.ics.jung.collections.UnmodifiableIterator;
  * the position of each element in the array; thus, if the key value of an
  * element changes, it may be "resubmitted" to the heap via <code>update</code>
  * so that the heap can reposition it efficiently, as necessary.
- * 
+ *
  * @author Joshua O'Madadhain
  */
-public class MapBinaryHeap<T> extends AbstractCollection<T>
-		implements Queue<T> {
+public class MapBinaryHeap<T> extends AbstractCollection<T> implements Queue<T> {
 	private Vector<T> heap = new Vector<T>(); // holds the heap as an implicit
-												// binary tree
+	// binary tree
 	private Map<T, Integer> object_indices = new HashMap<T, Integer>(); // maps
-																		// each
-																		// object
-																		// in
-																		// the
-																		// heap
-																		// to
-																		// its
-																		// index
-																		// in
-																		// the
-																		// heap
+	// each
+	// object
+	// in
+	// the
+	// heap
+	// to
+	// its
+	// index
+	// in
+	// the
+	// heap
 	private Comparator<T> comp;
-	private final static int TOP = 0; // the index of the top of the heap
+	private static final int TOP = 0; // the index of the top of the heap
 
 	/**
 	 * Creates a <code>MapBinaryHeap</code> whose heap ordering is based on the
@@ -147,7 +146,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	/**
 	 * Informs the heap that this object's internal key value has been updated,
 	 * and that its place in the heap may need to be shifted (up or down).
-	 * 
+	 *
 	 * @param o updated object
 	 */
 	public void update(T o) {
@@ -178,15 +177,14 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		int right = rChild(cur);
 		int smallest;
 
-		if ((left < heap.size()) && (comp.compare(heap.elementAt(left),
-				heap.elementAt(cur)) < 0)) {
+		if ((left < heap.size()) && (comp.compare(heap.elementAt(left), heap.elementAt(cur)) < 0)) {
 			smallest = left;
 		} else {
 			smallest = cur;
 		}
 
-		if ((right < heap.size()) && (comp.compare(heap.elementAt(right),
-				heap.elementAt(smallest)) < 0)) {
+		if ((right < heap.size())
+				&& (comp.compare(heap.elementAt(right), heap.elementAt(smallest)) < 0)) {
 			smallest = right;
 		}
 
@@ -208,8 +206,8 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 			T parentElt = heap.elementAt(parent(i));
 			heap.setElementAt(parentElt, i);
 			object_indices.put(parentElt, Integer.valueOf(i)); // reset index to
-																// i
-															// (new location)
+			// i
+			// (new location)
 			i = parent(i);
 		}
 
@@ -223,7 +221,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	/**
 	 * Returns the index of the left child of the element at index
 	 * <code>i</code> of the heap.
-	 * 
+	 *
 	 * @param i index
 	 * @return the index of the left child of the element at index
 	 *         <code>i</code> of the heap
@@ -235,7 +233,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	/**
 	 * Returns the index of the right child of the element at index
 	 * <code>i</code> of the heap.
-	 * 
+	 *
 	 * @param i index
 	 * @return the index of the right child of the element at index
 	 *         <code>i</code> of the heap
@@ -247,7 +245,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	/**
 	 * Returns the index of the parent of the element at index <code>i</code> of
 	 * the heap.
-	 * 
+	 *
 	 * @param i index
 	 * @return the index of the parent of the element at index i of the heap
 	 */
@@ -258,7 +256,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 	/**
 	 * Swaps the positions of the elements at indices <code>i</code> and
 	 * <code>j</code> of the heap.
-	 * 
+	 *
 	 * @param i first index
 	 * @param j second index
 	 */
@@ -275,7 +273,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 
 	/**
 	 * Comparator used if none is specified in the constructor.
-	 * 
+	 *
 	 * @author Joshua O'Madadhain
 	 */
 	private class ComparableComparator implements Comparator<T> {
@@ -286,8 +284,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		@SuppressWarnings("unchecked")
 		public int compare(T arg0, T arg1) {
 			if (!(arg0 instanceof Comparable) || !(arg1 instanceof Comparable)) {
-				throw new IllegalArgumentException(
-						"Arguments must be Comparable");
+				throw new IllegalArgumentException("Arguments must be Comparable");
 			}
 
 			return ((Comparable<T>) arg0).compareTo(arg1);
@@ -367,5 +364,4 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		}
 		return top;
 	}
-
 }

@@ -55,8 +55,13 @@ public final class FragmentEndpoint {
 	 * @param sourceSegmentIndex index of the original source-contour segment containing this endpoint
 	 * @param tSegment parametric position on the original source segment, or {@code NaN} if not applicable
 	 */
-	public FragmentEndpoint(MyPoint point, ClipEdge edge, double sPerimeter,
-			int sourceContourId, int sourceSegmentIndex, double tSegment) {
+	public FragmentEndpoint(
+			MyPoint point,
+			ClipEdge edge,
+			double sPerimeter,
+			int sourceContourId,
+			int sourceSegmentIndex,
+			double tSegment) {
 		this.point = point;
 		this.edge = edge;
 		this.sPerimeter = sPerimeter;

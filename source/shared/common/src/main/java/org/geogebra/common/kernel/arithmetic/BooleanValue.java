@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 /**
  * Boolean values.
- * 
+ *
  * @author Markus
  */
 public interface BooleanValue extends ExpressionValue {

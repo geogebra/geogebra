@@ -24,5 +24,4 @@ public interface RowHeader {
 	 * @return array of selected lines' indices
 	 */
 	int[] getSelectedIndices();
-
 }

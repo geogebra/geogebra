@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * Exception for the TaggedInputStream. Signals that the inputstream contains
  * more bytes than the stream has read for this tag.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: IncompleteTagException.java,v 1.3 2008-05-04 12:21:19 murkle
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class IncompleteTagException extends IOException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7808675150856818588L;
 
@@ -25,7 +25,7 @@ public class IncompleteTagException extends IOException {
 
 	/**
 	 * Creates an Incomplete Tag Exception
-	 * 
+	 *
 	 * @param tag
 	 *            incomplete tag
 	 * @param rest

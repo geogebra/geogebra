@@ -53,8 +53,8 @@ public class EuclidianViewNoGui extends EuclidianView {
 	 * @param g2
 	 *            graphics
 	 */
-	public EuclidianViewNoGui(EuclidianController ec, int viewNo,
-			EuclidianSettings settings, GGraphics2D g2) {
+	public EuclidianViewNoGui(
+			EuclidianController ec, int viewNo, EuclidianSettings settings, GGraphics2D g2) {
 		super(ec, viewNo, settings);
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.GRAY);
@@ -63,8 +63,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 		dim = AwtFactory.getPrototype().newDimension(800, 600);
 		font = AwtFactory.getPrototype().newFont("serif", GFont.PLAIN, 12);
 		this.g2 = g2;
-		g2Dtemp = AwtFactory.getPrototype().newBufferedImage(5, 5, 1)
-				.createGraphics();
+		g2Dtemp = AwtFactory.getPrototype().newBufferedImage(5, 5, 1).createGraphics();
 		ec.getApplication().getKernel().attach(this);
 		updateFonts();
 		settingsChanged(settings);
@@ -84,8 +83,8 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	public final void setBackground(GColor bgColor) {
 		if (bgColor != null) {
-			backgroundColor = GColor.newColor(bgColor.getRed(),
-					bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
+			backgroundColor = GColor.newColor(
+					bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
 		}
 	}
 
@@ -221,7 +220,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 				while (running) {
 					step();
 				}
-
 			}
 
 			@Override

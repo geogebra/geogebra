@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -34,12 +34,14 @@ public class TextRotationProperty extends AbstractEnumeratedProperty<TextRotatio
 		implements IconsEnumeratedProperty<TextRotation> {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_TEXT_ROTATION_NONE, PropertyResource.ICON_TEXT_ROTATION_UP,
-			PropertyResource.ICON_TEXT_ROTATION_DOWN
+		PropertyResource.ICON_TEXT_ROTATION_NONE,
+		PropertyResource.ICON_TEXT_ROTATION_UP,
+		PropertyResource.ICON_TEXT_ROTATION_DOWN
 	};
 	private final GeoInlineTable geoElement;
-	private static final String[] rawLabels = {"ContextMenu.rotateNone", "ContextMenu.rotateUp",
-		"ContextMenu.rotateDown"};
+	private static final String[] rawLabels = {
+		"ContextMenu.rotateNone", "ContextMenu.rotateUp", "ContextMenu.rotateDown"
+	};
 
 	/**
 	 * Constructs an AbstractEnumeratedProperty.
@@ -69,7 +71,8 @@ public class TextRotationProperty extends AbstractEnumeratedProperty<TextRotatio
 	@Override
 	protected void doSetValue(TextRotation value) {
 		InlineTableController formatter = (InlineTableController) geoElement.getFormatter();
-		if (getLocalization() != null && formatter != null
+		if (getLocalization() != null
+				&& formatter != null
 				&& value != TextRotation.fromString(formatter.getRotation())) {
 			formatter.setRotation(value.toString());
 		}

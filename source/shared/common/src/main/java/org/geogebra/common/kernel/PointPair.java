@@ -45,8 +45,7 @@ public class PointPair {
 	 * @param distance
 	 *            distance
 	 */
-	public PointPair(int i, boolean isPalive, int j, boolean isQjOnPath,
-			double distance) {
+	public PointPair(int i, boolean isPalive, int j, boolean isQjOnPath, double distance) {
 		indexP = i;
 		this.isPalive = isPalive;
 		indexQ = j;

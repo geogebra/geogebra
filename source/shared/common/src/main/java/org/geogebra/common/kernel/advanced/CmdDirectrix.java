@@ -31,7 +31,7 @@ public class CmdDirectrix extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,28 +40,26 @@ public class CmdDirectrix extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
+			case 1:
+				arg = resArgs(c, info);
 
-			// asymptotes to conic
-			if (arg[0].isGeoConic()) {
+				// asymptotes to conic
+				if (arg[0].isGeoConic()) {
 
-				AlgoDirectrix algo = new AlgoDirectrix(cons, c.getLabel(),
-						(GeoConic) arg[0]);
+					AlgoDirectrix algo = new AlgoDirectrix(cons, c.getLabel(), (GeoConic) arg[0]);
 
-				GeoElement[] ret = { algo.getDirectrix(),
-						algo.getDirectrix2() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getDirectrix(), algo.getDirectrix2()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

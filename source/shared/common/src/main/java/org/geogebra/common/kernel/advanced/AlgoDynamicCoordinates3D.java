@@ -43,8 +43,12 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates {
 	 * @param z
 	 *            z-coord
 	 */
-	public AlgoDynamicCoordinates3D(Construction cons, String label,
-			GeoPointND arg, GeoNumberValue x, GeoNumberValue y,
+	public AlgoDynamicCoordinates3D(
+			Construction cons,
+			String label,
+			GeoPointND arg,
+			GeoNumberValue x,
+			GeoNumberValue y,
 			GeoNumberValue z) {
 		super(cons);
 		this.P = arg;
@@ -83,14 +87,16 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates {
 		double yCoord = y.getDouble();
 		double zCoord = z.getDouble();
 
-		if (Double.isNaN(xCoord) || Double.isInfinite(xCoord)
-				|| Double.isNaN(yCoord) || Double.isInfinite(yCoord)
-				|| Double.isNaN(zCoord) || Double.isInfinite(zCoord)) {
+		if (Double.isNaN(xCoord)
+				|| Double.isInfinite(xCoord)
+				|| Double.isNaN(yCoord)
+				|| Double.isInfinite(yCoord)
+				|| Double.isNaN(zCoord)
+				|| Double.isInfinite(zCoord)) {
 			M.setUndefined();
 			return;
 		}
 
 		M.setCoords(xCoord, yCoord, zCoord, 1.0);
 	}
-
 }

@@ -40,7 +40,7 @@ public class Geometry3DGetterManager {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param getter
@@ -48,17 +48,16 @@ public class Geometry3DGetterManager {
 	 */
 	public Geometry3DGetterManager(EuclidianView3DForExport view, Geometry3DGetter getter) {
 		this.getter = getter;
-		geometriesManager = (ManagerShaders) view.getRenderer()
-				.getGeometryManager();
+		geometriesManager = (ManagerShaders) view.getRenderer().getGeometryManager();
 		xInvScale = 1 / view.getXscale();
 	}
 
 	/**
 	 * export geometry with color and alpha
-	 * 
+	 *
 	 * @param geo
 	 *            geo to export
-	 * 
+	 *
 	 * @param geometryIndex
 	 *            geometry index
 	 * @param color
@@ -68,8 +67,8 @@ public class Geometry3DGetterManager {
 	 * @param type
 	 *            geometry type
 	 */
-	public void export(GeoElement geo, int geometryIndex, GColor color,
-			double alpha, GeometryType type) {
+	public void export(
+			GeoElement geo, int geometryIndex, GColor color, double alpha, GeometryType type) {
 		if (getter.handles(geo, type)) {
 			GeometriesSet currentGeometriesSet = geometriesManager.getGeometrySet(geometryIndex);
 			double red = color.getRed() / 255.0;
@@ -99,43 +98,43 @@ public class Geometry3DGetterManager {
 					GLBufferIndices bi = geometry.getBufferIndices();
 					elementsOffset = geometry.getElementsOffset();
 					switch (geometry.getType()) {
-					case TRIANGLE_FAN:
-						// for openGL we use replace triangle fans by triangle
-						// strips, repeating apex every time
-						int length = geometry.getIndicesLength() / 2;
-						int v3 = bi.get();
-						int v4 = bi.get();
-						for (int i = 1; i < length; i++) {
-							int v1 = v3;
-							int v2 = v4;
+						case TRIANGLE_FAN:
+							// for openGL we use replace triangle fans by triangle
+							// strips, repeating apex every time
+							int length = geometry.getIndicesLength() / 2;
+							int v3 = bi.get();
+							int v4 = bi.get();
+							for (int i = 1; i < length; i++) {
+								int v1 = v3;
+								int v2 = v4;
+								v3 = bi.get();
+								v4 = bi.get();
+								addTriangle(v1, v2, v4);
+							}
+							break;
+						case TRIANGLE_STRIP:
+							length = geometry.getIndicesLength() / 2;
 							v3 = bi.get();
 							v4 = bi.get();
-							addTriangle(v1, v2, v4);
-						}
-						break;
-					case TRIANGLE_STRIP:
-						length = geometry.getIndicesLength() / 2;
-						v3 = bi.get();
-						v4 = bi.get();
-						for (int i = 1; i < length; i++) {
-							int v1 = v3;
-							int v2 = v4;
-							v3 = bi.get();
-							v4 = bi.get();
-							addTriangle(v1, v2, v3);
-							addTriangle(v2, v4, v3);
-						}
-						break;
-					case TRIANGLES:
-					default:
-						length = geometry.getIndicesLength() / 3;
-						for (int i = 0; i < length; i++) {
-							int v1 = bi.get();
-							int v2 = bi.get();
-							v3 = bi.get();
-							addTriangle(v1, v2, v3);
-						}
-						break;
+							for (int i = 1; i < length; i++) {
+								int v1 = v3;
+								int v2 = v4;
+								v3 = bi.get();
+								v4 = bi.get();
+								addTriangle(v1, v2, v3);
+								addTriangle(v2, v4, v3);
+							}
+							break;
+						case TRIANGLES:
+						default:
+							length = geometry.getIndicesLength() / 3;
+							for (int i = 0; i < length; i++) {
+								int v1 = bi.get();
+								int v2 = bi.get();
+								v3 = bi.get();
+								addTriangle(v1, v2, v3);
+							}
+							break;
 					}
 					bi.rewind();
 				}
@@ -144,8 +143,6 @@ public class Geometry3DGetterManager {
 	}
 
 	private void addTriangle(int v1, int v2, int v3) {
-		getter.addTriangle(v1 - elementsOffset, v2 - elementsOffset,
-				v3 - elementsOffset);
+		getter.addTriangle(v1 - elementsOffset, v2 - elementsOffset, v3 - elementsOffset);
 	}
-
 }

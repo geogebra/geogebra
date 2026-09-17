@@ -40,8 +40,8 @@ public class DrawInvertedInterval {
 	 * @param bounds {@link EuclidianViewBounds}
 	 * @param data {@link IntervalFunctionModelImpl}
 	 */
-	public DrawInvertedInterval(IntervalPathPlotter gp, QueryFunctionData data,
-			EuclidianViewBounds bounds) {
+	public DrawInvertedInterval(
+			IntervalPathPlotter gp, QueryFunctionData data, EuclidianViewBounds bounds) {
 		this.gp = gp;
 		this.data = data;
 		this.bounds = bounds;
@@ -55,8 +55,7 @@ public class DrawInvertedInterval {
 	 * @param ySet inverted value to handle.
 	 * @return the last y interval.
 	 */
-	public IntervalSet drawJoined(int idx,
-			IntervalSet ySet) {
+	public IntervalSet drawJoined(int idx, IntervalSet ySet) {
 		lastYSet = ySet;
 		IntervalSet yTopology = data.yTopologyAt(idx);
 		if (lastYSet.isEmpty() || yTopology.isWhole()) {
@@ -97,22 +96,18 @@ public class DrawInvertedInterval {
 	}
 
 	private boolean hasNextToJoin(int index) {
-		return data.hasNext(index)
-				&& !data.yTopologyAt(index + 1).isInverted();
+		return data.hasNext(index) && !data.yTopologyAt(index + 1).isInverted();
 	}
 
 	private void drawBottomSegment(Interval x, Interval y) {
 		if (y.getHigh() > bounds.getYmin()) {
-			gp.segment(bounds, x.getLow(), bounds.getYmin(),
-					x.getHigh(), y.getLow());
+			gp.segment(bounds, x.getLow(), bounds.getYmin(), x.getHigh(), y.getLow());
 		}
 	}
 
 	private void drawTopSegment(Interval x, Interval y) {
 		if (y.getLow() < bounds.getYmax()) {
-			gp.segment(bounds,
-					x.getHigh(), bounds.getYmax(),
-					x.getHigh(), y.getHigh());
+			gp.segment(bounds, x.getHigh(), bounds.getYmax(), x.getHigh(), y.getHigh());
 		}
 	}
 

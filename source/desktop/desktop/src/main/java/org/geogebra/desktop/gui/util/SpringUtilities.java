@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -30,8 +30,8 @@ import javax.swing.SpringLayout;
 public class SpringUtilities {
 
 	/* Used by makeCompactGrid. */
-	private static SpringLayout.Constraints getConstraintsForCell(int row,
-			int col, Container parent, int cols) {
+	private static SpringLayout.Constraints getConstraintsForCell(
+			int row, int col, Container parent, int cols) {
 		SpringLayout layout = (SpringLayout) parent.getLayout();
 		Component c = parent.getComponent(row * cols + col);
 		return layout.getConstraints(c);
@@ -57,20 +57,25 @@ public class SpringUtilities {
 	 * @param yPad
 	 *            y padding between cells
 	 */
-	public static void makeCompactGrid(Container parent, SpringLayout layout,
-			int rows, int cols, int initialX, int initialY, int xPad, int yPad) {
+	public static void makeCompactGrid(
+			Container parent,
+			SpringLayout layout,
+			int rows,
+			int cols,
+			int initialX,
+			int initialY,
+			int xPad,
+			int yPad) {
 
 		// Align all cells in each column and make them the same width.
 		Spring x = Spring.constant(initialX);
 		for (int c = 0; c < cols; c++) {
 			Spring width = Spring.constant(0);
 			for (int r = 0; r < rows; r++) {
-				width = Spring.max(width,
-						getConstraintsForCell(r, c, parent, cols).getWidth());
+				width = Spring.max(width, getConstraintsForCell(r, c, parent, cols).getWidth());
 			}
 			for (int r = 0; r < rows; r++) {
-				SpringLayout.Constraints constraints = getConstraintsForCell(r,
-						c, parent, cols);
+				SpringLayout.Constraints constraints = getConstraintsForCell(r, c, parent, cols);
 				constraints.setX(x);
 				constraints.setWidth(width);
 			}
@@ -82,12 +87,10 @@ public class SpringUtilities {
 		for (int r = 0; r < rows; r++) {
 			Spring height = Spring.constant(0);
 			for (int c = 0; c < cols; c++) {
-				height = Spring.max(height,
-						getConstraintsForCell(r, c, parent, cols).getHeight());
+				height = Spring.max(height, getConstraintsForCell(r, c, parent, cols).getHeight());
 			}
 			for (int c = 0; c < cols; c++) {
-				SpringLayout.Constraints constraints = getConstraintsForCell(r,
-						c, parent, cols);
+				SpringLayout.Constraints constraints = getConstraintsForCell(r, c, parent, cols);
 				constraints.setY(y);
 				constraints.setHeight(height);
 			}
@@ -99,5 +102,4 @@ public class SpringUtilities {
 		pCons.setConstraint(SpringLayout.SOUTH, y);
 		pCons.setConstraint(SpringLayout.EAST, x);
 	}
-
 }

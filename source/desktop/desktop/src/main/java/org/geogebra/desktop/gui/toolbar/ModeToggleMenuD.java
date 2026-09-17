@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -54,15 +54,14 @@ public class ModeToggleMenuD extends JPanel {
 
 	private final ToolbarD toolbar;
 
-	final static Color bgColor = Color.white;
+	static final Color bgColor = Color.white;
 
 	/**
 	 * @param app application
 	 * @param toolbar toolbar
 	 * @param bg button group
 	 */
-	public ModeToggleMenuD(AppD app, ToolbarD toolbar,
-			ModeToggleButtonGroup bg) {
+	public ModeToggleMenuD(AppD app, ToolbarD toolbar, ModeToggleButtonGroup bg) {
 		this.app = app;
 		this.bg = bg;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -77,7 +76,6 @@ public class ModeToggleMenuD extends JPanel {
 		menuItemList = new ArrayList<>();
 		popupMenuItemListener = new MenuItemListener();
 		size = 0;
-
 	}
 
 	public int getToolsCount() {
@@ -118,8 +116,8 @@ public class ModeToggleMenuD extends JPanel {
 
 	private void selectItem(JMenuItem mi, ModeSetter ms) {
 		// check if the menu item is already selected
-		boolean imageDialog = mi.getActionCommand()
-				.equals(Integer.toString(EuclidianConstants.MODE_IMAGE));
+		boolean imageDialog =
+				mi.getActionCommand().equals(Integer.toString(EuclidianConstants.MODE_IMAGE));
 		if (tbutton.isSelected()
 				&& tbutton.getActionCommand().equals(mi.getActionCommand())
 				&& !imageDialog) {
@@ -127,8 +125,7 @@ public class ModeToggleMenuD extends JPanel {
 		}
 
 		tbutton.setIcon(mi.getIcon());
-		tbutton.setToolTipText(app
-				.getToolTooltipHTML(Integer.parseInt(mi.getActionCommand())));
+		tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(mi.getActionCommand())));
 		tbutton.setActionCommand(mi.getActionCommand());
 		tbutton.setSelected(true);
 		if (imageDialog && ms == ModeSetter.TOOLBAR) {
@@ -172,13 +169,12 @@ public class ModeToggleMenuD extends JPanel {
 		}
 
 		app.setComponentOrientation(mi);
-
 	}
 
 	/**
 	 * Removes all modes from the toggle menu. Used for the temporary
 	 * perspective.
-	 * 
+	 *
 	 * @author Florian Sonner
 	 * @version 2008-10-22
 	 */
@@ -201,8 +197,7 @@ public class ModeToggleMenuD extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-			if (!Integer.toString(EuclidianConstants.MODE_IMAGE)
-					.equals(item.getActionCommand())) {
+			if (!Integer.toString(EuclidianConstants.MODE_IMAGE).equals(item.getActionCommand())) {
 				selectItem(item, ModeSetter.TOOLBAR);
 				tbutton.doClick();
 			} else {
@@ -255,7 +250,7 @@ public class ModeToggleMenuD extends JPanel {
 			if (component == null) {
 				component = app.getMainComponent(); // if geogebrapanel is
 			}
-													// inside an awt window
+			// inside an awt window
 			Point locApp = component.getLocationOnScreen();
 
 			if (toolbar.getOrientation() == SwingConstants.HORIZONTAL) {
@@ -268,10 +263,13 @@ public class ModeToggleMenuD extends JPanel {
 					offsetx = popMenu.getWidth() - tbutton.getWidth();
 				}
 
-				popMenu.show(component, locButton.x - locApp.x - offsetx,
+				popMenu.show(
+						component,
+						locButton.x - locApp.x - offsetx,
 						locButton.y - locApp.y + tbutton.getHeight());
 			} else {
-				popMenu.show(component,
+				popMenu.show(
+						component,
 						locButton.x - locApp.x + tbutton.getWidth(),
 						locButton.y - locApp.y + tbutton.getHeight() / 2);
 			}
@@ -285,5 +283,4 @@ public class ModeToggleMenuD extends JPanel {
 	public boolean isPopupShowing() {
 		return popMenu.isShowing();
 	}
-
 }

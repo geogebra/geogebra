@@ -55,7 +55,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 
 	/**
 	 * To compute intersection of polynomial and conic
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param p1
@@ -63,8 +63,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 	 * @param c1
 	 *            conic
 	 */
-	public AlgoIntersectImplicitPolynomials(Construction c, GeoImplicit p1,
-			GeoConic c1) {
+	public AlgoIntersectImplicitPolynomials(Construction c, GeoImplicit p1, GeoConic c1) {
 		super(c, p1.toGeoElement(), c1);
 		this.p1 = p1;
 		this.c1 = c1;
@@ -74,7 +73,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 
 	/**
 	 * To compute intersection of two polynomials
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param p1
@@ -82,8 +81,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 	 * @param p2
 	 *            second polynomial
 	 */
-	public AlgoIntersectImplicitPolynomials(Construction c, GeoImplicit p1,
-			GeoImplicit p2) {
+	public AlgoIntersectImplicitPolynomials(Construction c, GeoImplicit p1, GeoImplicit p2) {
 		super(c, p1.toGeoElement(), p2.toGeoElement());
 		this.p1 = p1;
 		this.p2 = p2;
@@ -145,7 +143,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 		/*
 		 * New approach: calculating determinant of Sylvester-matrix to get
 		 * resolvent
-		 * 
+		 *
 		 */
 
 		GeoImplicit a = p1, b = p2;
@@ -161,13 +159,19 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 			double[] params = kernel.getViewBoundsForGeo(c1 == null ? a : c1);
 
 			// find roots
-			ImplicitIntersectionFinder.findIntersections(a.getExpression(),
-					b.getExpression(), params[0], params[2], params[1],
-					params[3], ImplicitIntersectionFinder.SAMPLE_SIZE_2D, 10,
+			ImplicitIntersectionFinder.findIntersections(
+					a.getExpression(),
+					b.getExpression(),
+					params[0],
+					params[2],
+					params[1],
+					params[3],
+					ImplicitIntersectionFinder.SAMPLE_SIZE_2D,
+					10,
 					valPairs);
 			setPoints(valPairs);
-			Log.debug(params[0] + "," + params[2] + "," + params[1] + ","
-					+ params[3] + "," + valPairs.size());
+			Log.debug(
+					params[0] + "," + params[2] + "," + params[1] + "," + params[3] + "," + valPairs.size());
 			return;
 		}
 		if (n == 0) {
@@ -189,7 +193,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 			bPolys[i] = new PolynomialFunction(b.getCoeff()[i]);
 		}
 		for (int i = 0; i < n - 1; ++i) {
-			aNew[i] = new PolynomialFunction(new double[] { 0 });
+			aNew[i] = new PolynomialFunction(new double[] {0});
 		}
 		for (int i = n - 1; i < n + m; ++i) {
 			aNew[i] = new PolynomialFunction(a.getCoeff()[i - n + 1]);
@@ -199,33 +203,31 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 		// Note: leadIndex of (n+1+t)-th row is equal to X-degree of b, + t. Use
 		// this row to help eliminate aNew[leadIndex].
 		while (leadIndex >= 2 * n) {
-			if (!(aNew[leadIndex].degree() == 0
-					&& aNew[leadIndex].getCoefficients()[0] == 0)) {
+			if (!(aNew[leadIndex].degree() == 0 && aNew[leadIndex].getCoefficients()[0] == 0)) {
 				for (int j = n - 1; j < leadIndex - n; ++j) {
 					aNew[j] = aNew[j].multiply(bPolys[n]);
 				}
 				for (int j = leadIndex - n; j < leadIndex; ++j) {
-					aNew[j] = aNew[j].multiply(bPolys[n])
-							.subtract(bPolys[j - leadIndex + n]
-									.multiply(aNew[leadIndex]));
+					aNew[j] = aNew[j]
+							.multiply(bPolys[n])
+							.subtract(bPolys[j - leadIndex + n].multiply(aNew[leadIndex]));
 				}
 			}
 			--leadIndex;
 		}
 		PolynomialFunction[][] mat = new PolynomialFunction[n][n];
 		while (leadIndex >= n) {
-			if (!(aNew[leadIndex].degree() == 0
-					&& aNew[leadIndex].getCoefficients()[0] == 0)) {
+			if (!(aNew[leadIndex].degree() == 0 && aNew[leadIndex].getCoefficients()[0] == 0)) {
 				for (int j = leadIndex - n; j < leadIndex; ++j) {
-					aNew[j] = aNew[j].multiply(bPolys[n])
-							.subtract(bPolys[j - leadIndex + n]
-									.multiply(aNew[leadIndex]));
+					aNew[j] = aNew[j]
+							.multiply(bPolys[n])
+							.subtract(bPolys[j - leadIndex + n].multiply(aNew[leadIndex]));
 				}
 			}
 
 			for (int j = 0; j < n; ++j) {
-				mat[2 * n - 1 - leadIndex][j] = new PolynomialFunction(
-						aNew[leadIndex - n + j].getCoefficients());
+				mat[2 * n - 1 - leadIndex][j] =
+						new PolynomialFunction(aNew[leadIndex - n + j].getCoefficients());
 			}
 
 			--leadIndex;
@@ -246,9 +248,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 			double reduceFactor = 1;
 			for (int j = 0; j < n; ++j) {
 				for (int k = 0; k < mat[i][j].getCoefficients().length; ++k) {
-					largestCoeff = Math.max(
-							Math.abs(mat[i][j].getCoefficients()[k]),
-							largestCoeff);
+					largestCoeff = Math.max(Math.abs(mat[i][j].getCoefficients()[k]), largestCoeff);
 				}
 			}
 			while (largestCoeff > 10) {
@@ -258,15 +258,14 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 
 			if (reduceFactor != 1) {
 				for (int j = 0; j < n; ++j) {
-					mat[i][j] = mat[i][j].multiply(new PolynomialFunction(
-							new double[] { reduceFactor }));
+					mat[i][j] = mat[i][j].multiply(new PolynomialFunction(new double[] {reduceFactor}));
 				}
 			}
 		}
 
 		// Gauss-Bareiss for calculating the determinant
 
-		PolynomialFunction c = new PolynomialFunction(new double[] { 1 });
+		PolynomialFunction c = new PolynomialFunction(new double[] {1});
 		PolynomialFunction det = null;
 		for (int k = 0; k < n - 1; k++) {
 			int r = 0;
@@ -281,7 +280,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 				}
 			}
 			if (DoubleUtil.isZero(glc)) {
-				det = new PolynomialFunction(new double[] { 0 });
+				det = new PolynomialFunction(new double[] {0});
 				break;
 			} else if (r > k) {
 				for (int j = k; j < n; j++) {
@@ -374,12 +373,11 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 		}
 
 		setPoints(valPairs);
-
 	}
 
 	/**
 	 * Computation for the special case when one polynomial is constant in x
-	 * 
+	 *
 	 * @param a
 	 *            arbitrary implicit polynomial
 	 * @param b
@@ -387,7 +385,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 	 */
 	private void computeY(GeoImplicit a, GeoImplicit b) {
 		if (a.getDegX() == 0) {
-			valPairs.add(new double[] { Double.NaN, Double.NaN });
+			valPairs.add(new double[] {Double.NaN, Double.NaN});
 			setPoints(valPairs);
 			return;
 		}
@@ -398,25 +396,21 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 			nrRealRoots = getNearRoots(roots, eqnSolver, 1E-5);
 		}
 		for (int i = 0; i < nrRealRoots; i++) {
-			PolynomialFunction ty = new PolynomialFunction(
-					new double[] { roots[i], 0 });
-			PolynomialFunction tx = new PolynomialFunction(
-					new double[] { 0, 1 });
-			double[] res = AlgoIntersectImplicitpolyPolyLine
-					.lineIntersect(a.getCoeff(), tx, ty).getCoefficients();
+			PolynomialFunction ty = new PolynomialFunction(new double[] {roots[i], 0});
+			PolynomialFunction tx = new PolynomialFunction(new double[] {0, 1});
+			double[] res =
+					AlgoIntersectImplicitpolyPolyLine.lineIntersect(a.getCoeff(), tx, ty).getCoefficients();
 			int xRoots = getNearRoots(res, eqnSolver, 1E-5);
 			for (int j = 0; j < xRoots; j++) {
-				valPairs.add(new double[] { res[j], roots[i] });
+				valPairs.add(new double[] {res[j], roots[i]});
 			}
 		}
 		setPoints(valPairs);
 	}
 
-	private static int getNearRoots(double[] roots,
-			EquationSolverInterface solver, double epsilon) {
+	private static int getNearRoots(double[] roots, EquationSolverInterface solver, double epsilon) {
 		PolynomialFunction poly = new PolynomialFunction(roots);
-		double[] rootsDerivative = poly.polynomialDerivative()
-				.getCoefficients();
+		double[] rootsDerivative = poly.polynomialDerivative().getCoefficients();
 
 		int nrRoots = getRoots(roots, solver);
 		int nrDeRoots = getRoots(rootsDerivative, solver);
@@ -478,7 +472,7 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 
 	/**
 	 * adds a point which will always be tested if it's a solution
-	 * 
+	 *
 	 * @param point
 	 *            point to be always tested
 	 */
@@ -488,5 +482,4 @@ public class AlgoIntersectImplicitPolynomials extends AlgoSimpleRootsPolynomial 
 		}
 		hints.add(point);
 	}
-
 }

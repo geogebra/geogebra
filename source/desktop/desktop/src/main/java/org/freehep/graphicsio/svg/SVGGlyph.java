@@ -7,13 +7,13 @@ import java.awt.geom.AffineTransform;
 
 /**
  * Class for embedding a Font in a SVG file.
- * 
+ *
  * @author Steffen Greiffenberg
  * @version $Id: SVGGlyph.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
 public class SVGGlyph {
 
-	final public static int FONT_SIZE = 100;
+	public static final int FONT_SIZE = 100;
 
 	public static int UNITS_PER_EM = 2048;
 
@@ -35,12 +35,11 @@ public class SVGGlyph {
 	/**
 	 * Flip the drawing upside down
 	 */
-	private static AffineTransform defaultTransform = new AffineTransform(1, 0,
-			0, -1, 0, 0);
+	private static AffineTransform defaultTransform = new AffineTransform(1, 0, 0, -1, 0, 0);
 
 	/**
 	 * stores the glyph data
-	 * 
+	 *
 	 * @param unicode
 	 * @param glyph
 	 */
@@ -83,8 +82,7 @@ public class SVGGlyph {
 	 * @return SVG path tag using SVGGraphics2D and defaultTransform
 	 */
 	protected String getPathString() {
-		return SVGGraphics2D
-				.getPathContent(glyph.getPathIterator(defaultTransform));
+		return SVGGraphics2D.getPathContent(glyph.getPathIterator(defaultTransform));
 	}
 
 	/**
@@ -95,8 +93,7 @@ public class SVGGlyph {
 
 		if (glyphMetrics.getAdvanceX() != 0) {
 			result.append("horiz-adv-x=\"");
-			result.append(
-					SVGGraphics2D.fixedPrecision(glyphMetrics.getAdvanceX()));
+			result.append(SVGGraphics2D.fixedPrecision(glyphMetrics.getAdvanceX()));
 			result.append("\" ");
 		}
 
@@ -111,8 +108,7 @@ public class SVGGlyph {
 
 		if (glyphMetrics.getAdvanceY() != 0) {
 			result.append("horiz-adv-y=\"");
-			result.append(
-					SVGGraphics2D.fixedPrecision(glyphMetrics.getAdvanceY()));
+			result.append(SVGGraphics2D.fixedPrecision(glyphMetrics.getAdvanceY()));
 			result.append("\" ");
 		}
 

@@ -51,23 +51,32 @@ class AnalyticsTest {
 		Analytics.logToolCreated();
 
 		assertEquals(3, analytics.events.size());
-		assertEquals(new LoggedEvent(
-						Analytics.Event.TOOL_SELECTED, Map.of(
-						Analytics.Param.TOOL_NAME, "Segment")),
+		assertEquals(
+				new LoggedEvent(
+						Analytics.Event.TOOL_SELECTED, Map.of(Analytics.Param.TOOL_NAME, "Segment")),
 				analytics.events.get(0));
-		assertEquals(new LoggedEvent(
-						Analytics.Event.TOOL_CREATED, Map.of(
-						Analytics.Param.TOOL_NAME, "Segment",
-						Analytics.Param.DURATION_MS, 450L,
-						Analytics.Param.USE_COUNT, 1)),
+		assertEquals(
+				new LoggedEvent(
+						Analytics.Event.TOOL_CREATED,
+						Map.of(
+								Analytics.Param.TOOL_NAME,
+								"Segment",
+								Analytics.Param.DURATION_MS,
+								450L,
+								Analytics.Param.USE_COUNT,
+								1)),
 				analytics.events.get(1));
-		assertEquals(new LoggedEvent(
-						Analytics.Event.TOOL_CREATED, Map.of(
-						Analytics.Param.TOOL_NAME, "Segment",
-						Analytics.Param.DURATION_MS, 280L,
-						Analytics.Param.USE_COUNT, 2)),
+		assertEquals(
+				new LoggedEvent(
+						Analytics.Event.TOOL_CREATED,
+						Map.of(
+								Analytics.Param.TOOL_NAME,
+								"Segment",
+								Analytics.Param.DURATION_MS,
+								280L,
+								Analytics.Param.USE_COUNT,
+								2)),
 				analytics.events.get(2));
-
 	}
 
 	@Test
@@ -86,25 +95,34 @@ class AnalyticsTest {
 		Analytics.logToolCreated();
 
 		assertEquals(4, analytics.events.size());
-		assertEquals(new LoggedEvent(
-						Analytics.Event.TOOL_SELECTED, Map.of(
-						Analytics.Param.TOOL_NAME, "Segment")),
+		assertEquals(
+				new LoggedEvent(
+						Analytics.Event.TOOL_SELECTED, Map.of(Analytics.Param.TOOL_NAME, "Segment")),
 				analytics.events.get(0));
-		assertEquals(new LoggedEvent(
-						Analytics.Event.TOOL_CREATED, Map.of(
-						Analytics.Param.TOOL_NAME, "Segment",
-						Analytics.Param.DURATION_MS, 150L,
-						Analytics.Param.USE_COUNT, 1)),
+		assertEquals(
+				new LoggedEvent(
+						Analytics.Event.TOOL_CREATED,
+						Map.of(
+								Analytics.Param.TOOL_NAME,
+								"Segment",
+								Analytics.Param.DURATION_MS,
+								150L,
+								Analytics.Param.USE_COUNT,
+								1)),
 				analytics.events.get(1));
-		assertEquals(new LoggedEvent(
-						Analytics.Event.TOOL_SELECTED, Map.of(
-						Analytics.Param.TOOL_NAME, "Circle")),
+		assertEquals(
+				new LoggedEvent(Analytics.Event.TOOL_SELECTED, Map.of(Analytics.Param.TOOL_NAME, "Circle")),
 				analytics.events.get(2));
-		assertEquals(new LoggedEvent(
-						Analytics.Event.TOOL_CREATED, Map.of(
-						Analytics.Param.TOOL_NAME, "Circle",
-						Analytics.Param.DURATION_MS, 400L,
-						Analytics.Param.USE_COUNT, 1)),
+		assertEquals(
+				new LoggedEvent(
+						Analytics.Event.TOOL_CREATED,
+						Map.of(
+								Analytics.Param.TOOL_NAME,
+								"Circle",
+								Analytics.Param.DURATION_MS,
+								400L,
+								Analytics.Param.USE_COUNT,
+								1)),
 				analytics.events.get(3));
 	}
 
@@ -131,6 +149,5 @@ class AnalyticsTest {
 		}
 	}
 
-	private record LoggedEvent(String name, Map<String, Object> params) {
-	}
+	private record LoggedEvent(String name, Map<String, Object> params) {}
 }

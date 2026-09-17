@@ -30,11 +30,10 @@ import org.geogebra.common.kernel.geos.GeoVector;
 /**
  * @author Victor Franco Espino
  * @version 11-02-2007
- * 
+ *
  *          Calculate Curvature Vector for function: c(x) =
  *          (1/T^4)*(-f'*f'',f''), T = sqrt(1+(f')^2)
  */
-
 public class AlgoCurvatureVector extends AlgoElement {
 
 	private GeoPoint A; // input
@@ -110,7 +109,7 @@ public class AlgoCurvatureVector extends AlgoElement {
 			double t = Math.sqrt(1 + f1eval * f1eval);
 			double t4 = t * t * t * t;
 
-			v.x = - (f1eval * f2eval) / t4;
+			v.x = -(f1eval * f2eval) / t4;
 			v.y = f2eval / t4;
 			v.z = 0.0;
 		} catch (Exception e) {
@@ -130,5 +129,4 @@ public class AlgoCurvatureVector extends AlgoElement {
 		A.removeAlgorithm(algoCAS2);
 		f.removeAlgorithm(algoCAS2);
 	}
-
 }

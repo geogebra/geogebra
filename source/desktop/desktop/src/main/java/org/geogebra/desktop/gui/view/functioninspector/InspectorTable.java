@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -58,11 +58,9 @@ public class InspectorTable extends JTable {
 
 		// set visual appearance
 		setShowGrid(true);
-		setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		setGridColor(GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		// setSelectionBackground(new Color(255, 130, 171));
-		setSelectionBackground(
-				GColorD.getAwtColor(GeoGebraColorConstants.PINK));
+		setSelectionBackground(GColorD.getAwtColor(GeoGebraColorConstants.PINK));
 		setBorder(BorderFactory.createEmptyBorder());
 
 		// set resizing fields
@@ -88,7 +86,6 @@ public class InspectorTable extends JTable {
 		} else {
 			editableCell.add(new Point(rowIndex, colIndex));
 		}
-
 	}
 
 	// control cell editing
@@ -122,12 +119,11 @@ public class InspectorTable extends JTable {
 			table.getColumnModel().getColumn(i).setPreferredWidth(w);
 		}
 
-		int gap = table.getParent().getPreferredSize().width
-				- table.getPreferredSize().width;
+		int gap = table.getParent().getPreferredSize().width - table.getPreferredSize().width;
 		if (gap > 0) {
 			w = table.getColumnCount() - 1;
-			int newWidth = gap + table.getColumnModel()
-					.getColumn(table.getColumnCount() - 1).getWidth();
+			int newWidth =
+					gap + table.getColumnModel().getColumn(table.getColumnCount() - 1).getWidth();
 			table.getColumnModel().getColumn(w).setPreferredWidth(newWidth);
 		}
 	}
@@ -144,11 +140,12 @@ public class InspectorTable extends JTable {
 		int maxPrefWidth = tableColumn.getPreferredWidth();
 		for (int row = 0; row < table.getRowCount(); row++) {
 			if (table.getValueAt(row, column) != null) {
-				int colPrefWidth = (int) table.getCellRenderer(row, column)
-						.getTableCellRendererComponent(table,
-								table.getValueAt(row, column), false, false,
-								row, column)
-						.getPreferredSize().getWidth();
+				int colPrefWidth = (int) table
+						.getCellRenderer(row, column)
+						.getTableCellRendererComponent(
+								table, table.getValueAt(row, column), false, false, row, column)
+						.getPreferredSize()
+						.getWidth();
 				maxPrefWidth = Math.max(maxPrefWidth, colPrefWidth);
 			}
 		}
@@ -181,15 +178,17 @@ public class InspectorTable extends JTable {
 			paddingBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
 			// paddingBorder =
 			// BorderFactory.createMatteBorder(3,3,3,3,Color.RED);
-			editCellBorder = BorderFactory.createCompoundBorder(tf.getBorder(),
-					paddingBorder);
-
+			editCellBorder = BorderFactory.createCompoundBorder(tf.getBorder(), paddingBorder);
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus,
-				final int row, int column) {
+		public Component getTableCellRendererComponent(
+				JTable table,
+				Object value,
+				boolean isSelected,
+				boolean hasFocus,
+				final int row,
+				int column) {
 
 			setFont(app.getPlainFont());
 
@@ -212,7 +211,6 @@ public class InspectorTable extends JTable {
 			setText((String) value);
 			return this;
 		}
-
 	}
 
 	// ====================================================
@@ -229,10 +227,10 @@ public class InspectorTable extends JTable {
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value,
-				boolean isSelected, int row, int column) {
-			JTextField editor = (JTextField) super.getTableCellEditorComponent(
-					table, value, isSelected, row, column);
+		public Component getTableCellEditorComponent(
+				JTable table, Object value, boolean isSelected, int row, int column) {
+			JTextField editor =
+					(JTextField) super.getTableCellEditorComponent(table, value, isSelected, row, column);
 			editor.setForeground(Color.RED);
 			editor.setFont(app.getPlainFont());
 			return editor;
@@ -244,8 +242,7 @@ public class InspectorTable extends JTable {
 
 			try {
 				if (isStopped) {
-					double val = Double
-							.parseDouble((String) this.getCellEditorValue());
+					double val = Double.parseDouble((String) this.getCellEditorValue());
 					// change
 					inspector.changeStart(val);
 				}
@@ -256,5 +253,4 @@ public class InspectorTable extends JTable {
 			return isStopped;
 		}
 	}
-
 }

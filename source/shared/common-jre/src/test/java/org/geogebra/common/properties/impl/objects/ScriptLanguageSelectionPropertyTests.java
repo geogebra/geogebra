@@ -32,26 +32,37 @@ class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 	void testApplicableForOnClickScriptEvent() {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new ScriptLanguageSelectionProperty(
-				getLocalization(), evaluateGeoElement("A = (1, 2)"), ScriptEvent.OnClick,
-				new ScriptLanguageSelection(ScriptType.GGBSCRIPT), true));
+				getLocalization(),
+				evaluateGeoElement("A = (1, 2)"),
+				ScriptEvent.OnClick,
+				new ScriptLanguageSelection(ScriptType.GGBSCRIPT),
+				true));
 	}
 
 	@Test
 	void testNotApplicableForGlobalJavascript() {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class,
-				() -> new ScriptLanguageSelectionProperty(getLocalization(),
-						evaluateGeoElement("A = (1, 2)"), ScriptEvent.GlobalJavascript,
-						new ScriptLanguageSelection(ScriptType.GGBSCRIPT), true));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new ScriptLanguageSelectionProperty(
+						getLocalization(),
+						evaluateGeoElement("A = (1, 2)"),
+						ScriptEvent.GlobalJavascript,
+						new ScriptLanguageSelection(ScriptType.GGBSCRIPT),
+						true));
 	}
 
 	@Test
 	void testNotApplicableForDisabledJavaScript() {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class,
-				() -> new ScriptLanguageSelectionProperty(getLocalization(),
-						evaluateGeoElement("A = (1, 2)"), ScriptEvent.OnClick,
-						new ScriptLanguageSelection(ScriptType.GGBSCRIPT), false));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new ScriptLanguageSelectionProperty(
+						getLocalization(),
+						evaluateGeoElement("A = (1, 2)"),
+						ScriptEvent.OnClick,
+						new ScriptLanguageSelection(ScriptType.GGBSCRIPT),
+						false));
 	}
 
 	@Test
@@ -59,10 +70,13 @@ class ScriptLanguageSelectionPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		ScriptLanguageSelection scriptLanguageSelection =
 				new ScriptLanguageSelection(ScriptType.GGBSCRIPT);
-		ScriptLanguageSelectionProperty property = assertDoesNotThrow(() ->
-				new ScriptLanguageSelectionProperty(getLocalization(),
+		ScriptLanguageSelectionProperty property =
+				assertDoesNotThrow(() -> new ScriptLanguageSelectionProperty(
+						getLocalization(),
 						evaluateGeoElement("A = (1, 2)"),
-						ScriptEvent.OnClick, scriptLanguageSelection, true));
+						ScriptEvent.OnClick,
+						scriptLanguageSelection,
+						true));
 
 		property.setIndex(1);
 		assertEquals(ScriptType.JAVASCRIPT, property.getValue());

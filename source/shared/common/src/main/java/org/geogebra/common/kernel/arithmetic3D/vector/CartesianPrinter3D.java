@@ -32,12 +32,16 @@ class CartesianPrinter3D implements Printer {
 	}
 
 	@Override
-	public String print(String xCoord, String yCoord, String zCoord,
-			PrintableVector vector, StringTemplate tpl, Localization loc) {
+	public String print(
+			String xCoord,
+			String yCoord,
+			String zCoord,
+			PrintableVector vector,
+			StringTemplate tpl,
+			Localization loc) {
 		if (tpl.getStringType().isGiac()) {
 			boolean vectorNot3dPoint = vector.isCASVector();
-			return (vectorNot3dPoint
-					? "ggbvect[" : "point(")
+			return (vectorNot3dPoint ? "ggbvect[" : "point(")
 					+ xCoord
 					+ ','
 					+ yCoord
@@ -46,13 +50,7 @@ class CartesianPrinter3D implements Printer {
 					+ (vectorNot3dPoint ? "]" : ")");
 		}
 		if (tpl.usePointTemplate()) {
-			return "$point("
-					+ xCoord
-					+ ','
-					+ yCoord
-					+ ','
-					+ zCoord
-					+ ')';
+			return "$point(" + xCoord + ',' + yCoord + ',' + zCoord + ')';
 		}
 		String delimiter = tpl.getCartesianDelimiter(settings);
 		return tpl.leftBracket(loc)

@@ -24,7 +24,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * For 3D curve, evaluator that returns NaN when z != 0
- * 
+ *
  * @author mathieu
  *
  */
@@ -37,7 +37,7 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 
 	/**
 	 * Function that returns NaN if parent z != 0
-	 * 
+	 *
 	 * @author mathieu
 	 *
 	 */
@@ -58,12 +58,11 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 
 			return 0;
 		}
-
 	}
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param parent
 	 *            curve
 	 */
@@ -84,14 +83,12 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 				out[i] = parentOut[i];
 			}
 		}
-
 	}
 
 	@Override
 	public double[] getDefinedInterval(double a, double b) {
 		funZ.setParentFun(parent.getFun(2));
-		return GeoCurveCartesian3D.getDefinedInterval(a, b, parent.getFun(0),
-				parent.getFun(1), funZ);
+		return GeoCurveCartesian3D.getDefinedInterval(a, b, parent.getFun(0), parent.getFun(1), funZ);
 	}
 
 	@Override
@@ -133,5 +130,4 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 	public double distanceMax(double[] p1, double[] p2) {
 		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
 	}
-
 }

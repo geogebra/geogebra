@@ -31,7 +31,7 @@ public final class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 	private GeoPoint geoPoint1;
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param data
@@ -43,8 +43,8 @@ public final class InputDialogCirclePointRadiusW extends InputDialogRadiusW {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogCirclePointRadiusW(AppW app, DialogData data,
-			InputHandler handler, GeoPoint point1, Kernel kernel) {
+	public InputDialogCirclePointRadiusW(
+			AppW app, DialogData data, InputHandler handler, GeoPoint point1, Kernel kernel) {
 		super(app, data, handler, kernel);
 		geoPoint1 = point1;
 	}

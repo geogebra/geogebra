@@ -58,7 +58,6 @@ public class GLBufferJre implements GLBuffer {
 		}
 
 		impl.limit(length);
-
 	}
 
 	@Override
@@ -105,19 +104,16 @@ public class GLBufferJre implements GLBuffer {
 	}
 
 	@Override
-	public void set(ArrayList<Double> array, int arrayOffset, int offset,
-			int length) {
+	public void set(ArrayList<Double> array, int arrayOffset, int offset, int length) {
 		for (int i = 0; i < length; i++) {
 			impl.put(i + offset, array.get(arrayOffset + i).floatValue());
 		}
 	}
 
 	@Override
-	public void set(ArrayList<Double> array, float[] translate, float scale,
-			int offset, int length) {
+	public void set(ArrayList<Double> array, float[] translate, float scale, int offset, int length) {
 		for (int i = 0; i < length; i++) {
-			impl.put(i + offset,
-					array.get(i).floatValue() * scale + translate[i % 3]);
+			impl.put(i + offset, array.get(i).floatValue() * scale + translate[i % 3]);
 		}
 	}
 
@@ -142,7 +138,7 @@ public class GLBufferJre implements GLBuffer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return buffer
 	 */
 	public FloatBuffer getBuffer() {
@@ -161,5 +157,4 @@ public class GLBufferJre implements GLBuffer {
 		impl.rewind();
 		impl.position(newPosition);
 	}
-
 }

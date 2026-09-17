@@ -2,18 +2,17 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
-// This code has been written initially for Scilab (http://www.scilab.org/).
 
 package org.geogebra.desktop.gui.editor;
 
@@ -30,7 +29,7 @@ import javax.swing.text.ViewFactory;
 import org.geogebra.desktop.main.AppD;
 
 /**
- * 
+ *
  * @author Calixte DENIZET
  *
  */
@@ -50,7 +49,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 	private AppD app;
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            the Application where this kit is used
 	 */
@@ -96,12 +95,11 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 	/**
 	 * Inner class to handle a Javascript document where several consecutive
 	 * lines can be commented.
-	 * 
+	 *
 	 * @author Calixte DENIZET
 	 *
 	 */
-	public static class JavascriptDocument extends PlainDocument
-			implements DocumentListener {
+	public static class JavascriptDocument extends PlainDocument implements DocumentListener {
 
 		private static final long serialVersionUID = 1L;
 
@@ -131,8 +129,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 		 * @return true if the line is a single line comment
 		 */
 		public boolean isLineCommented(Element el) {
-			return ((MutableAttributeSet) el.getAttributes())
-					.containsAttribute(COMMENTLINE, COMMENTLINE);
+			return ((MutableAttributeSet) el.getAttributes()).containsAttribute(COMMENTLINE, COMMENTLINE);
 		}
 
 		/**
@@ -167,7 +164,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 
 		/**
 		 * Test if an element is commented
-		 * 
+		 *
 		 * @param el
 		 *            element of the line to test
 		 * @return true if the line is commented
@@ -179,7 +176,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 
 		/**
 		 * Test if a line is commented
-		 * 
+		 *
 		 * @param index
 		 *            of the line to test
 		 * @return true if the line is commented
@@ -220,7 +217,7 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 
 		/**
 		 * Handle the remove or insert events.
-		 * 
+		 *
 		 * @param ev
 		 *            the event
 		 */
@@ -275,18 +272,14 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 
 			if (tok == JavascriptLexerConstants.LINECOMMENTS) {
 				comment = true;
-				((MutableAttributeSet) elem.getAttributes())
-						.addAttribute(COMMENTLINE, COMMENTLINE);
-			} else if (tok == JavascriptLexerConstants.MULTILINECOMMENTS
-					&& !s.endsWith("*/\n")) {
+				((MutableAttributeSet) elem.getAttributes()).addAttribute(COMMENTLINE, COMMENTLINE);
+			} else if (tok == JavascriptLexerConstants.MULTILINECOMMENTS && !s.endsWith("*/\n")) {
 				comment = true;
 				((MutableAttributeSet) elem.getAttributes())
 						.addAttribute(COMMENTMULTILINE, COMMENTMULTILINE);
 			} else {
-				((MutableAttributeSet) elem.getAttributes())
-						.removeAttribute(COMMENTLINE);
-				((MutableAttributeSet) elem.getAttributes())
-						.removeAttribute(COMMENTMULTILINE);
+				((MutableAttributeSet) elem.getAttributes()).removeAttribute(COMMENTLINE);
+				((MutableAttributeSet) elem.getAttributes()).removeAttribute(COMMENTMULTILINE);
 			}
 
 			return comment;

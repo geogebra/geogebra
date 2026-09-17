@@ -41,12 +41,10 @@ public final class FileIO {
 	public static String load(String filename) {
 		Path filePath = Paths.get(filename);
 		try {
-			return StringUtil.join("\n",
-					Files.readAllLines(filePath, StandardCharsets.UTF_8));
+			return StringUtil.join("\n", Files.readAllLines(filePath, StandardCharsets.UTF_8));
 		} catch (Exception e) {
 			Log.error("problem loading " + filePath.toAbsolutePath());
 		}
 		return null;
 	}
-
 }

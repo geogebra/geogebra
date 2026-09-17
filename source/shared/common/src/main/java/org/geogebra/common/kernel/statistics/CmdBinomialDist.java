@@ -33,7 +33,7 @@ public class CmdBinomialDist extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,81 +48,82 @@ public class CmdBinomialDist extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+					AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(
+							cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
-				AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(
-						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else {
+					throw argErr(c, arg[1]);
+				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else {
-				throw argErr(c, arg[1]);
-			}
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2].isGeoBoolean())) {
+					AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(
+							cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoBoolean)
+									arg[2]);
 
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2].isGeoBoolean())) {
-				AlgoBinomialDistBarChart algo = new AlgoBinomialDistBarChart(
-						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]);
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
+				} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2].isGeoList())) {
+					AlgoBinomialDistList algo = new AlgoBinomialDistList(
+							cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoList)
+									arg[2]);
 
-			} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2].isGeoList())) {
-				AlgoBinomialDistList algo = new AlgoBinomialDistList(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoList) arg[2]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else {
+					throw argErr(c, arg[2]);
+				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[2]);
-			}
+			case 4:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3].isGeoBoolean())) {
 
-		case 4:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3].isGeoBoolean())) {
+					AlgoBinomialDist algo = new AlgoBinomialDist(
+							cons,
+							(GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoBoolean) arg[3]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 
-				AlgoBinomialDist algo = new AlgoBinomialDist(cons,
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else {
+					throw argErr(c, arg[3]);
+				}
 
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else {
-				throw argErr(c, arg[3]);
-			}
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

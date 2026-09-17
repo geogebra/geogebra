@@ -61,11 +61,11 @@ public class SplitterImpl {
 		baseDivElement.getStyle().setPropertyPx("height", splitterSize);
 		baseDivElement.addClassName("gwt-SplitLayoutPanel-VDragger");
 	}
-	
+
 	public Element getSplitterElement() {
 		return baseDivElement;
 	}
-	
+
 	/**
 	 * @param layer
 	 *            parent layer

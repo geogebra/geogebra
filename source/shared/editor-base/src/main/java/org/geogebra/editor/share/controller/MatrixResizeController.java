@@ -67,9 +67,7 @@ public final class MatrixResizeController {
 	 * @param indicatorOffset vertical offset for resize indicator
 	 */
 	public record PopupState(
-			@NonNull ControlState controlState,
-			@NonNull GRectangle2D anchor,
-			double indicatorOffset) { }
+			@NonNull ControlState controlState, @NonNull GRectangle2D anchor, double indicatorOffset) {}
 
 	/**
 	 * Describes the controls state.
@@ -81,8 +79,12 @@ public final class MatrixResizeController {
 	 * @param isAddColumnEnabled true if plus button for columns is enabled
 	 */
 	public record ControlState(
-			String rows, boolean isRemoveRowEnabled, boolean isAddRowEnabled,
-			String columns, boolean isRemoveColumnEnabled, boolean isAddColumnEnabled) { }
+			String rows,
+			boolean isRemoveRowEnabled,
+			boolean isAddRowEnabled,
+			String columns,
+			boolean isRemoveColumnEnabled,
+			boolean isAddColumnEnabled) {}
 
 	public interface StateListener {
 		/**
@@ -183,19 +185,23 @@ public final class MatrixResizeController {
 		nextState = State.NO_MATRIX;
 		targetNode = null;
 
-		renderer.getBox().inspect((box, position) -> {
-			Node node = builder.getNode(box.getAtom());
-			DimensionsControllable dimensionsControllable = asDimensionsControllable(node);
-			if (dimensionsControllable != null) {
-				if (nextState == State.NO_MATRIX) {
-					nextState = State.UNFOCUSED_MATRIX;
-				}
-				if (node.inspect(containsNode(currentField))) {
-					targetNode = dimensionsControllable;
-					nextState = createFocusedMatrixState(renderer, position, box, targetNode);
-				}
-			}
-		}, BoxPosition.ZERO);
+		renderer
+				.getBox()
+				.inspect(
+						(box, position) -> {
+							Node node = builder.getNode(box.getAtom());
+							DimensionsControllable dimensionsControllable = asDimensionsControllable(node);
+							if (dimensionsControllable != null) {
+								if (nextState == State.NO_MATRIX) {
+									nextState = State.UNFOCUSED_MATRIX;
+								}
+								if (node.inspect(containsNode(currentField))) {
+									targetNode = dimensionsControllable;
+									nextState = createFocusedMatrixState(renderer, position, box, targetNode);
+								}
+							}
+						},
+						BoxPosition.ZERO);
 
 		if (nextState != state) {
 			state = nextState;
@@ -203,16 +209,15 @@ public final class MatrixResizeController {
 		}
 	}
 
-	private static State createFocusedMatrixState(TeXIcon renderer, BoxPosition position,
-			Box box, DimensionsControllable node) {
+	private static State createFocusedMatrixState(
+			TeXIcon renderer, BoxPosition position, Box box, DimensionsControllable node) {
 		ControlState controlState = new ControlState(
 				String.valueOf(node.getRows()),
 				node.isRemovingRowsPossible(),
 				node.isAddingRowsPossible(),
 				String.valueOf(node.getColumns()),
 				node.isRemovingColumnsPossible(),
-				node.isAddingColumnsPossible()
-		);
+				node.isAddingColumnsPossible());
 
 		Insets insets = renderer.getInsets();
 		double pointSize = renderer.getPointSize();
@@ -222,18 +227,16 @@ public final class MatrixResizeController {
 				position.x() * pointSize + insets.left,
 				position.y() * pointSize + insets.top,
 				box.getWidth() * pointSize,
-				box.getHeight() * pointSize
-		);
+				box.getHeight() * pointSize);
 		PopupState popupState = new PopupState(controlState, anchor, renderer.getIconHeight());
 
 		return State.focusedMatrix(popupState);
 	}
-	
+
 	private static DimensionsControllable asDimensionsControllable(Node node) {
 		if (node instanceof ArrayNode arrayNode && arrayNode.isMatrix()) {
 			return new Matrix(arrayNode);
-		} else if (node instanceof FunctionNode functionNode
-				&& functionNode.getName() == Tag.VECTOR) {
+		} else if (node instanceof FunctionNode functionNode && functionNode.getName() == Tag.VECTOR) {
 			return new Vector(functionNode);
 		}
 		return null;
@@ -241,23 +244,23 @@ public final class MatrixResizeController {
 
 	private interface DimensionsControllable {
 		int getRows();
-		
+
 		int getColumns();
 
 		void addRow();
-		
+
 		void removeRow(EditorState editorState);
-		
+
 		void addColumn();
-		
+
 		void removeColumn(EditorState editorState);
-		
+
 		boolean isAddingRowsPossible();
-		
+
 		boolean isRemovingRowsPossible();
-		
+
 		boolean isAddingColumnsPossible();
-		
+
 		boolean isRemovingColumnsPossible();
 	}
 
@@ -285,8 +288,7 @@ public final class MatrixResizeController {
 			for (int i = 0; i < arrayNode.getColumns(); i++) {
 				Node node = arrayNode.getChild(arrayNode.getRows() - 1, i);
 				if (node.inspect(containsNode(editorState.getCurrentNode()))) {
-					SequenceNode focusNode =
-							arrayNode.getChild(arrayNode.getRows() - 2, i);
+					SequenceNode focusNode = arrayNode.getChild(arrayNode.getRows() - 2, i);
 					editorState.setCurrentNode(focusNode);
 					editorState.setCurrentOffset(focusNode.size());
 					break;
@@ -334,7 +336,7 @@ public final class MatrixResizeController {
 			return getColumns() > MIN_DIMENSION;
 		}
 	}
-	
+
 	private record Vector(FunctionNode functionNode) implements DimensionsControllable {
 		@Override
 		public boolean isAddingColumnsPossible() {

@@ -41,9 +41,9 @@ class InteractionPropertyCollectionTest extends BaseAppTestSetup {
 	@Test
 	void testIncrementFieldsEnabledDependentOnSelectionAllowed() {
 		GeoElement point = evaluateGeoElement("(1, 1)");
-		InteractionPropertyCollection interactionProperty = assertDoesNotThrow(() ->
-				new InteractionPropertyCollection(propertiesFactory, getAlgebraProcessor(),
-						getLocalization(), List.of(point)));
+		InteractionPropertyCollection interactionProperty =
+				assertDoesNotThrow(() -> new InteractionPropertyCollection(
+						propertiesFactory, getAlgebraProcessor(), getLocalization(), List.of(point)));
 		interactionProperty.getSelectionAllowedProperty().setValue(false);
 		assertFalse(interactionProperty.getAnimationStepProperty().isEnabled());
 		assertFalse(interactionProperty.getVerticalStepProperty().isEnabled());

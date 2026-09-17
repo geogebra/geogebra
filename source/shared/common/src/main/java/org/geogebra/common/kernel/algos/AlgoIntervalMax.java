@@ -35,5 +35,4 @@ public class AlgoIntervalMax extends AlgoIntervalAbstract {
 	public final void compute() {
 		result.setValue(interval.getMax());
 	}
-
 }

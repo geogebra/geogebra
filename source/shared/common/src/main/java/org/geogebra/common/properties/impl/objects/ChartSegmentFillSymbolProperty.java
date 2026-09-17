@@ -30,8 +30,8 @@ import org.jspecify.annotations.Nullable;
  * {@code Property} responsible for setting the symbol
  * used for symbol-style filling in pie and bar charts.
  */
-public final class ChartSegmentFillSymbolProperty extends AbstractValuedProperty<String> implements
-		StringProperty, GeoElementDependentProperty, ChartSegmentSelectionDependentProperty {
+public final class ChartSegmentFillSymbolProperty extends AbstractValuedProperty<String>
+		implements StringProperty, GeoElementDependentProperty, ChartSegmentSelectionDependentProperty {
 	private final ChartStyleGeo chartStyleGeo;
 	private final ChartSegmentSelection chartSegmentSelection;
 
@@ -42,8 +42,9 @@ public final class ChartSegmentFillSymbolProperty extends AbstractValuedProperty
 	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartSegmentFillSymbolProperty(Localization localization, GeoElement geoElement,
-			ChartSegmentSelection chartSegmentSelection) throws NotApplicablePropertyException {
+	public ChartSegmentFillSymbolProperty(
+			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
+			throws NotApplicablePropertyException {
 		super(localization, "Filling.Symbol");
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
 			throw new NotApplicablePropertyException(geoElement);
@@ -59,15 +60,15 @@ public final class ChartSegmentFillSymbolProperty extends AbstractValuedProperty
 
 	@Override
 	protected void doSetValue(String value) {
-		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().setBarSymbol(value, index));
+		chartSegmentSelection.forEachSelectedSegment(
+				chartStyleGeo.getIntervals(), index -> chartStyleGeo.getStyle().setBarSymbol(value, index));
 		((GeoElement) chartStyleGeo).updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	@Override
 	public String getValue() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().getBarSymbol(index));
+		return chartSegmentSelection.getUniformValueOrNull(
+				chartStyleGeo.getIntervals(), index -> chartStyleGeo.getStyle().getBarSymbol(index));
 	}
 
 	@Override
@@ -82,7 +83,8 @@ public final class ChartSegmentFillSymbolProperty extends AbstractValuedProperty
 
 	@Override
 	public boolean isAvailable() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().getBarFillType(index)) == FillType.SYMBOLS;
+		return chartSegmentSelection.getUniformValueOrNull(
+						chartStyleGeo.getIntervals(), index -> chartStyleGeo.getStyle().getBarFillType(index))
+				== FillType.SYMBOLS;
 	}
 }

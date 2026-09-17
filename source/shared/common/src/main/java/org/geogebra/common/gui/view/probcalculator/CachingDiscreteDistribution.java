@@ -19,7 +19,7 @@ package org.geogebra.common.gui.view.probcalculator;
 /**
  * Caches and returns previously created distribution based on it's parameters.
  */
-abstract public class CachingDiscreteDistribution implements DiscreteDistribution {
+public abstract class CachingDiscreteDistribution implements DiscreteDistribution {
 
 	private DiscreteProbability discreteProbability;
 	private DistributionParameters oldParameters;

@@ -34,8 +34,7 @@ import org.geogebra.common.util.DoubleUtil;
  * Algorithm for computation of tangent curve
  *
  */
-public class AlgoImplicitPolyTangentLine extends AlgoElement implements
-		AlgoTangentHelper {
+public class AlgoImplicitPolyTangentLine extends AlgoElement implements AlgoTangentHelper {
 
 	private GeoImplicit poly;
 	private GeoLineND line;
@@ -50,8 +49,7 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 	 * @param line
 	 *            parallel line
 	 */
-	public AlgoImplicitPolyTangentLine(Construction c, GeoImplicit poly,
-			GeoLineND line) {
+	public AlgoImplicitPolyTangentLine(Construction c, GeoImplicit poly, GeoLineND line) {
 		super(c, false);
 		this.poly = poly;
 		this.line = line;
@@ -76,8 +74,7 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 		}
 		GeoLine line2D = (GeoLine) this.line;
 		tangentPoly.setDefined();
-		if (poly instanceof GeoImplicitCurve
-				&& poly.getCoeff() == null) {
+		if (poly instanceof GeoImplicitCurve && poly.getCoeff() == null) {
 			GeoImplicitCurve inputCurve = (GeoImplicitCurve) poly;
 
 			// build expression Fx*(x-x0)+Fy*(y-y0)
@@ -87,10 +84,8 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 			x1 = x1.multiply(inputCurve.getDerivativeX().getExpression());
 			y1 = y1.multiply(inputCurve.getDerivativeY().getExpression());
 
-			tangentPoly.fromEquation(new Equation(kernel, x1.plus(y1),
-					new MyDouble(kernel, 0)), null);
+			tangentPoly.fromEquation(new Equation(kernel, x1.plus(y1), new MyDouble(kernel, 0)), null);
 			return;
-
 		}
 		double x = line2D.getY();
 		double y = -line2D.getX();
@@ -119,7 +114,7 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { poly.toGeoElement(), line.toGeoElement() };
+		input = new GeoElement[] {poly.toGeoElement(), line.toGeoElement()};
 		setOnlyOutput(tangentPoly);
 		setDependencies();
 	}
@@ -167,10 +162,10 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 			// avoid evaluation of dF1/dx
 			// TODO: have a more reasonable choice; also we use standard
 			// precision rather than working precision (might not be a problem)
-			if (DoubleUtil.isEqual(0,
-					this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
-					Kernel.STANDARD_PRECISION_SQRT)
-					&& DoubleUtil.isEqual(0,
+			if (DoubleUtil.isEqual(
+							0, this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY), Kernel.STANDARD_PRECISION_SQRT)
+					&& DoubleUtil.isEqual(
+							0,
 							this.poly.derivativeY(ip[i].inhomX, ip[i].inhomY),
 							Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;
@@ -178,15 +173,15 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 
 			tangents.adjustOutputSize(n + 1);
 
-			tangents.getElement(n).setCoords(
-					line2d.getX(),
-					line2d.getY(),
-					-ip[i].getX() * line2d.getX() - line2d.getY()
-									* ip[i].getY());
+			tangents
+					.getElement(n)
+					.setCoords(
+							line2d.getX(),
+							line2d.getY(),
+							-ip[i].getX() * line2d.getX() - line2d.getY() * ip[i].getY());
 			ip[i].addIncidence(tangents.getElement(n), false);
 			n++;
 		}
-
 	}
 
 	@Override
@@ -194,5 +189,4 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

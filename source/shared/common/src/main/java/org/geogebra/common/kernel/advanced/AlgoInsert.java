@@ -43,8 +43,8 @@ public class AlgoInsert extends AlgoElement {
 	 * @param n
 	 *            insert position
 	 */
-	public AlgoInsert(Construction cons, String label, GeoElement inputGeo,
-			GeoList inputList, GeoNumeric n) {
+	public AlgoInsert(
+			Construction cons, String label, GeoElement inputGeo, GeoList inputList, GeoNumeric n) {
 		super(cons);
 
 		this.inputGeo = inputGeo;
@@ -97,7 +97,9 @@ public class AlgoInsert extends AlgoElement {
 			insertPoint = size + insertPoint + 2;
 		}
 
-		if (!inputGeo.isDefined() || !inputList.isDefined() || insertPoint <= 0
+		if (!inputGeo.isDefined()
+				|| !inputList.isDefined()
+				|| insertPoint <= 0
 				|| insertPoint > size + 1) {
 			outputList.setUndefined();
 			return;
@@ -130,5 +132,4 @@ public class AlgoInsert extends AlgoElement {
 			}
 		}
 	}
-
 }

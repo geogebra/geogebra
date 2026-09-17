@@ -17,7 +17,7 @@
 package org.geogebra.common.util.lang;
 
 /**
- * 
+ *
  * https://en.wikipedia.org/wiki/ISO_15924
  * https://stackoverflow.com/questions/16447807/get-an-iso-15924-script-code-for
  * -a-given-ietf-language-tag-or-iso-639-iso-3166
@@ -25,7 +25,6 @@ package org.geogebra.common.util.lang;
  */
 @SuppressWarnings("javadoc")
 public enum Script {
-
 	ARABIC("Arab", null, Direction.RIGHT_TO_LEFT),
 
 	ARMENIAN("Armn", "\u0570"),
@@ -74,9 +73,9 @@ public enum Script {
 
 	THAI("Thai", "\u0E20\u0E32");
 
-	final public String iso15924;
-	final public Direction direction;
-	final public String testString;
+	public final String iso15924;
+	public final Direction direction;
+	public final String testString;
 
 	Script(String iso15924) {
 		this(iso15924, null, Direction.LEFT_TO_RIGHT);

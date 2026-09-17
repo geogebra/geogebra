@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * @author G. Sturr
  * @version 2011-06-21
  */
-
 public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 
 	/**
@@ -41,17 +40,21 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 	 * @param isCumulative
 	 *            true for cumulative
 	 */
-	public AlgoBernoulliBarChart(Construction cons, String label,
-			GeoNumberValue p, GeoBoolean isCumulative) {
-		super(cons, label, p, isCumulative,
-				SumType.BARCHART_BERNOULLI);
+	public AlgoBernoulliBarChart(
+			Construction cons, String label, GeoNumberValue p, GeoBoolean isCumulative) {
+		super(cons, label, p, isCumulative, SumType.BARCHART_BERNOULLI);
 	}
 
-	private AlgoBernoulliBarChart(GeoNumberValue p, GeoBoolean isCumulative,
-			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders,
-			int N, Construction cons) {
-		super(p, isCumulative, SumType.BARCHART_BERNOULLI, a, b,
-				vals, borders, N, cons);
+	private AlgoBernoulliBarChart(
+			GeoNumberValue p,
+			GeoBoolean isCumulative,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			double[] vals,
+			double[] borders,
+			int N,
+			Construction cons) {
+		super(p, isCumulative, SumType.BARCHART_BERNOULLI, a, b, vals, borders, N, cons);
 	}
 
 	@Override
@@ -67,10 +70,13 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 		}
 
 		return new AlgoBernoulliBarChart(
-				(GeoNumberValue) this.getP1().deepCopy(kernel), b,
+				(GeoNumberValue) this.getP1().deepCopy(kernel),
+				b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-				getIntervals(), kernel.getConstruction());
+				Cloner.clone(getValues()),
+				Cloner.clone(getLeftBorder()),
+				getIntervals(),
+				kernel.getConstruction());
 	}
 }

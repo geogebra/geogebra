@@ -53,11 +53,12 @@ public class ScriptErrorHandler implements ErrorHandler {
 		}
 
 		app.getDefaultErrorHandler()
-				.showError(app.getLocalization().getPlainDefault(
-						"ErrorInScriptAtLineAFromObjectB",
-						"Error in script at line %0 from object %1",
-						String.valueOf(line + 1),
-						evt.target.getLabel(StringTemplate.defaultTemplate))
+				.showError(app.getLocalization()
+								.getPlainDefault(
+										"ErrorInScriptAtLineAFromObjectB",
+										"Error in script at line %0 from object %1",
+										String.valueOf(line + 1),
+										evt.target.getLabel(StringTemplate.defaultTemplate))
 						+ "\n" + msg);
 	}
 
@@ -67,8 +68,7 @@ public class ScriptErrorHandler implements ErrorHandler {
 	}
 
 	@Override
-	public boolean onUndefinedVariables(String string,
-			AsyncOperation<String[]> callback) {
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
 		return false;
 	}
 
@@ -77,13 +77,14 @@ public class ScriptErrorHandler implements ErrorHandler {
 		if (evt.type == EventType.UPDATE) {
 			app.setBlockUpdateScripts(true);
 		}
-		String errorMessage = message + "\n\n" + app.getLocalization().getPlainDefault(
-				"ErrorInScriptAtLineAFromObjectB",
-				"Error in script at line %0 from object %1",
-				String.valueOf(line + 1),
-				evt.target.getLabel(StringTemplate.defaultTemplate));
+		String errorMessage = message + "\n\n"
+				+ app.getLocalization()
+						.getPlainDefault(
+								"ErrorInScriptAtLineAFromObjectB",
+								"Error in script at line %0 from object %1",
+								String.valueOf(line + 1),
+								evt.target.getLabel(StringTemplate.defaultTemplate));
 		app.getDefaultErrorHandler().showCommandError(command, errorMessage);
-
 	}
 
 	@Override
@@ -91,5 +92,4 @@ public class ScriptErrorHandler implements ErrorHandler {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

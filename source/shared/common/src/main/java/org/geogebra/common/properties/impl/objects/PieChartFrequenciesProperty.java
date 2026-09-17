@@ -56,7 +56,9 @@ public class PieChartFrequenciesProperty extends AbstractValuedProperty<String>
 
 	@Override
 	public @Nullable String getValue() {
-		return algoPieChart.getInput(algoPieChart.getFrequenciesParamIndex()).toGeoElement()
+		return algoPieChart
+				.getInput(algoPieChart.getFrequenciesParamIndex())
+				.toGeoElement()
 				.getLabel(StringTemplate.editorTemplate);
 	}
 
@@ -74,9 +76,12 @@ public class PieChartFrequenciesProperty extends AbstractValuedProperty<String>
 
 	@Override
 	protected void doSetValue(String value) {
-		CommandRedefineHelper.redefineWithParam(pieChart, algoPieChart,
+		CommandRedefineHelper.redefineWithParam(
+				pieChart,
+				algoPieChart,
 				algoPieChart.getFrequenciesParamIndex(),
-				value, algoPieChart.getKernel().getApplication());
+				value,
+				algoPieChart.getKernel().getApplication());
 	}
 
 	@Override

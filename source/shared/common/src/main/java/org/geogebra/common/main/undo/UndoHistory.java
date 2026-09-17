@@ -30,8 +30,7 @@ public class UndoHistory {
 	 *  @param commands undo commands
 	 * @param iteratorIndex current iterator.
 	 */
-	public UndoHistory(Collection<UndoCommand> commands,
-			int iteratorIndex) {
+	public UndoHistory(Collection<UndoCommand> commands, int iteratorIndex) {
 		this.commands = commands;
 		this.iteratorIndex = iteratorIndex;
 	}

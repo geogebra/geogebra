@@ -44,7 +44,7 @@ public enum MediaFormat {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param key
 	 *            the name of the format.
 	 * @return the corresponding enum.

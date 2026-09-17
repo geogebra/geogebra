@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * DelauneyTriangulation[&lt;List ofPoints&gt; ]
- * 
+ *
  * @author Michael
  *
  */
@@ -31,7 +31,7 @@ public class CmdDelauneyTriangulation extends CmdOneListFunction {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,11 +40,9 @@ public class CmdDelauneyTriangulation extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 
-		AlgoDelauneyTriangulation algo = new AlgoDelauneyTriangulation(cons, a,
-				b);
+		AlgoDelauneyTriangulation algo = new AlgoDelauneyTriangulation(cons, a, b);
 		return algo.getResult();
 	}
-
 }

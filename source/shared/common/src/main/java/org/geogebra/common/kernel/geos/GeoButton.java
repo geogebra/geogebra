@@ -38,11 +38,10 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
- * 
+ *
  * @author Michael
  */
-public class GeoButton extends GeoElement implements TextProperties,
-		AbsoluteScreenLocateable {
+public class GeoButton extends GeoElement implements TextProperties, AbsoluteScreenLocateable {
 
 	private GeoPointND startPoint;
 	private boolean absLocation = true;
@@ -58,11 +57,11 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 	private boolean fixedSize = false;
 
-	public final static int DEFAULT_BUTTON_HEIGHT = 36;
+	public static final int DEFAULT_BUTTON_HEIGHT = 36;
 
 	/**
 	 * Creates new button
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -80,7 +79,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 	/**
 	 * Creates new button
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labelOffsetX
@@ -266,8 +265,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 	}
 
 	private void updateRelLocation(EuclidianView ev) {
-		startPoint.setCoords(ev.toRealWorldCoordX(labelOffsetX),
-				ev.toRealWorldCoordY(labelOffsetY), 1);
+		startPoint.setCoords(ev.toRealWorldCoordX(labelOffsetX), ev.toRealWorldCoordY(labelOffsetY), 1);
 	}
 
 	@Override
@@ -327,7 +325,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 	}
 
 	@Override
-	final public boolean isAlgebraViewEditable() {
+	public final boolean isAlgebraViewEditable() {
 		return !isIndependent();
 	}
 
@@ -362,13 +360,11 @@ public class GeoButton extends GeoElement implements TextProperties,
 	}
 
 	private int getYFromStartPoint(EuclidianViewInterfaceCommon ev) {
-		return absLocation ? (int) startPoint.getInhomY()
-				: ev.toScreenCoordY(startPoint.getInhomY());
+		return absLocation ? (int) startPoint.getInhomY() : ev.toScreenCoordY(startPoint.getInhomY());
 	}
 
 	private int getXFromStartPoint(EuclidianViewInterfaceCommon ev) {
-		return absLocation ? (int) startPoint.getInhomX()
-				: ev.toScreenCoordX(startPoint.getInhomX());
+		return absLocation ? (int) startPoint.getInhomX() : ev.toScreenCoordX(startPoint.getInhomX());
 	}
 
 	@Override
@@ -414,7 +410,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 	 * label description
 	 */
 	@Override
-	final public boolean isLabelValueShowable() {
+	public final boolean isLabelValueShowable() {
 		return false;
 	}
 
@@ -478,13 +474,13 @@ public class GeoButton extends GeoElement implements TextProperties,
 		super.getStyleXML(sb);
 
 		// font settings
-		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
-				kernel.getApplication());
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, kernel.getApplication());
 
 		// name of image file
 		if (getFillImage() != null) {
 			sb.startTag("file")
-					.attr("name", this.getGraphicsAdapter().getImageFileName()).endTag();
+					.attr("name", this.getGraphicsAdapter().getImageFileName())
+					.endTag();
 		}
 		if (isFixedSize()) {
 			XMLBuilder.dimension(sb, Integer.toString(getWidth()), Integer.toString(getHeight()));
@@ -611,7 +607,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 	/**
 	 * For Input Boxes and Buttons
-	 * 
+	 *
 	 * @param pt
 	 *            point to set
 	 * @param index
@@ -630,8 +626,8 @@ public class GeoButton extends GeoElement implements TextProperties,
 	 * @param pt output point
 	 * @param index corner index
 	 */
-	public static void calculateFromBounds(GeoElement geo, EuclidianView view,
-			GeoPoint pt, int index) {
+	public static void calculateFromBounds(
+			GeoElement geo, EuclidianView view, GeoPoint pt, int index) {
 		DrawableND drawer = view.getDrawableFor(geo);
 
 		if (!(drawer instanceof Drawable)) {
@@ -647,25 +643,25 @@ public class GeoButton extends GeoElement implements TextProperties,
 		double x, y;
 
 		switch (index) {
-		case 1:
-			x = bounds.getMinX();
-			y = bounds.getMaxY();
-			break;
-		case 2:
-			x = bounds.getMaxX();
-			y = bounds.getMaxY();
-			break;
-		case 3:
-			x = bounds.getMaxX();
-			y = bounds.getMinY();
-			break;
-		case 4:
-			x = bounds.getMinX();
-			y = bounds.getMinY();
-			break;
-		default:
-			pt.setUndefined();
-			return;
+			case 1:
+				x = bounds.getMinX();
+				y = bounds.getMaxY();
+				break;
+			case 2:
+				x = bounds.getMaxX();
+				y = bounds.getMaxY();
+				break;
+			case 3:
+				x = bounds.getMaxX();
+				y = bounds.getMinY();
+				break;
+			case 4:
+				x = bounds.getMinX();
+				y = bounds.getMinY();
+				break;
+			default:
+				pt.setUndefined();
+				return;
 		}
 
 		pt.setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
@@ -673,7 +669,8 @@ public class GeoButton extends GeoElement implements TextProperties,
 
 	@Override
 	public boolean usesDisabledStyle(EuclidianViewInterfaceSlim ev) {
-		return !isSelectionAllowed(ev) && bgColor == GeoGebraColorConstants.GEOGEBRA_ACCENT
+		return !isSelectionAllowed(ev)
+				&& bgColor == GeoGebraColorConstants.GEOGEBRA_ACCENT
 				&& objColor == GColor.WHITE;
 	}
 }

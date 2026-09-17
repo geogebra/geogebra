@@ -46,21 +46,22 @@ public class AlgoLeftRightSide extends AlgoElement {
 	 * @param left
 	 *            whether to get left side (or right)
 	 */
-	public AlgoLeftRightSide(Construction cons, String label,
-			GeoElement equation, boolean left) {
+	public AlgoLeftRightSide(Construction cons, String label, GeoElement equation, boolean left) {
 		super(cons);
 		this.equation = equation;
 		this.left = left;
 		if (equation.isGeoElement3D()) {
-			fv = new FunctionVariable[] { new FunctionVariable(kernel, "x"),
-					new FunctionVariable(kernel, "y"),
-					new FunctionVariable(kernel, "z") };
+			fv = new FunctionVariable[] {
+				new FunctionVariable(kernel, "x"),
+				new FunctionVariable(kernel, "y"),
+				new FunctionVariable(kernel, "z")
+			};
 		} else {
-			fv = new FunctionVariable[] { new FunctionVariable(kernel, "x"),
-					new FunctionVariable(kernel, "y") };
+			fv = new FunctionVariable[] {
+				new FunctionVariable(kernel, "x"), new FunctionVariable(kernel, "y")
+			};
 		}
-		FunctionNVar f = new FunctionNVar(new ExpressionNode(kernel, fv[0]),
-				fv);
+		FunctionNVar f = new FunctionNVar(new ExpressionNode(kernel, fv[0]), fv);
 		side = new GeoFunctionNVar(cons, f);
 
 		setInputOutput();
@@ -71,7 +72,7 @@ public class AlgoLeftRightSide extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(side);
-		input = new GeoElement[] { equation };
+		input = new GeoElement[] {equation};
 		setDependencies();
 	}
 
@@ -84,10 +85,9 @@ public class AlgoLeftRightSide extends AlgoElement {
 		String str = equation.toValueString(StringTemplate.maxPrecision);
 		String[] sides = str.split("=");
 		String sideStr = left ? sides[0] : sides[1];
-		GeoFunctionNVar processed = kernel.getAlgebraProcessor()
-				.evaluateToFunctionNVar(sideStr, true, false);
+		GeoFunctionNVar processed =
+				kernel.getAlgebraProcessor().evaluateToFunctionNVar(sideStr, true, false);
 		side.set(processed);
-
 	}
 
 	@Override
@@ -101,5 +101,4 @@ public class AlgoLeftRightSide extends AlgoElement {
 	public GeoFunctionNVar getResult() {
 		return side;
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,16 +35,16 @@ class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 	private KernelTabularDataAdapter tabularData;
 	private CopyPasteCutTabularDataImpl<?> copyPasteCut;
 	private final TableLayout layout = new TableLayout(100, 26, 10, 10);
-	private final SpreadsheetSelectionController selectionController
-			= new SpreadsheetSelectionController();
+	private final SpreadsheetSelectionController selectionController =
+			new SpreadsheetSelectionController();
 	private final TestClipboard clipboard = new TestClipboard();
 
 	@BeforeEach
 	void setup() {
 		setupClassicApp();
 		tabularData = new KernelTabularDataAdapter(getApp());
-		copyPasteCut = new CopyPasteCutTabularDataImpl<>(tabularData, clipboard,
-				layout, selectionController);
+		copyPasteCut =
+				new CopyPasteCutTabularDataImpl<>(tabularData, clipboard, layout, selectionController);
 	}
 
 	@Test
@@ -288,16 +288,14 @@ class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 
 	@Test
 	void testPasteExternal() {
-		copyPasteCut.paste(new TabularRange(2, 3),
-				new String[][]{{"1"}, {"2"}});
+		copyPasteCut.paste(new TabularRange(2, 3), new String[][] {{"1"}, {"2"}});
 		assertEquals("1", getValueStringForCell(2, 3));
 		assertEquals("2", getValueStringForCell(3, 3));
 	}
 
 	@Test
 	void testPasteExternalMultiple() {
-		copyPasteCut.paste(new TabularRange(2, 3, 2, 4),
-				new String[][]{{"1"}, {"2"}});
+		copyPasteCut.paste(new TabularRange(2, 3, 2, 4), new String[][] {{"1"}, {"2"}});
 		assertEquals("1", getValueStringForCell(2, 3));
 		assertEquals("2", getValueStringForCell(3, 3));
 		assertEquals("1", getValueStringForCell(2, 4));
@@ -336,13 +334,14 @@ class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 		copyPasteCut.paste(range, null);
 	}
 
-	private void assertCellContentIsEqual(int originRow, int originColumn,
-			int destinationRow, int destinationColumn) {
-		assertEquals(getValueStringForCell(originRow, originColumn),
+	private void assertCellContentIsEqual(
+			int originRow, int originColumn, int destinationRow, int destinationColumn) {
+		assertEquals(
+				getValueStringForCell(originRow, originColumn),
 				getValueStringForCell(destinationRow, destinationColumn),
-				String.format("The content of cell (%d, %d) should be equal to the content "
-								+ "of cell (%d, %d)!", originRow, originColumn, destinationRow,
-						destinationColumn));
+				String.format(
+						"The content of cell (%d, %d) should be equal to the content " + "of cell (%d, %d)!",
+						originRow, originColumn, destinationRow, destinationColumn));
 	}
 
 	private void assertLabelIsEqualTo(String expected, int row, int column) {
@@ -355,5 +354,4 @@ class CopyPasteCutTabularDataImplTest extends BaseAppTestSetup {
 		return lookup(GeoElementSpreadsheet.getSpreadsheetCellName(column, row))
 				.toValueString(StringTemplate.defaultTemplate);
 	}
-
 }

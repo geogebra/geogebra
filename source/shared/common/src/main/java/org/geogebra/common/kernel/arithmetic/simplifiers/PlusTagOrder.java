@@ -53,8 +53,7 @@ public class PlusTagOrder implements SimplifyNode {
 		ExpressionValue left = node.getLeft();
 		ExpressionValue right = node.getRight();
 		double v = left.evaluateDouble();
-		if (left.isLeaf() && v < 0
-				&& node.isOperation(Operation.PLUS) && right.evaluateDouble() >= 0) {
+		if (left.isLeaf() && v < 0 && node.isOperation(Operation.PLUS) && right.evaluateDouble() >= 0) {
 			return utils.newNode(right, Operation.MINUS, utils.newDouble(-v));
 		}
 		return node;

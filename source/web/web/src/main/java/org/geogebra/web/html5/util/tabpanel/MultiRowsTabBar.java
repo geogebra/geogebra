@@ -30,8 +30,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Top bar of a tab panel.
  */
-public final class MultiRowsTabBar extends FlowPanel implements
-		HasSelectionHandlers<Integer> {
+public final class MultiRowsTabBar extends FlowPanel implements HasSelectionHandlers<Integer> {
 
 	private int selectedTab;
 	private MultiRowsTabPanel tabPanel;
@@ -45,8 +44,7 @@ public final class MultiRowsTabBar extends FlowPanel implements
 	}
 
 	@Override
-	public HandlerRegistration addSelectionHandler(
-			SelectionHandler<Integer> handler) {
+	public HandlerRegistration addSelectionHandler(SelectionHandler<Integer> handler) {
 		return addHandler(handler, SelectionEvent.getType());
 	}
 
@@ -74,7 +72,7 @@ public final class MultiRowsTabBar extends FlowPanel implements
 
 	/**
 	 * Select given tab.
-	 * 
+	 *
 	 * @param index
 	 *            tab index
 	 */
@@ -95,12 +93,12 @@ public final class MultiRowsTabBar extends FlowPanel implements
 		if (item != null) {
 			if (selected) {
 				item.addStyleName("gwt-TabBarItem-selected");
-				UIObject.setStyleName(DOM.getParent(item.getElement()),
-						"gwt-TabBarItem-wrapper-selected", true);
+				UIObject.setStyleName(
+						DOM.getParent(item.getElement()), "gwt-TabBarItem-wrapper-selected", true);
 			} else {
 				item.removeStyleName("gwt-TabBarItem-selected");
-				UIObject.setStyleName(DOM.getParent(item.getElement()),
-						"gwt-TabBarItem-wrapper-selected", false);
+				UIObject.setStyleName(
+						DOM.getParent(item.getElement()), "gwt-TabBarItem-wrapper-selected", false);
 			}
 		}
 	}
@@ -162,10 +160,10 @@ public final class MultiRowsTabBar extends FlowPanel implements
 	 */
 	public void setTabEnabled(int index, boolean enabled) {
 		assert (index >= 0) && (index < getTabCount()) : "Tab index out of bounds";
-		UIObject.setStyleName(getWidget(index).getElement(), "gwt-TabBarItem-disabled",
+		UIObject.setStyleName(getWidget(index).getElement(), "gwt-TabBarItem-disabled", !enabled);
+		UIObject.setStyleName(
+				getWidget(index).getElement().getParentElement(),
+				"gwt-TabBarItem-wrapper-disabled",
 				!enabled);
-		UIObject.setStyleName(getWidget(index).getElement().getParentElement(),
-				"gwt-TabBarItem-wrapper-disabled", !enabled);
 	}
-
 }

@@ -20,5 +20,4 @@ public class CommandMod extends Command1A {
 		ra.add(a);
 		return new PodAtom(ra, 12., false);
 	}
-
 }

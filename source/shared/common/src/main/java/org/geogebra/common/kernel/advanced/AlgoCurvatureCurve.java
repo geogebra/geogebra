@@ -29,7 +29,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * @author Victor Franco Espino, Markus Hohenwarter
  * @version 11-02-2007
- * 
+ *
  *          Calculate Curvature for curve: k(t) = (a'(t)b''(t)-a''(t)b'(t))/T^3,
  *          T = sqrt(a'(t)^2+b'(t)^2)
  */
@@ -51,8 +51,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	 * @param f
 	 *            curve
 	 */
-	public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A,
-			GeoCurveCartesianND f) {
+	public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A, GeoCurveCartesianND f) {
 		this(cons, A, f);
 
 		if (label != null) {
@@ -73,8 +72,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	 * @param f
 	 *            conic
 	 */
-	public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A,
-			GeoConicND f) {
+	public AlgoCurvatureCurve(Construction cons, String label, GeoPointND A, GeoConicND f) {
 		this(cons, A, f);
 
 		if (label != null) {
@@ -93,8 +91,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 	 * @param f
 	 *            curve
 	 */
-	public AlgoCurvatureCurve(Construction cons, GeoPointND A,
-			GeoCurveCartesianND f) {
+	public AlgoCurvatureCurve(Construction cons, GeoPointND A, GeoCurveCartesianND f) {
 		super(cons);
 		this.f = f;
 		this.A = A;
@@ -161,8 +158,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
 
 		if (f.isDefined()) {
 			try {
-				double t = f.getClosestParameterForCurvature(A,
-						f.getMinParameter());
+				double t = f.getClosestParameterForCurvature(A, f.getMinParameter());
 				K.setValue(f.evaluateCurvature(t));
 			} catch (Exception ex) {
 				Log.debug(ex);
@@ -172,5 +168,4 @@ public class AlgoCurvatureCurve extends AlgoElement {
 			K.setUndefined();
 		}
 	}
-
 }

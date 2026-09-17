@@ -42,7 +42,7 @@ import org.geogebra.common.kernel.kernelND.Region3D;
 
 /***
  * Replacement for isInstance checks
- * 
+ *
  * For Macro inputs, objects are tested in order so we must have eg GEOVECTOR
  * then GEOVECTORND then MOVEABLE otherwise the test will not work see #2398
  */
@@ -547,15 +547,14 @@ public enum TestGeo implements Predicate<Object> {
 		@Override
 		public boolean test(Object ob) {
 			if (ob instanceof GeoConicND) {
-				return ((GeoConicND) ob)
-						.getLastHitType() == HitType.ON_BOUNDARY;
+				return ((GeoConicND) ob).getLastHitType() == HitType.ON_BOUNDARY;
 			}
 			return ob instanceof Path;
 		}
 	};
 
 	/**
-	 * 
+	 *
 	 * @param ob
 	 *            geo
 	 * @param vertexCount
@@ -603,25 +602,24 @@ public enum TestGeo implements Predicate<Object> {
 			return true;
 		}
 		switch (other) {
-		case GEONUMERIC:
-			return isSubtypeOrEqual(GEOANGLE) || isSubtypeOrEqual(GEOBOOLEAN);
-		case GEOFUNCTION:
-			return isSubtypeOrEqual(GEONUMERIC) || isSubtypeOrEqual(GEOLINE);
-		case GEOFUNCTIONNVAR:
-			return isSubtypeOrEqual(GEOFUNCTION);
-		case GEOCONIC:
-		case GEOPLANEND:
-			return isSubtypeOrEqual(GEOLINE);
-		case GEOIMPLICIT:
-			return isSubtypeOrEqual(GEOCONIC);
-		case GEOPOINT:
-			return isSubtypeOrEqual(GEONUMERIC);
-		case GEOPOINTND:
-			return isSubtypeOrEqual(GEOPOINT);
-		default:
-			break;
+			case GEONUMERIC:
+				return isSubtypeOrEqual(GEOANGLE) || isSubtypeOrEqual(GEOBOOLEAN);
+			case GEOFUNCTION:
+				return isSubtypeOrEqual(GEONUMERIC) || isSubtypeOrEqual(GEOLINE);
+			case GEOFUNCTIONNVAR:
+				return isSubtypeOrEqual(GEOFUNCTION);
+			case GEOCONIC:
+			case GEOPLANEND:
+				return isSubtypeOrEqual(GEOLINE);
+			case GEOIMPLICIT:
+				return isSubtypeOrEqual(GEOCONIC);
+			case GEOPOINT:
+				return isSubtypeOrEqual(GEONUMERIC);
+			case GEOPOINTND:
+				return isSubtypeOrEqual(GEOPOINT);
+			default:
+				break;
 		}
 		return false;
 	}
-
 }

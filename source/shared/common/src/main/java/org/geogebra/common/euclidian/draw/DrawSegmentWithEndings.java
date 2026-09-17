@@ -32,8 +32,8 @@ import org.jspecify.annotations.Nullable;
 
 public class DrawSegmentWithEndings {
 	private final HasSegmentStyle segment;
-	//private GLine2D line;
-	//private final Drawable drawSegment;
+	// private GLine2D line;
+	// private final Drawable drawSegment;
 	private final EndDecoratedDrawable drawable;
 	private int lineThickness;
 	private int posX;
@@ -47,8 +47,7 @@ public class DrawSegmentWithEndings {
 	 * @param drawable segment drawable
 	 * @param segment segment construction element
 	 */
-	public DrawSegmentWithEndings(EndDecoratedDrawable drawable,
-			HasSegmentStyle segment) {
+	public DrawSegmentWithEndings(EndDecoratedDrawable drawable, HasSegmentStyle segment) {
 		this.segment = segment;
 		this.drawable = drawable;
 	}
@@ -91,8 +90,8 @@ public class DrawSegmentWithEndings {
 		}
 	}
 
-	private void createSolidShape(GBasicStroke objStroke,
-			SegmentStyle startStyle, SegmentStyle endStyle) {
+	private void createSolidShape(
+			GBasicStroke objStroke, SegmentStyle startStyle, SegmentStyle endStyle) {
 		solidStart = createSolidStart(startStyle);
 		solidEnd = createSolidEnd(endStyle);
 		subtractedLine = subtractFromLine(objStroke, solidStart, solidEnd);
@@ -111,8 +110,7 @@ public class DrawSegmentWithEndings {
 	}
 
 	private GArea subtractFromLine(GBasicStroke objStroke, GShape... shapes) {
-		GShape strokedLine = objStroke.createStrokedShape(drawable.getLine(),
-				255);
+		GShape strokedLine = objStroke.createStrokedShape(drawable.getLine(), 255);
 		GArea area = GCompositeShape.toArea(strokedLine);
 		for (GShape shape : shapes) {
 			if (shape != null) {
@@ -127,36 +125,33 @@ public class DrawSegmentWithEndings {
 			return null;
 		}
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
-		initRotateTrans(getAngle(), posX + lineThickness,
-				posY + lineThickness, t);
+		initRotateTrans(getAngle(), posX + lineThickness, posY + lineThickness, t);
 		switch (style) {
-		case LINE:
-			return getLine();
-		case SQUARE:
-		case SQUARE_OUTLINE:
-			return getSolidSquare(t);
-		case CIRCLE:
-		case CIRCLE_OUTLINE:
-			return getSolidCircle();
-		case ARROW:
-		case ARROW_OUTLINE:
-		case ARROW_FILLED:
-			return getArrow(style);
-		case DIAMOND:
-		case DIAMOND_OUTLINE:
-			return getSolidDiamond();
-		case CROWS_FOOT:
-			return getCrowsFoot();
+			case LINE:
+				return getLine();
+			case SQUARE:
+			case SQUARE_OUTLINE:
+				return getSolidSquare(t);
+			case CIRCLE:
+			case CIRCLE_OUTLINE:
+				return getSolidCircle();
+			case ARROW:
+			case ARROW_OUTLINE:
+			case ARROW_FILLED:
+				return getArrow(style);
+			case DIAMOND:
+			case DIAMOND_OUTLINE:
+				return getSolidDiamond();
+			case CROWS_FOOT:
+				return getCrowsFoot();
 		}
 		return null;
 	}
 
 	private GShape getLine() {
 		double x1 = isStartStyle ? getX1() : getX2();
-		double y1 = isStartStyle ? getY1() - lineThickness
-				: getY2() - lineThickness;
-		double y2 = isStartStyle ? getY1() + lineThickness
-				: getY2() + lineThickness;
+		double y1 = isStartStyle ? getY1() - lineThickness : getY2() - lineThickness;
+		double y2 = isStartStyle ? getY1() + lineThickness : getY2() + lineThickness;
 
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 		initRotateTrans(getAngle(), x1, y1 + lineThickness, t);
@@ -166,8 +161,7 @@ public class DrawSegmentWithEndings {
 		return t.createTransformedShape(strokedShape);
 	}
 
-	private void initRotateTrans(double angle, double transX, double transY,
-			GAffineTransform trans) {
+	private void initRotateTrans(double angle, double transX, double transY, GAffineTransform trans) {
 		trans.translate(transX, transY);
 		trans.rotate(angle);
 		trans.translate(-transX, -transY);
@@ -180,8 +174,8 @@ public class DrawSegmentWithEndings {
 	}
 
 	private GShape getSolidSquare(GAffineTransform t) {
-		GRectangle2D r = AwtFactory.getPrototype().newRectangle(posX, posY,
-				lineThickness * 2, lineThickness * 2);
+		GRectangle2D r =
+				AwtFactory.getPrototype().newRectangle(posX, posY, lineThickness * 2, lineThickness * 2);
 		return t.createTransformedShape(r);
 	}
 
@@ -217,8 +211,8 @@ public class DrawSegmentWithEndings {
 		diamondPath.lineTo(x, y + lineThickness);
 		diamondPath.closePath();
 
-		GShape strokedDiamond = AwtFactory.getPrototype().newMyBasicStroke(0.5f)
-				.createStrokedShape(diamondPath, 255);
+		GShape strokedDiamond =
+				AwtFactory.getPrototype().newMyBasicStroke(0.5f).createStrokedShape(diamondPath, 255);
 		GShape transformedDiamond = t.createTransformedShape(strokedDiamond);
 		GArea area = GCompositeShape.toArea(transformedDiamond);
 		area.add(GCompositeShape.toArea(t.createTransformedShape(diamondPath)));
@@ -231,10 +225,8 @@ public class DrawSegmentWithEndings {
 
 	private void calculatePositions() {
 		lineThickness = segment.getLineThickness();
-		posX = isStartStyle ? (int) getX1() - lineThickness
-				: (int) getX2() - lineThickness;
-		posY = isStartStyle ? (int) getY1() - lineThickness
-				: (int) getY2() - lineThickness;
+		posX = isStartStyle ? (int) getX1() - lineThickness : (int) getX2() - lineThickness;
+		posY = isStartStyle ? (int) getY1() - lineThickness : (int) getY2() - lineThickness;
 	}
 
 	private double getX1() {
@@ -278,8 +270,9 @@ public class DrawSegmentWithEndings {
 			arrowPath.lineTo(x, y);
 		}
 
-		GShape strokedArrow = outlined ? AwtFactory.getPrototype().newBasicStroke(0.5f)
-				.createStrokedShape(arrowPath, 255) : createStrokedShape(arrowPath);
+		GShape strokedArrow = outlined
+				? AwtFactory.getPrototype().newBasicStroke(0.5f).createStrokedShape(arrowPath, 255)
+				: createStrokedShape(arrowPath);
 		GShape transformedArrow = t.createTransformedShape(strokedArrow);
 		if (filled || outlined) {
 			GArea area = GCompositeShape.toArea(transformedArrow);

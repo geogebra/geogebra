@@ -1,7 +1,7 @@
 /*
  * Created on Oct 17, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -47,7 +47,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * <code>{add,remove}{Edge,Vertex}</code>, or in the constructor.
  * </li>
  * </ul>
- * 
+ *
  * @author Joshua O'Madadhain
  */
 public interface Hypergraph<V, E> {
@@ -55,7 +55,7 @@ public interface Hypergraph<V, E> {
 	 * Returns a view of all edges in this graph. In general, this obeys the
 	 * <code>Collection</code> contract, and therefore makes no guarantees about
 	 * the ordering of the vertices within the set.
-	 * 
+	 *
 	 * @return a <code>Collection</code> view of all edges in this graph
 	 */
 	Collection<E> getEdges();
@@ -64,7 +64,7 @@ public interface Hypergraph<V, E> {
 	 * Returns a view of all vertices in this graph. In general, this obeys the
 	 * <code>Collection</code> contract, and therefore makes no guarantees about
 	 * the ordering of the vertices within the set.
-	 * 
+	 *
 	 * @return a <code>Collection</code> view of all vertices in this graph
 	 */
 	Collection<V> getVertices();
@@ -73,7 +73,7 @@ public interface Hypergraph<V, E> {
 	 * Returns true if this graph's vertex collection contains
 	 * <code>vertex</code>. Equivalent to
 	 * <code>getVertices().contains(vertex)</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose presence is being queried
 	 * @return true iff this graph contains a vertex <code>vertex</code>
@@ -83,7 +83,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns true if this graph's edge collection contains <code>edge</code>.
 	 * Equivalent to <code>getEdges().contains(edge)</code>.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge whose presence is being queried
 	 * @return true iff this graph contains an edge <code>edge</code>
@@ -92,14 +92,14 @@ public interface Hypergraph<V, E> {
 
 	/**
 	 * Returns the number of edges in this graph.
-	 * 
+	 *
 	 * @return the number of edges in this graph
 	 */
 	int getEdgeCount();
 
 	/**
 	 * Returns the number of vertices in this graph.
-	 * 
+	 *
 	 * @return the number of vertices in this graph
 	 */
 	int getVertexCount();
@@ -109,7 +109,7 @@ public interface Hypergraph<V, E> {
 	 * <code>vertex</code> via any edges in this graph. If <code>vertex</code>
 	 * is connected to itself with a self-loop, then it will be included in the
 	 * collection returned.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose neighbors are to be returned
 	 * @return the collection of vertices which are connected to
@@ -121,7 +121,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns the collection of edges in this graph which are connected to
 	 * <code>vertex</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose incident edges are to be returned
 	 * @return the collection of edges which are connected to
@@ -137,7 +137,7 @@ public interface Hypergraph<V, E> {
 	 * have exactly two endpoints, which may or may not be distinct).
 	 * Implementations for those graph types may provide alternate methods that
 	 * provide more convenient access to the vertices.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge whose incident vertices are to be returned
 	 * @return the collection of vertices which are connected to
@@ -165,7 +165,7 @@ public interface Hypergraph<V, E> {
 	 * <code>true</code>. (<code>v1</code> and <code>v2</code> are connected by
 	 * an undirected edge <code>u</code> if <code>u</code> is incident to both
 	 * <code>v1</code> and <code>v2</code>.)
-	 * 
+	 *
 	 * @return an edge that connects <code>v1</code> to <code>v2</code>, or
 	 *         <code>null</code> if no such edge exists (or either vertex is not
 	 *         present)
@@ -182,7 +182,7 @@ public interface Hypergraph<V, E> {
 	 * to <code>v1</code>.
 	 * <p>Returns an empty collection if either <code>v1</code> or <code>v2</code>
 	 * are not present in this graph.
-	 * 
+	 *
 	 * <p>
 	 * <b>Note</b>: for purposes of this method, <code>v1</code> is only
 	 * considered to be connected to <code>v2</code> via a given <i>directed</i>
@@ -191,7 +191,7 @@ public interface Hypergraph<V, E> {
 	 * <code>true</code>. (<code>v1</code> and <code>v2</code> are connected by
 	 * an undirected edge <code>u</code> if <code>u</code> is incident to both
 	 * <code>v1</code> and <code>v2</code>.)
-	 * 
+	 *
 	 * @return a collection containing all edges that connect <code>v1</code> to
 	 *         <code>v2</code>, or <code>null</code> if either vertex is not
 	 *         present
@@ -202,7 +202,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Adds <code>vertex</code> to this graph. Fails if <code>vertex</code> is
 	 * null or already in the graph.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex to add
 	 * @return <code>true</code> if the add is successful, and
@@ -224,7 +224,7 @@ public interface Hypergraph<V, E> {
 	 * <li><code>vertices</code> are already connected by another edge in this
 	 * graph, and this graph does not accept parallel edges
 	 * </ul>
-	 * 
+	 *
 	 * @param edge edge
 	 * @param vertices vertices
 	 * @return <code>true</code> if the add is successful, and
@@ -250,7 +250,7 @@ public interface Hypergraph<V, E> {
 	 * graph, and this graph does not accept parallel edges
 	 * <li><code>edge_type</code> is not legal for this graph
 	 * </ul>
-	 * 
+	 *
 	 * @param edge edge
 	 * @param vertices vertices
 	 * @return <code>true</code> if the add is successful, and
@@ -261,8 +261,7 @@ public interface Hypergraph<V, E> {
 	 *             <code>edge</code>, or if <code>vertices</code> are not a
 	 *             legal vertex set for <code>edge</code>
 	 */
-	boolean addEdge(E edge, Collection<? extends V> vertices,
-			EdgeType edge_type);
+	boolean addEdge(E edge, Collection<? extends V> vertices, EdgeType edge_type);
 
 	/**
 	 * Removes <code>vertex</code> from this graph. As a side effect, removes
@@ -271,14 +270,14 @@ public interface Hypergraph<V, E> {
 	 * illegal number of vertices. (Thus, for example, incident hyperedges are
 	 * not removed, but incident edges--which must be connected to a vertex at
 	 * both endpoints--are removed.)
-	 * 
+	 *
 	 * <p>
 	 * Fails under the following circumstances:
 	 * <ul>
 	 * <li><code>vertex</code> is not an element of this graph
 	 * <li><code>vertex</code> is <code>null</code>
 	 * </ul>
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex to remove
 	 * @return <code>true</code> if the removal is successful,
@@ -289,7 +288,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Removes <code>edge</code> from this graph. Fails if <code>edge</code> is
 	 * null, or is otherwise not an element of this graph.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to remove
 	 * @return <code>true</code> if the removal is successful,
@@ -300,7 +299,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns <code>true</code> if <code>v1</code> and <code>v2</code> share an
 	 * incident edge. Equivalent to <code>getNeighbors(v1).contains(v2)</code>.
-	 * 
+	 *
 	 * @param v1
 	 *            the first vertex to test
 	 * @param v2
@@ -315,7 +314,7 @@ public interface Hypergraph<V, E> {
 	 * are incident to each other. Equivalent to
 	 * <code>getIncidentEdges(vertex).contains(edge)</code> and to
 	 * <code>getIncidentVertices(edge).contains(vertex)</code>.
-	 * 
+	 *
 	 * @param vertex vertex
 	 * @param edge edge
 	 * @return <code>true</code> if <code>vertex</code> and <code>edge</code>
@@ -340,7 +339,7 @@ public interface Hypergraph<V, E> {
 	 * </ul>
 	 * <p>
 	 * Equivalent to <code>getIncidentEdges(vertex).size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose degree is to be returned
 	 * @return the degree of this node
@@ -352,10 +351,10 @@ public interface Hypergraph<V, E> {
 	 * Returns the number of vertices that are adjacent to <code>vertex</code>
 	 * (that is, the number of vertices that are incident to edges in
 	 * <code>vertex</code>'s incident edge set).
-	 * 
+	 *
 	 * <p>
 	 * Equivalent to <code>getNeighbors(vertex).size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose neighbor count is to be returned
 	 * @return the number of neighboring vertices
@@ -366,10 +365,10 @@ public interface Hypergraph<V, E> {
 	 * Returns the number of vertices that are incident to <code>edge</code>.
 	 * For hyperedges, this can be any nonnegative integer; for edges this must
 	 * be 2 (or 1 if self-loops are permitted).
-	 * 
+	 *
 	 * <p>
 	 * Equivalent to <code>getIncidentVertices(edge).size()</code>.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge whose incident vertex count is to be returned
 	 * @return the number of vertices that are incident to <code>edge</code>.
@@ -378,7 +377,7 @@ public interface Hypergraph<V, E> {
 
 	/**
 	 * Returns the edge type of <code>edge</code> in this graph.
-	 * 
+	 *
 	 * @param edge edge
 	 * @return the <code>EdgeType</code> of <code>edge</code>, or
 	 *         <code>null</code> if <code>edge</code> has no defined type
@@ -387,7 +386,7 @@ public interface Hypergraph<V, E> {
 
 	/**
 	 * Returns the default edge type for this graph.
-	 * 
+	 *
 	 * @return the default edge type for this graph
 	 */
 	EdgeType getDefaultEdgeType();
@@ -395,7 +394,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns the collection of edges in this graph which are of type
 	 * <code>edge_type</code>.
-	 * 
+	 *
 	 * @param edge_type
 	 *            the type of edges to be returned
 	 * @return the collection of edges which are of type <code>edge_type</code>,
@@ -407,7 +406,7 @@ public interface Hypergraph<V, E> {
 
 	/**
 	 * Returns the number of edges of type <code>edge_type</code> in this graph.
-	 * 
+	 *
 	 * @param edge_type
 	 *            the type of edge for which the count is to be returned
 	 * @return the number of edges of type <code>edge_type</code> in this graph
@@ -417,7 +416,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns a <code>Collection</code> view of the incoming edges incident to
 	 * <code>vertex</code> in this graph.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose incoming edges are to be returned
 	 * @return a <code>Collection</code> view of the incoming edges incident to
@@ -428,7 +427,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns a <code>Collection</code> view of the outgoing edges incident to
 	 * <code>vertex</code> in this graph.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose outgoing edges are to be returned
 	 * @return a <code>Collection</code> view of the outgoing edges incident to
@@ -439,7 +438,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns the number of incoming edges incident to <code>vertex</code>.
 	 * Equivalent to <code>getInEdges(vertex).size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose indegree is to be calculated
 	 * @return the number of incoming edges incident to <code>vertex</code>
@@ -449,7 +448,7 @@ public interface Hypergraph<V, E> {
 	/**
 	 * Returns the number of outgoing edges incident to <code>vertex</code>.
 	 * Equivalent to <code>getOutEdges(vertex).size()</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose outdegree is to be calculated
 	 * @return the number of outgoing edges incident to <code>vertex</code>
@@ -462,7 +461,7 @@ public interface Hypergraph<V, E> {
 	 * edge <code>d</code> is defined to be the vertex for which <code>d</code>
 	 * is an outgoing edge. <code>directed_edge</code> is guaranteed to be a
 	 * directed edge if its <code>EdgeType</code> is <code>DIRECTED</code>.
-	 * 
+	 *
 	 * @param directed_edge directed edge
 	 * @return the source of <code>directed_edge</code> if it is a directed edge
 	 *         in this graph, or <code>null</code> otherwise
@@ -476,7 +475,7 @@ public interface Hypergraph<V, E> {
 	 * <code>d</code> for which <code>d</code> is an incoming edge.
 	 * <code>directed_edge</code> is guaranteed to be a directed edge if its
 	 * <code>EdgeType</code> is <code>DIRECTED</code>.
-	 * 
+	 *
 	 * @param directed_edge directed edge
 	 * @return the destination of <code>directed_edge</code> if it is a directed
 	 *         edge in this graph, or <code>null</code> otherwise
@@ -490,7 +489,7 @@ public interface Hypergraph<V, E> {
 	 * <code>vertex</code> by an edge <code>e</code>, where <code>e</code> is an
 	 * outgoing edge of <code>v</code> and an incoming edge of
 	 * <code>vertex</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose predecessors are to be returned
 	 * @return a <code>Collection</code> view of the predecessors of
@@ -505,7 +504,7 @@ public interface Hypergraph<V, E> {
 	 * <code>vertex</code> by an edge <code>e</code>, where <code>e</code> is an
 	 * incoming edge of <code>v</code> and an outgoing edge of
 	 * <code>vertex</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex whose predecessors are to be returned
 	 * @return a <code>Collection</code> view of the successors of

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -25,7 +25,7 @@ import java.util.Stack;
 /**
  * Data input for true type files. All methods are named as the data formats in
  * the true type specification.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFInput.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -98,11 +98,9 @@ public abstract class TTFInput {
 		}
 	}
 
-	public static final boolean checkZeroBit(int b, int bit, String name)
-			throws IOException {
+	public static final boolean checkZeroBit(int b, int bit, String name) throws IOException {
 		if (flagBit(b, bit)) {
-			System.err
-					.println("Reserved bit " + bit + " in " + name + " not 0.");
+			System.err.println("Reserved bit " + bit + " in " + name + " not 0.");
 			return false;
 		}
 		return true;
@@ -169,5 +167,4 @@ public abstract class TTFInput {
 		}
 		return temp;
 	}
-
 }

@@ -29,10 +29,9 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Random value from a list using the given probabilities
- * 
+ *
  * @author Rrubaa
  */
-
 public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 
 	private GeoList values; // input
@@ -41,7 +40,7 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 	private int size;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -51,8 +50,8 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 	 * @param probabilities
 	 *            probabilities
 	 */
-	public AlgoRandomDiscrete(Construction cons, String label, GeoList values,
-			GeoList probabilities) {
+	public AlgoRandomDiscrete(
+			Construction cons, String label, GeoList values, GeoList probabilities) {
 		super(cons);
 		this.values = values;
 		this.probabilities = probabilities;
@@ -91,7 +90,9 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 	public final void compute() {
 		size = values.size();
 
-		if (!values.isDefined() || !probabilities.isDefined() || size == 0
+		if (!values.isDefined()
+				|| !probabilities.isDefined()
+				|| size == 0
 				|| size != probabilities.size()) {
 			randomDiscrete.setUndefined();
 			return;
@@ -109,8 +110,10 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 			double val = values.get(i).evaluateDouble();
 			double prob = probabilities.get(i).evaluateDouble();
 
-			if (Double.isInfinite(val) || Double.isNaN(val)
-					|| Double.isInfinite(prob) || Double.isNaN(prob)) {
+			if (Double.isInfinite(val)
+					|| Double.isNaN(val)
+					|| Double.isInfinite(prob)
+					|| Double.isNaN(prob)) {
 				randomDiscrete.setUndefined();
 				return;
 			}
@@ -143,5 +146,4 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 		}
 		return false;
 	}
-
 }

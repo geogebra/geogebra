@@ -68,5 +68,4 @@ public class Point2D implements Comparable<Point2D> {
 	public int hashCode() {
 		return Objects.hash(x, y);
 	}
-
 }

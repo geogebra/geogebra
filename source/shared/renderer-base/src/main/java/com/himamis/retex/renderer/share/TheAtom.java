@@ -64,5 +64,4 @@ public class TheAtom extends Atom {
 
 		throw new ParseException("Invalid length name in \\the: " + name);
 	}
-
 }

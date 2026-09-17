@@ -41,28 +41,25 @@ public final class DialogManager3DW extends DialogManagerW {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param title
 	 *            title
 	 * @param center
 	 *            sphere center
 	 */
 	@Override
-	public void showNumberInputDialogSpherePointRadius(String title,
-			GeoPointND center, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogSpherePointRadius(
+			String title, GeoPointND center, EuclidianController ec) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
 		ComponentInputDialog spherePointInputDialog =
-				new InputDialogSpherePointW((AppW) app, data,
-				handler, center, app.getKernel());
+				new InputDialogSpherePointW((AppW) app, data, handler, center, app.getKernel());
 		spherePointInputDialog.show();
-
 	}
 
 	/**
 	 * for creating a cone
-	 * 
+	 *
 	 * @param title
 	 *            title
 	 * @param a
@@ -71,53 +68,47 @@ public final class DialogManager3DW extends DialogManagerW {
 	 *            apex point
 	 */
 	@Override
-	public void showNumberInputDialogConeTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogConeTwoPointsRadius(
+			String title, GeoPointND a, GeoPointND b, EuclidianController ec) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog coneTwoPointsInputDialog
-				= new InputDialogConeTwoPointsRadiusW((AppW) app, data,
-				handler, a, b, app.getKernel());
+		ComponentInputDialog coneTwoPointsInputDialog =
+				new InputDialogConeTwoPointsRadiusW((AppW) app, data, handler, a, b, app.getKernel());
 		coneTwoPointsInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogCylinderTwoPointsRadius(
+			String title, GeoPointND a, GeoPointND b, EuclidianController ec) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog cylinderTwoPointsInputDialog
-				= new InputDialogCylinderTwoPointsRadiusW((AppW) app,
-				data, handler, a, b, app.getKernel());
+		ComponentInputDialog cylinderTwoPointsInputDialog =
+				new InputDialogCylinderTwoPointsRadiusW((AppW) app, data, handler, a, b, app.getKernel());
 		cylinderTwoPointsInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogCirclePointDirectionRadius(String title,
-			GeoPointND geoPoint, GeoDirectionND forAxis,
-			EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogCirclePointDirectionRadius(
+			String title, GeoPointND geoPoint, GeoDirectionND forAxis, EuclidianController ec) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog circlePointRadiusInputDialog
-				= new InputDialogCirclePointDirectionRadiusW((AppW) app,
-				data, handler, geoPoint, forAxis, app.getKernel());
+		ComponentInputDialog circlePointRadiusInputDialog = new InputDialogCirclePointDirectionRadiusW(
+				(AppW) app, data, handler, geoPoint, forAxis, app.getKernel());
 		circlePointRadiusInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoLineND[] selectedLines, GeoElement[] selGeos,
+	public void showNumberInputDialogRotate(
+			String title,
+			GeoPolygon[] polys,
+			GeoLineND[] selectedLines,
+			GeoElement[] selGeos,
 			EuclidianController ec) {
 
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog rotateAxisInputDialog = new InputDialogRotateAxisW((AppW) app, data,
-				handler, polys, selectedLines, selGeos, ec);
+		ComponentInputDialog rotateAxisInputDialog =
+				new InputDialogRotateAxisW((AppW) app, data, handler, polys, selectedLines, selGeos, ec);
 		rotateAxisInputDialog.show();
-
 	}
 }

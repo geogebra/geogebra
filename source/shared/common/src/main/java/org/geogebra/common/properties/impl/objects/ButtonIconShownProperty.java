@@ -35,8 +35,8 @@ public class ButtonIconShownProperty extends AbstractValuedProperty<Boolean>
 	 * @param imageManager image manager for resolving preset button icons
 	 * @param geoElement button element to configure
 	 */
-	public ButtonIconShownProperty(Localization localization, ImageManager imageManager,
-			GeoElement geoElement) {
+	public ButtonIconShownProperty(
+			Localization localization, ImageManager imageManager, GeoElement geoElement) {
 		super(localization, "");
 		this.imageManager = imageManager;
 		this.geoElement = geoElement;

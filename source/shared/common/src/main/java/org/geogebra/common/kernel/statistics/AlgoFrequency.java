@@ -63,8 +63,8 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param dataList
 	 *            data
 	 */
-	public AlgoFrequency(Construction cons, GeoBoolean isCumulative,
-			GeoList classList, GeoList dataList) {
+	public AlgoFrequency(
+			Construction cons, GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
 		this(cons, isCumulative, classList, dataList, null, null, null);
 	}
 
@@ -80,8 +80,12 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param scale
 	 *            scale
 	 */
-	public AlgoFrequency(Construction cons, GeoBoolean isCumulative,
-			GeoList classList, GeoList dataList, GeoNumeric scale) {
+	public AlgoFrequency(
+			Construction cons,
+			GeoBoolean isCumulative,
+			GeoList classList,
+			GeoList dataList,
+			GeoNumeric scale) {
 		this(cons, isCumulative, classList, dataList, null, null, scale);
 	}
 
@@ -99,9 +103,13 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param density
 	 *            density
 	 */
-	public AlgoFrequency(Construction cons,
-			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
-			GeoBoolean useDensity, GeoNumeric density) {
+	public AlgoFrequency(
+			Construction cons,
+			GeoBoolean isCumulative,
+			GeoList classList,
+			GeoList dataList,
+			GeoBoolean useDensity,
+			GeoNumeric density) {
 		this(cons, isCumulative, classList, dataList, useDensity, density, null);
 	}
 
@@ -121,8 +129,13 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param scale
 	 *            scale factor
 	 */
-	AlgoFrequency(Construction cons, GeoBoolean isCumulative, GeoList classList,
-			GeoList dataList, GeoBoolean useDensity, GeoNumeric density,
+	AlgoFrequency(
+			Construction cons,
+			GeoBoolean isCumulative,
+			GeoList classList,
+			GeoList dataList,
+			GeoBoolean useDensity,
+			GeoNumeric density,
 			GeoNumeric scale) {
 		super(cons);
 
@@ -140,7 +153,7 @@ public class AlgoFrequency extends AlgoElement {
 
 	/***************************************************
 	 * Contingency table constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param list1
@@ -150,8 +163,8 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param isContingencyTable
 	 *            (dummy variable)
 	 */
-	public AlgoFrequency(Construction cons, GeoList list1, GeoList list2,
-			boolean isContingencyTable) {
+	public AlgoFrequency(
+			Construction cons, GeoList list1, GeoList list2, boolean isContingencyTable) {
 		super(cons);
 
 		this.isContingencyTable = isContingencyTable;
@@ -234,15 +247,13 @@ public class AlgoFrequency extends AlgoElement {
 		}
 
 		GeoClass elementType = dataList.getElementType();
-		if (!(elementType.equals(GeoClass.TEXT)
-				|| elementType.equals(GeoClass.NUMERIC))) {
+		if (!(elementType.equals(GeoClass.TEXT) || elementType.equals(GeoClass.NUMERIC))) {
 			frequency.setUndefined();
 			return;
 		}
 
 		if (classList != null) {
-			if (!classList.getElementType().equals(GeoClass.NUMERIC)
-					|| classList.size() < 2) {
+			if (!classList.getElementType().equals(GeoClass.NUMERIC) || classList.size() < 2) {
 				frequency.setUndefined();
 				return;
 			}
@@ -270,8 +281,7 @@ public class AlgoFrequency extends AlgoElement {
 		}
 
 		double numMax, numMin;
-		boolean doCumulative = isCumulative != null
-				&& isCumulative.getBoolean();
+		boolean doCumulative = isCumulative != null && isCumulative.getBoolean();
 
 		// Load the data into f, an instance of Frequency class
 		// =======================================================
@@ -279,8 +289,7 @@ public class AlgoFrequency extends AlgoElement {
 		Frequency f = elementType == GeoClass.NUMERIC ? new FrequencyGgb() : new Frequency();
 		for (int i = 0; i < dataList.size(); i++) {
 			if (elementType.equals(GeoClass.TEXT)) {
-				f.addValue(dataList.get(i)
-						.toValueString(StringTemplate.defaultTemplate));
+				f.addValue(dataList.get(i).toValueString(StringTemplate.defaultTemplate));
 			}
 			if (elementType.equals(GeoClass.NUMERIC)) {
 				f.addValue(((GeoNumeric) dataList.get(i)).getDouble());
@@ -367,8 +376,7 @@ public class AlgoFrequency extends AlgoElement {
 			int length = classList.size();
 			for (int i = 1; i < length; i++) {
 
-				double lowerClassBound = ((GeoNumeric) classList.get(i - 1))
-						.getDouble();
+				double lowerClassBound = ((GeoNumeric) classList.get(i - 1)).getDouble();
 				double upperClassBound = ((GeoNumeric) classList.get(i)).getDouble();
 
 				// handle round-off error in class list values (this is possible
@@ -419,8 +427,10 @@ public class AlgoFrequency extends AlgoElement {
 	private void computeContingencyTable() {
 
 		// Validate input arguments
-		if (!dataList.isDefined() || dataList.size() == 0
-				|| !classList.isDefined() || classList.size() == 0) {
+		if (!dataList.isDefined()
+				|| dataList.size() == 0
+				|| !classList.isDefined()
+				|| classList.size() == 0) {
 			frequency.setUndefined();
 			return;
 		}
@@ -459,10 +469,8 @@ public class AlgoFrequency extends AlgoElement {
 		// compute the frequencies
 		for (int index = 0; index < classList.size(); index++) {
 			// get ordered pair of strings
-			String s1 = classList.get(index)
-					.toValueString(StringTemplate.defaultTemplate);
-			String s2 = dataList.get(index)
-					.toValueString(StringTemplate.defaultTemplate);
+			String s1 = classList.get(index).toValueString(StringTemplate.defaultTemplate);
+			String s2 = dataList.get(index).toValueString(StringTemplate.defaultTemplate);
 			// increment frequency element
 			freqTable[rowList.indexOf(s1)][colList.indexOf(s2)]++;
 		}
@@ -475,7 +483,6 @@ public class AlgoFrequency extends AlgoElement {
 			}
 			frequency.add(l);
 		}
-
 	}
 
 	private String[] getUniqueValues(GeoList list) {
@@ -490,5 +497,4 @@ public class AlgoFrequency extends AlgoElement {
 		}
 		return s;
 	}
-
 }

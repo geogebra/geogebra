@@ -38,16 +38,14 @@ class MultiSelectButtonsPanel extends FlowPanel {
 	MultiSelectButtonsPanel(ButtonsListener widgets) {
 		addStyleName("toolListButtons");
 
-		addIconButton(MaterialDesignResources.INSTANCE.arrow_drop_up(),
-				w -> widgets.moveSelection(true));
-		addIconButton(MaterialDesignResources.INSTANCE.arrow_drop_down(),
-				w -> widgets.moveSelection(false));
-		addIconButton(MaterialDesignResources.INSTANCE.delete_black(),
-				w -> widgets.deleteSelection());
+		addIconButton(
+				MaterialDesignResources.INSTANCE.arrow_drop_up(), w -> widgets.moveSelection(true));
+		addIconButton(
+				MaterialDesignResources.INSTANCE.arrow_drop_down(), w -> widgets.moveSelection(false));
+		addIconButton(MaterialDesignResources.INSTANCE.delete_black(), w -> widgets.deleteSelection());
 	}
 
-	private void addIconButton(SVGResource img,
-			FastClickHandler clickHandler) {
+	private void addIconButton(SVGResource img, FastClickHandler clickHandler) {
 		StandardButton btn = new StandardButton(img, null, 24);
 		btn.addFastClickHandler(clickHandler);
 		btn.addStyleName("IconButton");

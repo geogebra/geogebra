@@ -34,6 +34,7 @@ public final class TextEditPanel extends FlowPanel implements ITextEditPanel {
 	private final DynamicTextProcessor dTProcessor;
 	/** editor */
 	private final GeoTextEditor editor;
+
 	private final TextPreviewPanelW previewer;
 	/** GeoText edited by this panel */
 	private GeoText editGeo = null;
@@ -120,8 +121,8 @@ public final class TextEditPanel extends FlowPanel implements ITextEditPanel {
 	 * @return text definition
 	 */
 	public String getText() {
-		return dTProcessor.buildGeoGebraString(editor.getDynamicTextList(),
-				editGeo != null && editGeo.isLaTeX());
+		return dTProcessor.buildGeoGebraString(
+				editor.getDynamicTextList(), editGeo != null && editGeo.isLaTeX());
 	}
 
 	/**
@@ -129,8 +130,7 @@ public final class TextEditPanel extends FlowPanel implements ITextEditPanel {
 	 * @param geo GeoText
 	 */
 	public void setText(GeoText geo) {
-		ArrayList<DynamicTextElement> list = dTProcessor
-				.buildDynamicTextList(geo);
+		ArrayList<DynamicTextElement> list = dTProcessor.buildDynamicTextList(geo);
 		editor.setText(list);
 
 		updatePreviewPanel();
@@ -168,10 +168,9 @@ public final class TextEditPanel extends FlowPanel implements ITextEditPanel {
 			return;
 		}
 
-		String inputValue = dTProcessor
-				.buildGeoGebraString(editor.getDynamicTextList(), false);
-		boolean isLatex = previewer.updatePreviewText(editGeo,
-				inputValue, editGeo != null && editGeo.isLaTeX(), byUser);
+		String inputValue = dTProcessor.buildGeoGebraString(editor.getDynamicTextList(), false);
+		boolean isLatex = previewer.updatePreviewText(
+				editGeo, inputValue, editGeo != null && editGeo.isLaTeX(), byUser);
 		if (editGeo != null && editGeo.isLaTeX() != isLatex) {
 			editGeo.setLaTeX(isLatex, false);
 		}

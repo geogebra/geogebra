@@ -41,17 +41,20 @@ public class AppWsimple extends AppW {
 
 	/******************************************************
 	 * Constructs AppW for applets
-	 * 
+	 *
 	 * @param ae
 	 *            article element
 	 * @param gf
 	 *            frame
-	 * 
+	 *
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWsimple(GeoGebraElement ae, AppletParameters parameters,
-			GeoGebraFrameSimple gf, final boolean undoActive) {
+	public AppWsimple(
+			GeoGebraElement ae,
+			AppletParameters parameters,
+			GeoGebraFrameSimple gf,
+			final boolean undoActive) {
 		super(ae, parameters, 2, null);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
@@ -59,8 +62,7 @@ public class AppWsimple extends AppW {
 
 		this.useFullGui = false;
 
-		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-				+ GeoGebraConstants.BUILD_DATE);
+		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " " + GeoGebraConstants.BUILD_DATE);
 		initCommonObjects();
 		initing = true;
 
@@ -93,9 +95,7 @@ public class AppWsimple extends AppW {
 			if (getZoomPanel() != null) {
 				frame.add(getZoomPanel());
 			}
-			getEuclidianViewpanel().setPixelSize(
-					getInnerAppletWidth(),
-					getInnerAppletHeight());
+			getEuclidianViewpanel().setPixelSize(getInnerAppletWidth(), getInnerAppletHeight());
 			updateVoiceover();
 		}
 	}
@@ -106,9 +106,9 @@ public class AppWsimple extends AppW {
 
 		buildApplicationPanel();
 		getScriptManager().ggbOnInit(); // put this here from Application
-										// constructor because we have to delay
-										// scripts until the EuclidianView is
-										// shown
+		// constructor because we have to delay
+		// scripts until the EuclidianView is
+		// shown
 		if (needsSpreadsheetTableModel()) {
 			getSpreadsheetTableModel(); // spreadsheet trace useful even without UI
 		}
@@ -158,7 +158,7 @@ public class AppWsimple extends AppW {
 	}
 
 	@Override
-	final public String getReverseCommand(String command) {
+	public final String getReverseCommand(String command) {
 		// translations not available in webSimple
 		return command;
 	}

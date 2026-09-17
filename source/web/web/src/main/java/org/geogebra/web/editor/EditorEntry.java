@@ -38,8 +38,7 @@ public final class EditorEntry implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		FactoryProviderGWT.ensureLoaded();
-		Function onReady = (Function) JsObject.of(DomGlobal.window)
-				.nestedGet("editor.onReady");
+		Function onReady = (Function) JsObject.of(DomGlobal.window).nestedGet("editor.onReady");
 		initFontAndCss();
 
 		EditorKeyboard keyboard = new EditorKeyboard();
@@ -61,14 +60,13 @@ public final class EditorEntry implements EntryPoint {
 
 	private void initFontAndCss() {
 		String baseUrl = getBaseUrl();
-		new StyleInjector(baseUrl)
-				.inject("css", "editor");
+		new StyleInjector(baseUrl).inject("css", "editor");
 		Opentype.setFontBaseUrl(baseUrl);
 	}
 
 	private String getBaseUrl() {
-		elemental2.dom.Element script = DomGlobal.document
-				.querySelector("[src$=\"editor.nocache.js\"]");
+		elemental2.dom.Element script =
+				DomGlobal.document.querySelector("[src$=\"editor.nocache.js\"]");
 
 		if (script != null && !isSuperDev()) {
 			String baseUrl = script.getAttribute("src");

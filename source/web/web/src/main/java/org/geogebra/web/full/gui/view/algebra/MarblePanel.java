@@ -32,9 +32,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * @author Zbynek
  */
-public final class MarblePanel extends FlowPanel
-		implements KeyDownHandler, AlgebraItemHeader {
-	
+public final class MarblePanel extends FlowPanel implements KeyDownHandler, AlgebraItemHeader {
+
 	private Marble marble;
 	/** warning triangle / help button */
 	private StandardButton btnWarning;
@@ -106,8 +105,7 @@ public final class MarblePanel extends FlowPanel
 	@Override
 	public void updateIcons(boolean warning) {
 		boolean textInput = item.getController().isInputAsText();
-		if (textInput && !item.isInputTreeItem()
-				&& item.getController().isEditing()) {
+		if (textInput && !item.isInputTreeItem() && item.getController().isEditing()) {
 			addStyleName("text");
 		} else {
 			removeStyleName("text");
@@ -127,8 +125,7 @@ public final class MarblePanel extends FlowPanel
 			marble.setEnabled(shouldShowMarble());
 			removeStyleName("error");
 		}
-		AriaHelper.setLabel(marble,
-				item.loc.getMenu("ShowHideObject"));
+		AriaHelper.setLabel(marble, item.loc.getMenu("ShowHideObject"));
 	}
 
 	private void initHelpToggle() {
@@ -194,7 +191,7 @@ public final class MarblePanel extends FlowPanel
 
 	/**
 	 * Shows the help panel
-	 * 
+	 *
 	 * @param item
 	 *            item to show the help in
 	 */
@@ -202,17 +199,16 @@ public final class MarblePanel extends FlowPanel
 		Scheduler.get().scheduleDeferred(() -> {
 			item.setFocus(true);
 			item.setShowInputHelpPanel(true);
-			item.app.getGuiManager().getInputHelpPanel()
-					.focusCommand(item.getCommand());
+			item.app.getGuiManager().getInputHelpPanel().focusCommand(item.getCommand());
 		});
 	}
 
 	/**
 	 * Check if item shows error.
-	 * 
+	 *
 	 * @param item
 	 *            to check
-	 * 
+	 *
 	 * @return if there is an error or not.
 	 */
 	public static boolean checkError(final RadioTreeItem item) {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -62,21 +62,23 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.editor.share.util.Unicode;
 
 /**
- * 
+ *
  * An extension of EuclidianView used for display of a set of GeoElements
  * without all of the mouse and key controls of the full EuclidianView. Unlike
  * EuclidianView, this view remains centered in the panel when resized.
- * 
+ *
  * Includes a right-click context menu and DnD support for exporting either the
  * set of GeoElements or an image of the view.
- * 
- * 
+ *
+ *
  * @author G.Sturr 2010-6-30
- * 
+ *
  */
 public class PlotPanelEuclidianViewD extends EuclidianViewD
-		implements ComponentListener, DragGestureListener, DragSourceListener,
-		PlotPanelEuclidianViewInterface {
+		implements ComponentListener,
+				DragGestureListener,
+				DragSourceListener,
+				PlotPanelEuclidianViewInterface {
 
 	private EuclidianController ec;
 	private final PlotPanelEuclidianViewD plotPanelEV;
@@ -101,18 +103,20 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	private AbstractAction exportToEVAction;
 
 	/** DataFlavor for plotPanel drags */
-	public final static DataFlavor plotPanelFlavor = new DataFlavor(
-			DataFlavor.javaJVMLocalObjectMimeType
-					+ ";class=javax.swing.AbstractAction",
+	public static final DataFlavor plotPanelFlavor = new DataFlavor(
+			DataFlavor.javaJVMLocalObjectMimeType + ";class=javax.swing.AbstractAction",
 			"plotPanelFlavor");
 
 	/*************************************************
 	 * Construct the panel
 	 */
 	public PlotPanelEuclidianViewD(Kernel kernel, AbstractAction exportAction) {
-		super(new PlotPanelEuclidianControllerD(kernel),
+		super(
+				new PlotPanelEuclidianControllerD(kernel),
 				PlotPanelEuclidianViewCommon.SHOW_AXES,
-				PlotPanelEuclidianViewCommon.SHOW_GRID, EVNO_GENERAL, null);
+				PlotPanelEuclidianViewCommon.SHOW_GRID,
+				EVNO_GENERAL,
+				null);
 
 		this.exportToEVAction = exportAction;
 
@@ -147,7 +151,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		// centered
 		addComponentListener(this);
 		enableDnD();
-
 	}
 
 	private void setCommonFields() {
@@ -164,8 +167,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	public void setViewId(Kernel kernel) {
 		// get viewID from GuiManager
 		commonFields.setViewID(
-				((GuiManagerD) kernel.getApplication().getGuiManager())
-						.assignPlotPanelID(this));
+				((GuiManagerD) kernel.getApplication().getGuiManager()).assignPlotPanelID(this));
 	}
 
 	/**
@@ -245,14 +247,13 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Enables/disables the default EuclidianController mouse listener and
 	 * myMouseListener, the listener that handles the right-click context menu.
-	 * 
+	 *
 	 * @param enableECMouseListener
 	 *            default = false
 	 * @param enableMyMouseListener
 	 *            default = true
 	 */
-	public void setMouseEnabled(boolean enableECMouseListener,
-			boolean enableMyMouseListener) {
+	public void setMouseEnabled(boolean enableECMouseListener, boolean enableMyMouseListener) {
 		if (mouseListener == null) {
 			mouseListener = new PlotPanelMouseListener();
 		}
@@ -269,7 +270,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 	/**
 	 * Enables/disables the EuclidianController mouse motion listener
-	 * 
+	 *
 	 * @param enableMouseMotion
 	 *            default = false
 	 */
@@ -282,7 +283,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 	/**
 	 * Enables/disables the EuclidianController mouse wheel listener
-	 * 
+	 *
 	 * @param enableMouseWheel
 	 *            default = false
 	 */
@@ -333,7 +334,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		public void mouseExited(MouseEvent e) {
 			// ignore
 		}
-
 	}
 
 	/**
@@ -394,7 +394,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 	/**
 	 * Sets the list of AbstractActions to be used in the popup context menu.
-	 * 
+	 *
 	 * @param actionList action list
 	 */
 	public void setActionList(ArrayList<AbstractAction> actionList) {
@@ -403,7 +403,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 	/**
 	 * Returns the list of AbstractActions to be used in the popup context menu.
-	 * 
+	 *
 	 * @return action list
 	 */
 	public ArrayList<AbstractAction> getActionList() {
@@ -412,10 +412,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 			actionList = new ArrayList<>();
 			Localization loc = getApplication().getLocalization();
 			if (exportToEVAction != null) {
-				exportToEVAction.putValue(Action.NAME,
-						loc.getMenu("CopyToGraphics"));
-				exportToEVAction.putValue(Action.SMALL_ICON,
-						getApplication().getEmptyIcon());
+				exportToEVAction.putValue(Action.NAME, loc.getMenu("CopyToGraphics"));
+				exportToEVAction.putValue(Action.SMALL_ICON, getApplication().getEmptyIcon());
 				actionList.add(exportToEVAction);
 			}
 			actionList.add(drawingPadToClipboardAction);
@@ -427,58 +425,55 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	/**
 	 * Action to export an image of the view as a file.
 	 */
-	AbstractAction exportGraphicAction = new AbstractAction(
-			getApplication().getLocalization().getMenu("ExportAsPicture")
-					+ Unicode.ELLIPSIS,
-			getApplication().getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
-		private static final long serialVersionUID = 1L;
+	AbstractAction exportGraphicAction =
+			new AbstractAction(
+					getApplication().getLocalization().getMenu("ExportAsPicture") + Unicode.ELLIPSIS,
+					getApplication().getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
+				private static final long serialVersionUID = 1L;
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Thread runner = new Thread(() -> {
-				getApplication().setWaitCursor();
-				try {
-					getApplication().getSelectionManager()
-							.clearSelectedGeos(true, false);
-					getApplication().updateSelection(false);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Thread runner = new Thread(() -> {
+						getApplication().setWaitCursor();
+						try {
+							getApplication().getSelectionManager().clearSelectedGeos(true, false);
+							getApplication().updateSelection(false);
 
-					// use reflection for
-					JDialog d = new GraphicExportDialog(getApplication(),
-							plotPanelEV);
-					d.setVisible(true);
+							// use reflection for
+							JDialog d = new GraphicExportDialog(getApplication(), plotPanelEV);
+							d.setVisible(true);
 
-				} catch (Exception ex) {
-					Log.debug("GraphicExportDialog not available");
+						} catch (Exception ex) {
+							Log.debug("GraphicExportDialog not available");
+						}
+						getApplication().setDefaultCursor();
+					});
+					runner.start();
 				}
-				getApplication().setDefaultCursor();
-			});
-			runner.start();
-
-		}
-	};
+			};
 
 	/**
 	 * Action to export an image of the view to the clipboard.
 	 */
-	AbstractAction drawingPadToClipboardAction = new AbstractAction(
-			getApplication().getLocalization().getMenu("CopyToClipboard"),
-			getApplication().getEmptyIcon()) {
-		private static final long serialVersionUID = 1L;
+	AbstractAction drawingPadToClipboardAction =
+			new AbstractAction(
+					getApplication().getLocalization().getMenu("CopyToClipboard"),
+					getApplication().getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			getApplication().getSelectionManager().clearSelectedGeos(true,
-					false);
-			getApplication().updateSelection(false);
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					getApplication().getSelectionManager().clearSelectedGeos(true, false);
+					getApplication().updateSelection(false);
 
-			Thread runner = new Thread(() -> {
-				getApplication().setWaitCursor();
-				getApplication().copyGraphicsViewToClipboard(plotPanelEV);
-				getApplication().setDefaultCursor();
-			});
-			runner.start();
-		}
-	};
+					Thread runner = new Thread(() -> {
+						getApplication().setWaitCursor();
+						getApplication().copyGraphicsViewToClipboard(plotPanelEV);
+						getApplication().setDefaultCursor();
+					});
+					runner.start();
+				}
+			};
 
 	// =====================================================
 	// Drag and Drop
@@ -486,8 +481,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 	protected void enableDnD() {
 		ds = new DragSource();
-		ds.createDefaultDragGestureRecognizer(this.getJPanel(),
-				DnDConstants.ACTION_COPY, this);
+		ds.createDefaultDragGestureRecognizer(this.getJPanel(), DnDConstants.ACTION_COPY, this);
 	}
 
 	@Override
@@ -523,10 +517,14 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		if (commonFields.isOverDragRegion()) {
 			plotPanelEV.setSelectionRectangle(null);
 			// start drag
-			ds.startDrag(dge, DragSource.DefaultCopyDrop, null, new Point(0, 0),
-					new TransferablePlotPanel(), this);
+			ds.startDrag(
+					dge,
+					DragSource.DefaultCopyDrop,
+					null,
+					new Point(0, 0),
+					new TransferablePlotPanel(),
+					this);
 		}
-
 	}
 
 	/**
@@ -534,8 +532,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	public class TransferablePlotPanel implements Transferable {
 
-		private final DataFlavor[] supportedFlavors = { plotPanelFlavor,
-				DataFlavor.imageFlavor };
+		private final DataFlavor[] supportedFlavors = {plotPanelFlavor, DataFlavor.imageFlavor};
 
 		private final Image image;
 
@@ -561,8 +558,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 		}
 
 		@Override
-		public Object getTransferData(DataFlavor flavor)
-				throws UnsupportedFlavorException {
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
 			if (flavor.equals(plotPanelFlavor)) {
 				return exportToEVAction;
 			}

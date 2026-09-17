@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,13 +40,14 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	 *            application
 	 */
 	public EuclidianDockPanel3DD(AppD app) {
-		super(App.VIEW_EUCLIDIAN3D, // view id
+		super(
+				App.VIEW_EUCLIDIAN3D, // view id
 				"GraphicsView3D", // view title
 				ToolBar.getAllToolsNoMacros3D(app), // toolbar string
 				true, // style bar?
 				6, // menu order
 				'3' // ctrl-shift-3
-		);
+				);
 
 		setApp(app);
 
@@ -75,7 +76,7 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 
 	/**
 	 * force openGL to refresh
-	 * 
+	 *
 	 * @param manager
 	 *            dock manager
 	 */
@@ -139,7 +140,6 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 		super.updatePanel();
 
 		resumeRenderer();
-
 	}
 
 	/**
@@ -150,7 +150,5 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 		if (visible) {
 			((App3D) app).getEuclidianView3D().getRenderer().resumeAnimator();
 		}
-
 	}
-
 }

@@ -40,7 +40,7 @@ final class CompositeCommandFilter implements CommandFilter {
 
 	@Override
 	public boolean isCommandAllowed(Commands command) {
-		for (CommandFilter filter: filters) {
+		for (CommandFilter filter : filters) {
 			if (!filter.isCommandAllowed(command)) {
 				return false;
 			}

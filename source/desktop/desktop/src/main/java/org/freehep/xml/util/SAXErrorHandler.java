@@ -15,16 +15,16 @@ import org.xml.sax.SAXParseException;
  * A simple SAXErrorHandler. Reports errors to System.err and keeps track of the
  * most severe error. Can be configured to throw exceptions when errors more
  * severe than a certain LEVEL are encountered
- * 
+ *
  * @author tonyj
  * @version $Id: SAXErrorHandler.java,v 1.5 2008-10-23 19:04:05 hohenwarter Exp
  *          $
  */
 public class SAXErrorHandler implements ErrorHandler {
-	public final static int LEVEL_SUCCESS = 0;
-	public final static int LEVEL_WARNING = 1;
-	public final static int LEVEL_ERROR = 2;
-	public final static int LEVEL_FATAL = 3;
+	public static final int LEVEL_SUCCESS = 0;
+	public static final int LEVEL_WARNING = 1;
+	public static final int LEVEL_ERROR = 2;
+	public static final int LEVEL_FATAL = 3;
 
 	/**
 	 * Create a SAXErrorHandler which will throw exceptions for all errors (but
@@ -36,7 +36,7 @@ public class SAXErrorHandler implements ErrorHandler {
 
 	/**
 	 * Create a SAXErrorHandler
-	 * 
+	 *
 	 * @param minLevelForException
 	 *            The minimum error level for which exceptions will be thrown
 	 */
@@ -45,14 +45,12 @@ public class SAXErrorHandler implements ErrorHandler {
 	}
 
 	@Override
-	public void warning(SAXParseException exception)
-			throws org.xml.sax.SAXException {
+	public void warning(SAXParseException exception) throws org.xml.sax.SAXException {
 		handle(exception, LEVEL_WARNING, "Warning");
 	}
 
 	@Override
-	public void error(SAXParseException exception)
-			throws org.xml.sax.SAXException {
+	public void error(SAXParseException exception) throws org.xml.sax.SAXException {
 		handle(exception, LEVEL_ERROR, "Error");
 	}
 
@@ -61,8 +59,8 @@ public class SAXErrorHandler implements ErrorHandler {
 		handle(exception, LEVEL_FATAL, "Fatal");
 	}
 
-	private void handle(SAXParseException exception, int level,
-			String levelName) throws SAXException {
+	private void handle(SAXParseException exception, int level, String levelName)
+			throws SAXException {
 		StringBuffer message = new StringBuffer(levelName);
 		String fileName = exception.getPublicId();
 		if (fileName == null) {
@@ -80,12 +78,11 @@ public class SAXErrorHandler implements ErrorHandler {
 		}
 		message.append(": " + exception);
 		Log.debug(message + "");
-
 	}
 
 	/**
 	 * Get the level of the most severe error.
-	 * 
+	 *
 	 * @return one of LEVEL_SUCCESS, LEVEL_WARNING, LEVEL_ERROR, LEVEL_FATAL
 	 */
 	public int getErrorLevel() {

@@ -80,8 +80,12 @@ public class Relation {
 	 *
 	 * @author Zoltan Kovacs
 	 */
-	public Relation(final App app, final GeoElement ra,
-			final GeoElement rb, final GeoElement rc, final GeoElement rd) {
+	public Relation(
+			final App app,
+			final GeoElement ra,
+			final GeoElement rb,
+			final GeoElement rc,
+			final GeoElement rd) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.ra = ra;
@@ -99,12 +103,13 @@ public class Relation {
 	}
 
 	private String getSubTitle() {
-		List<String> labels = Stream.of(ra, rb, rc, rd).filter(Objects::nonNull)
+		List<String> labels = Stream.of(ra, rb, rc, rd)
+				.filter(Objects::nonNull)
 				.map(geo -> GeoElement.indicesToHTML(geo.getLabelSimple(), false))
 				.collect(Collectors.toList());
 		String first = StringUtil.join(", ", labels.subList(0, labels.size() - 1));
-		return app.getLocalization().getPlainDefault("AandB", "%0 and %1",
-					first, labels.get(labels.size() - 1));
+		return app.getLocalization()
+				.getPlainDefault("AandB", "%0 and %1", first, labels.get(labels.size() - 1));
 	}
 
 	/**
@@ -142,12 +147,9 @@ public class Relation {
 			final String relInfo = relInfos[i];
 			// First information shown (result of numerical checks):
 			if (app.isDesktop()) {
-				rr[i].setInfo(
-						"<html>" + relInfo + "<br>"
-								+ app.getLocalization().getMenuDefault(
-								"CheckedNumerically",
-								"(checked numerically)")
-								+ "</html>");
+				rr[i].setInfo("<html>" + relInfo + "<br>"
+						+ app.getLocalization().getMenuDefault("CheckedNumerically", "(checked numerically)")
+						+ "</html>");
 			} else {
 				rr[i].setInfo(relInfo);
 			}
@@ -158,14 +160,13 @@ public class Relation {
 		}
 
 		// just send first row to event
-		app.dispatchEvent(
-				new Event(EventType.RELATION_TOOL, null, rr[0].getInfo()));
+		app.dispatchEvent(new Event(EventType.RELATION_TOOL, null, rr[0].getInfo()));
 		return rr;
 	}
 
 	/**
 	 * Get the expanded value of a row
-	 * 
+	 *
 	 * @return updated row
 	 * @param row
 	 *            the row to be updated after the action is finished
@@ -178,8 +179,8 @@ public class Relation {
 
 		Localization loc = ra.getConstruction().getApplication().getLocalization();
 		String and = loc.getMenu("Symbol.And").toLowerCase(Locale.ROOT);
-		String trueOnParts = loc.getMenuDefault("TrueOnPartsFalseOnParts",
-				"(true on parts, false on parts)");
+		String trueOnParts =
+				loc.getMenuDefault("TrueOnPartsFalseOnParts", "(true on parts, false on parts)");
 		String generallyFalse = loc.getMenuDefault("FalseInGeneral", "(false in general)");
 		rel.setInfo("<html>");
 
@@ -197,8 +198,8 @@ public class Relation {
 			rel.setInfo(rel.getInfo() + relInfo + "<br><b>");
 			if ("".equals(ndgResult[0])) {
 				// ProveDetails==undefined
-				rel.setInfo(rel.getInfo()
-						+ loc.getMenuDefault("CheckedNumerically", "(checked numerically)"));
+				rel.setInfo(
+						rel.getInfo() + loc.getMenuDefault("CheckedNumerically", "(checked numerically)"));
 			} else if ("1".equals(ndgResult[0])) {
 				// ProveDetails=={true}
 				rel.setInfo(rel.getInfo() + loc.getMenuDefault("AlwaysTrue", "(always true)"));
@@ -212,17 +213,18 @@ public class Relation {
 			}
 			rel.setInfo(rel.getInfo() + "</b>");
 		} else {
-			if ((ndgs == 2) && !"2".equals(ndgResult[0])
+			if ((ndgs == 2)
+					&& !"2".equals(ndgResult[0])
 					&& String.valueOf(Unicode.ELLIPSIS).equals(ndgResult[1])) {
 				// ProveDetails=={true,"..."}
-				rel.setInfo(
-						rel.getInfo()
-								+ loc.getPlain("GenerallyTrueAcondB",
-										"<ul><li " + liStyle + ">" + relInfo + "</ul>",
-										"<ul><li " + liStyle + ">"
-												+ loc.getMenuDefault("ConstructionNotDegenerate",
-														"the construction is not degenerate")
-												+ "</ul>"));
+				rel.setInfo(rel.getInfo()
+						+ loc.getPlain(
+								"GenerallyTrueAcondB",
+								"<ul><li " + liStyle + ">" + relInfo + "</ul>",
+								"<ul><li " + liStyle + ">"
+										+ loc.getMenuDefault(
+												"ConstructionNotDegenerate", "the construction is not degenerate")
+										+ "</ul>"));
 
 			} else {
 				if ("2".equals(ndgResult[0])) {
@@ -231,8 +233,11 @@ public class Relation {
 				} else {
 					// e.g. ProveDetails=={true,{"AreEqual(A,B)"}}
 					StringBuilder conds = formatConditions(ndgResult, liStyle, and);
-					rel.setInfo(rel.getInfo() + loc.getPlain("GenerallyTrueAcondB",
-							"<ul><li " + liStyle + ">" + relInfo + "</ul>", conds.toString()));
+					rel.setInfo(rel.getInfo()
+							+ loc.getPlain(
+									"GenerallyTrueAcondB",
+									"<ul><li " + liStyle + ">" + relInfo + "</ul>",
+									conds.toString()));
 				}
 			}
 		}
@@ -269,18 +274,18 @@ public class Relation {
 	 * @author Zoltan Kovacs
 	 *
 	 */
-	final public String[] getNDGConditions(RelationCommand command) {
+	public final String[] getNDGConditions(RelationCommand command) {
 		Construction cons = ra.getConstruction();
 
 		ExpressionValue ae = getProvableExpression(command);
 		if (ae == null) {
-			return new String[]{""};
+			return new String[] {""};
 		}
 		String[] ret;
-		Command proveCommand = buildCommand(Commands.ProveDetails.name(),
-				ae, new GeoBoolean(cons, true));
-		GeoElement[] proveResult = kernel.getAlgebraProcessor().processCommand(proveCommand,
-				new EvalInfo(false));
+		Command proveCommand =
+				buildCommand(Commands.ProveDetails.name(), ae, new GeoBoolean(cons, true));
+		GeoElement[] proveResult =
+				kernel.getAlgebraProcessor().processCommand(proveCommand, new EvalInfo(false));
 
 		GeoList list = (GeoList) proveResult[0];
 		// Turning the output of ProveDetails into an array:
@@ -289,8 +294,7 @@ public class Relation {
 			int condsSize = conds.size();
 			ret = new String[condsSize + 1];
 			for (int i = 0; i < condsSize; ++i) {
-				String cond = conds.get(i)
-						.toString(StringTemplate.defaultTemplate);
+				String cond = conds.get(i).toString(StringTemplate.defaultTemplate);
 				// Removing quotes:
 				ret[i + 1] = cond.substring(1, cond.length() - 1);
 			}
@@ -325,30 +329,30 @@ public class Relation {
 
 	private ExpressionValue getProvableExpression(RelationCommand command) {
 		switch (command) {
-		case AreCongruent:
-		case AreEqual:
-		case AreParallel:
-		case ArePerpendicular:
-			return buildCommand(command.name(), ra, rb);
-		case IsOnPath:
-			if ((ra instanceof GeoPoint) && (rb instanceof Path)) {
-				return new ExpressionNode(kernel, ra, Operation.IS_ELEMENT_OF, rb);
-			} else if ((rb instanceof GeoPoint) && (ra instanceof Path)) {
-				return new ExpressionNode(kernel, rb, Operation.IS_ELEMENT_OF, ra);
-			}
-			break;
-		case AreConcyclic:
-			return buildCommand(command.name(), ra, rb, rc, rd);
-		case AreCollinear:
-		case AreConcurrent:
-			return buildCommand(command.name(), ra, rb, rc);
-		case IsTangent:
-			if ((ra instanceof GeoLine) && (rb instanceof GeoConic)) {
+			case AreCongruent:
+			case AreEqual:
+			case AreParallel:
+			case ArePerpendicular:
 				return buildCommand(command.name(), ra, rb);
-			} else if ((ra instanceof GeoConic) && (rb instanceof GeoLine)) {
-				return buildCommand(command.name(), rb, ra);
-			}
-			break;
+			case IsOnPath:
+				if ((ra instanceof GeoPoint) && (rb instanceof Path)) {
+					return new ExpressionNode(kernel, ra, Operation.IS_ELEMENT_OF, rb);
+				} else if ((rb instanceof GeoPoint) && (ra instanceof Path)) {
+					return new ExpressionNode(kernel, rb, Operation.IS_ELEMENT_OF, ra);
+				}
+				break;
+			case AreConcyclic:
+				return buildCommand(command.name(), ra, rb, rc, rd);
+			case AreCollinear:
+			case AreConcurrent:
+				return buildCommand(command.name(), ra, rb, rc);
+			case IsTangent:
+				if ((ra instanceof GeoLine) && (rb instanceof GeoConic)) {
+					return buildCommand(command.name(), ra, rb);
+				} else if ((ra instanceof GeoConic) && (rb instanceof GeoLine)) {
+					return buildCommand(command.name(), rb, ra);
+				}
+				break;
 		}
 		return null;
 	}

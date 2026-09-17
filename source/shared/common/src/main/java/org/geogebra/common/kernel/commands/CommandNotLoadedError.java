@@ -37,5 +37,4 @@ public class CommandNotLoadedError extends Error {
 	public CommandNotLoadedError(String message) {
 		super(message);
 	}
-
 }

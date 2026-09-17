@@ -29,8 +29,7 @@ import jsinterop.annotations.JsFunction;
  */
 public final class MML2LaTeX implements EntryPoint {
 
-	final private static MathMLParser MATHML_PARSER_LATEX = new MathMLParser(
-			false);
+	private static final MathMLParser MATHML_PARSER_LATEX = new MathMLParser(false);
 
 	@JsFunction
 	public interface Converter {
@@ -46,5 +45,4 @@ public final class MML2LaTeX implements EntryPoint {
 		Converter converter = mml -> MATHML_PARSER_LATEX.parse(mml, false, false);
 		JsObject.of(DomGlobal.window).set("toLaTeX", converter);
 	}
-
 }

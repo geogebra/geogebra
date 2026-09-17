@@ -40,8 +40,7 @@ public final class CalculatorSwitcherDialog extends ComponentDialog {
 	 * @param autoHide if dialog should be closed on canvas click
 	 */
 	public CalculatorSwitcherDialog(AppW app, boolean autoHide) {
-		super(app, new DialogData("ChooseCalculator", null, null),
-				autoHide, true);
+		super(app, new DialogData("ChooseCalculator", null, null), autoHide, true);
 		suiteScope = GlobalScope.getSuiteScope(app);
 		addStyleName("calcChooser");
 		Dom.toggleClass(this, "smallScreen", app.getWidth() < 914);
@@ -77,10 +76,10 @@ public final class CalculatorSwitcherDialog extends ComponentDialog {
 		if (suiteScope.restrictionsController.isDisabledSubApp(subAppCode)) {
 			return;
 		}
-		AppDescription description = AppDescription.get(subAppCode) ;
+		AppDescription description = AppDescription.get(subAppCode);
 		String appNameKey = description.getNameKey();
-		StandardButton button =  new StandardButton(72, description.getIcon(),
-				app.getLocalization().getMenu(appNameKey));
+		StandardButton button =
+				new StandardButton(72, description.getIcon(), app.getLocalization().getMenu(appNameKey));
 		button.getElement().setTabIndex(0);
 		button.setStyleName("calcBtn");
 		if (subAppCode == app.getConfig().getSubApp()) {
@@ -92,7 +91,9 @@ public final class CalculatorSwitcherDialog extends ComponentDialog {
 			hide();
 			((AppWFull) app).setSuiteHeaderButton(subAppCode);
 			((AppWFull) app).switchToSubapp(subAppCode);
-			Analytics.logEvent(Analytics.Event.APP_SWITCHED, Analytics.Param.SUB_APP,
+			Analytics.logEvent(
+					Analytics.Event.APP_SWITCHED,
+					Analytics.Param.SUB_APP,
 					Analytics.Param.convertToSubAppParam(subAppCode));
 		});
 

@@ -38,7 +38,7 @@ public final class KeySignature implements JFugueElement {
 
 	/**
 	 * Creates a new key signature object, with the specified tempo value.
-	 * 
+	 *
 	 * @param keySig
 	 *            the key signature for this object, -7 to +7 - see MIDI
 	 *            specification for more details
@@ -53,7 +53,7 @@ public final class KeySignature implements JFugueElement {
 	/**
 	 * Sets the key signature, from -7 to +7, for this object. See the MIDI
 	 * specification for more details
-	 * 
+	 *
 	 * @param keySig
 	 *            the key signature for this object
 	 */
@@ -64,7 +64,7 @@ public final class KeySignature implements JFugueElement {
 	/**
 	 * Sets the scale - 0 for major, 1 for minor. See the MIDI specification for
 	 * more details
-	 * 
+	 *
 	 * @param scale
 	 *            the scale for this object
 	 */
@@ -74,7 +74,7 @@ public final class KeySignature implements JFugueElement {
 
 	/**
 	 * Returns the key signature for this object.
-	 * 
+	 *
 	 * @return the key signature for this object
 	 */
 	public byte getKeySig() {
@@ -83,7 +83,7 @@ public final class KeySignature implements JFugueElement {
 
 	/**
 	 * Returns the scale for this object.
-	 * 
+	 *
 	 * @return the scale for this object
 	 */
 	public byte getScale() {
@@ -95,7 +95,7 @@ public final class KeySignature implements JFugueElement {
 	 * settings. For a key signature object, the Music String is <code>K</code>
 	 * <i>keysig</i>, where 'keysig' is a root note followed by 'maj' or 'min'
 	 * (i.e., Cbmaj for C-flat major)
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -114,7 +114,7 @@ public final class KeySignature implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: KeySig: keySig={#}, scale={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -127,8 +127,10 @@ public final class KeySignature implements JFugueElement {
 		return buffy.toString();
 	}
 
-	private static final String[] majorSigs = new String[] { "Cb", "Gb", "Db",
-			"Ab", "Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#" };
-	private static final String[] minorSigs = new String[] { "Ab", "Eb", "Bb",
-			"F", "C", "G", "D", "A", "E", "B", "F#", "C#", "G#", "D#", "A#" };
+	private static final String[] majorSigs = new String[] {
+		"Cb", "Gb", "Db", "Ab", "Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#"
+	};
+	private static final String[] minorSigs = new String[] {
+		"Ab", "Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#", "G#", "D#", "A#"
+	};
 }

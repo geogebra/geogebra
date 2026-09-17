@@ -61,11 +61,11 @@ public class PenStrokeAbsolutePositionProperty extends AbstractValuedProperty<Bo
 		if (value.equals(getValue())) {
 			return;
 		}
-		GeoElement newElement = EuclidianStyleBarStatic.applyFixPosition(List.of(element), value,
-				element.getApp().getActiveEuclidianView());
+		GeoElement newElement = EuclidianStyleBarStatic.applyFixPosition(
+				List.of(element), value, element.getApp().getActiveEuclidianView());
 		if (newElement != null) {
-			redefinitionObservers.forEach(observer ->
-					observer.onGeoElementRedefined(element, newElement));
+			redefinitionObservers.forEach(
+					observer -> observer.onGeoElementRedefined(element, newElement));
 			element = newElement;
 		}
 	}

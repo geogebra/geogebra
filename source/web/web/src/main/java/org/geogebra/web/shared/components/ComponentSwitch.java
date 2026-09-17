@@ -37,7 +37,7 @@ public final class ComponentSwitch extends FlowPanel {
 	 *            true if switch is on by default
 	 * @param callback
 	 *            function to update UI on switch update
-	 * 
+	 *
 	 */
 	public ComponentSwitch(boolean switchOn, AsyncOperation<Boolean> callback) {
 		this.isSwitchOn = switchOn;

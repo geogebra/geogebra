@@ -79,7 +79,7 @@ public final class EpsilonPolicy {
 	 * @return default tolerances tuned for current implicit-curve topology construction
 	 */
 	public static EpsilonPolicy defaults() {
-		return new EpsilonPolicy(1e-10,
-				Kernel.MAX_PRECISION, Kernel.MAX_PRECISION, Kernel.MAX_PRECISION);
+		return new EpsilonPolicy(
+				1e-10, Kernel.MAX_PRECISION, Kernel.MAX_PRECISION, Kernel.MAX_PRECISION);
 	}
 }

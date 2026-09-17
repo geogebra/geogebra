@@ -29,32 +29,46 @@ public interface Clipper {
 
 	/** Clip type. */
 	enum ClipType {
-		INTERSECTION, UNION, DIFFERENCE, XOR
+		INTERSECTION,
+		UNION,
+		DIFFERENCE,
+		XOR
 	}
 
 	/** Clip direction. */
 	enum Direction {
-		RIGHT_TO_LEFT, LEFT_TO_RIGHT
+		RIGHT_TO_LEFT,
+		LEFT_TO_RIGHT
 	}
 
 	/** End type. */
 	enum EndType {
-		CLOSED_POLYGON, CLOSED_LINE, OPEN_BUTT, OPEN_SQUARE, OPEN_ROUND
+		CLOSED_POLYGON,
+		CLOSED_LINE,
+		OPEN_BUTT,
+		OPEN_SQUARE,
+		OPEN_ROUND
 	}
 
 	/** Join type. */
 	enum JoinType {
-		SQUARE, ROUND, MITER
+		SQUARE,
+		ROUND,
+		MITER
 	}
 
 	/** Winding rule. */
 	enum PolyFillType {
-		EVEN_ODD, NON_ZERO, POSITIVE, NEGATIVE
+		EVEN_ODD,
+		NON_ZERO,
+		POSITIVE,
+		NEGATIVE
 	}
 
 	/** Polygon type. */
 	enum PolyType {
-		SUBJECT, CLIP
+		SUBJECT,
+		CLIP
 	}
 
 	/**
@@ -62,8 +76,8 @@ public interface Clipper {
 	 */
 	interface ZFillCallback {
 		@MissingDoc
-		void zFill(DoublePoint bot1, DoublePoint top1, DoublePoint bot2,
-				DoublePoint top2, DoublePoint pt);
+		void zFill(
+				DoublePoint bot1, DoublePoint top1, DoublePoint bot2, DoublePoint top2, DoublePoint pt);
 	}
 
 	@MissingDoc
@@ -79,13 +93,13 @@ public interface Clipper {
 	boolean execute(ClipType clipType, Paths solution);
 
 	@MissingDoc
-	boolean execute(ClipType clipType, Paths solution,
-			PolyFillType subjFillType, PolyFillType clipFillType);
+	boolean execute(
+			ClipType clipType, Paths solution, PolyFillType subjFillType, PolyFillType clipFillType);
 
 	@MissingDoc
 	boolean execute(ClipType clipType, PolyTree polytree);
 
 	@MissingDoc
-	boolean execute(ClipType clipType, PolyTree polytree,
-			PolyFillType subjFillType, PolyFillType clipFillType);
+	boolean execute(
+			ClipType clipType, PolyTree polytree, PolyFillType subjFillType, PolyFillType clipFillType);
 }

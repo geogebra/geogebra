@@ -77,9 +77,11 @@ class FaceBuilderTest {
 		graph.linkHalfEdges();
 
 		List<BoundaryCycle> extracted = new ArrayList<>(builder.extractBoundaryCycles());
-		extracted.add(new BoundaryCycle(99,
+		extracted.add(new BoundaryCycle(
+				99,
 				List.of(degenerate, graph.halfEdge(degenerate).getTwinHalfEdgeId()),
-				0.0, new GPoint2D(10.5, 10.0)));
+				0.0,
+				new GPoint2D(10.5, 10.0)));
 
 		List<BoundaryCycle> canonical = builder.canonicalBoundaryCyclesOf(extracted);
 		assertEquals(1, canonical.size());
@@ -104,20 +106,22 @@ class FaceBuilderTest {
 		int bTop = graph.addContourEdge(topRight, topLeft, 1);
 		int bLeft = graph.addContourEdge(topLeft, bottomLeft, 1);
 
-		BoundaryCycle cycleA = new BoundaryCycle(2, List.of(
-				graph.halfEdge(aBottom).getTwinHalfEdgeId(),
-				graph.halfEdge(aLeft).getTwinHalfEdgeId(),
-				graph.halfEdge(aTop).getTwinHalfEdgeId(),
-				graph.halfEdge(aRight).getTwinHalfEdgeId()),
-				-4.0, new GPoint2D(1.0, 1.0));
+		BoundaryCycle cycleA = new BoundaryCycle(
+				2,
+				List.of(
+						graph.halfEdge(aBottom).getTwinHalfEdgeId(),
+						graph.halfEdge(aLeft).getTwinHalfEdgeId(),
+						graph.halfEdge(aTop).getTwinHalfEdgeId(),
+						graph.halfEdge(aRight).getTwinHalfEdgeId()),
+				-4.0,
+				new GPoint2D(1.0, 1.0));
 
-		BoundaryCycle cycleB = new BoundaryCycle(3, List.of(
-				bBottom0, bBottom1, bRight, bTop, bLeft),
-				4.0, new GPoint2D(1.0, 1.0));
-		BoundaryCycleNormalizer normalizer = new BoundaryCycleNormalizer(graph,
-				new BoundaryCycleExtractor(graph));
-		List<BoundaryCycle> deduped = normalizer.dedupCanonicalCyclesGeometrically(
-				List.of(cycleA, cycleB));
+		BoundaryCycle cycleB = new BoundaryCycle(
+				3, List.of(bBottom0, bBottom1, bRight, bTop, bLeft), 4.0, new GPoint2D(1.0, 1.0));
+		BoundaryCycleNormalizer normalizer =
+				new BoundaryCycleNormalizer(graph, new BoundaryCycleExtractor(graph));
+		List<BoundaryCycle> deduped =
+				normalizer.dedupCanonicalCyclesGeometrically(List.of(cycleA, cycleB));
 
 		assertEquals(1, deduped.size());
 		assertEquals(cycleB.getId(), deduped.get(0).getId());
@@ -131,10 +135,8 @@ class FaceBuilderTest {
 		int viewportTopRight = graph.addVertex(-1, -1);
 		int viewportTopLeft = graph.addVertex(-4, -1);
 
-		ViewportInfo viewportInfo =
-				ViewportInfo.ofBounds(viewportTopLeft, viewportTopRight, viewportBottomLeft,
-						viewportBottomRight,
-						-5, 5, -5, 5);
+		ViewportInfo viewportInfo = ViewportInfo.ofBounds(
+				viewportTopLeft, viewportTopRight, viewportBottomLeft, viewportBottomRight, -5, 5, -5, 5);
 		graph.addViewportEdge(viewportBottomLeft, viewportBottomRight);
 		graph.addViewportEdge(viewportBottomRight, viewportTopRight);
 		graph.addViewportEdge(viewportTopRight, viewportTopLeft);

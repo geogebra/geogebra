@@ -78,15 +78,16 @@ public interface VisibilityRestriction {
 	 * @param visibilityRestrictions The set of visibility restrictions to apply.
 	 * @return {@code true} if the element's visibility is restricted, {@code false} otherwise.
 	 */
-	static boolean isVisibilityRestricted(GeoElement geoElement,
-			Set<VisibilityRestriction> visibilityRestrictions) {
+	static boolean isVisibilityRestricted(
+			GeoElement geoElement, Set<VisibilityRestriction> visibilityRestrictions) {
 		List<Effect> effects = visibilityRestrictions.stream()
 				.map(restriction -> restriction.getEffect(geoElement))
 				.collect(Collectors.toList());
 		boolean isAllowed = effects.stream().anyMatch(effect -> effect == Effect.ALLOW)
 				|| effects.stream().noneMatch(effect -> effect == Effect.HIDE);
 		if (isAllowed && geoElement.isGeoList()) {
-			return ((GeoList) geoElement).elements()
+			return ((GeoList) geoElement)
+					.elements()
 					.anyMatch(el -> isVisibilityRestricted(el, visibilityRestrictions));
 		}
 		return !isAllowed;

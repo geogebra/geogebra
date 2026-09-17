@@ -27,30 +27,23 @@ import org.mockito.Mockito;
 
 public class MaterialVisibilityControllerTest {
 	private final LogInOperation loginOperation = Mockito.mock(LogInOperation.class);
-	private final MaterialVisibilityController controller
-			= new MaterialVisibilityController(loginOperation);
+	private final MaterialVisibilityController controller =
+			new MaterialVisibilityController(loginOperation);
 
 	@Test
 	public void testForeignMaterialVisibility() {
 		when(loginOperation.owns(Mockito.any())).thenReturn(false);
-		assertEquals(MaterialVisibility.Shared,
-				controller.getMaterialVisibility(newMaterial("")));
-		assertEquals(MaterialVisibility.Shared,
-				controller.getMaterialVisibility(newMaterial("S")));
-		assertEquals(MaterialVisibility.Shared,
-				controller.getMaterialVisibility(newMaterial("O")));
+		assertEquals(MaterialVisibility.Shared, controller.getMaterialVisibility(newMaterial("")));
+		assertEquals(MaterialVisibility.Shared, controller.getMaterialVisibility(newMaterial("S")));
+		assertEquals(MaterialVisibility.Shared, controller.getMaterialVisibility(newMaterial("O")));
 	}
 
 	@Test
 	public void testOwnMaterialVisibility() {
 		when(loginOperation.owns(Mockito.any())).thenReturn(true);
-		assertEquals(MaterialVisibility.Private,
-				controller.getMaterialVisibility(newMaterial("")));
-		assertEquals(MaterialVisibility.Shared,
-				controller.getMaterialVisibility(newMaterial("S")));
-		assertEquals(MaterialVisibility.Public,
-				controller.getMaterialVisibility(newMaterial("O")));
-
+		assertEquals(MaterialVisibility.Private, controller.getMaterialVisibility(newMaterial("")));
+		assertEquals(MaterialVisibility.Shared, controller.getMaterialVisibility(newMaterial("S")));
+		assertEquals(MaterialVisibility.Public, controller.getMaterialVisibility(newMaterial("O")));
 	}
 
 	private Material newMaterial(String visibility) {

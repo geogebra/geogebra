@@ -30,9 +30,8 @@ class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(() ->
-				new ChartStyleGeoOpacityProperty(getLocalization(), pieChart,
-						chartSegmentSelection));
+		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(
+				() -> new ChartStyleGeoOpacityProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(1);
 		chartStyleGeoOpacityProperty.setValue(50);
@@ -58,9 +57,8 @@ class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(() ->
-				new ChartStyleGeoOpacityProperty(getLocalization(), pieChart,
-						chartSegmentSelection));
+		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(
+				() -> new ChartStyleGeoOpacityProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(1);
 		assertEquals(-1, pieChart.getStyle().getBarAlpha(1));
@@ -72,9 +70,8 @@ class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(() ->
-				new ChartStyleGeoOpacityProperty(getLocalization(), pieChart,
-						chartSegmentSelection));
+		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(
+				() -> new ChartStyleGeoOpacityProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(0);
 		chartStyleGeoOpacityProperty.setValue(20);
@@ -102,9 +99,8 @@ class ChartStyleGeoOpacityPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2, 3})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(() ->
-				new ChartStyleGeoOpacityProperty(getLocalization(), pieChart,
-						chartSegmentSelection));
+		ChartStyleGeoOpacityProperty chartStyleGeoOpacityProperty = assertDoesNotThrow(
+				() -> new ChartStyleGeoOpacityProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(1);
 		chartStyleGeoOpacityProperty.setValue(30);

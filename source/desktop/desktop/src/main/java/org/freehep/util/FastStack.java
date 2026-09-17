@@ -12,7 +12,7 @@ import java.util.EmptyStackException;
 public class FastStack extends ArrayList {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -111966774350178793L;
 

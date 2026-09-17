@@ -29,7 +29,7 @@ public class CmdCircumcircleArc extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -38,25 +38,24 @@ public class CmdCircumcircleArc extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())
-					&& (ok[2] = arg[2].isGeoPoint())) {
-				GeoElement[] ret = {
-						getArc(c.getLabel(), arg[0], arg[1], arg[2]) };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPoint())
+						&& (ok[1] = arg[1].isGeoPoint())
+						&& (ok[2] = arg[2].isGeoPoint())) {
+					GeoElement[] ret = {getArc(c.getLabel(), arg[0], arg[1], arg[2])};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -71,9 +70,7 @@ public class CmdCircumcircleArc extends CommandProcessor {
 	 *            end point
 	 * @return arc
 	 */
-	protected GeoElement getArc(String label, GeoElement A, GeoElement B,
-			GeoElement C) {
-		return getAlgoDispatcher().circumcircleArc(label, (GeoPoint) A,
-				(GeoPoint) B, (GeoPoint) C);
+	protected GeoElement getArc(String label, GeoElement A, GeoElement B, GeoElement C) {
+		return getAlgoDispatcher().circumcircleArc(label, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 }

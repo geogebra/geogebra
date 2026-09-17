@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -132,7 +132,8 @@ class SelectionManagerTest extends BaseUnitTest {
 		tabOrder.add(elements[4]);
 
 		// user defined tabbing order
-		assertEquals(Arrays.asList(elements[0], elements[2], elements[4]),
+		assertEquals(
+				Arrays.asList(elements[0], elements[2], elements[4]),
 				selectionManager.getEVFilteredTabbingSet());
 	}
 
@@ -143,10 +144,10 @@ class SelectionManagerTest extends BaseUnitTest {
 		GeoElement point = add("B=(3,4)");
 		add("f(x)=x+3").setSelectionAllowed(false);
 		selectionManager.selectAll(-1);
-		assertEquals(1,
-				selectionManager.selectedGeosSize(), "There should be only one element selected!");
-		assertTrue(selectionManager.containsSelectedGeo(point),
-				"Only point B has its selection allowed!");
+		assertEquals(
+				1, selectionManager.selectedGeosSize(), "There should be only one element selected!");
+		assertTrue(
+				selectionManager.containsSelectedGeo(point), "Only point B has its selection allowed!");
 	}
 
 	@Test
@@ -155,7 +156,8 @@ class SelectionManagerTest extends BaseUnitTest {
 		GeoElement line = add("f=Line((1,1),(3,3))");
 		line.setSelectionAllowed(false);
 		selectionManager.addSelectedGeo(line);
-		assertTrue(selectionManager.containsSelectedGeo(line),
+		assertTrue(
+				selectionManager.containsSelectedGeo(line),
 				"The created line should be selectable, only selection by click disabled.");
 	}
 

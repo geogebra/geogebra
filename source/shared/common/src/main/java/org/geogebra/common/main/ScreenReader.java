@@ -38,12 +38,12 @@ import com.himamis.retex.renderer.share.serialize.TableAdapter;
 
 /**
  * Utility class for reading GeoElement descriptions
- * 
+ *
  * @author Judit
  */
 public final class ScreenReader {
 
-	final private static String TRANSLATION_PREFIX = "ScreenReader.";
+	private static final String TRANSLATION_PREFIX = "ScreenReader.";
 
 	private ScreenReader() {
 		// utility class
@@ -69,7 +69,8 @@ public final class ScreenReader {
 		GeoElement selectedGeo = getSelectedGeo(app);
 
 		// do not steal focus from input box, do not read while drawing
-		if (selectedGeo != null && !selectedGeo.isGeoInputBox()
+		if (selectedGeo != null
+				&& !selectedGeo.isGeoInputBox()
 				&& app.getMode() != EuclidianConstants.MODE_PEN) {
 			readText(selectedGeo);
 		}
@@ -80,7 +81,8 @@ public final class ScreenReader {
 	 *            selected element
 	 */
 	public static void readText(GeoElement geo) {
-		readText(getAuralText(geo, new ScreenReaderBuilder(geo.getKernel().getLocalization())),
+		readText(
+				getAuralText(geo, new ScreenReaderBuilder(geo.getKernel().getLocalization())),
 				geo.getKernel().getApplication());
 	}
 
@@ -110,14 +112,15 @@ public final class ScreenReader {
 
 	private static int getFocusedViewID(GuiManagerInterface guiManager) {
 		return guiManager != null && guiManager.getLayout() != null
-				? guiManager.getLayout().getDockManager().getFocusedViewId() : App.VIEW_EUCLIDIAN;
+				? guiManager.getLayout().getDockManager().getFocusedViewId()
+				: App.VIEW_EUCLIDIAN;
 	}
 
 	// Handling DropDowns
 
 	/**
 	 * Reads the selected item of the current drop down.
-	 * 
+	 *
 	 * @param geoList
 	 *            the current geo
 	 */
@@ -130,20 +133,22 @@ public final class ScreenReader {
 
 	/**
 	 * Reads the item when the selector moved on it.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param text
 	 *            selected item text to read
 	 */
 	public static void readDropDownSelectorMoved(App app, GeoList text, int index) {
-		readText(text.getItemDisplayString(index, app.getScreenReaderTemplate()) + " "
-				+ text.getIndexDescription(index), app);
+		readText(
+				text.getItemDisplayString(index, app.getScreenReaderTemplate()) + " "
+						+ text.getIndexDescription(index),
+				app);
 	}
 
 	/**
 	 * Reads some instructions at opening the drop down.
-	 * 
+	 *
 	 * @param geoList
 	 *            drop down
 	 */
@@ -155,7 +160,7 @@ public final class ScreenReader {
 
 	/**
 	 * Reads text when space is pressed on geo.
-	 * 
+	 *
 	 * @param geo
 	 *            GeoElement to handle.
 	 */
@@ -166,7 +171,7 @@ public final class ScreenReader {
 
 	/**
 	 * Reads text when geo is moved.
-	 * 
+	 *
 	 * @param geo
 	 *            GeoElement that has moved.
 	 */
@@ -176,8 +181,9 @@ public final class ScreenReader {
 	}
 
 	private static String getStartFraction(Localization loc) {
-		return " " + localizeRelation(loc, ExpRelation.START_OF,
-				loc.getMenuDefault("of.Fraction", "fraction")) + " ";
+		return " "
+				+ localizeRelation(loc, ExpRelation.START_OF, loc.getMenuDefault("of.Fraction", "fraction"))
+				+ " ";
 	}
 
 	private static String localize(Localization loc, String key, String fallback) {
@@ -189,8 +195,9 @@ public final class ScreenReader {
 	}
 
 	private static String getEndFraction(Localization loc) {
-		return " " + localizeRelation(loc, ExpRelation.END_OF,
-				loc.getMenuDefault("of.Fraction", "fraction")) + " ";
+		return " "
+				+ localizeRelation(loc, ExpRelation.END_OF, loc.getMenuDefault("of.Fraction", "fraction"))
+				+ " ";
 	}
 
 	/**
@@ -222,8 +229,10 @@ public final class ScreenReader {
 	 * @return localized start of abs
 	 */
 	public static String getStartAbs(Localization loc) {
-		return " " + localizeRelation(loc, ExpRelation.START_OF,
-				loc.getMenuDefault("of.Abs", "absolute value")) + " ";
+		return " "
+				+ localizeRelation(
+						loc, ExpRelation.START_OF, loc.getMenuDefault("of.Abs", "absolute value"))
+				+ " ";
 	}
 
 	/**
@@ -231,8 +240,9 @@ public final class ScreenReader {
 	 * @return localized end of abs
 	 */
 	public static String getEndAbs(Localization loc) {
-		return " " + localizeRelation(loc, ExpRelation.END_OF,
-				loc.getMenuDefault("of.Abs", "absolute value")) + " ";
+		return " "
+				+ localizeRelation(loc, ExpRelation.END_OF, loc.getMenuDefault("of.Abs", "absolute value"))
+				+ " ";
 	}
 
 	/**
@@ -240,8 +250,10 @@ public final class ScreenReader {
 	 * @return localized start of sqrt
 	 */
 	public static String getStartSqrt(Localization loc) {
-		return " " + localizeRelation(loc, ExpRelation.START_OF,
-				loc.getMenuDefault("of.SquareRoot", "square root")) + " ";
+		return " "
+				+ localizeRelation(
+						loc, ExpRelation.START_OF, loc.getMenuDefault("of.SquareRoot", "square root"))
+				+ " ";
 	}
 
 	/**
@@ -249,8 +261,10 @@ public final class ScreenReader {
 	 * @return localized end of sqrt
 	 */
 	public static String getEndSqrt(Localization loc) {
-		return " " + localizeRelation(loc, ExpRelation.END_OF,
-				loc.getMenuDefault("of.SquareRoot", "square root")) + " ";
+		return " "
+				+ localizeRelation(
+						loc, ExpRelation.END_OF, loc.getMenuDefault("of.SquareRoot", "square root"))
+				+ " ";
 	}
 
 	private static String getSquared(Localization loc) {
@@ -285,10 +299,8 @@ public final class ScreenReader {
 		return " " + localize(loc, "endPower", "end power");
 	}
 
-	private static String localizeRelation(Localization loc, ExpRelation key,
-			String... parameters) {
-		return loc.getPlainDefault("ScreenReader." + key.getKey(),
-				key.toString(), parameters);
+	private static String localizeRelation(Localization loc, ExpRelation key, String... parameters) {
+		return loc.getPlainDefault("ScreenReader." + key.getKey(), key.toString(), parameters);
 	}
 
 	/**
@@ -333,7 +345,7 @@ public final class ScreenReader {
 	 */
 	public static SerializationAdapter getSerializationAdapter(App app) {
 		return app.getScreenReaderTemplate().getStringType()
-				== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII
+						== ExpressionNodeConstants.StringType.SCREEN_READER_ASCII
 				? new ScreenReaderSerializationAdapter(app.getLocalization())
 				: new UtfScreenReaderSerializationAdapter(app.getLocalization());
 	}
@@ -345,8 +357,8 @@ public final class ScreenReader {
 		private final Localization loc;
 
 		private UtfScreenReaderSerializationAdapter(Localization loc) {
-			 tableAdapter = new ScreenReaderTableAdapter(loc);
-			 this.loc = loc;
+			tableAdapter = new ScreenReaderTableAdapter(loc);
+			this.loc = loc;
 		}
 
 		@Override
@@ -375,7 +387,7 @@ public final class ScreenReader {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            {@link App}
 	 * @param exp
@@ -387,8 +399,8 @@ public final class ScreenReader {
 	 */
 	public static String getAriaExpression(App app, Formula exp, String ariaPreview) {
 		try {
-			String expr = ScreenReaderSerializer.fullDescription(exp.getRootNode(),
-					getSerializationAdapter(app));
+			String expr =
+					ScreenReaderSerializer.fullDescription(exp.getRootNode(), getSerializationAdapter(app));
 			if (ariaPreview != null) {
 				return expr + " = " + ariaPreview;
 			}
@@ -504,8 +516,7 @@ public final class ScreenReader {
 	 * @return root
 	 */
 	public static String nroot(String radicand, String index, Localization loc) {
-		return loc.getPlainDefault("ScreenReader.startRoot",
-				"start %0 root", asRootIndex(index, loc))
+		return loc.getPlainDefault("ScreenReader.startRoot", "start %0 root", asRootIndex(index, loc))
 				+ ' '
 				+ radicand
 				+ ' '
@@ -541,8 +552,7 @@ public final class ScreenReader {
 	 * @param loc
 	 *            localization
 	 */
-	public static void fraction(StringBuilder sb, String leftStr, String rightStr,
-			Localization loc) {
+	public static void fraction(StringBuilder sb, String leftStr, String rightStr, Localization loc) {
 		sb.append(ScreenReader.getStartFraction(loc));
 		sb.append(leftStr);
 		sb.append(ScreenReader.getMiddleFraction(loc));
@@ -552,7 +562,7 @@ public final class ScreenReader {
 
 	/**
 	 * Reads information about the play button on EV.
-	 * 
+	 *
 	 * @param app
 	 *            the application.
 	 */
@@ -562,11 +572,9 @@ public final class ScreenReader {
 		sb.append(loc.getMenu("PlayButton"));
 		sb.endSentence();
 		if (app.getKernel().getAnimationManager().isRunning()) {
-			sb.append(
-					loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
+			sb.append(loc.getMenuDefault("PressSpaceStopAnimation", "Press space to stop animation"));
 		} else {
-			sb.append(loc.getMenuDefault("PressSpaceStartAnimation",
-					"Press space to start animation"));
+			sb.append(loc.getMenuDefault("PressSpaceStartAnimation", "Press space to start animation"));
 		}
 		sb.endSentence();
 		readText(sb.toString(), app);
@@ -574,7 +582,7 @@ public final class ScreenReader {
 
 	/**
 	 * Reads information about the animation state.
-	 * 
+	 *
 	 * @param app
 	 *            the application.
 	 */
@@ -602,8 +610,7 @@ public final class ScreenReader {
 		if (!builder.isMobile()) {
 			builder.appendSpace();
 			Localization loc = sel.getKernel().getLocalization();
-			builder.append(loc.getMenuDefault("PressTabToSelectNext",
-						"Press tab to select next object"));
+			builder.append(loc.getMenuDefault("PressTabToSelectNext", "Press tab to select next object"));
 		}
 		return builder.toString();
 	}

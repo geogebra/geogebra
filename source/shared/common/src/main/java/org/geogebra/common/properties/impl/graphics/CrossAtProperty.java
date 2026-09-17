@@ -43,8 +43,11 @@ public class CrossAtProperty extends AbstractValuedProperty<String>
 	 * @param euclidianView the active euclidian view
 	 * @param axis the axis for the numbering distance will be set
 	 */
-	public CrossAtProperty(AlgebraProcessor algebraProcessor, Localization localization,
-			EuclidianSettings euclidianSettings, EuclidianViewInterfaceCommon euclidianView,
+	public CrossAtProperty(
+			AlgebraProcessor algebraProcessor,
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			EuclidianViewInterfaceCommon euclidianView,
 			int axis) {
 		super(localization, "CrossAt");
 		this.algebraProcessor = algebraProcessor;

@@ -75,15 +75,17 @@ public abstract class CommandProcessor {
 	@NonOwning
 	@Weak
 	protected Construction cons;
+
 	@NonOwning
 	@Weak
 	private final AlgebraProcessor algProcessor;
+
 	@NonOwning
 	private final CommandErrorMessageBuilder commandErrorMessageBuilder;
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -98,7 +100,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Every CommandProcessor has to implement this method
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @return list of resulting geos
@@ -112,7 +114,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Resolves arguments. When argument produces more geos, only the first is taken.
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @return array of arguments
@@ -126,7 +128,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Resolves arguments. When argument produces more geos, only the first is taken.
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param info
@@ -137,8 +139,7 @@ public abstract class CommandProcessor {
 	 *             if processing of some argument causes error (i.e. wrong
 	 *             syntax of subcommand)
 	 */
-	protected final GeoElement[] resArgs(Command c, EvalInfo info)
-			throws MyError {
+	protected final GeoElement[] resArgs(Command c, EvalInfo info) throws MyError {
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
@@ -204,20 +205,18 @@ public abstract class CommandProcessor {
 	 * @return new variable name (subst or subst + index if subst is used by
 	 *         another object)
 	 */
-	protected String checkReplaced(ExpressionNode[] arg, int i, String var,
-			String subst, int argsToCheck) {
-		if (arg[i] != null && arg[i].unwrap() instanceof GeoNumeric
+	protected String checkReplaced(
+			ExpressionNode[] arg, int i, String var, String subst, int argsToCheck) {
+		if (arg[i] != null
+				&& arg[i].unwrap() instanceof GeoNumeric
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple() != null
-				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple()
-						.equals(var)) {
+				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple().equals(var)) {
 			// get free variable to replace "x" with
-			String newXVarStr = ((GeoElement) arg[i].getLeft())
-					.getFreeLabel(subst);
+			String newXVarStr = ((GeoElement) arg[i].getLeft()).getFreeLabel(subst);
 			Variable newVar = new Variable(cons.getKernel(), newXVarStr);
 			GeoNumeric gn = new GeoNumeric(cons);
 			kernel.getConstruction().addLocalVariable(newXVarStr, gn);
-			GeoDummyReplacer replacer = GeoDummyReplacer.getReplacer(var,
-					newVar, true);
+			GeoDummyReplacer replacer = GeoDummyReplacer.getReplacer(var, newVar, true);
 			// replace "x" in expressions
 			for (int j = 0; j < argsToCheck; j++) {
 				arg[j].traverse(replacer);
@@ -241,8 +240,8 @@ public abstract class CommandProcessor {
 	 *             when arguments contain errors, eg. invalid operation in exp
 	 *             node
 	 */
-	protected final GeoElement[] resArgs(Command c, boolean keepCAScells,
-			EvalInfo info) throws MyError {
+	protected final GeoElement[] resArgs(Command c, boolean keepCAScells, EvalInfo info)
+			throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -269,7 +268,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Resolves argument
-	 * 
+	 *
 	 * @param arg
 	 *            argument
 	 * @param info
@@ -279,15 +278,12 @@ public abstract class CommandProcessor {
 	 *             if processing argument causes error (i.e. wrong syntax of
 	 *             subcommand)
 	 */
-	protected final GeoElement resArg(ExpressionNode arg, EvalInfo info)
-			throws MyError {
-		GeoElement[] geos = algProcessor.processExpressionNode(arg,
-				info.withLabels(false));
+	protected final GeoElement resArg(ExpressionNode arg, EvalInfo info) throws MyError {
+		GeoElement[] geos = algProcessor.processExpressionNode(arg, info.withLabels(false));
 		if (geos != null && geos.length > 0) {
 			return geos[0];
 		}
-		throw new MyError(loc, Errors.IllegalArgument,
-				arg.toString(StringTemplate.defaultTemplate));
+		throw new MyError(loc, Errors.IllegalArgument, arg.toString(StringTemplate.defaultTemplate));
 	}
 
 	/**
@@ -301,8 +297,7 @@ public abstract class CommandProcessor {
 	 * @throws MyError
 	 *             when argument is invalid
 	 */
-	protected final GeoElement resArgSilent(Command c, int pos, EvalInfo info)
-			throws MyError {
+	protected final GeoElement resArgSilent(Command c, int pos, EvalInfo info) throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -324,7 +319,7 @@ public abstract class CommandProcessor {
 	 * position varPos. Initializes the variable with the NumberValue at
 	 * initPos. Check that vars between initPos and lastCheckPos are not
 	 * depending on the local var.
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param varPos
@@ -335,8 +330,8 @@ public abstract class CommandProcessor {
 	 *            last arg that may *not* depend on var (-1 to skip the check)
 	 * @return Array of arguments
 	 */
-	protected final GeoElement[] resArgsLocalNumVar(Command c, int varPos,
-			int initPos, int lastCheckPos) {
+	protected final GeoElement[] resArgsLocalNumVar(
+			Command c, int varPos, int initPos, int lastCheckPos) {
 		// check if there is a local variable in arguments
 		String localVarName = c.getVariableName(varPos);
 		localVarName = checkLocalVarName(c, varPos, localVarName);
@@ -352,8 +347,7 @@ public abstract class CommandProcessor {
 			cons.setSuppressLabelCreation(true);
 			NumberValue initValue;
 			try {
-				initValue = (NumberValue) resArg(c.getArgument(initPos),
-					new EvalInfo(false));
+				initValue = (NumberValue) resArg(c.getArgument(initPos), new EvalInfo(false));
 			} catch (MyError e) {
 				cmdCons.removeLocalVariable(localVarName);
 				throw e;
@@ -380,29 +374,29 @@ public abstract class CommandProcessor {
 		return arg;
 	}
 
-	private void replaceZvarIfNeeded(String name, Command c,
-			int argsToReplace) {
+	private void replaceZvarIfNeeded(String name, Command c, int argsToReplace) {
 		if ("z".equals(name)) {
 			// parse again to undo z*z -> Function
 			try {
 				for (int i = 0; i < argsToReplace; i++) {
-					c.setArgument(i, kernel.getParser()
-							.parseGeoGebraExpression(c.getArgument(i)
-									.toString(StringTemplate.xmlTemplate))
-							.wrap());
+					c.setArgument(
+							i,
+							kernel
+									.getParser()
+									.parseGeoGebraExpression(c.getArgument(i).toString(StringTemplate.xmlTemplate))
+									.wrap());
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				Log.debug(e);
 			}
 		}
-
 	}
 
 	/**
 	 * Resolves arguments, creates local variables and fills the vars and
 	 * overlists
-	 * 
+	 *
 	 * @param c
 	 *            zip command
 	 * @param vars
@@ -411,8 +405,7 @@ public abstract class CommandProcessor {
 	 *            lists from which the vars should be taken
 	 * @return list of arguments
 	 */
-	protected final GeoElement resArgsForZip(Command c, GeoElement[] vars,
-			GeoList[] over) {
+	protected final GeoElement resArgsForZip(Command c, GeoElement[] vars, GeoList[] over) {
 		// check if there is a local variable in arguments
 		int numArgs = c.getArgumentNumber();
 
@@ -420,10 +413,8 @@ public abstract class CommandProcessor {
 		EvalInfo argInfo = new EvalInfo(false);
 		for (int varPos = 1; varPos < numArgs; varPos += 2) {
 			String localVarName = c.getVariableName(varPos);
-			if (localVarName == null
-					&& c.getArgument(varPos).isTopLevelCommand()) {
-				localVarName = c.getArgument(varPos).getTopLevelCommand()
-						.getVariableName(0);
+			if (localVarName == null && c.getArgument(varPos).isTopLevelCommand()) {
+				localVarName = c.getArgument(varPos).getTopLevelCommand().getVariableName(0);
 			}
 
 			localVarName = checkLocalVarName(c, varPos, localVarName);
@@ -464,8 +455,8 @@ public abstract class CommandProcessor {
 			// remove local variable name from kernel again
 
 		}
-		ExpressionNode def = c.getArgument(0)
-				.traverse(CommandReplacer.getReplacer(kernel, false)).wrap();
+		ExpressionNode def =
+				c.getArgument(0).traverse(CommandReplacer.getReplacer(kernel, false)).wrap();
 		for (int i = 0; i < over.length; i++) {
 			if (vars[i] instanceof GeoText objectName) {
 				final int fi = i;
@@ -490,7 +481,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Resolve argument for Iteration command
-	 * 
+	 *
 	 * @param c
 	 *            command to use in the iteration
 	 * @param vars
@@ -501,8 +492,8 @@ public abstract class CommandProcessor {
 	 *            number of iterations
 	 * @return arguments for Iteration(List)
 	 */
-	protected final GeoElement resArgsForIteration(Command c, GeoElement[] vars,
-			GeoList[] over, GeoNumeric[] number) {
+	protected final GeoElement resArgsForIteration(
+			Command c, GeoElement[] vars, GeoList[] over, GeoNumeric[] number) {
 		// check if there is a local variable in arguments
 		int numArgs = c.getArgumentNumber();
 		EvalInfo argInfo = new EvalInfo(false);
@@ -529,10 +520,8 @@ public abstract class CommandProcessor {
 		for (int varPos = 1; varPos < numArgs - 2; varPos += 1) {
 			String localVarName = c.getVariableName(varPos);
 
-			if (localVarName == null
-					&& c.getArgument(varPos).isTopLevelCommand()) {
-				localVarName = c.getArgument(varPos).getTopLevelCommand()
-						.getVariableName(0);
+			if (localVarName == null && c.getArgument(varPos).isTopLevelCommand()) {
+				localVarName = c.getArgument(varPos).getTopLevelCommand().getVariableName(0);
 			}
 
 			if (localVarName == null) {
@@ -550,8 +539,7 @@ public abstract class CommandProcessor {
 			vars[varPos - 1] = num.toGeoElement();
 			// replace for Iteration[f(1/(1-x)),f,{x},21]
 			if (!isCmdName(localVarName)) {
-				c.getArgument(0).traverse(CommandFunctionReplacer
-						.getReplacer(app, localVarName, num));
+				c.getArgument(0).traverse(CommandFunctionReplacer.getReplacer(app, localVarName, num));
 			}
 			if (varPos < numArgs - 3) {
 				num = num.copy();
@@ -587,7 +575,7 @@ public abstract class CommandProcessor {
 	 * Resolve arguments of a command that has a several local numeric variable
 	 * at the position varPos. Initializes the variable with the NumberValue at
 	 * initPos.
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param varPos
@@ -596,8 +584,8 @@ public abstract class CommandProcessor {
 	 *            positions of vars to be initialized
 	 * @return array of arguments
 	 */
-	protected final GeoElement[] resArgsLocalNumVar(Command c, int[] varPos,
-			int[] initPos, EvalInfo info) {
+	protected final GeoElement[] resArgsLocalNumVar(
+			Command c, int[] varPos, int[] initPos, EvalInfo info) {
 
 		String[] localVarName = new String[varPos.length];
 
@@ -621,8 +609,7 @@ public abstract class CommandProcessor {
 			if (initPos[i] != varPos[i]) {
 				boolean oldval = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
-				NumberValue initValue = (NumberValue) resArg(
-						c.getArgument(initPos[i]), argInfo);
+				NumberValue initValue = (NumberValue) resArg(c.getArgument(initPos[i]), argInfo);
 				cons.setSuppressLabelCreation(oldval);
 				num[i].setValue(initValue.getDouble());
 			}
@@ -662,8 +649,7 @@ public abstract class CommandProcessor {
 			// variable "i" object
 			newVarName = "i";
 			Variable localVar = new Variable(kernel, newVarName);
-			c.traverse(
-					Replacer.getReplacer(kernel.getImaginaryUnit(), localVar));
+			c.traverse(Replacer.getReplacer(kernel.getImaginaryUnit(), localVar));
 		}
 		// Euler constant as local variable name
 		else if (localVarName.equals(Unicode.EULER_STRING)) {
@@ -671,15 +657,14 @@ public abstract class CommandProcessor {
 			// variable "e" object
 			newVarName = "e";
 			Variable localVar = new Variable(kernel, newVarName);
-			c.traverse(
-					Replacer.getReplacer(kernel.getEulerNumber(), localVar));
+			c.traverse(Replacer.getReplacer(kernel.getEulerNumber(), localVar));
 		}
 		return newVarName;
 	}
 
 	/**
 	 * Creates wrong argument error
-	 * 
+	 *
 	 * @param cmd
 	 *            command name
 	 * @param arg
@@ -692,7 +677,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Creates wrong argument error
-	 * 
+	 *
 	 * @param cmd
 	 *            command name
 	 * @param arg
@@ -711,7 +696,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Creates wrong parameter count error
-	 * 
+	 *
 	 * @param cmd
 	 *            command name
 	 * @param argNumber
@@ -720,14 +705,13 @@ public abstract class CommandProcessor {
 	 */
 	public MyError argNumErr(Command cmd, int argNumber) {
 		String commandName = cmd.getName();
-		String message = commandErrorMessageBuilder.buildArgumentNumberError(
-				commandName, argNumber);
+		String message = commandErrorMessageBuilder.buildArgumentNumberError(commandName, argNumber);
 		return MyError.forCommand(loc, message, commandName, null, Errors.IllegalArgumentNumber);
 	}
 
 	/**
 	 * Creates change dependent error
-	 * 
+	 *
 	 * @param app1
 	 *            application
 	 * @param geo
@@ -735,14 +719,13 @@ public abstract class CommandProcessor {
 	 * @return change dependent error
 	 */
 	static MyError chDepErr(App app1, GeoElement geo) {
-		return new MyError(app1.getLocalization(), Errors.ChangeDependent,
-				geo.getLongDescription());
+		return new MyError(app1.getLocalization(), Errors.ChangeDependent, geo.getLongDescription());
 	}
 
 	/**
 	 * Returns bad argument (according to ok array) and throws error if no was
 	 * found.
-	 * 
+	 *
 	 * @param ok
 	 *            array of "bad" flags
 	 * @param arg
@@ -766,15 +749,14 @@ public abstract class CommandProcessor {
 	 * @param type list element type
 	 * @return list containing all arguments
 	 */
-	public GeoList wrapInList(Kernel kernel, GeoElement[] args,
-			int length, GeoClass type) {
+	public GeoList wrapInList(Kernel kernel, GeoElement[] args, int length, GeoClass type) {
 		return wrapInList(args, length, type, null);
 	}
 
 	/**
 	 * Creates a dependent list with all GeoElement objects from the given
 	 * array.
-	 * 
+	 *
 	 * @param args
 	 *            array of arguments
 	 * @param type
@@ -785,13 +767,11 @@ public abstract class CommandProcessor {
 	 * @param length
 	 *            number of arguments
 	 */
-	public GeoList wrapInList(GeoElement[] args,
-			int length, GeoClass type, Command cmd) {
+	public GeoList wrapInList(GeoElement[] args, int length, GeoClass type, Command cmd) {
 		boolean correctType = true;
 		ArrayList<GeoElement> geoElementList = new ArrayList<>();
 		for (int i = 0; i < length; i++) {
-			if (type.equals(GeoClass.DEFAULT)
-					|| args[i].getGeoClassType() == type) {
+			if (type.equals(GeoClass.DEFAULT) || args[i].getGeoClassType() == type) {
 				geoElementList.add(args[i]);
 			} else if (cmd != null) {
 				throw argErr(cmd, args[i]);
@@ -819,17 +799,16 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Used by eg FitSin to allow a freehand function to be passed as an arg
-	 * 
+	 *
 	 * converts a list of y-coordinates into a list of GeoPoints
-	 * 
+	 *
 	 * @param kernelA
 	 *            kernel
 	 * @param algo
 	 *            function's parent algorithm
 	 * @return list of points on the function
 	 */
-	public static GeoList wrapFreehandFunctionArgInList(Kernel kernelA,
-			AlgoFunctionFreehand algo) {
+	public static GeoList wrapFreehandFunctionArgInList(Kernel kernelA, AlgoFunctionFreehand algo) {
 
 		Construction cons = kernelA.getConstruction();
 
@@ -844,8 +823,7 @@ public abstract class CommandProcessor {
 
 		ArrayList<GeoElement> geoElementList = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
-			GeoPoint p = new GeoPoint(cons, start + i * step,
-					list.get(2 + i).evaluateDouble(), 1.0);
+			GeoPoint p = new GeoPoint(cons, start + i * step, list.get(2 + i).evaluateDouble(), 1.0);
 			geoElementList.add(p);
 		}
 
@@ -860,7 +838,7 @@ public abstract class CommandProcessor {
 	/**
 	 * Check if arg(i) depends on arg(j) and either throw an error or write
 	 * warning see #2552
-	 * 
+	 *
 	 * @param arg
 	 *            arguments
 	 * @param c
@@ -870,8 +848,7 @@ public abstract class CommandProcessor {
 	 * @param j
 	 *            index of independent argument
 	 */
-	protected void checkDependency(GeoElement[] arg, Command c, int i,
-			int j) {
+	protected void checkDependency(GeoElement[] arg, Command c, int i, int j) {
 		if (arg[i].isChildOrEqual(arg[j])) {
 			if (kernel.getConstruction().isFileLoading()) {
 				// make sure old files can be loaded (and fixed)
@@ -891,7 +868,7 @@ public abstract class CommandProcessor {
 
 	/**
 	 * Reduces the command to expression node or gives null if not possible
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @return command output
@@ -931,8 +908,8 @@ public abstract class CommandProcessor {
 		if (fallback != null) {
 			return fallback;
 		}
-		return new GeoBoolean(kernel.getConstruction(),
-				!kernel.getConstruction().isFileLoading() && value);
+		return new GeoBoolean(
+				kernel.getConstruction(), !kernel.getConstruction().isFileLoading() && value);
 	}
 
 	public Localization getLocalization() {

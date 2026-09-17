@@ -10,5 +10,4 @@ public class CommandBCancel extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new CancelAtom(a, CancelAtom.Type.BACKSLASH);
 	}
-
 }

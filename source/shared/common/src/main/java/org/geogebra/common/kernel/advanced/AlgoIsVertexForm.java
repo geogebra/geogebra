@@ -47,7 +47,7 @@ public class AlgoIsVertexForm extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{function.toGeoElement()};
+		input = new GeoElement[] {function.toGeoElement()};
 		setOnlyOutput(result);
 		setDependencies();
 	}
@@ -69,8 +69,7 @@ public class AlgoIsVertexForm extends AlgoElement {
 		// remove all multiplicative constants: a*b*(x+t)^2  -> (x+t)^2
 		ExpressionNode normalizedTerm = removeConstants(term, Operation.MULTIPLY);
 		// check that we really have (x+t)^2
-		return isASquare(normalizedTerm)
-				&& isNormalizedLinearExpr(normalizedTerm.getLeftTree());
+		return isASquare(normalizedTerm) && isNormalizedLinearExpr(normalizedTerm.getLeftTree());
 	}
 
 	/**

@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * DeleteObject TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: DeleteObject.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -27,8 +27,7 @@ public class DeleteObject extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		DeleteObject tag = new DeleteObject(emf.readDWORD());
 		return tag;
@@ -41,8 +40,7 @@ public class DeleteObject extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  index: 0x"
-				+ Integer.toHexString(index);
+		return super.toString() + "\n" + "  index: 0x" + Integer.toHexString(index);
 	}
 
 	public int getIndex() {

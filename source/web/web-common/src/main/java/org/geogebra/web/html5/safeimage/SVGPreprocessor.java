@@ -24,8 +24,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArchiveEntry;
 
 public class SVGPreprocessor implements ImagePreprocessor {
-	private static final List<String> tagsToCut = Arrays.asList("script",
-			"foreignObject");
+	private static final List<String> tagsToCut = Arrays.asList("script", "foreignObject");
 	public static final String BASE_64 = "base64,";
 	private final XMLUtil xml = new XMLUtil();
 
@@ -39,8 +38,7 @@ public class SVGPreprocessor implements ImagePreprocessor {
 		String content = toDecoded(imageFile.string);
 		xml.setContent(content);
 		removeTags();
-		provider.onReady(
-				new ArchiveEntry(imageFile.getFileName(), encodeSVG()));
+		provider.onReady(new ArchiveEntry(imageFile.getFileName(), encodeSVG()));
 	}
 
 	private String toDecoded(String content) {
@@ -51,7 +49,7 @@ public class SVGPreprocessor implements ImagePreprocessor {
 	}
 
 	private void removeTags() {
-		for (String tag: tagsToCut) {
+		for (String tag : tagsToCut) {
 			xml.removeTag(tag);
 		}
 	}

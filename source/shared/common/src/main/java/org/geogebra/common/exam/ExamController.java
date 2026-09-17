@@ -81,8 +81,7 @@ public final class ExamController {
 	public @Nullable ExamControllerDelegate delegate;
 
 	private @NonOwning RestrictionsController restrictionsController;
-	private Function<ExamType, Restrictions> examRestrictionsFactory =
-			ExamType::createRestrictions;
+	private Function<ExamType, Restrictions> examRestrictionsFactory = ExamType::createRestrictions;
 
 	private ContextDependencies activeDependencies;
 	private ExamType examType;
@@ -190,8 +189,8 @@ public final class ExamController {
 	 * @return The current exam's short display name (see
 	 * {@link ExamType#getShortDisplayName(Localization, AppConfig)}.
 	 */
-	public @Nullable String getExamName(@NonNull AppConfig appConfig,
-			@NonNull Localization localization) {
+	public @Nullable String getExamName(
+			@NonNull AppConfig appConfig, @NonNull Localization localization) {
 		return examType == null ? null : examType.getShortDisplayName(localization, appConfig);
 	}
 
@@ -221,8 +220,8 @@ public final class ExamController {
 		if (startDate == null) {
 			return timeFormatter.format(localization.getLanguageTag(), 0);
 		}
-		return timeFormatter.format(localization.getLanguageTag(),
-				System.currentTimeMillis() - startDate.getTime());
+		return timeFormatter.format(
+				localization.getLanguageTag(), System.currentTimeMillis() - startDate.getTime());
 	}
 
 	/**
@@ -236,16 +235,16 @@ public final class ExamController {
 	 * @return A summary of the exam if the exam is in the {@link ExamState#ACTIVE} or
 	 * {@link ExamState#FINISHED} state, or null otherwise.
 	 */
-	public @Nullable ExamSummary getExamSummary(@NonNull AppConfig appConfig,
-			@NonNull Localization localization) {
+	public @Nullable ExamSummary getExamSummary(
+			@NonNull AppConfig appConfig, @NonNull Localization localization) {
 		if (state == ExamState.IDLE || state == ExamState.PREPARING) {
 			return null;
 		}
 		if (timeFormatter == null) {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
-		return new ExamSummary(examType, startDate, finishDate, cheatingEvents,
-				appConfig, timeFormatter, localization);
+		return new ExamSummary(
+				examType, startDate, finishDate, cheatingEvents, appConfig, timeFormatter, localization);
 	}
 
 	/**
@@ -286,8 +285,8 @@ public final class ExamController {
 	 */
 	public void startExam(@NonNull ExamType examType, @Nullable ExamOptions options) {
 		if (state != ExamState.IDLE && state != ExamState.PREPARING) {
-			throw new IllegalStateException("expected to be in IDLE or PREPARING state, "
-					+ "but is " + state);
+			throw new IllegalStateException(
+					"expected to be in IDLE or PREPARING state, " + "but is " + state);
 		}
 		if (activeDependencies == null) {
 			throw new IllegalStateException("no active context");

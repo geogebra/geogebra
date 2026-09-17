@@ -42,7 +42,7 @@ import org.gwtproject.user.client.ui.Label;
  */
 public final class Export3dDialog extends ComponentDialog
 		implements Export3dDialogInterface, HasKeyboardPopup {
-	final static private double MM_TO_CM = 0.1;
+	private static final double MM_TO_CM = 0.1;
 
 	private Runnable onExportButtonPressed;
 	private ParsableComponentInputField lineThicknessValue;
@@ -65,18 +65,21 @@ public final class Export3dDialog extends ComponentDialog
 		scaleNF = FormatFactory.getPrototype().getNumberFormat("#.##", 2);
 	}
 
-	static private class ParsableComponentInputField
-			extends ComponentInputField {
+	private static class ParsableComponentInputField extends ComponentInputField {
 
 		private final NumberValidator numberValidator;
 		private final Localization localization;
 		private double parsedValue;
 
-		ParsableComponentInputField(AppW app, String placeholder,
-				String labelTxt, String errorTxt, String defaultValue, String suffixTxt) {
+		ParsableComponentInputField(
+				AppW app,
+				String placeholder,
+				String labelTxt,
+				String errorTxt,
+				String defaultValue,
+				String suffixTxt) {
 			super(app, placeholder, labelTxt, errorTxt, defaultValue, suffixTxt, false, false);
-			numberValidator = new NumberValidator(
-					app.getKernel().getAlgebraProcessor());
+			numberValidator = new NumberValidator(app.getKernel().getAlgebraProcessor());
 			localization = app.getLocalization();
 		}
 
@@ -91,7 +94,7 @@ public final class Export3dDialog extends ComponentDialog
 
 		/**
 		 * parse current input text to double value
-		 * 
+		 *
 		 * @param showError
 		 *            if error should be shown
 		 * @param canBeEqual
@@ -100,8 +103,7 @@ public final class Export3dDialog extends ComponentDialog
 		 *            if text field can be empty (value is 0)
 		 * @return true if parsed ok
 		 */
-		boolean parse(boolean showError, boolean canBeEqual,
-				boolean canBeEmpty) {
+		boolean parse(boolean showError, boolean canBeEqual, boolean canBeEmpty) {
 			if (canBeEmpty && StringUtil.emptyTrim(getText())) {
 				parsedValue = 0;
 				return true;
@@ -114,19 +116,16 @@ public final class Export3dDialog extends ComponentDialog
 				return true;
 			} catch (NumberValueOutOfBoundsException e) {
 				if (showError) {
-					showError(localization.getError(
-							NumberValidator.NUMBER_NEGATIVE_ERROR_MESSAGE_KEY));
+					showError(localization.getError(NumberValidator.NUMBER_NEGATIVE_ERROR_MESSAGE_KEY));
 				}
 				return false;
 			} catch (Exception e) {
 				if (showError) {
-					showError(localization.getError(
-							NumberValidator.NUMBER_FORMAT_ERROR_MESSAGE_KEY));
+					showError(localization.getError(NumberValidator.NUMBER_FORMAT_ERROR_MESSAGE_KEY));
 				}
 				return false;
 			}
 		}
-
 	}
 
 	DimensionField WIDTH = new DimensionField(dimensionNF) {
@@ -177,17 +176,15 @@ public final class Export3dDialog extends ComponentDialog
 
 		@Override
 		protected double calcCurrentRatio() {
-			return super.calcCurrentRatio()
-					/ SCALE_UNIT.inputField.getParsedValue();
+			return super.calcCurrentRatio() / SCALE_UNIT.inputField.getParsedValue();
 		}
-
 	};
 
 	private abstract static class DimensionField {
 
 		ParsableComponentInputField inputField;
 		double initValue;
-		final private NumberFormatAdapter nf;
+		private final NumberFormatAdapter nf;
 		protected List<DimensionField> updateSet;
 		private boolean isUsed;
 
@@ -215,14 +212,11 @@ public final class Export3dDialog extends ComponentDialog
 
 		void setController() {
 			// from hardware keyboard
-			inputField.getTextWidget()
-					.addKeyUpHandler(e -> parseAndUpdateOthers());
+			inputField.getTextWidget().addKeyUpHandler(e -> parseAndUpdateOthers());
 
 			// from soft keyboard
-			inputField.getTextWidget()
-					.addInsertHandler(text -> parseAndUpdateOthers());
-			inputField.getTextWidget()
-					.addOnBackSpaceHandler(this::parseAndUpdateOthers);
+			inputField.getTextWidget().addInsertHandler(text -> parseAndUpdateOthers());
+			inputField.getTextWidget().addOnBackSpaceHandler(this::parseAndUpdateOthers);
 		}
 
 		void parseAndUpdateOthers() {
@@ -241,8 +235,8 @@ public final class Export3dDialog extends ComponentDialog
 			return inputField.getParsedValue() / initValue;
 		}
 
-		abstract protected void createUpdateSet();
-		
+		protected abstract void createUpdateSet();
+
 		private List<DimensionField> getUpdateSet() {
 			if (updateSet == null) {
 				createUpdateSet();
@@ -260,14 +254,12 @@ public final class Export3dDialog extends ComponentDialog
 	}
 
 	private double calcScale() {
-		return SCALE_CM.inputField.getParsedValue()
-				/ SCALE_UNIT.inputField.getParsedValue()
-				/ MM_TO_CM;
+		return SCALE_CM.inputField.getParsedValue() / SCALE_UNIT.inputField.getParsedValue() / MM_TO_CM;
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @param data
@@ -298,36 +290,30 @@ public final class Export3dDialog extends ComponentDialog
 	private void buildDimensionsPanel(FlowPanel root) {
 		FlowPanel dimensionsPanel = new FlowPanel();
 		dimensionsPanel.setStyleName("panelRow");
-		WIDTH
-				.setInputField(addTextField("Width", "cm", dimensionsPanel));
-		LENGTH
-				.setInputField(addTextField("Length", "cm", dimensionsPanel));
-		HEIGHT
-				.setInputField(addTextField("Height", "cm", dimensionsPanel));
+		WIDTH.setInputField(addTextField("Width", "cm", dimensionsPanel));
+		LENGTH.setInputField(addTextField("Length", "cm", dimensionsPanel));
+		HEIGHT.setInputField(addTextField("Height", "cm", dimensionsPanel));
 		root.add(dimensionsPanel);
 	}
 
 	private void buildScalePanel(FlowPanel root) {
 		FlowPanel scalePanel = new FlowPanel();
 		scalePanel.setStyleName("panelRow");
-		SCALE_UNIT
-				.setInputField(addTextField("Scale", "units", scalePanel));
+		SCALE_UNIT.setInputField(addTextField("Scale", "units", scalePanel));
 		Label equalLabel = new Label();
 		equalLabel.setText("=");
 		equalLabel.addStyleName("equal");
 		scalePanel.add(equalLabel);
-		SCALE_CM
-				.setInputField(addTextField(null, "cm", scalePanel));
+		SCALE_CM.setInputField(addTextField(null, "cm", scalePanel));
 		root.add(scalePanel);
 	}
 
 	private void buildLineThicknessPanel(FlowPanel root) {
 		FlowPanel thicknessPanel = new FlowPanel();
 		thicknessPanel.setStyleName("panelRow");
-		lineThicknessValue = addTextField("STL.Thickness", "mm",
-				thicknessPanel);
-		filledSolid = new ComponentCheckbox(app.getLocalization(), false,
-				"STL.FilledSolid", this::onFilledSolidAction);
+		lineThicknessValue = addTextField("STL.Thickness", "mm", thicknessPanel);
+		filledSolid = new ComponentCheckbox(
+				app.getLocalization(), false, "STL.FilledSolid", this::onFilledSolidAction);
 		thicknessPanel.add(filledSolid);
 		root.add(thicknessPanel);
 	}
@@ -339,22 +325,21 @@ public final class Export3dDialog extends ComponentDialog
 		} else {
 			String current = lineThicknessValue.getText();
 			if (oldLineThicknessValue != null && StringUtil.emptyTrim(current)) {
-				lineThicknessValue
-						.setInputText(oldLineThicknessValue);
+				lineThicknessValue.setInputText(oldLineThicknessValue);
 			}
 		}
 	}
 
-	private ParsableComponentInputField addTextField(String labelText,
-			String suffixText, FlowPanel root) {
-		final ParsableComponentInputField field = new ParsableComponentInputField(
-				(AppW) app, null, labelText, null, "", suffixText);
+	private ParsableComponentInputField addTextField(
+			String labelText, String suffixText, FlowPanel root) {
+		final ParsableComponentInputField field =
+				new ParsableComponentInputField((AppW) app, null, labelText, null, "", suffixText);
 		root.add(field);
 		return field;
 	}
 
-	private static boolean checkOkAndSetFocus(boolean ok, boolean currentOk,
-			ComponentInputField inputField) {
+	private static boolean checkOkAndSetFocus(
+			boolean ok, boolean currentOk, ComponentInputField inputField) {
 		if (ok) {
 			if (!currentOk) {
 				inputField.focusDeferred();
@@ -371,11 +356,8 @@ public final class Export3dDialog extends ComponentDialog
 		boolean ok = true;
 		for (DimensionField f : getDimensionFields()) {
 			ok = checkOkAndSetFocus(ok, f.parse(), f.inputField);
-
 		}
-		ok = checkOkAndSetFocus(ok,
-				lineThicknessValue.parse(true, true, true),
-				lineThicknessValue);
+		ok = checkOkAndSetFocus(ok, lineThicknessValue.parse(true, true, true), lineThicknessValue);
 		if (ok) {
 			updateScaleAndThickness();
 			hide();
@@ -389,8 +371,8 @@ public final class Export3dDialog extends ComponentDialog
 		return Arrays.asList(WIDTH, LENGTH, HEIGHT, SCALE_UNIT, SCALE_CM);
 	}
 
-	private void initValues(double width, double length, double height,
-			double scale, double thickness) {
+	private void initValues(
+			double width, double length, double height, double scale, double thickness) {
 		WIDTH.setInitValue(width);
 		LENGTH.setInitValue(length);
 		HEIGHT.setInitValue(height);
@@ -399,8 +381,13 @@ public final class Export3dDialog extends ComponentDialog
 	}
 
 	@Override
-	public void show(double width, double length, double height, double scale,
-			double thickness, Runnable exportAction) {
+	public void show(
+			double width,
+			double length,
+			double height,
+			double scale,
+			double thickness,
+			Runnable exportAction) {
 		initValues(width, length, height, scale, thickness);
 		this.onExportButtonPressed = exportAction;
 		((AppW) app).registerPopup(this);
@@ -430,7 +417,6 @@ public final class Export3dDialog extends ComponentDialog
 
 	@Override
 	public boolean wantsFilledSolids() {
-		return filledSolid.isSelected()
-				|| DoubleUtil.isZero(getCurrentThickness());
+		return filledSolid.isSelected() || DoubleUtil.isZero(getCurrentThickness());
 	}
 }

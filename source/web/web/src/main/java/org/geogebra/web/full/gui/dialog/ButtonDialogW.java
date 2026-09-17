@@ -61,8 +61,8 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 	private final ButtonDialogModel model;
 	private CodeMirrorEditorWidget scriptArea;
 	private final Localization loc;
-	private final List<Commands> chipsCommands = List.of(Commands.SetValue,
-			Commands.StartAnimation, Commands.SetColor, Commands.SetVisibleInView);
+	private final List<Commands> chipsCommands = List.of(
+			Commands.SetValue, Commands.StartAnimation, Commands.SetColor, Commands.SetVisibleInView);
 	private GPopupPanel objectsPopup;
 
 	/**
@@ -93,17 +93,15 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 			app.unregisterPopup(this);
 			app.hideKeyboard();
 		});
-
 	}
 
 	private void buildContent(boolean inputBox) {
 		String initString = model.getInitString();
-		captionInput = new ComponentInputField((AppW) app, "",
-				"Button.Caption", "", initString, null);
+		captionInput = new ComponentInputField((AppW) app, "", "Button.Caption", "", initString, null);
 		captionInput.getTextWidget().setAutoComplete(false);
 
-		Label scriptLabel = BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu("Script"),
-				"scriptLabel");
+		Label scriptLabel =
+				BaseWidgetFactory.INSTANCE.newSecondaryText(loc.getMenu("Script"), "scriptLabel");
 		initScriptArea();
 
 		FlowPanel scriptPanel = new FlowPanel();
@@ -119,8 +117,8 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 			List<String> optionNames = options.stream()
 					.map(geo -> geo == null ? "" : geo.toString(StringTemplate.defaultTemplate))
 					.collect(Collectors.toList());
-			ComponentDropDown linkedDropDown = new ComponentDropDown((AppW) app, "LinkedObject",
-					optionNames, 0);
+			ComponentDropDown linkedDropDown =
+					new ComponentDropDown((AppW) app, "LinkedObject", optionNames, 0);
 			linkedDropDown.addChangeHandler(() -> updateModel(linkedDropDown, options));
 			linkedDropDown.setDisabled(options.size() < 2);
 			linkedDropDown.setFullWidth(true);
@@ -146,24 +144,23 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 				objectsPopup.hide();
 			} else if ("@".equals(e.key)) {
 				DOMRect pixelPosition = scriptArea.getCursorPixelPosition();
-				fillAndShowObjectsPopup((int) pixelPosition.left,
-						(int) (pixelPosition.bottom - ((AppW) app).getAbsTop()));
-			} else if (!"Shift".equals(e.key) && objectsPopup != null
-					&& objectsPopup.isShowing()) {
+				fillAndShowObjectsPopup(
+						(int) pixelPosition.left, (int) (pixelPosition.bottom - ((AppW) app).getAbsTop()));
+			} else if (!"Shift".equals(e.key) && objectsPopup != null && objectsPopup.isShowing()) {
 				objectsPopup.hide();
 			}
 		});
 	}
 
 	private void createChips(FlowPanel parentPanel) {
-		Label suggestionsLabel = BaseWidgetFactory.INSTANCE.newSecondaryText("Suggestions",
-				"suggestionLabel");
+		Label suggestionsLabel =
+				BaseWidgetFactory.INSTANCE.newSecondaryText("Suggestions", "suggestionLabel");
 
 		FlowPanel chipsPanel = new FlowPanel();
 		chipsPanel.addStyleName("chipsHolder");
 		for (Commands command : chipsCommands) {
-			ComponentChip chips = new ComponentChip(command.name(), null, true,
-					() -> scriptArea.insertCommand(command.getCommand() + "()"));
+			ComponentChip chips = new ComponentChip(
+					command.name(), null, true, () -> scriptArea.insertCommand(command.getCommand() + "()"));
 			chipsPanel.add(chips);
 		}
 
@@ -172,18 +169,27 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 	}
 
 	private void createObjectsHint(FlowPanel parentPanel) {
-		StandardButton objectsHintButton = new StandardButton(MaterialDesignResources.INSTANCE
-				.alternate_email().withFill(GeoGebraColorConstants.NEUTRAL_500.toString()),
-				app.getLocalization().getMenu("Objects"), 16, 16);
-		ComponentToast toast = new ComponentToast((AppW) app,
-				app.getLocalization().getMenu("ButtonDialog.ObjectTooltip"));
-		objectsHintButton.addDomHandler(event -> {
-			getRootPanel().add(toast);
-			toast.setPopupPosition(objectsHintButton.getAbsoluteLeft(),
-					objectsHintButton.getAbsoluteTop() - objectsHintButton.getOffsetHeight()
-							- TOOLTIP_HEIGHT - 2 * BUTTON_MARGIN);
-			Scheduler.get().scheduleDeferred(() -> toast.addStyleName("fadeIn"));
-		}, MouseOverEvent.getType());
+		StandardButton objectsHintButton = new StandardButton(
+				MaterialDesignResources.INSTANCE
+						.alternate_email()
+						.withFill(GeoGebraColorConstants.NEUTRAL_500.toString()),
+				app.getLocalization().getMenu("Objects"),
+				16,
+				16);
+		ComponentToast toast =
+				new ComponentToast((AppW) app, app.getLocalization().getMenu("ButtonDialog.ObjectTooltip"));
+		objectsHintButton.addDomHandler(
+				event -> {
+					getRootPanel().add(toast);
+					toast.setPopupPosition(
+							objectsHintButton.getAbsoluteLeft(),
+							objectsHintButton.getAbsoluteTop()
+									- objectsHintButton.getOffsetHeight()
+									- TOOLTIP_HEIGHT
+									- 2 * BUTTON_MARGIN);
+					Scheduler.get().scheduleDeferred(() -> toast.addStyleName("fadeIn"));
+				},
+				MouseOverEvent.getType());
 		objectsHintButton.addDomHandler(event -> toast.hide(), MouseOutEvent.getType());
 		objectsHintButton.addStyleName("objectsHintButton");
 		parentPanel.add(objectsHintButton);
@@ -198,16 +204,14 @@ public final class ButtonDialogW extends ComponentDialog implements HasKeyboardP
 			objectsPopup.addAutoHidePartner(getElement());
 		}
 
-		TreeSet<GeoElement> geos = app.getKernel().getConstruction()
-				.getGeoSetLabelOrder();
+		TreeSet<GeoElement> geos = app.getKernel().getConstruction().getGeoSetLabelOrder();
 		if (geos.isEmpty()) {
 			Label emptyLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
 					"ButtonDialog.ObjectsNotFound", "noObjectsHint");
 			objectsPanel.add(emptyLabel);
 		} else {
 			for (GeoElement geo : geos) {
-				Label geoWidget =
-						BaseWidgetFactory.INSTANCE.newPrimaryText(geo.getNameDescription());
+				Label geoWidget = BaseWidgetFactory.INSTANCE.newPrimaryText(geo.getNameDescription());
 				objectsPanel.add(geoWidget);
 				Dom.addEventListener(geoWidget.getElement(), "click", event -> {
 					scriptArea.insertGeoBox(geo.getLabelSimple());

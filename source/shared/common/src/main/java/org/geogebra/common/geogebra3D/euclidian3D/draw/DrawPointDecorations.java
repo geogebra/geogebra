@@ -26,7 +26,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 /**
  * Class for drawing decorations of points (altitude segment from the point to
  * xOy plane, ...)
- * 
+ *
  * @author matthieu
  *
  */
@@ -42,7 +42,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param aView3d
 	 *            view
 	 */
@@ -61,7 +61,6 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 		planeMatrix = CoordMatrix4x4.identity();
 		planeMatrix.setVx(Coords.VX.mul(0.2));
 		planeMatrix.setVy(Coords.VY.mul(0.2));
-
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if decorations should be drawn
 	 */
 	public boolean shouldBeDrawn() {
@@ -82,7 +81,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	/**
 	 * set the point for which decorations are made
-	 * 
+	 *
 	 * @param point0
 	 *            decorated point
 	 */
@@ -90,7 +89,6 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 		this.point = point0;
 		hasBeenUpdated = false;
-
 	}
 
 	@Override
@@ -103,8 +101,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	@Override
 	public void drawHidden(Renderer renderer) {
-		renderer.getTextures().setDashFromLineType(
-				EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
+		renderer.getTextures().setDashFromLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG);
 		drawOutline(renderer);
 	}
 

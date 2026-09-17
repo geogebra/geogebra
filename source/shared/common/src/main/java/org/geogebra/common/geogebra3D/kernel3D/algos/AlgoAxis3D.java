@@ -38,8 +38,7 @@ public class AlgoAxis3D extends AlgoAxis {
 	 * @param axisId
 	 *            0 for major, 1 for minor
 	 */
-	public AlgoAxis3D(Construction cons, String label, GeoConicND c,
-			int axisId) {
+	public AlgoAxis3D(Construction cons, String label, GeoConicND c, int axisId) {
 		super(cons, c, axisId);
 		axis = new GeoLine3D(cons);
 		finishSetup(label);
@@ -49,8 +48,7 @@ public class AlgoAxis3D extends AlgoAxis {
 	public final void compute() {
 		// axes are lines with directions of eigenvectors
 		// through midpoint b
-		axis.setCoord(getConic().getMidpoint3D(),
-				getConic().getEigenvec3D(axisId));
+		axis.setCoord(getConic().getMidpoint3D(), getConic().getEigenvec3D(axisId));
 		P.setCoords(getConic().getMidpoint3D(), false);
 	}
 
@@ -58,5 +56,4 @@ public class AlgoAxis3D extends AlgoAxis {
 	public GeoLineND getAxis() {
 		return axis;
 	}
-
 }

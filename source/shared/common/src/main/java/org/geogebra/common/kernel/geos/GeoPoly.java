@@ -26,28 +26,28 @@ import org.geogebra.common.kernel.kernelND.Parametrizable;
 public interface GeoPoly extends Parametrizable {
 	/**
 	 * Returns true iff all vertices are labeled
-	 * 
+	 *
 	 * @return true iff all vertices are labeled
 	 */
 	boolean isAllVertexLabelsSet();
 
 	/**
 	 * Returns true iff number of vertices is not volatile
-	 * 
+	 *
 	 * @return true iff number of vertices is not volatile
 	 */
 	boolean isVertexCountFixed();
 
 	/**
 	 * Returns array of all vertices
-	 * 
+	 *
 	 * @return array of all vertices
 	 */
 	GeoPointND[] getPoints();
 
 	/**
 	 * Returns i-th vertex
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th vertex
@@ -75,5 +75,4 @@ public interface GeoPoly extends Parametrizable {
 	 * @return vertex with given index
 	 */
 	GeoPointND getPointND(int index);
-
 }

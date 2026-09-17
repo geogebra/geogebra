@@ -36,7 +36,7 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	/** controller */
 	protected EuclidianController ec;
 	/** 45 degrees */
-	final protected static String DEFAULT_ROTATE_ANGLE = Unicode.FORTY_FIVE_DEGREES_STRING;
+	protected static final String DEFAULT_ROTATE_ANGLE = Unicode.FORTY_FIVE_DEGREES_STRING;
 
 	/**
 	 * @param app
@@ -52,11 +52,14 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	 * @param ec
 	 *            controller
 	 */
-	public InputDialogRotateW(AppW app, DialogData data,
-			InputHandler handler, GeoPolygon[] polys,
-			GeoElement[] selGeos, EuclidianController ec) {
-		super(app, app.getLocalization().getMenu("Angle"), data,
-				DEFAULT_ROTATE_ANGLE, handler, false);
+	public InputDialogRotateW(
+			AppW app,
+			DialogData data,
+			InputHandler handler,
+			GeoPolygon[] polys,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
+		super(app, app.getLocalization().getMenu("Angle"), data, DEFAULT_ROTATE_ANGLE, handler, false);
 		this.polys = polys;
 		this.selGeos = selGeos;
 		this.ec = ec;

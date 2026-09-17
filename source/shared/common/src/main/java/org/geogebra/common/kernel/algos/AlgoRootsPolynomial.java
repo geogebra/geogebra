@@ -40,7 +40,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Finds all real roots of a polynomial. TODO: extend for rational functions
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoRootsPolynomial extends AlgoIntersect {
@@ -68,6 +68,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// used for AlgoExtremumPolynomial, see setRootPoints()
 	/** used for intersection of f and g */
 	protected Function diffFunction;
+
 	private final GeoPoint tempPoint;
 
 	/**
@@ -77,17 +78,15 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * @param fn function
 	 * @param labelEnabled whether to allow output labeling
 	 */
-	public AlgoRootsPolynomial(Construction cons, String[] labels,
-			GeoFunctionable fn, boolean labelEnabled) {
-		this(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(), fn,
-				null, null);
+	public AlgoRootsPolynomial(
+			Construction cons, String[] labels, GeoFunctionable fn, boolean labelEnabled) {
+		this(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(), fn, null, null);
 	}
 
 	/**
 	 * Intersects polynomials f and g.
 	 */
-	AlgoRootsPolynomial(Construction cons, GeoFunctionable f,
-			GeoFunctionable g) {
+	AlgoRootsPolynomial(Construction cons, GeoFunctionable f, GeoFunctionable g) {
 		this(cons, null, false, f, g, null);
 	}
 
@@ -98,8 +97,12 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		this(cons, null, false, f, null, l);
 	}
 
-	protected AlgoRootsPolynomial(Construction cons, String[] labels,
-			boolean setLabels, GeoFunctionable f, GeoFunctionable g,
+	protected AlgoRootsPolynomial(
+			Construction cons,
+			String[] labels,
+			boolean setLabels,
+			GeoFunctionable f,
+			GeoFunctionable g,
 			GeoLine l) {
 		super(cons);
 		this.f = f;
@@ -187,7 +190,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 	/**
 	 * The given labels will be used for the resulting points.
-	 * 
+	 *
 	 * @param labels
 	 *            output labels
 	 */
@@ -213,24 +216,24 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	@Override
 	protected void setInputOutput() {
 		switch (mode) {
-		default:
-		case MULTIPLE_ROOTS:
-		case ROOTS: // roots of f
-			input = new GeoElement[1];
-			input[0] = f.toGeoElement();
-			break;
+			default:
+			case MULTIPLE_ROOTS:
+			case ROOTS: // roots of f
+				input = new GeoElement[1];
+				input[0] = f.toGeoElement();
+				break;
 
-		case INTERSECT_POLYNOMIALS: // intersection of f and g
-			input = new GeoElement[2];
-			input[0] = f.toGeoElement();
-			input[1] = g.toGeoElement();
-			break;
+			case INTERSECT_POLYNOMIALS: // intersection of f and g
+				input = new GeoElement[2];
+				input[0] = f.toGeoElement();
+				input[1] = g.toGeoElement();
+				break;
 
-		case INTERSECT_POLY_LINE: // intersection of f and line
-			input = new GeoElement[2];
-			input[0] = f.toGeoElement();
-			input[1] = line;
-			break;
+			case INTERSECT_POLY_LINE: // intersection of f and line
+				input = new GeoElement[2];
+				input[0] = f.toGeoElement();
+				input[1] = line;
+				break;
 		}
 
 		super.setOutput(rootPoints);
@@ -258,29 +261,29 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	@Override
 	public void compute() {
 		switch (mode) {
-		default:
-		case ROOTS:
-			// roots of f
-			computeRoots();
-			break;
-		case MULTIPLE_ROOTS:
-			if (f.isDefined()) {
-				Function fun = f.getFunctionForRoot();
-				// get polynomial factors and calc roots
-				calcRootsMultiple(fun, 0, solution, eqnSolver, false);
-			} else {
-				solution.resetRoots();
-			}
-			break;
-		case INTERSECT_POLYNOMIALS:
-			// intersection of f and g
-			computePolynomialIntersection();
-			break;
+			default:
+			case ROOTS:
+				// roots of f
+				computeRoots();
+				break;
+			case MULTIPLE_ROOTS:
+				if (f.isDefined()) {
+					Function fun = f.getFunctionForRoot();
+					// get polynomial factors and calc roots
+					calcRootsMultiple(fun, 0, solution, eqnSolver, false);
+				} else {
+					solution.resetRoots();
+				}
+				break;
+			case INTERSECT_POLYNOMIALS:
+				// intersection of f and g
+				computePolynomialIntersection();
+				break;
 
-		case INTERSECT_POLY_LINE:
-			// intersection of f and line
-			computePolyLineIntersection();
-			break;
+			case INTERSECT_POLY_LINE:
+				// intersection of f and line
+				computePolyLineIntersection();
+				break;
 		}
 
 		setRootPoints(solution.curRoots, solution.curRealRoots);
@@ -309,13 +312,11 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// check if the intersection points are really on the functions
 			// due to interval restrictions this might not be the case
 			for (int i = 0; i < solution.curRealRoots; i++) {
-				if (!DoubleUtil.isEqual(fun.value(solution.curRoots[i]),
-						g.value(solution.curRoots[i]),
-						Kernel.MIN_PRECISION)) {
+				if (!DoubleUtil.isEqual(
+						fun.value(solution.curRoots[i]), g.value(solution.curRoots[i]), Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
 					i--;
 				}
-
 			}
 
 		} else {
@@ -327,8 +328,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * Compute difference between functions, overridden for conditional case
 	 */
 	protected void updateDiffFunctions() {
-		Function.difference(f.getFunction(), g.getFunction(),
-				diffFunction);
+		Function.difference(f.getFunction(), g.getFunction(), diffFunction);
 	}
 
 	// intersection of f and line
@@ -352,10 +352,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// this is important for segments and rays
 			// following must be done for both vertical and standard
 			for (int i = 0; i < solution.curRealRoots; i++) {
-				tempPoint.setCoords(solution.curRoots[i],
-						fun.value(solution.curRoots[i]), 1.0);
-				if (!line.isIntersectionPointIncident(tempPoint,
-						Kernel.MIN_PRECISION)) {
+				tempPoint.setCoords(solution.curRoots[i], fun.value(solution.curRoots[i]), 1.0);
+				if (!line.isIntersectionPointIncident(tempPoint, Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
 					i--;
 				}
@@ -370,18 +368,17 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * case
 	 */
 	protected void updateDiffLine() {
-		Function.difference(f.getFunction(), line,
-				diffFunction);
+		Function.difference(f.getFunction(), line, diffFunction);
 	}
 
 	/**
 	 * Calculates the roots of the given function resp. its derivative, stores
 	 * them in solution.curRoots and sets solution.curRealRoots to the number of
 	 * real roots found.
-	 * 
+	 *
 	 * @param fun
 	 *            function
-	 * 
+	 *
 	 * @param derivDegree
 	 *            degree of derivative to compute roots from
 	 */
@@ -392,8 +389,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			Fractions.getFraction(fraction, fun.getExpression(), true);
 			numerator = new Function(fraction[0].wrap(), fun.getFunctionVariable());
 		}
-		UnivariateFunction evalFunction = calcRootsMultiple(numerator, derivDegree,
-				solution, eqnSolver, true);
+		UnivariateFunction evalFunction =
+				calcRootsMultiple(numerator, derivDegree, solution, eqnSolver, true);
 
 		if (solution.curRealRoots > 1) {
 			solution.sortAndMakeUnique();
@@ -418,9 +415,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 *            solver
 	 * @return function used for root finding
 	 */
-	public static UnivariateFunction calcRootsMultiple(Function fun,
-			int derivDegree, Solution solution,
-			EquationSolverInterface eqnSolver) {
+	public static UnivariateFunction calcRootsMultiple(
+			Function fun, int derivDegree, Solution solution, EquationSolverInterface eqnSolver) {
 		return calcRootsMultiple(fun, derivDegree, solution, eqnSolver, false);
 	}
 
@@ -437,25 +433,26 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 *           (ensuring uniqueness and sorting is up to the caller)
 	 * @return function used for root finding
 	 */
-	public static UnivariateFunction calcRootsMultiple(Function fun,
-			int derivDegree, Solution solution,
-			EquationSolverInterface eqnSolver, boolean skipDoubleRoots) {
+	public static UnivariateFunction calcRootsMultiple(
+			Function fun,
+			int derivDegree,
+			Solution solution,
+			EquationSolverInterface eqnSolver,
+			boolean skipDoubleRoots) {
 		List<PolyFunction> factorList;
 		PolyFunction derivPoly = null; // only needed for derivatives
 		UnivariateFunction evalFunction = null; // needed to remove wrong extrema
-												// and inflection points
+		// and inflection points
 
 		// get polynomial factors for this function
 		if (derivDegree > 0) {
 			// try to get the factors of the symbolic derivative
-			factorList = fun.getSymbolicPolynomialDerivativeFactors(derivDegree,
-					true);
+			factorList = fun.getSymbolicPolynomialDerivativeFactors(derivDegree, true);
 
 			// if this didn't work take the derivative of the numeric
 			// expansion of this function
 			if (factorList == null) {
-				derivPoly = fun.getNumericPolynomialDerivative(derivDegree,
-						false, false, true);
+				derivPoly = fun.getNumericPolynomialDerivative(derivDegree, false, false, true);
 				evalFunction = derivPoly;
 			} else {
 				evalFunction = fun.getDerivativeNoFractions(derivDegree, true);
@@ -504,7 +501,6 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			Arrays.sort(solution.curRoots, 0, solution.curRealRoots);
 		}
 		return evalFunction;
-
 	}
 
 	// roots array and number of roots
@@ -520,8 +516,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				// else
 				rootPoints[i].setCoords(roots[i], 0.0, 1.0); // root point
 			} else { // extremum or turnal point
-				rootPoints[i].setCoords(roots[i],
-						yValFunction.value(roots[i]), 1.0);
+				rootPoints[i].setCoords(roots[i], yValFunction.value(roots[i]), 1.0);
 			}
 		}
 
@@ -545,8 +540,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				// check labeling
 				if (!rootPoints[i].isLabelSet()) {
 					// use user specified label if we have one
-					String newLabel = (labels != null && i < labels.length)
-							? labels[i] : null;
+					String newLabel = (labels != null && i < labels.length) ? labels[i] : null;
 					rootPoints[i].setLabel(newLabel);
 				}
 			}
@@ -612,8 +606,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("RootOfA", "Root of %0",
-				f.getLabel(tpl));
+		return getLoc().getPlainDefault("RootOfA", "Root of %0", f.getLabel(tpl));
 	}
 
 	/**

@@ -38,8 +38,8 @@ import org.jspecify.annotations.Nullable;
 
 import elemental2.dom.KeyboardEvent;
 
-public final class ComponentDropDown extends FlowPanel implements SetLabels,
-		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
+public final class ComponentDropDown extends FlowPanel
+		implements SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final AppW app;
 	private final Styler styler;
 	private Label label;
@@ -111,8 +111,7 @@ public final class ComponentDropDown extends FlowPanel implements SetLabels,
 	 * @param property see {@link org.geogebra.common.properties.PropertyView.Dropdown}
 	 * @param styler a function that applies style to an item
 	 */
-	public ComponentDropDown(AppW app, String label, Dropdown property,
-			@Nullable Styler styler) {
+	public ComponentDropDown(AppW app, String label, Dropdown property, @Nullable Styler styler) {
 		this.app = app;
 		labelKey = label;
 		dropDown = property;
@@ -134,8 +133,8 @@ public final class ComponentDropDown extends FlowPanel implements SetLabels,
 
 	@SuppressWarnings("PMD.LambdaCanBeMethodReference")
 	private void addKeyHandlers() {
-		addActionKeyHandler("keydown",
-				() -> controller.toggleAsDropDown(fullWidth, getElement(), false));
+		addActionKeyHandler(
+				"keydown", () -> controller.toggleAsDropDown(fullWidth, getElement(), false));
 		// Only move focus into the popup once this key's own press and release cycle has finished
 		addActionKeyHandler("keyup", () -> controller.focusOpenedPopup());
 	}
@@ -150,11 +149,17 @@ public final class ComponentDropDown extends FlowPanel implements SetLabels,
 	}
 
 	private void initController(List<String> items) {
-		controller = new DropDownComboBoxController(app, dropDown, this,
-				() -> items, labelKey, () -> {
-			removeStyleName("active");
-			AriaHelper.setAriaExpanded(this, false);
-		}, styler);
+		controller = new DropDownComboBoxController(
+				app,
+				dropDown,
+				this,
+				() -> items,
+				labelKey,
+				() -> {
+					removeStyleName("active");
+					AriaHelper.setAriaExpanded(this, false);
+				},
+				styler);
 		controller.addChangeHandler(() -> {
 			if (dropDown != null) {
 				dropDown.setSelectedItemIndex(controller.getSelectedIndex());
@@ -190,11 +195,11 @@ public final class ComponentDropDown extends FlowPanel implements SetLabels,
 	static SimplePanel createArrowIcon() {
 		SimplePanel arrowIcon = new SimplePanel();
 		arrowIcon.addStyleName("arrow");
-		arrowIcon.getElement().setInnerHTML(MaterialDesignResources.INSTANCE
-				.arrow_drop_down().getSVG());
+		arrowIcon
+				.getElement()
+				.setInnerHTML(MaterialDesignResources.INSTANCE.arrow_drop_down().getSVG());
 		AriaHelper.setAriaHidden(arrowIcon);
-		arrowIcon.getElement().getFirstChildElement()
-				.setAttribute("focusable", "false");
+		arrowIcon.getElement().getFirstChildElement().setAttribute("focusable", "false");
 		return arrowIcon;
 	}
 
@@ -258,8 +263,8 @@ public final class ComponentDropDown extends FlowPanel implements SetLabels,
 	 */
 	private void updateSelectionText() {
 		selectedOption.setText(controller.getSelectedText());
-		AriaHelper.setLabel(this, app.getLocalization().getMenu(labelKey) + " "
-			+ controller.getSelectedText());
+		AriaHelper.setLabel(
+				this, app.getLocalization().getMenu(labelKey) + " " + controller.getSelectedText());
 	}
 
 	/**

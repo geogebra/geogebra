@@ -36,11 +36,10 @@ import org.geogebra.common.plugin.Operation;
 /**
  * @author Victor Franco Espino
  * @version 11-02-2007
- * 
+ *
  *          tangent to Curve f in point P: (b'(t), -a'(t),
  *          a'(t)*b(t)-a(t)*b'(t))
  */
-
 public class AlgoTangentCurve3D extends AlgoLinePoint {
 
 	private GeoPointND P; // input
@@ -67,8 +66,7 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 	 * @param f
 	 *            curve
 	 */
-	public AlgoTangentCurve3D(Construction cons, String label, GeoPointND P,
-			GeoCurveCartesian3D f) {
+	public AlgoTangentCurve3D(Construction cons, String label, GeoPointND P, GeoCurveCartesian3D f) {
 		super(cons);
 		tangent = new GeoLine3D(cons);
 		this.P = P;
@@ -96,17 +94,14 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint3D) {
 			// special code for curve(t)
 
-			AlgoDependentPoint3D algoDP = (AlgoDependentPoint3D) P
-					.getParentAlgorithm();
+			AlgoDependentPoint3D algoDP = (AlgoDependentPoint3D) P.getParentAlgorithm();
 
 			ExpressionNode en = algoDP.getExpression();
 
-			if (en.getOperation() == Operation.VEC_FUNCTION
-					&& en.getLeft().unwrap() == f) {
+			if (en.getOperation() == Operation.VEC_FUNCTION && en.getLeft().unwrap() == f) {
 				pointOnCurveSpecial = true;
 				pointOnCurveSpecialParam = en.getRight().unwrap();
 			}
-
 		}
 
 		if (pointOnCurve || pointOnCurveSpecial) {
@@ -212,8 +207,6 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("TangentToAatB", f.getLabel(tpl),
-				P.getLabel(tpl));
+		return getLoc().getPlain("TangentToAatB", f.getLabel(tpl), P.getLabel(tpl));
 	}
-
 }

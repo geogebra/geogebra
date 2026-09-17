@@ -32,10 +32,11 @@ public final class ComponentChip extends StandardButton {
 	 * @param primaryStyle whether neutral or primary style
 	 * @param handler on click handler
 	 */
-	public ComponentChip(String text, SVGResource icon, boolean primaryStyle,
-			Runnable handler) {
-		super(icon != null ? icon.withFill(GeoGebraColorConstants.NEUTRAL_800.toString()) : null,
-				text, 16);
+	public ComponentChip(String text, SVGResource icon, boolean primaryStyle, Runnable handler) {
+		super(
+				icon != null ? icon.withFill(GeoGebraColorConstants.NEUTRAL_800.toString()) : null,
+				text,
+				16);
 		addFastClickHandler(source -> handler.run());
 		styleButton(icon != null, primaryStyle);
 	}
@@ -52,8 +53,10 @@ public final class ComponentChip extends StandardButton {
 		Dom.toggleClass(this, "disabled", !enabled);
 		AriaHelper.setDisabled(this, !enabled);
 		if (getIcon() instanceof SVGResourcePrototype svg) {
-			setResource(svg.withFill(enabled ? GeoGebraColorConstants.NEUTRAL_800.toString()
-					: GeoGebraColorConstants.NEUTRAL_500.toString()));
+			setResource(svg.withFill(
+					enabled
+							? GeoGebraColorConstants.NEUTRAL_800.toString()
+							: GeoGebraColorConstants.NEUTRAL_500.toString()));
 		}
 	}
 }

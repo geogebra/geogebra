@@ -21,7 +21,7 @@ import org.geogebra.common.move.views.BaseView;
 
 /**
  * @author gabor
- * 
+ *
  *         Base class for all operations in Common
  * @param <T>
  *            Type of handlers this operation notifies
@@ -47,5 +47,4 @@ public class BaseOperation<T> {
 	protected void dispatchEvent(GenericEvent<T> event) {
 		view.onEvent(event);
 	}
-
 }

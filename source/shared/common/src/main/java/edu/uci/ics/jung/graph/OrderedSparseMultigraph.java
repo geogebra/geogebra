@@ -1,7 +1,7 @@
 /*
  * Created on Oct 18, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -32,7 +32,7 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 
 	/**
 	 * Returns a {@code Factory} that creates an instance of this graph type.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type for the graph factory
 	 * @param <E>
@@ -62,8 +62,7 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(),
-					new LinkedHashSet<E>()));
+			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(), new LinkedHashSet<E>()));
 			return true;
 		}
 		return false;

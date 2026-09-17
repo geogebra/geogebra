@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 /**
  * AlgoElement class for finding difference (region difference) of two 3D
  * polygons
- * 
+ *
  * @author thilina
  *
  */
@@ -41,7 +41,7 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	private boolean threeArgs = false;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -53,8 +53,12 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	 * @param exclusive
 	 *            third input exclusive difference or not
 	 */
-	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive) {
+	public AlgoDifferencePolygons3D(
+			Construction cons,
+			String[] labels,
+			GeoPolygon inPoly0,
+			GeoPolygon inPoly1,
+			GeoBoolean exclusive) {
 
 		super(cons, labels, inPoly0, inPoly1, AlgoPolygonDifference.getOp(exclusive));
 		this.exclusive = exclusive;
@@ -64,7 +68,7 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -74,16 +78,15 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	 * @param inPoly1
 	 *            second input polygon
 	 */
-	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1) {
+	public AlgoDifferencePolygons3D(
+			Construction cons, String[] labels, GeoPolygon inPoly0, GeoPolygon inPoly1) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE);
 		initialize(null);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -96,8 +99,12 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	 *            sizes of the results of the operation. consist of polygon
 	 *            size, point size, and segment size
 	 */
-	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1, int[] outputSizes) {
+	public AlgoDifferencePolygons3D(
+			Construction cons,
+			String[] labels,
+			GeoPolygon3D inPoly0,
+			GeoPolygon3D inPoly1,
+			int[] outputSizes) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE);
 		initialize(outputSizes);
@@ -129,12 +136,10 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 		cons.addToAlgorithmList(this);
 
 		setDependencies();
-
 	}
 
 	@Override
 	public GetCommand getClassName() {
 		return Commands.Difference;
 	}
-
 }

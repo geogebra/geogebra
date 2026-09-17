@@ -60,7 +60,7 @@ public final class Note implements JFugueElement {
 	 * constructor should only be called in cases where the duration of the note
 	 * is not important (for example, when specifying a root note for a
 	 * IntervalNotation)
-	 * 
+	 *
 	 * @param value
 	 *            the numeric value of the note. C5 is 60.
 	 */
@@ -70,7 +70,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Instantiates a new Note object with the given note value and duration.
-	 * 
+	 *
 	 * @param value
 	 *            the numeric value of the note. C5 is 60.
 	 * @param duration
@@ -83,7 +83,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Instantiates a new Note object with the given note value and duration.
-	 * 
+	 *
 	 * @param value
 	 *            the numeric value of the note. C5 is 60.
 	 * @param decimalDuration
@@ -98,14 +98,13 @@ public final class Note implements JFugueElement {
 	/**
 	 * Instantiates a new Note object with the given note value, duration, and
 	 * attack and decay velocities.
-	 * 
+	 *
 	 * @param value
 	 *            the numeric value of the note. C5 is 60.
 	 * @param duration
 	 *            the duration of the note.
 	 */
-	public Note(byte value, long duration, byte attackVelocity,
-			byte decayVelocity) {
+	public Note(byte value, long duration, byte attackVelocity, byte decayVelocity) {
 		this.value = value;
 		this.duration = duration;
 		this.attackVelocity = attackVelocity;
@@ -115,14 +114,13 @@ public final class Note implements JFugueElement {
 	/**
 	 * Instantiates a new Note object with the given note value, duration, and
 	 * attack and decay velocities.
-	 * 
+	 *
 	 * @param value
 	 *            the numeric value of the note. C5 is 60.
 	 * @param decimalDuration
 	 *            the duration of the note.
 	 */
-	public Note(byte value, double decimalDuration, byte attackVelocity,
-			byte decayVelocity) {
+	public Note(byte value, double decimalDuration, byte attackVelocity, byte decayVelocity) {
 		this.value = value;
 		this.decimalDuration = decimalDuration;
 		this.attackVelocity = attackVelocity;
@@ -131,7 +129,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Indicates whether this Note object actually represents a rest.
-	 * 
+	 *
 	 * @param rest
 	 *            indicates whether this note is rest
 	 */
@@ -141,7 +139,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns whether this Note object actually represents a rest.
-	 * 
+	 *
 	 * @return whether this note is a rest
 	 */
 	public boolean isRest() {
@@ -150,7 +148,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Sets the numeric value of this note. C5 is 60.
-	 * 
+	 *
 	 * @param value
 	 *            the value of the note
 	 */
@@ -160,7 +158,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns the numeric value of this note. C5 is 60.
-	 * 
+	 *
 	 * @return the value of this note
 	 */
 	public byte getValue() {
@@ -169,7 +167,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Sets the duration of this note.
-	 * 
+	 *
 	 * @param duration
 	 *            the duration of this note
 	 */
@@ -179,7 +177,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns the duration of this note.
-	 * 
+	 *
 	 * @return the duration of this note
 	 */
 	public long getDuration() {
@@ -188,7 +186,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Sets the decimal fraction value for the duration.
-	 * 
+	 *
 	 * @param duration
 	 *            the decimal fraction for the duration
 	 */
@@ -198,7 +196,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns the decimal fraction value for the duration.
-	 * 
+	 *
 	 * @return the decimal fraction value for the duration
 	 */
 	public double getDecimalDuration() {
@@ -207,7 +205,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Indicates whether this note has a tie to some future note.
-	 * 
+	 *
 	 * @param startOfTie
 	 *            true if the note is tied, false if not
 	 */
@@ -217,7 +215,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns whether this note has a tie to some future note.
-	 * 
+	 *
 	 * @return true is the note is tied, false if not
 	 */
 	public boolean isStartOfTie() {
@@ -226,7 +224,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Indicates whether this note is tied to some past note.
-	 * 
+	 *
 	 * @param endOfTie
 	 *            true if the note is tied, false if not
 	 */
@@ -236,7 +234,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns whether this note is tied to some past note.
-	 * 
+	 *
 	 * @return true is the note is tied, false if not
 	 */
 	public boolean isEndOfTie() {
@@ -245,7 +243,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Sets the attack velocity for this note.
-	 * 
+	 *
 	 * @param velocity
 	 *            the attack velocity
 	 */
@@ -255,7 +253,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns the attack velocity for this note.
-	 * 
+	 *
 	 * @return the attack velocity
 	 */
 	public byte getAttackVelocity() {
@@ -264,7 +262,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Sets the decay velocity for this note.
-	 * 
+	 *
 	 * @param velocity
 	 *            the decay velocity
 	 */
@@ -274,7 +272,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns the decay velocity for this note.
-	 * 
+	 *
 	 * @return the decay velocity
 	 */
 	public byte getDecayVelocity() {
@@ -284,7 +282,7 @@ public final class Note implements JFugueElement {
 	/**
 	 * Sets whether this Note will have other Notes (sequential or parallel)
 	 * associated with it.
-	 * 
+	 *
 	 * @param accompanying
 	 */
 	public void setHasAccompanyingNotes(boolean accompanying) {
@@ -301,7 +299,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Sets the note type - either First, Sequential, or Parallel.
-	 * 
+	 *
 	 * @param type
 	 *            the note type
 	 */
@@ -311,7 +309,7 @@ public final class Note implements JFugueElement {
 
 	/**
 	 * Returns the note type - either First, Sequential, or Parallel.
-	 * 
+	 *
 	 * @return the note type
 	 */
 	public byte getType() {
@@ -346,7 +344,7 @@ public final class Note implements JFugueElement {
 	 * <code>d<i>velocity</i></code> will be added to the string. If this note
 	 * is to be played in sequence or in parallel to another note, a
 	 * <code>+</code> or <code>_</code> character will be added as appropriate.</p>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -384,7 +382,7 @@ public final class Note implements JFugueElement {
 	 * Returns verification string in this format: Note: value={#},
 	 * duration={#}, startTie={T|F}, endTie={T|F}, attack={#}, decay={#},
 	 * isFirst={T|F}, isParallel={T|F}, isSequential={T|F}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -413,31 +411,36 @@ public final class Note implements JFugueElement {
 	}
 
 	public static String createVerifyString(int value, double duration) {
-		return createVerifyString(value, duration, false, false, (byte) 64,
-				(byte) 64, true, false, false);
+		return createVerifyString(
+				value, duration, false, false, (byte) 64, (byte) 64, true, false, false);
 	}
 
-	public static String createVerifyString(int value, double duration,
-			boolean startTie, boolean endTie) {
-		return createVerifyString(value, duration, startTie, endTie, (byte) 64,
-				(byte) 64, true, false, false);
+	public static String createVerifyString(
+			int value, double duration, boolean startTie, boolean endTie) {
+		return createVerifyString(
+				value, duration, startTie, endTie, (byte) 64, (byte) 64, true, false, false);
 	}
 
-	public static String createVerifyString(int value, double duration,
-			int attack, int decay) {
-		return createVerifyString(value, duration, false, false, attack, decay,
-				true, false, false);
+	public static String createVerifyString(int value, double duration, int attack, int decay) {
+		return createVerifyString(value, duration, false, false, attack, decay, true, false, false);
 	}
 
-	public static String createVerifyString(int value, double duration,
-			boolean isFirst, boolean isParallel, boolean isSequential) {
-		return createVerifyString(value, duration, false, false, (byte) 64,
-				(byte) 64, isFirst, isParallel, isSequential);
+	public static String createVerifyString(
+			int value, double duration, boolean isFirst, boolean isParallel, boolean isSequential) {
+		return createVerifyString(
+				value, duration, false, false, (byte) 64, (byte) 64, isFirst, isParallel, isSequential);
 	}
 
-	public static String createVerifyString(int value, double duration,
-			boolean startTie, boolean endTie, int attack, int decay,
-			boolean isFirst, boolean isParallel, boolean isSequential) {
+	public static String createVerifyString(
+			int value,
+			double duration,
+			boolean startTie,
+			boolean endTie,
+			int attack,
+			int decay,
+			boolean isFirst,
+			boolean isParallel,
+			boolean isSequential) {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append("Note: value=");
 		buffy.append(value);
@@ -481,15 +484,14 @@ public final class Note implements JFugueElement {
 	/**
 	 * Returns a MusicString representation of the given MIDI note value and
 	 * duration -- which indicates a note and an octave.
-	 * 
+	 *
 	 * @param noteValue
 	 *            this MIDI note value, like 60
 	 * @param decimalDuration
 	 *            the duration of this note, like 0.5
 	 * @return a MusicString value, like C5h
 	 */
-	public static String getStringForNote(byte noteValue,
-			double decimalDuration) {
+	public static String getStringForNote(byte noteValue, double decimalDuration) {
 		StringBuffer buffy = new StringBuffer();
 		buffy.append(getStringForNote(noteValue));
 		buffy.append(getStringForDuration(decimalDuration));
@@ -499,7 +501,7 @@ public final class Note implements JFugueElement {
 	/**
 	 * Returns the frequency, in Hertz, for the given note value. For example,
 	 * the frequency for A5 (MIDI note 69) is 440.0
-	 * 
+	 *
 	 * @param noteValue
 	 * @return
 	 */
@@ -519,7 +521,7 @@ public final class Note implements JFugueElement {
 	/**
 	 * Returns a MusicString representation of the given MIDI note value --
 	 * which indicates a note and an octave.
-	 * 
+	 *
 	 * @param noteValue
 	 *            this MIDI note value, like 60
 	 * @return a MusicString value, like C5
@@ -637,8 +639,8 @@ public final class Note implements JFugueElement {
 		}
 	}
 
-	public static final String[] NOTES = new String[] { "C", "C#", "D", "Eb",
-			"E", "F", "F#", "G", "G#", "A", "Bb", "B" };
+	public static final String[] NOTES =
+			new String[] {"C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B"};
 
 	public static final byte ACOUSTIC_BASS_DRUM = 35;
 	public static final byte BASS_DRUM = 36;
@@ -692,13 +694,12 @@ public final class Note implements JFugueElement {
 
 	public static final byte MUTE_TRIANGLE = 80;
 	public static final byte OPEN_TRIANGLE = 81;
-
 }
 
 /*
- * 
+ *
  * Here's a handy chart from http://www.borg.com/~jglatt/tutr/notefreq.htm
- * 
+ *
  * MIDI MIDI MIDI Note Frequency Note Frequency Note Frequency C 0 8.1757989156
  * 12 16.3515978313 24 32.7031956626 Db 1 8.6619572180 13 17.3239144361 25
  * 34.6478288721 D 2 9.1770239974 14 18.3540479948 26 36.7080959897 Eb 3
@@ -709,7 +710,7 @@ public final class Note implements JFugueElement {
  * 25.9565435987 32 51.9130871975 A 9 13.7500000000 21 27.5000000000 33
  * 55.0000000000 Bb 10 14.5676175474 22 29.1352350949 34 58.2704701898 B 11
  * 15.4338531643 23 30.8677063285 35 61.7354126570
- * 
+ *
  * C 36 65.4063913251 48 130.8127826503 60 261.6255653006 Db 37 69.2956577442 49
  * 138.5913154884 61 277.1826309769 D 38 73.4161919794 50 146.8323839587 62
  * 293.6647679174 Eb 39 77.7817459305 51 155.5634918610 63 311.1269837221 E 40
@@ -719,7 +720,7 @@ public final class Note implements JFugueElement {
  * 103.8261743950 56 207.6523487900 68 415.3046975799 A 45 110.0000000000 57
  * 220.0000000000 69 440.0000000000 Bb 46 116.5409403795 58 233.0818807590 70
  * 466.1637615181 B 47 123.4708253140 59 246.9416506281 71 493.8833012561
- * 
+ *
  * C 72 523.2511306012 84 1046.5022612024 96 2093.0045224048 Db 73
  * 554.3652619537 85 1108.7305239075 97 2217.4610478150 D 74 587.3295358348 86
  * 1174.6590716696 98 2349.3181433393 Eb 75 622.2539674442 87 1244.5079348883 99
@@ -730,7 +731,7 @@ public final class Note implements JFugueElement {
  * 3322.4375806396 A 81 880.0000000000 93 1760.0000000000 105 3520.0000000000 Bb
  * 82 932.3275230362 94 1864.6550460724 106 3729.3100921447 B 83 987.7666025122
  * 95 1975.5332050245 107 3951.0664100490
- * 
+ *
  * C 108 4186.0090448096 120 8372.0180896192 Db 109 4434.9220956300 121
  * 8869.8441912599 D 110 4698.6362866785 122 9397.2725733570 Eb 111
  * 4978.0317395533 123 9956.0634791066 E 112 5274.0409106059 124
@@ -738,8 +739,8 @@ public final class Note implements JFugueElement {
  * 5919.9107633862 126 11839.8215267723 G 115 6271.9269757080 127
  * 12543.8539514160 Ab 116 6644.8751612791 A 117 7040.0000000000 Bb 118
  * 7458.6201842894 B 119 7902.1328200980
- * 
+ *
  * Note: Middle C is note #60. Frequency is in Hertz.
- * 
- * 
+ *
+ *
  */

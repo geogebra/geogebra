@@ -26,7 +26,7 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author gabor
- * 
+ *
  *         ProabilityCalculator dockpanel for Web
  *
  */
@@ -42,7 +42,8 @@ public final class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	 *            App Creates panel
 	 */
 	public ProbabilityCalculatorDockPanelW(AppWFull app) {
-		super(App.VIEW_PROBABILITY_CALCULATOR,
+		super(
+				App.VIEW_PROBABILITY_CALCULATOR,
 				app.isSuite() ? null : "0", // toolbar string - move tool only, force!
 				true);
 
@@ -54,8 +55,7 @@ public final class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	public void onResize() {
 		super.onResize();
 		if (app.getGuiManager().hasProbabilityCalculator()) {
-			((ProbabilityCalculatorViewW) app.getGuiManager()
-					.getProbabilityCalculator()).onResize();
+			((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator()).onResize();
 		}
 	}
 
@@ -64,8 +64,8 @@ public final class ProbabilityCalculatorDockPanelW extends DockPanelW {
 		if (!app.supportsView(App.VIEW_PROBABILITY_CALCULATOR)) {
 			return new FlowPanel();
 		}
-		return ((ProbabilityCalculatorViewW) app.getGuiManager()
-				.getProbabilityCalculator()).getWrapperPanel();
+		return ((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator())
+				.getWrapperPanel();
 	}
 
 	@Override
@@ -93,8 +93,8 @@ public final class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (visible) {
-			((ProbabilityCalculatorViewW) app.getGuiManager()
-					.getProbabilityCalculator()).createGeoElements();
+			((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator())
+					.createGeoElements();
 		}
 	}
 }

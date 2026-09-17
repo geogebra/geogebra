@@ -30,8 +30,7 @@ import org.jspecify.annotations.NonNull;
  */
 public final class CommandRedefineHelper {
 
-	private CommandRedefineHelper() {
-	}
+	private CommandRedefineHelper() {}
 
 	/**
 	 * Redefines {@code geoElement} by rebuilding its parent command string with one parameter replaced
@@ -43,8 +42,11 @@ public final class CommandRedefineHelper {
 	 * @param app the application
 	 */
 	public static void redefineWithParam(
-			@NonNull GeoElement geoElement, @NonNull AlgoElement algoElement, int paramIndex,
-			@NonNull String newParameterDefinition, @NonNull App app) {
+			@NonNull GeoElement geoElement,
+			@NonNull AlgoElement algoElement,
+			int paramIndex,
+			@NonNull String newParameterDefinition,
+			@NonNull App app) {
 		String commandName = algoElement.getClassName().getCommand();
 		GeoElement[] parameterElements = algoElement.getInput();
 		int totalNumberOfParameters = Math.max(parameterElements.length, paramIndex + 1);
@@ -53,13 +55,12 @@ public final class CommandRedefineHelper {
 			if (i == paramIndex) {
 				parameterDefinitions[i] = newParameterDefinition;
 			} else {
-				parameterDefinitions[i] = parameterElements[i]
-						.getLabel(StringTemplate.maxPrecision);
+				parameterDefinitions[i] = parameterElements[i].getLabel(StringTemplate.maxPrecision);
 			}
 		}
 		String newDefinition = commandName + "(" + String.join(", ", parameterDefinitions) + ")";
-		RedefineInputHandler handler = new RedefineInputHandler(app, geoElement,
-				geoElement.getRedefineString(false, true));
+		RedefineInputHandler handler =
+				new RedefineInputHandler(app, geoElement, geoElement.getRedefineString(false, true));
 		handler.processInput(newDefinition, ErrorHelper.silent(), ok -> {
 			if (ok && geoElement != handler.getGeoElement()) {
 				app.getSelectionManager().clearSelectedGeos(false, false);

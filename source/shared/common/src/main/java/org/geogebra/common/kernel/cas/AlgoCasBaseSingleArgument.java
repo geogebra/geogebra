@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 
 /**
  * Process a function using single argument command
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoCasBaseSingleArgument extends AlgoCasBase {
@@ -45,8 +45,8 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoCasBaseSingleArgument(Construction cons, String label, AlgebraicExpression f,
-			Commands cmd, EvalInfo info) {
+	public AlgoCasBaseSingleArgument(
+			Construction cons, String label, AlgebraicExpression f, Commands cmd, EvalInfo info) {
 		super(cons, f, cmd, info);
 		setInputOutput(); // for AlgoElement
 		compute();

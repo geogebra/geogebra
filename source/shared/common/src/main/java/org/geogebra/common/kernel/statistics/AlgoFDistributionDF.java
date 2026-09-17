@@ -29,11 +29,10 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * algorithm for FDistribution[0,1,x]
- * 
+ *
  * @author Michael
  */
-public class AlgoFDistributionDF extends AlgoElement
-		implements AlgoDistributionDF {
+public class AlgoFDistributionDF extends AlgoElement implements AlgoDistributionDF {
 
 	private GeoNumberValue d1; // input
 	private GeoNumberValue d2; // input
@@ -50,8 +49,8 @@ public class AlgoFDistributionDF extends AlgoElement
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoFDistributionDF(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, BooleanValue cumulative) {
+	public AlgoFDistributionDF(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, BooleanValue cumulative) {
 		super(cons);
 		this.d1 = a;
 		this.d2 = b;
@@ -114,8 +113,8 @@ public class AlgoFDistributionDF extends AlgoElement
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			en = d1En.divide(2).betaRegularized(halfd2,
-					fvEn.multiply(d1).divide(fvEn.multiply(d1).plus(d2)));
+			en = d1En.divide(2)
+					.betaRegularized(halfd2, fvEn.multiply(d1).divide(fvEn.multiply(d1).plus(d2)));
 		} else {
 
 			ExpressionNode beta = halfd1.apply(Operation.BETA, halfd2);
@@ -124,13 +123,12 @@ public class AlgoFDistributionDF extends AlgoElement
 
 			mult = fvEn.multiply(d1).power(halfd1).multiply(mult);
 
-			ExpressionNode div = fvEn.multiply(d1).plus(d2)
-					.power(halfd1.plus(halfd2)).multiply(fv).multiply(beta);
+			ExpressionNode div =
+					fvEn.multiply(d1).plus(d2).power(halfd1.plus(halfd2)).multiply(fv).multiply(beta);
 
 			en = mult.divide(div);
 		}
 
 		ret.getFunctionExpression().setRight(en);
 	}
-
 }

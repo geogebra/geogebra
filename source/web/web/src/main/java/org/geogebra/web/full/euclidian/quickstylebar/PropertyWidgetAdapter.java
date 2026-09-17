@@ -59,8 +59,10 @@ public final class PropertyWidgetAdapter {
 	 * @param uiUpdater update dependent ui
 	 * @return panel holding list of icon buttons based on property
 	 */
-	public FlowPanel getIconListPanel(IconsEnumeratedProperty<?> iconProperty,
-			PropertySupplier propertySupplier, Consumer<Integer> uiUpdater) {
+	public FlowPanel getIconListPanel(
+			IconsEnumeratedProperty<?> iconProperty,
+			PropertySupplier propertySupplier,
+			Consumer<Integer> uiUpdater) {
 		enumeratedPropertyButtons = new ArrayList<>();
 		FlowPanel buttonListComponent = new FlowPanel();
 		buttonListComponent.addStyleName("buttonList");
@@ -70,7 +72,9 @@ public final class PropertyWidgetAdapter {
 		for (int i = 0; i < icons.length; i++) {
 			int finalI = i;
 			String label = labels != null ? labels[i] : null;
-			IconButton enumeratedPropertyIconButton = new IconButton(appW, null,
+			IconButton enumeratedPropertyIconButton = new IconButton(
+					appW,
+					null,
 					((AppWFull) appW).getPropertiesIconResource().getImageResource(icons[i]),
 					label);
 			enumeratedPropertyIconButton.addFastClickHandler(source -> {
@@ -101,8 +105,7 @@ public final class PropertyWidgetAdapter {
 	 * @param property cell border thickness property
 	 * @return panel for line thickness ui
 	 */
-	public FlowPanel getBorderThicknessWidget(
-			IconsEnumeratedProperty<Integer> property) {
+	public FlowPanel getBorderThicknessWidget(IconsEnumeratedProperty<Integer> property) {
 		return new BorderThicknessPanel(property, appW);
 	}
 
@@ -110,8 +113,8 @@ public final class PropertyWidgetAdapter {
 	 * @param property range property
 	 * @return slider based on range property
 	 */
-	public SliderWithProperty getSliderWidget(RangePropertyListFacade<?> property,
-			PropertySupplier propertySupplier) {
+	public SliderWithProperty getSliderWidget(
+			RangePropertyListFacade<?> property, PropertySupplier propertySupplier) {
 		return new SliderWithProperty(appW, property, propertySupplier);
 	}
 
@@ -155,9 +158,9 @@ public final class PropertyWidgetAdapter {
 	 * @param localization localization
 	 * @return checkbox component
 	 */
-	public ComponentCheckbox getCheckBox(BooleanPropertyListFacade<?> property,
-			Localization localization) {
-		return new ComponentCheckbox(localization, property.getValue(),
-				property.getName(), property::setValue);
+	public ComponentCheckbox getCheckBox(
+			BooleanPropertyListFacade<?> property, Localization localization) {
+		return new ComponentCheckbox(
+				localization, property.getValue(), property.getName(), property::setValue);
 	}
 }

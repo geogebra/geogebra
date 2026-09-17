@@ -34,18 +34,17 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 	private Coords vn2 = new Coords(3);
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 */
 	public AlgoOrthoPlane(Construction cons) {
 		super(cons);
 		plane = new GeoPlane3D(cons);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the plane
 	 */
 	public GeoPlane3D getPlane() {
@@ -53,13 +52,13 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return normal vector to the plane
 	 */
 	protected abstract Coords getNormal();
 
 	/**
-	 * 
+	 *
 	 * @return coords of a point on the plane
 	 */
 	protected abstract Coords getPoint();
@@ -92,7 +91,5 @@ public abstract class AlgoOrthoPlane extends AlgoElement3D {
 
 		// ensure equation vector as integer coeffs if input are integers
 		coordsys.setEquationVector(o, vz);
-
 	}
-
 }

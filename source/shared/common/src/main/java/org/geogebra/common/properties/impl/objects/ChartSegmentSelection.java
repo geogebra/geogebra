@@ -104,10 +104,12 @@ public final class ChartSegmentSelection {
 	 * If a single segment is selected, return the getter's value for that segment.
 	 * @param <T> value type
 	 */
-	public <T> @Nullable T getUniformValueOrNull(
-			int chartSegmentCount, Function<Integer, T> getter) {
+	public <T> @Nullable T getUniformValueOrNull(int chartSegmentCount, Function<Integer, T> getter) {
 		List<T> values = selectedSegmentIndexStream(chartSegmentCount)
-				.mapToObj(getter::apply).distinct().limit(2).collect(Collectors.toList());
+				.mapToObj(getter::apply)
+				.distinct()
+				.limit(2)
+				.collect(Collectors.toList());
 		return values.size() == 1 ? values.get(0) : null;
 	}
 

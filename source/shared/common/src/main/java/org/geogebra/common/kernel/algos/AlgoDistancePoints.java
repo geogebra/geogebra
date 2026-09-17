@@ -98,13 +98,12 @@ public class AlgoDistancePoints extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("DistanceOfAandB",
-				"Distance between %0 and %1", P.getLabel(tpl),
-				Q.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"DistanceOfAandB", "Distance between %0 and %1", P.getLabel(tpl), Q.getLabel(tpl));
 	}
 
 	@Override
@@ -113,8 +112,7 @@ public class AlgoDistancePoints extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 
 		GeoPoint P1 = (GeoPoint) P;
 		GeoPoint P2 = (GeoPoint) Q;
@@ -130,13 +128,10 @@ public class AlgoDistancePoints extends AlgoElement
 				botanaVars[1] = vP1[1];
 				botanaVars[2] = vP2[0];
 				botanaVars[3] = vP2[1];
-
 			}
 
 			return null;
 		}
 		throw new NoSymbolicParametersException();
-
 	}
-
 }

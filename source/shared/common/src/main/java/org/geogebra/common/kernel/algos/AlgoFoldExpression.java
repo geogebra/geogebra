@@ -41,7 +41,7 @@ public class AlgoFoldExpression extends AlgoElement {
 	/**
 	 * Creates labeled function sum algo for truncated list (or whole list if
 	 * truncate == null)
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -57,9 +57,14 @@ public class AlgoFoldExpression extends AlgoElement {
 	 * @param op
 	 *            operation
 	 */
-	public AlgoFoldExpression(Construction cons, String label,
-			GeoElement expression, GeoNumeric var, GeoNumeric from,
-			GeoNumeric truncate, Operation op) {
+	public AlgoFoldExpression(
+			Construction cons,
+			String label,
+			GeoElement expression,
+			GeoNumeric var,
+			GeoNumeric from,
+			GeoNumeric truncate,
+			Operation op) {
 		super(cons);
 		this.expression = expression;
 		this.var = var;
@@ -67,8 +72,7 @@ public class AlgoFoldExpression extends AlgoElement {
 		this.to = truncate;
 		this.op = op;
 		this.foldComputer = getComputer(expression);
-		resultFun = foldComputer.getTemplate(cons,
-				expression.getGeoClassType());
+		resultFun = foldComputer.getTemplate(cons, expression.getGeoClassType());
 		if (op == Operation.MULTIPLY && resultFun instanceof VectorNDValue) {
 			((VectorNDValue) resultFun).setMode(Kernel.COORD_COMPLEX);
 		}
@@ -79,20 +83,19 @@ public class AlgoFoldExpression extends AlgoElement {
 
 	private static FoldComputer getComputer(GeoElement expression) {
 		switch (expression.getGeoClassType()) {
-		case POINT:
-		case POINT3D:
-		case VECTOR:
-		case VECTOR3D:
-			return new PointNDFold();
-		case FUNCTION_NVAR:
-
-			return new FunctionNvarFold();
-		case FUNCTION:
-			return new FunctionFold();
-		case LIST:
-			return new ListFold();
-		case TEXT:
-			return new TextFold();
+			case POINT:
+			case POINT3D:
+			case VECTOR:
+			case VECTOR3D:
+				return new PointNDFold();
+			case FUNCTION_NVAR:
+				return new FunctionNvarFold();
+			case FUNCTION:
+				return new FunctionFold();
+			case LIST:
+				return new ListFold();
+			case TEXT:
+				return new TextFold();
 		}
 		return new NumberFold();
 	}
@@ -111,7 +114,7 @@ public class AlgoFoldExpression extends AlgoElement {
 
 	/**
 	 * Returns result
-	 * 
+	 *
 	 * @return sum of functions
 	 */
 	public GeoElement getResult() {
@@ -157,12 +160,10 @@ public class AlgoFoldExpression extends AlgoElement {
 			this.setStopUpdateCascade(false);
 			expressionParentAlgo.update();
 		}
-
 	}
 
 	@Override
 	public Commands getClassName() {
 		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
 	}
-
 }

@@ -23,10 +23,10 @@ import java.util.Map;
  * Start sequences such as "StartA, StartB, StartEmpty" are allowed, but "Start,
  * StartOther" are not since they overlap. Start and End markers can be the
  * same.
- * 
+ *
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: RoutedInputStream.java,v 1.3 2008-05-04 12:21:54 murkle Exp $
  */
@@ -49,22 +49,22 @@ public class RoutedInputStream extends InputStream {
 	private static final int UNROUTED = 0; // the main stream is returned
 
 	private static final int ROUTEFOUND = 1; // found a route, but need to
-												// still return buffer
+	// still return buffer
 
 	private static final int ROUTEINFORM = 2; // buffer returned, need to
-												// inform routelistener
+	// inform routelistener
 
 	private static final int ROUTED = 3; // the main stream is now routed to
-											// the route
+	// the route
 
 	private static final int CLOSING = 4; // the underlying stream is closed,
-											// but buffer need to be emptied
+	// but buffer need to be emptied
 
 	private static final int CLOSED = 5; // the main stream is closed
 
 	/**
 	 * Creates a RoutedInputStream from the underlying stream.
-	 * 
+	 *
 	 * @param input
 	 *            stream to read
 	 */
@@ -93,120 +93,118 @@ public class RoutedInputStream extends InputStream {
 
 		int result;
 
-		NEWSTATE: while (true) {
+		NEWSTATE:
+		while (true) {
 			switch (state) {
-			default:
-			case UNROUTED:
-				// fill the buffer with one or more bytes
-				int b = -1;
-				while (sob != eob) {
-					if (sob < 0) {
-						sob = 0;
-					}
+				default:
+				case UNROUTED:
+					// fill the buffer with one or more bytes
+					int b = -1;
+					while (sob != eob) {
+						if (sob < 0) {
+							sob = 0;
+						}
 
-					// read a byte from the underlying stream
-					b = in.read();
-					if (b < 0) {
-						// underlying stream closed
-						state = CLOSING;
-						continue NEWSTATE;
-					}
-
-					// try to find a start marker
-					buffer[eob] = (byte) b;
-					eob = (eob + 1) % buffer.length;
-
-					// search for a route
-					for (Iterator i = routes.keySet().iterator(); i
-							.hasNext();) {
-						start = (byte[]) i.next();
-						index = (eob + buffer.length - start.length)
-								% buffer.length;
-						if (equals(start, buffer, index)) {
-							state = ROUTEFOUND;
+						// read a byte from the underlying stream
+						b = in.read();
+						if (b < 0) {
+							// underlying stream closed
+							state = CLOSING;
 							continue NEWSTATE;
 						}
+
+						// try to find a start marker
+						buffer[eob] = (byte) b;
+						eob = (eob + 1) % buffer.length;
+
+						// search for a route
+						for (Iterator i = routes.keySet().iterator(); i.hasNext(); ) {
+							start = (byte[]) i.next();
+							index = (eob + buffer.length - start.length) % buffer.length;
+							if (equals(start, buffer, index)) {
+								state = ROUTEFOUND;
+								continue NEWSTATE;
+							}
+						}
+					} // while
+
+					// always return what drops from the buffer
+					// the buffer is one byte longer than the longest start marker,
+					// so even
+					// if we find that marker we can still return the byte just in
+					// front of it.
+					result = buffer[sob];
+					sob = (sob + 1) % buffer.length;
+					return result;
+
+				case ROUTEFOUND:
+					// found a start marker, we still need to return all bytes
+					// before
+					// the marker; i.e. from sob to index
+					if (sob == index) {
+						state = ROUTEINFORM;
+						continue NEWSTATE;
 					}
+					result = buffer[sob];
+					sob = (sob + 1) % buffer.length;
+					return result;
 
-				} // while
+				case ROUTEINFORM:
+					// we inform the routelistener to start reading
+					state = ROUTED;
+					Route route = new Route(start, (byte[]) routes.get(start));
+					// next call will generate callbacks to this read method in
+					// state ROUTED.
+					((RouteListener) listeners.get(start)).routeFound(route);
 
-				// always return what drops from the buffer
-				// the buffer is one byte longer than the longest start marker,
-				// so even
-				// if we find that marker we can still return the byte just in
-				// front of it.
-				result = buffer[sob];
-				sob = (sob + 1) % buffer.length;
-				return result;
+					// route listener finished
+					state = UNROUTED;
+					if (sob == eob) {
+						// we restart buffering if the buffer was empty
+						sob = -1;
+						eob = 0;
+						continue NEWSTATE;
+					}
+					// FIXME: we need an UNROUTING here which just returns the
+					// buffer, but does not refill it, in case the reads would
+					// block...
+					// we return a byte from the buffer and
+					// let the next call take care of rebuffering, otherwise we may
+					// block
+					result = buffer[sob];
+					sob = (sob + 1) % buffer.length;
+					return result;
 
-			case ROUTEFOUND:
-				// found a start marker, we still need to return all bytes
-				// before
-				// the marker; i.e. from sob to index
-				if (sob == index) {
-					state = ROUTEINFORM;
-					continue NEWSTATE;
-				}
-				result = buffer[sob];
-				sob = (sob + 1) % buffer.length;
-				return result;
+				case ROUTED:
+					// calls end up here when the Route is reading. We should
+					// return the start marker (in buffer) followed by newly read
+					// bytes.
+					if (sob == eob) {
+						result = in.read();
+						if (result < 0) {
+							state = CLOSED;
+							continue NEWSTATE;
+						}
+					} else {
+						result = buffer[sob];
+						sob = (sob + 1) % buffer.length;
+					}
+					return result;
 
-			case ROUTEINFORM:
-				// we inform the routelistener to start reading
-				state = ROUTED;
-				Route route = new Route(start, (byte[]) routes.get(start));
-				// next call will generate callbacks to this read method in
-				// state ROUTED.
-				((RouteListener) listeners.get(start)).routeFound(route);
-
-				// route listener finished
-				state = UNROUTED;
-				if (sob == eob) {
-					// we restart buffering if the buffer was empty
-					sob = -1;
-					eob = 0;
-					continue NEWSTATE;
-				}
-				// FIXME: we need an UNROUTING here which just returns the
-				// buffer, but does not refill it, in case the reads would
-				// block...
-				// we return a byte from the buffer and
-				// let the next call take care of rebuffering, otherwise we may
-				// block
-				result = buffer[sob];
-				sob = (sob + 1) % buffer.length;
-				return result;
-
-			case ROUTED:
-				// calls end up here when the Route is reading. We should
-				// return the start marker (in buffer) followed by newly read
-				// bytes.
-				if (sob == eob) {
-					result = in.read();
-					if (result < 0) {
+				case CLOSING:
+					// the underlying stream is closed, no more markers can be found
+					// thus the rest of the buffer is returned
+					if (sob == eob) {
 						state = CLOSED;
 						continue NEWSTATE;
 					}
-				} else {
 					result = buffer[sob];
 					sob = (sob + 1) % buffer.length;
-				}
-				return result;
+					return result;
 
-			case CLOSING:
-				// the underlying stream is closed, no more markers can be found
-				// thus the rest of the buffer is returned
-				if (sob == eob) {
-					state = CLOSED;
-					continue NEWSTATE;
-				}
-				result = buffer[sob];
-				sob = (sob + 1) % buffer.length;
-				return result;
-
-			case CLOSED:
-				// all streams are closed
-				return -1;
+				case CLOSED:
+					// all streams are closed
+					return -1;
 			} // switch
 		} // while
 	}
@@ -214,7 +212,7 @@ public class RoutedInputStream extends InputStream {
 	/**
 	 * Adds a route for given start and end string. The strings are converted
 	 * according to the default encoding to start and end markers (byte[]).
-	 * 
+	 *
 	 * @param start
 	 *            start marker
 	 * @param end
@@ -223,20 +221,21 @@ public class RoutedInputStream extends InputStream {
 	 *            listener to inform about the route
 	 */
 	public void addRoute(String start, String end, RouteListener listener) {
-		addRoute(start.getBytes(StandardCharsets.UTF_8),
+		addRoute(
+				start.getBytes(StandardCharsets.UTF_8),
 				(end == null) ? null : end.getBytes(StandardCharsets.UTF_8),
 				listener);
 	}
 
 	/**
 	 * Adds a route for given start and end marker.
-	 * 
+	 *
 	 * If the end marker is null, the route is indefinite, and can be read until
 	 * the main stream ends.
-	 * 
+	 *
 	 * If the start and end marker are equal, the route can be read for exactly
 	 * their length.
-	 * 
+	 *
 	 * @param start
 	 *            start marker
 	 * @param end
@@ -245,13 +244,12 @@ public class RoutedInputStream extends InputStream {
 	 *            listener to inform about the route
 	 */
 	public void addRoute(byte[] start, byte[] end, RouteListener listener) {
-		for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
+		for (Iterator i = routes.keySet().iterator(); i.hasNext(); ) {
 			String key = new String((byte[]) i.next(), StandardCharsets.UTF_8);
 			String name = new String(start, StandardCharsets.UTF_8);
 			if (key.startsWith(name) || name.startsWith(key)) {
-				throw new IllegalArgumentException("Route '" + name
-						+ "' cannot be added since it overlaps with '" + key
-						+ "'.");
+				throw new IllegalArgumentException(
+						"Route '" + name + "' cannot be added since it overlaps with '" + key + "'.");
 			}
 		}
 
@@ -269,7 +267,7 @@ public class RoutedInputStream extends InputStream {
 	/**
 	 * Checks if cmp is equal to buf (with start at index) for the length of
 	 * cmp.
-	 * 
+	 *
 	 * @param cmp
 	 *            buffer1 to compare
 	 * @param buf
@@ -291,13 +289,13 @@ public class RoutedInputStream extends InputStream {
 
 	/**
 	 * Route which can be read up to and including the end marker.
-	 * 
+	 *
 	 * When you close the route, all bytes including the end marker will be
 	 * read/discarded before returning.
-	 * 
+	 *
 	 * If you just discard the Route, the underlying stream will still return
 	 * you all or part of the bytes of this route.
-	 * 
+	 *
 	 * If the end marker is set to null, the stream can be read until the
 	 * underlying stream ends.
 	 */
@@ -313,7 +311,7 @@ public class RoutedInputStream extends InputStream {
 
 		/**
 		 * Creates a route with given start and end marker.
-		 * 
+		 *
 		 * @param start
 		 *            start marker
 		 * @param end
@@ -332,7 +330,7 @@ public class RoutedInputStream extends InputStream {
 		/**
 		 * Returns bytes of this specific route, starting with the start marker,
 		 * followed by any bytes up to and including the end marker.
-		 * 
+		 *
 		 * If the end marker is null, the route is indefinite.
 		 */
 		@Override
@@ -365,15 +363,14 @@ public class RoutedInputStream extends InputStream {
 		 */
 		@Override
 		public void close() throws IOException {
-			while (read() >= 0) {
-			}
+			while (read() >= 0) {}
 			;
 			closed = true;
 		}
 
 		/**
 		 * Returns start marker.
-		 * 
+		 *
 		 * @return start marker
 		 */
 		public byte[] getStart() {
@@ -382,7 +379,7 @@ public class RoutedInputStream extends InputStream {
 
 		/**
 		 * Returns end marker.
-		 * 
+		 *
 		 * @return end marker
 		 */
 		public byte[] getEnd() {

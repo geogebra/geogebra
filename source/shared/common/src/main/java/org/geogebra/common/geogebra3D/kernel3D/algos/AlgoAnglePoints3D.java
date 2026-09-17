@@ -50,8 +50,7 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 	 * @param C
 	 *            leg
 	 */
-	AlgoAnglePoints3D(Construction cons, GeoPointND A,
-			GeoPointND B, GeoPointND C) {
+	AlgoAnglePoints3D(Construction cons, GeoPointND A, GeoPointND B, GeoPointND C) {
 		this(cons, A, B, C, null);
 	}
 
@@ -67,8 +66,8 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 	 * @param orientation
 	 *            orientation
 	 */
-	AlgoAnglePoints3D(Construction cons, GeoPointND A,
-			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
+	AlgoAnglePoints3D(
+			Construction cons, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		super(cons, A, B, C, orientation);
 	}
 
@@ -136,7 +135,7 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
 	/**
 	 * acos, values can be a bit greater than 1 (or lower than 0)
-	 * 
+	 *
 	 * @param c
 	 *            cosinus of an angle
 	 * @return angle between 0 and PI
@@ -172,11 +171,10 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 		vn.normalize();
 
 		return vn;
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v1
 	 *            vector
 	 * @return non zero vector orthogonal to v1 and Ox or Oy
@@ -189,8 +187,8 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 		return vn;
 	}
 
-	private AlgoAnglePoints3D(GeoPointND A, GeoPointND B, GeoPointND C,
-			Coords center, Coords v1, Coords v2, Coords vn) {
+	private AlgoAnglePoints3D(
+			GeoPointND A, GeoPointND B, GeoPointND C, Coords center, Coords v1, Coords v2, Coords vn) {
 		super(A, B, C);
 		this.center = center;
 		this.v1 = v1;
@@ -200,9 +198,13 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
 	@Override
 	public AlgoAnglePoints3D copy() {
-		return new AlgoAnglePoints3D(getA().copy(), getB().copy(),
-				getC().copy(), center.copyVector(), v1.copyVector(),
-				v2.copyVector(), vn.copyVector());
+		return new AlgoAnglePoints3D(
+				getA().copy(),
+				getB().copy(),
+				getC().copy(),
+				center.copyVector(),
+				v1.copyVector(),
+				v2.copyVector(),
+				vn.copyVector());
 	}
-
 }

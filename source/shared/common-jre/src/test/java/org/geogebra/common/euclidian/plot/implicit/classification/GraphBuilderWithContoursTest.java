@@ -63,141 +63,145 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 	@ParameterizedTest
 	@CsvSource({
-			"(x^2 + y^2 - 1)(x^2 + y^2 - 4) = 0",
-			"x^3 + y^3 = 0",
-			"(x^2 + y^2 - 1)((x-4)^2 + y^2 - 1) = 0",
-			"(x^2 + y^2)^2 - 17.7608 * (x^2 - y^2)- -8.133404159999998 = 0"
-
+		"(x^2 + y^2 - 1)(x^2 + y^2 - 4) = 0",
+		"x^3 + y^3 = 0",
+		"(x^2 + y^2 - 1)((x-4)^2 + y^2 - 1) = 0",
+		"(x^2 + y^2)^2 - 17.7608 * (x^2 - y^2)- -8.133404159999998 = 0"
 	})
 	void testRegionClassifier(String def) {
 		PlanarGraph graph = buildGraph(def, -10, 10, -10, 10, 1237, 1265);
 		assertAll(
 				() -> assertFalse(graph.isEmpty(), "The graph is empty"),
 				() -> assertTrue(graph.hasValidFaces(), "The graph has invalid face structure"),
-				() -> assertTrue(graph.hasValidLinks(), "The graph has broken next/prev links")
-		);
-
+				() -> assertTrue(graph.hasValidLinks(), "The graph has broken next/prev links"));
 	}
 
 	@Test
 	void shouldSampleCassiniBoundedFaces() {
 		PlanarGraph graph = buildGraph(
 				"(x^2 + y^2)^2 - 17.7608 * (x^2 - y^2)- -8.133404159999998 = 0",
-				-10, 10, -10, 10, 1237, 1265);
+				-10,
+				10,
+				-10,
+				10,
+				1237,
+				1265);
 
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
 		long sampledBoundedFaceCount = graph.getFaces().stream()
 				.filter(face -> !face.isExterior() && face.getSamplePoint() != null)
 				.count();
-		Face boundedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElse(null);
+		Face boundedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElse(null);
 
 		assertAll(
-				() -> assertTrue(boundedFaceCount >= 1,
-						"Cassini contour should produce bounded faces: "
-								+ describeGraphState(graph)),
-				() -> assertEquals(boundedFaceCount, sampledBoundedFaceCount,
-						"Every bounded Cassini face should get a sample point: "
-								+ describeGraphState(graph)),
-				() -> assertNotNull(boundedFace,
-						"Cassini contour should expose a bounded face instance: "
-								+ describeGraphState(graph)),
-				() -> assertNotNull(boundedFace == null ? null : boundedFace.getSamplePoint(),
-						"Cassini bounded face should have a sample point: "
-								+ describeGraphState(graph))
-		);
+				() -> assertTrue(
+						boundedFaceCount >= 1,
+						"Cassini contour should produce bounded faces: " + describeGraphState(graph)),
+				() -> assertEquals(
+						boundedFaceCount,
+						sampledBoundedFaceCount,
+						"Every bounded Cassini face should get a sample point: " + describeGraphState(graph)),
+				() -> assertNotNull(
+						boundedFace,
+						"Cassini contour should expose a bounded face instance: " + describeGraphState(graph)),
+				() -> assertNotNull(
+						boundedFace == null ? null : boundedFace.getSamplePoint(),
+						"Cassini bounded face should have a sample point: " + describeGraphState(graph)));
 	}
 
 	@Test
 	void shouldSampleAnnulusBoundedFace() {
-		PlanarGraph graph = buildGraph("(x^2 + y^2 - 1)(x^2 + y^2 - 4) = 0",
-				-10, 10, -10, 10, 1237, 1265);
+		PlanarGraph graph =
+				buildGraph("(x^2 + y^2 - 1)(x^2 + y^2 - 4) = 0", -10, 10, -10, 10, 1237, 1265);
 
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
 		long sampledBoundedFaceCount = graph.getFaces().stream()
 				.filter(face -> !face.isExterior() && face.getSamplePoint() != null)
 				.count();
-		Face boundedFace = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.findFirst()
-				.orElse(null);
+		Face boundedFace =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).findFirst().orElse(null);
 
 		assertAll(
-				() -> assertEquals(2, boundedFaceCount,
+				() -> assertEquals(
+						2,
+						boundedFaceCount,
 						"Annulus contour should produce the band and inner disk faces: "
 								+ describeGraphState(graph)),
-				() -> assertNotNull(boundedFace,
+				() -> assertNotNull(
+						boundedFace,
 						"Annulus contour should expose the bounded face instance: "
 								+ describeGraphState(graph)),
-				() -> assertNotNull(boundedFace == null ? null : boundedFace.getSamplePoint(),
-						"Annulus bounded face should have a sample point: "
-								+ describeGraphState(graph)),
-				() -> assertEquals(boundedFaceCount, sampledBoundedFaceCount,
-						"Every bounded annulus face should get a sample point: "
-								+ describeGraphState(graph))
-		);
+				() -> assertNotNull(
+						boundedFace == null ? null : boundedFace.getSamplePoint(),
+						"Annulus bounded face should have a sample point: " + describeGraphState(graph)),
+				() -> assertEquals(
+						boundedFaceCount,
+						sampledBoundedFaceCount,
+						"Every bounded annulus face should get a sample point: " + describeGraphState(graph)));
 	}
 
 	@Test
 	void shouldSampleDisconnectedBoundedFaces() {
-		PlanarGraph graph = buildGraph("(x^2 + y^2 - 1)((x-4)^2 + y^2 - 1) = 0",
-				-10, 10, -10, 10, 1237, 1265);
+		PlanarGraph graph =
+				buildGraph("(x^2 + y^2 - 1)((x-4)^2 + y^2 - 1) = 0", -10, 10, -10, 10, 1237, 1265);
 
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
 		long sampledBoundedFaceCount = graph.getFaces().stream()
 				.filter(face -> !face.isExterior() && face.getSamplePoint() != null)
 				.count();
 
 		assertAll(
-				() -> assertTrue(boundedFaceCount >= 1,
-						"Disconnected contours should produce bounded faces: "
-								+ describeGraphState(graph)),
-				() -> assertEquals(boundedFaceCount, sampledBoundedFaceCount,
+				() -> assertTrue(
+						boundedFaceCount >= 1,
+						"Disconnected contours should produce bounded faces: " + describeGraphState(graph)),
+				() -> assertEquals(
+						boundedFaceCount,
+						sampledBoundedFaceCount,
 						"Every disconnected bounded face should get a sample point: "
-								+ describeGraphState(graph))
-		);
+								+ describeGraphState(graph)));
 	}
 
 	@Test
 	void shouldClassifyFilledAnnulusBand() {
-		List<ClassifiedRegion> results = classifyRegions(
-				"(x^2 + y^2 - 1)(x^2 + y^2 - 4) <= 0",
-				-10, 10, -10, 10, 1237, 1265);
+		List<ClassifiedRegion> results =
+				classifyRegions("(x^2 + y^2 - 1)(x^2 + y^2 - 4) <= 0", -10, 10, -10, 10, 1237, 1265);
 
 		long filledCount = results.stream().filter(ClassifiedRegion::isFilled).count();
 		ClassifiedRegion filledRegion = getFilledRegion(results);
 
 		assertAll(
-				() -> assertEquals(1, filledCount,
+				() -> assertEquals(
+						1,
+						filledCount,
 						"Annulus inequality should produce exactly one filled region: "
 								+ describeRegions(results)),
-				() -> assertNotNull(filledRegion,
+				() -> assertNotNull(
+						filledRegion,
 						"Annulus inequality should expose the filled region instance: "
 								+ describeRegions(results)),
-				() -> assertEquals(1, filledRegion == null ? -1 : filledRegion.getHoles().size(),
-						"Filled annulus region should preserve the inner hole: "
-								+ describeRegions(results)),
-				() -> assertNotNull(filledRegion == null ? null : filledRegion.getSamplePoint(),
-						"Filled annulus region should carry a sample point: "
-								+ describeRegions(results))
-		);
+				() -> assertEquals(
+						1,
+						filledRegion == null ? -1 : filledRegion.getHoles().size(),
+						"Filled annulus region should preserve the inner hole: " + describeRegions(results)),
+				() -> assertNotNull(
+						filledRegion == null ? null : filledRegion.getSamplePoint(),
+						"Filled annulus region should carry a sample point: " + describeRegions(results)));
 	}
 
 	@Test
 	void clippedAnnulusShouldKeepAtLeastOneFilledBandRegion() {
 		ClassificationResult result = classifyRegionWithGraph(
 				"(x^2 + y^2 - 1)(x^2 + y^2 - 4) <= 0",
-				1.1498150961004139, 17.380526306616982,
-				-0.7013900120773064, 8.460723084197832,
-				2039, 1151);
+				1.1498150961004139,
+				17.380526306616982,
+				-0.7013900120773064,
+				8.460723084197832,
+				2039,
+				1151);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		long filledCount = results.stream().filter(ClassifiedRegion::isFilled).count();
@@ -207,13 +211,14 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertTrue(filledCount >= 1,
+				() -> assertTrue(
+						filledCount >= 1,
 						"Clipped annulus should keep at least one filled band region: "
 								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertTrue(filledWithSampleCount >= 1,
+				() -> assertTrue(
+						filledWithSampleCount >= 1,
 						"Clipped annulus filled region should carry a usable sample point: "
-								+ describeRegions(results) + " " + describeGraphState(graph))
-		);
+								+ describeRegions(results) + " " + describeGraphState(graph)));
 	}
 
 	@Test
@@ -227,35 +232,35 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		String def = "(x^2 + y^2 - 1)(x^2 + y^2 - 4) <= 0";
 		GeoFunctionNVar function = (GeoFunctionNVar) evaluate(def)[0];
 		GeoElement border = function.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
+		ContourInfo info = builder
+				.withImplicitCurve(border)
 				.withBounds(xmin, xmax, ymin, ymax, width, height)
 				.build();
 		PerimeterContourClipper clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(info.getBounds());
-		RegionClassifier regionClassifier =
-				new RegionClassifier(clipper::getClippedFragmentsResult,
-						() -> rectangleFrom(info.getBounds()));
+		RegionClassifier regionClassifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 		boolean processed = regionClassifier.process();
 		PlanarGraph graph = regionClassifier.getGraph();
 		String graphState = graph == null ? "graph=null" : describeGraphState(graph);
 
-		assertTrue(processed, "Clipped annulus topology should not break half-edge linkage: "
-							+ graphState);
+		assertTrue(
+				processed, "Clipped annulus topology should not break half-edge linkage: " + graphState);
 		List<ClassifiedRegion> results = regionClassifier.getResults(info.getBounds());
 		evaluateFilled(function, results);
 		long filledCount = results.stream().filter(ClassifiedRegion::isFilled).count();
 
-		assertTrue(filledCount >= 1,
-				"Clipped annulus should keep at least one filled band region: "
-						+ describeRegions(results) + " " + graphState);
+		assertTrue(
+				filledCount >= 1,
+				"Clipped annulus should keep at least one filled band region: " + describeRegions(results)
+						+ " " + graphState);
 	}
 
 	@Test
 	void multiFragmentCorridorShouldKeepAtLeastOneFilledRegion() {
 		ClassificationResult result = classifyRegionWithGraph(
-				"(x - x^3)(y - y^3) < 0.01",
-				-16.59, 16.59, -11.51, 11.51, 1659, 1151);
+				"(x - x^3)(y - y^3) < 0.01", -16.59, 16.59, -11.51, 11.51, 1659, 1151);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		long filledCount = results.stream().filter(ClassifiedRegion::isFilled).count();
@@ -265,13 +270,14 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertTrue(filledCount >= 1,
+				() -> assertTrue(
+						filledCount >= 1,
 						"Multi-fragment corridor should keep at least one filled region: "
 								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertTrue(filledWithSampleCount >= 1,
+				() -> assertTrue(
+						filledWithSampleCount >= 1,
 						"Multi-fragment corridor should expose a filled usable sample: "
-								+ describeRegions(results) + " " + describeGraphState(graph))
-		);
+								+ describeRegions(results) + " " + describeGraphState(graph)));
 	}
 
 	@Disabled("For separate ticket")
@@ -283,10 +289,10 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		double clipYmax = 2.893827160493824;
 		int width = 941;
 		int height = 1148;
-		double invXscale = (clipXmax - clipXmin)
-				/ (width + 2.0 * BernsteinPlotterSettings.MARGIN_IN_PX);
-		double invYscale = (clipYmax - clipYmin)
-				/ (height + 2.0 * BernsteinPlotterSettings.MARGIN_IN_PX);
+		double invXscale =
+				(clipXmax - clipXmin) / (width + 2.0 * BernsteinPlotterSettings.MARGIN_IN_PX);
+		double invYscale =
+				(clipYmax - clipYmin) / (height + 2.0 * BernsteinPlotterSettings.MARGIN_IN_PX);
 		double xmin = clipXmin + BernsteinPlotterSettings.MARGIN_IN_PX * invXscale;
 		double xmax = clipXmax - BernsteinPlotterSettings.MARGIN_IN_PX * invXscale;
 		double ymin = clipYmin + BernsteinPlotterSettings.MARGIN_IN_PX * invYscale;
@@ -294,21 +300,21 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		String def = "x^2 + y^2 * (1 - y)^3 < 0.03";
 		GeoFunctionNVar function = (GeoFunctionNVar) evaluate(def)[0];
 		GeoElement border = function.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
+		ContourInfo info = builder
+				.withImplicitCurve(border)
 				.withBounds(xmin, xmax, ymin, ymax, width, height)
 				.build();
 		PerimeterContourClipper clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(info.getBounds());
-		RegionClassifier regionClassifier =
-				new RegionClassifier(clipper::getClippedFragmentsResult,
-						() -> rectangleFrom(info.getBounds()));
+		RegionClassifier regionClassifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 		boolean processed = regionClassifier.process();
 		PlanarGraph graph = regionClassifier.getGraph();
 		String graphState = graph == null ? "graph=null" : describeGraphState(graph);
 
-		assertTrue(processed,
-				"Mixed open/closed-loop topology should process successfully: " + graphState);
+		assertTrue(
+				processed, "Mixed open/closed-loop topology should process successfully: " + graphState);
 
 		List<ClassifiedRegion> results = regionClassifier.getResults(info.getBounds());
 		evaluateFilled(function, results);
@@ -317,42 +323,45 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		long filledCount = results.stream().filter(ClassifiedRegion::isFilled).count();
 
 		assertAll(
-				() -> assertEquals(2, clipper.getFragments().size(),
+				() -> assertEquals(
+						2,
+						clipper.getFragments().size(),
 						"Expected one open clipped contour and one closed loop"),
-				() -> assertTrue(graph.hasValidLinks(),
+				() -> assertTrue(
+						graph.hasValidLinks(),
 						"Mixed open/closed-loop graph should keep valid links: " + graphState),
-				() -> assertTrue(graph.hasValidFaces(),
+				() -> assertTrue(
+						graph.hasValidFaces(),
 						"Mixed open/closed-loop graph should keep valid faces: " + graphState),
-				() -> assertEquals(3, graph.getFaces().size(),
-						"Mixed open/closed-loop case should keep the logged face count: "
-								+ graphState),
-				() -> assertFalse(results.isEmpty(),
+				() -> assertEquals(
+						3,
+						graph.getFaces().size(),
+						"Mixed open/closed-loop case should keep the logged face count: " + graphState),
+				() -> assertFalse(
+						results.isEmpty(),
 						"Mixed open/closed-loop classification should produce regions: "
 								+ describeRegions(results) + " " + graphState),
-				() -> assertTrue(filledCount >= 1,
-						"Mixed open/closed-loop case should keep a filled region: "
-								+ describeRegions(results) + " " + graphState),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(0),
-								bounds.toScreenCoordYd(2)),
-						"Top region should be filled: "
-								+ describeRegions(results) + " " + graphState),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(0),
-								bounds.toScreenCoordYd(1)),
-						"Neck region should be filled: "
-								+ describeRegions(results) + " " + graphState),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(0),
-								bounds.toScreenCoordYd(0)),
-						"Inner closed loop should be filled: "
-								+ describeRegions(results) + " " + graphState),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(0.5),
-								bounds.toScreenCoordYd(1)),
-						"Side false region should not be filled: "
-								+ describeRegions(results) + " " + graphState),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(1),
-								bounds.toScreenCoordYd(1)),
-						"Outer false region should not be filled: "
-								+ describeRegions(results) + " " + graphState)
-		);
+				() -> assertTrue(
+						filledCount >= 1,
+						"Mixed open/closed-loop case should keep a filled region: " + describeRegions(results)
+								+ " " + graphState),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(0), bounds.toScreenCoordYd(2)),
+						"Top region should be filled: " + describeRegions(results) + " " + graphState),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(0), bounds.toScreenCoordYd(1)),
+						"Neck region should be filled: " + describeRegions(results) + " " + graphState),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(0), bounds.toScreenCoordYd(0)),
+						"Inner closed loop should be filled: " + describeRegions(results) + " " + graphState),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(0.5), bounds.toScreenCoordYd(1)),
+						"Side false region should not be filled: " + describeRegions(results) + " "
+								+ graphState),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(1), bounds.toScreenCoordYd(1)),
+						"Outer false region should not be filled: " + describeRegions(results) + " "
+								+ graphState));
 	}
 
 	@Test
@@ -363,9 +372,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		double ymax = 11.050;
 		int width = 1343;
 		int height = 1151;
-		ClassificationResult result = classifyRegionWithGraph(
-				"(x - x^3)(y - y^3) < 0.01",
-				xmin, xmax, ymin, ymax, width, height);
+		ClassificationResult result =
+				classifyRegionWithGraph("(x - x^3)(y - y^3) < 0.01", xmin, xmax, ymin, ymax, width, height);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		EuclidianViewBounds bounds = newBounds(xmin, xmax, ymin, ymax, width, height);
@@ -373,25 +381,30 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertFalse(corridorPredicate(-5, -5),
-						"Probe should be mathematically outside the inequality"),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(-5),
-								bounds.toScreenCoordYd(-5)),
+				() -> assertFalse(
+						corridorPredicate(-5, -5), "Probe should be mathematically outside the inequality"),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(-5), bounds.toScreenCoordYd(-5)),
 						"Bottom-left false region must not be included in the filled area: "
-								+ describeRegions(results) + " " + describeGraphState(graph))
-		);
+								+ describeRegions(results) + " " + describeGraphState(graph)));
 	}
 
 	@ParameterizedTest
-	@CsvSource ({
-			"-23.63, 3.23, -13.05, 9.97, 1343, 1151, -10.2, -0.5",
-			"-5.540, 21.060, -1.38, 21.5, 1331, 1148, -2, -0.5"
+	@CsvSource({
+		"-23.63, 3.23, -13.05, 9.97, 1343, 1151, -10.2, -0.5",
+		"-5.540, 21.060, -1.38, 21.5, 1331, 1148, -2, -0.5"
 	})
-	void multiFragmentCorridorShouldFillVisibleLeftCorridor(double xmin, double xmax,
-			double ymin, double ymax, int width, int height, double x, double y) {
-		ClassificationResult result = classifyRegionWithGraph(
-				"(x - x^3)(y - y^3) < 0.01",
-				xmin, xmax, ymin, ymax, width, height);
+	void multiFragmentCorridorShouldFillVisibleLeftCorridor(
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax,
+			int width,
+			int height,
+			double x,
+			double y) {
+		ClassificationResult result =
+				classifyRegionWithGraph("(x - x^3)(y - y^3) < 0.01", xmin, xmax, ymin, ymax, width, height);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		EuclidianViewBounds bounds = newBounds(xmin, xmax, ymin, ymax, width, height);
@@ -399,13 +412,12 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertTrue(corridorPredicate(x, y),
-						"Probe should be mathematically inside the inequality"),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(x),
-								bounds.toScreenCoordYd(y)),
+				() -> assertTrue(
+						corridorPredicate(x, y), "Probe should be mathematically inside the inequality"),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(x), bounds.toScreenCoordYd(y)),
 						"Visible left corridor should be included in the filled area: "
-								+ describeRegions(results) + " " + describeGraphState(graph))
-			);
+								+ describeRegions(results) + " " + describeGraphState(graph)));
 	}
 
 	@Test
@@ -416,9 +428,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		double ymax = 5.679999999999997;
 		int width = 1329;
 		int height = 1148;
-		ClassificationResult result = classifyRegionWithGraph(
-				"(x - x^3)(y - y^3) < 0.01",
-				xmin, xmax, ymin, ymax, width, height);
+		ClassificationResult result =
+				classifyRegionWithGraph("(x - x^3)(y - y^3) < 0.01", xmin, xmax, ymin, ymax, width, height);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		EuclidianViewBounds bounds = newBounds(xmin, xmax, ymin, ymax, width, height);
@@ -426,25 +437,25 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertTrue(corridorPredicate(10, 0.5),
+				() -> assertTrue(
+						corridorPredicate(10, 0.5),
 						"Probe should be mathematically inside the right horizontal corridor"),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(10),
-								bounds.toScreenCoordYd(0.5)),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(10), bounds.toScreenCoordYd(0.5)),
 						"Right horizontal corridor should be included in the filled area: "
 								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertFalse(corridorPredicate(10, 4),
-						"Probe should be mathematically outside the inequality"),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(10),
-								bounds.toScreenCoordYd(4)),
+				() -> assertFalse(
+						corridorPredicate(10, 4), "Probe should be mathematically outside the inequality"),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(10), bounds.toScreenCoordYd(4)),
 						"Top-right false region must not be included in the filled area: "
 								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertFalse(corridorPredicate(-5, -5),
-						"Probe should be mathematically outside the inequality"),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(-5),
-								bounds.toScreenCoordYd(-5)),
+				() -> assertFalse(
+						corridorPredicate(-5, -5), "Probe should be mathematically outside the inequality"),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(-5), bounds.toScreenCoordYd(-5)),
 						"Bottom-left false region must not be included in the filled area: "
-								+ describeRegions(results) + " " + describeGraphState(graph))
-		);
+								+ describeRegions(results) + " " + describeGraphState(graph)));
 	}
 
 	@Test
@@ -457,8 +468,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		int height = 1148;
 		String def = "(x - x^3)(y - y^3) < 0.01";
 		GeoFunctionNVar function = (GeoFunctionNVar) evaluate(def)[0];
-		ClassificationResult result = classifyRegionWithGraph(
-				def, xmin, xmax, ymin, ymax, width, height);
+		ClassificationResult result =
+				classifyRegionWithGraph(def, xmin, xmax, ymin, ymax, width, height);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		EuclidianViewBounds bounds = newBounds(xmin, xmax, ymin, ymax, width, height);
@@ -466,69 +477,84 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertTrue(nonViewportCanonicalCycleCount(graph) > 1,
+				() -> assertTrue(
+						nonViewportCanonicalCycleCount(graph) > 1,
 						() -> "Expected multiple non-viewport canonical interior cycles: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertEquals(0, sourceFaceId(graph, 0),
+				() -> assertEquals(
+						0,
+						sourceFaceId(graph, 0),
 						() -> "Region 0 should come from the exterior face: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(isMixedRegion(function, results.get(0), bounds),
+				() -> assertFalse(
+						isMixedRegion(function, results.get(0), bounds),
 						() -> "Exterior region should not include predicate-false holes: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(corridorPredicate(-0.5, 10),
+				() -> assertFalse(
+						corridorPredicate(-0.5, 10),
 						"Probe should be mathematically outside the left false region"),
-				() -> assertTrue(containingCanonicalCycleIds(graph, -0.5, 10).contains(2),
+				() -> assertTrue(
+						containingCanonicalCycleIds(graph, -0.5, 10).contains(2),
 						() -> "Left false probe should be enclosed by the left vertical "
 								+ "canonical cycle: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(exteriorFaceContainsByHoleModel(graph, -0.5, 10),
+				() -> assertFalse(
+						exteriorFaceContainsByHoleModel(graph, -0.5, 10),
 						() -> "Left false probe should be excluded from exterior "
 								+ "face by its hole model: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertTrue(isExteriorHoleCycle(graph, 2),
+				() -> assertTrue(
+						isExteriorHoleCycle(graph, 2),
 						() -> "Cycle 2 should be an exterior hole so the left false "
 								+ "probe is excluded from the exterior face: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertTrue(isNonExteriorHoleCycle(graph, 2),
+				() -> assertTrue(
+						isNonExteriorHoleCycle(graph, 2),
 						() -> "Cycle 2 is only used as a hole of the dominant interior face: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(-0.5),
-								bounds.toScreenCoordYd(10)),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(-0.5), bounds.toScreenCoordYd(10)),
 						() -> "Left false region must not be included in the filled area: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(filledRegionContaining(results, bounds, -0.5, 10) >= 0,
+				() -> assertFalse(
+						filledRegionContaining(results, bounds, -0.5, 10) >= 0,
 						() -> "Left false region is inside a filled classified region: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(corridorPredicate(10, 10),
+				() -> assertFalse(
+						corridorPredicate(10, 10),
 						"Probe should be mathematically outside the top-right false region"),
-				() -> assertTrue(containingCanonicalCycleIds(graph, 10, 10).contains(0),
+				() -> assertTrue(
+						containingCanonicalCycleIds(graph, 10, 10).contains(0),
 						() -> "Top-right false probe should be enclosed by the large "
 								+ "top-right canonical cycle: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(exteriorFaceContainsByHoleModel(graph, 10, 10),
+				() -> assertFalse(
+						exteriorFaceContainsByHoleModel(graph, 10, 10),
 						() -> "Top-right false probe should be excluded from exterior "
 								+ "face by its current hole model: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(10),
-								bounds.toScreenCoordYd(10)),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(10), bounds.toScreenCoordYd(10)),
 						() -> "Top-right false region must not be included in the filled area: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(filledRegionContaining(results, bounds, 10, 10) >= 0,
+				() -> assertFalse(
+						filledRegionContaining(results, bounds, 10, 10) >= 0,
 						() -> "Top-right false region is inside a filled classified region: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertTrue(corridorPredicate(0.5, 10),
+				() -> assertTrue(
+						corridorPredicate(0.5, 10),
 						"Probe should be mathematically inside the visible vertical corridor"),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(0.5),
-								bounds.toScreenCoordYd(10)),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(0.5), bounds.toScreenCoordYd(10)),
 						() -> "Visible vertical corridor should remain filled: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertTrue(corridorPredicate(10, 0.5),
+				() -> assertTrue(
+						corridorPredicate(10, 0.5),
 						"Probe should be mathematically inside the visible horizontal corridor"),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(10),
-								bounds.toScreenCoordYd(0.5)),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(10), bounds.toScreenCoordYd(0.5)),
 						() -> "Visible horizontal corridor should remain filled: "
-								+ describeWrongFill(function, results, graph, bounds))
-		);
+								+ describeWrongFill(function, results, graph, bounds)));
 	}
 
 	@Test
@@ -541,8 +567,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		int height = 1148;
 		String def = "(x - x^3)(y - y^3) < 0.01";
 		GeoFunctionNVar function = (GeoFunctionNVar) evaluate(def)[0];
-		ClassificationResult result = classifyRegionWithGraph(
-				def, xmin, xmax, ymin, ymax, width, height);
+		ClassificationResult result =
+				classifyRegionWithGraph(def, xmin, xmax, ymin, ymax, width, height);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		EuclidianViewBounds bounds = newBounds(xmin, xmax, ymin, ymax, width, height);
@@ -554,25 +580,28 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertFalse(corridorPredicate(falseX, falseY),
+				() -> assertFalse(
+						corridorPredicate(falseX, falseY),
 						"Probe should be mathematically outside the inequality"),
-				() -> assertTrue(containedByNestedCanonicalCycle(graph, falseX, falseY),
+				() -> assertTrue(
+						containedByNestedCanonicalCycle(graph, falseX, falseY),
 						() -> "False probe should be enclosed by a nested canonical cycle: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(falseX),
-								bounds.toScreenCoordYd(falseY)),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(falseX), bounds.toScreenCoordYd(falseY)),
 						() -> "Contained false root must be subtracted from the filled area: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertFalse(filledRegionContaining(results, bounds, falseX, falseY) >= 0,
+				() -> assertFalse(
+						filledRegionContaining(results, bounds, falseX, falseY) >= 0,
 						() -> "Contained false root is inside a filled classified region: "
 								+ describeWrongFill(function, results, graph, bounds)),
-				() -> assertTrue(corridorPredicate(trueX, trueY),
+				() -> assertTrue(
+						corridorPredicate(trueX, trueY),
 						"Probe should be mathematically inside the inequality"),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(trueX),
-								bounds.toScreenCoordYd(trueY)),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(trueX), bounds.toScreenCoordYd(trueY)),
 						() -> "Adjacent true corridor should remain filled: "
-								+ describeWrongFill(function, results, graph, bounds))
-		);
+								+ describeWrongFill(function, results, graph, bounds)));
 	}
 
 	@Test
@@ -585,7 +614,12 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		int height = 1148;
 		ClassificationResult result = classifyRegionWithGraph(
 				"(x^2 + y^2)^2 - 2 * 5^2 * (x^2 - y^2) - (5^4 - 5^4) < 0",
-				xmin, xmax, ymin, ymax, width, height);
+				xmin,
+				xmax,
+				ymin,
+				ymax,
+				width,
+				height);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		EuclidianViewBounds bounds = newBounds(xmin, xmax, ymin, ymax, width, height);
@@ -593,19 +627,18 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(2),
-								bounds.toScreenCoordYd(0)),
-						"Right Cassini lobe should be filled: "
-								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(-2),
-								bounds.toScreenCoordYd(0)),
-						"Left Cassini lobe should be filled: "
-								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(0),
-								bounds.toScreenCoordYd(2)),
-						"Top false region must not be filled: "
-								+ describeRegions(results) + " " + describeGraphState(graph))
-		);
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(2), bounds.toScreenCoordYd(0)),
+						"Right Cassini lobe should be filled: " + describeRegions(results) + " "
+								+ describeGraphState(graph)),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(-2), bounds.toScreenCoordYd(0)),
+						"Left Cassini lobe should be filled: " + describeRegions(results) + " "
+								+ describeGraphState(graph)),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(0), bounds.toScreenCoordYd(2)),
+						"Top false region must not be filled: " + describeRegions(results) + " "
+								+ describeGraphState(graph)));
 	}
 
 	@Test
@@ -618,7 +651,12 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		int height = 862;
 		ClassificationResult result = classifyRegionWithGraph(
 				"(x^2 + y^2)^2 - 2 * 5^2 * (x^2 - y^2) - (5^4 - 5^4) < 0",
-				xmin, xmax, ymin, ymax, width, height);
+				xmin,
+				xmax,
+				ymin,
+				ymax,
+				width,
+				height);
 		PlanarGraph graph = result.graph();
 		List<ClassifiedRegion> results = result.regions();
 		EuclidianViewBounds bounds = newBounds(xmin, xmax, ymin, ymax, width, height);
@@ -626,19 +664,18 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 
 		assertAll(
 				() -> assertMultiFragmentTopologyWasBuilt(graph),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(4),
-								bounds.toScreenCoordYd(0)),
-						"Right Cassini lobe should be filled in wide view: "
-								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(-4),
-								bounds.toScreenCoordYd(0)),
-						"Left Cassini lobe should be filled in wide view: "
-								+ describeRegions(results) + " " + describeGraphState(graph)),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(0),
-								bounds.toScreenCoordYd(1)),
-						"Vertical false region must not be filled in wide view: "
-								+ describeRegions(results) + " " + describeGraphState(graph))
-		);
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(4), bounds.toScreenCoordYd(0)),
+						"Right Cassini lobe should be filled in wide view: " + describeRegions(results) + " "
+								+ describeGraphState(graph)),
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(-4), bounds.toScreenCoordYd(0)),
+						"Left Cassini lobe should be filled in wide view: " + describeRegions(results) + " "
+								+ describeGraphState(graph)),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(0), bounds.toScreenCoordYd(1)),
+						"Vertical false region must not be filled in wide view: " + describeRegions(results)
+								+ " " + describeGraphState(graph)));
 	}
 
 	@Test
@@ -652,22 +689,22 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		String def = "(x^2 + y^2)^2 - 2 * 5^2 * (x^2 - y^2) - (5^4 - 5^4) < 0";
 		GeoFunctionNVar function = (GeoFunctionNVar) evaluate(def)[0];
 		GeoElement border = function.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
+		ContourInfo info = builder
+				.withImplicitCurve(border)
 				.withBounds(xmin, xmax, ymin, ymax, width, height)
 				.build();
 		PerimeterContourClipper clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(info.getBounds());
-		RegionClassifier regionClassifier =
-				new RegionClassifier(clipper::getClippedFragmentsResult,
-						() -> rectangleFrom(info.getBounds()));
+		RegionClassifier regionClassifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		boolean processed = regionClassifier.process();
 		PlanarGraph graph = regionClassifier.getGraph();
 		String graphState = graph == null ? "graph=null" : describeGraphState(graph);
 
-		assertTrue(processed,
-				"Zoomed crossing Cassini should not break half-edge linkage: " + graphState);
+		assertTrue(
+				processed, "Zoomed crossing Cassini should not break half-edge linkage: " + graphState);
 
 		List<ClassifiedRegion> results = regionClassifier.getResults(info.getBounds());
 		evaluateFilled(function, results);
@@ -675,15 +712,13 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		GArea filledArea = buildFilledArea(results, bounds);
 
 		assertAll(
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(0.1),
-								bounds.toScreenCoordYd(0)),
-						"Right zoomed lobe should be filled: "
-								+ describeRegions(results) + " " + graphState),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(0),
-								bounds.toScreenCoordYd(0.1)),
-						"Vertical false region must not be filled: "
-								+ describeRegions(results) + " " + graphState)
-		);
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(0.1), bounds.toScreenCoordYd(0)),
+						"Right zoomed lobe should be filled: " + describeRegions(results) + " " + graphState),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(0), bounds.toScreenCoordYd(0.1)),
+						"Vertical false region must not be filled: " + describeRegions(results) + " "
+								+ graphState));
 	}
 
 	@Test
@@ -697,22 +732,22 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		String def = "(x^2 + y^2)^2 - 2 * (-4.5)^2 * (x^2 - y^2) - ((4.5)^2 - (-4.5)^2) < 0";
 		GeoFunctionNVar function = (GeoFunctionNVar) evaluate(def)[0];
 		GeoElement border = function.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
+		ContourInfo info = builder
+				.withImplicitCurve(border)
 				.withBounds(xmin, xmax, ymin, ymax, width, height)
 				.build();
 		PerimeterContourClipper clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(info.getBounds());
-		RegionClassifier regionClassifier =
-				new RegionClassifier(clipper::getClippedFragmentsResult,
-						() -> rectangleFrom(info.getBounds()));
+		RegionClassifier regionClassifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
 		boolean processed = regionClassifier.process();
 		PlanarGraph graph = regionClassifier.getGraph();
 		String graphState = graph == null ? "graph=null" : describeGraphState(graph);
 
-		assertTrue(processed,
-				"Zoomed crossing Cassini should not break half-edge linkage: " + graphState);
+		assertTrue(
+				processed, "Zoomed crossing Cassini should not break half-edge linkage: " + graphState);
 
 		List<ClassifiedRegion> results = regionClassifier.getResults(info.getBounds());
 		evaluateFilled(function, results);
@@ -720,15 +755,13 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		GArea filledArea = buildFilledArea(results, bounds);
 
 		assertAll(
-				() -> assertTrue(filledArea.contains(bounds.toScreenCoordXd(0.1),
-								bounds.toScreenCoordYd(0)),
-						"Right zoomed lobe should be filled: "
-								+ describeRegions(results) + " " + graphState),
-				() -> assertFalse(filledArea.contains(bounds.toScreenCoordXd(0),
-								bounds.toScreenCoordYd(0.1)),
-						"Vertical false region must not be filled: "
-								+ describeRegions(results) + " " + graphState)
-		);
+				() -> assertTrue(
+						filledArea.contains(bounds.toScreenCoordXd(0.1), bounds.toScreenCoordYd(0)),
+						"Right zoomed lobe should be filled: " + describeRegions(results) + " " + graphState),
+				() -> assertFalse(
+						filledArea.contains(bounds.toScreenCoordXd(0), bounds.toScreenCoordYd(0.1)),
+						"Vertical false region must not be filled: " + describeRegions(results) + " "
+								+ graphState));
 		Log.debug("GRAPH STATE: " + graphState);
 	}
 
@@ -748,18 +781,19 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		return filled;
 	}
 
-	private void subtractExplicitFalseRegions(GArea filledRegionArea,
-			List<ClassifiedRegion> regions, ClassifiedRegion filledRegion,
+	private void subtractExplicitFalseRegions(
+			GArea filledRegionArea,
+			List<ClassifiedRegion> regions,
+			ClassifiedRegion filledRegion,
 			EuclidianViewBounds bounds) {
 		for (ClassifiedRegion region : regions) {
-			if (region == filledRegion || region.isFilled()
-					|| region.getOuterBoundary() == null) {
+			if (region == filledRegion || region.isFilled() || region.getOuterBoundary() == null) {
 				continue;
 			}
 			GPoint2D samplePoint = region.getSamplePoint();
-			if (samplePoint == null || !filledRegionArea.contains(
-					bounds.toScreenCoordXd(samplePoint.x),
-					bounds.toScreenCoordYd(samplePoint.y))) {
+			if (samplePoint == null
+					|| !filledRegionArea.contains(
+							bounds.toScreenCoordXd(samplePoint.x), bounds.toScreenCoordYd(samplePoint.y))) {
 				continue;
 			}
 			filledRegionArea.subtract(areaOf(region));
@@ -771,37 +805,34 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 	}
 
 	private void assertMultiFragmentTopologyWasBuilt(PlanarGraph graph) {
-		long boundedFaceCount = graph.getFaces().stream()
-				.filter(face -> !face.isExterior())
-				.count();
+		long boundedFaceCount =
+				graph.getFaces().stream().filter(face -> !face.isExterior()).count();
 		int extractedCount = graph.getLastExtractedBoundaryCycles().size();
 		int canonicalCount = graph.getLastCanonicalBoundaryCycles().size();
 
 		assertAll(
-				() -> assertTrue(graph.hasValidLinks(),
+				() -> assertTrue(
+						graph.hasValidLinks(),
 						"Graph links should stay valid while reproducing the fill bug: "
 								+ describeGraphState(graph)),
-				() -> assertTrue(boundedFaceCount > 0,
+				() -> assertTrue(
+						boundedFaceCount > 0,
 						"Reproducer should build bounded faces before fill evaluation: "
 								+ describeGraphState(graph)),
-				() -> assertTrue(extractedCount > 1 && extractedCount >= canonicalCount,
+				() -> assertTrue(
+						extractedCount > 1 && extractedCount >= canonicalCount,
 						"Reproducer should expose multi-cycle topology selection state: "
-								+ describeGraphState(graph))
-		);
+								+ describeGraphState(graph)));
 	}
 
 	private static ClassifiedRegion getFilledRegion(List<ClassifiedRegion> results) {
-		return results.stream()
-				.filter(ClassifiedRegion::isFilled)
-				.findFirst()
-				.orElse(null);
+		return results.stream().filter(ClassifiedRegion::isFilled).findFirst().orElse(null);
 	}
 
 	@Test
 	void shouldClassifyDisconnectedFilledComponents() {
-		List<ClassifiedRegion> results = classifyRegions(
-				"(x^2 + y^2 - 1)(((x-4)^2 + y^2) - 1) <= 0",
-				-10, 10, -10, 10, 1237, 1265);
+		List<ClassifiedRegion> results =
+				classifyRegions("(x^2 + y^2 - 1)(((x-4)^2 + y^2) - 1) <= 0", -10, 10, -10, 10, 1237, 1265);
 
 		long filledCount = results.stream().filter(ClassifiedRegion::isFilled).count();
 		long holeCount = results.stream()
@@ -810,33 +841,39 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 				.sum();
 
 		assertAll(
-				() -> assertEquals(2, filledCount,
+				() -> assertEquals(
+						2,
+						filledCount,
 						"Separated implicit components should stay as two filled regions: "
 								+ describeRegions(results)),
-				() -> assertEquals(0, holeCount,
-						"Separated filled components should not invent holes: "
-								+ describeRegions(results))
-		);
+				() -> assertEquals(
+						0,
+						holeCount,
+						"Separated filled components should not invent holes: " + describeRegions(results)));
 	}
 
 	@Test
 	void debugCassiniFreshLoadViewport() {
 		String def = "(x^2 + y^2)^2 - 17.7608 * (x^2 - y^2)- -8.133404159999998 = 0";
 		GeoElement geo = (GeoElement) evaluate(def)[0];
-		ContourInfo info = builder.withImplicitCurve(geo)
-				.withBounds(-33.70160061026482, -0.23288260946263112,
-						-35.792345390507414, -0.5532418027609858, 1191, 1254)
+		ContourInfo info = builder
+				.withImplicitCurve(geo)
+				.withBounds(
+						-33.70160061026482,
+						-0.23288260946263112,
+						-35.792345390507414,
+						-0.5532418027609858,
+						1191,
+						1254)
 				.build();
 		PerimeterContourClipper clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(info.getBounds());
 
-		RegionClassifier regionClassifier =
-				new RegionClassifier(clipper::getClippedFragmentsResult,
-						() -> rectangleFrom(info.getBounds()));
+		RegionClassifier regionClassifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 
-		assertTrue(regionClassifier.process(),
-				"Debug scenario should complete topology processing");
+		assertTrue(regionClassifier.process(), "Debug scenario should complete topology processing");
 
 		PlanarGraph graph = regionClassifier.getGraph();
 		List<ClassifiedRegion> results = regionClassifier.getResults(info.getBounds());
@@ -844,66 +881,63 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		assertAll(
 				() -> assertNotNull(graph, "Debug graph should be available"),
 				() -> assertNotNull(results, "Debug classification results should be available"),
-				() -> assertFalse(results.isEmpty(),
-						"Debug scenario should produce at least the viewport region")
-		);
+				() -> assertFalse(
+						results.isEmpty(), "Debug scenario should produce at least the viewport region"));
 	}
 
 	@ParameterizedTest
 	@CsvSource({
-			"-16.12, 42.39, -13.43, 29.13",
-			"-28.82163760797805, 29.70083729770597, -17.81372538329036, 24.75424650286259",
-			"-26.6221990257481, 6.502199025748115, -16.595017064846424, 8.51501706484644"
+		"-16.12, 42.39, -13.43, 29.13",
+		"-28.82163760797805, 29.70083729770597, -17.81372538329036, 24.75424650286259",
+		"-26.6221990257481, 6.502199025748115, -16.595017064846424, 8.51501706484644"
 	})
 	void shouldBoundedCyclePresent(double xmin, double xmax, double ymin, double ymax) {
-		ClassificationResult result = classifyRegionWithGraph(
-				"x^3 <= y^3", xmin, xmax, ymin, ymax, 1237, 1265);
+		ClassificationResult result =
+				classifyRegionWithGraph("x^3 <= y^3", xmin, xmax, ymin, ymax, 1237, 1265);
 		assertEquals(2, result.regions.size(), describeGraphState(result.graph));
-
 	}
 
-	private PlanarGraph buildGraph(String def, double xmin, double xmax,
-			double ymin, double ymax, int width, int height) {
+	private PlanarGraph buildGraph(
+			String def, double xmin, double xmax, double ymin, double ymax, int width, int height) {
 		GeoElement geo = (GeoElement) evaluate(def)[0];
-		ContourInfo info = builder.withImplicitCurve(geo)
+		ContourInfo info = builder
+				.withImplicitCurve(geo)
 				.withBounds(xmin, xmax, ymin, ymax, width, height)
 				.build();
 		PerimeterContourClipper clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(info.getBounds());
-		RegionClassifier regionClassifier =
-				new RegionClassifier(clipper::getClippedFragmentsResult,
-						() -> rectangleFrom(info.getBounds()));
+		RegionClassifier regionClassifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 		regionClassifier.process();
 		return regionClassifier.getGraph();
 	}
 
-	private List<ClassifiedRegion> classifyRegions(String def, double xmin, double xmax,
-			double ymin, double ymax, int width, int height) {
+	private List<ClassifiedRegion> classifyRegions(
+			String def, double xmin, double xmax, double ymin, double ymax, int width, int height) {
 		return classifyRegionWithGraph(def, xmin, xmax, ymin, ymax, width, height).regions;
 	}
 
-	private ClassificationResult classifyRegionWithGraph(String def, double xmin, double xmax,
-			double ymin, double ymax, int width, int height) {
+	private ClassificationResult classifyRegionWithGraph(
+			String def, double xmin, double xmax, double ymin, double ymax, int width, int height) {
 		GeoFunctionNVar function = (GeoFunctionNVar) evaluate(def)[0];
 		GeoElement border = function.getIneqs().getIneq().getImplicitCurveBorder();
-		ContourInfo info = builder.withImplicitCurve(border)
+		ContourInfo info = builder
+				.withImplicitCurve(border)
 				.withBounds(xmin, xmax, ymin, ymax, width, height)
 				.build();
 		PerimeterContourClipper clipper = new PerimeterContourClipper(info.getAssembler());
 		clipper.setPolynomial(info.getPolynomial());
 		clipper.clip(info.getBounds());
-		RegionClassifier regionClassifier =
-				new RegionClassifier(clipper::getClippedFragmentsResult,
-						() -> rectangleFrom(info.getBounds()));
+		RegionClassifier regionClassifier = new RegionClassifier(
+				clipper::getClippedFragmentsResult, () -> rectangleFrom(info.getBounds()));
 		assertTrue(regionClassifier.process(), "Classification should succeed for " + def);
 		List<ClassifiedRegion> results = regionClassifier.getResults(info.getBounds());
 		evaluateFilled(function, results);
 		return new ClassificationResult(regionClassifier.getGraph(), results);
 	}
 
-	private record ClassificationResult(PlanarGraph graph, List<ClassifiedRegion> regions) {
-	}
+	private record ClassificationResult(PlanarGraph graph, List<ClassifiedRegion> regions) {}
 
 	private void evaluateFilled(GeoFunctionNVar function, List<ClassifiedRegion> regions) {
 		for (ClassifiedRegion region : regions) {
@@ -916,14 +950,15 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		return "faces=" + graph.getFaces().size()
 				+ " contourDupDir=" + countDuplicateDirectedContourEdges(graph)
 				+ " contourDupUndir=" + countDuplicateUndirectedContourEdges(graph)
-				+ " extracted=" + describeCycles(graph,
-						graph.getLastExtractedBoundaryCycles())
-				+ " canonical=" + describeCycles(graph,
-						graph.getLastCanonicalBoundaryCycles());
+				+ " extracted=" + describeCycles(graph, graph.getLastExtractedBoundaryCycles())
+				+ " canonical=" + describeCycles(graph, graph.getLastCanonicalBoundaryCycles());
 	}
 
-	private WrongFillDiagnostics describeWrongFill(GeoFunctionNVar function,
-			List<ClassifiedRegion> regions, PlanarGraph graph, EuclidianViewBounds bounds) {
+	private WrongFillDiagnostics describeWrongFill(
+			GeoFunctionNVar function,
+			List<ClassifiedRegion> regions,
+			PlanarGraph graph,
+			EuclidianViewBounds bounds) {
 		return new WrongFillDiagnostics(
 				probeDiagnostics(function, regions, bounds),
 				probeTopologyDiagnostics(graph),
@@ -939,10 +974,12 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 	private long countDuplicateDirectedContourEdges(PlanarGraph graph) {
 		return graph.getHalfEdges().stream()
 				.filter(halfEdge -> halfEdge.isActive() && halfEdge.isContourEdge())
-				.collect(Collectors.groupingBy(halfEdge -> halfEdge.getSourceContourId() + ":"
-						+ halfEdge.getOriginVertexId() + "->" + halfEdge.getTargetVertexId(),
+				.collect(Collectors.groupingBy(
+						halfEdge -> halfEdge.getSourceContourId() + ":" + halfEdge.getOriginVertexId() + "->"
+								+ halfEdge.getTargetVertexId(),
 						Collectors.counting()))
-				.values().stream()
+				.values()
+				.stream()
 				.filter(count -> count > 1)
 				.count();
 	}
@@ -950,14 +987,17 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 	private long countDuplicateUndirectedContourEdges(PlanarGraph graph) {
 		return graph.getHalfEdges().stream()
 				.filter(halfEdge -> halfEdge.isActive() && halfEdge.isContourEdge())
-				.collect(Collectors.groupingBy(halfEdge -> {
-					int origin = halfEdge.getOriginVertexId();
-					int target = halfEdge.getTargetVertexId();
-					int a = Math.min(origin, target);
-					int b = Math.max(origin, target);
-					return halfEdge.getSourceContourId() + ":" + a + "-" + b;
-				}, Collectors.counting()))
-				.values().stream()
+				.collect(Collectors.groupingBy(
+						halfEdge -> {
+							int origin = halfEdge.getOriginVertexId();
+							int target = halfEdge.getTargetVertexId();
+							int a = Math.min(origin, target);
+							int b = Math.max(origin, target);
+							return halfEdge.getSourceContourId() + ":" + a + "-" + b;
+						},
+						Collectors.counting()))
+				.values()
+				.stream()
 				.filter(count -> count > 2)
 				.count();
 	}
@@ -969,17 +1009,28 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 			if (i > 0) {
 				sb.append(", ");
 			}
-			sb.append("{id=").append(cycle.getId())
-					.append(", signedArea=").append(cycle.getSignedArea())
-					.append(", absArea=").append(cycle.getAbsArea())
-					.append(", edges=").append(cycle.getHalfEdgeIds().size())
-					.append(", parent=").append(cycle.getParentId())
-					.append(", depth=").append(cycle.getDepth())
-					.append(", children=").append(cycle.getChildIds())
-					.append(", bbox=").append(boundaryBounds(graph, cycle.getHalfEdgeIds()))
-					.append(", corners=").append(viewportCornerCount(graph, cycle))
-					.append(", viewport=").append(isViewportLikeCycle(graph, cycle))
-					.append(", probe=").append(cycle.getContainmentProbePoint())
+			sb.append("{id=")
+					.append(cycle.getId())
+					.append(", signedArea=")
+					.append(cycle.getSignedArea())
+					.append(", absArea=")
+					.append(cycle.getAbsArea())
+					.append(", edges=")
+					.append(cycle.getHalfEdgeIds().size())
+					.append(", parent=")
+					.append(cycle.getParentId())
+					.append(", depth=")
+					.append(cycle.getDepth())
+					.append(", children=")
+					.append(cycle.getChildIds())
+					.append(", bbox=")
+					.append(boundaryBounds(graph, cycle.getHalfEdgeIds()))
+					.append(", corners=")
+					.append(viewportCornerCount(graph, cycle))
+					.append(", viewport=")
+					.append(isViewportLikeCycle(graph, cycle))
+					.append(", probe=")
+					.append(cycle.getContainmentProbePoint())
 					.append('}');
 		}
 		sb.append(']');
@@ -993,23 +1044,31 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 			if (i > 0) {
 				sb.append(", ");
 			}
-			sb.append("{filled=").append(region.isFilled())
-					.append(", holes=").append(region.getHoles().size())
-					.append(", sample=").append(region.getSamplePoint())
+			sb.append("{filled=")
+					.append(region.isFilled())
+					.append(", holes=")
+					.append(region.getHoles().size())
+					.append(", sample=")
+					.append(region.getSamplePoint())
 					.append('}');
 		}
 		sb.append(']');
 		return sb.toString();
 	}
 
-	private List<CycleDiagnostic> cycleDiagnostics(PlanarGraph graph,
-			List<BoundaryCycle> cycles) {
+	private List<CycleDiagnostic> cycleDiagnostics(PlanarGraph graph, List<BoundaryCycle> cycles) {
 		return cycles.stream()
-				.map(cycle -> new CycleDiagnostic(cycle.getId(), cycle.getSignedArea(),
-						cycle.getAbsArea(), cycle.getHalfEdgeIds().size(),
-						cycle.getParentId(), cycle.getDepth(), cycle.getChildIds(),
+				.map(cycle -> new CycleDiagnostic(
+						cycle.getId(),
+						cycle.getSignedArea(),
+						cycle.getAbsArea(),
+						cycle.getHalfEdgeIds().size(),
+						cycle.getParentId(),
+						cycle.getDepth(),
+						cycle.getChildIds(),
 						boundaryBounds(graph, cycle.getHalfEdgeIds()),
-						viewportCornerCount(graph, cycle), isViewportLikeCycle(graph, cycle),
+						viewportCornerCount(graph, cycle),
+						isViewportLikeCycle(graph, cycle),
 						cycle.getContainmentProbePoint()))
 				.collect(Collectors.toList());
 	}
@@ -1017,23 +1076,23 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 	private List<CycleGroupDiagnostic> cycleGroupDiagnostics(PlanarGraph graph) {
 		Map<String, List<BoundaryCycle>> byBounds = new LinkedHashMap<>();
 		for (BoundaryCycle cycle : graph.getLastExtractedBoundaryCycles()) {
-			byBounds.computeIfAbsent(cycleBoundsKey(graph, cycle),
-					key -> new ArrayList<>()).add(cycle);
+			byBounds
+					.computeIfAbsent(cycleBoundsKey(graph, cycle), key -> new ArrayList<>())
+					.add(cycle);
 		}
 		return byBounds.entrySet().stream()
 				.map(entry -> cycleGroupDiagnostic(graph, entry.getKey(), entry.getValue()))
 				.collect(Collectors.toList());
 	}
 
-	private CycleGroupDiagnostic cycleGroupDiagnostic(PlanarGraph graph, String boundsKey,
-			List<BoundaryCycle> extractedCycles) {
+	private CycleGroupDiagnostic cycleGroupDiagnostic(
+			PlanarGraph graph, String boundsKey, List<BoundaryCycle> extractedCycles) {
 		List<Integer> extractedIds = new ArrayList<>(extractedCycles.size());
 		List<Double> extractedSigns = new ArrayList<>(extractedCycles.size());
 		List<Integer> canonicalIds = new ArrayList<>();
 		List<Double> canonicalSigns = new ArrayList<>();
-		Set<Integer> extractedIdSet = extractedCycles.stream()
-				.map(BoundaryCycle::getId)
-				.collect(Collectors.toSet());
+		Set<Integer> extractedIdSet =
+				extractedCycles.stream().map(BoundaryCycle::getId).collect(Collectors.toSet());
 		for (BoundaryCycle cycle : extractedCycles) {
 			extractedIds.add(cycle.getId());
 			extractedSigns.add(Math.signum(cycle.getSignedArea()));
@@ -1044,22 +1103,25 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 				canonicalSigns.add(Math.signum(cycle.getSignedArea()));
 			}
 		}
-		return new CycleGroupDiagnostic(boundsKey, extractedIds, extractedSigns,
-				canonicalIds, canonicalSigns);
+		return new CycleGroupDiagnostic(
+				boundsKey, extractedIds, extractedSigns, canonicalIds, canonicalSigns);
 	}
 
 	private List<FaceDiagnostic> faceDiagnostics(PlanarGraph graph) {
 		return graph.getFaces().stream()
 				.map(face -> {
-					List<Integer> outerBoundary = face.getOuterHalfEdgeId() < 0
-							? List.of() : graph.outerBoundaryOf(face);
-					String bbox = face.getOuterHalfEdgeId() < 0
-							? "[]" : boundaryBounds(graph, outerBoundary);
-					return new FaceDiagnostic(face.getId(), face.isExterior(),
+					List<Integer> outerBoundary =
+							face.getOuterHalfEdgeId() < 0 ? List.of() : graph.outerBoundaryOf(face);
+					String bbox = face.getOuterHalfEdgeId() < 0 ? "[]" : boundaryBounds(graph, outerBoundary);
+					return new FaceDiagnostic(
+							face.getId(),
+							face.isExterior(),
 							face.getOuterHalfEdgeId(),
 							cycleIdOfBoundary(graph, outerBoundary),
-							face.getHoleHalfEdgeIds(), holeCycleIds(graph, face),
-							face.getSamplePoint(), bbox);
+							face.getHoleHalfEdgeIds(),
+							holeCycleIds(graph, face),
+							face.getSamplePoint(),
+							bbox);
 				})
 				.collect(Collectors.toList());
 	}
@@ -1077,8 +1139,11 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 			nonExteriorHoleCycleIds.addAll(holeCycleIds(graph, face));
 		}
 		return graph.getLastCanonicalBoundaryCycles().stream()
-				.map(cycle -> new CycleRoleDiagnostic(cycle.getId(), cycle.getParentId(),
-						cycle.getDepth(), cycle.getParentId() == -1,
+				.map(cycle -> new CycleRoleDiagnostic(
+						cycle.getId(),
+						cycle.getParentId(),
+						cycle.getDepth(),
+						cycle.getParentId() == -1,
 						exteriorHoleCycleIds.contains(cycle.getId()),
 						nonExteriorOuterCycleIds.contains(cycle.getId()),
 						nonExteriorHoleCycleIds.contains(cycle.getId()),
@@ -1099,42 +1164,58 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 				.anyMatch(CycleRoleDiagnostic::nonExteriorHole);
 	}
 
-	private List<RegionDiagnostic> regionDiagnostics(GeoFunctionNVar function,
-			List<ClassifiedRegion> regions, PlanarGraph graph, EuclidianViewBounds bounds) {
+	private List<RegionDiagnostic> regionDiagnostics(
+			GeoFunctionNVar function,
+			List<ClassifiedRegion> regions,
+			PlanarGraph graph,
+			EuclidianViewBounds bounds) {
 		List<RegionDiagnostic> diagnostics = new ArrayList<>(regions.size());
 		for (int i = 0; i < regions.size(); i++) {
-			diagnostics.add(regionDiagnostic(function, i, sourceFaceId(graph, i),
-					regions.get(i), bounds));
+			diagnostics.add(
+					regionDiagnostic(function, i, sourceFaceId(graph, i), regions.get(i), bounds));
 		}
 		return diagnostics;
 	}
 
-	private RegionDiagnostic regionDiagnostic(GeoFunctionNVar function, int index,
+	private RegionDiagnostic regionDiagnostic(
+			GeoFunctionNVar function,
+			int index,
 			int sourceFaceId,
-			ClassifiedRegion region, EuclidianViewBounds bounds) {
+			ClassifiedRegion region,
+			EuclidianViewBounds bounds) {
 		GPoint2D sample = region.getSamplePoint();
 		Boolean predicate = sample == null ? null : function.isInRegion(sample.x, sample.y);
 		MixedProbeStats mixedProbeStats = mixedProbeStats(function, region, bounds);
-		return new RegionDiagnostic(index, sourceFaceId, region.isFilled(), sample, predicate,
-				region.getHoles().size(), formatScreenBounds(region),
-				formatWorldBounds(region, bounds), isViewportRegion(region, bounds),
-				mixedProbeStats.trueProbeCount(), mixedProbeStats.falseProbeCount(),
-				mixedProbeStats.mixedPredicate(), mixedProbeStats.firstTrueProbe(),
+		return new RegionDiagnostic(
+				index,
+				sourceFaceId,
+				region.isFilled(),
+				sample,
+				predicate,
+				region.getHoles().size(),
+				formatScreenBounds(region),
+				formatWorldBounds(region, bounds),
+				isViewportRegion(region, bounds),
+				mixedProbeStats.trueProbeCount(),
+				mixedProbeStats.falseProbeCount(),
+				mixedProbeStats.mixedPredicate(),
+				mixedProbeStats.firstTrueProbe(),
 				mixedProbeStats.firstFalseProbe());
 	}
 
 	private int sourceFaceId(PlanarGraph graph, int regionIndex) {
-		return graph.getFaces().size() <= regionIndex ? -1
+		return graph.getFaces().size() <= regionIndex
+				? -1
 				: graph.getFaces().get(regionIndex).getId();
 	}
 
-	private boolean isMixedRegion(GeoFunctionNVar function, ClassifiedRegion region,
-			EuclidianViewBounds bounds) {
+	private boolean isMixedRegion(
+			GeoFunctionNVar function, ClassifiedRegion region, EuclidianViewBounds bounds) {
 		return mixedProbeStats(function, region, bounds).mixedPredicate();
 	}
 
-	private MixedProbeStats mixedProbeStats(GeoFunctionNVar function, ClassifiedRegion region,
-			EuclidianViewBounds bounds) {
+	private MixedProbeStats mixedProbeStats(
+			GeoFunctionNVar function, ClassifiedRegion region, EuclidianViewBounds bounds) {
 		GRectangle screenBounds = region.getOuterBoundary().getBounds();
 		if (screenBounds == null) {
 			return new MixedProbeStats(0, 0, null, null);
@@ -1145,11 +1226,9 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		GPoint2D firstTrueProbe = null;
 		GPoint2D firstFalseProbe = null;
 		for (int xIndex = 1; xIndex <= 25; xIndex++) {
-			double screenX = screenBounds.getX()
-					+ screenBounds.getWidth() * xIndex / 26.0;
+			double screenX = screenBounds.getX() + screenBounds.getWidth() * xIndex / 26.0;
 			for (int yIndex = 1; yIndex <= 25; yIndex++) {
-				double screenY = screenBounds.getY()
-						+ screenBounds.getHeight() * yIndex / 26.0;
+				double screenY = screenBounds.getY() + screenBounds.getHeight() * yIndex / 26.0;
 				if (!regionArea.contains(screenX, screenY)) {
 					continue;
 				}
@@ -1169,12 +1248,11 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 				}
 			}
 		}
-		return new MixedProbeStats(trueProbeCount, falseProbeCount,
-				firstTrueProbe, firstFalseProbe);
+		return new MixedProbeStats(trueProbeCount, falseProbeCount, firstTrueProbe, firstFalseProbe);
 	}
 
-	private List<ProbeDiagnostic> probeDiagnostics(GeoFunctionNVar function,
-			List<ClassifiedRegion> regions, EuclidianViewBounds bounds) {
+	private List<ProbeDiagnostic> probeDiagnostics(
+			GeoFunctionNVar function, List<ClassifiedRegion> regions, EuclidianViewBounds bounds) {
 		GArea filledArea = buildFilledArea(regions, bounds);
 		return List.of(
 				probeDiagnostic(function, regions, bounds, filledArea, -0.5, 10),
@@ -1183,12 +1261,21 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 				probeDiagnostic(function, regions, bounds, filledArea, 10, 0.5));
 	}
 
-	private ProbeDiagnostic probeDiagnostic(GeoFunctionNVar function,
-			List<ClassifiedRegion> regions, EuclidianViewBounds bounds, GArea filledArea,
-			double x, double y) {
+	private ProbeDiagnostic probeDiagnostic(
+			GeoFunctionNVar function,
+			List<ClassifiedRegion> regions,
+			EuclidianViewBounds bounds,
+			GArea filledArea,
+			double x,
+			double y) {
 		double screenX = bounds.toScreenCoordXd(x);
 		double screenY = bounds.toScreenCoordYd(y);
-		return new ProbeDiagnostic(x, y, screenX, screenY, function.isInRegion(x, y),
+		return new ProbeDiagnostic(
+				x,
+				y,
+				screenX,
+				screenY,
+				function.isInRegion(x, y),
 				filledArea.contains(screenX, screenY),
 				filledRegionContaining(regions, bounds, x, y));
 	}
@@ -1202,7 +1289,9 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 	}
 
 	private ProbeTopologyDiagnostic probeTopologyDiagnostic(PlanarGraph graph, double x, double y) {
-		return new ProbeTopologyDiagnostic(x, y,
+		return new ProbeTopologyDiagnostic(
+				x,
+				y,
 				containingCanonicalCycleIds(graph, x, y),
 				containingNonExteriorFaceIds(graph, x, y),
 				exteriorFaceContainsByHoleModel(graph, x, y));
@@ -1236,8 +1325,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 			if (face.isExterior()) {
 				continue;
 			}
-			if (graph.isPointInsideFace(point, graph.outerBoundaryOf(face),
-					graph.holeBoundariesOf(face))) {
+			if (graph.isPointInsideFace(
+					point, graph.outerBoundaryOf(face), graph.holeBoundariesOf(face))) {
 				faceIds.add(face.getId());
 			}
 		}
@@ -1245,10 +1334,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 	}
 
 	private boolean exteriorFaceContainsByHoleModel(PlanarGraph graph, double x, double y) {
-		Face exteriorFace = graph.getFaces().stream()
-				.filter(Face::isExterior)
-				.findFirst()
-				.orElse(null);
+		Face exteriorFace =
+				graph.getFaces().stream().filter(Face::isExterior).findFirst().orElse(null);
 		if (exteriorFace == null) {
 			return false;
 		}
@@ -1274,8 +1361,9 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 				return true;
 			}
 			boolean intersects = ((vi.getY() > point.y) != (vj.getY() > point.y))
-					&& (point.x < (vj.getX() - vi.getX()) * (point.y - vi.getY())
-					/ (vj.getY() - vi.getY()) + vi.getX());
+					&& (point.x
+							< (vj.getX() - vi.getX()) * (point.y - vi.getY()) / (vj.getY() - vi.getY())
+									+ vi.getX());
 			if (intersects) {
 				inside = !inside;
 			}
@@ -1301,8 +1389,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 			if (cycle.getParentId() != -1 || isViewportLikeCycle(graph, cycle)) {
 				continue;
 			}
-			if (dominantRoot == null || cycle.getChildIds().size()
-					> dominantRoot.getChildIds().size()) {
+			if (dominantRoot == null
+					|| cycle.getChildIds().size() > dominantRoot.getChildIds().size()) {
 				dominantRoot = cycle;
 			}
 		}
@@ -1338,8 +1426,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		return count;
 	}
 
-	private int filledRegionContaining(List<ClassifiedRegion> regions,
-			EuclidianViewBounds bounds, double x, double y) {
+	private int filledRegionContaining(
+			List<ClassifiedRegion> regions, EuclidianViewBounds bounds, double x, double y) {
 		double screenX = bounds.toScreenCoordXd(x);
 		double screenY = bounds.toScreenCoordYd(y);
 		for (int i = 0; i < regions.size(); i++) {
@@ -1434,8 +1522,8 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		double x2 = bounds.toRealWorldCoordX(rectangle.getX() + rectangle.getWidth());
 		double y1 = bounds.toRealWorldCoordY(rectangle.getY());
 		double y2 = bounds.toRealWorldCoordY(rectangle.getY() + rectangle.getHeight());
-		return "[" + Math.min(x1, x2) + "," + Math.max(x1, x2)
-				+ "]x[" + Math.min(y1, y2) + "," + Math.max(y1, y2) + "]";
+		return "[" + Math.min(x1, x2) + "," + Math.max(x1, x2) + "]x[" + Math.min(y1, y2) + ","
+				+ Math.max(y1, y2) + "]";
 	}
 
 	private String cycleBoundsKey(PlanarGraph graph, BoundaryCycle cycle) {
@@ -1452,8 +1540,7 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 			minY = Math.min(minY, Math.min(origin.getY(), target.getY()));
 			maxY = Math.max(maxY, Math.max(origin.getY(), target.getY()));
 		}
-		return rounded(minX) + "," + rounded(maxX)
-				+ "x" + rounded(minY) + "," + rounded(maxY);
+		return rounded(minX) + "," + rounded(maxX) + "x" + rounded(minY) + "," + rounded(maxY);
 	}
 
 	private double rounded(double value) {
@@ -1480,55 +1567,92 @@ class GraphBuilderWithContoursTest extends BaseContourTestSetup {
 		return "[" + minX + "," + maxX + "]x[" + minY + "," + maxY + "]";
 	}
 
-	private record WrongFillDiagnostics(List<ProbeDiagnostic> probes,
+	private record WrongFillDiagnostics(
+			List<ProbeDiagnostic> probes,
 			List<ProbeTopologyDiagnostic> probeTopology,
-			List<RegionDiagnostic> regions, List<FaceDiagnostic> faces,
-			List<CycleRoleDiagnostic> cycleRoles, List<CycleDiagnostic> extractedCycles,
-			List<CycleDiagnostic> canonicalCycles, List<CycleGroupDiagnostic> cycleGroups,
-			String hierarchySignal) {
-	}
+			List<RegionDiagnostic> regions,
+			List<FaceDiagnostic> faces,
+			List<CycleRoleDiagnostic> cycleRoles,
+			List<CycleDiagnostic> extractedCycles,
+			List<CycleDiagnostic> canonicalCycles,
+			List<CycleGroupDiagnostic> cycleGroups,
+			String hierarchySignal) {}
 
-	private record CycleDiagnostic(int id, double signedArea, double absArea,
-			int edgeCount, int parentId, int depth, List<Integer> childIds,
-			String bbox, int viewportCornerCount, boolean viewportLike,
-			GPoint2D containmentProbe) {
-	}
+	private record CycleDiagnostic(
+			int id,
+			double signedArea,
+			double absArea,
+			int edgeCount,
+			int parentId,
+			int depth,
+			List<Integer> childIds,
+			String bbox,
+			int viewportCornerCount,
+			boolean viewportLike,
+			GPoint2D containmentProbe) {}
 
-	private record CycleGroupDiagnostic(String boundsKey, List<Integer> extractedIds,
-			List<Double> extractedSigns, List<Integer> canonicalIds,
-			List<Double> canonicalSigns) {
-	}
+	private record CycleGroupDiagnostic(
+			String boundsKey,
+			List<Integer> extractedIds,
+			List<Double> extractedSigns,
+			List<Integer> canonicalIds,
+			List<Double> canonicalSigns) {}
 
-	private record FaceDiagnostic(int id, boolean exterior, int outerEdgeId,
-			int outerCycleId, List<Integer> holeEdgeIds, List<Integer> holeCycleIds,
-			GPoint2D samplePoint, String bbox) {
-	}
+	private record FaceDiagnostic(
+			int id,
+			boolean exterior,
+			int outerEdgeId,
+			int outerCycleId,
+			List<Integer> holeEdgeIds,
+			List<Integer> holeCycleIds,
+			GPoint2D samplePoint,
+			String bbox) {}
 
-	private record CycleRoleDiagnostic(int id, int parentId, int depth, boolean root,
-			boolean exteriorHole, boolean nonExteriorOuter, boolean nonExteriorHole,
-			int startHalfEdgeId, String bbox) {
-	}
+	private record CycleRoleDiagnostic(
+			int id,
+			int parentId,
+			int depth,
+			boolean root,
+			boolean exteriorHole,
+			boolean nonExteriorOuter,
+			boolean nonExteriorHole,
+			int startHalfEdgeId,
+			String bbox) {}
 
-	private record RegionDiagnostic(int index, int sourceFaceId, boolean filled,
-			GPoint2D samplePoint, Boolean predicateResult, int holeCount,
-			String screenBbox, String worldBbox, boolean viewportLike,
-			int trueProbeCount, int falseProbeCount, boolean mixedPredicate,
-			GPoint2D firstTrueProbe, GPoint2D firstFalseProbe) {
-	}
+	private record RegionDiagnostic(
+			int index,
+			int sourceFaceId,
+			boolean filled,
+			GPoint2D samplePoint,
+			Boolean predicateResult,
+			int holeCount,
+			String screenBbox,
+			String worldBbox,
+			boolean viewportLike,
+			int trueProbeCount,
+			int falseProbeCount,
+			boolean mixedPredicate,
+			GPoint2D firstTrueProbe,
+			GPoint2D firstFalseProbe) {}
 
-	private record ProbeDiagnostic(double worldX, double worldY, double screenX,
-			double screenY, boolean expectedPredicate, boolean containedInFinalFill,
-			int owningFilledRegionIndex) {
-	}
+	private record ProbeDiagnostic(
+			double worldX,
+			double worldY,
+			double screenX,
+			double screenY,
+			boolean expectedPredicate,
+			boolean containedInFinalFill,
+			int owningFilledRegionIndex) {}
 
-	private record ProbeTopologyDiagnostic(double worldX, double worldY,
+	private record ProbeTopologyDiagnostic(
+			double worldX,
+			double worldY,
 			List<Integer> containingCanonicalCycleIds,
 			List<Integer> containingNonExteriorFaceIds,
-			boolean exteriorFaceContainsByHoleModel) {
-	}
+			boolean exteriorFaceContainsByHoleModel) {}
 
-	private record MixedProbeStats(int trueProbeCount, int falseProbeCount,
-			GPoint2D firstTrueProbe, GPoint2D firstFalseProbe) {
+	private record MixedProbeStats(
+			int trueProbeCount, int falseProbeCount, GPoint2D firstTrueProbe, GPoint2D firstFalseProbe) {
 		boolean mixedPredicate() {
 			return trueProbeCount > 0 && falseProbeCount > 0;
 		}

@@ -23,7 +23,7 @@ public interface GeoQuadric3DInterface extends QuadraticEquationRepresentable {
 
 	/**
 	 * sets quadric's matrix from coefficients of equation from array
-	 * 
+	 *
 	 * @param coeffs
 	 *            Array of coefficients
 	 */
@@ -49,8 +49,16 @@ public interface GeoQuadric3DInterface extends QuadraticEquationRepresentable {
 	 * @param z2
 	 *            z(e2)
 	 */
-	void setEigenvectors(double x0, double y0, double z0, double x1, double y1,
-			double z1, double x2, double y2, double z2);
+	void setEigenvectors(
+			double x0,
+			double y0,
+			double z0,
+			double x1,
+			double y1,
+			double z1,
+			double x2,
+			double y2,
+			double z2);
 
 	/**
 	 * Classify quadric if it wasn't done previously

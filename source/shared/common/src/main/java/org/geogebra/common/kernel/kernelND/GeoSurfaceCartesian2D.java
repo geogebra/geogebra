@@ -32,7 +32,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * 2D surface f(u,v)=(u+v,u-v)
- * 
+ *
  * @author Zbynek
  *
  */
@@ -54,21 +54,19 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 	 * @param fun
 	 *            expression as list of function
 	 */
-	public GeoSurfaceCartesian2D(Construction cons, ExpressionNode point,
-			FunctionNVar[] fun) {
+	public GeoSurfaceCartesian2D(Construction cons, ExpressionNode point, FunctionNVar[] fun) {
 		super(cons, point, fun);
 		setEuclidianVisible(false);
 	}
 
 	@Override
 	public void evaluatePoint(double u, double v, Coords3 point) {
-		double[] tmp = { u, v };
+		double[] tmp = {u, v};
 		point.set(fun[0].evaluate(tmp), fun[1].evaluate(tmp), 0);
 	}
 
 	@Override
-	public boolean evaluateNormal(Coords3 p, double u, double v,
-			Coords3 normal) {
+	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 normal) {
 		p.set(0, 0, 1);
 		return true;
 	}
@@ -114,7 +112,7 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 
 	@Override
 	public ExpressionValue evaluateSurface(double u, double v) {
-		double[] tmp = { u, v };
+		double[] tmp = {u, v};
 		if (fun == null) {
 			return new GeoVec2D(kernel, Double.NaN, Double.NaN);
 		}
@@ -129,5 +127,4 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 	public boolean hasDrawable3D() {
 		return true;
 	}
-
 }

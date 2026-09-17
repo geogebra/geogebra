@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,8 +36,7 @@ public class LayoutUtil {
 	 * @return flow panel
 	 */
 	public static JPanel flowPanel(Component... comps) {
-		JPanel p = new JPanel(
-				new FlowLayout(FlowLayout.LEFT, DEFAULT_HGAP, DEFAULT_VGAP));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, DEFAULT_HGAP, DEFAULT_VGAP));
 		for (Component comp : comps) {
 			p.add(comp);
 		}
@@ -50,8 +49,7 @@ public class LayoutUtil {
 	 * @return flow panel
 	 */
 	public static JPanel flowPanel(int tab, Component... comps) {
-		JPanel p = new JPanel(
-				new FlowLayout(FlowLayout.LEFT, DEFAULT_HGAP, DEFAULT_VGAP));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, DEFAULT_HGAP, DEFAULT_VGAP));
 		p.add(Box.createHorizontalStrut(tab));
 		for (Component comp : comps) {
 			p.add(comp);
@@ -66,8 +64,7 @@ public class LayoutUtil {
 	 * @param comps components
 	 * @return left-aligned flow panel
 	 */
-	public static JPanel flowPanel(int hgap, int vgap, int tab,
-			Component... comps) {
+	public static JPanel flowPanel(int hgap, int vgap, int tab, Component... comps) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, hgap, vgap));
 		p.add(Box.createHorizontalStrut(tab));
 		for (Component comp : comps) {
@@ -83,8 +80,7 @@ public class LayoutUtil {
 	 * @param comps components
 	 * @return centered flow panel
 	 */
-	public static JPanel flowPanelCenter(int hgap, int vgap, int tab,
-			Component... comps) {
+	public static JPanel flowPanelCenter(int hgap, int vgap, int tab, Component... comps) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, hgap, vgap));
 		p.add(Box.createHorizontalStrut(tab));
 		for (Component comp : comps) {
@@ -100,8 +96,7 @@ public class LayoutUtil {
 	 * @param comps components
 	 * @return right-aligned flow panel
 	 */
-	public static JPanel flowPanelRight(int hgap, int vgap, int tab,
-			Component... comps) {
+	public static JPanel flowPanelRight(int hgap, int vgap, int tab, Component... comps) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, hgap, vgap));
 		p.add(Box.createHorizontalStrut(tab));
 		for (Component comp : comps) {
@@ -116,13 +111,11 @@ public class LayoutUtil {
 	 */
 	public static Border titleBorder(String title) {
 		Border lineBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.controlLtHighlight),
-				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.controlShadow));
+				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
 
-		Border outsideBorder = BorderFactory.createTitledBorder(lineBorder,
-				title, TitledBorder.LEADING, TitledBorder.TOP);
+		Border outsideBorder =
+				BorderFactory.createTitledBorder(lineBorder, title, TitledBorder.LEADING, TitledBorder.TOP);
 		Border insideBorder = BorderFactory.createEmptyBorder(0, 40, 0, 0);
 		return BorderFactory.createCompoundBorder(outsideBorder, insideBorder);
 	}

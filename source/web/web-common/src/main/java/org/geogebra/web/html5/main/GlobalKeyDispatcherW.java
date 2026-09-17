@@ -125,8 +125,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public GlobalKeyDispatcherW(AppW app) {
 		super(app);
-		app.getGlobalHandlers().addEventListener(DomGlobal.window, "focus",
-				event -> releaseAlts());
+		app.getGlobalHandlers().addEventListener(DomGlobal.window, "focus", event -> releaseAlts());
 	}
 
 	private void releaseAlts() {
@@ -147,9 +146,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					&& (event.getKeyCode() == GWTKeycodes.KEY_SHIFT)) {
 				updateKeyDownFlags(isSpaceDown(), event.getCtrlKey(), keyDown);
 			}
-			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast())
-						&& !isGlobalEvent(event)) {
-					return;
+			if (CopyPasteW.incorrectTarget(event.getEventTarget().cast()) && !isGlobalEvent(event)) {
+				return;
 			}
 
 			if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
@@ -163,9 +161,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		private boolean handleKeyDown(Event event) {
 			boolean handled = false;
 
-			if (event.getKeyCode() == GWTKeycodes.KEY_X
-					&& event.getCtrlKey()
-					&& event.getAltKey()) {
+			if (event.getKeyCode() == GWTKeycodes.KEY_X && event.getCtrlKey() && event.getAltKey()) {
 				handleCtrlAltX();
 				handled = true;
 			}
@@ -174,8 +170,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				handled = true;
 			}
 			if (isControlKeyDown(event)) {
-				handled = handleCtrlKeys(KeyCodeUtil.translateGWTCode(event.getKeyCode()),
-						event.getShiftKey(), false, true);
+				handled = handleCtrlKeys(
+						KeyCodeUtil.translateGWTCode(event.getKeyCode()), event.getShiftKey(), false, true);
 			}
 			KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getKeyCode());
 			if (kc == KeyCodes.TAB) {
@@ -250,9 +246,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		app.hideMenu();
 		app.closePopups();
 		if (app.getActiveEuclidianView() != null) {
-			app.getActiveEuclidianView()
-					.getEuclidianController()
-					.hideDynamicStylebar();
+			app.getActiveEuclidianView().getEuclidianController().hideDynamicStylebar();
 		}
 		app.getSelectionManager().clearSelectedGeos();
 		boolean force = !((GuiManagerInterfaceW) app.getGuiManager()).isAlgebraViewActive();
@@ -283,17 +277,17 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.isWhiteboardActive()) {
-				keyPressedOnGeo(event.getCharCode());
-
+			keyPressedOnGeo(event.getCharCode());
 		}
 	}
 
 	private static boolean shouldNotEventPassThrough(KeyPressEvent event) {
-		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getNativeEvent()
-				.getKeyCode());
+		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getNativeEvent().getKeyCode());
 		// Do not prevent default for the v key, otherwise paste events are not fired
-		return kc != KeyCodes.TAB && event.getCharCode() != 'v'
-				&& event.getCharCode() != 'c' && event.getCharCode() != 'x';
+		return kc != KeyCodes.TAB
+				&& event.getCharCode() != 'v'
+				&& event.getCharCode() != 'c'
+				&& event.getCharCode() != 'x';
 	}
 
 	@Override
@@ -313,17 +307,21 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public void handleGeneralKeys(KeyUpEvent event) {
 		KeyCodes kc = KeyCodeUtil.translateGWTCode(event.getNativeKeyCode());
 
-		boolean handled = handleGeneralKeys(kc,
+		boolean handled = handleGeneralKeys(
+				kc,
 				event.isShiftKeyDown(),
 				isControlKeyDown(event.getNativeEvent()),
-				event.isAltKeyDown(), false, true);
+				event.isAltKeyDown(),
+				false,
+				true);
 		if (handled) {
 			event.preventDefault();
 		}
 	}
 
 	private static boolean isControlKeyDown(NativeEvent event) {
-		return (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS()) ? event.getMetaKey()
+		return (NavigatorUtil.isMacOS() || NavigatorUtil.isiOS())
+				? event.getMetaKey()
 				: event.getCtrlKey();
 	}
 
@@ -342,19 +340,17 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 		}
 		return handleSelectedGeosKeys(
-				key, geos,
-				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
-				false);
+				key, geos, event.getShiftKey(), event.getCtrlKey(), event.getAltKey(), false);
 	}
 
 	private boolean handleControlArrows(ArrayList<GeoElement> geos, KeyCodes key) {
 		switch (key) {
-		case DOWN, RIGHT -> {
-			return handleControlArrowsForAlgebraView(geos, true);
-		}
-		case UP, LEFT -> {
-			return handleControlArrowsForAlgebraView(geos, false);
-		}
+			case DOWN, RIGHT -> {
+				return handleControlArrowsForAlgebraView(geos, true);
+			}
+			case UP, LEFT -> {
+				return handleControlArrowsForAlgebraView(geos, false);
+			}
 		}
 		return false;
 	}
@@ -378,15 +374,16 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		if (handled) {
 			event.stopPropagation();
 		}
-		if (handled || preventBrowserCtrl(kc, event.isShiftKeyDown())
-				&& event.isControlKeyDown()) {
+		if (handled || preventBrowserCtrl(kc, event.isShiftKeyDown()) && event.isControlKeyDown()) {
 			event.preventDefault();
 		}
 	}
 
 	private static boolean preventBrowserCtrl(KeyCodes kc, boolean shift) {
-		return kc == KeyCodes.S || kc == KeyCodes.O
-				|| (kc == KeyCodes.D && shift) || (kc == KeyCodes.C && shift);
+		return kc == KeyCodes.S
+				|| kc == KeyCodes.O
+				|| (kc == KeyCodes.D && shift)
+				|| (kc == KeyCodes.C && shift);
 	}
 
 	/**
@@ -418,11 +415,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			return true;
 		}
 
-		if (app.getGuiManager() != null
-				&& app.getGuiManager().noMenusOpen()) {
+		if (app.getGuiManager() != null && app.getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput()) {
-				AlgebraInput algebraInput = ((GuiManagerInterfaceW) app.getGuiManager())
-						.getAlgebraInput();
+				AlgebraInput algebraInput = ((GuiManagerInterfaceW) app.getGuiManager()).getAlgebraInput();
 				if (algebraInput != null) {
 					algebraInput.requestFocus();
 					return true;
@@ -454,8 +449,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @return true if unwanted key combination has pressed.
 	 */
 	public static boolean isBadKeyEvent(KeyEvent<?> e) {
-		return e.isAltKeyDown() && !e.isControlKeyDown()
-				&& e.getNativeEvent().getCharCode() > 128;
+		return e.isAltKeyDown() && !e.isControlKeyDown() && e.getNativeEvent().getCharCode() > 128;
 	}
 
 	private void handleIosKeyboard(char code) {
@@ -496,18 +490,15 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	private static boolean isViewTogglingShortcut(int keyCode, boolean shift) {
-		return shift && switch (keyCode) {
-			case JavaKeyCodes.VK_A,
-				 JavaKeyCodes.VK_U,
-				 JavaKeyCodes.VK_P,
-				 JavaKeyCodes.VK_S -> true;
-			default -> false;
-		};
+		return shift
+				&& switch (keyCode) {
+					case JavaKeyCodes.VK_A, JavaKeyCodes.VK_U, JavaKeyCodes.VK_P, JavaKeyCodes.VK_S -> true;
+					default -> false;
+				};
 	}
 
 	@Override
-	protected void updateKeyDownFlags(boolean isSpaceDown,
-			boolean isCtrlDown, boolean isShiftDown) {
+	protected void updateKeyDownFlags(boolean isSpaceDown, boolean isCtrlDown, boolean isShiftDown) {
 		if (updateGlobalKeyFlags(isSpaceDown, isCtrlDown, isShiftDown)) {
 			EuclidianView ev = app.getActiveEuclidianView();
 			if (ev.isDefault2D()) {
@@ -516,10 +507,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 	}
 
-	private static boolean updateGlobalKeyFlags(boolean isSpaceDown,
-			boolean isCtrlDown, boolean isShiftDown) {
-		if (isSpaceDown() == isSpaceDown && shiftDown == isShiftDown
-				&& controlDown == isCtrlDown) {
+	private static boolean updateGlobalKeyFlags(
+			boolean isSpaceDown, boolean isCtrlDown, boolean isShiftDown) {
+		if (isSpaceDown() == isSpaceDown && shiftDown == isShiftDown && controlDown == isCtrlDown) {
 			return false;
 		}
 		setSpaceDown(isSpaceDown);

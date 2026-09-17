@@ -13,5 +13,4 @@ public class CommandImageBase64 extends Command {
 		tp.addToConsumer(new GraphicsAtomBase64(width, height, base64));
 		return false;
 	}
-
 }

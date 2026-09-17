@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,8 +41,8 @@ class ProveCommandTest {
 	}
 
 	private static void t(String s, String... expected) {
-		AlgebraTestHelper.checkSyntaxSingle(s, AlgebraTestHelper.getMatchers(expected),
-				proc, StringTemplate.defaultTemplate);
+		AlgebraTestHelper.checkSyntaxSingle(
+				s, AlgebraTestHelper.getMatchers(expected), proc, StringTemplate.defaultTemplate);
 	}
 
 	@BeforeEach
@@ -72,12 +72,11 @@ class ProveCommandTest {
 		t("B = Midpoint(A, O)", "(1, 0)");
 		t("LocusEquation[ B, A ]", TestStringUtil.unicode("x^2 + y^2 = 1"));
 		t("loc=Locus(B, A)", "Locus(B, A)");
-		
+
 		t("LocusEquation[ loc ]", TestStringUtil.unicode("x^2 + y^2 = 1"));
 		t("P=(1,0)", "(1, 0)");
 		t("seg1 = Segment(P, (0,0))", "1");
-		t("LocusEquation[ seg1==1, P ]",
-				TestStringUtil.unicode("x^2 + y^2 = 1"));
+		t("LocusEquation[ seg1==1, P ]", TestStringUtil.unicode("x^2 + y^2 = 1"));
 	}
 
 	@Test

@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -28,27 +28,27 @@ import elemental2.dom.HTMLImageElement;
 import jsinterop.base.Js;
 
 public class CustomIconSpec implements IconSpec {
-    private String url;
-    MyImageW image;
+	private String url;
+	MyImageW image;
 
-    public CustomIconSpec(MyImage image) {
-        this.image = (MyImageW) image;
-    }
+	public CustomIconSpec(MyImage image) {
+		this.image = (MyImageW) image;
+	}
 
-    public CustomIconSpec(String url) {
-        this.url = url;
-    }
+	public CustomIconSpec(String url) {
+		this.url = url;
+	}
 
-    @Override
-    public Element toElement() {
-        HTMLImageElement img = Dom.createImage();
-        img.src = url;
-        image = new MyImageW(img, true);
-        return Js.uncheckedCast(image.getImage());
-    }
+	@Override
+	public Element toElement() {
+		HTMLImageElement img = Dom.createImage();
+		img.src = url;
+		image = new MyImageW(img, true);
+		return Js.uncheckedCast(image.getImage());
+	}
 
-    @Override
-    public IconSpec withFill(String color) {
-        return new CustomIconSpec(image.tintedSVG(parseHexColor(color), () -> {}));
-    }
+	@Override
+	public IconSpec withFill(String color) {
+		return new CustomIconSpec(image.tintedSVG(parseHexColor(color), () -> {}));
+	}
 }

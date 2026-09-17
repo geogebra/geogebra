@@ -24,13 +24,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 public class GLBufferManagerSurfaces extends GLBufferManager {
 
 	// complex materials need not more than 100
-	static final private int ELEMENTS_SIZE_START = 128;
+	private static final int ELEMENTS_SIZE_START = 128;
 	// use 1.5 empirical factor observed from materials
-	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3 / 2;
+	private static final int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3 / 2;
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param manager
 	 *            geometries manager
 	 */
@@ -43,75 +43,72 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 		return switch (type) {
 			case FAN_DIRECT, FAN_INDIRECT -> 3 * (size - 2);
 			case SURFACE -> size;
-			case TRIANGLE_FAN,
-				TRIANGLE_STRIP,
-				TRIANGLES -> 3 * size;
+			case TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES -> 3 * size;
 			default -> 0; // should not happen
 		};
 	}
 
 	@Override
-	protected void putIndices(int size, TypeElement type,
-			boolean reuseSegment) {
+	protected void putIndices(int size, TypeElement type, boolean reuseSegment) {
 		switch (type) {
-		case FAN_DIRECT:
-			short k = 1;
-			short zero = 0;
-			while (k < size - 1) {
-				putToIndices(zero);
-				putToIndices(k);
-				k++;
-				putToIndices(k);
-			}
-			break;
-		case FAN_INDIRECT:
-			short k2 = 2;
-			k = 1;
-			zero = 0;
-			while (k < size - 1) {
-				putToIndices(zero);
-				putToIndices(k2);
-				putToIndices(k);
-				k++;
-				k2++;
-			}
-			break;
-		case SURFACE:
-			ReusableArrayList<Short> indices = manager.getIndices();
-			for (int i = 0; i < indices.getLength(); i++) {
-				putToIndices(indices.get(i));
-			}
-			break;
-		case TRIANGLE_FAN:
-			// TODO: simplify Manager.triangleFanVertex() when possible to
-			// minimize vertex count
-			for (int i = 0; i < size; i++) {
-				putToIndices(0);
-				putToIndices(2 * i + 1);
-				putToIndices(2 * i + 3);
-			}
-			break;
-		case TRIANGLE_STRIP:
-			for (int i = 0; i < size; i++) {
-				putToIndices(i);
-				putToIndices(i + 1 + (i % 2));
-				putToIndices(i + 2 - (i % 2));
-			}
-			break;
-		case TRIANGLES:
-			for (int i = 0; i < 3 * size; i++) {
-				putToIndices(i);
-			}
-			break;
-		default:
-			// should not happen
-			break;
+			case FAN_DIRECT:
+				short k = 1;
+				short zero = 0;
+				while (k < size - 1) {
+					putToIndices(zero);
+					putToIndices(k);
+					k++;
+					putToIndices(k);
+				}
+				break;
+			case FAN_INDIRECT:
+				short k2 = 2;
+				k = 1;
+				zero = 0;
+				while (k < size - 1) {
+					putToIndices(zero);
+					putToIndices(k2);
+					putToIndices(k);
+					k++;
+					k2++;
+				}
+				break;
+			case SURFACE:
+				ReusableArrayList<Short> indices = manager.getIndices();
+				for (int i = 0; i < indices.getLength(); i++) {
+					putToIndices(indices.get(i));
+				}
+				break;
+			case TRIANGLE_FAN:
+				// TODO: simplify Manager.triangleFanVertex() when possible to
+				// minimize vertex count
+				for (int i = 0; i < size; i++) {
+					putToIndices(0);
+					putToIndices(2 * i + 1);
+					putToIndices(2 * i + 3);
+				}
+				break;
+			case TRIANGLE_STRIP:
+				for (int i = 0; i < size; i++) {
+					putToIndices(i);
+					putToIndices(i + 1 + (i % 2));
+					putToIndices(i + 2 - (i % 2));
+				}
+				break;
+			case TRIANGLES:
+				for (int i = 0; i < 3 * size; i++) {
+					putToIndices(i);
+				}
+				break;
+			default:
+				// should not happen
+				break;
 		}
 	}
 
 	/**
 	 * draw
-	 * 
+	 *
 	 * @param r
 	 *            renderer
 	 */
@@ -120,13 +117,11 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 	}
 
 	@Override
-	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength,
-			TypeElement type) {
+	protected boolean checkCurrentBufferSegmentDoesNotFit(int indicesLength, TypeElement type) {
 		return type == TypeElement.SURFACE
 				|| currentBufferSegment.type == TypeElement.SURFACE
 				|| type != currentBufferSegment.type
-				|| super.checkCurrentBufferSegmentDoesNotFit(indicesLength,
-						type);
+				|| super.checkCurrentBufferSegmentDoesNotFit(indicesLength, type);
 	}
 
 	@Override
@@ -138,5 +133,4 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 	protected int getIndicesSizeStart() {
 		return INDICES_SIZE_START;
 	}
-
 }

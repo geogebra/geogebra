@@ -25,11 +25,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes RandomBinomial[a, b]
- * 
+ *
  * @author Michael Borcherds
  */
-public class AlgoRandomBinomial extends AlgoTwoNumFunction
-		implements SetRandomValue {
+public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomValue {
 
 	/**
 	 * @param cons
@@ -41,8 +40,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 	 * @param p
 	 *            probability of success
 	 */
-	public AlgoRandomBinomial(Construction cons, String label, GeoNumberValue n,
-			GeoNumberValue p) {
+	public AlgoRandomBinomial(Construction cons, String label, GeoNumberValue n, GeoNumberValue p) {
 		super(cons, label, n, p);
 
 		// output is random number

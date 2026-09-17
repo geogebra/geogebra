@@ -31,10 +31,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Take objects from the middle of a list
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoKeepIf extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -52,8 +51,7 @@ public class AlgoKeepIf extends AlgoElement {
 	 * @param inputList
 	 *            list
 	 */
-	public AlgoKeepIf(Construction cons, String label, GeoFunction boolFun,
-			GeoList inputList) {
+	public AlgoKeepIf(Construction cons, String label, GeoFunction boolFun, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		this.boolFun = boolFun;
@@ -114,23 +112,16 @@ public class AlgoKeepIf extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
 				if (geo.isGeoNumeric()) {
-					if (boolFun
-							.evaluateBoolean(((GeoNumeric) geo).getValue())) {
+					if (boolFun.evaluateBoolean(((GeoNumeric) geo).getValue())) {
 						outputList.add(geo.copyInternal(cons));
 					}
 				} else {
-					ExpressionNode ex = boolFun.getFunction().getExpression()
-							.deepCopy(kernel);
-					ex = ex.replace(var,
-							geo.evaluate(StringTemplate.defaultTemplate))
-							.wrap();
-					if (((MyBoolean) ex
-							.evaluate(StringTemplate.defaultTemplate))
-									.getBoolean()) {
+					ExpressionNode ex = boolFun.getFunction().getExpression().deepCopy(kernel);
+					ex = ex.replace(var, geo.evaluate(StringTemplate.defaultTemplate)).wrap();
+					if (((MyBoolean) ex.evaluate(StringTemplate.defaultTemplate)).getBoolean()) {
 						outputList.add(geo.copyInternal(cons));
 					}
 				}
-
 			}
 		} catch (MyError e) {
 			// eg KeepIf[x<3,{1,2,(4,4)}]
@@ -138,5 +129,4 @@ public class AlgoKeepIf extends AlgoElement {
 			outputList.setUndefined();
 		}
 	}
-
 }

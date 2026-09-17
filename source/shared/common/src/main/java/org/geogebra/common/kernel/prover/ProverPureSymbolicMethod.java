@@ -26,7 +26,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * A prover which uses pure symbolic method to prove geometric theorems.
- * 
+ *
  * @author Simon Weitzhofer
  * @author Zoltan Kovacs
  *
@@ -35,7 +35,7 @@ public class ProverPureSymbolicMethod {
 
 	/**
 	 * Proves the statement by using pure symbolic method
-	 * 
+	 *
 	 * @param prover
 	 *            the prover to be used
 	 * @return if the proof was successful
@@ -46,8 +46,7 @@ public class ProverPureSymbolicMethod {
 
 		if (statement instanceof SymbolicParametersAlgo) {
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement;
-			SymbolicParameters parameters = statementSymbolic
-					.getSymbolicParameters();
+			SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
 			try {
 				parameters.getFreeVariables();
 				// TODO: write here Recio's prover
@@ -55,10 +54,9 @@ public class ProverPureSymbolicMethod {
 			} catch (NoSymbolicParametersException e) {
 				return ProofResult.UNKNOWN;
 			}
-		} else if (statement
-				.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
-			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement
-					.getParentAlgorithm();
+		} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
+			SymbolicParametersAlgo statementSymbolic =
+					(SymbolicParametersAlgo) statement.getParentAlgorithm();
 			try {
 				PPolynomial[] poly = statementSymbolic.getPolynomials();
 				for (PPolynomial polynomial : poly) {

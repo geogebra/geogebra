@@ -138,7 +138,7 @@ public class SelectionManager {
 	 * @param geos
 	 *            geos
 	 */
-	final public void setSelectedGeos(List<GeoElement> geos) {
+	public final void setSelectedGeos(List<GeoElement> geos) {
 		setSelectedGeos(geos, true);
 	}
 
@@ -150,11 +150,12 @@ public class SelectionManager {
 	 * @param updateSelection
 	 *            says if selection has to be updated
 	 */
-	final public void setSelectedGeos(List<GeoElement> geos,
-			boolean updateSelection) {
+	public final void setSelectedGeos(List<GeoElement> geos, boolean updateSelection) {
 		// special case -- happens when we set the same selection on mouse down
 		// and mouse up; we don't want too many events
-		if (geos != null && geos.size() == 1 && selectedGeos.size() == 1
+		if (geos != null
+				&& geos.size() == 1
+				&& selectedGeos.size() == 1
 				&& geos.get(0) == selectedGeos.get(0)) {
 			return;
 		}
@@ -191,7 +192,7 @@ public class SelectionManager {
 	/**
 	 * Clears selection and repaints all views
 	 */
-	final public void clearSelectedGeos() {
+	public final void clearSelectedGeos() {
 		clearSelectedGeos(true);
 	}
 
@@ -256,8 +257,7 @@ public class SelectionManager {
 	 * @param updateSelection
 	 *            whether update selection needs to be done after
 	 */
-	final public void removeSelectedGeo(GeoElement geo, boolean repaint,
-			boolean updateSelection) {
+	public final void removeSelectedGeo(GeoElement geo, boolean repaint, boolean updateSelection) {
 		if (geo == null) {
 			return;
 		}
@@ -277,7 +277,7 @@ public class SelectionManager {
 	/**
 	 * Removes all geos from selection.
 	 */
-	final public void removeAllSelectedGeos() {
+	public final void removeAllSelectedGeos() {
 		if (selectedGeos.isEmpty()) {
 			return;
 		}
@@ -338,13 +338,11 @@ public class SelectionManager {
 	}
 
 	private void dispatchSelected(GeoElement geo) {
-		kernel.getApplication().getEventDispatcher()
-				.dispatchEvent(EventType.SELECT, geo, "");
+		kernel.getApplication().getEventDispatcher().dispatchEvent(EventType.SELECT, geo, "");
 	}
 
 	private void dispatchDeselected(GeoElement geo) {
-		kernel.getApplication().getEventDispatcher()
-				.dispatchEvent(EventType.DESELECT, geo);
+		kernel.getApplication().getEventDispatcher().dispatchEvent(EventType.DESELECT, geo);
 	}
 
 	private void setGeoToggled(boolean flag) {
@@ -396,11 +394,10 @@ public class SelectionManager {
 	 *            0 - 9 for particular layer, -1 for all layers (Michael
 	 *            Borcherds, 2008-03-03)
 	 */
-	final public void selectAll(int layer) {
+	public final void selectAll(int layer) {
 		clearSelectedGeos(false);
 		for (GeoElement geo : kernel.getConstruction().getGeoSetLabelOrder()) {
-			if ((layer == -1 || geo.getLayer() == layer)
-					&& geo.isSelectionAllowed(null)) {
+			if ((layer == -1 || geo.getLayer() == layer) && geo.isSelectionAllowed(null)) {
 				addSelectedGeo(geo, false, false);
 			}
 		}
@@ -411,10 +408,9 @@ public class SelectionManager {
 	/**
 	 * Select objects that were not selected so far and vice versa.
 	 */
-	final public void invertSelection() {
+	public final void invertSelection() {
 
-		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder()
-				.iterator();
+		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (selectedGeos.contains(geo)) {
@@ -430,7 +426,7 @@ public class SelectionManager {
 	/**
 	 * Select all predecessors of all selected geos
 	 */
-	final public void selectAllPredecessors() {
+	public final void selectAllPredecessors() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
@@ -450,7 +446,7 @@ public class SelectionManager {
 	/**
 	 * @return whether one or more of selected geos have predecessors
 	 */
-	final public boolean hasPredecessors() {
+	public final boolean hasPredecessors() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
@@ -469,7 +465,7 @@ public class SelectionManager {
 	/**
 	 * Selects descendants of all visible objects
 	 */
-	final public void selectAllDescendants() {
+	public final void selectAllDescendants() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
@@ -489,7 +485,7 @@ public class SelectionManager {
 	/**
 	 * @return whether one or more of selected geos have descendants
 	 */
-	final public boolean hasDescendants() {
+	public final boolean hasDescendants() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
@@ -508,7 +504,7 @@ public class SelectionManager {
 	/**
 	 * Invert visibility of all selected objects
 	 */
-	final public void showHideSelection() {
+	public final void showHideSelection() {
 
 		// GeoElements may have other GeoElements as subelements,
 		// and this means that the subelements should be tackled first,
@@ -517,7 +513,8 @@ public class SelectionManager {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (!geo.isGeoPolygon() && !geo.isGeoPolyhedron()
+			if (!geo.isGeoPolygon()
+					&& !geo.isGeoPolyhedron()
 					&& !geo.isGeoPolyLine()
 					&& geo.getGeoClassType() != GeoClass.QUADRIC_LIMITED
 					&& geo.getGeoClassType() != GeoClass.NET) {
@@ -528,7 +525,8 @@ public class SelectionManager {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (geo.isGeoPolygon() || geo.isGeoPolyLine()
+			if (geo.isGeoPolygon()
+					|| geo.isGeoPolyLine()
 					|| geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle(GProperty.VISIBLE);
@@ -537,8 +535,7 @@ public class SelectionManager {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (geo.isGeoPolyhedron()
-					|| geo.getGeoClassType() == GeoClass.NET) {
+			if (geo.isGeoPolyhedron() || geo.getGeoClassType() == GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle(GProperty.VISIBLE);
 			}
@@ -551,7 +548,7 @@ public class SelectionManager {
 	/**
 	 * Invert visibility of labels of all selected objects
 	 */
-	final public void showHideSelectionLabels() {
+	public final void showHideSelectionLabels() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
@@ -567,7 +564,7 @@ public class SelectionManager {
 	 *            geo
 	 * @return whether given geo belongs to selection
 	 */
-	final public boolean containsSelectedGeo(GeoElementND geo) {
+	public final boolean containsSelectedGeo(GeoElementND geo) {
 		return selectedGeos.contains(geo);
 	}
 
@@ -576,14 +573,14 @@ public class SelectionManager {
 	 *            geos
 	 * @return whether given geos belongs to selection
 	 */
-	final public boolean containsSelectedGeos(ArrayList<GeoElement> geos) {
+	public final boolean containsSelectedGeos(ArrayList<GeoElement> geos) {
 		return selectedGeos.containsAll(geos);
 	}
 
 	/**
 	 * @return if selection contains a locked element
 	 */
-	final public boolean containsLockedGeo() {
+	public final boolean containsLockedGeo() {
 		for (GeoElement geo : selectedGeos) {
 			if (geo.isLocked()
 					|| (geo instanceof GeoInline && ((GeoInline) geo).isLockedForMultiuser())) {
@@ -599,7 +596,7 @@ public class SelectionManager {
 	 * @param geo
 	 *            geo to be removed
 	 */
-	final public void removeSelectedGeo(GeoElement geo) {
+	public final void removeSelectedGeo(GeoElement geo) {
 		removeSelectedGeo(geo, true, true);
 	}
 
@@ -616,7 +613,7 @@ public class SelectionManager {
 	 *
 	 * @return first geo or null
 	 */
-	final public GeoElement setFirstGeoSelectedForPropertiesView() {
+	public final GeoElement setFirstGeoSelectedForPropertiesView() {
 		GeoElement geo = kernel.getFirstGeo();
 		if (geo == null) {
 			return null;
@@ -651,8 +648,7 @@ public class SelectionManager {
 	 * @param repaint
 	 *            whether repaint is needed
 	 */
-	public final void addSelectedGeos(ArrayList<GeoElement> geos,
-			boolean repaint) {
+	public final void addSelectedGeos(ArrayList<GeoElement> geos, boolean repaint) {
 
 		selectedGeos.addAll(geos);
 		for (int i = 0; i < geos.size(); i++) {
@@ -673,7 +669,7 @@ public class SelectionManager {
 	 * @param repaint
 	 *            whether we want to repaint afterwards
 	 */
-	final public void toggleSelectedGeo(GeoElement geo, boolean repaint) {
+	public final void toggleSelectedGeo(GeoElement geo, boolean repaint) {
 		if (geo == null) {
 			return;
 		}
@@ -703,7 +699,7 @@ public class SelectionManager {
 	 * @param geo
 	 *            geo to be added / removed
 	 */
-	final public void toggleSelectedGeo(GeoElement geo) {
+	public final void toggleSelectedGeo(GeoElement geo) {
 		toggleSelectedGeo(geo, true);
 	}
 
@@ -712,7 +708,7 @@ public class SelectionManager {
 	 *
 	 * @return if select was successful or not.
 	 */
-	final public boolean selectNextGeo() {
+	public final boolean selectNextGeo() {
 		keyboardSelection = true;
 		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
 		if (tabbingOrder.size() == 0) {
@@ -779,7 +775,7 @@ public class SelectionManager {
 	 *
 	 * @return whether selection was successful
 	 */
-	final public boolean selectPreviousGeo() {
+	public final boolean selectPreviousGeo() {
 		keyboardSelection = true;
 		List<GeoElement> tabbingOrder = getEVFilteredTabbingSet();
 		if (tabbingOrder.size() == 0) {
@@ -838,7 +834,7 @@ public class SelectionManager {
 
 	/**
 	 * Select an element and focus it in graphics view
-	 * 
+	 *
 	 * @param geo
 	 *            construction element
 	 */
@@ -893,7 +889,7 @@ public class SelectionManager {
 	 * Gets the set of all objects in the order they would appear in AV if AV is
 	 * visible. For objects actually accessible by the user use
 	 * {@link #getEVFilteredTabbingStream()}
-	 * 
+	 *
 	 * TODO add support for layer / object type sorting of AV
 	 *
 	 * @return set over which TAB iterates: either alphabetical or construction
@@ -901,8 +897,7 @@ public class SelectionManager {
 	 */
 	private Collection<GeoElement> getTabbingSet() {
 		if (algebraViewShowing()) {
-			if (this.kernel.getApplication().getSettings().getAlgebra()
-					.getTreeMode() == SortMode.ORDER) {
+			if (this.kernel.getApplication().getSettings().getAlgebra().getTreeMode() == SortMode.ORDER) {
 				return kernel.getConstruction().getGeoSetConstructionOrder();
 			}
 
@@ -912,15 +907,14 @@ public class SelectionManager {
 		GeoElement userDefined = kernel.lookupLabel("tabOrder");
 		if (userDefined != null && userDefined.isGeoList()) {
 			GeoList tabOrderList = (GeoList) userDefined;
-			return tabOrderList.elements().filter(GeoElement::isLabelSet)
-					.collect(Collectors.toList());
+			return tabOrderList.elements().filter(GeoElement::isLabelSet).collect(Collectors.toList());
 		}
 
 		return kernel.getConstruction().getGeoSetLabelOrder();
 	}
 
 	/**
-	 * 
+	 *
 	 * @return set over which TAB iterates and belongs to the active Euclidian View.
 	 */
 	public List<GeoElement> getEVFilteredTabbingSet() {
@@ -955,18 +949,15 @@ public class SelectionManager {
 	}
 
 	private boolean algebraViewShowing() {
-		return kernel.getApplication().getGuiManager() != null && this.kernel
-				.getApplication().getGuiManager().hasAlgebraViewShowing();
+		return kernel.getApplication().getGuiManager() != null
+				&& this.kernel.getApplication().getGuiManager().hasAlgebraViewShowing();
 	}
 
 	private boolean isVisibleInView(GeoElement geo) {
 		App app = geo.getApp();
-		return (app.showView(App.VIEW_EUCLIDIAN3D)
-				&& geo.isVisibleInView3D())
-				|| (app.showView(App.VIEW_EUCLIDIAN2)
-				&& geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
-				|| (app.showView(App.VIEW_EUCLIDIAN)
-				&& geo.isVisibleInView(App.VIEW_EUCLIDIAN));
+		return (app.showView(App.VIEW_EUCLIDIAN3D) && geo.isVisibleInView3D())
+				|| (app.showView(App.VIEW_EUCLIDIAN2) && geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
+				|| (app.showView(App.VIEW_EUCLIDIAN) && geo.isVisibleInView(App.VIEW_EUCLIDIAN));
 	}
 
 	/**
@@ -1149,8 +1140,7 @@ public class SelectionManager {
 	 *            max size of selectionList after addition
 	 * @return 0/1/-1 if nothing happened / geo selected / geo unselected
 	 */
-	public <T> int addToSelectionList(ArrayList<T> selectionList, T geo,
-			int max) {
+	public <T> int addToSelectionList(ArrayList<T> selectionList, T geo, int max) {
 		if (geo == null) {
 			return 0;
 		}
@@ -1207,8 +1197,7 @@ public class SelectionManager {
 	 * @param doUpdateSelection
 	 *            whether to notify listeners
 	 */
-	public final void clearSelection(ArrayList<?> selectionList,
-			boolean doUpdateSelection) {
+	public final void clearSelection(ArrayList<?> selectionList, boolean doUpdateSelection) {
 		// unselect
 		selectionList.clear();
 		getSelectedGeoList().clear();
@@ -1369,7 +1358,7 @@ public class SelectionManager {
 	 * @param geo
 	 *            geo to be added / removed
 	 */
-	final public void toggleSelectedGeoWithGroup(GeoElement geo) {
+	public final void toggleSelectedGeoWithGroup(GeoElement geo) {
 		Group group = geo.getParentGroup();
 		if (group == null) {
 			toggleSelectedGeo(geo, true);
@@ -1379,7 +1368,7 @@ public class SelectionManager {
 	}
 
 	private void toggleSelectedGroup(Group group) {
-		for (GeoElement geo: group.getGroupedGeos()) {
+		for (GeoElement geo : group.getGroupedGeos()) {
 			toggleSelectedGeo(geo, true);
 		}
 	}

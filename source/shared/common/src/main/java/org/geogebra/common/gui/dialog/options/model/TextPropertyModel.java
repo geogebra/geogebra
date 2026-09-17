@@ -41,10 +41,10 @@ public abstract class TextPropertyModel extends OptionsModel {
 
 	public void applyChanges(String text) {
 		if (!StringUtil.empty(text)) {
-			applyChanges(app.getKernel().getAlgebraProcessor()
-
-					.evaluateToNumeric(text, ErrorHelper.silent()), text);
-		} else if(!getText().isEmpty()) {
+			applyChanges(
+					app.getKernel().getAlgebraProcessor().evaluateToNumeric(text, ErrorHelper.silent()),
+					text);
+		} else if (!getText().isEmpty()) {
 			applyChanges(null, text);
 		}
 	}

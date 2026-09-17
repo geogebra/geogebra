@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -28,11 +28,10 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Exponential[a,x, boolean] (PDF / CDF)
- * 
+ *
  * @author Michael
  */
-public class AlgoExponentialDF extends AlgoElement
-		implements AlgoDistributionDF {
+public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF {
 
 	private GeoNumberValue lambda; // input
 	private BooleanValue cumulative; // optional input
@@ -46,8 +45,7 @@ public class AlgoExponentialDF extends AlgoElement
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoExponentialDF(Construction cons, GeoNumberValue lambda,
-			BooleanValue cumulative) {
+	public AlgoExponentialDF(Construction cons, GeoNumberValue lambda, BooleanValue cumulative) {
 		super(cons);
 		this.lambda = lambda;
 		this.cumulative = cumulative;
@@ -116,7 +114,5 @@ public class AlgoExponentialDF extends AlgoElement
 		}
 
 		ret.getFunctionExpression().setRight(en);
-
 	}
-
 }

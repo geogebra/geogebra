@@ -75,8 +75,8 @@ public final class EvaluatorActivity extends BaseActivity {
 	 * @param transparent whether to use transparent background
 	 * @param callback callback, receives the image
 	 */
-	public void exportImage(String type, boolean transparent,
-			MathFieldExporter.ImageConsumer callback) {
+	public void exportImage(
+			String type, boolean transparent, MathFieldExporter.ImageConsumer callback) {
 		editor.exportImage(type, transparent, callback);
 	}
 

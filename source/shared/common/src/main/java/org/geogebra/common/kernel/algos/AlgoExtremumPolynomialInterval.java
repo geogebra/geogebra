@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 /**
  * Finds all local extrema of a polynomial wrapped in If[] eg If[0 &lt; x &lt;
  * 10,3x^3 - 48x^2 + 162x + 300]
- * 
+ *
  * @author Michael
  */
 public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
@@ -40,8 +40,7 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 	 * @param f
 	 *            function
 	 */
-	public AlgoExtremumPolynomialInterval(Construction cons, String[] labels,
-			GeoFunctionable f) {
+	public AlgoExtremumPolynomialInterval(Construction cons, String[] labels, GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
 
@@ -49,12 +48,8 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 	public final void compute() {
 		Function fun = f.getFunction();
 		if (f.isDefined()) {
-			ExpressionNode polyExpression = fun.getFunctionExpression()
-					.getRight()
-					.wrap();
-			ExpressionNode condExpression = fun
-					.getFunctionExpression().getLeft()
-					.wrap();
+			ExpressionNode polyExpression = fun.getFunctionExpression().getRight().wrap();
+			ExpressionNode condExpression = fun.getFunctionExpression().getLeft().wrap();
 			if (yValFunction == null
 					|| yValFunction.getExpression() != polyExpression
 					|| interval.getFunctionExpression() != condExpression) {
@@ -65,7 +60,6 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 
 				// extract interval
 				interval = new Function(condExpression, fVar);
-
 			}
 
 			// roots of first derivative
@@ -84,7 +78,5 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 				rootPoints[i].setUndefined();
 			}
 		}
-
 	}
-
 }

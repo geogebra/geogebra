@@ -25,8 +25,8 @@ import org.jspecify.annotations.Nullable;
 
 final class PropertiesRegistration {
 
-	static PropertiesArray registerProperties(@Nullable PropertiesRegistry registry,
-			PropertiesArray properties) {
+	static PropertiesArray registerProperties(
+			@Nullable PropertiesRegistry registry, PropertiesArray properties) {
 		if (registry != null) {
 			registerProperties(registry, properties.getProperties());
 		}
@@ -44,7 +44,8 @@ final class PropertiesRegistration {
 		return property;
 	}
 
-	static Property[] registerProperties(@Nullable PropertiesRegistry registry, Property... properties) {
+	static Property[] registerProperties(
+			@Nullable PropertiesRegistry registry, Property... properties) {
 		if (registry != null) {
 			for (Property property : properties) {
 				registerProperty(registry, property);
@@ -53,8 +54,8 @@ final class PropertiesRegistration {
 		return properties;
 	}
 
-	static List<Property> registerProperties(@Nullable PropertiesRegistry registry,
-			List<Property> properties) {
+	static List<Property> registerProperties(
+			@Nullable PropertiesRegistry registry, List<Property> properties) {
 		if (registry != null) {
 			for (Property property : properties) {
 				registerProperty(registry, property);

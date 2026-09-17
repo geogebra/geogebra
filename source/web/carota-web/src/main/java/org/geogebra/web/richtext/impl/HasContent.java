@@ -62,5 +62,4 @@ public interface HasContent {
 	 * @param context canvas context
 	 */
 	void draw(CanvasRenderingContext2D context);
-
 }

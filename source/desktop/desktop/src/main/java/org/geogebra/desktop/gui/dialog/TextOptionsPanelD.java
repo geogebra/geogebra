@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -50,16 +50,21 @@ import org.geogebra.editor.share.util.Unicode;
 
 /**
  * panel to select the size of a GeoText
- * 
+ *
  * @author Markus Hohenwarter
  */
 class TextOptionsPanelD extends JPanel
-		implements ActionListener, SetLabels, UpdateFonts,
-		UpdateablePropertiesPanel, FocusListener, ITextOptionsListener {
+		implements ActionListener,
+				SetLabels,
+				UpdateFonts,
+				UpdateablePropertiesPanel,
+				FocusListener,
+				ITextOptionsListener {
 	/**
-	 * 
+	 *
 	 */
 	private final PropertiesPanelD propertiesPanelD;
+
 	private static final long serialVersionUID = 1L;
 	private TextOptionsModel model;
 	private JLabel decimalLabel;
@@ -90,14 +95,12 @@ class TextOptionsPanelD extends JPanel
 		btBold.setFont(this.propertiesPanelD.app.getBoldFont());
 		btBold.addActionListener(this);
 		btItalic = new JToggleButton();
-		btItalic.setFont(this.propertiesPanelD.app.getPlainFont()
-				.deriveFont(Font.ITALIC));
+		btItalic.setFont(this.propertiesPanelD.app.getPlainFont().deriveFont(Font.ITALIC));
 		btItalic.addActionListener(this);
 
 		// decimal places
 		ComboBoxRenderer renderer = new ComboBoxRenderer();
-		cbDecimalPlaces = new JComboBox<>(
-				this.propertiesPanelD.loc.getRoundingMenu());
+		cbDecimalPlaces = new JComboBox<>(this.propertiesPanelD.loc.getRoundingMenu());
 		cbDecimalPlaces.setRenderer(renderer);
 		cbDecimalPlaces.addActionListener(this);
 
@@ -152,9 +155,10 @@ class TextOptionsPanelD extends JPanel
 
 	static class ComboBoxRenderer extends JLabel implements ListCellRenderer {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
+
 		JSeparator separator;
 
 		ComboBoxRenderer() {
@@ -164,8 +168,8 @@ class TextOptionsPanelD extends JPanel
 		}
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(
+				JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			String str = (value == null) ? "" : value.toString();
 			if ("---".equals(str)) {
 				return separator;
@@ -218,14 +222,10 @@ class TextOptionsPanelD extends JPanel
 		if (source == cbSize) {
 			boolean isCustom = cbSize.getSelectedIndex() == 7;
 			if (isCustom) {
-				final String percentStr = JOptionPane
-						.showInputDialog(
-								this.propertiesPanelD.app
-										.getFrame(),
-								this.propertiesPanelD.app.getLocalization()
-										.getMenu("EnterPercentage"),
-								Math.round(model.getTextPropertiesAt(0)
-										.getFontSizeMultiplier() * 100) + "%");
+				final String percentStr = JOptionPane.showInputDialog(
+						this.propertiesPanelD.app.getFrame(),
+						this.propertiesPanelD.app.getLocalization().getMenu("EnterPercentage"),
+						Math.round(model.getTextPropertiesAt(0).getFontSizeMultiplier() * 100) + "%");
 
 				model.applyFontSizeFromString(percentStr);
 			} else {
@@ -235,9 +235,9 @@ class TextOptionsPanelD extends JPanel
 			model.applyFont(cbFont.getSelectedIndex() == 1);
 		} else if (source == cbDecimalPlaces) {
 			model.applyDecimalPlaces(cbDecimalPlaces.getSelectedIndex());
-		} else if (source == btBold)  {
+		} else if (source == btBold) {
 			model.applyFontStyle(GFont.BOLD, btBold.isSelected());
-		} else if (source == btItalic)  {
+		} else if (source == btItalic) {
 			model.applyFontStyle(GFont.ITALIC, btItalic.isSelected());
 		}
 	}
@@ -261,8 +261,8 @@ class TextOptionsPanelD extends JPanel
 	@Override
 	public void focusGained(FocusEvent arg0) {
 		cbSize.removeActionListener(this);
-		cbSize.setSelectedIndex(GeoText.getFontSizeIndex(
-				model.getTextPropertiesAt(0).getFontSizeMultiplier()));
+		cbSize.setSelectedIndex(
+				GeoText.getFontSizeIndex(model.getTextPropertiesAt(0).getFontSizeMultiplier()));
 		cbSize.addActionListener(this);
 	}
 
@@ -305,11 +305,8 @@ class TextOptionsPanelD extends JPanel
 
 	@Override
 	public void selectFontStyle(int style) {
-		btBold.setSelected(
-				style == Font.BOLD || style == (Font.BOLD + Font.ITALIC));
-		btItalic.setSelected(
-				style == Font.ITALIC || style == (Font.BOLD + Font.ITALIC));
-
+		btBold.setSelected(style == Font.BOLD || style == (Font.BOLD + Font.ITALIC));
+		btItalic.setSelected(style == Font.ITALIC || style == (Font.BOLD + Font.ITALIC));
 	}
 
 	@Override

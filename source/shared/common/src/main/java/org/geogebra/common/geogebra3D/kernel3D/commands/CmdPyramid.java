@@ -36,7 +36,6 @@ public class CmdPyramid extends CommandProcessor {
 	 */
 	public CmdPyramid(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
@@ -48,15 +47,14 @@ public class CmdPyramid extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		if (n == 2) {
-			if ((ok[0] = arg[0].isGeoPolygon())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				GeoElement[] ret = kernel.getManager3D().pyramid(c.getLabels(),
-						(GeoPolygon) arg[0], (GeoPointND) arg[1]);
+			if ((ok[0] = arg[0].isGeoPolygon()) && (ok[1] = arg[1].isGeoPoint())) {
+				GeoElement[] ret =
+						kernel.getManager3D().pyramid(c.getLabels(), (GeoPolygon) arg[0], (GeoPointND) arg[1]);
 				return ret;
-			} else if ((ok[0] = arg[0].isGeoPolygon())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = kernel.getManager3D().pyramid(c.getLabels(),
-						(GeoPolygon) arg[0], (GeoNumberValue) arg[1]);
+			} else if ((ok[0] = arg[0].isGeoPolygon()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
+				GeoElement[] ret = kernel
+						.getManager3D()
+						.pyramid(c.getLabels(), (GeoPolygon) arg[0], (GeoNumberValue) arg[1]);
 				return ret;
 			} else {
 				if (!ok[0]) {
@@ -75,13 +73,10 @@ public class CmdPyramid extends CommandProcessor {
 				points[i] = (GeoPointND) arg[i];
 			}
 			// everything ok
-			GeoElement[] ret = kernel.getManager3D().pyramid(c.getLabels(),
-					points);
+			GeoElement[] ret = kernel.getManager3D().pyramid(c.getLabels(), points);
 			return ret;
 		} else {
 			throw argNumErr(c);
 		}
-
 	}
-
 }

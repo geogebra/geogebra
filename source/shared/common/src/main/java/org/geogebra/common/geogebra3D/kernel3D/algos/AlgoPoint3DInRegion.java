@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -37,8 +37,7 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 	 * @param coords
 	 *            close coords
 	 */
-	public AlgoPoint3DInRegion(Construction cons, Region region,
-			Coords coords) {
+	public AlgoPoint3DInRegion(Construction cons, Region region, Coords coords) {
 		super(cons);
 		this.region = region;
 		P = new GeoPoint3D(cons, region);
@@ -50,7 +49,6 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 
 		// compute
 		compute();
-
 	}
 
 	/**
@@ -63,8 +61,7 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 	 * @param coords
 	 *            close coords
 	 */
-	public AlgoPoint3DInRegion(Construction cons, String label, Region region,
-			Coords coords) {
+	public AlgoPoint3DInRegion(Construction cons, String label, Region region, Coords coords) {
 		this(cons, region, coords);
 		P.setLabel(label);
 	}
@@ -107,8 +104,7 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return getLoc().getPlainDefault("PointInA", "Point in %0", input[0].getLabel(tpl));
 	}
-
 }

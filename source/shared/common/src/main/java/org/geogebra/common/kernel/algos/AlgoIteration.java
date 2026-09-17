@@ -29,11 +29,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Iteration[ f(x), x0, n ]
- * 
+ *
  * @author Markus Hohenwarter
  * @version 15-07-2007
  */
-
 public class AlgoIteration extends AlgoElement {
 
 	private GeoFunction f; // input
@@ -65,8 +64,8 @@ public class AlgoIteration extends AlgoElement {
 	 * @param n
 	 *            number of iterations
 	 */
-	public AlgoIteration(Construction cons, String label, GeoFunction f,
-			GeoNumberValue startValue, GeoNumberValue n) {
+	public AlgoIteration(
+			Construction cons, String label, GeoFunction f, GeoNumberValue startValue, GeoNumberValue n) {
 		super(cons);
 		this.f = f;
 		this.startValue = startValue;
@@ -93,8 +92,8 @@ public class AlgoIteration extends AlgoElement {
 	 * @param n
 	 *            number of iterations
 	 */
-	public AlgoIteration(Construction cons, String label, GeoFunctionNVar f,
-			GeoList startValue, GeoNumberValue n) {
+	public AlgoIteration(
+			Construction cons, String label, GeoFunctionNVar f, GeoList startValue, GeoNumberValue n) {
 		super(cons);
 		this.fNVar = f;
 		// this.startValue = startValue;
@@ -121,8 +120,12 @@ public class AlgoIteration extends AlgoElement {
 	 * @param n
 	 *            number of iterations
 	 */
-	public AlgoIteration(Construction cons, GeoElement expression,
-			GeoElement[] vars, GeoList initialValues, GeoNumberValue n) {
+	public AlgoIteration(
+			Construction cons,
+			GeoElement expression,
+			GeoElement[] vars,
+			GeoList initialValues,
+			GeoNumberValue n) {
 		super(cons);
 		this.expression = expression;
 		this.vars = vars;
@@ -167,11 +170,9 @@ public class AlgoIteration extends AlgoElement {
 			input[0] = expression;
 			for (int i = 0; i < varCount; i++) {
 				input[i + 1] = vars[i];
-
 			}
 			input[1 + varCount] = initialValues;
 			input[2 + varCount] = nGeo;
-
 		} // done by AlgoElement
 		setOnlyOutput(result);
 		setDependencies();
@@ -205,8 +206,10 @@ public class AlgoIteration extends AlgoElement {
 	}
 
 	private void computeDouble() {
-		if (!fNVar.isDefined() || !startValueGeo.isDefined()
-				|| !nGeo.isDefined() || ((GeoList) startValueGeo).size() != 2) {
+		if (!fNVar.isDefined()
+				|| !startValueGeo.isDefined()
+				|| !nGeo.isDefined()
+				|| ((GeoList) startValueGeo).size() != 2) {
 			result.setUndefined();
 			return;
 		}
@@ -219,8 +222,7 @@ public class AlgoIteration extends AlgoElement {
 
 		// perform iteration f(f(f(...(startValue))))
 		double val = ((GeoList) startValueGeo).get(0).evaluateDouble();
-		double offset = Math
-				.round(((GeoList) startValueGeo).get(1).evaluateDouble());
+		double offset = Math.round(((GeoList) startValueGeo).get(1).evaluateDouble());
 		for (int i = 0; i < iterations; i++) {
 			val = fNVar.evaluate(offset + i, val);
 		}
@@ -295,8 +297,7 @@ public class AlgoIteration extends AlgoElement {
 			vars[j].set(initialValues.get(initialValues.size() - varCount + j - 1));
 		}
 
-		GeoElement listElement = initialValues.get(initialValues.size() - 1)
-				.copyInternal(cons);
+		GeoElement listElement = initialValues.get(initialValues.size() - 1).copyInternal(cons);
 		int i = initialValues.size();
 		while (i <= listSize) {
 			// check we haven't run out of memory
@@ -311,18 +312,15 @@ public class AlgoIteration extends AlgoElement {
 				//
 				if (listElement.isGeoList()) {
 					for (int j = 0; j < varCount; j++) {
-						((GeoList) listElement)
-								.replaceChildrenByValues(vars[j]);
+						((GeoList) listElement).replaceChildrenByValues(vars[j]);
 					}
 				}
 			} else {
 				listElement.setUndefined();
 			}
-			if (listElement instanceof GeoNumeric && listElement
-					.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-				listElement.setDrawAlgorithm(
-						((DrawInformationAlgo) expression.getDrawAlgorithm())
-								.copy());
+			if (listElement instanceof GeoNumeric
+					&& listElement.getDrawAlgorithm() instanceof DrawInformationAlgo) {
+				listElement.setDrawAlgorithm(((DrawInformationAlgo) expression.getDrawAlgorithm()).copy());
 				listElement.setEuclidianVisible(true);
 			}
 			listElement.update();
@@ -352,5 +350,4 @@ public class AlgoIteration extends AlgoElement {
 			listElement.set(expression);
 		}
 	}
-
 }

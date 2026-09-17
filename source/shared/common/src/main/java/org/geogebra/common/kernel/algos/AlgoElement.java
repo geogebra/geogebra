@@ -58,10 +58,10 @@ import com.google.j2objc.annotations.AutoreleasePool;
  * AlgoElement is the superclass of all algorithms.
  * @author Markus
  */
-public abstract class AlgoElement extends ConstructionElement
-		implements EuclidianViewCE {
+public abstract class AlgoElement extends ConstructionElement implements EuclidianViewCE {
 	/** input elements */
 	public GeoElement[] input;
+
 	private ArrayList<GeoElementND> freeInputPoints;
 	private boolean protectedInput = false;
 	private AlgoElement updateAfterAlgo;
@@ -73,6 +73,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	@Deprecated
 	private GeoElement[] output;
+
 	private GeoElementND[] efficientInput;
 
 	private boolean isPrintedInXML = true;
@@ -82,6 +83,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * list of registered outputHandler of this AlgoElement
 	 */
 	private List<OutputHandler<?>> outputHandler;
+
 	private boolean mayHaveRandomAncestors = true;
 	/** string builder */
 	protected StringBuilder sbAE = new StringBuilder();
@@ -217,8 +219,7 @@ public abstract class AlgoElement extends ConstructionElement
 			if (this.getInput(i) != other.getInput(i)) {
 				if (!Inspecting.isDynamicGeoElement(this.getInput(i))
 						&& !Inspecting.isDynamicGeoElement(other.getInput(i))
-						&& this.getInput(i).getGeoClassType()
-						== other.getInput(i).getGeoClassType()) {
+						&& this.getInput(i).getGeoClassType() == other.getInput(i).getGeoClassType()) {
 					updateInputIdx.add(i);
 				} else {
 					return false;
@@ -353,8 +354,7 @@ public abstract class AlgoElement extends ConstructionElement
 		 * @param setDependencies says if the dependencies have to be set for this output
 		 * @param refresh if true, output array is recomputed using outputhandler
 		 */
-		public void addOutput(T[] geos, boolean setDependencies,
-				boolean refresh) {
+		public void addOutput(T[] geos, boolean setDependencies, boolean refresh) {
 			for (int i = 0; i < geos.length; i++) {
 				addOutput(geos[i], setDependencies);
 			}
@@ -412,8 +412,7 @@ public abstract class AlgoElement extends ConstructionElement
 			for (int i = 0; i < outputList.size(); i++) {
 				if (!outputList.get(i).isLabelSet()) {
 					if (indexLabel != null) { // use indexed label
-						outputList.get(i).setLabel(
-								outputList.get(i).getIndexLabel(indexLabel));
+						outputList.get(i).setLabel(outputList.get(i).getIndexLabel(indexLabel));
 					} else if ((labels != null) && (i < labels.length)) {
 						outputList.get(i).setLabel(labels[i]);
 					} else {
@@ -470,7 +469,6 @@ public abstract class AlgoElement extends ConstructionElement
 			geo.setLabel(label);
 
 			return geo;
-
 		}
 
 		/**
@@ -503,8 +501,7 @@ public abstract class AlgoElement extends ConstructionElement
 		public void setLabelsMulti(String[] labels2) {
 			// if only one label (e.g. "A") for more than one output, new labels
 			// will be A_1, A_2, ...
-			if (labels2 != null && labels2.length == 1
-					&& labels2[0] != null && !labels2[0].equals("")) {
+			if (labels2 != null && labels2.length == 1 && labels2[0] != null && !labels2[0].equals("")) {
 				this.setIndexLabels(labels2[0]);
 			} else {
 
@@ -552,7 +549,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * in setInputOutput() the member vars input and output are set
 	 */
-	abstract protected void setInputOutput();
+	protected abstract void setInputOutput();
 
 	/**
 	 * in compute() the output is derived from the input
@@ -610,9 +607,7 @@ public abstract class AlgoElement extends ConstructionElement
 					// if Mod[RandomBetween[1,3],2], we must go deeper and
 					// update
 					// if just RandomBetween[1,3] we just update
-					if (input[i].getParentAlgorithm()
-							.updateUnlabeledRandomGeos()
-							|| input[i].isRandomGeo()) {
+					if (input[i].getParentAlgorithm().updateUnlabeledRandomGeos() || input[i].isRandomGeo()) {
 						input[i].getParentAlgorithm().compute();
 						ret = true;
 					}
@@ -682,16 +677,17 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * @return array of input elements
 	 */
-	final public GeoElement[] getInput() {
+	public final GeoElement[] getInput() {
 		return input;
 	}
 
 	/**
 	 * @return List of input elements that are not null, defined, and labeled
 	 */
-	final public List<GeoElement> getDefinedAndLabeledInput() {
-		return Arrays.stream(input).filter(geo -> geo != null
-				&& geo.isDefined() && geo.isLabelSet()).collect(Collectors.toList());
+	public final List<GeoElement> getDefinedAndLabeledInput() {
+		return Arrays.stream(input)
+				.filter(geo -> geo != null && geo.isDefined() && geo.isLabelSet())
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -717,7 +713,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * algos call this method before the using algo does).
 	 * @see #setInputOutput()
 	 */
-	final protected void setDependencies() {
+	protected final void setDependencies() {
 		// dependents on input
 		for (int i = 0; i < input.length; i++) {
 			input[i].addAlgorithm(this);
@@ -730,7 +726,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Adds this algorithm to the update set of all inputs without adding input
 	 * dependencies.
 	 */
-	final protected void setDependenciesOutputOnly() {
+	protected final void setDependenciesOutputOnly() {
 
 		for (int i = 0; i < input.length; i++) {
 			input[i].addToUpdateSetOnly(this);
@@ -752,8 +748,8 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param standardInput input
 	 * @param efficientInput input without moving point for locus
 	 */
-	protected final void setEfficientDependencies(GeoElement[] standardInput,
-			GeoElementND[] efficientInput) {
+	protected final void setEfficientDependencies(
+			GeoElement[] standardInput, GeoElementND[] efficientInput) {
 		// dependency on standardInput
 		for (int i = 0; i < standardInput.length; i++) {
 			standardInput[i].addToAlgorithmListOnly(this);
@@ -777,7 +773,6 @@ public abstract class AlgoElement extends ConstructionElement
 		for (int i = 0; i < getOutputLength(); i++) {
 
 			setOutputDependencies(getOutput(i));
-
 		}
 	}
 
@@ -802,7 +797,6 @@ public abstract class AlgoElement extends ConstructionElement
 		if (cons != output.getConstruction()) {
 			output.setConstruction(cons);
 		}
-
 	}
 
 	@Override
@@ -823,7 +817,6 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * Removes algorithm and all dependent objects from construction.
 	 */
-
 	@Override
 	public void remove() {
 		if (removed) {
@@ -838,8 +831,10 @@ public abstract class AlgoElement extends ConstructionElement
 
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
-			if (!isProtectedInput() && input[i].canBeRemovedAsInput()
-					&& !input[i].isLabelSet() && !input[i].isGeoCasCell()) {
+			if (!isProtectedInput()
+					&& input[i].canBeRemovedAsInput()
+					&& !input[i].isLabelSet()
+					&& !input[i].isGeoCasCell()) {
 				input[i].remove();
 			}
 			input[i].removeAlgorithm(this);
@@ -888,7 +883,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Tells all views to add all output GeoElements of this algorithm.
 	 */
 	@Override
-	final public void notifyAdd() {
+	public final void notifyAdd() {
 		for (int i = 0; i < getOutputLength(); ++i) {
 			getOutput(i).notifyAdd();
 		}
@@ -898,14 +893,14 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Tells all views to remove all output GeoElements of this algorithm.
 	 */
 	@Override
-	final public void notifyRemove() {
+	public final void notifyRemove() {
 		for (int i = 0; i < getOutputLength(); ++i) {
 			getOutput(i).notifyRemove();
 		}
 	}
 
 	@Override
-	final public GeoElementND[] getGeoElements() {
+	public final GeoElementND[] getGeoElements() {
 		return getOutput();
 	}
 
@@ -913,11 +908,10 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Returns whether all output objects have the same type.
 	 * @return whether all outputs have the same type
 	 */
-	final public boolean hasSingleOutputType() {
-        Set<GeoClass> outputTypes = Arrays.stream(getOutput())
-                .map(GeoElement::getGeoClassType)
-                .collect(Collectors.toSet());
-        // 2D and 3D points are handled as the same output type.
+	public final boolean hasSingleOutputType() {
+		Set<GeoClass> outputTypes =
+				Arrays.stream(getOutput()).map(GeoElement::getGeoClassType).collect(Collectors.toSet());
+		// 2D and 3D points are handled as the same output type.
 		if (outputTypes.equals(Set.of(GeoClass.POINT, GeoClass.POINT3D))) {
 			return true;
 		}
@@ -925,12 +919,12 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	@Override
-	final public boolean isAlgoElement() {
+	public final boolean isAlgoElement() {
 		return true;
 	}
 
 	@Override
-	final public boolean isGeoElement() {
+	public final boolean isGeoElement() {
 		return false;
 	}
 
@@ -939,7 +933,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * protocol
 	 */
 	@Override
-	final public boolean isConsProtocolBreakpoint() {
+	public final boolean isConsProtocolBreakpoint() {
 		for (int i = 0; i < getOutputLength(); i++) {
 			if (getOutput(i).isConsProtocolBreakpoint()) {
 				return true;
@@ -1044,8 +1038,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param onlyIndependent whether only independent geos should be added
 	 */
 	@Override
-	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
-			boolean onlyIndependent) {
+	public final void addPredecessorsToSet(TreeSet<GeoElement> set, boolean onlyIndependent) {
 		for (int i = 0; i < input.length; i++) {
 			GeoElement parent = input[i];
 
@@ -1062,8 +1055,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param set predecessors set
 	 * @param check filter for adding predecessors
 	 */
-	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
-			Inspecting check) {
+	public final void addPredecessorsToSet(TreeSet<GeoElement> set, Inspecting check) {
 		for (int i = 0; i < input.length; i++) {
 			GeoElement parent = input[i];
 
@@ -1079,8 +1071,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * @param set set of randomizable predecessors
 	 */
-	public final void addRandomizablePredecessorsToSet(
-			TreeSet<GeoElement> set) {
+	public final void addRandomizablePredecessorsToSet(TreeSet<GeoElement> set) {
 		for (int i = 0; i < input.length; i++) {
 			GeoElement parent = input[i];
 
@@ -1144,7 +1135,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	@Override
-	final public boolean isIndependent() {
+	public final boolean isIndependent() {
 		return false;
 	}
 
@@ -1180,8 +1171,8 @@ public abstract class AlgoElement extends ConstructionElement
 		if (input == null) {
 			return null;
 		}
-		if (tpl.isLatex() && (getClassName() == Commands.Integral
-				|| getClassName() == Commands.NIntegral)) {
+		if (tpl.isLatex()
+				&& (getClassName() == Commands.Integral || getClassName() == Commands.NIntegral)) {
 			return getIntegralLaTeXDefinition(tpl);
 		}
 		sbAE.setLength(0);
@@ -1208,7 +1199,6 @@ public abstract class AlgoElement extends ConstructionElement
 		sbAE.append(tpl.rightCommandBracket(kernel.getLocalization()));
 
 		return sbAE.toString();
-
 	}
 
 	private String getIntegralLaTeXDefinition(StringTemplate tpl) {
@@ -1217,15 +1207,15 @@ public abstract class AlgoElement extends ConstructionElement
 			var = ((VarString) getInput(0)).getVarString(tpl);
 		}
 		switch (getInputLength()) {
-		case 1:
-			return getIntegralLaTeX(tpl, var, getInput(0), null, null, null);
-		case 2:
-			return getIntegralLaTeX(tpl, var, getInput(0), getInput(1), null, null);
-		case 3:
-		case 4:
-			return getIntegralLaTeX(tpl, var, getInput(0), null, getInput(1), getInput(2));
-		default:
-			return getIntegralLaTeX(tpl, var, null, null, null, null);
+			case 1:
+				return getIntegralLaTeX(tpl, var, getInput(0), null, null, null);
+			case 2:
+				return getIntegralLaTeX(tpl, var, getInput(0), getInput(1), null, null);
+			case 3:
+			case 4:
+				return getIntegralLaTeX(tpl, var, getInput(0), null, getInput(1), getInput(2));
+			default:
+				return getIntegralLaTeX(tpl, var, null, null, null, null);
 		}
 	}
 
@@ -1241,8 +1231,7 @@ public abstract class AlgoElement extends ConstructionElement
 			}
 
 			if (needsWrapping) {
-				sb.append(tpl.isPrintLocalizedCommandNames()
-						? getLoc().getCommand("Vector") : "Vector");
+				sb.append(tpl.isPrintLocalizedCommandNames() ? getLoc().getCommand("Vector") : "Vector");
 				sb.append(tpl.leftCommandBracket(kernel.getLocalization()));
 			}
 
@@ -1383,7 +1372,6 @@ public abstract class AlgoElement extends ConstructionElement
 		} catch (Exception e) {
 			Log.debug(e);
 		}
-
 	}
 
 	/**
@@ -1412,7 +1400,8 @@ public abstract class AlgoElement extends ConstructionElement
 		String expString = toExpString(tpl);
 		sb.startTag("expression", 0);
 		// add label
-		if (/* output != null && */getOutputLength() == 1) {
+		if (
+		/* output != null && */ getOutputLength() == 1) {
 			if (getOutput(0).isLabelSet()) {
 				sb.attr("label", getOutput(0).getLabel(tpl));
 			}
@@ -1442,9 +1431,10 @@ public abstract class AlgoElement extends ConstructionElement
 		} else {
 			sb.attrRaw("name", cmdname);
 		}
-		if (!"".equals(cmdname) && (this instanceof AlgoListElement
-				|| this.getClassName().equals(Commands.Cell)
-				|| this.getClassName().equals(Commands.Object))) {
+		if (!"".equals(cmdname)
+				&& (this instanceof AlgoListElement
+						|| this.getClassName().equals(Commands.Cell)
+						|| this.getClassName().equals(Commands.Object))) {
 			// need to write the geo type in the XML if it's undefined
 			// so that it's the same type when the file is loaded again
 			sb.attrRaw("type", getOutput()[0].getXMLTypeString());
@@ -1452,14 +1442,14 @@ public abstract class AlgoElement extends ConstructionElement
 		if (getOutputLength() > 0 && getOutput(0) instanceof FunctionalNVar) {
 			// need to write the geo type in the XML if it's undefined
 			// so that it's the same type when the file is loaded again
-			String varStr = ((FunctionalNVar) getOutput(0))
-					.getVarString(StringTemplate.defaultTemplate);
+			String varStr = ((FunctionalNVar) getOutput(0)).getVarString(StringTemplate.defaultTemplate);
 			if (!"x".equals(varStr) && !"x, y".equals(varStr)) {
 				sb.attr("var", varStr);
 			}
 		}
 		sb.endTag();
-		if (getInputLength() > 0 && getInput(0) instanceof CasEvaluableFunction
+		if (getInputLength() > 0
+				&& getInput(0) instanceof CasEvaluableFunction
 				&& !getInput(0).isLabelSet()) {
 
 			((CasEvaluableFunction) getInput(0)).printCASEvalMapXML(sb);
@@ -1475,7 +1465,8 @@ public abstract class AlgoElement extends ConstructionElement
 
 				// ensure a vector stays a vector!
 				// eg g:X = (-5, 5) + t (4, -3)
-				if (inputGeo.isGeoVector() && !inputGeo.isLabelSet()
+				if (inputGeo.isGeoVector()
+						&& !inputGeo.isLabelSet()
 						&& !inputGeo.toGeoElement().isLocalVariable()
 						&& !cmd.startsWith("Vector[")) {
 					// add Vector[ ] command around argument
@@ -1499,7 +1490,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * @return input length
 	 */
-	final public int getInputLength() {
+	public final int getInputLength() {
 		return input == null ? 0 : input.length;
 	}
 
@@ -1520,7 +1511,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * @return input length for XML (undo/redo), maybe +1 for xOy plane
 	 */
-	final protected int getInputLengthForXMLMayNeedXOYPlane() {
+	protected final int getInputLengthForXMLMayNeedXOYPlane() {
 
 		if (!cons.isGettingXMLForReplace() || kernel.getXOYPlane() == null) { // saving
 			// mode,
@@ -1535,7 +1526,7 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * @return input length for command description, maybe +1 for xOy plane
 	 */
-	final protected int getInputLengthForCommandDescriptionMayNeedXOYPlane() {
+	protected final int getInputLengthForCommandDescriptionMayNeedXOYPlane() {
 
 		if (kernel.isSaving() || kernel.noNeedToSpecifyXOYPlane()) { // saving
 			// mode,
@@ -1550,7 +1541,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param i index
 	 * @return input or xOy plane if i == input length
 	 */
-	final protected GeoElementND getInputMaybeXOYPlane(int i) {
+	protected final GeoElementND getInputMaybeXOYPlane(int i) {
 
 		if (i == getInputLength()) {
 			return kernel.getXOYPlane();
@@ -1572,9 +1563,10 @@ public abstract class AlgoElement extends ConstructionElement
 			sb.attr("a" + i, geo.isLabelSet() ? geo.getLabel(tpl) : "");
 		}
 
-		if (this instanceof SetRandomValue && (isListWithoutImages(getOutput(0))
-				|| getOutput(0) instanceof VarString
-				|| getOutput(0) instanceof GeoText)
+		if (this instanceof SetRandomValue
+				&& (isListWithoutImages(getOutput(0))
+						|| getOutput(0) instanceof VarString
+						|| getOutput(0) instanceof GeoText)
 				&& ((SetRandomValue) this).canSetRandomValue()) {
 			sb.attr("randomResult", getOutput(0).toOutputValueString(tpl));
 		}
@@ -1588,8 +1580,9 @@ public abstract class AlgoElement extends ConstructionElement
 
 	private boolean isGeoListImageType(GeoList list) {
 		return list.getElementType() == GeoClass.IMAGE
-				|| (list.size() > 0 && list.get(0) instanceof GeoList
-				&& isGeoListImageType((GeoList) list.get(0)));
+				|| (list.size() > 0
+						&& list.get(0) instanceof GeoList
+						&& isGeoListImageType((GeoList) list.get(0)));
 	}
 
 	/**
@@ -1670,7 +1663,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param updateAfterAlgo algo after which this should be updated
 	 * @see #getUpdateAfterAlgo()
 	 */
-	final public void setUpdateAfterAlgo(AlgoElement updateAfterAlgo) {
+	public final void setUpdateAfterAlgo(AlgoElement updateAfterAlgo) {
 		this.updateAfterAlgo = updateAfterAlgo;
 	}
 
@@ -1681,7 +1674,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * first
 	 * @see #getUpdateAfterAlgo()
 	 */
-	final public AlgoElement getUpdateAfterAlgo() {
+	public final AlgoElement getUpdateAfterAlgo() {
 		return updateAfterAlgo;
 	}
 
@@ -1772,12 +1765,12 @@ public abstract class AlgoElement extends ConstructionElement
 				}
 			}
 		}
-		int classDiff = geo2.getGeoClassType().ordinal()
-				- geo1.getGeoClassType().ordinal();
+		int classDiff = geo2.getGeoClassType().ordinal() - geo1.getGeoClassType().ordinal();
 		if (classDiff != 0) {
 			return classDiff < 0;
 		}
-		return geo1.isLabelSet() && geo2.isLabelSet()
+		return geo1.isLabelSet()
+				&& geo2.isLabelSet()
 				&& geo1.getLabelSimple().compareTo(geo2.getLabelSimple()) >= 0;
 	}
 
@@ -1807,10 +1800,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
-	String getGeoString(
-			GeoElement geoElement,
-			StringTemplate tpl,
-			boolean substituteNumbers) {
+	String getGeoString(GeoElement geoElement, StringTemplate tpl, boolean substituteNumbers) {
 		return !geoElement.isAllowedToShowValue()
 				? geoElement.getDefinition(tpl)
 				: geoElement.getFormulaString(tpl, substituteNumbers);
@@ -1826,6 +1816,5 @@ public abstract class AlgoElement extends ConstructionElement
 				// we may add support for macros/expressions later
 				&& this.getClassName() instanceof Commands
 				&& this.getInputLength() == newParent.getInputLength();
-
 	}
 }

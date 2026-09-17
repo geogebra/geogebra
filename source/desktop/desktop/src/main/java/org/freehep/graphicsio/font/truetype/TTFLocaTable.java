@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * LOCA Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFLocaTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -24,8 +24,7 @@ public class TTFLocaTable extends TTFTable {
 		int numGlyphs = ((TTFMaxPTable) getTable("maxp")).numGlyphs + 1;
 		offset = new long[numGlyphs];
 		for (int i = 0; i < numGlyphs; i++) {
-			offset[i] = (format == TTFHeadTable.ITLF_LONG ? ttf.readULong()
-					: ttf.readUShort() * 2);
+			offset[i] = (format == TTFHeadTable.ITLF_LONG ? ttf.readULong() : ttf.readUShort() * 2);
 		}
 	}
 

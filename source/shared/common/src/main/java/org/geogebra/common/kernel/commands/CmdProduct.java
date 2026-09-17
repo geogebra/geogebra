@@ -32,14 +32,14 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * Product[ list ]
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-16
  */
 public class CmdProduct extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -69,54 +69,49 @@ public class CmdProduct extends CommandProcessor {
 		}
 		GeoList list = (GeoList) arg[0];
 		switch (n) {
-		case 1:
-			if (!list.isEmptyList() && list.get(0).isMatrix()) {
-				AlgoProductMatrices algo = new AlgoProductMatrices(cons,
-						c.getLabel(), list);
+			case 1:
+				if (!list.isEmptyList() && list.get(0).isMatrix()) {
+					AlgoProductMatrices algo = new AlgoProductMatrices(cons, c.getLabel(), list);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			return productGeneric(arg[0], null, c);
-		case 2:
-			// Product[<List of Numbers>, <Number>]
-			if (arg[1].isGeoNumeric()) {
-				return productGeneric(arg[0], (GeoNumeric) arg[1], c);
-
-			}
-			// Product[<List of Numbers>, <Frequency>]
-			else if (arg[1].isGeoList()) {
-				if (arg[0]
-						.getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
-
-					AlgoProduct algo = new AlgoProduct(cons, list,
-							(GeoList) arg[1]);
-					algo.getResult().setLabel(c.getLabel());
-					GeoElement[] ret = { algo.getResult() };
+					GeoElement[] ret = {algo.getResult()};
 					return ret;
 				}
-				throw argErr(c, arg[0]);
-			}
-			throw argErr(c, arg[1]);
+				return productGeneric(arg[0], null, c);
+			case 2:
+				// Product[<List of Numbers>, <Number>]
+				if (arg[1].isGeoNumeric()) {
+					return productGeneric(arg[0], (GeoNumeric) arg[1], c);
 
-		default:
-			throw argNumErr(c);
+				}
+				// Product[<List of Numbers>, <Frequency>]
+				else if (arg[1].isGeoList()) {
+					if (arg[0].getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
+
+						AlgoProduct algo = new AlgoProduct(cons, list, (GeoList) arg[1]);
+						algo.getResult().setLabel(c.getLabel());
+						GeoElement[] ret = {algo.getResult()};
+						return ret;
+					}
+					throw argErr(c, arg[0]);
+				}
+				throw argErr(c, arg[1]);
+
+			default:
+				throw argNumErr(c);
 		}
 	}
 
-	private GeoElement[] productGeneric(GeoElement geoElement, GeoNumeric limit,
-			Command c) {
+	private GeoElement[] productGeneric(GeoElement geoElement, GeoNumeric limit, Command c) {
 		GeoList list = (GeoList) geoElement;
 		FoldComputer computer = CmdSum.getFoldComputer(list);
 
 		if (computer != null) {
-			AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, c.getLabel(),
-					list, limit, Operation.MULTIPLY, computer);
+			AlgoFoldFunctions algo =
+					new AlgoFoldFunctions(cons, c.getLabel(), list, limit, Operation.MULTIPLY, computer);
 
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argErr(c, geoElement);
 	}
-
 }

@@ -31,5 +31,4 @@ public interface NumberFormatAdapter {
 	 * @return formatted value
 	 */
 	String format(double value);
-
 }

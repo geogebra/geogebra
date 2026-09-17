@@ -43,8 +43,8 @@ class ModeChangeTest extends BaseEuclidianControllerTest {
 		getApp().startGeoScriptRunner();
 		GeoElement hidden = evaluateGeoElement("A=(1,1)");
 		hidden.setEuclidianVisible(false);
-		hidden.setScript(getApp().createScript(ScriptType.GGBSCRIPT, "B=(2,2)", false),
-				EventType.UPDATE);
+		hidden.setScript(
+				getApp().createScript(ScriptType.GGBSCRIPT, "B=(2,2)", false), EventType.UPDATE);
 		evaluate("C=(3,3)"); // so that the iteration continues after A
 
 		// MODE_SHOW_HIDE_OBJECT reveals A, its update script labels B and thus

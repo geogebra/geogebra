@@ -36,10 +36,13 @@ public class GridStyleProperty extends AbstractNamedEnumeratedProperty<Integer>
 
 	private final EuclidianSettings euclidianSettings;
 
-	private static final PropertyResource[] icons = new PropertyResource[]{
-			PropertyResource.ICON_CARTESIAN,
-			PropertyResource.ICON_CARTESIAN_MINOR, PropertyResource.ICON_POLAR,
-			PropertyResource.ICON_ISOMETRIC, PropertyResource.ICON_DOTS};
+	private static final PropertyResource[] icons = new PropertyResource[] {
+		PropertyResource.ICON_CARTESIAN,
+		PropertyResource.ICON_CARTESIAN_MINOR,
+		PropertyResource.ICON_POLAR,
+		PropertyResource.ICON_ISOMETRIC,
+		PropertyResource.ICON_DOTS
+	};
 
 	/**
 	 * Controls a grid style property.

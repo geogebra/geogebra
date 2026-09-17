@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,11 +48,10 @@ import org.geogebra.desktop.main.ScaledIcon;
 
 /**
  * Panel to select and display the DataAnalysisView regression model.
- * 
+ *
  * @author G. Sturr
  */
-public class RegressionPanelD extends JPanel
-		implements ActionListener, StatPanelInterface {
+public class RegressionPanelD extends JPanel implements ActionListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
@@ -79,7 +78,7 @@ public class RegressionPanelD extends JPanel
 
 	/**
 	 * Construct a regression panel
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param statDialog
@@ -102,7 +101,7 @@ public class RegressionPanelD extends JPanel
 	private JPanel createRegressionPanel() {
 
 		// components
-		String[] orders = { "2", "3", "4", "5", "6", "7", "8", "9" };
+		String[] orders = {"2", "3", "4", "5", "6", "7", "8", "9"};
 		cbPolyOrder = new JComboBox<>(orders);
 		cbPolyOrder.setSelectedIndex(0);
 		cbPolyOrder.addActionListener(this);
@@ -142,8 +141,7 @@ public class RegressionPanelD extends JPanel
 		regressionPanel = new JPanel(new BorderLayout(30, 0));
 		regressionPanel.add(modelPanel, BorderLayout.CENTER);
 		regressionPanel.add(cbPanel, loc.borderWest());
-		regressionPanel.setBorder(BorderFactory
-				.createTitledBorder(loc.getMenu("RegressionModel")));
+		regressionPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("RegressionModel")));
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(regressionPanel, BorderLayout.CENTER);
@@ -174,7 +172,6 @@ public class RegressionPanelD extends JPanel
 
 		predictionPanel = new JPanel(new BorderLayout());
 		predictionPanel.add(p, loc.borderWest());
-
 	}
 
 	/**
@@ -189,7 +186,6 @@ public class RegressionPanelD extends JPanel
 			setRegressionEquationLabelEmpty();
 		}
 		updateGUI();
-
 	}
 
 	/**
@@ -206,7 +202,6 @@ public class RegressionPanelD extends JPanel
 
 			regressionLabels[r.ordinal()] = loc.getMenu(r.getLabel());
 		}
-
 	}
 
 	/**
@@ -231,12 +226,10 @@ public class RegressionPanelD extends JPanel
 
 		cbRegression.setSelectedIndex(j);
 		cbRegression.addActionListener(al);
-		((TitledBorder) regressionPanel.getBorder())
-				.setTitle(loc.getMenu("RegressionModel"));
+		((TitledBorder) regressionPanel.getBorder()).setTitle(loc.getMenu("RegressionModel"));
 		lblEqn.setText(loc.getMenu("Equation") + ":");
 
 		lblEvaluate.setText(loc.getMenu("Evaluate") + ": ");
-
 	}
 
 	/**
@@ -253,11 +246,11 @@ public class RegressionPanelD extends JPanel
 			// prepare number format
 			StringTemplate highPrecision;
 			if (daModel.getPrintDecimals() >= 0) {
-				highPrecision = StringTemplate.printDecimals(StringType.LATEX,
-						daModel.getPrintDecimals(), false);
+				highPrecision =
+						StringTemplate.printDecimals(StringType.LATEX, daModel.getPrintDecimals(), false);
 			} else {
-				highPrecision = StringTemplate.printFigures(StringType.LATEX,
-						daModel.getPrintFigures(), false);
+				highPrecision =
+						StringTemplate.printFigures(StringType.LATEX, daModel.getPrintFigures(), false);
 			}
 
 			// no regression
@@ -265,8 +258,7 @@ public class RegressionPanelD extends JPanel
 					|| statDialog.getRegressionModel() == null) {
 				eqn = "";
 			} else {
-				eqn = "y = " + statDialog.getRegressionModel()
-						.getFormulaString(highPrecision, true);
+				eqn = "y = " + statDialog.getRegressionModel().getFormulaString(highPrecision, true);
 			}
 		} catch (Exception e) {
 			Log.debug(e);
@@ -274,8 +266,7 @@ public class RegressionPanelD extends JPanel
 		}
 
 		// create an icon with the LaTeX string
-		ScaledIcon icon = GeoGebraIconD.createScaledLatexIcon(app, eqn,
-				this.getFont(), Color.RED);
+		ScaledIcon icon = GeoGebraIconD.createScaledLatexIcon(app, eqn, this.getFont(), Color.RED);
 
 		// set the label icon with our equation string
 		lblRegEquation.setIcon(icon);
@@ -295,10 +286,8 @@ public class RegressionPanelD extends JPanel
 	}
 
 	private void updateGUI() {
-		cbPolyOrder.setVisible(
-				daModel.getRegressionMode().equals(Regression.POLY));
-		predictionPanel.setVisible(
-				!daModel.getRegressionMode().equals(Regression.NONE));
+		cbPolyOrder.setVisible(daModel.getRegressionMode().equals(Regression.POLY));
+		predictionPanel.setVisible(!daModel.getRegressionMode().equals(Regression.NONE));
 		repaint();
 	}
 
@@ -309,16 +298,12 @@ public class RegressionPanelD extends JPanel
 
 		if (source instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) source);
-		}
-
-		else if (source == cbRegression) {
+		} else if (source == cbRegression) {
 			cbRegression.removeActionListener(this);
 			daModel.setRegressionMode(cbRegression.getSelectedIndex());
 			updateRegressionPanel();
 			cbRegression.addActionListener(this);
-		}
-
-		else if (source == cbPolyOrder) {
+		} else if (source == cbPolyOrder) {
 			daModel.setRegressionOrder(cbPolyOrder.getSelectedIndex() + 2);
 			statDialog.getController().setRegressionGeo();
 			statDialog.getController().updateRegressionPanel();
@@ -327,7 +312,6 @@ public class RegressionPanelD extends JPanel
 			// force update
 			daModel.setRegressionMode(Regression.POLY.ordinal());
 		}
-
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -343,11 +327,9 @@ public class RegressionPanelD extends JPanel
 				}
 
 				NumberValue nv;
-				nv = app.getKernel().getAlgebraProcessor()
-						.evaluateToNumeric(inputText, true);
+				nv = app.getKernel().getAlgebraProcessor().evaluateToNumeric(inputText, true);
 				double value = nv.getDouble();
-				double output = ((GeoFunctionable) statDialog
-						.getRegressionModel()).value(value);
+				double output = ((GeoFunctionable) statDialog.getRegressionModel()).value(value);
 
 				fldOutputY.setText(statDialog.format(output));
 
@@ -368,5 +350,4 @@ public class RegressionPanelD extends JPanel
 		// TODO Auto-generated method stub
 
 	}
-
 }

@@ -53,7 +53,6 @@ public class CmdCASLoaded extends CommandProcessor {
 		AlgoCasLoaded algo = new AlgoCasLoaded(cons);
 		GeoBoolean result = algo.getResult();
 		result.setLabel(c.getLabel());
-		return new GeoElement[]{result};
+		return new GeoElement[] {result};
 	}
-
 }

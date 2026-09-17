@@ -29,7 +29,7 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Allows conversion of numbers to different bases via ToBase[number, base]
- * 
+ *
  * @author zbynek
  *
  */
@@ -49,8 +49,7 @@ public class AlgoToBase extends AlgoElement {
 	 * @param number
 	 *            number
 	 */
-	public AlgoToBase(Construction c, String label, GeoNumberValue number,
-			GeoNumberValue base) {
+	public AlgoToBase(Construction c, String label, GeoNumberValue number, GeoNumberValue base) {
 		super(c);
 		this.base = base;
 		this.number = number;
@@ -62,7 +61,7 @@ public class AlgoToBase extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { number.toGeoElement(), base.toGeoElement() };
+		input = new GeoElement[] {number.toGeoElement(), base.toGeoElement()};
 		setOnlyOutput(result);
 		setDependencies();
 	}
@@ -85,8 +84,7 @@ public class AlgoToBase extends AlgoElement {
 			result.setUndefined();
 			return;
 		}
-		int digits = kernel.format(1.0 / 9.0, result.getStringTemplate())
-				.length() - 2;
+		int digits = kernel.format(1.0 / 9.0, result.getStringTemplate()).length() - 2;
 		double power = Math.round(Math.pow(b, digits));
 		double in = number.getDouble();
 		in = in + 1 / power > Math.ceil(in) ? Math.ceil(in) : in;
@@ -96,8 +94,7 @@ public class AlgoToBase extends AlgoElement {
 			result.setTextString(intPart);
 		} else {
 
-			double decimal = Math.round(power
-					* (number.getDouble() - Math.floor(number.getDouble())));
+			double decimal = Math.round(power * (number.getDouble() - Math.floor(number.getDouble())));
 			bi = BigInteger.valueOf((long) decimal);
 			String decimalPart = StringUtil.toUpperCaseUS(bi.toString(b));
 			StringBuilder sb = new StringBuilder(digits);
@@ -109,12 +106,10 @@ public class AlgoToBase extends AlgoElement {
 			sb.append(decimalPart);
 			result.setTextString(sb.toString());
 		}
-
 	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.ToBase;
 	}
-
 }

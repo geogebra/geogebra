@@ -27,46 +27,46 @@ import com.google.j2objc.annotations.Weak;
 /**
  * This class represents abstract model element.
  */
-abstract public class Node implements Traversable, Inspectable, Serializable {
+public abstract class Node implements Traversable, Inspectable, Serializable {
 
-    @Weak
+	@Weak
 	private InternalNode parent;
 
-    /**
+	/**
 	 * Gets parent of this node.
-	 * 
+	 *
 	 * @return parent of this node.
 	 */
-    public InternalNode getParent() {
-        return parent;
-    }
+	public InternalNode getParent() {
+		return parent;
+	}
 
-    /**
+	/**
 	 * Sets parent of this node.
-	 * 
+	 *
 	 * @param container
 	 *            parent
 	 */
-    void setParent(InternalNode container) {
-        this.parent = container;
-    }
+	void setParent(InternalNode container) {
+		this.parent = container;
+	}
 
-    /**
+	/**
 	 * Gets index of this node within its parent node.
-	 * 
+	 *
 	 * @return index within parent
 	 */
-    public int getParentIndex() {
-        if (parent == null) {
-            return 0;
-        }
-        int index = parent.indexOf(this);
-        if (index >= 0) {
-            return index;
-        }
+	public int getParentIndex() {
+		if (parent == null) {
+			return 0;
+		}
+		int index = parent.indexOf(this);
+		if (index >= 0) {
+			return index;
+		}
 
-        throw new RuntimeException("Parent reference is not set correctly");
-    }
+		throw new RuntimeException("Parent reference is not set correctly");
+	}
 
 	/**
 	 * @param tag

@@ -24,5 +24,4 @@ public class CarotaFormatting {
 
 	@JsProperty
 	public native void setSize(double fontSize);
-
 }

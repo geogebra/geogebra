@@ -105,9 +105,6 @@ public class AppConfigNotes extends AppConfigDefault {
 
 	@Override
 	public @NonNull List<RememberedPropertyHandler<?>> getRememberedPropertyHandlers() {
-		return List.of(
-				new RememberedFontFamilyHandler(),
-				new RememberedFontSizeHandler()
-		);
+		return List.of(new RememberedFontFamilyHandler(), new RememberedFontSizeHandler());
 	}
 }

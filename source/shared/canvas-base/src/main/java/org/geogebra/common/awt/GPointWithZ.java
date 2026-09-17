@@ -43,7 +43,7 @@ public class GPointWithZ extends GPoint {
 
 	/**
 	 * Set x and y at the same time
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -58,7 +58,7 @@ public class GPointWithZ extends GPoint {
 
 	/**
 	 * Take both coords from a point
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 */
@@ -89,8 +89,7 @@ public class GPointWithZ extends GPoint {
 	 * @return distance to that point
 	 */
 	public double distance(GPointWithZ d) {
-		return Math.sqrt((x - d.x) * (x - d.x) + (y - d.y) * (y - d.y)
-				+ (z - d.z) * (z - d.z));
+		return Math.sqrt((x - d.x) * (x - d.x) + (y - d.y) * (y - d.y) + (z - d.z) * (z - d.z));
 	}
 
 	/**
@@ -103,13 +102,11 @@ public class GPointWithZ extends GPoint {
 	 * @return distance to (dx, dy, dz)
 	 */
 	public double distance(double dx, double dy, double dz) {
-		return (int) Math.sqrt((x - dx) * (x - dx) + (y - dy) * (y - dy)
-				+ (z - dz) * (z - dz));
+		return (int) Math.sqrt((x - dx) * (x - dx) + (y - dy) * (y - dy) + (z - dz) * (z - dz));
 	}
 
 	@Override
 	public String toString() {
 		return x + " : " + y + " : " + z;
 	}
-
 }

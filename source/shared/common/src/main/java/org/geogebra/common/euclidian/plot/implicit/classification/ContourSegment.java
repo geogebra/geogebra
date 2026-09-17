@@ -176,10 +176,6 @@ public final class ContourSegment {
 
 	@Override
 	public String toString() {
-		return "ContourSegment{"
-				+ "start=" + start
-				+ ", end=" + end
-				+ ", key=" + key
-				+ '}';
+		return "ContourSegment{" + "start=" + start + ", end=" + end + ", key=" + key + '}';
 	}
 }

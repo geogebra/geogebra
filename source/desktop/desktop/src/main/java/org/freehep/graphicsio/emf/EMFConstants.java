@@ -3,7 +3,7 @@ package org.freehep.graphicsio.emf;
 
 /**
  * EMF Constants
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EMFConstants.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */

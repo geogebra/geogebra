@@ -46,8 +46,8 @@ public final class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadius
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogCylinderTwoPointsRadiusW(AppW app, DialogData data,
-			InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
+	public InputDialogCylinderTwoPointsRadiusW(
+			AppW app, DialogData data, InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
 		super(app, data, handler, kernel);
 		this.a = a;
 		this.b = b;
@@ -57,5 +57,4 @@ public final class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadius
 	protected GeoElement createOutput(GeoNumberValue num) {
 		return kernel.getManager3D().cylinderLimited(null, a, b, num)[0];
 	}
-
 }

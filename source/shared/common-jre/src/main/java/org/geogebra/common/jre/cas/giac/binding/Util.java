@@ -16,16 +16,15 @@
 
 package org.geogebra.common.jre.cas.giac.binding;
 
-import org.geogebra.common.cas.giac.binding.Context;
-
 import javagiac.context;
+
+import org.geogebra.common.cas.giac.binding.Context;
 
 final class Util {
 
-    private Util() {
-    }
+	private Util() {}
 
-    static context convert(Context context) {
-        return ((ContextImpl) context).wrappedContext;
-    }
+	static context convert(Context context) {
+		return ((ContextImpl) context).wrappedContext;
+	}
 }

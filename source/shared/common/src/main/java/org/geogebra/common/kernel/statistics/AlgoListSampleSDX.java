@@ -22,15 +22,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Standard deviation of x-coords of a list of Points
- * 
+ *
  * @author G. Sturr
  * @version 2011-06-21
  */
-
 public class AlgoListSampleSDX extends AlgoStats2D {
 
-	public AlgoListSampleSDX(Construction cons, String label,
-			GeoList geoListx) {
+	public AlgoListSampleSDX(Construction cons, String label, GeoList geoListx) {
 		super(cons, label, geoListx, AlgoStats2D.STATS_SAMPLESDX);
 	}
 

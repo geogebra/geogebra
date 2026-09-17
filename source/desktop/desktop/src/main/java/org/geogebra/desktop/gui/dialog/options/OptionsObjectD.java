@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,8 +40,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObjectD extends OptionsObject
-		implements OptionPanelD, SetLabels {
+public class OptionsObjectD extends OptionsObject implements OptionPanelD, SetLabels {
 
 	private PropertiesPanelD propPanel;
 	private GeoGebraColorChooser colChooser;
@@ -58,7 +57,7 @@ public class OptionsObjectD extends OptionsObject
 
 	/**
 	 * Creates new PropertiesDialog.
-	 * 
+	 *
 	 * @param app
 	 *            parent frame
 	 */
@@ -117,7 +116,6 @@ public class OptionsObjectD extends OptionsObject
 		}
 
 		setLabels();
-
 	}
 
 	public PropertiesPanelD getPropPanel() {
@@ -135,14 +133,13 @@ public class OptionsObjectD extends OptionsObject
 
 	/**
 	 * Update the labels of this dialog.
-	 * 
+	 *
 	 * TODO Create "Apply Defaults" phrase (F.S.)
 	 */
 	@Override
 	public void setLabels() {
 
 		propPanel.setLabels();
-
 	}
 
 	/**
@@ -187,7 +184,6 @@ public class OptionsObjectD extends OptionsObject
 			return;
 		}
 		viewActive = flag;
-
 	}
 
 	/**
@@ -198,7 +194,6 @@ public class OptionsObjectD extends OptionsObject
 		splitPane.setDividerLocation(dividerLocation);
 		listScroller.setVisible(true);
 		splitPane.repaint();
-
 	}
 
 	/**
@@ -210,18 +205,17 @@ public class OptionsObjectD extends OptionsObject
 		dividerLocation = splitPane.getDividerLocation();
 		splitPane.setDividerSize(0);
 		splitPane.repaint();
-
 	}
 
 	/*
 	 * update selection regarding Application
-	 * 
+	 *
 	 * public void updateSelection() { updateSelection(app.getSelectedGeos()); }
 	 */
 
 	/**
 	 * update selection for properties panel
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 */
@@ -241,31 +235,28 @@ public class OptionsObjectD extends OptionsObject
 	@Override
 	public void updateGUI() {
 		setLabels();
-
 	}
 
 	/**
 	 * update geo if in selection
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
 	public void updateIfInSelection(GeoElement geo) {
-		if (getSelection() != null && getSelection().size() == 1
-				&& getSelection().contains(geo)) {
+		if (getSelection() != null && getSelection().size() == 1 && getSelection().contains(geo)) {
 			propPanel.updateOneGeoDefinition(geo);
 		}
 	}
 
 	/**
 	 * rename geo
-	 * 
+	 *
 	 * @param geo
 	 *            element to be renamed
 	 */
 	public void rename(GeoElement geo) {
-		if (getSelection() != null && getSelection().size() == 1
-				&& getSelection().contains(geo)) {
+		if (getSelection() != null && getSelection().size() == 1 && getSelection().contains(geo)) {
 			propPanel.updateOneGeoName(geo);
 		}
 	}
@@ -273,7 +264,6 @@ public class OptionsObjectD extends OptionsObject
 	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
-
 	}
 
 	@Override
@@ -308,7 +298,6 @@ public class OptionsObjectD extends OptionsObject
 
 		tree.updateFonts();
 		propPanel.updateFonts();
-
 	}
 
 	@Override
@@ -323,5 +312,4 @@ public class OptionsObjectD extends OptionsObject
 	public void updateTextEditor(GeoElement geo) {
 		propPanel.updateTextEditor(geo);
 	}
-
 } // PropertiesDialog

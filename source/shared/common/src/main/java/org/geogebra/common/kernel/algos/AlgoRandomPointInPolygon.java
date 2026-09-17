@@ -57,8 +57,7 @@ public class AlgoRandomPointInPolygon extends AlgoElement implements SetRandomVa
 	}
 
 	private void createOutput() {
-		randomPoint = kernel.getGeoFactory()
-				.newPoint(polygon.isGeoElement3D() ? 3 : 2, cons);
+		randomPoint = kernel.getGeoFactory().newPoint(polygon.isGeoElement3D() ? 3 : 2, cons);
 	}
 
 	@Override
@@ -101,9 +100,7 @@ public class AlgoRandomPointInPolygon extends AlgoElement implements SetRandomVa
 			double x = p.getInhomX();
 			double y = p.getInhomY();
 
-			if (Double.isInfinite(x)
-					|| Double.isInfinite(y) || Double.isNaN(x)
-					|| Double.isNaN(y)) {
+			if (Double.isInfinite(x) || Double.isInfinite(y) || Double.isNaN(x) || Double.isNaN(y)) {
 				randomPoint.setUndefined();
 				return;
 			}
@@ -130,16 +127,12 @@ public class AlgoRandomPointInPolygon extends AlgoElement implements SetRandomVa
 		double xRandom, yRandom;
 
 		while (!foundRandom) {
-			xRandom = xMin
-					+ (xMax - xMin) * kernel.randomNumberGenerator.getRandomNumber();
-			yRandom = yMin
-					+ (yMax - yMin) * kernel.randomNumberGenerator.getRandomNumber();
+			xRandom = xMin + (xMax - xMin) * kernel.randomNumberGenerator.getRandomNumber();
+			yRandom = yMin + (yMax - yMin) * kernel.randomNumberGenerator.getRandomNumber();
 
 			if (polygon.isInRegion(xRandom, yRandom)) {
 				if (polygon.isGeoElement3D()) {
-					randomPoint.setCoords(
-							polygon.getCoordSys().getPoint(xRandom, yRandom),
-							false);
+					randomPoint.setCoords(polygon.getCoordSys().getPoint(xRandom, yRandom), false);
 				} else {
 					randomPoint.setCoords(xRandom, yRandom, 1);
 				}

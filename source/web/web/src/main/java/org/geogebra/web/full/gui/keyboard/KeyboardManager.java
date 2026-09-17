@@ -80,7 +80,8 @@ public final class KeyboardManager
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
 		this.bodyStyle = RootPanel.getBodyElement().getStyle();
-		detachController = new KeyboardDetachController(app.getAppletId(),
+		detachController = new KeyboardDetachController(
+				app.getAppletId(),
 				app.getAppletParameters().getDetachKeyboardParent(),
 				app.getGeoGebraElement().getParentElement(),
 				shouldDetach());
@@ -93,9 +94,8 @@ public final class KeyboardManager
 	 */
 	public List<Integer> getKeyboardViews() {
 		ArrayList<Integer> keyboardViews = getKeyboardViewsNoEV();
-		Predicate<GeoInputBox> filter = geo -> NavigatorUtil.isMobile()
-				|| geo.isSymbolicMode()
-				|| geo.needsSymbolButton();
+		Predicate<GeoInputBox> filter =
+				geo -> NavigatorUtil.isMobile() || geo.isSymbolicMode() || geo.needsSymbolButton();
 		if (app.getKernel().getConstruction().hasInputBoxes(filter)) {
 			keyboardViews.add(App.VIEW_EUCLIDIAN);
 			keyboardViews.add(App.VIEW_EUCLIDIAN2);
@@ -105,12 +105,11 @@ public final class KeyboardManager
 
 	private ArrayList<Integer> getKeyboardViewsNoEV() {
 		ArrayList<Integer> keyboardViews = new ArrayList<>();
-		if (app.showAlgebraInput()
-				&& app.getInputPosition() == InputPosition.algebraView) {
+		if (app.showAlgebraInput() && app.getInputPosition() == InputPosition.algebraView) {
 			keyboardViews.add(App.VIEW_ALGEBRA);
 		}
-		keyboardViews.addAll(Arrays.asList(App.VIEW_CAS, App.VIEW_SPREADSHEET,
-				App.VIEW_PROBABILITY_CALCULATOR));
+		keyboardViews.addAll(
+				Arrays.asList(App.VIEW_CAS, App.VIEW_SPREADSHEET, App.VIEW_PROBABILITY_CALCULATOR));
 		return keyboardViews;
 	}
 
@@ -152,9 +151,7 @@ public final class KeyboardManager
 			}
 		}
 
-		return detachController.isEnabled()
-				? detachController.getParentWidth()
-				: appWidth;
+		return detachController.isEnabled() ? detachController.getParentWidth() : appWidth;
 	}
 
 	/**
@@ -184,7 +181,6 @@ public final class KeyboardManager
 			app.addWindowResizeListener(this);
 		} else {
 			appFrame.add(keyboard);
-
 		}
 		updateStyle();
 	}
@@ -212,8 +208,7 @@ public final class KeyboardManager
 	 * @param listener
 	 *            open/close listener
 	 */
-	public void setListeners(MathKeyboardListener textField,
-			KeyboardCloseListener listener) {
+	public void setListeners(MathKeyboardListener textField, KeyboardCloseListener listener) {
 		VirtualKeyboardGUI keyboardUI = ensureKeyboardsExist();
 		((OnscreenTabbedKeyboard) keyboardUI).clearAndUpdate();
 		if (textField != null) {
@@ -232,8 +227,7 @@ public final class KeyboardManager
 
 	private VirtualKeyboardGUI ensureKeyboardsExist() {
 		if (keyboard == null) {
-			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
-					&& !shouldDetach();
+			boolean showMoreButton = app.getConfig().showKeyboardHelpButton() && !shouldDetach();
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app, showMoreButton);
 			if (processing != null) {
 				keyboard.setProcessing(processing);
@@ -347,13 +341,10 @@ public final class KeyboardManager
 	private static KeyboardListener makeKeyboardListener(
 			MathKeyboardListener textField, HasLastItem lastItemProvider) {
 		if (textField instanceof RetexKeyboardListener) {
-			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField());
+			return new MathFieldProcessing(((RetexKeyboardListener) textField).getMathField());
 		}
 		if (textField instanceof RadioTreeItem) {
-			return new AlgebraMathFieldProcessing(
-					(RadioTreeItem) textField,
-					lastItemProvider);
+			return new AlgebraMathFieldProcessing((RadioTreeItem) textField, lastItemProvider);
 		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
@@ -362,8 +353,7 @@ public final class KeyboardManager
 			return new TextEditPanelProcessing((GeoTextEditor) textField);
 		}
 		if (textField instanceof AutoCompleteTextFieldW) {
-			return new AutocompleteProcessing(
-					(AutoCompleteTextFieldW) textField);
+			return new AutocompleteProcessing((AutoCompleteTextFieldW) textField);
 		}
 
 		if (textField instanceof ScriptArea) {

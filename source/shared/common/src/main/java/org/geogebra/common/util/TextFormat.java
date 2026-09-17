@@ -21,5 +21,6 @@ package org.geogebra.common.util;
  * and related UI components.
  */
 public enum TextFormat {
-	MATH, PLAIN,
+	MATH,
+	PLAIN,
 }

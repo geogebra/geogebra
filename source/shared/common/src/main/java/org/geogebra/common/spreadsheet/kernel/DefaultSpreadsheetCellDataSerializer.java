@@ -50,13 +50,9 @@ public final class DefaultSpreadsheetCellDataSerializer implements SpreadsheetCe
 		GeoElement geo = (GeoElement) data;
 		AlgoElement parentAlgorithm = geo.getParentAlgorithm();
 		if (Algos.isUsedFor(Commands.ParseToNumber, geo) && parentAlgorithm != null) {
-			return "=" + parentAlgorithm.getInput(0).toValueString(
-					StringTemplate.defaultTemplate);
+			return "=" + parentAlgorithm.getInput(0).toValueString(StringTemplate.defaultTemplate);
 		}
-		String redefineString = geo.getRedefineString(true, false,
-				NO_POINT_EDITOR_TEMPLATE);
-		return geo.isGeoText() && parentAlgorithm == null
-				? redefineString
-				: "=" + redefineString;
+		String redefineString = geo.getRedefineString(true, false, NO_POINT_EDITOR_TEMPLATE);
+		return geo.isGeoText() && parentAlgorithm == null ? redefineString : "=" + redefineString;
 	}
 }

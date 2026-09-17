@@ -34,7 +34,7 @@ public class CmdBoxPlot extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,86 +43,102 @@ public class CmdBoxPlot extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2].isGeoList())) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2].isGeoList())) {
 
-				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoList) arg[2], null);
+					AlgoBoxPlot algo = new AlgoBoxPlot(
+							cons,
+							c.getLabel(),
+							(GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoList) arg[2],
+							null);
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		case 4:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2].isGeoList())
-					&& (ok[3] = arg[3].isGeoBoolean())) {
+			case 4:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2].isGeoList())
+						&& (ok[3] = arg[3].isGeoBoolean())) {
 
-				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoList) arg[2], (GeoBoolean) arg[3]);
+					AlgoBoxPlot algo = new AlgoBoxPlot(
+							cons,
+							c.getLabel(),
+							(GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoList) arg[2],
+							(GeoBoolean) arg[3]);
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of
+			case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of
 				// Frequencies>, <Boolean Outliers> ]
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2].isGeoList())
-					&& (ok[3] = arg[3].isGeoList())
-					&& (ok[4] = arg[4].isGeoBoolean())) {
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2].isGeoList())
+						&& (ok[3] = arg[3].isGeoList())
+						&& (ok[4] = arg[4].isGeoBoolean())) {
 
-				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoList) arg[2], (GeoList) arg[3],
-						(GeoBoolean) arg[4]);
+					AlgoBoxPlot algo = new AlgoBoxPlot(
+							cons,
+							c.getLabel(),
+							(GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoList) arg[2],
+							(GeoList) arg[3],
+							(GeoBoolean) arg[4]);
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		case 7:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3] instanceof GeoNumberValue)
-					&& (ok[4] = arg[4] instanceof GeoNumberValue)
-					&& (ok[5] = arg[5] instanceof GeoNumberValue)
-					&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
+			case 7:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumberValue)
+						&& (ok[4] = arg[4] instanceof GeoNumberValue)
+						&& (ok[5] = arg[5] instanceof GeoNumberValue)
+						&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
 
-				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
-						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
-						(GeoNumberValue) arg[6]);
+					AlgoBoxPlot algo = new AlgoBoxPlot(
+							cons,
+							c.getLabel(),
+							(GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3],
+							(GeoNumberValue) arg[4],
+							(GeoNumberValue) arg[5],
+							(GeoNumberValue) arg[6]);
 
-				GeoElement[] ret = { algo.getSum() };
-				return ret;
+					GeoElement[] ret = {algo.getSum()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * Length of a segment.
- * 
+ *
  * @author mathieu
  */
 public class AlgoLengthSegment extends AlgoElement {
@@ -41,8 +41,7 @@ public class AlgoLengthSegment extends AlgoElement {
 	 * @param seg
 	 *            segment
 	 */
-	public AlgoLengthSegment(Construction cons, String label,
-			GeoSegmentND seg) {
+	public AlgoLengthSegment(Construction cons, String label, GeoSegmentND seg) {
 		super(cons);
 		this.seg = seg;
 		num = new GeoNumeric(cons);
@@ -83,10 +82,7 @@ public class AlgoLengthSegment extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("LengthOfA", "Length of %0",
-				seg.getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc().getPlainDefault("LengthOfA", "Length of %0", seg.getLabel(tpl));
 	}
-
 }

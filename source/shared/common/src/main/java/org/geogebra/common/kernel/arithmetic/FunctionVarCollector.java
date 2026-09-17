@@ -25,7 +25,7 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * Collects all function variables
- * 
+ *
  * @author Zbynek Konecny
  */
 public final class FunctionVarCollector implements Traversing {
@@ -62,8 +62,7 @@ public final class FunctionVarCollector implements Traversing {
 
 	private void checkFunctional(ExpressionValue right) {
 		if (right instanceof FunctionalNVar) {
-			for (FunctionVariable fv : ((FunctionalNVar) right)
-					.getFunctionVariables()) {
+			for (FunctionVariable fv : ((FunctionalNVar) right).getFunctionVariables()) {
 				variableNames.add(fv.getSetVarString());
 			}
 		}
@@ -71,7 +70,7 @@ public final class FunctionVarCollector implements Traversing {
 
 	/**
 	 * Resets and returns the collector
-	 * 
+	 *
 	 * @return function variable collector
 	 */
 	public static FunctionVarCollector getCollector() {
@@ -99,7 +98,7 @@ public final class FunctionVarCollector implements Traversing {
 		int size = allRegistered ? registeredFV.length : variableNames.size();
 		FunctionVariable[] fvArray = new FunctionVariable[size];
 		int i = 0;
-		for (String known: registeredFV) {
+		for (String known : registeredFV) {
 			if (allRegistered || variableNames.contains(known)) {
 				fvArray[i++] = new FunctionVariable(kernel, known);
 			}

@@ -38,36 +38,34 @@ public class DiscreteCommandProcessorFactory implements CommandProcessorFactory 
 	@Override
 	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
 		switch (command) {
+			case TriangleCenter:
+				return new CmdKimberling(kernel);
+			case Barycenter:
+				return new CmdBarycenter(kernel);
+			case Trilinear:
+				return new CmdTrilinear(kernel);
+			case Cubic:
+				return new CmdCubic(kernel);
+			case TriangleCurve:
+				return new CmdTriangleCurve(kernel);
 
-		case TriangleCenter:
-			return new CmdKimberling(kernel);
-		case Barycenter:
-			return new CmdBarycenter(kernel);
-		case Trilinear:
-			return new CmdTrilinear(kernel);
-		case Cubic:
-			return new CmdCubic(kernel);
-		case TriangleCurve:
-			return new CmdTriangleCurve(kernel);
-
-		case Voronoi:
-			return new CmdVoronoi(kernel);
-		case Hull:
-			return new CmdHull(kernel);
-		case ConvexHull:
-			return new CmdConvexHull(kernel);
-		case MinimumSpanningTree:
-			return new CmdMinimumSpanningTree(kernel);
-		case DelaunayTriangulation:
-		case DelauneyTriangulation:
-			return new CmdDelauneyTriangulation(kernel);
-		case TravelingSalesman:
-			return new CmdTravelingSalesman(kernel);
-		case ShortestDistance:
-			return new CmdShortestDistance(kernel);
-		default:
-			break;
-
+			case Voronoi:
+				return new CmdVoronoi(kernel);
+			case Hull:
+				return new CmdHull(kernel);
+			case ConvexHull:
+				return new CmdConvexHull(kernel);
+			case MinimumSpanningTree:
+				return new CmdMinimumSpanningTree(kernel);
+			case DelaunayTriangulation:
+			case DelauneyTriangulation:
+				return new CmdDelauneyTriangulation(kernel);
+			case TravelingSalesman:
+				return new CmdTravelingSalesman(kernel);
+			case ShortestDistance:
+				return new CmdShortestDistance(kernel);
+			default:
+				break;
 		}
 		return null;
 	}

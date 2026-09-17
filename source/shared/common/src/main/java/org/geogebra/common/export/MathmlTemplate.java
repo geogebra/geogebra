@@ -21,7 +21,7 @@ import org.geogebra.common.util.StringUtil;
 public class MathmlTemplate {
 	/**
 	 * Add MATHM code of an operation.
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 * @param op
@@ -31,14 +31,13 @@ public class MathmlTemplate {
 	 * @param rightStr
 	 *            right string
 	 */
-	public static void mathml(StringBuilder sb, String op, String leftStr,
-			String rightStr) {
+	public static void mathml(StringBuilder sb, String op, String leftStr, String rightStr) {
 		mathml(sb, op, "", leftStr, "", "", rightStr, "");
 	}
 
 	/**
 	 * Add MATHM code of an operation.
-	 * 
+	 *
 	 * @param sb
 	 *            builder
 	 * @param op
@@ -56,8 +55,14 @@ public class MathmlTemplate {
 	 * @param postR
 	 *            right postfix
 	 */
-	public static void mathml(StringBuilder sb, String op, String preL,
-			String leftStr, String postL, String preR, String rightStr,
+	public static void mathml(
+			StringBuilder sb,
+			String op,
+			String preL,
+			String leftStr,
+			String postL,
+			String preR,
+			String rightStr,
 			String postR) {
 		sb.append("<apply>");
 		sb.append(op);
@@ -95,6 +100,5 @@ public class MathmlTemplate {
 		sb.append(postR);
 
 		sb.append("</apply>");
-
 	}
 }

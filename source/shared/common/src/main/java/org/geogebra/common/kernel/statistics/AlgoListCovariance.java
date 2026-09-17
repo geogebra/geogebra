@@ -22,15 +22,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Mean of a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-18
  */
-
 public class AlgoListCovariance extends AlgoStats2D {
 
-	public AlgoListCovariance(Construction cons, String label,
-			GeoList geoListx) {
+	public AlgoListCovariance(Construction cons, String label, GeoList geoListx) {
 		super(cons, label, geoListx, AlgoStats2D.STATS_COVARIANCE);
 	}
 

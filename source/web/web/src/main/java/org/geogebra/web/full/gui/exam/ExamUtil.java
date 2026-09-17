@@ -54,7 +54,7 @@ public final class ExamUtil {
 	 * stopped (only going back to full screen ends "cheating") if window is in
 	 * full screen losing focus starts "cheating", gaining focus stops
 	 * "cheating"
-	 * 
+	 *
 	 * @param tabletMode
 	 *            whether we are in tablet app
 	 */
@@ -63,8 +63,7 @@ public final class ExamUtil {
 			return;
 		}
 		if (tabletMode) {
-			app.getGlobalHandlers().addEventListener(DomGlobal.document,
-					"visibilitychange", (e) -> {
+			app.getGlobalHandlers().addEventListener(DomGlobal.document, "visibilitychange", (e) -> {
 				if (Js.isTruthy(DomGlobal.document.hidden)) {
 					startCheating();
 				} else {
@@ -83,14 +82,13 @@ public final class ExamUtil {
 					stopCheating();
 				}
 			});
-			app.getGlobalHandlers().addEventListener(DomGlobal.window, "resize",
-					(evt) -> {
-						boolean fullscreen = Browser.isCoveringWholeScreen();
-						if (!fullscreen) {
-							startCheating();
-						} else {
-							stopCheating();
-						}
+			app.getGlobalHandlers().addEventListener(DomGlobal.window, "resize", (evt) -> {
+				boolean fullscreen = Browser.isCoveringWholeScreen();
+				if (!fullscreen) {
+					startCheating();
+				} else {
+					stopCheating();
+				}
 			});
 		}
 	}
@@ -140,8 +138,8 @@ public final class ExamUtil {
 	 */
 	public static void makeRed(Element element, boolean red) {
 		if (red) {
-			Dom.setImportant(element.getStyle(), "background-color",
-					StringUtil.toHtmlColor(GColor.DARK_RED));
+			Dom.setImportant(
+					element.getStyle(), "background-color", StringUtil.toHtmlColor(GColor.DARK_RED));
 		} else {
 			element.getStyle().setBackgroundColor("");
 		}

@@ -38,14 +38,14 @@ class CommandDefineColorTest {
 	@Test
 	@Issue("APPS-7807")
 	void testHslaRejectsThreeComponents() {
-		assertThrows(ParseException.class, () -> CommandDefinecolor.getColor(
-				new TeXParser("[hsla]{180,1,0.5}")));
+		assertThrows(
+				ParseException.class,
+				() -> CommandDefinecolor.getColor(new TeXParser("[hsla]{180,1,0.5}")));
 	}
 
 	@Test
 	@Issue("APPS-7807")
 	void testHslaAcceptsFourComponents() {
-		assertDoesNotThrow(() -> CommandDefinecolor.getColor(
-				new TeXParser("[hsla]{180,1,0.5,1}")));
+		assertDoesNotThrow(() -> CommandDefinecolor.getColor(new TeXParser("[hsla]{180,1,0.5,1}")));
 	}
 }

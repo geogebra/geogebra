@@ -48,16 +48,22 @@ import org.geogebra.common.util.ExtendedBoolean;
 /**
  * Image with given filename and corners
  */
-public class GeoImage extends GeoElement implements
-		AbsoluteScreenLocateable, Mirrorable, Translateable,
-		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
+public class GeoImage extends GeoElement
+		implements AbsoluteScreenLocateable,
+				Mirrorable,
+				Translateable,
+				Dilateable,
+				MatrixTransformable,
+				Transformable,
+				RectangleTransformable {
 
 	/** Index of the center in corners array */
 	public static final int CENTER_INDEX = 3;
 	/** the image should have at least 50px width */
-	public final static int IMG_SIZE_THRESHOLD = 50;
+	public static final int IMG_SIZE_THRESHOLD = 50;
 	/** name of the folder containing the image == md5 hash of the image */
 	public static final int MD5_FOLDER_LENGTH = 32;
+
 	public static final int PROTRACTOR_WIDTH = 558;
 	public static final int PROTRACTOR_HEIGHT = 296;
 	public static final int RULER_LEFT = 112;
@@ -71,10 +77,12 @@ public class GeoImage extends GeoElement implements
 	protected int pixelWidth;
 	/** height in pixels */
 	protected int pixelHeight;
+
 	private boolean inBackground;
 	private boolean defined;
 	/** Whether all corners are changeable (unlabeled and independent) */
 	private boolean hasChangeableLocation;
+
 	private boolean interpolate = true;
 
 	// for absolute screen location
@@ -92,13 +100,13 @@ public class GeoImage extends GeoElement implements
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
 
-	//ruler or protractor
+	// ruler or protractor
 	private boolean isMeasurementTool = false;
 	private boolean needBoundingBoxUpdate;
 
 	/**
 	 * Creates new image
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -123,7 +131,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Creates new labeled image
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param label
@@ -169,7 +177,7 @@ public class GeoImage extends GeoElement implements
 		if (tempPoints == null) {
 			// temp corner points for transformations and absolute location
 			tempPoints = new GeoPoint[4];
-			tempPoints[CENTER_INDEX] = new GeoPoint(cons); //only care about the center
+			tempPoints[CENTER_INDEX] = new GeoPoint(cons); // only care about the center
 		}
 
 		if (corners[CENTER_INDEX] == null) {
@@ -226,7 +234,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Reloads images from internal image cache
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel for which we want to do the replacement
 	 */
@@ -245,16 +253,16 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * True for background images
-	 * 
+	 *
 	 * @return true for background images
 	 */
-	final public boolean isInBackground() {
+	public final boolean isInBackground() {
 		return inBackground;
 	}
 
 	/**
 	 * Switch to background image (or vice versa)
-	 * 
+	 *
 	 * @param flag
 	 *            true to make it background image
 	 */
@@ -264,7 +272,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Tries to load the image using the given fileName.
-	 * 
+	 *
 	 * @param fileName
 	 *            filename
 	 * @param width
@@ -332,8 +340,7 @@ public class GeoImage extends GeoElement implements
 	}
 
 	@Override
-	public void setStartPoint(GeoPointND p, int number)
-			throws CircularDefinitionException {
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
 		setCorner(p, number);
 	}
 
@@ -348,7 +355,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Sets a corner of this image.
-	 * 
+	 *
 	 * @param p
 	 *            corner point
 	 * @param number0
@@ -457,8 +464,9 @@ public class GeoImage extends GeoElement implements
 	 * @return List of corner points that are not null, defined, and labeled
 	 */
 	public List<GeoPoint> getDefinedAndLabeledStartPoints() {
-		return Arrays.stream(corners).filter(point -> point != null
-				&& point.isDefined() && point.isLabelSet()).collect(Collectors.toList());
+		return Arrays.stream(corners)
+				.filter(point -> point != null && point.isDefined() && point.isLabelSet())
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -469,50 +477,48 @@ public class GeoImage extends GeoElement implements
 	 * @return corner point
 	 */
 	@Override
-	final public GeoPoint getStartPoint(int number) {
+	public final GeoPoint getStartPoint(int number) {
 		return corners[number];
 	}
 
 	@Override
-	final public int getStartPointCount() {
+	public final int getStartPointCount() {
 		return corners.length;
 	}
 
 	@Override
-	final public boolean hasStaticLocation() {
+	public final boolean hasStaticLocation() {
 		return hasChangeableLocation;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if the image wants to be interpolated
 	 */
-	final public boolean isInterpolate() {
+	public final boolean isInterpolate() {
 		return interpolate;
 	}
 
 	/**
 	 * sets if the image want to be interpolated
-	 * 
+	 *
 	 * @param flag
 	 *            true to turn interpolation on
 	 */
-	final public void setInterpolate(boolean flag) {
+	public final void setInterpolate(boolean flag) {
 		interpolate = flag;
 	}
 
 	@Override
-	final public boolean isDefined() {
+	public final boolean isDefined() {
 		if (!defined) {
 			return false;
 		}
 		if (centered) {
-			return corners[CENTER_INDEX] != null
-					&& corners[CENTER_INDEX].isDefined();
+			return corners[CENTER_INDEX] != null && corners[CENTER_INDEX].isDefined();
 		}
 		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null && !corners[i].isDefined()
-					&& i != CENTER_INDEX) {
+			if (corners[i] != null && !corners[i].isDefined() && i != CENTER_INDEX) {
 				return false;
 			}
 		}
@@ -551,18 +557,16 @@ public class GeoImage extends GeoElement implements
 	 * Returns whether this image can be moved in Euclidian View.
 	 */
 	@Override
-	final public boolean isMoveable() {
-		return (hasAbsoluteScreenLocation || hasChangeableLocation)
-				&& isPointerChangeable();
+	public final boolean isMoveable() {
+		return (hasAbsoluteScreenLocation || hasChangeableLocation) && isPointerChangeable();
 	}
 
 	/**
 	 * Returns whether this image can be rotated in Euclidian View.
 	 */
 	@Override
-	final public boolean isRotateMoveable() {
-		return !hasAbsoluteScreenLocation && hasChangeableLocation
-				&& isPointerChangeable();
+	public final boolean isRotateMoveable() {
+		return !hasAbsoluteScreenLocation && hasChangeableLocation && isPointerChangeable();
 	}
 
 	@Override
@@ -609,8 +613,7 @@ public class GeoImage extends GeoElement implements
 			sb.startTag("centered").attr("val", true).endTag();
 		}
 
-		if (hasAbsoluteScreenLocation
-				&& (corners[0] == null || corners[0].isAbsoluteStartPoint())) {
+		if (hasAbsoluteScreenLocation && (corners[0] == null || corners[0].isAbsoluteStartPoint())) {
 			getXMLAbsScreenLoc(sb);
 		} else {
 			// store location of corners
@@ -628,7 +631,8 @@ public class GeoImage extends GeoElement implements
 	private void getXMLAbsScreenLoc(XMLStringBuilder sb) {
 		sb.startTag("absoluteScreenLocation")
 				.attr("x", getAbsoluteScreenLocX())
-				.attr("y", getAbsoluteScreenLocY()).endTag();
+				.attr("y", getAbsoluteScreenLocY())
+				.endTag();
 	}
 
 	private void getCropBoxXML(XMLStringBuilder sb) {
@@ -675,7 +679,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Sets real world coordinates of i. corner.
-	 * 
+	 *
 	 * @param x
 	 *            real world x coordinate
 	 * @param y
@@ -704,7 +708,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Gets the x real world coordinates of the i. corner.
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return x real coord
@@ -718,7 +722,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Gets the y real world coordinates of the i. corner.
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return y real coord
@@ -772,15 +776,14 @@ public class GeoImage extends GeoElement implements
 	 * Calculates the n-th corner point of this image in real world coordinates.
 	 * Note: if this image has an absolute screen location, result is set to
 	 * undefined.
-	 * 
+	 *
 	 * @param result
 	 *            here the result is stored.
 	 * @param n
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
-		if (hasAbsoluteScreenLocation
-				&& !kernel.getApplication().isWhiteboardActive()) {
+		if (hasAbsoluteScreenLocation && !kernel.getApplication().isWhiteboardActive()) {
 			result.setUndefined();
 			return;
 		}
@@ -790,31 +793,30 @@ public class GeoImage extends GeoElement implements
 		}
 
 		switch (n) {
-		case 1: // get A
-			result.setCoords(getCornerAx(), getCornerAy(), 1);
-			break;
+			case 1: // get A
+				result.setCoords(getCornerAx(), getCornerAy(), 1);
+				break;
 
-		case 2: // get B
-			getInternalCornerPointCoords(tempCoords, 1);
-			result.setCoords(tempCoords[0], tempCoords[1], 1.0);
-			break;
+			case 2: // get B
+				getInternalCornerPointCoords(tempCoords, 1);
+				result.setCoords(tempCoords[0], tempCoords[1], 1.0);
+				break;
 
-		case 3: // get C
-			double[] b = new double[2];
-			double[] d = new double[2];
-			getInternalCornerPointCoords(b, 1);
-			getInternalCornerPointCoords(d, 2);
-			result.setCoords(d[0] + b[0] - getCornerAx(),
-					d[1] + b[1] - getCornerAy(), 1.0);
-			break;
+			case 3: // get C
+				double[] b = new double[2];
+				double[] d = new double[2];
+				getInternalCornerPointCoords(b, 1);
+				getInternalCornerPointCoords(d, 2);
+				result.setCoords(d[0] + b[0] - getCornerAx(), d[1] + b[1] - getCornerAy(), 1.0);
+				break;
 
-		case 4: // get D
-			getInternalCornerPointCoords(tempCoords, 2);
-			result.setCoords(tempCoords[0], tempCoords[1], 1.0);
-			break;
+			case 4: // get D
+				getInternalCornerPointCoords(tempCoords, 2);
+				result.setCoords(tempCoords[0], tempCoords[1], 1.0);
+				break;
 
-		default:
-			result.setUndefined();
+			default:
+				result.setUndefined();
 		}
 	}
 
@@ -853,54 +855,54 @@ public class GeoImage extends GeoElement implements
 		final double width = pixelWidth;
 
 		switch (n) {
-		case 0: // get A
-			coords[0] = ax;
-			coords[1] = ay;
-			break;
+			case 0: // get A
+				coords[0] = ax;
+				coords[1] = ay;
+				break;
 
-		case 1: // get B
-			if (B != null) {
-				coords[0] = B.inhomX;
-				coords[1] = B.inhomY;
-			} else { // B is not defined
-				if (D == null) {
-					// B and D are not defined
-					coords[0] = ax + width / xScale;
-					coords[1] = ay;
-				} else {
-					// D is defined, B isn't
-					double nx = D.inhomY - ay;
-					double ny = ax - D.inhomX;
-					double factor = width / pixelHeight;
-					coords[0] = ax + factor * nx;
-					coords[1] = ay + factor * ny;
+			case 1: // get B
+				if (B != null) {
+					coords[0] = B.inhomX;
+					coords[1] = B.inhomY;
+				} else { // B is not defined
+					if (D == null) {
+						// B and D are not defined
+						coords[0] = ax + width / xScale;
+						coords[1] = ay;
+					} else {
+						// D is defined, B isn't
+						double nx = D.inhomY - ay;
+						double ny = ax - D.inhomX;
+						double factor = width / pixelHeight;
+						coords[0] = ax + factor * nx;
+						coords[1] = ay + factor * ny;
+					}
 				}
-			}
-			break;
+				break;
 
-		case 2: // D
-			if (D != null) {
-				coords[0] = D.inhomX;
-				coords[1] = D.inhomY;
-			} else { // D is not defined
-				if (B == null) {
-					// B and D are not defined
-					coords[0] = ax;
-					coords[1] = ay + pixelHeight / yScale;
-				} else {
-					// B is defined, D isn't
-					double nx = ay - B.inhomY;
-					double ny = B.inhomX - ax;
-					double factor = pixelHeight / width;
-					coords[0] = ax + factor * nx;
-					coords[1] = ay + factor * ny;
+			case 2: // D
+				if (D != null) {
+					coords[0] = D.inhomX;
+					coords[1] = D.inhomY;
+				} else { // D is not defined
+					if (B == null) {
+						// B and D are not defined
+						coords[0] = ax;
+						coords[1] = ay + pixelHeight / yScale;
+					} else {
+						// B is defined, D isn't
+						double nx = ay - B.inhomY;
+						double ny = B.inhomX - ax;
+						double factor = pixelHeight / width;
+						coords[0] = ax + factor * nx;
+						coords[1] = ay + factor * ny;
+					}
 				}
-			}
-			break;
+				break;
 
-		default:
-			coords[0] = Double.NaN;
-			coords[1] = Double.NaN;
+			default:
+				coords[0] = Double.NaN;
+				coords[1] = Double.NaN;
 		}
 	}
 
@@ -921,7 +923,7 @@ public class GeoImage extends GeoElement implements
 	 * rotate this image by angle phi around (0,0)
 	 */
 	@Override
-	final public void rotate(NumberValue phiValue) {
+	public final void rotate(NumberValue phiValue) {
 		if (!initTransformPoints()) {
 			return;
 		}
@@ -937,7 +939,7 @@ public class GeoImage extends GeoElement implements
 	 * rotate this image by angle phi around Q
 	 */
 	@Override
-	final public void rotate(NumberValue phiValue, GeoPointND Q) {
+	public final void rotate(NumberValue phiValue, GeoPointND Q) {
 		if (!initTransformPoints()) {
 			return;
 		}
@@ -1015,7 +1017,7 @@ public class GeoImage extends GeoElement implements
 	}
 
 	@Override
-	final public boolean isTranslateable() {
+	public final boolean isTranslateable() {
 		return true;
 	}
 
@@ -1033,7 +1035,7 @@ public class GeoImage extends GeoElement implements
 	}
 
 	@Override
-	final public ExtendedBoolean isEqualExtended(GeoElementND geo) {
+	public final ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		// return false if it's a different type
 		if (!geo.isGeoImage()) {
 			return ExtendedBoolean.FALSE;
@@ -1049,8 +1051,7 @@ public class GeoImage extends GeoElement implements
 
 		String imageFileName = this.getGraphicsAdapter().getImageFileName();
 		String md5A = imageFileName.substring(0, MD5_FOLDER_LENGTH);
-		String imageFileName2 = ((GeoImage) geo).getGraphicsAdapter()
-				.getImageFileName();
+		String imageFileName2 = ((GeoImage) geo).getGraphicsAdapter().getImageFileName();
 		String md5B = imageFileName2.substring(0, MD5_FOLDER_LENGTH);
 		// MD5 checksums equal, so images almost certainly identical
 		return ExtendedBoolean.newExtendedBoolean(md5A.equals(md5B));
@@ -1080,8 +1081,7 @@ public class GeoImage extends GeoElement implements
 	 * Returns all free parent points of this GeoElement.
 	 */
 	@Override
-	public ArrayList<GeoElementND> getFreeInputPoints(
-			EuclidianViewInterfaceSlim view) {
+	public ArrayList<GeoElementND> getFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		if (hasStaticLocation()) {
 			return null;
 		}
@@ -1102,18 +1102,26 @@ public class GeoImage extends GeoElement implements
 	}
 
 	@Override
-	final public boolean isAuxiliaryObjectByDefault() {
+	public final boolean isAuxiliaryObjectByDefault() {
 		return true;
 	}
 
 	@Override
-	final public boolean isAlgebraViewEditable() {
+	public final boolean isAlgebraViewEditable() {
 		return !isIndependent();
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 
 		// https://help.geogebra.org/topic/applymatrix-and-undo-bug
 		if (!initTransformPoints()) {
@@ -1128,7 +1136,6 @@ public class GeoImage extends GeoElement implements
 			}
 			corners[i].setCoords(vec);
 		}
-
 	}
 
 	@Override
@@ -1143,7 +1150,7 @@ public class GeoImage extends GeoElement implements
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 
@@ -1178,8 +1185,7 @@ public class GeoImage extends GeoElement implements
 	}
 
 	@Override
-	public String getFormulaString(final StringTemplate tpl,
-			final boolean substituteNumbers) {
+	public String getFormulaString(final StringTemplate tpl, final boolean substituteNumbers) {
 		// assume LaTeX
 		return toLaTeXString(true, null);
 	}
@@ -1194,7 +1200,7 @@ public class GeoImage extends GeoElement implements
 	/**
 	 * Sets image centered/uncentered. Calling it with false restores the
 	 * original position.
-	 * 
+	 *
 	 * @param centered
 	 *            to set.
 	 */
@@ -1235,7 +1241,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * sets relative position of crop box
-	 * 
+	 *
 	 * @param rect
 	 *            crop bounds
 	 */
@@ -1251,7 +1257,7 @@ public class GeoImage extends GeoElement implements
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if image has crop box.
 	 */
 	public boolean hasCropBox() {
@@ -1259,7 +1265,7 @@ public class GeoImage extends GeoElement implements
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if the image is cropped.
 	 */
 	public boolean isCropped() {
@@ -1268,7 +1274,7 @@ public class GeoImage extends GeoElement implements
 
 	/**
 	 * Sets the image to be cropped or not.
-	 * 
+	 *
 	 * @param cropped
 	 *            to set.
 	 */
@@ -1302,8 +1308,8 @@ public class GeoImage extends GeoElement implements
 
 	private double getHeightUncropped() {
 		if (getStartPoints()[2] != null && getStartPoint() != null) {
-			return getStartPoint().distance(getStartPoints()[2]) * kernel.getApplication()
-					.getActiveEuclidianView().getXscale();
+			return getStartPoint().distance(getStartPoints()[2])
+					* kernel.getApplication().getActiveEuclidianView().getXscale();
 		}
 		return pixelHeight * getWidthUncropped() / pixelWidth;
 	}
@@ -1340,9 +1346,11 @@ public class GeoImage extends GeoElement implements
 		double x = c[0];
 		double y = c[1];
 		if (cropBox != null) {
-			x = x + (getRealWorldX(1) - getRealWorldX(0)) * cropBox.getX() / pixelWidth
+			x = x
+					+ (getRealWorldX(1) - getRealWorldX(0)) * cropBox.getX() / pixelWidth
 					+ (getRealWorldX(0) - c[0]) * cropBox.getY() / pixelHeight;
-			y = y + (getRealWorldY(1) - getRealWorldY(0)) * cropBox.getX() / pixelWidth
+			y = y
+					+ (getRealWorldY(1) - getRealWorldY(0)) * cropBox.getX() / pixelWidth
 					+ (getRealWorldY(0) - c[1]) * cropBox.getY() / pixelHeight;
 		}
 		return new GPoint2D(x, y);
@@ -1360,10 +1368,15 @@ public class GeoImage extends GeoElement implements
 		}
 		double angle = -getAngle();
 
-		getStartPoint().setCoords(getStartPoints()[2].x + rwHeight * Math.sin(angle),
-				getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
-		getStartPoints()[1].setCoords(getStartPoints()[0].x + rwWidth * Math.cos(angle),
-				getStartPoints()[0].y + rwWidth * Math.sin(angle), 1);
+		getStartPoint()
+				.setCoords(
+						getStartPoints()[2].x + rwHeight * Math.sin(angle),
+						getStartPoints()[2].y - rwHeight * Math.cos(angle),
+						1);
+		getStartPoints()[1].setCoords(
+				getStartPoints()[0].x + rwWidth * Math.cos(angle),
+				getStartPoints()[0].y + rwWidth * Math.sin(angle),
+				1);
 	}
 
 	private void ensureCorner() {
@@ -1390,9 +1403,13 @@ public class GeoImage extends GeoElement implements
 		double left = getStartPoints()[2].x;
 		if (cropBox != null) {
 			double angle = getAngle();
-			double cropTop = cropBox.getY() / pixelHeight * getHeightUncropped()
+			double cropTop = cropBox.getY()
+					/ pixelHeight
+					* getHeightUncropped()
 					/ app.getActiveEuclidianView().getScale(0);
-			double cropLeft = cropBox.getX() / pixelWidth * getWidthUncropped()
+			double cropLeft = cropBox.getX()
+					/ pixelWidth
+					* getWidthUncropped()
 					/ app.getActiveEuclidianView().getScale(0);
 			left += cropLeft * Math.cos(angle) - cropTop * Math.sin(angle);
 			top += -cropLeft * Math.sin(angle) - cropTop * Math.cos(angle);
@@ -1449,8 +1466,7 @@ public class GeoImage extends GeoElement implements
 		double top = (view.getHeight() - height) / 2;
 		double left = center ? (view.getWidth() - width) / 2.0 : RULER_LEFT;
 		kernel.getConstruction().removeFromConstructionList(this);
-		setLocation(view.toRealWorldCoordX(left),
-				view.toRealWorldCoordY(top));
+		setLocation(view.toRealWorldCoordX(left), view.toRealWorldCoordY(top));
 		update();
 	}
 

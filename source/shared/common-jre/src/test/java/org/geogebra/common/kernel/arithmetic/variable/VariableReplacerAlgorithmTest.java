@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,15 +41,13 @@ class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	void testPower() {
 		// transformation to x^2 y^3 done on higher level, see ParserTest
-		shouldReplaceAs("pixxyyy",
-				Unicode.PI_STRING + " * x * x * y * y * y");
+		shouldReplaceAs("pixxyyy", Unicode.PI_STRING + " * x * x * y * y * y");
 	}
 
 	@Test
 	@Issue({"WLY-122", "APPS-5781"})
 	void testDecimal() {
-		shouldReplaceAs("pi8.1",
-				Unicode.PI_STRING + " * 8.1");
+		shouldReplaceAs("pi8.1", Unicode.PI_STRING + " * 8.1");
 		add("C_{0}=3");
 		shouldReplaceAs("C_{0}8.1", "C_{0} * 8.1");
 	}
@@ -86,8 +84,7 @@ class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	void testIndexProductGreek() {
 		allowMultipleUnassigned();
-		shouldReplaceAs("E_{m}" + Unicode.omega + "C",
-				"E_{m} * " + Unicode.omega + " * C");
+		shouldReplaceAs("E_{m}" + Unicode.omega + "C", "E_{m} * " + Unicode.omega + " * C");
 	}
 
 	@Test
@@ -104,8 +101,7 @@ class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	void testConstantMultiplier() {
-		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
-			+ " * sqrt(5)");
+		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING + " * sqrt(5)");
 	}
 
 	@Test
@@ -120,8 +116,8 @@ class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("sinxx", "sin(x * x)");
 		shouldReplaceAs("sin2", "sin(2" + Unicode.DEGREE_CHAR + ")");
 		shouldReplaceAs("cos3x", "cos(3 * x)");
-		shouldReplaceAs("asinsinpix",
-				TestStringUtil.unicode("asind(sin(" + Unicode.PI_STRING + " * x))"));
+		shouldReplaceAs(
+				"asinsinpix", TestStringUtil.unicode("asind(sin(" + Unicode.PI_STRING + " * x))"));
 		getKernel().setAngleUnit(Kernel.ANGLE_RADIANT);
 		shouldReplaceAs("sin2", "sin(2)");
 	}
@@ -159,8 +155,7 @@ class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	private void shouldReplaceAs(String in, String out) {
 		ExpressionValue replacement = variableReplacerAlgorithm.replace(in);
-		assertEquals(out,
-				replacement.toString(StringTemplate.testTemplate));
+		assertEquals(out, replacement.toString(StringTemplate.testTemplate));
 	}
 
 	@Test

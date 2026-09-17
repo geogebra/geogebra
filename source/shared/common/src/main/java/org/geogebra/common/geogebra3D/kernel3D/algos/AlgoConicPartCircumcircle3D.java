@@ -45,8 +45,8 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 	 * @param type
 	 *            arc or sector
 	 */
-	public AlgoConicPartCircumcircle3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C, int type) {
+	public AlgoConicPartCircumcircle3D(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoPointND C, int type) {
 		super(cons, label, A, B, C, type);
 	}
 
@@ -63,33 +63,32 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 
 	@Override
 	protected void computeSinglePoint() {
-		GeoConic3D.setSinglePoint((GeoConic3D) conicPart,
-				A.getInhomCoordsInD(3));
+		GeoConic3D.setSinglePoint((GeoConic3D) conicPart, A.getInhomCoordsInD(3));
 		super.computeSinglePoint();
 	}
 
 	@Override
-	final public GeoPoint getA() {
+	public final GeoPoint getA() {
 		return algo.getPoint2D(0);
 	}
 
 	/**
 	 * Method for LocusEqu.
-	 * 
+	 *
 	 * @return second point.
 	 */
 	@Override
-	final public GeoPoint getB() {
+	public final GeoPoint getB() {
 		return algo.getPoint2D(1);
 	}
 
 	/**
 	 * Method for LocusEqu.
-	 * 
+	 *
 	 * @return third point.
 	 */
 	@Override
-	final public GeoPoint getC() {
+	public final GeoPoint getC() {
 		return algo.getPoint2D(2);
 	}
 
@@ -97,5 +96,4 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 	public GeoConicPart3D getConicPart() {
 		return (GeoConicPart3D) super.getConicPart();
 	}
-
 }

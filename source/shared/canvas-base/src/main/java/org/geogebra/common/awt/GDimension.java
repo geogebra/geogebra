@@ -33,5 +33,4 @@ public abstract class GDimension {
 	 * @return the height
 	 */
 	public abstract int getHeight();
-
 }

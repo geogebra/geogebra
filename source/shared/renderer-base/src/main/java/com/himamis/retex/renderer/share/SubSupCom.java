@@ -76,15 +76,15 @@ public class SubSupCom implements AtomConsumer {
 
 	public void setState(TeXParser tp, final char c) {
 		switch (state) {
-		case SUB_WAIT:
-		case SUP_WAIT:
-			throw new ParseException(tp, "Invalid " + c);
-		case OK:
-			if (c == '^') {
-				state = State.SUP_WAIT;
-			} else {
-				state = State.SUB_WAIT;
-			}
+			case SUB_WAIT:
+			case SUP_WAIT:
+				throw new ParseException(tp, "Invalid " + c);
+			case OK:
+				if (c == '^') {
+					state = State.SUP_WAIT;
+				} else {
+					state = State.SUB_WAIT;
+				}
 		}
 	}
 
@@ -97,18 +97,18 @@ public class SubSupCom implements AtomConsumer {
 	@Override
 	public void add(TeXParser tp, Atom a) {
 		switch (state) {
-		case SUB_WAIT:
-			addToSub(a);
-			state = State.OK;
-			break;
-		case SUP_WAIT:
-			addToSup(a);
-			state = State.OK;
-			break;
-		case OK:
-			tp.closeConsumer(get());
-			tp.addToConsumer(a);
-			break;
+			case SUB_WAIT:
+				addToSub(a);
+				state = State.OK;
+				break;
+			case SUP_WAIT:
+				addToSup(a);
+				state = State.OK;
+				break;
+			case OK:
+				tp.closeConsumer(get());
+				tp.addToConsumer(a);
+				break;
 		}
 	}
 
@@ -174,12 +174,10 @@ public class SubSupCom implements AtomConsumer {
 	}
 
 	@Override
-	public void lbrace(TeXParser tp) {
-	}
+	public void lbrace(TeXParser tp) {}
 
 	@Override
-	public void rbrace(TeXParser tp) {
-	}
+	public void rbrace(TeXParser tp) {}
 
 	public static Atom get(Atom base, Atom sub, Atom sup) {
 		if (base.getRightType() == TeXConstants.TYPE_BIG_OPERATOR) {

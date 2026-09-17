@@ -54,5 +54,4 @@ public class Carota {
 		 */
 		String onInserted(String text);
 	}
-
 }

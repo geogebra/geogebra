@@ -22,17 +22,17 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Simple geometry getter with 4 lines for each geometry type:
- * 
+ *
  * ## name (if filtered to one geo export)
- * 
+ *
  * # type
- * 
+ *
  * v x y z x y z ... (vertices)
- * 
+ *
  * n x y z x y z ... (normals)
- * 
+ *
  * c r g b a r g b a ... (colors)
- * 
+ *
  * t i1 i2 i3 ... (triangles indices)
  *
  */
@@ -65,7 +65,7 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param name
 	 *            geo name to filter; set it to "" if no filtering
 	 */
@@ -96,22 +96,31 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 	}
 
 	@Override
-	public void addVertexNormalColor(double x, double y, double z, double nx,
-			double ny, double nz, double r, double g, double b, double a) {
+	public void addVertexNormalColor(
+			double x,
+			double y,
+			double z,
+			double nx,
+			double ny,
+			double nz,
+			double r,
+			double g,
+			double b,
+			double a) {
 		currentGeometryStrings.vsb.append(" ");
 		currentGeometryStrings.vsb.append(x);
 		currentGeometryStrings.vsb.append(" ");
 		currentGeometryStrings.vsb.append(y);
 		currentGeometryStrings.vsb.append(" ");
 		currentGeometryStrings.vsb.append(z);
-	
+
 		currentGeometryStrings.nsb.append(" ");
 		currentGeometryStrings.nsb.append(nx);
 		currentGeometryStrings.nsb.append(" ");
 		currentGeometryStrings.nsb.append(ny);
 		currentGeometryStrings.nsb.append(" ");
 		currentGeometryStrings.nsb.append(nz);
-		
+
 		currentGeometryStrings.csb.append(" ");
 		currentGeometryStrings.csb.append(r);
 		currentGeometryStrings.csb.append(" ");
@@ -139,7 +148,7 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return result
 	 */
 	public StringBuilder get() {
@@ -150,8 +159,7 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 			sb.append("\n");
 		}
 		boolean notFirst = false;
-		for (GeometryStringBuilders geometryStrings : geometryStringsMap
-				.values()) {
+		for (GeometryStringBuilders geometryStrings : geometryStringsMap.values()) {
 			if (notFirst) {
 				sb.append("\n");
 			} else {
@@ -170,5 +178,4 @@ public class Geometry3DGetterSimple implements Geometry3DGetter {
 		}
 		return sb;
 	}
-
 }

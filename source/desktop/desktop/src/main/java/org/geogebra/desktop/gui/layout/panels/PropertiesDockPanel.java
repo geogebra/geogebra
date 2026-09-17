@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,8 +31,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Dock panel for the algebra view.
  */
-public class PropertiesDockPanel extends DockPanelD
-		implements WindowFocusListener {
+public class PropertiesDockPanel extends DockPanelD implements WindowFocusListener {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private PropertiesViewD view;
@@ -43,18 +42,18 @@ public class PropertiesDockPanel extends DockPanelD
 	 *            application
 	 */
 	public PropertiesDockPanel(AppD app) {
-		super(App.VIEW_PROPERTIES, // view id
+		super(
+				App.VIEW_PROPERTIES, // view id
 				"Preferences", // view title phrase
 				null, // toolbar string
 				true, // style bar?
 				-1, // menu order
 				'E' // menu shortcut
-		);
+				);
 
 		this.app = app;
 		this.setOpenInFrame(false);
 		super.setDialog(true);
-
 	}
 
 	private void getPropertiesView() {
@@ -117,15 +116,13 @@ public class PropertiesDockPanel extends DockPanelD
 		super.createFrame();
 
 		getFrame().addWindowFocusListener(this);
-
 	}
 
 	@Override
 	public void updateLabels() {
 		super.updateLabels();
 		if (view != null) {
-			titleLabel
-					.setText(view.getTypeString(view.getSelectedOptionType()));
+			titleLabel.setText(view.getTypeString(view.getSelectedOptionType()));
 		}
 	}
 
@@ -190,5 +187,4 @@ public class PropertiesDockPanel extends DockPanelD
 	protected void setFocus(boolean hasFocus) {
 		// nothing to do for properties view
 	}
-
 }

@@ -35,8 +35,10 @@ public class AxisPositiveDirectionProperty extends AbstractValuedProperty<Boolea
 	 * @param index axis index
 	 * @param euclidianView euclidian view
 	 */
-	public AxisPositiveDirectionProperty(Localization localization,
-			EuclidianSettings euclidianSettings, int index,
+	public AxisPositiveDirectionProperty(
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			int index,
 			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "PositiveDirectionOnly");
 		this.axisIndex = index;

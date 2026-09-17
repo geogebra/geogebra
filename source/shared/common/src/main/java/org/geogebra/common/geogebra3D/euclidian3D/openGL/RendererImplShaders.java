@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -23,24 +23,24 @@ import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 
 /**
  * implementation for renderer using shaders
- * 
+ *
  * @author mathieu
  *
  */
 @HasNativeSubclass
 public abstract class RendererImplShaders extends RendererImpl {
 
-	final static public int GLSL_ATTRIB_POSITION = 0;
-	final static public int GLSL_ATTRIB_COLOR = 1;
-	final static public int GLSL_ATTRIB_NORMAL = 2;
-	final static public int GLSL_ATTRIB_TEXTURE = 3;
-	final static public int GLSL_ATTRIB_INDEX = 4;
-	final static public int GLSL_ATTRIB_SIZE = 5;
+	public static final int GLSL_ATTRIB_POSITION = 0;
+	public static final int GLSL_ATTRIB_COLOR = 1;
+	public static final int GLSL_ATTRIB_NORMAL = 2;
+	public static final int GLSL_ATTRIB_TEXTURE = 3;
+	public static final int GLSL_ATTRIB_INDEX = 4;
+	public static final int GLSL_ATTRIB_SIZE = 5;
 
-	final static protected int TEXTURE_TYPE_NONE = 0;
-	final static public int TEXTURE_TYPE_FADING = 1;
-	final static public int TEXTURE_TYPE_TEXT = 2;
-	final static public int TEXTURE_TYPE_DASH = 4;
+	protected static final int TEXTURE_TYPE_NONE = 0;
+	public static final int TEXTURE_TYPE_FADING = 1;
+	public static final int TEXTURE_TYPE_TEXT = 2;
+	public static final int TEXTURE_TYPE_DASH = 4;
 
 	// location values for shader fields
 	protected Object matrixLocation; // matrix
@@ -53,6 +53,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected Object eyePositionLocation;
 	/** culling type */
 	protected Object cullingLocation;
+
 	protected Object colorLocation; // color
 	// enable / disable clip planes
 	protected Object enableClipPlanesLocation;
@@ -67,7 +68,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected Object layerLocation; // layer value
 
 	protected Object opaqueSurfacesLocation; // special drawing for opaque
-												// surfaces
+	// surfaces
 
 	protected float[] tmpNormal3 = new float[3];
 
@@ -108,35 +109,35 @@ public abstract class RendererImplShaders extends RendererImpl {
 	 * dash values for shaders
 	 */
 	private static final float[][] DASH_SHADERS_VALUES = {
-			// coeff, a, b, c
-			// in shaders : x = mod(dashValues[0] * coordTexture.x, 1.0)
-			// if (x > a || (x > b && x <= c)) then discard
-			{ 2.0f, 0.5f, -1f, -1f }, // {true, false, true, false}, //
-										// DASH_SHORT
-			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
-										// DASH_LONG_HIDDEN
-			{ 4.0f, 0.5f, -1f, -1f }, // {true, false, true, false, true, false,
-										// true, false}, // DASH_DOTTED
-			{ 2.0f, 0.25f, -1f, -1f }, // {true, false, false, false, true,
-										// false, false, false}, //
-										// DASH_DOTTED_HIDDEN
-			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
-										// DASH_NONE_HIDDEN
-			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
-										// DASH_SHORT_HIDDEN
-			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
-										// DASH_LONG
-			{ 1.0f, 12f / 16f, 7f / 16f, 11f / 16f }, // {true,true,true,true,
-														// true,true,true,false,
-														// false,false,false,true,
-														// false,false,false,false},
-														// // DASH_DOTTED_DASHED
-			{ 1.0f, 12f / 16f, 3f / 16f, 11f / 16f }, // {false,false,true,true,
-														// true,false,false,false,
-														// false,false,false,true,
-														// false,false,false,false}
-														// //
-														// DASH_DOTTED_DASHED_HIDDEN
+		// coeff, a, b, c
+		// in shaders : x = mod(dashValues[0] * coordTexture.x, 1.0)
+		// if (x > a || (x > b && x <= c)) then discard
+		{2.0f, 0.5f, -1f, -1f}, // {true, false, true, false}, //
+		// DASH_SHORT
+		{1.0f, 0.25f, -1f, -1f}, // {true, false, false, false}, //
+		// DASH_LONG_HIDDEN
+		{4.0f, 0.5f, -1f, -1f}, // {true, false, true, false, true, false,
+		// true, false}, // DASH_DOTTED
+		{2.0f, 0.25f, -1f, -1f}, // {true, false, false, false, true,
+		// false, false, false}, //
+		// DASH_DOTTED_HIDDEN
+		{1.0f, 0.5f, -1f, -1f}, // {true, true, false, false}, //
+		// DASH_NONE_HIDDEN
+		{1.0f, 0.25f, -1f, -1f}, // {true, false, false, false}, //
+		// DASH_SHORT_HIDDEN
+		{1.0f, 0.5f, -1f, -1f}, // {true, true, false, false}, //
+		// DASH_LONG
+		{1.0f, 12f / 16f, 7f / 16f, 11f / 16f}, // {true,true,true,true,
+		// true,true,true,false,
+		// false,false,false,true,
+		// false,false,false,false},
+		// // DASH_DOTTED_DASHED
+		{1.0f, 12f / 16f, 3f / 16f, 11f / 16f}, // {false,false,true,true,
+		// true,false,false,false,
+		// false,false,false,true,
+		// false,false,false,false}
+		// //
+		// DASH_DOTTED_DASHED_HIDDEN
 
 	};
 
@@ -146,45 +147,44 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	/**
 	 * push buffer data
-	 * 
+	 *
 	 * @param numBytes
 	 *            data size
 	 * @param fb
 	 *            buffer array
 	 */
-	abstract protected void glBufferData(int numBytes, GLBuffer fb);
+	protected abstract void glBufferData(int numBytes, GLBuffer fb);
 
-	abstract protected int getStoreBufferNumBytes(int length, int size);
+	protected abstract int getStoreBufferNumBytes(int length, int size);
 
 	@Override
-	final public void bindBufferForIndices(int buffer) {
+	public final void bindBufferForIndices(int buffer) {
 		bindBuffer(getGL_ELEMENT_ARRAY_BUFFER(), buffer);
 	}
 
-	final protected void bindBuffer(int buffer) {
+	protected final void bindBuffer(int buffer) {
 		bindBuffer(getGL_ARRAY_BUFFER(), buffer);
 	}
 
-	abstract protected void bindBuffer(int bufferType, int buffer);
+	protected abstract void bindBuffer(int bufferType, int buffer);
 
-	abstract protected int getGL_ELEMENT_ARRAY_BUFFER();
+	protected abstract int getGL_ELEMENT_ARRAY_BUFFER();
 
-	abstract protected int getGL_ARRAY_BUFFER();
+	protected abstract int getGL_ARRAY_BUFFER();
 
 	/**
 	 * set vertex attribute pointer
-	 * 
+	 *
 	 * @param attrib
 	 *            attribute
 	 * @param size
 	 *            size
 	 */
-	abstract protected void vertexAttribPointer(int attrib, int size);
-	
-	abstract protected void glUniform3fv(Object location, float[] values);
+	protected abstract void vertexAttribPointer(int attrib, int size);
 
-	abstract protected void glUniform3f(Object location, float x, float y,
-			float z);
+	protected abstract void glUniform3fv(Object location, float[] values);
+
+	protected abstract void glUniform3f(Object location, float x, float y, float z);
 
 	protected void setVertShader(Object vertShader) {
 		this.vertShader = vertShader;
@@ -201,9 +201,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void setNormalToNone() {
-        oneNormalForAllVertices = true;
-        glUniform3f(normalLocation, -2, -2, -2);
-    }
+		oneNormalForAllVertices = true;
+		glUniform3f(normalLocation, -2, -2, -2);
+	}
 
 	@Override
 	public void enableTextures() {
@@ -221,7 +221,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	/**
 	 * tells that current geometry has a texture
 	 */
-	final public void setCurrentGeometryHasTexture() {
+	public final void setCurrentGeometryHasTexture() {
 		if (areTexturesEnabled() && currentTextureType == TEXTURE_TYPE_NONE) {
 			setCurrentTextureType(oldTextureType);
 		}
@@ -230,11 +230,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 	/**
 	 * tells that current geometry has no texture
 	 */
-	final public void setCurrentGeometryHasNoTexture() {
+	public final void setCurrentGeometryHasNoTexture() {
 		if (areTexturesEnabled() && currentTextureType != TEXTURE_TYPE_NONE) {
 			oldTextureType = currentTextureType;
 			setCurrentTextureType(TEXTURE_TYPE_NONE);
-
 		}
 	}
 
@@ -260,7 +259,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	 * enable text textures
 	 */
 	@Override
-	final public void enableTexturesForText() {
+	public final void enableTexturesForText() {
 		setCurrentTextureType(TEXTURE_TYPE_TEXT);
 	}
 
@@ -292,14 +291,13 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 	}
 
-	abstract protected void glUniform1i(Object location, int value);
+	protected abstract void glUniform1i(Object location, int value);
 
-	abstract protected void glUniform1fv(Object location, int length,
-			float[] values);
+	protected abstract void glUniform1fv(Object location, int length, float[] values);
 
-	abstract protected void glEnableVertexAttribArray(int attrib);
+	protected abstract void glEnableVertexAttribArray(int attrib);
 
-	abstract protected void glDisableVertexAttribArray(int attrib);
+	protected abstract void glDisableVertexAttribArray(int attrib);
 
 	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
@@ -416,11 +414,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
 		glBufferDataIndices(length * 2, arrayI);
-
 	}
 
-	abstract protected void glBufferDataIndices(int numBytes,
-			GLBufferIndices arrayI);
+	protected abstract void glBufferDataIndices(int numBytes, GLBufferIndices arrayI);
 
 	@Override
 	public void attribPointers() {
@@ -438,7 +434,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 	}
 
-	abstract protected int getGLType(Manager.Type type);
+	protected abstract int getGLType(Manager.Type type);
 
 	protected final void setModelViewIdentity() {
 		projectionMatrix.getForGL(tmpFloat16);
@@ -447,7 +443,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	/**
 	 * copy values to GL matrix location
-	 * 
+	 *
 	 * @param values
 	 *            values
 	 */
@@ -455,7 +451,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniformMatrix4fv(matrixLocation, values);
 	}
 
-	abstract protected void glUniformMatrix4fv(Object location, float[] values);
+	protected abstract void glUniformMatrix4fv(Object location, float[] values);
 
 	@Override
 	public void draw() {
@@ -472,7 +468,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUseProgram(shaderProgram);
 	}
 
-	abstract protected void glUseProgram(Object program);
+	protected abstract void glUseProgram(Object program);
 
 	@Override
 	public void dispose() {
@@ -487,10 +483,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 	 */
 	protected abstract void glResetProgram();
 
-	abstract protected void glDetachAndDeleteShader(Object program,
-			Object shader);
+	protected abstract void glDetachAndDeleteShader(Object program, Object shader);
 
-	abstract protected void glDeleteProgram(Object program);
+	protected abstract void glDeleteProgram(Object program);
 
 	@Override
 	public void setMatrixView(CoordMatrix4x4 matrix) {
@@ -512,8 +507,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		setModelViewIdentity();
 	}
 
-	abstract protected void glUniform4f(Object location, float a, float b,
-			float c, float d);
+	protected abstract void glUniform4f(Object location, float a, float b, float c, float d);
 
 	@Override
 	public void setColor(float r, float g, float b, float a) {
@@ -560,11 +554,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniform4fv(eyePositionLocation, eyeOrDirection);
 	}
 
-	abstract protected void glUniform4fv(Object location, float[] values);
+	protected abstract void glUniform4fv(Object location, float[] values);
 
 	@Override
-	public void setLightAmbientDiffuse(float ambient0, float diffuse0,
-			float ambient1, float diffuse1) {
+	public void setLightAmbientDiffuse(
+			float ambient0, float diffuse0, float ambient1, float diffuse1) {
 
 		float coeff = 1.414f;
 
@@ -573,10 +567,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 		float a1 = ambient1 * coeff;
 		float d1 = 1 - a1;
 
-		ambientDiffuse = new float[][] { { a0, d0 }, { a1, d1 } };
+		ambientDiffuse = new float[][] {{a0, d0}, {a1, d1}};
 	}
 
-	abstract protected void glUniform2fv(Object location, float[] values);
+	protected abstract void glUniform2fv(Object location, float[] values);
 
 	@Override
 	public void setLight(int light) {
@@ -594,22 +588,21 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	final public void setView() {
+	public final void setView() {
 		renderer.setProjectionMatrix();
-        glViewPort();
+		glViewPort();
 	}
 
 	@Override
 	public void glViewPort() {
-        glViewPort(
-                renderer.getViewportHorizontalOffset(),
-                renderer.getViewportVerticalOffset(),
-                renderer.getWidthInPixels(),
-                renderer.getHeightInPixels()
-        );
-    }
+		glViewPort(
+				renderer.getViewportHorizontalOffset(),
+				renderer.getViewportVerticalOffset(),
+				renderer.getWidthInPixels(),
+				renderer.getHeightInPixels());
+	}
 
-	abstract protected void glViewPort(int x, int y, int width, int height);
+	protected abstract void glViewPort(int x, int y, int width, int height);
 
 	@Override
 	public void viewOrtho() {
@@ -617,7 +610,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	final public void updateOrthoValues() {
+	public final void updateOrthoValues() {
 		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
 		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
 		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
@@ -651,11 +644,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// usually perspXZ and perspYZ are equal to 0 since left = -right and
 		// bottom = -top
 		perspXZ = (renderer.getRight() + renderer.getLeft())
-				/ (renderer.eyeToScreenDistance[renderer.eye]
-						* renderer.getWidth());
+				/ (renderer.eyeToScreenDistance[renderer.eye] * renderer.getWidth());
 		perspYZ = (renderer.getTop() + renderer.getBottom())
-				/ (renderer.eyeToScreenDistance[renderer.eye]
-						* renderer.getHeight());
+				/ (renderer.eyeToScreenDistance[renderer.eye] * renderer.getHeight());
 
 		// X row
 		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
@@ -693,19 +684,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// W row
 		projectionMatrix.set(4, 1, 0);
 		projectionMatrix.set(4, 2, 0);
-		projectionMatrix.set(4, 3,
-				-1.0 / renderer.eyeToScreenDistance[renderer.eye]);
+		projectionMatrix.set(4, 3, -1.0 / renderer.eyeToScreenDistance[renderer.eye]);
 		projectionMatrix.set(4, 4, 1);
-
 	}
 
 	@Override
 	public void updateGlassesValues() {
 		for (int i = 0; i < 2; i++) {
-			glassesXZ[i] = -2.0 * renderer.glassesEyeX[i]
-					/ (renderer.eyeToScreenDistance[i] * renderer.getWidth());
-			glassesYZ[i] = -2.0 * renderer.glassesEyeY[i]
-					/ (renderer.eyeToScreenDistance[i] * renderer.getHeight());
+			glassesXZ[i] =
+					-2.0 * renderer.glassesEyeX[i] / (renderer.eyeToScreenDistance[i] * renderer.getWidth());
+			glassesYZ[i] =
+					-2.0 * renderer.glassesEyeY[i] / (renderer.eyeToScreenDistance[i] * renderer.getHeight());
 		}
 	}
 
@@ -724,14 +713,12 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void updateProjectionObliqueValues() {
 		projectionMatrix.set(1, 1, 2.0 / renderer.getWidth());
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(1, 3,
-				renderer.obliqueX * 2.0 / renderer.getWidth());
+		projectionMatrix.set(1, 3, renderer.obliqueX * 2.0 / renderer.getWidth());
 		projectionMatrix.set(1, 4, 0);
 
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(2, 2, 2.0 / renderer.getHeight());
-		projectionMatrix.set(2, 3,
-				renderer.obliqueY * 2.0 / renderer.getHeight());
+		projectionMatrix.set(2, 3, renderer.obliqueY * 2.0 / renderer.getHeight());
 		projectionMatrix.set(2, 4, 0);
 
 		projectionMatrix.set(3, 1, 0);
@@ -743,7 +730,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		projectionMatrix.set(4, 2, 0);
 		projectionMatrix.set(4, 3, 0);
 		projectionMatrix.set(4, 4, 1);
-
 	}
 
 	@Override
@@ -755,7 +741,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param index
 	 *            index for x/y/z
 	 * @param min
@@ -769,7 +755,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	final protected void updateClipPlanes() {
+	protected final void updateClipPlanes() {
 		glUniform3fv(clipPlanesMinLocation, clipPlanesMin);
 		glUniform3fv(clipPlanesMaxLocation, clipPlanesMax);
 	}
@@ -884,11 +870,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniform1i(cullingLocation, 1);
 	}
 
-	abstract protected void glCullFace(int flag);
+	protected abstract void glCullFace(int flag);
 
-	abstract protected int getGL_FRONT();
+	protected abstract int getGL_FRONT();
 
-	abstract protected int getGL_BACK();
+	protected abstract int getGL_BACK();
 
 	@Override
 	public void setCullFaceFront() {
@@ -930,24 +916,24 @@ public abstract class RendererImplShaders extends RendererImpl {
 		return true;
 	}
 
-	abstract protected void glDepthMask(boolean flag);
+	protected abstract void glDepthMask(boolean flag);
 
 	@Override
-	final public void enableDepthMask() {
+	public final void enableDepthMask() {
 		glDepthMask(true);
 	}
 
 	@Override
-	final public void disableDepthMask() {
+	public final void disableDepthMask() {
 		glDepthMask(false);
 	}
 
-	abstract protected Object glGetUniformLocation(String name);
+	protected abstract Object glGetUniformLocation(String name);
 
 	/**
 	 * set uniform locations for shaders
 	 */
-	final protected void setShaderLocations() {
+	protected final void setShaderLocations() {
 		matrixLocation = glGetUniformLocation("matrix");
 		lightPositionLocation = glGetUniformLocation("lightPosition");
 		ambientDiffuseLocation = glGetUniformLocation("ambientDiffuse");
@@ -975,7 +961,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// label rendering
 		labelRenderingLocation = glGetUniformLocation("labelRendering");
 		labelOriginLocation = glGetUniformLocation("labelOrigin");
-		
+
 		// layer
 		layerLocation = glGetUniformLocation("layer");
 
@@ -1008,17 +994,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 		attribPointers();
 	}
 
-	abstract protected void compileShadersProgram();
+	protected abstract void compileShadersProgram();
 
-	abstract protected Object glCreateProgram();
+	protected abstract Object glCreateProgram();
 
-	abstract protected void glAttachShader(Object shader);
+	protected abstract void glAttachShader(Object shader);
 
-	abstract protected void glBindAttribLocation(int index, String name);
+	protected abstract void glBindAttribLocation(int index, String name);
 
-	abstract protected void glLinkProgram();
+	protected abstract void glLinkProgram();
 
-	abstract protected void createVBOs();
+	protected abstract void createVBOs();
 
 	@Override
 	public void enableAlphaTest() {
@@ -1070,26 +1056,22 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void drawTranspClosedCurved() {
-		((ManagerShaders) renderer.getGeometryManager())
-				.drawSurfacesClosed(renderer);
+		((ManagerShaders) renderer.getGeometryManager()).drawSurfacesClosed(renderer);
 	}
 
 	@Override
 	public void drawClosedSurfacesForHiding() {
-		((ManagerShaders) renderer.getGeometryManager())
-				.drawSurfacesClosed(renderer);
+		((ManagerShaders) renderer.getGeometryManager()).drawSurfacesClosed(renderer);
 	}
 
 	@Override
 	public void drawClippedSurfacesForHiding() {
-		((ManagerShaders) renderer.getGeometryManager())
-				.drawSurfacesClipped(renderer);
+		((ManagerShaders) renderer.getGeometryManager()).drawSurfacesClipped(renderer);
 	}
 
 	@Override
 	public void drawTranspClipped() {
-		((ManagerShaders) renderer.getGeometryManager())
-				.drawSurfacesClipped(renderer);
+		((ManagerShaders) renderer.getGeometryManager()).drawSurfacesClipped(renderer);
 	}
 
 	@Override
@@ -1112,5 +1094,4 @@ public abstract class RendererImplShaders extends RendererImpl {
 		disableOpaqueSurfaces();
 		setLight(0);
 	}
-
 }

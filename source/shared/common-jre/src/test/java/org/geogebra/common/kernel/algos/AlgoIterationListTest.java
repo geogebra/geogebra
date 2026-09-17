@@ -37,15 +37,14 @@ class AlgoIterationListTest extends BaseAppTestSetup {
 		evaluate("b=21");
 		GeoElement list = evaluateGeoElement("IterationList(Mod(p,q),p,q,{a,b},b)");
 		GeoElement element = evaluateGeoElement("Iteration(Mod(p,q),p,q,{a,b},3)");
-		assertEquals("{34, 21, 13, 8, 5, 3, 2, 1, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?}",
+		assertEquals(
+				"{34, 21, 13, 8, 5, 3, 2, 1, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?}",
 				list.toValueString(StringTemplate.testTemplate));
-		assertEquals("8",
-				element.toValueString(StringTemplate.testTemplate));
+		assertEquals("8", element.toValueString(StringTemplate.testTemplate));
 		evaluate("SetValue(b, 13)");
-		assertEquals("{34, 13, 8, 5, 3, 2, 1, 0, ?, ?, ?, ?, ?, ?}",
+		assertEquals(
+				"{34, 13, 8, 5, 3, 2, 1, 0, ?, ?, ?, ?, ?, ?}",
 				list.toValueString(StringTemplate.testTemplate));
-		assertEquals("5",
-				element.toValueString(StringTemplate.testTemplate));
+		assertEquals("5", element.toValueString(StringTemplate.testTemplate));
 	}
-
 }

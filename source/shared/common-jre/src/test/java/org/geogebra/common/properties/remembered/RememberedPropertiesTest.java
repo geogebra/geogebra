@@ -49,22 +49,16 @@ import org.junit.jupiter.api.Test;
 
 class RememberedPropertiesTest extends BaseAppTestSetup {
 	private static final PropertyKey FONT_FAMILY_KEY = PropertyKey.of(FontProperty.class);
-	private static final PropertyKey FONT_SIZE_KEY =
-			PropertyKey.of(NotesFontSizeProperty.class);
+	private static final PropertyKey FONT_SIZE_KEY = PropertyKey.of(NotesFontSizeProperty.class);
 
 	private RememberedProperties remembered;
-	private final RememberedFontFamilyHandler fontFamilyHandler =
-			new RememberedFontFamilyHandler();
-	private final RememberedFontSizeHandler fontSizeHandler =
-			new RememberedFontSizeHandler();
+	private final RememberedFontFamilyHandler fontFamilyHandler = new RememberedFontFamilyHandler();
+	private final RememberedFontSizeHandler fontSizeHandler = new RememberedFontSizeHandler();
 
 	@BeforeEach
 	void setUp() {
 		setupNotesApp();
-		remembered = new RememberedProperties(List.of(
-				fontFamilyHandler,
-				fontSizeHandler
-		));
+		remembered = new RememberedProperties(List.of(fontFamilyHandler, fontSizeHandler));
 	}
 
 	@Test
@@ -116,16 +110,14 @@ class RememberedPropertiesTest extends BaseAppTestSetup {
 
 		assertAll(
 				() -> assertTrue(remembered.apply(inlineText(inlineTextController))),
-				() -> assertTrue(remembered.apply(mindMapNode(mindMapController)))
-		);
+				() -> assertTrue(remembered.apply(mindMapNode(mindMapController))));
 		verify(inlineTextController).formatFont(FontFamily.ARIAL.cssName());
 		verify(mindMapController).formatFont(FontFamily.COMIC_SANS.cssName());
 	}
 
 	@Test
 	void sameTypeMultiselectShouldBeRemembered() {
-		remember(List.of(inlineText(), inlineText()),
-				property(FONT_FAMILY_KEY, FontFamily.COURIER));
+		remember(List.of(inlineText(), inlineText()), property(FONT_FAMILY_KEY, FontFamily.COURIER));
 		InlineTextController controller = mock();
 
 		assertTrue(remembered.apply(inlineText(controller)));
@@ -134,8 +126,7 @@ class RememberedPropertiesTest extends BaseAppTestSetup {
 
 	@Test
 	void mixedTypeMultiselectShouldNotBeRemembered() {
-		ValuedProperty<FontFamily> property =
-				property(FONT_FAMILY_KEY, FontFamily.COMIC_SANS);
+		ValuedProperty<FontFamily> property = property(FONT_FAMILY_KEY, FontFamily.COMIC_SANS);
 
 		remembered.observe(List.of(inlineText(), mindMapNode()), property);
 
@@ -182,9 +173,9 @@ class RememberedPropertiesTest extends BaseAppTestSetup {
 
 	@Test
 	void duplicatedHandlerRegistrationShouldFailFast() {
-		assertThrows(UnsupportedOperationException.class,
-				() -> new RememberedProperties(
-						List.of(fontFamilyHandler, fontFamilyHandler)));
+		assertThrows(
+				UnsupportedOperationException.class,
+				() -> new RememberedProperties(List.of(fontFamilyHandler, fontFamilyHandler)));
 	}
 
 	private GeoInlineText inlineText() {
@@ -205,8 +196,8 @@ class RememberedPropertiesTest extends BaseAppTestSetup {
 		return withController(mindMapNode, "mindMap", controller);
 	}
 
-	private <T extends GeoElement> T withController(T geo, String label,
-			InlineTextController controller) {
+	private <T extends GeoElement> T withController(
+			T geo, String label, InlineTextController controller) {
 		geo.setLabel(label);
 		DrawableND drawable = getApp().getEuclidianView1().getDrawableFor(geo);
 		DrawInlineText drawInlineText = assertInstanceOf(DrawInlineText.class, drawable);
@@ -225,13 +216,14 @@ class RememberedPropertiesTest extends BaseAppTestSetup {
 		remember(List.of(geo), property);
 	}
 
-	private <T> void remember(@NonNull List<GeoElement> geos,
-			@NonNull ValuedProperty<T> property) {
+	private <T> void remember(@NonNull List<GeoElement> geos, @NonNull ValuedProperty<T> property) {
 		doAnswer(invocation -> {
-			PropertyValueObserver<T> observer = invocation.getArgument(0);
-			observer.onDidSetValue(property);
-			return null;
-		}).when(property).addValueObserver(any());
+					PropertyValueObserver<T> observer = invocation.getArgument(0);
+					observer.onDidSetValue(property);
+					return null;
+				})
+				.when(property)
+				.addValueObserver(any());
 		remembered.observe(geos, property);
 	}
 }

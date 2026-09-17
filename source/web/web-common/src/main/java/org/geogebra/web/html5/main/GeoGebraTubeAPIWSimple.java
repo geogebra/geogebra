@@ -43,8 +43,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	 * @param articleElement
 	 *            parameters
 	 */
-	public GeoGebraTubeAPIWSimple(boolean beta,
-			AppletParameters articleElement) {
+	public GeoGebraTubeAPIWSimple(boolean beta, AppletParameters articleElement) {
 		super(beta);
 		this.articleElement = articleElement;
 		if (!StringUtil.empty(articleElement.getMaterialsAPIurl())) {
@@ -74,7 +73,8 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	protected MaterialRestAPI getMaterialRestAPI() {
 		if (materialRestAPI == null) {
 			String backendURL = articleElement.getParamBackendURL().isEmpty()
-					? MaterialRestAPI.marvlUrl : articleElement.getParamBackendURL();
+					? MaterialRestAPI.marvlUrl
+					: articleElement.getParamBackendURL();
 			Service service = new MarvlService();
 
 			materialRestAPI = new MaterialRestAPI(backendURL, service);

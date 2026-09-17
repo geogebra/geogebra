@@ -56,7 +56,9 @@ public class ScrollableSuggestBox extends GSuggestBox {
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
 	public ScrollableSuggestBox(SuggestOracle oracle, Panel panel, App app) {
-		super(oracle, new GTextBox(false, ((AppW) app).getGlobalHandlers()),
+		super(
+				oracle,
+				new GTextBox(false, ((AppW) app).getGlobalHandlers()),
 				new CustomSuggestionDisplay(panel, app));
 	}
 
@@ -77,5 +79,4 @@ public class ScrollableSuggestBox extends GSuggestBox {
 	private DefaultSuggestionDisplay getDefaultSuggestionDisplay() {
 		return (DefaultSuggestionDisplay) getSuggestionDisplay();
 	}
-
 }

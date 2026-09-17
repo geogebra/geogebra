@@ -24,7 +24,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Handles CAS commands in input bar by showing appropriate message
- * 
+ *
  * @author zbynek
  *
  */
@@ -41,8 +41,6 @@ public class CAScmdProcessor extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info)
 			throws MyError, CircularDefinitionException {
-		throw new MyError(loc,
-				loc.getPlain("CASViewOnly", loc.getCommand(c.getName())));
+		throw new MyError(loc, loc.getPlain("CASViewOnly", loc.getCommand(c.getName())));
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,9 +38,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.main.AppD;
 
-class ComboPanel extends JPanel implements ActionListener,
-		SetLabels, UpdateFonts, UpdateablePropertiesPanel,
-		GeoComboListener {
+class ComboPanel extends JPanel
+		implements ActionListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel, GeoComboListener {
 	private static final long serialVersionUID = 1L;
 	private final Localization loc;
 	private JLabel label;
@@ -145,8 +144,7 @@ class ComboPanel extends JPanel implements ActionListener,
 		Object source = e.getSource();
 		if (source == comboBox) {
 			if (isCommonOptionsModel()) {
-				((CommonOptionsModel) model).applyChanges(
-						comboBox.getSelectedItem());
+				((CommonOptionsModel) model).applyChanges(comboBox.getSelectedItem());
 			} else {
 				getMultipleModel().applyChanges(comboBox.getSelectedIndex());
 			}

@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 /**
  * Allow Freehand Functions to behave like GeoLocus for some things eg
  * Length[f], First[f, n]
- * 
+ *
  * @author Michael
  *
  */

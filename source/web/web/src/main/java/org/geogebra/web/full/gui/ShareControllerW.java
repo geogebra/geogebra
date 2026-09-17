@@ -66,13 +66,13 @@ import jsinterop.base.JsPropertyMap;
 
 /**
  * If no existent material -&gt; show save dialog and ask for title to save
- * 
+ *
  * <p>If material existent -&gt; always auto save before share
- * 
+ *
  * <p>Share with group -&gt; material stays private (visibility)
- * 
+ *
  * <p>Share by link -&gt; material will be shared (visibility)
- * 
+ *
  * @author laszlo
  *
  */
@@ -85,7 +85,7 @@ public final class ShareControllerW implements ShareController {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            the application.
 	 */
@@ -114,8 +114,8 @@ public final class ShareControllerW implements ShareController {
 		AsyncOperation<Boolean> shareCallback = getShareCallback();
 		// not saved as material yet
 		Material activeMaterial = app.getActiveMaterial();
-		boolean untitled = activeMaterial == null
-				|| activeMaterial.getType() == Material.MaterialType.ggsTemplate;
+		boolean untitled =
+				activeMaterial == null || activeMaterial.getType() == Material.MaterialType.ggsTemplate;
 		if (untitled) {
 			// not saved, logged in
 			saveUntitledMaterial(shareCallback);
@@ -131,18 +131,17 @@ public final class ShareControllerW implements ShareController {
 	 */
 	public void afterSaved(Consumer<Material> callback) {
 		Material activeMaterial = app.getActiveMaterial();
-		boolean untitled = activeMaterial == null
-				|| activeMaterial.getType() == Material.MaterialType.ggsTemplate;
+		boolean untitled =
+				activeMaterial == null || activeMaterial.getType() == Material.MaterialType.ggsTemplate;
 		if (untitled) {
 			// not saved, logged in
-			Material material = new Material(app.isWhiteboardActive() ? Material.MaterialType.ggs
-					: Material.MaterialType.ggb);
+			Material material = new Material(
+					app.isWhiteboardActive() ? Material.MaterialType.ggs : Material.MaterialType.ggb);
 			app.setActiveMaterial(material);
 			LocalizationW loc = app.getLocalization();
 			String formatDate = DateTimeFormat.formatDate(new JsDate(), loc.getLanguageTag());
 			String appName = loc.getMenu(app.getConfig().getAppNameWithoutCalc());
-			material.setTitle(loc.getPlain("assignDialog.titlePattern",
-					appName, formatDate));
+			material.setTitle(loc.getPlain("assignDialog.titlePattern", appName, formatDate));
 		}
 		autoSaveMaterial(success -> callback.accept(app.getActiveMaterial()));
 	}
@@ -151,13 +150,10 @@ public final class ShareControllerW implements ShareController {
 	 * Create material and save online
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
-		app.getAccessibilityAnalyticsContext()
-				.setFlow(AccessibilityAnalytics.Value.SHARE);
-		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
-				.getSaveDialog(false);
+		app.getAccessibilityAnalyticsContext().setFlow(AccessibilityAnalytics.Value.SHARE);
+		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog(false);
 		((SaveControllerW) app.getSaveController())
-				.showDialogIfNeeded(shareCallback, true,
-						false, false);
+				.showDialogIfNeeded(shareCallback, true, false, false);
 		saveDialog.setDiscardMode();
 	}
 
@@ -188,8 +184,7 @@ public final class ShareControllerW implements ShareController {
 			afterLogin.run();
 		} else {
 			LogInOperation loginOperation = app.getLoginOperation();
-			app.getAccessibilityAnalyticsContext()
-					.setFlow(flow);
+			app.getAccessibilityAnalyticsContext().setFlow(flow);
 			app.getGuiManager().listenToLogin(afterLogin);
 			loginOperation.showLoginDialog();
 		}
@@ -208,20 +203,18 @@ public final class ShareControllerW implements ShareController {
 			}
 			if (getAppW().isByCS()) {
 				DialogData data = new DialogData("Share", "Cancel", "Save");
-				ShareDialogMow shareDialogMow = new ShareDialogMow(getAppW(), data,
-						getAppW().getCurrentURL(sharingKey, true),
-						null);
-				shareDialogMow.setCallback(new MaterialCallback() {
-					// empty callback, just to avoid NPEs
-				});
+				ShareDialogMow shareDialogMow =
+						new ShareDialogMow(getAppW(), data, getAppW().getCurrentURL(sharingKey, true), null);
+				shareDialogMow.setCallback(
+						new MaterialCallback() {
+							// empty callback, just to avoid NPEs
+						});
 				registerShareDialogShown();
 				shareDialogMow.show();
 			} else {
-				DialogData data = new DialogData("Share",
-						null, null);
-				ShareLinkDialog shareDialog = new ShareLinkDialog(getAppW(), data,
-						getAppW().getCurrentURL(sharingKey, true),
-						getAnchor());
+				DialogData data = new DialogData("Share", null, null);
+				ShareLinkDialog shareDialog = new ShareLinkDialog(
+						getAppW(), data, getAppW().getCurrentURL(sharingKey, true), getAnchor());
 				registerShareDialogShown();
 				shareDialog.show();
 				shareDialog.center();
@@ -233,8 +226,7 @@ public final class ShareControllerW implements ShareController {
 		isAssign = true;
 		registerAssignDialogShown();
 		DialogData data = new DialogData("assignDialog.title", "Cancel", null);
-		AssignDialog shareDialogMow = new AssignDialog(getAppW(), data,
-				this);
+		AssignDialog shareDialogMow = new AssignDialog(getAppW(), data, this);
 		shareDialogMow.show();
 	}
 
@@ -248,20 +240,19 @@ public final class ShareControllerW implements ShareController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return handler for native sharing
 	 */
 	public StringConsumer getShareStringHandler() {
 		return s -> {
-			String title = getAppW().getKernel().getConstruction()
-					.getTitle();
+			String title = getAppW().getKernel().getConstruction().getTitle();
 			MaterialsManagerI fm = getAppW().getFileManager();
 			fm.nativeShare(s, "".equals(title) ? "construction" : title);
 		};
 	}
 
 	/**
-	 * 
+	 *
 	 * @return anchor widget.
 	 */
 	public Widget getAnchor() {
@@ -269,7 +260,7 @@ public final class ShareControllerW implements ShareController {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param anchor
 	 *            widget to set.
 	 */
@@ -285,33 +276,37 @@ public final class ShareControllerW implements ShareController {
 	@Override
 	public void startMultiuser(String sharingKey) {
 		getFrame().updateUndoRedoButtonVisibility(false);
-		onMultiplayerLoad(sharingKey, ((ScriptManagerW) app.getScriptManager()).getApi(),
-				mp -> {
-					multiplayer = Js.uncheckedCast(mp);
-					multiplayer.addUserChangeListener(this::handleMultiuserChange);
-					multiplayer.start(app.getLoginOperation().getUserName());
-				});
+		onMultiplayerLoad(sharingKey, ((ScriptManagerW) app.getScriptManager()).getApi(), mp -> {
+			multiplayer = Js.uncheckedCast(mp);
+			multiplayer.addUserChangeListener(this::handleMultiuserChange);
+			multiplayer.start(app.getLoginOperation().getUserName());
+		});
 	}
 
 	private GeoGebraFrameFull getFrame() {
-		return  ((AppWFull) app).getAppletFrame();
+		return ((AppWFull) app).getAppletFrame();
 	}
 
 	@Override
 	public void saveAndTerminateMultiuser(Material mat, MaterialCallbackI after) {
 		if (!terminateActiveMultiuser(mat)) {
 			// temporary instance, do not store
-			AppletParameters parameters = new AppletParameters(
-					app.getAppletParameters().getDataParamAppName());
+			AppletParameters parameters =
+					new AppletParameters(app.getAppletParameters().getDataParamAppName());
 			AppWFull appF = (AppWFull) app;
 			Element el = DOM.createElement("div");
 			GDimension currentSize = app.getActiveEuclidianView().getSettings().getPreferredSize();
 			GeoGebraFrameFull fr = new GeoGebraFrameFull(
-					appF.getAppletFrame().getAppletFactory(), appF.getLAF(),
-					appF.getDevice(), GeoGebraElement.as(el), parameters);
+					appF.getAppletFrame().getAppletFactory(),
+					appF.getLAF(),
+					appF.getDevice(),
+					GeoGebraElement.as(el),
+					parameters);
 			fr.setOnLoadCallback(exportedApi -> {
 				fr.getApp().getActiveEuclidianView().getSettings().setPreferredSize(currentSize);
-				onMultiplayerLoad(mat.getSharingKeySafe(), exportedApi,
+				onMultiplayerLoad(
+						mat.getSharingKeySafe(),
+						exportedApi,
 						mp -> saveAndTerminate(Js.uncheckedCast(mp), fr.getApp(), mat, after));
 			});
 			fr.runAsyncAfterSplash();
@@ -322,15 +317,18 @@ public final class ShareControllerW implements ShareController {
 	public void terminateMultiuser(Material mat, MaterialCallbackI after) {
 		if (!terminateActiveMultiuser(mat)) {
 			// temporary instance, do not store
-			onMultiplayerLoad(mat.getSharingKeySafe(), null,
-						mp -> Js.<GGBMultiplayer>uncheckedCast(mp).terminate());
+			onMultiplayerLoad(
+					mat.getSharingKeySafe(),
+					null,
+					mp -> Js.<GGBMultiplayer>uncheckedCast(mp).terminate());
 		}
 	}
 
 	private boolean terminateActiveMultiuser(Material mat) {
 		String sharingKey = mat.getSharingKeySafe();
 		Material activeMaterial = app.getActiveMaterial();
-		if (multiplayer != null && activeMaterial != null
+		if (multiplayer != null
+				&& activeMaterial != null
 				&& activeMaterial.getSharingKey().equals(sharingKey)) {
 			multiplayer.terminate();
 			getFrame().updateUndoRedoButtonVisibility(true);
@@ -340,8 +338,8 @@ public final class ShareControllerW implements ShareController {
 		return false;
 	}
 
-	private void saveAndTerminate(GGBMultiplayer mp, AppW otherApp, Material mat,
-			MaterialCallbackI after) {
+	private void saveAndTerminate(
+			GGBMultiplayer mp, AppW otherApp, Material mat, MaterialCallbackI after) {
 		mp.addConnectionChangeListener(evt -> {
 			if (evt.connected) {
 				MaterialCallback cb = new MaterialCallback() {
@@ -355,9 +353,16 @@ public final class ShareControllerW implements ShareController {
 					}
 				};
 				otherApp.getGgbApi().getBase64(true, base64 -> {
-					app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(
-							mat.getSharingKeySafe(), mat.getVisibility(), mat.getTitle(),
-							base64, cb, mat.getType(), false);
+					app.getLoginOperation()
+							.getGeoGebraTubeAPI()
+							.uploadMaterial(
+									mat.getSharingKeySafe(),
+									mat.getVisibility(),
+									mat.getTitle(),
+									base64,
+									cb,
+									mat.getType(),
+									false);
 					mp.terminate();
 				});
 			}
@@ -391,8 +396,7 @@ public final class ShareControllerW implements ShareController {
 	}
 
 	private void onMultiplayerLoad(String sharingKey, Object api, Consumer<Object> callback) {
-		GeoGebraTubeUser loggedInUser =
-				app.getLoginOperation().getModel().getLoggedInUser();
+		GeoGebraTubeUser loggedInUser = app.getLoginOperation().getModel().getLoggedInUser();
 		GWT.runAsync(GGBMultiplayer.class, new RunAsyncCallback() {
 			@Override
 			public void onFailure(Throwable reason) {
@@ -406,8 +410,8 @@ public final class ShareControllerW implements ShareController {
 				JsPropertyMap<?> config = JsPropertyMap.of("collabUrl", paramMultiplayerUrl);
 				String hostname = DomGlobal.location.hostname;
 				String teamId = hostname.replaceAll("\\W", "") + "_" + sharingKey;
-				GGBMultiplayer multiplayer = new GGBMultiplayer(api, teamId, config,
-						loggedInUser.getJWTToken());
+				GGBMultiplayer multiplayer =
+						new GGBMultiplayer(api, teamId, config, loggedInUser.getJWTToken());
 				callback.accept(multiplayer);
 			}
 		});

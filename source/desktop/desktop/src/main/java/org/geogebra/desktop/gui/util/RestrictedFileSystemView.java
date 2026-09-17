@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,11 +36,10 @@ import org.geogebra.desktop.util.UtilD;
  * but it can be a life saver if otherwise no dialog pops up in your application.
  * <p>
  * The implementation does <strong>not</strong> use <code>sun.awt.shell.*</code> classes.
- * 
+ *
  */
 public class RestrictedFileSystemView extends FileSystemView {
-	private static final String newFolderString = UIManager
-			.getString("FileChooser.other.newFolder");
+	private static final String newFolderString = UIManager.getString("FileChooser.other.newFolder");
 
 	private File _defaultDirectory;
 
@@ -54,7 +53,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 
 	/**
 	 * Determines if the given file is a root in the navigable tree(s).
-	 * 
+	 *
 	 * @param f
 	 *            a <code>File</code> object representing a directory
 	 * @return <code>true</code> if <code>f</code> is a root in the navigable
@@ -79,7 +78,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Returns true if the file (directory) can be visited. Returns false if the
 	 * directory cannot be traversed.
-	 * 
+	 *
 	 * @param f
 	 *            the <code>File</code>
 	 * @return <code>true</code> if the file/directory can be traversed,
@@ -95,7 +94,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Name of a file, directory, or folder as it would be displayed in a system
 	 * file browser
-	 * 
+	 *
 	 * @param f
 	 *            a <code>File</code> object
 	 * @return the file name as it would be displayed by a native file chooser
@@ -117,7 +116,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Type description for a file, directory, or folder as it would be
 	 * displayed in a system file browser.
-	 * 
+	 *
 	 * @param f
 	 *            a <code>File</code> object
 	 * @return the file type description as it would be displayed by a native
@@ -132,7 +131,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Icon for a file, directory, or folder as it would be displayed in a
 	 * system file browser.
-	 * 
+	 *
 	 * @param f
 	 *            a <code>File</code> object
 	 * @return an icon as it would be displayed by a native file chooser, null
@@ -142,8 +141,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	@Override
 	public Icon getSystemIcon(File f) {
 		if (f != null) {
-			return UIManager.getIcon(f.isDirectory() ? "FileView.directoryIcon"
-					: "FileView.fileIcon");
+			return UIManager.getIcon(f.isDirectory() ? "FileView.directoryIcon" : "FileView.fileIcon");
 		}
 		return null;
 	}
@@ -181,7 +179,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * Checks if <code>f</code> represents a real directory or file as opposed
 	 * to a special folder such as <code>"Desktop"</code>. Used by UI classes to
 	 * decide if a folder is selectable when doing directory choosing.
-	 * 
+	 *
 	 * @param f
 	 *            a <code>File</code> object
 	 * @return <code>true</code> if <code>f</code> is a real file or directory.
@@ -202,7 +200,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Is dir the root of a tree in the file system, such as a drive or
 	 * partition.
-	 * 
+	 *
 	 * @param dir
 	 *            a <code>File</code> object representing a directory
 	 * @return <code>true</code> if <code>f</code> is a root of a filesystem
@@ -216,10 +214,10 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Used by UI classes to decide whether to display a special icon for drives
 	 * or partitions, e.g. a "hard disk" icon.
-	 * 
+	 *
 	 * The default implementation has no way of knowing, so always returns
 	 * false.
-	 * 
+	 *
 	 * @param dir
 	 *            a directory
 	 * @return <code>false</code> always
@@ -232,10 +230,10 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Used by UI classes to decide whether to display a special icon for a
 	 * floppy disk. Implies isDrive(dir).
-	 * 
+	 *
 	 * The default implementation has no way of knowing, so always returns
 	 * false.
-	 * 
+	 *
 	 * @param dir
 	 *            a directory
 	 * @return <code>false</code> always
@@ -248,10 +246,10 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Used by UI classes to decide whether to display a special icon for a
 	 * computer node, e.g. "My Computer" or a network server.
-	 * 
+	 *
 	 * The default implementation has no way of knowing, so always returns
 	 * false.
-	 * 
+	 *
 	 * @param dir
 	 *            a directory
 	 * @return <code>false</code> always
@@ -283,7 +281,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 
 	/**
 	 * Return the user's default starting directory for the file chooser.
-	 * 
+	 *
 	 * @return a <code>File</code> object representing the default starting
 	 *         folder
 	 */
@@ -291,8 +289,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	public File getDefaultDirectory() {
 		if (_defaultDirectory == null) {
 			try {
-				File tempFile = File.createTempFile("filesystemview",
-						"restricted");
+				File tempFile = File.createTempFile("filesystemview", "restricted");
 				tempFile.deleteOnExit();
 				_defaultDirectory = tempFile.getParentFile();
 			} catch (IOException e) {
@@ -353,7 +350,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 
 	/**
 	 * Returns the parent directory of <code>dir</code>.
-	 * 
+	 *
 	 * @param dir
 	 *            the <code>File</code> being queried
 	 * @return the parent directory of <code>dir</code>, or <code>null</code> if
@@ -386,7 +383,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Creates a new <code>File</code> object for <code>f</code> with correct
 	 * behavior for a file system root directory.
-	 * 
+	 *
 	 * @param f
 	 *            a <code>File</code> object representing a file system root
 	 *            directory, for example "/" on Unix or "C:\" on Windows.
@@ -428,14 +425,12 @@ public class RestrictedFileSystemView extends FileSystemView {
 		newFolder = createFileObject(containingDir, newFolderString);
 		int i = 2;
 		while (newFolder.exists() && (i < 100)) {
-			newFolder = createFileObject(containingDir, MessageFormat.format(
-					newFolderString, i));
+			newFolder = createFileObject(containingDir, MessageFormat.format(newFolderString, i));
 			i++;
 		}
 
 		if (newFolder.exists()) {
-			throw new IOException(
-					"Directory already exists:" + newFolder.getAbsolutePath());
+			throw new IOException("Directory already exists:" + newFolder.getAbsolutePath());
 		}
 		UtilD.mkdirs(newFolder);
 		return newFolder;

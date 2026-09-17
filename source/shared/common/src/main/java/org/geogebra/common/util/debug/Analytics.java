@@ -72,9 +72,9 @@ public abstract class Analytics {
 	public static void logEvent(String name, @Nullable Map<String, Object> params) {
 		if (INSTANCE == null) {
 			Log.trace("Analytics is not set, event with name '" + name + "' cannot be recorded");
-            return;
-        }
-        INSTANCE.recordEvent(name, params);
+			return;
+		}
+		INSTANCE.recordEvent(name, params);
 	}
 
 	/**
@@ -130,8 +130,7 @@ public abstract class Analytics {
 	 * @param name event name
 	 * @param params event parameters
 	 */
-	protected abstract void recordEvent(@NonNull String name,
-			@Nullable Map<String, Object> params);
+	protected abstract void recordEvent(@NonNull String name, @Nullable Map<String, Object> params);
 
 	/**
 	 * Sets analytics parameters that should be attached to all future events.
@@ -155,8 +154,7 @@ public abstract class Analytics {
 		public static final String KEYBOARD = "keyboard";
 		public static final String INSERT_IMAGE = "insert_image";
 
-		private Event() {
-		}
+		private Event() {}
 	}
 
 	/**
@@ -195,24 +193,23 @@ public abstract class Analytics {
 		 */
 		public static String convertToSubAppParam(SuiteSubApp subAppName) {
 			switch (subAppName) {
-			case GEOMETRY:
-				return SUB_APP_GEOMETRY;
-			case CAS:
-				return SUB_APP_CAS;
-			case G3D:
-				return SUB_APP_3D;
-			case PROBABILITY:
-				return SUB_APP_PROBABILITY;
-			case SCIENTIFIC:
-				return SUB_APP_SCIENTIFIC_CALCULATOR;
-			case GRAPHING:
-			default:
-				return SUB_APP_GRAPHING;
+				case GEOMETRY:
+					return SUB_APP_GEOMETRY;
+				case CAS:
+					return SUB_APP_CAS;
+				case G3D:
+					return SUB_APP_3D;
+				case PROBABILITY:
+					return SUB_APP_PROBABILITY;
+				case SCIENTIFIC:
+					return SUB_APP_SCIENTIFIC_CALCULATOR;
+				case GRAPHING:
+				default:
+					return SUB_APP_GRAPHING;
 			}
 		}
 
-		private Param() {
-		}
+		private Param() {}
 	}
 
 	public static class Keyboard {

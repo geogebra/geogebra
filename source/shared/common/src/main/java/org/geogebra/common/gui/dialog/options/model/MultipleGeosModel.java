@@ -43,7 +43,7 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 		List<GeoElement> choices2 = new ArrayList<>();
 		choices2.add(null);
 		int count = 0;
-		for (GeoElement p: points) {
+		for (GeoElement p : points) {
 			if (++count > MAX_CHOICES) {
 				break;
 			}
@@ -58,7 +58,7 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 		choices.clear();
 		choices.add("");
 		int count = 0;
-		for (GeoElement p: points) {
+		for (GeoElement p : points) {
 			if (++count > MAX_CHOICES) {
 				break;
 			}
@@ -66,5 +66,4 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 		}
 		return choices;
 	}
-
 }

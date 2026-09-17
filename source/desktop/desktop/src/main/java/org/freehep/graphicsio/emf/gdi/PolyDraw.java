@@ -12,7 +12,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * PolyDraw TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PolyDraw.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -36,12 +36,11 @@ public class PolyDraw extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		int n;
-		PolyDraw tag = new PolyDraw(emf.readRECTL(),
-				emf.readPOINTL(n = emf.readDWORD()), emf.readBYTE(n));
+		PolyDraw tag =
+				new PolyDraw(emf.readRECTL(), emf.readPOINTL(n = emf.readDWORD()), emf.readBYTE(n));
 		return tag;
 	}
 
@@ -55,7 +54,6 @@ public class PolyDraw extends EMFTag implements EMFConstants {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-				+ "  #points: " + points.length;
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n" + "  #points: " + points.length;
 	}
 }

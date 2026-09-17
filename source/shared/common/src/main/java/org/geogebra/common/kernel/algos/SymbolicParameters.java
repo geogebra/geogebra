@@ -29,9 +29,9 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
  * This class provides all symbolic information necessary for the provers.
- * 
+ *
  * @author Simon Weitzhofer
- * 
+ *
  */
 public class SymbolicParameters {
 
@@ -39,7 +39,7 @@ public class SymbolicParameters {
 	private SymbolicParametersAlgo spa;
 
 	/**
-	 * 
+	 *
 	 * @param spa
 	 *            The algorithm which calculates the objects
 	 */
@@ -49,21 +49,20 @@ public class SymbolicParameters {
 
 	/**
 	 * Getter for the degrees
-	 * 
+	 *
 	 * @param a
 	 *            Recio's method
 	 * @return the degrees of the polynomial
 	 * @throws NoSymbolicParametersException
 	 *             if no symbolic parameters can be obtained
 	 */
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		return spa.getDegrees(a);
 	}
 
 	/**
 	 * Returns the maximum degree of degree1 and degree2 in each coordinate.
-	 * 
+	 *
 	 * @param degree1
 	 *            The first degree
 	 * @param degree2
@@ -71,8 +70,7 @@ public class SymbolicParameters {
 	 * @return the maximum degrees
 	 */
 	public static int[] getMaxDegree(int[] degree1, int[] degree2) {
-		if (degree1 == null || degree2 == null || degree1.length != 3
-				|| degree2.length != 3) {
+		if (degree1 == null || degree2 == null || degree1.length != 3 || degree2.length != 3) {
 			return null;
 		}
 		int[] maxDegree = new int[3];
@@ -84,7 +82,7 @@ public class SymbolicParameters {
 
 	/**
 	 * Returns the sum of degree1 and degree2 in each coordinate.
-	 * 
+	 *
 	 * @param degree1
 	 *            The first degree
 	 * @param degree2
@@ -92,8 +90,7 @@ public class SymbolicParameters {
 	 * @return the sum
 	 */
 	public static int[] addDegree(int[] degree1, int[] degree2) {
-		if (degree1 == null || degree2 == null || degree1.length != 3
-				|| degree2.length != 3) {
+		if (degree1 == null || degree2 == null || degree1.length != 3 || degree2.length != 3) {
 			return null;
 		}
 		int[] addDegree = new int[3];
@@ -106,7 +103,7 @@ public class SymbolicParameters {
 	/**
 	 * calculates the maximum degrees possible of an cross product of two
 	 * vectors
-	 * 
+	 *
 	 * @param degree1
 	 *            the degrees of the coordinates of the first vector
 	 * @param degree2
@@ -122,17 +119,16 @@ public class SymbolicParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * Calculates the cross product of two vectors of dimension three.
-	 * 
+	 *
 	 * @param a
 	 *            the first vector
 	 * @param b
 	 *            the second vector
 	 * @return the cross product of the two vectors
 	 */
-	public static BigInteger[] crossProduct(final BigInteger[] a,
-			final BigInteger[] b) {
+	public static BigInteger[] crossProduct(final BigInteger[] a, final BigInteger[] b) {
 		BigInteger[] result = new BigInteger[3];
 		result[0] = a[1].multiply(b[2]).subtract(a[2].multiply(b[1]));
 		result[1] = a[2].multiply(b[0]).subtract(a[0].multiply(b[2]));
@@ -143,7 +139,7 @@ public class SymbolicParameters {
 	/**
 	 * Returns the number of free variables of the polynomial describing the
 	 * object
-	 * 
+	 *
 	 * @return the number of free variables
 	 * @throws NoSymbolicParametersException
 	 *             if no symbolic parameters can be obtained
@@ -158,13 +154,12 @@ public class SymbolicParameters {
 	/**
 	 * Returns a set of all free variables of the polynomial describing the
 	 * object
-	 * 
+	 *
 	 * @return the set of all free variables
 	 * @throws NoSymbolicParametersException
 	 *             if no symbolic parameters can be obtained
 	 */
-	public HashSet<PVariable> getFreeVariables()
-			throws NoSymbolicParametersException {
+	public HashSet<PVariable> getFreeVariables() throws NoSymbolicParametersException {
 		if (variables == null) {
 			initFreeVariables();
 		}
@@ -174,22 +169,21 @@ public class SymbolicParameters {
 	/**
 	 * Calculates the homogeneous coordinates of the object when substituting
 	 * the variables by its values.
-	 * 
+	 *
 	 * @param values
 	 *            a map of the values the variables are substituted with
 	 * @return the coordinates
 	 * @throws NoSymbolicParametersException
 	 *             thrown if it is not possible to obtain the exact coordinates
 	 */
-	public BigInteger[] getExactCoordinates(
-			final HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		return spa.getExactCoordinates(values);
 	}
 
 	/**
 	 * Divides thru the greatest common divisor of the homogeneous coordinates
-	 * 
+	 *
 	 * @param vect
 	 *            the homogeneous coordinates
 	 * @return the reduced homogeneous coordinates
@@ -211,7 +205,7 @@ public class SymbolicParameters {
 
 	/**
 	 * Gets the free variables
-	 * 
+	 *
 	 * @throws NoSymbolicParametersException
 	 *             if no symbolic variables are available
 	 */
@@ -222,65 +216,44 @@ public class SymbolicParameters {
 
 	/**
 	 * Calculates the determinant of a 4 times 4 matrix
-	 * 
+	 *
 	 * @param matrix
 	 *            matrix
 	 * @return the determinant
 	 */
 	public static BigInteger det4(final BigInteger[][] matrix) {
-		return matrix[0][3].multiply(matrix[1][2]).multiply(matrix[2][1])
+		return matrix[0][3]
+				.multiply(matrix[1][2])
+				.multiply(matrix[2][1])
 				.multiply(matrix[3][0])
-				.subtract(matrix[0][2].multiply(matrix[1][3])
-						.multiply(matrix[2][1]).multiply(matrix[3][0]))
-				.subtract(matrix[0][3].multiply(matrix[1][1])
-						.multiply(matrix[2][2]).multiply(matrix[3][0]))
-				.add(matrix[0][1].multiply(matrix[1][3]).multiply(matrix[2][2])
-						.multiply(matrix[3][0]))
-				.add(matrix[0][2].multiply(matrix[1][1]).multiply(matrix[2][3])
-						.multiply(matrix[3][0]))
-				.subtract(matrix[0][1].multiply(matrix[1][2])
-						.multiply(matrix[2][3]).multiply(matrix[3][0]))
-				.subtract(matrix[0][3].multiply(matrix[1][2])
-						.multiply(matrix[2][0]).multiply(matrix[3][1]))
-				.add(matrix[0][2].multiply(matrix[1][3]).multiply(matrix[2][0])
-						.multiply(matrix[3][1]))
-				.add(matrix[0][3].multiply(matrix[1][0]).multiply(matrix[2][2])
-						.multiply(matrix[3][1]))
-				.subtract(matrix[0][0].multiply(matrix[1][3])
-						.multiply(matrix[2][2]).multiply(matrix[3][1]))
-				.subtract(matrix[0][2].multiply(matrix[1][0])
-						.multiply(matrix[2][3]).multiply(matrix[3][1]))
-				.add(matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][3])
-						.multiply(matrix[3][1]))
-				.add(matrix[0][3].multiply(matrix[1][1]).multiply(matrix[2][0])
-						.multiply(matrix[3][2]))
-				.subtract(matrix[0][1].multiply(matrix[1][3])
-						.multiply(matrix[2][0]).multiply(matrix[3][2]))
-				.subtract(matrix[0][3].multiply(matrix[1][0])
-						.multiply(matrix[2][1]).multiply(matrix[3][2]))
-				.add(matrix[0][0].multiply(matrix[1][3]).multiply(matrix[2][1])
-						.multiply(matrix[3][2]))
-				.add(matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][3])
-						.multiply(matrix[3][2]))
-				.subtract(matrix[0][0].multiply(matrix[1][1])
-						.multiply(matrix[2][3]).multiply(matrix[3][2]))
-				.subtract(matrix[0][2].multiply(matrix[1][1])
-						.multiply(matrix[2][0]).multiply(matrix[3][3]))
-				.add(matrix[0][1].multiply(matrix[1][2]).multiply(matrix[2][0])
-						.multiply(matrix[3][3]))
-				.add(matrix[0][2].multiply(matrix[1][0]).multiply(matrix[2][1])
-						.multiply(matrix[3][3]))
-				.subtract(matrix[0][0].multiply(matrix[1][2])
-						.multiply(matrix[2][1]).multiply(matrix[3][3]))
-				.subtract(matrix[0][1].multiply(matrix[1][0])
-						.multiply(matrix[2][2]).multiply(matrix[3][3]))
-				.add(matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][2])
-						.multiply(matrix[3][3]));
+				.subtract(matrix[0][2].multiply(matrix[1][3]).multiply(matrix[2][1]).multiply(matrix[3][0]))
+				.subtract(matrix[0][3].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][0]))
+				.add(matrix[0][1].multiply(matrix[1][3]).multiply(matrix[2][2]).multiply(matrix[3][0]))
+				.add(matrix[0][2].multiply(matrix[1][1]).multiply(matrix[2][3]).multiply(matrix[3][0]))
+				.subtract(matrix[0][1].multiply(matrix[1][2]).multiply(matrix[2][3]).multiply(matrix[3][0]))
+				.subtract(matrix[0][3].multiply(matrix[1][2]).multiply(matrix[2][0]).multiply(matrix[3][1]))
+				.add(matrix[0][2].multiply(matrix[1][3]).multiply(matrix[2][0]).multiply(matrix[3][1]))
+				.add(matrix[0][3].multiply(matrix[1][0]).multiply(matrix[2][2]).multiply(matrix[3][1]))
+				.subtract(matrix[0][0].multiply(matrix[1][3]).multiply(matrix[2][2]).multiply(matrix[3][1]))
+				.subtract(matrix[0][2].multiply(matrix[1][0]).multiply(matrix[2][3]).multiply(matrix[3][1]))
+				.add(matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][3]).multiply(matrix[3][1]))
+				.add(matrix[0][3].multiply(matrix[1][1]).multiply(matrix[2][0]).multiply(matrix[3][2]))
+				.subtract(matrix[0][1].multiply(matrix[1][3]).multiply(matrix[2][0]).multiply(matrix[3][2]))
+				.subtract(matrix[0][3].multiply(matrix[1][0]).multiply(matrix[2][1]).multiply(matrix[3][2]))
+				.add(matrix[0][0].multiply(matrix[1][3]).multiply(matrix[2][1]).multiply(matrix[3][2]))
+				.add(matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][3]).multiply(matrix[3][2]))
+				.subtract(matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][3]).multiply(matrix[3][2]))
+				.subtract(matrix[0][2].multiply(matrix[1][1]).multiply(matrix[2][0]).multiply(matrix[3][3]))
+				.add(matrix[0][1].multiply(matrix[1][2]).multiply(matrix[2][0]).multiply(matrix[3][3]))
+				.add(matrix[0][2].multiply(matrix[1][0]).multiply(matrix[2][1]).multiply(matrix[3][3]))
+				.subtract(matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][1]).multiply(matrix[3][3]))
+				.subtract(matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][2]).multiply(matrix[3][3]))
+				.add(matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][3]));
 	}
 
 	/**
 	 * Adds two extra points to the Botana point list (4 extra variables)
-	 * 
+	 *
 	 * @param input
 	 *            Two EV points
 	 * @return List of Botana variables (4 elements)
@@ -291,10 +264,8 @@ public class SymbolicParameters {
 			throws NoSymbolicParametersException {
 		PVariable[] botanaVars = new PVariable[4];
 		PVariable[] line1vars, line2vars;
-		line1vars = ((SymbolicParametersBotanaAlgo) input[0])
-				.getBotanaVars(input[0]);
-		line2vars = ((SymbolicParametersBotanaAlgo) input[1])
-				.getBotanaVars(input[1]);
+		line1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]);
+		line2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars(input[1]);
 		botanaVars[0] = line1vars[0];
 		botanaVars[1] = line1vars[1];
 		botanaVars[2] = line2vars[0];
@@ -304,7 +275,7 @@ public class SymbolicParameters {
 
 	/**
 	 * Returns Botana polynomials for the midpoint of P and Q
-	 * 
+	 *
 	 * @param P
 	 *            First endpoint of segment
 	 * @param Q
@@ -315,9 +286,8 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException
 	 *             if it's not possible to obtain polynomials
 	 */
-	public static PPolynomial[] botanaPolynomialsMidpoint(GeoElement P,
-			GeoElement Q, PVariable[] botanaVars)
-			throws NoSymbolicParametersException {
+	public static PPolynomial[] botanaPolynomialsMidpoint(
+			GeoElement P, GeoElement Q, PVariable[] botanaVars) throws NoSymbolicParametersException {
 		PVariable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
 		PVariable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars(Q);
 		PPolynomial[] botanaPolynomials = new PPolynomial[2];
@@ -335,7 +305,7 @@ public class SymbolicParameters {
 
 	/**
 	 * Returns Botana polynomials for the bisector of A and B
-	 * 
+	 *
 	 * @param Ax
 	 *            Botana variable of A (x)
 	 * @param Ay
@@ -348,8 +318,8 @@ public class SymbolicParameters {
 	 *            Botana variables for the 2 new points (4 variables)
 	 * @return the polynomials (4 elements)
 	 */
-	public static PPolynomial[] botanaPolynomialsLineBisector(PVariable Ax,
-			PVariable Ay, PVariable Bx, PVariable By, PVariable[] botanaVars) {
+	public static PPolynomial[] botanaPolynomialsLineBisector(
+			PVariable Ax, PVariable Ay, PVariable Bx, PVariable By, PVariable[] botanaVars) {
 		PPolynomial[] botanaPolynomials = new PPolynomial[4];
 
 		PPolynomial a1 = new PPolynomial(Ax);
@@ -362,10 +332,10 @@ public class SymbolicParameters {
 
 		// C will be the midpoint of AB
 		// 2*c1-a1-b1, 2*c2-a2-b2
-		botanaPolynomials[0] = new PPolynomial(2).multiply(c1)
-				.subtract(new PPolynomial(Ax)).subtract(new PPolynomial(Bx));
-		botanaPolynomials[1] = new PPolynomial(2).multiply(c2)
-				.subtract(new PPolynomial(Ay)).subtract(new PPolynomial(By));
+		botanaPolynomials[0] =
+				new PPolynomial(2).multiply(c1).subtract(new PPolynomial(Ax)).subtract(new PPolynomial(Bx));
+		botanaPolynomials[1] =
+				new PPolynomial(2).multiply(c2).subtract(new PPolynomial(Ay)).subtract(new PPolynomial(By));
 
 		// D will be the rotation of A around C by 90 degrees
 		// d2=c2+(c1-a1), d1=c1-(c2-a2) => d2-c2-c1+a1, d1-c1+c2-a2
@@ -373,7 +343,5 @@ public class SymbolicParameters {
 		botanaPolynomials[3] = d1.subtract(c1).add(c2).subtract(a2);
 
 		return botanaPolynomials;
-
 	}
-
 }

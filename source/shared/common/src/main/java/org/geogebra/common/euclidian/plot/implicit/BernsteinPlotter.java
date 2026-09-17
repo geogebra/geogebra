@@ -69,8 +69,11 @@ public class BernsteinPlotter extends CoordSystemAnimatedPlotter {
 	 * @param transformedCoordSys the {@link CoordSys} used for coordinate transforms
 	 * @param curveSignature {@link CurveSignature} to detect if the curve has changed
 	 */
-	public BernsteinPlotter(@NonNull GeoElement geo, @NonNull EuclidianViewBounds bounds,
-			GeneralPathClippedForCurvePlotter gp, @NonNull CoordSys transformedCoordSys,
+	public BernsteinPlotter(
+			@NonNull GeoElement geo,
+			@NonNull EuclidianViewBounds bounds,
+			GeneralPathClippedForCurvePlotter gp,
+			@NonNull CoordSys transformedCoordSys,
 			CurveSignature curveSignature) {
 		this.geo = geo;
 		this.gp = gp;
@@ -78,15 +81,14 @@ public class BernsteinPlotter extends CoordSystemAnimatedPlotter {
 		assembler = new ContourAssembler(new CompleteContourLinker());
 		List<BernsteinPlotCell> cells = new ArrayList<>();
 		this.bounds = bounds;
-		algo = new BernsteinImplicitAlgo(this.bounds, geo, cells, assembler,
-				settings.minCellSizeInPixels());
+		algo = new BernsteinImplicitAlgo(
+				this.bounds, geo, cells, assembler, settings.minCellSizeInPixels());
 
 		if (settings.hasVisualDebug()) {
 			visualDebug = new BernsteinPlotterVisualDebug(bounds, cells);
 		}
 		clipper = new PerimeterContourClipper(getAssembler());
 		this.curveSignature = curveSignature;
-
 	}
 
 	@Override

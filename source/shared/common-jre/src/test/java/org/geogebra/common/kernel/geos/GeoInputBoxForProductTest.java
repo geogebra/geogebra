@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -72,8 +72,7 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("f", "xab", "x*a*b");
 		shouldBeUpdatedAs("f", "x + ab", "x+a*b");
 		shouldBeUpdatedAs("f", "xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
-		shouldBeUpdatedAs("f", "axxxxxxxxxx",
-				"a*x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
+		shouldBeUpdatedAs("f", "axxxxxxxxxx", "a*x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
 		shouldBeUpdatedAs("f", "axaxaxaxax", "a*x*a*x*a*x*a*x*a*x");
 	}
 
@@ -93,18 +92,16 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	void testArctanIntegral() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "21xarctanx", "21x*tan"
-				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
-		shouldBeUpdatedAs("f", "22xarctan(x)", "22x*tan"
-				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+		shouldBeUpdatedAs("f", "21xarctanx", "21x*tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+		shouldBeUpdatedAs(
+				"f", "22xarctan(x)", "22x*tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test
 	void testSinPower() {
 		add("f(x)=?");
 		shouldBeUpdatedAs("f", "xsin^2(x)", unicode("x*sin^2(x)"));
-		shouldBeUpdatedAs("f", "xsin^(-1)(x)", "x*sin"
-				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+		shouldBeUpdatedAs("f", "xsin^(-1)(x)", "x*sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test
@@ -183,8 +180,7 @@ class GeoInputBoxForProductTest extends BaseUnitTest {
 	void testIndex() {
 		add("f(x)=?");
 		add("B_{0}=7");
-		shouldBeUpdatedAs("f", "B_{0}e^(2)",
-				"B_{0}*" + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
+		shouldBeUpdatedAs("f", "B_{0}e^(2)", "B_{0}*" + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test

@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * StrokeAndFillPath TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: StrokeAndFillPath.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class StrokeAndFillPath extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		StrokeAndFillPath tag = new StrokeAndFillPath(emf.readRECTL());
 		return tag;

@@ -57,5 +57,4 @@ public interface ITextEditPanel {
 	 * @param byUser whether it was triggered by the user
 	 */
 	void updatePreviewPanel(boolean byUser);
-
 }

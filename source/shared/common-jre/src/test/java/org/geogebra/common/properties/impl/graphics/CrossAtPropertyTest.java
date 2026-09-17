@@ -29,8 +29,12 @@ class CrossAtPropertyTest extends BaseAppTestSetup {
 	@Issue("APPS-7766")
 	void propertyHandlesExpressions() {
 		setupApp(SuiteSubApp.GRAPHING);
-		CrossAtProperty property = new CrossAtProperty(getAlgebraProcessor(), getLocalization(),
-				getEuclidianSettings(), getApp().getActiveEuclidianView(), 0);
+		CrossAtProperty property = new CrossAtProperty(
+				getAlgebraProcessor(),
+				getLocalization(),
+				getEuclidianSettings(),
+				getApp().getActiveEuclidianView(),
+				0);
 		property.doSetValue("π/2");
 		assertEquals(1.57, getEuclidianSettings().getAxesCross()[0], 1E-2);
 	}

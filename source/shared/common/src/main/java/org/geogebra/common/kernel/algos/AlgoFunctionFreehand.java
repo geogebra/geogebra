@@ -42,7 +42,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 	/**
 	 * Creates new AlgoDependentFunction
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -67,8 +67,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 		g = new GeoFunction(cons); // output
 		FunctionVariable X = new FunctionVariable(kernel);
-		ExpressionNode expr = new ExpressionNode(kernel, X, Operation.SIN,
-				null);
+		ExpressionNode expr = new ExpressionNode(kernel, X, Operation.SIN, null);
 		Function fun = new Function(expr, X);
 		g.setFunction(fun);
 		g.setDefined(false);
@@ -109,26 +108,25 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		}
 
 		FunctionVariable X = new FunctionVariable(kernel);
-		ExpressionNode expr = new ExpressionNode(kernel, X, Operation.FREEHAND,
-				inputList);
+		ExpressionNode expr = new ExpressionNode(kernel, X, Operation.FREEHAND, inputList);
 		Function fun = new Function(expr, X);
 		g.setFunction(fun);
 		g.setDefined(true);
-		g.setInterval(((GeoNumeric) inputList.get(0)).getDouble(),
-				((GeoNumeric) inputList.get(1)).getDouble());
+		g.setInterval(
+				((GeoNumeric) inputList.get(0)).getDouble(), ((GeoNumeric) inputList.get(1)).getDouble());
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		if (inputList.size() < 4
-				|| !inputList.getElementType().equals(GeoClass.NUMERIC)) {
+	public final String toString(StringTemplate tpl) {
+		if (inputList.size() < 4 || !inputList.getElementType().equals(GeoClass.NUMERIC)) {
 			return "?";
 		}
-		return getLoc().getPlainDefault("FreehandFunctionOnIntervalAB",
-				"Freehand function on [%0, %1]",
-				kernel.format(((GeoNumeric) inputList.get(0)).getDouble(), tpl),
-				kernel.format(((GeoNumeric) inputList.get(1)).getDouble(),
-						tpl));
+		return getLoc()
+				.getPlainDefault(
+						"FreehandFunctionOnIntervalAB",
+						"Freehand function on [%0, %1]",
+						kernel.format(((GeoNumeric) inputList.get(0)).getDouble(), tpl),
+						kernel.format(((GeoNumeric) inputList.get(1)).getDouble(), tpl));
 	}
 
 	@Override
@@ -182,5 +180,4 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 		return ret;
 	}
-
 }

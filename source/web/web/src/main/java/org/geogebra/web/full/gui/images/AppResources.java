@@ -23,7 +23,7 @@ import org.gwtproject.resources.client.Resource;
 /** Generic resource bundle. */
 @Resource
 public interface AppResources extends ClientBundle {
-	
+
 	AppResources INSTANCE = new AppResourcesImpl();
 
 	@Source("org/geogebra/common/icons/png/web/general/aux_folder.gif")
@@ -65,7 +65,8 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/general/xy_segments.png")
 	ImageResource xy_segments();
 
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_statistics.png")
+	@Source(
+			"org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_statistics.png")
 	ImageResource dataview_showstatistics();
 
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_data.png")

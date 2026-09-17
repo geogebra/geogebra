@@ -47,8 +47,7 @@ public class IntervalPath {
 	 * @param bounds {@link EuclidianViewBounds}
 	 * @param data {@link IntervalFunctionModelImpl}
 	 */
-	public IntervalPath(IntervalPathPlotter gp, EuclidianViewBounds bounds,
-			QueryFunctionData data) {
+	public IntervalPath(IntervalPathPlotter gp, EuclidianViewBounds bounds, QueryFunctionData data) {
 		this.gp = gp;
 		this.bounds = bounds;
 		this.data = data;
@@ -133,8 +132,8 @@ public class IntervalPath {
 
 	private void drawNormalJoined(IntervalTuple tuple) {
 		Interval screenY = bounds.toScreenIntervalY(connectedInterval(tuple.ySet()));
-		drawInterval.drawJoined(lastY, bounds.toScreenIntervalX(connectedInterval(tuple.xSet())),
-				screenY);
+		drawInterval.drawJoined(
+				lastY, bounds.toScreenIntervalX(connectedInterval(tuple.xSet())), screenY);
 		lastY = connected(screenY);
 	}
 

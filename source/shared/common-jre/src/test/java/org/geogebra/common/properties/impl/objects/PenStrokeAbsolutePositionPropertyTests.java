@@ -29,29 +29,21 @@ import org.junit.jupiter.params.provider.ValueSource;
 class PenStrokeAbsolutePositionPropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"PenStroke((1, 2), (4, 3), (5, 6))"
-	})
+	@ValueSource(strings = {"PenStroke((1, 2), (4, 3), (5, 6))"})
 	void testApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
-		assertDoesNotThrow(() ->
-				new PenStrokeAbsolutePositionProperty(getLocalization(), element));
+		assertDoesNotThrow(() -> new PenStrokeAbsolutePositionProperty(getLocalization(), element));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"f(x) = x^2",
-			"Slider(-5, 5, 1)",
-			"\"abc\"",
-			"Button()",
-			"true"
-	})
+	@ValueSource(
+			strings = {"(1, 2)", "f(x) = x^2", "Slider(-5, 5, 1)", "\"abc\"", "Button()", "true"})
 	void testNotApplicable(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
-		assertThrows(NotApplicablePropertyException.class, () ->
-				new PenStrokeAbsolutePositionProperty(getLocalization(), element));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new PenStrokeAbsolutePositionProperty(getLocalization(), element));
 	}
 }

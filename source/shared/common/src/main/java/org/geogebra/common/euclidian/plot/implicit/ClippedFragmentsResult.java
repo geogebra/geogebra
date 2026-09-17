@@ -29,8 +29,8 @@ import java.util.List;
  * @apiNote if using the canonical constructor, make sure both lists passed to it are not referenced
  * from elsewhere.
  */
-public record ClippedFragmentsResult(List<ClippedFragment> fragments, List<EdgeHit> hits,
-		ClipRect clipRect) {
+public record ClippedFragmentsResult(
+		List<ClippedFragment> fragments, List<EdgeHit> hits, ClipRect clipRect) {
 	/**
 	 * Creates a clipping result bundle without explicit clip-rectangle metadata.
 	 * @param fragments explicit visible contour fragments produced by clipping
@@ -47,8 +47,7 @@ public record ClippedFragmentsResult(List<ClippedFragment> fragments, List<EdgeH
 	 *           and collected viewport hits from the same clipping pass
 	 * @param clipRect rectangle used by the clipping pass, or {@code null} if unknown
 	 */
-	public ClippedFragmentsResult(ClippedFragmentsResult result,
-			ClipRect clipRect) {
+	public ClippedFragmentsResult(ClippedFragmentsResult result, ClipRect clipRect) {
 		this(List.copyOf(result.fragments()), List.copyOf(result.hits()), clipRect);
 	}
 }

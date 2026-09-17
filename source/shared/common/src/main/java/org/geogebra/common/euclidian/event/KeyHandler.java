@@ -23,10 +23,9 @@ package org.geogebra.common.euclidian.event;
 public interface KeyHandler {
 	/**
 	 * Handles new character
-	 * 
+	 *
 	 * @param e
 	 *            key event
 	 */
 	void keyReleased(KeyEvent e);
-
 }

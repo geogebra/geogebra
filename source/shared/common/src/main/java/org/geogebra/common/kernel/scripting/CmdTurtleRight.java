@@ -23,9 +23,9 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Turn a turtle clockwise
- * 
+ *
  * TurtleRight[ &lt;Turtle&gt;, &lt;Angle in radians&gt; ]
- * 
+ *
  * @author arno
  */
 public class CmdTurtleRight extends CmdTurtleCommand {
@@ -39,9 +39,7 @@ public class CmdTurtleRight extends CmdTurtleCommand {
 	}
 
 	@Override
-	protected void performTurtleCommand(Command c, GeoElement[] args)
-			throws MyError {
+	protected void performTurtleCommand(Command c, GeoElement[] args) throws MyError {
 		getTurtle(args).turn(-getNumArg(c, args) * 180 / Math.PI);
 	}
-
 }

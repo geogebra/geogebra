@@ -48,36 +48,36 @@ public abstract class MyXMLio {
 	 * All xml output is zipped. The created zip archive contains an entry named
 	 * XML_FILE for the construction
 	 */
-	final public static String XML_FILE = "geogebra.xml";
+	public static final String XML_FILE = "geogebra.xml";
 
 	/**
 	 * All xml output is zipped. The created zip archive contains an entry named
 	 * XML_FILE_MACRO for the macros
 	 */
-	final public static String XML_FILE_MACRO = "geogebra_macro.xml";
+	public static final String XML_FILE_MACRO = "geogebra_macro.xml";
 
 	/**
 	 * defaults for 2D geos
 	 */
-	final public static String XML_FILE_DEFAULTS_2D = "geogebra_defaults2d.xml";
+	public static final String XML_FILE_DEFAULTS_2D = "geogebra_defaults2d.xml";
 
 	/**
 	 * defaults for 3D geos
 	 */
-	final public static String XML_FILE_DEFAULTS_3D = "geogebra_defaults3d.xml";
+	public static final String XML_FILE_DEFAULTS_3D = "geogebra_defaults3d.xml";
 
 	/** library JavaScript available to objects with JavaScript scripts */
-	final public static String JAVASCRIPT_FILE = "geogebra_javascript.js";
+	public static final String JAVASCRIPT_FILE = "geogebra_javascript.js";
 
 	/**
 	 * All xml output is zipped. The created zip archive *may* contain an entry
 	 * named XML_FILE_THUMBNAIL for the construction
 	 */
-	final public static String XML_FILE_THUMBNAIL = "geogebra_thumbnail.png";
+	public static final String XML_FILE_THUMBNAIL = "geogebra_thumbnail.png";
 	/** max no of horizontal pixels of thumbnail */
-	final public static double THUMBNAIL_PIXELS_X = 512.0;
+	public static final double THUMBNAIL_PIXELS_X = 512.0;
 	/** max no of vertical pixels of thumbnail */
-	final public static double THUMBNAIL_PIXELS_Y = 512.0;
+	public static final double THUMBNAIL_PIXELS_Y = 512.0;
 	/** application */
 	@Weak
 	protected App app;
@@ -108,7 +108,7 @@ public abstract class MyXMLio {
 	/**
 	 * create XML parser
 	 */
-	abstract protected void createXMLParser();
+	protected abstract void createXMLParser();
 
 	/**
 	 * @return handler for GGB files
@@ -132,8 +132,7 @@ public abstract class MyXMLio {
 	 *            whether listeners (js) should be included
 	 * @return construction XML for undo step
 	 */
-	public static synchronized StringBuilder getUndoXML(Construction c,
-			boolean getListenersToo) {
+	public static synchronized StringBuilder getUndoXML(Construction c, boolean getListenersToo) {
 
 		App consApp = c.getApplication();
 
@@ -172,8 +171,8 @@ public abstract class MyXMLio {
 	 *            true for macro files
 	 * @throws XMLParseException if XML is not valid
 	 */
-	public void processXMLString(String xml, boolean clearConstruction,
-			boolean isGgtFile) throws XMLParseException {
+	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile)
+			throws XMLParseException {
 		try {
 			handler.setNeedsConstructionDefaults(!clearConstruction && !isGgtFile);
 			processXMLString(xml, clearConstruction, isGgtFile, true);
@@ -193,8 +192,9 @@ public abstract class MyXMLio {
 	 *            whether to randomize numbers
 	 * @throws XMLParseException if XML is not valid
 	 */
-	public void processXMLString(String xml, boolean clearConstruction,
-			boolean isGgtFile, boolean randomize) throws XMLParseException {
+	public void processXMLString(
+			String xml, boolean clearConstruction, boolean isGgtFile, boolean randomize)
+			throws XMLParseException {
 		if (cons != null) {
 			cons.setFileLoading(true);
 		}
@@ -220,16 +220,11 @@ public abstract class MyXMLio {
 	 * @param uniqueId construction ID
 	 * @param app      app
 	 */
-	public static void addGeoGebraHeader(XMLStringBuilder sb, boolean isMacro, String uniqueId,
-										 App app) {
+	public static void addGeoGebraHeader(
+			XMLStringBuilder sb, boolean isMacro, String uniqueId, App app) {
 		AppConfig config = app.getConfig();
 		addGeoGebraHeader(
-				sb,
-				isMacro,
-				uniqueId,
-				app.getPlatform(),
-				config.getAppCode(),
-				config.getSubAppCode());
+				sb, isMacro, uniqueId, app.getPlatform(), config.getAppCode(), config.getSubAppCode());
 	}
 
 	/**
@@ -271,8 +266,7 @@ public abstract class MyXMLio {
 		StringBuilder schema = new StringBuilder("https://www.geogebra.org/apps/xsd/");
 		if (isMacro) {
 			schema.append(GeoGebraConstants.GGT_XSD_FILENAME); // eg ggt.xsd
-		}
-		else {
+		} else {
 			schema.append(GeoGebraConstants.GGB_XSD_FILENAME); // eg ggb.xsd
 		}
 		sb.attrRaw("xsi:noNamespaceSchemaLocation", schema);
@@ -363,12 +357,21 @@ public abstract class MyXMLio {
 	 *            whether to randomize numbers afterward
 	 * @throws XMLParseException if XML is not valid
 	 */
-	final public void processXMLString(String str, boolean clearAll,
-			boolean isGGTOrDefaults, boolean settingsBatch, boolean randomize)
+	public final void processXMLString(
+			String str,
+			boolean clearAll,
+			boolean isGGTOrDefaults,
+			boolean settingsBatch,
+			boolean randomize)
 			throws XMLParseException {
 		try {
-			doParseXML(createXMLStreamString(str), clearAll, isGGTOrDefaults,
-					clearAll, settingsBatch, randomize);
+			doParseXML(
+					createXMLStreamString(str),
+					clearAll,
+					isGGTOrDefaults,
+					clearAll,
+					settingsBatch,
+					randomize);
 		} catch (IOException ex) {
 			throw new XMLParseException(ex);
 		}
@@ -390,9 +393,14 @@ public abstract class MyXMLio {
 	 * @throws XMLParseException if XML is not valid
 	 * @throws IOException if stream cannot be read
 	 */
-	final protected void doParseXML(XMLStream stream, boolean clearConstruction,
-			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch,
-			boolean randomize) throws XMLParseException, IOException {
+	protected final void doParseXML(
+			XMLStream stream,
+			boolean clearConstruction,
+			boolean isGGTOrDefaults,
+			boolean mayZoom,
+			boolean settingsBatch,
+			boolean randomize)
+			throws XMLParseException, IOException {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		CommandLookupStrategy oldVal2 = kernel.getCommandLookupStrategy();
 		kernel.setLoadingMode(true);
@@ -425,8 +433,7 @@ public abstract class MyXMLio {
 			}
 
 			// #2153
-			if (!isGGTOrDefaults && cons != null
-					&& cons.hasSpreadsheetTracingGeos()) {
+			if (!isGGTOrDefaults && cons != null && cons.hasSpreadsheetTracingGeos()) {
 				// needs to be done after call to updateConstruction() to avoid
 				// spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
@@ -438,20 +445,17 @@ public abstract class MyXMLio {
 		if (!isGGTOrDefaults && oldVal && app.showConsProtNavigation()) {
 			// ((GuiManagerD)app.getGuiManager()).setConstructionStep(handler.getConsStep());
 
-			if (app.getGuiManager() != null
-					&& app.getGuiManager().isUsingConstructionProtocol()) {
+			if (app.getGuiManager() != null && app.getGuiManager().isUsingConstructionProtocol()) {
 				// if there is a ConstructionProtocolView, then update its
 				// navigation bars
-				app.getGuiManager().getConstructionProtocolView()
+				app.getGuiManager()
+						.getConstructionProtocolView()
 						.setConstructionStep(handler.getConsStep());
 			} else {
 				// otherwise this is not needed
-				app.getKernel().getConstruction()
-						.setStep(handler.getConsStep());
+				app.getKernel().getConstruction().setStep(handler.getConsStep());
 			}
-
 		}
-
 	}
 
 	private void parseXmlUnsafe(XMLStream stream, boolean settingsBatch, boolean isGGTOrDefaults)
@@ -480,20 +484,20 @@ public abstract class MyXMLio {
 	/**
 	 * reset XML parser
 	 */
-	abstract protected void resetXMLParser();
+	protected abstract void resetXMLParser();
 
 	/**
 	 * parse XML string
-	 * 
+	 *
 	 * @param xmlHandler
 	 *            handler
-	 * 
+	 *
 	 * @param stream
 	 *            XML stream
 	 * @throws XMLParseException when XML is invalid
 	 * @throws IOException when stream cannot be read
 	 */
-	abstract protected void parseXML(MyXMLHandler xmlHandler, XMLStream stream)
+	protected abstract void parseXML(MyXMLHandler xmlHandler, XMLStream stream)
 			throws XMLParseException, IOException;
 
 	/**
@@ -507,7 +511,6 @@ public abstract class MyXMLio {
 		} catch (Exception e) {
 			Log.debug(e);
 		}
-
 	}
 
 	/**
@@ -520,7 +523,7 @@ public abstract class MyXMLio {
 
 	/**
 	 * class for XML content streams (zip, buffers, String, etc.)
-	 * 
+	 *
 	 * @author mathieu
 	 *
 	 */
@@ -529,23 +532,23 @@ public abstract class MyXMLio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param str
 	 *            XML string
 	 * @return XML stream for string
 	 */
-	abstract protected XMLStream createXMLStreamString(String str);
+	protected abstract XMLStream createXMLStreamString(String str);
 
 	/**
 	 * Reads zipped file from String that includes the construction saved in xml
 	 * format and maybe image files.
-	 * 
+	 *
 	 * @param zipFile
 	 *            zip bytes
 	 * @throws XMLParseException if XML is not valid
 	 * @throws IOException if stream cannot be read
 	 */
-	abstract public void readZipFromString(ZipFile zipFile) throws IOException, XMLParseException;
+	public abstract void readZipFromString(ZipFile zipFile) throws IOException, XMLParseException;
 
 	/**
 	 * @return whether errors were produced by parsing last file

@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 public class CmdHistogramRight extends CmdHistogram {
 	/**
 	 * Create new command processor for right histogram
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */

@@ -28,7 +28,10 @@ import elemental2.dom.DomGlobal;
 public final class FontLoader {
 	private static final Map<String, FontState> injected = new HashMap<>();
 
-	private enum FontState { LOADING, ACTIVE }
+	private enum FontState {
+		LOADING,
+		ACTIVE
+	}
 
 	private FontLoader() {
 		// utility class: font shared for all app instances
@@ -43,7 +46,7 @@ public final class FontLoader {
 		if (baseUrl.isEmpty()) {
 			return;
 		}
-		for (FontProperty.FontFamily family: FontProperty.FontFamily.values()) {
+		for (FontProperty.FontFamily family : FontProperty.FontFamily.values()) {
 			if (isBundled(family) && family.cssName().equals(familyName)) {
 				loadFontFile(familyName.split(",")[0], baseUrl, callback);
 				return;
@@ -63,9 +66,9 @@ public final class FontLoader {
 		if (baseUrl.isEmpty()) {
 			return;
 		}
-		for (FontProperty.FontFamily family: FontProperty.FontFamily.values()) {
+		for (FontProperty.FontFamily family : FontProperty.FontFamily.values()) {
 			if (isBundled(family)) {
-				loadFontFile(family.cssName().split(",")[0], baseUrl, () -> { });
+				loadFontFile(family.cssName().split(",")[0], baseUrl, () -> {});
 			}
 		}
 	}
@@ -86,14 +89,18 @@ public final class FontLoader {
 
 	private static void loadWebFont(String familyName, Runnable callback) {
 		// the WOFF files are valid for all sizes, pick arbitrary single digit size here
-		DomGlobal.document.fonts.load("8px " + familyName).then(ignore -> {
-			injected.put(familyName, FontState.ACTIVE);
-			callback.run();
-			return null;
-		}).catch_(err -> {
-			callback.run();
-			Log.warn(err);
-			return null;
-		});
+		DomGlobal.document
+				.fonts
+				.load("8px " + familyName)
+				.then(ignore -> {
+					injected.put(familyName, FontState.ACTIVE);
+					callback.run();
+					return null;
+				})
+				.catch_(err -> {
+					callback.run();
+					Log.warn(err);
+					return null;
+				});
 	}
 }

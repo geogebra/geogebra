@@ -32,5 +32,4 @@ public class NoCASFactory extends CASFactory {
 	public boolean isEnabled() {
 		return false;
 	}
-
 }

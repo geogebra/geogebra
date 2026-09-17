@@ -43,19 +43,18 @@ public class CmdBottom extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0] instanceof GeoQuadric3DLimited) {
-				GeoElement[] ret = { kernel.getManager3D().quadricBottom(
-						c.getLabel(), (GeoQuadric3DLimited) arg[0]) };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0] instanceof GeoQuadric3DLimited) {
+					GeoElement[] ret = {
+						kernel.getManager3D().quadricBottom(c.getLabel(), (GeoQuadric3DLimited) arg[0])
+					};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
-
 	}
-
 }

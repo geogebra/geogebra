@@ -9,17 +9,17 @@
 package javagiac;
 
 public class gen {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected gen(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected gen(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(gen obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(gen obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
 	// @Override
 	// protected void finalize() {
@@ -28,26 +28,26 @@ public class gen {
 	// delete();
 	// }
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        giacJNI.delete_gen(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				giacJNI.delete_gen(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  public gen(String s, context contextptr) {
-    this(giacJNI.new_gen__SWIG_25(s, context.getCPtr(contextptr), contextptr), true);
-  }
+	public gen(String s, context contextptr) {
+		this(giacJNI.new_gen__SWIG_25(s, context.getCPtr(contextptr), contextptr), true);
+	}
 
-  public gen eval(int level, context contextptr) {
-    return new gen(giacJNI.gen_eval(swigCPtr, this, level, context.getCPtr(contextptr), contextptr), true);
-  }
+	public gen eval(int level, context contextptr) {
+		return new gen(
+				giacJNI.gen_eval(swigCPtr, this, level, context.getCPtr(contextptr), contextptr), true);
+	}
 
-  public String print(context contextptr) {
-    return giacJNI.gen_print__SWIG_0(swigCPtr, this, context.getCPtr(contextptr), contextptr);
-  }
-
+	public String print(context contextptr) {
+		return giacJNI.gen_print__SWIG_0(swigCPtr, this, context.getCPtr(contextptr), contextptr);
+	}
 }

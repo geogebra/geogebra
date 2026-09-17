@@ -36,8 +36,7 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	 * @param c
 	 *            conic
 	 */
-	public AlgoIntersectPlaneConic(Construction cons, GeoCoordSys2D plane,
-			GeoConicND c) {
+	public AlgoIntersectPlaneConic(Construction cons, GeoCoordSys2D plane, GeoConicND c) {
 		super(cons, (GeoElement) plane, c);
 	}
 
@@ -62,12 +61,10 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	 * @param points
 	 *            output point
 	 */
-	public final void intersect(GeoCoordSys2D plane, GeoConicND conic,
-			GeoPoint3D[] points) {
+	public final void intersect(GeoCoordSys2D plane, GeoConicND conic, GeoPoint3D[] points) {
 		// calc intersection line of the plane and the plane including the conic
 		intersection = CoordMatrixUtil.intersectPlanes(
-				plane.getCoordSys().getMatrixOrthonormal(),
-				conic.getCoordSys().getMatrixOrthonormal());
+				plane.getCoordSys().getMatrixOrthonormal(), conic.getCoordSys().getMatrixOrthonormal());
 
 		super.intersect(conic, points);
 	}
@@ -96,5 +93,4 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	protected void checkIsOnFirstGeo(GeoPoint3D p) {
 		// nothing to do here
 	}
-
 }

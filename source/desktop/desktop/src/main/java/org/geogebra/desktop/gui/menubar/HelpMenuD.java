@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -44,7 +44,7 @@ class HelpMenuD extends BaseMenu {
 
 	/**
 	 * Creates new help menu
-	 * 
+	 *
 	 * @param app application
 	 */
 	HelpMenuD(AppD app) {
@@ -79,7 +79,6 @@ class HelpMenuD extends BaseMenu {
 
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-
 	}
 
 	/**
@@ -88,54 +87,47 @@ class HelpMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 		if (helpAction == null) {
-			helpAction = new HelpAction(app,
-					app.getMenuIcon(GuiResourcesD.HELP), loc.getMenu("Manual"),
-					ManualPage.MAIN_PAGE);
+			helpAction = new HelpAction(
+					app, app.getMenuIcon(GuiResourcesD.HELP), loc.getMenu("Manual"), ManualPage.MAIN_PAGE);
 
-			tutorialAction = new AbstractAction(loc.getMenu("Tutorials"),
-					app.getEmptyIcon()) {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					app.getGuiManager().showURLinBrowser(app.getLocalization()
-							.getTutorialURL(app.getConfig()));
-				}
-			};
-
-			reportBugAction = new AbstractAction(loc.getMenu("ReportBug"),
-					app.getEmptyIcon()) {
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
-					app.getGuiManager().showURLinBrowser(
-							GeoGebraConstants.REPORT_BUG_URL);
-				}
-			};
-
-			forumAction = new AbstractAction(loc.getMenu("Help"),
-					app.getEmptyIcon()) {
+			tutorialAction = new AbstractAction(loc.getMenu("Tutorials"), app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					app.getGuiManager()
-							.showURLinBrowser(GeoGebraConstants.FORUM_URL);
+							.showURLinBrowser(app.getLocalization().getTutorialURL(app.getConfig()));
 				}
 			};
 
-			infoAction = new AbstractAction(loc.getMenu("AboutLicense"),
-					app.getMenuIcon(GuiResourcesD.INFO)) {
+			reportBugAction = new AbstractAction(loc.getMenu("ReportBug"), app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					GeoGebraMenuBar.showAboutDialog(app);
+					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
+					app.getGuiManager().showURLinBrowser(GeoGebraConstants.REPORT_BUG_URL);
 				}
 			};
 
+			forumAction = new AbstractAction(loc.getMenu("Help"), app.getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					app.getGuiManager().showURLinBrowser(GeoGebraConstants.FORUM_URL);
+				}
+			};
+
+			infoAction =
+					new AbstractAction(loc.getMenu("AboutLicense"), app.getMenuIcon(GuiResourcesD.INFO)) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							GeoGebraMenuBar.showAboutDialog(app);
+						}
+					};
 		}
 	}
 
@@ -144,11 +136,7 @@ class HelpMenuD extends BaseMenu {
 		if (helpAction == null) {
 			return;
 		}
-		helpAction.putValue(Action.SMALL_ICON,
-				app.getMenuIcon(GuiResourcesD.HELP));
-		infoAction.putValue(Action.SMALL_ICON,
-				app.getMenuIcon(GuiResourcesD.INFO));
-
+		helpAction.putValue(Action.SMALL_ICON, app.getMenuIcon(GuiResourcesD.HELP));
+		infoAction.putValue(Action.SMALL_ICON, app.getMenuIcon(GuiResourcesD.INFO));
 	}
-
 }

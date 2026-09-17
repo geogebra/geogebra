@@ -18,8 +18,7 @@ public class CommandSideSet extends Command3A {
 		if (a instanceof ScriptsAtom) {
 			((ScriptsAtom) a).setBase(new PhantomAtom(c, false, true, true));
 		} else if (a instanceof BigOperatorAtom) {
-			((BigOperatorAtom) a)
-					.setBase(new PhantomAtom(c, false, true, true));
+			((BigOperatorAtom) a).setBase(new PhantomAtom(c, false, true, true));
 		}
 		ra.add(new TypedAtom(TeXConstants.TYPE_ORDINARY, a));
 

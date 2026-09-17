@@ -106,13 +106,15 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 		colCount.setText(popupState.controlState().columns());
 		double center = (popupState.anchor().getMinX() + popupState.anchor().getMaxX()) / 2;
 		Widget mathInput = mathField.asWidget();
-		double indicatorLeft = Math.min(center, mathInput.getParent().getOffsetWidth()
-				- INDICATOR_HALF_WIDTH)
-				+ mathInput.getAbsoluteLeft() - app.getAbsLeft() - INDICATOR_HALF_WIDTH;
-		double indicatorTop = popupState.indicatorOffset() + mathInput.getAbsoluteTop()
-				- app.getAbsTop();
-		double popupCenter = Math.max(Math.min(indicatorLeft + 14,
-				app.getWidth() - POPUP_HALF_WIDTH), POPUP_HALF_WIDTH);
+		double indicatorLeft =
+				Math.min(center, mathInput.getParent().getOffsetWidth() - INDICATOR_HALF_WIDTH)
+						+ mathInput.getAbsoluteLeft()
+						- app.getAbsLeft()
+						- INDICATOR_HALF_WIDTH;
+		double indicatorTop =
+				popupState.indicatorOffset() + mathInput.getAbsoluteTop() - app.getAbsTop();
+		double popupCenter =
+				Math.max(Math.min(indicatorLeft + 14, app.getWidth() - POPUP_HALF_WIDTH), POPUP_HALF_WIDTH);
 		double popupTop = indicatorTop + 12;
 		if (popupTop + POPUP_HEIGHT > app.getHeight()) {
 			popupTop = Math.max(0, mathInput.getAbsoluteTop() - app.getAbsTop() - POPUP_HEIGHT);
@@ -129,8 +131,7 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 		openResizeButton.addStyleName("openResizeControlButton");
 		popupPanel = new GPopupPanel(true, false, app.getAppletFrame(), app);
 		popupPanel.addStyleName("resizePopup");
-		popupPanel.addCloseHandler(
-				evt -> setOpeningButtonActive(false, moreIcon));
+		popupPanel.addCloseHandler(evt -> setOpeningButtonActive(false, moreIcon));
 		ClickStartHandler.init(openResizeButton, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
@@ -147,8 +148,9 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 		FlowPanel rowControls = buildRowControls();
 		FlowPanel columnControls = buildColumnControls();
 		panelContent.add(rowControls);
-		NoDragImage separator = new NoDragImage(GuiResourcesSimple.INSTANCE.close()
-				.withFill(GeoGebraColorConstants.NEUTRAL_700.toString()), 16);
+		NoDragImage separator = new NoDragImage(
+				GuiResourcesSimple.INSTANCE.close().withFill(GeoGebraColorConstants.NEUTRAL_700.toString()),
+				16);
 		separator.setStyleName("resizeControlsSeparator");
 		panelContent.add(separator);
 		panelContent.add(columnControls);
@@ -165,8 +167,7 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 	}
 
 	private void setOpeningButtonActive(boolean showing, SVGResource moreIcon) {
-		GColor color = showing ? GeoGebraColorConstants.PURPLE_700
-				: GeoGebraColorConstants.NEUTRAL_800;
+		GColor color = showing ? GeoGebraColorConstants.PURPLE_700 : GeoGebraColorConstants.NEUTRAL_800;
 		if (openResizeButton != null) {
 			openResizeButton.setIcon(moreIcon.withFill(color.toString()));
 			openResizeButton.setStyleName("active", popupPanel.isShowing());
@@ -175,12 +176,11 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 
 	private FlowPanel buildRowControls() {
 		FlowPanel rowControls = new FlowPanel();
-		removeRow = newStandardButton(MaterialDesignResources.INSTANCE.minus_black(),
-				controller::removeRow);
-		addRow = newStandardButton(MaterialDesignResources.INSTANCE.add_black(),
-				controller::addRow);
-		Label rowTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(app.getLocalization()
-				.getMenu("Rows"), "groupTitle");
+		removeRow =
+				newStandardButton(MaterialDesignResources.INSTANCE.minus_black(), controller::removeRow);
+		addRow = newStandardButton(MaterialDesignResources.INSTANCE.add_black(), controller::addRow);
+		Label rowTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("Rows"), "groupTitle");
 		rowControls.add(rowTitle);
 		rowControls.add(removeRow);
 		rowCount = new Label();
@@ -191,12 +191,11 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 
 	private FlowPanel buildColumnControls() {
 		FlowPanel columnControls = new FlowPanel();
-		removeCol = newStandardButton(MaterialDesignResources.INSTANCE.minus_black(),
-				controller::removeColumn);
-		addCol = newStandardButton(MaterialDesignResources.INSTANCE.add_black(),
-				controller::addColumn);
-		Label columnTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(app.getLocalization()
-				.getMenu("Columns"), "groupTitle");
+		removeCol =
+				newStandardButton(MaterialDesignResources.INSTANCE.minus_black(), controller::removeColumn);
+		addCol = newStandardButton(MaterialDesignResources.INSTANCE.add_black(), controller::addColumn);
+		Label columnTitle = BaseWidgetFactory.INSTANCE.newSecondaryText(
+				app.getLocalization().getMenu("Columns"), "groupTitle");
 		columnControls.add(columnTitle);
 		columnControls.add(removeCol);
 		colCount = new Label();
@@ -206,8 +205,8 @@ public final class MatrixResizePopup implements MatrixResizeController.StateList
 	}
 
 	private StandardButton newStandardButton(SVGResource s, Runnable onClick) {
-		StandardButton button = new StandardButton(s.withFill(
-				GeoGebraColorConstants.NEUTRAL_800.toString()), 16);
+		StandardButton button =
+				new StandardButton(s.withFill(GeoGebraColorConstants.NEUTRAL_800.toString()), 16);
 		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {

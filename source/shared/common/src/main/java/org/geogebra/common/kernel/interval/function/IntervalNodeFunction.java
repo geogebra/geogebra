@@ -38,8 +38,8 @@ public class IntervalNodeFunction {
 	 * Note that each IntervalFunction has exactly one function variable "x",
 	 * because of the "Dependency Problem".
 	 */
-	public IntervalNodeFunction(IntervalExpressionNode root,
-			IntervalFunctionVariable functionVariable) {
+	public IntervalNodeFunction(
+			IntervalExpressionNode root, IntervalFunctionVariable functionVariable) {
 		assert root != null;
 		this.root = root;
 		this.functionVariable = functionVariable;

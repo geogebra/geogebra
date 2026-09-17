@@ -26,16 +26,16 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Simple interface used to join GeoSegment and GeoSegment3D
- * 
+ *
  * @author ggb3D
  *
  */
-public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
-		FromMeta, Parametrizable {
+public interface GeoSegmentND
+		extends GeoLineND, LimitedPath, GeoNumberValue, FromMeta, Parametrizable {
 
 	/**
 	 * Sets start point and end point with inhom coords
-	 * 
+	 *
 	 * @param start
 	 *            start point
 	 * @param end
@@ -59,7 +59,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
 	/**
 	 * return the x-coordinate of the point on the segment according to the
 	 * parameter value
-	 * 
+	 *
 	 * @param parameter
 	 *            the parameter
 	 * @return the x-coordinate of the point
@@ -69,7 +69,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
 	/**
 	 * return the y-coordinate of the point on the segment according to the
 	 * parameter value
-	 * 
+	 *
 	 * @param parameter
 	 *            the parameter
 	 * @return the y-coordinate of the point
@@ -78,7 +78,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
 
 	/**
 	 * modify the input points
-	 * 
+	 *
 	 * @param P
 	 *            new first point
 	 * @param Q
@@ -88,7 +88,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
 
 	/**
 	 * set the segment through the two points
-	 * 
+	 *
 	 * @param locusPoint
 	 *            first point
 	 * @param locusPoint2
@@ -97,17 +97,16 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue,
 	void setCoords(MyPoint locusPoint, MyPoint locusPoint2);
 
 	/**
-	 * 
+	 *
 	 * @return unlabeled copy with free Input Points
 	 */
 	GeoElement copyFreeSegment();
 
 	/**
 	 * used for GeoSegment3D
-	 * 
+	 *
 	 * @param ccp
 	 *            changeable coord parent
 	 */
 	void setChangeableParentIfNull(ChangeableParent ccp);
-
 }

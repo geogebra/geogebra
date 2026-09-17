@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -54,7 +54,7 @@ public class DialogManagerMinimal extends DialogManager {
 	/**
 	 * Minimal implementation of DialogManager Potentially can be used in
 	 * applets without needing GuiManager
-	 * 
+	 *
 	 * @param app application
 	 */
 	public DialogManagerMinimal(App app) {
@@ -78,8 +78,7 @@ public class DialogManagerMinimal extends DialogManager {
 	 * @return confirmation
 	 */
 	private boolean confirm(String string) {
-		return JOptionPane.showConfirmDialog(null,
-				string) == JOptionPane.OK_CANCEL_OPTION;
+		return JOptionPane.showConfirmDialog(null, string) == JOptionPane.OK_CANCEL_OPTION;
 	}
 
 	@Override
@@ -95,58 +94,61 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showPropertiesDialog(OptionType type,
-			ArrayList<GeoElement> geos) {
+	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPointND startPoint) {
+	public void showNumberInputDialogSegmentFixed(String title, GeoPointND startPoint) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void showNumberInputDialogAngleFixed(String menu,
-			GeoSegmentND[] selectedSegments, GeoPointND[] selectedPoints,
-			GeoElement[] selGeos, EuclidianController ec) {
+	public void showNumberInputDialogAngleFixed(
+			String menu,
+			GeoSegmentND[] selectedSegments,
+			GeoPointND[] selectedPoints,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void showNumberInputDialogDilate(String title,
-			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
-			GeoElement[] selGeos, EuclidianController ec) {
+	public void showNumberInputDialogDilate(
+			String title,
+			GeoPolygon[] selectedPolygons,
+			GeoPointND[] selectedPoints,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void showBooleanCheckboxCreationDialog(GPoint screenLoc,
-			GeoBoolean bool) {
+	public void showBooleanCheckboxCreationDialog(GPoint screenLoc, GeoBoolean bool) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void showNumberInputDialogCirclePointRadius(String menu,
-			GeoPointND geoPointND, EuclidianView view) {
+	public void showNumberInputDialogCirclePointRadius(
+			String menu, GeoPointND geoPointND, EuclidianView view) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void showNumberInputDialog(String title, String message,
-			String initText, AsyncOperation<GeoNumberValue> callback) {
+	public void showNumberInputDialog(
+			String title, String message, String initText, AsyncOperation<GeoNumberValue> callback) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void showAngleInputDialog(String title, String message,
-			String initText, AsyncOperation<GeoNumberValue> callback) {
+	public void showAngleInputDialog(
+			String title, String message, String initText, AsyncOperation<GeoNumberValue> callback) {
 		// TODO Auto-generated method stub
 	}
 
@@ -163,8 +165,7 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showRenameDialog(GeoElement geo, boolean b, String label,
-			boolean c) {
+	public void showRenameDialog(GeoElement geo, boolean b, String label, boolean c) {
 		// TODO Auto-generated method stub
 
 	}
@@ -176,8 +177,12 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showNumberInputDialog(String title, String message,
-			String initText, boolean changingSign, String checkBoxText,
+	public void showNumberInputDialog(
+			String title,
+			String message,
+			String initText,
+			boolean changingSign,
+			String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
 		// TODO Auto-generated method stub
 
@@ -196,86 +201,85 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showNumberInputDialogRegularPolygon(String menu,
-			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
+	public void showNumberInputDialogRegularPolygon(
+			String menu,
+			EuclidianController ec,
+			GeoPointND geoPoint1,
+			GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
-		String inputString = prompt(menu + " "
-				+ getLocalization().getMenu("Points"), "4");
+		String inputString = prompt(menu + " " + getLocalization().getMenu("Points"), "4");
 
-		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
-				direction,
-				app.getErrorHandler(), obj -> {
+		makeRegularPolygon(
+				app, ec, inputString, geoPoint1, geoPoint2, direction, app.getErrorHandler(), obj -> {
 					// no callback needed
 				});
-
 	}
 
 	@Override
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
-			boolean rw) {
-		return new TextInputDialogD(app, getLocalization().getMenu("Text"), text, startPoint,
-				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
+		return new TextInputDialogD(
+				app,
+				getLocalization().getMenu("Text"),
+				text,
+				startPoint,
+				rw,
+				30,
+				6,
+				app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 
 	@Override
 	public boolean showSliderCreationDialog(int x, int y) {
-				Kernel kernel = app.getKernel();
-				boolean isAngle = !confirm("OK for number, Cancel for angle");
-				GeoNumeric slider = GeoNumeric
-						.setSliderFromDefault(
-								isAngle ? new GeoAngle(kernel.getConstruction())
-										: new GeoNumeric(kernel.getConstruction()),
-								isAngle);
+		Kernel kernel = app.getKernel();
+		boolean isAngle = !confirm("OK for number, Cancel for angle");
+		GeoNumeric slider = GeoNumeric.setSliderFromDefault(
+				isAngle ? new GeoAngle(kernel.getConstruction()) : new GeoNumeric(kernel.getConstruction()),
+				isAngle);
 
-				StringTemplate tmpl = StringTemplate.defaultTemplate;
+		StringTemplate tmpl = StringTemplate.defaultTemplate;
 
-				// convert to degrees (angle only)
-				String minStr = isAngle
-						? kernel.format(Math.toDegrees(slider.getIntervalMin()), tmpl)
-								+ Unicode.DEGREE_STRING
-						: kernel.format(slider.getIntervalMin(), tmpl);
-				String maxStr = isAngle
-						? kernel.format(Math.toDegrees(slider.getIntervalMax()), tmpl)
-								+ Unicode.DEGREE_STRING
-						: kernel.format(slider.getIntervalMax(), tmpl);
-				String incStr = isAngle
-						? kernel.format(Math.toDegrees(slider.getAnimationStep()), tmpl)
-								+ Unicode.DEGREE_STRING
-						: kernel.format(slider.getAnimationStep(), tmpl);
+		// convert to degrees (angle only)
+		String minStr = isAngle
+				? kernel.format(Math.toDegrees(slider.getIntervalMin()), tmpl) + Unicode.DEGREE_STRING
+				: kernel.format(slider.getIntervalMin(), tmpl);
+		String maxStr = isAngle
+				? kernel.format(Math.toDegrees(slider.getIntervalMax()), tmpl) + Unicode.DEGREE_STRING
+				: kernel.format(slider.getIntervalMax(), tmpl);
+		String incStr = isAngle
+				? kernel.format(Math.toDegrees(slider.getAnimationStep()), tmpl) + Unicode.DEGREE_STRING
+				: kernel.format(slider.getAnimationStep(), tmpl);
 
-				// get input from user
-				NumberValue min = getNumber(kernel, "Enter minimum", minStr);
-				NumberValue max = getNumber(kernel, "Enter maximum", maxStr);
-				NumberValue increment = getNumber(kernel, "Enter increment", incStr);
+		// get input from user
+		NumberValue min = getNumber(kernel, "Enter minimum", minStr);
+		NumberValue max = getNumber(kernel, "Enter maximum", maxStr);
+		NumberValue increment = getNumber(kernel, "Enter increment", incStr);
 
-				if (min != null) {
-					slider.setIntervalMin(min);
-				}
-				if (max != null) {
-					slider.setIntervalMax(max);
-				}
-				if (increment != null) {
-					slider.setAnimationStep(increment);
-				}
+		if (min != null) {
+			slider.setIntervalMin(min);
+		}
+		if (max != null) {
+			slider.setIntervalMax(max);
+		}
+		if (increment != null) {
+			slider.setAnimationStep(increment);
+		}
 
-				slider.setLabel(null);
-				slider.setValue(isAngle ? 45 * Math.PI / 180 : 1);
-				slider.setSliderLocation(x, y, true);
-				slider.setEuclidianVisible(true);
+		slider.setLabel(null);
+		slider.setValue(isAngle ? 45 * Math.PI / 180 : 1);
+		slider.setSliderLocation(x, y, true);
+		slider.setEuclidianVisible(true);
 
-				slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-				slider.setLabelVisible(true);
-				slider.update();
-				// slider.setRandom(cbRandom.isSelected());
+		slider.setLabelMode(GeoElement.LABEL_NAME_VALUE);
+		slider.setLabelVisible(true);
+		slider.update();
+		// slider.setRandom(cbRandom.isSelected());
 
-				app.storeUndoInfo();
+		app.storeUndoInfo();
 
-				return true;
-
+		return true;
 	}
 
-	protected GeoNumberValue getNumber(Kernel kernel, String message,
-			String def) {
+	protected GeoNumberValue getNumber(Kernel kernel, String message, String def) {
 
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
@@ -283,8 +287,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 		String str = prompt(message, def);
 
-		GeoNumberValue result = kernel.getAlgebraProcessor()
-				.evaluateToNumeric(str, true);
+		GeoNumberValue result = kernel.getAlgebraProcessor().evaluateToNumeric(str, true);
 
 		cons.setSuppressLabelCreation(oldVal);
 
@@ -292,15 +295,23 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showNumberInputDialogRotate(String title,
-			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
-			GeoElement[] selGeos, EuclidianController ec) {
-		String inputString = prompt(title + " " + getLocalization().getMenu("Angle"),
-				defaultAngle);
+	public void showNumberInputDialogRotate(
+			String title,
+			GeoPolygon[] selectedPolygons,
+			GeoPointND[] selectedPoints,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
+		String inputString = prompt(title + " " + getLocalization().getMenu("Angle"), defaultAngle);
 
-		rotateObject(app, inputString, false, selectedPolygons,
-				new CreateGeoForRotatePoint(selectedPoints[0]), selGeos, ec,
-				app.getDefaultErrorHandler(), obj -> defaultAngle = obj);
-
+		rotateObject(
+				app,
+				inputString,
+				false,
+				selectedPolygons,
+				new CreateGeoForRotatePoint(selectedPoints[0]),
+				selGeos,
+				ec,
+				app.getDefaultErrorHandler(),
+				obj -> defaultAngle = obj);
 	}
 }

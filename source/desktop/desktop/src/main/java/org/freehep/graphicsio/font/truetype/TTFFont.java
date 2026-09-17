@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * TrueType Font with all its tables.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFFont.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -42,7 +42,7 @@ public abstract class TTFFont {
 
 	public void show() {
 		System.out.println("Tables:");
-		for (Iterator i = entry.values().iterator(); i.hasNext();) {
+		for (Iterator i = entry.values().iterator(); i.hasNext(); ) {
 			System.out.println(i.next());
 		}
 	}
@@ -71,6 +71,5 @@ public abstract class TTFFont {
 		}
 	}
 
-	public void close() throws IOException {
-	}
+	public void close() throws IOException {}
 }

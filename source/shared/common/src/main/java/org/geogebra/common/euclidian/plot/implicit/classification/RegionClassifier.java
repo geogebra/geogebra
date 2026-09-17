@@ -54,10 +54,7 @@ public class RegionClassifier {
 	private boolean classified = false;
 	private GetResultsStats activeGetResultsStats;
 	private final GPoint2D[] perimeterCandidates = {
-			new GPoint2D(),
-			new GPoint2D(),
-			new GPoint2D(),
-			new GPoint2D()
+		new GPoint2D(), new GPoint2D(), new GPoint2D(), new GPoint2D()
 	};
 
 	/**
@@ -65,17 +62,21 @@ public class RegionClassifier {
 	 * @param boundsSupplier current view bounds supplier
 	 * @param edgeHits viewport hit supplier used for clipping
 	 */
-	public RegionClassifier(List<PointList> contours, Supplier<GRectangle2D> boundsSupplier,
+	public RegionClassifier(
+			List<PointList> contours,
+			Supplier<GRectangle2D> boundsSupplier,
 			Supplier<List<EdgeHit>> edgeHits) {
-		this(() -> createFragmentsResult(contours, boundsSupplier.get(), edgeHits.get()),
-					boundsSupplier);
+		this(
+				() -> createFragmentsResult(contours, boundsSupplier.get(), edgeHits.get()),
+				boundsSupplier);
 	}
 
 	/**
 	 * @param clippedFragmentsResultSupplier clipped contour fragments for one build
 	 * @param boundsSupplier current view bounds supplier
 	 */
-	public RegionClassifier(Supplier<ClippedFragmentsResult> clippedFragmentsResultSupplier,
+	public RegionClassifier(
+			Supplier<ClippedFragmentsResult> clippedFragmentsResultSupplier,
 			Supplier<GRectangle2D> boundsSupplier) {
 		this.boundsSupplier = boundsSupplier;
 		this.clippedFragmentsResultSupplier = clippedFragmentsResultSupplier;
@@ -83,14 +84,14 @@ public class RegionClassifier {
 		graphBuilder = new GraphBuilder(epsilonPolicy);
 	}
 
-	private static ClippedFragmentsResult createFragmentsResult(List<PointList> contours,
-			GRectangle2D bounds, List<EdgeHit> hits) {
+	private static ClippedFragmentsResult createFragmentsResult(
+			List<PointList> contours, GRectangle2D bounds, List<EdgeHit> hits) {
 		if (bounds == null) {
 			return new ClippedFragmentsResult(List.of(), List.of());
 		}
 		List<EdgeHit> safeHits = hits == null ? List.of() : hits;
-		ClipRect clipRect = new ClipRect(bounds.getMinX(), bounds.getMaxX(),
-				bounds.getMinY(), bounds.getMaxY());
+		ClipRect clipRect =
+				new ClipRect(bounds.getMinX(), bounds.getMaxX(), bounds.getMinY(), bounds.getMaxY());
 		ClippedFragmentsResult result = ClippedFragmentsBuilder.build(contours, safeHits, clipRect);
 		return new ClippedFragmentsResult(result, clipRect);
 	}
@@ -120,18 +121,22 @@ public class RegionClassifier {
 			ImplicitPlotTimings.log("RegionClassifier.prepareRect", stageStart);
 			stageStart = ImplicitPlotTimings.start();
 
-			graphBuilder.build(rect, fragmentsResult != null
-					? fragmentsResult
-					: new ClippedFragmentsResult(List.of(), List.of()));
-			ImplicitPlotTimings.log("GraphBuilder.build", stageStart,
-					"fragments=" + fragmentCount(fragmentsResult));
+			graphBuilder.build(
+					rect,
+					fragmentsResult != null
+							? fragmentsResult
+							: new ClippedFragmentsResult(List.of(), List.of()));
+			ImplicitPlotTimings.log(
+					"GraphBuilder.build", stageStart, "fragments=" + fragmentCount(fragmentsResult));
 			classified = true;
 		} catch (IllegalStateException e) {
-			Log.debug("[RegionClassifier] topology build failed: " + e.getMessage()
-					+ " " + graphBuilder.debugSummary());
+			Log.debug("[RegionClassifier] topology build failed: " + e.getMessage() + " "
+					+ graphBuilder.debugSummary());
 			classified = false;
 		}
-		ImplicitPlotTimings.log("RegionClassifier.process.total", totalStart,
+		ImplicitPlotTimings.log(
+				"RegionClassifier.process.total",
+				totalStart,
 				classified ? "classified=true" : "classified=false");
 		return classified;
 	}
@@ -140,14 +145,16 @@ public class RegionClassifier {
 		return fragmentsResult == null ? 0 : fragmentsResult.fragments().size();
 	}
 
-	private GRectangle2D classificationRect(GRectangle2D suppliedRect,
-			ClippedFragmentsResult fragmentsResult) {
+	private GRectangle2D classificationRect(
+			GRectangle2D suppliedRect, ClippedFragmentsResult fragmentsResult) {
 		if (fragmentsResult == null || fragmentsResult.clipRect() == null) {
 			return suppliedRect;
 		}
 		ClipRect clipRect = fragmentsResult.clipRect();
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
-		rect.setRect(clipRect.getXmin(), clipRect.getYmin(),
+		rect.setRect(
+				clipRect.getXmin(),
+				clipRect.getYmin(),
 				clipRect.getXmax() - clipRect.getXmin(),
 				clipRect.getYmax() - clipRect.getYmin());
 		return rect;
@@ -167,8 +174,8 @@ public class RegionClassifier {
 		classified = false;
 	}
 
-	private void validateFragmentsAgainstRect(GRectangle2D rect,
-			ClippedFragmentsResult fragmentsResult) {
+	private void validateFragmentsAgainstRect(
+			GRectangle2D rect, ClippedFragmentsResult fragmentsResult) {
 		if (!FRAGMENT_RECT_DEBUG || rect == null || fragmentsResult == null) {
 			return;
 		}
@@ -200,8 +207,8 @@ public class RegionClassifier {
 		}
 	}
 
-	private boolean logEndpointMismatch(GRectangle2D rect, int fragmentIndex,
-			FragmentEndpoint endpoint, String label, double eps) {
+	private boolean logEndpointMismatch(
+			GRectangle2D rect, int fragmentIndex, FragmentEndpoint endpoint, String label, double eps) {
 		if (endpoint == null) {
 			return false;
 		}
@@ -217,13 +224,15 @@ public class RegionClassifier {
 	}
 
 	private boolean isInsideRect(GRectangle2D rect, double x, double y, double eps) {
-		return x >= rect.getMinX() - eps && x <= rect.getMaxX() + eps
-				&& y >= rect.getMinY() - eps && y <= rect.getMaxY() + eps;
+		return x >= rect.getMinX() - eps
+				&& x <= rect.getMaxX() + eps
+				&& y >= rect.getMinY() - eps
+				&& y <= rect.getMaxY() + eps;
 	}
 
 	private String formatRect(GRectangle2D rect) {
-		return "[" + rect.getMinX() + "," + rect.getMaxX()
-				+ "]x[" + rect.getMinY() + "," + rect.getMaxY() + "]";
+		return "[" + rect.getMinX() + "," + rect.getMaxX() + "]x[" + rect.getMinY() + ","
+				+ rect.getMaxY() + "]";
 	}
 
 	private String formatPoint(double x, double y) {
@@ -279,15 +288,20 @@ public class RegionClassifier {
 						if (visibleSample.point() != null) {
 							samplePoint = visibleSample.point();
 						}
-						logVisibleInteriorSample(face, originalSamplePoint, samplePoint,
-								visibleSample, outerBoundaryIds, holeBoundaries, bounds);
+						logVisibleInteriorSample(
+								face,
+								originalSamplePoint,
+								samplePoint,
+								visibleSample,
+								outerBoundaryIds,
+								holeBoundaries,
+								bounds);
 					}
 					if (samplePoint != null) {
 						List<GGeneralPath> holes = buildHolePath(holeBoundaries, bounds);
 						GGeneralPath outerBoundary = buildPath(outerBoundaryIds, bounds);
 
-						list.add(new ClassifiedRegion(outerBoundary, holes, samplePoint,
-								face.getId()));
+						list.add(new ClassifiedRegion(outerBoundary, holes, samplePoint, face.getId()));
 					}
 					stats.interiorElapsed += ImplicitPlotTimings.delta(interiorStart);
 				}
@@ -295,7 +309,8 @@ public class RegionClassifier {
 		} finally {
 			activeGetResultsStats = null;
 		}
-		ImplicitPlotTimings.log("RegionClassifier.getResults.exterior",
+		ImplicitPlotTimings.log(
+				"RegionClassifier.getResults.exterior",
 				elapsedStart(stats.exteriorElapsed),
 				"faces=" + stats.exteriorFaces
 						+ " holes=" + stats.exteriorHoles
@@ -305,7 +320,8 @@ public class RegionClassifier {
 						+ " polygonCalls=" + stats.exteriorPolygonCalls
 						+ " polygonEdges=" + stats.exteriorPolygonEdges
 						+ " successStrategy=" + stats.exteriorSuccessStrategy);
-		ImplicitPlotTimings.log("RegionClassifier.getResults.interior",
+		ImplicitPlotTimings.log(
+				"RegionClassifier.getResults.interior",
 				elapsedStart(stats.interiorElapsed),
 				"faces=" + stats.interiorFaces
 						+ " offscreenSamples=" + visibleSampleStats.offscreenSamples
@@ -319,14 +335,17 @@ public class RegionClassifier {
 						+ " perimeterCandidates=" + visibleSampleStats.perimeterCandidates
 						+ " polygonCalls=" + stats.interiorPolygonCalls
 						+ " polygonEdges=" + stats.interiorPolygonEdges);
-		ImplicitPlotTimings.log("RegionClassifier.getResults.paths",
+		ImplicitPlotTimings.log(
+				"RegionClassifier.getResults.paths",
 				elapsedStart(stats.pathsElapsed),
 				"holePaths=" + stats.holePaths
 						+ " holeEdges=" + stats.holePathEdges
 						+ " outerPaths=" + stats.outerPaths
 						+ " outerEdges=" + stats.outerPathEdges
 						+ " viewPaths=" + stats.viewPaths);
-		ImplicitPlotTimings.log("RegionClassifier.getResults.total", totalStart,
+		ImplicitPlotTimings.log(
+				"RegionClassifier.getResults.total",
+				totalStart,
 				"faces=" + graph.getFaces().size()
 						+ " exterior=" + exteriorCount
 						+ " interior=" + interiorCount
@@ -405,8 +424,11 @@ public class RegionClassifier {
 	private BoundaryPath boundaryPathOf(List<Integer> boundary) {
 		double[] xCoordinates = new double[boundary.size()];
 		double[] yCoordinates = new double[boundary.size()];
-		WorldBox box = new WorldBox(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-				Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		WorldBox box = new WorldBox(
+				Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY,
+				Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY);
 		PlanarGraph graph = getGraph();
 		for (int i = 0; i < boundary.size(); i++) {
 			Vertex vertex = graph.vertex(graph.halfEdge(boundary.get(i)).getOriginVertexId());
@@ -422,8 +444,7 @@ public class RegionClassifier {
 		private final double[] yCoordinates;
 		private final WorldBox boundingBox;
 
-		private BoundaryPath(double[] xCoordinates, double[] yCoordinates,
-				WorldBox boundingBox) {
+		private BoundaryPath(double[] xCoordinates, double[] yCoordinates, WorldBox boundingBox) {
 			this.xCoordinates = xCoordinates;
 			this.yCoordinates = yCoordinates;
 			this.boundingBox = boundingBox;
@@ -452,20 +473,23 @@ public class RegionClassifier {
 		private int perimeterCandidates;
 	}
 
-	private record VisibleSampleResult(GPoint2D point, String strategy, WorldBox sampleBox) {
-	}
+	private record VisibleSampleResult(GPoint2D point, String strategy, WorldBox sampleBox) {}
 
 	private boolean isWorldPointOnView(GPoint2D point, EuclidianViewBounds bounds) {
 		return point != null
-				&& point.x >= bounds.getXmin() && point.x <= bounds.getXmax()
-				&& point.y >= bounds.getYmin() && point.y <= bounds.getYmax();
+				&& point.x >= bounds.getXmin()
+				&& point.x <= bounds.getXmax()
+				&& point.y >= bounds.getYmin()
+				&& point.y <= bounds.getYmax();
 	}
 
-	private VisibleSampleResult findVisibleInteriorSamplePoint(BoundaryPath outerBoundary,
-			List<BoundaryPath> holeBoundaries, EuclidianViewBounds bounds,
+	private VisibleSampleResult findVisibleInteriorSamplePoint(
+			BoundaryPath outerBoundary,
+			List<BoundaryPath> holeBoundaries,
+			EuclidianViewBounds bounds,
 			VisibleSampleStats stats) {
-		GPoint2D center = new GPoint2D((bounds.getXmin() + bounds.getXmax()) * 0.5,
-				(bounds.getYmin() + bounds.getYmax()) * 0.5);
+		GPoint2D center = new GPoint2D(
+				(bounds.getXmin() + bounds.getXmax()) * 0.5, (bounds.getYmin() + bounds.getYmax()) * 0.5);
 		stats.centerCandidates++;
 		countInteriorCandidate();
 		if (isVisibleInteriorSample(center, outerBoundary, holeBoundaries)) {
@@ -478,20 +502,19 @@ public class RegionClassifier {
 			stats.misses++;
 			return new VisibleSampleResult(null, "no-visible-box", null);
 		}
-		GPoint2D preferredSample = firstInteriorSample(outerBoundary, holeBoundaries,
-				preferredSamples(sampleBox), stats, "preferred");
+		GPoint2D preferredSample = firstInteriorSample(
+				outerBoundary, holeBoundaries, preferredSamples(sampleBox), stats, "preferred");
 		if (preferredSample != null) {
 			stats.hits++;
 			return new VisibleSampleResult(preferredSample, "preferred", sampleBox);
 		}
-		GPoint2D gridSample = findGridInteriorSample(outerBoundary, holeBoundaries,
-				sampleBox, stats);
+		GPoint2D gridSample = findGridInteriorSample(outerBoundary, holeBoundaries, sampleBox, stats);
 		if (gridSample != null) {
 			stats.hits++;
 			return new VisibleSampleResult(gridSample, "grid-" + stats.gridSizeUsed, sampleBox);
 		}
-		GPoint2D perimeterSample = findViewportPerimeterInteriorSample(outerBoundary,
-				holeBoundaries, bounds, stats);
+		GPoint2D perimeterSample =
+				findViewportPerimeterInteriorSample(outerBoundary, holeBoundaries, bounds, stats);
 		if (perimeterSample != null) {
 			stats.hits++;
 			return new VisibleSampleResult(perimeterSample, "perimeter", sampleBox);
@@ -500,9 +523,13 @@ public class RegionClassifier {
 		return new VisibleSampleResult(null, "miss", sampleBox);
 	}
 
-	private void logVisibleInteriorSample(Face face, GPoint2D originalSample,
-			GPoint2D selectedSample, VisibleSampleResult visibleSample,
-			List<Integer> outerBoundary, List<List<Integer>> holeBoundaries,
+	private void logVisibleInteriorSample(
+			Face face,
+			GPoint2D originalSample,
+			GPoint2D selectedSample,
+			VisibleSampleResult visibleSample,
+			List<Integer> outerBoundary,
+			List<List<Integer>> holeBoundaries,
 			EuclidianViewBounds bounds) {
 		if (VISIBLE_SAMPLE_DEBUG) {
 			GetResultsStats stats = activeGetResultsStats;
@@ -511,21 +538,17 @@ public class RegionClassifier {
 				GPoint2D visiblePoint = visibleSample.point();
 				Log.debug("[RegionClassifier] visible sample replacement"
 						+ " face=" + face.getId()
-						+ " original=" + (originalSample == null
-							? "null"
-							: formatPoint(originalSample.x, originalSample.y))
-						+ " selected=" + (selectedSample == null
-							? "null"
-							: formatPoint(selectedSample.x, selectedSample.y))
-						+ " replacement=" + (visiblePoint == null
-							? "null"
-							: formatPoint(visiblePoint.x, visiblePoint.y))
+						+ " original="
+						+ (originalSample == null ? "null" : formatPoint(originalSample.x, originalSample.y))
+						+ " selected="
+						+ (selectedSample == null ? "null" : formatPoint(selectedSample.x, selectedSample.y))
+						+ " replacement="
+						+ (visiblePoint == null ? "null" : formatPoint(visiblePoint.x, visiblePoint.y))
 						+ " strategy=" + visibleSample.strategy()
 						+ " outer=" + classifyPoint(visiblePoint, outerBoundary)
 						+ " containingHoles="
 						+ containingBoundaryCount(visiblePoint, holeBoundaries)
-						+ " insideFace=" + isInteriorSampleOrFalse(visiblePoint, outerBoundary,
-						holeBoundaries)
+						+ " insideFace=" + isInteriorSampleOrFalse(visiblePoint, outerBoundary, holeBoundaries)
 						+ " outerEdges=" + outerBoundary.size()
 						+ " holes=" + holeBoundaries.size()
 						+ " sampleBox=" + formatWorldBox(visibleSample.sampleBox())
@@ -549,16 +572,21 @@ public class RegionClassifier {
 		if (!(xmin < xmax && ymin < ymax)) {
 			return null;
 		}
-		double insetX = Math.min((xmax - xmin) * 0.25, Math.max(bounds.getInvXscale() * 2,
-				(bounds.getXmax() - bounds.getXmin()) * 1e-6));
-		double insetY = Math.min((ymax - ymin) * 0.25, Math.max(bounds.getInvYscale() * 2,
-				(bounds.getYmax() - bounds.getYmin()) * 1e-6));
+		double insetX = Math.min(
+				(xmax - xmin) * 0.25,
+				Math.max(bounds.getInvXscale() * 2, (bounds.getXmax() - bounds.getXmin()) * 1e-6));
+		double insetY = Math.min(
+				(ymax - ymin) * 0.25,
+				Math.max(bounds.getInvYscale() * 2, (bounds.getYmax() - bounds.getYmin()) * 1e-6));
 		return new WorldBox(xmin + insetX, xmax - insetX, ymin + insetY, ymax - insetY);
 	}
 
 	private WorldBox worldBoxOf(List<Integer> boundary) {
-		WorldBox box = new WorldBox(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY,
-				Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		WorldBox box = new WorldBox(
+				Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY,
+				Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY);
 		PlanarGraph graph = getGraph();
 		for (int edgeId : boundary) {
 			HalfEdge halfEdge = graph.halfEdge(edgeId);
@@ -574,17 +602,20 @@ public class RegionClassifier {
 		double centerX = (box.xmin + box.xmax) * 0.5;
 		double centerY = (box.ymin + box.ymax) * 0.5;
 		return new GPoint2D[] {
-				new GPoint2D(centerX, centerY),
-				new GPoint2D(box.xmin, box.ymin),
-				new GPoint2D(box.xmin, box.ymax),
-				new GPoint2D(box.xmax, box.ymin),
-				new GPoint2D(box.xmax, box.ymax)
+			new GPoint2D(centerX, centerY),
+			new GPoint2D(box.xmin, box.ymin),
+			new GPoint2D(box.xmin, box.ymax),
+			new GPoint2D(box.xmax, box.ymin),
+			new GPoint2D(box.xmax, box.ymax)
 		};
 	}
 
-	private GPoint2D firstInteriorSample(BoundaryPath outerBoundary,
-			List<BoundaryPath> holeBoundaries, GPoint2D[] candidates,
-			VisibleSampleStats stats, String strategy) {
+	private GPoint2D firstInteriorSample(
+			BoundaryPath outerBoundary,
+			List<BoundaryPath> holeBoundaries,
+			GPoint2D[] candidates,
+			VisibleSampleStats stats,
+			String strategy) {
 		for (GPoint2D candidate : candidates) {
 			if ("preferred".equals(strategy)) {
 				stats.preferredCandidates++;
@@ -599,8 +630,11 @@ public class RegionClassifier {
 		return null;
 	}
 
-	private GPoint2D findGridInteriorSample(BoundaryPath outerBoundary,
-			List<BoundaryPath> holeBoundaries, WorldBox box, VisibleSampleStats stats) {
+	private GPoint2D findGridInteriorSample(
+			BoundaryPath outerBoundary,
+			List<BoundaryPath> holeBoundaries,
+			WorldBox box,
+			VisibleSampleStats stats) {
 		for (int gridSize : VISIBLE_SAMPLE_GRID_SIZES) {
 			double dx = (box.xmax - box.xmin) / gridSize;
 			double dy = (box.ymax - box.ymin) / gridSize;
@@ -621,24 +655,30 @@ public class RegionClassifier {
 		return null;
 	}
 
-	private GPoint2D findViewportPerimeterInteriorSample(BoundaryPath outerBoundary,
-			List<BoundaryPath> holeBoundaries, EuclidianViewBounds bounds,
+	private GPoint2D findViewportPerimeterInteriorSample(
+			BoundaryPath outerBoundary,
+			List<BoundaryPath> holeBoundaries,
+			EuclidianViewBounds bounds,
 			VisibleSampleStats stats) {
 		int perimeterSamples = 32;
 		for (int i = 0; i < perimeterSamples; i++) {
 			double t = i / (double) (perimeterSamples - 1);
 			GPoint2D[] candidates = {
-					new GPoint2D(interpolate(bounds.getXmin(), bounds.getXmax(), t),
-							bounds.getYmin() + bounds.getInvYscale() * 2),
-					new GPoint2D(interpolate(bounds.getXmin(), bounds.getXmax(), t),
-							bounds.getYmax() - bounds.getInvYscale() * 2),
-					new GPoint2D(bounds.getXmin() + bounds.getInvXscale() * 2,
-							interpolate(bounds.getYmin(), bounds.getYmax(), t)),
-					new GPoint2D(bounds.getXmax() - bounds.getInvXscale() * 2,
-							interpolate(bounds.getYmin(), bounds.getYmax(), t))
+				new GPoint2D(
+						interpolate(bounds.getXmin(), bounds.getXmax(), t),
+						bounds.getYmin() + bounds.getInvYscale() * 2),
+				new GPoint2D(
+						interpolate(bounds.getXmin(), bounds.getXmax(), t),
+						bounds.getYmax() - bounds.getInvYscale() * 2),
+				new GPoint2D(
+						bounds.getXmin() + bounds.getInvXscale() * 2,
+						interpolate(bounds.getYmin(), bounds.getYmax(), t)),
+				new GPoint2D(
+						bounds.getXmax() - bounds.getInvXscale() * 2,
+						interpolate(bounds.getYmin(), bounds.getYmax(), t))
 			};
-			GPoint2D sample = firstInteriorSample(outerBoundary, holeBoundaries, candidates,
-					stats, "perimeter");
+			GPoint2D sample =
+					firstInteriorSample(outerBoundary, holeBoundaries, candidates, stats, "perimeter");
 			if (sample != null) {
 				return sample;
 			}
@@ -646,8 +686,8 @@ public class RegionClassifier {
 		return null;
 	}
 
-	private boolean isInteriorSample(GPoint2D point, BoundaryPath outerBoundary,
-			List<BoundaryPath> holeBoundaries) {
+	private boolean isInteriorSample(
+			GPoint2D point, BoundaryPath outerBoundary, List<BoundaryPath> holeBoundaries) {
 		if (classifyPointInPolygon(point, outerBoundary) != Containment.INSIDE) {
 			return false;
 		}
@@ -659,8 +699,8 @@ public class RegionClassifier {
 		return true;
 	}
 
-	private boolean isVisibleInteriorSample(GPoint2D point, BoundaryPath outerBoundary,
-			List<BoundaryPath> holeBoundaries) {
+	private boolean isVisibleInteriorSample(
+			GPoint2D point, BoundaryPath outerBoundary, List<BoundaryPath> holeBoundaries) {
 		GetResultsStats stats = activeGetResultsStats;
 		boolean previousInteriorSearch = stats != null && stats.inInteriorSearch;
 		if (stats != null) {
@@ -683,8 +723,8 @@ public class RegionClassifier {
 		return point == null ? null : classifyPointInPolygon(point, boundary);
 	}
 
-	private boolean isInteriorSampleOrFalse(GPoint2D point, List<Integer> outerBoundary,
-			List<List<Integer>> holeBoundaries) {
+	private boolean isInteriorSampleOrFalse(
+			GPoint2D point, List<Integer> outerBoundary, List<List<Integer>> holeBoundaries) {
 		if (point == null || classifyPointInPolygon(point, outerBoundary) != Containment.INSIDE) {
 			return false;
 		}
@@ -710,13 +750,14 @@ public class RegionClassifier {
 	}
 
 	private String formatWorldBox(WorldBox box) {
-		return box == null ? "null" : "[" + box.xmin + "," + box.xmax
-				+ "]x[" + box.ymin + "," + box.ymax + "]";
+		return box == null
+				? "null"
+				: "[" + box.xmin + "," + box.xmax + "]x[" + box.ymin + "," + box.ymax + "]";
 	}
 
 	private String formatBounds(EuclidianViewBounds bounds) {
-		return "[" + bounds.getXmin() + "," + bounds.getXmax()
-				+ "]x[" + bounds.getYmin() + "," + bounds.getYmax() + "]";
+		return "[" + bounds.getXmin() + "," + bounds.getXmax() + "]x[" + bounds.getYmin() + ","
+				+ bounds.getYmax() + "]";
 	}
 
 	private static final class WorldBox {
@@ -741,28 +782,28 @@ public class RegionClassifier {
 	}
 
 	@SuppressWarnings("PMD.VariableDeclarationUsageDistance")
-	private GPoint2D findExteriorSamplePoint(List<BoundaryPath> holeBoundaries,
-			EuclidianViewBounds bounds) {
+	private GPoint2D findExteriorSamplePoint(
+			List<BoundaryPath> holeBoundaries, EuclidianViewBounds bounds) {
 		GetResultsStats stats = activeGetResultsStats;
 		boolean previousExteriorSearch = stats != null && stats.inExteriorSearch;
 		if (stats != null) {
 			stats.inExteriorSearch = true;
 		}
 
-		double insetX = Math.max(bounds.getInvXscale() * 2,
-				(bounds.getXmax() - bounds.getXmin()) * 1e-6);
-		double insetY = Math.max(bounds.getInvYscale() * 2,
-				(bounds.getYmax() - bounds.getYmin()) * 1e-6);
+		double insetX =
+				Math.max(bounds.getInvXscale() * 2, (bounds.getXmax() - bounds.getXmin()) * 1e-6);
+		double insetY =
+				Math.max(bounds.getInvYscale() * 2, (bounds.getYmax() - bounds.getYmin()) * 1e-6);
 		double xmin = bounds.getXmin() + insetX;
 		double xmax = bounds.getXmax() - insetX;
 		double ymin = bounds.getYmin() + insetY;
 		double ymax = bounds.getYmax() - insetY;
 
 		double[][] cornerCandidates = {
-				{xmin, ymin},
-				{xmin, ymax},
-				{xmax, ymin},
-				{xmax, ymax}
+			{xmin, ymin},
+			{xmin, ymax},
+			{xmax, ymin},
+			{xmax, ymax}
 		};
 		for (double[] candidate : cornerCandidates) {
 			GPoint2D point = new GPoint2D(candidate[0], candidate[1]);
@@ -849,8 +890,7 @@ public class RegionClassifier {
 		return true;
 	}
 
-	private List<GGeneralPath> buildHolePath(List<List<Integer>> lists,
-			EuclidianViewBounds bounds) {
+	private List<GGeneralPath> buildHolePath(List<List<Integer>> lists, EuclidianViewBounds bounds) {
 		List<GGeneralPath> paths = new ArrayList<>();
 		GetResultsStats stats = activeGetResultsStats;
 		if (stats != null) {
@@ -875,14 +915,10 @@ public class RegionClassifier {
 	private GGeneralPath buildViewPath(EuclidianViewBounds bounds) {
 		long start = ImplicitPlotTimings.start();
 		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
-		gp.moveTo(bounds.toScreenCoordXd(bounds.getXmin()),
-				bounds.toScreenCoordYd(bounds.getYmin()));
-		gp.lineTo(bounds.toScreenCoordXd(bounds.getXmax()),
-				bounds.toScreenCoordYd(bounds.getYmin()));
-		gp.lineTo(bounds.toScreenCoordXd(bounds.getXmax()),
-				bounds.toScreenCoordYd(bounds.getYmax()));
-		gp.lineTo(bounds.toScreenCoordXd(bounds.getXmin()),
-				bounds.toScreenCoordYd(bounds.getYmax()));
+		gp.moveTo(bounds.toScreenCoordXd(bounds.getXmin()), bounds.toScreenCoordYd(bounds.getYmin()));
+		gp.lineTo(bounds.toScreenCoordXd(bounds.getXmax()), bounds.toScreenCoordYd(bounds.getYmin()));
+		gp.lineTo(bounds.toScreenCoordXd(bounds.getXmax()), bounds.toScreenCoordYd(bounds.getYmax()));
+		gp.lineTo(bounds.toScreenCoordXd(bounds.getXmin()), bounds.toScreenCoordYd(bounds.getYmax()));
 		gp.closePath();
 		GetResultsStats stats = activeGetResultsStats;
 		if (stats != null) {
@@ -902,9 +938,9 @@ public class RegionClassifier {
 		PlanarGraph graph = getGraph();
 		HalfEdge firstHalfEdge = graph.halfEdge(edgeIds.get(0));
 		Vertex firstOrigin = graph.vertex(firstHalfEdge.getOriginVertexId());
-		gp.moveTo(bounds.toScreenCoordXd(firstOrigin.getX()),
-				bounds.toScreenCoordYd(firstOrigin.getY()));
-		for (Integer edgeId: edgeIds) {
+		gp.moveTo(
+				bounds.toScreenCoordXd(firstOrigin.getX()), bounds.toScreenCoordYd(firstOrigin.getY()));
+		for (Integer edgeId : edgeIds) {
 			HalfEdge halfEdge = graph.halfEdge(edgeId);
 			Vertex target = graph.vertex(halfEdge.getTargetVertexId());
 			gp.lineTo(bounds.toScreenCoordXd(target.getX()), bounds.toScreenCoordYd(target.getY()));
@@ -1025,12 +1061,12 @@ public class RegionClassifier {
 	}
 
 	private boolean isPointOnSegment(
-			double px, double py,
-			double x1, double y1,
-			double x2, double y2) {
+			double px, double py, double x1, double y1, double x2, double y2) {
 
-		if (px < Math.min(x1, x2) - EPS || px > Math.max(x1, x2) + EPS
-				|| py < Math.min(y1, y2) - EPS || py > Math.max(y1, y2) + EPS) {
+		if (px < Math.min(x1, x2) - EPS
+				|| px > Math.max(x1, x2) + EPS
+				|| py < Math.min(y1, y2) - EPS
+				|| py > Math.max(y1, y2) + EPS) {
 			return false;
 		}
 

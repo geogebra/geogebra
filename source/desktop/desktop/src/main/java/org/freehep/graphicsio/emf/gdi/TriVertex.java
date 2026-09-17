@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF TriVertex
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: TriVertex.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */

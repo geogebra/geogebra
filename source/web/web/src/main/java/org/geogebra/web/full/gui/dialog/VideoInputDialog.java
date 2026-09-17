@@ -51,7 +51,7 @@ public final class VideoInputDialog extends MediaDialog {
 
 	/**
 	 * Adds the proper GeoVideo instance.
-	 * 
+	 *
 	 * @param videoURL
 	 *            the validated URL of the video.
 	 */
@@ -64,7 +64,6 @@ public final class VideoInputDialog extends MediaDialog {
 	@Override
 	public void hide() {
 		super.hide();
-		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
-				ModeSetter.TOOLBAR);
+		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.TOOLBAR);
 	}
 }

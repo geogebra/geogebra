@@ -40,11 +40,11 @@ public final class MyMath {
 	/**
 	 * Largest integer
 	 */
-	final public static double LARGEST_INTEGER = 9007199254740992d;
+	public static final double LARGEST_INTEGER = 9007199254740992d;
 
 	/**
 	 * Cubic root
-	 * 
+	 *
 	 * @param a
 	 *            real number
 	 * @return cube root of a
@@ -103,7 +103,7 @@ public final class MyMath {
 
 	/**
 	 * csch(0) should return undefined not inf
-	 * 
+	 *
 	 * @param a
 	 *            real number
 	 * @return csch(a)
@@ -130,9 +130,9 @@ public final class MyMath {
 	/**
 	 * need some leeway to make sure cos(90deg) gives 0 not
 	 * 6.123233995736766E-17
-	 * 
+	 *
 	 * eg Rotate((0,1),90deg,(0,0))
-	 * 
+	 *
 	 * @param a
 	 *            real number
 	 * @return cos(a)
@@ -149,7 +149,7 @@ public final class MyMath {
 
 	/**
 	 * need some leeway to make sure asin(0.8^2 / sqrt(0.8^4)) works
-	 * 
+	 *
 	 * @param a
 	 *            real number
 	 * @return asin(a)
@@ -172,18 +172,18 @@ public final class MyMath {
 
 	/**
 	 * need some leeway to make sure acos(0.8^2 / sqrt(0.8^4)) works
-	 * 
+	 *
 	 * @param a
 	 *            real number
 	 * @return acos(a)
 	 */
 	public static double acos(double a) {
 		if (a > 1 && DoubleUtil.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
-				return Math.acos(1);
+			return Math.acos(1);
 		}
 
 		if (a < -1 && DoubleUtil.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
-				return Math.acos(-1);
+			return Math.acos(-1);
 		}
 
 		return Math.acos(a);
@@ -191,7 +191,7 @@ public final class MyMath {
 
 	/**
 	 * coth(0) should return undefined not inf
-	 * 
+	 *
 	 * @param a
 	 *            real number
 	 * @return coth(a)
@@ -271,7 +271,7 @@ public final class MyMath {
 
 	/**
 	 * Computes adjoint matrix to {{a00,a01,a02},{a10,a11,a12},{a20,a21,a22}}
-	 * 
+	 *
 	 * @param a00
 	 *            matrix entry
 	 * @param a01
@@ -292,17 +292,22 @@ public final class MyMath {
 	 *            matrix entry
 	 * @return adjoint matrix
 	 */
-	public static double[][] adjoint(double a00, double a01, double a02,
-			double a10, double a11, double a12, double a20, double a21,
+	public static double[][] adjoint(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
 			double a22) {
 
 		return new double[][] {
-				new double[] { a11 * a22 - a21 * a12,
-						-(a10 * a22 - a20 * a12), a10 * a21 - a20 * a11 },
-				new double[] { -(a01 * a22 - a02 * a21),
-						a00 * a22 - a20 * a02, -(a00 * a21 - a01 * a20) },
-				new double[] { a01 * a12 - a02 * a11,
-						-(a00 * a12 - a02 * a10), a00 * a11 - a10 * a01 } };
+			new double[] {a11 * a22 - a21 * a12, -(a10 * a22 - a20 * a12), a10 * a21 - a20 * a11},
+			new double[] {-(a01 * a22 - a02 * a21), a00 * a22 - a20 * a02, -(a00 * a21 - a01 * a20)},
+			new double[] {a01 * a12 - a02 * a11, -(a00 * a12 - a02 * a10), a00 * a11 - a10 * a01}
+		};
 	}
 
 	/**
@@ -335,7 +340,7 @@ public final class MyMath {
 
 	/**
 	 * "pretty" numbers are 1,2,5,10,20,50,...
-	 * 
+	 *
 	 * @param t
 	 *            input number
 	 * @param min
@@ -370,15 +375,15 @@ public final class MyMath {
 	 *            x-coord on function
 	 * @return D(x) = (x - a)^2+(f(x) - b)^2
 	 */
-	public static double distanceSquaredToFunctionAt(final UnivariateFunction fun,
-			final double px, final double py, double x) {
+	public static double distanceSquaredToFunctionAt(
+			final UnivariateFunction fun, final double px, final double py, double x) {
 		double dy = fun.value(x) - py;
-		return (x - px) * (x - px) + dy * dy ;
+		return (x - px) * (x - px) + dy * dy;
 	}
 
 	/**
 	 * Computes length of a vector
-	 * 
+	 *
 	 * @param x
 	 *            x-coordinate
 	 * @param y
@@ -414,7 +419,7 @@ public final class MyMath {
 
 	/**
 	 * Computes length of a vector
-	 * 
+	 *
 	 * @param x
 	 *            x-coordinate
 	 * @param y
@@ -462,7 +467,6 @@ public final class MyMath {
 			double tempy = absy / absz;
 			double tempx = absx / absz;
 			return absz * Math.sqrt(1.0 + tempy * tempy + tempx * tempx);
-
 		}
 
 		if (absy > absz) { // absy is the highest
@@ -475,7 +479,6 @@ public final class MyMath {
 		double tempy = absy / absz;
 		double tempx = absx / absz;
 		return absz * Math.sqrt(1.0 + tempy * tempy + tempx * tempx);
-
 	}
 
 	/**
@@ -517,8 +520,7 @@ public final class MyMath {
 			if (n0 < 1d || r < 0d || n0 < r) {
 				return 0d;
 			}
-			if (!DoubleUtil.isEqual(Math.round(n0), n0)
-					|| !DoubleUtil.isEqual(Math.round(r), r)) {
+			if (!DoubleUtil.isEqual(Math.round(n0), n0) || !DoubleUtil.isEqual(Math.round(r), r)) {
 				return 0d;
 			}
 
@@ -528,14 +530,14 @@ public final class MyMath {
 			double ncr = binomLog(n, r);
 			if (ncr == Double.POSITIVE_INFINITY) {
 				return Double.POSITIVE_INFINITY; // check to stop needless slow
-													// calculations
+				// calculations
 			}
 
 			// BinomLog is not exact for some values
 			// (determined by trial and error)
 			if (n <= 37) {
 				return ncr;
-			// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
+				// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
 			}
 
 			// BinomBig is more accurate but slower
@@ -565,7 +567,7 @@ public final class MyMath {
 		while (dd.compareTo(rr) <= 0) {
 			ncr = ncr.multiply(nn);
 			ncr = ncr.divide(dd); // dd is guaranteed to divide exactly into ncr
-									// here
+			// here
 			nn = nn.subtract(BigInteger.ONE);
 			dd = dd.add(BigInteger.ONE);
 		}
@@ -577,8 +579,9 @@ public final class MyMath {
 		// also if r<2.8+Math.exp((250-n)/100) && n<59000
 		// eg Binom2(38,19) is wrong
 
-		return Math.floor(0.5 + Math.exp(MyMath2.logGamma(n + 1d)
-				- MyMath2.logGamma(r + 1) - MyMath2.logGamma(n - r + 1)));
+		return Math.floor(0.5
+				+ Math.exp(
+						MyMath2.logGamma(n + 1d) - MyMath2.logGamma(r + 1) - MyMath2.logGamma(n - r + 1)));
 	}
 
 	/**
@@ -644,8 +647,7 @@ public final class MyMath {
 	 * @return angle between vectors
 	 */
 	public static double angle(double dx1, double dy1, double dx2, double dy2) {
-		return Math.acos((dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1)
-				/ Math.hypot(dx2, dy2));
+		return Math.acos((dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1) / Math.hypot(dx2, dy2));
 	}
 
 	/**
@@ -659,15 +661,13 @@ public final class MyMath {
 	 *            second interval end
 	 * @return whether intervals have an intersection
 	 */
-	public static boolean intervalsIntersect(double s1, double e1, double s2,
-			double e2) {
-		return (s1 <= s2 && s2 <= e1) || (s1 <= e2 && e2 <= e1)
-				|| (s2 <= s1 && s1 <= e2);
+	public static boolean intervalsIntersect(double s1, double e1, double s2, double e2) {
+		return (s1 <= s2 && s2 <= e1) || (s1 <= e2 && e2 <= e1) || (s2 <= s1 && s1 <= e2);
 	}
 
 	/**
 	 * limits a number between two bounds
-	 * 
+	 *
 	 * @param val
 	 *            number
 	 * @param min

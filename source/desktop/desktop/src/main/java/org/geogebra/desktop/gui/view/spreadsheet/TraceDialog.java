@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -69,15 +69,18 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Dialog to add/remove/edit spreadsheet traces
- * 
+ *
  * @author G. Sturr, 2010-5-14
- * 
- * 
+ *
+ *
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class TraceDialog extends Dialog
-		implements GeoElementSelectionListener, ActionListener, FocusListener,
-		ListSelectionListener, WindowListener {
+		implements GeoElementSelectionListener,
+				ActionListener,
+				FocusListener,
+				ListSelectionListener,
+				WindowListener {
 
 	private static final long serialVersionUID = 1L;
 	// external components
@@ -129,7 +132,7 @@ public class TraceDialog extends Dialog
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param selectedGeo
@@ -151,7 +154,6 @@ public class TraceDialog extends Dialog
 		setTraceDialogSelection(selectedGeo, traceCell);
 		updateGUI();
 		setLabels();
-
 	}
 
 	// ======================================================
@@ -161,30 +163,28 @@ public class TraceDialog extends Dialog
 	/**
 	 * Sets the initial selection of a trace geo and handles these different
 	 * calling contexts:
-	 * 
+	 *
 	 * 1) Spreadsheet context menu. This passes either a currently tracing geo,
 	 * or just a cell location. In this case the user must be prompted for a geo
 	 * to trace.
-	 * 
+	 *
 	 * 2) Euclidian or algebra view context menu. This passes either a currently
 	 * tracing geo, or just a geo. In this case the geo is automatically
 	 * assigned a trace location.
-	 * 
+	 *
 	 * 3) Toolbar button. A button click loads the dialog without any selection.
-	 * 
+	 *
 	 * @param selectedGeo0
 	 *            selected geo
 	 * @param traceCell
 	 *            trace range
-	 * 
+	 *
 	 */
-	public void setTraceDialogSelection(GeoElement selectedGeo0,
-			TabularRange traceCell) {
+	public void setTraceDialogSelection(GeoElement selectedGeo0, TabularRange traceCell) {
 		GeoElement selectedGeo = selectedGeo0;
 		// if the traceCell column is tracing a geo then set selectedGeo to this
 		// geo
-		if (traceCell != null
-				&& traceManager.isTraceColumn(traceCell.getMinColumn())) {
+		if (traceCell != null && traceManager.isTraceColumn(traceCell.getMinColumn())) {
 			selectedGeo = traceManager.getTraceGeo(traceCell.getMinColumn());
 		} else {
 			if (selectedGeo == null) { // case dialog is called from stylebar
@@ -291,14 +291,12 @@ public class TraceDialog extends Dialog
 		// init the trace options panel
 		JPanel listPanel = new JPanel();
 		listPanel.setLayout(new BorderLayout());
-		listPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
-				SystemColor.controlShadow));
+		listPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, SystemColor.controlShadow));
 
 		traceGeoListModel = new DefaultListModel<>();
 		traceGeoList = new JList<>(traceGeoListModel);
 
-		traceGeoList
-				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		traceGeoList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		traceGeoList.addListSelectionListener(this);
 		traceGeoList.setLayoutOrientation(JList.VERTICAL);
 		traceGeoList.setVisibleRowCount(-1);
@@ -348,10 +346,8 @@ public class TraceDialog extends Dialog
 		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
 		locationPanel.setMinimumSize(new Dimension(200, 30));
 
-		locationTitle = BorderFactory
-				.createTitledBorder(loc.getMenu("Location"));
-		locationPanel
-				.setBorder(BorderFactory.createTitledBorder(locationTitle));
+		locationTitle = BorderFactory.createTitledBorder(loc.getMenu("Location"));
+		locationPanel.setBorder(BorderFactory.createTitledBorder(locationTitle));
 
 		locationPanel.add(startRowPanel);
 		locationPanel.add(rowLimitPanel);
@@ -364,8 +360,7 @@ public class TraceDialog extends Dialog
 		// trace as... radio buttons
 		JPanel pane = new JPanel();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		traceModeTitle = BorderFactory
-				.createTitledBorder(loc.getMenu("TraceMode"));
+		traceModeTitle = BorderFactory.createTitledBorder(loc.getMenu("TraceMode"));
 		pane.setBorder(BorderFactory.createTitledBorder(traceModeTitle));
 
 		traceModeValues = new JRadioButton(loc.getMenu(""));
@@ -379,7 +374,6 @@ public class TraceDialog extends Dialog
 		pane.add(traceModeCopy);
 
 		return pane;
-
 	}
 
 	private JPanel buildOptionsPanel() {
@@ -389,8 +383,7 @@ public class TraceDialog extends Dialog
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
 		// optionsPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
 
-		optionsTitle = BorderFactory
-				.createTitledBorder(loc.getMenu("Options"));
+		optionsTitle = BorderFactory.createTitledBorder(loc.getMenu("Options"));
 		optionsPanel.setBorder(BorderFactory.createTitledBorder(optionsTitle));
 
 		cbShowLabel = new JCheckBox(loc.getMenu("ShowLabel"));
@@ -475,7 +468,6 @@ public class TraceDialog extends Dialog
 
 		locationTitle.setTitle(loc.getMenu("Location"));
 		optionsTitle.setTitle(loc.getMenu("Options"));
-
 	}
 
 	private void setTraceModeLabels() {
@@ -485,19 +477,16 @@ public class TraceDialog extends Dialog
 		sb.setLength(0);
 		sb.append("<html>");
 		switch (traceModes) {
-		default:
-		case ONE_VALUE_OR_COPY:
-		case ONE_VALUE_ONLY:
-			sb.append(app.getLocalization().getPlain("ValueOfA",
-					geo.getTraceDialogAsValues()));
-			break;
-		case SEVERAL_VALUES_OR_COPY:
-		case SEVERAL_VALUES_ONLY:
-		case ONLY_COPY: // button disabled
-			sb.append(app.getLocalization().getPlain("ValuesOfA",
-					geo.getTraceDialogAsValues()));
-			break;
-
+			default:
+			case ONE_VALUE_OR_COPY:
+			case ONE_VALUE_ONLY:
+				sb.append(app.getLocalization().getPlain("ValueOfA", geo.getTraceDialogAsValues()));
+				break;
+			case SEVERAL_VALUES_OR_COPY:
+			case SEVERAL_VALUES_ONLY:
+			case ONLY_COPY: // button disabled
+				sb.append(app.getLocalization().getPlain("ValuesOfA", geo.getTraceDialogAsValues()));
+				break;
 		}
 
 		sb.append("</html>");
@@ -505,8 +494,7 @@ public class TraceDialog extends Dialog
 
 		sb.setLength(0);
 		sb.append("<html>");
-		sb.append(app.getLocalization().getPlain("CopyOfA",
-				geo.getLabelTextOrHTML(false)));
+		sb.append(app.getLocalization().getPlain("CopyOfA", geo.getLabelTextOrHTML(false)));
 		sb.append("</html>");
 		traceModeCopy.setText(sb.toString());
 
@@ -527,7 +515,6 @@ public class TraceDialog extends Dialog
 				traceModeValues.setForeground(Color.BLACK);
 			}
 		}
-
 	}
 
 	// ======================================================
@@ -538,105 +525,102 @@ public class TraceDialog extends Dialog
 
 		updateTraceGeoList();
 		switch (mode) {
+			default:
+				// do nothing
+				break;
+			case MODE_ADD:
 
-		default:
-			// do nothing
-			break;
-		case MODE_ADD:
+				// promptPanel.setVisible(true);
+				btCancel.setVisible(true);
+				btClose.setVisible(false);
+				leftButtonPanel.setVisible(false);
+				// splitPane.setVisible(false);
 
-			// promptPanel.setVisible(true);
-			btCancel.setVisible(true);
-			btClose.setVisible(false);
-			leftButtonPanel.setVisible(false);
-			// splitPane.setVisible(false);
+				// traceGeoList.clearSelection();
+				// traceGeoList.setEnabled(false);
 
-			// traceGeoList.clearSelection();
-			// traceGeoList.setEnabled(false);
+				// tabbedPane.setEnabled(false);
+				view.getSpreadsheetTable().selectionChanged();
 
-			// tabbedPane.setEnabled(false);
-			view.getSpreadsheetTable().selectionChanged();
+				getContentPane().remove(splitPane);
+				getContentPane().add(promptPanel, BorderLayout.CENTER);
 
-			getContentPane().remove(splitPane);
-			getContentPane().add(promptPanel, BorderLayout.CENTER);
+				Dimension size = splitPane.getPreferredSize();
+				size.height = promptPanel.getPreferredSize().height;
+				promptPanel.setPreferredSize(size);
 
-			Dimension size = splitPane.getPreferredSize();
-			size.height = promptPanel.getPreferredSize().height;
-			promptPanel.setPreferredSize(size);
+				pack();
+				repaint();
 
-			pack();
-			repaint();
+				break;
 
-			break;
+			case MODE_NORMAL:
 
-		case MODE_NORMAL:
+				// splitPane.setVisible(true);
+				// promptPanel.setVisible(false);
+				leftButtonPanel.setVisible(true);
+				btCancel.setVisible(false);
+				btClose.setVisible(true);
 
-			// splitPane.setVisible(true);
-			// promptPanel.setVisible(false);
-			leftButtonPanel.setVisible(true);
-			btCancel.setVisible(false);
-			btClose.setVisible(true);
+				// traceGeoList.setEnabled(true);
+				// tabbedPane.setEnabled(true);
 
-			// traceGeoList.setEnabled(true);
-			// tabbedPane.setEnabled(true);
+				view.getSpreadsheetTable().selectionChanged();
 
-			view.getSpreadsheetTable().selectionChanged();
+				getContentPane().remove(promptPanel);
+				getContentPane().add(splitPane, BorderLayout.CENTER);
+				pack();
+				repaint();
 
-			getContentPane().remove(promptPanel);
-			getContentPane().add(splitPane, BorderLayout.CENTER);
-			pack();
-			repaint();
+				if (!traceGeoList.isSelectionEmpty()) {
 
-			if (!traceGeoList.isSelectionEmpty()) {
+					// update checkboxes
+					cbResetColumns.removeActionListener(this);
+					cbResetColumns.setSelected(getSettings().doColumnReset);
+					cbResetColumns.addActionListener(this);
 
-				// update checkboxes
-				cbResetColumns.removeActionListener(this);
-				cbResetColumns.setSelected(getSettings().doColumnReset);
-				cbResetColumns.addActionListener(this);
+					cbRowLimit.removeActionListener(this);
+					cbRowLimit.setSelected(getSettings().doRowLimit);
+					cbRowLimit.addActionListener(this);
 
-				cbRowLimit.removeActionListener(this);
-				cbRowLimit.setSelected(getSettings().doRowLimit);
-				cbRowLimit.addActionListener(this);
+					cbShowLabel.removeActionListener(this);
+					cbShowLabel.setSelected(getSettings().showLabel);
+					cbShowLabel.addActionListener(this);
 
-				cbShowLabel.removeActionListener(this);
-				cbShowLabel.setSelected(getSettings().showLabel);
-				cbShowLabel.addActionListener(this);
+					cbTraceList.removeActionListener(this);
+					cbTraceList.setSelected(getSettings().showTraceList);
+					cbTraceList.addActionListener(this);
 
-				cbTraceList.removeActionListener(this);
-				cbTraceList.setSelected(getSettings().showTraceList);
-				cbTraceList.addActionListener(this);
+					traceModeCopy.removeActionListener(this);
+					traceModeCopy.setSelected(getSettings().doTraceGeoCopy);
+					traceModeCopy.addActionListener(this);
 
-				traceModeCopy.removeActionListener(this);
-				traceModeCopy.setSelected(getSettings().doTraceGeoCopy);
-				traceModeCopy.addActionListener(this);
+					traceModeValues.removeActionListener(this);
+					traceModeValues.setSelected(!getSettings().doTraceGeoCopy);
+					traceModeValues.addActionListener(this);
 
-				traceModeValues.removeActionListener(this);
-				traceModeValues.setSelected(!getSettings().doTraceGeoCopy);
-				traceModeValues.addActionListener(this);
+					// update row limit textfield
+					numRowsField.setEnabled(getSettings().doRowLimit);
+					numRowsField.removeActionListener(this);
+					numRowsField.setText("" + getSettings().numRows);
+					numRowsField.setCaretPosition(0);
+					numRowsField.addActionListener(this);
 
-				// update row limit textfield
-				numRowsField.setEnabled(getSettings().doRowLimit);
-				numRowsField.removeActionListener(this);
-				numRowsField.setText("" + getSettings().numRows);
-				numRowsField.setCaretPosition(0);
-				numRowsField.addActionListener(this);
+					// update first row textfield
+					firstRowField.removeActionListener(this);
+					firstRowField.setText("" + (getSettings().traceRow1 + 1));
+					firstRowField.setCaretPosition(0);
+					firstRowField.addActionListener(this);
 
-				// update first row textfield
-				firstRowField.removeActionListener(this);
-				firstRowField.setText("" + (getSettings().traceRow1 + 1));
-				firstRowField.setCaretPosition(0);
-				firstRowField.addActionListener(this);
+					// update trace values label
+					geo = (GeoElement) traceGeoList.getSelectedValue();
+					setTraceModeLabels();
+				}
 
-				// update trace values label
-				geo = (GeoElement) traceGeoList.getSelectedValue();
-				setTraceModeLabels();
+				view.repaintView();
 
-			}
-
-			view.repaintView();
-
-			break;
+				break;
 		}
-
 	}
 
 	/** Update the trace geo list with current trace geos */
@@ -666,7 +650,7 @@ public class TraceDialog extends Dialog
 
 	/**
 	 * Process checkbox events
-	 * 
+	 *
 	 * @param source
 	 *            event source
 	 */
@@ -675,51 +659,31 @@ public class TraceDialog extends Dialog
 		if (source == cbResetColumns) {
 			getSettings().doColumnReset = cbResetColumns.isSelected();
 			updateSelectedTraceGeo();
-		}
-
-		else if (source == cbRowLimit) {
+		} else if (source == cbRowLimit) {
 			getSettings().doRowLimit = cbRowLimit.isSelected();
 			updateSelectedTraceGeo();
-		}
-
-		else if (source == cbShowLabel) {
+		} else if (source == cbShowLabel) {
 			getSettings().showLabel = cbShowLabel.isSelected();
 			updateSelectedTraceGeo();
-		}
-
-		else if (source == cbTraceList) {
+		} else if (source == cbTraceList) {
 			getSettings().showTraceList = cbTraceList.isSelected();
 			updateSelectedTraceGeo();
-		}
-
-		else if (source == traceModeCopy) {
+		} else if (source == traceModeCopy) {
 			getSettings().doTraceGeoCopy = true;
 			updateSelectedTraceGeo();
-		}
-
-		else if (source == traceModeValues) {
+		} else if (source == traceModeValues) {
 			getSettings().doTraceGeoCopy = false;
 			updateSelectedTraceGeo();
-		}
-
-		else if (source instanceof JTextField) {
+		} else if (source instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) source);
-		}
-
-		else if (source == btAdd) {
+		} else if (source == btAdd) {
 			setMode(MODE_ADD);
-		}
-
-		else if (source == btErase) {
+		} else if (source == btErase) {
 			clearSelectedTraceGeo();
 			// traceManager.clearGeoTraceColumns(getSelectedGeo());
-		}
-
-		else if (source == btRemove) {
+		} else if (source == btRemove) {
 			removeTrace();
-		}
-
-		else if (source == btCancel) {
+		} else if (source == btCancel) {
 			setMode(MODE_NORMAL);
 			if (isIniting) {
 				closeDialog();
@@ -739,16 +703,13 @@ public class TraceDialog extends Dialog
 		try {
 			int value = Integer.parseInt(source.getText());
 
-			if (value > 0
-					&& value < app.getMaxSpreadsheetRowsVisible()) {
+			if (value > 0 && value < app.getMaxSpreadsheetRowsVisible()) {
 
 				if (source == firstRowField) {
 					traceManager.clearGeoTraceColumns(getSelectedGeo());
 					getSettings().traceRow1 = value - 1;
 					updateSelectedTraceGeo();
-				}
-
-				else if (source == numRowsField) {
+				} else if (source == numRowsField) {
 					getSettings().numRows = value;
 					updateSelectedTraceGeo();
 				}
@@ -756,7 +717,6 @@ public class TraceDialog extends Dialog
 		} catch (NumberFormatException e) {
 			Log.debug(e);
 		}
-
 	}
 
 	/** Listener for selection changes in the traceGeoList */
@@ -776,13 +736,13 @@ public class TraceDialog extends Dialog
 			traceGeoList.setSelectedValue(geo1, true);
 			updateGUI();
 		} else {
-			if (mode == MODE_ADD && geo1.isSpreadsheetTraceable()
+			if (mode == MODE_ADD
+					&& geo1.isSpreadsheetTraceable()
 					&& !GeoElementSpreadsheet.hasSpreadsheetLabel(geo1)) {
 
 				addTrace(geo1);
 			}
 		}
-
 	}
 
 	/** Add a geo to the traceGeoCollection and update the dialog. */
@@ -831,8 +791,7 @@ public class TraceDialog extends Dialog
 			return null;
 		}
 
-		return ((GeoElement) traceGeoList.getSelectedValue())
-				.getTraceSettings();
+		return ((GeoElement) traceGeoList.getSelectedValue()).getTraceSettings();
 	}
 
 	private void updateSelectedTraceGeo() {
@@ -846,7 +805,7 @@ public class TraceDialog extends Dialog
 
 	/**
 	 * Determine the cell range to be selected on spreadsheet mouse click.
-	 * 
+	 *
 	 * @param anchorColumn
 	 *            column
 	 * @param anchorRow
@@ -858,39 +817,41 @@ public class TraceDialog extends Dialog
 		TabularRange tr;
 
 		switch (mode) {
-		default:
-			tr = null;
-			// do nothing
-			break;
-		case MODE_NORMAL:
-			if (getSettings() == null) {
-				tr = new TabularRange(-1, -1, -1, -1);
-			} else {
-				tr = new TabularRange(getSettings().traceRow1, getSettings().traceColumn1,
-						getSettings().doRowLimit ? getSettings().traceRow2
-								: app.getMaxSpreadsheetRowsVisible(), getSettings().traceColumn2
-				);
-			}
-			break;
+			default:
+				tr = null;
+				// do nothing
+				break;
+			case MODE_NORMAL:
+				if (getSettings() == null) {
+					tr = new TabularRange(-1, -1, -1, -1);
+				} else {
+					tr = new TabularRange(
+							getSettings().traceRow1,
+							getSettings().traceColumn1,
+							getSettings().doRowLimit
+									? getSettings().traceRow2
+									: app.getMaxSpreadsheetRowsVisible(),
+							getSettings().traceColumn2);
+				}
+				break;
 
-		case MODE_ADD:
-			if (newTraceLocation != null) {
-				tr = newTraceLocation;
-			} else {
-				tr = new TabularRange(0, traceManager.getNextTraceColumn());
-			}
-			break;
+			case MODE_ADD:
+				if (newTraceLocation != null) {
+					tr = newTraceLocation;
+				} else {
+					tr = new TabularRange(0, traceManager.getNextTraceColumn());
+				}
+				break;
 
-		case MODE_LOCATE:
+			case MODE_LOCATE:
+				int w = getSettings().traceColumn2 - getSettings().traceColumn1;
+				int h = (getSettings().doRowLimit
+								? getSettings().traceRow2
+								: app.getMaxSpreadsheetRowsVisible())
+						- getSettings().traceRow1;
 
-			int w = getSettings().traceColumn2 - getSettings().traceColumn1;
-			int h = (getSettings().doRowLimit ? getSettings().traceRow2
-					: app.getMaxSpreadsheetRowsVisible())
-					- getSettings().traceRow1;
-
-			tr = new TabularRange(anchorRow, anchorColumn, anchorRow + h, anchorColumn + w
-			);
-			break;
+				tr = new TabularRange(anchorRow, anchorColumn, anchorRow + h, anchorColumn + w);
+				break;
 		}
 
 		return tr;
@@ -912,20 +873,19 @@ public class TraceDialog extends Dialog
 		this.mode = mode;
 
 		switch (mode) {
-		case MODE_NORMAL:
-			isIniting = false;
-			// app.setSelectionListenerMode(null);
-			break;
+			case MODE_NORMAL:
+				isIniting = false;
+				// app.setSelectionListenerMode(null);
+				break;
 
-		case MODE_ADD:
-			app.setMoveMode();
-			app.setSelectionListenerMode(this);
-			view.getSpreadsheetTable().selectionChanged();
-			break;
+			case MODE_ADD:
+				app.setMoveMode();
+				app.setSelectionListenerMode(this);
+				view.getSpreadsheetTable().selectionChanged();
+				break;
 
-		case MODE_LOCATE:
-
-			break;
+			case MODE_LOCATE:
+				break;
 		}
 		updateGUI();
 	}
@@ -1011,11 +971,10 @@ public class TraceDialog extends Dialog
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean hasFocus) {
+		public Component getListCellRendererComponent(
+				JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
 
-			super.getListCellRendererComponent(list, value, index, isSelected,
-					hasFocus);
+			super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
 
 			if (value != null) {
 				GeoElement geo = (GeoElement) value;
@@ -1030,7 +989,5 @@ public class TraceDialog extends Dialog
 			}
 			return this;
 		}
-
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -59,8 +59,12 @@ public interface KeyboardFactory {
 	 * @param withGreekSwitch if switch to greek layout should be included
 	 * @return letter keyboard
 	 */
-	Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow,
-			Map<String, String> upperKeys, boolean withGreekSwitch);
+	Keyboard createLettersKeyboard(
+			String topRow,
+			String middleRow,
+			String bottomRow,
+			Map<String, String> upperKeys,
+			boolean withGreekSwitch);
 
 	/**
 	 * Calls {@link #createLettersKeyboard(String, String, String, Map, boolean)} with true to
@@ -72,8 +76,8 @@ public interface KeyboardFactory {
 	 * character.
 	 * @return letter keyboard
 	 */
-	Keyboard createLettersKeyboard(String topRow, String middleRow,
-			String bottomRow, Map<String, String> upperKeys);
+	Keyboard createLettersKeyboard(
+			String topRow, String middleRow, String bottomRow, Map<String, String> upperKeys);
 
 	/**
 	 * Calls {@link #createLettersKeyboard(String, String, String, Map)} with a
@@ -84,8 +88,7 @@ public interface KeyboardFactory {
 	 * @param bottomRow a list of characters that will be the buttons of the last row
 	 * @return letter keyboard
 	 */
-	Keyboard createLettersKeyboard(String topRow, String middleRow,
-			String bottomRow);
+	Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow);
 
 	/**
 	 * Creates a special symbols keyboard with symbols control buttons, and a

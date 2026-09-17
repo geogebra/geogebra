@@ -34,15 +34,14 @@ final class FaceInteriorPointFinder {
 	private static final int COLLECTED_CANDIDATES_PER_STRATEGY_LIMIT = 16;
 	private static final int[] SAMPLE_GRID_SIZES = {8, 16, 32, 64, 128};
 	private static final boolean SAMPLE_CLEARANCE_DEBUG_LOGGING = false;
-	private static final Comparator<SampleCandidate> CHEAP_CANDIDATE_ORDER =
-			Comparator.comparingInt((SampleCandidate candidate) -> candidate.fallbackPriority)
-					.thenComparing(Comparator.comparingDouble(
-							(SampleCandidate candidate) -> candidate.cheapScore).reversed())
-					.thenComparingDouble(candidate -> candidate.point.x)
-					.thenComparingDouble(candidate -> candidate.point.y);
+	private static final Comparator<SampleCandidate> CHEAP_CANDIDATE_ORDER = Comparator.comparingInt(
+					(SampleCandidate candidate) -> candidate.fallbackPriority)
+			.thenComparing(Comparator.comparingDouble((SampleCandidate candidate) -> candidate.cheapScore)
+					.reversed())
+			.thenComparingDouble(candidate -> candidate.point.x)
+			.thenComparingDouble(candidate -> candidate.point.y);
 	private static final Comparator<SampleCandidate> EXACT_CANDIDATE_ORDER =
-			Comparator.comparingDouble(
-							(SampleCandidate candidate) -> candidate.exactClearanceSquared)
+			Comparator.comparingDouble((SampleCandidate candidate) -> candidate.exactClearanceSquared)
 					.thenComparingInt(candidate -> -candidate.fallbackPriority)
 					.thenComparingDouble(candidate -> candidate.cheapScore)
 					.thenComparingDouble(candidate -> -candidate.point.x)
@@ -76,11 +75,13 @@ final class FaceInteriorPointFinder {
 		}
 	}
 
-	record FaceContext(BoundaryPath outerBoundary, List<BoundaryPath> holeBoundaries,
+	record FaceContext(
+			BoundaryPath outerBoundary,
+			List<BoundaryPath> holeBoundaries,
 			PlanarGeometry.BoundingBox boundingBox) {
 
-		static FaceContext from(PlanarGraph graph, BoundaryCycle outerBoundary,
-				List<BoundaryCycle> holeBoundaries) {
+		static FaceContext from(
+				PlanarGraph graph, BoundaryCycle outerBoundary, List<BoundaryCycle> holeBoundaries) {
 			List<BoundaryPath> holePaths = new ArrayList<>(holeBoundaries.size());
 			for (BoundaryCycle holeBoundary : holeBoundaries) {
 				holePaths.add(BoundaryPath.from(graph, holeBoundary));
@@ -100,7 +101,6 @@ final class FaceInteriorPointFinder {
 			}
 			return edges;
 		}
-
 	}
 
 	private record Interval(double start, double end) {
@@ -120,8 +120,8 @@ final class FaceInteriorPointFinder {
 		private final double cheapScore;
 		private double exactClearanceSquared = Double.NaN;
 
-		private SampleCandidate(GPoint2D point, Strategy strategy, int fallbackPriority,
-				double cheapScore) {
+		private SampleCandidate(
+				GPoint2D point, Strategy strategy, int fallbackPriority, double cheapScore) {
 			this.point = point;
 			this.strategy = strategy;
 			this.fallbackPriority = fallbackPriority;
@@ -134,8 +134,8 @@ final class FaceInteriorPointFinder {
 		private final double[] yCoordinates;
 		private final PlanarGeometry.BoundingBox boundingBox;
 
-		private BoundaryPath(double[] xCoordinates, double[] yCoordinates,
-				PlanarGeometry.BoundingBox boundingBox) {
+		private BoundaryPath(
+				double[] xCoordinates, double[] yCoordinates, PlanarGeometry.BoundingBox boundingBox) {
 			this.xCoordinates = xCoordinates;
 			this.yCoordinates = yCoordinates;
 			this.boundingBox = boundingBox;
@@ -146,8 +146,7 @@ final class FaceInteriorPointFinder {
 			double[] yCoordinates = new double[boundary.size()];
 			PlanarGeometry.BoundingBox boundingBox = new PlanarGeometry.BoundingBox();
 			for (int i = 0; i < boundary.size(); i++) {
-				Vertex vertex = graph.vertex(
-						graph.halfEdge(boundary.get(i)).getOriginVertexId());
+				Vertex vertex = graph.vertex(graph.halfEdge(boundary.get(i)).getOriginVertexId());
 				xCoordinates[i] = vertex.getX();
 				yCoordinates[i] = vertex.getY();
 				boundingBox.include(vertex.getX(), vertex.getY());
@@ -156,8 +155,10 @@ final class FaceInteriorPointFinder {
 		}
 
 		static BoundaryPath from(PlanarGraph graph, BoundaryCycle boundary) {
-			return new BoundaryPath(boundary.getXCoordinates(graph),
-					boundary.getYCoordinates(graph), boundary.getBoundingBox(graph));
+			return new BoundaryPath(
+					boundary.getXCoordinates(graph),
+					boundary.getYCoordinates(graph),
+					boundary.getBoundingBox(graph));
 		}
 
 		PlanarGeometry.BoundingBox getBoundingBox() {
@@ -206,14 +207,13 @@ final class FaceInteriorPointFinder {
 	}
 
 	private static void throwSamplePointNotFound(Face face, FaceContext context) {
-		throw new IllegalStateException(
-				"Cannot find interior sample point for face " + face.getId()
-						+ " outerEdges=" + context.outerBoundary.size()
-						+ " holes=" + context.holeBoundaries.size()
-						+ " bbox=[" + context.boundingBox.minX + ","
-						+ context.boundingBox.minY + " -> "
-						+ context.boundingBox.maxX + ","
-						+ context.boundingBox.maxY + "]");
+		throw new IllegalStateException("Cannot find interior sample point for face " + face.getId()
+				+ " outerEdges=" + context.outerBoundary.size()
+				+ " holes=" + context.holeBoundaries.size()
+				+ " bbox=[" + context.boundingBox.minX + ","
+				+ context.boundingBox.minY + " -> "
+				+ context.boundingBox.maxX + ","
+				+ context.boundingBox.maxY + "]");
 	}
 
 	private FaceContext createFaceContext(Face face) {
@@ -227,8 +227,8 @@ final class FaceInteriorPointFinder {
 		return new FaceContext(outerPath, holePaths, outerPath.boundingBox);
 	}
 
-	private SampleCandidate selectBestCandidate(List<SampleCandidate> candidates,
-			FaceContext context) {
+	private SampleCandidate selectBestCandidate(
+			List<SampleCandidate> candidates, FaceContext context) {
 		if (candidates.isEmpty()) {
 			return null;
 		}
@@ -236,12 +236,9 @@ final class FaceInteriorPointFinder {
 		int exactCount = Math.min(shortlist.size(), MAX_EXACT_CLEARANCE_CANDIDATES);
 		for (int i = 0; i < exactCount; i++) {
 			SampleCandidate candidate = shortlist.get(i);
-			candidate.exactClearanceSquared = minimumBoundaryDistanceSquared(candidate.point,
-					context);
+			candidate.exactClearanceSquared = minimumBoundaryDistanceSquared(candidate.point, context);
 		}
-		return shortlist.subList(0, exactCount).stream()
-				.max(EXACT_CANDIDATE_ORDER)
-				.orElse(null);
+		return shortlist.subList(0, exactCount).stream().max(EXACT_CANDIDATE_ORDER).orElse(null);
 	}
 
 	private List<SampleCandidate> exactClearanceShortlist(List<SampleCandidate> candidates) {
@@ -262,16 +259,17 @@ final class FaceInteriorPointFinder {
 		return shortlist;
 	}
 
-	private void addStrategyCandidates(List<SampleCandidate> sorted,
-			List<SampleCandidate> shortlist, StrategyFamily strategyPrefix) {
+	private void addStrategyCandidates(
+			List<SampleCandidate> sorted,
+			List<SampleCandidate> shortlist,
+			StrategyFamily strategyPrefix) {
 		int added = 0;
 		for (SampleCandidate candidate : sorted) {
 			if (shortlist.size() >= MAX_EXACT_CLEARANCE_CANDIDATES
 					|| added >= EXACT_CLEARANCE_PER_STRATEGY_LIMIT) {
 				return;
 			}
-			if (candidate.strategy.family == strategyPrefix
-					&& addIfAbsent(shortlist, candidate)) {
+			if (candidate.strategy.family == strategyPrefix && addIfAbsent(shortlist, candidate)) {
 				added++;
 			}
 		}
@@ -285,8 +283,8 @@ final class FaceInteriorPointFinder {
 		return true;
 	}
 
-	private void logSelectedSample(Face face, SampleCandidate selected,
-			List<SampleCandidate> candidates, FaceContext context) {
+	private void logSelectedSample(
+			Face face, SampleCandidate selected, List<SampleCandidate> candidates, FaceContext context) {
 		if (!SAMPLE_CLEARANCE_DEBUG_LOGGING) {
 			return;
 		}
@@ -305,8 +303,7 @@ final class FaceInteriorPointFinder {
 	private double bestBoundaryClearance(List<SampleCandidate> candidates) {
 		double best = -1;
 		for (SampleCandidate candidate : candidates) {
-			if (candidate.fallbackPriority == 2
-					&& !Double.isNaN(candidate.exactClearanceSquared)) {
+			if (candidate.fallbackPriority == 2 && !Double.isNaN(candidate.exactClearanceSquared)) {
 				best = Math.max(best, candidate.exactClearanceSquared);
 			}
 		}
@@ -329,23 +326,27 @@ final class FaceInteriorPointFinder {
 		return count;
 	}
 
-	private boolean addCandidate(List<SampleCandidate> candidates, GPoint2D point,
-			Strategy strategy, int fallbackPriority, double cheapScore, FaceContext context) {
+	private boolean addCandidate(
+			List<SampleCandidate> candidates,
+			GPoint2D point,
+			Strategy strategy,
+			int fallbackPriority,
+			double cheapScore,
+			FaceContext context) {
 		if (!canImproveStrategyCandidates(candidates, strategy, cheapScore)) {
 			return false;
 		}
 		if (!isPointInsideFace(point, context)) {
 			return false;
 		}
-		addBoundedCandidate(candidates,
-				new SampleCandidate(point, strategy, fallbackPriority, cheapScore));
+		addBoundedCandidate(
+				candidates, new SampleCandidate(point, strategy, fallbackPriority, cheapScore));
 		return true;
 	}
 
-	private boolean canImproveStrategyCandidates(List<SampleCandidate> candidates,
-			Strategy strategy, double cheapScore) {
-		if (strategyCandidateCount(candidates, strategy)
-				< COLLECTED_CANDIDATES_PER_STRATEGY_LIMIT) {
+	private boolean canImproveStrategyCandidates(
+			List<SampleCandidate> candidates, Strategy strategy, double cheapScore) {
+		if (strategyCandidateCount(candidates, strategy) < COLLECTED_CANDIDATES_PER_STRATEGY_LIMIT) {
 			return true;
 		}
 		return cheapScore > worstStrategyCheapScore(candidates, strategy);
@@ -385,8 +386,7 @@ final class FaceInteriorPointFinder {
 		double worstScore = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < candidates.size(); i++) {
 			SampleCandidate candidate = candidates.get(i);
-			if (strategyFamily(candidate.strategy) == family
-					&& candidate.cheapScore < worstScore) {
+			if (strategyFamily(candidate.strategy) == family && candidate.cheapScore < worstScore) {
 				worstScore = candidate.cheapScore;
 				worstIndex = i;
 			}
@@ -402,29 +402,27 @@ final class FaceInteriorPointFinder {
 		if (!boundingBox.isFinite()) {
 			return 0;
 		}
-		return Math.min(Math.min(point.x - boundingBox.minX, boundingBox.maxX - point.x),
+		return Math.min(
+				Math.min(point.x - boundingBox.minX, boundingBox.maxX - point.x),
 				Math.min(point.y - boundingBox.minY, boundingBox.maxY - point.y));
 	}
 
 	private boolean isPointInsideFace(GPoint2D point, FaceContext context) {
-		if (classifyPointInPolygon(point, context.outerBoundary)
-				!= PlanarGraph.Containment.INSIDE) {
+		if (classifyPointInPolygon(point, context.outerBoundary) != PlanarGraph.Containment.INSIDE) {
 			return false;
 		}
 		for (BoundaryPath holeBoundary : context.holeBoundaries) {
 			if (!holeBoundary.containsInBoundingBox(point)) {
 				continue;
 			}
-			if (classifyPointInPolygon(point, holeBoundary)
-					!= PlanarGraph.Containment.OUTSIDE) {
+			if (classifyPointInPolygon(point, holeBoundary) != PlanarGraph.Containment.OUTSIDE) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private PlanarGraph.Containment classifyPointInPolygon(GPoint2D point,
-			BoundaryPath polygon) {
+	private PlanarGraph.Containment classifyPointInPolygon(GPoint2D point, BoundaryPath polygon) {
 		if (!polygon.containsInBoundingBox(point)) {
 			return PlanarGraph.Containment.OUTSIDE;
 		}
@@ -448,38 +446,41 @@ final class FaceInteriorPointFinder {
 	}
 
 	private double minimumBoundaryDistanceSquared(GPoint2D point, FaceContext context) {
-		double minDistanceSquared = minimumBoundaryDistanceSquared(point,
-				context.outerBoundary, Double.POSITIVE_INFINITY);
+		double minDistanceSquared =
+				minimumBoundaryDistanceSquared(point, context.outerBoundary, Double.POSITIVE_INFINITY);
 		for (BoundaryPath holeBoundary : context.holeBoundaries) {
-			minDistanceSquared = minimumBoundaryDistanceSquared(point, holeBoundary,
-					minDistanceSquared);
+			minDistanceSquared = minimumBoundaryDistanceSquared(point, holeBoundary, minDistanceSquared);
 		}
 		return minDistanceSquared;
 	}
 
-	private double minimumBoundaryDistanceSquared(GPoint2D point, BoundaryPath boundary,
-			double currentMinimum) {
+	private double minimumBoundaryDistanceSquared(
+			GPoint2D point, BoundaryPath boundary, double currentMinimum) {
 		double minDistanceSquared = currentMinimum;
 		int size = boundary.size();
 		for (int i = 0; i < size; i++) {
 			int next = (i + 1) % size;
-			minDistanceSquared = Math.min(minDistanceSquared, distanceSquaredToSegment(point,
-					boundary.xCoordinates[i], boundary.yCoordinates[i],
-					boundary.xCoordinates[next], boundary.yCoordinates[next]));
+			minDistanceSquared = Math.min(
+					minDistanceSquared,
+					distanceSquaredToSegment(
+							point,
+							boundary.xCoordinates[i],
+							boundary.yCoordinates[i],
+							boundary.xCoordinates[next],
+							boundary.yCoordinates[next]));
 		}
 		return minDistanceSquared;
 	}
 
-	private double distanceSquaredToSegment(GPoint2D point,
-			double originX, double originY, double targetX, double targetY) {
+	private double distanceSquaredToSegment(
+			GPoint2D point, double originX, double originY, double targetX, double targetY) {
 		double dx = targetX - originX;
 		double dy = targetY - originY;
 		double lengthSquared = dx * dx + dy * dy;
 		if (lengthSquared <= GEOMETRY_EPSILON) {
 			return distanceSquared(point.x, point.y, originX, originY);
 		}
-		double t = ((point.x - originX) * dx + (point.y - originY) * dy)
-				/ lengthSquared;
+		double t = ((point.x - originX) * dx + (point.y - originY) * dy) / lengthSquared;
 		double clampedT = Math.max(0, Math.min(1, t));
 		double closestX = originX + clampedT * dx;
 		double closestY = originY + clampedT * dy;
@@ -497,36 +498,39 @@ final class FaceInteriorPointFinder {
 	}
 
 	private String formatBoundingBox(PlanarGeometry.BoundingBox boundingBox) {
-		return "[" + boundingBox.minX + "," + boundingBox.maxX
-				+ "]x[" + boundingBox.minY + "," + boundingBox.maxY + "]";
+		return "[" + boundingBox.minX + "," + boundingBox.maxX + "]x[" + boundingBox.minY + ","
+				+ boundingBox.maxY + "]";
 	}
 
 	private void collectBoundaryProbeCandidates(FaceContext context, List<SampleCandidate> out) {
 		collectBoundaryProbeCandidates(context, out, 1, -1);
 	}
 
-	private void collectRepresentativeCandidates(FaceContext context,
-			List<SampleCandidate> out) {
+	private void collectRepresentativeCandidates(FaceContext context, List<SampleCandidate> out) {
 		PlanarGeometry.BoundingBox boundingBox = context.boundingBox;
 		double centerX = (boundingBox.minX + boundingBox.maxX) * 0.5;
 		double centerY = (boundingBox.minY + boundingBox.maxY) * 0.5;
-		GPoint2D[] candidates = {
-				new GPoint2D(centerX, centerY),
-				centroidOf(context.outerBoundary)
-		};
+		GPoint2D[] candidates = {new GPoint2D(centerX, centerY), centroidOf(context.outerBoundary)};
 		for (GPoint2D candidate : candidates) {
 			if (!isAmbiguousRepresentativeCandidate(candidate, context, centerX, centerY)) {
-				addCandidate(out, candidate, Strategy.REPRESENTATIVE, 0,
-						boundingBoxScore(candidate, boundingBox), context);
+				addCandidate(
+						out,
+						candidate,
+						Strategy.REPRESENTATIVE,
+						0,
+						boundingBoxScore(candidate, boundingBox),
+						context);
 			}
 		}
 	}
 
-	private boolean isAmbiguousRepresentativeCandidate(GPoint2D candidate, FaceContext context,
-			double centerX, double centerY) {
+	private boolean isAmbiguousRepresentativeCandidate(
+			GPoint2D candidate, FaceContext context, double centerX, double centerY) {
 		PlanarGeometry.BoundingBox boundingBox = context.boundingBox;
-		if (candidate == null || !context.holeBoundaries.isEmpty()
-				|| context.outerBoundary.size() < 32 || !boundingBox.isFinite()) {
+		if (candidate == null
+				|| !context.holeBoundaries.isEmpty()
+				|| context.outerBoundary.size() < 32
+				|| !boundingBox.isFinite()) {
 			return false;
 		}
 		double width = boundingBox.maxX - boundingBox.minX;
@@ -534,14 +538,15 @@ final class FaceInteriorPointFinder {
 		if (width <= GEOMETRY_EPSILON || height <= GEOMETRY_EPSILON) {
 			return false;
 		}
-		if (!(boundingBox.minX < 0 && boundingBox.maxX > 0
-				&& boundingBox.minY < 0 && boundingBox.maxY > 0)) {
+		if (!(boundingBox.minX < 0
+				&& boundingBox.maxX > 0
+				&& boundingBox.minY < 0
+				&& boundingBox.maxY > 0)) {
 			return false;
 		}
 		double dx = Math.abs(candidate.x - centerX);
 		double dy = Math.abs(candidate.y - centerY);
-		return dx <= Math.max(1e-9, width * 0.02)
-				&& dy <= Math.max(1e-9, height * 0.02);
+		return dx <= Math.max(1e-9, width * 0.02) && dy <= Math.max(1e-9, height * 0.02);
 	}
 
 	private GPoint2D centroidOf(BoundaryPath boundary) {
@@ -562,28 +567,30 @@ final class FaceInteriorPointFinder {
 		}
 		if (Math.abs(signedArea) <= GEOMETRY_EPSILON) {
 			PlanarGeometry.BoundingBox boundingBox = boundary.boundingBox;
-			return new GPoint2D((boundingBox.minX + boundingBox.maxX) * 0.5,
-					(boundingBox.minY + boundingBox.maxY) * 0.5);
+			return new GPoint2D(
+					(boundingBox.minX + boundingBox.maxX) * 0.5, (boundingBox.minY + boundingBox.maxY) * 0.5);
 		}
 		double factor = 1.0 / (3.0 * signedArea);
 		return new GPoint2D(centroidX * factor, centroidY * factor);
 	}
 
-	private void collectVertexAlignedInteriorPoints(FaceContext context,
-			List<SampleCandidate> out) {
+	private void collectVertexAlignedInteriorPoints(FaceContext context, List<SampleCandidate> out) {
 		List<WeightedCoordinate> xCandidates = buildCoordinateMidpoints(context, true);
 		List<WeightedCoordinate> yCandidates = buildCoordinateMidpoints(context, false);
 		for (WeightedCoordinate x : xCandidates) {
 			for (WeightedCoordinate y : yCandidates) {
-				addCandidate(out, new GPoint2D(x.coordinate(), y.coordinate()),
+				addCandidate(
+						out,
+						new GPoint2D(x.coordinate(), y.coordinate()),
 						Strategy.VERTEX_ALIGNED,
-						0, Math.min(x.weight(), y.weight()) * 0.5, context);
+						0,
+						Math.min(x.weight(), y.weight()) * 0.5,
+						context);
 			}
 		}
 	}
 
-	private record WeightedCoordinate(double coordinate, double weight) {
-	}
+	private record WeightedCoordinate(double coordinate, double weight) {}
 
 	private List<WeightedCoordinate> buildCoordinateMidpoints(FaceContext context, boolean xAxis) {
 		List<Double> coordinates = new ArrayList<>();
@@ -620,8 +627,8 @@ final class FaceInteriorPointFinder {
 		}
 	}
 
-	private void collectTopologicalBoundaryProbeCandidates(FaceContext context,
-			List<SampleCandidate> out) {
+	private void collectTopologicalBoundaryProbeCandidates(
+			FaceContext context, List<SampleCandidate> out) {
 		int added = 0;
 		BoundaryPath boundary = context.outerBoundary;
 		for (int i = 0; i < boundary.size(); i++) {
@@ -642,8 +649,7 @@ final class FaceInteriorPointFinder {
 			double leftNormalY = dx / length;
 			double epsilon = Math.max(GEOMETRY_EPSILON, length * 1e-3);
 			for (int attempt = 0; attempt < 12; attempt++) {
-				GPoint2D probe = new GPoint2D(midX + epsilon * leftNormalX,
-						midY + epsilon * leftNormalY);
+				GPoint2D probe = new GPoint2D(midX + epsilon * leftNormalX, midY + epsilon * leftNormalY);
 				if (addCandidate(out, probe, Strategy.BOUNDARY_TOPOLOGICAL, 2, epsilon, context)) {
 					added++;
 					if (added >= SAMPLE_SEARCH_CANDIDATE_LIMIT) {
@@ -655,8 +661,8 @@ final class FaceInteriorPointFinder {
 		}
 	}
 
-	private void collectBoundaryProbeCandidates(FaceContext context,
-			List<SampleCandidate> out, double... normalSigns) {
+	private void collectBoundaryProbeCandidates(
+			FaceContext context, List<SampleCandidate> out, double... normalSigns) {
 		int added = 0;
 		BoundaryPath boundary = context.outerBoundary;
 		for (int i = 0; i < boundary.size(); i++) {
@@ -678,10 +684,8 @@ final class FaceInteriorPointFinder {
 				double leftNormalY = dx / length * normalSign;
 				double epsilon = Math.max(GEOMETRY_EPSILON, length * 1e-3);
 				for (int attempt = 0; attempt < 12; attempt++) {
-					GPoint2D probe = new GPoint2D(midX + epsilon * leftNormalX,
-							midY + epsilon * leftNormalY);
-					if (addCandidate(out, probe, Strategy.BOUNDARY_NORMAL, 2, epsilon,
-							context)) {
+					GPoint2D probe = new GPoint2D(midX + epsilon * leftNormalX, midY + epsilon * leftNormalY);
+					if (addCandidate(out, probe, Strategy.BOUNDARY_NORMAL, 2, epsilon, context)) {
 						added++;
 						if (added >= SAMPLE_SEARCH_CANDIDATE_LIMIT) {
 							return;
@@ -693,20 +697,29 @@ final class FaceInteriorPointFinder {
 		}
 	}
 
-	private void collectScanlineInteriorPoints(FaceContext context,
-			List<SampleCandidate> out) {
-		List<Double> yCandidates = buildScanlineCandidates(context.outerBoundary,
-				context.holeBoundaries, context.boundingBox.minY, context.boundingBox.maxY,
+	private void collectScanlineInteriorPoints(FaceContext context, List<SampleCandidate> out) {
+		List<Double> yCandidates = buildScanlineCandidates(
+				context.outerBoundary,
+				context.holeBoundaries,
+				context.boundingBox.minY,
+				context.boundingBox.maxY,
 				false);
 		collectHorizontalScanlineCandidates(yCandidates, context, out);
-		List<Double> xCandidates = buildScanlineCandidates(context.outerBoundary,
-				context.holeBoundaries, context.boundingBox.minX, context.boundingBox.maxX,
+		List<Double> xCandidates = buildScanlineCandidates(
+				context.outerBoundary,
+				context.holeBoundaries,
+				context.boundingBox.minX,
+				context.boundingBox.maxX,
 				true);
 		collectVerticalScanlineCandidates(xCandidates, context, out);
 	}
 
-	private List<Double> buildScanlineCandidates(BoundaryPath outerBoundary,
-			List<BoundaryPath> holeBoundaries, double min, double max, boolean xAxis) {
+	private List<Double> buildScanlineCandidates(
+			BoundaryPath outerBoundary,
+			List<BoundaryPath> holeBoundaries,
+			double min,
+			double max,
+			boolean xAxis) {
 		List<Double> coordinates = new ArrayList<>();
 		collectVertexCoordinates(outerBoundary, xAxis, coordinates);
 		for (BoundaryPath holeBoundary : holeBoundaries) {
@@ -719,16 +732,14 @@ final class FaceInteriorPointFinder {
 			if (Double.isFinite(previous) && Math.abs(coordinate - previous) > GEOMETRY_EPSILON) {
 				double width = coordinate - previous;
 				if (width > GEOMETRY_EPSILON) {
-					gapCandidates.add(new WeightedCoordinate((previous + coordinate) * 0.5,
-							width));
+					gapCandidates.add(new WeightedCoordinate((previous + coordinate) * 0.5, width));
 				}
 			}
 			previous = coordinate;
 		}
 		gapCandidates.sort(Comparator.comparingDouble(WeightedCoordinate::weight).reversed());
 		List<Double> candidates = new ArrayList<>();
-		for (int i = 0; i < gapCandidates.size()
-				&& i < SAMPLE_SEARCH_CANDIDATE_LIMIT; i++) {
+		for (int i = 0; i < gapCandidates.size() && i < SAMPLE_SEARCH_CANDIDATE_LIMIT; i++) {
 			addScanlineCandidate(candidates, gapCandidates.get(i).coordinate());
 		}
 		double span = max - min;
@@ -748,16 +759,16 @@ final class FaceInteriorPointFinder {
 		candidates.add(coordinate);
 	}
 
-	private void collectHorizontalScanlineCandidates(List<Double> yCandidates,
-			FaceContext context, List<SampleCandidate> out) {
+	private void collectHorizontalScanlineCandidates(
+			List<Double> yCandidates, FaceContext context, List<SampleCandidate> out) {
 		for (double y : yCandidates) {
 			List<Interval> intervals = faceIntervalsOnHorizontalScanline(context, y);
 			collectMidpointCandidatesFromIntervals(intervals, true, y, context, out);
 		}
 	}
 
-	private void collectVerticalScanlineCandidates(List<Double> xCandidates,
-			FaceContext context, List<SampleCandidate> out) {
+	private void collectVerticalScanlineCandidates(
+			List<Double> xCandidates, FaceContext context, List<SampleCandidate> out) {
 		for (double x : xCandidates) {
 			List<Interval> intervals = faceIntervalsOnVerticalScanline(context, x);
 			collectMidpointCandidatesFromIntervals(intervals, false, x, context, out);
@@ -765,21 +776,21 @@ final class FaceInteriorPointFinder {
 	}
 
 	private List<Interval> faceIntervalsOnHorizontalScanline(FaceContext context, double y) {
-		List<Interval> intervals = intervalsFromIntersections(
-				collectHorizontalIntersections(context.outerBoundary, y));
+		List<Interval> intervals =
+				intervalsFromIntersections(collectHorizontalIntersections(context.outerBoundary, y));
 		for (BoundaryPath holeBoundary : context.holeBoundaries) {
-			intervals = subtractIntervals(intervals,
-					intervalsFromIntersections(collectHorizontalIntersections(holeBoundary, y)));
+			intervals = subtractIntervals(
+					intervals, intervalsFromIntersections(collectHorizontalIntersections(holeBoundary, y)));
 		}
 		return intervals;
 	}
 
 	private List<Interval> faceIntervalsOnVerticalScanline(FaceContext context, double x) {
-		List<Interval> intervals = intervalsFromIntersections(
-				collectVerticalIntersections(context.outerBoundary, x));
+		List<Interval> intervals =
+				intervalsFromIntersections(collectVerticalIntersections(context.outerBoundary, x));
 		for (BoundaryPath holeBoundary : context.holeBoundaries) {
-			intervals = subtractIntervals(intervals,
-					intervalsFromIntersections(collectVerticalIntersections(holeBoundary, x)));
+			intervals = subtractIntervals(
+					intervals, intervalsFromIntersections(collectVerticalIntersections(holeBoundary, x)));
 		}
 		return intervals;
 	}
@@ -834,8 +845,11 @@ final class FaceInteriorPointFinder {
 		return result;
 	}
 
-	private void collectMidpointCandidatesFromIntervals(List<Interval> intervals,
-			boolean horizontal, double fixedCoordinate, FaceContext context,
+	private void collectMidpointCandidatesFromIntervals(
+			List<Interval> intervals,
+			boolean horizontal,
+			double fixedCoordinate,
+			FaceContext context,
 			List<SampleCandidate> out) {
 		for (Interval interval : intervals) {
 			GPoint2D candidate = horizontal
@@ -885,8 +899,7 @@ final class FaceInteriorPointFinder {
 		return intersections;
 	}
 
-	private void collectGridInteriorPoints(FaceContext context,
-			List<SampleCandidate> out) {
+	private void collectGridInteriorPoints(FaceContext context, List<SampleCandidate> out) {
 		PlanarGeometry.BoundingBox boundingBox = context.boundingBox;
 		if (!boundingBox.isFinite()) {
 			throw new IllegalStateException("Cannot search interior point: invalid bounding box");
@@ -900,8 +913,13 @@ final class FaceInteriorPointFinder {
 				for (int yIdx = 0; yIdx < gridSize; yIdx++) {
 					double y = boundingBox.minY + (yIdx + 0.5) * dy;
 					GPoint2D candidate = new GPoint2D(x, y);
-					addCandidate(out, candidate, Strategy.valueOf("GRID_" + gridSize), 1,
-							boundingBoxScore(candidate, boundingBox), context);
+					addCandidate(
+							out,
+							candidate,
+							Strategy.valueOf("GRID_" + gridSize),
+							1,
+							boundingBoxScore(candidate, boundingBox),
+							context);
 				}
 			}
 			if (out.size() > candidatesBeforeGrid) {

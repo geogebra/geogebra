@@ -83,6 +83,7 @@ public abstract class CommandDispatcher {
 
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
+
 	private final List<CommandFilter> commandFilters = new ArrayList<>();
 	private final List<CommandArgumentFilter> commandArgumentFilters = new ArrayList<>();
 
@@ -99,49 +100,49 @@ public abstract class CommandDispatcher {
 	public String getSubCommandSetName(int index) {
 		Localization loc = app.getLocalization();
 		switch (index) {
-		case CommandsConstants.TABLE_GEOMETRY:
-			return loc.getMenu("Type.Geometry");
-		case CommandsConstants.TABLE_ALGEBRA:
-			return loc.getMenu("Type.Algebra");
-		case CommandsConstants.TABLE_TEXT:
-			return loc.getMenu("Type.Text");
-		case CommandsConstants.TABLE_LOGICAL:
-			return loc.getMenu("Type.Logic");
-		case CommandsConstants.TABLE_FUNCTION:
-			return loc.getMenu("Type.FunctionsAndCalculus");
-		case CommandsConstants.TABLE_CONIC:
-			return loc.getMenu("Type.Conic");
-		case CommandsConstants.TABLE_LIST:
-			return loc.getMenu("Type.List");
-		case CommandsConstants.TABLE_VECTOR:
-			return loc.getMenu("Type.VectorAndMatrix");
-		case CommandsConstants.TABLE_TRANSFORMATION:
-			return loc.getMenu("Type.Transformation");
-		case CommandsConstants.TABLE_CHARTS:
-			return loc.getMenu("Type.Chart");
-		case CommandsConstants.TABLE_STATISTICS:
-			return loc.getMenu("Type.Statistics");
-		case CommandsConstants.TABLE_PROBABILITY:
-			return loc.getMenu("Type.Probability");
-		case CommandsConstants.TABLE_SPREADSHEET:
-			return loc.getMenu("Type.Spreadsheet");
-		case CommandsConstants.TABLE_SCRIPTING:
-			return loc.getMenu("Type.Scripting");
-		case CommandsConstants.TABLE_DISCRETE:
-			return loc.getMenu("Type.DiscreteMath");
-		case CommandsConstants.TABLE_GEOGEBRA:
-			return loc.getMenu("Type.GeoGebra");
-		case CommandsConstants.TABLE_OPTIMIZATION:
-			return loc.getMenu("Type.OptimizationCommands");
-		case CommandsConstants.TABLE_CAS:
-			return loc.getMenu("Type.CAS");
-		case CommandsConstants.TABLE_3D:
-			return loc.getMenu("Type.3D");
-		case CommandsConstants.TABLE_FINANCIAL:
-			return loc.getMenu("Type.Financial");
-		// Commands.TABLE_ENGLISH:
-		default:
-			return null;
+			case CommandsConstants.TABLE_GEOMETRY:
+				return loc.getMenu("Type.Geometry");
+			case CommandsConstants.TABLE_ALGEBRA:
+				return loc.getMenu("Type.Algebra");
+			case CommandsConstants.TABLE_TEXT:
+				return loc.getMenu("Type.Text");
+			case CommandsConstants.TABLE_LOGICAL:
+				return loc.getMenu("Type.Logic");
+			case CommandsConstants.TABLE_FUNCTION:
+				return loc.getMenu("Type.FunctionsAndCalculus");
+			case CommandsConstants.TABLE_CONIC:
+				return loc.getMenu("Type.Conic");
+			case CommandsConstants.TABLE_LIST:
+				return loc.getMenu("Type.List");
+			case CommandsConstants.TABLE_VECTOR:
+				return loc.getMenu("Type.VectorAndMatrix");
+			case CommandsConstants.TABLE_TRANSFORMATION:
+				return loc.getMenu("Type.Transformation");
+			case CommandsConstants.TABLE_CHARTS:
+				return loc.getMenu("Type.Chart");
+			case CommandsConstants.TABLE_STATISTICS:
+				return loc.getMenu("Type.Statistics");
+			case CommandsConstants.TABLE_PROBABILITY:
+				return loc.getMenu("Type.Probability");
+			case CommandsConstants.TABLE_SPREADSHEET:
+				return loc.getMenu("Type.Spreadsheet");
+			case CommandsConstants.TABLE_SCRIPTING:
+				return loc.getMenu("Type.Scripting");
+			case CommandsConstants.TABLE_DISCRETE:
+				return loc.getMenu("Type.DiscreteMath");
+			case CommandsConstants.TABLE_GEOGEBRA:
+				return loc.getMenu("Type.GeoGebra");
+			case CommandsConstants.TABLE_OPTIMIZATION:
+				return loc.getMenu("Type.OptimizationCommands");
+			case CommandsConstants.TABLE_CAS:
+				return loc.getMenu("Type.CAS");
+			case CommandsConstants.TABLE_3D:
+				return loc.getMenu("Type.3D");
+			case CommandsConstants.TABLE_FINANCIAL:
+				return loc.getMenu("Type.Financial");
+			// Commands.TABLE_ENGLISH:
+			default:
+				return null;
 		}
 	}
 
@@ -186,14 +187,12 @@ public abstract class CommandDispatcher {
 	 *             in case command execution fails
 	 * @return Geos created by the command
 	 */
-	final public GeoElement[] processCommand(Command c, EvalInfo info)
-			throws MyError {
+	public final GeoElement[] processCommand(Command c, EvalInfo info) throws MyError {
 
 		CommandProcessor cmdProc = getProcessor(c);
 
 		if (cmdProc == null) {
-			if (c.getName()
-					.equals(app.getLocalization().getFunction("freehand"))) {
+			if (c.getName().equals(app.getLocalization().getFunction("freehand"))) {
 				return null;
 			}
 			throw new CommandNotFoundError(app.getLocalization(), c);
@@ -225,8 +224,8 @@ public abstract class CommandDispatcher {
 	 * @param commandProcessor a command processor
 	 * @throws MyError thrown if the arguments for the command are not allowed
 	 */
-	public void checkIsAllowedByCommandArgumentFilters(Command command,
-			CommandProcessor commandProcessor) throws MyError {
+	public void checkIsAllowedByCommandArgumentFilters(
+			Command command, CommandProcessor commandProcessor) throws MyError {
 		for (CommandArgumentFilter filter : commandArgumentFilters) {
 			filter.checkAllowed(command, commandProcessor);
 		}
@@ -244,7 +243,9 @@ public abstract class CommandDispatcher {
 		try {
 			// disable preview for commands using CAS
 			// if CAS not loaded but enabled
-			if (info != null && !info.isUsingCAS() && !kernel.isGeoGebraCASready()
+			if (info != null
+					&& !info.isUsingCAS()
+					&& !kernel.isGeoGebraCASready()
 					&& app.getSettings().getCasSettings().isEnabled()
 					&& cmdProc instanceof UsesCAS) {
 				return new GeoElement[0];
@@ -256,9 +257,8 @@ public abstract class CommandDispatcher {
 		} catch (Exception e) {
 			cons.setSuppressLabelCreation(oldMacroMode);
 			Log.debug(e);
-			throw MyError.forCommand(app.getLocalization(),
-					Errors.CASGeneralErrorMessage.getKey(),
-					c.getName(), e);
+			throw MyError.forCommand(
+					app.getLocalization(), Errors.CASGeneralErrorMessage.getKey(), c.getName(), e);
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
@@ -297,7 +297,6 @@ public abstract class CommandDispatcher {
 					cmdTable.put(cmdName, cmdProc);
 				}
 			}
-
 		}
 		return cmdProc;
 	}
@@ -339,620 +338,620 @@ public abstract class CommandDispatcher {
 
 			switch (command) {
 
-			// scripting
-			case Relation:
-			case CopyFreeObject:
-			case DataFunction:
-			case SetColor:
-			case SetBackgroundColor:
-			case SetDecoration:
-			case SetDynamicColor:
-			case SetConditionToShowObject:
-			case SetFilling:
-			case SetLevelOfDetail:
-			case SetLineOpacity:
-			case SetLineThickness:
-			case SetLineStyle:
-			case SetPointStyle:
-			case SetPointSize:
-			case SetFixed:
-			case SetTrace:
-			case Rename:
-			case HideLayer:
-			case ShowLayer:
-			case SetCoords:
-			case Pan:
-			case CenterView:
-			case ZoomIn:
-			case SetSeed:
-			case ZoomOut:
-			case SetActiveView:
-			case SelectObjects:
-			case SetLayer:
-			case SetCaption:
-			case SetLabelMode:
-			case SetTooltipMode:
-			case UpdateConstruction:
-			case SetValue:
-			case PlaySound:
-			case ReadText:
-			case ParseToNumber:
-			case ParseToFunction:
-			case StartAnimation:
-			case StartRecord:
-			case SetPerspective:
-			case Delete:
-			case Repeat:
-			case Slider:
-			case Checkbox:
-			case Button:
-			case Execute:
-			case GetTime:
-			case ShowLabel:
-			case SetAxesRatio:
-			case SetVisibleInView:
-			case ShowAxes:
-			case ShowGrid:
-			case SlowPlot:
-			case ToolImage:
-			case Turtle:
-			case TurtleForward:
-			case TurtleBack:
-			case TurtleLeft:
-			case TurtleRight:
-			case TurtleUp:
-			case TurtleDown:
-			case RunClickScript:
-			case RunUpdateScript:
-			case SetImage:
-				// case DensityPlot:
-				return getScriptingCommandProcessorFactory().getProcessor(command, kernel);
+				// scripting
+				case Relation:
+				case CopyFreeObject:
+				case DataFunction:
+				case SetColor:
+				case SetBackgroundColor:
+				case SetDecoration:
+				case SetDynamicColor:
+				case SetConditionToShowObject:
+				case SetFilling:
+				case SetLevelOfDetail:
+				case SetLineOpacity:
+				case SetLineThickness:
+				case SetLineStyle:
+				case SetPointStyle:
+				case SetPointSize:
+				case SetFixed:
+				case SetTrace:
+				case Rename:
+				case HideLayer:
+				case ShowLayer:
+				case SetCoords:
+				case Pan:
+				case CenterView:
+				case ZoomIn:
+				case SetSeed:
+				case ZoomOut:
+				case SetActiveView:
+				case SelectObjects:
+				case SetLayer:
+				case SetCaption:
+				case SetLabelMode:
+				case SetTooltipMode:
+				case UpdateConstruction:
+				case SetValue:
+				case PlaySound:
+				case ReadText:
+				case ParseToNumber:
+				case ParseToFunction:
+				case StartAnimation:
+				case StartRecord:
+				case SetPerspective:
+				case Delete:
+				case Repeat:
+				case Slider:
+				case Checkbox:
+				case Button:
+				case Execute:
+				case GetTime:
+				case ShowLabel:
+				case SetAxesRatio:
+				case SetVisibleInView:
+				case ShowAxes:
+				case ShowGrid:
+				case SlowPlot:
+				case ToolImage:
+				case Turtle:
+				case TurtleForward:
+				case TurtleBack:
+				case TurtleLeft:
+				case TurtleRight:
+				case TurtleUp:
+				case TurtleDown:
+				case RunClickScript:
+				case RunUpdateScript:
+				case SetImage:
+					// case DensityPlot:
+					return getScriptingCommandProcessorFactory().getProcessor(command, kernel);
 
-			// advanced
-			case IntersectPath:
-			case IntersectionPaths: // deprecated
-			case IntersectRegion: // deprecated
-			case IsVertexForm:
-			case Difference:
+				// advanced
+				case IntersectPath:
+				case IntersectionPaths: // deprecated
+				case IntersectRegion: // deprecated
+				case IsVertexForm:
+				case Difference:
 
-			case TaylorPolynomial:
-			case TaylorSeries:
+				case TaylorPolynomial:
+				case TaylorSeries:
 
-			case SecondAxis:
-			case MinorAxis:
+				case SecondAxis:
+				case MinorAxis:
 
-			case SemiMinorAxisLength:
-			case SecondAxisLength:
+				case SemiMinorAxisLength:
+				case SecondAxisLength:
 
-			case Directrix:
-			case Numerator:
-			case Denominator:
-			case ComplexRoot:
-			case SlopeField:
-			case Iteration:
-			case PathParameter:
-			case Asymptote:
-			case CurvatureVector:
-			case Curvature:
-			case OsculatingCircle:
-			case IterationList:
-			case RootList:
-			case ImplicitCurve:
-			case ImplicitSurface:
-			case Roots:
-			case AffineRatio:
-			case CrossRatio:
-			case ClosestPoint:
-			case IsInRegion:
-			case PrimeFactors:
-			case Union:
-			case ScientificText:
-			case VerticalText:
-			case RotateText:
-			case ReplaceAll:
-			case Split:
-			case Ordinal:
-			case Parameter:
-			case Incircle:
-			case SelectedElement:
-			case SelectedIndex:
-			case Unique:
-			case Zip:
-			case Intersection:
-			case PointList:
-			case ApplyMatrix:
-			case Invert:
-			case NInvert:
-			case Transpose:
-			case ReducedRowEchelonForm:
-			case Determinant:
+				case Directrix:
+				case Numerator:
+				case Denominator:
+				case ComplexRoot:
+				case SlopeField:
+				case Iteration:
+				case PathParameter:
+				case Asymptote:
+				case CurvatureVector:
+				case Curvature:
+				case OsculatingCircle:
+				case IterationList:
+				case RootList:
+				case ImplicitCurve:
+				case ImplicitSurface:
+				case Roots:
+				case AffineRatio:
+				case CrossRatio:
+				case ClosestPoint:
+				case IsInRegion:
+				case PrimeFactors:
+				case Union:
+				case ScientificText:
+				case VerticalText:
+				case RotateText:
+				case ReplaceAll:
+				case Split:
+				case Ordinal:
+				case Parameter:
+				case Incircle:
+				case SelectedElement:
+				case SelectedIndex:
+				case Unique:
+				case Zip:
+				case Intersection:
+				case PointList:
+				case ApplyMatrix:
+				case Invert:
+				case NInvert:
+				case Transpose:
+				case ReducedRowEchelonForm:
+				case Determinant:
 				// case MatrixPlot:
-			case Identity:
-			case Centroid:
-			case MajorAxis:
-			case FirstAxis:
+				case Identity:
+				case Centroid:
+				case MajorAxis:
+				case FirstAxis:
 
-			case SemiMajorAxisLength:
-			case FirstAxisLength:
+				case SemiMajorAxisLength:
+				case FirstAxisLength:
 
-			case AxisStepX:
-			case AxisStepY:
-			case ConstructionStep:
-			case SetConstructionStep:
-			case Polar:
+				case AxisStepX:
+				case AxisStepY:
+				case ConstructionStep:
+				case SetConstructionStep:
+				case Polar:
 
-			case LinearEccentricity:
-			case Excentricity:
+				case LinearEccentricity:
+				case Excentricity:
 
-			case Eccentricity:
-			case Axes:
-			case IndexOf:
-			case Flatten:
-			case Insert:
-			case DynamicCoordinates:
-			case Maximize:
-			case Minimize:
-			case ToBase:
-			case FromBase:
-			case ContinuedFraction:
-			case AttachCopyToView:
-			case Divisors:
-			case DivisorsSum:
-			case Dimension:
-			case DivisorsList:
-			case IsPrime:
-			case LeftSide:
-			case RightSide:
-			case Division:
-			case MatrixRank:
-			case CommonDenominator:
-			case ToPoint:
-			case ToComplex:
-			case ToPolar:
-			case Factors:
-			case NSolveODE:
-			case Rate:
-			case Periods:
-			case Payment:
-			case FutureValue:
-			case PresentValue:
-			case SVD:
-				return getAdvancedCommandProcessorFactory().getProcessor(command, kernel);
+				case Eccentricity:
+				case Axes:
+				case IndexOf:
+				case Flatten:
+				case Insert:
+				case DynamicCoordinates:
+				case Maximize:
+				case Minimize:
+				case ToBase:
+				case FromBase:
+				case ContinuedFraction:
+				case AttachCopyToView:
+				case Divisors:
+				case DivisorsSum:
+				case Dimension:
+				case DivisorsList:
+				case IsPrime:
+				case LeftSide:
+				case RightSide:
+				case Division:
+				case MatrixRank:
+				case CommonDenominator:
+				case ToPoint:
+				case ToComplex:
+				case ToPolar:
+				case Factors:
+				case NSolveODE:
+				case Rate:
+				case Periods:
+				case Payment:
+				case FutureValue:
+				case PresentValue:
+				case SVD:
+					return getAdvancedCommandProcessorFactory().getProcessor(command, kernel);
 
-			// prover
-			case Prove:
-			case ProveDetails:
-			case AreCollinear:
-			case AreParallel:
-			case AreConcyclic:
-			case ArePerpendicular:
-			case AreEqual:
-			case AreCongruent:
-			case AreConcurrent:
-			case IsTangent:
-			case LocusEquation:
-			case Envelope:
-				return getProverCommandProcessorFactory().getProcessor(command, kernel);
+				// prover
+				case Prove:
+				case ProveDetails:
+				case AreCollinear:
+				case AreParallel:
+				case AreConcyclic:
+				case ArePerpendicular:
+				case AreEqual:
+				case AreCongruent:
+				case AreConcurrent:
+				case IsTangent:
+				case LocusEquation:
+				case Envelope:
+					return getProverCommandProcessorFactory().getProcessor(command, kernel);
 
-			// basic
+				// basic
 
-			case Tangent:
-			case Length:
-			case UnitPerpendicularVector:
-			case UnitOrthogonalVector:
-			case Surface:
-			case Sort:
-			case Product:
-			case Join:
-			case LCM:
-			case GCD:
-			case LetterToUnicode:
-			case UnicodeToLetter:
-			case Object:
-			case CountIf:
-			case Extremum:
-			case RemovableDiscontinuity:
-			case UnitVector:
-			case Direction:
-			case Text:
-			case Vector:
-			case Dot:
-			case Cross:
-			case nPr:
-			case PolyLine:
-			case Polyline:
-			case PenStroke:
-			case PenStrokeBezier:
-			case PointIn:
-			case Line:
-			case Ray:
+				case Tangent:
+				case Length:
+				case UnitPerpendicularVector:
+				case UnitOrthogonalVector:
+				case Surface:
+				case Sort:
+				case Product:
+				case Join:
+				case LCM:
+				case GCD:
+				case LetterToUnicode:
+				case UnicodeToLetter:
+				case Object:
+				case CountIf:
+				case Extremum:
+				case RemovableDiscontinuity:
+				case UnitVector:
+				case Direction:
+				case Text:
+				case Vector:
+				case Dot:
+				case Cross:
+				case nPr:
+				case PolyLine:
+				case Polyline:
+				case PenStroke:
+				case PenStrokeBezier:
+				case PointIn:
+				case Line:
+				case Ray:
 
-			case AngleBisector:
-			case AngularBisector:
+				case AngleBisector:
+				case AngularBisector:
 
-			case Segment:
-			case Slope:
-			case Angle:
-			case InteriorAngles:
-			case Point:
-			case Midpoint:
-			case Intersect:
-			case Distance:
-			case Radius:
-			case Type:
-			case Arc:
-			case Sector:
+				case Segment:
+				case Slope:
+				case Angle:
+				case InteriorAngles:
+				case Point:
+				case Midpoint:
+				case Intersect:
+				case Distance:
+				case Radius:
+				case Type:
+				case Arc:
+				case Sector:
 
-			case CircleArc:
-			case CircularArc:
-			case CircleSector:
-			case CircularSector:
-			case CircumcircleSector:
-			case CircumcircularSector:
-			case CircumcircleArc:
-			case CircumcircularArc:
+				case CircleArc:
+				case CircularArc:
+				case CircleSector:
+				case CircularSector:
+				case CircumcircleSector:
+				case CircumcircularSector:
+				case CircumcircleArc:
+				case CircumcircularArc:
 
-			case Polygon:
-			case RigidPolygon:
-			case Area:
-			case Circumference:
-			case Perimeter:
-			case Locus:
-			case Vertex:
-			case If:
-			case Root:
-			case InflectionPoint:
-			case TurningPoint:
-			case Polynomial:
-			case Spline:
-			case BezierCurve:
+				case Polygon:
+				case RigidPolygon:
+				case Area:
+				case Circumference:
+				case Perimeter:
+				case Locus:
+				case Vertex:
+				case If:
+				case Root:
+				case InflectionPoint:
+				case TurningPoint:
+				case Polynomial:
+				case Spline:
+				case BezierCurve:
 				// case Nyquist:
-			case Function:
-			case Curve:
-			case CurveCartesian:
-			case LowerSum:
-			case LeftSum:
-			case RectangleSum:
-			case UpperSum:
-			case TrapezoidalSum:
-			case Ellipse:
-			case Hyperbola:
-			case Conic:
-			case Circle:
-			case Semicircle:
-			case Parabola:
-			case Focus:
-			case Center:
-			case Element:
-			case Sequence:
+				case Function:
+				case Curve:
+				case CurveCartesian:
+				case LowerSum:
+				case LeftSum:
+				case RectangleSum:
+				case UpperSum:
+				case TrapezoidalSum:
+				case Ellipse:
+				case Hyperbola:
+				case Conic:
+				case Circle:
+				case Semicircle:
+				case Parabola:
+				case Focus:
+				case Center:
+				case Element:
+				case Sequence:
 
-			case Reflect:
-			case Mirror:
+				case Reflect:
+				case Mirror:
 
-			case Dilate:
-			case Rotate:
-			case Translate:
-			case Shear:
-			case Stretch:
+				case Dilate:
+				case Rotate:
+				case Translate:
+				case Shear:
+				case Stretch:
 
-			case Corner:
-			case Name:
+				case Corner:
+				case Name:
 
-			case Diameter:
-			case ConjugateDiameter:
+				case Diameter:
+				case ConjugateDiameter:
 
-			case LineBisector:
-			case PerpendicularBisector:
+				case LineBisector:
+				case PerpendicularBisector:
 
-			case OrthogonalLine:
-			case PerpendicularLine:
+				case OrthogonalLine:
+				case PerpendicularLine:
 
-			case OrthogonalVector:
-			case PerpendicularVector:
+				case OrthogonalVector:
+				case PerpendicularVector:
 
-			case Random:
-			case RandomBetween:
-			case RandomPointIn:
+				case Random:
+				case RandomBetween:
+				case RandomPointIn:
 
-			case Sum:
+				case Sum:
 
-			case Binomial:
-			case BinomialCoefficient:
-			case nCr:
+				case Binomial:
+				case BinomialCoefficient:
+				case nCr:
 
-			case Mod:
-			case Div:
-			case Min:
-			case Max:
-			case Append:
-			case First:
-			case Last:
-			case Remove:
-			case RemoveUndefined:
-			case Reverse:
-			case TableText:
-			case Take:
-			case TextToUnicode:
-			case UnicodeToText:
-			case FractionText:
-			case KeepIf:
-			case IsInteger:
-			case IsFactored:
+				case Mod:
+				case Div:
+				case Min:
+				case Max:
+				case Append:
+				case First:
+				case Last:
+				case Remove:
+				case RemoveUndefined:
+				case Reverse:
+				case TableText:
+				case Take:
+				case TextToUnicode:
+				case UnicodeToText:
+				case FractionText:
+				case KeepIf:
+				case IsInteger:
+				case IsFactored:
 
-			case Defined:
-			case IsDefined:
+				case Defined:
+				case IsDefined:
 
-			case FormulaText:
-			case LaTeX:
-			case InputBox:
-			case Textfield:
-			case Normalize:
-			case ExportImage:
-			case Stadium:
-				return getBasicCommandProcessorFactory().getProcessor(command, kernel);
+				case FormulaText:
+				case LaTeX:
+				case InputBox:
+				case Textfield:
+				case Normalize:
+				case ExportImage:
+				case Stadium:
+					return getBasicCommandProcessorFactory().getProcessor(command, kernel);
 
-			case CFactor:
-			case CIFactor:
-			case Eliminate:
-			case GroebnerLex:
-			case GroebnerDegRevLex:
-			case GroebnerLexDeg:
-			case Numeric:
-			case MixedNumber:
-			case Rationalize:
-			case Substitute:
-			case ToExponential:
-			case Laplace:
-			case InverseLaplace:
-			case Assume:
-			case SolveCubic:
-			case JordanDiagonalization:
-			case Eigenvalues:
-			case Eigenvectors:
-			case ExtendedGCD:
-			case ModularExponent:
-			case CharacteristicPolynomial:
-			case MinimalPolynomial:
-			case LUDecomposition:
-			case QRDecomposition:
-			case IntegralSymbolic:
-				return new CAScmdProcessor(kernel);
+				case CFactor:
+				case CIFactor:
+				case Eliminate:
+				case GroebnerLex:
+				case GroebnerDegRevLex:
+				case GroebnerLexDeg:
+				case Numeric:
+				case MixedNumber:
+				case Rationalize:
+				case Substitute:
+				case ToExponential:
+				case Laplace:
+				case InverseLaplace:
+				case Assume:
+				case SolveCubic:
+				case JordanDiagonalization:
+				case Eigenvalues:
+				case Eigenvectors:
+				case ExtendedGCD:
+				case ModularExponent:
+				case CharacteristicPolynomial:
+				case MinimalPolynomial:
+				case LUDecomposition:
+				case QRDecomposition:
+				case IntegralSymbolic:
+					return new CAScmdProcessor(kernel);
 
-			// ************** STATS ***************
+				// ************** STATS ***************
 
-			case ANOVA:
-			case Bernoulli:
-			case BinomialDist:
-			case BoxPlot:
-			case Cauchy:
-			case Cell:
-			case CellRange:
-			case ChiSquaredTest:
-			case ChiSquared:
-			case Classes:
-			case Column:
-			case ColumnName:
-			case CorrelationCoefficient:
-			case cov:
-			case Covariance:
-			case ContingencyTable:
-			case DotPlot:
-			case Erlang:
-			case Exponential:
-			case FDistribution:
-			case FillCells:
-			case FillColumn:
-			case FillRow:
-			case Fit:
-			case FitImplicit:
-			case FitExp:
-			case FitGrowth:
-			case FitLine:
-			case FitLineX:
-			case FitLineY:
-			case FitLog:
-			case FitLogistic:
-			case FitPoly:
-			case FitPow:
-			case FitSin:
-			case Frequency:
-			case FrequencyPolygon:
-			case FrequencyTable:
-			case Gamma:
-			case GeometricMean:
-			case HarmonicMean:
-			case Histogram:
-			case HistogramRight:
-			case HyperGeometric:
-			case InverseBinomial:
-			case InverseBinomialMinimumTrials:
-			case InverseCauchy:
-			case InverseChiSquared:
-			case InverseExponential:
-			case InverseFDistribution:
-			case InverseGamma:
-			case InverseBeta:
-			case BetaDist:
-			case InverseHyperGeometric:
-			case InverseLogNormal:
-			case InverseLogistic:
-			case InverseNormal:
-			case InversePascal:
-			case InversePoisson:
-			case InverseTDistribution:
-			case InverseWeibull:
-			case InverseZipf:
-			case LogNormal:
-			case Logistic:
-			case Mean:
-			case mean:
-			case MeanX:
-			case MeanY:
-			case Median:
-			case Mode:
-			case Normal:
-			case NormalQuantilePlot:
-			case OrdinalRank:
-			case PMCC:
-			case Pascal:
-			case Percentile:
-			case Poisson:
-			case Q1:
-			case Q3:
-			case Quartile1:
-			case Quartile3:
-			case RSquare:
-			case RandomDiscrete:
-			case RandomElement:
-			case RandomPolynomial:
-			case RandomBinomial:
-			case RandomNormal:
-			case RandomPoisson:
-			case RandomUniform:
-			case ResidualPlot:
-			case RootMeanSquare:
-			case Row:
-			case SD:
-			case MAD:
-			case mad:
-			case SDX:
-			case SDY:
-			case Sxx:
-			case Sxy:
-			case Syy:
-			case SXX:
-			case SXY:
-			case SYY:
-			case Sample:
-			case stdevp:
-			case stdev:
-			case SampleSD:
-			case SampleSDX:
-			case SampleSDY:
-			case SampleVariance:
-			case Shuffle:
-			case SigmaXX:
-			case SigmaXY:
-			case SigmaYY:
-			case Spearman:
-			case StemPlot:
-			case StepGraph:
-			case StickGraph:
-			case SumSquaredErrors:
-			case TDistribution:
-			case TMean2Estimate:
-			case TMeanEstimate:
-			case TTest2:
-			case TTest:
-			case TTestPaired:
-			case TiedRank:
-			case Triangular:
-			case Uniform:
-			case var:
-			case Variance:
-			case Weibull:
-			case ZMean2Estimate:
-			case ZMean2Test:
-			case ZMeanEstimate:
-			case ZMeanTest:
-			case ZProportion2Estimate:
-			case ZProportion2Test:
-			case ZProportionEstimate:
-			case ZProportionTest:
-			case Zipf:
+				case ANOVA:
+				case Bernoulli:
+				case BinomialDist:
+				case BoxPlot:
+				case Cauchy:
+				case Cell:
+				case CellRange:
+				case ChiSquaredTest:
+				case ChiSquared:
+				case Classes:
+				case Column:
+				case ColumnName:
+				case CorrelationCoefficient:
+				case cov:
+				case Covariance:
+				case ContingencyTable:
+				case DotPlot:
+				case Erlang:
+				case Exponential:
+				case FDistribution:
+				case FillCells:
+				case FillColumn:
+				case FillRow:
+				case Fit:
+				case FitImplicit:
+				case FitExp:
+				case FitGrowth:
+				case FitLine:
+				case FitLineX:
+				case FitLineY:
+				case FitLog:
+				case FitLogistic:
+				case FitPoly:
+				case FitPow:
+				case FitSin:
+				case Frequency:
+				case FrequencyPolygon:
+				case FrequencyTable:
+				case Gamma:
+				case GeometricMean:
+				case HarmonicMean:
+				case Histogram:
+				case HistogramRight:
+				case HyperGeometric:
+				case InverseBinomial:
+				case InverseBinomialMinimumTrials:
+				case InverseCauchy:
+				case InverseChiSquared:
+				case InverseExponential:
+				case InverseFDistribution:
+				case InverseGamma:
+				case InverseBeta:
+				case BetaDist:
+				case InverseHyperGeometric:
+				case InverseLogNormal:
+				case InverseLogistic:
+				case InverseNormal:
+				case InversePascal:
+				case InversePoisson:
+				case InverseTDistribution:
+				case InverseWeibull:
+				case InverseZipf:
+				case LogNormal:
+				case Logistic:
+				case Mean:
+				case mean:
+				case MeanX:
+				case MeanY:
+				case Median:
+				case Mode:
+				case Normal:
+				case NormalQuantilePlot:
+				case OrdinalRank:
+				case PMCC:
+				case Pascal:
+				case Percentile:
+				case Poisson:
+				case Q1:
+				case Q3:
+				case Quartile1:
+				case Quartile3:
+				case RSquare:
+				case RandomDiscrete:
+				case RandomElement:
+				case RandomPolynomial:
+				case RandomBinomial:
+				case RandomNormal:
+				case RandomPoisson:
+				case RandomUniform:
+				case ResidualPlot:
+				case RootMeanSquare:
+				case Row:
+				case SD:
+				case MAD:
+				case mad:
+				case SDX:
+				case SDY:
+				case Sxx:
+				case Sxy:
+				case Syy:
+				case SXX:
+				case SXY:
+				case SYY:
+				case Sample:
+				case stdevp:
+				case stdev:
+				case SampleSD:
+				case SampleSDX:
+				case SampleSDY:
+				case SampleVariance:
+				case Shuffle:
+				case SigmaXX:
+				case SigmaXY:
+				case SigmaYY:
+				case Spearman:
+				case StemPlot:
+				case StepGraph:
+				case StickGraph:
+				case SumSquaredErrors:
+				case TDistribution:
+				case TMean2Estimate:
+				case TMeanEstimate:
+				case TTest2:
+				case TTest:
+				case TTestPaired:
+				case TiedRank:
+				case Triangular:
+				case Uniform:
+				case var:
+				case Variance:
+				case Weibull:
+				case ZMean2Estimate:
+				case ZMean2Test:
+				case ZMeanEstimate:
+				case ZMeanTest:
+				case ZProportion2Estimate:
+				case ZProportion2Test:
+				case ZProportionEstimate:
+				case ZProportionTest:
+				case Zipf:
 
-			// chart commands for notes
-			case TableToChart:
-			case BarChart:
-			case LineGraph:
-			case PieChart:
-				return getStatsCommandProcessorFactory().getProcessor(command, kernel);
+				// chart commands for notes
+				case TableToChart:
+				case BarChart:
+				case LineGraph:
+				case PieChart:
+					return getStatsCommandProcessorFactory().getProcessor(command, kernel);
 
-			case TriangleCenter:
-			case Barycenter:
-			case Trilinear:
-			case Cubic:
-			case TriangleCurve:
-			case Voronoi:
-			case Hull:
-			case ConvexHull:
-			case MinimumSpanningTree:
-			case DelauneyTriangulation:
-			case DelaunayTriangulation:
-			case TravelingSalesman:
-			case ShortestDistance:
-				return getDiscreteCommandProcessorFactory().getProcessor(command, kernel);
-			case NSolve:
-			case Solve:
-			case Solutions:
-			case NSolutions:
-			case CASLoaded:
-			case PlotSolve:
-			case Expand:
-			case Factor:
-			case IFactor:
-			case Simplify:
-			case SurdText:
-			case ParametricDerivative:
-			case Derivative:
-			case NDerivative:
-			case Integral:
-			case IntegralBetween:
-			case NIntegral:
-			case TrigExpand:
-			case TrigSimplify:
-			case TrigCombine:
-			case Limit:
-			case LimitBelow:
-			case LimitAbove:
-			case Degree:
-			case Coefficients:
-			case PartialFractions:
-			case SolveODE:
-			case ImplicitDerivative:
-			case NextPrime:
-			case PreviousPrime:
-			case CompleteSquare:
-			case CSolve:
-			case CSolutions:
-				return getCASCommandProcessorFactory().getProcessor(command, kernel);
-			case Plane:
-			case PerpendicularPlane:
-			case OrthogonalPlane:
-			case PlaneBisector:
-			case Prism:
-			case Pyramid:
-			case Tetrahedron:
-			case Cube:
-			case Octahedron:
-			case Dodecahedron:
-			case Icosahedron:
-			case Polyhedron:
-			case Net:
-			case Sphere:
-			case Cone:
-			case InfiniteCone:
-			case ConeInfinite:
-			case Cylinder:
-			case InfiniteCylinder:
-			case CylinderInfinite:
-			case Side:
-			case QuadricSide:
-			case Bottom:
-			case Top:
-			case Ends:
-			case Volume:
-			case Height:
-			case SetSpinSpeed:
-			case SetViewDirection:
-			case ClosestPointRegion:
-			case CornerThreeD:
-			case IntersectConic:
-			case IntersectCircle:
-				return getSpatialCommandProcessorFactory().getProcessor(command, kernel);
-			default:
-				Log.error("missing case in CommandDispatcher " + cmdName);
-				return null;
+				case TriangleCenter:
+				case Barycenter:
+				case Trilinear:
+				case Cubic:
+				case TriangleCurve:
+				case Voronoi:
+				case Hull:
+				case ConvexHull:
+				case MinimumSpanningTree:
+				case DelauneyTriangulation:
+				case DelaunayTriangulation:
+				case TravelingSalesman:
+				case ShortestDistance:
+					return getDiscreteCommandProcessorFactory().getProcessor(command, kernel);
+				case NSolve:
+				case Solve:
+				case Solutions:
+				case NSolutions:
+				case CASLoaded:
+				case PlotSolve:
+				case Expand:
+				case Factor:
+				case IFactor:
+				case Simplify:
+				case SurdText:
+				case ParametricDerivative:
+				case Derivative:
+				case NDerivative:
+				case Integral:
+				case IntegralBetween:
+				case NIntegral:
+				case TrigExpand:
+				case TrigSimplify:
+				case TrigCombine:
+				case Limit:
+				case LimitBelow:
+				case LimitAbove:
+				case Degree:
+				case Coefficients:
+				case PartialFractions:
+				case SolveODE:
+				case ImplicitDerivative:
+				case NextPrime:
+				case PreviousPrime:
+				case CompleteSquare:
+				case CSolve:
+				case CSolutions:
+					return getCASCommandProcessorFactory().getProcessor(command, kernel);
+				case Plane:
+				case PerpendicularPlane:
+				case OrthogonalPlane:
+				case PlaneBisector:
+				case Prism:
+				case Pyramid:
+				case Tetrahedron:
+				case Cube:
+				case Octahedron:
+				case Dodecahedron:
+				case Icosahedron:
+				case Polyhedron:
+				case Net:
+				case Sphere:
+				case Cone:
+				case InfiniteCone:
+				case ConeInfinite:
+				case Cylinder:
+				case InfiniteCylinder:
+				case CylinderInfinite:
+				case Side:
+				case QuadricSide:
+				case Bottom:
+				case Top:
+				case Ends:
+				case Volume:
+				case Height:
+				case SetSpinSpeed:
+				case SetViewDirection:
+				case ClosestPointRegion:
+				case CornerThreeD:
+				case IntersectConic:
+				case IntersectCircle:
+					return getSpatialCommandProcessorFactory().getProcessor(command, kernel);
+				default:
+					Log.error("missing case in CommandDispatcher " + cmdName);
+					return null;
 			}
 		} catch (RuntimeException e) {
 			Log.warn("command not found / CAS command called:" + cmdName);

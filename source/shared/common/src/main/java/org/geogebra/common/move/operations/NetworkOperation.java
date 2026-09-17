@@ -30,7 +30,7 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 
 	/**
 	 * Creates a new offlineOperation class for Offline functionality
-	 * 
+	 *
 	 * @param online
 	 *            whether the initial state is online
 	 */
@@ -54,5 +54,4 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 		this.online = online;
 		dispatchEvent(new BooleanEvent(online));
 	}
-
 }

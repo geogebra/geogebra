@@ -23,9 +23,11 @@ import org.geogebra.common.main.Localization;
  * Mime types that can be opened by the apps.
  */
 public enum MimeType {
-	GEOGEBRA("application/vnd.geogebra.file", FileExtensions.GEOGEBRA.toString(),
-			"Download.GeoGebraFile"),
-	GEOGEBRA_TOOL("application/vnd.geogebra.tool", FileExtensions.GEOGEBRA_TOOL.toString(),
+	GEOGEBRA(
+			"application/vnd.geogebra.file", FileExtensions.GEOGEBRA.toString(), "Download.GeoGebraFile"),
+	GEOGEBRA_TOOL(
+			"application/vnd.geogebra.tool",
+			FileExtensions.GEOGEBRA_TOOL.toString(),
 			"GeoGebra Tool"), // description not needed,
 	GEOGEBRA_NOTES("application/vnd.geogebra.slides", "ggs", "Download.SlidesGgs"),
 	;

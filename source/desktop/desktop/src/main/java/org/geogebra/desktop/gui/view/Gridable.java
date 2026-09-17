@@ -46,10 +46,9 @@ public interface Gridable {
 	AppD getApplication();
 
 	/**
-	 * 
+	 *
 	 * @return the components on which the print method is used, they will be
 	 *         put together according to the placement in the 2D-array
 	 */
 	Component[][] getPrintComponents();
-
 }

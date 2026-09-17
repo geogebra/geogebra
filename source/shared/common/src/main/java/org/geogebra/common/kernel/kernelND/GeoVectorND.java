@@ -22,12 +22,11 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Simple common interface for GeoVector and GeoVector3D
- * 
+ *
  * @author ggb3D
  *
  */
-public interface GeoVectorND
-		extends GeoDirectionND, Locateable, CoordStyle {
+public interface GeoVectorND extends GeoDirectionND, Locateable, CoordStyle {
 
 	/**
 	 * @param c
@@ -72,7 +71,7 @@ public interface GeoVectorND
 	boolean getTrace();
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -95,19 +94,19 @@ public interface GeoVectorND
 	void setCoords(double x, double y, double z, double w);
 
 	/**
-	 * 
+	 *
 	 * @return x component
 	 */
 	double getX();
 
 	/**
-	 * 
+	 *
 	 * @return y component
 	 */
 	double getY();
 
 	/**
-	 * 
+	 *
 	 * @return z component
 	 */
 	double getZ();

@@ -34,11 +34,10 @@ import org.geogebra.common.util.MyMath;
 
 /**
  * Angle bisectors between two lines
- * 
+ *
  * @author Markus
  */
-public class AlgoAngularBisectorLines extends AlgoElement
-		implements SymbolicParametersBotanaAlgo {
+public class AlgoAngularBisectorLines extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
 	private GeoLine g; // input
 	private GeoLine h; // input
@@ -66,7 +65,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 
 	/**
 	 * Creates new AlgoAngularBisectorLines
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -76,15 +75,14 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	 * @param h
 	 *            second line
 	 */
-	AlgoAngularBisectorLines(Construction cons, String label, GeoLine g,
-			GeoLine h) {
+	AlgoAngularBisectorLines(Construction cons, String label, GeoLine g, GeoLine h) {
 		this(cons, g, h);
 		LabelManager.setLabels(label, bisector);
 	}
 
 	/**
 	 * Creates new AlgoAngularBisectorLines
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -94,8 +92,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	 * @param h
 	 *            second line
 	 */
-	public AlgoAngularBisectorLines(Construction cons, String[] labels,
-			GeoLine g, GeoLine h) {
+	public AlgoAngularBisectorLines(Construction cons, String[] labels, GeoLine g, GeoLine h) {
 		this(cons, g, h);
 		LabelManager.setLabels(labels, bisector);
 	}
@@ -318,12 +315,12 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("AngleBisectorOfAB",
-				"Angle bisector of %0, %1", g.getLabel(tpl),
-				h.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"AngleBisectorOfAB", "Angle bisector of %0, %1", g.getLabel(tpl), h.getLabel(tpl));
 	}
 
 	@Override
@@ -332,8 +329,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -397,10 +393,8 @@ public class AlgoAngularBisectorLines extends AlgoElement
 			// Otherwise we need the intersection point of the two lines:
 			if (polysNeeded == 6) {
 				polysC = new PPolynomial[2];
-				polysC[0] = PPolynomial.collinear(vC[0], vC[1], varsLg[0],
-						varsLg[1], varsLg[2], varsLg[3]);
-				polysC[1] = PPolynomial.collinear(vC[0], vC[1], varsLh[0],
-						varsLh[1], varsLh[2], varsLh[3]);
+				polysC[0] = PPolynomial.collinear(vC[0], vC[1], varsLg[0], varsLg[1], varsLg[2], varsLg[3]);
+				polysC[1] = PPolynomial.collinear(vC[0], vC[1], varsLh[0], varsLh[1], varsLh[2], varsLh[3]);
 				// Any of the start/endpoint of the lines will be okay to use:
 				vA[0] = varsLg[0];
 				vA[1] = varsLg[1];
@@ -456,11 +450,10 @@ public class AlgoAngularBisectorLines extends AlgoElement
 				PPolynomial s2 = new PPolynomial(botanaVars[5]);
 
 				PPolynomial p1 = PPolynomial.sqrDistance(vA[0], vA[1], vC[0], vC[1]);
-				PPolynomial p2 = PPolynomial.sqrDistance(botanaVars[4], botanaVars[5],
-						vC[0], vC[1]);
+				PPolynomial p2 = PPolynomial.sqrDistance(botanaVars[4], botanaVars[5], vC[0], vC[1]);
 				botanaPolynomials[0] = p1.subtract(p2);
-				botanaPolynomials[1] = PPolynomial.collinear(vC[0], vC[1],
-						botanaVars[4], botanaVars[5], vB[0], vB[1]);
+				botanaPolynomials[1] =
+						PPolynomial.collinear(vC[0], vC[1], botanaVars[4], botanaVars[5], vB[0], vB[1]);
 				botanaPolynomials[2] = m1.add(m1).subtract(a1).subtract(s1);
 				botanaPolynomials[3] = m2.add(m2).subtract(a2).subtract(s2);
 				if (polysNeeded == 6) {
@@ -470,9 +463,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 
 				return botanaPolynomials;
 			}
-
 		}
 		throw new NoSymbolicParametersException();
-
 	}
 }

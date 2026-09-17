@@ -55,8 +55,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	 * @param info
 	 *            eval info
 	 */
-	public AlgoSolveODECas(Construction cons, String label,
-			CasEvaluableFunction f, EvalInfo info) {
+	public AlgoSolveODECas(Construction cons, String label, CasEvaluableFunction f, EvalInfo info) {
 		super(cons);
 		this.nocas = !info.isUsingCAS();
 		this.f = f;
@@ -76,8 +75,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	 * @param pt
 	 *            point through which the integral line should go
 	 */
-	public AlgoSolveODECas(Construction cons, String label,
-			CasEvaluableFunction f, GeoPointND pt) {
+	public AlgoSolveODECas(Construction cons, String label, CasEvaluableFunction f, GeoPointND pt) {
 		super(cons);
 		this.f = f;
 		this.pt = pt;
@@ -95,9 +93,9 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	@Override
 	protected void setInputOutput() {
 		if (pt == null) {
-			input = new GeoElement[] { f.toGeoElement() };
+			input = new GeoElement[] {f.toGeoElement()};
 		} else {
-			input = new GeoElement[] { f.toGeoElement(), pt.toGeoElement() };
+			input = new GeoElement[] {f.toGeoElement(), pt.toGeoElement()};
 		}
 		setOnlyOutput(g);
 		setDependencies();
@@ -148,13 +146,13 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		boolean ok = false;
 		try {
 			// TODO put caching back
-			functionOut = kernel.evaluateGeoGebraCAS(casString,
-					(nocas || pt != null) ? getSilentArbConst() : arbconst);
+			functionOut = kernel.evaluateGeoGebraCAS(
+					casString, (nocas || pt != null) ? getSilentArbConst() : arbconst);
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoElementND[] res = kernel.getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionsOrErrors(functionOut,
-							false);
+			GeoElementND[] res = kernel
+					.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionsOrErrors(functionOut, false);
 			cons.setSuppressLabelCreation(flag);
 			if (res != null && res.length > 0) {
 				if (g == null) {
@@ -184,9 +182,13 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private ArbitraryConstantRegistry getSilentArbConst() {
 		return new ArbitraryConstantRegistry(this) {
 			@Override
-			protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
-					Map<Integer, GeoNumeric> map, String prefix,
-					double index, double initialValue, double increment) {
+			protected GeoNumeric nextConst(
+					ArrayList<GeoNumeric> consts2,
+					Map<Integer, GeoNumeric> map,
+					String prefix,
+					double index,
+					double initialValue,
+					double increment) {
 				return new GeoNumeric(cons, 0.0);
 			}
 		};

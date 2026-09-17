@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -57,8 +57,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class DataPanelD extends JPanel
-		implements ActionListener, StatPanelInterface {
+public class DataPanelD extends JPanel implements ActionListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
 	private final AppD app;
@@ -120,13 +119,11 @@ public class DataPanelD extends JPanel
 		// set table and column renderers
 		dataTable.setDefaultRenderer(Object.class, new DataPanelCellRenderer());
 		ColumnHeaderRenderer columnHeader = new ColumnHeaderRenderer();
-		columnHeader.setPreferredSize(new Dimension(preferredColumnWidth,
-				SpreadsheetSettings.TABLE_CELL_HEIGHT));
+		columnHeader.setPreferredSize(
+				new Dimension(preferredColumnWidth, SpreadsheetSettings.TABLE_CELL_HEIGHT));
 		for (int i = 0; i < dataTable.getColumnCount(); ++i) {
-			dataTable.getColumnModel().getColumn(i)
-					.setHeaderRenderer(columnHeader);
-			dataTable.getColumnModel().getColumn(i)
-					.setPreferredWidth(preferredColumnWidth);
+			dataTable.getColumnModel().getColumn(i).setHeaderRenderer(columnHeader);
+			dataTable.getColumnModel().getColumn(i).setPreferredWidth(preferredColumnWidth);
 		}
 
 		// disable row selection (for now)
@@ -134,8 +131,7 @@ public class DataPanelD extends JPanel
 		dataTable.setRowSelectionAllowed(false);
 
 		// dataTable.setAutoResizeMode(JTable.);
-		dataTable.setPreferredScrollableViewportSize(
-				dataTable.getPreferredSize());
+		dataTable.setPreferredScrollableViewportSize(dataTable.getPreferredSize());
 		dataTable.setMinimumSize(new Dimension(100, 50));
 		// dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		dataTable.setAutoCreateColumnsFromModel(false);
@@ -154,8 +150,8 @@ public class DataPanelD extends JPanel
 		btnEnableAll = new JCheckBox();
 		btnEnableAll.setEnabled(false);
 		btnEnableAll.setBorderPainted(false);
-		btnEnableAll.setBackground(GColorD.getAwtColor(
-				GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+		btnEnableAll.setBackground(
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		btnEnableAll.setContentAreaFilled(false);
 		btnEnableAll.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEnableAll.addActionListener(this);
@@ -169,18 +165,14 @@ public class DataPanelD extends JPanel
 				BorderFactory.createEmptyBorder(0, 5, 0, 2)));
 
 		// set the other corners
-		scrollPane.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER,
-				upperLeftCorner);
-		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER,
-				new Corner());
-		scrollPane.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER,
-				new Corner());
+		scrollPane.setCorner(ScrollPaneConstants.UPPER_LEFT_CORNER, upperLeftCorner);
+		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, new Corner());
+		scrollPane.setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, new Corner());
 
 		lblHeader = new JLabel();
 		lblHeader.setHorizontalAlignment(SwingConstants.LEFT);
 		lblHeader.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createEtchedBorder(),
-				BorderFactory.createEmptyBorder(2, 5, 2, 2)));
+				BorderFactory.createEtchedBorder(), BorderFactory.createEmptyBorder(2, 5, 2, 2)));
 
 		// finally, load up our JPanel
 		this.setLayout(new BorderLayout());
@@ -188,7 +180,6 @@ public class DataPanelD extends JPanel
 		this.add(scrollPane, BorderLayout.CENTER);
 		this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		this.setMinimumSize(dataTable.getPreferredSize());
-
 	}
 
 	@Override
@@ -227,74 +218,68 @@ public class DataPanelD extends JPanel
 		String[] titles = daView.getDataTitles();
 
 		switch (daView.getModel().getMode()) {
-
-		default:
-		case DataAnalysisModel.MODE_ONEVAR:
-
-			dataModel = new DefaultTableModel(dataArray.size(), 1);
-			for (int row = 0; row < dataArray.size(); ++row) {
-				dataModel
-						.setValueAt(
-								dataArray.get(row).toDefinedValueString(
-										StringTemplate.defaultTemplate),
-								row, 0);
-			}
-
-			dataTable.setModel(dataModel);
-			dataTable.getColumnModel().getColumn(0).setHeaderValue(titles[0]);
-
-			updateSelectionList(dataArray);
-
-			break;
-
-		case DataAnalysisModel.MODE_REGRESSION:
-
-			// a data source may be a list of points with a single title
-			// so we must create a title for the y column
-			String titleX = titles[0];
-			String titleY = titles.length == 1 ? titleX : titles[1];
-
-			dataModel = new DefaultTableModel(dataArray.size(), 2);
-			for (int row = 0; row < dataArray.size(); ++row) {
-				dataModel.setValueAt(
-						((GeoPoint) dataArray.get(row)).getInhomX(), row, 0);
-				dataModel.setValueAt(
-						((GeoPoint) dataArray.get(row)).getInhomY(), row, 1);
-			}
-
-			dataTable.setModel(dataModel);
-
-			// handle x,y titles
-			if (daView.getDataSource().isPointData()) {
-
-				dataTable.getColumnModel().getColumn(0)
-						.setHeaderValue(loc.getMenu("Column.X"));
-
-				// quick fix for GGB-1392
-				if (dataTable.getColumnModel().getColumnCount() > 1) {
-					dataTable.getColumnModel().getColumn(1)
-							.setHeaderValue(loc.getMenu("Column.Y"));
-				} else {
-					Log.error("problem setting title for 2nd column");
+			default:
+			case DataAnalysisModel.MODE_ONEVAR:
+				dataModel = new DefaultTableModel(dataArray.size(), 1);
+				for (int row = 0; row < dataArray.size(); ++row) {
+					dataModel.setValueAt(
+							dataArray.get(row).toDefinedValueString(StringTemplate.defaultTemplate), row, 0);
 				}
-			} else {
-				dataTable.getColumnModel().getColumn(0).setHeaderValue(
-						loc.getMenu("Column.X") + ": " + titleX);
 
-				// quick fix for GGB-1392
-				if (dataTable.getColumnModel().getColumnCount() > 1) {
-					dataTable.getColumnModel().getColumn(1).setHeaderValue(
-							loc.getMenu("Column.Y") + ": " + titleY);
-				} else {
-					Log.error("problem setting title for 2nd column");
+				dataTable.setModel(dataModel);
+				dataTable.getColumnModel().getColumn(0).setHeaderValue(titles[0]);
+
+				updateSelectionList(dataArray);
+
+				break;
+
+			case DataAnalysisModel.MODE_REGRESSION:
+
+				// a data source may be a list of points with a single title
+				// so we must create a title for the y column
+				String titleX = titles[0];
+				String titleY = titles.length == 1 ? titleX : titles[1];
+
+				dataModel = new DefaultTableModel(dataArray.size(), 2);
+				for (int row = 0; row < dataArray.size(); ++row) {
+					dataModel.setValueAt(((GeoPoint) dataArray.get(row)).getInhomX(), row, 0);
+					dataModel.setValueAt(((GeoPoint) dataArray.get(row)).getInhomY(), row, 1);
 				}
-			}
 
-			updateSelectionList(dataArray);
+				dataTable.setModel(dataModel);
 
-			break;
+				// handle x,y titles
+				if (daView.getDataSource().isPointData()) {
+
+					dataTable.getColumnModel().getColumn(0).setHeaderValue(loc.getMenu("Column.X"));
+
+					// quick fix for GGB-1392
+					if (dataTable.getColumnModel().getColumnCount() > 1) {
+						dataTable.getColumnModel().getColumn(1).setHeaderValue(loc.getMenu("Column.Y"));
+					} else {
+						Log.error("problem setting title for 2nd column");
+					}
+				} else {
+					dataTable
+							.getColumnModel()
+							.getColumn(0)
+							.setHeaderValue(loc.getMenu("Column.X") + ": " + titleX);
+
+					// quick fix for GGB-1392
+					if (dataTable.getColumnModel().getColumnCount() > 1) {
+						dataTable
+								.getColumnModel()
+								.getColumn(1)
+								.setHeaderValue(loc.getMenu("Column.Y") + ": " + titleY);
+					} else {
+						Log.error("problem setting title for 2nd column");
+					}
+				}
+
+				updateSelectionList(dataArray);
+
+				break;
 		}
-
 	}
 
 	/**
@@ -335,8 +320,7 @@ public class DataPanelD extends JPanel
 	public void setFont(Font font) {
 		super.setFont(font);
 
-		if (dataTable != null && dataTable.getRowCount() > 0
-				&& dataTable.getColumnCount() > 0) {
+		if (dataTable != null && dataTable.getRowCount() > 0 && dataTable.getColumnCount() > 0) {
 
 			// set the font for each component
 			dataTable.setFont(font);
@@ -353,8 +337,7 @@ public class DataPanelD extends JPanel
 				size = 12; // minimum size
 			}
 			double multiplier = size / 12.0;
-			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH
-					* multiplier);
+			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier);
 
 			// columnHeader.setPreferredSize(new Dimension(preferredColumnWidth,
 			// (int)(MyTable.TABLE_CELL_HEIGHT * multiplier)));
@@ -363,15 +346,17 @@ public class DataPanelD extends JPanel
 		}
 
 		if (dataTable != null) {
-			dataTable.setPreferredScrollableViewportSize(
-					dataTable.getPreferredSize());
+			dataTable.setPreferredScrollableViewportSize(dataTable.getPreferredSize());
 		}
 	}
 
 	private void setRowHeight() {
 		// get row height needed to draw an "X" character
-		int h = dataTable.getCellRenderer(0, 0).getTableCellRendererComponent(
-				dataTable, "X", false, false, 0, 0).getPreferredSize().height;
+		int h = dataTable
+				.getCellRenderer(0, 0)
+				.getTableCellRendererComponent(dataTable, "X", false, false, 0, 0)
+				.getPreferredSize()
+				.height;
 
 		// use this height to set the table and row header heights
 		dataTable.setRowHeight(h);
@@ -394,29 +379,30 @@ public class DataPanelD extends JPanel
 	// Column Header Renderer
 	// =================================================
 
-	private final class ColumnHeaderRenderer extends JLabel
-			implements TableCellRenderer {
+	private final class ColumnHeaderRenderer extends JLabel implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		private ColumnHeaderRenderer() {
 			super("", SwingConstants.CENTER);
 			setOpaque(true);
 			setBackground(TABLE_HEADER_COLOR);
-			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-					TABLE_GRID_COLOR));
+			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, TABLE_GRID_COLOR));
 			setFont(app.getPlainFont());
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus,
-				int rowIndex, int colIndex) {
+		public Component getTableCellRendererComponent(
+				JTable table,
+				Object value,
+				boolean isSelected,
+				boolean hasFocus,
+				int rowIndex,
+				int colIndex) {
 			setFont(app.getPlainFont());
 			setText(value.toString());
 
 			return this;
 		}
-
 	}
 
 	// ======================================================
@@ -431,9 +417,8 @@ public class DataPanelD extends JPanel
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(
+				JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			if (value == null) {
 				setText("");
 				return this;
@@ -454,7 +439,6 @@ public class DataPanelD extends JPanel
 			setText(text);
 			return this;
 		}
-
 	}
 
 	// ======================================================
@@ -476,7 +460,6 @@ public class DataPanelD extends JPanel
 			setCellRenderer(new RowHeaderRenderer(table));
 			setSelectionModel(table.getSelectionModel());
 			this.addMouseListener(this);
-
 		}
 
 		class RowHeaderRenderer extends JLabel implements ListCellRenderer {
@@ -489,23 +472,19 @@ public class DataPanelD extends JPanel
 				setOpaque(false);
 				setHorizontalAlignment(LEFT);
 				setFont(table.getFont());
-				jCheckBox.setBorder(
-						BorderFactory.createMatteBorder(0, 0, 1, 0,
-								GColorD.getAwtColor(
-										GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				jCheckBox.setBorder(BorderFactory.createMatteBorder(
+						0, 0, 1, 0, GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 				panel.setBorder(BorderFactory.createCompoundBorder(
-						BorderFactory.createMatteBorder(0, 0, 1, 1,
-								GColorD.getAwtColor(
-										GeoGebraColorConstants.TABLE_GRID_COLOR)),
+						BorderFactory.createMatteBorder(
+								0, 0, 1, 1, GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
 						BorderFactory.createEmptyBorder(0, 0, 1, 0)));
 				panel.add(jCheckBox);
 				panel.add(this);
 			}
 
 			@Override
-			public Component getListCellRendererComponent(JList list,
-					Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
+			public Component getListCellRendererComponent(
+					JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 				setText("" + (index + 1));
 				if (!(Boolean) value) {
 					panel.setBackground(DISABLED_BACKGROUND_COLOR);
@@ -538,15 +517,14 @@ public class DataPanelD extends JPanel
 			int index = this.locationToIndex(e.getPoint());
 			Rectangle rect = getCellBounds(index, index);
 			boolean iconClicked = rect != null && e.getX() - rect.x < 16; // distance
-																			// from
-																			// left
-																			// border
+			// from
+			// left
+			// border
 			if (iconClicked) {
 				// icon clicked: toggle enable/disable data
-				selectionList[this.getSelectedIndex()] = !selectionList[this
-						.getSelectedIndex()];
-				statController.updateSelectedDataList(this.getSelectedIndex(),
-						selectionList[this.getSelectedIndex()]);
+				selectionList[this.getSelectedIndex()] = !selectionList[this.getSelectedIndex()];
+				statController.updateSelectedDataList(
+						this.getSelectedIndex(), selectionList[this.getSelectedIndex()]);
 				btnEnableAll.setEnabled(!isAllEnabled());
 
 				table.repaint();
@@ -581,7 +559,5 @@ public class DataPanelD extends JPanel
 			}
 			return true;
 		}
-
 	}
-
 }

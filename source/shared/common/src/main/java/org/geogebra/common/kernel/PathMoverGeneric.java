@@ -70,7 +70,7 @@ public class PathMoverGeneric implements PathMover {
 
 	/**
 	 * Creates new path mover for given path
-	 * 
+	 *
 	 * @param path
 	 *            path
 	 */
@@ -81,9 +81,7 @@ public class PathMoverGeneric implements PathMover {
 	/**
 	 * Creates new path mover
 	 */
-	public PathMoverGeneric() {
-
-	}
+	public PathMoverGeneric() {}
 
 	@Override
 	public void init(GeoPointND p, int min_steps) {
@@ -157,7 +155,8 @@ public class PathMoverGeneric implements PathMover {
 
 		max_step_width = param_extent / MIN_STEPS_INSTANCE;
 
-		if (max_step_width < MIN_STEP_WIDTH || Double.isNaN(max_step_width)
+		if (max_step_width < MIN_STEP_WIDTH
+				|| Double.isNaN(max_step_width)
 				|| Double.isInfinite(max_step_width)) {
 			// case should not happen, by the way
 			max_step_width = MIN_STEP_WIDTH;
@@ -244,28 +243,28 @@ public class PathMoverGeneric implements PathMover {
 
 	/**
 	 * Updates path parameter of point p from curr_param
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 */
 	protected void calcPoint(GeoPointND p) {
 		double param;
 		switch (mode) {
-		case BOUNDS_FIXED:
-			param = curr_param;
-			break;
+			case BOUNDS_FIXED:
+				param = curr_param;
+				break;
 
-		case BOUNDS_INFINITE:
-			param = PathNormalizer.infFunction(curr_param);
-			break;
+			case BOUNDS_INFINITE:
+				param = PathNormalizer.infFunction(curr_param);
+				break;
 
-		case BOUNDS_FIXED_INFINITE:
-		case BOUNDS_INFINITE_FIXED:
-			param = offset + PathNormalizer.infFunction(curr_param);
-			break;
+			case BOUNDS_FIXED_INFINITE:
+			case BOUNDS_INFINITE_FIXED:
+				param = offset + PathNormalizer.infFunction(curr_param);
+				break;
 
-		default:
-			param = Double.NaN;
+			default:
+				param = Double.NaN;
 		}
 
 		PathParameter pp = p.getPathParameter();
@@ -283,12 +282,10 @@ public class PathMoverGeneric implements PathMover {
 		double next_param = curr_param + step_width;
 		if (posOrientation) {
 			hasNext = !(curr_param < start_param && next_param >= start_param
-					|| curr_param < start_paramUP
-							&& next_param >= start_paramUP);
+					|| curr_param < start_paramUP && next_param >= start_paramUP);
 		} else {
 			hasNext = !(curr_param > start_param && next_param <= start_param
-					|| curr_param > start_paramDOWN
-							&& next_param <= start_paramDOWN);
+					|| curr_param > start_paramDOWN && next_param <= start_paramDOWN);
 		}
 
 		return hasNext;
@@ -311,22 +308,22 @@ public class PathMoverGeneric implements PathMover {
 	}
 
 	@Override
-	final public boolean smallerStep() {
+	public final boolean smallerStep() {
 		return changeStep(step_width * STEP_DECREASE_FACTOR);
 	}
 
 	@Override
-	final public boolean biggerStep() {
+	public final boolean biggerStep() {
 		return changeStep(step_width * STEP_INCREASE_FACTOR);
 	}
 
 	@Override
-	final public boolean setStep(double step) {
+	public final boolean setStep(double step) {
 		return changeStep(step);
 	}
 
 	@Override
-	final public double getStep() {
+	public final double getStep() {
 		return step_width;
 	}
 
@@ -348,8 +345,7 @@ public class PathMoverGeneric implements PathMover {
 				return true;
 			}
 
-			if (step_width == NEG_MIN_STEP_WIDTH
-					|| step_width == MIN_STEP_WIDTH) {
+			if (step_width == NEG_MIN_STEP_WIDTH || step_width == MIN_STEP_WIDTH) {
 				return false;
 			}
 			if (step_width >= 0.0d) {
@@ -383,5 +379,4 @@ public class PathMoverGeneric implements PathMover {
 		maxBorderSet = lastMaxBorderSet;
 		minBorderSet = lastMinBorderSet;
 	}
-
 }

@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.kernelND;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,16 +62,12 @@ class GeoSurfaceCartesian3DTest extends BaseUnitTest {
 		add("s=Surface(cos(v)*c(t)+(0,0,sin(v)),t,0,1,v,0,pi/2)");
 		add("s1=Surface(2 * s(t,v),t,0,1,v,0,pi/2)");
 		update3DView();
-		assertEquals("(1, 0, 0)",
-				add("A=s(0,0)").toValueString(StringTemplate.editTemplate));
-		assertEquals("(0, 1, 0)",
-				add("B=s(1,0)").toValueString(StringTemplate.editTemplate));
+		assertEquals("(1, 0, 0)", add("A=s(0,0)").toValueString(StringTemplate.editTemplate));
+		assertEquals("(0, 1, 0)", add("B=s(1,0)").toValueString(StringTemplate.editTemplate));
 		reload();
 		update3DView();
-		assertEquals("(1, 0, 0)",
-				lookup("A").toValueString(StringTemplate.editTemplate));
-		assertEquals("(0, 1, 0)",
-				lookup("B").toValueString(StringTemplate.editTemplate));
+		assertEquals("(1, 0, 0)", lookup("A").toValueString(StringTemplate.editTemplate));
+		assertEquals("(0, 1, 0)", lookup("B").toValueString(StringTemplate.editTemplate));
 	}
 
 	private void update3DView() {

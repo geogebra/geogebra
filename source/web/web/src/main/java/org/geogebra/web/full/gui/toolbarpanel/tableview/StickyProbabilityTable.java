@@ -41,6 +41,7 @@ public final class StickyProbabilityTable extends StickyTable<Row> {
 	// whenever the side sheet is closed and reopened.
 	@SuppressFBWarnings("URF_UNREAD_FIELD")
 	private @Nullable Subscription contentSubscription;
+
 	private ProbabilityCalculatorTableValues values;
 
 	/**
@@ -48,17 +49,19 @@ public final class StickyProbabilityTable extends StickyTable<Row> {
 	 */
 	public StickyProbabilityTable() {
 		getTable().addStyleName("fullWidth");
-		getTable().setRowStyles(
-				(row, rowIndex) -> row.highlighted() ? "highlighted" : "");
+		getTable().setRowStyles((row, rowIndex) -> row.highlighted() ? "highlighted" : "");
 	}
 
 	private void addColumn(final Function<Row, String> projection) {
-		getTable().addColumn(new Column<>(new SafeHtmlCell()) {
-			@Override
-			public SafeHtml getValue(Row row) {
-				return new TableCell(projection.apply(row), false).getHTML();
-			}
-		}, getHeaderHTML(projection));
+		getTable()
+				.addColumn(
+						new Column<>(new SafeHtmlCell()) {
+							@Override
+							public SafeHtml getValue(Row row) {
+								return new TableCell(projection.apply(row), false).getHTML();
+							}
+						},
+						getHeaderHTML(projection));
 	}
 
 	private SafeHtml getHeaderHTML(Function<Row, String> projection) {

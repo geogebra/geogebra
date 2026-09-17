@@ -51,8 +51,10 @@ public final class GridCardPanel extends FlowPanel {
 	}
 
 	private GridCard buildCard(BackgroundType type, BackgroundType selectedBackgroundType) {
-		GridCard gridCard = new GridCard(appW, GridDataProvider.getResourceForBackgroundType(
-				type), GridDataProvider.getTransKeyForRulingType(type));
+		GridCard gridCard = new GridCard(
+				appW,
+				GridDataProvider.getResourceForBackgroundType(type),
+				GridDataProvider.getTransKeyForRulingType(type));
 		if (type == selectedBackgroundType) {
 			gridCard.setSelected(true);
 		}
@@ -62,11 +64,13 @@ public final class GridCardPanel extends FlowPanel {
 	}
 
 	private void addClickHandler(GridCard gridCard, BackgroundType type) {
-		gridCard.addDomHandler(event -> {
-			deselectAll();
-			gridCard.setSelected(true);
-			listener.itemSelected(BackgroundType.rulingOptions.indexOf(type));
-		}, ClickEvent.getType());
+		gridCard.addDomHandler(
+				event -> {
+					deselectAll();
+					gridCard.setSelected(true);
+					listener.itemSelected(BackgroundType.rulingOptions.indexOf(type));
+				},
+				ClickEvent.getType());
 	}
 
 	/**

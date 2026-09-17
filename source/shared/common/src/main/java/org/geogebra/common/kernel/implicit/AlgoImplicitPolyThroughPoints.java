@@ -37,8 +37,7 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement {
 	 * @param p
 	 *            points on polynomial
 	 */
-	public AlgoImplicitPolyThroughPoints(Construction cons, String label,
-			GeoList p) {
+	public AlgoImplicitPolyThroughPoints(Construction cons, String label, GeoList p) {
 		super(cons);
 		this.P = p;
 
@@ -80,5 +79,4 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.ImplicitCurve;
 	}
-
 }

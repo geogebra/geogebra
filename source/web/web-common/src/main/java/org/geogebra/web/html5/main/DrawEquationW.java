@@ -55,13 +55,22 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	public GDimension drawEquation(App app1, GeoElementND geo,
-			final GGraphics2D g2, int x, int y, String eqstring, GFont font,
-			boolean serif, final GColor fgColor, GColor bgColor,
-			boolean useCache, boolean updateAgain, final Runnable callback) {
+	public GDimension drawEquation(
+			App app1,
+			GeoElementND geo,
+			final GGraphics2D g2,
+			int x,
+			int y,
+			String eqstring,
+			GFont font,
+			boolean serif,
+			final GColor fgColor,
+			GColor bgColor,
+			boolean useCache,
+			boolean updateAgain,
+			final Runnable callback) {
 
-		TeXIcon icon = createIcon(eqstring, fgColor, font,
-				getLaTeXStyle(font, serif), null, null);
+		TeXIcon icon = createIcon(eqstring, fgColor, font, getLaTeXStyle(font, serif), null, null);
 
 		Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
 		g3.setDrawingFinishedCallback(async -> {
@@ -95,12 +104,10 @@ public class DrawEquationW extends DrawEquation {
 	 *            font size
 	 * @return canvas
 	 */
-	public static Canvas paintOnCanvas(GeoElementND geo, String text0,
-			Canvas c0, double fontSize) {
+	public static Canvas paintOnCanvas(GeoElementND geo, String text0, Canvas c0, double fontSize) {
 		Canvas c = makeCleanCanvas(c0);
 		if (geo != null) {
-			DrawEquationW current =
-					(DrawEquationW) geo.getKernel().getApplication().getDrawEquation();
+			DrawEquationW current = (DrawEquationW) geo.getKernel().getApplication().getDrawEquation();
 			current.paintOnCleanCanvas(text0, c, fontSize, GColor.BLACK, needsSerif(geo));
 		}
 		return c;
@@ -117,8 +124,8 @@ public class DrawEquationW extends DrawEquation {
 	 *            font size
 	 * @return canvas
 	 */
-	public static Canvas paintOnCanvasOutput(GeoElementND geo, String text0,
-			Canvas c0, double fontSize) {
+	public static Canvas paintOnCanvasOutput(
+			GeoElementND geo, String text0, Canvas c0, double fontSize) {
 		final GColor fgColor = geo.getAlgebraColor();
 		Canvas c = makeCleanCanvas(c0);
 		DrawEquationW current = (DrawEquationW) geo.getKernel().getApplication().getDrawEquation();
@@ -147,8 +154,7 @@ public class DrawEquationW extends DrawEquation {
 		if (c == null) {
 			c = Canvas.createIfSupported();
 		} else {
-			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
-					c.getCoordinateSpaceHeight());
+			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(), c.getCoordinateSpaceHeight());
 		}
 		return c;
 	}
@@ -166,14 +172,12 @@ public class DrawEquationW extends DrawEquation {
 	 *            whether to use serif font
 	 * @return graphics
 	 */
-	public Graphics2DW paintOnCleanCanvas(String text0, @NonNull Canvas c,
-			double fontSize, final GColor fgColor, boolean serif) {
+	public Graphics2DW paintOnCleanCanvas(
+			String text0, @NonNull Canvas c, double fontSize, final GColor fgColor, boolean serif) {
 		JLMContext2D ctx = JLMContextHelper.as(c.getContext2d());
 
 		checkFirstCall();
-		TeXIcon icon = createIcon(text0,
-				fgColor, fontSize,
-				serif ? 0 : TeXFont.SANSSERIF);
+		TeXIcon icon = createIcon(text0, fgColor, fontSize, serif ? 0 : TeXFont.SANSSERIF);
 		Graphics2DW g3 = new Graphics2DW(ctx);
 
 		double ratio = pixelRatio.get() * printScale;
@@ -195,10 +199,8 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	public GDimension measureEquation(App app, String text,
-			GFont font, boolean serif) {
-		return this.measureEquationJLaTeXMath(app, text, font, serif, null,
-				null);
+	public GDimension measureEquation(App app, String text, GFont font, boolean serif) {
+		return this.measureEquationJLaTeXMath(app, text, font, serif, null, null);
 	}
 
 	@Override
@@ -208,8 +210,8 @@ public class DrawEquationW extends DrawEquation {
 	}
 
 	@Override
-	public Image getCachedDimensions(String text, GeoElementND geo,
-			GColor fgColor, GFont font, int style, int[] ret) {
+	public Image getCachedDimensions(
+			String text, GeoElementND geo, GColor fgColor, GFont font, int style, int[] ret) {
 		// TODO JLaTeXMathCache uses
 		// import java.lang.ref.Reference;
 		// import java.lang.ref.ReferenceQueue;

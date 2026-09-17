@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -90,9 +90,9 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 		tabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach(tabularData);
-		spreadsheet = new Spreadsheet<>(tabularData,
-				new GeoElementCellRendererFactory(graphics -> null,
-						getApp()::getFontSizeDouble),
+		spreadsheet = new Spreadsheet<>(
+				tabularData,
+				new GeoElementCellRendererFactory(graphics -> null, getApp()::getFontSizeDouble),
 				null,
 				undoProvider);
 		spreadsheet.setViewportAdjustmentHandler(new DummyViewportAdjuster());
@@ -109,10 +109,8 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		SpreadsheetSettings spreadsheetSettings = getApp().getSettings().getSpreadsheet();
 		spreadsheetSettings.setColumnsNoFire(3);
 		spreadsheetSettings.getColumnWidths().put(1, 500.0);
-		Spreadsheet<?> spreadsheet = new Spreadsheet<>(tabularData,
-				new TestCellRenderableFactory(),
-				null,
-				null);
+		Spreadsheet<?> spreadsheet =
+				new Spreadsheet<>(tabularData, new TestCellRenderableFactory(), null, null);
 		new SpreadsheetSettingsAdapter<>(spreadsheet, getApp()).registerListeners();
 		Assertions.assertEquals(500 + 2 * 120 + 52, spreadsheet.getTotalWidth());
 	}
@@ -126,10 +124,8 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		spreadsheetSettings.setShowRowHeader(false);
 		spreadsheetSettings.setShowColumnHeader(false);
 		spreadsheetSettings.setShowGrid(false);
-		Spreadsheet<?> spreadsheet = new Spreadsheet<>(tabularData,
-				new TestCellRenderableFactory(),
-				null,
-				null);
+		Spreadsheet<?> spreadsheet =
+				new Spreadsheet<>(tabularData, new TestCellRenderableFactory(), null, null);
 		new SpreadsheetSettingsAdapter<>(spreadsheet, getApp()).registerListeners();
 		Assertions.assertEquals(3 * 120, spreadsheet.getTotalWidth());
 		Assertions.assertEquals(3 * 36, spreadsheet.getTotalHeight());
@@ -137,8 +133,7 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		spreadsheet.draw(graphics);
 		assertEquals("", graphics.toString());
 		verify(graphics, never()).draw(any());
-		verify(graphics, never()).drawStraightLine(
-				anyDouble(), anyDouble(), anyDouble(), anyDouble());
+		verify(graphics, never()).drawStraightLine(anyDouble(), anyDouble(), anyDouble(), anyDouble());
 	}
 
 	@Test
@@ -147,10 +142,12 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		tabularData.setContent(0, 0, new GeoText(construction, "GeoText"));
 		tabularData.setContent(1, 0, new GeoNumeric(construction, 123));
 		spreadsheet.getController().select(new TabularRange(0, 0), false, false);
-		assertEquals(SpreadsheetStyling.TextAlignment.LEFT,
+		assertEquals(
+				SpreadsheetStyling.TextAlignment.LEFT,
 				spreadsheet.getStyleBarModel().getState().textAlignment);
 		spreadsheet.getController().select(new TabularRange(2, 0), false, false);
-		assertEquals(SpreadsheetStyling.TextAlignment.RIGHT,
+		assertEquals(
+				SpreadsheetStyling.TextAlignment.RIGHT,
 				spreadsheet.getStyleBarModel().getState().textAlignment);
 	}
 
@@ -167,8 +164,8 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 
 		// apply styling
 		styleBarModel.setItalic(true);
-		assertTrue(spreadsheet.getStyling().getFontTraits(0, 0)
-				.contains(SpreadsheetStyling.FontTrait.ITALIC));
+		assertTrue(
+				spreadsheet.getStyling().getFontTraits(0, 0).contains(SpreadsheetStyling.FontTrait.ITALIC));
 		String xmlAfterStyling = construction.getCurrentUndoXML(false).toString();
 		assertNotEquals(xmlBeforeStyling, xmlAfterStyling);
 		assertEquals("0,0,f,2", spreadsheet.getStyling().getCellFormatXml());
@@ -177,21 +174,20 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		undoManager.undo();
 		String xmlAfterUndo = construction.getCurrentUndoXML(false).toString();
 		assertEquals(xmlBeforeStyling, xmlAfterUndo);
-		assertFalse(spreadsheet.getStyling().getFontTraits(0, 0)
-				.contains(SpreadsheetStyling.FontTrait.ITALIC));
+		assertFalse(
+				spreadsheet.getStyling().getFontTraits(0, 0).contains(SpreadsheetStyling.FontTrait.ITALIC));
 		assertNull(spreadsheet.getStyling().getCellFormatXml());
 
 		// redo the styling change
 		undoManager.redo();
 		String xmlAfterRedo = construction.getCurrentUndoXML(false).toString();
 		assertEquals(xmlAfterStyling, xmlAfterRedo);
-		assertTrue(spreadsheet.getStyling().getFontTraits(0, 0)
-				.contains(SpreadsheetStyling.FontTrait.ITALIC));
+		assertTrue(
+				spreadsheet.getStyling().getFontTraits(0, 0).contains(SpreadsheetStyling.FontTrait.ITALIC));
 		assertEquals("0,0,f,2", spreadsheet.getStyling().getCellFormatXml());
 
 		simulateCellMouseClick(spreadsheet.getController(), 0, 0, 1);
-		assertTrue(styleBarModel.getState().fontTraits
-				.contains(SpreadsheetStyling.FontTrait.ITALIC));
+		assertTrue(styleBarModel.getState().fontTraits.contains(SpreadsheetStyling.FontTrait.ITALIC));
 	}
 
 	@Test
@@ -243,12 +239,11 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 	@Test
 	@Issue("APPS-6925")
 	void testClearAllClearsStyles() {
-		spreadsheet.getStyling().setBackgroundColor(GColor.BLUE,
-				Collections.singletonList(new TabularRange(0, 0)));
-		getApp().clearConstruction();
-		GColor background = spreadsheet
+		spreadsheet
 				.getStyling()
-				.getBackgroundColor(0, 0, null);
+				.setBackgroundColor(GColor.BLUE, Collections.singletonList(new TabularRange(0, 0)));
+		getApp().clearConstruction();
+		GColor background = spreadsheet.getStyling().getBackgroundColor(0, 0, null);
 		assertNotEquals(GColor.BLUE, background);
 	}
 
@@ -273,14 +268,22 @@ final class SpreadsheetIntegrationTest extends BaseAppTestSetup {
 		Set<GColor> colors = new HashSet<>();
 		GGraphicsCommon graphics = getColorCollectingGraphics(colors);
 		spreadsheet.draw(graphics);
-		assertEquals(Set.of(GeoGebraColorConstants.NEUTRAL_900,
-				GeoGebraColorConstants.NEUTRAL_200, GeoGebraColorConstants.NEUTRAL_300), colors);
+		assertEquals(
+				Set.of(
+						GeoGebraColorConstants.NEUTRAL_900,
+						GeoGebraColorConstants.NEUTRAL_200,
+						GeoGebraColorConstants.NEUTRAL_300),
+				colors);
 		evaluate("SetValue(A1,1)");
 		colors.clear();
 		spreadsheet.draw(graphics);
-		assertEquals(Set.of(GeoGebraColorConstants.NEUTRAL_900,
-				GeoGebraColorConstants.NEUTRAL_200, GeoGebraColorConstants.NEUTRAL_300,
-				GColor.RED), colors);
+		assertEquals(
+				Set.of(
+						GeoGebraColorConstants.NEUTRAL_900,
+						GeoGebraColorConstants.NEUTRAL_200,
+						GeoGebraColorConstants.NEUTRAL_300,
+						GColor.RED),
+				colors);
 	}
 
 	@Test

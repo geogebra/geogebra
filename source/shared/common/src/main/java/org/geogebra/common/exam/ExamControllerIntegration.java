@@ -73,7 +73,8 @@ public final class ExamControllerIntegration {
 	 * {@code Restrictable}s will be unregistered from the {@link RestrictionsController}, before
 	 * the new set of {@code Restrictable}s will be registered with the {@link RestrictionsController}.
 	 */
-	public void activate(@NonNull App app,
+	public void activate(
+			@NonNull App app,
 			@NonNull Localization localization,
 			@Nullable AutocompleteProvider autocompleteProvider,
 			@NonNull GeoElementPropertiesFactory geoElementPropertiesFactory,
@@ -82,22 +83,20 @@ public final class ExamControllerIntegration {
 			restrictionsController.unregisterRestrictable(restrictable);
 		}
 		restrictables.clear();
-		examController.setActiveContext(
-				new ContextDependencies(
-						app.getKernel().getAlgoDispatcher(),
-						app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
-						app.getKernel().getAlgebraProcessor(),
-						app.appScope.propertiesRegistry,
-						localization,
-						app.getSettings(),
-						app.getKernel().getStatisticGroupsBuilder(),
-						autocompleteProvider,
-						app,
-						app.getKernel().getInputPreviewHelper(),
-						app.getKernel().getConstruction(),
-						geoElementPropertiesFactory,
-						app)
-		);
+		examController.setActiveContext(new ContextDependencies(
+				app.getKernel().getAlgoDispatcher(),
+				app.getKernel().getAlgebraProcessor().getCommandDispatcher(),
+				app.getKernel().getAlgebraProcessor(),
+				app.appScope.propertiesRegistry,
+				localization,
+				app.getSettings(),
+				app.getKernel().getStatisticGroupsBuilder(),
+				autocompleteProvider,
+				app,
+				app.getKernel().getInputPreviewHelper(),
+				app.getKernel().getConstruction(),
+				geoElementPropertiesFactory,
+				app));
 		restrictables.addAll(newRestrictables);
 		for (Restrictable restrictable : restrictables) {
 			restrictionsController.registerRestrictable(restrictable);

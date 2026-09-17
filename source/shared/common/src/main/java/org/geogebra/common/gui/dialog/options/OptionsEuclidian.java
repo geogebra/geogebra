@@ -21,10 +21,10 @@ import org.geogebra.common.annotation.MissingDoc;
 public abstract class OptionsEuclidian {
 
 	@MissingDoc
-	abstract public void updateGUI();
+	public abstract void updateGUI();
 
 	/**
 	 * updates x/y min/max/scale
 	 */
-	abstract public void updateBounds();
+	public abstract void updateBounds();
 }

@@ -87,24 +87,26 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		App app = getApp();
-		PropertiesArray graphicsProperties = app.getConfig().createPropertiesFactory()
+		PropertiesArray graphicsProperties = app.getConfig()
+				.createPropertiesFactory()
 				.createProperties(app, getLocalization(), app.appScope.propertiesRegistry)
 				.get(2);
 		PropertyView.ExpandableList gridPropertyView = (PropertyView.ExpandableList)
 				PropertyViewFactory.propertyViewListOf(graphicsProperties).get(1);
-		PropertyView.SingleSelectionIconRow gridTypeSelector = (PropertyView.SingleSelectionIconRow)
-				gridPropertyView.getItems().get(0);
-		PropertyView.SingleSelectionIconRow
-				lineStyleSelector = (PropertyView.SingleSelectionIconRow)
-				gridPropertyView.getItems().get(2);
+		PropertyView.SingleSelectionIconRow gridTypeSelector =
+				(PropertyView.SingleSelectionIconRow) gridPropertyView.getItems().get(0);
+		PropertyView.SingleSelectionIconRow lineStyleSelector =
+				(PropertyView.SingleSelectionIconRow) gridPropertyView.getItems().get(2);
 
-		assertNotEquals(PropertyResource.ICON_DOTS,
+		assertNotEquals(
+				PropertyResource.ICON_DOTS,
 				gridTypeSelector.getIcons().get(gridTypeSelector.getSelectedIconIndex()));
 		assertTrue(lineStyleSelector.isVisible());
 
 		gridTypeSelector.setSelectedIconIndex(4);
 
-		assertEquals(PropertyResource.ICON_DOTS,
+		assertEquals(
+				PropertyResource.ICON_DOTS,
 				gridTypeSelector.getIcons().get(gridTypeSelector.getSelectedIconIndex()));
 		assertFalse(lineStyleSelector.isVisible());
 	}
@@ -114,12 +116,13 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GridDistancePropertyCollection gridDistancePropertyCollection =
-				new GridDistancePropertyCollection(getApp(), getLocalization(),
-						getEuclidianSettings(), getEuclidianView());
-		PropertyView.RelatedPropertyViewCollection relatedPropertyViewCollection = (PropertyView
-				.RelatedPropertyViewCollection) PropertyView.of(gridDistancePropertyCollection);
-		PropertyView.Checkbox fixedDistanceCheckbox = (PropertyView.Checkbox)
-				relatedPropertyViewCollection.getPropertyViews().get(0);
+				new GridDistancePropertyCollection(
+						getApp(), getLocalization(), getEuclidianSettings(), getEuclidianView());
+		PropertyView.RelatedPropertyViewCollection relatedPropertyViewCollection =
+				(PropertyView.RelatedPropertyViewCollection)
+						PropertyView.of(gridDistancePropertyCollection);
+		PropertyView.Checkbox fixedDistanceCheckbox =
+				(PropertyView.Checkbox) relatedPropertyViewCollection.getPropertyViews().get(0);
 		PropertyView.HorizontalSplitView horizontalSplitView = (PropertyView.HorizontalSplitView)
 				relatedPropertyViewCollection.getPropertyViews().get(1);
 		PropertyView.ComboBox xGridDistanceComboBox =
@@ -142,8 +145,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 	void testAxisDistanceTextFieldInputValidation() {
 		setupApp(SuiteSubApp.GRAPHING);
 
-		AxisDistanceProperty axisDistanceProperty = new AxisDistanceProperty(getLocalization(),
-				getEuclidianSettings(), getEuclidianView(), getKernel(), "xAxis", 0);
+		AxisDistanceProperty axisDistanceProperty = new AxisDistanceProperty(
+				getLocalization(), getEuclidianSettings(), getEuclidianView(), getKernel(), "xAxis", 0);
 		getEuclidianSettings().setAutomaticAxesNumberingDistance(false, 0, true);
 		PropertyView.ComboBox axisDistanceComboBox =
 				(PropertyView.ComboBox) PropertyView.of(axisDistanceProperty);
@@ -164,7 +167,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		App app = getApp();
-		PropertiesArray graphicsProperties = app.getConfig().createPropertiesFactory()
+		PropertiesArray graphicsProperties = app.getConfig()
+				.createPropertiesFactory()
 				.createProperties(getApp(), getLocalization(), app.appScope.propertiesRegistry)
 				.get(2);
 		List<PropertyView> graphicsPropertyViews =
@@ -172,25 +176,29 @@ class PropertyViewTests extends BaseAppTestSetup {
 
 		assertFalse(graphicsPropertyViews.get(0) instanceof PropertyView.ExpandableList);
 		assertInstanceOf(PropertyView.ExpandableList.class, graphicsPropertyViews.get(1));
-		assertEquals(PropertyView.ExpandableList.OrdinalPosition.First,
+		assertEquals(
+				PropertyView.ExpandableList.OrdinalPosition.First,
 				((PropertyView.ExpandableList) graphicsPropertyViews.get(1)).ordinalPosition);
-		assertEquals(PropertyView.ExpandableList.OrdinalPosition.InBetween,
+		assertEquals(
+				PropertyView.ExpandableList.OrdinalPosition.InBetween,
 				((PropertyView.ExpandableList) graphicsPropertyViews.get(2)).ordinalPosition);
-		assertInstanceOf(PropertyView.ExpandableList.class,
+		assertInstanceOf(
+				PropertyView.ExpandableList.class,
 				graphicsPropertyViews.get(graphicsPropertyViews.size() - 1));
-		assertEquals(PropertyView.ExpandableList.OrdinalPosition.Last,
-				((PropertyView.ExpandableList) graphicsPropertyViews.get(
-						graphicsPropertyViews.size() - 1)).ordinalPosition);
+		assertEquals(
+				PropertyView.ExpandableList.OrdinalPosition.Last,
+				((PropertyView.ExpandableList) graphicsPropertyViews.get(graphicsPropertyViews.size() - 1))
+						.ordinalPosition);
 	}
 
 	@Test
 	void testCheckboxConfigurationUpdate() {
 		setupApp(SuiteSubApp.GRAPHING);
 
-		GridVisibilityProperty gridVisibilityProperty = new GridVisibilityProperty(
-				getLocalization(), getEuclidianSettings());
-		PropertyView.Checkbox gridVisibilityCheckbox = (PropertyView.Checkbox)
-				PropertyView.of(gridVisibilityProperty);
+		GridVisibilityProperty gridVisibilityProperty =
+				new GridVisibilityProperty(getLocalization(), getEuclidianSettings());
+		PropertyView.Checkbox gridVisibilityCheckbox =
+				(PropertyView.Checkbox) PropertyView.of(gridVisibilityProperty);
 		AtomicInteger visibilityUpdatedCount = new AtomicInteger();
 		gridVisibilityCheckbox.setConfigurationUpdateDelegate(
 				() -> visibilityUpdatedCount.addAndGet(1));
@@ -212,24 +220,27 @@ class PropertyViewTests extends BaseAppTestSetup {
 				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "x", 0));
 		PropertyView.ComboBox trailingComboBox = new PropertyView.ComboBox(new GridDistanceProperty(
 				getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0));
-		PropertyView.HorizontalSplitView horizontalSplitView = new PropertyView.HorizontalSplitView(
-				leadingComboBox, trailingComboBox);
+		PropertyView.HorizontalSplitView horizontalSplitView =
+				new PropertyView.HorizontalSplitView(leadingComboBox, trailingComboBox);
 
 		AtomicBoolean leadingPropertyViewVisibilityListenerCalled = new AtomicBoolean(false);
-		horizontalSplitView.getLeadingPropertyView().setVisibilityUpdateDelegate(() ->
-				leadingPropertyViewVisibilityListenerCalled.set(true));
+		horizontalSplitView
+				.getLeadingPropertyView()
+				.setVisibilityUpdateDelegate(() -> leadingPropertyViewVisibilityListenerCalled.set(true));
 
 		AtomicBoolean trailingPropertyViewVisibilityListenerCalled = new AtomicBoolean(false);
-		horizontalSplitView.getTrailingPropertyView().setVisibilityUpdateDelegate(() ->
-				trailingPropertyViewVisibilityListenerCalled.set(true));
+		horizontalSplitView
+				.getTrailingPropertyView()
+				.setVisibilityUpdateDelegate(() -> trailingPropertyViewVisibilityListenerCalled.set(true));
 
 		AtomicBoolean horizontalSplitViewVisibilityListenerCalled = new AtomicBoolean(false);
-		horizontalSplitView.setVisibilityUpdateDelegate(() ->
-				horizontalSplitViewVisibilityListenerCalled.set(true));
+		horizontalSplitView.setVisibilityUpdateDelegate(
+				() -> horizontalSplitViewVisibilityListenerCalled.set(true));
 
 		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
 
-		assertAll(() -> assertTrue(horizontalSplitViewVisibilityListenerCalled.get()),
+		assertAll(
+				() -> assertTrue(horizontalSplitViewVisibilityListenerCalled.get()),
 				() -> assertFalse(leadingPropertyViewVisibilityListenerCalled.get()),
 				() -> assertFalse(trailingPropertyViewVisibilityListenerCalled.get()));
 	}
@@ -245,8 +256,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 						getAlgebraProcessor(), getLocalization(), getEuclidianView(), "y", 0)));
 
 		AtomicBoolean horizontalSplitViewVisibilityListenerCalled = new AtomicBoolean(false);
-		horizontalSplitView.setVisibilityUpdateDelegate(() ->
-				horizontalSplitViewVisibilityListenerCalled.set(true));
+		horizontalSplitView.setVisibilityUpdateDelegate(
+				() -> horizontalSplitViewVisibilityListenerCalled.set(true));
 
 		getEuclidianSettings().setGridType(EuclidianView.GRID_POLAR);
 
@@ -264,8 +275,7 @@ class PropertyViewTests extends BaseAppTestSetup {
 		LinearEquationFormProperty linearEquationFormProperty = null;
 		for (Property property : properties.getProperties()) {
 			if (property instanceof NamedEnumeratedPropertyListFacade) {
-				Property firstProperty = ((NamedEnumeratedPropertyListFacade) property)
-						.getFirstProperty();
+				Property firstProperty = ((NamedEnumeratedPropertyListFacade) property).getFirstProperty();
 				if (firstProperty instanceof LinearEquationFormProperty) {
 					linearEquationFormProperty = (LinearEquationFormProperty) firstProperty;
 					break;
@@ -285,11 +295,10 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GeoElement penStroke = evaluateGeoElement("PenStroke((1, 2), (4, 3), (5, 6))");
-		PenStrokeAbsolutePositionProperty absolutePositionProperty = assertDoesNotThrow(() ->
-				new PenStrokeAbsolutePositionProperty(getLocalization(), penStroke));
-		BooleanProperty property = suiteScope.geoElementPropertiesFactory
-				.createOptionalPropertyFacade(List.of(penStroke), element ->
-						absolutePositionProperty, BooleanPropertyListFacade::new);
+		PenStrokeAbsolutePositionProperty absolutePositionProperty = assertDoesNotThrow(
+				() -> new PenStrokeAbsolutePositionProperty(getLocalization(), penStroke));
+		BooleanProperty property = suiteScope.geoElementPropertiesFactory.createOptionalPropertyFacade(
+				List.of(penStroke), element -> absolutePositionProperty, BooleanPropertyListFacade::new);
 		PropertyView.Checkbox checkbox = (PropertyView.Checkbox) PropertyView.of(property);
 		AtomicInteger configurationUpdatedCount = new AtomicInteger();
 		checkbox.setConfigurationUpdateDelegate(() -> configurationUpdatedCount.addAndGet(1));
@@ -305,39 +314,41 @@ class PropertyViewTests extends BaseAppTestSetup {
 
 	@Test
 	@Issue({"APPS-7088", "APPS-7092"})
-	void testSingleExpandableListIsConvertedToContents()
-			throws NotApplicablePropertyException {
+	void testSingleExpandableListIsConvertedToContents() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 
 		GeoNumeric animatablePoint = evaluateGeoElement("a = 5");
 		animatablePoint.setIntervalMin(0);
 		animatablePoint.setIntervalMax(10);
 
-		PropertiesArray array = new PropertiesArray(null, getLocalization(),
+		PropertiesArray array = new PropertiesArray(
+				null,
+				getLocalization(),
 				new AnimationPropertyCollection(
 						suiteScope.geoElementPropertiesFactory,
-						getAlgebraProcessor(), getLocalization(), List.of(animatablePoint)));
+						getAlgebraProcessor(),
+						getLocalization(),
+						List.of(animatablePoint)));
 		List<PropertyView> propertyViews = PropertyViewFactory.propertyViewListOf(array);
 
-		assertAll(() -> assertFalse(propertyViews.get(0) instanceof PropertyView.ExpandableList),
-				() -> assertEquals(2, propertyViews.size())
-		);
+		assertAll(
+				() -> assertFalse(propertyViews.get(0) instanceof PropertyView.ExpandableList),
+				() -> assertEquals(2, propertyViews.size()));
 	}
 
 	@Test
 	@Issue({"APPS-7286"})
-	void testColorPickerReturnsFileName()
-			throws NotApplicablePropertyException {
+	void testColorPickerReturnsFileName() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
-		
+
 		getApp().setImageManager(new ImageManagerCommon());
 
 		GeoElement element = evaluateGeoElement("Circle((0,0),10)");
-		FillImageProperty property = new FillImageProperty(getLocalization(),
-				getApp().getImageManager(), element);
-		PropertyView.ImagePicker row = (PropertyView.ImagePicker)
-				PropertyView.of(new ImagePropertyListFacade(List.of(property)));
-		
+		FillImageProperty property =
+				new FillImageProperty(getLocalization(), getApp().getImageManager(), element);
+		PropertyView.ImagePicker row =
+				(PropertyView.ImagePicker) PropertyView.of(new ImagePropertyListFacade(List.of(property)));
+
 		MyImageCommon image = new MyImageCommon(10, 10);
 		property.setValue(new ImageProperty.Value(image, "path/to/file/image.png"));
 		assertEquals("image.png", row.getFileName());
@@ -354,8 +365,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		getKernel().setUndoActive(true);
 		getKernel().initUndoInfo();
-		LineOpacityProperty opacityProperty = LineOpacityProperty.forLine(getLocalization(),
-				evaluateGeoElement("a = Line((-1, -1), (1, 1))"));
+		LineOpacityProperty opacityProperty = LineOpacityProperty.forLine(
+				getLocalization(), evaluateGeoElement("a = Line((-1, -1), (1, 1))"));
 		getApp().storeUndoInfo();
 		opacityProperty.addValueObserver(new UndoSavingPropertyObserver(getApp().getUndoManager()));
 		PropertyView.Slider slider = (PropertyView.Slider) PropertyView.of(opacityProperty);
@@ -382,8 +393,9 @@ class PropertyViewTests extends BaseAppTestSetup {
 		assertEquals(20, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
 
 		getKernel().undo();
-		assertEquals(originalValue, LineOpacityProperty.forLine(getLocalization(), lookup("a"))
-				.getValue());
+		assertEquals(
+				originalValue,
+				LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
 	}
 
 	@Test
@@ -391,8 +403,8 @@ class PropertyViewTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		getKernel().setUndoActive(true);
 		getKernel().initUndoInfo();
-		LineOpacityProperty opacityProperty = LineOpacityProperty.forLine(getLocalization(),
-				evaluateGeoElement("a = Line((-1, -1), (1, 1))"));
+		LineOpacityProperty opacityProperty = LineOpacityProperty.forLine(
+				getLocalization(), evaluateGeoElement("a = Line((-1, -1), (1, 1))"));
 		getApp().storeUndoInfo();
 		opacityProperty.addValueObserver(new UndoSavingPropertyObserver(getApp().getUndoManager()));
 		PropertyView.Slider slider = (PropertyView.Slider) PropertyView.of(opacityProperty);
@@ -424,46 +436,45 @@ class PropertyViewTests extends BaseAppTestSetup {
 		assertEquals(20, LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
 
 		getKernel().undo();
-		assertEquals(originalValue, LineOpacityProperty.forLine(getLocalization(), lookup("a"))
-				.getValue());
+		assertEquals(
+				originalValue,
+				LineOpacityProperty.forLine(getLocalization(), lookup("a")).getValue());
 	}
 
 	@ParameterizedTest
 	@Issue("APPS-7499")
-	@CsvSource(delimiterString = "->", value = {
-			"(1, 2)			-> Point",
-			"f(x) = x^2		-> Function",
-			"x^2 + y^2 = 5	-> Circle"
-	})
+	@CsvSource(
+			delimiterString = "->",
+			value = {"(1, 2)			-> Point", "f(x) = x^2		-> Function", "x^2 + y^2 = 5	-> Circle"})
 	@MockedCasValues({
-			"Evaluate((1, 2)) 		-> (1,2)",
-			"Evaluate(x²) 			-> x^2",
-			"Evaluate(x² + y² = 5) 	-> x^2+y^2=5",
+		"Evaluate((1, 2)) 		-> (1,2)",
+		"Evaluate(x²) 			-> x^2",
+		"Evaluate(x² + y² = 5) 	-> x^2+y^2=5",
 	})
-	void testTabbedPageSelectorTitleForCasElements(
-			String element, String expectedTitleTransKey) {
+	void testTabbedPageSelectorTitleForCasElements(String element, String expectedTitleTransKey) {
 		setupApp(SuiteSubApp.CAS);
 		List<GeoElement> elements = List.of(evaluateGeoElement(element));
 		PropertyView.TabbedPageSelector tabbedPageSelector =
 				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), elements);
-		assertEquals(getLocalization().getMenu(expectedTitleTransKey),
-				tabbedPageSelector.getTitle());
+		assertEquals(getLocalization().getMenu(expectedTitleTransKey), tabbedPageSelector.getTitle());
 	}
 
 	@ParameterizedTest
 	@CsvSource({
-			"GRAPHING,		false,	2",
-			"GRAPHING,		true,	0",
-			"G3D,			false,	2",
-			"G3D,			true,	0",
-			"SCIENTIFIC,	false,	0",
-			"SCIENTIFIC,	true,	0",
+		"GRAPHING,		false,	2",
+		"GRAPHING,		true,	0",
+		"G3D,			false,	2",
+		"G3D,			true,	0",
+		"SCIENTIFIC,	false,	0",
+		"SCIENTIFIC,	true,	0",
 	})
-	void testInitialTabIndexOfAppSettings(SuiteSubApp subApp, boolean openedFromBurgerMenu,
-			int expectedInitialTabIndex) {
+	void testInitialTabIndexOfAppSettings(
+			SuiteSubApp subApp, boolean openedFromBurgerMenu, int expectedInitialTabIndex) {
 		setupApp(subApp);
-		assertEquals(expectedInitialTabIndex, PropertyViewFactory.propertyViewOfAppSettings(
-				getApp(), getApp().appScope.propertiesRegistry, openedFromBurgerMenu)
+		assertEquals(
+				expectedInitialTabIndex,
+				PropertyViewFactory.propertyViewOfAppSettings(
+								getApp(), getApp().appScope.propertiesRegistry, openedFromBurgerMenu)
 						.getSelectedTabIndex());
 	}
 
@@ -471,11 +482,9 @@ class PropertyViewTests extends BaseAppTestSetup {
 	@Test
 	void testReturnsNullOnEmptyList() {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertNull(
-				PropertyViewFactory.propertyViewOfObjectSettings(getApp(), Collections.emptyList())
-		);
+		assertNull(PropertyViewFactory.propertyViewOfObjectSettings(getApp(), Collections.emptyList()));
 	}
-	
+
 	private EuclidianView getEuclidianView() {
 		return getApp().getActiveEuclidianView();
 	}

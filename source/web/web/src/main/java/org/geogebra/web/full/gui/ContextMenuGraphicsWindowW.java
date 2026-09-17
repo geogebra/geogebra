@@ -58,8 +58,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 		this(app);
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		OptionType optionType = ev.getEuclidianViewNo() == 1
-				? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2;
+		OptionType optionType =
+				ev.getEuclidianViewNo() == 1 ? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2;
 
 		if (!app.isWhiteboardActive()) {
 			addAxesMenuItem();
@@ -83,28 +83,28 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	protected void addAxesMenuItem() {
 		boolean checked = app.getActiveEuclidianView().getShowXaxis()
 				&& app.getActiveEuclidianView().getShowYaxis();
-		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(loc.getMenu("ShowAxes"),
-				checked, app.getGuiManager()::showAxesCmd);
+		final GCheckmarkMenuItem showAxes =
+				new GCheckmarkMenuItem(loc.getMenu("ShowAxes"), checked, app.getGuiManager()::showAxesCmd);
 		wrappedPopup.addItem(showAxes);
 	}
 
 	private void addGridMenuItem() {
 		boolean checked = app.getActiveEuclidianView().getShowGrid();
-		final GCheckmarkMenuItem showGrid = new GCheckmarkMenuItem(loc.getMenu("ShowGrid"),
-				checked, app.getGuiManager()::showGridCmd);
+		final GCheckmarkMenuItem showGrid =
+				new GCheckmarkMenuItem(loc.getMenu("ShowGrid"), checked, app.getGuiManager()::showGridCmd);
 		wrappedPopup.addItem(showGrid);
 	}
 
 	private void addGridTypeItem() {
-		SingleSelectionIconRow gridTypeProperty = (SingleSelectionIconRow) PropertyView
-				.of(new GridStyleIconProperty(loc, app.getActiveEuclidianView().getSettings()));
+		SingleSelectionIconRow gridTypeProperty = (SingleSelectionIconRow) PropertyView.of(
+				new GridStyleIconProperty(loc, app.getActiveEuclidianView().getSettings()));
 
 		if (gridTypeProperty == null) {
 			return;
 		}
 
-		IconButtonPanel gridTypePanel = new IconButtonPanel((AppW) app, gridTypeProperty, false,
-				wrappedPopup::hide);
+		IconButtonPanel gridTypePanel =
+				new IconButtonPanel((AppW) app, gridTypeProperty, false, wrappedPopup::hide);
 		gridTypePanel.setDisabled(0, !app.getActiveEuclidianView().getShowGrid());
 		AriaMenuItem gridTypeItem = new AriaMenuItem(gridTypePanel.getWidget(0), () -> {});
 		gridTypeItem.addStyleName("iconButtonPanel");
@@ -112,8 +112,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	protected void addSettingsButton(OptionType optionType) {
-		StandardButton settingsButton = BaseWidgetFactory.INSTANCE.newTextButton(
-				loc.getMenu("General.OpenSettings"));
+		StandardButton settingsButton =
+				BaseWidgetFactory.INSTANCE.newTextButton(loc.getMenu("General.OpenSettings"));
 		settingsButton.addFastClickHandler(source -> openSettings(optionType));
 		AriaMenuItem settingsItem = new AriaMenuItem(settingsButton, () -> {});
 		settingsItem.addStyleName("settingsItem");
@@ -134,9 +134,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addRulingMenuItem() {
-		AriaMenuItem rulingMenuItem =
-				MainMenu.getMenuBarItem(((AppW) app).getTopBarIconResource().getImageResource(
-						TopBarIcon.RULING), loc.getMenu("Ruling"),
+		AriaMenuItem rulingMenuItem = MainMenu.getMenuBarItem(
+				((AppW) app).getTopBarIconResource().getImageResource(TopBarIcon.RULING),
+				loc.getMenu("Ruling"),
 				() -> {
 					DialogData data = new DialogData("Ruling", "Cancel", "Save");
 					GridDialog gridDialog = new GridDialog((AppW) app, data);
@@ -147,9 +147,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	}
 
 	private void addBackgroundMenuItem() {
-		AriaMenuItem miBackgroundCol =
-				MainMenu.getMenuBarItem(((AppW) app).getTopBarIconResource().getImageResource(
-						TopBarIcon.COLOR), loc.getMenu("BackgroundColor"), this::openColorChooser);
+		AriaMenuItem miBackgroundCol = MainMenu.getMenuBarItem(
+				((AppW) app).getTopBarIconResource().getImageResource(TopBarIcon.COLOR),
+				loc.getMenu("BackgroundColor"),
+				this::openColorChooser);
 		wrappedPopup.addItem(miBackgroundCol);
 	}
 
@@ -157,9 +158,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * open color chooser dialog to select graphics background
 	 */
 	protected void openColorChooser() {
-		((DialogManagerW) app.getDialogManager()).showColorChooserDialog(
-				app.getSettings().getEuclidian(1).getBackground(),
-				color -> {
+		((DialogManagerW) app.getDialogManager())
+				.showColorChooserDialog(app.getSettings().getEuclidian(1).getBackground(), color -> {
 					// change graphics background color
 					app.getSettings().getEuclidian(1).setBackground(color);
 				});
@@ -169,12 +169,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 * @param type of option
 	 */
 	protected void addMiProperties(final OptionType type) {
-		IconSpec gearIcon = ((AppW) app).getTopBarIconResource().getImageResource(
-				TopBarIcon.SETTINGS);
+		IconSpec gearIcon = ((AppW) app).getTopBarIconResource().getImageResource(TopBarIcon.SETTINGS);
 
 		AriaMenuItem miProperties =
-				MainMenu.getMenuBarItem(gearIcon, loc.getMenu("Settings"),
-				() -> showOptionsDialog(type));
+				MainMenu.getMenuBarItem(gearIcon, loc.getMenu("Settings"), () -> showOptionsDialog(type));
 		miProperties.setEnabled(true); // TMP AG
 		wrappedPopup.addItem(miProperties);
 	}

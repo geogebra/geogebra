@@ -43,15 +43,14 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 	 * @param p
 	 *            polyhedron
 	 */
-	public AlgoIntersectPlanePolyhedron(Construction c, String[] labels,
-			GeoPlane3D plane, GeoPolyhedron p) {
+	public AlgoIntersectPlanePolyhedron(
+			Construction c, String[] labels, GeoPlane3D plane, GeoPolyhedron p) {
 		super(c, labels, plane, p);
 	}
 
 	@Override
 	protected void setFirstInput(GeoElementND geo) {
 		this.plane = (GeoPlane3D) geo;
-
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 		 * Coords[] intersection = CoordMatrixUtil.intersectPlanes(
 		 * plane.getCoordSys().getMatrixOrthonormal(),
 		 * currentFace.getCoordSys().getMatrixOrthonormal());
-		 * 
+		 *
 		 * o1 = intersection[0]; d1 = intersection[1];
 		 */
 
@@ -75,8 +74,7 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 	// private GeoPolygon currentFace;
 
 	@Override
-	protected void intersectionsCoords(HasSegments poly,
-			TreeMap<Double, Coords> newCoords) {
+	protected void intersectionsCoords(HasSegments poly, TreeMap<Double, Coords> newCoords) {
 
 		/*
 		 * GeoPolyhedron polyh = (GeoPolyhedron) p; TreeSet<GeoPolygon> polygons
@@ -101,7 +99,6 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 			if (coords != null) {
 				newCoords.put((double) i, coords);
 			}
-
 		}
 	}
 
@@ -111,12 +108,10 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 
 		Coords globalCoords = new Coords(4);
 		Coords inPlaneCoords = new Coords(4);
-		o.projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), d,
-				globalCoords, inPlaneCoords);
+		o.projectPlaneThruV(plane.getCoordSys().getMatrixOrthonormal(), d, globalCoords, inPlaneCoords);
 
 		// check if projection is intersection point
-		if (!DoubleUtil.isZero(globalCoords.getW())
-				&& seg.respectLimitedPath(-inPlaneCoords.get(3))) {
+		if (!DoubleUtil.isZero(globalCoords.getW()) && seg.respectLimitedPath(-inPlaneCoords.get(3))) {
 			return globalCoords;
 		}
 
@@ -132,5 +127,4 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 	public Commands getClassName() {
 		return Commands.Intersect;
 	}
-
 }

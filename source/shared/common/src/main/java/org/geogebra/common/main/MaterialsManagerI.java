@@ -126,8 +126,8 @@ public interface MaterialsManagerI {
 	 * @param titleKey dialog title key
 	 * @param app application
 	 */
-	void showExportAsPictureDialog(String url, String filename,
-			String extension, String titleKey, App app);
+	void showExportAsPictureDialog(
+			String url, String filename, String extension, String titleKey, App app);
 
 	/**
 	 * Refresh autosave timestamp.
@@ -149,7 +149,7 @@ public interface MaterialsManagerI {
 
 	/**
 	 * Opens Link in a new window
-	 * 
+	 *
 	 * @param url
 	 *            that should be opened
 	 */

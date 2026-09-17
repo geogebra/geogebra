@@ -36,7 +36,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Submenu for ModeToggleMenu. This extension is needed so that this FlowPanel
  * can act as a popup.
- * 
+ *
  * @author bencze
  */
 public class ToolbarSubmenuW extends FlowPanel implements HasHide {
@@ -96,13 +96,11 @@ public class ToolbarSubmenuW extends FlowPanel implements HasHide {
 		setStyleName("visible", visible);
 		if (visible) {
 			app.invokeLater(() -> {
-				if (itemList.getOffsetWidth()
-						+ order * 45 > app
-								.getWidth()) {
-					itemList.getElement().getStyle().setLeft(
-							app.getWidth() - 45 * order
-									- itemList.getOffsetWidth() - 10,
-							Unit.PX);
+				if (itemList.getOffsetWidth() + order * 45 > app.getWidth()) {
+					itemList
+							.getElement()
+							.getStyle()
+							.setLeft(app.getWidth() - 45 * order - itemList.getOffsetWidth() - 10, Unit.PX);
 				}
 			});
 		}
@@ -116,7 +114,7 @@ public class ToolbarSubmenuW extends FlowPanel implements HasHide {
 	/**
 	 * Creates a list item, adds an image and a label with the specified mode,
 	 * and adds it to the submenu list.
-	 * 
+	 *
 	 * @param addMode
 	 *            the mode to be used with this item
 	 * @return the newly created {@code ListItem}
@@ -150,8 +148,7 @@ public class ToolbarSubmenuW extends FlowPanel implements HasHide {
 				|| mode == EuclidianConstants.MODE_ERASER) {
 			img.addStyleName("mowPanelButton");
 		}
-		if (mode == EuclidianConstants.MODE_IMAGE
-				|| mode == EuclidianConstants.MODE_DELETE) {
+		if (mode == EuclidianConstants.MODE_IMAGE || mode == EuclidianConstants.MODE_DELETE) {
 			img.addStyleName("plusPadding");
 		}
 		return img;

@@ -90,8 +90,15 @@ public class TeXEnvironment {
 		this.lengthSettings = new TeXLengthSettings();
 	}
 
-	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, GColor bg,
-			GColor c, int textStyle, boolean smallCap, Font javaFont,
+	private TeXEnvironment(
+			int style,
+			double scaleFactor,
+			TeXFont tf,
+			GColor bg,
+			GColor c,
+			int textStyle,
+			boolean smallCap,
+			Font javaFont,
 			TeXLengthSettings lengthSettings) {
 		this.style = style;
 		this.scaleFactor = scaleFactor;
@@ -113,13 +120,13 @@ public class TeXEnvironment {
 	}
 
 	protected TeXEnvironment copy() {
-		return new TeXEnvironment(style, scaleFactor, tf, background, color,
-				textStyle, smallCap, javaFont, lengthSettings);
+		return new TeXEnvironment(
+				style, scaleFactor, tf, background, color, textStyle, smallCap, javaFont, lengthSettings);
 	}
 
 	protected TeXEnvironment copy(TeXFont tf) {
-		return new TeXEnvironment(style, scaleFactor, tf,
-				background, color, textStyle, smallCap, javaFont, lengthSettings);
+		return new TeXEnvironment(
+				style, scaleFactor, tf, background, color, textStyle, smallCap, javaFont, lengthSettings);
 	}
 
 	/**

@@ -63,7 +63,7 @@ public final class MaskWidgetListW implements MaskWidgetList {
 
 	@Override
 	public void clearMasks() {
-		for (MaskWidget w: widgets) {
+		for (MaskWidget w : widgets) {
 			w.removeFromParent();
 		}
 		widgets.clear();
@@ -95,19 +95,16 @@ public final class MaskWidgetListW implements MaskWidgetList {
 		ClickStartHandler.init(maskWidget, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				int xOffset = maskWidget.getAbsoluteLeft()
-						- view.getAbsoluteLeft();
-				int yOffset = maskWidget.getAbsoluteTop()
-						- view.getAbsoluteTop();
+				int xOffset = maskWidget.getAbsoluteLeft() - view.getAbsoluteLeft();
+				int yOffset = maskWidget.getAbsoluteTop() - view.getAbsoluteTop();
 				controller.widgetsToBackground();
 				view.getApplication().getSelectionManager().clearSelectedGeos();
-				
+
 				if (view instanceof EuclidianViewW viewW) {
 					PointerEventHandler.startCapture(viewW);
-					MouseTouchGestureControllerW mtg = ((EuclidianControllerW) controller)
-							.getMouseTouchGestureController();
-					AbstractEvent event = new PointerEvent(x + xOffset,
-							y + yOffset, type, mtg);
+					MouseTouchGestureControllerW mtg =
+							((EuclidianControllerW) controller).getMouseTouchGestureController();
+					AbstractEvent event = new PointerEvent(x + xOffset, y + yOffset, type, mtg);
 					mtg.onPointerEventStart(event);
 				}
 			}

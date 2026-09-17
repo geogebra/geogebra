@@ -10,8 +10,7 @@ import java.util.Vector;
  * @version $Id: PolylinePathConstructor.java,v 1.5 2009-08-17 21:44:45 murkle
  *          Exp $
  */
-public abstract class PolylinePathConstructor
-		extends CubicToLinePathConstructor {
+public abstract class PolylinePathConstructor extends CubicToLinePathConstructor {
 	private Vector polyline;
 
 	protected boolean closed;

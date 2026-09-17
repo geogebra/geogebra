@@ -46,7 +46,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable, VarStr
 
 	/**
 	 * Evaluates the curve for given parameter value
-	 * 
+	 *
 	 * @param t
 	 *            parameter value
 	 * @param out
@@ -57,7 +57,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable, VarStr
 
 	/**
 	 * Evaluates the curve for given parameter value
-	 * 
+	 *
 	 * @param t
 	 *            parameter value
 	 * @return result as GeoVec2D
@@ -89,5 +89,4 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable, VarStr
 	 */
 	@Override
 	FunctionVariable[] getFunctionVariables();
-
 }

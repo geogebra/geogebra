@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -59,10 +59,10 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue tokenize(String expressionString) {
-		ParserFunctions parserFunctions = kernel.getApplication()
-			.getParserFunctions(multipleUnassignedAllowed);
-		InputTokenizer tokenizer = new InputTokenizer(kernel, parserFunctions, expressionString,
-				multipleUnassignedAllowed);
+		ParserFunctions parserFunctions =
+				kernel.getApplication().getParserFunctions(multipleUnassignedAllowed);
+		InputTokenizer tokenizer =
+				new InputTokenizer(kernel, parserFunctions, expressionString, multipleUnassignedAllowed);
 		String next = expressionString;
 		if (tokenizer.hasToken()) {
 			next = tokenizer.next();
@@ -97,8 +97,7 @@ public class VariableReplacerAlgorithm {
 
 	private ExpressionValue addDegreeIfNeeded(ExpressionNode trigFunction) {
 		if (kernel.getAngleUnitUsesDegrees()) {
-			return Traversing.DegreeReplacer.getReplacer(kernel)
-					.process(trigFunction);
+			return Traversing.DegreeReplacer.getReplacer(kernel).process(trigFunction);
 		} else {
 			return trigFunction;
 		}
@@ -118,14 +117,17 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue buildReverseProduct(String expressionString, int suffixLength) {
 		int length = expressionString.length() - suffixLength;
 		ExpressionValue left = parseReverse(expressionString.substring(0, length));
-		return new ExpressionNode(kernel, left, Operation.MULTIPLY,
-				replaceToken(expressionString.substring(length)));
+		return new ExpressionNode(
+				kernel, left, Operation.MULTIPLY, replaceToken(expressionString.substring(length)));
 	}
 
 	private ExpressionNode leftProduct(ExpressionValue v1, ExpressionValue v2) {
 		if (isProduct(v2)) {
-			return new ExpressionNode(kernel, leftProduct(v1, v2.wrap().getLeft()),
-					Operation.MULTIPLY, v2.wrap().getRight());
+			return new ExpressionNode(
+					kernel,
+					leftProduct(v1, v2.wrap().getLeft()),
+					Operation.MULTIPLY,
+					v2.wrap().getRight());
 		}
 		return new ExpressionNode(kernel, v1, Operation.MULTIPLY, v2);
 	}
@@ -171,15 +173,14 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue getDerivative(String expressionString) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
 		return expEndsWithDerivativeChar(expressionString)
-				&& kernel.getAlgebraProcessor().enableStructures()
+						&& kernel.getAlgebraProcessor().enableStructures()
 				? derivativeCreator.getDerivative(expressionString)
 				: null;
 	}
 
 	private boolean expEndsWithDerivativeChar(String expressionString) {
 		return !expressionString.isEmpty()
-				&& FunctionParser.isDerivativeChar(expressionString.charAt(
-						expressionString.length() - 1));
+				&& FunctionParser.isDerivativeChar(expressionString.charAt(expressionString.length() - 1));
 	}
 
 	private MySpecialDouble consumeConstant(String expressionString) {

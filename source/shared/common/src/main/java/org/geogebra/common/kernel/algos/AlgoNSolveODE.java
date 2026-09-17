@@ -67,8 +67,13 @@ public class AlgoNSolveODE extends AlgoElement {
 	 * @param endX
 	 *            until when should be integrated (X-coords)
 	 */
-	public AlgoNSolveODE(Construction cons, String[] labels, GeoList fun,
-			GeoNumeric startX, GeoList startY, GeoNumeric endX) {
+	public AlgoNSolveODE(
+			Construction cons,
+			String[] labels,
+			GeoList fun,
+			GeoNumeric startX,
+			GeoList startY,
+			GeoNumeric endX) {
 
 		super(cons);
 
@@ -138,15 +143,13 @@ public class AlgoNSolveODE extends AlgoElement {
 			al.add(new ArrayList<>());
 		}
 
-		FirstOrderIntegrator integrator = new DormandPrince54Integrator(0.001,
-				0.01, 0.000001, 0.0001);
+		FirstOrderIntegrator integrator = new DormandPrince54Integrator(0.001, 0.01, 0.000001, 0.0001);
 		FirstOrderDifferentialEquations ode = new ODEN(fun);
 
 		integrator.addStepHandler(stepHandler);
 
 		for (int i = 0; i < dim; i++) {
-			al.get(i).add(new MyPoint(startX.getDouble(), y0[i],
-					SegmentType.MOVE_TO));
+			al.get(i).add(new MyPoint(startX.getDouble(), y0[i], SegmentType.MOVE_TO));
 		}
 		try {
 			integrator.integrate(ode, t0, y0, endX.getDouble(), y0);
@@ -173,15 +176,14 @@ public class AlgoNSolveODE extends AlgoElement {
 
 		@Override
 		public void init(double ts0, double[] ys0, double t) {
-			//this.
+			// this.
 		}
 
 		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
 			if (!Double.isFinite(t)) {
-				throw new IllegalArgumentException(
-						"Invalid value of time:" + t);
+				throw new IllegalArgumentException("Invalid value of time:" + t);
 			}
 			double[] y1 = interpolator.getInterpolatedState();
 			for (int i = 0; i < y1.length; i++) {
@@ -213,7 +215,5 @@ public class AlgoNSolveODE extends AlgoElement {
 				yDot[i] = ((FunctionalNVar) fun1.get(i)).evaluate(input1);
 			}
 		}
-
 	}
-
 }

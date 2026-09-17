@@ -24,7 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * line style popup
  */
-public class LineStylePopup extends PopupMenuButtonW  {
+public class LineStylePopup extends PopupMenuButtonW {
 
 	private static final int DEFAULT_SIZE = 2;
 
@@ -47,8 +47,8 @@ public class LineStylePopup extends PopupMenuButtonW  {
 	 */
 	public static LineStylePopup create(AppW app) {
 		ImageOrText[] lineStyleIcons0 = getLineStyleIcons();
-		return new LineStylePopup(app, lineStyleIcons0, -1,
-				LineStyleModel.getStyleCount(), SelectionTable.MODE_ICON);
+		return new LineStylePopup(
+				app, lineStyleIcons0, -1, LineStyleModel.getStyleCount(), SelectionTable.MODE_ICON);
 	}
 
 	/**
@@ -67,14 +67,19 @@ public class LineStylePopup extends PopupMenuButtonW  {
 	 * @param hasSlider
 	 *            rue if popup has slider
 	 */
-	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, SelectionTable mode,
-			boolean hasTable, boolean hasSlider) {
+	public LineStylePopup(
+			AppW app,
+			ImageOrText[] data,
+			Integer rows,
+			Integer columns,
+			SelectionTable mode,
+			boolean hasTable,
+			boolean hasSlider) {
 		super(app, data, rows, columns, mode, hasTable, hasSlider);
 	}
 
-	private LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, SelectionTable mode) {
+	private LineStylePopup(
+			AppW app, ImageOrText[] data, Integer rows, Integer columns, SelectionTable mode) {
 		super(app, data, rows, columns, mode);
 	}
 

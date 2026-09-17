@@ -54,8 +54,7 @@ public abstract class Web implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
-				&& !"".equals(RootPanel.getBodyElement().getAttribute(
-						"data-param-laf"))) {
+				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))) {
 			// loading touch, ignore.
 			return;
 		}
@@ -72,8 +71,8 @@ public abstract class Web implements EntryPoint {
 	public void loadAppletAsync() {
 		removeBackingObject(Parser.getLookaheadSuccess());
 		removeBackingObject(org.geogebra.editor.share.io.latex.Parser.getLookaheadSuccess());
-		GeoGebraFrameFull.main(GeoGebraElement.getGeoGebraMobileTags(),
-				getAppletFactory(), getLAF(), null);
+		GeoGebraFrameFull.main(
+				GeoGebraElement.getGeoGebraMobileTags(), getAppletFactory(), getLAF(), null);
 	}
 
 	/**
@@ -105,8 +104,8 @@ public abstract class Web implements EntryPoint {
 	 *            callback
 	 */
 	public void renderArticleElement(Object options, JsConsumer<Object> clb) {
-		GeoGebraFrameFull.renderArticleElement(AttributeProvider.as(options), getAppletFactory(),
-				getLAF(), clb);
+		GeoGebraFrameFull.renderArticleElement(
+				AttributeProvider.as(options), getAppletFactory(), getLAF(), clb);
 	}
 
 	protected abstract AppletFactory getAppletFactory();
@@ -120,16 +119,16 @@ public abstract class Web implements EntryPoint {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			String laf = Objects.requireNonNull(nodes.getAt(i)).getAttribute("data-param-laf");
 			switch (laf) {
-			case "smart":
-				return new SmartLookAndFeel();
-			case "office":
-				return new OfficeLookAndFeel();
-			case "bundle":
-				return new BundleLookAndFeel();
-			case "mebis":
-				return new MebisLookAndFeel();
-			case "chrome":
-				return new ChromeLookAndFeel();
+				case "smart":
+					return new SmartLookAndFeel();
+				case "office":
+					return new OfficeLookAndFeel();
+				case "bundle":
+					return new BundleLookAndFeel();
+				case "mebis":
+					return new MebisLookAndFeel();
+				case "chrome":
+					return new ChromeLookAndFeel();
 			}
 		}
 

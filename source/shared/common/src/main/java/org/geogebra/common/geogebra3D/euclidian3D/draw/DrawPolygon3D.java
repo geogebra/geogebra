@@ -48,7 +48,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing 3D polygons.
- * 
+ *
  * @author matthieu
  *
  */
@@ -60,6 +60,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	private ArrayList<GeoPointND> selectedPoints;
 	/** segments of the polygon preview */
 	private ArrayList<DrawSegment3D> segments;
+
 	private ArrayList<ArrayList<GeoPointND>> segmentsPoints;
 	private boolean isPreview = false;
 	private Coords project;
@@ -73,7 +74,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	/**
 	 * Common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param polygon
@@ -84,7 +85,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		super(a_view3D, polygon);
 
 		setPickingType(PickingType.SURFACE);
-
 	}
 
 	// drawing
@@ -103,13 +103,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 			setHighlightingColor();
 
-			renderer.getTextures()
-					.setDashFromLineType(getGeoElement().getLineType());
+			renderer.getTextures().setDashFromLineType(getGeoElement().getLineType());
 			drawGeometry(renderer);
 		}
 
 		drawTracesOutline(renderer, false);
-
 	}
 
 	@Override
@@ -128,7 +126,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			drawGeometry(renderer);
 		} else {
 			if (getAlpha() > 0) { // surface is pickable only if not totally
-									// transparent
+				// transparent
 				drawSurfaceGeometry(renderer);
 			}
 		}
@@ -162,15 +160,14 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		addToDrawable3DLists(lists, surfaceDrawTypeAdded);
 
 		if (!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()) { // no
-																		// labels
-																		// for
-																		// segments
+			// labels
+			// for
+			// segments
 			addToDrawable3DLists(lists, DRAW_TYPE_CURVES);
 			curvesAdded = true;
 		} else {
 			curvesAdded = false;
 		}
-
 	}
 
 	@Override
@@ -179,7 +176,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (curvesAdded) {
 			removeFromDrawable3DLists(lists, DRAW_TYPE_CURVES);
 		}
-
 	}
 
 	@Override
@@ -231,17 +227,17 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		// if something goes wrong, update is discarded and polygon hidden
 		try {
-            updateVertices(polygon, pointLength);
-        } catch (Exception e) {
-            setSurfaceIndex(-1);
-            return true;
-        }
+			updateVertices(polygon, pointLength);
+		} catch (Exception e) {
+			setSurfaceIndex(-1);
+			return true;
+		}
 
-        Renderer renderer = getView3D().getRenderer();
+		Renderer renderer = getView3D().getRenderer();
 
 		// outline
 		if (!isPreview && !polygon.wasInitLabelsCalled()) { // no labels for
-															// segments
+			// segments
 			updateOutline(renderer, vertices, pointLength);
 		}
 
@@ -263,7 +259,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param renderer
 	 *            GL renderer
 	 * @param polygon
@@ -273,8 +269,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 * @param verticesLength
 	 *            vertices length (may not equal vertices.length due to cache)
 	 */
-	static public void drawPolygon(Renderer renderer, GeoPolygon polygon,
-			Coords[] vertices, int verticesLength) {
+	public static void drawPolygon(
+			Renderer renderer, GeoPolygon polygon, Coords[] vertices, int verticesLength) {
 
 		Coords n = polygon.getMainDirection();
 
@@ -289,8 +285,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				// check if the polygon is convex
 				Convexity convexity = pt.checkIsConvex();
 				if (convexity != Convexity.NOT) {
-					drawConvex(renderer, polygon, n, vertices, verticesLength,
-							convexity);
+					drawConvex(renderer, polygon, n, vertices, verticesLength, convexity);
 				} else {
 					// set intersections (if needed) and divide the polygon into
 					// non self-intersecting polygons
@@ -300,14 +295,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					pt.triangulate();
 
 					// compute 3D coords for intersections
-					pt.setCompleteVertices(vertices, polygon.getCoordSys(),
-							verticesLength);
+					pt.setCompleteVertices(vertices, polygon.getCoordSys(), verticesLength);
 
 					// draw the triangle fans
 					drawFans(renderer, polygon, n, vertices, verticesLength);
-
 				}
-
 			}
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
@@ -315,26 +307,28 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
-	static private void drawConvex(Renderer renderer, GeoPolygon polygon,
-			Coords n, Coords[] vertices, int verticesLength,
+	private static void drawConvex(
+			Renderer renderer,
+			GeoPolygon polygon,
+			Coords n,
+			Coords[] vertices,
+			int verticesLength,
 			Convexity convexity) {
-		boolean reverse = polygon.getReverseNormalForDrawing()
-				^ (convexity == Convexity.CLOCKWISE);
+		boolean reverse = polygon.getReverseNormalForDrawing() ^ (convexity == Convexity.CLOCKWISE);
 
-		renderer.getGeometryManager().drawPolygonConvex(n, vertices,
-				verticesLength, reverse);
+		renderer.getGeometryManager().drawPolygonConvex(n, vertices, verticesLength, reverse);
 	}
 
-	static private void drawFans(Renderer renderer, GeoPolygon polygon,
-			Coords n, Coords[] vertices, int verticesLength) {
+	private static void drawFans(
+			Renderer renderer, GeoPolygon polygon, Coords n, Coords[] vertices, int verticesLength) {
 
 		PolygonTriangulation pt = polygon.getPolygonTriangulation();
-		Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices,
-				verticesLength);
+		Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, verticesLength);
 
-		renderer.getGeometryManager().drawTriangleFans(n,
-				verticesWithIntersections, pt.getMaxPointIndex(),
-				pt.getTriangleFans());
+		renderer
+				.getGeometryManager()
+				.drawTriangleFans(
+						n, verticesWithIntersections, pt.getMaxPointIndex(), pt.getTriangleFans());
 	}
 
 	private void updateOutline(Renderer renderer, Coords[] outlineVertices, int length) {
@@ -413,14 +407,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	/**
 	 * Constructor for previewable
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPoints
 	 *            vertices
 	 */
-	public DrawPolygon3D(EuclidianView3D a_view3D,
-			ArrayList<GeoPointND> selectedPoints) {
+	public DrawPolygon3D(EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints) {
 
 		super(a_view3D);
 
@@ -439,7 +432,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		isPreview = true;
 
 		updatePreview();
-
 	}
 
 	@Override
@@ -498,7 +490,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// update segments
-		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext();) {
+		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext(); ) {
 			s.next().updatePreview();
 		}
 
@@ -528,7 +520,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (getGeoElement().isDefined()) {
 			setWaitForUpdate();
 		}
-
 	}
 
 	@Override
@@ -576,8 +567,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 
-		if (getGeoElement()
-				.getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
 			return false;
 		}
 
@@ -593,9 +583,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			inPlaneCoords = new Coords(4);
 		}
 
-		hitting.getOrigin().projectPlaneThruVIfPossible(
-				poly.getCoordSys().getMatrixOrthonormal(), hitting.getDirection(),
-				globalCoords, inPlaneCoords);
+		hitting
+				.getOrigin()
+				.projectPlaneThruVIfPossible(
+						poly.getCoordSys().getMatrixOrthonormal(),
+						hitting.getDirection(),
+						globalCoords,
+						inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {
 			return false;
@@ -608,8 +602,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			// TODO use other for non-parallel projection :
 			// -hitting.origin.distance(project[0]);
 			double parameterOnHitting = inPlaneCoords.getZ();
-			setZPick(parameterOnHitting, parameterOnHitting,
-					hitting.discardPositiveHits(), -parameterOnHitting);
+			setZPick(
+					parameterOnHitting,
+					parameterOnHitting,
+					hitting.discardPositiveHits(),
+					-parameterOnHitting);
 			setPickingType(PickingType.SURFACE);
 			ret = true;
 		}
@@ -628,15 +625,16 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				if (project == null) {
 					project = Coords.createInhomCoorsInD3();
 				}
-				p3d.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
+				p3d.projectLine(
+						hitting.getOrigin(),
+						hitting.getDirection(),
+						project,
 						parameters); // check distance to hitting line
 				double d = getView3D().getScaledDistance(p3d, project);
 				if (d <= poly.getLineThickness() + hitting.getThreshold()) {
 					double z = -parameters[0];
-					double dz = poly.getLineThickness()
-							/ getView3D().getScale();
-					setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
-							parameters[0]);
+					double dz = poly.getLineThickness() / getView3D().getScale();
+					setZPick(z + dz, z - dz, hitting.discardPositiveHits(), parameters[0]);
 					setPickingType(PickingType.POINT_OR_CURVE);
 					return true;
 				}
@@ -651,12 +649,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (isVisible()) {
 			GeoPolygon geo = (GeoPolygon) getGeoElement();
 			if (exportSurface) {
-				exportToPrinter3D.export(geo, vertices, null,
-						geo.getAlphaValue());
+				exportToPrinter3D.export(geo, vertices, null, geo.getAlphaValue());
 			} else {
 				if (!geo.wasInitLabelsCalled()) {
-					exportToPrinter3D.exportCurve(getGeometryIndex(), Export3DType.CURVE,
-							geo.getGeoClassType().toString(), geo);
+					exportToPrinter3D.exportCurve(
+							getGeometryIndex(), Export3DType.CURVE, geo.getGeoClassType().toString(), geo);
 				}
 			}
 		}
@@ -666,11 +663,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
 		if (isVisible()) {
 			GeoPolygon geo = (GeoPolygon) getGeoElement();
-			manager.export(geo, getSurfaceIndex(), geo.getObjectColor(),
-					geo.getAlphaValue(), GeometryType.SURFACE);
+			manager.export(
+					geo, getSurfaceIndex(), geo.getObjectColor(), geo.getAlphaValue(), GeometryType.SURFACE);
 			if (!geo.wasInitLabelsCalled()) {
-				manager.export(geo, getGeometryIndex(), GColor.BLACK, 1,
-						GeometryType.CURVE);
+				manager.export(geo, getGeometryIndex(), GColor.BLACK, 1, GeometryType.CURVE);
 			}
 		}
 	}
@@ -680,18 +676,18 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		super.setWaitForUpdateVisualStyle(prop);
 		if (prop == GProperty.LINE_STYLE) {
 			// also update for line width (e.g when translated)
-            setWaitForUpdate();
-        } else {
-            if (prop == GProperty.COLOR) {
-                setWaitForUpdateColor();
-            } else if (prop == GProperty.HIGHLIGHT) {
-                setWaitForUpdateColor();
-                EuclidianView3D view3D = getView3D();
+			setWaitForUpdate();
+		} else {
+			if (prop == GProperty.COLOR) {
+				setWaitForUpdateColor();
+			} else if (prop == GProperty.HIGHLIGHT) {
+				setWaitForUpdateColor();
+				EuclidianView3D view3D = getView3D();
 				updateSegmentHighlighting((GeoPolygon) getGeoElement(), view3D);
-            } else if (prop == GProperty.VISIBLE) {
-                setWaitForUpdateVisibility();
-            }
-        }
+			} else if (prop == GProperty.VISIBLE) {
+				setWaitForUpdateVisibility();
+			}
+		}
 	}
 
 	protected static void updateSegmentHighlighting(HasSegments p, EuclidianView3D view3D) {
@@ -701,5 +697,4 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			}
 		}
 	}
-
 }

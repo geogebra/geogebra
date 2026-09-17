@@ -71,44 +71,42 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	private final int splitterSize;
 	private final GeoGebraElement appletElement;
 
-  class HSplitter extends Splitter {
-    HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
-      super(target, reverse, splitPanel);
-      impl.setToHorizontal(splitterSize);
-    }
+	class HSplitter extends Splitter {
+		HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
+			super(target, reverse, splitPanel);
+			impl.setToHorizontal(splitterSize);
+		}
 
-    @Override
-    protected int getAbsolutePosition() {
-      return (int) (getAbsoluteLeft() * getZoom());
-    }
+		@Override
+		protected int getAbsolutePosition() {
+			return (int) (getAbsoluteLeft() * getZoom());
+		}
 
-    @Override
-    protected double getCenterSize() {
-      return getCenterWidth();
-    }
+		@Override
+		protected double getCenterSize() {
+			return getCenterWidth();
+		}
 
-	@Override
-	protected int getEventPosition(Event event) {
-		int type = DOM.eventGetType(event);
-		return type == Event.ONTOUCHSTART
-				|| type == Event.ONTOUCHMOVE
-				|| type == Event.ONTOUCHEND
-				? (int) (event.getTouches().get(0).getClientX() * getZoom())
-				: (int) (event.getClientX() * getZoom());
+		@Override
+		protected int getEventPosition(Event event) {
+			int type = DOM.eventGetType(event);
+			return type == Event.ONTOUCHSTART || type == Event.ONTOUCHMOVE || type == Event.ONTOUCHEND
+					? (int) (event.getTouches().get(0).getClientX() * getZoom())
+					: (int) (event.getClientX() * getZoom());
+		}
+
+		@Override
+		protected int getTargetPosition() {
+			return (int) (target.getAbsoluteLeft() * getZoom());
+		}
+
+		@Override
+		protected int getTargetSize() {
+			return target.getOffsetWidth();
+		}
 	}
 
-    @Override
-    protected int getTargetPosition() {
-      return (int) (target.getAbsoluteLeft() * getZoom());
-    }
-
-    @Override
-    protected int getTargetSize() {
-      return target.getOffsetWidth();
-    }
-  }
-
-  public abstract class Splitter extends Widget {
+	public abstract class Splitter extends Widget {
 		protected final Widget target;
 
 		private int offset;
@@ -126,8 +124,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 		private ZoomSplitLayoutPanel splitPanel;
 
-		protected SplitterImpl impl = NavigatorUtil.isMobile() ? new SplitterImplTouch()
-				: new SplitterImpl();
+		protected SplitterImpl impl =
+				NavigatorUtil.isMobile() ? new SplitterImplTouch() : new SplitterImpl();
 
 		/**
 		 * @param target
@@ -137,15 +135,18 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		 * @param splitPanel
 		 *            parent split pane
 		 */
-		public Splitter(Widget target, boolean reverse,
-				ZoomSplitLayoutPanel splitPanel) {
+		public Splitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
 			this.target = target;
 			this.reverse = reverse;
 			this.splitPanel = splitPanel;
 
 			setElement(impl.createElement());
-			sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE
-					| Event.ONDBLCLICK | Event.ONTOUCHSTART | Event.ONTOUCHMOVE
+			sinkEvents(Event.ONMOUSEDOWN
+					| Event.ONMOUSEUP
+					| Event.ONMOUSEMOVE
+					| Event.ONDBLCLICK
+					| Event.ONTOUCHSTART
+					| Event.ONTOUCHMOVE
 					| Event.ONTOUCHEND);
 			setStyleName("splitPaneDragger");
 		}
@@ -161,46 +162,43 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			}
 			Element splitter = impl.getSplitterElement();
 			switch (DOM.eventGetType(event)) {
-			default:
-				// do nothing
-				break;
-			case Event.ONTOUCHSTART:
-				splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
-				startDrag(event, splitter.hasClassName("gwt-SplitLayoutPanel-HDragger"));
-				break;
-			case Event.ONMOUSEDOWN:
-				startDrag(event, splitter.hasClassName("gwt-SplitLayoutPanel-HDragger"));
-				break;
-	
-			case Event.ONTOUCHEND:
-				splitter.removeClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
-				endDrag(event);
-				break;
-			case Event.ONMOUSEUP:
-				endDrag(event);
+				default:
+					// do nothing
+					break;
+				case Event.ONTOUCHSTART:
+					splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+					startDrag(event, splitter.hasClassName("gwt-SplitLayoutPanel-HDragger"));
+					break;
+				case Event.ONMOUSEDOWN:
+					startDrag(event, splitter.hasClassName("gwt-SplitLayoutPanel-HDragger"));
 					break;
 
-			case Event.ONMOUSEMOVE:
-			case Event.ONTOUCHMOVE:
-				if (splitPanel.hasSplittersFrozen()) {
-					event.preventDefault();
+				case Event.ONTOUCHEND:
+					splitter.removeClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+					endDrag(event);
 					break;
-				}
-				if (mouseDown) {
-					int sizeLeft = getEventPosition(event) - getTargetPosition()
-							- offset;
-					int size = reverse
-							? getTargetSize() - getSplitterSize() - sizeLeft
-							: sizeLeft;
+				case Event.ONMOUSEUP:
+					endDrag(event);
+					break;
 
-					((LayoutData) target.getLayoutData()).hidden = false;
-					// needed for prediction of panel size
-					setDividerLocationSilent((int) normalize(sizeLeft));
-					setAssociatedWidgetSize(size);
-					event.preventDefault();
+				case Event.ONMOUSEMOVE:
+				case Event.ONTOUCHMOVE:
+					if (splitPanel.hasSplittersFrozen()) {
+						event.preventDefault();
+						break;
 					}
-				break;
-				}
+					if (mouseDown) {
+						int sizeLeft = getEventPosition(event) - getTargetPosition() - offset;
+						int size = reverse ? getTargetSize() - getSplitterSize() - sizeLeft : sizeLeft;
+
+						((LayoutData) target.getLayoutData()).hidden = false;
+						// needed for prediction of panel size
+						setDividerLocationSilent((int) normalize(sizeLeft));
+						setAssociatedWidgetSize(size);
+						event.preventDefault();
+					}
+					break;
+			}
 		}
 
 		private void endDrag(Event event) {
@@ -251,10 +249,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			 * Resize glassElem to take up the entire scrollable window area,
 			 * which is the greater of the scroll size and the client size.
 			 */
-			int width = Math.max(NavigatorUtil.getWindowWidth(),
-					Document.get().getScrollWidth());
-			int height = Math.max(NavigatorUtil.getWindowHeight(),
-					Document.get().getScrollHeight());
+			int width = Math.max(NavigatorUtil.getWindowWidth(), Document.get().getScrollWidth());
+			int height = Math.max(NavigatorUtil.getWindowHeight(), Document.get().getScrollHeight());
 			Element glass = getGlassElem();
 			glass.getStyle().setHeight(height, Unit.PX);
 			glass.getStyle().setWidth(width, Unit.PX);
@@ -265,7 +261,6 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			offset = getEventPosition(event) - getAbsolutePosition();
 			Event.setCapture(getElement());
 			event.preventDefault();
-
 		}
 
 		/**
@@ -310,8 +305,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 				centerSize = newCenterSize;
 			}
 
-			return Math.max(
-					((LayoutData) target.getLayoutData()).size + centerSize, 0);
+			return Math.max(((LayoutData) target.getLayoutData()).size + centerSize, 0);
 		}
 
 		private void setAssociatedWidgetSize(double size0) {
@@ -351,48 +345,46 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			}
 			return size;
 		}
-  }
+	}
 
 	protected void onDragEnd() {
 		// overridden in subclasses
 	}
 
 	class VSplitter extends Splitter {
-    VSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
-      super(target, reverse, splitPanel);
-      impl.setToVertical(splitterSize);
-    }
+		VSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
+			super(target, reverse, splitPanel);
+			impl.setToVertical(splitterSize);
+		}
 
-    @Override
-    protected int getAbsolutePosition() {
-      return (int) (getAbsoluteTop() * getZoom());
-    }
+		@Override
+		protected int getAbsolutePosition() {
+			return (int) (getAbsoluteTop() * getZoom());
+		}
 
-    @Override
-    protected double getCenterSize() {
-      return getCenterHeight();
-    }
+		@Override
+		protected double getCenterSize() {
+			return getCenterHeight();
+		}
 
-    @Override
-	protected int getEventPosition(Event event) {
-		int type = DOM.eventGetType(event);
-		return type == Event.ONTOUCHSTART
-				|| type == Event.ONTOUCHMOVE
-				|| type == Event.ONTOUCHEND
-				? (int) (event.getTouches().get(0).getClientY() * getZoom())
-				: (int) (event.getClientY() * getZoom());
+		@Override
+		protected int getEventPosition(Event event) {
+			int type = DOM.eventGetType(event);
+			return type == Event.ONTOUCHSTART || type == Event.ONTOUCHMOVE || type == Event.ONTOUCHEND
+					? (int) (event.getTouches().get(0).getClientY() * getZoom())
+					: (int) (event.getClientY() * getZoom());
+		}
+
+		@Override
+		protected int getTargetPosition() {
+			return (int) (target.getAbsoluteTop() * getZoom());
+		}
+
+		@Override
+		protected int getTargetSize() {
+			return target.getOffsetHeight();
+		}
 	}
-
-    @Override
-    protected int getTargetPosition() {
-      return (int) (target.getAbsoluteTop() * getZoom());
-    }
-
-    @Override
-    protected int getTargetSize() {
-      return target.getOffsetHeight();
-    }
-  }
 
 	/**
 	 * @return glass pane
@@ -431,12 +423,12 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		this(DEFAULT_SPLITTER_SIZE, appletElement);
 	}
 
-  /**
-   * Construct a new {@link SplitLayoutPanel} with the specified splitter size
-   * in pixels.
-   *
-   * @param splitterSize the size of the splitter in pixels
-   */
+	/**
+	 * Construct a new {@link SplitLayoutPanel} with the specified splitter size
+	 * in pixels.
+	 *
+	 * @param splitterSize the size of the splitter in pixels
+	 */
 	public ZoomSplitLayoutPanel(int splitterSize, GeoGebraElement appletElement) {
 		super(Unit.PX);
 		this.splitterSize = splitterSize;
@@ -444,49 +436,49 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		this.appletElement = appletElement;
 	}
 
-  /**
-   * Return the size of the splitter in pixels.
-   *
-   * @return the splitter size
-   */
-  public int getSplitterSize() {
-    return splitterSize;
-  }
+	/**
+	 * Return the size of the splitter in pixels.
+	 *
+	 * @return the splitter size
+	 */
+	public int getSplitterSize() {
+		return splitterSize;
+	}
 
-  @Override
-  public void insert(Widget child, Direction direction, double size, Widget before) {
-    super.insert(child, direction, size, before);
-    if (direction != Direction.CENTER) {
-      insertSplitter(child, before);
-    }
-  }
+	@Override
+	public void insert(Widget child, Direction direction, double size, Widget before) {
+		super.insert(child, direction, size, before);
+		if (direction != Direction.CENTER) {
+			insertSplitter(child, before);
+		}
+	}
 
-  @Override
-  public boolean remove(Widget child) {
-    assert !(child instanceof Splitter) : "Splitters may not be directly removed";
+	@Override
+	public boolean remove(Widget child) {
+		assert !(child instanceof Splitter) : "Splitters may not be directly removed";
 
-    int idx = getWidgetIndex(child);
-    if (super.remove(child)) {
-      // Remove the associated splitter, if any.
-      // Now that the widget is removed, idx is the index of the splitter.
-      if (idx < getWidgetCount()) {
-        // Call super.remove(), or we'll end up recursing.
-        super.remove(getWidget(idx));
-      }
-      return true;
-    }
-    return false;
-  }
+		int idx = getWidgetIndex(child);
+		if (super.remove(child)) {
+			// Remove the associated splitter, if any.
+			// Now that the widget is removed, idx is the index of the splitter.
+			if (idx < getWidgetCount()) {
+				// Call super.remove(), or we'll end up recursing.
+				super.remove(getWidget(idx));
+			}
+			return true;
+		}
+		return false;
+	}
 
-  @Override
-  public void setWidgetHidden(Widget widget, boolean hidden) {
-    super.setWidgetHidden(widget, hidden);
-    Splitter splitter = getAssociatedSplitter(widget);
-    if (splitter != null) {
-      // The splitter is null for the center element.
-      super.setWidgetHidden(splitter, hidden);
-    }
-  }
+	@Override
+	public void setWidgetHidden(Widget widget, boolean hidden) {
+		super.setWidgetHidden(widget, hidden);
+		Splitter splitter = getAssociatedSplitter(widget);
+		if (splitter != null) {
+			// The splitter is null for the center element.
+			super.setWidgetHidden(splitter, hidden);
+		}
+	}
 
 	/**
 	 * Sets the minimum allowable size for the given widget.
@@ -503,14 +495,14 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	 * @param minSize
 	 *            the minimum size for this widget
 	 */
-  public void setWidgetMinSize(Widget child, int minSize) {
-    assertWidgetIsChild(child);
-    Splitter splitter = getAssociatedSplitter(child);
-    // The splitter is null for the center element.
-    if (splitter != null) {
-      splitter.setMinSize(minSize);
-    }
-  }
+	public void setWidgetMinSize(Widget child, int minSize) {
+		assertWidgetIsChild(child);
+		Splitter splitter = getAssociatedSplitter(child);
+		// The splitter is null for the center element.
+		if (splitter != null) {
+			splitter.setMinSize(minSize);
+		}
+	}
 
 	/**
 	 * Sets a size below which the slider will close completely. This can be
@@ -529,68 +521,67 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 	 * @param snapClosedSize
 	 *            the width below which the widget will close or -1 to disable.
 	 */
-  public void setWidgetSnapClosedSize(Widget child, int snapClosedSize) {
-    assertWidgetIsChild(child);
-    Splitter splitter = getAssociatedSplitter(child);
-    // The splitter is null for the center element.
-    if (splitter != null) {
-      splitter.setSnapClosedSize(snapClosedSize);
-    }
-  }
+	public void setWidgetSnapClosedSize(Widget child, int snapClosedSize) {
+		assertWidgetIsChild(child);
+		Splitter splitter = getAssociatedSplitter(child);
+		// The splitter is null for the center element.
+		if (splitter != null) {
+			splitter.setSnapClosedSize(snapClosedSize);
+		}
+	}
 
-  /**
-   * Sets whether double-clicking on the splitter should toggle the
-   * display of the widget.
-   *
-   * @param child the child whose display toggling will be allowed or not.
-   * @param allowed whether display toggling is allowed for this widget
-   */
-  public void setWidgetToggleDisplayAllowed(Widget child, boolean allowed) {
-    assertWidgetIsChild(child);
-    Splitter splitter = getAssociatedSplitter(child);
-    // The splitter is null for the center element.
-    if (splitter != null) {
-      splitter.setToggleDisplayAllowed(allowed);
-    }
-  }
+	/**
+	 * Sets whether double-clicking on the splitter should toggle the
+	 * display of the widget.
+	 *
+	 * @param child the child whose display toggling will be allowed or not.
+	 * @param allowed whether display toggling is allowed for this widget
+	 */
+	public void setWidgetToggleDisplayAllowed(Widget child, boolean allowed) {
+		assertWidgetIsChild(child);
+		Splitter splitter = getAssociatedSplitter(child);
+		// The splitter is null for the center element.
+		if (splitter != null) {
+			splitter.setToggleDisplayAllowed(allowed);
+		}
+	}
 
-  private Splitter getAssociatedSplitter(Widget child) {
-    // If a widget has a next sibling, it must be a splitter, because the only
-    // widget that *isn't* followed by a splitter must be the CENTER, which has
-    // no associated splitter.
-    int idx = getWidgetIndex(child);
-    if (idx > -1 && idx < getWidgetCount() - 1) {
-      Widget splitter = getWidget(idx + 1);
-      assert splitter instanceof Splitter : "Expected child widget to be splitter";
-      return (Splitter) splitter;
-    }
-    return null;
-  }
+	private Splitter getAssociatedSplitter(Widget child) {
+		// If a widget has a next sibling, it must be a splitter, because the only
+		// widget that *isn't* followed by a splitter must be the CENTER, which has
+		// no associated splitter.
+		int idx = getWidgetIndex(child);
+		if (idx > -1 && idx < getWidgetCount() - 1) {
+			Widget splitter = getWidget(idx + 1);
+			assert splitter instanceof Splitter : "Expected child widget to be splitter";
+			return (Splitter) splitter;
+		}
+		return null;
+	}
 
 	private void insertSplitter(Widget widget, Widget before) {
-		assert getChildren()
-				.size() > 0 : "Can't add a splitter before any children";
+		assert getChildren().size() > 0 : "Can't add a splitter before any children";
 
 		LayoutData layout = (LayoutData) widget.getLayoutData();
 		Splitter splitter = null;
 		String cssdir = "x";
 		switch (getResolvedDirection(layout.direction)) {
-		case WEST:
-			cssdir = "y";
-			splitter = new HSplitter(widget, false, this);
-			break;
-		case EAST:
-			cssdir = "y";
-			splitter = new HSplitter(widget, true, this);
-			break;
-		case NORTH:
-			splitter = new VSplitter(widget, false, this);
-			break;
-		case SOUTH:
-			splitter = new VSplitter(widget, true, this);
-			break;
-		default:
-			assert false : "Unexpected direction";
+			case WEST:
+				cssdir = "y";
+				splitter = new HSplitter(widget, false, this);
+				break;
+			case EAST:
+				cssdir = "y";
+				splitter = new HSplitter(widget, true, this);
+				break;
+			case NORTH:
+				splitter = new VSplitter(widget, false, this);
+				break;
+			case SOUTH:
+				splitter = new VSplitter(widget, true, this);
+				break;
+			default:
+				assert false : "Unexpected direction";
 		}
 
 		super.insert(splitter, layout.direction, splitterSize, before);
@@ -598,20 +589,20 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 		LayoutData layoutData = (LayoutData) splitter.getLayoutData();
 		splitter.impl.splitterInsertedIntoLayer(layoutData.layer);
 		Element parentDiv = splitter.getElement().getParentElement();
-		parentDiv.setClassName("y".equals(cssdir) ? "draggerParentHorizontal"
-				: "draggerParentVertical");
-		parentDiv.setAttribute("style", parentDiv.getAttribute("style")
-				+ ";overflow-" + cssdir + ":hidden !important");
+		parentDiv.setClassName(
+				"y".equals(cssdir) ? "draggerParentHorizontal" : "draggerParentVertical");
+		parentDiv.setAttribute(
+				"style", parentDiv.getAttribute("style") + ";overflow-" + cssdir + ":hidden !important");
 	}
 
 	void assertWidgetIsChild(Widget widget) {
-		assert (widget == null) || (widget
-				.getParent() == this) : "The specified widget is not a child of this panel";
+		assert (widget == null) || (widget.getParent() == this)
+				: "The specified widget is not a child of this panel";
 	}
 
 	/**
 	 * Save divider location.
-	 * 
+	 *
 	 * @param size
 	 *            divider location
 	 */

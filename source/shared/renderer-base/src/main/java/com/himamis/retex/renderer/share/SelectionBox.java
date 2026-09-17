@@ -39,12 +39,10 @@ public class SelectionBox extends Box {
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(1, 0, 0, 1, null));
 
 		GAffineTransform transform = g2.getTransform();
-		SelectionBox.startX = transform.getScaleX() * x
-				+ transform.getShearX() * y
-				+ transform.getTranslateX();
-		SelectionBox.startY = transform.getScaleY() * y
-				+ transform.getShearY() * x
-				+ transform.getTranslateY();
+		SelectionBox.startX =
+				transform.getScaleX() * x + transform.getShearX() * y + transform.getTranslateX();
+		SelectionBox.startY =
+				transform.getScaleY() * y + transform.getShearY() * x + transform.getTranslateY();
 
 		SelectionBox.endX = transform.getScaleX() * (x + content.width)
 				+ transform.getShearX() * (y + content.depth)
@@ -58,8 +56,10 @@ public class SelectionBox extends Box {
 			g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
 			GLine2D line = AwtFactory.getPrototype().newLine2D();
 			line.setLine(
-					DIAMETER * x, DIAMETER * y - DIAMETER * content.height,
-					DIAMETER * x, DIAMETER * y + DIAMETER * content.depth);
+					DIAMETER * x,
+					DIAMETER * y - DIAMETER * content.height,
+					DIAMETER * x,
+					DIAMETER * y + DIAMETER * content.depth);
 			g2.draw(line);
 			line.setLine(
 					DIAMETER * (x + content.width),
@@ -67,17 +67,24 @@ public class SelectionBox extends Box {
 					DIAMETER * (x + content.width),
 					DIAMETER * (y + content.depth));
 			g2.draw(line);
-			g2.drawArc((int) (DIAMETER * x - 5),
-					(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
-					DIAMETER, 0, 360);
-			g2.drawArc((int) (DIAMETER * x + DIAMETER * content.width - 5),
-					(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
-					DIAMETER, 0, 360);
+			g2.drawArc(
+					(int) (DIAMETER * x - 5),
+					(int) (DIAMETER * y + DIAMETER * content.depth),
+					DIAMETER,
+					DIAMETER,
+					0,
+					360);
+			g2.drawArc(
+					(int) (DIAMETER * x + DIAMETER * content.width - 5),
+					(int) (DIAMETER * y + DIAMETER * content.depth),
+					DIAMETER,
+					DIAMETER,
+					0,
+					360);
 
 			g2.restoreTransform();
 		}
 		g2.setStroke(old);
-
 	}
 
 	@Override

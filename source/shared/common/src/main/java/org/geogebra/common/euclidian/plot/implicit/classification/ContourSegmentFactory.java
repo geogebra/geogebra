@@ -26,8 +26,7 @@ import org.geogebra.common.kernel.implicit.PointList;
  * Creates contour segments from clipped contour point lists.
  */
 public final class ContourSegmentFactory {
-	private ContourSegmentFactory() {
-	}
+	private ContourSegmentFactory() {}
 
 	/**
 	 * @param contour source contour points
@@ -49,5 +48,4 @@ public final class ContourSegmentFactory {
 		}
 		return list;
 	}
-
 }

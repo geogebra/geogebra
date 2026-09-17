@@ -25,5 +25,4 @@ public interface OpenFileListener {
 	 * @return whether to unregister this afterwards
 	 */
 	boolean onOpenFile();
-
 }

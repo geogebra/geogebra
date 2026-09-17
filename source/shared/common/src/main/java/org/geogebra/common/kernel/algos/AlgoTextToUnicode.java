@@ -91,5 +91,4 @@ public class AlgoTextToUnicode extends AlgoElement {
 			list.add(num); // num.copy());
 		}
 	}
-
 }

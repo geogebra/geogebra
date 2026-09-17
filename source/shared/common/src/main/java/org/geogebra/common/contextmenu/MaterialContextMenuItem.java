@@ -44,4 +44,3 @@ public enum MaterialContextMenuItem implements ContextMenuItem {
 		return icon;
 	}
 }
-

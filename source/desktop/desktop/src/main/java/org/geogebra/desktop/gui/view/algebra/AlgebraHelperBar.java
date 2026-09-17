@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -52,6 +52,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * Instance of the application.
 	 */
 	protected AppD app;
+
 	private final LocalizationD loc;
 	private final List<AlgebraStyle> algebraStyles;
 
@@ -66,6 +67,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * by their type
 	 */
 	protected PopupMenuButtonD toggleTypeTreeMode;
+
 	protected PopupMenuButtonD toggleDescriptionMode;
 
 	private JPopupMenu treeModeMenu;
@@ -73,7 +75,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 
 	/**
 	 * Helper bar.
-	 * 
+	 *
 	 * @param algebraView algebra view
 	 * @param app application
 	 */
@@ -95,8 +97,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 */
 	protected void addButtons() {
 
-		toggleAuxiliary = new JButton(app.getScaledIcon(
-				GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS));
+		toggleAuxiliary =
+				new JButton(app.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS));
 		toggleAuxiliary.setFocusPainted(false);
 		toggleAuxiliary.addActionListener(this);
 		add(toggleAuxiliary);
@@ -108,9 +110,9 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleTypeTreeMode.setPopupMenu(treeModeMenu);
 		toggleTypeTreeMode.setKeepVisible(true);
 		toggleTypeTreeMode.setStandardButton(true); // mouse clicks over total
-													// button region
-		toggleTypeTreeMode.setIcon(app.getScaledIcon(
-				GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY));
+		// button region
+		toggleTypeTreeMode.setIcon(
+				app.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY));
 		add(toggleTypeTreeMode);
 
 		toggleDescriptionMode = new PopupMenuButtonD(app);
@@ -118,12 +120,10 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleDescriptionMode.setPopupMenu(descriptionMenu);
 		toggleDescriptionMode.setKeepVisible(true);
 		toggleDescriptionMode.setStandardButton(true); // mouse clicks over
-														// total
-														// button region
-		toggleDescriptionMode
-				.setIcon(app.getScaledIcon(GuiResourcesD.FORMULA_BAR));
+		// total
+		// button region
+		toggleDescriptionMode.setIcon(app.getScaledIcon(GuiResourcesD.FORMULA_BAR));
 		add(toggleDescriptionMode);
-
 	}
 
 	/**
@@ -158,7 +158,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		if (e.getSource() == toggleAuxiliary) {
 			app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
 			toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-
 		}
 		// else if(e.getSource() == toggleLaTeX) {
 		// algebraView.setRenderLaTeX(!algebraView.isRenderLaTeX());
@@ -181,8 +180,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 
 		treeModeMenu.add(title);
 
-		SortMode[] sortModes = new SortMode[] { SortMode.DEPENDENCY,
-				SortMode.TYPE, SortMode.LAYER, SortMode.ORDER };
+		SortMode[] sortModes =
+				new SortMode[] {SortMode.DEPENDENCY, SortMode.TYPE, SortMode.LAYER, SortMode.ORDER};
 
 		for (int i = 0; i < sortModes.length; i++) {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
@@ -200,7 +199,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		}
 
 		app.setComponentOrientation(treeModeMenu);
-
 	}
 
 	void buildDescriptionMenu() {

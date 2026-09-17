@@ -72,7 +72,6 @@ public final class DrawText3D extends Drawable3DCurves {
 	@Override
 	public CaptionText createStaticCaption3D(GeoElement geo) {
 		return new StaticText3D(geo, getView3D());
-
 	}
 
 	@Override
@@ -96,8 +95,7 @@ public final class DrawText3D extends Drawable3DCurves {
 
 		// compute location of text
 		if (text.isAbsoluteScreenLocActive()) {
-			return new Coords(text.getAbsoluteScreenLocX(),
-					text.getAbsoluteScreenLocY(), 0, 1);
+			return new Coords(text.getAbsoluteScreenLocX(), text.getAbsoluteScreenLocY(), 0, 1);
 		}
 
 		GeoPointND loc = text.getStartPoint();
@@ -126,8 +124,8 @@ public final class DrawText3D extends Drawable3DCurves {
 	public boolean hit(Hitting hitting) {
 
 		if (hitting.hitLabel(label)) {
-			setZPick(label.getDrawZ(), label.getDrawZ(),
-					hitting.discardPositiveHits(), -label.getDrawZ());
+			setZPick(
+					label.getDrawZ(), label.getDrawZ(), hitting.discardPositiveHits(), -label.getDrawZ());
 			return true;
 		}
 
@@ -151,7 +149,7 @@ public final class DrawText3D extends Drawable3DCurves {
 
 	/**
 	 * Draw this or not, depending on abs flag.
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 * @param absolute
@@ -166,7 +164,7 @@ public final class DrawText3D extends Drawable3DCurves {
 
 	@Override
 	public boolean isVisible() {
-		if  (getGeoElement().isLabelSet() && createdByDrawList()) {
+		if (getGeoElement().isLabelSet() && createdByDrawList()) {
 			return false;
 		}
 		return super.isVisible();

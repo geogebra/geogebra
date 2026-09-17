@@ -36,8 +36,8 @@ public class Spline {
 	 * @param yExpression the y expression of the curve.
 	 * @param functionVariable of the curve.
 	 */
-	public Spline(ExpressionNode xExpression, ExpressionNode yExpression,
-			FunctionVariable functionVariable) {
+	public Spline(
+			ExpressionNode xExpression, ExpressionNode yExpression, FunctionVariable functionVariable) {
 		conditions = (MyList) xExpression.getLeft();
 		funcXs = (MyList) xExpression.getRight();
 		funcYs = (MyList) yExpression.getRight();

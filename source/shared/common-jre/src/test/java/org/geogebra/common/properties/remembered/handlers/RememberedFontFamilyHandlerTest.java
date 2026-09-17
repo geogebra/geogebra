@@ -64,19 +64,15 @@ class RememberedFontFamilyHandlerTest extends BaseAppTestSetup {
 				() -> assertTrue(handler.supports(new GeoMindMapNode(construction, null))),
 				() -> assertTrue(handler.supports(new GeoInlineTable(construction, null))),
 				() -> assertFalse(handler.supports(new GeoText(construction, null))),
-				() -> assertFalse(handler.supports(new GeoAngle(construction, 0)))
-		);
+				() -> assertFalse(handler.supports(new GeoAngle(construction, 0))));
 	}
 
 	@Test
 	void testApplyOnUnsupported() {
 		Construction construction = getConstruction();
 		assertAll(
-				() -> assertFalse(handler.apply(new GeoText(construction, null),
-						FontFamily.COURIER)),
-				() -> assertFalse(handler.apply(new GeoAngle(construction, 0),
-						FontFamily.COMIC_SANS))
-		);
+				() -> assertFalse(handler.apply(new GeoText(construction, null), FontFamily.COURIER)),
+				() -> assertFalse(handler.apply(new GeoAngle(construction, 0), FontFamily.COMIC_SANS)));
 	}
 
 	@Test
@@ -108,5 +104,4 @@ class RememberedFontFamilyHandlerTest extends BaseAppTestSetup {
 		GeoInlineText inlineText = new GeoInlineText(getConstruction(), new GPoint2D(0, 0));
 		assertFalse(handler.apply(inlineText, FontFamily.ARIAL));
 	}
-
 }

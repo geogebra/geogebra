@@ -21,8 +21,7 @@ package org.geogebra.common.main;
  */
 public final class GeoGebraPreferences {
 	/** path to default geos preferences */
-	public final static String XML_DEFAULT_OBJECT_PREFERENCES = "xml_default_object_preferences";
+	public static final String XML_DEFAULT_OBJECT_PREFERENCES = "xml_default_object_preferences";
 	/** path to UI preferences */
-	public final static String XML_USER_PREFERENCES = "xml_user_preferences";
-
+	public static final String XML_USER_PREFERENCES = "xml_user_preferences";
 }

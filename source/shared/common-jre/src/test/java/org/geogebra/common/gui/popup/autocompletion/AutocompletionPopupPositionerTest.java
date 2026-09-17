@@ -38,37 +38,36 @@ class AutocompletionPopupPositionerTest {
 
 	@Test
 	void testVerticalPositionUnspecifiedPopupAboveInputBar() {
-		Rectangle inputFrame =
-				new Rectangle(0, PHONE_FRAME.getWidth(), PHONE_FRAME.getHeight() - INPUT_HEIGHT,
-						PHONE_FRAME.getHeight());
-		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
+		Rectangle inputFrame = new Rectangle(
+				0, PHONE_FRAME.getWidth(), PHONE_FRAME.getHeight() - INPUT_HEIGHT, PHONE_FRAME.getHeight());
+		Rectangle frame = positioner.calculatePopupFrame(
+				inputFrame, SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
 		assertThat(frame.getMaxY(), equalTo(inputFrame.getMinY()));
 	}
 
 	@Test
 	void testVerticalPositionUnspecifiedPopupBelowInputBar() {
-		Rectangle inputFrame = new Rectangle(0, PHONE_FRAME.getWidth(),
-				INPUT_HEIGHT / 2, INPUT_HEIGHT / 2 + INPUT_HEIGHT);
-		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
+		Rectangle inputFrame =
+				new Rectangle(0, PHONE_FRAME.getWidth(), INPUT_HEIGHT / 2, INPUT_HEIGHT / 2 + INPUT_HEIGHT);
+		Rectangle frame = positioner.calculatePopupFrame(
+				inputFrame, SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
 		assertThat(frame.getMinY(), equalTo(inputFrame.getMaxY()));
 	}
 
 	@Test
 	void testVerticalPositionAbove() {
-		Rectangle inputFrame = new Rectangle(0, PHONE_FRAME.getWidth(),
-				INPUT_HEIGHT * 2, INPUT_HEIGHT * 3);
-		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.ABOVE);
+		Rectangle inputFrame =
+				new Rectangle(0, PHONE_FRAME.getWidth(), INPUT_HEIGHT * 2, INPUT_HEIGHT * 3);
+		Rectangle frame = positioner.calculatePopupFrame(
+				inputFrame, SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.ABOVE);
 		assertThat(frame.getMaxY(), equalTo(inputFrame.getMinY()));
 	}
 
 	@Test
 	void testHorizontalPositionForPhone() {
 		Rectangle inputFrame = new Rectangle(0, PHONE_FRAME.getWidth(), 0, INPUT_HEIGHT);
-		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
+		Rectangle frame = positioner.calculatePopupFrame(
+				inputFrame, SINGLE_LINE_POPUP, PHONE_FRAME, VerticalPosition.UNSPECIFIED);
 		assertThat(frame.getMinX(), equalTo(MARGIN));
 		assertThat(frame.getMaxX(), equalTo(PHONE_FRAME.getWidth() - MARGIN));
 	}
@@ -76,8 +75,8 @@ class AutocompletionPopupPositionerTest {
 	@Test
 	void testHorizontalPositionForDesktop() {
 		Rectangle inputFrame = new Rectangle(48, 256, 0, INPUT_HEIGHT);
-		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, DESKTOP_FRAME, VerticalPosition.UNSPECIFIED);
+		Rectangle frame = positioner.calculatePopupFrame(
+				inputFrame, SINGLE_LINE_POPUP, DESKTOP_FRAME, VerticalPosition.UNSPECIFIED);
 		assertThat(frame.getMinX(), equalTo(inputFrame.getMinX()));
 		assertThat(frame.getWidth(), equalTo(520.0));
 	}
@@ -86,11 +85,14 @@ class AutocompletionPopupPositionerTest {
 	void testHorizontalPositionEdgeCase() {
 		int inputWidth = 56;
 		// Input is aligned to the right edge of the frame with 56 width
-		Rectangle inputFrame = new Rectangle(PHONE_FRAME_LANDSCAPE.getWidth() - inputWidth,
-				PHONE_FRAME_LANDSCAPE.getWidth(), 0, INPUT_HEIGHT);
+		Rectangle inputFrame = new Rectangle(
+				PHONE_FRAME_LANDSCAPE.getWidth() - inputWidth,
+				PHONE_FRAME_LANDSCAPE.getWidth(),
+				0,
+				INPUT_HEIGHT);
 
-		Rectangle frame = positioner.calculatePopupFrame(inputFrame,
-				SINGLE_LINE_POPUP, PHONE_FRAME_LANDSCAPE, VerticalPosition.UNSPECIFIED);
+		Rectangle frame = positioner.calculatePopupFrame(
+				inputFrame, SINGLE_LINE_POPUP, PHONE_FRAME_LANDSCAPE, VerticalPosition.UNSPECIFIED);
 
 		// Expect that suggestion popup does not left align with input box
 		// And has a greater width than the input box

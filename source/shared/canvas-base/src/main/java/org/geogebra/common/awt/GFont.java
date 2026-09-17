@@ -33,7 +33,7 @@ public interface GFont {
 	/**
 	 * Returns the style of this <code>Font</code>. The style can be PLAIN,
 	 * BOLD, ITALIC, or BOLD+ITALIC.
-	 * 
+	 *
 	 * @return the style of this <code>Font</code>
 	 * @see #isBold
 	 * @see #isItalic
@@ -44,7 +44,7 @@ public interface GFont {
 	 * Returns the point size of this <code>Font</code>, rounded to an integer.
 	 * Most users are familiar with the idea of using <i>point size</i> to
 	 * specify the size of glyphs in a font.
-	 * 
+	 *
 	 * @return the point size of this <code>Font</code> in 1/72 of an inch
 	 *         units.
 	 */
@@ -52,7 +52,7 @@ public interface GFont {
 
 	/**
 	 * Indicates whether this <code>Font</code> object's style is ITALIC.
-	 * 
+	 *
 	 * @return <code>true</code> if this <code>Font</code> object's style is
 	 *         ITALIC; <code>false</code> otherwise.
 	 */
@@ -60,7 +60,7 @@ public interface GFont {
 
 	/**
 	 * Indicates whether this <code>Font</code> object's style is BOLD.
-	 * 
+	 *
 	 * @return <code>true</code> if this <code>Font</code> object's style is
 	 *         BOLD; <code>false</code> otherwise.
 	 */
@@ -74,7 +74,7 @@ public interface GFont {
 	 * first character this <code>Font</code> cannot display without using the
 	 * missing glyph code. If the <code>Font</code> can display all characters,
 	 * -1 is returned.
-	 * 
+	 *
 	 * @param str
 	 *            a <code>String</code> object
 	 * @return an offset into <code>str</code> that points to the first
@@ -116,5 +116,4 @@ public interface GFont {
 	 * @return font name
 	 */
 	String getFontName();
-
 }

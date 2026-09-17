@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -66,8 +66,7 @@ class AuralTextTest {
 	}
 
 	private static GeoElementND[] add(String in) {
-		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(in,
-				true);
+		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(in, true);
 	}
 
 	@Test
@@ -84,13 +83,10 @@ class AuralTextTest {
 
 	@Test
 	void numberAural() {
-		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
-				"decrease", "edit");
+		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase", "decrease", "edit");
 		app.setRightClickEnabled(false);
-		aural("sl=Slider(-5,5)", "Slider", "increase",
-				"decrease", "edit");
-		assertEquals("Slider sl = 0",
-				((GeoNumeric) get("sl")).getAuralText());
+		aural("sl=Slider(-5,5)", "Slider", "increase", "decrease", "edit");
+		assertEquals("Slider sl = 0", ((GeoNumeric) get("sl")).getAuralText());
 		aural("4", "Number");
 	}
 
@@ -102,10 +98,8 @@ class AuralTextTest {
 	void numberCaptionAural() {
 		add("vec=Slider(-5,5)");
 		add("SetCaption(vec,\"Vector v = %v\")");
-		aural("vec", "Vector v = 0", "start animation", "increase",
-				"decrease", "edit");
-		assertEquals("Vector v = 0",
-				((GeoNumeric) get("vec")).getAuralText());
+		aural("vec", "Vector v = 0", "start animation", "increase", "decrease", "edit");
+		assertEquals("Vector v = 0", ((GeoNumeric) get("vec")).getAuralText());
 	}
 
 	@Test
@@ -133,12 +127,12 @@ class AuralTextTest {
 		dropdown.setDrawAsComboBox(true);
 		dropdown.setEuclidianVisible(true);
 		dropdown.updateRepaint();
-		aural("mylist", "dropdown mylist", "Element x selected", "Press space to open",
-				"edit");
-		assertEquals("x 1 of 2 Press up arrow and down arrow to go to different options."
-				+ " Press enter to select.", dropdown.getAuralTextAsOpened());
-		assertEquals("Element x selected Dropdown closed ",
-				dropdown.getAuralTextForSpace());
+		aural("mylist", "dropdown mylist", "Element x selected", "Press space to open", "edit");
+		assertEquals(
+				"x 1 of 2 Press up arrow and down arrow to go to different options."
+						+ " Press enter to select.",
+				dropdown.getAuralTextAsOpened());
+		assertEquals("Element x selected Dropdown closed ", dropdown.getAuralTextForSpace());
 	}
 
 	@Test
@@ -153,16 +147,17 @@ class AuralTextTest {
 
 	@Test
 	void textAuralStroke() {
-		aural("LaTeX(\"\\dstrok\\Dstrok\\hstrok\\Hstrok\\l\\L\")",
-				"\u0111\u0110\u0127\u0126\u0142\u0141", "edit");
+		aural(
+				"LaTeX(\"\\dstrok\\Dstrok\\hstrok\\Hstrok\\l\\L\")",
+				"\u0111\u0110\u0127\u0126\u0142\u0141",
+				"edit");
 		aural("LaTeX(\"\\tstroke\")", "\u0167", "edit");
 		aural("LaTeX(\"\\Tstroke\")", "\u0166", "edit");
 	}
 
 	@Test
 	void textAuralAccent() {
-		aural("LaTeX(\"\\r{a}\\r{A}\\'{e}\")",
-				"\u00E5\u00C5\u00E9", "edit");
+		aural("LaTeX(\"\\r{a}\\r{A}\\'{e}\")", "\u00E5\u00C5\u00E9", "edit");
 		aural("LaTeX(\"\\ogonek{a}\")", "\u0105", "edit");
 		aural("LaTeX(\"\\cedilla{c}\")", "\u00E7", "edit");
 		aural("LaTeX(\"\\text{L\u00EDnea Uno}\")", "L\u00EDnea Uno", "edit");
@@ -170,24 +165,25 @@ class AuralTextTest {
 
 	@Test
 	void textAuralSurd() {
-		aural("LaTeX(\"\u221a\\surd\\surdsign\")",
-				"\u221a\u221a\u221a", "edit");
+		aural("LaTeX(\"\u221a\\surd\\surdsign\")", "\u221a\u221a\u221a", "edit");
 	}
 
 	@Test
 	void textAuralIntegral() {
-		aural("LaTeX(\"\\int_{x=1}^{2}x dx\")",
-				Unicode.INTEGRAL + " from x=1 to 2 xdx", "edit");
-		aural("LaTeX(\"\\sum_{x=1}^{2}x\")",
-				"\u2211 from x=1 to 2 x", "edit");
+		aural("LaTeX(\"\\int_{x=1}^{2}x dx\")", Unicode.INTEGRAL + " from x=1 to 2 xdx", "edit");
+		aural("LaTeX(\"\\sum_{x=1}^{2}x\")", "\u2211 from x=1 to 2 x", "edit");
 	}
 
 	@Test
 	void textAural() {
-		aural("LaTeX(\"a\\geq b\\leq c\")", "a" + Unicode.GREATER_EQUAL + "b"
-				+ Unicode.LESS_EQUAL + "c", "edit");
-		aural("LaTeX(\"a\\ge b\\le c\")", "a" + Unicode.GREATER_EQUAL + "b"
-				+ Unicode.LESS_EQUAL + "c", "edit");
+		aural(
+				"LaTeX(\"a\\geq b\\leq c\")",
+				"a" + Unicode.GREATER_EQUAL + "b" + Unicode.LESS_EQUAL + "c",
+				"edit");
+		aural(
+				"LaTeX(\"a\\ge b\\le c\")",
+				"a" + Unicode.GREATER_EQUAL + "b" + Unicode.LESS_EQUAL + "c",
+				"edit");
 		aural("LaTeX(\"b=a+\\mathbf{x^2}\")", "b=a plus x squared", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^3}\")", "a plus x cubed", "edit");
 		aural("LaTeX(\"a+\\mathbf{x^4}\")", "a plus x to the power of 4 end power", "edit");
@@ -198,41 +194,40 @@ class AuralTextTest {
 		aural("LaTeX(\"\\vec{x}\")", " vector x", "edit");
 		aural("LaTeX(\"\\displaylines{x\\\\y}\")", "x y", "edit");
 		aural("LaTeX(\"\\overbrace{x}\")", "open brace  over x", "edit");
-		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text",
-				"edit");
+		aural("LaTeX(\"\\fgcolor{red}{\\text{red text}}\")", "red text", "edit");
 		aural("LaTeX(\"a\\Vert b\")", "a\u2016b", "edit");
-		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text",
-				"edit");
-		aural("TableText({{1,2,3},{3,4,5}})", "table with 2 rows and 3 columns "
+		aural("LaTeX(\"\\bgcolor{red}{\\text{not red text}}\")", "not red text", "edit");
+		aural(
+				"TableText({{1,2,3},{3,4,5}})",
+				"table with 2 rows and 3 columns "
 						+ "The 1st row is 1 2 3 The 2nd row is 3 4 5 end of table",
 				"edit");
-		aural("TableText({{1,2,3},{3,4,5}},\"()\")", "matrix with 2 rows and 3 columns "
+		aural(
+				"TableText({{1,2,3},{3,4,5}},\"()\")",
+				"matrix with 2 rows and 3 columns "
 						+ "The 1st row is 1 2 3 The 2nd row is 3 4 5 end of matrix",
 				"edit");
-		aural("TableText({{1,2,3},{3,4,5}},\"||\")",
+		aural(
+				"TableText({{1,2,3},{3,4,5}},\"||\")",
 				"determinant with 2 rows and 3 columns The 1st row is 1 2 3 "
-						+ "The 2nd row is 3 4 5 end of determinant", "edit");
-		aural("TableText({{1,2,3},{3,4,5}},\"v\")", "table with 2 columns and 3 rows "
+						+ "The 2nd row is 3 4 5 end of determinant",
+				"edit");
+		aural(
+				"TableText({{1,2,3},{3,4,5}},\"v\")",
+				"table with 2 columns and 3 rows "
 						+ "The 1st column is 1 2 3 The 2nd column is 3 4 5 end of table",
 				"edit");
 		aural("FractionText(1.5)", "start of fraction 3 over 2 end of fraction", "edit");
 		aural("LaTeX(\"\\scalebox{0.5}{hello}\")", "hello", "edit");
 		aural("LaTeX(\"\\rotatebox{90}{hello}\")", "hello", "edit");
-		aural("LaTeX(\"\\textsf{textsf} \\mathsf{mathsf} \\sf{sf}\")",
-				"textsfmathsfsf", "edit");
-		aural("LaTeX(\"\\textit{textit} \\mathit{mathit} \\it{it}\")",
-				"textitmathitit", "edit");
-		aural("LaTeX(\"\\texttt{texttt} \\mathtt{mathtt} \\tt{tt}\")",
-				"textttmathtttt", "edit");
-		aural("LaTeX(\"\\textbf{textbf} \\mathbf{mathbf} \\bf{bf}\")",
-				"textbfmathbfbf", "edit");
+		aural("LaTeX(\"\\textsf{textsf} \\mathsf{mathsf} \\sf{sf}\")", "textsfmathsfsf", "edit");
+		aural("LaTeX(\"\\textit{textit} \\mathit{mathit} \\it{it}\")", "textitmathitit", "edit");
+		aural("LaTeX(\"\\texttt{texttt} \\mathtt{mathtt} \\tt{tt}\")", "textttmathtttt", "edit");
+		aural("LaTeX(\"\\textbf{textbf} \\mathbf{mathbf} \\bf{bf}\")", "textbfmathbfbf", "edit");
 		aural("LaTeX(\"\\textsc{textsc} \\sc{sc}\")", "textscsc", "edit");
-		aural("LaTeX(\"nothing follows: \\phantom{shouldn't be read}\")",
-				"nothingfollows:", "edit");
-		aural("LaTeX(\"nothing follows: \\vphantom{shouldn't be read}\")",
-				"nothingfollows:", "edit");
-		aural("LaTeX(\"nothing follows: \\hphantom{shouldn't be read}\")",
-				"nothingfollows:", "edit");
+		aural("LaTeX(\"nothing follows: \\phantom{shouldn't be read}\")", "nothingfollows:", "edit");
+		aural("LaTeX(\"nothing follows: \\vphantom{shouldn't be read}\")", "nothingfollows:", "edit");
+		aural("LaTeX(\"nothing follows: \\hphantom{shouldn't be read}\")", "nothingfollows:", "edit");
 		aural("LaTeX(\"\\xleftrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\underrightarrow{p}j\")", "pj", "edit");
 		aural("LaTeX(\"\\overrightarrow{p}j\")", "pj", "edit");
@@ -269,7 +264,8 @@ class AuralTextTest {
 	@Test
 	void readComma() {
 		GeoElementND[] pointA = add("A = (1,2)");
-		assertEquals("open parenthesis 1 comma 2 close parenthesis",
+		assertEquals(
+				"open parenthesis 1 comma 2 close parenthesis",
 				pointA[0].toValueString(StringTemplate.screenReaderAscii).trim());
 	}
 
@@ -278,7 +274,8 @@ class AuralTextTest {
 		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
 		assertEquals("Input Box myBox", box.getAuralText().trim());
 		box.setCaption("$\\frac{1}{2}$");
-		assertEquals("Input Box  start of fraction 1 over 2 end of fraction",
+		assertEquals(
+				"Input Box  start of fraction 1 over 2 end of fraction",
 				box.getAuralText().trim());
 		box.setCaption("plainText");
 		assertEquals("Input Box plainText", box.getAuralText().trim());
@@ -290,7 +287,8 @@ class AuralTextTest {
 		box.setLabelVisible(false);
 		assertEquals("Input Box", box.getAuralText().trim());
 		box.setCaption("$\\frac{1}{2}$");
-		assertEquals("Input Box  start of fraction 1 over 2 end of fraction",
+		assertEquals(
+				"Input Box  start of fraction 1 over 2 end of fraction",
 				box.getAuralText().trim());
 	}
 

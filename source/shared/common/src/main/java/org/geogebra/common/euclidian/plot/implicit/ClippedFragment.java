@@ -41,8 +41,12 @@ import org.geogebra.common.kernel.MyPoint;
  * {@code null}.
  * </p>
  */
-public record ClippedFragment(int sourceContourId, List<MyPoint> points, boolean closed,
-							  FragmentEndpoint start, FragmentEndpoint end) {
+public record ClippedFragment(
+		int sourceContourId,
+		List<MyPoint> points,
+		boolean closed,
+		FragmentEndpoint start,
+		FragmentEndpoint end) {
 
 	/**
 	 * Returns whether this fragment is naturally closed after clipping.

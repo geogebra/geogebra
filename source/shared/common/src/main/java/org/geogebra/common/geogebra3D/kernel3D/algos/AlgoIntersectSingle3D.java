@@ -40,7 +40,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 
 	/**
 	 * intersection point is the (a) nearest to refPoint
-	 * 
+	 *
 	 * @param label
 	 *            output label
 	 * @param algo
@@ -48,8 +48,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 	 * @param refPoint
 	 *            closest point
 	 */
-	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo,
-			GeoPointND refPoint) {
+	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo, GeoPointND refPoint) {
 		super(algo.getConstruction());
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo
@@ -65,7 +64,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 
 	/**
 	 * intersection point is index-th intersection point of algo
-	 * 
+	 *
 	 * @param label
 	 *            output label
 	 * @param algo
@@ -174,8 +173,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 			}
 		}
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& index < parentOutput.length) {
+		if (input[0].isDefined() && input[1].isDefined() && index < parentOutput.length) {
 			// get coordinates from helper algorithm
 			point.setCoords(parentOutput[index].getCoords());
 		} else {
@@ -188,5 +186,4 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		super.remove();
 		algo.removeUser(); // this algorithm was a user of algo
 	}
-
 }

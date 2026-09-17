@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -19,7 +19,7 @@ package org.geogebra.common.kernel.kernelND;
 /**
  * Simple interface for geos that have 4 coords (3D points and vectors, 3D
  * planes, ...)
- * 
+ *
  * @author mathieu
  *
  */
@@ -27,7 +27,7 @@ public interface GeoCoords4D {
 
 	/**
 	 * sets the coords
-	 * 
+	 *
 	 * @param x
 	 *            x-ccord
 	 * @param y
@@ -38,5 +38,4 @@ public interface GeoCoords4D {
 	 *            w-coord (homogeneous)
 	 */
 	void setCoords(double x, double y, double z, double w);
-
 }

@@ -39,17 +39,21 @@ public class BackgroundColorPropertyCollection extends AbstractPropertyCollectio
 	 * @param elements the elements to create properties for
 	 * @throws NotApplicablePropertyException if none of the elements support background color
 	 */
-	public BackgroundColorPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> elements)
+	public BackgroundColorPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "");
-		setProperties(new Property[]{
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new BackgroundColorProperty(localization, element),
-						ColorPropertyListFacade::new),
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						element -> new BackgroundColorResetProperty(localization, element),
-						ActionableIconPropertyListFacade::new),
+		setProperties(new Property[] {
+			propertiesFactory.createPropertyFacadeThrowing(
+					elements,
+					element -> new BackgroundColorProperty(localization, element),
+					ColorPropertyListFacade::new),
+			propertiesFactory.createPropertyFacadeThrowing(
+					elements,
+					element -> new BackgroundColorResetProperty(localization, element),
+					ActionableIconPropertyListFacade::new),
 		});
 	}
 }

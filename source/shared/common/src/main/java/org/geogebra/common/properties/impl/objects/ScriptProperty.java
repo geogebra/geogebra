@@ -39,8 +39,11 @@ public class ScriptProperty extends AbstractValuedProperty<String> implements St
 	 * @param scriptEvent the script event for which to apply the script
 	 * @param scriptLanguageSelection the script language selection for which to apply the script
 	 */
-	public ScriptProperty(Localization localization, GeoElement geoElement,
-			ScriptEvent scriptEvent, ScriptLanguageSelection scriptLanguageSelection) {
+	public ScriptProperty(
+			Localization localization,
+			GeoElement geoElement,
+			ScriptEvent scriptEvent,
+			ScriptLanguageSelection scriptLanguageSelection) {
 		super(localization, "ScriptContent");
 		this.geoElement = geoElement;
 		this.app = geoElement.getApp();

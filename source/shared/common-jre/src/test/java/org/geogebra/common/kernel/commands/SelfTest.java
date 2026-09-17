@@ -28,7 +28,7 @@ class SelfTest {
 	@Test
 	void selfTest() {
 		Set<String> methodNames = new TreeSet<>();
-		Class<?>[] classes = new Class[]{CommandsTest.class, CommandsUsingMockedCasTest.class};
+		Class<?>[] classes = new Class[] {CommandsTest.class, CommandsUsingMockedCasTest.class};
 		for (Class<?> c : classes) {
 			for (Method mtd : c.getDeclaredMethods()) {
 				if (mtd.getAnnotations().length > 0) {
@@ -39,18 +39,14 @@ class SelfTest {
 
 		StringBuilder missing = new StringBuilder();
 		for (Commands a : Commands.values()) {
-			if (!methodNames
-					.contains("cmd" + Commands.englishToInternal(a).name())
-					&& Commands.englishToInternal(a)
-					.getTable() != CommandsConstants.TABLE_ENGLISH
-					&& Commands.englishToInternal(a)
-					.getTable() != CommandsConstants.TABLE_CAS && !(a == Commands.Polyhedron
-					|| a == Commands.ImplicitSurface)) {
+			if (!methodNames.contains("cmd" + Commands.englishToInternal(a).name())
+					&& Commands.englishToInternal(a).getTable() != CommandsConstants.TABLE_ENGLISH
+					&& Commands.englishToInternal(a).getTable() != CommandsConstants.TABLE_CAS
+					&& !(a == Commands.Polyhedron || a == Commands.ImplicitSurface)) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}
 		}
 		assertEquals("", missing.toString());
 	}
-
 }

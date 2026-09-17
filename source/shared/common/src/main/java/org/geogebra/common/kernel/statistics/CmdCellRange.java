@@ -34,7 +34,7 @@ import org.geogebra.common.plugin.Operation;
 public class CmdCellRange extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,18 +47,18 @@ public class CmdCellRange extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		ExpressionNode[] args = c.getArguments();
 		switch (n) {
-		case 2:
-			return new GeoElement[]{ getAlgoCellRange(c).getList() };
-		case 3:
-			AlgoCellRange algo = getAlgoCellRange(c);
-			if (algo.getList().isEmptyList()) {
-				algo.getList().setTypeStringForXML(args[2].unwrap()
-						.toValueString(StringTemplate.defaultTemplate));
-			}
-			return new GeoElement[]{ getAlgoCellRange(c).getList() };
+			case 2:
+				return new GeoElement[] {getAlgoCellRange(c).getList()};
+			case 3:
+				AlgoCellRange algo = getAlgoCellRange(c);
+				if (algo.getList().isEmptyList()) {
+					algo.getList()
+							.setTypeStringForXML(args[2].unwrap().toValueString(StringTemplate.defaultTemplate));
+				}
+				return new GeoElement[] {getAlgoCellRange(c).getList()};
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -88,5 +88,4 @@ public class CmdCellRange extends CommandProcessor {
 		}
 		throw argErr(c, expressionNode);
 	}
-
 }

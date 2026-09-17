@@ -55,12 +55,12 @@ public class JsScript extends Script {
 			return true;
 		} catch (Exception e) {
 			Log.debug(e);
-			throw new ScriptError(app.getLocalization()
-					.getMenu(update ? "OnUpdate" : "OnClick") + " " + label
-					+ ":\n"
-					+ app.getLocalization().getMenuDefault("ErrorInJavaScript",
-							"Error in JavaScript")
-					+ "\n" + e.getLocalizedMessage(), e);
+			throw new ScriptError(
+					app.getLocalization().getMenu(update ? "OnUpdate" : "OnClick") + " " + label
+							+ ":\n"
+							+ app.getLocalization().getMenuDefault("ErrorInJavaScript", "Error in JavaScript")
+							+ "\n" + e.getLocalizedMessage(),
+					e);
 		}
 	}
 
@@ -77,7 +77,7 @@ public class JsScript extends Script {
 	/**
 	 * The text of this script is modified by changing every whole word oldLabel
 	 * to newLabel.
-	 * 
+	 *
 	 * @return whether any renaming happened
 	 */
 	@Override
@@ -87,5 +87,4 @@ public class JsScript extends Script {
 		// which may clash with oldLabel...
 		return false;
 	}
-
 }

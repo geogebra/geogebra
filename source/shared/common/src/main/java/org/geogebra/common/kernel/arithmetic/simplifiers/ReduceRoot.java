@@ -54,7 +54,6 @@ public class ReduceRoot implements SimplifyNode {
 	public ExpressionNode apply(ExpressionNode node) {
 		ExpressionValue reduced = node.traverse(this::reduceRadicand);
 		return utils.getSurdsOrSame(reduced.wrap());
-
 	}
 
 	private ExpressionValue reduceRadicand(ExpressionValue ev) {
@@ -62,8 +61,8 @@ public class ReduceRoot implements SimplifyNode {
 		if (isMultiplyNode(ev) && isIntegerValue(node.getLeft()) && isSqrtNode(node.getRight())) {
 			ExpressionValue surd = utils.getSurds(node.getRight());
 			if (surd != null) {
-				double reducedMultiplier = node.getLeft().evaluateDouble()
-						* surd.wrap().getLeft().evaluateDouble();
+				double reducedMultiplier =
+						node.getLeft().evaluateDouble() * surd.wrap().getLeft().evaluateDouble();
 				return utils.multiplyR(surd.wrap().getRightTree(), reducedMultiplier);
 			}
 		}

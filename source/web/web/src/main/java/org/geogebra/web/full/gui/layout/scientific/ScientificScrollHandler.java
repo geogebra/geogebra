@@ -27,12 +27,12 @@ import org.gwtproject.user.client.ui.Panel;
  * Handles pointer events to make sure scrolling does not interfere with
  * keyboard.
  */
-public final class ScientificScrollHandler
-		implements MouseDownHandler, TouchStartHandler {
+public final class ScientificScrollHandler implements MouseDownHandler, TouchStartHandler {
 	/**
 	 * Estimated scrollbar width in desktop browsers; can overestimate a bit
 	 */
 	private static final int SCROLLBAR_WIDTH = 20;
+
 	private final AppW app;
 	private final Panel panel;
 

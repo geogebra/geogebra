@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -76,43 +76,35 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	 * @throws NoSymbolicParametersException if suitable polynomials cannot be obtained
 	 */
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
-	public PPolynomial[][] getBotanaPolynomials(GeoBoolean bool,
-			Construction cons) throws NoSymbolicParametersException {
+	public PPolynomial[][] getBotanaPolynomials(GeoBoolean bool, Construction cons)
+			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
 		Kernel kernel = cons.getKernel();
 		// replace Distance[A,B] with geoSegment
-		if (!root.getLeft().isExpressionNode()
-				&& root.getLeft() instanceof GeoNumeric) {
-			AlgoElement algo = ((GeoElement) root.getLeft())
-					.getParentAlgorithm();
+		if (!root.getLeft().isExpressionNode() && root.getLeft() instanceof GeoNumeric) {
+			AlgoElement algo = ((GeoElement) root.getLeft()).getParentAlgorithm();
 			if (algo instanceof AlgoDistancePoints) {
-				GeoSegment geo = cons.getSegmentFromAlgoList(
-						(GeoPoint) algo.getInput(0),
-						(GeoPoint) algo.getInput(1));
+				GeoSegment geo =
+						cons.getSegmentFromAlgoList((GeoPoint) algo.getInput(0), (GeoPoint) algo.getInput(1));
 				if (geo != null) {
 					root.setLeft(geo);
 				} else {
-					geo = new GeoSegment(cons, (GeoPoint) algo.input[0],
-							(GeoPoint) algo.input[1]);
+					geo = new GeoSegment(cons, (GeoPoint) algo.input[0], (GeoPoint) algo.input[1]);
 					geo.setParentAlgorithm(algo);
 					root.setLeft(geo);
 					leftWasDist = true;
 				}
 			}
 		}
-		if (!root.getRight().isExpressionNode()
-				&& root.getRight() instanceof GeoNumeric) {
-			AlgoElement algo = ((GeoElement) root.getRight())
-					.getParentAlgorithm();
+		if (!root.getRight().isExpressionNode() && root.getRight() instanceof GeoNumeric) {
+			AlgoElement algo = ((GeoElement) root.getRight()).getParentAlgorithm();
 			if (algo instanceof AlgoDistancePoints) {
-				GeoSegment geo = cons.getSegmentFromAlgoList(
-						(GeoPoint) algo.getInput(0),
-						(GeoPoint) algo.getInput(1));
+				GeoSegment geo =
+						cons.getSegmentFromAlgoList((GeoPoint) algo.getInput(0), (GeoPoint) algo.getInput(1));
 				if (geo != null) {
 					root.setRight(geo);
 				} else {
-					geo = new GeoSegment(cons, (GeoPoint) algo.input[0],
-							(GeoPoint) algo.input[1]);
+					geo = new GeoSegment(cons, (GeoPoint) algo.input[0], (GeoPoint) algo.input[1]);
 					geo.setParentAlgorithm(algo);
 					root.setRight(geo);
 					rightWasDist = true;
@@ -123,19 +115,18 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		// Easy cases: both sides are GeoElements:
 		if (root.getLeft().isGeoElement()
 				&& (!(root.getLeft() instanceof GeoNumeric)
-						|| ((GeoElement) root.getLeft()).getParentAlgorithm()
-								.getRelatedModeID() == EuclidianConstants.MODE_AREA)
+						|| ((GeoElement) root.getLeft()).getParentAlgorithm().getRelatedModeID()
+								== EuclidianConstants.MODE_AREA)
 				&& root.getRight().isGeoElement()
 				&& (!(root.getRight() instanceof GeoNumeric)
-						|| ((GeoElement) root.getRight()).getParentAlgorithm()
-								.getRelatedModeID() == EuclidianConstants.MODE_AREA)) {
+						|| ((GeoElement) root.getRight()).getParentAlgorithm().getRelatedModeID()
+								== EuclidianConstants.MODE_AREA)) {
 
 			GeoElement left = (GeoElement) root.getLeft();
 			GeoElement right = (GeoElement) root.getRight();
 
 			if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
-						right);
+				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left, right);
 				PPolynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				return ret;
@@ -148,11 +139,11 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			}
 			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 				if (root.getLeft() instanceof GeoNumeric
-						&& ((GeoElement) root.getLeft()).getParentAlgorithm()
-								.getRelatedModeID() == EuclidianConstants.MODE_AREA
+						&& ((GeoElement) root.getLeft()).getParentAlgorithm().getRelatedModeID()
+								== EuclidianConstants.MODE_AREA
 						&& root.getRight() instanceof GeoNumeric
-						&& ((GeoElement) root.getLeft()).getParentAlgorithm()
-								.getRelatedModeID() == EuclidianConstants.MODE_AREA) {
+						&& ((GeoElement) root.getLeft()).getParentAlgorithm().getRelatedModeID()
+								== EuclidianConstants.MODE_AREA) {
 					AlgoAreEqual algo = new AlgoAreEqual(cons, left, right);
 					PPolynomial[][] ret = algo.getBotanaPolynomials();
 					cons.removeFromConstructionList(algo);
@@ -182,8 +173,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.IS_ELEMENT_OF)) {
-				AlgoIsOnPath algo = new AlgoIsOnPath(cons, (GeoPoint) left,
-						(Path) right);
+				AlgoIsOnPath algo = new AlgoIsOnPath(cons, (GeoPoint) left, (Path) right);
 				PPolynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				return ret;
@@ -191,40 +181,33 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		}
 
 		// handle special case, when left expression is given by another algo
-		if (!root.getLeft().isExpressionNode()
-				&& !(root.getLeft() instanceof MyDouble)) {
-			AlgoElement algo = ((GeoElement) root.getLeft())
-					.getParentAlgorithm();
+		if (!root.getLeft().isExpressionNode() && !(root.getLeft() instanceof MyDouble)) {
+			AlgoElement algo = ((GeoElement) root.getLeft()).getParentAlgorithm();
 			if (algo instanceof AlgoDependentNumber) {
 				root.setLeft(((AlgoDependentNumber) algo).getExpression());
 			}
 		}
 		// handle special case, when right expression is given by another algo
-		if (!root.getRight().isExpressionNode()
-				&& !(root.getRight() instanceof MyDouble)) {
-			AlgoElement algo = ((GeoElement) root.getRight())
-					.getParentAlgorithm();
+		if (!root.getRight().isExpressionNode() && !(root.getRight() instanceof MyDouble)) {
+			AlgoElement algo = ((GeoElement) root.getRight()).getParentAlgorithm();
 			if (algo instanceof AlgoDependentNumber) {
 				root.setRight(((AlgoDependentNumber) algo).getExpression());
 			}
 		}
 
 		// More difficult cases: sides are expressions:
-		if (((root.getLeft().isExpressionNode()
-				|| root.getRight().isExpressionNode())
-				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))
+		if (((root.getLeft().isExpressionNode() || root.getRight().isExpressionNode())
+						&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))
 				|| (root.getLeft() instanceof GeoElement
 						&& root.getRight() instanceof MyDouble
-						&& root.getOperation()
-								.equals(Operation.EQUAL_BOOLEAN))) {
+						&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))) {
 			traverseExpression(root, kernel);
 			// try to check substituted and expanded expression
 
 			ExpressionNode rootCopy = root.deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
 			Set<String> setOfGeoNumLabels = new TreeSet<>();
-			rootCopy.traverse(
-					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
+			rootCopy.traverse(GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			if (!setOfGeoNumLabels.isEmpty()) {
 				substNeeded = true;
 			}
@@ -234,22 +217,18 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				// get GeoNumeric from construction with given label
 				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
 				// get substitute formula of GeoNumeric
-				ExpressionNode replExp = ((AlgoDependentNumber) geo
-						.getParentAlgorithm()).getExpression();
-				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo,
-						replExp, kernel);
+				ExpressionNode replExp = ((AlgoDependentNumber) geo.getParentAlgorithm()).getExpression();
+				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo, replExp, kernel);
 				// replace GeoNumeric with formula expression
 				rootCopy.traverse(repl);
 			}
 			// traverse substituted expression to collect segments
 			traverseExpression(rootCopy, kernel);
 
-			if (((rootCopy.getLeft() instanceof GeoSegment
-					&& rootCopy.getRight() instanceof MyDouble)
-					|| (rootCopy.getRight() instanceof GeoSegment
-							&& rootCopy.getLeft() instanceof MyDouble))
-					&& rootCopy.getOperation()
-							.equals(Operation.EQUAL_BOOLEAN)) {
+			if (((rootCopy.getLeft() instanceof GeoSegment && rootCopy.getRight() instanceof MyDouble)
+							|| (rootCopy.getRight() instanceof GeoSegment
+									&& rootCopy.getLeft() instanceof MyDouble))
+					&& rootCopy.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 				PPolynomial[][] ret = null;
 				return ret;
 			}
@@ -259,17 +238,13 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				// get expanded expression of root
 				String expandGiacOutput = cas.getCurrentCAS()
 						.evaluateRaw(
-								"expand("
-										+ rootCopy.getLeftTree().toString(
-												StringTemplate.giacTemplate)
-										+ ")");
-				if (!expandGiacOutput.contains("?")
-						&& !"{}".equals(expandGiacOutput)) {
+								"expand(" + rootCopy.getLeftTree().toString(StringTemplate.giacTemplate) + ")");
+				if (!expandGiacOutput.contains("?") && !"{}".equals(expandGiacOutput)) {
 					// parse expanded string into expression
-					ValidExpression expandValidExp = kernel.getGeoGebraCAS()
+					ValidExpression expandValidExp = kernel
+							.getGeoGebraCAS()
 							.getCASparser()
-							.parseGeoGebraCASInputAndResolveDummyVars(
-									expandGiacOutput, kernel, null);
+							.parseGeoGebraCASInputAndResolveDummyVars(expandGiacOutput, kernel, null);
 					traverseExpression((ExpressionNode) expandValidExp, kernel);
 				}
 			} catch (Throwable e) {
@@ -279,32 +254,30 @@ public class DependentBooleanAdapter extends ProverAdapter {
 
 			PPolynomial[][] ret = null;
 			return ret;
-
 		}
 		throw new NoSymbolicParametersException(); // unhandled expression
-
 	}
 
 	// procedure to traverse inorder the expression
 	private void traverseExpression(ExpressionNode node, Kernel kernel)
 			throws NoSymbolicParametersException {
-		if (node.getLeft() != null && node.getLeft().isGeoElement()
+		if (node.getLeft() != null
+				&& node.getLeft().isGeoElement()
 				&& node.getLeft() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
-				((GeoSegment) node.getLeft())
-						.setLabel(new PVariable(kernel).toString());
+				((GeoSegment) node.getLeft()).setLabel(new PVariable(kernel).toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
-		if (node.getRight() != null && node.getRight().isGeoElement()
+		if (node.getRight() != null
+				&& node.getRight().isGeoElement()
 				&& node.getRight() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
-				((GeoSegment) node.getRight())
-						.setLabel(new PVariable(kernel).toString());
+				((GeoSegment) node.getRight()).setLabel(new PVariable(kernel).toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
@@ -339,16 +312,14 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				botanaVars[index] = new PVariable(kernel);
 			}
 			// collect substitution of segments with variables
-			Entry<GeoElement, PVariable> subst = new AbstractMap.SimpleEntry<>(
-					segment, botanaVars[index]);
+			Entry<GeoElement, PVariable> subst =
+					new AbstractMap.SimpleEntry<>(segment, botanaVars[index]);
 			if (!varSubstListOfSegs.isEmpty()) {
-				Iterator<Entry<GeoElement, PVariable>> it = varSubstListOfSegs
-						.iterator();
+				Iterator<Entry<GeoElement, PVariable>> it = varSubstListOfSegs.iterator();
 				int k = 0;
 				while (it.hasNext()) {
 					Entry<GeoElement, PVariable> curr = it.next();
-					if (curr.getKey().equals(segment)
-							&& curr.getValue().equals(botanaVars[index])) {
+					if (curr.getKey().equals(segment) && curr.getValue().equals(botanaVars[index])) {
 						break;
 					}
 					k++;
@@ -362,8 +333,10 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			PVariable[] thisSegBotanaVars = segment.getBotanaVars(segment);
 			PPolynomial s = new PPolynomial(botanaVars[index]);
 			PPolynomial currPoly = s.multiply(s)
-					.subtract(PPolynomial.sqrDistance(thisSegBotanaVars[0],
-							thisSegBotanaVars[1], thisSegBotanaVars[2],
+					.subtract(PPolynomial.sqrDistance(
+							thisSegBotanaVars[0],
+							thisSegBotanaVars[1],
+							thisSegBotanaVars[2],
 							thisSegBotanaVars[3]));
 			extraPolys.add(currPoly);
 			index++;
@@ -375,25 +348,21 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
 			Set<String> setOfGeoNumLabels = new TreeSet<>();
-			rootCopy.traverse(
-					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
+			rootCopy.traverse(GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			Iterator<String> it = setOfGeoNumLabels.iterator();
 			while (it.hasNext()) {
 				String varStr = it.next();
 				// get GeoNumeric from construction with given label
 				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
 				// get substitute formula of GeoNumeric
-				ExpressionNode replExp = ((AlgoDependentNumber) geo
-						.getParentAlgorithm()).getExpression();
-				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo,
-						replExp, kernel);
+				ExpressionNode replExp = ((AlgoDependentNumber) geo.getParentAlgorithm()).getExpression();
+				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo, replExp, kernel);
 				// replace GeoNumeric with formula expression
 				rootCopy.traverse(repl);
 			}
 			rootStr = rootCopy.toString(StringTemplate.giacTemplate);
 		} else {
-			rootStr = bool.getDefinition()
-					.toString(StringTemplate.giacTemplate);
+			rootStr = bool.getDefinition().toString(StringTemplate.giacTemplate);
 		}
 		String[] splitStr = rootStr.split(",");
 		/*
@@ -444,25 +413,21 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
 			Set<String> setOfGeoNumLabels = new TreeSet<>();
-			rootCopy.traverse(
-					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
+			rootCopy.traverse(GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			Iterator<String> it = setOfGeoNumLabels.iterator();
 			while (it.hasNext()) {
 				String varStr = it.next();
 				// get GeoNumeric from construction with given label
 				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
 				// get substitute formula of GeoNumeric
-				ExpressionNode replExp = ((AlgoDependentNumber) geo
-						.getParentAlgorithm()).getExpression();
-				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo,
-						replExp, kernel);
+				ExpressionNode replExp = ((AlgoDependentNumber) geo.getParentAlgorithm()).getExpression();
+				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo, replExp, kernel);
 				// replace GeoNumeric with formula expression
 				rootCopy.traverse(repl);
 			}
 			rootStr = rootCopy.toString(StringTemplate.giacTemplate);
 		} else {
-			rootStr = bool.getDefinition()
-					.toString(StringTemplate.giacTemplate);
+			rootStr = bool.getDefinition().toString(StringTemplate.giacTemplate);
 		}
 		String[] splitStr = rootStr.split(",");
 		/*
@@ -527,7 +492,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 
 	/**
 	 * build a Polynomial tree from ExpressionNode
-	 * 
+	 *
 	 * @param expNode
 	 *            - expression node
 	 * @param polyNode
@@ -536,35 +501,34 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	 *             - unhandled operations
 	 */
 	@SuppressWarnings("PMD.AvoidDeeplyNestedIfStmts")
-	public void buildPolynomialTree(ExpressionNode expNode,
-			PolynomialNode polyNode) throws NoSymbolicParametersException {
+	public void buildPolynomialTree(ExpressionNode expNode, PolynomialNode polyNode)
+			throws NoSymbolicParametersException {
 		if (expNode == null) {
 			return;
 		}
 		// simplify polynomial if the left and right sides are numbers
-		if (expNode.getLeft() instanceof MyDouble
-				&& expNode.getRight() instanceof MyDouble) {
+		if (expNode.getLeft() instanceof MyDouble && expNode.getRight() instanceof MyDouble) {
 			double d1 = expNode.getLeft().evaluateDouble();
 			double d2 = expNode.getRight().evaluateDouble();
 			Double d;
 			switch (expNode.getOperation()) {
-			case PLUS:
-				d = d1 + d2;
-				break;
-			case MINUS:
-				d = d1 - d2;
-				break;
-			case MULTIPLY:
-				d = d1 * d2;
-				break;
-			case POWER:
-				d = Math.pow(d1, d2);
-				break;
-			case DIVIDE:
-				d = (double) 1;
-				break;
-			default:
-				throw new NoSymbolicParametersException();
+				case PLUS:
+					d = d1 + d2;
+					break;
+				case MINUS:
+					d = d1 - d2;
+					break;
+				case MULTIPLY:
+					d = d1 * d2;
+					break;
+				case POWER:
+					d = Math.pow(d1, d2);
+					break;
+				case DIVIDE:
+					d = (double) 1;
+					break;
+				default:
+					throw new NoSymbolicParametersException();
 			}
 			BigInteger i;
 			// if in the expression exists rational number with n decimals
@@ -572,10 +536,8 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			// decimal numbers)
 			// than multiply the coefficient with 10^n
 			if (nrOfMaxDecimals != 0) {
-				i = new BigDecimal(d * Math.pow(10, nrOfMaxDecimals))
-						.toBigInteger();
-				Log.error(
-						"Possible numerical error in converting formula coefficients to integer");
+				i = new BigDecimal(d * Math.pow(10, nrOfMaxDecimals)).toBigInteger();
+				Log.error("Possible numerical error in converting formula coefficients to integer");
 				/* TODO: check if this conversion is really correct */
 			} else {
 				i = new BigDecimal(d).toBigInteger();
@@ -587,14 +549,13 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		if (expNode.getLeft() != null) {
 			polyNode.setLeft(new PolynomialNode());
 			if (expNode.getLeft().isExpressionNode()) {
-				buildPolynomialTree((ExpressionNode) expNode.getLeft(),
-						polyNode.getLeft());
+				buildPolynomialTree((ExpressionNode) expNode.getLeft(), polyNode.getLeft());
 			} else {
 				if (expNode.getLeft() instanceof GeoDummyVariable) {
-					polyNode.getLeft()
+					polyNode
+							.getLeft()
 							.setPoly(new PPolynomial(
-									getBotanaVar(expNode.getLeft().toString(
-											StringTemplate.defaultTemplate))));
+									getBotanaVar(expNode.getLeft().toString(StringTemplate.defaultTemplate))));
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
 					Double d = expNode.getLeft().evaluateDouble();
@@ -612,19 +573,18 @@ public class DependentBooleanAdapter extends ProverAdapter {
 					polyNode.getLeft().setPoly(new PPolynomial(i));
 				}
 			}
-
 		}
 		if (expNode.getRight() != null) {
 			polyNode.setRight(new PolynomialNode());
 			if (expNode.getRight().isExpressionNode()) {
-				buildPolynomialTree((ExpressionNode) expNode.getRight(),
-						polyNode.getRight());
+				buildPolynomialTree((ExpressionNode) expNode.getRight(), polyNode.getRight());
 			} else {
 				if (expNode.getRight() instanceof GeoDummyVariable) {
 					try {
-						polyNode.getRight().setPoly(new PPolynomial(
-								getBotanaVar(expNode.getRight().toString(
-										StringTemplate.defaultTemplate))));
+						polyNode
+								.getRight()
+								.setPoly(new PPolynomial(
+										getBotanaVar(expNode.getRight().toString(StringTemplate.defaultTemplate))));
 					} catch (Exception e) {
 						throw new NoSymbolicParametersException(e);
 					}
@@ -637,16 +597,18 @@ public class DependentBooleanAdapter extends ProverAdapter {
 					if (polyNode.getLeft().getPoly() != null
 							&& polyNode.getLeft().getPoly().isConstant()) {
 						switch (polyNode.getOperation()) {
-						case MULTIPLY:
-							i = polyNode.getLeft().getPoly().getConstant()
-									.multiply(new BigInteger(
-											Long.toString((long) d)));
-							break;
-						case DIVIDE:
-							i = BigInteger.ONE;
-							break;
-						default:
-							throw new NoSymbolicParametersException();
+							case MULTIPLY:
+								i = polyNode
+										.getLeft()
+										.getPoly()
+										.getConstant()
+										.multiply(new BigInteger(Long.toString((long) d)));
+								break;
+							case DIVIDE:
+								i = BigInteger.ONE;
+								break;
+							default:
+								throw new NoSymbolicParametersException();
 						}
 						polyNode.setPoly(new PPolynomial(i));
 						return;
@@ -656,10 +618,8 @@ public class DependentBooleanAdapter extends ProverAdapter {
 					// (if there's more than one rational number, then n is the
 					// max of decimal numbers)
 					// than multiply the coefficient with 10^n
-					if (nrOfMaxDecimals != 0
-							&& expNode.getOperation() != Operation.POWER) {
-						i = new BigInteger(Long.toString(
-								(long) (d * Math.pow(10, nrOfMaxDecimals))));
+					if (nrOfMaxDecimals != 0 && expNode.getOperation() != Operation.POWER) {
+						i = new BigInteger(Long.toString((long) (d * Math.pow(10, nrOfMaxDecimals))));
 					} else {
 						i = new BigInteger(Long.toString((long) d));
 					}
@@ -671,7 +631,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 
 	/**
 	 * fill the polynomial tree
-	 * 
+	 *
 	 * @param expNode
 	 *            - expression node
 	 * @param polyNode
@@ -679,73 +639,60 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	 * @throws NoSymbolicParametersException
 	 *             - unhandled operations
 	 */
-	public void expressionNodeToPolynomial(ExpressionNode expNode,
-			PolynomialNode polyNode) throws NoSymbolicParametersException {
+	public void expressionNodeToPolynomial(ExpressionNode expNode, PolynomialNode polyNode)
+			throws NoSymbolicParametersException {
 		if (polyNode.getPoly() != null) {
 			return;
 		}
-		if (polyNode.getLeft().getPoly() != null
-				&& polyNode.getRight().getPoly() != null) {
+		if (polyNode.getLeft().getPoly() != null && polyNode.getRight().getPoly() != null) {
 			PPolynomial leftPoly = polyNode.getLeft().getPoly();
 			PPolynomial rightPoly = polyNode.getRight().getPoly();
 			switch (polyNode.getOperation()) {
-			case PLUS:
-				polyNode.setPoly(leftPoly.add(rightPoly));
-				break;
-			case MINUS:
-				polyNode.setPoly(leftPoly.subtract(rightPoly));
-				break;
-			case MULTIPLY:
-				polyNode.setPoly(leftPoly.multiply(rightPoly));
-				break;
-			case POWER:
-				/* It must fit in Long. If not, it will take forever. */
-				Long pow = polyNode.getRight().evaluateLong();
-				if (pow != null) {
-					PPolynomial poly = leftPoly;
-					for (Integer i = 1; i < pow; i++) {
-						poly = poly.multiply(leftPoly);
+				case PLUS:
+					polyNode.setPoly(leftPoly.add(rightPoly));
+					break;
+				case MINUS:
+					polyNode.setPoly(leftPoly.subtract(rightPoly));
+					break;
+				case MULTIPLY:
+					polyNode.setPoly(leftPoly.multiply(rightPoly));
+					break;
+				case POWER:
+					/* It must fit in Long. If not, it will take forever. */
+					Long pow = polyNode.getRight().evaluateLong();
+					if (pow != null) {
+						PPolynomial poly = leftPoly;
+						for (Integer i = 1; i < pow; i++) {
+							poly = poly.multiply(leftPoly);
+						}
+						polyNode.setPoly(poly);
 					}
-					polyNode.setPoly(poly);
-				}
-				break;
-			default:
-				throw new NoSymbolicParametersException();
+					break;
+				default:
+					throw new NoSymbolicParametersException();
 			}
 		}
-		if (expNode.getLeft().isExpressionNode()
-				&& polyNode.getLeft().getPoly() == null) {
-			expressionNodeToPolynomial((ExpressionNode) expNode.getLeft(),
-					polyNode.getLeft());
+		if (expNode.getLeft().isExpressionNode() && polyNode.getLeft().getPoly() == null) {
+			expressionNodeToPolynomial((ExpressionNode) expNode.getLeft(), polyNode.getLeft());
 		}
-		if (expNode.getRight().isExpressionNode()
-				&& polyNode.getRight().getPoly() == null) {
-			expressionNodeToPolynomial((ExpressionNode) expNode.getRight(),
-					polyNode.getRight());
+		if (expNode.getRight().isExpressionNode() && polyNode.getRight().getPoly() == null) {
+			expressionNodeToPolynomial((ExpressionNode) expNode.getRight(), polyNode.getRight());
 		}
-		if (expNode.getLeft() instanceof MyDouble
-				&& polyNode.getLeft().getPoly() == null) {
-			BigInteger coeff = new BigDecimal(
-					expNode.getLeft().evaluateDouble()).toBigInteger();
+		if (expNode.getLeft() instanceof MyDouble && polyNode.getLeft().getPoly() == null) {
+			BigInteger coeff = new BigDecimal(expNode.getLeft().evaluateDouble()).toBigInteger();
 			polyNode.getLeft().setPoly(new PPolynomial(coeff));
 		}
-		if (expNode.getRight() instanceof MyDouble
-				&& polyNode.getRight().getPoly() == null) {
-			BigInteger coeff = new BigDecimal(
-					expNode.getRight().evaluateDouble()).toBigInteger();
+		if (expNode.getRight() instanceof MyDouble && polyNode.getRight().getPoly() == null) {
+			BigInteger coeff = new BigDecimal(expNode.getRight().evaluateDouble()).toBigInteger();
 			polyNode.getRight().setPoly(new PPolynomial(coeff));
 		}
-		if (expNode.getLeft() instanceof MyDouble
-				&& expNode.getRight() instanceof GeoDummyVariable) {
-			BigInteger coeff = new BigDecimal(
-					expNode.getLeft().evaluateDouble()).toBigInteger();
-			PVariable v = getVariable(expNode.getRight()
-					.toString(StringTemplate.defaultTemplate));
+		if (expNode.getLeft() instanceof MyDouble && expNode.getRight() instanceof GeoDummyVariable) {
+			BigInteger coeff = new BigDecimal(expNode.getLeft().evaluateDouble()).toBigInteger();
+			PVariable v = getVariable(expNode.getRight().toString(StringTemplate.defaultTemplate));
 			if (v != null) {
 				PTerm t = new PTerm(v);
 				polyNode.setPoly(new PPolynomial(coeff, t));
 			}
 		}
 	}
-
 }

@@ -22,33 +22,33 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 public final class TemplateChooser extends ComponentDialog {
-    private TemplateChooserController controller;
+	private TemplateChooserController controller;
 
-    /**
-     * @param app see {@link AppW}
-     * @param data dialog transkeys
-     * @param controller template chooser controller
-     */
-    public TemplateChooser(AppW app, DialogData data, TemplateChooserController controller) {
-        super(app, data, false, true);
-        this.controller = controller;
-        this.addStyleName("templateChooser");
-        buildContent();
-        setOnPositiveAction(() -> controller.onCreate(app));
-    }
+	/**
+	 * @param app see {@link AppW}
+	 * @param data dialog transkeys
+	 * @param controller template chooser controller
+	 */
+	public TemplateChooser(AppW app, DialogData data, TemplateChooserController controller) {
+		super(app, data, false, true);
+		this.controller = controller;
+		this.addStyleName("templateChooser");
+		buildContent();
+		setOnPositiveAction(() -> controller.onCreate(app));
+	}
 
-    private void buildContent() {
-        FlowPanel templatesPanel = new FlowPanel();
-        templatesPanel.addStyleName("templatesPanel");
-        for (TemplatePreviewCard templateCard : controller.getTemplates()) {
-            templatesPanel.add(templateCard);
-        }
-        addDialogContent(templatesPanel);
+	private void buildContent() {
+		FlowPanel templatesPanel = new FlowPanel();
+		templatesPanel.addStyleName("templatesPanel");
+		for (TemplatePreviewCard templateCard : controller.getTemplates()) {
+			templatesPanel.add(templateCard);
+		}
+		addDialogContent(templatesPanel);
 
-        if (controller.getTemplates().size() > 6) {
-            templatesPanel.getElement().getParentElement().addClassName("withBorder");
-        } else {
-            templatesPanel.getElement().getParentElement().removeClassName("withBorder");
-        }
-    }
+		if (controller.getTemplates().size() > 6) {
+			templatesPanel.getElement().getParentElement().addClassName("withBorder");
+		} else {
+			templatesPanel.getElement().getParentElement().removeClassName("withBorder");
+		}
+	}
 }

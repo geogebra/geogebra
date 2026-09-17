@@ -41,7 +41,7 @@ public class LoadFilePresenter {
 
 	/**
 	 * Run applet for current view
-	 * 
+	 *
 	 * @param view
 	 *            applet parameters
 	 * @param app
@@ -59,19 +59,16 @@ public class LoadFilePresenter {
 
 		if (!"".equals(jsonString = view.getDataParamJSON())) {
 			processJSON(jsonString, loader);
-		} else if (!""
-				.equals(base64String = view.getDataParamBase64String())) {
+		} else if (!"".equals(base64String = view.getDataParamBase64String())) {
 			loader.processBase64String(base64String);
 		} else if (!"".equals(filename = view.getDataParamFileName())) {
 			loader.processFileName(filename);
 		} else if (!"".equals(view.getDataParamTubeID())) {
-			app.openMaterial(view.getDataParamTubeID(),
-					err -> {
-						double status = MyError.Errors.NotAuthorized
-								.getKey().equals(err) ? 401 : 404;
-						openEmptyApp(app, view);
-						loader.handleError(JsPropertyMap.of("status", status), err);
-					});
+			app.openMaterial(view.getDataParamTubeID(), err -> {
+				double status = MyError.Errors.NotAuthorized.getKey().equals(err) ? 401 : 404;
+				openEmptyApp(app, view);
+				loader.handleError(JsPropertyMap.of("status", status), err);
+			});
 		} else {
 			fileOpened = false;
 		}
@@ -85,8 +82,7 @@ public class LoadFilePresenter {
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);
 		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp(true));
-		app.getKernel().setShowAnimationButton(
-				view.getDataParamShowAnimationButton());
+		app.getKernel().setShowAnimationButton(view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
 		if (!isApp) {
 			app.getAppletFrame().addStyleName("appletStyle");
@@ -95,8 +91,7 @@ public class LoadFilePresenter {
 		if (view.getDataParamEnableUndoRedo()) {
 			if (showToolBar || showMenuBar) {
 				undoRedoMode = UndoRedoMode.GUI;
-			} else if (!app.getScriptManager()
-					.getStoreUndoListeners().isEmpty()) {
+			} else if (!app.getScriptManager().getStoreUndoListeners().isEmpty()) {
 				undoRedoMode = UndoRedoMode.EXTERNAL;
 			}
 		}
@@ -115,8 +110,7 @@ public class LoadFilePresenter {
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
 		app.setUndoRedoMode(undoRedoMode);
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
-		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
-				|| view.getDataParamApp());
+		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled() || view.getDataParamApp());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
 
@@ -141,7 +135,6 @@ public class LoadFilePresenter {
 		}
 		app.getLocalization().setUseLocalizedDigits(view.getParamUseLocalizedDigits(), app);
 		app.getLocalization().setUseLocalizedLabels(view.getParamUseLocalizedPointNames());
-
 	}
 
 	private void setAppLanguage(AppW app, AppletParameters view, String language) {
@@ -157,7 +150,7 @@ public class LoadFilePresenter {
 
 	/**
 	 * Open app without file / base64
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param ae
@@ -201,19 +194,18 @@ public class LoadFilePresenter {
 
 		finishEmptyLoading(app, null);
 		return false;
-
 	}
 
 	/**
 	 * Init app after open screen was closed
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
 	protected void deferredOpenEmpty(AppW app) {
 		String perspective = defaultPerspective(app, "");
-		finishEmptyLoading(app, !StringUtil.empty(perspective)
-				? getPerspective(app, perspective) : null);
+		finishEmptyLoading(
+				app, !StringUtil.empty(perspective) ? getPerspective(app, perspective) : null);
 	}
 
 	private static String defaultPerspective(AppW app, String userPerspective) {
@@ -224,12 +216,12 @@ public class LoadFilePresenter {
 	}
 
 	private static Perspective getPerspective(AppW app, String perspective) {
-		Perspective pd = PerspectiveDecoder.decode(perspective,
+		Perspective pd = PerspectiveDecoder.decode(
+				perspective,
 				app.getKernel().getParser(),
 				ToolBar.getAllToolsNoMacros(true, GlobalScope.isExamActive(app), app),
 				app.getLayout());
-		if ("1".equals(perspective) || "2".equals(perspective)
-				|| "5".equals(perspective)) {
+		if ("1".equals(perspective) || "2".equals(perspective) || "5".equals(perspective)) {
 
 			if (app.isPortrait()) {
 				int height = app.getAppletParameters().getDataParamHeight();
@@ -237,8 +229,8 @@ public class LoadFilePresenter {
 					height = NavigatorUtil.getWindowHeight();
 				}
 				if (height > 0) {
-					double ratio = PerspectiveDecoder.portraitRatio(height,
-							app.isUnbundledGraphing() || app.isUnbundled3D());
+					double ratio = PerspectiveDecoder.portraitRatio(
+							height, app.isUnbundledGraphing() || app.isUnbundled3D());
 					pd.getSplitPaneData()[0].setDivider(ratio);
 				}
 
@@ -248,19 +240,17 @@ public class LoadFilePresenter {
 					width = NavigatorUtil.getWindowHeight();
 				}
 				if (width > 0) {
-					double ratio = PerspectiveDecoder.landscapeRatio(app,
-							width);
+					double ratio = PerspectiveDecoder.landscapeRatio(app, width);
 					pd.getSplitPaneData()[0].setDivider(ratio);
 				}
 			}
-
 		}
 		return pd;
 	}
 
 	/**
 	 * Finish loading when no base64 / filename entered
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param p
@@ -268,8 +258,7 @@ public class LoadFilePresenter {
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
 		app.setActivePerspective(p);
-		app.setPreferredSize(
-				new Dimension(app.getAppletWidth(), app.getAppletHeight()));
+		app.setPreferredSize(new Dimension(app.getAppletWidth(), app.getAppletHeight()));
 		app.ensureStandardView();
 		app.loadPreferences(p);
 		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
@@ -304,7 +293,7 @@ public class LoadFilePresenter {
 	/**
 	 * Make sure the parser is initiated: it will be needed for the first object
 	 * creation and may cause a major delay (
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -321,5 +310,4 @@ public class LoadFilePresenter {
 	public void processJSON(final String json, final ArchiveLoader view) {
 		view.processJSON(json);
 	}
-
 }

@@ -30,6 +30,6 @@ public class BackgroundPropertyCollection extends AbstractPropertyCollection<Pro
 	 */
 	public BackgroundPropertyCollection(Localization localization, EuclidianSettings settings) {
 		super(localization, "Background");
-		setProperties(new Property[]{new BackgroundColorProperty(localization, settings)});
+		setProperties(new Property[] {new BackgroundColorProperty(localization, settings)});
 	}
 }

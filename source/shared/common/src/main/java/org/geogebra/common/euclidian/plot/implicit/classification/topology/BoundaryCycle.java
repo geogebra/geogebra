@@ -50,8 +50,8 @@ public final class BoundaryCycle {
 	 * @param signedArea signed area of the boundary walk
 	 * @param containmentProbePoint lightweight probe used for containment checks
 	 */
-	public BoundaryCycle(int id, List<Integer> halfEdgeIds, double signedArea,
-			GPoint2D containmentProbePoint) {
+	public BoundaryCycle(
+			int id, List<Integer> halfEdgeIds, double signedArea, GPoint2D containmentProbePoint) {
 		this.id = id;
 		this.halfEdgeIds = new ArrayList<>(halfEdgeIds);
 		this.startHalfEdgeId = halfEdgeIds.get(0);
@@ -174,5 +174,4 @@ public final class BoundaryCycle {
 	int size() {
 		return halfEdgeIds.size();
 	}
-
 }

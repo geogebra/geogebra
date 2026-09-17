@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,7 +29,7 @@ import org.geogebra.editor.share.util.Unicode;
 
 /*
  * Michael Borcherds
- * 
+ *
  * Implements KeyListener
  * adds support for alt-codes (and alt-shift-) for special characters
  * (ctrl on MacOS)
@@ -63,9 +63,7 @@ public class GeoGebraKeys implements KeyListener {
 				JTextComponent comp = (JTextComponent) e.getComponent();
 				int pos = comp.getCaretPosition();
 				String oldText = comp.getText();
-				String sb = oldText.substring(0, pos)
-						+ insertStr
-						+ oldText.substring(pos);
+				String sb = oldText.substring(0, pos) + insertStr + oldText.substring(pos);
 				comp.setText(sb);
 
 				comp.setCaretPosition(pos + 1);
@@ -100,7 +98,6 @@ public class GeoGebraKeys implements KeyListener {
 
 			comp.setCaretPosition(pos);
 			e.consume();
-
 		}
 
 		// ctrl pressed on Mac
@@ -112,12 +109,10 @@ public class GeoGebraKeys implements KeyListener {
 			String insertStr = "";
 
 			// works nicely for alt or ctrl pressed (Windows/Mac)
-			String keyString = StringUtil
-					.toLowerCaseUS(KeyEvent.getKeyText(e.getKeyCode()));
+			String keyString = StringUtil.toLowerCaseUS(KeyEvent.getKeyText(e.getKeyCode()));
 
 			// support for alt codes
-			if (e.isAltDown()
-					&& e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD) {
+			if (e.isAltDown() && e.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD) {
 				char c = e.getKeyChar();
 
 				// make sure it's not eg alt-*
@@ -133,8 +128,7 @@ public class GeoGebraKeys implements KeyListener {
 				keyString = e.getKeyChar() + "";
 			}
 
-			Log.debug("Key pressed " + StringUtil.toHexString(e.getKeyChar())
-					+ " " + keyString);
+			Log.debug("Key pressed " + StringUtil.toHexString(e.getKeyChar()) + " " + keyString);
 
 			// workaround for different Java versions!!
 			if ("minus".equals(keyString)) {
@@ -152,39 +146,37 @@ public class GeoGebraKeys implements KeyListener {
 			}
 
 			switch (e.getKeyChar()) {
-			default:
-				// do nothing
-				break;
-			// workaround for shifted characters:
-			// (different in different locales)
-			case '+':
-			case '*':
-			case '=':
-			case '-':
-			case '>':
-			case '<':
+				default:
+					// do nothing
+					break;
+				// workaround for shifted characters:
+				// (different in different locales)
+				case '+':
+				case '*':
+				case '=':
+				case '-':
+				case '>':
+				case '<':
 				// Italian keyboard, keyString="unknown keycode: 0x0" for these
 				// two
 				// French keyboard, keyString= eg "2" (so we need to leave it
 				// for Alt-2 to work)
-			case Unicode.e_GRAVE:
-			case Unicode.e_ACUTE:
-				if (keyString.length() > 1) {
-					keyString = e.getKeyChar() + "";
-				}
+				case Unicode.e_GRAVE:
+				case Unicode.e_ACUTE:
+					if (keyString.length() > 1) {
+						keyString = e.getKeyChar() + "";
+					}
 			}
 
 			// don't want to act on eg "Shift"
 			if (keyString.length() == 1) {
 
 				insertStr = AltKeys.getAltSymbols(
-						Character.toUpperCase(keyString.charAt(0)),
-						e.isShiftDown(), false);
+						Character.toUpperCase(keyString.charAt(0)), e.isShiftDown(), false);
 
 				if (insertStr == null) {
 					insertStr = "";
 				}
-
 			}
 
 			// insert into the text component
@@ -196,14 +188,11 @@ public class GeoGebraKeys implements KeyListener {
 				// insert will destroy any dynamic objects, so use its
 				// insertString method instead.
 				if (comp instanceof DynamicTextInputPane) {
-					((DynamicTextInputPane) comp).insertString(pos, insertStr,
-							null);
+					((DynamicTextInputPane) comp).insertString(pos, insertStr, null);
 				} else {
 					// all other cases use setText
 					String oldText = comp.getText();
-					String sb = oldText.substring(0, pos)
-							+ insertStr
-							+ oldText.substring(pos);
+					String sb = oldText.substring(0, pos) + insertStr + oldText.substring(pos);
 					comp.setText(sb);
 					comp.setCaretPosition(pos + insertStr.length());
 				}

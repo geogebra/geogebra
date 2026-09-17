@@ -40,7 +40,7 @@ import jsinterop.base.Js;
 
 /**
  * Web implementation of Giac CAS
- * 
+ *
  * @author Michael Borcherds, based on Reduce version
  *
  */
@@ -48,12 +48,13 @@ public class CASgiacW extends CASgiac {
 
 	/** kernel */
 	Kernel kernel;
+
 	private static final boolean externalCAS = Browser.externalCAS();
 	Function caseval;
 
 	/**
 	 * Creates new CAS
-	 * 
+	 *
 	 * @param casParser
 	 *            parser
 	 * @param kernel
@@ -103,7 +104,7 @@ public class CASgiacW extends CASgiac {
 		// restart Giac before each call
 		// native Giac needs same initString as desktop
 		evaluateRaw(externalCAS ? initString : initStringWeb, externalCAS);
-		
+
 		// GGB-850
 		CustomFunctions[] init = CustomFunctions.values();
 		CustomFunctions.setDependencies();
@@ -118,19 +119,17 @@ public class CASgiacW extends CASgiac {
 			/*
 			 * Check if the command uses any "extra" custom functions for
 			 * example ggbisPolynomial()
-			 * 
+			 *
 			 * (using a string compare which is robust)
-			 * 
+			 *
 			 * It's just possible that we will load commands that aren't needed
 			 * in rare circumstances
 			 */
-			if (function.functionName == null || (foundInInput =
-					exp.contains(function.functionName))) {
+			if (function.functionName == null || (foundInInput = exp.contains(function.functionName))) {
 				evaluateRaw(function.definitionString, externalCAS);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {
-					ArrayList<CustomFunctions> dependencies = CustomFunctions
-							.prereqs(function);
+					ArrayList<CustomFunctions> dependencies = CustomFunctions.prereqs(function);
 					for (CustomFunctions dep : dependencies) {
 						Log.debug(function + " implicitly loads " + dep);
 						evaluateRaw(dep.definitionString, externalCAS);
@@ -193,8 +192,7 @@ public class CASgiacW extends CASgiac {
 
 	private void updateCaseval() {
 		if (caseval == null && Js.isTruthy(GeoGebraGlobal.__ggb__giac)) {
-			caseval = GeoGebraGlobal.__ggb__giac.cwrap("caseval", "string",
-					JsArray.of("string"));
+			caseval = GeoGebraGlobal.__ggb__giac.cwrap("caseval", "string", JsArray.of("string"));
 		}
 	}
 
@@ -208,7 +206,7 @@ public class CASgiacW extends CASgiac {
 
 	/**
 	 * Make sure an instance of giac.js is loaded
-	 * 
+	 *
 	 * @param wasm
 	 *            whether to use WebAssembly or JavaScript
 	 */
@@ -228,7 +226,6 @@ public class CASgiacW extends CASgiac {
 			});
 
 			return;
-
 		}
 
 		Log.debug("Loading " + versionString);

@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdChiSquaredTest extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,40 +47,39 @@ public class CmdChiSquaredTest extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
+			case 1:
+				if (arg[0].isGeoList() && arg[0].isMatrix()) {
+					AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons, (GeoList) arg[0], null, null);
+					algo.getResult().setLabel(c.getLabel());
+					return new GeoElement[] {algo.getResult()};
+				}
+				throw argErr(c, arg[0]);
+			case 2:
+				if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
-		case 1:
-			if (arg[0].isGeoList() && arg[0].isMatrix()) {
-				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons,
-						(GeoList) arg[0], null, null);
-				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[]{ algo.getResult() };
-			}
-			throw argErr(c, arg[0]);
-		case 2:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
+					AlgoChiSquaredTest algo =
+							new AlgoChiSquaredTest(cons, (GeoList) arg[0], (GeoList) arg[1], null);
+					algo.getResult().setLabel(c.getLabel());
+					return new GeoElement[] {algo.getResult()};
 
-				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons,
-						(GeoList) arg[0], (GeoList) arg[1], null);
-				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[]{ algo.getResult() };
+				} else {
+					throw argErr(c, getBadArg(ok, arg));
+				}
+			case 3:
+				if ((ok[0] = arg[0].isGeoList())
+						&& (ok[1] = arg[1].isGeoList())
+						&& (ok[2] = arg[2].isNumberValue())) {
 
-			} else {
-				throw argErr(c, getBadArg(ok, arg));
-			}
-		case 3:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isNumberValue())) {
+					AlgoChiSquaredTest algo = new AlgoChiSquaredTest(
+							cons, (GeoList) arg[0], (GeoList) arg[1], (GeoNumberValue) arg[2]);
+					algo.getResult().setLabel(c.getLabel());
+					return new GeoElement[] {algo.getResult()};
 
-				AlgoChiSquaredTest algo = new AlgoChiSquaredTest(cons,
-						(GeoList) arg[0], (GeoList) arg[1], (GeoNumberValue) arg[2]);
-				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[]{ algo.getResult() };
-
-			} else {
-				throw argErr(c, getBadArg(ok, arg));
-			}
-		default:
-			throw argNumErr(c);
+				} else {
+					throw argErr(c, getBadArg(ok, arg));
+				}
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

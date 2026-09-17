@@ -21,7 +21,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 
 /**
  * (dummy) controller for 3D view, for browsers that don't support webGL
- * 
+ *
  * @author mathieu
  *
  */
@@ -29,7 +29,7 @@ public final class EuclidianController3DWnoWebGL extends EuclidianController3DW 
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,5 +44,4 @@ public final class EuclidianController3DWnoWebGL extends EuclidianController3DW 
 			getView().repaint();
 		}
 	}
-
 }

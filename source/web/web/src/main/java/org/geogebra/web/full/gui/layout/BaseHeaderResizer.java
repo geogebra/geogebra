@@ -54,8 +54,10 @@ public final class BaseHeaderResizer implements HeaderResizer {
 
 	@Override
 	public void reset(Element header) {
-		frame.getApp().getAppletParameters().setAttribute("marginTop",
-				String.valueOf(getHeaderHeight()));
+		frame
+				.getApp()
+				.getAppletParameters()
+				.setAttribute("marginTop", String.valueOf(getHeaderHeight()));
 		header.removeClassName("scientificHeader");
 
 		Element el = DOM.getElementById("undoRedoSettingsPanel");

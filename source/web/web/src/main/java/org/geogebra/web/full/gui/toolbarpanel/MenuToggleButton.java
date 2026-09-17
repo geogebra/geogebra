@@ -34,16 +34,18 @@ import elemental2.dom.KeyboardEvent;
 /**
  * Toggle button for main menu
  */
-public final class MenuToggleButton extends IconButton
-		implements Persistable {
+public final class MenuToggleButton extends IconButton implements Persistable {
 	private final AppW appW;
 
 	/**
 	 * @param app {@link AppW}
 	 */
 	public MenuToggleButton(AppW app) {
-		super(app, () -> {}, new ImageIconSpec(MaterialDesignResources.INSTANCE
-				.toolbar_menu_black()), "Menu");
+		super(
+				app,
+				() -> {},
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.toolbar_menu_black()),
+				"Menu");
 		new FocusableWidget(AccessibilityGroup.MENU, null, this).attachTo(app);
 		this.appW = app;
 		buildUI();
@@ -100,5 +102,4 @@ public final class MenuToggleButton extends IconButton
 	public void setExternal(boolean external) {
 		Dom.toggleClass(this, "menuBtn", "menu", external);
 	}
-
 }

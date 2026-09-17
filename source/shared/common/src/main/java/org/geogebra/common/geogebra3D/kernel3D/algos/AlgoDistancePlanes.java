@@ -78,7 +78,5 @@ public class AlgoDistancePlanes extends AlgoElement3D {
 		}
 
 		dist.setValue(Math.abs(g3D.distanceWithSign(h3D)));
-
 	}
-
 }

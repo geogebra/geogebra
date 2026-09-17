@@ -10,5 +10,4 @@ public class CommandTextRm extends CommandText {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RomanAtom(a);
 	}
-
 }

@@ -35,11 +35,13 @@ public class BackgroundStylePropertyCollection extends AbstractPropertyCollectio
 	 * @throws NotApplicablePropertyException if the property cannot be applied to the given elements
 	 */
 	public BackgroundStylePropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Background");
 		setProperties(new Property[] {
-				new BackgroundColorPropertyCollection(propertiesFactory, localization, elements)
+			new BackgroundColorPropertyCollection(propertiesFactory, localization, elements)
 		});
 	}
 }

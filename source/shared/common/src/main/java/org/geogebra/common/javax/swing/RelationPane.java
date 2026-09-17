@@ -21,7 +21,7 @@ import org.geogebra.common.main.App;
 
 /**
  * Common interface for the Relation Tool information window.
- * 
+ *
  * @author Zoltan Kovacs
  *
  */
@@ -29,7 +29,7 @@ public interface RelationPane {
 
 	/**
 	 * One row in the information window.
-	 * 
+	 *
 	 * @author Zoltan Kovacs
 	 *
 	 */
@@ -80,6 +80,5 @@ public interface RelationPane {
 	 * @param app
 	 *            GeoGebra Application
 	 */
-	void showDialog(String title, RelationRow[] relations,
-			App app);
+	void showDialog(String title, RelationRow[] relations, App app);
 }

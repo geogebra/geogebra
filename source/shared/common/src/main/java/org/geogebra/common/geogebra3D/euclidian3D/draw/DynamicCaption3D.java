@@ -80,8 +80,8 @@ public class DynamicCaption3D implements CaptionText {
 
 	@Override
 	public void createFont(GFont original) {
-		font = original.deriveFont(dynamicCaption().getFontStyle(),
-				dynamicCaption().getFontSize(original.getSize()));
+		font = original.deriveFont(
+				dynamicCaption().getFontStyle(), dynamicCaption().getFontSize(original.getSize()));
 	}
 
 	@Override

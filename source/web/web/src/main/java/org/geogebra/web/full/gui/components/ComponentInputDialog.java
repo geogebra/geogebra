@@ -43,8 +43,13 @@ public class ComponentInputDialog extends ComponentDialog
 	 * @param hasScrim - background should be greyed out
 	 * @param inputHandler - input handler
 	 */
-	public ComponentInputDialog(AppW app, DialogData dialogData,
-			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
+	public ComponentInputDialog(
+			AppW app,
+			DialogData dialogData,
+			boolean autoHide,
+			boolean hasScrim,
+			InputHandler inputHandler,
+			String labelText,
 			String initText) {
 		this(app, dialogData, autoHide, hasScrim, inputHandler);
 		createGUI(labelText, initText);
@@ -58,8 +63,12 @@ public class ComponentInputDialog extends ComponentDialog
 	 * @param hasScrim - background should be greyed out
 	 * @param inputHandler - input handler
 	 */
-	protected ComponentInputDialog(AppW app, DialogData dialogData,
-			boolean autoHide, boolean hasScrim, InputHandler inputHandler) {
+	protected ComponentInputDialog(
+			AppW app,
+			DialogData dialogData,
+			boolean autoHide,
+			boolean hasScrim,
+			InputHandler inputHandler) {
 		super(app, dialogData, autoHide, hasScrim);
 		addStyleName("inputDialogComponent");
 		setPreventHide(true);
@@ -75,8 +84,7 @@ public class ComponentInputDialog extends ComponentDialog
 	}
 
 	private void createGUI(String labelText, String initText) {
-		inputTextField = new ComponentInputField((AppW) app,
-				"", labelText, "", initText, "");
+		inputTextField = new ComponentInputField((AppW) app, "", labelText, "", initText, "");
 		addDialogContent(inputTextField);
 	}
 
@@ -88,8 +96,7 @@ public class ComponentInputDialog extends ComponentDialog
 		this.inputHandler = inputHandler;
 	}
 
-	protected void processInputHandler(String inputText,
-			AsyncOperation<Boolean> callback) {
+	protected void processInputHandler(String inputText, AsyncOperation<Boolean> callback) {
 		inputHandler.processInput(inputText, this, callback);
 	}
 
@@ -129,8 +136,7 @@ public class ComponentInputDialog extends ComponentDialog
 	}
 
 	@Override
-	public boolean onUndefinedVariables(String string,
-			AsyncOperation<String[]> callback) {
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
 		return app.getGuiManager().checkAutoCreateSliders(string, callback);
 	}
 
@@ -151,13 +157,12 @@ public class ComponentInputDialog extends ComponentDialog
 	 * otherwise hide dialog
 	 */
 	public void processInput() {
-		inputHandler.processInput(getInputText(), this,
-				ok -> {
-					if (ok) {
-						toolAction();
-						hide();
-					}
-				});
+		inputHandler.processInput(getInputText(), this, ok -> {
+			if (ok) {
+				toolAction();
+				hide();
+			}
+		});
 	}
 
 	/**

@@ -70,8 +70,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
-class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
-		SpreadsheetConstructionDelegate {
+class SpreadsheetControllerTest
+		implements SpreadsheetControlsDelegate, SpreadsheetConstructionDelegate {
 
 	private AppCommon app;
 	private SpreadsheetController<String> controller;
@@ -107,14 +107,17 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 		tabularData = new TestTabularData();
 		cellEditor = new TestSpreadsheetCellEditor(tabularData);
-		cellEditor.getMathField().getInputController().setSyntaxAdapter(
-				new SyntaxAdapterImpl(app.getKernel()));
+		cellEditor
+				.getMathField()
+				.getInputController()
+				.setSyntaxAdapter(new SyntaxAdapterImpl(app.getKernel()));
 		controller = new SpreadsheetController<>(tabularData, spreadsheetStyling);
 		controller.setControlsDelegate(this);
 		controller.setSpreadsheetConstructionDelegate(this);
 
 		layout = controller.getLayout();
-		setViewport(new Rectangle(0,
+		setViewport(new Rectangle(
+				0,
 				layout.getRowHeaderWidth() + layout.defaultColumnWidth * 2.5,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight * 2.5));
@@ -146,18 +149,22 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testViewportIsAdjustedRightwardsWithMouseClick() {
-		setViewport(new Rectangle(0,
+		setViewport(new Rectangle(
+				0,
 				layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
-		controller.handlePointerDown(layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
-				layout.getColumnHeaderHeight() + 10, Modifiers.NONE);
+		controller.handlePointerDown(
+				layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
+				layout.getColumnHeaderHeight() + 10,
+				Modifiers.NONE);
 		assertNotEquals(0, viewport.getMinX(), 0);
 	}
 
 	@Test
 	void testViewportIsNotAdjustedRightwardsWithArrowKey() {
-		setViewport(new Rectangle(0,
+		setViewport(new Rectangle(
+				0,
 				layout.getRowHeaderWidth() + layout.defaultColumnWidth * 3 + 10,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
@@ -168,12 +175,13 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testViewportIsNotAdjustedRightwardsWithMouseClick() {
-		setViewport(new Rectangle(0,
+		setViewport(new Rectangle(
+				0,
 				layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
-		controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
-				layout.getColumnHeaderHeight() + 5, Modifiers.NONE);
+		controller.handlePointerDown(
+				layout.getRowHeaderWidth() + 10, layout.getColumnHeaderHeight() + 5, Modifiers.NONE);
 		assertEquals(0, viewport.getMinX(), 0);
 	}
 
@@ -186,7 +194,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testViewportIsNotAdjustedHorizontallyWithArrowKey() {
-		setViewport(new Rectangle(0,
+		setViewport(new Rectangle(
+				0,
 				layout.getRowHeaderWidth() + 2 * layout.defaultColumnWidth + 10,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
@@ -199,7 +208,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testViewportIsAdjustedDownwardsWithArrowKey() {
-		setViewport(new Rectangle(0,
+		setViewport(new Rectangle(
+				0,
 				layout.getRowHeaderWidth() + layout.defaultColumnWidth + 10,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight + 10));
@@ -210,8 +220,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testViewportIsAdjustedDownwardsWithMouseClick() {
-		controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
-				layout.getColumnHeaderHeight() + 80, Modifiers.NONE);
+		controller.handlePointerDown(
+				layout.getRowHeaderWidth() + 10, layout.getColumnHeaderHeight() + 80, Modifiers.NONE);
 		assertNotEquals(0, viewport.getMinY(), 0);
 	}
 
@@ -224,8 +234,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testViewportIsNotAdjustedDownwardsWithMouseClick() {
-		controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
-				layout.getColumnHeaderHeight() + 30, Modifiers.NONE);
+		controller.handlePointerDown(
+				layout.getRowHeaderWidth() + 10, layout.getColumnHeaderHeight() + 30, Modifiers.NONE);
 		assertEquals(0, viewport.getMinY(), 0);
 	}
 
@@ -238,7 +248,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testViewportIsNotAdjustedUpwardsWithArrowKey() {
-		setViewport(new Rectangle(0,
+		setViewport(new Rectangle(
+				0,
 				layout.getRowHeaderWidth() + layout.defaultColumnWidth * 2 + 10,
 				0,
 				layout.getColumnHeaderHeight() + layout.defaultRowHeight * 3 + 10));
@@ -265,27 +276,28 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Test
 	void testMoveDownAtMaxRowsDoesNotGrowSpreadsheet() {
-		SpreadsheetController<?> cappedController = createControllerWithDimensions(
-				new TestTabularData(Spreadsheet.MAX_ROWS, 5));
+		SpreadsheetController<?> cappedController =
+				createControllerWithDimensions(new TestTabularData(Spreadsheet.MAX_ROWS, 5));
 
 		cappedController.selectCell(Spreadsheet.MAX_ROWS - 1, 0, false, false);
 		cappedController.moveDown(false);
 
 		assertEquals(Spreadsheet.MAX_ROWS, cappedController.getLayout().numberOfRows());
-		assertEquals(Spreadsheet.MAX_ROWS - 1,
-				cappedController.getLastSelection().getRange().getMinRow());
+		assertEquals(
+				Spreadsheet.MAX_ROWS - 1, cappedController.getLastSelection().getRange().getMinRow());
 	}
 
 	@Test
 	void testMoveRightAtMaxColumnsDoesNotGrowSpreadsheet() {
-		SpreadsheetController<?> cappedController = createControllerWithDimensions(
-				new TestTabularData(5, Spreadsheet.MAX_COLUMNS));
+		SpreadsheetController<?> cappedController =
+				createControllerWithDimensions(new TestTabularData(5, Spreadsheet.MAX_COLUMNS));
 
 		cappedController.selectCell(0, Spreadsheet.MAX_COLUMNS - 1, false, false);
 		cappedController.moveRight(false);
 
 		assertEquals(Spreadsheet.MAX_COLUMNS, cappedController.getLayout().numberOfColumns());
-		assertEquals(Spreadsheet.MAX_COLUMNS - 1,
+		assertEquals(
+				Spreadsheet.MAX_COLUMNS - 1,
 				cappedController.getLastSelection().getRange().getMinColumn());
 	}
 
@@ -303,8 +315,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 			controller.handlePointerDown(x, y, Modifiers.NONE);
 			controller.handlePointerUp(x, y, Modifiers.NONE);
 		} catch (Exception exception) {
-			fail("Tapping on the edge of row 1 and 2 in the row header caused exception: "
-					+ exception);
+			fail("Tapping on the edge of row 1 and 2 in the row header caused exception: " + exception);
 		}
 	}
 
@@ -327,8 +338,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	private SpreadsheetController<String> createControllerWithDimensions(
 			TestTabularData tabularData) {
-		SpreadsheetController<String> cappedController = new SpreadsheetController<>(
-				tabularData, new SpreadsheetStyling());
+		SpreadsheetController<String> cappedController =
+				new SpreadsheetController<>(tabularData, new SpreadsheetStyling());
 		cappedController.setControlsDelegate(this);
 		cappedController.setSpreadsheetConstructionDelegate(this);
 		return cappedController;
@@ -351,10 +362,9 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	@Test
 	void testMovingRightAndDownSelectsMultipleCells() {
 		controller.select(new TabularRange(1, 1, 3, 3), false, false);
-		controller.handleKeyPressed(JavaKeyCodes.VK_RIGHT, "",
-				new Modifiers(false, false, true, false));
-		controller.handleKeyPressed(JavaKeyCodes.VK_DOWN, "",
-				new Modifiers(false, false, true, false));
+		controller.handleKeyPressed(
+				JavaKeyCodes.VK_RIGHT, "", new Modifiers(false, false, true, false));
+		controller.handleKeyPressed(JavaKeyCodes.VK_DOWN, "", new Modifiers(false, false, true, false));
 		assertEquals(4, controller.getLastSelection().getRange().getToColumn());
 		assertEquals(4, controller.getLastSelection().getRange().getToRow());
 	}
@@ -364,7 +374,10 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		runContextItemAt(1, 1, DELETE_COLUMN);
 		controller.getLayout().setWidthForColumns(150, 1, 1);
 		runContextItemAt(1, 1, ContextMenuItem.Identifier.INSERT_COLUMN_RIGHT);
-		assertEquals(150, controller.getLayout().getWidth(2), 0,
+		assertEquals(
+				150,
+				controller.getLayout().getWidth(2),
+				0,
 				"The inserted column should apply the width of the previously selected one!");
 	}
 
@@ -373,7 +386,10 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		runContextItemAt(1, 1, DELETE_ROW);
 		controller.getLayout().setHeightForRows(80, 2, 2);
 		runContextItemAt(2, 2, INSERT_ROW_BELOW);
-		assertEquals(80, controller.getLayout().getHeight(3), 0,
+		assertEquals(
+				80,
+				controller.getLayout().getHeight(3),
+				0,
 				"The inserted row should apply the width of the previously selected one!");
 	}
 
@@ -382,7 +398,10 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		controller.getLayout().setWidthForColumns(150, 2, 2);
 		controller.getLayout().setWidthForColumns(200, 3, 3);
 		runContextItemAt(2, 2, DELETE_COLUMN);
-		assertEquals(200, controller.getLayout().getWidth(2), 0,
+		assertEquals(
+				200,
+				controller.getLayout().getWidth(2),
+				0,
 				"After deleting the 3rd column, it should change its width!");
 	}
 
@@ -391,10 +410,11 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		runContextItemAt(2, 2, DELETE_COLUMN);
 		selectCells(0, 1, 0, 1);
 		runContextItemAt(0, 1, INSERT_COLUMN_RIGHT);
-		assertTrue(controller.getLastSelection().contains(0, 2),
+		assertTrue(
+				controller.getLastSelection().contains(0, 2),
 				"The current selection should move when a column is inserted!");
-		assertTrue(controller.isOnlyCellSelected(0, 2),
-				"There should be no more than 1 cell selected!");
+		assertTrue(
+				controller.isOnlyCellSelected(0, 2), "There should be no more than 1 cell selected!");
 	}
 
 	@Test
@@ -402,10 +422,11 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		runContextItemAt(1, 1, DELETE_COLUMN);
 		selectCells(1, 2, 1, 2);
 		runContextItemAt(1, 2, INSERT_COLUMN_LEFT);
-		assertTrue(controller.getLastSelection().contains(1, 2),
+		assertTrue(
+				controller.getLastSelection().contains(1, 2),
 				"The current selection should stay when a column is inserted to the left!");
-		assertTrue(controller.isOnlyCellSelected(1, 2),
-				"There should be no more than 1 cell selected!");
+		assertTrue(
+				controller.isOnlyCellSelected(1, 2), "There should be no more than 1 cell selected!");
 	}
 
 	@Test
@@ -413,10 +434,11 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		runContextItemAt(2, 2, DELETE_ROW);
 		selectCells(1, 1, 1, 1);
 		runContextItemAt(1, 1, INSERT_ROW_BELOW);
-		assertTrue(controller.getLastSelection().contains(2, 1),
+		assertTrue(
+				controller.getLastSelection().contains(2, 1),
 				"The current selection should move when a row is inserted below!");
-		assertTrue(controller.isOnlyCellSelected(2, 1),
-				"There should be no more than 1 cell selected!");
+		assertTrue(
+				controller.isOnlyCellSelected(2, 1), "There should be no more than 1 cell selected!");
 	}
 
 	@Test
@@ -424,10 +446,11 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		runContextItemAt(2, 2, DELETE_ROW);
 		selectCells(2, 2, 2, 2);
 		runContextItemAt(2, 2, INSERT_ROW_ABOVE);
-		assertTrue(controller.getLastSelection().contains(2, 2),
+		assertTrue(
+				controller.getLastSelection().contains(2, 2),
 				"The current selection should stay when a row is inserted above!");
-		assertTrue(controller.isOnlyCellSelected(2, 2),
-				"There should be no more than 1 cell selected!");
+		assertTrue(
+				controller.isOnlyCellSelected(2, 2), "There should be no more than 1 cell selected!");
 	}
 
 	@Test
@@ -435,18 +458,23 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		controller.getLayout().setHeightForRows(80, 1, 1);
 		controller.getLayout().setHeightForRows(120, 2, 2);
 		runContextItemAt(1, 1, DELETE_ROW);
-		assertEquals(120, controller.getLayout().getHeight(1), 0,
+		assertEquals(
+				120,
+				controller.getLayout().getHeight(1),
+				0,
 				"After deleting the 2nd row, it should change its height!");
 	}
 
 	@Test
 	void testRightClickingMultiCellSelectionShouldNotChangeSelection() {
 		selectCells(0, 0, 1, 1);
-		controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
+		controller.handlePointerDown(
+				layout.getRowHeaderWidth() + 10,
 				layout.getColumnHeaderHeight() + 10,
 				new Modifiers(false, false, false, true));
 		assertEquals(1, controller.getSelections().count());
-		assertEquals(new TabularRange(0, 0, 1, 1),
+		assertEquals(
+				new TabularRange(0, 0, 1, 1),
 				controller.getSelections().findFirst().get().getRange());
 	}
 
@@ -455,7 +483,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		selectCells(-1, 1, -1, 60);
 		runContextItemAt(1, 1, DELETE_COLUMN);
 		// the first column is not selected, 60 columns were deleted, the remaining 39 are selected
-		assertEquals(List.of(new TabularRange(-1, 1, -1, 39)),
+		assertEquals(
+				List.of(new TabularRange(-1, 1, -1, 39)),
 				controller.getSelections().map(Selection::getRange).collect(Collectors.toList()));
 	}
 
@@ -464,13 +493,17 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		selectCells(1, -1, 60, -1);
 		runContextItemAt(1, 1, DELETE_ROW);
 		// the first row is not selected, 60 rows were deleted, the remaining 39 are selected
-		assertEquals(List.of(new TabularRange(1, -1, 39, -1)),
+		assertEquals(
+				List.of(new TabularRange(1, -1, 39, -1)),
 				controller.getSelections().map(Selection::getRange).collect(Collectors.toList()));
 	}
 
 	private void runContextItemAt(int row, int column, Identifier id) {
-		ContextMenuItem contextMenuItem = new ContextMenuBuilder(controller).build(row, column)
-				.stream().filter(item -> item.getIdentifier().equals(id)).findAny().orElse(null);
+		ContextMenuItem contextMenuItem = new ContextMenuBuilder(controller)
+				.build(row, column).stream()
+						.filter(item -> item.getIdentifier().equals(id))
+						.findAny()
+						.orElse(null);
 		if (contextMenuItem == null) {
 			fail("No such menu item at (" + row + ", " + column + "): " + id);
 		}
@@ -484,11 +517,13 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	void testRightClickingMultiRowAndColumnSelectionShouldChangeSelection() {
 		controller.selectRow(0, false, false);
 		controller.selectColumn(2, false, true);
-		controller.handlePointerDown(layout.getRowHeaderWidth() + 10,
+		controller.handlePointerDown(
+				layout.getRowHeaderWidth() + 10,
 				layout.getColumnHeaderHeight() + 10,
 				new Modifiers(false, false, false, true));
 		assertEquals(1, controller.getSelections().count());
-		assertEquals(new TabularRange(0, 0, 0, 0),
+		assertEquals(
+				new TabularRange(0, 0, 0, 0),
 				controller.getSelections().findFirst().get().getRange());
 	}
 
@@ -597,8 +632,10 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		assertTrue(cellEditor.getMathField().getInputController().getPlainTextMode());
 
 		cellEditor.getCellProcessor().process("A", 0, 0);
-		cellEditor.getMathField().getInputController().handleChar(cellEditor.getMathField()
-				.getEditorState(), ' ');
+		cellEditor
+				.getMathField()
+				.getInputController()
+				.handleChar(cellEditor.getMathField().getEditorState(), ' ');
 		assertEquals("A ", cellEditor.getMathField().getText());
 	}
 
@@ -608,7 +645,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		simulateCellMouseClick(0, 0, 2);
 		simulateKeyPressInCellEditor(JavaKeyCodes.VK_1);
 		assertTrue(cellEditor.getMathField().getInputController().getPlainTextMode());
-		simulateCellMouseClick(0, 1,  1);
+		simulateCellMouseClick(0, 1, 1);
 		controller.calculate1VarStatistics(Statistic.SUM);
 		assertFalse(cellEditor.getMathField().getInputController().getPlainTextMode());
 	}
@@ -621,8 +658,10 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		assertFalse(cellEditor.getMathField().getInputController().getPlainTextMode());
 
 		cellEditor.getCellProcessor().process("=A", 0, 0);
-		cellEditor.getMathField().getInputController().handleChar(cellEditor.getMathField()
-				.getEditorState(), ' ');
+		cellEditor
+				.getMathField()
+				.getInputController()
+				.handleChar(cellEditor.getMathField().getEditorState(), ' ');
 		assertEquals("=A*", cellEditor.getMathField().getText());
 	}
 
@@ -769,15 +808,13 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		tabularData.setContent(0, 0, "=CO");
 		simulateCellMouseClick(0, 0, 2);
 		simulateKeyPressInCellEditor(JavaKeyCodes.VK_E);
-		int cursorPosBeforeArrows = getCellEditor().getMathField().getEditorState()
-				.getCurrentOffset();
+		int cursorPosBeforeArrows = getCellEditor().getMathField().getEditorState().getCurrentOffset();
 		int selectedRow = getSelectedRow();
 		int selectedColumn = getSelectedColumn();
 
 		simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
 		simulateKeyPressInCellEditor(JavaKeyCodes.VK_DOWN);
-		int cursorPosAfterArrows = getCellEditor().getMathField().getEditorState()
-				.getCurrentOffset();
+		int cursorPosAfterArrows = getCellEditor().getMathField().getEditorState().getCurrentOffset();
 
 		assertEquals(cursorPosBeforeArrows, cursorPosAfterArrows);
 		assertEquals(selectedRow, getSelectedRow());
@@ -1092,8 +1129,8 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		tabularData.setContent(2, 3, "12");
 		selectCells(0, 0, 2, 3);
 		controller.createChart(Identifier.LINE_CHART);
-		assertEquals("LineGraph(A1:A3,B1:B3)LineGraph(A1:A3,C1:C3)LineGraph(A1:A3,D1:D3)",
-				chartCommand);
+		assertEquals(
+				"LineGraph(A1:A3,B1:B3)LineGraph(A1:A3,C1:C3)LineGraph(A1:A3,D1:D3)", chartCommand);
 		assertEquals("", chartError);
 	}
 
@@ -1161,31 +1198,27 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	// Editor cell/range references
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = "->", value = {
-			"=AA1                               -> AA1",
-			"=A1+$A$2+AA1+$AB100                -> A1,$A$2,AA1,$AB100",
-			"=SUM(A1:A10)+10                    -> A1:A10",
-			"=SUM(A1:A5)+SUM(A1:C1)+SUM(A1:B2)  -> A1:A5,A1:C1,A1:B2",
-			"=SUM(SUM(A1:A10),B1)               -> A1:A10,B1",
-	})
+	@CsvSource(
+			delimiterString = "->",
+			value = {
+				"=AA1                               -> AA1",
+				"=A1+$A$2+AA1+$AB100                -> A1,$A$2,AA1,$AB100",
+				"=SUM(A1:A10)+10                    -> A1:A10",
+				"=SUM(A1:A5)+SUM(A1:C1)+SUM(A1:B2)  -> A1:A5,A1:C1,A1:B2",
+				"=SUM(SUM(A1:A10),B1)               -> A1:A10,B1",
+			})
 	void testCellRangeReferences(String cellContent, String expectedReferences) {
 		tabularData.setContent(0, 1, cellContent);
 		simulateCellMouseClick(0, 1, 2);
-		List<SpreadsheetReference> expectedRanges =
-				List.of(expectedReferences.split(","))
-						.stream()
-						.map(SpreadsheetReferenceParsing::parseReference)
-						.collect(Collectors.toList());
+		List<SpreadsheetReference> expectedRanges = List.of(expectedReferences.split(",")).stream()
+				.map(SpreadsheetReferenceParsing::parseReference)
+				.collect(Collectors.toList());
 		List<SpreadsheetReference> actualRanges = controller.getEditorCellReferences();
 		assertEquals(expectedRanges, actualRanges);
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"A1",
-			"$A$1",
-			"+A1:A3"
-	})
+	@ValueSource(strings = {"A1", "$A$1", "+A1:A3"})
 	void testCellRangeReferencesButNotAFormula(String cellContent) {
 		tabularData.setContent(0, 1, cellContent);
 		simulateCellMouseClick(0, 1, 2);
@@ -1206,8 +1239,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
 		// SequenceNode[A, 1, :, A, 1, 0<>]
 		SpreadsheetReference range = new SpreadsheetReference(
-				new SpreadsheetCellReference(0, 0),
-				new SpreadsheetCellReference(9, 0));
+				new SpreadsheetCellReference(0, 0), new SpreadsheetCellReference(9, 0));
 		assertEquals(range, controller.getCurrentEditorCellReference());
 
 		simulateKeyPressInCellEditor(JavaKeyCodes.VK_LEFT);
@@ -1256,8 +1288,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 		}
 		// SequenceNode[<A>, 1, :, A, 1, 0]
 		SpreadsheetReference range = new SpreadsheetReference(
-				new SpreadsheetCellReference(0, 0),
-				new SpreadsheetCellReference(9, 0));
+				new SpreadsheetCellReference(0, 0), new SpreadsheetCellReference(9, 0));
 		assertEquals(range, controller.getCurrentEditorCellReference());
 	}
 
@@ -1282,10 +1313,9 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@ParameterizedTest
-	@CsvSource(delimiterString = ":", value = {
-			"mean:<List of x>:<List of y>",
-			"mean::"
-	})
+	@CsvSource(
+			delimiterString = ":",
+			value = {"mean:<List of x>:<List of y>", "mean::"})
 	void testCommandArgumentsSelection(String cmd, String placeholder1, String placeholder2) {
 		setViewport(new Rectangle(0, 500, 0, 500));
 		tabularData.setContent(0, 0, "1");
@@ -1448,8 +1478,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	 */
 	private void simulateKeyPressInCellEditor(int keyCode) {
 		MathFieldInternal mathField = cellEditor.getMathField();
-		KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char) keyCode,
-				KeyEvent.KeyboardType.EXTERNAL);
+		KeyEvent keyEvent = new KeyEvent(keyCode, 0, (char) keyCode, KeyEvent.KeyboardType.EXTERNAL);
 		mathField.onKeyPressed(keyEvent);
 		if ((keyCode >= JavaKeyCodes.VK_A && keyCode <= JavaKeyCodes.VK_Z)
 				|| (keyCode >= JavaKeyCodes.VK_0 && keyCode <= JavaKeyCodes.VK_9)
@@ -1462,8 +1491,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	private void simulateKeyPressInCellEditor(char keyChar) {
 		MathFieldInternal mathField = cellEditor.getMathField();
-		KeyEvent keyEvent = new KeyEvent(0, 0, keyChar,
-				KeyEvent.KeyboardType.EXTERNAL);
+		KeyEvent keyEvent = new KeyEvent(0, 0, keyChar, KeyEvent.KeyboardType.EXTERNAL);
 		mathField.onKeyPressed(keyEvent);
 		mathField.onKeyTyped(keyEvent);
 		mathField.onKeyReleased(keyEvent);
@@ -1530,8 +1558,7 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 	}
 
 	@Override
-	public void showAutoCompleteSuggestions(@NonNull String input,
-			@NonNull Rectangle editorBounds) {
+	public void showAutoCompleteSuggestions(@NonNull String input, @NonNull Rectangle editorBounds) {
 		autoCompleteShown = true;
 		autoCompleteSearchPrefix = input;
 	}
@@ -1549,10 +1576,13 @@ class SpreadsheetControllerTest implements SpreadsheetControlsDelegate,
 
 	@Override
 	public boolean handleKeyPressForAutoComplete(int keyCode) {
-		if (autoCompleteShown && (keyCode == JavaKeyCodes.VK_LEFT
-				|| keyCode == JavaKeyCodes.VK_RIGHT || keyCode == JavaKeyCodes.VK_UP
-				|| keyCode == JavaKeyCodes.VK_DOWN || keyCode == JavaKeyCodes.VK_ENTER
-				|| keyCode == JavaKeyCodes.VK_ESCAPE)) {
+		if (autoCompleteShown
+				&& (keyCode == JavaKeyCodes.VK_LEFT
+						|| keyCode == JavaKeyCodes.VK_RIGHT
+						|| keyCode == JavaKeyCodes.VK_UP
+						|| keyCode == JavaKeyCodes.VK_DOWN
+						|| keyCode == JavaKeyCodes.VK_ENTER
+						|| keyCode == JavaKeyCodes.VK_ESCAPE)) {
 			receivedKeys.add(keyCode);
 			return true;
 		}

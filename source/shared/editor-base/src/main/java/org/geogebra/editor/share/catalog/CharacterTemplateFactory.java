@@ -30,5 +30,4 @@ class CharacterTemplateFactory {
 		char code = name.charAt(0);
 		return new CharacterTemplate(name, code, CharacterTemplate.TYPE_CHARACTER);
 	}
-
 }

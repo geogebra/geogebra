@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 /**
  * Modes for resolving variables and evaluating commands
- * 
+ *
  * @author Zbynek
  *
  */

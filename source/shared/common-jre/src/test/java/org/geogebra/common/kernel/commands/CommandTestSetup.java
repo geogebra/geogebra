@@ -73,8 +73,8 @@ public class CommandTestSetup {
 	 * Assert that there are no unchecked syntaxes left
 	 */
 	public static void checkSyntaxesStatic() {
-		assertTrue(uncheckedSyntaxesCount <= 0,
-				"unchecked syntaxes: " + uncheckedSyntaxesCount + signature);
+		assertTrue(
+				uncheckedSyntaxesCount <= 0, "unchecked syntaxes: " + uncheckedSyntaxesCount + signature);
 	}
 
 	/**
@@ -87,8 +87,12 @@ public class CommandTestSetup {
 	 * @param processor algebra processor
 	 * @param tpl serialization template
 	 */
-	protected static void testSyntax(String input, List<Matcher<String>> expected,
-			App app1, AlgebraProcessor processor, StringTemplate tpl) {
+	protected static void testSyntax(
+			String input,
+			List<Matcher<String>> expected,
+			App app1,
+			AlgebraProcessor processor,
+			StringTemplate tpl) {
 		app1.getEuclidianView1().getEuclidianController().clearZoomerAnimationListeners();
 		if (uncheckedSyntaxesCount == UNINITIALIZED) {
 			Throwable t = new Throwable();
@@ -131,8 +135,7 @@ public class CommandTestSetup {
 	 * @param expected expected results (can be empty if command has no results)
 	 */
 	protected void t(String input, String... expected) {
-		testSyntax(input, AlgebraTestHelper.getMatchers(expected), app, ap,
-				StringTemplate.xmlTemplate);
+		testSyntax(input, AlgebraTestHelper.getMatchers(expected), app, ap, StringTemplate.xmlTemplate);
 	}
 
 	/**
@@ -159,8 +162,7 @@ public class CommandTestSetup {
 	/**
 	 * @see #intersect(String, String, boolean, boolean, String...)
 	 */
-	protected void intersect(String arg1, String arg2, boolean checkNumbered,
-			String... results) {
+	protected void intersect(String arg1, String arg2, boolean checkNumbered, String... results) {
 		intersect(arg1, arg2, checkNumbered, checkNumbered, results);
 	}
 
@@ -178,17 +180,16 @@ public class CommandTestSetup {
 	 * @param checkClosest whether to test the [argX,argY,Intersect[...]] syntax
 	 * @param results expected result
 	 */
-	protected void intersect(String arg1, String arg2, boolean checkNumbered,
-			boolean checkClosest, String... results) {
+	protected void intersect(
+			String arg1, String arg2, boolean checkNumbered, boolean checkClosest, String... results) {
 		app.getKernel().clearConstruction(true);
 		app.getKernel().getConstruction().setSuppressLabelCreation(false);
 		tRound("its:=Intersect(" + arg1 + "," + arg2 + ")", results);
 		GeoElement geo = lookup("its") == null ? lookup("its_1") : lookup("its");
 		boolean symmetric = geo != null
 				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines
-				&& geo.getParentAlgorithm().getOutput(0)
-				.getGeoClassType() == geo.getParentAlgorithm()
-				.getOutput(1).getGeoClassType());
+						&& geo.getParentAlgorithm().getOutput(0).getGeoClassType()
+								== geo.getParentAlgorithm().getOutput(1).getGeoClassType());
 		if (symmetric) {
 			tRound("Intersect(" + arg2 + "," + arg1 + ")", results);
 		}
@@ -199,8 +200,7 @@ public class CommandTestSetup {
 			}
 		}
 		if (checkClosest) {
-			tRound("Intersect(" + arg1 + "," + arg2 + "," + results[0] + ")",
-					results[0]);
+			tRound("Intersect(" + arg1 + "," + arg2 + "," + results[0] + ")", results[0]);
 		}
 	}
 

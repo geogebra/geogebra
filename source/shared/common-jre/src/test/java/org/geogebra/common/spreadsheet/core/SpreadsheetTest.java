@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -63,10 +63,8 @@ class SpreadsheetTest extends BaseUnitTest {
 	void setupSpreadsheet() {
 		tabularData = new TestTabularData();
 		undoProvider = mock();
-		spreadsheet = new Spreadsheet<>(tabularData,
-				new TestCellRenderableFactory(),
-				null,
-				undoProvider);
+		spreadsheet =
+				new Spreadsheet<>(tabularData, new TestCellRenderableFactory(), null, undoProvider);
 		spreadsheet.setHeightForRows(20, 0, 5);
 		spreadsheet.setWidthForColumns(40, 0, 5);
 		layout = spreadsheet.getController().getLayout();
@@ -83,10 +81,8 @@ class SpreadsheetTest extends BaseUnitTest {
 		kernelTabularData = new KernelTabularDataAdapter(getApp());
 		getKernel().attach(kernelTabularData);
 
-		kernelBackedSpreadsheet = new Spreadsheet<>(kernelTabularData,
-				new TestCellRenderableFactory(),
-				null,
-				undoProvider);
+		kernelBackedSpreadsheet =
+				new Spreadsheet<>(kernelTabularData, new TestCellRenderableFactory(), null, undoProvider);
 		kernelBackedSpreadsheet.setSpreadsheetDelegate(delegate);
 	}
 
@@ -181,8 +177,7 @@ class SpreadsheetTest extends BaseUnitTest {
 		// paint the whole area
 		spreadsheet.setViewport(new Rectangle(0, 140, 0, 500));
 		spreadsheet.draw(graphics);
-		assertEquals("A,B,C,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16",
-				graphics.toString());
+		assertEquals("A,B,C,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16", graphics.toString());
 	}
 
 	@Test
@@ -256,8 +251,8 @@ class SpreadsheetTest extends BaseUnitTest {
 	@Test
 	void testStyleBarDefaults() {
 		spreadsheet.selectCell(0, 0, false, false);
-		assertEquals(GeoGebraColorConstants.NEUTRAL_900,
-				spreadsheet.getStyleBarModel().getState().textColor);
+		assertEquals(
+				GeoGebraColorConstants.NEUTRAL_900, spreadsheet.getStyleBarModel().getState().textColor);
 		assertEquals(GColor.WHITE, spreadsheet.getStyleBarModel().getState().backgroundColor);
 	}
 

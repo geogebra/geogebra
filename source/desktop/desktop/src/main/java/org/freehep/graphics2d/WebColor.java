@@ -8,72 +8,73 @@ import java.awt.Color;
  * colors, which include black and white. The spacing is 0x33, which makes the
  * smallest value 0x00 and the largest 0xFF. These colors are guaranteed to work
  * in browsers without dithering. WebColors are opaque.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: WebColor.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
 @SuppressWarnings("serial")
 public class WebColor extends Color {
 
-	private final static int space = 0x33;
+	private static final int space = 0x33;
 
-	private final static int space2 = space / 2;
+	private static final int space2 = space / 2;
 
 	// redefine all java colors in terms of WebColors
-	public final static WebColor white = new WebColor(Color.WHITE);
+	public static final WebColor white = new WebColor(Color.WHITE);
 
-	public final static WebColor WHITE = white;
+	public static final WebColor WHITE = white;
 
-	public final static WebColor lightGray = new WebColor(Color.LIGHT_GRAY);
+	public static final WebColor lightGray = new WebColor(Color.LIGHT_GRAY);
 
-	public final static WebColor LIGHT_GRAY = lightGray;
+	public static final WebColor LIGHT_GRAY = lightGray;
 
-	public final static WebColor gray = new WebColor(Color.GRAY);
+	public static final WebColor gray = new WebColor(Color.GRAY);
 
-	public final static WebColor GRAY = gray;
+	public static final WebColor GRAY = gray;
 
-	public final static WebColor darkGray = new WebColor(Color.DARK_GRAY);
+	public static final WebColor darkGray = new WebColor(Color.DARK_GRAY);
 
-	public final static WebColor DARK_GRAY = darkGray;
+	public static final WebColor DARK_GRAY = darkGray;
 
-	public final static WebColor black = new WebColor(Color.BLACK);
+	public static final WebColor black = new WebColor(Color.BLACK);
 
-	public final static WebColor BLACK = black;
+	public static final WebColor BLACK = black;
 
-	public final static WebColor red = new WebColor(Color.RED);
+	public static final WebColor red = new WebColor(Color.RED);
 
-	public final static WebColor RED = red;
+	public static final WebColor RED = red;
 
-	public final static WebColor pink = new WebColor(Color.PINK);
+	public static final WebColor pink = new WebColor(Color.PINK);
 
-	public final static WebColor PINK = pink;
+	public static final WebColor PINK = pink;
 
-	public final static WebColor orange = new WebColor(Color.ORANGE);
+	public static final WebColor orange = new WebColor(Color.ORANGE);
 
-	public final static WebColor ORANGE = orange;
+	public static final WebColor ORANGE = orange;
 
-	public final static WebColor yellow = new WebColor(Color.YELLOW);
+	public static final WebColor yellow = new WebColor(Color.YELLOW);
 
-	public final static WebColor YELLOW = yellow;
+	public static final WebColor YELLOW = yellow;
 
-	public final static WebColor green = new WebColor(Color.GREEN);
+	public static final WebColor green = new WebColor(Color.GREEN);
 
-	public final static WebColor GREEN = green;
+	public static final WebColor GREEN = green;
 
-	public final static WebColor magenta = new WebColor(Color.MAGENTA);
+	public static final WebColor magenta = new WebColor(Color.MAGENTA);
 
-	public final static WebColor MAGENTA = magenta;
+	public static final WebColor MAGENTA = magenta;
 
-	public final static WebColor cyan = new WebColor(Color.CYAN);
+	public static final WebColor cyan = new WebColor(Color.CYAN);
 
-	public final static WebColor CYAN = cyan;
+	public static final WebColor CYAN = cyan;
 
-	public final static WebColor blue = new WebColor(Color.BLUE);
+	public static final WebColor blue = new WebColor(Color.BLUE);
 
-	public final static WebColor BLUE = blue;
+	public static final WebColor BLUE = blue;
 
 	public WebColor(int red, int green, int blue) {
-		super(((red + space2) / space) * space,
+		super(
+				((red + space2) / space) * space,
 				((green + space2) / space) * space,
 				((blue + space2) / space) * space);
 	}

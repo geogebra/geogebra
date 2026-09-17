@@ -44,7 +44,7 @@ public class BaseView<T> {
 	/**
 	 * @param view
 	 *            Renderable view
-	 * 
+	 *
 	 *            Removes a view from the views list
 	 */
 	public void remove(T view) {
@@ -54,7 +54,7 @@ public class BaseView<T> {
 	/**
 	 * @param view
 	 *            Renderable view
-	 * 
+	 *
 	 *            Adds new view to the view's list
 	 */
 	public final void add(T view) {

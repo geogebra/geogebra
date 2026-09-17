@@ -34,7 +34,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,52 +43,50 @@ public class CmdCopyFreeObject extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
 		switch (n) {
-		// FunctionalNVar
-		case 1:
-			GeoElement geo;
-			String label = c.getLabel();
-			if (arg[0] instanceof FunctionalNVar) {
+			// FunctionalNVar
+			case 1:
+				GeoElement geo;
+				String label = c.getLabel();
+				if (arg[0] instanceof FunctionalNVar) {
 
-				return copyFunction(arg[0], c, label);
+					return copyFunction(arg[0], c, label);
+				}
 
-			}
+				if (arg[0] instanceof GeoSegmentND) {
 
-			if (arg[0] instanceof GeoSegmentND) {
+					geo = ((GeoSegmentND) arg[0]).copyFreeSegment();
 
-				geo = ((GeoSegmentND) arg[0]).copyFreeSegment();
+				} else if (arg[0] instanceof GeoRayND) {
 
-			} else if (arg[0] instanceof GeoRayND) {
+					geo = ((GeoRayND) arg[0]).copyFreeRay();
 
-				geo = ((GeoRayND) arg[0]).copyFreeRay();
+				} else {
+					// changed to deepCopyGeo() so that it works for lists
+					// https://help.geogebra.org/topic/copyfreeobject-a1-a3-not-free
+					geo = arg[0].deepCopyGeo();
+				}
 
-			} else {
-				// changed to deepCopyGeo() so that it works for lists
-				// https://help.geogebra.org/topic/copyfreeobject-a1-a3-not-free
-				geo = arg[0].deepCopyGeo();
-			}
+				geo.setVisualStyle(arg[0]);
+				geo.setLabel(label);
+				GeoElement[] ret = {geo};
+				if (!arg[0].isLabelSet()) {
+					arg[0].remove();
+				}
+				return ret;
 
-			geo.setVisualStyle(arg[0]);
-			geo.setLabel(label);
-			GeoElement[] ret = { geo };
-			if (!arg[0].isLabelSet()) {
-				arg[0].remove();
-			}
-			return ret;
-
-		// more than one argument
-		default:
-			throw argNumErr(c);
+			// more than one argument
+			default:
+				throw argNumErr(c);
 		}
 	}
 
-	private GeoElement[] copyFunction(GeoElement geoElement, Command c,
-			String label) {
+	private GeoElement[] copyFunction(GeoElement geoElement, Command c, String label) {
 		FunctionalNVar f = (FunctionalNVar) geoElement;
 		StringBuilder command = new StringBuilder();
 
@@ -107,8 +105,8 @@ public class CmdCopyFreeObject extends CommandProcessor {
 		if (f.getFunctionExpression().isSecret()) {
 			command.append(geoElement.getParentAlgorithm().getClassName());
 			command.append("[");
-			command.append(geoElement.getParentAlgorithm().getInput(0)
-					.toOutputValueString(highPrecision));
+			command.append(
+					geoElement.getParentAlgorithm().getInput(0).toOutputValueString(highPrecision));
 			command.append("]");
 		} else {
 
@@ -116,9 +114,8 @@ public class CmdCopyFreeObject extends CommandProcessor {
 		}
 
 		try {
-			GeoElementND[] ret = kernel.getAlgebraProcessor()
-					.processAlgebraCommandNoExceptions(command.toString(),
-							true);
+			GeoElementND[] ret =
+					kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(command.toString(), true);
 			ret[0].setVisualStyle(geoElement);
 			if (!geoElement.isLabelSet()) {
 				geoElement.remove();
@@ -132,6 +129,5 @@ public class CmdCopyFreeObject extends CommandProcessor {
 			Log.debug(e);
 			throw argErr(c.getName(), geoElement, e);
 		}
-
 	}
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -106,8 +106,7 @@ class ToolToggleButton extends JToggleButton
 		// for 32
 		// pixel
 		// icon
-		Dimension dim = new Dimension(iconWidth + 2 * BORDER,
-				iconHeight + 2 * BORDER);
+		Dimension dim = new Dimension(iconWidth + 2 * BORDER, iconHeight + 2 * BORDER);
 		setPreferredSize(dim);
 		setMinimumSize(dim);
 		setMaximumSize(dim);
@@ -213,8 +212,7 @@ class ToolToggleButton extends JToggleButton
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (!menu.isPopupShowing()
-				&& popupTriangleClicked(e.getY())) {
+		if (!menu.isPopupShowing() && popupTriangleClicked(e.getY())) {
 			menu.setPopupVisible(true);
 			this.getModel().setArmed(false);
 		} else {
@@ -226,7 +224,6 @@ class ToolToggleButton extends JToggleButton
 				showMenuTimer = new Timer(1000, e1 -> {
 					menu.setPopupVisible(true);
 					showMenuTimer.stop();
-
 				});
 				showMenuTimer.setRepeats(false);
 			}
@@ -278,8 +275,7 @@ class ToolToggleButton extends JToggleButton
 		showToolTipText = !menu.isPopupShowing();
 
 		// highlight popup menu triangle
-		if (menu.size > 1
-				&& popupTriangleHighlighting != popupTriangleClicked(e.getY())) {
+		if (menu.size > 1 && popupTriangleHighlighting != popupTriangleClicked(e.getY())) {
 			popupTriangleHighlighting = !popupTriangleHighlighting;
 			repaint();
 		}
@@ -288,8 +284,8 @@ class ToolToggleButton extends JToggleButton
 	@Override
 	public JToolTip createToolTip() {
 		tip = super.createToolTip();
-		tip.setBorder(BorderFactory.createCompoundBorder(tip.getBorder(),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+		tip.setBorder(BorderFactory.createCompoundBorder(
+				tip.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		return tip;
 	}
@@ -299,37 +295,36 @@ class ToolToggleButton extends JToggleButton
 
 		Point p = new Point();
 		switch (app.getToolbarPosition()) {
-		case SwingConstants.NORTH:
-			p.y = this.getY() + this.getHeight();
-			p.x = this.getX();
-			break;
-		default:
-		case SwingConstants.SOUTH:
-			p.y = this.getY();
-			p.x = this.getX();
-			if (tip != null) {
-				p.y -= tip.getHeight();
-			} else {
-				p.y += this.getHeight();
-			}
+			case SwingConstants.NORTH:
+				p.y = this.getY() + this.getHeight();
+				p.x = this.getX();
+				break;
+			default:
+			case SwingConstants.SOUTH:
+				p.y = this.getY();
+				p.x = this.getX();
+				if (tip != null) {
+					p.y -= tip.getHeight();
+				} else {
+					p.y += this.getHeight();
+				}
 
-			break;
-		case SwingConstants.WEST:
-			p.y = this.getY();
-			p.x = this.getX() + this.getWidth();
-			break;
-		case SwingConstants.EAST:
-			p.y = this.getY();
-			p.x = this.getX();
-			if (tip != null) {
-				p.x -= tip.getWidth();
-			} else {
-				p.x += this.getWidth();
-			}
-			break;
+				break;
+			case SwingConstants.WEST:
+				p.y = this.getY();
+				p.x = this.getX() + this.getWidth();
+				break;
+			case SwingConstants.EAST:
+				p.y = this.getY();
+				p.x = this.getX();
+				if (tip != null) {
+					p.x -= tip.getWidth();
+				} else {
+					p.x += this.getWidth();
+				}
+				break;
 		}
 
 		return p;
 	}
-
 }

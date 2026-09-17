@@ -44,18 +44,16 @@ public class ImageCornerModel extends MultipleGeosModel {
 				isEqual = false;
 				break;
 			}
-
 		}
 
 		if (isEqual && p0 != null) {
 			if (getListener() instanceof GeoComboListener) {
-				((GeoComboListener) getListener()).setSelectedItem(
-					p0.getLabel(StringTemplate.defaultTemplate));
+				((GeoComboListener) getListener())
+						.setSelectedItem(p0.getLabel(StringTemplate.defaultTemplate));
 			}
 		} else {
 			getListener().setSelectedIndex(-1);
 		}
-
 	}
 
 	@Override
@@ -72,12 +70,13 @@ public class ImageCornerModel extends MultipleGeosModel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if this point is the center point.
 	 */
 	public boolean isCenter() {
 		return cornerIdx == GeoImage.CENTER_INDEX;
 	}
+
 	@Override
 	protected void apply(int index, int value) {
 		// Not used
@@ -88,11 +87,9 @@ public class ImageCornerModel extends MultipleGeosModel {
 		GeoPointND newLoc = null;
 		handler.resetError();
 		if (!StringUtil.emptyTrim(strLoc)) {
-			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-					handler, true);
+			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc, handler, true);
 		}
-		if (newLoc == null
-				&& (cornerIdx == 0 || !StringUtil.emptyTrim(strLoc))) {
+		if (newLoc == null && (cornerIdx == 0 || !StringUtil.emptyTrim(strLoc))) {
 			return;
 		}
 		for (int i = 0; i < getGeosLength(); i++) {
@@ -133,5 +130,4 @@ public class ImageCornerModel extends MultipleGeosModel {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

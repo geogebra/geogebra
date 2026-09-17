@@ -22,11 +22,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Mean of x-coords of a list of Points
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-02-18
  */
-
 public class AlgoListMeanX extends AlgoStats2D {
 
 	public AlgoListMeanX(Construction cons, String label, GeoList geoListx) {

@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Locus of points
- * 
+ *
  * @author Markus
  */
 public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
@@ -38,7 +38,7 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 
 	/**
 	 * Creates new locus
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -53,8 +53,7 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 
 	@Override
 	public void insertPoint(double x, double y, double z, boolean lineTo) {
-		myPointList.add(new MyPoint3D(x, y, z, lineTo ? SegmentType.LINE_TO
-				: SegmentType.MOVE_TO));
+		myPointList.add(new MyPoint3D(x, y, z, lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO));
 	}
 
 	@Override
@@ -79,10 +78,10 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 		PathParameter pp = P.getPathParameter();
 		if (closestPoint != null) {
 			coords.setX(closestPoint.x); // (1 - closestPointParameter) *
-										// locusPoint.x +
+			// locusPoint.x +
 			// closestPointParameter * locusPoint2.x;
 			coords.setY(closestPoint.y); // (1 - closestPointParameter) *
-										// locusPoint.y +
+			// locusPoint.y +
 			// closestPointParameter * locusPoint2.y;
 			coords.setZ(closestPoint.getZ());
 			coords.setW(1.0);
@@ -131,8 +130,7 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 				coords = ((GeoPoint3D) changingPoint).getWillingCoords();
 
 				if (((GeoPoint3D) changingPoint).hasWillingDirection()) {
-					return project.distLine(coords,
-							((GeoPoint3D) changingPoint).getWillingDirection());
+					return project.distLine(coords, ((GeoPoint3D) changingPoint).getWillingDirection());
 				}
 			}
 		}

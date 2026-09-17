@@ -164,25 +164,25 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		resetParameters();
 		switch (expected) {
-		case circleThreePoints:
-			CIRCLE_MAX_SCORE = 0.15;
-			CIRCLE_MIN_DET = 0.9;
-			break;
-		case polygon:
-		case rigidPolygon:
-		case vectorPolygon:
-			RECTANGLE_LINEAR_TOLERANCE = 0.25;
-			POLYGON_LINEAR_TOLERANCE = 0.25;
-			RECTANGLE_ANGLE_TOLERANCE = 17 * Math.PI / 180;
-			break;
-		default:
-			break;
+			case circleThreePoints:
+				CIRCLE_MAX_SCORE = 0.15;
+				CIRCLE_MIN_DET = 0.9;
+				break;
+			case polygon:
+			case rigidPolygon:
+			case vectorPolygon:
+				RECTANGLE_LINEAR_TOLERANCE = 0.25;
+				POLYGON_LINEAR_TOLERANCE = 0.25;
+				RECTANGLE_ANGLE_TOLERANCE = 17 * Math.PI / 180;
+				break;
+			default:
+				break;
 		}
 	}
 
 	@Override
-	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
-			boolean isPinchZooming, PointerEventType eventType) {
+	public void handleMouseReleasedForPenMode(
+			boolean right, int x, int y, boolean isPinchZooming, PointerEventType eventType) {
 		penPoints.add(new GPoint2D(x, y));
 
 		GeoElement shape = checkExpectedShape(eventType);
@@ -246,8 +246,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		for (GPoint2D p : penPoints) {
 			int index = (int) (p.x - minX);
-			if (index >= 0 && index < freehand1.length
-					&& Double.isNaN(freehand1[index])) {
+			if (index >= 0 && index < freehand1.length && Double.isNaN(freehand1[index])) {
 				freehand1[index] = view.toRealWorldCoordY(p.y);
 			}
 		}
@@ -261,8 +260,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			if (Double.isNaN(freehand1[i])) {
 				if (i > nextValIndex) {
 					nextValIndex = i;
-					while (nextValIndex < n
-							&& Double.isNaN(freehand1[nextValIndex])) {
+					while (nextValIndex < n && Double.isNaN(freehand1[nextValIndex])) {
 						nextValIndex++;
 					}
 				}
@@ -270,9 +268,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					freehand1[i] = val;
 				} else {
 					double nextVal = freehand1[nextValIndex];
-					freehand1[i] = (val * (nextValIndex - i)
-							+ nextVal * (i - valIndex))
-							/ (nextValIndex - valIndex);
+					freehand1[i] =
+							(val * (nextValIndex - i) + nextVal * (i - valIndex)) / (nextValIndex - valIndex);
 				}
 			} else {
 				val = freehand1[i];
@@ -284,13 +281,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		GeoList list = new GeoList(cons);
 		// checkDecimalFraction() -> shorter XML
-		list.add(new GeoNumeric(cons,
-				DoubleUtil.checkDecimalFraction(view.toRealWorldCoordX(minX))));
-		list.add(new GeoNumeric(cons,
-				DoubleUtil.checkDecimalFraction(view.toRealWorldCoordX(maxX))));
+		list.add(new GeoNumeric(cons, DoubleUtil.checkDecimalFraction(view.toRealWorldCoordX(minX))));
+		list.add(new GeoNumeric(cons, DoubleUtil.checkDecimalFraction(view.toRealWorldCoordX(maxX))));
 		for (int i = 0; i < n; i++) {
-			list.add(new GeoNumeric(cons,
-					DoubleUtil.checkDecimalFraction(freehand1[i])));
+			list.add(new GeoNumeric(cons, DoubleUtil.checkDecimalFraction(freehand1[i])));
 		}
 
 		// create the freehand function
@@ -332,14 +326,14 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		switch (this.expected) {
-		case polygon:
-		case rigidPolygon:
-		case vectorPolygon:
-			return createPolygon();
-		case circleThreePoints:
-			return createCircle(eventType);
-		case function:
-			return createFunction();
+			case polygon:
+			case rigidPolygon:
+			case vectorPolygon:
+				return createPolygon();
+			case circleThreePoints:
+				return createCircle(eventType);
+			case function:
+				return createFunction();
 		}
 
 		return null;
@@ -369,8 +363,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		for (GPoint2D p : this.penPoints) {
 			this.view.setHits(new GPoint((int) p.x, (int) p.y), eventType);
 			if (this.view.getHits().containsGeoPoint()) {
-				GeoPoint point = (GeoPoint) this.view.getHits()
-						.getFirstHit(TestGeo.GEOPOINT);
+				GeoPoint point = (GeoPoint) this.view.getHits().getFirstHit(TestGeo.GEOPOINT);
 				if (!list.contains(point)) {
 					list.add(point);
 				}
@@ -378,8 +371,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		if (list.size() >= 3) {
-			circle = this.app.getKernel().getAlgoDispatcher().circle(null,
-					list.get(0), list.get(1), list.get(2));
+			circle = this.app
+					.getKernel()
+					.getAlgoDispatcher()
+					.circle(null, list.get(0), list.get(1), list.get(2));
 		}
 		return circle;
 	}
@@ -404,8 +399,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					list.add((GeoPoint) point);
 				}
 			}
-			if (list.size() == polygon.getPoints().length
-					&& expected != ShapeType.polygon) {
+			if (list.size() == polygon.getPoints().length && expected != ShapeType.polygon) {
 				// true if all the points are GeoPoints, otherwise the
 				// original Polygon will not be deleted
 				polygon.remove();
@@ -413,11 +407,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 				GeoElement[] result;
 				if (expected == ShapeType.rigidPolygon) {
-					result = factory.rigidPolygon(null,
-							list.toArray(new GeoPoint[0]));
+					result = factory.rigidPolygon(null, list.toArray(new GeoPoint[0]));
 				} else {
-					result = factory.vectorPolygon(null,
-							list.toArray(new GeoPoint[0]));
+					result = factory.vectorPolygon(null, list.toArray(new GeoPoint[0]));
 				}
 				if (result != null) {
 					return result[0];
@@ -470,8 +462,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		int step = this.penPoints.size() / datasize;
 
-		Array2DRowRealMatrix M = new Array2DRowRealMatrix(datasize,
-				order * (order + 1));
+		Array2DRowRealMatrix M = new Array2DRowRealMatrix(datasize, order * (order + 1));
 
 		double[] coeffs = new double[6];
 
@@ -497,8 +488,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 						int ypower = i - xpower;
 
-						double val = Math.pow(px, xpower)
-								* Math.pow(py, ypower);
+						double val = Math.pow(px, xpower) * Math.pow(py, ypower);
 
 						M.setEntry(j, c1++, val);
 					}
@@ -518,15 +508,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return null;
 		}
 
-		GeoConicND conic = new GeoConic(this.app.getKernel().getConstruction(),
-				coeffs);
+		GeoConicND conic = new GeoConic(this.app.getKernel().getConstruction(), coeffs);
 
-		GeoPoint point = new GeoPoint(this.app.getKernel().getConstruction(), 0,
-				0, 1);
+		GeoPoint point = new GeoPoint(this.app.getKernel().getConstruction(), 0, 0, 1);
 		double error = 0;
 		for (GPoint2D p : penPoints) {
-			point.setCoords(view.toRealWorldCoordX(p.x),
-					view.toRealWorldCoordY(p.y), 1);
+			point.setCoords(view.toRealWorldCoordX(p.x), view.toRealWorldCoordY(p.y), 1);
 			error += conic.distance(point);
 		}
 		error /= penPoints.size();
@@ -534,28 +521,32 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		if (conic.isDefined()
 				&& conic.getHalfAxis(0) / error > CONIC_AXIS_ERROR_RATIO
 				&& conic.getHalfAxis(1) / error > CONIC_AXIS_ERROR_RATIO) {
-			AlgoFocus algo = new AlgoFocus(app.getKernel().getConstruction(),
-					new String[] { null, null }, conic);
+			AlgoFocus algo =
+					new AlgoFocus(app.getKernel().getConstruction(), new String[] {null, null}, conic);
 			GeoPointND[] focus = algo.getFocus();
 
 			final int type = conic.getType();
-			GeoPoint pointOnConic = this.app.getKernel().getAlgoDispatcher()
-					.point(null, conic, null);
+			GeoPoint pointOnConic = this.app.getKernel().getAlgoDispatcher().point(null, conic, null);
 
 			conic.remove();
 
-			GeoPoint f0 = new GeoPoint(app.getKernel().getConstruction(), null,
-					focus[0].getInhomX(), focus[0].getInhomY(), 1);
+			GeoPoint f0 = new GeoPoint(
+					app.getKernel().getConstruction(), null, focus[0].getInhomX(), focus[0].getInhomY(), 1);
 			f0.setEuclidianVisible(false);
-			GeoPoint f1 = new GeoPoint(app.getKernel().getConstruction(), null,
-					focus[1].getInhomX(), focus[1].getInhomY(), 1);
+			GeoPoint f1 = new GeoPoint(
+					app.getKernel().getConstruction(), null, focus[1].getInhomX(), focus[1].getInhomY(), 1);
 			f1.setEuclidianVisible(false);
 			GeoPoint additionalPoint = new GeoPoint(
-					app.getKernel().getConstruction(), null,
-					pointOnConic.getInhomX(), pointOnConic.getInhomY(), 1);
+					app.getKernel().getConstruction(),
+					null,
+					pointOnConic.getInhomX(),
+					pointOnConic.getInhomY(),
+					1);
 			additionalPoint.setEuclidianVisible(false);
 
-			conic = this.app.getKernel().getAlgoDispatcher()
+			conic = this.app
+					.getKernel()
+					.getAlgoDispatcher()
 					.ellipseHyperbola(null, f0, f1, additionalPoint, type);
 		} else {
 			conic.remove();
@@ -610,11 +601,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		if (this.initialPoint != null) {
 			p = initialPoint;
 		} else {
-			p = new GeoPoint(app.getKernel().getConstruction(), null, x_first,
-					y_first, 1.0);
+			p = new GeoPoint(app.getKernel().getConstruction(), null, x_first, y_first, 1.0);
 		}
-		GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), null,
-				x_last, y_last, 1.0);
+		GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), null, x_last, y_last, 1.0);
 
 		return getJoinPointsSegment(p, q);
 	}
@@ -718,10 +707,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 		for (i = 0; i < nsides; ++i) {
 			r1 = recos[recognizerQueueLength - nsides + i];
-			r2 = recos[
-					recognizerQueueLength - nsides + ((i + 1) % nsides)];
-			if (Math.abs(Math.abs(r1.angle - r2.angle)
-					- Math.PI / 2) > RECTANGLE_ANGLE_TOLERANCE) {
+			r2 = recos[recognizerQueueLength - nsides + ((i + 1) % nsides)];
+			if (Math.abs(Math.abs(r1.angle - r2.angle) - Math.PI / 2) > RECTANGLE_ANGLE_TOLERANCE) {
 				return null;
 			}
 			avg_angle = avg_angle + r1.angle;
@@ -731,17 +718,15 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				avg_angle = avg_angle - ((i + 1) * Math.PI / 2);
 			}
 			r1.reversed = ((r1.x2 - r1.x1) * (r2.xcenter - r1.xcenter)
-					+ (r1.y2 - r1.y1) * (r2.ycenter - r1.ycenter)) < 0;
+							+ (r1.y2 - r1.y1) * (r2.ycenter - r1.ycenter))
+					< 0;
 		}
 		for (i = 0; i < nsides; ++i) {
 			r1 = recos[recognizerQueueLength - nsides + i];
-			r2 = recos[
-					recognizerQueueLength - nsides + ((i + 1) % nsides)];
+			r2 = recos[recognizerQueueLength - nsides + ((i + 1) % nsides)];
 			dist = Math.hypot(
-					(r1.reversed ? r1.x1 : r1.x2)
-							- (r2.reversed ? r2.x2 : r2.x1),
-					(r1.reversed ? r1.y1 : r1.y2)
-							- (r2.reversed ? r2.y2 : r2.y1));
+					(r1.reversed ? r1.x1 : r1.x2) - (r2.reversed ? r2.x2 : r2.x1),
+					(r1.reversed ? r1.y1 : r1.y2) - (r2.reversed ? r2.y2 : r2.y1));
 			if (dist > RECTANGLE_LINEAR_TOLERANCE * (r1.radius + r2.radius)) {
 				return null;
 			}
@@ -763,8 +748,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		for (i = 0; i < nsides; ++i) {
 			r1 = recos[recognizerQueueLength - nsides + i];
-			r2 = recos[
-					recognizerQueueLength - nsides + ((i + 1) % nsides)];
+			r2 = recos[recognizerQueueLength - nsides + ((i + 1) % nsides)];
 			calc_edge_isect(r1, r2, pt);
 			points[2 * i + 2] = pt[0];
 			points[2 * i + 3] = pt[1];
@@ -779,8 +763,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		// in case the initialPoint cannot be used and can be deleted safely,
 		// delete it
-		if (initialPoint != null && !initialPoint.isIndependent()
-				&& deleteInitialPoint) {
+		if (initialPoint != null && !initialPoint.isIndependent() && deleteInitialPoint) {
 			this.initialPoint.remove();
 			this.initialPoint = null;
 		}
@@ -791,13 +774,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double y_first;
 
 		for (i = 0; i < nsides; ++i) {
-			x_first = view.toRealWorldCoordX(points[2 * i])
-					+ offsetInitialPointX;
-			y_first = view.toRealWorldCoordY(points[2 * i + 1])
-					+ offsetInitialPointY;
+			x_first = view.toRealWorldCoordX(points[2 * i]) + offsetInitialPointX;
+			y_first = view.toRealWorldCoordY(points[2 * i + 1]) + offsetInitialPointY;
 
-			if (i == 0 && this.initialPoint != null
-					&& this.initialPoint.isIndependent()) {
+			if (i == 0 && this.initialPoint != null && this.initialPoint.isIndependent()) {
 				offsetInitialPointX = this.initialPoint.x - x_first;
 				offsetInitialPointY = this.initialPoint.y - y_first;
 				pts[0] = this.initialPoint;
@@ -881,8 +861,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		r.y2 = r.ycenter + lmax * Math.sin(r.angle);
 	}
 
-	private static void calc_edge_isect(RecoSegment r1, RecoSegment r2,
-			double[] pt) {
+	private static void calc_edge_isect(RecoSegment r1, RecoSegment r2, double[] pt) {
 		double t = (r2.xcenter - r1.xcenter) * Math.sin(r2.angle)
 				- (r2.ycenter - r1.ycenter) * Math.cos(r2.angle);
 		t = t / Math.sin(r2.angle - r1.angle);
@@ -907,22 +886,20 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		for (i = 0; i < nsides; ++i) {
 			r1 = recos[recognizerQueueLength - nsides + i];
-			r2 = recos[
-					recognizerQueueLength - nsides + (i + 1) % nsides];
+			r2 = recos[recognizerQueueLength - nsides + (i + 1) % nsides];
 			calc_edge_isect(r1, r2, pt);
-			r1.reversed = Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1) < Math
-					.hypot(pt[0] - r1.x2, pt[1] - r1.y2);
+			r1.reversed =
+					Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1) < Math.hypot(pt[0] - r1.x2, pt[1] - r1.y2);
 		}
 		double dist;
 		for (i = 0; i < nsides; ++i) {
 			r1 = recos[recognizerQueueLength - nsides + i];
-			r2 = recos[
-					recognizerQueueLength - nsides + (i + 1) % nsides];
+			r2 = recos[recognizerQueueLength - nsides + (i + 1) % nsides];
 			calc_edge_isect(r1, r2, pt);
-			dist = Math.hypot((r1.reversed ? r1.x1 : r1.x2) - pt[0],
-					(r1.reversed ? r1.y1 : r1.y2) - pt[1])
-					+ Math.hypot((r2.reversed ? r2.x2 : r2.x1) - pt[0],
-							(r2.reversed ? r2.y2 : r2.y1) - pt[1]);
+			dist =
+					Math.hypot((r1.reversed ? r1.x1 : r1.x2) - pt[0], (r1.reversed ? r1.y1 : r1.y2) - pt[1])
+							+ Math.hypot(
+									(r2.reversed ? r2.x2 : r2.x1) - pt[0], (r2.reversed ? r2.y2 : r2.y1) - pt[1]);
 			if (dist > POLYGON_LINEAR_TOLERANCE * (r1.radius + r2.radius)) {
 				return null;
 			}
@@ -932,8 +909,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		for (i = 0; i < nsides; ++i) {
 			r1 = recos[recognizerQueueLength - nsides + i];
-			r2 = recos[
-					recognizerQueueLength - nsides + (i + 1) % nsides];
+			r2 = recos[recognizerQueueLength - nsides + (i + 1) % nsides];
 			calc_edge_isect(r1, r2, pt);
 			points[2 * i + 2] = pt[0];
 			points[2 * i + 3] = pt[1];
@@ -949,9 +925,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				initialPoint = null;
 			} else {
 				// null -> created labeled point
-				pts[i] = new GeoPoint(app.getKernel().getConstruction(), null,
+				pts[i] = new GeoPoint(
+						app.getKernel().getConstruction(),
+						null,
 						view.toRealWorldCoordX(points[2 * i]),
-						view.toRealWorldCoordY(points[2 * i + 1]), 1.0);
+						view.toRealWorldCoordY(points[2 * i + 1]),
+						1.0);
 			}
 		}
 		if (nsides == 3) {
@@ -981,15 +960,13 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			inertias[i] = new Inertia();
 		}
 
-		return this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES, 0,
-				0);
+		return this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES, 0, 0);
 	}
 
 	/*
 	 * ported from xournal by Neel Shah
 	 */
-	private int findPolygonal(int start, int end, int n, int offset1,
-			int offset2) {
+	private int findPolygonal(int start, int end, int n, int offset1, int offset2) {
 		Inertia s = new Inertia();
 		Inertia s1 = new Inertia();
 		Inertia s2 = new Inertia();
@@ -1048,9 +1025,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 		int n1;
 		if (i1 > start) {
-			n1 = this.findPolygonal(start, i1,
-					(i2 == end) ? (nsides - 1) : (nsides - 2), offset1,
-					offset2);
+			n1 = this.findPolygonal(
+					start, i1, (i2 == end) ? (nsides - 1) : (nsides - 2), offset1, offset2);
 			if (n1 == 0) {
 				return 0;
 			}
@@ -1063,8 +1039,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		inertias[offset2 + n1].copyValuesFrom(s);
 		int n2;
 		if (i2 < end) {
-			n2 = this.findPolygonal(i2, end, nsides - n1 - 1, offset1 + n1 + 1,
-					offset2 + n1 + 1);
+			n2 = this.findPolygonal(i2, end, nsides - n1 - 1, offset1 + n1 + 1, offset2 + n1 + 1);
 			if (n2 == 0.) {
 				return 0;
 			}
@@ -1083,12 +1058,10 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	private GeoPolygon createPolygonFromPoints(GeoPointND[] points) {
 		points[0].setHighlighted(false);
 
-		AlgoPolygon algo = new AlgoPolygon(app.getKernel().getConstruction(),
-				null, points);
+		AlgoPolygon algo = new AlgoPolygon(app.getKernel().getConstruction(), null, points);
 		GeoPolygon poly = algo.getPoly();
 
-		if (view.getEuclidianController()
-				.getPreviousMode() != EuclidianConstants.MODE_POLYGON) {
+		if (view.getEuclidianController().getPreviousMode() != EuclidianConstants.MODE_POLYGON) {
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
 			poly.setObjColor(GColor.BLACK);
@@ -1108,8 +1081,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	private GeoElement getJoinPointsSegment(GeoPoint first, GeoPoint last) {
 		Construction cons = app.getKernel().getConstruction();
-		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons,
-				first, last);
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, first, last);
 		first.setEuclidianVisible(false);
 		last.setEuclidianVisible(false);
 		GeoElement line = algo.getOutput(0);
@@ -1123,49 +1095,48 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		calc_inertia(0, penPoints.size() - 1, s);
 
 		if (i_det(s) > CIRCLE_MIN_DET) {
-            double score = scoreCircle(0, penPoints.size() - 1, s);
+			double score = scoreCircle(0, penPoints.size() - 1, s);
 			if (score < CIRCLE_MAX_SCORE) {
 				double centerX = view.toRealWorldCoordX(centerX(s));
 				double centerY = view.toRealWorldCoordY(centerY(s));
 				double radius = Math.sqrt(i_xx(s) * view.getInvXscale() * view.getInvXscale()
 						+ i_yy(s) * view.getInvYscale() * view.getInvYscale());
 
-                Construction cons = app.getKernel().getConstruction();
+				Construction cons = app.getKernel().getConstruction();
 				if (initialPoint != null) {
-                    double phi0 = Math.atan2(initialPoint.getY() - centerY,
-                            initialPoint.getX() - centerX);
+					double phi0 = Math.atan2(initialPoint.getY() - centerY, initialPoint.getX() - centerX);
 
-					GeoPoint p2 = new GeoPoint(cons, null,
-                            centerX + Math.cos(phi0 + 2 * Math.PI / 3) * radius,
-                            centerY + Math.sin(phi0 + 2 * Math.PI / 3) * radius,
-                            1.0
-                    );
-                    GeoPoint p3 = new GeoPoint(cons, null,
-                            centerX + Math.cos(phi0 + 4 * Math.PI / 3) * radius,
-                            centerY + Math.sin(phi0 + 4 * Math.PI / 3) * radius,
-                            1.0
-                    );
+					GeoPoint p2 = new GeoPoint(
+							cons,
+							null,
+							centerX + Math.cos(phi0 + 2 * Math.PI / 3) * radius,
+							centerY + Math.sin(phi0 + 2 * Math.PI / 3) * radius,
+							1.0);
+					GeoPoint p3 = new GeoPoint(
+							cons,
+							null,
+							centerX + Math.cos(phi0 + 4 * Math.PI / 3) * radius,
+							centerY + Math.sin(phi0 + 4 * Math.PI / 3) * radius,
+							1.0);
 
-                    AlgoCircleThreePoints algoCircle = new AlgoCircleThreePoints(
-                            app.getKernel().getConstruction(), initialPoint, p2, p3
-                    );
+					AlgoCircleThreePoints algoCircle =
+							new AlgoCircleThreePoints(app.getKernel().getConstruction(), initialPoint, p2, p3);
 
-                    algoCircle.getCircle().setLabel(null);
+					algoCircle.getCircle().setLabel(null);
 
-                    return (GeoConic) algoCircle.getCircle();
+					return (GeoConic) algoCircle.getCircle();
 				} else {
-                    GeoPoint center = new GeoPoint(cons, null, centerX, centerY, 1.0);
-                    center.setEuclidianVisible(false);
+					GeoPoint center = new GeoPoint(cons, null, centerX, centerY, 1.0);
+					center.setEuclidianVisible(false);
 
-                    GeoNumeric radiusVal = new GeoNumeric(cons, radius);
+					GeoNumeric radiusVal = new GeoNumeric(cons, radius);
 
-                    AlgoCirclePointRadius algoCircle = new AlgoCirclePointRadius(
-                            app.getKernel().getConstruction(), center, radiusVal
-                    );
+					AlgoCirclePointRadius algoCircle =
+							new AlgoCirclePointRadius(app.getKernel().getConstruction(), center, radiusVal);
 
-                    algoCircle.getCircle().setLabel(null);
+					algoCircle.getCircle().setLabel(null);
 
-                    return algoCircle.getCircle();
+					return algoCircle.getCircle();
 				}
 			}
 		}
@@ -1243,10 +1214,9 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		y0 = centerY(s);
 		r0 = i_rad(s);
 		for (i = start; i < end; ++i) {
-			dm = Math.hypot(penPoints.get(i + 1).x - penPoints.get(i).x,
-					penPoints.get(i + 1).y - penPoints.get(i).y);
-			deltar = Math.hypot(penPoints.get(i).x - x0,
-					penPoints.get(i).y - y0) - r0;
+			dm = Math.hypot(
+					penPoints.get(i + 1).x - penPoints.get(i).x, penPoints.get(i + 1).y - penPoints.get(i).y);
+			deltar = Math.hypot(penPoints.get(i).x - x0, penPoints.get(i).y - y0) - r0;
 			sum = sum + (dm * Math.abs(deltar));
 		}
 		return sum / (s.mass * r0);
@@ -1275,8 +1245,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		if (start + 1 >= penPoints.size()) {
 			// Log.error("problem in incr_inertia "+ start + " " + s + " " +
 			// coeff);
-			Log.debug("problem in EuclidianPen.incr_inertia " + start + " " + s
-					+ " " + coeff);
+			Log.debug("problem in EuclidianPen.incr_inertia " + start + " " + s + " " + coeff);
 			return;
 		}
 

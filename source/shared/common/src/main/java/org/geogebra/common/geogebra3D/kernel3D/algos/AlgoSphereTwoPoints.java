@@ -63,9 +63,8 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("SphereThroughAwithCenterB",
-				getP().getLabel(tpl), getM().getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain("SphereThroughAwithCenterB", getP().getLabel(tpl), getM().getLabel(tpl));
 	}
-
 }

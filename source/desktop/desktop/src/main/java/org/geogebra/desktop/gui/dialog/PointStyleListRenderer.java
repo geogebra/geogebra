@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,9 +37,8 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 /**
  * @author George Sturr 2009-9-19 This class defines the ComboBox renderer where
  *         the user chooses the point style for GeoPoint
- * 
+ *
  */
-
 public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	private static final long serialVersionUID = 1L;
 	private int pointStyle = -1;
@@ -52,8 +51,8 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	private Line2D.Double line3;
 	private Line2D.Double line4;
 	private GeneralPath gp = null;
-	private static BasicStroke borderStroke = AwtFactoryD
-			.getAwtStroke(EuclidianStatic.getDefaultStroke());
+	private static BasicStroke borderStroke =
+			AwtFactoryD.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	private static BasicStroke[] crossStrokes = new BasicStroke[10];
 
 	public PointStyleListRenderer() {
@@ -61,12 +60,11 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(
+			JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
 		// get the selected point style
-		pointStyle = value == null ? EuclidianStyleConstants.POINT_STYLE_DOT
-				: (Integer) value;
+		pointStyle = value == null ? EuclidianStyleConstants.POINT_STYLE_DOT : (Integer) value;
 
 		if (isSelected) {
 			setBackground(Color.LIGHT_GRAY);
@@ -95,54 +93,54 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		getPath();
 
 		switch (pointStyle) {
-		case EuclidianStyleConstants.POINT_STYLE_PLUS:
-		case EuclidianStyleConstants.POINT_STYLE_CROSS:
-			// draw cross like: X or +
-			g2.setStroke(crossStrokes[pointSize]);
-			g2.draw(line1);
-			g2.draw(line2);
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_PLUS:
+			case EuclidianStyleConstants.POINT_STYLE_CROSS:
+				// draw cross like: X or +
+				g2.setStroke(crossStrokes[pointSize]);
+				g2.draw(line1);
+				g2.draw(line2);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
-			// draw diamond
-			g2.setStroke(crossStrokes[pointSize]);
-			g2.draw(line1);
-			g2.draw(line2);
-			g2.draw(line3);
-			g2.draw(line4);
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+				// draw diamond
+				g2.setStroke(crossStrokes[pointSize]);
+				g2.draw(line1);
+				g2.draw(line2);
+				g2.draw(line3);
+				g2.draw(line4);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
-			// draw diamond
-			g2.setStroke(crossStrokes[pointSize]);
-			g2.draw(gp);
-			g2.fill(gp);
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+				// draw diamond
+				g2.setStroke(crossStrokes[pointSize]);
+				g2.draw(gp);
+				g2.fill(gp);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			// draw a circle
-			g2.setStroke(crossStrokes[pointSize]);
-			g2.draw(circle);
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+				// draw a circle
+				g2.setStroke(crossStrokes[pointSize]);
+				g2.draw(circle);
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE:
-			// filled circle
-			g2.fill(circle);
-			g2.setStroke(borderStroke);
-			g2.draw(circle);
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE:
+				// filled circle
+				g2.fill(circle);
+				g2.setStroke(borderStroke);
+				g2.draw(circle);
+				break;
 
-		default:
-			// circle with gray middle
-			g2.setPaint(Color.LIGHT_GRAY);
-			g2.fill(circle);
-			g2.setPaint(Color.BLACK);
-			g2.setStroke(borderStroke);
-			g2.draw(circle);
+			default:
+				// circle with gray middle
+				g2.setPaint(Color.LIGHT_GRAY);
+				g2.fill(circle);
+				g2.setPaint(Color.BLACK);
+				g2.setStroke(borderStroke);
+				g2.draw(circle);
 		}
 	}
 
@@ -167,143 +165,135 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		double root3over2 = Math.sqrt(3.0) / 2.0;
 
 		switch (pointStyle) {
-		case EuclidianStyleConstants.POINT_STYLE_DOT:
-		default:
-			// do nothing
-			break;
-		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+			case EuclidianStyleConstants.POINT_STYLE_DOT:
+			default:
+				// do nothing
+				break;
+			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
+				double xR = coords[0] + pointSize;
+				double yB = coords[1] + pointSize;
 
-			double xR = coords[0] + pointSize;
-			double yB = coords[1] + pointSize;
+				if (gp == null) {
+					gp = new GeneralPath();
+				}
+				gp.moveTo((float) (xUL + xR) / 2, (float) yUL);
+				gp.lineTo((float) xUL, (float) (yB + yUL) / 2);
+				gp.lineTo((float) (xUL + xR) / 2, (float) yB);
+				gp.lineTo((float) xR, (float) (yB + yUL) / 2);
+				gp.closePath();
 
-			if (gp == null) {
-				gp = new GeneralPath();
-			}
-			gp.moveTo((float) (xUL + xR) / 2, (float) yUL);
-			gp.lineTo((float) xUL, (float) (yB + yUL) / 2);
-			gp.lineTo((float) (xUL + xR) / 2, (float) yB);
-			gp.lineTo((float) xR, (float) (yB + yUL) / 2);
-			gp.closePath();
+				if (crossStrokes[pointSize] == null) {
+					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				}
+				break;
 
-			if (crossStrokes[pointSize] == null) {
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-			}
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+				double direction = 1.0;
+				if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
+					direction = -1.0;
+				}
 
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
+				if (gp == null) {
+					gp = new GeneralPath();
+				}
+				gp.moveTo((float) coords[0], (float) (coords[1] + direction * pointSize));
+				gp.lineTo((float) (coords[0] + pointSize * root3over2), (float)
+						(coords[1] - direction * pointSize / 2));
+				gp.lineTo((float) (coords[0] - pointSize * root3over2), (float)
+						(coords[1] - direction * pointSize / 2));
+				gp.lineTo((float) coords[0], (float) (coords[1] + direction * pointSize));
+				gp.closePath();
 
-			double direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
-				direction = -1.0;
-			}
+				if (crossStrokes[pointSize] == null) {
+					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				}
+				break;
 
-			if (gp == null) {
-				gp = new GeneralPath();
-			}
-			gp.moveTo((float) coords[0],
-					(float) (coords[1] + direction * pointSize));
-			gp.lineTo((float) (coords[0] + pointSize * root3over2),
-					(float) (coords[1] - direction * pointSize / 2));
-			gp.lineTo((float) (coords[0] - pointSize * root3over2),
-					(float) (coords[1] - direction * pointSize / 2));
-			gp.lineTo((float) coords[0],
-					(float) (coords[1] + direction * pointSize));
-			gp.closePath();
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+				direction = 1.0;
+				if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
+					direction = -1.0;
+				}
 
-			if (crossStrokes[pointSize] == null) {
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-			}
-			break;
+				if (gp == null) {
+					gp = new GeneralPath();
+				}
+				gp.moveTo((float) (coords[0] + direction * pointSize), (float) coords[1]);
+				gp.lineTo((float) (coords[0] - direction * pointSize / 2), (float)
+						(coords[1] + pointSize * root3over2));
+				gp.lineTo((float) (coords[0] - direction * pointSize / 2), (float)
+						(coords[1] - pointSize * root3over2));
+				gp.lineTo((float) (coords[0] + direction * pointSize), (float) coords[1]);
+				gp.closePath();
 
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+				if (crossStrokes[pointSize] == null) {
+					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				}
+				break;
 
-			direction = 1.0;
-			if (pointStyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
-				direction = -1.0;
-			}
+			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+				xR = coords[0] + pointSize;
+				yB = coords[1] + pointSize;
 
-			if (gp == null) {
-				gp = new GeneralPath();
-			}
-			gp.moveTo((float) (coords[0] + direction * pointSize),
-					(float) coords[1]);
-			gp.lineTo((float) (coords[0] - direction * pointSize / 2),
-					(float) (coords[1] + pointSize * root3over2));
-			gp.lineTo((float) (coords[0] - direction * pointSize / 2),
-					(float) (coords[1] - pointSize * root3over2));
-			gp.lineTo((float) (coords[0] + direction * pointSize),
-					(float) coords[1]);
-			gp.closePath();
+				if (line1 == null) {
+					line1 = new Line2D.Double();
+					line2 = new Line2D.Double();
+				}
+				if (line3 == null) {
+					line3 = new Line2D.Double();
+					line4 = new Line2D.Double();
+				}
+				line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
+				line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
+				line3.setLine((xUL + xR) / 2, yB, xR, (yB + yUL) / 2);
+				line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
 
-			if (crossStrokes[pointSize] == null) {
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-			}
-			break;
+				if (crossStrokes[pointSize] == null) {
+					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				}
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
-			xR = coords[0] + pointSize;
-			yB = coords[1] + pointSize;
+			case EuclidianStyleConstants.POINT_STYLE_PLUS:
+				xR = coords[0] + pointSize;
+				yB = coords[1] + pointSize;
 
-			if (line1 == null) {
-				line1 = new Line2D.Double();
-				line2 = new Line2D.Double();
-			}
-			if (line3 == null) {
-				line3 = new Line2D.Double();
-				line4 = new Line2D.Double();
-			}
-			line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
-			line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
-			line3.setLine((xUL + xR) / 2, yB, xR, (yB + yUL) / 2);
-			line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
+				if (line1 == null) {
+					line1 = new Line2D.Double();
+					line2 = new Line2D.Double();
+				}
+				line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
+				line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
 
-			if (crossStrokes[pointSize] == null) {
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-			}
-			break;
+				if (crossStrokes[pointSize] == null) {
+					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				}
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_PLUS:
-			xR = coords[0] + pointSize;
-			yB = coords[1] + pointSize;
+			case EuclidianStyleConstants.POINT_STYLE_CROSS:
+				xR = coords[0] + pointSize;
+				yB = coords[1] + pointSize;
 
-			if (line1 == null) {
-				line1 = new Line2D.Double();
-				line2 = new Line2D.Double();
-			}
-			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
-			line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
+				if (line1 == null) {
+					line1 = new Line2D.Double();
+					line2 = new Line2D.Double();
+				}
+				line1.setLine(xUL, yUL, xR, yB);
+				line2.setLine(xUL, yB, xR, yUL);
 
-			if (crossStrokes[pointSize] == null) {
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-			}
-			break;
+				if (crossStrokes[pointSize] == null) {
+					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				}
+				break;
 
-		case EuclidianStyleConstants.POINT_STYLE_CROSS:
-			xR = coords[0] + pointSize;
-			yB = coords[1] + pointSize;
-
-			if (line1 == null) {
-				line1 = new Line2D.Double();
-				line2 = new Line2D.Double();
-			}
-			line1.setLine(xUL, yUL, xR, yB);
-			line2.setLine(xUL, yB, xR, yUL);
-
-			if (crossStrokes[pointSize] == null) {
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-			}
-			break;
-
-		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			if (crossStrokes[pointSize] == null) {
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
-			}
-			break;
+			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+				if (crossStrokes[pointSize] == null) {
+					crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				}
+				break;
 		}
 		// for circle points
 		circle.setFrame(xUL, yUL, diameter, diameter);
 	}
-
 }

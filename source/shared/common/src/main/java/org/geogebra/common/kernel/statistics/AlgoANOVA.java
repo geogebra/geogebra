@@ -29,8 +29,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a one way ANOVA test.
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoANOVA extends AlgoElement {
@@ -148,7 +148,5 @@ public class AlgoANOVA extends AlgoElement {
 			result.setUndefined();
 			Log.debug(e);
 		}
-
 	}
-
 }

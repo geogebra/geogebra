@@ -49,8 +49,7 @@ public class DefaultGeoPriorityComparator implements GeoPriorityComparator {
 		}
 
 		if (a.getParentAlgorithm() instanceof AlgoMacroInterface) {
-			return ((AlgoMacroInterface) a.getParentAlgorithm())
-					.drawBefore(a, b);
+			return ((AlgoMacroInterface) a.getParentAlgorithm()).drawBefore(a, b);
 		}
 
 		return (int) (a.getID() - b.getID());

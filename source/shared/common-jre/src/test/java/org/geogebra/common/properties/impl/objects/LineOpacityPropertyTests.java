@@ -33,8 +33,8 @@ class LineOpacityPropertyTests extends BaseAppTestSetup {
 	void testSettingOpacityForLine() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoLine geoLine = evaluateGeoElement("x = 0");
-		LineOpacityProperty lineOpacityProperty = assertDoesNotThrow(() ->
-				LineOpacityProperty.forLine(getLocalization(), geoLine));
+		LineOpacityProperty lineOpacityProperty =
+				assertDoesNotThrow(() -> LineOpacityProperty.forLine(getLocalization(), geoLine));
 
 		lineOpacityProperty.setValue(100);
 		assertEquals(100, lineOpacityProperty.getValue());
@@ -53,8 +53,8 @@ class LineOpacityPropertyTests extends BaseAppTestSetup {
 	void testInitialOpacityForSliderTrack() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
-		LineOpacityProperty property = assertDoesNotThrow(() ->
-				LineOpacityProperty.forSlider(getLocalization(), slider));
+		LineOpacityProperty property =
+				assertDoesNotThrow(() -> LineOpacityProperty.forSlider(getLocalization(), slider));
 		assertEquals(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY, slider.getLineOpacity());
 		assertEquals(Math.round(slider.getLineOpacity() / 255f * 100), property.getValue());
 	}
@@ -63,8 +63,8 @@ class LineOpacityPropertyTests extends BaseAppTestSetup {
 	void testChangingOpacityForSliderTrack() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
-		LineOpacityProperty property = assertDoesNotThrow(() ->
-				LineOpacityProperty.forSlider(getLocalization(), slider));
+		LineOpacityProperty property =
+				assertDoesNotThrow(() -> LineOpacityProperty.forSlider(getLocalization(), slider));
 
 		property.setValue(100);
 		assertEquals(100, property.getValue());
@@ -86,12 +86,12 @@ class LineOpacityPropertyTests extends BaseAppTestSetup {
 	void testChangingOpacityDoesNotEnableTrackColor() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
-		LineOpacityProperty opacityProperty = assertDoesNotThrow(() ->
-				LineOpacityProperty.forSlider(getLocalization(), slider));
-		SliderTrackColorEnabledProperty colorEnabledProperty = assertDoesNotThrow(() ->
-				new SliderTrackColorEnabledProperty(getLocalization(), slider));
-		SliderTrackColorProperty colorProperty = assertDoesNotThrow(() ->
-				new SliderTrackColorProperty(getLocalization(), slider));
+		LineOpacityProperty opacityProperty =
+				assertDoesNotThrow(() -> LineOpacityProperty.forSlider(getLocalization(), slider));
+		SliderTrackColorEnabledProperty colorEnabledProperty =
+				assertDoesNotThrow(() -> new SliderTrackColorEnabledProperty(getLocalization(), slider));
+		SliderTrackColorProperty colorProperty =
+				assertDoesNotThrow(() -> new SliderTrackColorProperty(getLocalization(), slider));
 
 		assertFalse(colorEnabledProperty.getValue());
 		assertFalse(colorProperty.isEnabled());
@@ -107,12 +107,12 @@ class LineOpacityPropertyTests extends BaseAppTestSetup {
 	void testChangingCustomColorPreservesOpacity() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoNumeric slider = evaluateGeoElement("a = Slider(0, 10)");
-		LineOpacityProperty opacityProperty = assertDoesNotThrow(() ->
-				LineOpacityProperty.forSlider(getLocalization(), slider));
-		SliderTrackColorEnabledProperty colorEnabledProperty = assertDoesNotThrow(() ->
-				new SliderTrackColorEnabledProperty(getLocalization(), slider));
-		SliderTrackColorProperty colorProperty = assertDoesNotThrow(() ->
-				new SliderTrackColorProperty(getLocalization(), slider));
+		LineOpacityProperty opacityProperty =
+				assertDoesNotThrow(() -> LineOpacityProperty.forSlider(getLocalization(), slider));
+		SliderTrackColorEnabledProperty colorEnabledProperty =
+				assertDoesNotThrow(() -> new SliderTrackColorEnabledProperty(getLocalization(), slider));
+		SliderTrackColorProperty colorProperty =
+				assertDoesNotThrow(() -> new SliderTrackColorProperty(getLocalization(), slider));
 
 		opacityProperty.setValue(56);
 		colorEnabledProperty.setValue(true);

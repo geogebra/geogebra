@@ -30,7 +30,7 @@ public final class GeoGebraPreferencesW {
 
 	/**
 	 * Remove all preferences from storage
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -41,13 +41,12 @@ public final class GeoGebraPreferencesW {
 	}
 
 	private static String getPrefKey(App app) {
-		return GeoGebraPreferences.XML_USER_PREFERENCES
-				+ app.getConfig().getPreferencesKey();
+		return GeoGebraPreferences.XML_USER_PREFERENCES + app.getConfig().getPreferencesKey();
 	}
 
 	/**
 	 * Set the factory defaults to an application
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -57,7 +56,7 @@ public final class GeoGebraPreferencesW {
 
 	/**
 	 * Take preferences from app and save them to local storage
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -66,8 +65,7 @@ public final class GeoGebraPreferencesW {
 		BrowserStorage stockStore = BrowserStorage.LOCAL;
 		stockStore.setItem(getPrefKey(app), xml);
 		XMLStringBuilder sb = new XMLStringBuilder();
-		app.getKernel().getConstruction().getConstructionDefaults()
-				.getDefaultsXML(sb);
+		app.getKernel().getConstruction().getConstructionDefaults().getDefaultsXML(sb);
 		String objectPrefsXML = sb.toString();
 		stockStore.setItem(getDefaultsKey(app), objectPrefsXML);
 	}
@@ -88,10 +86,8 @@ public final class GeoGebraPreferencesW {
 			app.setXML(xml, false);
 		} else if (!app.isWhiteboardActive()) {
 			if (app.getPreferredSize() != null) {
-				GeoGebraPreferencesXML
-						.setDefaultWindowX(app.getPreferredSize().getWidth());
-				GeoGebraPreferencesXML
-						.setDefaultWindowY(app.getPreferredSize().getHeight());
+				GeoGebraPreferencesXML.setDefaultWindowX(app.getPreferredSize().getWidth());
+				GeoGebraPreferencesXML.setDefaultWindowY(app.getPreferredSize().getHeight());
 			}
 			app.setXML(GeoGebraPreferencesXML.getXML(app), false);
 			if (app.getTmpPerspective() != null) {
@@ -105,8 +101,7 @@ public final class GeoGebraPreferencesW {
 		if (app.isUnbundled()) {
 			app.setPerspectiveForUnbundled(p);
 		} else if (app.getGuiManager() != null) {
-			app.getGuiManager().getLayout()
-					.setPerspectiveOrDefault(p);
+			app.getGuiManager().getLayout().setPerspectiveOrDefault(p);
 		}
 	}
 
@@ -114,19 +109,16 @@ public final class GeoGebraPreferencesW {
 		if (stockStore == null) {
 			return;
 		}
-		String xmlDef = stockStore
-				.getItem(getDefaultsKey(app));
+		String xmlDef = stockStore.getItem(getDefaultsKey(app));
 		boolean eda = app.getKernel().getElementDefaultAllowed();
 		app.getKernel().setElementDefaultAllowed(true);
 		if (xmlDef != null) {
 			app.setXML(xmlDef, false);
 		}
 		app.getKernel().setElementDefaultAllowed(eda);
-
 	}
 
 	private static String getDefaultsKey(App app) {
-		return GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES
-				+ app.getConfig().getPreferencesKey();
+		return GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES + app.getConfig().getPreferencesKey();
 	}
 }

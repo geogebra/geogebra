@@ -24,9 +24,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Class for storing drawables includes in a DrawList
- * 
+ *
  * @author Mathieu
- * 
+ *
  */
 public class DrawListArray extends ArrayList<DrawableND> {
 
@@ -37,7 +37,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 */
@@ -49,7 +49,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 
 	/**
 	 * Add the listElement's drawable
-	 * 
+	 *
 	 * @param listElement
 	 *            element to insert
 	 * @param drawablePos
@@ -60,8 +60,8 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	 *            list in which we might find drawable for given geo
 	 * @return false if the drawable == null
 	 */
-	public boolean addToDrawableList(GeoElement listElement, int drawablePos,
-			int oldDrawableSize, DrawableND drawList) {
+	public boolean addToDrawableList(
+			GeoElement listElement, int drawablePos, int oldDrawableSize, DrawableND drawList) {
 		DrawableND d;
 		boolean inOldDrawableRange = drawablePos < oldDrawableSize;
 		if (inOldDrawableRange) {
@@ -90,7 +90,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 
 	/**
 	 * For 3D: remove old drawable
-	 * 
+	 *
 	 * @param oldDrawable
 	 *            old drawable at same position
 	 * @param listElement
@@ -99,14 +99,14 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	 *            list that wants to add this geo
 	 * @return new drawable
 	 */
-	protected DrawableND getDrawable(DrawableND oldDrawable,
-			GeoElement listElement, DrawableND drawList) {
+	protected DrawableND getDrawable(
+			DrawableND oldDrawable, GeoElement listElement, DrawableND drawList) {
 		return getDrawable(listElement, drawList);
 	}
 
 	/**
 	 * update the drawable
-	 * 
+	 *
 	 * @param d
 	 *            drawable to be updated
 	 */
@@ -116,15 +116,14 @@ public class DrawListArray extends ArrayList<DrawableND> {
 
 	/**
 	 * Returns UPDATED drawable for the geo
-	 * 
+	 *
 	 * @param listElement
 	 *            geo
 	 * @param drawList
 	 *            list that wants to add this geo
 	 * @return drawable for the geo
 	 */
-	private DrawableND getDrawable(GeoElement listElement,
-			DrawableND drawList) {
+	private DrawableND getDrawable(GeoElement listElement, DrawableND drawList) {
 
 		DrawableND d = view.getDrawableND(listElement);
 		if (d == null) {
@@ -147,5 +146,4 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	protected DrawableND createDrawableND(GeoElement listElement) {
 		return view.newDrawable(listElement);
 	}
-
 }

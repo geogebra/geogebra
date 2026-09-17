@@ -99,8 +99,7 @@ class ItemSelector implements MoveSelector {
 			listener.setKeyboardFocus(true);
 		}
 
-		ScreenReader.readDropDownSelectorMoved(app,
-				geoList, range.getSelected());
+		ScreenReader.readDropDownSelectorMoved(app, geoList, range.getSelected());
 	}
 
 	@Override

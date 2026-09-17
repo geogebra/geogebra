@@ -26,7 +26,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Helper class for drawing the grid
- * 
+ *
  * @author zbynek
  *
  */
@@ -35,7 +35,7 @@ public class DrawGrid {
 	private EuclidianView view;
 
 	/**
-	 * 
+	 *
 	 * @param euclidianView
 	 *            view
 	 */
@@ -44,7 +44,7 @@ public class DrawGrid {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 * @param xCrossPix
@@ -54,8 +54,8 @@ public class DrawGrid {
 	 * @param subGrid
 	 *            whether to draw subgrid
 	 */
-	protected void drawCartesianGrid(GGraphics2D g2, double xCrossPix,
-			double yCrossPix, boolean subGrid) {
+	protected void drawCartesianGrid(
+			GGraphics2D g2, double xCrossPix, double yCrossPix, boolean subGrid) {
 		if (view.getXaxisLog()) {
 			drawVerticalGridLog(g2, xCrossPix, yCrossPix);
 		} else {
@@ -70,8 +70,8 @@ public class DrawGrid {
 		}
 	}
 
-	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix,
-			double yCrossPix, boolean subGrid) {
+	private void drawHorizontalGridLinear(
+			GGraphics2D g2, double xCrossPix, double yCrossPix, boolean subGrid) {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
 		int topSubGrids = 0;
@@ -81,9 +81,9 @@ public class DrawGrid {
 		if (subGrid) {
 			n = 5;
 			double smallStep = tickStepY / n;
-			//start of subgrids
+			// start of subgrids
 			start = view.getYZero() % smallStep;
-			//start of grids
+			// start of grids
 			double start2 = view.getYZero() % tickStepY;
 			// number of subgrids at the top, above the highest main grid
 			topSubGrids = Math.round((float) ((start2 - start) / smallStep));
@@ -91,8 +91,8 @@ public class DrawGrid {
 
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 
-		final double yAxisEnd = (view.positiveAxes[1]
-				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
+		final double yAxisEnd =
+				(view.positiveAxes[1] && yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 
 		double pix;
 
@@ -121,8 +121,7 @@ public class DrawGrid {
 		g2.endAndDrawGeneralPath();
 	}
 
-	private void drawHorizontalGridLine(GGraphics2D g2, double pix, double left,
-			double yCrossPix) {
+	private void drawHorizontalGridLine(GGraphics2D g2, double pix, double left, double yCrossPix) {
 		// don't draw the grid line x=0 if the y-axis is showing
 		// or if it's too close (eg sticky axes)
 		if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
@@ -130,14 +129,13 @@ public class DrawGrid {
 		}
 	}
 
-	private void drawHorizontalGridLog(GGraphics2D g2, double xCrossPix,
-			double yCrossPix) {
+	private void drawHorizontalGridLog(GGraphics2D g2, double xCrossPix, double yCrossPix) {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
 		double pix = 0;
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
-		final double yAxisEnd = (view.positiveAxes[1]
-				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
+		final double yAxisEnd =
+				(view.positiveAxes[1] && yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
 		g2.startGeneralPath();
 		for (int j = 0; pix <= yAxisEnd; j++) {
@@ -148,20 +146,17 @@ public class DrawGrid {
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
 				// not hitting axis label, just draw it
-				addStraightLineToGeneralPath(g2, left, pix, view.getWidth(),
-						pix);
-
+				addStraightLineToGeneralPath(g2, left, pix, view.getWidth(), pix);
 			}
 
 			pix = start + (j * tickStepY);
 			pow = pow * 10;
 		}
 		g2.endAndDrawGeneralPath();
-
 	}
 
-	private void drawVerticalGridLinear(GGraphics2D g2, double xCrossPix,
-			double yCrossPix, boolean subGrid) {
+	private void drawVerticalGridLinear(
+			GGraphics2D g2, double xCrossPix, double yCrossPix, boolean subGrid) {
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
 		double xAxisStartMajor = getFirstVisibleVerticalLineX(xCrossPix, tickStepX);
@@ -176,14 +171,12 @@ public class DrawGrid {
 			// start of subgrids
 			xAxisStart = getFirstVisibleVerticalLineX(xCrossPix, smallStep);
 			// number of subgrids on the left
-			leftSubGrids = Math
-					.round((float) ((xAxisStartMajor - xAxisStart) / smallStep));
+			leftSubGrids = Math.round((float) ((xAxisStartMajor - xAxisStart) / smallStep));
 		}
 
-		final double yAxisEnd = (view.positiveAxes[1]
-				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
-		final double bottom = view.positiveAxes[1] ? yAxisEnd
-				: view.getHeight();
+		final double yAxisEnd =
+				(view.positiveAxes[1] && yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
+		final double bottom = view.positiveAxes[1] ? yAxisEnd : view.getHeight();
 		double pix;
 
 		// draw main grid
@@ -213,18 +206,16 @@ public class DrawGrid {
 
 	private double getFirstVisibleVerticalLineX(double xCrossPix, double stepX) {
 		return (view.positiveAxes[0] && xCrossPix > 0)
-				? xCrossPix + (((view.getXZero() - xCrossPix) % stepX)
-				+ stepX) % stepX
+				? xCrossPix + (((view.getXZero() - xCrossPix) % stepX) + stepX) % stepX
 				: (view.getXZero() % stepX);
 	}
 
-	private void drawVerticalGridLine(GGraphics2D g2, double pix, double bottom,
-			double xCrossPix, double yCrossPix) {
+	private void drawVerticalGridLine(
+			GGraphics2D g2, double pix, double bottom, double xCrossPix, double yCrossPix) {
 		// don't draw the grid line x=0 if the y-axis is showing
 		// or if it's too close (eg sticky axes)
 		if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-			if (view.axesLabelsPositionsX.contains(
-					(int) (pix + Kernel.MIN_PRECISION))) {
+			if (view.axesLabelsPositionsX.contains((int) (pix + Kernel.MIN_PRECISION))) {
 				// hits axis label, draw in 2 sections
 				drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 			} else {
@@ -234,19 +225,16 @@ public class DrawGrid {
 		}
 	}
 
-	private void drawVerticalGridLog(GGraphics2D g2, double xCrossPix,
-			double yCrossPix) {
+	private void drawVerticalGridLog(GGraphics2D g2, double xCrossPix, double yCrossPix) {
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
 		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
-				? xCrossPix + (((view.getXZero() - xCrossPix) % tickStepX)
-						+ tickStepX) % tickStepX
+				? xCrossPix + (((view.getXZero() - xCrossPix) % tickStepX) + tickStepX) % tickStepX
 				: (view.getXZero() % tickStepX);
 
-		final double yAxisEnd = (view.positiveAxes[1]
-				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
-		final double bottom = view.positiveAxes[1] ? yAxisEnd
-				: view.getHeight();
+		final double yAxisEnd =
+				(view.positiveAxes[1] && yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
+		final double bottom = view.positiveAxes[1] ? yAxisEnd : view.getHeight();
 		double pix = 0;
 		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
 		g2.startGeneralPath();
@@ -257,27 +245,23 @@ public class DrawGrid {
 			pix = view.toScreenCoordXd(pow);
 
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-				if (view.axesLabelsPositionsX.contains(
-						(int) (pix + Kernel.MIN_PRECISION))) {
+				if (view.axesLabelsPositionsX.contains((int) (pix + Kernel.MIN_PRECISION))) {
 
 					// hits axis label, draw in 2 sections
 					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 				} else {
 					// not hitting axis label, just draw it
 					addStraightLineToGeneralPath(g2, pix, 0, pix, bottom);
-
 				}
-
 			}
 			pow = pow * 10;
 			pix = xAxisStart + (i * tickStepX);
 		}
 		g2.endAndDrawGeneralPath();
-
 	}
 
-	private void drawLineAvoidingLabelsV(GGraphics2D g2, double x1, double y1,
-			double x2, double y2, double yCrossPix) {
+	private void drawLineAvoidingLabelsV(
+			GGraphics2D g2, double x1, double y1, double x2, double y2, double yCrossPix) {
 
 		if (yCrossPix > y1 && yCrossPix < y2) {
 			// split in 2
@@ -290,8 +274,8 @@ public class DrawGrid {
 		}
 	}
 
-	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,
-			double y1, double x2, double y2) {
+	private static void addStraightLineToGeneralPath(
+			GGraphics2D g2, double x1, double y1, double x2, double y2) {
 		g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
 	}
 
@@ -301,10 +285,10 @@ public class DrawGrid {
 		double startX = getFirstVisibleVerticalLineX(xCrossPix, tickStepX);
 		double startY = (view.getYZero() % tickStepY) - tickStepY;
 		double endX = view.getWidth();
-		double endY = (view.positiveAxes[1] && yCrossPix < view.getHeight())
-				? yCrossPix : view.getHeight();
+		double endY =
+				(view.positiveAxes[1] && yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 
-		DrawBackground.drawDots(g2, startX, endX, startY, endY, tickStepX, tickStepY,
-				view.getSettings());
+		DrawBackground.drawDots(
+				g2, startX, endX, startY, endY, tickStepX, tickStepY, view.getSettings());
 	}
 }

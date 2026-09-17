@@ -16,8 +16,7 @@ public class CommandInterText extends Command {
 	@Override
 	public boolean init(TeXParser tp) {
 		if (!tp.isArrayMode()) {
-			throw new ParseException(tp,
-					"The macro \\intertext is only available in array mode !");
+			throw new ParseException(tp, "The macro \\intertext is only available in array mode !");
 		}
 		mode = tp.setTextMode();
 		return true;
@@ -30,5 +29,4 @@ public class CommandInterText extends Command {
 		a = new StyleAtom(TeXConstants.STYLE_TEXT, new RomanAtom(a));
 		tp.closeConsumer(a.changeType(TeXConstants.TYPE_INTERTEXT));
 	}
-
 }

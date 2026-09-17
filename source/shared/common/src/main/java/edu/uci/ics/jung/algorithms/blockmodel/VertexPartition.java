@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -35,7 +35,7 @@ public class VertexPartition<V, E> {
 	 * Creates an instance based on the specified graph and mapping from
 	 * vertices to vertex sets, and generates a set of partitions based on this
 	 * mapping.
-	 * 
+	 *
 	 * @param g
 	 *            the graph over which the vertex partition is defined
 	 * @param partition_map
@@ -52,7 +52,7 @@ public class VertexPartition<V, E> {
 	 * must be consistent; that is, the mapping must reflect the division of
 	 * vertices into partitions, and each vertex must appear in exactly one
 	 * partition.
-	 * 
+	 *
 	 * @param g
 	 *            the graph over which the vertex partition is defined
 	 * @param partition_map
@@ -60,8 +60,8 @@ public class VertexPartition<V, E> {
 	 * @param vertex_sets
 	 *            the set of disjoint vertex sets
 	 */
-	public VertexPartition(Graph<V, E> g, Map<V, Set<V>> partition_map,
-			Collection<Set<V>> vertex_sets) {
+	public VertexPartition(
+			Graph<V, E> g, Map<V, Set<V>> partition_map, Collection<Set<V>> vertex_sets) {
 		this.vertex_partition_map = Collections.unmodifiableMap(partition_map);
 		this.vertex_sets = vertex_sets;
 		this.graph = g;
@@ -70,7 +70,7 @@ public class VertexPartition<V, E> {
 	/**
 	 * Creates an instance based on the specified graph and set of disjoint
 	 * vertex sets, and generates a vertex-to-partition map based on these sets.
-	 * 
+	 *
 	 * @param g
 	 *            the graph over which the vertex partition is defined
 	 * @param vertex_sets
@@ -83,7 +83,7 @@ public class VertexPartition<V, E> {
 
 	/**
 	 * Returns the graph on which the partition is defined.
-	 * 
+	 *
 	 * @return the graph on which the partition is defined
 	 */
 	public Graph<V, E> getGraph() {
@@ -93,7 +93,7 @@ public class VertexPartition<V, E> {
 	/**
 	 * Returns a map from each vertex in the input graph to its partition. This
 	 * map is generated if it does not already exist.
-	 * 
+	 *
 	 * @return a map from each vertex in the input graph to a vertex set
 	 */
 	public Map<V, Set<V>> getVertexToPartitionMap() {
@@ -112,7 +112,7 @@ public class VertexPartition<V, E> {
 	 * Returns a collection of vertex sets, where each vertex in the input graph
 	 * is in exactly one set. This collection is generated based on the
 	 * vertex-to-partition map if it does not already exist.
-	 * 
+	 *
 	 * @return a collection of vertex sets such that each vertex in the
 	 *         instance's graph is in exactly one set
 	 */

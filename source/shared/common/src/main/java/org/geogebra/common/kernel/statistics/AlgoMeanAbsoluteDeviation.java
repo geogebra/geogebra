@@ -23,18 +23,16 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Mean Absolute Deviation of a list
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoMeanAbsoluteDeviation extends AlgoStats1D {
 
 	public AlgoMeanAbsoluteDeviation(Construction cons, GeoList geoList) {
 		super(cons, geoList, AlgoStats1D.STATS_MEAN_ABSOLUTE_DEVIATION);
 	}
 
-	public AlgoMeanAbsoluteDeviation(Construction cons, GeoList geoList,
-			GeoList freq) {
+	public AlgoMeanAbsoluteDeviation(Construction cons, GeoList geoList, GeoList freq) {
 		super(cons, geoList, freq, AlgoStats1D.STATS_MEAN_ABSOLUTE_DEVIATION);
 	}
 

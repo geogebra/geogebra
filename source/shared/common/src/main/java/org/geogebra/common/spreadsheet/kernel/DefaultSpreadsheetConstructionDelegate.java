@@ -130,4 +130,3 @@ public class DefaultSpreadsheetConstructionDelegate implements SpreadsheetConstr
 		return commandDispatcher.isAllowedByCommandFilters(statistic.command);
 	}
 }
-

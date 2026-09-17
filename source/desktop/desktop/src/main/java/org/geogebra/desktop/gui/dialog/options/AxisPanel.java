@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,8 +42,8 @@ import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class AxisPanel extends JPanel implements ActionListener, ItemListener,
-		FocusListener, SetLabels, IAxisModelListener {
+public class AxisPanel extends JPanel
+		implements ActionListener, ItemListener, FocusListener, SetLabels, IAxisModelListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -156,11 +156,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		add(distancePanel);
 		JPanel showTicksPanel = LayoutUtil.flowPanel(axisTicks, cbTickStyle);
 		add(showTicksPanel);
-		JPanel labelPanel = LayoutUtil.flowPanel(axisLabel, cbAxisLabel,
-				axisUnitLabel, cbUnitLabel);
+		JPanel labelPanel = LayoutUtil.flowPanel(axisLabel, cbAxisLabel, axisUnitLabel, cbUnitLabel);
 		add(labelPanel);
-		JPanel crossPanel = LayoutUtil.flowPanel(crossAt, tfCross,
-				cbDrawAtBorder, stickToEdge);
+		JPanel crossPanel = LayoutUtil.flowPanel(crossAt, tfCross, cbDrawAtBorder, stickToEdge);
 		addCrossPanel(crossPanel);
 		JPanel allowSelectionPanel = LayoutUtil.flowPanel(cbAllowSelection);
 		add(allowSelectionPanel);
@@ -189,47 +187,29 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 		if (source == cbShowAxis) {
 			model.showAxis(cbShowAxis.isSelected());
-		}
-
-		else if (source == cbAxisNumber) {
+		} else if (source == cbAxisNumber) {
 			model.showAxisNumbers(cbAxisNumber.isSelected());
-		}
-
-		else if (source == cbManualTicks) {
+		} else if (source == cbManualTicks) {
 			model.applyTickDistance(cbManualTicks.isSelected());
-		}
-
-		else if (source == cbUnitLabel) {
+		} else if (source == cbUnitLabel) {
 
 			Object ob = cbUnitLabel.getSelectedItem();
 			String text = (ob == null) ? null : ob.toString().trim();
 			model.applyUnitLabel(text);
-		}
-
-		else if (source == cbAxisLabel) {
+		} else if (source == cbAxisLabel) {
 			Object ob = cbAxisLabel.getSelectedItem();
 			String text = (ob == null) ? null : ob.toString().trim();
 			model.applyAxisLabel(text);
-		}
-
-		else if (source == cbTickStyle) {
+		} else if (source == cbTickStyle) {
 			int type = cbTickStyle.getSelectedIndex();
 			model.applyTickStyle(type);
-		}
-
-		else if (source == tfCross) {
+		} else if (source == tfCross) {
 			model.applyCrossing(tfCross.getText());
-		}
-
-		else if (source == cbPositiveAxis) {
+		} else if (source == cbPositiveAxis) {
 			model.applyPositiveAxis(cbPositiveAxis.isSelected());
-		}
-
-		else if (source == cbDrawAtBorder) {
+		} else if (source == cbDrawAtBorder) {
 			model.applyDrawAtBorder(cbDrawAtBorder.isSelected());
-		}
-
-		else if (source == cbAllowSelection) {
+		} else if (source == cbAllowSelection) {
 			model.applyAllowSelection(cbAllowSelection.isSelected());
 		}
 
@@ -263,8 +243,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbManualTicks.removeActionListener(this);
 		ncbTickDist.removeItemListener(this);
 
-		cbManualTicks
-				.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
+		cbManualTicks.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
 		ncbTickDist.setSelectedItem(model.getAxisDistance());
 		ncbTickDist.setEnabled(cbManualTicks.isSelected());
 
@@ -317,7 +296,6 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		cbAllowSelection.removeActionListener(this);
 		cbAllowSelection.setSelected(getModel().isSelectionAllowed());
 		cbAllowSelection.addActionListener(this);
-
 	}
 
 	@Override

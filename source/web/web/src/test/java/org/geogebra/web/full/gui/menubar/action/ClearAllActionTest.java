@@ -51,16 +51,13 @@ public class ClearAllActionTest {
 	 */
 	@Test
 	public void fileNew() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes")
-						.setAttribute("vendor", "bycs"));
+		app = AppMocker.mockApplet(new AppletParameters("notes").setAttribute("vendor", "bycs"));
 		ClearAllAction action = new ClearAllAction(true);
 		addObject("x");
 		app.getSettings().getEuclidian(1).setBackground(GColor.PURPLE);
 		action.execute(app);
 		app.getSaveController().cancel();
-		assertThat(app.getKernel().getConstruction()
-				.getGeoSetConstructionOrder().size(), equalTo(0));
+		assertThat(app.getKernel().getConstruction().getGeoSetConstructionOrder().size(), equalTo(0));
 		assertThat(app.isSaved(), equalTo(true));
 		EuclidianSettings euclidianSettings = app.getSettings().getEuclidian(1);
 		// MOW-1259, MOW-1249
@@ -89,7 +86,6 @@ public class ClearAllActionTest {
 	}
 
 	private static void addObject(String string) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
-				true);
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string, true);
 	}
 }

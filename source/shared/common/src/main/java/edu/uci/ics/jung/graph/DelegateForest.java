@@ -28,7 +28,7 @@ import edu.uci.ics.jung.graph.util.TreeUtils;
 /**
  * An implementation of <code>Forest&lt;V,E&gt;</code> that delegates to a specified
  * <code>DirectedGraph</code> instance.
- * 
+ *
  * @author Tom Nelson
  *
  * @param <V>
@@ -37,8 +37,7 @@ import edu.uci.ics.jung.graph.util.TreeUtils;
  *            the edge type
  */
 @SuppressWarnings("serial")
-public class DelegateForest<V, E> extends GraphDecorator<V, E>
-		implements Forest<V, E> {
+public class DelegateForest<V, E> extends GraphDecorator<V, E> implements Forest<V, E> {
 	/**
 	 * Creates an instance backed by a new {@code DirectedSparseGraph} instance.
 	 */
@@ -76,12 +75,10 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	@Override
 	public boolean addEdge(E e, V v1, V v2, EdgeType edgeType) {
 		if (delegate.getVertices().contains(v1) == false) {
-			throw new IllegalArgumentException(
-					"Tree must already contain " + v1);
+			throw new IllegalArgumentException("Tree must already contain " + v1);
 		}
 		if (delegate.getVertices().contains(v2)) {
-			throw new IllegalArgumentException(
-					"Tree must not already contain " + v2);
+			throw new IllegalArgumentException("Tree must not already contain " + v2);
 		}
 		return delegate.addEdge(e, v1, v2, edgeType);
 	}
@@ -105,7 +102,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * child vertex incident to <code>edge</code>. (The subtree is removed to
 	 * ensure that the tree in which the edge was found is still a tree rather
 	 * than a forest. To change this behavior so that the
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to remove
 	 * @return <code>true</code> iff the tree was modified
@@ -121,7 +118,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * is <code>true</code>, removes the subtree rooted at the child vertex
 	 * incident to <code>edge</code>. Otherwise, leaves the subtree intact as a
 	 * new component tree of this forest.
-	 * 
+	 *
 	 * @param edge
 	 *            the edge to remove
 	 * @param remove_subtree
@@ -143,7 +140,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	/**
 	 * Removes <code>vertex</code> from this tree, and the subtree rooted at
 	 * <code>vertex</code>.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex to remove
 	 * @return <code>true</code> iff the tree was modified
@@ -159,7 +156,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * <code>remove_subtrees</code> is <code>true</code>, removes the subtrees
 	 * rooted at the children of <code>vertex</code>. Otherwise, leaves these
 	 * subtrees intact as new component trees of this forest.
-	 * 
+	 *
 	 * @param vertex
 	 *            the vertex to remove
 	 * @param remove_subtrees
@@ -182,7 +179,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	/**
 	 * returns an ordered list of the nodes beginning at the root and ending at
 	 * the passed child node, including all intermediate nodes.
-	 * 
+	 *
 	 * @param child
 	 *            the last node in the path from the root
 	 * @return an ordered list of the nodes from root to child
@@ -215,7 +212,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 
 	/**
 	 * getter for the root of the tree returns null, as this tree has more than 1 roots
-	 * 
+	 *
 	 * @return the root
 	 */
 	public V getRoot() {
@@ -224,7 +221,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 
 	/**
 	 * adds root as a root of the tree
-	 * 
+	 *
 	 * @param root
 	 *            the initial tree root
 	 */
@@ -235,7 +232,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	/**
 	 * removes a node from the tree, causing all descendants of the removed node
 	 * also to be removed
-	 * 
+	 *
 	 * @param orphan
 	 *            the node to remove
 	 * @return whether this call mutates the underlying graph
@@ -272,7 +269,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	/**
 	 * computes and returns whether the passed node is neither the root, nor a
 	 * leaf node.
-	 * 
+	 *
 	 * @return <code>true</code> if <code>v</code> is neither a leaf nor a root
 	 */
 	public boolean isInternal(V v) {
@@ -370,5 +367,4 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 		}
 		return delegate.getInEdges(vertex).iterator().next();
 	}
-
 }

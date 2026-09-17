@@ -51,10 +51,9 @@ public class WebSimple implements EntryPoint {
 
 	private void exportGGBElementRenderer() {
 		RenderGgbElement.setRenderGGBElement((el, callback) -> {
-			GeoGebraFrameSimple.renderArticleElement(AttributeProvider.as(el), callback,
-					new CASFactoryW());
+			GeoGebraFrameSimple.renderArticleElement(
+					AttributeProvider.as(el), callback, new CASFactoryW());
 		});
 		RenderGgbElement.renderGGBElementReady();
 	}
-
 }

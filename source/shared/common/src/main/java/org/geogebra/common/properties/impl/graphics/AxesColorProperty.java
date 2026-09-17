@@ -23,8 +23,7 @@ import org.geogebra.common.properties.aliases.ColorProperty;
 import org.geogebra.common.properties.impl.AbstractEnumeratedProperty;
 import org.geogebra.common.properties.impl.DefaultColorValues;
 
-public class AxesColorProperty extends AbstractEnumeratedProperty<GColor>
-		implements ColorProperty {
+public class AxesColorProperty extends AbstractEnumeratedProperty<GColor> implements ColorProperty {
 	private final EuclidianSettings settings;
 
 	/**

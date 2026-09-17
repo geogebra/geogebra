@@ -35,8 +35,7 @@ public class NegativeRealRootFunction implements UnivariateFunction {
 	}
 
 	@Override
-	final public double value(double x) {
+	public final double value(double x) {
 		return -f.value(x);
 	}
-
 }

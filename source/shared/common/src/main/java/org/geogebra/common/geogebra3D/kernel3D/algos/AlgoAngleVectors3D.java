@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 	/** normal */
 	protected Coords vn;
+
 	private Coords o;
 	private Coords v1;
 	private Coords v2;
@@ -44,8 +45,7 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 	 * @param w
 	 *            vector
 	 */
-	AlgoAngleVectors3D(Construction cons, GeoVectorND v,
-			GeoVectorND w) {
+	AlgoAngleVectors3D(Construction cons, GeoVectorND v, GeoVectorND w) {
 		this(cons, v, w, null);
 	}
 
@@ -59,10 +59,8 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 	 * @param orientation
 	 *            orientation
 	 */
-	AlgoAngleVectors3D(Construction cons, GeoVectorND v,
-			GeoVectorND w, GeoDirectionND orientation) {
+	AlgoAngleVectors3D(Construction cons, GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
 		super(cons, v, w, orientation);
-
 	}
 
 	@Override
@@ -99,7 +97,6 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 		} else {
 			o = start.getInhomCoordsInD3();
 		}
-
 	}
 
 	@Override
@@ -120,5 +117,4 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 
 		return true;
 	}
-
 }

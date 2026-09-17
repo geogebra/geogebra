@@ -48,18 +48,18 @@ class CellFreezeTest extends BaseAppTestSetup {
 
 	@Test
 	@MockedCasValues({
-			"Evaluate(1) -> 1",
-			"Evaluate(2) -> 2",
-			"Evaluate(3) -> 3",
-			"Evaluate(55) -> 55",
-			"Sum(A1:A98) -> 61",
-			"Round(1, 13) -> 2",
-			"Round(2, 13) -> 2",
-			"Round(3, 13) -> 2",
-			"Round(6, 13) -> 2",
-			"Round(55, 13) -> 2",
-			"Round(61, 13) -> 2",
-			"Sum(CellRange(1, 0)) -> 61"
+		"Evaluate(1) -> 1",
+		"Evaluate(2) -> 2",
+		"Evaluate(3) -> 3",
+		"Evaluate(55) -> 55",
+		"Sum(A1:A98) -> 61",
+		"Round(1, 13) -> 2",
+		"Round(2, 13) -> 2",
+		"Round(3, 13) -> 2",
+		"Round(6, 13) -> 2",
+		"Round(55, 13) -> 2",
+		"Round(61, 13) -> 2",
+		"Sum(CellRange(1, 0)) -> 61"
 	})
 	void testFreeze() {
 		processor.process("1", "A1");
@@ -75,8 +75,8 @@ class CellFreezeTest extends BaseAppTestSetup {
 	private static GeoElementSetup createRestrictedGeoElementVisibilitySetup(
 			Set<VisibilityRestriction> visibilityRestrictions) {
 		return geoElementND -> {
-			if (VisibilityRestriction.isVisibilityRestricted(geoElementND.toGeoElement(),
-					visibilityRestrictions)) {
+			if (VisibilityRestriction.isVisibilityRestricted(
+					geoElementND.toGeoElement(), visibilityRestrictions)) {
 				geoElementND.toGeoElement().setRestrictedEuclidianVisibility(true);
 				return true;
 			}
@@ -84,4 +84,3 @@ class CellFreezeTest extends BaseAppTestSetup {
 		};
 	}
 }
-

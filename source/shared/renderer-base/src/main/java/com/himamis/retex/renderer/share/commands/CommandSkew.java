@@ -22,7 +22,6 @@ public class CommandSkew extends Command {
 			tp.closeConsumer(a);
 			return;
 		}
-		throw new ParseException(tp,
-				"skew command is only working with an accent as second argument");
+		throw new ParseException(tp, "skew command is only working with an accent as second argument");
 	}
 }

@@ -21,6 +21,5 @@ final class JLMSI10 extends FontInfo {
 		setMetrics(37, 1159, 751, 0, 50);
 
 		setMetrics(38, 1533, 751, 0, 50);
-
 	}
 }

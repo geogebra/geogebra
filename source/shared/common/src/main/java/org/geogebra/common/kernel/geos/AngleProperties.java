@@ -28,13 +28,13 @@ public interface AngleProperties extends GeoElementND {
 
 	/**
 	 * Returns angle style. See GeoAngle.ANGLE_*
-	 * 
+	 *
 	 * @return anticlockwise, reflex, not reflex or unbounded
 	 */
 	AngleStyle getAngleStyle();
 
 	/**
-	 * 
+	 *
 	 * @return true if has a "super" orientation (e.g. in 3D, from a specific
 	 *         oriented plane)
 	 */
@@ -43,7 +43,7 @@ public interface AngleProperties extends GeoElementND {
 	/**
 	 * Changes angle style and recomputes the value from raw. See
 	 * GeoAngle.ANGLE_*
-	 * 
+	 *
 	 * @param angleStyle
 	 *            clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
@@ -94,5 +94,4 @@ public interface AngleProperties extends GeoElementND {
 	 *            see AngleStyle enum in GeoAngle.
 	 */
 	void setAngleStyle(int angleStyle);
-
 }

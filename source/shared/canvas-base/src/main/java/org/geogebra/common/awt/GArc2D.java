@@ -28,7 +28,7 @@ public interface GArc2D extends GRectangularShape {
 	int PIE = 2;
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            x-coord of top left corner
 	 * @param y
@@ -44,8 +44,14 @@ public interface GArc2D extends GRectangularShape {
 	 * @param type
 	 *            type (OPEN or PIE)
 	 */
-	void setArc(double x, double y, double width, double height,
-			double angleStart, double angleEnd, int type);
+	void setArc(
+			double x,
+			double y,
+			double width,
+			double height,
+			double angleStart,
+			double angleEnd,
+			int type);
 
 	/**
 	 * @return start point
@@ -58,7 +64,7 @@ public interface GArc2D extends GRectangularShape {
 	GPoint2D getEndPoint();
 
 	/**
-	 * 
+	 *
 	 * @param centerX
 	 *            x-coord of center
 	 * @param centerY
@@ -72,7 +78,6 @@ public interface GArc2D extends GRectangularShape {
 	 * @param type
 	 *            type (OPEN or PIE)
 	 */
-	void setArcByCenter(double centerX, double centerY,
-			double radius, double angleStart, double angleExt, int type);
-
+	void setArcByCenter(
+			double centerX, double centerY, double radius, double angleStart, double angleExt, int type);
 }

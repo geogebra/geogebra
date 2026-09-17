@@ -15,7 +15,7 @@ import org.freehep.graphicsio.font.FontEmbedder;
  * <li>addAdditionalInitDicts
  * <li>writeGlyph once for each glyph in the order of the encoding
  * </ul>
- * 
+ *
  * @author Simon Fischer
  * @version $Id: PDFFontEmbedder.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -30,8 +30,8 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 
 	private PDFRedundanceTracker redundanceTracker;
 
-	public PDFFontEmbedder(FontRenderContext context, PDFWriter pdf,
-			String reference, PDFRedundanceTracker tracker) {
+	public PDFFontEmbedder(
+			FontRenderContext context, PDFWriter pdf, String reference, PDFRedundanceTracker tracker) {
 		super(context);
 		this.pdf = pdf;
 		this.reference = reference;
@@ -42,8 +42,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 	protected abstract String getSubtype();
 
 	/** Add additional entries to the font Dictionary. */
-	protected abstract void addAdditionalEntries(PDFDictionary fontDict)
-			throws IOException;
+	protected abstract void addAdditionalEntries(PDFDictionary fontDict) throws IOException;
 
 	/**
 	 * Add additional dicionaries to the PDFWriter which may be referenced by
@@ -71,8 +70,9 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		fontDict.entry("FirstChar", 0);
 		fontDict.entry("LastChar", 255);
 		// fontDict.entry("Encoding", pdf.ref(reference+"Encoding"));
-		fontDict.entry("Encoding", redundanceTracker.getReference(
-				getEncodingTable(), PDFCharTableWriter.getInstance()));
+		fontDict.entry(
+				"Encoding",
+				redundanceTracker.getReference(getEncodingTable(), PDFCharTableWriter.getInstance()));
 		fontDict.entry("Widths", pdf.ref(reference + "Widths"));
 
 		addAdditionalEntries(fontDict);
@@ -83,8 +83,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 	}
 
 	@Override
-	protected void closeEmbedFont() {
-	}
+	protected void closeEmbedFont() {}
 
 	@Override
 	protected void writeWidths(double[] widths) throws IOException {
@@ -100,8 +99,8 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		// writeEncoding(pdf, reference+"Encoding", charTable);
 	}
 
-	public static void writeEncoding(PDFWriter pdf, String ref,
-			CharTable charTable) throws IOException {
+	public static void writeEncoding(PDFWriter pdf, String ref, CharTable charTable)
+			throws IOException {
 		PDFDictionary encoding = pdf.openDictionary(ref);
 		encoding.entry("Type", pdf.name("Encoding"));
 
@@ -109,8 +108,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		differences[0] = Integer.valueOf(0);
 		for (int i = 0; i < 256; i++) {
 			String charName = charTable.toName(i);
-			differences[i + 1] = (charName != null) ? pdf.name(charName)
-					: pdf.name(NOTDEF);
+			differences[i + 1] = (charName != null) ? pdf.name(charName) : pdf.name(NOTDEF);
 		}
 		encoding.entry("Differences", differences);
 
@@ -120,5 +118,4 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 	protected String createCharacterReference(String characterName) {
 		return "Glyph_" + reference + ":" + characterName;
 	}
-
 }

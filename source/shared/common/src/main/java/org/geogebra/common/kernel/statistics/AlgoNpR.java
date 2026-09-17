@@ -56,7 +56,7 @@ public class AlgoNpR {
 			// (determined by trial and error) eg 17P16
 			if (n <= 16) {
 				return ncr;
-			// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
+				// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
 			}
 
 			// NpRBig is more accurate but slower
@@ -84,7 +84,6 @@ public class AlgoNpR {
 			ncr = ncr.multiply(nr);
 
 			nr = nr.add(BigInteger.ONE);
-
 		}
 		return ncr.doubleValue();
 	}
@@ -94,9 +93,6 @@ public class AlgoNpR {
 		// also if r<2.8+Math.exp((250-n)/100) && n<59000
 		// eg NpR2(38,19) is wrong
 
-		return Math.floor(0.5 + Math
-				.exp(MyMath2.logGamma(n + 1d) - MyMath2.logGamma(n - r + 1)));
-
+		return Math.floor(0.5 + Math.exp(MyMath2.logGamma(n + 1d) - MyMath2.logGamma(n - r + 1)));
 	}
-
 }

@@ -47,37 +47,38 @@ public class CmdExtremum extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			ok[0] = arg[0].isRealValuedFunction();
-			if (ok[0]) {
-				return extremum(c, (GeoFunctionable) arg[0]);
-			}
-			throw argErr(c, arg[0]);
-		case 3: // Extremum[f,start-x,end-x]
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
+			case 1:
+				arg = resArgs(c, info);
+				ok[0] = arg[0].isRealValuedFunction();
+				if (ok[0]) {
+					return extremum(c, (GeoFunctionable) arg[0]);
+				}
+				throw argErr(c, arg[0]);
+			case 3: // Extremum[f,start-x,end-x]
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-			) {
+					AlgoExtremumMulti algo = new AlgoExtremumMulti(
+							cons,
+							c.getLabels(),
+							(GeoFunctionable) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							true);
+					return algo.getExtremumPoints();
+				}
 
-				AlgoExtremumMulti algo = new AlgoExtremumMulti(cons,
-						c.getLabels(),
-						(GeoFunctionable) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], true);
-				return algo.getExtremumPoints();
-			}
-
-			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+				throw argErr(c, getBadArg(ok, arg));
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -92,11 +93,10 @@ public class CmdExtremum extends CommandProcessor {
 		ExpressionNode exp = f.getFunctionExpression();
 		if (exp.getOperation().isIf()) {
 
-			AlgoExtremumPolynomialInterval algo = new AlgoExtremumPolynomialInterval(
-					cons, c.getLabels(), gf);
+			AlgoExtremumPolynomialInterval algo =
+					new AlgoExtremumPolynomialInterval(cons, c.getLabels(), gf);
 			GeoPoint[] g = algo.getRootPoints();
 			return g;
-
 		}
 
 		// check if this is a polynomial at the moment
@@ -104,20 +104,14 @@ public class CmdExtremum extends CommandProcessor {
 		// if (!kernelA.getConstruction().isFileLoading() && f.isDefined()
 		// && !f.isPolynomialFunction(true))
 		// return null;
-		PolyFunction poly = f.expandToPolyFunction(
-				f.getFunctionExpression(), false,
-				true);
-		if (!gf.isPolynomialFunction(false)
-				|| (poly != null && poly.isMaxDegreeReached())) {
-			EuclidianViewInterfaceCommon view = this.kernel.getApplication()
-					.getActiveEuclidianView();
-			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(),
-					gf, view);
+		PolyFunction poly = f.expandToPolyFunction(f.getFunctionExpression(), false, true);
+		if (!gf.isPolynomialFunction(false) || (poly != null && poly.isMaxDegreeReached())) {
+			EuclidianViewInterfaceCommon view = this.kernel.getApplication().getActiveEuclidianView();
+			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(), gf, view);
 			return algo.getExtremumPoints();
 		}
 
-		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
-				c.getLabels(), gf, true);
+		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons, c.getLabels(), gf, true);
 		return algo.getRootPoints();
 	}
 }

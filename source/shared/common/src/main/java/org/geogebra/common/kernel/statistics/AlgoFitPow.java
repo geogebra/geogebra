@@ -32,7 +32,7 @@ import org.geogebra.common.plugin.Operation;
 /**
  * Fits a*x^b to a list of points. Adapted from AlgoFitLine and
  * AlgoPolynomialFromCoordinates (Borcherds)
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 24.04.08
  */
@@ -93,10 +93,8 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 			MyDouble A = new MyDouble(kernel, a);
 			MyDouble B = new MyDouble(kernel, b);
 			FunctionVariable X = new FunctionVariable(kernel);
-			ExpressionValue expr = new ExpressionNode(kernel, X,
-					Operation.POWER, B);
-			ExpressionNode node = new ExpressionNode(kernel, A,
-					Operation.MULTIPLY, expr);
+			ExpressionValue expr = new ExpressionNode(kernel, X, Operation.POWER, B);
+			ExpressionNode node = new ExpressionNode(kernel, A, Operation.MULTIPLY, expr);
 			Function f = new Function(node, X);
 			geofunction.setFunction(f);
 			geofunction.setDefined(true);
@@ -107,8 +105,7 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = { regMath.getP1(), regMath.getP2() };
+		double[] ret = {regMath.getP1(), regMath.getP2()};
 		return ret;
 	}
-
 }

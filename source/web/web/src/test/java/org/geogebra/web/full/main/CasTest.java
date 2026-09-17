@@ -29,5 +29,4 @@ public class CasTest {
 	public void startApp() {
 		AppMocker.mockApplet(new AppletParameters("cas"));
 	}
-
 }

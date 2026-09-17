@@ -40,8 +40,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}");
 
-		TableValuesContextMenuActionHandler handler = new TableValuesContextMenuActionHandler(
-				0, tableValues, getApp(), this);
+		TableValuesContextMenuActionHandler handler =
+				new TableValuesContextMenuActionHandler(0, tableValues, getApp(), this);
 		handler.handleSelectedItem(Item.Statistics1.toContextMenuItem());
 
 		assertNotNull(tableValues.getStatisticsViewModel().getContent().get());
@@ -52,8 +52,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y = {5, 6, 7, 8}");
 
-		TableValuesContextMenuActionHandler handler = new TableValuesContextMenuActionHandler(
-				1, tableValues, getApp(), this);
+		TableValuesContextMenuActionHandler handler =
+				new TableValuesContextMenuActionHandler(1, tableValues, getApp(), this);
 		handler.handleSelectedItem(Item.Statistics2.toContextMenuItem());
 
 		assertNotNull(tableValues.getStatisticsViewModel().getContent().get());
@@ -64,8 +64,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y = {5, 6, 7, 8}");
 
-		TableValuesContextMenuActionHandler handler = new TableValuesContextMenuActionHandler(
-				1, tableValues, getApp(), this);
+		TableValuesContextMenuActionHandler handler =
+				new TableValuesContextMenuActionHandler(1, tableValues, getApp(), this);
 		handler.handleSelectedItem(Item.Regression.toContextMenuItem());
 
 		assertNotNull(tableValues.getStatisticsViewModel().getContent().get());
@@ -76,8 +76,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {0, 1, 2, 3, 4, 5}");
 
-		TableValuesContextMenuActionHandler handler = new TableValuesContextMenuActionHandler(
-				0, tableValues, getApp(), this);
+		TableValuesContextMenuActionHandler handler =
+				new TableValuesContextMenuActionHandler(0, tableValues, getApp(), this);
 		handler.handleSelectedItem(Item.Edit.toContextMenuItem());
 
 		assertTrue(showTableValueCreatingDialogCalled);
@@ -91,8 +91,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 		TableValues tableValues =
 				setupTableValues(evaluateGeoElement("x = {0, 1, 2, 3, 4, 5}"), geoFunction);
 
-		TableValuesContextMenuActionHandler handler =  new TableValuesContextMenuActionHandler(
-				1, tableValues, getApp(), this);
+		TableValuesContextMenuActionHandler handler =
+				new TableValuesContextMenuActionHandler(1, tableValues, getApp(), this);
 		handler.handleSelectedItem(Item.Edit.toContextMenuItem());
 
 		assertFalse(showTableValueCreatingDialogCalled);
@@ -104,8 +104,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {0, 1, 2, 3, 4, 5}");
 
-		TableValuesContextMenuActionHandler handler = new TableValuesContextMenuActionHandler(
-				0, tableValues, getApp(), this);
+		TableValuesContextMenuActionHandler handler =
+				new TableValuesContextMenuActionHandler(0, tableValues, getApp(), this);
 		handler.handleSelectedItem(Item.ClearColumn.toContextMenuItem());
 
 		assertTrue(Double.isNaN(tableValues.getTableValuesModel().getValueAt(0, 0)));
@@ -118,8 +118,8 @@ class TableValuesContextMenuActionHandlerTests extends BaseAppTestSetup
 		TableValues tableValues =
 				setupTableValues(evaluateGeoElement("x = {0, 1, 2, 3, 4, 5}"), geoFunction);
 
-		TableValuesContextMenuActionHandler handler = new TableValuesContextMenuActionHandler(
-				1, tableValues, getApp(), this);
+		TableValuesContextMenuActionHandler handler =
+				new TableValuesContextMenuActionHandler(1, tableValues, getApp(), this);
 		handler.handleSelectedItem(Item.RemoveColumn.toContextMenuItem());
 
 		assertEquals(-1, tableValues.getColumn(geoFunction));

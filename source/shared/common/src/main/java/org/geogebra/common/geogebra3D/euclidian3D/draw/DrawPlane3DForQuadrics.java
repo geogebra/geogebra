@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Helper for drawing planes, for quadrics
- * 
+ *
  * @author Proprietaire
  *
  */
@@ -39,8 +39,8 @@ public class DrawPlane3DForQuadrics extends DrawPlane3D {
 	 * @param quadric
 	 *            quadric
 	 */
-	public DrawPlane3DForQuadrics(EuclidianView3D a_view3D,
-			GeoPlane3D a_plane3D, GeoQuadric3D quadric) {
+	public DrawPlane3DForQuadrics(
+			EuclidianView3D a_view3D, GeoPlane3D a_plane3D, GeoQuadric3D quadric) {
 		super(a_view3D, a_plane3D, quadric);
 	}
 
@@ -64,5 +64,4 @@ public class DrawPlane3DForQuadrics extends DrawPlane3D {
 	protected int getGridThickness() {
 		return 0;
 	}
-
 }

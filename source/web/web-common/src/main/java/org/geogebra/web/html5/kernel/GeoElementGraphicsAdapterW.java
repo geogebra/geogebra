@@ -25,8 +25,8 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Connects geoelements to images in Web
  */
-public class GeoElementGraphicsAdapterW extends
-        org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
+public class GeoElementGraphicsAdapterW
+		extends org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
 
 	private final App app;
 
@@ -71,8 +71,7 @@ public class GeoElementGraphicsAdapterW extends
 			return;
 		}
 
-		String fn = StringUtil.changeFileExtension(imageFileName,
-				FileExtensions.PNG);
+		String fn = StringUtil.changeFileExtension(imageFileName, FileExtensions.PNG);
 
 		imageFileName = app.md5Encrypt(fn) + "/" + fn;
 		Log.debug("Converted:" + oldFn + "->" + imageFileName);

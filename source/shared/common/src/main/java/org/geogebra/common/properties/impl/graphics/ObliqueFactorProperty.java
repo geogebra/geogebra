@@ -33,8 +33,7 @@ public class ObliqueFactorProperty extends AbstractValuedProperty<String>
 	 * @param localization localization
 	 * @param euclidianView euclidian view
 	 */
-	public ObliqueFactorProperty(Localization localization,
-			EuclidianView3DInterface euclidianView) {
+	public ObliqueFactorProperty(Localization localization, EuclidianView3DInterface euclidianView) {
 		super(localization, "Dilate.Factor");
 		this.euclidianView = euclidianView;
 	}

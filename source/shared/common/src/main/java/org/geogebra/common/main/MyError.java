@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.jspecify.annotations.Nullable;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class MyError extends Error {
@@ -30,6 +30,7 @@ public class MyError extends Error {
 	private static final long serialVersionUID = 1L;
 	/** application */
 	protected Localization loc;
+
 	protected String commandName = null;
 	private String[] strs;
 	// Used for localization
@@ -77,9 +78,8 @@ public class MyError extends Error {
 	 *            cause
 	 * @return command error
 	 */
-	public static MyError forCommand(Localization loc0, String errorName,
-			String commandName,
-			Throwable cause) {
+	public static MyError forCommand(
+			Localization loc0, String errorName, String commandName, Throwable cause) {
 		return forCommand(loc0, errorName, commandName, cause, null);
 	}
 
@@ -96,7 +96,9 @@ public class MyError extends Error {
 	 *            type of the error
 	 * @return command error
 	 */
-	public static MyError forCommand(Localization loc0, String errorName,
+	public static MyError forCommand(
+			Localization loc0,
+			String errorName,
 			String commandName,
 			Throwable cause,
 			@Nullable Errors errorType) {
@@ -150,8 +152,8 @@ public class MyError extends Error {
 	 * @param rt
 	 *            right expression
 	 */
-	public MyError(Localization loc0, Errors message0, ExpressionValue lt, String opname,
-			ExpressionValue rt) {
+	public MyError(
+			Localization loc0, Errors message0, ExpressionValue lt, String opname, ExpressionValue rt) {
 		super(message0.key);
 		this.loc = loc0;
 		this.messageKey = message0;
@@ -216,39 +218,38 @@ public class MyError extends Error {
 	}
 
 	private String getError() {
-		
+
 		// using new Errors enum
 		if (messageKey != null) {
 			return messageKey.getError(loc, strs);
 		}
-		
+
 		// using old string method
 		return super.getMessage();
 	}
 
 	/**
-	 * 
+	 *
 	 * Errors and default translations
-	 * 
+	 *
 	 * (defaults needed eg in webSimple)
 	 *
 	 */
 	public enum Errors {
-
 		FrameLoadError("FrameLoadError", "This web page does not support embedding."),
 
-		CASGeneralErrorMessage("CAS.GeneralErrorMessage",
-				"Sorry, something went wrong. Please check your input"),
+		CASGeneralErrorMessage(
+				"CAS.GeneralErrorMessage", "Sorry, something went wrong. Please check your input"),
 
 		CASInvalidReferenceError("CAS.InvalidReferenceError", "One or more references are invalid"),
 
-		CASSelectionStructureError("CAS.SelectionStructureError",
-				"Please check the structure of your selection"),
+		CASSelectionStructureError(
+				"CAS.SelectionStructureError", "Please check the structure of your selection"),
 
 		CASTimeoutError("CAS.TimeoutError", "Calculation took too long and was aborted"),
 
-		CASVariableIsDynamicReference("CAS.VariableIsDynamicReference",
-				"Attempt to assign dynamic reference"),
+		CASVariableIsDynamicReference(
+				"CAS.VariableIsDynamicReference", "Attempt to assign dynamic reference"),
 
 		UndefinedVariable("UndefinedVariable", "Undefined variable"),
 
@@ -279,7 +280,7 @@ public class MyError extends Error {
 		UnbalancedBrackets("UnbalancedBrackets", "Unbalanced brackets"),
 
 		ReplaceFailed("ReplaceFailed", "Redefinition failed"),
-		
+
 		CircularDefinition("CircularDefinition", "Circular Definition"),
 
 		LoadFileFailed("LoadFileFailed", "Opening file failed"),
@@ -292,7 +293,8 @@ public class MyError extends Error {
 
 		ToolCreationFailed("Tool.CreationFailed", "Tool could not be created"),
 
-		ToolDeleteUsed("Tool.DeleteUsed",
+		ToolDeleteUsed(
+				"Tool.DeleteUsed",
 				"Following tools were used to create selected objects and cannot be deleted:"),
 
 		DeleteFailed("DeleteFailed", "Delete failed"),
@@ -306,10 +308,9 @@ public class MyError extends Error {
 		NumberExpected("NumberExpected", "Number expected"),
 
 		FunctionExpected("FunctionExpected", "Function expected"),
-		InvalidEquation("InvalidEquation",
-				"Invalid equation:\nPlease enter a polynomial equation in x and y"),
-		InvalidFunction("InvalidFunction",
-				"Invalid function:\nPlease enter an explicit function in x"),
+		InvalidEquation(
+				"InvalidEquation", "Invalid equation:\nPlease enter a polynomial equation in x and y"),
+		InvalidFunction("InvalidFunction", "Invalid function:\nPlease enter an explicit function in x"),
 
 		UnknownCommand("UnknownCommand", "Unknown command"),
 		NameUsed("NameUsed", "This label is already in use"),
@@ -320,8 +321,8 @@ public class MyError extends Error {
 		// IllegalArgumentAinCustomToolB("IllegalArgumentAinCustomToolB", "Illegal
 		// Argument %0 in Custom Tool %1"),
 
-		InvalidFunctionA("InvalidFunctionA",
-				"Invalid function:\nPlease enter an explicit function in %0") {
+		InvalidFunctionA(
+				"InvalidFunctionA", "Invalid function:\nPlease enter an explicit function in %0") {
 
 			@Override
 			public String getError(Localization loc, String... strs) {
@@ -360,7 +361,6 @@ public class MyError extends Error {
 
 				return ret;
 			}
-
 		};
 
 		final String key;
@@ -380,7 +380,7 @@ public class MyError extends Error {
 
 		/**
 		 * Builds error message from current key and given arguments
-		 * 
+		 *
 		 * @param loc
 		 *            localization
 		 * @param strs
@@ -396,7 +396,6 @@ public class MyError extends Error {
 			if (sb.length() == 0 || sb.toString().equals(key)) {
 				sb.setLength(0);
 				sb.append(defaultTranslation);
-
 			}
 
 			if (strs != null && strs.length > 0) {
@@ -407,16 +406,16 @@ public class MyError extends Error {
 					sb.append(" ");
 				}
 			}
-			
+
 			return sb.toString();
 		}
 
 		/**
 		 * remove null: as label eg 3/(x^2=1) gives Illegal division 3 / null:
 		 * (-x - 1) (-x + 1) = 0
-		 * 
+		 *
 		 * if label really is null, doesn't matter if removed
-		 * 
+		 *
 		 * @param s
 		 *            input
 		 * @return input with "null:" / "undefined:" removed
@@ -433,13 +432,11 @@ public class MyError extends Error {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return ggbtrans translation key eg "LoadFileFailed"
 		 */
 		public String getKey() {
 			return key;
 		}
-
 	}
-
 }

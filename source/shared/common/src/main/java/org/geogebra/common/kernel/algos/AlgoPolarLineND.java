@@ -36,8 +36,7 @@ public abstract class AlgoPolarLineND extends AlgoElement {
 	protected GeoLineND polar; // output
 
 	/** Creates new AlgoPolarLine */
-	public AlgoPolarLineND(Construction cons, String label, GeoConicND c,
-			GeoPointND P) {
+	public AlgoPolarLineND(Construction cons, String label, GeoConicND c, GeoPointND P) {
 		super(cons);
 		this.P = P;
 		this.c = c;
@@ -50,12 +49,12 @@ public abstract class AlgoPolarLineND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new geo line
 	 */
-	abstract protected GeoLineND newGeoLine(Construction cons1);
+	protected abstract GeoLineND newGeoLine(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -93,13 +92,14 @@ public abstract class AlgoPolarLineND extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("PolarLineOfARelativeToB",
-				"Polar line of %0 relative to %1", P.getLabel(tpl),
-				c.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"PolarLineOfARelativeToB",
+						"Polar line of %0 relative to %1",
+						P.getLabel(tpl),
+						c.getLabel(tpl));
 	}
-
 }

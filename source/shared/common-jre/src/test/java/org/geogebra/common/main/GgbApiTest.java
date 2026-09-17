@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -110,7 +110,7 @@ class GgbApiTest {
 	@Issue("APPS-7149")
 	void evalCommandShouldAcceptRenamedCommand() {
 		api.evalCommand("DelaunayTriangulation(e^(i*{1,2,3,4,5,6}))");
-		assertArrayEquals(new String[]{"graph1"}, api.getAllObjectNames());
+		assertArrayEquals(new String[] {"graph1"}, api.getAllObjectNames());
 	}
 
 	@Test
@@ -149,10 +149,10 @@ class GgbApiTest {
 
 	@Test
 	void testEvalLaTeXGreek() {
-		List<String> set = Arrays.asList("Alpha", "Beta", "Epsilon", "Zeta", "Eta",
-				"Iota", "Kappa", "Mu", "Nu", "Omicron", "Rho", "Tau", "Chi",
-				"phi", "epsilon");
-		for (Greek letter: Greek.values()) {
+		List<String> set = Arrays.asList(
+				"Alpha", "Beta", "Epsilon", "Zeta", "Eta", "Iota", "Kappa", "Mu", "Nu", "Omicron", "Rho",
+				"Tau", "Chi", "phi", "epsilon");
+		for (Greek letter : Greek.values()) {
 			if (!set.contains(letter.name())) {
 				assertLaTeXGreekEval(letter.name(), String.valueOf(letter.unicode));
 			}
@@ -169,8 +169,7 @@ class GgbApiTest {
 	private void assertLaTeXGreekEval(String latex, String unicode) {
 		api.newConstruction();
 		api.evalLaTeX("x\\" + latex + "=42", 0);
-		assertEquals("42", api.getLaTeXString("x" + unicode),
-				latex + " not parsed as " + unicode);
+		assertEquals("42", api.getLaTeXString("x" + unicode), latex + " not parsed as " + unicode);
 	}
 
 	@Test
@@ -178,7 +177,7 @@ class GgbApiTest {
 		app.setGraphingConfig();
 		// eval xml will mark the object as needing update
 		api.evalXML("<expression label=\"stroke1\" "
-						+ "exp=\"PolyLine[(-3.5800,2.7200), (NaN,NaN), true]\" />"
+				+ "exp=\"PolyLine[(-3.5800,2.7200), (NaN,NaN), true]\" />"
 				+ "<element type=\"penstroke\" label=\"stroke1\">"
 				+ "<show object=\"true\" label=\"false\" ev=\"8\"/>"
 				+ "<lineStyle thickness=\"144\" type=\"0\" typeHidden=\"1\"/>"
@@ -267,8 +266,7 @@ class GgbApiTest {
 
 		ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
 
-		Mockito.verify(scriptManager, times(1))
-				.sendEvent(eventCaptor.capture());
+		Mockito.verify(scriptManager, times(1)).sendEvent(eventCaptor.capture());
 
 		List<Event> capturedEvents = eventCaptor.getAllValues();
 		assertEquals(1, capturedEvents.size());
@@ -297,10 +295,10 @@ class GgbApiTest {
 		assertEquals("A = (3, 4, 5)", api.getValueString("A"));
 
 		api.evalCommand("stroke=PenStroke()");
-		api.setCoords("stroke", 1, 2, 3 , 4, Double.NaN, Double.NaN,
-				5, 6, 7, 8);
-		assertEquals("PenStrokeBezier[1.0000E0,2.0000E0,1,3.0000E0,4.0000E0,0,NaN,NaN,"
-				+ "0,5.0000E0,6.0000E0,1,7.0000E0,8.0000E0,0,NaN,NaN,0]",
+		api.setCoords("stroke", 1, 2, 3, 4, Double.NaN, Double.NaN, 5, 6, 7, 8);
+		assertEquals(
+				"PenStrokeBezier[1.0000E0,2.0000E0,1,3.0000E0,4.0000E0,0,NaN,NaN,"
+						+ "0,5.0000E0,6.0000E0,1,7.0000E0,8.0000E0,0,NaN,NaN,0]",
 				api.getCommandString("stroke"));
 	}
 
@@ -316,12 +314,10 @@ class GgbApiTest {
 		scriptManager.registerObjectUpdateListener("correct", "onUpdate");
 
 		input.updateLinkedGeo("2");
-		Mockito.verify(scriptManager, times(1))
-				.evalJavaScript("onUpdate(\"correct\");");
+		Mockito.verify(scriptManager, times(1)).evalJavaScript("onUpdate(\"correct\");");
 
 		input.updateLinkedGeo("2 + C");
-		Mockito.verify(scriptManager, times(2))
-				.evalJavaScript("onUpdate(\"correct\");");
+		Mockito.verify(scriptManager, times(2)).evalJavaScript("onUpdate(\"correct\");");
 	}
 
 	@Test
@@ -336,11 +332,13 @@ class GgbApiTest {
 		app.getEventDispatcher().addEventListener(listener);
 
 		input.updateLinkedGeo("2");
-		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct", "REDEFINE ans"),
+		assertEquals(
+				Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct", "REDEFINE ans"),
 				listener.getEvents());
 		listener.getEvents().clear();
 		input.updateLinkedGeo("2 + C");
-		assertEquals(Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct", "REDEFINE ans"),
+		assertEquals(
+				Arrays.asList("UPDATE ans", "UPDATE input", "UPDATE correct", "REDEFINE ans"),
 				listener.getEvents());
 	}
 
@@ -359,13 +357,12 @@ class GgbApiTest {
 		scriptManager.registerObjectUpdateListener("A", "onUpdate");
 		scriptManager.registerUpdateListener("onUpdateGlobal");
 
-		app.getKernel().getAlgoDispatcher().attach((GeoPointND) lookup("C"),
-				(Path) lookup("l"), app.getActiveEuclidianView(), null);
+		app.getKernel()
+				.getAlgoDispatcher()
+				.attach((GeoPointND) lookup("C"), (Path) lookup("l"), app.getActiveEuclidianView(), null);
 		lookup("A").notifyUpdate();
-		Mockito.verify(scriptManager, times(1))
-				.evalJavaScript("onUpdate(\"A\");");
-		Mockito.verify(scriptManager, times(1))
-				.evalJavaScript("onUpdateGlobal(\"A\");");
+		Mockito.verify(scriptManager, times(1)).evalJavaScript("onUpdate(\"A\");");
+		Mockito.verify(scriptManager, times(1)).evalJavaScript("onUpdateGlobal(\"A\");");
 	}
 
 	private MockScriptManager prepareScriptManager() {
@@ -377,7 +374,8 @@ class GgbApiTest {
 
 	@Test
 	void viewClicked2DTest() {
-		app.getKernel().getAlgebraProcessor()
+		app.getKernel()
+				.getAlgebraProcessor()
 				.processAlgebraCommand("Polygon((0, 0), (20, 0), (0, -20))", false);
 
 		ScriptManager scriptManager = prepareScriptManager();
@@ -387,8 +385,7 @@ class GgbApiTest {
 
 		ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
 
-		Mockito.verify(scriptManager, times(2))
-				.sendEvent(eventCaptor.capture());
+		Mockito.verify(scriptManager, times(2)).sendEvent(eventCaptor.capture());
 
 		List<Event> capturedEvents = eventCaptor.getAllValues();
 		assertEquals(2, capturedEvents.size());
@@ -408,7 +405,8 @@ class GgbApiTest {
 
 	@Test
 	void dragEnd2DTest() {
-		app.getKernel().getAlgebraProcessor()
+		app.getKernel()
+				.getAlgebraProcessor()
 				.processAlgebraCommand("Polygon((0, 0), (20, 0), (0, -20))", false);
 
 		ScriptManager scriptManager = prepareScriptManager();
@@ -422,8 +420,7 @@ class GgbApiTest {
 
 		ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
 
-		Mockito.verify(scriptManager, Mockito.atLeast(1))
-				.sendEvent(eventCaptor.capture());
+		Mockito.verify(scriptManager, Mockito.atLeast(1)).sendEvent(eventCaptor.capture());
 
 		List<Event> capturedEvents = eventCaptor.getAllValues();
 
@@ -450,8 +447,7 @@ class GgbApiTest {
 	void notLocalizedValueStringShouldHaveHighPrecision() {
 		api.evalCommand("A=(1/3,1/3)");
 		api.evalCommand("c=Circle(O,(2,2))");
-		assertThat(api.getValueString("A", false),
-				is("A = (0.3333333333333, 0.3333333333333)"));
+		assertThat(api.getValueString("A", false), is("A = (0.3333333333333, 0.3333333333333)"));
 		assertThat(api.getValueString("A", true), is("A = (0.33, 0.33)"));
 		assertThat(api.getValueString("c", false), is(unicode("c: x^2 + y^2 = 8")));
 	}
@@ -470,24 +466,22 @@ class GgbApiTest {
 
 	@Test
 	void testDistanceOptions() throws JSONException {
-		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5}"
-				+ "}";
+		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5}" + "}";
 
 		JSONObject jso = new JSONObject(new JSONTokener(json));
 		api.setGraphicsOptions(1, jso);
-		assertArrayEquals(new double[]{1.5, 0.5, Math.PI / 6},
-				app.getActiveEuclidianView().getGridDistances(), 0);
+		assertArrayEquals(
+				new double[] {1.5, 0.5, Math.PI / 6}, app.getActiveEuclidianView().getGridDistances(), 0);
 	}
 
 	@Test
 	void testDistanceOptionsWithTheta() throws JSONException {
-		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}"
-				+ "}";
+		String json = "{gridDistance: {\"x\": 1.5, \"y\":0.5, \"theta\":0.1234}" + "}";
 
 		JSONObject jso = new JSONObject(new JSONTokener(json));
 		api.setGraphicsOptions(1, jso);
-		assertArrayEquals(new double[]{1.5, 0.5, 0.1234},
-				app.getActiveEuclidianView().getGridDistances(), 0);
+		assertArrayEquals(
+				new double[] {1.5, 0.5, 0.1234}, app.getActiveEuclidianView().getGridDistances(), 0);
 	}
 
 	@Test

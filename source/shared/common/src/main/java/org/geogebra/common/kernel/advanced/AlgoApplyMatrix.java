@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoApplyMatrix extends AlgoTransformation {
@@ -40,7 +40,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 
 	/**
 	 * Creates new apply matrix algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param in
@@ -91,7 +91,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 
 	/**
 	 * Returns the resulting element
-	 * 
+	 *
 	 * @return resulting element
 	 */
 	@Override
@@ -106,8 +106,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 			return;
 		}
 		if (inGeo.isGeoFunction()) {
-			((GeoFunction) inGeo)
-					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
+			((GeoFunction) inGeo).toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else {
 			setOutGeo();
 		}
@@ -119,7 +118,8 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		MyList list = matrix.getMyList();
 
 		if ((list.getMatrixCols() != list.getMatrixRows())
-				|| (list.getMatrixRows() < 2) || (list.getMatrixRows() > 3)) {
+				|| (list.getMatrixRows() < 2)
+				|| (list.getMatrixRows() > 3)) {
 			outGeo.setUndefined();
 			return;
 		}
@@ -152,11 +152,9 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	protected void setTransformedObject(GeoElement g, GeoElement g2) {
 		inGeo = g;
 		outGeo = g2;
-		if (!(out instanceof GeoList)
-				&& (outGeo instanceof MatrixTransformable)) {
+		if (!(out instanceof GeoList) && (outGeo instanceof MatrixTransformable)) {
 			out = (MatrixTransformable) outGeo;
 		}
-
 	}
 
 	@Override
@@ -174,8 +172,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		b = matrix.get(1, 0).evaluateDouble();
 		c = matrix.get(0, 1).evaluateDouble();
 		d = matrix.get(1, 1).evaluateDouble();
-		return (arc == null || arc.positiveOrientation())
-				^ (((a * d) - (b * c)) < 0);
+		return (arc == null || arc.positiveOrientation()) ^ (((a * d) - (b * c)) < 0);
 	}
 
 	@Override
@@ -185,7 +182,6 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		} else {
 			super.transformLimitedConic(a, b);
 		}
-
 	}
 
 	@Override
@@ -196,5 +192,4 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		double d = matrix.get(1, 1).evaluateDouble();
 		return (a * d) - (b * c);
 	}
-
 }

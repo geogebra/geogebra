@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,7 +31,7 @@ public class CmdRandomPoisson extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,20 +46,18 @@ public class CmdRandomPoisson extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0].isGeoNumeric()) {
 
-			if (arg[0].isGeoNumeric()) {
+					AlgoRandomPoisson algo = new AlgoRandomPoisson(cons, c.getLabel(), (GeoNumeric) arg[0]);
 
-				AlgoRandomPoisson algo = new AlgoRandomPoisson(cons,
-						c.getLabel(), (GeoNumeric) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

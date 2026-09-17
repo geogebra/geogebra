@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,8 +41,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
-public class TwoVarInferencePanel extends JPanel implements ActionListener,
-		FocusListener, StatPanelInterface, TwoVarInferenceListener {
+public class TwoVarInferencePanel extends JPanel
+		implements ActionListener, FocusListener, StatPanelInterface, TwoVarInferenceListener {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private DataAnalysisViewD daView;
@@ -88,7 +88,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		this.setLabels();
 
 		isIniting = false;
-
 	}
 
 	// ============================================================
@@ -159,8 +158,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		// sample panel
 
-		twoStatPanel = new TwoVarStatPanelD(app, daView, model.isPairedData(),
-				this);
+		twoStatPanel = new TwoVarStatPanelD(app, daView, model.isPairedData(), this);
 
 		samplePanel = new JPanel(new GridBagLayout());
 		c.gridy = GridBagConstraints.RELATIVE;
@@ -184,7 +182,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		// main panel
 		mainPanel = new JPanel(new GridBagLayout());
 		this.add(mainPanel, BorderLayout.NORTH);
-
 	}
 
 	private void updateMainPanel() {
@@ -220,9 +217,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		// mainPanel.add(ckEqualVariances,c);
 		mainPanel.add(resultPanel, tab);
 
-		resultTable.getTable()
-				.setRowHeight(twoStatPanel.getTable().getRowHeight());
-
+		resultTable.getTable().setRowHeight(twoStatPanel.getTable().getRowHeight());
 	}
 
 	// ============================================================
@@ -250,7 +245,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		// ckPooled.setSelected(model.isPooled());
 		twoStatPanel.updatePanel();
-
 	}
 
 	/** Helper method for updateGUI() */
@@ -285,7 +279,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	@Override
 	public void updateFonts(Font font) {
 		twoStatPanel.updateFonts(font);
-
 	}
 
 	@Override
@@ -313,7 +306,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		updateGUI();
 		model.updateResults();
-
 	}
 
 	@Override
@@ -327,22 +319,15 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		if (source instanceof JTextField) {
 			doTextFieldActionPerformed((JTextField) source);
-		}
-
-		else if (source == cbAltHyp) {
+		} else if (source == cbAltHyp) {
 			model.applyTail(cbAltHyp.getSelectedIndex());
-		}
-
-		else if (source == cbTitle1 || source == cbTitle2) {
+		} else if (source == cbTitle1 || source == cbTitle2) {
 			model.updateResults();
-		}
-
-		else if (source == ckEqualVariances) {
+		} else if (source == ckEqualVariances) {
 			model.setPooled(ckEqualVariances.isSelected());
 		} else if (source == ckPooled) {
 			model.setPooled(ckPooled.isSelected());
 		}
-
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -361,7 +346,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 			model.setHypMean(value);
 			updateGUI();
 		}
-
 	}
 
 	@Override
@@ -391,10 +375,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public void setStatTable(int row, String[] rowNames, int length,
-			String[] columnNames) {
-		resultTable.setStatTable(row, rowNames, columnNames.length,
-				columnNames);
+	public void setStatTable(int row, String[] rowNames, int length, String[] columnNames) {
+		resultTable.setStatTable(row, rowNames, columnNames.length, columnNames);
 	}
 
 	@Override
@@ -428,5 +410,4 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	public void setEnablePooled(boolean enablePooled) {
 		ckPooled.setVisible(enablePooled);
 	}
-
 }

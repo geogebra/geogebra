@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.euclidian;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Grid test
- * 
+ *
  * @author Zbynek
  *
  */
@@ -56,8 +56,8 @@ class GridTest {
 	@Test
 	void thereShouldBeGridInSVGExport() {
 		EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
-		app.getActiveEuclidianView().centerView(
-				new GeoPoint(app.getKernel().getConstruction(), 0, 0, 1));
+		app.getActiveEuclidianView()
+				.centerView(new GeoPoint(app.getKernel().getConstruction(), 0, 0, 1));
 		settings.setGridColor(GColor.BLUE);
 		settings.showGrid(true);
 		app.getActiveEuclidianView().updateBackground();
@@ -82,8 +82,8 @@ class GridTest {
 
 	private static void hasBlueLines(int expectMinor, int expectMajor) {
 		ByteArrayOutputStream ss = new ByteArrayOutputStream();
-		GraphicExportDialog.exportSVG(app, app.getActiveEuclidianView(), ss,
-				false, 800, 600, 8, 6, 1, false);
+		GraphicExportDialog.exportSVG(
+				app, app.getActiveEuclidianView(), ss, false, 800, 600, 8, 6, 1, false);
 		String svg = ss.toString(StandardCharsets.UTF_8);
 		int start = 0;
 		// int lines = 0;
@@ -98,7 +98,6 @@ class GridTest {
 					major++;
 				}
 			}
-
 		}
 		assertEquals(expectMinor, minor);
 		assertEquals(expectMajor, major);

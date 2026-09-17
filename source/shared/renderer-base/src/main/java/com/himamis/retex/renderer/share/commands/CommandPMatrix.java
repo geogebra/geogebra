@@ -10,7 +10,6 @@ public class CommandPMatrix extends CommandMatrix {
 
 	@Override
 	public Atom newI(TeXParser tp) {
-		return new FencedAtom(new SMatrixAtom(aoa, false), Symbols.LBRACK,
-				Symbols.RBRACK);
+		return new FencedAtom(new SMatrixAtom(aoa, false), Symbols.LBRACK, Symbols.RBRACK);
 	}
 }

@@ -22,14 +22,14 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Computes Min[a, b]
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoMin extends AlgoTwoNumFunction {
 
 	/**
 	 * Creates new min algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a

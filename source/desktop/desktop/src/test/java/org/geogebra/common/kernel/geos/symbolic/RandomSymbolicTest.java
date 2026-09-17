@@ -36,8 +36,8 @@ class RandomSymbolicTest extends BaseSymbolicTest {
 				"RandomPolynomial(10,0,10)",
 				"RandomBinomial(100000,0.5)",
 				"RandomDiscrete(Sequence(500),Sequence(500)*0+1/500)",
-				"Shuffle(Sequence(50))", "Sample(Sequence(50),30)"
-		);
+				"Shuffle(Sequence(50))",
+				"Sample(Sequence(50),30)");
 		changeable.forEach(this::testRandomizableCommand);
 	}
 
@@ -50,7 +50,6 @@ class RandomSymbolicTest extends BaseSymbolicTest {
 			s.getConstruction().updateConstruction(true);
 			changed = !oldValue.equals(s.toValueString(StringTemplate.maxDecimals));
 		}
-		assertTrue(changed,
-				"Value of " + command + " should have changed from " + oldValue);
+		assertTrue(changed, "Value of " + command + " should have changed from " + oldValue);
 	}
 }

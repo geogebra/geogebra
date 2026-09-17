@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -70,8 +70,8 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, String, boolean)}
 	 * with parameter {@code controlRow = ",()"}.
 	 */
-	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
-			withGreekLetters) {
+	public void setKeyboardDefinition(
+			String topRow, String middleRow, String bottomRow, boolean withGreekLetters) {
 		setKeyboardDefinition(topRow, middleRow, bottomRow, DEFAULT_CONTROL, withGreekLetters);
 	}
 
@@ -83,11 +83,14 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * @param bottomRow a string containing the characters for the bottom row
 	 * @param withGreekLetters true iff greek letters should be included
 	 */
-	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
-			controlRow, boolean withGreekLetters) {
+	public void setKeyboardDefinition(
+			String topRow,
+			String middleRow,
+			String bottomRow,
+			String controlRow,
+			boolean withGreekLetters) {
 		Integer controlAction = withGreekLetters ? ACTION_GREEK_LETTERS : null;
-		setKeyboardDefinition(topRow, middleRow, bottomRow, controlRow,
-				ACTION_SHIFT, controlAction);
+		setKeyboardDefinition(topRow, middleRow, bottomRow, controlRow, ACTION_SHIFT, controlAction);
 	}
 
 	/**
@@ -100,8 +103,13 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * @param bottomActionLeft constant action that appears in the bottom row
 	 * @param controlActionLeft constant action that appears in the control row
 	 */
-	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
-			controlRow, Integer bottomActionLeft, Integer controlActionLeft) {
+	public void setKeyboardDefinition(
+			String topRow,
+			String middleRow,
+			String bottomRow,
+			String controlRow,
+			Integer bottomActionLeft,
+			Integer controlActionLeft) {
 		this.topRow = topRow;
 		this.middleRow = middleRow;
 		this.bottomRow = bottomRow;
@@ -146,8 +154,9 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 			actionButtonMargin = 0.0f;
 		} else if (rowWeightSum - bottomRowLength - bottomSpecialLength > 0) {
 			actionButtonSize = LARGE_ACTION_WEIGHT;
-			actionButtonMargin = (rowWeightSum - bottomRowLength
-					- bottomSpecialLength * LARGE_ACTION_WEIGHT) / bottomSpecialLength;
+			actionButtonMargin =
+					(rowWeightSum - bottomRowLength - bottomSpecialLength * LARGE_ACTION_WEIGHT)
+							/ bottomSpecialLength;
 		} else {
 			throw new RuntimeException(EXCEPTION_MESSAGE);
 		}
@@ -165,8 +174,11 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		addButton(bottomRowImpl, buttonFactory.createEmptySpace(actionButtonMargin));
 		addButtons(bottomRowImpl, buttonFactory, bottomRow);
 		addButton(bottomRowImpl, buttonFactory.createEmptySpace(actionButtonMargin));
-		addConstantCustomButton(bottomRowImpl, buttonFactory,
-				Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE,
+		addConstantCustomButton(
+				bottomRowImpl,
+				buttonFactory,
+				Resource.BACKSPACE_DELETE,
+				Action.BACKSPACE_DELETE,
 				actionButtonSize);
 
 		RowImpl controlRowImpl = letterKeyboard.nextRow();
@@ -178,18 +190,19 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		int controlSpecialLength = (controlActionLeft == null ? 0 : 1) + 3;
 		float spaceSize = rowWeightSum - controlRowLength - controlSpecialLength;
 		addInputButton(controlRowImpl, buttonFactory, " ", spaceSize);
-		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.LEFT_ARROW,
-				Action.LEFT_CURSOR);
-		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.RIGHT_ARROW,
-				Action.RIGHT_CURSOR);
-		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.RETURN_ENTER,
-				Action.RETURN_ENTER);
+		addConstantCustomButton(controlRowImpl, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+		addConstantCustomButton(
+				controlRowImpl, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+		addConstantCustomButton(
+				controlRowImpl, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
 		return letterKeyboard;
 	}
 
-	private void createRow(KeyboardModelImpl keyboard,
-			ButtonFactory buttonFactory, String definition,
+	private void createRow(
+			KeyboardModelImpl keyboard,
+			ButtonFactory buttonFactory,
+			String definition,
 			float rowPadding) {
 		RowImpl rowImpl = keyboard.nextRow();
 		addPaddingIfNecessary(rowImpl, buttonFactory, rowPadding);
@@ -197,8 +210,7 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		addPaddingIfNecessary(rowImpl, buttonFactory, rowPadding);
 	}
 
-	private void addButtons(RowImpl rowImpl, ButtonFactory buttonFactory,
-			String definition) {
+	private void addButtons(RowImpl rowImpl, ButtonFactory buttonFactory, String definition) {
 		for (int i = 0; i < definition.length(); i++) {
 			addButtonCharacter(rowImpl, buttonFactory, definition.charAt(i));
 		}
@@ -210,59 +222,68 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * @param buttonFactory factory
 	 * @param definition characters of control buttons
 	 */
-	public void addControlButtons(RowImpl rowImpl, ButtonFactory buttonFactory,
-			String definition) {
+	public void addControlButtons(RowImpl rowImpl, ButtonFactory buttonFactory, String definition) {
 		for (int i = 0; i < definition.length(); i++) {
 			String name = String.valueOf(definition.charAt(i));
-			addButton(rowImpl,
-					buttonFactory.createInputButton(name, name, name, 1.0f, false));
+			addButton(rowImpl, buttonFactory.createInputButton(name, name, name, 1.0f, false));
 		}
 	}
 
-	private void addActionButton(RowImpl rowImpl, ButtonFactory buttonFactory, Integer action,
-			float actionButtonSize) {
+	private void addActionButton(
+			RowImpl rowImpl, ButtonFactory buttonFactory, Integer action, float actionButtonSize) {
 		if (action == ACTION_SHIFT) {
-			addConstantCustomButton(rowImpl, buttonFactory, Resource.CAPS_LOCK,
-					Action.CAPS_LOCK, actionButtonSize);
+			addConstantCustomButton(
+					rowImpl, buttonFactory, Resource.CAPS_LOCK, Action.CAPS_LOCK, actionButtonSize);
 		} else if (action == ACTION_GREEK_LETTERS) {
-			String label = ""
-					+ ALPHA
-					+ BETA
-					+ GAMMA;
+			String label = "" + ALPHA + BETA + GAMMA;
 			addCustomButton(rowImpl, buttonFactory, label, Action.SWITCH_TO_GREEK_CHARACTERS);
 		} else if (action == ACTION_ABC_LETTERS) {
 			addCustomButton(rowImpl, buttonFactory, "ABC", Action.SWITCH_TO_ABC);
 		}
 	}
 
-	private void addButtonCharacter(RowImpl rowImpl,
-			ButtonFactory buttonFactory, char character) {
+	private void addButtonCharacter(RowImpl rowImpl, ButtonFactory buttonFactory, char character) {
 		String resource = String.valueOf(character);
 		switch (resource) {
-		case Accents.ACCENT_ACUTE:
-			addCustomButton(rowImpl, buttonFactory, resource,
-					Action.TOGGLE_ACCENT_ACUTE.name(), Background.STANDARD);
-			break;
-		case Accents.ACCENT_CARON:
-			addCustomButton(rowImpl, buttonFactory, resource,
-					Action.TOGGLE_ACCENT_CARON.name(), Background.STANDARD);
-			break;
-		case Accents.ACCENT_CIRCUMFLEX:
-			addCustomButton(rowImpl, buttonFactory, resource,
-					Action.TOGGLE_ACCENT_CIRCUMFLEX.name(),
-					Background.STANDARD);
-			break;
-		case Accents.ACCENT_GRAVE:
-			addCustomButton(rowImpl, buttonFactory, resource,
-					Action.TOGGLE_ACCENT_GRAVE.name(), Background.STANDARD);
-			break;
-		default:
-			addInputButton(rowImpl, buttonFactory, resource);
+			case Accents.ACCENT_ACUTE:
+				addCustomButton(
+						rowImpl,
+						buttonFactory,
+						resource,
+						Action.TOGGLE_ACCENT_ACUTE.name(),
+						Background.STANDARD);
+				break;
+			case Accents.ACCENT_CARON:
+				addCustomButton(
+						rowImpl,
+						buttonFactory,
+						resource,
+						Action.TOGGLE_ACCENT_CARON.name(),
+						Background.STANDARD);
+				break;
+			case Accents.ACCENT_CIRCUMFLEX:
+				addCustomButton(
+						rowImpl,
+						buttonFactory,
+						resource,
+						Action.TOGGLE_ACCENT_CIRCUMFLEX.name(),
+						Background.STANDARD);
+				break;
+			case Accents.ACCENT_GRAVE:
+				addCustomButton(
+						rowImpl,
+						buttonFactory,
+						resource,
+						Action.TOGGLE_ACCENT_GRAVE.name(),
+						Background.STANDARD);
+				break;
+			default:
+				addInputButton(rowImpl, buttonFactory, resource);
 		}
 	}
 
-	private void addPaddingIfNecessary(RowImpl rowImpl,
-			ButtonFactory buttonFactory, float paddingWeight) {
+	private void addPaddingIfNecessary(
+			RowImpl rowImpl, ButtonFactory buttonFactory, float paddingWeight) {
 		if (paddingWeight > MIN_PADDING_WEIGHT) {
 			addButton(rowImpl, buttonFactory.createEmptySpace(paddingWeight));
 		}

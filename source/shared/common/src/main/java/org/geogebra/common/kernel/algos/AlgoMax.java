@@ -22,14 +22,14 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Computes Max[a, b]
- * 
+ *
  * @author Markus Hohenwarterar
  */
 public class AlgoMax extends AlgoTwoNumFunction {
 
 	/**
 	 * Creates new max algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a
@@ -37,8 +37,7 @@ public class AlgoMax extends AlgoTwoNumFunction {
 	 * @param b
 	 *            second number
 	 */
-	public AlgoMax(Construction cons, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoMax(Construction cons, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, a, b);
 	}
 

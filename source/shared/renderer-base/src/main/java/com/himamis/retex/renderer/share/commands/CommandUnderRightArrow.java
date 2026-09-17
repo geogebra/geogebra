@@ -10,5 +10,4 @@ public class CommandUnderRightArrow extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new UnderOverArrowAtom(a, false, false);
 	}
-
 }

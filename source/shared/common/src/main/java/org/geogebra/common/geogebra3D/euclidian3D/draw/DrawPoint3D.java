@@ -33,20 +33,20 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
-//TODO does not extend Drawable3DCurves
+// TODO does not extend Drawable3DCurves
 
 /**
  * Class for drawing 3D points.
- * 
+ *
  * @author matthieu
- * 
+ *
  *
  */
-public class DrawPoint3D extends Drawable3DCurves
-		implements Previewable, Functional2Var {
+public class DrawPoint3D extends Drawable3DCurves implements Previewable, Functional2Var {
 
 	/** factor for drawing points */
 	public static final float DRAW_POINT_FACTOR = 1.5f;
+
 	private final DrawHalo halo;
 
 	private Coords center = new Coords(4);
@@ -58,7 +58,7 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param view3D
 	 *            view
 	 * @param point
@@ -85,8 +85,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	public void export(Geometry3DGetterManager manager, boolean exportSurface) {
 		if (isVisible()) {
 			GeoElement geo = getGeoElement();
-			manager.export(geo, getGeometryIndex(), geo.getObjectColor(), 1,
-					GeometryType.CURVE);
+			manager.export(geo, getGeometryIndex(), geo.getObjectColor(), 1, GeometryType.CURVE);
 		}
 	}
 
@@ -110,12 +109,13 @@ public class DrawPoint3D extends Drawable3DCurves
 		center.setValues(c, 3);
 
 		// warning: plotter will scale center coords
-		setGeometryIndex(getView3D().getRenderer().getGeometryManager()
+		setGeometryIndex(getView3D()
+				.getRenderer()
+				.getGeometryManager()
 				.drawPoint(this, size, center, getReusableGeometryIndex()));
 
 		// bounds
-		double radius = size / getView3D().getScale()
-				* DrawPoint3D.DRAW_POINT_FACTOR;
+		double radius = size / getView3D().getScale() * DrawPoint3D.DRAW_POINT_FACTOR;
 		boundsMin.setX(c.getX() - radius);
 		boundsMin.setY(c.getY() - radius);
 		boundsMin.setZ(c.getZ() - radius);
@@ -132,7 +132,6 @@ public class DrawPoint3D extends Drawable3DCurves
 		if (getView3D().viewChangedByZoom()) {
 			updateForItSelf();
 		}
-
 	}
 
 	@Override
@@ -145,7 +144,7 @@ public class DrawPoint3D extends Drawable3DCurves
 
 	/**
 	 * Preview constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 */
@@ -156,7 +155,6 @@ public class DrawPoint3D extends Drawable3DCurves
 		setGeoElement(a_view3D.getCursor3D());
 
 		this.halo = null;
-
 	}
 
 	@Override
@@ -187,38 +185,36 @@ public class DrawPoint3D extends Drawable3DCurves
 	public void evaluatePoint(double u, double v, Coords point) {
 		GeoPointND geoPoint = (GeoPointND) getGeoElement();
 		double r = geoPoint.getPointSize() / getView3D().getScale() * 1.5;
-		point.set(Math.cos(u) * Math.cos(v) * r, Math.sin(u) * Math.cos(v) * r,
-				Math.sin(v) * r, 1);
+		point.set(Math.cos(u) * Math.cos(v) * r, Math.sin(u) * Math.cos(v) * r, Math.sin(v) * r, 1);
 		point.setAdd3(point, geoPoint.getInhomCoordsInD3());
 	}
 
 	@Override
 	public Coords evaluateNormal(double u, double v) {
-		return new Coords(new double[] { Math.cos(u) * Math.cos(v),
-				Math.sin(u) * Math.cos(v), Math.sin(v) });
+		return new Coords(
+				new double[] {Math.cos(u) * Math.cos(v), Math.sin(u) * Math.cos(v), Math.sin(v)});
 	}
 
 	@Override
 	public double getMinParameter(int index) {
 		switch (index) {
-		case 0: // u
-		default:
-			return 0;
-		case 1: // v
-			return -Math.PI / 2;
+			case 0: // u
+			default:
+				return 0;
+			case 1: // v
+				return -Math.PI / 2;
 		}
 	}
 
 	@Override
 	public double getMaxParameter(int index) {
 		switch (index) {
-		case 0: // u
-		default:
-			return 2 * Math.PI;
-		case 1: // v
-			return Math.PI / 2;
+			case 0: // u
+			default:
+				return 2 * Math.PI;
+			case 1: // v
+				return Math.PI / 2;
 		}
-
 	}
 
 	@Override
@@ -230,8 +226,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	@Override
 	protected float getLabelOffsetY() {
 		// consistent with DrawPoint
-		return super.getLabelOffsetY()
-				- 2 * ((GeoPointND) getGeoElement()).getPointSize();
+		return super.getLabelOffsetY() - 2 * ((GeoPointND) getGeoElement()).getPointSize();
 	}
 
 	@Override
@@ -245,9 +240,7 @@ public class DrawPoint3D extends Drawable3DCurves
 		GeoPointND point = (GeoPointND) getGeoElement();
 		Coords p = point.getInhomCoordsInD3();
 
-		return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project,
-				parameters, false);
-
+		return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project, parameters, false);
 	}
 
 	@Override
@@ -256,16 +249,14 @@ public class DrawPoint3D extends Drawable3DCurves
 			GeoPointND point = (GeoPointND) getGeoElement();
 			Coords p = point.getInhomCoordsInD3();
 
-			return DrawPoint3D.hit(hitting, p, this, point.getPointSize(),
-					project, parameters, true);
+			return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project, parameters, true);
 		}
 
 		return false;
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param hitting
 	 *            hitting
 	 * @param p
@@ -282,8 +273,13 @@ public class DrawPoint3D extends Drawable3DCurves
 	 *            true if we check point size (and not threshold)
 	 * @return true if the hitting hits the point
 	 */
-	static public boolean hit(Hitting hitting, Coords p, Drawable3D drawable,
-			int pointSize, Coords project, double[] parameters,
+	public static boolean hit(
+			Hitting hitting,
+			Coords p,
+			Drawable3D drawable,
+			int pointSize,
+			Coords project,
+			double[] parameters,
 			boolean checkRealPointSize) {
 
 		p.projectLine(hitting.getOrigin(), hitting.getDirection(), project, parameters);
@@ -297,14 +293,12 @@ public class DrawPoint3D extends Drawable3DCurves
 		if (checkRealPointSize) {
 			hitOk = d <= pointSize + 2;
 		} else {
-			hitOk = d <= DrawPoint
-					.getSelectionThreshold(hitting.getThreshold());
+			hitOk = d <= DrawPoint.getSelectionThreshold(hitting.getThreshold());
 		}
 		if (hitOk) {
 			double z = -parameters[0];
 			double dz = pointSize / drawable.getView3D().getScale();
-			drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
-					parameters[0]);
+			drawable.setZPick(z + dz, z - dz, hitting.discardPositiveHits(), parameters[0]);
 			return true;
 		}
 
@@ -342,13 +336,16 @@ public class DrawPoint3D extends Drawable3DCurves
 	@Override
 	public void update() {
 		super.update();
-		boolean keyboardFocus = getView3D().getApplication().getSelectionManager()
-				.isKeyboardFocused(getGeoElement());
+		boolean keyboardFocus =
+				getView3D().getApplication().getSelectionManager().isKeyboardFocused(getGeoElement());
 		if (halo != null) {
 			halo.setIsVisible(keyboardFocus);
 			if (keyboardFocus) {
 				halo.update(
-						getLabelPosition(), 0, 0, 0,
+						getLabelPosition(),
+						0,
+						0,
+						0,
 						getGeoElement().getObjectColor(),
 						((GeoPointND) getGeoElement()).getPointSize() + 6);
 				halo.updatePosition(getView3D().getRenderer());
@@ -367,8 +364,7 @@ public class DrawPoint3D extends Drawable3DCurves
 			return;
 		}
 
-		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
-				.entrySet()) {
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace.entrySet()) {
 			ArrayList<TraceIndex> indices = settings.getValue();
 			setDrawingColor(settings.getKey().getColor());
 			// Log.debug(indices.size());
@@ -376,7 +372,6 @@ public class DrawPoint3D extends Drawable3DCurves
 				drawGeom(renderer, index);
 			}
 		}
-
 	}
 
 	@Override
@@ -396,5 +391,4 @@ public class DrawPoint3D extends Drawable3DCurves
 			halo.removeFromGL();
 		}
 	}
-
 }

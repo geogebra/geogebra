@@ -66,8 +66,7 @@ public class XMLWriter implements XMLTagWriter {
 		writer.print("\" ");
 		if ((encoding != null) && (!encoding.equals(""))) {
 			if (!XMLCharacterProperties.validEncName(encoding)) {
-				throw new RuntimeException(
-						"Invalid encoding name: " + encoding);
+				throw new RuntimeException("Invalid encoding name: " + encoding);
 			}
 			writer.print("encoding=\"");
 			writer.print(encoding);
@@ -89,8 +88,7 @@ public class XMLWriter implements XMLTagWriter {
 			throw new RuntimeException("ReferToDTD cannot be called twice");
 		}
 		dtdName = name;
-		writer.println("<!DOCTYPE " + name + " PUBLIC \"" + pid + "\" \"" + ref
-				+ "\">");
+		writer.println("<!DOCTYPE " + name + " PUBLIC \"" + pid + "\" \"" + ref + "\">");
 	}
 
 	/**
@@ -112,8 +110,8 @@ public class XMLWriter implements XMLTagWriter {
 	public void closeDoc() {
 		if (!closed) {
 			if (!openTags.isEmpty()) {
-				StringBuffer sb = new StringBuffer(
-						"Not all tags were closed before closing XML document:\n");
+				StringBuffer sb =
+						new StringBuffer("Not all tags were closed before closing XML document:\n");
 				while (!openTags.isEmpty()) {
 					sb.append("   </");
 					sb.append((String) openTags.pop());
@@ -174,8 +172,8 @@ public class XMLWriter implements XMLTagWriter {
 	public void openTag(String name) {
 		checkNameValid(name);
 		if (openTags.isEmpty() && dtdName != null && !dtdName.equals(name)) {
-			throw new RuntimeException("First tag: '" + name
-					+ "' not equal to DTD id: '" + dtdName + "'");
+			throw new RuntimeException(
+					"First tag: '" + name + "' not equal to DTD id: '" + dtdName + "'");
 		}
 		writer.print("<" + name);
 		printAttributes(name.length());
@@ -438,44 +436,43 @@ public class XMLWriter implements XMLTagWriter {
 		for (int i = 0; i < len; i++) {
 			char ch = s.charAt(i);
 			switch (ch) {
-			case '<': {
-				str.append("&lt;");
-				break;
-			}
-			case '>': {
-				str.append("&gt;");
-				break;
-			}
-			case '&': {
-				str.append("&amp;");
-				break;
-			}
-			case '"': {
-				str.append("&quot;");
-				break;
-			}
-			case '\r':
-			case '\n': {
-				str.append("&#");
-				str.append(Integer.toString(ch));
-				str.append(';');
-				break;
-			}
-			default: {
-				if (ch > 0x00FF) {
-					String hex = "0000" + Integer.toHexString(ch);
-					str.append("&#x");
-					str.append(hex.substring(hex.length() - 4));
-					str.append(';');
-				} else {
-					str.append(ch);
+				case '<': {
+					str.append("&lt;");
+					break;
 				}
-			}
+				case '>': {
+					str.append("&gt;");
+					break;
+				}
+				case '&': {
+					str.append("&amp;");
+					break;
+				}
+				case '"': {
+					str.append("&quot;");
+					break;
+				}
+				case '\r':
+				case '\n': {
+					str.append("&#");
+					str.append(Integer.toString(ch));
+					str.append(';');
+					break;
+				}
+				default: {
+					if (ch > 0x00FF) {
+						String hex = "0000" + Integer.toHexString(ch);
+						str.append("&#x");
+						str.append(hex.substring(hex.length() - 4));
+						str.append(';');
+					} else {
+						str.append(ch);
+					}
+				}
 			}
 		}
 
 		return str.toString();
-
 	} // normalize(String):String
 
 	/** Normalizes the given string for Text */
@@ -486,28 +483,28 @@ public class XMLWriter implements XMLTagWriter {
 		for (int i = 0; i < len; i++) {
 			char ch = s.charAt(i);
 			switch (ch) {
-			case '<': {
-				str.append("&lt;");
-				break;
-			}
-			case '>': {
-				str.append("&gt;");
-				break;
-			}
-			case '&': {
-				str.append("&amp;");
-				break;
-			}
-			default: {
-				if (ch > 0x007f) {
-					String hex = "0000" + Integer.toHexString(ch);
-					str.append("&#x");
-					str.append(hex.substring(hex.length() - 4));
-					str.append(';');
-				} else {
-					str.append(ch);
+				case '<': {
+					str.append("&lt;");
+					break;
 				}
-			}
+				case '>': {
+					str.append("&gt;");
+					break;
+				}
+				case '&': {
+					str.append("&amp;");
+					break;
+				}
+				default: {
+					if (ch > 0x007f) {
+						String hex = "0000" + Integer.toHexString(ch);
+						str.append("&#x");
+						str.append(hex.substring(hex.length() - 4));
+						str.append(';');
+					} else {
+						str.append(ch);
+					}
+				}
 			}
 		}
 		return str.toString();

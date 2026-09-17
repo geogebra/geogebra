@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,7 +51,9 @@ class JSONParserGGTTests {
 		assertEquals(Material.MaterialType.ggb, material.getType());
 		assertEquals("O", material.getVisibility());
 		assertEquals("https://ggbm.at/PB9Npbe7", material.getURL());
-		assertEquals("https://cdn.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.png", material.getPreviewURL());
+		assertEquals(
+				"https://cdn.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.png",
+				material.getPreviewURL());
 		// for Tube API, this is the base64-encoded thumbnail image
 		assertNotNull(material.getThumbnail());
 		assertTrue(material.thumbnailIsBase64());
@@ -71,7 +73,9 @@ class JSONParserGGTTests {
 		assertTrue(material.isDeleted());
 		assertEquals("3D Coordinate Systems", material.getTitle());
 		assertEquals("O", material.getVisibility());
-		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb.png", material.getThumbnail());
+		assertEquals(
+				"https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb.png",
+				material.getThumbnail());
 	}
 
 	// Sample response: https://api.geogebra.org/v1.0/materials/gfnbcfxx
@@ -102,8 +106,12 @@ class JSONParserGGTTests {
 		assertEquals("PB9Npbe7", parent.getSharingKeySafe());
 		assertSame(Material.MaterialType.ggb, material.getType());
 		assertEquals("3D Coordinate Systems", material.getTitle());
-		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.ggb", material.getURL());
-		assertEquals("https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb$1.png", material.getThumbnail());
+		assertEquals(
+				"https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q.ggb",
+				material.getURL());
+		assertEquals(
+				"https://www.geogebra.org/resource/Xsjejd9Q/Sse8BEEfloHR17hz/material-Xsjejd9Q-thumb$1.png",
+				material.getThumbnail());
 		assertTrue(material.getUndoRedo());
 		assertFalse(material.hasCas());
 		assertTrue(material.has3d());
@@ -123,8 +131,12 @@ class JSONParserGGTTests {
 		assertTrue(material.isSharedWithGroup());
 		assertEquals("multipage", material.getTitle());
 		assertEquals("", material.getURL());
-		assertEquals("http://tafel.dlb-dev01.alp-dlg.net/files/k/kg/kgmqpmpf/4k1XSuRpjVWnqCSu/kgmqpmpf.ggs", material.getFileName());
-		assertEquals("http://tafel.dlb-dev01.alp-dlg.net/files/k/kg/kgmqpmpf/4k1XSuRpjVWnqCSu/kgmqpmpf-thumb.png", material.getThumbnail());
+		assertEquals(
+				"http://tafel.dlb-dev01.alp-dlg.net/files/k/kg/kgmqpmpf/4k1XSuRpjVWnqCSu/kgmqpmpf.ggs",
+				material.getFileName());
+		assertEquals(
+				"http://tafel.dlb-dev01.alp-dlg.net/files/k/kg/kgmqpmpf/4k1XSuRpjVWnqCSu/kgmqpmpf-thumb.png",
+				material.getThumbnail());
 	}
 
 	private String getContentsOf(String testResourcesFileName) throws Exception {

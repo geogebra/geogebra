@@ -46,8 +46,8 @@ public class AlgoTrigExpand extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoTrigExpand(Construction cons, String label,
-			CasEvaluableFunction f, GeoFunction target, EvalInfo info) {
+	public AlgoTrigExpand(
+			Construction cons, String label, CasEvaluableFunction f, GeoFunction target, EvalInfo info) {
 		super(cons, f, Commands.TrigExpand, info);
 		this.target = target;
 		setInputOutput();
@@ -58,10 +58,10 @@ public class AlgoTrigExpand extends AlgoCasBase {
 	@Override
 	public void setInputOutput() {
 		if (target != null) {
-			input = new GeoElement[] { f.toGeoElement(), target };
+			input = new GeoElement[] {f.toGeoElement(), target};
 
 		} else {
-			input = new GeoElement[] { f.toGeoElement() };
+			input = new GeoElement[] {f.toGeoElement()};
 		}
 		setOnlyOutput(g);
 		setDependencies();

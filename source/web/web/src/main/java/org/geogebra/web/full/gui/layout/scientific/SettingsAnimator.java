@@ -35,15 +35,9 @@ public final class SettingsAnimator extends Animator {
 	public SettingsAnimator(GeoGebraFrameW frame, Widget animatable) {
 		super(frame, animatable);
 
-		largeScreenAnimation =
-				new Animation(
-						"panelFadeIn",
-						"panelFadeOut");
+		largeScreenAnimation = new Animation("panelFadeIn", "panelFadeOut");
 		largeScreenAnimation.setFadeAnimation(true);
 
-		smallScreenAnimation =
-				new Animation(
-						"animateInFromRight",
-						"animateOutToRight");
+		smallScreenAnimation = new Animation("animateInFromRight", "animateOutToRight");
 	}
 }

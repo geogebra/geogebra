@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -75,8 +75,7 @@ public class AlgoPathParameter extends AlgoElement {
 		Path p = point.getPath();
 
 		value.setValue(PathNormalizer.toNormalizedPathParameter(
-				point.getPathParameter().getT(), p.getMinParameter(),
-				p.getMaxParameter()));
+				point.getPathParameter().getT(), p.getMinParameter(), p.getMaxParameter()));
 	}
 
 	/**
@@ -85,5 +84,4 @@ public class AlgoPathParameter extends AlgoElement {
 	public GeoNumeric getResult() {
 		return value;
 	}
-
 }

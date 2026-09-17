@@ -44,7 +44,7 @@ public class CmdVertex extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -59,109 +59,102 @@ public class CmdVertex extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		// Vertex[ <GeoConic> ]
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoConic()) {
+			// Vertex[ <GeoConic> ]
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoConic()) {
 
-				AlgoVertexConic algo = newAlgoVertexConic(cons, c.getLabels(),
-						(GeoConicND) arg[0]);
+					AlgoVertexConic algo = newAlgoVertexConic(cons, c.getLabels(), (GeoConicND) arg[0]);
 
-				return (GeoElement[]) algo.getVertex();
-			}
-			if (arg[0] instanceof GeoPoly) {
+					return (GeoElement[]) algo.getVertex();
+				}
+				if (arg[0] instanceof GeoPoly) {
 
-				AlgoVertexPolygon algo = kernel.getAlgoDispatcher()
-						.newAlgoVertexPolygon(cons, c.getLabels(),
-								(GeoPoly) arg[0]);
+					AlgoVertexPolygon algo = kernel
+							.getAlgoDispatcher()
+							.newAlgoVertexPolygon(cons, c.getLabels(), (GeoPoly) arg[0]);
 
-				return algo.getVertex();
-			}
-			if (arg[0] instanceof GeoFunctionNVar) {
+					return algo.getVertex();
+				}
+				if (arg[0] instanceof GeoFunctionNVar) {
 
-				AlgoVertexIneq algo = new AlgoVertexIneq(cons, c.getLabels(),
-						(GeoFunctionNVar) arg[0]);
+					AlgoVertexIneq algo = new AlgoVertexIneq(cons, c.getLabels(), (GeoFunctionNVar) arg[0]);
 
-				return algo.getVertex();
-			} else if (arg[0] instanceof GeoNumberValue) {
-				GeoElement[] ret = {
-						(GeoElement) cornerOfDrawingPad(c.getLabel(),
-								(GeoNumberValue) arg[0], null) };
-				return ret;
-			} else {
-				throw argErr(c, arg[0]);
-			}
-
-			// Corner[ <Image>, <number> ]
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoPoly)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-
-				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons,
-						c.getLabel(), (GeoPoly) arg[0],
-						(GeoNumberValue) arg[1]);
-
-				GeoElement[] ret = { (GeoElement) algo.getOneVertex() };
-				return ret;
-			} else if ((ok[0] = arg[0].isGeoImage())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-
-				AlgoImageCorner algo = new AlgoImageCorner(cons, c.getLabel(),
-						(GeoImage) arg[0], (GeoNumberValue) arg[1]);
-
-				GeoElement[] ret = { algo.getCorner() };
-				return ret;
-			}
-			// Corner[ <Text>, <number> ]
-			else if ((ok[0] = arg[0] instanceof HasCorners)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-
-				AlgoTextCorner algo = new AlgoTextCorner(cons, c.getLabel(),
-						(HasCorners) arg[0], (GeoNumberValue) arg[1]);
-
-				GeoElement[] ret = { algo.getCorner() };
-				return ret;
-			} else if ((ok[0] = arg[0].isGeoSegment())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-
-				GeoSegmentND segment = (GeoSegmentND) arg[0];
-
-				GeoElement P = (GeoElement) segment.getStartPoint();
-				GeoElement Q = (GeoElement) segment.getEndPoint();
-
-				// P and Q should either be both 2D or both 3D
-				if (P.getGeoClassType().equals(Q.getGeoClassType())) {
-
-					AlgoVertexSegment algo = new AlgoVertexSegment(cons,
-							c.getLabel(), (GeoSegmentND) arg[0],
-							(GeoNumberValue) arg[1]);
-
-					GeoElement[] ret = { (GeoElement) algo.getPoint() };
+					return algo.getVertex();
+				} else if (arg[0] instanceof GeoNumberValue) {
+					GeoElement[] ret = {
+						(GeoElement) cornerOfDrawingPad(c.getLabel(), (GeoNumberValue) arg[0], null)
+					};
 					return ret;
+				} else {
+					throw argErr(c, arg[0]);
 				}
 
-				throw argErr(c, arg[0]);
-			} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = {
-						(GeoElement) cornerOfDrawingPad(c.getLabel(),
-								(GeoNumberValue) arg[1],
-								(GeoNumberValue) arg[0]) };
-				return ret;
+			// Corner[ <Image>, <number> ]
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoPoly) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-			} else {
-				throw argErr(c, getBadArg(ok, arg));
-			}
+					AlgoVertexPolygon algo =
+							newAlgoVertexPolygon(cons, c.getLabel(), (GeoPoly) arg[0], (GeoNumberValue) arg[1]);
 
-		default:
-			throw argNumErr(c);
+					GeoElement[] ret = {(GeoElement) algo.getOneVertex()};
+					return ret;
+				} else if ((ok[0] = arg[0].isGeoImage()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
+
+					AlgoImageCorner algo =
+							new AlgoImageCorner(cons, c.getLabel(), (GeoImage) arg[0], (GeoNumberValue) arg[1]);
+
+					GeoElement[] ret = {algo.getCorner()};
+					return ret;
+				}
+				// Corner[ <Text>, <number> ]
+				else if ((ok[0] = arg[0] instanceof HasCorners)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+
+					AlgoTextCorner algo =
+							new AlgoTextCorner(cons, c.getLabel(), (HasCorners) arg[0], (GeoNumberValue) arg[1]);
+
+					GeoElement[] ret = {algo.getCorner()};
+					return ret;
+				} else if ((ok[0] = arg[0].isGeoSegment()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
+
+					GeoSegmentND segment = (GeoSegmentND) arg[0];
+
+					GeoElement P = (GeoElement) segment.getStartPoint();
+					GeoElement Q = (GeoElement) segment.getEndPoint();
+
+					// P and Q should either be both 2D or both 3D
+					if (P.getGeoClassType().equals(Q.getGeoClassType())) {
+
+						AlgoVertexSegment algo = new AlgoVertexSegment(
+								cons, c.getLabel(), (GeoSegmentND) arg[0], (GeoNumberValue) arg[1]);
+
+						GeoElement[] ret = {(GeoElement) algo.getPoint()};
+						return ret;
+					}
+
+					throw argErr(c, arg[0]);
+				} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+					GeoElement[] ret = {
+						(GeoElement)
+								cornerOfDrawingPad(c.getLabel(), (GeoNumberValue) arg[1], (GeoNumberValue) arg[0])
+					};
+					return ret;
+
+				} else {
+					throw argErr(c, getBadArg(ok, arg));
+				}
+
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * Corner of Drawing Pad Michael Borcherds 2008-05-10
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param number
@@ -170,10 +163,8 @@ public class CmdVertex extends CommandProcessor {
 	 *            view index
 	 * @return view corner
 	 */
-	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number,
-			GeoNumberValue ev) {
-		AlgoDrawingPadCorner algo = new AlgoDrawingPadCorner(cons, label,
-				number, ev);
+	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number, GeoNumberValue ev) {
+		AlgoDrawingPadCorner algo = new AlgoDrawingPadCorner(cons, label, number, ev);
 		return algo.getCorner();
 	}
 
@@ -188,8 +179,8 @@ public class CmdVertex extends CommandProcessor {
 	 *            vertex index
 	 * @return algo for one of the corners of a polygon/polyline
 	 */
-	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons1,
-			String label, GeoPoly p, GeoNumberValue v) {
+	protected AlgoVertexPolygon newAlgoVertexPolygon(
+			Construction cons1, String label, GeoPoly p, GeoNumberValue v) {
 		return new AlgoVertexPolygon(cons1, label, p, v);
 	}
 
@@ -202,9 +193,8 @@ public class CmdVertex extends CommandProcessor {
 	 *            conic
 	 * @return algo for "corners" of a conic
 	 */
-	protected AlgoVertexConic newAlgoVertexConic(Construction cons1,
-			String[] labels, GeoConicND conic) {
+	protected AlgoVertexConic newAlgoVertexConic(
+			Construction cons1, String[] labels, GeoConicND conic) {
 		return new AlgoVertexConic(cons1, labels, conic);
 	}
-
 }

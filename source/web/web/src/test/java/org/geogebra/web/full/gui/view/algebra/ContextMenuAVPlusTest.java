@@ -29,45 +29,42 @@ import org.junit.runner.RunWith;
 @RunWith(GgbMockitoTestRunner.class)
 public class ContextMenuAVPlusTest {
 
-    @Test
-    public void imageToolShownIfAppHasToolbar() {
-        AppletParameters articleElement =
-                new AppletParameters("classic")
-                    .setAttribute("showToolBar", "true");
-        AppWFull app = AppMocker.mockApplet(articleElement);
+	@Test
+	public void imageToolShownIfAppHasToolbar() {
+		AppletParameters articleElement =
+				new AppletParameters("classic").setAttribute("showToolBar", "true");
+		AppWFull app = AppMocker.mockApplet(articleElement);
 
-        RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
+		RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
 
-        ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
-        contextMenuAVPlus.setLabels();
-        assertThat(contextMenuAVPlus.hasImageItem(), equalTo(true));
-    }
+		ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
+		contextMenuAVPlus.setLabels();
+		assertThat(contextMenuAVPlus.hasImageItem(), equalTo(true));
+	}
 
-    @Test
-    public void noImageToolIfShowToolbarIsFalse() {
-        AppletParameters articleElement =
-                new AppletParameters("classic")
-                        .setAttribute("showToolBar", "false");
-        AppWFull app = AppMocker.mockApplet(articleElement);
+	@Test
+	public void noImageToolIfShowToolbarIsFalse() {
+		AppletParameters articleElement =
+				new AppletParameters("classic").setAttribute("showToolBar", "false");
+		AppWFull app = AppMocker.mockApplet(articleElement);
 
-        RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
+		RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
 
-        ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
-        contextMenuAVPlus.setLabels();
-        assertThat(contextMenuAVPlus.hasImageItem(), equalTo(false));
-    }
+		ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
+		contextMenuAVPlus.setLabels();
+		assertThat(contextMenuAVPlus.hasImageItem(), equalTo(false));
+	}
 
-    @Test
-    public void noImageToolIfCustomToolbarHasNoImageTool() {
-        AppletParameters articleElement =
-                new AppletParameters("classic")
-                        .setAttribute("customToolBar", "1 2");
-        AppWFull app = AppMocker.mockApplet(articleElement);
+	@Test
+	public void noImageToolIfCustomToolbarHasNoImageTool() {
+		AppletParameters articleElement =
+				new AppletParameters("classic").setAttribute("customToolBar", "1 2");
+		AppWFull app = AppMocker.mockApplet(articleElement);
 
-        RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
+		RadioTreeItem radioTreeItem = new LaTeXTreeItem(app.getKernel(), app.getAlgebraView());
 
-        ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
-        contextMenuAVPlus.setLabels();
-        assertThat(contextMenuAVPlus.hasImageItem(), equalTo(false));
-    }
+		ContextMenuAVPlus contextMenuAVPlus = new ContextMenuAVPlus(radioTreeItem);
+		contextMenuAVPlus.setLabels();
+		assertThat(contextMenuAVPlus.hasImageItem(), equalTo(false));
+	}
 }

@@ -25,13 +25,13 @@ import org.geogebra.common.main.MyError;
 /**
  * Abstract class for Commands with two numerical arguments eg Binomial[
  * &lt;Number&gt;, &lt;Number&gt; ].
- * 
+ *
  * @author Michael Borcherds
  */
 public abstract class CmdTwoNumFunction extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,38 +45,36 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((arg[0] instanceof GeoNumberValue) && (arg[1] instanceof GeoNumberValue)) {
+					GeoElement[] ret = {
+						doCommand(c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1])
+					};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		case 2:
-			arg = resArgs(c, info);
-			if ((arg[0] instanceof GeoNumberValue)
-					&& (arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { doCommand(c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]) };
-				return ret;
+			case 3: // return list of results
+				arg = resArgs(c, info);
+				if ((arg[0] instanceof GeoNumberValue)
+						&& (arg[1] instanceof GeoNumberValue)
+						&& (arg[2] instanceof GeoNumberValue)) {
+					GeoElement[] ret = {
+						doCommand2(c, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue) arg[2])
+					};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-			}
-			throw argErr(c, arg[0]);
-
-		case 3: // return list of results
-			arg = resArgs(c, info);
-			if ((arg[0] instanceof GeoNumberValue)
-					&& (arg[1] instanceof GeoNumberValue)
-					&& (arg[2] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { doCommand2(c, (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
-				return ret;
-
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * Perform the actual command
-	 * 
+	 *
 	 * @param b
 	 *            first number
 	 * @param c
@@ -85,12 +83,11 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 	 *            label
 	 * @return resulting element
 	 */
-	abstract protected GeoElement doCommand(String a, GeoNumberValue b,
-			GeoNumberValue c);
+	protected abstract GeoElement doCommand(String a, GeoNumberValue b, GeoNumberValue c);
 
 	/**
 	 * Perform the actual command
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param a
@@ -101,8 +98,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 	 *            third arg
 	 * @return resulting element
 	 */
-	protected GeoElement doCommand2(Command c, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue d) {
+	protected GeoElement doCommand2(Command c, GeoNumberValue a, GeoNumberValue b, GeoNumberValue d) {
 		throw argNumErr(c);
 	}
 }

@@ -52,7 +52,7 @@ public interface AutoCompleteDictionary extends Iterable<String> {
 	 *            Typically, the closest matching string that completely
 	 *            contains the given string is returned.
 	 * @return null if no matching string, the closest matching string otherwise
-	 * 
+	 *
 	 */
 	String lookup(String s);
 

@@ -56,8 +56,11 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	 * @param factory
 	 *            controls factory
 	 */
-	public AccessibleGeoElement(final GeoElement geo, final App app,
-			final AccessibilityView view, BaseWidgetFactory factory) {
+	public AccessibleGeoElement(
+			final GeoElement geo,
+			final App app,
+			final AccessibilityView view,
+			BaseWidgetFactory factory) {
 		this.geo = geo;
 		this.label = factory.newLabel();
 		this.button = factory.newButton();
@@ -80,8 +83,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	}
 
 	private ScreenReaderBuilder getBuilder() {
-		return new ScreenReaderBuilder(geo.getKernel().getLocalization(),
-				NavigatorUtil.isMobile());
+		return new ScreenReaderBuilder(geo.getKernel().getLocalization(), NavigatorUtil.isMobile());
 	}
 
 	@Override
@@ -118,5 +120,4 @@ public class AccessibleGeoElement implements AccessibleWidget {
 
 		return null;
 	}
-
 }

@@ -36,15 +36,15 @@ final class ViewportAdjuster {
 
 	private final TableLayout layout;
 	private final ViewportAdjusterDelegate viewportAdjusterDelegate;
-	private final static int SCROLL_INCREMENT = 2;
-	private final static int SCROLL_AMOUNT_FOR_PASTE_SELECTION = 7;
+	private static final int SCROLL_INCREMENT = 2;
+	private static final int SCROLL_AMOUNT_FOR_PASTE_SELECTION = 7;
 
 	/**
 	 * @param layout TableLayout
 	 * @param viewportAdjusterDelegate ViewportAdjustmentHandler
 	 */
-	ViewportAdjuster(@NonNull TableLayout layout,
-			@NonNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
+	ViewportAdjuster(
+			@NonNull TableLayout layout, @NonNull ViewportAdjusterDelegate viewportAdjusterDelegate) {
 		this.layout = layout;
 		this.viewportAdjusterDelegate = viewportAdjusterDelegate;
 	}
@@ -65,8 +65,7 @@ final class ViewportAdjuster {
 
 		if (scrollAmountX != 0 || scrollAmountY != 0) {
 			viewportAdjusterDelegate.setScrollPosition(
-					viewport.getMinX() + scrollAmountX,
-					viewport.getMinY() + scrollAmountY);
+					viewport.getMinX() + scrollAmountX, viewport.getMinY() + scrollAmountY);
 			return viewport.translatedBy(scrollAmountX, scrollAmountY);
 		}
 		return viewport;
@@ -82,8 +81,7 @@ final class ViewportAdjuster {
 	 * (horizontally)
 	 * @return new viewport
 	 */
-	Rectangle scrollForDrag(double x, double y, Rectangle viewport,
-			boolean extendVertically) {
+	Rectangle scrollForDrag(double x, double y, Rectangle viewport, boolean extendVertically) {
 		double viewportWidth = viewport.getWidth();
 		double viewportHeight = viewport.getHeight();
 		double scrollAmountX = 0;
@@ -115,14 +113,16 @@ final class ViewportAdjuster {
 		double scrollAmountX = 0;
 		boolean scrolledRight = false;
 		if (shouldAdjustViewportHorizontallyRightwards(column, viewport)) {
-			scrollAmountX = Math.ceil(layout.getMinX(column + 1) - viewport.getMinX()
-					+ layout.getRowHeaderWidth() - viewport.getWidth()
-					+ viewportAdjusterDelegate.getScrollBarWidth() + SCROLL_INCREMENT);
+			scrollAmountX = Math.ceil(layout.getMinX(column + 1)
+					- viewport.getMinX()
+					+ layout.getRowHeaderWidth()
+					- viewport.getWidth()
+					+ viewportAdjusterDelegate.getScrollBarWidth()
+					+ SCROLL_INCREMENT);
 			scrolledRight = true;
 		}
 		if (shouldAdjustViewportHorizontallyLeftwards(column, viewport)) {
-			scrollAmountX = scrolledRight ? 0
-					: -Math.floor(viewport.getMinX() - layout.getMinX(column));
+			scrollAmountX = scrolledRight ? 0 : -Math.floor(viewport.getMinX() - layout.getMinX(column));
 		}
 		return scrollAmountX;
 	}
@@ -131,15 +131,17 @@ final class ViewportAdjuster {
 		double scrollAmountY = 0;
 		boolean scrolledDown = false;
 		if (shouldAdjustViewportVerticallyDownwards(row, viewport)) {
-			scrollAmountY = Math.ceil(layout.getMinY(row + 1) - viewport.getMinY()
-					+ layout.getColumnHeaderHeight() - viewport.getHeight()
-					+ viewportAdjusterDelegate.getScrollBarWidth() + SCROLL_INCREMENT
+			scrollAmountY = Math.ceil(layout.getMinY(row + 1)
+					- viewport.getMinY()
+					+ layout.getColumnHeaderHeight()
+					- viewport.getHeight()
+					+ viewportAdjusterDelegate.getScrollBarWidth()
+					+ SCROLL_INCREMENT
 					+ viewportAdjusterDelegate.getViewportInsets().getBottom());
 			scrolledDown = true;
 		}
 		if (shouldAdjustViewportVerticallyUpwards(row, viewport)) {
-			scrollAmountY = scrolledDown ? 0
-					: -Math.floor(viewport.getMinY() - layout.getMinY(row));
+			scrollAmountY = scrolledDown ? 0 : -Math.floor(viewport.getMinY() - layout.getMinY(row));
 		}
 		return scrollAmountY;
 	}
@@ -161,8 +163,9 @@ final class ViewportAdjuster {
 			return false;
 		}
 		return layout.getMinY(row + 1) - viewport.getMinY() + layout.getColumnHeaderHeight()
-				> viewport.getHeight() - viewportAdjusterDelegate.getScrollBarWidth()
-				- viewportAdjusterDelegate.getViewportInsets().getBottom();
+				> viewport.getHeight()
+						- viewportAdjusterDelegate.getScrollBarWidth()
+						- viewportAdjusterDelegate.getViewportInsets().getBottom();
 	}
 
 	private boolean shouldAdjustViewportVerticallyUpwards(int row, Rectangle viewport) {

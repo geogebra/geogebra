@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -37,6 +37,7 @@ public final class PerspectivesMenuW extends Submenu {
 
 	/** Application */
 	AppW app;
+
 	private final ExamController examController;
 
 	/**
@@ -64,7 +65,7 @@ public final class PerspectivesMenuW extends Submenu {
 				addItem(MainMenu.getMenuBarItem(
 						GuiResources.INSTANCE.menu_icon_exam24(),
 						app.getLocalization().getMenu("exam_menu_entry"), // "Exam
-																					// Mode"
+						// Mode"
 						new MenuCommand(app) {
 							@Override
 							void doExecute() {
@@ -80,10 +81,8 @@ public final class PerspectivesMenuW extends Submenu {
 		if (perspective == null) {
 			return;
 		}
-		AriaMenuItem item = addItem(MainMenu.getMenuBarItem(icon,
-				app.getLocalization()
-						.getMenu(perspective.getId()),
-				new MenuCommand(app) {
+		AriaMenuItem item = addItem(MainMenu.getMenuBarItem(
+				icon, app.getLocalization().getMenu(perspective.getId()), new MenuCommand(app) {
 
 					@Override
 					void doExecute() {
@@ -112,8 +111,7 @@ public final class PerspectivesMenuW extends Submenu {
 	 */
 	static void setPerspective(AppW app, Perspective perspective) {
 		app.persistWidthAndHeight();
-		boolean changed = app.getGuiManager().getLayout()
-				.applyPerspective(perspective);
+		boolean changed = app.getGuiManager().getLayout().applyPerspective(perspective);
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
 		// set active perspective for highlighting
@@ -122,8 +120,7 @@ public final class PerspectivesMenuW extends Submenu {
 		if (StringUtil.emptyOrZero(app.getTubeId())
 				&& StringUtil.empty(app.getAppletParameters().getParamFeatureSet())
 				&& app.getAppletParameters().getDataParamApp()) {
-			Browser.changeMetaTitle(app.getLocalization()
-					.getMenu(perspective.getId()));
+			Browser.changeMetaTitle(app.getLocalization().getMenu(perspective.getId()));
 			Browser.changeUrl("/classic#" + perspective.getSlug());
 		}
 		if (changed) {

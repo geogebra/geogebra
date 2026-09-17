@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  * Translation
- * 
+ *
  */
 public class TransformTranslate3D extends Transform {
 
@@ -47,5 +47,4 @@ public class TransformTranslate3D extends Transform {
 		AlgoTranslate3D algo = new AlgoTranslate3D(cons, geo, transVec);
 		return algo;
 	}
-
 }

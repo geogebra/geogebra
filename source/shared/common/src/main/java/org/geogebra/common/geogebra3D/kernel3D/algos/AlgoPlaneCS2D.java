@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 
 /**
  * Create a plane containing a 2D coord sys
- * 
+ *
  * @author ggb3D
  *
  */
@@ -52,9 +52,7 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 		cs = new GeoPlane3D(c);
 
 		// set input and output
-		setInputOutput(new GeoElement[] { (GeoElement) csInput },
-				new GeoElement[] { (GeoElement) cs });
-
+		setInputOutput(new GeoElement[] {(GeoElement) csInput}, new GeoElement[] {(GeoElement) cs});
 	}
 
 	@Override
@@ -74,12 +72,11 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 		if (coordsys.isDefined()) {
 			coordsys.makeEquationVector();
 		}
-
 	}
 
 	/**
 	 * return the cs
-	 * 
+	 *
 	 * @return the cs
 	 */
 	public GeoCoordSys2D getCoordSys() {
@@ -92,10 +89,7 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PlaneContainingA",
-				csInput.getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc().getPlain("PlaneContainingA", csInput.getLabel(tpl));
 	}
-
 }

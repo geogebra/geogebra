@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 /**
  * Decrypts using the EEXEC form (Used by Type 1 fonts).
- * 
+ *
  * @author Simon Fischer
  * @version $Id: EEXECDecryption.java,v 1.3 2008-05-04 12:22:11 murkle Exp $
  */
@@ -21,7 +21,7 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 
 	/**
 	 * Creates an EEXECDecryption from the given stream
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 */
@@ -31,7 +31,7 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 
 	/**
 	 * Creates an EEXECDecryption from the given stream
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 * @param r
@@ -59,7 +59,8 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 			for (int i = 0; i < bytes.length; i++) {
 				int c = in.read();
 				bytes[i] = (byte) c;
-				if (!Character.isDigit((char) c) && !((c >= 'a') && (c <= 'f'))
+				if (!Character.isDigit((char) c)
+						&& !((c >= 'a') && (c <= 'f'))
 						&& !((c >= 'A') && (c <= 'F'))) {
 					notHex = true;
 				}
@@ -69,8 +70,7 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 					decrypt(bytes[i] & 0x00ff);
 				}
 			} else {
-				InputStream tempIn = new ASCIIHexInputStream(
-						new ByteArrayInputStream(bytes), true);
+				InputStream tempIn = new ASCIIHexInputStream(new ByteArrayInputStream(bytes), true);
 				int asciiDecoded;
 				int byteCount = 0;
 				while ((asciiDecoded = tempIn.read()) >= 0) {
@@ -84,7 +84,6 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 					decrypt(in.read());
 					byteCount++;
 				}
-
 			}
 			first = false;
 		}

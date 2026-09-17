@@ -35,5 +35,4 @@ public interface HasFaces {
 	 * @return total number of faces
 	 */
 	int getFacesSize();
-
 }

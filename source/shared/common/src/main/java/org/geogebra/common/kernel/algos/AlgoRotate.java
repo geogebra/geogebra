@@ -39,8 +39,7 @@ public class AlgoRotate extends AlgoTransformation {
 	/**
 	 * Creates new generic rotation algo
 	 */
-	AlgoRotate(Construction cons, String label, GeoElement A,
-			GeoNumberValue angle) {
+	AlgoRotate(Construction cons, String label, GeoElement A, GeoNumberValue angle) {
 		this(cons, A, angle);
 		outGeo.setLabel(label);
 	}
@@ -88,7 +87,7 @@ public class AlgoRotate extends AlgoTransformation {
 
 	/**
 	 * Returns the rotated object
-	 * 
+	 *
 	 * @return rotated object
 	 */
 	@Override
@@ -104,8 +103,7 @@ public class AlgoRotate extends AlgoTransformation {
 			return;
 		}
 		if (inGeo instanceof GeoFunction) {
-			((GeoFunction) inGeo)
-					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
+			((GeoFunction) inGeo).toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else {
 			setOutGeo();
 		}
@@ -122,10 +120,13 @@ public class AlgoRotate extends AlgoTransformation {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("ARotatedByAngleB",
-				"%0 rotated by angle %1",
-				inGeo.getLabel(tpl), angleGeo.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault(
+						"ARotatedByAngleB",
+						"%0 rotated by angle %1",
+						inGeo.getLabel(tpl),
+						angleGeo.getLabel(tpl));
 	}
 
 	@Override
@@ -146,5 +147,4 @@ public class AlgoRotate extends AlgoTransformation {
 	public double getAreaScaleFactor() {
 		return 1;
 	}
-
 }

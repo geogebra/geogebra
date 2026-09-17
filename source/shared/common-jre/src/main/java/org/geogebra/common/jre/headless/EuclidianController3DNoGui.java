@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,7 +43,5 @@ public class EuclidianController3DNoGui extends EuclidianController3D {
 	@Override
 	public void setView(EuclidianView view) {
 		super.setView3D(view);
-
 	}
-
 }

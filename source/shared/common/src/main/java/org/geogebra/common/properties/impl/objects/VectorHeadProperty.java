@@ -51,8 +51,7 @@ public class VectorHeadProperty extends AbstractEnumeratedProperty<VectorHeadSty
 	@Override
 	public PropertyResource[] getValueIcons() {
 		return new PropertyResource[] {
-				PropertyResource.ICON_VECTOR_DECO_DEFAULT,
-				PropertyResource.ICON_VECTOR_DECO_ARROW
+			PropertyResource.ICON_VECTOR_DECO_DEFAULT, PropertyResource.ICON_VECTOR_DECO_ARROW
 		};
 	}
 

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,9 +36,9 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Utility class with methods to handle importing data into the spreadsheet.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class DataImportD extends DataImport {
 
@@ -65,7 +65,7 @@ public class DataImportD extends DataImport {
 	 * DataFlavor is "text/html;class=java.lang.String" an attempt is made to
 	 * convert the transferable object into a CSV string (e.g. data transferred
 	 * from Excel)
-	 * 
+	 *
 	 * @param contents clipboard contents
 	 * @return contents as string
 	 */
@@ -81,8 +81,8 @@ public class DataImportD extends DataImport {
 		// try to extract a string from the Transferable
 		try {
 			if (hasHTMLFlavor(contents)) {
-				transferString = DataImportD.convertHTMLTableToCSV(
-						(String) contents.getTransferData(HTMLflavor));
+				transferString =
+						DataImportD.convertHTMLTableToCSV((String) contents.getTransferData(HTMLflavor));
 			}
 
 		} catch (UnsupportedFlavorException | IOException e) {
@@ -90,11 +90,9 @@ public class DataImportD extends DataImport {
 		}
 
 		// no HTML found, try plain text
-		if (transferString == null
-				&& contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+		if (transferString == null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 			try {
-				transferString = (String) contents
-						.getTransferData(DataFlavor.stringFlavor);
+				transferString = (String) contents.getTransferData(DataFlavor.stringFlavor);
 			} catch (Exception ex) {
 				Log.debug("transferable has no String");
 			}
@@ -132,8 +130,7 @@ public class DataImportD extends DataImport {
 							}
 						}
 
-						if (containsComma && (data[0] != '"'
-								|| data[data.length - 1] != '"')) {
+						if (containsComma && (data[0] != '"' || data[data.length - 1] != '"')) {
 							appendQuotes = true;
 						}
 
@@ -150,8 +147,7 @@ public class DataImportD extends DataImport {
 				}
 
 				@Override
-				public void handleStartTag(HTML.Tag tag,
-						MutableAttributeSet attrSet, int pos) {
+				public void handleStartTag(HTML.Tag tag, MutableAttributeSet attrSet, int pos) {
 					if (tag == HTML.Tag.TABLE) {
 						if (foundTable) {
 							finished = true;
@@ -165,8 +161,7 @@ public class DataImportD extends DataImport {
 						}
 						firstInRow = true;
 						firstColumn = false;
-					} else if (foundTable
-							&& (tag == HTML.Tag.TD || tag == HTML.Tag.TH)) {
+					} else if (foundTable && (tag == HTML.Tag.TD || tag == HTML.Tag.TH)) {
 						if (!firstInRow) {
 							sbHTML.append(",");
 						}
@@ -179,7 +174,6 @@ public class DataImportD extends DataImport {
 							firstColumn = false;
 						}
 					}
-
 				}
 			};
 
@@ -202,12 +196,10 @@ public class DataImportD extends DataImport {
 		String[] separators = new String[2];
 
 		// Get decimal and thousands separators
-		DecimalFormatSymbols dfs = new DecimalFormatSymbols(
-				((AppD) app).getLocale());
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols(((AppD) app).getLocale());
 		separators[0] = Character.toString(dfs.getDecimalSeparator());
 		separators[1] = Character.toString(dfs.getGroupingSeparator());
 
 		return separators;
 	}
-
 }

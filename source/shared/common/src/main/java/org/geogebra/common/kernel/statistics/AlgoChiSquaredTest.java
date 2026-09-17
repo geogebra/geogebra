@@ -31,8 +31,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Performs a chi square Goodness of Fit test or Test of Independence.
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoChiSquaredTest extends AlgoElement {
@@ -45,7 +45,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	private final GeoNumberValue degreesOfFreedom;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param geoList
@@ -53,8 +53,8 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	 * @param geoList2
 	 *            second list
 	 */
-	public AlgoChiSquaredTest(Construction cons, GeoList geoList,
-			GeoList geoList2, GeoNumberValue degreesOfFreedom) {
+	public AlgoChiSquaredTest(
+			Construction cons, GeoList geoList, GeoList geoList2, GeoNumberValue degreesOfFreedom) {
 		super(cons);
 		this.geoList1 = geoList;
 		this.geoList2 = geoList2;
@@ -223,15 +223,14 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		double testStat = 0;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				diff[i][j] = (observed[i][j] - expected[i][j])
-						* (observed[i][j] - expected[i][j]) / expected[i][j];
+				diff[i][j] =
+						(observed[i][j] - expected[i][j]) * (observed[i][j] - expected[i][j]) / expected[i][j];
 				testStat += diff[i][j];
 			}
 		}
 
 		try {
-			double leftArea = getChiSquaredDistribution(df)
-					.cumulativeProbability(testStat);
+			double leftArea = getChiSquaredDistribution(df).cumulativeProbability(testStat);
 			p = 1 - leftArea;
 		} catch (RuntimeException e) {
 			// catches ArithmeticException, IllegalStateException and
@@ -244,7 +243,5 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		result.clear();
 		result.addNumber(p, null);
 		result.addNumber(testStat, null);
-
 	}
-
 }

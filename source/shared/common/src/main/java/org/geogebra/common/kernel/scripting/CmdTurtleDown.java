@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -23,9 +23,9 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Presses the pen down.
- * 
+ *
  * TurtleDown[ &lt;Turtle&gt;]
- * 
+ *
  * @author judit
  */
 public class CmdTurtleDown extends CmdTurtleCommand {
@@ -39,9 +39,7 @@ public class CmdTurtleDown extends CmdTurtleCommand {
 	}
 
 	@Override
-	protected void performTurtleCommand(Command c, GeoElement[] args)
-			throws MyError {
+	protected void performTurtleCommand(Command c, GeoElement[] args) throws MyError {
 		getTurtle(args).setPenDown(true);
 	}
-
 }

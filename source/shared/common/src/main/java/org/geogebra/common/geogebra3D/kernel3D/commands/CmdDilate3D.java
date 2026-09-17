@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Mirror at 3D point or 3D line
- * 
+ *
  * @author mathieu
  *
  */
@@ -32,7 +32,7 @@ public class CmdDilate3D extends CmdDilate {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -41,16 +41,13 @@ public class CmdDilate3D extends CmdDilate {
 	}
 
 	@Override
-	protected GeoElement[] dilate(String label, GeoElement geoDil,
-			GeoNumberValue r, GeoElement point) {
+	protected GeoElement[] dilate(
+			String label, GeoElement geoDil, GeoNumberValue r, GeoElement point) {
 
 		if (geoDil.isGeoElement3D() || point.isGeoElement3D()) {
-			return kernel.getManager3D().dilate3D(label, geoDil, r,
-					(GeoPointND) point);
+			return kernel.getManager3D().dilate3D(label, geoDil, r, (GeoPointND) point);
 		}
 
 		return super.dilate(label, geoDil, r, point);
-
 	}
-
 }

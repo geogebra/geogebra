@@ -55,8 +55,7 @@ public class ItalicProperty extends AbstractValuedProperty<Boolean>
 				textProperties.updateVisualStyleRepaint(GProperty.FONT);
 			}
 		} else if (element instanceof HasTextFormatter hasTextFormatter) {
-			if (getLocalization() != null && !value.equals(hasTextFormatter
-					.getFormat("italic", false))) {
+			if (getLocalization() != null && !value.equals(hasTextFormatter.getFormat("italic", false))) {
 				hasTextFormatter.format("italic", value);
 			}
 			element.updateVisualStyle(GProperty.COMBINED);

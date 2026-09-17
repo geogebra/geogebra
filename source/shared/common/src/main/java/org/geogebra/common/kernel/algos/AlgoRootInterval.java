@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -55,8 +55,8 @@ public class AlgoRootInterval extends AlgoElement {
 	 * @param b
 	 *            interval right bound
 	 */
-	public AlgoRootInterval(Construction cons, String label, GeoFunctionable f,
-			GeoNumberValue a, GeoNumberValue b) {
+	public AlgoRootInterval(
+			Construction cons, String label, GeoFunctionable f, GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.f = f;
 		this.a = a;
@@ -116,8 +116,7 @@ public class AlgoRootInterval extends AlgoElement {
 
 		try {
 			// Brent's method (Apache)
-			root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min,
-					max);
+			root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min, max);
 
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -125,11 +124,8 @@ public class AlgoRootInterval extends AlgoElement {
 
 			try {
 				// Let's try again by searching for a valid domain first
-				double[] borders = RealRootUtil.getDefinedInterval(fun, min,
-						max);
-				root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
-						borders[0],
-						borders[1]);
+				double[] borders = RealRootUtil.getDefinedInterval(fun, min, max);
+				root = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, borders[0], borders[1]);
 			} catch (Exception ex) {
 				// ex.printStackTrace();
 				Log.debug("problem finding root: " + ex.getMessage());
@@ -144,9 +140,7 @@ public class AlgoRootInterval extends AlgoElement {
 		// #4691
 
 		try {
-			newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
-					min,
-					max, root);
+			newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min, max, root);
 
 			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(root))) {
 				root = newtonRoot;
@@ -168,12 +162,15 @@ public class AlgoRootInterval extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("RootOfAonIntervalBC",
-				"Root of %0 on interval [%0, %1]", f.getLabel(tpl),
-				a.getLabel(tpl), b.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"RootOfAonIntervalBC",
+						"Root of %0 on interval [%0, %1]",
+						f.getLabel(tpl),
+						a.getLabel(tpl),
+						b.getLabel(tpl));
 	}
-
 }

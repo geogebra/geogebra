@@ -21,7 +21,7 @@ import org.geogebra.common.main.App;
 
 /**
  * Superclass for probability calculator stylebar
- * 
+ *
  * @author gabor
  */
 public class ProbabilityCalculatorStyleBar {
@@ -30,6 +30,7 @@ public class ProbabilityCalculatorStyleBar {
 
 	/** probability calculator */
 	private final ProbabilityCalculatorView probCalc;
+
 	private RoundingOptions roundingOptions;
 
 	/**
@@ -38,8 +39,7 @@ public class ProbabilityCalculatorStyleBar {
 	 * @param probCalc
 	 *            probability calculator
 	 */
-	protected ProbabilityCalculatorStyleBar(App app,
-			ProbabilityCalculatorView probCalc) {
+	protected ProbabilityCalculatorStyleBar(App app, ProbabilityCalculatorView probCalc) {
 		this.probCalc = probCalc;
 		this.app = app;
 		this.setOptionsMenu(new RoundingOptions(app.getLocalization()));
@@ -63,5 +63,4 @@ public class ProbabilityCalculatorStyleBar {
 	protected void setOptionsMenu(RoundingOptions roundingOptions) {
 		this.roundingOptions = roundingOptions;
 	}
-
 }

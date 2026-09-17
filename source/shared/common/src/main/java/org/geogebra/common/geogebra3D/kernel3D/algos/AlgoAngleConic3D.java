@@ -54,5 +54,4 @@ public class AlgoAngleConic3D extends AlgoAngleElement3D {
 	protected final void setOrigin() {
 		o = ((GeoConic3D) vec).getMidpoint3D();
 	}
-
 }

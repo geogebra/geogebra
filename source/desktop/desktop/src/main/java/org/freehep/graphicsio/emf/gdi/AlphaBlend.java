@@ -18,13 +18,13 @@ import org.freehep.util.io.NoCloseOutputStream;
 
 /**
  * PNG and JPG seem not to work.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: AlphaBlend.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
 public class AlphaBlend extends EMFTag implements EMFConstants {
 
-	public final static int size = 108;
+	public static final int size = 108;
 
 	private Rectangle bounds;
 
@@ -48,8 +48,15 @@ public class AlphaBlend extends EMFTag implements EMFConstants {
 		super(114, 1);
 	}
 
-	public AlphaBlend(Rectangle bounds, int x, int y, int width, int height,
-			AffineTransform transform, RenderedImage image, Color bkg) {
+	public AlphaBlend(
+			Rectangle bounds,
+			int x,
+			int y,
+			int width,
+			int height,
+			AffineTransform transform,
+			RenderedImage image,
+			Color bkg) {
 		this();
 		this.bounds = bounds;
 		this.x = x;
@@ -67,8 +74,7 @@ public class AlphaBlend extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		AlphaBlend tag = new AlphaBlend();
 		tag.bounds = emf.readRECTL(); // 16
@@ -128,8 +134,7 @@ public class AlphaBlend extends EMFTag implements EMFConstants {
 		properties.setProperty(RawImageWriteParam.BACKGROUND, bkg);
 		properties.setProperty(RawImageWriteParam.CODE, "*BGRA");
 		properties.setProperty(RawImageWriteParam.PAD, 1);
-		ImageGraphics2D.writeImage(image, "raw", properties,
-				new NoCloseOutputStream(emf));
+		ImageGraphics2D.writeImage(image, "raw", properties, new NoCloseOutputStream(emf));
 
 		// emf.writeImage(image, bkg, "*BGRA", 1);
 		// png
@@ -146,8 +151,8 @@ public class AlphaBlend extends EMFTag implements EMFConstants {
 		emf.writeLONG(image.getWidth());
 		emf.writeLONG(image.getHeight());
 
-		BitmapInfoHeader header = new BitmapInfoHeader(image.getWidth(),
-				image.getHeight(), 32, encode, length, 0, 0, 0, 0);
+		BitmapInfoHeader header =
+				new BitmapInfoHeader(image.getWidth(), image.getHeight(), 32, encode, length, 0, 0, 0, 0);
 		bmi = new BitmapInfo(header);
 		bmi.write(emf);
 

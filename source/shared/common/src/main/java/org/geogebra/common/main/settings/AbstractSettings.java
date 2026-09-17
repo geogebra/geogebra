@@ -21,7 +21,7 @@ import java.util.LinkedList;
 /**
  * Abstract base class for all setting objects. Provides functionality for
  * setting listeners and batching.
- * 
+ *
  * @author Florian Sonner
  * @see "http://dev.geogebra.org/trac/wiki/GuiRefactoring"
  */
@@ -115,7 +115,7 @@ public abstract class AbstractSettings<T extends AbstractSettings<T>> implements
 
 	/**
 	 * Add a new setting listener to be informed about setting changes.
-	 * 
+	 *
 	 * @param listener
 	 *            settings listener
 	 */
@@ -125,7 +125,7 @@ public abstract class AbstractSettings<T extends AbstractSettings<T>> implements
 
 	/**
 	 * Remove a setting listener.
-	 * 
+	 *
 	 * @param listener
 	 *            settings listener
 	 */

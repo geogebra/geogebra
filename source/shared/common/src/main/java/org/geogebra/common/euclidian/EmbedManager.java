@@ -29,13 +29,13 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Updates, adds and removes embedded applets.
- * 
+ *
  * @author Zbynek
  */
 public interface EmbedManager {
 	/**
 	 * Add new applet.
-	 * 
+	 *
 	 * @param drawEmbed
 	 *            embedded applet
 	 */
@@ -43,7 +43,7 @@ public interface EmbedManager {
 
 	/**
 	 * Update an embedded applet.
-	 * 
+	 *
 	 * @param drawEmbed
 	 *            embedded applet
 	 */
@@ -61,10 +61,10 @@ public interface EmbedManager {
 
 	/**
 	 * Add base64 of embedded files into an archive
-	 * 
+	 *
 	 * @param construction
 	 *            construction
-	 * 
+	 *
 	 * @param f
 	 *            archive
 	 */
@@ -72,7 +72,7 @@ public interface EmbedManager {
 
 	/**
 	 * Load all embeds for a slide
-	 * 
+	 *
 	 * @param archive
 	 *            slide
 	 */
@@ -90,7 +90,7 @@ public interface EmbedManager {
 
 	/**
 	 * Activates embedded applet
-	 * 
+	 *
 	 * @param embed
 	 *            active embed
 	 */
@@ -98,7 +98,7 @@ public interface EmbedManager {
 
 	/**
 	 * Removes embedded applet
-	 * 
+	 *
 	 * @param drawEmbed
 	 *            drawable
 	 */
@@ -106,7 +106,7 @@ public interface EmbedManager {
 
 	/**
 	 * Add new embedded applet and store undo info.
-	 * 
+	 *
 	 * @param material
 	 *            online material
 	 */

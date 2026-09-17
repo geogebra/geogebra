@@ -8,7 +8,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF GradientTriangle
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: GradientTriangle.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -37,7 +37,6 @@ public class GradientTriangle extends Gradient {
 
 	@Override
 	public String toString() {
-		return "  GradientTriangle: " + vertex1 + ", " + vertex2 + ", "
-				+ vertex3;
+		return "  GradientTriangle: " + vertex1 + ", " + vertex2 + ", " + vertex3;
 	}
 }

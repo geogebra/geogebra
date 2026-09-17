@@ -30,7 +30,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Common class for substitution dialogs
- * 
+ *
  * @author balazs.bencze
  *
  */
@@ -71,8 +71,7 @@ public abstract class CASSubDialog {
 	 * @param editRow
 	 *            row to edit
 	 */
-	public CASSubDialog(String prefix, String evalText, String postfix,
-			int editRow) {
+	public CASSubDialog(String prefix, String evalText, String postfix, int editRow) {
 		this.prefix = prefix;
 		this.evalText = evalText;
 		this.postfix = postfix;
@@ -90,10 +89,8 @@ public abstract class CASSubDialog {
 	 */
 	protected void initData(GeoCasCell cell) {
 		HashSet<GeoElement> vars = new HashSet<>();
-		if (cell.getInputVE().getVariables(
-				SymbolicMode.NONE) != null) {
-			for (GeoElement var : cell.getInputVE().getVariables(
-					SymbolicMode.NONE)) {
+		if (cell.getInputVE().getVariables(SymbolicMode.NONE) != null) {
+			for (GeoElement var : cell.getInputVE().getVariables(SymbolicMode.NONE)) {
 				addVariables(var, vars);
 			}
 		}
@@ -114,8 +111,7 @@ public abstract class CASSubDialog {
 					break;
 				}
 			}
-			if (i == data.size()
-					|| !data.get(i).firstElement().equals(nextVar)) {
+			if (i == data.size() || !data.get(i).firstElement().equals(nextVar)) {
 				row.add(nextVar);
 				boolean added = false;
 				if (substList != null && !substList.isEmpty()) {
@@ -172,8 +168,7 @@ public abstract class CASSubDialog {
 					substList.append(',');
 					substComment.append(',');
 				}
-				fromExpr = getCASView().resolveCASrowReferences(fromExpr,
-						editRow);
+				fromExpr = getCASView().resolveCASrowReferences(fromExpr, editRow);
 				toExpr = getCASView().resolveCASrowReferences(toExpr, editRow);
 				substList.append(fromExpr);
 				substList.append('=');
@@ -220,5 +215,4 @@ public abstract class CASSubDialog {
 			return false;
 		}
 	}
-
 }

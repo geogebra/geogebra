@@ -89,6 +89,5 @@ final class RSFS10 extends FontInfo {
 		setKern(196, 306);
 
 		setMetrics(196, 278, 556, 0, 526);
-
 	}
 }

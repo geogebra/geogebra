@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -21,9 +21,9 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Class to control data management for the DataAnalysisView.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class DataAnalysisControllerD extends DataAnalysisController {
 
@@ -40,7 +40,7 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 
 	/**
 	 * Updates all panels in the DataAnalysisView.
-	 * 
+	 *
 	 * @param doRedefine
 	 *            if true then the internal GeoElements will be redefined.
 	 */
@@ -66,13 +66,11 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 		if (view.getRegressionPanel() != null) {
 			view.getRegressionPanel().updateRegressionPanel();
 		}
-
 	}
 
 	@Override
 	protected void clearPredictionPanel() {
 		view.getRegressionPanel().clearPredictionPanel();
-
 	}
 
 	@Override
@@ -85,5 +83,4 @@ public class DataAnalysisControllerD extends DataAnalysisController {
 			view.getDataDisplayPanel2().getModel().clearPlotGeoList();
 		}
 	}
-
 }

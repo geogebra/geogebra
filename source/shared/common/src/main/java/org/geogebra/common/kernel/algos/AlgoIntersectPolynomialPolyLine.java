@@ -60,7 +60,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
 	/**
 	 * constructor with labels
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -70,8 +70,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 * @param poly
 	 *            polyline
 	 */
-	public AlgoIntersectPolynomialPolyLine(Construction cons, String[] labels,
-			GeoFunctionable func, GeoPoly poly, boolean polyClosed) {
+	public AlgoIntersectPolynomialPolyLine(
+			Construction cons, String[] labels, GeoFunctionable func, GeoPoly poly, boolean polyClosed) {
 
 		this(cons, func, poly, polyClosed);
 
@@ -85,7 +85,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
 	/**
 	 * Common constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param func
@@ -93,9 +93,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 * @param poly
 	 *            polyline
 	 */
-	public AlgoIntersectPolynomialPolyLine(Construction cons,
-			GeoFunctionable func,
-			GeoPoly poly, boolean polyClosed) {
+	public AlgoIntersectPolynomialPolyLine(
+			Construction cons, GeoFunctionable func, GeoPoly poly, boolean polyClosed) {
 		super(cons);
 		this.func = func;
 		this.poly = poly;
@@ -130,19 +129,20 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	}
 
 	private void setLabels(String[] labels) {
-		if (labels != null && labels.length == 1 && outputPoints.size() > 1
-				&& labels[0] != null && !labels[0].equals("")) {
+		if (labels != null
+				&& labels.length == 1
+				&& outputPoints.size() > 1
+				&& labels[0] != null
+				&& !labels[0].equals("")) {
 			outputPoints.setIndexLabels(labels[0]);
 
 		} else {
 			outputPoints.setLabels(labels);
 		}
-
 	}
 
 	// intersection of f and line
-	private void computePolyLineIntersection(GeoSegment seg,
-			ArrayList<Coords> intrsctCrds) {
+	private void computePolyLineIntersection(GeoSegment seg, ArrayList<Coords> intrsctCrds) {
 		if (func.isDefined() && seg.isDefined()) {
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
@@ -160,8 +160,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			// this is important for segments and rays
 			// following must be done for both vertical and standard
 			for (int i = 0; i < solution.curRealRoots; i++) {
-				tempPoint.setCoords(solution.curRoots[i],
-						func.value(solution.curRoots[i]), 1.0);
+				tempPoint.setCoords(solution.curRoots[i], func.value(solution.curRoots[i]), 1.0);
 				if (seg.isOnPath(tempPoint, Kernel.MIN_PRECISION)) {
 					intrsctCrds.add(tempPoint.getCoords());
 					numOfOutputPoints++;
@@ -178,13 +177,13 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 * Calculates the roots of the given function resp. its derivative, stores
 	 * them in solution.curRoots and sets solution.curRealRoots to the number of
 	 * real roots found.
-	 * 
+	 *
 	 * @param derivDegree
 	 *            degree of derivative to compute roots from
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
-		UnivariateFunction evalFunction = AlgoRootsPolynomial
-				.calcRootsMultiple(fun, derivDegree, solution, eqnSolver);
+		UnivariateFunction evalFunction =
+				AlgoRootsPolynomial.calcRootsMultiple(fun, derivDegree, solution, eqnSolver);
 
 		if (solution.curRealRoots > 1) {
 			solution.sortAndMakeUnique();
@@ -201,7 +200,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	// remove roots where the sign of the function's values did not change
 
 	/**
-	 * 
+	 *
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoPoint> createOutputPoints() {
@@ -230,7 +229,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 		input = new GeoElement[2];
 		input[0] = func.toGeoElement();
 		input[1] = poly.toGeoElement();
-
 	}
 
 	@Override
@@ -244,10 +242,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			solution.resetRoots();
 
 			tempSegEndPoints[0] = getPoly().getPoint(index);
-			tempSegEndPoints[1] = getPoly()
-					.getPoint((index + 1) % polyPointCount);
-			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1],
-					tempSeg);
+			tempSegEndPoints[1] = getPoly().getPoint((index + 1) % polyPointCount);
+			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1], tempSeg);
 			tempSeg.setPoints(tempSegEndPoints[0], tempSegEndPoints[1]);
 			tempSeg.calcLength();
 
@@ -257,8 +253,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 		if (numOfOutputPoints > 0) {
 			outputPoints.adjustOutputSize(numOfOutputPoints, false);
 			for (int i = 0; i < numOfOutputPoints; i++) {
-				outputPoints.getElement(i).setCoords(intersectCoords.get(i),
-						true);
+				outputPoints.getElement(i).setCoords(intersectCoords.get(i), true);
 			}
 		} else {
 			outputPoints.adjustOutputSize(1, false);
@@ -267,12 +262,11 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 		if (hasLabels) {
 			outputPoints.updateLabels();
 		}
-
 	}
 
 	/**
 	 * getter of input poly
-	 * 
+	 *
 	 * @return GeoPoly
 	 */
 	public GeoPoly getPoly() {
@@ -296,5 +290,4 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_INTERSECT;
 	}
-
 }

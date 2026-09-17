@@ -1,7 +1,7 @@
 /*
  * Created on Aug 31, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -14,8 +14,7 @@ package edu.uci.ics.jung.graph;
 /**
  * A tagging interface which indicates that the implementing graph accepts
  * parallel edges.
- * 
+ *
  * @author Joshua O'Madadhain
  */
-public interface MultiGraph<V, E> {
-}
+public interface MultiGraph<V, E> {}

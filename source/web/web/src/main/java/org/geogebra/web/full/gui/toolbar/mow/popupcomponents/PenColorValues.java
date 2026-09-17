@@ -22,7 +22,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
 
-public final class PenColorValues  {
+public final class PenColorValues {
 
 	/**
 	 * @return colors for pen tool

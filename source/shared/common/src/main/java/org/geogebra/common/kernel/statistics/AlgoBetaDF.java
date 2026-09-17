@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.plugin.Operation;
 
-public class AlgoBetaDF extends AlgoElement implements AlgoDistributionDF  {
+public class AlgoBetaDF extends AlgoElement implements AlgoDistributionDF {
 	private GeoNumberValue alpha; // input
 	private final GeoNumberValue beta; // input
 	private final BooleanValue cumulative; // optional input
@@ -47,8 +47,8 @@ public class AlgoBetaDF extends AlgoElement implements AlgoDistributionDF  {
 	 * @param cumulative
 	 *            cumulative
 	 */
-	public AlgoBetaDF(Construction cons, GeoNumberValue alpha, GeoNumberValue beta,
-			BooleanValue cumulative) {
+	public AlgoBetaDF(
+			Construction cons, GeoNumberValue alpha, GeoNumberValue beta, BooleanValue cumulative) {
 		super(cons);
 		this.alpha = alpha;
 		this.beta = beta;
@@ -57,11 +57,10 @@ public class AlgoBetaDF extends AlgoElement implements AlgoDistributionDF  {
 
 		ExpressionNode en = new ExpressionNode(kernel, 0)
 				.apply(Operation.LESS, fv)
-				.apply(Operation.AND_INTERVAL, fv.wrap()
-						.apply(Operation.LESS, new MyDouble(kernel, 1)));
+				.apply(Operation.AND_INTERVAL, fv.wrap().apply(Operation.LESS, new MyDouble(kernel, 1)));
 		conditionAndLeft = new MyNumberPair(kernel, en, new ExpressionNode(kernel, 0));
-		ret = new ExpressionNode(kernel, conditionAndLeft, Operation.IF_ELSE,
-						getFallback(fv)).buildFunction(fv);
+		ret = new ExpressionNode(kernel, conditionAndLeft, Operation.IF_ELSE, getFallback(fv))
+				.buildFunction(fv);
 
 		setInputOutput(); // for AlgoElement
 
@@ -73,7 +72,8 @@ public class AlgoBetaDF extends AlgoElement implements AlgoDistributionDF  {
 		if (cumulative == null || !cumulative.getBoolean()) {
 			return new ExpressionNode(kernel, 0);
 		} else {
-			return fv.wrap().apply(Operation.LESS_EQUAL, new MyDouble(kernel, 0))
+			return fv.wrap()
+					.apply(Operation.LESS_EQUAL, new MyDouble(kernel, 0))
 					.ifElse(new MyDouble(kernel, 0), new MyDouble(kernel, 1));
 		}
 	}
@@ -117,8 +117,8 @@ public class AlgoBetaDF extends AlgoElement implements AlgoDistributionDF  {
 		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
 
 		if (cumulative != null && cumulative.getBoolean()) {
-			en = fvEn.applyReverse(Operation.BETA_INCOMPLETE_REGULARIZED,
-					new MyNumberPair(kernel, alpha, beta));
+			en = fvEn.applyReverse(
+					Operation.BETA_INCOMPLETE_REGULARIZED, new MyNumberPair(kernel, alpha, beta));
 		} else {
 			en = fvEn.power(alpha.wrap().subtract(1))
 					.multiplyR(fvEn.subtractR(1).power(beta.wrap().subtract(1)))
@@ -127,5 +127,4 @@ public class AlgoBetaDF extends AlgoElement implements AlgoDistributionDF  {
 		conditionAndLeft.setY(en);
 		ret.getFunctionExpression().setRight(getFallback(fv));
 	}
-
 }

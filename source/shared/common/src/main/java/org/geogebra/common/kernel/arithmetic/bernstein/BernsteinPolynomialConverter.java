@@ -62,8 +62,7 @@ public class BernsteinPolynomialConverter {
 	 * @param limits axis-aligned domain used for the resulting 1D polynomial
 	 * @return a 1D Bernstein polynomial, or {@code null} if the element is not convertible
 	 */
-	public BernsteinPolynomial1D bernsteinPolynomial1DFrom(GeoElement geo,
-			BoundsRectangle limits) {
+	public BernsteinPolynomial1D bernsteinPolynomial1DFrom(GeoElement geo, BoundsRectangle limits) {
 		Polynomial polynomial = null;
 		if (geo instanceof GeoFunction) {
 			Function function = ((GeoFunction) geo).getFunction();
@@ -78,8 +77,7 @@ public class BernsteinPolynomialConverter {
 		}
 
 		if (polynomial != null) {
-			return from1DPolynomial(polynomial, polynomial.degree('x'),
-					polynomial.degree('y'), limits);
+			return from1DPolynomial(polynomial, polynomial.degree('x'), polynomial.degree('y'), limits);
 		}
 		return null;
 	}
@@ -97,8 +95,7 @@ public class BernsteinPolynomialConverter {
 	 * @param limits rectangular domain for the resulting 2D polynomial
 	 * @return a 2D Bernstein polynomial, or {@code null} if the element is not convertible
 	 */
-	public BernsteinPolynomial2D bernsteinPolynomial2DFrom(GeoElement geo,
-			BoundsRectangle limits) {
+	public BernsteinPolynomial2D bernsteinPolynomial2DFrom(GeoElement geo, BoundsRectangle limits) {
 		FunctionNVar function = null;
 		double[][] coefficients = null;
 		boolean coefficientsValid = false;
@@ -110,8 +107,11 @@ public class BernsteinPolynomialConverter {
 			function = coefficientsValid ? null : curve.getFunctionDefinition();
 		}
 		return coefficientsValid
-				? builder2D.build(Arrays.copyOf(coefficients, coefficients.length),
-				coefficients.length - 1, coefficients[0].length - 1, limits)
+				? builder2D.build(
+						Arrays.copyOf(coefficients, coefficients.length),
+						coefficients.length - 1,
+						coefficients[0].length - 1,
+						limits)
 				: buildFromFunction(function, limits);
 	}
 
@@ -120,8 +120,7 @@ public class BernsteinPolynomialConverter {
 			return null;
 		}
 		Polynomial polynomial = function.getPolynomial();
-		return builder2D.build(polynomial, polynomial.degree('x'),
-				polynomial.degree('y'), limits);
+		return builder2D.build(polynomial, polynomial.degree('x'), polynomial.degree('y'), limits);
 	}
 
 	/**
@@ -135,15 +134,23 @@ public class BernsteinPolynomialConverter {
 	 * @param limits     domain bounds for the active axis
 	 * @return a 1D Bernstein polynomial along the active axis
 	 */
-	BernsteinPolynomial1D from1DPolynomial(Polynomial polynomial, int degreeX, int degreeY,
-			BoundsRectangle limits) {
+	BernsteinPolynomial1D from1DPolynomial(
+			Polynomial polynomial, int degreeX, int degreeY, BoundsRectangle limits) {
 		if (degreeY == 0) {
-			return builder1D.build(coeffsFromPolynomial(polynomial, degreeX, 'x'),
-					degreeX, 'x', limits.getXmin(), limits.getXmax());
+			return builder1D.build(
+					coeffsFromPolynomial(polynomial, degreeX, 'x'),
+					degreeX,
+					'x',
+					limits.getXmin(),
+					limits.getXmax());
 		}
 
-		return builder1D.build(coeffsFromPolynomial(polynomial, degreeY, 'y'),
-				degreeY, 'y', limits.getYmin(), limits.getYmax());
+		return builder1D.build(
+				coeffsFromPolynomial(polynomial, degreeY, 'y'),
+				degreeY,
+				'y',
+				limits.getYmin(),
+				limits.getYmax());
 	}
 
 	/**
@@ -246,7 +253,6 @@ public class BernsteinPolynomialConverter {
 		BoundsRectangle limits = new BoundsRectangle(bounds, mx, my);
 
 		return converter.bernsteinPolynomial2DFrom(geo, limits);
-
 	}
 
 	/**
@@ -261,6 +267,5 @@ public class BernsteinPolynomialConverter {
 		BoundsRectangle limits = new BoundsRectangle(bounds, 0, 0);
 
 		return converter.bernsteinPolynomial2DFrom(geo, limits);
-
 	}
 }

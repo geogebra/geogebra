@@ -30,7 +30,7 @@ import org.geogebra.common.main.MyError;
 public class CmdUnique extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,20 +46,18 @@ public class CmdUnique extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
+			case 1:
+				if (arg[0].isGeoList()) {
 
-		case 1:
-			if (arg[0].isGeoList()) {
+					AlgoUnique algo = new AlgoUnique(cons, (GeoList) arg[0]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-				AlgoUnique algo = new AlgoUnique(cons, (GeoList) arg[0]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

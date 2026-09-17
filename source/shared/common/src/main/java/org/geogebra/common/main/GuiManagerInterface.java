@@ -47,11 +47,10 @@ import org.jspecify.annotations.Nullable;
  * This interface is almost the same as GuiManager, just it is an interface and
  * doesn't implement anything, and contains only public methods. (So things from
  * GuiManager were moved to here.)
- * 
+ *
  * @author arpad
  *
  */
-
 public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 
 	@MissingDoc
@@ -66,9 +65,8 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	 * @param view graphic view
 	 * @param mouseLoc mouse location
 	 */
-	void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-					   EuclidianViewInterfaceCommon view,
-					   GPoint mouseLoc);
+	void showPopupMenu(
+			ArrayList<GeoElement> selectedGeos, EuclidianViewInterfaceCommon view, GPoint mouseLoc);
 
 	/**
 	 * Show popup menu for choosing one of possible elements.
@@ -76,9 +74,11 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	 * @param geos elements to choose from
 	 * @param view graphic view
 	 */
-	void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-							ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-							GPoint p);
+	void showPopupChooseGeo(
+			ArrayList<GeoElement> selectedGeos,
+			ArrayList<GeoElement> geos,
+			EuclidianViewInterfaceCommon view,
+			GPoint p);
 
 	/**
 	 * Update UI for new app mode.
@@ -116,8 +116,7 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	 * @param fromClipboard whether it's from clipboard
 	 * @param view view to insert image in
 	 */
-	void loadImage(GeoPoint loc, Object object, boolean fromClipboard,
-				   EuclidianView view);
+	void loadImage(GeoPoint loc, Object object, boolean fromClipboard, EuclidianView view);
 
 	/**
 	 * loads the camera dialog
@@ -155,16 +154,14 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	 * @param view graphics view
 	 * @param mouseLoc pointer location
 	 */
-	void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-							 GPoint mouseLoc);
+	void showDrawingPadPopup(EuclidianViewInterfaceCommon view, GPoint mouseLoc);
 
 	/**
 	 * Show 3D graphics view options context menu.
 	 * @param view graphics view
 	 * @param mouseLoc pointer location
 	 */
-	void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
-							   GPoint mouseLoc);
+	void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, GPoint mouseLoc);
 
 	@MissingDoc
 	boolean hasSpreadsheetView();
@@ -460,8 +457,8 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	 * @param playDelay value of delay between steps (in seconds)
 	 * @param showProtButton whether to include CP button
 	 */
-	void setShowConstructionProtocolNavigation(boolean show, int id,
-			boolean playButton, double playDelay, boolean showProtButton);
+	void setShowConstructionProtocolNavigation(
+			boolean show, int id, boolean playButton, double playDelay, boolean showProtButton);
 
 	/**
 	 * Update checkboxes for construction protocol navigation setting.
@@ -488,8 +485,7 @@ public interface GuiManagerInterface extends SettingListener<LabelSettings> {
 	 *            eg "a, b"
 	 * @return true/false
 	 */
-	boolean checkAutoCreateSliders(String string,
-								   AsyncOperation<String[]> callback);
+	boolean checkAutoCreateSliders(String string, AsyncOperation<String[]> callback);
 
 	/**
 	 * Apply construction protocol settings.

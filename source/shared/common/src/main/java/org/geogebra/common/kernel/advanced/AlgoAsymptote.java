@@ -44,7 +44,7 @@ public class AlgoAsymptote extends AlgoElement {
 
 	/**
 	 * Creates new algo for Asymptote
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -136,13 +136,11 @@ public class AlgoAsymptote extends AlgoElement {
 
 			asymptotes[0].x = -(vec2y + vec1y);
 			asymptotes[0].y = vec2x + vec1x;
-			asymptotes[0].z = -(asymptotes[0].x * b.getX()
-					+ asymptotes[0].y * b.getY());
+			asymptotes[0].z = -(asymptotes[0].x * b.getX() + asymptotes[0].y * b.getY());
 
 			asymptotes[1].x = -(vec2y - vec1y);
 			asymptotes[1].y = vec2x - vec1x;
-			asymptotes[1].z = -(asymptotes[1].x * b.getX()
-					+ asymptotes[1].y * b.getY());
+			asymptotes[1].z = -(asymptotes[1].x * b.getX() + asymptotes[1].y * b.getY());
 
 			// point on lines
 			P.setCoords(b.getX(), b.getY(), 1.0);
@@ -153,11 +151,9 @@ public class AlgoAsymptote extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("AsymptoteToA", "Asymptote to %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("AsymptoteToA", "Asymptote to %0", c.getLabel(tpl));
 	}
-
 }

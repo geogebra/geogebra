@@ -43,8 +43,8 @@ public class AlgoDivision extends AlgoElement {
 	 * @param divisor
 	 *            divisor
 	 */
-	public AlgoDivision(Construction cons, String label,
-			GeoNumberValue dividend, GeoNumberValue divisor) {
+	public AlgoDivision(
+			Construction cons, String label, GeoNumberValue dividend, GeoNumberValue divisor) {
 		super(cons);
 		a = dividend;
 		b = divisor;
@@ -56,13 +56,12 @@ public class AlgoDivision extends AlgoElement {
 		setInputOutput();
 		compute();
 		result.setLabel(label);
-
 	}
 
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[] { a.toGeoElement(), b.toGeoElement() };
+		input = new GeoElement[] {a.toGeoElement(), b.toGeoElement()};
 		setDependencies();
 	}
 
@@ -89,7 +88,6 @@ public class AlgoDivision extends AlgoElement {
 		} else {
 			result.setUndefined();
 		}
-
 	}
 
 	@Override
@@ -100,5 +98,4 @@ public class AlgoDivision extends AlgoElement {
 	public GeoElement getResult() {
 		return result;
 	}
-
 }

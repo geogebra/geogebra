@@ -38,30 +38,30 @@ public class AppWFullTest {
 	@Test
 	public void graphingUsesProtectiveFilter() {
 		AppWFull app = AppMocker.mockGraphing();
-		ToStringConverter outputFilter =
-				app.getGeoElementValueConverter();
-		assertEquals("Ray((0, 0), (1, 1))", outputFilter.convert(addEquation(app,
-				"Ray((0,0),(1,1))")));
+		ToStringConverter outputFilter = app.getGeoElementValueConverter();
+		assertEquals("Ray((0, 0), (1, 1))", outputFilter.convert(addEquation(app, "Ray((0,0),(1,1))")));
 	}
 
 	private GeoElement addEquation(AppWFull app, String equation) {
-		return app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(equation, false)[0].toGeoElement();
+		return app.getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommand(equation, false)[0]
+				.toGeoElement();
 	}
 
 	@Test
 	public void geometryUsesNoFilter() {
 		AppWFull app = AppMocker.mockGeometry();
 		ToStringConverter outputFilter = app.getGeoElementValueConverter();
-		assertEquals("y = x", outputFilter.convert(addEquation(app,
-				"Ray((0,0),(1,1))")));
+		assertEquals("y = x", outputFilter.convert(addEquation(app, "Ray((0,0),(1,1))")));
 	}
 
 	@Test
 	public void casUsesNoFilter() {
 		AppWFull app = AppMocker.mockCas();
 		ToStringConverter outputFilter = app.getGeoElementValueConverter();
-		assertEquals("-x - y = -1.0",
+		assertEquals(
+				"-x - y = -1.0",
 				outputFilter.convert(addEquation(app, "PerpendicularBisector((0,0),(1,1))")));
 	}
 }

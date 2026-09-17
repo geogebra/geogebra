@@ -25,5 +25,4 @@ public interface MenuHoverListener {
 	 * Called when item without submenu is hevered.
 	 */
 	void onItemHover();
-
 }

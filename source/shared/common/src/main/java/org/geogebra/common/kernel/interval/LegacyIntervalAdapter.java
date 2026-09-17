@@ -67,8 +67,7 @@ public final class LegacyIntervalAdapter {
 			case WHOLE -> IntervalConstants.whole();
 			case CONNECTED -> set.interval();
 			case INVERTED -> set.toInvertedInterval();
-			default ->
-					throw new IllegalStateException("Unsupported interval set kind: " + set.kind());
+			default -> throw new IllegalStateException("Unsupported interval set kind: " + set.kind());
 		};
 	}
 

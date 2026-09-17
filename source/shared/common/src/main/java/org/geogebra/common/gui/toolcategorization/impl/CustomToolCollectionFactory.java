@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -31,59 +31,60 @@ import com.google.j2objc.annotations.Weak;
  */
 public class CustomToolCollectionFactory extends AbstractToolCollectionFactory {
 
-    @Weak
-    private App app;
-    private String toolbarDefinition;
+	@Weak
+	private App app;
 
-    /**
-     * Creates a CustomToolCollectionFactory.
-     *
-     * @param app app
-     * @param toolbarDefinition toolbar definition
-     */
-    public CustomToolCollectionFactory(App app, String toolbarDefinition) {
-        super(false);
-        this.app = app;
-        this.toolbarDefinition = toolbarDefinition;
-    }
+	private String toolbarDefinition;
 
-    /**
-     * Creates a CustomToolCollectionFactory with an empty definition.
-     *
-     * @param app app
-     */
-    public CustomToolCollectionFactory(App app) {
-        this(app, "");
-    }
+	/**
+	 * Creates a CustomToolCollectionFactory.
+	 *
+	 * @param app app
+	 * @param toolbarDefinition toolbar definition
+	 */
+	public CustomToolCollectionFactory(App app, String toolbarDefinition) {
+		super(false);
+		this.app = app;
+		this.toolbarDefinition = toolbarDefinition;
+	}
 
-    /**
-     * Set the definition of the toolbar.
-     *
-     * @param toolbarDefinition toolbar definition
-     */
-    public void setToolbarDefinition(String toolbarDefinition) {
-        this.toolbarDefinition = toolbarDefinition;
-    }
+	/**
+	 * Creates a CustomToolCollectionFactory with an empty definition.
+	 *
+	 * @param app app
+	 */
+	public CustomToolCollectionFactory(App app) {
+		this(app, "");
+	}
 
-    @Override
-    public ToolCollection createToolCollection() {
-        ToolCollectionImpl impl = new ToolCollectionImpl();
-        impl.addLevel(ToolsetLevel.STANDARD);
+	/**
+	 * Set the definition of the toolbar.
+	 *
+	 * @param toolbarDefinition toolbar definition
+	 */
+	public void setToolbarDefinition(String toolbarDefinition) {
+		this.toolbarDefinition = toolbarDefinition;
+	}
 
-        List<ToolbarItem> items = getToolbarItems();
-        for (ToolbarItem item : items) {
-            impl.addCategory(null, item.getMenu());
-        }
-        return impl;
-    }
+	@Override
+	public ToolCollection createToolCollection() {
+		ToolCollectionImpl impl = new ToolCollectionImpl();
+		impl.addLevel(ToolsetLevel.STANDARD);
 
-    private List<ToolbarItem> getToolbarItems() {
-        List<ToolbarItem> toolbarVec;
-        try {
-            toolbarVec = ToolBar.parseToolbarString(toolbarDefinition);
-        } catch (Exception e) {
-            toolbarVec = ToolBar.parseToolbarString(ToolBar.getAllTools(app));
-        }
-        return toolbarVec;
-    }
+		List<ToolbarItem> items = getToolbarItems();
+		for (ToolbarItem item : items) {
+			impl.addCategory(null, item.getMenu());
+		}
+		return impl;
+	}
+
+	private List<ToolbarItem> getToolbarItems() {
+		List<ToolbarItem> toolbarVec;
+		try {
+			toolbarVec = ToolBar.parseToolbarString(toolbarDefinition);
+		} catch (Exception e) {
+			toolbarVec = ToolBar.parseToolbarString(ToolBar.getAllTools(app));
+		}
+		return toolbarVec;
+	}
 }

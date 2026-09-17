@@ -37,8 +37,7 @@ public final class NotesLayout implements SetLabels, ModeChangeListener {
 		this.appW = appW;
 		topBar = new NotesTopBar(appW);
 		this.toolbar = appW.showToolBar() ? new NotesToolbox(appW, topBar.wasAttached()) : null;
-		appW.getActiveEuclidianView().getEuclidianController()
-				.setModeChangeListener(this);
+		appW.getActiveEuclidianView().getEuclidianController().setModeChangeListener(this);
 		setLabels();
 	}
 

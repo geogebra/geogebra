@@ -62,7 +62,6 @@ public class AppMocker {
 				System.out.println(logEntry);
 			}
 		}
-
 	}
 
 	/**
@@ -116,14 +115,17 @@ public class AppMocker {
 		useCommonFakeProviders();
 		AppletFactory factory = new AppletFactory3D() {
 			@Override
-			public AppWFull getApplet(GeoGebraElement element,
+			public AppWFull getApplet(
+					GeoGebraElement element,
 					AppletParameters params,
-					GeoGebraFrameFull frame, GLookAndFeelI laf, GDevice device) {
+					GeoGebraFrameFull frame,
+					GLookAndFeelI laf,
+					GDevice device) {
 				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
 			}
 		};
-		GeoGebraFrameFull fr = new GeoGebraFrameFull(factory,
-				new GLookAndFeel(), new BrowserDevice(), DomMocker.getGeoGebraElement(), ae);
+		GeoGebraFrameFull fr = new GeoGebraFrameFull(
+				factory, new GLookAndFeel(), new BrowserDevice(), DomMocker.getGeoGebraElement(), ae);
 		fr.runAsyncAfterSplash();
 		AppWFull app = fr.getApp();
 		setAppDefaults(app);
@@ -146,8 +148,8 @@ public class AppMocker {
 	 */
 	public static AppWsimple mockAppletSimple(AppletParameters ae) {
 		useCommonFakeProviders();
-		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(DomMocker.getGeoGebraElement(), ae,
-				new CASFactoryW());
+		GeoGebraFrameSimple frame =
+				new GeoGebraFrameSimple(DomMocker.getGeoGebraElement(), ae, new CASFactoryW());
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
 		setAppDefaults(app);
 		return app;
@@ -163,23 +165,21 @@ public class AppMocker {
 		when(GeoGebraGlobal.__GGB__keysVar.get(any())).thenReturn(bundle);
 		JsPropertyMap<String> category = mock(JsPropertyMap.class);
 		when(bundle.get(any())).thenReturn(category);
-		when(category.get(any())).thenAnswer(args ->
-				translation.apply(args.getArgumentAt(0, String.class)));
+		when(category.get(any()))
+				.thenAnswer(args -> translation.apply(args.getArgumentAt(0, String.class)));
 	}
 
 	private static void useCommonFakeProviders() {
 		ElementalMocker.setupElemental();
-		GwtMockito.useProviderForType(PopupImpl.class,
-				type -> new PopupImpl() {
+		GwtMockito.useProviderForType(PopupImpl.class, type -> new PopupImpl() {
 
-					@Override
-					public Element getStyleElement(Element popup) {
-						return DomMocker.getElement();
-					}
-				});
+			@Override
+			public Element getStyleElement(Element popup) {
+				return DomMocker.getElement();
+			}
+		});
 		Browser.mockWebGL();
 		FactoryProviderGWT.ensureLoaded();
 		setTestLogger();
 	}
-
 }

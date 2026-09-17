@@ -36,26 +36,28 @@ class AlgoSequenceRangeTest extends BaseAppTestSetup {
 	@Test
 	void testRounding() {
 		getApp().setRounding("2d");
-		assertEquals("{-0.1, -0.1, -0.09, -0.09, -0.08, -0.08, -0.07, -0.07, -0.06, -0.06,"
-				+ " -0.05, -0.05, -0.04, -0.04, -0.03, -0.03, -0.02, -0.02, -0.01, -0.01, 0, 0.01,"
-				+ " 0.01, 0.02, 0.02, 0.03, 0.03, 0.04, 0.04, 0.05, 0.05, 0.06, 0.06, 0.07, 0.07,"
-				+ " 0.08, 0.08, 0.09, 0.09, 0.1, 0.1}",
-				evaluateGeoElement("Sequence(-0.1,0.1,.005)").toValueString(
-						StringTemplate.defaultTemplate));
-		assertEquals("{0.1, 0.1, 0.09, 0.09, 0.08, 0.08, 0.07, 0.07, 0.06, 0.06, 0.05,"
-				+ " 0.05, 0.04, 0.04, 0.03, 0.03, 0.02, 0.02, 0.01, 0.01, 0, -0.01, -0.01, -0.02,"
-				+ " -0.02, -0.03, -0.03, -0.04, -0.04, -0.05, -0.05, -0.06, -0.06, -0.07, -0.07,"
-				+ " -0.08, -0.08, -0.09, -0.09, -0.1, -0.1}",
-				evaluateGeoElement("Sequence(0.1,-0.1,-.005)").toValueString(
-						StringTemplate.defaultTemplate));
+		assertEquals(
+				"{-0.1, -0.1, -0.09, -0.09, -0.08, -0.08, -0.07, -0.07, -0.06, -0.06,"
+						+ " -0.05, -0.05, -0.04, -0.04, -0.03, -0.03, -0.02, -0.02, -0.01, -0.01, 0, 0.01,"
+						+ " 0.01, 0.02, 0.02, 0.03, 0.03, 0.04, 0.04, 0.05, 0.05, 0.06, 0.06, 0.07, 0.07,"
+						+ " 0.08, 0.08, 0.09, 0.09, 0.1, 0.1}",
+				evaluateGeoElement("Sequence(-0.1,0.1,.005)")
+						.toValueString(StringTemplate.defaultTemplate));
+		assertEquals(
+				"{0.1, 0.1, 0.09, 0.09, 0.08, 0.08, 0.07, 0.07, 0.06, 0.06, 0.05,"
+						+ " 0.05, 0.04, 0.04, 0.03, 0.03, 0.02, 0.02, 0.01, 0.01, 0, -0.01, -0.01, -0.02,"
+						+ " -0.02, -0.03, -0.03, -0.04, -0.04, -0.05, -0.05, -0.06, -0.06, -0.07, -0.07,"
+						+ " -0.08, -0.08, -0.09, -0.09, -0.1, -0.1}",
+				evaluateGeoElement("Sequence(0.1,-0.1,-.005)")
+						.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	void testDegenerateCases() {
-		assertEquals("{1}", evaluateGeoElement("Sequence(1,1,1)")
-				.toValueString(StringTemplate.testTemplate));
-		assertEquals("?", evaluateGeoElement("Sequence(1,1,-1)")
-				.toValueString(StringTemplate.testTemplate));
+		assertEquals(
+				"{1}", evaluateGeoElement("Sequence(1,1,1)").toValueString(StringTemplate.testTemplate));
+		assertEquals(
+				"?", evaluateGeoElement("Sequence(1,1,-1)").toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test

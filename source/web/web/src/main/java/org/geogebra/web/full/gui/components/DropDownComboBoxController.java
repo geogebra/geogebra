@@ -57,8 +57,13 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 	 * @param onClose handler to run on close
 	 * @param styler a function that applies style to an item
 	 */
-	public DropDownComboBoxController(final AppW app, PropertyView propertyView, Widget parent,
-			Supplier<List<String>> items, String labelKey, Runnable onClose,
+	public DropDownComboBoxController(
+			final AppW app,
+			PropertyView propertyView,
+			Widget parent,
+			Supplier<List<String>> items,
+			String labelKey,
+			Runnable onClose,
 			ComponentDropDown.Styler styler) {
 		this.propertyView = propertyView;
 		this.parent = parent;
@@ -102,13 +107,11 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 		}
 		AriaHelper.setAriaExpanded(parent, isOpened());
 		Dom.toggleClass(parent, "active", isOpened());
-
 	}
 
 	private void highlightSelectedElement(int index, boolean highlight) {
 		if (index >= 0 && index < dropDownElementsList.size()) {
-			Dom.toggleClass(dropDownElementsList.get(index), "selectedDropDownElement",
-					highlight);
+			Dom.toggleClass(dropDownElementsList.get(index), "selectedDropDownElement", highlight);
 			AriaHelper.setAriaSelected(dropDownElementsList.get(index), highlight);
 		}
 	}
@@ -126,7 +129,7 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 			final int currentIndex = i;
 			AriaMenuItem item = new AriaMenuItem(dropDownList.get(i), null, () -> {
 				setSelectedOption(currentIndex);
-				for (Runnable handler: changeHandlers) {
+				for (Runnable handler : changeHandlers) {
 					handler.run();
 				}
 			});
@@ -154,8 +157,8 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 	private void setupDropDownMenu(List<AriaMenuItem> menuItems) {
 		dropDown.clear();
 		List<Integer> dividers = getGroupDividerIndices();
-		for (int i = 0 ; i < menuItems.size() ; i++) {
-			if (dividers != null && dividers.contains(i))  {
+		for (int i = 0; i < menuItems.size(); i++) {
+			if (dividers != null && dividers.contains(i)) {
 				dropDown.addDivider();
 			}
 			dropDown.addItem(menuItems.get(i));
@@ -257,7 +260,7 @@ public final class DropDownComboBoxController implements SetLabels, UpDownArrowH
 	 */
 	public void onInputChange(String input) {
 		setSelectedOption(possibleSelectedIndex(input));
-		for (Runnable handler: changeHandlers) {
+		for (Runnable handler : changeHandlers) {
 			handler.run();
 		}
 	}

@@ -37,7 +37,8 @@ public class SliderOrientationProperty extends AbstractNamedEnumeratedProperty<S
 	 * The possible orientations of a slider.
 	 */
 	public enum SliderOrientation {
-		HORIZONTAL, VERTICAL,
+		HORIZONTAL,
+		VERTICAL,
 	}
 
 	private final GeoNumeric geoNumeric;
@@ -55,16 +56,14 @@ public class SliderOrientationProperty extends AbstractNamedEnumeratedProperty<S
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.geoNumeric = geoNumeric;
-		setNamedValues(List.of(
-				entry(HORIZONTAL, "horizontal"),
-				entry(VERTICAL, "vertical")));
+		setNamedValues(List.of(entry(HORIZONTAL, "horizontal"), entry(VERTICAL, "vertical")));
 	}
 
 	@Override
 	protected void doSetValue(SliderOrientation value) {
 		switch (value) {
-		case HORIZONTAL -> geoNumeric.setSliderHorizontal(true);
-		case VERTICAL -> geoNumeric.setSliderHorizontal(false);
+			case HORIZONTAL -> geoNumeric.setSliderHorizontal(true);
+			case VERTICAL -> geoNumeric.setSliderHorizontal(false);
 		}
 		geoNumeric.updateRepaint();
 	}

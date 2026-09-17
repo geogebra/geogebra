@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,17 +37,20 @@ public final class NumberChangeSignInputDialogW extends ComponentInputDialog {
 	 * @param changingSign
 	 *            says if the sign has to be changed
 	 */
-	public NumberChangeSignInputDialogW(AppW app, String message, DialogData data,
-			String initString, NumberChangeSignInputHandler handler,
+	public NumberChangeSignInputDialogW(
+			AppW app,
+			String message,
+			DialogData data,
+			String initString,
+			NumberChangeSignInputHandler handler,
 			boolean changingSign) {
 		super(app, data, false, false, handler, message, initString);
 		this.changingSign = changingSign;
 	}
 
 	@Override
-	protected void processInputHandler(String inputText,
-			AsyncOperation<Boolean> callback) {
-		((NumberChangeSignInputHandler) getInputHandler()).processInput(
-				inputText, changingSign, this, callback);
+	protected void processInputHandler(String inputText, AsyncOperation<Boolean> callback) {
+		((NumberChangeSignInputHandler) getInputHandler())
+				.processInput(inputText, changingSign, this, callback);
 	}
 }

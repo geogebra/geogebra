@@ -23,10 +23,9 @@ public interface ErrorLogger extends ErrorHandler {
 
 	/**
 	 * Handle raw exception
-	 * 
+	 *
 	 * @param e
 	 *            exception or error
 	 */
 	void log(Throwable e);
-
 }

@@ -21,14 +21,14 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class that describes the geometry of buttons for 3D view
- * 
+ *
  * @author ggb3D
  *
  */
 public class PlotterViewInFrontOf {
 
-	static private float start = 60f;
-	static private float end = 0f;
+	private static float start = 60f;
+	private static float end = 0f;
 
 	private int[] index;
 
@@ -67,11 +67,10 @@ public class PlotterViewInFrontOf {
 
 	/**
 	 * return geometry index for view in front of arrow
-	 * 
+	 *
 	 * @return geometry index for view in front of arrow
 	 */
 	public int getIndex() {
 		return index[0];
 	}
-
 }

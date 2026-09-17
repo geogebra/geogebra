@@ -44,5 +44,4 @@ public final class SmartSignInController extends SignInController {
 
 		DomGlobal.location.replace(url);
 	}
-
 }

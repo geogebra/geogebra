@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,8 +39,7 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 	 * @param r
 	 *            radius
 	 */
-	public AlgoSpherePointRadius(Construction cons, GeoPointND M,
-			GeoNumberValue r) {
+	public AlgoSpherePointRadius(Construction cons, GeoPointND M, GeoNumberValue r) {
 		super(cons, M, r);
 	}
 
@@ -62,9 +61,8 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("SphereWithCenterAandRadiusB",
-				getM().getLabel(tpl), getRGeo().getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain("SphereWithCenterAandRadiusB", getM().getLabel(tpl), getRGeo().getLabel(tpl));
 	}
-
 }

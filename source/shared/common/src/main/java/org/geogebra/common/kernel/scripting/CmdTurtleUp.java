@@ -23,9 +23,9 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Lifts up the pen.
- * 
+ *
  * TurtleUp[ &lt;Turtle&gt;]
- * 
+ *
  * @author judit
  */
 public class CmdTurtleUp extends CmdTurtleCommand {
@@ -39,9 +39,7 @@ public class CmdTurtleUp extends CmdTurtleCommand {
 	}
 
 	@Override
-	protected void performTurtleCommand(Command c, GeoElement[] args)
-			throws MyError {
+	protected void performTurtleCommand(Command c, GeoElement[] args) throws MyError {
 		getTurtle(args).setPenDown(false);
 	}
-
 }

@@ -45,5 +45,4 @@ public abstract class KeyEvent {
 	 * Prevents the wrapped native event's default action.
 	 */
 	public abstract void preventDefault();
-
 }

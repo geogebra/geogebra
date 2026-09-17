@@ -35,8 +35,10 @@ public class AxisSelectionAllowedProperty extends AbstractValuedProperty<Boolean
 	 * @param index axis index
 	 * @param euclidianView euclidian view
 	 */
-	public AxisSelectionAllowedProperty(Localization localization,
-			EuclidianSettings euclidianSettings, int index,
+	public AxisSelectionAllowedProperty(
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			int index,
 			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "SelectionAllowed");
 		this.axisIndex = index;

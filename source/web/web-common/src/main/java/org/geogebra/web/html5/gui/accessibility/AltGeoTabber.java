@@ -41,7 +41,7 @@ public class AltGeoTabber implements FocusableComponent {
 	public boolean focusIfVisible(boolean reverse) {
 		altTexts.updateVisibleViews();
 		viewIndex = reverse ? altTexts.viewCount() - 1 : 0;
-		if (readNextView())  {
+		if (readNextView()) {
 			return focus;
 		}
 		return false;

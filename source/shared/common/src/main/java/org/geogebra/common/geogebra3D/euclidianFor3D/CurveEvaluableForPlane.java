@@ -27,7 +27,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * For 3D curve, evaluator that returns NaN when z != 0
- * 
+ *
  * @author mathieu
  *
  */
@@ -42,14 +42,13 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 
 	/**
 	 * Function that returns NaN if parent z != 0
-	 * 
+	 *
 	 * @author mathieu
 	 *
 	 */
 	private class FunMustBeZero implements UnivariateFunction {
 
-		protected FunMustBeZero() {
-		}
+		protected FunMustBeZero() {}
 
 		@Override
 		public double value(double t) {
@@ -64,19 +63,17 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 
 			return 0;
 		}
-
 	}
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param parent
 	 *            curve
 	 * @param companion
 	 *            view for plane companion
 	 */
-	public CurveEvaluableForPlane(ParametricCurve parent,
-			EuclidianViewForPlaneCompanion companion) {
+	public CurveEvaluableForPlane(ParametricCurve parent, EuclidianViewForPlaneCompanion companion) {
 		this.parent = parent;
 		this.companion = companion;
 
@@ -96,13 +93,12 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 				out[i] = parentOutInView.val[i];
 			}
 		}
-
 	}
 
 	@Override
 	public double[] getDefinedInterval(double a, double b) {
-		return GeoCurveCartesian3D.getDefinedInterval(a, b, parent.getFun(0),
-				parent.getFun(1), parent.getFun(2), funZ);
+		return GeoCurveCartesian3D.getDefinedInterval(
+				a, b, parent.getFun(0), parent.getFun(1), parent.getFun(2), funZ);
 	}
 
 	@Override
@@ -150,5 +146,4 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 	public double distanceMax(double[] p1, double[] p2) {
 		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
 	}
-
 }

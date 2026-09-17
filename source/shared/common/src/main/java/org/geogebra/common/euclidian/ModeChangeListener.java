@@ -22,11 +22,10 @@ package org.geogebra.common.euclidian;
  */
 @FunctionalInterface
 public interface ModeChangeListener {
-	
+
 	/**
 	 * @param mode
 	 *            new EV mode
 	 */
 	void onModeChange(int mode);
-
 }

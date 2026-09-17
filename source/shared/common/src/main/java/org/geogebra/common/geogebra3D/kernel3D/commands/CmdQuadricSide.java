@@ -44,19 +44,17 @@ public class CmdQuadricSide extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0] instanceof GeoQuadric3DLimited) {
+					return new GeoElement[] {
+						kernel.getManager3D().quadricSide(c.getLabel(), (GeoQuadricND) arg[0])
+					};
+				}
+				throw argErr(arg[0], c);
 
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0] instanceof GeoQuadric3DLimited) {
-				return new GeoElement[] { kernel.getManager3D()
-						.quadricSide(c.getLabel(), (GeoQuadricND) arg[0]) };
-			}
-			throw argErr(arg[0], c);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
-
 	}
-
 }

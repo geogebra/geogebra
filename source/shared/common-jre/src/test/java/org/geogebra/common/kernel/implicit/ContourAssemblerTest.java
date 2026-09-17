@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -25,16 +25,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 class ContourAssemblerTest extends BaseCurveContourTestSetup {
-	private static final SegmentEndPoint
-			a = new SegmentEndPoint("A", 0, 0);
-	private static final SegmentEndPoint
-			b = new SegmentEndPoint("B", 0, 1);
-	private static final SegmentEndPoint
-			c = new SegmentEndPoint("C", 1, 0);
-	private static final SegmentEndPoint
-			d = new SegmentEndPoint("D", 1, 1);
-	private static final SegmentEndPoint
-			e = new SegmentEndPoint("E", 5, 5);
+	private static final SegmentEndPoint a = new SegmentEndPoint("A", 0, 0);
+	private static final SegmentEndPoint b = new SegmentEndPoint("B", 0, 1);
+	private static final SegmentEndPoint c = new SegmentEndPoint("C", 1, 0);
+	private static final SegmentEndPoint d = new SegmentEndPoint("D", 1, 1);
+	private static final SegmentEndPoint e = new SegmentEndPoint("E", 5, 5);
 	private int count;
 
 	@BeforeEach
@@ -97,32 +92,28 @@ class ContourAssemblerTest extends BaseCurveContourTestSetup {
 	void testAddSegmentAE() {
 		link(a, e);
 		segmentsShouldBe("{C, D}", "{E, A, B}");
-		assertAll(isMoveTo(c), isLineTo(d),
-				isMoveTo(e), isLineTo(a), isLineTo(b));
+		assertAll(isMoveTo(c), isLineTo(d), isMoveTo(e), isLineTo(a), isLineTo(b));
 	}
 
 	@Test
 	void testAddSegmentBE() {
 		link(b, e);
 		segmentsShouldBe("{C, D}", "{A, B, E}");
-		assertAll(isMoveTo(c), isLineTo(d),
-				isMoveTo(a), isLineTo(b), isLineTo(e));
+		assertAll(isMoveTo(c), isLineTo(d), isMoveTo(a), isLineTo(b), isLineTo(e));
 	}
 
 	@Test
 	void testAddSegmentCE() {
 		link(c, e);
 		segmentsShouldBe("{E, C, D}", "{A, B}");
-		assertAll(isMoveTo(e), isLineTo(c), isLineTo(d),
-				isMoveTo(a), isLineTo(b));
+		assertAll(isMoveTo(e), isLineTo(c), isLineTo(d), isMoveTo(a), isLineTo(b));
 	}
 
 	@Test
 	void testAddSegmentDE() {
 		link(d, e);
 		segmentsShouldBe("{C, D, E}", "{A, B}");
-		assertAll(isMoveTo(c), isLineTo(d), isLineTo(e),
-				isMoveTo(a), isLineTo(b));
+		assertAll(isMoveTo(c), isLineTo(d), isLineTo(e), isMoveTo(a), isLineTo(b));
 	}
 
 	@Test

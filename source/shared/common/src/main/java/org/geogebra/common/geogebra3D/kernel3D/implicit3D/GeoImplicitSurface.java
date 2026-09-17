@@ -50,8 +50,8 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
- * 
+ *
+ *
  */
 public class GeoImplicitSurface extends GeoElement3D
 		implements GeoImplicitSurfaceND, EquationValue {
@@ -68,7 +68,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	/**
 	 * Create an empty GeoImplicitSurface
-	 * 
+	 *
 	 * @param cons
 	 *            {@link Construction}
 	 */
@@ -80,7 +80,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            {@link Construction}
 	 * @param eqn
@@ -89,19 +89,17 @@ public class GeoImplicitSurface extends GeoElement3D
 	public GeoImplicitSurface(Construction cons, Equation eqn) {
 		super(cons);
 		setAlphaValue(0.75f); // TODO remove that when construction default will
-								// be created
+		// be created
 		this.surface3D = new GeoTriangulatedSurface3D();
 		fromEquation(eqn);
 		updateParametric(eqn);
-
 	}
 
 	private void updateParametric(Equation eqn) {
-		ExpressionNode normal = eqn.getLHS().apply(Operation.MINUS,
-				eqn.getRHS());
+		ExpressionNode normal = eqn.getLHS().apply(Operation.MINUS, eqn.getRHS());
 		normal = normal.deepCopy(cons.getKernel());
-		String[] vars = { "x", "y", "z" };
-		int[][] complement = { { 1, 2 }, { 0, 2 }, { 0, 1 } };
+		String[] vars = {"x", "y", "z"};
+		int[][] complement = {{1, 2}, {0, 2}, {0, 1}};
 		FunctionVariable[] fVars = new FunctionVariable[3];
 		Double[] coeff = new Double[3];
 		for (int i = 0; i < 3; i++) {
@@ -110,17 +108,16 @@ public class GeoImplicitSurface extends GeoElement3D
 			coeff[i] = normal.getCoefficient(fVars[i]);
 		}
 		for (int i = 0; i < 3; i++) {
-			if (coeff[i] != null && !DoubleUtil.isZero(coeff[i])
-					&& !Double.isNaN(coeff[i])) {
+			if (coeff[i] != null && !DoubleUtil.isZero(coeff[i]) && !Double.isNaN(coeff[i])) {
 				MyDouble coef = new MyDouble(kernel, -coeff[i]);
-				ExpressionNode m = new ExpressionNode(kernel,
-						new ExpressionNode(kernel, normal, Operation.DIVIDE,
-								coef),
-						Operation.PLUS, fVars[i]);
+				ExpressionNode m = new ExpressionNode(
+						kernel,
+						new ExpressionNode(kernel, normal, Operation.DIVIDE, coef),
+						Operation.PLUS,
+						fVars[i]);
 				m.simplifyLeaves();
-				FunctionNVar fun = new FunctionNVar(m,
-						new FunctionVariable[] { fVars[complement[i][0]],
-								fVars[complement[i][1]] });
+				FunctionNVar fun = new FunctionNVar(
+						m, new FunctionVariable[] {fVars[complement[i][0]], fVars[complement[i][1]]});
 				this.parametricFn = new GeoFunctionNVar(cons, fun);
 				parametricFn.setShortLHS(vars[i]);
 			}
@@ -129,14 +126,13 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	/**
 	 * Copy Constructor
-	 * 
+	 *
 	 * @param cons
 	 *            {@link Construction}
 	 * @param geoSurface
 	 *            {@link GeoImplicitSurface}
 	 */
-	public GeoImplicitSurface(Construction cons,
-			GeoImplicitSurface geoSurface) {
+	public GeoImplicitSurface(Construction cons, GeoImplicitSurface geoSurface) {
 		this(cons);
 		this.set(geoSurface);
 	}
@@ -159,8 +155,8 @@ public class GeoImplicitSurface extends GeoElement3D
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
 
-		ExpressionNode functionExpression = new ExpressionNode(kernel,
-				leftHandSide, Operation.MINUS, rightHandSide);
+		ExpressionNode functionExpression =
+				new ExpressionNode(kernel, leftHandSide, Operation.MINUS, rightHandSide);
 
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
@@ -173,8 +169,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 		functionExpression.traverse(repl);
 
-		FunctionNVar fun = new FunctionNVar(functionExpression,
-				new FunctionVariable[] { x, y, z });
+		FunctionNVar fun = new FunctionNVar(functionExpression, new FunctionVariable[] {x, y, z});
 
 		expression = new GeoFunctionNVar(cons, fun);
 		defined = expression.isDefined();
@@ -185,8 +180,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	/**
 	 * Set derivatives which are required to evaluate normals
 	 */
-	private void setDerivatives(FunctionVariable x, FunctionVariable y,
-			FunctionVariable z) {
+	private void setDerivatives(FunctionVariable x, FunctionVariable y, FunctionVariable z) {
 		FunctionNVar fn = expression.getFunction();
 		if (fn == null) {
 			this.hasDerivatives = false;
@@ -204,7 +198,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	/**
 	 * Check whether normal can be evaluated for the function using derivatives
-	 * 
+	 *
 	 * @return true if normal can be evaluated
 	 */
 	public boolean isNormalEvaluable() {
@@ -213,7 +207,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	/**
 	 * Evaluate normal at given points
-	 * 
+	 *
 	 * @param x
 	 *            x-coordinate
 	 * @param y
@@ -246,7 +240,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	/**
 	 * Evaluate normal at given coordinate
-	 * 
+	 *
 	 * @param coords
 	 *            3D Coordinate
 	 * @return direction of normal
@@ -257,7 +251,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	/**
 	 * Evaluate normal at coordinate c and store result in r
-	 * 
+	 *
 	 * @param c
 	 *            coordinate where normal is to be evaluated
 	 * @param r
@@ -290,7 +284,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            x coordinate
 	 * @param y
@@ -307,7 +301,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xyz
 	 *            {x, y, z} coordinate
 	 * @return value of function at (x, y, z)
@@ -342,14 +336,13 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	@Override
 	public void set(GeoElementND geo) {
-		Equation equationCopy = (Equation) geo.getDefinition().unwrap()
-				.deepCopy(kernel);
+		Equation equationCopy = (Equation) geo.getDefinition().unwrap().deepCopy(kernel);
 		fromEquation(equationCopy);
 	}
 
 	/**
 	 * force to re-evaluate the surface
-	 * 
+	 *
 	 * @param bounds
 	 *            surface bound : {xmin, xmax, ymin, ymax, zmin, zmax, xscale,
 	 *            yscale, zscale}
@@ -462,7 +455,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	/**
-	 * 
+	 *
 	 * @param debug
 	 *            message to debug
 	 */
@@ -473,7 +466,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	/**
-	 * 
+	 *
 	 * @param array
 	 *            list of double values
 	 */
@@ -482,7 +475,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	/**
-	 * 
+	 *
 	 * @param coords
 	 *            coordinates
 	 * @return String representation of coordinate
@@ -500,140 +493,141 @@ public class GeoImplicitSurface extends GeoElement3D
 		return sb.toString();
 	}
 
-	private static abstract class ImplicitSurface {
+	private abstract static class ImplicitSurface {
 
 		private static final int EMPTY_OR_INVALID = 0x1ff;
 
 		protected GeoImplicitSurface s;
 
-		private final int[][] EDGE_TABLE = new int[][] { {}, // 0x00, 0xff
-				{ 0, 4, 3 }, // 0x01, 00000001
-				{ 0, 5, 1 }, // 0x02, 00000010
-				{ 1, 3, 4, 4, 5, 1 }, // 0x03, 00000011
-				{ 1, 2, 6 }, // 0x04, 00000100
-				{ 0, 4, 3, 1, 2, 6 }, // 0x05, 00000101
-				{ 6, 5, 0, 0, 2, 6 }, // 0x06, 00000110
-				{ 6, 5, 4, 6, 4, 3, 3, 2, 6 }, // 0x07, 0x00000111
-				{ 2, 3, 7 }, // 0x08, 00001000
-				{ 0, 4, 7, 7, 2, 0 }, // 0x09, 00001001
-				{ 2, 3, 7, 0, 5, 1 }, // 0x0A, 00001010
-				{ 5, 4, 7, 7, 2, 1, 1, 5, 7 }, // 0x0B, 00001011
-				{ 1, 3, 7, 7, 6, 1 }, // 0x0C, 0x00001100
-				{ 4, 7, 6, 6, 1, 0, 0, 4, 6 }, // 0x0D, 0x00001101
-				{ 7, 6, 5, 5, 0, 3, 3, 7, 5 }, // 0x0E, 0x00001110
-				{ 5, 4, 7, 7, 6, 5 }, // 0x0F, 00001111
-				{ 4, 8, 11 }, // 0x10, 00010000
-				{ 0, 8, 11, 0, 3, 11 }, // 0x11, 00010001
-				{ 4, 8, 11, 0, 1, 5 }, // 0x12, 00010010
-				{ 1, 3, 11, 1, 8, 11, 1, 8, 5 }, // 0x13, 00010011
-				{ 4, 8, 11, 1, 2, 6 }, // 0x14, 00010100
-				{ 0, 8, 11, 0, 3, 11, 1, 2, 6 }, // 0x15, 00010101
-				{ 4, 8, 11, 2, 6, 5, 5, 0, 2 }, // 0x16, 00010110
-				{ 8, 5, 11, 8, 10, 11, 5, 2, 3, 5, 2, 6 }, // 0x17, 000010111
-				{ 4, 8, 11, 2, 3, 7 }, // 0x18, 00011000
-				{ 0, 2, 8, 2, 8, 11, 11, 2, 7 }, // 0x19, 00011001
-				{ 4, 8, 11, 2, 3, 7, 0, 1, 5 }, // 0x1A, 00011010
-				{ 1, 5, 8, 1, 2, 8, 2, 8, 11, 2, 7, 11 }, // 0x1B, 00011011
-				{ 4, 8, 11, 1, 3, 6, 3, 6, 7 }, // 0x1C, 00011100
-				{ 0, 1, 8, 1, 6, 7, 1, 7, 8, 7, 8, 11 }, // 0x1D, 00011101
-				{ 5, 6, 7, 0, 5, 7, 3, 7, 0, 4, 8, 11 }, // 0x1E, 00011110
-				{ 5, 6, 7, 5, 8, 11, 5, 11, 7 }, // 0x1F, 00011111
-				{ 5, 8, 9 }, // 0x20, 00100000
-				{ 5, 8, 9, 0, 3, 4 }, // 0x21, 00100001
-				{ 1, 8, 9, 1, 0, 8 }, // 0x22, 00100010
-				{ 1, 3, 9, 9, 3, 8, 3, 8, 4 }, // 0x23, 00100011
-				{ 5, 8, 9, 1, 2, 6 }, // 0x24, 00100100
-				{ 5, 8, 9, 1, 2, 6, 0, 3, 4 }, // 0x25, 00100101
-				{ 0, 2, 8, 8, 9, 2, 9, 2, 6 }, // 0x26, 00100110
-				{ 4, 8, 9, 3, 4, 9, 2, 3, 6, 3, 6, 9 }, // 0x27, 00100111
-				{ 5, 8, 9, 2, 3, 7 }, // 0x28, 00101000
-				{ 5, 8, 9, 0, 4, 7, 0, 2, 7 }, // 0x29, 00101001
-				{ 1, 8, 9, 1, 0, 8, 2, 3, 7 }, // 0x2A, 00101010
-				{ 2, 4, 7, 2, 4, 8, 1, 2, 8, 1, 8, 9 }, // 0x2B, 00101011
-				{ 5, 8, 9, 1, 3, 6, 3, 6, 7 }, // 0x2C, 00101100
-				{ 4, 6, 7, 4, 6, 1, 4, 1, 0, 5, 8, 9 }, // 0x2D, 00101101
-				{ 0, 3, 8, 3, 8, 9, 3, 7, 9, 6, 7, 9 }, // 0x2E, 00101110
-				{ 4, 6, 7, 4, 8, 9, 4, 9, 6 }, // 0x2F, 00101111
-				{ 4, 5, 9, 4, 9, 11 }, // 0x30, 00110000
-				{ 3, 9, 11, 0, 3, 9, 0, 5, 9 }, // 0x31, 00110001
-				{ 1, 9, 11, 0, 1, 11, 0, 4, 11 }, // 0x32, 00110010
-				{ 1, 9, 11, 11, 3, 1 }, // 0x33, 00110011
-				{ 4, 5, 9, 4, 9, 11, 1, 2, 6 }, // 0x34, 00110100
-				{ 3, 9, 11, 0, 3, 9, 0, 5, 9, 1, 2, 6 }, // 0x35, 00110101
-				{ 6, 8, 10, 4, 6, 8, 1, 4, 6, 1, 3, 4 }, // 0x36, 00110110
-				{ 3, 9, 11, 3, 6, 9, 6, 2, 3 }, // 0x37, 00110111
-				{ 4, 5, 9, 4, 9, 11, 2, 3, 7 }, // 0x38, 00111000
-				{ 6, 9, 11, 4, 6, 9, 0, 2, 4, 2, 4, 6 }, // 0x39, 00111001
-				{ 1, 9, 11, 0, 1, 11, 0, 4, 11, 2, 3, 7 }, // 0x3A, 00111010
-				{ 1, 9, 11, 1, 2, 7, 1, 7, 11 }, // 0x3B, 00111011
-				{ 4, 5, 9, 4, 9, 11, 1, 3, 6, 3, 6, 7 }, // 0x3C, 00111100
-				{ 7, 9, 11, 6, 7, 9, 0, 1, 5 }, // 0x3D, 00111101
-				{ 7, 9, 11, 6, 7, 9, 0, 3, 4 }, // 0x3E, 00111110
-				{ 7, 9, 11, 6, 7, 9 }, // 0x3F, 00111111
-				{ 6, 9, 10 }, // 0x40, 01000000
-				{ 6, 9, 10, 0, 3, 4 }, // 0x41, 01000001
-				{ 6, 9, 10, 0, 1, 5 }, // 0x42, 01000010
-				{ 6, 9, 10, 1, 3, 4, 1, 4, 5 }, // 0x43, 01000011
-				{ 1, 2, 9, 2, 9, 10 }, // 0x44, 01000100
-				{ 1, 2, 9, 2, 9, 10, 0, 3, 4 }, // 0x45, 01000101
-				{ 0, 2, 10, 0, 5, 10, 5, 9, 10 }, // 0x46, 01000110
-				{ 4, 5, 9, 3, 4, 9, 2, 3, 10, 3, 9, 10 }, // 0x47, 01000111
-				{ 6, 9, 10, 2, 3, 7 }, // 0x48, 01001000
-				{ 6, 9, 10, 0, 4, 7, 0, 2, 7 }, // 0x49, 01001001
-				{ 6, 9, 10, 2, 3, 7, 0, 1, 5 }, // 0x4A, 01001010
-				{ 4, 5, 7, 2, 5, 7, 1, 2, 5, 6, 9, 10 }, // 0x4B, 01001011
-				{ 1, 9, 3, 3, 9, 10, 3, 10, 7 }, // 0x4C, 01001100
-				{ 4, 7, 10, 0, 4, 10, 0, 1, 9, 0, 9, 10 }, // 0x4D, 01001101
-				{ 0, 3, 5, 3, 5, 9, 3, 7, 9, 7, 9, 10 }, // 0x4E, 01001110
-				{ 4, 5, 7, 9, 10, 7, 9, 7, 5 }, // 0x4F, 01001111
-				{ 6, 9, 10, 4, 8, 11 }, // 0x50, 01010000
-				{ 6, 9, 10, 0, 8, 11, 0, 3, 11 }, // 0x51, 01010001
-				{ 6, 9, 10, 4, 8, 11, 0, 1, 5 }, // 0x52, 01010010
-				{ 1, 3, 11, 1, 8, 11, 1, 8, 5, 6, 9, 10 }, // 0x53, 01010011
-				{ 1, 9, 10, 1, 2, 10, 3, 4, 11 }, // 0x54, 01010100
-				{ 0, 8, 11, 0, 3, 11, 1, 9, 10, 1, 2, 10 }, // 0x55, 01010101
-				{ 0, 2, 10, 0, 5, 10, 5, 9, 10, 4, 8, 11 }, // 0x56, 01010110
-				{ 2, 3, 11, 2, 10, 11, 5, 8, 9 }, // 0x57, 01010111
-				{ 2, 3, 7, 6, 9, 10, 4, 8, 11 }, // 0x58, 01011000
-				{ 0, 2, 8, 2, 8, 11, 11, 2, 7, 6, 9, 10 }, // 0x59, 01011001
-				{ 0, 1, 5, 2, 3, 7, 4, 8, 11, 6, 9, 10 }, // 0x5A, 01011010
-				{ 1, 2, 6, 5, 8, 9, 7, 11, 10 }, // 0x5B, 01011011
-				{ 1, 9, 3, 3, 9, 10, 3, 10, 7, 4, 8, 11 }, // 0x5C, 01011100
-				{ 0, 1, 8, 1, 8, 9, 7, 10, 11 }, // 0x5D, 01011101
-				{ 0, 3, 4, 5, 8, 9, 7, 10, 11 }, // 0x5E, 01011110
-				{ 5, 8, 9, 7, 10, 11 }, // 0x5F, 01011111
-				{ 5, 6, 10, 5, 8, 10 }, // 0x60, 01100000
-				{ 5, 6, 10, 5, 8, 10, 0, 3, 4 }, // 0x61, 01100001
-				{ 0, 8, 10, 0, 1, 6, 0, 6, 10 }, // 0x62, 01100010
-				{ 6, 8, 10, 4, 6, 8, 1, 3, 4, 1, 4, 6 }, // 0x63, 01100011
-				{ 2, 8, 10, 1, 2, 8, 1, 5, 8 }, // 0x64, 01100100
-				{ 2, 8, 10, 1, 2, 8, 1, 5, 8, 0, 3, 4 }, // 0x65, 01100101
-				{ 0, 2, 10, 0, 10, 8 }, // 0x66, 01100110
-				{ 2, 8, 10, 2, 3, 4, 2, 4, 8 }, // 0x67, 01100111
-				{ 5, 6, 10, 5, 8, 10, 2, 3, 7 }, // 0x68, 01101000
-				{ 0, 4, 7, 0, 2, 7, 5, 6, 10, 5, 8, 10 }, // 0x69, 01101001
-				{ 0, 8, 10, 0, 1, 6, 0, 6, 10, 2, 3, 7 }, // 0x6A, 01101010
-				{ 4, 8, 10, 10, 7, 4, 1, 2, 6 }, // 0x6B, 01101011
-				{ 7, 8, 10, 5, 7, 8, 1, 3, 5, 3, 5, 7 }, // 0x6C, 01101100
-				{ 4, 8, 10, 10, 7, 4, 0, 1, 5 }, // 0x6D, 01101101
-				{ 0, 8, 10, 0, 3, 10, 3, 7, 10 }, // 0x6E, 01101110
-				{ 4, 8, 10, 10, 7, 4 }, // 0x6F, 01101111
-				{ 4, 5, 6, 4, 6, 10, 4, 10, 11 }, // 0x70, 01110000
-				{ 3, 10, 11, 0, 3, 10, 0, 6, 10, 0, 5, 6 }, // 0x71, 01110001
-				{ 0, 1, 4, 1, 4, 6, 4, 6, 11, 6, 10, 11 }, // 0x72, 01110010
-				{ 1, 3, 11, 1, 6, 10, 1, 10, 11 }, // 0x73, 01110011
-				{ 1, 2, 10, 1, 10, 11, 1, 5, 11, 4, 5, 11 }, // 0x74, 01110100
-				{ 3, 10, 11, 2, 3, 10, 0, 1, 5 }, // 0x75, 01110101
-				{ 0, 2, 10, 0, 4, 10, 4, 10, 11 }, // 0x76, 01110110
-				{ 3, 10, 11, 2, 3, 10 }, // 0x77, 01110111
-				{ 4, 5, 6, 4, 6, 10, 4, 10, 11, 2, 3, 7 }, // 0x78, 01111000
-				{ 7, 10, 11, 0, 5, 6, 0, 2, 6 }, // 0x79, 01111001
-				{ 7, 10, 11, 0, 3, 4, 1, 2, 6 }, // 0x7A, 01111010
-				{ 7, 10, 11, 1, 2, 6 }, // 0x7B, 01111011
-				{ 7, 10, 11, 1, 5, 4, 4, 3, 1 }, // 0x7C, 01111100
-				{ 7, 10, 11, 0, 1, 5 }, // 0x7D, 01111101
-				{ 7, 10, 11, 0, 3, 4 }, // 0x7E, 01111110
-				{ 7, 10, 11 }, // 0x7F, 01111111
+		private final int[][] EDGE_TABLE = new int[][] {
+			{}, // 0x00, 0xff
+			{0, 4, 3}, // 0x01, 00000001
+			{0, 5, 1}, // 0x02, 00000010
+			{1, 3, 4, 4, 5, 1}, // 0x03, 00000011
+			{1, 2, 6}, // 0x04, 00000100
+			{0, 4, 3, 1, 2, 6}, // 0x05, 00000101
+			{6, 5, 0, 0, 2, 6}, // 0x06, 00000110
+			{6, 5, 4, 6, 4, 3, 3, 2, 6}, // 0x07, 0x00000111
+			{2, 3, 7}, // 0x08, 00001000
+			{0, 4, 7, 7, 2, 0}, // 0x09, 00001001
+			{2, 3, 7, 0, 5, 1}, // 0x0A, 00001010
+			{5, 4, 7, 7, 2, 1, 1, 5, 7}, // 0x0B, 00001011
+			{1, 3, 7, 7, 6, 1}, // 0x0C, 0x00001100
+			{4, 7, 6, 6, 1, 0, 0, 4, 6}, // 0x0D, 0x00001101
+			{7, 6, 5, 5, 0, 3, 3, 7, 5}, // 0x0E, 0x00001110
+			{5, 4, 7, 7, 6, 5}, // 0x0F, 00001111
+			{4, 8, 11}, // 0x10, 00010000
+			{0, 8, 11, 0, 3, 11}, // 0x11, 00010001
+			{4, 8, 11, 0, 1, 5}, // 0x12, 00010010
+			{1, 3, 11, 1, 8, 11, 1, 8, 5}, // 0x13, 00010011
+			{4, 8, 11, 1, 2, 6}, // 0x14, 00010100
+			{0, 8, 11, 0, 3, 11, 1, 2, 6}, // 0x15, 00010101
+			{4, 8, 11, 2, 6, 5, 5, 0, 2}, // 0x16, 00010110
+			{8, 5, 11, 8, 10, 11, 5, 2, 3, 5, 2, 6}, // 0x17, 000010111
+			{4, 8, 11, 2, 3, 7}, // 0x18, 00011000
+			{0, 2, 8, 2, 8, 11, 11, 2, 7}, // 0x19, 00011001
+			{4, 8, 11, 2, 3, 7, 0, 1, 5}, // 0x1A, 00011010
+			{1, 5, 8, 1, 2, 8, 2, 8, 11, 2, 7, 11}, // 0x1B, 00011011
+			{4, 8, 11, 1, 3, 6, 3, 6, 7}, // 0x1C, 00011100
+			{0, 1, 8, 1, 6, 7, 1, 7, 8, 7, 8, 11}, // 0x1D, 00011101
+			{5, 6, 7, 0, 5, 7, 3, 7, 0, 4, 8, 11}, // 0x1E, 00011110
+			{5, 6, 7, 5, 8, 11, 5, 11, 7}, // 0x1F, 00011111
+			{5, 8, 9}, // 0x20, 00100000
+			{5, 8, 9, 0, 3, 4}, // 0x21, 00100001
+			{1, 8, 9, 1, 0, 8}, // 0x22, 00100010
+			{1, 3, 9, 9, 3, 8, 3, 8, 4}, // 0x23, 00100011
+			{5, 8, 9, 1, 2, 6}, // 0x24, 00100100
+			{5, 8, 9, 1, 2, 6, 0, 3, 4}, // 0x25, 00100101
+			{0, 2, 8, 8, 9, 2, 9, 2, 6}, // 0x26, 00100110
+			{4, 8, 9, 3, 4, 9, 2, 3, 6, 3, 6, 9}, // 0x27, 00100111
+			{5, 8, 9, 2, 3, 7}, // 0x28, 00101000
+			{5, 8, 9, 0, 4, 7, 0, 2, 7}, // 0x29, 00101001
+			{1, 8, 9, 1, 0, 8, 2, 3, 7}, // 0x2A, 00101010
+			{2, 4, 7, 2, 4, 8, 1, 2, 8, 1, 8, 9}, // 0x2B, 00101011
+			{5, 8, 9, 1, 3, 6, 3, 6, 7}, // 0x2C, 00101100
+			{4, 6, 7, 4, 6, 1, 4, 1, 0, 5, 8, 9}, // 0x2D, 00101101
+			{0, 3, 8, 3, 8, 9, 3, 7, 9, 6, 7, 9}, // 0x2E, 00101110
+			{4, 6, 7, 4, 8, 9, 4, 9, 6}, // 0x2F, 00101111
+			{4, 5, 9, 4, 9, 11}, // 0x30, 00110000
+			{3, 9, 11, 0, 3, 9, 0, 5, 9}, // 0x31, 00110001
+			{1, 9, 11, 0, 1, 11, 0, 4, 11}, // 0x32, 00110010
+			{1, 9, 11, 11, 3, 1}, // 0x33, 00110011
+			{4, 5, 9, 4, 9, 11, 1, 2, 6}, // 0x34, 00110100
+			{3, 9, 11, 0, 3, 9, 0, 5, 9, 1, 2, 6}, // 0x35, 00110101
+			{6, 8, 10, 4, 6, 8, 1, 4, 6, 1, 3, 4}, // 0x36, 00110110
+			{3, 9, 11, 3, 6, 9, 6, 2, 3}, // 0x37, 00110111
+			{4, 5, 9, 4, 9, 11, 2, 3, 7}, // 0x38, 00111000
+			{6, 9, 11, 4, 6, 9, 0, 2, 4, 2, 4, 6}, // 0x39, 00111001
+			{1, 9, 11, 0, 1, 11, 0, 4, 11, 2, 3, 7}, // 0x3A, 00111010
+			{1, 9, 11, 1, 2, 7, 1, 7, 11}, // 0x3B, 00111011
+			{4, 5, 9, 4, 9, 11, 1, 3, 6, 3, 6, 7}, // 0x3C, 00111100
+			{7, 9, 11, 6, 7, 9, 0, 1, 5}, // 0x3D, 00111101
+			{7, 9, 11, 6, 7, 9, 0, 3, 4}, // 0x3E, 00111110
+			{7, 9, 11, 6, 7, 9}, // 0x3F, 00111111
+			{6, 9, 10}, // 0x40, 01000000
+			{6, 9, 10, 0, 3, 4}, // 0x41, 01000001
+			{6, 9, 10, 0, 1, 5}, // 0x42, 01000010
+			{6, 9, 10, 1, 3, 4, 1, 4, 5}, // 0x43, 01000011
+			{1, 2, 9, 2, 9, 10}, // 0x44, 01000100
+			{1, 2, 9, 2, 9, 10, 0, 3, 4}, // 0x45, 01000101
+			{0, 2, 10, 0, 5, 10, 5, 9, 10}, // 0x46, 01000110
+			{4, 5, 9, 3, 4, 9, 2, 3, 10, 3, 9, 10}, // 0x47, 01000111
+			{6, 9, 10, 2, 3, 7}, // 0x48, 01001000
+			{6, 9, 10, 0, 4, 7, 0, 2, 7}, // 0x49, 01001001
+			{6, 9, 10, 2, 3, 7, 0, 1, 5}, // 0x4A, 01001010
+			{4, 5, 7, 2, 5, 7, 1, 2, 5, 6, 9, 10}, // 0x4B, 01001011
+			{1, 9, 3, 3, 9, 10, 3, 10, 7}, // 0x4C, 01001100
+			{4, 7, 10, 0, 4, 10, 0, 1, 9, 0, 9, 10}, // 0x4D, 01001101
+			{0, 3, 5, 3, 5, 9, 3, 7, 9, 7, 9, 10}, // 0x4E, 01001110
+			{4, 5, 7, 9, 10, 7, 9, 7, 5}, // 0x4F, 01001111
+			{6, 9, 10, 4, 8, 11}, // 0x50, 01010000
+			{6, 9, 10, 0, 8, 11, 0, 3, 11}, // 0x51, 01010001
+			{6, 9, 10, 4, 8, 11, 0, 1, 5}, // 0x52, 01010010
+			{1, 3, 11, 1, 8, 11, 1, 8, 5, 6, 9, 10}, // 0x53, 01010011
+			{1, 9, 10, 1, 2, 10, 3, 4, 11}, // 0x54, 01010100
+			{0, 8, 11, 0, 3, 11, 1, 9, 10, 1, 2, 10}, // 0x55, 01010101
+			{0, 2, 10, 0, 5, 10, 5, 9, 10, 4, 8, 11}, // 0x56, 01010110
+			{2, 3, 11, 2, 10, 11, 5, 8, 9}, // 0x57, 01010111
+			{2, 3, 7, 6, 9, 10, 4, 8, 11}, // 0x58, 01011000
+			{0, 2, 8, 2, 8, 11, 11, 2, 7, 6, 9, 10}, // 0x59, 01011001
+			{0, 1, 5, 2, 3, 7, 4, 8, 11, 6, 9, 10}, // 0x5A, 01011010
+			{1, 2, 6, 5, 8, 9, 7, 11, 10}, // 0x5B, 01011011
+			{1, 9, 3, 3, 9, 10, 3, 10, 7, 4, 8, 11}, // 0x5C, 01011100
+			{0, 1, 8, 1, 8, 9, 7, 10, 11}, // 0x5D, 01011101
+			{0, 3, 4, 5, 8, 9, 7, 10, 11}, // 0x5E, 01011110
+			{5, 8, 9, 7, 10, 11}, // 0x5F, 01011111
+			{5, 6, 10, 5, 8, 10}, // 0x60, 01100000
+			{5, 6, 10, 5, 8, 10, 0, 3, 4}, // 0x61, 01100001
+			{0, 8, 10, 0, 1, 6, 0, 6, 10}, // 0x62, 01100010
+			{6, 8, 10, 4, 6, 8, 1, 3, 4, 1, 4, 6}, // 0x63, 01100011
+			{2, 8, 10, 1, 2, 8, 1, 5, 8}, // 0x64, 01100100
+			{2, 8, 10, 1, 2, 8, 1, 5, 8, 0, 3, 4}, // 0x65, 01100101
+			{0, 2, 10, 0, 10, 8}, // 0x66, 01100110
+			{2, 8, 10, 2, 3, 4, 2, 4, 8}, // 0x67, 01100111
+			{5, 6, 10, 5, 8, 10, 2, 3, 7}, // 0x68, 01101000
+			{0, 4, 7, 0, 2, 7, 5, 6, 10, 5, 8, 10}, // 0x69, 01101001
+			{0, 8, 10, 0, 1, 6, 0, 6, 10, 2, 3, 7}, // 0x6A, 01101010
+			{4, 8, 10, 10, 7, 4, 1, 2, 6}, // 0x6B, 01101011
+			{7, 8, 10, 5, 7, 8, 1, 3, 5, 3, 5, 7}, // 0x6C, 01101100
+			{4, 8, 10, 10, 7, 4, 0, 1, 5}, // 0x6D, 01101101
+			{0, 8, 10, 0, 3, 10, 3, 7, 10}, // 0x6E, 01101110
+			{4, 8, 10, 10, 7, 4}, // 0x6F, 01101111
+			{4, 5, 6, 4, 6, 10, 4, 10, 11}, // 0x70, 01110000
+			{3, 10, 11, 0, 3, 10, 0, 6, 10, 0, 5, 6}, // 0x71, 01110001
+			{0, 1, 4, 1, 4, 6, 4, 6, 11, 6, 10, 11}, // 0x72, 01110010
+			{1, 3, 11, 1, 6, 10, 1, 10, 11}, // 0x73, 01110011
+			{1, 2, 10, 1, 10, 11, 1, 5, 11, 4, 5, 11}, // 0x74, 01110100
+			{3, 10, 11, 2, 3, 10, 0, 1, 5}, // 0x75, 01110101
+			{0, 2, 10, 0, 4, 10, 4, 10, 11}, // 0x76, 01110110
+			{3, 10, 11, 2, 3, 10}, // 0x77, 01110111
+			{4, 5, 6, 4, 6, 10, 4, 10, 11, 2, 3, 7}, // 0x78, 01111000
+			{7, 10, 11, 0, 5, 6, 0, 2, 6}, // 0x79, 01111001
+			{7, 10, 11, 0, 3, 4, 1, 2, 6}, // 0x7A, 01111010
+			{7, 10, 11, 1, 2, 6}, // 0x7B, 01111011
+			{7, 10, 11, 1, 5, 4, 4, 3, 1}, // 0x7C, 01111100
+			{7, 10, 11, 0, 1, 5}, // 0x7D, 01111101
+			{7, 10, 11, 0, 3, 4}, // 0x7E, 01111110
+			{7, 10, 11}, // 0x7F, 01111111
 		};
 
 		protected double x1;
@@ -816,7 +810,6 @@ public class GeoImplicitSurface extends GeoElement3D
 				System.arraycopy(grid1d, 0, grid2d[sizeY], 0, sizeX + 1);
 			}
 		}
-
 	}
 
 	// Here is vertices and edges numbering convention used throughout the
@@ -860,13 +853,13 @@ public class GeoImplicitSurface extends GeoElement3D
 		static final int V6 = 0x06;
 		static final int V7 = 0x07;
 
-		private static final int[][] EDGES = { { 0, 1 }, { 1, 2 }, { 2, 3 },
-				{ 3, 0 }, { 0, 4 }, { 1, 5 }, { 2, 6 }, { 3, 7 }, { 4, 5 },
-				{ 5, 6 }, { 6, 7 }, { 7, 4 } };
+		private static final int[][] EDGES = {
+			{0, 1}, {1, 2}, {2, 3}, {3, 0}, {0, 4}, {1, 5}, {2, 6}, {3, 7}, {4, 5}, {5, 6}, {6, 7}, {7, 4}
+		};
 
-		private static final int[][] VERTICES = { { 0, 4, 5 }, { 3, 4, 5 },
-				{ 3, 4, 2 }, { 0, 4, 2 }, { 0, 1, 5 }, { 3, 1, 5 }, { 3, 1, 2 },
-				{ 0, 1, 2 } };
+		private static final int[][] VERTICES = {
+			{0, 4, 5}, {3, 4, 5}, {3, 4, 2}, {0, 4, 2}, {0, 1, 5}, {3, 1, 5}, {3, 1, 2}, {0, 1, 2}
+		};
 
 		/**
 		 * Coordinates of the cube (x1, y1, z1) (x2, y2, z2)
@@ -881,7 +874,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		 * Fill point array with point of intersection of edge e with the plane.
 		 * Caveat: It does not check if the given edge intersect with the
 		 * surface
-		 * 
+		 *
 		 * @param e
 		 *            the edge number as per the convention
 		 * @param pts
@@ -913,12 +906,12 @@ public class GeoImplicitSurface extends GeoElement3D
 
 		/**
 		 * Sign of the vertex
-		 * 
+		 *
 		 * @param vertex
 		 *            vertex
 		 * @return isFinite(v) ? ((v &lt;= 0) ? 0 : 1) : -1, where v is
 		 *         evaluated value at given vertex
-		 * 
+		 *
 		 */
 		private int sign(int vertex) {
 			double v = eval(vertex);
@@ -932,8 +925,7 @@ public class GeoImplicitSurface extends GeoElement3D
 			return cache[vertex];
 		}
 
-		private static double interpolate(double fa, double fb, double p1,
-				double p2) {
+		private static double interpolate(double fa, double fb, double p1, double p2) {
 			double r = -fb / (fa - fb);
 			if (r <= 1.0 && r >= 0.0) {
 				return r * (p1 - p2) + p2;
@@ -972,7 +964,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	@Override
-	final public char getLabelDelimiter() {
+	public final char getLabelDelimiter() {
 		return ':';
 	}
 

@@ -29,11 +29,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Ranks of a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 2010-05-27
  */
-
 public class AlgoOrdinalRank extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -126,7 +125,6 @@ public class AlgoOrdinalRank extends AlgoElement {
 		while (iterator.hasNext()) {
 			OrderedPair pair = iterator.next();
 			list[pair.y] = i++;
-
 		}
 
 		// copy the ranks back into a list
@@ -135,7 +133,6 @@ public class AlgoOrdinalRank extends AlgoElement {
 		for (i = 0; i < size; i++) {
 			outputList.addNumber(list[i], null);
 		}
-
 	}
 
 	private static final class OrderedPair {
@@ -154,11 +151,9 @@ public class AlgoOrdinalRank extends AlgoElement {
 	private static Comparator<OrderedPair> getComparator() {
 		if (comparator == null) {
 			comparator = (a, b) -> {
-
 				double compX = a.x - b.x;
 				return compX < 0 ? -1 : +1;
 			};
-
 		}
 
 		return comparator;

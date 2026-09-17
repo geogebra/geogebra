@@ -19,5 +19,4 @@ public class CommandTt extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new TtAtom(a);
 	}
-
 }

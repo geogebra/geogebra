@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,8 +48,8 @@ import org.geogebra.desktop.euclidian.event.MouseEventUtil;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
-public class SpreadsheetRowHeaderD extends JList implements MouseListener,
-		MouseMotionListener, KeyListener, ListSelectionListener {
+public class SpreadsheetRowHeaderD extends JList
+		implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListener {
 
 	private static final long serialVersionUID = 1L;
 	private AppD app;
@@ -63,8 +63,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	private int maxSelectionRow = -1;
 
 	// fields for resizing rows
-	private static Cursor resizeCursor = Cursor
-			.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
+	private static Cursor resizeCursor = Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
 	private Cursor otherCursor = resizeCursor;
 	private int mouseYOffset;
 	private int resizingRow;
@@ -94,7 +93,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		setCellRenderer(new RowHeaderRenderer(table, this));
 
 		table.getSelectionModel().addListSelectionListener(this);
-
 	}
 
 	public static class RowHeaderListModel extends AbstractListModel {
@@ -120,7 +118,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		protected void changed() {
 			this.fireContentsChanged(this, 0, model.getRowCount());
 		}
-
 	}
 
 	/**
@@ -146,13 +143,12 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			setOpaque(true);
 			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
 			this.rowHeader = rowHeader;
-			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-					MyTableD.HEADER_GRID_COLOR));
+			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR));
 		}
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(
+				JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
 			setFont(app.getPlainFont());
 
@@ -167,8 +163,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				setBackground(defaultBackground);
 			} else {
 				if (table.selectedRowSet.contains(index)
-						|| (index >= minSelectionRow
-								&& index <= maxSelectionRow)) {
+						|| (index >= minSelectionRow && index <= maxSelectionRow)) {
 					setBackground(MyTableD.SELECTED_BACKGROUND_COLOR_HEADER);
 				} else {
 					setBackground(defaultBackground);
@@ -229,8 +224,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		// Double clicking on a row boundary auto-adjusts the
 		// height of the row above the boundary (the resizingRow)
 
-		if (resizingRow >= 0 && !MouseEventUtil.isRightClick(e)
-				&& e.getClickCount() == 2) {
+		if (resizingRow >= 0 && !MouseEventUtil.isRightClick(e) && e.getClickCount() == 2) {
 			table.fitRow(resizingRow, true);
 			e.consume();
 		}
@@ -255,7 +249,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		int y = e.getY();
 
 		if (!view.hasViewFocus()) {
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+			((LayoutD) app.getGuiManager().getLayout())
+					.getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 		}
 
@@ -298,7 +293,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 				table.repaint();
 			}
 		}
-
 	}
 
 	@Override
@@ -317,7 +311,8 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			}
 
 			// if click is outside current selection then change selection
-			if (p.row < minSelectionRow || p.row > maxSelectionRow
+			if (p.row < minSelectionRow
+					|| p.row > maxSelectionRow
 					|| p.column < table.minSelectionColumn
 					|| p.column > table.maxSelectionColumn) {
 
@@ -330,23 +325,22 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 			}
 
 			// show contextMenu
-			SpreadsheetContextMenuD contextMenu = new SpreadsheetContextMenuD(
-					table, table.getToolProcessor(app));
+			SpreadsheetContextMenuD contextMenu =
+					new SpreadsheetContextMenuD(table, table.getToolProcessor(app));
 			JPopupMenu popup = contextMenu.getMenuContainer();
 			popup.show(e.getComponent(), e.getX(), e.getY());
-
 		}
 
 		// If row resize has happened, resize all other selected rows
 		if (doRowResize) {
-			if (minSelectionRow != -1 && maxSelectionRow != -1
+			if (minSelectionRow != -1
+					&& maxSelectionRow != -1
 					&& (maxSelectionRow - minSelectionRow > 1)) {
 				if (table.isSelectAll()) {
 					table.setRowHeight(table.getRowHeight(resizingRow));
 				} else {
 					for (int row = minSelectionRow; row <= maxSelectionRow; row++) {
-						table.setRowHeight(row,
-								table.getRowHeight(resizingRow));
+						table.setRowHeight(row, table.getRowHeight(resizingRow));
 					}
 				}
 			}
@@ -384,19 +378,16 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 				// keep the row header updated when drag selecting multiple rows
 				view.updateRowHeader();
-				table.scrollRectToVisible(
-						table.getCellRect(point.row, point.column, true));
+				table.scrollRectToVisible(table.getCellRect(point.row, point.column, true));
 				table.repaint();
 			}
 		}
-
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// Show resize cursor when mouse is over a row boundary
-		if ((getResizingRow(
-				e.getPoint()) >= 0) != (getCursor() == resizeCursor)) {
+		if ((getResizingRow(e.getPoint()) >= 0) != (getCursor() == resizeCursor)) {
 			swapCursor();
 		}
 	}
@@ -420,85 +411,82 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		boolean shiftDown = e.isShiftDown();
 
 		switch (keyCode) {
-		default:
-			// do nothing
-			break;
+			default:
+				// do nothing
+				break;
 
-		case KeyEvent.VK_UP:
-
-			if (shiftDown) {
-				// extend the column selection
-				int row = table.getSelectionModel().getLeadSelectionIndex();
-				table.changeSelection(row - 1, -1, false, true);
-			} else {
-				// select topmost cell in first column to the left of the
-				// selection
-				if (table.minSelectionRow > 0) {
-					table.setSelection(0, table.minSelectionRow - 1);
+			case KeyEvent.VK_UP:
+				if (shiftDown) {
+					// extend the column selection
+					int row = table.getSelectionModel().getLeadSelectionIndex();
+					table.changeSelection(row - 1, -1, false, true);
 				} else {
-					table.setSelection(0, table.minSelectionRow);
+					// select topmost cell in first column to the left of the
+					// selection
+					if (table.minSelectionRow > 0) {
+						table.setSelection(0, table.minSelectionRow - 1);
+					} else {
+						table.setSelection(0, table.minSelectionRow);
+					}
+					table.requestFocus();
 				}
-				table.requestFocus();
-			}
-			break;
+				break;
 
-		case KeyEvent.VK_DOWN:
-			if (shiftDown) {
-				// extend the column selection
-				int row = table.getSelectionModel().getLeadSelectionIndex();
-				table.changeSelection(row + 1, -1, false, true);
-			} else {
-				// select topmost cell in first column to the left of the
-				// selection
-				if (table.minSelectionRow > 0) {
-					table.setSelection(0, table.minSelectionRow + 1);
+			case KeyEvent.VK_DOWN:
+				if (shiftDown) {
+					// extend the column selection
+					int row = table.getSelectionModel().getLeadSelectionIndex();
+					table.changeSelection(row + 1, -1, false, true);
 				} else {
-					table.setSelection(0, table.minSelectionRow);
+					// select topmost cell in first column to the left of the
+					// selection
+					if (table.minSelectionRow > 0) {
+						table.setSelection(0, table.minSelectionRow + 1);
+					} else {
+						table.setSelection(0, table.minSelectionRow);
+					}
+					table.requestFocus();
 				}
-				table.requestFocus();
-			}
-			break;
+				break;
 
-		case KeyEvent.VK_C: // control + c
-			if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
-				table.copyPasteCut.copy(0, minSelectionRow,
-						table.getModel().getColumnCount() - 1, maxSelectionRow,
-						altDown);
-				e.consume();
-			}
-			break;
-		case KeyEvent.VK_V: // control + v
-			if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
-				boolean storeUndo = table.copyPasteCut.paste(0, minSelectionRow,
-						table.getModel().getColumnCount() - 1, maxSelectionRow);
+			case KeyEvent.VK_C: // control + c
+				if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
+					table.copyPasteCut.copy(
+							0, minSelectionRow, table.getModel().getColumnCount() - 1, maxSelectionRow, altDown);
+					e.consume();
+				}
+				break;
+			case KeyEvent.VK_V: // control + v
+				if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
+					boolean storeUndo = table.copyPasteCut.paste(
+							0, minSelectionRow, table.getModel().getColumnCount() - 1, maxSelectionRow);
+					if (storeUndo) {
+						app.storeUndoInfo();
+					}
+					e.consume();
+				}
+				break;
+			case KeyEvent.VK_X: // control + x
+				if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
+					table.copyPasteCut.copy(
+							0, minSelectionRow, table.getModel().getColumnCount() - 1, maxSelectionRow, altDown);
+					e.consume();
+				}
+				boolean storeUndo = table.copyPasteCut.delete(
+						0, minSelectionRow, table.getModel().getColumnCount() - 1, maxSelectionRow);
 				if (storeUndo) {
 					app.storeUndoInfo();
 				}
-				e.consume();
-			}
-			break;
-		case KeyEvent.VK_X: // control + x
-			if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
-				table.copyPasteCut.copy(0, minSelectionRow,
-						table.getModel().getColumnCount() - 1, maxSelectionRow,
-						altDown);
-				e.consume();
-			}
-			boolean storeUndo = table.copyPasteCut.delete(0, minSelectionRow,
-					table.getModel().getColumnCount() - 1, maxSelectionRow);
-			if (storeUndo) {
-				app.storeUndoInfo();
-			}
-			break;
+				break;
 
-		case KeyEvent.VK_DELETE: // delete
-		case KeyEvent.VK_BACK_SPACE: // delete on MAC
-			storeUndo = table.copyPasteCut.delete(0, minSelectionRow,
-					table.getModel().getColumnCount() - 1, maxSelectionRow);
-			if (storeUndo) {
-				app.storeUndoInfo();
-			}
-			break;
+			case KeyEvent.VK_DELETE: // delete
+			case KeyEvent.VK_BACK_SPACE: // delete on MAC
+				storeUndo = table.copyPasteCut.delete(
+						0, minSelectionRow, table.getModel().getColumnCount() - 1, maxSelectionRow);
+				if (storeUndo) {
+					app.storeUndoInfo();
+				}
+				break;
 		}
 	}
 
@@ -506,5 +494,4 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	public void keyReleased(KeyEvent e) {
 		// only press
 	}
-
 }

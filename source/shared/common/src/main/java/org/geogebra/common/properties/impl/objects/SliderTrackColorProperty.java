@@ -34,8 +34,8 @@ public class SliderTrackColorProperty extends ElementColorProperty
 	 * @param element GeoElement to create property for
 	 * @throws NotApplicablePropertyException if the property is not applicable to the element
 	 */
-	public SliderTrackColorProperty(Localization localization,
-			GeoElement element) throws NotApplicablePropertyException {
+	public SliderTrackColorProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, new SliderPropertyDelegate(element), "Color");
 		setValues(DefaultColorValues.BRIGHT);
 	}

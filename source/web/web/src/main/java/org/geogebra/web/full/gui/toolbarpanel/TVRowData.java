@@ -68,8 +68,7 @@ public final class TVRowData {
 	 * @return if cell is erroneous
 	 */
 	public boolean isCellErroneous(int col) {
-		if (row < model.getRowCount() && col < model.getColumnCount()
-			&& hasCellAt(row, col)) {
+		if (row < model.getRowCount() && col < model.getColumnCount() && hasCellAt(row, col)) {
 			return model.getCellAt(row, col).isErroneous();
 		}
 		return false;
@@ -86,4 +85,3 @@ public final class TVRowData {
 		return row;
 	}
 }
-

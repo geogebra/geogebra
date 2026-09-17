@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author ggb3D
- * 
+ *
  *         Creates a new GeoPolyhedron
  *
  */
@@ -74,7 +74,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 	/**
 	 * creates an archimedean solid
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -88,8 +88,8 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	 * @param name
 	 *            solid type
 	 */
-	public AlgoArchimedeanSolidThreePoints(Construction c, String[] labels,
-			GeoPointND A, GeoPointND B, GeoPointND C, Commands name) {
+	public AlgoArchimedeanSolidThreePoints(
+			Construction c, String[] labels, GeoPointND A, GeoPointND B, GeoPointND C, Commands name) {
 		super(c);
 
 		this.name = name;
@@ -154,12 +154,11 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 		outputPolygons.addOutput(polyhedron.getFaces3D(), false, false);
 		outputSegments.addOutput(polyhedron.getSegments3D(), false, true);
-
 	}
 
 	/**
 	 * create the polyhedron (faces and edges)
-	 * 
+	 *
 	 */
 	protected void createPolyhedron() {
 
@@ -241,16 +240,14 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		matrix.setVz(vnl);
 
 		// check C is third point
-		if (!cC.equalsForKernel(tmpCoords.setMul(matrix, coords[2]),
-				kernel.getStandardPrecision())) {
+		if (!cC.equalsForKernel(tmpCoords.setMul(matrix, coords[2]), kernel.getStandardPrecision())) {
 			setUndefined();
 			return;
 		}
 
 		// set points
 		for (int i = 0; i < coords.length - 3; i++) {
-			outputPoints.getElement(i)
-					.setCoords(tmpCoords.setMul(matrix, coords[i + 3]), true);
+			outputPoints.getElement(i).setCoords(tmpCoords.setMul(matrix, coords[i + 3]), true);
 		}
 
 		// update volume
@@ -262,45 +259,42 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 		// update height
 		polyhedron.setOrientedHeight(l * heightFactor);
-
 	}
 
 	private void setVolumeAreaAndHeightFactors() {
 
 		switch (name) {
-		default:
-		case Tetrahedron:
-			volumeFactor = Math.sqrt(2) / 12;
-			heightFactor = Math.sqrt(2. / 3.);
-			areaFactor = Math.sqrt(3);
-			break;
+			default:
+			case Tetrahedron:
+				volumeFactor = Math.sqrt(2) / 12;
+				heightFactor = Math.sqrt(2. / 3.);
+				areaFactor = Math.sqrt(3);
+				break;
 
-		case Cube:
-			volumeFactor = 1;
-			heightFactor = 1;
-			areaFactor = 6;
-			break;
+			case Cube:
+				volumeFactor = 1;
+				heightFactor = 1;
+				areaFactor = 6;
+				break;
 
-		case Octahedron:
-			volumeFactor = Math.sqrt(2) / 3;
-			heightFactor = Math.sqrt(2. / 3.);
-			areaFactor = 2 * Math.sqrt(3);
-			break;
+			case Octahedron:
+				volumeFactor = Math.sqrt(2) / 3;
+				heightFactor = Math.sqrt(2. / 3.);
+				areaFactor = 2 * Math.sqrt(3);
+				break;
 
-		case Dodecahedron:
-			volumeFactor = (15 + 7 * Math.sqrt(5)) / 4;
-			heightFactor = Math.sqrt(2.5 + 1.1 * Math.sqrt(5));
-			areaFactor = 3 * Math.sqrt(25 + 10 * Math.sqrt(5));
-			break;
+			case Dodecahedron:
+				volumeFactor = (15 + 7 * Math.sqrt(5)) / 4;
+				heightFactor = Math.sqrt(2.5 + 1.1 * Math.sqrt(5));
+				areaFactor = 3 * Math.sqrt(25 + 10 * Math.sqrt(5));
+				break;
 
-		case Icosahedron:
-			volumeFactor = (15 + 5 * Math.sqrt(5)) / 12;
-			heightFactor = (3 + Math.sqrt(5)) / (2 * Math.sqrt(3));
-			areaFactor = 5 * Math.sqrt(3);
-			break;
-
+			case Icosahedron:
+				volumeFactor = (15 + 5 * Math.sqrt(5)) / 12;
+				heightFactor = (3 + Math.sqrt(5)) / (2 * Math.sqrt(3));
+				areaFactor = 5 * Math.sqrt(3);
+				break;
 		}
-
 	}
 
 	private void setUndefined() {
@@ -309,7 +303,6 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		for (int i = 0; i < outputPoints.size(); i++) {
 			outputPoints.getElement(i).setUndefined();
 		}
-
 	}
 
 	// ///////////////////////////////////////////
@@ -326,7 +319,6 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 			outputSegments.updateParentAlgorithm();
 			outputPolygons.updateParentAlgorithm();
 		}
-
 	}
 
 	@Override
@@ -335,13 +327,12 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	}
 
 	@Override
-	final protected boolean isFirstInputPointVisible() {
+	protected final boolean isFirstInputPointVisible() {
 		return true;
 	}
 
 	@Override
-	final protected boolean isFirstInputPointLabelVisible() {
+	protected final boolean isFirstInputPointLabelVisible() {
 		return true;
 	}
-
 }

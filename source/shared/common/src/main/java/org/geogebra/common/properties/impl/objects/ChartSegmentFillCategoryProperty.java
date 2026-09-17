@@ -47,8 +47,8 @@ public final class ChartSegmentFillCategoryProperty
 	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartSegmentFillCategoryProperty(Localization localization,
-			GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
+	public ChartSegmentFillCategoryProperty(
+			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
 			throws NotApplicablePropertyException {
 		super(localization, "");
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
@@ -56,8 +56,8 @@ public final class ChartSegmentFillCategoryProperty
 		}
 		this.chartStyleGeo = chartStyleGeo;
 		this.chartSegmentSelection = chartSegmentSelection;
-		this.previousPatternFillTypes = new ArrayList<>(
-				Collections.nCopies(chartStyleGeo.getIntervals(), FillType.STANDARD));
+		this.previousPatternFillTypes =
+				new ArrayList<>(Collections.nCopies(chartStyleGeo.getIntervals(), FillType.STANDARD));
 		setNamedValues(List.of(
 				entry(FillCategory.PATTERN, "Filling.Pattern"),
 				entry(FillCategory.SYMBOL, "Filling.Symbol"),
@@ -66,8 +66,8 @@ public final class ChartSegmentFillCategoryProperty
 
 	@Override
 	protected void doSetValue(FillCategory fillCategory) {
-		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(),
-				index -> setFillCategory(index, fillCategory));
+		chartSegmentSelection.forEachSelectedSegment(
+				chartStyleGeo.getIntervals(), index -> setFillCategory(index, fillCategory));
 		((GeoElement) chartStyleGeo).updateVisualStyleRepaint(GProperty.HATCHING);
 	}
 
@@ -83,7 +83,8 @@ public final class ChartSegmentFillCategoryProperty
 
 	@Override
 	public FillCategory getValue() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
+		return chartSegmentSelection.getUniformValueOrNull(
+				chartStyleGeo.getIntervals(),
 				index -> FillCategory.fromFillType(chartStyleGeo.getStyle().getBarFillType(index)));
 	}
 

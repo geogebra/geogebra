@@ -36,8 +36,7 @@ public class AlgoUnitVectorPoint3D extends AlgoUnitVector {
 	 * @param normalize
 	 *            whether to return unit vector
 	 */
-	public AlgoUnitVectorPoint3D(Construction cons, GeoPoint3D point,
-			boolean normalize) {
+	public AlgoUnitVectorPoint3D(Construction cons, GeoPoint3D point, boolean normalize) {
 		super(cons, point, normalize);
 	}
 
@@ -65,5 +64,4 @@ public class AlgoUnitVectorPoint3D extends AlgoUnitVector {
 	protected GeoPointND getInputStartPoint() {
 		return null;
 	}
-
 }

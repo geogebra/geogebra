@@ -30,8 +30,7 @@ public class RuleCollectionSymbolic extends RuleCollection {
 	public boolean allowed(GeoElementND from, GeoElementND to) {
 		if (from instanceof GeoList && to instanceof GeoList) {
 			GeoList toList = (GeoList) to;
-			return toList.size() == 0
-					|| allowed(getElementType((GeoList) from), toList.getElementType());
+			return toList.size() == 0 || allowed(getElementType((GeoList) from), toList.getElementType());
 		}
 		return allowed(from.getGeoClassType(), to.getGeoClassType());
 	}

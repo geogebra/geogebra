@@ -25,14 +25,14 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public interface Functional extends Evaluatable {
 	/**
 	 * Returns the function
-	 * 
+	 *
 	 * @return function
 	 */
 	Function getFunction();
 
 	/**
 	 * Returns the function
-	 * 
+	 *
 	 * @return function
 	 * @deprecated use getFunction for getting the expression
 	 */
@@ -41,7 +41,7 @@ public interface Functional extends Evaluatable {
 
 	/**
 	 * Returns the function's derivative wrapped in GeoElement
-	 * 
+	 *
 	 * @param order
 	 *            order of the derivative
 	 * @param fast
@@ -49,5 +49,4 @@ public interface Functional extends Evaluatable {
 	 * @return wrapped derivative
 	 */
 	GeoFunction getGeoDerivative(int order, boolean fast);
-
 }

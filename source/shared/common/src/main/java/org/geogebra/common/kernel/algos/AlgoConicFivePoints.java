@@ -41,8 +41,7 @@ import org.geogebra.common.util.DoubleUtil;
  *
  * @author Markus
  */
-public class AlgoConicFivePoints extends AlgoElement
-		implements SymbolicParametersBotanaAlgo {
+public class AlgoConicFivePoints extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
 	// #4156 these are rather arbitrary tradeoffs between compatibility and
 	// numeric stability
@@ -103,7 +102,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return output conic
@@ -141,12 +140,11 @@ public class AlgoConicFivePoints extends AlgoElement
 				break;
 			}
 		}
-
 	}
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -188,7 +186,7 @@ public class AlgoConicFivePoints extends AlgoElement
 
 	/**
 	 * Method created for LocusEqu project.
-	 * 
+	 *
 	 * @return a copy of inner array so it cannot be manipulated from outside.
 	 */
 	public GeoPoint[] getAllPoints() {
@@ -247,8 +245,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	private void normalizeLines(int i) {
-		double norm = Math.max(Math.abs(line[i].x),
-				Math.max(Math.abs(line[i].y), Math.abs(line[i].z)));
+		double norm = Math.max(Math.abs(line[i].x), Math.max(Math.abs(line[i].y), Math.abs(line[i].z)));
 		if (norm < 1) {
 			line[i].x = line[i].x / norm;
 			line[i].y = line[i].y / norm;
@@ -259,7 +256,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	/**
 	 * Compares a value with matrix entries TODO the 1E10 constant here is a bit
 	 * arbitrary, see #5201
-	 * 
+	 *
 	 * @param e12
 	 *            eigenvalue
 	 * @param M
@@ -270,8 +267,7 @@ public class AlgoConicFivePoints extends AlgoElement
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				// e12 is much bigger than any matrix entry
-				if (!DoubleUtil.isZero(M[i][j], Kernel.MIN_PRECISION)
-						&& Math.abs(e12) > 1E10 * M[i][j]) {
+				if (!DoubleUtil.isZero(M[i][j], Kernel.MIN_PRECISION) && Math.abs(e12) > 1E10 * M[i][j]) {
 					return true;
 				}
 			}
@@ -280,8 +276,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	private static boolean shouldInvert(double d) {
-		return (!DoubleUtil.isZero(d) && Math.abs(d) < MULTIPLIER_MIN)
-				|| Math.abs(d) > MULTIPLIER_MAX;
+		return (!DoubleUtil.isZero(d) && Math.abs(d) < MULTIPLIER_MIN) || Math.abs(d) > MULTIPLIER_MAX;
 	}
 
 	// compute degenerate conic from lines a, b
@@ -301,15 +296,16 @@ public class AlgoConicFivePoints extends AlgoElement
 
 	// computes P.A.P, where A is a (possibly not symmetric) 3x3 matrix
 	private static double evalMatrix(double[][] A, GeoPoint P) {
-		return A[0][0] * P.x * P.x + A[1][1] * P.y * P.y + A[2][2] * P.z * P.z
+		return A[0][0] * P.x * P.x
+				+ A[1][1] * P.y * P.y
+				+ A[2][2] * P.z * P.z
 				+ (A[0][1] + A[1][0]) * P.x * P.y
 				+ (A[0][2] + A[2][0]) * P.x * P.z
 				+ (A[1][2] + A[2][1]) * P.y * P.z;
 	}
 
 	// computes the linear combination C = l * A + m * B
-	private static void linComb(double[][] A, double[][] B, double l,
-			double m, double[][] C) {
+	private static void linComb(double[][] A, double[][] B, double l, double m, double[][] C) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				C[i][j] = l * A[i][j] + m * B[i][j];
@@ -318,13 +314,18 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("ConicThroughABCDE",
-				"Conic through %0, %1, %2, %3, %4", P[0].getLabel(tpl),
-				P[1].getLabel(tpl), P[2].getLabel(tpl), P[3].getLabel(tpl),
-				P[4].getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"ConicThroughABCDE",
+						"Conic through %0, %1, %2, %3, %4",
+						P[0].getLabel(tpl),
+						P[1].getLabel(tpl),
+						P[2].getLabel(tpl),
+						P[3].getLabel(tpl),
+						P[4].getLabel(tpl));
 	}
 
 	@Override
@@ -333,8 +334,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -372,8 +372,11 @@ public class AlgoConicFivePoints extends AlgoElement
 		PPolynomial dp = new PPolynomial(d);
 		PPolynomial ep = new PPolynomial(e);
 		PPolynomial fp = new PPolynomial(f);
-		botanaPolynomials[0] = ap.multiply(xx).add(bp.multiply(yy))
-				.add(cp.multiply(xy)).add(dp.multiply(xp)).add(ep.multiply(yp))
+		botanaPolynomials[0] = ap.multiply(xx)
+				.add(bp.multiply(yy))
+				.add(cp.multiply(xy))
+				.add(dp.multiply(xp))
+				.add(ep.multiply(yp))
 				.add(fp);
 		AlgoElement ae = geo.getParentAlgorithm();
 
@@ -382,40 +385,50 @@ public class AlgoConicFivePoints extends AlgoElement
 		PPolynomial Ay = new PPolynomial(PA.getBotanaVars(PA)[1]);
 		botanaPolynomials[1] = ap.multiply(PPolynomial.sqr(Ax))
 				.add(bp.multiply(PPolynomial.sqr(Ay)))
-				.add(cp.multiply(Ax).multiply(Ay)).add(dp.multiply(Ax))
-				.add(ep.multiply(Ay)).add(fp);
+				.add(cp.multiply(Ax).multiply(Ay))
+				.add(dp.multiply(Ax))
+				.add(ep.multiply(Ay))
+				.add(fp);
 
 		GeoPoint PB = (GeoPoint) ae.input[1];
 		PPolynomial Bx = new PPolynomial(PB.getBotanaVars(PB)[0]);
 		PPolynomial By = new PPolynomial(PB.getBotanaVars(PB)[1]);
 		botanaPolynomials[2] = ap.multiply(PPolynomial.sqr(Bx))
 				.add(bp.multiply(PPolynomial.sqr(By)))
-				.add(cp.multiply(Bx).multiply(By)).add(dp.multiply(Bx))
-				.add(ep.multiply(By)).add(fp);
+				.add(cp.multiply(Bx).multiply(By))
+				.add(dp.multiply(Bx))
+				.add(ep.multiply(By))
+				.add(fp);
 
 		GeoPoint PC = (GeoPoint) ae.input[2];
 		PPolynomial Cx = new PPolynomial(PC.getBotanaVars(PC)[0]);
 		PPolynomial Cy = new PPolynomial(PC.getBotanaVars(PC)[1]);
 		botanaPolynomials[3] = ap.multiply(PPolynomial.sqr(Cx))
 				.add(bp.multiply(PPolynomial.sqr(Cy)))
-				.add(cp.multiply(Cx).multiply(Cy)).add(dp.multiply(Cx))
-				.add(ep.multiply(Cy)).add(fp);
+				.add(cp.multiply(Cx).multiply(Cy))
+				.add(dp.multiply(Cx))
+				.add(ep.multiply(Cy))
+				.add(fp);
 
 		GeoPoint PD = (GeoPoint) ae.input[3];
 		PPolynomial Dx = new PPolynomial(PD.getBotanaVars(PD)[0]);
 		PPolynomial Dy = new PPolynomial(PD.getBotanaVars(PD)[1]);
 		botanaPolynomials[4] = ap.multiply(PPolynomial.sqr(Dx))
 				.add(bp.multiply(PPolynomial.sqr(Dy)))
-				.add(cp.multiply(Dx).multiply(Dy)).add(dp.multiply(Dx))
-				.add(ep.multiply(Dy)).add(fp);
+				.add(cp.multiply(Dx).multiply(Dy))
+				.add(dp.multiply(Dx))
+				.add(ep.multiply(Dy))
+				.add(fp);
 
 		GeoPoint PE = (GeoPoint) ae.input[4];
 		PPolynomial Ex = new PPolynomial(PE.getBotanaVars(PE)[0]);
 		PPolynomial Ey = new PPolynomial(PE.getBotanaVars(PE)[1]);
 		botanaPolynomials[5] = ap.multiply(PPolynomial.sqr(Ex))
 				.add(bp.multiply(PPolynomial.sqr(Ey)))
-				.add(cp.multiply(Ex).multiply(Ey)).add(dp.multiply(Ex))
-				.add(ep.multiply(Ey)).add(fp);
+				.add(cp.multiply(Ex).multiply(Ey))
+				.add(dp.multiply(Ex))
+				.add(ep.multiply(Ey))
+				.add(fp);
 
 		return botanaPolynomials;
 	}

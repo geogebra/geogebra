@@ -30,12 +30,11 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Displays statistics for DataAnalysisView when in one variable or regression
  * mode.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
-		StatTableListener {
+public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW, StatTableListener {
 	protected final AppW app;
 	private StatTableModel model;
 
@@ -54,8 +53,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	 * @param defaultModel
 	 *            model
 	 */
-	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog,
-			boolean defaultModel) {
+	public BasicStatTableW(AppW app, DataAnalysisViewW statDialog, boolean defaultModel) {
 		this.daView = statDialog;
 		this.app = app;
 		setStyleName("daStatistics");
@@ -77,8 +75,11 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	protected void initStatTable() {
 
 		statTable = new StatTableW();
-		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
-				getColumnCount(), getModel().getColumnNames());
+		statTable.setStatTable(
+				getModel().getRowCount(),
+				getModel().getRowNames(),
+				getColumnCount(),
+				getModel().getColumnNames());
 		clear();
 		add(statTable);
 	}
@@ -104,18 +105,19 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	/**
 	 * Evaluates all statistics for the selected data list. If data source is
 	 * not valid, the result cells are set blank.
-	 * 
+	 *
 	 */
 	@Override
 	public void updatePanel() {
-		statTable.setStatTable(getModel().getRowCount(), getModel()
-				.getRowNames(), getColumnCount(), getModel()
-				.getColumnNames());
+		statTable.setStatTable(
+				getModel().getRowCount(),
+				getModel().getRowNames(),
+				getColumnCount(),
+				getModel().getColumnNames());
 		app.getAsyncManager().scheduleCallback(getModel()::updatePanel);
 	}
 
-	protected AlgoElement getAlgo(Statistic algoName, GeoList dataList,
-			GeoElement geoRegression) {
+	protected AlgoElement getAlgo(Statistic algoName, GeoList dataList, GeoElement geoRegression) {
 		return getModel().getAlgo(algoName, dataList, geoRegression);
 	}
 
@@ -146,8 +148,7 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 
 	@Override
 	public void setValueAt(double value, int row, int column) {
-		statTable.setValueAt(daView.getModel().format(value), row,
-				column + 1);
+		statTable.setValueAt(daView.getModel().format(value), row, column + 1);
 	}
 
 	@Override
@@ -173,5 +174,4 @@ public class BasicStatTableW extends FlowPanel implements StatPanelInterfaceW,
 	public StatTableModel getModel() {
 		return model;
 	}
-
 }

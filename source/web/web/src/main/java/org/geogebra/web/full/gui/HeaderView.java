@@ -45,8 +45,8 @@ public final class HeaderView extends FlowPanel {
 	}
 
 	private void createButton(AppW appW) {
-		backButton = new IconButton(appW, "Back", appW.getGeneralIconResource()
-				.getImageResource(GeneralIcon.ARROW_BACK));
+		backButton = new IconButton(
+				appW, "Back", appW.getGeneralIconResource().getImageResource(GeneralIcon.ARROW_BACK));
 		backButton.addStyleName("headerBackButton");
 
 		add(backButton);
@@ -59,7 +59,7 @@ public final class HeaderView extends FlowPanel {
 
 	/**
 	 * Get the back button of the header
-	 * 
+	 *
 	 * @return back button
 	 */
 	public IconButton getBackButton() {
@@ -68,7 +68,7 @@ public final class HeaderView extends FlowPanel {
 
 	/**
 	 * Set the caption for the view.
-	 * 
+	 *
 	 * @param text
 	 *            caption
 	 */
@@ -78,7 +78,7 @@ public final class HeaderView extends FlowPanel {
 
 	/**
 	 * Adjust the CSS class for small / big screen
-	 * 
+	 *
 	 * @param smallScreen
 	 *            whether to use smallscreen design
 	 */

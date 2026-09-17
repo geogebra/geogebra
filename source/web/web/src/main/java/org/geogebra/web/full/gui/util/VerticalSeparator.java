@@ -20,7 +20,7 @@ import org.gwtproject.dom.style.shared.Unit;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 public final class VerticalSeparator extends SimplePanel {
-	
+
 	/**
 	 * @param height
 	 *            separator height in px

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -52,8 +52,7 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
 
-public class ConstructionProtocolExportDialogD extends Dialog
-		implements KeyListener {
+public class ConstructionProtocolExportDialogD extends Dialog implements KeyListener {
 
 	private static final long serialVersionUID = -2626950140196416416L;
 
@@ -93,11 +92,9 @@ public class ConstructionProtocolExportDialogD extends Dialog
 
 		// checkbox: insert picture of drawing pad
 		JPanel picPanel = new JPanel(new BorderLayout(20, 5));
-		cbDrawingPadPicture = new JCheckBox(
-				loc.getMenu("InsertPictureOfConstruction"));
+		cbDrawingPadPicture = new JCheckBox(loc.getMenu("InsertPictureOfConstruction"));
 		cbDrawingPadPicture.setSelected(true);
-		cbScreenshotPicture = new JCheckBox(
-				loc.getMenu("InsertPictureOfAllOpenViews"));
+		cbScreenshotPicture = new JCheckBox(loc.getMenu("InsertPictureOfAllOpenViews"));
 		cbScreenshotPicture.setSelected(false);
 
 		picPanel.add(cbDrawingPadPicture, app.getLocalization().borderWest());
@@ -146,7 +143,8 @@ public class ConstructionProtocolExportDialogD extends Dialog
 				if (kernelChanged) {
 					app.storeUndoInfo();
 				}
-				exportHTML(cbDrawingPadPicture.isSelected(),
+				exportHTML(
+						cbDrawingPadPicture.isSelected(),
 						cbScreenshotPicture.isSelected(),
 						cbColor.isSelected());
 			});
@@ -164,11 +162,12 @@ public class ConstructionProtocolExportDialogD extends Dialog
 					Toolkit toolkit = Toolkit.getDefaultToolkit();
 					Clipboard clipboard = toolkit.getSystemClipboard();
 
-					StringSelection stringSelection = new StringSelection(
-							ConstructionProtocolView.getHTML(null,
-									app.getLocalization(),
-									app.getKernel(), prot.getColumns(),
-									prot.getUseColors()));
+					StringSelection stringSelection = new StringSelection(ConstructionProtocolView.getHTML(
+							null,
+							app.getLocalization(),
+							app.getKernel(),
+							prot.getColumns(),
+							prot.getUseColors()));
 					clipboard.setContents(stringSelection, null);
 				} catch (Exception ex) {
 					Log.debug(ex);
@@ -234,33 +233,31 @@ public class ConstructionProtocolExportDialogD extends Dialog
 	 *            : states whether a picture of the algebraWindow should be
 	 *            exported with the html output file
 	 */
-	private void exportHTML(boolean includePicture,
-			boolean includeAlgebraPicture, boolean useColors) {
+	private void exportHTML(
+			boolean includePicture, boolean includeAlgebraPicture, boolean useColors) {
 		prot.setUseColors(useColors);
-		final File file = app.getGuiManager().showSaveDialog(
-				FileExtensions.HTML, null,
-				app.getLocalization().getMenu("HTML"), true, false);
+		final File file = app.getGuiManager()
+				.showSaveDialog(
+						FileExtensions.HTML, null, app.getLocalization().getMenu("HTML"), true, false);
 
 		BufferedImage img = null;
 
 		if (includePicture) {
 			// picture of drawing pad
-			img = GBufferedImageD.getAwtBufferedImage(
-					app.getEuclidianView1().getExportImage(1d));
+			img = GBufferedImageD.getAwtBufferedImage(app.getEuclidianView1().getExportImage(1d));
 		} else if (includeAlgebraPicture) {
 			// picture of drawing pad
 			img = getCenterPanelImage();
 		}
 
 		String imgBase64 = GBufferedImageD.base64encode(img, 72);
-		String export = ConstructionProtocolView.getHTML(imgBase64,
-				app.getLocalization(), app.getKernel(), prot.getColumns(),
-				useColors);
+		String export = ConstructionProtocolView.getHTML(
+				imgBase64, app.getLocalization(), app.getKernel(), prot.getColumns(), useColors);
 
 		Log.debug(export);
 
-		try (BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
-				new FileOutputStream(file), StandardCharsets.UTF_8))) {
+		try (BufferedWriter fw = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
 			fw.write(export);
 		} catch (IOException ex) {
 			app.showError(Errors.SaveFileFailed);
@@ -271,8 +268,7 @@ public class ConstructionProtocolExportDialogD extends Dialog
 		Thread runner = new Thread(() -> {
 			try {
 				// open html file in browser
-				((GuiManagerD) app.getGuiManager())
-						.showURLinBrowser(file.toURI().toURL());
+				((GuiManagerD) app.getGuiManager()).showURLinBrowser(file.toURI().toURL());
 			} catch (Exception ex) {
 				app.showError(Errors.SaveFileFailed);
 				Log.debug(ex.toString());
@@ -283,13 +279,12 @@ public class ConstructionProtocolExportDialogD extends Dialog
 
 	private BufferedImage getCenterPanelImage() {
 		JPanel centPanel = app.getCenterPanel();
-		BufferedImage img = new BufferedImage(centPanel.getWidth(),
-				centPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage img =
+				new BufferedImage(centPanel.getWidth(), centPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = img.createGraphics();
 		centPanel.paint(g);
 		g.dispose();
 		img.flush();
 		return img;
 	}
-
 }

@@ -59,7 +59,5 @@ public class NumberFold implements FoldComputer {
 	@Override
 	public void finish() {
 		result.setValue(x);
-
 	}
-
 }

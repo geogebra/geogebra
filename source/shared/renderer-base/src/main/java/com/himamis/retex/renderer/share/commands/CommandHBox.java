@@ -13,5 +13,4 @@ public class CommandHBox extends Command1A {
 		}
 		return new RowAtom(a);
 	}
-
 }

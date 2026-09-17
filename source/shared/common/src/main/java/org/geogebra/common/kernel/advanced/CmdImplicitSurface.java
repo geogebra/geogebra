@@ -30,13 +30,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * ImplicitSurface[&lt;f(x, y, z)&gt;]
- * 
+ *
  * @author Shamshad Alam
  *
  */
 public class CmdImplicitSurface extends CommandProcessor {
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            {@link Kernel}
 	 */
@@ -51,13 +51,12 @@ public class CmdImplicitSurface extends CommandProcessor {
 		GeoElement[] arg = resArgs(c, info);
 		if (n == 1) {
 			if (arg[0] instanceof GeoFunctionNVar) {
-				ExpressionNode lhs = ((GeoFunctionNVar) arg[0])
-						.getFunctionExpression();
+				ExpressionNode lhs = ((GeoFunctionNVar) arg[0]).getFunctionExpression();
 				ExpressionNode rhs = new ExpressionNode(kernel, 0.0);
 				Equation e = new Equation(kernel, lhs, rhs);
 				GeoImplicitSurface surf = new GeoImplicitSurface(cons, e);
 				surf.setLabel(c.getLabel());
-				return new GeoElement[] { surf };
+				return new GeoElement[] {surf};
 			}
 			throw argErr(c, arg[0]);
 		}

@@ -33,5 +33,4 @@ public final class MenuIconResource {
 	public IconSpec getImageResource(Icon icon) {
 		return menuIconProvider.matchIconWithResource(icon);
 	}
-
 }

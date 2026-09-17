@@ -37,7 +37,9 @@ public final class DimensionRatioPanel extends FlowPanel {
 	 * @param propertiesPanelAdapter {@link PropertiesPanelAdapter}
 	 * @param dimensionRatioEditor {@link DimensionRatioEditor}
 	 */
-	public DimensionRatioPanel(AppW appW, PropertiesPanelAdapter propertiesPanelAdapter,
+	public DimensionRatioPanel(
+			AppW appW,
+			PropertiesPanelAdapter propertiesPanelAdapter,
 			DimensionRatioEditor dimensionRatioEditor) {
 		this.appW = appW;
 		this.propertiesPanelAdapter = propertiesPanelAdapter;
@@ -50,11 +52,11 @@ public final class DimensionRatioPanel extends FlowPanel {
 		add(new Label(appW.getLocalization().getMenu(dimensionRatioEditor.getLabel())));
 		FlowPanel ratioPanel = new FlowPanel();
 		ratioPanel.addStyleName("ratioPanel");
-		ratioPanel.add(propertiesPanelAdapter.getHalfWidthWidget(
-				dimensionRatioEditor.getLeadingTextField()));
+		ratioPanel.add(
+				propertiesPanelAdapter.getHalfWidthWidget(dimensionRatioEditor.getLeadingTextField()));
 		ratioPanel.add(new Label(":"));
-		ratioPanel.add(propertiesPanelAdapter.getHalfWidthWidget(
-				dimensionRatioEditor.getTrailingTextField()));
+		ratioPanel.add(
+				propertiesPanelAdapter.getHalfWidthWidget(dimensionRatioEditor.getTrailingTextField()));
 		ratioPanel.add(lockRatio);
 
 		add(ratioPanel);
@@ -64,15 +66,16 @@ public final class DimensionRatioPanel extends FlowPanel {
 		SVGResource icon = dimensionRatioEditor.isLocked()
 				? MaterialDesignResources.INSTANCE.lock_black()
 				: MaterialDesignResources.INSTANCE.lock_open_black();
-		IconButton lockRatio = new IconButton(appW, null, new ImageIconSpec(icon),
-				getLockedUnlockedKey(dimensionRatioEditor));
+		IconButton lockRatio = new IconButton(
+				appW, null, new ImageIconSpec(icon), getLockedUnlockedKey(dimensionRatioEditor));
 		lockRatio.addFastClickHandler(source -> {
 			dimensionRatioEditor.setLocked(!dimensionRatioEditor.isLocked());
-			lockRatio.setIcon(dimensionRatioEditor.isLocked()
-					? MaterialDesignResources.INSTANCE.lock_black()
-					: MaterialDesignResources.INSTANCE.lock_open_black());
-			lockRatio.setTitle(appW.getLocalization().getMenu(
-					getLockedUnlockedKey(dimensionRatioEditor)));
+			lockRatio.setIcon(
+					dimensionRatioEditor.isLocked()
+							? MaterialDesignResources.INSTANCE.lock_black()
+							: MaterialDesignResources.INSTANCE.lock_open_black());
+			lockRatio.setTitle(
+					appW.getLocalization().getMenu(getLockedUnlockedKey(dimensionRatioEditor)));
 		});
 		lockRatio.getElement().setAttribute("tooltip-position", "right");
 		return lockRatio;

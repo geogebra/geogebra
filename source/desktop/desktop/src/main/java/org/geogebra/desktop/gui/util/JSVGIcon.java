@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -68,9 +68,9 @@ public final class JSVGIcon implements Icon {
 	private void paintIcon(Graphics2D g, int x, int y) {
 		saveRenderingHints(g);
 
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				antiAlias ? RenderingHints.VALUE_ANTIALIAS_ON
-						: RenderingHints.VALUE_ANTIALIAS_OFF);
+		g.setRenderingHint(
+				RenderingHints.KEY_ANTIALIASING,
+				antiAlias ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
 
 		interpolation.apply(g);
 		g.translate(x, y);
@@ -92,17 +92,14 @@ public final class JSVGIcon implements Icon {
 	}
 
 	private void saveRenderingHints(Graphics2D g) {
-		oldAliasHint = g
-				.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
-		oldInterpolationHint = g
-				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+		oldAliasHint = g.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+		oldInterpolationHint = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 	}
 
 	private void restoreRenderingHints(Graphics2D g) {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, oldAliasHint);
 		if (oldInterpolationHint != null) {
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					oldInterpolationHint);
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldInterpolationHint);
 		}
 	}
 

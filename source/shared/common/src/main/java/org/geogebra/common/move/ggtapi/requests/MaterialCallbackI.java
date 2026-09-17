@@ -37,5 +37,4 @@ public interface MaterialCallbackI {
 	 * @param exception exception
 	 */
 	void onError(Throwable exception);
-
 }

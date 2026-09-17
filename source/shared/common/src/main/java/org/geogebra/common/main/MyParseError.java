@@ -21,7 +21,7 @@ import java.io.Serial;
 /**
  *
  * @author Markus
- * 
+ *
  */
 public class MyParseError extends MyError {
 
@@ -42,8 +42,6 @@ public class MyParseError extends MyError {
 
 	@Override
 	public String getMessage() {
-		return Errors.InvalidInput.getError(loc)
-				+ " :\n"
-				+ super.getMessage();
+		return Errors.InvalidInput.getError(loc) + " :\n" + super.getMessage();
 	}
 }

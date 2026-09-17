@@ -70,20 +70,14 @@ public abstract class XAtom extends Atom implements HasTrueBase {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		final Box O = over != null ? over.createBox(env.supStyle())
-				: StrutBox.getEmpty();
-		final Box U = under != null ? under.createBox(env.subStyle())
-				: StrutBox.getEmpty();
-		final Box oside = new SpaceAtom(Unit.MU, 5., 0., 0.)
-				.createBox(env.supStyle());
-		final Box uside = new SpaceAtom(Unit.MU, 9., 0., 0.)
-				.createBox(env.subStyle());
-		final Box osep = new SpaceAtom(Unit.MU, 0., 2., 0.)
-				.createBox(env);
-		final Box usep = new SpaceAtom(Unit.MU, 0., 3.5, 0.)
-				.createBox(env);
-		double width = Math.max(O.getWidth() + 2. * oside.getWidth(),
-				U.getWidth() + 2. * uside.getWidth());
+		final Box O = over != null ? over.createBox(env.supStyle()) : StrutBox.getEmpty();
+		final Box U = under != null ? under.createBox(env.subStyle()) : StrutBox.getEmpty();
+		final Box oside = new SpaceAtom(Unit.MU, 5., 0., 0.).createBox(env.supStyle());
+		final Box uside = new SpaceAtom(Unit.MU, 9., 0., 0.).createBox(env.subStyle());
+		final Box osep = new SpaceAtom(Unit.MU, 0., 2., 0.).createBox(env);
+		final Box usep = new SpaceAtom(Unit.MU, 0., 3.5, 0.).createBox(env);
+		double width =
+				Math.max(O.getWidth() + 2. * oside.getWidth(), U.getWidth() + 2. * uside.getWidth());
 		width = Math.max(width, minW.getValue(env));
 
 		final Box extended = createExtension(env, width);
@@ -104,8 +98,7 @@ public abstract class XAtom extends Atom implements HasTrueBase {
 		vb.setDepth(d);
 		vb.setHeight(h - d);
 
-		return new HorizontalBox(vb, vb.getWidth() + 2. * osep.getHeight(),
-				TeXConstants.Align.CENTER);
+		return new HorizontalBox(vb, vb.getWidth() + 2. * osep.getHeight(), TeXConstants.Align.CENTER);
 	}
 
 	public abstract Box createExtension(TeXEnvironment env, double width);

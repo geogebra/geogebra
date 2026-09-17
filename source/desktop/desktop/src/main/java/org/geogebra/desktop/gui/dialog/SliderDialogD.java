@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -50,13 +50,13 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Dialog for slider creation
  */
-public class SliderDialogD extends Dialog
-		implements ActionListener, KeyListener, WindowListener {
+public class SliderDialogD extends Dialog implements ActionListener, KeyListener, WindowListener {
 
 	/**
-	 *  
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private JButton btOK;
 	private JButton btCancel;
 	private JRadioButton rbNumber;
@@ -75,7 +75,7 @@ public class SliderDialogD extends Dialog
 
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
-	 * 
+	 *
 	 * @param x
 	 *            x-coordinate of slider in screen coords
 	 * @param y
@@ -162,7 +162,7 @@ public class SliderDialogD extends Dialog
 		// slider panels
 		sliderPanel = new SliderPropertiesPanelD(app, null, true, false);
 		JPanel slPanel = new JPanel(new BorderLayout(0, 0));
-		GeoElement[] geos = { number };
+		GeoElement[] geos = {number};
 		slPanel.add(sliderPanel.updatePanel(geos), BorderLayout.CENTER);
 
 		// buttons
@@ -201,20 +201,19 @@ public class SliderDialogD extends Dialog
 			String strLabel;
 			String text = tfLabel.getText();
 			try {
-				strLabel = app.getKernel().getAlgebraProcessor()
-						.parseLabel(text);
+				strLabel = app.getKernel().getAlgebraProcessor().parseLabel(text);
 			} catch (Exception e) {
 				strLabel = null;
 			}
 			geoResult.setLabel(strLabel);
 
 			// allow eg a=2 in the Name dialog to set the initial value
-			if (strLabel != null && text.indexOf('=') > -1
+			if (strLabel != null
+					&& text.indexOf('=') > -1
 					&& text.indexOf('=') == text.lastIndexOf('=')) {
 
 				try {
-					double val = Double
-							.parseDouble(text.substring(text.indexOf('=') + 1));
+					double val = Double.parseDouble(text.substring(text.indexOf('=') + 1));
 
 					GeoNumeric geoNum = (GeoNumeric) geoResult;
 
@@ -245,8 +244,7 @@ public class SliderDialogD extends Dialog
 			geoResult.setLabelVisible(true);
 			geoResult.update();
 			if (!rbAngle.isSelected()) {
-				AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
-						app.getActiveEuclidianView());
+				AdjustSlider.ensureOnScreen((GeoNumeric) geoResult, app.getActiveEuclidianView());
 			}
 
 			((GeoNumeric) geoResult).setRandom(cbRandom.isSelected());
@@ -256,8 +254,7 @@ public class SliderDialogD extends Dialog
 			app.storeUndoInfo();
 		} else if (source == btCancel) {
 			setVisible(false);
-		} else if (source == rbNumber || source == rbAngle
-				|| source == rbInteger) {
+		} else if (source == rbNumber || source == rbAngle || source == rbInteger) {
 			GeoNumeric selGeo = rbAngle.isSelected() ? angle : number;
 			if (source == rbInteger) {
 				number.setAutoStep(false);
@@ -265,15 +262,14 @@ public class SliderDialogD extends Dialog
 				number.setIntervalMin(1);
 				number.setIntervalMax(30);
 			} else if (source == rbNumber) {
-				GeoNumeric num = app.getKernel().getAlgoDispatcher()
-						.getDefaultNumber(false);
+				GeoNumeric num = app.getKernel().getAlgoDispatcher().getDefaultNumber(false);
 				number.setAutoStep(num.isAutoStep());
 				number.setAnimationStep(num.getAnimationStep());
 
 				number.setIntervalMin(num.getIntervalMin());
 				number.setIntervalMax(num.getIntervalMax());
 			}
-			GeoElement[] geos = { selGeo };
+			GeoElement[] geos = {selGeo};
 			sliderPanel.updatePanel(geos);
 
 			// update label text field
@@ -293,17 +289,17 @@ public class SliderDialogD extends Dialog
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_ENTER:
-			btOK.doClick();
-			break;
+			default:
+				// do nothing
+				break;
+			case KeyEvent.VK_ENTER:
+				btOK.doClick();
+				break;
 
-		case KeyEvent.VK_ESCAPE:
-			btCancel.doClick();
-			e.consume();
-			break;
+			case KeyEvent.VK_ESCAPE:
+				btCancel.doClick();
+				e.consume();
+				break;
 		}
 	}
 
@@ -351,5 +347,4 @@ public class SliderDialogD extends Dialog
 	public void windowOpened(WindowEvent arg0) {
 		setLabelFieldFocus();
 	}
-
 }

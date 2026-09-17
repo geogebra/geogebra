@@ -28,5 +28,4 @@ public interface VectorValue extends VectorNDValue {
 	 */
 	@Override
 	GeoVec2D getVector();
-
 }

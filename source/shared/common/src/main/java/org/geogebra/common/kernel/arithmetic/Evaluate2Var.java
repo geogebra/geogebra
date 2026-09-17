@@ -23,7 +23,7 @@ public interface Evaluate2Var extends ExpressionValue {
 
 	/**
 	 * Evaluate at given point, be smart about y for f(y)=y^2
-	 * 
+	 *
 	 * @param x
 	 *            value of x (or first variable)
 	 * @param y
@@ -46,5 +46,4 @@ public interface Evaluate2Var extends ExpressionValue {
 	 * @return function
 	 */
 	FunctionNVar getFunction();
-
 }

@@ -41,9 +41,7 @@ public class CASDummy extends CASgiac {
 	}
 
 	@Override
-	protected String evaluate(String exp, long timeoutMilliseconds)
-			throws Throwable {
+	protected String evaluate(String exp, long timeoutMilliseconds) throws Throwable {
 		return "?";
 	}
-
 }

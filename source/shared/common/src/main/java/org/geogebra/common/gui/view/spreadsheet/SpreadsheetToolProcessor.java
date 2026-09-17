@@ -58,11 +58,15 @@ public final class SpreadsheetToolProcessor {
 
 	@Weak
 	private final App app;
+
 	private final SpreadsheetTableModel tableModel;
+
 	@Weak
 	private final Construction cons;
+
 	@Weak
 	private final Localization loc;
+
 	private final CellFormatInterface cellFormat;
 
 	private static final class PointDimension {
@@ -108,22 +112,21 @@ public final class SpreadsheetToolProcessor {
 	 *            whether to transpose the table
 	 * @return table (using TableText)
 	 */
-	public GeoElementND createTableText(int column1, int column2, int row1,
-			int row2, boolean copyByValue, boolean transpose) {
+	public GeoElementND createTableText(
+			int column1, int column2, int row1, int row2, boolean copyByValue, boolean transpose) {
 
 		GeoElementND[] geos = null;
 		StringBuilder text = new StringBuilder();
 
 		try {
 			text.append("TableText[");
-			text.append(createMatrixExpression(column1, column2, row1, row2,
-					copyByValue, transpose));
+			text.append(createMatrixExpression(column1, column2, row1, row2, copyByValue, transpose));
 			text.append(",\"|_");
 			// formatting eg "lcr"
-			text.append(getAlignmentString(column1, column2, row1, row2,
-					transpose));
+			text.append(getAlignmentString(column1, column2, row1, row2, transpose));
 			text.append("\"]");
-			geos = app.getKernel().getAlgebraProcessor()
+			geos = app.getKernel()
+					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(text.toString(), false);
 
 		} catch (RuntimeException ex) {
@@ -157,17 +160,15 @@ public final class SpreadsheetToolProcessor {
 	 *            whether to transpose the matrix
 	 * @return matrix
 	 */
-	public GeoElementND createMatrix(int column1, int column2, int row1,
-			int row2, boolean copyByValue, boolean transpose) {
+	public GeoElementND createMatrix(
+			int column1, int column2, int row1, int row2, boolean copyByValue, boolean transpose) {
 
 		GeoElementND[] geos = null;
 		String expr = null;
 
 		try {
-			expr = createMatrixExpression(column1, column2, row1, row2,
-					copyByValue, transpose);
-			geos = app.getKernel().getAlgebraProcessor()
-					.processAlgebraCommandNoExceptions(expr, false);
+			expr = createMatrixExpression(column1, column2, row1, row2, copyByValue, transpose);
+			geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptions(expr, false);
 		} catch (RuntimeException ex) {
 			Log.debug("creating matrix failed " + expr);
 			Log.debug(ex);
@@ -185,8 +186,8 @@ public final class SpreadsheetToolProcessor {
 	 * just take alignment from first cell in each column (row)
 	 *
 	 */
-	private String getAlignmentString(int column1, int column2, int row1,
-			int row2, boolean transpose) {
+	private String getAlignmentString(
+			int column1, int column2, int row1, int row2, boolean transpose) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -208,10 +209,8 @@ public final class SpreadsheetToolProcessor {
 	// Insert Rows/Columns
 	// ===================================================
 
-	private static char alignmentChar(int col, int row,
-			CellFormatInterface formatHandler) {
-		Object alignment = formatHandler.getCellFormat(col, row,
-				CellFormat.FORMAT_ALIGN);
+	private static char alignmentChar(int col, int row, CellFormatInterface formatHandler) {
+		Object alignment = formatHandler.getCellFormat(col, row, CellFormat.FORMAT_ALIGN);
 
 		int alignmentI = CellFormat.ALIGN_LEFT;
 
@@ -237,8 +236,13 @@ public final class SpreadsheetToolProcessor {
 	 *
 	 * @return matrix definition
 	 */
-	public String createMatrixExpression(int minColumn, int maxColumn, int minRow,
-			int maxRow, boolean copyByValue, boolean transpose) {
+	public String createMatrixExpression(
+			int minColumn,
+			int maxColumn,
+			int minRow,
+			int maxRow,
+			boolean copyByValue,
+			boolean transpose) {
 
 		GeoElement v2;
 		StringBuilder sb = new StringBuilder();
@@ -257,8 +261,8 @@ public final class SpreadsheetToolProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showError(MyError.Errors.CellAisNotDefined.getError(loc,
-								GeoElementSpreadsheet.getSpreadsheetCellName(i, j)));
+						app.showError(MyError.Errors.CellAisNotDefined.getError(
+								loc, GeoElementSpreadsheet.getSpreadsheetCellName(i, j)));
 						return null;
 					}
 				}
@@ -280,8 +284,8 @@ public final class SpreadsheetToolProcessor {
 						}
 						sb.append(',');
 					} else {
-						app.showError(MyError.Errors.CellAisNotDefined.getError(loc,
-								GeoElementSpreadsheet.getSpreadsheetCellName(i, j)));
+						app.showError(MyError.Errors.CellAisNotDefined.getError(
+								loc, GeoElementSpreadsheet.getSpreadsheetCellName(i, j)));
 						return null;
 					}
 				}
@@ -306,9 +310,12 @@ public final class SpreadsheetToolProcessor {
 	 * @param setLabel whether to label the result
 	 * @return list
 	 */
-	public GeoList createList(List<TabularRange> rangeList,
-			boolean scanByColumn, boolean copyByValue,
-			GeoClass geoTypeFilter, boolean setLabel) {
+	public GeoList createList(
+			List<TabularRange> rangeList,
+			boolean scanByColumn,
+			boolean copyByValue,
+			GeoClass geoTypeFilter,
+			boolean setLabel) {
 
 		GeoList geoList = null;
 		ArrayList<GeoElementND> list = null;
@@ -337,8 +344,7 @@ public final class SpreadsheetToolProcessor {
 			for (SpreadsheetCoords cell : cellList) {
 				if (!usedCells.contains(cell)) {
 					GeoElement geo = RelativeCopy.getValue(tableModel, cell.column, cell.row);
-					if (geo != null && (geoTypeFilter == null
-							|| geo.getGeoClassType() == geoTypeFilter)) {
+					if (geo != null && (geoTypeFilter == null || geo.getGeoClassType() == geoTypeFilter)) {
 						if (copyByValue) {
 							geoList.add(geo.copy());
 						} else {
@@ -352,8 +358,7 @@ public final class SpreadsheetToolProcessor {
 			// if !copyByValue convert dependent GeoList from geos collected
 			// above
 			if (!copyByValue) {
-				AlgoDependentList algo = new AlgoDependentList(cons, list,
-						false);
+				AlgoDependentList algo = new AlgoDependentList(cons, list, false);
 				if (!setLabel) {
 					cons.removeFromConstructionList(algo);
 				}
@@ -378,10 +383,9 @@ public final class SpreadsheetToolProcessor {
 	 * @param copyByValue whether to create independent copies
 	 * @return list
 	 */
-	public GeoElement createList(List<TabularRange> rangeList,
-			boolean scanByColumn, boolean copyByValue) {
-		return createList(rangeList, scanByColumn, copyByValue,
-				null, true);
+	public GeoElement createList(
+			List<TabularRange> rangeList, boolean scanByColumn, boolean copyByValue) {
+		return createList(rangeList, scanByColumn, copyByValue, null, true);
 	}
 
 	/**
@@ -401,8 +405,8 @@ public final class SpreadsheetToolProcessor {
 	 *            whether to use cells only as values
 	 * @return matrix
 	 */
-	public GeoElementND createMatrix(int column1, int column2, int row1,
-			int row2, boolean copyByValue) {
+	public GeoElementND createMatrix(
+			int column1, int column2, int row1, int row2, boolean copyByValue) {
 		return createMatrix(column1, column2, row1, row2, copyByValue, false);
 	}
 
@@ -424,9 +428,12 @@ public final class SpreadsheetToolProcessor {
 	 *            created in addition to the list
 	 * @return GeoList
 	 */
-	public GeoList createPointGeoList(List<TabularRange> rangeList,
-			boolean byValue, boolean leftToRight,
-			boolean doStoreUndo, boolean doCreateFreePoints) {
+	public GeoList createPointGeoList(
+			List<TabularRange> rangeList,
+			boolean byValue,
+			boolean leftToRight,
+			boolean doStoreUndo,
+			boolean doCreateFreePoints) {
 
 		// get the orientation and dimensions of the list
 		PointDimension pd = new PointDimension();
@@ -444,14 +451,11 @@ public final class SpreadsheetToolProcessor {
 					xCoord = RelativeCopy.getValue(tableModel, pd.c1, i);
 					yCoord = RelativeCopy.getValue(tableModel, pd.c2, i);
 					if (pd.c3 < 0) {
-						createPoint(xCoord, yCoord, byValue, leftToRight,
-								doCreateFreePoints, list);
+						createPoint(xCoord, yCoord, byValue, leftToRight, doCreateFreePoints, list);
 					} else {
 						zCoord = RelativeCopy.getValue(tableModel, pd.c3, i);
-						createPoint3D(xCoord, yCoord, zCoord, byValue,
-								leftToRight, doCreateFreePoints, list);
+						createPoint3D(xCoord, yCoord, zCoord, byValue, leftToRight, doCreateFreePoints, list);
 					}
-
 				}
 
 			} else { // vertical pairs
@@ -459,37 +463,35 @@ public final class SpreadsheetToolProcessor {
 					xCoord = RelativeCopy.getValue(tableModel, i, pd.r1);
 					yCoord = RelativeCopy.getValue(tableModel, i, pd.r2);
 					if (pd.r3 < 0) {
-						createPoint(xCoord, yCoord, byValue, leftToRight,
-								doCreateFreePoints, list);
+						createPoint(xCoord, yCoord, byValue, leftToRight, doCreateFreePoints, list);
 					} else {
 						zCoord = RelativeCopy.getValue(tableModel, pd.r3, i);
-						createPoint3D(xCoord, yCoord, zCoord, byValue,
-								leftToRight, doCreateFreePoints, list);
+						createPoint3D(xCoord, yCoord, zCoord, byValue, leftToRight, doCreateFreePoints, list);
 					}
 				}
 			}
 		} catch (RuntimeException ex) {
-			Log.debug(
-					"Creating list of points expression failed with exception "
-							+ ex);
+			Log.debug("Creating list of points expression failed with exception " + ex);
 		}
 
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
 		cons.removeFromConstructionList(dl);
 		return (GeoList) dl.getGeoElements()[0];
-
 	}
 
-	private void createPoint(GeoElement x, GeoElement y, boolean byValue,
-			boolean leftToRight, boolean doCreateFreePoints,
+	private void createPoint(
+			GeoElement x,
+			GeoElement y,
+			boolean byValue,
+			boolean leftToRight,
+			boolean doCreateFreePoints,
 			ArrayList<GeoElementND> list) {
 		Kernel kernel = cons.getKernel();
 		GeoElement xCoord = leftToRight ? x : y;
 		GeoElement yCoord = leftToRight ? y : x;
 		// don't process the point if either coordinate is null or
 		// non-numeric,
-		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
-				|| !yCoord.isGeoNumeric()) {
+		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric()) {
 			return;
 		}
 
@@ -497,19 +499,17 @@ public final class SpreadsheetToolProcessor {
 		AlgoDependentPoint pointAlgo = null;
 
 		if (byValue) {
-			geoPoint = new GeoPoint(cons, ((GeoNumeric) xCoord).getDouble(),
-					((GeoNumeric) yCoord).getDouble(), 1.0);
+			geoPoint = new GeoPoint(
+					cons, ((GeoNumeric) xCoord).getDouble(), ((GeoNumeric) yCoord).getDouble(), 1.0);
 		} else {
 
 			MyVecNode vec = new MyVecNode(kernel, xCoord, yCoord);
-			ExpressionNode point = new ExpressionNode(kernel, vec,
-					Operation.NO_OPERATION, null);
+			ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 			point.setForcePoint();
 
 			pointAlgo = new AlgoDependentPoint(cons, point, false);
 
 			geoPoint = pointAlgo.getPoint();
-
 		}
 
 		if (doCreateFreePoints) {
@@ -527,19 +527,26 @@ public final class SpreadsheetToolProcessor {
 		if (yCoord.isAngle() || xCoord.isAngle()) {
 			geoPoint.setPolar();
 		}
-
 	}
 
-	private void createPoint3D(GeoElement x, GeoElement y, GeoElement zCoord,
-			boolean byValue, boolean leftToRight, boolean doCreateFreePoints,
+	private void createPoint3D(
+			GeoElement x,
+			GeoElement y,
+			GeoElement zCoord,
+			boolean byValue,
+			boolean leftToRight,
+			boolean doCreateFreePoints,
 			ArrayList<GeoElementND> list) {
 		Kernel kernel = cons.getKernel();
 		GeoElement xCoord = leftToRight ? x : y;
 		GeoElement yCoord = leftToRight ? y : x;
 		// don't process the point if either coordinate is null or
 		// non-numeric,
-		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
-				|| !yCoord.isGeoNumeric() || zCoord == null
+		if (xCoord == null
+				|| yCoord == null
+				|| !xCoord.isGeoNumeric()
+				|| !yCoord.isGeoNumeric()
+				|| zCoord == null
 				|| !zCoord.isGeoNumeric()) {
 			return;
 		}
@@ -547,22 +554,21 @@ public final class SpreadsheetToolProcessor {
 		GeoPointND geoPoint;
 
 		if (byValue) {
-			geoPoint = kernel.getManager3D().point3D(
-					((GeoNumeric) xCoord).getDouble(),
-					((GeoNumeric) yCoord).getDouble(),
-					((GeoNumeric) zCoord).getDouble(), false);
+			geoPoint = kernel
+					.getManager3D()
+					.point3D(
+							((GeoNumeric) xCoord).getDouble(),
+							((GeoNumeric) yCoord).getDouble(),
+							((GeoNumeric) zCoord).getDouble(),
+							false);
 		} else {
 
-			MyVec3DNode vec = new MyVec3DNode(kernel,
-					leftToRight ? xCoord : yCoord,
-					leftToRight ? yCoord : xCoord, zCoord);
-			ExpressionNode point = new ExpressionNode(kernel, vec,
-					Operation.NO_OPERATION, null);
+			MyVec3DNode vec = new MyVec3DNode(
+					kernel, leftToRight ? xCoord : yCoord, leftToRight ? yCoord : xCoord, zCoord);
+			ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 			point.setForcePoint();
 
-			geoPoint = kernel.getManager3D().dependentPoint3D(point,
-					doCreateFreePoints);
-
+			geoPoint = kernel.getManager3D().dependentPoint3D(point, doCreateFreePoints);
 		}
 
 		if (doCreateFreePoints) {
@@ -583,8 +589,7 @@ public final class SpreadsheetToolProcessor {
 	 * pairs are joined vertically or horizontally and gets the row column
 	 * indices needed to traverse the cells.
 	 */
-	static void getPointListDimensions(List<TabularRange> rangeList,
-			PointDimension pd) {
+	static void getPointListDimensions(List<TabularRange> rangeList, PointDimension pd) {
 		// note: we assume that rangeList has passed the
 		// isCreatePointListPossible() test
 
@@ -592,8 +597,7 @@ public final class SpreadsheetToolProcessor {
 		if (rangeList.size() == 1) {
 
 			pd.doHorizontalPairs = rangeList.get(0).getWidth() == 2
-					|| (rangeList.get(0).getWidth() == 3
-					&& rangeList.get(0).getHeight() != 2);
+					|| (rangeList.get(0).getWidth() == 3 && rangeList.get(0).getHeight() != 2);
 			pd.c1 = rangeList.get(0).getMinColumn();
 			pd.c2 = rangeList.get(0).getMaxColumn();
 			pd.r1 = rangeList.get(0).getMinRow();
@@ -602,8 +606,7 @@ public final class SpreadsheetToolProcessor {
 			if (rangeList.get(0).getWidth() == 3 && pd.doHorizontalPairs) {
 				pd.c2 = pd.c1 + 1;
 				pd.c3 = pd.c1 + 2;
-			} else if (rangeList.get(0).getHeight() == 3
-					&& !pd.doHorizontalPairs) {
+			} else if (rangeList.get(0).getHeight() == 3 && !pd.doHorizontalPairs) {
 				pd.r2 = pd.r1 + 1;
 				pd.r3 = pd.r1 + 2;
 			}
@@ -612,36 +615,26 @@ public final class SpreadsheetToolProcessor {
 			// single column)
 		} else {
 
-			if (rangeList.get(0).getWidth() == 1
-					&& rangeList.get(1).getWidth() == 1) {
+			if (rangeList.get(0).getWidth() == 1 && rangeList.get(1).getWidth() == 1) {
 				pd.doHorizontalPairs = true;
 				// we are traversing down columns. so get min and max column
 				// indices
-				pd.c1 = Math.min(rangeList.get(0).getMinColumn(),
-						rangeList.get(1).getMinColumn());
-				pd.c2 = Math.max(rangeList.get(0).getMaxColumn(),
-						rangeList.get(1).getMaxColumn());
+				pd.c1 = Math.min(rangeList.get(0).getMinColumn(), rangeList.get(1).getMinColumn());
+				pd.c2 = Math.max(rangeList.get(0).getMaxColumn(), rangeList.get(1).getMaxColumn());
 				// but get the max-min and min-max row indices in case the
 				// columns don't line up
-				pd.r1 = Math.max(rangeList.get(0).getMinRow(),
-						rangeList.get(1).getMinRow());
-				pd.r2 = Math.min(rangeList.get(0).getMaxRow(),
-						rangeList.get(1).getMaxRow());
+				pd.r1 = Math.max(rangeList.get(0).getMinRow(), rangeList.get(1).getMinRow());
+				pd.r2 = Math.min(rangeList.get(0).getMaxRow(), rangeList.get(1).getMaxRow());
 
 			} else {
 				pd.doHorizontalPairs = true;
 				// we are traversing across rows. so get min and max row indices
-				pd.r1 = Math.min(rangeList.get(0).getMinRow(),
-						rangeList.get(1).getMinRow());
-				pd.r2 = Math.max(rangeList.get(0).getMaxRow(),
-						rangeList.get(1).getMaxRow());
+				pd.r1 = Math.min(rangeList.get(0).getMinRow(), rangeList.get(1).getMinRow());
+				pd.r2 = Math.max(rangeList.get(0).getMaxRow(), rangeList.get(1).getMaxRow());
 				// but get the max-min and min-max column indices in case the
 				// rows don't line up
-				pd.c1 = Math.max(rangeList.get(0).getMinColumn(),
-						rangeList.get(1).getMinColumn());
-				pd.c2 = Math.min(rangeList.get(0).getMaxColumn(),
-						rangeList.get(1).getMaxColumn());
-
+				pd.c1 = Math.max(rangeList.get(0).getMinColumn(), rangeList.get(1).getMinColumn());
+				pd.c2 = Math.min(rangeList.get(0).getMaxColumn(), rangeList.get(1).getMaxColumn());
 			}
 		}
 	}
@@ -658,8 +651,8 @@ public final class SpreadsheetToolProcessor {
 	 *            whether to sort left to right
 	 * @return polyline
 	 */
-	public GeoElement createPolyLine(List<TabularRange> rangeList,
-			boolean byValue, boolean leftToRight) {
+	public GeoElement createPolyLine(
+			List<TabularRange> rangeList, boolean byValue, boolean leftToRight) {
 		return createPolyLine(rangeList, byValue, leftToRight, false);
 	}
 
@@ -677,12 +670,12 @@ public final class SpreadsheetToolProcessor {
 	 *            whether to store an undo point
 	 * @return polyline
 	 */
-	public GeoElement createPolyLine(List<TabularRange> rangeList,
-			boolean byValue, boolean leftToRight, boolean doStoreUndo) {
+	public GeoElement createPolyLine(
+			List<TabularRange> rangeList, boolean byValue, boolean leftToRight, boolean doStoreUndo) {
 
 		boolean doCreateFreePoints = true;
-		GeoList list = createPointGeoList(rangeList, byValue, leftToRight,
-				doStoreUndo, doCreateFreePoints);
+		GeoList list =
+				createPointGeoList(rangeList, byValue, leftToRight, doStoreUndo, doCreateFreePoints);
 		GeoElement ret;
 		if (list != null && list.size() > 1 && list.get(0).isGeoElement3D()) {
 			ret = list.getKernel().getManager3D().polyLine3D(null, list)[0];
@@ -710,8 +703,7 @@ public final class SpreadsheetToolProcessor {
 		int c1 = range.getMinColumn();
 		String text;
 		GeoElementND[] geos;
-		GeoFunctionNVar fcn = (GeoFunctionNVar) RelativeCopy.getValue(tableModel, c1,
-				r1);
+		GeoFunctionNVar fcn = (GeoFunctionNVar) RelativeCopy.getValue(tableModel, c1, r1);
 
 		for (int r = r1 + 1; r <= range.getMaxRow(); ++r) {
 			for (int c = c1 + 1; c <= range.getMaxColumn(); ++c) {
@@ -723,8 +715,7 @@ public final class SpreadsheetToolProcessor {
 				text += GeoElementSpreadsheet.getSpreadsheetCellName(c, r1);
 				text += ")";
 
-				geos = app.getKernel().getAlgebraProcessor()
-						.processAlgebraCommandNoExceptions(text, false);
+				geos = app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptions(text, false);
 				geos[0].setAuxiliaryObject(true);
 			}
 		}
@@ -739,10 +730,10 @@ public final class SpreadsheetToolProcessor {
 	public boolean isCreatePointListPossible(List<TabularRange> rangeList) {
 
 		// two adjacent rows or columns?
-		if (rangeList.size() == 1
-				&& (rangeList.get(0).is2D() || rangeList.get(0).is3D())) {
+		if (rangeList.size() == 1 && (rangeList.get(0).is2D() || rangeList.get(0).is3D())) {
 			return true;
-		} else if (rangeList.size() == 2 && rangeList.get(0).getWidth() == 1
+		} else if (rangeList.size() == 2
+				&& rangeList.get(0).getWidth() == 1
 				&& rangeList.get(1).getWidth() == 1) {
 			return true;
 		} else if (rangeList.size() == 1) {
@@ -762,8 +753,7 @@ public final class SpreadsheetToolProcessor {
 	 *            ranges
 	 * @return whether operation table is possible
 	 */
-	public boolean isCreateOperationTablePossible(
-			List<TabularRange> rangeList) {
+	public boolean isCreateOperationTablePossible(List<TabularRange> rangeList) {
 
 		if (rangeList.size() != 1) {
 			return false;
@@ -800,5 +790,4 @@ public final class SpreadsheetToolProcessor {
 	public boolean isCreateMatrixPossible(List<TabularRange> rangeList) {
 		return rangeList.size() == 1 && !CellRangeUtil.hasEmptyCells(rangeList.get(0), tableModel);
 	}
-
 }

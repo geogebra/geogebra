@@ -25,7 +25,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * ConstructionStep[] ConstructionStep[ &lt;Object&gt; ]
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-06
  */
@@ -33,7 +33,7 @@ public class SetConstructionStep extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,22 +48,18 @@ public class SetConstructionStep extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 0:
+			case 0:
+				AlgoConstructionStep algo = new AlgoConstructionStep(cons, c.getLabel());
+				GeoElement[] ret = {algo.getResult()};
+				return ret;
 
-			AlgoConstructionStep algo = new AlgoConstructionStep(cons,
-					c.getLabel());
-			GeoElement[] ret = { algo.getResult() };
-			return ret;
+			case 1:
+				AlgoStepObject algo2 = new AlgoStepObject(cons, c.getLabel(), arg[0]);
+				GeoElement[] ret2 = {algo2.getResult()};
+				return ret2;
 
-		case 1:
-			AlgoStepObject algo2 = new AlgoStepObject(cons, c.getLabel(),
-					arg[0]);
-			GeoElement[] ret2 = { algo2.getResult() };
-			return ret2;
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

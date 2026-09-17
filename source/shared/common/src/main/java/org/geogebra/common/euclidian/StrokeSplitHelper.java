@@ -36,8 +36,8 @@ public class StrokeSplitHelper extends StrokeHelper {
 	 * @param initialStateXML XML of the parent strokes before splitting
 	 * @param splitParts children strokes created after selection
 	 */
-	public StrokeSplitHelper(List<String> initialStrokeLabels, List<String> initialStateXML,
-			List<GeoElement> splitParts) {
+	public StrokeSplitHelper(
+			List<String> initialStrokeLabels, List<String> initialStateXML, List<GeoElement> splitParts) {
 		this.initialStrokeLabels = initialStrokeLabels;
 		this.splitParts = splitParts;
 		this.initialStateXML = initialStateXML;
@@ -50,8 +50,9 @@ public class StrokeSplitHelper extends StrokeHelper {
 	 * @return array of XMLs
 	 */
 	public String[] toSplitActionArray() {
-		return Stream.concat(initialStrokeLabels.stream().map(label -> DEL + label),
-				splitStrokesXML.stream()).toArray(String[]::new);
+		return Stream.concat(
+						initialStrokeLabels.stream().map(label -> DEL + label), splitStrokesXML.stream())
+				.toArray(String[]::new);
 	}
 
 	/**
@@ -60,7 +61,8 @@ public class StrokeSplitHelper extends StrokeHelper {
 	 * @return array of XMLs
 	 */
 	public String[] toMergeActionArray() {
-		return Stream.concat(splitParts.stream().map(s -> DEL + s.getLabelSimple()),
-				initialStateXML.stream()).toArray(String[]::new);
+		return Stream.concat(
+						splitParts.stream().map(s -> DEL + s.getLabelSimple()), initialStateXML.stream())
+				.toArray(String[]::new);
 	}
 }

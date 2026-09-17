@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Returns the name of a GeoElement as a GeoText.
- * 
+ *
  * @author Markus
  */
 public class AlgoConstructionStep extends AlgoElement {
@@ -73,7 +73,7 @@ public class AlgoConstructionStep extends AlgoElement {
 	}
 
 	@Override
-	final public boolean wantsConstructionProtocolUpdate() {
+	public final boolean wantsConstructionProtocolUpdate() {
 		return true;
 	}
 
@@ -83,5 +83,4 @@ public class AlgoConstructionStep extends AlgoElement {
 		double step = cons.getStep();
 		num.setValue(step + 1);
 	}
-
 }

@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoDependentText extends AlgoElement implements DependentAlgo {
@@ -46,8 +46,8 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	 * @param mayBeSpreadsheetTraceable
 	 *            whether this may contain spreadsheet tracable vars
 	 */
-	public AlgoDependentText(Construction cons, ExpressionNode root,
-			boolean mayBeSpreadsheetTraceable) {
+	public AlgoDependentText(
+			Construction cons, ExpressionNode root, boolean mayBeSpreadsheetTraceable) {
 		super(cons);
 
 		text = new GeoText(cons);
@@ -104,7 +104,8 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		if (oldTpl != tpl) {
 			oldTpl = tpl;
 			for (int i = 0; i < input.length; i++) {
-				if (input[i].isGeoText() && !input[i].isLabelSet()
+				if (input[i].isGeoText()
+						&& !input[i].isLabelSet()
 						&& input[i].getParentAlgorithm() != null) {
 					input[i].setVisualStyle(text);
 					input[i].getParentAlgorithm().update();
@@ -113,12 +114,11 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		}
 
 		nodeToGeoText(text.getDefinition(), text, tpl);
-
 	}
 
 	/**
 	 * Converts expression node to geotext
-	 * 
+	 *
 	 * @param root
 	 *            expression
 	 * @param text
@@ -126,8 +126,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	 * @param tpl
 	 *            string template
 	 */
-	public static void nodeToGeoText(ExpressionNode root, GeoText text,
-			StringTemplate tpl) {
+	public static void nodeToGeoText(ExpressionNode root, GeoText text, StringTemplate tpl) {
 		try {
 			boolean latex = text.isLaTeX();
 			root.setHoldsLaTeXtext(latex);
@@ -146,7 +145,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// was defined as e.g. text0 = "Radius: " + r
 		if (text.getDefinition() == null) {
 			return "";
@@ -252,5 +251,4 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	public ExpressionNode getExpression() {
 		return text.getDefinition();
 	}
-
 }

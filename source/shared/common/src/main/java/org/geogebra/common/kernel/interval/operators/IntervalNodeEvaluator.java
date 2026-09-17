@@ -294,7 +294,6 @@ public class IntervalNodeEvaluator {
 	 */
 	public Interval tan(Interval interval) {
 		return toLegacy(tanSet(fromLegacy(interval)));
-
 	}
 
 	private IntervalSet tanSet(IntervalSet set) {
@@ -686,8 +685,7 @@ public class IntervalNodeEvaluator {
 	 * @return the power result in legacy form
 	 */
 	public Interval handlePower(Interval leftValue, Interval rightValue, IntervalNode right) {
-		return toLegacy(handlePowerSet(fromLegacy(leftValue),
-				fromLegacy(rightValue), right));
+		return toLegacy(handlePowerSet(fromLegacy(leftValue), fromLegacy(rightValue), right));
 	}
 
 	/**
@@ -699,8 +697,8 @@ public class IntervalNodeEvaluator {
 	 * @param right exponent syntax node
 	 * @return the power result
 	 */
-	public IntervalSet handlePowerSet(IntervalSet leftValue, IntervalSet rightValue,
-			IntervalNode right) {
+	public IntervalSet handlePowerSet(
+			IntervalSet leftValue, IntervalSet rightValue, IntervalNode right) {
 		return power.handle(leftValue, rightValue, right);
 	}
 

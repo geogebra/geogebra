@@ -9,7 +9,7 @@ import org.freehep.util.io.TaggedOutputStream;
 
 /**
  * EMF specific tag, from which all other EMF Tags inherit.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EMFTag.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -19,7 +19,7 @@ public abstract class EMFTag extends Tag {
 
 	/**
 	 * Constructs a EMFTag.
-	 * 
+	 *
 	 * @param id
 	 *            id of the element
 	 * @param version
@@ -30,8 +30,7 @@ public abstract class EMFTag extends Tag {
 	}
 
 	@Override
-	public Tag read(int tagID, TaggedInputStream input, int len)
-			throws IOException {
+	public Tag read(int tagID, TaggedInputStream input, int len) throws IOException {
 
 		EMFInputStream emf = (EMFInputStream) input;
 		EMFTagHeader tagHeader = (EMFTagHeader) emf.getTagHeader();
@@ -39,8 +38,7 @@ public abstract class EMFTag extends Tag {
 		return read(tagID, emf, len);
 	}
 
-	public abstract EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException;
+	public abstract EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException;
 
 	@Override
 	public void write(int tagID, TaggedOutputStream output) throws IOException {
@@ -51,7 +49,7 @@ public abstract class EMFTag extends Tag {
 	 * Writes the extra tag information to the outputstream in binary format.
 	 * This implementation writes nothing, but concrete tags may override this
 	 * method. This method is called just after the TagHeader is written.
-	 * 
+	 *
 	 * @param tagID
 	 *            id of the tag
 	 * @param emf
@@ -71,7 +69,6 @@ public abstract class EMFTag extends Tag {
 	@Override
 	public String toString() {
 		int id = getTag();
-		return "EMFTag " + getName() + " (" + id + ") (0x"
-				+ Integer.toHexString(id) + ")";
+		return "EMFTag " + getName() + " (" + id + ") (0x" + Integer.toHexString(id) + ")";
 	}
 }

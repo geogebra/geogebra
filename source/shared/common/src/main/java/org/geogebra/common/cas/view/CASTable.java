@@ -109,7 +109,7 @@ public interface CASTable {
 	/**
 	 * On web, if we insert one or more new row, or delete some, needed change
 	 * the row numbers manually after the inserted or deleted rows.
-	 * 
+	 *
 	 * @param from
 	 *            the first row number to change
 	 */

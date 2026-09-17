@@ -33,7 +33,7 @@ public class CmdAreConcurrent extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -58,14 +58,12 @@ public class CmdAreConcurrent extends CommandProcessor {
 				throw argErr(c, arg[2]);
 			}
 
-			AlgoAreConcurrent algo = new AlgoAreConcurrent(cons, c.getLabel(),
-					(GeoLine) arg[0], (GeoLine) arg[1], (GeoLine) arg[2]);
+			AlgoAreConcurrent algo = new AlgoAreConcurrent(
+					cons, c.getLabel(), (GeoLine) arg[0], (GeoLine) arg[1], (GeoLine) arg[2]);
 
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argNumErr(c);
-
 	}
-
 }

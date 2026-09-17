@@ -39,8 +39,8 @@ public class SliderTrackWidthProperty extends AbstractNumericProperty {
 	 * @param element GeoElement to create property for
 	 * @throws NotApplicablePropertyException if the property is not applicable to the element
 	 */
-	public SliderTrackWidthProperty(AlgebraProcessor processor,
-			Localization localization, GeoElement element)
+	public SliderTrackWidthProperty(
+			AlgebraProcessor processor, Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(processor, localization, "Width");
 		delegate = new SliderPropertyDelegate(element);

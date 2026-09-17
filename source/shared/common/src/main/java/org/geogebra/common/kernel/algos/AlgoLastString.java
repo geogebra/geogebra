@@ -23,11 +23,10 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Take last n objects from a text
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoLastString extends AlgoFirstString {
 
 	/**
@@ -40,8 +39,7 @@ public class AlgoLastString extends AlgoFirstString {
 	 * @param n
 	 *            number of chars (null for 1)
 	 */
-	public AlgoLastString(Construction cons, String label, GeoText inputText,
-			GeoNumeric n) {
+	public AlgoLastString(Construction cons, String label, GeoText inputText, GeoNumeric n) {
 		super(cons, label, inputText, n);
 	}
 
@@ -54,5 +52,4 @@ public class AlgoLastString extends AlgoFirstString {
 	protected String getString(String str, int outsize) {
 		return str.substring(size - outsize);
 	}
-
 }

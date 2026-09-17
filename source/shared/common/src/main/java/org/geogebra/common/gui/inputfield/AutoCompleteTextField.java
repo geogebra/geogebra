@@ -31,8 +31,7 @@ import org.geogebra.common.util.TextObject;
 /**
  * Text input component with autocompletion.
  */
-public interface AutoCompleteTextField
-		extends TextObject {
+public interface AutoCompleteTextField extends TextObject {
 
 	/**
 	 * Show or hide button for symbols popup or virtual keyboard
@@ -139,8 +138,7 @@ public interface AutoCompleteTextField
 	 * @deprecated use the Rectangle variant instead
 	 */
 	@Deprecated
-	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
-			int width, int height);
+	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top, int width, int height);
 
 	@MissingDoc
 	String getCommand();
@@ -160,7 +158,7 @@ public interface AutoCompleteTextField
 
 	/**
 	 * Set text for screen readers.
-	 * 
+	 *
 	 * @param text to read.
 	 */
 	void setAuralText(String text);

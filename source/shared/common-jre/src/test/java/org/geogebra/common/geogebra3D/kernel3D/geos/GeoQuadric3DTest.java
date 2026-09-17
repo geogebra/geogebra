@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -71,22 +71,25 @@ class GeoQuadric3DTest extends BaseUnitTest {
 	@Issue("APPS-6570")
 	void shouldLoadAsImplicitFromFile() {
 		add("a=1");
-		getApp().getGgbApi().evalXML(
-				"<expression label=\"b\" exp=\"a*x^2=z^2\" type=\"quadric\" />"
-				+ "<element type=\"quadric\" label=\"b\">"
-				+ "<show object=\"true\" label=\"false\" ev=\"7\"/>"
-				+ "</element>");
-		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT,
+		getApp()
+				.getGgbApi()
+				.evalXML("<expression label=\"b\" exp=\"a*x^2=z^2\" type=\"quadric\" />"
+						+ "<element type=\"quadric\" label=\"b\">"
+						+ "<show object=\"true\" label=\"false\" ev=\"7\"/>"
+						+ "</element>");
+		assertEquals(
+				QuadraticEquationRepresentable.Form.IMPLICIT,
 				((GeoQuadric3D) lookup("b")).getEquationForm());
-		assertThat(add("FormulaText(b,true,true)"),
-				hasValue("b\\mathpunct{:}\\,x² - z²\\, = \\,0"));
+		assertThat(add("FormulaText(b,true,true)"), hasValue("b\\mathpunct{:}\\,x² - z²\\, = \\,0"));
 	}
 
 	@Test
 	void assignmentInLaTeXShouldHaveOnlyOneSpace() {
-		assertEquals("f\\mathpunct{:}\\,y\\, = \\,x^{2} + z",
+		assertEquals(
+				"f\\mathpunct{:}\\,y\\, = \\,x^{2} + z",
 				add("y=x^2+z").toString(StringTemplate.latexTemplate));
-		assertEquals("g\\mathpunct{:}\\,y\\, = \\,x^{2} + z",
+		assertEquals(
+				"g\\mathpunct{:}\\,y\\, = \\,x^{2} + z",
 				add("y=x^2+z").getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate));
 	}
 

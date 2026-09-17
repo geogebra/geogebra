@@ -28,5 +28,4 @@ public interface ShowDetailsListener {
 	 *            card content
 	 */
 	void onShowDetails(FlowPanel content);
-
 }

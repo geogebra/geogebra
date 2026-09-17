@@ -34,13 +34,13 @@ import org.geogebra.common.util.debug.Log;
  * PV and FV for problems involving compound interest with periodic payments.
  * Results are found by solving this fundamental formula: <br>
  * <br>
- * 
+ *
  * pmt * (1 + rate * pmtType) * ((1 + rate)^n - 1) / (rate) + pv * (1 + rate)^n
  * + fv = 0
- * 
+ *
  * https://support.office.com/en-us/article/PV-function-23879d31-0e02-4321-be01-
  * da16e8168cbd
- * 
+ *
  * <br>
  * If rate is 0, then: (pmt * nper) + pv + fv = 0 <br>
  * <br>
@@ -55,19 +55,22 @@ import org.geogebra.common.util.debug.Log;
  * The formula (from Excel's documentation) is solved directly for the values
  * pmt, nper, pv and fv. Rate cannot be found directly and is found instead by
  * an iterative method.
- * 
+ *
  * Also see Appendix E Formulas Used p251 hp 12c platinum financial calculator
  * User Guide http://h10032.www1.hp.com/ctg/Manual/bpia5184.pdf
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-
 public class AlgoFinancial extends AlgoElement {
 
 	/** Calculation type */
 	public enum CalculationType {
-		RATE, NPER, PMT, PV, FV
+		RATE,
+		NPER,
+		PMT,
+		PV,
+		FV
 	}
 
 	// input
@@ -112,9 +115,16 @@ public class AlgoFinancial extends AlgoElement {
 	 * @param calcType
 	 *            type
 	 */
-	public AlgoFinancial(Construction cons, String label, GeoNumeric rate,
-			GeoNumeric nper, GeoNumeric pmt, GeoNumeric pv, GeoNumeric fv,
-			GeoNumeric pmtType, CalculationType calcType) {
+	public AlgoFinancial(
+			Construction cons,
+			String label,
+			GeoNumeric rate,
+			GeoNumeric nper,
+			GeoNumeric pmt,
+			GeoNumeric pv,
+			GeoNumeric fv,
+			GeoNumeric pmtType,
+			CalculationType calcType) {
 		this(cons, label, rate, nper, pmt, pv, fv, pmtType, null, calcType);
 	}
 
@@ -140,9 +150,17 @@ public class AlgoFinancial extends AlgoElement {
 	 * @param calcType
 	 *            type
 	 */
-	public AlgoFinancial(Construction cons, String label, GeoNumeric rate,
-			GeoNumeric nper, GeoNumeric pmt, GeoNumeric pv, GeoNumeric fv,
-			GeoNumeric pmtType, GeoNumeric guess, CalculationType calcType) {
+	public AlgoFinancial(
+			Construction cons,
+			String label,
+			GeoNumeric rate,
+			GeoNumeric nper,
+			GeoNumeric pmt,
+			GeoNumeric pv,
+			GeoNumeric fv,
+			GeoNumeric pmtType,
+			GeoNumeric guess,
+			CalculationType calcType) {
 
 		super(cons);
 		this.geoRate = rate;
@@ -163,21 +181,20 @@ public class AlgoFinancial extends AlgoElement {
 	@Override
 	public Commands getClassName() {
 		switch (calcType) {
-		case RATE:
-			return Commands.Rate;
-		case NPER:
-			return Commands.Periods;
-		case PMT:
-			return Commands.Payment;
-		case PV:
-			return Commands.PresentValue;
-		case FV:
-			return Commands.FutureValue;
+			case RATE:
+				return Commands.Rate;
+			case NPER:
+				return Commands.Periods;
+			case PMT:
+				return Commands.Payment;
+			case PV:
+				return Commands.PresentValue;
+			case FV:
+				return Commands.FutureValue;
 
-		default:
-			return Commands.Rate;
+			default:
+				return Commands.Rate;
 		}
-
 	}
 
 	// for AlgoElement
@@ -213,7 +230,6 @@ public class AlgoFinancial extends AlgoElement {
 
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
-
 	}
 
 	public GeoNumeric getResult() {
@@ -223,85 +239,77 @@ public class AlgoFinancial extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (calcType) {
+			case RATE:
+				if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType() && setGuess())) {
+					result.setUndefined();
+					return;
+				}
+				if (computeRate()) {
+					result.setValue(rate);
+				} else {
+					result.setUndefined();
+				}
+				break;
 
-		case RATE:
-			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType()
-					&& setGuess())) {
-				result.setUndefined();
-				return;
-			}
-			if (computeRate()) {
-				result.setValue(rate);
-			} else {
-				result.setUndefined();
-			}
-			break;
+			case NPER:
+				if (!(setRate() && setPmt() && setPV() && setFV() && setPmtType())) {
+					result.setUndefined();
+					return;
+				}
+				if (DoubleUtil.isZero(rate)) {
+					nper = DoubleUtil.checkInteger(-(pv + fv) / pmt);
+				} else {
+					double pmt2 = pmt * (1 + rate * pmtType);
+					nper = DoubleUtil.checkInteger(
+							Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv)) / Math.log(1 + rate));
+				}
 
-		case NPER:
-			if (!(setRate() && setPmt() && setPV() && setFV()
-					&& setPmtType())) {
-				result.setUndefined();
-				return;
-			}
-			if (DoubleUtil.isZero(rate)) {
-				nper = DoubleUtil.checkInteger(-(pv + fv) / pmt);
-			} else {
-				double pmt2 = pmt * (1 + rate * pmtType);
-				nper = DoubleUtil.checkInteger(
-						Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv))
-								/ Math.log(1 + rate));
-			}
+				if (nper <= 0) {
+					nper = Double.NaN;
+				}
 
-			if (nper <= 0) {
-				nper = Double.NaN;
-			}
+				result.setValue(nper);
+				break;
 
-			result.setValue(nper);
-			break;
+			case PMT:
+				if (!(setRate() && setNper() && setPV() && setFV() && setPmtType())) {
+					result.setUndefined();
+					return;
+				}
+				if (rate == 0) {
+					pmt = -(pv + fv) / nper;
+				} else {
+					pmt = (-fv - pv * Math.pow(1 + rate, nper)) / pmtFactor();
+				}
+				result.setValue(pmt);
+				break;
 
-		case PMT:
-			if (!(setRate() && setNper() && setPV() && setFV()
-					&& setPmtType())) {
-				result.setUndefined();
-				return;
-			}
-			if (rate == 0) {
-				pmt = -(pv + fv) / nper;
-			} else {
-				pmt = (-fv - pv * Math.pow(1 + rate, nper)) / pmtFactor();
-			}
-			result.setValue(pmt);
-			break;
+			case PV:
+				if (!(setRate() && setNper() && setPmt() && setFV() && setPmtType())) {
+					result.setUndefined();
+					return;
+				}
+				if (rate == 0) {
+					pv = -pmt * nper - fv;
+				} else {
+					pv = (-fv - pmt * pmtFactor()) / Math.pow(1 + rate, nper);
+				}
+				result.setValue(pv);
+				break;
 
-		case PV:
-			if (!(setRate() && setNper() && setPmt() && setFV()
-					&& setPmtType())) {
-				result.setUndefined();
-				return;
-			}
-			if (rate == 0) {
-				pv = -pmt * nper - fv;
-			} else {
-				pv = (-fv - pmt * pmtFactor()) / Math.pow(1 + rate, nper);
-			}
-			result.setValue(pv);
-			break;
-
-		case FV:
-			if (!(setRate() && setNper() && setPmt() && setPV()
-					&& setPmtType())) {
-				result.setUndefined();
-				return;
-			}
-			if (rate == 0) {
-				fv = -pmt * nper - pv;
-			} else {
-				fv = -pmt * pmtFactor() - pv * Math.pow(1 + rate, nper);
-			}
-			result.setValue(fv);
-			break;
+			case FV:
+				if (!(setRate() && setNper() && setPmt() && setPV() && setPmtType())) {
+					result.setUndefined();
+					return;
+				}
+				if (rate == 0) {
+					fv = -pmt * nper - pv;
+				} else {
+					fv = -pmt * pmtFactor() - pv * Math.pow(1 + rate, nper);
+				}
+				result.setValue(fv);
+				break;
 		}
-
 	}
 
 	// ================================================
@@ -314,9 +322,9 @@ public class AlgoFinancial extends AlgoElement {
 
 	/**
 	 * Uses Brent's method to find rate then Newton to polish the root
-	 * 
+	 *
 	 * adapted from AlgoRootInterval
-	 * 
+	 *
 	 * @return true if calculation successful
 	 */
 	private boolean computeRate() {
@@ -363,7 +371,6 @@ public class AlgoFinancial extends AlgoElement {
 				max += 0.05;
 				maxSign = Math.signum(value(fun, max));
 			}
-
 		}
 
 		// Brent's method (Apache 2.2)
@@ -371,8 +378,7 @@ public class AlgoFinancial extends AlgoElement {
 
 			// App.error("min = " + min + " max = " + max);
 
-			rate = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min,
-					max);
+			rate = rootFinder.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min, max);
 			// App.error("brent rate = " + rate);
 
 		} catch (Exception e) {
@@ -380,14 +386,12 @@ public class AlgoFinancial extends AlgoElement {
 			Log.debug("problem with Brent Solver" + e.getMessage());
 		}
 
-		if (DoubleUtil.isEqual(rate, 1) || Double.isInfinite(rate)
-				|| Double.isNaN(rate)) {
+		if (DoubleUtil.isEqual(rate, 1) || Double.isInfinite(rate) || Double.isNaN(rate)) {
 			rate = 0.1;
 		}
 
 		try {
-			double newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun,
-					min, max, rate);
+			double newtonRoot = rootPolisher.solve(AlgoRootNewton.MAX_ITERATIONS, fun, min, max, rate);
 			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
 				rate = newtonRoot;
 			}
@@ -397,7 +401,6 @@ public class AlgoFinancial extends AlgoElement {
 		}
 
 		return true;
-
 	}
 
 	// =============================================
@@ -495,5 +498,4 @@ public class AlgoFinancial extends AlgoElement {
 		}
 		return false;
 	}
-
 }

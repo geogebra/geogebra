@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -66,32 +66,31 @@ public class GeoGebraGlobal implements IdFunctionCall {
 				case Id_clearInterval -> "clearInterval";
 				default -> throw Kit.codeBug();
 			};
-			IdFunctionObject f = new IdFunctionObject(obj, FTAG, id, name,
-					arity, scope);
+			IdFunctionObject f = new IdFunctionObject(obj, FTAG, id, name, arity, scope);
 			f.exportAsScopeProperty();
 		}
 	}
 
 	@Override
-	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
-			Scriptable thisObj, Object[] args) {
+	public Object execIdCall(
+			IdFunctionObject f, Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
 		if (f.hasTag(FTAG)) {
 			int methodId = f.methodId();
 			switch (methodId) {
-			case Id_alert:
-				String value = getElementAsString(args, 0);
-				((GgbAPIJre) app.getGgbApi()).alert(value);
-				return "";
-			case Id_prompt:
-				Object value0 = getElementAsString(args, 0);
-				Object value1 = getElementAsString(args, 1);
-				return ((GgbAPIJre) app.getGgbApi()).prompt(value0, value1);
-			case Id_clearInterval:
-			case Id_clearTimeout:
-			case Id_setInterval:
-			case Id_setTimeout:
-				Log.debug("ignored in desktop");
-				return null;
+				case Id_alert:
+					String value = getElementAsString(args, 0);
+					((GgbAPIJre) app.getGgbApi()).alert(value);
+					return "";
+				case Id_prompt:
+					Object value0 = getElementAsString(args, 0);
+					Object value1 = getElementAsString(args, 1);
+					return ((GgbAPIJre) app.getGgbApi()).prompt(value0, value1);
+				case Id_clearInterval:
+				case Id_clearTimeout:
+				case Id_setInterval:
+				case Id_setTimeout:
+					Log.debug("ignored in desktop");
+					return null;
 			}
 		}
 		throw f.unknown();

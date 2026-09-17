@@ -30,5 +30,4 @@ public interface StatPanelInterfaceW {
 	 * Update the panel.
 	 */
 	void updatePanel();
-	
 }

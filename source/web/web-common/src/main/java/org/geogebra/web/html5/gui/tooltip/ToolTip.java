@@ -29,7 +29,8 @@ public class ToolTip {
 	 * Tooltip role.
 	 */
 	public enum Role {
-		INFO, ALERT
+		INFO,
+		ALERT
 	}
 
 	/**
@@ -46,8 +47,8 @@ public class ToolTip {
 	 * @param buttonTransKey optional button text (translation key)
 	 * @param url url to be opened when button clicked
 	 */
-	public ToolTip(String title, String helpText, @Nullable String buttonTransKey,
-			@Nullable String url) {
+	public ToolTip(
+			String title, String helpText, @Nullable String buttonTransKey, @Nullable String url) {
 		this(title, helpText, buttonTransKey, url, Role.INFO);
 	}
 
@@ -58,8 +59,12 @@ public class ToolTip {
 	 * @param url url to be opened when button clicked
 	 * @param role role for accessibility purposes
 	 */
-	public ToolTip(String title, String helpText, @Nullable String buttonTransKey,
-			@Nullable String url, Role role) {
+	public ToolTip(
+			String title,
+			String helpText,
+			@Nullable String buttonTransKey,
+			@Nullable String url,
+			Role role) {
 		this.title = title;
 		this.helpText = helpText;
 		this.buttonTransKey = buttonTransKey;

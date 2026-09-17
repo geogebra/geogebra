@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -84,25 +84,33 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 	 * @param view the {@link EuclidianView} in which to render and fill
 	 * @param gp the {@link GeneralPathClippedForCurvePlotter} used for contour drawing
 	 */
-	public BernsteinCurveFiller(Inequality ineq, EuclidianView view,
-			GeneralPathClippedForCurvePlotter gp) {
+	public BernsteinCurveFiller(
+			Inequality ineq, EuclidianView view, GeneralPathClippedForCurvePlotter gp) {
 		this(ineq, requireImplicitCurveBorder(ineq), view, gp);
 	}
 
-	private BernsteinCurveFiller(Inequality ineq, GeoImplicitCurve border, EuclidianView view,
+	private BernsteinCurveFiller(
+			Inequality ineq,
+			GeoImplicitCurve border,
+			EuclidianView view,
 			GeneralPathClippedForCurvePlotter gp) {
-		super(border, new EuclidianViewBoundsImp(view), gp, border
-						.getTransformedCoordSys(), createCurveSignature(ineq));
+		super(
+				border,
+				new EuclidianViewBoundsImp(view),
+				gp,
+				border.getTransformedCoordSys(),
+				createCurveSignature(ineq));
 		this.ineq = ineq;
 		this.gp = gp;
 		EuclidianViewBounds bounds = getBounds();
 		classificationBoundsSnapshot = snapshot(bounds);
-		regionClassifier = new RegionClassifier(() -> classificationFragmentsResult,
-				() -> getViewBounds(classificationBoundsSnapshot));
+		regionClassifier = new RegionClassifier(
+				() -> classificationFragmentsResult, () -> getViewBounds(classificationBoundsSnapshot));
 		if (settings.hasVisualDebug()) {
-			visualDebug = new CompositeVisualDebug(visualDebug,
-					new PlanarGraphVisualDebug(() -> classificationBoundsSnapshot,
-							regionClassifier.getGraph()));
+			visualDebug = new CompositeVisualDebug(
+					visualDebug,
+					new PlanarGraphVisualDebug(
+							() -> classificationBoundsSnapshot, regionClassifier.getGraph()));
 		}
 
 		ineqArea = new InequalityArea(bounds);
@@ -116,7 +124,9 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 
 	private static GRectangle2D getViewBounds(EuclidianViewBounds bounds) {
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
-		rect.setRect(bounds.getXmin(), bounds.getYmin(),
+		rect.setRect(
+				bounds.getXmin(),
+				bounds.getYmin(),
 				bounds.getXmax() - bounds.getXmin(),
 				bounds.getYmax() - bounds.getYmin());
 		return rect;
@@ -133,7 +143,6 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 			g2.draw(area);
 		}
 		drawVisualDebugIfEnabled(g2);
-
 	}
 
 	/**
@@ -144,8 +153,8 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 	 * @param isHighlighted whether the border is currently highlighted
 	 * @param selStroke     stroke to use when highlighted
 	 */
-	public void drawBorder(GGraphics2D g2, GColor color, boolean isHighlighted,
-			GBasicStroke selStroke) {
+	public void drawBorder(
+			GGraphics2D g2, GColor color, boolean isHighlighted, GBasicStroke selStroke) {
 		if (clippedBorderShape == null) {
 			return;
 		}
@@ -171,8 +180,7 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 
 		int thickness = border.getLineThickness();
 		if (thickness > 0) {
-			g2.setStroke(EuclidianStatic.getStroke(thickness / 2.0f,
-					border.lineType));
+			g2.setStroke(EuclidianStatic.getStroke(thickness / 2.0f, border.lineType));
 			g2.draw(clippedBorderShape);
 		}
 	}
@@ -211,18 +219,17 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 			try {
 				long stageStart = ImplicitPlotTimings.start();
 				List<ClassifiedRegion> results = regionClassifier.getResults(boundsSnapshot);
-				ImplicitPlotTimings.log("RegionClassifier.getResults", stageStart,
-						"regions=" + results.size());
+				ImplicitPlotTimings.log(
+						"RegionClassifier.getResults", stageStart, "regions=" + results.size());
 				stageStart = ImplicitPlotTimings.start();
 				evaluateFilled(results);
-				ImplicitPlotTimings.log("BernsteinCurveFiller.evaluateFilled", stageStart,
-						"regions=" + results.size());
+				ImplicitPlotTimings.log(
+						"BernsteinCurveFiller.evaluateFilled", stageStart, "regions=" + results.size());
 				logRegionClassification(results, boundsSnapshot);
 				logFalseRegionContainment(results, boundsSnapshot);
 				stageStart = ImplicitPlotTimings.start();
 				ineqArea.update(results, boundsSnapshot);
-				ImplicitPlotTimings.log("InequalityArea.update", stageStart,
-						"regions=" + results.size());
+				ImplicitPlotTimings.log("InequalityArea.update", stageStart, "regions=" + results.size());
 				return true;
 			} catch (Exception e) {
 				Log.debug("[BernsteinCurveFiller]" + e.getMessage());
@@ -237,25 +244,29 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 	}
 
 	private void evaluateFilled(List<ClassifiedRegion> regions) {
-		for (ClassifiedRegion region: regions) {
+		for (ClassifiedRegion region : regions) {
 			GPoint2D p = region.getSamplePoint();
 			region.setFilled(ineq.valueAround(p.x, p.y).boolVal());
 		}
 		repairSuspiciousExteriorClassification(regions);
 	}
 
-	private void logRegionClassification(List<ClassifiedRegion> regions,
-			EuclidianViewBounds boundsSnapshot) {
+	private void logRegionClassification(
+			List<ClassifiedRegion> regions, EuclidianViewBounds boundsSnapshot) {
 		if (!REGION_CLASSIFICATION_DEBUG) {
 			return;
 		}
 		StringBuilder sb = new StringBuilder("[BernsteinCurveFiller] regions=");
 		sb.append(regions.size())
 				.append(" view=[")
-				.append(boundsSnapshot.getXmin()).append(",")
-				.append(boundsSnapshot.getXmax()).append("]x[")
-				.append(boundsSnapshot.getYmin()).append(",")
-				.append(boundsSnapshot.getYmax()).append("] ");
+				.append(boundsSnapshot.getXmin())
+				.append(",")
+				.append(boundsSnapshot.getXmax())
+				.append("]x[")
+				.append(boundsSnapshot.getYmin())
+				.append(",")
+				.append(boundsSnapshot.getYmax())
+				.append("] ");
 		for (int i = 0; i < regions.size(); i++) {
 			ClassifiedRegion region = regions.get(i);
 			GPoint2D sample = region.getSamplePoint();
@@ -287,8 +298,8 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 		logMissingBoundedRegion(regions, boundsSnapshot);
 	}
 
-	private void logFalseRegionContainment(List<ClassifiedRegion> regions,
-			EuclidianViewBounds boundsSnapshot) {
+	private void logFalseRegionContainment(
+			List<ClassifiedRegion> regions, EuclidianViewBounds boundsSnapshot) {
 		if (!REGION_CLASSIFICATION_DEBUG) {
 			return;
 		}
@@ -310,8 +321,8 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 			double screenX = boundsSnapshot.toScreenCoordXd(sample.x);
 			double screenY = boundsSnapshot.toScreenCoordYd(sample.y);
 			boolean finalContains = filledUnion.contains(screenX, screenY);
-			String containingFilledRegions = containingFilledRegions(regions, regionAreas,
-					screenX, screenY, region);
+			String containingFilledRegions =
+					containingFilledRegions(regions, regionAreas, screenX, screenY, region);
 			if (finalContains || !containingFilledRegions.isEmpty()) {
 				Log.debug("[BernsteinCurveFiller] false region overlap"
 						+ " region=" + i
@@ -337,8 +348,12 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 		return area;
 	}
 
-	private String containingFilledRegions(List<ClassifiedRegion> regions, List<GArea> regionAreas,
-			double screenX, double screenY, ClassifiedRegion falseRegion) {
+	private String containingFilledRegions(
+			List<ClassifiedRegion> regions,
+			List<GArea> regionAreas,
+			double screenX,
+			double screenY,
+			ClassifiedRegion falseRegion) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < regions.size(); i++) {
 			ClassifiedRegion region = regions.get(i);
@@ -350,9 +365,12 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 				sb.append(';');
 			}
 			sb.append(i)
-					.append(":face=").append(region.getSourceFaceId())
-					.append(":").append(topologySummary(region))
-					.append(":rel=").append(cycleRelationship(falseRegion, region));
+					.append(":face=")
+					.append(region.getSourceFaceId())
+					.append(":")
+					.append(topologySummary(region))
+					.append(":rel=")
+					.append(cycleRelationship(falseRegion, region));
 		}
 		return sb.toString();
 	}
@@ -446,8 +464,7 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 			return null;
 		}
 		for (BoundaryCycle cycle : regionClassifier.getGraph().getLastCanonicalBoundaryCycles()) {
-			if (cycle.getStartHalfEdgeId() == halfEdgeId
-					|| cycle.getHalfEdgeIds().contains(halfEdgeId)) {
+			if (cycle.getStartHalfEdgeId() == halfEdgeId || cycle.getHalfEdgeIds().contains(halfEdgeId)) {
 				return cycle;
 			}
 		}
@@ -479,9 +496,11 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 				return "BOUNDARY";
 			}
 			boolean intersects = ((current.getY() > point.y) != (previous.getY() > point.y))
-					&& (point.x < (previous.getX() - current.getX())
-							* (point.y - current.getY())
-							/ (previous.getY() - current.getY()) + current.getX());
+					&& (point.x
+							< (previous.getX() - current.getX())
+											* (point.y - current.getY())
+											/ (previous.getY() - current.getY())
+									+ current.getX());
 			if (intersects) {
 				inside = !inside;
 			}
@@ -521,20 +540,22 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 		return "[" + minX + "," + maxX + "]x[" + minY + "," + maxY + "]";
 	}
 
-	private void logMissingBoundedRegion(List<ClassifiedRegion> regions,
-			EuclidianViewBounds boundsSnapshot) {
-		if (!REGION_CLASSIFICATION_DEBUG
-				|| regions.size() != 1
-				|| !isViewportRegion(regions.get(0))) {
+	private void logMissingBoundedRegion(
+			List<ClassifiedRegion> regions, EuclidianViewBounds boundsSnapshot) {
+		if (!REGION_CLASSIFICATION_DEBUG || regions.size() != 1 || !isViewportRegion(regions.get(0))) {
 			return;
 		}
 		PlanarGraph graph = regionClassifier.getGraph();
 		StringBuilder sb = new StringBuilder("[BernsteinCurveFiller] missing bounded region");
 		sb.append(" view=[")
-				.append(boundsSnapshot.getXmin()).append(",")
-				.append(boundsSnapshot.getXmax()).append("]x[")
-				.append(boundsSnapshot.getYmin()).append(",")
-				.append(boundsSnapshot.getYmax()).append("] extracted=");
+				.append(boundsSnapshot.getXmin())
+				.append(",")
+				.append(boundsSnapshot.getXmax())
+				.append("]x[")
+				.append(boundsSnapshot.getYmin())
+				.append(",")
+				.append(boundsSnapshot.getYmax())
+				.append("] extracted=");
 		appendCycleSummary(sb, graph.getLastExtractedBoundaryCycles());
 		sb.append(" canonical=");
 		appendCycleSummary(sb, graph.getLastCanonicalBoundaryCycles());
@@ -576,7 +597,8 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 			return;
 		}
 		GPoint2D boundedSample = boundedRegion.getSamplePoint();
-		if (!viewportRegion.isFilled() || boundedRegion.isFilled()
+		if (!viewportRegion.isFilled()
+				|| boundedRegion.isFilled()
 				|| boundedSample == null
 				|| getBounds().isOnView(boundedSample.x, boundedSample.y)) {
 			return;
@@ -652,8 +674,8 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 			return true;
 		}
 		GRectangle boundsOfArea = area.getBounds();
-		boolean onScreen = boundsOfArea != null && getBounds().getBoundingPath()
-				.intersects(boundsOfArea);
+		boolean onScreen =
+				boundsOfArea != null && getBounds().getBoundingPath().intersects(boundsOfArea);
 		return isClipped() || isUpdateEnabled() || !onScreen;
 	}
 
@@ -750,10 +772,10 @@ public class BernsteinCurveFiller extends BernsteinPlotter {
 			if (y.isPositiveInfinity()) {
 				return IntervalConstants.zero();
 			}
-			double screenYLow = y.getHigh() == Double.POSITIVE_INFINITY ? 0
-					: toScreenCoordYd(y.getHigh());
-			double screenYHigh = y.getLow() == Double.NEGATIVE_INFINITY ? height
-					: toScreenCoordYd(y.getLow());
+			double screenYLow =
+					y.getHigh() == Double.POSITIVE_INFINITY ? 0 : toScreenCoordYd(y.getHigh());
+			double screenYHigh =
+					y.getLow() == Double.NEGATIVE_INFINITY ? height : toScreenCoordYd(y.getLow());
 			return new Interval(screenYLow, screenYHigh);
 		}
 

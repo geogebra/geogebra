@@ -89,10 +89,7 @@ public class BernsteinBoundingBox implements Splittable<BernsteinBoundingBox> {
 		}
 
 		BernsteinBoundingBox that = (BernsteinBoundingBox) o;
-		return x1 == that.x1
-				&& y1 == that.y1
-				&& x2 == that.x2
-				&& y2 == that.y2;
+		return x1 == that.x1 && y1 == that.y1 && x2 == that.x2 && y2 == that.y2;
 	}
 
 	@Override
@@ -102,11 +99,7 @@ public class BernsteinBoundingBox implements Splittable<BernsteinBoundingBox> {
 
 	@Override
 	public String toString() {
-		return "Box{x1=" + x1
-				+ ", y1=" + y1
-				+ ", y2=" + y2
-				+ ", x2=" + x2
-				+ '}';
+		return "Box{x1=" + x1 + ", y1=" + y1 + ", y2=" + y2 + ", x2=" + x2 + '}';
 	}
 
 	/**
@@ -151,5 +144,4 @@ public class BernsteinBoundingBox implements Splittable<BernsteinBoundingBox> {
 	public void release() {
 		pool.release(this);
 	}
-
 }

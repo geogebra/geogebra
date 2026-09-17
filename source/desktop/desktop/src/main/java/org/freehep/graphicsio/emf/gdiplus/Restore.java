@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The Restore metafile record represents a call to Graphics.Restore, which ends
  * a graphics container.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: Restore.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class Restore extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		Restore tag = new Restore();
 		tag.flags = flags;
 		tag.containerIndex = emf.readUINT();
@@ -37,8 +36,7 @@ public class Restore extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		emf.writeUINT(containerIndex);
 	}
 

@@ -28,24 +28,30 @@ import org.jspecify.annotations.NonNull;
  */
 public class StringRenderer implements CellRenderer {
 	public static final int FONT_SIZE = 14;
-	private static final GFont baseFont = AwtFactory.getPrototype()
-			.newFont("mathsans", GFont.PLAIN, FONT_SIZE);
-	private static final GGraphics2D measuringGraphics = AwtFactory.getPrototype()
-			.createBufferedImage(100, 100, true).createGraphics();
+	private static final GFont baseFont =
+			AwtFactory.getPrototype().newFont("mathsans", GFont.PLAIN, FONT_SIZE);
+	private static final GGraphics2D measuringGraphics =
+			AwtFactory.getPrototype().createBufferedImage(100, 100, true).createGraphics();
 
 	// design suggests 6px from text box in 36px cell,
 	// but canvas drawing does not consider text height
 	private static final int LINE_HEIGHT = 16;
 
 	@Override
-	public void draw(Object data, double fontSize, int fontStyle, double offsetX,
-			GGraphics2D graphics, Rectangle cellBorder) {
+	public void draw(
+			Object data,
+			double fontSize,
+			int fontStyle,
+			double offsetX,
+			GGraphics2D graphics,
+			Rectangle cellBorder) {
 		GFont font = baseFont.deriveFont(fontStyle, fontSize);
 		graphics.setFont(font);
 		double lineHeight = LINE_HEIGHT * fontSize / FONT_SIZE;
-		graphics.drawString(data.toString(), cellBorder.getMinX() + offsetX,
-				cellBorder.getMaxY() - (cellBorder.getHeight() - lineHeight) / 2
-						- font.getSize() / 4.0);
+		graphics.drawString(
+				data.toString(),
+				cellBorder.getMinX() + offsetX,
+				cellBorder.getMaxY() - (cellBorder.getHeight() - lineHeight) / 2 - font.getSize() / 4.0);
 	}
 
 	@Override
@@ -56,7 +62,8 @@ public class StringRenderer implements CellRenderer {
 	@Override
 	public double measureWidth(Object data, int fontStyle, double fontSize) {
 		GFont font = baseFont.deriveFont(fontStyle, fontSize);
-		return AwtFactory.getPrototype().newTextLayout(data.toString(),
-				font, measuringGraphics.getFontRenderContext()).getAdvance();
+		return AwtFactory.getPrototype()
+				.newTextLayout(data.toString(), font, measuringGraphics.getFontRenderContext())
+				.getAdvance();
 	}
 }

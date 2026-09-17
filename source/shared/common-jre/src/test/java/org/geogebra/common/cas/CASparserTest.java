@@ -64,16 +64,14 @@ class CASparserTest {
 
 	@Test
 	void replaceIndicesShouldEncodeMultiCharBracedIndex() {
-		assertEquals("a_unicode123u12unicode125u",
-				CASparser.replaceIndices("a_{12}", true));
+		assertEquals("a_unicode123u12unicode125u", CASparser.replaceIndices("a_{12}", true));
 	}
 
 	@Test
 	void replaceIndicesShouldEncodeUnicodeInsideBracedIndex() {
 		// α = α = 945, β = β = 946
 		assertEquals(
-				"a_unicode123uunicode945uunicode946uunicode125u",
-				CASparser.replaceIndices("a_{αβ}", true));
+				"a_unicode123uunicode945uunicode946uunicode125u", CASparser.replaceIndices("a_{αβ}", true));
 		assertEquals(
 				"a_unicode123uunicode945uunicode946uunicode125u",
 				CASparser.replaceIndices("a_{αβ}", false));
@@ -82,8 +80,7 @@ class CASparserTest {
 	@Test
 	void replaceIndicesShouldEncodeChainedSingleCharIndices() {
 		// '1' returns state to NORMAL, then '_b' starts a fresh single-char index
-		assertEquals("a_1_b",
-				CASparser.replaceIndices("a_1_b", true));
+		assertEquals("a_1_b", CASparser.replaceIndices("a_1_b", true));
 	}
 
 	@Test
@@ -118,16 +115,14 @@ class CASparserTest {
 
 	@Test
 	void replaceIndicesShouldPreserveOperators() {
-		assertEquals("a+b*c-d/e",
-				CASparser.replaceIndices("a+b*c-d/e", true));
+		assertEquals("a+b*c-d/e", CASparser.replaceIndices("a+b*c-d/e", true));
 	}
 
 	@Test
 	void replaceIndicesShouldHandleConsecutiveBracedIndices() {
 		// a_{12}+b_{34}
 		String expected = "a_unicode123u12unicode125u+b_unicode123u34unicode125u";
-		assertEquals(expected,
-				CASparser.replaceIndices("a_{12}+b_{34}", true));
+		assertEquals(expected, CASparser.replaceIndices("a_{12}+b_{34}", true));
 	}
 
 	@Test
@@ -143,7 +138,7 @@ class CASparserTest {
 		// then Euler char is processed via UNDERSCORE branch (else → NORMAL),
 		// which appendcodes the char as unicode<EULER_CODE>u, not 'e'.
 		String input = "a_" + Unicode.EULER_CHAR;
-		assertEquals("a_unicode" + (int) Unicode.EULER_CHAR + "u",
-				CASparser.replaceIndices(input, true));
+		assertEquals(
+				"a_unicode" + (int) Unicode.EULER_CHAR + "u", CASparser.replaceIndices(input, true));
 	}
 }

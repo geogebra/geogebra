@@ -40,8 +40,7 @@ public final class RowHeaderHandler implements MouseUpHandler {
 	 * @param rowHeaderWidget
 	 *            row headers
 	 */
-	public RowHeaderHandler(AppW appl, CASTableW casTableW,
-	        RowHeaderWidget rowHeaderWidget) {
+	public RowHeaderHandler(AppW appl, CASTableW casTableW, RowHeaderWidget rowHeaderWidget) {
 		super();
 		app = appl;
 		rowHeader = rowHeaderWidget;
@@ -51,8 +50,7 @@ public final class RowHeaderHandler implements MouseUpHandler {
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		int releasedRow = rowHeader.getIndex();
-		table.getCASView().getCASStyleBar()
-				.setSelectedRow(table.getGeoCasCell(releasedRow));
+		table.getCASView().getCASStyleBar().setSelectedRow(table.getGeoCasCell(releasedRow));
 		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
 			if (!table.isSelectedIndex(releasedRow)) {
 				table.setSelectedRows(releasedRow, releasedRow);
@@ -63,9 +61,10 @@ public final class RowHeaderHandler implements MouseUpHandler {
 				// because it must store in GuiManagerW.currentPopup - in this
 				// way the popup will hide
 				// when a newer popup will be shown.
-				RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
-						.getGuiManager()).getCASContextMenu(table);
-				popupMenu.show(event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
+				RowHeaderPopupMenuW popupMenu =
+						((GuiManagerW) app.getGuiManager()).getCASContextMenu(table);
+				popupMenu.show(
+						event.getClientX() + NavigatorUtil.getWindowScrollLeft(),
 						event.getClientY() + NavigatorUtil.getWindowScrollTop());
 			}
 		}

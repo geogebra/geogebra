@@ -38,7 +38,7 @@ public class CmdSetViewDirection extends CmdScripting {
 
 	/**
 	 * Creates new ZooomOut command
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,8 +48,8 @@ public class CmdSetViewDirection extends CmdScripting {
 
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
-		EuclidianView3DInterface view3D = app.isEuclidianView3Dinited()
-				? app.getEuclidianView3D() : null;
+		EuclidianView3DInterface view3D =
+				app.isEuclidianView3Dinited() ? app.getEuclidianView3D() : null;
 
 		int n = c.getArgumentNumber();
 
@@ -97,7 +97,6 @@ public class CmdSetViewDirection extends CmdScripting {
 			}
 
 			return arg;
-
 		}
 
 		if (arg[0].isGeoPoint()) {
@@ -108,7 +107,6 @@ public class CmdSetViewDirection extends CmdScripting {
 			}
 
 			return arg;
-
 		}
 
 		if (arg[0].isGeoNumeric()) {
@@ -119,10 +117,8 @@ public class CmdSetViewDirection extends CmdScripting {
 				view3D.setRotAnimation(value, false, animated);
 			}
 			return arg;
-
 		}
 
 		throw argErr(c, arg[0]);
-
 	}
 }

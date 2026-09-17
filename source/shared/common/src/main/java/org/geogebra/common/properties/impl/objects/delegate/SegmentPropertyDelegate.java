@@ -21,8 +21,7 @@ import org.geogebra.common.kernel.geos.HasSegmentStyle;
 
 public class SegmentPropertyDelegate extends AbstractGeoElementDelegate {
 
-	public SegmentPropertyDelegate(GeoElement element)
-			throws NotApplicablePropertyException {
+	public SegmentPropertyDelegate(GeoElement element) throws NotApplicablePropertyException {
 		super(element);
 	}
 

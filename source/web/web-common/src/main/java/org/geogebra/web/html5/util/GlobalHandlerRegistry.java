@@ -60,7 +60,7 @@ public class GlobalHandlerRegistry {
 	 * Remove all listeners
 	 */
 	public void removeAllListeners() {
-		for (HandlerRegistration registration: handlers) {
+		for (HandlerRegistration registration : handlers) {
 			registration.removeHandler();
 		}
 		handlers.clear();

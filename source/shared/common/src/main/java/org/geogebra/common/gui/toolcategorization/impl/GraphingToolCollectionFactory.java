@@ -30,70 +30,72 @@ import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
  */
 public class GraphingToolCollectionFactory extends AbstractToolCollectionFactory {
 
-    public GraphingToolCollectionFactory(boolean isMobileApp) {
-        super(isMobileApp);
-    }
+	public GraphingToolCollectionFactory(boolean isMobileApp) {
+		super(isMobileApp);
+	}
 
-    @Override
-    public ToolCollection createToolCollection() {
-        ToolCollectionImpl impl = new ToolCollectionImpl();
-        createTools(impl);
-        return impl;
-    }
+	@Override
+	public ToolCollection createToolCollection() {
+		ToolCollectionImpl impl = new ToolCollectionImpl();
+		createTools(impl);
+		return impl;
+	}
 
-    private void createTools(ToolCollectionImpl impl) {
-        impl.addLevel(ToolsetLevel.STANDARD);
+	private void createTools(ToolCollectionImpl impl) {
+		impl.addLevel(ToolsetLevel.STANDARD);
 
-        impl.extendCategory(ToolCategory.BASIC,
-                EuclidianConstants.MODE_MOVE,
-                EuclidianConstants.MODE_POINT,
-                EuclidianConstants.MODE_SLIDER,
-                EuclidianConstants.MODE_INTERSECT,
-                EuclidianConstants.MODE_EXTREMUM,
-                EuclidianConstants.MODE_ROOTS,
-                EuclidianConstants.MODE_FITLINE);
+		impl.extendCategory(
+				ToolCategory.BASIC,
+				EuclidianConstants.MODE_MOVE,
+				EuclidianConstants.MODE_POINT,
+				EuclidianConstants.MODE_SLIDER,
+				EuclidianConstants.MODE_INTERSECT,
+				EuclidianConstants.MODE_EXTREMUM,
+				EuclidianConstants.MODE_ROOTS,
+				EuclidianConstants.MODE_FITLINE);
 
-        impl.extendCategory(ToolCategory.EDIT,
-                EuclidianConstants.MODE_SELECT,
-                EuclidianConstants.MODE_TRANSLATE_VIEW,
-                EuclidianConstants.MODE_DELETE,
-                EuclidianConstants.MODE_SHOW_HIDE_LABEL,
-                EuclidianConstants.MODE_SHOW_HIDE_OBJECT,
-                EuclidianConstants.MODE_COPY_VISUAL_STYLE);
+		impl.extendCategory(
+				ToolCategory.EDIT,
+				EuclidianConstants.MODE_SELECT,
+				EuclidianConstants.MODE_TRANSLATE_VIEW,
+				EuclidianConstants.MODE_DELETE,
+				EuclidianConstants.MODE_SHOW_HIDE_LABEL,
+				EuclidianConstants.MODE_SHOW_HIDE_OBJECT,
+				EuclidianConstants.MODE_COPY_VISUAL_STYLE);
 
-        if (!isMobileApp) {
-            impl.extendCategory(ToolCategory.MEDIA,
-                    EuclidianConstants.MODE_TEXT);
-        }
+		if (!isMobileApp) {
+			impl.extendCategory(ToolCategory.MEDIA, EuclidianConstants.MODE_TEXT);
+		}
 
-        impl.extendCategory(ToolCategory.POINTS,
-                EuclidianConstants.MODE_POINT,
-                EuclidianConstants.MODE_INTERSECT,
-                EuclidianConstants.MODE_POINT_ON_OBJECT,
-                EuclidianConstants.MODE_ATTACH_DETACH,
-                EuclidianConstants.MODE_EXTREMUM,
-                EuclidianConstants.MODE_ROOTS,
-                EuclidianConstants.MODE_COMPLEX_NUMBER,
-                EuclidianConstants.MODE_CREATE_LIST);
+		impl.extendCategory(
+				ToolCategory.POINTS,
+				EuclidianConstants.MODE_POINT,
+				EuclidianConstants.MODE_INTERSECT,
+				EuclidianConstants.MODE_POINT_ON_OBJECT,
+				EuclidianConstants.MODE_ATTACH_DETACH,
+				EuclidianConstants.MODE_EXTREMUM,
+				EuclidianConstants.MODE_ROOTS,
+				EuclidianConstants.MODE_COMPLEX_NUMBER,
+				EuclidianConstants.MODE_CREATE_LIST);
 
-        impl.extendCategory(ToolCategory.LINES,
-                EuclidianConstants.MODE_JOIN,
-                EuclidianConstants.MODE_RAY,
-                EuclidianConstants.MODE_VECTOR);
+		impl.extendCategory(
+				ToolCategory.LINES,
+				EuclidianConstants.MODE_JOIN,
+				EuclidianConstants.MODE_RAY,
+				EuclidianConstants.MODE_VECTOR);
 
-        List<Integer> others = new ArrayList<>(Arrays.asList(
-                EuclidianConstants.MODE_PEN,
-                EuclidianConstants.MODE_FREEHAND_FUNCTION));
+		List<Integer> others = new ArrayList<>(
+				Arrays.asList(EuclidianConstants.MODE_PEN, EuclidianConstants.MODE_FREEHAND_FUNCTION));
 
-        if (!isMobileApp) {
-            others.addAll(Arrays.asList(
-                    // EuclidianConstants.MODE_FUNCTION_INSPECTOR,
-                    EuclidianConstants.MODE_BUTTON_ACTION,
-                    EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
-                    EuclidianConstants.MODE_TEXTFIELD_ACTION
-                    // EuclidianConstants.MODE_CREATE_LIST
-            ));
-        }
-        impl.extendCategory(ToolCategory.OTHERS, others);
-    }
+		if (!isMobileApp) {
+			others.addAll(Arrays.asList(
+					// EuclidianConstants.MODE_FUNCTION_INSPECTOR,
+					EuclidianConstants.MODE_BUTTON_ACTION,
+					EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
+					EuclidianConstants.MODE_TEXTFIELD_ACTION
+					// EuclidianConstants.MODE_CREATE_LIST
+					));
+		}
+		impl.extendCategory(ToolCategory.OTHERS, others);
+	}
 }

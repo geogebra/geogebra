@@ -37,16 +37,14 @@ public class PointCapturingProperty extends AbstractNamedEnumeratedProperty<Inte
 	 * @param view Euclidian view
 	 * @param localization localization
 	 */
-	public PointCapturingProperty(Localization localization,
-			EuclidianViewInterfaceCommon view) {
+	public PointCapturingProperty(Localization localization, EuclidianViewInterfaceCommon view) {
 		super(localization, "PointCapturing");
 		this.view = view;
 		setNamedValues(List.of(
 				entry(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC, "Labeling.automatic"),
 				entry(EuclidianStyleConstants.POINT_CAPTURING_ON, "SnapToGrid"),
 				entry(EuclidianStyleConstants.POINT_CAPTURING_ON_GRID, "FixedToGrid"),
-				entry(EuclidianStyleConstants.POINT_CAPTURING_OFF, "Off")
-		));
+				entry(EuclidianStyleConstants.POINT_CAPTURING_OFF, "Off")));
 	}
 
 	@Override

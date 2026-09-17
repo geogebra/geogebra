@@ -33,7 +33,7 @@ public enum ResourceAction {
 	ResourceAction(String key) {
 		this.translationKey = key;
 	}
-	
+
 	public String getTranslationKey() {
 		return this.translationKey;
 	}

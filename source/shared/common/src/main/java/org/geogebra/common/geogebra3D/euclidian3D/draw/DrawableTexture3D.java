@@ -28,9 +28,11 @@ public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 	private boolean isVisible;
 	/** width and height of the text */
 	protected int height;
+
 	protected int width;
 	/** width and height of the texture */
 	protected int height2;
+
 	protected int width2;
 
 	/** says it wait for reset */
@@ -38,6 +40,7 @@ public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 
 	/** index of the texture used for this label */
 	protected int textureIndex = -1;
+
 	protected int textIndex = -1;
 	protected int pickingIndex = -1;
 	protected int backgroundIndex = -1;
@@ -63,6 +66,7 @@ public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 
 	/** x, y, z offset */
 	protected float xOffset;
+
 	protected float yOffset;
 	protected float zOffset;
 	protected float xOffset2;
@@ -244,37 +248,55 @@ public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 		int old = textIndex;
 		if (view.isXRDrawing()) {
 			if (!view.isXREnabled() || !anchor) {
-				textIndex = drawRectangle(renderer, 0, 0, 0,
-						width2 / getFontScale(), height2 / getFontScale(), textIndex);
+				textIndex = drawRectangle(
+						renderer, 0, 0, 0, width2 / getFontScale(), height2 / getFontScale(), textIndex);
 			} else {
 				double w = width2 / getFontScale();
 				double h = height2 / getFontScale();
-				textIndex = drawRectangle(renderer, -(pickingX + pickingW / 2d) / getFontScale(),
-						-(pickingY + pickingH / 2d) / getFontScale(), 0,
-						w, h, textIndex);
+				textIndex = drawRectangle(
+						renderer,
+						-(pickingX + pickingW / 2d) / getFontScale(),
+						-(pickingY + pickingH / 2d) / getFontScale(),
+						0,
+						w,
+						h,
+						textIndex);
 			}
 		} else {
-			textIndex = drawRectangle(renderer, drawX, drawY, drawZ, width2 / getFontScale(),
-					height2 / getFontScale(), textIndex);
+			textIndex = drawRectangle(
+					renderer,
+					drawX,
+					drawY,
+					drawZ,
+					width2 / getFontScale(),
+					height2 / getFontScale(),
+					textIndex);
 		}
 		renderer.getGeometryManager().remove(old);
 
 		old = pickingIndex;
-		pickingIndex = drawRectangle(renderer,
+		pickingIndex = drawRectangle(
+				renderer,
 				drawX + pickingX / getFontScale(),
-				drawY + pickingY / getFontScale(), drawZ,
-				pickingW / getFontScale(), pickingH / getFontScale(),
+				drawY + pickingY / getFontScale(),
+				drawZ,
+				pickingW / getFontScale(),
+				pickingH / getFontScale(),
 				pickingIndex);
 		renderer.getGeometryManager().remove(old);
 
 		old = backgroundIndex;
 		if (view.isXRDrawing()) {
-			backgroundIndex = drawRectangle(renderer, 0, 0, 0,
-					width / getFontScale(),
-					height / getFontScale(), backgroundIndex);
+			backgroundIndex = drawRectangle(
+					renderer, 0, 0, 0, width / getFontScale(), height / getFontScale(), backgroundIndex);
 		} else {
-			backgroundIndex = drawRectangle(renderer, drawX, drawY, drawZ,
-					width / getFontScale(), height / getFontScale(),
+			backgroundIndex = drawRectangle(
+					renderer,
+					drawX,
+					drawY,
+					drawZ,
+					width / getFontScale(),
+					height / getFontScale(),
 					backgroundIndex);
 		}
 		renderer.getGeometryManager().remove(old);
@@ -335,8 +357,9 @@ public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 		}
 
 		renderer.getRendererImpl().setLabelOrigin(labelOrigin);
-		renderer.getRendererImpl().setLabelLocation(
-				new float[]{(float) drawX, (float) drawY, (float) drawZ});
+		renderer
+				.getRendererImpl()
+				.setLabelLocation(new float[] {(float) drawX, (float) drawY, (float) drawZ});
 		Coords backgroundColor = getBackgroundColor();
 		if (forPicking) {
 			// renderer.getGeometryManager().rectangle(drawX + pickingX, drawY +
@@ -355,12 +378,10 @@ public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 				// renderer.getGeometryManager().rectangle(drawX, drawY, drawZ,
 				// width, height);
 				renderer.getGeometryManager().draw(backgroundIndex);
-
 			}
 
 			// draw text
 			drawContent(renderer);
-
 		}
 	}
 
@@ -386,9 +407,8 @@ public abstract sealed class DrawableTexture3D permits DrawHalo, DrawLabel3D {
 		return view.getFontScale();
 	}
 
-	private static int drawRectangle(Renderer renderer, double x,
-			double y, double z, double w, double h, int index) {
+	private static int drawRectangle(
+			Renderer renderer, double x, double y, double z, double w, double h, int index) {
 		return renderer.getGeometryManager().rectangle(x, y, z, w, h, index);
 	}
-
 }

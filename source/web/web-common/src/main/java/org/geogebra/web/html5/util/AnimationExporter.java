@@ -49,9 +49,13 @@ public class AnimationExporter {
 	 * @param frameFormat
 	 *            GIF/WebM/PDF
 	 */
-	public static void export(App app, int timeBetweenFrames,
+	public static void export(
+			App app,
+			int timeBetweenFrames,
 			GeoNumeric slider,
-			StringConsumer consumer, double scale, double rotate,
+			StringConsumer consumer,
+			double scale,
+			double rotate,
 			ExportType frameFormat) {
 
 		app.getKernel().getAnimationManager().stopAnimation();
@@ -71,54 +75,51 @@ public class AnimationExporter {
 		}
 
 		switch (type) {
-		case GeoElementND.ANIMATION_DECREASING:
-			step = -slider.getAnimationStep();
-			n = (int) ((max - min) / -step);
-			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
-				n++;
-			}
-			if (n == 0) {
-				n = 1;
-			}
-			val = max;
-			break;
+			case GeoElementND.ANIMATION_DECREASING:
+				step = -slider.getAnimationStep();
+				n = (int) ((max - min) / -step);
+				if (DoubleUtil.isZero(((max - min) / -step) - n)) {
+					n++;
+				}
+				if (n == 0) {
+					n = 1;
+				}
+				val = max;
+				break;
 
-		case GeoElementND.ANIMATION_OSCILLATING:
-			step = slider.getAnimationStep();
-			n = (int) ((max - min) / step) * 2;
-			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
-				n++;
-			}
-			if (n == 0) {
-				n = 1;
-			}
-			val = min;
-			break;
+			case GeoElementND.ANIMATION_OSCILLATING:
+				step = slider.getAnimationStep();
+				n = (int) ((max - min) / step) * 2;
+				if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
+					n++;
+				}
+				if (n == 0) {
+					n = 1;
+				}
+				val = min;
+				break;
 
-		case GeoElementND.ANIMATION_INCREASING:
-		case GeoElementND.ANIMATION_INCREASING_ONCE:
-		default:
-			step = slider.getAnimationStep();
-			n = (int) ((max - min) / step);
-			if (DoubleUtil.isZero(((max - min) / step) - n)) {
-				n++;
-			}
-			if (n == 0) {
-				n = 1;
-			}
-			val = min;
-			break;
+			case GeoElementND.ANIMATION_INCREASING:
+			case GeoElementND.ANIMATION_INCREASING_ONCE:
+			default:
+				step = slider.getAnimationStep();
+				n = (int) ((max - min) / step);
+				if (DoubleUtil.isZero(((max - min) / step) - n)) {
+					n++;
+				}
+				if (n == 0) {
+					n = 1;
+				}
+				val = min;
+				break;
 		}
 
-		final FrameCollectorW encoder = getEncoder(timeBetweenFrames, consumer,
-				frameFormat);
+		final FrameCollectorW encoder = getEncoder(timeBetweenFrames, consumer, frameFormat);
 
 		app.setWaitCursor();
 
 		try {
-			exportAnimation(app, encoder, slider, n, val, min, max,
-					step,
-					scale, rotate);
+			exportAnimation(app, encoder, slider, n, val, min, max, step, scale, rotate);
 		} catch (RuntimeException ex) {
 			if (ex.getMessage().contains("Font not loaded")) {
 				throw ex;
@@ -130,30 +131,36 @@ public class AnimationExporter {
 		}
 	}
 
-	private static FrameCollectorW getEncoder(int timeBetweenFrames,
-			StringConsumer consumer, ExportType frameFormat) {
+	private static FrameCollectorW getEncoder(
+			int timeBetweenFrames, StringConsumer consumer, ExportType frameFormat) {
 
 		switch (frameFormat) {
-		case WEBP:
-		case WEBM:
-			return new WebMEncoderW(timeBetweenFrames, consumer);
-		case PDF_HTML5:
-			return new PDFEncoderW(consumer);
-		case PNG:
-		default:
-			return new AnimatedGifEncoderW(timeBetweenFrames, consumer);
+			case WEBP:
+			case WEBM:
+				return new WebMEncoderW(timeBetweenFrames, consumer);
+			case PDF_HTML5:
+				return new PDFEncoderW(consumer);
+			case PNG:
+			default:
+				return new AnimatedGifEncoderW(timeBetweenFrames, consumer);
 		}
-
 	}
 
-	private static void exportAnimation(App app, FrameCollectorW encoder,
-			GeoNumeric num, int n, double val0, double min, double max,
-			double step0, double scale, double rotate) {
+	private static void exportAnimation(
+			App app,
+			FrameCollectorW encoder,
+			GeoNumeric num,
+			int n,
+			double val0,
+			double min,
+			double max,
+			double step0,
+			double scale,
+			double rotate) {
 		Log.debug("exporting animation");
 		double val = val0;
 		double step = step0;
-		EuclidianViewWInterface ev = (EuclidianViewWInterface) app
-				.getActiveEuclidianView();
+		EuclidianViewWInterface ev = (EuclidianViewWInterface) app.getActiveEuclidianView();
 
 		for (int i = 0; i < n; i++) {
 
@@ -163,8 +170,7 @@ public class AnimationExporter {
 			num.updateRepaint();
 
 			if (rotate > 0 && ev instanceof EuclidianView3DInterface) {
-				((EuclidianView3DInterface) ev).setRotAnimation(-i * rotate / n,
-						false, false);
+				((EuclidianView3DInterface) ev).setRotAnimation(-i * rotate / n, false, false);
 				ev.repaintView();
 			}
 
@@ -172,8 +178,7 @@ public class AnimationExporter {
 
 			val += step;
 
-			if (val > max + Kernel.STANDARD_PRECISION
-					|| val < min - Kernel.STANDARD_PRECISION) {
+			if (val > max + Kernel.STANDARD_PRECISION || val < min - Kernel.STANDARD_PRECISION) {
 				val -= 2 * step;
 				step *= -1;
 			}
@@ -184,5 +189,4 @@ public class AnimationExporter {
 
 		encoder.finish(width, height);
 	}
-
 }

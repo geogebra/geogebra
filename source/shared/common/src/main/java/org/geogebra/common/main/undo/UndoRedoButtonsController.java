@@ -34,6 +34,7 @@ public class UndoRedoButtonsController implements UndoPossibleListener {
 
 	@Weak
 	private Kernel kernel;
+
 	private ActionView undoWidget;
 	private ActionView redoWidget;
 
@@ -59,10 +60,7 @@ public class UndoRedoButtonsController implements UndoPossibleListener {
 	}
 
 	private void registerUndoInfoStoredListener() {
-		kernel
-				.getConstruction()
-				.getUndoManager()
-				.addUndoListener(this);
+		kernel.getConstruction().getUndoManager().addUndoListener(this);
 	}
 
 	void undoAndUpdateAppearance() {
@@ -89,10 +87,8 @@ public class UndoRedoButtonsController implements UndoPossibleListener {
 	 * @param kernel The kernel.
 	 */
 	public static void addUndoRedoFunctionality(
-			ActionView undoWidget, ActionView redoWidget,
-			Kernel kernel) {
-		new UndoRedoButtonsController(kernel, undoWidget, redoWidget)
-				.startListeningToTriggerEvents();
+			ActionView undoWidget, ActionView redoWidget, Kernel kernel) {
+		new UndoRedoButtonsController(kernel, undoWidget, redoWidget).startListeningToTriggerEvents();
 	}
 
 	@Override

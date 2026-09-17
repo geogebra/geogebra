@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -34,7 +34,7 @@ public class TextWrappingProperty extends AbstractEnumeratedProperty<TextWrappin
 		implements IconsEnumeratedProperty<TextWrapping> {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_TEXT_WRAPPING_WRAP, PropertyResource.ICON_TEXT_WRAPPING_CLIP
+		PropertyResource.ICON_TEXT_WRAPPING_WRAP, PropertyResource.ICON_TEXT_WRAPPING_CLIP
 	};
 	private final GeoInlineTable geoElement;
 	private static final String[] rawLabels = {"ContextMenu.wrap", "ContextMenu.clip"};
@@ -51,8 +51,7 @@ public class TextWrappingProperty extends AbstractEnumeratedProperty<TextWrappin
 			throw new NotApplicablePropertyException(element);
 		}
 		geoElement = (GeoInlineTable) element;
-		setValues(List.of(TextWrapping.WRAP,
-				TextWrapping.CLIP));
+		setValues(List.of(TextWrapping.WRAP, TextWrapping.CLIP));
 	}
 
 	@Override
@@ -68,7 +67,8 @@ public class TextWrappingProperty extends AbstractEnumeratedProperty<TextWrappin
 	@Override
 	protected void doSetValue(TextWrapping value) {
 		InlineTableController formatter = (InlineTableController) geoElement.getFormatter();
-		if (getLocalization() != null && formatter != null
+		if (getLocalization() != null
+				&& formatter != null
 				&& value != TextWrapping.fromString(formatter.getWrapping())) {
 			formatter.setWrapping(value.toString());
 		}

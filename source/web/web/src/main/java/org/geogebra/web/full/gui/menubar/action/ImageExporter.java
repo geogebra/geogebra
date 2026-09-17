@@ -41,8 +41,6 @@ class ImageExporter {
 		String name = app.getExportTitle() + "." + extension;
 
 		app.getFileManager().exportImage(url, name, extension);
-		app.dispatchEvent(new Event(
-				EventType.EXPORT, null,
-				"[\"" + extension + "\"]"));
+		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"" + extension + "\"]"));
 	}
 }

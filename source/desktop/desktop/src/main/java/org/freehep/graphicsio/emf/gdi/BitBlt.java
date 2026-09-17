@@ -20,13 +20,13 @@ import org.freehep.util.io.NoCloseOutputStream;
  * BitBlt TAG. Encoded as plain RGB rather than the not-yet-working PNG format.
  * The BI_code for BI_PNG and BI_JPG seems to be missing from the WINGDI.H file
  * of visual C++.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: BitBlt.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
 public class BitBlt extends EMFTag implements EMFConstants {
 
-	public final static int size = 100;
+	public static final int size = 100;
 
 	private Rectangle bounds;
 
@@ -50,8 +50,15 @@ public class BitBlt extends EMFTag implements EMFConstants {
 		super(76, 1);
 	}
 
-	public BitBlt(Rectangle bounds, int x, int y, int width, int height,
-			AffineTransform transform, RenderedImage image, Color bkg) {
+	public BitBlt(
+			Rectangle bounds,
+			int x,
+			int y,
+			int width,
+			int height,
+			AffineTransform transform,
+			RenderedImage image,
+			Color bkg) {
 		this();
 		this.bounds = bounds;
 		this.x = x;
@@ -69,8 +76,7 @@ public class BitBlt extends EMFTag implements EMFConstants {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		BitBlt tag = new BitBlt();
 		tag.bounds = emf.readRECTL(); // 16
@@ -123,14 +129,13 @@ public class BitBlt extends EMFTag implements EMFConstants {
 		properties.setProperty(RawImageWriteParam.BACKGROUND, bkg);
 		properties.setProperty(RawImageWriteParam.CODE, "BGR");
 		properties.setProperty(RawImageWriteParam.PAD, 4);
-		ImageGraphics2D.writeImage(image, "raw", properties,
-				new NoCloseOutputStream(emf));
+		ImageGraphics2D.writeImage(image, "raw", properties, new NoCloseOutputStream(emf));
 
 		// emf.writeImage(image, bkg, "BGR", 4);
 		int length = emf.popBuffer();
 
-		BitmapInfoHeader header = new BitmapInfoHeader(image.getWidth(),
-				image.getHeight(), 24, BI_RGB, length, 0, 0, 0, 0);
+		BitmapInfoHeader header =
+				new BitmapInfoHeader(image.getWidth(), image.getHeight(), 24, BI_RGB, length, 0, 0, 0, 0);
 		bmi = new BitmapInfo(header);
 		bmi.write(emf);
 

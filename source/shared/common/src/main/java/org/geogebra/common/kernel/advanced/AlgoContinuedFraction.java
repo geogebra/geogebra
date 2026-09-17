@@ -49,8 +49,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 	 * @param shorthand
 	 *            whether to use shorthand syntax
 	 */
-	public AlgoContinuedFraction(Construction cons, GeoNumberValue num,
-			GeoNumberValue level, GeoBoolean shorthand) {
+	public AlgoContinuedFraction(
+			Construction cons, GeoNumberValue num, GeoNumberValue level, GeoBoolean shorthand) {
 		super(cons);
 		this.num = num;
 		this.level = level;
@@ -72,8 +72,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		int inputLength = 1 + (level == null ? 0 : 1)
-				+ (shorthand == null ? 0 : 1);
+		int inputLength = 1 + (level == null ? 0 : 1) + (shorthand == null ? 0 : 1);
 		input = new GeoElement[inputLength];
 		input[0] = num.toGeoElement();
 		int shorthandPos = 1;
@@ -101,16 +100,15 @@ public class AlgoContinuedFraction extends AlgoElement {
 		StringTemplate tpl = text.getStringTemplate();
 		if (num.isDefined() && (level == null || level.isDefined())) {
 			int maxSteps = level == null ? 0 : (int) level.getDouble();
-			int steps = decimalToFraction(num.getDouble(),
-					Kernel.STANDARD_PRECISION, denominators, maxSteps);
+			int steps =
+					decimalToFraction(num.getDouble(), Kernel.STANDARD_PRECISION, denominators, maxSteps);
 			if (steps < 1) {
 				text.setUndefined();
 				return;
 			}
 
 			if (steps == 1) { // integer
-				text.setTextString(
-						kernel.format(Math.round(num.getDouble()), tpl));
+				text.setTextString(kernel.format(Math.round(num.getDouble()), tpl));
 			} else if (shorthand == null || !shorthand.getBoolean()) {
 				appendLongLatex(steps, tpl);
 			} else {
@@ -167,7 +165,6 @@ public class AlgoContinuedFraction extends AlgoElement {
 		}
 		// Log.debug(sb.toString());
 		text.setTextString(sb.toString());
-
 	}
 
 	/*
@@ -175,16 +172,14 @@ public class AlgoContinuedFraction extends AlgoElement {
 	 * Department Santa Monica College 1900 Pico Blvd. Santa Monica, CA 90405
 	 * http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
 	 */
-	private int decimalToFraction(double dec, double AccuracyFactor,
-			long[] denom, int maxSteps) {
+	private int decimalToFraction(double dec, double AccuracyFactor, long[] denom, int maxSteps) {
 		double Z;
 
 		if (Double.isNaN(dec)) {
 			return -1;
 		}
 
-		if (dec == Double.POSITIVE_INFINITY
-				|| dec == Double.NEGATIVE_INFINITY) {
+		if (dec == Double.POSITIVE_INFINITY || dec == Double.NEGATIVE_INFINITY) {
 			return -1;
 		}
 
@@ -216,11 +211,10 @@ public class AlgoContinuedFraction extends AlgoElement {
 			denom[steps] = (long) Math.floor(Z);
 			Z = 1.0 / (Z - Math.floor(Z));
 			double ScratchValue = FractionDenominator;
-			FractionDenominator = FractionDenominator * Math.floor(Z)
-					+ PreviousDenominator;
+			FractionDenominator = FractionDenominator * Math.floor(Z) + PreviousDenominator;
 			PreviousDenominator = ScratchValue;
 			FractionNumerator = Math.floor(decimal * FractionDenominator + 0.5); // Rounding
-																					// Function
+			// Function
 			steps++;
 
 			// we are too close to integer, next step would be uncertain
@@ -232,15 +226,15 @@ public class AlgoContinuedFraction extends AlgoElement {
 			}
 
 			// the approximation is within standard precision
-			if (Math.abs(decimal - (FractionNumerator
-					/ FractionDenominator)) <= AccuracyFactor) {
+			if (Math.abs(decimal - (FractionNumerator / FractionDenominator)) <= AccuracyFactor) {
 				denom[steps] = (long) Math.floor(Z);
 				steps++;
 				break;
 			}
 
 		} while ((maxSteps == 0 || steps < maxSteps)
-				&& !DoubleUtil.isEqual(Z, Math.floor(Z)) && steps < denom.length);
+				&& !DoubleUtil.isEqual(Z, Math.floor(Z))
+				&& steps < denom.length);
 		return steps;
 	}
 
@@ -248,5 +242,4 @@ public class AlgoContinuedFraction extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
 }

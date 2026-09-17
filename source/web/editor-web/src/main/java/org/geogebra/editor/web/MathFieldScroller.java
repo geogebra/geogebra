@@ -57,8 +57,7 @@ public final class MathFieldScroller {
 		int height = parent.getOffsetHeight();
 		int scrollTop = parentElement.getScrollTop() + margin;
 		int position = cursorY < SCROLL_THRESHOLD ? 0 : cursorY;
-		if (position < scrollTop
-				|| position > scrollTop + height - SCROLL_THRESHOLD) {
+		if (position < scrollTop || position > scrollTop + height - SCROLL_THRESHOLD) {
 			parentElement.setScrollTop(position);
 		}
 	}

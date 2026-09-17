@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,9 +39,9 @@ import org.geogebra.common.util.debug.Log;
  * This class can prove a statement by a bounded number of checks. In this
  * desktop version this is done by multiple threads, if the CPU has multiple
  * threads.
- * 
+ *
  * @author Simon
- * 
+ *
  */
 public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
@@ -66,6 +66,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 	 * The queue which contains the coordinates of the points to test
 	 */
 	final LinkedBlockingQueue<BigInteger[]> coordinatesQueue = new LinkedBlockingQueue<>();
+
 	private AtomicInteger verifiedPoints;
 	private boolean stop;
 	private boolean errorOccurred;
@@ -80,21 +81,21 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 	/**
 	 * Takes the result back from the threads.
-	 * 
+	 *
 	 * @param result
 	 *            the result of the test point.
 	 */
 	protected void writeResult(TestPointResult result) {
 		switch (result) {
-		case PASSED:
-			verifiedPoints.incrementAndGet();
-			break;
-		case ERROR:
-			errorOccurred = true;
-			//$FALL-THROUGH$
-		case FALSE:
-			stop = true;
-			coordinatesQueue.clear();
+			case PASSED:
+				verifiedPoints.incrementAndGet();
+				break;
+			case ERROR:
+				errorOccurred = true;
+			// $FALL-THROUGH$
+			case FALSE:
+				stop = true;
+				coordinatesQueue.clear();
 		}
 	}
 
@@ -103,8 +104,11 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 	}
 
 	@Override
-	protected final ProofResult computeNd(HashSet<PVariable> freeVariables,
-			HashMap<PVariable, BigInteger> values, int deg, SymbolicParameters s,
+	protected final ProofResult computeNd(
+			HashSet<PVariable> freeVariables,
+			HashMap<PVariable, BigInteger> values,
+			int deg,
+			SymbolicParameters s,
 			AlgebraicStatement as) {
 		int n = freeVariables.size();
 		PVariable[] variables = new PVariable[n];
@@ -135,8 +139,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 		for (int i = 0; i < useProcessors; i++) {
 			pointTesters[i] = new PointTester(this, values, variables, s);
-			threads[i] = new Thread(pointTesters[i],
-					"ProverReciosMethod_TestPoints" + i);
+			threads[i] = new Thread(pointTesters[i], "ProverReciosMethod_TestPoints" + i);
 			threads[i].start();
 		}
 
@@ -157,9 +160,9 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 				}
 
 				for (int j = changedIndex; j >= 0; j--) {
-					result = result.multiply(
-							BigInteger.valueOf(n).multiply(BigInteger.valueOf(indices[j]))
-									.subtract(BigInteger.valueOf(i)));
+					result = result.multiply(BigInteger.valueOf(n)
+							.multiply(BigInteger.valueOf(indices[j]))
+							.subtract(BigInteger.valueOf(i)));
 					cache[i][j] = result;
 				}
 				coordinates[i] = result;
@@ -237,18 +240,18 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 					substitutions.put(v, entry.getValue());
 				}
 				ExtendedBoolean solvable = PPolynomial.solvable(
-						as.getPolynomials()
-								.toArray(new PPolynomial[as.getPolynomials().size()]),
-						substitutions, as.geoStatement.getKernel(),
-						ProverSettings.get().transcext, as.getFreeVariables());
+						as.getPolynomials().toArray(new PPolynomial[as.getPolynomials().size()]),
+						substitutions,
+						as.geoStatement.getKernel(),
+						ProverSettings.get().transcext,
+						as.getFreeVariables());
 				Log.debug("Recio meets Botana (threaded): " + substitutions);
 				if (solvable.boolVal()) {
 					break;
 				}
 			} else {
 				try {
-					BigInteger[] exactCoordinates = s
-							.getExactCoordinates(values);
+					BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 
 					wrong = false;
 					for (BigInteger result : exactCoordinates) {
@@ -288,19 +291,20 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 		Log.debug(nrOfChecks + " tests done by main thread");
 
 		return ProofResult.TRUE;
-
 	}
 
-	private final static class PointTester implements Runnable {
+	private static final class PointTester implements Runnable {
 		HashMap<PVariable, BigInteger> values;
 		PVariable[] variables;
 		ProverReciosMethodD prover;
 		SymbolicParameters s;
 		private int nrOfTests;
 
-		private PointTester(final ProverReciosMethodD prover,
+		private PointTester(
+				final ProverReciosMethodD prover,
 				final HashMap<PVariable, BigInteger> values,
-				final PVariable[] variables, final SymbolicParameters s) {
+				final PVariable[] variables,
+				final SymbolicParameters s) {
 			this.prover = prover;
 			this.variables = variables;
 			this.values = (HashMap<PVariable, BigInteger>) values.clone();
@@ -324,8 +328,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 					this.values.put(variables[i], coordinates[i]);
 				}
 				try {
-					BigInteger[] exactCoordinates = s
-							.getExactCoordinates(values);
+					BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 					nrOfTests++;
 					wrong = false;
 					for (BigInteger result : exactCoordinates) {
@@ -345,7 +348,5 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 				}
 			}
 		}
-
 	}
-
 }

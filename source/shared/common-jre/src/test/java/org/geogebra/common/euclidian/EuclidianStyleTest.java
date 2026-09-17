@@ -49,8 +49,7 @@ class EuclidianStyleTest {
 	void textShouldBeTransparentOnReload() {
 		GeoElementND transparentText = t("trans=\"aaa\"");
 		assertNull(transparentText.getBackgroundColor());
-		GeoElement defaultText = cd
-				.getDefaultGeo(cd.getDefaultType(null, GeoClass.TEXT));
+		GeoElement defaultText = cd.getDefaultGeo(cd.getDefaultType(null, GeoClass.TEXT));
 		defaultText.setBackgroundColor(GColor.WHITE);
 		GeoElementND whiteText = t("\"aaa\"");
 		assertEquals(GColor.WHITE, whiteText.getBackgroundColor());
@@ -73,7 +72,6 @@ class EuclidianStyleTest {
 	}
 
 	private GeoElementND t(String string) {
-		return app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(string, false)[0];
+		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(string, false)[0];
 	}
 }

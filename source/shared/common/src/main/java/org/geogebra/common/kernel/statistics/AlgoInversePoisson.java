@@ -22,10 +22,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoInversePoisson extends AlgoDistribution {
 
 	/**
@@ -36,8 +35,7 @@ public class AlgoInversePoisson extends AlgoDistribution {
 	 * @param b
 	 *            variable value
 	 */
-	public AlgoInversePoisson(Construction cons, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoInversePoisson(Construction cons, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, a, b, null, null);
 	}
 
@@ -71,5 +69,4 @@ public class AlgoInversePoisson extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

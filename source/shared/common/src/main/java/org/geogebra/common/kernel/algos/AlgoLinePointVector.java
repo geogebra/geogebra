@@ -38,7 +38,7 @@ public class AlgoLinePointVector extends AlgoElement {
 
 	/**
 	 * Creates new algo for Line[point, vector]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -48,8 +48,7 @@ public class AlgoLinePointVector extends AlgoElement {
 	 * @param v
 	 *            direction vector
 	 */
-	public AlgoLinePointVector(Construction cons, String label, GeoPoint P,
-			GeoVector v) {
+	public AlgoLinePointVector(Construction cons, String label, GeoPoint P, GeoVector v) {
 		super(cons);
 		this.P = P;
 		this.v = v;
@@ -73,7 +72,7 @@ public class AlgoLinePointVector extends AlgoElement {
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -116,12 +115,14 @@ public class AlgoLinePointVector extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("LineThroughAwithDirectionB",
-				"Line through %0 with direction %1", P.getLabel(tpl),
-				v.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"LineThroughAwithDirectionB",
+						"Line through %0 with direction %1",
+						P.getLabel(tpl),
+						v.getLabel(tpl));
 	}
-
 }

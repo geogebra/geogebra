@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -53,7 +53,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Dialog to substitute expressions in CAS Input.
- * 
+ *
  */
 public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
@@ -74,7 +74,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
 	/**
 	 * Substitute dialog for CAS.
-	 * 
+	 *
 	 * @param casView
 	 *            view
 	 * @param prefix
@@ -86,8 +86,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	 * @param editRow
 	 *            row to edit
 	 */
-	public CASSubDialogD(CASViewD casView, String prefix, String evalText,
-			String postfix, int editRow) {
+	public CASSubDialogD(
+			CASViewD casView, String prefix, String evalText, String postfix, int editRow) {
 		super(prefix, evalText, postfix, editRow);
 
 		this.casView = casView;
@@ -100,13 +100,14 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
 	protected void createGUI() {
 		// do not dock the substitution dialog to the main frame: ticket 1832
-		dialog = new Dialog(
-				(JFrame) ((LayoutD) app.getGuiManager().getLayout())
-						.getDockManager().getPanel(App.VIEW_CAS).getFrame());
+		dialog = new Dialog((JFrame) ((LayoutD) app.getGuiManager().getLayout())
+				.getDockManager()
+				.getPanel(App.VIEW_CAS)
+				.getFrame());
 		dialog.setModal(false);
 		Localization loc = getApp().getLocalization();
-		dialog.setTitle(loc.getMenu("Substitute") + " - "
-				+ loc.getCommand("Row") + " " + (editRow + 1));
+		dialog.setTitle(
+				loc.getMenu("Substitute") + " - " + loc.getCommand("Row") + " " + (editRow + 1));
 		dialog.setResizable(true);
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
@@ -119,30 +120,24 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		replaceTable = new JTable(data, header);
 		replaceTable.setDefaultEditor(Object.class, new MathTextCellEditor());
 		replaceTable.getTableHeader().setReorderingAllowed(false);
-		double fontFactor = Math.max(1,
-				getApp().getGUIFontSize() / DEFAULT_FONT_SIZE);
-		replaceTable
-				.setRowHeight((int) (DEFAULT_TABLE_CELL_HEIGHT * fontFactor));
+		double fontFactor = Math.max(1, getApp().getGUIFontSize() / DEFAULT_FONT_SIZE);
+		replaceTable.setRowHeight((int) (DEFAULT_TABLE_CELL_HEIGHT * fontFactor));
 
-		replaceTable.setPreferredScrollableViewportSize(
-				new Dimension((int) (DEFAULT_TABLE_WIDTH * fontFactor),
-						(int) (DEFAULT_TABLE_HEIGHT * fontFactor)));
+		replaceTable.setPreferredScrollableViewportSize(new Dimension(
+				(int) (DEFAULT_TABLE_WIDTH * fontFactor), (int) (DEFAULT_TABLE_HEIGHT * fontFactor)));
 		scrollPane = new JScrollPane(replaceTable);
 
 		JPanel captionPanel = new JPanel(new BorderLayout(5, 0));
 
 		captionPanel.add(scrollPane, BorderLayout.CENTER);
 
-		replaceTable.getSelectionModel()
-				.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		replaceTable.getSelectionModel()
-				.addListSelectionListener(e -> addRow(false));
+		replaceTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		replaceTable.getSelectionModel().addListSelectionListener(e -> addRow(false));
 
 		replaceTable.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				if (e.getKeyChar() != KeyEvent.CHAR_UNDEFINED
-						&& e.getKeyChar() != '\t') {
+				if (e.getKeyChar() != KeyEvent.CHAR_UNDEFINED && e.getKeyChar() != '\t') {
 					addRow(true);
 				}
 			}
@@ -181,12 +176,11 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
 		// Make this dialog display it.
 		dialog.setContentPane(optionPane);
-
 	}
 
 	/**
 	 * tests if there should be an empty row appended
-	 * 
+	 *
 	 * @param inserting
 	 *            is set: the selected cell will be filled but is not yet
 	 */
@@ -203,15 +197,12 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 				if (editor != null) {
 					row = replaceTable.getEditingRow();
 					col = replaceTable.getEditingColumn();
-					data.get(row).set(col,
-							editor.getCellEditorValue().toString());
+					data.get(row).set(col, editor.getCellEditorValue().toString());
 				}
-				data.add(new Vector<>(
-						Arrays.asList("", "")));
+				data.add(new Vector<>(Arrays.asList("", "")));
 				replaceTable.revalidate();
 				dialog.pack();
-				Rectangle r = replaceTable.getCellRect(
-						replaceTable.getRowCount() - 1, col, false);
+				Rectangle r = replaceTable.getCellRect(replaceTable.getRowCount() - 1, col, false);
 				scrollPane.getViewport().scrollRectToVisible(r);
 				if (editor != null) {
 					replaceTable.editCellAt(row, col);
@@ -266,8 +257,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		return app;
 	}
 
-	private final class MathTextCellEditor extends AbstractCellEditor
-			implements TableCellEditor {
+	private final class MathTextCellEditor extends AbstractCellEditor implements TableCellEditor {
 
 		private static final long serialVersionUID = 1L;
 		boolean editing;
@@ -309,8 +299,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value,
-				boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(
+				JTable table, Object value, boolean isSelected, int row, int column) {
 			delegate.setText(value.toString());
 			delegate.setFont(getApp().getPlainFont());
 			editing = true;

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -71,12 +71,12 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Class to dynamically display plots and statistics in coordination with the
  * DataAnalysisView.
- * 
+ *
  * @author G.Sturr
- * 
+ *
  */
-public class DataDisplayPanelD extends JPanel implements ActionListener,
-		FocusListener, StatPanelInterface, IDataDisplayListener {
+public class DataDisplayPanelD extends JPanel
+		implements ActionListener, FocusListener, StatPanelInterface, IDataDisplayListener {
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
@@ -139,7 +139,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
-	 * 
+	 *
 	 * @param daView
 	 *            daView
 	 */
@@ -152,13 +152,12 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		// create the GUI
 		this.daView = daView;
 		createGUI();
-
 	}
 
 	/**
 	 * Sets the plot to be displayed and the GUI corresponding to the given data
 	 * analysis mode
-	 * 
+	 *
 	 * @param plotIndex
 	 *            the plot to be displayed
 	 * @param mode
@@ -170,19 +169,14 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		getModel().updatePlot(true);
 		optionsPanel.setVisible(false);
 		btnOptions.setSelected(false);
-		btnOptions.setSelectedIcon(
-				app.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
-
+		btnOptions.setSelectedIcon(app.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
 	}
 
 	private void updateIcons() {
-		btnOptions
-				.setIcon(app.getScaledIcon(GuiResourcesD.INPUTHELP_LEFT_18x18));
-		btnOptions.setSelectedIcon(
-				app.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
+		btnOptions.setIcon(app.getScaledIcon(GuiResourcesD.INPUTHELP_LEFT_18x18));
+		btnOptions.setSelectedIcon(app.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
 
 		btnExport.setIcon(app.getScaledIcon(GuiResourcesD.EXPORT16));
-
 	}
 	// ==============================================
 	// GUI
@@ -232,17 +226,14 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 			controlPanel = new JPanel(new BorderLayout(0, 0));
 			controlPanel.add(flowPanel(cbDisplayType), loc.borderWest());
 			controlPanel.add(controlCards, BorderLayout.CENTER);
-			controlPanel.add(flowPanelRight(btnOptions, btnExport),
-					loc.borderEast());
+			controlPanel.add(flowPanelRight(btnOptions, btnExport), loc.borderEast());
 		}
 
-		plotPanel = new PlotPanelEuclidianViewD(app.getKernel(),
-				exportToEVAction);
+		plotPanel = new PlotPanelEuclidianViewD(app.getKernel(), exportToEVAction);
 
 		plotPanelNorth = new JPanel();
 		plotPanelSouth = new JPanel();
-		Color bgColor = org.geogebra.desktop.awt.GColorD
-				.getAwtColor(plotPanel.getBackgroundCommon());
+		Color bgColor = org.geogebra.desktop.awt.GColorD.getAwtColor(plotPanel.getBackgroundCommon());
 		plotPanelNorth.setBackground(bgColor);
 		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new JLabel();
@@ -270,10 +261,8 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		displayCardPanel.add("imagePanel", new JScrollPane(imagePanel));
 
 		// create options panel
-		optionsPanel = new OptionsPanelD(app, daModel,
-				getModel().getSettings());
-		optionsPanel.addPropertyChangeListener("settings",
-				evt -> getModel().updatePlot(true));
+		optionsPanel = new OptionsPanelD(app, daModel, getModel().getSettings());
+		optionsPanel.addPropertyChangeListener("settings", evt -> getModel().updatePlot(true));
 		optionsPanel.setVisible(false);
 
 		frequencyTable = new FrequencyTablePanel(app);
@@ -292,9 +281,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		this.setLayout(new BorderLayout(0, 0));
 		this.add(mainPanel, BorderLayout.CENTER);
 		this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-		controlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-				SystemColor.controlShadow));
-
+		controlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
 	}
 
 	/**
@@ -316,7 +303,6 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		optionsPanel.setLabels();
 		btnOptions.setToolTipText(loc.getMenu("Options"));
-
 	}
 
 	/**
@@ -338,7 +324,6 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		cbDisplayType.setFocusable(false);
 		cbDisplayType.addActionListener(this);
 		cbDisplayType.setMaximumRowCount(cbDisplayType.getItemCount());
-
 	}
 
 	/**
@@ -354,7 +339,6 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		imagePanel.setAlignmentY(SwingConstants.CENTER);
 		imageContainer.setHorizontalAlignment(SwingConstants.CENTER);
 		imagePanel.add(imageContainer, BorderLayout.CENTER);
-
 	}
 
 	/**
@@ -373,8 +357,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		fldNumClasses.setBorder(BorderFactory.createEmptyBorder());
 		fldNumClasses.setVisible(false);
 
-		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20,
-				numClasses);
+		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20, numClasses);
 		Dimension d = sliderNumClasses.getPreferredSize();
 		d.width = 80;
 		sliderNumClasses.setPreferredSize(d);
@@ -385,8 +368,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		sliderNumClasses.addChangeListener(evt -> {
 			JSlider slider = (JSlider) evt.getSource();
 			getModel().getSettings().setNumClasses(slider.getValue());
-			fldNumClasses.setText(
-					"" + getModel().getSettings().getNumClasses());
+			fldNumClasses.setText("" + getModel().getSettings().getNumClasses());
 			getModel().updatePlot(true);
 		});
 
@@ -408,7 +390,6 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		numClassesPanel.add(sliderNumClasses);
 		// numClassesPanel.add(lblNumClasses);
 		numClassesPanel.add(fldNumClasses);
-
 	}
 
 	/**
@@ -429,7 +410,6 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		stemAdjustPanel.add(minus);
 		stemAdjustPanel.add(none);
 		stemAdjustPanel.add(plus);
-
 	}
 
 	/**
@@ -475,8 +455,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	@Override
 	public void showControlPanel() {
-		((CardLayout) controlCards.getLayout()).show(controlCards,
-				"blankPanel");
+		((CardLayout) controlCards.getLayout()).show(controlCards, "blankPanel");
 	}
 
 	@Override
@@ -487,8 +466,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	@Override
 	public void showInvalidDataDisplay() {
 		imageContainer.setIcon(null);
-		((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-				"imagePanel");
+		((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel, "imagePanel");
 	}
 
 	// ============================================================
@@ -516,47 +494,39 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 				getModel().getSettings().setStemAdjust(1);
 			}
 			getModel().updatePlot(true);
-		}
-
-		else if (source == btnOptions) {
+		} else if (source == btnOptions) {
 			optionsPanel.setPanel(getModel().getSelectedPlot());
 			optionsPanel.setVisible(btnOptions.isSelected());
-		}
-
-		else if (source == btnExport) {
+		} else if (source == btnExport) {
 			JPopupMenu menu = plotPanel.getContextMenu();
-			menu.show(btnExport,
-					-menu.getPreferredSize().width + btnExport.getWidth(),
-					btnExport.getHeight());
-		}
-
-		else if (source == cbDisplayType) {
+			menu.show(
+					btnExport, -menu.getPreferredSize().width + btnExport.getWidth(), btnExport.getHeight());
+		} else if (source == cbDisplayType) {
 			if (cbDisplayType.getSelectedItem().equals(PlotTypeRenderer.SEPARATOR)) {
 				cbDisplayType.setSelectedItem(getModel().getSelectedPlot());
 			} else {
-				getModel().setSelectedPlot(
-						(PlotType) cbDisplayType.getSelectedItem());
+				getModel().setSelectedPlot((PlotType) cbDisplayType.getSelectedItem());
 				getModel().updatePlot(true);
 			}
 
 			if (optionsPanel.isVisible()) {
 				optionsPanel.setPanel(getModel().getSelectedPlot());
-
 			}
-
 		}
-
 	}
 
 	private void doTextFieldActionPerformed(Object source) {
 
 		if (source == fldStart) {
-			getModel().getSettings().setClassStart(Validation.validateDouble(
-					fldStart, getModel().getSettings().getClassStart()));
+			getModel()
+					.getSettings()
+					.setClassStart(
+							Validation.validateDouble(fldStart, getModel().getSettings().getClassStart()));
 		} else if (source == fldWidth) {
-			getModel().getSettings()
-					.setClassWidth(Validation.validateDoublePositive(fldWidth,
-							getModel().getSettings().getClassWidth()));
+			getModel()
+					.getSettings()
+					.setClassWidth(Validation.validateDoublePositive(
+							fldWidth, getModel().getSettings().getClassWidth()));
 		}
 		getModel().updatePlot(true);
 	}
@@ -643,12 +613,11 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		}
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(
+				JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			String str = "";
 			if (value instanceof PlotType) {
-				str = app.getLocalization()
-						.getMenu(((PlotType) value).getKey());
+				str = app.getLocalization().getMenu(((PlotType) value).getKey());
 			} else {
 				Log.error("wrong class" + value);
 			}
@@ -676,7 +645,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	 * Action to export all GeoElements that are currently displayed in this
 	 * panel to a EuclidianView. The viewID for the target EuclidianView is
 	 * stored as a property with key "euclidianViewID".
-	 * 
+	 *
 	 * This action is passed as a parameter to plotPanel where it is used in the
 	 * plotPanel context menu and the EuclidianView transfer handler when the
 	 * plot panel is dragged into an EV.
@@ -686,8 +655,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
-			Integer euclidianViewID = (Integer) this
-					.getValue("euclidianViewID");
+			Integer euclidianViewID = (Integer) this.getValue("euclidianViewID");
 
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
@@ -744,16 +712,13 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public void setTableFromGeoFrequencyTable(
-			AlgoFrequencyTable frequencyTable, boolean useClasses) {
+	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable frequencyTable, boolean useClasses) {
 		this.frequencyTable.setTableFromGeoFrequencyTable(frequencyTable, useClasses);
-
 	}
 
 	@Override
 	public void updatePlotPanelSettings() {
-		plotPanel.commonFields.updateSettings(plotPanel,
-				getModel().getSettings());
+		plotPanel.commonFields.updateSettings(plotPanel, getModel().getSettings());
 	}
 
 	private static void showCardPanel(JPanel panel, String id) {
@@ -777,16 +742,14 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	@Override
 	public void updateStemPlot(String latex) {
-		imageContainer.setIcon(GeoGebraIconD.createScaledLatexIcon(app, latex,
-				app.getPlainFont(), Color.BLACK));
+		imageContainer.setIcon(
+				GeoGebraIconD.createScaledLatexIcon(app, latex, app.getPlainFont(), Color.BLACK));
 		btnOptions.setVisible(false);
 		if (hasControlPanel) {
 			showCardPanel(controlCards, "stemAdjustPanel");
 		}
 
-		((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-				"imagePanel");
-
+		((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel, "imagePanel");
 	}
 
 	@Override
@@ -833,5 +796,4 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	public void update() {
 		model.updatePlot(true);
 	}
-
 }

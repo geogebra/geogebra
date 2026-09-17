@@ -43,13 +43,14 @@ import org.jspecify.annotations.NonNull;
  * The ... menu for AV items
  *
  */
-public final class ContextMenuAVItemMore implements SetLabels,
-		AlgebraContextMenuActionHandler.Delegate {
+public final class ContextMenuAVItemMore
+		implements SetLabels, AlgebraContextMenuActionHandler.Delegate {
 
 	/** visible component */
 	final GPopupMenuW wrappedPopup;
 	/** localization */
 	private final Localization loc;
+
 	private final AppWFull mApp;
 	private GeoElement geo;
 	private final RadioTreeItem item;
@@ -82,13 +83,14 @@ public final class ContextMenuAVItemMore implements SetLabels,
 		wrappedPopup.clearItems();
 		SuiteScope suiteScope = GlobalScope.getSuiteScope(mApp);
 		Set<ContextMenuItemFilter> contextMenuFilters = suiteScope != null
-				? suiteScope.restrictionsController.getContextMenuItemFilters() : Set.of();
-		List<AlgebraContextMenuItem> actions = ContextMenuFactory
-				.makeAlgebraContextMenu(geo,
-						mApp.getKernel().getAlgebraProcessor(),
-						getApp().getSubAppCode(),
-						mApp.getSettings().getAlgebra(),
-						contextMenuFilters);
+				? suiteScope.restrictionsController.getContextMenuItemFilters()
+				: Set.of();
+		List<AlgebraContextMenuItem> actions = ContextMenuFactory.makeAlgebraContextMenu(
+				geo,
+				mApp.getKernel().getAlgebraProcessor(),
+				getApp().getSubAppCode(),
+				mApp.getSettings().getAlgebra(),
+				contextMenuFilters);
 		if (!getApp().showToolBar()) {
 			actions.remove(AlgebraContextMenuItem.CreateTableValues);
 		}
@@ -120,10 +122,12 @@ public final class ContextMenuAVItemMore implements SetLabels,
 
 	private void addAction(final AlgebraContextMenuItem menuItem) {
 		AlgebraContextMenuActionHandler algebraContextMenuActionHandler =
-				new AlgebraContextMenuActionHandler(mApp, mApp.getGuiManager()
-						.getTableValuesView(), geo, this);
-		AriaMenuItem itemWidget = new AriaMenuItem(menuItem.getLocalizedTitle(loc),
-				null, () -> algebraContextMenuActionHandler.handleSelectedItem(menuItem));
+				new AlgebraContextMenuActionHandler(
+						mApp, mApp.getGuiManager().getTableValuesView(), geo, this);
+		AriaMenuItem itemWidget = new AriaMenuItem(
+				menuItem.getLocalizedTitle(loc),
+				null,
+				() -> algebraContextMenuActionHandler.handleSelectedItem(menuItem));
 		TestHarness.setAttr(itemWidget, "menu" + menuItem.getTranslationKey());
 		itemWidget.addStyleName("no-image");
 		wrappedPopup.addItem(itemWidget);
@@ -153,8 +157,8 @@ public final class ContextMenuAVItemMore implements SetLabels,
 
 	@Override
 	public void scrollToTableValuesColumn(int columnIndex) {
-		GeoEvaluatable evaluatable = mApp.getGuiManager()
-				.getTableValuesView().getEvaluatable(columnIndex);
+		GeoEvaluatable evaluatable =
+				mApp.getGuiManager().getTableValuesView().getEvaluatable(columnIndex);
 		mApp.getGuiManager().getUnbundledToolbar().openTableView(evaluatable, false);
 	}
 

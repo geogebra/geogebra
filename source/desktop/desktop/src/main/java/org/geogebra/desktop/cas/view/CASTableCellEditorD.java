@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -64,8 +64,8 @@ public class CASTableCellEditorD extends CASTableCell
 	}
 
 	@Override
-	public Component getTableCellEditorComponent(JTable casTable, Object value,
-			boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(
+			JTable casTable, Object value, boolean isSelected, int row, int column) {
 		if (value instanceof GeoCasCell) {
 			editing = true;
 			editingRow = row;
@@ -82,8 +82,7 @@ public class CASTableCellEditorD extends CASTableCell
 			// set CASTableCell value
 			this.cellValue = (GeoCasCell) value;
 			this.table = casTable;
-			inputOnEditingStart = cellValue
-					.getLocalizedInput();
+			inputOnEditingStart = cellValue.getLocalizedInput();
 			isUseAsTextOnEditingStart = cellValue.isUseAsText();
 			setValue(cellValue);
 
@@ -152,7 +151,7 @@ public class CASTableCellEditorD extends CASTableCell
 
 	/**
 	 * Replaces selection with given text
-	 * 
+	 *
 	 * @param text
 	 *            text
 	 */
@@ -272,26 +271,26 @@ public class CASTableCellEditorD extends CASTableCell
 		int keyCode = e.getKeyCode();
 
 		switch (keyCode) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_ESCAPE:
-			e.consume();
-			getInputArea().setText("");
-			break;
-
-		case KeyEvent.VK_V:
-			if (AppD.isControlDown(e)) {
-				// make sure Ctrl-V isn't passed on to Euclidian View
-				getInputArea().paste();
+			default:
+				// do nothing
+				break;
+			case KeyEvent.VK_ESCAPE:
 				e.consume();
-			}
-			break;
+				getInputArea().setText("");
+				break;
 
-		// case KeyEvent.VK_ENTER:
-		// e.consume();
-		// stopCellEditing();
-		// break;
+			case KeyEvent.VK_V:
+				if (AppD.isControlDown(e)) {
+					// make sure Ctrl-V isn't passed on to Euclidian View
+					getInputArea().paste();
+					e.consume();
+				}
+				break;
+
+			// case KeyEvent.VK_ENTER:
+			// e.consume();
+			// stopCellEditing();
+			// break;
 		}
 	}
 
@@ -312,35 +311,31 @@ public class CASTableCellEditorD extends CASTableCell
 			return;
 		}
 
-		GeoCasCell selCellValue = view.getConsoleTable()
-				.getGeoCasCell(editingRow - 1);
+		GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);
 
 		if (!selCellValue.isError()) {
 			switch (ch) {
-			default:
-				// do nothing
-				break;
-			case ' ':
-			case '|':
-				// insert output of previous row (not in parentheses)
-				inputArea.setText(selCellValue
-						.getOutputRHS(StringTemplate.defaultTemplate) + " ");
-				e.consume();
-				break;
-			case ')':
-				// insert output of previous row in parentheses
-				String prevOutput = selCellValue
-						.getOutputRHS(StringTemplate.defaultTemplate);
-				inputArea.setText("(" + prevOutput + ")");
-				e.consume();
-				break;
+				default:
+					// do nothing
+					break;
+				case ' ':
+				case '|':
+					// insert output of previous row (not in parentheses)
+					inputArea.setText(selCellValue.getOutputRHS(StringTemplate.defaultTemplate) + " ");
+					e.consume();
+					break;
+				case ')':
+					// insert output of previous row in parentheses
+					String prevOutput = selCellValue.getOutputRHS(StringTemplate.defaultTemplate);
+					inputArea.setText("(" + prevOutput + ")");
+					e.consume();
+					break;
 			}
 		}
 		// insert input of previous row
 		// should work on errors also
 		if ('=' == ch) {
-			inputArea.setText(
-					selCellValue.getLocalizedInput());
+			inputArea.setText(selCellValue.getLocalizedInput());
 			e.consume();
 		}
 	}

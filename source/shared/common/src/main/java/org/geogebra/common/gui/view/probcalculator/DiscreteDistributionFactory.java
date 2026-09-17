@@ -49,19 +49,19 @@ public class DiscreteDistributionFactory {
 	 * @param isCumulative if the distribution is cumulative.
 	 * @return the created distribution
 	 */
-	public DiscreteProbability create(Dist distribution, GeoNumberValue[] parameters,
-			boolean isCumulative) {
+	public DiscreteProbability create(
+			Dist distribution, GeoNumberValue[] parameters, boolean isCumulative) {
 		DistributionParameters params = new DistributionParameters(parameters, isCumulative);
 		switch (distribution) {
-		default:
-		case BINOMIAL:
-			return binomial.create(params);
-		case PASCAL:
-			return pascal.create(params);
-		case POISSON:
-			return poisson.create(params);
-		case HYPERGEOMETRIC:
-			return hyperGeometric.create(params);
+			default:
+			case BINOMIAL:
+				return binomial.create(params);
+			case PASCAL:
+				return pascal.create(params);
+			case POISSON:
+				return poisson.create(params);
+			case HYPERGEOMETRIC:
+				return hyperGeometric.create(params);
 		}
 	}
 }

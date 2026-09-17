@@ -32,8 +32,7 @@ import org.gwtproject.user.client.ui.ScrollPanel;
 import org.gwtproject.user.client.ui.Widget;
 
 /** Data panel */
-public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
-		RequiresResize {
+public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW, RequiresResize {
 	private DataAnalysisViewW daView;
 	private DataAnalysisControllerW statController;
 	private ComponentCheckbox cbEnableAll;
@@ -45,7 +44,7 @@ public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	/*************************************************
 	 * Construct a DataPanel
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param statDialog
@@ -105,20 +104,18 @@ public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		dataTable.setStatTable(maxRows, rowNames, 2, null);
 		for (int row = 0; row < maxRows - 1; row++) {
 			int finalRow = row;
-			ComponentCheckbox cb = new ComponentCheckbox(loc, true, "" + (row + 1),
-					ignore -> onDataClick(finalRow));
+			ComponentCheckbox cb =
+					new ComponentCheckbox(loc, true, "" + (row + 1), ignore -> onDataClick(finalRow));
 			dataTable.getTable().setWidget(row + 1, 0, cb);
 
 			dataTable.setValueAt(
-					dataArray.get(row).toDefinedValueString(
-							StringTemplate.defaultTemplate), row + 1, 1);
+					dataArray.get(row).toDefinedValueString(StringTemplate.defaultTemplate), row + 1, 1);
 		}
 
 		dataTable.getTable().setWidget(0, 0, cbEnableAll);
 		dataTable.setValueAt(titles[0], 0, 1);
 
 		updateSelectionList(dataArray);
-
 	}
 
 	private void populateRegressionDataTable(ArrayList<GeoElement> dataArray) {
@@ -135,8 +132,8 @@ public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		for (int row = 0; row < maxRows - 1; ++row) {
 			int finalRow = row;
-			ComponentCheckbox cb = new ComponentCheckbox(loc, true, "" + (row + 1),
-					ignore -> onDataClick(finalRow));
+			ComponentCheckbox cb =
+					new ComponentCheckbox(loc, true, "" + (row + 1), ignore -> onDataClick(finalRow));
 			dataTable.getTable().setWidget(row + 1, 0, cb);
 			GeoPoint pt = (GeoPoint) dataArray.get(row);
 			dataTable.setValueAt(pt.getInhomX() + "", row + 1, 1);
@@ -177,8 +174,7 @@ public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 */
 	public void onDataClick(int index) {
 		selectionList[index] = !selectionList[index];
-		statController.updateSelectedDataList(index,
-				selectionList[index]);
+		statController.updateSelectedDataList(index, selectionList[index]);
 		cbEnableAll.setSelected(isAllEnabled());
 		cbEnableAll.setDisabled(false);
 	}
@@ -218,5 +214,4 @@ public final class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	public void onResize() {
 		scrollPane.setHeight(getOffsetHeight() - lblHeader.getOffsetHeight() + "px");
 	}
-
 }

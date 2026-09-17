@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -26,8 +26,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNamedEnumeratedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class LevelOfDetailProperty extends
-		AbstractNamedEnumeratedProperty<SurfaceEvaluable.LevelOfDetail> {
+public class LevelOfDetailProperty
+		extends AbstractNamedEnumeratedProperty<SurfaceEvaluable.LevelOfDetail> {
 	private GeoElement element;
 
 	/**
@@ -42,8 +42,7 @@ public class LevelOfDetailProperty extends
 		}
 		setNamedValues(List.of(
 				Map.entry(SurfaceEvaluable.LevelOfDetail.SPEED, "Speed"),
-				Map.entry(SurfaceEvaluable.LevelOfDetail.QUALITY, "Quality")
-		));
+				Map.entry(SurfaceEvaluable.LevelOfDetail.QUALITY, "Quality")));
 		this.element = element;
 	}
 

@@ -30,7 +30,7 @@ public class CmdStartRecord extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,27 +45,27 @@ public class CmdStartRecord extends CmdScripting {
 		// dummy
 
 		switch (n) {
-		case 0:
-			app.getTraceManager().pauseAllTraces(false);
-			return new GeoElement[0];
+			case 0:
+				app.getTraceManager().pauseAllTraces(false);
+				return new GeoElement[0];
 
-		case 1:
-			GeoElement[] arg = resArgs(c);
-			if (arg[0].isGeoBoolean()) {
+			case 1:
+				GeoElement[] arg = resArgs(c);
+				if (arg[0].isGeoBoolean()) {
 
-				GeoBoolean geo = (GeoBoolean) arg[0];
+					GeoBoolean geo = (GeoBoolean) arg[0];
 
-				if (geo.getBoolean()) {
-					app.getTraceManager().pauseAllTraces(false);
+					if (geo.getBoolean()) {
+						app.getTraceManager().pauseAllTraces(false);
 
-				} else {
-					app.getTraceManager().pauseAllTraces(true);
+					} else {
+						app.getTraceManager().pauseAllTraces(true);
+					}
+					return arg;
 				}
-				return arg;
-			}
-			throw argErr(c, arg[0]);
-		default:
-			throw argNumErr(c);
+				throw argErr(c, arg[0]);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

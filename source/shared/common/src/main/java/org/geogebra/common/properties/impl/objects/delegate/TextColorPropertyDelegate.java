@@ -20,8 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 public class TextColorPropertyDelegate extends AbstractGeoElementDelegate {
 
-	public TextColorPropertyDelegate(GeoElement element)
-			throws NotApplicablePropertyException {
+	public TextColorPropertyDelegate(GeoElement element) throws NotApplicablePropertyException {
 		super(element);
 	}
 

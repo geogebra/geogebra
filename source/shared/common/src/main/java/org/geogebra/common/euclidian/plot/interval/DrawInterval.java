@@ -102,8 +102,7 @@ public class DrawInterval {
 	 * @param x interval
 	 */
 	public void drawWhole(Interval x) {
-		gp.segment(bounds,
-				x.getLow(), bounds.getYmin(), x.getLow(), bounds.getYmax());
+		gp.segment(bounds, x.getLow(), bounds.getYmin(), x.getLow(), bounds.getYmax());
 	}
 
 	IntervalSet drawIndependent(IntervalTuple tuple) {

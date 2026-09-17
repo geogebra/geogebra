@@ -41,5 +41,4 @@ public interface ToolBarInterface extends HasVisibility {
 	 * @return whether this has mobile layout
 	 */
 	boolean isMobileToolbar();
-
 }

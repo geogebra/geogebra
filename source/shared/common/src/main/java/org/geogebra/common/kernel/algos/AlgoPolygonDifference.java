@@ -34,7 +34,7 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 	private boolean threeArgs = false;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -46,19 +46,22 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 	 * @param exclusive
 	 *            third input exclusive difference or not
 	 */
-	public AlgoPolygonDifference(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive) {
+	public AlgoPolygonDifference(
+			Construction cons,
+			String[] labels,
+			GeoPolygon inPoly0,
+			GeoPolygon inPoly1,
+			GeoBoolean exclusive) {
 
 		super(cons, labels, inPoly0, inPoly1, getOp(exclusive));
 		this.exclusive = exclusive;
 		this.threeArgs = exclusive != null;
 
 		this.initialize(null);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -73,8 +76,12 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 	 *            sizes of the results of the operation. consist of polygon
 	 *            size, point size, and segment size
 	 */
-	public AlgoPolygonDifference(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive,
+	public AlgoPolygonDifference(
+			Construction cons,
+			String[] labels,
+			GeoPolygon inPoly0,
+			GeoPolygon inPoly1,
+			GeoBoolean exclusive,
 			int[] outputSizes) {
 
 		super(cons, labels, inPoly0, inPoly1, getOp(exclusive));
@@ -89,7 +96,8 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 	 * @return XOR or DIFFERENCE
 	 */
 	public static PolyOperation getOp(GeoBoolean exclusive) {
-		return (exclusive != null && exclusive.getBoolean()) ? PolyOperation.XOR
+		return (exclusive != null && exclusive.getBoolean())
+				? PolyOperation.XOR
 				: PolyOperation.DIFFERENCE;
 	}
 
@@ -119,12 +127,10 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 		cons.addToAlgorithmList(this);
 
 		setDependencies();
-
 	}
 
 	@Override
 	public GetCommand getClassName() {
 		return Commands.Difference;
 	}
-
 }

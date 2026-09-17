@@ -40,7 +40,7 @@ public interface GDevice {
 
 	/**
 	 * TODO make this browser-dependent, not GDevice dependent
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @return construction protocol

@@ -30,7 +30,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	private Value vDMS = new Value();
 
 	/**
-	 * 
+	 *
 	 * Class for degrees/minutes/seconds
 	 *
 	 */
@@ -45,7 +45,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 
 		/**
 		 * set values
-		 * 
+		 *
 		 * @param degrees
 		 *            degrees
 		 * @param showDegrees
@@ -59,8 +59,13 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		 * @param showSeconds
 		 *            if show seconds when turned into string
 		 */
-		public void set(double degrees, boolean showDegrees, double minutes,
-				boolean showMinutes, double seconds, boolean showSeconds) {
+		public void set(
+				double degrees,
+				boolean showDegrees,
+				double minutes,
+				boolean showMinutes,
+				double seconds,
+				boolean showSeconds) {
 			needsMinus = degrees < 0;
 			this.degrees = Math.abs(degrees);
 			this.minutes = minutes;
@@ -72,7 +77,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param value
 		 *            value
 		 */
@@ -88,7 +93,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 
 		/**
 		 * set value
-		 * 
+		 *
 		 * @param val
 		 *            value
 		 * @param precision
@@ -134,7 +139,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		}
 
 		/**
-		 * 
+		 *
 		 * @param sbFormatAngle
 		 *            string
 		 * @param tpl
@@ -142,8 +147,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		 * @param kernel
 		 *            kernel
 		 */
-		public void format(StringBuilder sbFormatAngle, StringTemplate tpl,
-				Kernel kernel) {
+		public void format(StringBuilder sbFormatAngle, StringTemplate tpl, Kernel kernel) {
 			if (kernel.getLocalization().isMinusOnRight(tpl)) {
 				if (tpl.hasCASType()) {
 					if (needsMinus) {
@@ -207,7 +211,7 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param degrees
@@ -223,22 +227,25 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 	 * @param hasSeconds
 	 *            whether it has seconds in definition
 	 */
-	public MyDoubleDegreesMinutesSeconds(Kernel kernel, double degrees,
-			boolean hasDegrees, double minutes, boolean hasMinutes,
-			double seconds, boolean hasSeconds) {
-		super(kernel, (degrees + (minutes + seconds / 60.0d) / 60.0d) * Math.PI
-				/ 180.0d);
+	public MyDoubleDegreesMinutesSeconds(
+			Kernel kernel,
+			double degrees,
+			boolean hasDegrees,
+			double minutes,
+			boolean hasMinutes,
+			double seconds,
+			boolean hasSeconds) {
+		super(kernel, (degrees + (minutes + seconds / 60.0d) / 60.0d) * Math.PI / 180.0d);
 		vDMS.set(degrees, hasDegrees, minutes, hasMinutes, seconds, hasSeconds);
 		setAngle();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param myDouble
 	 *            another angles in degrees/minutes/seconds
 	 */
-	public MyDoubleDegreesMinutesSeconds(
-			MyDoubleDegreesMinutesSeconds myDouble) {
+	public MyDoubleDegreesMinutesSeconds(MyDoubleDegreesMinutesSeconds myDouble) {
 		super(myDouble);
 		vDMS.set(myDouble.vDMS);
 		setAngle();
@@ -262,5 +269,4 @@ public class MyDoubleDegreesMinutesSeconds extends MyDouble {
 		sb.setLength(0);
 		vDMS.set(val, Kernel.MAX_PRECISION, true);
 	}
-
 }

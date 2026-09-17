@@ -33,8 +33,8 @@ import org.gwtproject.dom.client.NativeEvent;
 import elemental2.core.JsDate;
 import elemental2.dom.DomGlobal;
 
-public abstract class SaveFileDialog extends ComponentDialog implements
-		SaveController.SaveListener, SaveDialogI {
+public abstract class SaveFileDialog extends ComponentDialog
+		implements SaveController.SaveListener, SaveDialogI {
 	protected ComponentInputField titleField;
 
 	/**
@@ -43,23 +43,21 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 	 * @param dialogData contains trans keys for title and buttons
 	 * @param autoHide true if dialog should be hidden on background click
 	 */
-	public SaveFileDialog(AppW app,
-			DialogData dialogData, boolean autoHide) {
+	public SaveFileDialog(AppW app, DialogData dialogData, boolean autoHide) {
 		super(app, dialogData, autoHide, true);
 		addStyleName("saveDialog");
 		buildContent();
 		initActions();
 		DialogUtil.hideOnLogout(app, this);
-		setSaveType(app.isWhiteboardActive()
-				? Material.MaterialType.ggs : Material.MaterialType.ggb);
+		setSaveType(app.isWhiteboardActive() ? Material.MaterialType.ggs : Material.MaterialType.ggb);
 	}
 
 	/**
 	 * build dialog content
 	 */
 	public void buildContent() {
-		titleField = new ComponentInputField((AppW) app, "Untitled",
-				app.getLocalization().getMenu("Title"), "", "");
+		titleField = new ComponentInputField(
+				(AppW) app, "Untitled", app.getLocalization().getMenu("Title"), "", "");
 
 		addDialogContent(titleField);
 	}
@@ -70,8 +68,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 		setOnNegativeAction(app.getSaveController()::cancel);
 		Runnable afterSave = () -> app.getSaveController().runAfterSaveCallback(true);
 		setOnPositiveAction(() -> {
-			if (((AppW) app).getFileManager().saveCurrentLocalIfPossible(app,
-					afterSave)) {
+			if (((AppW) app).getFileManager().saveCurrentLocalIfPossible(app, afterSave)) {
 				return;
 			}
 			if (!((AppW) app).getFileManager().isOnlineSavingPreferred()) {
@@ -79,8 +76,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 			} else {
 				if (!app.getLoginOperation().isLoggedIn()) {
 					hide();
-					((AppWFull) app).getActivity().markSaveProcess(getTitleText(),
-							getSaveVisibility());
+					((AppWFull) app).getActivity().markSaveProcess(getTitleText(), getSaveVisibility());
 					((AppW) app).getGuiManager().listenToLogin(this::onSave);
 					app.getLoginOperation().showLoginDialog();
 				} else {
@@ -93,15 +89,14 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 			// we started handling Ctrl+S in graphics view but then focus moved to this dialog
 			// make sure the keyup event doesn't clear selection
 			if (MathFieldW.checkCode(nativeEvent, "KeyS")
-				&& (nativeEvent.getCtrlKey() || nativeEvent.getMetaKey())) {
+					&& (nativeEvent.getCtrlKey() || nativeEvent.getMetaKey())) {
 				setTitle();
 			}
 		});
-		titleField.addInputHandler(
-				() -> setPosBtnDisabled(isInvalidLength(getTitleText())));
+		titleField.addInputHandler(() -> setPosBtnDisabled(isInvalidLength(getTitleText())));
 		GlobalHandlerRegistry globalHandlers = ((AppW) app).getGlobalHandlers();
-		globalHandlers.addEventListener(DomGlobal.window, "unload",
-				event -> app.getSaveController().cancel());
+		globalHandlers.addEventListener(
+				DomGlobal.window, "unload", event -> app.getSaveController().cancel());
 	}
 
 	private String getTitleText() {
@@ -114,8 +109,7 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 
 	private void onSave() {
 		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
-		app.getSaveController().saveAs(getTitleText(),
-				getSaveVisibility(), this);
+		app.getSaveController().saveAs(getTitleText(), getSaveVisibility(), this);
 	}
 
 	/**
@@ -147,23 +141,22 @@ public abstract class SaveFileDialog extends ComponentDialog implements
 	}
 
 	private boolean sameMaterial(Material material) {
-		return app.getLoginOperation().owns(material)
-				&& material.getTitle().equals(getTitleText());
+		return app.getLoginOperation().owns(material) && material.getTitle().equals(getTitleText());
 	}
 
 	/**
 	 * Sets initial title for the material to save.
 	 */
 	public void setTitle() {
-		app.getSaveController().updateSaveTitle(titleField::setInputText,
-				getDefaultTitle());
+		app.getSaveController().updateSaveTitle(titleField::setInputText, getDefaultTitle());
 		titleField.setVisible(shouldInputPanelBeVisible());
 		Scheduler.get().scheduleDeferred(titleField::focusAndSelectAll);
 	}
 
 	private String getDefaultTitle() {
 		// for Mebis users suggest the current date as title
-		return app.isByCS() ? DateTimeFormat.format(new JsDate())
+		return app.isByCS()
+				? DateTimeFormat.format(new JsDate())
 				: app.getLocalization().getMenu("Untitled");
 	}
 

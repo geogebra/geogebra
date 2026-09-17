@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -45,7 +45,7 @@ import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Prepares and shows a JPopupMenu containing a symbol table for MyTextField.
- * 
+ *
  * @author G. Sturr
  *
  */
@@ -64,7 +64,7 @@ public class SymbolTablePopupD {
 
 	/**
 	 * Constructs a symbol table popup.
-	 * 
+	 *
 	 * @param app application
 	 * @param textField textfield
 	 */
@@ -75,8 +75,7 @@ public class SymbolTablePopupD {
 
 		popup = new JPopupMenu();
 		popup.setFocusable(false);
-		popup.setBorder(
-				BorderFactory.createLineBorder(SystemColor.controlShadow));
+		popup.setBorder(BorderFactory.createLineBorder(SystemColor.controlShadow));
 
 		// created in setLabels(), not needed here
 		// createSymbolTable();
@@ -92,16 +91,19 @@ public class SymbolTablePopupD {
 
 		String[][] map = TableSymbols.basicSymbolsMap(loc);
 
-		symbolTable = new SelectionTableD(app,
-				TableSymbols.basicSymbols(loc, map), -1, 10,
-				new Dimension(24, 24), SelectionTable.MODE_TEXT);
+		symbolTable = new SelectionTableD(
+				app,
+				TableSymbols.basicSymbols(loc, map),
+				-1,
+				10,
+				new Dimension(24, 24),
+				SelectionTable.MODE_TEXT);
 
 		symbolTable.setShowGrid(true);
 		symbolTable.setHorizontalAlignment(SwingConstants.CENTER);
 		symbolTable.setSelectedIndex(1);
 		symbolTable.setFocusable(false);
-		symbolTable
-				.setToolTipArray(TableSymbols.basicSymbolsToolTips(loc, map));
+		symbolTable.setToolTipArray(TableSymbols.basicSymbolsToolTips(loc, map));
 
 		symbolTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -147,7 +149,6 @@ public class SymbolTablePopupD {
 				textField.addKeyListener(listener);
 			}
 		}
-
 	}
 
 	private void registerListeners() {
@@ -195,21 +196,18 @@ public class SymbolTablePopupD {
 		if (locateAtFieldEnd) {
 			Dimension d = popup.getPreferredSize();
 			if (openUpwards) {
-				popup.show(textField,
-						textField.getX() + textField.getWidth() - d.width,
-						-d.height);
+				popup.show(textField, textField.getX() + textField.getWidth() - d.width, -d.height);
 			} else {
-				popup.show(textField,
+				popup.show(
+						textField,
 						textField.getX() + textField.getWidth() - d.width,
 						textField.getY() + textField.getHeight());
 			}
 		} else {
 			if (openUpwards) {
-				popup.show(textField, getCaretPixelPosition().x,
-						getCaretPixelPosition().y);
+				popup.show(textField, getCaretPixelPosition().x, getCaretPixelPosition().y);
 			} else {
-				popup.show(textField, getCaretPixelPosition().x,
-						textField.getY() + textField.getHeight());
+				popup.show(textField, getCaretPixelPosition().x, textField.getY() + textField.getHeight());
 			}
 		}
 	}
@@ -264,46 +262,42 @@ public class SymbolTablePopupD {
 		int keyCode = keyEvent.getKeyCode();
 
 		switch (keyCode) {
-		case VK_ESCAPE: // [ESC] cancel the popup and undo any changes
-			hidePopup();
-			keyEvent.consume();
-			break;
+			case VK_ESCAPE: // [ESC] cancel the popup and undo any changes
+				hidePopup();
+				keyEvent.consume();
+				break;
 
-		case VK_ENTER:
-			handlePopupSelection();
-			hidePopup();
-			keyEvent.consume();
-			break;
+			case VK_ENTER:
+				handlePopupSelection();
+				hidePopup();
+				keyEvent.consume();
+				break;
 
-		case KeyEvent.VK_UP:
-		case KeyEvent.VK_DOWN:
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_RIGHT:
+				int row = symbolTable.getSelectedRow();
+				int column = symbolTable.getSelectedColumn();
+				if (keyCode == KeyEvent.VK_RIGHT && column != symbolTable.getColumnCount() - 1) {
+					++column;
+				}
+				if (keyCode == KeyEvent.VK_LEFT && column >= 0) {
+					--column;
+				}
+				if (keyCode == KeyEvent.VK_DOWN && row != symbolTable.getRowCount() - 1) {
+					++row;
+				}
+				if (keyCode == KeyEvent.VK_UP && row >= 0) {
+					--row;
+				}
 
-			int row = symbolTable.getSelectedRow();
-			int column = symbolTable.getSelectedColumn();
-			if (keyCode == KeyEvent.VK_RIGHT
-					&& column != symbolTable.getColumnCount() - 1) {
-				++column;
-			}
-			if (keyCode == KeyEvent.VK_LEFT && column >= 0) {
-				--column;
-			}
-			if (keyCode == KeyEvent.VK_DOWN
-					&& row != symbolTable.getRowCount() - 1) {
-				++row;
-			}
-			if (keyCode == KeyEvent.VK_UP && row >= 0) {
-				--row;
-			}
+				symbolTable.changeSelection(row, column, false, false);
+				keyEvent.consume();
+				break;
 
-			symbolTable.changeSelection(row, column, false, false);
-			keyEvent.consume();
-			break;
-
-		default:
-			hidePopup();
+			default:
+				hidePopup();
 		}
 	}
-
 }

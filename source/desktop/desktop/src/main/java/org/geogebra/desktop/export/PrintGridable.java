@@ -61,14 +61,13 @@ public class PrintGridable implements Printable {
 		ArrayList<Integer> boundsHor = new ArrayList<>();
 		boundsHor.add(sum);
 		for (int i = 0; i < colWidths.length; i++) {
-			if ((sum + colWidths[i]
-					- boundsHor.get(boundsHor.size() - 1) > pWidth) // the
-																		// next
-																		// cell
-																		// won't
-																		// fit
+			if ((sum + colWidths[i] - boundsHor.get(boundsHor.size() - 1) > pWidth) // the
+					// next
+					// cell
+					// won't
+					// fit
 					&& (sum > boundsHor.get(boundsHor.size() - 1))) { // the size
-																	// increased
+				// increased
 				boundsHor.add(sum);
 			}
 			sum += colWidths[i];
@@ -79,14 +78,13 @@ public class PrintGridable implements Printable {
 		ArrayList<Integer> boundsVer = new ArrayList<>();
 		boundsVer.add(sum);
 		for (int i = 0; i < rowHeights.length; i++) {
-			if ((sum + rowHeights[i]
-					- boundsVer.get(boundsVer.size() - 1) > pHeight) // the
-																		// next
-																		// cell
-																		// won't
-																		// fit
+			if ((sum + rowHeights[i] - boundsVer.get(boundsVer.size() - 1) > pHeight) // the
+					// next
+					// cell
+					// won't
+					// fit
 					&& (sum > boundsVer.get(boundsVer.size() - 1))) { // the size
-																	// increased
+				// increased
 				boundsVer.add(sum);
 			}
 			sum += rowHeights[i];
@@ -103,7 +101,9 @@ public class PrintGridable implements Printable {
 		int px = pageIndex % pagesHor;
 		int py = pageIndex / pagesHor;
 
-		Rectangle bounds = new Rectangle(boundsHor.get(px), boundsVer.get(py),
+		Rectangle bounds = new Rectangle(
+				boundsHor.get(px),
+				boundsVer.get(py),
 				boundsHor.get(px + 1) - boundsHor.get(px),
 				boundsVer.get(py + 1) - boundsVer.get(py));
 
@@ -142,5 +142,4 @@ public class PrintGridable implements Printable {
 	public void setTitleOffset(int offset) {
 		this.titleOffset = offset;
 	}
-
 }

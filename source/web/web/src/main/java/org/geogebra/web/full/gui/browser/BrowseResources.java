@@ -39,5 +39,4 @@ public interface BrowseResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/open-from-location_local-storage.png")
 	ImageResource location_local();
-
 }

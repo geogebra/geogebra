@@ -10,27 +10,27 @@ import java.util.Properties;
  * of properties and statements in the input.
  * <P>
  * The following statements, all start with the
- * 
+ *
  * &#64;-sign, are allowed:
- * 
+ *
  * <UL>
  * <LI><B>@ifdef property</B>, reads everything up to the next
- * 
+ *
  * &#64;statement if the property is defined.
  *            <LI><B>@ifndef property</B>, reads everything up to the next
  * &#64;statement if the property is not defined.
  *            <LI><B>@else</B>, corresponding else statement
  *            <LI><B>@endif</B>, corresponging endif statement
  *            </UL>
- * 
+ *
  *            The &#64;-sign itself must be escaped by a backslash, if used in
  *            the text followed by any of the keywords described above and no
  *            action should be taken.
- * 
+ *
  *            <P>
  *            IMPORTANT: inherits from InputStream rather than FilterInputStream
  *            so that the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ConditionalInputStream.java,v 1.3 2008-05-04 12:22:09 murkle
  *          Exp $
@@ -55,7 +55,7 @@ public class ConditionalInputStream extends InputStream {
 
 	/**
 	 * Creates a Conditional Input Stream from given stream.
-	 * 
+	 *
 	 * @param input
 	 *            stream to read from
 	 * @param defines
@@ -145,11 +145,9 @@ public class ConditionalInputStream extends InputStream {
 					// check on property
 					String property = s.toString();
 					if (defines.getProperty(property) != null) {
-						ok[nesting] = (nesting > 0 ? ok[nesting - 1] : true)
-								&& keyword.equals("ifdef");
+						ok[nesting] = (nesting > 0 ? ok[nesting - 1] : true) && keyword.equals("ifdef");
 					} else {
-						ok[nesting] = (nesting > 0 ? ok[nesting - 1] : true)
-								&& keyword.equals("ifndef");
+						ok[nesting] = (nesting > 0 ? ok[nesting - 1] : true) && keyword.equals("ifndef");
 					}
 					nesting++;
 					replaceBufferWithWhitespace(index);
@@ -157,17 +155,14 @@ public class ConditionalInputStream extends InputStream {
 					// FIXME one could have multiple elses without endifs...
 					// calculate inclusion based on ifdef nesting
 					if (nesting <= 0) {
-						throw new RuntimeException(
-								"@else without corresponding @ifdef");
+						throw new RuntimeException("@else without corresponding @ifdef");
 					}
-					ok[nesting - 1] = (nesting > 1 ? ok[nesting - 2] : true)
-							&& !ok[nesting - 1];
+					ok[nesting - 1] = (nesting > 1 ? ok[nesting - 2] : true) && !ok[nesting - 1];
 					replaceBufferWithWhitespace(index);
 				} else if (keyword.equals("endif")) {
 					// calculate inclusion based on ifdef nesting
 					if (nesting <= 0) {
-						throw new RuntimeException(
-								"@endif without corresponding @ifdef");
+						throw new RuntimeException("@endif without corresponding @ifdef");
 					}
 					nesting--;
 					replaceBufferWithWhitespace(index);

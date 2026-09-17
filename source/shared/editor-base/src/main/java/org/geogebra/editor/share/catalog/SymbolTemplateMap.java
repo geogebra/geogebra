@@ -47,7 +47,6 @@ public class SymbolTemplateMap implements Iterable<SymbolTemplate> {
 	 * @param templateName the name of the template
 	 * @return the template with name, otherwise null
 	 */
-
 	@Nullable public SymbolTemplate getSymbol(String templateName) {
 		return templates.get(templateName);
 	}

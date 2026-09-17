@@ -62,8 +62,7 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 			if (mat == null) {
 				toScreenCoords = P[i].getInhomCoords();
 			} else {
-				toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1())
-						.getInhomCoords();
+				toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1()).getInhomCoords();
 			}
 			x = toScreenCoords.getX() - xRW;
 			y = toScreenCoords.getY() - yRW;
@@ -80,7 +79,7 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param origin
 	 *            line origin
 	 * @param direction

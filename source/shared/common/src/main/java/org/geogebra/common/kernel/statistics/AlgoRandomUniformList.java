@@ -30,12 +30,11 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Computes a list of random numbers using a uniform distribution.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class AlgoRandomUniformList extends AlgoElement
-		implements SetRandomValue {
+public class AlgoRandomUniformList extends AlgoElement implements SetRandomValue {
 	// input
 	private GeoNumberValue a;
 	private GeoNumberValue b;
@@ -55,8 +54,8 @@ public class AlgoRandomUniformList extends AlgoElement
 	 * @param length
 	 *            list length
 	 */
-	public AlgoRandomUniformList(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
+	public AlgoRandomUniformList(
+			Construction cons, String label, GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -111,7 +110,6 @@ public class AlgoRandomUniformList extends AlgoElement
 		}
 
 		cons.setSuppressLabelCreation(oldSuppressLabels);
-
 	}
 
 	@Override
@@ -129,8 +127,7 @@ public class AlgoRandomUniformList extends AlgoElement
 		ensureListSize((int) length.getDouble());
 
 		for (int i = 0; i < list.size(); i++) {
-			((GeoNumeric) list.get(i)).setValue(getRandomNumber(a.getDouble(),
-					b.getDouble()));
+			((GeoNumeric) list.get(i)).setValue(getRandomNumber(a.getDouble(), b.getDouble()));
 		}
 	}
 
@@ -149,12 +146,11 @@ public class AlgoRandomUniformList extends AlgoElement
 			ListValue lv = (ListValue) d;
 			int size = Math.min(list.size(), lv.size());
 			for (int i = 0; i < size; i++) {
-				((GeoNumeric) list.get(i)).setValue(Math.max(a.getDouble(),
-						Math.min(lv.get(i).evaluateDouble(), b.getDouble())));
+				((GeoNumeric) list.get(i))
+						.setValue(Math.max(a.getDouble(), Math.min(lv.get(i).evaluateDouble(), b.getDouble())));
 			}
 			return true;
 		}
 		return false;
 	}
-
 }

@@ -26,7 +26,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * RandomDiscrete[]
- * 
+ *
  * @author Rrubaa Panchendrarajan (GSoC 2015)
  */
 public class CmdRandomDiscrete extends CommandProcessor {
@@ -54,12 +54,10 @@ public class CmdRandomDiscrete extends CommandProcessor {
 		if (!arg[1].isGeoList()) {
 			throw argErr(arg[1], c);
 		}
-		AlgoRandomDiscrete algo = new AlgoRandomDiscrete(cons, c.getLabel(),
-				(GeoList) arg[0], (GeoList) arg[1]);
+		AlgoRandomDiscrete algo =
+				new AlgoRandomDiscrete(cons, c.getLabel(), (GeoList) arg[0], (GeoList) arg[1]);
 
-		GeoElement[] ret = { algo.getResult() };
+		GeoElement[] ret = {algo.getResult()};
 		return ret;
-
 	}
-
 }

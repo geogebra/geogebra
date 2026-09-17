@@ -24,8 +24,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class FixCheckboxProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty, GeoElementDependentProperty {
+public class FixCheckboxProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty, GeoElementDependentProperty {
 	private final GeoBoolean element;
 
 	/**
@@ -62,4 +62,3 @@ public class FixCheckboxProperty extends AbstractValuedProperty<Boolean> impleme
 		return element;
 	}
 }
-

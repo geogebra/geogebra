@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * SetBrushOrgEx TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: SetBrushOrgEx.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class SetBrushOrgEx extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		SetBrushOrgEx tag = new SetBrushOrgEx(emf.readPOINTL());
 		return tag;

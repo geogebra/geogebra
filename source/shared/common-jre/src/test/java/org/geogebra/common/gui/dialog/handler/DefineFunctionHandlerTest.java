@@ -105,5 +105,4 @@ class DefineFunctionHandlerTest extends BaseUnitTest {
 	private void functionShouldBe(String expected, GeoEvaluatable geoEvaluatable) {
 		assertEquals(expected, geoEvaluatable.toString(StringTemplate.defaultTemplate));
 	}
-
 }

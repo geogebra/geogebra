@@ -50,5 +50,4 @@ public class CenterImageModel extends BooleanOptionModel {
 				&& getGeoAt(index).isIndependent()
 				&& !getImageAt(index).isAbsoluteScreenLocActive();
 	}
-
 }

@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * CreateBrushIndirect TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: CreateBrushIndirect.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -30,11 +30,9 @@ public class CreateBrushIndirect extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
-		CreateBrushIndirect tag = new CreateBrushIndirect(emf.readDWORD(),
-				new LogBrush32(emf));
+		CreateBrushIndirect tag = new CreateBrushIndirect(emf.readDWORD(), new LogBrush32(emf));
 		return tag;
 	}
 
@@ -46,8 +44,8 @@ public class CreateBrushIndirect extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  index: 0x"
-				+ Integer.toHexString(index) + "\n" + brush.toString();
+		return super.toString() + "\n" + "  index: 0x" + Integer.toHexString(index) + "\n"
+				+ brush.toString();
 	}
 
 	public int getIndex() {

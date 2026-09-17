@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 /**
  * List ranking using tie strategy.
  */
-
 public class AlgoTiedRank extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -117,5 +116,4 @@ public class AlgoTiedRank extends AlgoElement {
 			outputList.addNumber(outputArray[i], this);
 		}
 	}
-
 }

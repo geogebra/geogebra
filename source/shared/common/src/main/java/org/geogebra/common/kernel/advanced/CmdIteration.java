@@ -39,7 +39,7 @@ public class CmdIteration extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,71 +48,69 @@ public class CmdIteration extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 0:
-		case 1:
-		case 2:
-			throw argNumErr(c);
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-
-				AlgoIteration algo = new AlgoIteration(cons, c.getLabel(),
-						(GeoFunction) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-
-			if ((ok[0] = arg[0].isGeoFunctionNVar()
-					&& ((GeoFunctionNVar) arg[0]).isFun2Var())
-					&& (ok[1] = arg[1] instanceof GeoList)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-				AlgoIteration algo = new AlgoIteration(cons, c.getLabel(),
-						(GeoFunctionNVar) arg[0], (GeoList) arg[1],
-						(GeoNumberValue) arg[2]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-
-			throw argErr(c, getBadArg(ok, arg));
-		default:
-			if (GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getAppCode())
-					|| GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getSubAppCode())) {
+			case 0:
+			case 1:
+			case 2:
 				throw argNumErr(c);
-			}
-			GeoElement arg1;
-			GeoElement[] vars = new GeoElement[n - 3]; // exp, list and limit
-														// not included
-			GeoList[] over = new GeoList[1];
-			GeoNumeric[] num = new GeoNumeric[1];
-			boolean oldval = cons.isSuppressLabelsActive();
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-			try {
-				cons.setSuppressLabelCreation(true);
-				arg1 = resArgsForIteration(c, vars, over, num);
-			} finally {
-				for (GeoElement localVar : vars) {
-					if (localVar != null) {
-						cons.removeLocalVariable(localVar.getLabelSimple());
-					}
+					AlgoIteration algo = new AlgoIteration(
+							cons, c.getLabel(), (GeoFunction) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue)
+									arg[2]);
+
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 				}
-				cons.setSuppressLabelCreation(oldval);
-			}
 
-			AlgoIteration algo = new AlgoIteration(cons, arg1,
-					vars, over[0], num[0]);
-			algo.getOutput(0).setLabel(c.getLabel());
-			return algo.getOutput();
+				if ((ok[0] = arg[0].isGeoFunctionNVar() && ((GeoFunctionNVar) arg[0]).isFun2Var())
+						&& (ok[1] = arg[1] instanceof GeoList)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+					AlgoIteration algo = new AlgoIteration(
+							cons, c.getLabel(), (GeoFunctionNVar) arg[0], (GeoList) arg[1], (GeoNumberValue)
+									arg[2]);
+
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+
+				throw argErr(c, getBadArg(ok, arg));
+			default:
+				if (GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getAppCode())
+						|| GeoGebraConstants.CAS_APPCODE.equals(app.getConfig().getSubAppCode())) {
+					throw argNumErr(c);
+				}
+				GeoElement arg1;
+				GeoElement[] vars = new GeoElement[n - 3]; // exp, list and limit
+				// not included
+				GeoList[] over = new GeoList[1];
+				GeoNumeric[] num = new GeoNumeric[1];
+				boolean oldval = cons.isSuppressLabelsActive();
+
+				try {
+					cons.setSuppressLabelCreation(true);
+					arg1 = resArgsForIteration(c, vars, over, num);
+				} finally {
+					for (GeoElement localVar : vars) {
+						if (localVar != null) {
+							cons.removeLocalVariable(localVar.getLabelSimple());
+						}
+					}
+					cons.setSuppressLabelCreation(oldval);
+				}
+
+				AlgoIteration algo = new AlgoIteration(cons, arg1, vars, over[0], num[0]);
+				algo.getOutput(0).setLabel(c.getLabel());
+				return algo.getOutput();
 		}
 	}
 }

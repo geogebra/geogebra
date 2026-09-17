@@ -34,7 +34,9 @@ public class MindMapPaster {
 	public void setTargetFromSelection(SelectionManager selection) {
 		// allows paste
 		target = (GeoMindMapNode) selection.getSelectedGeos().stream()
-				.filter(geo -> geo instanceof GeoMindMapNode).findFirst().orElse(null);
+				.filter(geo -> geo instanceof GeoMindMapNode)
+				.findFirst()
+				.orElse(null);
 	}
 
 	/**
@@ -42,10 +44,10 @@ public class MindMapPaster {
 	 * @param mindMaps mind-map nodes
 	 */
 	public void joinToTarget(ArrayList<GeoMindMapNode> mindMaps) {
-		for (GeoMindMapNode mindMapNode: mindMaps) {
+		for (GeoMindMapNode mindMapNode : mindMaps) {
 			fixPosition(mindMapNode);
 		}
-		for (GeoMindMapNode mindMapNode: mindMaps) {
+		for (GeoMindMapNode mindMapNode : mindMaps) {
 			if (mindMapNode.isParentPending()) {
 				mindMapNode.resolvePendingParent(target);
 			}

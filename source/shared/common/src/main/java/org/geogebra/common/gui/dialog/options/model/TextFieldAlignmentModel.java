@@ -40,7 +40,8 @@ public class TextFieldAlignmentModel extends MultipleOptionsModel {
 
 	@Override
 	public List<String> getChoices(Localization loc) {
-		return Arrays.asList(loc.getMenu("stylebar.AlignLeft"),
+		return Arrays.asList(
+				loc.getMenu("stylebar.AlignLeft"),
 				loc.getMenu("stylebar.AlignCenter"),
 				loc.getMenu("stylebar.AlignRight"));
 	}

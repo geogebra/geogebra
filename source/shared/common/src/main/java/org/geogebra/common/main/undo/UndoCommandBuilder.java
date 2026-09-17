@@ -30,8 +30,8 @@ public class UndoCommandBuilder {
 	 * @param action action (for redo)
 	 * @param args action arguments
 	 */
-	public UndoCommandBuilder(UndoManager undoManager, String slideID, ActionType action,
-			String[] args) {
+	public UndoCommandBuilder(
+			UndoManager undoManager, String slideID, ActionType action, String[] args) {
 		this.undoManager = undoManager;
 		this.command = new UndoCommand(slideID, action, args, null, new String[0]);
 	}

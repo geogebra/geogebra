@@ -44,8 +44,7 @@ public abstract class DrawFunctionArea extends Drawable {
 		}
 		return new GeoFunction(
 				view.getApplication().getKernel().getConstruction(),
-				new Function(geo.getKernel(),
-						cmd.getArgument(i).wrap().replaceCasCommands()));
+				new Function(geo.getKernel(), cmd.getArgument(i).wrap().replaceCasCommands()));
 	}
 
 	/**
@@ -58,10 +57,9 @@ public abstract class DrawFunctionArea extends Drawable {
 	protected NumberValue asDouble(Command cmd, int i) {
 		ExpressionValue arg2 = cmd.getArgument(i).unwrap();
 		if (arg2 instanceof GeoCasCell) {
-			return new MyDouble(cmd.getKernel(),
-					((GeoCasCell) arg2).getTwinGeo().evaluateDouble());
+			return new MyDouble(cmd.getKernel(), ((GeoCasCell) arg2).getTwinGeo().evaluateDouble());
 		}
-		return new MyDouble(cmd.getKernel(), cmd.getArgument(i).wrap()
-				.replaceCasCommands().evaluateDouble());
+		return new MyDouble(
+				cmd.getKernel(), cmd.getArgument(i).wrap().replaceCasCommands().evaluateDouble());
 	}
 }

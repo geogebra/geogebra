@@ -25,8 +25,7 @@ import elemental2.dom.DomGlobal;
  * Shows the tutorial.
  */
 public final class ShowTutorialsAction extends DefaultMenuAction<AppWFull> {
-	String BYCS_HELP_AND_TUTORIALS_URL
-			= "https://www.bycs.de/hilfe-und-tutorials/board/index.html";
+	String BYCS_HELP_AND_TUTORIALS_URL = "https://www.bycs.de/hilfe-und-tutorials/board/index.html";
 
 	@Override
 	public void execute(AppWFull app) {

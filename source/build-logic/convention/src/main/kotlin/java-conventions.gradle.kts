@@ -31,7 +31,6 @@ tasks.register("unitTest") {
 }
 
 spotless {
-    ratchetFrom("origin/main")
     java {
         // don't need to set target, it is inferred from java
         targetExclude(fileTree("build/generated") { include("**/*.java") })

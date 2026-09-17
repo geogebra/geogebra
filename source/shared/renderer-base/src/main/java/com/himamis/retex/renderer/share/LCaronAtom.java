@@ -61,16 +61,11 @@ public class LCaronAtom extends Atom implements HasCharacter {
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
-		CharBox A = new CharBox(
-				env.getTeXFont().getChar(APOS.getCf(), env.getStyle()));
-		CharBox L = new CharBox(
-				env.getTeXFont().getChar(upper ? 'L' : 'l', env.getStyle()));
+		CharBox A = new CharBox(env.getTeXFont().getChar(APOS.getCf(), env.getStyle()));
+		CharBox L = new CharBox(env.getTeXFont().getChar(upper ? 'L' : 'l', env.getStyle()));
 		HorizontalBox hb = new HorizontalBox(L);
-		if (upper)
-			hb.add(new SpaceAtom(Unit.EM, -0.3, 0, 0).createBox(env));
-		else
-			hb.add(new SpaceAtom(Unit.EM, -0.13, 0, 0)
-					.createBox(env));
+		if (upper) hb.add(new SpaceAtom(Unit.EM, -0.3, 0, 0).createBox(env));
+		else hb.add(new SpaceAtom(Unit.EM, -0.13, 0, 0).createBox(env));
 		hb.add(A);
 		return hb;
 	}

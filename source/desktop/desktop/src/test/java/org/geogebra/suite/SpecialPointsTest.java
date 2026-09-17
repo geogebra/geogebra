@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.suite;
 
 import static org.geogebra.test.OrderingComparison.lessThan;
@@ -47,8 +47,7 @@ class SpecialPointsTest extends BaseSuiteTest {
 		GeoElement element = add("f(x)=(3-x)/(2x^2-6x)");
 		manager.updateSpecialPoints(element);
 		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
-		assertThat(specialPoints,
-				CoreMatchers.hasItem(hasToString("null = (3, -0.17)")));
+		assertThat(specialPoints, CoreMatchers.hasItem(hasToString("null = (3, -0.17)")));
 	}
 
 	@Test
@@ -58,16 +57,16 @@ class SpecialPointsTest extends BaseSuiteTest {
 		GeoElement element = add("f(x)=(3-x)/(2x^2-6x)");
 		manager.updateSpecialPoints(element);
 		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
-		assertThat(specialPoints,
-				CoreMatchers.hasItem(
-						Matchers.<GeoElement>hasProperty("pointStyle", is(
-								EuclidianStyleConstants.POINT_STYLE_CIRCLE))));
+		assertThat(
+				specialPoints,
+				CoreMatchers.hasItem(Matchers.<GeoElement>hasProperty(
+						"pointStyle", is(EuclidianStyleConstants.POINT_STYLE_CIRCLE))));
 	}
 
 	@Test
 	void testRegressionApps2777() {
-		GeoElement element = add("f(x)=tan^(-1)((1+x)/(1-x))",
-				EvalInfoFactory.getEvalInfoForAV(getApp()));
+		GeoElement element =
+				add("f(x)=tan^(-1)((1+x)/(1-x))", EvalInfoFactory.getEvalInfoForAV(getApp()));
 		SpecialPointsManager manager = getApp().getSpecialPointsManager();
 		manager.updateSpecialPoints(element);
 	}
@@ -91,8 +90,7 @@ class SpecialPointsTest extends BaseSuiteTest {
 		GeoElement element = add("f(x)=((x^2-4)/(x-2))");
 		manager.updateSpecialPoints(element);
 		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
-		assertThat(specialPoints,
-				CoreMatchers.hasItem(hasToString("null = (2, 4)")));
+		assertThat(specialPoints, CoreMatchers.hasItem(hasToString("null = (2, 4)")));
 	}
 
 	@Test
@@ -101,8 +99,7 @@ class SpecialPointsTest extends BaseSuiteTest {
 		GeoElement element = add("f(x)=((sin(x))/(x))");
 		manager.updateSpecialPoints(element);
 		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
-		assertThat(specialPoints,
-				CoreMatchers.hasItem(hasToString("null = (0, 1)")));
+		assertThat(specialPoints, CoreMatchers.hasItem(hasToString("null = (0, 1)")));
 	}
 
 	@Test
@@ -111,9 +108,7 @@ class SpecialPointsTest extends BaseSuiteTest {
 		GeoElement element = add("f(x)=((abs(x-3))/(x-3))");
 		manager.updateSpecialPoints(element);
 		List<GeoElement> specialPoints = manager.getSelectedPreviewPoints();
-		assertThat(specialPoints, CoreMatchers.everyItem(anyOf(
-				hasValue("(0, -1)"),
-				hasValue("(?, ?)"))
-		));
+		assertThat(
+				specialPoints, CoreMatchers.everyItem(anyOf(hasValue("(0, -1)"), hasValue("(?, ?)"))));
 	}
 }

@@ -1,26 +1,17 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
- *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
 
 package org.geogebra.ggbjdk.java.awt.geom;
@@ -33,25 +24,23 @@ package org.geogebra.ggbjdk.java.awt.geom;
  * to a {@link GeneralPath} without an initial moveto.
  *
  */
-
 @SuppressWarnings("serial")
 public class IllegalPathStateException extends RuntimeException {
-    /**
-     * Constructs an <code>IllegalPathStateException</code> with no
-     * detail message.
-     *
-     * @since   1.2
-     */
-    public IllegalPathStateException() {
-    }
+	/**
+	 * Constructs an <code>IllegalPathStateException</code> with no
+	 * detail message.
+	 *
+	 * @since   1.2
+	 */
+	public IllegalPathStateException() {}
 
-    /**
-     * Constructs an <code>IllegalPathStateException</code> with the
-     * specified detail message.
-     * @param   s   the detail message
-     * @since   1.2
-     */
-    public IllegalPathStateException(String s) {
-        super (s);
-    }
+	/**
+	 * Constructs an <code>IllegalPathStateException</code> with the
+	 * specified detail message.
+	 * @param   s   the detail message
+	 * @since   1.2
+	 */
+	public IllegalPathStateException(String s) {
+		super(s);
+	}
 }

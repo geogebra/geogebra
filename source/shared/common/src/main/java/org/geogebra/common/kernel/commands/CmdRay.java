@@ -27,13 +27,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Ray[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
- * 
+ *
  * Ray[ &lt;GeoPoint&gt;, &lt;GeoVector&gt; ]
  */
 public class CmdRay extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,35 +48,31 @@ public class CmdRay extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
+			case 2:
+				arg = resArgs(c, info);
 
-			// line through two points
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				GeoElement[] ret = { ray(c.getLabel(), (GeoPointND) arg[0],
-						(GeoPointND) arg[1]) };
-				return ret;
-			}
-
-			// line through point with direction vector
-			else if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoVector())) {
-				GeoElement[] ret = { ray(c.getLabel(), (GeoPointND) arg[0],
-						(GeoVectorND) arg[1]) };
-				return ret;
-			}
-
-			// syntax error
-			else {
-				if (!ok[0]) {
-					throw argErr(c, arg[0]);
+				// line through two points
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+					GeoElement[] ret = {ray(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1])};
+					return ret;
 				}
-				throw argErr(c, arg[1]);
-			}
 
-		default:
-			throw argNumErr(c);
+				// line through point with direction vector
+				else if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoVector())) {
+					GeoElement[] ret = {ray(c.getLabel(), (GeoPointND) arg[0], (GeoVectorND) arg[1])};
+					return ret;
+				}
+
+				// syntax error
+				else {
+					if (!ok[0]) {
+						throw argErr(c, arg[0]);
+					}
+					throw argErr(c, arg[1]);
+				}
+
+			default:
+				throw argNumErr(c);
 		}
 	}
 

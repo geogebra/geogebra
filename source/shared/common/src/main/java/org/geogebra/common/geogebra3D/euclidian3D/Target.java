@@ -33,8 +33,8 @@ import org.geogebra.common.util.DoubleUtil;
  */
 public class Target {
 
-	static final private double CIRCLE_ANIMATION_DURATION = 250;
-	static final private double DOT_ANIMATION_DURATION = 100;
+	private static final double CIRCLE_ANIMATION_DURATION = 250;
+	private static final double DOT_ANIMATION_DURATION = 100;
 
 	private TargetType type;
 	private CoordMatrix4x4 dotMatrix;
@@ -55,7 +55,7 @@ public class Target {
 	private AnimPosition animCircleCenter;
 	private PositionAndGeo circleCenterGoal;
 
-	static abstract private class CoordsAndGeo<T extends CoordsAndGeo<T>>
+	private abstract static class CoordsAndGeo<T extends CoordsAndGeo<T>>
 			implements AnimatableValue<T> {
 		final Coords coords;
 		long geo1;
@@ -73,7 +73,7 @@ public class Target {
 			return (geo1 == other.geo1 && geo2 == other.geo2) || coordsEquals(other);
 		}
 
-		abstract protected boolean coordsEquals(T other);
+		protected abstract boolean coordsEquals(T other);
 
 		@Override
 		public boolean isDefined() {
@@ -84,7 +84,7 @@ public class Target {
 		public void setAnimatableValue(T other) {
 			coords.set3(other.coords);
 			geo1 = other.geo1;
-            geo2 = other.geo2;
+			geo2 = other.geo2;
 		}
 
 		@Override
@@ -93,7 +93,7 @@ public class Target {
 		}
 	}
 
-	static private class PositionAndGeo extends CoordsAndGeo<PositionAndGeo> {
+	private static class PositionAndGeo extends CoordsAndGeo<PositionAndGeo> {
 
 		PositionAndGeo() {
 			super();
@@ -103,10 +103,9 @@ public class Target {
 		protected boolean coordsEquals(PositionAndGeo other) {
 			return coords.equalsForKernel(other.coords);
 		}
-
 	}
 
-	static private class NormalAndGeo extends CoordsAndGeo<NormalAndGeo> {
+	private static class NormalAndGeo extends CoordsAndGeo<NormalAndGeo> {
 
 		NormalAndGeo() {
 			super();
@@ -116,11 +115,9 @@ public class Target {
 		protected boolean coordsEquals(NormalAndGeo other) {
 			return coords.equalsForAnimation(other.coords);
 		}
-
 	}
 
-	static private class AnimatableDouble
-			implements AnimatableValue<AnimatableDouble> {
+	private static class AnimatableDouble implements AnimatableValue<AnimatableDouble> {
 
 		double value;
 		boolean isDefined;
@@ -152,7 +149,7 @@ public class Target {
 
 		/**
 		 * set value
-		 * 
+		 *
 		 * @param v
 		 *            value
 		 */
@@ -160,16 +157,15 @@ public class Target {
 			value = v;
 			isDefined = Double.isFinite(value);
 		}
-
 	}
 
 	/**
 	 * For animating values
-	 * 
+	 *
 	 * @param <T>
 	 *            value type
 	 */
-	static protected abstract class Anim<T extends AnimatableValue<T>> {
+	protected abstract static class Anim<T extends AnimatableValue<T>> {
 
 		/** previous value */
 		protected T previous;
@@ -183,11 +179,11 @@ public class Target {
 		private double duration;
 		private boolean isAnimated;
 		private double lastUpdate;
-		final private double totalDuration;
+		private final double totalDuration;
 
 		/**
 		 * constructor
-		 * 
+		 *
 		 * @param totalDuration
 		 *            total duration for one animation loop
 		 */
@@ -201,16 +197,16 @@ public class Target {
 		/**
 		 * init values
 		 */
-		abstract protected void init();
+		protected abstract void init();
 
 		/**
 		 * compute animation
 		 */
-		abstract protected void compute();
+		protected abstract void compute();
 
 		/**
 		 * prepare animation
-		 * 
+		 *
 		 * @param goal
 		 *            goal value
 		 */
@@ -226,8 +222,7 @@ public class Target {
 						lastPrepare = lastUpdate;
 					} else {
 						duration = totalDuration;
-						firstPrepare = UtilFactory.getPrototype()
-								.getMillisecondTime();
+						firstPrepare = UtilFactory.getPrototype().getMillisecondTime();
 						lastPrepare = firstPrepare;
 						// in case updateCurrent() is not called between two
 						// prepareAnimation() calls
@@ -245,11 +240,11 @@ public class Target {
 
 		/**
 		 * calculate current value for remaining time
-		 * 
+		 *
 		 * @param remaining
 		 *            remaining time
 		 */
-		abstract protected void calculateCurrent(double remaining);
+		protected abstract void calculateCurrent(double remaining);
 
 		/**
 		 * set previous value as undefined
@@ -283,7 +278,7 @@ public class Target {
 		}
 
 		/**
-		 * 
+		 *
 		 * @return current value
 		 */
 		final T getCurrent() {
@@ -291,7 +286,7 @@ public class Target {
 		}
 	}
 
-	static private class AnimCircleRotation extends Anim<NormalAndGeo> {
+	private static class AnimCircleRotation extends Anim<NormalAndGeo> {
 
 		private Coords axis;
 		private double angle;
@@ -330,10 +325,9 @@ public class Target {
 			tmpCoords.setMul3(next.coords, Math.cos(a));
 			current.coords.setAdd3(current.coords, tmpCoords);
 		}
-
 	}
 
-	static private class AnimPosition extends Anim<PositionAndGeo> {
+	private static class AnimPosition extends Anim<PositionAndGeo> {
 
 		private Coords tmpCoords;
 
@@ -361,10 +355,9 @@ public class Target {
 			tmpCoords.setMul3(next.coords, 1 - remaining);
 			current.coords.setAdd3(current.coords, tmpCoords);
 		}
-
 	}
 
-	static private class AnimDouble extends Anim<AnimatableDouble> {
+	private static class AnimDouble extends Anim<AnimatableDouble> {
 
 		AnimDouble(double totalDuration) {
 			super(totalDuration);
@@ -384,11 +377,9 @@ public class Target {
 
 		@Override
 		protected void calculateCurrent(double remaining) {
-			current.value = previous.value * remaining
-					+ next.value * (1 - remaining);
+			current.value = previous.value * remaining + next.value * (1 - remaining);
 			current.isDefined = true;
 		}
-
 	}
 
 	/**
@@ -399,7 +390,7 @@ public class Target {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return target type
 	 */
 	public TargetType getType() {
@@ -408,7 +399,7 @@ public class Target {
 
 	/**
 	 * update type for view
-	 * 
+	 *
 	 * @param view
 	 *            3D view
 	 */
@@ -417,11 +408,11 @@ public class Target {
 			tmpNormal = new Coords(3);
 			initSynced();
 		}
-		type = TargetType.getCurrentTargetType(view,
-				(EuclidianController3D) view.getEuclidianController());
+		type = TargetType.getCurrentTargetType(
+				view, (EuclidianController3D) view.getEuclidianController());
 	}
 
-	synchronized private void initSynced() {
+	private synchronized void initSynced() {
 		dotMatrix = CoordMatrix4x4.identity();
 		circleMatrix = CoordMatrix4x4.identity();
 		hittingOrigin = new Coords(4);
@@ -444,7 +435,7 @@ public class Target {
 
 	/**
 	 * draw target
-	 * 
+	 *
 	 * @param renderer
 	 *            GL renderer
 	 * @param view
@@ -462,7 +453,7 @@ public class Target {
 		setCentersGoal(id, GeoCursor3D.NO_SOURCE);
 	}
 
-	synchronized private void setCentersGoal(long geo1, long geo2) {
+	private synchronized void setCentersGoal(long geo1, long geo2) {
 		dotCenterGoal.geo1 = geo1;
 		dotCenterGoal.geo2 = geo2;
 		circleCenterGoal.geo1 = geo1;
@@ -471,7 +462,7 @@ public class Target {
 		circleNormalGoal.geo2 = geo2;
 	}
 
-	synchronized private void setAnimationsUndefined() {
+	private synchronized void setAnimationsUndefined() {
 		animCircleCenter.setUndefined();
 		animCircleRotation.setUndefined();
 		animDotScale.setUndefined();
@@ -480,78 +471,81 @@ public class Target {
 
 	/**
 	 * update matrices regarding view
-	 * 
+	 *
 	 * @param view
 	 *            3D view
 	 */
 	public void updateMatrices(EuclidianView3D view) {
 		switch (view.getCursor3DType()) {
-		case EuclidianView3D.PREVIEW_POINT_FREE:
-			setCentersGoal(null);
-			// assume free points are on horizontal plane
-			setMatrices(view, EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
-					* DrawPoint3D.DRAW_POINT_FACTOR, Coords.VZ);
-			break;
-		case EuclidianView3D.PREVIEW_POINT_REGION:
-			tmpNormal.set3(view.getCursor3D().getMoveNormalDirection());
-			view.scaleNormalXYZ(tmpNormal);
-			tmpNormal.normalize();
-			if (view.getCursor3D().getIsCaptured()) {
-				setCentersGoal(GeoCursor3D.CAPTURED);
-			} else {
-				setCentersGoal((GeoElement) view.getCursor3D().getRegion());
-			}
-			setMatrices(view,
-					EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE
-							* DrawPoint3D.DRAW_POINT_FACTOR,
-					tmpNormal);
-			break;
-		case EuclidianView3D.PREVIEW_POINT_PATH:
-		case EuclidianView3D.PREVIEW_POINT_REGION_AS_PATH:
-			tmpNormal.set3(view.getCursorPath().getMainDirection());
-			view.scaleXYZ(tmpNormal);
-			tmpNormal.normalize();
-			if (view.getCursor3D().getIsCaptured()) {
-				setCentersGoal(GeoCursor3D.CAPTURED);
-			} else {
-				setCentersGoal(view.getCursorPath());
-			}
-			setMatrices(view, view.getCursorPath().getLineThickness()
-					+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_ON_PATH,
-					tmpNormal);
-			break;
-		case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
-			setCentersGoal(view.getCursor3D().getSource1(), view.getCursor3D().getSource2());
-			setMatrices(view,
-					view.getIntersectionThickness());
-			break;
-		case EuclidianView3D.PREVIEW_POINT_ALREADY:
-			if (type == TargetType.POINT_ALREADY_NO_ARROW) {
-				setCentersGoal(view.getCursor3D().getSource1());
-				setMatrices(view, (view.getCursor3D().getPointSize()
-						+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_WHEN_ALREADY)
-						* DrawPoint3D.DRAW_POINT_FACTOR);
-			}
-			break;
-		default:
-			setCentersGoal(null);
-			setAnimationsUndefined();
-			// do nothing
-			break;
+			case EuclidianView3D.PREVIEW_POINT_FREE:
+				setCentersGoal(null);
+				// assume free points are on horizontal plane
+				setMatrices(
+						view,
+						EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE * DrawPoint3D.DRAW_POINT_FACTOR,
+						Coords.VZ);
+				break;
+			case EuclidianView3D.PREVIEW_POINT_REGION:
+				tmpNormal.set3(view.getCursor3D().getMoveNormalDirection());
+				view.scaleNormalXYZ(tmpNormal);
+				tmpNormal.normalize();
+				if (view.getCursor3D().getIsCaptured()) {
+					setCentersGoal(GeoCursor3D.CAPTURED);
+				} else {
+					setCentersGoal((GeoElement) view.getCursor3D().getRegion());
+				}
+				setMatrices(
+						view,
+						EuclidianStyleConstants.PREVIEW_POINT_SIZE_WHEN_FREE * DrawPoint3D.DRAW_POINT_FACTOR,
+						tmpNormal);
+				break;
+			case EuclidianView3D.PREVIEW_POINT_PATH:
+			case EuclidianView3D.PREVIEW_POINT_REGION_AS_PATH:
+				tmpNormal.set3(view.getCursorPath().getMainDirection());
+				view.scaleXYZ(tmpNormal);
+				tmpNormal.normalize();
+				if (view.getCursor3D().getIsCaptured()) {
+					setCentersGoal(GeoCursor3D.CAPTURED);
+				} else {
+					setCentersGoal(view.getCursorPath());
+				}
+				setMatrices(
+						view,
+						view.getCursorPath().getLineThickness()
+								+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_ON_PATH,
+						tmpNormal);
+				break;
+			case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
+				setCentersGoal(view.getCursor3D().getSource1(), view.getCursor3D().getSource2());
+				setMatrices(view, view.getIntersectionThickness());
+				break;
+			case EuclidianView3D.PREVIEW_POINT_ALREADY:
+				if (type == TargetType.POINT_ALREADY_NO_ARROW) {
+					setCentersGoal(view.getCursor3D().getSource1());
+					setMatrices(
+							view,
+							(view.getCursor3D().getPointSize()
+											+ EuclidianStyleConstants.PREVIEW_POINT_ENLARGE_SIZE_WHEN_ALREADY)
+									* DrawPoint3D.DRAW_POINT_FACTOR);
+				}
+				break;
+			default:
+				setCentersGoal(null);
+				setAnimationsUndefined();
+				// do nothing
+				break;
 		}
 	}
 
-	synchronized private void setMatrices(EuclidianView3D view,
-			double dotScale) {
+	private synchronized void setMatrices(EuclidianView3D view, double dotScale) {
 		setMatrices(view, dotScale, hittingDirection);
 	}
 
-	synchronized private void setMatrices(EuclidianView3D view, double dotScale,
-			Coords circleNormal) {
+	private synchronized void setMatrices(
+			EuclidianView3D view, double dotScale, Coords circleNormal) {
 
 		// dot center
-		dotCenterGoal.coords
-				.set3(view.getCursor3D().getDrawingMatrix().getOrigin());
+		dotCenterGoal.coords.set3(view.getCursor3D().getDrawingMatrix().getOrigin());
 		view.scaleXYZ(dotCenterGoal.coords);
 		animDotCenter.prepareAnimation(dotCenterGoal);
 
@@ -562,30 +556,31 @@ public class Target {
 		// set hitting
 		// WARNING: circleNormal can be hittingDirection which must be updated
 		// first
-		view.getHittingOrigin(view.getEuclidianController().getMouseLoc(),
-				hittingOrigin);
+		view.getHittingOrigin(view.getEuclidianController().getMouseLoc(), hittingOrigin);
 		view.getHittingDirection(hittingDirection);
 
 		// circle center (aligned with hittingDirection)
 		circleNormal.completeOrthonormal(tmpCoords1, tmpCoords2);
-		hittingOrigin.projectPlaneThruVIfPossible(tmpCoords1, tmpCoords2,
+		hittingOrigin.projectPlaneThruVIfPossible(
+				tmpCoords1,
+				tmpCoords2,
 				circleNormal,
 				view.getCursor3D().getDrawingMatrix().getOrigin(),
-				hittingDirection, circleCenterGoal.coords);
+				hittingDirection,
+				circleCenterGoal.coords);
 		view.scaleXYZ(circleCenterGoal.coords);
 		animCircleCenter.prepareAnimation(circleCenterGoal);
 
 		// circle orientation
 		circleNormalGoal.coords.set3(circleNormal);
 		animCircleRotation.prepareAnimation(circleNormalGoal);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current dot matrix
 	 */
-	synchronized public CoordMatrix4x4 getDotMatrix() {
+	public synchronized CoordMatrix4x4 getDotMatrix() {
 
 		animDotScale.updateCurrent();
 		double scale = animDotScale.getCurrent().value;
@@ -600,16 +595,15 @@ public class Target {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current circle matrix
 	 */
-	synchronized public CoordMatrix4x4 getCircleMatrix() {
+	public synchronized CoordMatrix4x4 getCircleMatrix() {
 		animCircleCenter.updateCurrent();
 		circleMatrix.setOrigin(animCircleCenter.getCurrent().coords);
 
 		animCircleRotation.updateCurrent();
-		animCircleRotation.getCurrent().coords.completeOrthonormal(tmpCoords1,
-				tmpCoords2);
+		animCircleRotation.getCurrent().coords.completeOrthonormal(tmpCoords1, tmpCoords2);
 		circleMatrix.setVx(tmpCoords1);
 		circleMatrix.setVy(tmpCoords2);
 		circleMatrix.setVz(animCircleRotation.getCurrent().coords);

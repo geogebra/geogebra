@@ -27,14 +27,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * used by TrigSimplify:, Expand, Factor, IFactor
- * 
+ *
  */
 public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
 	private final Commands cmd;
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param cmd
@@ -46,7 +46,7 @@ public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
@@ -54,10 +54,9 @@ public class CmdCASCommand1Arg extends CommandProcessor implements UsesCAS {
 
 		if (n == 1) {
 			if (arg[0] instanceof AlgebraicExpression expression) {
-				AlgoCasBaseSingleArgument algo = new AlgoCasBaseSingleArgument(
-						cons, c.getLabel(), expression, cmd,
-						info);
-				return new GeoElement[]{algo.getResult()};
+				AlgoCasBaseSingleArgument algo =
+						new AlgoCasBaseSingleArgument(cons, c.getLabel(), expression, cmd, info);
+				return new GeoElement[] {algo.getResult()};
 			}
 			throw argErr(c, arg[0]);
 		}

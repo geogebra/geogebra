@@ -32,8 +32,11 @@ class ScriptPropertyTests extends BaseAppTestSetup {
 	void testSettingScript() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
-		ScriptProperty property = new ScriptProperty(getLocalization(), geoPoint,
-				ScriptEvent.OnDragEnd, new ScriptLanguageSelection(ScriptType.GGBSCRIPT));
+		ScriptProperty property = new ScriptProperty(
+				getLocalization(),
+				geoPoint,
+				ScriptEvent.OnDragEnd,
+				new ScriptLanguageSelection(ScriptType.GGBSCRIPT));
 
 		property.setValue("Drag-end script 1");
 		assertEquals("Drag-end script 1", property.getValue());
@@ -50,11 +53,11 @@ class ScriptPropertyTests extends BaseAppTestSetup {
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
 		ScriptLanguageSelection scriptLanguageSelection =
 				new ScriptLanguageSelection(ScriptType.GGBSCRIPT);
-		ScriptProperty scriptProperty = new ScriptProperty(getLocalization(), geoPoint,
-				ScriptEvent.OnClick, scriptLanguageSelection);
-		ScriptLanguageSelectionProperty scriptLanguageSelectionProperty = assertDoesNotThrow(() ->
-				new ScriptLanguageSelectionProperty(getLocalization(), geoPoint,
-						ScriptEvent.OnClick, scriptLanguageSelection, true));
+		ScriptProperty scriptProperty = new ScriptProperty(
+				getLocalization(), geoPoint, ScriptEvent.OnClick, scriptLanguageSelection);
+		ScriptLanguageSelectionProperty scriptLanguageSelectionProperty =
+				assertDoesNotThrow(() -> new ScriptLanguageSelectionProperty(
+						getLocalization(), geoPoint, ScriptEvent.OnClick, scriptLanguageSelection, true));
 
 		scriptProperty.setValue("Click script");
 		assertEquals("Click script", scriptProperty.getValue());

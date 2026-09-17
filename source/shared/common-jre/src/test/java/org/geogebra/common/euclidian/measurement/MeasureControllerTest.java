@@ -48,8 +48,8 @@ class MeasureControllerTest extends BaseUnitTest {
 	}
 
 	private GeoImage createToolImage(int mode, String fileName) {
-		return MeasurementToolTransformerTest.createToolImage(mode, fileName, getConstruction(),
-				getApp().getActiveEuclidianView());
+		return MeasurementToolTransformerTest.createToolImage(
+				mode, fileName, getConstruction(), getApp().getActiveEuclidianView());
 	}
 
 	@Test
@@ -76,8 +76,7 @@ class MeasureControllerTest extends BaseUnitTest {
 		controller.toggleActiveTool(mode);
 		GeoImage toolImage = controller.getActiveToolImage();
 		assertEquals(filename, toolImage.getImageFileName());
-		assertTrue(cons.isInConstructionList(toolImage),
-				filename + " should be in construction");
+		assertTrue(cons.isInConstructionList(toolImage), filename + " should be in construction");
 	}
 
 	@Test
@@ -103,5 +102,4 @@ class MeasureControllerTest extends BaseUnitTest {
 		controller.unselect();
 		assertFalse(cons.isInConstructionList(ruler.getImage()), "Ruler is in construction");
 	}
-
 }

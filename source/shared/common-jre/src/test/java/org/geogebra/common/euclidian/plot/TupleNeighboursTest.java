@@ -39,8 +39,7 @@ class TupleNeighboursTest {
 	private static final TupleNeighbours neighbours = new TupleNeighbours(
 			new IntervalTuple(leftX, leftY),
 			new IntervalTuple(currentX, currentY),
-			new IntervalTuple(rightX, rightY)
-	);
+			new IntervalTuple(rightX, rightY));
 
 	@Test
 	void testLeftXLow() {
@@ -112,7 +111,9 @@ class TupleNeighboursTest {
 	@Test
 	void testHasLeftAndRightUseTopologyDefinedness() {
 		TupleNeighbours topologyAware = new TupleNeighbours();
-		topologyAware.set(new IntervalTuple(leftX, leftY), new IntervalTuple(currentX, currentY),
+		topologyAware.set(
+				new IntervalTuple(leftX, leftY),
+				new IntervalTuple(currentX, currentY),
 				new IntervalTuple(rightX, rightY));
 
 		assertTrue(topologyAware.hasLeft());
@@ -135,9 +136,7 @@ class TupleNeighboursTest {
 	@Test
 	void testEmptyTopologyReportedExplicitly() {
 		TupleNeighbours topologyAware = new TupleNeighbours(
-				new IntervalTuple(leftX, empty()),
-				new IntervalTuple(currentX, currentY),
-				null);
+				new IntervalTuple(leftX, empty()), new IntervalTuple(currentX, currentY), null);
 
 		assertTrue(topologyAware.isLeftEmpty());
 		assertTrue(topologyAware.isRightEmpty());

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -76,8 +76,7 @@ class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		processor.process("=(1, 1)", "A1");
 		assertTrue(lookup("A1").isGeoPoint());
 		assertIsAuxiliary();
-		assertTrue(lookup("A1").isEuclidianVisible(),
-				"Points from spreadsheet should be visible.");
+		assertTrue(lookup("A1").isEuclidianVisible(), "Points from spreadsheet should be visible.");
 	}
 
 	@Test
@@ -90,8 +89,7 @@ class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 
 	private void assertNumberCellValue(String cellName, double value) {
 		GeoElement a1 = lookup(cellName);
-		assertTrue(a1.isGeoNumeric()
-				&& DoubleUtil.isEqual(((GeoNumeric) a1).getDouble(), value));
+		assertTrue(a1.isGeoNumeric() && DoubleUtil.isEqual(((GeoNumeric) a1).getDouble(), value));
 	}
 
 	@Test
@@ -138,18 +136,16 @@ class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	private void assertSerializedAs(String value, String cellName) {
-		assertEquals(value, serializer.getStringForEditor(lookup(cellName)),
-				"The values do not match!");
+		assertEquals(
+				value, serializer.getStringForEditor(lookup(cellName)), "The values do not match!");
 	}
 
 	private void assertIsAuxiliary() {
-		assertTrue(lookup("A1").isAuxiliaryObject(),
-				"The created element is not auxiliary!");
+		assertTrue(lookup("A1").isAuxiliaryObject(), "The created element is not auxiliary!");
 	}
 
 	private void assertIsEuclidianInvisible() {
-		assertFalse(lookup("A1").isEuclidianVisible(),
-				"The created element is visible within the EV!");
+		assertFalse(lookup("A1").isEuclidianVisible(), "The created element is visible within the EV!");
 	}
 
 	@Test
@@ -257,8 +253,7 @@ class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 		assertEquals(Commands.ParseToNumber, getCommand(lookup("A3")));
 		assertThat(lookup("A3"), hasValue("?"));
 
-		assertEquals("A1,B3,A3",
-				String.join(",", getApp().getGgbApi().getAllObjectNames()));
+		assertEquals("A1,B3,A3", String.join(",", getApp().getGgbApi().getAllObjectNames()));
 	}
 
 	@Test
@@ -288,8 +283,7 @@ class DefaultSpreadsheetCellProcessorTest extends BaseUnitTest {
 	}
 
 	private GetCommand getCommand(GeoElement a1) {
-		return a1.getParentAlgorithm() == null ? null
-				: a1.getParentAlgorithm().getClassName();
+		return a1.getParentAlgorithm() == null ? null : a1.getParentAlgorithm().getClassName();
 	}
 
 	@Test

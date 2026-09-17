@@ -67,7 +67,7 @@ public class AppConfigProbability extends AppConfigGraphing {
 
 	@Override
 	public String getAppNameWithoutCalc() {
-		return  "Probability";
+		return "Probability";
 	}
 
 	@Override
@@ -130,8 +130,8 @@ public class AppConfigProbability extends AppConfigGraphing {
 		equationBehaviour = new DefaultEquationBehaviour();
 	}
 
-    @Override
-    public int getDefaultPrintDecimals() {
-        return 4;
-    }
+	@Override
+	public int getDefaultPrintDecimals() {
+		return 4;
+	}
 }

@@ -41,5 +41,4 @@ public class ArbconstAlgoFixer implements Inspecting {
 		}
 		return false;
 	}
-
 }

@@ -37,8 +37,12 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 	private GeoPointND center;
 	private GeoDirectionND orientation;
 
-	AlgoRotate3DPointOrientation(Construction cons, String label, GeoElement in,
-			GeoNumberValue angle, GeoPointND center,
+	AlgoRotate3DPointOrientation(
+			Construction cons,
+			String label,
+			GeoElement in,
+			GeoNumberValue angle,
+			GeoPointND center,
 			GeoDirectionND orientation) {
 		this(cons, in, angle, center, orientation);
 		out.setLabel(label);
@@ -46,7 +50,7 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 
 	/**
 	 * Creates new unlabeled point rotation algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param in
@@ -58,8 +62,11 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 	 * @param orientation
 	 *            (axis) orientation
 	 */
-	public AlgoRotate3DPointOrientation(Construction cons, GeoElement in,
-			GeoNumberValue angle, GeoPointND center,
+	public AlgoRotate3DPointOrientation(
+			Construction cons,
+			GeoElement in,
+			GeoNumberValue angle,
+			GeoPointND center,
 			GeoDirectionND orientation) {
 
 		super(cons, in, angle);
@@ -104,8 +111,8 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 		}
 
 		if (inGeo instanceof GeoFunction) {
-			AlgoTransformation3D.toGeoCurveCartesian(kernel,
-					(GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
+			AlgoTransformation3D.toGeoCurveCartesian(
+					kernel, (GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
 		} else {
 			setOutGeo();
 		}
@@ -121,23 +128,25 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		String s;
 		if (orientation instanceof GeoCoordSys2D) { // axis perpendicular to
-													// plane
+			// plane
 			s = "ARotatedByAngleBAboutPlaneCThroughD";
 		} else { // axis = orientation
 			s = "ARotatedByAngleBAboutCThroughD";
 		}
-		return getLoc().getPlain(s, inGeo.getLabel(tpl),
-				angle.getLabel(tpl),
-				orientation.getLabel(tpl), center.getLabel(tpl));
-
+		return getLoc()
+				.getPlain(
+						s,
+						inGeo.getLabel(tpl),
+						angle.getLabel(tpl),
+						orientation.getLabel(tpl),
+						center.getLabel(tpl));
 	}
 
 	@Override
 	public double getAreaScaleFactor() {
 		return 1;
 	}
-
 }

@@ -28,7 +28,7 @@ public class CmdPointList extends CmdOneListFunction {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -37,9 +37,8 @@ public class CmdPointList extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoPointList algo = new AlgoPointList(cons, a, b);
 		return algo.getResult();
 	}
-
 }

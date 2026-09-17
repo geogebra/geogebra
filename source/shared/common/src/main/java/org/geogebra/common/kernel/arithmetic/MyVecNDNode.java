@@ -38,19 +38,19 @@ public interface MyVecNDNode extends ExpressionValue, ReplaceChildrenByValues {
 	int getDimension();
 
 	/**
-	 * 
+	 *
 	 * @return x component
 	 */
 	ExpressionValue getX();
 
 	/**
-	 * 
+	 *
 	 * @return y component
 	 */
 	ExpressionValue getY();
 
 	/**
-	 * 
+	 *
 	 * @return z component (or null if getDimension() = 2)
 	 */
 	ExpressionValue getZ();

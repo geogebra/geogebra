@@ -46,24 +46,25 @@ public class SVGTest {
 		Path root = Paths.get(BASE);
 		TreeSet<String> disk = new TreeSet<>();
 		try (Stream<Path> svgList = Files.list(svgs)) {
-			svgList.map(root::relativize)
-					.map(s -> s.toString().replace('\\', '/'))
-					.forEach(disk::add);
+			svgList.map(root::relativize).map(s -> s.toString().replace('\\', '/')).forEach(disk::add);
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
-		Stream.concat(Arrays.stream(ToolbarSvgResources.class.getMethods()),
-				Arrays.stream(ToolbarSvgResourcesSync.class.getMethods())).forEach(m -> {
-			ClientBundle.Source a = m.getAnnotation(ClientBundle.Source.class);
-			if (a != null) {
-				String src = a.value()[0];
-				disk.remove(src);
-			}
-		});
+		Stream.concat(
+						Arrays.stream(ToolbarSvgResources.class.getMethods()),
+						Arrays.stream(ToolbarSvgResourcesSync.class.getMethods()))
+				.forEach(m -> {
+					ClientBundle.Source a = m.getAnnotation(ClientBundle.Source.class);
+					if (a != null) {
+						String src = a.value()[0];
+						disk.remove(src);
+					}
+				});
 		// photolibrary duplicates camera (for mobile)
 		// freehandfunction duplicates freehandshape (for mobile)
-		assertEquals("mode_freehandfunction.svg,mode_photolibrary.svg", disk.stream()
-				.map(s -> new File(s).getName()).collect(Collectors.joining(",")));
+		assertEquals(
+				"mode_freehandfunction.svg,mode_photolibrary.svg",
+				disk.stream().map(s -> new File(s).getName()).collect(Collectors.joining(",")));
 	}
 
 	@Test
@@ -77,17 +78,16 @@ public class SVGTest {
 				continue;
 			}
 			switch (i) {
-			case EuclidianConstants.MODE_SELECTION_LISTENER:
-			case EuclidianConstants.MODE_GRASPABLE_MATH:
-			case EuclidianConstants.MODE_CALCULATOR:
-				continue;
-			default:
-				File icon = new File(SVG_PATH + "/mode_" + modeText + ".svg");
-				if (!icon.exists()) {
-					missing.append(modeText).append(",");
-				}
+				case EuclidianConstants.MODE_SELECTION_LISTENER:
+				case EuclidianConstants.MODE_GRASPABLE_MATH:
+				case EuclidianConstants.MODE_CALCULATOR:
+					continue;
+				default:
+					File icon = new File(SVG_PATH + "/mode_" + modeText + ".svg");
+					if (!icon.exists()) {
+						missing.append(modeText).append(",");
+					}
 			}
-
 		}
 
 		assertEquals("", missing.toString());

@@ -22,15 +22,14 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * InverseLogNormal[mean, s, val]
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoInverseLogistic extends AlgoDistribution {
 
 	@SuppressWarnings("javadoc")
-	public AlgoInverseLogistic(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
+	public AlgoInverseLogistic(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 
@@ -42,8 +41,7 @@ public class AlgoInverseLogistic extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double mean = a.getDouble();
 			double s = b.getDouble();
 			double x = c.getDouble();
@@ -58,5 +56,4 @@ public class AlgoInverseLogistic extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

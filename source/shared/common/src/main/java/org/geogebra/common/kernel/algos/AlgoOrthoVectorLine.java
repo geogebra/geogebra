@@ -96,12 +96,10 @@ public class AlgoOrthoVectorLine extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("VectorPerpendicularToA",
-				"Vector perpendicular to %0", g.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault("VectorPerpendicularToA", "Vector perpendicular to %0", g.getLabel(tpl));
 	}
-
 }

@@ -60,11 +60,11 @@ public final class TextColorProperty extends AbstractEnumeratedProperty<GColor>
 	 * @param values list of colors
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public TextColorProperty(Localization localization, GeoElement geoElement,
-			List<GColor> values)
+	public TextColorProperty(Localization localization, GeoElement geoElement, List<GColor> values)
 			throws NotApplicablePropertyException {
 		super(localization, "Color");
-		if (!(geoElement instanceof TextProperties) && !(geoElement instanceof HasTextFormatter)
+		if (!(geoElement instanceof TextProperties)
+				&& !(geoElement instanceof HasTextFormatter)
 				&& !(geoElement instanceof GeoFormula)) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
@@ -85,8 +85,7 @@ public final class TextColorProperty extends AbstractEnumeratedProperty<GColor>
 	@Override
 	public GColor getValue() {
 		if (geoElement instanceof HasTextFormatter) {
-			return GColor.getGColor(((HasTextFormatter) geoElement)
-					.getFormat("color", null));
+			return GColor.getGColor(((HasTextFormatter) geoElement).getFormat("color", null));
 		}
 
 		return geoElement.getObjectColor();

@@ -29,7 +29,7 @@ public class CmdMean extends CmdOneListFunction {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -38,18 +38,16 @@ public class CmdMean extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoMean algo = new AlgoMean(cons, b);
 		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 
 	@Override
-	protected GeoElement doCommand(String label, Command c, GeoList list,
-			GeoList freq) {
+	protected GeoElement doCommand(String label, Command c, GeoList list, GeoList freq) {
 		AlgoMean algo = new AlgoMean(cons, list, freq);
 		algo.getResult().setLabel(label);
 		return algo.getResult();
 	}
-
 }

@@ -27,13 +27,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Perimeter[ &lt;GeoPolygon&gt; ]
- * 
+ *
  * Perimeter[ &lt;Conic&gt; ]
  */
 public class CmdPerimeter extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,38 +47,34 @@ public class CmdPerimeter extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			// Perimeter[ <GeoPolygon> ]
-			arg = resArgs(c, info);
-			if (arg[0].isGeoPolygon()) {
+			case 1:
+				// Perimeter[ <GeoPolygon> ]
+				arg = resArgs(c, info);
+				if (arg[0].isGeoPolygon()) {
 
-				GeoElement[] ret = { getAlgoDispatcher().perimeter(c.getLabel(),
-						(GeoPolygon) arg[0]) };
-				return ret;
+					GeoElement[] ret = {getAlgoDispatcher().perimeter(c.getLabel(), (GeoPolygon) arg[0])};
+					return ret;
 
-				// Perimeter[ <Conic> ]
-			} else if (arg[0].isGeoConic()) {
+					// Perimeter[ <Conic> ]
+				} else if (arg[0].isGeoConic()) {
 
-				GeoElement[] ret = { getAlgoDispatcher()
-						.circumference(c.getLabel(), (GeoConicND) arg[0]) };
-				return ret;
+					GeoElement[] ret = {getAlgoDispatcher().circumference(c.getLabel(), (GeoConicND) arg[0])};
+					return ret;
 
-			} else if (arg[0].isGeoLocus()) {
-				// Perimeter[locus]
+				} else if (arg[0].isGeoLocus()) {
+					// Perimeter[locus]
 
-				AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons,
-						(GeoLocusNDInterface) arg[0]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons, (GeoLocusNDInterface) arg[0]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
 
-			} else {
-				throw argErr(c, arg[0]);
-			}
+				} else {
+					throw argErr(c, arg[0]);
+				}
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

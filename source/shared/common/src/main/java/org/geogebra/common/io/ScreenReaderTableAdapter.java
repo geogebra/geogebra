@@ -35,13 +35,21 @@ public class ScreenReaderTableAdapter extends TableAdapter {
 	@Override
 	public String matrixStart(int rows, int cols) {
 		if (transpose) {
-			return loc.getPlainDefault("ScreenReader.MatrixAWithBColumnsAndCRows",
-					"%0 with %1 columns and %2 rows",
-					type, String.valueOf(cols), String.valueOf(rows)) + " ";
+			return loc.getPlainDefault(
+							"ScreenReader.MatrixAWithBColumnsAndCRows",
+							"%0 with %1 columns and %2 rows",
+							type,
+							String.valueOf(cols),
+							String.valueOf(rows))
+					+ " ";
 		}
-		return loc.getPlainDefault("ScreenReader.MatrixAWithBRowsAndCColumns",
-				"%0 with %1 rows and %2 columns",
-				type, String.valueOf(rows), String.valueOf(cols)) + " ";
+		return loc.getPlainDefault(
+						"ScreenReader.MatrixAWithBRowsAndCColumns",
+						"%0 with %1 rows and %2 columns",
+						type,
+						String.valueOf(rows),
+						String.valueOf(cols))
+				+ " ";
 	}
 
 	@Override
@@ -80,8 +88,8 @@ public class ScreenReaderTableAdapter extends TableAdapter {
 		if ("|".equals(left) && "|".equals(right)) {
 			type = "determinant";
 		} else if (ScreenReader.getOpenParenthesis(loc).equals(left)
-				&& ScreenReader.getCloseParenthesis(loc).equals(right)
-			|| "(".equals(left) && ")".equals(right)) {
+						&& ScreenReader.getCloseParenthesis(loc).equals(right)
+				|| "(".equals(left) && ")".equals(right)) {
 			type = "matrix";
 		} else {
 			type = "table";

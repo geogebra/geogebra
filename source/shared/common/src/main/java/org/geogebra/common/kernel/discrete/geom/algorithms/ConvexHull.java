@@ -1,20 +1,20 @@
 // vendored
 /*
  * Convex hull algorithm - Library (Java)
- * 
+ *
  * Copyright (c) 2017 Project Nayuki
  * https://www.nayuki.io/page/convex-hull-algorithm
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program (see COPYING.txt and COPYING.LESSER.txt).
  * If not, see <http://www.gnu.org/licenses/>.
@@ -35,12 +35,12 @@ public final class ConvexHull {
 
 	/**
 	 * This algorithm runs in O(n log n) time.
-	 * 
+	 *
 	 * @param points
 	 *            points
 	 * @return Returns a new list of points representing the convex hull of the
 	 *         given set of points. The convex hull excludes collinear points.
-	 * 
+	 *
 	 */
 	public static List<Point2D> makeHull(List<Point2D> points) {
 		List<Point2D> newPoints = new ArrayList<>(points);
@@ -50,7 +50,7 @@ public final class ConvexHull {
 
 	/**
 	 * Runs in O(n) time.
-	 * 
+	 *
 	 * @param points
 	 *            points
 	 * @return Returns the convex hull, assuming that each points[i] &lt;= points[i
@@ -104,5 +104,4 @@ public final class ConvexHull {
 		}
 		return upperHull;
 	}
-
 }

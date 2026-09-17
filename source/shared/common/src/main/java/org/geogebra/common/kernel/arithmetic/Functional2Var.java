@@ -20,9 +20,9 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * interface for all classes that can be evaluated as (u,v) -&gt; (x,y,z) surfaces
- * 
+ *
  * TODO FunctionalNVar ?
- * 
+ *
  * @author Mathieu
  *
  */
@@ -30,20 +30,20 @@ public interface Functional2Var {
 
 	/**
 	 * set point for parameters (u,v)
-	 * 
+	 *
 	 * @param u
 	 *            x-coord for evaluation
 	 * @param v
 	 *            y-coord for evaluation
 	 * @param point
 	 *            for parameters (u,v)
-	 * 
+	 *
 	 */
 	void evaluatePoint(double u, double v, Coords point);
 
 	/**
 	 * return normal vector at parameters (u,v) (return null if none)
-	 * 
+	 *
 	 * @param u
 	 *            x-coord for evaluation
 	 * @param v
@@ -54,7 +54,7 @@ public interface Functional2Var {
 
 	/**
 	 * Returns the start parameter value
-	 * 
+	 *
 	 * @param index
 	 *            of the parameter (0 -&gt; u / 1 -&gt; v)
 	 * @return the start parameter value
@@ -63,11 +63,10 @@ public interface Functional2Var {
 
 	/**
 	 * Returns the largest possible parameter value
-	 * 
+	 *
 	 * @param index
 	 *            of the parameter (0 -&gt; u / 1 -&gt; v)
 	 * @return the largest possible parameter value
 	 */
 	double getMaxParameter(int index);
-
 }

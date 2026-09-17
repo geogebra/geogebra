@@ -63,21 +63,20 @@ public abstract class BaseExamTestSetup extends BaseAppTestSetup
 
 		propertiesRegistry = getApp().appScope.propertiesRegistry;
 		autocompleteProvider = new AutocompleteProvider(getApp(), false);
-		examController.setActiveContext(
-				new ContextDependencies(
-						getKernel().getAlgoDispatcher(),
-						getCommandDispatcher(),
-						getAlgebraProcessor(),
-						propertiesRegistry,
-						getApp().getLocalization(),
-						getApp().getSettings(),
-						getKernel().getStatisticGroupsBuilder(),
-						autocompleteProvider,
-						getApp(),
-						getKernel().getInputPreviewHelper(),
-						getKernel().getConstruction(),
-						geoElementPropertiesFactory,
-						getApp()));
+		examController.setActiveContext(new ContextDependencies(
+				getKernel().getAlgoDispatcher(),
+				getCommandDispatcher(),
+				getAlgebraProcessor(),
+				propertiesRegistry,
+				getApp().getLocalization(),
+				getApp().getSettings(),
+				getKernel().getStatisticGroupsBuilder(),
+				autocompleteProvider,
+				getApp(),
+				getKernel().getInputPreviewHelper(),
+				getKernel().getConstruction(),
+				geoElementPropertiesFactory,
+				getApp()));
 		restrictionsController.registerRestrictable(getApp());
 	}
 
@@ -91,7 +90,8 @@ public abstract class BaseExamTestSetup extends BaseAppTestSetup
 	public @Nullable SuiteSubApp getCurrentSubApp() {
 		AppConfig config = getApp().getConfig();
 		String appCode = Objects.equals(config.getAppCode(), GeoGebraConstants.SUITE_APPCODE)
-				? config.getSubAppCode() : config.getAppCode();
+				? config.getSubAppCode()
+				: config.getAppCode();
 		if (appCode != null) {
 			return SuiteSubApp.forCode(appCode);
 		}

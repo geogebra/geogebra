@@ -18,7 +18,7 @@ package org.geogebra.common.kernel;
 
 /**
  * Types of path / region parameter behaviours
- * 
+ *
  * @author Zbynek
  *
  */

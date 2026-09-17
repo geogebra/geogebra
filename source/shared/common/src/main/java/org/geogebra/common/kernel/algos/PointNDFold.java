@@ -46,19 +46,16 @@ public class PointNDFold implements FoldComputer {
 		return this.result = doGetTemplate(cons, listElement);
 	}
 
-	private static GeoElement doGetTemplate(Construction cons,
-			GeoClass listElement) {
+	private static GeoElement doGetTemplate(Construction cons, GeoClass listElement) {
 		switch (listElement) {
-		case POINT:
-			return new GeoPoint(cons);
-		case POINT3D:
-			return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
-					cons);
-		case VECTOR:
-			return new GeoVector(cons);
-		case VECTOR3D:
-			return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
-					cons);
+			case POINT:
+				return new GeoPoint(cons);
+			case POINT3D:
+				return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3, cons);
+			case VECTOR:
+				return new GeoVector(cons);
+			case VECTOR3D:
+				return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3, cons);
 		}
 		return new GeoPoint(cons);
 	}
@@ -69,10 +66,8 @@ public class PointNDFold implements FoldComputer {
 			double x0 = x;
 			if (p instanceof GeoPoint) {
 				((GeoPoint) p).updateCoords();
-				x = x0 * ((GeoPoint) p).getInhomX()
-						- y * ((GeoPoint) p).getInhomY();
-				y = y * ((GeoPoint) p).getInhomX()
-						+ x0 * ((GeoPoint) p).getInhomY();
+				x = x0 * ((GeoPoint) p).getInhomX() - y * ((GeoPoint) p).getInhomY();
+				y = y * ((GeoPoint) p).getInhomX() + x0 * ((GeoPoint) p).getInhomY();
 				Log.debug(x + "," + y);
 			} else if (p instanceof GeoVector) {
 				double[] coords = ((GeoVectorND) p).getInhomCoords();
@@ -110,7 +105,6 @@ public class PointNDFold implements FoldComputer {
 		} else {
 			result.setUndefined();
 		}
-
 	}
 
 	@Override
@@ -135,7 +129,5 @@ public class PointNDFold implements FoldComputer {
 			// 3D Point / Vector
 			((GeoCoords4D) result).setCoords(x, y, z, 1.0);
 		}
-
 	}
-
 }

@@ -41,8 +41,7 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	 * @param c
 	 *            quadric / conic
 	 */
-	protected AlgoAxesQuadricND(Construction cons, String label,
-			GeoQuadricND c) {
+	protected AlgoAxesQuadricND(Construction cons, String label, GeoQuadricND c) {
 		this(cons, c);
 		LabelManager.setLabels(label, axes);
 	}
@@ -55,8 +54,7 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	 * @param c
 	 *            quadric / conic
 	 */
-	protected AlgoAxesQuadricND(Construction cons, String[] labels,
-			GeoQuadricND c) {
+	protected AlgoAxesQuadricND(Construction cons, String[] labels, GeoQuadricND c) {
 		this(cons, c);
 		LabelManager.setLabels(labels, axes);
 	}
@@ -111,12 +109,11 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 		for (int i = 0; i < axes.length; i++) {
 			setAxisCoords(i);
 		}
-
 	}
 
 	/**
 	 * set coords to i-th axis
-	 * 
+	 *
 	 * @param i
 	 *            axis
 	 */
@@ -126,8 +123,6 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("AxisOfA", "Axis of %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("AxisOfA", "Axis of %0", c.getLabel(tpl));
 	}
-
 }

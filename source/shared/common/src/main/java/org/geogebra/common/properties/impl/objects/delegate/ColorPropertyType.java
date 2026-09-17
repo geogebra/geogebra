@@ -27,24 +27,23 @@ import org.geogebra.common.kernel.statistics.GeoPieChart;
  * Foreground color property type.
  */
 public enum ColorPropertyType {
-	DEFAULT, WITH_OPACITY, OPAQUE, TEXT;
+	DEFAULT,
+	WITH_OPACITY,
+	OPAQUE,
+	TEXT;
 
 	/**
 	 * @param element construction element
 	 * @return type of color button to be shown in the UI
 	 */
 	public static ColorPropertyType forElement(GeoElement element) {
-		if (element instanceof GeoWidget
-				|| element instanceof GeoPieChart || element.isGeoImage()) {
+		if (element instanceof GeoWidget || element instanceof GeoPieChart || element.isGeoImage()) {
 			return DEFAULT;
 		}
-		if (element instanceof TextStyle
-				|| element instanceof GeoFormula) {
+		if (element instanceof TextStyle || element instanceof GeoFormula) {
 			return TEXT;
 		}
-		if (element.isFillable()
-				&& !element.isMask()
-				&& !(element instanceof GeoLocusStroke)) {
+		if (element.isFillable() && !element.isMask() && !(element instanceof GeoLocusStroke)) {
 			return WITH_OPACITY;
 		}
 		return OPAQUE;

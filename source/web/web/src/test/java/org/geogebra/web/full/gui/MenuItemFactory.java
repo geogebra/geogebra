@@ -52,20 +52,19 @@ public class MenuItemFactory extends ContextMenuItemFactory {
 	}
 
 	@Override
-	public AriaMenuItem newAriaMenuItem(IconSpec icon, String text,
-			Scheduler.ScheduledCommand cmd) {
+	public AriaMenuItem newAriaMenuItem(IconSpec icon, String text, Scheduler.ScheduledCommand cmd) {
 		return new AriaMenuItemMock(text, icon, cmd);
 	}
 
 	@Override
-	public AriaMenuItem newAriaMenuItem(ResourcePrototype icon, String text,
-			Scheduler.ScheduledCommand cmd) {
+	public AriaMenuItem newAriaMenuItem(
+			ResourcePrototype icon, String text, Scheduler.ScheduledCommand cmd) {
 		return new AriaMenuItemMock(text, icon, cmd);
 	}
 
 	@Override
-	public GCheckmarkMenuItem newCheckmarkMenuItem(IconSpec icon,
-			String title, boolean checked, Scheduler.ScheduledCommand command) {
+	public GCheckmarkMenuItem newCheckmarkMenuItem(
+			IconSpec icon, String title, boolean checked, Scheduler.ScheduledCommand command) {
 		return new GCheckmarkMenuItemMock(title, checked);
 	}
 }

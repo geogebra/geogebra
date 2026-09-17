@@ -33,7 +33,7 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
  * {@link GeoElement}.
  */
 public class FillCategoryProperty extends AbstractNamedEnumeratedProperty<FillCategory> {
-	
+
 	private FillType previousPatternFillType = FillType.STANDARD;
 
 	private final FillableDelegate delegate;
@@ -50,8 +50,7 @@ public class FillCategoryProperty extends AbstractNamedEnumeratedProperty<FillCa
 		setNamedValues(List.of(
 				entry(FillCategory.PATTERN, "Filling.Pattern"),
 				entry(FillCategory.SYMBOL, "Filling.Symbol"),
-				entry(FillCategory.IMAGE, "Filling.Image"))
-		);
+				entry(FillCategory.IMAGE, "Filling.Image")));
 	}
 
 	@Override

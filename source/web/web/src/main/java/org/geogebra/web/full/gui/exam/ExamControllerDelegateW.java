@@ -72,20 +72,20 @@ public final class ExamControllerDelegateW
 			return null;
 		}
 		switch (subAppCode) {
-		case GeoGebraConstants.CAS_APPCODE:
-			return SuiteSubApp.CAS;
-		case GeoGebraConstants.GEOMETRY_APPCODE:
-			return SuiteSubApp.GEOMETRY;
-		case GeoGebraConstants.GRAPHING_APPCODE:
-			return SuiteSubApp.GRAPHING;
-		case GeoGebraConstants.G3D_APPCODE:
-			return SuiteSubApp.G3D;
-		case GeoGebraConstants.PROBABILITY_APPCODE:
-			return SuiteSubApp.PROBABILITY;
-		case GeoGebraConstants.SCIENTIFIC_APPCODE:
-			return SuiteSubApp.SCIENTIFIC;
-		default:
-			return null;
+			case GeoGebraConstants.CAS_APPCODE:
+				return SuiteSubApp.CAS;
+			case GeoGebraConstants.GEOMETRY_APPCODE:
+				return SuiteSubApp.GEOMETRY;
+			case GeoGebraConstants.GRAPHING_APPCODE:
+				return SuiteSubApp.GRAPHING;
+			case GeoGebraConstants.G3D_APPCODE:
+				return SuiteSubApp.G3D;
+			case GeoGebraConstants.PROBABILITY_APPCODE:
+				return SuiteSubApp.PROBABILITY;
+			case GeoGebraConstants.SCIENTIFIC_APPCODE:
+				return SuiteSubApp.SCIENTIFIC;
+			default:
+				return null;
 		}
 	}
 

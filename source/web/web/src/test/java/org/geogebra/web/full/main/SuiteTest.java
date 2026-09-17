@@ -81,8 +81,8 @@ public class SuiteTest {
 		String cons = app.getGgbApi().getXML();
 		app.switchToSubapp(SuiteSubApp.PROBABILITY);
 		app.setXML(cons, true);
-		assertTrue(app.getKernel().lookupLabel("gg").getParentAlgorithm()
-				instanceof AlgoCircleTwoPoints);
+		assertTrue(
+				app.getKernel().lookupLabel("gg").getParentAlgorithm() instanceof AlgoCircleTwoPoints);
 	}
 
 	@Test
@@ -111,9 +111,9 @@ public class SuiteTest {
 		new LabelController().hideLabel(geos[0]);
 		app.getGuiManager().addGeoToTableValuesView(geos[0].toGeoElement());
 		assertEquals("f", geos[0].getLabelSimple());
-		assertTrue("CAS should allow adding columns",
-				app.getGuiManager().getTableValuesViewOrNull()
-						.getTableValuesModel().allowsAddingColumns());
+		assertTrue(
+				"CAS should allow adding columns",
+				app.getGuiManager().getTableValuesViewOrNull().getTableValuesModel().allowsAddingColumns());
 	}
 
 	private String getValueString(String label) {

@@ -191,5 +191,4 @@ public class AccentedAtom extends Atom implements IsAccentedAtom {
 	public SymbolAtom getAccent() {
 		return this.accent;
 	}
-
 }

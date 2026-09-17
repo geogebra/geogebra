@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 3D rotations
- * 
+ *
  * @author mathieu
  *
  */
@@ -35,44 +35,41 @@ public class TransformMirror3D extends TransformMirror {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param point
 	 *            mirror point
-	 * 
+	 *
 	 */
 	public TransformMirror3D(Construction cons, GeoPointND point) {
 		super(cons, (GeoElement) point);
-
 	}
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param line
 	 *            mirror line
-	 * 
+	 *
 	 */
 	public TransformMirror3D(Construction cons, GeoLineND line) {
 		super(cons, (GeoElement) line);
-
 	}
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param plane
 	 *            mirror plane
-	 * 
+	 *
 	 */
 	public TransformMirror3D(Construction cons, GeoCoordSys2D plane) {
 		super(cons, (GeoElement) plane);
-
 	}
 
 	@Override
@@ -87,5 +84,4 @@ public class TransformMirror3D extends TransformMirror {
 		}
 		return algo;
 	}
-
 }

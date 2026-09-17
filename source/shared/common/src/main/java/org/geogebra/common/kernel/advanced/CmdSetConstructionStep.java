@@ -24,14 +24,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * SetConstructionStep[ &lt;Number&gt; ]
- * 
+ *
  * @author Michael Borcherds
  */
 public class CmdSetConstructionStep extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,26 +46,24 @@ public class CmdSetConstructionStep extends CmdScripting {
 		arg = resArgs(c);
 
 		switch (n) {
+			case 1:
+				double newStep = Math.round(arg[0].evaluateDouble() - 1);
+				int maxStep = cons.steps();
+				// eg SetConstructionStep[infinity] to set to end
+				if (newStep >= maxStep) {
+					newStep = maxStep - 1;
+				}
 
-		case 1:
-			double newStep = Math.round(arg[0].evaluateDouble() - 1);
-			int maxStep = cons.steps();
-			// eg SetConstructionStep[infinity] to set to end
-			if (newStep >= maxStep) {
-				newStep = maxStep - 1;
-			}
+				cons.setStep((int) newStep);
 
-			cons.setStep((int) newStep);
+				if (app.getGuiManager() != null) {
+					app.getGuiManager().updateNavBars();
+				}
 
-			if (app.getGuiManager() != null) {
-				app.getGuiManager().updateNavBars();
-			}
+				return arg;
 
-			return arg;
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

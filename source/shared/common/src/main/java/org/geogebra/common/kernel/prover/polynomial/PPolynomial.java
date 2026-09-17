@@ -35,9 +35,9 @@ import org.geogebra.common.util.debug.Log;
 /**
  * This is a simple polynomial class for polynomials with arbitrary many
  * variables.
- * 
+ *
  * @author Simon Weitzhofer
- * 
+ *
  */
 public class PPolynomial implements Comparable<PPolynomial> {
 	private TreeMap<PTerm, BigInteger> terms;
@@ -51,7 +51,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Copies a polynomial
-	 * 
+	 *
 	 * @param poly
 	 *            the polynomial to copy
 	 */
@@ -66,7 +66,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	/**
 	 * Getter for the map which contains the terms and the according
 	 * coefficients.
-	 * 
+	 *
 	 * @return the map
 	 */
 	public TreeMap<PTerm, BigInteger> getTerms() {
@@ -75,7 +75,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Creates a constant polynomial.
-	 * 
+	 *
 	 * @param coeff
 	 *            the constant
 	 */
@@ -85,17 +85,17 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Creates a constant polynomial.
-	 * 
+	 *
 	 * @param coeff
 	 *            the constant
 	 */
 	public PPolynomial(final long coeff) {
 		this(new BigInteger(Long.toString(coeff)), new PTerm());
 	}
-	
+
 	/**
 	 * Creates a polynomial which contains only one variable
-	 * 
+	 *
 	 * @param fv
 	 *            the variable
 	 */
@@ -106,7 +106,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Creates the polynomial coeff*variable
-	 * 
+	 *
 	 * @param coeff
 	 *            the coefficient
 	 * @param variable
@@ -114,13 +114,12 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 */
 	public PPolynomial(final BigInteger coeff, final PVariable variable) {
 		this();
-		if (coeff != BigInteger.ZERO)
-			terms.put(new PTerm(variable), coeff);
+		if (coeff != BigInteger.ZERO) terms.put(new PTerm(variable), coeff);
 	}
 
 	/**
 	 * Creates the polynomial coeff*(variable^power)
-	 * 
+	 *
 	 * @param coeff
 	 *            The coefficient
 	 * @param variable
@@ -128,16 +127,14 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param power
 	 *            the exponent
 	 */
-	public PPolynomial(final BigInteger coeff, final PVariable variable,
-			final int power) {
+	public PPolynomial(final BigInteger coeff, final PVariable variable, final int power) {
 		this();
-		if (coeff != BigInteger.ZERO)
-			terms.put(new PTerm(variable, power), coeff);
+		if (coeff != BigInteger.ZERO) terms.put(new PTerm(variable, power), coeff);
 	}
 
 	/**
 	 * Creates the polynomial which contains only one term
-	 * 
+	 *
 	 * @param t
 	 *            the term
 	 */
@@ -148,7 +145,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Creates the polynomial coeff*t
-	 * 
+	 *
 	 * @param coeff
 	 *            the coefficient
 	 * @param t
@@ -156,13 +153,12 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 */
 	public PPolynomial(final BigInteger coeff, final PTerm t) {
 		this();
-		if (coeff != BigInteger.ZERO)
-			terms.put(t, coeff);
+		if (coeff != BigInteger.ZERO) terms.put(t, coeff);
 	}
 
 	/**
 	 * Returns the sum of the polynomial plus another polynomial.
-	 * 
+	 *
 	 * @param poly
 	 *            the polynomial to add
 	 * @return the sum
@@ -190,7 +186,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Calculates the additive inverse of the polynomial
-	 * 
+	 *
 	 * @return the negation of the polynomial
 	 */
 	public PPolynomial negate() {
@@ -206,7 +202,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Subtracts another polynomial
-	 * 
+	 *
 	 * @param poly
 	 *            the polynomial which is subtracted
 	 * @return the difference
@@ -217,7 +213,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Multiplies the polynomial with another polynomial
-	 * 
+	 *
 	 * @param poly
 	 *            the polynomial which is multiplied
 	 * @return the product
@@ -229,14 +225,12 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		while (it1.hasNext()) {
 			Entry<PTerm, BigInteger> entry1 = it1.next();
 			PTerm t1 = entry1.getKey();
-			Iterator<Entry<PTerm, BigInteger>> it2 = terms2.entrySet()
-					.iterator();
+			Iterator<Entry<PTerm, BigInteger>> it2 = terms2.entrySet().iterator();
 			while (it2.hasNext()) {
 				Entry<PTerm, BigInteger> entry2 = it2.next();
 				PTerm t2 = entry2.getKey();
 				PTerm product = t1.times(t2);
-				BigInteger productCoefficient = entry1.getValue()
-						.multiply(entry2.getValue());
+				BigInteger productCoefficient = entry1.getValue().multiply(entry2.getValue());
 				if (result.containsKey(product)) {
 					BigInteger sum = result.get(product).add(productCoefficient);
 					if (sum == BigInteger.ZERO) {
@@ -248,14 +242,13 @@ public class PPolynomial implements Comparable<PPolynomial> {
 					result.put(product, productCoefficient);
 				}
 			}
-
 		}
 		return new PPolynomial(result);
 	}
 
 	@Override
 	public int compareTo(PPolynomial poly) {
-		if (this==poly){
+		if (this == poly) {
 			return 0;
 		}
 
@@ -269,9 +262,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		if (terms.isEmpty()) {
 			return -1;
 		}
-		
-		PTerm termsLastKey=terms.lastKey(),
-				polyVarsLastKey=polyVars.lastKey();
+
+		PTerm termsLastKey = terms.lastKey(), polyVarsLastKey = polyVars.lastKey();
 
 		int compare = termsLastKey.compareTo(polyVarsLastKey);
 
@@ -282,7 +274,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		if (compare != 0) {
 			return compare;
 		}
-		
+
 		do {
 			SortedMap<PTerm, BigInteger> termsSub = terms.headMap(termsLastKey);
 			SortedMap<PTerm, BigInteger> oSub = polyVars.headMap(polyVarsLastKey);
@@ -295,12 +287,11 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			if (oSub.isEmpty()) {
 				return 1;
 			}
-			termsLastKey=termsSub.lastKey();
-			polyVarsLastKey=oSub.lastKey();
+			termsLastKey = termsSub.lastKey();
+			polyVarsLastKey = oSub.lastKey();
 			compare = termsLastKey.compareTo(polyVarsLastKey);
 			if (compare == 0) {
-				compare = termsSub.get(termsLastKey).compareTo(
-						oSub.get(polyVarsLastKey));
+				compare = termsSub.get(termsLastKey).compareTo(oSub.get(polyVarsLastKey));
 			}
 		} while (compare == 0);
 
@@ -319,17 +310,16 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			PTerm t = entry.getKey();
 			BigInteger c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
-				if (c != BigInteger.ONE)
-					sb.append(c + "*");
+				if (c != BigInteger.ONE) sb.append(c + "*");
 				sb.append(t);
-			}
-			else
-				sb.append(c);
+			} else sb.append(c);
 			sb.append('+');
 		}
 		String ret = sb.substring(0, sb.length() - 1); // removing closing "+"
-		ret = ret.replaceAll("\\+-", "-").replaceAll("-1\\*", "-")
-				.replaceAll("\\+1\\*", "+").replaceAll("^1\\*", "");
+		ret = ret.replaceAll("\\+-", "-")
+				.replaceAll("-1\\*", "-")
+				.replaceAll("\\+1\\*", "+")
+				.replaceAll("^1\\*", "");
 		return ret;
 	}
 
@@ -354,28 +344,25 @@ public class PPolynomial implements Comparable<PPolynomial> {
 						// c < -1
 						if (c.add(BigInteger.ONE).compareTo(BigInteger.ZERO) < 0) {
 							if (sb.length() > 0) {
-								sb.deleteCharAt(sb.length()-1); // removing last "+"
+								sb.deleteCharAt(sb.length() - 1); // removing last "+"
 							}
 						}
 						sb.append(c);
 					} else {
 						// -1
 						if (sb.length() > 0) {
-							sb.deleteCharAt(sb.length()-1); // removing last "+"
+							sb.deleteCharAt(sb.length() - 1); // removing last "+"
 						}
 						sb.append('-');
 					}
 				}
 				sb.append(t.toTeX());
-			}
-			else
-				sb.append(c);
+			} else sb.append(c);
 			sb.append('+');
 		}
 		return sb.substring(0, sb.length() - 1); // removing closing "+"
 	}
 
-	
 	/**
 	 * The set of the variables in this polynomial
 	 * @return the set of variables
@@ -398,19 +385,17 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public static HashSet<PVariable> getVars(PPolynomial[] polys) {
 		HashSet<PVariable> v = new HashSet<>();
 		int polysLength = 0;
-		if (polys != null)
-			polysLength = polys.length;
-		for (int i=0; i<polysLength; ++i) {
+		if (polys != null) polysLength = polys.length;
+		for (int i = 0; i < polysLength; ++i) {
 			HashSet<PVariable> vars = polys[i].getVars();
-			if (vars != null)
-				v.addAll(vars);
+			if (vars != null) v.addAll(vars);
 		}
 		return v;
 	}
 
 	/**
 	 * The set of the variables in the given polynomials
-	 * 
+	 *
 	 * @param polys
 	 *            the polynomials
 	 * @return the set of variables
@@ -419,15 +404,14 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		HashSet<PVariable> v = new HashSet<>();
 		for (PPolynomial poly : polys) {
 			HashSet<PVariable> vars = poly.getVars();
-			if (vars != null)
-				v.addAll(vars);
+			if (vars != null) v.addAll(vars);
 		}
 		return v;
 	}
-	
+
 	/**
 	 * Creates a comma separated list of the variables in the given polynomials
-	 * 
+	 *
 	 * @param polys
 	 *            the polynomials
 	 * @param extraVars
@@ -439,25 +423,25 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 *            set of free variables
 	 * @return the comma separated list
 	 */
-	public static String getVarsAsCommaSeparatedString(PPolynomial[] polys,
-			HashSet<PVariable> extraVars, Boolean free,
+	public static String getVarsAsCommaSeparatedString(
+			PPolynomial[] polys,
+			HashSet<PVariable> extraVars,
+			Boolean free,
 			Set<PVariable> freeVariables) {
 		StringBuilder sb = new StringBuilder();
 		HashSet<PVariable> vars = getVars(polys);
-		if (extraVars != null)
-			vars.addAll(extraVars);
+		if (extraVars != null) vars.addAll(extraVars);
 		Iterator<PVariable> it = vars.iterator();
 		while (it.hasNext()) {
 			PVariable fv = it.next();
-			if ((free == null) || (free && freeVariables.contains(fv))
-					|| (!free && !(freeVariables.contains(fv))))
-				sb.append("," + fv);
+			if ((free == null)
+					|| (free && freeVariables.contains(fv))
+					|| (!free && !(freeVariables.contains(fv)))) sb.append("," + fv);
 		}
-		if (sb.length()>0)
-			return sb.substring(1); // removing first "," character
+		if (sb.length() > 0) return sb.substring(1); // removing first "," character
 		return "";
 	}
-	
+
 	/**
 	 * Creates a comma separated list of the given polynomials
 	 * @param polys the polynomials
@@ -470,39 +454,34 @@ public class PPolynomial implements Comparable<PPolynomial> {
 				sb.append("," + polys[i].toString());
 			}
 		}
-		if (sb.length()>0)
-			return sb.substring(1); // removing first "," character
+		if (sb.length() > 0) return sb.substring(1); // removing first "," character
 		return "";
 	}
-	
 
 	/**
 	 * Creates a Singular program for creating a ring to work with two
-	 * polynomials, and multiply them; adds a closing ";" 
+	 * polynomials, and multiply them; adds a closing ";"
 	 * @param ringVariable variable name for the ring in Singular
 	 * @param p1 first polynomial
 	 * @param p2 second polynomial
 	 * @return the Singular program code
 	 */
 	public String getSingularMultiplication(String ringVariable, PPolynomial p1, PPolynomial p2) {
-		String vars = getVarsAsCommaSeparatedString(
-				new PPolynomial[] { p1, p2 }, null, null, null);
+		String vars = getVarsAsCommaSeparatedString(new PPolynomial[] {p1, p2}, null, null, null);
 		if (!"".equals(vars))
 			return "ring " + ringVariable + "=0,("
-				+ vars
-				+ "),dp;" // ring definition in Singular
-				
-				+ "short=0;" // switching off short output
-				
-				+ "(" + p1.toString() + ")"
-				+ "*"
-				+ "(" + p2.toString() + ");"; // the multiplication command
+					+ vars
+					+ "),dp;" // ring definition in Singular
+					+ "short=0;" // switching off short output
+					+ "(" + p1.toString() + ")"
+					+ "*"
+					+ "(" + p2.toString() + ");"; // the multiplication command
 		return p1.toString() + "*" + p2.toString() + ";";
 	}
-	
+
 	/**
 	 * Creates a polynomial which describes the input coordinates as points
-	 * lying on the same line. 
+	 * lying on the same line.
 	 * @param fv1 x-coordinate of the first point
 	 * @param fv2 y-coordinate of the first point
 	 * @param fv3 x-coordinate of the second point
@@ -511,12 +490,12 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param fv6 y-coordinate of the third point
 	 * @return the polynomial
 	 */
-	public static PPolynomial collinear(PVariable fv1, PVariable fv2, PVariable fv3,
-			PVariable fv4, PVariable fv5, PVariable fv6) {
-		Log.trace("Setting up equation for collinear points " +
-			"(" + fv1 + "," + fv2 + "), " +
-			"(" + fv3 + "," + fv4 + ") and " +
-			"(" + fv5 + "," + fv6 + ")");
+	public static PPolynomial collinear(
+			PVariable fv1, PVariable fv2, PVariable fv3, PVariable fv4, PVariable fv5, PVariable fv6) {
+		Log.trace("Setting up equation for collinear points " + "("
+				+ fv1 + "," + fv2 + "), " + "("
+				+ fv3 + "," + fv4 + ") and " + "("
+				+ fv5 + "," + fv6 + ")");
 		// a*d-b*c:
 		PPolynomial a = new PPolynomial(fv1);
 		PPolynomial b = new PPolynomial(fv2);
@@ -524,18 +503,19 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		PPolynomial d = new PPolynomial(fv4);
 		PPolynomial e = new PPolynomial(fv5);
 		PPolynomial f = new PPolynomial(fv6);
-		
-		PPolynomial ret = a.multiply(d).subtract(b.multiply(c))
+
+		PPolynomial ret = a.multiply(d)
+				.subtract(b.multiply(c))
 				// + e*(b-d)
 				.add(e.multiply(b.subtract(d)))
 				// - f*(a-c)
 				.subtract(f.multiply(a.subtract(c)));
 		return ret;
 	}
-	
+
 	/**
 	 * Creates a polynomial which describes the input coordinates as points
-	 * are perpendicular, i.e. AB is perpendicular to CD. 
+	 * are perpendicular, i.e. AB is perpendicular to CD.
 	 * @param v1 x-coordinate of the first point (A)
 	 * @param v2 y-coordinate of the first point (A)
 	 * @param v3 x-coordinate of the second point (B)
@@ -546,15 +526,22 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param v8 y-coordinate of the fourth point (D)
 	 * @return the polynomial
 	 */
-	public static PPolynomial perpendicular(PVariable v1, PVariable v2, PVariable v3,
-			PVariable v4, PVariable v5, PVariable v6, PVariable v7, PVariable v8) {
+	public static PPolynomial perpendicular(
+			PVariable v1,
+			PVariable v2,
+			PVariable v3,
+			PVariable v4,
+			PVariable v5,
+			PVariable v6,
+			PVariable v7,
+			PVariable v8) {
 
-		Log.trace("Setting up equation for perpendicular lines " +
-				"(" + v1 + "," + v2 + ")-" +
-				"(" + v3 + "," + v4 + ") and " +
-				"(" + v5 + "," + v6 + ")-" +
-				"(" + v7 + "," + v8 + ")");
-		
+		Log.trace("Setting up equation for perpendicular lines " + "("
+				+ v1 + "," + v2 + ")-" + "("
+				+ v3 + "," + v4 + ") and " + "("
+				+ v5 + "," + v6 + ")-" + "("
+				+ v7 + "," + v8 + ")");
+
 		PPolynomial a1 = new PPolynomial(v1);
 		PPolynomial a2 = new PPolynomial(v2);
 		PPolynomial b1 = new PPolynomial(v3);
@@ -563,7 +550,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		PPolynomial c2 = new PPolynomial(v6);
 		PPolynomial d1 = new PPolynomial(v7);
 		PPolynomial d2 = new PPolynomial(v8);
-		
+
 		// (a1-b1)*(c1-d1)+(a2-b2)*(c2-d2)
 		PPolynomial ret = ((a1.subtract(b1)).multiply(c1.subtract(d1)))
 				.add((a2.subtract(b2)).multiply(c2.subtract(d2)));
@@ -572,7 +559,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 	/**
 	 * Creates a polynomial which describes the input coordinates as points
-	 * are parallel, i.e. AB is parallel to CD. 
+	 * are parallel, i.e. AB is parallel to CD.
 	 * @param v1 x-coordinate of the first point (A)
 	 * @param v2 y-coordinate of the first point (A)
 	 * @param v3 x-coordinate of the second point (B)
@@ -583,15 +570,22 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param v8 y-coordinate of the fourth point (D)
 	 * @return the polynomial
 	 */
-	public static PPolynomial parallel(PVariable v1, PVariable v2, PVariable v3,
-			PVariable v4, PVariable v5, PVariable v6, PVariable v7, PVariable v8) {
+	public static PPolynomial parallel(
+			PVariable v1,
+			PVariable v2,
+			PVariable v3,
+			PVariable v4,
+			PVariable v5,
+			PVariable v6,
+			PVariable v7,
+			PVariable v8) {
 
-		Log.trace("Setting up equation for parallel lines " +
-				"(" + v1 + "," + v2 + ")-" +
-				"(" + v3 + "," + v4 + ") and " +
-				"(" + v5 + "," + v6 + ")-" +
-				"(" + v7 + "," + v8 + ")");
-		
+		Log.trace("Setting up equation for parallel lines " + "("
+				+ v1 + "," + v2 + ")-" + "("
+				+ v3 + "," + v4 + ") and " + "("
+				+ v5 + "," + v6 + ")-" + "("
+				+ v7 + "," + v8 + ")");
+
 		PPolynomial a1 = new PPolynomial(v1);
 		PPolynomial a2 = new PPolynomial(v2);
 		PPolynomial b1 = new PPolynomial(v3);
@@ -610,7 +604,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	/**
 	 * Creates a polynomial which describes the area of a triangle, i.e. area of
 	 * triangle ABC.
-	 * 
+	 *
 	 * @param v1
 	 *            x-coordinate of the first point (A)
 	 * @param v2
@@ -625,8 +619,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 *            y-coordinate of the third point (C)
 	 * @return the polynomial
 	 */
-	public static PPolynomial area(PVariable v1, PVariable v2, PVariable v3,
-			PVariable v4, PVariable v5, PVariable v6) {
+	public static PPolynomial area(
+			PVariable v1, PVariable v2, PVariable v3, PVariable v4, PVariable v5, PVariable v6) {
 		PPolynomial a1 = new PPolynomial(v1);
 		PPolynomial a2 = new PPolynomial(v2);
 		PPolynomial b1 = new PPolynomial(v3);
@@ -634,71 +628,73 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		PPolynomial c1 = new PPolynomial(v5);
 		PPolynomial c2 = new PPolynomial(v6);
 
-		PPolynomial ret = a1.multiply(b2).add(b1.multiply(c2))
-				.add(c1.multiply(a2)).subtract(c1.multiply(b2))
-				.subtract(a1.multiply(c2)).subtract(a2.multiply(b1));
+		PPolynomial ret = a1.multiply(b2)
+				.add(b1.multiply(c2))
+				.add(c1.multiply(a2))
+				.subtract(c1.multiply(b2))
+				.subtract(a1.multiply(c2))
+				.subtract(a2.multiply(b1));
 		return ret;
 	}
-		
+
 	/**
 	 * Calculates the determinant of a 4 times 4 matrix
 	 * @param matrix matrix
 	 * @return the determinant
 	 */
-	public static PPolynomial det4(final PPolynomial[][] matrix){
-		return matrix[0][3].multiply(matrix[1][2].multiply(matrix[2][1].multiply(matrix[3][0]))).subtract(
-				matrix[0][2].multiply(matrix[1][3]).multiply(matrix[2][1]).multiply(matrix[3][0])).subtract(
-				matrix[0][3].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][0])).add(
-				matrix[0][1].multiply(matrix[1][3]).multiply(matrix[2][2]).multiply(matrix[3][0])).add(
-				matrix[0][2].multiply(matrix[1][1]).multiply(matrix[2][3]).multiply(matrix[3][0])).subtract(
-				matrix[0][1].multiply(matrix[1][2]).multiply(matrix[2][3]).multiply(matrix[3][0])).subtract(
-				matrix[0][3].multiply(matrix[1][2]).multiply(matrix[2][0]).multiply(matrix[3][1])).add(
-				matrix[0][2].multiply(matrix[1][3]).multiply(matrix[2][0]).multiply(matrix[3][1])).add(
-				matrix[0][3].multiply(matrix[1][0]).multiply(matrix[2][2]).multiply(matrix[3][1])).subtract(
-				matrix[0][0].multiply(matrix[1][3]).multiply(matrix[2][2]).multiply(matrix[3][1])).subtract(
-				matrix[0][2].multiply(matrix[1][0]).multiply(matrix[2][3]).multiply(matrix[3][1])).add(
-				matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][3]).multiply(matrix[3][1])).add(
-				matrix[0][3].multiply(matrix[1][1]).multiply(matrix[2][0]).multiply(matrix[3][2])).subtract(
-				matrix[0][1].multiply(matrix[1][3]).multiply(matrix[2][0]).multiply(matrix[3][2])).subtract(
-				matrix[0][3].multiply(matrix[1][0]).multiply(matrix[2][1]).multiply(matrix[3][2])).add(
-				matrix[0][0].multiply(matrix[1][3]).multiply(matrix[2][1]).multiply(matrix[3][2])).add(
-				matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][3]).multiply(matrix[3][2])).subtract(
-				matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][3]).multiply(matrix[3][2])).subtract(
-				matrix[0][2].multiply(matrix[1][1]).multiply(matrix[2][0]).multiply(matrix[3][3])).add(
-				matrix[0][1].multiply(matrix[1][2]).multiply(matrix[2][0]).multiply(matrix[3][3])).add(
-				matrix[0][2].multiply(matrix[1][0]).multiply(matrix[2][1]).multiply(matrix[3][3])).subtract(
-				matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][1]).multiply(matrix[3][3])).subtract(
-				matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][2]).multiply(matrix[3][3])).add(
-				matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][3]));
+	public static PPolynomial det4(final PPolynomial[][] matrix) {
+		return matrix[0][3]
+				.multiply(matrix[1][2].multiply(matrix[2][1].multiply(matrix[3][0])))
+				.subtract(matrix[0][2].multiply(matrix[1][3]).multiply(matrix[2][1]).multiply(matrix[3][0]))
+				.subtract(matrix[0][3].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][0]))
+				.add(matrix[0][1].multiply(matrix[1][3]).multiply(matrix[2][2]).multiply(matrix[3][0]))
+				.add(matrix[0][2].multiply(matrix[1][1]).multiply(matrix[2][3]).multiply(matrix[3][0]))
+				.subtract(matrix[0][1].multiply(matrix[1][2]).multiply(matrix[2][3]).multiply(matrix[3][0]))
+				.subtract(matrix[0][3].multiply(matrix[1][2]).multiply(matrix[2][0]).multiply(matrix[3][1]))
+				.add(matrix[0][2].multiply(matrix[1][3]).multiply(matrix[2][0]).multiply(matrix[3][1]))
+				.add(matrix[0][3].multiply(matrix[1][0]).multiply(matrix[2][2]).multiply(matrix[3][1]))
+				.subtract(matrix[0][0].multiply(matrix[1][3]).multiply(matrix[2][2]).multiply(matrix[3][1]))
+				.subtract(matrix[0][2].multiply(matrix[1][0]).multiply(matrix[2][3]).multiply(matrix[3][1]))
+				.add(matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][3]).multiply(matrix[3][1]))
+				.add(matrix[0][3].multiply(matrix[1][1]).multiply(matrix[2][0]).multiply(matrix[3][2]))
+				.subtract(matrix[0][1].multiply(matrix[1][3]).multiply(matrix[2][0]).multiply(matrix[3][2]))
+				.subtract(matrix[0][3].multiply(matrix[1][0]).multiply(matrix[2][1]).multiply(matrix[3][2]))
+				.add(matrix[0][0].multiply(matrix[1][3]).multiply(matrix[2][1]).multiply(matrix[3][2]))
+				.add(matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][3]).multiply(matrix[3][2]))
+				.subtract(matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][3]).multiply(matrix[3][2]))
+				.subtract(matrix[0][2].multiply(matrix[1][1]).multiply(matrix[2][0]).multiply(matrix[3][3]))
+				.add(matrix[0][1].multiply(matrix[1][2]).multiply(matrix[2][0]).multiply(matrix[3][3]))
+				.add(matrix[0][2].multiply(matrix[1][0]).multiply(matrix[2][1]).multiply(matrix[3][3]))
+				.subtract(matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][1]).multiply(matrix[3][3]))
+				.subtract(matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][2]).multiply(matrix[3][3]))
+				.add(matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][3]));
 	}
-	
-	/** 
+
+	/**
 	 * Calculates the cross product of two vectors of dimension three.
 	 * @param a the first vector
 	 * @param b the second vector
 	 * @return the cross product of the two vectors
 	 */
-	public static PPolynomial[] crossProduct(PPolynomial[] a,
-			PPolynomial[] b) {
-		PPolynomial[] result=new PPolynomial[3];
-		result[0]=(a[1].multiply(b[2])).subtract(a[2].multiply(b[1]));
-		result[1]=(a[2].multiply(b[0])).subtract(a[0].multiply(b[2]));
-		result[2]=(a[0].multiply(b[1])).subtract(a[1].multiply(b[0]));
+	public static PPolynomial[] crossProduct(PPolynomial[] a, PPolynomial[] b) {
+		PPolynomial[] result = new PPolynomial[3];
+		result[0] = (a[1].multiply(b[2])).subtract(a[2].multiply(b[1]));
+		result[1] = (a[2].multiply(b[0])).subtract(a[0].multiply(b[2]));
+		result[2] = (a[0].multiply(b[1])).subtract(a[1].multiply(b[0]));
 		return result;
 	}
-	
+
 	/**
 	 * Substitutes variables in the polynomial by integer values
-	 * 
+	 *
 	 * @param substitutions
 	 *            A map of the substitutions
 	 * @return a new polynomial with the variables substituted.
 	 */
 	public PPolynomial substitute(Map<PVariable, BigInteger> substitutions) {
-		
-		if (substitutions == null)
-			return this;
-			
+
+		if (substitutions == null) return this;
+
 		TreeMap<PTerm, BigInteger> result = new TreeMap<>();
 
 		Iterator<Entry<PTerm, BigInteger>> it = terms.entrySet().iterator();
@@ -707,16 +703,13 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			PTerm t1 = entry.getKey();
 			TreeMap<PVariable, Integer> term = new TreeMap<>(t1.getTerm());
 			BigInteger product = BigInteger.ONE;
-			Iterator<Entry<PVariable, BigInteger>> itSubst = substitutions
-					.entrySet()
-					.iterator();
+			Iterator<Entry<PVariable, BigInteger>> itSubst = substitutions.entrySet().iterator();
 			while (itSubst.hasNext()) {
 				Entry<PVariable, BigInteger> entrySubst = itSubst.next();
 				PVariable variable = entrySubst.getKey();
 				Integer exponent = term.get(variable);
 				if (exponent != null) {
-					product = product
-							.multiply(entrySubst.getValue().pow(exponent));
+					product = product.multiply(entrySubst.getValue().pow(exponent));
 					term.remove(variable);
 				}
 			}
@@ -729,7 +722,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 				} else {
 					result.put(t, sum);
 				}
-			} else if (product.intValue() != 0){
+			} else if (product.intValue() != 0) {
 				result.put(t, product);
 			}
 		}
@@ -737,7 +730,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	}
 	/**
 	 * Substitutes a variable in the polynomial by another variable.
-	 * 
+	 *
 	 * @param oldVar
 	 *            old variable
 	 * @param newVar
@@ -752,8 +745,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		while (it.hasNext()) {
 			Entry<PTerm, BigInteger> entry = it.next();
 			PTerm t1 = entry.getKey();
-			TreeMap<PVariable, Integer> term = new TreeMap<>(
-					t1.getTerm());
+			TreeMap<PVariable, Integer> term = new TreeMap<>(t1.getTerm());
 			Integer oldExponent = term.get(oldVar);
 			if (oldExponent != null) {
 				Integer newExponent = term.get(newVar);
@@ -792,7 +784,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public boolean isZero() {
 		return terms.isEmpty();
 	}
-	
+
 	/**
 	 * Tests if the polynomial is a constant.
 	 * @return if input is a constant
@@ -805,8 +797,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			return true;
 		}
 		return false;
-		}
-	
+	}
+
 	/**
 	 * @return Integer value of Polynomial if it is constant
 	 */
@@ -834,92 +826,87 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public boolean isOne() {
 		return equals(new PPolynomial(BigInteger.ONE));
 	}
-	
 
 	/**
 	 * Converts substitutions to Singular strings
-	 * 
+	 *
 	 * @param substitutions
 	 *            input as a HashMap
 	 * @return the parameters for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
 	 */
-	static String substitutionsString(
-			HashMap<PVariable, BigInteger> substitutions) {
+	static String substitutionsString(HashMap<PVariable, BigInteger> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Entry<PVariable, BigInteger>> it = substitutions.entrySet()
-				.iterator();
+		Iterator<Entry<PVariable, BigInteger>> it = substitutions.entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<PVariable, BigInteger> entry = it.next();
 			PVariable v = entry.getKey();
 			ret.append("," + v.toString() + "," + entry.getValue());
 		}
-		if (ret.length()>0)
-			return ret.substring(1);
+		if (ret.length() > 0) return ret.substring(1);
 		return "";
 	}
-		
+
 	/**
 	 * Adds a leading comma to the input string if it is not empty
 	 * @param in input
 	 * @return output string
 	 */
-	public static String addLeadingComma (String in) {
-		if (in == null || in.length() == 0)
-			return "";
+	public static String addLeadingComma(String in) {
+		if (in == null || in.length() == 0) return "";
 		return "," + in;
 	}
-	
+
 	/**
 	 * Returns in1 if it is not empty, in2 otherwise
 	 * @param in1 input1
 	 * @param in2 input2
 	 * @return the first non-empty input
 	 */
-	public static String coalesce (String in1, String in2) {
-		if (in1 == null || in1.length() == 0)
-			return in2;
+	public static String coalesce(String in1, String in2) {
+		if (in1 == null || in1.length() == 0) return in2;
 		return in1;
 	}
-	
+
 	/**
 	 * Creates a Singular program for creating a ring to work with several
 	 * polynomials, and returns if the equation system has a solution. Uses
 	 * the Groebner basis w.r.t. the revgradlex order.
 	 * @param substitutions HashMap with variables and values, e.g. {v1-&gt;0},{v2-&gt;1}
 	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
-	 * @param fieldVars field variables (comma separated) 
+	 * @param fieldVars field variables (comma separated)
 	 * @param ringVars ring variables (comma separated)
 	 * @param transcext use coefficients from a transcendental extension
 	 * @return the Singular program code
 	 */
 	public static String createGroebnerSolvableScript(
-			HashMap<PVariable, BigInteger> substitutions, String polys,
-			String fieldVars, String ringVars, boolean transcext) {
-		
+			HashMap<PVariable, BigInteger> substitutions,
+			String polys,
+			String fieldVars,
+			String ringVars,
+			boolean transcext) {
+
 		String ringVariable = "r";
 		String idealVariable = "i";
 		String dummyVar = "d";
-		
+
 		String vars = ringVars + addLeadingComma(fieldVars);
-		
+
 		String substCommand = "";
 		if (substitutions != null) {
 			String substParams = substitutionsString(substitutions);
 			substCommand = idealVariable + "=subst(" + idealVariable + "," + substParams + ");";
 		}
 		String ret = "ring " + ringVariable + "=";
-		
+
 		if (transcext) {
-			ret += "(0" + addLeadingComma(fieldVars)
-				+ "),(" + coalesce(ringVars, dummyVar);
-		}
-		else {
+			ret += "(0" + addLeadingComma(fieldVars) + "),(" + coalesce(ringVars, dummyVar);
+		} else {
 			ret += "0,(" + coalesce(vars, dummyVar);
 		}
-		
+
 		ret += "),dp;" // ring definition in Singular, using revgradlex
-			+ "ideal " + idealVariable + "="
-			+ polys + ";"; // ideal definition in Singular
+				+ "ideal " + idealVariable + "="
+				+ polys + ";"; // ideal definition in Singular
 
 		ret += substCommand;
 
@@ -935,26 +922,26 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param dependentVariables the variables that should be eliminated
 	 * @return the Singular program code
 	 */
-	
+
 	/*
-	 * Example program code:
-	 * ring r=0,(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15),dp;
-	 * ideal i=-1*v5+-1*v3+2*v1,-1*v6+-1*v4+2*v2,-1*v9+2*v7+-1*v5,-1*v10+2*v8+-1*v6,2*v11+-1*v7+-1*v1,2*v12+-1*v8+-1*v2,
-	 * -1*v13*v12+v14*v11+v13*v6+-1*v11*v6+-1*v14*v5+v12*v5,
-	 * -1*v13*v10+v14*v9+v13*v4+-1*v9*v4+-1*v14*v3+v10*v3,
-	 * -1+2*v15*v14*v10+-1*v15*v10^2+2*v15*v13*v9+-1*v15*v9^2+-2*v15*v14*v4+v15*v4^2+-2*v15*v13*v3+v15*v3^2;
-	 * ideal e=eliminate(i,v1*v2*v7*v8*v11*v12*v13*v14*v15);
-	 * list o;int s=size(e);int j;for(j=1;j<=s;j=j+1){o[j]=factorize(e[j]);}o;
-	 * 
-	 * Example output from Singular:
-	 * [1]:
-          [1]:
-             _[1]=1
-             _[2]=v4*v5-v3*v6-v4*v9+v6*v9+v3*v10-v5*v10
-          [2]:
-             1,1
-	 */
-	
+	* Example program code:
+	* ring r=0,(v1,v2,v3,v4,v5,v6,v7,v8,v9,v10,v11,v12,v13,v14,v15),dp;
+	* ideal i=-1*v5+-1*v3+2*v1,-1*v6+-1*v4+2*v2,-1*v9+2*v7+-1*v5,-1*v10+2*v8+-1*v6,2*v11+-1*v7+-1*v1,2*v12+-1*v8+-1*v2,
+	* -1*v13*v12+v14*v11+v13*v6+-1*v11*v6+-1*v14*v5+v12*v5,
+	* -1*v13*v10+v14*v9+v13*v4+-1*v9*v4+-1*v14*v3+v10*v3,
+	* -1+2*v15*v14*v10+-1*v15*v10^2+2*v15*v13*v9+-1*v15*v9^2+-2*v15*v14*v4+v15*v4^2+-2*v15*v13*v3+v15*v3^2;
+	* ideal e=eliminate(i,v1*v2*v7*v8*v11*v12*v13*v14*v15);
+	* list o;int s=size(e);int j;for(j=1;j<=s;j=j+1){o[j]=factorize(e[j]);}o;
+	*
+	* Example output from Singular:
+	* [1]:
+					[1]:
+						_[1]=1
+						_[2]=v4*v5-v3*v6-v4*v9+v6*v9+v3*v10-v5*v10
+					[2]:
+						1,1
+	*/
+
 	public static String createEliminateFactorizedScript(
 			PPolynomial[] polys, PVariable[] pVariables, Set<PVariable> dependentVariables) {
 
@@ -965,7 +952,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		String eliminationVariable = "e";
 		String outputVariable = "o";
 		String dummyVar = "d";
-		
+
 		StringBuilder ret = new StringBuilder("ring ");
 		ret.append(ringVariable);
 		ret.append("=0,(");
@@ -978,18 +965,16 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			if (dependentVariables.isEmpty()) {
 				ret.append(",").append(dummyVar);
 			}
-		}
-		else
-			ret.append(dummyVar);
-		
+		} else ret.append(dummyVar);
+
 		ret.append("),dp;");
-		
+
 		ret.append("ideal ");
 		ret.append(idealVariable);
 		ret.append("=");
 		ret.append(getPolysAsCommaSeparatedString(polys));
 		ret.append(";");
-		
+
 		ret.append("ideal ");
 		ret.append(eliminationVariable);
 		ret.append("=");
@@ -999,9 +984,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 		vars = new StringBuilder();
 		Iterator<PVariable> dependentVariablesIterator = dependentVariables.iterator();
-		while (dependentVariablesIterator.hasNext()){
+		while (dependentVariablesIterator.hasNext()) {
 			vars.append(dependentVariablesIterator.next());
-			if (dependentVariablesIterator.hasNext()){
+			if (dependentVariablesIterator.hasNext()) {
 				vars.append("*");
 			}
 		}
@@ -1010,23 +995,24 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		} else {
 			ret.append(dummyVar);
 		}
-		
+
 		ret.append(");");
 
 		// list o;int s=size(e);int j;for(j=1;j<=s;j=j+1){o[j]=factorize(e[j]);}o;
-		ret.append("list " + outputVariable + ";int " + sizeVariable + "=size(" + eliminationVariable + ");");
-		ret.append("int " + loopVariable + ";for(" + loopVariable + "=1;" + loopVariable + "<=" + sizeVariable
-				+ ";" + loopVariable + "=" + loopVariable + "+1)");
+		ret.append(
+				"list " + outputVariable + ";int " + sizeVariable + "=size(" + eliminationVariable + ");");
+		ret.append("int " + loopVariable + ";for(" + loopVariable + "=1;" + loopVariable + "<="
+				+ sizeVariable + ";" + loopVariable + "=" + loopVariable + "+1)");
 		ret.append("{" + outputVariable + "[" + loopVariable + "]=factorize(" + eliminationVariable
 				+ "[" + loopVariable + "]);}o;");
-		
+
 		return ret.toString();
 	}
 
 	/**
 	 * Decides if an array of polynomials (as a set) gives a solvable equation
 	 * system on the field of the complex numbers.
-	 * 
+	 *
 	 * @param polys
 	 *            the array of polynomials
 	 * @param substitutions
@@ -1039,24 +1025,26 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 *            set of free variables
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
-	public static ExtendedBoolean solvable(PPolynomial[] polys,
-			HashMap<PVariable, BigInteger> substitutions, Kernel kernel,
-			boolean transcext, Set<PVariable> freeVariables) {
-		
+	public static ExtendedBoolean solvable(
+			PPolynomial[] polys,
+			HashMap<PVariable, BigInteger> substitutions,
+			Kernel kernel,
+			boolean transcext,
+			Set<PVariable> freeVariables) {
+
 		String polysAsCommaSeparatedString = getPolysAsCommaSeparatedString(polys);
 		HashSet<PVariable> substVars = new HashSet<>(substitutions.keySet());
 
-		String freeVars = getVarsAsCommaSeparatedString(polys, substVars, true,
-				freeVariables);
-		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars,
-				false, freeVariables);
+		String freeVars = getVarsAsCommaSeparatedString(polys, substVars, true, freeVariables);
+		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false, freeVariables);
 		String solvableResult, solvableProgram;
 
 		// If SingularWS is not applicable, then we try to use the internal CAS:
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		
-		solvableProgram = cas.getCurrentCAS().createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString,
-				freeVars, dependantVars, transcext);
+
+		solvableProgram = cas.getCurrentCAS()
+				.createGroebnerSolvableScript(
+						substitutions, polysAsCommaSeparatedString, freeVars, dependantVars, transcext);
 		if (solvableProgram == null) {
 			Log.info("Not implemented (yet)");
 			return ExtendedBoolean.UNKNOWN; // cannot decide
@@ -1070,7 +1058,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		}
 		return ExtendedBoolean.UNKNOWN; // cannot decide
 	}
-	
+
 	/** Returns the square of the input polynomial
 	 * @param p input polynomial
 	 * @return the square (p*p)
@@ -1078,7 +1066,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public static PPolynomial sqr(PPolynomial p) {
 		return p.multiply(p);
 	}
-	
+
 	/**
 	 * Returns the square of the distance of two points
 	 * @param a1 first coordinate of A
@@ -1091,7 +1079,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		return sqr(new PPolynomial(a1).subtract(new PPolynomial(b1)))
 				.add(sqr(new PPolynomial(a2).subtract(new PPolynomial(b2))));
 	}
-	
+
 	/**
 	 * Returns if AO=OB, i.e. whether the AOB triangle is isosceles
 	 * @param a1 first coordinate of A
@@ -1102,16 +1090,15 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param b2 second coordinate of B
 	 * @return the 0 polynomial if AO=OB
 	 */
-	public static PPolynomial equidistant(PVariable a1, PVariable a2,
-			PVariable o1, PVariable o2, PVariable b1,
-			PVariable b2) {
-		return sqrDistance(a1,a2,o1,o2).subtract(sqrDistance(o1,o2,b1,b2));
+	public static PPolynomial equidistant(
+			PVariable a1, PVariable a2, PVariable o1, PVariable o2, PVariable b1, PVariable b2) {
+		return sqrDistance(a1, a2, o1, o2).subtract(sqrDistance(o1, o2, b1, b2));
 	}
-	
+
 	/**
 	 * Returns the elimination ideal for the given equation system, assuming
 	 * given substitutions. Only the dependent variables will be eliminated.
-	 * 
+	 *
 	 * @param eqSystem
 	 *            the equation system
 	 * @param substitutions
@@ -1130,9 +1117,13 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 *            input set of free variables
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
-	public static Set<Set<PPolynomial>> eliminate(PPolynomial[] eqSystem,
-			HashMap<PVariable, BigInteger> substitutions, Kernel kernel,
-			int permutation, boolean factorized, boolean oneCurve,
+	public static Set<Set<PPolynomial>> eliminate(
+			PPolynomial[] eqSystem,
+			HashMap<PVariable, BigInteger> substitutions,
+			Kernel kernel,
+			int permutation,
+			boolean factorized,
+			boolean oneCurve,
 			Set<PVariable> freeVariablesInput) {
 
 		TreeSet<PVariable> dependentVariables = new TreeSet<>();
@@ -1150,24 +1141,24 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		if (substitutions != null) {
 			eqSystemSubstituted = new PPolynomial[eqSystem.length];
 			for (int i = 0; i < eqSystem.length; i++) {
-				eqSystemSubstituted[i] = eqSystem[i]
-						.substitute(substitutions);
+				eqSystemSubstituted[i] = eqSystem[i].substitute(substitutions);
 			}
 			variables.removeAll(substitutions.keySet());
 		} else {
 			eqSystemSubstituted = eqSystem;
 		}
-		
+
 		String elimResult, elimProgram;
-		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
+		Log.debug("Eliminating system in " + variables.size() + " variables ("
+				+ dependentVariables.size() + " dependent)");
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 
 		String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
-		String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
-				null, false, freeVariablesInput);
-		String freeVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
-				null, true, freeVariablesInput);
+		String elimVars =
+				getVarsAsCommaSeparatedString(eqSystemSubstituted, null, false, freeVariablesInput);
+		String freeVars =
+				getVarsAsCommaSeparatedString(eqSystemSubstituted, null, true, freeVariablesInput);
 		Log.trace("gbt polys = " + polys);
 		Log.trace("gbt vars = " + elimVars + "," + freeVars);
 		// Consider uncomment this if Giac cannot find a readable NDG:
@@ -1175,26 +1166,23 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		// elimVars = elimVars.substring(1, elimVars.length()-1);
 
 		if (factorized) {
-			elimProgram = cas.getCurrentCAS()
-					.createEliminateFactorizedScript(polys, elimVars);
+			elimProgram = cas.getCurrentCAS().createEliminateFactorizedScript(polys, elimVars);
 		} else {
-			elimProgram = cas.getCurrentCAS().createEliminateScript(polys,
-					elimVars, oneCurve, kernel.precision());
+			elimProgram =
+					cas.getCurrentCAS().createEliminateScript(polys, elimVars, oneCurve, kernel.precision());
 		}
 		if (elimProgram == null) {
 			Log.info("Not implemented (yet)");
 			return null; // cannot decide
 		}
 
-		elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_")
-				.replace("unicode91u", "[");
+		elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
 
 		if (!factorized) {
 
 			elimResult = elimResult.replace(".0", "");
 			elimResult = elimResult.substring(1, elimResult.length() - 1);
-			elimResult = "[1]: [1]: _[1]=1 _[2]=" + elimResult
-					+ " [2]: 1,1";
+			elimResult = "[1]: [1]: _[1]=1 _[2]=" + elimResult + " [2]: 1,1";
 			Log.trace("Rewritten: " + elimResult);
 		}
 
@@ -1225,8 +1213,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		}
 
 		try {
-			return PolynomialParser.parseFactoredPolynomialSet(
-					elimResult, variables);
+			return PolynomialParser.parseFactoredPolynomialSet(elimResult, variables);
 		} catch (ParseException e) {
 			Log.debug("Cannot parse: " + elimResult);
 			Log.debug(e);
@@ -1234,5 +1221,4 @@ public class PPolynomial implements Comparable<PPolynomial> {
 
 		return null; // cannot decide
 	}
-
 }

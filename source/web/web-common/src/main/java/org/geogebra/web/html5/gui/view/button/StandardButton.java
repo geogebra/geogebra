@@ -55,8 +55,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param width width of button
 	 * @param height icon height
 	 */
-	public StandardButton(final ResourcePrototype icon, final String label,
-			int width, int height) {
+	public StandardButton(final ResourcePrototype icon, final String label, int width, int height) {
 		this();
 		setIconAndLabel(icon, label, width, height);
 	}
@@ -75,8 +74,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param width icon width
 	 * @param height icon height
 	 */
-	public StandardButton(final IconSpec icon, final String label,
-			int width, int height) {
+	public StandardButton(final IconSpec icon, final String label, int width, int height) {
 		this();
 		if (icon instanceof ImageIconSpec) {
 			setIconAndLabel(((ImageIconSpec) icon).getImage(), label, width, height);
@@ -102,8 +100,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param width
 	 *            - width of button
 	 */
-	public StandardButton(final ResourcePrototype icon, final String label,
-			int width) {
+	public StandardButton(final ResourcePrototype icon, final String label, int width) {
 		this(icon, label, width, -1);
 	}
 
@@ -155,8 +152,7 @@ public class StandardButton extends Widget implements HasResource {
 		buildIconAndLabel(icon, label);
 	}
 
-	private void buildIconAndLabel(final ResourcePrototype image,
-			final String label) {
+	private void buildIconAndLabel(final ResourcePrototype image, final String label) {
 		SimplePanel imgPanel = new SimplePanel();
 		imgPanel.addStyleName("imgHolder");
 		btnImage = new NoDragImage(image, width, height);
@@ -176,8 +172,8 @@ public class StandardButton extends Widget implements HasResource {
 		this.getElement().appendChild(colorLbl.getElement());
 	}
 
-	private void setIconAndLabel(final ResourcePrototype image,
-			final String label, int width, int height) {
+	private void setIconAndLabel(
+			final ResourcePrototype image, final String label, int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.icon = image;
@@ -310,8 +306,10 @@ public class StandardButton extends Widget implements HasResource {
 		Dom.toggleClass(this, "disabled", !enabled);
 		AriaHelper.setDisabled(this, !enabled);
 		if (icon instanceof SVGResourcePrototype svg) {
-			setResource(svg.withFill(enabled ? GeoGebraColorConstants.PURPLE_700.toString()
-					: GeoGebraColorConstants.NEUTRAL_500.toString()));
+			setResource(svg.withFill(
+					enabled
+							? GeoGebraColorConstants.PURPLE_700.toString()
+							: GeoGebraColorConstants.NEUTRAL_500.toString()));
 		}
 	}
 

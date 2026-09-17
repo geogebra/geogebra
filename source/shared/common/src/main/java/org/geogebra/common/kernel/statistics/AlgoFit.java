@@ -34,13 +34,13 @@ import org.geogebra.common.util.debug.Log;
  * AlgoFit A general linear curvefit: Fit[&lt;List of Points&gt;,&lt;List of
  * Functions&gt;] Example: f(x)=1, g(x)=x, h(x)=e^x L={A,B,...} c(x)=Fit[L,{f,g,h}]
  * will give a least square curvefit: c(x)= a+b*x+c*e^x
- * 
+ *
  * Simple test procedure: Make points A,B, ... L={A,B,...} f(x)=1, g(x)=x,
  * h(x)=x^2,... =x^n F={f,g,h,...} right(x)=Regpoly[L,n] fit(x)=Fit[L,F]
- * 
+ *
  * The solution is the usual: M_t*M*X=M_t*Y, the solution of overdetermined
  * linear equation systems..
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2010-02-23
  */
@@ -66,8 +66,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 	 * @param functionlist
 	 *            lists of functions that can be used in result
 	 */
-	public AlgoFit(Construction cons, GeoList pointlist,
-			GeoList functionlist) {
+	public AlgoFit(Construction cons, GeoList pointlist, GeoList functionlist) {
 		super(cons);
 
 		this.pointlist = pointlist;
@@ -119,7 +118,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		matP = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
 
 		if (!pointlist.isDefined() // Lot of things can go wrong...
-				|| !functionlist.isDefined() || (functionsize > datasize)) {
+				|| !functionlist.isDefined()
+				|| (functionsize > datasize)) {
 			// Perhaps a max restriction of functions and data?
 			// Even if noone would try 500 datapoints and 100 functions...
 			fitfunction.setUndefined();
@@ -145,8 +145,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			if (solver.isNonSingular()) {
 				matP = solver.solve(matY);
 
-				fitfunction = functionarray.makeFunction(fitfunction,
-						functionlist, matP);
+				fitfunction = functionarray.makeFunction(fitfunction, functionlist, matP);
 
 			} else {
 				fitfunction.setUndefined();
@@ -173,7 +172,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 				return false;
 			}
 		} // for all functions
-			// Make matrixes with the right values: M*P=Y
+		// Make matrixes with the right values: M*P=Y
 		matM = new Array2DRowRealMatrix(datasize, functionsize);
 		matY = new Array2DRowRealMatrix(datasize, 1);
 		for (int r = 0; r < datasize; r++) {
@@ -201,5 +200,4 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 		return ret;
 	}
-
 }

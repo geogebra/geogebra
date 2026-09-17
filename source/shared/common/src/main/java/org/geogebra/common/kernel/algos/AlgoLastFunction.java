@@ -29,9 +29,8 @@ import org.geogebra.common.plugin.Operation;
 
 /**
  * Take last element from a data function
- * 
+ *
  */
-
 public class AlgoLastFunction extends AlgoElement {
 
 	private GeoFunction function;
@@ -45,15 +44,13 @@ public class AlgoLastFunction extends AlgoElement {
 	 * @param inputFn
 	 *            data function
 	 */
-	public AlgoLastFunction(Construction cons, String label,
-			GeoFunction inputFn) {
+	public AlgoLastFunction(Construction cons, String label, GeoFunction inputFn) {
 		super(cons);
 		this.function = inputFn;
 		this.result = new GeoNumeric(cons);
 		setInputOutput();
 		compute();
 		result.setLabel(label);
-
 	}
 
 	@Override
@@ -77,8 +74,7 @@ public class AlgoLastFunction extends AlgoElement {
 		if (!function.isDefined()) {
 			return;
 		}
-		ExpressionNode exp = this.function.getFunctionExpression().unwrap()
-				.wrap();
+		ExpressionNode exp = this.function.getFunctionExpression().unwrap().wrap();
 		if (exp.getOperation() != Operation.DATA) {
 			return;
 		}
@@ -87,9 +83,7 @@ public class AlgoLastFunction extends AlgoElement {
 			return;
 		}
 
-		result.setValue(((ListValue) ev)
-				.get(((ListValue) ev).size() - 1).evaluateDouble());
-
+		result.setValue(((ListValue) ev).get(((ListValue) ev).size() - 1).evaluateDouble());
 	}
 
 	/**
@@ -98,5 +92,4 @@ public class AlgoLastFunction extends AlgoElement {
 	public GeoNumeric getResult() {
 		return result;
 	}
-
 }

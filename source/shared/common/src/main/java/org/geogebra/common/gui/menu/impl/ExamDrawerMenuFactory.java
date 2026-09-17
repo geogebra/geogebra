@@ -44,8 +44,7 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * @param version version of the app
 	 * @param isSuiteApp whether it is the Suite app
 	 */
-	public ExamDrawerMenuFactory(GeoGebraConstants.Version version,
-			boolean isSuiteApp) {
+	public ExamDrawerMenuFactory(GeoGebraConstants.Version version, boolean isSuiteApp) {
 		super(version, isSuiteApp);
 	}
 
@@ -67,19 +66,17 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem switchCalculator = showSwitchCalculator(app);
 		MenuItem examLog = showExamLog();
 		MenuItem exitExam = createsExitExam ? exitExamMode() : null;
-		MenuItemGroup group = new MenuItemGroupImpl(removeNulls(clearConstruction, openFile,
-				saveFile, switchCalculator, examLog, exitExam));
+		MenuItemGroup group = new MenuItemGroupImpl(
+				removeNulls(clearConstruction, openFile, saveFile, switchCalculator, examLog, exitExam));
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, group);
 	}
 
 	private static MenuItem exitExamMode() {
-		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
-				"exam_menu_exit", Action.EXIT_EXAM_MODE);
+		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY, "exam_menu_exit", Action.EXIT_EXAM_MODE);
 	}
 
 	private static MenuItem showExamLog() {
-		return new ActionableItemImpl(Icon.ASSIGNMENT,
-				"exam_log_header", Action.SHOW_EXAM_LOG);
+		return new ActionableItemImpl(Icon.ASSIGNMENT, "exam_log_header", Action.SHOW_EXAM_LOG);
 	}
 }

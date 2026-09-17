@@ -45,9 +45,13 @@ public class ScriptLanguageSelectionProperty extends AbstractNamedEnumeratedProp
 	 * @throws NotApplicablePropertyException if the script language selection is not applicable
 	 * for the given event
 	 */
-	public ScriptLanguageSelectionProperty(Localization localization, GeoElement geoElement,
-			ScriptEvent scriptEvent, ScriptLanguageSelection scriptLanguageSelection,
-			boolean jsEnabled) throws NotApplicablePropertyException {
+	public ScriptLanguageSelectionProperty(
+			Localization localization,
+			GeoElement geoElement,
+			ScriptEvent scriptEvent,
+			ScriptLanguageSelection scriptLanguageSelection,
+			boolean jsEnabled)
+			throws NotApplicablePropertyException {
 		super(localization, "ScriptType");
 		if (scriptEvent == ScriptEvent.GlobalJavascript || !jsEnabled) {
 			throw new NotApplicablePropertyException(geoElement);

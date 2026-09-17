@@ -22,7 +22,9 @@ import java.util.Locale;
  * Vertical alignment of a textual element.
  */
 public enum VerticalAlignment {
-	TOP, MIDDLE, BOTTOM;
+	TOP,
+	MIDDLE,
+	BOTTOM;
 
 	@Override
 	public String toString() {

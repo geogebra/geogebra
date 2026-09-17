@@ -72,7 +72,7 @@ public abstract class GeoPointVector extends GeoVec3D implements CoordStyle {
 	/**
 	 * @return true if using POLAR style
 	 */
-	final public boolean isPolar() {
+	public final boolean isPolar() {
 		return getToStringMode() == Kernel.COORD_POLAR;
 	}
 
@@ -94,8 +94,9 @@ public abstract class GeoPointVector extends GeoVec3D implements CoordStyle {
 
 	@Override
 	public boolean hasSpecialEditor() {
-		return toStringMode != Kernel.COORD_COMPLEX && (isIndependent() && getDefinition() == null
-				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode);
+		return toStringMode != Kernel.COORD_COMPLEX
+				&& (isIndependent() && getDefinition() == null
+						|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode);
 	}
 
 	/**

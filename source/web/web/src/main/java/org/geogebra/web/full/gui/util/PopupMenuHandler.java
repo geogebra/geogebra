@@ -26,5 +26,4 @@ public interface PopupMenuHandler {
 	 * @param selectedIndex selected index
 	 */
 	void fireActionPerformed(int selectedIndex);
-
 }

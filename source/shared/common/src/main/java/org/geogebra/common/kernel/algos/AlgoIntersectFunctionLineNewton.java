@@ -32,7 +32,7 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  * Finds intersection points of two polynomials (using the roots of their
  * difference)
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
@@ -59,8 +59,8 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	 * @param startPoint
 	 *            initial point for finding intersection
 	 */
-	public AlgoIntersectFunctionLineNewton(Construction cons, String label,
-			GeoFunctionable f, GeoLine line, GeoPoint startPoint) {
+	public AlgoIntersectFunctionLineNewton(
+			Construction cons, String label, GeoFunctionable f, GeoLine line, GeoPoint startPoint) {
 		this(cons, f, line, startPoint);
 		rootPoint.setLabel(label);
 		addIncidence();
@@ -76,8 +76,8 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	 * @param startPoint
 	 *            initial point for finding intersection
 	 */
-	public AlgoIntersectFunctionLineNewton(Construction cons, GeoFunctionable f,
-			GeoLine line, GeoPoint startPoint) {
+	public AlgoIntersectFunctionLineNewton(
+			Construction cons, GeoFunctionable f, GeoLine line, GeoPoint startPoint) {
 		super(cons);
 		this.f = f;
 		this.line = line;
@@ -100,7 +100,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -150,8 +150,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		// standard case
 		else {
 			// get difference f - line
-			Function.difference(f.getFunction(), line,
-					diffFunction);
+			Function.difference(f.getFunction(), line, diffFunction);
 			x = calcRoot(diffFunction, startPoint.inhomX);
 			// eg Intersect((x ln(x + 1)) / (exp(2x) - 1), xAxis)
 			x = DoubleUtil.checkRoot(x, diffFunction);
@@ -161,7 +160,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 			return;
 		}
 		double y = line.value(x);
-		//check for vertical lines
+		// check for vertical lines
 		if (Double.isNaN(y)) {
 			y = f.value(x);
 		}
@@ -169,8 +168,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 
 		// check if the intersection point really is on the line
 		// this is important for segments and rays
-		if (!line.isIntersectionPointIncident(rootPoint,
-				Kernel.MIN_PRECISION)) {
+		if (!line.isIntersectionPointIncident(rootPoint, Kernel.MIN_PRECISION)) {
 			rootPoint.setUndefined();
 			return;
 		}
@@ -183,8 +181,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 		// Note: we should only do this if the starting point is not labeled,
 		// i.e. not visible on screen (and was probably created by clicking
 		// on an intersection)
-		if (!startPoint.isLabelSet() && startPoint.isIndependent()
-				&& rootPoint.isDefined()) {
+		if (!startPoint.isLabelSet() && startPoint.isIndependent() && rootPoint.isDefined()) {
 			startPoint.setCoords(rootPoint);
 		}
 	}
@@ -194,14 +191,15 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlainDefault(
-				"IntersectionPointOfABWithInitialValueC",
-				"Intersection of %0 and %1 with initial value %2",
-				input[0].getLabel(tpl), input[1].getLabel(tpl),
-				startPoint.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault(
+						"IntersectionPointOfABWithInitialValueC",
+						"Intersection of %0 and %1 with initial value %2",
+						input[0].getLabel(tpl),
+						input[1].getLabel(tpl),
+						startPoint.getLabel(tpl));
 	}
 }

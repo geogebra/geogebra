@@ -56,5 +56,4 @@ public interface AlgoTangentHelper {
 	 * @return tangent point of line on curve
 	 */
 	GeoPointND getTangentPoint(GeoElement geo, GeoLine line);
-
 }

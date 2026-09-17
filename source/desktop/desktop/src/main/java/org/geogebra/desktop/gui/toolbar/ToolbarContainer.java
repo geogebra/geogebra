@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -60,7 +60,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Container for one or multiple toolbars. Takes care of fundamental things such
  * as the help text.
- * 
+ *
  * @author Florian Sonner
  */
 public class ToolbarContainer extends JPanel implements ComponentListener {
@@ -70,6 +70,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * Application instance.
 	 */
 	final AppD app;
+
 	LocalizationD loc;
 
 	/**
@@ -124,7 +125,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	/**
 	 * Create a new toolbar container.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param isMain
@@ -160,20 +161,16 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// add visible top border in main toolbar container
 		if (isMain) {
 			Border outsideBorder = null;
-			if (orientation == SwingConstants.NORTH
-					|| orientation == SwingConstants.SOUTH) {
-				outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 0,
-						SystemColor.controlShadow);
+			if (orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH) {
+				outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow);
 			} else if (orientation == SwingConstants.EAST) {
-				outsideBorder = BorderFactory.createMatteBorder(0, 1, 0, 0,
-						SystemColor.controlShadow);
+				outsideBorder = BorderFactory.createMatteBorder(0, 1, 0, 0, SystemColor.controlShadow);
 			} else if (orientation == SwingConstants.WEST) {
-				outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 1,
-						SystemColor.controlShadow);
+				outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 1, SystemColor.controlShadow);
 			}
 
-			setBorder(BorderFactory.createCompoundBorder(outsideBorder,
-					BorderFactory.createEmptyBorder(2, 2, 1, 2)));
+			setBorder(BorderFactory.createCompoundBorder(
+					outsideBorder, BorderFactory.createEmptyBorder(2, 2, 1, 2)));
 		} else {
 			setBorder(BorderFactory.createEmptyBorder(2, 2, 1, 2));
 		}
@@ -200,8 +197,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	private void addPanels() {
 		// show help panel
-		if (orientation == SwingConstants.NORTH
-				|| orientation == SwingConstants.SOUTH) {
+		if (orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH) {
 			add(gluePanel, loc.borderWest());
 			add(getGridButtonPanel(), loc.borderEast());
 		} else {
@@ -209,12 +205,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			add(getGridButtonPanel(), BorderLayout.SOUTH);
 		}
 
-		if (app.showToolBarHelp() && (orientation == SwingConstants.NORTH
-				|| orientation == SwingConstants.SOUTH)) {
+		if (app.showToolBarHelp()
+				&& (orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH)) {
 			add(getToolbarHelpPanel(), BorderLayout.CENTER);
 			updateHelpText();
 		}
-
 	}
 
 	private JPanel buildToolbarHelpPanel() {
@@ -225,8 +220,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// put into panel to
 		if (toolbarHelpPanel == null) {
 			toolbarHelpPanel = new JPanel();
-			toolbarHelpPanel.setLayout(
-					new BoxLayout(toolbarHelpPanel, BoxLayout.Y_AXIS));
+			toolbarHelpPanel.setLayout(new BoxLayout(toolbarHelpPanel, BoxLayout.Y_AXIS));
 		} else {
 			toolbarHelpPanel.removeAll();
 		}
@@ -245,18 +239,15 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		toolbarHelpPanel.add(Box.createVerticalGlue());
 
 		Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
-		Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0,
-				SystemColor.controlShadow);
-		toolbarHelpPanel.setBorder(BorderFactory
-				.createCompoundBorder(outsideBorder, insideBorder));
+		Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow);
+		toolbarHelpPanel.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 
 		return toolbarHelpPanel;
 	}
 
 	private JPanel getGridButtonPanel() {
 		// undo button
-		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
-				.getUndoAction();
+		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager()).getUndoAction();
 
 		JButton btnUndo = newJButton(GuiResourcesD.MENU_EDIT_UNDO);
 		btnUndo.setAction(undoAction);
@@ -267,8 +258,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// redo button
-		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager())
-				.getRedoAction();
+		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager()).getRedoAction();
 		JButton btnRedo = newJButton(GuiResourcesD.MENU_EDIT_REDO);
 		btnRedo.setAction(redoAction);
 		text = loc.getMenuTooltip("Redo");
@@ -286,16 +276,16 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.addActionListener(arg0 -> {
 			PropertiesMenu pm = new PropertiesMenu();
 			if (orientation == SwingConstants.NORTH) {
-				pm.show(btnProperties,
-						-pm.getPreferredSize().width
-								+ btnProperties.getWidth(),
+				pm.show(
+						btnProperties,
+						-pm.getPreferredSize().width + btnProperties.getWidth(),
 						btnProperties.getHeight());
 			} else if (orientation == SwingConstants.WEST) {
 				pm.show(btnProperties, 0, -pm.getPreferredSize().height);
 			} else {
-				pm.show(btnProperties,
-						-pm.getPreferredSize().width
-								+ btnProperties.getWidth(),
+				pm.show(
+						btnProperties,
+						-pm.getPreferredSize().width + btnProperties.getWidth(),
 						-pm.getPreferredSize().height);
 			}
 		});
@@ -310,8 +300,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		JPanel gridButtonPanel = new JPanel(new BorderLayout());
 
-		if (orientation == SwingConstants.NORTH
-				|| orientation == SwingConstants.SOUTH) {
+		if (orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH) {
 			JPanel gridPanel = new JPanel(new GridBagLayout());
 			GridBagConstraints c = new GridBagConstraints();
 			c.weightx = 1;
@@ -358,14 +347,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			gridPanel.add(btnHelp);
 			gridPanel.add(btnProperties);
 			gridButtonPanel.add(gridPanel, BorderLayout.SOUTH);
-
 		}
 
 		// add small bottom margin when toolbar is vertical
-		if (orientation == SwingConstants.EAST
-				|| orientation == SwingConstants.WEST) {
-			gridButtonPanel
-					.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+		if (orientation == SwingConstants.EAST || orientation == SwingConstants.WEST) {
+			gridButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 		}
 
 		return gridButtonPanel;
@@ -377,7 +363,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	/**
 	 * Select a mode.
-	 * 
+	 *
 	 * @param mode
 	 *            new mode
 	 * @return mode that was actually selected
@@ -407,8 +393,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		this.orientation = orientation;
 		int barOrientation = SwingConstants.HORIZONTAL;
-		if (orientation == SwingConstants.EAST
-				|| orientation == SwingConstants.WEST) {
+		if (orientation == SwingConstants.EAST || orientation == SwingConstants.WEST) {
 			barOrientation = SwingConstants.VERTICAL;
 		}
 
@@ -419,7 +404,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	/**
 	 * Marks the passed toolbar as active and makes it visible.
-	 * 
+	 *
 	 * @param toolbar
 	 *            toolbar
 	 * @return active mode
@@ -432,7 +417,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	/**
 	 * Marks the toolbar with the passed id as active and makes it visible.
-	 * 
+	 *
 	 * @param id
 	 *            The view ID
 	 * @return active mode
@@ -450,8 +435,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			toolbarPanel.show(Integer.toString(id));
 			// prevent data analysis view from setting mode twice (hack)
 			if (id != App.VIEW_DATA_ANALYSIS) {
-				app.setMode(getToolbar(id).getSelectedMode(),
-						ModeSetter.DOCK_PANEL);
+				app.setMode(getToolbar(id).getSelectedMode(), ModeSetter.DOCK_PANEL);
 				return getToolbar(id).getSelectedMode();
 			}
 		}
@@ -483,7 +467,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Adds a toolbar to this container. Use updateToolbarPanel() to update the
 	 * GUI after all toolbar changes were made.
-	 * 
+	 *
 	 * @param toolbar
 	 *            toolbar to be added
 	 */
@@ -500,7 +484,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * toolbar was the active toolbar as well the active toolbar is changed to
 	 * the general (but again, {@link #updateToolbarPanel()} has to be called
 	 * for a visible effect).
-	 * 
+	 *
 	 * @param toolbar
 	 *            toolbar to be removed
 	 */
@@ -519,7 +503,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	/**
 	 * Get toolbar associated to passed view ID.
-	 * 
+	 *
 	 * @param viewId
 	 *            view ID
 	 * @return toolbar for given view
@@ -539,8 +523,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
 	private static int getViewId(ToolbarD toolbar) {
-		return toolbar.getDockPanel() != null
-				? toolbar.getDockPanel().getViewId() : -1;
+		return toolbar.getDockPanel() != null ? toolbar.getDockPanel().getViewId() : -1;
 	}
 
 	/**
@@ -567,7 +550,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	/**
 	 * Update the help text.
-	 * 
+	 *
 	 * @param mode
 	 *            mode
 	 */
@@ -580,8 +563,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		String helpText = app.getToolHelp(mode);
 
 		// get wrapped toolbar help text
-		String wrappedText = wrappedModeText(toolName, helpText,
-				toolbarHelpPanel);
+		String wrappedText = wrappedModeText(toolName, helpText, toolbarHelpPanel);
 		modeNameLabel.setText(wrappedText);
 
 		resolveMouseListener(mode);
@@ -594,7 +576,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Add mouse listener to open help if clicked + change cursor. Only removes
 	 * old listener for custom tools.
-	 * 
+	 *
 	 * @param mode mode
 	 */
 	private void resolveMouseListener(final int mode) {
@@ -611,7 +593,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() >= 1) {
 						new HelpDialog(app).openToolHelp(mode);
-
 					}
 				}
 
@@ -635,8 +616,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * in the given panel.
 	 */
 	@SuppressWarnings("PMD.UnusedAssignment") // possibly a bug in PMD
-	private String wrappedModeText(String modeName, String helpText,
-			JPanel panel) {
+	private String wrappedModeText(String modeName, String helpText, JPanel panel) {
 		FontMetrics fm = getFontMetrics(app.getBoldFont());
 
 		// check width of panel
@@ -667,12 +647,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		int len = 0;
 		while (end != BreakIterator.DONE) {
 			String word = modeName.substring(start, end);
-			int spaceForDots = nextEnd == BreakIterator.DONE ? 0
-					: fm.stringWidth(" ...");
-			if (len + fm.stringWidth(word)
-					+ (line != maxLines ? 0 : spaceForDots) > panelWidth) {
-				if (++line > maxLines
-						|| fm.stringWidth(word) + spaceForDots > panelWidth) {
+			int spaceForDots = nextEnd == BreakIterator.DONE ? 0 : fm.stringWidth(" ...");
+			if (len + fm.stringWidth(word) + (line != maxLines ? 0 : spaceForDots) > panelWidth) {
+				if (++line > maxLines || fm.stringWidth(word) + spaceForDots > panelWidth) {
 					sbToolName.append(" ...");
 					sbToolName.append("</b></html>");
 					return sbToolName.toString();
@@ -740,12 +717,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			return toolbars.get(0);
 		}
 		return null;
-
 	}
 
 	// Component listener methods
 	@Override
-	public void componentShown(ComponentEvent e) { /* do nothing */
+	public void componentShown(ComponentEvent e) {
+		/* do nothing */
 	}
 
 	@Override
@@ -775,7 +752,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		/**
 		 * Shows the component with the given name
-		 * 
+		 *
 		 * @param name
 		 *            view ID as string
 		 */
@@ -797,7 +774,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		/**
 		 * Adds a component and hide it automatically.
-		 * 
+		 *
 		 * @param comp
 		 *            component to be added
 		 * @param name
@@ -836,17 +813,13 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 				item.setVisible(isOptionPanelAvailable(app, type));
 			}
-
 		}
 
 		private void openPropertiesView(OptionType type) {
 			int viewId = App.VIEW_PROPERTIES;
-			((PropertiesView) app.getGuiManager()
-					.getPropertiesView()).setOptionPanel(type);
-			app.getGuiManager().setShowView(true, viewId,
-					false);
+			((PropertiesView) app.getGuiManager().getPropertiesView()).setOptionPanel(type);
+			app.getGuiManager().setShowView(true, viewId, false);
 		}
-
 	}
 
 	/**
@@ -862,29 +835,28 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		boolean isAvailable = true;
 
 		switch (type) {
-		case EUCLIDIAN:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN);
-			break;
-		case EUCLIDIAN2:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
-			break;
-		case EUCLIDIAN_FOR_PLANE:
-			isAvailable = app.hasEuclidianViewForPlaneVisible();
-			break;
-		case EUCLIDIAN3D:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D);
-			break;
-		case SPREADSHEET:
-			isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);
-			break;
-		case CAS:
-			isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
-			break;
-		case OBJECTS:
-			// always available
-			break;
+			case EUCLIDIAN:
+				isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN);
+				break;
+			case EUCLIDIAN2:
+				isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
+				break;
+			case EUCLIDIAN_FOR_PLANE:
+				isAvailable = app.hasEuclidianViewForPlaneVisible();
+				break;
+			case EUCLIDIAN3D:
+				isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D);
+				break;
+			case SPREADSHEET:
+				isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);
+				break;
+			case CAS:
+				isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
+				break;
+			case OBJECTS:
+				// always available
+				break;
 		}
 		return isAvailable;
 	}
-
 }

@@ -50,32 +50,31 @@ public class CheckIfTrivial implements SimplifyNode {
 	@Override
 	public ExpressionNode apply(ExpressionNode node) {
 		return node.traverse(ev -> {
-			if (ev instanceof MyDouble) {
-				return ev;
-			}
-			double v = ev.evaluateDouble();
-			if (Math.round(v) == v) {
-				return utils.newDouble(v);
-			}
+					if (ev instanceof MyDouble) {
+						return ev;
+					}
+					double v = ev.evaluateDouble();
+					if (Math.round(v) == v) {
+						return utils.newDouble(v);
+					}
 
-			ExpressionNode node1 = ev.wrap();
-			if (ev.isOperation(Operation.PLUS)) {
-				if (node1.getLeft().evaluateDouble() == 0) {
-					return node1.getRight();
-				}
-				if (node1.getRight().evaluateDouble() == 0) {
-					return node1.getLeft();
-				}
-			} else if (isDivNode(node1)) {
-				double numeratorVal = node1.getLeft().evaluateDouble();
-				double denominatorVal = node1.getRight().evaluateDouble();
-				if (denominatorVal == 0)  {
-					return numeratorVal > 0
-							? utils.infinity()
-							: utils.negativeInfinity();
-				}
-			}
-			return ev;
-		}).wrap();
+					ExpressionNode node1 = ev.wrap();
+					if (ev.isOperation(Operation.PLUS)) {
+						if (node1.getLeft().evaluateDouble() == 0) {
+							return node1.getRight();
+						}
+						if (node1.getRight().evaluateDouble() == 0) {
+							return node1.getLeft();
+						}
+					} else if (isDivNode(node1)) {
+						double numeratorVal = node1.getLeft().evaluateDouble();
+						double denominatorVal = node1.getRight().evaluateDouble();
+						if (denominatorVal == 0) {
+							return numeratorVal > 0 ? utils.infinity() : utils.negativeInfinity();
+						}
+					}
+					return ev;
+				})
+				.wrap();
 	}
 }

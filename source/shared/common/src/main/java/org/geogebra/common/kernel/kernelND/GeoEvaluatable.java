@@ -43,5 +43,4 @@ public interface GeoEvaluatable extends GeoElementND, Evaluatable {
 	 * @return whether TV points are visible
 	 */
 	boolean isPointsVisible();
-
 }

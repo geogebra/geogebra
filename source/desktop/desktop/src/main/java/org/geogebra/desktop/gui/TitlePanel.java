@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -47,7 +47,7 @@ import org.geogebra.editor.share.util.Unicode;
  * Panel with title, author and date of construction. Forwards all updates to
  * kernel and notifies attached ActionListeners about kernel changes. Thus, it
  * can be used to edit the aforementioned values in the kernel.
- * 
+ *
  * @author Markus Hohenwarter
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
@@ -75,8 +75,8 @@ public class TitlePanel extends JPanel {
 		setLayout(new BorderLayout(5, 5));
 		titleField = new MyTextFieldD(app);
 		authorField = new MyTextFieldD(app);
-		dateField = new MyFormattedTextField((GuiManagerD) app.getGuiManager(),
-				DateFormat.getDateInstance(DateFormat.LONG));
+		dateField = new MyFormattedTextField(
+				(GuiManagerD) app.getGuiManager(), DateFormat.getDateInstance(DateFormat.LONG));
 		dateField.setColumns(12);
 		dateField.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		dateField.setFont(app.getPlainFont());
@@ -102,8 +102,7 @@ public class TitlePanel extends JPanel {
 		add(p, BorderLayout.CENTER);
 
 		setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createEtchedBorder(),
-				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+				BorderFactory.createEtchedBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		// setBorder(BorderFactory.createTitledBorder(app
 		// .getPlain("Document info")));
@@ -145,7 +144,6 @@ public class TitlePanel extends JPanel {
 				fireTextFieldUpdate(authorField2);
 			}
 		});
-
 	}
 
 	private void updateData() {
@@ -169,12 +167,10 @@ public class TitlePanel extends JPanel {
 			// in form 23 September 2012 (some languages don't want eg 25e, 25a
 			// so omit "th" for all)
 			String format = app.getLocalization().isRightToLeftReadingOrder()
-					? "\\Y " + Unicode.LEFT_TO_RIGHT_MARK + "\\F"
-							+ Unicode.LEFT_TO_RIGHT_MARK + " \\j"
+					? "\\Y " + Unicode.LEFT_TO_RIGHT_MARK + "\\F" + Unicode.LEFT_TO_RIGHT_MARK + " \\j"
 					: "\\j \\F \\Y";
 
-			return CmdGetTime.buildLocalizedDate(format, new Date(),
-					app.getLocalization());
+			return CmdGetTime.buildLocalizedDate(format, new Date(), app.getLocalization());
 		}
 
 		return src;
@@ -187,8 +183,7 @@ public class TitlePanel extends JPanel {
 	public String loadAuthor() {
 		String author = cons.getAuthor();
 		if ("".equals(author)) {
-			author = GeoGebraPreferencesD.getPref()
-					.loadPreference(GeoGebraPreferencesD.AUTHOR, "");
+			author = GeoGebraPreferencesD.getPref().loadPreference(GeoGebraPreferencesD.AUTHOR, "");
 			cons.setAuthor(author);
 		}
 		return author;
@@ -198,8 +193,7 @@ public class TitlePanel extends JPanel {
 		boolean kernelChanged = !author.equals(cons.getAuthor());
 		if (kernelChanged) {
 			cons.setAuthor(author);
-			GeoGebraPreferencesD.getPref()
-					.savePreference(GeoGebraPreferencesD.AUTHOR, author);
+			GeoGebraPreferencesD.getPref().savePreference(GeoGebraPreferencesD.AUTHOR, author);
 		}
 		return kernelChanged;
 	}
@@ -242,9 +236,9 @@ public class TitlePanel extends JPanel {
 	private void notifyListeners() {
 		int size = listeners.size();
 		for (int i = 0; i < size; i++) {
-			listeners.get(i).actionPerformed(new ActionEvent(this,
-					ActionEvent.ACTION_PERFORMED, "TitleChanged"));
+			listeners
+					.get(i)
+					.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "TitleChanged"));
 		}
 	}
-
 }

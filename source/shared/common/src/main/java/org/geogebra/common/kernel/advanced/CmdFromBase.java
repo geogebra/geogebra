@@ -34,7 +34,7 @@ public class CmdFromBase extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,48 +43,47 @@ public class CmdFromBase extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
-			final boolean oldMacroMode = cons.isSuppressLabelsActive();
-			EvalInfo argInfo = new EvalInfo(false);
-			// following part is very similar to normal resArgs,
-			// but allows autocorrection for eg FromBase[2,101010]
-			cons.setSuppressLabelCreation(true);
+			case 2:
+				final boolean oldMacroMode = cons.isSuppressLabelsActive();
+				EvalInfo argInfo = new EvalInfo(false);
+				// following part is very similar to normal resArgs,
+				// but allows autocorrection for eg FromBase[2,101010]
+				cons.setSuppressLabelCreation(true);
 
-			// resolve arguments to get GeoElements
-			ExpressionNode[] argE = c.getArguments();
-			GeoElement[] arg = new GeoElement[2];
+				// resolve arguments to get GeoElements
+				ExpressionNode[] argE = c.getArguments();
+				GeoElement[] arg = new GeoElement[2];
 
-			argE[1].resolveVariables(info.withLabels(false));
-			arg[1] = resArg(argE[1], argInfo);
-			if (!(arg[1] instanceof GeoNumberValue)) {
-				throw argErr(c, arg[1]);
-			}
-			String str = argE[0].toString(StringTemplate.defaultTemplate);
-			try {
-				argE[0].resolveVariables(info.withLabels(false));
-				arg[0] = resArg(argE[0], argInfo);
-			} catch (Throwable expected) {
-				// do nothing
-			}
-			if (!(arg[0] instanceof GeoText)) {
-				arg[0] = new GeoText(kernel.getConstruction(), str);
-			}
+				argE[1].resolveVariables(info.withLabels(false));
+				arg[1] = resArg(argE[1], argInfo);
+				if (!(arg[1] instanceof GeoNumberValue)) {
+					throw argErr(c, arg[1]);
+				}
+				String str = argE[0].toString(StringTemplate.defaultTemplate);
+				try {
+					argE[0].resolveVariables(info.withLabels(false));
+					arg[0] = resArg(argE[0], argInfo);
+				} catch (Throwable expected) {
+					// do nothing
+				}
+				if (!(arg[0] instanceof GeoText)) {
+					arg[0] = new GeoText(kernel.getConstruction(), str);
+				}
 
-			cons.setSuppressLabelCreation(oldMacroMode);
+				cons.setSuppressLabelCreation(oldMacroMode);
 
-			AlgoFromBase fromBase = new AlgoFromBase(cons, c.getLabel(),
-					(GeoText) arg[0], (GeoNumberValue) arg[1]);
+				AlgoFromBase fromBase =
+						new AlgoFromBase(cons, c.getLabel(), (GeoText) arg[0], (GeoNumberValue) arg[1]);
 
-			GeoElement[] ret = { fromBase.getResult() };
-			return ret;
+				GeoElement[] ret = {fromBase.getResult()};
+				return ret;
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

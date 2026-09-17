@@ -36,10 +36,10 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
+ *
  * Integral[ f(x,y), &lt;Point&gt; ] Integral[ SlopeField, &lt;Point&gt; ] based
  * on AlgoSolveODE
- * 
+ *
  * @author michael
  *
  */
@@ -59,8 +59,8 @@ public class AlgoIntegralODE extends AlgoElement {
 	private boolean quotient;
 	private ArrayList<MyPoint> al;
 
-	final private static double step = 0.02;
-	final private static int n = 20;
+	private static final double step = 0.02;
+	private static final int n = 20;
 
 	/**
 	 * @param cons
@@ -72,8 +72,7 @@ public class AlgoIntegralODE extends AlgoElement {
 	 * @param p
 	 *            Point
 	 */
-	public AlgoIntegralODE(Construction cons, String label, GeoElement geo,
-			GeoPoint p) {
+	public AlgoIntegralODE(Construction cons, String label, GeoElement geo, GeoPoint p) {
 		super(cons);
 		this.geo = geo;
 		this.p = p;
@@ -89,8 +88,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		} // else leave f0 = null
 
 		numAlgo = new AlgoNumeratorDenominatorFun(cons, f0, Commands.Numerator);
-		denAlgo = new AlgoNumeratorDenominatorFun(cons, f0,
-				Commands.Denominator);
+		denAlgo = new AlgoNumeratorDenominatorFun(cons, f0, Commands.Denominator);
 		cons.removeFromConstructionList(numAlgo);
 		cons.removeFromConstructionList(denAlgo);
 
@@ -149,17 +147,14 @@ public class AlgoIntegralODE extends AlgoElement {
 			EuclidianView view = kernel.getApplication().getEuclidianView1();
 
 			if (view.isVisibleInThisView(locus)) {
-				xmax = Math.max(xmax,
-						view.toRealWorldCoordX(view.getWidth()));
+				xmax = Math.max(xmax, view.toRealWorldCoordX(view.getWidth()));
 				xmin = Math.min(xmin, view.toRealWorldCoordX(0));
 			}
 
 			if (kernel.getApplication().hasEuclidianView2(1)) {
-				EuclidianView view2 = kernel.getApplication()
-						.getEuclidianView2(1);
+				EuclidianView view2 = kernel.getApplication().getEuclidianView2(1);
 				if (view2.isVisibleInThisView(locus)) {
-					xmax = Math.max(xmax,
-							view2.toRealWorldCoordX(view.getWidth()));
+					xmax = Math.max(xmax, view2.toRealWorldCoordX(view.getWidth()));
 					xmin = Math.min(xmin, view2.toRealWorldCoordX(0));
 				}
 			}
@@ -177,8 +172,7 @@ public class AlgoIntegralODE extends AlgoElement {
 			al.clear();
 		}
 
-		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(
-				step);
+		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(step);
 		FirstOrderDifferentialEquations ode;
 
 		if (!quotient) {
@@ -191,10 +185,10 @@ public class AlgoIntegralODE extends AlgoElement {
 
 		al.add(new MyPoint(p.inhomX, p.inhomY, SegmentType.MOVE_TO));
 
-		double[] yy = new double[] { p.inhomY }; // initial state
-		double[] yy2 = new double[] { p.inhomX, p.inhomY }; // initial state
-		double[] yya = new double[] { p.inhomY }; // initial state
-		double[] yy2a = new double[] { p.inhomX, p.inhomY }; // initial state
+		double[] yy = new double[] {p.inhomY}; // initial state
+		double[] yy2 = new double[] {p.inhomX, p.inhomY}; // initial state
+		double[] yya = new double[] {p.inhomY}; // initial state
+		double[] yy2a = new double[] {p.inhomX, p.inhomY}; // initial state
 		if (!quotient) {
 
 			if (p.inhomX < xmax) {
@@ -215,7 +209,6 @@ public class AlgoIntegralODE extends AlgoElement {
 				} catch (Exception e) {
 					Log.debug(e);
 				}
-
 			}
 		} else {
 
@@ -250,7 +243,7 @@ public class AlgoIntegralODE extends AlgoElement {
 
 		@Override
 		public void init(double t0, double[] y0, double t) {
-			//Log.error("unimplemented");
+			// Log.error("unimplemented");
 		}
 	};
 
@@ -270,7 +263,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double[] input = { t, y[0] };
+			double[] input = {t, y[0]};
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[y, x(A), y(A), 5, 0.1]
@@ -280,7 +273,6 @@ public class AlgoIntegralODE extends AlgoElement {
 				yDot[0] = f.evaluate(input);
 			}
 		}
-
 	}
 
 	private static final class ODE2 implements FirstOrderDifferentialEquations {
@@ -301,12 +293,11 @@ public class AlgoIntegralODE extends AlgoElement {
 		@Override
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double[] input = { y[0], y[1] };
+			double[] input = {y[0], y[1]};
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
-			if (y1 instanceof GeoFunction
-					&& ((GeoFunction) y1).isFunctionOfY()) {
+			if (y1 instanceof GeoFunction && ((GeoFunction) y1).isFunctionOfY()) {
 				yDot[0] = ((GeoFunction) y1).value(y[1]);
 			} else {
 				yDot[0] = y1.evaluate(input);
@@ -314,14 +305,12 @@ public class AlgoIntegralODE extends AlgoElement {
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-x, y, x(A), y(A), 5, 0.1]
-			if (y0 instanceof GeoFunction
-					&& ((GeoFunction) y0).isFunctionOfY()) {
+			if (y0 instanceof GeoFunction && ((GeoFunction) y0).isFunctionOfY()) {
 				yDot[1] = ((GeoFunction) y0).value(y[1]);
 			} else {
 				yDot[1] = y0.evaluate(input);
 			}
 		}
-
 	}
 
 	@Override
@@ -349,5 +338,4 @@ public class AlgoIntegralODE extends AlgoElement {
 			al.add(new MyPoint(y[0], y[1], SegmentType.LINE_TO));
 		}
 	}
-
 }

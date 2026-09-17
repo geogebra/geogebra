@@ -67,16 +67,14 @@ public class IntervalNotation {
 
 			if (leftAngleBracketExists) {
 				while (leftAngleBracketExists) {
-					int start = tokens[i].indexOf('<',
-							lastAngleBracketPosition);
+					int start = tokens[i].indexOf('<', lastAngleBracketPosition);
 					int end = tokens[i].indexOf('>', start);
 					String intervalString = tokens[i].substring(start + 1, end);
 					byte intervalValue = 0;
 					try {
 						intervalValue = Byte.valueOf(intervalString);
 					} catch (NumberFormatException e) {
-						throw new JFugueException(JFugueException.EXPECTED_BYTE,
-								intervalString, tokens[i]);
+						throw new JFugueException(JFugueException.EXPECTED_BYTE, intervalString, tokens[i]);
 					}
 
 					buddy.append("[");
@@ -84,19 +82,17 @@ public class IntervalNotation {
 					buddy.append("]");
 
 					lastAngleBracketPosition = end;
-					int nextLeftAngleBracketPosition = tokens[i].indexOf('<',
-							lastAngleBracketPosition - 1);
+					int nextLeftAngleBracketPosition = tokens[i].indexOf('<', lastAngleBracketPosition - 1);
 					if (nextLeftAngleBracketPosition == -1) {
-						buddy.append(tokens[i].substring(end + 1,
-								tokens[i].length())); // Add the rest of the
-														// token
+						buddy.append(tokens[i].substring(end + 1, tokens[i].length())); // Add the rest of the
+						// token
 						leftAngleBracketExists = false;
 					} else {
-						buddy.append(tokens[i].substring(end + 1,
-								nextLeftAngleBracketPosition)); // Add the rest
-																// of the token
-																// up to the
-																// next angle
+						buddy.append(
+								tokens[i].substring(end + 1, nextLeftAngleBracketPosition)); // Add the rest
+						// of the token
+						// up to the
+						// next angle
 						leftAngleBracketExists = true;
 					}
 				}
@@ -107,6 +103,5 @@ public class IntervalNotation {
 		}
 
 		return new Pattern(buddy.toString());
-
 	}
 }

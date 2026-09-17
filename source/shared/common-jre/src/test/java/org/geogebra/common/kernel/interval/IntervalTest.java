@@ -45,16 +45,12 @@ class IntervalTest {
 
 	@Test
 	void testAdd() {
-		assertEquals(interval(1, 9),
-				interval(-3, 2)
-						.add(interval(4, 7)));
+		assertEquals(interval(1, 9), interval(-3, 2).add(interval(4, 7)));
 	}
 
 	@Test
 	void testSub() {
-		assertEquals(interval(-5, 5),
-				interval(-1, 3)
-						.subtract(interval(-2, 4)));
+		assertEquals(interval(-5, 5), interval(-1, 3).subtract(interval(-2, 4)));
 	}
 
 	@Test
@@ -158,7 +154,6 @@ class IntervalTest {
 
 	@Test
 	void testHashCode() {
-		assertEquals(Objects.hash(1d, 2d),
-				interval(1, 2).hashCode());
+		assertEquals(Objects.hash(1d, 2d), interval(1, 2).hashCode());
 	}
 }

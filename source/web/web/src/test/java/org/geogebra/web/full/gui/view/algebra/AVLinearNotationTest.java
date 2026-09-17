@@ -140,7 +140,8 @@ public class AVLinearNotationTest {
 	}
 
 	private String getTextForLinearNotationItem(String label) {
-		return app.getAlgebraView().getNode(app.getKernel().lookupLabel(label))
+		return app.getAlgebraView()
+				.getNode(app.getKernel().lookupLabel(label))
 				.getTextForEditing(false, StringTemplate.linearNotation);
 	}
 }

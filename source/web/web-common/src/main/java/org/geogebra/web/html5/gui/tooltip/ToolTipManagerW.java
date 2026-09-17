@@ -63,8 +63,7 @@ public final class ToolTipManagerW {
 		}
 	}
 
-	private void createSnackbar(AppW appW, ToolTip toolTip,
-			int showDuration) {
+	private void createSnackbar(AppW appW, ToolTip toolTip, int showDuration) {
 		if (snackbar != null) {
 			appW.getAppletFrame().remove(snackbar);
 		}
@@ -99,8 +98,8 @@ public final class ToolTipManagerW {
 	 */
 	public void showBottomMessage(String text, AppW appW, ToolTip.Role role) {
 		blockToolTip = false;
-		showBottomInfoToolTip(new ToolTip(text, role), appW,
-				ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
+		showBottomInfoToolTip(
+				new ToolTip(text, role), appW, ComponentSnackbar.DEFAULT_TOOLTIP_DURATION);
 		blockToolTip = true;
 	}
 

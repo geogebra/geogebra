@@ -39,8 +39,8 @@ public class EvaluateInputTest {
 		when(item.getApplication()).thenReturn(app);
 		when(app.getKernel()).thenReturn(kernel);
 
-		EvaluateInput evaluateInput = new EvaluateInput(item, controller,
-				mock(GeoSelectionCallback.class));
+		EvaluateInput evaluateInput =
+				new EvaluateInput(item, controller, mock(GeoSelectionCallback.class));
 		evaluateInput.evaluationCallback(false).callback(null);
 
 		verify(item).removeOutput();

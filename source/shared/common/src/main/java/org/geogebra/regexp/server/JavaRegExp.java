@@ -104,20 +104,20 @@ public final class JavaRegExp implements RegExp {
 		int javaPatternFlags = Pattern.UNIX_LINES;
 		for (char flag : parseFlags(flags)) {
 			switch (flag) {
-			case 'g':
-				globalFlag = true;
-				break;
+				case 'g':
+					globalFlag = true;
+					break;
 
-			case 'i':
-				javaPatternFlags |= Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE;
-				break;
+				case 'i':
+					javaPatternFlags |= Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE;
+					break;
 
-			case 'm':
-				javaPatternFlags |= Pattern.MULTILINE;
-				break;
+				case 'm':
+					javaPatternFlags |= Pattern.MULTILINE;
+					break;
 
-			default:
-				throw new IllegalArgumentException("Unknown regexp flag: '" + flag + "'");
+				default:
+					throw new IllegalArgumentException("Unknown regexp flag: '" + flag + "'");
 			}
 		}
 
@@ -138,8 +138,7 @@ public final class JavaRegExp implements RegExp {
 		for (int flagIndex = 0; flagIndex < flags.length(); flagIndex++) {
 			char flag = flags.charAt(flagIndex);
 			if (!flagsSet.add(flag)) {
-				throw new IllegalArgumentException("Flag cannot be specified twice: '"
-						+ flag + "'");
+				throw new IllegalArgumentException("Flag cannot be specified twice: '" + flag + "'");
 			}
 		}
 		return flagsSet;
@@ -229,15 +228,13 @@ public final class JavaRegExp implements RegExp {
 	public String replace(String input, String replacementRaw) {
 		// Replace \ in the replacement with \\ to escape it for Java replace.
 		String replacement =
-				REPLACEMENT_BACKSLASH.matcher(replacementRaw)
-						.replaceAll(REPLACEMENT_BACKSLASH_FOR_JAVA);
+				REPLACEMENT_BACKSLASH.matcher(replacementRaw).replaceAll(REPLACEMENT_BACKSLASH_FOR_JAVA);
 
 		// Replace the Javascript-ese $& in the replacement with Java-ese $0, but
 		// watch out for $$&, which should stay $$&, to be changed to \$& below.
-		replacement =
-				REPLACEMENT_DOLLAR_AMPERSAND
-						.matcher(replacement)
-						.replaceAll(REPLACEMENT_DOLLAR_AMPERSAND_FOR_JAVA);
+		replacement = REPLACEMENT_DOLLAR_AMPERSAND
+				.matcher(replacement)
+				.replaceAll(REPLACEMENT_DOLLAR_AMPERSAND_FOR_JAVA);
 
 		// Test for Javascript-ese $` and $', which we do not support in the pure
 		// Java version.
@@ -246,10 +243,9 @@ public final class JavaRegExp implements RegExp {
 		}
 
 		// Replace the Javascript-ese $$ in the replacement with Java-ese \$.
-		replacement =
-				REPLACEMENT_DOLLAR_DOLLAR
-						.matcher(replacement)
-						.replaceAll(REPLACEMENT_DOLLAR_DOLLAR_FOR_JAVA);
+		replacement = REPLACEMENT_DOLLAR_DOLLAR
+				.matcher(replacement)
+				.replaceAll(REPLACEMENT_DOLLAR_DOLLAR_FOR_JAVA);
 
 		return globalFlag
 				? pattern.matcher(input).replaceAll(replacement)

@@ -23,7 +23,7 @@ package org.geogebra.common.move.views;
 public interface BooleanRenderable {
 	/**
 	 * renders the given view
-	 * 
+	 *
 	 * @param b
 	 *            true for online, false for offline
 	 */

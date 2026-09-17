@@ -31,7 +31,7 @@ public class CmdPartialFractions extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,26 +40,26 @@ public class CmdPartialFractions extends CommandProcessor implements UsesCAS {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0] instanceof CasEvaluableFunction) {
+			case 1:
+				if (arg[0] instanceof CasEvaluableFunction) {
 
-				AlgoPartialFractions algo = new AlgoPartialFractions(cons,
-						c.getLabel(), (CasEvaluableFunction) arg[0], info);
+					AlgoPartialFractions algo =
+							new AlgoPartialFractions(cons, c.getLabel(), (CasEvaluableFunction) arg[0], info);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
 			// more than one argument
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

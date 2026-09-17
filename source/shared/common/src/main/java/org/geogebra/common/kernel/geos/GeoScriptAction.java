@@ -35,7 +35,7 @@ public class GeoScriptAction extends GeoElement {
 
 	/**
 	 * Creates new script action
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -45,7 +45,7 @@ public class GeoScriptAction extends GeoElement {
 
 	/**
 	 * Creates new script action
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param cmdScripting
@@ -53,8 +53,7 @@ public class GeoScriptAction extends GeoElement {
 	 * @param command
 	 *            command to be processed
 	 */
-	public GeoScriptAction(Construction cons, CmdScripting cmdScripting,
-			Command command) {
+	public GeoScriptAction(Construction cons, CmdScripting cmdScripting, Command command) {
 		this(cons);
 		action = cmdScripting;
 		this.command = command;
@@ -70,7 +69,6 @@ public class GeoScriptAction extends GeoElement {
 		GeoScriptAction n = new GeoScriptAction(cons);
 		n.set(this);
 		return n;
-
 	}
 
 	@Override
@@ -109,8 +107,8 @@ public class GeoScriptAction extends GeoElement {
 
 	@Override
 	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
-		return ExtendedBoolean.newExtendedBoolean(geo instanceof GeoScriptAction
-				&& action == ((GeoScriptAction) geo).action);
+		return ExtendedBoolean.newExtendedBoolean(
+				geo instanceof GeoScriptAction && action == ((GeoScriptAction) geo).action);
 	}
 
 	/**
@@ -124,7 +122,7 @@ public class GeoScriptAction extends GeoElement {
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return HitType.NONE;
 	}
 
@@ -132,5 +130,4 @@ public class GeoScriptAction extends GeoElement {
 	public ValueType getValueType() {
 		return ValueType.VOID;
 	}
-
 }

@@ -65,7 +65,8 @@ public final class FactorOutGCDFromSurd implements SimplifyNode {
 		}
 
 		if (node.isOperation(Operation.DIVIDE)
-				&& isAccepted(node.getLeftTree()) && isAccepted(node.getRightTree())) {
+				&& isAccepted(node.getLeftTree())
+				&& isAccepted(node.getRightTree())) {
 			return NodeType.FRACTION;
 		}
 
@@ -93,22 +94,18 @@ public final class FactorOutGCDFromSurd implements SimplifyNode {
 	public ExpressionNode apply(ExpressionNode node) {
 		NodeType nodeType = getNodeType(node);
 		switch (nodeType) {
-		case FRACTION:
-			ExpressionNode left = apply(node.getLeftTree());
-			ExpressionNode right = apply(node.getRightTree());
-			return left != null && right != null
-					? utils.div(left, right)
-					: node;
-		case SURD_ADDITION:
-			return factorOutPlusOrMinusNode(node);
-		case MULTIPLIED:
-			ExpressionNode expressionNode =
-					factorOutMultiplied(node.getLeftTree(), node.getRightTree());
-			return expressionNode != null
-					? expressionNode
-					: node;
-		default:
-			return node;
+			case FRACTION:
+				ExpressionNode left = apply(node.getLeftTree());
+				ExpressionNode right = apply(node.getRightTree());
+				return left != null && right != null ? utils.div(left, right) : node;
+			case SURD_ADDITION:
+				return factorOutPlusOrMinusNode(node);
+			case MULTIPLIED:
+				ExpressionNode expressionNode =
+						factorOutMultiplied(node.getLeftTree(), node.getRightTree());
+				return expressionNode != null ? expressionNode : node;
+			default:
+				return node;
 		}
 	}
 
@@ -127,8 +124,8 @@ public final class FactorOutGCDFromSurd implements SimplifyNode {
 					return node1;
 				}
 
-				return utils.multiplyR(node1.getRightTree(),
-						leftTree.evaluateDouble() * node1.getLeft().evaluateDouble());
+				return utils.multiplyR(
+						node1.getRightTree(), leftTree.evaluateDouble() * node1.getLeft().evaluateDouble());
 			}
 		}
 		return null;
@@ -136,7 +133,7 @@ public final class FactorOutGCDFromSurd implements SimplifyNode {
 
 	private boolean hasOnlyOnePlusOrMinus(ExpressionNode node) {
 		int count = 0;
-		for (ExpressionValue value: node) {
+		for (ExpressionValue value : node) {
 			if (value.isOperation(Operation.PLUS) || value.isOperation(Operation.MINUS)) {
 				count++;
 			}

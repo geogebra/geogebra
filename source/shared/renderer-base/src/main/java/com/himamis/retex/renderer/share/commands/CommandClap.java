@@ -10,5 +10,4 @@ public class CommandClap extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new LapedAtom(a, 'c');
 	}
-
 }

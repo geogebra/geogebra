@@ -49,7 +49,7 @@ public class AlgoSplit extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{inputText, splitList};
+		input = new GeoElement[] {inputText, splitList};
 		setOnlyOutput(outputList);
 		setDependencies();
 	}

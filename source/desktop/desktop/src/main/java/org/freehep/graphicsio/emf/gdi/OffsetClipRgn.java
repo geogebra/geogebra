@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * OffsetClipRgn TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: OffsetClipRgn.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class OffsetClipRgn extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		OffsetClipRgn tag = new OffsetClipRgn(emf.readPOINTL());
 		return tag;

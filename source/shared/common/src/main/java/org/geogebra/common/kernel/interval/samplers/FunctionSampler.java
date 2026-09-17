@@ -49,15 +49,14 @@ public class FunctionSampler implements IntervalFunctionSampler {
 		this(data, null, domain, numberOfSamples);
 	}
 
-	private FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds, Interval domain,
-			int numberOfSamples) {
+	private FunctionSampler(
+			IntervalFunctionData data, EuclidianViewBounds bounds, Interval domain, int numberOfSamples) {
 		this.bounds = bounds;
 		this.numberOfSamples = numberOfSamples;
 		this.data = data;
 		this.space = createSpaceOn(domain);
 		function = data.getFunction();
 		extend(domain);
-
 	}
 
 	private DiscreteSpace createSpaceOn(Interval domain) {
@@ -71,7 +70,7 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	public FunctionSampler(IntervalFunctionData data, EuclidianViewBounds bounds) {
 		this(data, bounds, bounds.domain(), -1);
 	}
-	
+
 	@Override
 	public IntervalTupleList tuples() {
 		return data.tuples();
@@ -94,8 +93,8 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	}
 
 	private void extendDataBothSide(Interval domain) {
-		space.extend(domain, x -> data.prepend(x, function.value(x)),
-				x -> data.append(x, function.value(x)));
+		space.extend(
+				domain, x -> data.prepend(x, function.value(x)), x -> data.append(x, function.value(x)));
 	}
 
 	@Override
@@ -126,5 +125,4 @@ public class FunctionSampler implements IntervalFunctionSampler {
 	private boolean hasBounds() {
 		return bounds != null;
 	}
-
 }

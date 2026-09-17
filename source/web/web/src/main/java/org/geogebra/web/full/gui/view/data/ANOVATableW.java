@@ -38,14 +38,12 @@ public final class ANOVATableW extends BasicStatTableW {
 		super(app, statDialog, false);
 		setModel(new ANOVAStatTableModel(app, this));
 		setStyleName("daANNOVA");
-		
 	}
 
 	@Override
 	protected void initStatTable() {
 		statTable = new StatTableW();
-		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
-				COLUMN_COUNT, getColumnNames());
+		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(), COLUMN_COUNT, getColumnNames());
 		clear();
 		add(statTable);
 	}
@@ -62,8 +60,7 @@ public final class ANOVATableW extends BasicStatTableW {
 	@Override
 	public void updatePanel() {
 		GeoList dataList = daView.getController().getDataSelected();
-		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
-				COLUMN_COUNT, getColumnNames());
+		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(), COLUMN_COUNT, getColumnNames());
 
 		AnovaStats stats = ANOVAStatTableModel.getStatsSilent(dataList);
 		if (stats != null) {
@@ -88,5 +85,4 @@ public final class ANOVATableW extends BasicStatTableW {
 			statTable.setValueAt(daView.format(stats.getP()), 0, 5);
 		}
 	}
-
 }

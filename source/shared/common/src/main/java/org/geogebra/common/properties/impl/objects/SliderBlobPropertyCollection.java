@@ -36,13 +36,16 @@ public class SliderBlobPropertyCollection extends AbstractPropertyCollection<Pro
 	 * @param elements list of GeoElements to create properties for
 	 * @throws NotApplicablePropertyException if the property is not applicable to the elements
 	 */
-	public SliderBlobPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> elements)
+	public SliderBlobPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "Point");
-		Property property = propertiesFactory.createPropertyFacadeThrowing(elements,
+		Property property = propertiesFactory.createPropertyFacadeThrowing(
+				elements,
 				(element) -> new SliderBlobSizeProperty(localization, element),
 				RangePropertyListFacade::new);
-		setProperties(new Property[]{property});
+		setProperties(new Property[] {property});
 	}
 }

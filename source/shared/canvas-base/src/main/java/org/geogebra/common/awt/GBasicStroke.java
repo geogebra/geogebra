@@ -59,5 +59,4 @@ public interface GBasicStroke {
 	 * @return dashed line pattern
 	 */
 	double[] getDashArray();
-
 }

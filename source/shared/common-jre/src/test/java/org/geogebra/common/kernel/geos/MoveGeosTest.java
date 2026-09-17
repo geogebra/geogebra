@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.geos;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -81,8 +81,8 @@ class MoveGeosTest extends BaseUnitTest {
 		GeoList list = add("{Line(A, B)}");
 		moveListDownRightByUnit(list);
 		assertThat(list, hasValue("{-x + 3y = 7}"));
-		assertArrayEquals(new double[]{2, 3}, A.getInhomCoords().get());
-		assertArrayEquals(new double[]{5, 4}, B.getInhomCoords().get());
+		assertArrayEquals(new double[] {2, 3}, A.getInhomCoords().get());
+		assertArrayEquals(new double[] {5, 4}, B.getInhomCoords().get());
 	}
 
 	@Test
@@ -90,9 +90,9 @@ class MoveGeosTest extends BaseUnitTest {
 	void testMovingDependentList3() {
 		GeoList list = add("Sequence(Text(k,(k,k)),k,1,5)");
 		GeoPointND startPoint = ((GeoText) list.get(0)).getStartPoint();
-		assertArrayEquals(new double[]{1, 1}, startPoint.getInhomCoords().get());
+		assertArrayEquals(new double[] {1, 1}, startPoint.getInhomCoords().get());
 		moveListDownRightByUnit(list);
-		assertArrayEquals(new double[]{1, 1}, startPoint.getInhomCoords().get());
+		assertArrayEquals(new double[] {1, 1}, startPoint.getInhomCoords().get());
 	}
 
 	@Test
@@ -115,14 +115,18 @@ class MoveGeosTest extends BaseUnitTest {
 		GeoPoint B = add("B=(6, 6)");
 		GeoList list = add("{Segment(A, B)}");
 		moveListDownRightByUnit(list);
-		assertArrayEquals(new double[]{6, 7}, A.getInhomCoords().get());
-		assertArrayEquals(new double[]{7, 7}, B.getInhomCoords().get());
+		assertArrayEquals(new double[] {6, 7}, A.getInhomCoords().get());
+		assertArrayEquals(new double[] {7, 7}, B.getInhomCoords().get());
 	}
 
 	private void moveListDownRightByUnit(GeoList list) {
 		Coords dummyCoords = new Coords(7, 7, 7);
-		MoveGeos.moveObjects(Collections.singletonList(list), new Coords(1, 1, 0),
-				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
+		MoveGeos.moveObjects(
+				Collections.singletonList(list),
+				new Coords(1, 1, 0),
+				dummyCoords,
+				dummyCoords,
+				getApp().getActiveEuclidianView());
 	}
 
 	@Test
@@ -145,9 +149,8 @@ class MoveGeosTest extends BaseUnitTest {
 
 	@Test
 	void testEllipseInListWithoutPoint() {
-		shouldValueBeEqualAfterMove("{Ellipse((-1, 0), (0, 0), (0, 1))}",
-				"19.31x² + 23.31y² - 19.31x - 46.63y = 0");
-
+		shouldValueBeEqualAfterMove(
+				"{Ellipse((-1, 0), (0, 0), (0, 1))}", "19.31x² + 23.31y² - 19.31x - 46.63y = 0");
 	}
 
 	@Test
@@ -155,9 +158,9 @@ class MoveGeosTest extends BaseUnitTest {
 		GeoList list = add("{Polygon((-1, 0), (1, 0), (0, 1))}");
 		moveListDownRightByUnit(list);
 		GeoElement element = list.get(0);
-		assertThat(element.getDefinition(StringTemplate.defaultTemplate),
+		assertThat(
+				element.getDefinition(StringTemplate.defaultTemplate),
 				is("Polygon((0, 1), (2, 1), (1, 2))"));
-
 	}
 
 	@Test
@@ -250,7 +253,11 @@ class MoveGeosTest extends BaseUnitTest {
 
 	private void moveByArrowKey(GeoElement geo) {
 		Coords dummyCoords = new Coords(7, 7, 7);
-		MoveGeos.moveObjects(Collections.singletonList(geo), new Coords(1, 1, 0),
-				dummyCoords, dummyCoords, getApp().getActiveEuclidianView());
+		MoveGeos.moveObjects(
+				Collections.singletonList(geo),
+				new Coords(1, 1, 0),
+				dummyCoords,
+				dummyCoords,
+				getApp().getActiveEuclidianView());
 	}
 }

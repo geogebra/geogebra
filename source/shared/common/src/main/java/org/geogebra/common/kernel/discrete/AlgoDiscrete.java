@@ -27,10 +27,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 	/** input points */
 	protected GeoList inputList;
@@ -75,5 +74,4 @@ public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 	public GeoLocus getResult() {
 		return locus;
 	}
-
 }

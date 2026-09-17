@@ -31,7 +31,7 @@ import org.gwtproject.user.client.ui.Label;
 /**
  * Panel containing a slider.
  */
-public final class SliderPanelW extends FlowPanel implements HasDataTest  {
+public final class SliderPanelW extends FlowPanel implements HasDataTest {
 
 	private final SliderW slider;
 	private final Label minLabel;
@@ -71,7 +71,7 @@ public final class SliderPanelW extends FlowPanel implements HasDataTest  {
 
 	/**
 	 * disable slider
-	 * 
+	 *
 	 * @param disable
 	 *            true if slider should be disabled
 	 */
@@ -95,8 +95,8 @@ public final class SliderPanelW extends FlowPanel implements HasDataTest  {
 
 	private void printParts(Label label, double val, boolean degrees) {
 		if (degrees) {
-			label.setText(kernel.formatAngle(val, null,
-					StringTemplate.defaultTemplate, true).toString());
+			label.setText(
+					kernel.formatAngle(val, null, StringTemplate.defaultTemplate, true).toString());
 			return;
 		}
 		parts = StringTemplate.printLimitedWidth(val, kernel, parts);
@@ -108,7 +108,6 @@ public final class SliderPanelW extends FlowPanel implements HasDataTest  {
 			exponent.setInnerText(parts[1]);
 			label.getElement().appendChild(exponent);
 		}
-
 	}
 
 	/**
@@ -145,13 +144,12 @@ public final class SliderPanelW extends FlowPanel implements HasDataTest  {
 
 	/**
 	 * Resize slider to fit the panel width.
-	 * 
+	 *
 	 * @param width
 	 *            panel width
 	 */
 	public void setWidth(double width) {
-		double w = width - minLabel.getOffsetWidth()
-				- maxLabel.getOffsetWidth();
+		double w = width - minLabel.getOffsetWidth() - maxLabel.getOffsetWidth();
 		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
 	}
 

@@ -61,12 +61,7 @@ class PathComponentTest extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@CsvSource({
-			"lnx",
-			"-1/sqrt(ln(x))",
-			"(x^2)^2",
-			"x^(2^2)"
-	})
+	@CsvSource({"lnx", "-1/sqrt(ln(x))", "(x^2)^2", "x^(2^2)"})
 	void functionsThrowNoExceptions(String definition) {
 		withBounds(5.0, 8.0, 5, 5);
 		withScreenSize(500, 500);

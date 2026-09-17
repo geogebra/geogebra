@@ -31,9 +31,9 @@ import jsinterop.base.JsPropertyMap;
 
 /**
  * API Interface for GeoGebraTube requests and responses
- * 
+ *
  * @author Matthias Meisinger
- * 
+ *
  */
 public final class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
@@ -45,31 +45,29 @@ public final class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param articleElement
 	 *            parameters
 	 */
-	public GeoGebraTubeAPIW(ClientInfo client, boolean beta,
-			AppletParameters articleElement) {
+	public GeoGebraTubeAPIW(ClientInfo client, boolean beta, AppletParameters articleElement) {
 		super(beta, articleElement);
 		this.client = client;
 	}
 
 	/**
 	 * Copies the user data from the API response to this user.
-	 * 
+	 *
 	 * @return true if the data could be parsed successfully, false otherwise
 	 */
 	@Override
-	public boolean parseUserDataFromResponse(GeoGebraTubeUser user,
-			String result) {
+	public boolean parseUserDataFromResponse(GeoGebraTubeUser user, String result) {
 		try {
 			JsPropertyMap<Object> parsedResult = Js.asPropertyMap(JSON.parse(result));
-			JsPropertyMap<Object> responses = parsedResult == null ? null
-					: Js.asPropertyMap(parsedResult.get("responses"));
+			JsPropertyMap<Object> responses =
+					parsedResult == null ? null : Js.asPropertyMap(parsedResult.get("responses"));
 			if (responses == null) {
 				return false;
 			}
 			JsPropertyMap<Object> response = Js.asPropertyMap(
 					Objects.requireNonNull(Js.asArrayLike(responses.get("response"))).getAt(0));
-			JsPropertyMap<Object> userinfo = Objects.requireNonNull(Js.asPropertyMap(
-					Objects.requireNonNull(response).get("userinfo")));
+			JsPropertyMap<Object> userinfo = Objects.requireNonNull(
+					Js.asPropertyMap(Objects.requireNonNull(response).get("userinfo")));
 
 			user.setUserId(Js.coerceToInt(userinfo.get("user_id")));
 			// "username" is real name by default, uses login as fallback

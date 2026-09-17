@@ -43,7 +43,8 @@ public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Ro
 
 	/** Rounding type */
 	enum RoundingType {
-		DECIMAL_PLACES, SIGNIFICANT_FIGURES
+		DECIMAL_PLACES,
+		SIGNIFICANT_FIGURES
 	}
 
 	public record Rounding(int value, RoundingType type) {
@@ -66,7 +67,7 @@ public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Ro
 		this.decimalPlaces = localization.getInputBoxDecimalPlaces();
 		this.significantFigures = localization.getSignificantFigures();
 		setNamedValues(getNamedValues());
-		setGroupDividerIndices(new int[]{decimalPlaces.length});
+		setGroupDividerIndices(new int[] {decimalPlaces.length});
 	}
 
 	@Override
@@ -89,8 +90,7 @@ public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Ro
 	}
 
 	private boolean isApplicable(GeoElement element) {
-		return element instanceof TextProperties
-				&& !element.isIndependent() && !element.isGeoList();
+		return element instanceof TextProperties && !element.isIndependent() && !element.isGeoList();
 	}
 
 	private List<Map.Entry<Rounding, String>> getNamedValues() {
@@ -102,12 +102,11 @@ public class InputBoxRoundingProperty extends AbstractNamedEnumeratedProperty<Ro
 					return entry(new Rounding(decimal, RoundingType.DECIMAL_PLACES), display);
 				});
 
-		Stream<Map.Entry<Rounding, String>> significant =
-				Arrays.stream(significantFigures).mapToObj(significantFigure -> {
-					String display = localization.getPlain("ASignificantFigures",
-							String.valueOf(significantFigure));
-					return entry(new Rounding(significantFigure, RoundingType.SIGNIFICANT_FIGURES),
-							display);
+		Stream<Map.Entry<Rounding, String>> significant = Arrays.stream(significantFigures)
+				.mapToObj(significantFigure -> {
+					String display =
+							localization.getPlain("ASignificantFigures", String.valueOf(significantFigure));
+					return entry(new Rounding(significantFigure, RoundingType.SIGNIFICANT_FIGURES), display);
 				});
 
 		return Stream.concat(decimals, significant).collect(Collectors.toUnmodifiableList());

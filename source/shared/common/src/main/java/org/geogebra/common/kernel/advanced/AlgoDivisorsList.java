@@ -47,8 +47,7 @@ public class AlgoDivisorsList extends AlgoElement {
 	 * @param number
 	 *            number
 	 */
-	public AlgoDivisorsList(Construction cons, String label,
-			GeoNumberValue number) {
+	public AlgoDivisorsList(Construction cons, String label, GeoNumberValue number) {
 		super(cons);
 		this.number = number;
 		factors = new AlgoPrimeFactorization(cons, number);
@@ -62,9 +61,8 @@ public class AlgoDivisorsList extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[] { number.toGeoElement() };
+		input = new GeoElement[] {number.toGeoElement()};
 		setDependencies();
-
 	}
 
 	@Override
@@ -89,7 +87,6 @@ public class AlgoDivisorsList extends AlgoElement {
 				power *= Math.round(prime);
 			}
 			oldLength = factList.size();
-
 		}
 		result.setDefined(true);
 		result.clear();
@@ -100,7 +97,6 @@ public class AlgoDivisorsList extends AlgoElement {
 		while (iterator.hasNext()) {
 			result.addNumber(iterator.next(), this);
 		}
-
 	}
 
 	@Override
@@ -111,5 +107,4 @@ public class AlgoDivisorsList extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
-
 }

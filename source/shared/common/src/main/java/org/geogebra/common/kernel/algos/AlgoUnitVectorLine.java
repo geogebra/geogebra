@@ -29,20 +29,18 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoUnitVectorLine extends AlgoUnitVector2D {
 
 	/** Creates new AlgoOrthoVectorLine */
-	public AlgoUnitVectorLine(Construction cons, GeoLineND g,
-			boolean normalize) {
+	public AlgoUnitVectorLine(Construction cons, GeoLineND g, boolean normalize) {
 		super(cons, (GeoElement) g, normalize);
 	}
 
 	@Override
-	final protected void setXY() {
+	protected final void setXY() {
 		x = ((GeoLine) inputGeo).y;
 		y = -((GeoLine) inputGeo).x;
 	}
 
 	@Override
-	final protected GeoPointND getInputStartPoint() {
+	protected final GeoPointND getInputStartPoint() {
 		return ((GeoLine) inputGeo).getStartPoint();
 	}
-
 }

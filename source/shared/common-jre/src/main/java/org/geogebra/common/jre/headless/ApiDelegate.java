@@ -30,8 +30,7 @@ public interface ApiDelegate {
 	 * @param ev view
 	 * @return base64 envcoded PNG
 	 */
-	String base64encodePNG(boolean transparent,
-			double dpi, double exportScale, EuclidianView ev);
+	String base64encodePNG(boolean transparent, double dpi, double exportScale, EuclidianView ev);
 
 	/**
 	 * Opens a .ggb file.

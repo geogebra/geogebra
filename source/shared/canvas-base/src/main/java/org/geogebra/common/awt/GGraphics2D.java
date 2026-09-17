@@ -29,15 +29,15 @@ public interface GGraphics2D {
 	 * current <code>Graphics2D</code> context. The rendering attributes applied
 	 * include the <code>Clip</code>, <code>Transform</code>, <code>Paint</code>
 	 * , <code>Composite</code> and <code>Stroke</code> attributes.
-	 * 
+	 *
 	 * @param s
 	 *            the <code>Shape</code> to be rendered
 	 * @see #setStroke
 	 * @see #setPaint
 	 * @see #setColor
 	 * @see #transform
-	 * 
-	 * 
+	 *
+	 *
 	 * @see #setClip(GShape)
 	 * @see #setComposite
 	 */
@@ -67,7 +67,7 @@ public interface GGraphics2D {
 	 * in script systems such as Hebrew and Arabic, the glyphs can be rendered
 	 * from right to left, in which case the coordinate supplied is the location
 	 * of the leftmost character on the baseline.
-	 * 
+	 *
 	 * @param str
 	 *            the string to be rendered
 	 * @param x
@@ -92,7 +92,7 @@ public interface GGraphics2D {
 	 * in script systems such as Hebrew and Arabic, the glyphs can be rendered
 	 * from right to left, in which case the coordinate supplied is the location
 	 * of the leftmost character on the baseline.
-	 * 
+	 *
 	 * @param str
 	 *            the <code>String</code> to be rendered
 	 * @param x
@@ -106,7 +106,7 @@ public interface GGraphics2D {
 	 * @see #setPaint
 	 * @see #setColor
 	 * @see #setFont
-	 * 
+	 *
 	 * @see #setComposite
 	 * @see #setClip(GShape)
 	 */
@@ -117,13 +117,13 @@ public interface GGraphics2D {
 	 * <code>Graphics2D</code> context. The rendering attributes applied include
 	 * the <code>Clip</code>, <code>Transform</code>, <code>Paint</code>, and
 	 * <code>Composite</code>.
-	 * 
+	 *
 	 * @param s
 	 *            the <code>Shape</code> to be filled
 	 * @see #setPaint
 	 * @see #setColor
 	 * @see #transform
-	 * 
+	 *
 	 * @see #setComposite
 	 * @see #setClip(GShape)
 	 */
@@ -142,7 +142,7 @@ public interface GGraphics2D {
 	 * <code>AlphaComposite</code> class, and if there is a security manager,
 	 * its <code>checkPermission</code> method is called with an
 	 * <code>AWTPermission("readDisplayPixels")</code> permission.
-	 * 
+	 *
 	 * @param comp
 	 *            the <code>Composite</code> object to be used for rendering
 	 * @throws SecurityException
@@ -160,7 +160,7 @@ public interface GGraphics2D {
 	 * context. Calling this method with a <code>null</code> <code>Paint</code>
 	 * object does not have any effect on the current <code>Paint</code>
 	 * attribute of this <code>Graphics2D</code>.
-	 * 
+	 *
 	 * @param paint
 	 *            the <code>Paint</code> object to be used to generate color
 	 *            during the rendering process, or <code>null</code>
@@ -172,7 +172,7 @@ public interface GGraphics2D {
 
 	/**
 	 * Sets the <code>Stroke</code> for the <code>Graphics2D</code> context.
-	 * 
+	 *
 	 * @param s
 	 *            the <code>Stroke</code> object to be used to stroke a
 	 *            <code>Shape</code> during the rendering process
@@ -186,7 +186,7 @@ public interface GGraphics2D {
 	 * time/quality trade-off in the rendering process. Refer to the
 	 * <code>RenderingHints</code> class for definitions of some common keys and
 	 * values.
-	 * 
+	 *
 	 * @param hintKey
 	 *            the key of the hint to be set.
 	 * @param hintValue
@@ -202,13 +202,13 @@ public interface GGraphics2D {
 	 * specified distance relative to the previous position. This is equivalent
 	 * to calling transform(T), where T is an <code>AffineTransform</code>
 	 * represented by the following matrix:
-	 * 
+	 *
 	 * <pre>
 	 *          [   1    0    tx  ]
 	 *          [   0    1    ty  ]
 	 *          [   0    0    1   ]
 	 * </pre>
-	 * 
+	 *
 	 * @param tx
 	 *            the distance to translate along the x-axis
 	 * @param ty
@@ -222,13 +222,13 @@ public interface GGraphics2D {
 	 * to the specified scaling factors relative to the previous scaling. This
 	 * is equivalent to calling <code>transform(S)</code>, where S is an
 	 * <code>AffineTransform</code> represented by the following matrix:
-	 * 
+	 *
 	 * <pre>
 	 *          [   sx   0    0   ]
 	 *          [   0    sy   0   ]
 	 *          [   0    0    1   ]
 	 * </pre>
-	 * 
+	 *
 	 * @param sx
 	 *            the amount by which X coordinates in subsequent rendering
 	 *            operations are multiplied relative to previous rendering
@@ -251,11 +251,11 @@ public interface GGraphics2D {
 	 * and then transforming the result by the original <code>Transform</code>
 	 * Cx. In other words, Cx'(p) = Cx(Tx(p)). A copy of the Tx is made, if
 	 * necessary, so further modifications to Tx do not affect rendering.
-	 * 
+	 *
 	 * @param Tx
 	 *            the <code>AffineTransform</code> object to be composed with
 	 *            the current <code>Transform</code>
-	 * 
+	 *
 	 * @see GAffineTransform
 	 */
 	void transform(GAffineTransform Tx);
@@ -263,7 +263,7 @@ public interface GGraphics2D {
 	/**
 	 * Returns the current <code>Composite</code> in the <code>Graphics2D</code>
 	 * context.
-	 * 
+	 *
 	 * @return the current <code>Graphics2D</code> <code>Composite</code>, which
 	 *         defines a compositing style.
 	 * @see #setComposite
@@ -272,7 +272,7 @@ public interface GGraphics2D {
 
 	/**
 	 * Returns the background color used for clearing a region.
-	 * 
+	 *
 	 * @return the current <code>Graphics2D</code> <code>Color</code>, which
 	 *         defines the background color.
 	 */
@@ -387,8 +387,7 @@ public interface GGraphics2D {
 	 * @param height height
 	 * @param saveContext whether the state of context should be saved before clipping
 	 */
-	void setClip(double x, double y, double width, double height,
-			boolean saveContext);
+	void setClip(double x, double y, double width, double height, boolean saveContext);
 
 	/**
 	 * Draws a round rectangle.
@@ -399,8 +398,7 @@ public interface GGraphics2D {
 	 * @param arcWidth vertical arc diameter (NOT radius)
 	 * @param arcHeight horizontal arc diameter (NOT radius)
 	 */
-	void drawRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight);
+	void drawRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
 
 	/**
 	 * Draw round rectangle.
@@ -413,10 +411,15 @@ public interface GGraphics2D {
 	 * @param arcWidth arc width in pixels
 	 * @param arcHeight arc height in pixels
 	 */
-	default void drawRoundRect(double x, double y, double width, double height,
-			double arcWidth, double arcHeight) {
-		drawRoundRect((int) Math.round(x), (int) Math.round(y), (int) Math.round(width),
-				(int) Math.round(height), (int) Math.round(arcWidth), (int) Math.round(arcHeight));
+	default void drawRoundRect(
+			double x, double y, double width, double height, double arcWidth, double arcHeight) {
+		drawRoundRect(
+				(int) Math.round(x),
+				(int) Math.round(y),
+				(int) Math.round(width),
+				(int) Math.round(height),
+				(int) Math.round(arcWidth),
+				(int) Math.round(arcHeight));
 	}
 
 	/**
@@ -430,10 +433,15 @@ public interface GGraphics2D {
 	 * @param arcWidth arc width in pixels
 	 * @param arcHeight arc height in pixels
 	 */
-	default void fillRoundRect(double x, double y, double width, double height,
-			double arcWidth, double arcHeight) {
-		fillRoundRect((int) Math.round(x), (int) Math.round(y), (int) Math.round(width),
-				(int) Math.round(height), (int) Math.round(arcWidth), (int) Math.round(arcHeight));
+	default void fillRoundRect(
+			double x, double y, double width, double height, double arcWidth, double arcHeight) {
+		fillRoundRect(
+				(int) Math.round(x),
+				(int) Math.round(y),
+				(int) Math.round(width),
+				(int) Math.round(height),
+				(int) Math.round(arcWidth),
+				(int) Math.round(arcHeight));
 	}
 
 	/**
@@ -447,8 +455,7 @@ public interface GGraphics2D {
 	 * @param arcWidth arc width in pixels
 	 * @param arcHeight arc height in pixels
 	 */
-	void fillRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight);
+	void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
 
 	/**
 	 * Turn on antialiasing.
@@ -464,8 +471,7 @@ public interface GGraphics2D {
 	 * @param needsInterpolationRenderingHint whether interpolation should be enabled
 	 * @return old interpolation hint
 	 */
-	Object setInterpolationHint(
-			boolean needsInterpolationRenderingHint);
+	Object setInterpolationHint(boolean needsInterpolationRenderingHint);
 
 	/**
 	 * Reset interpolation hint to value previously obtained from setInterpolationHint.
@@ -504,7 +510,7 @@ public interface GGraphics2D {
 
 	/**
 	 * add straight line to current general path
-	 * 
+	 *
 	 * @param x1
 	 *            first point x coordinate
 	 * @param y1
@@ -514,8 +520,7 @@ public interface GGraphics2D {
 	 * @param y2
 	 *            second point y coordinate
 	 */
-	void addStraightLineToGeneralPath(double x1, double y1,
-			double x2, double y2);
+	void addStraightLineToGeneralPath(double x1, double y1, double x2, double y2);
 
 	/**
 	 * end current general path and draw it
@@ -538,8 +543,7 @@ public interface GGraphics2D {
 	 * @param dy
 	 *            dest rect min y
 	 */
-	void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy, int dw, int dh);
+	void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx, int dy, int dw, int dh);
 
 	/**
 	 * @param img

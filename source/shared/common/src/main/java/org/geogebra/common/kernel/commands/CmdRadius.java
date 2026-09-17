@@ -30,7 +30,7 @@ public class CmdRadius extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,7 +39,7 @@ public class CmdRadius extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -48,10 +48,9 @@ public class CmdRadius extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0] instanceof GeoQuadricND) {
-				AlgoRadius algo = new AlgoRadius(cons,
-						(GeoQuadricND) arg[0]);
+				AlgoRadius algo = new AlgoRadius(cons, (GeoQuadricND) arg[0]);
 				algo.getRadius().setLabel(c.getLabel());
-				return new GeoElement[]{algo.getRadius()};
+				return new GeoElement[] {algo.getRadius()};
 			}
 			throw argErr(c, arg[0]);
 		}

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -71,8 +71,12 @@ import org.geogebra.editor.share.util.Unicode;
  */
 @SuppressWarnings("rawtypes")
 class FillingPanelD extends JPanel
-		implements ChangeListener, SetLabels, UpdateFonts,
-		UpdateablePropertiesPanel, ActionListener, IFillingListener {
+		implements ChangeListener,
+				SetLabels,
+				UpdateFonts,
+				UpdateablePropertiesPanel,
+				ActionListener,
+				IFillingListener {
 
 	/**
 	 *
@@ -82,6 +86,7 @@ class FillingPanelD extends JPanel
 	FillingModel model;
 	/** opacity */
 	JSlider opacitySlider;
+
 	private final JSlider angleSlider;
 	private final JSlider distanceSlider;
 	private final JComboBox cbFillType;
@@ -95,6 +100,7 @@ class FillingPanelD extends JPanel
 	private final JLabel lblFillType;
 	/** symbol used for filling */
 	JLabel lblSelectedSymbol;
+
 	private final JLabel lblMsgSelected;
 	private JButton btnOpenFile;
 
@@ -112,6 +118,7 @@ class FillingPanelD extends JPanel
 	int selectedBarButton;
 	/** application */
 	AppD app;
+
 	private final Localization loc;
 	List<String> fancy;
 
@@ -154,8 +161,7 @@ class FillingPanelD extends JPanel
 		// Create the label table
 		Properties labelHash = new Properties();
 		labelHash.put(0, new JLabel("0" + Unicode.DEGREE_STRING));
-		labelHash.put(45,
-				new JLabel(Unicode.FORTY_FIVE_DEGREES_STRING));
+		labelHash.put(45, new JLabel(Unicode.FORTY_FIVE_DEGREES_STRING));
 		labelHash.put(90, new JLabel("90" + Unicode.DEGREE_STRING));
 		labelHash.put(135, new JLabel("135" + Unicode.DEGREE_STRING));
 		labelHash.put(180, new JLabel("180" + Unicode.DEGREE_STRING));
@@ -235,8 +241,7 @@ class FillingPanelD extends JPanel
 
 		// hatchfill panel: only shown when hatch fill option is selected
 		hatchFillPanel = new JPanel();
-		hatchFillPanel
-				.setLayout(new BoxLayout(hatchFillPanel, BoxLayout.X_AXIS));
+		hatchFillPanel.setLayout(new BoxLayout(hatchFillPanel, BoxLayout.X_AXIS));
 		hatchFillPanel.add(anglePanel);
 		hatchFillPanel.add(distancePanel);
 		hatchFillPanel.setVisible(false);
@@ -265,14 +270,10 @@ class FillingPanelD extends JPanel
 
 		// setBorder(BorderFactory.createTitledBorder(loc.getMenu("Filling")));
 
-		transparencyPanel.setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("Opacity")));
-		anglePanel.setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("Angle")));
-		distancePanel.setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("Spacing")));
-		imagePanel.setBorder(
-				BorderFactory.createTitledBorder(loc.getMenu("Images")));
+		transparencyPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Opacity")));
+		anglePanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Angle")));
+		distancePanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Spacing")));
+		imagePanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Images")));
 
 		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
 
@@ -325,8 +326,8 @@ class FillingPanelD extends JPanel
 		imgFileNameList.add(GuiResourcesD.FILLING_SETTINGS);
 
 		Icon[] iconArray = new Icon[imgFileNameList.size()];
-		iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24,
-				app.getImageManager().getPixelRatio());
+		iconArray[0] =
+				GeoGebraIconD.createNullSymbolIcon(24, 24, app.getImageManager().getPixelRatio());
 		for (int i = 1; i < iconArray.length; i++) {
 			iconArray[i] = GeoGebraIconD.createFileImageIcon(
 					imgFileNameList.get(i), app.getImageManager().getPixelRatio());
@@ -335,15 +336,14 @@ class FillingPanelD extends JPanel
 
 		// panel for button to open external file
 
-		btnImage = new PopupMenuButtonD(app, iconArray, -1, 4,
-				new Dimension(32, 32), SelectionTable.MODE_ICON);
+		btnImage = new PopupMenuButtonD(
+				app, iconArray, -1, 4, new Dimension(32, 32), SelectionTable.MODE_ICON);
 		btnImage.setSelectedIndex(1);
 		btnImage.setStandardButton(true);
 		btnImage.setKeepVisible(false);
 		btnImage.addActionListener(this);
 
-		btnClearImage = new JButton(
-				app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
+		btnClearImage = new JButton(app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btnClearImage.addActionListener(this);
 
 		btnOpenFile = new JButton();
@@ -408,7 +408,6 @@ class FillingPanelD extends JPanel
 		lblSymbols.setVisible(false);
 		lblSelectedSymbol.setVisible(false);
 		btInsertUnicode.setVisible(false);
-
 	}
 
 	@Override
@@ -558,8 +557,7 @@ class FillingPanelD extends JPanel
 			app.getKernel().notifyRepaint();
 			return;
 		}
-		model.applyAngleAndDistance(angleSlider.getValue(),
-				distanceSlider.getValue());
+		model.applyAngleAndDistance(angleSlider.getValue(), distanceSlider.getValue());
 	}
 
 	/**
@@ -584,8 +582,7 @@ class FillingPanelD extends JPanel
 			if (btnImage.getSelectedIndex() == 0) {
 				fileName = "";
 			} else {
-				fileName = imgFileNameList
-						.get(btnImage.getSelectedIndex()).getFilename();
+				fileName = imgFileNameList.get(btnImage.getSelectedIndex()).getFilename();
 			}
 			model.applyImage(fileName);
 		} else if (source == this.btnClearImage) {
@@ -594,8 +591,7 @@ class FillingPanelD extends JPanel
 
 		// handle load image file
 		else if (source == btnOpenFile) {
-			String fileName = ((GuiManagerD) app.getGuiManager())
-					.getImageFromFile();
+			String fileName = ((GuiManagerD) app.getGuiManager()).getImageFromFile();
 			model.applyImage(fileName);
 
 		} else if (source == btInsertUnicode) {
@@ -630,17 +626,14 @@ class FillingPanelD extends JPanel
 			JToggleButton[] selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
-			barsPanel.setBorder(new TitledBorder(loc.getMenu(
-					isPie ? "SelectedSlice" : "SelectedBar")));
+			barsPanel.setBorder(new TitledBorder(loc.getMenu(isPie ? "SelectedSlice" : "SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
-				selectionBarButtons[i] = new JToggleButton(
-						loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
+				selectionBarButtons[i] = new JToggleButton(loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
 				selectionBarButtons[i].addActionListener(arg0 -> {
-					selectedBarButton = Integer
-							.parseInt(((JToggleButton) arg0.getSource())
-									.getActionCommand());
+					selectedBarButton =
+							Integer.parseInt(((JToggleButton) arg0.getSource()).getActionCommand());
 					this.update(model.getGeos());
 				});
 				group.add(selectionBarButtons[i]);
@@ -665,8 +658,8 @@ class FillingPanelD extends JPanel
 		// Squares
 		fancy.addAll(StringUtil.getSetOfSymbols(0x2b12, 8));
 
-		PopupMenuButtonD popupButton = new PopupMenuButtonD(app, fancy.toArray(new String[0]),
-				-1, 8, new Dimension(32, 32), SelectionTable.MODE_TEXT);
+		PopupMenuButtonD popupButton = new PopupMenuButtonD(
+				app, fancy.toArray(new String[0]), -1, 8, new Dimension(32, 32), SelectionTable.MODE_TEXT);
 		popupButton.setKeepVisible(false);
 		popupButton.setStandardButton(true);
 		return popupButton;
@@ -681,7 +674,6 @@ class FillingPanelD extends JPanel
 	@Override
 	public void addItem(String item) {
 		cbFillType.addItem(item);
-
 	}
 
 	@Override
@@ -785,5 +777,4 @@ class FillingPanelD extends JPanel
 		// TODO Auto-generated method stub
 
 	}
-
 }

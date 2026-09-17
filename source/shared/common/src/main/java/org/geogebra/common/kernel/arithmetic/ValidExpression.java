@@ -39,8 +39,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  *
  */
-public abstract class ValidExpression
-		implements ExpressionValue, HasDebugString {
+public abstract class ValidExpression implements ExpressionValue, HasDebugString {
 
 	private List<String> labels;
 	private List<String> localVariables = new ArrayList<>();
@@ -149,17 +148,17 @@ public abstract class ValidExpression
 	}
 
 	@Override
-	final public boolean isInTree() {
+	public final boolean isInTree() {
 		return inTree;
 	}
 
 	@Override
-	final public void setInTree(boolean flag) {
+	public final void setInTree(boolean flag) {
 		inTree = flag;
 	}
 
 	@Override
-	final public boolean isGeoElement() {
+	public final boolean isGeoElement() {
 		return false;
 	}
 
@@ -194,8 +193,7 @@ public abstract class ValidExpression
 	 *            assignment type
 	 * @return assignment in the form L:=R
 	 */
-	public String toAssignmentString(StringTemplate tpl,
-			AssignmentType assignmentType) {
+	public String toAssignmentString(StringTemplate tpl, AssignmentType assignmentType) {
 		return toAssignmentString(toString(tpl), assignmentType);
 	}
 
@@ -206,8 +204,7 @@ public abstract class ValidExpression
 	 *            assignment type
 	 * @return rhs with prepended label + assignment operator
 	 */
-	public String toAssignmentString(String rhs,
-			AssignmentType assignmentType) {
+	public String toAssignmentString(String rhs, AssignmentType assignmentType) {
 		if (labels == null || getLabel() == null) {
 			return rhs;
 		}
@@ -216,16 +213,16 @@ public abstract class ValidExpression
 		// make sure we do not prepend null when
 		// assignment type is none.
 		switch (assignmentType) {
-		case DEFAULT:
-			sb.append(getLabelForAssignment());
-			sb.append(unwrap().getAssignmentOperator());
-			break;
-		case DELAYED:
-			sb.append(getLabelForAssignment());
-			sb.append(getDelayedAssignmentOperator());
-			break;
-		case NONE:
-			break;
+			case DEFAULT:
+				sb.append(getLabelForAssignment());
+				sb.append(unwrap().getAssignmentOperator());
+				break;
+			case DELAYED:
+				sb.append(getLabelForAssignment());
+				sb.append(getDelayedAssignmentOperator());
+				break;
+			case NONE:
+				break;
 		}
 
 		sb.append(rhs);
@@ -240,24 +237,23 @@ public abstract class ValidExpression
 	 *            assignment type
 	 * @return assignment in LaTeX
 	 */
-	public final String toAssignmentLaTeXString(StringTemplate tpl,
-			AssignmentType assignmentType) {
+	public final String toAssignmentLaTeXString(StringTemplate tpl, AssignmentType assignmentType) {
 		if (labels == null || getLabel() == null) {
 			return toLaTeXString(true, tpl);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		switch (assignmentType) {
-		case DEFAULT:
-			sb.append(tpl.printVariableName(getLabelForAssignment()));
-			sb.append(getAssignmentOperatorLaTeX());
-			break;
-		case DELAYED:
-			sb.append(tpl.printVariableName(getLabelForAssignment()));
-			sb.append(getDelayedAssignmentOperatorLaTeX());
-			break;
-		case NONE:
-			break;
+			case DEFAULT:
+				sb.append(tpl.printVariableName(getLabelForAssignment()));
+				sb.append(getAssignmentOperatorLaTeX());
+				break;
+			case DELAYED:
+				sb.append(tpl.printVariableName(getLabelForAssignment()));
+				sb.append(getDelayedAssignmentOperatorLaTeX());
+				break;
+			case NONE:
+				break;
 		}
 
 		sb.append(toLaTeXString(true, tpl));
@@ -391,15 +387,11 @@ public abstract class ValidExpression
 			return sb.toString();
 		}
 		if (s.isGeoElement()) {
-			return (((GeoElement) s)
-					.getConstruction() instanceof MacroConstruction ? "Macro"
-					: "")
-					+ s.getClass().getSimpleName()
-					.replaceAll("^Geo", "G")
+			return (((GeoElement) s).getConstruction() instanceof MacroConstruction ? "Macro" : "")
+					+ s.getClass().getSimpleName().replaceAll("^Geo", "G")
 					+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";
 		}
-		return s.getClass().getSimpleName() + "("
-				+ s.toString(StringTemplate.defaultTemplate) + ")";
+		return s.getClass().getSimpleName() + "(" + s.toString(StringTemplate.defaultTemplate) + ")";
 	}
 
 	@Override
@@ -443,13 +435,11 @@ public abstract class ValidExpression
 	 *            template
 	 * @return value or geo
 	 */
-	protected static String print(ExpressionValue x2, boolean values,
-			StringTemplate tpl) {
+	protected static String print(ExpressionValue x2, boolean values, StringTemplate tpl) {
 		if (values) {
 			return x2.toValueString(tpl);
 		}
-		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl)
-				: x2.toString(tpl);
+		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2.toString(tpl);
 	}
 
 	/**
@@ -476,8 +466,8 @@ public abstract class ValidExpression
 
 			@Override
 			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable && (name == null || name
-						.equals(((FunctionVariable) v).getSetVarString()));
+				return v instanceof FunctionVariable
+						&& (name == null || name.equals(((FunctionVariable) v).getSetVarString()));
 			}
 		});
 	}
@@ -487,14 +477,12 @@ public abstract class ValidExpression
 	 *            list of acceptable variables
 	 * @return whether some other variable is included
 	 */
-	public final boolean containsFunctionVariableOtherThan(
-			final FunctionVariable[] vars) {
+	public final boolean containsFunctionVariableOtherThan(final FunctionVariable[] vars) {
 		return this.any(new Inspecting() {
 
 			@Override
 			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable
-						&& ExpressionNode.doesNotInclude(vars, v);
+				return v instanceof FunctionVariable && ExpressionNode.doesNotInclude(vars, v);
 			}
 		});
 	}

@@ -35,8 +35,7 @@ public class AlgoUnicodeToLetter extends AlgoElement {
 	 * @param a
 	 *            unicode number
 	 */
-	public AlgoUnicodeToLetter(Construction cons, String label,
-			GeoNumberValue a) {
+	public AlgoUnicodeToLetter(Construction cons, String label, GeoNumberValue a) {
 		super(cons);
 		this.a = a;
 
@@ -75,5 +74,4 @@ public class AlgoUnicodeToLetter extends AlgoElement {
 		char ss = (char) a.getDouble();
 		text.setTextString(ss + "");
 	}
-
 }

@@ -27,8 +27,8 @@ class GridBoldPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testSettingValue() {
 		setupApp(SuiteSubApp.GRAPHING);
-		GridBoldProperty gridBoldProperty = new GridBoldProperty(
-				getLocalization(), getEuclidianSettings());
+		GridBoldProperty gridBoldProperty =
+				new GridBoldProperty(getLocalization(), getEuclidianSettings());
 
 		gridBoldProperty.setValue(true);
 		assertTrue(gridBoldProperty.getValue());

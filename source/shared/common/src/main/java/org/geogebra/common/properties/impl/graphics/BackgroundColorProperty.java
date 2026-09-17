@@ -27,7 +27,7 @@ import org.geogebra.common.properties.impl.DefaultColorValues;
  * Property for background color of a graphics view.
  */
 public class BackgroundColorProperty extends AbstractEnumeratedProperty<GColor>
-		implements ColorProperty  {
+		implements ColorProperty {
 	private final EuclidianSettings settings;
 
 	/**

@@ -82,8 +82,7 @@ public class MhchemArrowConsumer implements AtomConsumer {
 		if (sup == null) {
 			sup = a;
 			if (tp.hasOptionNoWhites()) {
-				tp.addConsumer(
-						new GroupConsumer(TeXConstants.Opener.LSQBRACKET));
+				tp.addConsumer(new GroupConsumer(TeXConstants.Opener.LSQBRACKET));
 				return;
 			}
 		} else {
@@ -98,23 +97,20 @@ public class MhchemArrowConsumer implements AtomConsumer {
 		final TeXLength minW = new TeXLength(Unit.EM, 2.);
 
 		switch (arrow) {
-		case left: // <-
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Left);
-		case right: // ->
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Right);
-		case leftright: // <->
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.LR);
-		case LeftRight: // <-->
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.RightAndLeft);
-		case leftrightHarpoon: // <=>
-			return new XArrowAtom(top, bot, minW,
-					XArrowAtom.Kind.RightLeftHarpoons);
-		case leftrightSmallHarpoon: // <=>>
-			return new XArrowAtom(top, bot, minW,
-					XArrowAtom.Kind.RightSmallLeftHarpoons);
-		case leftSmallHarpoonRight: // <<=>
-			return new XArrowAtom(top, bot, minW,
-					XArrowAtom.Kind.SmallRightLeftHarpoons);
+			case left: // <-
+				return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Left);
+			case right: // ->
+				return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Right);
+			case leftright: // <->
+				return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.LR);
+			case LeftRight: // <-->
+				return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.RightAndLeft);
+			case leftrightHarpoon: // <=>
+				return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.RightLeftHarpoons);
+			case leftrightSmallHarpoon: // <=>>
+				return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.RightSmallLeftHarpoons);
+			case leftSmallHarpoonRight: // <<=>
+				return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.SmallRightLeftHarpoons);
 		}
 
 		return null;
@@ -158,10 +154,8 @@ public class MhchemArrowConsumer implements AtomConsumer {
 	}
 
 	@Override
-	public void lbrace(TeXParser tp) {
-	}
+	public void lbrace(TeXParser tp) {}
 
 	@Override
-	public void rbrace(TeXParser tp) {
-	}
+	public void rbrace(TeXParser tp) {}
 }

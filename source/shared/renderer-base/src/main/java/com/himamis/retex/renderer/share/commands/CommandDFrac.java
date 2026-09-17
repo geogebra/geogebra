@@ -9,5 +9,4 @@ public class CommandDFrac extends Command2A {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return CommandGenfrac.get(null, a, b, null, null, 0);
 	}
-
 }

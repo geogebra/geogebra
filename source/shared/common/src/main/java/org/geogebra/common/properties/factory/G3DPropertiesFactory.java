@@ -25,11 +25,11 @@ import org.geogebra.common.properties.PropertiesRegistry;
 public class G3DPropertiesFactory extends DefaultPropertiesFactory {
 
 	@Override
-	public List<PropertiesArray> createProperties(App app, Localization localization,
-			PropertiesRegistry propertiesRegistry) {
+	public List<PropertiesArray> createProperties(
+			App app, Localization localization, PropertiesRegistry propertiesRegistry) {
 		return List.of(
 				createGeneralProperties(app, localization, propertiesRegistry),
-					createAlgebraProperties(app, localization, propertiesRegistry),
-					createGraphics3DProperties(app, localization, propertiesRegistry));
+				createAlgebraProperties(app, localization, propertiesRegistry),
+				createGraphics3DProperties(app, localization, propertiesRegistry));
 	}
 }

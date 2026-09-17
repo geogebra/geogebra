@@ -30,14 +30,14 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * FitPoly[&lt;List of Points&gt;,&lt;degree&gt;]
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 06.04.08
  */
 public class CmdFitPoly extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -51,27 +51,26 @@ public class CmdFitPoly extends CommandProcessor {
 		GeoElement[] arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { fitPoly((GeoList) arg[0], null) };
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		case 2:
-			if (arg[0].isGeoList() && arg[1].isNumberValue()) {
-				GeoElement[] ret = {
-						fitPoly((GeoList) arg[0], (GeoNumberValue) arg[1]) };
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			} else if (arg[0].isGeoFunction() && arg[1].isNumberValue()) {
-				// FitPoly[ <Freehand Function>, <Order> ]
-				return fitPolyFunction(c, arg);
-			}
-			return generalCase(arg, c);
+			case 1:
+				if (arg[0].isGeoList()) {
+					GeoElement[] ret = {fitPoly((GeoList) arg[0], null)};
+					ret[0].setLabel(c.getLabel());
+					return ret;
+				}
+				throw argErr(c, arg[0]);
+			case 2:
+				if (arg[0].isGeoList() && arg[1].isNumberValue()) {
+					GeoElement[] ret = {fitPoly((GeoList) arg[0], (GeoNumberValue) arg[1])};
+					ret[0].setLabel(c.getLabel());
+					return ret;
+				} else if (arg[0].isGeoFunction() && arg[1].isNumberValue()) {
+					// FitPoly[ <Freehand Function>, <Order> ]
+					return fitPolyFunction(c, arg);
+				}
+				return generalCase(arg, c);
 
-		default:
-			return generalCase(arg, c);
+			default:
+				return generalCase(arg, c);
 		}
 	}
 
@@ -85,7 +84,7 @@ public class CmdFitPoly extends CommandProcessor {
 		// try to create list of points
 		GeoList list = wrapInList(arg, points, GeoClass.POINT, c);
 		if (list != null) {
-			GeoElement[] ret = { fitPoly(list, degree) };
+			GeoElement[] ret = {fitPoly(list, degree)};
 			ret[0].setLabel(c.getLabel());
 			return ret;
 		}
@@ -96,11 +95,11 @@ public class CmdFitPoly extends CommandProcessor {
 		GeoFunction fun = (GeoFunction) arg[0];
 		if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
 
-			GeoList list = wrapFreehandFunctionArgInList(kernel,
-					(AlgoFunctionFreehand) fun.getParentAlgorithm());
+			GeoList list =
+					wrapFreehandFunctionArgInList(kernel, (AlgoFunctionFreehand) fun.getParentAlgorithm());
 
 			if (list != null) {
-				GeoElement[] ret = { fitPoly(list, (GeoNumberValue) arg[1]) };
+				GeoElement[] ret = {fitPoly(list, (GeoNumberValue) arg[1])};
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}

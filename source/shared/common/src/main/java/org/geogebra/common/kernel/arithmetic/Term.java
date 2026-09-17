@@ -32,6 +32,7 @@ public class Term implements Comparable<Term> {
 
 	/** coefficient */
 	ExpressionValue coefficient; // has to evaluate() to NumberValue
+
 	private StringBuilder variables;
 	private String cachedVariables;
 
@@ -72,7 +73,7 @@ public class Term implements Comparable<Term> {
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param t
 	 *            term to copy
 	 * @param kernel
@@ -144,7 +145,7 @@ public class Term implements Comparable<Term> {
 
 	/**
 	 * Total degree of this term
-	 * 
+	 *
 	 * @return degree
 	 */
 	int degree() {
@@ -153,7 +154,7 @@ public class Term implements Comparable<Term> {
 
 	/**
 	 * degree of eg x xxxyy returns 3 for x, 2 for y
-	 * 
+	 *
 	 * @param var
 	 *            term whose degree we want
 	 * @return degree
@@ -170,7 +171,7 @@ public class Term implements Comparable<Term> {
 
 	/**
 	 * add a number to this term's coefficient
-	 * 
+	 *
 	 * @param number
 	 *            number to add
 	 * @param kernel
@@ -178,14 +179,13 @@ public class Term implements Comparable<Term> {
 	 * @param keepFraction
 	 *            whether to use keep coefficients as fractions
 	 */
-	void addToCoefficient(ExpressionValue number, Kernel kernel,
-			boolean keepFraction) {
+	void addToCoefficient(ExpressionValue number, Kernel kernel, boolean keepFraction) {
 		setCoefficient(add(coefficient, number, kernel, keepFraction));
 	}
 
 	// return a + b
-	private ExpressionValue add(ExpressionValue a, ExpressionValue b,
-			Kernel kernel, boolean keepFraction) {
+	private ExpressionValue add(
+			ExpressionValue a, ExpressionValue b, Kernel kernel, boolean keepFraction) {
 		// potentially related to TRAC-1994
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -205,38 +205,43 @@ public class Term implements Comparable<Term> {
 				ExpressionNode ben = (ExpressionNode) b;
 				if (ben.getLeft().isConstant()) {
 					switch (ben.getOperation()) {
-					// a + (b.left + b.right) = (a + b.left) + b.right
-					case PLUS:
-						return add(add(a, ben.getLeft(), kernel, keepFraction),
-								ben.getRight(), kernel, keepFraction);
-					// a + (b.left - b.right) = (a + b.left) - b.right
-					case MINUS:
-						return sub(add(a, ben.getLeft(), kernel, keepFraction),
-								ben.getRight(), kernel, keepFraction);
-					default:
-						break;
+						// a + (b.left + b.right) = (a + b.left) + b.right
+						case PLUS:
+							return add(
+									add(a, ben.getLeft(), kernel, keepFraction),
+									ben.getRight(),
+									kernel,
+									keepFraction);
+						// a + (b.left - b.right) = (a + b.left) - b.right
+						case MINUS:
+							return sub(
+									add(a, ben.getLeft(), kernel, keepFraction),
+									ben.getRight(),
+									kernel,
+									keepFraction);
+						default:
+							break;
 					}
 				}
 			} // else
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
 		} else if (bconst) {
 			return add(b, a, kernel, keepFraction); // get the constant to the
-													// left
+			// left
 		} else {
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
 		}
 	}
 
-	private ExpressionValue sub(ExpressionValue a, ExpressionValue b,
-			Kernel kernel, boolean keepFraction) {
-		return add(a,
-				multiply(new MyDouble(kernel, -1.0d), b, kernel, keepFraction),
-				kernel, keepFraction);
+	private ExpressionValue sub(
+			ExpressionValue a, ExpressionValue b, Kernel kernel, boolean keepFraction) {
+		return add(
+				a, multiply(new MyDouble(kernel, -1.0d), b, kernel, keepFraction), kernel, keepFraction);
 	}
 
 	/**
 	 * multiply this term with another term
-	 * 
+	 *
 	 * @param t
 	 *            multiplier
 	 * @param kernel
@@ -245,8 +250,7 @@ public class Term implements Comparable<Term> {
 	 *            whether to use keep coefficients as fractions
 	 */
 	void multiply(Term t, Kernel kernel, boolean keepFraction) {
-		setCoefficient(
-				multiply(coefficient, t.coefficient, kernel, keepFraction));
+		setCoefficient(multiply(coefficient, t.coefficient, kernel, keepFraction));
 		variables.append(t.variables);
 		cachedVariables = null;
 		sort(variables);
@@ -254,7 +258,7 @@ public class Term implements Comparable<Term> {
 
 	/**
 	 * multiply this term with a number
-	 * 
+	 *
 	 * @param number
 	 *            multiplier
 	 * @param kernel
@@ -267,8 +271,8 @@ public class Term implements Comparable<Term> {
 	}
 
 	// c = a * b
-	private ExpressionValue multiply(ExpressionValue a, ExpressionValue b,
-			Kernel kernel, boolean keepFraction) {
+	private ExpressionValue multiply(
+			ExpressionValue a, ExpressionValue b, Kernel kernel, boolean keepFraction) {
 		// multiply constant?
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -288,20 +292,22 @@ public class Term implements Comparable<Term> {
 			} else {
 				if (b instanceof ExpressionNode ben && ben.getLeft().isConstant()) {
 					switch (ben.getOperation()) {
-					// a * (b.left * b.right) = (a * b.left) * b.right
-					case MULTIPLY:
-						return multiply(
-								multiply(a, ben.getLeft(), kernel,
-										keepFraction),
-								ben.getRight(), kernel, keepFraction);
-					// a * (b.left / b.right) = (a * b.left) / b.right
-					case DIVIDE:
-						return divide(
-								multiply(a, ben.getLeft(), kernel,
-										keepFraction),
-								ben.getRight(), kernel, keepFraction);
-					default:
-						break;
+						// a * (b.left * b.right) = (a * b.left) * b.right
+						case MULTIPLY:
+							return multiply(
+									multiply(a, ben.getLeft(), kernel, keepFraction),
+									ben.getRight(),
+									kernel,
+									keepFraction);
+						// a * (b.left / b.right) = (a * b.left) / b.right
+						case DIVIDE:
+							return divide(
+									multiply(a, ben.getLeft(), kernel, keepFraction),
+									ben.getRight(),
+									kernel,
+									keepFraction);
+						default:
+							break;
 					}
 				}
 				return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);
@@ -309,7 +315,7 @@ public class Term implements Comparable<Term> {
 		} else if (bconst) {
 			// a * b = b * a
 			return multiply(b, a, kernel, keepFraction); // get the constant to
-															// the left
+			// the left
 		} else {
 			return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);
 		}
@@ -317,7 +323,7 @@ public class Term implements Comparable<Term> {
 
 	/**
 	 * divide this term with a number
-	 * 
+	 *
 	 * @param number
 	 *            divisor
 	 * @param kernel
@@ -330,8 +336,8 @@ public class Term implements Comparable<Term> {
 	}
 
 	// c = a / b
-	private ExpressionValue divide(ExpressionValue a, ExpressionValue b,
-			Kernel kernel, boolean keepFraction) {
+	private ExpressionValue divide(
+			ExpressionValue a, ExpressionValue b, Kernel kernel, boolean keepFraction) {
 		// divide constants
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -351,8 +357,7 @@ public class Term implements Comparable<Term> {
 				// a / (b.left / b.right) = (a / b.left) * b.right
 				if (ben.getOperation() == Operation.DIVIDE) {
 					return multiply(
-							divide(a, ben.getLeft(), kernel, keepFraction),
-							ben.getRight(), kernel, keepFraction);
+							divide(a, ben.getLeft(), kernel, keepFraction), ben.getRight(), kernel, keepFraction);
 				}
 				// TODO multiply?
 			}
@@ -385,8 +390,7 @@ public class Term implements Comparable<Term> {
 	public boolean equals(Object o) {
 		if (o instanceof Term) {
 			Term t = (Term) o;
-			return coefficient == t.coefficient
-					&& getVars().equals(t.getVars());
+			return coefficient == t.coefficient && getVars().equals(t.getVars());
 		}
 		return false;
 	}
@@ -409,9 +413,7 @@ public class Term implements Comparable<Term> {
 	@Override
 	public int compareTo(Term o) {
 
-			return o.getVars()
-					.compareTo(getVars());
-
+		return o.getVars().compareTo(getVars());
 	}
 
 	@Override
@@ -422,7 +424,7 @@ public class Term implements Comparable<Term> {
 
 	/**
 	 * Serialize to string according to given template
-	 * 
+	 *
 	 * @param tpl
 	 *            template
 	 * @return string representation
@@ -440,8 +442,7 @@ public class Term implements Comparable<Term> {
 
 		StringBuilder sb = new StringBuilder();
 		String var = variableString(tpl);
-		if (ExpressionNode.isEqualString(coefficient, -1, true)
-				&& var.length() > 0) {
+		if (ExpressionNode.isEqualString(coefficient, -1, true) && var.length() > 0) {
 			sb.append('-');
 			sb.append(var);
 		} else {
@@ -491,21 +492,20 @@ public class Term implements Comparable<Term> {
 			return sb.toString();
 		}
 		switch (variables.length()) {
-		case 1:
-			return str;
-		case 2:
-
-			if ("xx".equals(str)) {
-				return "x" + Unicode.SUPERSCRIPT_2;
-			}
-			if ("yy".equals(str)) {
-				return "y" + Unicode.SUPERSCRIPT_2;
-			}
-			if ("xy".equals(str)) {
-				return "xy";
-			}
-		default:
-			return "";
+			case 1:
+				return str;
+			case 2:
+				if ("xx".equals(str)) {
+					return "x" + Unicode.SUPERSCRIPT_2;
+				}
+				if ("yy".equals(str)) {
+					return "y" + Unicode.SUPERSCRIPT_2;
+				}
+				if ("xy".equals(str)) {
+					return "xy";
+				}
+			default:
+				return "";
 		}
 	}
 } // end of class Term

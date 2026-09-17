@@ -34,8 +34,8 @@ public class PropertyCollectionWithLead extends AbstractPropertyCollection<Prope
 	 * @param leadProperty lead property
 	 * @param children additional properties
 	 */
-	public PropertyCollectionWithLead(Localization loc, String name,
-			BooleanProperty leadProperty, Property... children) {
+	public PropertyCollectionWithLead(
+			Localization loc, String name, BooleanProperty leadProperty, Property... children) {
 		super(loc, name);
 		this.leadProperty = leadProperty;
 		setProperties(children);

@@ -70,9 +70,7 @@ public class ClassicInitialViewState implements InitialViewState {
 
 	@Override
 	public boolean hasAlgebra() {
-		return isToggleable(App.VIEW_ALGEBRA)
-				&& !app.isWhiteboardActive()
-				&& hasFullGUI();
+		return isToggleable(App.VIEW_ALGEBRA) && !app.isWhiteboardActive() && hasFullGUI();
 	}
 
 	@Override

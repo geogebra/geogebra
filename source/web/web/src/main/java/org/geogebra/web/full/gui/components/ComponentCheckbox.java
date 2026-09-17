@@ -35,8 +35,8 @@ import elemental2.dom.KeyboardEvent;
 /**
  * material design checkbox component
  */
-public final class ComponentCheckbox extends FlowPanel implements SetLabels,
-		ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
+public final class ComponentCheckbox extends FlowPanel
+		implements SetLabels, ConfigurationUpdateDelegate, VisibilityUpdateDelegate {
 	private final Localization loc;
 	private boolean isSelected;
 	private FlowPanel checkbox;
@@ -52,8 +52,8 @@ public final class ComponentCheckbox extends FlowPanel implements SetLabels,
 	 * @param checkboxText label of checkbox
 	 * @param callback click handler
 	 */
-	public ComponentCheckbox(Localization loc, boolean selected, String checkboxText,
-			Consumer<Boolean> callback) {
+	public ComponentCheckbox(
+			Localization loc, boolean selected, String checkboxText, Consumer<Boolean> callback) {
 		this.loc = loc;
 		isSelected = selected;
 		this.checkboxTxt = checkboxText;
@@ -84,8 +84,12 @@ public final class ComponentCheckbox extends FlowPanel implements SetLabels,
 	 * @param callback click handler
 	 * @param stopPropagation whether it should stop propagation on click
 	 */
-	public ComponentCheckbox(Localization loc, Checkbox checkBoxProperty, String checkboxText,
-			Consumer<Boolean> callback, boolean stopPropagation) {
+	public ComponentCheckbox(
+			Localization loc,
+			Checkbox checkBoxProperty,
+			String checkboxText,
+			Consumer<Boolean> callback,
+			boolean stopPropagation) {
 		this(loc, checkBoxProperty.isSelected(), checkboxText, callback);
 		this.checkBoxProperty = checkBoxProperty;
 		this.stopPropagation = stopPropagation;
@@ -106,8 +110,9 @@ public final class ComponentCheckbox extends FlowPanel implements SetLabels,
 		SimplePanel background = new SimplePanel();
 		background.addStyleName("background");
 		SimplePanel checkMark = new SimplePanel();
-		checkMark.getElement().setInnerHTML(MaterialDesignResources
-				.INSTANCE.check_white().getSVG());
+		checkMark
+				.getElement()
+				.setInnerHTML(MaterialDesignResources.INSTANCE.check_white().getSVG());
 		checkMark.addStyleName("checkmark");
 		checkbox.add(background);
 		checkbox.add(checkMark);

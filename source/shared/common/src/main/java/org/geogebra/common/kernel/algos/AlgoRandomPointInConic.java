@@ -95,47 +95,43 @@ public class AlgoRandomPointInConic extends AlgoElement implements SetRandomValu
 
 		int type = conic.getType();
 		switch (type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			GeoVec2D center = conic.getB();
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				GeoVec2D center = conic.getB();
 
-			double r = conic.getHalfAxis(0)
-					* Math.sqrt(kernel.randomNumberGenerator.getRandomNumber());
-			double radians = 2 * Math.PI
-					* kernel.randomNumberGenerator.getRandomNumber();
+				double r = conic.getHalfAxis(0) * Math.sqrt(kernel.randomNumberGenerator.getRandomNumber());
+				double radians = 2 * Math.PI * kernel.randomNumberGenerator.getRandomNumber();
 
-			double xRandom = r * Math.cos(radians);
-			double yRandom = r * Math.sin(radians);
+				double xRandom = r * Math.cos(radians);
+				double yRandom = r * Math.sin(radians);
 
-			randomPoint.setCoords(xRandom + center.getX(),
-					yRandom + center.getY(), 1);
-			break;
+				randomPoint.setCoords(xRandom + center.getX(), yRandom + center.getY(), 1);
+				break;
 
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			center = conic.getB();
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				center = conic.getB();
 
-			double a = conic.getHalfAxis(0);
-			double b = conic.getHalfAxis(1);
-			double angle = Math.atan2(conic.eigenvec[0].getY(),
-					conic.eigenvec[0].getX());
+				double a = conic.getHalfAxis(0);
+				double b = conic.getHalfAxis(1);
+				double angle = Math.atan2(conic.eigenvec[0].getY(), conic.eigenvec[0].getX());
 
-			r = Math.sqrt(kernel.randomNumberGenerator.getRandomNumber());
-			radians = 2 * Math.PI * kernel.randomNumberGenerator.getRandomNumber();
+				r = Math.sqrt(kernel.randomNumberGenerator.getRandomNumber());
+				radians = 2 * Math.PI * kernel.randomNumberGenerator.getRandomNumber();
 
-			xRandom = a * r * Math.cos(radians);
-			yRandom = b * r * Math.sin(radians);
+				xRandom = a * r * Math.cos(radians);
+				yRandom = b * r * Math.sin(radians);
 
-			double sin = Math.sin(angle);
-			double cos = Math.cos(angle);
+				double sin = Math.sin(angle);
+				double cos = Math.cos(angle);
 
-			// rotate to math rotation of ellipse
-			double x2 = xRandom * cos - yRandom * sin;
-			double y2 = xRandom * sin + yRandom * cos;
+				// rotate to math rotation of ellipse
+				double x2 = xRandom * cos - yRandom * sin;
+				double y2 = xRandom * sin + yRandom * cos;
 
-			randomPoint.setCoords(x2 + center.getX(), y2 + center.getY(), 1);
-			break;
+				randomPoint.setCoords(x2 + center.getX(), y2 + center.getY(), 1);
+				break;
 
-		default:
-			randomPoint.setUndefined();
+			default:
+				randomPoint.setUndefined();
 		}
 	}
 

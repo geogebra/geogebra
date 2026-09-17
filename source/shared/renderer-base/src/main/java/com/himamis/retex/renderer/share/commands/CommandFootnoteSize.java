@@ -19,5 +19,4 @@ public class CommandFootnoteSize extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MonoScaleAtom(a, 0.8);
 	}
-
 }

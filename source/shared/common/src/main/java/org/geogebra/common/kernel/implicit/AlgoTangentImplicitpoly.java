@@ -33,8 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Algorithm to calculate all tangents to the implicit polynomial equation
  * either going threw a given point or parallel to given line.
  */
-public class AlgoTangentImplicitpoly extends AlgoElement
-		implements TangentAlgo {
+public class AlgoTangentImplicitpoly extends AlgoElement implements TangentAlgo {
 
 	private GeoImplicit p;
 
@@ -54,17 +53,15 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 	 * @param p
 	 *            implicit polynomial
 	 */
-	protected AlgoTangentImplicitpoly(Construction c, String[] labels,
-			GeoImplicit p) {
+	protected AlgoTangentImplicitpoly(Construction c, String[] labels, GeoImplicit p) {
 		super(c);
 		this.labels = labels;
 		this.p = p;
-
 	}
 
 	/**
 	 * To compute tangents to poly through given point
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -74,8 +71,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 	 * @param R
 	 *            point on tangent
 	 */
-	public AlgoTangentImplicitpoly(Construction c, String[] labels,
-			GeoImplicit p, GeoPointND R) {
+	public AlgoTangentImplicitpoly(Construction c, String[] labels, GeoImplicit p, GeoPointND R) {
 		this(c, labels, p);
 
 		boolean pointOnPath = false;
@@ -88,13 +84,11 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 				}
 			}
 		}
-		this.algoTangentPoly = new AlgoImplicitPolyTangentCurve(c, p, R,
-				pointOnPath);
+		this.algoTangentPoly = new AlgoImplicitPolyTangentCurve(c, p, R, pointOnPath);
 
 		if (!pointOnPath) {
 			GeoImplicit tangentCurve = algoTangentPoly.getTangentCurve();
-			algoIntersect = new AlgoIntersectImplicitPolynomials(cons, p,
-					tangentCurve);
+			algoIntersect = new AlgoIntersectImplicitPolynomials(cons, p, tangentCurve);
 
 			cons.removeFromConstructionList(algoIntersect);
 			ip = algoIntersect.getIntersectionPoints();
@@ -105,28 +99,26 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 
 	/**
 	 * To compute tangents to poly in given direction
-	 * 
+	 *
 	 * @param c
 	 *            construction
-	 * 
+	 *
 	 * @param labels
 	 *            labels for output
-	 * 
+	 *
 	 * @param p
 	 *            implicit polynomial
-	 * 
+	 *
 	 * @param g
 	 *            line
-	 * 
-	 * 
+	 *
+	 *
 	 *            not working #4380
 	 */
-	public AlgoTangentImplicitpoly(Construction c, String[] labels,
-			GeoImplicit p, GeoLineND g) {
+	public AlgoTangentImplicitpoly(Construction c, String[] labels, GeoImplicit p, GeoLineND g) {
 		this(c, labels, p);
 
-		this.algoTangentPoly = new AlgoImplicitPolyTangentLine(
-				c, p, g);
+		this.algoTangentPoly = new AlgoImplicitPolyTangentLine(c, p, g);
 
 		GeoImplicit tangentCurve = algoTangentPoly.getTangentCurve();
 		algoIntersect = new AlgoIntersectImplicitPolynomials(cons, p, tangentCurve);
@@ -165,8 +157,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		}
 
 		tangents.adjustOutputSize(0);
-		ip = algoIntersect == null ? null : algoIntersect
-				.getIntersectionPoints();
+		ip = algoIntersect == null ? null : algoIntersect.getIntersectionPoints();
 		this.algoTangentPoly.getTangents(ip, tangents);
 	}
 
@@ -208,5 +199,4 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		return this.algoTangentPoly.getTangentPoint(geo, line);
 	}
-
 }

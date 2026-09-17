@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Hyperbola for given foci and first semi-axis length
- * 
+ *
  * @author Markus
  */
 public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
@@ -41,8 +41,8 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 	 * @param a
 	 *            major halfaxis
 	 */
-	public AlgoHyperbolaFociLength(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoNumberValue a) {
+	public AlgoHyperbolaFociLength(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoNumberValue a) {
 		super(cons, label, A, B, a);
 	}
 
@@ -74,5 +74,4 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-
 }

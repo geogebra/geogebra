@@ -39,15 +39,13 @@ public class SqrtMinusOneReplacer implements Traversing {
 		if (ev.isExpressionNode()) {
 			ExpressionNode node = ev.wrap();
 			ExpressionValue left = node.getLeft();
-			if (node.getOperation() == Operation.SQRT
-					&& left.isNumberValue() && left.isConstant()) {
+			if (node.getOperation() == Operation.SQRT && left.isNumberValue() && left.isConstant()) {
 				if (left.evaluateDouble() == -1) {
 					return kernel.getImaginaryUnit();
 				}
 			}
 		}
-		if (ev instanceof Variable
-				&& "i".equals(ev.toString(StringTemplate.xmlTemplate))) {
+		if (ev instanceof Variable && "i".equals(ev.toString(StringTemplate.xmlTemplate))) {
 			return kernel.getImaginaryUnit();
 		}
 		return ev;

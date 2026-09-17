@@ -1,24 +1,24 @@
 // vendored
 /* PORTED FROM GNU SCIENTIFIC LIBRARY WHICH CARRIES THIS LICENSE:
- * 
- * specfunc/lambert.c 
- * 
- * Copyright (C) 2007 Brian Gough 
- * Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Gerard Jungman 
- * 
- * This program is free software; you can redistribute it and/or modify 
- * it under the terms of the GNU General Public License as published by 
- * the Free Software Foundation; either version 3 of the License, or (at 
- * your option) any later version. 
- * 
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
- * General Public License for more details. 
- * 
- * You should have received a copy of the GNU General Public License 
- * along with this program; if not, write to the Free Software 
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. 
+ *
+ * specfunc/lambert.c
+ *
+ * Copyright (C) 2007 Brian Gough
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001 Gerard Jungman
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  */
 
 package org.geogebra.common.util;
@@ -26,26 +26,33 @@ package org.geogebra.common.util;
 /* Author:  G. Jungman */
 
 /* Started with code donated by K. Briggs; added
- * error estimates, GSL foo, and minor tweaks. 
- * Some Lambert-ology from 
- *  [Corless, Gonnet, Hare, and Jeffrey, "On Lambert's W Function".] 
+ * error estimates, GSL foo, and minor tweaks.
+ * Some Lambert-ology from
+ *  [Corless, Gonnet, Hare, and Jeffrey, "On Lambert's W Function".]
  */
 
-/** Lambert W function, code by various authors 
- Ported to Java by Daniel Wilson                      */
+/** Lambert W function, code by various authors
+ * Ported to Java by Daniel Wilson                      */
 public class LambertW {
 
 	private static double GSL_DBL_EPSILON = 2.2204460492503131e-16;
-	private static final double[] c = { -1.0, 2.331643981597124203363536062168,
-			-1.812187885639363490240191647568, 1.936631114492359755363277457668,
-			-2.353551201881614516821543561516, 3.066858901050631912893148922704,
-			-4.175335600258177138854984177460, 5.858023729874774148815053846119,
-			-8.401032217523977370984161688514, 12.250753501314460424,
-			-18.100697012472442755, 27.029044799010561650 };
-	
+	private static final double[] c = {
+		-1.0,
+		2.331643981597124203363536062168,
+		-1.812187885639363490240191647568,
+		1.936631114492359755363277457668,
+		-2.353551201881614516821543561516,
+		3.066858901050631912893148922704,
+		-4.175335600258177138854984177460,
+		5.858023729874774148815053846119,
+		-8.401032217523977370984161688514,
+		12.250753501314460424,
+		-18.100697012472442755,
+		27.029044799010561650
+	};
+
 	/* Halley iteration (eqn. 5.12, Corless et al) */
-	private static double halleyIteration(double x, double w_initial,
-			int max_iters) {
+	private static double halleyIteration(double x, double w_initial, int max_iters) {
 		double w = w_initial;
 		int i;
 
@@ -64,8 +71,7 @@ public class LambertW {
 
 			w -= t;
 
-			tol = 10 * GSL_DBL_EPSILON
-					* Math.max(Math.abs(w), 1.0 / (Math.abs(p) * e));
+			tol = 10 * GSL_DBL_EPSILON * Math.max(Math.abs(w), 1.0 / (Math.abs(p) * e));
 
 			if (Math.abs(t) < tol) {
 				return w;
@@ -83,8 +89,7 @@ public class LambertW {
 	private static double seriesEval(double r) {
 		final double t_8 = c[8] + r * (c[9] + r * (c[10] + r * c[11]));
 		final double t_5 = c[5] + r * (c[6] + r * (c[7] + r * t_8));
-		final double t_1 = c[1]
-				+ r * (c[2] + r * (c[3] + r * (c[4] + r * t_5)));
+		final double t_1 = c[1] + r * (c[2] + r * (c[3] + r * (c[4] + r * t_5)));
 		return c[0] + r * t_1;
 	}
 
@@ -183,7 +188,7 @@ public class LambertW {
 	 * @param x x value
 	 * @return 0 branch of Lambert W at x
 	 */
-	static public double branch0(double x) {
+	public static double branch0(double x) {
 
 		if (x < -1 / Math.E) {
 			return Double.NaN;
@@ -196,7 +201,7 @@ public class LambertW {
 	 * @param x x value
 	 * @return -1 branch of Lambert W at x
 	 */
-	static public double branchNeg1(double x) {
+	public static double branchNeg1(double x) {
 
 		if (x < -1 / Math.E || x >= 0) {
 			return Double.NaN;
@@ -204,5 +209,4 @@ public class LambertW {
 
 		return gslSfLambertWm1E(x);
 	}
-
 }

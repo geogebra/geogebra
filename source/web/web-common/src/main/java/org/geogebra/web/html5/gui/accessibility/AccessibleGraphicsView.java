@@ -33,8 +33,8 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 
 	private AccessibilityView view;
 	private AppW app;
-	private List<SliderInput> sliderTypes = new ArrayList<>(
-			Arrays.asList(SliderInput.ROTATE_Z, SliderInput.TILT));
+	private List<SliderInput> sliderTypes =
+			new ArrayList<>(Arrays.asList(SliderInput.ROTATE_Z, SliderInput.TILT));
 	private List<SliderW> sliders = new ArrayList<>();
 	// TODO add toggle button for animation, fullscreen button
 
@@ -43,8 +43,8 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	 * @param sliderFactory slider factory
 	 * @param view          accessibility view
 	 */
-	public AccessibleGraphicsView(AppW app, BaseWidgetFactory sliderFactory,
-			final AccessibilityView view) {
+	public AccessibleGraphicsView(
+			AppW app, BaseWidgetFactory sliderFactory, final AccessibilityView view) {
 		this.app = app;
 		this.view = view;
 		for (int i = 0; i < sliderTypes.size(); i++) {
@@ -117,5 +117,4 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	public boolean isCompatible(GeoElement geo) {
 		return true;
 	}
-
 }

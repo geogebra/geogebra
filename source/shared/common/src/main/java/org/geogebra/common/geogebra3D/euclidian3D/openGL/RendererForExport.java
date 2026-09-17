@@ -30,7 +30,7 @@ public class RendererForExport extends Renderer {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param view
 	 *            3D view
 	 */
@@ -64,7 +64,7 @@ public class RendererForExport extends Renderer {
 
 	/**
 	 * set x/y min/max
-	 * 
+	 *
 	 * @param xmin
 	 *            min for x
 	 * @param xmax
@@ -166,7 +166,7 @@ public class RendererForExport extends Renderer {
 
 	/**
 	 * set if we want to reduce bounds for clipping
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -183,5 +183,4 @@ public class RendererForExport extends Renderer {
 	protected void doStartAR() {
 		// used in AR implementations
 	}
-
 }

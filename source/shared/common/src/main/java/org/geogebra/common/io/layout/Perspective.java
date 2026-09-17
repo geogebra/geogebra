@@ -30,7 +30,7 @@ import org.geogebra.common.main.App.InputPosition;
  * too. Perspectives may be loaded at the beginning and in between, but the
  * initially loaded perspective just needs to be updated if the user wants to
  * save his perspective.
- * 
+ *
  * @author Florian Sonner
  */
 public class Perspective {
@@ -99,15 +99,21 @@ public class Perspective {
 
 	private final int defaultID;
 	/** translation keys for perspective names */
-	final private static String[] perspectiveNames = new String[] { "Custom",
-			"Graphing", "Perspective.Geometry",
-			"Perspective.Spreadsheet", "Perspective.CAS",
-			"Perspective.3DGraphics", "Perspective.Probability",
-			"Notes", "Scientific", "Evaluator" };
+	private static final String[] perspectiveNames = new String[] {
+		"Custom",
+		"Graphing",
+		"Perspective.Geometry",
+		"Perspective.Spreadsheet",
+		"Perspective.CAS",
+		"Perspective.3DGraphics",
+		"Perspective.Probability",
+		"Notes",
+		"Scientific",
+		"Evaluator"
+	};
 	/** slugs for web app url / tutorials url */
-	final private static String[] perspectiveSlugs = new String[] { "graphing",
-			"geometry", "spreadsheet", "cas", "3d", "probability",
-			"notes" };
+	private static final String[] perspectiveSlugs =
+			new String[] {"graphing", "geometry", "spreadsheet", "cas", "3d", "probability", "notes"};
 	/** graphing calculator */
 	public static final int GRAPHING = 1;
 	/** geometry calculator */
@@ -129,7 +135,7 @@ public class Perspective {
 
 	/**
 	 * Create a perspective with default layout.
-	 * 
+	 *
 	 * @param defaultID
 	 *            id
 	 * @param splitPaneInfo
@@ -151,10 +157,16 @@ public class Perspective {
 	 * @param inputPosition
 	 *            position of the InputField/InputBox
 	 */
-	public Perspective(int defaultID, DockSplitPaneData[] splitPaneInfo,
-			DockPanelData[] dockPanelInfo, String toolbarDefinition,
-			boolean showToolBar, boolean showGrid, boolean showAxes,
-			boolean showInputPanel, boolean showInputPanelCommands,
+	public Perspective(
+			int defaultID,
+			DockSplitPaneData[] splitPaneInfo,
+			DockPanelData[] dockPanelInfo,
+			String toolbarDefinition,
+			boolean showToolBar,
+			boolean showGrid,
+			boolean showAxes,
+			boolean showInputPanel,
+			boolean showInputPanelCommands,
 			InputPosition inputPosition) {
 		this.defaultID = defaultID;
 		this.splitPaneData = splitPaneInfo;
@@ -422,9 +434,11 @@ public class Perspective {
 		sb.startTag("input");
 		sb.attr("show", getShowInputPanel());
 		sb.attr("cmd", getShowInputPanelCommands());
-		sb.attrRaw("top", getInputPosition() == InputPosition.top ? "true"
-				: getInputPosition() == InputPosition.bottom ? "false"
-						: "algebra");
+		sb.attrRaw(
+				"top",
+				getInputPosition() == InputPosition.top
+						? "true"
+						: getInputPosition() == InputPosition.bottom ? "false" : "algebra");
 		sb.endTag();
 
 		getDockbarXML(sb);
@@ -464,7 +478,6 @@ public class Perspective {
 			}
 		}
 		sb.closeTag("views");
-
 	}
 
 	private void getDockbarXML(XMLStringBuilder sb) {

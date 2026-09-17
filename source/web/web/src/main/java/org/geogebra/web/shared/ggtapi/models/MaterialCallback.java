@@ -37,5 +37,4 @@ public abstract class MaterialCallback implements MaterialCallbackI {
 	public void onLoaded(List<Material> result, Pagination meta) {
 		// onLoaded(result);
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,8 +51,8 @@ class MyXMLioTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon createAppCommon() {
-		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon(),
-				new AppConfigDefault()) {
+		return new AppCommon3D(
+				new LocalizationCommonUTF(3), new AwtFactoryCommon(), new AppConfigDefault()) {
 			@Override
 			protected void showErrorDialog(String message) {
 				fail(message);
@@ -62,10 +62,11 @@ class MyXMLioTest extends BaseUnitTest {
 
 	@Test
 	void testXmlContainsAppCode() {
-		MyXMLio myXMLio = Mockito.mock(MyXMLio.class, Mockito
-				.withSettings()
-				.defaultAnswer(Mockito.CALLS_REAL_METHODS)
-				.useConstructor(getKernel(), getConstruction()));
+		MyXMLio myXMLio = Mockito.mock(
+				MyXMLio.class,
+				Mockito.withSettings()
+						.defaultAnswer(Mockito.CALLS_REAL_METHODS)
+						.useConstructor(getKernel(), getConstruction()));
 		getApp().setConfig(new AppConfigGraphing());
 		String fullXml = myXMLio.getFullXML();
 		assertThat(fullXml, containsString("app=\"graphing\""));
@@ -73,10 +74,11 @@ class MyXMLioTest extends BaseUnitTest {
 
 	@Test
 	void testXmlContainsParentName() {
-		MyXMLio myXMLio = Mockito.mock(MyXMLio.class, Mockito
-				.withSettings()
-				.defaultAnswer(Mockito.CALLS_REAL_METHODS)
-				.useConstructor(getKernel(), getConstruction()));
+		MyXMLio myXMLio = Mockito.mock(
+				MyXMLio.class,
+				Mockito.withSettings()
+						.defaultAnswer(Mockito.CALLS_REAL_METHODS)
+						.useConstructor(getKernel(), getConstruction()));
 		getApp().setConfig(new AppConfigGeometry(SUITE_APPCODE));
 		String fullXml = myXMLio.getFullXML();
 		assertThat(fullXml, containsString("app=\"suite\" subApp=\"geometry\""));
@@ -85,8 +87,9 @@ class MyXMLioTest extends BaseUnitTest {
 	@Test
 	void loadCompleteZip() throws IOException, XMLParseException {
 		MyXMLioJre xmlIO = new MyXMLioCommon(getKernel(), getConstruction());
-		xmlIO.readZipFromInputStream(Files.newInputStream(
-				Paths.get("src/test/resources/org/geogebra/common/io/ziptest.ggb")), false);
+		xmlIO.readZipFromInputStream(
+				Files.newInputStream(Paths.get("src/test/resources/org/geogebra/common/io/ziptest.ggb")),
+				false);
 		assertThat(lookup("A"), notNullValue());
 		assertThat(getKernel().getLibraryJavaScript(), containsString("console.log"));
 		// verify 2d defaults
@@ -103,11 +106,17 @@ class MyXMLioTest extends BaseUnitTest {
 		MyXMLioJre xmlIO = new MyXMLioCommon(getKernel(), getConstruction());
 		ErrorAccumulator errorHandler = new ErrorAccumulator();
 		xmlIO.setErrorHandler(errorHandler);
-		xmlIO.doParseXML(new MyXMLioJre.XMLStreamStringJre(
-				"<geogebra format=\"5.2\"><construction>"
+		xmlIO.doParseXML(
+				new MyXMLioJre.XMLStreamStringJre("<geogebra format=\"5.2\"><construction>"
 						+ "<expression exp=\"*\"/></construction></geogebra>"),
-				true, false, false , false, false);
-		assertEquals("Opening file failed \n" + Unicode.CENTER_DOT
-				+ " error in <expression>: label=null, exp= *", errorHandler.getErrors().trim());
+				true,
+				false,
+				false,
+				false,
+				false);
+		assertEquals(
+				"Opening file failed \n" + Unicode.CENTER_DOT
+						+ " error in <expression>: label=null, exp= *",
+				errorHandler.getErrors().trim());
 	}
 }

@@ -67,13 +67,12 @@ class GroupLayersTest {
 
 	private void withGroup(int... indexes) {
 		ArrayList<GeoElement> members = new ArrayList<>();
-		for (int idx: indexes) {
+		for (int idx : indexes) {
 			members.add(geos[idx]);
 		}
 
 		Group group = new Group(members);
 		construction.addGroupToGroupList(group);
-
 	}
 
 	private void assertOrdering(int... newOrder) {

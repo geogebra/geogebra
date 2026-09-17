@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -101,11 +101,10 @@ class TableValuesViewTest extends BaseUnitTest {
 
 	@Test
 	void testInvalidValuesThrowException() {
-		assertThrows(InvalidValuesException.class,
-				() -> view.setValues(0, 10, -1));
-		assertThrows(InvalidValuesException.class,
-				() -> view.setValues(10, 0, 1));
-		assertThrows(InvalidValuesException.class,
+		assertThrows(InvalidValuesException.class, () -> view.setValues(0, 10, -1));
+		assertThrows(InvalidValuesException.class, () -> view.setValues(10, 0, 1));
+		assertThrows(
+				InvalidValuesException.class,
 				() -> view.setValues(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1));
 	}
 
@@ -539,10 +538,10 @@ class TableValuesViewTest extends BaseUnitTest {
 		GeoElementFactory factory = getElementFactory();
 		GeoFunction fn = factory.createFunction("f:x^2");
 		showColumn(fn);
-		assertThat(getApp().getXML(),
+		assertThat(
+				getApp().getXML(),
 				stringContainsInOrder(
-						"<tableview min=\"0\" max=\"10\"",
-						"<tableview column=\"1\" points=\"true\"/>"));
+						"<tableview min=\"0\" max=\"10\"", "<tableview column=\"1\" points=\"true\"/>"));
 	}
 
 	@Test

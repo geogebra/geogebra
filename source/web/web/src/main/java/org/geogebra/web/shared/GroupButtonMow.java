@@ -29,7 +29,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
  * @author csilla
- * 
+ *
  *         Group button for the joint share dialog (mow)
  *
  */
@@ -46,8 +46,8 @@ public final class GroupButtonMow extends FlowPanel {
 	 * @param callBack
 	 *            to add to selected/unselected groups list
 	 */
-	public GroupButtonMow(GroupIdentifier groupName, boolean selected,
-			BiConsumer<GroupIdentifier, Boolean> callBack) {
+	public GroupButtonMow(
+			GroupIdentifier groupName, boolean selected, BiConsumer<GroupIdentifier, Boolean> callBack) {
 		this.groupDescription = groupName;
 		this.selected = selected;
 		this.callBack = callBack;
@@ -79,27 +79,27 @@ public final class GroupButtonMow extends FlowPanel {
 		contentPanel.addStyleName("content");
 		SimplePanel groupImgHolder = new SimplePanel();
 		groupImgHolder.addStyleName("groupImgHolder");
-		NoDragImage groupImg = new NoDragImage(
-				SharedResources.INSTANCE.groups(), 24);
+		NoDragImage groupImg = new NoDragImage(SharedResources.INSTANCE.groups(), 24);
 		groupImg.addStyleName("groupImg");
 		groupImgHolder.add(groupImg);
-		NoDragImage checkMark = new NoDragImage(
-				SharedResources.INSTANCE.check_mark_white(), 14);
+		NoDragImage checkMark = new NoDragImage(SharedResources.INSTANCE.check_mark_white(), 14);
 		checkMark.addStyleName("checkMark");
 		contentPanel.add(groupImgHolder);
 		contentPanel.add(checkMark);
-		Label groupLbl = BaseWidgetFactory.INSTANCE.newSecondaryText(
-				groupDescription.name, "groupName");
+		Label groupLbl =
+				BaseWidgetFactory.INSTANCE.newSecondaryText(groupDescription.name, "groupName");
 		contentPanel.add(groupLbl);
 		add(contentPanel);
 	}
 
 	private void addClickHandler() {
-		addDomHandler(event -> {
-			setSelected(!selected);
-			updateToSelected();
-			callBack.accept(groupDescription, selected);
-		}, ClickEvent.getType());
+		addDomHandler(
+				event -> {
+					setSelected(!selected);
+					updateToSelected();
+					callBack.accept(groupDescription, selected);
+				},
+				ClickEvent.getType());
 	}
 
 	/**
@@ -108,5 +108,4 @@ public final class GroupButtonMow extends FlowPanel {
 	public void updateToSelected() {
 		Dom.toggleClass(this, "selected", selected);
 	}
-
 }

@@ -64,8 +64,8 @@ public final class Cookies {
 	 * @param name the name of the cookie to be removed
 	 */
 	public static void removeCookie(String name) {
-		DomGlobal.document.cookie = Global.encodeURIComponent(name)
-				+ "=;expires=Fri, 02-Jan-1970 00:00:00 GMT";
+		DomGlobal.document.cookie =
+				Global.encodeURIComponent(name) + "=;expires=Fri, 02-Jan-1970 00:00:00 GMT";
 	}
 
 	/**
@@ -113,11 +113,9 @@ public final class Cookies {
 	 * @param domain the domain to be associated with this cookie
 	 * @param path the path to be associated with this cookie
 	 */
-	public static void setCookie(String name, String value, Date expires,
-			String domain, String path) {
-		String cookie = Global.encodeURIComponent(name)
-				+ '='
-				+ Global.encodeURIComponent(value);
+	public static void setCookie(
+			String name, String value, Date expires, String domain, String path) {
+		String cookie = Global.encodeURIComponent(name) + '=' + Global.encodeURIComponent(value);
 		if (expires != null) {
 			cookie += ";expires=" + expires.toGMTString();
 		}

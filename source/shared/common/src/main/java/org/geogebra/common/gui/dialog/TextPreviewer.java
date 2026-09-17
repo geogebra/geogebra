@@ -41,7 +41,7 @@ import org.geogebra.common.main.MyError;
  * Abstract class for displaying a preview of a GeoText while editing. The class
  * requires a GUI panel that encloses an instance of EuclidianView. The preview
  * is drawn as a GeoText element in this EuclidianView.
- * 
+ *
  * The class maintains two hidden geos (previewGeoIndependent and
  * previewGeoDependent) that are used to preview the two possible types of
  * GeoText, independent and dependent.
@@ -84,11 +84,11 @@ public abstract class TextPreviewer {
 	 * the given preview geo. This forces the enclosing scrollpane to show
 	 * scrollbars when the size of the preview geo grows larger than the
 	 * scrollpane viewport.
-	 * 
+	 *
 	 * Note: The preview geo uses absolute screen coords, so we can't easily get
 	 * the bounding box dimensions and must use dummy containers to estimate
 	 * these dimensions.
-	 * 
+	 *
 	 * @param previewGeo preview text
 	 */
 	protected abstract void updateViewportSize(GeoText previewGeo);
@@ -122,23 +122,23 @@ public abstract class TextPreviewer {
 	 * Updates the preview geos and creates new geos if needed. Changes are
 	 * determined by the inputValue string and the visual style of the
 	 * targetGeo.
-	 * 
+	 *
 	 * @param targetGeo geo being edited
 	 * @param inputValue input text
 	 * @param isLaTeXset whether user set it to LaTeX
 	 * @param mayDetectLaTeX whether we may change the LaTeX property
 	 * @return whether this is latex
 	 */
-	public boolean updatePreviewText(GeoText targetGeo, String inputValue,
-			boolean isLaTeXset, boolean mayDetectLaTeX) {
+	public boolean updatePreviewText(
+			GeoText targetGeo, String inputValue, boolean isLaTeXset, boolean mayDetectLaTeX) {
 		boolean isLaTeX = isLaTeXset;
 		if (mayDetectLaTeX && !isLaTeXset) {
 			isLaTeX = isLaTeX || guessLaTeX(inputValue);
 		}
 		// initialize variables
 		ValidExpression exp = null;
-		StringTemplate tpl = targetGeo == null ? StringTemplate.defaultTemplate
-				: targetGeo.getStringTemplate();
+		StringTemplate tpl =
+				targetGeo == null ? StringTemplate.defaultTemplate : targetGeo.getStringTemplate();
 		ExpressionValue eval = null;
 		boolean hasParseError = false;
 		boolean showErrorMessage = false;
@@ -193,8 +193,7 @@ public abstract class TextPreviewer {
 			// set the text string for the geo
 			String text = "";
 			if (showErrorMessage) {
-				text = ev.getApplication().getLocalization()
-						.getInvalidInputError();
+				text = ev.getApplication().getLocalization().getInvalidInputError();
 			} else if (eval != null) {
 				MyStringBuffer eval2 = ((TextValue) eval).getText();
 				text = eval2.toValueString(tpl);
@@ -203,8 +202,7 @@ public abstract class TextPreviewer {
 			previewGeoIndependent.setTextString(text);
 
 			// update the display style
-			updateVisualProperties(previewGeoIndependent, targetGeo, isLaTeX,
-					showErrorMessage);
+			updateVisualProperties(previewGeoIndependent, targetGeo, isLaTeX, showErrorMessage);
 		}
 
 		// case 2: dependent GeoText, needs AlgoDependentText
@@ -219,16 +217,14 @@ public abstract class TextPreviewer {
 			// in the preview as LaTeX
 			// NB FormulaText[a] is displayed as-is
 			// FormulaText[a]+"" needs to have LaTeX box manually checked
-			if (exp.evaluate(tpl).isGeoElement()
-					&& ((GeoText) exp.evaluate(tpl)).isLaTeXTextCommand()) {
+			if (exp.evaluate(tpl).isGeoElement() && ((GeoText) exp.evaluate(tpl)).isLaTeXTextCommand()) {
 				isLaTeX = true;
 			}
 
 			// eg just an x in the "empty box"
 			// (otherwise leads to NPE so
 			// cons.removeFromConstructionList(textAlgo); doesn't get called
-			if (((ExpressionNode) exp).getGeoElementVariables(
-					SymbolicMode.NONE) == null) {
+			if (((ExpressionNode) exp).getGeoElementVariables(SymbolicMode.NONE) == null) {
 				// can't make an AlgoDependentText
 				return isLaTeX;
 			}
@@ -241,8 +237,7 @@ public abstract class TextPreviewer {
 			ev.add(previewGeoDependent);
 
 			// set the display style
-			updateVisualProperties(previewGeoDependent, targetGeo, isLaTeX,
-					showErrorMessage);
+			updateVisualProperties(previewGeoDependent, targetGeo, isLaTeX, showErrorMessage);
 			// needed to reflect change of significant digits
 			textAlgo.update();
 		}
@@ -261,8 +256,7 @@ public abstract class TextPreviewer {
 		if (previewGeoIndependent.isEuclidianVisible()) {
 			updateViewportSize(previewGeoIndependent);
 		}
-		if ((previewGeoDependent != null)
-				&& previewGeoDependent.isEuclidianVisible()) {
+		if ((previewGeoDependent != null) && previewGeoDependent.isEuclidianVisible()) {
 			updateViewportSize(previewGeoDependent);
 		}
 
@@ -271,19 +265,18 @@ public abstract class TextPreviewer {
 	}
 
 	private static boolean guessLaTeX(String textString) {
-		return textString != null
-				&& (textString.contains("\\") || textString.contains("^"));
+		return textString != null && (textString.contains("\\") || textString.contains("^"));
 	}
 
 	/**
 	 * Sets the visual properties of a preview geo
 	 */
-	private void updateVisualProperties(GeoText geo, GeoText targetGeo,
-			boolean isLaTeX, boolean isErrorMessage) {
+	private void updateVisualProperties(
+			GeoText geo, GeoText targetGeo, boolean isLaTeX, boolean isErrorMessage) {
 		// set error message style
 		if (isErrorMessage) {
-			geo.setVisualStyle(cons.getConstructionDefaults()
-					.getDefaultGeo(ConstructionDefaults.DEFAULT_TEXT));
+			geo.setVisualStyle(
+					cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_TEXT));
 			geo.setObjColor(GColor.RED);
 			geo.setBackgroundColor(GColor.WHITE);
 			geo.setFontStyle(GFont.ITALIC);
@@ -315,8 +308,7 @@ public abstract class TextPreviewer {
 	 */
 	private static void locateTextGeo(GeoText geo) {
 		int xInset = 4;
-		int yInset = (int) (geo.isLaTeX() ? 4
-				: 18 + 12 * (geo.getFontSizeMultiplier() - 1));
+		int yInset = (int) (geo.isLaTeX() ? 4 : 18 + 12 * (geo.getFontSizeMultiplier() - 1));
 
 		geo.setAbsoluteScreenLocActive(true);
 		geo.setAbsoluteScreenLoc(xInset, yInset);

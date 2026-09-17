@@ -27,7 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Button[],Button[caption]
- * 
+ *
  * @author Zbynek
  *
  */
@@ -35,7 +35,7 @@ public class CmdButton extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,34 +44,32 @@ public class CmdButton extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		// dummy
 
 		switch (n) {
-		case 1:
-
-			arg = resArgs(c, info);
-			if (arg[0].isGeoText()) {
-				String caption = ((GeoText) arg[0]).getTextString();
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoText()) {
+					String caption = ((GeoText) arg[0]).getTextString();
+					GeoButton gb = new GeoButton(cons);
+					gb.setLabelVisible(true);
+					gb.setCaption(caption);
+					gb.setLabel(c.getLabel());
+					return new GeoElement[] {gb};
+				}
+				throw argErr(c, arg[0]);
+			case 0:
 				GeoButton gb = new GeoButton(cons);
 				gb.setLabelVisible(true);
-				gb.setCaption(caption);
 				gb.setLabel(c.getLabel());
-				return new GeoElement[] { gb };
-			}
-			throw argErr(c, arg[0]);
-		case 0:
-			GeoButton gb = new GeoButton(cons);
-			gb.setLabelVisible(true);
-			gb.setLabel(c.getLabel());
-			return new GeoElement[] { gb };
+				return new GeoElement[] {gb};
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
-
 	}
 }

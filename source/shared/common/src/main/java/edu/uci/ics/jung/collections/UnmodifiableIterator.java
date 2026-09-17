@@ -28,8 +28,7 @@ import java.util.Iterator;
  *
  * @author Stephen Colebourne
  */
-public final class UnmodifiableIterator<E>
-		implements Iterator<E> {
+public final class UnmodifiableIterator<E> implements Iterator<E> {
 
 	/** The iterator being decorated */
 	private final Iterator<E> iterator;
@@ -82,5 +81,4 @@ public final class UnmodifiableIterator<E>
 	public void remove() {
 		throw new UnsupportedOperationException("remove() is not supported");
 	}
-
 }

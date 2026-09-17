@@ -36,7 +36,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class DrawImage extends Drawable {
@@ -60,11 +60,11 @@ public class DrawImage extends Drawable {
 	/**
 	 * the cropped image should have at least 50px width
 	 */
-	public final static int IMG_CROP_THRESHOLD = 50;
+	public static final int IMG_CROP_THRESHOLD = 50;
 
 	/**
 	 * Creates new drawable image
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param geoImage
@@ -82,7 +82,7 @@ public class DrawImage extends Drawable {
 
 		selStroke = AwtFactory.getPrototype().newMyBasicStroke(2);
 	}
-	
+
 	@Override
 	public void update() {
 		isVisible = geo.isEuclidianVisible();
@@ -155,11 +155,11 @@ public class DrawImage extends Drawable {
 			// we only have corner A
 			if (D == null) {
 				// use original pixel width and height of image
-				at.scale(view.getInvXscale(),
+				at.scale(
+						view.getInvXscale(),
 						// make sure old files work
 						// https://dev.geogebra.org/trac/changeset/57611
-						geo.getKernel().getApplication().fileVersionBefore(
-								5, 0, 397, 0)
+						geo.getKernel().getApplication().fileVersionBefore(5, 0, 397, 0)
 								? -view.getInvXscale()
 								: -view.getInvYscale());
 			}
@@ -240,8 +240,8 @@ public class DrawImage extends Drawable {
 		// improve rendering for sheared and scaled images (translations
 		// don't need this)
 		// turns false if the image doesn't want interpolation
-		needsInterpolationRenderingHint = geoImage.isInterpolate()
-				&& (!isTranslation(at) || view.getPixelRatio() != 1);
+		needsInterpolationRenderingHint =
+				geoImage.isInterpolate() && (!isTranslation(at) || view.getPixelRatio() != 1);
 	}
 
 	private static boolean isTranslation(GAffineTransform at2) {
@@ -254,7 +254,7 @@ public class DrawImage extends Drawable {
 	/**
 	 * If background flag changed, do immediate update. Otherwise mark for
 	 * update after next repaint.
-	 * 
+	 *
 	 * @return whether it was in background for the whole time
 	 */
 	public boolean checkInBackground() {
@@ -275,14 +275,13 @@ public class DrawImage extends Drawable {
 			GComposite oldComp = g2.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null) {
-					alphaComp = AwtFactory.getPrototype()
-							.newAlphaComposite(alpha);
+					alphaComp = AwtFactory.getPrototype().newAlphaComposite(alpha);
 				}
 				g2.setComposite(alphaComp);
 			}
 			MyImage image = geoImage.getFillImage();
-			boolean needsHighlightingRectangle = !isInBackground
-					&& isHighlighted() && !view.getApplication().isWhiteboardActive();
+			boolean needsHighlightingRectangle =
+					!isInBackground && isHighlighted() && !view.getApplication().isWhiteboardActive();
 			if (absoluteLocation) {
 				g2.drawImage(image, screenX, screenY);
 				g2.setComposite(oldComp);
@@ -294,9 +293,9 @@ public class DrawImage extends Drawable {
 				g2.transform(at);
 
 				// improve rendering quality for transformed images
-				Object oldInterpolationHint = g2
-						.setInterpolationHint(needsInterpolationRenderingHint);
-				if (view.getBoundingBox() != null && view.getBoundingBox().isCropBox()
+				Object oldInterpolationHint = g2.setInterpolationHint(needsInterpolationRenderingHint);
+				if (view.getBoundingBox() != null
+						&& view.getBoundingBox().isCropBox()
 						&& geo.isSelected()) {
 					g2.setComposite(AwtFactory.getPrototype().newAlphaComposite(0.5f));
 					g2.drawImage(image, 0, 0);
@@ -307,9 +306,16 @@ public class DrawImage extends Drawable {
 					g2.drawImage(image, 0, 0);
 				} else {
 					GRectangle2D rect = geoImage.getCropBoxRelative();
-					g2.drawImage(image, (int) rect.getX(), (int) rect.getY(),
-							(int) rect.getWidth(), (int) rect.getHeight(), (int) rect.getX(),
-							(int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
+					g2.drawImage(
+							image,
+							(int) rect.getX(),
+							(int) rect.getY(),
+							(int) rect.getWidth(),
+							(int) rect.getHeight(),
+							(int) rect.getX(),
+							(int) rect.getY(),
+							(int) rect.getWidth(),
+							(int) rect.getHeight());
 				}
 				// reset previous values
 				g2.resetInterpolationHint(oldInterpolationHint);
@@ -325,13 +331,12 @@ public class DrawImage extends Drawable {
 
 	private void drawRealWorldCoordHighlightRectangle(GGraphics2D g2) {
 		// First layer - 3px purple
-		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
-				Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH * 1.5));
+		g2.setStroke(
+				AwtFactory.getPrototype().newBasicStroke(Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH * 1.5));
 		g2.setPaint(GeoGebraColorConstants.PURPLE_700);
 		drawHighlightRectangle(g2, -1);
 		// Second layer - 2px white (inside)
-		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(
-				Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH));
 		g2.setPaint(GColor.WHITE);
 		drawHighlightRectangle(g2, -2.5);
 	}
@@ -343,35 +348,34 @@ public class DrawImage extends Drawable {
 
 	private void drawHighlightRectangle(GGraphics2D g2, double extraOffset) {
 		// draw parallelogram around edge
-		final double offX = (HIGHLIGHT_OFFSET + extraOffset)
-				* Math.abs(atInverse.getScaleX() + atInverse.getShearX());
+		final double offX =
+				(HIGHLIGHT_OFFSET + extraOffset) * Math.abs(atInverse.getScaleX() + atInverse.getShearX());
 		final double minX = labelRectangle.getMinX();
-		final double offY = (HIGHLIGHT_OFFSET + extraOffset)
-				* Math.abs(atInverse.getScaleY() + atInverse.getShearY());
+		final double offY =
+				(HIGHLIGHT_OFFSET + extraOffset) * Math.abs(atInverse.getScaleY() + atInverse.getShearY());
 		final double minY = labelRectangle.getMinY();
 		final double maxX = labelRectangle.getMaxX();
 		final double maxY = labelRectangle.getMaxY();
 		double rx = offX / 2;
 		double ry = offY / 2;
 		if (highlighting == null) {
-			highlighting = AwtFactory.getPrototype()
-					.newGeneralPath();
+			highlighting = AwtFactory.getPrototype().newGeneralPath();
 		} else {
 			highlighting.reset();
 		}
 		highlighting.moveTo(minX, minY - offY);
 		highlighting.lineTo(maxX, minY - offY); // bottom edge
-		highlighting.curveTo(maxX + offX - rx, minY - offY,
-				maxX + offX, minY - offY + ry, maxX + offX, minY);
+		highlighting.curveTo(
+				maxX + offX - rx, minY - offY, maxX + offX, minY - offY + ry, maxX + offX, minY);
 		highlighting.lineTo(maxX + offX, maxY); // right edge
-		highlighting.curveTo(maxX + offX, maxY + offY - ry,
-				maxX + offX - rx, maxY + offY, maxX, maxY + offY);
+		highlighting.curveTo(
+				maxX + offX, maxY + offY - ry, maxX + offX - rx, maxY + offY, maxX, maxY + offY);
 		highlighting.lineTo(minX, maxY + offY); // top edge
-		highlighting.curveTo(minX - offX + rx, maxY + offY,
-				minX - offX, maxY + offY - ry, minX - offX, maxY);
+		highlighting.curveTo(
+				minX - offX + rx, maxY + offY, minX - offX, maxY + offY - ry, minX - offX, maxY);
 		highlighting.lineTo(minX - offX, minY); // left edge
-		highlighting.curveTo(minX - offX, minY - offY + ry,
-				minX - offX + rx, minY - offY, minX, minY - offY);
+		highlighting.curveTo(
+				minX - offX, minY - offY + ry, minX - offX + rx, minY - offY, minX, minY - offY);
 		highlighting.closePath();
 		GShape shape = highlighting.createTransformedShape(at);
 		g2.draw(shape);
@@ -379,7 +383,7 @@ public class DrawImage extends Drawable {
 
 	/**
 	 * Returns whether this is background image
-	 * 
+	 *
 	 * @return true for background images
 	 */
 	boolean isInBackground() {
@@ -404,8 +408,7 @@ public class DrawImage extends Drawable {
 			atInverse.transform(hitCoords, 0, hitCoords, 0, 1);
 		}
 		if (geoImage.isCropped()) {
-			return geoImage.getCropBoxRelative().contains(hitCoords[0],
-					hitCoords[1]);
+			return geoImage.getCropBoxRelative().contains(hitCoords[0], hitCoords[1]);
 		}
 		return labelRectangle.contains(hitCoords[0], hitCoords[1]);
 	}
@@ -415,8 +418,10 @@ public class DrawImage extends Drawable {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
-		return rect.intersects(view.getApplication().isWhiteboardActive()
-				? getBoundingBox().getRectangle() : classicBoundingBox);
+		return rect.intersects(
+				view.getApplication().isWhiteboardActive()
+						? getBoundingBox().getRectangle()
+						: classicBoundingBox);
 	}
 
 	@Override
@@ -424,8 +429,10 @@ public class DrawImage extends Drawable {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
-		return rect.contains(view.getApplication().isWhiteboardActive()
-				? getBoundingBox().getRectangle() : classicBoundingBox);
+		return rect.contains(
+				view.getApplication().isWhiteboardActive()
+						? getBoundingBox().getRectangle()
+						: classicBoundingBox);
 	}
 
 	/**
@@ -456,5 +463,4 @@ public class DrawImage extends Drawable {
 	protected GAffineTransform getTransform() {
 		return at;
 	}
-
 }

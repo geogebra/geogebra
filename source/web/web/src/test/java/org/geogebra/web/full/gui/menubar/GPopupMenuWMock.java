@@ -67,5 +67,4 @@ public class GPopupMenuWMock extends GPopupMenuW {
 	public void clearItems() {
 		menuBarMock.clearItems();
 	}
-
 }

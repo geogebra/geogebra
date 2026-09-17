@@ -32,8 +32,8 @@ import org.jspecify.annotations.NonNull;
  * {@link AbstractEnumeratedProperty#setValues(List)} at some point in the constructor.
  * @param <V> value type
  */
-public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProperty<V> implements
-		EnumeratedProperty<V> {
+public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProperty<V>
+		implements EnumeratedProperty<V> {
 
 	private int[] groupDividerIndices = null;
 	private List<V> values = new ArrayList<>();
@@ -101,8 +101,8 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 	public void setIndex(int index) {
 		ensureValuesPresent();
 		if (index < 0 || index >= getValues().size()) {
-			throw new IndexOutOfBoundsException("Index " + index + " must be between 0 and "
-					+ (values.size() - 1) + ".");
+			throw new IndexOutOfBoundsException(
+					"Index " + index + " must be between 0 and " + (values.size() - 1) + ".");
 		}
 		setValue(getValues().get(index));
 	}
@@ -115,11 +115,10 @@ public abstract class AbstractEnumeratedProperty<V> extends AbstractValuedProper
 
 	private void ensureValuesPresent() {
 		if (values == null) {
-			throw new RuntimeException("Set values must be called in the constructor for "
-					+ getName());
+			throw new RuntimeException("Set values must be called in the constructor for " + getName());
 		}
 	}
-	
+
 	@Override
 	public int[] getGroupDividerIndices() {
 		return groupDividerIndices;

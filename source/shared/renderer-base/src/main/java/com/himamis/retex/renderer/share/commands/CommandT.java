@@ -16,5 +16,4 @@ public class CommandT extends Command1A {
 			}
 		});
 	}
-
 }

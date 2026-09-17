@@ -91,8 +91,7 @@ public class PolyLineBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	@Override
-	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y,
-			int hitThreshold) {
+	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y, int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 		if (hit >= 0) {
 			return new ControlPointHandler(hit);
@@ -147,8 +146,8 @@ public class PolyLineBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	private void undoable(Consumer<AlgoPolyLine> action) {
 		AlgoElement parentAlgorithm = poly.getParentAlgorithm();
 		if (parentAlgorithm instanceof AlgoPolyLine) {
-			UpdateActionStore store = new UpdateActionStore(app.getSelectionManager(),
-					app.getKernel().getConstruction().getUndoManager());
+			UpdateActionStore store = new UpdateActionStore(
+					app.getSelectionManager(), app.getKernel().getConstruction().getUndoManager());
 			store.addIfNotPresent(poly, MoveMode.NONE);
 			action.accept((AlgoPolyLine) parentAlgorithm);
 			store.storeUndo();

@@ -55,17 +55,13 @@ class ModeShapeTest extends BaseEuclidianControllerTest {
 		// fill the shape rectangle
 		add("SetFilling(q2, 100%)");
 		click(100, 75);
-		assertSelected(
-				"Clicking intersection of object and mask should select mask",
-				"q1");
+		assertSelected("Clicking intersection of object and mask should select mask", "q1");
 		click(250, 75);
 		assertSelected("Clicking outside mask should select object", "q2");
 	}
 
 	private void assertSelected(String message, String string) {
-		List<GeoElement> selection = getApp().getSelectionManager()
-				.getSelectedGeos();
+		List<GeoElement> selection = getApp().getSelectionManager().getSelectedGeos();
 		assertEquals(string, selection.get(0).getLabelSimple(), message);
 	}
-
 }

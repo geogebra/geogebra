@@ -80,7 +80,5 @@ public class AlgoLetterToUnicode extends AlgoElement {
 		} else {
 			num.setValue(t.charAt(0));
 		}
-
 	}
-
 }

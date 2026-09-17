@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class CmdMinimumSpanningTree extends CmdOneListFunction {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -37,11 +37,9 @@ public class CmdMinimumSpanningTree extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 
 		AlgoMinimumSpanningTree algo = new AlgoMinimumSpanningTree(cons, a, b);
 		return algo.getResult();
-
 	}
-
 }

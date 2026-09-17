@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -128,8 +128,7 @@ class TableValuesViewUndoRedoTests extends BaseUnitTest {
 
 	@Test
 	void testUndoShowPoints() {
-		TableValuesPoints points = TableValuesPointsImpl.create(getKernel(),
-				getConstruction(), view);
+		TableValuesPoints points = TableValuesPointsImpl.create(getKernel(), getConstruction(), view);
 		GeoLine[] lines = getElementFactory().createLines(2);
 		getApp().storeUndoInfo();
 		shouldHaveUndoPointsAndColumns(1, 1);
@@ -193,8 +192,8 @@ class TableValuesViewUndoRedoTests extends BaseUnitTest {
 		getApp().getSettings().getTable().updateValueList(list);
 		view.add(listY);
 		view.showColumn(listY);
-		GeoElement plot = view.plotRegression(1,
-				new RegressionSpecificationBuilder().getForListSize(3).get(0));
+		GeoElement plot = view.plotRegression(
+				1, new RegressionSpecificationBuilder().getForListSize(3).get(0));
 		getApp().storeUndoInfo();
 		assertEquals("f(x) = x + 3", plot.toString(StringTemplate.defaultTemplate));
 		assertTrue(isInGraphics(plot), "plot in construction initially");
@@ -211,8 +210,7 @@ class TableValuesViewUndoRedoTests extends BaseUnitTest {
 	}
 
 	private void shouldHaveUndoPointsAndColumns(int expected, int expectCols) {
-		assertEquals(expected, getKernel().getConstruction()
-				.getUndoManager().getHistorySize());
+		assertEquals(expected, getKernel().getConstruction().getUndoManager().getHistorySize());
 		assertEquals(expectCols, model.getColumnCount());
 	}
 }

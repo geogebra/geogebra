@@ -69,15 +69,14 @@ public final class GCDFromExpanded implements SimplifyNode {
 				rest = addOrLet(rest, value.wrap());
 			} else if (value.isOperation(Operation.MULTIPLY)) {
 				ExpressionNode product = utils.reduceProduct(value.wrap()).wrap();
-				if (isIntegerValue(product.getLeft()) && ExpressionValueUtils.isSqrtNode(
-						product.getRightTree())) {
+				if (isIntegerValue(product.getLeft())
+						&& ExpressionValueUtils.isSqrtNode(product.getRightTree())) {
 					int radicand = (int) product.getRightTree().getLeft().evaluateDouble();
 					int amount = (int) product.getLeft().evaluateDouble();
 					if (Math.abs(amount) == 1 && !sqrtMap.containsKey(radicand)) {
-						rest = addOrLet(rest,
-								amount == 1
-										? utils.newSqrt(radicand)
-										: utils.newSqrt(radicand).multiplyR(-1));
+						rest = addOrLet(
+								rest,
+								amount == 1 ? utils.newSqrt(radicand) : utils.newSqrt(radicand).multiplyR(-1));
 					} else {
 						addToSqrtMap(radicand, amount);
 					}
@@ -118,9 +117,11 @@ public final class GCDFromExpanded implements SimplifyNode {
 			ExpressionNode newSqrt = utils.newSqrt(entry.getKey());
 			if (multiplier != 0 && Math.abs(entry.getValue()) >= Math.abs(multiplier * gcd1)) {
 				ExpressionNode gcdSqrt = newGCDSqrt(entry.getKey(), multiplier);
-				sum = addOrLet(sum, Math.abs(entry.getValue()) == Math.abs(gcd1)
-						? newSqrt.multiplyR(Math.signum((double) multiplier))
-						: gcdSqrt);
+				sum = addOrLet(
+						sum,
+						Math.abs(entry.getValue()) == Math.abs(gcd1)
+								? newSqrt.multiplyR(Math.signum((double) multiplier))
+								: gcdSqrt);
 			}
 			if (entry.getValue() != multiplier * gcd1) {
 				long restAmount = entry.getValue() - multiplier * gcd1;
@@ -129,7 +130,8 @@ public final class GCDFromExpanded implements SimplifyNode {
 				}
 
 				ExpressionNode modSqrt = Math.abs(restAmount) == 1
-						? newSqrt : utils.newMultiply(utils.newDouble(restAmount), newSqrt);
+						? newSqrt
+						: utils.newMultiply(utils.newDouble(restAmount), newSqrt);
 				mod = addOrLet(mod, modSqrt);
 			}
 		}
@@ -175,9 +177,7 @@ public final class GCDFromExpanded implements SimplifyNode {
 			return utils.newSqrt(radicand).multiplyR(-1);
 		}
 
-		return utils.newMultiply(
-				utils.newDouble(multiplier),
-				utils.newSqrt(radicand));
+		return utils.newMultiply(utils.newDouble(multiplier), utils.newSqrt(radicand));
 	}
 
 	private boolean flattenNode(ExpressionValue value) {

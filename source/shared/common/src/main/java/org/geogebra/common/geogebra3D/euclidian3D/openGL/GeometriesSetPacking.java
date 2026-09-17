@@ -34,20 +34,19 @@ class GeometriesSetPacking extends GeometriesSet {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param manager
 	 *            manager
 	 * @param bufferManager
 	 *            gl buffer manager
-	 * 
+	 *
 	 * @param color
 	 *            color
 	 * @param layer
 	 *            layer
 	 */
 	GeometriesSetPacking(
-			ManagerShaders manager,
-			GLBufferManager bufferManager, GColor color, int layer) {
+			ManagerShaders manager, GLBufferManager bufferManager, GColor color, int layer) {
 		super(manager);
 		this.color = color;
 		this.layer = layer;
@@ -68,7 +67,7 @@ class GeometriesSetPacking extends GeometriesSet {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return geometry set index
 	 */
 	int getIndex() {
@@ -77,8 +76,7 @@ class GeometriesSetPacking extends GeometriesSet {
 
 	@Override
 	protected Geometry newGeometry(Manager.Type type) {
-		return new GeometryPacking(manager, this, type,
-				currentGeometryIndex);
+		return new GeometryPacking(manager, this, type, currentGeometryIndex);
 	}
 
 	@Override
@@ -88,7 +86,7 @@ class GeometriesSetPacking extends GeometriesSet {
 
 	/**
 	 * update all geometries color for this set
-	 * 
+	 *
 	 * @param newColor
 	 *            color
 	 * @param newLayer
@@ -97,13 +95,12 @@ class GeometriesSetPacking extends GeometriesSet {
 	void updateColorAndLayer(GColor newColor, int newLayer) {
 		this.color = newColor;
 		this.layer = newLayer;
-		bufferManager.updateColorAndLayer(index, getGeometriesLength(),
-				newColor, newLayer);
+		bufferManager.updateColorAndLayer(index, getGeometriesLength(), newColor, newLayer);
 	}
 
 	/**
 	 * update all geometries visibility for this set
-	 * 
+	 *
 	 * @param visible
 	 *            if visible
 	 * @param alpha
@@ -112,14 +109,12 @@ class GeometriesSetPacking extends GeometriesSet {
 	 *            object layer
 	 */
 	void updateVisibility(boolean visible, int alpha, int objLayer) {
-		bufferManager.updateVisibility(index, 0, getGeometriesLength(),
-				visible, alpha, objLayer);
+		bufferManager.updateVisibility(index, 0, getGeometriesLength(), visible, alpha, objLayer);
 	}
 
 	@Override
 	public void hideLastGeometries() {
-		bufferManager.updateVisibility(index, currentGeometryIndex,
-				oldGeometriesLength, false, 0, 0);
+		bufferManager.updateVisibility(index, currentGeometryIndex, oldGeometriesLength, false, 0, 0);
 	}
 
 	/**
@@ -137,7 +132,7 @@ class GeometriesSetPacking extends GeometriesSet {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return gl buffer manager
 	 */
 	GLBufferManager getBufferManager() {
@@ -151,8 +146,8 @@ class GeometriesSetPacking extends GeometriesSet {
 
 	@Override
 	public boolean usePacking() {
-        return true;
-    }
+		return true;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

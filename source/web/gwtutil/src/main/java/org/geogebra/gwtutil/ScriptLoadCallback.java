@@ -30,5 +30,4 @@ public interface ScriptLoadCallback {
 	 * Prevent running load callback if not already loaded
 	 */
 	void cancel();
-
 }

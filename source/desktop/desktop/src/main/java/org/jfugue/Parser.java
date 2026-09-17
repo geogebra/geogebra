@@ -2,22 +2,22 @@
  * JFugue - API for Music Programming
  * Copyright (C) 2003-2008  David Koelle
  *
- * http://www.jfugue.org 
- * 
+ * http://www.jfugue.org
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *  
+ *
  */
 
 package org.jfugue;
@@ -30,7 +30,7 @@ import javax.swing.event.EventListenerList;
  * You may notice that there is no parse() method in the Parser class! That's
  * because the parse() method may take any type of parameter, as well as any
  * number of parameters, so it isn't something that can declared ahead of time.
- * 
+ *
  * @author David Koelle
  *
  */
@@ -63,7 +63,7 @@ public class Parser {
 	 * Turns tracing on or off. If you're having trouble with your music string,
 	 * or if you've added new tokens to the parser, turn tracing on to make sure
 	 * that your new tokens are parsed correctly.
-	 * 
+	 *
 	 * @param tracing
 	 *            the state of tracing - on or off
 	 */
@@ -73,7 +73,7 @@ public class Parser {
 
 	/**
 	 * Returns the current state of tracing.
-	 * 
+	 *
 	 * @return the state of tracing
 	 */
 	public int getTracing() {
@@ -82,7 +82,7 @@ public class Parser {
 
 	/**
 	 * Displays the passed String.
-	 * 
+	 *
 	 * @param sentenceFragments
 	 *            the String to display
 	 */
@@ -126,20 +126,17 @@ public class Parser {
 	}
 
 	protected void clearParserProgressListeners() {
-		EventListener[] l = progressListenerList
-				.getListeners(ParserProgressListener.class);
+		EventListener[] l = progressListenerList.getListeners(ParserProgressListener.class);
 		int numListeners = l.length;
 		for (int i = 0; i < numListeners; i++) {
-			progressListenerList.remove(ParserProgressListener.class,
-					(ParserProgressListener) l[i]);
+			progressListenerList.remove(ParserProgressListener.class, (ParserProgressListener) l[i]);
 		}
 	}
 
 	/**
 	 * Tells all ParserProgressListener interfaces that progress has occurred.
 	 */
-	protected void fireProgressReported(String description, long partComplete,
-			long whole) {
+	protected void fireProgressReported(String description, long partComplete, long whole) {
 		Object[] listeners = progressListenerList.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == ParserProgressListener.class) {
@@ -280,8 +277,7 @@ public class Parser {
 		Object[] listeners = listenerList.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == ParserListener.class) {
-				((ParserListener) listeners[i + 1])
-						.polyphonicPressureEvent(event);
+				((ParserListener) listeners[i + 1]).polyphonicPressureEvent(event);
 			}
 		}
 	}

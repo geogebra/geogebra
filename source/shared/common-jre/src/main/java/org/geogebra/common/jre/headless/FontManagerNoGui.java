@@ -23,9 +23,7 @@ import org.geogebra.common.main.FontManager;
 public class FontManagerNoGui extends FontManager {
 
 	@Override
-	public GFont getFontCanDisplay(String testString, boolean serif,
-			int fontStyle, double fontSize) {
+	public GFont getFontCanDisplay(String testString, boolean serif, int fontStyle, double fontSize) {
 		return AwtFactory.getPrototype().newFont("sans", fontStyle, fontSize);
 	}
-
 }

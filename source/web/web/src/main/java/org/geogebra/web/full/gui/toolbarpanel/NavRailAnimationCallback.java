@@ -21,7 +21,7 @@ import org.gwtproject.layout.client.Layout.Layer;
 
 /**
  * Callback that prevents header to be resized during animation.
- * 
+ *
  * @author laszlo
  */
 public abstract class NavRailAnimationCallback implements AnimationCallback {
@@ -59,5 +59,4 @@ public abstract class NavRailAnimationCallback implements AnimationCallback {
 		navRail.updateStyle();
 		onEnd();
 	}
-
 }

@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -41,26 +41,26 @@ public class CmdSetImage extends CmdScripting {
 		GeoElement[] arg = resArgs(c);
 
 		switch (n) {
-		case 2:
-			if (arg[0].isFillable()) {
-				if (arg[1] instanceof GeoImage) {
-					String fileName = arg[1].getImageFileName();
-					if (fileName != null && !fileName.isEmpty()) {
-						arg[0].setFillType(FillType.IMAGE);
-						arg[0].setFillImage(fileName);
-						arg[0].updateVisualStyleRepaint(GProperty.HATCHING);
+			case 2:
+				if (arg[0].isFillable()) {
+					if (arg[1] instanceof GeoImage) {
+						String fileName = arg[1].getImageFileName();
+						if (fileName != null && !fileName.isEmpty()) {
+							arg[0].setFillType(FillType.IMAGE);
+							arg[0].setFillImage(fileName);
+							arg[0].updateVisualStyleRepaint(GProperty.HATCHING);
+						}
+					} else if (arg[1] instanceof GeoText) {
+						app.getImageManager().setImageForFillable(kernel, (GeoText) arg[1], arg[0]);
+					} else {
+						throw argErr(c, arg[1]);
 					}
-				} else if (arg[1] instanceof GeoText) {
-					app.getImageManager().setImageForFillable(kernel, (GeoText) arg[1], arg[0]);
 				} else {
-					throw argErr(c, arg[1]);
+					throw argErr(c, arg[0]);
 				}
-			} else {
-				throw argErr(c, arg[0]);
-			}
-			return arg;
-		default:
-			throw argNumErr(c);
+				return arg;
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

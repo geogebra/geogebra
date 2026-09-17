@@ -66,27 +66,23 @@ class AlgebraViewVisibilityPropertyCollectionTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Slider(-5,5,1)"
-	})
+	@ValueSource(strings = {"Slider(-5,5,1)"})
 	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
-		assertDoesNotThrow(() ->
-				new AlgebraViewVisibilityPropertyCollection(
-						propertiesFactory, getLocalization(), List.of(element)));
+		assertDoesNotThrow(() -> new AlgebraViewVisibilityPropertyCollection(
+				propertiesFactory, getLocalization(), List.of(element)));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"Angle(Line((-1,0),(1,2)),Line((-2,-1),(2,1)))",
-			"Slope(Line((0,0),(1,1)))"
-	})
+	@ValueSource(
+			strings = {"Angle(Line((-1,0),(1,2)),Line((-2,-1),(2,1)))", "Slope(Line((0,0),(1,1)))"})
 	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoElement element = evaluateGeoElement(expression);
-		assertThrows(NotApplicablePropertyException.class, () ->
-				new AlgebraViewVisibilityPropertyCollection(
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new AlgebraViewVisibilityPropertyCollection(
 						propertiesFactory, getLocalization(), List.of(element)));
 	}
 }

@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -18,7 +18,7 @@ package org.geogebra.common.gui.layout;
 
 /**
  * interface for DockSplitPane and DockPanel
- * 
+ *
  * @author mathieu
  *
  */
@@ -31,7 +31,7 @@ public interface DockComponent {
 
 	/**
 	 * Update resize weight
-	 * 
+	 *
 	 * @return true if it contains a panel that takes new space (currently if
 	 *         contains an euclidian view)
 	 */
@@ -44,7 +44,7 @@ public interface DockComponent {
 
 	/**
 	 * update divider location (recursively)
-	 * 
+	 *
 	 * @param size
 	 *            new size of the component
 	 * @param orientation
@@ -54,10 +54,9 @@ public interface DockComponent {
 
 	/**
 	 * set visibility of all DockPanel sub components
-	 * 
+	 *
 	 * @param visible
 	 *            flag
 	 */
 	void setDockPanelsVisible(boolean visible);
-
 }

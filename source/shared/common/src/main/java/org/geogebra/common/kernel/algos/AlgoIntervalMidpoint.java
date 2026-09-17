@@ -35,5 +35,4 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 	public final void compute() {
 		result.setValue((interval.getMin() + interval.getMax()) / 2.0);
 	}
-
 }

@@ -36,7 +36,7 @@ public final class PolyphonicPressure implements JFugueElement {
 	/**
 	 * Creates a new polyphonic pressure object, with the specified key and
 	 * pressure values.
-	 * 
+	 *
 	 * @param key
 	 *            the key to apply pressure to
 	 * @param pressure
@@ -49,7 +49,7 @@ public final class PolyphonicPressure implements JFugueElement {
 
 	/**
 	 * Sets the key value of this object.
-	 * 
+	 *
 	 * @param key
 	 *            the key for this object
 	 */
@@ -59,7 +59,7 @@ public final class PolyphonicPressure implements JFugueElement {
 
 	/**
 	 * Sets the pressure value of this object.
-	 * 
+	 *
 	 * @param pressure
 	 *            the pressure for this object
 	 */
@@ -69,7 +69,7 @@ public final class PolyphonicPressure implements JFugueElement {
 
 	/**
 	 * Returns the key for this object.
-	 * 
+	 *
 	 * @return the key for this object
 	 */
 	public byte getKey() {
@@ -78,7 +78,7 @@ public final class PolyphonicPressure implements JFugueElement {
 
 	/**
 	 * Returns the pressure for this object.
-	 * 
+	 *
 	 * @return the pressure for this object
 	 */
 	public byte getPressure() {
@@ -89,7 +89,7 @@ public final class PolyphonicPressure implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a polyphonic pressure object, the Music String is
 	 * <code>*</code><i>key,pressure</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -105,7 +105,7 @@ public final class PolyphonicPressure implements JFugueElement {
 	/**
 	 * Returns verification string in this format: PolyphonicPressure: key={#},
 	 * pressure={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -117,5 +117,4 @@ public final class PolyphonicPressure implements JFugueElement {
 		buffy.append(getPressure());
 		return buffy.toString();
 	}
-
 }

@@ -34,7 +34,7 @@ public class GeoAudio extends GeoMedia {
 
 	/**
 	 * Constructs a new, empty audio element.
-	 * 
+	 *
 	 * @param c
 	 *            the construction.
 	 */
@@ -56,7 +56,7 @@ public class GeoAudio extends GeoMedia {
 
 	/**
 	 * Constructs a new audio element with given content.
-	 * 
+	 *
 	 * @param c
 	 *            the construction.
 	 * @param url
@@ -178,7 +178,7 @@ public class GeoAudio extends GeoMedia {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param src
 	 *            the audio source URL to set.
 	 */

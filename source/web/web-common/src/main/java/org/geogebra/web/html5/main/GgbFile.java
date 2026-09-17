@@ -34,6 +34,7 @@ public class GgbFile extends HashMap<String, ArchiveEntry> implements ZipFile {
 
 	/** default value */
 	private static final long serialVersionUID = 1L;
+
 	private final String id;
 
 	private static int counter = 0;
@@ -48,7 +49,7 @@ public class GgbFile extends HashMap<String, ArchiveEntry> implements ZipFile {
 
 	/**
 	 * New GGB file with given ID.
-	 * 
+	 *
 	 * @param id
 	 *            file ID
 	 */
@@ -95,5 +96,4 @@ public class GgbFile extends HashMap<String, ArchiveEntry> implements ZipFile {
 	public void put(String key, String val) {
 		put(key, new ArchiveEntry(key, val));
 	}
-
 }

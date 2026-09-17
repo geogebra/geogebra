@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Implements a numbered PDFObject.
  * <p>
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PDFObject.java,v 1.7 2009-08-17 21:44:44 murkle Exp $
  */
@@ -35,8 +35,8 @@ public class PDFObject implements PDFConstants {
 
 	private boolean ok;
 
-	PDFObject(PDF pdf, PDFByteWriter writer, int objectNumber,
-			int generationNumber) throws IOException {
+	PDFObject(PDF pdf, PDFByteWriter writer, int objectNumber, int generationNumber)
+			throws IOException {
 		this.pdf = pdf;
 		out = writer;
 		out.println(objectNumber + " " + generationNumber + " obj");
@@ -83,8 +83,7 @@ public class PDFObject implements PDFConstants {
 			System.err.println("PDFWriter error: 'PDFDictionary' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFDictionary";
 		PDFDictionary dictionary = new PDFDictionary(pdf, out, this);
@@ -101,8 +100,7 @@ public class PDFObject implements PDFConstants {
 			System.err.println("PDFWriter error: 'PDFStream' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFStream";
 		PDFStream stream = new PDFStream(pdf, out, name, this, encode);
@@ -119,8 +117,7 @@ public class PDFObject implements PDFConstants {
 			System.err.println("PDFWriter error: 'PDFDocInfo' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFDocInfo";
 		PDFDocInfo info = new PDFDocInfo(pdf, out, this);
@@ -132,8 +129,7 @@ public class PDFObject implements PDFConstants {
 			System.err.println("PDFWriter error: 'PDFCatalog' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFCatalog";
 		PDFCatalog catalog = new PDFCatalog(pdf, out, this, pageTree);
@@ -145,8 +141,7 @@ public class PDFObject implements PDFConstants {
 			System.err.println("PDFWriter error: 'PDFPageTree' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFPageTree";
 		PDFPageTree tree = new PDFPageTree(pdf, out, this, parent);
@@ -158,8 +153,7 @@ public class PDFObject implements PDFConstants {
 			System.err.println("PDFWriter error: 'PDFPage' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFPage";
 		PDFPage page = new PDFPage(pdf, out, this, parent);
@@ -168,45 +162,38 @@ public class PDFObject implements PDFConstants {
 
 	PDFViewerPreferences openViewerPreferences(PDF pdf) throws IOException {
 		if (!ok) {
-			System.err.println(
-					"PDFWriter error: 'PDFViewerPreferences' was closed");
+			System.err.println("PDFWriter error: 'PDFViewerPreferences' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFViewerPreferences";
 		PDFViewerPreferences prefs = new PDFViewerPreferences(pdf, out, this);
 		return prefs;
 	}
 
-	PDFOutlineList openOutlineList(PDF pdf, PDFRef first, PDFRef last)
-			throws IOException {
+	PDFOutlineList openOutlineList(PDF pdf, PDFRef first, PDFRef last) throws IOException {
 		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFOutlineList' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFOutlineList";
 		PDFOutlineList list = new PDFOutlineList(pdf, out, this, first, last);
 		return list;
 	}
 
-	PDFOutline openOutline(PDF pdf, PDFRef parent, String title, PDFRef prev,
-			PDFRef next) throws IOException {
+	PDFOutline openOutline(PDF pdf, PDFRef parent, String title, PDFRef prev, PDFRef next)
+			throws IOException {
 		if (!ok) {
 			System.err.println("PDFWriter error: 'PDFOutline' was closed");
 		}
 		if (open != null) {
-			System.err
-					.println("PDFWriter error: '" + open + "' was not closed");
+			System.err.println("PDFWriter error: '" + open + "' was not closed");
 		}
 		open = "PDFOutline";
-		PDFOutline outline = new PDFOutline(pdf, out, this, parent, title, prev,
-				next);
+		PDFOutline outline = new PDFOutline(pdf, out, this, parent, title, prev, next);
 		return outline;
 	}
-
 }

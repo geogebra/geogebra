@@ -27,16 +27,19 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 public class AlgoCurveCartesian3D extends AlgoCurveCartesian {
 
-	public AlgoCurveCartesian3D(Construction cons, ExpressionNode point,
-			GeoNumberValue[] coords, GeoNumeric localVar, GeoNumberValue from,
+	public AlgoCurveCartesian3D(
+			Construction cons,
+			ExpressionNode point,
+			GeoNumberValue[] coords,
+			GeoNumeric localVar,
+			GeoNumberValue from,
 			GeoNumberValue to) {
 		super(cons, point, coords, localVar, from, to);
 	}
 
 	@Override
-	protected GeoCurveCartesianND createCurve(Construction cons1, Function[] fun,
-			ExpressionNode point) {
+	protected GeoCurveCartesianND createCurve(
+			Construction cons1, Function[] fun, ExpressionNode point) {
 		return new GeoCurveCartesian3D(cons1, fun, point);
 	}
-
 }

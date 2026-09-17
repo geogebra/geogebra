@@ -29,5 +29,4 @@ public interface PopupColorHandler {
 	 * @param value new value
 	 */
 	void fireActionPerformed(ValuedProperty<GColor> prop, GColor value);
-
 }

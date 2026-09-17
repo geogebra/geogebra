@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,13 +46,11 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.selectCell(1, 1, false, false);
 		selectionController.moveRight(false, numberOfColumns);
 		selectionController.moveDown(false, numberOfRows);
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(2, 2));
+		assertRangeEquals(selectionController.getLastSelection(), new Selection(2, 2));
 		selectionController.moveLeft(false);
 		selectionController.moveUp(false);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(1, 1));
+		assertRangeEquals(selectionController.getLastSelection(), new Selection(1, 1));
 	}
 
 	@Test
@@ -62,8 +60,7 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.moveLeft(false);
 		selectionController.moveLeft(false);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(3, 0));
+		assertRangeEquals(selectionController.getLastSelection(), new Selection(3, 0));
 	}
 
 	@Test
@@ -73,8 +70,8 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.moveRight(false, numberOfColumns);
 		selectionController.moveRight(false, numberOfColumns);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(3, numberOfColumns - 1));
+		assertRangeEquals(
+				selectionController.getLastSelection(), new Selection(3, numberOfColumns - 1));
 	}
 
 	@Test
@@ -84,8 +81,7 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.moveUp(false);
 		selectionController.moveUp(false);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(0, 3));
+		assertRangeEquals(selectionController.getLastSelection(), new Selection(0, 3));
 	}
 
 	@Test
@@ -95,8 +91,7 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.moveDown(false, numberOfRows);
 		selectionController.moveDown(false, numberOfRows);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(numberOfRows - 1, 3));
+		assertRangeEquals(selectionController.getLastSelection(), new Selection(numberOfRows - 1, 3));
 	}
 
 	@Test
@@ -108,8 +103,8 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.moveDown(true, numberOfRows);
 		selectionController.moveDown(true, numberOfRows);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(new TabularRange(1, 1, 3, 3)));
+		assertRangeEquals(
+				selectionController.getLastSelection(), new Selection(new TabularRange(1, 1, 3, 3)));
 	}
 
 	@Test
@@ -118,8 +113,7 @@ class SpreadsheetSelectionControllerTest {
 		controller.handlePointerMove(241, 3, Modifiers.NONE);
 		controller.handlePointerUp(241, 3, Modifiers.NONE);
 
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(new TabularRange(-1, 0, -1, 1)));
+		assertRangeEquals(controller.getLastSelection(), new Selection(new TabularRange(-1, 0, -1, 1)));
 	}
 
 	@Test
@@ -128,8 +122,7 @@ class SpreadsheetSelectionControllerTest {
 		controller.handlePointerMove(3, 150, Modifiers.NONE);
 		controller.handlePointerUp(3, 150, Modifiers.NONE);
 
-		assertRangeEquals(controller.getLastSelection(),
-				new Selection(new TabularRange(0, -1, 3, -1)));
+		assertRangeEquals(controller.getLastSelection(), new Selection(new TabularRange(0, -1, 3, -1)));
 	}
 
 	@Test
@@ -140,8 +133,8 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.moveLeft(true);
 		selectionController.moveLeft(true);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(new TabularRange(3, 3, 5, 5)));
+		assertRangeEquals(
+				selectionController.getLastSelection(), new Selection(new TabularRange(3, 3, 5, 5)));
 	}
 
 	@Test
@@ -152,8 +145,8 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.moveLeft(true);
 		selectionController.moveLeft(true);
 		selectionController.moveRight(true, numberOfColumns);
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(new TabularRange(3, 4, 5, 5)));
+		assertRangeEquals(
+				selectionController.getLastSelection(), new Selection(new TabularRange(3, 4, 5, 5)));
 	}
 
 	@Test
@@ -161,8 +154,8 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.selectCell(3, 3, false, false);
 		selectionController.selectCell(5, 5, true, false);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(new TabularRange(3, 3, 5, 5)));
+		assertRangeEquals(
+				selectionController.getLastSelection(), new Selection(new TabularRange(3, 3, 5, 5)));
 	}
 
 	@Test
@@ -170,8 +163,8 @@ class SpreadsheetSelectionControllerTest {
 		selectionController.selectCell(3, 3, false, false);
 		selectionController.selectCell(1, 1, true, false);
 
-		assertRangeEquals(selectionController.getLastSelection(),
-				new Selection(new TabularRange(3, 3, 1, 1)));
+		assertRangeEquals(
+				selectionController.getLastSelection(), new Selection(new TabularRange(3, 3, 1, 1)));
 	}
 
 	@Test
@@ -241,8 +234,7 @@ class SpreadsheetSelectionControllerTest {
 
 	@Test
 	void testAreOnlyRowsSelected1() {
-		selectionController.select(new Selection(
-				new TabularRange(0, -1, 2, -1)), false, false);
+		selectionController.select(new Selection(new TabularRange(0, -1, 2, -1)), false, false);
 		assertTrue(selectionController.areOnlyRowsSelected());
 	}
 
@@ -255,8 +247,7 @@ class SpreadsheetSelectionControllerTest {
 
 	@Test
 	void testAreOnlyColumnsSelected1() {
-		selectionController.select(new Selection(
-				new TabularRange(-1, 0, -1, 2)), false, false);
+		selectionController.select(new Selection(new TabularRange(-1, 0, -1, 2)), false, false);
 		assertTrue(selectionController.areOnlyColumnsSelected());
 	}
 
@@ -269,15 +260,13 @@ class SpreadsheetSelectionControllerTest {
 
 	@Test
 	void testAreOnlyCellsSelected1() {
-		selectionController.select(new Selection(
-				new TabularRange(0, 1, 2, 2)), false, false);
+		selectionController.select(new Selection(new TabularRange(0, 1, 2, 2)), false, false);
 		assertTrue(selectionController.areOnlyCellsSelected());
 	}
 
 	@Test
 	void testAreOnlyCellsSelected2() {
-		selectionController.select(new Selection(
-				new TabularRange(0, 0, 1, 2)), false, false);
+		selectionController.select(new Selection(new TabularRange(0, 0, 1, 2)), false, false);
 		selectionController.selectRow(4, false, true);
 		assertFalse(selectionController.areOnlyCellsSelected());
 	}
@@ -314,8 +303,7 @@ class SpreadsheetSelectionControllerTest {
 
 	@Test
 	void testGetUppermostRowIndex() {
-		selectionController.select(new Selection(
-				new TabularRange(1, 0, 2, 2)), false, false);
+		selectionController.select(new Selection(new TabularRange(1, 0, 2, 2)), false, false);
 		selectionController.selectCell(3, 2, false, true);
 		selectionController.selectCell(2, 2, false, true);
 		assertEquals(1, selectionController.getUppermostSelectedRowIndex());
@@ -323,8 +311,7 @@ class SpreadsheetSelectionControllerTest {
 
 	@Test
 	void testGetBottommostRowIndex() {
-		selectionController.select(new Selection(
-				new TabularRange(1, 0, 2, 2)), false, false);
+		selectionController.select(new Selection(new TabularRange(1, 0, 2, 2)), false, false);
 		selectionController.selectCell(4, 1, false, true);
 		selectionController.selectCell(3, 1, false, true);
 		assertEquals(4, selectionController.getBottommostSelectedRowIndex());
@@ -332,8 +319,7 @@ class SpreadsheetSelectionControllerTest {
 
 	@Test
 	void testGetLeftmostColumnIndex() {
-		selectionController.select(new Selection(
-				new TabularRange(1, 0, 2, 2)), false, false);
+		selectionController.select(new Selection(new TabularRange(1, 0, 2, 2)), false, false);
 		selectionController.selectCell(2, 0, false, true);
 		selectionController.selectCell(2, 4, false, true);
 		assertEquals(0, selectionController.getLeftmostSelectedColumnIndex());
@@ -341,8 +327,7 @@ class SpreadsheetSelectionControllerTest {
 
 	@Test
 	void testGetRightmostColumnIndex() {
-		selectionController.select(new Selection(
-				new TabularRange(1, 0, 2, 2)), false, false);
+		selectionController.select(new Selection(new TabularRange(1, 0, 2, 2)), false, false);
 		selectionController.selectCell(1, 3, false, true);
 		selectionController.selectCell(1, 0, false, true);
 		assertEquals(3, selectionController.getRightmostSelectedColumnIndex());
@@ -351,8 +336,7 @@ class SpreadsheetSelectionControllerTest {
 	@Test
 	void testSelectionChangeNotifications() {
 		final Box<Integer> numberOfNotifications = new Box<>(0);
-		MulticastEvent.Listener<MulticastEvent.Void> listener =
-				unused -> numberOfNotifications.value++;
+		MulticastEvent.Listener<MulticastEvent.Void> listener = unused -> numberOfNotifications.value++;
 		selectionController.selectionsChanged.addListener(listener);
 
 		selectionController.selectCell(0, 0, false, false);
@@ -374,7 +358,8 @@ class SpreadsheetSelectionControllerTest {
 	void testTrimSelectionToSize() {
 		selectionController.select(new Selection(new TabularRange(4, 5, 10, 10)), false, false);
 		selectionController.trimSelectionToSize(7, 8);
-		assertEquals(new TabularRange(4, 5, 6, 7),
+		assertEquals(
+				new TabularRange(4, 5, 6, 7),
 				Objects.requireNonNull(selectionController.getLastSelection()).getRange());
 		selectionController.trimSelectionToSize(2, 3);
 		assertNull(selectionController.getLastSelection());

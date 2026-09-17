@@ -58,12 +58,30 @@ import com.google.j2objc.annotations.Weak;
  */
 public class ContextMenuGeoElement {
 
-	private static final double[] zoomFactors = { 4.0, 2.0, 1.5, 1.25,
-			1.0 / 1.25, 1.0 / 1.5, 0.5, 0.25 };
+	private static final double[] zoomFactors = {4.0, 2.0, 1.5, 1.25, 1.0 / 1.25, 1.0 / 1.5, 0.5, 0.25
+	};
 	/** x:y ratios */
-	protected static final double[] axesRatios = { 1.0 / 1000.0, 1.0 / 500.0,
-			1.0 / 200.0, 1.0 / 100.0, 1.0 / 50.0, 1.0 / 20.0, 1.0 / 10.0,
-			1.0 / 5.0, 1.0 / 2.0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000 };
+	protected static final double[] axesRatios = {
+		1.0 / 1000.0,
+		1.0 / 500.0,
+		1.0 / 200.0,
+		1.0 / 100.0,
+		1.0 / 50.0,
+		1.0 / 20.0,
+		1.0 / 10.0,
+		1.0 / 5.0,
+		1.0 / 2.0,
+		1,
+		2,
+		5,
+		10,
+		20,
+		50,
+		100,
+		200,
+		500,
+		1000
+	};
 	/** selected elements */
 	private ArrayList<GeoElement> geos;
 	/** current element */
@@ -81,9 +99,9 @@ public class ContextMenuGeoElement {
 	protected ContextMenuGeoElement(App app) {
 		this.app = app;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @param addHTMLtag
@@ -322,13 +340,12 @@ public class ContextMenuGeoElement {
 	 * Show rename dialog
 	 */
 	public void renameCmd() {
-		app.getDialogManager().showRenameDialog(getGeo(), true,
-				getGeo().getLabelSimple(), true);
+		app.getDialogManager().showRenameDialog(getGeo(), true, getGeo().getLabelSimple(), true);
 	}
 
 	/**
 	 * Fix or unfix slider
-	 * 
+	 *
 	 * @param num
 	 *            slider
 	 */
@@ -343,7 +360,6 @@ public class ContextMenuGeoElement {
 			} else {
 				geo1.setFixed(!num.isLockedPosition());
 			}
-
 		}
 		app.storeUndoInfo();
 	}
@@ -382,7 +398,6 @@ public class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoBoolean geo1 = (GeoBoolean) geos2.get(i);
 			geo1.setCheckboxFixed(!geo1.isLockedPosition());
-
 		}
 		app.storeUndoInfo();
 	}
@@ -448,7 +463,6 @@ public class ContextMenuGeoElement {
 				geo1.setAuxiliaryObject(!geo1.isAuxiliaryObject());
 				geo1.updateRepaint();
 			}
-
 		}
 		app.storeUndoInfo();
 	}
@@ -457,13 +471,12 @@ public class ContextMenuGeoElement {
 	 * Open properties dialog, focus objects
 	 */
 	public void openPropertiesDialogCmd() {
-		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
-				checkOneGeo());
+		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, checkOneGeo());
 	}
 
 	/**
 	 * Change equation type to user input
-	 * 
+	 *
 	 * @param inputElement
 	 *            equation
 	 */
@@ -493,8 +506,8 @@ public class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.isTraceable()) {
-				((Traceable) geo1).setTrace(app.isWhiteboardActive()
-						? !istracing : !((Traceable) geo1).getTrace());
+				((Traceable) geo1)
+						.setTrace(app.isWhiteboardActive() ? !istracing : !((Traceable) geo1).getTrace());
 				geo1.updateRepaint();
 			}
 		}
@@ -526,11 +539,10 @@ public class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.isAnimatable()) {
-				geo1.setAnimating(!(geo1.isAnimating()
-						&& app.getKernel().getAnimationManager().isRunning()));
+				geo1.setAnimating(
+						!(geo1.isAnimating() && app.getKernel().getAnimationManager().isRunning()));
 				geo1.updateRepaint();
 			}
-
 		}
 		app.storeUndoInfo();
 		app.getActiveEuclidianView().repaint();
@@ -543,7 +555,7 @@ public class ContextMenuGeoElement {
 
 	/**
 	 * Pin or unpin to screen
-	 * 
+	 *
 	 * @param isSelected
 	 *            whether to pin the geos
 	 */
@@ -557,26 +569,21 @@ public class ContextMenuGeoElement {
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
 				if (flag) {
 					// convert real world to screen coords
-					int x = app.getActiveEuclidianView()
-							.toScreenCoordX(geoText.getRealWorldLocX());
-					int y = app.getActiveEuclidianView()
-							.toScreenCoordY(geoText.getRealWorldLocY());
+					int x = app.getActiveEuclidianView().toScreenCoordX(geoText.getRealWorldLocX());
+					int y = app.getActiveEuclidianView().toScreenCoordY(geoText.getRealWorldLocY());
 					geoText.setAbsoluteScreenLoc(x, y);
 				} else {
 					// convert screen coords to real world
-					double x = app.getActiveEuclidianView()
-							.toRealWorldCoordX(
-									geoText.getAbsoluteScreenLocX());
-					double y = app.getActiveEuclidianView()
-							.toRealWorldCoordY(
-									geoText.getAbsoluteScreenLocY());
+					double x =
+							app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
+					double y =
+							app.getActiveEuclidianView().toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
 					geoText.setRealWorldLoc(x, y);
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
 			} else if (getGeo().isPinnable()) {
-				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected,
-						app.getActiveEuclidianView());
+				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected, app.getActiveEuclidianView());
 			}
 		}
 
@@ -587,7 +594,7 @@ public class ContextMenuGeoElement {
 
 	/**
 	 * Show popup to choose geo
-	 * 
+	 *
 	 * @param cmdGeo
 	 *            first geo
 	 * @param sGeos
@@ -599,12 +606,16 @@ public class ContextMenuGeoElement {
 	 * @param l
 	 *            location
 	 */
-	public void geoActionCmd(GeoElement cmdGeo, ArrayList<GeoElement> sGeos,
-			ArrayList<GeoElement> gs, EuclidianView v, GPoint l) {
+	public void geoActionCmd(
+			GeoElement cmdGeo,
+			ArrayList<GeoElement> sGeos,
+			ArrayList<GeoElement> gs,
+			EuclidianView v,
+			GPoint l) {
 		if (EuclidianConstants.isMoveOrSelectionMode(v.getMode())) { // change selection
-															// to geo clicked
+			// to geo clicked
 			app.getSelectionManager().clearSelectedGeos(false); // repaint done
-																// next step
+			// next step
 			app.getSelectionManager().addSelectedGeo(cmdGeo);
 
 			// update the geo lists and show the popup again with the new
@@ -662,7 +673,7 @@ public class ContextMenuGeoElement {
 
 	/**
 	 * Update the selection of geos
-	 * 
+	 *
 	 * @param geos
 	 *            selected geos
 	 */

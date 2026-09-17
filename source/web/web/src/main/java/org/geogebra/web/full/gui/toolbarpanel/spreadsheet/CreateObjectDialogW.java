@@ -71,6 +71,7 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 
 	/** box for coord order */
 	ListBox cbLeftRightOrder;
+
 	private CardPanel cards;
 	private Label lblPreview;
 	private FlowPanel optionPane;
@@ -79,7 +80,7 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 	private Label lblOptions;
 	private final FlowPanel centerPanel = new FlowPanel();
 	private final Localization loc;
-	
+
 	/**
 	 * @param app
 	 *            app
@@ -95,8 +96,8 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 		loc = app.getLocalization();
 		addStyleName("createObjDialog");
 		coModel = new CreateObjectModel(app, objectType, this);
-		coModel.setToolProcessor(new SpreadsheetToolProcessor(app,
-				app.getSpreadsheetTableModel().getCellFormat(null)));
+		coModel.setToolProcessor(
+				new SpreadsheetToolProcessor(app, app.getSpreadsheetTableModel().getCellFormat(null)));
 		List<TabularRange> selections = view.getSelections();
 		if (selections.isEmpty()) {
 			Log.debug("Selection empty.");
@@ -138,23 +139,24 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 
 		cbScanOrder = new ListBox();
 		cbScanOrder.addChangeHandler(event -> apply(cbScanOrder));
-		
+
 		cbLeftRightOrder = new ListBox();
 		cbLeftRightOrder.addChangeHandler(event -> apply(cbLeftRightOrder));
 
-		RadioButtonData<Boolean> objRadioButtonData =
-				new RadioButtonData<>("DependentObjects", false);
+		RadioButtonData<Boolean> objRadioButtonData = new RadioButtonData<>("DependentObjects", false);
 		RadioButtonData<Boolean> valRadioButtonData = new RadioButtonData<>("FreeObjects", true);
-		objValRadioButtonPanel = new RadioButtonPanel<>(loc,
-				Arrays.asList(objRadioButtonData, valRadioButtonData), false,
+		objValRadioButtonPanel = new RadioButtonPanel<>(
+				loc,
+				Arrays.asList(objRadioButtonData, valRadioButtonData),
+				false,
 				ignore -> coModel.createNewGeo(fldName.getText()));
 
-		ckTranspose = new ComponentCheckbox(loc, false, "Transpose",
-			(event) -> coModel.createNewGeo(fldName.getText()));
+		ckTranspose = new ComponentCheckbox(
+				loc, false, "Transpose", (event) -> coModel.createNewGeo(fldName.getText()));
 
 		lblObject = new Label();
 		lblObject.setStyleName("panelTitle");
-		
+
 		if (coModel.getObjectType() < 0) {
 			coModel.setListType();
 			FlowPanel typePanel = new FlowPanel();
@@ -171,20 +173,20 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 		FlowPanel p = new FlowPanel();
 		p.add(namePanel);
 		p.add(optionsPanel);
-		
+
 		lblPreview = new Label();
 
 		previewPanel = new ScrollPanel(lblPreview);
 
 		previewPanel.setStyleName("createObjectsScrollArea");
-		
+
 		FlowPanel op = new FlowPanel();
 		op.add(p);
-		
+
 		optionPane.add(op);
 
 		FlowPanel pp = new FlowPanel();
-		
+
 		lblPreviewHeader = new Label();
 		pp.add(lblPreviewHeader);
 		lblPreviewHeader.setStyleName("panelTitle");
@@ -220,7 +222,7 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 		cards.add(orderPanel);
 		cards.add(xySwitchPanel);
 		cards.add(transposePanel);
-		
+
 		optionsPanel = new FlowPanel();
 		optionsPanel.add(northPanel);
 		optionsPanel.add(lblOptions);
@@ -269,8 +271,7 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 
 			Canvas c = Canvas.createIfSupported();
 			previewPanel.setWidget(c);
-			DrawEquationW.paintOnCanvas(coModel.getGeo(), latexStr, c,
-					app.getFontSize());
+			DrawEquationW.paintOnCanvas(coModel.getGeo(), latexStr, c, app.getFontSize());
 		} else {
 			previewPanel.setWidget(lblPreview);
 			lblPreview.getElement().removeAllChildren();
@@ -280,7 +281,7 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 
 	/**
 	 * Process confirmation event (blur, change, click)
-	 * 
+	 *
 	 * @param source
 	 *            event source
 	 */
@@ -291,7 +292,7 @@ public final class CreateObjectDialogW extends ComponentDialog implements ICreat
 			coModel.createNewGeo(fldName.getText());
 		}
 	}
-	
+
 	private void doTextFieldActionPerformed() {
 		coModel.createNewGeo(fldName.getText());
 	}

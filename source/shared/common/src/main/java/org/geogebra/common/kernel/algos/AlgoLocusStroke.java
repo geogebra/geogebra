@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 
 /**
  * Creates a PolyLine from a given list of points or point array.
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoLocusStroke extends AlgoElement {
@@ -99,7 +99,7 @@ public class AlgoLocusStroke extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return "";
 	}
 

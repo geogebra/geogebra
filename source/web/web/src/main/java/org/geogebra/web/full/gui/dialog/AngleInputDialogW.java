@@ -37,11 +37,14 @@ public class AngleInputDialogW extends ComponentInputDialog {
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialogW(AppW app, String message, DialogData data,
-			String initString, InputHandler handler, boolean modal) {
-		super(app, data, false, false, handler,
-				app.getLocalization().getMenu(message), initString
-		);
+	public AngleInputDialogW(
+			AppW app,
+			String message,
+			DialogData data,
+			String initString,
+			InputHandler handler,
+			boolean modal) {
+		super(app, data, false, false, handler, app.getLocalization().getMenu(message), initString);
 		addStyleName("angleInputDialog");
 		super.setModal(modal);
 		setInputHandler(handler);
@@ -50,11 +53,10 @@ public class AngleInputDialogW extends ComponentInputDialog {
 
 	private void extendGUI() {
 		Localization loc = app.getLocalization();
-		RadioButtonData<Boolean> counterClockwise =
-				new RadioButtonData<>("counterClockwise", false);
+		RadioButtonData<Boolean> counterClockwise = new RadioButtonData<>("counterClockwise", false);
 		RadioButtonData<Boolean> clockwise = new RadioButtonData<>("clockwise", true);
-		clockWiseRadioButtonPanel = new RadioButtonPanel<>(loc,
-				Arrays.asList(counterClockwise, clockwise), false, null);
+		clockWiseRadioButtonPanel =
+				new RadioButtonPanel<>(loc, Arrays.asList(counterClockwise, clockwise), false, null);
 		addDialogContent(clockWiseRadioButtonPanel);
 		getTextComponent().setFocus(true);
 
@@ -83,8 +85,7 @@ public class AngleInputDialogW extends ComponentInputDialog {
 			inputTextWithSign = "-(" + inputTextWithSign + ")";
 		}
 
-		getInputHandler().processInput(inputTextWithSign, this,
-				ok -> hide());
+		getInputHandler().processInput(inputTextWithSign, this, ok -> hide());
 	}
 
 	/*

@@ -24,14 +24,14 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes Mod[a, b]
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoMod extends AlgoTwoNumFunction {
 
 	/**
 	 * Creates new mod algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -41,8 +41,7 @@ public class AlgoMod extends AlgoTwoNumFunction {
 	 * @param b
 	 *            divisor
 	 */
-	public AlgoMod(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoMod(Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 

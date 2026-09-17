@@ -56,7 +56,7 @@ public class EmbedElement {
 
 	/**
 	 * Gets the state if the embed supports it and provides synchronous API.
-	 * 
+	 *
 	 * @return JSON representation of state or null
 	 */
 	public String getContentSync() {
@@ -91,7 +91,7 @@ public class EmbedElement {
 
 	/**
 	 * Execute an action on the embedded element
-	 * 
+	 *
 	 * @param action
 	 *            action type
 	 */
@@ -130,8 +130,7 @@ public class EmbedElement {
 	 */
 	public void drawPreview(GGraphics2D g2, int width, int height, double angle) {
 		SVGResource resource = ToolbarSvgResourcesSync.INSTANCE.mode_extension();
-		MyImageW internalImage = new MyImageW(ImageManagerW.getInternalImage(
-				resource), true);
+		MyImageW internalImage = new MyImageW(ImageManagerW.getInternalImage(resource), true);
 		double s = Math.min(width, height);
 		int iconLeft = (int) Math.max((width - s) / 2, 0);
 		int iconTop = (int) Math.max((height - s) / 2, 0);

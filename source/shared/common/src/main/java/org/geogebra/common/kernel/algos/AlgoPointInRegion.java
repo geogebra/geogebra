@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Point in region algorithm
- * 
+ *
  * @author mathieu
  *
  */
@@ -58,8 +58,7 @@ public class AlgoPointInRegion extends AlgoElement {
 	 * @param y
 	 *            estimated y-coord
 	 */
-	public AlgoPointInRegion(Construction cons, String label, Region region,
-			double x, double y) {
+	public AlgoPointInRegion(Construction cons, String label, Region region, double x, double y) {
 
 		this(cons, region);
 
@@ -95,7 +94,7 @@ public class AlgoPointInRegion extends AlgoElement {
 
 	/**
 	 * returns the point
-	 * 
+	 *
 	 * @return resulting point
 	 */
 	public GeoPoint getP() {
@@ -104,7 +103,7 @@ public class AlgoPointInRegion extends AlgoElement {
 
 	/**
 	 * Returns the region
-	 * 
+	 *
 	 * @return region
 	 */
 	Region getRegion() {
@@ -123,12 +122,9 @@ public class AlgoPointInRegion extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("PointInA", "Point in %0",
-				input[0].getLabel(tpl));
-
+		return getLoc().getPlainDefault("PointInA", "Point in %0", input[0].getLabel(tpl));
 	}
-
 }

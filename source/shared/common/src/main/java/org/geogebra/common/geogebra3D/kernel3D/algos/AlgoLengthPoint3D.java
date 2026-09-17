@@ -28,7 +28,7 @@ import org.geogebra.common.util.MyMath;
 
 /**
  * Distance origin to point
- * 
+ *
  * @author mathieu
  */
 public class AlgoLengthPoint3D extends AlgoElement {
@@ -78,13 +78,11 @@ public class AlgoLengthPoint3D extends AlgoElement {
 	@Override
 	public final void compute() {
 		Coords coords = p.getInhomCoordsInD3();
-		num.setValue(
-				MyMath.length(coords.getX(), coords.getY(), coords.getZ()));
+		num.setValue(MyMath.length(coords.getX(), coords.getY(), coords.getZ()));
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return getLoc().getPlain("LengthOfA", p.getLabel(tpl));
 	}
-
 }

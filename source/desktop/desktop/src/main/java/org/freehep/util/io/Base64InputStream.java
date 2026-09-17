@@ -6,10 +6,10 @@ import java.io.InputStream;
 
 /**
  * The Base64InputStream decodes binary data according to RFC 2045.
- * 
+ *
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: Base64InputStream.java,v 1.3 2008-05-04 12:22:12 murkle Exp $
  */
@@ -36,24 +36,145 @@ public class Base64InputStream extends InputStream {
 
 	private static final int EQUALS = -5;
 
-	private static final byte base64toInt[] = { -1, -1, -1, -1, -1, -1, -1, -1,
-			-1, -2, -3, -1, -1, -4, -1, -1, // Tab, LineFeed, CarriageReturn
-			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -2,
-			-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, // Space,
-																		// Plus,
-																		// Slash
-			52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -5, -1, -1, // 0
-																			// -
-																			// 9,
-																			// =
-			-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, // A-Z
-			15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1,
-			26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, // a-z
-			41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1 };
+	private static final byte base64toInt[] = {
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-2,
+		-3,
+		-1,
+		-1,
+		-4,
+		-1,
+		-1, // Tab, LineFeed, CarriageReturn
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-2,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		62,
+		-1,
+		-1,
+		-1,
+		63, // Space,
+		// Plus,
+		// Slash
+		52,
+		53,
+		54,
+		55,
+		56,
+		57,
+		58,
+		59,
+		60,
+		61,
+		-1,
+		-1,
+		-1,
+		-5,
+		-1,
+		-1, // 0
+		// -
+		// 9,
+		// =
+		-1,
+		0,
+		1,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8,
+		9,
+		10,
+		11,
+		12,
+		13,
+		14, // A-Z
+		15,
+		16,
+		17,
+		18,
+		19,
+		20,
+		21,
+		22,
+		23,
+		24,
+		25,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1,
+		26,
+		27,
+		28,
+		29,
+		30,
+		31,
+		32,
+		33,
+		34,
+		35,
+		36,
+		37,
+		38,
+		39,
+		40, // a-z
+		41,
+		42,
+		43,
+		44,
+		45,
+		46,
+		47,
+		48,
+		49,
+		50,
+		51,
+		-1,
+		-1,
+		-1,
+		-1,
+		-1
+	};
 
 	/**
 	 * Creates a Base64 input stream for given input
-	 * 
+	 *
 	 * @param input
 	 *            to be read from
 	 */
@@ -117,59 +238,59 @@ public class Base64InputStream extends InputStream {
 			prevEncoding = encoding;
 			encoding = base64toInt[ch & 0x7f];
 			switch (encoding) {
-			case ILLEGAL:
+				case ILLEGAL:
 				// removed, ch can't be negative here
 				// if (ch < 0)
 				// throw new EncodingException(
 				// "Illegal character in Base64 encoding '" + ch
 				// + "'.");
 
-				//$FALL-THROUGH$
-			case EQUALS:
-				// ignore, but keep reading padding
-				i++;
-				break;
-			case CARRIAGERETURN:
-				lineNo++;
-				break;
-			case LINEFEED:
-				if (prevEncoding != CARRIAGERETURN) {
+				// $FALL-THROUGH$
+				case EQUALS:
+					// ignore, but keep reading padding
+					i++;
+					break;
+				case CARRIAGERETURN:
 					lineNo++;
-				}
-				break;
-			default:
-				c[cIndex] = (byte) (encoding & 0xFF);
-				cIndex++;
-				i++;
-				break;
+					break;
+				case LINEFEED:
+					if (prevEncoding != CARRIAGERETURN) {
+						lineNo++;
+					}
+					break;
+				default:
+					c[cIndex] = (byte) (encoding & 0xFF);
+					cIndex++;
+					i++;
+					break;
 			}
 		}
 
 		int data;
 		switch (cIndex) {
-		case 2:
-			data = (c[0] << 18) | (c[1] << 12);
+			case 2:
+				data = (c[0] << 18) | (c[1] << 12);
 
-			b[0] = data >>> 16;
-			return 1;
+				b[0] = data >>> 16;
+				return 1;
 
-		case 3:
-			data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6);
+			case 3:
+				data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6);
 
-			b[0] = data >>> 16;
-			b[1] = data >>> 8;
-			return 2;
+				b[0] = data >>> 16;
+				b[1] = data >>> 8;
+				return 2;
 
-		case 4:
-			data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6) | (c[3]);
+			case 4:
+				data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6) | (c[3]);
 
-			b[0] = data >>> 16;
-			b[1] = data >>> 8;
-			b[2] = data;
-			return 3;
+				b[0] = data >>> 16;
+				b[1] = data >>> 8;
+				b[2] = data;
+				return 3;
 
-		default:
-			throw new EncodingException("Base64InputStream: internal error.");
+			default:
+				throw new EncodingException("Base64InputStream: internal error.");
 		}
 	}
 }

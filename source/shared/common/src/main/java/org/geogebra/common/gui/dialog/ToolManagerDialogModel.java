@@ -34,6 +34,7 @@ import com.google.j2objc.annotations.Weak;
 public class ToolManagerDialogModel {
 	@Weak
 	private final App app;
+
 	final Localization loc;
 	private final List<Macro> deletedMacros;
 	private final ToolManagerDialogListener listener;
@@ -53,7 +54,6 @@ public class ToolManagerDialogModel {
 		 * Refresh custom tools in toolbar.
 		 */
 		void refreshCustomToolsInToolBar();
-
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class ToolManagerDialogModel {
 
 	/**
 	 * Will delete all Macros and add all macros in order
-	 * 
+	 *
 	 * @param macros
 	 *            the Macros to be added
 	 */
@@ -89,7 +89,7 @@ public class ToolManagerDialogModel {
 
 	/**
 	 * Deletes all selected tools that are not used in the construction.
-	 * 
+	 *
 	 * @param sel
 	 *            tools selected for deletion
 	 * @return whether some tools were deleted
@@ -111,8 +111,8 @@ public class ToolManagerDialogModel {
 			if (!macro.isUsed()) {
 				// delete macro
 				changeToolBar = changeToolBar || macro.isShowInToolBar();
-				listener.removeMacroFromToolbar(kernel.getMacroID(macro)
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+				listener.removeMacroFromToolbar(
+						kernel.getMacroID(macro) + EuclidianConstants.MACRO_MODE_ID_OFFSET);
 
 				app.removeMacro(macro);
 				listener.refreshCustomToolsInToolBar();
@@ -155,7 +155,7 @@ public class ToolManagerDialogModel {
 
 	/**
 	 * Saves all selected tools in a new file.
-	 * 
+	 *
 	 * @param sel
 	 *            selected tools
 	 * @return selected tools and dependencies
@@ -180,5 +180,4 @@ public class ToolManagerDialogModel {
 
 		return macros;
 	}
-
 }

@@ -75,8 +75,8 @@ public final class PenHighlighterEraserSlider extends FlowPanel {
 	public void update(int mode) {
 		lastSelectedMode = mode;
 		if (sliderLabel != null) {
-			sliderLabel.setText(appW.getLocalization().getMenu(mode == MODE_ERASER
-					? "Size" : "Thickness"));
+			sliderLabel.setText(
+					appW.getLocalization().getMenu(mode == MODE_ERASER ? "Size" : "Thickness"));
 		}
 		setSliderRange(mode != MODE_ERASER);
 		updateSliderValue(mode);
@@ -86,8 +86,7 @@ public final class PenHighlighterEraserSlider extends FlowPanel {
 		if (lastSelectedMode == MODE_ERASER) {
 			appW.getSettings().getPenTools().setDeleteToolSize((int) value);
 		} else {
-			appW.getActiveEuclidianView().getEuclidianController()
-					.getPen().setPenSize((int) value);
+			appW.getActiveEuclidianView().getEuclidianController().getPen().setPenSize((int) value);
 			update(lastSelectedMode);
 		}
 		updateDisplayValue(lastSelectedMode, (int) value);
@@ -97,16 +96,16 @@ public final class PenHighlighterEraserSlider extends FlowPanel {
 		PenToolsSettings settings = appW.getSettings().getPenTools();
 		int sliderValue = 0;
 		switch (mode) {
-		case MODE_ERASER:
-			sliderValue = settings.getDeleteToolSize();
-			break;
-		case MODE_HIGHLIGHTER:
-			sliderValue = settings.getLastHighlighterThickness();
-			break;
-		case MODE_PEN:
-		default:
-			sliderValue = settings.getLastPenThickness();
-			break;
+			case MODE_ERASER:
+				sliderValue = settings.getDeleteToolSize();
+				break;
+			case MODE_HIGHLIGHTER:
+				sliderValue = settings.getLastHighlighterThickness();
+				break;
+			case MODE_PEN:
+			default:
+				sliderValue = settings.getLastPenThickness();
+				break;
 		}
 
 		slider.setValue((double) sliderValue);
@@ -114,12 +113,11 @@ public final class PenHighlighterEraserSlider extends FlowPanel {
 	}
 
 	private void setSliderRange(boolean isPenOrHighlighter) {
-		slider.setMinimum(isPenOrHighlighter ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE
-				: MIN_ERASER_SIZE);
-		slider.setMaximum(isPenOrHighlighter ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
-				: MAX_ERASER_SIZE);
-		slider.setStep(
-				isPenOrHighlighter ? EuclidianConstants.DEFAULT_PEN_STEP : ERASER_STEP);
+		slider.setMinimum(
+				isPenOrHighlighter ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE : MIN_ERASER_SIZE);
+		slider.setMaximum(
+				isPenOrHighlighter ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE : MAX_ERASER_SIZE);
+		slider.setStep(isPenOrHighlighter ? EuclidianConstants.DEFAULT_PEN_STEP : ERASER_STEP);
 	}
 
 	private void updateDisplayValue(int mode, int sliderValue) {

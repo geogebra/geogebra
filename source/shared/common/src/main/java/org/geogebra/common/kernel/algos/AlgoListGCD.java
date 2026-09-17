@@ -27,11 +27,10 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * GCD of a list. adapted from AlgoListMax
- * 
+ *
  * @author Michael Borcherds
  * @version 03-01-2008
  */
-
 public class AlgoListGCD extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -103,8 +102,7 @@ public class AlgoListGCD extends AlgoElement {
 				num.setUndefined();
 				return;
 			}
-			BigInteger n = BigInteger
-					.valueOf((long) DoubleUtil.checkInteger(value));
+			BigInteger n = BigInteger.valueOf((long) DoubleUtil.checkInteger(value));
 			gcd = gcd.gcd(n);
 		}
 
@@ -118,5 +116,4 @@ public class AlgoListGCD extends AlgoElement {
 
 		num.setValue(result);
 	}
-
 }

@@ -59,8 +59,8 @@ import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
  */
 public class Colors {
 
-	private static final GraphicsFactory GRAPHICS_FACTORY = FactoryProvider
-			.getInstance().getGraphicsFactory();
+	private static final GraphicsFactory GRAPHICS_FACTORY =
+			FactoryProvider.getInstance().getGraphicsFactory();
 
 	public static final GColor RED = GRAPHICS_FACTORY.createColor(255, 0, 0);
 	public static final GColor BLACK = GRAPHICS_FACTORY.createColor(0, 0, 0);
@@ -176,25 +176,20 @@ public class Colors {
 		return Math.min(1., Math.max(n, 0.));
 	}
 
-	public static GColor conv(final double c, final double m, final double y,
-			final double k) {
+	public static GColor conv(final double c, final double m, final double y, final double k) {
 		final double kk = 255. * (1. - k);
 		final int R = (int) (kk * (1. - c) + 0.5);
 		final int G = (int) (kk * (1. - m) + 0.5);
 		final int B = (int) (kk * (1. - y) + 0.5);
-		return FactoryProvider.getInstance().getGraphicsFactory()
-				.createColor((R << 16) | (G << 8) | B);
+		return FactoryProvider.getInstance().getGraphicsFactory().createColor((R << 16) | (G << 8) | B);
 	}
 
-	public static GColor convHSB(final double h, final double s,
-			final double l) {
+	public static GColor convHSB(final double h, final double s, final double l) {
 		final double h1 = normH(h);
-		return FactoryProvider.getInstance().getGraphicsFactory()
-				.createColor(HSBtoRGB(h1, s, l));
+		return FactoryProvider.getInstance().getGraphicsFactory().createColor(HSBtoRGB(h1, s, l));
 	}
 
-	public static GColor convHSL(final double h, final double s, final double l,
-			final double a) {
+	public static GColor convHSL(final double h, final double s, final double l, final double a) {
 		// https://www.w3.org/TR/css3-color/#hsl-color for algorithm
 		final double ls = l * s;
 		final double m2 = l + (l <= 0.5 ? ls : (s - ls));
@@ -204,12 +199,10 @@ public class Colors {
 		final float G = (float) hueToRGB(m1, m2, h1);
 		final float B = (float) hueToRGB(m1, m2, h1 - 1. / 3.);
 
-		return FactoryProvider.getInstance().getGraphicsFactory().createColor(R,
-				G, B, (float) a);
+		return FactoryProvider.getInstance().getGraphicsFactory().createColor(R, G, B, (float) a);
 	}
 
-	public static GColor convHSL(final double h, final double s,
-			final double l) {
+	public static GColor convHSL(final double h, final double s, final double l) {
 		return convHSL(h, s, l, 1f);
 	}
 
@@ -298,18 +291,15 @@ public class Colors {
 		G = adjust(G, factor);
 		B = adjust(B, factor);
 
-		return FactoryProvider.getInstance().getGraphicsFactory()
+		return FactoryProvider.getInstance()
+				.getGraphicsFactory()
 				.createColor((float) R, (float) G, (float) B);
 	}
 
 	public static GColor decode(String string) {
 		try {
 			int val = Integer.decode(string);
-			return GRAPHICS_FACTORY.createColor(
-					(val >> 16) & 0xFF,
-					(val >> 8) & 0xFF,
-					val & 0xFF
-			);
+			return GRAPHICS_FACTORY.createColor((val >> 16) & 0xFF, (val >> 8) & 0xFF, val & 0xFF);
 		} catch (NumberFormatException e) {
 			return null;
 		}
@@ -324,8 +314,7 @@ public class Colors {
 	 *            (0-1)
 	 * @return new color as ARGB
 	 */
-	public static int HSBtoRGB(double hue, double saturation,
-			double brightness) {
+	public static int HSBtoRGB(double hue, double saturation, double brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {
 			r = g = b = (int) (brightness * 255.0f + 0.5f);
@@ -336,37 +325,37 @@ public class Colors {
 			double q = brightness * (1.0f - saturation * f);
 			double t = brightness * (1.0f - (saturation * (1.0f - f)));
 			switch ((int) h) {
-			default:
-			case 0:
-				r = (int) (brightness * 255.0f + 0.5f);
-				g = (int) (t * 255.0f + 0.5f);
-				b = (int) (p * 255.0f + 0.5f);
-				break;
-			case 1:
-				r = (int) (q * 255.0f + 0.5f);
-				g = (int) (brightness * 255.0f + 0.5f);
-				b = (int) (p * 255.0f + 0.5f);
-				break;
-			case 2:
-				r = (int) (p * 255.0f + 0.5f);
-				g = (int) (brightness * 255.0f + 0.5f);
-				b = (int) (t * 255.0f + 0.5f);
-				break;
-			case 3:
-				r = (int) (p * 255.0f + 0.5f);
-				g = (int) (q * 255.0f + 0.5f);
-				b = (int) (brightness * 255.0f + 0.5f);
-				break;
-			case 4:
-				r = (int) (t * 255.0f + 0.5f);
-				g = (int) (p * 255.0f + 0.5f);
-				b = (int) (brightness * 255.0f + 0.5f);
-				break;
-			case 5:
-				r = (int) (brightness * 255.0f + 0.5f);
-				g = (int) (p * 255.0f + 0.5f);
-				b = (int) (q * 255.0f + 0.5f);
-				break;
+				default:
+				case 0:
+					r = (int) (brightness * 255.0f + 0.5f);
+					g = (int) (t * 255.0f + 0.5f);
+					b = (int) (p * 255.0f + 0.5f);
+					break;
+				case 1:
+					r = (int) (q * 255.0f + 0.5f);
+					g = (int) (brightness * 255.0f + 0.5f);
+					b = (int) (p * 255.0f + 0.5f);
+					break;
+				case 2:
+					r = (int) (p * 255.0f + 0.5f);
+					g = (int) (brightness * 255.0f + 0.5f);
+					b = (int) (t * 255.0f + 0.5f);
+					break;
+				case 3:
+					r = (int) (p * 255.0f + 0.5f);
+					g = (int) (q * 255.0f + 0.5f);
+					b = (int) (brightness * 255.0f + 0.5f);
+					break;
+				case 4:
+					r = (int) (t * 255.0f + 0.5f);
+					g = (int) (p * 255.0f + 0.5f);
+					b = (int) (brightness * 255.0f + 0.5f);
+					break;
+				case 5:
+					r = (int) (brightness * 255.0f + 0.5f);
+					g = (int) (p * 255.0f + 0.5f);
+					b = (int) (q * 255.0f + 0.5f);
+					break;
 			}
 		}
 		return 0xff000000 | (r << 16) | (g << 8) | b;

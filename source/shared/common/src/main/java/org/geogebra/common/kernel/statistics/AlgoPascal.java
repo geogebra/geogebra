@@ -23,14 +23,17 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoPascal extends AlgoDistribution {
 
-	public AlgoPascal(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue c, GeoBoolean isCumulative) {
+	public AlgoPascal(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoBoolean isCumulative) {
 		super(cons, a, b, c, isCumulative);
 	}
 
@@ -42,7 +45,9 @@ public class AlgoPascal extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()
+		if (input[0].isDefined()
+				&& input[1].isDefined()
+				&& input[2].isDefined()
 				&& input[3].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
 			double param2 = b.getDouble();
@@ -51,9 +56,8 @@ public class AlgoPascal extends AlgoDistribution {
 				PascalDistribution dist = getPascalDistribution(param, param2);
 				if (isCumulative.getBoolean()) {
 					num.setValue(dist.cumulativeProbability(val)); // P(X <=
-																	// val)
-				}
-				else {
+					// val)
+				} else {
 					num.setValue(dist.probability(val)); // P(X = val)
 				}
 
@@ -64,5 +68,4 @@ public class AlgoPascal extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

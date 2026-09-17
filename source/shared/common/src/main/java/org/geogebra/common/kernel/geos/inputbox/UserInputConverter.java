@@ -57,7 +57,7 @@ public class UserInputConverter {
 		String[] items = text.split("[," + Unicode.verticalLine + "]", -1);
 		String separator = "";
 		StringBuilder sb = new StringBuilder();
-		for (String item: items) {
+		for (String item : items) {
 			sb.append(separator);
 			if ("".equals(item)) {
 				sb.append("?");
@@ -81,7 +81,7 @@ public class UserInputConverter {
 		String[] rows = content.split("\\},\\{");
 		List<String> list = new ArrayList<>();
 
-		for (String row: rows) {
+		for (String row : rows) {
 			list.add(replaceCommas(row.replace("{", "").replace("}", "")));
 		}
 		StringBuilder sb = new StringBuilder();

@@ -55,7 +55,7 @@ public class SoundManagerW implements SoundManager {
 	public void pauseResumeSound(boolean resume) {
 		FunctionSoundW.getInstance().pause(resume);
 		mp3active = resume;
-		for (HTMLAudioElement element: geoAudioElements.values()) {
+		for (HTMLAudioElement element : geoAudioElements.values()) {
 			if (resume) {
 				element.play();
 			} else {
@@ -65,8 +65,7 @@ public class SoundManagerW implements SoundManager {
 	}
 
 	@Override
-	public void playSequenceNote(int note, double duration, int instrument,
-			int velocity) {
+	public void playSequenceNote(int note, double duration, int instrument, int velocity) {
 		midiNotSupported();
 	}
 
@@ -133,7 +132,7 @@ public class SoundManagerW implements SoundManager {
 
 	/**
 	 * 'canplay', 'timeupdate' and 'ended' handler for audio element from GeoAudio.
-	 * 
+	 *
 	 * @param audio
 	 *            Element that is ready to play.
 	 * @param geoAudio
@@ -200,10 +199,9 @@ public class SoundManagerW implements SoundManager {
 	}
 
 	@Override
-	public void playFunction(GeoFunction geoFunction, double min, double max,
-			int sampleRate, int bitDepth) {
-		FunctionSoundW.getInstance().playFunction(geoFunction, min, max, sampleRate,
-				bitDepth);
+	public void playFunction(
+			GeoFunction geoFunction, double min, double max, int sampleRate, int bitDepth) {
+		FunctionSoundW.getInstance().playFunction(geoFunction, min, max, sampleRate, bitDepth);
 	}
 
 	private void onUrlError() {

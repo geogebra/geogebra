@@ -51,21 +51,17 @@ public class ButtonSizeModel extends OptionsModel {
 			GeoButton geo = getButtonAt(i);
 
 			if (geo != null) {
-				listener.updateSizes(geo.getWidth(), geo.getHeight(),
-						geo.isFixedSize());
+				listener.updateSizes(geo.getWidth(), geo.getHeight(), geo.isFixedSize());
 			}
 		}
-
 	}
 
 	@Override
 	public boolean isValidAt(int index) {
-		return getGeoAt(index).isGeoButton()
-				&& !getGeoAt(index).isGeoInputBox();
+		return getGeoAt(index).isGeoButton() && !getGeoAt(index).isGeoInputBox();
 	}
 
-	public void setSizesFromString(String strWidth, String strHeight,
-			boolean isFixed) {
+	public void setSizesFromString(String strWidth, String strHeight, boolean isFixed) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoButton geo = getButtonAt(i);
 

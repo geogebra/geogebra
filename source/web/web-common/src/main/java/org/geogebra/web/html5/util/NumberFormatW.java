@@ -39,8 +39,8 @@ public class NumberFormatW implements NumberFormatAdapter {
 	 */
 	public NumberFormatW(String pattern, int digits) {
 		maximumFractionDigits = digits;
-		JsPropertyMap<Object> props = JsPropertyMap.of("maximumFractionDigits", digits,
-				"roundingMode", "halfExpand");
+		JsPropertyMap<Object> props =
+				JsPropertyMap.of("maximumFractionDigits", digits, "roundingMode", "halfExpand");
 		props.set("useGrouping", false);
 		if (pattern != null && pattern.contains("E")) {
 			props.set("notation", "scientific");
@@ -56,7 +56,5 @@ public class NumberFormatW implements NumberFormatAdapter {
 	@Override
 	public String format(double value) {
 		return nf.format(value);
-
 	}
-
 }

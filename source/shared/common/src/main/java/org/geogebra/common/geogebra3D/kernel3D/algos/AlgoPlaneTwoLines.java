@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
+ *
  * Plane containing the two lines, if possible
- * 
+ *
  * @author mathieu
  *
  */
@@ -41,11 +41,12 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 
 	/** 3D lines */
 	private GeoLineND a;
+
 	private GeoLineND b;
 
 	/**
 	 * create a plane joining lines, with label.
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param label
@@ -55,8 +56,7 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 	 * @param b
 	 *            second point
 	 */
-	public AlgoPlaneTwoLines(Construction c, String label, GeoLineND a,
-			GeoLineND b) {
+	public AlgoPlaneTwoLines(Construction c, String label, GeoLineND a, GeoLineND b) {
 		super(c);
 
 		this.a = a;
@@ -65,8 +65,8 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 		cs = new GeoPlane3D(c);
 
 		// set input and output
-		setInputOutput(new GeoElement[] { (GeoElement) a, (GeoElement) b },
-				new GeoElement[] { (GeoElement) cs });
+		setInputOutput(
+				new GeoElement[] {(GeoElement) a, (GeoElement) b}, new GeoElement[] {(GeoElement) cs});
 
 		compute();
 
@@ -120,7 +120,7 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 
 	/**
 	 * return the cs
-	 * 
+	 *
 	 * @return the cs
 	 */
 	public GeoCoordSys2D getCoordSys() {
@@ -133,10 +133,7 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PlaneThroughAB", a.getLabel(tpl),
-				b.getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc().getPlain("PlaneThroughAB", a.getLabel(tpl), b.getLabel(tpl));
 	}
-
 }

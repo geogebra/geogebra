@@ -41,7 +41,7 @@ class BaseScientificFormatTest {
 		assertEquals("0.0000", sciFormat.prettyPrint("0.0000E0"));
 	}
 
-	private final static class DummyFormat extends ScientificFormatAdapter {
+	private static final class DummyFormat extends ScientificFormatAdapter {
 		private DummyFormat() {
 			super(false, 10);
 			setSigDigits(5);

@@ -38,16 +38,18 @@ public class AxisCrossPropertyCollection extends AbstractPropertyCollection<Prop
 	 * @param axis axis number
 	 * @param euclidianView euclidian view
 	 */
-	public AxisCrossPropertyCollection(AlgebraProcessor algebraProcessor,
-			Localization localization, EuclidianSettings euclidianSettings, int axis,
+	public AxisCrossPropertyCollection(
+			AlgebraProcessor algebraProcessor,
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			int axis,
 			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "StickToEdge");
 
 		ArrayList<Property> properties = new ArrayList<>();
-		properties.add(new StickToEdgeProperty(localization, axis, euclidianSettings,
-				euclidianView));
-		properties.add(new CrossAtProperty(algebraProcessor, localization, euclidianSettings,
-				euclidianView, axis));
+		properties.add(new StickToEdgeProperty(localization, axis, euclidianSettings, euclidianView));
+		properties.add(new CrossAtProperty(
+				algebraProcessor, localization, euclidianSettings, euclidianView, axis));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

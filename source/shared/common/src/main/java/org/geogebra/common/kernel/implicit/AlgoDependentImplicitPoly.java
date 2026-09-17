@@ -66,15 +66,15 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 * @param definition
 	 *            definition node
 	 */
-	public AlgoDependentImplicitPoly(Construction c, Equation equ,
-			ExpressionNode definition, boolean simplify) {
+	public AlgoDependentImplicitPoly(
+			Construction c, Equation equ, ExpressionNode definition, boolean simplify) {
 		this(c, equ, definition, simplify, null);
 	}
 
 	/**
 	 * Creates new implicit polynomial from equation. This algo may also return
 	 * line or conic.
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param simplify
@@ -85,8 +85,12 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 *            definition node
 	 * @param evaluatedDef result of evaluation of the definition node
 	 */
-	public AlgoDependentImplicitPoly(Construction c, Equation equ, ExpressionNode definition,
-			boolean simplify, @Nullable ExpressionValue evaluatedDef) {
+	public AlgoDependentImplicitPoly(
+			Construction c,
+			Equation equ,
+			ExpressionNode definition,
+			boolean simplify,
+			@Nullable ExpressionValue evaluatedDef) {
 		super(c, false);
 		equation = equ;
 		if (equation.isFunctionDependent()) {
@@ -111,41 +115,38 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			deg = -1;
 		}
 		switch (deg) {
-		// linear equation -> LINE
-		case 1:
-			if (evaluatedDef != null && evaluatedDef.unwrap() instanceof GeoLine) {
-				geoElement = ((GeoLine) evaluatedDef.unwrap()).copy();
-			} else {
-				geoElement = new GeoLine(c);
-			}
-			break;
-		// quadratic equation -> CONIC
-		case 2:
-			geoElement = new GeoConic(c);
-			break;
-		default:
-			geoElement = kernel.newImplicitPoly(c);
+			// linear equation -> LINE
+			case 1:
+				if (evaluatedDef != null && evaluatedDef.unwrap() instanceof GeoLine) {
+					geoElement = ((GeoLine) evaluatedDef.unwrap()).copy();
+				} else {
+					geoElement = new GeoLine(c);
+				}
+				break;
+			// quadratic equation -> CONIC
+			case 2:
+				geoElement = new GeoConic(c);
+				break;
+			default:
+				geoElement = kernel.newImplicitPoly(c);
 		}
 
 		geoElement.setDefinition(definition);
 		setInputOutput(); // for AlgoElement
 
 		compute(true);
-
 	}
 
 	private void expandEquation() {
-		equationExpanded = new Equation(kernel,
-				AlgoDependentFunction
-						.expandFunctionDerivativeNodes(
+		equationExpanded = new Equation(
+				kernel,
+				AlgoDependentFunction.expandFunctionDerivativeNodes(
 								equation.getLHS().deepCopy(kernel), true)
 						.wrap(),
-				AlgoDependentFunction
-						.expandFunctionDerivativeNodes(
+				AlgoDependentFunction.expandFunctionDerivativeNodes(
 								equation.getRHS().deepCopy(kernel), true)
 						.wrap());
 		equationExpanded.initEquation();
-
 	}
 
 	@Override
@@ -156,7 +157,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	/**
 	 * Replace output element with new one; needed if changes e.g. from line to
 	 * conic
-	 * 
+	 *
 	 * @param newElem
 	 *            replacement element
 	 */
@@ -187,18 +188,16 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		if (!first) {
 			boolean recomputeCoeff = false;
 			if (equation != geoElement.getDefinition().unwrap()) {
-				evalDef = (EquationValue) geoElement.getDefinition()
-						.evaluate(StringTemplate.defaultTemplate);
-				equation = evalDef
-								.getEquation();
+				evalDef =
+						(EquationValue) geoElement.getDefinition().evaluate(StringTemplate.defaultTemplate);
+				equation = evalDef.getEquation();
 				equation.setFunctionDependent(true);
 				recomputeCoeff = true;
 			}
 			if (equation.isFunctionDependent()) {
 				// boolean functionChanged=false;
 				Set<FunctionNVar> functions = new HashSet<>();
-				addAllFunctionalDescendents(this, functions,
-						new TreeSet<>());
+				addAllFunctionalDescendents(this, functions, new TreeSet<>());
 
 				if (!functions.equals(dependentFromFunctions)
 						|| equationExpanded.hasVariableDegree()
@@ -223,63 +222,60 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			degree = 3;
 		}
 		switch (degree) {
-		// linear equation -> LINE
-		case 1:
-			if (geoElement instanceof GeoLine) {
-				setLine();
-			} else {
-				if (geoElement.hasChildren()) {
-					geoElement.setUndefined();
-				} else {
-					replaceGeoElement(new GeoLine(getConstruction()));
+			// linear equation -> LINE
+			case 1:
+				if (geoElement instanceof GeoLine) {
 					setLine();
-				}
-			}
-			if (evalDef instanceof GeoRay) {
-				geoElement.set((GeoElementND) evalDef);
-			}
-			break;
-		// quadratic equation -> CONIC
-		case 2:
-			if (geoElement instanceof GeoConic) {
-				setConic();
-			} else {
-				if (geoElement.hasChildren()) {
-					geoElement.setUndefined();
 				} else {
-					replaceGeoElement(new GeoConic(getConstruction()));
-					setConic();
-				}
-			}
-			break;
-		default:
-			if (geoElement instanceof GeoImplicit) {
-				GeoImplicit curve = (GeoImplicit) geoElement;
-				curve.setDefined();
-				curve.fromEquation(equationExpanded, null);
-				if (equationExpanded.isPolynomial()) {
-					curve.setCoeff(coeff);
-				} else {
-					curve.setCoeff((double[][]) null);
-					curve.setExpanded(equationExpanded);
-				}
-			} else {
-				if (geoElement.hasChildren()) {
-					geoElement.setUndefined();
-				} else {
-					replaceGeoElement(
-							kernel.newImplicitPoly(getConstruction()));
-					((GeoImplicit) geoElement).setDefined();
-					((GeoImplicit) geoElement).fromEquation(equationExpanded,
-							null);
-					if (equationExpanded.isPolynomial()) {
-						((GeoImplicit) geoElement).setCoeff(coeff);
+					if (geoElement.hasChildren()) {
+						geoElement.setUndefined();
 					} else {
-						((GeoImplicit) geoElement).setCoeff((double[][]) null);
+						replaceGeoElement(new GeoLine(getConstruction()));
+						setLine();
 					}
 				}
-			}
-
+				if (evalDef instanceof GeoRay) {
+					geoElement.set((GeoElementND) evalDef);
+				}
+				break;
+			// quadratic equation -> CONIC
+			case 2:
+				if (geoElement instanceof GeoConic) {
+					setConic();
+				} else {
+					if (geoElement.hasChildren()) {
+						geoElement.setUndefined();
+					} else {
+						replaceGeoElement(new GeoConic(getConstruction()));
+						setConic();
+					}
+				}
+				break;
+			default:
+				if (geoElement instanceof GeoImplicit) {
+					GeoImplicit curve = (GeoImplicit) geoElement;
+					curve.setDefined();
+					curve.fromEquation(equationExpanded, null);
+					if (equationExpanded.isPolynomial()) {
+						curve.setCoeff(coeff);
+					} else {
+						curve.setCoeff((double[][]) null);
+						curve.setExpanded(equationExpanded);
+					}
+				} else {
+					if (geoElement.hasChildren()) {
+						geoElement.setUndefined();
+					} else {
+						replaceGeoElement(kernel.newImplicitPoly(getConstruction()));
+						((GeoImplicit) geoElement).setDefined();
+						((GeoImplicit) geoElement).fromEquation(equationExpanded, null);
+						if (equationExpanded.isPolynomial()) {
+							((GeoImplicit) geoElement).setCoeff(coeff);
+						} else {
+							((GeoImplicit) geoElement).setCoeff((double[][]) null);
+						}
+					}
+				}
 		}
 		geoElement.setDefinition(def);
 	}
@@ -356,7 +352,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	/**
 	 * Adds all functions from inputs of algo and its ancestors to destination
 	 * set
-	 * 
+	 *
 	 * @param algo
 	 *            algo whose input functions need adding
 	 * @param set
@@ -364,8 +360,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 * @param algos
 	 *            set of algorithms that were already processed
 	 */
-	protected void addAllFunctionalDescendents(AlgoElement algo,
-			Set<FunctionNVar> set, Set<AlgoElement> algos) {
+	protected void addAllFunctionalDescendents(
+			AlgoElement algo, Set<FunctionNVar> set, Set<AlgoElement> algos) {
 		GeoElement[] in = algo.getInput();
 		for (int i = 0; i < in.length; i++) {
 			AlgoElement p = in[i].getParentAlgorithm();
@@ -384,8 +380,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		if (input == null) {
 			setInputFrom(geoElement.getDefinition());
 			dependentFromFunctions = new HashSet<>();
-			addAllFunctionalDescendents(this, dependentFromFunctions,
-					new TreeSet<>());
+			addAllFunctionalDescendents(this, dependentFromFunctions, new TreeSet<>());
 		}
 		if (getOutputLength() == 0) {
 			setOutputLength(1);
@@ -418,7 +413,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 
 	/**
 	 * Definition for XML, needs to be prepended with label for c:f(x,y)=0
-	 * 
+	 *
 	 * @param geo
 	 *            element
 	 * @param tpl

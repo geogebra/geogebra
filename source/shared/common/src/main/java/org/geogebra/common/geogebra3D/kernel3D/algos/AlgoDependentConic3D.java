@@ -41,9 +41,13 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 	private boolean trig;
 
 	/** Creates new dependent conic */
-	public AlgoDependentConic3D(Construction cons, ExpressionNode root,
-			ExpressionValue[] coeffX, ExpressionValue[] coeffY,
-			ExpressionValue[] coeffZ, boolean trig) {
+	public AlgoDependentConic3D(
+			Construction cons,
+			ExpressionNode root,
+			ExpressionValue[] coeffX,
+			ExpressionValue[] coeffY,
+			ExpressionValue[] coeffZ,
+			boolean trig) {
 		super(cons);
 		conic = new GeoConic3D(cons);
 		conic.setDefinition(root);
@@ -56,7 +60,6 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 
 		// compute value of dependent number
 		compute();
-
 	}
 
 	@Override
@@ -87,11 +90,9 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 		try {
 			ExpressionNode def = conic.getDefinition();
 			if (trig) {
-				ParametricProcessor3D.updateTrigConic(conic, coeffX, coeffY,
-						coeffZ);
+				ParametricProcessor3D.updateTrigConic(conic, coeffX, coeffY, coeffZ);
 			} else {
-				ParametricProcessor3D.updateParabola(conic, coeffX, coeffY,
-						coeffZ);
+				ParametricProcessor3D.updateParabola(conic, coeffX, coeffY, coeffZ);
 			}
 			conic.setDefinition(def);
 			// P.setMode(temp.getMode());
@@ -103,8 +104,7 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return conic.getDefinition().toString(tpl);
 	}
-
 }

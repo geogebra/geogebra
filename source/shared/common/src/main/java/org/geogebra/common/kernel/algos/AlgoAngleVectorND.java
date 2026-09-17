@@ -69,14 +69,11 @@ public abstract class AlgoAngleVectorND extends AlgoAngle {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("AngleOfA", "Angle of %0",
-				vec.getLabel(tpl));
-
+		return getLoc().getPlainDefault("AngleOfA", "Angle of %0", vec.getLabel(tpl));
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		if (vec.isGeoVector()) {
 			GeoPointND vertex = ((GeoVector) vec).getStartPoint();
 			if (vertex != null) {
@@ -88,5 +85,4 @@ public abstract class AlgoAngleVectorND extends AlgoAngle {
 		m[1] = 0;
 		return vec.isDefined();
 	}
-
 }

@@ -25,7 +25,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * encoded string into the corresponding object. Most clients of this class will
  * use only need the {@link #JSONTokener(String) constructor} and
  * {@link #nextValue} method. Example usage:
- * 
+ *
  * <pre>
  * String json = "{" + "  \"query\": \"Pizza\", "
  *     + "  \"locations\": [ 94043, 90210 ] " + "}";
@@ -98,18 +98,18 @@ public class JSONTokener {
 	public Object nextValue() throws JSONException {
 		int c = nextCleanInternal();
 		switch (c) {
-		case -1:
-			throw syntaxError("End of input");
-		case '{':
-			return readObject();
-		case '[':
-			return readArray();
-		case '\'':
-		case '"':
-			return nextString((char) c);
-		default:
-			pos--;
-			return readLiteral();
+			case -1:
+				throw syntaxError("End of input");
+			case '{':
+				return readObject();
+			case '[':
+				return readArray();
+			case '\'':
+			case '"':
+				return nextString((char) c);
+			default:
+				pos--;
+				return readLiteral();
 		}
 	}
 
@@ -117,44 +117,44 @@ public class JSONTokener {
 		while (pos < in.length()) {
 			int c = in.charAt(pos++);
 			switch (c) {
-			case '\t':
-			case ' ':
-			case '\n':
-			case '\r':
-				continue;
-			case '/':
-				if (pos == in.length()) {
-					return c;
-				}
-				char peek = in.charAt(pos);
-				switch (peek) {
-				case '*':
-					// skip a /* c-style comment */
-					pos++;
-					int commentEnd = in.indexOf("*/", pos);
-					if (commentEnd == -1) {
-						throw syntaxError("Unterminated comment");
-					}
-					pos = commentEnd + 2;
+				case '\t':
+				case ' ':
+				case '\n':
+				case '\r':
 					continue;
 				case '/':
-					// skip a // end-of-line comment
-					pos++;
+					if (pos == in.length()) {
+						return c;
+					}
+					char peek = in.charAt(pos);
+					switch (peek) {
+						case '*':
+							// skip a /* c-style comment */
+							pos++;
+							int commentEnd = in.indexOf("*/", pos);
+							if (commentEnd == -1) {
+								throw syntaxError("Unterminated comment");
+							}
+							pos = commentEnd + 2;
+							continue;
+						case '/':
+							// skip a // end-of-line comment
+							pos++;
+							skipToEndOfLine();
+							continue;
+						default:
+							return c;
+					}
+				case '#':
+					/*
+					 * Skip a # hash end-of-line comment. The JSON RFC doesn't
+					 * specify this behavior, but it's required to parse existing
+					 * documents. See http://b/2571423.
+					 */
 					skipToEndOfLine();
 					continue;
 				default:
 					return c;
-				}
-			case '#':
-				/*
-				 * Skip a # hash end-of-line comment. The JSON RFC doesn't
-				 * specify this behavior, but it's required to parse existing
-				 * documents. See http://b/2571423.
-				 */
-				skipToEndOfLine();
-				continue;
-			default:
-				return c;
 			}
 		}
 		return -1;
@@ -187,7 +187,8 @@ public class JSONTokener {
 	 * @throws JSONException
 	 *             if unexpected character is reached
 	 */
-	@SuppressFBWarnings(value = "DM_STRING_CTOR",
+	@SuppressFBWarnings(
+			value = "DM_STRING_CTOR",
 			justification = "a new string avoids leaking memory")
 	public String nextString(char quote) throws JSONException {
 		/*
@@ -232,32 +233,32 @@ public class JSONTokener {
 	private char readEscapeCharacter() throws JSONException {
 		char escaped = in.charAt(pos++);
 		switch (escaped) {
-		case 'u':
-			if (pos + 4 > in.length()) {
-				throw syntaxError("Unterminated escape sequence");
-			}
-			String hex = in.substring(pos, pos + 4);
-			pos += 4;
-			try {
-				return (char) Integer.parseInt(hex, 16);
-			} catch (NumberFormatException nfe) {
-				throw syntaxError("Invalid escape sequence: " + hex, nfe);
-			}
-		case 't':
-			return '\t';
-		case 'b':
-			return '\b';
-		case 'n':
-			return '\n';
-		case 'r':
-			return '\r';
-		case 'f':
-			return '\f';
-		case '\'':
-		case '"':
-		case '\\':
-		default:
-			return escaped;
+			case 'u':
+				if (pos + 4 > in.length()) {
+					throw syntaxError("Unterminated escape sequence");
+				}
+				String hex = in.substring(pos, pos + 4);
+				pos += 4;
+				try {
+					return (char) Integer.parseInt(hex, 16);
+				} catch (NumberFormatException nfe) {
+					throw syntaxError("Invalid escape sequence: " + hex, nfe);
+				}
+			case 't':
+				return '\t';
+			case 'b':
+				return '\b';
+			case 'n':
+				return '\n';
+			case 'r':
+				return '\r';
+			case 'f':
+				return '\f';
+			case '\'':
+			case '"':
+			case '\\':
+			default:
+				return escaped;
 		}
 	}
 
@@ -266,7 +267,8 @@ public class JSONTokener {
 	 * values will be returned as an Integer, Long, or Double, in that order of
 	 * preference.
 	 */
-	@SuppressFBWarnings(value = "DM_STRING_CTOR",
+	@SuppressFBWarnings(
+			value = "DM_STRING_CTOR",
 			justification = "a new string avoids leaking memory")
 	private Object readLiteral() throws JSONException {
 		String literal = nextToInternal("{}[]/\\:,=;# \t\f");
@@ -292,8 +294,7 @@ public class JSONTokener {
 			}
 			try {
 				long longValue = Long.parseLong(number, base);
-				if (longValue <= Integer.MAX_VALUE
-						&& longValue >= Integer.MIN_VALUE) {
+				if (longValue <= Integer.MAX_VALUE && longValue >= Integer.MIN_VALUE) {
 					return (int) longValue;
 				}
 				return longValue;
@@ -349,8 +350,8 @@ public class JSONTokener {
 				if (name == null) {
 					throw syntaxError("Names cannot be null");
 				}
-				throw syntaxError("Names must be strings, but " + name
-						+ " is of type " + name.getClass().getName());
+				throw syntaxError("Names must be strings, but " + name + " is of type "
+						+ name.getClass().getName());
 			}
 			/*
 			 * Expect the name/value separator to be either a colon ':', an
@@ -366,13 +367,13 @@ public class JSONTokener {
 			}
 			result.put((String) name, nextValue());
 			switch (nextCleanInternal()) {
-			case '}':
-				return result;
-			case ';':
-			case ',':
-				continue;
-			default:
-				throw syntaxError("Unterminated object");
+				case '}':
+					return result;
+				case ';':
+				case ',':
+					continue;
+				default:
+					throw syntaxError("Unterminated object");
 			}
 		}
 	}
@@ -389,32 +390,32 @@ public class JSONTokener {
 		boolean hasTrailingSeparator = false;
 		while (true) {
 			switch (nextCleanInternal()) {
-			case -1:
-				throw syntaxError("Unterminated array");
-			case ']':
-				if (hasTrailingSeparator) {
+				case -1:
+					throw syntaxError("Unterminated array");
+				case ']':
+					if (hasTrailingSeparator) {
+						result.put(null);
+					}
+					return result;
+				case ',':
+				case ';':
+					/* A separator without a value first means "null". */
 					result.put(null);
-				}
-				return result;
-			case ',':
-			case ';':
-				/* A separator without a value first means "null". */
-				result.put(null);
-				hasTrailingSeparator = true;
-				continue;
-			default:
-				pos--;
+					hasTrailingSeparator = true;
+					continue;
+				default:
+					pos--;
 			}
 			result.put(nextValue());
 			switch (nextCleanInternal()) {
-			case ']':
-				return result;
-			case ',':
-			case ';':
-				hasTrailingSeparator = true;
-				continue;
-			default:
-				throw syntaxError("Unterminated array");
+				case ']':
+					return result;
+				case ',':
+				case ';':
+					hasTrailingSeparator = true;
+					continue;
+				default:
+					throw syntaxError("Unterminated array");
 			}
 		}
 	}
@@ -422,7 +423,7 @@ public class JSONTokener {
 	/**
 	 * Returns an exception containing the given message plus the current
 	 * position and the entire input string.
-	 * 
+	 *
 	 * @param message
 	 *            message
 	 * @return syntax error
@@ -453,7 +454,7 @@ public class JSONTokener {
 	 */
 	/**
 	 * Returns true until the input has been exhausted.
-	 * 
+	 *
 	 * @return whether there are chars not tokenized yet
 	 */
 	public boolean more() {
@@ -464,7 +465,7 @@ public class JSONTokener {
 	 * Returns the next available character, or the null character '\0' if all
 	 * input has been exhausted. The return value of this method is ambiguous
 	 * for JSON strings that contain the character '\0'.
-	 * 
+	 *
 	 * @return next character
 	 */
 	public char next() {
@@ -474,7 +475,7 @@ public class JSONTokener {
 	/**
 	 * Returns the next available character if it equals {@code c}. Otherwise an
 	 * exception is thrown.
-	 * 
+	 *
 	 * @param c
 	 *            expected character
 	 * @return next character
@@ -494,7 +495,7 @@ public class JSONTokener {
 	 * a comment. If the input is exhausted before such a character can be
 	 * found, the null character '\0' is returned. The return value of this
 	 * method is ambiguous for JSON strings that contain the character '\0'.
-	 * 
+	 *
 	 * @return next JSON character
 	 * @throws JSONException
 	 *             if unfinished comment is found
@@ -512,7 +513,7 @@ public class JSONTokener {
 	 * tokener's input string. If a reference to the returned string may be held
 	 * indefinitely, you should use {@code new String(result)} to copy it first
 	 * to avoid memory leaks.
-	 * 
+	 *
 	 * @param length
 	 *            substring length
 	 * @return substring containing next {@code length} characters
@@ -544,7 +545,7 @@ public class JSONTokener {
 	 * tokener's input string. If a reference to the returned string may be held
 	 * indefinitely, you should use {@code new String(result)} to copy it first
 	 * to avoid memory leaks.
-	 * 
+	 *
 	 * @param excluded
 	 *            sequence of excluded chars
 	 *
@@ -559,7 +560,7 @@ public class JSONTokener {
 
 	/**
 	 * Equivalent to {@code nextTo(String.valueOf(excluded))}.
-	 * 
+	 *
 	 * @param excluded
 	 *            sequence of excluded chars
 	 * @return a possibly empty string
@@ -572,7 +573,7 @@ public class JSONTokener {
 	 * Advances past all input up to and including the next occurrence of
 	 * {@code thru}. If the remaining input doesn't contain {@code thru}, the
 	 * input is exhausted.
-	 * 
+	 *
 	 * @param thru
 	 *            substring
 	 */
@@ -585,7 +586,7 @@ public class JSONTokener {
 	 * Advances past all input up to but not including the next occurrence of
 	 * {@code to}. If the remaining input doesn't contain {@code to}, the input
 	 * is unchanged.
-	 * 
+	 *
 	 * @param to
 	 *            character we look for
 	 * @return {@code to} or zero char

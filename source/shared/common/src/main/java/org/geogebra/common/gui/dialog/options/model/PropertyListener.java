@@ -22,5 +22,4 @@ public interface PropertyListener {
 
 	@MissingDoc
 	Object updatePanel(Object[] geos2);
-
 }

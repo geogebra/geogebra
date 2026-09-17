@@ -27,13 +27,13 @@ import org.junit.jupiter.api.Test;
 
 class ClipAlgoSutherlandHodogmanTest {
 	private final ClipAlgoSutherlandHodogman algo = new ClipAlgoSutherlandHodogman();
-	private final ArrayList< MyPoint > input = new ArrayList<>();
-	private ArrayList< MyPoint > output = new ArrayList<>();
+	private final ArrayList<MyPoint> input = new ArrayList<>();
+	private ArrayList<MyPoint> output = new ArrayList<>();
 	private static final double[][] defaultClipPolygon = {
-			{0, 0},
-			{0, 100},
-			{100, 100},
-			{100, 0},
+		{0, 0},
+		{0, 100},
+		{100, 100},
+		{100, 0},
 	};
 
 	@Test

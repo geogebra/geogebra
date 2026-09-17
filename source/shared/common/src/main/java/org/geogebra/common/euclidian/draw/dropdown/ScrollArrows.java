@@ -39,15 +39,11 @@ class ScrollArrows {
 	}
 
 	void update(int left, int top, int height, GDimension dimension) {
-		up = AwtFactory.getPrototype().newRectangle(dimension.getWidth(),
-				dimension.getHeight() / 2);
-		down = AwtFactory.getPrototype()
-				.newRectangle(dimension.getWidth(), dimension.getHeight() / 2);
+		up = AwtFactory.getPrototype().newRectangle(dimension.getWidth(), dimension.getHeight() / 2);
+		down = AwtFactory.getPrototype().newRectangle(dimension.getWidth(), dimension.getHeight() / 2);
 		up.setBounds(left, top, (int) up.getWidth(), (int) up.getHeight());
-		down.setBounds(left, top + height
-						- (int) down.getHeight(),
-				(int) down.getWidth(),
-				(int) down.getHeight());
+		down.setBounds(
+				left, top + height - (int) down.getHeight(), (int) down.getWidth(), (int) down.getHeight());
 	}
 
 	void draw(GGraphics2D g2, GPaint backgroundColor) {
@@ -74,8 +70,7 @@ class ScrollArrows {
 		drawDown(g2, x2, y2, w2, h2);
 	}
 
-	void drawUp(GGraphics2D g2, int left, int top, int width,
-			int height) {
+	void drawUp(GGraphics2D g2, int left, int top, int width, int height) {
 		g2.setColor(GColor.DARK_GRAY);
 
 		int middleX = left + width / 2;
@@ -93,8 +88,7 @@ class ScrollArrows {
 		AwtFactory.fillTriangle(g2, x1, y1, x2, y1, middleX, y3);
 	}
 
-	void drawDown(GGraphics2D g2, int left, int top, int width,
-			int height) {
+	void drawDown(GGraphics2D g2, int left, int top, int width, int height) {
 		g2.setColor(GColor.DARK_GRAY);
 		int middleX = left + width / 2;
 
@@ -116,13 +110,11 @@ class ScrollArrows {
 	}
 
 	int getUpBottom() {
-		return (int) (up.getBounds().getY()
-				+ up.getBounds().getHeight());
+		return (int) (up.getBounds().getY() + up.getBounds().getHeight());
 	}
 
 	int getDownBottom() {
-		return (int) (down.getBounds().getY()
-				+ down.getBounds().getHeight());
+		return (int) (down.getBounds().getY() + down.getBounds().getHeight());
 	}
 
 	boolean intersect(OptionItem item) {
@@ -156,8 +148,7 @@ class ScrollArrows {
 	boolean clip(GGraphics2D g2, OptionItem item, int dragOffset) {
 		clip = dragOffset != 0 && intersect(item);
 		if (clip) {
-			g2.setClip(item.getLeft(), getUpBottom(), (int) item.getBoundsWidth(),
-					distanceBetween());
+			g2.setClip(item.getLeft(), getUpBottom(), (int) item.getBoundsWidth(), distanceBetween());
 		}
 		return clip;
 	}

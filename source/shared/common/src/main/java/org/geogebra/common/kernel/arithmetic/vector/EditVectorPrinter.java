@@ -24,13 +24,13 @@ import org.geogebra.common.main.Localization;
 class EditVectorPrinter implements Printer {
 
 	@Override
-	public String print(String xCoord,
-			String yCoord, String zCoord, PrintableVector vector, StringTemplate tpl,
+	public String print(
+			String xCoord,
+			String yCoord,
+			String zCoord,
+			PrintableVector vector,
+			StringTemplate tpl,
 			Localization loc) {
-		return "$vector("
-				+ xCoord
-				+ ","
-				+ yCoord
-				+ ")";
+		return "$vector(" + xCoord + "," + yCoord + ")";
 	}
 }

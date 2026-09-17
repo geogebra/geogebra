@@ -32,7 +32,7 @@ import jsinterop.annotations.JsType;
 public final class TabletFileManager extends FileManagerT {
 
 	private static TabletFileManager INSTANCE;
-	private final static int NO_CALLBACK = 0;
+	private static final int NO_CALLBACK = 0;
 	private TreeMap<Integer, NativeBridgeCallback> callbacks;
 	private int callbacksCount = NO_CALLBACK;
 
@@ -141,8 +141,7 @@ public final class TabletFileManager extends FileManagerT {
 
 	@JsIgnore
 	@Override
-	public void saveFile(final String base64, final long modified,
-			final SaveCallback cb) {
+	public void saveFile(final String base64, final long modified, final SaveCallback cb) {
 		Material material = createMaterial("", modified);
 		material.setBase64("");
 		final Material saveFileMaterial = material;
@@ -163,10 +162,10 @@ public final class TabletFileManager extends FileManagerT {
 		} else {
 			callback = NO_CALLBACK;
 		}
-		String cleanTitle = getTitleWithoutReservedCharacters(
-				getApp().getKernel().getConstruction().getTitle());
-		saveFileNative(getApp().getLocalID(), cleanTitle,
-				base64, saveFileMaterial.toJson().toString(), callback);
+		String cleanTitle =
+				getTitleWithoutReservedCharacters(getApp().getKernel().getConstruction().getTitle());
+		saveFileNative(
+				getApp().getLocalID(), cleanTitle, base64, saveFileMaterial.toJson().toString(), callback);
 	}
 
 	/**
@@ -176,27 +175,26 @@ public final class TabletFileManager extends FileManagerT {
 		runCallback(cb, result > 0, result);
 	}
 
-	private void saveFileNative(int id, String title, String base64,
-			String metaData, int callback) {
+	private void saveFileNative(int id, String title, String base64, String metaData, int callback) {
 		if (GeoGebraJSNativeBridge.get() != null) {
 			GeoGebraJSNativeBridge.get().saveFile(id, title, base64, metaData, callback);
 		}
 	}
 
 	@Override
-	protected void updateFile(final String key, final long modified,
-			final Material material) {
+	protected void updateFile(final String key, final long modified, final Material material) {
 		material.setModified(modified);
 		if (key == null) {
 			// save as a new local file
 			String base64 = material.getBase64();
 			material.setBase64("");
-			createFileFromTubeNative(getTitleWithoutReservedCharacters(material.getTitle()),
-					base64, material.toJson().toString());
+			createFileFromTubeNative(
+					getTitleWithoutReservedCharacters(material.getTitle()),
+					base64,
+					material.toJson().toString());
 		} else {
 			material.setLocalID(MaterialsManager.getIDFromKey(key));
-			String newKey = MaterialsManager.createKeyString(
-					material.getLocalID(), material.getTitle());
+			String newKey = MaterialsManager.createKeyString(material.getLocalID(), material.getTitle());
 			if (key.equals(newKey)) {
 				// re-save file and meta data
 				String base64 = material.getBase64();
@@ -244,10 +242,8 @@ public final class TabletFileManager extends FileManagerT {
 
 	@JsIgnore
 	@Override
-	public void rename(final String newTitle, final Material mat,
-			final Runnable callback) {
-		final String newKey = MaterialsManager.createKeyString(mat.getLocalID(),
-				newTitle);
+	public void rename(final String newTitle, final Material mat, final Runnable callback) {
+		final String newKey = MaterialsManager.createKeyString(mat.getLocalID(), newTitle);
 		final String oldKey = getFileKey(mat);
 		mat.setBase64("");
 		mat.setTitle(newTitle);
@@ -267,8 +263,7 @@ public final class TabletFileManager extends FileManagerT {
 		renameNative(oldKey, newKey, mat.toJson().toString(), callback1);
 	}
 
-	private void renameNative(String oldKey, String newKey,
-			String metaData, int callback) {
+	private void renameNative(String oldKey, String newKey, String metaData, int callback) {
 		if (GeoGebraJSNativeBridge.get() != null) {
 			GeoGebraJSNativeBridge.get().rename(oldKey, newKey, metaData, callback);
 		}
@@ -286,8 +281,7 @@ public final class TabletFileManager extends FileManagerT {
 
 	@JsIgnore
 	@Override
-	public void delete(final Material mat, boolean permanent,
-			final Runnable onSuccess) {
+	public void delete(final Material mat, boolean permanent, final Runnable onSuccess) {
 
 		if (!permanent) {
 			mat.setDeleted(true);

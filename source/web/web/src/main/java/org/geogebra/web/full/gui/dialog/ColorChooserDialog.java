@@ -29,15 +29,15 @@ public final class ColorChooserDialog extends ComponentDialog {
 	private GColor selectedColor;
 	private ColorChangeHandler handler;
 	private GColor originalColor;
-	
+
 	/**
 	 * @param app application
 	 * @param data dialog data
 	 * @param originalColor initial color
 	 * @param handler color handler
 	 */
-	public ColorChooserDialog(AppW app, DialogData data,
-			final GColor originalColor, final ColorChangeHandler handler) {
+	public ColorChooserDialog(
+			AppW app, DialogData data, final GColor originalColor, final ColorChangeHandler handler) {
 		super(app, data, false, true);
 		addStyleName("colorChooser");
 		this.handler = handler;
@@ -53,8 +53,12 @@ public final class ColorChooserDialog extends ComponentDialog {
 	 * @param handler color handler
 	 * @param colorChooser color chooser panel
 	 */
-	public ColorChooserDialog(AppW app, DialogData data, final GColor originalColor,
-			final ColorChangeHandler handler, ColorChooserW colorChooser) {
+	public ColorChooserDialog(
+			AppW app,
+			DialogData data,
+			final GColor originalColor,
+			final ColorChangeHandler handler,
+			ColorChooserW colorChooser) {
 		super(app, data, false, true);
 		addStyleName("colorChooser");
 		this.handler = handler;

@@ -42,7 +42,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * A prover which uses Tomas Recios method to prove geometric theorems.
- * 
+ *
  * @author Simon Weitzhofer
  *
  */
@@ -53,7 +53,7 @@ public abstract class AbstractProverReciosMethod {
 	/**
 	 * The prover which tries to prove the statement with the help of Tomas
 	 * Recios method.
-	 * 
+	 *
 	 * @param prover
 	 *            the prover input object
 	 * @return The result of the prove.
@@ -71,10 +71,8 @@ public abstract class AbstractProverReciosMethod {
 
 		if (statement instanceof SymbolicParametersAlgo) {
 			s = ((SymbolicParametersAlgo) statement).getSymbolicParameters();
-		} else if (statement
-				.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
-			s = ((SymbolicParametersAlgo) statement.getParentAlgorithm())
-					.getSymbolicParameters();
+		} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
+			s = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getSymbolicParameters();
 		} else {
 			return ProofResult.UNKNOWN;
 		}
@@ -99,15 +97,13 @@ public abstract class AbstractProverReciosMethod {
 				return ProofResult.UNKNOWN;
 			}
 		} else {
-			List<GeoElement> freePoints = ProverBotanasMethod
-					.getFreePoints(statement);
+			List<GeoElement> freePoints = ProverBotanasMethod.getFreePoints(statement);
 			Iterator<GeoElement> it = freePoints.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
 				PVariable[] vars;
 				try {
-					vars = ((SymbolicParametersBotanaAlgo) geo)
-							.getBotanaVars(geo);
+					vars = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
 				} catch (NoSymbolicParametersException e) {
 					Log.debug("Cannot get Botana variables for " + geo);
 					return ProofResult.UNKNOWN;
@@ -133,30 +129,26 @@ public abstract class AbstractProverReciosMethod {
 		// all other variables are stored in freeVariables
 		Iterator<PVariable> it = variables.iterator();
 		HashMap<PVariable, BigInteger> values = new HashMap<>();
-		TreeSet<PVariable> fixedVariables = new TreeSet<>(
-				(v1, v2) -> {
-					String nameV1, nameV2;
-					if (v1.getParent() == null
-							|| (nameV1 = v1.getParent().getLabel(
-							StringTemplate.defaultTemplate)) == null) {
-						if (v2.getParent() == null
-								|| v1.getParent().getLabel(
-								StringTemplate.defaultTemplate) == null) {
-							return v1.compareTo(v2);
-						}
-						return -1;
-					}
-					if (v2.getParent() == null
-							|| (nameV2 = v2.getParent().getLabel(
-							StringTemplate.defaultTemplate)) == null) {
-						return 1;
-					}
-					int compareNames = nameV1.compareTo(nameV2);
-					if (compareNames == 0) {
-						return v1.compareTo(v2);
-					}
-					return compareNames;
-				});
+		TreeSet<PVariable> fixedVariables = new TreeSet<>((v1, v2) -> {
+			String nameV1, nameV2;
+			if (v1.getParent() == null
+					|| (nameV1 = v1.getParent().getLabel(StringTemplate.defaultTemplate)) == null) {
+				if (v2.getParent() == null
+						|| v1.getParent().getLabel(StringTemplate.defaultTemplate) == null) {
+					return v1.compareTo(v2);
+				}
+				return -1;
+			}
+			if (v2.getParent() == null
+					|| (nameV2 = v2.getParent().getLabel(StringTemplate.defaultTemplate)) == null) {
+				return 1;
+			}
+			int compareNames = nameV1.compareTo(nameV2);
+			if (compareNames == 0) {
+				return v1.compareTo(v2);
+			}
+			return compareNames;
+		});
 		HashSet<PVariable> freeVariables = new HashSet<>();
 		while (it.hasNext()) {
 			PVariable fv = it.next();
@@ -204,8 +196,7 @@ public abstract class AbstractProverReciosMethod {
 			// TODO: This is not a problem in the method, it is in the
 			// implementation.
 			// FIXME: Make the implementation faster.
-			Log.debug(
-					"Recio's method is currently disabled when # of free variables > 5");
+			Log.debug("Recio's method is currently disabled when # of free variables > 5");
 			return ProofResult.UNKNOWN;
 		}
 
@@ -221,20 +212,19 @@ public abstract class AbstractProverReciosMethod {
 		}
 
 		switch (nrFreeVariables) {
-		case 0:
-			return compute0d(values, s, as);
-		case 1:
-			return compute1d(freeVariables, values, deg, s, as);
-		case 2:
-			return compute2d(freeVariables, values, deg, s, as);
-		default:
-			return computeNd(freeVariables, values, deg, s, as);
+			case 0:
+				return compute0d(values, s, as);
+			case 1:
+				return compute1d(freeVariables, values, deg, s, as);
+			case 2:
+				return compute2d(freeVariables, values, deg, s, as);
+			default:
+				return computeNd(freeVariables, values, deg, s, as);
 		}
-
 	}
 
-	private static ProofResult compute0d(HashMap<PVariable, BigInteger> values,
-			SymbolicParameters s, AlgebraicStatement as) {
+	private static ProofResult compute0d(
+			HashMap<PVariable, BigInteger> values, SymbolicParameters s, AlgebraicStatement as) {
 		if (as != null) {
 			// use Botana's method
 			HashMap<PVariable, BigInteger> substitutions = new HashMap<>();
@@ -245,10 +235,11 @@ public abstract class AbstractProverReciosMethod {
 			}
 			ProverSettings proverSettings = ProverSettings.get();
 			ExtendedBoolean solvable = PPolynomial.solvable(
-					as.getPolynomials().toArray(
-							new PPolynomial[as.getPolynomials().size()]),
-					substitutions, as.geoStatement.getKernel(),
-					proverSettings.transcext, as.freeVariables);
+					as.getPolynomials().toArray(new PPolynomial[as.getPolynomials().size()]),
+					substitutions,
+					as.geoStatement.getKernel(),
+					proverSettings.transcext,
+					as.freeVariables);
 			Log.debug("Recio meets Botana:" + substitutions);
 			if (solvable.boolVal()) {
 				return ProofResult.FALSE;
@@ -268,9 +259,12 @@ public abstract class AbstractProverReciosMethod {
 		return ProofResult.TRUE;
 	}
 
-	private static ProofResult compute1d(final HashSet<PVariable> freeVariables,
-			final HashMap<PVariable, BigInteger> values, final int deg,
-			final SymbolicParameters s, AlgebraicStatement as) {
+	private static ProofResult compute1d(
+			final HashSet<PVariable> freeVariables,
+			final HashMap<PVariable, BigInteger> values,
+			final int deg,
+			final SymbolicParameters s,
+			AlgebraicStatement as) {
 		PVariable variable = freeVariables.iterator().next();
 		for (int i = 1; i <= deg + 2; i++) {
 			values.put(variable, BigInteger.valueOf(i));
@@ -284,18 +278,18 @@ public abstract class AbstractProverReciosMethod {
 				}
 				ProverSettings proverSettings = ProverSettings.get();
 				ExtendedBoolean solvable = PPolynomial.solvable(
-						as.getPolynomials().toArray(
-								new PPolynomial[as.getPolynomials().size()]),
-						substitutions, as.geoStatement.getKernel(),
-						proverSettings.transcext, as.freeVariables);
+						as.getPolynomials().toArray(new PPolynomial[as.getPolynomials().size()]),
+						substitutions,
+						as.geoStatement.getKernel(),
+						proverSettings.transcext,
+						as.freeVariables);
 				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
 				if (solvable.boolVal()) {
 					return ProofResult.FALSE;
 				}
 			} else {
 				try {
-					BigInteger[] exactCoordinates = s
-							.getExactCoordinates(values);
+					BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 					for (BigInteger result : exactCoordinates) {
 						if (!result.equals(BigInteger.ZERO)) {
 							return ProofResult.FALSE;
@@ -309,9 +303,12 @@ public abstract class AbstractProverReciosMethod {
 		return ProofResult.TRUE;
 	}
 
-	private static ProofResult compute2d(final HashSet<PVariable> freeVariables,
-			final HashMap<PVariable, BigInteger> values, final int deg,
-			final SymbolicParameters s, AlgebraicStatement as) {
+	private static ProofResult compute2d(
+			final HashSet<PVariable> freeVariables,
+			final HashMap<PVariable, BigInteger> values,
+			final int deg,
+			final SymbolicParameters s,
+			AlgebraicStatement as) {
 		PVariable[] variables = new PVariable[freeVariables.size()];
 		Iterator<PVariable> it = freeVariables.iterator();
 		for (int i = 0; i < variables.length; i++) {
@@ -321,37 +318,33 @@ public abstract class AbstractProverReciosMethod {
 		int nrOfTests = (deg + 2) * (deg + 1) / 2;
 		Log.debug("nr of tests: " + nrOfTests);
 		int caseno = 0;
-		for (int i = 1; i < /* = */deg + 2; i++) {
+		for (int i = 1; i < /* = */ deg + 2; i++) {
 			for (int j = 1; j <= i; j++) {
 				caseno++;
-				values.put(variables[0],
-						BigInteger.valueOf((long) (deg + 2 - i) * (deg + 2 - j)));
+				values.put(variables[0], BigInteger.valueOf((long) (deg + 2 - i) * (deg + 2 - j)));
 				values.put(variables[1], BigInteger.valueOf((long) i * j));
 
 				if (as != null) {
 					// use Botana's method
 					HashMap<PVariable, BigInteger> substitutions = new HashMap<>();
-					for (Entry<PVariable, BigInteger> entry : values
-							.entrySet()) {
+					for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
 						PVariable v = entry.getKey();
 						// FIXME: Change Long in Variable to BigInteger
 						substitutions.put(v, entry.getValue());
 					}
 					ExtendedBoolean solvable = PPolynomial.solvable(
-							as.getPolynomials()
-									.toArray(new PPolynomial[as.getPolynomials()
-											.size()]),
-							substitutions, as.geoStatement.getKernel(),
-							ProverSettings.get().transcext, as.freeVariables);
-					Log.debug("Recio meets Botana: #" + caseno + " "
-							+ substitutions);
+							as.getPolynomials().toArray(new PPolynomial[as.getPolynomials().size()]),
+							substitutions,
+							as.geoStatement.getKernel(),
+							ProverSettings.get().transcext,
+							as.freeVariables);
+					Log.debug("Recio meets Botana: #" + caseno + " " + substitutions);
 					if (solvable.boolVal()) {
 						return ProofResult.FALSE;
 					}
 				} else {
 					try {
-						BigInteger[] exactCoordinates = s
-								.getExactCoordinates(values);
+						BigInteger[] exactCoordinates = s.getExactCoordinates(values);
 						for (BigInteger result : exactCoordinates) {
 							if (!result.equals(BigInteger.ZERO)) {
 								return ProofResult.FALSE;
@@ -368,7 +361,7 @@ public abstract class AbstractProverReciosMethod {
 
 	/**
 	 * More complicated calculations are done by multiple threads in desktop
-	 * 
+	 *
 	 * @param freeVariables
 	 *            The free variables ruling the construction
 	 * @param values
@@ -385,19 +378,19 @@ public abstract class AbstractProverReciosMethod {
 	 *            equations (by Kovacs/Solyom-Gecse)
 	 * @return the result of the proof
 	 */
-
 	protected abstract ProofResult computeNd(
 			HashSet<PVariable> freeVariables,
-			HashMap<PVariable, BigInteger> values, int deg,
-			SymbolicParameters s, AlgebraicStatement as);
+			HashMap<PVariable, BigInteger> values,
+			int deg,
+			SymbolicParameters s,
+			AlgebraicStatement as);
 
 	/**
 	 * Returns the elements which are fixed by Recio's method prover
-	 * 
+	 *
 	 * @return the fixed elements
 	 */
 	public GeoElement[] getFixedPoints() {
 		return fixedPoints;
 	}
-
 }

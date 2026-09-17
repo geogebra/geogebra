@@ -419,6 +419,5 @@ final class FCTRPG extends UniFontInfo {
 		setMetrics(9001, 525, 695, 83);
 
 		setMetrics(9002, 525, 695, 83);
-
 	}
 }

@@ -45,26 +45,34 @@ public class BackgroundAndBorderPropertyCollection extends AbstractPropertyColle
 	 * @param elements the elements to create properties for
 	 * @throws NotApplicablePropertyException if none of the elements support background and border
 	 */
-	public BackgroundAndBorderPropertyCollection(GeoElementPropertiesFactory propertiesFactory,
-			Localization localization, List<GeoElement> elements)
+	public BackgroundAndBorderPropertyCollection(
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
 			throws NotApplicablePropertyException {
 		super(localization, "ObjectProperties.BackgroundAndBorder");
-		setProperties(Arrays.stream(new Property[]{
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						(element) -> new BackgroundColorProperty(localization, element),
-						ColorPropertyListFacade::new),
-				propertiesFactory.createPropertyFacadeThrowing(elements,
-						(element) -> new BackgroundColorResetProperty(localization, element),
-						ActionableIconPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new BorderColorProperty(localization, element,
-								DefaultColorValues.BRIGHT, "ObjectProperties.BorderColor"),
-						ColorPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new BorderWidthProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				tryOrNull(() -> new BorderStylePropertyCollection(propertiesFactory,
-						localization, elements))
-		}).filter(Objects::nonNull).toArray(Property[]::new));
+		setProperties(Arrays.stream(new Property[] {
+					propertiesFactory.createPropertyFacadeThrowing(
+							elements,
+							(element) -> new BackgroundColorProperty(localization, element),
+							ColorPropertyListFacade::new),
+					propertiesFactory.createPropertyFacadeThrowing(
+							elements,
+							(element) -> new BackgroundColorResetProperty(localization, element),
+							ActionableIconPropertyListFacade::new),
+					propertiesFactory.createOptionalPropertyFacade(
+							elements,
+							element -> new BorderColorProperty(
+									localization, element, DefaultColorValues.BRIGHT, "ObjectProperties.BorderColor"),
+							ColorPropertyListFacade::new),
+					propertiesFactory.createOptionalPropertyFacade(
+							elements,
+							element -> new BorderWidthProperty(localization, element),
+							IconsEnumeratedPropertyListFacade::new),
+					tryOrNull(
+							() -> new BorderStylePropertyCollection(propertiesFactory, localization, elements))
+				})
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 	}
 }

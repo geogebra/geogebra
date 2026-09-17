@@ -24,10 +24,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Length of a GeoText object.
- * 
+ *
  * @author Michael
  */
-
 public class AlgoTextLength extends AlgoElement {
 
 	private GeoText text; // input
@@ -78,5 +77,4 @@ public class AlgoTextLength extends AlgoElement {
 			length.setUndefined();
 		}
 	}
-
 }

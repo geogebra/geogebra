@@ -58,10 +58,12 @@ public final class ProfileAvatar extends FlowPanel {
 		buildGui();
 
 		buildPopup(app);
-		addDomHandler(event -> {
-			togglePopup();
-			event.stopPropagation();
-		}, ClickEvent.getType());
+		addDomHandler(
+				event -> {
+					togglePopup();
+					event.stopPropagation();
+				},
+				ClickEvent.getType());
 	}
 
 	private void buildGui() {
@@ -105,26 +107,25 @@ public final class ProfileAvatar extends FlowPanel {
 	}
 
 	private void addProfileItem() {
-		profileItem =
-				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.person_black(),
-						loc.getMenu("ProfilePanel.Profile"),
+		profileItem = MainMenu.getMenuBarItem(
+				MaterialDesignResources.INSTANCE.person_black(),
+				loc.getMenu("ProfilePanel.Profile"),
 				(Command) this::openProfile);
 		profilePanel.addItem(profileItem);
 	}
 
 	private void addSettingsItem() {
-		settingsItem =
-				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.settings_border(),
-						loc.getMenu("ProfilePanel.Settings"),
+		settingsItem = MainMenu.getMenuBarItem(
+				MaterialDesignResources.INSTANCE.settings_border(),
+				loc.getMenu("ProfilePanel.Settings"),
 				(Command) this::openAccountSettings);
 		profilePanel.addItem(settingsItem);
 	}
 
 	private void addSignOutItem() {
-		signOutItem =
-				MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.signout_black(),
-						loc.getMenu("SignOut"),
-				(Command) this::signOut);
+		signOutItem = MainMenu.getMenuBarItem(
+				MaterialDesignResources.INSTANCE.signout_black(), loc.getMenu("SignOut"), (Command)
+						this::signOut);
 		profilePanel.addItem(signOutItem);
 	}
 
@@ -160,8 +161,7 @@ public final class ProfileAvatar extends FlowPanel {
 			avatar.setUrl(user.getImageURL());
 			profileImage.setUrl(user.getImageURL());
 		} else {
-			avatar.setUrl(
-					SharedResources.INSTANCE.icon_help_black().getSafeUri().asString());
+			avatar.setUrl(SharedResources.INSTANCE.icon_help_black().getSafeUri().asString());
 			profileImage.setUrl(
 					SharedResources.INSTANCE.icon_help_black().getSafeUri().asString());
 		}
@@ -188,11 +188,8 @@ public final class ProfileAvatar extends FlowPanel {
 	 * update popup language
 	 */
 	public void setLabels() {
-		profileItem.setTextContent(
-						loc.getMenu("ProfilePanel.Profile"));
-		settingsItem.setTextContent(
-				loc.getMenu("ProfilePanel.Settings"));
-		signOutItem.setTextContent(
-				loc.getMenu("SignOut"));
+		profileItem.setTextContent(loc.getMenu("ProfilePanel.Profile"));
+		settingsItem.setTextContent(loc.getMenu("ProfilePanel.Settings"));
+		signOutItem.setTextContent(loc.getMenu("SignOut"));
 	}
 }

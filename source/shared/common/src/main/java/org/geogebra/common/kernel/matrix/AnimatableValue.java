@@ -24,7 +24,7 @@ package org.geogebra.common.kernel.matrix;
  */
 public interface AnimatableValue<T> {
 	/**
-	 * 
+	 *
 	 * @param other
 	 *            other value
 	 * @return true if value equals the other one and doesn't need animation
@@ -32,14 +32,14 @@ public interface AnimatableValue<T> {
 	boolean equalsForAnimation(T other);
 
 	/**
-	 * 
+	 *
 	 * @return true if defined
 	 */
 	boolean isDefined();
 
 	/**
 	 * set to other
-	 * 
+	 *
 	 * @param other
 	 *            other
 	 */
@@ -49,5 +49,4 @@ public interface AnimatableValue<T> {
 	 * set to undefined
 	 */
 	void setUndefined();
-
 }

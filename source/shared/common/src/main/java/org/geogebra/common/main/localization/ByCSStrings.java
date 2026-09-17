@@ -27,5 +27,5 @@ public final class ByCSStrings {
 	public static final String INFO = "Impressum";
 	public static final String ABOUT = "\u00DCber Board";
 
-	private ByCSStrings() { }
+	private ByCSStrings() {}
 }

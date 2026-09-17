@@ -39,5 +39,4 @@ public interface CommandProcessorFactory {
 	 * @return CommandProcessor
 	 */
 	CommandProcessor getProcessor(Commands command, Kernel kernel);
-
 }

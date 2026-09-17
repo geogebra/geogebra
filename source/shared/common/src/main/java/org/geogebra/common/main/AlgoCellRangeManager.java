@@ -31,9 +31,9 @@ import org.jspecify.annotations.Nullable;
  * Maintains a list of all instances of AlgoCellRange in a construction and
  * handles updates to the AlgoCellRanges when a spreadsheet cell GeoElement is
  * changed.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class AlgoCellRangeManager {
 
@@ -41,7 +41,7 @@ public class AlgoCellRangeManager {
 
 	/**
 	 * Removes an AlgoCellRange algorithm from the internal algorithm list.
-	 * 
+	 *
 	 * @param algo
 	 *            algorithm to remove
 	 */
@@ -49,14 +49,13 @@ public class AlgoCellRangeManager {
 		if (algos != null) {
 			algos.remove(getKey(algo.getStart(), algo.getEnd()));
 		}
-
 	}
 
 	/**
 	 * Updates registered AlgoCellRanges with cell ranges that contain the
 	 * coordinates of the given GeoElement. This method should be called when
 	 * GeoElements have been added, removed or renamed.
-	 * 
+	 *
 	 * @param geo
 	 *            GeoElement that has changed
 	 * @param location
@@ -64,10 +63,10 @@ public class AlgoCellRangeManager {
 	 *            location if a cell has been renamed)
 	 * @param isRemoveAction
 	 *            true if the given GeoElement has been removed
-	 * 
+	 *
 	 */
-	public void updateCellRangeAlgos(GeoElement geo, SpreadsheetCoords location,
-			boolean isRemoveAction) {
+	public void updateCellRangeAlgos(
+			GeoElement geo, SpreadsheetCoords location, boolean isRemoveAction) {
 		if (geo == null || algos == null) {
 			return;
 		}
@@ -81,7 +80,7 @@ public class AlgoCellRangeManager {
 
 	/**
 	 * add the geo at specified location to cell range algos
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @param location
@@ -109,7 +108,7 @@ public class AlgoCellRangeManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -120,8 +119,7 @@ public class AlgoCellRangeManager {
 	 *            end cell
 	 * @return algo corresponding to string start:end
 	 */
-	public AlgoCellRange getAlgoCellRange(Construction cons, String label,
-			String start, String end) {
+	public AlgoCellRange getAlgoCellRange(Construction cons, String label, String start, String end) {
 
 		if (algos == null) {
 			algos = new HashMap<>();
@@ -158,7 +156,7 @@ public class AlgoCellRangeManager {
 			return;
 		}
 		List<GeoElement> toUpdate = new ArrayList<>();
-		for (AlgoCellRange range: algos.values()) {
+		for (AlgoCellRange range : algos.values()) {
 			TabularRange tabularRange = range.getRange();
 			int minColumn = tabularRange.getMinColumn();
 			int maxColumn = tabularRange.getMaxColumn();
@@ -172,8 +170,8 @@ public class AlgoCellRangeManager {
 				changed = true;
 			}
 			if (changed) {
-				tabularRange = new TabularRange(tabularRange.getMinRow(),
-						minColumn, tabularRange.getMaxRow(), maxColumn);
+				tabularRange = new TabularRange(
+						tabularRange.getMinRow(), minColumn, tabularRange.getMaxRow(), maxColumn);
 				range.setRange(tabularRange);
 				toUpdate.add(range.getList());
 			}
@@ -191,7 +189,7 @@ public class AlgoCellRangeManager {
 			return;
 		}
 		List<GeoElement> toUpdate = new ArrayList<>();
-		for (AlgoCellRange range: algos.values()) {
+		for (AlgoCellRange range : algos.values()) {
 			TabularRange tabularRange = range.getRange();
 			int minRow = tabularRange.getMinRow();
 			int maxRow = tabularRange.getMaxRow();
@@ -205,8 +203,8 @@ public class AlgoCellRangeManager {
 				changed = true;
 			}
 			if (changed) {
-				tabularRange = new TabularRange(minRow, tabularRange.getMinColumn(),
-						maxRow, tabularRange.getMaxColumn());
+				tabularRange = new TabularRange(
+						minRow, tabularRange.getMinColumn(), maxRow, tabularRange.getMaxColumn());
 				range.setRange(tabularRange);
 				toUpdate.add(range.getList());
 			}

@@ -1,12 +1,12 @@
 /*
-* Copyright (c) 2003, the JUNG Project and the Regents of the University 
-* of California
-* All rights reserved.
-*
-* This software is open-source under the BSD license; see either
-* "license.txt" or
-* http://jung.sourceforge.net/license.txt for a description.
-*/
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
+ * of California
+ * All rights reserved.
+ *
+ * This software is open-source under the BSD license; see either
+ * "license.txt" or
+ * http://jung.sourceforge.net/license.txt for a description.
+ */
 package edu.uci.ics.jung.algorithms.shortestpath;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import edu.uci.ics.jung.graph.Hypergraph;
  * traversed at step k+1.
  * <p>
  * Running time is: O(m)
- * 
+ *
  * @author Scott White
  */
 public class BFSDistanceLabeler<V, E> {
@@ -48,7 +48,7 @@ public class BFSDistanceLabeler<V, E> {
 
 	/**
 	 * Returns the list of vertices visited in order of traversal
-	 * 
+	 *
 	 * @return the list of vertices
 	 */
 	public List<V> getVerticesInOrderVisited() {
@@ -57,7 +57,7 @@ public class BFSDistanceLabeler<V, E> {
 
 	/**
 	 * Returns the set of all vertices that were not visited
-	 * 
+	 *
 	 * @return the list of unvisited vertices
 	 */
 	public Set<V> getUnvisitedVertices() {
@@ -67,15 +67,14 @@ public class BFSDistanceLabeler<V, E> {
 	/**
 	 * Given a vertex, returns the shortest distance from any node in the root
 	 * set to v
-	 * 
+	 *
 	 * @param v
 	 *            the vertex whose distance is to be retrieved
 	 * @return the shortest distance from any node in the root set to v
 	 */
 	public int getDistance(Hypergraph<V, E> g, V v) {
 		if (!g.getVertices().contains(v)) {
-			throw new IllegalArgumentException(
-					"Vertex is not contained in the graph.");
+			throw new IllegalArgumentException("Vertex is not contained in the graph.");
 		}
 
 		return distanceDecorator.get(v).intValue();
@@ -83,7 +82,7 @@ public class BFSDistanceLabeler<V, E> {
 
 	/**
 	 * Returns set of predecessors of the given vertex
-	 * 
+	 *
 	 * @param v
 	 *            the vertex whose predecessors are to be retrieved
 	 * @return the set of predecessors
@@ -120,7 +119,7 @@ public class BFSDistanceLabeler<V, E> {
 	 * is used as the designated distance to a given node. Also keeps track of
 	 * the predecessors of each node traversed as well as the order of nodes
 	 * traversed.
-	 * 
+	 *
 	 * @param graph
 	 *            the graph to label
 	 * @param rootSet
@@ -156,7 +155,7 @@ public class BFSDistanceLabeler<V, E> {
 	 * Computes the distances of all the node from the specified root node. Also
 	 * keeps track of the predecessors of each node traversed as well as the
 	 * order of nodes traversed.
-	 * 
+	 *
 	 * @param graph
 	 *            the graph to label
 	 * @param root
@@ -166,8 +165,7 @@ public class BFSDistanceLabeler<V, E> {
 		labelDistances(graph, Collections.singleton(root));
 	}
 
-	private void visitNewVertex(V predecessor, V neighbor, int distance,
-			List<V> newList) {
+	private void visitNewVertex(V predecessor, V neighbor, int distance, List<V> newList) {
 		if (mUnvisitedVertices.contains(neighbor)) {
 			distanceDecorator.put(neighbor, Integer.valueOf(distance));
 			newList.add(neighbor);

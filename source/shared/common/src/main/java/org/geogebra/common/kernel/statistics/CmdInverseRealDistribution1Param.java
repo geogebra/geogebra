@@ -34,12 +34,12 @@ public class CmdInverseRealDistribution1Param extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdInverseRealDistribution1Param(Kernel kernel,
-			ProbabilityCalculatorSettings.Dist command) {
+	public CmdInverseRealDistribution1Param(
+			Kernel kernel, ProbabilityCalculatorSettings.Dist command) {
 		super(kernel);
 		this.command = command;
 	}
@@ -51,23 +51,21 @@ public class CmdInverseRealDistribution1Param extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoInverseRealDistribution1Param algo = new AlgoInverseRealDistribution1Param(cons,
-						(GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], command);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					AlgoInverseRealDistribution1Param algo = new AlgoInverseRealDistribution1Param(
+							cons, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1], command);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

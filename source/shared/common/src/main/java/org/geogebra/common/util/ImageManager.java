@@ -38,7 +38,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 @HasNativeSubclass
-abstract public class ImageManager implements ExamListener {
+public abstract class ImageManager implements ExamListener {
 	private boolean enabled = true;
 
 	/**
@@ -63,7 +63,7 @@ abstract public class ImageManager implements ExamListener {
 
 	/**
 	 * Set image corners; use selected points if any.
-	 * 
+	 *
 	 * @param geoImage
 	 *            image
 	 * @param app
@@ -137,8 +137,7 @@ abstract public class ImageManager implements ExamListener {
 	 * @param app
 	 *            app
 	 */
-	public static void ensure2ndCornerOnScreen(double x1, GeoPointND point,
-			App app) {
+	public static void ensure2ndCornerOnScreen(double x1, GeoPointND point, App app) {
 		double x2 = point.getInhomX();
 		EuclidianView ev = app.getActiveEuclidianView();
 		EdgeInsets safeArea = ev.getSafeAreaInsets();
@@ -156,13 +155,11 @@ abstract public class ImageManager implements ExamListener {
 		double xMax = ev.toRealWorldCoordX(ev.getWidth() - safeArea.getRight());
 		double yMin = ev.toRealWorldCoordY(safeArea.getTop());
 		double yMax = ev.toRealWorldCoordY(ev.getHeight() - safeArea.getBottom());
-		point.setCoords(xMin + (xMax - xMin) / 5, yMax - (yMax - yMin) / 5,
-				1.0);
+		point.setCoords(xMin + (xMax - xMin) / 5, yMax - (yMax - yMin) / 5, 1.0);
 		point.update();
 	}
 
-	private void ensureImageHeightFitsInScreen(double x1, GeoPointND point,
-			App app, GeoImage image) {
+	private void ensureImageHeightFitsInScreen(double x1, GeoPointND point, App app, GeoImage image) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		double xScale = ev.getKernel().getXscale();
@@ -184,7 +181,7 @@ abstract public class ImageManager implements ExamListener {
 
 	/**
 	 * centers an image on screen
-	 * 
+	 *
 	 * @param geoImage
 	 *            image to be centered
 	 * @param app
@@ -192,10 +189,10 @@ abstract public class ImageManager implements ExamListener {
 	 */
 	private static void centerOnScreen(GeoImage geoImage, App app) {
 		EuclidianView ev = app.getActiveEuclidianView();
-		double screenWidth = ev.toRealWorldCoordX((double) ev.getWidth() + 1)
-				- ev.toRealWorldCoordX(0.0);
-		double screenHeight = ev.toRealWorldCoordY(
-				(double) ev.getHeight() + 1) - ev.toRealWorldCoordY(0.0);
+		double screenWidth =
+				ev.toRealWorldCoordX((double) ev.getWidth() + 1) - ev.toRealWorldCoordX(0.0);
+		double screenHeight =
+				ev.toRealWorldCoordY((double) ev.getHeight() + 1) - ev.toRealWorldCoordY(0.0);
 
 		GeoPoint point1 = geoImage.getStartPoint(0);
 		GeoPoint point2 = geoImage.getStartPoint(1);
@@ -221,7 +218,7 @@ abstract public class ImageManager implements ExamListener {
 
 	/**
 	 * Update width/height based on viewBox to ensure correct rendering (GGB-1419)
-	 * 
+	 *
 	 * @param fileStr
 	 *            SVG to check as string
 	 * @return SVG with width and height
@@ -262,8 +259,7 @@ abstract public class ImageManager implements ExamListener {
 		}
 		try {
 			qd.parse(handler, new StringReader(svgTag));
-			return fileStr.substring(0, svgStart) + handler.getSVGTag()
-					+ fileStr.substring(svgEnd + 1);
+			return fileStr.substring(0, svgStart) + handler.getSVGTag() + fileStr.substring(svgEnd + 1);
 		} catch (Exception e) {
 			Log.debug(e);
 		}
@@ -272,7 +268,7 @@ abstract public class ImageManager implements ExamListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filename0
 	 *            filename eg "79054025255fb1a26e4bc422aef54eb4/image.png"
 	 * @param urlBase64

@@ -96,5 +96,4 @@ public interface MyTableInterface extends HasTableSelection {
 	 * @return selected ranges
 	 */
 	List<TabularRange> getSelectedRanges();
-
 }

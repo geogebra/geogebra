@@ -28,5 +28,4 @@ public interface AlgoDynamicCoordinatesInterface extends FixedPathRegionAlgo {
 	 * @return hidden point
 	 */
 	GeoPointND getParentPoint();
-
 }

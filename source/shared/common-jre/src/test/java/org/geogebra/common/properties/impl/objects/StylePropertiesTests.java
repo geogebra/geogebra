@@ -45,10 +45,10 @@ class StylePropertiesTests extends BaseAppTestSetup {
 	void testPointStyleProperties() {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		PropertiesArray propertiesArray = propertiesFactory.createStyleProperties(
-				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(),
-				List.of(zeroPoint));
+				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(), List.of(zeroPoint));
 		List<String> styleProperties = Arrays.stream(propertiesArray.getProperties())
-				.map(Property::getName).collect(Collectors.toList());
+				.map(Property::getName)
+				.collect(Collectors.toList());
 		assertEquals(List.of("Style"), styleProperties);
 	}
 
@@ -57,11 +57,10 @@ class StylePropertiesTests extends BaseAppTestSetup {
 		getApp().setPlatform(GeoGebraConstants.Platform.WEB);
 		GeoButton button = evaluateGeoElement("Button[]");
 		PropertiesArray propertiesArray = propertiesFactory.createStyleProperties(
-				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(),
-				List.of(button));
+				getAlgebraProcessor(), getApp().getImageManager(), getLocalization(), List.of(button));
 		List<String> styleProperties = Arrays.stream(propertiesArray.getProperties())
-				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Text", "Icon", "Background", "Size"),
-				styleProperties);
+				.map(Property::getName)
+				.collect(Collectors.toList());
+		assertEquals(List.of("Text", "Icon", "Background", "Size"), styleProperties);
 	}
 }

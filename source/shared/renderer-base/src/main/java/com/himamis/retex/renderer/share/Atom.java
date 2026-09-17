@@ -70,12 +70,11 @@ public abstract class Atom {
 	 * The type of the atom (default value: ordinary atom)
 	 */
 	protected int type = TeXConstants.TYPE_ORDINARY;
+
 	protected boolean mathMode = true;
 	public int type_limits = TeXConstants.SCRIPT_NOLIMITS;
 
-	public Atom() {
-
-	}
+	public Atom() {}
 
 	public void setType(final int type) {
 		this.type = type;
@@ -170,12 +169,11 @@ public abstract class Atom {
 	/**
 	 * used by duplicate()
 	 */
-	final protected Atom setFields(Atom atom) {
+	protected final Atom setFields(Atom atom) {
 		atom.type = type;
 		atom.type_limits = type_limits;
 		atom.mathMode = mathMode;
 
 		return atom;
 	}
-
 }

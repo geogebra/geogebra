@@ -33,9 +33,8 @@ class ChartStyleGeoColorPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPieChart pieChart = evaluateGeoElement("PieChart({1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartStyleGeoColorProperty chartStyleGeoColorProperty = assertDoesNotThrow(() ->
-				new ChartStyleGeoColorProperty(getLocalization(), pieChart,
-						chartSegmentSelection));
+		ChartStyleGeoColorProperty chartStyleGeoColorProperty = assertDoesNotThrow(
+				() -> new ChartStyleGeoColorProperty(getLocalization(), pieChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(2);
 		GColor secondSliceDefaultColor = chartStyleGeoColorProperty.getValue();
@@ -64,9 +63,8 @@ class ChartStyleGeoColorPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		BarChartGeoNumeric barChart = evaluateGeoElement("BarChart({1, 2, 3}, {1, 1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartStyleGeoColorProperty chartStyleGeoColorProperty = assertDoesNotThrow(() ->
-				new ChartStyleGeoColorProperty(getLocalization(), barChart,
-						chartSegmentSelection));
+		ChartStyleGeoColorProperty chartStyleGeoColorProperty = assertDoesNotThrow(
+				() -> new ChartStyleGeoColorProperty(getLocalization(), barChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(0);
 		chartStyleGeoColorProperty.setValue(GColor.BLACK);
@@ -94,9 +92,8 @@ class ChartStyleGeoColorPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		BarChartGeoNumeric barChart = evaluateGeoElement("BarChart({1, 2, 3}, {1, 1, 2})");
 		ChartSegmentSelection chartSegmentSelection = new ChartSegmentSelection();
-		ChartStyleGeoColorProperty chartStyleGeoColorProperty = assertDoesNotThrow(() ->
-				new ChartStyleGeoColorProperty(getLocalization(), barChart,
-						chartSegmentSelection));
+		ChartStyleGeoColorProperty chartStyleGeoColorProperty = assertDoesNotThrow(
+				() -> new ChartStyleGeoColorProperty(getLocalization(), barChart, chartSegmentSelection));
 
 		chartSegmentSelection.setIndex(1);
 		chartStyleGeoColorProperty.setValue(GColor.BLACK);

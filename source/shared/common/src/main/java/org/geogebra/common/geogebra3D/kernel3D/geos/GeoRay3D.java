@@ -41,7 +41,7 @@ import org.geogebra.common.util.DoubleUtil;
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
-															// rotation, ...
+	// rotation, ...
 
 	/**
 	 * @param c
@@ -105,7 +105,6 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 		// then check position on segment
 		return respectLimitedPath(p, eps);
-
 	}
 
 	@Override
@@ -122,7 +121,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	// ///////////////////////////////////////
 
 	@Override
-	final public boolean isLimitedPath() {
+	public final boolean isLimitedPath() {
 		return true;
 	}
 
@@ -148,28 +147,25 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	@Override
 	public GeoElement[] createTransformedObject(Transform t, String label1) {
-		AlgoElement algoParent1 = keepTypeOnGeometricTransform
-				? getParentAlgorithm() : null;
+		AlgoElement algoParent1 = keepTypeOnGeometricTransform ? getParentAlgorithm() : null;
 
 		// CREATE RAY
 		if (algoParent1 instanceof AlgoJoinPoints3D && t.isAffine()) {
 			// transform points
 			AlgoJoinPoints3D algo = (AlgoJoinPoints3D) algoParent1;
-			GeoPointND[] points = { algo.getP(), algo.getQ() };
+			GeoPointND[] points = {algo.getP(), algo.getQ()};
 			points = t.transformPoints(points);
 			// if(t.isAffine()){
-			GeoElement ray = (GeoElement) kernel.getManager3D().ray3D(label1,
-					points[0], points[1]);
+			GeoElement ray = (GeoElement) kernel.getManager3D().ray3D(label1, points[0], points[1]);
 			ray.setVisualStyleForTransformations(this);
-			GeoElement[] geos = { ray, (GeoElement) points[0],
-					(GeoElement) points[1] };
+			GeoElement[] geos = {ray, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
 			// }
 		}
 		// create LINE
 		GeoElement transformedLine = t.getTransformedLine(this);
 		transformedLine.setLabel(label1);
-		GeoElement[] ret = { transformedLine };
+		GeoElement[] ret = {transformedLine};
 		return ret;
 	}
 
@@ -188,8 +184,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
-		GeoRay3D ray = new GeoRay3D(cons1,
-				(GeoPointND) startPoint.copyInternal(cons1));
+		GeoRay3D ray = new GeoRay3D(cons1, (GeoPointND) startPoint.copyInternal(cons1));
 		ray.set(this);
 		return ray;
 	}
@@ -216,11 +211,8 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	protected void getStyleXML(XMLStringBuilder sb) {
 		super.getStyleXML(sb);
 
-		sb.startTag("outlyingIntersections")
-				.attr("val", allowOutlyingIntersections).endTag();
-		sb.startTag("keepTypeOnTransform")
-				.attr("val", keepTypeOnGeometricTransform).endTag();
-
+		sb.startTag("outlyingIntersections").attr("val", allowOutlyingIntersections).endTag();
+		sb.startTag("keepTypeOnTransform").attr("val", keepTypeOnGeometricTransform).endTag();
 	}
 
 	@Override
@@ -234,22 +226,20 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	}
 
 	@Override
-	final protected void getCoordsXML(XMLStringBuilder sb) {
+	protected final void getCoordsXML(XMLStringBuilder sb) {
 		// not needed here
 	}
 
 	@Override
 	public GeoElement copyFreeRay() {
-		GeoPointND startPoint1 = (GeoPointND) getStartPoint()
-				.copyInternal(cons);
+		GeoPointND startPoint1 = (GeoPointND) getStartPoint().copyInternal(cons);
 
 		Coords direction = getDirectionInD3();
 
 		GeoVector3D directionVec = new GeoVector3D(cons);
 		directionVec.setCoords(direction);
 
-		AlgoRayPointVector3D algo = new AlgoRayPointVector3D(cons,
-				startPoint1, directionVec);
+		AlgoRayPointVector3D algo = new AlgoRayPointVector3D(cons, startPoint1, directionVec);
 
 		return algo.getOutput(0);
 	}
@@ -265,7 +255,5 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		// check direction
 		Coords equation = getCartesianEquationVector(ev.getMatrix());
 		return equation != null;
-
 	}
-
 }

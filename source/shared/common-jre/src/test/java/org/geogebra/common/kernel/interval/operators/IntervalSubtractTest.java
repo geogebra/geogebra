@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,42 +29,48 @@ class IntervalSubtractTest {
 	@Test
 	void subtractFromOpenToNegativeInfinity() {
 		// Table 5, row 1
-		assertEquals(whole(), interval(Double.NEGATIVE_INFINITY, -23.45)
-				.subtract(interval(Double.NEGATIVE_INFINITY, 3.45)));
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -33.33),
+		assertEquals(
+				whole(),
+				interval(Double.NEGATIVE_INFINITY, -23.45)
+						.subtract(interval(Double.NEGATIVE_INFINITY, 3.45)));
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, -33.33),
+				interval(Double.NEGATIVE_INFINITY, 12.34).subtract(interval(45.67, 56.78)));
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, -33.33),
 				interval(Double.NEGATIVE_INFINITY, 12.34)
-				.subtract(interval(45.67, 56.78)));
-		assertEquals(interval(Double.NEGATIVE_INFINITY, -33.33),
-				interval(Double.NEGATIVE_INFINITY, 12.34)
-				.subtract(interval(45.67, Double.POSITIVE_INFINITY)));
+						.subtract(interval(45.67, Double.POSITIVE_INFINITY)));
 		assertEquals(whole(), interval(Double.NEGATIVE_INFINITY, 12.34).subtract(whole()));
 	}
 
 	@Test
 	void subtractFromFiniteInterval() {
 		// Table 5, row 2
-		assertEquals(interval(-6.8, Double.POSITIVE_INFINITY), interval(-1.2, 3.4)
-				.subtract(interval(Double.NEGATIVE_INFINITY, 5.6)));
-		assertEquals(interval(-6.8, 11.2), interval(-1.2, 3.4)
-				.subtract(interval(-7.8, 5.6)));
-		assertEquals(interval(Double.NEGATIVE_INFINITY, 11.2), interval(-1.2, 3.4)
-				.subtract(interval(-7.8, Double.POSITIVE_INFINITY)));
+		assertEquals(
+				interval(-6.8, Double.POSITIVE_INFINITY),
+				interval(-1.2, 3.4).subtract(interval(Double.NEGATIVE_INFINITY, 5.6)));
+		assertEquals(interval(-6.8, 11.2), interval(-1.2, 3.4).subtract(interval(-7.8, 5.6)));
+		assertEquals(
+				interval(Double.NEGATIVE_INFINITY, 11.2),
+				interval(-1.2, 3.4).subtract(interval(-7.8, Double.POSITIVE_INFINITY)));
 		assertEquals(whole(), interval(-1.2, 3.4).subtract(whole()));
 	}
 
 	@Test
 	void subtractFromIntervalOpenToPositiveInfinity() {
 		// Table 5, row 3.
-		assertEquals(interval(-44.44, Double.POSITIVE_INFINITY),
+		assertEquals(
+				interval(-44.44, Double.POSITIVE_INFINITY),
 				interval(12.34, Double.POSITIVE_INFINITY)
-				.subtract(interval(Double.NEGATIVE_INFINITY, 56.78)));
-		assertEquals(interval(-44.44, Double.POSITIVE_INFINITY),
-					interval(12.34, Double.POSITIVE_INFINITY)
-					.subtract(interval(-99.88, 56.78)));
-		assertEquals(whole(), interval(12.34, Double.POSITIVE_INFINITY).subtract(
-				interval(-55.67, Double.POSITIVE_INFINITY)));
-		assertEquals(whole(), interval(12.34, Double.POSITIVE_INFINITY).subtract(
-				whole()));
+						.subtract(interval(Double.NEGATIVE_INFINITY, 56.78)));
+		assertEquals(
+				interval(-44.44, Double.POSITIVE_INFINITY),
+				interval(12.34, Double.POSITIVE_INFINITY).subtract(interval(-99.88, 56.78)));
+		assertEquals(
+				whole(),
+				interval(12.34, Double.POSITIVE_INFINITY)
+						.subtract(interval(-55.67, Double.POSITIVE_INFINITY)));
+		assertEquals(whole(), interval(12.34, Double.POSITIVE_INFINITY).subtract(whole()));
 	}
 
 	@Test
@@ -84,16 +90,16 @@ class IntervalSubtractTest {
 
 	@Test
 	void compatibilityTestWithAdd() {
-		assertEquals(legacyInverted(10, 20).subtract(interval(1, 2)),
-				legacyInverted(10, 20)
-						.add(interval(-2, -1)));
+		assertEquals(
+				legacyInverted(10, 20).subtract(interval(1, 2)),
+				legacyInverted(10, 20).add(interval(-2, -1)));
 	}
 
 	@Test
 	void compatibilityTestWithMultiplyAndAdd() {
 		IntervalNodeEvaluator evaluator = new IntervalNodeEvaluator();
-		assertEquals(legacyInverted(10, 20).subtract(interval(1, 2)),
-				legacyInverted(10, 20)
-				.add(evaluator.multiply(interval(-1), interval(1, 2))));
+		assertEquals(
+				legacyInverted(10, 20).subtract(interval(1, 2)),
+				legacyInverted(10, 20).add(evaluator.multiply(interval(-1), interval(1, 2))));
 	}
 }

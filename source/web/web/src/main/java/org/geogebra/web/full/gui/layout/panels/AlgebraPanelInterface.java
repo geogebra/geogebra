@@ -65,8 +65,7 @@ public interface AlgebraPanelInterface extends IsWidget {
 	 * @param mathKeyboardListener current keyboard listener
 	 * @return new keyboard listener
 	 */
-	MathKeyboardListener updateKeyboardListener(
-			MathKeyboardListener mathKeyboardListener);
+	MathKeyboardListener updateKeyboardListener(MathKeyboardListener mathKeyboardListener);
 
 	/**
 	 * @return height in pixels

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -55,8 +55,7 @@ class BatchedUpdateWrapperTest extends BaseUnitTest {
 
 	private BatchedUpdateWrapper wrapper;
 
-	private interface WrappedViewTest
-			extends WrappableView {
+	private interface WrappedViewTest extends WrappableView {
 
 		@Override
 		default boolean needsUpdateVisualstyle(GProperty property) {
@@ -72,15 +71,12 @@ class BatchedUpdateWrapperTest extends BaseUnitTest {
 		default boolean getIsWrapped() {
 			return true;
 		}
-
 	}
 
 	@BeforeEach
 	void setupBatchedUpdateWrapperTest() {
-		when(utilFactory.newTimer(any(GTimerListener.class), anyInt())).then(
-				invocation -> timer);
-		wrappedView = Mockito.mock(WrappedViewTest.class,
-				Mockito.CALLS_REAL_METHODS);
+		when(utilFactory.newTimer(any(GTimerListener.class), anyInt())).then(invocation -> timer);
+		wrappedView = Mockito.mock(WrappedViewTest.class, Mockito.CALLS_REAL_METHODS);
 		wrapper = new BatchedUpdateWrapper(wrappedView, utilFactory);
 	}
 
@@ -153,9 +149,11 @@ class BatchedUpdateWrapperTest extends BaseUnitTest {
 		wrapper.add(line1);
 
 		doAnswer(invocation -> {
-			addLine();
-			return null;
-		}).when(wrappedView).add(eq(line1));
+					addLine();
+					return null;
+				})
+				.when(wrappedView)
+				.add(eq(line1));
 
 		wrapper.onRun();
 	}

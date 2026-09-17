@@ -56,10 +56,10 @@ public final class BorderThicknessPanel extends FlowPanel {
 		addThicknessCheckMarkItem(property, "thick", 3);
 	}
 
-	private void addThicknessCheckMarkItem(IconsEnumeratedProperty<Integer> property,
-			String style, int value) {
-		LineThicknessCheckMarkItem checkMarkItem = new LineThicknessCheckMarkItem(style, value,
-				appW.getGeneralIconResource().getImageResource(GeneralIcon.CHECK_MARK));
+	private void addThicknessCheckMarkItem(
+			IconsEnumeratedProperty<Integer> property, String style, int value) {
+		LineThicknessCheckMarkItem checkMarkItem = new LineThicknessCheckMarkItem(
+				style, value, appW.getGeneralIconResource().getImageResource(GeneralIcon.CHECK_MARK));
 		add(checkMarkItem);
 		checkMarkItem.setSelected(property.getValue() == value);
 		checkMarkItems.add(checkMarkItem);
@@ -68,11 +68,9 @@ public final class BorderThicknessPanel extends FlowPanel {
 	}
 
 	private void addNoBorderItem() {
-		IconSpec noColorIcon = appW.getGeneralIconResource()
-				.getImageResource(GeneralIcon.CHECK_MARK);
+		IconSpec noColorIcon = appW.getGeneralIconResource().getImageResource(GeneralIcon.CHECK_MARK);
 		LineThicknessCheckMarkItem noBorder = new LineThicknessCheckMarkItem(
-				appW.getLocalization().getMenu("stylebar.NoBorder"), "textItem", 0,
-				noColorIcon);
+				appW.getLocalization().getMenu("stylebar.NoBorder"), "textItem", 0, noColorIcon);
 		add(noBorder);
 		noBorder.setSelected(property.getValue() == 0);
 		checkMarkItems.add(noBorder);
@@ -80,17 +78,18 @@ public final class BorderThicknessPanel extends FlowPanel {
 		addClickHandler(0, noBorder, property);
 	}
 
-	private void addClickHandler(int value, LineThicknessCheckMarkItem checkMarkItem,
+	private void addClickHandler(
+			int value,
+			LineThicknessCheckMarkItem checkMarkItem,
 			IconsEnumeratedProperty<Integer> property) {
-		ClickStartHandler.init(checkMarkItem,
-				new ClickStartHandler(true, true) {
-					@Override
-					public void onClickStart(int x, int y, PointerEventType type) {
-						checkMarkItems.forEach(item -> item.setSelected(false));
-						checkMarkItem.setSelected(true);
-						property.setValue(value);
-						appW.closePopups();
-					}
-				});
+		ClickStartHandler.init(checkMarkItem, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				checkMarkItems.forEach(item -> item.setSelected(false));
+				checkMarkItem.setSelected(true);
+				property.setValue(value);
+				appW.closePopups();
+			}
+		});
 	}
 }

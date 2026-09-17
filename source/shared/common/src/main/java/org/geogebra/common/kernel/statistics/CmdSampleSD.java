@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class CmdSampleSD extends CmdOneListFunction {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -37,19 +37,16 @@ public class CmdSampleSD extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(cons, b);
 		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list,
-			GeoList freq) {
-		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(cons,
-				list, freq);
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
+		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(cons, list, freq);
 		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
-
 }

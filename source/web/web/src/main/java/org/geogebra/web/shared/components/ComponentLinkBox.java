@@ -28,8 +28,7 @@ import org.gwtproject.user.client.ui.TextBox;
  * @author Csilla
  *
  */
-public final class ComponentLinkBox extends TextBox
-		implements ClickHandler, BlurHandler {
+public final class ComponentLinkBox extends TextBox implements ClickHandler, BlurHandler {
 
 	/** true if linkBox is focused */
 	private boolean isFocused = true;
@@ -42,8 +41,7 @@ public final class ComponentLinkBox extends TextBox
 	 * @param style
 	 *            style name
 	 */
-	public ComponentLinkBox(boolean isReadOnly, String urlString,
-			String style) {
+	public ComponentLinkBox(boolean isReadOnly, String urlString, String style) {
 		setReadOnly(isReadOnly);
 		setText(urlString);
 		setStyleName(style);

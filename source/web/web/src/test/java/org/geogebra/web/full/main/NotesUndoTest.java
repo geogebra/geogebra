@@ -41,7 +41,7 @@ import com.google.gwtmockito.WithClassesToStub;
 
 /**
  * Tests for Undo with multiple slides
- * 
+ *
  * @author Zbynek
  *
  */
@@ -140,8 +140,9 @@ public class NotesUndoTest {
 		app.getPageController().refreshSlide(page);
 		PagePreviewCard card = ((PageListController) app.getPageController()).getCard(page);
 		String content = ArchiveLoaderMock.toJson(card.getFile());
-		app.getAppletFrame().getPageControlPanel().pastePage(card,
-				PageListController.nextID(), content);
+		app.getAppletFrame()
+				.getPageControlPanel()
+				.pastePage(card, PageListController.nextID(), content);
 	}
 
 	/**
@@ -252,8 +253,7 @@ public class NotesUndoTest {
 	}
 
 	private void createShape() {
-		GeoConic conic = new GeoConic(app.getKernel().getConstruction(),
-				new double[6]);
+		GeoConic conic = new GeoConic(app.getKernel().getConstruction(), new double[6]);
 		conic.setLabel(null);
 		app.getUndoManager().storeAddGeo(conic);
 	}
@@ -267,8 +267,7 @@ public class NotesUndoTest {
 	 */
 	@Before
 	public void init() {
-		app = AppMocker
-				.mockApplet(new AppletParameters("notes"));
+		app = AppMocker.mockApplet(new AppletParameters("notes"));
 	}
 
 	/**
@@ -420,16 +419,28 @@ public class NotesUndoTest {
 		selectPage(0);
 		AlgebraProcessor processor = app.getKernel().getAlgebraProcessor();
 		processor.processAlgebraCommand("f:x", false);
-		app.getUndoManager().storeUndoableAction(ActionType.ADD,
-				new String[]{"<expression label=\"f\" exp=\"x\"/>"}, ActionType.REMOVE, "f");
+		app.getUndoManager()
+				.storeUndoableAction(
+						ActionType.ADD,
+						new String[] {"<expression label=\"f\" exp=\"x\"/>"},
+						ActionType.REMOVE,
+						"f");
 		selectPage(1);
 		processor.processAlgebraCommand("g:-x", false);
-		app.getUndoManager().storeUndoableAction(ActionType.ADD,
-				new String[]{"<expression label=\"g\" exp=\"-x\"/>"}, ActionType.REMOVE, "g");
+		app.getUndoManager()
+				.storeUndoableAction(
+						ActionType.ADD,
+						new String[] {"<expression label=\"g\" exp=\"-x\"/>"},
+						ActionType.REMOVE,
+						"g");
 		selectPage(0);
 		app.getKernel().lookupLabel("f").remove();
-		app.getUndoManager().storeUndoableAction(ActionType.REMOVE,
-				new String[]{"f"}, ActionType.ADD, "<expression label=\"f\" exp=\"x\"/>");
+		app.getUndoManager()
+				.storeUndoableAction(
+						ActionType.REMOVE,
+						new String[] {"f"},
+						ActionType.ADD,
+						"<expression label=\"f\" exp=\"x\"/>");
 		selectPage(1);
 		objectsPerSlideShouldBe(0, 1);
 		app.getGgbApi().undo();
@@ -441,9 +452,7 @@ public class NotesUndoTest {
 	}
 
 	private static void addObject(String string) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
-				true);
-
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string, true);
 	}
 
 	private static void objectsPerSlideShouldBe(int... counts) {
@@ -455,26 +464,21 @@ public class NotesUndoTest {
 
 	private static void slideShouldHaveObjects(int slide, int expectedCount) {
 		app.getPageController().refreshSlide(slide);
-		String xml = app.getPageController().getSlide(slide)
-				.get("geogebra.xml").string;
+		String xml = app.getPageController().getSlide(slide).get("geogebra.xml").string;
 		int start = 0;
 		int count = 0;
 		while (xml.indexOf("<element", start) > 0) {
 			count++;
 			start = xml.indexOf("<element", start) + 1;
 		}
-		assertEquals("Wrong number of objects for slide " + slide,
-				expectedCount, count);
+		assertEquals("Wrong number of objects for slide " + slide, expectedCount, count);
 	}
 
 	private static void shouldHaveSlides(int expected) {
 		assertEquals(expected, app.getPageController().getSlideCount());
-
 	}
 
 	private static void shouldHaveUndoPoints(int expected) {
-		assertEquals(expected, app.getKernel().getConstruction()
-				.getUndoManager().getHistorySize());
-		
+		assertEquals(expected, app.getKernel().getConstruction().getUndoManager().getHistorySize());
 	}
 }

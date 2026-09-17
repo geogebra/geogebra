@@ -34,9 +34,7 @@ public class DrawStadium extends DrawLocus {
 	 * @param stadium locus
 	 * @param transformSys coord system of transformed locus
 	 */
-	public DrawStadium(EuclidianView view,
-			GeoStadium stadium,
-			CoordSys transformSys) {
+	public DrawStadium(EuclidianView view, GeoStadium stadium, CoordSys transformSys) {
 		super(view, stadium, transformSys);
 		this.stadium = stadium;
 	}
@@ -51,10 +49,10 @@ public class DrawStadium extends DrawLocus {
 		GeoPoint p = stadium.getP();
 		GeoPoint q = stadium.getQ();
 		GPoint2D heightVec = getHeightVec(stadium, p, q);
-		MyPoint leftMidpoint = new MyPoint(view.toScreenCoordXd(p.x + heightVec.y),
-				view.toScreenCoordYd(p.y - heightVec.x));
-		MyPoint rightMidpoint = new MyPoint(view.toScreenCoordXd(q.x - heightVec.y),
-				view.toScreenCoordYd(q.y + heightVec.x));
+		MyPoint leftMidpoint = new MyPoint(
+				view.toScreenCoordXd(p.x + heightVec.y), view.toScreenCoordYd(p.y - heightVec.x));
+		MyPoint rightMidpoint = new MyPoint(
+				view.toScreenCoordXd(q.x - heightVec.y), view.toScreenCoordYd(q.y + heightVec.x));
 		MyPoint bottomMidpoint = getBottomMidpoint(heightVec, leftMidpoint, rightMidpoint);
 		points.add(leftMidpoint);
 		points.add(rightMidpoint);
@@ -62,16 +60,17 @@ public class DrawStadium extends DrawLocus {
 		return points;
 	}
 
-	private MyPoint getBottomMidpoint(GPoint2D heightVec, MyPoint leftMidpoint,
-			MyPoint rightMidpoint) {
+	private MyPoint getBottomMidpoint(
+			GPoint2D heightVec, MyPoint leftMidpoint, MyPoint rightMidpoint) {
 		return new MyPoint(
 				(leftMidpoint.x + rightMidpoint.x) / 2 + heightVec.x * view.getXscale(),
 				(leftMidpoint.y + rightMidpoint.y) / 2 + heightVec.y * view.getYscale());
 	}
 
 	private GPoint2D getHeightVec(GeoStadium shapeLocus, GeoPoint p, GeoPoint q) {
-		return new GPoint2D(shapeLocus.getHeight().getValue() * (p.y - q.y) / p.distance(q) / 2,
-		 shapeLocus.getHeight().getValue() * (p.x - q.x) / p.distance(q) / 2);
+		return new GPoint2D(
+				shapeLocus.getHeight().getValue() * (p.y - q.y) / p.distance(q) / 2,
+				shapeLocus.getHeight().getValue() * (p.x - q.x) / p.distance(q) / 2);
 	}
 
 	@Override
@@ -80,10 +79,8 @@ public class DrawStadium extends DrawLocus {
 		GPoint2D right = points.get(1);
 		GPoint2D ref = points.get(2);
 
-		MyPoint rwLeft = new MyPoint(view.toRealWorldCoordX(left.x),
-				view.toRealWorldCoordY(left.y));
-		MyPoint rwRight = new MyPoint(view.toRealWorldCoordX(right.x),
-				view.toRealWorldCoordY(right.y));
+		MyPoint rwLeft = new MyPoint(view.toRealWorldCoordX(left.x), view.toRealWorldCoordY(left.y));
+		MyPoint rwRight = new MyPoint(view.toRealWorldCoordX(right.x), view.toRealWorldCoordY(right.y));
 		MyPoint rwRef = new MyPoint(view.toRealWorldCoordX(ref.x), view.toRealWorldCoordY(ref.y));
 
 		// Step 1: Compute midpoint
@@ -92,10 +89,12 @@ public class DrawStadium extends DrawLocus {
 		double radius = Math.hypot(midX - rwRef.x, midY - rwRef.y);
 		double halfHeightX = rwRef.x - midX;
 		double halfHeightY = rwRef.y - midY;
-		stadium.update(rwLeft.x + halfHeightY,
+		stadium.update(
+				rwLeft.x + halfHeightY,
 				rwLeft.y + halfHeightX,
 				rwRight.x - halfHeightY,
-				rwRight.y - halfHeightX, radius * 2);
+				rwRight.y - halfHeightX,
+				radius * 2);
 		stadium.getParentAlgorithm().update();
 	}
 }

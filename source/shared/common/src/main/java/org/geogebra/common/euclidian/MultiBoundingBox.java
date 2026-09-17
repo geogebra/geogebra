@@ -95,16 +95,16 @@ public class MultiBoundingBox extends BoundingBox<GShape> {
 	private void setHandlerFromCenter(int handlerIndex, double x, double y) {
 		GShape handler = handlers.get(handlerIndex);
 		if (isRotationHandler(handlerIndex)) {
-			((GEllipse2DDouble) handlers.get(handlerIndex)).setFrameFromCenter(x, y,
-					x + ROTATION_HANDLER_RADIUS, y + ROTATION_HANDLER_RADIUS);
+			((GEllipse2DDouble) handlers.get(handlerIndex))
+					.setFrameFromCenter(x, y, x + ROTATION_HANDLER_RADIUS, y + ROTATION_HANDLER_RADIUS);
 		} else if (isCornerHandler(handler)) {
-			((GEllipse2DDouble) handlers.get(handlerIndex)).setFrameFromCenter(x, y,
-					x + HANDLER_RADIUS, y + HANDLER_RADIUS);
+			((GEllipse2DDouble) handlers.get(handlerIndex))
+					.setFrameFromCenter(x, y, x + HANDLER_RADIUS, y + HANDLER_RADIUS);
 		} else if (isSideHandler(handler)) {
 			int width = handlerIndex % 2 == 0 ? SIDE_HANDLER_WIDTH : SIDE_HANDLER_HEIGHT;
 			int height = handlerIndex % 2 == 0 ? SIDE_HANDLER_HEIGHT : SIDE_HANDLER_WIDTH;
-			((GRectangle2D) handlers.get(handlerIndex)).setFrame(x - width, y - height,
-					width * 2, height * 2);
+			((GRectangle2D) handlers.get(handlerIndex))
+					.setFrame(x - width, y - height, width * 2, height * 2);
 		}
 	}
 }

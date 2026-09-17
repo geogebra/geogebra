@@ -36,7 +36,7 @@ public interface HasHelpButton {
 
 	/**
 	 * Update the icon to info / error
-	 * 
+	 *
 	 * @param msg
 	 *            input error
 	 */
@@ -50,7 +50,7 @@ public interface HasHelpButton {
 
 	/**
 	 * Sets a comma separated list of undefined variables.
-	 * 
+	 *
 	 * @param vars
 	 *            variable names
 	 */

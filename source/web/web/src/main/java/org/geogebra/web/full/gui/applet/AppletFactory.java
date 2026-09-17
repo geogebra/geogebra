@@ -40,7 +40,10 @@ public interface AppletFactory {
 	 *            browser / tablet; used for file sync
 	 * @return applet
 	 */
-	AppW getApplet(GeoGebraElement element, AppletParameters parameters,
-			GeoGebraFrameFull frame, GLookAndFeelI laf, GDevice device);
-
+	AppW getApplet(
+			GeoGebraElement element,
+			AppletParameters parameters,
+			GeoGebraFrameFull frame,
+			GLookAndFeelI laf,
+			GDevice device);
 }

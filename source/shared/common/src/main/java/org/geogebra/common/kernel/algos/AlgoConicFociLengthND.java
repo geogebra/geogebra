@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * 
+ *
  * @author Markus
  */
 public abstract class AlgoConicFociLengthND extends AlgoElement {
@@ -37,8 +37,13 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 	protected GeoElement ageo;
 	protected GeoConicND conic; // output
 
-	protected AlgoConicFociLengthND(Construction cons, String label, GeoPointND A, GeoPointND B,
-			GeoNumberValue a, GeoDirectionND orientation) {
+	protected AlgoConicFociLengthND(
+			Construction cons,
+			String label,
+			GeoPointND A,
+			GeoPointND B,
+			GeoNumberValue a,
+			GeoDirectionND orientation) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -63,24 +68,24 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 
 	/**
 	 * set orientation (in 3D)
-	 * 
+	 *
 	 * @param orientation
 	 *            orientation
 	 */
-	abstract protected void setOrientation(GeoDirectionND orientation);
+	protected abstract void setOrientation(GeoDirectionND orientation);
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new conic
 	 */
-	abstract protected GeoConicND newGeoConic(Construction cons1);
+	protected abstract GeoConicND newGeoConic(Construction cons1);
 
 	/**
 	 * set the input
 	 */
-	abstract protected void setInput();
+	protected abstract void setInput();
 
 	// for AlgoElement
 	@Override
@@ -113,15 +118,14 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return point A 2d coords
 	 */
-	abstract protected GeoPoint getA2d();
+	protected abstract GeoPoint getA2d();
 
 	/**
-	 * 
+	 *
 	 * @return point B 2d coords
 	 */
-	abstract protected GeoPoint getB2d();
-
+	protected abstract GeoPoint getB2d();
 }

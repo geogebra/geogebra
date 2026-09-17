@@ -40,8 +40,8 @@ public class ExternalControl implements FocusableComponent {
 	 * @param manager accessibility manager
 	 * @param registry handler registry
 	 */
-	public ExternalControl(List<String> selectors, AccessibilityManagerW manager,
-			GlobalHandlerRegistry registry) {
+	public ExternalControl(
+			List<String> selectors, AccessibilityManagerW manager, GlobalHandlerRegistry registry) {
 		this.selectors = selectors;
 		this.manager = manager;
 		this.registry = registry;
@@ -91,7 +91,7 @@ public class ExternalControl implements FocusableComponent {
 		if (!controls.isEmpty()) {
 			return;
 		}
-		for (String selector: selectors) {
+		for (String selector : selectors) {
 			Element control = document.querySelector(selector);
 			if (control == null) {
 				continue;

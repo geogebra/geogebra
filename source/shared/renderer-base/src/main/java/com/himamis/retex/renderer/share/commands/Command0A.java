@@ -58,5 +58,4 @@ public abstract class Command0A extends Command implements Reusable {
 	}
 
 	public abstract Atom newI(TeXParser tp);
-
 }

@@ -54,8 +54,8 @@ public final class GCheckBoxMenuItem {
 	 * @param cmd - callback
 	 * @param app - app
 	 */
-	public GCheckBoxMenuItem(ResourcePrototype icon, String text, final ScheduledCommand cmd,
-			App app) {
+	public GCheckBoxMenuItem(
+			ResourcePrototype icon, String text, final ScheduledCommand cmd, App app) {
 		this(icon, text, app);
 		setCommand(cmd);
 	}

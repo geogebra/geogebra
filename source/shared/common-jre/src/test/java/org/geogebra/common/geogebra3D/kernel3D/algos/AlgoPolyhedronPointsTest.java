@@ -40,7 +40,7 @@ class AlgoPolyhedronPointsTest extends BaseUnitTest {
 	@Test
 	@Issue("APPS-5577")
 	void sequencePyramid() {
-		for (int initialSides: Arrays.asList(3, 5)) {
+		for (int initialSides : Arrays.asList(3, 5)) {
 			getKernel().clearConstruction(false);
 			add("sidesNum=" + initialSides);
 			add("basePri=Polygon(Sequence[Rotate[(1,0,0), (k * 2pi / sidesNum),"
@@ -62,9 +62,9 @@ class AlgoPolyhedronPointsTest extends BaseUnitTest {
 		add("polyBase=Polygon(vert)");
 		GeoElement pyrBase = add("pyrBase=Translate(polyBase,Vector(2*(3,3)))");
 		// similar to APPS-5577 testcase, but emulate file loading by passing (unused) labels
-		List<String> labels = List.of("b", "B", "face8", "face10", "face11",
-				"face12", "face13", "face14", "face9", "face16", "edge8", "edge9", "edge10",
-				"edge11", "edge12", "edge13", "edge14", "edge17");
+		List<String> labels = List.of(
+				"b", "B", "face8", "face10", "face11", "face12", "face13", "face14", "face9", "face16",
+				"edge8", "edge9", "edge10", "edge11", "edge12", "edge13", "edge14", "edge17");
 		Command cmd = new Command(getKernel(), "Pyramid", false);
 		cmd.addArgument(pyrBase.wrap());
 		cmd.addArgument(add("5").wrap());

@@ -27,13 +27,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * GCD[ &lt;Number&gt;, &lt;Number&gt; ] GCD[list]
- * 
+ *
  * adapted from CmdMax by Michael Borcherds 2008-01-03
  */
 public class CmdGCD extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,35 +48,32 @@ public class CmdGCD extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoList()) {
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoList()) {
 
-				AlgoListGCD algo = new AlgoListGCD(cons, c.getLabel(),
-						(GeoList) arg[0]);
+					AlgoListGCD algo = new AlgoListGCD(cons, c.getLabel(), (GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getGCD() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getGCD()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0] instanceof GeoNumberValue)
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoGCD algo = new AlgoGCD(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+					AlgoGCD algo =
+							new AlgoGCD(cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

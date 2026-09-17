@@ -56,15 +56,16 @@ public class FontRulingColorProperty extends ElementColorProperty {
 		}
 	}
 
-	private static final List<FontStyle> fontStyles = Arrays.stream(FontStyle.values()).toList();
+	private static final List<FontStyle> fontStyles =
+			Arrays.stream(FontStyle.values()).toList();
 
 	/**
 	 * @param localization localization
 	 * @param element element
 	 * @throws NotApplicablePropertyException when one of the elements has no color
 	 */
-	public FontRulingColorProperty(Localization localization,
-			GeoElement element) throws NotApplicablePropertyException {
+	public FontRulingColorProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, new FontStyleDelegate(element), "Lineaturfarbe");
 		if (!FontStyleUtil.isFontStyleApplicable(element)) {
 			throw new NotApplicablePropertyException(element);
@@ -117,7 +118,10 @@ public class FontRulingColorProperty extends ElementColorProperty {
 	}
 
 	private static String getStringKeyFromColor(GColor color) {
-		return fontStyles.stream().filter(font -> font.getFontColor().equals(color))
-				.findAny().map(FontStyle::getFontName).get();
+		return fontStyles.stream()
+				.filter(font -> font.getFontColor().equals(color))
+				.findAny()
+				.map(FontStyle::getFontName)
+				.get();
 	}
 }

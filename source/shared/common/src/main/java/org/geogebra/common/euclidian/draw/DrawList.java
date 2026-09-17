@@ -29,19 +29,20 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Draw a GeoList containing drawable objects
- * 
+ *
  * @author Markus Hohenwarter
  */
 public final class DrawList extends Drawable implements RemoveNeeded {
 	/** corresponding list as geo */
 	GeoList geoList;
+
 	private DrawListArray drawables;
 	/** whether this is visible */
 	boolean isVisible;
 
 	/**
 	 * Creates new drawable list
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param geoList
@@ -62,7 +63,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		if (drawables == null) {
 			drawables = new DrawListArray(view);
 		}
-
 	}
 
 	@Override
@@ -88,11 +88,9 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			// add drawable for listElement
 			// if (addToDrawableList(listElement, drawablePos,
 			// oldDrawableSize))
-			if (drawables.addToDrawableList(listElement, drawablePos,
-					oldDrawableSize, this)) {
+			if (drawables.addToDrawableList(listElement, drawablePos, oldDrawableSize, this)) {
 				drawablePos++;
 			}
-
 		}
 
 		// remove end of list
@@ -240,5 +238,4 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		return geoItem instanceof FunctionalNVar
 				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
 	}
-
 }

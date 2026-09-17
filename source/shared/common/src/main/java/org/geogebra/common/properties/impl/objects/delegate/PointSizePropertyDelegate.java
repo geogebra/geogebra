@@ -34,7 +34,6 @@ public class PointSizePropertyDelegate extends AbstractGeoElementDelegate {
 		if (element instanceof GeoList) {
 			return isApplicableToGeoList((GeoList) element);
 		}
-		return element instanceof PointProperties
-				&& ((PointProperties) element).showPointProperties();
+		return element instanceof PointProperties && ((PointProperties) element).showPointProperties();
 	}
 }

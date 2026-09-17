@@ -46,8 +46,8 @@ import elemental2.dom.HTMLImageElement;
  */
 public final class VideoManagerW implements VideoManager {
 
-	private final static int DEFAULT_WIDTH = 420;
-	private final static int DEFAULT_HEIGHT = 365;
+	private static final int DEFAULT_WIDTH = 420;
+	private static final int DEFAULT_HEIGHT = 365;
 
 	private AppWFull app;
 
@@ -80,15 +80,14 @@ public final class VideoManagerW implements VideoManager {
 		img.setAttribute("crossorigin", "anonymous");
 		img.src = app.getHost() + geo.getPreviewUrl();
 		img.addEventListener("load", (event) -> {
-				final MyImage prev = new MyImageW(img, false);
-				geo.setPreview(prev);
-				app.getActiveEuclidianView().updateAllDrawablesForView(true);
+			final MyImage prev = new MyImageW(img, false);
+			geo.setPreview(prev);
+			app.getActiveEuclidianView().updateAllDrawablesForView(true);
 		});
 
 		img.addEventListener("error", (event) -> {
-				img.src = GuiResourcesSimple.INSTANCE.mow_video_player()
-						.getSafeUri().asString();
-				app.getActiveEuclidianView().updateAllDrawablesForView(true);
+			img.src = GuiResourcesSimple.INSTANCE.mow_video_player().getSafeUri().asString();
+			app.getActiveEuclidianView().updateAllDrawablesForView(true);
 		});
 	}
 
@@ -108,7 +107,7 @@ public final class VideoManagerW implements VideoManager {
 
 		final AbstractVideoPlayer player = !isOnline()
 				? createPlayerOffline(video, players.size())
-				: createPlayer(video, players.size()) ;
+				: createPlayer(video, players.size());
 
 		addPlayerToFrame(video, player);
 	}
@@ -120,8 +119,8 @@ public final class VideoManagerW implements VideoManager {
 
 		players.put(video, player);
 
-		DockPanelW panel = app.getGuiManager().getLayout().getDockManager()
-				.getPanel(App.VIEW_EUCLIDIAN);
+		DockPanelW panel =
+				app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(player);
 	}
 
@@ -131,16 +130,16 @@ public final class VideoManagerW implements VideoManager {
 
 	private AbstractVideoPlayer createPlayer(DrawVideo video, int id) {
 		switch (video.getVideo().getFormat()) {
-		case VIDEO_YOUTUBE:
-			return new YouTubePlayer(video, id);
-		case VIDEO_HTML5:
-			return new HTML5Player(video, id);
-		case VIDEO_MEBIS:
-			return new MebisPlayer(video, id);
-		case AUDIO_HTML5:
-		case NONE:
-		default:
-			return null;
+			case VIDEO_YOUTUBE:
+				return new YouTubePlayer(video, id);
+			case VIDEO_HTML5:
+				return new HTML5Player(video, id);
+			case VIDEO_MEBIS:
+				return new MebisPlayer(video, id);
+			case AUDIO_HTML5:
+			case NONE:
+			default:
+				return null;
 		}
 	}
 

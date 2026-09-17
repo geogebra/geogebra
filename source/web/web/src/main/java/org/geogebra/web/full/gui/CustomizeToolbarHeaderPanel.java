@@ -35,6 +35,7 @@ public final class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	 * General toolbar id
 	 */
 	static final int GENERAL = -1;
+
 	private AppW app;
 	private FlowPanel buttons;
 	private int selectedViewId = GENERAL;
@@ -61,7 +62,6 @@ public final class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		int getId() {
 			return id;
 		}
-
 	}
 
 	/**
@@ -89,8 +89,8 @@ public final class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		final ToggleButton btnGeneral = new ToggleButton(pr.menu_icon_graphics());
 		buttons.add(btnGeneral);
-		DockPanelW[] panels = ((GuiManagerW) app.getGuiManager()).getLayout()
-				.getDockManager().getPanels();
+		DockPanelW[] panels =
+				((GuiManagerW) app.getGuiManager()).getLayout().getDockManager().getPanels();
 		for (DockPanelW panel : panels) {
 			final int viewId = panel.getViewId();
 			if (panel.canCustomizeToolbar()) {

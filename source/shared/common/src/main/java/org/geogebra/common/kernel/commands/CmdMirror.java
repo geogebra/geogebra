@@ -33,18 +33,18 @@ import org.geogebra.common.main.MyError;
 
 /**
  * (2nd argument is the mirror)
- * 
+ *
  * Mirror[ &lt;Object&gt;, &lt;GeoPoint&gt; ]
- * 
+ *
  * Mirror[ &lt;Object&gt;, &lt;GeoLine&gt; ]
- * 
+ *
  * Mirror[ &lt;Object&gt;, &lt;GeoConic&gt; ]
  */
 public class CmdMirror extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -60,30 +60,30 @@ public class CmdMirror extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
+			case 2:
+				arg = resArgs(c, info);
 
-			GeoElement[] ret = process2(label, arg, ok);
+				GeoElement[] ret = process2(label, arg, ok);
 
-			if (ret != null) {
-				return ret;
-			}
+				if (ret != null) {
+					return ret;
+				}
 
-			// syntax error
+				// syntax error
 
-			if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			}
-			throw argErr(c, arg[1]);
+				if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				}
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * process angle when 2 arguments
-	 * 
+	 *
 	 * @param label
 	 *            for the result
 	 * @param arg
@@ -92,8 +92,7 @@ public class CmdMirror extends CommandProcessor {
 	 *            ok array
 	 * @return result (if one)
 	 */
-	protected GeoElement[] process2(String label, GeoElement[] arg,
-			boolean[] ok) {
+	protected GeoElement[] process2(String label, GeoElement[] arg, boolean[] ok) {
 
 		GeoElement[] ret;
 
@@ -101,17 +100,17 @@ public class CmdMirror extends CommandProcessor {
 			// Borcherds 2008-02-10
 			GeoConicND conic1 = (GeoConicND) arg[1];
 
-			if (conic1.getType() == GeoConicNDConstants.CONIC_CIRCLE
-					&& arg[0].isGeoConic() || arg[0].isGeoPoint()
+			if (conic1.getType() == GeoConicNDConstants.CONIC_CIRCLE && arg[0].isGeoConic()
+					|| arg[0].isGeoPoint()
 					|| arg[0] instanceof GeoCurveCartesian
-					|| arg[0] instanceof GeoLine || arg[0] instanceof GeoPoly
+					|| arg[0] instanceof GeoLine
+					|| arg[0] instanceof GeoPoly
 					|| arg[0] instanceof GeoFunction
 					|| arg[0] instanceof GeoList
 					|| arg[0] instanceof GeoImplicit) {
 				ret = getAlgoDispatcher().mirror(label, arg[0], conic1);
 				return ret;
 			}
-
 		}
 
 		// mirror object

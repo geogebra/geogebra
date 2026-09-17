@@ -39,8 +39,8 @@ public final class FillImageProperty extends AbstractImageProperty
 	 * @param element element
 	 * @throws NotApplicablePropertyException if not filled by image
 	 */
-	public FillImageProperty(Localization loc, ImageManager imageManager, GeoElement element) throws
-			NotApplicablePropertyException {
+	public FillImageProperty(Localization loc, ImageManager imageManager, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(loc, imageManager, "Image");
 		delegate = new FillableDelegate(element);
 	}

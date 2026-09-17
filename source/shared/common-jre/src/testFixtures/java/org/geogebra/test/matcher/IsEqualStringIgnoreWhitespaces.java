@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,8 +36,8 @@ public final class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String
 	private final CASTestLogger logger;
 	private final String input;
 
-	private IsEqualStringIgnoreWhitespaces(CASTestLogger logger, String input,
-			String expectedResult, String... validResults) {
+	private IsEqualStringIgnoreWhitespaces(
+			CASTestLogger logger, String input, String expectedResult, String... validResults) {
 		this.logger = logger;
 		this.input = input;
 		this.expected = expectedResult;
@@ -90,9 +90,7 @@ public final class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String
 	 */
 	@Factory
 	public static Matcher<String> equalToIgnoreWhitespaces(
-			CASTestLogger logger, String input, String expectedResult,
-			String... validResults) {
-		return new IsEqualStringIgnoreWhitespaces(logger, input,
-				expectedResult, validResults);
+			CASTestLogger logger, String input, String expectedResult, String... validResults) {
+		return new IsEqualStringIgnoreWhitespaces(logger, input, expectedResult, validResults);
 	}
 }

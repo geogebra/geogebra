@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The EndOfFile metafile record is a footer placed at the end of an EMF+
  * metafile (or the EMF+ portion thereof). It signals the end of all EMF+ data.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EndOfFile.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -20,15 +20,12 @@ public class EndOfFile extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		return new EndOfFile();
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		// nop
 	}
-
 }

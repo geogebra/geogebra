@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,9 +36,7 @@ import org.gwtproject.user.client.ui.Widget;
 /**
  * Web implementation of the Relation Tool dialog
  */
-
-public final class RelationPaneW extends ComponentDialog
-		implements RelationPane, FastClickHandler {
+public final class RelationPaneW extends ComponentDialog implements RelationPane, FastClickHandler {
 	private Relation[] callbacks;
 	private FlowPanel numerical;
 	private int rels;
@@ -93,8 +91,7 @@ public final class RelationPaneW extends ComponentDialog
 	private Label getHeader(String label) {
 		Label header = new Label();
 		header.addStyleName("headerLbl");
-		header.getElement().setInnerHTML(app.getLocalization()
-				.getMenu(label));
+		header.getElement().setInnerHTML(app.getLocalization().getMenu(label));
 		return header;
 	}
 
@@ -109,14 +106,18 @@ public final class RelationPaneW extends ComponentDialog
 
 	@Override
 	public void onClick(final Widget source) {
-		((AppW) app).getAsyncManager().asyncEvalCommand("Delete(Prove(true))",
-				(_unused) -> {
-					LoggerW.loaded("prover");
-					emptyAndRebuildContent();
-					for (int i = 0; i < rels; ++i) {
-						expandRow(i);
-					}
-				}, null);
+		((AppW) app)
+				.getAsyncManager()
+				.asyncEvalCommand(
+						"Delete(Prove(true))",
+						(_unused) -> {
+							LoggerW.loaded("prover");
+							emptyAndRebuildContent();
+							for (int i = 0; i < rels; ++i) {
+								expandRow(i);
+							}
+						},
+						null);
 	}
 
 	private void emptyAndRebuildContent() {

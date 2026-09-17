@@ -62,8 +62,7 @@ public class ConvertToCanvas implements ImagePreprocessor {
 
 		image.addEventListener("load", (event) -> {
 			drawImageToCanvas(image, 1);
-			String fileName = StringUtil.changeFileExtension(imageFile.getFileName(),
-					FileExtensions.PNG);
+			String fileName = StringUtil.changeFileExtension(imageFile.getFileName(), FileExtensions.PNG);
 
 			provider.onReady(new ArchiveEntry(fileName, canvas.toDataURL()));
 		});
@@ -71,7 +70,7 @@ public class ConvertToCanvas implements ImagePreprocessor {
 		image.src = imageFile.createUrl();
 	}
 
-	private void drawImageToCanvas(HTMLImageElement image, double scale)  {
+	private void drawImageToCanvas(HTMLImageElement image, double scale) {
 		canvas.width = (int) (image.width * scale);
 		canvas.height = (int) (image.height * scale);
 		CanvasRenderingContext2D ctx = Js.uncheckedCast(canvas.getContext("2d"));

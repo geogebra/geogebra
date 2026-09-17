@@ -88,7 +88,8 @@ public class InputBoxProcessor {
 			if (content.isEmpty(inputBox.isListEditor())) {
 				inputBox.setTempUserInput("", "");
 			} else {
-				inputBox.setTempUserInput(processPlaceholders(content.getEditorInput()),
+				inputBox.setTempUserInput(
+						processPlaceholders(content.getEditorInput()),
 						processLatexPlaceholders(content.getLaTeX()));
 			}
 
@@ -103,16 +104,14 @@ public class InputBoxProcessor {
 		if (content == null) {
 			return null;
 		}
-		return content.replaceAll("\\{\\?}",
-				"{}");
+		return content.replaceAll("\\{\\?}", "{}");
 	}
 
 	private String processLatexPlaceholders(String contentLaTeX) {
 		if (contentLaTeX == null) {
 			return null;
 		}
-		return contentLaTeX.replace("?",
-				TeXSerializer.PLACEHOLDER);
+		return contentLaTeX.replace("?", TeXSerializer.PLACEHOLDER);
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
@@ -144,8 +143,7 @@ public class InputBoxProcessor {
 		try {
 			if (!linkedGeo.isIndependent()) {
 				GeoElement newGeo = linkedGeo.copy().toGeoElement();
-				kernel.getConstruction().replace(linkedGeo.toGeoElement(),
-						newGeo);
+				kernel.getConstruction().replace(linkedGeo.toGeoElement(), newGeo);
 				linkedGeo = newGeo;
 			}
 		} catch (Throwable e) {
@@ -178,17 +176,19 @@ public class InputBoxProcessor {
 		}
 		EvalInfo info = buildEvalInfo();
 
-		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
-				defineText, info, false,
-				new InputBoxCallback(inputBox), errorHandler);
+		algebraProcessor.changeGeoElementNoExceptionHandling(
+				linkedGeo, defineText, info, false, new InputBoxCallback(inputBox), errorHandler);
 	}
 
 	private EvalInfo buildEvalInfo() {
-		return new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
-				false, false).withSliders(false)
-				.withNoRedefinitionAllowed().withPreventingTypeChange()
+		return new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(), false, false)
+				.withSliders(false)
+				.withNoRedefinitionAllowed()
+				.withPreventingTypeChange()
 				.withRedefinitionRule(createRedefinitionRule())
-				.withMultipleUnassignedAllowed().withPreventVariable().withAutocreate(false);
+				.withMultipleUnassignedAllowed()
+				.withPreventVariable()
+				.withAutocreate(false);
 	}
 
 	private String prependLabel(String text, StringTemplate tpl) {
@@ -203,8 +203,8 @@ public class InputBoxProcessor {
 		} else if (linkedGeo instanceof FunctionalNVar || isComplexFunction()) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
-			defineText = linkedGeo.getLabelSimple() + "("
-					+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
+			defineText = linkedGeo.getLabelSimple() + "(" + ((VarString) linkedGeo).getVarString(tpl)
+					+ ")=" + defineText;
 		}
 		return defineText;
 	}
@@ -271,12 +271,9 @@ public class InputBoxProcessor {
 
 	private RuleCollection createRedefinitionRule() {
 		RedefinitionRule same = RedefinitionRules.sameClassRule();
-		RedefinitionRule point = RedefinitionRules.oneWayRule(
-				GeoClass.POINT3D, GeoClass.POINT);
-		RedefinitionRule vector = RedefinitionRules.oneWayRule(
-				GeoClass.VECTOR3D, GeoClass.VECTOR);
-		RedefinitionRule numericAngle = RedefinitionRules.oneWayRule(
-				GeoClass.NUMERIC, GeoClass.ANGLE);
+		RedefinitionRule point = RedefinitionRules.oneWayRule(GeoClass.POINT3D, GeoClass.POINT);
+		RedefinitionRule vector = RedefinitionRules.oneWayRule(GeoClass.VECTOR3D, GeoClass.VECTOR);
+		RedefinitionRule numericAngle = RedefinitionRules.oneWayRule(GeoClass.NUMERIC, GeoClass.ANGLE);
 		if (inputBox.isSymbolicMode()) {
 			return new RuleCollectionSymbolic(same, point, vector, numericAngle);
 		} else {
@@ -292,8 +289,7 @@ public class InputBoxProcessor {
 	public boolean validate(EditorContent editorState, StringBuilder sb) {
 		String toCheck = preprocess(editorState, StringTemplate.defaultTemplate);
 		EvalInfo evalInfo = buildEvalInfo();
-		GeoElementND el = algebraProcessor.evaluateToGeoElement(toCheck, false,
-				evalInfo, linkedGeo);
+		GeoElementND el = algebraProcessor.evaluateToGeoElement(toCheck, false, evalInfo, linkedGeo);
 		sb.append(toCheck);
 		return el != null && evalInfo.getRedefinitionRule().allowed(linkedGeo, el);
 	}

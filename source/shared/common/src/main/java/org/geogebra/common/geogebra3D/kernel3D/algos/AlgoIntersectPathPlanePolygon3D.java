@@ -24,17 +24,16 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Algo for intersection of a line with the interior of a polygon
- * 
+ *
  * @author matthieu
  */
-public class AlgoIntersectPathPlanePolygon3D
-		extends AlgoIntersectPathLinePolygon3D {
+public class AlgoIntersectPathPlanePolygon3D extends AlgoIntersectPathLinePolygon3D {
 	/** plane */
 	protected GeoPlane3D plane;
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -44,16 +43,15 @@ public class AlgoIntersectPathPlanePolygon3D
 	 * @param p
 	 *            polygon
 	 */
-	public AlgoIntersectPathPlanePolygon3D(Construction c, String[] labels,
-			GeoPlane3D plane, GeoElement p) {
+	public AlgoIntersectPathPlanePolygon3D(
+			Construction c, String[] labels, GeoPlane3D plane, GeoElement p) {
 
 		super(c, labels, plane, p);
-
 	}
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param plane
@@ -61,11 +59,9 @@ public class AlgoIntersectPathPlanePolygon3D
 	 * @param p
 	 *            polygon
 	 */
-	public AlgoIntersectPathPlanePolygon3D(Construction c, GeoPlane3D plane,
-			GeoElement p) {
+	public AlgoIntersectPathPlanePolygon3D(Construction c, GeoPlane3D plane, GeoElement p) {
 
 		super(c, plane, p);
-
 	}
 
 	/**
@@ -95,8 +91,7 @@ public class AlgoIntersectPathPlanePolygon3D
 	protected void setIntersectionLine() {
 
 		Coords[] intersection = CoordMatrixUtil.intersectPlanes(
-				plane.getCoordSys().getMatrixOrthonormal(),
-				p.getCoordSys().getMatrixOrthonormal());
+				plane.getCoordSys().getMatrixOrthonormal(), p.getCoordSys().getMatrixOrthonormal());
 
 		o1 = intersection[0];
 		d1 = intersection[1];
@@ -109,5 +104,4 @@ public class AlgoIntersectPathPlanePolygon3D
 	protected boolean checkParameter(double t1) {
 		return true; // nothing to check here
 	}
-
 }

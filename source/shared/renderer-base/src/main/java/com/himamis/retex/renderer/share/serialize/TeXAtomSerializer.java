@@ -42,7 +42,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Converts parsed LaTeX to GGB syntax
- * 
+ *
  * @author Zbynek
  *
  */
@@ -102,13 +102,20 @@ public class TeXAtomSerializer {
 		if (root instanceof SpaceAtom) {
 			return " ";
 		}
-		if (root instanceof EmptyAtom || root instanceof BreakMarkAtom
-				|| root instanceof PhantomAtom || root instanceof HlineAtom
-				|| root instanceof SetLengthAtom || root instanceof CursorAtom
-				|| root instanceof VlineAtom || root instanceof CEEmptyAtom
-				|| root instanceof RuleAtom || root instanceof GraphicsAtom
-				|| root instanceof GraphicsAtomBase64 || root instanceof HVruleAtom
-				|| root instanceof MHeightAtom || root instanceof TheAtom
+		if (root instanceof EmptyAtom
+				|| root instanceof BreakMarkAtom
+				|| root instanceof PhantomAtom
+				|| root instanceof HlineAtom
+				|| root instanceof SetLengthAtom
+				|| root instanceof CursorAtom
+				|| root instanceof VlineAtom
+				|| root instanceof CEEmptyAtom
+				|| root instanceof RuleAtom
+				|| root instanceof GraphicsAtom
+				|| root instanceof GraphicsAtomBase64
+				|| root instanceof HVruleAtom
+				|| root instanceof MHeightAtom
+				|| root instanceof TheAtom
 				|| root instanceof SilentVRowAtom) {
 			return "";
 		}
@@ -142,8 +149,7 @@ public class TeXAtomSerializer {
 		if (root instanceof HasUnderOver underOver) {
 			String decoration = serialize(underOver.getUnderOver());
 			String base = serialize(underOver.getTrueBase());
-			return underOver.isUnder() ? adapter.under(decoration, base)
-					: adapter.over(decoration, base);
+			return underOver.isUnder() ? adapter.under(decoration, base) : adapter.over(decoration, base);
 		}
 		if (root instanceof HasElements row) {
 			StringBuilder sb = new StringBuilder();
@@ -275,8 +281,7 @@ public class TeXAtomSerializer {
 	}
 
 	private String serializeMatrixElem(Atom elemColRow) {
-		return serialize(elemColRow).equals(" ")
-				? adapter.blank() : serialize(elemColRow);
+		return serialize(elemColRow).equals(" ") ? adapter.blank() : serialize(elemColRow);
 	}
 
 	private String serializeSymbol(SymbolAtom symbol) {
@@ -285,11 +290,9 @@ public class TeXAtomSerializer {
 
 	private String serializeFractionAtom(FractionAtom frac) {
 		if (isBinomial(frac)) {
-			return "nCr(" + serialize(frac.getNumerator()) + ","
-					+ serialize(frac.getDenominator()) + ")";
+			return "nCr(" + serialize(frac.getNumerator()) + "," + serialize(frac.getDenominator()) + ")";
 		}
-		return adapter.fraction(serialize(frac.getNumerator()),
-				serialize(frac.getDenominator()));
+		return adapter.fraction(serialize(frac.getNumerator()), serialize(frac.getDenominator()));
 	}
 
 	private boolean isBinomial(Atom frac) {
@@ -308,15 +311,13 @@ public class TeXAtomSerializer {
 			if (isInverse(bigOp.getTop())) {
 				return " arc" + getFunctionName(trueBase);
 			} else {
-				return adapter.subscriptContent(
-						serialize(trueBase),
-						null, serialize(bigOp.getTop()));
+				return adapter.subscriptContent(serialize(trueBase), null, serialize(bigOp.getTop()));
 			}
 		}
 
 		// eg sum/product
-		return adapter.operatorFromTo(serialize(trueBase), serialize(bigOp.getBottom()),
-				serialize(bigOp.getTop()));
+		return adapter.operatorFromTo(
+				serialize(trueBase), serialize(bigOp.getBottom()), serialize(bigOp.getTop()));
 	}
 
 	private String serializeOverLine(String base) {
@@ -360,5 +361,4 @@ public class TeXAtomSerializer {
 		}
 		return adapter.subscriptContent(base, sub, sup);
 	}
-
 }

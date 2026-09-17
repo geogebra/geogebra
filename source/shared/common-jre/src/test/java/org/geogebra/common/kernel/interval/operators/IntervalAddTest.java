@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,10 +36,8 @@ class IntervalAddTest {
 
 	@Test
 	void addNegativeInfinityWithFiniteToNegativeInfinityWithFinite() {
-		assertEquals(negativeInf(4.68),
-				negativeInf(1.23).add(negativeInf(3.45)));
-		assertEquals(negativeInf(0),
-				negativeInf(-1.23).add(negativeInf(1.23)));
+		assertEquals(negativeInf(4.68), negativeInf(1.23).add(negativeInf(3.45)));
+		assertEquals(negativeInf(0), negativeInf(-1.23).add(negativeInf(1.23)));
 	}
 
 	private Interval negativeInf(double v) {
@@ -48,16 +46,13 @@ class IntervalAddTest {
 
 	@Test
 	void addNegativeInfinityWithFiniteToFiniteInterval() {
-		assertEquals(negativeInf(45.67 + 56.78),
-				negativeInf(45.67).add(interval(12.34, 56.78)));
-		assertEquals(negativeInf(91.34),
-				negativeInf(45.67).add(interval(12.34, 45.67)));
+		assertEquals(negativeInf(45.67 + 56.78), negativeInf(45.67).add(interval(12.34, 56.78)));
+		assertEquals(negativeInf(91.34), negativeInf(45.67).add(interval(12.34, 45.67)));
 	}
 
 	@Test
 	void addNegativeInfinityWithFiniteToFiniteOpenToPositiveInfinity() {
-		assertEquals(whole(),
-				negativeInf(45.67).add(interval(12.34, Double.POSITIVE_INFINITY)));
+		assertEquals(whole(), negativeInf(45.67).add(interval(12.34, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -70,8 +65,7 @@ class IntervalAddTest {
 
 	@Test
 	void addFiniteToNegativeInfinityAndFinite() {
-		assertEquals(negativeInf(1E-2 + 1234.567),
-				interval(0, 1E-2).add(negativeInf(1234.567)));
+		assertEquals(negativeInf(1E-2 + 1234.567), interval(0, 1E-2).add(negativeInf(1234.567)));
 	}
 
 	@Test
@@ -82,8 +76,7 @@ class IntervalAddTest {
 	}
 
 	private void addFiniteToFinite(double a1, double a2, double b1, double b2) {
-		assertEquals(interval(prev(a1 + b1), next(a2 + b2)),
-				interval(a1, a2).add(interval(b1, b2)));
+		assertEquals(interval(prev(a1 + b1), next(a2 + b2)), interval(a1, a2).add(interval(b1, b2)));
 	}
 
 	@Test
@@ -94,35 +87,27 @@ class IntervalAddTest {
 	}
 
 	private void addFiniteToFiniteOpenToPositiveInfinity(double a1, double a2, double b1) {
-		assertEquals(interval(prev(a1 + b1), Double.POSITIVE_INFINITY),
-				interval(a1, a2)
-						.add(interval(b1, Double.POSITIVE_INFINITY)));
+		assertEquals(
+				interval(prev(a1 + b1), Double.POSITIVE_INFINITY),
+				interval(a1, a2).add(interval(b1, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
 	void addToUndefinedShouldBeUndefined() {
-		assertEquals(undefined(),
-				undefined().add(interval(1E123, Double.POSITIVE_INFINITY)));
+		assertEquals(undefined(), undefined().add(interval(1E123, Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
 	void testAddToInvertedSet() {
-		IntervalSet set = inverted(legacyInverted(-3.45, 78.97)
-				.add(interval(12.34, 56.78)));
-		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89),
-				leftRayFromInverted(set));
-		assertEquals(connected(135.75, Double.POSITIVE_INFINITY),
-				rightRayFromInverted(set));
+		IntervalSet set = inverted(legacyInverted(-3.45, 78.97).add(interval(12.34, 56.78)));
+		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89), leftRayFromInverted(set));
+		assertEquals(connected(135.75, Double.POSITIVE_INFINITY), rightRayFromInverted(set));
 	}
 
 	@Test
 	void testAddInvertedSetTo() {
-		IntervalSet set = inverted(interval(12.34, 56.78)
-				.add(legacyInverted(-3.45, 78.97)));
-		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89),
-				leftRayFromInverted(set));
-		assertEquals(connected(135.75, Double.POSITIVE_INFINITY),
-				rightRayFromInverted(set));
+		IntervalSet set = inverted(interval(12.34, 56.78).add(legacyInverted(-3.45, 78.97)));
+		assertEquals(connected(Double.NEGATIVE_INFINITY, 8.89), leftRayFromInverted(set));
+		assertEquals(connected(135.75, Double.POSITIVE_INFINITY), rightRayFromInverted(set));
 	}
-
 }

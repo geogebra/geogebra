@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -78,21 +78,21 @@ public interface ToStringConverter {
 	 * @param wrappedConverter ToStringConverter used by default
 	 * @return The restricted label description for the GeoElement
 	 */
-	static String getRestrictedLabelDescription(GeoElement element, StringTemplate template,
-			ToStringConverter wrappedConverter) {
+	static String getRestrictedLabelDescription(
+			GeoElement element, StringTemplate template, ToStringConverter wrappedConverter) {
 		String label;
 		switch (element.getLabelMode()) {
-		case LABEL_VALUE:
-			label = element.getDefinition(template);
-			break;
-		case LABEL_NAME_VALUE:
-			label = withLabel(element, element.getDefinition(template), template);
-			break;
-		case LABEL_CAPTION_VALUE:
-			label = getCaptionAndValue(element, element.getDefinition(template), template);
-			break;
-		default:
-			label = wrappedConverter.toLabelAndDescription(element, template);
+			case LABEL_VALUE:
+				label = element.getDefinition(template);
+				break;
+			case LABEL_NAME_VALUE:
+				label = withLabel(element, element.getDefinition(template), template);
+				break;
+			case LABEL_CAPTION_VALUE:
+				label = getCaptionAndValue(element, element.getDefinition(template), template);
+				break;
+			default:
+				label = wrappedConverter.toLabelAndDescription(element, template);
 		}
 		return label.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : label;
 	}
@@ -102,8 +102,7 @@ public interface ToStringConverter {
 	 * @param value value
 	 * @return assignment string; caption: value, caption = value
 	 */
-	static String getCaptionAndValue(GeoElement element, String value,
-			StringTemplate template) {
+	static String getCaptionAndValue(GeoElement element, String value, StringTemplate template) {
 		String delimiter = element.getLabelDelimiterWithSpace(template);
 		if ("".equals(element.getRawCaption())) {
 			if (element.hasVisibleLabel()) {

@@ -45,8 +45,7 @@ public final class AutoCompletePopup extends GPopupMenuW {
 	 * @param provider completions provider
 	 * @param component text input field
 	 */
-	public AutoCompletePopup(AppW app, AutocompleteProvider provider,
-			AutoCompleteW component) {
+	public AutoCompletePopup(AppW app, AutocompleteProvider provider, AutoCompleteW component) {
 		super(app);
 		this.suggestions = provider;
 		this.component = component;
@@ -67,9 +66,8 @@ public final class AutoCompletePopup extends GPopupMenuW {
 		AriaMenuBar submenu = new AriaMenuBar();
 		submenu.addStyleName("autocompleteSyntaxContent");
 		submenu.addStyleName("customScrollbar");
-		for (String line: cpl.syntaxes) {
-			AriaMenuItem item = new AriaMenuItem(line.replaceAll("[<>]", ""),
-					null, () -> {
+		for (String line : cpl.syntaxes) {
+			AriaMenuItem item = new AriaMenuItem(line.replaceAll("[<>]", ""), null, () -> {
 				component.insertString(line);
 				hide();
 			});
@@ -77,8 +75,7 @@ public final class AutoCompletePopup extends GPopupMenuW {
 			item.setFocusable(false);
 			submenu.addItem(item);
 		}
-		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.match),
-				submenu);
+		AriaMenuItem menuItem = new AriaMenuItem(highlightSuffix(cpl.match), submenu);
 		menuItem.setSubmenuHeading(buildSubmenuHeading(cpl));
 		menuItem.addStyleName("no-image");
 		menuItem.setFocusable(false);
@@ -96,10 +93,10 @@ public final class AutoCompletePopup extends GPopupMenuW {
 	}
 
 	private Widget createHelpButton(AutocompleteProvider.Completion command) {
-		StandardButton button = new StandardButton(SharedResources.INSTANCE.icon_help_black(),
-				null, 24);
-		button.addFastClickHandler(ignore ->
-				getApp().getGuiManager().openHelp(command.helpType, command.helpPage));
+		StandardButton button =
+				new StandardButton(SharedResources.INSTANCE.icon_help_black(), null, 24);
+		button.addFastClickHandler(
+				ignore -> getApp().getGuiManager().openHelp(command.helpType, command.helpPage));
 		return button;
 	}
 
@@ -142,8 +139,8 @@ public final class AutoCompletePopup extends GPopupMenuW {
 		int scaledBottom = scaledTop + inputHeight;
 		int popupTop = getPopupTop(scaledTop, scaledBottom);
 
-		popupPanel.setPopupPositionAndShow((offsetWidth, offsetHeight) ->
-				popupPanel.setPopupPosition(left, popupTop));
+		popupPanel.setPopupPositionAndShow(
+				(offsetWidth, offsetHeight) -> popupPanel.setPopupPosition(left, popupTop));
 	}
 
 	private int scaledY(double y) {
@@ -152,8 +149,8 @@ public final class AutoCompletePopup extends GPopupMenuW {
 
 	private int getPopupTop(int inputTop, int inputBottom) {
 		int popupTop = inputBottom;
-		int distBottomKeyboardTop = (int) (getApp().getHeight() - inputBottom
-				- getApp().getAppletFrame().getKeyboardHeight());
+		int distBottomKeyboardTop =
+				(int) (getApp().getHeight() - inputBottom - getApp().getAppletFrame().getKeyboardHeight());
 		// not enough place to show below input
 		if (distBottomKeyboardTop < popupPanel.getOffsetHeight()) {
 			popupTop = inputTop - popupPanel.getOffsetHeight();
@@ -229,7 +226,8 @@ public final class AutoCompletePopup extends GPopupMenuW {
 	 * @param height - height of input
 	 */
 	public void popupSuggestions(String input, int left, int top, int height) {
-		if (input != null && !input.isBlank()
+		if (input != null
+				&& !input.isBlank()
 				&& InputHelper.needsAutocomplete(input, getApp().getKernel())) {
 			fillAndShow(input, left, top, height);
 		} else {

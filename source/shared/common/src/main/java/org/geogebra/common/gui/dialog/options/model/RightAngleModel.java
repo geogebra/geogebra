@@ -42,8 +42,7 @@ public class RightAngleModel extends BooleanOptionModel {
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 
-		return geo instanceof AngleProperties && !geo.isGeoList()
-				|| isAngleList(geo);
+		return geo instanceof AngleProperties && !geo.isGeoList() || isAngleList(geo);
 	}
 
 	@Override
@@ -58,5 +57,4 @@ public class RightAngleModel extends BooleanOptionModel {
 		geo.setEmphasizeRightAngle(value);
 		geo.updateVisualStyle(GProperty.ANGLE_STYLE);
 	}
-
 }

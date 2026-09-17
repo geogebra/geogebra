@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * ResizePalette TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ResizePalette.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class ResizePalette extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		ResizePalette tag = new ResizePalette(emf.readDWORD(), emf.readDWORD());
 		return tag;
@@ -43,7 +42,7 @@ public class ResizePalette extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  index: 0x"
-				+ Integer.toHexString(index) + "\n" + "  entries: " + entries;
+		return super.toString() + "\n" + "  index: 0x" + Integer.toHexString(index) + "\n"
+				+ "  entries: " + entries;
 	}
 }

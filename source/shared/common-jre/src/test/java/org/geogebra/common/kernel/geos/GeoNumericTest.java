@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -50,8 +50,7 @@ class GeoNumericTest extends BaseAppTestSetup {
 	void setup() {
 		setupClassicApp();
 		scientificTemplate = StringTemplate.printFigures(StringType.GEOGEBRA, 3, false);
-		engineeringNotationTemplate = StringTemplate.defaultTemplate
-				.deriveWithEngineeringNotation();
+		engineeringNotationTemplate = StringTemplate.defaultTemplate.deriveWithEngineeringNotation();
 	}
 
 	@Test
@@ -86,14 +85,10 @@ class GeoNumericTest extends BaseAppTestSetup {
 	void getLaTeXDescriptionRHS() {
 		GeoNumeric numeric = addAvInput("1/2");
 
-		String descriptionRHS =
-				numeric.getLaTeXDescriptionRHS(
-						true, StringTemplate.latexTemplate);
+		String descriptionRHS = numeric.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate);
 		assertThat(descriptionRHS, equalTo("0.5"));
 
-		descriptionRHS =
-				numeric.getLaTeXDescriptionRHS(
-						false, StringTemplate.latexTemplate);
+		descriptionRHS = numeric.getLaTeXDescriptionRHS(false, StringTemplate.latexTemplate);
 		assertThat(descriptionRHS, equalTo("\\frac{1}{2}"));
 	}
 
@@ -101,14 +96,10 @@ class GeoNumericTest extends BaseAppTestSetup {
 	void getLaTeXAlgebraDescription() {
 		GeoNumeric numeric = addAvInput("a = 1/2");
 
-		String description =
-				numeric.getLaTeXAlgebraDescription(
-						true, StringTemplate.latexTemplate);
+		String description = numeric.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 		assertThat(description, equalTo("a\\, = \\,0.5"));
 
-		description =
-				numeric.getLaTeXAlgebraDescription(
-						false, StringTemplate.latexTemplate);
+		description = numeric.getLaTeXAlgebraDescription(false, StringTemplate.latexTemplate);
 		assertThat(description, equalTo("a\\, = \\,\\frac{1}{2}"));
 	}
 
@@ -148,11 +139,9 @@ class GeoNumericTest extends BaseAppTestSetup {
 		GeoNumeric recurring = addAvInput("1.2\u03053\u0305");
 		assertThat(recurring.getDefinition().unwrap().isRecurringDecimal(), is(true));
 		recurring.setSymbolicMode(false, true);
-		assertThat(recurring.toValueString(StringTemplate.maxDecimals),
-				is("1.232323232323232"));
+		assertThat(recurring.toValueString(StringTemplate.maxDecimals), is("1.232323232323232"));
 		recurring.setSymbolicMode(true, true);
-		assertThat(recurring.toValueString(StringTemplate.maxDecimals),
-				is("122 / 99"));
+		assertThat(recurring.toValueString(StringTemplate.maxDecimals), is("122 / 99"));
 	}
 
 	@Test
@@ -164,8 +153,7 @@ class GeoNumericTest extends BaseAppTestSetup {
 
 	@Test
 	void testAsRecurringDecimal() {
-		assertNotNull(evaluateGeoElement("1.02\u03053\u0305", GeoNumeric.class)
-				.asRecurringDecimal());
+		assertNotNull(evaluateGeoElement("1.02\u03053\u0305", GeoNumeric.class).asRecurringDecimal());
 		assertNull(evaluateGeoElement("1.234", GeoNumeric.class).asRecurringDecimal());
 		assertNull(evaluateGeoElement("12 / 34", GeoNumeric.class).asRecurringDecimal());
 	}
@@ -217,37 +205,41 @@ class GeoNumericTest extends BaseAppTestSetup {
 
 	@Test
 	void testAutoCreatedSliderAlgebraVisibility() {
-		assertThat(((GeoNumeric) evaluateWithSliders("a"))
-				.isAVSliderOrCheckboxVisible(), equalTo(true));
-		assertThat(((GeoNumeric) evaluateWithSliders("3"))
-				.isAVSliderOrCheckboxVisible(), equalTo(false));
+		assertThat(
+				((GeoNumeric) evaluateWithSliders("a")).isAVSliderOrCheckboxVisible(), equalTo(true));
+		assertThat(
+				((GeoNumeric) evaluateWithSliders("3")).isAVSliderOrCheckboxVisible(), equalTo(false));
 	}
 
 	@Test
 	void shouldPrintUnicodePowerOf10() {
 		GeoNumeric a = addAvInput("a=1E30+1E30");
-		assertThat(a.toValueString(scientificTemplate),
+		assertThat(
+				a.toValueString(scientificTemplate),
 				is("2.00 " + Unicode.CENTER_DOT + " 10" + StringUtil.numberToIndex(30)));
 	}
 
 	@Test
 	void shouldPrintUnicodeNegativePowerOf10() {
 		GeoNumeric a = addAvInput("a=1E-30+1E-30");
-		assertThat(a.toValueString(scientificTemplate),
+		assertThat(
+				a.toValueString(scientificTemplate),
 				is("2.00 " + Unicode.CENTER_DOT + " 10" + StringUtil.numberToIndex(-30)));
 	}
 
 	@Test
 	void geoNumericShouldDisplayCorrectEngineeringNotation1() {
 		GeoNumeric a = addAvInput("7344000");
-		assertThat(a.toValueString(engineeringNotationTemplate),
+		assertThat(
+				a.toValueString(engineeringNotationTemplate),
 				is("7.34 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_6));
 	}
 
 	@Test
 	void geoNumericShouldDisplayCorrectEngineeringNotation2() {
 		GeoNumeric a = addAvInput("7 / 2");
-		assertThat(a.toValueString(engineeringNotationTemplate),
+		assertThat(
+				a.toValueString(engineeringNotationTemplate),
 				is("3.5 " + Unicode.CENTER_DOT + " 10" + Unicode.SUPERSCRIPT_0));
 	}
 
@@ -259,8 +251,10 @@ class GeoNumericTest extends BaseAppTestSetup {
 
 	@Test
 	void shouldNotLoadValueFromXML() {
-		getApp().getGgbApi().evalXML("<expression exp=\"2+2\" label=\"a\"/>"
-				+ "<element label=\"a\" type=\"numeric\"><value val=\"5\"/></element>");
+		getApp()
+				.getGgbApi()
+				.evalXML("<expression exp=\"2+2\" label=\"a\"/>"
+						+ "<element label=\"a\" type=\"numeric\"><value val=\"5\"/></element>");
 		assertEquals("4", lookup("a").toValueString(StringTemplate.testTemplate));
 	}
 
@@ -397,7 +391,9 @@ class GeoNumericTest extends BaseAppTestSetup {
 
 	private GeoElementND evaluateWithSliders(String expression) {
 		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(getApp(), true);
-		return getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-				expression, false, TestErrorHandler.WITH_SLIDERS, evalInfo, null)[0];
+		return getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(
+						expression, false, TestErrorHandler.WITH_SLIDERS, evalInfo, null)[0];
 	}
 }

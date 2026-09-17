@@ -24,7 +24,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * 
+ *
  * @author laszlo
  *
  */
@@ -36,7 +36,7 @@ public class NameValueModel extends ShowLabelModel {
 		// concat two interfaces.
 	}
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            the app.
 	 * @param listener
@@ -54,7 +54,6 @@ public class NameValueModel extends ShowLabelModel {
 		setForceCaption(!getGeoAt(0)
 				.getLabel(StringTemplate.defaultTemplate)
 				.equals(getGeoAt(0).getCaption(StringTemplate.defaultTemplate)));
-
 	}
 
 	@Override
@@ -65,12 +64,12 @@ public class NameValueModel extends ShowLabelModel {
 
 	/**
 	 * Apply name changes
-	 * 
+	 *
 	 * @param name
 	 *            to set.
 	 * @param handler
 	 *            to report error.
-	 * 
+	 *
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
 		if (shouldNameChange(name)) {
@@ -82,8 +81,10 @@ public class NameValueModel extends ShowLabelModel {
 	}
 
 	private boolean shouldNameChange(String name) {
-		return "".equals(name) || (!isForceCaption() && !isUsedForOtherGeo(name)
-				&& LabelManager.isValidLabel(name, kernel, null));
+		return "".equals(name)
+				|| (!isForceCaption()
+						&& !isUsedForOtherGeo(name)
+						&& LabelManager.isValidLabel(name, kernel, null));
 	}
 
 	private boolean isUsedForOtherGeo(String name) {
@@ -111,7 +112,7 @@ public class NameValueModel extends ShowLabelModel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param forceCaption
 	 *            caption should be changed or not.
 	 */
@@ -120,7 +121,7 @@ public class NameValueModel extends ShowLabelModel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if label is visible at all.
 	 */
 	public boolean isLabelVisible() {

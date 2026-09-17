@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
  * Rotate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt; ] Rotate[ &lt;GeoVector&gt;,
  * &lt;NumberValue&gt; ] Rotate[ &lt;GeoLine&gt;, &lt;NumberValue&gt; ] Rotate[
  * &lt;GeoConic&gt;, &lt;NumberValue&gt; ] Rotate[ &lt;GeoPolygon&gt;, &lt;NumberValue&gt; ]
- * 
+ *
  * Rotate[ &lt;GeoPoint&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ] Rotate[
  * &lt;GeoLine&gt;, &lt;NumberValue&gt;, &lt;GeoPoint&gt; ] Rotate[ &lt;GeoConic&gt;,
  * &lt;NumberValue&gt;, &lt;GeoPoint&gt; ] Rotate[ &lt;GeoPolygon&gt;, &lt;NumberValue&gt;,
@@ -41,7 +41,7 @@ public class CmdRotate extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -56,24 +56,24 @@ public class CmdRotate extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			// ROTATE AROUND CENTER (0,0)
-			arg = resArgs(c, info);
-			return process2(c, arg, ok);
+			case 2:
+				// ROTATE AROUND CENTER (0,0)
+				arg = resArgs(c, info);
+				return process2(c, arg, ok);
 
-		case 3:
-			// ROTATION AROUND POINT
-			arg = resArgs(c, info);
-			return process3(c, arg, ok);
+			case 3:
+				// ROTATION AROUND POINT
+				arg = resArgs(c, info);
+				return process3(c, arg, ok);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * process for 2 args
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -82,19 +82,16 @@ public class CmdRotate extends CommandProcessor {
 	 *            is that ok ?
 	 * @return geos
 	 */
-	final protected GeoElement[] process2(Command c, GeoElement[] arg,
-			boolean[] ok) {
+	protected final GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) {
 
 		if (arg[1] instanceof GeoNumberValue) {
 			if (arg[0] instanceof GeoText) {
 				// c.setName("RotateText");
 				// return kernelA.getAlgebraProcessor().processCommand(c,
 				// new EvalInfo(false));
-				AlgoRotateText algo = new AlgoRotateText(cons,
-						(GeoText) arg[0], (GeoNumberValue) arg[1]);
+				AlgoRotateText algo = new AlgoRotateText(cons, (GeoText) arg[0], (GeoNumberValue) arg[1]);
 				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[] { algo.getResult() };
-
+				return new GeoElement[] {algo.getResult()};
 			}
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 
@@ -106,7 +103,7 @@ public class CmdRotate extends CommandProcessor {
 
 	/**
 	 * process for 3 args
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -115,15 +112,14 @@ public class CmdRotate extends CommandProcessor {
 	 *            is that ok ?
 	 * @return geos
 	 */
-	final protected GeoElement[] process3(Command c, GeoElement[] arg,
-			boolean[] ok) {
+	protected final GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) {
 
-		if ((ok[0] = true) && (ok[1] = arg[1] instanceof GeoNumberValue)
+		if ((ok[0] = true)
+				&& (ok[1] = arg[1] instanceof GeoNumberValue)
 				&& (ok[2] = arg[2].isGeoPoint())) {
 			if (arg[0] instanceof GeoText) {
 				c.setName("RotateText");
-				return kernel.getAlgebraProcessor().processCommand(c,
-						new EvalInfo(false));
+				return kernel.getAlgebraProcessor().processCommand(c, new EvalInfo(false));
 			}
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
 			GeoPointND Q = (GeoPointND) arg[2];
@@ -137,10 +133,8 @@ public class CmdRotate extends CommandProcessor {
 	/**
 	 * Rotate geoRot by angle phi around (0,0).
 	 */
-	private GeoElement[] rotate(String label, GeoElement geoRot,
-			GeoNumberValue phi) {
+	private GeoElement[] rotate(String label, GeoElement geoRot, GeoNumberValue phi) {
 		Transform t = new TransformRotate(cons, phi);
 		return t.transform(geoRot, label);
 	}
-
 }

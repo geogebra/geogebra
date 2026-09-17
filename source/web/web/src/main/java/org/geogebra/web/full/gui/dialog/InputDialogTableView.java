@@ -40,8 +40,7 @@ import org.gwtproject.user.client.ui.Label;
  * on Table of values
  *
  */
-public final class InputDialogTableView extends ComponentDialog
-		implements HasKeyboardPopup {
+public final class InputDialogTableView extends ComponentDialog implements HasKeyboardPopup {
 	private ComponentInputField startValue;
 	private ComponentInputField endValue;
 	private ComponentInputField step;
@@ -51,7 +50,7 @@ public final class InputDialogTableView extends ComponentDialog
 
 	/**
 	 * Create new dialog. NOT modal to make sure onscreen keyboard still works.
-	 * 
+	 *
 	 * @param app
 	 *            see {@link AppW}
 	 * @param data
@@ -86,8 +85,7 @@ public final class InputDialogTableView extends ComponentDialog
 	}
 
 	private ComponentInputField createTextField(String labelText) {
-		return new ComponentInputField((AppW) app,
-				null, labelText, null, "");
+		return new ComponentInputField((AppW) app, null, labelText, null, "");
 	}
 
 	@Override
@@ -136,8 +134,7 @@ public final class InputDialogTableView extends ComponentDialog
 				app.storeUndoInfo();
 				hide();
 			} catch (InvalidValuesException ex) {
-				errorLabel
-						.setText(ex.getLocalizedMessage(app.getLocalization()));
+				errorLabel.setText(ex.getLocalizedMessage(app.getLocalization()));
 				errorLabel.getElement().scrollIntoView();
 			}
 		} else {
@@ -152,7 +149,7 @@ public final class InputDialogTableView extends ComponentDialog
 
 	/**
 	 * Initializes Table View
-	 * 
+	 *
 	 * @param min
 	 *            min x-value.
 	 * @param max
@@ -176,8 +173,7 @@ public final class InputDialogTableView extends ComponentDialog
 	}
 
 	private void dispatchSetTVValues(double valuesMin, double valuesMax, double valuesStep) {
-		String values = valuesMin + "," + valuesMax + ","
-				+ valuesStep;
+		String values = valuesMin + "," + valuesMax + "," + valuesStep;
 		app.dispatchEvent(new Event(EventType.SET_VALUES_TV, null, values));
 	}
 }

@@ -37,9 +37,9 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Container for condition triples (upper bound, lower bound, other conditions)
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public class Bounds {
 	private boolean lowerSharp;
@@ -47,8 +47,10 @@ public class Bounds {
 	private Double lower;
 	private Double upper;
 	private ExpressionNode condition;
+
 	@Weak
 	private Kernel kernel;
+
 	private final FunctionVariable fv;
 
 	/**
@@ -64,7 +66,7 @@ public class Bounds {
 
 	/**
 	 * Adds restrictions from the expression to current bounds
-	 * 
+	 *
 	 * @param e0
 	 *            expression
 	 * @return new bounds
@@ -82,17 +84,15 @@ public class Bounds {
 				return left;
 			}
 		}
-		if (e.getOperation().equals(Operation.AND)
-				|| e.getOperation().equals(Operation.AND_INTERVAL)) {
-			return addRestriction(e.getLeftTree())
-					.addRestriction(e.getRightTree());
+		if (e.getOperation().equals(Operation.AND) || e.getOperation().equals(Operation.AND_INTERVAL)) {
+			return addRestriction(e.getLeftTree()).addRestriction(e.getRightTree());
 		}
 
 		Bounds b = copyInterval();
 		b.condition = condition; // If[x==1,1,If[x==2,3,4]]
 		ExpressionValue lt = evalConstants(e.getLeft().unwrap());
-		ExpressionValue rt = e.getRight() == null ? null
-				: evalConstants(e.getRight().unwrap());
+		ExpressionValue rt =
+				e.getRight() == null ? null : evalConstants(e.getRight().unwrap());
 
 		boolean simple = e.getOperation() == Operation.GREATER
 				|| e.getOperation() == Operation.GREATER_EQUAL
@@ -100,50 +100,47 @@ public class Bounds {
 				|| e.getOperation() == Operation.LESS_EQUAL
 				|| e.getOperation() == Operation.EQUAL_BOOLEAN;
 
-		if (simple && lt instanceof FunctionVariable
+		if (simple
+				&& lt instanceof FunctionVariable
 				&& rt instanceof NumberValue
 				&& !(rt instanceof FunctionVariable)) {
 			double d = rt.evaluateDouble();
-			if (e.getOperation() == Operation.GREATER
-					&& (lower == null || lower <= d)) {
+			if (e.getOperation() == Operation.GREATER && (lower == null || lower <= d)) {
 				b.lower = d;
 				b.lowerSharp = true;
 			} else if ((e.getOperation() == Operation.GREATER_EQUAL
-					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
+							|| e.getOperation() == Operation.EQUAL_BOOLEAN)
 					&& (lower == null || lower < d)) {
 				b.lower = d;
 				b.lowerSharp = false;
-			} else if (e.getOperation() == Operation.LESS
-					&& (upper == null || upper >= d)) {
+			} else if (e.getOperation() == Operation.LESS && (upper == null || upper >= d)) {
 				b.upper = d;
 				b.upperSharp = true;
 			}
-			if ((e.getOperation() == Operation.LESS_EQUAL
-					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
+			if ((e.getOperation() == Operation.LESS_EQUAL || e.getOperation() == Operation.EQUAL_BOOLEAN)
 					&& (upper == null || upper > d)) { // x > d
 				b.upper = d;
 				b.upperSharp = false;
 			}
-		} else if (simple && rt instanceof FunctionVariable
+		} else if (simple
+				&& rt instanceof FunctionVariable
 				&& lt instanceof NumberValue
 				&& !(lt instanceof FunctionVariable)) {
 			double d = lt.evaluateDouble();
-			if (e.getOperation() == Operation.LESS
-					&& (lower == null || lower <= d)) {
+			if (e.getOperation() == Operation.LESS && (lower == null || lower <= d)) {
 				b.lower = d;
 				b.lowerSharp = true;
 			} else if ((e.getOperation() == Operation.LESS_EQUAL
-					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
+							|| e.getOperation() == Operation.EQUAL_BOOLEAN)
 					&& (lower == null || lower < d)) {
 				b.lower = d;
 				b.lowerSharp = false;
-			} else if (e.getOperation() == Operation.GREATER
-					&& (upper == null || upper >= d)) {
+			} else if (e.getOperation() == Operation.GREATER && (upper == null || upper >= d)) {
 				b.upper = d;
 				b.upperSharp = true;
 			}
 			if ((e.getOperation() == Operation.GREATER_EQUAL
-					|| e.getOperation() == Operation.EQUAL_BOOLEAN)
+							|| e.getOperation() == Operation.EQUAL_BOOLEAN)
 					&& (upper == null || upper > d)) {
 				b.upper = d;
 				b.upperSharp = false;
@@ -156,30 +153,28 @@ public class Bounds {
 			}
 		}
 		// If[x==1,2,If[x==3,4,5]]
-		if (b.upper != null && b.lower != null && (b.condition != null)
+		if (b.upper != null
+				&& b.lower != null
+				&& (b.condition != null)
 				&& DoubleUtil.isEqual(b.upper, b.lower)) {
 			fv.set(b.upper);
-			ExpressionValue v = b.condition
-					.evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue v = b.condition.evaluate(StringTemplate.defaultTemplate);
 			if (v instanceof BooleanValue && ((BooleanValue) v).getBoolean()) {
 				b.condition = null;
 			}
 		}
 		// If[x==1,2,If[x>3,4,5]]
-		if (b.condition != null
-				&& b.condition.getOperation() == Operation.NOT_EQUAL) {
+		if (b.condition != null && b.condition.getOperation() == Operation.NOT_EQUAL) {
 			if (b.condition.getLeft() instanceof FunctionVariable
 					&& b.condition.getRight() instanceof MyDouble) {
 				double d = ((MyDouble) b.condition.getRight()).getDouble();
-				if ((b.lower != null && d < b.lower)
-						|| (b.upper != null && d > b.upper)) {
+				if ((b.lower != null && d < b.lower) || (b.upper != null && d > b.upper)) {
 					b.condition = null;
 				}
 			} else if (b.condition.getRight() instanceof FunctionVariable
 					&& b.condition.getLeft() instanceof MyDouble) {
 				double d = ((MyDouble) b.condition.getLeft()).getDouble();
-				if ((b.lower != null && d < b.lower)
-						|| (b.upper != null && d > b.upper)) {
+				if ((b.lower != null && d < b.lower) || (b.upper != null && d > b.upper)) {
 					b.condition = null;
 				}
 			}
@@ -197,13 +192,14 @@ public class Bounds {
 	}
 
 	private ExpressionNode unfunction(ExpressionNode e) {
-		if (e.getOperation() == Operation.FUNCTION
-				&& e.getLeft() instanceof GeoFunction) {
+		if (e.getOperation() == Operation.FUNCTION && e.getLeft() instanceof GeoFunction) {
 			GeoFunction fn = (GeoFunction) e.getLeft();
-			ExpressionValue substitution = e.getRightTree().deepCopy(kernel)
-					.replace(fn.getFunctionVariables()[0], fv);
-			return fn.getFunctionExpression().deepCopy(kernel)
-					.replace(fn.getFunctionVariables()[0], substitution).wrap();
+			ExpressionValue substitution =
+					e.getRightTree().deepCopy(kernel).replace(fn.getFunctionVariables()[0], fv);
+			return fn.getFunctionExpression()
+					.deepCopy(kernel)
+					.replace(fn.getFunctionVariables()[0], substitution)
+					.wrap();
 		}
 		return e;
 	}
@@ -231,8 +227,7 @@ public class Bounds {
 	 *            string template
 	 * @return LaTeX string
 	 */
-	public String toLaTeXString(boolean symbolic, String varString,
-			StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic, String varString, StringTemplate tpl) {
 		StringBuilder ret = new StringBuilder();
 
 		if (tpl.hasType(StringType.LATEX)) {
@@ -250,8 +245,7 @@ public class Bounds {
 				ret.append(" ");
 				ret.append(kernel.format(upper, tpl));
 			} else if (lower != null && upper != null) {
-				if (DoubleUtil.isEqual(lower, upper) && !lowerSharp
-						&& !upperSharp) {
+				if (DoubleUtil.isEqual(lower, upper) && !lowerSharp && !upperSharp) {
 					ret.append(varString);
 					ret.append(" = ");
 					ret.append(kernel.format(lower, tpl));
@@ -307,8 +301,7 @@ public class Bounds {
 			ret.append(kernel.format(upper, tpl));
 			ret.append("</cn></apply>");
 		} else if (lower != null && upper != null) {
-			if (DoubleUtil.isEqual(lower, upper) && !lowerSharp
-					&& !upperSharp) {
+			if (DoubleUtil.isEqual(lower, upper) && !lowerSharp && !upperSharp) {
 				ret.append("<apply>");
 				ret.append("<eq/>");
 				ret.append("<ci>");
@@ -366,7 +359,6 @@ public class Bounds {
 			ret.insert(0, "<apply><and/>");
 			ret.append(condition.toLaTeXString(symbolic, tpl));
 			ret.append("</apply>");
-
 		}
 		return ret.toString();
 	}
@@ -396,14 +388,12 @@ public class Bounds {
 		Operation opLeft = left.getOperation();
 		Operation opRight = right.getOperation();
 
-		if (opLeft.isInequalityLess()
-				&& opRight.isInequalityLess()) {
+		if (opLeft.isInequalityLess() && opRight.isInequalityLess()) {
 			if (left.getRight() instanceof FunctionVariable) {
 				return left.getLeft().evaluateDouble();
 			} else if (right.getRight() instanceof FunctionVariable) {
 				return right.getLeft().evaluateDouble();
 			}
-
 		}
 		return Double.NEGATIVE_INFINITY;
 	}
@@ -436,8 +426,7 @@ public class Bounds {
 		Operation opLeft = left.getOperation();
 		Operation opRight = right.getOperation();
 
-		if (opLeft.isInequalityLess()
-				&& opRight.isInequalityLess()) {
+		if (opLeft.isInequalityLess() && opRight.isInequalityLess()) {
 			if (left.getLeft() instanceof FunctionVariable) {
 				return left.getRight().evaluateDouble();
 			} else if (right.getLeft() instanceof FunctionVariable) {
@@ -449,8 +438,7 @@ public class Bounds {
 
 	@Override
 	public String toString() {
-		return (condition == null ? ""
-				: this.condition.toString(StringTemplate.xmlTemplate)) + " on ("
+		return (condition == null ? "" : this.condition.toString(StringTemplate.xmlTemplate)) + " on ("
 				+ lower + "," + upper + ")";
 	}
 
@@ -465,19 +453,20 @@ public class Bounds {
 	 *            whether to enforce mutually exclusive conditions
 	 * @return conditions for branches
 	 */
-	public static boolean collectCases(ExpressionNode condRoot,
-			ArrayList<ExpressionNode> cases, ArrayList<Bounds> conditions,
-			Bounds parentCond, boolean exclusive) {
+	public static boolean collectCases(
+			ExpressionNode condRoot,
+			ArrayList<ExpressionNode> cases,
+			ArrayList<Bounds> conditions,
+			Bounds parentCond,
+			boolean exclusive) {
 		if (condRoot.getOperation() == Operation.IF_LIST) {
 			MyList conds = (MyList) condRoot.getLeft().unwrap();
 			Bounds currentCond = parentCond;
 			for (int i = 0; i < conds.size(); i++) {
-				conditions.add(currentCond
-						.addRestriction(conds.get(i).wrap()));
+				conditions.add(currentCond.addRestriction(conds.get(i).wrap()));
 				if (exclusive) {
-					currentCond = currentCond.addRestriction(parentCond
-							.unfunction(conds.get(i).wrap())
-							.negation());
+					currentCond = currentCond.addRestriction(
+							parentCond.unfunction(conds.get(i).wrap()).negation());
 				}
 			}
 
@@ -500,19 +489,17 @@ public class Bounds {
 		ExpressionNode elseFun = complete ? condRoot.getRight().wrap() : null;
 
 		Bounds positiveCond = parentCond.addRestriction(condFun);
-		Bounds negativeCond = !positiveCond.isValid() ? parentCond
-				: parentCond.addRestriction(condFun.negation());
+		Bounds negativeCond =
+				!positiveCond.isValid() ? parentCond : parentCond.addRestriction(condFun.negation());
 		if (ifFun.isConditional()) {
-			complete &= collectCases(ifFun, cases, conditions, positiveCond,
-					true);
+			complete &= collectCases(ifFun, cases, conditions, positiveCond, true);
 		} else {
 			cases.add(ifFun);
 			conditions.add(positiveCond);
 		}
 
 		if (elseFun != null && elseFun.isConditional()) {
-			complete &= collectCases(elseFun, cases, conditions, negativeCond,
-					true);
+			complete &= collectCases(elseFun, cases, conditions, negativeCond, true);
 		} else if (elseFun != null) {
 			cases.add(elseFun);
 			conditions.add(negativeCond);
@@ -528,8 +515,11 @@ public class Bounds {
 	 * @param conditions output: conditions
 	 * @return whether all real numbers are covered by at least one condition
 	 */
-	public static boolean collectFromCommand(Kernel kernel, FunctionVariable fv,
-			ExpressionNode[] arguments, ArrayList<ExpressionNode> cases,
+	public static boolean collectFromCommand(
+			Kernel kernel,
+			FunctionVariable fv,
+			ExpressionNode[] arguments,
+			ArrayList<ExpressionNode> cases,
 			ArrayList<Bounds> conditions) {
 		for (int counter = 0; counter < arguments.length; counter += 2) {
 			if (counter + 1 < arguments.length) {

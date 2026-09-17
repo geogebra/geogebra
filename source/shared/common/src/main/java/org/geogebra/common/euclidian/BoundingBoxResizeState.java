@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.RectangleTransformable;
 
 /**
  * State holder for bounding box resize (multi selection)
- * 
+ *
  * @author Hunor Karaman
  *
  */
@@ -52,8 +52,7 @@ public class BoundingBoxResizeState {
 	 * @param view
 	 *            current view
 	 */
-	public BoundingBoxResizeState(GRectangle2D rect, ArrayList<GeoElement> geos,
-			EuclidianView view) {
+	public BoundingBoxResizeState(GRectangle2D rect, ArrayList<GeoElement> geos, EuclidianView view) {
 		ratios = new HashMap<>();
 		this.rect = rect;
 		this.geos = geos;
@@ -77,10 +76,8 @@ public class BoundingBoxResizeState {
 				ArrayList<GPoint2D> forGeo = new ArrayList<>(2);
 				GRectangle2D rectangle = view.getBoundingBox().getRectangle();
 				for (GPoint2D pt : dr.toPoints()) {
-					double relativeX = relativeDist(pt.getX(), rectangle.getMinX(),
-							rectangle.getWidth());
-					double relativeY = relativeDist(pt.getY(), rectangle.getMinY(),
-							rectangle.getHeight());
+					double relativeX = relativeDist(pt.getX(), rectangle.getMinX(), rectangle.getWidth());
+					double relativeY = relativeDist(pt.getY(), rectangle.getMinY(), rectangle.getHeight());
 					forGeo.add(new MyPoint(relativeX, relativeY));
 				}
 
@@ -121,7 +118,7 @@ public class BoundingBoxResizeState {
 			for (GeoElement geo : geos) {
 				DrawableND dr = view.getDrawableFor(geo);
 				// check and update thresholds
-				if (dr != null && geo instanceof  RectangleTransformable) {
+				if (dr != null && geo instanceof RectangleTransformable) {
 					updateThresholdsFor((RectangleTransformable) geo);
 				}
 			}

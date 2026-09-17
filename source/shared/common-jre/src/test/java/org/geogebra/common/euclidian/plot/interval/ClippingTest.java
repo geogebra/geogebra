@@ -37,8 +37,8 @@ class ClippingTest extends BaseAppTestSetup {
 	void setupApp() {
 		setupApp(SuiteSubApp.GRAPHING);
 		view = getApp().getActiveEuclidianView();
-		clipRectangle = AwtFactory.getPrototype()
-				.newRectangle(0, 0, view.getViewWidth(), view.getViewHeight());
+		clipRectangle =
+				AwtFactory.getPrototype().newRectangle(0, 0, view.getViewWidth(), view.getViewHeight());
 	}
 
 	@Test

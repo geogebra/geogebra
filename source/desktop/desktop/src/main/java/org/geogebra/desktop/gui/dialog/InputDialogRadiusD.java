@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,9 +29,9 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * abstract class for input radius for any circle
- * 
+ *
  * @author mathieu
- * 
+ *
  */
 public abstract class InputDialogRadiusD extends InputDialogD {
 
@@ -44,10 +44,8 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 	 * @param handler input handler
 	 * @param kernel kernel
 	 */
-	public InputDialogRadiusD(AppD app, String title, InputHandler handler,
-			Kernel kernel) {
-		super(app, app.getLocalization().getMenu("Radius"), title, "", false,
-				handler);
+	public InputDialogRadiusD(AppD app, String title, InputHandler handler, Kernel kernel) {
+		super(app, app.getLocalization().getMenu("Radius"), title, "", false, handler);
 
 		this.kernel = kernel;
 	}
@@ -74,28 +72,26 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 	}
 
 	private void processInput() {
-		getInputHandler().processInput(inputPanel.getText(), this,
-				ok -> {
-					if (ok) {
-						GeoElement circle = createOutput(
-								((NumberInputHandler) getInputHandler())
-										.getNum());
-						GeoElement[] geos = { circle };
-						app.storeUndoInfoAndStateForModeStarting();
-						kernel.getApplication().getActiveEuclidianView()
-								.getEuclidianController()
-								.memorizeJustCreatedGeos(geos);
-					}
-					setVisibleForTools(!ok);
-				});
-
+		getInputHandler().processInput(inputPanel.getText(), this, ok -> {
+			if (ok) {
+				GeoElement circle = createOutput(((NumberInputHandler) getInputHandler()).getNum());
+				GeoElement[] geos = {circle};
+				app.storeUndoInfoAndStateForModeStarting();
+				kernel
+						.getApplication()
+						.getActiveEuclidianView()
+						.getEuclidianController()
+						.memorizeJustCreatedGeos(geos);
+			}
+			setVisibleForTools(!ok);
+		});
 	}
 
 	/**
 	 * @param num number
 	 * @return the circle
 	 */
-	abstract protected GeoElement createOutput(GeoNumberValue num);
+	protected abstract GeoElement createOutput(GeoNumberValue num);
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {

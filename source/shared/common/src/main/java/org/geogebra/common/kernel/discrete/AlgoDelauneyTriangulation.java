@@ -49,8 +49,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 	 * @param inputList
 	 *            point list
 	 */
-	public AlgoDelauneyTriangulation(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoDelauneyTriangulation(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList);
 	}
 
@@ -79,7 +78,6 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 					p.getInhomCoords(inhom);
 
 					points[i] = new PointDt(inhom[0], inhom[1]);
-
 				}
 			}
 
@@ -105,33 +103,24 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 				TriangleDt triangle = it.next();
 
 				tree.add(new MyLine(
-						new GPoint2D(triangle.p1().x(),
-								triangle.p1().y()),
-						new GPoint2D(triangle.p2().x(),
-								triangle.p2().y())));
+						new GPoint2D(triangle.p1().x(), triangle.p1().y()),
+						new GPoint2D(triangle.p2().x(), triangle.p2().y())));
 				if (triangle.p3() != null) {
 					tree.add(new MyLine(
-							new GPoint2D(triangle.p2().x(),
-									triangle.p2().y()),
-							new GPoint2D(triangle.p3().x(),
-									triangle.p3().y())));
+							new GPoint2D(triangle.p2().x(), triangle.p2().y()),
+							new GPoint2D(triangle.p3().x(), triangle.p3().y())));
 					tree.add(new MyLine(
-							new GPoint2D(triangle.p3().x(),
-									triangle.p3().y()),
-							new GPoint2D(triangle.p1().x(),
-									triangle.p1().y())));
+							new GPoint2D(triangle.p3().x(), triangle.p3().y()),
+							new GPoint2D(triangle.p1().x(), triangle.p1().y())));
 				}
-
 			}
 
 			Iterator<MyLine> it2 = tree.iterator();
 
 			while (it2.hasNext()) {
 				MyLine line = it2.next();
-				al.add(new MyPoint(line.p1.getX(), line.p1.getY(),
-						SegmentType.MOVE_TO));
-				al.add(new MyPoint(line.p2.getX(), line.p2.getY(),
-						SegmentType.LINE_TO));
+				al.add(new MyPoint(line.p1.getX(), line.p1.getY(), SegmentType.MOVE_TO));
+				al.add(new MyPoint(line.p2.getX(), line.p2.getY(), SegmentType.LINE_TO));
 			}
 
 			locus.setPoints(al);
@@ -149,7 +138,6 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 	public static Comparator<MyLine> getComparator() {
 		if (lineComparator == null) {
 			lineComparator = (itemA, itemB) -> {
-
 				GPoint2D p1A = itemA.p1;
 				GPoint2D p2A = itemA.p2;
 				GPoint2D p1B = itemB.p1;
@@ -173,14 +161,10 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 
 				// need to return something sensible, otherwise tree doesn't
 				// work
-				return itemA.lengthSquared() > itemB.lengthSquared() ? -1
-						: 1;
-
+				return itemA.lengthSquared() > itemB.lengthSquared() ? -1 : 1;
 			};
-
 		}
 
 		return lineComparator;
 	}
-
 }

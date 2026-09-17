@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -99,8 +99,7 @@ class EquationBehaviourTest extends BaseUnitTest {
 
 		// Parabola created from equation
 		GeoConic algebraParabola = (GeoConic) getElementFactory().create("y=xx");
-		assertEquals(QuadraticEquationRepresentable.Form.USER,
-				algebraParabola.getEquationForm());
+		assertEquals(QuadraticEquationRepresentable.Form.USER, algebraParabola.getEquationForm());
 
 		// Parbola command disabled in standalone Graphing
 	}
@@ -110,7 +109,8 @@ class EquationBehaviourTest extends BaseUnitTest {
 		getApp().setGraphingConfig();
 
 		// change the equation form for lines in the construction defaults
-		GeoLine constructionDefaultsLine = (GeoLine) getConstruction().getConstructionDefaults()
+		GeoLine constructionDefaultsLine = (GeoLine) getConstruction()
+				.getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
 		constructionDefaultsLine.setEquationForm(LinearEquationRepresentable.Form.GENERAL);
 
@@ -134,8 +134,7 @@ class EquationBehaviourTest extends BaseUnitTest {
 
 		// Parabola created from equation
 		GeoConic algebraParabola = (GeoConic) getElementFactory().create("y=xx");
-		assertEquals(QuadraticEquationRepresentable.Form.USER,
-				algebraParabola.getEquationForm());
+		assertEquals(QuadraticEquationRepresentable.Form.USER, algebraParabola.getEquationForm());
 
 		// Parabola created from point and line
 		GeoPoint center = new GeoPoint(getConstruction(), 0, 1, 0);
@@ -144,8 +143,8 @@ class EquationBehaviourTest extends BaseUnitTest {
 		AlgoJoinPoints algoJoinPoints = new AlgoJoinPoints(getConstruction(), a, b);
 		GeoLine line = algoJoinPoints.getLine();
 
-		AlgoParabolaPointLine algoParabola = new AlgoParabolaPointLine(getConstruction(),
-				"parabola", center, line);
+		AlgoParabolaPointLine algoParabola =
+				new AlgoParabolaPointLine(getConstruction(), "parabola", center, line);
 		GeoConicND parabola = algoParabola.getParabola();
 		assertEquals(QuadraticEquationRepresentable.Form.IMPLICIT, parabola.getEquationForm());
 	}
@@ -172,7 +171,8 @@ class EquationBehaviourTest extends BaseUnitTest {
 		getApp().setDefaultConfig();
 
 		// change the equation form for lines in the construction defaults
-		GeoLine constructionDefaultsLine = (GeoLine) getConstruction().getConstructionDefaults()
+		GeoLine constructionDefaultsLine = (GeoLine) getConstruction()
+				.getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
 		constructionDefaultsLine.setEquationForm(LinearEquationRepresentable.Form.GENERAL);
 

@@ -66,8 +66,7 @@ public class InputBoxKeyboardFactory extends DefaultKeyboardFactory {
 			return false;
 		}
 		InputBoxKeyboardFactory that = (InputBoxKeyboardFactory) o;
-		return inputBoxType == that.inputBoxType && Objects
-				.equals(functionVars, that.functionVars);
+		return inputBoxType == that.inputBoxType && Objects.equals(functionVars, that.functionVars);
 	}
 
 	@Override
@@ -75,30 +74,30 @@ public class InputBoxKeyboardFactory extends DefaultKeyboardFactory {
 		return Objects.hash(inputBoxType, functionVars);
 	}
 
-	private KeyboardModelFactory getMathKeyboard(InputBoxType inputBoxType,
-			List<String> functionVars) {
+	private KeyboardModelFactory getMathKeyboard(
+			InputBoxType inputBoxType, List<String> functionVars) {
 		switch (inputBoxType) {
-		case VECTOR_MATRIX:
-			return new VectorMatrixMathKeyboardFactory();
-		case INEQ_BOOL:
-			return new IneqBoolMathKeyboardFactory();
-		case FUNCTION:
-			return new FunctionMathKeyboardFactory(functionVars);
-		case DEFAULT:
-		default:
-			return new InputBoxDefaultMathKeyboardFactory();
+			case VECTOR_MATRIX:
+				return new VectorMatrixMathKeyboardFactory();
+			case INEQ_BOOL:
+				return new IneqBoolMathKeyboardFactory();
+			case FUNCTION:
+				return new FunctionMathKeyboardFactory(functionVars);
+			case DEFAULT:
+			default:
+				return new InputBoxDefaultMathKeyboardFactory();
 		}
 	}
 
 	private KeyboardModelFactory getFunctionKeyboard(InputBoxType inputBoxType) {
 		switch (inputBoxType) {
-		case DEFAULT:
-		case VECTOR_MATRIX:
-		case FUNCTION:
-		default:
-			return new InputBoxDefaultFunctionKeyboardFactory();
-		case INEQ_BOOL:
-			return new IneqBoolFunctionKeyboardFactory();
+			case DEFAULT:
+			case VECTOR_MATRIX:
+			case FUNCTION:
+			default:
+				return new InputBoxDefaultFunctionKeyboardFactory();
+			case INEQ_BOOL:
+				return new IneqBoolFunctionKeyboardFactory();
 		}
 	}
 }

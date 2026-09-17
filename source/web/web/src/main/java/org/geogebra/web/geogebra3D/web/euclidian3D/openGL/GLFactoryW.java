@@ -22,7 +22,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 
 /**
  * GL factory for web
- * 
+ *
  * @author mathieu
  *
  */
@@ -37,5 +37,4 @@ public final class GLFactoryW extends GLFactory {
 	public GLBufferIndices newBufferIndices() {
 		return new GLBufferIndicesW();
 	}
-
 }

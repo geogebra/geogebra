@@ -43,8 +43,8 @@ public final class InputDialogSpherePointW extends InputDialogRadiusW {
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogSpherePointW(AppW app, DialogData data,
-			InputHandler handler, GeoPointND center, Kernel kernel) {
+	public InputDialogSpherePointW(
+			AppW app, DialogData data, InputHandler handler, GeoPointND center, Kernel kernel) {
 		super(app, data, handler, kernel);
 		this.geoPoint = center;
 	}

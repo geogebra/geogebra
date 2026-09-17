@@ -54,8 +54,7 @@ public class Path extends ArrayList<DoublePoint> {
 		for (int i = 0, j = cnt - 1; i < cnt; ++i) {
 			// a += ((double) get( j ).getX() + get( i ).getX()) * ((double)
 			// get( j ).getY() - get( i ).getY());
-			a += (get(j).getX() + get(i).getX())
-					* (get(j).getY() - get(i).getY());
+			a += (get(j).getX() + get(i).getX()) * (get(j).getY() - get(i).getY());
 			j = i;
 		}
 		return -a * 0.5;
@@ -79,8 +78,8 @@ public class Path extends ArrayList<DoublePoint> {
 		for (int i = 1; i <= cnt; ++i) {
 			final DoublePoint ipNext = i == cnt ? get(0) : get(i);
 			if (ipNext.getY() == pt.getY()) {
-				if (ipNext.getX() == pt.getX() || ip.getY() == pt.getY()
-						&& ipNext.getX() > pt.getX() == ip.getX() < pt.getX()) {
+				if (ipNext.getX() == pt.getX()
+						|| ip.getY() == pt.getY() && ipNext.getX() > pt.getX() == ip.getX() < pt.getX()) {
 					return -1;
 				}
 			}
@@ -89,10 +88,8 @@ public class Path extends ArrayList<DoublePoint> {
 					if (ipNext.getX() > pt.getX()) {
 						result = 1 - result;
 					} else {
-						final double d = (ip.getX() - pt.getX())
-								* (ipNext.getY() - pt.getY())
-								- (ipNext.getX() - pt.getX())
-										* (ip.getY() - pt.getY());
+						final double d = (ip.getX() - pt.getX()) * (ipNext.getY() - pt.getY())
+								- (ipNext.getX() - pt.getX()) * (ip.getY() - pt.getY());
 						if (d == 0) {
 							return -1;
 						} else if (d > 0 == ipNext.getY() > ip.getY()) {
@@ -101,10 +98,8 @@ public class Path extends ArrayList<DoublePoint> {
 					}
 				} else {
 					if (ipNext.getX() > pt.getX()) {
-						final double d = (ip.getX() - pt.getX())
-								* (ipNext.getY() - pt.getY())
-								- (ipNext.getX() - pt.getX())
-										* (ip.getY() - pt.getY());
+						final double d = (ip.getX() - pt.getX()) * (ipNext.getY() - pt.getY())
+								- (ipNext.getX() - pt.getX()) * (ip.getY() - pt.getY());
 						if (d == 0) {
 							return -1;
 						} else if (d > 0 == ipNext.getY() > ip.getY()) {
@@ -135,8 +130,7 @@ public class Path extends ArrayList<DoublePoint> {
 	public Path translatePath(DoublePoint delta) {
 		final Path outPath = new Path(size());
 		for (int i = 0; i < size(); i++) {
-			outPath.add(new DoublePoint(get(i).getX() + delta.getX(),
-					get(i).getY() + delta.getY()));
+			outPath.add(new DoublePoint(get(i).getX() + delta.getX(), get(i).getY() + delta.getY()));
 		}
 		return outPath;
 	}

@@ -21,12 +21,11 @@ package org.geogebra.editor.share.tree.inspect;
  */
 public interface Inspectable {
 
-    /**
-     * Traverse and inspect this object.
-     *
-     * @param inspecting The object that is being inspected.
-     * @return true if it has the property check by the inspecting object.
-     */
-    boolean inspect(Inspecting inspecting);
-
+	/**
+	 * Traverse and inspect this object.
+	 *
+	 * @param inspecting The object that is being inspected.
+	 * @return true if it has the property check by the inspecting object.
+	 */
+	boolean inspect(Inspecting inspecting);
 }

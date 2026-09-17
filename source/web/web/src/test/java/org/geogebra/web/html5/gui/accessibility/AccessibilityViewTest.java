@@ -128,14 +128,14 @@ public class AccessibilityViewTest {
 	private void assertDescription(int i, String string) {
 		assertTrue(mockPanel.getWidgetCount() > i);
 		assertThat(
-				mockPanel.getWidget(i).getElement().getAttribute("aria-label")
-						.toLowerCase(Locale.ROOT),
+				mockPanel.getWidget(i).getElement().getAttribute("aria-label").toLowerCase(Locale.ROOT),
 				CoreMatchers.containsString(string));
 	}
 
 	private void assertText(int i, String string) {
 		assertTrue(mockPanel.getWidgetCount() > i);
-		assertThat(mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(Locale.ROOT),
+		assertThat(
+				mockPanel.getWidget(i).getElement().getInnerText().toLowerCase(Locale.ROOT),
 				CoreMatchers.containsString(string));
 	}
 
@@ -145,8 +145,7 @@ public class AccessibilityViewTest {
 
 	private BaseWidgetFactory getBaseWidgetFactory() {
 		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
-		when(factory.newButton()).thenAnswer(
-				invocation -> DomMocker.withElement(new Button()));
+		when(factory.newButton()).thenAnswer(invocation -> DomMocker.withElement(new Button()));
 		when(factory.newLabel()).thenAnswer(invocation -> DomMocker.newLabel());
 
 		when(factory.newSlider(Matchers.anyInt(), Matchers.anyInt()))

@@ -41,7 +41,7 @@ public final class HTML5VideoWidget extends Widget {
 
 		/**
 		 * Called when video is loaded
-		 * 
+		 *
 		 * @param width
 		 *            the original width of the video.
 		 * @param height
@@ -54,10 +54,10 @@ public final class HTML5VideoWidget extends Widget {
 		 */
 		void onError();
 	}
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param listener
 	 *            Video listener.
 	 */
@@ -123,7 +123,6 @@ public final class HTML5VideoWidget extends Widget {
 	 * @param height
 	 *            to set.
 	 */
-
 	public void setHeight(int height) {
 		if (height < 0) {
 			return;
@@ -186,4 +185,3 @@ public final class HTML5VideoWidget extends Widget {
 		}
 	}
 }
-

@@ -20,7 +20,6 @@ import org.geogebra.common.jre.util.UtilFactoryJre;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.HttpRequest;
-import org.geogebra.common.util.Prover;
 
 public class UtilFactoryCommon extends UtilFactoryJre {
 	@Override

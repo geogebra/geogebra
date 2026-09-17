@@ -34,7 +34,7 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 	private double zZeroOld;
 
 	/**
-	 * 
+	 *
 	 * @param view3D 3D view
 	 * @param animator animator
 	 */
@@ -52,7 +52,7 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param factor
 	 *            scale factor
 	 * @param scaleOld
@@ -96,13 +96,13 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 				break;
 		}
 
-		view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(),
-				view3D.getZZero());
+		view3D
+				.getSettings()
+				.updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
 
 		view3D.updateMatrix();
 		view3D.setViewChangedByTranslate();
 		view3D.setViewChangedByZoom();
 		end();
 	}
-
 }

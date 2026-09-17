@@ -25,6 +25,7 @@ public final class SpreadsheetCoords {
 
 	@Property("readonly")
 	public int row;
+
 	@Property("readonly")
 	public int column;
 

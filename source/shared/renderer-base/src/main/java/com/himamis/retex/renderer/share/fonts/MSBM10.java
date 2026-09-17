@@ -258,6 +258,5 @@ final class MSBM10 extends FontInfo {
 		setMetrics(126, 540, 689);
 
 		setMetrics(196, 429, 431);
-
 	}
 }

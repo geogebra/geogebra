@@ -55,8 +55,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 * @param movingPoint
 	 *            moving point
 	 */
-	public AlgoLocusEquation(Construction cons, GeoPoint locusPoint,
-			GeoPoint movingPoint) {
+	public AlgoLocusEquation(Construction cons, GeoPoint locusPoint, GeoPoint movingPoint) {
 		super(cons);
 
 		this.movingPoint = movingPoint;
@@ -77,8 +76,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 * @param movingPoint
 	 *            moving point
 	 */
-	public AlgoLocusEquation(Construction cons, GeoElement implicitLocus,
-			GeoPoint movingPoint) {
+	public AlgoLocusEquation(Construction cons, GeoElement implicitLocus, GeoPoint movingPoint) {
 		super(cons);
 
 		this.implicitLocus = implicitLocus;
@@ -92,7 +90,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see geogebra.common.kernel.algos.AlgoElement#setInputOutput()
 	 */
 	@Override
@@ -150,12 +148,12 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	/**
 	 * Reset fingerprint to force recomputing the locus equation if the
 	 * precision has dramatically changed.
-	 * 
+	 *
 	 * @param k
 	 *            kernel
 	 * @param force
 	 *            reset the fingerprint even if the precision has not changed
-	 * 
+	 *
 	 * @return true if the fingerprint was reset
 	 */
 	public boolean resetFingerprint(Kernel k, boolean force) {
@@ -169,7 +167,6 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			return true;
 		}
 		return false;
-
 	}
 
 	/*
@@ -187,8 +184,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		StringBuilder ret = new StringBuilder();
 		int size = input.length;
 		for (int i = 0; i < size; ++i) {
-			ret.append(input[i]
-					.getAlgebraDescription(StringTemplate.defaultTemplate));
+			ret.append(input[i].getAlgebraDescription(StringTemplate.defaultTemplate));
 			ret.append(",");
 		}
 		return ret.toString();
@@ -203,7 +199,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see geogebra.common.kernel.algos.AlgoElement#compute()
 	 */
 	@Override
@@ -217,10 +213,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		String efficientInputFingerprintPrev = efficientInputFingerprint;
 		setInputOutput();
 		if (efficientInputFingerprintPrev == null
-				|| !efficientInputFingerprintPrev
-						.equals(efficientInputFingerprint)) {
-			Log.debug(efficientInputFingerprintPrev + " -> "
-					+ efficientInputFingerprint);
+				|| !efficientInputFingerprintPrev.equals(efficientInputFingerprint)) {
+			Log.debug(efficientInputFingerprintPrev + " -> " + efficientInputFingerprint);
 			initialCompute();
 		}
 	}
@@ -231,7 +225,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see geogebra.common.kernel.algos.AlgoElement#getClassName()
 	 */
 	@Override
@@ -240,10 +234,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	}
 
 	private String getImplicitPoly(boolean implicit) {
-		AlgebraicStatement as = ProverBotanasMethod
-				.translateConstructionAlgebraically(
-						implicit ? implicitLocus : locusPoint, movingPoint,
-						implicit, this);
+		AlgebraicStatement as = ProverBotanasMethod.translateConstructionAlgebraically(
+				implicit ? implicitLocus : locusPoint, movingPoint, implicit, this);
 		if (as == null) {
 			Log.debug("Cannot compute locus equation (yet?)");
 			resetFingerprint(kernel, true);
@@ -255,7 +247,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Compute the locus equation curve and put into geoPoly.
-	 * 
+	 *
 	 * @param implicit
 	 *            if the computation will be done for an implicit locus
 	 */
@@ -278,8 +270,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		if (result != null) {
 			try {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-				this.geoPoly.setCoeff(cas.getCurrentCAS()
-						.getBivarPolyCoefficientsAll(result));
+				this.geoPoly.setCoeff(cas.getCurrentCAS().getBivarPolyCoefficientsAll(result));
 				this.geoPoly.setDefined();
 
 				// Timeout => set undefined
@@ -290,8 +281,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			this.geoPoly.setUndefined();
 		}
 
-		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime()
-				- startTime);
+		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime() - startTime);
 		/*
 		 * Don't remove this. It is needed for automated testing. (String match
 		 * is assumed.)
@@ -301,7 +291,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Compute the coefficients of the implicit curve for the envelope equation.
-	 * 
+	 *
 	 * @param as
 	 *            the algebraic statement structure
 	 * @return the implicit curve as a string
@@ -315,10 +305,19 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		String PRECISION = Long.toString(kernel.precision());
 		Log.debug("PRECISION = " + PRECISION);
 
-		sb.append(CustomFunctions.LOCUS_EQU).append("([").append(polys)
-				.append("],[").append(elimVars).append("],").append(PRECISION)
-				.append(",").append(",").append(as.curveVars[0]).append(",")
-				.append(as.curveVars[1]).append(")");
+		sb.append(CustomFunctions.LOCUS_EQU)
+				.append("([")
+				.append(polys)
+				.append("],[")
+				.append(elimVars)
+				.append("],")
+				.append(PRECISION)
+				.append(",")
+				.append(",")
+				.append(as.curveVars[0])
+				.append(",")
+				.append(as.curveVars[1])
+				.append(")");
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		try {
@@ -330,5 +329,4 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			return null;
 		}
 	}
-
 }

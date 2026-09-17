@@ -23,8 +23,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
  */
 public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 
-	static final private int ELEMENTS_SIZE_START = 2048;
-	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 6;
+	private static final int ELEMENTS_SIZE_START = 2048;
+	private static final int INDICES_SIZE_START = ELEMENTS_SIZE_START * 6;
 
 	/**
 	 * @param manager geometry manager
@@ -39,8 +39,7 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 	}
 
 	@Override
-	protected void putIndices(int size, TypeElement type,
-			boolean reuseSegment) {
+	protected void putIndices(int size, TypeElement type, boolean reuseSegment) {
 		if (currentBufferSegment.bufferPack instanceof BufferPackBigCurve bufferPack) {
 			putToIndicesForCurve(BufferPackBigCurve.getCurveSizeMax(this));
 			bufferPack.cloneIndices();
@@ -51,7 +50,7 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 
 	/**
 	 * draw
-	 * 
+	 *
 	 * @param r
 	 *            renderer
 	 * @param hidden
@@ -59,8 +58,7 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 	 */
 	public void draw(Renderer r, boolean hidden) {
 		((TexturesShaders) r.getTextures()).setPackedDash();
-		r.getRendererImpl().setDashTexture(
-				hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
+		r.getRendererImpl().setDashTexture(hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
 		drawBufferPacks(r);
 	}
 
@@ -83,5 +81,4 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 			super.useAnotherBufferPack();
 		}
 	}
-
 }

@@ -34,7 +34,7 @@ public class CmdFactors extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,35 +43,34 @@ public class CmdFactors extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0].isGeoFunction()) {
+			case 1:
+				if (arg[0].isGeoFunction()) {
 
-				AlgoFactors algo = new AlgoFactors(cons, c.getLabel(),
-						(GeoFunction) arg[0]);
+					AlgoFactors algo = new AlgoFactors(cons, c.getLabel(), (GeoFunction) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[0].isGeoNumeric()) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[0].isGeoNumeric()) {
 
-				AlgoPrimeFactorization algo = new AlgoPrimeFactorization(cons,
-						c.getLabel(), (GeoNumeric) arg[0]);
+					AlgoPrimeFactorization algo =
+							new AlgoPrimeFactorization(cons, c.getLabel(), (GeoNumeric) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else {
-				throw argErr(c, arg[0]);
-			}
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else {
+					throw argErr(c, arg[0]);
+				}
 
 			// more than one argument
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

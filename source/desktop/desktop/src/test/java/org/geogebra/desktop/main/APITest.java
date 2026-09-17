@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.desktop.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,10 +43,8 @@ class APITest {
 		String assignResult = api.evalCommandCAS("$1:=a+a", null);
 		assertEquals("2a", assignResult);
 		String solveResult = api.evalGeoGebraCAS(
-				"Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)"
-						+ "-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
-		assertEquals("{{a = 2, b = 0}, {a = 2, b = 1 / 2}}",
-				solveResult);
+				"Solve[{ a=2, 12*sqrt(3)* a* b^2*exp(-3* b)" + "-6*sqrt(3)* a* b*exp(-3* b)=0},{ a, b}]");
+		assertEquals("{{a = 2, b = 0}, {a = 2, b = 1 / 2}}", solveResult);
 		// OK in GUI, causes problems in the API - sent to Giac as
 		// evalfa(ggbsort(normal(zeros((ggbtmpvart)^(2)=(4)*(ggbtmpvart),x))))
 		String solveResult2 = api.evalGeoGebraCAS("Solutions[t^2 = 4t]");
@@ -104,8 +102,6 @@ class APITest {
 	}
 
 	private String casInput(int i) {
-		return app.getKernel().getConstruction()
-				.getCasCell(i).getLocalizedInput();
+		return app.getKernel().getConstruction().getCasCell(i).getLocalizedInput();
 	}
-
 }

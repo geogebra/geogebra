@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,7 +38,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Controller for tree of geos
- * 
+ *
  * @author mathieu
  *
  */
@@ -47,6 +47,7 @@ public class AlgebraTreeController extends AlgebraController
 
 	/** tree */
 	private AlgebraTree tree;
+
 	private boolean skipSelection;
 	private GeoElement lastSelectedGeo = null;
 	private long lastMousePressedTime;
@@ -54,7 +55,7 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * Creator
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -64,7 +65,7 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * set the tree controlled
-	 * 
+	 *
 	 * @param tree
 	 *            tree
 	 */
@@ -74,7 +75,7 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * check double click
-	 * 
+	 *
 	 * @param geo
 	 *            geo clicked
 	 * @param e
@@ -87,7 +88,7 @@ public class AlgebraTreeController extends AlgebraController
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode
 	 *            euclidian controller mode
 	 * @return true if the mode is a mode for selection
@@ -130,9 +131,9 @@ public class AlgebraTreeController extends AlgebraController
 			int h = tree.getIconShownHeight();
 			Rectangle rect = tree.getPathBounds(tp);
 			boolean iconClicked = rect != null && e.getX() - rect.x < h; // distance
-																			// from
-																			// left
-																			// border
+			// from
+			// left
+			// border
 			if (iconClicked) {
 				// icon clicked: toggle show/hide
 				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
@@ -144,7 +145,6 @@ public class AlgebraTreeController extends AlgebraController
 
 		} else { // try group action
 			groupedGeos = groupAction(e, tp, false);
-
 		}
 
 		// check double click
@@ -173,17 +173,16 @@ public class AlgebraTreeController extends AlgebraController
 						lastSelectedGeo = geo;
 					}
 				} else if (e.isShiftDown() && lastSelectedGeo != null) {
-					ArrayList<GeoElement> geos = tree
-							.getGeosBetween(lastSelectedGeo, geo);
+					ArrayList<GeoElement> geos = tree.getGeosBetween(lastSelectedGeo, geo);
 					if (geos != null) {
 						selection.clearSelectedGeos(false); // repaint will be
-															// done next step
+						// done next step
 						selection.addSelectedGeos(geos, true);
 					}
 
 				} else {
 					selection.clearSelectedGeos(false); // repaint will be done
-														// next step
+					// next step
 					selection.addSelectedGeo(geo);
 					lastSelectedGeo = geo;
 				}
@@ -198,8 +197,7 @@ public class AlgebraTreeController extends AlgebraController
 		// Alt click: copy definition to input field
 		if (geo != null && e.isAltDown() && app.showAlgebraInput()) {
 			// F3 key: copy definition to input bar
-			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
-					geo);
+			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3, geo);
 		}
 
 		ev.mouseMovedOver(null);
@@ -207,7 +205,7 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * let euclidianView know about the click
-	 * 
+	 *
 	 * @param ev
 	 *            euclidian view
 	 * @param geo
@@ -215,8 +213,7 @@ public class AlgebraTreeController extends AlgebraController
 	 * @param e
 	 *            mouse event
 	 */
-	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev,
-			GeoElement geo, MouseEvent e) {
+	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev, GeoElement geo, MouseEvent e) {
 		setSelectedGeo(geo);
 	}
 
@@ -237,13 +234,13 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * right mouse pressed
-	 * 
+	 *
 	 * @param e
 	 *            event
 	 * @param mouseCoords
 	 *            mouse coords
 	 */
-	final protected void rightPress(MouseEvent e, GPoint mouseCoords) {
+	protected final void rightPress(MouseEvent e, GPoint mouseCoords) {
 		e.consume();
 
 		// get GeoElement at mouse location
@@ -256,33 +253,30 @@ public class AlgebraTreeController extends AlgebraController
 
 			ArrayList<GeoElement> children = AlgebraTree.getGeoChildrenForPath(tp);
 			if (children == null || children.isEmpty()) { // if click on e.g.
-														// object type (like
-														// "Point"), then select
-														// all and popup menu
+				// object type (like
+				// "Point"), then select
+				// all and popup menu
 				selection.clearSelectedGeos();
-				AlgebraContextMenuD contextMenu = new AlgebraContextMenuD(
-						(AppD) app);
+				AlgebraContextMenuD contextMenu = new AlgebraContextMenuD((AppD) app);
 				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
 			} else { // popup algebra menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeos(children, true);
-				((GuiManagerD) app.getGuiManager()).showPopupMenu(children, tree,
-						mouseCoords);
+				((GuiManagerD) app.getGuiManager()).showPopupMenu(children, tree, mouseCoords);
 			}
 
 		} else {
 			if (selection.containsSelectedGeo(geo)) { // popup menu for current
-														// selection (including
-														// selected object)
-				((GuiManagerD) app.getGuiManager()).showPopupMenu(
-						selection.getSelectedGeos(), tree, mouseCoords);
+				// selection (including
+				// selected object)
+				((GuiManagerD) app.getGuiManager())
+						.showPopupMenu(selection.getSelectedGeos(), tree, mouseCoords);
 			} else { // select only this object and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
 				ArrayList<GeoElement> temp = new ArrayList<>();
 				temp.add(geo);
-				((GuiManagerD) app.getGuiManager()).showPopupMenu(temp, tree,
-						mouseCoords);
+				((GuiManagerD) app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
 			}
 		}
 		/*
@@ -296,11 +290,11 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * left press
-	 * 
+	 *
 	 * @param e
 	 *            event
 	 */
-	final protected void leftPress(MouseEvent e) {
+	protected final void leftPress(MouseEvent e) {
 
 		// When a single, new selection is made with no key modifiers
 		// we need to handle selection in mousePressed, not mouseClicked.
@@ -312,17 +306,16 @@ public class AlgebraTreeController extends AlgebraController
 		// geos (e.g. cntrl-selected or EV selected) as the user expects.
 
 		skipSelection = false; // flag to prevent duplicate selection in
-								// MouseClicked
+		// MouseClicked
 
 		TreePath tp = getPathForLocation(e.getX(), e.getY());
 		GeoElement geo = AlgebraTree.getGeoElementForPath(tp);
 
 		if (leftPressCanSelectGeo(e, geo)) {
 			ArrayList<GeoElement> groupedGeos = groupAction(e, tp, true);
-			if (groupedGeos != null
-					&& !selection.containsSelectedGeos(groupedGeos)) {
+			if (groupedGeos != null && !selection.containsSelectedGeos(groupedGeos)) {
 				selection.clearSelectedGeos(false); // repaint will be done next
-													// step
+				// step
 				selection.addSelectedGeos(groupedGeos, true);
 				skipSelection = true;
 			}
@@ -335,7 +328,7 @@ public class AlgebraTreeController extends AlgebraController
 	}
 
 	/**
-	 * 
+	 *
 	 * @param e
 	 *            mouse event
 	 * @param geo
@@ -351,7 +344,7 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * set the geo selected
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if geo is not null and wasn't yet selected
@@ -359,7 +352,7 @@ public class AlgebraTreeController extends AlgebraController
 	protected boolean setSelectedGeo(GeoElement geo) {
 		if (geo != null && !selection.containsSelectedGeo(geo)) {
 			selection.clearSelectedGeos(false); // repaint will be done next
-												// step
+			// step
 			selection.addSelectedGeo(geo);
 			lastSelectedGeo = geo;
 			skipSelection = true;
@@ -370,13 +363,12 @@ public class AlgebraTreeController extends AlgebraController
 		return false;
 	}
 
-	private ArrayList<GeoElement> groupAction(MouseEvent e, TreePath tp,
-			boolean mousePressed) {
+	private ArrayList<GeoElement> groupAction(MouseEvent e, TreePath tp, boolean mousePressed) {
 
 		Rectangle rect = tree.getPathBounds(tp);
 		if (rect != null) { // group action
 			if (e.getX() - rect.x < tree.getOpenIconHeight()) { // collapse/expand
-																// icon
+				// icon
 				if (mousePressed) {
 					if (tree.isCollapsed(tp)) {
 						tree.expandPath(tp);
@@ -385,19 +377,17 @@ public class AlgebraTreeController extends AlgebraController
 					}
 				}
 			} else { // collect geos of the group
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
-						.getLastPathComponent();
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
 				ArrayList<GeoElement> groupedGeos = new ArrayList<>();
 				for (int i = 0; i < node.getChildCount(); i++) {
-					groupedGeos.add((GeoElement) ((DefaultMutableTreeNode) node
-							.getChildAt(i)).getUserObject());
+					groupedGeos.add(
+							(GeoElement) ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject());
 				}
 				return groupedGeos;
 			}
 		}
 
 		return null;
-
 	}
 
 	@Override
@@ -414,14 +404,13 @@ public class AlgebraTreeController extends AlgebraController
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// used for interactive boards
-		if (System.currentTimeMillis() > EuclidianConstants.DRAGGING_DELAY
-				+ lastMousePressedTime) {
+		if (System.currentTimeMillis() > EuclidianConstants.DRAGGING_DELAY + lastMousePressedTime) {
 			draggingOccurred = true;
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if view is editing
 	 */
 	protected boolean viewIsEditing() {
@@ -458,25 +447,22 @@ public class AlgebraTreeController extends AlgebraController
 				Rectangle rect = tree.getPathBounds(tp);
 				if (rect != null) { // mouse over group
 					if (e.getX() - rect.x > 16 && tp != null) { // collect geos of the group
-						DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp
-								.getLastPathComponent();
+						DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
 						ArrayList<GeoElement> groupedGeos = new ArrayList<>();
 						for (int i = 0; i < node.getChildCount(); i++) {
-							groupedGeos
-									.add((GeoElement) ((DefaultMutableTreeNode) node
-											.getChildAt(i)).getUserObject());
+							groupedGeos.add(
+									(GeoElement) ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject());
 						}
 						highlight(ev, groupedGeos);
 					}
 				}
 			}
-
 		}
 	}
 
 	/**
 	 * highlight this geo using euclidian view
-	 * 
+	 *
 	 * @param ev
 	 *            euclidian view
 	 * @param geo
@@ -488,15 +474,13 @@ public class AlgebraTreeController extends AlgebraController
 
 	/**
 	 * highlight these geos using euclidian view
-	 * 
+	 *
 	 * @param ev
 	 *            euclidian view
 	 * @param geos
 	 *            geos
 	 */
-	protected void highlight(EuclidianViewInterfaceCommon ev,
-			ArrayList<GeoElement> geos) {
+	protected void highlight(EuclidianViewInterfaceCommon ev, ArrayList<GeoElement> geos) {
 		ev.highlight(geos);
 	}
-
 }

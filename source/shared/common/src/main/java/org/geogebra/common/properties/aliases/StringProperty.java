@@ -27,7 +27,7 @@ public interface StringProperty extends ConstrainedProperty<String> {
 	 * @return {@code true} if the property should be displayed as a text area (see
 	 * {@link org.geogebra.common.properties.PropertyView.TextArea}, {@code false} otherwise (see
 	 * {@link org.geogebra.common.properties.PropertyView.TextField} and
-     * {@link org.geogebra.common.properties.PropertyView.ComboBox}).
+	 * {@link org.geogebra.common.properties.PropertyView.ComboBox}).
 	 */
 	default boolean isDisplayedAsTextArea() {
 		return false;

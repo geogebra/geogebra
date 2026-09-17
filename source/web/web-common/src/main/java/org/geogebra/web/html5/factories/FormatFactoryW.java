@@ -26,8 +26,7 @@ import elemental2.core.JsNumber;
 import jsinterop.base.Js;
 
 public class FormatFactoryW extends FormatFactory {
-	private static final class FastFormatAdapter
-			extends ScientificFormatAdapter {
+	private static final class FastFormatAdapter extends ScientificFormatAdapter {
 
 		private FastFormatAdapter(int d) {
 			super(false, 42);
@@ -38,7 +37,6 @@ public class FormatFactoryW extends FormatFactory {
 		public String format(double x) {
 			return FormatFactoryW.toPrecision(x, sigDigits);
 		}
-
 	}
 
 	/**

@@ -13,7 +13,7 @@ import org.geogebra.common.util.debug.Log;
  * returned. Multiple limits can be set by calling pushBuffer. If bytes are left
  * in the buffer when popBuffer is called, they are returned in an array.
  * Otherwise null is returned.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: ByteCountInputStream.java,v 1.6 2008-10-23 19:04:01 hohenwarter
@@ -29,7 +29,7 @@ public class ByteCountInputStream extends ByteOrderInputStream {
 
 	/**
 	 * Create a Byte Count input stream from given stream
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 * @param littleEndian
@@ -37,8 +37,7 @@ public class ByteCountInputStream extends ByteOrderInputStream {
 	 * @param stackDepth
 	 *            maximum number of buffers used while reading
 	 */
-	public ByteCountInputStream(InputStream in, boolean littleEndian,
-			int stackDepth) {
+	public ByteCountInputStream(InputStream in, boolean littleEndian, int stackDepth) {
 		super(in, littleEndian);
 		size = new int[stackDepth];
 		index = -1;
@@ -67,15 +66,14 @@ public class ByteCountInputStream extends ByteOrderInputStream {
 
 	/**
 	 * Push the current buffer to the stack
-	 * 
+	 *
 	 * @param len
 	 *            number of bytes that can be read from the current buffer
 	 */
 	public void pushBuffer(int len) {
 		if (index >= size.length - 1) {
 			Log.debug(
-					"ByteCountInputStream: trying to push more buffers than stackDepth: "
-							+ size.length);
+					"ByteCountInputStream: trying to push more buffers than stackDepth: " + size.length);
 			return;
 		}
 
@@ -94,7 +92,7 @@ public class ByteCountInputStream extends ByteOrderInputStream {
 
 	/**
 	 * Pops the buffer from the stack and returns leftover bytes in a byte array
-	 * 
+	 *
 	 * @return null if buffer was completely read. Otherwise rest of buffer is
 	 *         read and returned.
 	 * @throws IOException

@@ -38,7 +38,7 @@ public class OptionsObject {
 
 	/**
 	 * update geo just added
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -55,7 +55,7 @@ public class OptionsObject {
 
 	/**
 	 * consume last added geo
-	 * 
+	 *
 	 * @return last added geo
 	 */
 	public GeoElement consumeGeoAdded() {
@@ -65,7 +65,7 @@ public class OptionsObject {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param loc
 	 *            localization
 	 * @return description for selection
@@ -77,13 +77,11 @@ public class OptionsObject {
 			GeoElement geo = getSelection().get(0);
 			sb.setLength(0);
 			sb.append("<html>");
-			sb.append(loc.getPlain("PropertiesOfA",
-					geo.getNameDescriptionHTML(false, false)));
+			sb.append(loc.getPlain("PropertiesOfA", geo.getNameDescriptionHTML(false, false)));
 			sb.append("</html>");
 			return sb.toString();
 		} else {
-			return loc.getPlain("PropertiesOfA",
-					loc.getMenu("Selection"));
+			return loc.getPlain("PropertiesOfA", loc.getMenu("Selection"));
 		}
 	}
 
@@ -94,5 +92,4 @@ public class OptionsObject {
 	protected void setSelection(ArrayList<GeoElement> selection) {
 		this.selection = selection;
 	}
-
 }

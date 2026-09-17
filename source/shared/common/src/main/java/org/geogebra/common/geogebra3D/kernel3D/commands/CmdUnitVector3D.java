@@ -46,14 +46,12 @@ public class CmdUnitVector3D extends CmdUnitVector {
 	}
 
 	@Override
-	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg)
-			throws MyError {
+	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg) throws MyError {
 
 		if (arg instanceof GeoDirectionND && !(arg instanceof GeoSpace)) {
-			AlgoUnitVector3D algo = new AlgoUnitVector3D(cons,
-					(GeoDirectionND) arg, normalize);
+			AlgoUnitVector3D algo = new AlgoUnitVector3D(cons, (GeoDirectionND) arg, normalize);
 			algo.getVector().setLabel(c.getLabel());
-			GeoElement[] ret = { (GeoElement) algo.getVector() };
+			GeoElement[] ret = {(GeoElement) algo.getVector()};
 			return ret;
 		}
 
@@ -81,5 +79,4 @@ public class CmdUnitVector3D extends CmdUnitVector {
 
 		return super.algo(v);
 	}
-
 }

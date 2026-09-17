@@ -92,8 +92,7 @@ class AdaptiveQuadTree extends QuadTree {
 			}
 
 			for (int i = 0; i <= sw; i++) {
-				vertices[i] = curve.evaluateImplicitCurve(xcoords[i], ycoords[0],
-						factor);
+				vertices[i] = curve.evaluateImplicitCurve(xcoords[i], ycoords[0], factor);
 			}
 
 			// initialize grid configuration at the search depth
@@ -102,14 +101,12 @@ class AdaptiveQuadTree extends QuadTree {
 			// debug = true;
 			timer.reset();
 			for (i = 1; i <= sh; i++) {
-				prev = curve.evaluateImplicitCurve(xcoords[0], ycoords[i],
-						factor);
+				prev = curve.evaluateImplicitCurve(xcoords[0], ycoords[i], factor);
 				fy = ycoords[i] - 0.5 * fry;
 				for (j = 1; j <= sw; j++) {
-					cur = curve.evaluateImplicitCurve(xcoords[j], ycoords[i],
-							factor);
-					ImplicitCurveMarchingRect
-							rect = new ImplicitCurveMarchingRect(j - 1, i - 1, frx, fry, false);
+					cur = curve.evaluateImplicitCurve(xcoords[j], ycoords[i], factor);
+					ImplicitCurveMarchingRect rect =
+							new ImplicitCurveMarchingRect(j - 1, i - 1, frx, fry, false);
 					rect.coords.val[0] = xcoords[j - 1];
 					rect.coords.val[1] = ycoords[i - 1];
 					rect.evals[0] = vertices[j - 1];
@@ -204,7 +201,6 @@ class AdaptiveQuadTree extends QuadTree {
 				}
 				if (r.x != 0 && (e & r.shares & 0x1) != 0) {
 					nonempty(r.y, r.x - 1);
-
 				}
 				if (r.x + 1 != sw && (e & r.shares & 0x4) != 0) {
 					nonempty(r.y, r.x + 1);

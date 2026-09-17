@@ -24,13 +24,12 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes Div[a, b]
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoDiv extends AlgoTwoNumFunction {
 
-	public AlgoDiv(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
+	public AlgoDiv(Construction cons, String label, GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 

@@ -18,7 +18,7 @@ package org.geogebra.common.media;
 
 /**
  * Pack URL errors
- * 
+ *
  * @author laszlo
  *
  */

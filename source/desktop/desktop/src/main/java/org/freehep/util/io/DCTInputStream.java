@@ -16,13 +16,13 @@ import javax.imageio.ImageIO;
  */
 /**
  * @author duns
- * 
+ *
  */
 public class DCTInputStream extends FilterInputStream {
 
 	/**
 	 * Creates a DCT input stream from the given input stream
-	 * 
+	 *
 	 * @param input
 	 *            stream to read from
 	 */
@@ -32,13 +32,12 @@ public class DCTInputStream extends FilterInputStream {
 
 	/**
 	 * Read is not supported, only readImage.
-	 * 
+	 *
 	 * @see java.io.FilterInputStream#read()
 	 */
 	@Override
 	public int read() throws IOException {
-		throw new IOException(
-				getClass() + ": read() not implemented, use readImage().");
+		throw new IOException(getClass() + ": read() not implemented, use readImage().");
 	}
 
 	/**

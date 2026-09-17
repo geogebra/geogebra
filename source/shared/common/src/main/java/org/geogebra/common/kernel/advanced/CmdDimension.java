@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Dimension[&lt;Object&gt;]
- * 
+ *
  * @author zbynek
  *
  */
@@ -48,28 +48,24 @@ public class CmdDimension extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 		switch (n) {
+			case 1:
+				if (arg[0].isGeoList()) {
 
-		case 1:
-			if (arg[0].isGeoList()) {
+					AlgoDimension algo = new AlgoDimension(cons, c.getLabel(), (GeoList) arg[0]);
 
-				AlgoDimension algo = new AlgoDimension(cons, c.getLabel(),
-						(GeoList) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				if (arg[0] instanceof GeoPointND || arg[0] instanceof GeoVectorND) {
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			if (arg[0] instanceof GeoPointND || arg[0] instanceof GeoVectorND) {
+					AlgoDimension algo = new AlgoDimension(cons, c.getLabel(), arg[0]);
 
-				AlgoDimension algo = new AlgoDimension(cons, c.getLabel(),
-						arg[0]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		default:
-			throw argNumErr(c);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

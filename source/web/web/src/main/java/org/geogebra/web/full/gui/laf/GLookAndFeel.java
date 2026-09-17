@@ -45,11 +45,12 @@ import elemental2.promise.Promise;
  */
 public class GLookAndFeel implements GLookAndFeelI {
 	/** width of menu */
-	public static final int MENUBAR_WIDTH = 270; //TODO make it smaller - wordWrap
+	public static final int MENUBAR_WIDTH = 270; // TODO make it smaller - wordWrap
 	/** toolbar height + offset */
 	public static final int TOOLBAR_OFFSET = 61;
 	/** toolbar height */
 	public static final int TOOLBAR_HEIGHT = 53;
+
 	private EventListener windowClosingHandler;
 
 	@Override
@@ -80,8 +81,8 @@ public class GLookAndFeel implements GLookAndFeelI {
 		// popup when the user wants to exit accidentally
 		if (windowClosingHandler == null) {
 			this.windowClosingHandler = (evt) -> askForSave(evt, app);
-			app.getGlobalHandlers().addEventListener(DomGlobal.window,
-					"beforeunload", windowClosingHandler);
+			app.getGlobalHandlers()
+					.addEventListener(DomGlobal.window, "beforeunload", windowClosingHandler);
 		}
 	}
 
@@ -171,8 +172,7 @@ public class GLookAndFeel implements GLookAndFeelI {
 
 	@Override
 	public Platform getPlatform(int dim, String appName) {
-		return dim > 2 ? Platform.WEB
-				: Platform.WEB_FOR_BROWSER_2D;
+		return dim > 2 ? Platform.WEB : Platform.WEB_FOR_BROWSER_2D;
 	}
 
 	@Override
@@ -184,12 +184,9 @@ public class GLookAndFeel implements GLookAndFeelI {
 	@Override
 	public void storeLanguage(String lang) {
 		if (Browser.isGeoGebraOrg()) {
-			Date exp = new Date(
-					System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365);
+			Date exp = new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365);
 			Language language1 = Language.fromLanguageTagOrLocaleString(lang);
-			Cookies.setCookie("GeoGebraLangUI",
-					language1.toLanguageTag(), exp,
-					"geogebra.org", "/");
+			Cookies.setCookie("GeoGebraLangUI", language1.toLanguageTag(), exp, "geogebra.org", "/");
 		} else {
 			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);
 		}
@@ -214,5 +211,4 @@ public class GLookAndFeel implements GLookAndFeelI {
 	public boolean hasLoginButton() {
 		return Browser.isNotCrossOriginIframe();
 	}
-
 }

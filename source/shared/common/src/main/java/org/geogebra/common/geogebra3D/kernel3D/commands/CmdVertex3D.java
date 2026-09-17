@@ -42,13 +42,11 @@ public class CmdVertex3D extends CmdVertex {
 	}
 
 	@Override
-	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number,
-			GeoNumberValue ev) {
+	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number, GeoNumberValue ev) {
 
 		// Corner[ev, n] : if ev==3, check if loading - then do as <5.0 version
 		// (with 2D points)
-		if (!kernel.getLoadingMode() && ev != null
-				&& AlgoDrawingPadCorner3D.is3D(ev)) {
+		if (!kernel.getLoadingMode() && ev != null && AlgoDrawingPadCorner3D.is3D(ev)) {
 			return cornerOfDrawingPad3D(label, number, ev);
 		}
 
@@ -64,17 +62,16 @@ public class CmdVertex3D extends CmdVertex {
 	 *            view
 	 * @return corner
 	 */
-	protected GeoPointND cornerOfDrawingPad3D(String label,
-			GeoNumberValue number, GeoNumberValue ev) {
+	protected GeoPointND cornerOfDrawingPad3D(
+			String label, GeoNumberValue number, GeoNumberValue ev) {
 
-		AlgoDrawingPadCorner3D algo = new AlgoDrawingPadCorner3D(cons, label,
-				number, ev);
+		AlgoDrawingPadCorner3D algo = new AlgoDrawingPadCorner3D(cons, label, number, ev);
 		return algo.getCorner();
 	}
 
 	@Override
-	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons1,
-			String label, GeoPoly p, GeoNumberValue v) {
+	protected AlgoVertexPolygon newAlgoVertexPolygon(
+			Construction cons1, String label, GeoPoly p, GeoNumberValue v) {
 
 		if (p.isGeoElement3D()) {
 			return new AlgoVertexPolygon3D(cons1, label, p, v);
@@ -84,8 +81,8 @@ public class CmdVertex3D extends CmdVertex {
 	}
 
 	@Override
-	protected AlgoVertexConic newAlgoVertexConic(Construction cons1,
-			String[] labels, GeoConicND conic) {
+	protected AlgoVertexConic newAlgoVertexConic(
+			Construction cons1, String[] labels, GeoConicND conic) {
 
 		if (conic.isGeoElement3D()) {
 			return new AlgoVertexConic3D(cons1, labels, conic);

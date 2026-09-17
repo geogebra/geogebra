@@ -31,14 +31,14 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Helper class to evaluate expressions with GeoBoolean objects in it.
- * 
+ *
  * @see ExpressionNode#evaluate(StringTemplate)
  * @author Markus Hohenwarter
  */
-public class MyBoolean extends ValidExpression
-		implements BooleanValue, NumberValue {
+public class MyBoolean extends ValidExpression implements BooleanValue, NumberValue {
 
 	private boolean value;
+
 	@Weak
 	private Kernel kernel;
 
@@ -47,7 +47,7 @@ public class MyBoolean extends ValidExpression
 
 	/**
 	 * Creates new boolean
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param value
@@ -69,16 +69,15 @@ public class MyBoolean extends ValidExpression
 	public MyBoolean(Kernel kernel, boolean value, boolean defined) {
 		this(kernel, value);
 		this.isDefined = defined;
-
 	}
 
 	/**
 	 * Sets value of this boolean
-	 * 
+	 *
 	 * @param value
 	 *            new value
 	 */
-	final public void setValue(boolean value) {
+	public final void setValue(boolean value) {
 		this.value = value;
 	}
 
@@ -93,7 +92,7 @@ public class MyBoolean extends ValidExpression
 	}
 
 	@Override
-	final public boolean isLeaf() {
+	public final boolean isLeaf() {
 		return true;
 	}
 
@@ -103,7 +102,7 @@ public class MyBoolean extends ValidExpression
 	}
 
 	@Override
-	final public boolean isNumberValue() {
+	public final boolean isNumberValue() {
 		return true;
 	}
 
@@ -118,27 +117,27 @@ public class MyBoolean extends ValidExpression
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public final String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
 
 	@Override
-	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+	public final String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
 	@Override
-	final public boolean contains(ExpressionValue ev) {
+	public final boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
 	@Override
-	final public MyBoolean getMyBoolean() {
+	public final MyBoolean getMyBoolean() {
 		return new MyBoolean(kernel, value);
 	}
 
 	@Override
-	final public boolean getBoolean() {
+	public final boolean getBoolean() {
 		return value;
 	}
 

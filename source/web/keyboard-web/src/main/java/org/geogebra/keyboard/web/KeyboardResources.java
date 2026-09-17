@@ -148,5 +148,4 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/matrix_template.svg")
 	SVGResource matrix_template();
-
 }

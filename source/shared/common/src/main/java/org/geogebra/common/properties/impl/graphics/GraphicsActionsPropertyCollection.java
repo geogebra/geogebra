@@ -34,8 +34,8 @@ public class GraphicsActionsPropertyCollection
 	 * @param app app
 	 * @param localization localization
 	 */
-	public GraphicsActionsPropertyCollection(App app, Localization localization,
-			EuclidianViewInterfaceCommon view) {
+	public GraphicsActionsPropertyCollection(
+			App app, Localization localization, EuclidianViewInterfaceCommon view) {
 		super(localization, "");
 		ArrayList<ActionableIconProperty> properties = new ArrayList<>();
 		properties.add(new StandardViewAction(localization, view));

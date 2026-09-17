@@ -40,27 +40,30 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<PointStyle>
 	 * Different styles a point can have.
 	 */
 	public enum PointStyle {
-		DOT(EuclidianStyleConstants.POINT_STYLE_DOT,
-				PropertyResource.ICON_POINT_STYLE_DOT),
-		CIRCLE(EuclidianStyleConstants.POINT_STYLE_CIRCLE,
-				PropertyResource.ICON_POINT_STYLE_CIRCLE),
-		NO_OUTLINE(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE,
+		DOT(EuclidianStyleConstants.POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_DOT),
+		CIRCLE(EuclidianStyleConstants.POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_CIRCLE),
+		NO_OUTLINE(
+				EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE,
 				PropertyResource.ICON_POINT_STYLE_NO_OUTLINE),
-		CROSS(EuclidianStyleConstants.POINT_STYLE_CROSS,
-				PropertyResource.ICON_POINT_STYLE_CROSS),
-		PLUS(EuclidianStyleConstants.POINT_STYLE_PLUS,
-				PropertyResource.ICON_POINT_STYLE_PLUS),
-		EMPTY_DIAMOND(EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND,
+		CROSS(EuclidianStyleConstants.POINT_STYLE_CROSS, PropertyResource.ICON_POINT_STYLE_CROSS),
+		PLUS(EuclidianStyleConstants.POINT_STYLE_PLUS, PropertyResource.ICON_POINT_STYLE_PLUS),
+		EMPTY_DIAMOND(
+				EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND,
 				PropertyResource.ICON_POINT_STYLE_EMPTY_DIAMOND),
-		FILLED_DIAMOND(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND,
+		FILLED_DIAMOND(
+				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND,
 				PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND),
-		NORTH_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH,
+		NORTH_TRIANGLE(
+				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH,
 				PropertyResource.ICON_POINT_STYLE_TRIANGLE_NORTH),
-		SOUTH_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH,
+		SOUTH_TRIANGLE(
+				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH,
 				PropertyResource.ICON_POINT_STYLE_TRIANGLE_SOUTH),
-		EAST_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST,
+		EAST_TRIANGLE(
+				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST,
 				PropertyResource.ICON_POINT_STYLE_TRIANGLE_EAST),
-		WEST_TRIANGLE(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST,
+		WEST_TRIANGLE(
+				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST,
 				PropertyResource.ICON_POINT_STYLE_TRIANGLE_WEST);
 
 		final int euclidianStyleConstant;
@@ -72,9 +75,10 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<PointStyle>
 		}
 
 		static @Nullable PointStyle withEuclidianStyleConstant(int euclidianStyleConstant) {
-			return Arrays.stream(values()).filter(pointStyle ->
-					pointStyle.euclidianStyleConstant == euclidianStyleConstant)
-					.findFirst().orElse(null);
+			return Arrays.stream(values())
+					.filter(pointStyle -> pointStyle.euclidianStyleConstant == euclidianStyleConstant)
+					.findFirst()
+					.orElse(null);
 		}
 	}
 
@@ -90,7 +94,8 @@ public class PointStyleProperty extends AbstractEnumeratedProperty<PointStyle>
 			throws NotApplicablePropertyException {
 		super(localization, "PointStyle");
 		if (!(geoElement instanceof PointProperties pointProperties)
-				|| !pointProperties.showPointProperties() || geoElement.isGeoElement3D()) {
+				|| !pointProperties.showPointProperties()
+				|| geoElement.isGeoElement3D()) {
 			throw new NotApplicablePropertyException(geoElement);
 		}
 		this.pointProperties = pointProperties;

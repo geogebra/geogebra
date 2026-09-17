@@ -50,21 +50,21 @@ import java.util.Map;
 
 public final class TextStyle {
 
-	public final static int NONE = -1;
-	public final static int MATHNORMAL = 0;
-	public final static int MATHFRAK = 1;
-	public final static int MATHCAL = 2;
-	public final static int MATHBB = 3;
-	public final static int MATHSCR = 4;
-	public final static int MATHDS = 5;
-	public final static int OLDSTYLENUMS = 6;
+	public static final int NONE = -1;
+	public static final int MATHNORMAL = 0;
+	public static final int MATHFRAK = 1;
+	public static final int MATHCAL = 2;
+	public static final int MATHBB = 3;
+	public static final int MATHSCR = 4;
+	public static final int MATHDS = 5;
+	public static final int OLDSTYLENUMS = 6;
 
-	public final static int NUMBERS = 0;
-	public final static int CAPITALS = 1;
-	public final static int SMALL = 2;
-	public final static int UNICODE = 3;
+	public static final int NUMBERS = 0;
+	public static final int CAPITALS = 1;
+	public static final int SMALL = 2;
+	public static final int UNICODE = 3;
 
-	private final static TextStyle[][] styles = new TextStyle[7][4];
+	private static final TextStyle[][] styles = new TextStyle[7][4];
 
 	static {
 		add(MATHNORMAL, NUMBERS, Configuration.getFonts().cmr10, (char) 48);
@@ -137,8 +137,8 @@ public final class TextStyle {
 		return styles[style][type];
 	}
 
-	private static void add(final int style, final int type,
-			final FontInfo fontId, final char start) {
+	private static void add(
+			final int style, final int type, final FontInfo fontId, final char start) {
 		styles[style][type] = new TextStyle(fontId, start);
 	}
 }

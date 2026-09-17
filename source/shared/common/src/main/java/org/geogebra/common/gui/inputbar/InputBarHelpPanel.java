@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,6 +39,7 @@ public class InputBarHelpPanel {
 
 	@Weak
 	protected App mApp;
+
 	private LowerCaseDictionary mMathFuncDict;
 	private LowerCaseDictionary mDict;
 	private Collection<String> mAllCommands;
@@ -68,7 +69,7 @@ public class InputBarHelpPanel {
 	 *            category index
 	 * @return commands tree map
 	 */
-	static public TreeSet<String> getCommandTreeMap(
+	public static TreeSet<String> getCommandTreeMap(
 			App app, Comparator<String> comparator, int index) {
 
 		LowerCaseDictionary[] subDict = app.getSubCommandDictionary();
@@ -96,8 +97,7 @@ public class InputBarHelpPanel {
 	 *            String comparator
 	 * @return all commands tree set
 	 */
-	static public TreeSet<String> getAllCommandsTreeSet(App app,
-			Comparator<String> comparator) {
+	public static TreeSet<String> getAllCommandsTreeSet(App app, Comparator<String> comparator) {
 
 		TreeSet<String> treeSet = new TreeSet<>(comparator);
 
@@ -120,8 +120,7 @@ public class InputBarHelpPanel {
 			mApp.getCommandDictionaryCAS();
 		}
 		// math functions
-		String[] translatedFunctions = TableSymbols
-				.getTranslatedFunctions(mApp);
+		String[] translatedFunctions = TableSymbols.getTranslatedFunctions(mApp);
 		mMathFuncDict = new LowerCaseDictionary();
 		for (String function : translatedFunctions) {
 			// remove start space char
@@ -158,7 +157,6 @@ public class InputBarHelpPanel {
 				mCommands.put(i, list);
 			}
 		}
-
 	}
 
 	protected Collection<String> getCommands(int i) {
@@ -282,8 +280,7 @@ public class InputBarHelpPanel {
 
 		// check if math func
 		if (command.contains("(")) {
-			String mathFuncHelpURL = mApp.getGuiManager()
-					.getHelpURL(ManualPage.OPERATORS, null);
+			String mathFuncHelpURL = mApp.getGuiManager().getHelpURL(ManualPage.OPERATORS, null);
 
 			mStringBuilder.append(mathFuncHelpURL);
 			mStringBuilder.append(urlCaller);
@@ -301,7 +298,6 @@ public class InputBarHelpPanel {
 
 		String ret = mStringBuilder.toString();
 		return ret.replaceAll(" ", "%20");
-
 	}
 
 	/**
@@ -312,8 +308,9 @@ public class InputBarHelpPanel {
 	 * @return whether it's a function or geo
 	 */
 	public boolean checkWordAroundCursorIsUsable(String word) {
-		return word.isEmpty() || !(mApp.getParserFunctions().isReserved(word)
-				|| mApp.getKernel().lookupLabel(word) != null);
+		return word.isEmpty()
+				|| !(mApp.getParserFunctions().isReserved(word)
+						|| mApp.getKernel().lookupLabel(word) != null);
 	}
 
 	/**
@@ -324,7 +321,8 @@ public class InputBarHelpPanel {
 	 */
 	public void logHelpIconEvent(@NonNull String commandName, boolean useReverse) {
 		Map<String, Object> params = new HashMap<>();
-		String command = commandName.contains("(") || !useReverse ? commandName
+		String command = commandName.contains("(") || !useReverse
+				? commandName
 				: mApp.getReverseCommand(commandName);
 		params.put(Analytics.Param.COMMAND, command);
 		Analytics.logEvent(Analytics.Event.COMMAND_HELP_ICON, params);

@@ -10,7 +10,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * Ellipse TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: Ellipse.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -27,8 +27,7 @@ public class Ellipse extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 		Ellipse tag = new Ellipse(emf.readRECTL());
 
 		return tag;

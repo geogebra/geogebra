@@ -45,15 +45,14 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 	 * @param point2
 	 *            bisected segment endpoint
 	 */
-	public AlgoOrthoPlaneBisectorPointPoint(Construction cons, String label,
-			GeoPointND point1, GeoPointND point2) {
+	public AlgoOrthoPlaneBisectorPointPoint(
+			Construction cons, String label, GeoPointND point1, GeoPointND point2) {
 		super(cons);
 		this.point1 = point1;
 		this.point2 = point2;
 
 		setInputOutput(
-				new GeoElement[] { (GeoElement) point1, (GeoElement) point2 },
-				new GeoElement[] { getPlane() });
+				new GeoElement[] {(GeoElement) point1, (GeoElement) point2}, new GeoElement[] {getPlane()});
 
 		// compute plane
 		compute();
@@ -67,14 +66,13 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 
 	@Override
 	protected Coords getNormal() {
-		return normal.setSub3(point2.getInhomCoordsInD3(),
-				point1.getInhomCoordsInD3());
+		return normal.setSub3(point2.getInhomCoordsInD3(), point1.getInhomCoordsInD3());
 	}
 
 	@Override
 	protected Coords getPoint() {
-		return point.setAdd3(point1.getInhomCoordsInD3(),
-				point2.getInhomCoordsInD3()).mulInside3(0.5);
+		return point
+				.setAdd3(point1.getInhomCoordsInD3(), point2.getInhomCoordsInD3())
+				.mulInside3(0.5);
 	}
-
 }

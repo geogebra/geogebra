@@ -51,8 +51,8 @@ public class OfflineLoadingStrategy extends LoadingStrategyBase {
 							super.tryDownload(request);
 						}
 					}
-				} : new ScriptTagDownloadStrategy();
-
+				}
+				: new ScriptTagDownloadStrategy();
 	}
 
 	/**
@@ -63,8 +63,7 @@ public class OfflineLoadingStrategy extends LoadingStrategyBase {
 	protected static boolean loadWithPrefetch(final RequestData request) {
 		int fragment = request.getFragment();
 		AsyncOperation<String> callback = request::tryInstall;
-		FragmentPrefetcher prefetch = FragmentPrefetcher
-				.forSplitPoint(fragment);
+		FragmentPrefetcher prefetch = FragmentPrefetcher.forSplitPoint(fragment);
 		if (prefetch != null) {
 			prefetch.runAfterPrefetch(callback);
 			return true;
@@ -78,13 +77,12 @@ public class OfflineLoadingStrategy extends LoadingStrategyBase {
 	 * @param request
 	 *            request
 	 */
-	static native void setAsyncCallback(int fragment,
-			RequestData request) /*-{
-    __gwtModuleFunction['runAsyncCallback' + fragment] = $entry(function(code, instance) {
-      @com.google.gwt.core.client.impl.ScriptTagLoadingStrategy::asyncCallback(Lcom/google/gwt/core/client/impl/LoadingStrategyBase$RequestData;Ljava/lang/String;)(
-        request, code);
-    });
-  }-*/;
+	static native void setAsyncCallback(int fragment, RequestData request) /*-{
+		__gwtModuleFunction['runAsyncCallback' + fragment] = $entry(function(code, instance) {
+			@com.google.gwt.core.client.impl.ScriptTagLoadingStrategy::asyncCallback(Lcom/google/gwt/core/client/impl/LoadingStrategyBase$RequestData;Ljava/lang/String;)(
+				request, code);
+		});
+	}-*/;
 
 	/**
 	 * Create the strategy

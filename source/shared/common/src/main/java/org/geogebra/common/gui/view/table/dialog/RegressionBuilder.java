@@ -75,26 +75,35 @@ public class RegressionBuilder {
 			String formula = regression.getFormula();
 			if (formula != null) {
 				stats.add(new StatisticGroup(
-						kernel.getLocalization().getMenu("Stats.Formula"), true,
-						List.of(formula)));
+						kernel.getLocalization().getMenu("Stats.Formula"), true, List.of(formula)));
 			}
 			List<String> parameters = new ArrayList<>(coeffs.length);
 			for (int i = 0; i < coeffs.length; i++) {
 				char coeffName = regression.getCoeffName(i);
 				int index = regression.getCoeffOrdering().indexOf(coeffName);
-				parameters.add(coeffName + " = "
-						+ kernel.format(coeffs[index], StringTemplate.defaultTemplate));
+				parameters.add(
+						coeffName + " = " + kernel.format(coeffs[index], StringTemplate.defaultTemplate));
 			}
 			stats.add(new StatisticGroup(loc.getMenu("Parameters"), false, parameters));
 			if (regression.hasCoefficientOfDetermination()) {
-				addResidual(loc.getMenu("CoefficientOfDetermination"), x -> x,
-						Statistic.RSQUARE, geo, points, stats);
+				addResidual(
+						loc.getMenu("CoefficientOfDetermination"),
+						x -> x,
+						Statistic.RSQUARE,
+						geo,
+						points,
+						stats);
 				if (regression.hasCorrelationCoefficient()) {
 					addCorrelationCoefficient(stats, points);
 				}
 			} else {
-				addResidual(kernel.getLocalization().getMenu("Stats.PMCC"), Math::sqrt,
-						Statistic.PMCC, geo, points, stats);
+				addResidual(
+						kernel.getLocalization().getMenu("Stats.PMCC"),
+						Math::sqrt,
+						Statistic.PMCC,
+						geo,
+						points,
+						stats);
 			}
 		} catch (CommandNotLoadedError e) {
 			throw e; // commands not loaded => throw so that we can retry on UI level
@@ -104,21 +113,25 @@ public class RegressionBuilder {
 		return stats;
 	}
 
-	private void addResidual(String coefficient, DoubleUnaryOperator transform, Statistic lhsStat,
-			GeoElementND geo, MyVecNode points, List<StatisticGroup> stats)
+	private void addResidual(
+			String coefficient,
+			DoubleUnaryOperator transform,
+			Statistic lhsStat,
+			GeoElementND geo,
+			MyVecNode points,
+			List<StatisticGroup> stats)
 			throws CircularDefinitionException {
 		Command residualCmd = buildCommand(Statistic.RSQUARE, points, geo);
 		GeoElementND residual = algebraProcessor.processValidExpressionSilent(residualCmd)[0];
 		String lhs = lhsStat.getLHS(kernel.getLocalization(), "");
-		String rSquareRow = kernel.format(transform.applyAsDouble(residual.evaluateDouble()),
-				StringTemplate.defaultTemplate);
-		stats.add(new StatisticGroup(coefficient, false,
-				List.of(lhs + " = " + rSquareRow)));
+		String rSquareRow = kernel.format(
+				transform.applyAsDouble(residual.evaluateDouble()), StringTemplate.defaultTemplate);
+		stats.add(new StatisticGroup(coefficient, false, List.of(lhs + " = " + rSquareRow)));
 	}
 
 	private Command buildCommand(Statistic statistic, ExpressionValue... args) {
 		Command residualCmd = new Command(kernel, statistic.getCommandName(), false);
-		for (ExpressionValue val: args) {
+		for (ExpressionValue val : args) {
 			residualCmd.addArgument(val.wrap());
 		}
 		residualCmd.setRespectingFilters(false);
@@ -131,8 +144,7 @@ public class RegressionBuilder {
 
 		try {
 			GeoElementND r = algebraProcessor.processValidExpressionSilent(exec)[0];
-			String heading = kernel.getLocalization().getMenu(
-					"Stats." + Statistic.PMCC.getCommandName());
+			String heading = kernel.getLocalization().getMenu("Stats." + Statistic.PMCC.getCommandName());
 			String lhs = Statistic.PMCC.getLHS(kernel.getLocalization(), varName);
 			String formula = lhs + " = " + r.toValueString(StringTemplate.defaultTemplate);
 			stats.add(new StatisticGroup(heading, false, List.of(formula)));

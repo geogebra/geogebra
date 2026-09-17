@@ -48,8 +48,7 @@ public abstract class SerializerAdapter implements Serializer {
 	 *            cursor offset
 	 * @return serialized formula
 	 */
-	public String serialize(Formula formula, SequenceNode currentField,
-			int currentOffset) {
+	public String serialize(Formula formula, SequenceNode currentField, int currentOffset) {
 		return serialize(formula, currentField, currentOffset, null, null, false);
 	}
 
@@ -66,8 +65,13 @@ public abstract class SerializerAdapter implements Serializer {
 	 *            selected area end
 	 * @return serialized formula
 	 */
-	public String serialize(Formula formula, SequenceNode currentField,
-			int currentOffset, Node selStart, Node selEnd, boolean textMode) {
+	public String serialize(
+			Formula formula,
+			SequenceNode currentField,
+			int currentOffset,
+			Node selStart,
+			Node selEnd,
+			boolean textMode) {
 		this.mCurrentField = currentField;
 		this.mCurrentOffset = currentOffset;
 		this.currentSelEnd = selEnd;
@@ -94,8 +98,7 @@ public abstract class SerializerAdapter implements Serializer {
 	 *            cursor offset
 	 * @return serialized formula
 	 */
-	public String serialize(InternalNode container, SequenceNode currentField,
-							int currentOffset) {
+	public String serialize(InternalNode container, SequenceNode currentField, int currentOffset) {
 		this.mCurrentField = currentField;
 		this.mCurrentOffset = currentOffset;
 		return serialize(container, new StringBuilder()).toString();
@@ -144,8 +147,7 @@ public abstract class SerializerAdapter implements Serializer {
 	 * @param to
 	 *            end index
 	 */
-	public void serialize(SequenceNode sequence, StringBuilder stringBuilder,
-			int from, int to) {
+	public void serialize(SequenceNode sequence, StringBuilder stringBuilder, int from, int to) {
 		for (int i = from; i < to; i++) {
 			serialize(sequence.getChild(i), stringBuilder);
 		}

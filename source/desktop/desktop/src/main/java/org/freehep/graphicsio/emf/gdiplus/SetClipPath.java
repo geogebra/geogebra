@@ -10,18 +10,18 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  * The SetClipPath metafile record represents a call to Graphics.SetClip, with a
  * GraphicsPath parameter, which sets the clipping region of the drawing
  * surface.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: SetClipPath.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
 public class SetClipPath extends EMFPlusTag {
 
-	public final static int REPLACE = 0;
-	public final static int INTERSECT = 1;
-	public final static int UNION = 2;
-	public final static int XOR = 3;
-	public final static int EXCLUDE = 4;
-	public final static int COMPLEMENT = 5; // (Exclude From)
+	public static final int REPLACE = 0;
+	public static final int INTERSECT = 1;
+	public static final int UNION = 2;
+	public static final int XOR = 3;
+	public static final int EXCLUDE = 4;
+	public static final int COMPLEMENT = 5; // (Exclude From)
 
 	public SetClipPath() {
 		super(51, 1);
@@ -33,17 +33,14 @@ public class SetClipPath extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		SetClipPath tag = new SetClipPath();
 		tag.flags = flags;
 		return tag;
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		// nop
 	}
-
 }

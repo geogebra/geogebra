@@ -54,5 +54,4 @@ public class GFontRenderContextW implements GFontRenderContext {
 			return text.length() * 12;
 		}
 	}
-
 }

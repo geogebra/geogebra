@@ -36,35 +36,35 @@ import org.geogebra.common.kernel.advanced.CmdProveDetails;
  */
 public class ProverCommandProcessorFactory implements CommandProcessorFactory {
 
-    @Override
-    public CommandProcessor getProcessor(Commands command, Kernel kernel) {
-        switch (command) {
-        case Prove:
-            return new CmdProve(kernel);
-        case ProveDetails:
-            return new CmdProveDetails(kernel);
-        case AreCollinear:
-            return new CmdAreCollinear(kernel);
-        case IsTangent:
-            return new CmdIsTangent(kernel);
-        case AreParallel:
-            return new CmdAreParallel(kernel);
-        case AreConcyclic:
-            return new CmdAreConcyclic(kernel);
-        case ArePerpendicular:
-            return new CmdArePerpendicular(kernel);
-        case AreEqual:
-            return new CmdAreEqual(kernel);
-        case AreCongruent:
-            return new CmdAreCongruent(kernel);
-        case AreConcurrent:
-            return new CmdAreConcurrent(kernel);
-        case LocusEquation:
-            return new CmdLocusEquation(kernel);
-        case Envelope:
-            return new CmdEnvelope(kernel);
-        default:
-            return null;
-        }
-    }
+	@Override
+	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
+		switch (command) {
+			case Prove:
+				return new CmdProve(kernel);
+			case ProveDetails:
+				return new CmdProveDetails(kernel);
+			case AreCollinear:
+				return new CmdAreCollinear(kernel);
+			case IsTangent:
+				return new CmdIsTangent(kernel);
+			case AreParallel:
+				return new CmdAreParallel(kernel);
+			case AreConcyclic:
+				return new CmdAreConcyclic(kernel);
+			case ArePerpendicular:
+				return new CmdArePerpendicular(kernel);
+			case AreEqual:
+				return new CmdAreEqual(kernel);
+			case AreCongruent:
+				return new CmdAreCongruent(kernel);
+			case AreConcurrent:
+				return new CmdAreConcurrent(kernel);
+			case LocusEquation:
+				return new CmdLocusEquation(kernel);
+			case Envelope:
+				return new CmdEnvelope(kernel);
+			default:
+				return null;
+		}
+	}
 }

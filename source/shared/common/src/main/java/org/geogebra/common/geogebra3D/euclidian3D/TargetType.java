@@ -84,7 +84,7 @@ public enum TargetType {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d, Target target) {
 			renderer.setMatrix(view3d.getCursorMatrix());
-            view3d.drawPointAlready(view3d.getCursor3D());
+			view3d.drawPointAlready(view3d.getCursor3D());
 		}
 	},
 	/** target existing point where no arrow are shown */
@@ -92,8 +92,7 @@ public enum TargetType {
 		@Override
 		public void drawTarget(Renderer renderer, EuclidianView3D view3d, Target target) {
 			// avoid z-fighting
-			renderer.getRendererImpl()
-					.setLayer(view3d.getCursor3D().getLayer() + 1);
+			renderer.getRendererImpl().setLayer(view3d.getCursor3D().getLayer() + 1);
 			doDrawTarget(renderer, target);
 			renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
 		}
@@ -129,200 +128,199 @@ public enum TargetType {
 	};
 
 	/**
-	 * 
+	 *
 	 * @param view3D
 	 *            3D view
 	 * @param ec
 	 *            3D controller
 	 * @return current target type regarding view 3D cursor and mode
 	 */
-	static public TargetType getCurrentTargetType(EuclidianView3D view3D,
-			EuclidianController3D ec) {
+	public static TargetType getCurrentTargetType(EuclidianView3D view3D, EuclidianController3D ec) {
 		int mode = ec.getMode();
 		switch (view3D.getCursor3DType()) {
-		case EuclidianView3D.PREVIEW_POINT_ALREADY:
-			if (isModePointAlreadyMoveOrSelect(mode)) {
-				return POINT_ALREADY_MOVE_OR_SELECT;
-			}
-			if (isModePointAlreadyAsPointTool(mode)) {
-				return view3D.getCursor3D()
-						.getMoveMode() == GeoPointND.MOVE_MODE_NONE
-								? POINT_ALREADY_NO_ARROW
-								: POINT_ALREADY_SHOW_ARROWS;
-			}
-			if (isModeForCreatingPoint(mode)) {
-				return POINT_ALREADY_NO_ARROW;
-			}
-			return NOT_USED;
-
-		case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
-			if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
-				return NOTHING;
-			}
-			if (isModeForCreatingPoint(mode)) {
-				if (mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
-					return (ec.selPoints() == 0 || ec.selCS2D() == 1)
-							? POINT_INTERSECTION
-							: NOTHING;
+			case EuclidianView3D.PREVIEW_POINT_ALREADY:
+				if (isModePointAlreadyMoveOrSelect(mode)) {
+					return POINT_ALREADY_MOVE_OR_SELECT;
 				}
-				return POINT_INTERSECTION;
-			}
-			return NOT_USED;
+				if (isModePointAlreadyAsPointTool(mode)) {
+					return view3D.getCursor3D().getMoveMode() == GeoPointND.MOVE_MODE_NONE
+							? POINT_ALREADY_NO_ARROW
+							: POINT_ALREADY_SHOW_ARROWS;
+				}
+				if (isModeForCreatingPoint(mode)) {
+					return POINT_ALREADY_NO_ARROW;
+				}
+				return NOT_USED;
 
-		case EuclidianView3D.PREVIEW_POINT_NONE:
-			return isModeForCreatingPoint(mode) ? NOTHING_NO_HIT : NOT_USED;
-		case EuclidianView3D.PREVIEW_POINT_FREE:
-			return isModeForCreatingPoint(mode) ? POINT_FREE : NOT_USED;
+			case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
+				if (mode == EuclidianConstants.MODE_POINT_ON_OBJECT) {
+					return NOTHING;
+				}
+				if (isModeForCreatingPoint(mode)) {
+					if (mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
+						return (ec.selPoints() == 0 || ec.selCS2D() == 1) ? POINT_INTERSECTION : NOTHING;
+					}
+					return POINT_INTERSECTION;
+				}
+				return NOT_USED;
 
-		case EuclidianView3D.PREVIEW_POINT_PATH:
-		case EuclidianView3D.PREVIEW_POINT_REGION_AS_PATH:
-			return getCurrentTargetTypeForPathOrRegion(view3D, ec, mode,
-					POINT_ON_PATH, SELECT_PATH);
-		case EuclidianView3D.PREVIEW_POINT_REGION:
-			return getCurrentTargetTypeForPathOrRegion(view3D, ec, mode,
-					POINT_ON_REGION, SELECT_REGION);
+			case EuclidianView3D.PREVIEW_POINT_NONE:
+				return isModeForCreatingPoint(mode) ? NOTHING_NO_HIT : NOT_USED;
+			case EuclidianView3D.PREVIEW_POINT_FREE:
+				return isModeForCreatingPoint(mode) ? POINT_FREE : NOT_USED;
+
+			case EuclidianView3D.PREVIEW_POINT_PATH:
+			case EuclidianView3D.PREVIEW_POINT_REGION_AS_PATH:
+				return getCurrentTargetTypeForPathOrRegion(view3D, ec, mode, POINT_ON_PATH, SELECT_PATH);
+			case EuclidianView3D.PREVIEW_POINT_REGION:
+				return getCurrentTargetTypeForPathOrRegion(
+						view3D, ec, mode, POINT_ON_REGION, SELECT_REGION);
 		}
 
 		return NOT_USED;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode
 	 *            controller mode
 	 * @return true if mode moves/select already created points
 	 */
-	static public boolean isModePointAlreadyMoveOrSelect(int mode) {
-		return mode == EuclidianConstants.MODE_MOVE
-				|| mode == EuclidianConstants.MODE_SELECT;
+	public static boolean isModePointAlreadyMoveOrSelect(int mode) {
+		return mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECT;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode
 	 *            controller mode
 	 * @return true if mode acts as point tool when over already created point
 	 */
-	static public boolean isModePointAlreadyAsPointTool(int mode) {
-		return mode == EuclidianConstants.MODE_POINT
-				|| mode == EuclidianConstants.MODE_POINT_ON_OBJECT;
+	public static boolean isModePointAlreadyAsPointTool(int mode) {
+		return mode == EuclidianConstants.MODE_POINT || mode == EuclidianConstants.MODE_POINT_ON_OBJECT;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param mode
 	 *            mode
 	 * @return true if this mode can create a point
 	 */
-	static public boolean isModeForCreatingPoint(int mode) {
+	public static boolean isModeForCreatingPoint(int mode) {
 		switch (mode) {
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-		case EuclidianConstants.MODE_SEGMENT:
-		case EuclidianConstants.MODE_SEGMENT_FIXED:
-		case EuclidianConstants.MODE_JOIN:
-		case EuclidianConstants.MODE_RAY:
-		case EuclidianConstants.MODE_VECTOR:
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_PYRAMID:
-		case EuclidianConstants.MODE_PRISM:
-		case EuclidianConstants.MODE_TETRAHEDRON:
-		case EuclidianConstants.MODE_CUBE:
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-		case EuclidianConstants.MODE_POLYLINE:
-		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			return true;
-		default:
-			return false;
+			case EuclidianConstants.MODE_POINT:
+			case EuclidianConstants.MODE_POINT_ON_OBJECT:
+			case EuclidianConstants.MODE_SEGMENT:
+			case EuclidianConstants.MODE_SEGMENT_FIXED:
+			case EuclidianConstants.MODE_JOIN:
+			case EuclidianConstants.MODE_RAY:
+			case EuclidianConstants.MODE_VECTOR:
+			case EuclidianConstants.MODE_POLYGON:
+			case EuclidianConstants.MODE_PYRAMID:
+			case EuclidianConstants.MODE_PRISM:
+			case EuclidianConstants.MODE_TETRAHEDRON:
+			case EuclidianConstants.MODE_CUBE:
+			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
+			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
+			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			case EuclidianConstants.MODE_POLYLINE:
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
+				return true;
+			default:
+				return false;
 		}
 	}
 
-	static private TargetType getCurrentTargetTypeForPathOrRegion(
-			EuclidianView3D view3D, EuclidianController3D ec, int mode,
-			TargetType onSuccess, TargetType onFail) {
+	private static TargetType getCurrentTargetTypeForPathOrRegion(
+			EuclidianView3D view3D,
+			EuclidianController3D ec,
+			int mode,
+			TargetType onSuccess,
+			TargetType onFail) {
 		switch (mode) {
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-		case EuclidianConstants.MODE_SEGMENT:
-		case EuclidianConstants.MODE_SEGMENT_FIXED:
-		case EuclidianConstants.MODE_JOIN:
-		case EuclidianConstants.MODE_RAY:
-		case EuclidianConstants.MODE_VECTOR:
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-		case EuclidianConstants.MODE_POLYLINE:
-			return onSuccess;
-
-		case EuclidianConstants.MODE_PYRAMID:
-		case EuclidianConstants.MODE_PRISM:
-			if (ec.selPolygons() == 1) {
+			case EuclidianConstants.MODE_POINT:
+			case EuclidianConstants.MODE_POINT_ON_OBJECT:
+			case EuclidianConstants.MODE_SEGMENT:
+			case EuclidianConstants.MODE_SEGMENT_FIXED:
+			case EuclidianConstants.MODE_JOIN:
+			case EuclidianConstants.MODE_RAY:
+			case EuclidianConstants.MODE_VECTOR:
+			case EuclidianConstants.MODE_POLYGON:
+			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
+			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
+			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			case EuclidianConstants.MODE_POLYLINE:
 				return onSuccess;
-			}
-			Hits hits = view3D.getHits();
-			if (hits.isEmpty()) {
-				return onSuccess;
-			}
-			return hits.getPolyCount() > 0 ? onFail : onSuccess;
 
-		case EuclidianConstants.MODE_TETRAHEDRON:
-			return getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
-					view3D, ec, onSuccess, onFail, 3);
-		case EuclidianConstants.MODE_CUBE:
-			return getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
-					view3D, ec, onSuccess, onFail, 4);
-
-		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
-			return VIEW_IN_FRONT_OF;
-			
-		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			// one point or one region: can create a point
-			if (ec.selPoints() == 0 || ec.selCS2D() == 1) {
-				return onSuccess;
-			}
-			// on xOy plane or path: can create a point
-			GeoPoint3D point = view3D.getCursor3D();
-			if (point.hasRegion()) {
-				if (point.getRegion() == view3D.getxOyPlane()) {
+			case EuclidianConstants.MODE_PYRAMID:
+			case EuclidianConstants.MODE_PRISM:
+				if (ec.selPolygons() == 1) {
 					return onSuccess;
 				}
-				if (point.getRegion() instanceof GeoCoordSys2D) {
-					return onFail;
+				Hits hits = view3D.getHits();
+				if (hits.isEmpty()) {
+					return onSuccess;
 				}
-			}
-            if (point.isPointOnPath()) {
-                return onSuccess;
-            }
-			return NOTHING;
-		default:
-			return NOT_USED;
+				return hits.getPolyCount() > 0 ? onFail : onSuccess;
+
+			case EuclidianConstants.MODE_TETRAHEDRON:
+				return getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
+						view3D, ec, onSuccess, onFail, 3);
+			case EuclidianConstants.MODE_CUBE:
+				return getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
+						view3D, ec, onSuccess, onFail, 4);
+
+			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
+				return VIEW_IN_FRONT_OF;
+
+			case EuclidianConstants.MODE_REGULAR_POLYGON:
+				// one point or one region: can create a point
+				if (ec.selPoints() == 0 || ec.selCS2D() == 1) {
+					return onSuccess;
+				}
+				// on xOy plane or path: can create a point
+				GeoPoint3D point = view3D.getCursor3D();
+				if (point.hasRegion()) {
+					if (point.getRegion() == view3D.getxOyPlane()) {
+						return onSuccess;
+					}
+					if (point.getRegion() instanceof GeoCoordSys2D) {
+						return onFail;
+					}
+				}
+				if (point.isPointOnPath()) {
+					return onSuccess;
+				}
+				return NOTHING;
+			default:
+				return NOT_USED;
 		}
 	}
 
-	static private TargetType getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
-			EuclidianView3D view3D, EuclidianController3D ec,
-			TargetType onSuccess, TargetType onFail, int vertexCount) {
+	private static TargetType getCurrentTargetTypeForPathOrRegionWithArchimedeanMode(
+			EuclidianView3D view3D,
+			EuclidianController3D ec,
+			TargetType onSuccess,
+			TargetType onFail,
+			int vertexCount) {
 		Hits hits;
 		// no point: can select a regular polygon
 		if (ec.selPoints() == 0) {
@@ -336,8 +334,7 @@ public enum TargetType {
 					return geo.isGeoPlane() ? onSuccess : NOTHING;
 				}
 				GeoPolygon polygon = (GeoPolygon) geo;
-				if (polygon.getPointsLength() == vertexCount
-						&& polygon.isRegular()) {
+				if (polygon.getPointsLength() == vertexCount && polygon.isRegular()) {
 					return onFail;
 				}
 				return NOTHING;
@@ -360,8 +357,8 @@ public enum TargetType {
 			return onSuccess;
 		}
 		if (point.hasRegion()) {
-            if (!(point.getRegion() instanceof GeoCoordSys2D)
-                    || point.getRegion() == ec.getKernel().getXOYPlane()) {
+			if (!(point.getRegion() instanceof GeoCoordSys2D)
+					|| point.getRegion() == ec.getKernel().getXOYPlane()) {
 				return onSuccess;
 			}
 		}
@@ -369,7 +366,7 @@ public enum TargetType {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param renderer
 	 *            GL renderer
 	 * @param view3d
@@ -377,18 +374,17 @@ public enum TargetType {
 	 * @param target
 	 *            target
 	 */
-	abstract public void drawTarget(Renderer renderer, EuclidianView3D view3d, Target target);
+	public abstract void drawTarget(Renderer renderer, EuclidianView3D view3d, Target target);
 
 	/**
 	 * draw sphere at current cursor position
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 * @param target
 	 *            target
 	 */
-	static protected void doDrawTarget(Renderer renderer,
-			Target target) {
+	protected static void doDrawTarget(Renderer renderer, Target target) {
 		renderer.drawTarget(target.getDotMatrix(), target.getCircleMatrix());
 	}
 }

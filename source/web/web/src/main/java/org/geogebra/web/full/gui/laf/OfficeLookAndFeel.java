@@ -26,12 +26,12 @@ import org.geogebra.web.shared.SignInController;
  *
  */
 public final class OfficeLookAndFeel extends SmartLookAndFeel {
-	
+
 	@Override
 	public boolean undoRedoSupported() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isSmart() {
 		return false;
@@ -45,7 +45,7 @@ public final class OfficeLookAndFeel extends SmartLookAndFeel {
 	@Override
 	public SignInController getSignInController(App app) {
 		return new SignInController(app, 2000, null);
-    }
+	}
 
 	@Override
 	public Platform getPlatform(int dim, String appName) {

@@ -18,7 +18,7 @@ package org.geogebra.common.kernel;
 
 /**
  * Interface for classes that can call CAS asynchronously and receive callbacks
- * 
+ *
  * @author Zbynek Konecny
  */
 public interface AsynchronousCommand {
@@ -58,5 +58,4 @@ public interface AsynchronousCommand {
 	 * @return kernel
 	 */
 	Kernel getKernel();
-
 }

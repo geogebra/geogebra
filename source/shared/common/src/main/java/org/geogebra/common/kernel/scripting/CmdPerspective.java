@@ -51,5 +51,4 @@ public class CmdPerspective extends CmdScripting {
 
 		throw this.argErr(c, args[0]);
 	}
-
 }

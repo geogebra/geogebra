@@ -8,7 +8,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
  * EMF BitmapInfo
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: BitmapInfo.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */

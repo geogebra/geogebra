@@ -43,12 +43,11 @@ class RegionClassifierContourContourIntegrationTest {
 
 	@Test
 	void processShouldSplitCrossingContoursAndReuseSharedIntersectionVertex() throws Exception {
-		PointList contour1 = pointList(new MyPoint(-1, -1), new MyPoint(1, 1),
-				new MyPoint(2, 1));
-		PointList contour2 = pointList(new MyPoint(-1, 1), new MyPoint(1, -1),
-				new MyPoint(2, -1));
+		PointList contour1 = pointList(new MyPoint(-1, -1), new MyPoint(1, 1), new MyPoint(2, 1));
+		PointList contour2 = pointList(new MyPoint(-1, 1), new MyPoint(1, -1), new MyPoint(2, -1));
 
-		RegionClassifier classifier = new RegionClassifier(List.of(contour1, contour2),
+		RegionClassifier classifier = new RegionClassifier(
+				List.of(contour1, contour2),
 				RegionClassifierContourContourIntegrationTest::bounds,
 				Collections::emptyList);
 
@@ -56,14 +55,15 @@ class RegionClassifierContourContourIntegrationTest {
 		PlanarGraph graph = extractGraph(classifier);
 
 		int intersectionId = graph.findVertex(new GPoint2D(0, 0), 1e-12);
-		assertTrue(intersectionId >= 0,
-				"intersection vertex should exist at the shared split point");
+		assertTrue(intersectionId >= 0, "intersection vertex should exist at the shared split point");
 
 		long outgoingContourEdges = graph.vertex(intersectionId).getOutgoingHalfEdges().stream()
 				.map(graph::halfEdge)
 				.filter(HalfEdge::isContourEdge)
 				.count();
-		assertEquals(4, outgoingContourEdges,
+		assertEquals(
+				4,
+				outgoingContourEdges,
 				"shared contour-contour intersection should reuse one vertex "
 						+ "with four contour half-edges");
 	}
@@ -91,10 +91,9 @@ class RegionClassifierContourContourIntegrationTest {
 				});
 	}
 
-	private static PointList pointList(MyPoint start, MyPoint middle, MyPoint end)
-			throws Exception {
-		Constructor<PointList> constructor = PointList.class
-				.getDeclaredConstructor(MyPoint.class, MyPoint.class);
+	private static PointList pointList(MyPoint start, MyPoint middle, MyPoint end) throws Exception {
+		Constructor<PointList> constructor =
+				PointList.class.getDeclaredConstructor(MyPoint.class, MyPoint.class);
 		constructor.setAccessible(true);
 		PointList pointList = constructor.newInstance(start, end);
 		Field ptsField = PointList.class.getDeclaredField("pts");

@@ -41,6 +41,7 @@ import elemental2.dom.DomGlobal;
 public abstract class FileManager extends MaterialsManager {
 	/** application */
 	protected AppW app;
+
 	private Material.Provider provider = Material.Provider.TUBE;
 	private FileSystemFileHandle fileHandle;
 
@@ -56,7 +57,7 @@ public abstract class FileManager extends MaterialsManager {
 	public abstract void delete(Material mat, boolean permanent, Runnable onSuccess);
 
 	/**
-	 * 
+	 *
 	 * @param base64
 	 *            only a hint, we can send null and it will be resolved
 	 * @param modified
@@ -68,7 +69,7 @@ public abstract class FileManager extends MaterialsManager {
 
 	/**
 	 * Overwritten for phone
-	 * 
+	 *
 	 * @param material
 	 *            {@link Material}
 	 */
@@ -78,7 +79,7 @@ public abstract class FileManager extends MaterialsManager {
 
 	/**
 	 * Overwritten for phone
-	 * 
+	 *
 	 * @param material
 	 *            {@link Material}
 	 */
@@ -106,13 +107,12 @@ public abstract class FileManager extends MaterialsManager {
 		}
 		mat.setBase64(base64);
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
-		mat.setDescription(app.getKernel().getConstruction()
-				.getWorksheetText(0));
-		mat.setThumbnailBase64(((EuclidianViewWInterface) app
-				.getActiveEuclidianView())
-				.getCanvasBase64WithTypeString());
+		mat.setDescription(app.getKernel().getConstruction().getWorksheetText(0));
+		mat.setThumbnailBase64(
+				((EuclidianViewWInterface) app.getActiveEuclidianView()).getCanvasBase64WithTypeString());
 		if (app.getLoginOperation() != null) {
-			UserPublic user = new UserPublic(app.getLoginOperation().getModel().getUserId(),
+			UserPublic user = new UserPublic(
+					app.getLoginOperation().getModel().getUserId(),
 					app.getLoginOperation().getUserName());
 			mat.setCreator(user);
 		}
@@ -127,21 +127,20 @@ public abstract class FileManager extends MaterialsManager {
 
 	@Override
 	protected final void showTooltip(Material mat) {
-		app.getToolTipManager().showBottomMessage(app.getLocalization()
-				.getPlain("SeveralVersionsOfA", mat.getTitle()), app);
-
+		app.getToolTipManager()
+				.showBottomMessage(
+						app.getLocalization().getPlain("SeveralVersionsOfA", mat.getTitle()), app);
 	}
 
 	/**
 	 * Refresh material in browse view
-	 * 
+	 *
 	 * @param newMat
 	 *            uploaded material
 	 */
 	@Override
 	protected void refreshMaterial(Material newMat) {
 		app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);
-
 	}
 
 	@Override
@@ -175,7 +174,7 @@ public abstract class FileManager extends MaterialsManager {
 
 	/**
 	 * only for FileManagerT and FileManagerW
-	 * 
+	 *
 	 * @return {@link AppW}
 	 */
 	@Override
@@ -227,8 +226,7 @@ public abstract class FileManager extends MaterialsManager {
 	 * intent iOS Safari: open in new tab (no download possible)
 	 */
 	@Override
-	final public void exportImage(String url, String filename,
-			String extension) {
+	public final void exportImage(String url, String filename, String extension) {
 		Browser.exportImage(url, filename);
 	}
 
@@ -238,13 +236,12 @@ public abstract class FileManager extends MaterialsManager {
 	 */
 	public void showOfflineErrorTooltip(AppW appw) {
 		if (!appw.getNetworkOperation().isOnline()) {
-			app.getToolTipManager().showBottomMessage(appw
-					.getLocalization()
-					.getMenu("phone_loading_materials_offline"), appw);
+			app.getToolTipManager()
+					.showBottomMessage(
+							appw.getLocalization().getMenu("phone_loading_materials_offline"), appw);
 		} else if (!appw.getLoginOperation().isLoggedIn()) {
-			app.getToolTipManager().showBottomMessage(appw
-					.getLocalization()
-					.getMenu("SaveAccountFailed"), appw);
+			app.getToolTipManager()
+					.showBottomMessage(appw.getLocalization().getMenu("SaveAccountFailed"), appw);
 		}
 	}
 
@@ -252,8 +249,9 @@ public abstract class FileManager extends MaterialsManager {
 		this.fileHandle = handle;
 		this.provider = Material.Provider.LOCAL;
 		handle.getFile().then(file -> {
-			app.getKernel().getConstruction().setTitle(
-					StringUtil.removeFolderName(StringUtil.removeFileExtension(file.name)));
+			app.getKernel()
+					.getConstruction()
+					.setTitle(StringUtil.removeFolderName(StringUtil.removeFileExtension(file.name)));
 			return null;
 		});
 	}

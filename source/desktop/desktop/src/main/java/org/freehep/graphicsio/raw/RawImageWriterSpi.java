@@ -9,18 +9,31 @@ import javax.imageio.ImageWriter;
 import javax.imageio.spi.ImageWriterSpi;
 
 /**
- * 
+ *
  * @version $Id: RawImageWriterSpi.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
 public class RawImageWriterSpi extends ImageWriterSpi {
 
 	public RawImageWriterSpi() {
-		super("FreeHEP Java Libraries, http://java.freehep.org/", "1.0",
-				new String[] { "raw" }, new String[] { "raw" },
-				new String[] { "image/x-raw" },
+		super(
+				"FreeHEP Java Libraries, http://java.freehep.org/",
+				"1.0",
+				new String[] {"raw"},
+				new String[] {"raw"},
+				new String[] {"image/x-raw"},
 				"org.freehep.graphicsio.raw.RawImageWriter",
-				STANDARD_OUTPUT_TYPE, null, false, null, null, null, null,
-				false, null, null, null, null);
+				STANDARD_OUTPUT_TYPE,
+				null,
+				false,
+				null,
+				null,
+				null,
+				null,
+				false,
+				null,
+				null,
+				null,
+				null);
 	}
 
 	@Override
@@ -29,8 +42,7 @@ public class RawImageWriterSpi extends ImageWriterSpi {
 	}
 
 	@Override
-	public ImageWriter createWriterInstance(Object extension)
-			throws IOException {
+	public ImageWriter createWriterInstance(Object extension) throws IOException {
 		return new RawImageWriter(this);
 	}
 

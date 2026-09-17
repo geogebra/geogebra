@@ -73,36 +73,37 @@ class SpreadsheetToolProcessorTest extends BaseAppTestSetup {
 		// put numeric values into a 2x2 block: A1..B2 corresponds to (0,0)-(1,1)
 
 		// create matrix by reference (not by value)
-		assertEquals("m1 = {{A1, B1}, {A2, B2}}",
-				processor.createMatrix(0, 1, 0, 1, false)
-						.getDefinitionForInputBar());
+		assertEquals(
+				"m1 = {{A1, B1}, {A2, B2}}",
+				processor.createMatrix(0, 1, 0, 1, false).getDefinitionForInputBar());
 		// create matrix by value
-		assertEquals("m2 = {{1, 3}, {2, 4}}",
-				processor.createMatrix(0, 1, 0, 1, true)
-						.getDefinitionForInputBar());
+		assertEquals(
+				"m2 = {{1, 3}, {2, 4}}",
+				processor.createMatrix(0, 1, 0, 1, true).getDefinitionForInputBar());
 	}
 
 	@Test
 	void testCreateMatrix_transpose() {
-		assertEquals("m1 = {{A1, A2}, {B1, B2}}",
+		assertEquals(
+				"m1 = {{A1, A2}, {B1, B2}}",
 				processor.createMatrix(0, 1, 0, 1, false, true).getDefinitionForInputBar());
 	}
 
 	@Test
 	void testCreateTableText() {
 		GeoElementND table = processor.createTableText(0, 1, 0, 1, false, false);
-		assertEquals("TableText({{A1, B1}, {A2, B2}}, \"|_ll\")",
+		assertEquals(
+				"TableText({{A1, B1}, {A2, B2}}, \"|_ll\")",
 				table.getDefinition(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	void testCreateTableTextAligned() {
-		cellFormat.setFormat(new TabularRange(0, 0),
-				CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_CENTER);
-		cellFormat.setFormat(new TabularRange(0, 1),
-				CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_RIGHT);
+		cellFormat.setFormat(new TabularRange(0, 0), CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_CENTER);
+		cellFormat.setFormat(new TabularRange(0, 1), CellFormat.FORMAT_ALIGN, CellFormat.ALIGN_RIGHT);
 		GeoElementND table = processor.createTableText(0, 1, 0, 1, false, false);
-		assertEquals("TableText({{A1, B1}, {A2, B2}}, \"|_cr\")",
+		assertEquals(
+				"TableText({{A1, B1}, {A2, B2}}, \"|_cr\")",
 				table.getDefinition(StringTemplate.defaultTemplate));
 	}
 

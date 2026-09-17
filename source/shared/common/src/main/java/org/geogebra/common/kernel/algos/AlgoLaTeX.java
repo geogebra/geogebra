@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.geos.HasSymbolicMode;
 
 /**
  * Returns a description of a GeoElement as a GeoText in LaTeX format.
- * 
+ *
  * @author Markus
  */
 public class AlgoLaTeX extends AlgoElement {
@@ -53,8 +53,12 @@ public class AlgoLaTeX extends AlgoElement {
 	 * @param showName
 	 *            whether to append left hand side of the definition
 	 */
-	public AlgoLaTeX(Construction cons, String label, GeoElement geo,
-			GeoBoolean substituteVars, GeoBoolean showName) {
+	public AlgoLaTeX(
+			Construction cons,
+			String label,
+			GeoElement geo,
+			GeoBoolean substituteVars,
+			GeoBoolean showName) {
 		super(cons);
 		this.geo = geo;
 		this.substituteVars = substituteVars;
@@ -151,15 +155,13 @@ public class AlgoLaTeX extends AlgoElement {
 
 	private boolean computeValid() {
 		boolean show = showName != null && showName.getBoolean();
-		boolean substitute = substituteVars == null
-				|| substituteVars.getBoolean();
+		boolean substitute = substituteVars == null || substituteVars.getBoolean();
 		if (!geo.isLabelSet()) {
 			// eg FormulaText[(1,1), true, true]
 			show = false;
 		}
 
-		StringTemplate tpl = text.getStringTemplate().deriveReal()
-				.deriveWithSimplification();
+		StringTemplate tpl = text.getStringTemplate().deriveReal().deriveWithSimplification();
 
 		GeoElement geoToShow = geo;
 		if (geo.getCorrespondingCasCell() != null) {
@@ -169,17 +171,14 @@ public class AlgoLaTeX extends AlgoElement {
 		if (show) {
 			if (geoToShow.isGeoCasCell()) {
 				// input: overriding rounding is probably OK
-				text.setTextString(((GeoCasCell) geoToShow).getOutputOrInput(
-						StringTemplate.numericLatex, substitute));
+				text.setTextString(
+						((GeoCasCell) geoToShow).getOutputOrInput(StringTemplate.numericLatex, substitute));
 
 			} else {
-				text.setTextString(
-						geoToShow.getLaTeXAlgebraDescription(substitute,
-								tpl));
+				text.setTextString(geoToShow.getLaTeXAlgebraDescription(substitute, tpl));
 			}
 			if (text.getTextString() == null) {
-				String desc = geoToShow
-						.getAlgebraDescription(text.getStringTemplate());
+				String desc = geoToShow.getAlgebraDescription(text.getStringTemplate());
 				if (geoToShow.hasIndexLabel()) {
 					desc = GeoElement.indicesToHTML(desc, true);
 				}
@@ -213,5 +212,4 @@ public class AlgoLaTeX extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
 }

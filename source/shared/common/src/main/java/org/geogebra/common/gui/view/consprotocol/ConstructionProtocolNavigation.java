@@ -60,7 +60,7 @@ public abstract class ConstructionProtocolNavigation {
 
 	/**
 	 * Sets the visibility of the navigation bar.
-	 * 
+	 *
 	 * @param visible
 	 *            if true, the navigation bar will be visible
 	 */
@@ -76,7 +76,7 @@ public abstract class ConstructionProtocolNavigation {
 	/**
 	 * Returns delay between frames of automatic construction protocol playing
 	 * in seconds.
-	 * 
+	 *
 	 * @return delay in seconds
 	 */
 	public double getPlayDelay() {
@@ -92,7 +92,7 @@ public abstract class ConstructionProtocolNavigation {
 
 	/**
 	 * Sets delay for the value given in parameter.
-	 * 
+	 *
 	 * @param delay
 	 *            expected delay in seconds
 	 */
@@ -100,7 +100,7 @@ public abstract class ConstructionProtocolNavigation {
 
 	/**
 	 * Sets the construction protocol button visible or invisible.
-	 * 
+	 *
 	 * @param flag
 	 *            if true, the construction protocol button will be visible
 	 */
@@ -132,12 +132,11 @@ public abstract class ConstructionProtocolNavigation {
 	/**
 	 * Registers this navigation bar at its protocol to be informed about
 	 * updates.
-	 * 
+	 *
 	 * @param constructionProtocolView
 	 *            CP view
 	 */
-	public final void register(
-			ConstructionProtocolView constructionProtocolView) {
+	public final void register(ConstructionProtocolView constructionProtocolView) {
 		if (prot == null) {
 			initGUI();
 		}
@@ -156,12 +155,12 @@ public abstract class ConstructionProtocolNavigation {
 	/**
 	 * set button to "play" aspect
 	 */
-	abstract public void setButtonPlay();
+	public abstract void setButtonPlay();
 
 	/**
 	 * set button to "pause" aspect
 	 */
-	abstract public void setButtonPause();
+	public abstract void setButtonPause();
 
 	protected boolean isPlaying() {
 		return isPlaying;
@@ -174,5 +173,4 @@ public abstract class ConstructionProtocolNavigation {
 	protected ConstructionStepper getProt() {
 		return prot != null ? prot : app.getKernel();
 	}
-
 }

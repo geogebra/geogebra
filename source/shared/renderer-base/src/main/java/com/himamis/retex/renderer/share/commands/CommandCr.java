@@ -74,8 +74,7 @@ public class CommandCr extends Command {
 		} else {
 			final RowAtom ra = tp.steal();
 			if (ra == null) {
-				throw new ParseException(tp,
-						"The macro \\" + cmd + " must be used in an array");
+				throw new ParseException(tp, "The macro \\" + cmd + " must be used in an array");
 			}
 			final Column col = new Column();
 			col.init(tp);

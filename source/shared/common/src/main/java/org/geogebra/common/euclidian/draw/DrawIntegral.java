@@ -34,7 +34,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Draws definite Integral of a GeoFunction
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class DrawIntegral extends DrawFunctionArea {
@@ -50,7 +50,7 @@ public class DrawIntegral extends DrawFunctionArea {
 
 	/**
 	 * Creates new drawable for integral
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 * @param n
@@ -91,15 +91,14 @@ public class DrawIntegral extends DrawFunctionArea {
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
 		}
 		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())
-				|| isCasObject) {
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()) || isCasObject) {
 			init();
 		}
 
@@ -160,7 +159,7 @@ public class DrawIntegral extends DrawFunctionArea {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (isHighlighted()) {
 				g2.setPaint(n.getSelColor());
@@ -169,7 +168,7 @@ public class DrawIntegral extends DrawFunctionArea {
 			}
 
 			fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
-							// appropriate
+			// appropriate
 
 			if (geo.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
@@ -186,9 +185,8 @@ public class DrawIntegral extends DrawFunctionArea {
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
-		return gp != null
-				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
+	public final boolean hit(int x, int y, int hitThreshold) {
+		return gp != null && (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
 	}
 
 	@Override
@@ -197,7 +195,7 @@ public class DrawIntegral extends DrawFunctionArea {
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return false;
 	}
 
@@ -205,7 +203,7 @@ public class DrawIntegral extends DrawFunctionArea {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}

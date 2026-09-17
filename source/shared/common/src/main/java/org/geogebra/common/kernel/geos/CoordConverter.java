@@ -35,8 +35,8 @@ public interface CoordConverter {
 	 *            3D view
 	 * @return new parameter value
 	 */
-	double translationToValue(Coords direction, Coords rwTransVec,
-			double startValue, EuclidianView view);
+	double translationToValue(
+			Coords direction, Coords rwTransVec, double startValue, EuclidianView view);
 
 	/**
 	 * @param parent
@@ -58,8 +58,11 @@ public interface CoordConverter {
 	 * @param translationVec3D
 	 *            output parameter for translation
 	 */
-	void updateTranslation(Coords startPoint3D, Coords direction,
-			Coords rayOrigin, Coords rayDirection,
+	void updateTranslation(
+			Coords startPoint3D,
+			Coords direction,
+			Coords rayOrigin,
+			Coords rayDirection,
 			Coords translationVec3D);
 
 	/**
@@ -70,5 +73,4 @@ public interface CoordConverter {
 	 * @return value snapped to closest "nice" value
 	 */
 	double snap(double val, EuclidianView view);
-
 }

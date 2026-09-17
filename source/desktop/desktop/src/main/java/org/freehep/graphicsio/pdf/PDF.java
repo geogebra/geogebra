@@ -9,7 +9,7 @@ import java.util.Vector;
 /**
  * Implements the lookup tables.
  * <p>
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PDF.java,v 1.6 2009-08-17 21:44:44 murkle Exp $
  */
@@ -22,7 +22,7 @@ public class PDF {
 	private Vector refsByNumber = new Vector(); // of PDFRefs stored by number
 
 	private Vector xrefsByNumber = new Vector(); // of offsets stored by
-													// refnumber
+	// refnumber
 
 	private int startXref = 0;
 
@@ -76,28 +76,24 @@ public class PDF {
 		out.println();
 
 		// the free list header
-		out.printPlain(offsetFormat.format(0) + " " + linkFormat.format(65535)
-				+ " f\r\n");
+		out.printPlain(offsetFormat.format(0) + " " + linkFormat.format(65535) + " f\r\n");
 
 		// the used list
 		for (int i = 1; i < xrefsByNumber.size(); i++) {
 			Integer offsetObject = (Integer) xrefsByNumber.get(i);
 			if (offsetObject != null) {
 				int offset = offsetObject.intValue();
-				out.printPlain(offsetFormat.format(offset) + " "
-						+ linkFormat.format(0) + " n\r\n");
+				out.printPlain(offsetFormat.format(offset) + " " + linkFormat.format(0) + " n\r\n");
 			} else {
 				PDFRef ref = (PDFRef) refsByNumber.get(i);
-				System.err.println("PDFWriter: PDFRef '" + ref.getName()
-						+ "' is used but not defined.");
+				System.err.println("PDFWriter: PDFRef '" + ref.getName() + "' is used but not defined.");
 			}
 		}
 
 		out.println();
 	}
 
-	protected void trailer(String rootName, String docInfoName)
-			throws IOException {
+	protected void trailer(String rootName, String docInfoName) throws IOException {
 		out.println("trailer");
 		PDFDictionary dictionary = new PDFDictionary(this, out);
 		dictionary.entry("Size", refsByName.size());

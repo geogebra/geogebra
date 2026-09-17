@@ -55,8 +55,8 @@ public class SegmentStyleModel extends IconOptionsModel {
 	public void updateProperties() {
 		GeoElement geo = getGeoAt(0);
 		if (geo instanceof GeoSegment) {
-			SegmentStyle style = isStartStyle ? ((GeoSegment) geo).getStartStyle()
-					: ((GeoSegment) geo).getEndStyle();
+			SegmentStyle style =
+					isStartStyle ? ((GeoSegment) geo).getStartStyle() : ((GeoSegment) geo).getEndStyle();
 			listener.setSelectedIndex(style.ordinal());
 		}
 	}
@@ -84,7 +84,8 @@ public class SegmentStyleModel extends IconOptionsModel {
 	protected int getValueAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		if (geo instanceof GeoSegment) {
-			return isStartStyle ? ((GeoSegment) geo).getStartStyle().ordinal()
+			return isStartStyle
+					? ((GeoSegment) geo).getStartStyle().ordinal()
 					: ((GeoSegment) geo).getEndStyle().ordinal();
 		}
 		return 0;
@@ -93,5 +94,4 @@ public class SegmentStyleModel extends IconOptionsModel {
 	public boolean isStartStyle() {
 		return isStartStyle;
 	}
-
 }

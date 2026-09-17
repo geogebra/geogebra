@@ -34,7 +34,6 @@ public final class Domvas {
 	@JsProperty(name = "domvas")
 	public static native Domvas get();
 
-	public native void toImage(Element el,
-			JsConsumer<BaseRenderingContext2D.DrawImageImageUnionType> callback);
-
+	public native void toImage(
+			Element el, JsConsumer<BaseRenderingContext2D.DrawImageImageUnionType> callback);
 }

@@ -52,8 +52,8 @@ import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 import org.jspecify.annotations.Nullable;
 
-public final class NotesToolbox extends FlowPanel implements
-		SetLabels, ModeChangeListener, ExamListener {
+public final class NotesToolbox extends FlowPanel
+		implements SetLabels, ModeChangeListener, ExamListener {
 	private final AppW appW;
 	private final ToolboxDecorator decorator;
 	private final ToolboxController controller;
@@ -105,45 +105,43 @@ public final class NotesToolbox extends FlowPanel implements
 				|| appW.isToolboxCategoryEnabled(ToolboxCategory.RULER.getName());
 	}
 
-	private IconButton addToggleButton(IconSpec image,
-			Runnable onHandler, Runnable offHandler) {
-		IconButton iconButton = new IconButton(appW, image, "Spotlight.Tool", "Spotlight.Tool",
-				"spotlightTool", onHandler, offHandler);
+	private IconButton addToggleButton(IconSpec image, Runnable onHandler, Runnable offHandler) {
+		IconButton iconButton = new IconButton(
+				appW, image, "Spotlight.Tool", "Spotlight.Tool", "spotlightTool", onHandler, offHandler);
 		add(iconButton);
 		buttons.add(iconButton);
 		return iconButton;
 	}
 
-	private void addToggleButtonWithMenuPopup(ToolboxCategory category, IconSpec image,
-											  String ariaLabel, List<Integer> tools) {
-		IconButtonWithMenu iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
-				this::deselectButtons, this);
+	private void addToggleButtonWithMenuPopup(
+			ToolboxCategory category, IconSpec image, String ariaLabel, List<Integer> tools) {
+		IconButtonWithMenu iconButton =
+				new IconButtonWithMenu(appW, image, ariaLabel, tools, this::deselectButtons, this);
 		add(iconButton);
 		buttons.add(iconButton);
 		buttonsWithMenu.put(category, iconButton);
 	}
 
 	private void addShapeToggleButton(IconSpec image, List<Integer> tools) {
-		IconButtonWithPopup iconButton = new IconButtonWithPopup(appW, image, "Shape",
-				tools, this::deselectButtons);
+		IconButtonWithPopup iconButton =
+				new IconButtonWithPopup(appW, image, "Shape", tools, this::deselectButtons);
 		add(iconButton);
 		buttons.add(iconButton);
 	}
 
 	private List<Integer> filterTools(ToolboxCategory toolboxCategory) {
-		Predicate<Integer> baseFilter = tool ->
-			tool != EuclidianConstants.MODE_GRASPABLE_MATH
-					|| Browser.isGeogebraOrInternalHost() && renderedExamState == ExamState.IDLE;
+		Predicate<Integer> baseFilter = tool -> tool != EuclidianConstants.MODE_GRASPABLE_MATH
+				|| Browser.isGeogebraOrInternalHost() && renderedExamState == ExamState.IDLE;
 		Stream<Integer> available = toolboxCategory.getTools().stream().filter(baseFilter);
 		if (allTools.isEmpty() || allTools.contains(toolboxCategory.getName())) {
 			return available.collect(Collectors.toList());
 		}
-		List<String> inCategory = allTools.stream().filter(tool -> tool.contains("."))
+		List<String> inCategory = allTools.stream()
+				.filter(tool -> tool.contains("."))
 				.map(tool -> tool.split("\\.")[1].toLowerCase(Locale.ROOT))
 				.collect(Collectors.toList());
 		return available
-				.filter(tool -> inCategory.contains(
-						normalizeIconName(tool).toLowerCase(Locale.ROOT)))
+				.filter(tool -> inCategory.contains(normalizeIconName(tool).toLowerCase(Locale.ROOT)))
 				.collect(Collectors.toList());
 	}
 
@@ -172,9 +170,8 @@ public final class NotesToolbox extends FlowPanel implements
 			return;
 		}
 
-		spotlightButton = addToggleButton(toolboxIconResource.getImageResource(
-				ToolboxIcon.SPOTLIGHT),
-				() -> {}, () -> {});
+		spotlightButton = addToggleButton(
+				toolboxIconResource.getImageResource(ToolboxIcon.SPOTLIGHT), () -> {}, () -> {});
 		spotlightButton.addFastClickHandler((source) -> {
 			if (spotlightButton.isActive()) {
 				controller.switchSpotlightOn();
@@ -189,10 +186,12 @@ public final class NotesToolbox extends FlowPanel implements
 			return;
 		}
 
-		RulerIconButton rulerButton = new RulerIconButton(appW,
+		RulerIconButton rulerButton = new RulerIconButton(
+				appW,
 				toolboxIconResource.getImageResource(ToolboxIcon.RULER),
 				appW.getToolAriaLabel(MODE_RULER),
-				"Ruler", "selectModeButton" + MODE_RULER);
+				"Ruler",
+				"selectModeButton" + MODE_RULER);
 		add(rulerButton);
 		buttons.add(rulerButton);
 	}
@@ -200,8 +199,7 @@ public final class NotesToolbox extends FlowPanel implements
 	private void addTextButton() {
 		List<Integer> tools = filterTools(ToolboxCategory.TEXT);
 		if (!tools.isEmpty()) {
-			TextIconButton textButton = new TextIconButton(appW, this::deselectButtons,
-					tools);
+			TextIconButton textButton = new TextIconButton(appW, this::deselectButtons, tools);
 			add(textButton);
 			buttons.add(textButton);
 		}
@@ -210,18 +208,22 @@ public final class NotesToolbox extends FlowPanel implements
 	private void addUploadButton() {
 		List<Integer> tools = filterTools(ToolboxCategory.UPLOAD);
 		if (!tools.isEmpty() && renderedExamState == ExamState.IDLE) {
-			addToggleButtonWithMenuPopup(ToolboxCategory.UPLOAD,
+			addToggleButtonWithMenuPopup(
+					ToolboxCategory.UPLOAD,
 					toolboxIconResource.getImageResource(ToolboxIcon.UPLOAD),
-					"Upload", tools);
+					"Upload",
+					tools);
 		}
 	}
 
 	private void addLinkButton() {
 		List<Integer> tools = filterTools(ToolboxCategory.LINK);
 		if (!tools.isEmpty() && renderedExamState == ExamState.IDLE) {
-			addToggleButtonWithMenuPopup(ToolboxCategory.LINK,
+			addToggleButtonWithMenuPopup(
+					ToolboxCategory.LINK,
 					toolboxIconResource.getImageResource(ToolboxIcon.LINK),
-					"Link", tools);
+					"Link",
+					tools);
 		}
 	}
 
@@ -230,7 +232,9 @@ public final class NotesToolbox extends FlowPanel implements
 			return;
 		}
 
-		IconButton selectButton = new ToolIconButton(MODE_SELECT_MOW, appW,
+		IconButton selectButton = new ToolIconButton(
+				MODE_SELECT_MOW,
+				appW,
 				toolboxIconResource.getImageResource(ToolboxIcon.MOUSE_CURSOR),
 				() -> {
 					appW.setMode(MODE_SELECT_MOW);
@@ -253,17 +257,18 @@ public final class NotesToolbox extends FlowPanel implements
 	private void addShapeButton() {
 		List<Integer> tools = filterTools(ToolboxCategory.SHAPES);
 		if (!tools.isEmpty()) {
-			addShapeToggleButton(toolboxIconResource.getImageResource(ToolboxIcon.SHAPES),
-					tools);
+			addShapeToggleButton(toolboxIconResource.getImageResource(ToolboxIcon.SHAPES), tools);
 		}
 	}
 
 	private void addAppsButton() {
 		List<Integer> tools = filterTools(ToolboxCategory.MORE);
 		if (!tools.isEmpty()) {
-			addToggleButtonWithMenuPopup(ToolboxCategory.MORE,
+			addToggleButtonWithMenuPopup(
+					ToolboxCategory.MORE,
 					toolboxIconResource.getImageResource(ToolboxIcon.APPS),
-					"Tools.More", tools);
+					"Tools.More",
+					tools);
 		}
 	}
 
@@ -329,9 +334,9 @@ public final class NotesToolbox extends FlowPanel implements
 	 */
 	public void addCustomTool(String url, String name, String category, Object callback) {
 		IconButtonWithMenu button = buttonsWithMenu.get(ToolboxCategory.byName(category));
-        if (button != null) {
+		if (button != null) {
 			button.addCustomTool(url, name, callback);
-        } else {
+		} else {
 			Log.debug("Category " + category.toLowerCase(Locale.ROOT)
 					+ " is not allowed to have a custom tool");
 		}

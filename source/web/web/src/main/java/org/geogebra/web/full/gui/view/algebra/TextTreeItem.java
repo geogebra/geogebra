@@ -46,8 +46,7 @@ public final class TextTreeItem extends LaTeXTreeItem {
 
 		content.clear();
 
-		((GeoText) geo).getDescriptionForAV(
-				new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
+		((GeoText) geo).getDescriptionForAV(new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
 		content.add(getDefinitionValuePanel());
 		getDefinitionValuePanel().getElement().addClassName("textWrap");
 	}

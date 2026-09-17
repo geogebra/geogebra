@@ -120,11 +120,10 @@ public interface InputPanel extends IsWidget, HasText {
 			}
 			String toRender = laTex;
 			if ("\\nbsp{}".equals(laTex) && StringUtil.empty(text)) {
-				toRender = "\\text{" + app.getLocalization().getMenu("InputLabel")
-						+ Unicode.ELLIPSIS + "}";
+				toRender = "\\text{" + app.getLocalization().getMenu("InputLabel") + Unicode.ELLIPSIS + "}";
 			}
-			DrawEquationW.paintOnCanvas(new GeoNumeric(app.getKernel()
-					.getConstruction()), toRender, canvas, app.getFontSize());
+			DrawEquationW.paintOnCanvas(
+					new GeoNumeric(app.getKernel().getConstruction()), toRender, canvas, app.getFontSize());
 		}
 
 		@Override
@@ -166,5 +165,4 @@ public interface InputPanel extends IsWidget, HasText {
 	 * Refresh content.
 	 */
 	void repaint();
-
 }

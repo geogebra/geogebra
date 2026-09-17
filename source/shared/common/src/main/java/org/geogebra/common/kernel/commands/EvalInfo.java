@@ -90,8 +90,7 @@ public class EvalInfo {
 	 * @param updateRandom
 	 *            whether random numbers should be updated on a redefinition
 	 */
-	public EvalInfo(boolean labelOutput, boolean redefineIndependent,
-			boolean updateRandom) {
+	public EvalInfo(boolean labelOutput, boolean redefineIndependent, boolean updateRandom) {
 		this(labelOutput, redefineIndependent);
 		this.updateRandom = updateRandom;
 	}
@@ -140,7 +139,6 @@ public class EvalInfo {
 		EvalInfo ret = copy();
 		ret.scripting = scripts;
 		return ret;
-
 	}
 
 	/**

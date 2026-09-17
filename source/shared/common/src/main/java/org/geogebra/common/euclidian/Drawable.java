@@ -53,7 +53,7 @@ import org.jspecify.annotations.Nullable;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * 
+ *
  * @author Markus
  */
 public abstract class Drawable extends DrawableND {
@@ -73,8 +73,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Stroke for this drawable in case referenced geo is selected
 	 */
-	protected GBasicStroke selStroke = EuclidianStatic
-			.getDefaultSelectionStroke();
+	protected GBasicStroke selStroke = EuclidianStatic.getDefaultSelectionStroke();
 	/**
 	 * Stroke for decorations; always full
 	 */
@@ -99,11 +98,11 @@ public abstract class Drawable extends DrawableND {
 	public int yLabel;
 	/** label Description */
 	public String labelDesc;
+
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	protected GRectangle labelRectangle = AwtFactory.getPrototype()
-			.newRectangle(0, 0);
+	protected GRectangle labelRectangle = AwtFactory.getPrototype().newRectangle(0, 0);
 	/**
 	 * Stroked shape for hits testing of conics, loci ... with alpha = 0
 	 */
@@ -119,6 +118,7 @@ public abstract class Drawable extends DrawableND {
 
 	/** tracing */
 	protected boolean isTracing = false;
+
 	private boolean forcedLineType;
 
 	private HatchingHandler hatchingHandler;
@@ -129,6 +129,7 @@ public abstract class Drawable extends DrawableND {
 	 * Whether current paint is the first one
 	 */
 	protected boolean firstCall = true;
+
 	private GeoElement geoForLabel;
 	private DrawDynamicCaption drawDynamicCaption;
 	private int labelMargin = DrawText.DEFAULT_MARGIN;
@@ -168,7 +169,7 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Draws this drawable to given graphics
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -232,7 +233,7 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
-	 * 
+	 *
 	 * @return null when this Drawable is infinite or undefined
 	 */
 	public @Nullable GRectangle getBounds() {
@@ -241,7 +242,7 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Draws label of referenced geo
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -266,30 +267,37 @@ public abstract class Drawable extends DrawableND {
 		GFont oldFont = null;
 
 		// allow LaTeX caption surrounded by $ $
-		if (label.length() > 1 && (label.charAt(0) == '$')
-				&& label.endsWith("$")) {
+		if (label.length() > 1 && (label.charAt(0) == '$') && label.endsWith("$")) {
 			boolean serif = true; // nice "x"s
 			if (geo.isGeoText()) {
 				serif = ((GeoText) geo).isSerifFont();
 			}
 			int offsetY = view.getFontSize(); // make sure LaTeX labels
-													// don't go
-													// off bottom of screen
+			// don't go
+			// off bottom of screen
 			App app = view.getApplication();
-			GDimension dim = app.getDrawEquation().drawEquation(
-					geo.getKernel().getApplication(), geo, g2, xLabel,
-					yLabel - offsetY, label.substring(1, label.length() - 1),
-					g2.getFont(), serif, g2.getColor(), g2.getBackground(),
-					true, false, view.getCallBack(geo, firstCall));
+			GDimension dim = app.getDrawEquation()
+					.drawEquation(
+							geo.getKernel().getApplication(),
+							geo,
+							g2,
+							xLabel,
+							yLabel - offsetY,
+							label.substring(1, label.length() - 1),
+							g2.getFont(),
+							serif,
+							g2.getColor(),
+							g2.getBackground(),
+							true,
+							false,
+							view.getCallBack(geo, firstCall));
 			firstCall = false;
-			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(),
-					dim.getHeight());
+			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(), dim.getHeight());
 			return;
 		}
 
 		// label changed: check for bold or italic tags in caption
-		if (!labelDesc.equals(oldLabelDesc)
-				|| (labelDesc.length() > 0 && labelDesc.charAt(0) == '<')) {
+		if (!labelDesc.equals(oldLabelDesc) || (labelDesc.length() > 0 && labelDesc.charAt(0) == '<')) {
 			boolean italic = false;
 
 			// support for bold and italic tags in captions
@@ -298,8 +306,8 @@ public abstract class Drawable extends DrawableND {
 				oldFont = g2.getFont();
 
 				// use Serif font so that we can get a nice curly italic x
-				g2.setFont(view.getApplication().getFontCommon(true,
-						oldFont.getStyle() | GFont.ITALIC, oldFont.getSize()));
+				g2.setFont(view.getApplication()
+						.getFontCommon(true, oldFont.getStyle() | GFont.ITALIC, oldFont.getSize()));
 				label = label.substring(3, label.length() - 4);
 				italic = true;
 			}
@@ -307,29 +315,25 @@ public abstract class Drawable extends DrawableND {
 			if (label.startsWith("<b>") && label.endsWith("</b>")) {
 				oldFont = g2.getFont();
 
-				g2.setFont(g2.getFont()
-						.deriveFont(GFont.BOLD + (italic ? GFont.ITALIC : 0)));
+				g2.setFont(g2.getFont().deriveFont(GFont.BOLD + (italic ? GFont.ITALIC : 0)));
 				label = label.substring(3, label.length() - 4);
 			}
 		}
 
 		// no index in label: draw it fast
 		double fontSize = g2.getFont().getSize();
-		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex
-				&& lastFontSize == fontSize) {
-			view.drawStringWithOutline(g2, label, xLabel, yLabel,
-					geo.getObjectColor());
+		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex && lastFontSize == fontSize) {
+			view.drawStringWithOutline(g2, label, xLabel, yLabel, geo.getObjectColor());
 			labelRectangle.setLocation(xLabel, (int) Math.round(yLabel - fontSize));
 		} else { // label with index or label has changed:
-					// do the slower index drawing routine and check for indices
+			// do the slower index drawing routine and check for indices
 			oldLabelDesc = labelDesc;
 
-			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, label, xLabel, yLabel, isSerif(), view,
-					geo.getObjectColor());
+			GPoint p = EuclidianStatic.drawIndexedString(
+					view.getApplication(), g2, label, xLabel, yLabel, isSerif(), view, geo.getObjectColor());
 			labelHasIndex = p.y > 0;
-			labelRectangle.setBounds(xLabel, (int) Math.round(yLabel - fontSize), p.x,
-					(int) Math.round(fontSize + p.y));
+			labelRectangle.setBounds(
+					xLabel, (int) Math.round(yLabel - fontSize), p.x, (int) Math.round(fontSize + p.y));
 			lastFontSize = fontSize;
 		}
 
@@ -341,14 +345,13 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Adapts xLabel and yLabel to make sure that the label rectangle fits fully
 	 * on screen.
-	 * 
+	 *
 	 * @param Xmultiplier
 	 *            multiply the x size by it to ensure fitting (default: 1.0)
 	 * @param Ymultiplier
 	 *            multiply the y size by it to ensure fitting (default: 1.0)
 	 */
-	private void ensureLabelDrawsOnScreen(double Xmultiplier,
-			double Ymultiplier, GFont font) {
+	private void ensureLabelDrawsOnScreen(double Xmultiplier, double Ymultiplier, GFont font) {
 		// draw label and
 		int widthEstimate = (int) labelRectangle.getWidth();
 		int heightEstimate = (int) labelRectangle.getHeight();
@@ -367,11 +370,11 @@ public abstract class Drawable extends DrawableND {
 				// if we use name = value, this may still be called pretty
 				// often.
 				// Hence use heuristic here instead of measurement
-				heightEstimate = (int) (StringUtil.getPrototype()
-						.estimateHeight(labelDesc, font) * Ymultiplier);
+				heightEstimate =
+						(int) (StringUtil.getPrototype().estimateHeight(labelDesc, font) * Ymultiplier);
 
-				widthEstimate = (int) (StringUtil.getPrototype()
-						.estimateLengthHTML(labelDesc, font) * Xmultiplier);
+				widthEstimate =
+						(int) (StringUtil.getPrototype().estimateLengthHTML(labelDesc, font) * Xmultiplier);
 				roughEstimate = true;
 			}
 		}
@@ -433,12 +436,20 @@ public abstract class Drawable extends DrawableND {
 	 * @param bgColor
 	 *            background color
 	 */
-	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
-			GColor fgColor, GColor bgColor) {
+	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font, GColor fgColor, GColor bgColor) {
 		if (labelDesc != null) {
-			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					view.getTempGraphics2D(font), geo, g2, font, fgColor,
-					bgColor, labelDesc, xLabel, yLabel, isSerif(),
+			EuclidianStatic.drawMultilineLaTeX(
+					view.getApplication(),
+					view.getTempGraphics2D(font),
+					geo,
+					g2,
+					font,
+					fgColor,
+					bgColor,
+					labelDesc,
+					xLabel,
+					yLabel,
+					isSerif(),
 					view.getCallBack(geo, firstCall),
 					labelRectangle);
 			firstCall = false;
@@ -469,26 +480,40 @@ public abstract class Drawable extends DrawableND {
 
 			// sets labelRectangle
 			EuclidianStatic.drawMultiLineText(
-					view.getApplication(), labelDesc, xLabel, yLabel, g2,
-					isSerif(), textFont, labelRectangle, geo, labelMargin);
+					view.getApplication(),
+					labelDesc,
+					xLabel,
+					yLabel,
+					g2,
+					isSerif(),
+					textFont,
+					labelRectangle,
+					geo,
+					labelMargin);
 		} else {
 			// text with indices
 			// label description has changed, search for possible indices
 			oldLabelDesc = labelDesc;
 
-			labelHasIndex = EuclidianStatic
-					.drawIndexedMultilineString(view.getApplication(),
-							labelDesc, g2, labelRectangle, textFont, isSerif(),
-							xLabel, yLabel, labelMargin);
+			labelHasIndex = EuclidianStatic.drawIndexedMultilineString(
+					view.getApplication(),
+					labelDesc,
+					g2,
+					labelRectangle,
+					textFont,
+					isSerif(),
+					xLabel,
+					yLabel,
+					labelMargin);
 		}
 	}
 
 	/**
 	 * Adds geo's label offset to xLabel and yLabel.
-	 * 
+	 *
 	 * @return whether the label fits on screen
 	 */
-	final protected boolean addLabelOffset() {
+	protected final boolean addLabelOffset() {
 		if (geo.labelOffsetX == 0 && geo.labelOffsetY == 0) {
 			return false;
 		}
@@ -516,10 +541,10 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Adds geo's label offset to xLabel and yLabel.
-	 * 
+	 *
 	 * @param font
 	 *            used font
-	 * 
+	 *
 	 */
 	public final void addLabelOffsetEnsureOnScreen(GFont font) {
 		addLabelOffsetEnsureOnScreen(1.0, 1.0, font);
@@ -527,17 +552,17 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Adds geo's label offset to xLabel and yLabel.
-	 * 
+	 *
 	 * @param Xmultiplier
 	 *            multiply the x size by it to ensure fitting
 	 * @param Ymultiplier
 	 *            multiply the y size by it to ensure fitting
 	 * @param font
 	 *            font
-	 * 
+	 *
 	 */
-	public final void addLabelOffsetEnsureOnScreen(double Xmultiplier,
-			double Ymultiplier, GFont font) {
+	public final void addLabelOffsetEnsureOnScreen(
+			double Xmultiplier, double Ymultiplier, GFont font) {
 		// MAKE SURE LABEL STAYS ON SCREEN
 		xLabel += geo.labelOffsetX;
 		yLabel += geo.labelOffsetY;
@@ -548,7 +573,7 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Was the label clicked at? (mouse pointer location (x,y) in screen coords)
-	 * 
+	 *
 	 * @param x
 	 *            mouse x-coord
 	 * @param y
@@ -562,7 +587,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Was clicked at the handlers of bounding box? (mouse pointer location
 	 * (x,y) in screen coords)
-	 * 
+	 *
 	 * @param x
 	 *            mouse x-coord
 	 * @param y
@@ -582,7 +607,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Set fixed line type and ignore line type of the geo. Needed for
 	 * inequalities.
-	 * 
+	 *
 	 * @param type
 	 *            line type
 	 */
@@ -593,23 +618,23 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Update strokes (default,selection,deco) accordingly to geo
-	 * 
+	 *
 	 * @param fromGeo
 	 *            geo whose style should be used for the update
 	 */
-	final public void updateStrokes(GeoElementND fromGeo) {
+	public final void updateStrokes(GeoElementND fromGeo) {
 		updateStrokes(fromGeo, 0);
 	}
 
 	/**
 	 * Update strokes (default,selection,deco) accordingly to geo
-	 * 
+	 *
 	 * @param fromGeo
 	 *            geo whose style should be used for the update
 	 * @param minThickness
 	 *            minimal acceptable thickness
 	 */
-	final public void updateStrokes(GeoElementND fromGeo, int minThickness) {
+	public final void updateStrokes(GeoElementND fromGeo, int minThickness) {
 		strokedShape = null;
 		strokedShape2 = null;
 
@@ -628,12 +653,12 @@ public abstract class Drawable extends DrawableND {
 
 			double width = lineThickness / 2.0;
 			objStroke = EuclidianStatic.getStroke(width, lineType);
-			decoStroke = EuclidianStatic.getStroke(width,
-					EuclidianStyleConstants.LINE_TYPE_FULL);
+			decoStroke = EuclidianStatic.getStroke(width, EuclidianStyleConstants.LINE_TYPE_FULL);
 
 			selStroke = EuclidianStatic.getStroke(
-					!isShape(fromGeo) ? 2 * Math.max(width, 1) + 2
-									: width + EuclidianStyleConstants.SELECTION_ADD,
+					!isShape(fromGeo)
+							? 2 * Math.max(width, 1) + 2
+							: width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
 			if (!forcedLineType) {
@@ -653,7 +678,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Update strokes (default,selection,deco) accordingly to geo; ignores line
 	 * style
-	 * 
+	 *
 	 * @param fromGeo
 	 *            geo whose style should be used for the update
 	 */
@@ -665,23 +690,33 @@ public abstract class Drawable extends DrawableND {
 			lineThickness = fromGeo.getLineThickness();
 
 			double width = lineThickness / 2.0;
-			objStroke = AwtFactory.getPrototype().newBasicStroke(width,
-					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), objStroke.getDashArray());
-			decoStroke = AwtFactory.getPrototype().newBasicStroke(width,
-					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), decoStroke.getDashArray());
-			selStroke = AwtFactory.getPrototype().newBasicStroke(
-					2 * width + 2,
-					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), selStroke.getDashArray());
-
+			objStroke = AwtFactory.getPrototype()
+					.newBasicStroke(
+							width,
+							objStroke.getEndCap(),
+							objStroke.getLineJoin(),
+							objStroke.getMiterLimit(),
+							objStroke.getDashArray());
+			decoStroke = AwtFactory.getPrototype()
+					.newBasicStroke(
+							width,
+							objStroke.getEndCap(),
+							objStroke.getLineJoin(),
+							objStroke.getMiterLimit(),
+							decoStroke.getDashArray());
+			selStroke = AwtFactory.getPrototype()
+					.newBasicStroke(
+							2 * width + 2,
+							objStroke.getEndCap(),
+							objStroke.getLineJoin(),
+							objStroke.getMiterLimit(),
+							selStroke.getDashArray());
 		}
 	}
 
 	/**
 	 * Fills given shape
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 * @param fillShape
@@ -692,8 +727,8 @@ public abstract class Drawable extends DrawableND {
 			return;
 		}
 		if (geo.getFillType() != FillType.STANDARD) {
-			GColor fillColor = view.getBackgroundCommon().deriveWithAlpha(
-					geo.getFillColor().getAlpha());
+			GColor fillColor =
+					view.getBackgroundCommon().deriveWithAlpha(geo.getFillColor().getAlpha());
 			g2.setPaint(fillColor);
 			fillWithHatchOrImage(g2, fillShape, geo.getObjectColor());
 		} else if (geo.getAlphaValue() > 0.0f) {
@@ -718,15 +753,20 @@ public abstract class Drawable extends DrawableND {
 			return;
 		}
 		// use decoStroke as it is always full (not dashed/dotted etc)
-		GPaint gpaint = getHatchingHandler().getHatchingTexture(decoStroke,
-				color, geo.getBackgroundColor(),
-				geo.getAlphaValue(), geo.getHatchingDistance(),
-				geo.getHatchingAngle(), geo.getFillType(),
-				geo.getFillSymbol(), geo.getKernel().getApplication());
+		GPaint gpaint = getHatchingHandler()
+				.getHatchingTexture(
+						decoStroke,
+						color,
+						geo.getBackgroundColor(),
+						geo.getAlphaValue(),
+						geo.getHatchingDistance(),
+						geo.getHatchingAngle(),
+						geo.getFillType(),
+						geo.getFillSymbol(),
+						geo.getKernel().getApplication());
 
 		g2.setPaint(gpaint);
 		g2.fill(fillShape);
-
 	}
 
 	private HatchingHandler getHatchingHandler() {
@@ -774,7 +814,7 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * draw trace of this geo into given Graphics2D
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -818,14 +858,13 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * method to handle corner or side drag of bounding box to resize geo
-	 * 
+	 *
 	 * @param point
 	 *            - mouse drag event
 	 * @param handler
 	 *            - which corner was dragged
 	 */
-	public void updateByBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
+	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		// do nothing here
 	}
 
@@ -833,8 +872,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param point new control point position
 	 * @param handler handler ID
 	 */
-	public void updateByControlPointMovement(GPoint2D point,
-			ControlPointHandler handler) {
+	public void updateByControlPointMovement(GPoint2D point, ControlPointHandler handler) {
 		// do nothing here
 	}
 
@@ -861,8 +899,8 @@ public abstract class Drawable extends DrawableND {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
-		return AwtFactory.getPrototype().newTextLayout(text, font,
-				view.getTempGraphics2D(font).getFontRenderContext());
+		return AwtFactory.getPrototype()
+				.newTextLayout(text, font, view.getTempGraphics2D(font).getFontRenderContext());
 	}
 
 	/**
@@ -930,8 +968,7 @@ public abstract class Drawable extends DrawableND {
 	 *            bounding box handler
 	 * @return true if 'handler' is a corner handler.
 	 */
-	protected static boolean isCornerHandler(
-			EuclidianBoundingBoxHandler handler) {
+	protected static boolean isCornerHandler(EuclidianBoundingBoxHandler handler) {
 		return handler == EuclidianBoundingBoxHandler.BOTTOM_LEFT
 				|| handler == EuclidianBoundingBoxHandler.BOTTOM_RIGHT
 				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT
@@ -969,7 +1006,7 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Reset partial hit rectangle after click
-	 * 
+	 *
 	 * @param x
 	 *            screen x-coord of the click
 	 * @param y
@@ -992,9 +1029,7 @@ public abstract class Drawable extends DrawableND {
 	 * @return list of points defining the drawable
 	 */
 	protected List<GPoint2D> toPoints() {
-		GRectangle2D bounds = getBoundingBox() != null
-				? getBoundingBox().getRectangle()
-				: getBounds();
+		GRectangle2D bounds = getBoundingBox() != null ? getBoundingBox().getRectangle() : getBounds();
 		if (bounds == null) {
 			return Collections.emptyList();
 		}
@@ -1049,8 +1084,13 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	protected void drawHighlightRectangle(GGraphics2D g2) {
-		drawHighlightRectangle(g2, labelRectangle.getX(), labelRectangle.getY(),
-				labelRectangle.getWidth(), labelRectangle.getHeight(), HIGHLIGHT_DIAMETER);
+		drawHighlightRectangle(
+				g2,
+				labelRectangle.getX(),
+				labelRectangle.getY(),
+				labelRectangle.getWidth(),
+				labelRectangle.getHeight(),
+				HIGHLIGHT_DIAMETER);
 	}
 
 	/**
@@ -1062,22 +1102,22 @@ public abstract class Drawable extends DrawableND {
 	 * @param height Height
 	 * @param arcSize Diameter
 	 */
-	public static void drawHighlightRectangle(GGraphics2D g2, double x, double y,
-			double width, double height, double arcSize) {
+	public static void drawHighlightRectangle(
+			GGraphics2D g2, double x, double y, double width, double height, double arcSize) {
 		// Outer border - 3px purple - -3.5 to -0.5
 		double highlightWidth = UI_ELEMENT_HIGHLIGHT_WIDTH * 1.5;
 		double offset = UI_ELEMENT_HIGHLIGHT_WIDTH;
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(highlightWidth));
 		g2.setColor(GeoGebraColorConstants.PURPLE_700);
-		g2.drawRoundRect(x - offset, y - offset,
-				width + offset * 2, height + offset * 2, arcSize, arcSize);
+		g2.drawRoundRect(
+				x - offset, y - offset, width + offset * 2, height + offset * 2, arcSize, arcSize);
 		// Inner border - 2px white - -1.5 to -0.5 - Overlaps with outer border from -1.5 to -0.5
 		highlightWidth = UI_ELEMENT_HIGHLIGHT_WIDTH;
 		offset = offset / 4;
 		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(highlightWidth));
 		g2.setColor(GColor.WHITE);
-		g2.drawRoundRect(x - offset, y - offset,
-				width + offset * 2, height + offset * 2, arcSize, arcSize);
+		g2.drawRoundRect(
+				x - offset, y - offset, width + offset * 2, height + offset * 2, arcSize, arcSize);
 	}
 
 	protected void drawAndUpdateTraceIfNeeded(boolean showTrace) {

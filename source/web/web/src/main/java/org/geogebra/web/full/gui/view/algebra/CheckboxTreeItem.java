@@ -67,7 +67,6 @@ public final class CheckboxTreeItem extends LaTeXTreeItem {
 
 		if (controls.hasAnimPanel()) {
 			controls.updateAnimPanel();
-
 		}
 		content.clear();
 		createAvexWidget();

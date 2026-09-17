@@ -31,5 +31,4 @@ public class CASFactoryDummy extends CASFactory {
 	public boolean isEnabled() {
 		return false;
 	}
-
 }

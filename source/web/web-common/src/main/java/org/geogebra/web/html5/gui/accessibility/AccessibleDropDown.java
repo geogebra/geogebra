@@ -55,8 +55,8 @@ public class AccessibleDropDown implements AccessibleWidget {
 	 * @param view view
 	 * @param widgetFactory widget factory
 	 */
-	public AccessibleDropDown(GeoList geo, AppW app, AccessibilityView view,
-			BaseWidgetFactory widgetFactory) {
+	public AccessibleDropDown(
+			GeoList geo, AppW app, AccessibilityView view, BaseWidgetFactory widgetFactory) {
 		this.list = geo;
 		this.app = app;
 		this.view = view;
@@ -76,15 +76,17 @@ public class AccessibleDropDown implements AccessibleWidget {
 		button.getElement().setAttribute("aria-labelledby", labelId + " " + buttonId);
 
 		options.setVisible(false);
-		button.addDomHandler(e -> {
-			toggle();
-			if (options.isVisible()) {
-				options.getElement().focus();
-				setHoverIndex(list.getSelectedIndex());
-			} else {
-				button.getElement().focus();
-			}
-		}, ClickEvent.getType());
+		button.addDomHandler(
+				e -> {
+					toggle();
+					if (options.isVisible()) {
+						options.getElement().focus();
+						setHoverIndex(list.getSelectedIndex());
+					} else {
+						button.getElement().focus();
+					}
+				},
+				ClickEvent.getType());
 		update();
 	}
 
@@ -131,12 +133,14 @@ public class AccessibleDropDown implements AccessibleWidget {
 			option.setText(list.getItemDisplayString(i, StringTemplate.screenReaderAscii));
 			option.getElement().setAttribute("role", "option");
 			final int idx = i;
-			option.addDomHandler(e -> {
+			option.addDomHandler(
+					e -> {
 						list.setSelectedIndexUpdate(idx);
 						updateText();
 						button.getElement().focus();
 						toggle();
-					}, ClickEvent.getType());
+					},
+					ClickEvent.getType());
 			option.addDomHandler(e -> setHoverIndex(idx), FocusEvent.getType());
 			options.add(option);
 		}

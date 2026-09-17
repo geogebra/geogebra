@@ -25,10 +25,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
+ *
  * @author G. Sturr
  */
-
 public class AlgoBinomialDistList extends AlgoDistribution {
 
 	/**
@@ -43,8 +42,8 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 	 * @param c
 	 *            value of random variable
 	 */
-	public AlgoBinomialDistList(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoList c) {
+	public AlgoBinomialDistList(
+			Construction cons, String label, GeoNumberValue a, GeoNumberValue b, GeoList c) {
 		super(cons, a, b, c);
 		num.setLabel(label);
 	}
@@ -68,19 +67,16 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
 			double param2 = b.getDouble();
 			try {
 
-				BinomialDistribution dist = getBinomialDistribution(param,
-						param2);
+				BinomialDistribution dist = getBinomialDistribution(param, param2);
 
 				double sum = 0;
 				for (int i = 0; i < list.size(); i++) {
-					sum += dist.probability(
-							(int) Math.round(list.get(i).evaluateDouble()));
+					sum += dist.probability((int) Math.round(list.get(i).evaluateDouble()));
 				}
 
 				num.setValue(sum);
@@ -92,5 +88,4 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

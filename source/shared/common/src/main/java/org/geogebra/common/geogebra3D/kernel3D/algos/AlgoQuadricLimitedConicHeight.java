@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Algo for cylinder/cone from a conic and a height
- * 
+ *
  * @author mathieu
  *
  */
@@ -50,7 +50,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	private AlgoQuadricEndTop algoTop;
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -62,8 +62,8 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	 * @param type
 	 *            type (cylinder/cone)
 	 */
-	public AlgoQuadricLimitedConicHeight(Construction c, String[] labels,
-			GeoConicND bottom, GeoNumberValue height, int type) {
+	public AlgoQuadricLimitedConicHeight(
+			Construction c, String[] labels, GeoConicND bottom, GeoNumberValue height, int type) {
 		super(c);
 
 		this.bottom = bottom;
@@ -71,7 +71,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		quadric = new GeoQuadric3DLimited(c, type);
 
-		input = new GeoElement[] { bottom, (GeoElement) height };
+		input = new GeoElement[] {bottom, (GeoElement) height};
 
 		bottom.addAlgorithm(this);
 		height.addAlgorithm(this);
@@ -100,32 +100,28 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		if (height instanceof GeoNumeric) {
 			if (height.isIndependent()) {
-				side.setChangeableParent((GeoNumeric) height, bottom,
-						new ExtrudeConverter(), quadric);
-				top.setChangeableParent((GeoNumeric) height, bottom,
-						new ExtrudeConverter(), quadric);
+				side.setChangeableParent((GeoNumeric) height, bottom, new ExtrudeConverter(), quadric);
+				top.setChangeableParent((GeoNumeric) height, bottom, new ExtrudeConverter(), quadric);
 			}
 		}
-
 	}
 
 	/**
 	 * create the top side
 	 */
-	final protected void createTop() {
+	protected final void createTop() {
 		algoTop = new AlgoQuadricEndTop(cons, getQuadric());
 		top = algoTop.getSection();
 		top.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
 		top.setParentAlgorithm(this);
-
 	}
 
 	/**
 	 * sets the output
 	 */
-	final protected void setOutput() {
-		setOutput(new GeoElement[] { getQuadric(), getQuadric().getTop(),
-				getQuadric().getSide() });
+	protected final void setOutput() {
+		setOutput(
+				new GeoElement[] {getQuadric(), getQuadric().getTop(), getQuadric().getSide()});
 	}
 
 	private void setQuadric() {
@@ -157,11 +153,10 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		algoTop.compute();
 
 		quadric.calcVolume();
-
 	}
 
-	abstract protected void setQuadric(Coords o1, Coords o2, Coords d,
-			Coords eigen, double r, double r2, double min, double max);
+	protected abstract void setQuadric(
+			Coords o1, Coords o2, Coords d, Coords eigen, double r, double r2, double min, double max);
 
 	/**
 	 * @return resulting limited quadric
@@ -242,5 +237,4 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		getKernel().notifyUpdate(side);
 		getKernel().notifyUpdate(top);
 	}
-
 }

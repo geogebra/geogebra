@@ -44,8 +44,11 @@ public class AxisUnitProperty extends AbstractValuedProperty<String>
 	 * @param euclidianView the active euclidian view
 	 * @param axis the axis for the numbering distance will be set
 	 */
-	public AxisUnitProperty(Localization localization, EuclidianSettings euclidianSettings,
-			EuclidianViewInterfaceCommon euclidianView, int axis) {
+	public AxisUnitProperty(
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			EuclidianViewInterfaceCommon euclidianView,
+			int axis) {
 		super(localization, "AxisUnitLabel");
 		this.euclidianSettings = euclidianSettings;
 		this.euclidianView = euclidianView;
@@ -74,7 +77,8 @@ public class AxisUnitProperty extends AbstractValuedProperty<String>
 
 	@Override
 	public List<String> getSuggestions() {
-		return Arrays.asList("",
+		return Arrays.asList(
+				"",
 				Unicode.DEGREE_STRING, // degrees
 				Unicode.PI_STRING, // pi
 				"mm",

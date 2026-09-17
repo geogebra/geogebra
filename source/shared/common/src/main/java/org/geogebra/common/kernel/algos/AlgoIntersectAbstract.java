@@ -20,9 +20,9 @@ import org.geogebra.common.kernel.Construction;
 
 /**
  * Common algo for Intersect
- * 
+ *
  * + used for trimmed intersections
- * 
+ *
  * + used for finding pre-existent intersect algos
  */
 public abstract class AlgoIntersectAbstract extends AlgoElement {
@@ -41,8 +41,7 @@ public abstract class AlgoIntersectAbstract extends AlgoElement {
 	 * @param addToConstructionList
 	 *            whether to add this to XML
 	 */
-	public AlgoIntersectAbstract(Construction cons,
-			boolean addToConstructionList) {
+	public AlgoIntersectAbstract(Construction cons, boolean addToConstructionList) {
 		super(cons, addToConstructionList);
 	}
 

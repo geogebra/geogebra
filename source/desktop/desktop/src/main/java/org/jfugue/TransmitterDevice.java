@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -28,7 +28,7 @@ import javax.sound.midi.Transmitter;
 /**
  * Represents an attached MIDI device, such as a keyboard. This class uses
  * javax.sound.MidiDevice, but is not derived from javax.sound.MidiDevice.
- * 
+ *
  * @author David Koelle
  * @version 3.0
  */
@@ -37,8 +37,7 @@ public class TransmitterDevice {
 	private MidiReceiverForTransmitterDevice mrftd;
 	private Receiver defaultReceiver;
 
-	public TransmitterDevice(MidiDevice.Info info)
-			throws MidiUnavailableException {
+	public TransmitterDevice(MidiDevice.Info info) throws MidiUnavailableException {
 		MidiDevice device = null;
 
 		device = MidiSystem.getMidiDevice(info);
@@ -63,7 +62,7 @@ public class TransmitterDevice {
 	/**
 	 * Reads a pattern from the external device - use this to record the keys
 	 * you're pressing on the keyboard!
-	 * 
+	 *
 	 * This method will return a JFugue Pattern, which you can then manipulate
 	 * to your heart's content.
 	 */
@@ -128,8 +127,7 @@ public class TransmitterDevice {
 		}
 
 		@Override
-		public void close() {
-		}
+		public void close() {}
 
 		public Pattern getPattern() {
 			return renderer.getPattern();
@@ -138,6 +136,5 @@ public class TransmitterDevice {
 		public Sequence getSequence() {
 			return sequencer.getSequence();
 		}
-
 	}
 }

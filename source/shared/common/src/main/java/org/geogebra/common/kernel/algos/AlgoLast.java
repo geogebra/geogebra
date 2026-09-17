@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Take last n objects from a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoLast extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -46,8 +45,7 @@ public class AlgoLast extends AlgoElement {
 	 * @param n
 	 *            number of elements
 	 */
-	public AlgoLast(Construction cons, String label, GeoList inputList,
-			GeoNumeric n) {
+	public AlgoLast(Construction cons, String label, GeoList inputList, GeoNumeric n) {
 		super(cons);
 		this.inputList = inputList;
 		this.n = n;
@@ -98,8 +96,7 @@ public class AlgoLast extends AlgoElement {
 
 		int outsize = n == null ? 1 : (int) n.getDouble();
 
-		if (!inputList.isDefined() || size == 0 || outsize < 0
-				|| outsize > size) {
+		if (!inputList.isDefined() || size == 0 || outsize < 0 || outsize > size) {
 			outputList.setUndefined();
 			return;
 		}
@@ -115,5 +112,4 @@ public class AlgoLast extends AlgoElement {
 			outputList.add(inputList.get(i).copyInternal(cons));
 		}
 	}
-
 }

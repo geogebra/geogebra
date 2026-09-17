@@ -124,12 +124,10 @@ public class Env {
 		}
 
 		@Override
-		public void lbrace(TeXParser tp) {
-		}
+		public void lbrace(TeXParser tp) {}
 
 		@Override
-		public void rbrace(TeXParser tp) {
-		}
+		public void rbrace(TeXParser tp) {}
 	}
 
 	public Env(final String before, final String after, final int nargs) {

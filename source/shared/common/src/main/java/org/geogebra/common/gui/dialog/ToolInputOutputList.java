@@ -30,5 +30,4 @@ public class ToolInputOutputList extends ArrayList<GeoElement> {
 		GeoElement[] geos = new GeoElement[size()];
 		return toArray(geos);
 	}
-
 }

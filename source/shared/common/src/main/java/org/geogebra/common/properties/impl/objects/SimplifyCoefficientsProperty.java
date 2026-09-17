@@ -23,8 +23,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class SimplifyCoefficientsProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class SimplifyCoefficientsProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 
 	private final GeoFunction function;
 

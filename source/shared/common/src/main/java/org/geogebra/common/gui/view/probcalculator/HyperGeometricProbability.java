@@ -67,15 +67,19 @@ public class HyperGeometricProbability extends CachingDiscreteDistribution {
 		AlgoListElement algo = new AlgoListElement(cons, values, k);
 		cons.removeFromConstructionList(algo);
 
-		AlgoHyperGeometric hyperGeometric = new AlgoHyperGeometric(cons,
-				pGeo, nGeo, sGeo, (GeoNumberValue) algo.getOutput(0),
+		AlgoHyperGeometric hyperGeometric = new AlgoHyperGeometric(
+				cons,
+				pGeo,
+				nGeo,
+				sGeo,
+				(GeoNumberValue) algo.getOutput(0),
 				new GeoBoolean(cons, parameters.isCumulative));
 		cons.removeFromConstructionList(hyperGeometric);
 
 		double length = highBound - lowBound + 1;
 		GeoNumeric lengthGeo = new GeoNumeric(cons, length);
-		AlgoSequence algoSeq2 = new AlgoSequence(cons, hyperGeometric.getOutput(0), k,
-				new GeoNumeric(cons, 1.0), lengthGeo, null);
+		AlgoSequence algoSeq2 = new AlgoSequence(
+				cons, hyperGeometric.getOutput(0), k, new GeoNumeric(cons, 1.0), lengthGeo, null);
 		cons.removeFromConstructionList(algoSeq2);
 		GeoList probs = (GeoList) algoSeq2.getOutput(0);
 		return new DiscreteProbability(values, probs);

@@ -22,9 +22,7 @@ public class DoubleRect {
 	public double right;
 	public double bottom;
 
-	public DoubleRect() {
-
-	}
+	public DoubleRect() {}
 
 	/**
 	 * @param left left

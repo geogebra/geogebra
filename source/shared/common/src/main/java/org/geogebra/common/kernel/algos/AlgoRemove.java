@@ -25,11 +25,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Remove undefined objects from a list
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-04
  */
-
 public class AlgoRemove extends AlgoElement {
 
 	private GeoList inputList;
@@ -40,7 +39,7 @@ public class AlgoRemove extends AlgoElement {
 
 	/**
 	 * Creates new undefined removal algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -50,8 +49,7 @@ public class AlgoRemove extends AlgoElement {
 	 * @param inputList2
 	 *            elements to be removed from list
 	 */
-	public AlgoRemove(Construction cons, String label, GeoList inputList,
-			GeoList inputList2) {
+	public AlgoRemove(Construction cons, String label, GeoList inputList, GeoList inputList2) {
 		super(cons);
 		this.inputList = inputList;
 		this.inputList2 = inputList2;
@@ -85,7 +83,7 @@ public class AlgoRemove extends AlgoElement {
 
 	/**
 	 * Returns the pruned list
-	 * 
+	 *
 	 * @return pruned list
 	 */
 	public GeoList getResult() {
@@ -142,5 +140,4 @@ public class AlgoRemove extends AlgoElement {
 			}
 		}
 	}
-
 }

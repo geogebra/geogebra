@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.spreadsheet.core;
 
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -55,8 +55,7 @@ class TabularRangeTest {
 				// one cell
 				() -> assertTrue(new TabularRange(2, 1).isFinite()),
 				// rectangular block
-				() -> assertTrue(new TabularRange(2, 1, 4, 3).isFinite())
-		);
+				() -> assertTrue(new TabularRange(2, 1, 4, 3).isFinite()));
 	}
 
 	@Test
@@ -72,8 +71,7 @@ class TabularRangeTest {
 				() -> assertFalse(range.isContiguousRows()),
 				() -> assertFalse(range.isSingleRow()),
 				() -> assertFalse(range.isPartialRow()),
-				() -> assertFalse(range.areAllCellsSelected())
-		);
+				() -> assertFalse(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -89,8 +87,7 @@ class TabularRangeTest {
 				() -> assertFalse(range.isContiguousRows()),
 				() -> assertFalse(range.isSingleRow()),
 				() -> assertTrue(range.isPartialRow()),
-				() -> assertFalse(range.areAllCellsSelected())
-		);
+				() -> assertFalse(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -106,8 +103,7 @@ class TabularRangeTest {
 				() -> assertFalse(range.isContiguousRows()),
 				() -> assertFalse(range.isSingleRow()),
 				() -> assertFalse(range.isPartialRow()),
-				() -> assertFalse(range.areAllCellsSelected())
-		);
+				() -> assertFalse(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -123,8 +119,7 @@ class TabularRangeTest {
 				() -> assertTrue(range.isContiguousRows()),
 				() -> assertTrue(range.isSingleRow()),
 				() -> assertFalse(range.isPartialRow()),
-				() -> assertFalse(range.areAllCellsSelected())
-		);
+				() -> assertFalse(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -140,8 +135,7 @@ class TabularRangeTest {
 				() -> assertTrue(range.isContiguousRows()),
 				() -> assertFalse(range.isSingleRow()),
 				() -> assertFalse(range.isPartialRow()),
-				() -> assertFalse(range.areAllCellsSelected())
-		);
+				() -> assertFalse(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -157,8 +151,7 @@ class TabularRangeTest {
 				() -> assertFalse(range.isContiguousRows()),
 				() -> assertFalse(range.isSingleRow()),
 				() -> assertFalse(range.isPartialRow()),
-				() -> assertFalse(range.areAllCellsSelected())
-		);
+				() -> assertFalse(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -174,8 +167,7 @@ class TabularRangeTest {
 				() -> assertFalse(range.isContiguousRows()),
 				() -> assertFalse(range.isSingleRow()),
 				() -> assertFalse(range.isPartialRow()),
-				() -> assertFalse(range.areAllCellsSelected())
-		);
+				() -> assertFalse(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -191,8 +183,7 @@ class TabularRangeTest {
 				() -> assertFalse(range.isContiguousRows()),
 				() -> assertFalse(range.isSingleRow()),
 				() -> assertFalse(range.isPartialRow()),
-				() -> assertTrue(range.areAllCellsSelected())
-		);
+				() -> assertTrue(range.areAllCellsSelected()));
 	}
 
 	@Test
@@ -219,8 +210,8 @@ class TabularRangeTest {
 		assertThat(cellB3.getRectangularUnion(cellA4), nullValue());
 	}
 
-	private void assertRangeEquals(@Nullable TabularRange range,
-			int anchorRow, int anchorColumn, int row2, int col2) {
+	private void assertRangeEquals(
+			@Nullable TabularRange range, int anchorRow, int anchorColumn, int row2, int col2) {
 		assertNotNull(range);
 		assertEquals(range.getFromRow(), anchorRow);
 		assertEquals(range.getFromColumn(), anchorColumn);

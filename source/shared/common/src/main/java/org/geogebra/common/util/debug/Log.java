@@ -25,7 +25,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Common logging class
- * 
+ *
  * @author Zoltan Kovacs
  */
 @HasNativeSubclass
@@ -33,6 +33,7 @@ public abstract class Log {
 
 	/** logger */
 	private static volatile Log logger;
+
 	private static Object lock = new Object();
 
 	/** Logging level */
@@ -60,7 +61,7 @@ public abstract class Log {
 
 	/**
 	 * The entire log since starting the application.
-	 * 
+	 *
 	 * @return the entire log
 	 */
 	public static StringBuilder getEntireLog() {
@@ -85,7 +86,7 @@ public abstract class Log {
 
 	/**
 	 * Sets the current logging level
-	 * 
+	 *
 	 * @param logLevel
 	 *            the logging level to set
 	 */
@@ -95,7 +96,7 @@ public abstract class Log {
 
 	/**
 	 * Sets the current logging level
-	 * 
+	 *
 	 * @param logLevel
 	 *            the logging level to set
 	 */
@@ -117,7 +118,7 @@ public abstract class Log {
 
 	/**
 	 * Returns the current logging level
-	 * 
+	 *
 	 * @return the current level
 	 */
 	public Level getLogLevel() {
@@ -126,7 +127,7 @@ public abstract class Log {
 
 	/**
 	 * Sets the logger destination (FILE, CONSOLE, WEB_CONSOLE, CONSOLES)
-	 * 
+	 *
 	 * @param logDestination
 	 *            the destination
 	 */
@@ -140,7 +141,7 @@ public abstract class Log {
 
 	/**
 	 * Returns the logger destination (FILE, CONSOLE, WEB_CONSOLE, CONSOLES)
-	 * 
+	 *
 	 * @return the destination
 	 */
 	public static LogDestination getLogDestination() {
@@ -153,7 +154,7 @@ public abstract class Log {
 
 	/**
 	 * Reports if the caller class and method names are printed for logging
-	 * 
+	 *
 	 * @return if the names are printed
 	 */
 	public boolean isCallerShown() {
@@ -162,7 +163,7 @@ public abstract class Log {
 
 	/**
 	 * Sets if the caller class and method names should be printed for logging
-	 * 
+	 *
 	 * @param callerShown
 	 *            if the names should be printed
 	 */
@@ -203,7 +204,7 @@ public abstract class Log {
 
 	/**
 	 * Prints a log message if the logLevel is set to &lt;= level
-	 * 
+	 *
 	 * @param level
 	 *            logging level
 	 * @param logMessage
@@ -213,7 +214,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level NOTICE
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -226,7 +227,7 @@ public abstract class Log {
 	/**
 	 * Prints debugging message, level DEBUG Special debugging format is used
 	 * for expression values
-	 * 
+	 *
 	 * @param s
 	 *            object to be printed
 	 */
@@ -238,7 +239,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level INFO
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -250,7 +251,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level ERROR
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -262,7 +263,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level WARN
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -274,7 +275,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level EMERGENCY
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -286,7 +287,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level ALERT
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -298,7 +299,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level TRACE
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -310,7 +311,7 @@ public abstract class Log {
 
 	/**
 	 * Prints debugging message, level CRITICAL
-	 * 
+	 *
 	 * @param message
 	 *            message to be printed
 	 */
@@ -324,13 +325,13 @@ public abstract class Log {
 	 * @param log
 	 *            sets the logger to this
 	 */
-	@SuppressFBWarnings(value = "EI_EXPOSE_STATIC_REP2",
+	@SuppressFBWarnings(
+			value = "EI_EXPOSE_STATIC_REP2",
 			justification = "all settings are done on startup, no concurrency issues")
 	public static void setLogger(Log log) {
 		synchronized (lock) {
 			logger = log;
 		}
-
 	}
 
 	/**
@@ -361,5 +362,4 @@ public abstract class Log {
 	public void setReading(boolean b) {
 		reading = true;
 	}
-
 }

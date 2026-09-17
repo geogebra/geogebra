@@ -81,7 +81,7 @@ public class DrawBoxPlot extends Drawable {
 
 			try {
 				fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
-								// appropriate
+				// appropriate
 			} catch (Exception e) {
 				Log.debug(e);
 			}
@@ -106,8 +106,7 @@ public class DrawBoxPlot extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return gp != null
-				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
+		return gp != null && (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
 	}
 
 	@Override
@@ -252,11 +251,10 @@ public class DrawBoxPlot extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		return gp.getBounds();
 	}
-
 }

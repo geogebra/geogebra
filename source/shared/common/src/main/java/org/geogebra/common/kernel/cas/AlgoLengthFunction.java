@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  *  A to B on T = sqrt(1+(f')^2)
  * @author Victor Franco Espino
  */
-
 public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 
 	private GeoNumeric A;
@@ -49,8 +48,8 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	 * @param B
 	 *            end parameter
 	 */
-	public AlgoLengthFunction(Construction cons, String label, GeoFunction f,
-			GeoNumeric A, GeoNumeric B) {
+	public AlgoLengthFunction(
+			Construction cons, String label, GeoFunction f, GeoNumeric A, GeoNumeric B) {
 		this(cons, f, A, B);
 		length.setLabel(label);
 	}
@@ -65,8 +64,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	 * @param B
 	 *            end parameter
 	 */
-	public AlgoLengthFunction(Construction cons, GeoFunction f, GeoNumeric A,
-			GeoNumeric B) {
+	public AlgoLengthFunction(Construction cons, GeoFunction f, GeoNumeric A, GeoNumeric B) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -114,8 +112,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	public void refreshCASResults() {
 		// First derivative of function f
 		// use fast non-CAS version!
-		algoCAS = new AlgoDerivative(cons, f, null, null, true,
-				new EvalInfo(false));
+		algoCAS = new AlgoDerivative(cons, f, null, null, true, new EvalInfo(false));
 		GeoFunction f1 = (GeoFunction) ((AlgoDerivative) algoCAS).getResult();
 
 		// Integral of length function

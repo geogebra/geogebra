@@ -26,5 +26,4 @@ public interface HasSliders {
 	 * @param value slider value
 	 */
 	void onValueChange(int index, double value);
-
 }

@@ -56,9 +56,9 @@ import org.geogebra.common.jre.util.ScientificFormat;
 /**
  * This class implements the Scalable Vector Graphics output. SVG specifications
  * can be found at http://www.w3c.org/Graphics/SVG/
- * 
+ *
  * The current implementation is based on REC-SVG11-20030114
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: SVGGraphics2D.java,v 1.11 2009-08-17 21:44:45 murkle Exp $
  */
@@ -68,14 +68,11 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	private static final String rootKey = SVGGraphics2D.class.getName();
 
-	public static final String TRANSPARENT = rootKey + "."
-			+ PageConstants.TRANSPARENT;
+	public static final String TRANSPARENT = rootKey + "." + PageConstants.TRANSPARENT;
 
-	public static final String BACKGROUND = rootKey + "."
-			+ PageConstants.BACKGROUND;
+	public static final String BACKGROUND = rootKey + "." + PageConstants.BACKGROUND;
 
-	public static final String BACKGROUND_COLOR = rootKey + "."
-			+ PageConstants.BACKGROUND_COLOR;
+	public static final String BACKGROUND_COLOR = rootKey + "." + PageConstants.BACKGROUND_COLOR;
 
 	public static final String VERSION = rootKey + ".Version";
 
@@ -87,15 +84,13 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 */
 	public static final String STYLABLE = rootKey + ".Stylable";
 
-	public static final String IMAGE_SIZE = rootKey + "."
-			+ ImageConstants.IMAGE_SIZE;
+	public static final String IMAGE_SIZE = rootKey + "." + ImageConstants.IMAGE_SIZE;
 
 	public static final String EXPORT_IMAGES = rootKey + ".ExportImages";
 
 	public static final String EXPORT_SUFFIX = rootKey + ".ExportSuffix";
 
-	public static final String WRITE_IMAGES_AS = rootKey + "."
-			+ ImageConstants.WRITE_IMAGES_AS;
+	public static final String WRITE_IMAGES_AS = rootKey + "." + ImageConstants.WRITE_IMAGES_AS;
 
 	public static final String FOR = rootKey + "." + InfoConstants.FOR;
 
@@ -103,12 +98,12 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	private final BasicStroke defaultStroke = new BasicStroke();
 
-	public static final String EMBED_FONTS = rootKey + "."
-			+ FontConstants.EMBED_FONTS;
+	public static final String EMBED_FONTS = rootKey + "." + FontConstants.EMBED_FONTS;
 
 	private SVGFontTable fontTable;
 
 	private static final UserProperties defaultProperties = new UserProperties();
+
 	static {
 		defaultProperties.setProperty(TRANSPARENT, true);
 		defaultProperties.setProperty(BACKGROUND, false);
@@ -209,8 +204,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		this.clipNumber = new Value().set(0);
 	}
 
-	protected SVGGraphics2D(SVGGraphics2D graphics,
-			boolean doRestoreOnDispose) {
+	protected SVGGraphics2D(SVGGraphics2D graphics, boolean doRestoreOnDispose) {
 		super(graphics, doRestoreOnDispose);
 		// Now initialize the new object.
 		filename = graphics.filename;
@@ -252,8 +246,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 */
 
 	/*--------------------------------------------------------------------------------
-	 | 3.1 Header & Trailer
-	 *--------------------------------------------------------------------------------*/
+	| 3.1 Header & Trailer
+	*--------------------------------------------------------------------------------*/
 	/**
 	 * Write out the header of this SVG file.
 	 */
@@ -264,8 +258,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			ros = new GZIPOutputStream(ros);
 		}
 
-		os = new PrintWriter(new OutputStreamWriter(ros, StandardCharsets.UTF_8),
-				true);
+		os = new PrintWriter(new OutputStreamWriter(ros, StandardCharsets.UTF_8), true);
 		fontTable = new SVGFontTable();
 
 		// Do the bounding box calculation.
@@ -275,8 +268,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		// Michael Borcherds 2008-06-06
 		// bugfix: added encoding="ISO-8859-1"
 		// as the date can contain accented characters in some languages
-		os.println(
-				"<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
+		os.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
 		if (getProperty(VERSION).equals(VERSION_1_1)) {
 			// no DTD anymore
 		} else {
@@ -295,8 +287,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 		writeSize(os);
 
-		os.println("     viewBox=\"" + bbx + " " + bby + " " + bbw + " " + bbh
-				+ "\"");
+		os.println("     viewBox=\"" + bbx + " " + bby + " " + bbw + " " + bbh + "\"");
 
 		os.println("     >");
 		closeTags.push("</svg> <!-- bounding box -->");
@@ -308,11 +299,11 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		/*
 		 * removed this section otherwise SVG fails validation test
 		 * http://validator.w3.org/check
-		 * 
-		 * 
+		 *
+		 *
 		 * String producer = getClass().getName(); if (!isDeviceIndependent()) {
 		 * producer += " " + version.substring(1, version.length() - 1); }
-		 * 
+		 *
 		 * os.println("<desc>"); os.println("<Title>" +
 		 * XMLWriter.normalizeText(getProperty(TITLE)) + "</Title>");
 		 * os.println("<Creator>" + XMLWriter.normalizeText(getCreator()) +
@@ -323,7 +314,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		 * DateFormat.getDateTimeInstance(DateFormat.FULL,
 		 * DateFormat.FULL).format(new Date()) + "</Date>"); }
 		 * os.println("</desc>");
-		 * 
+		 *
 		 */
 
 		// write default stroke
@@ -355,7 +346,6 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		os.println("     y=\"" + y + "px\"");
 		os.println("     width=\"" + w + "px\"");
 		os.println("     height=\"" + h + "px\"");
-
 	}
 
 	@Override
@@ -366,8 +356,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			setBackground(getPropertyColor(BACKGROUND_COLOR));
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		} else {
-			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+			setBackground(getComponent() != null ? getComponent().getBackground() : Color.WHITE);
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		}
 	}
@@ -375,7 +364,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	/**
 	 * Writes the font definitions and calls {@link #writeGraphicsRestore()} to
 	 * close all open XML Tags
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	@Override
@@ -461,7 +450,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	/**
 	 * Draws the shape using the current paint as border
-	 * 
+	 *
 	 * @param shape
 	 */
 	@Override
@@ -474,8 +463,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			Properties style = new Properties();
 			if (getPaint() != null) {
 				style.put("stroke", hexColor(getPaint()));
-				style.put("stroke-opacity",
-						fixedPrecision(alphaColor(getPaint())));
+				style.put("stroke-opacity", fixedPrecision(alphaColor(getPaint())));
 			}
 
 			// no filling
@@ -494,7 +482,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	/**
 	 * Fills the shape without a border using the current paint
-	 * 
+	 *
 	 * @param shape
 	 */
 	@Override
@@ -524,7 +512,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	/**
 	 * writes a path using {@link #getPath(java.awt.geom.PathIterator)} and the
 	 * given style
-	 * 
+	 *
 	 * @param pi
 	 * @param style
 	 *            Properties for <g> tag
@@ -546,20 +534,18 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		result.append("\n</g> <!-- drawing style -->");
 
 		// write in a transformed context
-		os.println(getTransformedString(getTransform(),
-				getClippedString(result.toString())));
+		os.println(getTransformedString(getTransform(), getClippedString(result.toString())));
 	}
 
 	/* 5.2. Images */
 	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
-		writeWarning(getClass()
-				+ ": copyArea(int, int, int, int, int, int) not implemented.");
+		writeWarning(getClass() + ": copyArea(int, int, int, int, int, int) not implemented.");
 	}
 
 	@Override
-	protected void writeImage(RenderedImage image, AffineTransform xform,
-			Color bkg) throws IOException {
+	protected void writeImage(RenderedImage image, AffineTransform xform, Color bkg)
+			throws IOException {
 
 		StringBuilder result = new StringBuilder();
 
@@ -570,12 +556,12 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		result.append("\" " + "xlink:href=\"");
 
 		String writeAs = getProperty(WRITE_IMAGES_AS);
-		boolean isTransparent = image.getColorModel().hasAlpha()
-				&& (bkg == null);
+		boolean isTransparent = image.getColorModel().hasAlpha() && (bkg == null);
 
 		byte[] pngBytes = null;
 		if (writeAs.equals(ImageConstants.PNG)
-				|| writeAs.equals(ImageConstants.SMALLEST) || isTransparent) {
+				|| writeAs.equals(ImageConstants.SMALLEST)
+				|| isTransparent) {
 			ByteArrayOutputStream png = new ByteArrayOutputStream();
 			ImageGraphics2D.writeImage(image, "png", new Properties(), png);
 			png.close();
@@ -583,8 +569,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		}
 
 		byte[] jpgBytes = null;
-		if ((writeAs.equals(ImageConstants.JPG)
-				|| writeAs.equals(ImageConstants.SMALLEST)) && !isTransparent) {
+		if ((writeAs.equals(ImageConstants.JPG) || writeAs.equals(ImageConstants.SMALLEST))
+				&& !isTransparent) {
 			ByteArrayOutputStream jpg = new ByteArrayOutputStream();
 			ImageGraphics2D.writeImage(image, "jpg", new Properties(), jpg);
 			jpg.close();
@@ -600,8 +586,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			encode = "jpg";
 			imageBytes = jpgBytes;
 		} else {
-			encode = (jpgBytes.length < (0.5 * pngBytes.length)) ? "jpg"
-					: "png";
+			encode = (jpgBytes.length < (0.5 * pngBytes.length)) ? "jpg" : "png";
 			imageBytes = encode.equals("jpg") ? jpgBytes : pngBytes;
 		}
 
@@ -610,24 +595,19 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 			// create filenames
 			if (filename == null) {
-				writeWarning(
-						"SVG: cannot write embedded images, since SVGGraphics2D");
-				writeWarning(
-						"     was created from an OutputStream rather than a File.");
+				writeWarning("SVG: cannot write embedded images, since SVGGraphics2D");
+				writeWarning("     was created from an OutputStream rather than a File.");
 				return;
 			}
 			int pos = filename.lastIndexOf(File.separatorChar);
 			String dirName = (pos < 0) ? "" : filename.substring(0, pos + 1);
-			String imageName = (pos < 0) ? filename
-					: filename.substring(pos + 1);
-			imageName += "." + getProperty(EXPORT_SUFFIX) + "-" + imageNumber
-					+ "." + encode;
+			String imageName = (pos < 0) ? filename : filename.substring(pos + 1);
+			imageName += "." + getProperty(EXPORT_SUFFIX) + "-" + imageNumber + "." + encode;
 
 			result.append(imageName);
 
 			// write the image separately
-			FileOutputStream imageStream = new FileOutputStream(
-					dirName + imageName);
+			FileOutputStream imageStream = new FileOutputStream(dirName + imageName);
 
 			imageStream.write(imageBytes);
 			imageStream.close();
@@ -637,8 +617,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			result.append(";base64,");
 
 			StringWriter writer = new StringWriter();
-			Base64OutputStream b64 = new Base64OutputStream(
-					new WriterOutputStream(writer));
+			Base64OutputStream b64 = new Base64OutputStream(new WriterOutputStream(writer));
 			b64.write(imageBytes);
 			b64.finish();
 
@@ -650,8 +629,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		appendElementTitleAndDescription(result);
 		result.append("</image>");
 
-		os.println(getTransformedString(getTransform(), getClippedString(
-				getTransformedString(xform, result.toString()))));
+		os.println(getTransformedString(
+				getTransform(), getClippedString(getTransformedString(xform, result.toString()))));
 	}
 
 	protected void appendElementTitleAndDescription(StringBuilder ap) {
@@ -660,8 +639,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	/* 5.3. Strings */
 	@Override
-	protected void writeString(String str, double x, double y)
-			throws IOException {
+	protected void writeString(String str, double x, double y) throws IOException {
 		// str = FontEncoder.getEncodedString(str, getFont().getName());
 
 		if (isProperty(EMBED_FONTS)) {
@@ -718,7 +696,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 * italic, underline and strikethrough are converted.
 	 * {@link java.awt.font.TextAttribute#SUPERSCRIPT} is handled by
 	 * {@link java.awt.Font#getTransform()}
-	 * 
+	 *
 	 * @return properties in svg style for the font
 	 */
 	private static Properties getFontProperties(Font font) {
@@ -734,16 +712,14 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		result.put("font-family", attributes.get(TextAttribute.FAMILY));
 
 		// weight
-		if (TextAttribute.WEIGHT_BOLD
-				.equals(attributes.get(TextAttribute.WEIGHT))) {
+		if (TextAttribute.WEIGHT_BOLD.equals(attributes.get(TextAttribute.WEIGHT))) {
 			result.put("font-weight", "bold");
 		} else {
 			result.put("font-weight", "normal");
 		}
 
 		// posture
-		if (TextAttribute.POSTURE_OBLIQUE
-				.equals(attributes.get(TextAttribute.POSTURE))) {
+		if (TextAttribute.POSTURE_OBLIQUE.equals(attributes.get(TextAttribute.POSTURE))) {
 			result.put("font-style", "italic");
 		} else {
 			result.put("font-style", "normal");
@@ -792,14 +768,12 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 * ==================================
 	 */
 	@Override
-	protected void writeTransform(AffineTransform transform)
-			throws IOException {
+	protected void writeTransform(AffineTransform transform) throws IOException {
 		// written when needed
 	}
 
 	@Override
-	protected void writeSetTransform(AffineTransform transform)
-			throws IOException {
+	protected void writeSetTransform(AffineTransform transform) throws IOException {
 		// written when needed
 	}
 
@@ -853,7 +827,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	/**
 	 * return the style tag for the stroke
-	 * 
+	 *
 	 * @param s
 	 *            Stroke to convert
 	 * @param all
@@ -875,24 +849,22 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		if (all || (stroke.getEndCap() != defaultStroke.getEndCap())) {
 			// append cap
 			switch (stroke.getEndCap()) {
-			default:
-			case BasicStroke.CAP_BUTT:
-				result.put("stroke-linecap", "butt");
-				break;
-			case BasicStroke.CAP_ROUND:
-				result.put("stroke-linecap", "round");
-				break;
-			case BasicStroke.CAP_SQUARE:
-				result.put("stroke-linecap", "square");
-				break;
+				default:
+				case BasicStroke.CAP_BUTT:
+					result.put("stroke-linecap", "butt");
+					break;
+				case BasicStroke.CAP_ROUND:
+					result.put("stroke-linecap", "round");
+					break;
+				case BasicStroke.CAP_SQUARE:
+					result.put("stroke-linecap", "square");
+					break;
 			}
 		}
 
 		// append dasharray
-		if (all || !Arrays.equals(stroke.getDashArray(),
-				defaultStroke.getDashArray())) {
-			if ((stroke.getDashArray() != null)
-					&& (stroke.getDashArray().length > 0)) {
+		if (all || !Arrays.equals(stroke.getDashArray(), defaultStroke.getDashArray())) {
+			if ((stroke.getDashArray() != null) && (stroke.getDashArray().length > 0)) {
 				StringBuffer array = new StringBuffer();
 				for (int i = 0; i < stroke.getDashArray().length; i++) {
 					if (i > 0) {
@@ -909,29 +881,27 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		}
 
 		if (all || (stroke.getDashPhase() != defaultStroke.getDashPhase())) {
-			result.put("stroke-dashoffset",
-					fixedPrecision(stroke.getDashPhase()));
+			result.put("stroke-dashoffset", fixedPrecision(stroke.getDashPhase()));
 		}
 
 		// append meter limit
 		if (all || (stroke.getMiterLimit() != defaultStroke.getMiterLimit())) {
-			result.put("stroke-miterlimit",
-					fixedPrecision(stroke.getMiterLimit()));
+			result.put("stroke-miterlimit", fixedPrecision(stroke.getMiterLimit()));
 		}
 
 		// append join
 		if (all || (stroke.getLineJoin() != defaultStroke.getLineJoin())) {
 			switch (stroke.getLineJoin()) {
-			default:
-			case BasicStroke.JOIN_MITER:
-				result.put("stroke-linejoin", "miter");
-				break;
-			case BasicStroke.JOIN_ROUND:
-				result.put("stroke-linejoin", "round");
-				break;
-			case BasicStroke.JOIN_BEVEL:
-				result.put("stroke-linejoin", "bevel");
-				break;
+				default:
+				case BasicStroke.JOIN_MITER:
+					result.put("stroke-linejoin", "miter");
+					break;
+				case BasicStroke.JOIN_ROUND:
+					result.put("stroke-linejoin", "round");
+					break;
+				case BasicStroke.JOIN_BEVEL:
+					result.put("stroke-linejoin", "bevel");
+					break;
 			}
 		}
 
@@ -941,8 +911,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			if (stroke.getLineWidth() == 0) {
 				result.put("stroke-width", fixedPrecision(0.000001f));
 			} else {
-				result.put("stroke-width",
-						fixedPrecision(stroke.getLineWidth()));
+				result.put("stroke-width", fixedPrecision(stroke.getLineWidth()));
 			}
 		}
 
@@ -979,8 +948,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			os.print("x2=\"" + fixedPrecision(p2.getX()) + "\" ");
 			os.print("y2=\"" + fixedPrecision(p2.getY()) + "\" ");
 			os.print("gradientUnits=\"userSpaceOnUse\" ");
-			os.print("spreadMethod=\""
-					+ ((paint.isCyclic()) ? "reflect" : "pad") + "\" ");
+			os.print("spreadMethod=\"" + ((paint.isCyclic()) ? "reflect" : "pad") + "\" ");
 			os.println(">");
 			os.println("    <stop offset=\"0\" stop-color=\""
 					+ hexColor(paint.getColor1()) + "\" " + "opacity-stop=\""
@@ -1044,8 +1012,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	@Override
 	protected void writePaint(Paint p) throws IOException {
-		writeWarning(getClass() + ": writePaint(Paint) not implemented for "
-				+ p.getClass());
+		writeWarning(getClass() + ": writePaint(Paint) not implemented for " + p.getClass());
 	}
 
 	/* 8.3. font */
@@ -1062,15 +1029,13 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 */
 	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
-		writeWarning(
-				getClass() + ": getDeviceConfiguration() not implemented.");
+		writeWarning(getClass() + ": getDeviceConfiguration() not implemented.");
 		return null;
 	}
 
 	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
-		writeWarning(getClass()
-				+ ": hit(Rectangle, Shape, boolean) not implemented.");
+		writeWarning(getClass() + ": hit(Rectangle, Shape, boolean) not implemented.");
 		return false;
 	}
 
@@ -1093,7 +1058,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	/**
 	 * Encapsulates a SVG-Tag by the given transformation matrix
-	 * 
+	 *
 	 * @param t
 	 *            Transformation
 	 * @param s
@@ -1129,7 +1094,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 	/**
 	 * Encapsulates a SVG-Tag by the current clipping area matrix
-	 * 
+	 *
 	 * @param s
 	 *            SVG-Tag
 	 */
@@ -1181,8 +1146,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		} else if (p instanceof TexturePaint) {
 			return 1.0f;
 		}
-		writeWarning(getClass() + ": alphaColor() not implemented for "
-				+ p.getClass() + ".");
+		writeWarning(getClass() + ": alphaColor() not implemented for " + p.getClass() + ".");
 		return 1.0f;
 	}
 
@@ -1194,8 +1158,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		} else if (p instanceof TexturePaint) {
 			return hexColor((TexturePaint) p);
 		}
-		writeWarning(getClass() + ": hexColor() not implemented for "
-				+ p.getClass() + ".");
+		writeWarning(getClass() + ": hexColor() not implemented for " + p.getClass() + ".");
 		return "#000000";
 	}
 
@@ -1229,45 +1192,45 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			int segType = path.currentSegment(coords);
 
 			switch (segType) {
-			case PathIterator.SEG_MOVETO:
-				result.append("M ");
-				result.append(fixedPrecision(coords[0]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[1]));
-				break;
-			case PathIterator.SEG_LINETO:
-				result.append("L ");
-				result.append(fixedPrecision(coords[0]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[1]));
-				break;
-			case PathIterator.SEG_CUBICTO:
-				result.append("C ");
-				result.append(fixedPrecision(coords[0]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[1]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[2]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[3]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[4]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[5]));
-				break;
-			case PathIterator.SEG_QUADTO:
-				result.append("Q ");
-				result.append(fixedPrecision(coords[0]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[1]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[2]));
-				result.append(" ");
-				result.append(fixedPrecision(coords[3]));
-				break;
-			case PathIterator.SEG_CLOSE:
-				result.append("z");
-				break;
+				case PathIterator.SEG_MOVETO:
+					result.append("M ");
+					result.append(fixedPrecision(coords[0]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[1]));
+					break;
+				case PathIterator.SEG_LINETO:
+					result.append("L ");
+					result.append(fixedPrecision(coords[0]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[1]));
+					break;
+				case PathIterator.SEG_CUBICTO:
+					result.append("C ");
+					result.append(fixedPrecision(coords[0]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[1]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[2]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[3]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[4]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[5]));
+					break;
+				case PathIterator.SEG_QUADTO:
+					result.append("Q ");
+					result.append(fixedPrecision(coords[0]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[1]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[2]));
+					result.append(" ");
+					result.append(fixedPrecision(coords[3]));
+					break;
+				case PathIterator.SEG_CLOSE:
+					result.append("z");
+					break;
 			}
 
 			// Move to the next segment.
@@ -1297,7 +1260,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 * For a given "key -> value" property set the method creates
 	 * style="key1:value1;key2:value2;" or key2="value2" key2="value2" depending
 	 * on {@link STYLABLE}.
-	 * 
+	 *
 	 * @param style
 	 *            properties to convert
 	 * @return String
@@ -1343,8 +1306,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		return result.toString();
 	}
 
-	private static ScientificFormat scientific = new ScientificFormat(5, 8,
-			false);
+	private static ScientificFormat scientific = new ScientificFormat(5, 8, false);
 
 	public static String fixedPrecision(double d) {
 		return scientific.format(d);

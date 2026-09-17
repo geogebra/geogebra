@@ -55,8 +55,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	@Override
-	protected GeoElement[] processPointVector3D(ExpressionNode n,
-			ExpressionValue evaluate, EvalInfo evalInfo) {
+	protected GeoElement[] processPointVector3D(
+			ExpressionNode n, ExpressionValue evaluate, EvalInfo evalInfo) {
 		String label = n.getLabel();
 
 		double[] p = ((Vector3DValue) evaluate).getPointAsDouble();
@@ -73,7 +73,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		// make vector, if label begins with lowercase character
 		if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
-																// MyXMLHandler
+				// MyXMLHandler
 				if (StringUtil.isLowerCase(label.charAt(0))) {
 					n.setForceVector();
 				} else {
@@ -92,8 +92,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			if (isVector) {
 				ret[0] = kernel.getManager3D().vector3D(x, y, z);
 			} else {
-				ret[0] = kernel.getManager3D().point3D(x, y, z, false)
-						.toGeoElement();
+				ret[0] = kernel.getManager3D().point3D(x, y, z, false).toGeoElement();
 			}
 			ret[0].setDefinition(n);
 
@@ -101,10 +100,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			if (isVector) {
 				ret[0] = kernel.getManager3D().dependentVector3D(n);
 			} else {
-				ret[0] = kernel.getManager3D().dependentPoint3D(n, true)
-						.toGeoElement();
+				ret[0] = kernel.getManager3D().dependentPoint3D(n, true).toGeoElement();
 			}
-
 		}
 
 		if (mode == Kernel.COORD_SPHERICAL) {
@@ -121,24 +118,22 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 		if (equ.containsZ()) {
 			switch (equ.degree()) {
-			case 0:
-			case 1:
-				equ.setForcePlane();
-				break;
-			case 2:
-				equ.setForceQuadric();
-				break;
-			default:
-				equ.setForceSurface();
-				break;
+				case 0:
+				case 1:
+					equ.setForcePlane();
+					break;
+				case 2:
+					equ.setForceQuadric();
+					break;
+				default:
+					equ.setForceSurface();
+					break;
 			}
 		}
-
 	}
 
 	@Override
-	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
-			EvalInfo info) {
+	protected GeoElement[] processLine(Equation equ, ExpressionNode def, EvalInfo info) {
 
 		if (equ.isForcedLine() && !equ.containsFreeFunctionVariable("z")) {
 			return super.processLine(equ, def, info);
@@ -149,28 +144,24 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			return processPlane(equ, def, info);
 		}
 		return super.processLine(equ, def, info);
-
 	}
 
 	@Override
-	public GeoElement[] processConic(Equation equ, ExpressionNode def,
-			EvalInfo info) {
+	public GeoElement[] processConic(Equation equ, ExpressionNode def, EvalInfo info) {
 
 		if (equ.isForcedConic()) {
 			return super.processConic(equ, def, info);
 		}
 
 		// check if the equ is forced plane or if the 3D view has the focus
-		if (equ.isForcedQuadric() || kernel.getApplication()
-				.getActiveEuclidianView().isEuclidianView3D()) {
+		if (equ.isForcedQuadric()
+				|| kernel.getApplication().getActiveEuclidianView().isEuclidianView3D()) {
 			return processQuadric(equ, def, info);
 		}
 		return super.processConic(equ, def, info);
-
 	}
 
-	private GeoElement[] processQuadric(Equation equ, ExpressionNode def,
-			EvalInfo info) {
+	private GeoElement[] processQuadric(Equation equ, ExpressionNode def, EvalInfo info) {
 
 		GeoQuadric3D quadric;
 		String label = equ.getLabel();
@@ -190,11 +181,10 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double y = lhs.getCoeffValue("y") / 2;
 			double z = lhs.getCoeffValue("z") / 2;
 
-			double[] coeffs = { xx, yy, zz, c, xy, xz, yz, x, y, z };
+			double[] coeffs = {xx, yy, zz, c, xy, xz, yz, x, y, z};
 			quadric = new GeoQuadric3D(cons, coeffs);
 		} else {
-			quadric = (GeoQuadric3D) kernel.getManager3D()
-					.dependentQuadric3D(equ);
+			quadric = (GeoQuadric3D) kernel.getManager3D().dependentQuadric3D(equ);
 		}
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
@@ -212,8 +202,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	 *            equation to process
 	 * @return resulting plane
 	 */
-	private GeoElement[] processPlane(Equation equ, ExpressionNode def,
-			EvalInfo info) {
+	private GeoElement[] processPlane(Equation equ, ExpressionNode def, EvalInfo info) {
 		GeoPlane3D plane;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -245,33 +234,33 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	@Override
-	public GeoElement[] processImplicitPoly(Equation equ,
-			ExpressionNode definition, EvalInfo info, ExpressionValue evaluatedDef) {
+	public GeoElement[] processImplicitPoly(
+			Equation equ, ExpressionNode definition, EvalInfo info, ExpressionValue evaluatedDef) {
 
 		if (PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES)
-				|| equ.isForcedQuadric() || equ.isForcedPlane()) {
+				|| equ.isForcedQuadric()
+				|| equ.isForcedPlane()) {
 			Polynomial lhs = equ.getNormalForm();
-			boolean isIndependent = !equ.isFunctionDependent()
-					&& lhs.isConstant(info) && !equ.hasVariableDegree();
+			boolean isIndependent =
+					!equ.isFunctionDependent() && lhs.isConstant(info) && !equ.hasVariableDegree();
 
-			if (kernel.getApplication().getActiveEuclidianView()
-					.isEuclidianView3D() || equ.isForcedSurface()
-					|| equ.isForcedPlane() || equ.isForcedQuadric()) {
+			if (kernel.getApplication().getActiveEuclidianView().isEuclidianView3D()
+					|| equ.isForcedSurface()
+					|| equ.isForcedPlane()
+					|| equ.isForcedQuadric()) {
 				GeoElement geo;
 				if (isIndependent) {
 					geo = new GeoImplicitSurface(cons, equ);
 				} else {
-					AlgoElement surfaceAlgo = new AlgoDependentImplicitSurface(
-							cons, equ);
+					AlgoElement surfaceAlgo = new AlgoDependentImplicitSurface(cons, equ);
 					geo = surfaceAlgo.getOutput(0);
 				}
 				geo.setDefinition(definition);
 				geo.setLabel(equ.getLabel());
-				return new GeoElement[] { geo };
+				return new GeoElement[] {geo};
 			}
 		}
 
 		return super.processImplicitPoly(equ, definition, info, evaluatedDef);
 	}
-
 }

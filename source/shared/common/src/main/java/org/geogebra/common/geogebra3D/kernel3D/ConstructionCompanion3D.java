@@ -32,7 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 
 /**
  * 3D construction companion
- * 
+ *
  * @author Mathieu
  */
 public class ConstructionCompanion3D extends ConstructionCompanion {
@@ -48,7 +48,7 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 */
@@ -67,7 +67,6 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 		space = new GeoSpace(cons);
 
 		clippingCube = new GeoClippingCube3D(cons);
-
 	}
 
 	@Override

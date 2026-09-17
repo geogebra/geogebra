@@ -46,8 +46,8 @@ class RestrictionsControllerTests extends BaseExamTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		Restrictions mmsRestrictions = ExamType.MMS.createRestrictions();
 		restrictionsController.applyRestrictions(mmsRestrictions);
-		assertTrue(restrictionsController.getDisabledSubAppCodes()
-				.contains(SuiteSubApp.GRAPHING.appCode));
+		assertTrue(
+				restrictionsController.getDisabledSubAppCodes().contains(SuiteSubApp.GRAPHING.appCode));
 		assertEquals(SuiteSubApp.CAS, getCurrentSubApp());
 	}
 
@@ -58,23 +58,21 @@ class RestrictionsControllerTests extends BaseExamTestSetup {
 
 		assertAll(
 				// feature restrictions
-				() -> assertTrue(restrictionsController
-						.isFeatureRestricted(FeatureRestriction.HIDE_CALCULATED_EQUATION)),
+				() -> assertTrue(restrictionsController.isFeatureRestricted(
+						FeatureRestriction.HIDE_CALCULATED_EQUATION)),
 				// command restrictions
-				() -> assertFalse(getCommandDispatcher()
-						.isAllowedByCommandFilters(Commands.Difference)),
+				() -> assertFalse(getCommandDispatcher().isAllowedByCommandFilters(Commands.Difference)),
 				// expression restrictions
 				() -> assertNull(evaluate("{{1,2},{3,4}}")),
 				// context menu restrictions
 				() -> assertEquals(
 						List.of(Expression, Text, Help),
-						ContextMenuFactory.makeInputContextMenu(true,
-								restrictionsController.getContextMenuItemFilters())));
+						ContextMenuFactory.makeInputContextMenu(
+								true, restrictionsController.getContextMenuItemFilters())));
 
 		restrictionsController.removeRestrictions();
 		assertTrue(getCommandDispatcher().isAllowedByCommandFilters(Commands.Derivative));
-		assertFalse(restrictionsController.isFeatureRestricted(
-				FeatureRestriction.HIDE_SPECIAL_POINTS));
+		assertFalse(restrictionsController.isFeatureRestricted(FeatureRestriction.HIDE_SPECIAL_POINTS));
 	}
 
 	@Test

@@ -28,23 +28,19 @@ import org.junit.jupiter.params.provider.ValueSource;
 class DrawArrowsPropertyTests extends BaseAppTestSetup {
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"SlopeField(x + y)"
-	})
+	@ValueSource(strings = {"SlopeField(x + y)"})
 	void testApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertDoesNotThrow(() ->
-				new DrawArrowsProperty(getLocalization(), evaluateGeoElement(expression)));
+		assertDoesNotThrow(
+				() -> new DrawArrowsProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"PenStroke((1, 2), (4, 3), (5, 6))",
-			"Locus(x + y, (0, 0))"
-	})
+	@ValueSource(strings = {"PenStroke((1, 2), (4, 3), (5, 6))", "Locus(x + y, (0, 0))"})
 	void testNotApplicableObjects(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class, () ->
-				new DrawArrowsProperty(getLocalization(), evaluateGeoElement(expression)));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new DrawArrowsProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 }

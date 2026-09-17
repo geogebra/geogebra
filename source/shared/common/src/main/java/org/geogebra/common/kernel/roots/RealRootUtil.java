@@ -29,7 +29,7 @@ public class RealRootUtil {
 
 	/**
 	 * Returns an interval within [a, b] where f(x) is defined.
-	 * 
+	 *
 	 * @param f
 	 *            function
 	 * @param a
@@ -37,11 +37,10 @@ public class RealRootUtil {
 	 * @param b
 	 *            interval max
 	 * @return [defined interval min, defined interval max]
-	 * 
+	 *
 	 * @see #getDefinitionBorder(UnivariateFunction, double, double)
 	 */
-	public static double[] getDefinedInterval(UnivariateFunction f, double a,
-			double b) {
+	public static double[] getDefinedInterval(UnivariateFunction f, double a, double b) {
 		double[] bounds = new double[2];
 
 		// calculate the function value at the estimate of the higher bound to x
@@ -88,7 +87,7 @@ public class RealRootUtil {
 	 * undefined on (x0, b]. If f(a) is undefined and f(b) is defined, f(x) is
 	 * (likely to be) undefined on [a, x0) and defined on [x0, b]. If both f(a)
 	 * and f(b) are defined resp. undefined Double.NaN is returned.
-	 * 
+	 *
 	 * @param f
 	 *            function
 	 * @param a
@@ -97,8 +96,7 @@ public class RealRootUtil {
 	 *            interval max
 	 * @return border between defined an undefined
 	 */
-	static double getDefinitionBorder(UnivariateFunction f, double a,
-			double b) {
+	static double getDefinitionBorder(UnivariateFunction f, double a, double b) {
 		double left = a, right = b;
 		boolean leftDef = false, rightDef;
 
@@ -135,7 +133,7 @@ public class RealRootUtil {
 
 	/**
 	 * updates the interval within [a, b] where f(x) is defined.
-	 * 
+	 *
 	 * @param f
 	 *            function
 	 * @param a
@@ -144,11 +142,11 @@ public class RealRootUtil {
 	 *            max
 	 * @param interval
 	 *            old interval
-	 * 
-	 * 
+	 *
+	 *
 	 */
-	public static void updateDefinedIntervalIntersecting(UnivariateFunction f,
-			double a, double b, double[] interval) {
+	public static void updateDefinedIntervalIntersecting(
+			UnivariateFunction f, double a, double b, double[] interval) {
 
 		double[] interval2 = getDefinedInterval(f, a, b);
 
@@ -159,7 +157,5 @@ public class RealRootUtil {
 		if (interval[1] > interval2[1]) {
 			interval[1] = interval2[1];
 		}
-
 	}
-
 }

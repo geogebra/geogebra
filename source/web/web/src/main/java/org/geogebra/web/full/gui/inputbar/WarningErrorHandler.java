@@ -26,7 +26,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 
 /**
  * Error handler for preview
- * 
+ *
  * @author Zbynek
  */
 public final class WarningErrorHandler implements ErrorLogger {
@@ -56,8 +56,7 @@ public final class WarningErrorHandler implements ErrorLogger {
 	}
 
 	@Override
-	public boolean onUndefinedVariables(String string,
-			AsyncOperation<String[]> callback) {
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
 		input.setUndefinedVariables(string);
 		return false;
 	}
@@ -65,13 +64,13 @@ public final class WarningErrorHandler implements ErrorLogger {
 	@Override
 	public void showCommandError(String command, String message) {
 		input.setCommandError(command);
-		if (((GuiManagerW) app2.getGuiManager())
-				.hasInputHelpPanel()) {
-			InputBarHelpPanelW helpPanel = ((GuiManagerW) app2
-					.getGuiManager()).getInputHelpPanel();
-			helpPanel.focusCommand(
-					app2.getLocalization().getCommand(command));
-			input.getHelpToggle().asWidget().getElement()
+		if (((GuiManagerW) app2.getGuiManager()).hasInputHelpPanel()) {
+			InputBarHelpPanelW helpPanel = ((GuiManagerW) app2.getGuiManager()).getInputHelpPanel();
+			helpPanel.focusCommand(app2.getLocalization().getCommand(command));
+			input
+					.getHelpToggle()
+					.asWidget()
+					.getElement()
 					.setTitle(app2.getLocalization().getInvalidInputError());
 		}
 	}
@@ -87,8 +86,7 @@ public final class WarningErrorHandler implements ErrorLogger {
 	 * @return undefined vars or null in symbolic mode
 	 */
 	public static String getUndefinedVariables(Kernel kernel) {
-		return kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV ? null
-				: undefinedVariables;
+		return kernel.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV ? null : undefinedVariables;
 	}
 
 	/**

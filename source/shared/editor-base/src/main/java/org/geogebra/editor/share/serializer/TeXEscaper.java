@@ -18,11 +18,11 @@ package org.geogebra.editor.share.serializer;
 
 public final class TeXEscaper {
 
-	private static final String[] escapableSymbols = { "%", "$", "#", "&", "{",
-			"}", "_" };
+	private static final String[] escapableSymbols = {"%", "$", "#", "&", "{", "}", "_"};
 
-	private static final String[][] replaceableSymbols = { { "~", "^", "\\" },
-			{ "\u223C", "\\^{} ", "\\backslash{}" } };
+	private static final String[][] replaceableSymbols = {
+		{"~", "^", "\\"}, {"\u223C", "\\^{} ", "\\backslash{}"}
+	};
 
 	private TeXEscaper() {
 		// utility class

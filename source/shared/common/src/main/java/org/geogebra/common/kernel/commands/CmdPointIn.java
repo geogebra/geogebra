@@ -24,14 +24,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * PointIn[ &lt;Region&gt; ]
- * 
+ *
  * @version 2010-05-17
  */
 public class CmdPointIn extends CommandProcessor {
 
 	/**
 	 * Initiates command processor for PointIn command
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel used for computations
 	 */
@@ -58,11 +58,10 @@ public class CmdPointIn extends CommandProcessor {
 		}
 
 		throw argNumErr(c);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param region
@@ -70,9 +69,7 @@ public class CmdPointIn extends CommandProcessor {
 	 * @return output
 	 */
 	protected GeoElement[] pointIn(String label, Region region) {
-		GeoElement[] ret = { getAlgoDispatcher().pointIn(label, region, 0, 0,
-				true, false, true) };
+		GeoElement[] ret = {getAlgoDispatcher().pointIn(label, region, 0, 0, true, false, true)};
 		return ret;
-
 	}
 }

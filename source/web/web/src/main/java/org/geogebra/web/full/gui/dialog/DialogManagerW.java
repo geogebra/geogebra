@@ -85,8 +85,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 
 import elemental2.dom.File;
 
-public class DialogManagerW extends DialogManager
-		implements LoadingApplication {
+public class DialogManagerW extends DialogManager implements LoadingApplication {
 	private FunctionInspectorW functionInspector;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	protected SaveDialogI saveDialog = null;
@@ -111,15 +110,13 @@ public class DialogManagerW extends DialogManager
 
 		try {
 			if (functionInspector == null) {
-				functionInspector = new FunctionInspectorW((AppW) app,
-						geoFunction);
+				functionInspector = new FunctionInspectorW((AppW) app, geoFunction);
 			} else {
 				functionInspector.insertGeoElement(geoFunction);
 			}
 
 			// show the view
-			app.getGuiManager().setShowView(true,
-					App.VIEW_FUNCTION_INSPECTOR);
+			app.getGuiManager().setShowView(true, App.VIEW_FUNCTION_INSPECTOR);
 			functionInspector.setInspectorVisible(true);
 
 		} catch (Exception e) {
@@ -135,22 +132,19 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public void showBooleanCheckboxCreationDialog(GPoint position,
-			GeoBoolean bool) {
+	public void showBooleanCheckboxCreationDialog(GPoint position, GeoBoolean bool) {
 		DialogData data = new DialogData("CheckBoxTitle");
-		CheckboxCreationDialogW dlg = new CheckboxCreationDialogW((AppW) app,
-				data, position, bool);
+		CheckboxCreationDialogW dlg = new CheckboxCreationDialogW((AppW) app, data, position, bool);
 		dlg.show();
 	}
 
 	@Override
-	public void showNumberInputDialog(String title, String message,
-			String initText, AsyncOperation<GeoNumberValue> callback) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app);
-		ComponentInputDialog inputDialog = new NumberInputDialog((AppW) app,
-			new DialogData(title), false, true, handler, message,
-				initText);
+	public void showNumberInputDialog(
+			String title, String message, String initText, AsyncOperation<GeoNumberValue> callback) {
+		NumberInputHandler handler =
+				new NumberInputHandler(app.getKernel().getAlgebraProcessor(), callback, app);
+		ComponentInputDialog inputDialog = new NumberInputDialog(
+				(AppW) app, new DialogData(title), false, true, handler, message, initText);
 		inputDialog.show();
 	}
 
@@ -182,53 +176,50 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
 		DialogData data = new DialogData("Redefine");
-		ComponentInputDialog redefineInputDialog = new ComponentInputDialog((AppW) app, data,
-				false, false, handler, geo.getNameDescription(), str
-		);
+		ComponentInputDialog redefineInputDialog = new ComponentInputDialog(
+				(AppW) app, data, false, false, handler, geo.getNameDescription(), str);
 		redefineInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogRegularPolygon(String title,
-			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
+	public void showNumberInputDialogRegularPolygon(
+			String title,
+			EuclidianController ec,
+			GeoPointND geoPoint1,
+			GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog regularPolyInputDialog = new InputDialogRegularPolygonW((AppW) app,
-				data, ec, handler, geoPoint1, geoPoint2, direction);
+		ComponentInputDialog regularPolyInputDialog = new InputDialogRegularPolygonW(
+				(AppW) app, data, ec, handler, geoPoint1, geoPoint2, direction);
 		regularPolyInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogCirclePointRadius(String title,
-			GeoPointND geoPoint1, EuclidianView view) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogCirclePointRadius(
+			String title, GeoPointND geoPoint1, EuclidianView view) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog circlePointRadiusInputDialog
-				= new InputDialogCirclePointRadiusW((AppW) app, data,
-				handler, (GeoPoint) geoPoint1, app.getKernel());
+		ComponentInputDialog circlePointRadiusInputDialog = new InputDialogCirclePointRadiusW(
+				(AppW) app, data, handler, (GeoPoint) geoPoint1, app.getKernel());
 		circlePointRadiusInputDialog.show();
 	}
 
 	@Override
-	public void showAngleInputDialog(String title, String message,
-			String initText, AsyncOperation<GeoNumberValue> callback) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app);
+	public void showAngleInputDialog(
+			String title, String message, String initText, AsyncOperation<GeoNumberValue> callback) {
+		NumberInputHandler handler =
+				new NumberInputHandler(app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
-		AngleInputDialogW angleInputDialog = new AngleInputDialogW((AppW) app, message,
-				data, initText, handler, true);
+		AngleInputDialogW angleInputDialog =
+				new AngleInputDialogW((AppW) app, message, data, initText, handler, true);
 		angleInputDialog.show();
 	}
 
 	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-		DialogData data = new DialogData(textfield ? "InputBox"
-				: "Button.Tool");
-		ButtonDialogW buttonDialog = new ButtonDialogW((AppW) app, x, y,
-				data, textfield);
+		DialogData data = new DialogData(textfield ? "InputBox" : "Button.Tool");
+		ButtonDialogW buttonDialog = new ButtonDialogW((AppW) app, x, y, data, textfield);
 		buttonDialog.show();
 		return true;
 	}
@@ -258,8 +249,8 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public void showRenameDialog(GeoElement geo, boolean storeUndo,
-			String initText, boolean selectInitText) {
+	public void showRenameDialog(
+			GeoElement geo, boolean storeUndo, String initText, boolean selectInitText) {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
@@ -274,8 +265,13 @@ public class DialogManagerW extends DialogManager
 
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 		DialogData data = new DialogData("Rename");
-		ComponentInputDialog renameDialog = new RenameInputDialog((AppW) app, data, false, false,
-				handler, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
+		ComponentInputDialog renameDialog = new RenameInputDialog(
+				(AppW) app,
+				data,
+				false,
+				false,
+				handler,
+				app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
 				initText);
 		renameDialog.show();
 	}
@@ -353,10 +349,11 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showExportImageDialog(String base64Image) {
-		DialogData data = new DialogData("exportImage", ClipboardUtil
-			.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null, "Download");
-		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app, data,
-				base64Image);
+		DialogData data = new DialogData(
+				"exportImage",
+				ClipboardUtil.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null,
+				"Download");
+		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app, data, base64Image);
 		expImgDialog.show();
 	}
 
@@ -382,11 +379,15 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public void showNumberInputDialog(String title, String message,
-			String initText, boolean changingSign, String checkBoxText,
+	public void showNumberInputDialog(
+			String title,
+			String message,
+			String initText,
+			boolean changingSign,
+			String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
-		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app);
+		NumberChangeSignInputHandler handler =
+				new NumberChangeSignInputHandler(app.getKernel().getAlgebraProcessor(), callback, app);
 		DialogData data = new DialogData(title);
 		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
 				(AppW) app, message, data, initText, handler, changingSign);
@@ -407,47 +408,53 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogRotate(
+			String title,
+			GeoPolygon[] polys,
+			GeoPointND[] points,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogRotateW rotatePointInputDialog = new InputDialogRotatePointW((AppW) app, data,
-				handler, polys, points, selGeos, ec);
+		InputDialogRotateW rotatePointInputDialog =
+				new InputDialogRotatePointW((AppW) app, data, handler, polys, points, selGeos, ec);
 		rotatePointInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogAngleFixed(String title,
-			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
+	public void showNumberInputDialogAngleFixed(
+			String title,
+			GeoSegmentND[] segments,
+			GeoPointND[] points,
+			GeoElement[] selGeos,
 			EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogAngleFixedW angleInputDialog = new InputDialogAngleFixedW((AppW) app,
-				data, handler, segments, points, app.getKernel(), ec);
+		InputDialogAngleFixedW angleInputDialog = new InputDialogAngleFixedW(
+				(AppW) app, data, handler, segments, points, app.getKernel(), ec);
 		angleInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
-			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogDilate(
+			String title,
+			GeoPolygon[] polys,
+			GeoPointND[] points,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		InputDialogDilateW dilateInputDialog = new InputDialogDilateW((AppW) app, data, handler,
-				points, selGeos, app.getKernel(), ec);
+		InputDialogDilateW dilateInputDialog =
+				new InputDialogDilateW((AppW) app, data, handler, points, selGeos, app.getKernel(), ec);
 		dilateInputDialog.show();
 	}
 
 	@Override
-	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPointND startPoint) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
+	public void showNumberInputDialogSegmentFixed(String title, GeoPointND startPoint) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog segmentInputDialog = new InputDialogSegmentFixedW((AppW) app, data,
-				handler, startPoint, app.getKernel());
+		ComponentInputDialog segmentInputDialog =
+				new InputDialogSegmentFixedW((AppW) app, data, handler, startPoint, app.getKernel());
 		segmentInputDialog.show();
 	}
 
@@ -459,19 +466,17 @@ public class DialogManagerW extends DialogManager
 	public SaveDialogI getSaveDialog(boolean addTempCheckBox) {
 		DialogData data = getSaveDialogData();
 		saveDialog = new SaveDialog((AppW) app, data, addTempCheckBox);
-		saveDialog.setSaveType(
-				app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
+		saveDialog.setSaveType(app.isWhiteboardActive() ? MaterialType.ggs : MaterialType.ggb);
 
 		return saveDialog;
 	}
 
 	/**
-	 * @return The "do you want to save" dialog, 
+	 * @return The "do you want to save" dialog,
 	 *     which does not have the input panel visible when offline
 	 */
 	public SaveDialogI getSaveCheckDialog() {
-		DialogData data = new DialogData("DoYouWantToSaveYourChanges",
-					"Discard", "Save");
+		DialogData data = new DialogData("DoYouWantToSaveYourChanges", "Discard", "Save");
 
 		return new SaveUnsavedChangesDialog((AppW) app, data, true);
 	}
@@ -482,8 +487,10 @@ public class DialogManagerW extends DialogManager
 
 	private String getSaveDialogTitle() {
 		if (isSuite()) {
-			return app.getLocalization().getPlain("saveDialog.saveApp",
-					app.getLocalization().getMenu(app.getConfig().getAppNameWithoutCalc()));
+			return app.getLocalization()
+					.getPlain(
+							"saveDialog.saveApp",
+							app.getLocalization().getMenu(app.getConfig().getAppNameWithoutCalc()));
 		}
 		return "Save";
 	}
@@ -510,16 +517,13 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public void showPropertiesDialog(OptionType type,
-			ArrayList<GeoElement> geos) {
-		if (!app.letShowPropertiesDialog()
-				|| app.getGuiManager() == null) {
+	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
+		if (!app.letShowPropertiesDialog() || app.getGuiManager() == null) {
 			return;
 		}
 
 		// get PropertiesView
-		PropertiesView pv = ((GuiManagerW) app.getGuiManager())
-				.getPropertiesView(type);
+		PropertiesView pv = ((GuiManagerW) app.getGuiManager()).getPropertiesView(type);
 		int subType = -1;
 		// select geos
 		if (geos != null) {
@@ -527,7 +531,8 @@ public class DialogManagerW extends DialogManager
 				app.getSelectionManager().addSelectedGeos(geos, true);
 			}
 
-			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
+			if (geos.size() == 1
+					&& geos.get(0).isEuclidianVisible()
 					&& geos.get(0) instanceof GeoNumeric) {
 				// TODO  propPanel.showSliderTab()
 				subType = 2;
@@ -544,15 +549,13 @@ public class DialogManagerW extends DialogManager
 		if (app.isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) pv).open();
 		} else {
-			app.getGuiManager().setShowView(true,
-					App.VIEW_PROPERTIES);
+			app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
 		}
 	}
 
 	@Override
 	protected boolean isPropertiesViewShowing() {
-		return super.isPropertiesViewShowing()
-				|| isFloatingPropertiesViewShowing();
+		return super.isPropertiesViewShowing() || isFloatingPropertiesViewShowing();
 	}
 
 	private boolean isFloatingPropertiesViewShowing() {
@@ -563,12 +566,10 @@ public class DialogManagerW extends DialogManager
 	@Override
 	protected void hidePropertiesView() {
 		if (app.isUnbundledOrWhiteboard()) {
-			PropertiesView pv = ((GuiManagerW) app.getGuiManager())
-					.getPropertiesView(OptionType.OBJECTS);
+			PropertiesView pv = ((GuiManagerW) app.getGuiManager()).getPropertiesView(OptionType.OBJECTS);
 			((PropertiesViewW) pv).close();
 		} else {
-			app.getGuiManager().setShowView(false,
-					App.VIEW_PROPERTIES);
+			app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 		}
 	}
 
@@ -584,8 +585,7 @@ public class DialogManagerW extends DialogManager
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
 
 			Log.debug("[DAMODE] about to show mode " + mode);
-			DataAnalysisViewW da = (DataAnalysisViewW) app.getGuiManager()
-					.getDataAnalysisView();
+			DataAnalysisViewW da = (DataAnalysisViewW) app.getGuiManager().getDataAnalysisView();
 			da.changeMode(mode);
 			app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
 		}
@@ -629,8 +629,7 @@ public class DialogManagerW extends DialogManager
 	 * @param handler
 	 *            color change listener
 	 */
-	public void showColorChooserDialog(GColor originalColor,
-			ColorChangeHandler handler) {
+	public void showColorChooserDialog(GColor originalColor, ColorChangeHandler handler) {
 		DialogData data = new DialogData("ChooseColor", "Cancel", "OK");
 		if (colChooser == null) {
 			colChooser = new ColorChooserDialog((AppW) app, data, originalColor, handler);
@@ -638,8 +637,8 @@ public class DialogManagerW extends DialogManager
 			// we want to preserve the used colors panel,
 			// but also make sure that the language is updated
 			ColorChooserW colorChooserPanel = colChooser.getColorChooserPanel();
-			colChooser = new ColorChooserDialog((AppW) app, data, originalColor, handler,
-					colorChooserPanel);
+			colChooser =
+					new ColorChooserDialog((AppW) app, data, originalColor, handler, colorChooserPanel);
 		}
 		colChooser.show();
 	}
@@ -652,8 +651,7 @@ public class DialogManagerW extends DialogManager
 	}
 
 	@Override
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
-			boolean rw) {
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
 		DialogData data = new DialogData("Text", "Cancel", "Ok");
 		TextDialog dialog = new TextDialog((AppWFull) app, data, startPoint, rw);
 		if (text != null) {
@@ -670,8 +668,7 @@ public class DialogManagerW extends DialogManager
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)
 				|| app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)
 				|| app.getGuiManager().showView(App.VIEW_ALGEBRA)
-				|| app.getGuiManager()
-						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+				|| app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
 			DialogData data = new DialogData("PrintPreview", "Cancel", "Print");
 			new PrintPreviewW((AppW) app, data).show();
 		}
@@ -693,8 +690,8 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showTemplateChooser() {
 		DialogData data = new DialogData("New.Mebis", "Cancel", "Create");
-		templateChooser = new TemplateChooser((AppW) app, data,
-				((GuiManagerW) ((AppW) app).getGuiManager()).getTemplateController());
+		templateChooser = new TemplateChooser(
+				(AppW) app, data, ((GuiManagerW) ((AppW) app).getGuiManager()).getTemplateController());
 		templateChooser.show();
 	}
 

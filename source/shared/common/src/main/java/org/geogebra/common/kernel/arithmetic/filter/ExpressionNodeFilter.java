@@ -27,7 +27,7 @@ import org.jspecify.annotations.NonNull;
  */
 public abstract class ExpressionNodeFilter implements ExpressionFilter {
 	@Override
-	final public boolean isAllowed(@NonNull ExpressionValue expression) {
+	public final boolean isAllowed(@NonNull ExpressionValue expression) {
 		if (!expression.isExpressionNode()) {
 			return true;
 		}

@@ -43,43 +43,42 @@ import com.google.gwtmockito.WithClassesToStub;
 @RunWith(GgbMockitoTestRunner.class)
 @WithClassesToStub({JLMContext2D.class, RootPanel.class})
 public class GroupSaveTest {
-    private static AppWFull app;
-    private static Construction cons;
-    private static final String pathString = "src/test/resources/org/geogebra/web/html5/io"
-            + "/consWithGroupXML.txt";
+	private static AppWFull app;
+	private static Construction cons;
+	private static final String pathString =
+			"src/test/resources/org/geogebra/web/html5/io" + "/consWithGroupXML.txt";
 
-    @Before
-    public void initTest() {
-        AppletParameters articleElement = new AppletParameters("notes");
-        app = AppMocker.mockApplet(articleElement);
-        cons = app.getKernel().getConstruction();
-    }
+	@Before
+	public void initTest() {
+		AppletParameters articleElement = new AppletParameters("notes");
+		app = AppMocker.mockApplet(articleElement);
+		cons = app.getKernel().getConstruction();
+	}
 
-    @Test
-    public void testSaveGroup() {
-        GeoPoint A = new GeoPoint(cons, "A", 0, 0, 1);
-        GeoPoint B = new GeoPoint(cons, "B", 3, 0, 1);
-        GeoPoint C = new GeoPoint(cons, "C", 3, 3, 1);
-        AlgoJoinPoints line = new AlgoJoinPoints(cons, "g", B, C);
-        ArrayList<GeoElement> geos = new ArrayList<>();
-        geos.add(A);
-        geos.add(line.getOutput(0));
-        cons.createGroup(geos);
+	@Test
+	public void testSaveGroup() {
+		GeoPoint A = new GeoPoint(cons, "A", 0, 0, 1);
+		GeoPoint B = new GeoPoint(cons, "B", 3, 0, 1);
+		GeoPoint C = new GeoPoint(cons, "C", 3, 3, 1);
+		AlgoJoinPoints line = new AlgoJoinPoints(cons, "g", B, C);
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(A);
+		geos.add(line.getOutput(0));
+		cons.createGroup(geos);
 
-        String fileContent = FileIO.load(pathString);
-        XMLStringBuilder consXMLStrBuilder = new XMLStringBuilder();
-        app.getKernel().getConstruction().getConstructionXML(consXMLStrBuilder, false);
-        assertEquals(fileContent, consXMLStrBuilder.toString().trim());
-    }
+		String fileContent = FileIO.load(pathString);
+		XMLStringBuilder consXMLStrBuilder = new XMLStringBuilder();
+		app.getKernel().getConstruction().getConstructionXML(consXMLStrBuilder, false);
+		assertEquals(fileContent, consXMLStrBuilder.toString().trim());
+	}
 
-    @Test
-    public void testLoadGroup() {
-        String fileContent = FileIO.load(pathString);
-        app.getGgbApi().evalXML(fileContent);
-        ArrayList<GeoElement> groupedGeos = cons.getGroups().get(0).getGroupedGeos();
-        assertThat(groupedGeos.size(), equalTo(2));
-        assertThat(groupedGeos.get(0).getLabelSimple(), equalTo("A"));
-        assertThat(groupedGeos.get(1).getLabelSimple(), equalTo("g"));
-    }
-
+	@Test
+	public void testLoadGroup() {
+		String fileContent = FileIO.load(pathString);
+		app.getGgbApi().evalXML(fileContent);
+		ArrayList<GeoElement> groupedGeos = cons.getGroups().get(0).getGroupedGeos();
+		assertThat(groupedGeos.size(), equalTo(2));
+		assertThat(groupedGeos.get(0).getLabelSimple(), equalTo("A"));
+		assertThat(groupedGeos.get(1).getLabelSimple(), equalTo("g"));
+	}
 }

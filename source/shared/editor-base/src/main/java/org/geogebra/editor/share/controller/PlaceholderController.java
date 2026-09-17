@@ -31,8 +31,8 @@ public class PlaceholderController {
 	 * @param editorState editor state
 	 * @param placeholders the list of placeholders to insert
 	 */
-	public static void insertPlaceholders(EditorState editorState, List<String> placeholders,
-			String command) {
+	public static void insertPlaceholders(
+			EditorState editorState, List<String> placeholders, String command) {
 		TemplateCatalog catalog = editorState.getCatalog();
 		InternalNode parent = editorState.getCurrentNode().getParent();
 		if (parent instanceof FunctionNode node) {

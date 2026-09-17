@@ -49,9 +49,12 @@ public final class ProbabilityCalculatorTableValuesViewModel
 		this.probabilityCalculatorView = probabilityCalculatorView;
 		this.tableValues = new MutableState<>(null);
 		this.buttonVisible = new MutableState<>(probabilityCalculatorView.isDiscreteProbability());
-		this.buttonState = DerivedState.of(tableValues, buttonVisible,
-				(tableValues, buttonVisible) -> buttonVisible ? tableValues != null
-						? ButtonState.ACTIVE : ButtonState.INACTIVE : ButtonState.HIDDEN);
+		this.buttonState = DerivedState.of(
+				tableValues,
+				buttonVisible,
+				(tableValues, buttonVisible) -> buttonVisible
+						? tableValues != null ? ButtonState.ACTIVE : ButtonState.INACTIVE
+						: ButtonState.HIDDEN);
 		probabilityCalculatorView.addListener(this);
 	}
 
@@ -71,8 +74,10 @@ public final class ProbabilityCalculatorTableValuesViewModel
 
 	/** Handles tapping on the table values button. */
 	public void onButtonTapped() {
-		tableValues.set(tableValues.get() == null
-				? ProbabilityCalculatorTableValues.from(probabilityCalculatorView) : null);
+		tableValues.set(
+				tableValues.get() == null
+						? ProbabilityCalculatorTableValues.from(probabilityCalculatorView)
+						: null);
 	}
 
 	/** Handles closing the view, called when the view is collapsed or closed via the x button. */

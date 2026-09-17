@@ -33,5 +33,4 @@ class Join {
 	void setOffPt(DoublePoint offPt) {
 		this.offPt = offPt;
 	}
-
 }

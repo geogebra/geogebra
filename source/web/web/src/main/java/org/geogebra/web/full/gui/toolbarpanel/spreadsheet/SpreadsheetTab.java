@@ -80,8 +80,8 @@ public final class SpreadsheetTab extends ToolbarTab {
 	@Override
 	public void onResize() {
 		if (tabPanel != null) {
-			Dom.toggleClass(tabPanel, "withStyleBar",
-					!toolbarPanel.isHeadingVisible() && isStyleBarAllowed());
+			Dom.toggleClass(
+					tabPanel, "withStyleBar", !toolbarPanel.isHeadingVisible() && isStyleBarAllowed());
 		}
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.onResize();
@@ -127,8 +127,8 @@ public final class SpreadsheetTab extends ToolbarTab {
 	}
 
 	@Override
-	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			ViewCounter counter, int left, int top) {
+	public void paintToCanvas(
+			CanvasRenderingContext2D context2d, ViewCounter counter, int left, int top) {
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.paintToCanvas(context2d, left, top);
 		}

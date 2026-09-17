@@ -45,7 +45,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	/**
 	 * creates a line joining O and I
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param O
@@ -110,18 +110,21 @@ public class GeoLine3D extends GeoCoordSys1D {
 	@Override
 	public ExtendedBoolean isEqualExtended(GeoElementND geo) {
 		if (geo instanceof GeoLineND) {
-			Coords diff = ((GeoLineND) geo).getDirectionInD3()
-					.crossProduct(getDirectionInD3().normalize());
-			return ExtendedBoolean.newExtendedBoolean(diff.isZero() && getCoordSys().getOrigin()
-					.sub(((GeoLineND) geo).getOrigin())
-					.crossProduct(getDirectionInD3()).isZero());
+			Coords diff =
+					((GeoLineND) geo).getDirectionInD3().crossProduct(getDirectionInD3().normalize());
+			return ExtendedBoolean.newExtendedBoolean(diff.isZero()
+					&& getCoordSys()
+							.getOrigin()
+							.sub(((GeoLineND) geo).getOrigin())
+							.crossProduct(getDirectionInD3())
+							.isZero());
 		}
 		return ExtendedBoolean.FALSE;
 	}
 
 	/**
 	 * Set whether this line should be visible in AV when undefined
-	 * 
+	 *
 	 * @param flag
 	 *            true to show undefined
 	 */
@@ -145,7 +148,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
@@ -233,7 +236,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	/**
 	 * set coords for XML
-	 * 
+	 *
 	 * @param sb
 	 *            string for XML
 	 */
@@ -255,7 +258,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	final public boolean isGeoLine() {
+	public final boolean isGeoLine() {
 		return true;
 	}
 
@@ -302,7 +305,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 		// TODO Auto-generated method stub
 
 		return startPoint;
-
 	}
 
 	@Override
@@ -329,5 +331,4 @@ public class GeoLine3D extends GeoCoordSys1D {
 	public char getLabelDelimiter() {
 		return ':';
 	}
-
 }

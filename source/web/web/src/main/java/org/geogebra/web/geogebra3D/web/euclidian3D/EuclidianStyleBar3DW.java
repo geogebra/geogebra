@@ -75,18 +75,20 @@ public final class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		getBtnPointStyle().setEuclidian3D(true);
 
 		btnRotateView = new RotateViewPopup(
-				this, MaterialDesignResources.INSTANCE.rotateViewPlay(),
+				this,
+				MaterialDesignResources.INSTANCE.rotateViewPlay(),
 				MaterialDesignResources.INSTANCE.rotateViewPause());
 
 		ImageOrText[] projectionIcons = ImageOrText.convert(
 				new SVGResource[] {
-						MaterialDesignResources.INSTANCE.projection_orthographic(),
-						MaterialDesignResources.INSTANCE.projection_perspective(),
-						MaterialDesignResources.INSTANCE.projection_glasses(),
-						MaterialDesignResources.INSTANCE.projection_oblique() }, 24);
+					MaterialDesignResources.INSTANCE.projection_orthographic(),
+					MaterialDesignResources.INSTANCE.projection_perspective(),
+					MaterialDesignResources.INSTANCE.projection_glasses(),
+					MaterialDesignResources.INSTANCE.projection_oblique()
+				},
+				24);
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
-		btnViewProjection.setSelectedIndex(((EuclidianSettings3D) ev
-				.getSettings()).getProjection());
+		btnViewProjection.setSelectedIndex(((EuclidianSettings3D) ev.getSettings()).getProjection());
 		setPopupHandlerWithUndoPoint(btnViewProjection, this::updateProjection);
 	}
 
@@ -99,17 +101,19 @@ public final class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	@Override
 	protected void createChangeViewButtons() {
-		ImageOrText[] directionIcons = ImageOrText.convert(new SVGResource[] {
-				MaterialDesignResources.INSTANCE.home_black(),
-				MaterialDesignResources.INSTANCE.show_all_objects_black(),
-				MaterialDesignResources.INSTANCE.standardViewRotate(),
-				MaterialDesignResources.INSTANCE.viewXY(),
-				MaterialDesignResources.INSTANCE.viewXZ(),
-				MaterialDesignResources.INSTANCE.viewYZ() }, 24);
+		ImageOrText[] directionIcons = ImageOrText.convert(
+				new SVGResource[] {
+					MaterialDesignResources.INSTANCE.home_black(),
+					MaterialDesignResources.INSTANCE.show_all_objects_black(),
+					MaterialDesignResources.INSTANCE.standardViewRotate(),
+					MaterialDesignResources.INSTANCE.viewXY(),
+					MaterialDesignResources.INSTANCE.viewXZ(),
+					MaterialDesignResources.INSTANCE.viewYZ()
+				},
+				24);
 
 		btnChangeView = new ProjectionPopup(app, directionIcons);
-		btnChangeView.setFixedIcon(new ImageOrText(MaterialDesignResources.INSTANCE.home_black(),
-				24));
+		btnChangeView.setFixedIcon(new ImageOrText(MaterialDesignResources.INSTANCE.home_black(), 24));
 		setPopupHandlerWithUndoPoint(btnChangeView, this::processChangeView);
 	}
 
@@ -120,26 +124,29 @@ public final class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	@Override
 	protected void setDirection(int si) {
 		switch (si) {
-		default:
-		case 0:
-			getView().setStandardView(true);
-			break;
-		case 1:
-			getView().setViewShowAllObjects(true, false);
-			break;
-		case 2:
-			getView().setRotAnimation(EuclidianView3DInterface.ANGLE_ROT_OZ,
-					EuclidianView3DInterface.ANGLE_ROT_XOY, false);
-			break;
-		case 3:
-			getView().setRotAnimation(-90, 90, true);
-			break;
-		case 4:
-			getView().setRotAnimation(-90, 0, true);
-			break;
-		case 5:
-			getView().setRotAnimation(0, 0, true);
-			break;
+			default:
+			case 0:
+				getView().setStandardView(true);
+				break;
+			case 1:
+				getView().setViewShowAllObjects(true, false);
+				break;
+			case 2:
+				getView()
+						.setRotAnimation(
+								EuclidianView3DInterface.ANGLE_ROT_OZ,
+								EuclidianView3DInterface.ANGLE_ROT_XOY,
+								false);
+				break;
+			case 3:
+				getView().setRotAnimation(-90, 90, true);
+				break;
+			case 4:
+				getView().setRotAnimation(-90, 0, true);
+				break;
+			case 5:
+				getView().setRotAnimation(0, 0, true);
+				break;
 		}
 	}
 
@@ -147,20 +154,20 @@ public final class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected void createAxesAndGridButtons() {
 		ImageOrText[] axesAndPlaneIcons = ImageOrText.convert(
 				new SVGResource[] {
-						MaterialDesignResources.INSTANCE.stylebar_empty(),
-						MaterialDesignResources.INSTANCE.axes_black(),
-						MaterialDesignResources.INSTANCE.plane(),
-						MaterialDesignResources.INSTANCE.axes_plane() }, 24);
+					MaterialDesignResources.INSTANCE.stylebar_empty(),
+					MaterialDesignResources.INSTANCE.axes_black(),
+					MaterialDesignResources.INSTANCE.plane(),
+					MaterialDesignResources.INSTANCE.axes_plane()
+				},
+				24);
 
-		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons,
-				getView());
+		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, getView());
 		setPopupHandlerWithUndoPoint(btnShowAxesAndPlane, this::processAxesPlane);
 
-		btnShowGrid3D = new ToggleButtonWforEV(
-				MaterialDesignResources.INSTANCE.grid_black(), this);
+		btnShowGrid3D = new ToggleButtonWforEV(MaterialDesignResources.INSTANCE.grid_black(), this);
 		btnShowGrid3D.setSelected(ev.getShowGrid());
-		addFastClickHandlerWithUndoPoint(btnShowGrid3D,
-				geos -> EuclidianStyleBarStatic.processGrid(getView()));
+		addFastClickHandlerWithUndoPoint(
+				btnShowGrid3D, geos -> EuclidianStyleBarStatic.processGrid(getView()));
 	}
 
 	@Override
@@ -196,16 +203,14 @@ public final class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		super.setToolTips();
 
 		Localization loc = app.getLocalization();
-		btnRotateView
-				.setTitle(loc.getPlainTooltip("stylebar.RotateView"));
-		btnViewProjection.setTitle(loc
-				.getPlainTooltip("stylebar.ViewProjection"));
+		btnRotateView.setTitle(loc.getPlainTooltip("stylebar.RotateView"));
+		btnViewProjection.setTitle(loc.getPlainTooltip("stylebar.ViewProjection"));
 	}
 
 	@Override
 	protected ToggleButton[] newToggleBtnList() {
 		ToggleButton[] superList = super.newToggleBtnList();
-		
+
 		if (!app.isUnbundledOrWhiteboard()) {
 			return superList;
 		}

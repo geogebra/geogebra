@@ -39,23 +39,21 @@ public final class AlgebraOutputFormatButton extends StandardButton {
 	 */
 	public void select(@NonNull AlgebraOutputFormat format) {
 		setIcon(getIconFor(format));
-		Dom.toggleClass(this, "show-fraction",
-				format == AlgebraOutputFormat.FRACTION);
+		Dom.toggleClass(this, "show-fraction", format == AlgebraOutputFormat.FRACTION);
 	}
 
 	private ResourcePrototype getIconFor(AlgebraOutputFormat format) {
 		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
 		switch (format) {
-		case FRACTION:
-			return resources.fraction_white();
-		case APPROXIMATION:
-			return resources.modeToggleSymbolic();
-		case ENGINEERING:
-			return resources.engineering_notation_white();
-		case EXACT:
-		default:
-			return resources.equal_sign_white();
+			case FRACTION:
+				return resources.fraction_white();
+			case APPROXIMATION:
+				return resources.modeToggleSymbolic();
+			case ENGINEERING:
+				return resources.engineering_notation_white();
+			case EXACT:
+			default:
+				return resources.equal_sign_white();
 		}
 	}
-
 }

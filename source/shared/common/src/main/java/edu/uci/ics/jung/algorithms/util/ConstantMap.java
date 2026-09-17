@@ -1,12 +1,12 @@
 /*
-* Copyright (c) 2003, the JUNG Project and the Regents of the University 
-* of California
-* All rights reserved.
-*
-* This software is open-source under the BSD license; see either
-* "license.txt" or
-* http://jung.sourceforge.net/license.txt for a description.
-*/
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
+ * of California
+ * All rights reserved.
+ *
+ * This software is open-source under the BSD license; see either
+ * "license.txt" or
+ * http://jung.sourceforge.net/license.txt for a description.
+ */
 
 package edu.uci.ics.jung.algorithms.util;
 
@@ -33,8 +33,7 @@ public class ConstantMap<K, V> implements Map<K, V> {
 	 * .
 	 */
 	public ConstantMap(V value) {
-		delegate = Collections.<K, V> unmodifiableMap(
-				Collections.<K, V> singletonMap(null, value));
+		delegate = Collections.<K, V>unmodifiableMap(Collections.<K, V>singletonMap(null, value));
 	}
 
 	@Override

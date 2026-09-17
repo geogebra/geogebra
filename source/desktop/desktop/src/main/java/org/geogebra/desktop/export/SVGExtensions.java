@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -30,18 +30,17 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Adds support for grouping objects in SVG files.
- * 
+ *
  * Also now adds support for exporting size in cm from <a href=
  * "https://help.geogebra.org/topic/incorrect-sizing-when-exporting-to-svg">
  * suggestion here</a> and returning null from getTransform() (ie Identity
  * matrix).
- * 
+ *
  * Needs this line changed in SVGGraphics2D.java (was private) protected
  * PrintWriter os;
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 	private double cmWidth;
@@ -57,8 +56,8 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	 * @param cmHeight height in cm
 	 * @throws IOException TODO how?
 	 */
-	public SVGExtensions(OutputStream file, Dimension size, double cmWidth,
-			double cmHeight) throws IOException {
+	public SVGExtensions(OutputStream file, Dimension size, double cmWidth, double cmHeight)
+			throws IOException {
 		super(file, size);
 		this.cmWidth = DoubleUtil.checkDecimalFraction(cmWidth);
 		this.cmHeight = DoubleUtil.checkDecimalFraction(cmHeight);
@@ -90,9 +89,7 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 		} else {
 			super.writeSize(os);
-
 		}
-
 	}
 
 	/**
@@ -123,7 +120,6 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 			sb.append(XMLWriter.normalizeText(desc));
 			sb.append("</desc>\n");
 		}
-
 	}
 
 	/**

@@ -63,8 +63,7 @@ public class GraphicsAtom extends Atom {
 	private int interp = -1;
 
 	public GraphicsAtom(final String path, final Map<String, String> option) {
-		bimage = FactoryProvider.getInstance().getGraphicsFactory()
-				.createImage(path);
+		bimage = FactoryProvider.getInstance().getGraphicsFactory().createImage(path);
 		buildAtom(option);
 	}
 
@@ -85,8 +84,7 @@ public class GraphicsAtom extends Atom {
 				height = tp.getLength();
 			}
 
-			base = new ResizeAtom(base, width, height,
-					options.containsKey("keepaspectratio"));
+			base = new ResizeAtom(base, width, height, options.containsKey("keepaspectratio"));
 		}
 		if (options.containsKey("scale")) {
 			final double scl = Double.parseDouble(options.get("scale"));
@@ -120,15 +118,11 @@ public class GraphicsAtom extends Atom {
 				return base.createBox(env);
 			}
 			env.isColored = true;
-			final double width = bimage.getWidth()
-					* Unit.PIXEL.getFactor(env);
-			final double height = bimage.getHeight()
-					* Unit.PIXEL.getFactor(env);
-			return new GraphicsBox(bimage, width, height, env.getSize(),
-					interp);
+			final double width = bimage.getWidth() * Unit.PIXEL.getFactor(env);
+			final double height = bimage.getHeight() * Unit.PIXEL.getFactor(env);
+			return new GraphicsBox(bimage, width, height, env.getSize(), interp);
 		}
 
-		return TeXParser.getAtomForLatinStr("No such image file", false)
-				.createBox(env);
+		return TeXParser.getAtomForLatinStr("No such image file", false).createBox(env);
 	}
 }

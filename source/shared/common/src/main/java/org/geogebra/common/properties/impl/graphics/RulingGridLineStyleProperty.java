@@ -41,8 +41,8 @@ public class RulingGridLineStyleProperty extends AbstractEnumeratedProperty<Inte
 	 * @param localization localization
 	 * @param euclidianSettings euclidian settings
 	 */
-	public RulingGridLineStyleProperty(Localization localization,
-			EuclidianSettings euclidianSettings) {
+	public RulingGridLineStyleProperty(
+			Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "LineStyle");
 		this.euclidianSettings = euclidianSettings;
 		setValues(EuclidianStyleConstants.lineStyleList);

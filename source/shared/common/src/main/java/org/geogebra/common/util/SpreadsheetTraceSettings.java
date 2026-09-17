@@ -25,7 +25,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * This class creates a set of fields for GeoElements that will be traced in the
  * spreadsheet.
- * 
+ *
  * @author G.Sturr 2010-5-20
  */
 public class SpreadsheetTraceSettings {
@@ -84,7 +84,7 @@ public class SpreadsheetTraceSettings {
 
 	/**
 	 * Prints current field values.
-	 * 
+	 *
 	 * @param geo
 	 *            element to debug
 	 */
@@ -106,5 +106,4 @@ public class SpreadsheetTraceSettings {
 		Log.debug("doTraceGeoCopy =" + doTraceGeoCopy);
 		Log.debug("=====================================");
 	}
-
 }

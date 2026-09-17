@@ -54,11 +54,17 @@ class DynamicColorModePropertyTests extends BaseAppTestSetup {
 		DynamicColorModeProperty.activateDynamicColorMode(geoElement);
 
 		assertEquals(GeoElement.COLORSPACE_RGB, geoElement.getColorSpace());
-		assertEquals(color.getRed() / 255d,
-				((GeoNumeric) geoElement.getColorFunction().get(0)).getValue(), 0.000001);
-		assertEquals(color.getGreen() / 255d,
-				((GeoNumeric) geoElement.getColorFunction().get(1)).getValue(), 0.000001);
-		assertEquals(color.getBlue() / 255d,
-				((GeoNumeric) geoElement.getColorFunction().get(2)).getValue(), 0.000001);
+		assertEquals(
+				color.getRed() / 255d,
+				((GeoNumeric) geoElement.getColorFunction().get(0)).getValue(),
+				0.000001);
+		assertEquals(
+				color.getGreen() / 255d,
+				((GeoNumeric) geoElement.getColorFunction().get(1)).getValue(),
+				0.000001);
+		assertEquals(
+				color.getBlue() / 255d,
+				((GeoNumeric) geoElement.getColorFunction().get(2)).getValue(),
+				0.000001);
 	}
 }

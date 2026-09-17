@@ -21,8 +21,8 @@ package org.geogebra.common.util;
  */
 @FunctionalInterface
 public interface GTimerListener {
-    /**
-     * Called whenever the timer fires.
-     */
-    void onRun();
+	/**
+	 * Called whenever the timer fires.
+	 */
+	void onRun();
 }

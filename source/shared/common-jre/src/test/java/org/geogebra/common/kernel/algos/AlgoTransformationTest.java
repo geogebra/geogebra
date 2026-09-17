@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -61,25 +61,25 @@ class AlgoTransformationTest extends BaseUnitTest {
 	@Test
 	void dilateOfDegenerate() {
 		String[] pts = createTransformedDegenerate("Dilate(%,2,(1,1))");
-		assertArrayEquals(new String[]{"(-1, -1)", "(-1, 3)"}, pts);
+		assertArrayEquals(new String[] {"(-1, -1)", "(-1, 3)"}, pts);
 	}
 
 	@Test
 	void translateOfDegenerate() {
 		String[] pts = createTransformedDegenerate("Translate(%,(1,1))");
-		assertArrayEquals(new String[]{"(1, 1)", "(1, 3)"}, pts);
+		assertArrayEquals(new String[] {"(1, 1)", "(1, 3)"}, pts);
 	}
 
 	@Test
 	void reflectOfDegenerate() {
 		String[] pts = createTransformedDegenerate("Reflect(%,(1,1))");
-		assertArrayEquals(new String[]{"(2, 2)", "(2, 0)"}, pts);
+		assertArrayEquals(new String[] {"(2, 2)", "(2, 0)"}, pts);
 	}
 
 	@Test
 	void reflectInLineOfDegenerate() {
 		String[] pts = createTransformedDegenerate("Reflect(%,x=y)");
-		assertArrayEquals(new String[]{"(0, 0)", "(2, 0)"}, pts);
+		assertArrayEquals(new String[] {"(0, 0)", "(2, 0)"}, pts);
 	}
 
 	@Test
@@ -108,7 +108,8 @@ class AlgoTransformationTest extends BaseUnitTest {
 		assertEquals(Math.PI, arc.getParameterEnd(), 0.01);
 		// when using point names we expand the definition, but should get equal result
 		GeoConicPart arc2 = add("Reflect(Ray(B,A),x^2+y^2=1)");
-		assertEquals("CircumcircularArc(B', A', Reflect((∞, ∞), x² + y² = 1))",
+		assertEquals(
+				"CircumcircularArc(B', A', Reflect((∞, ∞), x² + y² = 1))",
 				arc2.getDefinition(StringTemplate.defaultTemplate));
 		assertTrue(getDirection(arc));
 		assertEquals(0, arc2.getParameterStart(), 0.01);
@@ -129,8 +130,10 @@ class AlgoTransformationTest extends BaseUnitTest {
 		add("a=CircumcircularArc((0,0),(0,1),(0,2))");
 		GeoConicPart transformed = add(s.replace("%", "a"));
 		GeoLine line = transformed.getLines()[0];
-		return new String[]{ line.getStartPoint().toValueString(StringTemplate.editTemplate),
-				line.getEndPoint().toValueString(StringTemplate.editTemplate)};
+		return new String[] {
+			line.getStartPoint().toValueString(StringTemplate.editTemplate),
+			line.getEndPoint().toValueString(StringTemplate.editTemplate)
+		};
 	}
 
 	private void assertClockwise(GeoConicPart arc) {
@@ -139,8 +142,7 @@ class AlgoTransformationTest extends BaseUnitTest {
 	}
 
 	private boolean getDirection(GeoConicPart arc) {
-		return arc.positiveOrientation()
-				^ determinant(arc.getAffineTransform()) < 0;
+		return arc.positiveOrientation() ^ determinant(arc.getAffineTransform()) < 0;
 	}
 
 	private double determinant(GAffineTransform t) {

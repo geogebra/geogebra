@@ -41,8 +41,11 @@ import org.gwtproject.event.dom.client.TouchStartHandler;
  *
  */
 public final class AlgebraControllerW extends AlgebraController
-		implements MouseMoveHandler, MouseDownHandler, TouchStartHandler,
-		TouchEndHandler, TouchMoveHandler {
+		implements MouseMoveHandler,
+				MouseDownHandler,
+				TouchStartHandler,
+				TouchEndHandler,
+				TouchMoveHandler {
 
 	/**
 	 * @param kernel
@@ -74,8 +77,7 @@ public final class AlgebraControllerW extends AlgebraController
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		mousePressed(
-				PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE));
+		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE));
 	}
 
 	@Override
@@ -91,8 +93,7 @@ public final class AlgebraControllerW extends AlgebraController
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),
-				ZeroOffset.INSTANCE);
+		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.INSTANCE);
 
 		mousePressed(e);
 		CancelEventTimer.touchEventOccurred();
@@ -102,5 +103,4 @@ public final class AlgebraControllerW extends AlgebraController
 	public void onMouseMove(MouseMoveEvent event) {
 		event.preventDefault();
 	}
-
 }

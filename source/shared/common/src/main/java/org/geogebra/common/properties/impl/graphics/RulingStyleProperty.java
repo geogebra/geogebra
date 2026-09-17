@@ -41,8 +41,8 @@ public class RulingStyleProperty extends AbstractNamedEnumeratedProperty<Backgro
 	 * @param euclidianSettings euclidian settings.
 	 * @param euclidianView euclidian view
 	 */
-	public RulingStyleProperty(Localization localization, EuclidianSettings euclidianSettings,
-			EuclidianView euclidianView) {
+	public RulingStyleProperty(
+			Localization localization, EuclidianSettings euclidianSettings, EuclidianView euclidianView) {
 		super(localization, "Ruling");
 		this.euclidianSettings = euclidianSettings;
 		this.euclidianView = euclidianView;

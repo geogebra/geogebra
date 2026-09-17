@@ -22,11 +22,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Product of list elements
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-07-27
  */
-
 public class AlgoProduct extends AlgoStats1D {
 
 	/**
@@ -37,8 +36,7 @@ public class AlgoProduct extends AlgoStats1D {
 	 * @param freq
 	 *            frequencies
 	 */
-	public AlgoProduct(Construction cons, GeoList geoList,
-			GeoList freq) {
+	public AlgoProduct(Construction cons, GeoList geoList, GeoList freq) {
 		super(cons, geoList, freq, AlgoStats1D.STATS_PRODUCT);
 	}
 

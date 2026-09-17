@@ -46,24 +46,29 @@ public final class TextStylePropertyCollection extends AbstractPropertyCollectio
 	 * elements
 	 */
 	public TextStylePropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "Text");
 		setProperties(Stream.of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new TextColorProperty(localization, element),
-						ColorPropertyListFacade::new),
-				propertiesFactory.createFontProperty(localization, elements),
-				propertiesFactory.createTextFontSizeProperty(localization, elements),
-				new TextStyleProperty(propertiesFactory, localization, elements),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new InputBoxAlignmentProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				tryOrNull(() -> new AlignmentPropertyCollection(propertiesFactory,
-						localization, elements)),
-				tryOrNull(() -> new LayoutPropertyCollection(propertiesFactory,
-						localization, elements))
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new TextColorProperty(localization, element),
+								ColorPropertyListFacade::new),
+						propertiesFactory.createFontProperty(localization, elements),
+						propertiesFactory.createTextFontSizeProperty(localization, elements),
+						new TextStyleProperty(propertiesFactory, localization, elements),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new InputBoxAlignmentProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						tryOrNull(
+								() -> new AlignmentPropertyCollection(propertiesFactory, localization, elements)),
+						tryOrNull(
+								() -> new LayoutPropertyCollection(propertiesFactory, localization, elements)))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

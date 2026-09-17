@@ -41,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Creates a regular Polygon for two points and the number of vertices.
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoPolygonRegular extends AlgoPolygonRegularND
@@ -54,7 +54,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 
 	/**
 	 * Creates a new regular polygon algorithm
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -67,8 +67,8 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 	 * @param num
 	 *            number of vertices
 	 */
-	public AlgoPolygonRegular(Construction c, String[] labels, GeoPointND A1,
-			GeoPointND B1, GeoNumberValue num) {
+	public AlgoPolygonRegular(
+			Construction c, String[] labels, GeoPointND A1, GeoPointND B1, GeoNumberValue num) {
 		super(c, labels, A1, B1, num, null);
 	}
 
@@ -102,8 +102,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 
 		// center point of regular polygon
 		double tanBetaHalf = Math.tan(beta) / 2;
-		centerPoint.setCoords(mx + tanBetaHalf * nx, my + tanBetaHalf * ny,
-				1.0);
+		centerPoint.setCoords(mx + tanBetaHalf * nx, my + tanBetaHalf * ny, 1.0);
 		centerPointCoords = centerPoint.getInhomCoords();
 	}
 
@@ -129,11 +128,10 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 
 		// parent of output
 		getPoly().setParentAlgorithm(this);
-
 	}
 
 	@Override
-	final protected void setDirection(GeoDirectionND direction) {
+	protected final void setDirection(GeoDirectionND direction) {
 		// used only in 3D
 	}
 
@@ -160,8 +158,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -170,7 +167,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 		PVariable[] varsB;
 		varsA = ((SymbolicParametersBotanaAlgo) A).getBotanaVars(A);
 		varsB = ((SymbolicParametersBotanaAlgo) B).getBotanaVars(B);
-		
+
 		int sides = (int) num.getDouble();
 
 		// this special case can be deleted later (TODO)
@@ -207,8 +204,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		String parsable = null;
 		try {
-			String minpoly = cas.getCurrentCAS()
-					.evaluateRaw("cos2piOverNMinpoly(" + sides + ")");
+			String minpoly = cas.getCurrentCAS().evaluateRaw("cos2piOverNMinpoly(" + sides + ")");
 			Log.debug(minpoly);
 			PVariable x = new PVariable(kernel);
 			PVariable y = new PVariable(kernel);
@@ -219,8 +215,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			v.add(x);
 			TreeSet<PVariable> variables = new TreeSet<>(v);
 			Set<Set<PPolynomial>> parsed;
-			parsed = PolynomialParser.parseFactoredPolynomialSet(parsable,
-					variables);
+			parsed = PolynomialParser.parseFactoredPolynomialSet(parsable, variables);
 			Iterator<Set<PPolynomial>> polySet = parsed.iterator();
 			PPolynomial botanaMinpoly = new PPolynomial();
 			while (polySet.hasNext()) {
@@ -238,8 +233,8 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			botanaPolynomials = new PPolynomial[(sides - 2) * 2 + 2];
 			botanaPolynomials[0] = botanaMinpoly;
 			// x^2+y^2=1
-			botanaPolynomials[1] = PPolynomial.sqr(xp).add(PPolynomial.sqr(yp))
-					.subtract(new PPolynomial(1));
+			botanaPolynomials[1] =
+					PPolynomial.sqr(xp).add(PPolynomial.sqr(yp)).subtract(new PPolynomial(1));
 
 			PPolynomial a1 = new PPolynomial(varsA[0]);
 			PPolynomial b1 = new PPolynomial(varsB[0]);
@@ -256,11 +251,14 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 				PPolynomial c2 = new PPolynomial(varsC[1]);
 				// x*(b1-a1)-y*(b2-a2)=c1-b1
 				botanaPolynomials[k++] = xp.multiply(b1.subtract(a1))
-						.subtract(yp.multiply(b2.subtract(a2))).subtract(c1)
+						.subtract(yp.multiply(b2.subtract(a2)))
+						.subtract(c1)
 						.add(b1);
 				// y*(b1-a1)+x*(b2-a2)=c2-b2
 				botanaPolynomials[k++] = yp.multiply(b1.subtract(a1))
-						.add(xp.multiply(b2.subtract(a2))).subtract(c2).add(b2);
+						.add(xp.multiply(b2.subtract(a2)))
+						.subtract(c2)
+						.add(b2);
 				// recursively the other vertices:
 				a1 = b1;
 				b1 = c1;
@@ -283,4 +281,3 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 		return view.getFreeInputPoints(this).size() == 2;
 	}
 }
-

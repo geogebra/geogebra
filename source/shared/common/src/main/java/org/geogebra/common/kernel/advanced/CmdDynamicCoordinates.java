@@ -33,7 +33,7 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -42,58 +42,61 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 3:
-			boolean[] ok = new boolean[2];
-			if ((ok[0] = arg[0] instanceof GeoPoint && arg[0].isMoveable())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (arg[2] instanceof GeoNumberValue)) {
+			case 3:
+				boolean[] ok = new boolean[2];
+				if ((ok[0] = arg[0] instanceof GeoPoint && arg[0].isMoveable())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (arg[2] instanceof GeoNumberValue)) {
 
-				AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates(cons,
-						c.getLabel(), (GeoPoint) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+					AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates(
+							cons, c.getLabel(), (GeoPoint) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue)
+									arg[2]);
 
-				GeoElement[] ret = { algo.getPoint().toGeoElement() };
-				return ret;
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else {
-				throw argErr(c, arg[2]);
-			}
+					GeoElement[] ret = {algo.getPoint().toGeoElement()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else {
+					throw argErr(c, arg[2]);
+				}
 
-		case 4:
-			ok = new boolean[3];
-			if ((ok[0] = arg[0] instanceof GeoPointND && arg[0].isMoveable())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (arg[3] instanceof GeoNumberValue)) {
+			case 4:
+				ok = new boolean[3];
+				if ((ok[0] = arg[0] instanceof GeoPointND && arg[0].isMoveable())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (arg[3] instanceof GeoNumberValue)) {
 
-				AlgoDynamicCoordinates3D algo = new AlgoDynamicCoordinates3D(
-						cons, c.getLabel(), (GeoPointND) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						(GeoNumberValue) arg[3]);
+					AlgoDynamicCoordinates3D algo = new AlgoDynamicCoordinates3D(
+							cons,
+							c.getLabel(),
+							(GeoPointND) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3]);
 
-				GeoElement[] ret = { (GeoElement) algo.getPoint() };
-				return ret;
-			} else if (!ok[0]) {
-				throw argErr(c, arg[0]);
-			} else if (!ok[1]) {
-				throw argErr(c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(c, arg[2]);
-			} else {
-				throw argErr(c, arg[3]);
-			}
+					GeoElement[] ret = {(GeoElement) algo.getPoint()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[0]);
+				} else if (!ok[1]) {
+					throw argErr(c, arg[1]);
+				} else if (!ok[2]) {
+					throw argErr(c, arg[2]);
+				} else {
+					throw argErr(c, arg[3]);
+				}
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

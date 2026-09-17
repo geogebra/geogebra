@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Dependent implicit surface
- * 
+ *
  * @author Shamshad Alam
  *
  */
@@ -44,30 +44,29 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	private ExpressionValue[] ev = new ExpressionValue[10];
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param equ
 	 *            equation
 	 */
-	public AlgoDependentImplicitSurface(Construction c,
-			Equation equ) {
+	public AlgoDependentImplicitSurface(Construction c, Equation equ) {
 		super(c, false);
 		equation = equ;
 
 		c.addToConstructionList(this, false);
 
 		switch (equ.preferredDegree()) {
-		// linear equation -> LINE
-		case 1:
-			geoElem = new GeoPlane3D(c);
-			break;
-		// quadratic equation -> CONIC
-		case 2:
-			geoElem = new GeoQuadric3D(c);
-			break;
-		default:
-			geoElem = new GeoImplicitSurface(c);
+			// linear equation -> LINE
+			case 1:
+				geoElem = new GeoPlane3D(c);
+				break;
+			// quadratic equation -> CONIC
+			case 2:
+				geoElem = new GeoQuadric3D(c);
+				break;
+			default:
+				geoElem = new GeoImplicitSurface(c);
 		}
 
 		geoElem.setDefinition(equ.wrap());
@@ -79,8 +78,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	@Override
 	protected void setInputOutput() {
 		if (input == null) {
-			input = equation.getGeoElementVariables(
-					SymbolicMode.NONE);
+			input = equation.getGeoElementVariables(SymbolicMode.NONE);
 		}
 
 		if (getOutputLength() == 0) {
@@ -102,8 +100,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	}
 
 	private void compute(boolean first) {
-		if (!first && (equation.hasVariableDegree()
-				|| equation.isFunctionDependent())) {
+		if (!first && (equation.hasVariableDegree() || equation.isFunctionDependent())) {
 			equation.resetFlags();
 			equation.initEquation();
 		}
@@ -112,44 +109,43 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 			degree = 3;
 		}
 		switch (degree) {
-		// linear equation -> LINE
-		case 1:
-			if (geoElem instanceof GeoPlane3D) {
-				setPlane();
-			} else {
-				if (geoElem.hasChildren()) {
-					geoElem.setUndefined();
-				} else {
-					replaceGeoElement(new GeoPlane3D(getConstruction()));
+			// linear equation -> LINE
+			case 1:
+				if (geoElem instanceof GeoPlane3D) {
 					setPlane();
-				}
-			}
-			break;
-		// quadratic equation -> CONIC
-		case 2:
-			if (geoElem instanceof GeoQuadric3D) {
-				setQuadric();
-			} else {
-				if (geoElem.hasChildren()) {
-					geoElem.setUndefined();
 				} else {
-					replaceGeoElement(new GeoQuadric3D(getConstruction()));
+					if (geoElem.hasChildren()) {
+						geoElem.setUndefined();
+					} else {
+						replaceGeoElement(new GeoPlane3D(getConstruction()));
+						setPlane();
+					}
+				}
+				break;
+			// quadratic equation -> CONIC
+			case 2:
+				if (geoElem instanceof GeoQuadric3D) {
 					setQuadric();
-				}
-			}
-			break;
-		default:
-			if (geoElem instanceof GeoImplicit) {
-				((GeoImplicitSurface) geoElem).updateSurface();
-			} else {
-				if (geoElem.hasChildren()) {
-					geoElem.setUndefined();
 				} else {
-					replaceGeoElement(
-							new GeoImplicitSurface(getConstruction()));
-					((GeoImplicitSurface) geoElem).fromEquation(equation);
+					if (geoElem.hasChildren()) {
+						geoElem.setUndefined();
+					} else {
+						replaceGeoElement(new GeoQuadric3D(getConstruction()));
+						setQuadric();
+					}
 				}
-			}
+				break;
+			default:
+				if (geoElem instanceof GeoImplicit) {
+					((GeoImplicitSurface) geoElem).updateSurface();
+				} else {
+					if (geoElem.hasChildren()) {
+						geoElem.setUndefined();
+					} else {
+						replaceGeoElement(new GeoImplicitSurface(getConstruction()));
+						((GeoImplicitSurface) geoElem).fromEquation(equation);
+					}
+				}
 		}
 	}
 
@@ -177,7 +173,6 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 		}
 
 		((GeoQuadric3D) geoElem).setMatrix(coeffs);
-
 	}
 
 	private void setPlane() {
@@ -187,10 +182,12 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 		ev[1] = lhs.getCoefficient("y");
 		ev[2] = lhs.getCoefficient("z");
 		ev[3] = lhs.getCoefficient("");
-		((GeoPlane3D) geoElem).setEquation(ev[0].evaluateDouble(),
-				ev[1].evaluateDouble(), ev[2].evaluateDouble(),
-				ev[3].evaluateDouble());
-
+		((GeoPlane3D) geoElem)
+				.setEquation(
+						ev[0].evaluateDouble(),
+						ev[1].evaluateDouble(),
+						ev[2].evaluateDouble(),
+						ev[3].evaluateDouble());
 	}
 
 	private void replaceGeoElement(GeoElementND newElem) {
@@ -203,7 +200,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return {@link GeoImplicitSurface}
 	 */
 	public GeoElement getGeo() {
@@ -211,7 +208,7 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return {@link Equation}
 	 */
 	public Equation getEquation() {
@@ -227,5 +224,4 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	protected String toExpString(StringTemplate tpl) {
 		return AlgoDependentImplicitPoly.equationWithLabel(geoElem, tpl);
 	}
-
 }

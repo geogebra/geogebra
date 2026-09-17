@@ -63,6 +63,5 @@ public class GeoGebraGlobal {
 	public static native JsConsumer<String> getGgbAppletOnLoad();
 
 	@JsProperty
-	public native static Function getGgbMultiplayerChange();
-
+	public static native Function getGgbMultiplayerChange();
 }

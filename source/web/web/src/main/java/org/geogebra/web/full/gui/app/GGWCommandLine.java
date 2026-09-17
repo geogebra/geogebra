@@ -27,7 +27,7 @@ import org.gwtproject.user.client.ui.RequiresResize;
  *
  */
 public final class GGWCommandLine extends Composite implements RequiresResize {
-	
+
 	private AlgebraInputW algebraInput;
 
 	/**
@@ -49,12 +49,12 @@ public final class GGWCommandLine extends Composite implements RequiresResize {
 	@Override
 	public void onResize() {
 		algebraInput.onResize();
-    }
+	}
 
 	/**
 	 * @return whether input bar has focus
 	 */
 	public boolean hasFocus() {
 		return algebraInput.hasFocus();
-    }
+	}
 }

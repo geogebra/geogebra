@@ -31,9 +31,13 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
-	public AlgoConicPartConicParameters(Construction cons, String label,
-			GeoConicND circle, GeoNumberValue startParameter,
-			GeoNumberValue endParameter, int type) {
+	public AlgoConicPartConicParameters(
+			Construction cons,
+			String label,
+			GeoConicND circle,
+			GeoNumberValue startParameter,
+			GeoNumberValue endParameter,
+			int type) {
 		super(cons, type);
 		conic = circle;
 		startParam = startParameter;
@@ -47,7 +51,7 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @param partType
@@ -70,5 +74,4 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 
 		setDependencies();
 	}
-
 }

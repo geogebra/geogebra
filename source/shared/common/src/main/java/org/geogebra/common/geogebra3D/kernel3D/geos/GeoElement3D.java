@@ -32,7 +32,7 @@ import org.geogebra.common.util.debug.Log;
  * <p>
  * We'll call here our new element "GeoNew3D"
  * </p><p>
- * 
+ *
  * <b> In GeoElement3D (this class), create an new constant to identify GeoNew3D
  * </b>
  * </p>
@@ -41,63 +41,63 @@ import org.geogebra.common.util.debug.Log;
  * <ul>
  * <li>It will eventually extend another class (at least GeoElement3D) :<br>
  * <code>
-   final public class GeoNew3D extends ??? {
-   </code></li>
+ * final public class GeoNew3D extends ??? {
+ * </code></li>
  * <li>Your IDE will add auto-generated methods; modify it :<br>
  * <pre><code>
-    public GeoElement copy() {
-        return null;
-    }
-
-    public int getGeoClassType() {
-       return GEO_CLASS_NEW3D;
-    }
-
-    protected String getTypeString() {
-        return "New3D";
-    }
-
-    public boolean isDefined() {
-       return true;
-    }
-
-    public boolean isEqual(GeoElementND Geo) {
-       return false;
-    }
-
-    public void set(GeoElement geo) {
-
-    }
-
-    public void setUndefined() {
-
-    }
-
-    protected boolean showInAlgebraView() {
-        return true;
-    }
-
-    protected boolean showInEuclidianView() {
-       return true;
-    }
-
-    public String toValueString() {
-        return "todo";
-    }
-
-    protected String getClassName() {
-        return "GeoNew3D";
-    }
-  </code></pre></li>
+ * public GeoElement copy() {
+ * return null;
+ * }
+ *
+ * public int getGeoClassType() {
+ * return GEO_CLASS_NEW3D;
+ * }
+ *
+ * protected String getTypeString() {
+ * return "New3D";
+ * }
+ *
+ * public boolean isDefined() {
+ * return true;
+ * }
+ *
+ * public boolean isEqual(GeoElementND Geo) {
+ * return false;
+ * }
+ *
+ * public void set(GeoElement geo) {
+ *
+ * }
+ *
+ * public void setUndefined() {
+ *
+ * }
+ *
+ * protected boolean showInAlgebraView() {
+ * return true;
+ * }
+ *
+ * protected boolean showInEuclidianView() {
+ * return true;
+ * }
+ *
+ * public String toValueString() {
+ * return "todo";
+ * }
+ *
+ * protected String getClassName() {
+ * return "GeoNew3D";
+ * }
+ * </code></pre></li>
  * <li>Create a constructor <br>
  * <code>
-    public GeoNew3D(Construction c, ?? args) { <br> &nbsp;&nbsp;
-        super(c); // eventually + args <br> &nbsp;&nbsp;
-        + stuff <br>
-    }
-   </code></li>
+ * public GeoNew3D(Construction c, ?? args) { <br> &nbsp;&nbsp;
+ * super(c); // eventually + args <br> &nbsp;&nbsp;
+ * + stuff <br>
+ * }
+ * </code></li>
  * </ul>
- * 
+ *
  * <h3>See</h3>
  * <ul>
  * <li>{@link Drawable3D} to create a drawable linked to this new element.</li>
@@ -107,7 +107,7 @@ import org.geogebra.common.util.debug.Log;
  * geogebra3D.euclidian3D.EuclidianView3D, geogebra3D.Application3D)} to test it
  * </li>
  * </ul>
- * 
+ *
  */
 public abstract class GeoElement3D extends GeoElement {
 	private StringBuilder sbToString;
@@ -115,7 +115,7 @@ public abstract class GeoElement3D extends GeoElement {
 
 	/**
 	 * Creates new GeoElement for given construction
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -125,7 +125,7 @@ public abstract class GeoElement3D extends GeoElement {
 
 	/**
 	 * it's a 3D GeoElement.
-	 * 
+	 *
 	 * @return true
 	 */
 	@Override
@@ -139,11 +139,11 @@ public abstract class GeoElement3D extends GeoElement {
 	}
 
 	@Override
-	abstract public Coords getLabelPosition();
+	public abstract Coords getLabelPosition();
 
 	/**
 	 * set the alpha value to alpha for openGL
-	 * 
+	 *
 	 * @param alpha
 	 *            alpha value
 	 */
@@ -182,9 +182,8 @@ public abstract class GeoElement3D extends GeoElement {
 
 	@Override
 	public boolean isWhollyIn2DView(EuclidianView ev) {
-		Log.debug("isWhollyIn2DView unimplemented for " + this.getClass() + " "
-				+ this.getGeoClassType());
+		Log.debug(
+				"isWhollyIn2DView unimplemented for " + this.getClass() + " " + this.getGeoClassType());
 		return false;
 	}
-
 }

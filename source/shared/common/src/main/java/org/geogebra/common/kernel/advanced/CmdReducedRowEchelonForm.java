@@ -23,13 +23,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * ReducedRowEchelonForm[ &lt;List&gt; ]
- * 
+ *
  * @author Michael Borcherds
  */
 public class CmdReducedRowEchelonForm extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -38,10 +38,8 @@ public class CmdReducedRowEchelonForm extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoReducedRowEchelonForm algo = new AlgoReducedRowEchelonForm(cons, a,
-				b);
+	protected final GeoElement doCommand(String a, GeoList b) {
+		AlgoReducedRowEchelonForm algo = new AlgoReducedRowEchelonForm(cons, a, b);
 		return algo.getResult();
 	}
-
 }

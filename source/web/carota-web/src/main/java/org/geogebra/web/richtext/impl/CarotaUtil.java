@@ -26,7 +26,7 @@ public final class CarotaUtil {
 
 	private static boolean isScriptInjected = false;
 
-	private CarotaUtil() { }
+	private CarotaUtil() {}
 
 	/**
 	 * Injects the javascript if necessary.

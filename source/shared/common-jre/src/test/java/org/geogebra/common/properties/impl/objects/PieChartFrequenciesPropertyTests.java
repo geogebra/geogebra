@@ -39,13 +39,13 @@ class PieChartFrequenciesPropertyTests extends BaseAppTestSetup {
 	void testPieChartFromInlineList() {
 		GeoElement pieChart = evaluateGeoElement("PieChart({1,2,3},(1,1),3)");
 
-		PieChartFrequenciesProperty frequencies = assertDoesNotThrow(
-				() -> new PieChartFrequenciesProperty(getLocalization(), pieChart));
+		PieChartFrequenciesProperty frequencies =
+				assertDoesNotThrow(() -> new PieChartFrequenciesProperty(getLocalization(), pieChart));
 		assertEquals("{1,2,3}", frequencies.getValue());
 		frequencies.setValue("{4,5,6}");
 		assertEquals("{4,5,6}", frequencies.getValue());
-		assertEquals("PieChart({4, 5, 6}, (1, 1), 3)", lookup("a")
-				.getDefinition(StringTemplate.testTemplate));
+		assertEquals(
+				"PieChart({4, 5, 6}, (1, 1), 3)", lookup("a").getDefinition(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -54,12 +54,11 @@ class PieChartFrequenciesPropertyTests extends BaseAppTestSetup {
 		evaluateGeoElement("l2={3,1,2}");
 		GeoElement pieChart = evaluateGeoElement("PieChart(l1,(1,1),3)");
 
-		PieChartFrequenciesProperty frequencies = assertDoesNotThrow(
-				() -> new PieChartFrequenciesProperty(getLocalization(), pieChart));
+		PieChartFrequenciesProperty frequencies =
+				assertDoesNotThrow(() -> new PieChartFrequenciesProperty(getLocalization(), pieChart));
 		assertEquals("l1", frequencies.getValue());
 		frequencies.setValue("l2");
-		assertEquals("PieChart(l2, (1, 1), 3)", lookup("a")
-				.getDefinition(StringTemplate.testTemplate));
+		assertEquals("PieChart(l2, (1, 1), 3)", lookup("a").getDefinition(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -68,11 +67,10 @@ class PieChartFrequenciesPropertyTests extends BaseAppTestSetup {
 		evaluateGeoElement("l2={3,1,2}");
 		GeoElement pieChart = evaluateGeoElement("PieChart(l1,(1,1),3)");
 
-		PieChartFrequenciesProperty frequencies = assertDoesNotThrow(
-				() -> new PieChartFrequenciesProperty(getLocalization(), pieChart));
+		PieChartFrequenciesProperty frequencies =
+				assertDoesNotThrow(() -> new PieChartFrequenciesProperty(getLocalization(), pieChart));
 		assertNull(frequencies.validateValue("l2"));
 		assertNull(frequencies.validateValue("{7,8,9}"));
 		assertNotNull(frequencies.validateValue("f"));
 	}
 }
-

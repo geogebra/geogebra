@@ -24,27 +24,27 @@ import java.util.Date;
  */
 public final class CheatingEvent {
 
-    private final CheatingAction action;
-    private final Date date;
+	private final CheatingAction action;
+	private final Date date;
 
-    /**
-     * @param action action
-     * @param date time
-     */
-    CheatingEvent(CheatingAction action, Date date) {
-        this.action = action;
-        this.date = date;
-    }
+	/**
+	 * @param action action
+	 * @param date time
+	 */
+	CheatingEvent(CheatingAction action, Date date) {
+		this.action = action;
+		this.date = date;
+	}
 
-    public CheatingAction getAction() {
-        return action;
-    }
+	public CheatingAction getAction() {
+		return action;
+	}
 
-    public long getTime() {
-        return date.getTime();
-    }
+	public long getTime() {
+		return date.getTime();
+	}
 
-    public Date getDate() {
-        return date;
-    }
+	public Date getDate() {
+		return date;
+	}
 }

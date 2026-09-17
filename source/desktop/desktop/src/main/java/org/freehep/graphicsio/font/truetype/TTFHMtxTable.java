@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * HMTX Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFHMtxTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -24,8 +24,7 @@ public class TTFHMtxTable extends TTFTable {
 
 	@Override
 	public void readTable() throws IOException {
-		int numberOfHMetrics = ((TTFHHeaTable) getTable(
-				"hhea")).numberOfHMetrics;
+		int numberOfHMetrics = ((TTFHHeaTable) getTable("hhea")).numberOfHMetrics;
 		int numGlyphs = ((TTFMaxPTable) getTable("maxp")).numGlyphs;
 
 		advanceWidth = new int[numberOfHMetrics];

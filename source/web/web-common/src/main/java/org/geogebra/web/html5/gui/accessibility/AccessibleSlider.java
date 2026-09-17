@@ -41,8 +41,8 @@ public class AccessibleSlider implements AccessibleWidget, HasSliders {
 	 * @param view
 	 *            accessibility view
 	 */
-	public AccessibleSlider(GeoNumeric geo, BaseWidgetFactory widgetFactory,
-			final AccessibilityView view) {
+	public AccessibleSlider(
+			GeoNumeric geo, BaseWidgetFactory widgetFactory, final AccessibilityView view) {
 		this.numeric = geo;
 		this.view = view;
 		slider = WidgetFactory.makeSlider(0, this, widgetFactory);
@@ -99,5 +99,4 @@ public class AccessibleSlider implements AccessibleWidget, HasSliders {
 	public boolean isCompatible(GeoElement geo) {
 		return geo instanceof GeoNumeric && ((GeoNumeric) geo).isSlider();
 	}
-
 }

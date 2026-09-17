@@ -27,7 +27,7 @@ public interface RotatableND extends Rotatable {
 
 	/**
 	 * Rotates this element around
-	 * 
+	 *
 	 * @param r
 	 *            angle
 	 * @param S
@@ -36,5 +36,4 @@ public interface RotatableND extends Rotatable {
 	 *            orientation for the rotation
 	 */
 	void rotate(NumberValue r, Coords S, GeoDirectionND orientation);
-
 }

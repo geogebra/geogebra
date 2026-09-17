@@ -20,7 +20,7 @@ import java.io.Serializable;
 
 /**
  * MarvlAPI supplies creator of material
- * 
+ *
  * @author Alicia
  *
  */
@@ -29,6 +29,7 @@ public class UserPublic implements Serializable {
 	 * Serialization needed for Android.
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private int id;
 	private String displayName;
 
@@ -42,7 +43,7 @@ public class UserPublic implements Serializable {
 
 	/**
 	 * Public user information
-	 * 
+	 *
 	 * @param id
 	 *            Unique user ID
 	 * @param displayName
@@ -55,7 +56,7 @@ public class UserPublic implements Serializable {
 
 	/**
 	 * Get user ID
-	 * 
+	 *
 	 * @return Unique key for identification of user
 	 */
 	public int getId() {
@@ -64,7 +65,7 @@ public class UserPublic implements Serializable {
 
 	/**
 	 * Set user ID
-	 * 
+	 *
 	 * @param id
 	 *            Unique key for identification of user
 	 */
@@ -74,11 +75,10 @@ public class UserPublic implements Serializable {
 
 	/**
 	 * Get users display name
-	 * 
+	 *
 	 * @return The real name if specified, same as username otherwise
 	 */
 	public String getDisplayName() {
 		return displayName;
 	}
-
 }

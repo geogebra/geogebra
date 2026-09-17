@@ -49,13 +49,14 @@ class VisibilityRestrictionTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"f(x) = x",
-			"x > 2",
-			"y = 2x",
-			"x^2 + y^2 = 5",
-			"(1, 2)",
-	})
+	@ValueSource(
+			strings = {
+				"f(x) = x",
+				"x > 2",
+				"y = 2x",
+				"x^2 + y^2 = 5",
+				"(1, 2)",
+			})
 	void testEmptySetOfVisibilityRestrictions(String expression) {
 		assertFalse(isVisibilityRestricted(evaluateGeoElement(expression), Set.of()));
 	}
@@ -80,7 +81,8 @@ class VisibilityRestrictionTests extends BaseAppTestSetup {
 	void testOverlappingConflictingRestrictionsWithHiddenAndAllowedEffects() {
 		GeoElement linearEquation = evaluateGeoElement("x = 2");
 		GeoElement quadraticEquation = evaluateGeoElement("x^2 = 2");
-		assertAll(() -> assertTrue(isEquation(linearEquation)),
+		assertAll(
+				() -> assertTrue(isEquation(linearEquation)),
 				() -> assertTrue(isEquation(quadraticEquation)),
 				() -> assertTrue(isLinearEquation(linearEquation)),
 				() -> assertFalse(isLinearEquation(quadraticEquation)));
@@ -91,33 +93,30 @@ class VisibilityRestrictionTests extends BaseAppTestSetup {
 
 		assertAll(
 				() -> assertFalse(isVisibilityRestricted(linearEquation, visibilityRestrictions)),
-				() -> assertTrue(isVisibilityRestricted(quadraticEquation, visibilityRestrictions))
-		);
+				() -> assertTrue(isVisibilityRestricted(quadraticEquation, visibilityRestrictions)));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"a = (1, 2)",
-			"b = (1, 2) + 0"
-	})
+	@ValueSource(strings = {"a = (1, 2)", "b = (1, 2) + 0"})
 	void testVectorRestrictions(String expression) {
-		assertTrue(isVisibilityRestricted(evaluateGeoElement(expression),
-				Set.of(new HiddenVectorVisibilityRestriction())));
+		assertTrue(isVisibilityRestricted(
+				evaluateGeoElement(expression), Set.of(new HiddenVectorVisibilityRestriction())));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"x > 0",
-			"y <= 1",
-			"x < y",
-			"x - y > 2",
-			"x^2 + 2y^2 < 1",
-			"f: x > 0",
-			"f(x) = x > 2",
-	})
+	@ValueSource(
+			strings = {
+				"x > 0",
+				"y <= 1",
+				"x < y",
+				"x - y > 2",
+				"x^2 + 2y^2 < 1",
+				"f: x > 0",
+				"f(x) = x > 2",
+			})
 	void testInequalityRestrictions(String expression) {
-		assertTrue(isVisibilityRestricted(evaluateGeoElement(expression),
-				Set.of(new HiddenInequalityVisibilityRestriction())));
+		assertTrue(isVisibilityRestricted(
+				evaluateGeoElement(expression), Set.of(new HiddenInequalityVisibilityRestriction())));
 	}
 
 	private static boolean isEquation(GeoElement geoElement) {

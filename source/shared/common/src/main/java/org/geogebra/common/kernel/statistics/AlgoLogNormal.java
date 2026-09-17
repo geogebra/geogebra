@@ -25,10 +25,9 @@ import org.geogebra.common.util.MyMath2;
 
 /**
  * Cumulative LogNormal[mean, s, val]
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoLogNormal extends AlgoDistribution {
 
 	/**
@@ -39,8 +38,12 @@ public class AlgoLogNormal extends AlgoDistribution {
 	 * @param value probability variable value
 	 * @param cumulative true for CDF, false for PDF
 	 */
-	public AlgoLogNormal(Construction cons, GeoNumberValue mean,
-			GeoNumberValue sd, GeoNumberValue value, GeoBoolean cumulative) {
+	public AlgoLogNormal(
+			Construction cons,
+			GeoNumberValue mean,
+			GeoNumberValue sd,
+			GeoNumberValue value,
+			GeoBoolean cumulative) {
 		super(cons, mean, sd, value, null, cumulative);
 		compute();
 	}
@@ -52,8 +55,7 @@ public class AlgoLogNormal extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
 			double mean = a.getDouble();
 			double s = b.getDouble();
 			double x = c.getDouble();
@@ -63,9 +65,7 @@ public class AlgoLogNormal extends AlgoDistribution {
 			} else if (x <= 0) {
 				num.setValue(0);
 			} else if (pdf) {
-				num.setValue(MyMath2.erf(
-						(Math.log(x) - mean) / (Math.sqrt(2) * Math.abs(s))) / 2
-						+ 0.5);
+				num.setValue(MyMath2.erf((Math.log(x) - mean) / (Math.sqrt(2) * Math.abs(s))) / 2 + 0.5);
 			} else {
 				double prod = x * Math.sqrt(Kernel.PI_2) * Math.abs(s);
 				double en = Math.log(x) - mean;
@@ -76,5 +76,4 @@ public class AlgoLogNormal extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

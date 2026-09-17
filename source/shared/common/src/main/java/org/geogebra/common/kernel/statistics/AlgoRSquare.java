@@ -28,10 +28,9 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  * Command: RSquare[&lt;List&gt;,&lt;Function&gt;] Calculates coefficient of
  * determination, R^2, for a function f(x) fitted to the list.
- * 
+ *
  * @author G.Sturr
  */
-
 public class AlgoRSquare extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -40,7 +39,7 @@ public class AlgoRSquare extends AlgoElement {
 	private int size;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param inputList
@@ -48,8 +47,7 @@ public class AlgoRSquare extends AlgoElement {
 	 * @param function
 	 *            model function
 	 */
-	public AlgoRSquare(Construction cons, GeoList inputList,
-			GeoFunctionable function) {
+	public AlgoRSquare(Construction cons, GeoList inputList, GeoFunctionable function) {
 		super(cons);
 		this.inputList = inputList;
 		this.function = function;
@@ -117,7 +115,5 @@ public class AlgoRSquare extends AlgoElement {
 
 		// calculate RSquare
 		r2.setValue(1 - errorsum / syy);
-
 	}
-
 }

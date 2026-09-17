@@ -77,7 +77,9 @@ class StylebarPositionerTest extends BaseUnitTest {
 	}
 
 	private void pointerDown(int x, int y) {
-		getApp().getActiveEuclidianView().getEuclidianController()
+		getApp()
+				.getActiveEuclidianView()
+				.getEuclidianController()
 				.wrapMousePressed(new TestEvent(x, y));
 	}
 

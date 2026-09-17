@@ -34,47 +34,49 @@ class HiddenLineStylePropertyTests extends BaseAppTestSetup {
 	@Test
 	void testAvailableIn3D() {
 		setupApp(SuiteSubApp.G3D);
-		assertDoesNotThrow(() -> new HiddenLineStyleProperty(
-				getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
+		assertDoesNotThrow(() ->
+				new HiddenLineStyleProperty(getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
 	}
 
 	@Test
 	void testAvailableInClassic() {
 		setupClassicApp();
 		getApp().getEuclidianView3D();
-		assertDoesNotThrow(() -> new HiddenLineStyleProperty(
-				getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
+		assertDoesNotThrow(() ->
+				new HiddenLineStyleProperty(getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
 	}
 
 	@ParameterizedTest
-	@EnumSource(value = SuiteSubApp.class, names = {"GRAPHING", "GEOMETRY", "CAS"})
+	@EnumSource(
+			value = SuiteSubApp.class,
+			names = {"GRAPHING", "GEOMETRY", "CAS"})
 	void testUnavailableInOtherApps(SuiteSubApp suiteSubApp) {
 		setupApp(suiteSubApp);
 		mockedCasGiac.memorize("Line((0, 0), (1, 1))", "y=x");
-		assertThrows(NotApplicablePropertyException.class, () -> new HiddenLineStyleProperty(
-				getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new HiddenLineStyleProperty(
+						getLocalization(), evaluateGeoElement("Line((0, 0), (1, 1))")));
 	}
 
 	@Test
 	void testSettingHiddenLineStyle() {
 		setupApp(SuiteSubApp.G3D);
 		GeoElement geoElement = evaluateGeoElement("Line((0, 0), (1, 1))");
-		HiddenLineStyleProperty hiddenLineStyleProperty = assertDoesNotThrow(() ->
-				new HiddenLineStyleProperty(getLocalization(), geoElement));
+		HiddenLineStyleProperty hiddenLineStyleProperty =
+				assertDoesNotThrow(() -> new HiddenLineStyleProperty(getLocalization(), geoElement));
 
 		hiddenLineStyleProperty.setValue(HiddenLineStyle.DASHED);
 		assertEquals(HiddenLineStyle.DASHED, hiddenLineStyleProperty.getValue());
-		assertEquals(EuclidianStyleConstants.LINE_TYPE_HIDDEN_DASHED,
-				geoElement.getLineTypeHidden());
+		assertEquals(EuclidianStyleConstants.LINE_TYPE_HIDDEN_DASHED, geoElement.getLineTypeHidden());
 
 		hiddenLineStyleProperty.setValue(HiddenLineStyle.UNCHANGED);
 		assertEquals(HiddenLineStyle.UNCHANGED, hiddenLineStyleProperty.getValue());
-		assertEquals(EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN,
-				geoElement.getLineTypeHidden());
+		assertEquals(
+				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN, geoElement.getLineTypeHidden());
 
 		hiddenLineStyleProperty.setValue(HiddenLineStyle.INVISIBLE);
 		assertEquals(HiddenLineStyle.INVISIBLE, hiddenLineStyleProperty.getValue());
-		assertEquals(EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE,
-				geoElement.getLineTypeHidden());
+		assertEquals(EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE, geoElement.getLineTypeHidden());
 	}
 }

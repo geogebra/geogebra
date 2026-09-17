@@ -11,7 +11,7 @@
  *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
- * See https://www.geogebra.org/license for full licensing details.
+ * See https://www.geogebra.org/license for full licensing details
  */
 
 package org.geogebra.common.properties.impl.objects;
@@ -41,8 +41,9 @@ public final class CustomButtonImageProperty extends AbstractImageProperty
 	 * @param element button element to configure
 	 * @throws NotApplicablePropertyException if the element does not support an icon
 	 */
-	public CustomButtonImageProperty(Localization localization, ImageManager imageManager,
-			Kernel kernel, GeoElement element) throws NotApplicablePropertyException {
+	public CustomButtonImageProperty(
+			Localization localization, ImageManager imageManager, Kernel kernel, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, imageManager, "Image");
 		this.imageManager = imageManager;
 		this.kernel = kernel;

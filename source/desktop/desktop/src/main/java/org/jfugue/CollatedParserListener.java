@@ -106,5 +106,4 @@ public abstract class CollatedParserListener implements ParserListener {
 	}
 
 	public abstract void jfugueEvent(JFugueElement element);
-
 }

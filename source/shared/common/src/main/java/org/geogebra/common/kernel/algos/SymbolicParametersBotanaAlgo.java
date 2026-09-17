@@ -24,32 +24,30 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 /**
  * This interface describes the symbolic parameters of algorithms for the Botana
  * method. Based on Simon's SymbolicParametersAlgo.java.
- * 
+ *
  * @author Zoltan Kovacs
  */
 public interface SymbolicParametersBotanaAlgo {
 
 	/**
 	 * Calculates the free variables of an object for the Botana method
-	 * 
+	 *
 	 * @param geo
 	 *            The corresponding GeoElement
 	 * @return array of the free variables
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain suitable polynomials
 	 */
-	PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException;
+	PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException;
 
 	/**
 	 * Calculates the polynomials of an object for the Botana method
-	 * 
+	 *
 	 * @param geo
 	 *            The corresponding GeoElement
 	 * @return array of the polynomials
 	 * @throws NoSymbolicParametersException
 	 *             if it is not possible to obtain suitable polynomials
 	 */
-	PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException;
+	PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException;
 }

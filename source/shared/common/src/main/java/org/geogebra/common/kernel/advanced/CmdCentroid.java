@@ -31,7 +31,7 @@ public class CmdCentroid extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,27 +40,27 @@ public class CmdCentroid extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			ok[0] = arg[0].isGeoPolygon();
-			if (ok[0]) {
+			case 1:
+				arg = resArgs(c, info);
+				ok[0] = arg[0].isGeoPolygon();
+				if (ok[0]) {
 
-				AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons,
-						c.getLabel(), (GeoPolygon) arg[0]);
+					AlgoCentroidPolygon algo =
+							new AlgoCentroidPolygon(cons, c.getLabel(), (GeoPolygon) arg[0]);
 
-				GeoElement[] ret = { (GeoElement) algo.getPoint() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {(GeoElement) algo.getPoint()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

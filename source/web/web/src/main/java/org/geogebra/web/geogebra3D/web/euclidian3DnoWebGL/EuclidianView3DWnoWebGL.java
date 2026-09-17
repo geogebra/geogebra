@@ -33,7 +33,7 @@ import elemental2.dom.HTMLImageElement;
 
 /**
  * (dummy) 3D view for browsers that don't support webGL
- * 
+ *
  * @author mathieu
  *
  */
@@ -43,14 +43,13 @@ public final class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param ec
 	 *            controller
 	 * @param settings
 	 *            settings
 	 */
-	public EuclidianView3DWnoWebGL(EuclidianController3D ec,
-	        EuclidianSettings settings) {
+	public EuclidianView3DWnoWebGL(EuclidianController3D ec, EuclidianSettings settings) {
 		super(ec, settings);
 		setCurrentFile(((AppW) ec.getApplication()).getCurrentFile());
 	}
@@ -68,17 +67,16 @@ public final class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	@Override
 	public void repaint() {
 		if (thumb != null) {
-			getG2P().scale(
-					(double) getG2P().getOffsetWidth() / thumb.getWidth(),
-					(double) getG2P().getOffsetHeight() / thumb.getHeight());
+			getG2P()
+					.scale(
+							(double) getG2P().getOffsetWidth() / thumb.getWidth(),
+							(double) getG2P().getOffsetHeight() / thumb.getHeight());
 			getG2P().drawImage(thumb, 0, 0);
 		}
 
 		getG2P().setColor(GColor.BLACK);
 		if (!getApplication().isScreenshotGenerator()) {
-			getG2P().drawString(
-					getApplication().getLocalization().getMenu("NoWebGL"), 10,
-					20);
+			getG2P().drawString(getApplication().getLocalization().getMenu("NoWebGL"), 10, 20);
 		}
 	}
 
@@ -100,10 +98,15 @@ public final class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	 */
 	public void onResize() {
 		getG2P().setCoordinateSpaceSize(this.getWidth(), this.getHeight());
-		getG2P().getElement().getParentElement().getStyle()
+		getG2P()
+				.getElement()
+				.getParentElement()
+				.getStyle()
 				.setWidth(getG2P().getCoordinateSpaceWidth(), Unit.PX);
-		getG2P().getElement().getParentElement().getStyle()
+		getG2P()
+				.getElement()
+				.getParentElement()
+				.getStyle()
 				.setHeight(getG2P().getCoordinateSpaceHeight(), Unit.PX);
 	}
-
 }

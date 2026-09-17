@@ -39,7 +39,7 @@ public class CmdType extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -50,7 +50,7 @@ public class CmdType extends CommandProcessor {
 			if (arg[0] instanceof GeoQuadricND) {
 				AlgoType algo = new AlgoType(cons, (GeoQuadricND) arg[0]);
 				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[]{algo.getResult()};
+				return new GeoElement[] {algo.getResult()};
 			}
 			throw argErr(c, arg[0]);
 		}

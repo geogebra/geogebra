@@ -37,7 +37,7 @@ public class NumberFormat extends DecimalFormat implements NumberFormatAdapter {
 
 	/**
 	 * Format with a pattern
-	 * 
+	 *
 	 * @param pattern
 	 *            format pattern
 	 * @param maxDigits
@@ -48,5 +48,4 @@ public class NumberFormat extends DecimalFormat implements NumberFormatAdapter {
 		setMaximumFractionDigits(maxDigits);
 		setDecimalFormatSymbols(new DecimalFormatSymbols(Locale.US));
 	}
-
 }

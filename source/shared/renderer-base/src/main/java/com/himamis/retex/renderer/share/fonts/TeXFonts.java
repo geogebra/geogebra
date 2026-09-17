@@ -50,33 +50,22 @@ import com.himamis.retex.renderer.share.FontInfo;
 public final class TeXFonts {
 
 	public final FontInfo cmbsy10 = new CMBSY10("fonts/maths/jlm_cmbsy10");
-	public final FontInfo cmbx10 = new CMBX10(
-			"fonts/latin/optional/jlm_cmbx10");
-	public final FontInfo cmbxti10 = new CMBXTI10(
-			"fonts/latin/optional/jlm_cmbxti10");
+	public final FontInfo cmbx10 = new CMBX10("fonts/latin/optional/jlm_cmbx10");
+	public final FontInfo cmbxti10 = new CMBXTI10("fonts/latin/optional/jlm_cmbxti10");
 	public final FontInfo cmex10 = new CMEX10("fonts/base/jlm_cmex10");
 	public final FontInfo cmmi10 = new CMMI10("fonts/base/jlm_cmmi10");
-	public final FontInfo cmmi10_unchanged = new CMMI10_UNCHANGED(
-			"fonts/base/jlm_cmmi10");
+	public final FontInfo cmmi10_unchanged = new CMMI10_UNCHANGED("fonts/base/jlm_cmmi10");
 	public final FontInfo cmmib10 = new CMMIB10("fonts/base/jlm_cmmib10");
-	public final FontInfo cmmib10_unchanged = new CMMIB10_UNCHANGED(
-			"fonts/base/jlm_cmmib10");
+	public final FontInfo cmmib10_unchanged = new CMMIB10_UNCHANGED("fonts/base/jlm_cmmib10");
 	public final FontInfo cmr10 = new CMR10("fonts/latin/jlm_cmr10");
-	public final FontInfo cmss10 = new CMSS10(
-			"fonts/latin/optional/jlm_cmss10");
-	public final FontInfo cmssbx10 = new CMSSBX10(
-			"fonts/latin/optional/jlm_cmssbx10");
-	public final FontInfo cmssi10 = new CMSSI10(
-			"fonts/latin/optional/jlm_cmssi10");
+	public final FontInfo cmss10 = new CMSS10("fonts/latin/optional/jlm_cmss10");
+	public final FontInfo cmssbx10 = new CMSSBX10("fonts/latin/optional/jlm_cmssbx10");
+	public final FontInfo cmssi10 = new CMSSI10("fonts/latin/optional/jlm_cmssi10");
 	public final FontInfo cmsy10 = new CMSY10("fonts/maths/jlm_cmsy10");
-	public final FontInfo cmti10 = new CMTI10(
-			"fonts/latin/optional/jlm_cmti10");
-	public final FontInfo cmti10_unchanged = new CMTI10_UNCHANGED(
-			"fonts/latin/optional/jlm_cmti10");
-	public final FontInfo cmtt10 = new CMTT10(
-			"fonts/latin/optional/jlm_cmtt10");
-	public final FontInfo dsrom10 = new DSROM10(
-			"fonts/maths/optional/jlm_dsrom10");
+	public final FontInfo cmti10 = new CMTI10("fonts/latin/optional/jlm_cmti10");
+	public final FontInfo cmti10_unchanged = new CMTI10_UNCHANGED("fonts/latin/optional/jlm_cmti10");
+	public final FontInfo cmtt10 = new CMTT10("fonts/latin/optional/jlm_cmtt10");
+	public final FontInfo dsrom10 = new DSROM10("fonts/maths/optional/jlm_dsrom10");
 	public final FontInfo eufb10 = new EUFB10("fonts/euler/jlm_eufb10");
 	public final FontInfo eufm10 = new EUFM10("fonts/euler/jlm_eufm10");
 	public final FontInfo fcmbipg = new FCMBIPG("fonts/greek/jlm_fcmbipg");
@@ -91,8 +80,7 @@ public final class TeXFonts {
 	public final FontInfo jlmbx10 = new JLMBX10("fonts/latin/jlm_jlmbx10");
 	public final FontInfo jlmi10 = new JLMI10("fonts/latin/jlm_jlmi10");
 	public final FontInfo jlmr10 = new JLMR10("fonts/latin/jlm_jlmr10");
-	public final FontInfo jlmr10_unchanged = new JLMR10_UNCHANGED(
-			"fonts/latin/jlm_jlmr10");
+	public final FontInfo jlmr10_unchanged = new JLMR10_UNCHANGED("fonts/latin/jlm_jlmr10");
 	public final FontInfo jlmsb10 = new JLMSB10("fonts/latin/jlm_jlmsb10");
 	public final FontInfo jlmsbi10 = new JLMSBI10("fonts/latin/jlm_jlmsbi10");
 	public final FontInfo jlmsi10 = new JLMSI10("fonts/latin/jlm_jlmsi10");
@@ -105,12 +93,10 @@ public final class TeXFonts {
 	public final FontInfo special = new SPECIAL("fonts/maths/jlm_special");
 	public final FontInfo stmary10 = new STMARY10("fonts/maths/jlm_stmary10");
 	public final FontInfo wnbx10 = new WNBX10("fonts/cyrillic/jlm_wnbx10");
-	public final FontInfo wnbxti10 = new WNBXTI10(
-			"fonts/cyrillic/jlm_wnbxti10");
+	public final FontInfo wnbxti10 = new WNBXTI10("fonts/cyrillic/jlm_wnbxti10");
 	public final FontInfo wnr10 = new WNR10("fonts/cyrillic/jlm_wnr10");
 	public final FontInfo wnss10 = new WNSS10("fonts/cyrillic/jlm_wnss10");
-	public final FontInfo wnssbx10 = new WNSSBX10(
-			"fonts/cyrillic/jlm_wnssbx10");
+	public final FontInfo wnssbx10 = new WNSSBX10("fonts/cyrillic/jlm_wnssbx10");
 	public final FontInfo wnssi10 = new WNSSI10("fonts/cyrillic/jlm_wnssi10");
 	public final FontInfo wnti10 = new WNTI10("fonts/cyrillic/jlm_wnti10");
 	public final FontInfo wntt10 = new WNTT10("fonts/cyrillic/jlm_wntt10");
@@ -121,8 +107,7 @@ public final class TeXFonts {
 		cmbxti10.setDependencies(null, cmbx10, cmssbx10, cmtt10, null);
 		cmex10.setDependencies(null, null, null, null, null);
 		cmmi10.setDependencies(cmmib10, cmr10, cmss10, cmtt10, cmti10);
-		cmmi10_unchanged.setDependencies(cmmib10_unchanged, null, null, null,
-				null);
+		cmmi10_unchanged.setDependencies(cmmib10_unchanged, null, null, null, null);
 		cmmib10.setDependencies(null, cmbx10, cmssbx10, cmtt10, cmbxti10);
 		cmmib10_unchanged.setDependencies(null, null, null, null, null);
 		cmr10.setDependencies(cmbx10, null, cmss10, cmtt10, cmti10);

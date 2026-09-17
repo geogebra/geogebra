@@ -35,8 +35,8 @@ public class ClassifiedRegion {
 	 * @param holes hole paths inside the region
 	 * @param samplePoint interior sample point used for classification
 	 */
-	public ClassifiedRegion(GGeneralPath outerBoundary, List<GGeneralPath> holes,
-			GPoint2D samplePoint) {
+	public ClassifiedRegion(
+			GGeneralPath outerBoundary, List<GGeneralPath> holes, GPoint2D samplePoint) {
 		this(outerBoundary, holes, samplePoint, -1);
 	}
 
@@ -48,8 +48,11 @@ public class ClassifiedRegion {
 	 * @param samplePoint interior sample point used for classification
 	 * @param sourceFaceId planar graph face id used to build this region
 	 */
-	public ClassifiedRegion(GGeneralPath outerBoundary, List<GGeneralPath> holes,
-			GPoint2D samplePoint, int sourceFaceId) {
+	public ClassifiedRegion(
+			GGeneralPath outerBoundary,
+			List<GGeneralPath> holes,
+			GPoint2D samplePoint,
+			int sourceFaceId) {
 		this.outerBoundary = outerBoundary;
 		this.holes = holes;
 		this.samplePoint = samplePoint;

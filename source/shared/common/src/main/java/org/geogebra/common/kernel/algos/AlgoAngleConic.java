@@ -77,13 +77,11 @@ public class AlgoAngleConic extends AlgoAngle {
 
 	@Override
 	public final String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("AngleOfA", "Angle of %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("AngleOfA", "Angle of %0", c.getLabel(tpl));
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 
 		m[0] = c.getB().getX();
 		m[1] = c.getB().getY();
@@ -101,5 +99,4 @@ public class AlgoAngleConic extends AlgoAngle {
 
 		return true;
 	}
-
 }

@@ -45,8 +45,7 @@ public class StreamUtil {
 	 * @return stream content
 	 */
 	public static String loadIntoString(InputStream is) {
-		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(is, StandardCharsets.UTF_8));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
 		StringBuilder sb = new StringBuilder();
 
 		String line;
@@ -61,8 +60,7 @@ public class StreamUtil {
 		return sb.toString();
 	}
 
-	private static void copyStream(InputStream in, OutputStream out)
-			throws IOException {
+	private static void copyStream(InputStream in, OutputStream out) throws IOException {
 		byte[] buf = new byte[4096];
 		int len;
 		while ((len = in.read(buf)) > -1) {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,11 +42,11 @@ import org.geogebra.desktop.main.AppD;
  * table takes a one dimensional array of data objects as input and then, using
  * row and column size parameters, displays the data as GeoGebra icons in a 2D
  * table. User selection is returned as an index to the data array.
- * 
+ *
  * The table is intended for use in a popup menu.
- * 
+ *
  * @author G.Sturr
- * 
+ *
  */
 public class SelectionTableD extends JTable {
 
@@ -100,7 +100,7 @@ public class SelectionTableD extends JTable {
 	/**
 	 * Sets the tooTip strings for the selection table; the toolTipArray should
 	 * have a 1-1 correspondence with the data array
-	 * 
+	 *
 	 * @param toolTipArray tooltips
 	 */
 	public void setToolTipArray(String[] toolTipArray) {
@@ -109,7 +109,7 @@ public class SelectionTableD extends JTable {
 
 	/********************************************************
 	 * Constructor
-	 * 
+	 *
 	 * @param app application
 	 * @param data0 data
 	 * @param rows0 number of rows
@@ -117,8 +117,8 @@ public class SelectionTableD extends JTable {
 	 * @param iconSize icon size
 	 * @param mode selection type
 	 */
-	public SelectionTableD(AppD app, Object[] data0, int rows0, int columns0,
-			Dimension iconSize, SelectionTable mode) {
+	public SelectionTableD(
+			AppD app, Object[] data0, int rows0, int columns0, Dimension iconSize, SelectionTable mode) {
 		int columns = columns0;
 		int rows = rows0;
 		this.app = app;
@@ -183,7 +183,6 @@ public class SelectionTableD extends JTable {
 		RollOverListener rollOverListener = new RollOverListener();
 		addMouseMotionListener(rollOverListener);
 		addMouseListener(rollOverListener);
-
 	}
 
 	/** Disables cell editing */
@@ -199,8 +198,7 @@ public class SelectionTableD extends JTable {
 		int r = 0;
 		int c = 0;
 
-		for (int i = 0; i < Math.min(data1.length,
-				this.numRows * this.numColumns); i++) {
+		for (int i = 0; i < Math.min(data1.length, this.numRows * this.numColumns); i++) {
 			model.setValueAt(data1[i], r, c);
 			++c;
 			if (c == this.numColumns) {
@@ -215,8 +213,8 @@ public class SelectionTableD extends JTable {
 	private Icon[] createLatexIconArray(String[] symbols) {
 		Icon[] iconArray = new Icon[symbols.length];
 		for (int i = 0; i < symbols.length; i++) {
-			iconArray[i] = GeoGebraIconD.createScaledLatexIcon(app, symbols[i],
-					app.getPlainFont(), Color.BLACK);
+			iconArray[i] =
+					GeoGebraIconD.createScaledLatexIcon(app, symbols[i], app.getPlainFont(), Color.BLACK);
 		}
 		return iconArray;
 	}
@@ -229,8 +227,7 @@ public class SelectionTableD extends JTable {
 		// match row height to specified icon height
 		// when mode=text then let font size adjust row height automatically
 		int rowHeight;
-		if (!(mode == SelectionTable.MODE_TEXT
-				|| mode == SelectionTable.MODE_LATEX)) {
+		if (!(mode == SelectionTable.MODE_TEXT || mode == SelectionTable.MODE_LATEX)) {
 			rowHeight = iconSize.height + padding;
 		} else {
 			rowHeight = getMaxRowHeight(this) + padding;
@@ -244,15 +241,13 @@ public class SelectionTableD extends JTable {
 		for (int i = 0; i < getColumnCount(); ++i) {
 			// for mode=text, adjust column width to the maximum width in the
 			// column
-			if (mode == SelectionTable.MODE_TEXT
-					|| mode == SelectionTable.MODE_LATEX) {
+			if (mode == SelectionTable.MODE_TEXT || mode == SelectionTable.MODE_LATEX) {
 				w = getMaxColumnWidth(this, i);
 				getColumnModel().getColumn(i).setPreferredWidth(w);
 				columnWidth = Math.max(w, columnWidth);
 			} else {
 				getColumnModel().getColumn(i).setPreferredWidth(columnWidth);
 			}
-
 		}
 		repaint();
 	}
@@ -307,8 +302,7 @@ public class SelectionTableD extends JTable {
 	 * @return selected index
 	 */
 	public int getSelectedIndex() {
-		int index = this.getColumnCount() * this.getSelectedRow()
-				+ this.getSelectedColumn();
+		int index = this.getColumnCount() * this.getSelectedRow() + this.getSelectedColumn();
 		if (index < -1) {
 			index = -1;
 		}
@@ -360,15 +354,13 @@ public class SelectionTableD extends JTable {
 		}
 
 		switch (mode) {
-
-		default:
-			// do nothing
-			break;
-		case MODE_ICON:
-		case MODE_LATEX:
-			icon = (Icon) value;
-			break;
-
+			default:
+				// do nothing
+				break;
+			case MODE_ICON:
+			case MODE_LATEX:
+				icon = (Icon) value;
+				break;
 		}
 
 		return icon;
@@ -407,13 +399,11 @@ public class SelectionTableD extends JTable {
 			setOpaque(true);
 			setHorizontalAlignment(CENTER);
 			setVerticalAlignment(CENTER);
-
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(
+				JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 			setAlignmentX(CENTER_ALIGNMENT);
 			setAlignmentY(CENTER_ALIGNMENT);
 
@@ -466,12 +456,12 @@ public class SelectionTableD extends JTable {
 		int colPrefWidth;
 		for (int row = 0; row < table.getRowCount(); row++) {
 			if (table.getValueAt(row, column) != null) {
-				Component component = table.getCellRenderer(row, column)
-						.getTableCellRendererComponent(table,
-								table.getValueAt(row, column), false, false,
-								row, column);
-				colPrefWidth = (int) Math.ceil(component
-						.getPreferredSize().getWidth() * app.getImageManager().getPixelRatio());
+				Component component = table
+						.getCellRenderer(row, column)
+						.getTableCellRendererComponent(
+								table, table.getValueAt(row, column), false, false, row, column);
+				colPrefWidth = (int) Math.ceil(
+						component.getPreferredSize().getWidth() * app.getImageManager().getPixelRatio());
 				maxPrefWidth = Math.max(maxPrefWidth, colPrefWidth);
 			}
 		}
@@ -491,15 +481,15 @@ public class SelectionTableD extends JTable {
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				if (table.getValueAt(r, c) != null) {
-					cellPrefHeight = (int) table.getCellRenderer(r, c)
-							.getTableCellRendererComponent(table,
-									table.getValueAt(r, c), false, false, r, c)
-							.getPreferredSize().getHeight();
+					cellPrefHeight = (int) table
+							.getCellRenderer(r, c)
+							.getTableCellRendererComponent(table, table.getValueAt(r, c), false, false, r, c)
+							.getPreferredSize()
+							.getHeight();
 					maxPrefHeight = Math.max(maxPrefHeight, cellPrefHeight);
 				}
 			}
 		}
 		return maxPrefHeight + table.getIntercellSpacing().height;
 	}
-
 }

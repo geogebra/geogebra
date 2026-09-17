@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,16 +46,18 @@ public final class ExamSEBDialog extends ComponentDialog {
 	}
 
 	private void buildContent(VendorSettings vendorSettings) {
-		Label helpText = BaseWidgetFactory.INSTANCE.newPrimaryText(app.getLocalization()
-				.getMenu("ExamSEBDialog.LaunchSEBHelp"));
+		Label helpText = BaseWidgetFactory.INSTANCE.newPrimaryText(
+				app.getLocalization().getMenu("ExamSEBDialog.LaunchSEBHelp"));
 		addDialogContent(helpText);
 
 		FlowPanel downloadSEB = buildDownloadSEBButton(vendorSettings);
-		downloadSEB.addDomHandler(event -> {
-			Language lang = app.getLocalization().getLanguage();
-			String link = "de".equals(lang.language) ? downloadDE : downloadEN;
-			Browser.openWindow(link);
-		}, ClickEvent.getType());
+		downloadSEB.addDomHandler(
+				event -> {
+					Language lang = app.getLocalization().getLanguage();
+					String link = "de".equals(lang.language) ? downloadDE : downloadEN;
+					Browser.openWindow(link);
+				},
+				ClickEvent.getType());
 		addDialogContent(downloadSEB);
 	}
 
@@ -68,8 +70,10 @@ public final class ExamSEBDialog extends ComponentDialog {
 		downloadSEB.add(buttonText);
 
 		NoDragImage buttonImage = new NoDragImage(
-				MaterialDesignResources.INSTANCE.open_in_new_tab().withFill(
-						vendorSettings.getPrimaryColor().toString()), 16);
+				MaterialDesignResources.INSTANCE
+						.open_in_new_tab()
+						.withFill(vendorSettings.getPrimaryColor().toString()),
+				16);
 		buttonImage.addStyleName("buttonImage");
 		downloadSEB.add(buttonImage);
 

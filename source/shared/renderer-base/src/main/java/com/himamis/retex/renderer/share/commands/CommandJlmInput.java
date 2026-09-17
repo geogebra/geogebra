@@ -8,6 +8,6 @@ public class CommandJlmInput extends Command1A {
 
 	@Override
 	public Atom newI(TeXParser tp, Atom a) {
-		return  new InputAtom(a, null, null);
+		return new InputAtom(a, null, null);
 	}
 }

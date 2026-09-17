@@ -93,11 +93,9 @@ public final class ToolsTab extends ToolbarTab implements ExamListener {
 	}
 
 	private void createMoreLessButtons() {
-		moreBtn = BaseWidgetFactory.INSTANCE.newTextButton(
-				app.getLocalization().getMenu("Tools.More"));
+		moreBtn = BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization().getMenu("Tools.More"));
 		AriaHelper.hide(moreBtn);
-		lessBtn = BaseWidgetFactory.INSTANCE.newTextButton(
-				app.getLocalization().getMenu("Tools.Less"));
+		lessBtn = BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization().getMenu("Tools.Less"));
 		AriaHelper.hide(lessBtn);
 		moreBtn.addFastClickHandler(source -> onMorePressed());
 

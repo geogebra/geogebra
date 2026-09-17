@@ -190,18 +190,24 @@ final class PlanarGraphVisualDebug implements VisualDebug {
 			}
 		}
 		g2.setColor(LABEL_COLOR);
-		g2.drawString("faces=" + graph.getFaces().size()
-				+ " bounded=" + boundedFaceCount
-				+ " sampled=" + sampledFaceCount
-				+ " cycles=" + graph.getLastExtractedBoundaryCycles().size()
-				+ " canonical=" + graph.getLastCanonicalBoundaryCycles().size(), 12, 18);
-		g2.drawString("view=[" + format(bounds().getXmin()) + "," + format(bounds().getXmax())
-				+ "] x [" + format(bounds().getYmin()) + "," + format(bounds().getYmax()) + "]"
-				+ " px=" + bounds().getWidth() + "x" + bounds().getHeight()
-				+ " scale=" + formatScale(1.0 / bounds().getInvXscale())
-				+ "x" + formatScale(1.0 / bounds().getInvYscale())
-				+ " inv=" + format(bounds().getInvXscale())
-				+ "x" + format(bounds().getInvYscale()), 12, 34);
+		g2.drawString(
+				"faces=" + graph.getFaces().size()
+						+ " bounded=" + boundedFaceCount
+						+ " sampled=" + sampledFaceCount
+						+ " cycles=" + graph.getLastExtractedBoundaryCycles().size()
+						+ " canonical=" + graph.getLastCanonicalBoundaryCycles().size(),
+				12,
+				18);
+		g2.drawString(
+				"view=[" + format(bounds().getXmin()) + "," + format(bounds().getXmax())
+						+ "] x [" + format(bounds().getYmin()) + "," + format(bounds().getYmax()) + "]"
+						+ " px=" + bounds().getWidth() + "x" + bounds().getHeight()
+						+ " scale=" + formatScale(1.0 / bounds().getInvXscale())
+						+ "x" + formatScale(1.0 / bounds().getInvYscale())
+						+ " inv=" + format(bounds().getInvXscale())
+						+ "x" + format(bounds().getInvYscale()),
+				12,
+				34);
 	}
 
 	private EuclidianViewBounds bounds() {
@@ -258,12 +264,10 @@ final class PlanarGraphVisualDebug implements VisualDebug {
 		}
 		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 		Vertex start = graph.vertex(graph.halfEdge(boundary.get(0)).getOriginVertexId());
-		path.moveTo(bounds().toScreenCoordXd(start.getX()),
-				bounds().toScreenCoordYd(start.getY()));
+		path.moveTo(bounds().toScreenCoordXd(start.getX()), bounds().toScreenCoordYd(start.getY()));
 		for (int halfEdgeId : boundary) {
 			Vertex target = graph.vertex(graph.halfEdge(halfEdgeId).getTargetVertexId());
-			path.lineTo(bounds().toScreenCoordXd(target.getX()),
-					bounds().toScreenCoordYd(target.getY()));
+			path.lineTo(bounds().toScreenCoordXd(target.getX()), bounds().toScreenCoordYd(target.getY()));
 		}
 		path.closePath();
 		return path;
@@ -277,8 +281,11 @@ final class PlanarGraphVisualDebug implements VisualDebug {
 		int sx = (int) Math.round(bounds().toScreenCoordXd(samplePoint.x));
 		int sy = (int) Math.round(bounds().toScreenCoordYd(samplePoint.y));
 		g2.setColor(SAMPLE_POINT_COLOR);
-		g2.fillRect(sx - SAMPLE_POINT_SIZE / 2, sy - SAMPLE_POINT_SIZE / 2,
-				SAMPLE_POINT_SIZE, SAMPLE_POINT_SIZE);
+		g2.fillRect(
+				sx - SAMPLE_POINT_SIZE / 2,
+				sy - SAMPLE_POINT_SIZE / 2,
+				SAMPLE_POINT_SIZE,
+				SAMPLE_POINT_SIZE);
 		if (SHOW_FACE_IDS) {
 			g2.setColor(LABEL_COLOR);
 			g2.drawString("F" + face.getId(), sx + 6, sy - 6);

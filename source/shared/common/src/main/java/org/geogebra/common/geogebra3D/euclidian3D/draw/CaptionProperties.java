@@ -70,13 +70,12 @@ public class CaptionProperties {
 	 */
 	public static void updateColor(GColor baseColor, EuclidianView3D view, Coords color) {
 		GColor convertColor = baseColor;
-		if (view.isAdditiveDisplay()
-				&& baseColor.isDarkerThan(Drawable3D.DARKEST_ADDITIVE_COLOR)) {
-			convertColor = Drawable3D.DARKEST_ADDITIVE_COLOR
-					.deriveWithAlpha(baseColor.getAlpha());
+		if (view.isAdditiveDisplay() && baseColor.isDarkerThan(Drawable3D.DARKEST_ADDITIVE_COLOR)) {
+			convertColor = Drawable3D.DARKEST_ADDITIVE_COLOR.deriveWithAlpha(baseColor.getAlpha());
 		}
 
-		color.set((double) convertColor.getRed() / 255,
+		color.set(
+				(double) convertColor.getRed() / 255,
 				(double) convertColor.getGreen() / 255,
 				(double) convertColor.getBlue() / 255,
 				1);
@@ -104,9 +103,10 @@ public class CaptionProperties {
 		this.backgroundColor = bgColor == null
 				? null
 				: new Coords(
-				(double) bgColor.getRed() / 255,
-				(double) bgColor.getGreen() / 255,
-				(double) bgColor.getBlue() / 255, 1);
+						(double) bgColor.getRed() / 255,
+						(double) bgColor.getGreen() / 255,
+						(double) bgColor.getBlue() / 255,
+						1);
 	}
 
 	/**

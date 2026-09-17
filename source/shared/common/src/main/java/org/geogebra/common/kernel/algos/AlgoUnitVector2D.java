@@ -33,13 +33,12 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 	protected double y;
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVector2D(Construction cons, GeoElement inputGeo,
-			boolean normalize) {
+	public AlgoUnitVector2D(Construction cons, GeoElement inputGeo, boolean normalize) {
 		super(cons, inputGeo, normalize);
 	}
 
 	@Override
-	final protected GeoVectorND createVector(Construction cons1) {
+	protected final GeoVectorND createVector(Construction cons1) {
 		GeoVector ret = new GeoVector(cons1);
 		ret.z = 0.0d;
 		return ret;
@@ -47,7 +46,7 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 
 	// line through P normal to v
 	@Override
-	final public void compute() {
+	public final void compute() {
 		setXY();
 		length = normalize ? MyMath.length(x, y) : 1;
 		((GeoVec3D) u).x = x / length;
@@ -55,9 +54,8 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 	}
 
 	/**
-	 * 
+	 *
 	 * set x, y to compute vector
 	 */
-	abstract protected void setXY();
-
+	protected abstract void setXY();
 }

@@ -34,12 +34,13 @@ import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * 
+ *
  * @author G.Sturr adapted from DrawPolyLine
  */
 public class DrawTurtle extends Drawable {
 	/** turtle */
 	protected GeoTurtle turtle;
+
 	private boolean isVisible;
 	private boolean labelVisible;
 	/** list of paths */
@@ -49,20 +50,17 @@ public class DrawTurtle extends Drawable {
 
 	private double turnAngle = 0.0;
 
-	private GRectangle turtleImageBounds = AwtFactory.getPrototype()
-			.newRectangle();
+	private GRectangle turtleImageBounds = AwtFactory.getPrototype().newRectangle();
 	private double imageSize = 10;
 	private double[] currentCoords = new double[2];
-	private GAffineTransform at = AwtFactory.getPrototype()
-			.newAffineTransform();
+	private GAffineTransform at = AwtFactory.getPrototype().newAffineTransform();
 	// ===================================================
 	// Turtle Shapes
 	//
 	// TODO: handle images when Common supports loading internal images
 	// ===================================================
 
-	private GEllipse2DDouble ellipse = AwtFactory.getPrototype()
-			.newEllipse2DDouble();
+	private GEllipse2DDouble ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
 	private GBasicStroke stroke1 = AwtFactory.getPrototype().newBasicStroke(1f);
 	private GBasicStroke stroke2 = AwtFactory.getPrototype().newBasicStroke(2f);
 	private GGeneralPath gPath = AwtFactory.getPrototype().newGeneralPath();
@@ -183,8 +181,7 @@ public class DrawTurtle extends Drawable {
 
 		private void finishPartialPath() {
 			if (nlines > 0) {
-				pathList.add(
-						new PartialPath(penColor, penThickness, currentPath));
+				pathList.add(new PartialPath(penColor, penThickness, currentPath));
 			}
 			currentPath = new GeneralPathClipped(getView());
 			currentPath.resetWithThickness(geo.getLineThickness());
@@ -193,7 +190,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 
 		isVisible = geo.isEuclidianVisible();
 
@@ -232,14 +229,13 @@ public class DrawTurtle extends Drawable {
 			turnAngle = ds.turnAngle1;
 		}
 
-		turtleImageBounds.setFrame(currentCoords[0] - imageSize / 2,
-				currentCoords[1] - imageSize / 2, imageSize, imageSize);
+		turtleImageBounds.setFrame(
+				currentCoords[0] - imageSize / 2, currentCoords[1] - imageSize / 2, imageSize, imageSize);
 
 		// turtle path on screen?
 		isVisible = false;
 		GRectangle bounds = getBounds();
-		isVisible = bounds != null && bounds.intersects(0, 0,
-				view.getWidth(), view.getHeight());
+		isVisible = bounds != null && bounds.intersects(0, 0, view.getWidth(), view.getHeight());
 		if (isVisible) {
 			at.setTransform(1, 0, 0, 1, 1, 0);
 			at.translate(currentCoords[0], currentCoords[1]);
@@ -251,7 +247,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 
@@ -284,26 +280,23 @@ public class DrawTurtle extends Drawable {
 				g2.transform(at);
 				// temp - until x,y parameters won't be used in drawImage on
 				// desktop for SVG images
-				if (turtle.getFillImage().isSVG()
-						&& !turtle.kernel.getApplication().isHTML5Applet()) {
+				if (turtle.getFillImage().isSVG() && !turtle.kernel.getApplication().isHTML5Applet()) {
 					g2.translate(-imgWidth / 2.0, -imgHeight / 2.0);
 				}
-				g2.drawImage(turtle.getFillImage(), -imgWidth / 2,
-						-imgHeight / 2);
+				g2.drawImage(turtle.getFillImage(), -imgWidth / 2, -imgHeight / 2);
 				g2.restoreTransform();
 			} else {
 				// draw rotated turtle
 				drawTurtleShape(g2);
 			}
-
 		}
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public final boolean hit(int x, int y, int hitThreshold) {
 		for (PartialPath path : pathList) {
-			if (path.path1.intersects(x - hitThreshold, y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold)) {
+			if (path.path1.intersects(
+					x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)) {
 				return true;
 			}
 		}
@@ -311,7 +304,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return pathList != null && rect.contains(getBounds());
 	}
 
@@ -331,10 +324,9 @@ public class DrawTurtle extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 
-		if (!geo.isDefined() || !geo.isEuclidianVisible()
-				|| turtleImageBounds == null) {
+		if (!geo.isDefined() || !geo.isEuclidianVisible() || turtleImageBounds == null) {
 			return null;
 		}
 
@@ -412,5 +404,4 @@ public class DrawTurtle extends Drawable {
 		ellipse.setFrame(-3, -3, 6, 6);
 		dot = at.createTransformedShape(ellipse);
 	}
-
 }

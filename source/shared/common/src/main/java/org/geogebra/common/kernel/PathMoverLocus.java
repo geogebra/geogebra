@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Path mover for locus
- * 
+ *
  * @param <T>
  *            for 2D/3D locus
  */
@@ -36,7 +36,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 
 	/**
 	 * Creates new path mover for given locus
-	 * 
+	 *
 	 * @param locus
 	 *            locus
 	 */
@@ -70,8 +70,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 		// PATH MOVER CHANGED PARAMETER (see PathMoverGeneric.calcPoint())
 		// get points left and right of path parameter
 		int leftIndex = (int) Math.max(0, Math.floor(param));
-		int rightIndex = (int) Math.min(myPointList.size() - 1,
-				Math.ceil(param));
+		int rightIndex = (int) Math.min(myPointList.size() - 1, Math.ceil(param));
 		if (myPointList.isEmpty()) {
 			p.setUndefined();
 			return;
@@ -118,8 +117,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 			// new_param too big
 			if (new_param >= max_param) {
 				// slow down by making smaller steps
-				while ((new_param >= max_param || noLineTo(new_param))
-						&& smallerStep()) {
+				while ((new_param >= max_param || noLineTo(new_param)) && smallerStep()) {
 					new_param = curr_param + step_width;
 				}
 
@@ -136,8 +134,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 			// new_param too small
 			else if (new_param <= min_param) {
 				// slow down by making smaller steps
-				while ((new_param <= min_param || noLineTo(new_param))
-						&& smallerStep()) {
+				while ((new_param <= min_param || noLineTo(new_param)) && smallerStep()) {
 					new_param = curr_param + step_width;
 				}
 
@@ -189,8 +186,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 		}
 		if (curr_param < new_param) {
 			int leftIndexCurr = (int) Math.max(0, Math.floor(curr_param));
-			int rightIndexNew = (int) Math.min(myPointList.size() - 1,
-					Math.ceil(new_param));
+			int rightIndexNew = (int) Math.min(myPointList.size() - 1, Math.ceil(new_param));
 			for (int i = leftIndexCurr + 1; i <= rightIndexNew; i++) {
 				if (isMoveTo(i)) {
 					return true;
@@ -198,8 +194,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 			}
 		} else if (curr_param > new_param) {
 			int leftIndexNew = (int) Math.max(0, Math.floor(new_param));
-			int rightIndexCurr = (int) Math.min(myPointList.size() - 1,
-					Math.ceil(curr_param));
+			int rightIndexCurr = (int) Math.min(myPointList.size() - 1, Math.ceil(curr_param));
 			for (int i = leftIndexNew + 1; i <= rightIndexCurr; i++) {
 				if (isMoveTo(i)) {
 					return true;
@@ -265,12 +260,10 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 
 		if (posOrientation) {
 			if (next_param < max_param) {
-				int rightIndexNext = (int) Math.min(myPointList.size() - 1,
-						Math.ceil(next_param));
+				int rightIndexNext = (int) Math.min(myPointList.size() - 1, Math.ceil(next_param));
 				if (isMoveTo(rightIndexNext)) {
 					next_param = max_param;
-					for (int i = rightIndexNext + 1; i <= myPointList.size()
-							- 1; i++) {
+					for (int i = rightIndexNext + 1; i <= myPointList.size() - 1; i++) {
 						if (!isMoveTo(i)) {
 							next_param = i - 1;
 							break;
@@ -278,13 +271,12 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 					}
 				}
 			} else if (next_param > max_param) {
-				int rightIndexNext = (int) Math.min(myPointList.size() - 1,
-						Math.ceil(next_param - myPointList.size() + 1));
+				int rightIndexNext =
+						(int) Math.min(myPointList.size() - 1, Math.ceil(next_param - myPointList.size() + 1));
 				double next_param_little = next_param - myPointList.size() + 1;
 				if (isMoveTo(rightIndexNext)) {
 					next_param_little = max_param;
-					for (int i = rightIndexNext + 1; i <= myPointList.size()
-							- 1; i++) {
+					for (int i = rightIndexNext + 1; i <= myPointList.size() - 1; i++) {
 						if (!isMoveTo(i)) {
 							next_param_little = i - 1;
 							break;
@@ -295,12 +287,10 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 			}
 
 			hasNext = !(curr_param < start_param && next_param >= start_param
-					|| curr_param < start_paramUP
-							&& next_param >= start_paramUP);
+					|| curr_param < start_paramUP && next_param >= start_paramUP);
 		} else {
 			if (next_param > min_param) {
-				int rightIndexNext = (int) Math.min(myPointList.size() - 1,
-						Math.ceil(next_param));
+				int rightIndexNext = (int) Math.min(myPointList.size() - 1, Math.ceil(next_param));
 				if (isMoveTo(rightIndexNext)) {
 					next_param = min_param;
 					for (int i = rightIndexNext - 1; i >= 1; i--) {
@@ -311,8 +301,8 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 					}
 				}
 			} else if (next_param < min_param) {
-				int rightIndexNext = (int) Math.min(myPointList.size() - 1,
-						Math.ceil(next_param + myPointList.size() - 1));
+				int rightIndexNext =
+						(int) Math.min(myPointList.size() - 1, Math.ceil(next_param + myPointList.size() - 1));
 				double next_param_big = next_param + myPointList.size() - 1;
 				if (isMoveTo(rightIndexNext)) {
 					next_param_big = min_param;
@@ -327,8 +317,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 			}
 
 			hasNext = !(curr_param > start_param && next_param <= start_param
-					|| curr_param > start_paramDOWN
-							&& next_param <= start_paramDOWN);
+					|| curr_param > start_paramDOWN && next_param <= start_paramDOWN);
 		}
 
 		return hasNext;

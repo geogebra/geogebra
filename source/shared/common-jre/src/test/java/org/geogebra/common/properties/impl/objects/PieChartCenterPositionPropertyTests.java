@@ -31,15 +31,17 @@ class PieChartCenterPositionPropertyTests extends BaseAppTestSetup {
 	@Test
 	void testChangingCenterWithConstantValue() {
 		setupApp(SuiteSubApp.GRAPHING);
-		PieChartCenterPositionProperty pieChartCenterPositionProperty = assertDoesNotThrow(
-				() -> new PieChartCenterPositionProperty(getLocalization(),
-						evaluateGeoElement("a = PieChart({1, 2, 3})")));
+		PieChartCenterPositionProperty pieChartCenterPositionProperty =
+				assertDoesNotThrow(() -> new PieChartCenterPositionProperty(
+						getLocalization(), evaluateGeoElement("a = PieChart({1, 2, 3})")));
 
 		pieChartCenterPositionProperty.setValue("(3, 4)");
-		assertEquals("PieChart({1, 2, 3}, (3, 4))",
-				lookup("a").getDefinition(StringTemplate.defaultTemplate));
-		assertEquals("(3, 4)", assertDoesNotThrow(() ->
-				new PieChartCenterPositionProperty(getLocalization(), lookup("a"))).getValue());
+		assertEquals(
+				"PieChart({1, 2, 3}, (3, 4))", lookup("a").getDefinition(StringTemplate.defaultTemplate));
+		assertEquals(
+				"(3, 4)",
+				assertDoesNotThrow(() -> new PieChartCenterPositionProperty(getLocalization(), lookup("a")))
+						.getValue());
 		assertEquals(3, ((GeoPieChart) lookup("a")).getCenter().x);
 		assertEquals(4, ((GeoPieChart) lookup("a")).getCenter().y);
 	}
@@ -48,15 +50,17 @@ class PieChartCenterPositionPropertyTests extends BaseAppTestSetup {
 	void testChangingCenterWithDynamicPoint() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint geoPoint = evaluateGeoElement("A = (1, 2)");
-		PieChartCenterPositionProperty pieChartCenterPositionProperty = assertDoesNotThrow(
-				() -> new PieChartCenterPositionProperty(getLocalization(),
-						evaluateGeoElement("a = PieChart({1, 2, 3})")));
+		PieChartCenterPositionProperty pieChartCenterPositionProperty =
+				assertDoesNotThrow(() -> new PieChartCenterPositionProperty(
+						getLocalization(), evaluateGeoElement("a = PieChart({1, 2, 3})")));
 
 		pieChartCenterPositionProperty.setValue("A");
-		assertEquals("PieChart({1, 2, 3}, A)",
-				lookup("a").getDefinition(StringTemplate.defaultTemplate));
-		assertEquals("A", assertDoesNotThrow(() ->
-				new PieChartCenterPositionProperty(getLocalization(), lookup("a"))).getValue());
+		assertEquals(
+				"PieChart({1, 2, 3}, A)", lookup("a").getDefinition(StringTemplate.defaultTemplate));
+		assertEquals(
+				"A",
+				assertDoesNotThrow(() -> new PieChartCenterPositionProperty(getLocalization(), lookup("a")))
+						.getValue());
 		assertEquals(1, ((GeoPieChart) lookup("a")).getCenter().x);
 		assertEquals(2, ((GeoPieChart) lookup("a")).getCenter().y);
 

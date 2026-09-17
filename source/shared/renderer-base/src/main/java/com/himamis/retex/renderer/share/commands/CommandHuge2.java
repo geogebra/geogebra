@@ -19,5 +19,4 @@ public class CommandHuge2 extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MonoScaleAtom(a, 2.5);
 	}
-
 }

@@ -38,8 +38,8 @@ public final class DistributionTab extends ToolbarTab {
 	}
 
 	private void createContent(StickyProbabilityTable table) {
-		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
-				.getGuiManager().getProbabilityCalculator();
+		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW)
+				toolbarPanel.getApp().getGuiManager().getProbabilityCalculator();
 		distrPanel = new DistributionPanel(view, toolbarPanel.getApp());
 		ProbabilityCalculatorTableValuesViewModel model = view.getModel();
 		if (model != null) {
@@ -64,8 +64,8 @@ public final class DistributionTab extends ToolbarTab {
 	@Override
 	public void setLabels() {
 		clear();
-		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW) toolbarPanel.getApp()
-				.getGuiManager().getProbabilityCalculator();
+		ProbabilityCalculatorViewW view = (ProbabilityCalculatorViewW)
+				toolbarPanel.getApp().getGuiManager().getProbabilityCalculator();
 		distrPanel = new DistributionPanel(view, toolbarPanel.getApp());
 		add(distrPanel);
 	}

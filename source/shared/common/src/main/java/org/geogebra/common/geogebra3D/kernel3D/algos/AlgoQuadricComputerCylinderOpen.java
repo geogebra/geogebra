@@ -23,12 +23,11 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * for open cylinders
- * 
+ *
  * @author mathieu
  *
  */
-public class AlgoQuadricComputerCylinderOpen
-		extends AlgoQuadricComputerCylinder {
+public class AlgoQuadricComputerCylinderOpen extends AlgoQuadricComputerCylinder {
 
 	@Override
 	public GeoQuadric3D newQuadric(Construction c) {
@@ -36,8 +35,8 @@ public class AlgoQuadricComputerCylinderOpen
 	}
 
 	@Override
-	public void setQuadric(GeoQuadric3D quadric, Coords origin,
-			Coords direction, Coords eigen, double r, double r2) {
+	public void setQuadric(
+			GeoQuadric3D quadric, Coords origin, Coords direction, Coords eigen, double r, double r2) {
 
 		direction.calcNorm();
 		double altitude = direction.getNorm();
@@ -46,5 +45,4 @@ public class AlgoQuadricComputerCylinderOpen
 
 		quadric.setLimits(0, altitude);
 	}
-
 }

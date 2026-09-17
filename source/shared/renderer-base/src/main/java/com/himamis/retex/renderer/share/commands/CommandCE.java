@@ -14,5 +14,4 @@ public class CommandCE extends Command {
 		tp.addToConsumer(new RomanAtom(mp.get()));
 		return false;
 	}
-
 }

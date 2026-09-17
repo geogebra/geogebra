@@ -28,5 +28,4 @@ public interface Request {
 	 * @return JSON.stringify of the given Request
 	 */
 	String toJSONString(ClientInfo client);
-
 }

@@ -95,8 +95,7 @@ public interface GGeneralPath extends GShape {
 	 * @param x3 end point's x-coordinate
 	 * @param y3 end point's y-coordinate
 	 */
-	void curveTo(double x1, double y1, double x2, double y2,
-			double x3, double y3);
+	void curveTo(double x1, double y1, double x2, double y2, double x3, double y3);
 
 	/**
 	 * Add a quadratic curve segment to this path.

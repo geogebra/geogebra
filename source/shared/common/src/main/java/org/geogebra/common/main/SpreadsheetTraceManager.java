@@ -45,28 +45,30 @@ import com.google.j2objc.annotations.Weak;
  * This class manages tracing of GeoElements to the spreadsheet. A trace is a
  * spreadsheet cell, or set of cells in the same row, that holds the numeric
  * value(s) of a GeoElement.
- * 
+ *
  * Specifically, the class:
- * 
+ *
  * (1) maintains TraceGeoCollection, a hash table that matches all GeoElements
  * that trace to the spreadsheet with their trace settings
- * 
+ *
  * (2) creates and updates spreadsheet cell traces based on type of geo (e.g.
  * angles, polar points, lists)
- * 
+ *
  * (3) determines the column/row location for a geo trace
- * 
- * 
+ *
+ *
  * @author G. Sturr 2010-4-22
- * 
+ *
  */
 public class SpreadsheetTraceManager {
 
 	// external components
 	@Weak
 	private final App app;
+
 	@Weak
 	private final SpreadsheetTableModel tableModel;
+
 	@Weak
 	private Kernel kernel;
 
@@ -99,7 +101,7 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * Add a geo to the trace collection
-	 * 
+	 *
 	 * @param spreadsheetTraceable
 	 *            geo to trace
 	 */
@@ -160,12 +162,11 @@ public class SpreadsheetTraceManager {
 		// traceToSpreadsheet(geo);
 		setHeader(spreadsheetTraceable);
 		app.repaintSpreadsheet();
-
 	}
 
 	/**
 	 * Restart trace for an element.
-	 * 
+	 *
 	 * @param geo
 	 *            geo to trace
 	 */
@@ -176,7 +177,11 @@ public class SpreadsheetTraceManager {
 
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
-		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
+		CopyPasteCut.delete(
+				app,
+				t.traceColumn1,
+				t.traceRow1,
+				t.traceColumn2,
 				app.getMaxSpreadsheetRowsVisible(),
 				SelectionType.CELLS);
 
@@ -185,7 +190,7 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * clear geo trace for the geo
-	 * 
+	 *
 	 * @param geo
 	 *            element
 	 */
@@ -206,7 +211,6 @@ public class SpreadsheetTraceManager {
 
 		// reset the tracing row
 		t.tracingRow = t.traceRow1;
-
 	}
 
 	/**
@@ -238,8 +242,7 @@ public class SpreadsheetTraceManager {
 	 */
 	public void loadTraceGeoCollection() {
 		traceGeoCollection.clear();
-		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
-				.getGeoSetConstructionOrder();
+		TreeSet<GeoElement> ts = app.getKernel().getConstruction().getGeoSetConstructionOrder();
 		for (GeoElement geo : ts) {
 			if (geo.getSpreadsheetTrace()) {
 				traceGeoCollection.put(geo, geo.getTraceSettings());
@@ -256,8 +259,8 @@ public class SpreadsheetTraceManager {
 	 * @return next free column index
 	 */
 	public int getNextTraceColumn() {
-		return Math.max(app.getSpreadsheetTableModel().getHighestUsedColumn(),
-				getHighestTraceColumn()) + 1;
+		return Math.max(app.getSpreadsheetTableModel().getHighestUsedColumn(), getHighestTraceColumn())
+				+ 1;
 	}
 
 	private int getHighestTraceColumn() {
@@ -287,8 +290,7 @@ public class SpreadsheetTraceManager {
 	 */
 	public boolean isTraceColumn(int column) {
 		SpreadsheetTraceSettings t;
-		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
-				.entrySet()) {
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection.entrySet()) {
 			t = entry.getValue();
 			if (column >= t.traceColumn1 && column <= t.traceColumn2) {
 				return true;
@@ -299,15 +301,14 @@ public class SpreadsheetTraceManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param column
 	 *            column spreadsheet
 	 * @return trace settings for the column
 	 */
 	public SpreadsheetTraceSettings getTraceSettings(int column) {
 		SpreadsheetTraceSettings t;
-		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
-				.entrySet()) {
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection.entrySet()) {
 			t = entry.getValue();
 			if (column >= t.traceColumn1 && column <= t.traceColumn2) {
 				return t;
@@ -335,8 +336,7 @@ public class SpreadsheetTraceManager {
 	 */
 	public GeoElement getTraceGeo(int column) {
 		SpreadsheetTraceSettings t;
-		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
-				.entrySet()) {
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection.entrySet()) {
 			GeoElement geo = entry.getKey();
 			t = entry.getValue();
 			if (column >= t.traceColumn1 && column <= t.traceColumn2) {
@@ -345,20 +345,18 @@ public class SpreadsheetTraceManager {
 		}
 
 		return null;
-
 	}
 
 	/**
 	 * toggle trace geo in the column paused/recorded
-	 * 
+	 *
 	 * @param column
 	 *            spreadsheet column
 	 */
 	public void togglePauseTraceGeo(int column) {
 
 		SpreadsheetTraceSettings t;
-		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
-				.entrySet()) {
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection.entrySet()) {
 			GeoElement geo = entry.getKey();
 			t = entry.getValue();
 			if (column >= t.traceColumn1 && column <= t.traceColumn2) {
@@ -366,28 +364,24 @@ public class SpreadsheetTraceManager {
 				return;
 			}
 		}
-
 	}
 
-	private void togglePauseTraceGeo(GeoElement geo,
-			SpreadsheetTraceSettings t) {
+	private void togglePauseTraceGeo(GeoElement geo, SpreadsheetTraceSettings t) {
 		t.pause = !t.pause;
 		if (!t.pause) {
 			traceToSpreadsheet(geo, t);
 		}
-
 	}
 
 	/**
 	 * set all record to spreadsheet pause/run
-	 * 
+	 *
 	 * @param pause
 	 *            true to pause, false to run
 	 */
 	public void pauseAllTraces(boolean pause) {
 		SpreadsheetTraceSettings t;
-		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
-				.entrySet()) {
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection.entrySet()) {
 			GeoElement geo = entry.getKey();
 			t = entry.getValue();
 			t.pause = pause;
@@ -395,11 +389,10 @@ public class SpreadsheetTraceManager {
 				traceToSpreadsheet(geo, t);
 			}
 		}
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return first trace geo
 	 */
 	public GeoElement getFirstTraceGeo() {
@@ -428,7 +421,7 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * Delete the elements in the trace columns of a single geo.
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @param keepHeader
@@ -446,7 +439,11 @@ public class SpreadsheetTraceManager {
 			row1 += t.headerOffset;
 		}
 
-		CopyPasteCut.delete(app, t.traceColumn1, row1, t.traceColumn2,
+		CopyPasteCut.delete(
+				app,
+				t.traceColumn1,
+				row1,
+				t.traceColumn2,
 				app.getMaxSpreadsheetRowsVisible(),
 				SelectionType.CELLS);
 		// t.tracingRow = t.traceRow1;
@@ -455,7 +452,7 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * Restart tracing in given columns.
-	 * 
+	 *
 	 * @param column1
 	 *            leftmost column
 	 * @param column2
@@ -476,7 +473,7 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * Restart tracing in given columns.
-	 * 
+	 *
 	 * @param column1
 	 *            leftmost column
 	 * @param row1
@@ -486,8 +483,7 @@ public class SpreadsheetTraceManager {
 	 * @param row2
 	 *            bottom row
 	 */
-	public void handleColumnDelete(int column1, int row1, int column2,
-			int row2) {
+	public void handleColumnDelete(int column1, int row1, int column2, int row2) {
 		SpreadsheetTraceSettings t;
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = geo.getTraceSettings();
@@ -502,7 +498,6 @@ public class SpreadsheetTraceManager {
 				if (row2 >= t.tracingRow - 1 + t.headerOffset) {
 					resetFromLastDeletedRow(t, row1);
 				}
-
 			}
 		}
 
@@ -521,8 +516,7 @@ public class SpreadsheetTraceManager {
 				row--;
 				int col = t.traceColumn1;
 				do {
-					GeoElement cell = RelativeCopy.getValue(tableModel,
-							col, row);
+					GeoElement cell = RelativeCopy.getValue(tableModel, col, row);
 					if (cell != null) {
 						emptyCells = false;
 					}
@@ -539,7 +533,7 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * Set column reset flag in settings of given geo.
-	 * 
+	 *
 	 * @param geo
 	 *            construction element
 	 * @param flag
@@ -622,18 +616,18 @@ public class SpreadsheetTraceManager {
 
 	/**
 	 * Trace the current value(s) of a geo into the spreadsheet.
-	 * 
+	 *
 	 * This will either create new cells to display trace values for the geo or
 	 * update old trace cells with new trace values. Placement in the
 	 * spreadsheet is determined by geo.traceSettings.
-	 * 
+	 *
 	 * Traces are displayed according to geo type. An optional header cell of
 	 * type GeoText can be placed in the first tracing row. This displays the
 	 * geo name, or the name of each element in a GeoList.
-	 * 
+	 *
 	 * @param geo
 	 *            element to trace
-	 * 
+	 *
 	 */
 	public void traceToSpreadsheet(GeoElement geo) {
 
@@ -655,8 +649,7 @@ public class SpreadsheetTraceManager {
 		traceToSpreadsheet(geo, t);
 	}
 
-	private void traceToSpreadsheet(GeoElement geo,
-			SpreadsheetTraceSettings t) {
+	private void traceToSpreadsheet(GeoElement geo, SpreadsheetTraceSettings t) {
 
 		Construction cons = app.getKernel().getConstruction();
 
@@ -731,12 +724,9 @@ public class SpreadsheetTraceManager {
 					// (don't do this if there is only one row)
 					if (t.numRows > 1 && sourceCell != null) {
 						if (t.doTraceGeoCopy) {
-							setTraceCellAsGeoCopy(sourceCell, c,
-									r - 1);
+							setTraceCellAsGeoCopy(sourceCell, c, r - 1);
 						} else {
-							setTraceCell(cons, c, r - 1,
-									((GeoNumeric) sourceCell).getValue(),
-									GeoClass.NUMERIC);
+							setTraceCell(cons, c, r - 1, ((GeoNumeric) sourceCell).getValue(), GeoClass.NUMERIC);
 						}
 					}
 
@@ -747,9 +737,7 @@ public class SpreadsheetTraceManager {
 						if (t.doTraceGeoCopy) {
 							setTraceCellAsGeoCopy(geo, c, r);
 						} else {
-							setTraceCell(cons, c, r,
-									t.lastTrace.get(c - t.traceColumn1),
-									GeoClass.NUMERIC);
+							setTraceCell(cons, c, r, t.lastTrace.get(c - t.traceColumn1), GeoClass.NUMERIC);
 						}
 					}
 				}
@@ -768,19 +756,17 @@ public class SpreadsheetTraceManager {
 		if (t.showTraceList) {
 			int traceIndex = 0;
 			for (int column = t.traceColumn1; column <= t.traceColumn2; column++) {
-				updateTraceListCell(cons, geo, column, t.traceRow1, t.lastTrace,
-						traceIndex);
+				updateTraceListCell(cons, geo, column, t.traceRow1, t.lastTrace, traceIndex);
 				++traceIndex;
 			}
 		}
 
 		app.setScrollToShow(false);
-
 	}
 
 	/** Create a row of trace cell(s) in the trace column(s) of a geo. */
-	protected boolean setGeoTraceRow(GeoElement geo, Construction cons,
-			ArrayList<Double> traceArray0, int row) {
+	protected boolean setGeoTraceRow(
+			GeoElement geo, Construction cons, ArrayList<Double> traceArray0, int row) {
 
 		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
 		int column = t.traceColumn1;
@@ -813,36 +799,34 @@ public class SpreadsheetTraceManager {
 
 				for (int j = 0; j < traceList.size(); j++) {
 
-					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							traceList.get(j).isGeoAngle() ? GeoClass.ANGLE
-									: GeoClass.NUMERIC);
+					setTraceCell(
+							cons,
+							column,
+							row,
+							traceArray.get(traceIndex),
+							traceList.get(j).isGeoAngle() ? GeoClass.ANGLE : GeoClass.NUMERIC);
 					++column;
 					++traceIndex;
 				}
 
 			} else {
-				Log.warn("not SpreadsheetTraceable "
-						+ geos[i].getGeoClassType());
-
+				Log.warn("not SpreadsheetTraceable " + geos[i].getGeoClassType());
 			}
 		}
 
 		return false;
 	}
 
-	protected final void setTraceCellAsGeoCopy(GeoElement geo,
-			int column, int row) {
+	protected final void setTraceCellAsGeoCopy(GeoElement geo, int column, int row) {
 
 		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 
 		try {
 
-			if (cell == null
-					|| !cell.getGeoClassType().equals(geo.getGeoClassType())) {
+			if (cell == null || !cell.getGeoClassType().equals(geo.getGeoClassType())) {
 				// cell is null or type has changed: deep copy
 				cell = geo.deepCopyGeo();
-				cell.setLabel(GeoElementSpreadsheet
-						.getSpreadsheetCellName(column, row));
+				cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column, row));
 
 				cell.setAllVisualProperties(geo, true);
 				cell.setSpreadsheetTrace(false);
@@ -866,30 +850,28 @@ public class SpreadsheetTraceManager {
 		}
 	}
 
-	protected void setTraceCell(Construction cons, int column, int row,
-			Object value, GeoClass geoClassType) {
+	protected void setTraceCell(
+			Construction cons, int column, int row, Object value, GeoClass geoClassType) {
 
 		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
-		boolean isUpdateCell = cell != null
-				&& cell.getGeoClassType().equals(geoClassType);
+		boolean isUpdateCell = cell != null && cell.getGeoClassType().equals(geoClassType);
 
 		if (isUpdateCell) {
 			switch (geoClassType) {
-			default:
-				// do nothing
-				break;
-			case NUMERIC:
-				((GeoNumeric) cell).setValue((Double) value);
-				break;
+				default:
+					// do nothing
+					break;
+				case NUMERIC:
+					((GeoNumeric) cell).setValue((Double) value);
+					break;
 
-			case ANGLE:
-				((GeoAngle) cell).setValue((Double) value);
-				break;
+				case ANGLE:
+					((GeoAngle) cell).setValue((Double) value);
+					break;
 
-			case TEXT:
-				((GeoText) cell).setTextString((String) value);
-				break;
-
+				case TEXT:
+					((GeoText) cell).setTextString((String) value);
+					break;
 			}
 
 			cell.updateCascade();
@@ -897,30 +879,26 @@ public class SpreadsheetTraceManager {
 		} else {
 			// delete old cell geo
 			if (cell != null) {
-				CopyPasteCut.delete(app, column, row, column, row,
-						SelectionType.CELLS);
+				CopyPasteCut.delete(app, column, row, column, row, SelectionType.CELLS);
 			}
 
-			String cellName = GeoElementSpreadsheet
-					.getSpreadsheetCellName(column, row);
+			String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 			switch (geoClassType) {
+				default:
+					// do nothing
+					break;
+				case NUMERIC:
+					cell = new GeoNumeric(cons, (Double) value);
+					break;
 
-			default:
-				// do nothing
-				break;
-			case NUMERIC:
-				cell = new GeoNumeric(cons, (Double) value);
-				break;
+				case ANGLE:
+					cell = new GeoAngle(cons, (Double) value);
+					break;
 
-			case ANGLE:
-				cell = new GeoAngle(cons, (Double) value);
-				break;
+				case TEXT:
+					cell = new GeoText(cons, (String) value);
 
-			case TEXT:
-				cell = new GeoText(cons, (String) value);
-
-				break;
-
+					break;
 			}
 			cell.setLabel(cellName);
 			cell.setEuclidianVisible(false);
@@ -937,8 +915,7 @@ public class SpreadsheetTraceManager {
 
 		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 		if (cell != null) {
-			CopyPasteCut.delete(app, column, row, column, row,
-					SelectionType.CELLS);
+			CopyPasteCut.delete(app, column, row, column, row, SelectionType.CELLS);
 		}
 
 		try {
@@ -954,18 +931,16 @@ public class SpreadsheetTraceManager {
 	}
 
 	private static void putCell(GeoElement cell, int column, int row) {
-		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column,
-				row);
+		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
 		GeoElement old = cell.getKernel().lookupLabel(label);
 		if (old != null) {
 			old.remove();
 		}
 		cell.setLabel(label);
-
 	}
 
-	private void updateTraceListCell(Construction cons, GeoElement geo,
-			int column, int row, ArrayList<Double> values, int index) {
+	private void updateTraceListCell(
+			Construction cons, GeoElement geo, int column, int row, ArrayList<Double> values, int index) {
 
 		GeoElement cell = RelativeCopy.getValue(tableModel, column, row);
 		if (cell == null || !cell.isGeoList()) {
@@ -1015,8 +990,7 @@ public class SpreadsheetTraceManager {
 		}
 	}
 
-	protected boolean addElementTrace(GeoElement geo,
-			ArrayList<Double> currentTrace) {
+	protected boolean addElementTrace(GeoElement geo, ArrayList<Double> currentTrace) {
 		if (geo instanceof SpreadsheetTraceable) {
 			SpreadsheetTraceable traceGeo = (SpreadsheetTraceable) geo;
 
@@ -1027,11 +1001,9 @@ public class SpreadsheetTraceManager {
 			for (int i = 0; i < traceList.size(); i++) {
 				currentTrace.add(traceList.get(i).getValue());
 			}
-
 		}
 
 		return false;
-
 	}
 
 	/** Create header cell(s) for each trace column of a geo. */
@@ -1047,8 +1019,7 @@ public class SpreadsheetTraceManager {
 			for (int i = 0; i < geos.length; i++) {
 
 				if (geos[i] instanceof SpreadsheetTraceable) {
-					ArrayList<GeoText> strings = ((SpreadsheetTraceable) geos[i])
-							.getColumnHeadings();
+					ArrayList<GeoText> strings = ((SpreadsheetTraceable) geos[i]).getColumnHeadings();
 
 					for (int j = 0; j < strings.size(); j++) {
 						headerText = strings.get(j);
@@ -1061,7 +1032,7 @@ public class SpreadsheetTraceManager {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if at least one geo is traced
 	 */
 	public boolean hasGeoTraced() {

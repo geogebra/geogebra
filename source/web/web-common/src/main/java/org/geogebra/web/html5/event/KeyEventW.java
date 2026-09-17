@@ -22,8 +22,7 @@ import org.geogebra.common.util.debug.Log;
 import org.gwtproject.dom.client.NativeEvent;
 import org.gwtproject.event.dom.client.KeyPressEvent;
 
-public final class KeyEventW
-		extends org.geogebra.common.euclidian.event.KeyEvent {
+public final class KeyEventW extends org.geogebra.common.euclidian.event.KeyEvent {
 
 	private static final LinkedList<KeyEventW> POOL = new LinkedList<>();
 	private KeyPressEvent event;
@@ -89,5 +88,4 @@ public final class KeyEventW
 	public void preventDefault() {
 		event.preventDefault();
 	}
-
 }

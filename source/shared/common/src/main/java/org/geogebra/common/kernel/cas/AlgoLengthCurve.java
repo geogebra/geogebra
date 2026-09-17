@@ -28,11 +28,10 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 /**
  * @author Victor Franco Espino
  * @version 19-04-2007
- * 
+ *
  *          Calculate Curve Length between the parameters t0 and t1: integral
  *          from t0 to t1 on T = sqrt(a'(t)^2+b'(t)^2)
  */
-
 public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 
 	private GeoNumeric t0; // input
@@ -54,8 +53,8 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	 * @param t1
 	 *            end parameter
 	 */
-	public AlgoLengthCurve(Construction cons, String label,
-			GeoCurveCartesianND c, GeoNumeric t0, GeoNumeric t1) {
+	public AlgoLengthCurve(
+			Construction cons, String label, GeoCurveCartesianND c, GeoNumeric t0, GeoNumeric t1) {
 		super(cons);
 		this.t0 = t0;
 		this.t1 = t1;
@@ -97,8 +96,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		double a = t0.getValue();
 		double b = t1.getValue();
 
-		double lenVal = Math.abs(
-				AlgoIntegralDefinite.numericIntegration(lengthCurve, a, b));
+		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(lengthCurve, a, b));
 		length.setValue(lenVal);
 	}
 
@@ -106,10 +104,8 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	public void refreshCASResults() {
 		// First derivative of curve f
 		// use fast non-CAS version!
-		algoCAS = new AlgoDerivative(cons, c, null, null, true,
-				new EvalInfo(false));
-		GeoCurveCartesianND c1 = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS)
-				.getResult();
+		algoCAS = new AlgoDerivative(cons, c, null, null, true, new EvalInfo(false));
+		GeoCurveCartesianND c1 = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS).getResult();
 		cons.removeFromConstructionList(algoCAS);
 		lengthCurve = new LengthCurve(c1);
 	}

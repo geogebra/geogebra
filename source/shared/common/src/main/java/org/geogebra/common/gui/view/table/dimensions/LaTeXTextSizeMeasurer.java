@@ -37,7 +37,7 @@ public class LaTeXTextSizeMeasurer implements TextSizeMeasurer {
 	@Override
 	public int getWidth(String text) {
 		try {
-			TeXFormula formula = new TeXFormula(text);  // this may throw (for invalid formulas)
+			TeXFormula formula = new TeXFormula(text); // this may throw (for invalid formulas)
 			TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, fontSize);
 			icon.setInsets(new Insets(1, 1, 1, 1));
 			return icon.getIconWidth();

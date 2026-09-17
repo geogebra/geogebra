@@ -10,5 +10,4 @@ public class CommandTextSc extends CommandText {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new SmallCapAtom(a);
 	}
-
 }

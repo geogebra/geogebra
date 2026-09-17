@@ -39,13 +39,11 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
 	 * @param segment
 	 *            bisected segment
 	 */
-	public AlgoOrthoPlaneBisectorSegment(Construction cons, String label,
-			GeoSegmentND segment) {
+	public AlgoOrthoPlaneBisectorSegment(Construction cons, String label, GeoSegmentND segment) {
 		super(cons);
 		this.segment = segment;
 
-		setInputOutput(new GeoElement[] { (GeoElement) segment },
-				new GeoElement[] { getPlane() });
+		setInputOutput(new GeoElement[] {(GeoElement) segment}, new GeoElement[] {getPlane()});
 
 		// compute plane
 		compute();
@@ -66,5 +64,4 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
 	protected Coords getPoint() {
 		return segment.getPointInD(3, 0.5).getInhomCoordsInSameDimension();
 	}
-
 }

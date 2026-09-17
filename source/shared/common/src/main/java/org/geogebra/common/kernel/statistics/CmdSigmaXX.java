@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class CmdSigmaXX extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,7 +40,7 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String label, GeoList list) {
+	protected final GeoElement doCommand(String label, GeoList list) {
 		GeoNumeric num;
 		GeoElement geo = list.get(0);
 		if (geo instanceof NumberValue) { // list of numbers
@@ -55,17 +55,15 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list,
-			GeoList freq) {
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
 		AlgoSigmaXX algo = new AlgoSigmaXX(cons, list, freq);
 		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list,
-			GeoList freq, GeoBoolean isGrouped) {
+	protected GeoElement doCommand(
+			String a, Command c, GeoList list, GeoList freq, GeoBoolean isGrouped) {
 		throw argNumErr(c);
 	}
-
 }

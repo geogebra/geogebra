@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.matrix.Coords;
 /**
  * Creates all angles of a polygon.
  */
-
 public abstract class AlgoAnglePolygonND extends AlgoAngle {
 
 	protected GeoPolygon poly; // input
@@ -62,8 +61,12 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	 * @param internalAngle
 	 *            whether to return internal angles
 	 */
-	public AlgoAnglePolygonND(Construction cons, String[] labels,
-			GeoPolygon poly, GeoDirectionND orientation, boolean internalAngle) {
+	public AlgoAnglePolygonND(
+			Construction cons,
+			String[] labels,
+			GeoPolygon poly,
+			GeoDirectionND orientation,
+			boolean internalAngle) {
 		this(cons, poly, orientation, internalAngle);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		outputAngles.setLabelsMulti(labels);
@@ -71,8 +74,8 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 		update();
 	}
 
-	AlgoAnglePolygonND(Construction cons, GeoPolygon p,
-			GeoDirectionND orientation, boolean internalAngle) {
+	AlgoAnglePolygonND(
+			Construction cons, GeoPolygon p, GeoDirectionND orientation, boolean internalAngle) {
 		super(cons);
 		this.internalAngle = internalAngle;
 		setPolyAndOrientation(p, orientation);
@@ -84,14 +87,13 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 
 	/**
 	 * set polygon and orientation
-	 * 
+	 *
 	 * @param p
 	 *            polygon
 	 * @param orientation
 	 *            orientation
 	 */
-	protected void setPolyAndOrientation(GeoPolygon p,
-			GeoDirectionND orientation) {
+	protected void setPolyAndOrientation(GeoPolygon p, GeoDirectionND orientation) {
 		this.poly = p;
 	}
 
@@ -100,7 +102,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	 *            construction
 	 * @return helper algo
 	 */
-	abstract protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1);
+	protected abstract AlgoAnglePointsND newAlgoAnglePoints(Construction cons1);
 
 	// for AlgoElement
 	@Override
@@ -128,12 +130,12 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	@Override
 	public final void compute() {
 		int length = poly.getPoints() == null ? 0 : poly.getPoints().length;
-		int dir = !internalAngle || poly.getAreaWithSign() > 0
-								? 1 : length - 1;
+		int dir = !internalAngle || poly.getAreaWithSign() > 0 ? 1 : length - 1;
 		outputAngles.adjustOutputSize(length > 0 ? length : 1);
 
 		for (int i = 0; i < length; i++) {
-			algoAngle.setABC(poly.getPointND((i + dir) % length),
+			algoAngle.setABC(
+					poly.getPointND((i + dir) % length),
 					poly.getPointND(i),
 					poly.getPointND((i + length - dir) % length));
 			algoAngle.compute();
@@ -159,12 +161,11 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 		if (internalAngle) {
 			return getLoc().getPlainDefault("AnglesOfA", "Angles of %0", poly.getLabel(tpl));
 		}
-		return getLoc().getPlainDefault("AngleOfA", "Angle of %0",
-				poly.getLabel(tpl));
+		return getLoc().getPlainDefault("AngleOfA", "Angle of %0", poly.getLabel(tpl));
 	}
 
 	/**
-	 * 
+	 *
 	 * @return output angles handler
 	 */
 	protected OutputHandler<GeoElement> createOutputAngles() {
@@ -180,8 +181,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		// nothing to do here
 		return true;
 	}
@@ -193,11 +193,10 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	}
 
 	@Override
-	final public Commands getClassName() {
+	public final Commands getClassName() {
 		if (internalAngle) {
 			return Commands.InteriorAngles;
 		}
 		return super.getClassName();
 	}
-
 }

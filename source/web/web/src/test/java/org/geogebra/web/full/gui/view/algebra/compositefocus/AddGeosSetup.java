@@ -45,10 +45,8 @@ public class AddGeosSetup {
 	}
 
 	private GeoElementND processAlgebraCommand(String cmd) {
-		GeoElementND[] geos = app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(cmd, false);
+		GeoElementND[] geos = app.getKernel().getAlgebraProcessor().processAlgebraCommand(cmd, false);
 		return geos != null && geos.length > 0 ? geos[0] : null;
-
 	}
 
 	public AppWFull getApp() {

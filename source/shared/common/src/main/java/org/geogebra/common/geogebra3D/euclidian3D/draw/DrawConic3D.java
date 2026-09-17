@@ -37,12 +37,11 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author ggb3D
- * 
+ *
  *         Drawable for GeoConic3D
  *
  */
-public class DrawConic3D extends Drawable3DCurves
-		implements Functional2Var, Previewable {
+public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Previewable {
 	/* used for update */
 	protected Coords m;
 	protected Coords d;
@@ -80,7 +79,6 @@ public class DrawConic3D extends Drawable3DCurves
 	public DrawConic3D(EuclidianView3D view3d, GeoConicND conic) {
 		super(view3d, conic);
 		setPickingType(PickingType.POINT_OR_CURVE);
-
 	}
 
 	@Override
@@ -101,21 +99,19 @@ public class DrawConic3D extends Drawable3DCurves
 		GeoConicND conic1 = (GeoConicND) getGeoElement();
 
 		switch (conic1.getType()) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_PARABOLA:
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			renderer.getGeometryManager().draw(getGeometryIndex());
-			break;
-		default:
-			break;
-
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_PARABOLA:
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+				renderer.getGeometryManager().draw(getGeometryIndex());
+				break;
+			default:
+				break;
 		}
-
 	}
 
 	@Override
@@ -127,18 +123,18 @@ public class DrawConic3D extends Drawable3DCurves
 				if (getGeoElement().getLineThickness() > 0) {
 					Export3DType exportType;
 					switch (conic.getType()) {
-					case GeoConicNDConstants.CONIC_CIRCLE:
-					case GeoConicNDConstants.CONIC_ELLIPSE:
-						exportType = Export3DType.CURVE_CLOSED;
-						break;
-					case GeoConicNDConstants.CONIC_HYPERBOLA:
-					case GeoConicNDConstants.CONIC_PARABOLA:
-					case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-					case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-					case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-					default:
-						exportType = Export3DType.CURVE;
-						break;
+						case GeoConicNDConstants.CONIC_CIRCLE:
+						case GeoConicNDConstants.CONIC_ELLIPSE:
+							exportType = Export3DType.CURVE_CLOSED;
+							break;
+						case GeoConicNDConstants.CONIC_HYPERBOLA:
+						case GeoConicNDConstants.CONIC_PARABOLA:
+						case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+						case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+						case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+						default:
+							exportType = Export3DType.CURVE;
+							break;
 					}
 					exportToPrinter3D.exportCurve(this, exportType);
 				}
@@ -156,11 +152,10 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 
 		drawTracesNotTranspSurface(renderer);
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            value
 	 * @return acosh(x) if x&gt;=1; 0 otherwise
@@ -173,7 +168,7 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            value
 	 * @return asinh(x)
@@ -215,40 +210,40 @@ public class DrawConic3D extends Drawable3DCurves
 		} else {
 
 			if (visible != Visible.FRUSTUM_INSIDE) { // no outline when frustum
-														// inside
+				// inside
 				setPackCurve();
 				PlotterBrush brush = renderer.getGeometryManager().getBrush();
 				brush.start(getReusableGeometryIndex());
 
-				brush.setThickness(getGeoElement().getLineThickness(),
-						(float) getView3D().getScale());
+				brush.setThickness(
+						getGeoElement().getLineThickness(), (float) getView3D().getScale());
 
 				brush.setAffineTexture(0f, 0f);
 				switch (conic.getType()) {
-				case GeoConicNDConstants.CONIC_CIRCLE:
-					updateEllipse(brush);
-					break;
-				case GeoConicNDConstants.CONIC_ELLIPSE:
-					updateEllipse(brush);
-					break;
-				case GeoConicNDConstants.CONIC_HYPERBOLA:
-					updateHyperbola(brush);
-					break;
-				case GeoConicNDConstants.CONIC_PARABOLA:
-					updateParabola(brush);
-					break;
-				case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-					createTmpCoordsIfNeeded();
-					brush.segment(tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[0])),
-							tmpCoords2.setAdd3(m, tmpCoords2.setMul3(d, minmax[1])));
-					break;
-				case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-				case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-					updateLines(brush);
-					break;
-				default:
-					break;
-
+					case GeoConicNDConstants.CONIC_CIRCLE:
+						updateEllipse(brush);
+						break;
+					case GeoConicNDConstants.CONIC_ELLIPSE:
+						updateEllipse(brush);
+						break;
+					case GeoConicNDConstants.CONIC_HYPERBOLA:
+						updateHyperbola(brush);
+						break;
+					case GeoConicNDConstants.CONIC_PARABOLA:
+						updateParabola(brush);
+						break;
+					case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+						createTmpCoordsIfNeeded();
+						brush.segment(
+								tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[0])),
+								tmpCoords2.setAdd3(m, tmpCoords2.setMul3(d, minmax[1])));
+						break;
+					case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+					case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+						updateLines(brush);
+						break;
+					default:
+						break;
 				}
 
 				setGeometryIndex(brush.end());
@@ -261,26 +256,25 @@ public class DrawConic3D extends Drawable3DCurves
 			surface.start(getReusableSurfaceIndex());
 
 			switch (conic.getType()) {
-			case GeoConicNDConstants.CONIC_CIRCLE:
-			case GeoConicNDConstants.CONIC_ELLIPSE:
-				updateEllipse(surface);
-				break;
-			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-				updateIntersectingLines(surface);
-				break;
-			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				updateParallelLines(surface);
-				break;
-			case GeoConicNDConstants.CONIC_HYPERBOLA:
-				updateHyperbola(surface);
-				break;
-			case GeoConicNDConstants.CONIC_PARABOLA:
-				updateParabola(surface);
-				break;
+				case GeoConicNDConstants.CONIC_CIRCLE:
+				case GeoConicNDConstants.CONIC_ELLIPSE:
+					updateEllipse(surface);
+					break;
+				case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+					updateIntersectingLines(surface);
+					break;
+				case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+					updateParallelLines(surface);
+					break;
+				case GeoConicNDConstants.CONIC_HYPERBOLA:
+					updateHyperbola(surface);
+					break;
+				case GeoConicNDConstants.CONIC_PARABOLA:
+					updateParabola(surface);
+					break;
 
-			default:
-				break;
-
+				default:
+					break;
 			}
 
 			setSurfaceIndex(surface.end());
@@ -291,16 +285,17 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index for the line
 	 * @return min, max parameters on the i-th line
 	 */
 	protected double[] getLineMinMax(int i) {
-		return getView3D().getIntervalClippedLarge(new double[] {
-				Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY }, m, d);
+		return getView3D()
+				.getIntervalClippedLarge(
+						new double[] {Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY}, m, d);
 	}
-	
+
 	/**
 	 * initiate #points array
 	 */
@@ -314,14 +309,14 @@ public class DrawConic3D extends Drawable3DCurves
 
 	/**
 	 * update outline for parallel lines
-	 * 
+	 *
 	 * @param brush
 	 *            brush plotter
 	 */
 	protected void updateLines(PlotterBrush brush) {
 
 		createPointsIfNeeded();
-		
+
 		m = conic.getOrigin3D(0);
 		d = conic.getDirection3D(0);
 		if (d.isDefined()) {
@@ -349,12 +344,11 @@ public class DrawConic3D extends Drawable3DCurves
 		} else { // tells the surface that second line is infinite
 			points[0].setUndefined();
 		}
-
 	}
 
 	/**
 	 * update surface drawing for parallel lines case
-	 * 
+	 *
 	 * @param surface
 	 *            surface plotter
 	 */
@@ -366,7 +360,7 @@ public class DrawConic3D extends Drawable3DCurves
 
 	/**
 	 * update surface drawing for intersecting lines case
-	 * 
+	 *
 	 * @param surface
 	 *            surface plotter
 	 */
@@ -377,14 +371,13 @@ public class DrawConic3D extends Drawable3DCurves
 
 	/**
 	 * update outline drawing of hyperbola
-	 * 
+	 *
 	 * @param brush
 	 *            brush plotter
 	 */
 	protected void updateHyperbola(PlotterBrush brush) {
 
-		double[] minmax1 = { Double.POSITIVE_INFINITY,
-				Double.NEGATIVE_INFINITY };
+		double[] minmax1 = {Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY};
 
 		getView3D().getMinIntervalOutsideClipping(minmax1, m, ev1.mul(e1));
 
@@ -395,26 +388,23 @@ public class DrawConic3D extends Drawable3DCurves
 		minmax[2] = -minmax[3];
 
 		brush.hyperbolaBranch(m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
-		brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, minmax[2],
-				minmax[3]);
-
+		brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
 	}
 
 	/**
 	 * update outline drawing of hyperbola
-	 * 
+	 *
 	 * @param brush
 	 *            brush plotter
 	 */
 	protected void updateParabola(PlotterBrush brush) {
 		minmax = getParabolaMinMax();
-		brush.parabola(m, ev1, ev2, conic.p, minmax[0], minmax[1], points[0],
-				points[1]);
+		brush.parabola(m, ev1, ev2, conic.p, minmax[0], minmax[1], points[0], points[1]);
 	}
 
 	/**
 	 * update surface drawing for hypebola case
-	 * 
+	 *
 	 * @param surface
 	 *            surface plotter
 	 */
@@ -423,45 +413,43 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	/**
-	 * 
+	 *
 	 * @return min/max for parabola
 	 */
 	protected double[] getParabolaMinMax() {
 
-		double[] minmax1 = { Double.POSITIVE_INFINITY,
-				Double.NEGATIVE_INFINITY };
+		double[] minmax1 = {Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY};
 
 		getView3D().getMinIntervalOutsideClipping(minmax1, m, ev1);
 		double tMax = Math.sqrt(2 * minmax1[1] / conic.p);
-		return new double[] { -tMax, tMax };
+		return new double[] {-tMax, tMax};
 	}
 
 	/**
 	 * update surface drawing for hypebola case
-	 * 
+	 *
 	 * @param surface
 	 *            surface plotter
 	 */
 	protected void updateHyperbola(PlotterSurface surface) {
 		surface.hyperbolaPart(this, m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
-		surface.hyperbolaPart(this, m, ev1.mul(-1), ev2, e1, e2, minmax[2],
-				minmax[3]);
+		surface.hyperbolaPart(this, m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
 	}
 
 	/**
 	 * update surface drawing for ellipse case
-	 * 
+	 *
 	 * @param surface
 	 *            surface plotter
 	 */
 	protected void updateEllipse(PlotterSurface surface) {
-		surface.ellipsePart(this, m, ev1, ev2, e1, e2, getEllipseSurfaceStart(),
-				getEllipseSurfaceExtent(), isSector());
+		surface.ellipsePart(
+				this, m, ev1, ev2, e1, e2, getEllipseSurfaceStart(), getEllipseSurfaceExtent(), isSector());
 	}
 
 	/**
 	 * update surface drawing for single point case
-	 * 
+	 *
 	 * @param surface
 	 *            surface plotter
 	 */
@@ -482,7 +470,7 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if is a sector (for surface drawing)
 	 */
 	protected boolean isSector() {
@@ -490,25 +478,23 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	/**
-	 * 
+	 *
 	 * @return start angle value for drawing ellipse surface
 	 */
 	protected double getEllipseSurfaceStart() {
-		if (visible == Visible.CENTER_OUTSIDE
-				|| visible == Visible.FRUSTUM_INSIDE) {
+		if (visible == Visible.CENTER_OUTSIDE || visible == Visible.FRUSTUM_INSIDE) {
 			return beta - alpha;
 		}
 		return 0;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return extent angle value for drawing ellipse surface
 	 */
 	protected double getEllipseSurfaceExtent() {
 
-		if (visible == Visible.CENTER_OUTSIDE
-				|| visible == Visible.FRUSTUM_INSIDE) {
+		if (visible == Visible.CENTER_OUTSIDE || visible == Visible.FRUSTUM_INSIDE) {
 			return 2 * alpha;
 		}
 
@@ -517,27 +503,24 @@ public class DrawConic3D extends Drawable3DCurves
 
 	/**
 	 * draws outline for circle
-	 * 
+	 *
 	 * @param brush
 	 *            brush plotter
 	 */
 	protected void updateCircle(PlotterBrush brush) {
 
 		if (visible == Visible.CENTER_OUTSIDE) {
-			longitude = brush.calcArcLongitudesNeeded(e1, alpha,
-					getView3D().getScale());
+			longitude = brush.calcArcLongitudesNeeded(e1, alpha, getView3D().getScale());
 			brush.arc(m, ev1, ev2, e1, beta - alpha, 2 * alpha, longitude);
 		} else {
-			longitude = brush.calcArcLongitudesNeeded(e1, Math.PI,
-					getView3D().getScale());
+			longitude = brush.calcArcLongitudesNeeded(e1, Math.PI, getView3D().getScale());
 			brush.circle(m, ev1, ev2, e1, longitude);
 		}
-
 	}
 
 	/**
 	 * draws outline for ellipse
-	 * 
+	 *
 	 * @param brush
 	 *            brush plotter
 	 */
@@ -548,54 +531,50 @@ public class DrawConic3D extends Drawable3DCurves
 		} else {
 			brush.arcEllipse(m, ev1, ev2, e1, e2, 0, 2 * Math.PI);
 		}
-
 	}
 
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChanged()) {
 			switch (((GeoConicND) getGeoElement()).getType()) {
-			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			case GeoConicNDConstants.CONIC_HYPERBOLA:
-			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			case GeoConicNDConstants.CONIC_LINE:
-			case GeoConicNDConstants.CONIC_PARABOLA:
-			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				if (getView3D().viewChangedByZoom()
-						|| getView3D().viewChangedByTranslate()) {
-					updateForItSelf();
-				}
-				break;
-			case GeoConicNDConstants.CONIC_CIRCLE:
-			case GeoConicNDConstants.CONIC_ELLIPSE:
-				if (getView3D().viewChangedByZoom() // update only if zoom
-													// occurred
-						|| (visible != Visible.TOTALLY_INSIDE
-								&& getView3D().viewChangedByTranslate())) {
-					// if
-																			// translate
-																			// with
-																			// not
-																			// totally
-																			// visible
-																			// ellipse
-					updateForItSelf();
-				}
-				break;
+				case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+				case GeoConicNDConstants.CONIC_HYPERBOLA:
+				case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+				case GeoConicNDConstants.CONIC_LINE:
+				case GeoConicNDConstants.CONIC_PARABOLA:
+				case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+					if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()) {
+						updateForItSelf();
+					}
+					break;
+				case GeoConicNDConstants.CONIC_CIRCLE:
+				case GeoConicNDConstants.CONIC_ELLIPSE:
+					if (getView3D().viewChangedByZoom() // update only if zoom
+							// occurred
+							|| (visible != Visible.TOTALLY_INSIDE && getView3D().viewChangedByTranslate())) {
+						// if
+						// translate
+						// with
+						// not
+						// totally
+						// visible
+						// ellipse
+						updateForItSelf();
+					}
+					break;
 
-			case GeoConicNDConstants.CONIC_SINGLE_POINT:
-				if (getView3D().viewChangedByZoom()) {
-					// occurred
-					updateForItSelf();
-				}
-				break;
+				case GeoConicNDConstants.CONIC_SINGLE_POINT:
+					if (getView3D().viewChangedByZoom()) {
+						// occurred
+						updateForItSelf();
+					}
+					break;
 
-			default:
-				// do nothing
-				break;
+				default:
+					// do nothing
+					break;
 			}
 		}
-
 	}
 
 	@Override
@@ -623,27 +602,25 @@ public class DrawConic3D extends Drawable3DCurves
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		super.removeFromDrawable3DLists(lists);
 		removeFromDrawable3DLists(lists, drawTypeAdded);
-
 	}
 
 	private void drawSurfaceGeometry(Renderer renderer) {
 
 		switch (((GeoConicND) getGeoElement()).getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			renderer.getRendererImpl().setLayer(getLayer());
-			renderer.getGeometryManager().draw(getSurfaceIndex());
-			renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
-			break;
+			default:
+				// do nothing
+				break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				renderer.getRendererImpl().setLayer(getLayer());
+				renderer.getGeometryManager().draw(getSurfaceIndex());
+				renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
+				break;
 		}
-
 	}
 
 	@Override
@@ -652,7 +629,7 @@ public class DrawConic3D extends Drawable3DCurves
 			drawGeometry(renderer);
 		} else {
 			if (getAlpha() > 0) { // surface is pickable only if not totally
-									// transparent
+				// transparent
 				drawSurfaceGeometry(renderer);
 			}
 		}
@@ -667,7 +644,6 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 
 		drawTracesTranspSurface(renderer);
-
 	}
 
 	@Override
@@ -678,7 +654,6 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 
 		drawTracesHidingSurface(renderer);
-
 	}
 
 	// /////////////////////////////////
@@ -689,38 +664,36 @@ public class DrawConic3D extends Drawable3DCurves
 	public void evaluatePoint(double u, double v, Coords point) {
 		GeoConicND conic1 = (GeoConicND) getGeoElement();
 		double r = conic1.getLineThickness() / getView3D().getScale() * 1.5;
-		point.set(Math.cos(u) * Math.cos(v) * r, Math.sin(u) * Math.cos(v) * r,
-				Math.sin(v) * r, 1);
+		point.set(Math.cos(u) * Math.cos(v) * r, Math.sin(u) * Math.cos(v) * r, Math.sin(v) * r, 1);
 		point.setAdd3(point, conic1.getMidpoint3D());
 	}
 
 	@Override
 	public Coords evaluateNormal(double u, double v) {
-		return new Coords(new double[] { Math.cos(u) * Math.cos(v),
-				Math.sin(u) * Math.cos(v), Math.sin(v) });
+		return new Coords(
+				new double[] {Math.cos(u) * Math.cos(v), Math.sin(u) * Math.cos(v), Math.sin(v)});
 	}
 
 	@Override
 	public double getMinParameter(int index) {
 		switch (index) {
-		case 0: // u
-		default:
-			return 0;
-		case 1: // v
-			return -Math.PI / 2;
+			case 0: // u
+			default:
+				return 0;
+			case 1: // v
+				return -Math.PI / 2;
 		}
 	}
 
 	@Override
 	public double getMaxParameter(int index) {
 		switch (index) {
-		case 0: // u
-		default:
-			return 2 * Math.PI;
-		case 1: // v
-			return Math.PI / 2;
+			case 0: // u
+			default:
+				return 2 * Math.PI;
+			case 1: // v
+				return Math.PI / 2;
 		}
-
 	}
 
 	@Override
@@ -744,7 +717,7 @@ public class DrawConic3D extends Drawable3DCurves
 
 	/**
 	 * Visibility flag
-	 * 
+	 *
 	 * @author mathieu
 	 *
 	 */
@@ -763,7 +736,7 @@ public class DrawConic3D extends Drawable3DCurves
 
 	/**
 	 * check if the ellipse is (at least partially) visible
-	 * 
+	 *
 	 * @param center
 	 *            ellipse center
 	 * @param rMin
@@ -780,13 +753,13 @@ public class DrawConic3D extends Drawable3DCurves
 		double centersDistance = v.getNorm();
 
 		if (centersDistance > rMax + frustumRadius) { // circle totally outside
-														// the frustum
+			// the frustum
 			visible = Visible.TOTALLY_OUTSIDE;
 		} else if (centersDistance < frustumRadius) { // center inside
 			visible = Visible.CENTER_INSIDE;
 		} else if (centersDistance + frustumRadius < rMin) { // frustum totally
-																// inside the
-																// circle
+			// inside the
+			// circle
 			visible = Visible.FRUSTUM_INSIDE;
 			calcVisibleAngles(v, frustumRadius);
 		} else if (centersDistance + rMax < frustumRadius) { // totally inside
@@ -794,7 +767,6 @@ public class DrawConic3D extends Drawable3DCurves
 		} else {
 			visible = calcVisibleAngles(v, frustumRadius);
 		}
-
 	}
 
 	/**
@@ -819,14 +791,14 @@ public class DrawConic3D extends Drawable3DCurves
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		switch (conic.getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			enlargeBounds(min, max, boundsMin, boundsMax);
-			break;
+			default:
+				// do nothing
+				break;
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				enlargeBounds(min, max, boundsMin, boundsMax);
+				break;
 		}
 	}
 
@@ -834,8 +806,8 @@ public class DrawConic3D extends Drawable3DCurves
 		boundsMin.set(Double.POSITIVE_INFINITY);
 		boundsMax.set(Double.NEGATIVE_INFINITY);
 		enlargeBoundsToDiagonal(boundsMin, boundsMax, m, ev1, ev2, e1, e2);
-		double radius = conic.getLineThickness() * PlotterBrush.LINE3D_THICKNESS
-				/ getView3D().getScale();
+		double radius =
+				conic.getLineThickness() * PlotterBrush.LINE3D_THICKNESS / getView3D().getScale();
 		boundsMin.addInside(-radius);
 		boundsMax.addInside(radius);
 	}
@@ -845,89 +817,88 @@ public class DrawConic3D extends Drawable3DCurves
 	 */
 	protected void checkVisibleAndSetBoundingBox() {
 		switch (conic.getType()) {
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			m = conic.getMidpoint3D();
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+				m = conic.getMidpoint3D();
 
-			boundsMin.setValues(m, 3);
-			boundsMax.setValues(m, 3);
-			double radius = conic.getLineThickness() / getView3D().getScale()
-					* DrawPoint3D.DRAW_POINT_FACTOR;
-			boundsMin.addInside(-radius);
-			boundsMax.addInside(radius);
+				boundsMin.setValues(m, 3);
+				boundsMax.setValues(m, 3);
+				double radius =
+						conic.getLineThickness() / getView3D().getScale() * DrawPoint3D.DRAW_POINT_FACTOR;
+				boundsMin.addInside(-radius);
+				boundsMax.addInside(radius);
 
-			double frustumRadius = getView3D().getFrustumRadius();
-			Coords origin = getView3D().getCenter();
-			Coords v = origin.sub(m);
-			v.calcNorm();
-			double centersDistance = v.getNorm();
-			if (DoubleUtil.isGreater(centersDistance, frustumRadius)) {
-				visible = Visible.TOTALLY_OUTSIDE;
-			} else {
-				visible = Visible.TOTALLY_INSIDE;
-			}
-			break;
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			m = conic.getMidpoint3D();
-			ev1 = conic.getEigenvec3D(0);
-			ev2 = conic.getEigenvec3D(1);
-			e1 = conic.getHalfAxis(0);
-			e2 = e1;
+				double frustumRadius = getView3D().getFrustumRadius();
+				Coords origin = getView3D().getCenter();
+				Coords v = origin.sub(m);
+				v.calcNorm();
+				double centersDistance = v.getNorm();
+				if (DoubleUtil.isGreater(centersDistance, frustumRadius)) {
+					visible = Visible.TOTALLY_OUTSIDE;
+				} else {
+					visible = Visible.TOTALLY_INSIDE;
+				}
+				break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				m = conic.getMidpoint3D();
+				ev1 = conic.getEigenvec3D(0);
+				ev2 = conic.getEigenvec3D(1);
+				e1 = conic.getHalfAxis(0);
+				e2 = e1;
 
-			setBoundsEllipse();
+				setBoundsEllipse();
 
-			checkEllipseVisible(m, e1, e2);
-			break;
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			m = conic.getMidpoint3D();
-			ev1 = conic.getEigenvec3D(0);
-			ev2 = conic.getEigenvec3D(1);
-			e1 = conic.getHalfAxis(0);
-			e2 = conic.getHalfAxis(1);
-			setBoundsEllipse();
-			double eMin, eMax;
-			if (e1 > e2) {
-				eMax = e1;
-				eMin = e2;
-			} else {
-				eMax = e2;
-				eMin = e1;
-			}
-			checkEllipseVisible(m, eMin, eMax);
+				checkEllipseVisible(m, e1, e2);
+				break;
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				m = conic.getMidpoint3D();
+				ev1 = conic.getEigenvec3D(0);
+				ev2 = conic.getEigenvec3D(1);
+				e1 = conic.getHalfAxis(0);
+				e2 = conic.getHalfAxis(1);
+				setBoundsEllipse();
+				double eMin, eMax;
+				if (e1 > e2) {
+					eMax = e1;
+					eMin = e2;
+				} else {
+					eMax = e2;
+					eMin = e1;
+				}
+				checkEllipseVisible(m, eMin, eMax);
 
-			// dilate angle
-			if (alpha * eMax >= Math.PI * eMin) {
-				alpha = Math.PI;
-			} else {
-				alpha *= eMax / eMin;
-			}
+				// dilate angle
+				if (alpha * eMax >= Math.PI * eMin) {
+					alpha = Math.PI;
+				} else {
+					alpha *= eMax / eMin;
+				}
 
-			break;
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			m = conic.getMidpoint3D();
-			ev1 = conic.getEigenvec3D(0);
-			ev2 = conic.getEigenvec3D(1);
-			e1 = conic.getHalfAxis(0);
-			e2 = conic.getHalfAxis(1);
-			visible = Visible.TOTALLY_INSIDE; // TODO
-			break;
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			m = conic.getMidpoint3D();
-			ev1 = conic.getEigenvec3D(0);
-			ev2 = conic.getEigenvec3D(1);
-			visible = Visible.TOTALLY_INSIDE; // TODO
-			break;
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			m = conic.getOrigin3D(0);
-			d = conic.getDirection3D(0);
-			minmax = getLineMinMax(0);
-			visible = Visible.TOTALLY_INSIDE; // TODO
-			break;
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		default:
-			visible = Visible.TOTALLY_INSIDE; // TODO
-			break;
-
+				break;
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+				m = conic.getMidpoint3D();
+				ev1 = conic.getEigenvec3D(0);
+				ev2 = conic.getEigenvec3D(1);
+				e1 = conic.getHalfAxis(0);
+				e2 = conic.getHalfAxis(1);
+				visible = Visible.TOTALLY_INSIDE; // TODO
+				break;
+			case GeoConicNDConstants.CONIC_PARABOLA:
+				m = conic.getMidpoint3D();
+				ev1 = conic.getEigenvec3D(0);
+				ev2 = conic.getEigenvec3D(1);
+				visible = Visible.TOTALLY_INSIDE; // TODO
+				break;
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+				m = conic.getOrigin3D(0);
+				d = conic.getDirection3D(0);
+				minmax = getLineMinMax(0);
+				visible = Visible.TOTALLY_INSIDE; // TODO
+				break;
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+			default:
+				visible = Visible.TOTALLY_INSIDE; // TODO
+				break;
 		}
 	}
 
@@ -946,7 +917,7 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	/**
-	 * 
+	 *
 	 * @param hitting
 	 *            e.g. ray
 	 * @param checkRealPointSize
@@ -960,77 +931,88 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 
 		switch (((GeoConicND) getGeoElement()).getType()) {
-		case GeoConicNDConstants.CONIC_EMPTY:
-			return false;
+			case GeoConicNDConstants.CONIC_EMPTY:
+				return false;
 
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			if (project == null) {
-				project = Coords.createInhomCoorsInD3();
-			}
-			if (DrawPoint3D.hit(hitting, conic.getMidpoint3D(), this,
-					conic.getLineThickness(), project, parameters,
-					checkRealPointSize)) {
-				setPickingType(PickingType.POINT_OR_CURVE);
-				return true;
-			}
-			return false;
-
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		default: // TODO check other cases
-
-			boolean ret = false;
-
-			// project hitting origin on polygon plane
-			if (globalCoords == null) {
-				globalCoords = new Coords(4);
-				inPlaneCoords = new Coords(4);
-			}
-			hitting.getOrigin().projectPlaneThruVIfPossible(
-					conic.getCoordSys().getMatrixOrthonormal(),
-					hitting.getDirection(), globalCoords, inPlaneCoords);
-
-			// try conic surface
-			if (getGeoElement()
-					.getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
-					&& hitting.isInsideClipping(globalCoords)
-					&& conic.isInRegion(inPlaneCoords.getX(),
-							inPlaneCoords.getY())) {
-				// TODO use other for non-parallel projection:
-				// -hitting.origin.distance(project[0]);
-				double parameterOnHitting = inPlaneCoords.getZ();
-				setZPick(parameterOnHitting, parameterOnHitting,
-						hitting.discardPositiveHits(), -parameterOnHitting);
-				setPickingType(PickingType.SURFACE);
-				ret = true;
-			}
-
-			// try outline
-			inPlaneCoords.setZ(1.0);
-			conic.pointChanged(inPlaneCoords, hittingPathParameter);
-			Coords p3d = conic.getCoordSys().getPoint(inPlaneCoords.getX(),
-					inPlaneCoords.getY()); // get nearest point on conic
-			// Log.debug("\n"+p2d+"\n3d:\n"+p3d);
-
-			if (hitting.isInsideClipping(p3d)) {
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
 				if (project == null) {
 					project = Coords.createInhomCoorsInD3();
 				}
-				p3d.projectLine(hitting.getOrigin(), hitting.getDirection(), project,
-						parameters); // check distance to hitting line
-				double d1 = getView3D().getScaledDistance(p3d, project);
-				if (d1 <= conic.getLineThickness() + hitting.getThreshold()) {
-					double z = -parameters[0];
-					double dz = conic.getLineThickness()
-							/ getView3D().getScale();
-					setZPick(z + dz, z - dz, hitting.discardPositiveHits(),
-							parameters[0]);
+				if (DrawPoint3D.hit(
+						hitting,
+						conic.getMidpoint3D(),
+						this,
+						conic.getLineThickness(),
+						project,
+						parameters,
+						checkRealPointSize)) {
 					setPickingType(PickingType.POINT_OR_CURVE);
 					return true;
 				}
-			}
+				return false;
 
-			return ret;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+			default: // TODO check other cases
+				boolean ret = false;
+
+				// project hitting origin on polygon plane
+				if (globalCoords == null) {
+					globalCoords = new Coords(4);
+					inPlaneCoords = new Coords(4);
+				}
+				hitting
+						.getOrigin()
+						.projectPlaneThruVIfPossible(
+								conic.getCoordSys().getMatrixOrthonormal(),
+								hitting.getDirection(),
+								globalCoords,
+								inPlaneCoords);
+
+				// try conic surface
+				if (getGeoElement().getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
+						&& hitting.isInsideClipping(globalCoords)
+						&& conic.isInRegion(inPlaneCoords.getX(), inPlaneCoords.getY())) {
+					// TODO use other for non-parallel projection:
+					// -hitting.origin.distance(project[0]);
+					double parameterOnHitting = inPlaneCoords.getZ();
+					setZPick(
+							parameterOnHitting,
+							parameterOnHitting,
+							hitting.discardPositiveHits(),
+							-parameterOnHitting);
+					setPickingType(PickingType.SURFACE);
+					ret = true;
+				}
+
+				// try outline
+				inPlaneCoords.setZ(1.0);
+				conic.pointChanged(inPlaneCoords, hittingPathParameter);
+				Coords p3d = conic
+						.getCoordSys()
+						.getPoint(inPlaneCoords.getX(), inPlaneCoords.getY()); // get nearest point on conic
+				// Log.debug("\n"+p2d+"\n3d:\n"+p3d);
+
+				if (hitting.isInsideClipping(p3d)) {
+					if (project == null) {
+						project = Coords.createInhomCoorsInD3();
+					}
+					p3d.projectLine(
+							hitting.getOrigin(),
+							hitting.getDirection(),
+							project,
+							parameters); // check distance to hitting line
+					double d1 = getView3D().getScaledDistance(p3d, project);
+					if (d1 <= conic.getLineThickness() + hitting.getThreshold()) {
+						double z = -parameters[0];
+						double dz = conic.getLineThickness() / getView3D().getScale();
+						setZPick(z + dz, z - dz, hitting.discardPositiveHits(), parameters[0]);
+						setPickingType(PickingType.POINT_OR_CURVE);
+						return true;
+					}
+				}
+
+				return ret;
 		}
 	}
 
@@ -1050,36 +1032,34 @@ public class DrawConic3D extends Drawable3DCurves
 		return super.doHighlighting();
 	}
 
-    @Override
-    protected void updateForViewNotVisible() {
-        switch (((GeoConicND) getGeoElement()).getType()) {
-            case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-            case GeoConicNDConstants.CONIC_HYPERBOLA:
-            case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-            case GeoConicNDConstants.CONIC_LINE:
-            case GeoConicNDConstants.CONIC_PARABOLA:
-            case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-                if (getView3D().viewChangedByZoom()
-                        || getView3D().viewChangedByTranslate()) {
-                    setWaitForUpdate();
-                }
-                break;
-            case GeoConicNDConstants.CONIC_CIRCLE:
-            case GeoConicNDConstants.CONIC_ELLIPSE:
-                if (getView3D().viewChangedByZoom()
-                        || (visible != Visible.TOTALLY_INSIDE
-                        && getView3D().viewChangedByTranslate())) {
-                    setWaitForUpdate();
-                }
-                break;
-            default:
-                if (getView3D().viewChangedByZoom()) {
-                    // will be updated if visible again
-                    setWaitForUpdate();
-                }
-                break;
-        }
-        updateGeometriesVisibility();
+	@Override
+	protected void updateForViewNotVisible() {
+		switch (((GeoConicND) getGeoElement()).getType()) {
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+			case GeoConicNDConstants.CONIC_HYPERBOLA:
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			case GeoConicNDConstants.CONIC_LINE:
+			case GeoConicNDConstants.CONIC_PARABOLA:
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+				if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()) {
+					setWaitForUpdate();
+				}
+				break;
+			case GeoConicNDConstants.CONIC_CIRCLE:
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				if (getView3D().viewChangedByZoom()
+						|| (visible != Visible.TOTALLY_INSIDE && getView3D().viewChangedByTranslate())) {
+					setWaitForUpdate();
+				}
+				break;
+			default:
+				if (getView3D().viewChangedByZoom()) {
+					// will be updated if visible again
+					setWaitForUpdate();
+				}
+				break;
+		}
+		updateGeometriesVisibility();
 	}
 
 	@Override
@@ -1091,5 +1071,4 @@ public class DrawConic3D extends Drawable3DCurves
 	protected void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityWithSurface(visible);
 	}
-
 }

@@ -30,33 +30,36 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class FontSizePropertyTests extends BaseAppTestSetup {
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"\"abc\"",
-			"Button(\"Press\")",
-	})
+	@ValueSource(
+			strings = {
+				"\"abc\"",
+				"Button(\"Press\")",
+			})
 	void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertDoesNotThrow(() ->
-				new FontSizeProperty(getLocalization(), evaluateGeoElement(expression)));
+		assertDoesNotThrow(
+				() -> new FontSizeProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"a = Slider(-5, 5, 1)",
-	})
+	@ValueSource(
+			strings = {
+				"(1, 2)",
+				"a = Slider(-5, 5, 1)",
+			})
 	void testNonApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class, () ->
-				new FontSizeProperty(getLocalization(), evaluateGeoElement(expression)));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new FontSizeProperty(getLocalization(), evaluateGeoElement(expression)));
 	}
 
 	@Test
 	void testChangingFontSize() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
-		FontSizeProperty fontSizeProperty = assertDoesNotThrow(() ->
-				new FontSizeProperty(getLocalization(), geoText));
+		FontSizeProperty fontSizeProperty =
+				assertDoesNotThrow(() -> new FontSizeProperty(getLocalization(), geoText));
 
 		fontSizeProperty.setValue(FontSizeProperty.FontSize.EXTRA_SMALL);
 		assertEquals(0.5, geoText.getFontSizeMultiplier());
@@ -69,8 +72,8 @@ class FontSizePropertyTests extends BaseAppTestSetup {
 	void testCustomFontSizeValues() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
-		FontSizeProperty fontSizeProperty = assertDoesNotThrow(() ->
-				new FontSizeProperty(getLocalization(), geoText));
+		FontSizeProperty fontSizeProperty =
+				assertDoesNotThrow(() -> new FontSizeProperty(getLocalization(), geoText));
 
 		geoText.setFontSizeMultiplier(1.25);
 		assertEquals(FontSizeProperty.FontSize.MEDIUM, fontSizeProperty.getValue());

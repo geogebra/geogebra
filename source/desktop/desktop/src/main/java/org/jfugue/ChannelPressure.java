@@ -44,7 +44,7 @@ public final class ChannelPressure implements JFugueElement {
 
 	/**
 	 * Sets the pressure value of this object.
-	 * 
+	 *
 	 * @param pressure
 	 *            the pressure for this object
 	 */
@@ -54,7 +54,7 @@ public final class ChannelPressure implements JFugueElement {
 
 	/**
 	 * Returns the pressure for this object.
-	 * 
+	 *
 	 * @return the pressure for this object
 	 */
 	public byte getPressure() {
@@ -65,7 +65,7 @@ public final class ChannelPressure implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a channel pressure object, the Music String is
 	 * <code>+</code><i>key,pressure</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -86,5 +86,4 @@ public final class ChannelPressure implements JFugueElement {
 		buffy.append(getPressure());
 		return buffy.toString();
 	}
-
 }

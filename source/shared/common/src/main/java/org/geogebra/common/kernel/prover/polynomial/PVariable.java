@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * A simple class for variables.
- * 
+ *
  * @author Simon Weitzhofer
  * @author Damien Desfontaines
  *
@@ -39,7 +39,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Creates a new variable
-	 * 
+	 *
 	 * @param kernel
 	 *            current kernel
 	 */
@@ -52,7 +52,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Creates a new variable and sets the parent GeoElement
-	 * 
+	 *
 	 * @param parent
 	 *            the GeoElement which defines the variable
 	 */
@@ -63,7 +63,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Returns the variable v
-	 * 
+	 *
 	 * @param v
 	 *            the name of the variable
 	 */
@@ -76,7 +76,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Copies a variable
-	 * 
+	 *
 	 * @param fv
 	 *            the variable to copy
 	 */
@@ -87,7 +87,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Returns the unique id of the variable
-	 * 
+	 *
 	 * @return the id
 	 */
 	public int getId() {
@@ -121,7 +121,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Returns the name of the variable.
-	 * 
+	 *
 	 * @return the name
 	 */
 	public String getName() {
@@ -131,7 +131,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Exports the variable into LaTeX
-	 * 
+	 *
 	 * @return the LaTeX formatted variable
 	 */
 	public String toTeX() {
@@ -146,7 +146,7 @@ public class PVariable implements Comparable<PVariable> {
 	/**
 	 * Returns the Variable which describes the other coordinate of the same
 	 * point
-	 * 
+	 *
 	 * @return the Variable
 	 */
 	public PVariable getTwin() {
@@ -155,7 +155,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Sets the Variable which describes the other coordinate of the same point
-	 * 
+	 *
 	 * @param twin
 	 *            the Variable. Is null if there is no twin.
 	 */
@@ -165,7 +165,7 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Returns the parent GeoElement
-	 * 
+	 *
 	 * @return the parent GeoElement
 	 */
 	public GeoElement getParent() {
@@ -174,12 +174,11 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Sets the parent GeoElement
-	 * 
+	 *
 	 * @param parent
 	 *            the parent GeoElement
 	 */
 	public void setParent(final GeoElement parent) {
 		this.parent = parent;
 	}
-
 }

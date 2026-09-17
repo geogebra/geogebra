@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * Implements some of the PathConstructor functionality
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: AbstractPathConstructor.java,v 1.4 2009-08-17 21:44:45 murkle
  *          Exp $
@@ -34,13 +34,12 @@ public abstract class AbstractPathConstructor implements PathConstructor {
 	}
 
 	@Override
-	public boolean addPath(Shape s, AffineTransform transform)
-			throws IOException {
+	public boolean addPath(Shape s, AffineTransform transform) throws IOException {
 		return addPath(this, s, transform);
 	}
 
-	public static boolean addPath(PathConstructor out, Shape s,
-			AffineTransform transform) throws IOException {
+	public static boolean addPath(PathConstructor out, Shape s, AffineTransform transform)
+			throws IOException {
 		PathIterator path = s.getPathIterator(transform);
 		double[] coords = new double[6];
 		double pathStartX = 0.;
@@ -49,24 +48,23 @@ public abstract class AbstractPathConstructor implements PathConstructor {
 			int segType = path.currentSegment(coords);
 
 			switch (segType) {
-			case PathIterator.SEG_MOVETO:
-				out.move(coords[0], coords[1]);
-				pathStartX = coords[0];
-				pathStartY = coords[1];
-				break;
-			case PathIterator.SEG_LINETO:
-				out.line(coords[0], coords[1]);
-				break;
-			case PathIterator.SEG_QUADTO:
-				out.quad(coords[0], coords[1], coords[2], coords[3]);
-				break;
-			case PathIterator.SEG_CUBICTO:
-				out.cubic(coords[0], coords[1], coords[2], coords[3], coords[4],
-						coords[5]);
-				break;
-			case PathIterator.SEG_CLOSE:
-				out.closePath(pathStartX, pathStartY);
-				break;
+				case PathIterator.SEG_MOVETO:
+					out.move(coords[0], coords[1]);
+					pathStartX = coords[0];
+					pathStartY = coords[1];
+					break;
+				case PathIterator.SEG_LINETO:
+					out.line(coords[0], coords[1]);
+					break;
+				case PathIterator.SEG_QUADTO:
+					out.quad(coords[0], coords[1], coords[2], coords[3]);
+					break;
+				case PathIterator.SEG_CUBICTO:
+					out.cubic(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
+					break;
+				case PathIterator.SEG_CLOSE:
+					out.closePath(pathStartX, pathStartY);
+					break;
 			}
 			// Move to the next segment.
 			path.next();
@@ -76,7 +74,6 @@ public abstract class AbstractPathConstructor implements PathConstructor {
 	}
 
 	public static boolean isEvenOdd(Shape s) {
-		return s.getPathIterator(null)
-				.getWindingRule() == PathIterator.WIND_EVEN_ODD;
+		return s.getPathIterator(null).getWindingRule() == PathIterator.WIND_EVEN_ODD;
 	}
 }

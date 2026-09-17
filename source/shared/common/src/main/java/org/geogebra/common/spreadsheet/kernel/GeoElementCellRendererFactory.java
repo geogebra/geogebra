@@ -49,7 +49,7 @@ import com.himamis.retex.renderer.share.TeXIcon;
 public final class GeoElementCellRendererFactory implements CellRenderableFactory {
 
 	private final LaTeXRenderer laTeXRenderer;
-	private final static StringRenderer stringRenderer = new StringRenderer();
+	private static final StringRenderer stringRenderer = new StringRenderer();
 	private final CheckboxCellRenderer checkboxCellRenderer = new CheckboxCellRenderer();
 	private final ImageCellRenderer imageCellRenderer = new ImageCellRenderer();
 	private final ButtonCellRenderer buttonCellRenderer = new ButtonCellRenderer();
@@ -59,22 +59,21 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 	 * @param bridge graphics converter
 	 * @param fontSizeProvider font size provider
 	 */
-	public GeoElementCellRendererFactory(AwtReTeXGraphicsBridge bridge,
-			Supplier<Double> fontSizeProvider) {
+	public GeoElementCellRendererFactory(
+			AwtReTeXGraphicsBridge bridge, Supplier<Double> fontSizeProvider) {
 		this.laTeXRenderer = new LaTeXRenderer(bridge);
 		this.fontSize = fontSizeProvider;
 	}
 
 	@Override
-	public SelfRenderable getRenderable(Object data, SpreadsheetStyling styling, int row,
-			int column) {
+	public SelfRenderable getRenderable(
+			Object data, SpreadsheetStyling styling, int row, int column) {
 		if (data == null) {
 			return null;
 		}
 		Integer fontStyle = styling.getFontStyle(row, column);
 		GeoElement geoElement = (GeoElement) data;
-		GColor background = styling.getBackgroundColor(row, column,
-				getBackgroundColor(geoElement));
+		GColor background = styling.getBackgroundColor(row, column, getBackgroundColor(geoElement));
 		GColor textColor = styling.getTextColor(row, column, getTextColor(geoElement));
 		Integer align = styling.getAlignment(row, column);
 		if (align == null) {
@@ -82,38 +81,49 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 					SpreadsheetStyling.getDefaultTextAlignment(data));
 		}
 		if (geoElement.isLaTeXDrawableGeo()) {
-			TeXFormula tf = new TeXFormula(geoElement
-					.toValueString(StringTemplate.latexTemplate));
+			TeXFormula tf = new TeXFormula(geoElement.toValueString(StringTemplate.latexTemplate));
 			GColor fgColor = styling.getTextColor(row, column, textColor);
-			TeXIcon icon = tf.createTeXIcon(TeXConstants.STYLE_DISPLAY,
-					fontSize.get(), TeXFont.SANSSERIF, fgColor);
-			return new SelfRenderable(laTeXRenderer, fontSize.get(),
-					fontStyle, align, icon, background, fgColor);
+			TeXIcon icon =
+					tf.createTeXIcon(TeXConstants.STYLE_DISPLAY, fontSize.get(), TeXFont.SANSSERIF, fgColor);
+			return new SelfRenderable(
+					laTeXRenderer, fontSize.get(), fontStyle, align, icon, background, fgColor);
 		}
 		if (data instanceof GeoBoolean bool && bool.isIndependent()) {
-			return new SelfRenderable(checkboxCellRenderer, fontSize.get(),
-					fontStyle, align, data, background, textColor);
+			return new SelfRenderable(
+					checkboxCellRenderer, fontSize.get(), fontStyle, align, data, background, textColor);
 		}
 
 		if (data instanceof GeoImage) {
-			return new SelfRenderable(imageCellRenderer, fontSize.get(),
-					fontStyle, align, data, background, textColor);
+			return new SelfRenderable(
+					imageCellRenderer, fontSize.get(), fontStyle, align, data, background, textColor);
 		}
 
 		if (data instanceof GeoButton) {
-			return new SelfRenderable(buttonCellRenderer, fontSize.get(),
-					fontStyle, CellFormat.ALIGN_CENTER, data, null, textColor);
+			return new SelfRenderable(
+					buttonCellRenderer,
+					fontSize.get(),
+					fontStyle,
+					CellFormat.ALIGN_CENTER,
+					data,
+					null,
+					textColor);
 		}
 
-		return new SelfRenderable(stringRenderer, fontSize.get(), fontStyle, align,
+		return new SelfRenderable(
+				stringRenderer,
+				fontSize.get(),
+				fontStyle,
+				align,
 				getValueString(geoElement),
-				background, textColor);
+				background,
+				textColor);
 	}
 
 	private @Nullable GColor getBackgroundColor(GeoElement geoElement) {
 		return geoElement instanceof GeoNumeric number && number.isSliderable()
-				|| geoElement.isGeoButton()
-				? null : geoElement.getBackgroundColor();
+						|| geoElement.isGeoButton()
+				? null
+				: geoElement.getBackgroundColor();
 	}
 
 	private GColor getTextColor(GeoElement geoElement) {
@@ -122,7 +132,8 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 	}
 
 	private String getValueString(GeoElement geoElement) {
-		return geoElement.isEmptySpreadsheetCell() ? ""
+		return geoElement.isEmptySpreadsheetCell()
+				? ""
 				: geoElement.toValueString(StringTemplate.defaultTemplate);
 	}
 
@@ -130,16 +141,25 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 		private static final double CHECKBOX_SCALE = 0.5;
 
 		@Override
-		public void draw(Object data, double fontSize, int fontStyle, double offsetX,
-				GGraphics2D g2d, Rectangle cellBorder) {
+		public void draw(
+				Object data,
+				double fontSize,
+				int fontStyle,
+				double offsetX,
+				GGraphics2D g2d,
+				Rectangle cellBorder) {
 			double positionX = cellBorder.getMinX() + offsetX;
-			double positionY = cellBorder.getMinY() + (cellBorder.getHeight()
-					- DEFAULT_CHECKBOX_SIZE * CHECKBOX_SCALE) / 2;
+			double positionY = cellBorder.getMinY()
+					+ (cellBorder.getHeight() - DEFAULT_CHECKBOX_SIZE * CHECKBOX_SCALE) / 2;
 			g2d.saveTransform();
 			g2d.translate(positionX, positionY);
 			g2d.scale(CHECKBOX_SCALE, CHECKBOX_SCALE);
-			DrawBoolean.CheckBoxIcon.paintIcon(((GeoBoolean) data).getBoolean(),
-					!((GeoBoolean) data).isSelectionAllowed(null), g2d, 0, 0);
+			DrawBoolean.CheckBoxIcon.paintIcon(
+					((GeoBoolean) data).getBoolean(),
+					!((GeoBoolean) data).isSelectionAllowed(null),
+					g2d,
+					0,
+					0);
 			g2d.restoreTransform();
 		}
 
@@ -156,8 +176,13 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 
 	private static final class ImageCellRenderer implements CellRenderer {
 		@Override
-		public void draw(Object data, double fontSize, int fontStyle, double offsetX,
-				GGraphics2D g2d, Rectangle cellBorder) {
+		public void draw(
+				Object data,
+				double fontSize,
+				int fontStyle,
+				double offsetX,
+				GGraphics2D g2d,
+				Rectangle cellBorder) {
 			g2d.saveTransform();
 			g2d.translate(cellBorder.getMinX(), cellBorder.getMinY());
 			g2d.drawImage(((GeoImage) data).getFillImage(), 0, 0);
@@ -177,8 +202,13 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 
 	private static final class ButtonCellRenderer implements CellRenderer {
 		@Override
-		public void draw(Object data, double fontSize, int fontStyle, double offsetX,
-				GGraphics2D g2d, Rectangle cellBorder) {
+		public void draw(
+				Object data,
+				double fontSize,
+				int fontStyle,
+				double offsetX,
+				GGraphics2D g2d,
+				Rectangle cellBorder) {
 			g2d.saveTransform();
 			g2d.translate(cellBorder.getMinX(), cellBorder.getMinY());
 			GeoButton geoButton = (GeoButton) data;
@@ -186,8 +216,13 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 			g2d.fillRoundRect(0, 0, cellBorder.getWidth(), cellBorder.getHeight(), 8, 8);
 			g2d.setColor(geoButton.getObjectColor());
 			g2d.restoreTransform();
-			stringRenderer.draw(geoButton.getCaption(StringTemplate.defaultTemplate),
-					fontSize, fontStyle, offsetX, g2d, cellBorder);
+			stringRenderer.draw(
+					geoButton.getCaption(StringTemplate.defaultTemplate),
+					fontSize,
+					fontStyle,
+					offsetX,
+					g2d,
+					cellBorder);
 		}
 
 		@Override
@@ -197,8 +232,8 @@ public final class GeoElementCellRendererFactory implements CellRenderableFactor
 
 		@Override
 		public double measureWidth(Object renderable, int fontStyle, double fontSize) {
-			return stringRenderer.measureWidth(((GeoButton) renderable)
-							.getCaption(StringTemplate.defaultTemplate), fontStyle, fontSize);
+			return stringRenderer.measureWidth(
+					((GeoButton) renderable).getCaption(StringTemplate.defaultTemplate), fontStyle, fontSize);
 		}
 	}
 

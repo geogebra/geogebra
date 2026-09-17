@@ -25,5 +25,4 @@ public interface KeyboardCloseListener {
 	 * Hide keyboard.
 	 */
 	void closeKeyboard();
-
 }

@@ -24,8 +24,13 @@ import org.geogebra.common.main.Localization;
 public class LatexVectorPrinter implements Printer {
 
 	@Override
-	public String print(String xCoord, String yCoord, String zCoord,
-			PrintableVector vector, StringTemplate tpl, Localization loc) {
+	public String print(
+			String xCoord,
+			String yCoord,
+			String zCoord,
+			PrintableVector vector,
+			StringTemplate tpl,
+			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		return printLaTeXVector(sb, xCoord, yCoord);
 	}
@@ -63,5 +68,4 @@ public class LatexVectorPrinter implements Printer {
 		sb.append(" \\end{align} \\right)");
 		return sb.toString();
 	}
-
 }

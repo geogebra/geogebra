@@ -22,7 +22,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 
 /**
  * buffers for openGL
- * 
+ *
  * @author Mathieu
  *
  */
@@ -60,7 +60,6 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 		}
 
 		impl.limit(length);
-
 	}
 
 	@Override
@@ -106,7 +105,7 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return buffer
 	 */
 	public ShortBuffer getBuffer() {
@@ -125,5 +124,4 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 		impl.rewind();
 		impl.position(newPosition);
 	}
-
 }

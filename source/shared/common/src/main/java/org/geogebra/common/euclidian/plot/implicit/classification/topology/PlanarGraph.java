@@ -88,11 +88,10 @@ public final class PlanarGraph {
 	 * @param sourceContourId contour id for contour edges, {@code -1} for viewport edges
 	 * @return id of the created half-edge
 	 */
-	int addHalfEdge(int originVertexId, int targetVertexId,
-			SegmentKind segmentKind, int sourceContourId) {
+	int addHalfEdge(
+			int originVertexId, int targetVertexId, SegmentKind segmentKind, int sourceContourId) {
 		int id = halfEdges.size();
-		halfEdges.add(new HalfEdge(id, originVertexId, targetVertexId, segmentKind,
-				sourceContourId));
+		halfEdges.add(new HalfEdge(id, originVertexId, targetVertexId, segmentKind, sourceContourId));
 		vertices.get(originVertexId).addOutgoingHalfEdge(id);
 		return id;
 	}
@@ -326,8 +325,7 @@ public final class PlanarGraph {
 	 * @return whether face extraction produced at least one face and one exterior face
 	 */
 	public boolean hasValidFaces() {
-		boolean hasExactlyOneExteriorFace =
-				faces.stream().filter(Face::isExterior).count() == 1;
+		boolean hasExactlyOneExteriorFace = faces.stream().filter(Face::isExterior).count() == 1;
 		return !faces.isEmpty() && hasExactlyOneExteriorFace;
 	}
 
@@ -354,10 +352,8 @@ public final class PlanarGraph {
 			if (!edge.isActive() || !edge.isViewportEdge()) {
 				continue;
 			}
-			boolean matchForward =
-					edge.getOriginVertexId() == start && edge.getTargetVertexId() == end;
-			boolean matchBackward =
-					edge.getOriginVertexId() == end && edge.getTargetVertexId() == start;
+			boolean matchForward = edge.getOriginVertexId() == start && edge.getTargetVertexId() == end;
+			boolean matchBackward = edge.getOriginVertexId() == end && edge.getTargetVertexId() == start;
 			if (matchForward || matchBackward) {
 				edge.setActive(false);
 				vertices.get(edge.getOriginVertexId()).removeOutgoingHalfEdge(edge.getId());
@@ -391,8 +387,8 @@ public final class PlanarGraph {
 	/**
 	 * @return whether the point belongs to a face bounded by the given outer and hole cycles
 	 */
-	public boolean isPointInsideFace(GPoint2D candidate, List<Integer> outerBoundary,
-			List<List<Integer>> holeBoundaries) {
+	public boolean isPointInsideFace(
+			GPoint2D candidate, List<Integer> outerBoundary, List<List<Integer>> holeBoundaries) {
 		return faceBuilder.isPointInsideFace(candidate, outerBoundary, holeBoundaries);
 	}
 

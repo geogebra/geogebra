@@ -37,7 +37,7 @@ public final class Layer implements JFugueElement {
 
 	/**
 	 * Creates a new Layer object, with the specified layer number.
-	 * 
+	 *
 	 * @param layer
 	 *            the number of the layer to use
 	 */
@@ -47,7 +47,7 @@ public final class Layer implements JFugueElement {
 
 	/**
 	 * Sets the value of the layer for this object.
-	 * 
+	 *
 	 * @param layer
 	 *            the number of the layer to use
 	 */
@@ -57,7 +57,7 @@ public final class Layer implements JFugueElement {
 
 	/**
 	 * Returns the layer used in this object
-	 * 
+	 *
 	 * @return the layer used in this object
 	 */
 	public byte getLayer() {
@@ -68,7 +68,7 @@ public final class Layer implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a Layer object, the Music String is <code>L</code>
 	 * <i>layer-number</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -81,7 +81,7 @@ public final class Layer implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: Layer: layer={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override

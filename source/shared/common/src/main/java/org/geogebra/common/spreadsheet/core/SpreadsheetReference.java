@@ -40,15 +40,16 @@ public final class SpreadsheetReference {
 		return range != null ? new SpreadsheetReference(range) : null;
 	}
 
-	SpreadsheetReference(@NonNull SpreadsheetCellReference fromCell,
-			@Nullable SpreadsheetCellReference toCell) {
+	SpreadsheetReference(
+			@NonNull SpreadsheetCellReference fromCell, @Nullable SpreadsheetCellReference toCell) {
 		this.fromCell = fromCell;
 		this.toCell = toCell;
 	}
 
 	SpreadsheetReference(@NonNull TabularRange range) {
 		this.fromCell = new SpreadsheetCellReference(range.getMinRow(), range.getMinColumn());
-		this.toCell = range.isSingleCell() ? null
+		this.toCell = range.isSingleCell()
+				? null
 				: new SpreadsheetCellReference(range.getMaxRow(), range.getMaxColumn());
 	}
 
@@ -86,8 +87,7 @@ public final class SpreadsheetReference {
 		if (!(object instanceof SpreadsheetReference other)) {
 			return false;
 		}
-		return Objects.equals(fromCell, other.fromCell)
-				&& Objects.equals(toCell, other.toCell);
+		return Objects.equals(fromCell, other.fromCell) && Objects.equals(toCell, other.toCell);
 	}
 
 	@Override
@@ -104,5 +104,4 @@ public final class SpreadsheetReference {
 		}
 		return toCell.rowIndex - fromCell.rowIndex;
 	}
-
 }

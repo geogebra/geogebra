@@ -55,7 +55,7 @@ public class AlgoRadius extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{c};
+		input = new GeoElement[] {c};
 		setOnlyOutput(num);
 		setDependencies(); // done by AlgoElement
 	}
@@ -72,10 +72,10 @@ public class AlgoRadius extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (c.type == GeoConicNDConstants.CONIC_CIRCLE) { // notice that
-															// constants
-															// CONIC_CIRCLE and
-															// QUADRIC_SPHERE
-															// are equal
+			// constants
+			// CONIC_CIRCLE and
+			// QUADRIC_SPHERE
+			// are equal
 			num.setValue(c.getHalfAxis(0));
 		} else if (c.type == GeoConicNDConstants.CONIC_SINGLE_POINT) {
 			num.setValue(0);
@@ -85,11 +85,9 @@ public class AlgoRadius extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("RadiusOfA", "Radius of %0",
-				c.getLabel(tpl));
+		return getLoc().getPlainDefault("RadiusOfA", "Radius of %0", c.getLabel(tpl));
 	}
-
 }

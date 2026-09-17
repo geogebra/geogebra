@@ -41,8 +41,8 @@ public class ChartStyleGeoColorProperty extends AbstractEnumeratedProperty<GColo
 	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartStyleGeoColorProperty(Localization localization, GeoElement geoElement,
-			ChartSegmentSelection chartSegmentSelection)
+	public ChartStyleGeoColorProperty(
+			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
 			throws NotApplicablePropertyException {
 		super(localization, "Color");
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
@@ -55,15 +55,15 @@ public class ChartStyleGeoColorProperty extends AbstractEnumeratedProperty<GColo
 
 	@Override
 	protected void doSetValue(GColor value) {
-		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().setBarColor(value, index));
+		chartSegmentSelection.forEachSelectedSegment(
+				chartStyleGeo.getIntervals(), index -> chartStyleGeo.getStyle().setBarColor(value, index));
 		((GeoElement) chartStyleGeo).getKernel().notifyRepaint();
 	}
 
 	@Override
 	public GColor getValue() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().getBarColor(index));
+		return chartSegmentSelection.getUniformValueOrNull(
+				chartStyleGeo.getIntervals(), index -> chartStyleGeo.getStyle().getBarColor(index));
 	}
 
 	@Override

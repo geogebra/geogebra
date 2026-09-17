@@ -28,7 +28,6 @@ import org.gwtproject.user.client.ui.FlowPanel;
 /**
  * Audio / video / embed dialog.
  */
-
 public abstract class MediaDialog extends ComponentDialog {
 	protected MediaInputPanel mediaInputPanel;
 
@@ -37,8 +36,7 @@ public abstract class MediaDialog extends ComponentDialog {
 	 * @param dialogTitle title of dialog
 	 */
 	public MediaDialog(AppW app, String dialogTitle) {
-		super(app, new DialogData(dialogTitle, "Cancel", "Insert"),
-				false, true);
+		super(app, new DialogData(dialogTitle, "Cancel", "Insert"), false, true);
 		addStyleName("mediaDialog");
 		addStyleName(dialogTitle);
 		buildContent();
@@ -82,8 +80,7 @@ public abstract class MediaDialog extends ComponentDialog {
 
 	@Override
 	public void hide() {
-		app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
-				ModeSetter.TOOLBAR);
+		app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 		super.hide();
 	}
 
@@ -96,7 +93,9 @@ public abstract class MediaDialog extends ComponentDialog {
 	}
 
 	protected void onMediaElementCreated(GeoElement geoElement) {
-		getApplication().getActiveEuclidianView()
-				.getEuclidianController().selectAndShowSelectionUI(geoElement);
+		getApplication()
+				.getActiveEuclidianView()
+				.getEuclidianController()
+				.selectAndShowSelectionUI(geoElement);
 	}
 }

@@ -33,7 +33,7 @@ public class CmdFractionText extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,34 +48,31 @@ public class CmdFractionText extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0] instanceof GeoNumberValue) {
 
-			if (arg[0] instanceof GeoNumberValue) {
-
-				AlgoFractionText algo = new AlgoFractionText(cons,
-						(GeoNumberValue) arg[0], null);
-				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[]{ algo.getResult() };
-			} else if (arg[0].isGeoPoint()) {
-				AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons,
-						(GeoPointND) arg[0]);
-				algo.getResult().setLabel(c.getLabel());
-				return new GeoElement[]{ algo.getResult() };
-			}
-			throw argErr(c, arg[0]);
-		case 2:
-			if (!(arg[0] instanceof GeoNumberValue)) {
+					AlgoFractionText algo = new AlgoFractionText(cons, (GeoNumberValue) arg[0], null);
+					algo.getResult().setLabel(c.getLabel());
+					return new GeoElement[] {algo.getResult()};
+				} else if (arg[0].isGeoPoint()) {
+					AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons, (GeoPointND) arg[0]);
+					algo.getResult().setLabel(c.getLabel());
+					return new GeoElement[] {algo.getResult()};
+				}
 				throw argErr(c, arg[0]);
-			}
-			if (!(arg[1] instanceof GeoBoolean)) {
-				throw argErr(c, arg[1]);
-			}
-			AlgoFractionText algo = new AlgoFractionText(cons,
-					(GeoNumberValue) arg[0], (GeoBoolean) arg[1]);
-			algo.getResult().setLabel(c.getLabel());
-			return new GeoElement[]{ algo.getResult() };
-		default:
-			throw argNumErr(c);
+			case 2:
+				if (!(arg[0] instanceof GeoNumberValue)) {
+					throw argErr(c, arg[0]);
+				}
+				if (!(arg[1] instanceof GeoBoolean)) {
+					throw argErr(c, arg[1]);
+				}
+				AlgoFractionText algo =
+						new AlgoFractionText(cons, (GeoNumberValue) arg[0], (GeoBoolean) arg[1]);
+				algo.getResult().setLabel(c.getLabel());
+				return new GeoElement[] {algo.getResult()};
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

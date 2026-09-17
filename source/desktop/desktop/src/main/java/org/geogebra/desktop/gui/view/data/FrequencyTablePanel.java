@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -47,8 +47,7 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 		this.setLayout(new BorderLayout());
 		this.add(statTable, BorderLayout.CENTER);
 
-		statTable.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-				SystemColor.controlShadow));
+		statTable.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow));
 		setBorder(BorderFactory.createEmptyBorder());
 	}
 
@@ -56,8 +55,7 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 	 * @param algo frequency algo
 	 * @param useClasses whether to use classes for data
 	 */
-	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable algo,
-			boolean useClasses) {
+	public void setTableFromGeoFrequencyTable(AlgoFrequencyTable algo, boolean useClasses) {
 		String[] strValue = algo.getValueString();
 		String[] strFrequency = algo.getFrequencyString();
 		String[] strHeader = algo.getHeaderString();
@@ -67,8 +65,7 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 
 		if (useClasses) {
 			for (int row = 0; row < strValue.length - 1; row++) {
-				model.setValueAt(strValue[row] + " - " + strValue[row + 1], row,
-						0);
+				model.setValueAt(strValue[row] + " - " + strValue[row + 1], row, 0);
 				model.setValueAt(strFrequency[row], row, 1);
 			}
 		} else {
@@ -106,5 +103,4 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 	public void setLabels() {
 		// statTable.setLabels(null, getColumnNames());
 	}
-
 }

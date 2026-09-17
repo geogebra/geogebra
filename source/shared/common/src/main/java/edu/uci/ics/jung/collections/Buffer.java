@@ -61,5 +61,4 @@ public interface Buffer<E> extends Collection<E> {
 	 *             if the buffer is empty
 	 */
 	E get();
-
 }

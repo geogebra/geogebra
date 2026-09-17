@@ -117,8 +117,7 @@ public final class MyImageW implements MyImage {
 
 	@Override
 	public String toLaTeXStringBase64() {
-		return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight() + "}{"
-				+ img.src + "}";
+		return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight() + "}{" + img.src + "}";
 	}
 
 	@Override

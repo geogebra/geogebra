@@ -275,6 +275,5 @@ final class CMTT10 extends FontInfo {
 		setMetrics(196, 525, 611);
 
 		setMetrics(197, 525, 57, 191);
-
 	}
 }

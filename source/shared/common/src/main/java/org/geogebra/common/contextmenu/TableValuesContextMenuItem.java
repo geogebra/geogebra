@@ -96,9 +96,7 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 	@Override
 	public @NonNull AttributedString getLocalizedTitle(@NonNull Localization localization) {
 		return MenuItemFormatting.parse(
-				localization.getPlainDefault(item.translationKey, "",
-						translationPlaceholderValues)
-		);
+				localization.getPlainDefault(item.translationKey, "", translationPlaceholderValues));
 	}
 
 	@Override
@@ -110,8 +108,8 @@ public final class TableValuesContextMenuItem implements ContextMenuItem {
 			return false;
 		}
 		TableValuesContextMenuItem that = (TableValuesContextMenuItem) object;
-		return item == that.item && Arrays.equals(translationPlaceholderValues,
-				that.translationPlaceholderValues);
+		return item == that.item
+				&& Arrays.equals(translationPlaceholderValues, that.translationPlaceholderValues);
 	}
 
 	@Override

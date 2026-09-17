@@ -27,15 +27,15 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Circle[ &lt;GeoPoint&gt;, &lt;GeoNumeric&gt; ]
- * 
+ *
  * Circle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
- * 
+ *
  * Circle[ &lt;GeoPoint&gt;, &lt;GeoPoint&gt;, &lt;GeoPoint&gt; ]
  */
 public class CmdCircle extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -50,28 +50,28 @@ public class CmdCircle extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			return process2(c, arg, ok);
+			case 2:
+				arg = resArgs(c, info);
+				return process2(c, arg, ok);
 
-		case 3:
-			// make sure "x=0" in eg Circle((0,0,0), 1, x=0) is always
-			// interpreted as a plane not a line (otherwise it depends on which
-			// view is active)
-			if (c.getArgument(2).unwrap() instanceof Equation) {
-				((Equation) c.getArgument(2).unwrap()).setForcePlane();
-			}
-			arg = resArgs(c, info);
-			return process3(c, arg, ok);
+			case 3:
+				// make sure "x=0" in eg Circle((0,0,0), 1, x=0) is always
+				// interpreted as a plane not a line (otherwise it depends on which
+				// view is active)
+				if (c.getArgument(2).unwrap() instanceof Equation) {
+					((Equation) c.getArgument(2).unwrap()).setForcePlane();
+				}
+				arg = resArgs(c, info);
+				return process3(c, arg, ok);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
 	 * process when 2 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -82,18 +82,13 @@ public class CmdCircle extends CommandProcessor {
 	 * @throws MyError
 	 *             arg error
 	 */
-	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
-		if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-			GeoElement[] ret = { circle(c.getLabel(), (GeoPointND) arg[0],
-					(GeoNumberValue) arg[1]) };
+		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
+			GeoElement[] ret = {circle(c.getLabel(), (GeoPointND) arg[0], (GeoNumberValue) arg[1])};
 			return ret;
-		} else if ((ok[0] = arg[0].isGeoPoint())
-				&& (ok[1] = arg[1].isGeoPoint())) {
-			GeoElement[] ret = { circle(c.getLabel(), (GeoPointND) arg[0],
-					(GeoPointND) arg[1]) };
+		} else if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+			GeoElement[] ret = {circle(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1])};
 			return ret;
 		} else {
 			if (!ok[0]) {
@@ -101,11 +96,10 @@ public class CmdCircle extends CommandProcessor {
 			}
 			throw argErr(c, arg[1]);
 		}
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param a
@@ -119,7 +113,7 @@ public class CmdCircle extends CommandProcessor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param a
@@ -134,7 +128,7 @@ public class CmdCircle extends CommandProcessor {
 
 	/**
 	 * process when 3 arguments
-	 * 
+	 *
 	 * @param c
 	 *            command
 	 * @param arg
@@ -145,21 +139,21 @@ public class CmdCircle extends CommandProcessor {
 	 * @throws MyError
 	 *             arg error
 	 */
-	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
-		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoPoint())
 				&& (ok[2] = arg[2].isGeoPoint())) {
-			GeoElement[] ret = { circle(c.getLabel(), (GeoPointND) arg[0],
-					(GeoPointND) arg[1], (GeoPointND) arg[2]) };
+			GeoElement[] ret = {
+				circle(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2])
+			};
 			return ret;
 		}
 		throw argErr(c, getBadArg(ok, arg));
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param a
@@ -170,10 +164,7 @@ public class CmdCircle extends CommandProcessor {
 	 *            point on circle
 	 * @return circle three points
 	 */
-	protected GeoElement circle(String label, GeoPointND a, GeoPointND b,
-			GeoPointND c) {
-		return getAlgoDispatcher().circle(label, (GeoPoint) a, (GeoPoint) b,
-				(GeoPoint) c);
+	protected GeoElement circle(String label, GeoPointND a, GeoPointND b, GeoPointND c) {
+		return getAlgoDispatcher().circle(label, (GeoPoint) a, (GeoPoint) b, (GeoPoint) c);
 	}
-
 }

@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Base class for algorithms using the CAS.
- * 
+ *
  * @author Markus Hohenwarter
  */
 public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
@@ -34,11 +34,12 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	protected AlgebraicExpression f;
 	/** Output function */
 	protected AlgebraicExpression g;
+
 	private final Commands cmd;
 
 	/**
 	 * Creates CAS algo, doesn't set any input, output or label
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param f
@@ -48,8 +49,7 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	 * @param info
 	 *            evaluation flags
 	 */
-	protected AlgoCasBase(Construction cons, AlgebraicExpression f,
-			Commands cmd, EvalInfo info) {
+	protected AlgoCasBase(Construction cons, AlgebraicExpression f, Commands cmd, EvalInfo info) {
 		super(cons);
 		f.updateCASEvalMap(info.getCASMap());
 		this.f = f;
@@ -92,7 +92,7 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 	/**
 	 * Build a GeoGebraCAS command, send it to CAS and use the output to update
 	 * result of this algo.
-	 * 
+	 *
 	 * @param tpl
 	 *            template for serialization of the command
 	 */

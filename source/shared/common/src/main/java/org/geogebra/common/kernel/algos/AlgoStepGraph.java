@@ -24,15 +24,15 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Stick graph algorithm
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class AlgoStepGraph extends AlgoBarChart {
 
 	/**
 	 * StepGraph[&lt;list of points&gt;]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -41,13 +41,12 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 *            first list
 	 */
 	public AlgoStepGraph(Construction cons, String label, GeoList list1) {
-		super(cons, label, list1, null, null, null, null, null,
-				AlgoBarChart.TYPE_STEPGRAPH);
+		super(cons, label, list1, null, null, null, null, null, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/**
 	 * StepGraph[&lt;list of points&gt;, &lt;boolean hasJoin&gt;]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -57,16 +56,14 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param hasJoin
 	 *            true to join steps
 	 */
-	public AlgoStepGraph(Construction cons, String label, GeoList list1,
-			GeoBoolean hasJoin) {
-		super(cons, label, list1, null, null, null, hasJoin, null,
-				AlgoBarChart.TYPE_STEPGRAPH);
+	public AlgoStepGraph(Construction cons, String label, GeoList list1, GeoBoolean hasJoin) {
+		super(cons, label, list1, null, null, null, hasJoin, null, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/**
 	 * StepGraph[&lt;list of points&gt;, &lt;boolean hasJoin&gt;, &lt;point
 	 * style&gt;]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -78,15 +75,14 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param pointStyle
 	 *            point style
 	 */
-	public AlgoStepGraph(Construction cons, String label, GeoList list1,
-			GeoBoolean hasJoin, GeoNumeric pointStyle) {
-		super(cons, label, list1, null, null, null, hasJoin, pointStyle,
-				AlgoBarChart.TYPE_STEPGRAPH);
+	public AlgoStepGraph(
+			Construction cons, String label, GeoList list1, GeoBoolean hasJoin, GeoNumeric pointStyle) {
+		super(cons, label, list1, null, null, null, hasJoin, pointStyle, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/**
 	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -96,15 +92,13 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param list2
 	 *            list of y-coords
 	 */
-	public AlgoStepGraph(Construction cons, String label, GeoList list1,
-			GeoList list2) {
-		super(cons, label, list1, list2, null, null, null, null,
-				AlgoBarChart.TYPE_STEPGRAPH);
+	public AlgoStepGraph(Construction cons, String label, GeoList list1, GeoList list2) {
+		super(cons, label, list1, list2, null, null, null, null, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/**
 	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;] (no label)
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param list1
@@ -113,13 +107,12 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 *            list of y-coords
 	 */
 	public AlgoStepGraph(Construction cons, GeoList list1, GeoList list2) {
-		super(cons, list1, list2, null, null, null, null,
-				AlgoBarChart.TYPE_STEPGRAPH);
+		super(cons, list1, list2, null, null, null, null, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/**
 	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;, &lt;boolean hasJoin&gt;]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -131,16 +124,15 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param hasJoin
 	 *            true to join steps
 	 */
-	public AlgoStepGraph(Construction cons, String label, GeoList list1,
-			GeoList list2, GeoBoolean hasJoin) {
-		super(cons, label, list1, list2, null, null, hasJoin, null,
-				AlgoBarChart.TYPE_STEPGRAPH);
+	public AlgoStepGraph(
+			Construction cons, String label, GeoList list1, GeoList list2, GeoBoolean hasJoin) {
+		super(cons, label, list1, list2, null, null, hasJoin, null, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/**
 	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;, &lt;boolean hasJoin&gt;] (no
 	 * label)
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param list1
@@ -150,16 +142,14 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param hasJoin
 	 *            true to join steps
 	 */
-	public AlgoStepGraph(Construction cons, GeoList list1, GeoList list2,
-			GeoBoolean hasJoin) {
-		super(cons, list1, list2, null, null, hasJoin, null,
-				AlgoBarChart.TYPE_STEPGRAPH);
+	public AlgoStepGraph(Construction cons, GeoList list1, GeoList list2, GeoBoolean hasJoin) {
+		super(cons, list1, list2, null, null, hasJoin, null, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	/**
 	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;, &lt;boolean hasJoin&gt;,
 	 * &lt;point style&gt;]
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -173,15 +163,18 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param pointStyle
 	 *            point style
 	 */
-	public AlgoStepGraph(Construction cons, String label, GeoList list1,
-			GeoList list2, GeoBoolean showStep, GeoNumeric pointStyle) {
-		super(cons, label, list1, list2, null, null, showStep, pointStyle,
-				AlgoBarChart.TYPE_STEPGRAPH);
+	public AlgoStepGraph(
+			Construction cons,
+			String label,
+			GeoList list1,
+			GeoList list2,
+			GeoBoolean showStep,
+			GeoNumeric pointStyle) {
+		super(cons, label, list1, list2, null, null, showStep, pointStyle, AlgoBarChart.TYPE_STEPGRAPH);
 	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.StepGraph;
 	}
-
 }

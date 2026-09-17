@@ -34,8 +34,8 @@ public class DistanceFromScreenProperty extends AbstractValuedProperty<String>
 	 * @param localization localization
 	 * @param euclidianSettings euclidian settings
 	 */
-	public DistanceFromScreenProperty(Localization localization,
-			EuclidianSettings3D euclidianSettings) {
+	public DistanceFromScreenProperty(
+			Localization localization, EuclidianSettings3D euclidianSettings) {
 		super(localization, "EyeDistance");
 		this.euclidianSettings = euclidianSettings;
 	}

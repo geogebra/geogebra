@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -25,14 +25,15 @@ import javax.swing.JPopupMenu;
 public class ModeToggleButtonGroup extends ButtonGroup {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private JPopupMenu activePopMenu;
 
 	/**
 	 * Activates given mode group
-	 * 
+	 *
 	 * @param popMenu
 	 *            popup menu that should become active
 	 */
@@ -42,11 +43,10 @@ public class ModeToggleButtonGroup extends ButtonGroup {
 
 	/**
 	 * Returns active mode group
-	 * 
+	 *
 	 * @return active popup menu
 	 */
 	public JPopupMenu getActivePopupMenu() {
 		return activePopMenu;
 	}
-
 }

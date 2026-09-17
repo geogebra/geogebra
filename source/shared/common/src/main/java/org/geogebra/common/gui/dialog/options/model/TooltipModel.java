@@ -35,13 +35,13 @@ public class TooltipModel extends MultipleOptionsModel {
 
 	@Override
 	public List<String> getChoices(Localization loc) {
-		return Arrays.asList(loc.getMenu("Labeling.automatic"), // index 0
+		return Arrays.asList(
+				loc.getMenu("Labeling.automatic"), // index 0
 				loc.getMenu("On"), // index 1
 				loc.getMenu("Off"), // index 2
 				loc.getMenu("Caption"), // index 3
 				loc.getMenu("NextCell") // index 4
-		);
-
+				);
 	}
 
 	@Override
@@ -58,5 +58,4 @@ public class TooltipModel extends MultipleOptionsModel {
 	public int getValueAt(int index) {
 		return getGeoAt(index).getTooltipMode();
 	}
-
 }

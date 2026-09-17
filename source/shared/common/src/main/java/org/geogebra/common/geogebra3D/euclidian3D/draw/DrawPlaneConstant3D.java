@@ -27,7 +27,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Class for drawing 3D constant planes.
- * 
+ *
  * @author matthieu
  *
  */
@@ -38,7 +38,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 
 	/**
 	 * Common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param a_plane3D
@@ -48,8 +48,8 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	 * @param yAxis
 	 *            y axis
 	 */
-	public DrawPlaneConstant3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D,
-			DrawAxis3D xAxis, DrawAxis3D yAxis) {
+	public DrawPlaneConstant3D(
+			EuclidianView3D a_view3D, GeoPlane3D a_plane3D, DrawAxis3D xAxis, DrawAxis3D yAxis) {
 
 		super(a_view3D, a_plane3D);
 
@@ -67,8 +67,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 
 		geo.setGridCorners(xMinMax[0], yMinMax[0], xMinMax[1], yMinMax[1]);
 
-		geo.setGridDistances(getView3D().getGridDistances(0),
-				getView3D().getGridDistances(1));
+		geo.setGridDistances(getView3D().getGridDistances(0), getView3D().getGridDistances(1));
 
 		if (getView3D().getShowPlane() || getView3D().getShowGrid()) {
 			super.updateGeometry();
@@ -113,7 +112,6 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	public void drawGeometry(Renderer renderer) {
 
 		drawPlate(renderer);
-
 	}
 
 	@Override
@@ -132,8 +130,7 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	}
 
 	@Override
-	protected void updateBounds(double xmin, double xmax, double ymin,
-			double ymax) {
+	protected void updateBounds(double xmin, double xmax, double ymin, double ymax) {
 		// no bounds update
 	}
 
@@ -154,5 +151,4 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	public boolean isVisible() {
 		return isGridVisible() || getPlane().isPlateVisible();
 	}
-
 }

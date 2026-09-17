@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 
 /**
  * interface to handle coord style
- * 
+ *
  * @author mathieu
  *
  */
@@ -40,5 +40,4 @@ public interface CoordStyle extends VectorNDValue {
 
 	/** set to spherical coords */
 	void setSpherical();
-
 }

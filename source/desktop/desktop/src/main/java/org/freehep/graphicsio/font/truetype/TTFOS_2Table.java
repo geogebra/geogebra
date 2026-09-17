@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * OS/2 Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFOS_2Table.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -20,12 +20,8 @@ public class TTFOS_2Table extends TTFVersionTable {
 
 	public short fsType;
 
-	public short ySubscriptXSize, ySubscriptYSize, ySubscriptXOffset,
-			ySubscriptYOffset;
-
-	public short ySuperscriptXSize, ySuperscriptYSize, ySuperscriptXOffset,
-			ySuperscriptYOffset;
-
+	public short ySubscriptXSize, ySubscriptYSize, ySubscriptXOffset, ySubscriptYOffset;
+	public short ySuperscriptXSize, ySuperscriptYSize, ySuperscriptXOffset, ySuperscriptYOffset;
 	public short yStrikeoutSize, yStrikeoutPosition;
 
 	public short sFamilyClass;
@@ -39,9 +35,7 @@ public class TTFOS_2Table extends TTFVersionTable {
 	public int fsSelection;
 
 	public int usFirstCharIndex, usLastCharIndes;
-
 	public int sTypoAscender, sTzpoDescender, sTypoLineGap;
-
 	public int usWinAscent, usWinDescent;
 
 	public long[] ulCodePageRange = new long[2];
@@ -93,7 +87,6 @@ public class TTFOS_2Table extends TTFVersionTable {
 
 		ulCodePageRange[0] = ttf.readULong();
 		ulCodePageRange[1] = ttf.readULong();
-
 	}
 
 	public String getAchVendID() {
@@ -102,7 +95,6 @@ public class TTFOS_2Table extends TTFVersionTable {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n  version: " + version + "\n  vendor: "
-				+ getAchVendID();
+		return super.toString() + "\n  version: " + version + "\n  vendor: " + getAchVendID();
 	}
 }

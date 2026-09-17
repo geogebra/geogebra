@@ -85,11 +85,6 @@ public class BernsteinMarchingRect implements MarchingRect {
 
 	@Override
 	public String toString() {
-		return "BernsteinPlotRect{"
-				+ "box="
-				+ box
-				+ ", corners="
-				+ Arrays.toString(corners)
-				+ '}';
+		return "BernsteinPlotRect{" + "box=" + box + ", corners=" + Arrays.toString(corners) + '}';
 	}
 }

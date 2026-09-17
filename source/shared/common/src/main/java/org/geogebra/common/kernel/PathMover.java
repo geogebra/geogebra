@@ -43,7 +43,7 @@ public interface PathMover {
 	/**
 	 * Inits the path mover using a point p on the path and sets the orientation
 	 * to positive. Note: the path parameter of p may be changed here!
-	 * 
+	 *
 	 * @param p
 	 *            initial point
 	 * @param min_steps
@@ -53,7 +53,7 @@ public interface PathMover {
 
 	/**
 	 * Sets point p to the current position on the path
-	 * 
+	 *
 	 * @param p
 	 *            current position
 	 */
@@ -61,7 +61,7 @@ public interface PathMover {
 
 	/**
 	 * Sets point p to the next position on the path
-	 * 
+	 *
 	 * @param p
 	 *            point to be set
 	 * @return true: draw line to point p; false: move to point p
@@ -91,28 +91,28 @@ public interface PathMover {
 
 	/**
 	 * Returns whether the orientation of moving along the path is positive.
-	 * 
+	 *
 	 * @return true for positive orientation
 	 */
 	boolean hasPositiveOrientation();
 
 	/**
 	 * Decreases the step width. Returns whether this was possible.
-	 * 
+	 *
 	 * @return true if it was possible
 	 */
 	boolean smallerStep();
 
 	/**
 	 * Increases the step width. Returns whether this was possible.
-	 * 
+	 *
 	 * @return true if it was possible
 	 */
 	boolean biggerStep();
 
 	/**
 	 * Sets step width. Returns whether this was possible.
-	 * 
+	 *
 	 * @param step
 	 *            step width
 	 * @return true if this was possible
@@ -121,7 +121,7 @@ public interface PathMover {
 
 	/**
 	 * Get step width.
-	 * 
+	 *
 	 * @return step
 	 */
 	double getStep();

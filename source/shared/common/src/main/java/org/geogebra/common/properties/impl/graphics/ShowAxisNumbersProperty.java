@@ -34,8 +34,11 @@ public class ShowAxisNumbersProperty extends AbstractValuedProperty<Boolean>
 	 * @param euclidianSettings euclidian settings
 	 * @param euclidianView euclidian view
 	 */
-	public ShowAxisNumbersProperty(Localization localization, int axis,
-			EuclidianSettings euclidianSettings, EuclidianViewInterfaceCommon euclidianView) {
+	public ShowAxisNumbersProperty(
+			Localization localization,
+			int axis,
+			EuclidianSettings euclidianSettings,
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "ShowAxisNumbers");
 		this.axis = axis;
 		this.euclidianSettings = euclidianSettings;

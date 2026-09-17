@@ -37,8 +37,8 @@ public class AxisVisibilityProperty extends AbstractValuedProperty<Boolean>
 	 * @param index The index of the associated axis
 	 * @param label The label used for this property
 	 */
-	public AxisVisibilityProperty(Localization localization,
-			EuclidianSettings euclidianSettings, int index, String label) {
+	public AxisVisibilityProperty(
+			Localization localization, EuclidianSettings euclidianSettings, int index, String label) {
 		super(localization, label);
 		this.axisIndex = index;
 		this.euclidianSettings = euclidianSettings;

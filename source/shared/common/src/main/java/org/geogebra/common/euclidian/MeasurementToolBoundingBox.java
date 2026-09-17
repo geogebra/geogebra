@@ -36,7 +36,6 @@ public class MeasurementToolBoundingBox extends MediaBoundingBox {
 		setHandlerTransformed(1, 0, height);
 		setHandlerTransformed(2, width, height);
 		setHandlerTransformed(3, width, 0);
-		setHandlerTransformed(8, width / 2,
-				height + BoundingBox.ROTATION_HANDLER_DISTANCE);
+		setHandlerTransformed(8, width / 2, height + BoundingBox.ROTATION_HANDLER_DISTANCE);
 	}
 }

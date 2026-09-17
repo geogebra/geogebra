@@ -44,7 +44,6 @@ class ClassicSpreadsheetIntegrationTest extends BaseAppTestSetup {
 				</spreadsheetView>
 				</geogebra>
 				""");
-		assertEquals(2525.0,
-				Objects.requireNonNull(getApp().getSpreadsheet()).getTotalHeight(), .1);
+		assertEquals(2525.0, Objects.requireNonNull(getApp().getSpreadsheet()).getTotalHeight(), .1);
 	}
 }

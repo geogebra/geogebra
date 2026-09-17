@@ -36,7 +36,7 @@ public interface JFugueElement {
 	/**
 	 * Returns the Music String representing this element and all of its
 	 * settings.
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	public String getMusicString();

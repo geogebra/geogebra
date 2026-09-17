@@ -54,7 +54,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -64,15 +64,14 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 * @param movingPoint
 	 *            moving point
 	 */
-	public AlgoEnvelope(Construction cons, String label, Path path,
-			GeoPoint movingPoint) {
+	public AlgoEnvelope(Construction cons, String label, Path path, GeoPoint movingPoint) {
 		this(cons, path, movingPoint);
 		this.geoPoly.setLabel(label);
 	}
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param path
@@ -80,8 +79,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 * @param movingPoint
 	 *            moving point
 	 */
-	public AlgoEnvelope(Construction cons, Path path,
-			GeoPoint movingPoint) {
+	public AlgoEnvelope(Construction cons, Path path, GeoPoint movingPoint) {
 		super(cons);
 
 		this.movingPoint = movingPoint;
@@ -95,7 +93,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see geogebra.common.kernel.algos.AlgoElement#setInputOutput()
 	 */
 	@Override
@@ -109,8 +107,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// we need all independent parents of Q PLUS
 		// all parents of Q that are points on a path
 
-		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors()
-				.iterator();
+		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isIndependent() || geo.isPointOnPath()) {
@@ -154,26 +151,25 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 * Reset fingerprint to force recomputing the envelope if the precision has
 	 * dramatically changed. This is a copy-paste version of
 	 * AlgoLocusEquation.resetFingerprint().
-	 * 
+	 *
 	 * @param k
 	 *            kernel
 	 * @param force
 	 *            reset the fingerprint even if the precision has not changed
-	 * 
+	 *
 	 * @return true if the fingerprint was reset
 	 */
 	public boolean resetFingerprint(Kernel k, boolean force) {
 		long kernelPrecision = k.precision();
 		double precisionRatio = (double) myPrecision / kernelPrecision;
 		if (precisionRatio > 5 || precisionRatio < 0.2 || force) {
-			Log.debug("myPrecision=" + myPrecision + " kernelPrecision="
-					+ kernelPrecision + " precisionRatio=" + precisionRatio);
+			Log.debug("myPrecision=" + myPrecision + " kernelPrecision=" + kernelPrecision
+					+ " precisionRatio=" + precisionRatio);
 			efficientInputFingerprint = null;
 			myPrecision = kernelPrecision;
 			return true;
 		}
 		return false;
-
 	}
 
 	/*
@@ -191,8 +187,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		StringBuilder ret = new StringBuilder();
 		int size = input.length;
 		for (int i = 0; i < size; ++i) {
-			ret.append(input[i]
-					.getAlgebraDescription(StringTemplate.defaultTemplate));
+			ret.append(input[i].getAlgebraDescription(StringTemplate.defaultTemplate));
 			ret.append(",");
 		}
 		return ret.toString();
@@ -207,7 +202,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see geogebra.common.kernel.algos.AlgoElement#compute()
 	 */
 	@Override
@@ -220,10 +215,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		String efficientInputFingerprintPrev = efficientInputFingerprint;
 		setInputOutput();
 		if (efficientInputFingerprintPrev == null
-				|| !efficientInputFingerprintPrev
-						.equals(efficientInputFingerprint)) {
-			Log.trace(efficientInputFingerprintPrev + " -> "
-					+ efficientInputFingerprint);
+				|| !efficientInputFingerprintPrev.equals(efficientInputFingerprint)) {
+			Log.trace(efficientInputFingerprintPrev + " -> " + efficientInputFingerprint);
 			initialCompute();
 		}
 	}
@@ -234,7 +227,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Compute the locus equation curve and put into geoPoly.
-	 * 
+	 *
 	 */
 	public void computeEnvelope() {
 		double startTime = UtilFactory.getPrototype().getMillisecondTime();
@@ -249,8 +242,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		if (result != null) {
 			try {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-				this.geoPoly.setCoeff(cas.getCurrentCAS()
-						.getBivarPolyCoefficientsAll(result));
+				this.geoPoly.setCoeff(cas.getCurrentCAS().getBivarPolyCoefficientsAll(result));
 				this.geoPoly.setDefined();
 
 				// Timeout => set undefined
@@ -260,14 +252,12 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		} else {
 			this.geoPoly.setUndefined();
 		}
-		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime()
-				- startTime);
+		int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime() - startTime);
 		/*
 		 * Don't remove this. It is needed for automated testing. (String match
 		 * is assumed.)
 		 */
 		Log.debug("Benchmarking: " + elapsedTime + " ms");
-
 	}
 
 	/**
@@ -277,8 +267,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		TreeSet<GeoElement> inSet = new TreeSet<>();
 		inSet.add(this.movingPoint);
-		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors()
-				.iterator();
+		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isIndependent() || geo.isPointOnPath()) {
@@ -298,7 +287,6 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		setEfficientDependencies(standardInput, efficientInput);
 		efficientInputFingerprint = fingerprint(efficientInput);
-
 	}
 
 	private String getImplicitPoly() {
@@ -314,9 +302,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		 * Now we collect all the restriction equations except for the linear
 		 * itself. This is exactly the same as in AlgoLocusEquation.
 		 */
-		AlgebraicStatement as = ProverBotanasMethod
-				.translateConstructionAlgebraically(locusPoint,
-				movingPoint, false, this);
+		AlgebraicStatement as = ProverBotanasMethod.translateConstructionAlgebraically(
+				locusPoint, movingPoint, false, this);
 		// It is safe to remove the virtual locus point here.
 		locusPoint.remove();
 
@@ -336,7 +323,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Compute the coefficients of the implicit curve for the envelope equation.
-	 * 
+	 *
 	 * @param as
 	 *            the algebraic statement structure
 	 * @return the implicit curve as a string
@@ -350,15 +337,22 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		String PRECISION = Long.toString(kernel.precision());
 		Log.debug("PRECISION = " + PRECISION);
 
-		sb.append(CustomFunctions.ENVELOPE_EQU).append("([").append(polys)
-				.append("],[").append(elimVars).append("],").append(PRECISION)
-				.append(",").append(as.curveVars[0]).append(",")
-				.append(as.curveVars[1]).append(")");
+		sb.append(CustomFunctions.ENVELOPE_EQU)
+				.append("([")
+				.append(polys)
+				.append("],[")
+				.append(elimVars)
+				.append("],")
+				.append(PRECISION)
+				.append(",")
+				.append(as.curveVars[0])
+				.append(",")
+				.append(as.curveVars[1])
+				.append(")");
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		try {
-			String result = cas.getCurrentCAS()
-					.evaluateRaw(sb.toString());
+			String result = cas.getCurrentCAS().evaluateRaw(sb.toString());
 			Log.trace("Output from giac: " + result);
 			return result;
 		} catch (Throwable ex) {
@@ -366,5 +360,4 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 			return null;
 		}
 	}
-
 }

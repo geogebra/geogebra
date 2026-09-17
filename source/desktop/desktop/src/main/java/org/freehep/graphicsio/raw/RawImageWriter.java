@@ -14,7 +14,7 @@ import javax.imageio.stream.ImageOutputStream;
 import org.freehep.util.images.ImageUtilities;
 
 /**
- * 
+ *
  * @version $Id: RawImageWriter.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
 public class RawImageWriter extends ImageWriter {
@@ -24,8 +24,8 @@ public class RawImageWriter extends ImageWriter {
 	}
 
 	@Override
-	public void write(IIOMetadata streamMetadata, IIOImage image,
-			ImageWriteParam param) throws IOException {
+	public void write(IIOMetadata streamMetadata, IIOImage image, ImageWriteParam param)
+			throws IOException {
 		if (image == null) {
 			throw new IllegalArgumentException("image == null");
 		}
@@ -47,27 +47,25 @@ public class RawImageWriter extends ImageWriter {
 		RenderedImage ri = image.getRenderedImage();
 
 		RawImageWriteParam rawParam = (RawImageWriteParam) param;
-		byte[] bytes = ImageUtilities.getBytes(ri, rawParam.getBackground(),
-				rawParam.getCode(), rawParam.getPad());
+		byte[] bytes = ImageUtilities.getBytes(
+				ri, rawParam.getBackground(), rawParam.getCode(), rawParam.getPad());
 		ios.write(bytes);
 		ios.close();
 	}
 
 	@Override
-	public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-			ImageWriteParam param) {
+	public IIOMetadata convertStreamMetadata(IIOMetadata inData, ImageWriteParam param) {
 		return null;
 	}
 
 	@Override
-	public IIOMetadata convertImageMetadata(IIOMetadata inData,
-			ImageTypeSpecifier imageType, ImageWriteParam param) {
+	public IIOMetadata convertImageMetadata(
+			IIOMetadata inData, ImageTypeSpecifier imageType, ImageWriteParam param) {
 		return null;
 	}
 
 	@Override
-	public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-			ImageWriteParam param) {
+	public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType, ImageWriteParam param) {
 		return null;
 	}
 

@@ -33,7 +33,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
  * to]
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoCurveCartesian extends AlgoElement {
@@ -49,7 +49,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 
 	/**
 	 * Creates new AlgoJoinPoints
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param point
@@ -63,8 +63,12 @@ public class AlgoCurveCartesian extends AlgoElement {
 	 * @param to
 	 *            max parameter
 	 */
-	public AlgoCurveCartesian(Construction cons, ExpressionNode point,
-			GeoNumberValue[] coords, GeoNumeric localVar, GeoNumberValue from,
+	public AlgoCurveCartesian(
+			Construction cons,
+			ExpressionNode point,
+			GeoNumberValue[] coords,
+			GeoNumeric localVar,
+			GeoNumberValue from,
 			GeoNumberValue to) {
 		super(cons);
 
@@ -81,16 +85,12 @@ public class AlgoCurveCartesian extends AlgoElement {
 		exp = new ExpressionNode[coords.length];
 		Function[] fun = new Function[coords.length];
 		containsFunctions = new boolean[coords.length];
-		vectorFunctions = point != null
-				&& AlgoDependentFunction.containsVectorFunctions(point);
+		vectorFunctions = point != null && AlgoDependentFunction.containsVectorFunctions(point);
 		for (int i = 0; i < coords.length; i++) {
-			exp[i] = kernel.convertNumberValueToExpressionNode(
-					coords[i].toGeoElement());
+			exp[i] = kernel.convertNumberValueToExpressionNode(coords[i].toGeoElement());
 			exp[i] = exp[i].replace(localVar, funVar).wrap();
 			fun[i] = new Function(exp[i], funVar);
-			containsFunctions[i] = vectorFunctions
-					|| AlgoDependentFunction
-					.containsFunctions(exp[i]);
+			containsFunctions[i] = vectorFunctions || AlgoDependentFunction.containsFunctions(exp[i]);
 		}
 
 		// create the curve
@@ -104,7 +104,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 
 	/**
 	 * creates a curve
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @param fun
@@ -113,8 +113,8 @@ public class AlgoCurveCartesian extends AlgoElement {
 	 *            point expression
 	 * @return a curve
 	 */
-	protected GeoCurveCartesianND createCurve(Construction cons1,
-			Function[] fun, ExpressionNode point) {
+	protected GeoCurveCartesianND createCurve(
+			Construction cons1, Function[] fun, ExpressionNode point) {
 		return new GeoCurveCartesian(cons1, fun[0], fun[1], point);
 	}
 
@@ -131,10 +131,9 @@ public class AlgoCurveCartesian extends AlgoElement {
 		if (curve.getPointExpression() != null) {
 			input = new GeoElement[4];
 			offset = 1;
-			input[0] = new AlgoDependentFunction(cons,
-					new Function(curve.getPointExpression(),
-							new FunctionVariable(kernel)),
-					false).getFunction();
+			input[0] = new AlgoDependentFunction(
+							cons, new Function(curve.getPointExpression(), new FunctionVariable(kernel)), false)
+					.getFunction();
 			for (int i = 0; i < offset; i++) {
 				coords[i].toGeoElement().addAlgorithm(this);
 			}
@@ -184,14 +183,11 @@ public class AlgoCurveCartesian extends AlgoElement {
 					// flag
 					// here ...
 					if (vectorFunctions) {
-						exp[i] = VectorArithmetic
-								.computeCoord(curve.getPointExpression(), i)
-								.replace(localVar,
-										curve.getFun(i).getFunctionVariable())
+						exp[i] = VectorArithmetic.computeCoord(curve.getPointExpression(), i)
+								.replace(localVar, curve.getFun(i).getFunctionVariable())
 								.wrap();
 					}
-					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
-							exp[i].deepCopy(kernel), false);
+					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(exp[i].deepCopy(kernel), false);
 
 					// Kernel.internationalizeDigits = internationalizeDigits;
 

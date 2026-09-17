@@ -57,8 +57,7 @@ public class StrutBox extends Box {
 		this(0., 0., 0., 0.);
 	}
 
-	public StrutBox(final double w, final double h, final double d,
-			final double s) {
+	public StrutBox(final double w, final double h, final double d, final double s) {
 		width = w;
 		height = h;
 		depth = d;

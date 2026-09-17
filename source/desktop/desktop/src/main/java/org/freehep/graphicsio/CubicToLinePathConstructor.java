@@ -9,13 +9,12 @@ import java.util.Stack;
  * Implements cubics by approximating them using a polyline. Useful class for
  * output formats that do NOT implement bezier curves at all, or if you need
  * only straight lines.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: CubicToLinePathConstructor.java,v 1.5 2009-08-17 21:44:45
  *          murkle Exp $
  */
-public abstract class CubicToLinePathConstructor
-		extends QuadToCubicPathConstructor {
+public abstract class CubicToLinePathConstructor extends QuadToCubicPathConstructor {
 
 	private double resolution;
 
@@ -28,11 +27,11 @@ public abstract class CubicToLinePathConstructor
 	}
 
 	@Override
-	public void cubic(double x1, double y1, double x2, double y2, double x3,
-			double y3) throws IOException {
+	public void cubic(double x1, double y1, double x2, double y2, double x3, double y3)
+			throws IOException {
 
 		// ControlSets are written at the end
-		Stack/* <ControlSet> */ controls = new Stack/* <ControlSet> */();
+		Stack /* <ControlSet> */ controls = new Stack /* <ControlSet> */();
 
 		// System.out.println("Cubic "+x1+" "+y1+" "+x2+" "+y2+" "+x3+" "+y3);
 		Point2D p0 = new Point2D.Double(currentX, currentY);
@@ -41,7 +40,7 @@ public abstract class CubicToLinePathConstructor
 		Point2D p3 = new Point2D.Double(x3, y3);
 
 		// ControlSets to create the controls
-		Stack/* <ControlSet> */ temps = new Stack/* <ControlSet> */();
+		Stack /* <ControlSet> */ temps = new Stack /* <ControlSet> */();
 		temps.push(new ControlSet(p0, p1, p2, p3));
 
 		while (!temps.empty()) {
@@ -99,13 +98,11 @@ public abstract class CubicToLinePathConstructor
 			double f6 = point2.getY();
 			double f3 = point3.getX();
 			double f7 = point3.getY();
-			if ((Math.abs(f0 - f3) < resolution)
-					&& (Math.abs(f4 - f7) < resolution)) {
+			if ((Math.abs(f0 - f3) < resolution) && (Math.abs(f4 - f7) < resolution)) {
 
 				double f8 = Math.abs(f1 - f0) + Math.abs(f5 - f4);
 				double f10 = Math.abs(f2 - f0) + Math.abs(f6 - f4);
 				return Math.max(f10, f8);
-
 			}
 			double d0 = f4 - f7;
 			double d1 = f3 - f0;
@@ -131,13 +128,11 @@ public abstract class CubicToLinePathConstructor
 		}
 
 		public Point2D average(Point2D p1, Point2D p2) {
-			return new Point2D.Double((p1.getX() + p2.getX()) / 2.0,
-					(p1.getY() + p2.getY()) / 2.0);
+			return new Point2D.Double((p1.getX() + p2.getX()) / 2.0, (p1.getY() + p2.getY()) / 2.0);
 		}
 
 		public Point2D getPoint() {
 			return point3;
 		}
 	}
-
 }

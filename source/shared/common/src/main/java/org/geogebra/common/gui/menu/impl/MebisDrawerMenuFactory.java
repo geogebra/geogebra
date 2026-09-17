@@ -36,9 +36,11 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
 	 *                       login based on the {@link LogInOperation#isLoggedIn()} method.
 	 */
-	public MebisDrawerMenuFactory(GeoGebraConstants.Platform platform,
-								  GeoGebraConstants.Version version,
-								  LogInOperation logInOperation, boolean enableFileFeatures) {
+	public MebisDrawerMenuFactory(
+			GeoGebraConstants.Platform platform,
+			GeoGebraConstants.Version version,
+			LogInOperation logInOperation,
+			boolean enableFileFeatures) {
 		super(platform, version, null, logInOperation, false, enableFileFeatures);
 	}
 
@@ -55,18 +57,16 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 
 	@Override
 	protected MenuItem showDownloadAs() {
-		ActionableItem downloadPng = new ActionableItemImpl(null,
-				"Download.PNGImage", Action.EXPORT_IMAGE);
-		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage",
-				Action.DOWNLOAD_SVG);
-		ActionableItem pdf = new ActionableItemImpl(null,
-				"Download.PDFDocument", Action.DOWNLOAD_PDF);
+		ActionableItem downloadPng =
+				new ActionableItemImpl(null, "Download.PNGImage", Action.EXPORT_IMAGE);
+		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage", Action.DOWNLOAD_SVG);
+		ActionableItem pdf = new ActionableItemImpl(null, "Download.PDFDocument", Action.DOWNLOAD_PDF);
 		return new SubmenuItemImpl(Icon.DOWNLOAD, ByCSStrings.EXPORT, null, downloadPng, svg, pdf);
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
-		return new MenuItemGroupImpl(showAboutBoard(), showHelpAndFeedback(), showTemplates(),
-				showLicence());
+		return new MenuItemGroupImpl(
+				showAboutBoard(), showHelpAndFeedback(), showTemplates(), showLicence());
 	}
 
 	private ActionableItem showAboutBoard() {

@@ -31,11 +31,10 @@ import org.geogebra.common.util.MyMath;
  *         Georgia for creating a perl script which was used to create this
  *         class.
  * @version 30-09-2011
- * 
+ *
  *          This class calculates n-th Kimberling center of a triangle.
- * 
+ *
  */
-
 public class AlgoKimberling extends AlgoElement {
 
 	private GeoPointND A, B, C; // input
@@ -44,7 +43,7 @@ public class AlgoKimberling extends AlgoElement {
 
 	/**
 	 * Creates new algo for triangle center
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -58,15 +57,14 @@ public class AlgoKimberling extends AlgoElement {
 	 * @param n
 	 *            index in ETC
 	 */
-	public AlgoKimberling(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C, GeoNumberValue n) {
+	public AlgoKimberling(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoNumberValue n) {
 		super(cons);
 		this.A = A;
 		this.B = B;
 		this.C = C;
 		this.n = n;
-		int dim = MyMath.max(A.getDimension(), B.getDimension(),
-				C.getDimension());
+		int dim = MyMath.max(A.getDimension(), B.getDimension(), C.getDimension());
 		M = kernel.getGeoFactory().newPoint(dim, cons);
 		setInputOutput();
 		compute();

@@ -113,7 +113,8 @@ public class WtrExamRestrictions extends Restrictions {
 
 	/** Constructs the restrictions for WTR exam. */
 	public WtrExamRestrictions() {
-		super(Set.of(GRAPHING, GEOMETRY, G3D, CAS, PROBABILITY),
+		super(
+				Set.of(GRAPHING, GEOMETRY, G3D, CAS, PROBABILITY),
 				SCIENTIFIC,
 				Set.of(SURD, RATIONALIZATION, DISABLE_MIXED_NUMBERS),
 				createInputExpressionFilters(),
@@ -134,13 +135,13 @@ public class WtrExamRestrictions extends Restrictions {
 	}
 
 	private static Set<ExpressionFilter> createInputExpressionFilters() {
-		return Set.of(ExpressionRestriction.toFilter(
-				new RestrictComplexExpressions(),
-				new RestrictBooleanExpressions(),
-				new AllowBooleanAndListCommandArguments(),
-				new RestrictLists()),
-				new RadianGradianFilter()
-		);
+		return Set.of(
+				ExpressionRestriction.toFilter(
+						new RestrictComplexExpressions(),
+						new RestrictBooleanExpressions(),
+						new AllowBooleanAndListCommandArguments(),
+						new RestrictLists()),
+				new RadianGradianFilter());
 	}
 
 	private static Set<ExpressionFilter> createOutputExpressionFilters() {
@@ -152,22 +153,21 @@ public class WtrExamRestrictions extends Restrictions {
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-			return Set.of(new CommandNameFilter(false, BinomialCoefficient, nCr,
-					BinomialDist, Normal));
+		return Set.of(new CommandNameFilter(false, BinomialCoefficient, nCr, BinomialDist, Normal));
 	}
 
 	private static OperationFilter createOperationFilter() {
 		Set<Operation> allowedOperations = Set.of(
-				PLUS, MINUS, MULTIPLY, DIVIDE, POWER, FACTORIAL, ABS, SGN, FLOOR, CEIL, ROUND,
-				ROUND2, SQRT, CBRT, NROOT, EXP, LOG, LOG2, LOG10, LOGB, COS, SIN, TAN, SEC, CSC,
-				COT, ARCCOS, ARCCOSD, ARCSIN, ARCSIND, ARCTAN, ARCTAND, COSH, SINH, TANH, SECH,
-				CSCH, COTH, ACOSH, ASINH, ATANH, NCR, SEQUENCE);
+				PLUS, MINUS, MULTIPLY, DIVIDE, POWER, FACTORIAL, ABS, SGN, FLOOR, CEIL, ROUND, ROUND2, SQRT,
+				CBRT, NROOT, EXP, LOG, LOG2, LOG10, LOGB, COS, SIN, TAN, SEC, CSC, COT, ARCCOS, ARCCOSD,
+				ARCSIN, ARCSIND, ARCTAN, ARCTAND, COSH, SINH, TANH, SECH, CSCH, COTH, ACOSH, ASINH, ATANH,
+				NCR, SEQUENCE);
 		return allowedOperations::contains;
 	}
 
 	private static SyntaxFilter createSyntaxFilter() {
 		return new WtrSyntaxFilter();
-    }
+	}
 
 	private static Set<CommandArgumentFilter> createCommandArgumentFilters() {
 		return Set.of(new ExamCommandArgumentFilter(), new WtrCommandArgumentFilter());
@@ -187,18 +187,18 @@ public class WtrExamRestrictions extends Restrictions {
 
 	private static final class WtrCommandArgumentFilter implements CommandArgumentFilter {
 		private final Map<Commands, Set<Syntax>> allowedSyntaxesForRestrictedCommands = Map.of(
-				BinomialDist, Set.of(
-						Syntax.of(BinomialDist,
-								isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean),
-						Syntax.of(BinomialDist,
-								isNumber(), isNumber(), GeoElement::isGeoList)),
-				Normal, Set.of(
-						Syntax.of(Normal, isNumber(), isNumber(), isNumber()),
-						Syntax.of(Normal, isNumber(), isNumber(), isNumber(), isNumber())));
+				BinomialDist,
+						Set.of(
+								Syntax.of(
+										BinomialDist, isNumber(), isNumber(), isNumber(), GeoElement::isGeoBoolean),
+								Syntax.of(BinomialDist, isNumber(), isNumber(), GeoElement::isGeoList)),
+				Normal,
+						Set.of(
+								Syntax.of(Normal, isNumber(), isNumber(), isNumber()),
+								Syntax.of(Normal, isNumber(), isNumber(), isNumber(), isNumber())));
 
 		@Override
-		public void checkAllowed(Command command, CommandProcessor commandProcessor)
-				throws MyError {
+		public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
 			Syntax.checkRestrictedSyntaxes(
 					allowedSyntaxesForRestrictedCommands, command, commandProcessor);
 		}
@@ -208,8 +208,7 @@ public class WtrExamRestrictions extends Restrictions {
 		@Override
 		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
 				@NonNull ExpressionValue expression) {
-			return filter(expression, subExpression ->
-					subExpression.getValueType() == ValueType.COMPLEX);
+			return filter(expression, subExpression -> subExpression.getValueType() == ValueType.COMPLEX);
 		}
 	}
 
@@ -221,10 +220,10 @@ public class WtrExamRestrictions extends Restrictions {
 		}
 	}
 
-	private static final class AllowBooleanAndListCommandArguments
-			implements ExpressionRestriction {
+	private static final class AllowBooleanAndListCommandArguments implements ExpressionRestriction {
 		@Override
-		public @NonNull Set<ExpressionValue> getAllowedSubExpressions(@NonNull ExpressionValue expression) {
+		public @NonNull Set<ExpressionValue> getAllowedSubExpressions(
+				@NonNull ExpressionValue expression) {
 			return streamOf(expression)
 					// For commands,
 					.filter(subExpression -> subExpression instanceof Command)
@@ -236,8 +235,8 @@ public class WtrExamRestrictions extends Restrictions {
 							.map(ExpressionNode::unwrap)
 							// and allow booleans
 							.filter(argument -> argument instanceof BooleanValue
-										|| argument instanceof MyList
-										|| argument.isOperation(SEQUENCE)))
+									|| argument instanceof MyList
+									|| argument.isOperation(SEQUENCE)))
 					.collect(Collectors.toSet());
 		}
 	}

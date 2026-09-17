@@ -133,26 +133,25 @@ public class Restrictions {
 		this.disabledSubApps = disabledSubApps != null ? disabledSubApps : Set.of();
 		this.defaultSubApp = defaultSubApp != null ? defaultSubApp : SuiteSubApp.GRAPHING;
 		this.featureRestrictions = featureRestrictions != null ? featureRestrictions : Set.of();
-		this.inputExpressionFilters =
-				createExpressionFilters(inputExpressionFilters, operationFilter);
+		this.inputExpressionFilters = createExpressionFilters(inputExpressionFilters, operationFilter);
 		this.outputExpressionFilters =
 				createExpressionFilters(outputExpressionFilters, operationFilter);
 		this.commandFilters = commandFilters != null ? commandFilters : Set.of();
-		this.commandArgumentFilters = commandArgumentFilters != null
-				? commandArgumentFilters : Set.of();
+		this.commandArgumentFilters =
+				commandArgumentFilters != null ? commandArgumentFilters : Set.of();
 		this.operationFilter = operationFilter;
 		this.contextMenuItemFilters =
 				contextMenuItemFilters != null ? contextMenuItemFilters : Set.of();
 		this.syntaxFilter = syntaxFilter;
-		this.toolsFilter = toolsFilter != null ? toolsFilter
+		this.toolsFilter = toolsFilter != null
+				? toolsFilter
 				: new ToolCollectionSetFilter(EuclidianConstants.MODE_IMAGE);
 		this.propertyRestrictions = propertyRestrictions != null ? propertyRestrictions : Map.of();
 		this.restrictedGeoElementVisibilityPropertyFilter =
-				createRestrictedGeoElementVisibilityPropertyFilter(visibilityRestrictions != null
-						? visibilityRestrictions : Set.of());
-		this.restrictedGeoElementVisibilitySetup =
-				createRestrictedGeoElementVisibilitySetup(visibilityRestrictions != null
-						? visibilityRestrictions : Set.of());
+				createRestrictedGeoElementVisibilityPropertyFilter(
+						visibilityRestrictions != null ? visibilityRestrictions : Set.of());
+		this.restrictedGeoElementVisibilitySetup = createRestrictedGeoElementVisibilitySetup(
+				visibilityRestrictions != null ? visibilityRestrictions : Set.of());
 		this.equationBehaviour = equationBehaviour;
 		this.disabledAlgorithms = disabledAlgorithms != null ? disabledAlgorithms : Set.of();
 		this.statisticsFilter = statisticsFilter;
@@ -264,8 +263,8 @@ public class Restrictions {
 					cd.settings.getAlgebra()::addAlgebraOutputFormatFilter);
 		}
 		if (cd.algebraOutputFiltering != null) {
-			cd.algebraOutputFiltering.setAlgebraOutputFilter(wrapAlgebraOutputFilter(
-					cd.algebraOutputFiltering.createBaseAlgebraOutputFilter()));
+			cd.algebraOutputFiltering.setAlgebraOutputFilter(
+					wrapAlgebraOutputFilter(cd.algebraOutputFiltering.createBaseAlgebraOutputFilter()));
 		}
 	}
 
@@ -314,21 +313,18 @@ public class Restrictions {
 			cd.toolsProvider.removeToolsFilter(toolsFilter);
 		}
 		if (cd.geoElementPropertiesFactory != null) {
-			cd.geoElementPropertiesFactory.removeFilter(
-					restrictedGeoElementVisibilityPropertyFilter);
+			cd.geoElementPropertiesFactory.removeFilter(restrictedGeoElementVisibilityPropertyFilter);
 			propertyRestrictions.forEach(cd.geoElementPropertiesFactory::removeRestriction);
 		}
 		cd.algebraProcessor.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
 		if (cd.scheduledPreviewFromInputBar != null) {
-			cd.scheduledPreviewFromInputBar.removeGeoElementSetup(
-					restrictedGeoElementVisibilitySetup);
+			cd.scheduledPreviewFromInputBar.removeGeoElementSetup(restrictedGeoElementVisibilitySetup);
 		}
 		if (cd.settings != null) {
 			if (cd.construction != null) {
 				removeSettingsRestrictions(cd.settings, cd.construction.getConstructionDefaults());
 			}
-			algebraOutputFormatFilters.forEach(
-					cd.settings.getAlgebra()::removeAlgebraOutputFormatFilter);
+			algebraOutputFormatFilters.forEach(cd.settings.getAlgebra()::removeAlgebraOutputFormatFilter);
 		}
 		if (cd.algebraOutputFiltering != null) {
 			cd.algebraOutputFiltering.setAlgebraOutputFilter(
@@ -392,8 +388,7 @@ public class Restrictions {
 
 	private static Set<ExpressionFilter> createExpressionFilters(
 			@Nullable Set<ExpressionFilter> expressionFilters,
-			@Nullable OperationFilter operationFilter
-	) {
+			@Nullable OperationFilter operationFilter) {
 		HashSet<ExpressionFilter> filters = new HashSet<>();
 		if (expressionFilters != null) {
 			filters.addAll(expressionFilters);
@@ -407,8 +402,8 @@ public class Restrictions {
 	private static GeoElementSetup createRestrictedGeoElementVisibilitySetup(
 			Set<VisibilityRestriction> visibilityRestrictions) {
 		return geoElementND -> {
-			if (VisibilityRestriction.isVisibilityRestricted(geoElementND.toGeoElement(),
-					visibilityRestrictions)) {
+			if (VisibilityRestriction.isVisibilityRestricted(
+					geoElementND.toGeoElement(), visibilityRestrictions)) {
 				geoElementND.toGeoElement().setRestrictedEuclidianVisibility(true);
 				return true;
 			}
@@ -420,8 +415,7 @@ public class Restrictions {
 			Set<VisibilityRestriction> visibilityRestrictions) {
 		return (property, geoElement) -> {
 			if (property instanceof ShowObjectProperty) {
-				return !VisibilityRestriction.isVisibilityRestricted(geoElement,
-						visibilityRestrictions);
+				return !VisibilityRestriction.isVisibilityRestricted(geoElement, visibilityRestrictions);
 			}
 			return true;
 		};
@@ -435,17 +429,17 @@ public class Restrictions {
 	}
 
 	public record ContextDependencies(
-		@NonNull AlgoDispatcher algoDispatcher,
-		@NonNull CommandDispatcher commandDispatcher,
-		@NonNull AlgebraProcessor algebraProcessor,
-		@NonNull PropertiesRegistry propertiesRegistry,
-		@NonNull Localization localization,
-		@NonNull Settings settings,
-		@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
-		@Nullable AutocompleteProvider autoCompleteProvider,
-		@Nullable ToolsProvider toolsProvider,
-		@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
-		@Nullable Construction construction,
-		@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
-		@Nullable AlgebraOutputFiltering algebraOutputFiltering) { }
+			@NonNull AlgoDispatcher algoDispatcher,
+			@NonNull CommandDispatcher commandDispatcher,
+			@NonNull AlgebraProcessor algebraProcessor,
+			@NonNull PropertiesRegistry propertiesRegistry,
+			@NonNull Localization localization,
+			@NonNull Settings settings,
+			@Nullable StatisticGroupsBuilder statisticGroupsBuilder,
+			@Nullable AutocompleteProvider autoCompleteProvider,
+			@Nullable ToolsProvider toolsProvider,
+			@Nullable ScheduledPreviewFromInputBar scheduledPreviewFromInputBar,
+			@Nullable Construction construction,
+			@Nullable GeoElementPropertiesFactory geoElementPropertiesFactory,
+			@Nullable AlgebraOutputFiltering algebraOutputFiltering) {}
 }

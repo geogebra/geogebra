@@ -25,7 +25,9 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true, namespace = "google.picker", name = "ViewId")
 public final class GoogleViewId {
 
-	@InjectJsInterop public static Object DOCS;
+	@InjectJsInterop
+	public static Object DOCS;
 
-	@InjectJsInterop public static Object FOLDERS;
+	@InjectJsInterop
+	public static Object FOLDERS;
 }

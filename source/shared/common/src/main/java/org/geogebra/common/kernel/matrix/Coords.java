@@ -25,12 +25,12 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * 
+ *
  * A Ggb3DVector is composed of {x1,x2,...,xn} coordinates in double precision.
  * This class provides methods for basic linear algebra calculus.
- * 
+ *
  * @author ggb3D
- * 
+ *
  */
 public class Coords implements AnimatableValue<Coords> {
 
@@ -52,18 +52,18 @@ public class Coords implements AnimatableValue<Coords> {
 	/** vz 3D vector, down orientation */
 	public static final Coords VZm = new Coords(0, 0, -1, 0);
 	/** undefined vector */
-	public static final Coords UNDEFINED = new Coords(Double.NaN, Double.NaN,
-			Double.NaN, Double.NaN) {
-		@Override
-		public boolean isNotFinalUndefined() {
-			return false;
-		}
+	public static final Coords UNDEFINED =
+			new Coords(Double.NaN, Double.NaN, Double.NaN, Double.NaN) {
+				@Override
+				public boolean isNotFinalUndefined() {
+					return false;
+				}
 
-		@Override
-		public boolean isFinalUndefined() {
-			return true;
-		}
-	};
+				@Override
+				public boolean isFinalUndefined() {
+					return true;
+				}
+			};
 	/** undefined vector */
 	public static final Coords UNDEFINED3VALUE0 = new Coords(0, 0, 0) {
 		@Override
@@ -78,17 +78,16 @@ public class Coords implements AnimatableValue<Coords> {
 	};
 
 	public static final Coords BLACK = new Coords(0, 0, 0, 1);
-	public static final Coords DARK_GRAY = new Coords(68.0 / 255.0,
-			68.0 / 255.0, 68.0 / 255.0, 1);
+	public static final Coords DARK_GRAY = new Coords(68.0 / 255.0, 68.0 / 255.0, 68.0 / 255.0, 1);
 
-	final public double[] val;
+	public final double[] val;
 
 	private int rows;
 
 	private double[][] matrixForSolve;
 
 	/**
-	 * 
+	 *
 	 * @return (x,y,z,1) coords
 	 */
 	public static Coords createInhomCoorsInD3() {
@@ -102,7 +101,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * creates a vector of the dimension specified by rows.
-	 * 
+	 *
 	 * @param rows
 	 *            number of rows
 	 */
@@ -120,7 +119,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * creates a vector with values vals
-	 * 
+	 *
 	 * @param vals
 	 *            values {x1, x2, ...}
 	 */
@@ -131,12 +130,11 @@ public class Coords implements AnimatableValue<Coords> {
 		for (int i = 0; i < vals.length; i++) {
 			val[i] = vals[i];
 		}
-
 	}
 
 	/**
 	 * creates a vector with same values as v
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 */
@@ -146,7 +144,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * creates a 2D vector with the specified values
-	 * 
+	 *
 	 * @param u
 	 *            u
 	 * @param v
@@ -160,7 +158,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * creates a 3D vector with the specified values
-	 * 
+	 *
 	 * @param x
 	 *            x
 	 * @param y
@@ -177,7 +175,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * creates a 3D vector/point with the specified values
-	 * 
+	 *
 	 * @param x
 	 *            x
 	 * @param y
@@ -199,7 +197,7 @@ public class Coords implements AnimatableValue<Coords> {
 	// setters and getters
 	/**
 	 * sets v(i) to val0
-	 * 
+	 *
 	 * @param i
 	 *            number of the row
 	 * @param val0
@@ -212,7 +210,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set four first values
-	 * 
+	 *
 	 * @param x
 	 *            x
 	 * @param y
@@ -232,7 +230,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * sets v to vals0
-	 * 
+	 *
 	 * @param vals0
 	 *            values {x1, x2, ...}
 	 */
@@ -246,7 +244,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set 3 first values
-	 * 
+	 *
 	 * @param x
 	 *            first value
 	 * @param y
@@ -262,7 +260,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this values to v's
-	 * 
+	 *
 	 * @param v
 	 *            coords
 	 * @param length
@@ -276,7 +274,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set values from v
-	 * 
+	 *
 	 * @param v
 	 *            coords
 	 */
@@ -286,7 +284,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set 3 first values from v
-	 * 
+	 *
 	 * @param v
 	 *            coords
 	 */
@@ -298,7 +296,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set 4 first values from v
-	 * 
+	 *
 	 * @param v
 	 *            coords
 	 */
@@ -311,7 +309,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set 2 first values from v
-	 * 
+	 *
 	 * @param v
 	 *            coords
 	 */
@@ -323,7 +321,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Set all coords to the same number an recompute norm. (useful for 0 and
 	 * infinite vectors)
-	 * 
+	 *
 	 * @param val0
 	 *            coordinate
 	 */
@@ -337,19 +335,18 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns v(i)
-	 * 
+	 *
 	 * @param i
 	 *            number of the row
 	 * @return value
 	 */
 	public double get(int i) {
 		return val[i - 1];
-
 	}
 
 	/**
 	 * Get with check for array bounds.
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th coord or 0 if out of bounds
@@ -361,7 +358,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * @param ret
 	 *            copy of this
-	 * 
+	 *
 	 */
 	public void copy(double[] ret) {
 		for (int i = 0; i < rows; i++) {
@@ -371,7 +368,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns v "x-coord"
-	 * 
+	 *
 	 * @return x-coord
 	 */
 	public double getX() {
@@ -380,7 +377,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns v "y-coord"
-	 * 
+	 *
 	 * @return y-coord
 	 */
 	public double getY() {
@@ -389,7 +386,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns v "z-coord"
-	 * 
+	 *
 	 * @return z-coord
 	 */
 	public double getZ() {
@@ -401,7 +398,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns v "w-coord"
-	 * 
+	 *
 	 * @return w-coord
 	 */
 	public double getW() {
@@ -410,7 +407,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns v last coord
-	 * 
+	 *
 	 * @return last coord
 	 */
 	public double getLast() {
@@ -419,7 +416,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * sets the "x-coord"
-	 * 
+	 *
 	 * @param val
 	 *            val
 	 */
@@ -430,7 +427,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * sets the "y-coord"
-	 * 
+	 *
 	 * @param val
 	 *            val
 	 */
@@ -441,7 +438,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * sets the "z-coord"
-	 * 
+	 *
 	 * @param val
 	 *            val
 	 */
@@ -452,7 +449,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * sets the "w-coord"
-	 * 
+	 *
 	 * @param val
 	 *            val
 	 */
@@ -463,7 +460,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns number of rows of the vector
-	 * 
+	 *
 	 * @return number of rows
 	 */
 	public int getLength() {
@@ -472,7 +469,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns a copy of the vector
-	 * 
+	 *
 	 * @return a copy of the vector
 	 */
 	public Coords copyVector() {
@@ -483,22 +480,20 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		return result;
-
 	}
 
 	/**
 	 * returns the start-end subvector
-	 * 
+	 *
 	 * @param start
 	 *            number of starting row
 	 * @param end
 	 *            number of end row
 	 * @return vector with rows between start and end
-	 * 
+	 *
 	 *         deprecated create vector and use
 	 *         {@link #setSubVector(Coords, int, int)} instead
 	 */
-
 	public Coords subVector(int start, int end) {
 		int r = end - start + 1;
 		Coords result = new Coords(r);
@@ -508,15 +503,14 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		return result;
-
 	}
 
 	/**
 	 * set this to start-end subvector of v
-	 * 
+	 *
 	 * @param v
 	 *            vector
-	 * 
+	 *
 	 * @param start
 	 *            number of starting row
 	 * @param end
@@ -530,20 +524,18 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		return this;
-
 	}
 
 	/**
 	 * returns the subvector composed of this without the row number row
-	 * 
+	 *
 	 * @param row
 	 *            number of the row to remove
 	 * @return vector composed of this without the row number row
-	 * 
+	 *
 	 *         deprecated create vector and use
 	 *         {@link #setSubVector(Coords, int)} instead
 	 */
-
 	public Coords subVector(int row) {
 		int r = rows;
 		Coords result = new Coords(r - 1);
@@ -558,15 +550,14 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		return result;
-
 	}
 
 	/**
 	 * set this to subvector composed of v without the row number row
-	 * 
+	 *
 	 * @param v
 	 *            vector
-	 * 
+	 *
 	 * @param row
 	 *            number of the row to remove
 	 * @return this
@@ -581,7 +572,6 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		return this;
-
 	}
 
 	// /////////////////////////////////////////////////:
@@ -592,7 +582,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * <p>
 	 * If this={x1,x2,...} and v={x'1,x'2,...}, the dot product is
 	 * x1*x'1+x2*x'2+...
-	 * 
+	 *
 	 * @param v
 	 *            vector multiplied with
 	 * @return value of the dot product
@@ -611,7 +601,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * <p>
 	 * If this={x1,x2,x3} and v={x'1,x'2,x'3}, the dot product is
 	 * x1*x'1+x2*x'2+x3*x'3
-	 * 
+	 *
 	 * @param v
 	 *            vector multiplied with
 	 * @return value of the dot product
@@ -626,14 +616,14 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * Assume that (u,v) are orthogonal
-	 * 
+	 *
 	 * @param u
 	 *            vector
 	 * @param v
 	 *            vector
 	 * @return true if crossProduct(u,v)*w is almost zero
 	 */
-	final public boolean isDependentToOrtho(Coords u, Coords v) {
+	public final boolean isDependentToOrtho(Coords u, Coords v) {
 		double value = (u.getY() * v.getZ() - u.getZ() * v.getY()) * getX()
 				+ (u.getZ() * v.getX() - u.getX() * v.getZ()) * getY()
 				+ (u.getX() * v.getY() - u.getY() * v.getX()) * getZ();
@@ -646,16 +636,15 @@ public class Coords implements AnimatableValue<Coords> {
 	 * <p>
 	 * If this={x,y,z} and v={x',y',z'}, then cross
 	 * product={yz'-y'z,zx'-z'x,xy'-yx'}
-	 * 
+	 *
 	 * @param v
 	 *            vector multiplied with
 	 * @return vector resulting of the cross product
-	 * 
+	 *
 	 *         deprecated create vector and use
 	 *         {@link #setCrossProduct3(Coords, Coords)} instead
 	 */
-
-	final public Coords crossProduct(Coords v) {
+	public final Coords crossProduct(Coords v) {
 
 		Coords ret = new Coords(3);
 
@@ -665,16 +654,15 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 *            v
 	 * @return 4-length vector equal to cross product this ^ v
-	 * 
+	 *
 	 *         deprecated create vector and use
 	 *         {@link #setCrossProduct4(Coords, Coords)} instead
 	 */
-
-	final public Coords crossProduct4(Coords v) {
+	public final Coords crossProduct4(Coords v) {
 		Coords ret = new Coords(4);
 		ret.setCrossProduct4(this, v);
 		return ret;
@@ -682,13 +670,13 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set x,y,z values according to v1 ^ v2 cross product
-	 * 
+	 *
 	 * @param v1
 	 *            v1
 	 * @param v2
 	 *            v2
 	 */
-	final public void setCrossProduct3(Coords v1, Coords v2) {
+	public final void setCrossProduct3(Coords v1, Coords v2) {
 		val[0] = v1.val[1] * v2.val[2] - v1.val[2] * v2.val[1];
 		val[1] = v1.val[2] * v2.val[0] - v1.val[0] * v2.val[2];
 		val[2] = v1.val[0] * v2.val[1] - v1.val[1] * v2.val[0];
@@ -697,13 +685,13 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set x,y,z values according to v1 ^ v2 cross product; set w to 0
-	 * 
+	 *
 	 * @param v1
 	 *            v1
 	 * @param v2
 	 *            v2
 	 */
-	final public void setCrossProduct4(Coords v1, Coords v2) {
+	public final void setCrossProduct4(Coords v1, Coords v2) {
 		setCrossProduct3(v1, v2);
 		setW(0);
 	}
@@ -715,7 +703,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            vector
 	 * @return this dot (v1 cross v2)
 	 */
-	final public double dotCrossProduct(Coords v1, Coords v2) {
+	public final double dotCrossProduct(Coords v1, Coords v2) {
 		return val[0] * (v1.val[1] * v2.val[2] - v1.val[2] * v2.val[1])
 				+ val[1] * (v1.val[2] * v2.val[0] - v1.val[0] * v2.val[2])
 				+ val[2] * (v1.val[0] * v2.val[1] - v1.val[1] * v2.val[0]);
@@ -723,12 +711,12 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * Assuming this is a 3D vector
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @return true if this and v are linear independent
 	 */
-	final public boolean isLinearIndependent(Coords v) {
+	public final boolean isLinearIndependent(Coords v) {
 		double value;
 
 		value = val[1] * v.val[2] - val[2] * v.val[1];
@@ -748,7 +736,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            vector
 	 * @return whether this and v are independent
 	 */
-	final public boolean isLinearIndependentAllCoords(Coords v) {
+	public final boolean isLinearIndependentAllCoords(Coords v) {
 		int index = 0;
 		boolean notFound = true;
 		double r1 = 0, r2 = 0;
@@ -786,7 +774,6 @@ public class Coords implements AnimatableValue<Coords> {
 
 		// all coords are lin dep
 		return false;
-
 	}
 
 	/**
@@ -794,7 +781,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * <p>
 	 * If this={x1,x2,...}, then norm=sqrt(x1*x1+x2*x2+...). Same result as
 	 * Math.sqrt(this.dotproduct(this))
-	 * 
+	 *
 	 * @return the scalar norm
 	 */
 	public double norm() {
@@ -807,7 +794,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * calc the norm
-	 * 
+	 *
 	 * @return the norm
 	 */
 	public double calcNorm() {
@@ -825,7 +812,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * calc the square norm
-	 * 
+	 *
 	 * @return the square norm
 	 */
 	public double calcSquareNorm() {
@@ -838,7 +825,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * The norm must be already calculated by calcNorm()
-	 * 
+	 *
 	 * @return the norm
 	 */
 	public double getNorm() {
@@ -850,7 +837,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * <p>
 	 * If this={x1,x2,...}, then norm=x1*x1+x2*x2+... Same result as
 	 * this.dotproduct(this)
-	 * 
+	 *
 	 * @return the scalar norm
 	 */
 	public double squareNorm() {
@@ -863,7 +850,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns this normalized WARNING : recalc the norm
-	 * 
+	 *
 	 * @return this normalized
 	 */
 	public Coords normalized() {
@@ -872,15 +859,14 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns this normalized WARNING : recalc the norm
-	 * 
+	 *
 	 * @param checkOneDirection
 	 *            check if one of the result coord is near to 1 (for Kernel)
 	 * @return this normalized
-	 * 
+	 *
 	 *         deprecated create vector and use
 	 *         {@link #setNormalized(Coords, boolean)} instead
 	 */
-
 	public Coords normalized(boolean checkOneDirection) {
 		Coords ret = new Coords(getLength());
 		calcNorm();
@@ -910,10 +896,10 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this equal to normalized vector. Warning: recalc vector's norm
-	 * 
+	 *
 	 * @param vector
 	 *            vector
-	 * 
+	 *
 	 * @return this
 	 */
 	public Coords setNormalized(Coords vector) {
@@ -922,10 +908,10 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this equal to normalized vector. Warning: recalc vector's norm
-	 * 
+	 *
 	 * @param vector
 	 *            vector
-	 * 
+	 *
 	 * @param checkOneDirection
 	 *            check if one of the result coord is near to 1 (for Kernel)
 	 * @return this
@@ -957,7 +943,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * put this normalized in ret (WARNING : recalc the norm)
-	 * 
+	 *
 	 * @param ret
 	 *            output: normalized coords
 	 */
@@ -972,7 +958,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * WARNING : recalc the norm set this to norm=1
-	 * 
+	 *
 	 * @return this normalized
 	 */
 	public Coords normalize() {
@@ -981,7 +967,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param recalcNorm
 	 *            says if the norm has to be recalculated
 	 * @return this normalized
@@ -1005,7 +991,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * deprecated use distance3 instead
 	 * returns the distance between this and v
-	 * 
+	 *
 	 * @param v
 	 *            second vector
 	 * @return (this-v).norm()
@@ -1013,10 +999,10 @@ public class Coords implements AnimatableValue<Coords> {
 	public double distance(Coords v) {
 		return this.sub(v).norm();
 	}
-	
+
 	/**
 	 * returns the distance between this and v
-	 * 
+	 *
 	 * @param v
 	 *            second vector
 	 * @return (this-v).norm()
@@ -1026,9 +1012,9 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * Calc square distance to v - only on x, y, z coords
-	 * 
+	 *
 	 * @param v
 	 *            coords
 	 * @return square distance
@@ -1044,7 +1030,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * returns the shortest vector between this and a 3D-line represented by the
 	 * matrix {V O}
-	 * 
+	 *
 	 * @param lineO
 	 *            origin of the line
 	 * @param V
@@ -1061,7 +1047,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * returns the distance between this and a 3D-line represented by the matrix
 	 * {V O}
-	 * 
+	 *
 	 * @param lineO
 	 *            origin of the line
 	 * @param V
@@ -1075,7 +1061,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * returns the square distance between this and a 3D-line represented by the
 	 * matrix {V O} (only computed on x, y, z)
-	 * 
+	 *
 	 * @param lineO
 	 *            origin of the line
 	 * @param V
@@ -1088,7 +1074,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param o
 	 *            point of the plane
 	 * @param vn
@@ -1100,7 +1086,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param o
 	 *            point of the plane
 	 * @param vn
@@ -1117,11 +1103,11 @@ public class Coords implements AnimatableValue<Coords> {
 	 * infinite point (direction vector).
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
-	 * 
+	 *
+	 *
 	 * set two vectors {globalCoords,inPlaneCoords}: the point projected, and
 	 * the original point in plane coords
-	 * 
+	 *
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3 the direction used for projection
@@ -1129,13 +1115,11 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            output coords (global)
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
-	 * 
+	 *
 	 */
-	public void projectPlane(CoordMatrix m, Coords globalCoords,
-			Coords inPlaneCoords) {
+	public void projectPlane(CoordMatrix m, Coords globalCoords, Coords inPlaneCoords) {
 
-		projectPlane(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(),
-				globalCoords, inPlaneCoords);
+		projectPlane(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(), globalCoords, inPlaneCoords);
 	}
 
 	/**
@@ -1144,7 +1128,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param vx
 	 *            vx
 	 * @param vy
@@ -1160,8 +1144,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
-	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
-			Coords globalCoords, Coords inPlaneCoords) {
+	public void projectPlane(
+			Coords vx, Coords vy, Coords vz, Coords o, Coords globalCoords, Coords inPlaneCoords) {
 		projectPlane(vx, vy, vz, o, globalCoords.val, inPlaneCoords.val);
 	}
 
@@ -1171,7 +1155,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param vx
 	 *            vx
 	 * @param vy
@@ -1187,11 +1171,10 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
-	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
-			double[] globalCoords, double[] inPlaneCoords) {
+	public void projectPlane(
+			Coords vx, Coords vy, Coords vz, Coords o, double[] globalCoords, double[] inPlaneCoords) {
 
-		if (DoubleUtil.isEqual(vx.crossProduct(vy).dotproduct(vz), 0,
-				Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(vx.crossProduct(vy).dotproduct(vz), 0, Kernel.STANDARD_PRECISION)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
 			inPlaneCoords[0] = 0; // x
@@ -1215,15 +1198,14 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param m
 	 *            plane matrix
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
 	public void projectPlaneInPlaneCoords(CoordMatrix m, Coords inPlaneCoords) {
-		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), m.getVz(),
-				m.getOrigin(), inPlaneCoords);
+		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(), inPlaneCoords);
 	}
 
 	/**
@@ -1232,7 +1214,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param vx
 	 *            vx
 	 * @param vy
@@ -1246,8 +1228,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
-	public void projectPlaneInPlaneCoords(Coords vx, Coords vy, Coords vz,
-			Coords o, Coords inPlaneCoords) {
+	public void projectPlaneInPlaneCoords(
+			Coords vx, Coords vy, Coords vz, Coords o, Coords inPlaneCoords) {
 
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
@@ -1269,15 +1251,14 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param m
 	 *            plane matrix
 	 * @param globalCoords
 	 *            output coords (global)
 	 */
 	public void projectPlane(CoordMatrix m, Coords globalCoords) {
-		projectPlane(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(),
-				globalCoords);
+		projectPlane(m.getVx(), m.getVy(), m.getVz(), m.getOrigin(), globalCoords);
 	}
 
 	/**
@@ -1286,7 +1267,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param vx
 	 *            vx
 	 * @param vy
@@ -1300,8 +1281,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param globalCoords
 	 *            output coords (global)
 	 */
-	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
-			Coords globalCoords) {
+	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o, Coords globalCoords) {
 
 		if (vz.isDependentToOrtho(vx, vy)) {
 			// direction of projection is parallel to the plane : point is
@@ -1321,12 +1301,12 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * project on plane with known inverse matrix
-	 * 
+	 *
 	 * @param m
 	 *            inverse matrix
 	 * @return 3D point in plane coords (z = distance(point, plane))
 	 */
-	final public Coords projectPlaneWithInverseMatrix(CoordMatrix m) {
+	public final Coords projectPlaneWithInverseMatrix(CoordMatrix m) {
 		return m.mul(this);
 	}
 
@@ -1336,7 +1316,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param vx
 	 *            vx
 	 * @param vy
@@ -1352,15 +1332,15 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
-	public void projectPlaneNoCheck(Coords vx, Coords vy, Coords vz, Coords o,
-			double[] globalCoords, double[] inPlaneCoords) {
+	public void projectPlaneNoCheck(
+			Coords vx, Coords vy, Coords vz, Coords o, double[] globalCoords, double[] inPlaneCoords) {
 
 		// project in plane coords
 		projectPlaneNoCheckInPlaneCoords(vx, vy, vz, o, inPlaneCoords);
 
 		// globalCoords=this-inPlaneCoords_z*plane_vz
 		double coeff = -inPlaneCoords[2]; // inPlaneCoords may use globalCoords
-											// for memory
+		// for memory
 		vz.mul(coeff, globalCoords);
 		this.add(globalCoords, globalCoords);
 
@@ -1373,7 +1353,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param vx
 	 *            vx
 	 * @param vy
@@ -1387,8 +1367,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
-	public void projectPlaneNoCheckInPlaneCoords(Coords vx, Coords vy,
-			Coords vz, Coords o, double[] inPlaneCoords) {
+	public void projectPlaneNoCheckInPlaneCoords(
+			Coords vx, Coords vy, Coords vz, Coords o, double[] inPlaneCoords) {
 
 		// m*inPlaneCoords=this
 		int size = getLength();
@@ -1396,7 +1376,6 @@ public class Coords implements AnimatableValue<Coords> {
 			matrixForSolve = new double[size][size];
 		}
 		CoordMatrix.solve(matrixForSolve, inPlaneCoords, this, vx, vy, vz, o);
-
 	}
 
 	/**
@@ -1405,11 +1384,11 @@ public class Coords implements AnimatableValue<Coords> {
 	 * <p>
 	 * Attempt this to be of dimension 4, the matrix to be of dimension 4*4, and
 	 * the vector to be of dimension 4.
-	 * 
-	 * 
+	 *
+	 *
 	 * set two vectors {globalCoords,inPlaneCoords}: the point projected, and
 	 * the original point in plane coords
-	 * 
+	 *
 	 * @param m
 	 *            matrix {v1 v2 ?? o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
@@ -1420,10 +1399,9 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output: coords in plane
 	 */
-	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords,
-			Coords inPlaneCoords) {
-		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords,
-				inPlaneCoords);
+	public void projectPlaneThruV(
+			CoordMatrix m, Coords v, Coords globalCoords, Coords inPlaneCoords) {
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords, inPlaneCoords);
 	}
 
 	/**
@@ -1441,8 +1419,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param globalCoords
 	 *            output: global coords
 	 */
-	public void projectPlaneThruV(CoordMatrix m, Coords v,
-			Coords globalCoords) {
+	public void projectPlaneThruV(CoordMatrix m, Coords v, Coords globalCoords) {
 		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords);
 	}
 
@@ -1452,7 +1429,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param m
 	 *            plane matrix
 	 * @param v
@@ -1460,10 +1437,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output coords (in plane)
 	 */
-	public void projectPlaneThruVInPlaneCoords(CoordMatrix m, Coords v,
-			Coords inPlaneCoords) {
-		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), v, m.getOrigin(),
-				inPlaneCoords);
+	public void projectPlaneThruVInPlaneCoords(CoordMatrix m, Coords v, Coords inPlaneCoords) {
+		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), v, m.getOrigin(), inPlaneCoords);
 	}
 
 	/**
@@ -1471,11 +1446,11 @@ public class Coords implements AnimatableValue<Coords> {
 	 * vector v used for direction.
 	 * <p>
 	 * If v is parallel to plane, then plane third vector is used instead
-	 * 
-	 * 
+	 *
+	 *
 	 * set two vectors {globalCoords,inPlaneCoords}: the point projected, and
 	 * the original point in plane coords
-	 * 
+	 *
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
@@ -1487,8 +1462,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output: coords in plane
 	 */
-	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v,
-			Coords globalCoords, Coords inPlaneCoords) {
+	public void projectPlaneThruVIfPossible(
+			CoordMatrix m, Coords v, Coords globalCoords, Coords inPlaneCoords) {
 
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
@@ -1498,8 +1473,7 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		// if not, use v for direction
-		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords,
-				inPlaneCoords);
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords, inPlaneCoords);
 	}
 
 	/**
@@ -1507,11 +1481,11 @@ public class Coords implements AnimatableValue<Coords> {
 	 * vector v used for direction.
 	 * <p>
 	 * If v is parallel to plane, then plane third vector is used instead
-	 * 
-	 * 
+	 *
+	 *
 	 * set two vectors {globalCoords,inPlaneCoords}: the point projected, and
 	 * the original point in plane coords
-	 * 
+	 *
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
@@ -1521,8 +1495,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param globalCoords
 	 *            output: global coords
 	 */
-	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v,
-			Coords globalCoords) {
+	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords v, Coords globalCoords) {
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
 		if (DoubleUtil.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
@@ -1539,7 +1512,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * plane.
 	 * <p>
 	 * Attempt this to be of dimension 4, and the matrix to be of dimension 4*4.
-	 * 
+	 *
 	 * @param vx
 	 *            vx
 	 * @param vy
@@ -1556,8 +1529,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param globalCoords
 	 *            output coords (global)
 	 */
-	public void projectPlaneThruVIfPossible(Coords vx, Coords vy, Coords vz,
-			Coords o, Coords v, Coords globalCoords) {
+	public void projectPlaneThruVIfPossible(
+			Coords vx, Coords vy, Coords vz, Coords o, Coords v, Coords globalCoords) {
 		// check if v is parallel to plane
 		if (DoubleUtil.isEqual(vz.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
 			projectPlane(vx, vy, vz, o, globalCoords);
@@ -1572,11 +1545,11 @@ public class Coords implements AnimatableValue<Coords> {
 	 * vector v used for direction.
 	 * <p>
 	 * If v is parallel to plane, then plane third vector is used instead
-	 * 
-	 * 
+	 *
+	 *
 	 * set two vectors {globalCoords,inPlaneCoords}: the point projected, and
 	 * the original point in plane coords
-	 * 
+	 *
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
@@ -1586,8 +1559,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output: coords in plane
 	 */
-	public void projectPlaneThruVIfPossibleInPlaneCoords(CoordMatrix m,
-			Coords v, Coords inPlaneCoords) {
+	public void projectPlaneThruVIfPossibleInPlaneCoords(
+			CoordMatrix m, Coords v, Coords inPlaneCoords) {
 
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
@@ -1597,8 +1570,7 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		// if not, use v for direction
-		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), v, m.getOrigin(),
-				inPlaneCoords);
+		projectPlaneInPlaneCoords(m.getVx(), m.getVy(), v, m.getOrigin(), inPlaneCoords);
 	}
 
 	/**
@@ -1607,7 +1579,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * <p>
 	 * If v is parallel to plane, first project old position of the line
 	 * (this,v), then project the result using plane third vector
-	 * 
+	 *
 	 * @param m
 	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
@@ -1621,8 +1593,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param inPlaneCoords
 	 *            output: the original point in plane coords
 	 */
-	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords oldCoords,
-			Coords v, Coords globalCoords, Coords inPlaneCoords) {
+	public void projectPlaneThruVIfPossible(
+			CoordMatrix m, Coords oldCoords, Coords v, Coords globalCoords, Coords inPlaneCoords) {
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
 		if (DoubleUtil.isZero(v3.dotproduct(v))) {
@@ -1633,14 +1605,13 @@ public class Coords implements AnimatableValue<Coords> {
 		}
 
 		// if not, use v for direction
-		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords,
-				inPlaneCoords);
+		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords, inPlaneCoords);
 	}
 
 	/**
 	 * calculates projection of this on the 3D-line represented by the matrix {V
 	 * O}.
-	 * 
+	 *
 	 * @param o
 	 *            origin of the line
 	 * @param v
@@ -1663,13 +1634,12 @@ public class Coords implements AnimatableValue<Coords> {
 
 		parameters[0] = parameter / v.norm();
 		parameters[1] = parameter;
-
 	}
 
 	/**
 	 * calculates projection of this on the 3D-line represented by the matrix {V
 	 * O}.
-	 * 
+	 *
 	 * @param o
 	 *            origin of the line
 	 * @param P
@@ -1679,8 +1649,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param parameters
 	 *            {parameter on the line, normalized parameter}
 	 */
-	public void projectLineSub(Coords o, Coords P, Coords H,
-			double[] parameters) {
+	public void projectLineSub(Coords o, Coords P, Coords H, double[] parameters) {
 		this.sub(o, H); // OM
 		Coords V = P.sub(o);
 		double vn = V.norm();
@@ -1695,13 +1664,12 @@ public class Coords implements AnimatableValue<Coords> {
 
 		parameters[0] = parameter / vn;
 		parameters[1] = parameter;
-
 	}
 
 	/**
 	 * calculates projection of this on the 3D-line represented by the matrix {V
 	 * O}.
-	 * 
+	 *
 	 * @param o
 	 *            origin of the line
 	 * @param V
@@ -1720,7 +1688,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * calculates projection of this as close as possible to the 3D-line
 	 * represented by the matrix {V O} regarding V2 direction.
-	 * 
+	 *
 	 * @param o
 	 *            origin of the line
 	 * @param V
@@ -1744,9 +1712,9 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Calc the parameter on (O,V) of the point of (O,V) that is the nearest to
 	 * line (this,V2).
-	 * 
+	 *
 	 * If V and V2 are parallel, return O.
-	 * 
+	 *
 	 * @param o
 	 *            origin of the line where this is projected
 	 * @param V
@@ -1757,8 +1725,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            temp coords
 	 * @return parameter of the proj. point on the line
 	 */
-	public double projectedParameterOnLineWithDirection(Coords o, Coords V,
-			Coords V2, Coords tmp) {
+	public double projectedParameterOnLineWithDirection(Coords o, Coords V, Coords V2, Coords tmp) {
 		Coords V3 = V.crossProduct4(V2);
 
 		if (V3.isZero()) {
@@ -1771,15 +1738,14 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns this-v
-	 * 
+	 *
 	 * @param v
 	 *            vector subtracted
 	 * @return this-v
-	 * 
+	 *
 	 *         deprecated create vector and use {@link #setSub(Coords, Coords)}
 	 *         instead
 	 */
-
 	public Coords sub(Coords v) {
 		int i;
 		Coords result = new Coords(rows);
@@ -1791,7 +1757,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @param result
@@ -1805,7 +1771,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this to v1 - v2
-	 * 
+	 *
 	 * @param v1
 	 *            vector
 	 * @param v2
@@ -1822,7 +1788,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this to v1 - v2 (only first 3 values)
-	 * 
+	 *
 	 * @param v1
 	 *            vector
 	 * @param v2
@@ -1841,13 +1807,12 @@ public class Coords implements AnimatableValue<Coords> {
 	 * returns n-1 length vector, all coordinates divided by the n-th.
 	 * <p>
 	 * If this={x1,x2,xn}, it returns {x1/xn,x2/xn,...,x(n-1)}
-	 * 
+	 *
 	 * @return {x1/xn,x2/xn,...,x(n-1)/xn}
-	 * 
+	 *
 	 *         deprecated create vector and use {@link #setInhomCoords(Coords)}
 	 *         instead
 	 */
-
 	public Coords getInhomCoords() {
 		int r = rows;
 		Coords result = new Coords(r - 1);
@@ -1873,10 +1838,10 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * If v={x1,x2,xn}, this gets {x1/xn,x2/xn,...,x(n-1)}
-	 * 
+	 *
 	 * @param v
 	 *            vector
-	 * 
+	 *
 	 * @return this
 	 */
 	public Coords setInhomCoords(Coords v) {
@@ -1891,13 +1856,12 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns n length vector, all coordinates divided by the n-th.
-	 * 
+	 *
 	 * @return {x1/xn,x2/xn,...,x(n-1)/xn,1}
-	 * 
+	 *
 	 *         deprecated create vector and use
 	 *         {@link #setInhomCoordsInSameDimension(Coords)} instead
 	 */
-
 	public Coords getInhomCoordsInSameDimension() {
 
 		int r = rows;
@@ -1919,12 +1883,12 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * If v={x1,x2,xn}, this gets {x1/xn,x2/xn,...,x(n-1, 1)}
-	 * 
+	 *
 	 * @param v
 	 *            vector
-	 * 
+	 *
 	 * @return this
 	 */
 	public Coords setInhomCoordsInSameDimension(Coords v) {
@@ -1954,13 +1918,12 @@ public class Coords implements AnimatableValue<Coords> {
 	 * returns n length vector, all coordinates divided by the n-th.
 	 * <p>
 	 * If this={x1,x2,xn}, it returns {x1/xn,x2/xn,...,1}
-	 * 
+	 *
 	 * @return {x1/xn,x2/xn,...,1}
-	 * 
+	 *
 	 *         deprecated create vector and use {@link #setCoordsLast1(Coords)}
 	 *         instead
 	 */
-
 	public Coords getCoordsLast1() {
 		int len = getLength();
 		Coords result = new Coords(len);
@@ -1979,10 +1942,10 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 *
 	 * If v={x1,x2,xn}, this gets {x1/xn,x2/xn,...,1}
-	 * 
+	 *
 	 * @param v
 	 *            vector
-	 * 
+	 *
 	 * @return this
 	 */
 	public Coords setCoordsLast1(Coords v) {
@@ -1999,11 +1962,10 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return this with (n-1) coord removed deprecated create vector and use
 	 *         {@link #setProjectInfDim(Coords)} instead
 	 */
-
 	public Coords projectInfDim() {
 		int len = getLength();
 		Coords result = new Coords(len - 1);
@@ -2016,7 +1978,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this equal to v with (n-1) coord removed
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @return this
@@ -2032,7 +1994,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Return true if this==v for the precision given (ie each coordinates are
 	 * not different more than precision).
-	 * 
+	 *
 	 * @param v
 	 *            vector compared with
 	 * @param precision
@@ -2053,7 +2015,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Return true if this==v for the precision given (ie each coordinates are
 	 * not different more than precision).
-	 * 
+	 *
 	 * @param v
 	 *            vector compared with
 	 * @return true if the vectors are equal
@@ -2072,7 +2034,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Return true if this==v for x,y,z, for the precision given (ie each
 	 * coordinates are not different more than precision).
-	 * 
+	 *
 	 * @param v
 	 *            vector compared with
 	 * @return true if the vectors are equal
@@ -2090,7 +2052,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Return true if this==v for Kernel.STANDARD_PRECISION precision (ie each
 	 * coordinates are not different more than precision).
-	 * 
+	 *
 	 * @param v
 	 *            vector compared with
 	 * @return true if the vectors are equal
@@ -2101,7 +2063,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * Check if all entries are within standard precision from 0.
-	 * 
+	 *
 	 * @return whether all entries are zero
 	 */
 	public boolean isZero() {
@@ -2131,7 +2093,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Return true if all coordinates are not different from val more than
 	 * precision.
-	 * 
+	 *
 	 * @param value
 	 *            value compared with
 	 * @param precision
@@ -2153,13 +2115,12 @@ public class Coords implements AnimatableValue<Coords> {
 	 * Assume that "this" is a non-zero vector in 3-space. This method returns
 	 * an array v of two vectors {v[0], v[1]} (rows=4) so that (this, v[0],
 	 * v[1]) is a right-handed orthonormal system.
-	 * 
+	 *
 	 * deprecated create vectors and use
 	 * {@link #completeOrthonormal(Coords, Coords)} instead
-	 * 
+	 *
 	 * @return two orthonormal vectors
 	 */
-
 	public Coords[] completeOrthonormal() {
 		Coords vn1 = new Coords(4);
 
@@ -2174,14 +2135,14 @@ public class Coords implements AnimatableValue<Coords> {
 		Coords vn2 = this.crossProduct4(vn1);
 		vn2.normalize();
 
-		return new Coords[] { vn1, vn2 };
+		return new Coords[] {vn1, vn2};
 	}
 
 	/**
 	 * Assume that "this" is a non-zero vector in 3-space. This method sets the
 	 * vectors vn1, vn2 (rows=4) so that (this, vn1, vn2) is a right-handed
 	 * orthonormal system.
-	 * 
+	 *
 	 * @param vn1
 	 *            vector (length 4)
 	 * @param vn2
@@ -2210,7 +2171,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * Assume that "this" is a non-zero vector in 3-space. This method sets the
 	 * vectors vn1, vn2 (rows=3) so that (this, vn1, vn2) is a right-handed
 	 * orthonormal system.
-	 * 
+	 *
 	 * @param vn1
 	 *            vector (length 3)
 	 * @param vn2
@@ -2235,7 +2196,7 @@ public class Coords implements AnimatableValue<Coords> {
 	/**
 	 * Assume that "this" is a non-zero vector in 3-space. This method sets the
 	 * vector vn1 so that (this, vn1) is orthonormal
-	 * 
+	 *
 	 * @param vn1
 	 *            vector (length 4)
 	 */
@@ -2258,7 +2219,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * Assume that "this" is a non-zero vector in 3-space. This method sets the
 	 * vector vn1 so that (this, vn1) is orthonormal. If this is in xOy plane,
 	 * then vn1 will.
-	 * 
+	 *
 	 * @param vn1
 	 *            vector (length 4)
 	 */
@@ -2271,7 +2232,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * Assume that "this" is a non-zero vector in 3-space. This method sets the
 	 * vector vn1 so that (this, vn1) is orthonormal. If this is in xOy plane,
 	 * then vn1 will.
-	 * 
+	 *
 	 * @param vn1
 	 *            vector (length 3)
 	 */
@@ -2293,15 +2254,14 @@ public class Coords implements AnimatableValue<Coords> {
 	// ///////////////////////////////////////////////////
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 *            vector to add
 	 * @return
-	 * 
+	 *
 	 * deprecated: create vector and use {@link #setAdd(Coords, Coords)}
 	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
-
 	public Coords add(Coords v) {
 		Coords result = new Coords(rows);
 
@@ -2314,7 +2274,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * put this + v into result
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @param result
@@ -2328,7 +2288,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * put this + v into result
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @param result
@@ -2341,15 +2301,14 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 *            vector in smaller dim than this
 	 * @return
-	 * 
+	 *
 	 * deprecated: create vector and use {@link #setAdd(Coords, Coords)}
 	 *         or {@link #setAdd3(Coords, Coords)} instead
 	 */
-
 	public Coords addSmaller(Coords v) {
 		Coords result = new Coords(rows);
 
@@ -2362,7 +2321,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * add values of v inside this
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @return this
@@ -2376,7 +2335,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * add coeff * v inside this
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @param coeff
@@ -2392,7 +2351,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * add v inside this
-	 * 
+	 *
 	 * @param v
 	 *            value
 	 */
@@ -2403,15 +2362,14 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param val0
 	 *            val0
 	 * @return
-	 * 
+	 *
 	 * deprecated: create vector and use {@link #setMul(Coords, double)}
 	 *         instead
 	 */
-
 	public Coords mul(double val0) {
 
 		Coords result = new Coords(rows);
@@ -2438,7 +2396,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param val0
 	 *            factor
 	 * @param res
@@ -2452,7 +2410,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this to v * val0
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @param val0
@@ -2469,7 +2427,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this to v * val0 (only 3 first values)
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @param val0
@@ -2485,7 +2443,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param val0
 	 *            factor
 	 * @param res
@@ -2498,7 +2456,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @param res
@@ -2512,7 +2470,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this to v1 + v2
-	 * 
+	 *
 	 * @param v1
 	 *            vector
 	 * @param v2
@@ -2529,7 +2487,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this to v1 + v2 (for 3 first coords)
-	 * 
+	 *
 	 * @param v1
 	 *            vector
 	 * @param v2
@@ -2546,7 +2504,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this as barycenter for vectors in v
-	 * 
+	 *
 	 * @param v
 	 *            vectors
 	 * @return this
@@ -2566,76 +2524,75 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * if the ND homogeneous coords is in x-y plane, return this coords
-	 * 
+	 *
 	 * @return
-	 * 
+	 *
 	 * deprecated: create 3 rows vector and use
 	 *         {@link #setCoordsIn2DView(Coords)} instead
 	 */
-
 	public Coords getCoordsIn2DView() {
 
 		int dim = rows - 1;
 		switch (dim) {
-		case 2:
-			return new Coords(getX(), getY(), getZ());
-		case -1:
-		case 0:
-			return new Coords(0, 0, getX());
-		case 1:
-			return new Coords(getX(), 0, getY());
-		default:
-			for (int i = 3; i <= dim; i++) {
-				if (Double.isNaN(get(i)) || !DoubleUtil.isZero(get(i))) {
-					return new Coords(Double.NaN, Double.NaN, Double.NaN);
+			case 2:
+				return new Coords(getX(), getY(), getZ());
+			case -1:
+			case 0:
+				return new Coords(0, 0, getX());
+			case 1:
+				return new Coords(getX(), 0, getY());
+			default:
+				for (int i = 3; i <= dim; i++) {
+					if (Double.isNaN(get(i)) || !DoubleUtil.isZero(get(i))) {
+						return new Coords(Double.NaN, Double.NaN, Double.NaN);
+					}
 				}
-			}
-			// get(3) to get(dim) are all zero
-			return new Coords(get(1), get(2), get(dim + 1));
+				// get(3) to get(dim) are all zero
+				return new Coords(get(1), get(2), get(dim + 1));
 		}
 	}
 
 	/**
 	 * if the ND homogeneous coords is in x-y plane, set this to v coords
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 * @return this
-	 * 
+	 *
 	 */
 	public Coords setCoordsIn2DView(Coords v) {
 
 		int dim = v.rows - 1;
 		switch (dim) {
-		case 2:
-			setX(v.getX());
-			setY(v.getY());
-			setZ(v.getZ());
-			break;
-		case -1:
-		case 0:
-			setX(0);
-			setY(0);
-			setZ(v.getX());
-			break;
-		case 1:
-			setX(v.getX());
-			setY(0);
-			setZ(v.getY());
-			break;
-		default:
-			for (int i = 3; i <= dim; i++) {
-				if (Double.isNaN(v.get(i)) || !DoubleUtil.isZero(v.get(i))) {
-					setX(Double.NaN);
-					setY(Double.NaN);
-					setZ(Double.NaN);
-					return this;
+			case 2:
+				setX(v.getX());
+				setY(v.getY());
+				setZ(v.getZ());
+				break;
+			case -1:
+			case 0:
+				setX(0);
+				setY(0);
+				setZ(v.getX());
+				break;
+			case 1:
+				setX(v.getX());
+				setY(0);
+				setZ(v.getY());
+				break;
+			default:
+				for (int i = 3; i <= dim; i++) {
+					if (Double.isNaN(v.get(i)) || !DoubleUtil.isZero(v.get(i))) {
+						setX(Double.NaN);
+						setY(Double.NaN);
+						setZ(Double.NaN);
+						return this;
+					}
 				}
-			}
-			// get(3) to get(dim) are all zero
-			setX(v.get(1));
-			setY(v.get(2));
-			setZ(v.get(dim + 1));
+				// get(3) to get(dim) are all zero
+				setX(v.get(1));
+				setY(v.get(2));
+				setZ(v.get(dim + 1));
 		}
 
 		return this;
@@ -2643,7 +2600,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * this=(r,g,b,...) color representation
-	 * 
+	 *
 	 * @return gray scale intensity
 	 */
 	public double getGrayScale() {
@@ -2662,7 +2619,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * assume this is equal to (x,y,z,w)
-	 * 
+	 *
 	 * @return true if define a defined point
 	 */
 	public boolean isPointDefined() {
@@ -2675,7 +2632,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * returns false if one value equals NaN
-	 * 
+	 *
 	 * @return false if one value equals NaN
 	 */
 	@Override
@@ -2721,7 +2678,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set 3 floats array
-	 * 
+	 *
 	 * @param ret
 	 *            output array
 	 */
@@ -2733,7 +2690,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set 4 floats array
-	 * 
+	 *
 	 * @param ret
 	 *            output array
 	 */
@@ -2764,12 +2721,11 @@ public class Coords implements AnimatableValue<Coords> {
 				i++;
 			}
 		}
-
 	}
 
 	/**
 	 * returns double[] describing the matrix for openGL
-	 * 
+	 *
 	 * @return the matrix as a double[]
 	 */
 	public double[] get() {
@@ -2778,7 +2734,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * get values and set it in ret
-	 * 
+	 *
 	 * @param ret
 	 *            ret
 	 */
@@ -2790,7 +2746,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * get values and set it in ret
-	 * 
+	 *
 	 * @param ret
 	 *            ret
 	 */
@@ -2813,7 +2769,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * multiply all values by v
-	 * 
+	 *
 	 * @param v
 	 *            factor
 	 * @return this
@@ -2828,7 +2784,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * mul 3 first values by v
-	 * 
+	 *
 	 * @param v
 	 *            value
 	 * @return this
@@ -2842,7 +2798,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * mul x, y, z by factors
-	 * 
+	 *
 	 * @param sx
 	 *            x scale
 	 * @param sy
@@ -2855,10 +2811,10 @@ public class Coords implements AnimatableValue<Coords> {
 		val[1] *= sy;
 		val[2] *= sz;
 	}
-	
+
 	/**
 	 * mul coords by x, y, z factors
-	 * 
+	 *
 	 * @param coords
 	 *            coords
 	 * @param sx
@@ -2887,14 +2843,13 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param precision
 	 *            decimal precision
 	 * @return string representation with decimal precision
 	 */
 	public String toString(int precision) {
-		ScientificFormatAdapter nf = FormatFactory.getPrototype()
-				.getScientificFormat(2, 10, false);
+		ScientificFormatAdapter nf = FormatFactory.getPrototype().getScientificFormat(2, 10, false);
 		StringBuilder s = new StringBuilder("(");
 		for (int i = 0; i < val.length; i++) {
 			if (val[i] > 0) {
@@ -2912,7 +2867,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param digits
 	 *            digits length
 	 * @param precision
@@ -2930,7 +2885,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this = m*v
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param v
@@ -2954,7 +2909,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this = m*v for x, y, z
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param v
@@ -2975,7 +2930,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this = m*v
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param v
@@ -2999,7 +2954,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set this = m*(x,y,z,1)
-	 * 
+	 *
 	 * @param m
 	 *            matrix
 	 * @param x
@@ -3013,8 +2968,7 @@ public class Coords implements AnimatableValue<Coords> {
 	public Coords setMulPoint(CoordMatrix m, double x, double y, double z) {
 
 		for (int i = 1; i <= getLength(); i++) {
-			set(i, m.get(i, 1) * x + m.get(i, 2) * y + m.get(i, 3) * z
-					+ m.get(i, 4));
+			set(i, m.get(i, 1) * x + m.get(i, 2) * y + m.get(i, 3) * z + m.get(i, 4));
 		}
 
 		return this;
@@ -3036,7 +2990,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 	/**
 	 * set 2D barycenter from the two points
-	 * 
+	 *
 	 * @param param1
 	 *            param1
 	 * @param param2
@@ -3046,8 +3000,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @param rightPoint
 	 *            rightPoint
 	 */
-	public void set(double param1, double param2, MyPoint leftPoint,
-			MyPoint rightPoint) {
+	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint) {
 		val[0] = param2 * leftPoint.x + param1 * rightPoint.x;
 		val[1] = param2 * leftPoint.y + param1 * rightPoint.y;
 		val[2] = 1.0;
@@ -3074,8 +3027,7 @@ public class Coords implements AnimatableValue<Coords> {
 					}
 				}
 			} else {
-				if (DoubleUtil.isEqual(val[i], 0)
-						&& DoubleUtil.isEqual(other.val[i], 0)) {
+				if (DoubleUtil.isEqual(val[i], 0) && DoubleUtil.isEqual(other.val[i], 0)) {
 					negSet = false;
 				} else if (DoubleUtil.isEqual(val[i], other.val[i])) {
 					neg = false;
@@ -3091,5 +3043,4 @@ public class Coords implements AnimatableValue<Coords> {
 
 		return true;
 	}
-
 }

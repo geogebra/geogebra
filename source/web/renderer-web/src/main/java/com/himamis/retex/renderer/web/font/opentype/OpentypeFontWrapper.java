@@ -63,8 +63,8 @@ public class OpentypeFontWrapper implements FontWrapper {
 		drawGlyphNative(c, x, y, size, ctx);
 	}
 
-	public void drawGlyphNative(String c, double x, double y,
-			double size, CanvasRenderingContext2D ctx) {
+	public void drawGlyphNative(
+			String c, double x, double y, double size, CanvasRenderingContext2D ctx) {
 		// font not loaded yet
 		if (impl == null) {
 			return;
@@ -81,22 +81,21 @@ public class OpentypeFontWrapper implements FontWrapper {
 		return getGlyph(impl, c.codePointAt(0));
 	}
 
-	private static FontGlyph getGlyph(JsArray<Object> font,
-			int code) {
+	private static FontGlyph getGlyph(JsArray<Object> font, int code) {
 		for (int i = 1; i < font.length; i += 1) {
 			FontGlyph glyph = Js.uncheckedCast(font.getAt(i));
 			Object at = glyph.getAt(0);
 			if (Js.asInt(at) == code) {
 				// no path => pointer to the next glyph
 				return "undefined".equals(Js.typeof(glyph.getAt(1)))
-						? Js.uncheckedCast(font.getAt(i + 1)) : glyph;
+						? Js.uncheckedCast(font.getAt(i + 1))
+						: glyph;
 			}
 		}
 		return null;
 	}
 
-	public static void drawPath(FontGlyph path, double x, double y,
-			CanvasRenderingContext2D ctx) {
+	public static void drawPath(FontGlyph path, double x, double y, CanvasRenderingContext2D ctx) {
 		if (Js.isFalsy(path)) {
 			return;
 		}
@@ -118,15 +117,20 @@ public class OpentypeFontWrapper implements FontWrapper {
 				ctx.lineTo(x + dPath.getAt(j) * xScale, y - dPath.getAt(j + 1) * yScale);
 				j += 2;
 			} else if (cmd == 'Q') {
-				ctx.quadraticCurveTo(x + dPath.getAt(j + 2) * xScale, y - dPath.getAt(j + 3)
-						* yScale, x + dPath.getAt(j) * xScale, y - dPath.getAt(j + 1)
-						* yScale);
+				ctx.quadraticCurveTo(
+						x + dPath.getAt(j + 2) * xScale,
+						y - dPath.getAt(j + 3) * yScale,
+						x + dPath.getAt(j) * xScale,
+						y - dPath.getAt(j + 1) * yScale);
 				j += 4;
 			} else if (cmd == 'C') {
-				ctx.bezierCurveTo(x + dPath.getAt(j + 2) * xScale, y - dPath.getAt(j + 3)
-						* yScale, x + dPath.getAt(j + 4) * xScale, y - dPath.getAt(j + 5)
-						* yScale, x + dPath.getAt(j) * xScale, y - dPath.getAt(j + 1)
-						* yScale);
+				ctx.bezierCurveTo(
+						x + dPath.getAt(j + 2) * xScale,
+						y - dPath.getAt(j + 3) * yScale,
+						x + dPath.getAt(j + 4) * xScale,
+						y - dPath.getAt(j + 5) * yScale,
+						x + dPath.getAt(j) * xScale,
+						y - dPath.getAt(j + 1) * yScale);
 				j += 6;
 			}
 		}
@@ -134,5 +138,4 @@ public class OpentypeFontWrapper implements FontWrapper {
 		ctx.closePath();
 		ctx.fill();
 	}
-
 }

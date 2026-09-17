@@ -29,7 +29,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Cartesian axis
- * 
+ *
  * @author Markus
  */
 public class GeoAxis extends GeoLine implements GeoAxisND {
@@ -43,7 +43,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 
 	/**
 	 * Creates new axis
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param type
@@ -57,24 +57,24 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		setStartPoint(origin);
 
 		GeoPoint end = new GeoPoint(cons);
-		
-		switch (type) {
-		default:
-		case X_AXIS:
-			setCoords(0, 1, 0);
-			label = "xAxis";
-			coloredColorFor3D = GColor.RED;
-			end.setCoords(1, 0, 1);
-			setEndPoint(end);
-			break;
 
-		case Y_AXIS:
-			setCoords(-1, 0, 0);
-			label = "yAxis";
-			coloredColorFor3D = GColor.DARK_GREEN;
-			end.setCoords(0, 1, 1);
-			setEndPoint(end);
-			break;
+		switch (type) {
+			default:
+			case X_AXIS:
+				setCoords(0, 1, 0);
+				label = "xAxis";
+				coloredColorFor3D = GColor.RED;
+				end.setCoords(1, 0, 1);
+				setEndPoint(end);
+				break;
+
+			case Y_AXIS:
+				setCoords(-1, 0, 0);
+				label = "yAxis";
+				coloredColorFor3D = GColor.DARK_GREEN;
+				end.setCoords(0, 1, 1);
+				setEndPoint(end);
+				break;
 		}
 
 		setLabelSet(true);
@@ -105,12 +105,11 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			return getLoc().getMenu(label);
 		}
 		return label;
-
 	}
 
 	/**
 	 * Returns whether str is equal to this axis' label.
-	 * 
+	 *
 	 * @param str
 	 *            string for comparison
 	 * @return whether str is equal to this axis' label.
@@ -196,7 +195,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 
 		return true;
 	}
-	
+
 	@Override
 	public int getLineThickness() {
 		return EuclidianStyleConstants.AXES_THICKNESS;
@@ -215,5 +214,4 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			setObjColor(GColor.BLACK);
 		}
 	}
-
 }

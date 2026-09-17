@@ -100,8 +100,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @param labelOffsetX x offset
 	 * @param labelOffsetY y offset
 	 */
-	public GeoInputBox(Construction cons, GeoElement linkedGeo,
-			int labelOffsetX, int labelOffsetY) {
+	public GeoInputBox(Construction cons, GeoElement linkedGeo, int labelOffsetX, int labelOffsetY) {
 		this(cons, linkedGeo);
 		this.labelOffsetX = labelOffsetX;
 		this.labelOffsetY = labelOffsetY;
@@ -125,11 +124,10 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	private static boolean hasCommand(ExpressionNode node) {
-		return node != null && node.any(
-			t -> {
-				return t.isGeoElement() && ((GeoElement) t).isCommandOutput();
-			}
-		);
+		return node != null
+				&& node.any(t -> {
+					return t.isGeoElement() && ((GeoElement) t).isCommandOutput();
+				});
 	}
 
 	@Override
@@ -223,14 +221,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return editor display string
 	 */
 	public String getDisplayText() {
-		return isSymbolicMode() && tempUserDisplayInput != null
-				? tempUserDisplayInput
-				: getText();
+		return isSymbolicMode() && tempUserDisplayInput != null ? tempUserDisplayInput : getText();
 	}
 
 	private boolean hasLaTeXEditableVector() {
-		return linkedGeo instanceof GeoVectorND
-				&& linkedGeo.hasSpecialEditor();
+		return linkedGeo instanceof GeoVectorND && linkedGeo.hasSpecialEditor();
 	}
 
 	/**
@@ -307,8 +302,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.startTag("textAlign").attr("val", getAlignment()).endTag();
 		}
 
-		if (tempUserDisplayInput != null
-				&& tempUserEvalInput != null) {
+		if (tempUserDisplayInput != null && tempUserEvalInput != null) {
 			sb.startTag("tempUserInput")
 					.attr("display", tempUserDisplayInput)
 					.attr("eval", tempUserEvalInput)
@@ -335,8 +329,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @param entries matrix entries
 	 */
 	public void updateLinkedGeo(String inputText, String latex, String... entries) {
-		inputBoxProcessor.updateLinkedGeo(new EditorContent(inputText, latex,
-				entries, getRows()), tpl);
+		inputBoxProcessor.updateLinkedGeo(new EditorContent(inputText, latex, entries, getRows()), tpl);
 		getKernel().getApplication().storeUndoInfo();
 	}
 
@@ -377,11 +370,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	private void updateTemplate() {
 		if (useSignificantFigures() && printFigures > -1) {
-			tpl = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures,
-					false);
+			tpl = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
 		} else if (!useSignificantFigures && printDecimals > -1) {
-			tpl = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					printDecimals, false);
+			tpl = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals, false);
 		} else {
 			tpl = StringTemplate.get(StringType.GEOGEBRA);
 		}
@@ -594,9 +585,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	private int getRows() {
-		return linkedGeo instanceof GeoList ? ((GeoList) linkedGeo).size()
-				: linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension()
-				: 1;
+		return linkedGeo instanceof GeoList
+				? ((GeoList) linkedGeo).size()
+				: linkedGeo instanceof GeoVectorND ? ((GeoVectorND) linkedGeo).getDimension() : 1;
 	}
 
 	/**
@@ -605,14 +596,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public InputBoxType getInputBoxType() {
 		if (linkedGeo instanceof GeoFunction) {
-			return linkedGeo.isInequality()
-					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+			return linkedGeo.isInequality() ? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
 		} else if (linkedGeo instanceof GeoSurfaceCartesianND
-			|| linkedGeo instanceof GeoCurveCartesianND) {
+				|| linkedGeo instanceof GeoCurveCartesianND) {
 			return InputBoxType.FUNCTION;
 		} else if (linkedGeo instanceof GeoFunctionNVar) {
-			return linkedGeo.isInequality()
-					? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
+			return linkedGeo.isInequality() ? InputBoxType.INEQ_BOOL : InputBoxType.FUNCTION;
 		} else if (linkedGeo instanceof GeoBoolean) {
 			return InputBoxType.INEQ_BOOL;
 		} else if (linkedGeo instanceof GeoList || linkedGeo instanceof GeoVectorND) {
@@ -628,16 +617,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return the list of variable names.
 	 */
 	public List<String> getFunctionVars() {
-		FunctionVariable[] functionVariables = linkedGeo instanceof VarString
-			? ((VarString) linkedGeo).getFunctionVariables()
-			: null;
+		FunctionVariable[] functionVariables =
+				linkedGeo instanceof VarString ? ((VarString) linkedGeo).getFunctionVariables() : null;
 
 		if (functionVariables == null) {
 			return Collections.emptyList();
 		}
 
-		return Arrays.stream(functionVariables).map(this::getVariableName)
-				.collect(Collectors.toList());
+		return Arrays.stream(functionVariables).map(this::getVariableName).collect(Collectors.toList());
 	}
 
 	private String getVariableName(FunctionVariable functionVariable) {
@@ -649,7 +636,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return whether to use the special editor for lists (no braces)
 	 */
 	public boolean isListEditor() {
-		return linkedGeo instanceof GeoList && linkedGeo.hasSpecialEditor()
+		return linkedGeo instanceof GeoList
+				&& linkedGeo.hasSpecialEditor()
 				&& !((GeoList) linkedGeo).isMatrix();
 	}
 
@@ -672,7 +660,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	@Override
 	public boolean usesDisabledStyle(EuclidianViewInterfaceSlim ev) {
-		return !isSelectionAllowed(ev) && (bgColor == null || bgColor == GColor.WHITE)
+		return !isSelectionAllowed(ev)
+				&& (bgColor == null || bgColor == GColor.WHITE)
 				&& objColor == GeoGebraColorConstants.NEUTRAL_900;
 	}
 }

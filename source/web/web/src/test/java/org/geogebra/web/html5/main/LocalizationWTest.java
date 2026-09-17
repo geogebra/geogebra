@@ -40,10 +40,8 @@ public class LocalizationWTest {
 		}
 		for (Language lang : Language.values()) {
 			File trans = new File("src/main/resources/org/geogebra/web/pub/js/properties_keys_"
-							+ lang.toLanguageTag() + ".js");
-			assertTrue(trans.getAbsolutePath(),
-					available.remove(trans.getAbsolutePath()));
-
+					+ lang.toLanguageTag() + ".js");
+			assertTrue(trans.getAbsolutePath(), available.remove(trans.getAbsolutePath()));
 		}
 		assertEquals(Set.of(), available);
 	}

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -35,11 +35,11 @@ import org.geogebra.common.kernel.implicit.PointList;
 public final class EdgeHit {
 
 	private final ClipEdge edge;
-	private final double tOnEdge;     // [0..1]
-	private final int segIndex;       // segment index A->B
-	private final double tSegment;       // (0..1] half-open
-	private final double sPerimeter;  // [0..4)
-	private final MyPoint point;      // world coords (snapped/clamped)
+	private final double tOnEdge; // [0..1]
+	private final int segIndex; // segment index A->B
+	private final double tSegment; // (0..1] half-open
+	private final double sPerimeter; // [0..4)
+	private final MyPoint point; // world coords (snapped/clamped)
 	private PointList owner;
 	private int contourId;
 
@@ -55,7 +55,8 @@ public final class EdgeHit {
 	 * @param x the x-coordinate of the hit in world coordinates
 	 * @param y the y-coordinate of the hit in world coordinates
 	 */
-	public EdgeHit(ClipEdge edge,
+	public EdgeHit(
+			ClipEdge edge,
 			double tOnEdge,
 			int segIndex,
 			double tSegment,
@@ -76,7 +77,8 @@ public final class EdgeHit {
 	 * @param sPerimeter perimeter parameter in [0,4) for ordering hits
 	 * @param point the location of the hit in world coordinates
 	 */
-	public EdgeHit(ClipEdge edge,
+	public EdgeHit(
+			ClipEdge edge,
 			double tOnEdge,
 			int segIndex,
 			double tSegment,
@@ -219,6 +221,7 @@ public final class EdgeHit {
 	 */
 	public boolean isValidTSegment(double eps) {
 		return !(Double.isNaN(tSegment) || Double.isInfinite(tSegment))
-				&& tSegment > -eps && tSegment < 1.0 + eps;
+				&& tSegment > -eps
+				&& tSegment < 1.0 + eps;
 	}
 }

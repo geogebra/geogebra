@@ -23,12 +23,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Algo for infinite cylinder (point, direction, radius)
- * 
+ *
  * @author matthieu
  *
  */
-public class AlgoCylinderInfinitePointPointNumber
-		extends AlgoQuadricPointPointNumber {
+public class AlgoCylinderInfinitePointPointNumber extends AlgoQuadricPointPointNumber {
 
 	/**
 	 * @param c
@@ -42,14 +41,17 @@ public class AlgoCylinderInfinitePointPointNumber
 	 * @param radius
 	 *            radius
 	 */
-	public AlgoCylinderInfinitePointPointNumber(Construction c, String label,
-			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue radius) {
-		super(c, label, origin, secondPoint, radius,
-				new AlgoQuadricComputerCylinder());
+	public AlgoCylinderInfinitePointPointNumber(
+			Construction c,
+			String label,
+			GeoPointND origin,
+			GeoPointND secondPoint,
+			GeoNumberValue radius) {
+		super(c, label, origin, secondPoint, radius, new AlgoQuadricComputerCylinder());
 	}
 
 	@Override
-	final protected String getPlainName() {
+	protected final String getPlainName() {
 		return "InfiniteCylinderPointsABNumberC";
 	}
 
@@ -57,5 +59,4 @@ public class AlgoCylinderInfinitePointPointNumber
 	public Commands getClassName() {
 		return Commands.CylinderInfinite;
 	}
-
 }

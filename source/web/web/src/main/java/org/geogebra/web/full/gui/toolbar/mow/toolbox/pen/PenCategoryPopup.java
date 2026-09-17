@@ -33,8 +33,8 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.CategoryPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.PenHighlighterEraserSlider;
 
-public final class PenCategoryPopup extends CategoryPopup implements
-		SettingListener<PenToolsSettings> {
+public final class PenCategoryPopup extends CategoryPopup
+		implements SettingListener<PenToolsSettings> {
 	private final PenCategoryController controller;
 	private ColorChooserPanel colorChooser;
 	private PenHighlighterEraserSlider sliderComponent;
@@ -45,8 +45,7 @@ public final class PenCategoryPopup extends CategoryPopup implements
 	 * @param tools - list of tools
 	 * @param updateParentCallback - callback to update anchor
 	 */
-	public PenCategoryPopup(AppW app, List<Integer> tools,
-			Consumer<Integer> updateParentCallback) {
+	public PenCategoryPopup(AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback) {
 		super(app, tools, updateParentCallback, true);
 
 		controller = new PenCategoryController(app, this);

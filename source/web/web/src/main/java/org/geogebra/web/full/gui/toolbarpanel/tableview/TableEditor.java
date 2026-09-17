@@ -72,15 +72,18 @@ public final class TableEditor implements UnhandledKeyListener {
 			if (cell == null) {
 				return;
 			}
-			if (mathTextField.asWidget().isAttached() && keepFocusIfEditing
-					&& wrapper != null && wrapper.getParentElement() == cell) {
+			if (mathTextField.asWidget().isAttached()
+					&& keepFocusIfEditing
+					&& wrapper != null
+					&& wrapper.getParentElement() == cell) {
 				return;
 			}
-			boolean newColumnAndRow = table.tableModel.getColumnCount() > column
-					&& table.tableModel.getRowCount() > row;
-			mathTextField.setText(newColumnAndRow
-					? table.tableModel.getCellAt(row, column).getInput()
-					: ""); // make sure we don't load content of previously edited cell
+			boolean newColumnAndRow =
+					table.tableModel.getColumnCount() > column && table.tableModel.getRowCount() > row;
+			mathTextField.setText(
+					newColumnAndRow
+							? table.tableModel.getCellAt(row, column).getInput()
+							: ""); // make sure we don't load content of previously edited cell
 			table.scrollIntoView(cell);
 			table.getTableWrapper().add(mathTextField); // first add to GWT tree
 			setChildrenDisplay(cell, "none");
@@ -161,25 +164,24 @@ public final class TableEditor implements UnhandledKeyListener {
 	@Override
 	public void onArrow(int keyCode, KeyEvent.KeyboardType keyboardType) {
 		switch (keyCode) {
-		case JavaKeyCodes.VK_LEFT:
-			controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
-			break;
-		case JavaKeyCodes.VK_RIGHT:
-			controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
-			break;
-		case JavaKeyCodes.VK_UP:
-			controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_UP);
-			break;
-		default: // to make SpotBugs happy
-		case JavaKeyCodes.VK_DOWN:
-			controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
-			break;
+			case JavaKeyCodes.VK_LEFT:
+				controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_LEFT);
+				break;
+			case JavaKeyCodes.VK_RIGHT:
+				controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_RIGHT);
+				break;
+			case JavaKeyCodes.VK_UP:
+				controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_UP);
+				break;
+			default: // to make SpotBugs happy
+			case JavaKeyCodes.VK_DOWN:
+				controller.keyPressed(TableValuesKeyboardNavigationController.Key.ARROW_DOWN);
+				break;
 		}
 	}
 
 	@Override
-	public boolean onUnhandledKey(int keyCode, KeyEvent.KeyboardType keyboardType,
-			int keyModifiers) {
+	public boolean onUnhandledKey(int keyCode, KeyEvent.KeyboardType keyboardType, int keyModifiers) {
 		boolean shiftPressed = (keyModifiers & KeyEvent.SHIFT_MASK) > 0;
 		boolean ctrlOrCmdPressed = (keyModifiers & KeyEvent.CTRL_MASK) > 0;
 		if ((shiftPressed && keyCode == JavaKeyCodes.VK_F10)
@@ -201,12 +203,16 @@ public final class TableEditor implements UnhandledKeyListener {
 	 * @return cell input
 	 */
 	public String getText(int row, int column) {
-		if (mathTextField != null && editingRow == row && editingColumn == column
+		if (mathTextField != null
+				&& editingRow == row
+				&& editingColumn == column
 				&& mathTextField.asWidget().isAttached()) {
 			return mathTextField.getText();
 		}
-		if (row >= 0 && row < table.tableModel.getRowCount()
-				&& column >= 0 && column < table.tableModel.getColumnCount()) {
+		if (row >= 0
+				&& row < table.tableModel.getRowCount()
+				&& column >= 0
+				&& column < table.tableModel.getColumnCount()) {
 			return table.tableModel.getCellAt(row, column).getInput();
 		}
 		return "";

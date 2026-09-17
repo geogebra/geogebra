@@ -31,7 +31,7 @@ import org.geogebra.common.main.MyError;
 public class CmdProve extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,19 +47,18 @@ public class CmdProve extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0] instanceof BooleanValue) {
+			case 1:
+				if (arg[0] instanceof BooleanValue) {
 
-				AlgoProve algo = new AlgoProve(cons, c.getLabel(), arg[0]);
+					AlgoProve algo = new AlgoProve(cons, c.getLabel(), arg[0]);
 
-				GeoElement[] ret = { algo.getGeoBoolean() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getGeoBoolean()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
-
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

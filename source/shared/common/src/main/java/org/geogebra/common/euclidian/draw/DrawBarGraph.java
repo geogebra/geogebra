@@ -34,7 +34,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation of a bar graph
- * 
+ *
  */
 public class DrawBarGraph extends Drawable {
 
@@ -110,7 +110,7 @@ public class DrawBarGraph extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
@@ -170,9 +170,8 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (chartStyle.getBarColor(k) != null) {
 							GColor col = chartStyle.getBarColor(k);
-							g2.setPaint(GColor.newColor(col.getRed(),
-									col.getGreen(), col.getBlue(),
-									geo.getLineOpacity()));
+							g2.setPaint(GColor.newColor(
+									col.getRed(), col.getGreen(), col.getBlue(), geo.getLineOpacity()));
 						} else {
 							g2.setPaint(color);
 						}
@@ -202,8 +201,7 @@ public class DrawBarGraph extends Drawable {
 	public boolean hit(int x, int y, int hitThreshold) {
 		if (gp != null) {
 			for (int i = 0; i < gp.length; i++) {
-				if (gp[i].contains(x, y)
-						|| gp[i].intersects(x, y, hitThreshold)) {
+				if (gp[i].contains(x, y) || gp[i].intersects(x, y, hitThreshold)) {
 					setToolTip(i);
 					return true;
 				}
@@ -283,11 +281,9 @@ public class DrawBarGraph extends Drawable {
 				drawPoints.get(i).update();
 			}
 
-			if (drawType == DrawType.STEP_GRAPH_CONTINUOUS
-					|| drawType == DrawType.STEP_GRAPH_JUMP) {
+			if (drawType == DrawType.STEP_GRAPH_CONTINUOUS || drawType == DrawType.STEP_GRAPH_JUMP) {
 
-				if (pointType == POINT_LEFT
-						|| pointType == POINT_LEFT_OPEN_RIGHT) {
+				if (pointType == POINT_LEFT || pointType == POINT_LEFT_OPEN_RIGHT) {
 					pointStyle = EuclidianStyleConstants.POINT_STYLE_CIRCLE;
 				} else {
 					pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
@@ -299,8 +295,7 @@ public class DrawBarGraph extends Drawable {
 					coords[1] = yVal[i];
 					pts.get(N + i).setCoords(coords[0], coords[1], 1.0);
 					pts.get(N + i).setObjColor(geo.getObjectColor());
-					pts.get(N + i)
-							.setPointSize(2 + (geo.getLineThickness() + 1) / 3);
+					pts.get(N + i).setPointSize(2 + (geo.getLineThickness() + 1) / 3);
 					pts.get(N + i).setPointStyle(pointStyle);
 					if (pointType == POINT_LEFT) {
 						pts.get(N + i).setEuclidianVisible(false);
@@ -308,160 +303,153 @@ public class DrawBarGraph extends Drawable {
 					drawPoints.get(N + i).update();
 				}
 			}
-
 		}
 
 		double halfWidth = width / 2;
 
 		switch (drawType) {
+			case VERTICAL_BAR:
+				if (width <= 0) {
+					for (int i = 0; i < N; i++) {
+						coords[0] = xVal[i];
+						coords[1] = 0;
+						view.toScreenCoords(coords);
+						gp[i].moveTo(coords[0], coords[1]);
 
-		case VERTICAL_BAR:
-
-			if (width <= 0) {
-				for (int i = 0; i < N; i++) {
-					coords[0] = xVal[i];
-					coords[1] = 0;
-					view.toScreenCoords(coords);
-					gp[i].moveTo(coords[0], coords[1]);
-
-					coords[0] = xVal[i];
-					coords[1] = yVal[i];
-					view.toScreenCoords(coords);
-					gp[i].lineTo(coords[0], coords[1]);
-				}
-
-			} else {
-				for (int i = 0; i < N; i++) {
-					if (DoubleUtil.isZero(yVal[i])) {
-						continue;
+						coords[0] = xVal[i];
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
 					}
 
-					coords[0] = xVal[i];
-					coords[1] = 0;
+				} else {
+					for (int i = 0; i < N; i++) {
+						if (DoubleUtil.isZero(yVal[i])) {
+							continue;
+						}
+
+						coords[0] = xVal[i];
+						coords[1] = 0;
+						view.toScreenCoords(coords);
+						gp[i].moveTo(coords[0], coords[1]);
+
+						coords[0] = xVal[i];
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+
+						coords[0] = xVal[i] + width;
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+
+						coords[0] = xVal[i] + width;
+						coords[1] = 0;
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+
+						coords[0] = xVal[i];
+						coords[1] = 0;
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+					}
+				}
+
+				break;
+
+			case HORIZONTAL_BAR:
+				if (width <= 0) {
+					for (int i = 0; i < N; i++) {
+						coords[0] = 0;
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].moveTo(coords[0], coords[1]);
+
+						coords[0] = xVal[i];
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+					}
+
+				} else {
+					for (int i = 0; i < N; i++) {
+						coords[0] = 0;
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].moveTo(coords[0], coords[1]);
+
+						coords[0] = xVal[i];
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+
+						coords[0] = xVal[i];
+						coords[1] = yVal[i] + width;
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+
+						coords[0] = 0;
+						coords[1] = yVal[i] + width;
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+
+						coords[0] = 0;
+						coords[1] = yVal[i];
+						view.toScreenCoords(coords);
+						gp[i].lineTo(coords[0], coords[1]);
+					}
+				}
+				break;
+
+			case STEP_GRAPH_CONTINUOUS:
+				for (int i = 0; i < N - 1; i++) {
+
+					// move to start point
+					coords[0] = xVal[i] + halfWidth;
+					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp[i].moveTo(coords[0], coords[1]);
 
-					coords[0] = xVal[i];
+					// across
+					coords[0] = xVal[i + 1] + halfWidth;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp[i].lineTo(coords[0], coords[1]);
 
-					coords[0] = xVal[i] + width;
-					coords[1] = yVal[i];
-					view.toScreenCoords(coords);
-					gp[i].lineTo(coords[0], coords[1]);
-
-					coords[0] = xVal[i] + width;
-					coords[1] = 0;
-					view.toScreenCoords(coords);
-					gp[i].lineTo(coords[0], coords[1]);
-
-					coords[0] = xVal[i];
-					coords[1] = 0;
+					// up
+					coords[0] = xVal[i + 1] + halfWidth;
+					coords[1] = yVal[i + 1];
 					view.toScreenCoords(coords);
 					gp[i].lineTo(coords[0], coords[1]);
 				}
-			}
 
-			break;
+				// up to last point
+				coords[0] = xVal[N - 1] + halfWidth;
+				coords[1] = yVal[N - 1];
+				view.toScreenCoords(coords);
+				if (gp.length > 0) {
+					gp[gp.length - 1].lineTo(coords[0], coords[1]);
+				}
 
-		case HORIZONTAL_BAR:
+				break;
 
-			if (width <= 0) {
-				for (int i = 0; i < N; i++) {
-					coords[0] = 0;
+			case STEP_GRAPH_JUMP:
+				for (int i = 0; i < N - 1; i++) {
+
+					// move to start point
+					coords[0] = xVal[i] + halfWidth;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp[i].moveTo(coords[0], coords[1]);
 
-					coords[0] = xVal[i];
+					// across
+					coords[0] = xVal[i + 1] + halfWidth;
 					coords[1] = yVal[i];
 					view.toScreenCoords(coords);
 					gp[i].lineTo(coords[0], coords[1]);
 				}
 
-			} else {
-				for (int i = 0; i < N; i++) {
-					coords[0] = 0;
-					coords[1] = yVal[i];
-					view.toScreenCoords(coords);
-					gp[i].moveTo(coords[0], coords[1]);
-
-					coords[0] = xVal[i];
-					coords[1] = yVal[i];
-					view.toScreenCoords(coords);
-					gp[i].lineTo(coords[0], coords[1]);
-
-					coords[0] = xVal[i];
-					coords[1] = yVal[i] + width;
-					view.toScreenCoords(coords);
-					gp[i].lineTo(coords[0], coords[1]);
-
-					coords[0] = 0;
-					coords[1] = yVal[i] + width;
-					view.toScreenCoords(coords);
-					gp[i].lineTo(coords[0], coords[1]);
-
-					coords[0] = 0;
-					coords[1] = yVal[i];
-					view.toScreenCoords(coords);
-					gp[i].lineTo(coords[0], coords[1]);
-				}
-			}
-			break;
-
-		case STEP_GRAPH_CONTINUOUS:
-
-			for (int i = 0; i < N - 1; i++) {
-
-				// move to start point
-				coords[0] = xVal[i] + halfWidth;
-				coords[1] = yVal[i];
-				view.toScreenCoords(coords);
-				gp[i].moveTo(coords[0], coords[1]);
-
-				// across
-				coords[0] = xVal[i + 1] + halfWidth;
-				coords[1] = yVal[i];
-				view.toScreenCoords(coords);
-				gp[i].lineTo(coords[0], coords[1]);
-
-				// up
-				coords[0] = xVal[i + 1] + halfWidth;
-				coords[1] = yVal[i + 1];
-				view.toScreenCoords(coords);
-				gp[i].lineTo(coords[0], coords[1]);
-			}
-
-			// up to last point
-			coords[0] = xVal[N - 1] + halfWidth;
-			coords[1] = yVal[N - 1];
-			view.toScreenCoords(coords);
-			if (gp.length > 0) {
-				gp[gp.length - 1].lineTo(coords[0], coords[1]);
-			}
-
-			break;
-
-		case STEP_GRAPH_JUMP:
-
-			for (int i = 0; i < N - 1; i++) {
-
-				// move to start point
-				coords[0] = xVal[i] + halfWidth;
-				coords[1] = yVal[i];
-				view.toScreenCoords(coords);
-				gp[i].moveTo(coords[0], coords[1]);
-
-				// across
-				coords[0] = xVal[i + 1] + halfWidth;
-				coords[1] = yVal[i];
-				view.toScreenCoords(coords);
-				gp[i].lineTo(coords[0], coords[1]);
-
-			}
-
-			break;
+				break;
 		}
 
 		// gp on screen?
@@ -481,15 +469,13 @@ public class DrawBarGraph extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
-
 	}
 
 	private void updatePointLists() {
 
 		// find the number of points to draw
 		int n;
-		if (drawType == DrawType.STEP_GRAPH_CONTINUOUS
-				|| drawType == DrawType.STEP_GRAPH_JUMP) {
+		if (drawType == DrawType.STEP_GRAPH_CONTINUOUS || drawType == DrawType.STEP_GRAPH_JUMP) {
 			n = 2 * barChart.getIntervals() - 1;
 		} else {
 			n = barChart.getIntervals();
@@ -525,5 +511,4 @@ public class DrawBarGraph extends Drawable {
 		algo.setToolTipText(barIndex);
 		view.setToolTipText(null);
 	}
-
 }

@@ -97,7 +97,5 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
 		} else {
 			dist.setValue(g3D.distance(h3D));
 		}
-
 	}
-
 }

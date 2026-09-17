@@ -25,9 +25,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Material POJO
- * 
+ *
  * @author Matthias Meisinger
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class Material implements Serializable {
@@ -35,7 +35,7 @@ public class Material implements Serializable {
 	/**
 	 * Storage provider.
 	 */
-    public enum Provider {
+	public enum Provider {
 		TUBE("GeoGebra"),
 		GOOGLE("Google Drive"),
 		LOCAL("Local");
@@ -72,7 +72,15 @@ public class Material implements Serializable {
 	 * Resource type (values names must match API-supported values).
 	 */
 	public enum MaterialType {
-		ggb, ggt, ggs, link, book, ws, csv, flexiblews, ggsTemplate;
+		ggb,
+		ggt,
+		ggs,
+		link,
+		book,
+		ws,
+		csv,
+		flexiblews,
+		ggsTemplate;
 
 		@Override
 		public String toString() {
@@ -116,6 +124,7 @@ public class Material implements Serializable {
 	 * thumbnail available for the material.
 	 */
 	private String thumbnail;
+
 	private boolean thumbnailIsBase64 = false;
 	private String previewUrl;
 	private int width;
@@ -343,7 +352,7 @@ public class Material implements Serializable {
 	 */
 	public void setTimestampFromJava(long timestamp) {
 		setTimestamp(timestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES
-										// SECONDS
+		// SECONDS
 	}
 
 	/**
@@ -505,7 +514,6 @@ public class Material implements Serializable {
 		putString(ret, "appnname", appName);
 		if (storeLocalValues) {
 			putString(ret, "localID", localID + "");
-
 		}
 		return ret;
 	}
@@ -518,7 +526,6 @@ public class Material implements Serializable {
 				Log.debug(e);
 			}
 		}
-
 	}
 
 	private static void putString(JSONObject ret, String key, String value) {

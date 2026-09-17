@@ -69,8 +69,8 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	 * @param icon icon
 	 * @param cmd item action
 	 */
-	public AriaMenuItem(AttributedString text, @Nullable ResourcePrototype icon,
-			ScheduledCommand cmd) {
+	public AriaMenuItem(
+			AttributedString text, @Nullable ResourcePrototype icon, ScheduledCommand cmd) {
 		this();
 		Set<Range> attribute = text.getAttribute(AttributedString.Attribute.Subscript);
 		setHTMLContent(addSubscript(text.getRawValue(), attribute), icon);
@@ -80,7 +80,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	private Node addSubscript(String rawValue, Set<Range> attribute) {
 		List<Integer> splits = new ArrayList<>();
 		splits.add(0);
-		for (Range range: attribute) {
+		for (Range range : attribute) {
 			splits.add(range.getStart());
 			splits.add(range.getEnd());
 		}

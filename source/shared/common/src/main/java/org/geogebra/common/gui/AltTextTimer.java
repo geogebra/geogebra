@@ -44,13 +44,14 @@ public class AltTextTimer implements GTimerListener {
 		this.screenReader = screenReader;
 		this.loc = loc;
 		this.timer = UtilFactory.getPrototype() == null
-				? null : UtilFactory.getPrototype().newTimer(this, DELAY_MILLIS);
+				? null
+				: UtilFactory.getPrototype().newTimer(this, DELAY_MILLIS);
 	}
 
 	@Override
 	public void onRun() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(loc);
-		for (HasAuralText textProvider: queuedGeos) {
+		for (HasAuralText textProvider : queuedGeos) {
 			String line = textProvider.getAuralText();
 			lastReadText.put(textProvider, line);
 			sb.append(line);

@@ -23,23 +23,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.web.font;
@@ -54,8 +54,8 @@ public class FontLoaderW implements FontLoader {
 	@Override
 	public Font loadFont(String name) throws ResourceParseException {
 		String fontName = extractFileName(name);
-		return Opentype.INSTANCE.createNativeFont(name,
-				fontName, Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
+		return Opentype.INSTANCE.createNativeFont(
+				name, fontName, Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
 	}
 
 	private static String extractFileName(String filePathName) {
@@ -70,8 +70,7 @@ public class FontLoaderW implements FontLoader {
 		}
 		slashPos = slashPos > -1 ? slashPos : 0;
 		if (dotPos > slashPos) {
-			return filePathName.substring(slashPos > 0 ? slashPos + 1 : 0,
-					dotPos);
+			return filePathName.substring(slashPos > 0 ? slashPos + 1 : 0, dotPos);
 		}
 
 		return filePathName.substring(slashPos > 0 ? slashPos + 1 : 0);

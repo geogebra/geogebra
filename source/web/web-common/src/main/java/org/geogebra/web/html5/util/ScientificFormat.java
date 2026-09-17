@@ -30,7 +30,7 @@ public class ScientificFormat extends ScientificFormatAdapter {
 	/**
 	 * Sets the significant digits, maximum allowable width and number
 	 * formatting style (SciNote == true for Pure formatting).
-	 * 
+	 *
 	 * @param sigDigit
 	 *            significant digits
 	 * @param maxWidth
@@ -50,9 +50,13 @@ public class ScientificFormat extends ScientificFormatAdapter {
 	public void setSigDigits(int sigDigit) {
 		super.setSigDigits(sigDigit);
 		// fractional digits = sig. digits - 1 (same in JRE alternative)
-		JsPropertyMap<Object> props = JsPropertyMap.of("maximumFractionDigits", sigDigit - 1,
-				"minimumFractionDigits", sigDigit - 1,
-				"roundingMode", "halfExpand");
+		JsPropertyMap<Object> props = JsPropertyMap.of(
+				"maximumFractionDigits",
+				sigDigit - 1,
+				"minimumFractionDigits",
+				sigDigit - 1,
+				"roundingMode",
+				"halfExpand");
 		props.set("notation", "scientific");
 		numberFormat = new NumberFormat("en-US", props);
 	}
@@ -66,5 +70,4 @@ public class ScientificFormat extends ScientificFormatAdapter {
 		String preliminaryResult = numberFormat.format(d);
 		return prettyPrint(preliminaryResult);
 	}
-
 }

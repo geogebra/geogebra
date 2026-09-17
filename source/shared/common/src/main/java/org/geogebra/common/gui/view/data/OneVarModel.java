@@ -53,7 +53,7 @@ public class OneVarModel {
 
 	/**
 	 * Update model
-	 * 
+	 *
 	 * @param sample
 	 *            sample data
 	 */
@@ -63,43 +63,40 @@ public class OneVarModel {
 		NormalDistribution normalDist;
 		try {
 			switch (selectedPlot) {
+				default:
+					// do nothing
+					break;
+				case StatisticsModel.INFER_Z_TEST:
+				case StatisticsModel.INFER_Z_INT:
+					normalDist = new NormalDistribution(0, 1);
+					se = sigma / Math.sqrt(N);
+					testStat = (mean - hypMean) / se;
+					P = 2.0 * normalDist.cumulativeProbability(-Math.abs(testStat));
+					P = adjustedPValue(P, testStat, tail);
 
-			default:
-				// do nothing
-				break;
-			case StatisticsModel.INFER_Z_TEST:
-			case StatisticsModel.INFER_Z_INT:
-				normalDist = new NormalDistribution(0, 1);
-				se = sigma / Math.sqrt(N);
-				testStat = (mean - hypMean) / se;
-				P = 2.0 * normalDist.cumulativeProbability(-Math.abs(testStat));
-				P = adjustedPValue(P, testStat, tail);
+					double zCritical = normalDist.inverseCumulativeProbability((confLevel + 1d) / 2);
+					me = zCritical * se;
+					upper = mean + me;
+					lower = mean - me;
+					break;
 
-				double zCritical = normalDist
-						.inverseCumulativeProbability((confLevel + 1d) / 2);
-				me = zCritical * se;
-				upper = mean + me;
-				lower = mean - me;
-				break;
+				case StatisticsModel.INFER_T_TEST:
+				case StatisticsModel.INFER_T_INT:
+					if (tTestImpl == null) {
+						tTestImpl = new TTest();
+					}
+					se = Math.sqrt(StatUtils.variance(sample) / N);
+					df = N - 1;
+					testStat = tTestImpl.t(hypMean, sample);
+					P = tTestImpl.tTest(hypMean, sample);
+					P = adjustedPValue(P, testStat, tail);
 
-			case StatisticsModel.INFER_T_TEST:
-			case StatisticsModel.INFER_T_INT:
-				if (tTestImpl == null) {
-					tTestImpl = new TTest();
-				}
-				se = Math.sqrt(StatUtils.variance(sample) / N);
-				df = N - 1;
-				testStat = tTestImpl.t(hypMean, sample);
-				P = tTestImpl.tTest(hypMean, sample);
-				P = adjustedPValue(P, testStat, tail);
-
-				tDist = new TDistribution(N - 1);
-				double tCritical = tDist
-						.inverseCumulativeProbability((confLevel + 1d) / 2);
-				me = tCritical * se;
-				upper = mean + me;
-				lower = mean - me;
-				break;
+					tDist = new TDistribution(N - 1);
+					double tCritical = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
+					me = tCritical * se;
+					upper = mean + me;
+					lower = mean - me;
+					break;
 			}
 
 		} catch (RuntimeException e) {
@@ -107,11 +104,9 @@ public class OneVarModel {
 			// ArithmeticException
 			Log.debug(e);
 		}
-
 	}
 
-	private static double adjustedPValue(double p, double testStatistic,
-			String tail) {
+	private static double adjustedPValue(double p, double testStatistic, String tail) {
 
 		// two sided test
 		if (tail.equals(OneVarModel.tail_two)) {
@@ -153,49 +148,49 @@ public class OneVarModel {
 		ArrayList<String> nameList = new ArrayList<>();
 
 		switch (selectedPlot) {
-		default:
-			// do nothing
-			break;
-		case StatisticsModel.INFER_Z_TEST:
-			nameList.add(loc.getMenu("PValue"));
-			nameList.add(loc.getMenu("ZStatistic"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
+			default:
+				// do nothing
+				break;
+			case StatisticsModel.INFER_Z_TEST:
+				nameList.add(loc.getMenu("PValue"));
+				nameList.add(loc.getMenu("ZStatistic"));
+				nameList.add(loc.getMenu(""));
+				nameList.add(loc.getMenu("Length.short"));
+				nameList.add(loc.getMenu("Mean"));
 
-			break;
+				break;
 
-		case StatisticsModel.INFER_T_TEST:
-			nameList.add(loc.getMenu("PValue"));
-			nameList.add(loc.getMenu("TStatistic"));
-			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
-			nameList.add(loc.getMenu("StandardError.short"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
-			break;
+			case StatisticsModel.INFER_T_TEST:
+				nameList.add(loc.getMenu("PValue"));
+				nameList.add(loc.getMenu("TStatistic"));
+				nameList.add(loc.getMenu("DegreesOfFreedom.short"));
+				nameList.add(loc.getMenu("StandardError.short"));
+				nameList.add(loc.getMenu(""));
+				nameList.add(loc.getMenu("Length.short"));
+				nameList.add(loc.getMenu("Mean"));
+				break;
 
-		case StatisticsModel.INFER_Z_INT:
-			nameList.add(loc.getMenu("Interval"));
-			nameList.add(loc.getMenu("LowerLimit"));
-			nameList.add(loc.getMenu("UpperLimit"));
-			nameList.add(loc.getMenu("MarginOfError"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
-			break;
+			case StatisticsModel.INFER_Z_INT:
+				nameList.add(loc.getMenu("Interval"));
+				nameList.add(loc.getMenu("LowerLimit"));
+				nameList.add(loc.getMenu("UpperLimit"));
+				nameList.add(loc.getMenu("MarginOfError"));
+				nameList.add(loc.getMenu(""));
+				nameList.add(loc.getMenu("Length.short"));
+				nameList.add(loc.getMenu("Mean"));
+				break;
 
-		case StatisticsModel.INFER_T_INT:
-			nameList.add(loc.getMenu("Interval"));
-			nameList.add(loc.getMenu("LowerLimit"));
-			nameList.add(loc.getMenu("UpperLimit"));
-			nameList.add(loc.getMenu("MarginOfError"));
-			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
-			nameList.add(loc.getMenu("StandardError.short"));
-			nameList.add(loc.getMenu(""));
-			nameList.add(loc.getMenu("Length.short"));
-			nameList.add(loc.getMenu("Mean"));
-			break;
+			case StatisticsModel.INFER_T_INT:
+				nameList.add(loc.getMenu("Interval"));
+				nameList.add(loc.getMenu("LowerLimit"));
+				nameList.add(loc.getMenu("UpperLimit"));
+				nameList.add(loc.getMenu("MarginOfError"));
+				nameList.add(loc.getMenu("DegreesOfFreedom.short"));
+				nameList.add(loc.getMenu("StandardError.short"));
+				nameList.add(loc.getMenu(""));
+				nameList.add(loc.getMenu("Length.short"));
+				nameList.add(loc.getMenu("Mean"));
+				break;
 		}
 		return nameList;
 	}
@@ -235,5 +230,4 @@ public class OneVarModel {
 	public double getN() {
 		return N;
 	}
-
 }

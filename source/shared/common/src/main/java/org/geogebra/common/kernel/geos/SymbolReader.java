@@ -41,7 +41,6 @@ public class SymbolReader {
 		addOperatorsAndBraces();
 		addGreekLowerLetters();
 		map.put('\u2218', ScreenReader.getDegrees(loc));
-
 	}
 
 	private void addOperatorsAndBraces() {

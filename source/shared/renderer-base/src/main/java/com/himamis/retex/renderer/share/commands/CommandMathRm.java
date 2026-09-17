@@ -9,5 +9,4 @@ public class CommandMathRm extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new RomanAtom(a);
 	}
-
 }

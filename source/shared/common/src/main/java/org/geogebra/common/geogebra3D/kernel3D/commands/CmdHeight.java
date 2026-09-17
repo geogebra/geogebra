@@ -26,7 +26,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * OrientedHeight[ Cone ], etc.
- * 
+ *
  * @author mathieu
  *
  */
@@ -46,20 +46,19 @@ public class CmdHeight extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
+			case 1:
+				arg = resArgs(c, info);
 
-			if (arg[0] instanceof HasHeight) {
-				return new GeoElement[] { kernel.getManager3D()
-						.orientedHeight(c.getLabel(), (HasHeight) arg[0]) };
-			}
+				if (arg[0] instanceof HasHeight) {
+					return new GeoElement[] {
+						kernel.getManager3D().orientedHeight(c.getLabel(), (HasHeight) arg[0])
+					};
+				}
 
-			throw argErr(c, arg[0]);
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
-
 	}
-
 }

@@ -77,5 +77,4 @@ public class GSpinnerW extends GTextBox {
 	public void setStepValue(Integer value) {
 		getElement().setAttribute("step", value.toString());
 	}
-
 }

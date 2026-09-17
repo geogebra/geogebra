@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * Interface for views that need more info from the kernel
  *
  */
-
 public interface ClientView extends View {
 	/**
 	 * Notify the client that all updates related to renaming an object are
@@ -40,7 +39,7 @@ public interface ClientView extends View {
 
 	/**
 	 * Notify the client that a new polygon is complete.
-	 * 
+	 *
 	 * @param polygon
 	 *            The fully defined, new polygon
 	 */
@@ -55,7 +54,7 @@ public interface ClientView extends View {
 
 	/**
 	 * Update the client with the new location of the objects
-	 * 
+	 *
 	 * @param elms
 	 *            The list of GeoElements that were moved.
 	 */
@@ -66,7 +65,7 @@ public interface ClientView extends View {
 	 * that get deleted when and object with dependents is deleted. It also
 	 * notifies when only one elm is deleted, so it can be a full replacement
 	 * for the View's remove api.
-	 * 
+	 *
 	 * @param elms
 	 *            The full list of elms that were removed due to an object with
 	 *            dependents being deleted.
@@ -75,7 +74,7 @@ public interface ClientView extends View {
 
 	/**
 	 * Notify client that objects are about to pasted into the construction.
-	 * 
+	 *
 	 * @param pasteXml
 	 *            XML of pasted construction
 	 */
@@ -84,7 +83,7 @@ public interface ClientView extends View {
 	/**
 	 * Provide the full list of pasted elms to the client, in their finished
 	 * state (e.g. no temporary MAGIC_STRING labels)
-	 * 
+	 *
 	 * @param pastedElms
 	 *            The full list of pasted elms, in their finished state.
 	 */

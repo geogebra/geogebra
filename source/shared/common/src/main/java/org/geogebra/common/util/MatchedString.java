@@ -60,8 +60,8 @@ public class MatchedString {
 	 * @return [prefix, highlighted part, suffix]
 	 */
 	public String[] getParts() {
-		return new String[] {content.substring(0, from),
-				content.substring(from, to),
-				content.substring(to)};
+		return new String[] {
+			content.substring(0, from), content.substring(from, to), content.substring(to)
+		};
 	}
 }

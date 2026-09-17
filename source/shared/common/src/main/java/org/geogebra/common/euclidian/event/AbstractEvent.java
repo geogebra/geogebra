@@ -87,5 +87,4 @@ public abstract class AbstractEvent {
 	 * @return event type
 	 */
 	public abstract PointerEventType getType();
-
 }

@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Class for drawing labels of 3D elements
- * 
+ *
  * @author mathieu
  *
  */
@@ -56,7 +56,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param view
 	 *            3D view
 	 * @param drawable
@@ -70,7 +70,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	/**
 	 * update the label
-	 * 
+	 *
 	 * @param caption
 	 *            the CaptionText object
 	 * @param font0
@@ -85,8 +85,14 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	 *            abs offset in z
 	 * @param measuringGraphics auxiliary graphics for text measurements
 	 */
-	public void update(CaptionText caption, GFont font0, Coords v,
-			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
+	public void update(
+			CaptionText caption,
+			GFont font0,
+			Coords v,
+			float xOffset0,
+			float yOffset0,
+			float zOffset0,
+			GGraphics2D measuringGraphics) {
 		setCaption(caption);
 		if (view.drawsLabels()) {
 			update(caption.text(), font0, v, xOffset0, yOffset0, zOffset0, measuringGraphics);
@@ -117,8 +123,15 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	 *            abs offset in z
 	 * @param measuringGraphics auxiliary graphics for text measurements
 	 */
-	public void update(String text0, GFont font0, GColor fgColor, Coords v,
-			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
+	public void update(
+			String text0,
+			GFont font0,
+			GColor fgColor,
+			Coords v,
+			float xOffset0,
+			float yOffset0,
+			float zOffset0,
+			GGraphics2D measuringGraphics) {
 
 		if (view.drawsLabels()) {
 			update(text0, font0, v, xOffset0, yOffset0, zOffset0, measuringGraphics);
@@ -127,7 +140,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	/**
 	 * update the label
-	 * 
+	 *
 	 * @param text0
 	 *            text
 	 * @param font0
@@ -142,9 +155,15 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	 *            abs offset in z
 	 * @param measuringGraphics auxiliary graphics for text measurements
 	 */
-	public void update(String text0, GFont font0, Coords v,
-			float xOffset0, float yOffset0, float zOffset0, GGraphics2D measuringGraphics) {
-				this.origin = v;
+	public void update(
+			String text0,
+			GFont font0,
+			Coords v,
+			float xOffset0,
+			float yOffset0,
+			float zOffset0,
+			GGraphics2D measuringGraphics) {
+		this.origin = v;
 		if (text0.isEmpty() || caption == null) {
 			setIsVisible(false);
 			return;
@@ -195,7 +214,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	/**
 	 * create graphics2D instance from buffered image
-	 * 
+	 *
 	 * @param bimg
 	 *            buffered image
 	 * @param cpt caption
@@ -207,15 +226,14 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 		GAffineTransform gt = AwtFactory.getPrototype().newAffineTransform();
 		gt.scale(1, -1d);
 		gt.translate(-xOffset2, yOffset2); // put the baseline on the label
-											// anchor
+		// anchor
 		g2d.transform(gt);
 		g2d.setColor(cpt.foregroundColor());
 		g2d.setFont(cpt.font());
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(
+				RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		return g2d;
 	}
@@ -229,13 +247,20 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	protected GRectangle getBounds(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), cpt.text(), 0, 0, measuringGraphics, false,
+				view.getApplication(),
+				cpt.text(),
+				0,
+				0,
+				measuringGraphics,
+				false,
 				cpt.font(),
-				AwtFactory.getPrototype().newRectangle(), null, DrawText.DEFAULT_MARGIN);
+				AwtFactory.getPrototype().newRectangle(),
+				null,
+				DrawText.DEFAULT_MARGIN);
 		if (properties.hasSubscript()) { // text contains subscript
 			hasIndex = true;
-			EuclidianStatic.drawIndexedString(view.getApplication(),
-					measuringGraphics, cpt.text(), 0, 0, false);
+			EuclidianStatic.drawIndexedString(
+					view.getApplication(), measuringGraphics, cpt.text(), 0, 0, false);
 		} else {
 			hasIndex = false;
 		}
@@ -262,11 +287,21 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 			g2d = createGraphics2D(bimg, cpt);
 
 			App app = view.getApplication();
-			app.getDrawEquation().drawEquation(app,
-					geo, g2d, 0, -offsetY, cpt.textToDraw(),
-					cpt.font(), cpt.isSerifFont(), cpt.foregroundColor(),
-					cpt.backgroundColor(),
-					true, false, getCallBack());
+			app.getDrawEquation()
+					.drawEquation(
+							app,
+							geo,
+							g2d,
+							0,
+							-offsetY,
+							cpt.textToDraw(),
+							cpt.font(),
+							cpt.isSerifFont(),
+							cpt.foregroundColor(),
+							cpt.backgroundColor(),
+							true,
+							false,
+							getCallBack());
 			return bimg;
 		}
 
@@ -275,8 +310,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 		g2d.setFont(cpt.font());
 
 		if (hasIndex) {
-			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, cpt.text(),
-					0, 0, false);
+			EuclidianStatic.drawIndexedString(view.getApplication(), g2d, cpt.text(), 0, 0, false);
 		} else {
 			drawPlainTextLabel(g2d, cpt);
 		}
@@ -285,14 +319,15 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	}
 
 	private void drawPlainTextLabel(GGraphics2D g2d, @NonNull CaptionText cpt) {
-		GFont font0 = view.getApplication().getFontCanDisplay(cpt.text(),
-				cpt.isSerifFont(), cpt.font().getStyle(), cpt.font().getSize());
+		GFont font0 = view.getApplication()
+				.getFontCanDisplay(
+						cpt.text(), cpt.isSerifFont(), cpt.font().getStyle(), cpt.font().getSize());
 		g2d.setFont(font0);
 		g2d.drawString(cpt.text(), 0, 0);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return callback (for JLM)
 	 */
 	protected Runnable getCallBack() {
@@ -316,12 +351,11 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 			label.drawable.setLabelWaitForReset();
 			view.repaintView();
 		}
-
 	}
 
 	/**
 	 * draws the label
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
@@ -330,7 +364,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return z position (in screen coords) where the label is drawn
 	 */
 	public double getDrawZ() {
@@ -338,9 +372,9 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * update position for axes labels (x/y/z)
-	 * 
+	 *
 	 * @param xOffset1
 	 *            x offset
 	 * @param yOffset1
@@ -350,8 +384,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	 * @param tickSize
 	 *            tick size
 	 */
-	public void updateDrawPositionAxes(float xOffset1, float yOffset1,
-			float zOffset1, int tickSize) {
+	public void updateDrawPositionAxes(float xOffset1, float yOffset1, float zOffset1, int tickSize) {
 		this.xOffset = xOffset1;
 		this.yOffset = yOffset1;
 		this.zOffset = zOffset1;
@@ -360,7 +393,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 
 	/**
 	 * update position for axes numbers
-	 * 
+	 *
 	 * @param tickSize
 	 *            tick sizes
 	 */
@@ -381,7 +414,7 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            mouse x position
 	 * @param y
@@ -390,16 +423,17 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	 */
 	public boolean hit(double x, double y) {
 		if (properties.hasBackgroundColor()) {
-			return drawX <= x && drawX + width >= x && drawY <= y
-					&& drawY + height >= y;
+			return drawX <= x && drawX + width >= x && drawY <= y && drawY + height >= y;
 		}
 
-		return drawX + pickingX <= x && drawX + pickingX + pickingW >= x
-				&& drawY + pickingY <= y && drawY + pickingY + pickingH >= y;
+		return drawX + pickingX <= x
+				&& drawX + pickingX + pickingW >= x
+				&& drawY + pickingY <= y
+				&& drawY + pickingY + pickingH >= y;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param o
 	 *            mouse origin
 	 * @param direction
@@ -407,16 +441,14 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 	 * @return true if mouse hits the label
 	 */
 	public boolean hit(Coords o, Coords direction) {
-		double x = o.getX()
-				+ (drawZ - o.getZ()) * direction.getX() / direction.getZ();
-		double y = o.getY()
-				+ (drawZ - o.getZ()) * direction.getY() / direction.getZ();
+		double x = o.getX() + (drawZ - o.getZ()) * direction.getX() / direction.getZ();
+		double y = o.getY() + (drawZ - o.getZ()) * direction.getY() / direction.getZ();
 		return hit(x, y);
 	}
 
 	/**
 	 * draw at (x,y,z)
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
@@ -428,7 +460,6 @@ public non-sealed class DrawLabel3D extends DrawableTexture3D {
 		renderer.getTextures().setTextureLinear(textureIndex);
 		renderer.getGeometryManager().drawLabel(textIndex);
 		renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
-
 	}
 
 	@Override

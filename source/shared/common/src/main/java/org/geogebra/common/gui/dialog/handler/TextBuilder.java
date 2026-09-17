@@ -65,17 +65,17 @@ public class TextBuilder {
 	 * @param handler error handler
 	 * @param callback callback when text created
 	 */
-	public void createText(String inputValue, ErrorHandler handler,
-			AsyncOperation<Boolean> callback) {
+	public void createText(
+			String inputValue, ErrorHandler handler, AsyncOperation<Boolean> callback) {
 		EvalInfo noLabel = new EvalInfo(false).withSliders(true);
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(inputValue,
-						false, handler, noLabel, getCallback(callback));
+		app.getKernel()
+				.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(
+						inputValue, false, handler, noLabel, getCallback(callback));
 	}
 
 	private void positionText(GeoText t) {
-		EuclidianViewInterfaceCommon activeView = app
-				.getActiveEuclidianView();
+		EuclidianViewInterfaceCommon activeView = app.getActiveEuclidianView();
 
 		if (startPoint.isLabelSet()) {
 			t.checkVisibleIn3DViewNeeded();
@@ -89,16 +89,12 @@ public class TextBuilder {
 			Coords coords = startPoint.getInhomCoordsInD3();
 			if (rw) {
 				t.setRealWorldLoc(
-						activeView.toRealWorldCoordX(
-								coords.getX()),
-						activeView.toRealWorldCoordY(
-								coords.getY()));
+						activeView.toRealWorldCoordX(coords.getX()),
+						activeView.toRealWorldCoordY(coords.getY()));
 				t.setAbsoluteScreenLocActive(false);
 			} else {
-				t.setAbsoluteScreenLoc((int) coords.getX(),
-						(int) coords.getY());
+				t.setAbsoluteScreenLoc((int) coords.getX(), (int) coords.getY());
 				t.setAbsoluteScreenLocActive(true);
-
 			}
 
 			// when not a point clicked, show text only in
@@ -124,8 +120,7 @@ public class TextBuilder {
 		}
 		// make sure (only) the output of the text tool is
 		// selected
-		activeView.getEuclidianController()
-				.memorizeJustCreatedGeos(t.asArray());
+		activeView.getEuclidianController().memorizeJustCreatedGeos(t.asArray());
 		t.setLabel(null);
 	}
 
@@ -137,15 +132,13 @@ public class TextBuilder {
 		}
 	}
 
-	private AsyncOperation<GeoElementND[]> getCallback(
-			final AsyncOperation<Boolean> callback) {
+	private AsyncOperation<GeoElementND[]> getCallback(final AsyncOperation<Boolean> callback) {
 		return ret -> {
 			if (ret != null && ret[0] instanceof GeoText) {
 				GeoText t = (GeoText) ret[0];
 				if (textStyle != null) {
 					t.setLaTeX(textStyle.isLatex(), true);
-					t.setFontStyle(TextOptionsModel.getFontStyle(textStyle.isBold(),
-							textStyle.isItalic()));
+					t.setFontStyle(TextOptionsModel.getFontStyle(textStyle.isBold(), textStyle.isItalic()));
 					t.setSerifFont(textStyle.isSerif());
 					t.setBackgroundColor(textStyle.getBgColor());
 					t.setObjColor(textStyle.getFontColor());

@@ -58,7 +58,6 @@ public class IneqStyleModel extends BooleanOptionModel {
 		} else {
 			getListener().updateCheckbox(false);
 		}
-
 	}
 
 	@Override
@@ -74,8 +73,8 @@ public class IneqStyleModel extends BooleanOptionModel {
 		}
 
 		GeoFunction gfun = (GeoFunction) geo;
-		return gfun.isBooleanFunction() && !gfun
-				.getVarString(StringTemplate.defaultTemplate).equals("y");
+		return gfun.isBooleanFunction()
+				&& !gfun.getVarString(StringTemplate.defaultTemplate).equals("y");
 	}
 
 	@Override
@@ -89,7 +88,5 @@ public class IneqStyleModel extends BooleanOptionModel {
 		InequalityProperties geo = (InequalityProperties) getObjectAt(index);
 		geo.setShowOnAxis(value);
 		geo.updateRepaint();
-
 	}
-
 }

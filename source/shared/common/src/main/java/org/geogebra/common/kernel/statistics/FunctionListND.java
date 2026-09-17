@@ -32,12 +32,12 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 
-//import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+// import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 
 /**
  * Represents set of functions in linear regression. Collects functions and
  * builds linear combinations of them.
- * 
+ *
  * @author Zbynek
  */
 public interface FunctionListND {
@@ -70,22 +70,20 @@ public interface FunctionListND {
 		// Making GeoFunction fit(x)= p1*f(x)+p2*g(x)+p3*h(x)+...
 		@Override
 		public final CasEvaluableFunction makeFunction(
-				CasEvaluableFunction template, GeoList functionlist,
-				RealMatrix P) {
+				CasEvaluableFunction template, GeoList functionlist, RealMatrix P) {
 			GeoFunction product = new GeoFunction(template.getConstruction());
 
 			// First product:
 			double p = P.getEntry(0, 0); // parameter
 			// Checks done in makeMatrixes...
 			GeoFunctionable gf = array[0];
-			GeoFunction fitfunction2 = GeoFunction.mult((GeoFunction) template,
-					p, gf); // p1*f(x)
+			GeoFunction fitfunction2 = GeoFunction.mult((GeoFunction) template, p, gf); // p1*f(x)
 			for (int i = 1; i < array.length; i++) {
 				p = P.getEntry(i, 0);
 				gf = array[i];
 				product = GeoFunction.mult(product, p, gf); // product= p*func
-				fitfunction2 = GeoFunction.add(fitfunction2, fitfunction2,
-						product, Operation.PLUS); // fit(x)=...+p*func
+				fitfunction2 = GeoFunction.add(
+						fitfunction2, fitfunction2, product, Operation.PLUS); // fit(x)=...+p*func
 			}
 
 			return fitfunction2;
@@ -99,9 +97,7 @@ public interface FunctionListND {
 		@Override
 		public void setSize(int size) {
 			array = new GeoFunctionable[size];
-
 		}
-
 	}
 
 	/**
@@ -131,10 +127,9 @@ public interface FunctionListND {
 		}
 
 		@Override
-		public CasEvaluableFunction makeFunction(CasEvaluableFunction template,
-				GeoList functionlist, RealMatrix P) {
-			GeoFunctionNVar product = new GeoFunctionNVar(
-					template.getConstruction());
+		public CasEvaluableFunction makeFunction(
+				CasEvaluableFunction template, GeoList functionlist, RealMatrix P) {
+			GeoFunctionNVar product = new GeoFunctionNVar(template.getConstruction());
 
 			// First product:
 			double p = P.getEntry(0, 0); // parameter
@@ -154,29 +149,25 @@ public interface FunctionListND {
 			return template;
 		}
 
-		private static void add(GeoFunctionNVar res, GeoFunctionNVar lt,
-				GeoFunctionNVar rt, Operation op) {
+		private static void add(
+				GeoFunctionNVar res, GeoFunctionNVar lt, GeoFunctionNVar rt, Operation op) {
 			Kernel kernel1 = res.getKernel();
-			FunctionNVar fRes = GeoFunction.operationSymb(op, rt, lt)
-					.deepCopy(kernel1);
+			FunctionNVar fRes = GeoFunction.operationSymb(op, rt, lt).deepCopy(kernel1);
 
-			fRes.setExpression(AlgoDependentFunction
-					.expandFunctionDerivativeNodes(fRes.getExpression(), true)
-					.wrap());
+			fRes.setExpression(
+					AlgoDependentFunction.expandFunctionDerivativeNodes(fRes.getExpression(), true)
+							.wrap());
 
 			res.setFunction(fRes);
-
 		}
 
-		private static void mult(GeoFunctionNVar res, double lt,
-				Evaluate2Var rt, Operation op) {
+		private static void mult(GeoFunctionNVar res, double lt, Evaluate2Var rt, Operation op) {
 			Kernel kernel1 = res.getKernel();
-			FunctionNVar fRes = GeoFunction
-					.applyNumberSymb(op, rt, new MyDouble(kernel1, lt), false)
-					.deepCopy(kernel1);
-			fRes.setExpression(AlgoDependentFunction
-					.expandFunctionDerivativeNodes(fRes.getExpression(), true)
-					.wrap());
+			FunctionNVar fRes =
+					GeoFunction.applyNumberSymb(op, rt, new MyDouble(kernel1, lt), false).deepCopy(kernel1);
+			fRes.setExpression(
+					AlgoDependentFunction.expandFunctionDerivativeNodes(fRes.getExpression(), true)
+							.wrap());
 			res.setFunction(fRes);
 		}
 
@@ -188,9 +179,7 @@ public interface FunctionListND {
 		@Override
 		public void setSize(int size) {
 			array = new Evaluate2Var[size];
-
 		}
-
 	}
 
 	/**
@@ -214,7 +203,7 @@ public interface FunctionListND {
 	/**
 	 * Pick coord of the point that should be compared with value of the
 	 * regression function
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @return y or z coord of the point
@@ -224,7 +213,7 @@ public interface FunctionListND {
 	/**
 	 * Multiply functions from functionlist by coefficients from matrix p and
 	 * return sum of the results
-	 * 
+	 *
 	 * @param fitfunction
 	 *            template function
 	 * @param functionlist
@@ -233,8 +222,8 @@ public interface FunctionListND {
 	 *            coefficient matrix
 	 * @return linear combination
 	 */
-	CasEvaluableFunction makeFunction(CasEvaluableFunction fitfunction,
-			GeoList functionlist, RealMatrix p);
+	CasEvaluableFunction makeFunction(
+			CasEvaluableFunction fitfunction, GeoList functionlist, RealMatrix p);
 
 	/**
 	 * @param cons
@@ -248,5 +237,4 @@ public interface FunctionListND {
 	 *            number of functions
 	 */
 	void setSize(int functionsize);
-
 }

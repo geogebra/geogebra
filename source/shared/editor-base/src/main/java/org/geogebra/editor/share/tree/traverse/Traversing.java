@@ -30,5 +30,4 @@ public interface Traversing {
 	 * @return replacement of processed node
 	 */
 	Node process(Node node);
-
 }

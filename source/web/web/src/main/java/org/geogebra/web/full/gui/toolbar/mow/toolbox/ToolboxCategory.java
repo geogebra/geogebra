@@ -53,13 +53,22 @@ import java.util.List;
 public enum ToolboxCategory {
 	SELECT("select"),
 	PEN("pen", MODE_PEN, MODE_HIGHLIGHTER, MODE_ERASER),
-	SHAPES("shapes", MODE_SHAPE_RECTANGLE,
-			MODE_SHAPE_SQUARE , MODE_SHAPE_PARALLELOGRAM, MODE_SHAPE_STADIUM,
-			MODE_SHAPE_TRIANGLE , MODE_SHAPE_CIRCLE , MODE_SHAPE_ELLIPSE,
-			MODE_SHAPE_PENTAGON, MODE_SHAPE_LINE, MODE_SHAPE_CURVE, MODE_SHAPE_FREEFORM, MODE_MASK),
+	SHAPES(
+			"shapes",
+			MODE_SHAPE_RECTANGLE,
+			MODE_SHAPE_SQUARE,
+			MODE_SHAPE_PARALLELOGRAM,
+			MODE_SHAPE_STADIUM,
+			MODE_SHAPE_TRIANGLE,
+			MODE_SHAPE_CIRCLE,
+			MODE_SHAPE_ELLIPSE,
+			MODE_SHAPE_PENTAGON,
+			MODE_SHAPE_LINE,
+			MODE_SHAPE_CURVE,
+			MODE_SHAPE_FREEFORM,
+			MODE_MASK),
 	TEXT("text", MODE_MEDIA_TEXT, MODE_EQUATION),
-	UPLOAD("upload", MODE_IMAGE, MODE_CAMERA,
-			MODE_PDF),
+	UPLOAD("upload", MODE_IMAGE, MODE_CAMERA, MODE_PDF),
 	LINK("link", MODE_EXTENSION, MODE_VIDEO, MODE_AUDIO),
 	MORE("more", MODE_CALCULATOR, MODE_MIND_MAP, MODE_TABLE, MODE_GRASPABLE_MATH),
 	SPOTLIGHT("spotlight"),
@@ -74,7 +83,7 @@ public enum ToolboxCategory {
 	}
 
 	static ToolboxCategory byName(String category) {
-		for (ToolboxCategory item: values()) {
+		for (ToolboxCategory item : values()) {
 			if (item.getName().equalsIgnoreCase(category)) {
 				return item;
 			}
@@ -90,4 +99,3 @@ public enum ToolboxCategory {
 		return tools;
 	}
 }
-

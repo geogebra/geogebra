@@ -115,5 +115,4 @@ public class AlgoJoin extends AlgoElement {
 			}
 		}
 	}
-
 }

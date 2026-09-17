@@ -57,16 +57,16 @@ import elemental2.dom.CanvasRenderingContext2D;
  * EuclidianView) and will add a title bar if the user is not in the
  * "layout fixed" mode. The user can move the DockPanel by dragging the title
  * bar.
- * 
+ *
  * <p>To add a new dock panel one has to subclass DockPanel, implement the abstract
  * method DockPanel::loadComponent() and maybe replace DockPanel::getIcon() and
  * DockPanel::getStyleBar().</p>
- * 
+ *
  * <p>One can add a panel using Layout::registerPanel(), the GuiManager also
  * provides GuiManager()::initLayoutPanels() as an easy access point to add new
  * panels. This is also important because it matters at which point of execution
  * a panel is added, see Layout::registerPanel() for further information.</p>
- * 
+ *
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite
@@ -76,6 +76,7 @@ public abstract class DockPanelW extends ResizeComposite
 	protected DockManagerW dockManager;
 	/** app */
 	protected AppWFull app;
+
 	private boolean longStyleBar = false;
 	protected ZoomPanel zoomPanel;
 
@@ -155,6 +156,7 @@ public abstract class DockPanelW extends ResizeComposite
 	InnerDockLayoutPanel dockPanel;
 	/** the main panel of this stylebar */
 	protected DockControlPanel dockControlPanel;
+
 	private boolean initializedGui;
 
 	protected ResourcePrototype viewImage;
@@ -174,7 +176,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * @return true if this dock panel frame will be created as a JDialog. If
 	 *         false then it will be created as a JFrame
-	 * 
+	 *
 	 */
 	public boolean isDialog() {
 		return dialog;
@@ -182,7 +184,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Sets the isDialog flag.
-	 * 
+	 *
 	 * @param isDialog
 	 *            true if this dock panel frame will be created as a JDialog. If
 	 *            false then it will be created as a JFrame
@@ -194,7 +196,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Prepare dock panel. DockPanel::register() has to be called to make this
 	 * panel fully functional!
-	 * 
+	 *
 	 * @param id
 	 *            The id of the panel
 	 * @param toolbar
@@ -245,7 +247,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Bind this view to a dock manager. Also initializes the whole GUI as just
 	 * at this point the application is available.
-	 * 
+	 *
 	 * @param dockManager1
 	 *            dock manager
 	 */
@@ -325,11 +327,9 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/** Builds zoom panel */
 	public void tryBuildZoomPanel() {
-		DockManagerW dm = app.getGuiManager().getLayout()
-				.getDockManager();
+		DockManagerW dm = app.getGuiManager().getLayout().getDockManager();
 
-		boolean bottomRight = dm.getRoot() == null
-				|| dm.getRoot().isBottomRight(this);
+		boolean bottomRight = dm.getRoot() == null || dm.getRoot().isBottomRight(this);
 		if (zoomPanel != null) {
 			zoomPanel.removeFromParent();
 			zoomPanel = null;
@@ -396,7 +396,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * sets the layout of the stylebar and title panel
-	 * 
+	 *
 	 * @param deferred
 	 *            whether to set the layout in deferred call
 	 */
@@ -411,8 +411,7 @@ public abstract class DockPanelW extends ResizeComposite
 		dockPanel.clear();
 		if (hasStyleBar()) {
 			if (app.getSettings().getLayout().showTitleBar()
-					&& (app.allowStylebar() || needsResetIcon()
-							|| forceCloseButton())) {
+					&& (app.allowStylebar() || needsResetIcon() || forceCloseButton())) {
 				addDockControlPanel();
 			}
 
@@ -501,8 +500,8 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	@Override
-	public void paintToCanvas(CanvasRenderingContext2D context2d,
-			ViewCounter callback, int left, int top) {
+	public void paintToCanvas(
+			CanvasRenderingContext2D context2d, ViewCounter callback, int left, int top) {
 		if (callback == null) {
 			return;
 		}
@@ -521,8 +520,8 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	protected void drawWhiteBackground(CanvasRenderingContext2D context2d, int left, int top) {
-		context2d.fillStyle = BaseRenderingContext2D.FillStyleUnionType
-				.of(GColor.getColorString(GColor.WHITE));
+		context2d.fillStyle =
+				BaseRenderingContext2D.FillStyleUnionType.of(GColor.getColorString(GColor.WHITE));
 		context2d.fillRect(left, top, getOffsetWidth(), getOffsetHeight());
 	}
 
@@ -575,7 +574,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * this case no title bar is displayed, but just the style bar. Changing the
 	 * value of the 'alone' state will cause the GUI to update automatically if
 	 * this panel is visible.
-	 * 
+	 *
 	 * @param isAlone
 	 *            whether this is in own window
 	 */
@@ -607,7 +606,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Sets the the isHidden flag (no other action)
-	 * 
+	 *
 	 * @param isHidden
 	 *            hidden flag
 	 */
@@ -617,7 +616,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Update the panel.
-	 * 
+	 *
 	 * @param deferred
 	 *            whether to update it from a timer
 	 */
@@ -641,7 +640,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Close this panel.
-	 * 
+	 *
 	 * @param isPermanent
 	 *            whether it should be also detached from kernel
 	 */
@@ -721,22 +720,28 @@ public abstract class DockPanelW extends ResizeComposite
 	 *         panel.
 	 */
 	public DockPanelData createInfo() {
-		return new DockPanelData(id, getToolbarString(), visible, false,
-				showStyleBar, new Rectangle(frameBounds), embeddedDef,
+		return new DockPanelData(
+				id,
+				getToolbarString(),
+				visible,
+				false,
+				showStyleBar,
+				new Rectangle(frameBounds),
+				embeddedDef,
 				embeddedSize);
 	}
 
 	/**
 	 * If the stylebar of this view should be visible. Has no immediate effect.
-	 * 
+	 *
 	 * @param showStyleBar
 	 *            whether to show stylebar
 	 */
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
 		if (app != null) {
-			app.dispatchEvent(new Event(EventType.SHOW_STYLE_BAR, null,
-					"[" + showStyleBar + "," + getViewId() + "]"));
+			app.dispatchEvent(
+					new Event(EventType.SHOW_STYLE_BAR, null, "[" + showStyleBar + "," + getViewId() + "]"));
 		}
 	}
 
@@ -744,8 +749,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @return If the style bar should be visible.
 	 */
 	public boolean isStyleBarVisible() {
-		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2
-				|| id == App.VIEW_ALGEBRA) {
+		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2 || id == App.VIEW_ALGEBRA) {
 			if (!app.getSettings().getLayout().isAllowingStyleBar()) {
 				return false;
 			}
@@ -755,7 +759,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * just return hasStyleBar - overridden for spreadsheet
-	 * 
+	 *
 	 * @return hasStyleBar
 	 */
 	protected boolean hasStyleBar() {
@@ -866,7 +870,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Set the toolbar string of this view. If the toolbar string is null but
 	 * this panel has a panel normally the default toolbar string is used. This
 	 * is used for backward compatibility. Has no visible effect.
-	 * 
+	 *
 	 * @param toolbarString
 	 *            toolbar definition
 	 */
@@ -935,16 +939,14 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {
-		case App.VIEW_EUCLIDIAN:
-			return getPreferredEvSize(1);
-		case App.VIEW_EUCLIDIAN2:
-			return getPreferredEvSize(2);
-		case App.VIEW_SPREADSHEET:
-			return new Dimension(
-					app.getSettings().getSpreadsheet().preferredSize()
-							.getWidth(),
-					app.getSettings().getSpreadsheet().preferredSize()
-							.getHeight());
+			case App.VIEW_EUCLIDIAN:
+				return getPreferredEvSize(1);
+			case App.VIEW_EUCLIDIAN2:
+				return getPreferredEvSize(2);
+			case App.VIEW_SPREADSHEET:
+				return new Dimension(
+						app.getSettings().getSpreadsheet().preferredSize().getWidth(),
+						app.getSettings().getSpreadsheet().preferredSize().getHeight());
 		}
 
 		// probably won't work
@@ -959,7 +961,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Initializes the view-specific icon of the DockPanel
-	 * 
+	 *
 	 * @param imageResource
 	 *            the icon the be shown
 	 */
@@ -974,7 +976,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Show or hide stylebar if it exists.
-	 * 
+	 *
 	 * @param show
 	 *            whether to show stylebar
 	 */
@@ -989,8 +991,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public boolean isStyleBarPanelShown() {
 		if (dockControlPanel != null) {
-			return this.dockControlPanel.isVisible()
-					&& dockControlPanel.getParent() != null;
+			return this.dockControlPanel.isVisible() && dockControlPanel.getParent() != null;
 		}
 		return false;
 	}
@@ -1004,7 +1005,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Add mode to toolbar definition.
-	 * 
+	 *
 	 * @param mode
 	 *            app mode
 	 */
@@ -1014,7 +1015,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Show/hide close button.
-	 * 
+	 *
 	 * @param isVisible
 	 *            whether to show close button
 	 */
@@ -1078,8 +1079,8 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Add reset icon to the stylebar
 	 */
 	public void showResetIcon() {
-		StandardButton resetBtn = new StandardButton(
-				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24);
+		StandardButton resetBtn =
+				new StandardButton(GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24);
 		resetBtn.addFastClickHandler(source -> app.reset());
 		resetBtn.addStyleName("graphicsResetIcon");
 		if (!app.allowStylebar()) {

@@ -100,20 +100,18 @@ public final class StatsSideSheetTV {
 	 * @param parent parent panel
 	 */
 	public static void renderGroups(List<StatisticGroup> statistics, AppW app, Panel parent) {
-		for (StatisticGroup row: statistics) {
+		for (StatisticGroup row : statistics) {
 			FlowPanel group = new FlowPanel();
 			group.addStyleName("group");
 
-			Label heading = BaseWidgetFactory.INSTANCE.newSecondaryText(
-					row.heading(), "heading");
+			Label heading = BaseWidgetFactory.INSTANCE.newSecondaryText(row.heading(), "heading");
 			group.add(heading);
 
-			for (String value: row.values()) {
+			for (String value : row.values()) {
 				if (row.isLaTeX()) {
 					Canvas canvas = Canvas.createIfSupported();
-					((DrawEquationW) app.getDrawEquation()).paintOnCleanCanvas(
-							value, canvas, 16,
-							GColor.newColor(0, 0, 0, 0.87), false);
+					((DrawEquationW) app.getDrawEquation())
+							.paintOnCleanCanvas(value, canvas, 16, GColor.newColor(0, 0, 0, 0.87), false);
 					group.add(canvas);
 				} else {
 					Label valueLbl = BaseWidgetFactory.INSTANCE.newPrimaryText(value, "value");
@@ -128,14 +126,15 @@ public final class StatsSideSheetTV {
 	 * Add regression UI and show
 	 * @param plotActionHandler callback to plot the selected regression curve
 	 */
-	public void addRegressionChooser(TableValuesStatisticsViewModel model,
+	public void addRegressionChooser(
+			TableValuesStatisticsViewModel model,
 			@NonNull State<@NonNull List<StatisticGroup>> groups,
 			@NonNull State<@NonNull List<String>> models,
 			@Nullable Runnable plotActionHandler) {
 		List<String> items = models.get();
 
-		ComponentDropDown regressionChooser = new ComponentDropDown(app,
-				app.getLocalization().getMenu("RegressionModel"), items, 0);
+		ComponentDropDown regressionChooser =
+				new ComponentDropDown(app, app.getLocalization().getMenu("RegressionModel"), items, 0);
 		regressionChooser.setFullWidth(true);
 		regressionChooser.addChangeHandler(() -> {
 			model.selectedRegressionIndexChanged(regressionChooser.getSelectedIndex());
@@ -159,9 +158,11 @@ public final class StatsSideSheetTV {
 		sideSheet.addStyleName("error");
 		InfoErrorData errorData = new InfoErrorData(
 				app.getLocalization().getMenu("StatsDialog.NoData"),
-				errorMessage, null, MaterialDesignResources.INSTANCE.bar_chart_black());
-		ComponentInfoErrorPanel infoPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				errorData, null);
+				errorMessage,
+				null,
+				MaterialDesignResources.INSTANCE.bar_chart_black());
+		ComponentInfoErrorPanel infoPanel =
+				new ComponentInfoErrorPanel(app.getLocalization(), errorData, null);
 		sideSheet.addToContent(infoPanel);
 		sideSheet.show();
 	}
@@ -174,10 +175,13 @@ public final class StatsSideSheetTV {
 		if (content instanceof Content.Statistics stats) {
 			showStatisticsDialog(content.title(), content.header(), stats.groups());
 		} else if (content instanceof Content.Regression regression) {
-			showRegressionDialog(content.title(), content.header(),
+			showRegressionDialog(
+					content.title(),
+					content.header(),
 					model,
 					regression.groups(),
-					regression.regressionModels(), regression.plotAction());
+					regression.regressionModels(),
+					regression.plotAction());
 		} else if (content instanceof Content.Error err) {
 			showErrorDialog(err.title(), err.header(), err.message());
 		} else { // null or invalid
@@ -185,7 +189,9 @@ public final class StatsSideSheetTV {
 		}
 	}
 
-	private void showStatisticsDialog(@NonNull String title, @NonNull AttributedString header,
+	private void showStatisticsDialog(
+			@NonNull String title,
+			@NonNull AttributedString header,
 			@NonNull State<List<StatisticGroup>> statisticGroups) {
 		SideSheetData sideSheetData = new SideSheetData(title, null, null);
 		sideSheet.update(sideSheetData);
@@ -193,20 +199,22 @@ public final class StatsSideSheetTV {
 		setRowsAndShow(statisticGroups);
 	}
 
-	private void showRegressionDialog(@NonNull String title,
+	private void showRegressionDialog(
+			@NonNull String title,
 			@NonNull AttributedString header,
 			TableValuesStatisticsViewModel model,
 			@NonNull State<@NonNull List<StatisticGroup>> groups,
-			@NonNull State<@NonNull List<String>> models, @Nullable Runnable plotActionHandler) {
-		SideSheetData sideSheetData = new SideSheetData(title, null,
-				plotActionHandler != null ? "Plot" : null);
+			@NonNull State<@NonNull List<String>> models,
+			@Nullable Runnable plotActionHandler) {
+		SideSheetData sideSheetData =
+				new SideSheetData(title, null, plotActionHandler != null ? "Plot" : null);
 		sideSheet.update(sideSheetData);
 		buildSideSheet(TableUtil.toHtml(header));
 		addRegressionChooser(model, groups, models, plotActionHandler);
 	}
 
-	private void showErrorDialog(@NonNull String title, @NonNull AttributedString header,
-			@NonNull String errorMessage) {
+	private void showErrorDialog(
+			@NonNull String title, @NonNull AttributedString header, @NonNull String errorMessage) {
 		SideSheetData sideSheetData = new SideSheetData(title, null, null);
 		sideSheet.update(sideSheetData);
 		buildSideSheet(TableUtil.toHtml(header));

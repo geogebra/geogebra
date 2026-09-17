@@ -26,10 +26,10 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Creates a residual plot.
- * 
+ *
  * Input: list of points (x,y) Input: regression function Output: list of
  * residual points (x, y - yPredicted)
- * 
+ *
  * @author G.Sturr
  */
 public class AlgoResidualPlot extends AlgoElement {
@@ -49,8 +49,7 @@ public class AlgoResidualPlot extends AlgoElement {
 	 * @param function2
 	 *            function
 	 */
-	public AlgoResidualPlot(Construction cons, GeoList inputList,
-			GeoFunctionable function2) {
+	public AlgoResidualPlot(Construction cons, GeoList inputList, GeoFunctionable function2) {
 		super(cons);
 		this.inputList = inputList;
 		this.function = function2;
@@ -86,7 +85,7 @@ public class AlgoResidualPlot extends AlgoElement {
 	 * @return min and max residues
 	 */
 	public double[] getResidualBounds() {
-		return new double[] { min, max };
+		return new double[] {min, max};
 	}
 
 	@Override
@@ -121,5 +120,4 @@ public class AlgoResidualPlot extends AlgoElement {
 			}
 		}
 	}
-
 }

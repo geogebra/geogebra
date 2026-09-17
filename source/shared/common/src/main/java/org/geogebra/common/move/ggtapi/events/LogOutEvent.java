@@ -20,7 +20,7 @@ import org.geogebra.common.move.events.BaseEvent;
 
 /**
  * User logged out from GGB account
- * 
+ *
  * @author gabor
  */
 public class LogOutEvent extends BaseEvent {
@@ -30,5 +30,4 @@ public class LogOutEvent extends BaseEvent {
 	public LogOutEvent() {
 		super("logout");
 	}
-
 }

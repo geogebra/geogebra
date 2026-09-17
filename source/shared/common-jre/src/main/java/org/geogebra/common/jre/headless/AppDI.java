@@ -44,5 +44,4 @@ public interface AppDI {
 	 * @return image
 	 */
 	MyImage getExternalImage(String fileName);
-
 }

@@ -46,8 +46,11 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 	@BeforeEach
 	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
-		model = new QuickStyleBarModel(getApp(), new GeoElementPropertiesFactory(),
-				getLocalization(), new StylebarPositioner(getApp()));
+		model = new QuickStyleBarModel(
+				getApp(),
+				new GeoElementPropertiesFactory(),
+				getLocalization(),
+				new StylebarPositioner(getApp()));
 		delegate = Mockito.mock(QuickStyleBarModel.Delegate.class);
 		model.setDelegate(delegate);
 	}
@@ -55,10 +58,8 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 	@Test
 	void showCreatesButtonsForPoint() {
 		model.show(List.of(evaluateGeoElement("(1,2)")));
-		List<Button> expectedButtons = List.of(
-				new Button.Color(),
-				new Button.PointStyle(PropertyResource.ICON_POINT_STYLE_DOT)
-		);
+		List<Button> expectedButtons =
+				List.of(new Button.Color(), new Button.PointStyle(PropertyResource.ICON_POINT_STYLE_DOT));
 		assertEquals(expectedButtons, model.getButtons().get());
 	}
 
@@ -68,8 +69,7 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		List<Button> expectedButtons = List.of(
 				new Button.Color(),
 				new Button.LineStyle(PropertyResource.ICON_LINE_TYPE_FULL),
-				new Button.Fixing(true)
-		);
+				new Button.Fixing(true));
 		assertEquals(expectedButtons, model.getButtons().get());
 	}
 
@@ -132,7 +132,8 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		PropertyView.Slider thicknessSlider = model.getSubmenuItems().get().stream()
 				.filter(propertyView -> propertyView instanceof PropertyView.Slider)
 				.map(propertyView -> (PropertyView.Slider) propertyView)
-				.findFirst().orElseThrow();
+				.findFirst()
+				.orElseThrow();
 		thicknessSlider.setValue(7);
 		assertNotNull(model.getSubmenuItems().get());
 	}
@@ -192,7 +193,8 @@ class QuickStyleBarModelTest extends BaseAppTestSetup {
 		return model.getButtons().get().stream()
 				.filter(buttonType::isInstance)
 				.map(buttonType::cast)
-				.findFirst().orElseThrow();
+				.findFirst()
+				.orElseThrow();
 	}
 
 	private void assertSubmenuIsEmpty() {

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -55,8 +55,7 @@ public class ScaledIcon implements Icon {
 	 * @param rightIcon right icon
 	 * @return merged icon
 	 */
-	public static Icon joinIcons(ScaledIcon leftIcon,
-			ScaledIcon rightIcon, Component comp) {
+	public static Icon joinIcons(ScaledIcon leftIcon, ScaledIcon rightIcon, Component comp) {
 
 		if (leftIcon == null) {
 			return rightIcon;
@@ -72,8 +71,7 @@ public class ScaledIcon implements Icon {
 		int h2 = rightIcon.source.getIconHeight();
 		int h = Math.max(h1, h2);
 		int mid = h / 2;
-		BufferedImage image = new BufferedImage(w1 + w2, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = new BufferedImage(w1 + w2, h, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = (Graphics2D) image.getGraphics();
 		g2.drawImage(leftIcon.getImage(), 0, mid - h1 / 2, null);
 		g2.drawImage(rightIcon.getImage(), w1, mid - h2 / 2, null);

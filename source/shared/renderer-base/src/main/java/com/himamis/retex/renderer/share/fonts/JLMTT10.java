@@ -21,6 +21,5 @@ final class JLMTT10 extends FontInfo {
 		setMetrics(37, 516, 695);
 
 		setMetrics(38, 516, 695);
-
 	}
 }

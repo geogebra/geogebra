@@ -41,8 +41,8 @@ public class CategoryPopup extends GPopupPanel implements SetLabels {
 	 * @param updateParentCallback - callback to update anchor
 	 * @param preventHide - whether it should close on tool selection or not
 	 */
-	public CategoryPopup(AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback,
-			boolean preventHide) {
+	public CategoryPopup(
+			AppW app, List<Integer> tools, Consumer<Integer> updateParentCallback, boolean preventHide) {
 		super(app.getAppletFrame(), app);
 		setAutoHideEnabled(true);
 		this.updateParentCallback = updateParentCallback;

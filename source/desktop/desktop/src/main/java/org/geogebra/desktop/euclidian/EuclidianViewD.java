@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -81,11 +81,10 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
 
 /**
- * 
+ *
  * @author Markus Hohenwarter
  */
-public class EuclidianViewD extends EuclidianView
-		implements EuclidianViewInterfaceD, Printable {
+public class EuclidianViewD extends EuclidianView implements EuclidianViewInterfaceD, Printable {
 
 	/** reset image in applets */
 	protected Image resetImage;
@@ -102,11 +101,11 @@ public class EuclidianViewD extends EuclidianView
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
+
 	private double pixelRatio = 1;
 	// temp image
-	private final GGraphics2D g2Dtemp = new GGraphics2DD(
-			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)
-					.createGraphics());
+	private final GGraphics2D g2Dtemp =
+			new GGraphics2DD(new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB).createGraphics());
 	private boolean printScaleString;
 	private final ScreenReaderAdapter screenReader = new ScreenReaderAdapterD();
 	private final Map<ImageResourceD, Cursor> customCursors = new HashMap<>();
@@ -125,14 +124,14 @@ public class EuclidianViewD extends EuclidianView
 	 * @param settings
 	 *            settings
 	 */
-	public EuclidianViewD(EuclidianController ec, boolean[] showAxes,
-			boolean showGrid, EuclidianSettings settings) {
+	public EuclidianViewD(
+			EuclidianController ec, boolean[] showAxes, boolean showGrid, EuclidianSettings settings) {
 		this(ec, showAxes, showGrid, 1, settings);
 	}
 
 	/**
 	 * Creates EuclidianView
-	 * 
+	 *
 	 * @param ec
 	 *            controller
 	 * @param showAxes
@@ -144,8 +143,12 @@ public class EuclidianViewD extends EuclidianView
 	 * @param settings
 	 *            euclidian settings
 	 */
-	public EuclidianViewD(EuclidianController ec, boolean[] showAxes,
-			boolean showGrid, int evno, EuclidianSettings settings) {
+	public EuclidianViewD(
+			EuclidianController ec,
+			boolean[] showAxes,
+			boolean showGrid,
+			int evno,
+			EuclidianSettings settings) {
 
 		super(ec, evno, settings);
 		viewTextField = new ViewTextFieldD(this);
@@ -194,8 +197,7 @@ public class EuclidianViewD extends EuclidianView
 	public boolean hasPreferredSize() {
 		Dimension prefSize = getPreferredSize();
 
-		return (prefSize != null) && (prefSize.width > MIN_WIDTH)
-				&& (prefSize.height > MIN_HEIGHT);
+		return (prefSize != null) && (prefSize.width > MIN_WIDTH) && (prefSize.height > MIN_HEIGHT);
 	}
 
 	/**
@@ -258,8 +260,8 @@ public class EuclidianViewD extends EuclidianView
 	 * @return cursor
 	 */
 	protected Cursor getCursorForImage(ImageResourceD name) {
-		return customCursors.computeIfAbsent(name,
-				n -> getCursorForImage(getApplication().getInternalImage(name)));
+		return customCursors.computeIfAbsent(
+				name, n -> getCursorForImage(getApplication().getInternalImage(name)));
 	}
 
 	/**
@@ -280,14 +282,12 @@ public class EuclidianViewD extends EuclidianView
 			// load cursor image
 			try {
 				// Create custom cursor from the image
-				return tk.createCustomCursor(image, new Point(16, 16),
-						"custom cursor");
+				return tk.createCustomCursor(image, new Point(16, 16), "custom cursor");
 			} catch (Exception exc) {
 				// Catch exceptions so that we don't try to set a null
 				// cursor
 				Log.debug("Unable to create custom cursor.");
 			}
-
 		}
 		return null;
 	}
@@ -303,8 +303,8 @@ public class EuclidianViewD extends EuclidianView
 	 *            application
 	 * @return height
 	 */
-	public static int printTitle(Graphics2D g2d, String scaleString,
-			PageFormat pageFormat, AppD app) {
+	public static int printTitle(
+			Graphics2D g2d, String scaleString, PageFormat pageFormat, AppD app) {
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
 		// construction title
@@ -312,8 +312,8 @@ public class EuclidianViewD extends EuclidianView
 		Construction cons = app.getKernel().getConstruction();
 		String title = cons.getTitle();
 		if (!"".equals(title)) {
-			GFont titleFont = app.getBoldFontCommon().deriveFont(GFont.BOLD,
-					app.getBoldFont().getSize() + 2);
+			GFont titleFont =
+					app.getBoldFontCommon().deriveFont(GFont.BOLD, app.getBoldFont().getSize() + 2);
 			g2d.setFont(GFontD.getAwtFont(titleFont));
 			g2d.setColor(Color.black);
 			// Font fn = g2d.getFont();
@@ -388,7 +388,6 @@ public class EuclidianViewD extends EuclidianView
 		g2d.fill(rect);
 
 		return PAGE_EXISTS;
-
 	}
 
 	/**
@@ -399,27 +398,28 @@ public class EuclidianViewD extends EuclidianView
 	 * @param exportType
 	 *            export type
 	 */
-	public void exportPaint(Graphics2D g2d, double scale,
-			ExportType exportType) {
+	public void exportPaint(Graphics2D g2d, double scale, ExportType exportType) {
 		exportPaint(new GGraphics2DD(g2d), scale, false, exportType);
 	}
 
 	@Override
-	public void exportImagePNG(double scale, boolean transparency, int dpi,
-			File file, boolean exportToClipboard, ExportType exportType) {
+	public void exportImagePNG(
+			double scale,
+			boolean transparency,
+			int dpi,
+			File file,
+			boolean exportToClipboard,
+			ExportType exportType) {
 
 		try {
-			GBufferedImage img = getExportImage(scale, transparency,
-					exportType);
-			MyImageIO.write(GBufferedImageD.getAwtBufferedImage(img), "png",
-					dpi, file);
+			GBufferedImage img = getExportImage(scale, transparency, exportType);
+			MyImageIO.write(GBufferedImageD.getAwtBufferedImage(img), "png", dpi, file);
 			if (exportToClipboard) {
 				GraphicExportDialog.sendToClipboard(file);
 			}
 		} catch (IOException e) {
 			Log.debug(e);
 		}
-
 	}
 
 	@Override
@@ -427,8 +427,7 @@ public class EuclidianViewD extends EuclidianView
 		// need to use getApplet().width rather than width so that
 		// it works with applet rescaling
 		int w = getWidth() + 2;
-		GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2,
-				null);
+		GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
 	}
 
 	private Image getResetImage() {
@@ -455,7 +454,7 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	final protected void drawAnimationButtons(GGraphics2D g2) {
+	protected final void drawAnimationButtons(GGraphics2D g2) {
 
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
@@ -469,9 +468,9 @@ public class EuclidianViewD extends EuclidianView
 		 * if (highlightAnimationButtons) { // draw filled circle to highlight
 		 * button g2.setColor(GColor.DARK_GRAY); } else {
 		 * g2.setColor(GColor.LIGHT_GRAY); }
-		 * 
+		 *
 		 * g2.setStroke(EuclidianStatic .getDefaultStroke());
-		 * 
+		 *
 		 * // draw pause or play button g2.drawRect(x - 2, y - 2, 18, 18);
 		 */
 		Image img = kernel.isAnimationRunning()
@@ -487,8 +486,7 @@ public class EuclidianViewD extends EuclidianView
 			return false;
 		}
 
-		return kernel.needToShowAnimationButton() && (x <= 27)
-				&& (y >= (getHeight() - 27));
+		return kernel.needToShowAnimationButton() && (x <= 27) && (y >= (getHeight() - 27));
 	}
 
 	@Override
@@ -725,7 +723,6 @@ public class EuclidianViewD extends EuclidianView
 	 */
 	public void addComponentListener(ComponentListener componentListener) {
 		evjpanel.addComponentListener(componentListener);
-
 	}
 
 	/**
@@ -734,7 +731,6 @@ public class EuclidianViewD extends EuclidianView
 	 */
 	public void setSize(Dimension dimension) {
 		evjpanel.setSize(dimension);
-
 	}
 
 	/**
@@ -746,7 +742,7 @@ public class EuclidianViewD extends EuclidianView
 
 	/**
 	 * Initializes this panel
-	 * 
+	 *
 	 * @param repaint
 	 *            ignored parameter
 	 */
@@ -785,8 +781,7 @@ public class EuclidianViewD extends EuclidianView
 		// real world values
 		companion.setXYMinMaxForUpdateSize();
 		if (app.getKernel().getConstruction() != null && !isPlotPanel()) {
-			app.getKernel().getConstruction()
-					.notifyEuclidianViewCE(EVProperty.SIZE);
+			app.getKernel().getConstruction().notifyEuclidianViewCE(EVProperty.SIZE);
 		}
 		setRealWorldBounds();
 
@@ -821,9 +816,8 @@ public class EuclidianViewD extends EuclidianView
 
 	private void createImage(GraphicsConfiguration gc) {
 		if (gc != null) {
-			bgImage = new GBufferedImageD(
-					gc.createCompatibleImage((int) (getWidth() * pixelRatio),
-							(int) (getHeight() * pixelRatio)));
+			bgImage = new GBufferedImageD(gc.createCompatibleImage(
+					(int) (getWidth() * pixelRatio), (int) (getHeight() * pixelRatio)));
 			bgGraphics = bgImage.createGraphics();
 			bgGraphics.setAntialiasing();
 		}
@@ -850,21 +844,21 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	final public GGraphics2D getTempGraphics2D(GFont font) {
+	public final GGraphics2D getTempGraphics2D(GFont font) {
 		g2Dtemp.setFont(font);
 
 		return g2Dtemp;
 	}
 
 	@Override
-	final protected void setStyleBarMode(int mode) {
+	protected final void setStyleBarMode(int mode) {
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return new euclidian style bar
 	 */
 	@Override
@@ -885,7 +879,7 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	/**
-	 * 
+	 *
 	 * @param printScaleString
 	 *            whether to print scalestring
 	 */
@@ -896,8 +890,7 @@ public class EuclidianViewD extends EuclidianView
 	private String getScaleString() {
 		if (isPrintScaleString()) {
 			Localization loc = getApplication().getLocalization();
-			StringBuilder sb = new StringBuilder(
-					loc.getMenu("ScaleInCentimeter"));
+			StringBuilder sb = new StringBuilder(loc.getMenu("ScaleInCentimeter"));
 			if (printingScale <= 1) {
 				sb.append(": 1:");
 				sb.append(printScaleNF.format(1 / printingScale));
@@ -939,45 +932,44 @@ public class EuclidianViewD extends EuclidianView
 	@Override
 	public void setCursor(EuclidianCursor cursor) {
 		switch (cursor) {
-		case DEFAULT:
-		case HIT:
-		default:
-			setHitCursor();
-			return;
-		case DRAG:
-			setDragCursor();
-			return;
-		case GRABBING:
-			setGrabbingCursor();
-			return;
-		case MOVE:
-			setMoveCursor();
-			return;
-		case RESIZE_X:
-			setResizeXAxisCursor();
-			return;
-		case RESIZE_Y:
-			setResizeYAxisCursor();
-			return;
-		case TRANSPARENT:
-			setTransparentCursor();
-			return;
+			case DEFAULT:
+			case HIT:
+			default:
+				setHitCursor();
+				return;
+			case DRAG:
+				setDragCursor();
+				return;
+			case GRABBING:
+				setGrabbingCursor();
+				return;
+			case MOVE:
+				setMoveCursor();
+				return;
+			case RESIZE_X:
+				setResizeXAxisCursor();
+				return;
+			case RESIZE_Y:
+				setResizeYAxisCursor();
+				return;
+			case TRANSPARENT:
+				setTransparentCursor();
+				return;
 
-		case ZOOM_IN:
-			setCursor(getCursorForImage(GuiResourcesD.CURSOR_ZOOMIN));
-			break;
+			case ZOOM_IN:
+				setCursor(getCursorForImage(GuiResourcesD.CURSOR_ZOOMIN));
+				break;
 
-		case ZOOM_OUT:
-			setCursor(getCursorForImage(GuiResourcesD.CURSOR_ZOOMOUT));
-			break;
+			case ZOOM_OUT:
+				setCursor(getCursorForImage(GuiResourcesD.CURSOR_ZOOMOUT));
+				break;
 
-		case GRAB:
-			setCursor(getCursorForImage(GuiResourcesD.CURSOR_GRAB));
-			break;
-		case CROSSHAIR:
-			setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+			case GRAB:
+				setCursor(getCursorForImage(GuiResourcesD.CURSOR_GRAB));
+				break;
+			case CROSSHAIR:
+				setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
 		}
-
 	}
 
 	/**
@@ -1011,11 +1003,11 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	public void drawStringWithOutline(GGraphics2D g2c, String text, double x,
-			double y, GColor col) {
-		
+	public void drawStringWithOutline(GGraphics2D g2c, String text, double x, double y, GColor col) {
+
 		// no outline if label color == background color
-		if (!app.isExporting() && g2c instanceof GGraphics2DD
+		if (!app.isExporting()
+				&& g2c instanceof GGraphics2DD
 				&& !col.equals(getBackgroundCommon())
 				&& !app.fileVersionBefore(LABEL_OUTLINES_FROM)) {
 			g2c.setColor(getBackgroundCommon());
@@ -1027,5 +1019,4 @@ public class EuclidianViewD extends EuclidianView
 		// default (no outline)
 		super.drawStringWithOutline(g2c, text, x, y, col);
 	}
-
 }

@@ -43,7 +43,6 @@ import org.jspecify.annotations.Nullable;
  * Exam types.
  */
 public enum ExamType {
-
 	GENERIC() {
 		@Override
 		public String getDisplayName(Localization loc, AppConfig config) {
@@ -163,7 +162,7 @@ public enum ExamType {
 	 * @return exam type or null
 	 */
 	public static ExamType byName(@Nullable String shortName) {
-		for (ExamType region: values()) {
+		for (ExamType region : values()) {
 			if (region.name().equalsIgnoreCase(shortName)) {
 				return region;
 			}
@@ -192,24 +191,24 @@ public enum ExamType {
 	 */
 	public Restrictions createRestrictions() {
 		switch (this) {
-		case BAYERN_CAS:
-			return new BayernCasExamRestrictions();
-		case CVTE:
-			return new CvteExamRestrictions();
-		case IB:
-			return new IBExamRestrictions();
-		case NIEDERSACHSEN:
-			return new NiedersachsenExamRestrictions();
-		case BAYERN_GR:
-			return new RealschuleExamRestrictions();
-		case VLAANDEREN:
-			return new VlaanderenExamRestrictions();
-		case MMS:
-			return new MmsExamRestrictions();
-		case WTR:
-			return new WtrExamRestrictions();
-		default:
-			return new GenericExamRestrictions();
+			case BAYERN_CAS:
+				return new BayernCasExamRestrictions();
+			case CVTE:
+				return new CvteExamRestrictions();
+			case IB:
+				return new IBExamRestrictions();
+			case NIEDERSACHSEN:
+				return new NiedersachsenExamRestrictions();
+			case BAYERN_GR:
+				return new RealschuleExamRestrictions();
+			case VLAANDEREN:
+				return new VlaanderenExamRestrictions();
+			case MMS:
+				return new MmsExamRestrictions();
+			case WTR:
+				return new WtrExamRestrictions();
+			default:
+				return new GenericExamRestrictions();
 		}
 	}
 
@@ -218,8 +217,7 @@ public enum ExamType {
 	 * @return The value converter for this exam type. By default, returns the currently used
 	 * value converter.
 	 */
-	public ToStringConverter wrapValueConverter(
-			@NonNull ToStringConverter wrappedConverter) {
+	public ToStringConverter wrapValueConverter(@NonNull ToStringConverter wrappedConverter) {
 		return wrappedConverter;
 	}
 
@@ -231,7 +229,8 @@ public enum ExamType {
 	 */
 	public static List<ExamType> getAvailableValues(Localization loc, AppConfig config) {
 		Comparator<ExamType> genericFirst = Comparator.comparing(type -> GENERIC != type);
-		return Arrays.stream(values()).filter(ExamType::isAvailable)
+		return Arrays.stream(values())
+				.filter(ExamType::isAvailable)
 				.sorted(genericFirst.thenComparing(type -> type.getDisplayName(loc, config)))
 				.collect(Collectors.toList());
 	}

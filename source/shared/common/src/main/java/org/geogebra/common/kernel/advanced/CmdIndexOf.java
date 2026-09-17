@@ -31,7 +31,7 @@ public class CmdIndexOf extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,50 +46,46 @@ public class CmdIndexOf extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 2:
-			if (arg[1].isGeoText() && arg[0].isGeoText()) {
+			case 2:
+				if (arg[1].isGeoText() && arg[0].isGeoText()) {
 
-				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
-						arg[1]);
+					AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0], arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[1].isGeoList()) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[1].isGeoList()) {
 
-				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
-						arg[1]);
+					AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0], arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else {
-				throw argErr(c, arg[1]);
-			}
-		case 3:
-			boolean[] ok = new boolean[2];
-			if ((ok[0] = arg[1].isGeoText() && arg[0].isGeoText())
-					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else {
+					throw argErr(c, arg[1]);
+				}
+			case 3:
+				boolean[] ok = new boolean[2];
+				if ((ok[0] = arg[1].isGeoText() && arg[0].isGeoText())
+						&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(),
-						arg[0], arg[1],
-						(GeoNumberValue) arg[2]);
+					AlgoIndexOf algo =
+							new AlgoIndexOf(cons, c.getLabel(), arg[0], arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if ((ok[0] = arg[1].isGeoList())
-					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if ((ok[0] = arg[1].isGeoList()) && (ok[1] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
-						arg[1], (GeoNumberValue) arg[2]);
+					AlgoIndexOf algo =
+							new AlgoIndexOf(cons, c.getLabel(), arg[0], arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (!ok[0]) {
-				throw argErr(c, arg[1]);
-			}
-			throw argErr(c, arg[2]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (!ok[0]) {
+					throw argErr(c, arg[1]);
+				}
+				throw argErr(c, arg[2]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

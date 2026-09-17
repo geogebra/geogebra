@@ -34,8 +34,7 @@ public class PointSizeModel extends SliderOptionsModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return geo instanceof PointProperties
-				&& ((PointProperties)geo).showPointProperties();
+		return geo instanceof PointProperties && ((PointProperties) geo).showPointProperties();
 	}
 
 	@Override
@@ -50,5 +49,4 @@ public class PointSizeModel extends SliderOptionsModel {
 	public int getValueAt(int index) {
 		return getPointPropertiesAt(index).getPointSize();
 	}
-
 }

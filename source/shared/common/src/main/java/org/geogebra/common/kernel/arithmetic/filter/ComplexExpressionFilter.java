@@ -25,10 +25,10 @@ import org.jspecify.annotations.NonNull;
  */
 public class ComplexExpressionFilter implements ExpressionFilter {
 
-    @Override
-    public boolean isAllowed(@NonNull ExpressionValue expression) {
-        boolean containsComplexValues = expression
-                .any(expressionValue -> expressionValue.getValueType() == ValueType.COMPLEX);
-        return !containsComplexValues;
-    }
+	@Override
+	public boolean isAllowed(@NonNull ExpressionValue expression) {
+		boolean containsComplexValues =
+				expression.any(expressionValue -> expressionValue.getValueType() == ValueType.COMPLEX);
+		return !containsComplexValues;
+	}
 }

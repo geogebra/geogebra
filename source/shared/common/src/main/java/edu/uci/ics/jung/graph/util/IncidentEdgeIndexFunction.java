@@ -1,7 +1,7 @@
 /*
  * Created on Sep 24, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -20,20 +20,18 @@ import edu.uci.ics.jung.graph.Graph;
 
 /**
  * A class which creates and maintains indices for incident edges.
- * 
+ *
  * @author Tom Nelson
  *
  */
-public class IncidentEdgeIndexFunction<V, E>
-		implements EdgeIndexFunction<V, E> {
+public class IncidentEdgeIndexFunction<V, E> implements EdgeIndexFunction<V, E> {
 	protected Map<E, Integer> edge_index = new HashMap<E, Integer>();
 
-	private IncidentEdgeIndexFunction() {
-	}
+	private IncidentEdgeIndexFunction() {}
 
 	/**
 	 * Returns an instance of this type.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -99,7 +97,7 @@ public class IncidentEdgeIndexFunction<V, E>
 	 * Resets the indices for this edge and its parallel edges. Should be
 	 * invoked when an edge parallel to <code>e</code> has been added or
 	 * removed.
-	 * 
+	 *
 	 * @param e edge
 	 */
 	@Override

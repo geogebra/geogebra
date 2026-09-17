@@ -24,15 +24,14 @@ import org.geogebra.common.util.DoubleUtil;
  * PathOrPoint needed as well as Path so that points can be elements of compound
  * paths eg {(2,3), (4,5), Segment[(6,7),(8,9)] } see GeoList.pointChanged()
  */
-
 public interface PathOrPoint extends GeoElementND {
 
 	/**
 	 * Sets coords of P and its path parameter when the coords of P have
 	 * changed. Afterwards P lies on this path.
-	 * 
+	 *
 	 * Note: P.setCoords() is not called!
-	 * 
+	 *
 	 * @param PI
 	 *            point P
 	 */
@@ -41,9 +40,9 @@ public interface PathOrPoint extends GeoElementND {
 	/**
 	 * Sets coords of P and its path parameter when this path has changed.
 	 * Afterwards P lies on this path.
-	 * 
+	 *
 	 * Note: P.setCoords() is not called!
-	 * 
+	 *
 	 * @param PI
 	 *            point P
 	 */
@@ -51,7 +50,7 @@ public interface PathOrPoint extends GeoElementND {
 
 	/**
 	 * Returns true iff the given point lies on this path.
-	 * 
+	 *
 	 * @param PI
 	 *            point
 	 * @param eps
@@ -63,7 +62,7 @@ public interface PathOrPoint extends GeoElementND {
 	/**
 	 * Returns the smallest possible parameter value for this path (may be
 	 * Double.NEGATIVE_INFINITY)
-	 * 
+	 *
 	 * @return minimum parameter value for this path
 	 */
 	double getMinParameter();
@@ -71,7 +70,7 @@ public interface PathOrPoint extends GeoElementND {
 	/**
 	 * Returns the largest possible parameter value for this path (may be
 	 * Double.POSITIVE_INFINITY)
-	 * 
+	 *
 	 * @return maximum parameter value for this path
 	 */
 	double getMaxParameter();
@@ -79,7 +78,7 @@ public interface PathOrPoint extends GeoElementND {
 	/**
 	 * Returns whether this path is closed (i.e. its first and last point are
 	 * equal).
-	 * 
+	 *
 	 * @return true iff closed
 	 */
 	boolean isClosedPath();
@@ -94,5 +93,4 @@ public interface PathOrPoint extends GeoElementND {
 		return (getMaxParameter() - getMinParameter() > Kernel.MIN_PRECISION)
 				&& DoubleUtil.isEqual(parameter.t, threshold);
 	}
-
 }

@@ -103,8 +103,8 @@ public final class SpreadsheetSettingsAdapter<T> {
 			return;
 		}
 		SpreadsheetSettings spreadsheetSettings = app.getSettings().getSpreadsheet();
-		spreadsheetSettings.setCellSizesNoFire(cellSizes.customColumnWidths,
-				cellSizes.customRowHeights);
+		spreadsheetSettings.setCellSizesNoFire(
+				cellSizes.customColumnWidths, cellSizes.customRowHeights);
 	}
 
 	/**

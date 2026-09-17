@@ -69,5 +69,4 @@ public class XHookAtom extends XAtom {
 			return new XHookRightArrow(width);
 		}
 	}
-
 }

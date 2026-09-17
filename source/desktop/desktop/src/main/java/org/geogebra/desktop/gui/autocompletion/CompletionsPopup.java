@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -55,7 +55,7 @@ import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 /**
  * Provides completion popup for {@link AutoCompleteTextFieldD}. Derived from
  * OptionsPopup.
- * 
+ *
  * @author Arnaud Delobelle
  */
 public class CompletionsPopup {
@@ -73,7 +73,7 @@ public class CompletionsPopup {
 
 	/**
 	 * Initializes components and registers event listeners.
-	 * 
+	 *
 	 * @param textField
 	 *            The text field
 	 * @param listCellRenderer
@@ -82,8 +82,8 @@ public class CompletionsPopup {
 	 * @param maxPopupRowCount
 	 *            The maximal number of rows for the options popup
 	 */
-	public CompletionsPopup(AutoCompleteTextFieldD textField,
-			ListCellRenderer listCellRenderer, int maxPopupRowCount) {
+	public CompletionsPopup(
+			AutoCompleteTextFieldD textField, ListCellRenderer listCellRenderer, int maxPopupRowCount) {
 		this.textField = textField;
 		this.maxPopupRowCount = maxPopupRowCount;
 
@@ -103,7 +103,7 @@ public class CompletionsPopup {
 
 	/**
 	 * Set the font to display the completions
-	 * 
+	 *
 	 * @param font
 	 *            the new font
 	 */
@@ -147,7 +147,8 @@ public class CompletionsPopup {
 			}
 
 			@Override
-			public void insertUpdate(DocumentEvent e) { /* showCompletions(); */
+			public void insertUpdate(DocumentEvent e) {
+				/* showCompletions(); */
 				if (current_length != e.getOffset()) {
 					hidePopup();
 					current_length = e.getOffset();
@@ -206,9 +207,8 @@ public class CompletionsPopup {
 		// Try to show popup just beneath the word to be completed
 		popup.show(textField, startRect.x, startRect.y + startRect.height);
 		// If it overlaps the word, then show the popup above the word
-		if (popup.getLocationOnScreen().y
-				- textField.getLocationOnScreen().y < startRect.y
-						+ startRect.height) {
+		if (popup.getLocationOnScreen().y - textField.getLocationOnScreen().y
+				< startRect.y + startRect.height) {
 			popup.show(textField, startRect.x, startRect.y - popup.getHeight());
 		}
 	}
@@ -264,38 +264,37 @@ public class CompletionsPopup {
 		}
 
 		switch (keyEvent.getKeyCode()) {
-		case VK_ESCAPE: // [ESC] cancels the popup
-			textField.cancelAutoCompletion();
-			hidePopup();
-			keyEvent.consume();
-			break;
-		case VK_ENTER: // [ENTER] validates the completions
-			textField.validateAutoCompletion(list.getSelectedIndex(),
-					textField.getCompletions());
-			hidePopup();
-			keyEvent.consume();
-			break;
-		case VK_DOWN: // [DOWN] next completion
-		case VK_TAB: // [TAB]
-			navigateRelative(+1);
-			keyEvent.consume();
-			break;
-		case VK_UP: // [UP] prev. completion
-			navigateRelative(-1);
-			keyEvent.consume();
-			break;
-		case VK_PAGE_DOWN: // [PAGE_DOWN]
-			navigateRelative(+maxPopupRowCount - 1);
-			keyEvent.consume();
-			break;
-		case VK_PAGE_UP: // [PAGE_UP]
-			navigateRelative(-maxPopupRowCount + 1);
-			keyEvent.consume();
-			break;
-		default:
-			hidePopup();
-			current_length = -1;
-			textField.processKeyEvent(keyEvent);
+			case VK_ESCAPE: // [ESC] cancels the popup
+				textField.cancelAutoCompletion();
+				hidePopup();
+				keyEvent.consume();
+				break;
+			case VK_ENTER: // [ENTER] validates the completions
+				textField.validateAutoCompletion(list.getSelectedIndex(), textField.getCompletions());
+				hidePopup();
+				keyEvent.consume();
+				break;
+			case VK_DOWN: // [DOWN] next completion
+			case VK_TAB: // [TAB]
+				navigateRelative(+1);
+				keyEvent.consume();
+				break;
+			case VK_UP: // [UP] prev. completion
+				navigateRelative(-1);
+				keyEvent.consume();
+				break;
+			case VK_PAGE_DOWN: // [PAGE_DOWN]
+				navigateRelative(+maxPopupRowCount - 1);
+				keyEvent.consume();
+				break;
+			case VK_PAGE_UP: // [PAGE_UP]
+				navigateRelative(-maxPopupRowCount + 1);
+				keyEvent.consume();
+				break;
+			default:
+				hidePopup();
+				current_length = -1;
+				textField.processKeyEvent(keyEvent);
 		}
 	}
 
@@ -324,8 +323,7 @@ public class CompletionsPopup {
 
 	private void handleMouseClick(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
-			textField.validateAutoCompletion(list.getSelectedIndex(),
-					textField.getCompletions());
+			textField.validateAutoCompletion(list.getSelectedIndex(), textField.getCompletions());
 			hidePopup();
 			current_length = -1;
 		}

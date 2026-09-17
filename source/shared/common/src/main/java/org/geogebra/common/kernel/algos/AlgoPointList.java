@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Sort a list. Adapted from AlgoMax and AlgoIterationList
- * 
+ *
  * @author Michael Borcherds
  * @version 04-01-2008
  */
-
 public class AlgoPointList extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -95,15 +94,12 @@ public class AlgoPointList extends AlgoElement {
 					GeoElement geoX = list.get(0);
 					GeoElement geoY = list.get(1);
 					if (geoX.isGeoNumeric() && geoY.isGeoNumeric()) {
-						outputList.addPoint(((GeoNumeric) geoX).getDouble(),
-								((GeoNumeric) geoY).getDouble(), 1.0, this);
+						outputList.addPoint(
+								((GeoNumeric) geoX).getDouble(), ((GeoNumeric) geoY).getDouble(), 1.0, this);
 					}
 				}
-
 			}
-
 		}
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
-
 }

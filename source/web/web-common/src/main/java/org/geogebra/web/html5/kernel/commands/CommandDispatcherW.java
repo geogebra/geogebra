@@ -50,21 +50,20 @@ public class CommandDispatcherW extends CommandDispatcher {
 	@Override
 	public CommandProcessorFactory getDiscreteCommandProcessorFactory() {
 		if (discreteFactory == null) {
-			GWT.runAsync(DiscreteCommandProcessorFactory.class,
-					new RunAsyncCallback() {
-						@Override
-						public void onFailure(Throwable reason) {
-							Log.error("Loading failed for discrete commands");
-						}
+			GWT.runAsync(DiscreteCommandProcessorFactory.class, new RunAsyncCallback() {
+				@Override
+				public void onFailure(Throwable reason) {
+					Log.error("Loading failed for discrete commands");
+				}
 
-						@Override
-						public void onSuccess() {
-							LoggerW.loaded("discrete commands");
-							discreteFactory = new DiscreteCommandProcessorFactory();
-							initCmdTable();
-							((AppW) app).commandsLoaded();
-						}
-					});
+				@Override
+				public void onSuccess() {
+					LoggerW.loaded("discrete commands");
+					discreteFactory = new DiscreteCommandProcessorFactory();
+					initCmdTable();
+					((AppW) app).commandsLoaded();
+				}
+			});
 			throw new CommandNotLoadedError("Discrete commands not loaded yet");
 		}
 
@@ -74,23 +73,21 @@ public class CommandDispatcherW extends CommandDispatcher {
 	@Override
 	public CommandProcessorFactory getScriptingCommandProcessorFactory() {
 		if (scriptingFactory == null) {
-			GWT.runAsync(ScriptingCommandProcessorFactory.class,
-					new RunAsyncCallback() {
-						@Override
-						public void onFailure(Throwable reason) {
-							Log.error("Loading failed for scripting commands");
-						}
+			GWT.runAsync(ScriptingCommandProcessorFactory.class, new RunAsyncCallback() {
+				@Override
+				public void onFailure(Throwable reason) {
+					Log.error("Loading failed for scripting commands");
+				}
 
-						@Override
-						public void onSuccess() {
-							LoggerW.loaded("scripting commands");
-							scriptingFactory = new ScriptingCommandProcessorFactory();
-							initCmdTable();
-							((AppW) app).commandsLoaded();
-						}
-					});
-			throw new CommandNotLoadedError(
-					"Scripting commands not loaded yet");
+				@Override
+				public void onSuccess() {
+					LoggerW.loaded("scripting commands");
+					scriptingFactory = new ScriptingCommandProcessorFactory();
+					initCmdTable();
+					((AppW) app).commandsLoaded();
+				}
+			});
+			throw new CommandNotLoadedError("Scripting commands not loaded yet");
 		}
 
 		return scriptingFactory;
@@ -99,21 +96,20 @@ public class CommandDispatcherW extends CommandDispatcher {
 	@Override
 	public CommandProcessorFactory getAdvancedCommandProcessorFactory() {
 		if (advancedFactory == null) {
-			GWT.runAsync(AdvancedCommandProcessorFactory.class,
-					new RunAsyncCallback() {
-						@Override
-						public void onFailure(Throwable reason) {
-							Log.error("Loading failed for advanced commands");
-						}
+			GWT.runAsync(AdvancedCommandProcessorFactory.class, new RunAsyncCallback() {
+				@Override
+				public void onFailure(Throwable reason) {
+					Log.error("Loading failed for advanced commands");
+				}
 
-						@Override
-						public void onSuccess() {
-							LoggerW.loaded("advanced commands");
-							advancedFactory = new AdvancedCommandProcessorFactory();
-							initCmdTable();
-							((AppW) app).commandsLoaded();
-						}
-					});
+				@Override
+				public void onSuccess() {
+					LoggerW.loaded("advanced commands");
+					advancedFactory = new AdvancedCommandProcessorFactory();
+					initCmdTable();
+					((AppW) app).commandsLoaded();
+				}
+			});
 			throw new CommandNotLoadedError("Advanced commands not loaded yet");
 		}
 

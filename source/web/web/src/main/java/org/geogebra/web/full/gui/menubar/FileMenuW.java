@@ -62,8 +62,7 @@ public final class FileMenuW extends Submenu implements BooleanRenderable {
 
 	private void initActions() {
 		if (GlobalScope.isExamActive(getApp())) {
-			addItem("exam_menu_exit",
-					new ExitExamAction(), iconProvider.getImageResource(Icon.SIGN_OUT));
+			addItem("exam_menu_exit", new ExitExamAction(), iconProvider.getImageResource(Icon.SIGN_OUT));
 			return;
 		}
 
@@ -134,28 +133,26 @@ public final class FileMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addFileNewItem() {
-		addItem("New",
+		addItem(
+				"New",
 				new ClearAllAction(true),
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.newFileMenu()));
 	}
 
 	private void addShareItem() {
-		shareItem = addItem("Share",
-				new ShareAction(), iconProvider.getImageResource(Icon.EXPORT_FILE));
+		shareItem =
+				addItem("Share", new ShareAction(), iconProvider.getImageResource(Icon.EXPORT_FILE));
 	}
 
 	private void addExportImageItem() {
-		addItem("exportImage",
-				new ExportImage(), iconProvider.getImageResource(Icon.EXPORT_IMAGE));
+		addItem("exportImage", new ExportImage(), iconProvider.getImageResource(Icon.EXPORT_IMAGE));
 	}
 
 	private void addSaveItems() {
 		if (getApp().getLAF().undoRedoSupported()) {
-			addItem("SaveOnline",
-					new SaveAction(), iconProvider.getImageResource(Icon.SAVE_ONLINE));
+			addItem("SaveOnline", new SaveAction(), iconProvider.getImageResource(Icon.SAVE_ONLINE));
 
-			addItem("SaveToYourPC",
-					new SaveLocalAction(), iconProvider.getImageResource(Icon.SAVE));
+			addItem("SaveToYourPC", new SaveLocalAction(), iconProvider.getImageResource(Icon.SAVE));
 		}
 	}
 
@@ -165,11 +162,11 @@ public final class FileMenuW extends Submenu implements BooleanRenderable {
 				loc.getMenu("Open"),
 				new MenuCommand(getApp()) {
 
-			@Override
-			void doExecute() {
-				app.openSearch(null);
-			}
-		}));
+					@Override
+					void doExecute() {
+						app.openSearch(null);
+					}
+				}));
 	}
 
 	private void addDownloadAsItem() {
@@ -177,7 +174,7 @@ public final class FileMenuW extends Submenu implements BooleanRenderable {
 			AriaMenuItem export = addItem(new AriaMenuItem(
 					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS,
 					MaterialDesignResources.INSTANCE.file_download_black(),
-								new ExportMenuW(getApp())));
+					new ExportMenuW(getApp())));
 			export.setScheduledCommand(getSubmenuCommand(export, true));
 		}
 	}
@@ -185,15 +182,14 @@ public final class FileMenuW extends Submenu implements BooleanRenderable {
 	private void addPrintItem() {
 		if (getApp().getLAF().printSupported()) {
 			AriaMenuItem printItem = MainMenu.getMenuBarItem(
-							MaterialDesignResources.INSTANCE.print_black(),
-							loc.getMenu("PrintPreview"),
+					MaterialDesignResources.INSTANCE.print_black(),
+					loc.getMenu("PrintPreview"),
 					new MenuCommand(getApp()) {
 						@Override
 						void doExecute() {
-							getApp().getDialogManager()
-									.showPrintPreview();
+							getApp().getDialogManager().showPrintPreview();
 						}
-			});
+					});
 			// updatePrintMenu();
 			addItem(printItem);
 		}

@@ -42,8 +42,7 @@ public class AlgoTextCorner extends AlgoElement {
 	 * @param number
 	 *            corner index (1=SW, 2=SE, 3=NE, 4=NW)
 	 */
-	public AlgoTextCorner(Construction cons, String label, HasCorners arg,
-			GeoNumberValue number) {
+	public AlgoTextCorner(Construction cons, String label, HasCorners arg, GeoNumberValue number) {
 		super(cons);
 		this.txt = arg;
 		this.number = number;
@@ -98,5 +97,4 @@ public class AlgoTextCorner extends AlgoElement {
 
 		return true; // update cascade of dependent objects done in Construction
 	}
-
 }

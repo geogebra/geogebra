@@ -28,14 +28,14 @@ import org.geogebra.common.util.debug.Log;
  * The two data sets are taken from the current collection of data provided by a
  * MultiVar StatDialog. JComboBoxes for choosing data sets are embedded in the
  * table.
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class TwoVarStatModel {
 	protected Localization loc;
 
-	private Integer[] selectedDataIndex = { 0, 1 };
+	private Integer[] selectedDataIndex = {0, 1};
 	private boolean isPairedData = false;
 
 	private double mean1;
@@ -76,7 +76,6 @@ public class TwoVarStatModel {
 		 * Clear the table.
 		 */
 		void clear();
-
 	}
 
 	/**
@@ -87,8 +86,7 @@ public class TwoVarStatModel {
 	 * @param listener
 	 *            change listener
 	 */
-	public TwoVarStatModel(App app, boolean isPairedData,
-			TwoVarStatListener listener) {
+	public TwoVarStatModel(App app, boolean isPairedData, TwoVarStatListener listener) {
 
 		this.loc = app.getLocalization();
 		this.isPairedData = isPairedData;
@@ -114,9 +112,12 @@ public class TwoVarStatModel {
 	 * @return localized column names
 	 */
 	public String[] getColumnNames() {
-		String[] names = { " ", loc.getMenu("Mean"),
-				loc.getMenu("SampleStandardDeviation.short"),
-				loc.getMenu("Length.short") };
+		String[] names = {
+			" ",
+			loc.getMenu("Mean"),
+			loc.getMenu("SampleStandardDeviation.short"),
+			loc.getMenu("Length.short")
+		};
 		return names;
 	}
 
@@ -200,16 +201,14 @@ public class TwoVarStatModel {
 
 			GeoList dataCollection = listener.getDataSelected();
 
-			GeoList dataList1 = (GeoList) dataCollection
-					.get(selectedDataIndex[0]);
+			GeoList dataList1 = (GeoList) dataCollection.get(selectedDataIndex[0]);
 			double[] sample1 = DataAnalysisController.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
 			for (int i = 0; i < sample1.length; i++) {
 				stats1.addValue(sample1[i]);
 			}
 
-			GeoList dataList2 = (GeoList) dataCollection
-					.get(selectedDataIndex[1]);
+			GeoList dataList2 = (GeoList) dataCollection.get(selectedDataIndex[1]);
 			double[] sample2 = DataAnalysisController.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
 			for (int i = 0; i < sample2.length; i++) {
@@ -223,8 +222,7 @@ public class TwoVarStatModel {
 
 			// get statistics
 			meanDifference = StatUtils.meanDifference(sample1, sample2);
-			sdDifference = Math.sqrt(StatUtils.varianceDifference(sample1,
-					sample2, meanDifference));
+			sdDifference = Math.sqrt(StatUtils.varianceDifference(sample1, sample2, meanDifference));
 
 		} catch (Exception e) {
 			Log.debug(e);
@@ -232,7 +230,6 @@ public class TwoVarStatModel {
 		}
 
 		return true;
-
 	}
 
 	private boolean evaluateSampleData() {
@@ -241,16 +238,14 @@ public class TwoVarStatModel {
 			// get the sample data
 			GeoList dataCollection = listener.getDataSelected();
 
-			GeoList dataList1 = (GeoList) dataCollection
-					.get(selectedDataIndex[0]);
+			GeoList dataList1 = (GeoList) dataCollection.get(selectedDataIndex[0]);
 			double[] sample1 = DataAnalysisController.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
 			for (int i = 0; i < sample1.length; i++) {
 				stats1.addValue(sample1[i]);
 			}
 
-			GeoList dataList2 = (GeoList) dataCollection
-					.get(selectedDataIndex[1]);
+			GeoList dataList2 = (GeoList) dataCollection.get(selectedDataIndex[1]);
 			double[] sample2 = DataAnalysisController.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
 			for (int i = 0; i < sample2.length; i++) {
@@ -285,5 +280,4 @@ public class TwoVarStatModel {
 	public void setSelectedDataIndex1(int idx) {
 		selectedDataIndex[1] = idx;
 	}
-
 }

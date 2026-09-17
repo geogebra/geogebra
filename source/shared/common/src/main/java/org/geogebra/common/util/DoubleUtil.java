@@ -32,11 +32,11 @@ public class DoubleUtil {
 	 *         precision (false for +/-Infinity, NaN
 	 */
 	public static boolean isInteger(double x) {
-	
+
 		if (Double.isInfinite(x) || Double.isNaN(x)) {
 			return false;
 		}
-	
+
 		if (isOutOfSafeRoundRange(x)) {
 			return true;
 		}
@@ -53,31 +53,30 @@ public class DoubleUtil {
 
 	/**
 	 * Check difference is less than a constant
-	 * 
+	 *
 	 * infinity == infinity returns true eg 1/0
-	 * 
+	 *
 	 * -infinity == infinity returns false eg -1/0
-	 * 
+	 *
 	 * -infinity == -infinity returns true
-	 * 
+	 *
 	 * undefined == undefined returns false eg 0/0
-	 * 
+	 *
 	 * @return whether x is equal to y
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public static boolean isEqual(double a, double b) {
 		if (a == b) {
 			return true;
 		}
-		return ((a - STANDARD_PRECISION) <= b)
-				&& (b <= (a + STANDARD_PRECISION));
+		return ((a - STANDARD_PRECISION) <= b) && (b <= (a + STANDARD_PRECISION));
 	}
 
 	/**
-	 * 
+	 *
 	 * check if a point is zero, see #5202
-	 * 
+	 *
 	 * @param e
 	 *            epsilon
 	 * @param x
@@ -86,21 +85,21 @@ public class DoubleUtil {
 	 *            point y
 	 * @param z
 	 *            point z
-	 * 
+	 *
 	 * @return whether x, y, z are all zero
 	 */
-	public static boolean isEpsilon(double e, double x, double y,
-			double z) {
+	public static boolean isEpsilon(double e, double x, double y, double z) {
 		double eAbs = Math.abs(e);
-		return !(eAbs > STANDARD_PRECISION || eAbs > Math.abs(x) * STANDARD_PRECISION
+		return !(eAbs > STANDARD_PRECISION
+				|| eAbs > Math.abs(x) * STANDARD_PRECISION
 				|| eAbs > Math.abs(y) * STANDARD_PRECISION
 				|| eAbs > Math.abs(z) * STANDARD_PRECISION);
 	}
 
 	/**
-	 * 
+	 *
 	 * check if a point is zero, see #5202
-	 * 
+	 *
 	 * @param e
 	 *            epsilon
 	 * @param x
@@ -111,7 +110,8 @@ public class DoubleUtil {
 	 */
 	public static boolean isEpsilon(double e, double x, double y) {
 		double eAbs = Math.abs(e);
-		return !(eAbs > STANDARD_PRECISION || eAbs > Math.abs(x) * STANDARD_PRECISION
+		return !(eAbs > STANDARD_PRECISION
+				|| eAbs > Math.abs(x) * STANDARD_PRECISION
 				|| eAbs > Math.abs(y) * STANDARD_PRECISION);
 	}
 
@@ -127,7 +127,7 @@ public class DoubleUtil {
 
 	/**
 	 * if x is nearly zero, 0.0 is returned, else x is returned
-	 * 
+	 *
 	 * @param x
 	 *            input
 	 * @return 0.0 if x is nearly zero
@@ -194,9 +194,9 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * check if e is zero in comparison to x
-	 * 
+	 *
 	 * @param e
 	 *            e
 	 * @param x
@@ -209,7 +209,7 @@ public class DoubleUtil {
 
 	/**
 	 * Returns whether x is greater than y
-	 * 
+	 *
 	 * @param d1
 	 *            first compared number
 	 * @param d2
@@ -221,7 +221,7 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x
 	 *            first value
 	 * @param y
@@ -232,17 +232,17 @@ public class DoubleUtil {
 		if (isGreater(x, y)) {
 			return 1;
 		}
-	
+
 		if (isGreater(y, x)) {
 			return -1;
 		}
-	
+
 		return 0;
 	}
 
 	/**
 	 * Returns whether x is greater than y
-	 * 
+	 *
 	 * @param x
 	 *            x
 	 * @param y
@@ -257,7 +257,7 @@ public class DoubleUtil {
 
 	/**
 	 * Returns whether x is greater than or equal to y
-	 * 
+	 *
 	 * @param x
 	 *            tested number
 	 * @param y
@@ -269,9 +269,9 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * check if e is zero in comparison to eps and x
-	 * 
+	 *
 	 * @param e
 	 *            e
 	 * @param x
@@ -287,7 +287,7 @@ public class DoubleUtil {
 
 	/**
 	 * check if e is zero in comparison to STANDARD_PRECISION and x
-	 * 
+	 *
 	 * @param e
 	 *            e
 	 * @param x
@@ -302,7 +302,7 @@ public class DoubleUtil {
 	 * Checks if x is close (Kernel.MIN_PRECISION) to a decimal fraction, eg
 	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
 	 * otherwise x is returned.
-	 * 
+	 *
 	 * @param val
 	 *            input number
 	 * @param precision
@@ -311,11 +311,9 @@ public class DoubleUtil {
 	 * @return input number; rounded with given precision if the rounding error
 	 *         is less than this kernel's minimal precision
 	 */
-	
 	public static double checkDecimalFraction(double val, double precision) {
-		double prec = Math.pow(10,
-				Math.floor(Math.log(Math.abs(precision)) / Math.log(10)));
-	
+		double prec = Math.pow(10, Math.floor(Math.log(Math.abs(precision)) / Math.log(10)));
+
 		double fracVal = val * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
 
@@ -343,7 +341,7 @@ public class DoubleUtil {
 	/**
 	 * Checks if x is very close (1E-8) to an integer. If it is, the integer
 	 * value is returned, otherwise x is returned.
-	 * 
+	 *
 	 * @param x
 	 *            real number
 	 * @return x rounded to an integer if close
@@ -357,7 +355,7 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param val
 	 *            raw value
 	 * @return angle
@@ -366,7 +364,7 @@ public class DoubleUtil {
 		if ((val > STANDARD_PRECISION) && (val < Kernel.PI_2)) {
 			return val;
 		}
-	
+
 		double value = val % Kernel.PI_2;
 		if (isZero(value)) {
 			if (val < 1.0) {
@@ -381,11 +379,11 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * checks root like 0.29999998880325357 1) Check if there's a hole at 0.3 -&gt;
 	 * return NaN 2) Check if 0.3 is a better root -&gt; return 0.3 3) otherwise return
 	 * root
-	 * 
+	 *
 	 * @param root potential root (of f) to check
 	 * @param f    function with root
 	 * @return root / better root / NaN
@@ -410,18 +408,17 @@ public class DoubleUtil {
 			// rounded root is more accurate -> use that
 			return root2;
 		}
-		
+
 		// now try slower check for eg 1/3
 		double[] polishedRoot = AlgoFractionText.decimalToFraction(root, STANDARD_PRECISION);
-		if (polishedRoot[1] != 0 && Math.abs(polishedRoot[0]) < 999
-				&& Math.abs(polishedRoot[1]) < 20) {
+		if (polishedRoot[1] != 0 && Math.abs(polishedRoot[0]) < 999 && Math.abs(polishedRoot[1]) < 20) {
 			root2 = polishedRoot[0] / polishedRoot[1];
 			root2Val = f.value(root2);
 			if (!Double.isFinite(root2Val)) {
 				// hole near/at root
 				return Double.NaN;
 			}
-			
+
 			if (Math.abs(root2Val) < Math.abs(rootVal)) {
 				// rounded root is more accurate -> use that
 				return root2;
@@ -433,10 +430,10 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 
+	 *
 	 * checks min value like 0.29999998880325357 Check if 0.3 is a better minimum -&gt;
 	 * return 0.3 otherwise return root
-	 * 
+	 *
 	 * @param root potential max (of f) to check
 	 * @param f    function with root
 	 * @return root / better min
@@ -454,14 +451,13 @@ public class DoubleUtil {
 
 		// original value is better
 		return root;
-
 	}
 
 	/**
-	 * 
+	 *
 	 * checks max value like 0.29999998880325357 Check if 0.3 is a better maximum -&gt;
 	 * return 0.3 otherwise return root
-	 * 
+	 *
 	 * @param root potential max (of f) to check
 	 * @param f    function with root
 	 * @return root / better min
@@ -479,38 +475,37 @@ public class DoubleUtil {
 
 		// original value is better
 		return root;
-
 	}
 
-    /**
-     *
-     * @param x number
-     * @return x rounded to 1/2/5 * 10^digits
-     */
-    public static double round125(double x) {
-        double pot = getPowerOfTen(x);
-        int n = (int) (x / pot);
-        if (n >= 5) {
-            return 5 * pot;
-        }
-        if (n >= 2) {
-            return 2 * pot;
-        }
-        return pot;
-    }
+	/**
+	 *
+	 * @param x number
+	 * @return x rounded to 1/2/5 * 10^digits
+	 */
+	public static double round125(double x) {
+		double pot = getPowerOfTen(x);
+		int n = (int) (x / pot);
+		if (n >= 5) {
+			return 5 * pot;
+		}
+		if (n >= 2) {
+			return 2 * pot;
+		}
+		return pot;
+	}
 
-    /**
-     *
-     * @param x number
-     * @return 10^n where x = v * 10^n with 1 &lt;= v&lt; 10
-     */
-    public static double getPowerOfTen(double x) {
-        return Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
-    }
+	/**
+	 *
+	 * @param x number
+	 * @return 10^n where x = v * 10^n with 1 &lt;= v&lt; 10
+	 */
+	public static double getPowerOfTen(double x) {
+		return Math.pow(10, (int) Math.floor(Math.log(x) / Math.log(10)));
+	}
 
 	/**
 	 * Copy of Double.hashCode, used for Android 4.4 compatibility
-	 * 
+	 *
 	 * @param val
 	 *            value
 	 * @return hash

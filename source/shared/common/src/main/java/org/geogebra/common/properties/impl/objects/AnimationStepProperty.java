@@ -35,8 +35,11 @@ public class AnimationStepProperty extends AbstractNumericProperty
 	private final GeoElement element;
 
 	/***/
-	public AnimationStepProperty(AlgebraProcessor algebraProcessor,
-			Localization localization, GeoElement element, boolean forSliders)
+	public AnimationStepProperty(
+			AlgebraProcessor algebraProcessor,
+			Localization localization,
+			GeoElement element,
+			boolean forSliders)
 			throws NotApplicablePropertyException {
 		super(algebraProcessor, localization, forSliders ? "Step" : "AnimationStep");
 		if (!isValid(element, forSliders)) {

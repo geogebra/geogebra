@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -62,17 +62,22 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * panel for numeric slider
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class SliderPropertiesPanelD extends JPanel
-		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
-		SetLabels, UpdateFonts, ISliderOptionsListener, ChangeListener {
+		implements ActionListener,
+				FocusListener,
+				UpdateablePropertiesPanel,
+				SetLabels,
+				UpdateFonts,
+				ISliderOptionsListener,
+				ChangeListener {
 	/**
-	 * 
+	 *
 	 */
-
 	private static final long serialVersionUID = 1L;
+
 	private final SliderModel model;
 	private final AngleTextField tfMin;
 	private final AngleTextField tfMax;
@@ -111,8 +116,8 @@ public class SliderPropertiesPanelD extends JPanel
 	 * @param useTabbedPane whether to use tabs
 	 * @param includeRandom whether to add checkbox for random
 	 */
-	public SliderPropertiesPanelD(AppD app, PropertiesPanelD propPanel,
-			boolean useTabbedPane, boolean includeRandom) {
+	public SliderPropertiesPanelD(
+			AppD app, PropertiesPanelD propPanel, boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
@@ -124,8 +129,7 @@ public class SliderPropertiesPanelD extends JPanel
 		intervalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		sliderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		animationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		pointSliderStylePanel = new JPanel(
-				new GridLayout(2, 1));
+		pointSliderStylePanel = new JPanel(new GridLayout(2, 1));
 		lineSliderStylePanel = new JPanel(new GridLayout(4, 1));
 		sliderLineOpacity = new JSlider(0, 100);
 		sliderLineOpacity.setMajorTickSpacing(25);
@@ -178,17 +182,17 @@ public class SliderPropertiesPanelD extends JPanel
 			textField.addFocusListener(this);
 			p.add(textField);
 			switch (i) {
-			case 2:
-				p.add(lbWidthUnit);
-				break;
-			case 3:
-				p.add(lblBlobSizeUnit);
-				break;
-			case 4:
-				p.add(lblLineThicknessUnit);
-				break;
-			default:
-				break;
+				case 2:
+					p.add(lbWidthUnit);
+					break;
+				case 3:
+					p.add(lblBlobSizeUnit);
+					break;
+				case 4:
+					p.add(lblLineThicknessUnit);
+					break;
+				default:
+					break;
 			}
 			p.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -199,7 +203,6 @@ public class SliderPropertiesPanelD extends JPanel
 			} else {
 				lineSliderStylePanel.add(p);
 			}
-
 		}
 		lblBlobColor = new JLabel(loc.getMenu("Color") + ":");
 		btnBlobColor = new JButton("\u2588");
@@ -209,12 +212,9 @@ public class SliderPropertiesPanelD extends JPanel
 		btnLineColor = new JButton("\u2588");
 		lblLineColor.setLabelFor(btnLineColor);
 		btnLineColor.addActionListener(this);
-		btnLineColor.setForeground(
-				GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
-		pointSliderStylePanel
-				.add(LayoutUtil.flowPanel(lblBlobColor, btnBlobColor));
-		lineSliderStylePanel
-				.add(LayoutUtil.flowPanel(lblLineColor, btnLineColor));
+		btnLineColor.setForeground(GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
+		pointSliderStylePanel.add(LayoutUtil.flowPanel(lblBlobColor, btnBlobColor));
+		lineSliderStylePanel.add(LayoutUtil.flowPanel(lblLineColor, btnLineColor));
 		JLabel lblLineOpacity = new JLabel(loc.getMenu("LineOpacity") + ":");
 		JPanel opacityPanel = LayoutUtil.flowPanel(lblLineOpacity, sliderLineOpacity);
 		lineSliderStylePanel.add(opacityPanel);
@@ -242,27 +242,21 @@ public class SliderPropertiesPanelD extends JPanel
 			add(tabbedPane);
 		} else { // no tabs
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			intervalPanel.setBorder(
-					BorderFactory.createTitledBorder(loc.getMenu("Interval")));
-			sliderPanel.setBorder(
-					BorderFactory.createTitledBorder(loc.getMenu("Slider")));
-			animationPanel.setBorder(BorderFactory
-					.createTitledBorder(loc.getMenu("Animation")));
+			intervalPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Interval")));
+			sliderPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Slider")));
+			animationPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Animation")));
 			add(intervalPanel);
 			add(Box.createVerticalStrut(5));
 			add(sliderPanel);
 			add(Box.createVerticalStrut(5));
 			add(animationPanel);
 
-			pointSliderStylePanel.setBorder(BorderFactory
-					.createTitledBorder(loc.getMenu("PointStyle")));
-			lineSliderStylePanel.setBorder(
-					BorderFactory.createTitledBorder(loc.getMenu("LineStyle")));
+			pointSliderStylePanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("PointStyle")));
+			lineSliderStylePanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("LineStyle")));
 			add(Box.createVerticalStrut(5));
 			add(pointSliderStylePanel);
 			add(Box.createVerticalStrut(5));
 			add(lineSliderStylePanel);
-
 		}
 	}
 
@@ -273,8 +267,7 @@ public class SliderPropertiesPanelD extends JPanel
 		cbSliderFixed.setText(loc.getMenu("fixed"));
 		cbRandom.setText(loc.getMenu("Random"));
 
-		String[] comboStr = { loc.getMenu("horizontal"),
-				loc.getMenu("vertical") };
+		String[] comboStr = {loc.getMenu("horizontal"), loc.getMenu("vertical")};
 
 		int selectedIndex = coSliderHorizontal.getSelectedIndex();
 		coSliderHorizontal.removeActionListener(this);
@@ -335,9 +328,8 @@ public class SliderPropertiesPanelD extends JPanel
 	}
 
 	private void doBlobColorActionPerformed() {
-		model.applyBlobColor(
-				GColorD.newColor(((GuiManagerD) app.getGuiManager())
-						.showColorChooser(model.getBlobColor())));
+		model.applyBlobColor(GColorD.newColor(
+				((GuiManagerD) app.getGuiManager()).showColorChooser(model.getBlobColor())));
 	}
 
 	/**
@@ -347,13 +339,16 @@ public class SliderPropertiesPanelD extends JPanel
 	 */
 	public GColor getColorWithOpacity(GColor color) {
 		GColor lineCol = color == null ? GColor.BLACK : color;
-		return GColor.newColor(lineCol.getRed(), lineCol.getGreen(),
-				lineCol.getBlue(), sliderLineOpacity.getValue() * 255 / 100);
+		return GColor.newColor(
+				lineCol.getRed(),
+				lineCol.getGreen(),
+				lineCol.getBlue(),
+				sliderLineOpacity.getValue() * 255 / 100);
 	}
 
 	private void doLineColorActionPerformed() {
-		GColor color = GColorD.newColor(((GuiManagerD) app.getGuiManager())
-				.showColorChooser(model.getLineColor()));
+		GColor color = GColorD.newColor(
+				((GuiManagerD) app.getGuiManager()).showColorChooser(model.getLineColor()));
 		model.applyLineColor(color);
 		btnLineColor.setForeground(GColorD.getAwtColor(getColorWithOpacity(color)));
 		btnLineColor.repaint();
@@ -401,8 +396,7 @@ public class SliderPropertiesPanelD extends JPanel
 		boolean emptyString = "".equals(inputText);
 		NumberValue value = new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
-			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
-					false);
+			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText, false);
 		}
 		if (source == tfMin) {
 			model.applyMin(value);
@@ -417,8 +411,7 @@ public class SliderPropertiesPanelD extends JPanel
 				tfBlobSize.setText(String.valueOf(1));
 			}
 		} else if (source == tfLineThickness) {
-			double thickness = value.getDouble() * 2 <= 0 ? 2
-					: value.getDouble() * 2;
+			double thickness = value.getDouble() * 2 <= 0 ? 2 : value.getDouble() * 2;
 			model.applyLineThickness(thickness);
 			if (DoubleUtil.isEqual(thickness, 2)) {
 				tfLineThickness.setText(String.valueOf(1));
@@ -533,8 +526,7 @@ public class SliderPropertiesPanelD extends JPanel
 	@Override
 	public void setLineOpacity(int value) {
 		sliderLineOpacity.setValue(value);
-		btnLineColor.setForeground(
-				GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
+		btnLineColor.setForeground(GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
 		sliderLineOpacity.repaint();
 	}
 
@@ -545,9 +537,7 @@ public class SliderPropertiesPanelD extends JPanel
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == sliderLineOpacity) {
 			model.applyTransparency(sliderLineOpacity.getValue());
-			btnLineColor.setForeground(
-					GColorD.getAwtColor(
-							getColorWithOpacity(model.getLineColor())));
+			btnLineColor.setForeground(GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
 		}
 	}
 }

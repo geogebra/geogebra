@@ -59,22 +59,27 @@ public final class AVDualRepresentationContributor implements FocusContributor {
 	}
 
 	@Override
-	public void contribute(RadioTreeItemFocusAccess item, FocusableCompositeW focus,
-			AccessibilityManagerInterface am) {
+	public void contribute(
+			RadioTreeItemFocusAccess item, FocusableCompositeW focus, AccessibilityManagerInterface am) {
 		GeoElement geo = item.geo();
 		if (geo == null) {
 			return;
 		}
-		Widget definitionRow = addIfExists(focus, am, item.inputRow(), AV_INPUT_ROW_KEY,
-				accessibleLabel, item::removeItemFocusStyle);
+		Widget definitionRow = addIfExists(
+				focus, am, item.inputRow(), AV_INPUT_ROW_KEY, accessibleLabel, item::removeItemFocusStyle);
 		if (definitionRow != null) {
 			AriaHelper.setRole(definitionRow, "status");
 			AriaHelper.setRoleDescription(definitionRow, roleDescription);
 		}
 
 		if (item.hasTwoRows()) {
-			Widget valueRow = addIfExists(focus, am, item.outputRow(), AV_OUTPUT_ROW_KEY, () ->
-				geo.toValueString(StringTemplate.defaultTemplate), item::removeItemFocusStyle);
+			Widget valueRow = addIfExists(
+					focus,
+					am,
+					item.outputRow(),
+					AV_OUTPUT_ROW_KEY,
+					() -> geo.toValueString(StringTemplate.defaultTemplate),
+					item::removeItemFocusStyle);
 			if (valueRow != null) {
 				AriaHelper.setRole(valueRow, "status");
 				AriaHelper.setRoleDescription(valueRow, "Value");

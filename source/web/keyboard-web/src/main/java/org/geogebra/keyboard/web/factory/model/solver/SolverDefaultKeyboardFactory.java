@@ -84,4 +84,3 @@ public class SolverDefaultKeyboardFactory implements KeyboardModelFactory {
 		return mathKeyboard;
 	}
 }
-

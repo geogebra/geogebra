@@ -54,7 +54,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 	/**
 	 * Creates new Algebra controller
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -111,8 +111,8 @@ public class AlgebraControllerD extends AlgebraTreeController
 	 */
 	protected void enableDnD() {
 		ds = new DragSource();
-		ds.createDefaultDragGestureRecognizer((AlgebraViewD) getView(),
-				DnDConstants.ACTION_COPY_OR_MOVE, this);
+		ds.createDefaultDragGestureRecognizer(
+				(AlgebraViewD) getView(), DnDConstants.ACTION_COPY_OR_MOVE, this);
 	}
 
 	// =====================================================
@@ -159,12 +159,16 @@ public class AlgebraControllerD extends AlgebraTreeController
 			return;
 		}
 
-		ScaledIcon ic = GeoGebraIconD.createScaledLatexIcon((AppD) app, latex,
-				((AppD) app).getPlainFont(), Color.DARK_GRAY);
+		ScaledIcon ic = GeoGebraIconD.createScaledLatexIcon(
+				(AppD) app, latex, ((AppD) app).getPlainFont(), Color.DARK_GRAY);
 
 		// start drag
-		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),
-				new Point(-5, -30), new TransferableAlgebraView(geoLabelList),
+		ds.startDrag(
+				dge,
+				DragSource.DefaultCopyDrop,
+				ic.getImage(),
+				new Point(-5, -30),
+				new TransferableAlgebraView(geoLabelList),
 				this);
 	}
 
@@ -177,9 +181,9 @@ public class AlgebraControllerD extends AlgebraTreeController
 		/**
 		 * For dragging from AV
 		 */
-		final DataFlavor algebraViewFlavor = new DataFlavor(
-				AlgebraViewD.class, "geoLabel list");
-		private final DataFlavor[] supportedFlavors = { algebraViewFlavor };
+		final DataFlavor algebraViewFlavor = new DataFlavor(AlgebraViewD.class, "geoLabel list");
+
+		private final DataFlavor[] supportedFlavors = {algebraViewFlavor};
 
 		private final ArrayList<String> geoLabelList;
 
@@ -202,8 +206,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 		}
 
 		@Override
-		public Object getTransferData(DataFlavor flavor)
-				throws UnsupportedFlavorException {
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
 			if (flavor.equals(algebraViewFlavor)) {
 				return geoLabelList;
 			}
@@ -212,11 +215,9 @@ public class AlgebraControllerD extends AlgebraTreeController
 	}
 
 	@Override
-	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev,
-			GeoElement geo, MouseEvent e) {
+	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev, GeoElement geo, MouseEvent e) {
 		// let euclidianView know about the click
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD
-				.wrapEvent(e);
+		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
 		ev.clickedGeo(geo, event.isControlDown());
 		event.release();
 	}
@@ -231,8 +232,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 	}
 
 	@Override
-	protected void highlight(EuclidianViewInterfaceCommon ev,
-			ArrayList<GeoElement> geos) {
+	protected void highlight(EuclidianViewInterfaceCommon ev, ArrayList<GeoElement> geos) {
 		if (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())) {
 			super.highlight(ev, geos);
 		} else {
@@ -245,16 +245,16 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 		int mode = app.getActiveEuclidianView().getMode();
 		if ((mode == EuclidianConstants.MODE_MOVE
-				|| mode == EuclidianConstants.MODE_SELECT
-				|| mode == EuclidianConstants.MODE_SELECTION_LISTENER
-				|| geo == null) && !AppD.isControlDown(e) && !e.isShiftDown()) {
+						|| mode == EuclidianConstants.MODE_SELECT
+						|| mode == EuclidianConstants.MODE_SELECTION_LISTENER
+						|| geo == null)
+				&& !AppD.isControlDown(e)
+				&& !e.isShiftDown()) {
 			if (!setSelectedGeo(geo)) {
 				return true;
 			}
-
 		}
 		return false;
-
 	}
 
 	@Override

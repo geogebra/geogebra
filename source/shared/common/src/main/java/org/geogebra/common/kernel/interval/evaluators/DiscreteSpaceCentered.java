@@ -116,7 +116,6 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 			x = tail();
 			cbRight.extend(x);
 		}
-
 	}
 
 	@Override
@@ -155,8 +154,7 @@ public class DiscreteSpaceCentered implements DiscreteSpace {
 
 		return DoubleStream.iterate(fromIndex, index -> index + 1)
 				.limit(toIndex)
-				.mapToObj(index -> new Interval(start + index * step,
-						start + (index + 1) * step));
+				.mapToObj(index -> new Interval(start + index * step, start + (index + 1) * step));
 	}
 
 	@Override

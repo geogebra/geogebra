@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -51,8 +51,13 @@ public class InputDialogDilateD extends InputDialogD {
 	 * @param kernel kernel
 	 * @param ec controller
 	 */
-	public InputDialogDilateD(AppD app, String title, InputHandler handler,
-			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel,
+	public InputDialogDilateD(
+			AppD app,
+			String title,
+			InputHandler handler,
+			GeoPointND[] points,
+			GeoElement[] selGeos,
+			Kernel kernel,
 			EuclidianController ec) {
 		super(app.getFrame(), false, app.getLocalization());
 
@@ -65,8 +70,17 @@ public class InputDialogDilateD extends InputDialogD {
 
 		this.ec = ec;
 
-		createGUI(title, loc.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS,
-				1, true, false, false, false, DialogType.GeoGebraEditor);
+		createGUI(
+				title,
+				loc.getMenu("Dilate.Factor"),
+				false,
+				DEFAULT_COLUMNS,
+				1,
+				true,
+				false,
+				false,
+				false,
+				DialogType.GeoGebraEditor);
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(inputPanel, BorderLayout.CENTER);
 		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
@@ -95,18 +109,13 @@ public class InputDialogDilateD extends InputDialogD {
 	}
 
 	private void processInput() {
-		getInputHandler().processInput(inputPanel.getText(), this,
-				ok -> {
-					if (ok) {
-						DialogManager
-								.doDilate(kernel,
-										((NumberInputHandler) getInputHandler())
-												.getNum(),
-										points, selGeos, ec);
-					}
-					setVisibleForTools(!ok);
-
-				});
+		getInputHandler().processInput(inputPanel.getText(), this, ok -> {
+			if (ok) {
+				DialogManager.doDilate(
+						kernel, ((NumberInputHandler) getInputHandler()).getNum(), points, selGeos, ec);
+			}
+			setVisibleForTools(!ok);
+		});
 	}
 
 	@Override
@@ -121,5 +130,4 @@ public class InputDialogDilateD extends InputDialogD {
 	public void handleDialogVisibilityChange(boolean isVisible) {
 		// nothing to do
 	}
-
 }

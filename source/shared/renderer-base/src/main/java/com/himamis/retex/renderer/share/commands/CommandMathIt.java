@@ -10,5 +10,4 @@ public class CommandMathIt extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new ItAtom(a);
 	}
-
 }

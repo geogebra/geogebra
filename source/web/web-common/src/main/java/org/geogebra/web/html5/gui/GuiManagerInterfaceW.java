@@ -212,8 +212,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @param ev view
 	 * @param dynamicStylebar style bar
 	 */
-	void addStylebar(EuclidianView ev,
-					 EuclidianStyleBar dynamicStylebar);
+	void addStylebar(EuclidianView ev, EuclidianStyleBar dynamicStylebar);
 
 	/**
 	 * Recalculates scaling-related variables (pixel ratio).

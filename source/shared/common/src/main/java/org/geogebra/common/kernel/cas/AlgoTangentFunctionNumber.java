@@ -29,11 +29,10 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
- * 
+ *
  * @author Markus
  */
-public class AlgoTangentFunctionNumber extends AlgoElement
-		implements TangentAlgo {
+public class AlgoTangentFunctionNumber extends AlgoElement implements TangentAlgo {
 
 	private GeoNumberValue n; // input
 	private GeoElement ngeo;
@@ -53,8 +52,8 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	 * @param f
 	 *            function
 	 */
-	public AlgoTangentFunctionNumber(Construction cons, String label,
-			GeoNumberValue n, GeoFunctionable f) {
+	public AlgoTangentFunctionNumber(
+			Construction cons, String label, GeoNumberValue n, GeoFunctionable f) {
 		super(cons);
 		this.n = n;
 		ngeo = n.toGeoElement();
@@ -112,8 +111,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	@Override
 	public final void compute() {
 		double a = n.getDouble();
-		if (!f.isDefined() || Double.isInfinite(a)
-				|| Double.isNaN(a)) {
+		if (!f.isDefined() || Double.isInfinite(a) || Double.isNaN(a)) {
 			tangent.setUndefined();
 			return;
 		}
@@ -129,9 +127,9 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("TangentToAatB", "Tangent to %0 at %1",
-				f.getLabel(tpl),
-				"x = " + ngeo.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"TangentToAatB", "Tangent to %0 at %1", f.getLabel(tpl), "x = " + ngeo.getLabel(tpl));
 	}
 
 	@Override
@@ -141,5 +139,4 @@ public class AlgoTangentFunctionNumber extends AlgoElement
 		}
 		return null;
 	}
-
 }

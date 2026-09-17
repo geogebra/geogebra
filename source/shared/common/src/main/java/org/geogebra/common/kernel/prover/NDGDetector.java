@@ -45,9 +45,9 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Detects polynomial NDG conditions and turns into human readable form
- * 
+ *
  * @author Zoltan Kovacs
- * 
+ *
  */
 public class NDGDetector {
 
@@ -60,7 +60,7 @@ public class NDGDetector {
 	 * Creates an NDGDetector instance. The NDG detector will try to detect
 	 * geometrical meanings of polynomials for the same prover and
 	 * substitutions.
-	 * 
+	 *
 	 * @param prover
 	 *            The prover we are create this instance for.
 	 * @param substitutionsInput
@@ -68,7 +68,8 @@ public class NDGDetector {
 	 * @param freeVariablesInput
 	 *            the input set of free variables
 	 */
-	NDGDetector(Prover prover,
+	NDGDetector(
+			Prover prover,
 			HashMap<PVariable, BigInteger> substitutionsInput,
 			Set<PVariable> freeVariablesInput) {
 		lookupTable = new HashMap<>();
@@ -81,7 +82,7 @@ public class NDGDetector {
 	 * Returns the NDG condition (as a GeoGebra object) if the input polynomial
 	 * is detected as a recognizable geometrically meaningful condition
 	 * (collinearity, equality etc.).
-	 * 
+	 *
 	 * @param p
 	 *            input polynomial
 	 * @return the NDG condition
@@ -103,8 +104,7 @@ public class NDGDetector {
 		NDGCondition ndgc;
 		if (lookupTable.containsKey(keyString)) {
 			ndgc = lookupTable.get(keyString);
-			if (ndgc != null
-					&& ndgc.getReadability() == Double.POSITIVE_INFINITY) {
+			if (ndgc != null && ndgc.getReadability() == Double.POSITIVE_INFINITY) {
 				return null;
 			}
 			return ndgc;
@@ -116,9 +116,10 @@ public class NDGDetector {
 
 		if (statement.getParentAlgorithm() instanceof AlgoDependentBoolean) {
 			// list of segments -> variables
-			ArrayList<Entry<GeoElement, PVariable>> varSubstListOfSegs = ((AlgoDependentBoolean) statement
-					.getParentAlgorithm()).getProverAdapter()
-							.getVarSubstListOfSegs();
+			ArrayList<Entry<GeoElement, PVariable>> varSubstListOfSegs = ((AlgoDependentBoolean)
+							statement.getParentAlgorithm())
+					.getProverAdapter()
+					.getVarSubstListOfSegs();
 			// create list of variables -> segments
 			HashMap<PVariable, GeoElement> geos = new HashMap<>();
 			if (varSubstListOfSegs != null) {
@@ -140,14 +141,13 @@ public class NDGDetector {
 				boolean lt = false;
 				boolean rt = false;
 
-				outerloop: for (Entry<PTerm, BigInteger> entry : tm1
-						.entrySet()) { // e.g. 5*v1^3*v2
+				outerloop:
+				for (Entry<PTerm, BigInteger> entry : tm1.entrySet()) { // e.g. 5*v1^3*v2
 					BigInteger coeff = entry.getValue(); // e.g. 5
-			
+
 					/* always use the absolute value */
-					ExpressionNode c = new ExpressionNode(kernel,
-							coeff.abs().longValue()); // FIXME
-					
+					ExpressionNode c = new ExpressionNode(kernel, coeff.abs().longValue()); // FIXME
+
 					TreeMap<PVariable, Integer> tm2 = entry.getKey().getTerm();
 					ExpressionNode en = new ExpressionNode(kernel, 1);
 					/* e.g. v1->3, v2->1 */
@@ -155,7 +155,7 @@ public class NDGDetector {
 					TreeSet<GeoElement> geoSet = new TreeSet<>();
 					HashMap<GeoElement, ExpressionNode> bases = new HashMap<>();
 					for (Entry<PVariable, Integer> entry0 : tm2.entrySet()) { // e.g.
-																				// v1
+						// v1
 						PVariable t2 = entry0.getKey();
 						if (!geos.containsKey(t2)) {
 							qFormula = false;
@@ -204,8 +204,7 @@ public class NDGDetector {
 					 * TODO: Later eventually we want to use the equation, not
 					 * just an exported string.
 					 */
-					ndgc.setCondition(
-							eq.toString(StringTemplate.defaultTemplate));
+					ndgc.setCondition(eq.toString(StringTemplate.defaultTemplate));
 					ndgc.setReadability(2);
 					Log.debug(p + " means " + eq);
 					return ndgc;
@@ -214,14 +213,12 @@ public class NDGDetector {
 			}
 		}
 
-		List<GeoElement> freePoints = ProverBotanasMethod
-				.getFreePoints(statement);
+		List<GeoElement> freePoints = ProverBotanasMethod.getFreePoints(statement);
 		HashSet<GeoElement> freePointsSet = new HashSet<>(freePoints);
 
 		// CHECKING COLLINEARITY
 
-		Combinations<GeoElement> triplets = new Combinations<>(freePointsSet,
-				3);
+		Combinations<GeoElement> triplets = new Combinations<>(freePointsSet, 3);
 
 		while (triplets.hasNext()) {
 			Set<GeoElement> triplet = triplets.next();
@@ -236,20 +233,16 @@ public class NDGDetector {
 			}
 			PVariable[] fv1, fv2, fv3;
 			try {
-				fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-						.getBotanaVars(points[0]);
-				fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-						.getBotanaVars(points[1]);
-				fv3 = ((SymbolicParametersBotanaAlgo) points[2])
-						.getBotanaVars(points[2]);
+				fv1 = ((SymbolicParametersBotanaAlgo) points[0]).getBotanaVars(points[0]);
+				fv2 = ((SymbolicParametersBotanaAlgo) points[1]).getBotanaVars(points[1]);
+				fv3 = ((SymbolicParametersBotanaAlgo) points[2]).getBotanaVars(points[2]);
 
 			} catch (NoSymbolicParametersException e) {
 				Log.debug("Cannot get Botana vars during NDG detection");
 				return null;
 			}
 			// Creating the polynomial for collinearity:
-			PPolynomial coll = PPolynomial
-					.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1])
+			PPolynomial coll = PPolynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1])
 					.substitute(substitutions);
 			if (PPolynomial.areAssociates1(p, coll)) {
 				Log.debug(p + " means collinearity for " + triplet);
@@ -279,19 +272,16 @@ public class NDGDetector {
 			}
 			PVariable[] fv1, fv2;
 			try {
-				fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-						.getBotanaVars(points[0]);
-				fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-						.getBotanaVars(points[1]);
+				fv1 = ((SymbolicParametersBotanaAlgo) points[0]).getBotanaVars(points[0]);
+				fv2 = ((SymbolicParametersBotanaAlgo) points[1]).getBotanaVars(points[1]);
 			} catch (NoSymbolicParametersException e) {
 				Log.debug("Cannot get Botana vars during NDG detection");
 				return null;
 			}
 
 			// Creating the polynomial for equality:
-			PPolynomial eq = PPolynomial
-					.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1])
-					.substitute(substitutions);
+			PPolynomial eq =
+					PPolynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1]).substitute(substitutions);
 			if (PPolynomial.areAssociates1(p, eq)) {
 				Log.debug(p + " means equality for " + pair);
 				ndgc = new NDGCondition();
@@ -308,22 +298,18 @@ public class NDGDetector {
 		HashMap<PVariable, GeoElement> xvarGeo = new HashMap<>();
 		HashSet<PVariable> freeYvars = new HashSet<>();
 		HashMap<PVariable, GeoElement> yvarGeo = new HashMap<>();
-		Iterator<GeoElement> it = prover.getStatement().getAllPredecessors()
-				.iterator();
+		Iterator<GeoElement> it = prover.getStatement().getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isGeoPoint()
-					&& (geo instanceof SymbolicParametersBotanaAlgo)) {
+			if (geo.isGeoPoint() && (geo instanceof SymbolicParametersBotanaAlgo)) {
 				PVariable x, y;
 				try {
-					x = ((SymbolicParametersBotanaAlgo) geo)
-							.getBotanaVars(geo)[0];
+					x = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo)[0];
 					if (freeVariables.contains(x)) {
 						freeXvars.add(x);
 						xvarGeo.put(x, geo);
 					}
-					y = ((SymbolicParametersBotanaAlgo) geo)
-							.getBotanaVars(geo)[1];
+					y = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo)[1];
 					if (freeVariables.contains(y)) {
 						freeYvars.add(y);
 						yvarGeo.put(y, geo);
@@ -352,9 +338,8 @@ public class NDGDetector {
 				points[i] = xvarGeo.get(coords[i]);
 				i++;
 			}
-			PPolynomial xeq = new PPolynomial(coords[0])
-					.subtract(new PPolynomial(coords[1]))
-					.substitute(substitutions);
+			PPolynomial xeq =
+					new PPolynomial(coords[0]).subtract(new PPolynomial(coords[1])).substitute(substitutions);
 			if (PPolynomial.areAssociates1(p, xeq)) {
 				Log.debug(p + " means x-equality for " + pair);
 				ndgc = new NDGCondition();
@@ -362,8 +347,8 @@ public class NDGDetector {
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("xAreEqual");
 				ndgc.setReadability(Double.POSITIVE_INFINITY); // we don't want
-																// this
-																// condition
+				// this
+				// condition
 				lookupTable.put(keyString, ndgc);
 				return ndgc;
 			}
@@ -384,9 +369,8 @@ public class NDGDetector {
 				points[i] = yvarGeo.get(coords[i]);
 				i++;
 			}
-			PPolynomial yeq = new PPolynomial(coords[0])
-					.subtract(new PPolynomial(coords[1]))
-					.substitute(substitutions);
+			PPolynomial yeq =
+					new PPolynomial(coords[0]).subtract(new PPolynomial(coords[1])).substitute(substitutions);
 			if (PPolynomial.areAssociates1(p, yeq)) {
 				Log.debug(p + " means y-equality for " + pair);
 				ndgc = new NDGCondition();
@@ -394,8 +378,8 @@ public class NDGDetector {
 				Arrays.sort(ndgc.getGeos());
 				ndgc.setCondition("yAreEqual");
 				ndgc.setReadability(Double.POSITIVE_INFINITY); // we don't want
-																// this
-																// condition
+				// this
+				// condition
 				lookupTable.put(keyString, ndgc);
 				return ndgc;
 			}
@@ -417,8 +401,7 @@ public class NDGDetector {
 				i++;
 			}
 
-			Combinations<GeoElement> pairs3 = new Combinations<>(freePointsSet,
-					2);
+			Combinations<GeoElement> pairs3 = new Combinations<>(freePointsSet, 2);
 			while (pairs3.hasNext()) {
 				Set<GeoElement> pair2 = pairs3.next();
 				Iterator<GeoElement> it2 = pair2.iterator();
@@ -432,27 +415,21 @@ public class NDGDetector {
 
 				PVariable[] fv1, fv2, fv3, fv4;
 				try {
-					fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-							.getBotanaVars(points[0]);
-					fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-							.getBotanaVars(points[1]);
-					fv3 = ((SymbolicParametersBotanaAlgo) points[2])
-							.getBotanaVars(points[0]);
-					fv4 = ((SymbolicParametersBotanaAlgo) points[3])
-							.getBotanaVars(points[1]);
+					fv1 = ((SymbolicParametersBotanaAlgo) points[0]).getBotanaVars(points[0]);
+					fv2 = ((SymbolicParametersBotanaAlgo) points[1]).getBotanaVars(points[1]);
+					fv3 = ((SymbolicParametersBotanaAlgo) points[2]).getBotanaVars(points[0]);
+					fv4 = ((SymbolicParametersBotanaAlgo) points[3]).getBotanaVars(points[1]);
 				} catch (NoSymbolicParametersException e) {
 					Log.debug("Cannot get Botana vars during NDG detection");
 					return null;
 				}
 
 				// Creating the polynomial for perpendicularity:
-				PPolynomial eq = PPolynomial
-						.perpendicular(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0],
-								fv3[1], fv4[0], fv4[1])
+				PPolynomial eq = PPolynomial.perpendicular(
+								fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1], fv4[0], fv4[1])
 						.substitute(substitutions);
 				if (PPolynomial.areAssociates1(p, eq)) {
-					Log.debug(p + " means perpendicularity for " + pair1
-							+ " and " + pair2);
+					Log.debug(p + " means perpendicularity for " + pair1 + " and " + pair2);
 					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
 					ndgc.setCondition("ArePerpendicular");
@@ -461,13 +438,10 @@ public class NDGDetector {
 					return ndgc;
 				}
 				// Creating the polynomial for parallelism:
-				eq = PPolynomial
-						.parallel(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0],
-								fv3[1], fv4[0], fv4[1])
+				eq = PPolynomial.parallel(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1], fv4[0], fv4[1])
 						.substitute(substitutions);
 				if (PPolynomial.areAssociates1(p, eq)) {
-					Log.debug(p + " means parallelism for " + pair1 + " and "
-							+ pair2);
+					Log.debug(p + " means parallelism for " + pair1 + " and " + pair2);
 					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
 					ndgc.setCondition("AreParallel");
@@ -477,12 +451,10 @@ public class NDGDetector {
 				}
 				// Creating the polynomial for congruence:
 				eq = PPolynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1])
-						.subtract(PPolynomial.sqrDistance(fv3[0], fv3[1],
-								fv4[0], fv4[1]))
+						.subtract(PPolynomial.sqrDistance(fv3[0], fv3[1], fv4[0], fv4[1]))
 						.substitute(substitutions);
 				if (PPolynomial.areAssociates1(p, eq)) {
-					Log.debug(p + " means congruence for " + pair1 + " and "
-							+ pair2);
+					Log.debug(p + " means congruence for " + pair1 + " and " + pair2);
 					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
 					ndgc.setCondition("AreCongruent");
@@ -500,4 +472,3 @@ public class NDGDetector {
 		return null;
 	}
 }
-

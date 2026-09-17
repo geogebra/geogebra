@@ -42,8 +42,10 @@ public class EuclidianStyleConstants {
 	public static final int RIGHT_ANGLE_STYLE_L = 3; // Belgian style
 
 	public static final List<PropertyResource> lineStyleIcons = List.of(
-			PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_LONG,
-			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT, PropertyResource.ICON_LINE_TYPE_DOTTED,
+			PropertyResource.ICON_LINE_TYPE_FULL,
+			PropertyResource.ICON_LINE_TYPE_DASHED_LONG,
+			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT,
+			PropertyResource.ICON_LINE_TYPE_DOTTED,
 			PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED);
 
 	public static final List<Integer> lineStyleList = List.of(
@@ -51,8 +53,7 @@ public class EuclidianStyleConstants {
 			EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
 			EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
 			EuclidianStyleConstants.LINE_TYPE_DOTTED,
-			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED
-	);
+			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED);
 
 	/**
 	 * size for draggable points ie free points and point on path/region
@@ -74,10 +75,10 @@ public class EuclidianStyleConstants {
 	 */
 	public static final int PREVIEW_POINT_ENLARGE_SIZE_ON_PATH = 3;
 
-    /**
-     * enlarge preview point size when already
-     */
-    public static final int PREVIEW_POINT_ENLARGE_SIZE_WHEN_ALREADY = 1;
+	/**
+	 * enlarge preview point size when already
+	 */
+	public static final int PREVIEW_POINT_ENLARGE_SIZE_WHEN_ALREADY = 1;
 
 	/**
 	 * preview point size when free point
@@ -93,7 +94,7 @@ public class EuclidianStyleConstants {
 	public static final int DEFAULT_POINT_SIZE_DEPENDENT_GRAPHING = 5;
 
 	public static final int DEFAULT_LINE_THICKNESS = 5;
-	
+
 	public static final int AXES_THICKNESS = 3;
 
 	public static final int OBJSTYLE_DEFAULT_LINE_THICKNESS = 5;
@@ -106,7 +107,7 @@ public class EuclidianStyleConstants {
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE = 153; // 0.6*255;
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON = 204; // 0.8*255
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR = 204; //
-																		// 0.8*255
+	// 0.8*255
 	/* default line opacity on Geometry app */
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY = 204; // 0.8*255
 
@@ -147,28 +148,26 @@ public class EuclidianStyleConstants {
 	public static final int AXES_LINE_TYPE_FULL = 0;
 	public static final int AXES_LINE_TYPE_ARROW = AXES_RIGHT_ARROW;
 	public static final int AXES_LINE_TYPE_FULL_BOLD = AXES_BOLD;
-	public static final int AXES_LINE_TYPE_ARROW_BOLD = AXES_RIGHT_ARROW
-			+ AXES_BOLD;
-	public static final int AXES_LINE_TYPE_ARROW_FILLED = AXES_RIGHT_ARROW
-			+ AXES_FILL_ARROWS;
-	public static final int AXES_LINE_TYPE_TWO_ARROWS = AXES_RIGHT_ARROW
-			+ AXES_LEFT_ARROW;
-	public static final int AXES_LINE_TYPE_TWO_ARROWS_FILLED = AXES_RIGHT_ARROW
-			+ AXES_LEFT_ARROW + AXES_FILL_ARROWS;
-	public static final int AXES_LINE_TYPE_ARROW_FILLED_BOLD = AXES_RIGHT_ARROW
-			+ AXES_BOLD + AXES_FILL_ARROWS;
-	public static final int AXES_LINE_TYPE_TWO_ARROWS_BOLD = AXES_RIGHT_ARROW
-			+ AXES_LEFT_ARROW + AXES_BOLD;
-	public static final int AXES_LINE_TYPE_TWO_ARROWS_FILLED_BOLD = AXES_RIGHT_ARROW
-			+ AXES_LEFT_ARROW + AXES_BOLD + AXES_FILL_ARROWS;
+	public static final int AXES_LINE_TYPE_ARROW_BOLD = AXES_RIGHT_ARROW + AXES_BOLD;
+	public static final int AXES_LINE_TYPE_ARROW_FILLED = AXES_RIGHT_ARROW + AXES_FILL_ARROWS;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS = AXES_RIGHT_ARROW + AXES_LEFT_ARROW;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS_FILLED =
+			AXES_RIGHT_ARROW + AXES_LEFT_ARROW + AXES_FILL_ARROWS;
+	public static final int AXES_LINE_TYPE_ARROW_FILLED_BOLD =
+			AXES_RIGHT_ARROW + AXES_BOLD + AXES_FILL_ARROWS;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS_BOLD =
+			AXES_RIGHT_ARROW + AXES_LEFT_ARROW + AXES_BOLD;
+	public static final int AXES_LINE_TYPE_TWO_ARROWS_FILLED_BOLD =
+			AXES_RIGHT_ARROW + AXES_LEFT_ARROW + AXES_BOLD + AXES_FILL_ARROWS;
 
 	// for the options menu
-	final private static Integer[] lineStyleOptions = {
-			EuclidianStyleConstants.AXES_LINE_TYPE_FULL,
-			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
-			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,
-			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
-			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED };
+	private static final Integer[] lineStyleOptions = {
+		EuclidianStyleConstants.AXES_LINE_TYPE_FULL,
+		EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
+		EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,
+		EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
+		EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED
+	};
 
 	public static final int POINT_STYLE_DOT = 0;
 	public static final int POINT_STYLE_CROSS = 1;
@@ -193,6 +192,7 @@ public class EuclidianStyleConstants {
 	public static final int POINT_CAPTURING_ON_GRID = 2;
 	/** point snaps to grid when axes or grid are visible */
 	public static final int POINT_CAPTURING_AUTOMATIC = 3;
+
 	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
 	public static final double POINT_CAPTURING_GRID = 0.125;
 
@@ -205,13 +205,13 @@ public class EuclidianStyleConstants {
 	public static final int TOOLTIPS_ON = 1;
 	public static final int TOOLTIPS_OFF = 2;
 	// since V3.0 this factor is 1, before it was 0.5
-	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
+	public static final double DEFAULT_GRID_DIST_FACTOR = 1;
 
 	public static final int NO_AXES = -1;
 
-	public final static int VIEW_DIRECTION_XY = 0;
-	public final static int VIEW_DIRECTION_XZ = 1;
-	public final static int VIEW_DIRECTION_YZ = 2;
+	public static final int VIEW_DIRECTION_XY = 0;
+	public static final int VIEW_DIRECTION_XZ = 1;
+	public static final int VIEW_DIRECTION_YZ = 2;
 
 	/**
 	 * Get line style for given index.
@@ -225,5 +225,4 @@ public class EuclidianStyleConstants {
 	public static Integer getLineStyleOptionsLength() {
 		return lineStyleOptions.length;
 	}
-
 }

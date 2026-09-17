@@ -36,8 +36,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  * @author Michael
  */
 public class AlgoDynamicCoordinates extends AlgoElement
-		implements AlgoDynamicCoordinatesInterface,
-		SymbolicParametersBotanaAlgo {
+		implements AlgoDynamicCoordinatesInterface, SymbolicParametersBotanaAlgo {
 
 	protected GeoNumberValue x; // input
 	protected GeoNumberValue y; // input
@@ -57,8 +56,8 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	 * @param y
 	 *            y-coord
 	 */
-	public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P,
-			GeoNumberValue x, GeoNumberValue y) {
+	public AlgoDynamicCoordinates(
+			Construction cons, String label, GeoPoint P, GeoNumberValue x, GeoNumberValue y) {
 		super(cons);
 		this.P = P;
 		this.x = x;
@@ -106,8 +105,10 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		double xCoord = x.getDouble();
 		double yCoord = y.getDouble();
 
-		if (Double.isNaN(xCoord) || Double.isInfinite(xCoord)
-				|| Double.isNaN(yCoord) || Double.isInfinite(yCoord)) {
+		if (Double.isNaN(xCoord)
+				|| Double.isInfinite(xCoord)
+				|| Double.isNaN(yCoord)
+				|| Double.isInfinite(yCoord)) {
 			M.setUndefined();
 			return;
 		}
@@ -116,9 +117,9 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("DynamicCoordinatesOfA",
-				"Dynamic coordinates of %0", P.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault("DynamicCoordinatesOfA", "Dynamic coordinates of %0", P.getLabel(tpl));
 	}
 
 	@Override
@@ -139,8 +140,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		return null;
 		/*
 		 * if (botanaPolynomials != null) { return botanaPolynomials; }

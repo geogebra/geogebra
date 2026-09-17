@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -61,8 +61,8 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	 * @apiNote {@code bernsteinCoeffs.length - 1} defines the degree. The instance
 	 * remains mutable for in-place ops like {@link #plus(BernsteinPolynomial1D)}.
 	 */
-	public BernsteinPolynomial1D(double[] bernsteinCoeffs,
-			char variableName, double min, double max) {
+	public BernsteinPolynomial1D(
+			double[] bernsteinCoeffs, char variableName, double min, double max) {
 		this.variableName = variableName;
 		this.min = min;
 		this.max = max;
@@ -84,7 +84,6 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 			dividedCoeffs[i] = bernsteinCoeffs[i] / BinomialCache.get(degree, i);
 		}
 		BernsteinCache.initPartialEvals(degree + 1);
-
 	}
 
 	/**
@@ -116,8 +115,7 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 		for (int i = 1; i <= degree + 1; i++) {
 			for (int j = degree - i; j >= 0; j--) {
 				double v = lastPartialEval[j + 1];
-				partialEval[j] = oneMinusValue * lastPartialEval[j]
-						+ value * (Double.isNaN(v) ? 0 : v);
+				partialEval[j] = oneMinusValue * lastPartialEval[j] + value * (Double.isNaN(v) ? 0 : v);
 			}
 			double[] temp = lastPartialEval;
 			lastPartialEval = partialEval;
@@ -158,8 +156,7 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 				double[] plusLastJ = bPlus.last[j];
 				double[] minusLastJ = bMinus.last[j];
 				int newLength = i + 1;
-				getSlices(plusLastJ, plusLastJ1, minusLastJ,
-						minusLastJ1, newLength);
+				getSlices(plusLastJ, plusLastJ1, minusLastJ, minusLastJ1, newLength);
 				bPlus.set(j, bernsteinCoeffs, degree + 1, newLength);
 				bMinus.set(j, tempSliceNegative, degree + 1, newLength);
 				plusLastJ1 = plusLastJ;
@@ -171,7 +168,7 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 		pool.release(tempSliceNegative);
 		bernsteinCoeffs = bPlus.last[0];
 		setSign(from1Var(bernsteinCoeffs, degree + 1));
-		return new BernsteinPolynomial1D[]{this, newInstance(bMinus.last[0])};
+		return new BernsteinPolynomial1D[] {this, newInstance(bMinus.last[0])};
 	}
 
 	private void doBeforeSplit() {
@@ -185,8 +182,12 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 		}
 	}
 
-	private void getSlices(double[] pcoeffs, double[] potherCoeffs,
-			double[] mcoeffs, double[] motherCoeffs, int degreeX) {
+	private void getSlices(
+			double[] pcoeffs,
+			double[] potherCoeffs,
+			double[] mcoeffs,
+			double[] motherCoeffs,
+			int degreeX) {
 		double prevMOtherCoeff = 0;
 		bernsteinCoeffs[0] = pcoeffs[0];
 		tempSliceNegative[0] = (mcoeffs[0] + motherCoeffs[0]) * 0.5 + prevMOtherCoeff;
@@ -208,7 +209,6 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 
 		bernsteinCoeffs[degreeX - 1] = (prevPCoeff + prevPOtherCoeff) * 0.5;
 		tempSliceNegative[degreeX - 1] = prevMOtherCoeff;
-
 	}
 
 	private BernsteinPolynomial1D newInstance(double[] coeffs) {
@@ -277,7 +277,6 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 			coeffs[i] = bernsteinCoeffs[i] * value;
 		}
 		return newInstance(coeffs);
-
 	}
 
 	/**
@@ -326,8 +325,8 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	 *
 	 * @apiNote Degrees must match when {@code otherPoly != null}.
 	 */
-	public BernsteinPolynomial1D linearCombination(double coeff, BernsteinPolynomial1D otherPoly,
-			double otherCoeff) {
+	public BernsteinPolynomial1D linearCombination(
+			double coeff, BernsteinPolynomial1D otherPoly, double otherCoeff) {
 
 		double[] coeffs = new double[degree + 1];
 
@@ -347,15 +346,14 @@ public final class BernsteinPolynomial1D extends BernsteinPolynomial<BernsteinPo
 	 *
 	 * @apiNote Mutates this instance; degrees must match when {@code otherPoly != null}.
 	 */
-	public void linearCombinationInPlace(double coeff, BernsteinPolynomial1D otherPoly,
-			double otherCoeff) {
+	public void linearCombinationInPlace(
+			double coeff, BernsteinPolynomial1D otherPoly, double otherCoeff) {
 		if (otherPoly == null) {
 			return;
 		}
 
 		for (int i = 0; i < degree + 1; i++) {
-			bernsteinCoeffs[i] = bernsteinCoeffs[i] * coeff
-					+ otherPoly.bernsteinCoeffs[i] * otherCoeff;
+			bernsteinCoeffs[i] = bernsteinCoeffs[i] * coeff + otherPoly.bernsteinCoeffs[i] * otherCoeff;
 		}
 	}
 

@@ -286,5 +286,4 @@ public final class RestrictionsController implements PropertiesRegistryListener 
 			propertyRestrictions.get(key).removeFrom(property);
 		}
 	}
-
 }

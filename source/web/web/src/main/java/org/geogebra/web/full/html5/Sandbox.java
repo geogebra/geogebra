@@ -55,7 +55,7 @@ public enum Sandbox {
 	private static String toList(Sandbox... privileges) {
 		StringBuilder result = new StringBuilder();
 		String delimiter = "";
-		for (Sandbox privilege: privileges) {
+		for (Sandbox privilege : privileges) {
 			result.append(delimiter);
 			result.append(privilege.toString());
 			delimiter = " ";

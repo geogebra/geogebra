@@ -28,5 +28,4 @@ public class JlmReference {
 
 	@JsProperty
 	public static Function jlmOnInit;
-
 }

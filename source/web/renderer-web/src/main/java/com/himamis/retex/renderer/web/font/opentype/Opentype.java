@@ -163,12 +163,9 @@ public class Opentype implements FontLoaderWrapper {
 		ensureMapExists();
 		String path = path0.substring(0, path0.length() - 3);
 		path = path + "js";
-		if (checkPreloadNative(familyName,
-				PreloadFontResources.INSTANCE.jlm_cmss10())
-				|| checkPreloadNative(familyName,
-						PreloadFontResources.INSTANCE.jlm_cmsy10())
-				|| checkPreloadNative(familyName,
-						PreloadFontResources.INSTANCE.jlm_cmex10())) {
+		if (checkPreloadNative(familyName, PreloadFontResources.INSTANCE.jlm_cmss10())
+				|| checkPreloadNative(familyName, PreloadFontResources.INSTANCE.jlm_cmsy10())
+				|| checkPreloadNative(familyName, PreloadFontResources.INSTANCE.jlm_cmex10())) {
 			return;
 		}
 
@@ -182,8 +179,7 @@ public class Opentype implements FontLoaderWrapper {
 		// force different version from CDN
 		// change if the fonts are updated
 		path = path + "?v=4";
-		HTMLScriptElement script = (HTMLScriptElement) DomGlobal.document
-				.createElement("script");
+		HTMLScriptElement script = (HTMLScriptElement) DomGlobal.document.createElement("script");
 		script.onload = ignore -> parseFont(familyName);
 		script.onerror = ex -> {
 			fireFontInactiveEvent(ex, familyName);
@@ -199,8 +195,7 @@ public class Opentype implements FontLoaderWrapper {
 		}
 	}
 
-	private boolean checkPreloadNative(String familyName,
-			TextResource resource) {
+	private boolean checkPreloadNative(String familyName, TextResource resource) {
 		if (resource.getName().equals(familyName)) {
 			JavaScriptInjector.inject(resource);
 			parseFont(familyName);
@@ -224,8 +219,7 @@ public class Opentype implements FontLoaderWrapper {
 	}
 
 	@Override
-	public FontW createNativeFont(String pathName, String fontName, int style,
-			int size) {
+	public FontW createNativeFont(String pathName, String fontName, int style, int size) {
 		loadFont(pathName, fontName);
 		return new OpentypeFont(fontName, style, size);
 	}

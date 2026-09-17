@@ -21,7 +21,7 @@ import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
 public class ClipboardUtil {
-	public native static void copyGraphicsToClipboard(String imageData);
+	public static native void copyGraphicsToClipboard(String imageData);
 
-	public native static boolean isCopyImageToClipboardAvailable();
+	public static native boolean isCopyImageToClipboardAvailable();
 }

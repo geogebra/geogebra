@@ -42,15 +42,17 @@ public final class MeasurementTool {
 	 * @param rotCenterRatioX the x-position of the rotation point as ratio of the image height
 	 * @param rotCenterRatioY the y-position of the rotation point as ratio of the image height
 	 */
-	public MeasurementTool(MeasurementToolId id, String fileName,
-			double rotCenterRatioX, double rotCenterRatioY, CreateToolImage toolImageFactory,
+	public MeasurementTool(
+			MeasurementToolId id,
+			String fileName,
+			double rotCenterRatioX,
+			double rotCenterRatioY,
+			CreateToolImage toolImageFactory,
 			PenTransformer transformer) {
 		this.id = id;
 		this.fileName = fileName;
 		weights = new double[] {
-				rotCenterRatioY - rotCenterRatioX,
-				rotCenterRatioX,
-				1 - rotCenterRatioY,
+			rotCenterRatioY - rotCenterRatioX, rotCenterRatioX, 1 - rotCenterRatioY,
 		};
 		this.transformer = transformer;
 		this.toolImageFactory = toolImageFactory;
@@ -101,13 +103,11 @@ public final class MeasurementTool {
 		GPoint2D p1 = points.get(1);
 		GPoint2D p2 = points.get(2);
 
-		return new GPoint2D(getRotatedCoord(p0.x, p1.x, p2.x),
-				getRotatedCoord(p0.y, p1.y, p2.y));
+		return new GPoint2D(getRotatedCoord(p0.x, p1.x, p2.x), getRotatedCoord(p0.y, p1.y, p2.y));
 	}
 
 	private List<GPoint2D> getProtractorPoints(EuclidianView view) {
-		DrawImageResizable drawable =
-				(DrawImageResizable) view.getDrawableFor(image);
+		DrawImageResizable drawable = (DrawImageResizable) view.getDrawableFor(image);
 		return drawable != null ? drawable.toPoints() : null;
 	}
 
@@ -127,5 +127,4 @@ public final class MeasurementTool {
 	public String toString() {
 		return id.toString();
 	}
-
 }

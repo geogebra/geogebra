@@ -51,7 +51,7 @@ public class AlgoMidpointSegment extends AlgoElement
 
 	/**
 	 * Creates new AlgoMidpointSegment
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param segment
@@ -91,7 +91,7 @@ public class AlgoMidpointSegment extends AlgoElement
 
 	/**
 	 * Created for LocusEqu
-	 * 
+	 *
 	 * @return startpoint
 	 */
 	public GeoPoint getP() {
@@ -100,7 +100,7 @@ public class AlgoMidpointSegment extends AlgoElement
 
 	/**
 	 * Created for LocusEqu
-	 * 
+	 *
 	 * @return endpoint
 	 */
 	public GeoPoint getQ() {
@@ -129,8 +129,7 @@ public class AlgoMidpointSegment extends AlgoElement
 
 		if (!pInf && !qInf) {
 			// M = (P + Q) / 2
-			M.setCoords((P.inhomX + Q.inhomX) / 2.0d,
-					(P.inhomY + Q.inhomY) / 2.0d, 1.0);
+			M.setCoords((P.inhomX + Q.inhomX) / 2.0d, (P.inhomY + Q.inhomY) / 2.0d, 1.0);
 		} else if (pInf && qInf) {
 			M.setUndefined();
 		} else if (pInf) {
@@ -142,12 +141,10 @@ public class AlgoMidpointSegment extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("MidpointOfA", "Midpoint of %0",
-				segment.getLabel(tpl));
-
+		return getLoc().getPlainDefault("MidpointOfA", "Midpoint of %0", segment.getLabel(tpl));
 	}
 
 	@Override
@@ -156,8 +153,7 @@ public class AlgoMidpointSegment extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			P.getFreeVariables(variables);
 			Q.getFreeVariables(variables);
@@ -167,17 +163,14 @@ public class AlgoMidpointSegment extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			int[] degreeP = P.getDegrees(a);
 			int[] degreeQ = Q.getDegrees(a);
 
 			int[] result = new int[3];
-			result[0] = Math.max(degreeP[0] + degreeQ[2],
-					degreeQ[0] + degreeP[2]);
-			result[1] = Math.max(degreeP[1] + degreeQ[2],
-					degreeQ[1] + degreeP[2]);
+			result[0] = Math.max(degreeP[0] + degreeQ[2], degreeQ[0] + degreeP[2]);
+			result[1] = Math.max(degreeP[1] + degreeQ[2], degreeQ[1] + degreeP[2]);
 			result[2] = degreeP[2] + degreeQ[2];
 			return result;
 		}
@@ -185,8 +178,7 @@ public class AlgoMidpointSegment extends AlgoElement
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			BigInteger[] pP = P.getExactCoordinates(values);
@@ -223,8 +215,7 @@ public class AlgoMidpointSegment extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -239,10 +230,7 @@ public class AlgoMidpointSegment extends AlgoElement
 			botanaVars[1] = new PVariable(kernel);
 		}
 
-		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P, Q,
-				botanaVars);
+		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P, Q, botanaVars);
 		return botanaPolynomials;
-
 	}
-
 }

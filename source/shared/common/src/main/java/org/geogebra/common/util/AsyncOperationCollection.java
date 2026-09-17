@@ -40,7 +40,7 @@ public class AsyncOperationCollection<T> implements AsyncOperation<T> {
 
 	@Override
 	public void callback(T obj) {
-		for (AsyncOperation<T> operation: operations) {
+		for (AsyncOperation<T> operation : operations) {
 			operation.callback(obj);
 		}
 	}

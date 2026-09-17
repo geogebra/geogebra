@@ -28,15 +28,14 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Algo for cylinder between two end points and given radius.
- * 
+ *
  * @author mathieu
  *
  */
-public class AlgoQuadricLimitedPointPointRadiusCone
-		extends AlgoQuadricLimitedPointPointRadius {
+public class AlgoQuadricLimitedPointPointRadiusCone extends AlgoQuadricLimitedPointPointRadius {
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -48,11 +47,13 @@ public class AlgoQuadricLimitedPointPointRadiusCone
 	 * @param r
 	 *            radius
 	 */
-	public AlgoQuadricLimitedPointPointRadiusCone(Construction c,
-			String[] labels, GeoPointND origin, GeoPointND secondPoint,
+	public AlgoQuadricLimitedPointPointRadiusCone(
+			Construction c,
+			String[] labels,
+			GeoPointND origin,
+			GeoPointND secondPoint,
 			GeoNumberValue r) {
-		super(c, labels, origin, secondPoint, r,
-				GeoQuadricNDConstants.QUADRIC_CONE);
+		super(c, labels, origin, secondPoint, r, GeoQuadricNDConstants.QUADRIC_CONE);
 	}
 
 	@Override
@@ -67,13 +68,12 @@ public class AlgoQuadricLimitedPointPointRadiusCone
 
 	@Override
 	protected void setOutput() {
-		setOutput(new GeoElement[] { getQuadric(), getQuadric().getBottom(),
-				getQuadric().getSide() });
+		setOutput(
+				new GeoElement[] {getQuadric(), getQuadric().getBottom(), getQuadric().getSide()});
 	}
 
 	@Override
-	protected void setQuadric(Coords o1, Coords o2, Coords d, double r,
-			double min, double max) {
+	protected void setQuadric(Coords o1, Coords o2, Coords d, double r, double min, double max) {
 		getQuadric().setCone(o2, d, r / max, -max, 0);
 	}
 
@@ -87,10 +87,8 @@ public class AlgoQuadricLimitedPointPointRadiusCone
 	// //////////////////////
 
 	@Override
-	protected AlgoElement getTransformedAlgo(String[] labels, GeoPointND p1,
-			GeoPointND p2, GeoNumeric r) {
-		return new AlgoQuadricLimitedPointPointRadiusCone(this.cons, labels, p1,
-				p2, r);
+	protected AlgoElement getTransformedAlgo(
+			String[] labels, GeoPointND p1, GeoPointND p2, GeoNumeric r) {
+		return new AlgoQuadricLimitedPointPointRadiusCone(this.cons, labels, p1, p2, r);
 	}
-
 }

@@ -42,12 +42,15 @@ class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.PROBABILITY);
 		getApp().setRounding("4");
 		probabilityCalculatorView = new HeadlessProbabilityCalculatorView(getApp());
-		probabilityCalculatorView.setProbabilityCalculator(Dist.NORMAL, new GeoNumberValue[] {
-				new GeoNumeric(getKernel().getConstruction(), 0),
-				new GeoNumeric(getKernel().getConstruction(), 1)
-		}, false);
-		property = new ProbabilityResultValuesProperty(getLocalization(), getAlgebraProcessor(),
-				probabilityCalculatorView);
+		probabilityCalculatorView.setProbabilityCalculator(
+				Dist.NORMAL,
+				new GeoNumberValue[] {
+					new GeoNumeric(getKernel().getConstruction(), 0),
+					new GeoNumeric(getKernel().getConstruction(), 1)
+				},
+				false);
+		property = new ProbabilityResultValuesProperty(
+				getLocalization(), getAlgebraProcessor(), probabilityCalculatorView);
 	}
 
 	@Test
@@ -64,13 +67,13 @@ class ProbabilityResultValuesPropertyTests extends BaseAppTestSetup {
 		probabilityCalculatorView.setProbabilityMode(PROB_INTERVAL);
 
 		property.getLowerBoundProperty().setValue("-1.5");
-		assertEquals(probabilityCalculatorView.format(-1.5),
-				property.getLowerBoundProperty().getValue());
+		assertEquals(
+				probabilityCalculatorView.format(-1.5), property.getLowerBoundProperty().getValue());
 		assertEquals(-1.5, probabilityCalculatorView.getLow(), Kernel.STANDARD_PRECISION);
 
 		property.getUpperBoundProperty().setValue("1.25");
-		assertEquals(probabilityCalculatorView.format(1.25),
-				property.getUpperBoundProperty().getValue());
+		assertEquals(
+				probabilityCalculatorView.format(1.25), property.getUpperBoundProperty().getValue());
 		assertEquals(1.25, probabilityCalculatorView.getHigh(), Kernel.STANDARD_PRECISION);
 	}
 

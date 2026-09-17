@@ -29,8 +29,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.MyMath;
 
-public abstract class GeoInline extends GeoElement implements Translateable, Rotatable,
-		RectangleTransformable {
+public abstract class GeoInline extends GeoElement
+		implements Translateable, Rotatable, RectangleTransformable {
 
 	private GPoint2D location;
 
@@ -186,8 +186,8 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 		double x = location.getX();
 		double y = location.getY();
 
-		location.setLocation((x - qx) * cos + (qy - y) * sin + qx,
-				(x - qx) * sin + (y - qy) * cos + qy);
+		location.setLocation(
+				(x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin + (y - qy) * cos + qy);
 	}
 
 	/**
@@ -215,8 +215,8 @@ public abstract class GeoInline extends GeoElement implements Translateable, Rot
 	 * @return text formatter
 	 */
 	public HasTextFormat getFormatter() {
-		DrawInline drawable = (DrawInline) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this);
+		DrawInline drawable =
+				(DrawInline) kernel.getApplication().getActiveEuclidianView().getDrawableFor(this);
 		return drawable == null ? null : drawable.getController();
 	}
 

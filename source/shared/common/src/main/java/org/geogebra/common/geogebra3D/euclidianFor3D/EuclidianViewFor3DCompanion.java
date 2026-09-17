@@ -34,18 +34,17 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * companion for view for 3D
- * 
+ *
  * @author mathieu
  *
  */
 public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 
-	private GAffineTransform transform = AwtFactory.getPrototype()
-			.newAffineTransform();
+	private GAffineTransform transform = AwtFactory.getPrototype().newAffineTransform();
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param view
 	 *            view attached
 	 */
@@ -70,7 +69,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            curve
 	 * @return drawable for curve
@@ -78,19 +77,17 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	@Override
 	public DrawableND newDrawParametricCurve(ParametricCurve geo) {
 		if (geo instanceof GeoCurveCartesian3D) {
-			return new DrawParametricCurve(view,
-					new CurveEvaluableFor3D((GeoCurveCartesian3D) geo));
+			return new DrawParametricCurve(view, new CurveEvaluableFor3D((GeoCurveCartesian3D) geo));
 		}
 		return super.newDrawParametricCurve(geo);
 	}
 
 	@Override
-	public GAffineTransform getTransform(GeoConicND conic, Coords M,
-			Coords[] ev) {
+	public GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
 
 		// use already computed for this view midpoint M and eigen vecs ev
-		transform.setTransform(ev[0].getX(), ev[0].getY(), ev[1].getX(),
-				ev[1].getY(), M.getX(), M.getY());
+		transform.setTransform(
+				ev[0].getX(), ev[0].getY(), ev[1].getX(), ev[1].getY(), M.getX(), M.getY());
 
 		return transform;
 	}

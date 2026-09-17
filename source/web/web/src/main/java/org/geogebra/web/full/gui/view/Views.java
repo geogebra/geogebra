@@ -31,43 +31,56 @@ public final class Views {
 		/**
 		 * Algebra
 		 */
-		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", SvgPerspectiveResources.INSTANCE
-				.menu_icon_algebra_transparent()),
+		ALGEBRA(
+				App.VIEW_ALGEBRA,
+				"AlgebraWindow",
+				SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent()),
 		/**
 		 * Graphics
 		 */
-		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", SvgPerspectiveResources.INSTANCE
-						.menu_icon_geometry_transparent()),
+		GRAPHICS(
+				App.VIEW_EUCLIDIAN,
+				"DrawingPad",
+				SvgPerspectiveResources.INSTANCE.menu_icon_geometry_transparent()),
 		/**
 		 * Graphics 2
 		 */
-		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", SvgPerspectiveResources.INSTANCE
-				.menu_icon_graphics2_transparent()),
+		GRAPHICS_2(
+				App.VIEW_EUCLIDIAN2,
+				"DrawingPad2",
+				SvgPerspectiveResources.INSTANCE.menu_icon_graphics2_transparent()),
 		/**
 		 * 3D Graphics
 		 */
-		GRAPHICS_3D(App.VIEW_EUCLIDIAN3D, "GraphicsView3D",
+		GRAPHICS_3D(
+				App.VIEW_EUCLIDIAN3D,
+				"GraphicsView3D",
 				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D_transparent()),
 		/**
 		 * Spreadsheet
 		 */
-		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", SvgPerspectiveResources.INSTANCE
-				.menu_icon_spreadsheet_transparent()),
+		SPREADSHEET(
+				App.VIEW_SPREADSHEET,
+				"Spreadsheet",
+				SvgPerspectiveResources.INSTANCE.menu_icon_spreadsheet_transparent()),
 		/**
 		 * CAS
 		 */
 		CAS(App.VIEW_CAS, "CAS", SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent()),
 		/**
-		 * 
+		 *
 		 */
-		PROBABILITY(App.VIEW_PROBABILITY_CALCULATOR, "ProbabilityCalculator",
+		PROBABILITY(
+				App.VIEW_PROBABILITY_CALCULATOR,
+				"ProbabilityCalculator",
 				SvgPerspectiveResources.INSTANCE.menu_icon_probability_transparent()),
 		/**
 		 * Construction Protocol
 		 */
-		CONSTRUCTION_PROTOCOL(App.VIEW_CONSTRUCTION_PROTOCOL,
-				"ConstructionProtocol", SvgPerspectiveResources.INSTANCE
-						.menu_icon_construction_protocol_transparent());
+		CONSTRUCTION_PROTOCOL(
+				App.VIEW_CONSTRUCTION_PROTOCOL,
+				"ConstructionProtocol",
+				SvgPerspectiveResources.INSTANCE.menu_icon_construction_protocol_transparent());
 
 		private final int id;
 		private final String key;
@@ -101,8 +114,8 @@ public final class Views {
 		}
 	}
 
-	final private static ArrayList<ViewType> BASIC_VIEWS = new ArrayList<>();
-	final private static ArrayList<ViewType> EXTENSIONS = new ArrayList<>();
+	private static final ArrayList<ViewType> BASIC_VIEWS = new ArrayList<>();
+	private static final ArrayList<ViewType> EXTENSIONS = new ArrayList<>();
 
 	static {
 		BASIC_VIEWS.add(ViewType.ALGEBRA);
@@ -140,7 +153,7 @@ public final class Views {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return number of real views + view-extensions
 	 */
 	public static int numOfViews() {

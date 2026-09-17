@@ -39,16 +39,16 @@ import org.geogebra.common.util.debug.Log;
  * mathworld.wolfram.com/NonlinearLeastSquaresFitting.html
  * ics.forth.gr/~lourakis/levmar Damping Parameter in Marquardt's Method, Hans
  * Bruun Nielsen, IMM-Rep 1999-05
- * 
+ *
  * The problem is to find the best initial values for the parameters, little
  * information available on this problem...
- * 
+ *
  * Bjorn Ove Thue, the norwegian translator and programmer of the norwegian  # NO-TYPO
  * version of WxMaxima, was kind enough to give me his idea: Make the assumption
  * that the first and last point are close to the solution curve. Calculate c
  * and a from those points, with b as parameter, iterate to a good value for b,
  * and do the final nonlinear regression iteration with all three parameters.
- * 
+ *
  * Constraints: &lt;List of Points&gt; should have at least 3 points. The first and
  * last datapoint should not be too far from the solution curve. Negative a,b
  * and c: Asymptotes: Quality of points get even more important, should not be
@@ -58,26 +58,25 @@ import org.geogebra.common.util.debug.Log;
  * choice of initial values for the parameters are highly critical. The
  * algorithm here might converge to a local minimum. The algorithm might diverge,
  * so after MAXITERATIONS the result will be unusable
- * 
+ *
  * Possible future solution: Make more commands where you give both a list and
  * suggestions for the parameters?
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 22.11.08
  */
-
 public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// Tuning of noisefilter, Levenberg-Marquardt iteration, debug, rounding off
 	// errors
-	private final static double LMFACTORDIV = 3.0d;
-	private final static double LMFACTORMULT = 2.0d;
-	private final static int MAXITERATIONS = 200; // 100 probably enough,
-													// nothing is usable after
-													// that...
-	private final static double EPSILONFIND = 1E-6d;
-	private final static double EPSILONREG = 1E-14d;
-	private final static double EPSSING = 1E-20d;
+	private static final double LMFACTORDIV = 3.0d;
+	private static final double LMFACTORMULT = 2.0d;
+	private static final int MAXITERATIONS = 200; // 100 probably enough,
+	// nothing is usable after
+	// that...
+	private static final double EPSILONFIND = 1E-6d;
+	private static final double EPSILONREG = 1E-14d;
+	private static final double EPSSING = 1E-20d;
 
 	// Properties
 	private double a;
@@ -147,7 +146,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		size = geolist.size();
 		error = false; // General flag
 		if (!geolist.isDefined() || (size < 3)) { // Need three points, at the
-													// very least...
+			// very least...
 			geofunction.setUndefined();
 			return;
 		}
@@ -165,13 +164,11 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			MyDouble C = new MyDouble(kernel, c);
 			MyDouble ONE = new MyDouble(kernel, 1.0d);
 			FunctionVariable X = new FunctionVariable(kernel);
-			ExpressionValue expr = new ExpressionNode(kernel, B,
-					Operation.MULTIPLY, X);
+			ExpressionValue expr = new ExpressionNode(kernel, B, Operation.MULTIPLY, X);
 			expr = new ExpressionNode(kernel, expr, Operation.EXP, null);
 			expr = new ExpressionNode(kernel, A, Operation.MULTIPLY, expr);
 			expr = new ExpressionNode(kernel, ONE, Operation.PLUS, expr);
-			ExpressionNode node = new ExpressionNode(kernel, C,
-					Operation.DIVIDE, expr);
+			ExpressionNode node = new ExpressionNode(kernel, C, Operation.DIVIDE, expr);
 			Function f = new Function(node, X);
 			geofunction.setFunction(f);
 			geofunction.setDefined(true);
@@ -220,14 +217,14 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				k = -k;
 			} // k<0 else k<0
 		} else { // a<0: 4 cases to sort out: Last value closer to x-axis than
-					// first value=>k<0
+			// first value=>k<0
 			if (Math.abs(y2) < Math.abs(y1)) {
 				sign = -1;
 				k = -k;
 			} // if
 		} // if
-			// debug("increasing: "+increasing+" allpos: "+allplus+" allneg:
-			// "+allneg);
+		// debug("increasing: "+increasing+" allpos: "+allplus+" allneg:
+		// "+allneg);
 
 		// / Iterate for best k: ///
 		double errOld = beta2(k);
@@ -250,7 +247,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			} // if progress
 			k += sign * lambda;
 		} // while reduction in error
-			// Set params for final iteration:
+		// Set params for final iteration:
 		b = k; // next routine uses c,a,b...
 		a = a(x1, y1, x2, y2, k);
 		c = c(x1, y1, x2, y2, k);
@@ -293,10 +290,9 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			// or while(Math.abs(diff)>EPSILON) ?
 			iterations++;
 			if ((iterations > MAXITERATIONS) || error) { // From experience:
-															// >200 gives
-															// nothing more...
-				Log.debug("More than " + MAXITERATIONS
-						+ " iterations. Solution is probably not usable.");
+				// >200 gives
+				// nothing more...
+				Log.debug("More than " + MAXITERATIONS + " iterations. Solution is probably not usable.");
 				break;
 			}
 			b1 = b2 = b3 = 0.0d;
@@ -327,20 +323,16 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			double m31 = m13;
 			double m32 = m23;
 
-			double n = RegressionMath.det33(m11, m12, m13, m21, m22, m23, m31, m32,
-					m33);
+			double n = RegressionMath.det33(m11, m12, m13, m21, m22, m23, m31, m32, m33);
 
 			if (Math.abs(n) < EPSSING) { // Not singular?
 				error = true;
 				Log.debug("Singular matrix...");
 				da = db = dc = 0.0d; // to stop it all...
 			} else {
-				da = RegressionMath.det33(b1, m12, m13, b2, m22, m23, b3, m32,
-						m33) / n;
-				db = RegressionMath.det33(m11, b1, m13, m21, b2, m23, m31, b3,
-						m33) / n;
-				dc = RegressionMath.det33(m11, m12, b1, m21, m22, b2, m31, m32,
-						b3) / n;
+				da = RegressionMath.det33(b1, m12, m13, b2, m22, m23, b3, m32, m33) / n;
+				db = RegressionMath.det33(m11, b1, m13, m21, b2, m23, m31, b3, m33) / n;
+				dc = RegressionMath.det33(m11, m12, b1, m21, m22, b2, m31, m32, b3) / n;
 				double newa = a + da;
 				double newb = b + db;
 				double newc = c + dc; // remember this and update later if ok
@@ -350,7 +342,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 				if (residual < oldResidual) { // (Set to true if no LM)
 					lambda = lambda / LMFACTORDIV; // going well :-) but don't
-													// overdo it...
+					// overdo it...
 					oldResidual = residual;
 					multfaktor = LMFACTORMULT; // reset this!
 					a = newa;
@@ -367,7 +359,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			error = true;
 			Log.debug("findParameters(): a,b or c undefined");
 		}
-
 	}
 
 	// --- The Logistic Function and its derivatives --- //
@@ -392,23 +383,20 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}
 
 	// df/da
-	private static double dfA(double x, double a1, double b1,
-			double c1) {
+	private static double dfA(double x, double a1, double b1, double c1) {
 		double dfC = dfC(x, a1, b1);
 		return dfC * dfC * Math.exp(-b1 * x) * (-c1);
 	}
 
 	// df/db
-	private static double dfB(double x, double a1, double b1,
-			double c1) {
+	private static double dfB(double x, double a1, double b1, double c1) {
 		double dfC = dfC(x, a1, b1);
 		return dfC * dfC * Math.exp(-b1 * x) * x * a1 * c1;
 	}
 
 	// / --- Error calculations --- ///
 	// beta = yd-f(xd,yd,a,b,c)
-	private static double beta(double x, double y, double a1, double b1,
-			double c1) {
+	private static double beta(double x, double y, double a1, double b1, double c1) {
 		return y - f(x, a1, b1, c1);
 	}
 
@@ -418,21 +406,20 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}
 
 	// Sum of squared errors, using last a,b and c
-	private double beta2(double[] x, double[] y, double a1, double b1,
-			double c1) {
+	private double beta2(double[] x, double[] y, double a1, double b1, double c1) {
 		double sum = 0.0d, beta;
 		for (int i = 0; i < size; i++) {
 			beta = beta(x[i], y[i], a1, b1, c1);
 			sum += beta * beta;
 		} // for all datapoints
-			// debug("Sum Squared Errors: "+sum);
+		// debug("Sum Squared Errors: "+sum);
 		return sum;
 	}
 
 	// Sum of squared errors, using b(=k). a and c are calculated from first and
 	// last datapoint.
 	private double beta2(double k1) {
-		double  sum = 0.0d;
+		double sum = 0.0d;
 		for (int i = 0; i < size; i++) {
 			double beta = beta(xd[i], yd[i], k1);
 			sum += beta * beta;
@@ -442,16 +429,17 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// / --- Bjorn Ove Thue's trick --- NO-TYPO ///
 	// c as function of first and last point
-	private static double c(double cx1, double cy1, double cx2,
-			double cy2, double cb) {
-		return cy1 * cy2 * (Math.exp(cb * cx1) - Math.exp(cb * cx2))
+	private static double c(double cx1, double cy1, double cx2, double cy2, double cb) {
+		return cy1
+				* cy2
+				* (Math.exp(cb * cx1) - Math.exp(cb * cx2))
 				/ (cy2 * Math.exp(cb * cx1) - cy1 * Math.exp(cb * cx2));
 	}
 
 	/** a as function of first and last point */
-	private static double a(double ax1, double ay1, double ax2,
-			double ay2, double ab) {
-		return Math.exp(ab * (ax1 + ax2)) * (ay1 - ay2)
+	private static double a(double ax1, double ay1, double ax2, double ay2, double ab) {
+		return Math.exp(ab * (ax1 + ax2))
+				* (ay1 - ay2)
 				/ (ay2 * Math.exp(ab * ax1) - ay1 * Math.exp(ab * ax2));
 	}
 
@@ -497,8 +485,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = { a, b, c };
+		double[] ret = {a, b, c};
 		return ret;
 	}
-
 }

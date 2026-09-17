@@ -48,23 +48,25 @@ class ModeDeleteTest extends BaseEuclidianControllerTest {
 		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(140, 90);
 
-		assertEquals("PenStrokeBezier[2.0000E0,-4.0000E0,1,1.8720E0,-3.5232E0,0,1.8329E0,"
-			+ "-3.3664E0,4,1.7991E0,-3.2128E0,4,1.7760E0,-3.0656E0,3,1.7529E0,-2.9184E0,4,1.7404E0,"
-			+ "-2.7776E0,4,1.7440E0,-2.6464E0,3,1.7476E0,-2.5152E0,4,1.7671E0,-2.3936E0,4,1.8080E0,"
-			+ "-2.2848E0,3,1.8489E0,-2.1760E0,4,1.9111E0,-2.0800E0,4,2.0000E0,-2.0000E0,3,2.0889E0,"
-			+ "-1.9200E0,4,2.2044E0,-1.8560E0,4,2.3360E0,-1.8080E0,3,2.6000E0,-1.7365E0,0,?,?,0,"
-			+ "3.0000E0,-1.7000E0,1,3.2320E0,-1.7120E0,0,3.3849E0,-1.7280E0,4,3.5324E0,-1.7600E0,"
-			+ "4,3.6640E0,-1.8080E0,3,3.7956E0,-1.8560E0,4,3.9111E0,-1.9200E0,4,4.0000E0,-2.0000E0,"
-			+ "3,4.0889E0,-2.0800E0,4,4.1511E0,-2.1760E0,4,4.1920E0,-2.2848E0,3,4.2329E0,-2.3936E0,"
-			+ "4,4.2524E0,-2.5152E0,4,4.2560E0,-2.6464E0,3,4.2596E0,-2.7776E0,4,4.2471E0,-2.9184E0,"
-			+ "4,4.2240E0,-3.0656E0,3,4.2009E0,-3.2128E0,4,4.1671E0,-3.3664E0,4,4.1280E0,-3.5232E0,"
-			+ "3,4.0000E0,-4.0000E0,0,?,?,0]",
+		assertEquals(
+				"PenStrokeBezier[2.0000E0,-4.0000E0,1,1.8720E0,-3.5232E0,0,1.8329E0,"
+						+ "-3.3664E0,4,1.7991E0,-3.2128E0,4,1.7760E0,-3.0656E0,3,1.7529E0,-2.9184E0,4,1.7404E0,"
+						+ "-2.7776E0,4,1.7440E0,-2.6464E0,3,1.7476E0,-2.5152E0,4,1.7671E0,-2.3936E0,4,1.8080E0,"
+						+ "-2.2848E0,3,1.8489E0,-2.1760E0,4,1.9111E0,-2.0800E0,4,2.0000E0,-2.0000E0,3,2.0889E0,"
+						+ "-1.9200E0,4,2.2044E0,-1.8560E0,4,2.3360E0,-1.8080E0,3,2.6000E0,-1.7365E0,0,?,?,0,"
+						+ "3.0000E0,-1.7000E0,1,3.2320E0,-1.7120E0,0,3.3849E0,-1.7280E0,4,3.5324E0,-1.7600E0,"
+						+ "4,3.6640E0,-1.8080E0,3,3.7956E0,-1.8560E0,4,3.9111E0,-1.9200E0,4,4.0000E0,-2.0000E0,"
+						+ "3,4.0889E0,-2.0800E0,4,4.1511E0,-2.1760E0,4,4.1920E0,-2.2848E0,3,4.2329E0,-2.3936E0,"
+						+ "4,4.2524E0,-2.5152E0,4,4.2560E0,-2.6464E0,3,4.2596E0,-2.7776E0,4,4.2471E0,-2.9184E0,"
+						+ "4,4.2240E0,-3.0656E0,3,4.2009E0,-3.2128E0,4,4.1671E0,-3.3664E0,4,4.1280E0,-3.5232E0,"
+						+ "3,4.0000E0,-4.0000E0,0,?,?,0]",
 				getDefinition());
 
 		add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		click(100, 100);
 
-		assertEquals("PenStrokeBezier[2.0000E0,-4.0000E0,1,1.8720E0,-3.5232E0,0,1.8329E0,"
+		assertEquals(
+				"PenStrokeBezier[2.0000E0,-4.0000E0,1,1.8720E0,-3.5232E0,0,1.8329E0,"
 						+ "-3.3664E0,4,1.7991E0,-3.2128E0,4,1.7760E0,-3.0656E0,3,1.7529E0,"
 						+ "-2.9184E0,4,1.7404E0,-2.7776E0,4,1.7440E0,-2.6464E0,3,1.7476E0,"
 						+ "-2.5152E0,4,1.7671E0,-2.3936E0,4,1.8080E0,-2.2848E0,3,1.8456E0,"
@@ -91,7 +93,8 @@ class ModeDeleteTest extends BaseEuclidianControllerTest {
 		assertArrayEquals(new String[0], getApp().getGgbApi().getAllObjectNames());
 		getKernel().undo();
 
-		assertEquals("PenStrokeBezier[2.0000E0,-4.0000E0,1,1.8720E0,-3.5232E0,0,1.8329E0,"
+		assertEquals(
+				"PenStrokeBezier[2.0000E0,-4.0000E0,1,1.8720E0,-3.5232E0,0,1.8329E0,"
 						+ "-3.3664E0,4,1.7991E0,-3.2128E0,4,1.7760E0,-3.0656E0,3,1.7529E0,"
 						+ "-2.9184E0,4,1.7404E0,-2.7776E0,4,1.7440E0,-2.6464E0,3,1.7476E0,"
 						+ "-2.5152E0,4,1.7671E0,-2.3936E0,4,1.8080E0,-2.2848E0,3,1.8489E0,"
@@ -117,8 +120,10 @@ class ModeDeleteTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_ERASER);
 		GeoElement geo1 = add("stroke = PenStroke((2,-4),(2,-2),(4,-2),(4,-4))");
 		GeoElement geo2 = add("stroke2 = PenStroke((12,-4),(12,-2),(14,-2),(14,-4))");
-		getApp().getKernel().getConstruction().createGroupFromSelected(
-				new ArrayList<>(List.of(geo1, geo2)));
+		getApp()
+				.getKernel()
+				.getConstruction()
+				.createGroupFromSelected(new ArrayList<>(List.of(geo1, geo2)));
 		eraseWholeStroke();
 		assertArrayEquals(new String[0], getApp().getGgbApi().getAllObjectNames());
 		getKernel().undo();
@@ -146,7 +151,8 @@ class ModeDeleteTest extends BaseEuclidianControllerTest {
 		int y = 95;
 		dragStart(x, y);
 		dragEnd(x + 5, y + 5);
-		assertEquals("PenStrokeBezier[2.0000E0,-2.0000E0,1,2.8000E0,-2.0000E0,0,?,?,"
+		assertEquals(
+				"PenStrokeBezier[2.0000E0,-2.0000E0,1,2.8000E0,-2.0000E0,0,?,?,"
 						+ "0,3.2000E0,-2.0000E0,1,4.0000E0,-2.0000E0,0,?,?,0]",
 				getDefinition());
 		// delete the start
@@ -155,11 +161,13 @@ class ModeDeleteTest extends BaseEuclidianControllerTest {
 		y = 95;
 		dragStart(x, y);
 		dragEnd(x + 5, y + 5);
-		assertEquals("PenStrokeBezier[2.2000E0,-2.0000E0,1,3.0000E0,"
+		assertEquals(
+				"PenStrokeBezier[2.2000E0,-2.0000E0,1,3.0000E0,"
 						+ "-2.0000E0,0,4.0000E0,-2.0000E0,0,?,?,0]",
 				getDefinition());
 		getKernel().undo();
-		assertEquals("PenStrokeBezier[2.0000E0,-2.0000E0,1,3.0000E0,"
+		assertEquals(
+				"PenStrokeBezier[2.0000E0,-2.0000E0,1,3.0000E0,"
 						+ "-2.0000E0,0,4.0000E0,-2.0000E0,0,?,?,0]",
 				getDefinition());
 	}
@@ -182,11 +190,13 @@ class ModeDeleteTest extends BaseEuclidianControllerTest {
 		// delete the start
 		add("stroke = PenStroke((2,-2),(3,-2),(4,-2))");
 		dragLinear(95, 95, 130, 105);
-		assertEquals("PenStrokeBezier[2.8000E0,-2.0000E0,1,3.0000E0,-2.0000E0,0,"
+		assertEquals(
+				"PenStrokeBezier[2.8000E0,-2.0000E0,1,3.0000E0,-2.0000E0,0,"
 						+ "4.0000E0,-2.0000E0,0,?,?,0]",
 				getDefinition());
 		getKernel().undo();
-		assertEquals("PenStrokeBezier[2.0000E0,-2.0000E0,1,3.0000E0,-2.0000E0,0,"
+		assertEquals(
+				"PenStrokeBezier[2.0000E0,-2.0000E0,1,3.0000E0,-2.0000E0,0,"
 						+ "4.0000E0,-2.0000E0,0,?,?,0]",
 				getDefinition());
 	}

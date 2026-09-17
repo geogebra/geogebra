@@ -42,7 +42,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * The web version of the login operation. uses an own AuthenticationModel and
  * an own implementation of the API
- * 
+ *
  * @author stefan
  */
 public final class LoginOperationW extends LogInOperation {
@@ -63,7 +63,7 @@ public final class LoginOperationW extends LogInOperation {
 	/**
 	 * Initializes the SignInOperation for Web by creating the corresponding
 	 * model and view classes
-	 * 
+	 *
 	 * @param appWeb
 	 *            application
 	 */
@@ -84,28 +84,24 @@ public final class LoginOperationW extends LogInOperation {
 	 * {action:"logintoken", msg:token}
 	 */
 	private void iniNativeEvents(AppW app) {
-		app.getGlobalHandlers().addEventListener(DomGlobal.window,
-						"message",
-						event -> {
-							MessageEvent<?> message = Js.uncheckedCast(event);
-							Object data = message.data;
-							// later if event.origin....
-							if ("string".equals(Js.typeof(data))) {
-								try {
-									JsPropertyMap<Object> dataObject =
-											JsObject.of(Global.JSON.parse((String) data));
+		app.getGlobalHandlers().addEventListener(DomGlobal.window, "message", event -> {
+			MessageEvent<?> message = Js.uncheckedCast(event);
+			Object data = message.data;
+			// later if event.origin....
+			if ("string".equals(Js.typeof(data))) {
+				try {
+					JsPropertyMap<Object> dataObject = JsObject.of(Global.JSON.parse((String) data));
 
-									Object action = dataObject.get("action");
-									if ("logintoken".equals(action)) {
-										Log.debug("Login token sent via message");
-										performTokenLogin((String) dataObject.get("msg"), false);
-									}
-								} catch (Throwable err) {
-									Log.debug("error occurred while logging: \n"
-											+ err.getMessage() + " " + data);
-								}
-							}
-						});
+					Object action = dataObject.get("action");
+					if ("logintoken".equals(action)) {
+						Log.debug("Login token sent via message");
+						performTokenLogin((String) dataObject.get("msg"), false);
+					}
+				} catch (Throwable err) {
+					Log.debug("error occurred while logging: \n" + err.getMessage() + " " + data);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -131,8 +127,8 @@ public final class LoginOperationW extends LogInOperation {
 
 	@Override
 	protected String getURLClientInfo() {
-		return Global.encodeURIComponent("GeoGebra Web Application V"
-				+ GeoGebraConstants.VERSION_STRING);
+		return Global.encodeURIComponent(
+				"GeoGebra Web Application V" + GeoGebraConstants.VERSION_STRING);
 	}
 
 	@Override
@@ -158,7 +154,9 @@ public final class LoginOperationW extends LogInOperation {
 	@Override
 	public void showLogoutUI() {
 		if (!StringUtil.empty(app.getAppletParameters().getParamLogoutURL())) {
-			DomGlobal.window.open(app.getAppletParameters().getParamLogoutURL(), "_blank",
+			DomGlobal.window.open(
+					app.getAppletParameters().getParamLogoutURL(),
+					"_blank",
 					"menubar=off,width=450,height=350");
 		}
 	}

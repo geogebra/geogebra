@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Locus of points
- * 
+ *
  * @author Markus
  */
 public class GeoLocus extends GeoLocusND<MyPoint> {
@@ -60,8 +60,7 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 
 	@Override
 	public void insertPoint(double x, double y, double z, boolean lineTo) {
-		myPointList.add(new MyPoint(x, y, lineTo ? SegmentType.LINE_TO
-				: SegmentType.MOVE_TO));
+		myPointList.add(new MyPoint(x, y, lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO));
 	}
 
 	/**
@@ -114,14 +113,12 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 
 	@Override
 	protected double changingPointDistance(GeoSegmentND segment) {
-		return ((GeoSegment) segment).distance(changingPoint.getX(),
-				changingPoint.getY());
+		return ((GeoSegment) segment).distance(changingPoint.getX(), changingPoint.getY());
 	}
 
 	@Override
 	protected double getChangingPointParameter(GeoSegmentND segment) {
-		return ((GeoSegment) segment).getParameter(changingPoint.getX(),
-				changingPoint.getY());
+		return ((GeoSegment) segment).getParameter(changingPoint.getX(), changingPoint.getY());
 	}
 
 	@Override
@@ -169,5 +166,4 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 	public boolean isDrawArrows() {
 		return drawArrows;
 	}
-
 }

@@ -25,7 +25,7 @@ import org.geogebra.common.main.ScreenReader;
 
 /**
  * ReadText(Text)
- * 
+ *
  * @author Zbynek
  *
  */
@@ -51,7 +51,8 @@ public class CmdReadText extends CmdScripting {
 				GeoElement selectedGeo = ScreenReader.getSelectedGeo(app);
 				// do not steal focus from selected inputbox
 				if (selectedGeo == null || !selectedGeo.isGeoInputBox()) {
-					app.getActiveEuclidianView().getScreenReader()
+					app.getActiveEuclidianView()
+							.getScreenReader()
 							.readDelayed(((GeoText) args[0]).getAuralText());
 				}
 			}
@@ -59,5 +60,4 @@ public class CmdReadText extends CmdScripting {
 		}
 		throw argErr(c, args[0]);
 	}
-
 }

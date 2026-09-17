@@ -44,37 +44,40 @@ public class CmdRoots extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isRealValuedFunction()) {
-				return CmdRoot.nonPolyRoots(c, kernel,
-						(GeoFunctionable) arg[0]);
-			}
-			throw argErr(c, arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isRealValuedFunction()) {
+					return CmdRoot.nonPolyRoots(c, kernel, (GeoFunctionable) arg[0]);
+				}
+				throw argErr(c, arg[0]);
 
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
-						(GeoFunctionable) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], true);
+					AlgoRoots algo = new AlgoRoots(
+							cons,
+							c.getLabels(),
+							(GeoFunctionable) arg[0],
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							true);
 
-				GeoElement[] ret = algo.getRootPoints();
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+					GeoElement[] ret = algo.getRootPoints();
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

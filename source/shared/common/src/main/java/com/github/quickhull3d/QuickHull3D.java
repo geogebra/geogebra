@@ -24,13 +24,13 @@ package com.github.quickhull3d;
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -48,8 +48,8 @@ package com.github.quickhull3d;
 import java.util.Iterator;
 import java.util.Vector;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 
 /**
  * Computes the convex hull of a set of three dimensional points.
@@ -67,24 +67,24 @@ import java.util.Vector;
  * a {@link #build(Point3d[]) build} method. After the hull is built, its
  * vertices and faces can be retrieved using {@link #getVertices() getVertices}
  * and {@link #getFaces() getFaces}. A typical usage might look like this:
- * 
+ *
  * <pre>
  * // x y z coordinates of 6 points
  * Point3d[] points = new Point3d[] { new Point3d(0.0, 0.0, 0.0),
  * 		new Point3d(1.0, 0.5, 0.0), new Point3d(2.0, 0.0, 0.0),
  * 		new Point3d(0.5, 0.5, 0.5), new Point3d(0.0, 0.0, 2.0),
  * 		new Point3d(0.1, 0.2, 0.3), new Point3d(0.0, 2.0, 0.0), };
- * 
+ *
  * QuickHull3D hull = new QuickHull3D();
  * hull.build(points);
- * 
+ *
  * System.out.println(&quot;Vertices:&quot;);
  * Point3d[] vertices = hull.getVertices();
  * for (int i = 0; i &lt; vertices.length; i++) {
  * 	Point3d pnt = vertices[i];
  * 	System.out.println(pnt.x + &quot; &quot; + pnt.y + &quot; &quot; + pnt.z);
  * }
- * 
+ *
  * System.out.println(&quot;Faces:&quot;);
  * int[][] faceIndices = hull.getFaces();
  * for (int i = 0; i &lt; faceIndices.length; i++) {
@@ -94,7 +94,7 @@ import java.util.Vector;
  * 	System.out.println(&quot;&quot;);
  * }
  * </pre>
- * 
+ *
  * As a convenience, there are also {@link #build(double[]) build} and
  * {@link #getVertices(double[]) getVertex} methods which pass point information
  * using an array of doubles.
@@ -134,7 +134,7 @@ import java.util.Vector;
  * thus the convex hull has a non-zero volume. If the input points are detected
  * to be degenerate within the {@link #getDistanceTolerance() distance
  * tolerance}, an IllegalArgumentException will be thrown.
- * 
+ *
  * @author John E. Lloyd, Fall 2004
  */
 public class QuickHull3D {
@@ -215,7 +215,7 @@ public class QuickHull3D {
 	 * <a href=#distTol>numerical imprecision</a>. Normally, this tolerance is
 	 * computed automatically for each set of input points, but it can be set
 	 * explicitly by the application.
-	 * 
+	 *
 	 * @return distance tolerance
 	 * @see QuickHull3D#setExplicitDistanceTolerance
 	 */
@@ -228,7 +228,7 @@ public class QuickHull3D {
 	 * {@link #AUTOMATIC_TOLERANCE AUTOMATIC_TOLERANCE} is specified (the
 	 * default), then the tolerance will be computed automatically from the
 	 * point data.
-	 * 
+	 *
 	 * @param tol
 	 *            explicit tolerance
 	 * @see #getDistanceTolerance
@@ -239,7 +239,7 @@ public class QuickHull3D {
 
 	/**
 	 * Returns the explicit distance tolerance.
-	 * 
+	 *
 	 * @return explicit tolerance
 	 * @see #setExplicitDistanceTolerance
 	 */
@@ -285,13 +285,12 @@ public class QuickHull3D {
 	/**
 	 * Creates an empty convex hull object.
 	 */
-	public QuickHull3D() {
-	}
+	public QuickHull3D() {}
 
 	/**
 	 * Creates a convex hull object and initializes it to the convex hull of a
 	 * set of points whose coordinates are given by an array of doubles.
-	 * 
+	 *
 	 * @param coords
 	 *            x, y, and z coordinates of each input point. The length of
 	 *            this array will be three times the the number of input points.
@@ -306,7 +305,7 @@ public class QuickHull3D {
 	/**
 	 * Creates a convex hull object and initializes it to the convex hull of a
 	 * set of points.
-	 * 
+	 *
 	 * @param points
 	 *            input points.
 	 * @throws IllegalArgumentException
@@ -319,7 +318,7 @@ public class QuickHull3D {
 
 	private HalfEdge findHalfEdge(Vertex tail, Vertex head) {
 		// brute force ... OK, since setHull is not used much
-		for (Iterator<Face> it = faces.iterator(); it.hasNext();) {
+		for (Iterator<Face> it = faces.iterator(); it.hasNext(); ) {
 			HalfEdge he = it.next().findEdge(tail, head);
 			if (he != null) {
 				return he;
@@ -328,8 +327,7 @@ public class QuickHull3D {
 		return null;
 	}
 
-	protected void setHull(double[] coords, int nump, int[][] faceIndices,
-			int numf) {
+	protected void setHull(double[] coords, int nump, int[][] faceIndices, int numf) {
 		initBuffers(nump);
 		setPoints(coords, nump);
 		computeMaxAndMin();
@@ -350,7 +348,7 @@ public class QuickHull3D {
 	/**
 	 * Constructs the convex hull of a set of points whose coordinates are given
 	 * by an array of doubles.
-	 * 
+	 *
 	 * @param coords
 	 *            x, y, and z coordinates of each input point. The length of
 	 *            this array will be three times the number of input points.
@@ -365,7 +363,7 @@ public class QuickHull3D {
 	/**
 	 * Constructs the convex hull of a set of points whose coordinates are given
 	 * by an array of doubles.
-	 * 
+	 *
 	 * @param coords
 	 *            x, y, and z coordinates of each input point. The length of
 	 *            this array must be at least three times <code>nump</code>.
@@ -376,11 +374,9 @@ public class QuickHull3D {
 	 *             1/3 the length of <code>coords</code>, or the points appear
 	 *             to be coincident, collinear, or coplanar.
 	 */
-	public void build(double[] coords, int nump)
-			throws IllegalArgumentException {
+	public void build(double[] coords, int nump) throws IllegalArgumentException {
 		if (nump < 4) {
-			throw new IllegalArgumentException(
-					"Less than four input points specified");
+			throw new IllegalArgumentException("Less than four input points specified");
 		}
 		if (coords.length / 3 < nump) {
 			throw new IllegalArgumentException(
@@ -393,7 +389,7 @@ public class QuickHull3D {
 
 	/**
 	 * Constructs the convex hull of a set of points.
-	 * 
+	 *
 	 * @param points
 	 *            input points
 	 * @throws IllegalArgumentException
@@ -406,7 +402,7 @@ public class QuickHull3D {
 
 	/**
 	 * Constructs the convex hull of a set of points.
-	 * 
+	 *
 	 * @param points
 	 *            input points
 	 * @param nump
@@ -416,15 +412,12 @@ public class QuickHull3D {
 	 *             the length of <code>points</code>, or the points appear to be
 	 *             coincident, collinear, or coplanar.
 	 */
-	public void build(Point3d[] points, int nump)
-			throws IllegalArgumentException {
+	public void build(Point3d[] points, int nump) throws IllegalArgumentException {
 		if (nump < 4) {
-			throw new IllegalArgumentException(
-					"Less than four input points specified");
+			throw new IllegalArgumentException("Less than four input points specified");
 		}
 		if (points.length < nump) {
-			throw new IllegalArgumentException(
-					"Point array too small for specified number of points");
+			throw new IllegalArgumentException("Point array too small for specified number of points");
 		}
 		initBuffers(nump);
 		setPoints(points, nump);
@@ -440,7 +433,7 @@ public class QuickHull3D {
 	public void triangulate() {
 		double minArea = 1000 * charLength * DOUBLE_PREC;
 		newFaces.clear();
-		for (Iterator<Face> it = faces.iterator(); it.hasNext();) {
+		for (Iterator<Face> it = faces.iterator(); it.hasNext(); ) {
 			Face face = it.next();
 			if (face.mark == Face.VISIBLE) {
 				face.triangulate(newFaces, minArea);
@@ -473,8 +466,7 @@ public class QuickHull3D {
 	protected void setPoints(double[] coords, int nump) {
 		for (int i = 0; i < nump; i++) {
 			Vertex vtx = pointBuffer[i];
-			vtx.pnt.set(coords[i * 3 + 0], coords[i * 3 + 1],
-					coords[i * 3 + 2]);
+			vtx.pnt.set(coords[i * 3 + 0], coords[i * 3 + 1], coords[i * 3 + 2]);
 			vtx.index = i;
 		}
 	}
@@ -527,7 +519,8 @@ public class QuickHull3D {
 		charLength = Math.max(max.x - min.x, max.y - min.y);
 		charLength = Math.max(max.z - min.z, charLength);
 		if (explicitTolerance == AUTOMATIC_TOLERANCE) {
-			tolerance = 3 * DOUBLE_PREC
+			tolerance = 3
+					* DOUBLE_PREC
 					* (Math.max(Math.abs(max.x), Math.abs(min.x))
 							+ Math.max(Math.abs(max.y), Math.abs(min.y))
 							+ Math.max(Math.abs(max.z), Math.abs(min.z)));
@@ -552,8 +545,7 @@ public class QuickHull3D {
 		}
 
 		if (max <= tolerance) {
-			throw new IllegalArgumentException(
-					"Input points appear to be coincident");
+			throw new IllegalArgumentException("Input points appear to be coincident");
 		}
 		Vertex[] vtx = new Vertex[4];
 		// set first two vertices to be those with the greatest
@@ -575,7 +567,9 @@ public class QuickHull3D {
 			diff02.sub(pointBuffer[i].pnt, vtx[0].pnt);
 			xprod.cross(u01, diff02);
 			double lenSqr = xprod.normSquared();
-			if (lenSqr > maxSqr && pointBuffer[i] != vtx[0] && // paranoid
+			if (lenSqr > maxSqr
+					&& pointBuffer[i] != vtx[0]
+					&& // paranoid
 					pointBuffer[i] != vtx[1]) {
 				maxSqr = lenSqr;
 				vtx[2] = pointBuffer[i];
@@ -583,8 +577,7 @@ public class QuickHull3D {
 			}
 		}
 		if (Math.sqrt(maxSqr) <= 100 * tolerance) {
-			throw new IllegalArgumentException(
-					"Input points appear to be collinear");
+			throw new IllegalArgumentException("Input points appear to be collinear");
 		}
 		nrml.normalize();
 
@@ -592,15 +585,17 @@ public class QuickHull3D {
 		double d0 = vtx[2].pnt.dot(nrml);
 		for (int i = 0; i < numPoints; i++) {
 			double dist = Math.abs(pointBuffer[i].pnt.dot(nrml) - d0);
-			if (dist > maxDist && pointBuffer[i] != vtx[0] && // paranoid
-					pointBuffer[i] != vtx[1] && pointBuffer[i] != vtx[2]) {
+			if (dist > maxDist
+					&& pointBuffer[i] != vtx[0]
+					&& // paranoid
+					pointBuffer[i] != vtx[1]
+					&& pointBuffer[i] != vtx[2]) {
 				maxDist = dist;
 				vtx[3] = pointBuffer[i];
 			}
 		}
 		if (Math.abs(maxDist) <= 100 * tolerance) {
-			throw new IllegalArgumentException(
-					"Input points appear to be coplanar");
+			throw new IllegalArgumentException("Input points appear to be coplanar");
 		}
 
 		// if (LOG.isDebugEnabled()) {
@@ -633,8 +628,7 @@ public class QuickHull3D {
 			for (int i = 0; i < 3; i++) {
 				int k = (i + 1) % 3;
 				tris[i + 1].getEdge(0).setOpposite(tris[k + 1].getEdge(1));
-				tris[i + 1].getEdge(2)
-						.setOpposite(tris[0].getEdge((3 - i) % 3));
+				tris[i + 1].getEdge(2).setOpposite(tris[0].getEdge((3 - i) % 3));
 			}
 		}
 
@@ -666,7 +660,7 @@ public class QuickHull3D {
 
 	/**
 	 * Returns the number of vertices in this hull.
-	 * 
+	 *
 	 * @return number of vertices
 	 */
 	public int getNumVertices() {
@@ -675,7 +669,7 @@ public class QuickHull3D {
 
 	/**
 	 * Returns the vertex points in this hull.
-	 * 
+	 *
 	 * @return array of vertex points
 	 * @see QuickHull3D#getVertices(double[])
 	 * @see QuickHull3D#getFaces()
@@ -690,7 +684,7 @@ public class QuickHull3D {
 
 	/**
 	 * Returns the coordinates of the vertex points of this hull.
-	 * 
+	 *
 	 * @param coords
 	 *            returns the x, y, z coordinates of each vertex. This length of
 	 *            this array must be at least three times the number of
@@ -712,7 +706,7 @@ public class QuickHull3D {
 	/**
 	 * Returns an array specifying the index of each hull vertex with respect to
 	 * the original input points.
-	 * 
+	 *
 	 * @return vertex indices with respect to the original points
 	 */
 	public int[] getVertexPointIndices() {
@@ -725,7 +719,7 @@ public class QuickHull3D {
 
 	/**
 	 * Returns the number of faces in this hull.
-	 * 
+	 *
 	 * @return number of faces
 	 */
 	public int getNumFaces() {
@@ -740,7 +734,7 @@ public class QuickHull3D {
 	 * are zero-based, and are arranged counter-clockwise. More control over the
 	 * index format can be obtained using {@link #getFaces(int)
 	 * getFaces(indexFlags)}.
-	 * 
+	 *
 	 * @return array of integer arrays, giving the vertex indices for each face.
 	 * @see QuickHull3D#getVertices()
 	 * @see QuickHull3D#getFaces(int)
@@ -759,7 +753,7 @@ public class QuickHull3D {
 	 * {@link #POINT_RELATIVE POINT_RELATIVE}, {@link #INDEXED_FROM_ONE
 	 * INDEXED_FROM_ONE}, or {@link #CLOCKWISE CLOCKWISE} in the indexFlags
 	 * parameter.
-	 * 
+	 *
 	 * @param indexFlags
 	 *            specifies index characteristics (0 results in the default)
 	 * @return array of integer arrays, giving the vertex indices for each face.
@@ -768,7 +762,7 @@ public class QuickHull3D {
 	public int[][] getFaces(int indexFlags) {
 		int[][] allFaces = new int[faces.size()][];
 		int k = 0;
-		for (Iterator<Face> it = faces.iterator(); it.hasNext();) {
+		for (Iterator<Face> it = faces.iterator(); it.hasNext(); ) {
 			Face face = it.next();
 			allFaces[k] = new int[face.numVertices()];
 			getFaceIndices(allFaces[k], face, indexFlags);
@@ -804,8 +798,7 @@ public class QuickHull3D {
 
 			double maxDist = tolerance;
 			Face maxFace = null;
-			for (Face newFace = newFaces
-					.first(); newFace != null; newFace = newFace.next) {
+			for (Face newFace = newFaces.first(); newFace != null; newFace = newFace.next) {
 				if (newFace.mark == Face.VISIBLE) {
 					double dist = newFace.distanceToPlane(vtx.pnt);
 					if (dist > maxDist) {
@@ -868,9 +861,8 @@ public class QuickHull3D {
 			boolean merge = false;
 
 			if (mergeType == NONCONVEX) { // then merge faces if they are
-											// definitively non-convex
-				if (oppFaceDistance(hedge) > -tolerance
-						|| oppFaceDistance(hedge.opposite) > -tolerance) {
+				// definitively non-convex
+				if (oppFaceDistance(hedge) > -tolerance || oppFaceDistance(hedge.opposite) > -tolerance) {
 					merge = true;
 				}
 			} else {
@@ -916,8 +908,8 @@ public class QuickHull3D {
 		return false;
 	}
 
-	protected void calculateHorizon(Point3d eyePnt, HalfEdge edge0, Face face,
-			Vector<HalfEdge> horizon) {
+	protected void calculateHorizon(
+			Point3d eyePnt, HalfEdge edge0, Face face, Vector<HalfEdge> horizon) {
 		// oldFaces.add (face);
 		deleteFacePoints(face, null);
 		face.mark = Face.DELETED;
@@ -935,8 +927,7 @@ public class QuickHull3D {
 			Face oppFace = edge.oppositeFace();
 			if (oppFace.mark == Face.VISIBLE) {
 				if (oppFace.distanceToPlane(eyePnt) > tolerance) {
-					calculateHorizon(eyePnt, edge.getOpposite(), oppFace,
-							horizon);
+					calculateHorizon(eyePnt, edge.getOpposite(), oppFace, horizon);
 				} else {
 					horizon.add(edge);
 					// if (LOG.isDebugEnabled()) {
@@ -956,14 +947,13 @@ public class QuickHull3D {
 		return face.getEdge(0);
 	}
 
-	protected void addNewFaces(FaceList newFaces, Vertex eyeVtx,
-			Vector<HalfEdge> horizon) {
+	protected void addNewFaces(FaceList newFaces, Vertex eyeVtx, Vector<HalfEdge> horizon) {
 		newFaces.clear();
 
 		HalfEdge hedgeSidePrev = null;
 		HalfEdge hedgeSideBegin = null;
 
-		for (Iterator<HalfEdge> it = horizon.iterator(); it.hasNext();) {
+		for (Iterator<HalfEdge> it = horizon.iterator(); it.hasNext(); ) {
 			HalfEdge horizonHe = it.next();
 			HalfEdge hedgeSide = addAdjoiningFace(eyeVtx, horizonHe);
 			// if (LOG.isDebugEnabled()) {
@@ -985,8 +975,7 @@ public class QuickHull3D {
 			Face eyeFace = claimed.first().face;
 			Vertex eyeVtx = null;
 			double maxDist = 0;
-			for (Vertex vtx = eyeFace.outside; vtx != null
-					&& vtx.face == eyeFace; vtx = vtx.next) {
+			for (Vertex vtx = eyeFace.outside; vtx != null && vtx.face == eyeFace; vtx = vtx.next) {
 				double dist = eyeFace.distanceToPlane(vtx.pnt);
 				if (dist > maxDist) {
 					maxDist = dist;
@@ -1065,7 +1054,7 @@ public class QuickHull3D {
 		}
 		// remove inactive faces and mark active vertices
 		numFaces = 0;
-		for (Iterator<Face> it = faces.iterator(); it.hasNext();) {
+		for (Iterator<Face> it = faces.iterator(); it.hasNext(); ) {
 			Face face = it.next();
 			if (face.mark != Face.VISIBLE) {
 				it.remove();

@@ -36,8 +36,7 @@ import org.geogebra.common.util.DoubleUtil;
  * Algorithm for computation of tangent curve
  *
  */
-public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
-		AlgoTangentHelper {
+public class AlgoImplicitPolyTangentCurve extends AlgoElement implements AlgoTangentHelper {
 
 	private GeoImplicit poly;
 	private GeoPointND point;
@@ -55,8 +54,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 	 * @param pointOnPath
 	 *            whether point is on path by definition
 	 */
-	public AlgoImplicitPolyTangentCurve(Construction c, GeoImplicit poly,
-			GeoPointND point, boolean pointOnPath) {
+	public AlgoImplicitPolyTangentCurve(
+			Construction c, GeoImplicit poly, GeoPointND point, boolean pointOnPath) {
 		super(c, false);
 		this.poly = poly;
 		this.point = point;
@@ -81,8 +80,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		double y = point.getInhomY();
 
 		tangentPoly.setDefined();
-		if (poly instanceof GeoImplicitCurve
-				&& poly.getCoeff() == null) {
+		if (poly instanceof GeoImplicitCurve && poly.getCoeff() == null) {
 			GeoImplicitCurve inputCurve = (GeoImplicitCurve) poly;
 			FunctionNVar f1 = inputCurve.getExpression();
 
@@ -90,19 +88,15 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 			FunctionVariable vy = f1.getFunctionVariables()[1];
 
 			// build expression Fx(x0, y0)*(x-x0)+Fy(x0, y0)*(y-y0)
-			ExpressionNode x1 = new ExpressionNode(kernel, vx, Operation.MINUS,
-					new MyDouble(kernel, x));
-			ExpressionNode y1 = new ExpressionNode(kernel, vy, Operation.MINUS,
-					new MyDouble(kernel, y));
+			ExpressionNode x1 = new ExpressionNode(kernel, vx, Operation.MINUS, new MyDouble(kernel, x));
+			ExpressionNode y1 = new ExpressionNode(kernel, vy, Operation.MINUS, new MyDouble(kernel, y));
 
 			x1 = x1.multiply(inputCurve.getDerivativeX().evaluate(x, y));
 			y1 = y1.multiply(inputCurve.getDerivativeY().evaluate(x, y));
 
-			tangentPoly.fromEquation(new Equation(kernel, x1.plus(y1),
-					new MyDouble(kernel, 0)), null);
+			tangentPoly.fromEquation(new Equation(kernel, x1.plus(y1), new MyDouble(kernel, 0)), null);
 			((GeoImplicitCurve) tangentPoly).updatePath();
 			return;
-
 		}
 
 		double[][] coeff = poly.getCoeff();
@@ -130,7 +124,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[] { poly.toGeoElement(), (GeoElement) point };
+		input = new GeoElement[] {poly.toGeoElement(), (GeoElement) point};
 		setOnlyOutput(tangentPoly.toGeoElement());
 		setDependencies();
 	}
@@ -163,14 +157,12 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		int n = 0;
 		if (point != null && poly.isOnPath(point, Kernel.STANDARD_PRECISION)) {
 			tangents.adjustOutputSize(n + 1);
-			double dfdx = this.poly.derivativeX(point.getInhomX(),
-					point.getInhomY());
-			double dfdy = this.poly.derivativeY(point.getInhomX(),
-					point.getInhomY());
-			if (!DoubleUtil.isEqual(dfdx, 0, 1E-5)
-					|| !DoubleUtil.isEqual(dfdy, 0, 1E-5)) {
-				tangents.getElement(n).setCoords(dfdx, dfdy,
-						-dfdx * point.getInhomX() - dfdy * point.getInhomY());
+			double dfdx = this.poly.derivativeX(point.getInhomX(), point.getInhomY());
+			double dfdy = this.poly.derivativeY(point.getInhomX(), point.getInhomY());
+			if (!DoubleUtil.isEqual(dfdx, 0, 1E-5) || !DoubleUtil.isEqual(dfdy, 0, 1E-5)) {
+				tangents
+						.getElement(n)
+						.setCoords(dfdx, dfdy, -dfdx * point.getInhomX() - dfdy * point.getInhomY());
 				n++;
 			}
 		}
@@ -198,32 +190,31 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 			// avoid evaluation of dF1/dx
 			// TODO: have a more reasonable choice; also we use standard
 			// precision rather than working precision (might not be a problem)
-			if (DoubleUtil.isEqual(0,
-					this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
-					Kernel.STANDARD_PRECISION_SQRT)
-					&& DoubleUtil.isEqual(0,
+			if (DoubleUtil.isEqual(
+							0, this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY), Kernel.STANDARD_PRECISION_SQRT)
+					&& DoubleUtil.isEqual(
+							0,
 							this.poly.derivativeY(ip[i].inhomX, ip[i].inhomY),
 							Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;
 			}
 
 			tangents.adjustOutputSize(n + 1);
-			tangents.getElement(n).setCoords(
-					ip[i].getY() - this.point.getInhomY(),
-					this.point.getInhomX() - ip[i].getX(),
-					ip[i].getX() * this.point.getInhomY()
-							- this.point.getInhomX() * ip[i].getY());
+			tangents
+					.getElement(n)
+					.setCoords(
+							ip[i].getY() - this.point.getInhomY(),
+							this.point.getInhomX() - ip[i].getX(),
+							ip[i].getX() * this.point.getInhomY() - this.point.getInhomX() * ip[i].getY());
 			ip[i].addIncidence(tangents.getElement(n), false);
 			n++;
 		}
-
 	}
 
 	@Override
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == poly && pointOnPath) {
 			return point;
-
 		}
 		// for (int i = 0; i < this.tangents.size(); i++) {
 		// if (tangents.getElement(i) == line) {
@@ -232,5 +223,4 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		// }
 		return null;
 	}
-
 }

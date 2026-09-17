@@ -45,22 +45,19 @@ public final class FlattenNode implements Inspecting, Iterable<ExpressionValue> 
 
 	@Override
 	public boolean check(ExpressionValue ev) {
-		if (ev.isLeaf() || ev.isOperation(Operation.MULTIPLY) || ExpressionValueUtils.isSqrtNode(
-				ev)) {
+		if (ev.isLeaf() || ev.isOperation(Operation.MULTIPLY) || ExpressionValueUtils.isSqrtNode(ev)) {
 			flatten.add(ev);
 			int multiplier = utils.getNumberForGCD(ev.wrap());
 			multipliers.add(minus ? -multiplier : multiplier);
 			minus = false;
 			return true;
-
 		}
 		if (ev.isOperation(Operation.PLUS) || ev.isOperation(Operation.MINUS)) {
 			minus = false;
 			boolean leftInspect = ev.wrap().getLeft().any(this);
 			minus = ev.isOperation(Operation.MINUS);
 			boolean rightInspect = ev.wrap().getRight().any(this);
-			return leftInspect
-					&& rightInspect;
+			return leftInspect && rightInspect;
 		}
 		return false;
 	}

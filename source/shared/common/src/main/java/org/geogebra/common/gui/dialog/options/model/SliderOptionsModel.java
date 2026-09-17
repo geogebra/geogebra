@@ -28,7 +28,6 @@ public abstract class SliderOptionsModel extends NumberOptionsModel {
 	@Override
 	public void updateProperties() {
 		getListener().setValue(getValueAt(0));
-
 	}
 
 	@Override
@@ -39,5 +38,4 @@ public abstract class SliderOptionsModel extends NumberOptionsModel {
 	public void setListener(ISliderListener listener) {
 		this.listener = listener;
 	}
-
 }

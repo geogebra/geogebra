@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,7 +48,7 @@ import org.geogebra.desktop.util.UtilD;
 
 /**
  * Desktop implementation of {@link org.geogebra.common.plugin.GgbAPI}.
- * 
+ *
  * @author H-P Ulven
  */
 public class GgbAPID extends GgbAPIJre {
@@ -56,7 +56,7 @@ public class GgbAPID extends GgbAPIJre {
 	/**
 	 * Constructor: Makes the api with a reference to the GeoGebra program.
 	 * Called from GeoGebra.
-	 * 
+	 *
 	 * @param app
 	 *            Application
 	 */
@@ -69,7 +69,7 @@ public class GgbAPID extends GgbAPIJre {
 
 	/**
 	 * Returns current construction as a ggb file in form of a byte array.
-	 * 
+	 *
 	 * @return null if something went wrong
 	 */
 	@Override
@@ -130,18 +130,20 @@ public class GgbAPID extends GgbAPIJre {
 	public void openFileUnsafe(String strURL) throws IOException {
 		String lowerCase = StringUtil.toLowerCaseUS(strURL);
 		URL url = new URL(strURL);
-		((AppD) app).loadXML(url, lowerCase
-				.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
+		((AppD) app).loadXML(url, lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
 	}
 
 	/*
 	 * saves a PNG file signed applets only
 	 */
 	@Override
-	public synchronized boolean writePNGtoFile(String filename,
-			final double exportScale, final boolean transparent,
-			final double DPI0, final boolean greyscale) {
-		
+	public synchronized boolean writePNGtoFile(
+			String filename,
+			final double exportScale,
+			final boolean transparent,
+			final double DPI0,
+			final boolean greyscale) {
+
 		final double DPI = DPI0 <= 0 ? 72 : DPI0;
 
 		File file1 = null;
@@ -158,17 +160,14 @@ public class GgbAPID extends GgbAPIJre {
 			// draw graphics view into image
 			GBufferedImage img = getApplication()
 					.getActiveEuclidianView()
-					.getExportImage(exportScale, transparent,
-							ExportType.PNG);
+					.getExportImage(exportScale, transparent, ExportType.PNG);
 
 			if (greyscale) {
 				((GBufferedImageD) img).convertToGrayscale();
 			}
 
 			// write image to file
-			MyImageIO.write(
-					GBufferedImageD.getAwtBufferedImage(img),
-					"png", (float) DPI, file);
+			MyImageIO.write(GBufferedImageD.getAwtBufferedImage(img), "png", (float) DPI, file);
 
 			return true;
 		} catch (IOException | RuntimeException | Error ex) {
@@ -178,69 +177,74 @@ public class GgbAPID extends GgbAPIJre {
 	}
 
 	@Override
-	protected void exportPNGClipboard(boolean transparent, int DPI,
-			double exportScale, EuclidianView ev) {
+	protected void exportPNGClipboard(
+			boolean transparent, int DPI, double exportScale, EuclidianView ev) {
 		// more control but doesn't paste into eg Paint, Google Docs
-		GraphicExportDialog.exportPNGClipboard(transparent, DPI, exportScale,
-				(AppD) app, (EuclidianViewInterfaceD) ev);
+		GraphicExportDialog.exportPNGClipboard(
+				transparent, DPI, exportScale, (AppD) app, (EuclidianViewInterfaceD) ev);
 	}
 
 	@Override
-	protected void exportPNGClipboardDPIisNaN(boolean transparent,
-			double exportScale, EuclidianView ev) {
+	protected void exportPNGClipboardDPIisNaN(
+			boolean transparent, double exportScale, EuclidianView ev) {
 		// pastes into more programs
-		GBufferedImage img = ev.getExportImage(exportScale, transparent,
-				ExportType.PNG);
+		GBufferedImage img = ev.getExportImage(exportScale, transparent, ExportType.PNG);
 
-		ImageSelection imgSel = new ImageSelection(
-				GBufferedImageD.getAwtBufferedImage(img));
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
-				null);
+		ImageSelection imgSel = new ImageSelection(GBufferedImageD.getAwtBufferedImage(img));
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);
 	}
 
 	@Override
-	protected String base64encodePNG(boolean transparent, double DPI,
-			double exportScale, EuclidianView ev) {
-		GBufferedImage img = ((EuclidianViewInterfaceD) ev)
-				.getExportImage(exportScale, transparent, ExportType.PNG);
+	protected String base64encodePNG(
+			boolean transparent, double DPI, double exportScale, EuclidianView ev) {
+		GBufferedImage img =
+				((EuclidianViewInterfaceD) ev).getExportImage(exportScale, transparent, ExportType.PNG);
 		return GBufferedImageD.base64encode(GBufferedImageD.getAwtBufferedImage(img), DPI);
 	}
 
 	@Override
 	public String prompt(Object promptText, Object initValue) {
-		return (String) JOptionPane.showInputDialog(((AppD) app).getFrame(),
-				promptText, GeoGebraConstants.APPLICATION_NAME,
-				JOptionPane.PLAIN_MESSAGE, null, null, initValue);
+		return (String) JOptionPane.showInputDialog(
+				((AppD) app).getFrame(),
+				promptText,
+				GeoGebraConstants.APPLICATION_NAME,
+				JOptionPane.PLAIN_MESSAGE,
+				null,
+				null,
+				initValue);
 	}
 
 	@Override
 	public void alert(String message) {
 		Localization loc = app.getLocalization();
-		Object[] options = { loc.getMenu("StopScript"), loc.getMenu("OK") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getFrame(), message,
-				GeoGebraConstants.APPLICATION_NAME, JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
+		Object[] options = {loc.getMenu("StopScript"), loc.getMenu("OK")};
+		int n = JOptionPane.showOptionDialog(
+				((AppD) app).getFrame(),
+				message,
+				GeoGebraConstants.APPLICATION_NAME,
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null, // do not use a custom Icon
 				options, // the titles of buttons
 				options[0]); // default button title
 
 		if (n == 0) {
 			throw new Error("Script stopped by user");
 		}
-
 	}
 
 	/**
 	 * Returns the dimensions of the real world coordinate system in the
 	 * graphics view as [xmin, ymin, width, height]
-	 * 
+	 *
 	 * @return dimensions of the real world coordinate system
 	 */
 	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
 		EuclidianView ev = app.getEuclidianView1();
-		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(),
-				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
+		return new Rectangle2D.Double(
+				ev.getXmin(), ev.getYmin(), ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
 	}
-	
+
 	@Override
 	public void exportSVG(String file0, Consumer<String> callback) {
 		String filename = file0;
@@ -253,10 +257,9 @@ public class GgbAPID extends GgbAPIJre {
 		File file = new File(filename);
 
 		EuclidianView view = app.getActiveEuclidianView();
-		GraphicExportDialog.exportSVG(app, view, file, true,
-				view.getExportWidth(),
-				view.getExportHeight(), -1, -1, 1, true);
-		
+		GraphicExportDialog.exportSVG(
+				app, view, file, true, view.getExportWidth(), view.getExportHeight(), -1, -1, 1, true);
+
 		try {
 			// read file back as String
 			callback.accept(Files.readString(Paths.get(filename)));
@@ -266,8 +269,8 @@ public class GgbAPID extends GgbAPIJre {
 	}
 
 	@Override
-	public void exportPDF(double exportScale, String file0, Consumer<String> callback,
-			String sliderLabel, double dpi) {
+	public void exportPDF(
+			double exportScale, String file0, Consumer<String> callback, String sliderLabel, double dpi) {
 
 		String filename = file0;
 
@@ -279,9 +282,8 @@ public class GgbAPID extends GgbAPIJre {
 		File file = new File(filename);
 
 		EuclidianView view = app.getActiveEuclidianView();
-		GraphicExportDialog.exportPDF(view, file, true,
-				view.getExportWidth(),
-				view.getExportHeight(), exportScale);
+		GraphicExportDialog.exportPDF(
+				view, file, true, view.getExportWidth(), view.getExportHeight(), exportScale);
 
 		try {
 			// read file back as String
@@ -295,5 +297,4 @@ public class GgbAPID extends GgbAPIJre {
 	public JsObjectWrapper getWrapper(Object obj) {
 		return new JsObjectWrapperD(obj);
 	}
-
 }

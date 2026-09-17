@@ -51,7 +51,7 @@ class HatchingHandlerTest {
 	/** Test for APPS-4819 */
 	@Test
 	void symbolDimensions() {
-		for (Integer size: Arrays.asList(27, 28, 29)) {
+		for (Integer size : Arrays.asList(27, 28, 29)) {
 			AwtFactoryCommon.GTexturePaintCommon texture = getSymbolFill(app, size);
 			assertEquals(27, texture.subImage.getHeight());
 			assertEquals(27, texture.rect.getHeight(), 0.1);
@@ -62,24 +62,29 @@ class HatchingHandlerTest {
 	void testTextureTypes() {
 		app.setExporting(App.ExportType.PNG, 2);
 		GBasicStroke defObjStroke = AwtFactoryCommon.getPrototype().newBasicStroke(1);
-		GPaint texture = hatchingHandler.getHatchingTexture(defObjStroke,
-				null, null, .5, 1, 45, FillType.HATCH, null, app);
+		GPaint texture = hatchingHandler.getHatchingTexture(
+				defObjStroke, null, null, .5, 1, 45, FillType.HATCH, null, app);
 		assertEquals(AwtFactoryCommon.GTexturePaintCommon.class, texture.getClass());
 		app.setExporting(App.ExportType.SVG, 2);
-		texture = hatchingHandler.getHatchingTexture(defObjStroke,
-				null, null, .5, 1, 45, FillType.HATCH, null, app);
+		texture = hatchingHandler.getHatchingTexture(
+				defObjStroke, null, null, .5, 1, 45, FillType.HATCH, null, app);
 		assertEquals(VectorPatternPaint.class, texture.getClass());
 		app.setExporting(App.ExportType.PDF_HTML5, 2);
-		texture = hatchingHandler.getHatchingTexture(defObjStroke,
-				null, null, .5, 1, 45, FillType.HATCH, null, app);
+		texture = hatchingHandler.getHatchingTexture(
+				defObjStroke, null, null, .5, 1, 45, FillType.HATCH, null, app);
 		assertEquals(VectorPatternPaint.class, texture.getClass());
 	}
 
 	private AwtFactoryCommon.GTexturePaintCommon getSymbolFill(App app, int size) {
 		return (AwtFactoryCommon.GTexturePaintCommon) hatchingHandler.getHatchingTexture(
 				new DefaultBasicStroke(),
-				GColor.GREEN, GColor.RED, 0, size / 2.5, 0,
-				FillType.SYMBOLS, "X", app);
+				GColor.GREEN,
+				GColor.RED,
+				0,
+				size / 2.5,
+				0,
+				FillType.SYMBOLS,
+				"X",
+				app);
 	}
-
 }

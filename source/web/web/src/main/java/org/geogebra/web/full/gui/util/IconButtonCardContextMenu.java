@@ -33,8 +33,7 @@ import org.gwtproject.event.logical.shared.CloseHandler;
 /**
  * Context menu that can be opened by an icon button.
  */
-public class IconButtonCardContextMenu
-		implements SetLabels, CloseHandler<GPopupPanel> {
+public class IconButtonCardContextMenu implements SetLabels, CloseHandler<GPopupPanel> {
 	protected AppWFull appW;
 	protected Localization loc;
 	protected GPopupMenuW wrappedPopup;
@@ -44,8 +43,8 @@ public class IconButtonCardContextMenu
 	 * @param appW application
 	 */
 	public IconButtonCardContextMenu(AppWFull appW) {
-		button = new IconButton(appW, null, appW.getGeneralIconResource()
-				.getImageResource(GeneralIcon.MORE));
+		button = new IconButton(
+				appW, null, appW.getGeneralIconResource().getImageResource(GeneralIcon.MORE));
 		this.appW = appW;
 		loc = appW.getLocalization();
 		button.addFastClickHandler((event) -> {
@@ -65,8 +64,7 @@ public class IconButtonCardContextMenu
 	 * @param text menu item text
 	 * @param cmd command to execute
 	 */
-	protected AriaMenuItem addItem(IconSpec img, String text,
-			ScheduledCommand cmd) {
+	protected AriaMenuItem addItem(IconSpec img, String text, ScheduledCommand cmd) {
 		AriaMenuItem mi = MainMenu.getMenuBarItem(img, text, cmd);
 		wrappedPopup.addItem(mi);
 		return mi;

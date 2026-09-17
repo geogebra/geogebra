@@ -35,14 +35,14 @@ public interface GTextLayout {
 	GRectangle2D getBounds();
 
 	/**
-	 * 
+	 *
 	 * @return distance between baseline and top of the highest character
 	 */
 	double getAscent();
 
 	/**
 	 * Draw this text in graphics
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 * @param x
@@ -56,5 +56,4 @@ public interface GTextLayout {
 	 * @return distance between baseline and deepest bottom of a character
 	 */
 	double getDescent();
-
 }

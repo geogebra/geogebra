@@ -54,7 +54,7 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param rows
@@ -66,7 +66,7 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 		super(app);
 		rowNum = rows;
 		this.columns = new ArrayList<>(columns);
-		for (int i =  0; i < columns; i++) {
+		for (int i = 0; i < columns; i++) {
 			this.columns.add(null);
 		}
 		attachView();
@@ -76,7 +76,7 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 	/**
 	 * Establishes connection to the table and synces all values from model to
 	 * table
-	 * 
+	 *
 	 * @param newTable
 	 *            table implementation
 	 */
@@ -139,8 +139,7 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 	@Override
 	public Object getValueAt(int row, int column) {
 		List<Object> columnValues = columns.get(column);
-		return columnValues != null && columnValues.size() > row
-				? columnValues.get(row) : null;
+		return columnValues != null && columnValues.size() > row ? columnValues.get(row) : null;
 	}
 
 	@Override

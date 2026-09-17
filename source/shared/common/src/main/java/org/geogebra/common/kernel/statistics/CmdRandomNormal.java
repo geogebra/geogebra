@@ -28,7 +28,7 @@ public class CmdRandomNormal extends CmdTwoNumFunction {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -37,10 +37,8 @@ public class CmdRandomNormal extends CmdTwoNumFunction {
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, GeoNumberValue b,
-			GeoNumberValue c) {
+	protected GeoElement doCommand(String a, GeoNumberValue b, GeoNumberValue c) {
 		AlgoRandomNormal algo = new AlgoRandomNormal(cons, a, b, c);
 		return algo.getResult();
 	}
-
 }

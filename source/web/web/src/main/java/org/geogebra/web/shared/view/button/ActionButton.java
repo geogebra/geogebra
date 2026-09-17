@@ -51,23 +51,23 @@ public final class ActionButton implements ActionView, SetLabels {
 	@Override
 	public void setAction(final Runnable action) {
 		if (action != null) {
-			ClickStartHandler.init(
-					view,
-					new ClickStartHandler(true, true) {
+			ClickStartHandler.init(view, new ClickStartHandler(true, true) {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					action.run();
 				}
 			});
-			view.addDomHandler(event -> {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
-					|| event.getNativeKeyCode() == KeyCodes.KEY_SPACE) {
-					action.run();
-					event.stopPropagation();
-					event.preventDefault();
-				}
-			}, KeyDownEvent.getType());
+			view.addDomHandler(
+					event -> {
+						if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
+								|| event.getNativeKeyCode() == KeyCodes.KEY_SPACE) {
+							action.run();
+							event.stopPropagation();
+							event.preventDefault();
+						}
+					},
+					KeyDownEvent.getType());
 		}
 	}
 

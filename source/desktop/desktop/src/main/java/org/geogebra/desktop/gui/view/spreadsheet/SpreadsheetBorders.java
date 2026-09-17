@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,16 +29,16 @@ import org.geogebra.desktop.awt.GColorD;
 
 /**
  * Methods for drawing custom spreadsheet borders
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class SpreadsheetBorders {
 
 	/**
 	 * Draws custom borders for all cells recorded in the spreadsheet border
 	 * format map.
-	 * 
+	 *
 	 * @param g2 graphics
 	 * @param table table
 	 */
@@ -47,15 +47,16 @@ public class SpreadsheetBorders {
 		g2.setColor(GColorD.getAwtColor(GColor.BLACK));
 		g2.setStroke(new BasicStroke(1));
 
-		HashMap<SpreadsheetCoords, Object> map = table.getCellFormatHandler()
-				.getFormatMap(CellFormat.FORMAT_BORDER);
+		HashMap<SpreadsheetCoords, Object> map =
+				table.getCellFormatHandler().getFormatMap(CellFormat.FORMAT_BORDER);
 		Set<SpreadsheetCoords> formatCell = map.keySet();
 
 		int column, row;
 		for (SpreadsheetCoords cell : formatCell) {
 
-			Byte b = (Byte) table.getCellFormatHandler().getCellFormat(cell.column,
-					cell.row, CellFormat.FORMAT_BORDER);
+			Byte b = (Byte) table
+					.getCellFormatHandler()
+					.getCellFormat(cell.column, cell.row, CellFormat.FORMAT_BORDER);
 			if (b != null) {
 				column = cell.column;
 				row = cell.row;
@@ -66,21 +67,20 @@ public class SpreadsheetBorders {
 				}
 			}
 		}
-
 	}
 
 	/**
 	 * Draws row/column grid lines. Byte v determines the line type. (top/bottom
 	 * row line or a left/right column line).
-	 * 
+	 *
 	 * @param g2 graphics
 	 * @param table table
 	 * @param col column
 	 * @param row row
 	 * @param v line type
 	 */
-	public static void handleRowOrColumnGridFormat(Graphics2D g2,
-			MyTableD table, int col, int row, byte v) {
+	public static void handleRowOrColumnGridFormat(
+			Graphics2D g2, MyTableD table, int col, int row, byte v) {
 
 		// row
 		if (col == -1) {
@@ -138,7 +138,7 @@ public class SpreadsheetBorders {
 	 * Draws a partial border around the rectangular region from row1 down to
 	 * row2 and across from col1 to col2. Byte v determines which sides of the
 	 * border are drawn.
-	 * 
+	 *
 	 * @param g2 graphice
 	 * @param table table
 	 * @param col1 start column
@@ -147,8 +147,8 @@ public class SpreadsheetBorders {
 	 * @param row2 end row
 	 * @param v border type
 	 */
-	public static void drawPartialBorder(Graphics2D g2, MyTableD table,
-			int col1, int row1, int col2, int row2, byte v) {
+	public static void drawPartialBorder(
+			Graphics2D g2, MyTableD table, int col1, int row1, int col2, int row2, byte v) {
 
 		Rectangle rect1 = table.getCellRect(row1, col1, true);
 		int r1 = rect1.x - 1;
@@ -179,12 +179,11 @@ public class SpreadsheetBorders {
 		if (CellFormat.isOneBit(v, CellFormat.BORDER_BOTTOM)) {
 			g2.drawLine(r1, c2, r2, c2);
 		}
-
 	}
 
 	/**
 	 * Draws a grid line beneath the given row
-	 * 
+	 *
 	 * @param g2 graphics
 	 * @param table table
 	 * @param row row
@@ -199,18 +198,16 @@ public class SpreadsheetBorders {
 		int c2 = rect2.y - 1;
 
 		g2.drawLine(r1, c1, r2, c2);
-
 	}
 
 	/**
 	 * Draws a grid line to the right the give column
-	 * 
+	 *
 	 * @param g2 graphics
 	 * @param table table
 	 * @param column column
 	 */
-	public static void drawColumnBorder(Graphics2D g2, MyTableD table,
-			int column) {
+	public static void drawColumnBorder(Graphics2D g2, MyTableD table, int column) {
 
 		Rectangle rect1 = table.getCellRect(0, column, true);
 		int r1 = rect1.x - 1;
@@ -220,7 +217,5 @@ public class SpreadsheetBorders {
 		int c2 = rect2.y - 1;
 
 		g2.drawLine(r1, c1, r2, c2);
-
 	}
-
 }

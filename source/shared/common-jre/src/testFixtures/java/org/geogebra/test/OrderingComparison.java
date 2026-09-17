@@ -1,4 +1,17 @@
-/*  Copyright (c) 2000-2009 hamcrest.org
+/*
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
+ *
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ *
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
 
 package org.geogebra.test;
@@ -10,8 +23,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public final class OrderingComparison<T extends Comparable<T>>
-		extends TypeSafeMatcher<T> {
+public final class OrderingComparison<T extends Comparable<T>> extends TypeSafeMatcher<T> {
 	private static final int LESS_THAN = -1;
 	private static final int GREATER_THAN = 1;
 	private static final int EQUAL = 0;
@@ -19,8 +31,7 @@ public final class OrderingComparison<T extends Comparable<T>>
 	private final int minCompare;
 	private final int maxCompare;
 
-	private static final String[] comparisonDescriptions = { "less than",
-			"equal to", "greater than" };
+	private static final String[] comparisonDescriptions = {"less than", "equal to", "greater than"};
 
 	private OrderingComparison(T expected, int minCompare, int maxCompare) {
 		this.expected = expected;
@@ -35,10 +46,12 @@ public final class OrderingComparison<T extends Comparable<T>>
 	}
 
 	@Override
-	public void describeMismatchSafely(T actual,
-			Description mismatchDescription) {
-		mismatchDescription.appendValue(actual).appendText(" was ")
-				.appendText(asText(actual.compareTo(expected))).appendText(" ")
+	public void describeMismatchSafely(T actual, Description mismatchDescription) {
+		mismatchDescription
+				.appendValue(actual)
+				.appendText(" was ")
+				.appendText(asText(actual.compareTo(expected)))
+				.appendText(" ")
 				.appendValue(expected);
 	}
 
@@ -61,20 +74,19 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * <code>compareTo</code> method of the <b>examined</b> object.
 	 * <p/>
 	 * For example:
-	 * 
+	 *
 	 * <pre>
 	 * assertThat(1, comparesEqualTo(1))
 	 * </pre>
-	 * 
+	 *
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return zero
 	 * @return comparison matcher
-	 * 
+	 *
 	 */
 	@Factory
-	public static <T extends Comparable<T>> Matcher<T> comparesEqualTo(
-			T value) {
+	public static <T extends Comparable<T>> Matcher<T> comparesEqualTo(T value) {
 		return new OrderingComparison<>(value, EQUAL, EQUAL);
 	}
 
@@ -84,11 +96,11 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * <code>compareTo</code> method of the <b>examined</b> object.
 	 * <p/>
 	 * For example:
-	 * 
+	 *
 	 * <pre>
 	 * assertThat(2, greaterThan(1))
 	 * </pre>
-	 * 
+	 *
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return greater than zero
@@ -106,19 +118,18 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * object.
 	 * <p/>
 	 * For example:
-	 * 
+	 *
 	 * <pre>
 	 * assertThat(1, greaterThanOrEqualTo(1))
 	 * </pre>
-	 * 
+	 *
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return greater than or equal to zero
 	 * @return comparison matcher
 	 */
 	@Factory
-	public static <T extends Comparable<T>> Matcher<T> greaterThanOrEqualTo(
-			T value) {
+	public static <T extends Comparable<T>> Matcher<T> greaterThanOrEqualTo(T value) {
 		return new OrderingComparison<>(value, EQUAL, GREATER_THAN);
 	}
 
@@ -128,11 +139,11 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * <code>compareTo</code> method of the <b>examined</b> object.
 	 * <p/>
 	 * For example:
-	 * 
+	 *
 	 * <pre>
 	 * assertThat(1, lessThan(2))
 	 * </pre>
-	 * 
+	 *
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return less than zero
@@ -149,19 +160,18 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * by the <code>compareTo</code> method of the <b>examined</b> object.
 	 * <p/>
 	 * For example:
-	 * 
+	 *
 	 * <pre>
 	 * assertThat(1, lessThanOrEqualTo(1))
 	 * </pre>
-	 * 
+	 *
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return less than or equal to zero
 	 * @return comparison matcher
 	 */
 	@Factory
-	public static <T extends Comparable<T>> Matcher<T> lessThanOrEqualTo(
-			T value) {
+	public static <T extends Comparable<T>> Matcher<T> lessThanOrEqualTo(T value) {
 		return new OrderingComparison<>(value, LESS_THAN, EQUAL);
 	}
 }

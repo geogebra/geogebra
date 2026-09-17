@@ -24,10 +24,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * adapted from AlgoJoin
- * 
+ *
  * @author Simon
  * @version 2011-11-15
- * 
+ *
  */
 public class AlgoFlatten extends AlgoElement {
 
@@ -103,5 +103,4 @@ public class AlgoFlatten extends AlgoElement {
 			}
 		}
 	}
-
 }

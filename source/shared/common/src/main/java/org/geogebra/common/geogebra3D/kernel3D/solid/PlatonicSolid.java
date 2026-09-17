@@ -57,5 +57,4 @@ public class PlatonicSolid {
 	public int[][] getFaces() {
 		return faces;
 	}
-
 }

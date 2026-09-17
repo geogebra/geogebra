@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * PolyPolygon TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: PolyPolygon.java,v 1.4 2009-08-17 21:44:44 murkle Exp $
  */
@@ -29,8 +29,7 @@ public class PolyPolygon extends EMFTag {
 		super(8, 1);
 	}
 
-	public PolyPolygon(Rectangle bounds, int start, int end,
-			int[] numberOfPoints, Point[][] points) {
+	public PolyPolygon(Rectangle bounds, int start, int end, int[] numberOfPoints, Point[][] points) {
 		this();
 		this.bounds = bounds;
 		this.start = start;
@@ -40,8 +39,7 @@ public class PolyPolygon extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
 		Rectangle bounds = emf.readRECTL();
 		int np = emf.readDWORD();
@@ -78,7 +76,7 @@ public class PolyPolygon extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-				+ "  #polys: " + (end - start + 1);
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n" + "  #polys: "
+				+ (end - start + 1);
 	}
 }

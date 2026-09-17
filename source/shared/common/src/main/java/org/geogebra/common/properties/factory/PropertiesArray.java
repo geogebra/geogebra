@@ -37,8 +37,7 @@ public class PropertiesArray {
 	 * @param name name
 	 * @param properties properties
 	 */
-	public PropertiesArray(@Nullable String name, Localization localization,
-			Property... properties) {
+	public PropertiesArray(@Nullable String name, Localization localization, Property... properties) {
 		this.rawName = name;
 		this.localization = localization;
 		this.properties = properties;
@@ -48,8 +47,8 @@ public class PropertiesArray {
 	 * @param name The name of the array.
 	 * @param properties The list of properties.
 	 */
-	public PropertiesArray(@Nullable String name, Localization localization,
-			List<Property> properties) {
+	public PropertiesArray(
+			@Nullable String name, Localization localization, List<Property> properties) {
 		this.rawName = name;
 		this.localization = localization;
 		this.properties = properties.toArray(new Property[0]);

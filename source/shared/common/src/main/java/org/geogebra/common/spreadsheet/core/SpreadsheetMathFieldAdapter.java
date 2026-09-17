@@ -27,8 +27,8 @@ import org.jspecify.annotations.NonNull;
 /**
  * Adapts between a MathFieldInternal, spreadsheet input processing, and the SpreadsheetController.
  */
-final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledKeyListener,
-		MathFieldInternalListener {
+final class SpreadsheetMathFieldAdapter
+		implements MathFieldListener, UnhandledKeyListener, MathFieldInternalListener {
 
 	private final MathFieldInternal mathField;
 	private final int row, column;
@@ -39,8 +39,10 @@ final class SpreadsheetMathFieldAdapter implements MathFieldListener, UnhandledK
 	 * @param mathField math input
 	 *
 	 */
-	SpreadsheetMathFieldAdapter(@NonNull MathFieldInternal mathField,
-			int row, int column,
+	SpreadsheetMathFieldAdapter(
+			@NonNull MathFieldInternal mathField,
+			int row,
+			int column,
 			@NonNull SpreadsheetCellProcessor cellProcessor,
 			@NonNull SpreadsheetController spreadsheetController) {
 		this.mathField = mathField;

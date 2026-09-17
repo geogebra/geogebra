@@ -32,12 +32,9 @@ import org.geogebra.common.main.App;
  * @author laszlo
  */
 public class ViewAltTexts {
-	private static final List<Integer> availableViews = Arrays.asList(
-			App.VIEW_EUCLIDIAN,
-			App.VIEW_EUCLIDIAN2,
-			App.VIEW_EUCLIDIAN3D);
-	private static final HashMap<Integer, String>
-			altTextsPerView = new HashMap<>();
+	private static final List<Integer> availableViews =
+			Arrays.asList(App.VIEW_EUCLIDIAN, App.VIEW_EUCLIDIAN2, App.VIEW_EUCLIDIAN3D);
+	private static final HashMap<Integer, String> altTextsPerView = new HashMap<>();
 	private List<Integer> visibleViews;
 
 	static {
@@ -85,9 +82,7 @@ public class ViewAltTexts {
 		GeoElement geoElement = viewIndex >= 0 && viewIndex < visibleViews.size()
 				? kernel.lookupLabel(get(viewIndex))
 				: null;
-		return (geoElement == null || geoElement.isEuclidianVisible())
-				? null
-				: geoElement;
+		return (geoElement == null || geoElement.isEuclidianVisible()) ? null : geoElement;
 	}
 
 	private String get(int index) {

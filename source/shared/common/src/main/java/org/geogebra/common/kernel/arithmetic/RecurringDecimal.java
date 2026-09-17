@@ -62,8 +62,8 @@ public class RecurringDecimal extends MyDouble {
 	 */
 	public String toFraction(StringTemplate tpl) {
 		ExpressionNode expression = wrap();
-		return Fractions.getResolution(expression, expression.getKernel(),
-				false, true).toValueString(tpl);
+		return Fractions.getResolution(expression, expression.getKernel(), false, true)
+				.toValueString(tpl);
 	}
 
 	/**
@@ -98,14 +98,13 @@ public class RecurringDecimal extends MyDouble {
 	 * @param recurring the recurring digits
 	 * @return the new, RecurringDecimal instance.
 	 */
-	public static RecurringDecimal parse(Kernel kernel, String preperiod,
-			String recurring) {
-		return new RecurringDecimal(kernel, parseProperties(kernel.getLocalization(),
-				preperiod, recurring));
+	public static RecurringDecimal parse(Kernel kernel, String preperiod, String recurring) {
+		return new RecurringDecimal(
+				kernel, parseProperties(kernel.getLocalization(), preperiod, recurring));
 	}
 
-	private static RecurringDecimalModel parseProperties(Localization loc, String preperiodUtf,
-			String recurringUtf) {
+	private static RecurringDecimalModel parseProperties(
+			Localization loc, String preperiodUtf, String recurringUtf) {
 		String preperiod = convertToLatinCharacters(preperiodUtf);
 		String recurring = convertToLatinCharacters(recurringUtf);
 		try {

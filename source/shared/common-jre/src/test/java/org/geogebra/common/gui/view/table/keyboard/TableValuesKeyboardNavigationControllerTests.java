@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -87,8 +87,10 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 		if (focusedCell == null) {
 			return null;
 		}
-		return tableValuesView.getTableValuesModel()
-				.getCellAt(focusedCell.row, focusedCell.column).getInput();
+		return tableValuesView
+				.getTableValuesModel()
+				.getCellAt(focusedCell.row, focusedCell.column)
+				.getInput();
 	}
 
 	// Not an actual test - this is just a testbed to run a certain sequence of modifications,
@@ -1038,15 +1040,13 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 	//  TableValuesListener
 
 	@Override
-	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		trace("notifyColumnRemoved(" + column + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
-	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		trace("notifyColumnChanged(" + column + ")");
 		didReportModelChanged = true;
 	}
@@ -1058,15 +1058,15 @@ class TableValuesKeyboardNavigationControllerTests extends BaseAppTestSetup
 	}
 
 	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnHeaderChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		trace("notifyColumnHeaderChanged(" + column + ")");
 		didReportModelChanged = true;
 	}
 
 	@Override
-	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
-			int row) {
+	public void notifyCellChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column, int row) {
 		trace("notifyCellChanged(" + row + ", " + column + ")");
 		didReportModelChanged = true;
 	}

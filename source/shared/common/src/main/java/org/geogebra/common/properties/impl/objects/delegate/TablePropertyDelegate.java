@@ -21,8 +21,7 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 
 public class TablePropertyDelegate extends AbstractGeoElementDelegate {
 
-	public TablePropertyDelegate(GeoElement element)
-			throws NotApplicablePropertyException {
+	public TablePropertyDelegate(GeoElement element) throws NotApplicablePropertyException {
 		super(element);
 	}
 

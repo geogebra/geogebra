@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -33,7 +33,7 @@ import org.geogebra.common.move.views.EventRenderable;
 /**
  * The desktop version of the login operation. uses an own AuthenticationModel
  * and an own implementation of the API
- * 
+ *
  * @author stefan
  */
 public class LoginOperationD extends LogInOperation {
@@ -75,9 +75,9 @@ public class LoginOperationD extends LogInOperation {
 
 	@Override
 	protected String getURLClientInfo() {
-		return UtilFactory.getPrototype().newURLEncoder()
-				.encode("GeoGebra Desktop Application V"
-				+ GeoGebraConstants.VERSION_STRING);
+		return UtilFactory.getPrototype()
+				.newURLEncoder()
+				.encode("GeoGebra Desktop Application V" + GeoGebraConstants.VERSION_STRING);
 	}
 
 	@Override
@@ -91,5 +91,4 @@ public class LoginOperationD extends LogInOperation {
 		// call the gui event on the Event dispatch thread.
 		SwingUtilities.invokeLater(() -> LoginOperationD.super.dispatchEvent(event));
 	}
-
 }

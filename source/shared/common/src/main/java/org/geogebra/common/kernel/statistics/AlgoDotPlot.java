@@ -28,22 +28,21 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Create a dot plot.
- * 
+ *
  * Input: list of unsorted raw numeric data Output: sorted list of points
  * forming a dot plot of the raw data
- * 
+ *
  * A dot plot is a set of points for which: x coordinates = values from a list
  * of numeric data y coordinates = number of times the x data value has occurred
- * 
+ *
  * example: raw data = { 5,11,12,12,12,5 } dot plot = { (5,1), (5,2), (11,1),
  * (12,1), (12,2), (12,3) }
- * 
+ *
  * Adapted from AlgoSort and AlgoPointList
- * 
+ *
  * @author G.Sturr
  * @version 2010-8-10
  */
-
 public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 
 	private GeoList inputList; // input
@@ -61,20 +60,18 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		this(cons, inputList, null, null);
 	}
 
-	protected AlgoDotPlot(Construction cons, String label, GeoList inputList,
-			GeoNumeric scale) {
+	protected AlgoDotPlot(Construction cons, String label, GeoList inputList, GeoNumeric scale) {
 		this(cons, inputList, null, scale);
 		outputList.setLabel(label);
 	}
 
-	protected AlgoDotPlot(Construction cons, String label, GeoList inputList,
-			GeoBoolean stackDots) {
+	protected AlgoDotPlot(Construction cons, String label, GeoList inputList, GeoBoolean stackDots) {
 		this(cons, inputList, stackDots, null);
 		outputList.setLabel(label);
 	}
 
-	protected AlgoDotPlot(Construction cons, GeoList inputList,
-			GeoBoolean stackDots, GeoNumeric scale) {
+	protected AlgoDotPlot(
+			Construction cons, GeoList inputList, GeoBoolean stackDots, GeoNumeric scale) {
 		super(cons);
 		this.inputList = inputList;
 		this.stackAdjacentDots = stackDots;
@@ -89,7 +86,6 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		};
 		setInputOutput();
 		compute();
-
 	}
 
 	@Override
@@ -178,20 +174,17 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 			for (int y = 1; y <= height; y++) {
 				double scaledY = getScaledY(y);
 				if (index < oldListSize) {
-					((GeoPoint) outputList.get(index)).setCoords(x, scaledY,
-							1.0);
+					((GeoPoint) outputList.get(index)).setCoords(x, scaledY, 1.0);
 				} else {
 					outputList.addPoint(x, scaledY, 1.0, null);
 				}
 				index++;
 			}
-
 		}
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param y
 	 *            current height
 	 * @return scaled y
@@ -233,5 +226,4 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	public double getScaleFactor() {
 		return scaleFactor;
 	}
-
 }

@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Draws upper / lower sum of a GeoFunction
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class DrawUpperLowerSum extends Drawable {
@@ -47,7 +47,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 	/**
 	 * Creates graphical representation of the sum / barchart /...
-	 * 
+	 *
 	 * @param view
 	 *            Euclidian view to be drawn into
 	 * @param n
@@ -73,7 +73,7 @@ public class DrawUpperLowerSum extends Drawable {
 	}
 
 	@Override
-	final public void update() {
+	public final void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
@@ -126,8 +126,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 			if (trapeziums) {
 				gp.lineTo(x, coords[1]); // top
-			}
-			else {
+			} else {
 				gp.lineTo(x, y); // top
 			}
 
@@ -187,7 +186,6 @@ public class DrawUpperLowerSum extends Drawable {
 			gp.lineTo(x0, height); // up
 			gp.lineTo(x1, height); // along
 			gp.lineTo(x1, base); // down
-
 		}
 
 		gp.lineTo(view.toScreenCoordXd(leftBorder[0]), base);
@@ -200,17 +198,16 @@ public class DrawUpperLowerSum extends Drawable {
 		}
 
 		if (labelVisible) {
-			xLabel = (view.toScreenCoordX(leftBorder[0])
-					+ view.toScreenCoordX(leftBorder[N - 1])) / 2 - 6;
+			xLabel =
+					(view.toScreenCoordX(leftBorder[0]) + view.toScreenCoordX(leftBorder[N - 1])) / 2 - 6;
 			yLabel = (int) view.getYZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
-
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		if (isVisible) {
 			try {
 				if (isHighlighted()) {
@@ -224,7 +221,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 			try {
 				fill(g2, gp.getGeneralPath()); // fill using default/hatching/image as
-								// appropriate
+				// appropriate
 			} catch (Exception e) {
 				Log.debug(e);
 			}
@@ -248,13 +245,12 @@ public class DrawUpperLowerSum extends Drawable {
 	}
 
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
-		return gp != null
-				&& (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
+	public final boolean hit(int x, int y, int hitThreshold) {
+		return gp != null && (gp.contains(x, y) || gp.intersects(x - 3, y - 3, 6, 6));
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return false;
 	}
 
@@ -267,11 +263,10 @@ public class DrawUpperLowerSum extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		return gp.getBounds();
 	}
-
 }

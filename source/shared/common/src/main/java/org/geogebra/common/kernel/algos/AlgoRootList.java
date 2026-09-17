@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * RootList[{1,2,3}] makes { (1,0) (2,0), (3,0) }. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 04-04-2010
  */
-
 public class AlgoRootList extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -95,5 +94,4 @@ public class AlgoRootList extends AlgoElement {
 		}
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
-
 }

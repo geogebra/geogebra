@@ -30,7 +30,7 @@ public class CmdSetFilling extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -43,21 +43,21 @@ public class CmdSetFilling extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
-			GeoElement[] arg = resArgs(c);
-			if (arg[1].isNumberValue()) {
+			case 2:
+				GeoElement[] arg = resArgs(c);
+				if (arg[1].isNumberValue()) {
 
-				GeoElement geo = arg[0];
+					GeoElement geo = arg[0];
 
-				geo.setAlphaValue(arg[1].evaluateDouble());
-				geo.updateVisualStyleRepaint(GProperty.COLOR);
+					geo.setAlphaValue(arg[1].evaluateDouble());
+					geo.updateVisualStyleRepaint(GProperty.COLOR);
 
-				return arg;
-			}
-			throw argErr(c, arg[1]);
+					return arg;
+				}
+				throw argErr(c, arg[1]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

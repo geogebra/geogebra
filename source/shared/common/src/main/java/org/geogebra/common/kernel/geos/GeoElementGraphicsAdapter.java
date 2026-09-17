@@ -22,7 +22,7 @@ import org.geogebra.common.util.Util;
 
 /**
  * Handles fill image of GeoElement
- * 
+ *
  * @author Arpad
  */
 @HasNativeSubclass
@@ -96,5 +96,4 @@ public abstract class GeoElementGraphicsAdapter {
 	public String toLaTeXStringBase64() {
 		return "";
 	}
-
 }

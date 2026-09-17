@@ -44,7 +44,7 @@ import org.geogebra.common.plugin.Operation;
 public class CmdFunction extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -56,34 +56,34 @@ public class CmdFunction extends CommandProcessor {
 	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 0:
-			return CmdDataFunction.emptyFunction(kernel, c.getLabel());
-		case 1:
-			GeoElement[] arg = resArgs(c, info);
-			if (arg[0].isGeoList()) {
+			case 0:
+				return CmdDataFunction.emptyFunction(kernel, c.getLabel());
+			case 1:
+				GeoElement[] arg = resArgs(c, info);
+				if (arg[0].isGeoList()) {
 
-				AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons,
-						c.getLabel(), (GeoList) arg[0]);
+					AlgoFunctionFreehand algo =
+							new AlgoFunctionFreehand(cons, c.getLabel(), (GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getFunction() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		case 4:
-			String varName = c.getArgument(1).toString(StringTemplate.defaultTemplate);
-			c.setArgument(1, c.getArgument(2));
-			c.setArgument(2, c.getArgument(3));
-			return process1VarFunction(c, varName, info);
-		case 3:
+					GeoElement[] ret = {algo.getFunction()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
+			case 4:
+				String varName = c.getArgument(1).toString(StringTemplate.defaultTemplate);
+				c.setArgument(1, c.getArgument(2));
+				c.setArgument(2, c.getArgument(3));
+				return process1VarFunction(c, varName, info);
+			case 3:
 
-			// file might be saved with old Function[sin(x),1,2]
-			return process1VarFunction(c, null, info);
-		case 7:
-			return process2VarFunction(c, info);
-		case 5:
-			return process2VarFunctionXY(c, info);
-		default:
-			throw argNumErr(c);
+				// file might be saved with old Function[sin(x),1,2]
+				return process1VarFunction(c, null, info);
+			case 7:
+				return process2VarFunction(c, info);
+			case 5:
+				return process2VarFunctionXY(c, info);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -95,12 +95,18 @@ public class CmdFunction extends CommandProcessor {
 				&& (ok[2] = arg[2] instanceof GeoNumberValue) // x to
 				&& (ok[3] = arg[3] instanceof GeoNumberValue) // y from
 				&& (ok[4] = arg[4] instanceof GeoNumberValue) // y to
-
 		) {
-			GeoElement[] ret = { kernel.getManager3D().function2Var(
-					c.getLabel(), (GeoFunctionNVar) arg[0],
-					(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-					(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]) };
+			GeoElement[] ret = {
+				kernel
+						.getManager3D()
+						.function2Var(
+								c.getLabel(),
+								(GeoFunctionNVar) arg[0],
+								(GeoNumberValue) arg[1],
+								(GeoNumberValue) arg[2],
+								(GeoNumberValue) arg[3],
+								(GeoNumberValue) arg[4])
+			};
 			return ret;
 		}
 		throw argErr(c, getBadArg(ok, arg));
@@ -113,11 +119,9 @@ public class CmdFunction extends CommandProcessor {
 		FunctionVariable fv;
 		if (!cons.isFileLoading()) {
 			fv = null;
-			if (varName != null || kernel.getConstruction()
-					.hasRegisteredFunctionVariable()) {
+			if (varName != null || kernel.getConstruction().hasRegisteredFunctionVariable()) {
 				if (varName == null) {
-					varName = kernel.getConstruction()
-							.getRegisteredFunctionVariables()[0];
+					varName = kernel.getConstruction().getRegisteredFunctionVariables()[0];
 				}
 				fv = new FunctionVariable(kernel, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
@@ -148,42 +152,36 @@ public class CmdFunction extends CommandProcessor {
 
 				// copied from CmdIf from here
 
-				ExpressionNode expr = new ExpressionNode(kernel,
-						interval,
-						Operation.IF, wrap(geoFun, fv, mayUseIndependent));
+				ExpressionNode expr =
+						new ExpressionNode(kernel, interval, Operation.IF, wrap(geoFun, fv, mayUseIndependent));
 
 				Function fun = new Function(expr, fv);
 				GeoFunction gf;
 				if (mayUseIndependent) {
 					gf = new GeoFunction(cons, fun);
 				} else {
-					AlgoDependentFunction algo = new AlgoDependentFunction(
-							cons, fun, true);
+					AlgoDependentFunction algo = new AlgoDependentFunction(cons, fun, true);
 					gf = algo.getFunction();
 				}
 				String label = c.getLabel();
 				gf.setLabel(label);
 				gf.validate(label == null);
-				return new GeoElement[] { gf };
-
+				return new GeoElement[] {gf};
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		}
 
 		// old code, just for when file loading
 		EvalInfo argInfo = info.withLabels(false);
-		if (varName != null || kernel.getConstruction()
-				.hasRegisteredFunctionVariable()) {
+		if (varName != null || kernel.getConstruction().hasRegisteredFunctionVariable()) {
 			if (varName == null) {
-				varName = kernel.getConstruction()
-						.getRegisteredFunctionVariables()[0];
+				varName = kernel.getConstruction().getRegisteredFunctionVariables()[0];
 			}
 			fv = new FunctionVariable(kernel, varName);
 			int r = c.getArgument(0).replaceVariables(varName, fv);
 			c.getArgument(0).replaceVariables(varName, fv);
 			if (r > 0) {
-				final boolean oldFlag = kernel.getConstruction()
-						.isSuppressLabelsActive();
+				final boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 				kernel.getConstruction().setSuppressLabelCreation(true);
 
 				c.getArgument(1).resolveVariables(argInfo);
@@ -192,20 +190,16 @@ public class CmdFunction extends CommandProcessor {
 				GeoFunction condFun;
 				if (c.getArgument(0).unwrap() instanceof Command) {
 					condFun = (GeoFunction) kernel.getAlgebraProcessor()
-							.processCommand(
-									(Command) c.getArgument(0).unwrap(),
-									silent)[0];
+							.processCommand((Command) c.getArgument(0).unwrap(), silent)[0];
 				} else {
 					c.getArgument(0).resolveVariables(argInfo);
 					condFun = (GeoFunction) kernel.getAlgebraProcessor()
-							.processFunction(
-									new Function(c.getArgument(0), fv),
-									silent)[0];
+							.processFunction(new Function(c.getArgument(0), fv), silent)[0];
 				}
-				GeoElement low = kernel.getAlgebraProcessor()
-						.processExpressionNode(c.getArgument(1), silent)[0];
-				GeoElement high = kernel.getAlgebraProcessor()
-						.processExpressionNode(c.getArgument(2), silent)[0];
+				GeoElement low =
+						kernel.getAlgebraProcessor().processExpressionNode(c.getArgument(1), silent)[0];
+				GeoElement high =
+						kernel.getAlgebraProcessor().processExpressionNode(c.getArgument(2), silent)[0];
 				if (!(low instanceof NumberValue)) {
 					throw argErr(c, low);
 				}
@@ -216,17 +210,19 @@ public class CmdFunction extends CommandProcessor {
 				c.getArgument(0).resolveVariables(argInfo);
 
 				kernel.getConstruction().setSuppressLabelCreation(oldFlag);
-				return new GeoElement[] { function(c.getLabel(), condFun,
-						(GeoNumberValue) low, (GeoNumberValue) high) };
+				return new GeoElement[] {
+					function(c.getLabel(), condFun, (GeoNumberValue) low, (GeoNumberValue) high)
+				};
 			}
 		}
 		arg = resArgs(c, info);
 		if ((ok[0] = arg[0].isRealValuedFunction())
 				&& (ok[1] = arg[1] instanceof GeoNumberValue)
 				&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-			GeoElement[] ret = { function(c.getLabel(),
-					(GeoFunctionable) arg[0],
-					(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
+			GeoElement[] ret = {
+				function(c.getLabel(), (GeoFunctionable) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue)
+						arg[2])
+			};
 			return ret;
 		}
 		throw argErr(c, getBadArg(ok, arg));
@@ -239,21 +235,18 @@ public class CmdFunction extends CommandProcessor {
 	 * @param high upper bound
 	 * @return expression low &lt;= fv &lt;= high
 	 */
-	public static ExpressionNode buildInterval(Kernel kernel, GeoNumberValue low,
-			FunctionVariable fv, GeoNumberValue high) {
-		ExpressionNode left = new ExpressionNode(kernel, low,
-				Operation.LESS_EQUAL, fv);
-		ExpressionNode right = new ExpressionNode(kernel, fv,
-				Operation.LESS_EQUAL, high);
+	public static ExpressionNode buildInterval(
+			Kernel kernel, GeoNumberValue low, FunctionVariable fv, GeoNumberValue high) {
+		ExpressionNode left = new ExpressionNode(kernel, low, Operation.LESS_EQUAL, fv);
+		ExpressionNode right = new ExpressionNode(kernel, fv, Operation.LESS_EQUAL, high);
 		return new ExpressionNode(kernel, left, Operation.AND_INTERVAL, right);
 	}
 
 	private GeoElement[] process2VarFunction(Command c, EvalInfo info) {
 		// create local variable at position 3 and resolve arguments
-		GeoElement[] arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 }, info);
+		GeoElement[] arg = resArgsLocalNumVar(c, new int[] {1, 4}, new int[] {2, 5}, info);
 		boolean[] ok = new boolean[c.getArgumentNumber()];
-		if ((ok[0] = arg[0] instanceof GeoNumberValue
-				|| arg[0] instanceof GeoFunctionNVar) // function
+		if ((ok[0] = arg[0] instanceof GeoNumberValue || arg[0] instanceof GeoFunctionNVar) // function
 				&& (ok[1] = arg[1].isGeoNumeric()) // first var
 				&& (ok[2] = arg[2] instanceof GeoNumberValue) // from
 				&& (ok[3] = arg[3] instanceof GeoNumberValue) // to
@@ -264,48 +257,69 @@ public class CmdFunction extends CommandProcessor {
 			if (arg[0] instanceof GeoFunctionNVar) {
 				if ("x".equals(arg[1].getLabelSimple())) {
 					GeoElement[] ret = {
-							kernel.getManager3D().function2Var(
-									c.getLabel(), (GeoFunctionNVar) arg[0],
+						kernel
+								.getManager3D()
+								.function2Var(
+										c.getLabel(),
+										(GeoFunctionNVar) arg[0],
+										(GeoNumberValue) arg[2],
+										(GeoNumberValue) arg[3],
+										(GeoNumberValue) arg[5],
+										(GeoNumberValue) arg[6])
+					};
+					return ret;
+				}
+				GeoElement[] ret = {
+					kernel
+							.getManager3D()
+							.function2Var(
+									c.getLabel(),
+									(GeoFunctionNVar) arg[0],
 									(GeoNumberValue) arg[2],
 									(GeoNumberValue) arg[3],
 									(GeoNumberValue) arg[5],
-									(GeoNumberValue) arg[6]) };
-					return ret;
-				}
-				GeoElement[] ret = { kernel.getManager3D().function2Var(
-						c.getLabel(), (GeoFunctionNVar) arg[0],
-						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
-						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
+									(GeoNumberValue) arg[6])
+				};
 				return ret;
 			}
-			GeoElement[] ret = { kernel.getManager3D().function2Var(
-					c.getLabel(), (GeoNumberValue) arg[0],
-					(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
-					(GeoNumberValue) arg[3], (GeoNumeric) arg[4],
-					(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
+			GeoElement[] ret = {
+				kernel
+						.getManager3D()
+						.function2Var(
+								c.getLabel(),
+								(GeoNumberValue) arg[0],
+								(GeoNumeric) arg[1],
+								(GeoNumberValue) arg[2],
+								(GeoNumberValue) arg[3],
+								(GeoNumeric) arg[4],
+								(GeoNumberValue) arg[5],
+								(GeoNumberValue) arg[6])
+			};
 			return ret;
 		}
 
 		throw argErr(c, getBadArg(ok, arg));
 	}
 
-	private ExpressionNode wrap(GeoFunctionable boolFun, FunctionVariable fv,
-			boolean mayUseIndependent) {
+	private ExpressionNode wrap(
+			GeoFunctionable boolFun, FunctionVariable fv, boolean mayUseIndependent) {
 		if (!mayUseIndependent) {
 			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION, fv);
 		}
-		return boolFun.getFunction().getFunctionExpression()
-				.deepCopy(kernel).traverse(VariablePolyReplacer.getReplacer(fv))
+		return boolFun
+				.getFunction()
+				.getFunctionExpression()
+				.deepCopy(kernel)
+				.traverse(VariablePolyReplacer.getReplacer(fv))
 				.wrap();
 	}
 
 	/**
 	 * function limited to interval [a, b]
 	 */
-	private GeoFunction function(String label, GeoFunctionable f,
-			GeoNumberValue a, GeoNumberValue b) {
-		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, f, a,
-				b);
+	private GeoFunction function(
+			String label, GeoFunctionable f, GeoNumberValue a, GeoNumberValue b) {
+		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, f, a, b);
 		GeoFunction g = algo.getFunction();
 		g.setLabel(label);
 		return g;

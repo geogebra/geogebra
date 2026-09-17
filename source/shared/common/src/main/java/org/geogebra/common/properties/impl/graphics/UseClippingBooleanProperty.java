@@ -22,7 +22,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class UseClippingBooleanProperty extends AbstractValuedProperty<Boolean>
-	implements BooleanProperty {
+		implements BooleanProperty {
 	private final EuclidianView3D euclidianView;
 
 	/**

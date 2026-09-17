@@ -121,7 +121,7 @@ public abstract class SliderAbstract<T> extends FocusWidget {
 	 * Notify change handlers.
 	 */
 	public void notifyValueChangeHandlers() {
-		for (ValueChangeHandler<T> handler: valueChangeHandlers) {
+		for (ValueChangeHandler<T> handler : valueChangeHandlers) {
 			handler.onValueChange(new SliderValueChangeEvent<>(getValue()));
 		}
 	}
@@ -137,4 +137,3 @@ public abstract class SliderAbstract<T> extends FocusWidget {
 		}
 	}
 }
-

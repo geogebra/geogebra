@@ -28,9 +28,9 @@ import org.geogebra.common.main.MyError;
 
 /**
  * TrigCombine[&lt;Function&gt;]
- * 
+ *
  * TrigCombine[&lt;Function&gt;, &lt;Target Function&gt;]
- * 
+ *
  * @author Zbynek Konecny
  */
 public class CmdTrigCombine extends CommandProcessor implements UsesCAS {
@@ -51,28 +51,27 @@ public class CmdTrigCombine extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
-			if (arg[0].isCasEvaluableObject()) {
-				AlgoTrigCombine algo = new AlgoTrigCombine(
-						kernel.getConstruction(), c.getLabel(),
-						(CasEvaluableFunction) arg[0], null, info);
-				return new GeoElement[] { algo.getResult() };
-			}
-		case 2:
-			if (arg[0].isCasEvaluableObject()
-					&& (arg[1] instanceof GeoFunction)) {
-				AlgoTrigCombine algo = new AlgoTrigCombine(
-						kernel.getConstruction(), c.getLabel(),
-						(CasEvaluableFunction) arg[0], (GeoFunction) arg[1],
-						info);
-				return new GeoElement[] { algo.getResult() };
-			}
-			throw argErr(c, arg[0]);
+			case 1:
+				if (arg[0].isCasEvaluableObject()) {
+					AlgoTrigCombine algo = new AlgoTrigCombine(
+							kernel.getConstruction(), c.getLabel(), (CasEvaluableFunction) arg[0], null, info);
+					return new GeoElement[] {algo.getResult()};
+				}
+			case 2:
+				if (arg[0].isCasEvaluableObject() && (arg[1] instanceof GeoFunction)) {
+					AlgoTrigCombine algo = new AlgoTrigCombine(
+							kernel.getConstruction(),
+							c.getLabel(),
+							(CasEvaluableFunction) arg[0],
+							(GeoFunction) arg[1],
+							info);
+					return new GeoElement[] {algo.getResult()};
+				}
+				throw argErr(c, arg[0]);
 
 			// more than one argument
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

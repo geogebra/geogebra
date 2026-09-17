@@ -46,82 +46,85 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ExpressionRestrictionTests {
-    private App app;
-    private AlgebraProcessor algebraProcessor;
-    private final ExpressionFilter expressionFilter = ExpressionRestriction.toFilter(Set.of(
-            new RestrictBooleanExpressions(),
-            new AllowBooleanCommandArguments(),
-            new RestrictPlusOperation()));
+	private App app;
+	private AlgebraProcessor algebraProcessor;
+	private final ExpressionFilter expressionFilter = ExpressionRestriction.toFilter(Set.of(
+			new RestrictBooleanExpressions(),
+			new AllowBooleanCommandArguments(),
+			new RestrictPlusOperation()));
 
-    private static final class RestrictPlusOperation implements ExpressionRestriction {
+	private static final class RestrictPlusOperation implements ExpressionRestriction {
 		@Override
 		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
-                @NonNull ExpressionValue expression) {
-            return filter(expression, subExpression -> subExpression.isOperation(Operation.PLUS));
-        }
-    }
+				@NonNull ExpressionValue expression) {
+			return filter(expression, subExpression -> subExpression.isOperation(Operation.PLUS));
+		}
+	}
 
-    private static final class RestrictBooleanExpressions implements ExpressionRestriction {
+	private static final class RestrictBooleanExpressions implements ExpressionRestriction {
 		@Override
 		public @NonNull Set<ExpressionValue> getRestrictedSubExpressions(
-                @NonNull ExpressionValue expression) {
-            return filter(expression, subExpression -> subExpression instanceof BooleanValue);
-        }
-    }
+				@NonNull ExpressionValue expression) {
+			return filter(expression, subExpression -> subExpression instanceof BooleanValue);
+		}
+	}
 
-    private static final class AllowBooleanCommandArguments implements ExpressionRestriction {
+	private static final class AllowBooleanCommandArguments implements ExpressionRestriction {
 		@Override
-		public @NonNull Set<ExpressionValue> getAllowedSubExpressions(@NonNull ExpressionValue expression) {
-            return streamOf(expression)
-                    // For commands
-                    .filter(subExpression -> subExpression instanceof Command)
-                    .map(command -> (Command) command)
-                    // iterate through the arguments
-                    .flatMap(command -> Arrays.stream(command.getArguments())
-                            .map(ExpressionNode::unwrap)
-                            // and allow booleans
-                            .filter(argument -> argument instanceof BooleanValue)
-                    ).collect(Collectors.toSet());
-        }
-    }
+		public @NonNull Set<ExpressionValue> getAllowedSubExpressions(
+				@NonNull ExpressionValue expression) {
+			return streamOf(expression)
+					// For commands
+					.filter(subExpression -> subExpression instanceof Command)
+					.map(command -> (Command) command)
+					// iterate through the arguments
+					.flatMap(command -> Arrays.stream(command.getArguments())
+							.map(ExpressionNode::unwrap)
+							// and allow booleans
+							.filter(argument -> argument instanceof BooleanValue))
+					.collect(Collectors.toSet());
+		}
+	}
 
 	@BeforeEach
 	void setup() {
-        app = AppCommonFactory.create(new AppConfigGraphing());
-        algebraProcessor = app.getKernel().getAlgebraProcessor();
-        algebraProcessor.addInputExpressionFilter(expressionFilter);
-        algebraProcessor.addOutputExpressionFilter(expressionFilter);
-        app.getSettingsUpdater().resetSettingsOnAppStart();
-    }
+		app = AppCommonFactory.create(new AppConfigGraphing());
+		algebraProcessor = app.getKernel().getAlgebraProcessor();
+		algebraProcessor.addInputExpressionFilter(expressionFilter);
+		algebraProcessor.addOutputExpressionFilter(expressionFilter);
+		app.getSettingsUpdater().resetSettingsOnAppStart();
+	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"1 * 2",
-			"(1 * 2) / (5 ^(2 - 3))",
-			"1 * BinomialDist(5, 0.5, 2, true)",
-    })
+	@ValueSource(
+			strings = {
+				"1 * 2",
+				"(1 * 2) / (5 ^(2 - 3))",
+				"1 * BinomialDist(5, 0.5, 2, true)",
+			})
 	void testNewAllowedExpressions(String expression) {
-        assertNotNull(evaluate(expression));
-    }
+		assertNotNull(evaluate(expression));
+	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"true",
-			"false",
-			"true && false",
-			"5 > 2 ≟ 5 < 2",
-			"(1 * 2) / (5 ^(2 - true))",
-			"(1 * 2) / (5 ^(2 + 3))",
-			"1 * BinomialDist(5, 0.5, 2, true && true)",
-			"1 * BinomialDist(5, 0.5, true * 2, true)"
-	})
+	@ValueSource(
+			strings = {
+				"true",
+				"false",
+				"true && false",
+				"5 > 2 ≟ 5 < 2",
+				"(1 * 2) / (5 ^(2 - true))",
+				"(1 * 2) / (5 ^(2 + 3))",
+				"1 * BinomialDist(5, 0.5, 2, true && true)",
+				"1 * BinomialDist(5, 0.5, true * 2, true)"
+			})
 	void testNewRestrictedExpressions(String expression) {
-        assertNull(evaluate(expression));
-    }
+		assertNull(evaluate(expression));
+	}
 
-    private GeoElementND[] evaluate(String expression) {
-        EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
-        return algebraProcessor.processAlgebraCommandNoExceptionHandling(
-                expression, false, new ErrorAccumulator(), evalInfo, null);
-    }
+	private GeoElementND[] evaluate(String expression) {
+		EvalInfo evalInfo = EvalInfoFactory.getEvalInfoForAV(app, false);
+		return algebraProcessor.processAlgebraCommandNoExceptionHandling(
+				expression, false, new ErrorAccumulator(), evalInfo, null);
+	}
 }

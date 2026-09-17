@@ -76,12 +76,14 @@ public class URLValidatorTest {
 
 	@Test
 	public void testUrlWithBracketsCoded() {
-		assertTrue(validator.isValid("https://de.wikipedia.org/w/index.php?title=%28Parabel_Mathematik%28"));
+		assertTrue(
+				validator.isValid("https://de.wikipedia.org/w/index.php?title=%28Parabel_Mathematik%28"));
 	}
 
 	@Test
 	public void testUrlWithBrackets() {
-		assertTrue(validator.isValid("https://de.wikipedia.org/w/index.php?title=(Parabel_Mathematik)"));
+		assertTrue(
+				validator.isValid("https://de.wikipedia.org/w/index.php?title=(Parabel_Mathematik)"));
 	}
 
 	@Test

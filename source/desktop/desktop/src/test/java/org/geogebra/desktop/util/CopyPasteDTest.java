@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.desktop.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -63,11 +63,14 @@ class CopyPasteDTest {
 		copy.insertFrom(fromApp, toApp, Collections.emptySet(), false);
 
 		assertEquals(Arrays.asList("s", "c"), Arrays.asList(toApp.getGgbApi().getAllObjectNames()));
-		assertThat(toApp.getKernel().lookupLabel("s").getDefinitionForEditor(),
+		assertThat(
+				toApp.getKernel().lookupLabel("s").getDefinitionForEditor(),
 				equalTo("s=Sequence(2 k,k,1,3)"));
-		assertThat(toApp.getKernel().lookupLabel("c").getDefinitionForEditor(),
+		assertThat(
+				toApp.getKernel().lookupLabel("c").getDefinitionForEditor(),
 				equalTo("c=Curve(sin(t),cos(t),t,0,2)"));
-		assertThat(toApp.getKernel().lookupLabel("c").toString(StringTemplate.testTemplate),
+		assertThat(
+				toApp.getKernel().lookupLabel("c").toString(StringTemplate.testTemplate),
 				equalTo("c:(sin(t), cos(t))"));
 	}
 
@@ -105,12 +108,10 @@ class CopyPasteDTest {
 		copy.insertFrom(fromApp, toApp, Set.of("C"), true);
 
 		assertThat(getLabeledGeosSize(toApp), equalTo(3));
-		assertThat(toApp.getKernel().lookupLabel("C").getDefinitionForEditor(),
-				equalTo("C=$point(1,2)"));
-		assertTrue(getLabels().contains("C"),
-				"The element labeled <C> should exist!");
-		assertFalse(getLabels().contains("C_{1}"),
-				"There should be no indexed label <C_{1]>!");
+		assertThat(
+				toApp.getKernel().lookupLabel("C").getDefinitionForEditor(), equalTo("C=$point(1,2)"));
+		assertTrue(getLabels().contains("C"), "The element labeled <C> should exist!");
+		assertFalse(getLabels().contains("C_{1}"), "There should be no indexed label <C_{1]>!");
 	}
 
 	@Test
@@ -121,7 +122,7 @@ class CopyPasteDTest {
 		processCommand(toApp, "A = (1, 3)", false);
 		copy.insertFrom(fromApp, toApp, Set.of("A"), false);
 
-		//assertThat(getLabeledGeosSize(toApp), equalTo(4));
+		// assertThat(getLabeledGeosSize(toApp), equalTo(4));
 		assertEquals(Set.of("A", "A_1", "A_{2}"), getLabels());
 	}
 
@@ -134,8 +135,7 @@ class CopyPasteDTest {
 		processCommand(fromApp, "s = Segment(A,B)", false);
 		copy.insertFrom(fromApp, toApp, Set.of("A"), true);
 		assertEquals(Set.of("A", "B", "s"), getLabels());
-		AlgoElement parentAlgorithm = toApp.getKernel().lookupLabel("s")
-				.getParentAlgorithm();
+		AlgoElement parentAlgorithm = toApp.getKernel().lookupLabel("s").getParentAlgorithm();
 		assertEquals(Commands.Segment, Objects.requireNonNull(parentAlgorithm).getClassName());
 	}
 
@@ -149,6 +149,7 @@ class CopyPasteDTest {
 
 	private Set<String> getLabels() {
 		return toApp.getKernel().getConstruction().getGeoSetConstructionOrder().stream()
-				.map(GeoElement::getLabelSimple).collect(Collectors.toSet());
+				.map(GeoElement::getLabelSimple)
+				.collect(Collectors.toSet());
 	}
 }

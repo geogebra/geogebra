@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 /**
  * Sets the assignment type of an expression or equation (or also NO assignment)
- * 
+ *
  * @author Zbynek, comments by Johannes
  */
 public enum AssignmentType {

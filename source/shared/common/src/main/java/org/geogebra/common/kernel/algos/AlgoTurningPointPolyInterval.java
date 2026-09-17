@@ -25,11 +25,10 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 /**
  * Finds all points of inflection of a polynomial wrapped in If[] eg If[0 &lt; x
  * &lt; 10,3x^3 - 48x^2 + 162x + 300]
- * 
+ *
  * @author Michael
  */
-public class AlgoTurningPointPolyInterval
-		extends AlgoTurningPointPolynomial {
+public class AlgoTurningPointPolyInterval extends AlgoTurningPointPolynomial {
 
 	private Function interval;
 
@@ -41,8 +40,7 @@ public class AlgoTurningPointPolyInterval
 	 * @param f
 	 *            function
 	 */
-	public AlgoTurningPointPolyInterval(Construction cons,
-			String[] labels, GeoFunctionable f) {
+	public AlgoTurningPointPolyInterval(Construction cons, String[] labels, GeoFunctionable f) {
 		super(cons, labels, f);
 	}
 
@@ -50,10 +48,10 @@ public class AlgoTurningPointPolyInterval
 	public final void compute() {
 		if (f.isDefined()) {
 			Function geoFunction = f.getFunction();
-			ExpressionNode polyExpression = (ExpressionNode) geoFunction
-					.getFunctionExpression().getRight();
-			ExpressionNode condExpression = (ExpressionNode) geoFunction
-					.getFunctionExpression().getLeft();
+			ExpressionNode polyExpression =
+					(ExpressionNode) geoFunction.getFunctionExpression().getRight();
+			ExpressionNode condExpression =
+					(ExpressionNode) geoFunction.getFunctionExpression().getLeft();
 			if (yValFunction == null
 					|| yValFunction.getExpression() != polyExpression
 					|| interval.getFunctionExpression() != condExpression) {
@@ -64,7 +62,6 @@ public class AlgoTurningPointPolyInterval
 
 				// extract interval
 				interval = new Function(condExpression, fVar);
-
 			}
 
 			// roots of second derivative
@@ -83,7 +80,5 @@ public class AlgoTurningPointPolyInterval
 				rootPoints[i].setUndefined();
 			}
 		}
-
 	}
-
 }

@@ -29,15 +29,14 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Algo for intersection of a line with the interior of a polygon
- * 
+ *
  * @author matthieu
  */
-public class AlgoIntersectPathLinePolygon3D
-		extends AlgoIntersectPathLinePolygon {
+public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param labels
@@ -47,16 +46,15 @@ public class AlgoIntersectPathLinePolygon3D
 	 * @param p
 	 *            polygon
 	 */
-	public AlgoIntersectPathLinePolygon3D(Construction c, String[] labels,
-			GeoElement geo, GeoElement p) {
+	public AlgoIntersectPathLinePolygon3D(
+			Construction c, String[] labels, GeoElement geo, GeoElement p) {
 
 		super(c, labels, geo, p);
-
 	}
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param geo
@@ -64,11 +62,9 @@ public class AlgoIntersectPathLinePolygon3D
 	 * @param p
 	 *            polygon
 	 */
-	public AlgoIntersectPathLinePolygon3D(Construction c, GeoElement geo,
-			GeoElement p) {
+	public AlgoIntersectPathLinePolygon3D(Construction c, GeoElement geo, GeoElement p) {
 
 		super(c, geo, p);
-
 	}
 
 	/**
@@ -95,8 +91,7 @@ public class AlgoIntersectPathLinePolygon3D
 	}
 
 	@Override
-	protected void addCoords(double parameter, Coords coords,
-			GeoElementND geo) {
+	protected void addCoords(double parameter, Coords coords, GeoElementND geo) {
 		newCoords.put(parameter, coords.copyVector());
 	}
 
@@ -112,9 +107,7 @@ public class AlgoIntersectPathLinePolygon3D
 
 	@Override
 	protected boolean checkMidpoint(GeoPolygon poly, Coords a, Coords b) {
-		Coords midpoint = poly
-				.getNormalProjection(a.copy().addInside(b).mulInside(0.5))[1];
+		Coords midpoint = poly.getNormalProjection(a.copy().addInside(b).mulInside(0.5))[1];
 		return poly.isInRegion(midpoint.getX(), midpoint.getY());
 	}
-
 }

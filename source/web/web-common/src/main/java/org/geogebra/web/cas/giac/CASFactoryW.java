@@ -30,5 +30,4 @@ public class CASFactoryW extends CASFactory {
 	public CASGenericInterface newGiac(CASparser p, Kernel kernel) {
 		return new CASgiacW(p, kernel);
 	}
-
 }

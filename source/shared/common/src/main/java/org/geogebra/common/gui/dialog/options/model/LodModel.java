@@ -50,14 +50,11 @@ public class LodModel extends MultipleOptionsModel {
 			if (geo0.getLevelOfDetail() != temp.getLevelOfDetail()) {
 				equalLevelOfDetail = false;
 			}
-
 		}
 
 		if (equalLevelOfDetail) {
-			getListener().setSelectedIndex(
-					geo0.getLevelOfDetail() == LevelOfDetail.SPEED ? 0 : 1);
+			getListener().setSelectedIndex(geo0.getLevelOfDetail() == LevelOfDetail.SPEED ? 0 : 1);
 		}
-
 	}
 
 	@Override
@@ -82,8 +79,7 @@ public class LodModel extends MultipleOptionsModel {
 	@Override
 	protected void apply(int index, int value) {
 		SurfaceEvaluable geo = getSurfaceAt(index);
-		geo.setLevelOfDetail(
-				value == 0 ? LevelOfDetail.SPEED : LevelOfDetail.QUALITY);
+		geo.setLevelOfDetail(value == 0 ? LevelOfDetail.SPEED : LevelOfDetail.QUALITY);
 		((GeoElementND) geo).updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
@@ -92,5 +88,4 @@ public class LodModel extends MultipleOptionsModel {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 }

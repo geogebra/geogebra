@@ -65,7 +65,7 @@ public abstract class CASgiacB extends CASgiac {
 	}
 
 	@Override
-	final public void clearResult() {
+	public final void clearResult() {
 		threadResult = null;
 	}
 
@@ -94,14 +94,12 @@ public abstract class CASgiacB extends CASgiac {
 			 * contains an internal GeoGebra CAS command, then that command will be executed
 			 * in Giac. TODO: find a better a way.
 			 */
-			if (function.functionName == null
-					|| (foundInInput = exp.contains(function.functionName))) {
+			if (function.functionName == null || (foundInInput = exp.contains(function.functionName))) {
 				g = binding.createGen(function.definitionString, context);
 				g.eval(1, context);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {
-					ArrayList<CustomFunctions> dependencies = CustomFunctions
-							.prereqs(function);
+					ArrayList<CustomFunctions> dependencies = CustomFunctions.prereqs(function);
 					for (CustomFunctions dep : dependencies) {
 						Log.debug(function + " implicitly loads " + dep);
 						g = binding.createGen(dep.definitionString, context);
@@ -112,10 +110,8 @@ public abstract class CASgiacB extends CASgiac {
 		}
 
 		long timeout = timeoutMilliseconds / 1000;
-		binding.createGen("caseval(\"timeout " + timeout + "\")", context)
-				.eval(1, context);
-		binding.createGen("caseval(\"ckevery 20\")", context)
-				.eval(1, context);
+		binding.createGen("caseval(\"timeout " + timeout + "\")", context).eval(1, context);
+		binding.createGen("caseval(\"ckevery 20\")", context).eval(1, context);
 
 		// make sure we don't always get the same value!
 		int seed = getSeed(exp);
@@ -140,8 +136,7 @@ public abstract class CASgiacB extends CASgiac {
 	}
 
 	@Override
-	protected String evaluate(final String exp, final long timeoutMillis0)
-			throws Throwable {
+	protected String evaluate(final String exp, final long timeoutMillis0) throws Throwable {
 		EvalFunction evalFunction = new EvalFunction(this, exp, timeoutMillis0);
 
 		threadResult = null;

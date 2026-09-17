@@ -27,14 +27,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * OrthogonalVector[ &lt;GeoLine&gt; ]
- * 
+ *
  * OrthogonalVector[ &lt;GeoVector&gt; ]
  */
 public class CmdOrthogonalVector extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,27 +48,26 @@ public class CmdOrthogonalVector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoLine()) {
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoLine()) {
 
-				AlgoOrthoVectorLine algo = new AlgoOrthoVectorLine(cons,
-						c.getLabel(), (GeoLine) arg[0]);
+					AlgoOrthoVectorLine algo = new AlgoOrthoVectorLine(cons, c.getLabel(), (GeoLine) arg[0]);
 
-				GeoElement[] ret = { algo.getVector() };
-				return ret;
-			} else if (arg[0] instanceof GeoVec3D) {
-				AlgoOrthoVectorVector algo = new AlgoOrthoVectorVector(cons,
-						c.getLabel(), (GeoVec3D) arg[0]);
+					GeoElement[] ret = {algo.getVector()};
+					return ret;
+				} else if (arg[0] instanceof GeoVec3D) {
+					AlgoOrthoVectorVector algo =
+							new AlgoOrthoVectorVector(cons, c.getLabel(), (GeoVec3D) arg[0]);
 
-				GeoElement[] ret = { algo.getVector() };
-				return ret;
-			} else {
-				throw argErr(c, arg[0]);
-			}
+					GeoElement[] ret = {algo.getVector()};
+					return ret;
+				} else {
+					throw argErr(c, arg[0]);
+				}
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

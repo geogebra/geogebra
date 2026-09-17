@@ -23,7 +23,7 @@ public class TableProperties {
 
 	/**
 	 * Copy table view settings from target to
-	 * 
+	 *
 	 * @param fromGeo
 	 *            source element
 	 * @param to
@@ -36,5 +36,4 @@ public class TableProperties {
 			to.setPointsVisible(from.isPointsVisible());
 		}
 	}
-
 }

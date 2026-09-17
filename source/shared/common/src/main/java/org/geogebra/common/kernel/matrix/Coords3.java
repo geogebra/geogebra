@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.matrix;
 
 /**
  * class for 3 floats (x, y, z)
- * 
+ *
  * @author mathieu
  *
  */
@@ -26,7 +26,7 @@ public abstract class Coords3 {
 
 	/**
 	 * set values
-	 * 
+	 *
 	 * @param x
 	 *            x coord
 	 * @param y
@@ -34,11 +34,11 @@ public abstract class Coords3 {
 	 * @param z
 	 *            z coord
 	 */
-	abstract public void set(float x, float y, float z);
+	public abstract void set(float x, float y, float z);
 
 	/**
 	 * set values
-	 * 
+	 *
 	 * @param x
 	 *            x coord
 	 * @param y
@@ -46,14 +46,14 @@ public abstract class Coords3 {
 	 * @param z
 	 *            z coord
 	 */
-	abstract public void set(double x, double y, double z);
+	public abstract void set(double x, double y, double z);
 
 	/**
 	 * returns false if one value equals NaN
-	 * 
+	 *
 	 * @return false if one value equals NaN
 	 */
-	abstract public boolean isDefined();
+	public abstract boolean isDefined();
 
 	/**
 	 * @return true if not a final (constant) undefined
@@ -71,60 +71,60 @@ public abstract class Coords3 {
 
 	/**
 	 * returns a copy of the vector
-	 * 
+	 *
 	 * @return a copy of the vector
 	 */
-	abstract public Coords3 copyVector();
+	public abstract Coords3 copyVector();
 
 	/**
 	 * add values of v inside this
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 */
-	abstract public void addInside(Coords3 v);
+	public abstract void addInside(Coords3 v);
 
 	/**
 	 * multiply all values by v
-	 * 
+	 *
 	 * @param v
 	 *            factor
 	 */
-	abstract public void mulInside(float v);
+	public abstract void mulInside(float v);
 
 	/**
 	 * multiply all values by v
-	 * 
+	 *
 	 * @param v
 	 *            factor
 	 */
-	abstract public void mulInside(double v);
+	public abstract void mulInside(double v);
 
 	/**
 	 * multiply values by a/b/c
-	 * 
+	 *
 	 * @param a
 	 *            x factor
 	 * @param b
 	 *            y factor
 	 * @param c
 	 *            z factor
-	 * 
+	 *
 	 */
-	abstract public void mulInside(double a, double b, double c);
+	public abstract void mulInside(double a, double b, double c);
 
 	/**
 	 * normalize this (if norm != 0)
 	 */
-	abstract public void normalizeIfPossible();
+	public abstract void normalizeIfPossible();
 
 	/**
 	 * set this to v normalized or (0, 0, 0) if v=0
-	 * 
+	 *
 	 * @param v
 	 *            vector
 	 */
-	final public void setNormalizedIfPossible(Coords v) {
+	public final void setNormalizedIfPossible(Coords v) {
 		double vx = v.getX();
 		double vy = v.getY();
 		double vz = v.getZ();
@@ -136,43 +136,41 @@ public abstract class Coords3 {
 		} else {
 			set(vx * f, vy * f, vz * f);
 		}
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @return x coord
 	 */
-	abstract public double getXd();
+	public abstract double getXd();
 
 	/**
-	 * 
+	 *
 	 * @return x coord
 	 */
-	abstract public double getYd();
+	public abstract double getYd();
 
 	/**
-	 * 
+	 *
 	 * @return x coord
 	 */
-	abstract public double getZd();
+	public abstract double getZd();
 
 	/**
-	 * 
+	 *
 	 * @return x coord
 	 */
-	abstract public float getXf();
+	public abstract float getXf();
 
 	/**
-	 * 
+	 *
 	 * @return x coord
 	 */
-	abstract public float getYf();
+	public abstract float getYf();
 
 	/**
-	 * 
+	 *
 	 * @return x coord
 	 */
-	abstract public float getZf();
-
+	public abstract float getZf();
 }

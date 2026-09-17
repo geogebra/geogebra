@@ -32,19 +32,12 @@ class InputContextMenuTests extends BaseUnitTest {
 	@Test
 	void testWithHelpDisabled() {
 		assertEquals(
-				List.of(Expression,
-						Text),
-				ContextMenuFactory.makeInputContextMenu(false, Set.of())
-		);
+				List.of(Expression, Text), ContextMenuFactory.makeInputContextMenu(false, Set.of()));
 	}
 
 	@Test
 	void testWithHelpEnabled() {
 		assertEquals(
-				List.of(Expression,
-						Text,
-						Help),
-				ContextMenuFactory.makeInputContextMenu(true, Set.of())
-		);
+				List.of(Expression, Text, Help), ContextMenuFactory.makeInputContextMenu(true, Set.of()));
 	}
 }

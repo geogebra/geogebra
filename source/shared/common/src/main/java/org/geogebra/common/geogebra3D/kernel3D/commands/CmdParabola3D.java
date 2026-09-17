@@ -43,5 +43,4 @@ public class CmdParabola3D extends CmdParabola {
 
 		return super.parabola(label, a, d);
 	}
-
 }

@@ -30,7 +30,7 @@ import org.jspecify.annotations.NonNull;
  * Filters return early, meaning that if an expression is found that needs to be filtered,
  * further evaluation halts.
  */
-final public class DeepExpressionFilter implements ExpressionFilter {
+public final class DeepExpressionFilter implements ExpressionFilter {
 
 	private final ExpressionFilter wrappedFilter;
 	private final List<AllowedExpressionsProvider> providers = new ArrayList<>();

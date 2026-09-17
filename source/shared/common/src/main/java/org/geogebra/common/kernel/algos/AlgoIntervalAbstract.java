@@ -26,8 +26,7 @@ public abstract class AlgoIntervalAbstract extends AlgoElement {
 	protected GeoFunction interval; // input
 	protected GeoNumeric result; // output
 
-	AlgoIntervalAbstract(Construction cons, String label,
-			GeoFunction interval) {
+	AlgoIntervalAbstract(Construction cons, String label, GeoFunction interval) {
 		this(cons, interval);
 
 		result.setLabel(label);
@@ -55,5 +54,4 @@ public abstract class AlgoIntervalAbstract extends AlgoElement {
 	public GeoNumeric getResult() {
 		return result;
 	}
-
 }

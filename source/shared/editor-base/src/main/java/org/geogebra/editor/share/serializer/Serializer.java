@@ -23,10 +23,9 @@ import org.geogebra.editor.share.tree.Formula;
  */
 public interface Serializer {
 
-    /**
-     * @param formula formula
-     * @return serialized formula
-     */
-    String serialize(Formula formula);
-
+	/**
+	 * @param formula formula
+	 * @return serialized formula
+	 */
+	String serialize(Formula formula);
 }

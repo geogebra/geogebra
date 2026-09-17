@@ -35,7 +35,7 @@ public interface Geometry3DGetter {
 		CURVE("curves");
 
 		/** name for export */
-		final public String name;
+		public final String name;
 
 		GeometryType(String name) {
 			this.name = name;
@@ -43,7 +43,7 @@ public interface Geometry3DGetter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @param type
@@ -54,7 +54,7 @@ public interface Geometry3DGetter {
 
 	/**
 	 * start new geometry
-	 * 
+	 *
 	 * @param type
 	 *            geometry type
 	 */
@@ -62,7 +62,7 @@ public interface Geometry3DGetter {
 
 	/**
 	 * add vertex, normal, color element
-	 * 
+	 *
 	 * @param x
 	 *            vertex x-coord
 	 * @param y
@@ -84,12 +84,21 @@ public interface Geometry3DGetter {
 	 * @param a
 	 *            opacity
 	 */
-	void addVertexNormalColor(double x, double y, double z, double nx,
-			double ny, double nz, double r, double g, double b, double a);
+	void addVertexNormalColor(
+			double x,
+			double y,
+			double z,
+			double nx,
+			double ny,
+			double nz,
+			double r,
+			double g,
+			double b,
+			double a);
 
 	/**
 	 * add 3 indices (as triangle)
-	 * 
+	 *
 	 * @param i1
 	 *            vertex index
 	 * @param i2

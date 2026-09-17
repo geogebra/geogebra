@@ -66,9 +66,7 @@ public final class EditorKeyboardContext implements HasKeyboard {
 
 			@Override
 			public String getKeyboardRow(int i) {
-				String[] rows = {"qQwWeErRtTyYuUiIoOpP",
-						"aAsSdDfFgGhHjJkKlL",
-						"zZxXcCvVbBnNmM"};
+				String[] rows = {"qQwWeErRtTyYuUiIoOpP", "aAsSdDfFgGhHjJkKlL", "zZxXcCvVbBnNmM"};
 				return rows[i - 1];
 			}
 		};

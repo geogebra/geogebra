@@ -23,7 +23,7 @@ import org.freehep.util.io.EEXECEncryption;
  * <li>use subroutines for accents
  * <li>add more hints
  * </ul>
- * 
+ *
  * @author Simon Fischer
  * @version $Id: FontEmbedderType1.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
@@ -50,12 +50,11 @@ public class FontEmbedderType1 extends FontEmbedder {
 	private CountedByteOutputStream byteCounter;
 
 	private int asciiEnd, encEnd; // remember the lengths of the three
-									// portions
+	// portions
 
 	private boolean addZeros;
 
-	public FontEmbedderType1(FontRenderContext context, OutputStream out,
-			boolean addZeros) {
+	public FontEmbedderType1(FontRenderContext context, OutputStream out, boolean addZeros) {
 		super(context);
 		this.byteCounter = new CountedByteOutputStream(out);
 		this.fontFile = new PrintStream(byteCounter);
@@ -64,17 +63,16 @@ public class FontEmbedderType1 extends FontEmbedder {
 	}
 
 	@Override
-	protected void writeWidths(double[] w) throws IOException {
-	}
+	protected void writeWidths(double[] w) throws IOException {}
 
 	@Override
 	protected void writeEncoding(CharTable t) throws IOException {
 		fontFile.println("/Encoding 256 array");
 		fontFile.println("0 1 255 {1 index exch /.notdef put} for"); // set
-																		// undefined
-																		// to
-																		// .notdef
-																		// ??
+		// undefined
+		// to
+		// .notdef
+		// ??
 		for (int i = 0; i < 256; i++) {
 			String charName = t.toName(i);
 			if (charName != null) {
@@ -89,8 +87,8 @@ public class FontEmbedderType1 extends FontEmbedder {
 
 		// begin clear text ascii portion
 		fontFile.println("%!FontType1-1.0: " + getFont().getName()); // unknown
-																		// version
-																		// number
+		// version
+		// number
 		// fontFile.println("%%CreationDate: " +
 		// DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL).
 		// format(new Date()));
@@ -98,17 +96,15 @@ public class FontEmbedderType1 extends FontEmbedder {
 		fontFile.println("11 dict begin");
 
 		fontFile.println("/FontInfo 8 dict dup begin");
-		fontFile.println(
-				"/FullName (" + getFont().getPSName() + ") readonly def");
-		fontFile.println(
-				"/FamilyName (" + getFont().getFamily() + ") readonly def");
+		fontFile.println("/FullName (" + getFont().getPSName() + ") readonly def");
+		fontFile.println("/FamilyName (" + getFont().getFamily() + ") readonly def");
 		fontFile.println("end readonly def");
 
 		fontFile.println("/FontName /" + getFontName() + " def");
 		fontFile.println("/PaintType 0 def");
 		fontFile.println("/FontType 1 def");
-		fontFile.println("/FontMatrix [" + 1 / FONT_SIZE + " 0.0 0.0 "
-				+ 1 / FONT_SIZE + " 0.0 0.0] readonly def");
+		fontFile.println(
+				"/FontMatrix [" + 1 / FONT_SIZE + " 0.0 0.0 " + 1 / FONT_SIZE + " 0.0 0.0] readonly def");
 	}
 
 	@Override
@@ -118,10 +114,8 @@ public class FontEmbedderType1 extends FontEmbedder {
 		int llx = (int) Math.round(boundingBox.getX());
 		int lly = (int) Math.round(boundingBox.getY());
 		int urx = (int) Math.round(boundingBox.getX() + boundingBox.getWidth());
-		int ury = (int) Math
-				.round(boundingBox.getY() + boundingBox.getHeight());
-		fontFile.println("/FontBBox {" + llx + " " + lly + " " + urx + " " + ury
-				+ "} readonly def");
+		int ury = (int) Math.round(boundingBox.getY() + boundingBox.getHeight());
+		fontFile.println("/FontBBox {" + llx + " " + lly + " " + urx + " " + ury + "} readonly def");
 
 		fontFile.println("currentdict end");
 
@@ -139,11 +133,9 @@ public class FontEmbedderType1 extends FontEmbedder {
 		if (ENCRYPT) {
 			if (HEX_ENC) {
 				encrypted = new PrintStream(
-						new EEXECEncryption(new ASCIIHexOutputStream(fontFile),
-								EEXECEncryption.EEXEC_R));
+						new EEXECEncryption(new ASCIIHexOutputStream(fontFile), EEXECEncryption.EEXEC_R));
 			} else {
-				encrypted = new PrintStream(
-						new EEXECEncryption(fontFile, EEXECEncryption.EEXEC_R));
+				encrypted = new PrintStream(new EEXECEncryption(fontFile, EEXECEncryption.EEXEC_R));
 			}
 		} else {
 			encrypted = fontFile;
@@ -151,16 +143,14 @@ public class FontEmbedderType1 extends FontEmbedder {
 
 		// begin the Private dictionary
 		encrypted.println("dup /Private 8 dict dup begin");
-		encrypted.println(
-				"/RD {string currentfile exch readstring pop} executeonly def");
+		encrypted.println("/RD {string currentfile exch readstring pop} executeonly def");
 		encrypted.println("/ND {noaccess def} executeonly def");
 		encrypted.println("/NP {noaccess put} executeonly def");
 		encrypted.println("/BlueValues [] def"); // ???
 		encrypted.println("/MinFeature {16 16} def");
 		encrypted.println("/password 5839 def");
 		encrypted.print("2 index ");
-		encrypted.println("/CharStrings " + (getNODefinedChars() + 1)
-				+ " dict dup begin");
+		encrypted.println("/CharStrings " + (getNODefinedChars() + 1) + " dict dup begin");
 	}
 
 	@Override
@@ -194,8 +184,8 @@ public class FontEmbedderType1 extends FontEmbedder {
 	}
 
 	@Override
-	protected void writeGlyph(String characterName, Shape glyph,
-			GlyphMetrics glyphMetrics) throws IOException {
+	protected void writeGlyph(String characterName, Shape glyph, GlyphMetrics glyphMetrics)
+			throws IOException {
 
 		// FIXME: find out why Acrobat Reader displays some characters displaced
 		// when
@@ -207,20 +197,20 @@ public class FontEmbedderType1 extends FontEmbedder {
 		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 		CharstringEncoder charString = (HEX_ENC_CHARSTRINGS
 				? new CharstringEncoder(
-						new EEXECEncryption(new ASCIIHexOutputStream(bytes),
-								EEXECEncryption.CHARSTRING_R))
-				: new CharstringEncoder(new EEXECEncryption(bytes,
-						EEXECEncryption.CHARSTRING_R)));
+						new EEXECEncryption(new ASCIIHexOutputStream(bytes), EEXECEncryption.CHARSTRING_R))
+				: new CharstringEncoder(new EEXECEncryption(bytes, EEXECEncryption.CHARSTRING_R)));
 
-		charString.startChar(sidebearing, (glyphMetrics != null
-				? glyphMetrics.getAdvance() : getUndefinedWidth())); // bounds.getWidth());
+		charString.startChar(
+				sidebearing,
+				(glyphMetrics != null
+						? glyphMetrics.getAdvance()
+						: getUndefinedWidth())); // bounds.getWidth());
 		charString.drawPath(glyph);
 		charString.endchar();
 
 		// write the buffer to the encrypted fontFile
 		byte[] binaryString = bytes.toByteArray();
-		encrypted.print(
-				"/" + characterName + " " + binaryString.length + " RD ");
+		encrypted.print("/" + characterName + " " + binaryString.length + " RD ");
 		for (int i = 0; i < binaryString.length; i++) {
 			encrypted.write(binaryString[i] & 0x00ff);
 		}
@@ -237,5 +227,4 @@ public class FontEmbedderType1 extends FontEmbedder {
 	public int getEncryptedLength() {
 		return encEnd - asciiEnd;
 	}
-
 }

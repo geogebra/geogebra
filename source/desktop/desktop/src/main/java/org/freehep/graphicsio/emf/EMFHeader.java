@@ -7,21 +7,21 @@ import java.io.IOException;
 
 /**
  * EMF File Header.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: EMFHeader.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
 public class EMFHeader implements EMFConstants {
 	private static final Dimension screenMM = new Dimension(320, 240);
 
-	public final static int TYPE_INVALID = 0; // Invalid metafile
-	public final static int TYPE_WMF = 1; // Standard WMF
-	public final static int TYPE_WMF_PLACEABLE = 2; // Placeable WMF
-	public final static int TYPE_EMF = 3; // EMF (not EMF+)
-	public final static int TYPE_EMF_PLUS_ONLY = 4; // EMF+ without dual,
-													// down-level records
-	public final static int TYPE_EMF_PLUS_DUAL = 5; // EMF+ with dual,
-													// down-level records
+	public static final int TYPE_INVALID = 0; // Invalid metafile
+	public static final int TYPE_WMF = 1; // Standard WMF
+	public static final int TYPE_WMF_PLACEABLE = 2; // Placeable WMF
+	public static final int TYPE_EMF = 3; // EMF (not EMF+)
+	public static final int TYPE_EMF_PLUS_ONLY = 4; // EMF+ without dual,
+	// down-level records
+	public static final int TYPE_EMF_PLUS_DUAL = 5; // EMF+ with dual,
+	// down-level records
 
 	private int type;
 
@@ -53,23 +53,31 @@ public class EMFHeader implements EMFConstants {
 
 	private boolean openGL;
 
-	public EMFHeader(int type, Rectangle bounds, int versionMajor,
-			int versionMinor, int bytes, int records, int handles,
-			String application, String name, Dimension device) {
+	public EMFHeader(
+			int type,
+			Rectangle bounds,
+			int versionMajor,
+			int versionMinor,
+			int bytes,
+			int records,
+			int handles,
+			String application,
+			String name,
+			Dimension device) {
 		this.type = type;
 		this.bounds = bounds;
 
 		// this assumes you use MM_ANISOTROPIC or MM_ISOTROPIC as MapMode
 		double pixelWidth = (double) screenMM.width / device.width;
 		double pixelHeight = (double) screenMM.height / device.height;
-		this.frame = new Rectangle((int) (bounds.x * 100 * pixelWidth),
+		this.frame = new Rectangle(
+				(int) (bounds.x * 100 * pixelWidth),
 				(int) (bounds.y * 100 * pixelHeight),
 				(int) (bounds.width * 100 * pixelWidth),
 				(int) (bounds.height * 100 * pixelHeight));
 
 		this.signature = " EMF";
-		this.versionMajor = versionMajor >= 0x4000 ? versionMajor - 0x4000
-				: versionMajor;
+		this.versionMajor = versionMajor >= 0x4000 ? versionMajor - 0x4000 : versionMajor;
 		this.versionMinor = versionMinor;
 		this.bytes = bytes;
 		this.records = records;
@@ -81,8 +89,7 @@ public class EMFHeader implements EMFConstants {
 		this.millimeters = screenMM;
 
 		this.openGL = false;
-		this.micrometers = new Dimension(screenMM.width * 1000,
-				screenMM.height * 1000);
+		this.micrometers = new Dimension(screenMM.width * 1000, screenMM.height * 1000);
 	}
 
 	EMFHeader(EMFInputStream emf) throws IOException {
@@ -144,12 +151,12 @@ public class EMFHeader implements EMFConstants {
 		emf.writeWORD(handles); // # of handles, 1 minimum
 		emf.writeWORD(0); // reserved
 		emf.writeDWORD(type == TYPE_EMF_PLUS_ONLY ? 0 : description.length()); // size
-																				// of
-																				// descriptor
-																				// in
-																				// WORDS
+		// of
+		// descriptor
+		// in
+		// WORDS
 		emf.writeDWORD(type == TYPE_EMF_PLUS_ONLY ? 0 : 0x6C); // offset to
-																// descriptor
+		// descriptor
 		emf.writeDWORD(palEntries); // # of palette entries
 		emf.writeSIZEL(device); // size of ref device
 		emf.writeSIZEL(millimeters); // size of ref device in MM

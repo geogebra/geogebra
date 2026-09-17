@@ -55,7 +55,7 @@ public class EquationSolver implements EquationSolverInterface {
 	private static Comparator<Complex> comparatorReal;
 
 	@Override
-	final public int polynomialRoots(double[] roots, boolean multiple) {
+	public final int polynomialRoots(double[] roots, boolean multiple) {
 		int realRoots;
 
 		/*
@@ -76,34 +76,33 @@ public class EquationSolver implements EquationSolverInterface {
 			degree -= shift;
 		}
 		switch (degree) { // degree of polynomial
-		case -1:
-		case 0:
-			realRoots = 0;
-			break;
+			case -1:
+			case 0:
+				realRoots = 0;
+				break;
 
-		case 1:
-			roots[0] = -roots[0] / roots[1];
-			realRoots = 1;
-			break;
+			case 1:
+				roots[0] = -roots[0] / roots[1];
+				realRoots = 1;
+				break;
 
-		case 2:
-			realRoots = solveQuadraticS(roots, roots,
-					Kernel.STANDARD_PRECISION);
-			if (multiple && realRoots == 1) {
-				realRoots = 2;
-				roots[1] = roots[0];
-			}
-			break;
+			case 2:
+				realRoots = solveQuadraticS(roots, roots, Kernel.STANDARD_PRECISION);
+				if (multiple && realRoots == 1) {
+					realRoots = 2;
+					roots[1] = roots[0];
+				}
+				break;
 
-		case 3:
-			realRoots = solveCubicS(roots, roots, Kernel.STANDARD_PRECISION);
-			break;
+			case 3:
+				realRoots = solveCubicS(roots, roots, Kernel.STANDARD_PRECISION);
+				break;
 
-		default:
-			realRoots = laguerreAll(roots, degree + 1);
+			default:
+				realRoots = laguerreAll(roots, degree + 1);
 		}
 
-		int zeroRoots = multiple ? shift : Math.min(shift , 1);
+		int zeroRoots = multiple ? shift : Math.min(shift, 1);
 		realRoots = Math.max(realRoots, 0); // solveQuadratic and solveCubic may return -1
 		for (int i = realRoots; i <= degree + shift; i++) {
 			roots[i] = 0.0;
@@ -118,25 +117,25 @@ public class EquationSolver implements EquationSolverInterface {
 	}
 
 	@Override
-	final public int polynomialComplexRoots(double[] real, double[] complex) {
+	public final int polynomialComplexRoots(double[] real, double[] complex) {
 		int ret = -1;
 		switch (real.length - 1) { // degree of polynomial
-		case 0:
-			ret = 0;
-			break;
+			case 0:
+				ret = 0;
+				break;
 
-		case 1:
-			real[0] = -real[0] / real[1];
-			complex[0] = 0;
-			ret = 1;
-			break;
+			case 1:
+				real[0] = -real[0] / real[1];
+				complex[0] = 0;
+				ret = 1;
+				break;
 
-		case 2:
-			ret = solveQuadraticComplex(real, complex);
-			break;
+			case 2:
+				ret = solveQuadraticComplex(real, complex);
+				break;
 
-		default:
-			ret = laguerreAllComplex(real, complex);
+			default:
+				ret = laguerreAllComplex(real, complex);
 		}
 
 		return ret;
@@ -146,16 +145,16 @@ public class EquationSolver implements EquationSolverInterface {
 	 * Solves the quadratic whose coefficients are in the <code>eqn</code> array
 	 * and places the non-complex roots back into the same array, returning the
 	 * number of roots. The quadratic solved is represented by the equation:
-	 * 
+	 *
 	 * <pre>
 	 *     eqn = {C, B, A};
 	 *     ax^2 + bx + c = 0
 	 * </pre>
-	 * 
+	 *
 	 * A return value of <code>-1</code> is used to distinguish a constant
 	 * equation, which might be always 0 or never 0, from an equation that has
 	 * no zeroes.
-	 * 
+	 *
 	 * @param eqn
 	 *            the array that contains the quadratic coefficients
 	 * @return the number of roots, or <code>-1</code> if the equation is a
@@ -167,7 +166,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 	/**
 	 * Solves quadratic equation
-	 * 
+	 *
 	 * @param eqn
 	 *            coefficients
 	 * @param res
@@ -176,8 +175,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            precision
 	 * @return number of roots
 	 */
-	public static int solveQuadraticS(double[] eqn, double[] res,
-			double eps) {
+	public static int solveQuadraticS(double[] eqn, double[] res, double eps) {
 		double a = eqn[2];
 		double b = eqn[1];
 		double c = eqn[0];
@@ -238,8 +236,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            imaginary parts on output
 	 * @return number of roots
 	 */
-	public static int solveQuadraticComplex(double[] real,
-			double[] complex) {
+	public static int solveQuadraticComplex(double[] real, double[] complex) {
 		double a = real[2];
 		double b = real[1];
 		double c = real[0];
@@ -291,9 +288,9 @@ public class EquationSolver implements EquationSolverInterface {
 
 	/*
 	 * adapted from gsl/poly/solve_cubic.c
-	 * 
+	 *
 	 * added solveQuadratic() added fixRoots() removed sorting of roots
-	 * 
+	 *
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0
 	 */
 
@@ -308,8 +305,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            precision
 	 * @return number of roots
 	 */
-	static public int solveCubicS(double[] eqn, double[] res,
-			double eps) {
+	public static int solveCubicS(double[] eqn, double[] res, double eps) {
 		double d = eqn[3];
 		if (Math.abs(d) < eps) {
 			// The cubic has degenerated to quadratic (or line or ...).
@@ -326,7 +322,7 @@ public class EquationSolver implements EquationSolverInterface {
 		}
 		double q = a * a - 3 * b; // D(q) = 2aD(a) + 3D(b)
 		double r = 2 * a * a * a - 9 * a * b + 27 * c; // D(r) = (3aa-9b)D(a)
-															// - 9aD(b) + 27D(c)
+		// - 9aD(b) + 27D(c)
 
 		double Q = q / 9; // D(Q) = D(q)/9
 		double R = r / 54;
@@ -335,12 +331,12 @@ public class EquationSolver implements EquationSolverInterface {
 		double R2 = R * R;
 
 		double CR2 = 729 * r * r; // D(CR2) = 729*2rD(r) ( |1458r(3aa-9b) -
-									// 8748q*2a| + |-9a*1458r -8748q*3| +
-									// |27*1458r| )*kernel.STANDARD_PRECISION
+		// 8748q*2a| + |-9a*1458r -8748q*3| +
+		// |27*1458r| )*kernel.STANDARD_PRECISION
 		double CQ3 = 2916 * q * q * q; // D(CQ3) = 2916*3qD(q) (D(root) ~
-										// D(2sqrt(Q))= -1/sqrt(Q) D(Q),
-										// |D(root)| |2a+3|/sqrt(9q)
-										// *kernel.STANDARD_PRECISION
+		// D(2sqrt(Q))= -1/sqrt(Q) D(Q),
+		// |D(root)| |2a+3|/sqrt(9q)
+		// *kernel.STANDARD_PRECISION
 
 		// changed back to original GGB-1725
 		// if (Math.abs(R) < Kernel.STANDARD_PRECISION
@@ -362,9 +358,8 @@ public class EquationSolver implements EquationSolverInterface {
 		// else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) *
 		// kernel.STANDARD_PRECISION)
 		// // else if (CR2 == CQ3)
-		else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * 10
-				/ Math.max(1, Math.abs(2 * a + 3))
-				* Kernel.STANDARD_PRECISION) {
+		else if (Math.abs(CR2 - CQ3)
+				< Math.max(CR2, CQ3) * 10 / Math.max(1, Math.abs(2 * a + 3)) * Kernel.STANDARD_PRECISION) {
 			// this test is actually R2 == Q3, written in a form suitable
 			// for exact computation with integers
 
@@ -405,8 +400,7 @@ public class EquationSolver implements EquationSolverInterface {
 			return 3;
 		} else {
 			double sgnR = R >= 0 ? 1 : -1;
-			double A = -sgnR
-					* Math.pow(Math.abs(R) + Math.sqrt(R2 - Q3), 1.0 / 3.0);
+			double A = -sgnR * Math.pow(Math.abs(R) + Math.sqrt(R2 - Q3), 1.0 / 3.0);
 			double B = Q / A;
 			res[roots] = A + B - a / 3;
 			return 1;
@@ -418,20 +412,20 @@ public class EquationSolver implements EquationSolverInterface {
 	 * to calculate the roots when there are 3 of them. Since the cosine method
 	 * can have an error of +/- 1E-14 we need to make sure that we don't make
 	 * any bad decisions due to an error.
-	 * 
+	 *
 	 * If the root is not near one of the endpoints, then we will only have a
 	 * slight inaccuracy in calculating the x intercept which will only cause a
 	 * slightly wrong answer for some points very close to the curve. While the
 	 * results in that case are not as accurate as they could be, they are not
 	 * disastrously inaccurate either.
-	 * 
+	 *
 	 * On the other hand, if the error happens near one end of the curve, then
 	 * our processing to reject values outside of the t=[0,1] range will fail
 	 * and the results of that failure will be disastrous since for an entire
 	 * horizontal range of test points, we will either overcount or undercount
 	 * the crossings and get a wrong answer for all of them, even when they are
 	 * clearly and obviously inside or outside the curve.
-	 * 
+	 *
 	 * To work around this problem, we try a couple of Newton-Raphson iterations
 	 * to see if the true root is closer to the endpoint or further away. If it
 	 * is further away, then we can stop since we know we are on the right side
@@ -466,7 +460,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 	private static double findZero(double init, double target, double[] eqn) {
 		double t = init;
-		double[] slopeqn = { eqn[1], 2 * eqn[2], 3 * eqn[3] };
+		double[] slopeqn = {eqn[1], 2 * eqn[2], 3 * eqn[3]};
 		double slope;
 		double origdelta = 0;
 		double origt = t;
@@ -496,8 +490,7 @@ public class EquationSolver implements EquationSolverInterface {
 					return t;
 				}
 			} else {
-				return delta > 0 ? (target + Double.MIN_VALUE)
-						: (target - Double.MIN_VALUE);
+				return delta > 0 ? (target + Double.MIN_VALUE) : (target - Double.MIN_VALUE);
 			}
 			double newt = t + delta;
 			if (MyDouble.exactEqual(t, newt)) {
@@ -506,8 +499,7 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 			if (delta * origdelta < 0) {
 				// We have reversed our path.
-				int tag = origt < t ? getTag(target, origt, t)
-						: getTag(target, t, origt);
+				int tag = origt < t ? getTag(target, origt, t) : getTag(target, t, origt);
 				if (tag != INSIDE) {
 					// Local minima found away from target - return the middle
 					return (origt + t) / 2;
@@ -539,7 +531,7 @@ public class EquationSolver implements EquationSolverInterface {
 	/**
 	 * Calculates all roots of a polynomial given by eqn using Laguerres method.
 	 * Polishes roots found. The roots are stored in eqn again.
-	 * 
+	 *
 	 * @param eqn
 	 *            coefficients of polynomial
 	 * @param validCoeff number of valid coefficients
@@ -553,13 +545,11 @@ public class EquationSolver implements EquationSolverInterface {
 			if (laguerreSolver == null) {
 				laguerreSolver = new LaguerreSolver();
 			}
-			complexRoots = laguerreSolver.solveAllComplex(coeff, LAGUERRE_START,
-					LAGUERRE_MAX_EVAL);
+			complexRoots = laguerreSolver.solveAllComplex(coeff, LAGUERRE_START, LAGUERRE_MAX_EVAL);
 		} catch (ArithmeticException e) {
 			Log.warn("Too many iterations. Degree: " + eqn.length);
 		} catch (RuntimeException e) {
-			Log.error("EquationSolver.LaguerreSolver: "
-					+ e.getLocalizedMessage());
+			Log.error("EquationSolver.LaguerreSolver: " + e.getLocalizedMessage());
 		}
 
 		if (complexRoots == null) {
@@ -583,8 +573,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 			// check if root is bounded in interval [root-eps, root+eps]
 			double left = i == 0 ? root - 1 : (root + laguerreRoots[i - 1]) / 2;
-			double right = i == laguerreRoots.length - 1 ? root + 1
-					: (root + laguerreRoots[i + 1]) / 2;
+			double right = i == laguerreRoots.length - 1 ? root + 1 : (root + laguerreRoots[i + 1]) / 2;
 			double f_left = polyFunc.value(left);
 			double f_right = polyFunc.value(right);
 			boolean bounded = f_left * f_right < 0.0;
@@ -597,10 +586,8 @@ public class EquationSolver implements EquationSolverInterface {
 
 					// small f'(root): don't go too far from our laguerre root !
 					double brentRoot = rootFinderBrent.solve(
-							AlgoRootNewton.MAX_ITERATIONS, polyFunc,
-							left, right/* , root */);
-					if (Math.abs(polyFunc.value(brentRoot)) < Math
-							.abs(polyFunc.value(root))) {
+							AlgoRootNewton.MAX_ITERATIONS, polyFunc, left, right /* , root */);
+					if (Math.abs(polyFunc.value(brentRoot)) < Math.abs(polyFunc.value(root))) {
 						root = brentRoot;
 					}
 					root = DoubleUtil.checkRoot(root, polyFunc);
@@ -610,12 +597,9 @@ public class EquationSolver implements EquationSolverInterface {
 					}
 
 					// the root is not bounded: give Mr. Newton a chance
-					double newtonRoot = rootFinderNewton.solve(
-							AlgoRootNewton.MAX_ITERATIONS, polyFunc,
-							left, right,
-							root);
-					if (Math.abs(polyFunc.value(newtonRoot)) < Math
-							.abs(polyFunc.value(root))) {
+					double newtonRoot =
+							rootFinderNewton.solve(AlgoRootNewton.MAX_ITERATIONS, polyFunc, left, right, root);
+					if (Math.abs(polyFunc.value(newtonRoot)) < Math.abs(polyFunc.value(root))) {
 						root = newtonRoot;
 					}
 					root = DoubleUtil.checkRoot(root, polyFunc);
@@ -629,22 +613,20 @@ public class EquationSolver implements EquationSolverInterface {
 					}
 					if (left < right) {
 						PolyFunction derivFunc = polyFunc.getDerivative();
-						double brentRoot = rootFinderBrent.solve(
-								AlgoRootNewton.MAX_ITERATIONS, derivFunc,
-								left, right);
-						if (Math.abs(polyFunc.value(brentRoot)) < Math
-								.abs(polyFunc.value(root))) {
+						double brentRoot =
+								rootFinderBrent.solve(AlgoRootNewton.MAX_ITERATIONS, derivFunc, left, right);
+						if (Math.abs(polyFunc.value(brentRoot)) < Math.abs(polyFunc.value(root))) {
 							root = brentRoot;
 						}
 					}
 				} catch (RuntimeException ignored) {
-					//Log.debug(ex.getMessage());
+					// Log.debug(ex.getMessage());
 				}
 			}
 
 			// check if the found root is really ok
 			double[] val = polyFunc.evaluateDerivFunc(root); // get f(root) and
-																// f'(root)
+			// f'(root)
 			double error = Math.abs(val[0]); // | f(root) |
 			double slope = Math.abs(val[1]);
 
@@ -674,22 +656,17 @@ public class EquationSolver implements EquationSolverInterface {
 			laguerreSolver = new LaguerreSolver();
 		}
 		try {
-			complexRoots = laguerreSolver.solveAllComplex(real, LAGUERRE_START,
-					LAGUERRE_MAX_EVAL);
+			complexRoots = laguerreSolver.solveAllComplex(real, LAGUERRE_START, LAGUERRE_MAX_EVAL);
 		} catch (Exception e) {
 
-			Log.debug("laguerreSolver failed, trying random starting point:"
-					+ e.getMessage());
+			Log.debug("laguerreSolver failed, trying random starting point:" + e.getMessage());
 
 			try {
-				complexRoots = laguerreSolver.solveAllComplex(real,
-						LAGUERRE_START_ALT, LAGUERRE_MAX_EVAL);
+				complexRoots = laguerreSolver.solveAllComplex(real, LAGUERRE_START_ALT, LAGUERRE_MAX_EVAL);
 			} catch (Exception e2) {
-				Log.debug("Problem solving with LaguerreSolver"
-						+ e2.getMessage());
+				Log.debug("Problem solving with LaguerreSolver" + e2.getMessage());
 				return 0;
 			}
-
 		}
 
 		// sort by real part & remove duplicates
@@ -716,7 +693,7 @@ public class EquationSolver implements EquationSolverInterface {
 	/*
 	 * solve_quartic.c - finds the real roots of x^4 + a x^3 + b x^2 + c x + d =
 	 * 0
-	 * 
+	 *
 	 * modified from GSL Quartic extension
 	 * http://www.network-theory.co.uk/download/gslextras/Quartic/
 	 */
@@ -728,8 +705,7 @@ public class EquationSolver implements EquationSolverInterface {
 			return solveCubicS(eqn, res, Kernel.STANDARD_PRECISION);
 		}
 
-		final double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4],
-				d = eqn[0] / eqn[4];
+		final double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4], d = eqn[0] / eqn[4];
 
 		/*
 		 * This code is based on a simplification of the algorithm from
@@ -792,8 +768,7 @@ public class EquationSolver implements EquationSolverInterface {
 			aa = a * a;
 			pp = b - 3.0 / 8.0 * aa;
 			qq = c - 1.0 / 2.0 * a * (b - 1.0 / 4.0 * aa);
-			rr = d - 1.0 / 4.0
-					* (a * c - 1.0 / 4.0 * aa * (b - 3.0 / 16.0 * aa));
+			rr = d - 1.0 / 4.0 * (a * c - 1.0 / 4.0 * aa * (b - 3.0 / 16.0 * aa));
 			rc = 1.0 / 2.0 * pp;
 			sc = 1.0 / 4.0 * (1.0 / 4.0 * pp * pp - rr);
 			tc = -(1.0 / 8.0 * qq * 1.0 / 8.0 * qq);
@@ -849,10 +824,8 @@ public class EquationSolver implements EquationSolverInterface {
 						double norm = -2 * sqrtQ;
 
 						u[0] = norm * Math.cos(theta / 3) - rc / 3;
-						u[1] = norm * Math.cos((theta + 2.0 * Math.PI) / 3)
-								- rc / 3;
-						u[2] = norm * Math.cos((theta - 2.0 * Math.PI) / 3)
-								- rc / 3;
+						u[1] = norm * Math.cos((theta + 2.0 * Math.PI) / 3) - rc / 3;
+						u[2] = norm * Math.cos((theta - 2.0 * Math.PI) / 3) - rc / 3;
 					}
 				} else {
 					double sgnR = R >= 0 ? 1 : -1;
@@ -948,8 +921,7 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 
 			/* Solve the quadratic to obtain the roots to the quartic */
-			w3r = qq / 8.0 * (w1i * w2i - w1r * w2r) / (w1i * w1i + w1r * w1r)
-					/ (w2i * w2i + w2r * w2r);
+			w3r = qq / 8.0 * (w1i * w2i - w1r * w2r) / (w1i * w1i + w1r * w1r) / (w2i * w2i + w2r * w2r);
 			h = a / 4.0;
 
 			double[] zarr = new double[4];
@@ -981,7 +953,7 @@ public class EquationSolver implements EquationSolverInterface {
 			 * Roots are all real, sort them by the real part if (*x0 > *x1)
 			 * SWAPD (*x0, *x1); if (*x0 > *x2) SWAPD (*x0, *x2); if (*x0 > *x3)
 			 * SWAPD (*x0, *x3);
-			 * 
+			 *
 			 * if (*x1 > *x2) SWAPD (*x1, *x2); if (*x2 > *x3) { SWAPD (*x2,
 			 * *x3); if (*x1 > *x2) SWAPD (*x1, *x2); }
 			 */
@@ -997,18 +969,16 @@ public class EquationSolver implements EquationSolverInterface {
 	/**
 	 * Returns a comparator for Complex objects. (sorts on real part coordinate)
 	 * If equal does return zero (deletes duplicates!)
-	 * 
+	 *
 	 * @return comparator for complex numbers
 	 */
 	public static Comparator<Complex> getComparatorReal() {
 		if (comparatorReal == null) {
 			comparatorReal = (itemA, itemB) -> {
-
 				double compReal = itemA.getReal() - itemB.getReal();
 
 				if (DoubleUtil.isZero(compReal)) {
-					double compImaginary = itemA.getImaginary()
-							- itemB.getImaginary();
+					double compImaginary = itemA.getImaginary() - itemB.getImaginary();
 
 					// if real parts equal, sort on imaginary
 					if (!DoubleUtil.isZero(compImaginary)) {
@@ -1020,7 +990,6 @@ public class EquationSolver implements EquationSolverInterface {
 				}
 				return compReal < 0 ? -1 : +1;
 			};
-
 		}
 
 		return comparatorReal;

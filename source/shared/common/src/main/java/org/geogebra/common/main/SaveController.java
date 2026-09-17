@@ -24,7 +24,7 @@ import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Handles materials save.
- * 
+ *
  * @author laszlo
  *
  */
@@ -49,7 +49,7 @@ public interface SaveController {
 
 	/**
 	 * Listener interface to communicate with caller GUI.
-	 * 
+	 *
 	 * @author laszlo
 	 *
 	 */
@@ -63,10 +63,10 @@ public interface SaveController {
 
 	/**
 	 * Save material with a given name.
-	 * 
+	 *
 	 * @param fileName
 	 *            material file name.
-	 * 
+	 *
 	 * @param visibility
 	 *            material visibility.
 	 * @param listener
@@ -76,10 +76,10 @@ public interface SaveController {
 
 	/**
 	 * Saves the currently active material
-	 * 
+	 *
 	 * @param autoSaveCallback
 	 *            to run after saving was successful.
-	 * 
+	 *
 	 */
 	void saveActiveMaterial(AsyncOperation<Boolean> autoSaveCallback);
 
@@ -116,7 +116,7 @@ public interface SaveController {
 
 	/**
 	 * Sets the callback that needs to be run after saving material.
-	 * 
+	 *
 	 * @param runAfterSave
 	 *            the callback.
 	 */
@@ -124,7 +124,7 @@ public interface SaveController {
 
 	/**
 	 * Run callback after save.
-	 * 
+	 *
 	 * @param activeMaterial
 	 *            active material
 	 */

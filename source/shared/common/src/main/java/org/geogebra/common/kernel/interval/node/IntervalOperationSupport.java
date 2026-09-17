@@ -28,7 +28,7 @@ public class IntervalOperationSupport {
 	 * Constructor
 	 */
 	public IntervalOperationSupport() {
-		for (IntervalOperation operation: IntervalOperation.values()) {
+		for (IntervalOperation operation : IntervalOperation.values()) {
 			if (operation != IntervalOperation.UNSUPPORTED) {
 				operationMap.put(operation.mappedOperation(), operation);
 			}

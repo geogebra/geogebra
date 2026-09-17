@@ -37,7 +37,7 @@ public class FunctionFold implements FoldComputer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.geogebra.common.kernel.algos.FoldComputer#getTemplate(org.geogebra.
 	 * common.kernel.Construction)
@@ -49,20 +49,19 @@ public class FunctionFold implements FoldComputer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.geogebra.common.kernel.algos.FoldComputer#add(org.geogebra.common.
 	 * kernel.geos.GeoElement, org.geogebra.common.plugin.Operation)
 	 */
 	@Override
 	public void add(GeoElement geoElement, Operation op) {
-		resultFun = GeoFunction.add(resultFun, resultFun,
-				(GeoFunctionable) geoElement, op);
+		resultFun = GeoFunction.add(resultFun, resultFun, (GeoFunctionable) geoElement, op);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.geogebra.common.kernel.algos.FoldComputer#setFrom(org.geogebra.common
 	 * .kernel.geos.GeoElement, org.geogebra.common.kernel.Kernel)
@@ -79,19 +78,17 @@ public class FunctionFold implements FoldComputer {
 		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
-		ExpressionNode left = fun1.getFunctionExpression()
-				.getCopy(fun1.getKernel());
+		ExpressionNode left = fun1.getFunctionExpression().getCopy(fun1.getKernel());
 
 		Function f = new Function(left.replace(x1, x).wrap(), x);
 
 		resultFun.setFunction(f);
 		resultFun.setDefined(true);
-
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.geogebra.common.kernel.algos.FoldComputer#check(org.geogebra.common.
 	 * kernel.geos.GeoElement)
@@ -105,5 +102,4 @@ public class FunctionFold implements FoldComputer {
 	public void finish() {
 		// nothing to do
 	}
-
 }

@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.interval.operators;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
@@ -49,8 +49,7 @@ class IntervalTrigonometricTest {
 	@Test
 	void testPiTwice() {
 		Interval interval = IntervalConstants.piTwice();
-		assertArrayEquals(new double[]{PI_TWICE_LOW, PI_TWICE_HIGH},
-				interval.toArray(), 0);
+		assertArrayEquals(new double[] {PI_TWICE_LOW, PI_TWICE_HIGH}, interval.toArray(), 0);
 	}
 
 	@Test
@@ -71,10 +70,8 @@ class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 0), cos(interval(PI / 2, PI)));
 		assertEquals(interval(-1, 1), cos(whole()));
 		long time = System.currentTimeMillis();
-		assertEquals(interval(0, 1),
-				cos(interval(1000 * PI, 1000 * PI + PI / 2)));
-		assertEquals(interval(0, 1),
-				cos(interval(-1000 * PI, -1000 * PI + PI / 2)));
+		assertEquals(interval(0, 1), cos(interval(1000 * PI, 1000 * PI + PI / 2)));
+		assertEquals(interval(0, 1), cos(interval(-1000 * PI, -1000 * PI + PI / 2)));
 		assertThat(System.currentTimeMillis() - time, OrderingComparison.lessThan(100L));
 	}
 
@@ -84,12 +81,9 @@ class IntervalTrigonometricTest {
 
 	@Test
 	void testCosWithInfinity() {
-		assertEquals(interval(-1, 1),
-				cos(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
-		assertEquals(interval(-1, 1),
-				cos(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)));
-		assertEquals(interval(-1, 1),
-				cos(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)));
+		assertEquals(interval(-1, 1), cos(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
+		assertEquals(interval(-1, 1), cos(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)));
+		assertEquals(interval(-1, 1), cos(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)));
 	}
 
 	@Test
@@ -104,14 +98,12 @@ class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 0), evaluator.sin(interval(-PI, 0)));
 		assertEquals(interval(0, 1), evaluator.sin(interval(-2 * PI, -3 * PI / 2)));
 		double p = 2 * PI;
-		assertEquals(interval(0, 1), evaluator.sin(interval(-5 * p - 2 * PI,
-				-5 * p - 3 * PI / 2)));
+		assertEquals(interval(0, 1), evaluator.sin(interval(-5 * p - 2 * PI, -5 * p - 3 * PI / 2)));
 	}
 
 	@Test
 	void testSinWithInfinity() {
-		assertEquals(interval(-1, 1),
-				evaluator.sin(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
+		assertEquals(interval(-1, 1), evaluator.sin(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
 		assertTrue(evaluator.sin(interval(NEGATIVE_INFINITY, NEGATIVE_INFINITY)).isUndefined());
 		assertTrue(evaluator.sin(interval(POSITIVE_INFINITY, POSITIVE_INFINITY)).isUndefined());
 	}
@@ -124,28 +116,31 @@ class IntervalTrigonometricTest {
 		assertEquals(interval(-1, 1), evaluator.tan(interval(-PI / 4, PI / 4)));
 		assertEquals(interval(-1, 1), evaluator.tan(interval(-9 * PI / 4, -7 * PI / 4)));
 		assertEquals(interval(-1, 1), evaluator.tan(interval(7 * PI / 4, 9 * PI / 4)));
-		assertEquals(interval(0.16767801556850204, 0.18877817478678283),
+		assertEquals(
+				interval(0.16767801556850204, 0.18877817478678283),
 				evaluator.tan(interval(-2.975460122699386, -2.955010224948875)));
 	}
 
 	@Test
 	void testAsin() {
 		assertEquals(interval(0, 0), evaluator.asin(interval(0, 0)));
-		assertEquals(interval(-1.5707963267948966, 1.5707963267948966),
-				evaluator.asin(interval(-1, 1)));
-		assertEquals(interval(-1.5707963267948966, 1.5707963267948966),
-				evaluator.asin(interval(-10, 10)));
+		assertEquals(
+				interval(-1.5707963267948966, 1.5707963267948966), evaluator.asin(interval(-1, 1)));
+		assertEquals(
+				interval(-1.5707963267948966, 1.5707963267948966), evaluator.asin(interval(-10, 10)));
 		assertTrue(evaluator.asin(interval(-10, -10)).isUndefined());
 	}
 
 	@Test
 	void testAsinWholeAndInverted() {
 		assertEquals(interval(-1.5707963267948966, 1.5707963267948966), evaluator.asin(whole()));
-		assertEquals(legacyInverted(-0.5235987755982989, 0.5235987755982989),
+		assertEquals(
+				legacyInverted(-0.5235987755982989, 0.5235987755982989),
 				evaluator.asin(legacyInverted(-0.5, 0.5)));
-		assertEquals(interval(0.5235987755982988, 1.5707963267948966),
-				evaluator.asin(legacyInverted(-2, 0.5)));
-		assertEquals(interval(-1.5707963267948966, -0.5235987755982988),
+		assertEquals(
+				interval(0.5235987755982988, 1.5707963267948966), evaluator.asin(legacyInverted(-2, 0.5)));
+		assertEquals(
+				interval(-1.5707963267948966, -0.5235987755982988),
 				evaluator.asin(legacyInverted(-0.5, 2)));
 	}
 
@@ -161,25 +156,25 @@ class IntervalTrigonometricTest {
 	@Test
 	void testAcosWholeAndInverted() {
 		assertEquals(interval(0, PI), evaluator.acos(whole()));
-		assertEquals(legacyInverted(1.0471975511965976, 2.0943951023931957),
+		assertEquals(
+				legacyInverted(1.0471975511965976, 2.0943951023931957),
 				evaluator.acos(legacyInverted(-0.5, 0.5)));
-		assertEquals(interval(0, 1.0471975511965979),
-				evaluator.acos(legacyInverted(-2, 0.5)));
-		assertEquals(interval(2.0943951023931953, PI),
-				evaluator.acos(legacyInverted(-0.5, 2)));
+		assertEquals(interval(0, 1.0471975511965979), evaluator.acos(legacyInverted(-2, 0.5)));
+		assertEquals(interval(2.0943951023931953, PI), evaluator.acos(legacyInverted(-0.5, 2)));
 	}
 
 	@Test
 	void testAtan() {
 		assertEquals(interval(0, 0), evaluator.atan(interval(0, 0)));
-		assertEquals(interval(-0.7853981633974484, 0.7853981633974484),
-				evaluator.atan(interval(-1, 1)));
+		assertEquals(
+				interval(-0.7853981633974484, 0.7853981633974484), evaluator.atan(interval(-1, 1)));
 	}
 
 	@Test
 	void testAtanWholeAndInverted() {
 		assertEquals(interval(-1.5707963267948966, 1.5707963267948966), evaluator.atan(whole()));
-		assertEquals(legacyInverted(-0.4636476090008061, 0.4636476090008061),
+		assertEquals(
+				legacyInverted(-0.4636476090008061, 0.4636476090008061),
 				evaluator.atan(legacyInverted(-0.5, 0.5)));
 	}
 
@@ -192,14 +187,15 @@ class IntervalTrigonometricTest {
 	@Test
 	void testSinh() {
 		assertEquals(interval(0, 0), evaluator.sinh(interval(0, 0)));
-		assertEquals(interval(-3.6268604078470195, 3.6268604078470195),
-				evaluator.sinh(interval(-2, 2)));
+		assertEquals(
+				interval(-3.6268604078470195, 3.6268604078470195), evaluator.sinh(interval(-2, 2)));
 	}
 
 	@Test
 	void testSinhWholeAndInverted() {
 		assertEquals(whole(), evaluator.sinh(whole()));
-		assertEquals(legacyInverted(-0.5210953054937474, 0.5210953054937474),
+		assertEquals(
+				legacyInverted(-0.5210953054937474, 0.5210953054937474),
 				evaluator.sinh(legacyInverted(-0.5, 0.5)));
 	}
 
@@ -209,22 +205,21 @@ class IntervalTrigonometricTest {
 		assertEquals(interval(1, 3.762195691083632), evaluator.cosh(interval(-2, 2)));
 		assertEquals(interval(3.762195691083632), evaluator.cosh(interval(-2, -2)));
 		assertEquals(interval(3.762195691083632), evaluator.cosh(interval(2, 2)));
-
 	}
 
 	@Test
 	void testCoshWholeAndInverted() {
 		assertEquals(interval(1, POSITIVE_INFINITY), evaluator.cosh(whole()));
-		assertEquals(interval(1.1276259652063807, POSITIVE_INFINITY),
-				evaluator.cosh(legacyInverted(-0.5, 0.5)));
+		assertEquals(
+				interval(1.1276259652063807, POSITIVE_INFINITY), evaluator.cosh(legacyInverted(-0.5, 0.5)));
 	}
 
 	@Test
 	void coshOfInvertedShouldNotOverflow() {
 		assertFalse(evaluator.coshSet(inverted(-711, 711)).isOverflow());
 		assertFalse(evaluator.coshSet(inverted(-1000, 1000)).isOverflow());
-		assertFalse(evaluator.coshSet(inverted(-Double.MAX_VALUE / 2,
-				Double.MAX_VALUE / 2)).isOverflow());
+		assertFalse(
+				evaluator.coshSet(inverted(-Double.MAX_VALUE / 2, Double.MAX_VALUE / 2)).isOverflow());
 	}
 
 	@Test
@@ -233,28 +228,28 @@ class IntervalTrigonometricTest {
 		assertFalse(result.isOverflow());
 		assertTrue(result.isConnected());
 		assertTrue(Double.isInfinite(connectedInterval(result).getHigh()));
-
 	}
 
 	@Test
 	void testTanh() {
 		assertEquals(interval(0, 0), evaluator.tanh(interval(0, 0)));
-		assertEquals(interval(-0.9993292997390671, 0.9993292997390671),
-				evaluator.tanh(interval(-4, 4)));
-		assertEquals(interval(-1, 1),
-				evaluator.tanh(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
+		assertEquals(
+				interval(-0.9993292997390671, 0.9993292997390671), evaluator.tanh(interval(-4, 4)));
+		assertEquals(interval(-1, 1), evaluator.tanh(interval(NEGATIVE_INFINITY, POSITIVE_INFINITY)));
 	}
 
 	@Test
 	void testTanhWholeAndInverted() {
 		assertEquals(interval(-1, 1), evaluator.tanh(whole()));
-		assertEquals(legacyInverted(-0.46211715726000974, 0.46211715726000974),
+		assertEquals(
+				legacyInverted(-0.46211715726000974, 0.46211715726000974),
 				evaluator.tanh(legacyInverted(-0.5, 0.5)));
 	}
 
 	@Test
 	void testSinLnXNegative() {
-		assertEquals(IntervalConstants.undefined(),
+		assertEquals(
+				IntervalConstants.undefined(),
 				new Interval(evaluator.sin(evaluator.log(interval(-15, 0)))));
 	}
 
@@ -295,11 +290,12 @@ class IntervalTrigonometricTest {
 		assertTrue(evaluator.sinhSet(connected(-711, -711)).isOverflow());
 		assertTrue(evaluator.sinhSet(connected(-712, -711)).isOverflow());
 		assertTrue(evaluator.sinhSet(connected(-711, 1)).isOverflow());
-		assertTrue(evaluator.sinhSet(connected(-Double.MAX_VALUE, -Double.MAX_VALUE)).isOverflow());
+		assertTrue(
+				evaluator.sinhSet(connected(-Double.MAX_VALUE, -Double.MAX_VALUE)).isOverflow());
 		assertFalse(evaluator.sinhSet(inverted(-711, 711)).isOverflow());
 		assertFalse(evaluator.sinhSet(inverted(-1000, 1000)).isOverflow());
-		assertFalse(evaluator.sinhSet(inverted(-Double.MAX_VALUE / 2,
-				Double.MAX_VALUE / 2)).isOverflow());
+		assertFalse(
+				evaluator.sinhSet(inverted(-Double.MAX_VALUE / 2, Double.MAX_VALUE / 2)).isOverflow());
 		assertTrue(evaluator.sinhSet(inverted(-711, 711)).isWhole());
 	}
 }

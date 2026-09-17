@@ -27,7 +27,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class to plot real function f(x) and 2D/3D parametric curves
- * 
+ *
  * @author mathieu
  *
  */
@@ -82,9 +82,15 @@ public class CurveSegmentPlotter {
 	 *            whether moveTo() may be used for gp
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
-	public CurveSegmentPlotter(CurveEvaluable curve, double tMin,
-			double tMax, int intervalDepth, double maxParamStep,
-			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
+	public CurveSegmentPlotter(
+			CurveEvaluable curve,
+			double tMin,
+			double tMax,
+			int intervalDepth,
+			double maxParamStep,
+			EuclidianView view,
+			PathPlotter gp,
+			boolean calcLabelPos,
 			Gap moveToAllowed) {
 		this.curve = curve;
 		this.tMin = tMin;
@@ -186,8 +192,7 @@ public class CurveSegmentPlotter {
 			}
 			while (params.hasNotReachedMaxDepth()
 					&& info.hasNotReachedMinStep()
-					&& (info.isDistanceOrAngleInvalid()
-							|| params.isStepTooBig(maxParamStep))
+					&& (info.isDistanceOrAngleInvalid() || params.isStepTooBig(maxParamStep))
 					&& params.isDiffZerosLimitNotReached()) {
 
 				// push stacks
@@ -207,7 +212,6 @@ public class CurveSegmentPlotter {
 				params.countDiffZeros = isDiffZero(params.diff) ? params.countDiffZeros + 1 : 0;
 
 				info.update(evalLeft, evalRight, params.diff, params.prevDiff, curve);
-
 			} // end of while-loop for interval bisections
 
 			drawSegment(params.t, params.left, info);
@@ -241,8 +245,7 @@ public class CurveSegmentPlotter {
 	private boolean hasNoSingularity(double t, double interval) {
 		// check if c(t-eps) and c(t+eps) are both defined
 
-		return !isContinuousAround(curve, t,
-				interval, view, eval);
+		return !isContinuousAround(curve, t, interval, view, eval);
 	}
 
 	private boolean isCurveUndefinedAt(double x) {
@@ -332,7 +335,7 @@ public class CurveSegmentPlotter {
 			return labelPoint;
 		}
 
-		GPoint  labelPointMin, labelPointMax;
+		GPoint labelPointMin, labelPointMax;
 
 		// plot interval for t in [tMin, tMax]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
@@ -346,16 +349,30 @@ public class CurveSegmentPlotter {
 		if (intervalsTooLarge) {
 			// bisect interval
 			calcLabel = calcLabel && labelPoint == null;
-			CurveSegmentPlotter
-					plotterMin = new CurveSegmentPlotter(curve, left, splitParam, intervalDepth + 1,
-					maxParamStep, view, gp, calcLabel, moveToAllowed);
+			CurveSegmentPlotter plotterMin = new CurveSegmentPlotter(
+					curve,
+					left,
+					splitParam,
+					intervalDepth + 1,
+					maxParamStep,
+					view,
+					gp,
+					calcLabel,
+					moveToAllowed);
 			labelPointMin = plotterMin.getLabelPoint();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			calcLabel = calcLabel && labelPointMin == null;
-			CurveSegmentPlotter plotterMax =
-					new CurveSegmentPlotter(curve, splitParam, tMax, intervalDepth + 1,
-							maxParamStep, view, gp, calcLabel, moveToAllowed);
+			CurveSegmentPlotter plotterMax = new CurveSegmentPlotter(
+					curve,
+					splitParam,
+					tMax,
+					intervalDepth + 1,
+					maxParamStep,
+					view,
+					gp,
+					calcLabel,
+					moveToAllowed);
 
 			labelPointMax = plotterMax.getLabelPoint();
 		} else {
@@ -371,16 +388,30 @@ public class CurveSegmentPlotter {
 			double[] borders = new double[2];
 			getDefinedInterval(curve, left, splitParam, borders);
 			calcLabel = calcLabel && labelPoint == null;
-			CurveSegmentPlotter plotterMin = new CurveSegmentPlotter(curve, borders[0], borders[1],
-					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
+			CurveSegmentPlotter plotterMin = new CurveSegmentPlotter(
+					curve,
+					borders[0],
+					borders[1],
+					intervalDepth + 1,
+					maxParamStep,
+					view,
+					gp,
+					calcLabel,
 					moveToAllowed);
 			labelPointMin = plotterMin.getLabelPoint();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			getDefinedInterval(curve, splitParam, tMax, borders);
 			calcLabel = calcLabel && labelPointMin == null;
-			CurveSegmentPlotter plotterMax = new CurveSegmentPlotter(curve, borders[0], borders[1],
-					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
+			CurveSegmentPlotter plotterMax = new CurveSegmentPlotter(
+					curve,
+					borders[0],
+					borders[1],
+					intervalDepth + 1,
+					maxParamStep,
+					view,
+					gp,
+					calcLabel,
 					moveToAllowed);
 			labelPointMax = plotterMax.getLabelPoint();
 		}
@@ -398,8 +429,8 @@ public class CurveSegmentPlotter {
 	/**
 	 * Returns whether curve is defined for c(t-eps) and c(t + eps).
 	 */
-	private static boolean isContinuousAround(CurveEvaluable curve, double t,
-			double eps, EuclidianView view, double[] evalT) {
+	private static boolean isContinuousAround(
+			CurveEvaluable curve, double t, double eps, EuclidianView view, double[] evalT) {
 		// check if c(t) is undefined
 		double[] eval = curve.newDoubleArray();
 
@@ -412,8 +443,7 @@ public class CurveSegmentPlotter {
 			if (!isUndefined(eval)) {
 				// SINGULARITY for functions: c(t) undef, c(t-eps) and c(t+eps)
 				// defined and close
-				if (curve.isFunctionInX()
-						&& Math.abs(oldy - eval[1]) * view.getYscale() < MAX_JUMP) {
+				if (curve.isFunctionInX() && Math.abs(oldy - eval[1]) * view.getYscale() < MAX_JUMP) {
 					evalT[1] = (oldy + eval[1]) * 0.5;
 					return true;
 				}
@@ -430,7 +460,7 @@ public class CurveSegmentPlotter {
 	/**
 	 * Checks if c is continuous in the interval [tMin, tMax]. We assume that c(tMin)
 	 * and c(tMax) are both defined.
-	 * 
+	 *
 	 * @param c
 	 *            curve
 	 * @param from
@@ -439,11 +469,10 @@ public class CurveSegmentPlotter {
 	 *            max parameter
 	 * @param maxIterations
 	 *            max number of bisections
-	 * 
+	 *
 	 * @return true when tMin and tMax get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
-	public static boolean isContinuous(CurveEvaluable c, double from, double to,
-			int maxIterations) {
+	public static boolean isContinuous(CurveEvaluable c, double from, double to, int maxIterations) {
 		double tMin = from;
 		double tMax = to;
 		if (DoubleUtil.isEqual(tMin, tMax, Kernel.MAX_DOUBLE_PRECISION)) {
@@ -469,8 +498,7 @@ public class CurveSegmentPlotter {
 		// Start with distance between left and right points.
 		// Bisect until the maximum distance of middle to right resp. left
 		// is clearly smaller than the initial distance.
-		double initialDistance = Math.max(Math.abs(left[0] - right[0]),
-				Math.abs(left[1] - right[1]));
+		double initialDistance = Math.max(Math.abs(left[0] - right[0]), Math.abs(left[1] - right[1]));
 		double eps = initialDistance * 0.9;
 		double dist = Double.POSITIVE_INFINITY;
 		int iterations = 0;
@@ -504,8 +532,8 @@ public class CurveSegmentPlotter {
 	/**
 	 * Sets borders to a defined interval in [a, b] if possible.
 	 */
-	private static void getDefinedInterval(CurveEvaluable curve, double a,
-			double b, double[] borders) {
+	private static void getDefinedInterval(
+			CurveEvaluable curve, double a, double b, double[] borders) {
 		double[] eval = curve.newDoubleArray();
 
 		// check first and last point in interval

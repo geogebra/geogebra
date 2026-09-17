@@ -41,5 +41,4 @@ public class IndexTextBuilder extends IndexHTMLBuilder {
 	public boolean canAppendRawHtml() {
 		return false;
 	}
-
 }

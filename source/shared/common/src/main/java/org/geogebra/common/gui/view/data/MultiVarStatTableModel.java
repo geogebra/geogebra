@@ -37,7 +37,6 @@ public class MultiVarStatTableModel extends StatTableModel {
 
 		@MissingDoc
 		boolean isMinimalTable();
-
 	}
 
 	protected MultiVarStatTableListener getMultiVarListener() {
@@ -99,7 +98,6 @@ public class MultiVarStatTableModel extends StatTableModel {
 			list.add(Statistic.MEDIAN);
 			list.add(Statistic.Q3);
 			list.add(Statistic.MAX);
-
 		}
 
 		return list;
@@ -120,17 +118,14 @@ public class MultiVarStatTableModel extends StatTableModel {
 				Statistic stat = list.get(col);
 
 				if (getMultiVarListener().isValidData() && stat != Statistic.NULL) {
-					AlgoElement algo = getAlgo(stat,
-							(GeoList) dataList.get(row), null);
+					AlgoElement algo = getAlgo(stat, (GeoList) dataList.get(row), null);
 					if (algo != null) {
 						getConstruction().removeFromConstructionList(algo);
-						value = ((GeoNumeric) algo.getGeoElements()[0])
-								.getDouble();
+						value = ((GeoNumeric) algo.getGeoElements()[0]).getDouble();
 						getMultiVarListener().setValueAt(value, row, col);
 					}
 				}
 			}
 		}
 	}
-
 }

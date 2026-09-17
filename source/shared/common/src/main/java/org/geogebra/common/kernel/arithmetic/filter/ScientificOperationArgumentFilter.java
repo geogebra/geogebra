@@ -25,13 +25,12 @@ import org.jspecify.annotations.NonNull;
  * Operation argument filter for the scientific app.
  */
 public enum ScientificOperationArgumentFilter implements ExpressionFilter {
-
 	INSTANCE;
 
 	@Override
 	public boolean isAllowed(@NonNull ExpressionValue expression) {
-		return !expression.any(exp ->
-				exp.isExpressionNode() && !exp.isLeaf() && containsList((ExpressionNode) exp)
+		return !expression.any(
+				exp -> exp.isExpressionNode() && !exp.isLeaf() && containsList((ExpressionNode) exp)
 						|| isMatrix(exp));
 	}
 

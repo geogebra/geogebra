@@ -38,7 +38,7 @@ class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 	private MyTable table;
 	private TabularRange selection;
 
-	private final static class TestMenu extends SpreadsheetContextMenu<List<Object>> {
+	private static final class TestMenu extends SpreadsheetContextMenu<List<Object>> {
 		private final List<Object> content = new ArrayList<>();
 
 		private TestMenu(MyTable table, SpreadsheetToolProcessor toolProcessor) {
@@ -51,8 +51,7 @@ class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 		}
 
 		@Override
-		public void addCheckBoxMenuItem(MenuCommand command, String text,
-				boolean isSelected) {
+		public void addCheckBoxMenuItem(MenuCommand command, String text, boolean isSelected) {
 			content.add(command);
 		}
 
@@ -65,8 +64,8 @@ class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 		}
 
 		@Override
-		public void addSubMenuItem(List<Object> menu, MenuCommand cmdString, String text,
-				boolean enabled) {
+		public void addSubMenuItem(
+				List<Object> menu, MenuCommand cmdString, String text, boolean enabled) {
 			menu.add(cmdString);
 		}
 
@@ -76,7 +75,7 @@ class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 		}
 	}
 
-	private final static class TestCopyPaste extends CopyPasteCut {
+	private static final class TestCopyPaste extends CopyPasteCut {
 
 		private String buffer;
 
@@ -109,16 +108,19 @@ class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 		TestCopyPaste copyPaste = new TestCopyPaste(getApp(), table);
 		doReturn(copyPaste).when(table).getCopyPasteCut();
 		doAnswer((ignore) -> selection).when(table).getFirstSelection();
-		doAnswer((ignore) -> new ArrayList<>(List.of(selection)))
-				.when(table).getSelectedRanges();
+		doAnswer((ignore) -> new ArrayList<>(List.of(selection))).when(table).getSelectedRanges();
 	}
 
 	@Test
 	void testCreateGUIEmpty() {
 		TestMenu menu = new TestMenu(table, new SpreadsheetToolProcessor(getApp(), null));
 		menu.createGUI();
-		List<Object> expected = List.of(MenuCommand.Copy, MenuCommand.Paste, MenuCommand.Cut,
-				MenuCommand.Delete, MenuCommand.SpreadsheetOptions);
+		List<Object> expected = List.of(
+				MenuCommand.Copy,
+				MenuCommand.Paste,
+				MenuCommand.Cut,
+				MenuCommand.Delete,
+				MenuCommand.SpreadsheetOptions);
 		assertEquals(expected, menu.content);
 	}
 
@@ -128,11 +130,22 @@ class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 		getApp().getSelectionManager().addSelectedGeo(lookup("A1"));
 		TestMenu menu = new TestMenu(table, new SpreadsheetToolProcessor(getApp(), null));
 		menu.createGUI();
-		List<Object> expected = List.of(MenuCommand.Copy, MenuCommand.Paste, MenuCommand.Cut,
-				MenuCommand.Delete, MenuCommand.Create,
-					List.of(MenuCommand.List, MenuCommand.ListOfPoints, MenuCommand.Matrix,
-							MenuCommand.Table, MenuCommand.PolyLine, MenuCommand.OperationTable),
-				MenuCommand.ShowLabel, MenuCommand.RecordToSpreadsheet, MenuCommand.Properties);
+		List<Object> expected = List.of(
+				MenuCommand.Copy,
+				MenuCommand.Paste,
+				MenuCommand.Cut,
+				MenuCommand.Delete,
+				MenuCommand.Create,
+				List.of(
+						MenuCommand.List,
+						MenuCommand.ListOfPoints,
+						MenuCommand.Matrix,
+						MenuCommand.Table,
+						MenuCommand.PolyLine,
+						MenuCommand.OperationTable),
+				MenuCommand.ShowLabel,
+				MenuCommand.RecordToSpreadsheet,
+				MenuCommand.Properties);
 		assertEquals(expected, menu.content);
 	}
 
@@ -148,4 +161,3 @@ class SpreadsheetContextMenuTest extends BaseAppTestSetup {
 		assertEquals("1", lookup("F6").toValueString(StringTemplate.algebraTemplate));
 	}
 }
-

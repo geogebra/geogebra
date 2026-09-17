@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -29,7 +29,7 @@ import org.geogebra.common.main.MyError;
 public class CmdUnicodeToLetter extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,21 +44,19 @@ public class CmdUnicodeToLetter extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0] instanceof GeoNumberValue) {
-				AlgoUnicodeToLetter algo = new AlgoUnicodeToLetter(cons,
-						c.getLabel(), (GeoNumberValue) arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0] instanceof GeoNumberValue) {
+					AlgoUnicodeToLetter algo =
+							new AlgoUnicodeToLetter(cons, c.getLabel(), (GeoNumberValue) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

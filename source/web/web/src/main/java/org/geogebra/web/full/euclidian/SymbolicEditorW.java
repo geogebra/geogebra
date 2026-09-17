@@ -47,8 +47,8 @@ import com.himamis.retex.renderer.share.TeXFont;
  *
  * @author Laszlo
  */
-public final class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
-		BlurHandler, ChangeHandler {
+public final class SymbolicEditorW extends SymbolicEditor
+		implements HasMathKeyboardListener, BlurHandler, ChangeHandler {
 
 	private static final int EDITOR_PADDING = 2;
 	private GRectangle bounds;
@@ -81,8 +81,7 @@ public final class SymbolicEditorW extends SymbolicEditor implements HasMathKeyb
 		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
 		editor.setVisible(false);
 		editor.getMathField().setPixelRatio(((AppW) app).getPixelRatio());
-		editor.setFontType(geoInputBox.isSerifContent() ? TeXFont.SERIF
-				:  TeXFont.SANSSERIF);
+		editor.setFontType(geoInputBox.isSerifContent() ? TeXFont.SERIF : TeXFont.SANSSERIF);
 		editor.setTextRendererSettings(settings);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		((AppWFull) app).setInputBoxType(geoInputBox.getInputBoxType());
@@ -189,8 +188,7 @@ public final class SymbolicEditorW extends SymbolicEditor implements HasMathKeyb
 	@Override
 	public boolean onTab(boolean shiftDown) {
 		applyAndHide();
-		boolean handled = ((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher())
-				.handleTab(shiftDown);
+		boolean handled = ((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
 		editor.setKeyboardVisibility(editor.isVisible());
 		return handled;
 	}

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -237,8 +237,8 @@ class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	@Test
 	@Issue("APPS-5987")
 	void testDragPasteShouldResultInNonEmptySpreadsheetCells1() {
-		DefaultSpreadsheetCellProcessor processor
-				= new DefaultSpreadsheetCellProcessor(getAlgebraProcessor());
+		DefaultSpreadsheetCellProcessor processor =
+				new DefaultSpreadsheetCellProcessor(getAlgebraProcessor());
 		getKernel().attach(tabularData);
 		processor.process("=3", 0, 0);
 		processor.process("=A2", 0, 1);
@@ -259,8 +259,8 @@ class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	void testDragPasteShouldResultInNonEmptySpreadsheetCells2() {
 		getApp().setCasConfig();
 		getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-		DefaultSpreadsheetCellProcessor processor
-				= new DefaultSpreadsheetCellProcessor(getAlgebraProcessor());
+		DefaultSpreadsheetCellProcessor processor =
+				new DefaultSpreadsheetCellProcessor(getAlgebraProcessor());
 		getKernel().attach(tabularData);
 
 		processor.process("=3", 0, 0);
@@ -277,8 +277,7 @@ class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 	}
 
 	private void setRangeToCopy(int fromRow, int toRow, int fromColumn, int toColumn) {
-		cellDragPasteHandler.setRangeToCopy(
-				new TabularRange(fromRow, fromColumn, toRow, toColumn));
+		cellDragPasteHandler.setRangeToCopy(new TabularRange(fromRow, fromColumn, toRow, toColumn));
 	}
 
 	private boolean pasteToDestination(int destinationRow, int destinationColumn) {
@@ -286,19 +285,21 @@ class KernelCellDragPasteHandlerTest extends BaseUnitTest {
 		return cellDragPasteHandler.pasteToDestination();
 	}
 
-	private void assertCellContentIsEqual(int originRow, int originColumn,
-		int destinationRow, int destinationColumn) {
-		assertEquals(getValueStringForCell(originRow, originColumn),
+	private void assertCellContentIsEqual(
+			int originRow, int originColumn, int destinationRow, int destinationColumn) {
+		assertEquals(
+				getValueStringForCell(originRow, originColumn),
 				getValueStringForCell(destinationRow, destinationColumn),
-				String.format("The content of cell (%d, %d) should be equal to the content "
-								+ "of cell (%d, %d)!", originRow, originColumn, destinationRow,
-						destinationColumn));
+				String.format(
+						"The content of cell (%d, %d) should be equal to the content " + "of cell (%d, %d)!",
+						originRow, originColumn, destinationRow, destinationColumn));
 	}
 
 	private void assertCellContentEquals(String expected, int row, int column) {
-		assertEquals(expected, getValueStringForCell(row, column),
-				String.format("The content of cell (%d, %d) is expected to be %s!",
-						row, column, expected));
+		assertEquals(
+				expected,
+				getValueStringForCell(row, column),
+				String.format("The content of cell (%d, %d) is expected to be %s!", row, column, expected));
 	}
 
 	private String getValueStringForCell(int row, int column) {

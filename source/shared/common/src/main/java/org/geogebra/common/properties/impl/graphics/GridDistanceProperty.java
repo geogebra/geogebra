@@ -44,8 +44,12 @@ public class GridDistanceProperty extends NumericPropertyWithSuggestions
 	 * @param label label of the axis
 	 * @param axis the axis for the numbering distance will be set
 	 */
-	public GridDistanceProperty(AlgebraProcessor processor, Localization localization,
-			EuclidianViewInterfaceCommon euclidianView, String label, int axis) {
+	public GridDistanceProperty(
+			AlgebraProcessor processor,
+			Localization localization,
+			EuclidianViewInterfaceCommon euclidianView,
+			String label,
+			int axis) {
 		super(processor, localization, label);
 		this.euclidianView = euclidianView;
 		this.axis = axis;
@@ -77,7 +81,7 @@ public class GridDistanceProperty extends NumericPropertyWithSuggestions
 		double distance = euclidianView.getGridDistances()[axis];
 		if (DoubleUtil.isEqual(distance, Math.PI)) {
 			return Unicode.PI_STRING;
-		}  else if (DoubleUtil.isEqual(distance, Kernel.PI_HALF)) {
+		} else if (DoubleUtil.isEqual(distance, Kernel.PI_HALF)) {
 			return Unicode.PI_HALF_STRING;
 		} else {
 			return super.getValue();

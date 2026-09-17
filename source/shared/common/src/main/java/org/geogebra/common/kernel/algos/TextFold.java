@@ -43,7 +43,6 @@ public class TextFold implements FoldComputer {
 		} else {
 			result.setUndefined();
 		}
-
 	}
 
 	@Override
@@ -64,7 +63,5 @@ public class TextFold implements FoldComputer {
 	@Override
 	public void finish() {
 		result.setTextString(sb.toString());
-
 	}
-
 }

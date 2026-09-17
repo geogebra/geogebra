@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -44,7 +44,7 @@ package org.freehep.graphicsio;
 // Visit the ACME Labs Java page for up-to-date versions of this and other
 // fine Java utilities: http://www.acme.com/java/
 
-//package Acme.JPM.Encoders;
+// package Acme.JPM.Encoders;
 
 import java.awt.Image;
 import java.awt.image.ColorModel;
@@ -104,8 +104,7 @@ public abstract class ImageEncoder implements ImageConsumer {
 	// / Constructor.
 	// @param producer The ImageProducer to encode.
 	// @param out The stream to write the bytes to.
-	public ImageEncoder(ImageProducer producer, DataOutput dos)
-			throws IOException {
+	public ImageEncoder(ImageProducer producer, DataOutput dos) throws IOException {
 		this.producer = producer;
 		this.out = dos;
 	}
@@ -119,8 +118,8 @@ public abstract class ImageEncoder implements ImageConsumer {
 	// are guaranteed to be delivered in top-down-left-right order.
 	// One int per pixel, index is row * scansize + off + col,
 	// RGBdefault (AARRGGBB) color model.
-	protected abstract void encodePixels(int x, int y, int w, int h,
-			int[] rgbPixels, int off, int scansize) throws IOException;
+	protected abstract void encodePixels(
+			int x, int y, int w, int h, int[] rgbPixels, int off, int scansize) throws IOException;
 
 	// / Subclasses implement this to finish an encoding.
 	protected abstract void encodeDone() throws IOException;
@@ -147,8 +146,8 @@ public abstract class ImageEncoder implements ImageConsumer {
 
 	private int[] accumulator;
 
-	private void encodePixelsWrapper(int x, int y, int w, int h,
-			int[] rgbPixels, int off, int scansize) throws IOException {
+	private void encodePixelsWrapper(
+			int x, int y, int w, int h, int[] rgbPixels, int off, int scansize) throws IOException {
 		if (!started) {
 			started = true;
 			encodeStart(width, height);
@@ -159,8 +158,7 @@ public abstract class ImageEncoder implements ImageConsumer {
 		}
 		if (accumulate) {
 			for (int row = 0; row < h; ++row) {
-				System.arraycopy(rgbPixels, row * scansize + off, accumulator,
-						(y + row) * width + x, w);
+				System.arraycopy(rgbPixels, row * scansize + off, accumulator, (y + row) * width + x, w);
 			}
 		} else {
 			encodePixels(x, y, w, h, rgbPixels, off, scansize);
@@ -204,8 +202,8 @@ public abstract class ImageEncoder implements ImageConsumer {
 	}
 
 	@Override
-	public void setPixels(int x, int y, int w, int h, ColorModel model,
-			byte[] pixels, int off, int scansize) {
+	public void setPixels(
+			int x, int y, int w, int h, ColorModel model, byte[] pixels, int off, int scansize) {
 		int[] rgbPixels = new int[w];
 		for (int row = 0; row < h; ++row) {
 			int rowOff = off + row * scansize;
@@ -223,8 +221,8 @@ public abstract class ImageEncoder implements ImageConsumer {
 	}
 
 	@Override
-	public void setPixels(int x, int y, int w, int h, ColorModel model,
-			int[] pixels, int off, int scansize) {
+	public void setPixels(
+			int x, int y, int w, int h, ColorModel model, int[] pixels, int off, int scansize) {
 		if (model == rgbModel) {
 			try {
 				encodePixelsWrapper(x, y, w, h, pixels, off, scansize);
@@ -266,5 +264,4 @@ public abstract class ImageEncoder implements ImageConsumer {
 		}
 		stop();
 	}
-
 }

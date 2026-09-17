@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -37,9 +37,7 @@ class StringUtilTest {
 		String falsePos = "";
 		for (int cc = 0; cc < 65536; ++cc) {
 			char c = (char) cc;
-			if (Character.isLetter(
-					c) != org.geogebra.editor.share.input.Character
-							.isLetter(c)) {
+			if (Character.isLetter(c) != org.geogebra.editor.share.input.Character.isLetter(c)) {
 				if (Character.isLetter(c)) {
 					falseNeg += c;
 				} else {
@@ -82,36 +80,31 @@ class StringUtilTest {
 						+ "\uAA50\uAA51\uAA52\uAA53\uAA54\uAA55\uAA56\uAA57\uAA58\uAA59"
 						+ "\uABF0\uABF1\uABF2\uABF3\uABF4\uABF5\uABF6\uABF7\uABF8\uABF9"
 						+ "\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15\uFF16\uFF17\uFF18\uFF19",
-				falseNeg, StringUtil.toHexString(falseNeg));
+				falseNeg,
+				StringUtil.toHexString(falseNeg));
 
 		assertEquals("", falsePos, StringUtil.toHexString(falsePos));
 	}
 
 	@Test
 	void checkURIparser() {
-		assertEquals("k89JtCqY", GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org/m/k89JtCqY"));
-		assertEquals("k89JtCqY", GeoGebraURLParser
-				.getIDfromURL("http://www.geogebra.org/m/k89JtCqY"));
-		assertEquals("k89JtCqY",
-				GeoGebraURLParser.getIDfromURL("www.geogebra.org/m/k89JtCqY"));
-		assertEquals("k89JtCqY",
-				GeoGebraURLParser.getIDfromURL("http://ggbm.at/k89JtCqY"));
-		assertEquals("k89JtCqY",
-				GeoGebraURLParser.getIDfromURL("http://ggbtu.be/mk89JtCqY"));
-		assertNull(GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org"), "homepage is not a material");
-		assertNull(GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org/"), "homepage is not a material");
-		assertNull(GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org/math"), "Math page is not a material");
-
+		assertEquals("k89JtCqY", GeoGebraURLParser.getIDfromURL("https://www.geogebra.org/m/k89JtCqY"));
+		assertEquals("k89JtCqY", GeoGebraURLParser.getIDfromURL("http://www.geogebra.org/m/k89JtCqY"));
+		assertEquals("k89JtCqY", GeoGebraURLParser.getIDfromURL("www.geogebra.org/m/k89JtCqY"));
+		assertEquals("k89JtCqY", GeoGebraURLParser.getIDfromURL("http://ggbm.at/k89JtCqY"));
+		assertEquals("k89JtCqY", GeoGebraURLParser.getIDfromURL("http://ggbtu.be/mk89JtCqY"));
+		assertNull(
+				GeoGebraURLParser.getIDfromURL("https://www.geogebra.org"), "homepage is not a material");
+		assertNull(
+				GeoGebraURLParser.getIDfromURL("https://www.geogebra.org/"), "homepage is not a material");
+		assertNull(
+				GeoGebraURLParser.getIDfromURL("https://www.geogebra.org/math"),
+				"Math page is not a material");
 	}
 
 	@Test
 	void checkUriParserWithM() {
-		assertEquals("mAukGjbN", GeoGebraURLParser
-				.getIDfromURL("https://www.geogebra.org/m/mAukGjbN"));
+		assertEquals("mAukGjbN", GeoGebraURLParser.getIDfromURL("https://www.geogebra.org/m/mAukGjbN"));
 	}
 
 	@Test
@@ -130,21 +123,20 @@ class StringUtilTest {
 
 	@Test
 	void testNumberToIndex() {
-		assertEquals("" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
-				StringUtil.numberToIndex(27));
-		assertEquals("" + Unicode.SUPERSCRIPT_MINUS
-						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
+		assertEquals("" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7, StringUtil.numberToIndex(27));
+		assertEquals(
+				"" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
 				StringUtil.numberToIndex(-27));
-		assertEquals("" + Unicode.SUPERSCRIPT_0,
-				StringUtil.numberToIndex(0));
+		assertEquals("" + Unicode.SUPERSCRIPT_0, StringUtil.numberToIndex(0));
 	}
 
 	@Test
 	void testIndexToNumber() {
-		assertEquals(27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_2
-						+ Unicode.SUPERSCRIPT_7));
-		assertEquals(-27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_MINUS
-						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7));
+		assertEquals(27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7));
+		assertEquals(
+				-27,
+				StringUtil.indexToNumber(
+						"" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7));
 		assertEquals(0, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_0));
 	}
 
@@ -166,8 +158,7 @@ class StringUtilTest {
 
 	@Test
 	void testRemoveAccents() {
-		assertEquals("nuoascr",
-				StringUtil.removeAccents("\u00F1\u00FC\u00F6\u00E4\u0161\u010D\u0159"));
+		assertEquals("nuoascr", StringUtil.removeAccents("\u00F1\u00FC\u00F6\u00E4\u0161\u010D\u0159"));
 	}
 
 	@Issue("APPS-5458")
@@ -178,8 +169,7 @@ class StringUtilTest {
 
 	private static void compatibleNewlines(String in, String out) {
 		assertEquals(out, StringUtil.newlinesToHTML(in));
-		assertEquals(StringUtil.toJavaString(in),
-				StringUtil.toJavaString(StringUtil.htmlToNewlines(out)));
+		assertEquals(
+				StringUtil.toJavaString(in), StringUtil.toJavaString(StringUtil.htmlToNewlines(out)));
 	}
-
 }

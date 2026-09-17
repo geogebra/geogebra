@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -60,17 +60,17 @@ import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Dialog to create a new user defined tool
- * 
+ *
  * @author Markus Hohenwarter
  * @version 2010-06-14 Last change: Zbynek Konecny
  */
-public class ToolCreationDialogD extends Dialog
-		implements GeoElementSelectionListener {
+public class ToolCreationDialogD extends Dialog implements GeoElementSelectionListener {
 	private static final long serialVersionUID = 1L;
 	private final AppD app;
 	private final LocalizationD loc;
 	/** tabs */
 	protected JTabbedPane tabbedPane;
+
 	private ToolNameIconPanelD namePanel;
 
 	private OutputListModel outputList;
@@ -102,8 +102,7 @@ public class ToolCreationDialogD extends Dialog
 
 		if (flag) {
 			// add all currently selected geos to output list
-			ArrayList<GeoElement> selGeos = app.getSelectionManager()
-					.getSelectedGeos();
+			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
 			for (int i = 0; i < selGeos.size(); i++) {
 				GeoElement geo = selGeos.get(i);
 				outputList.addElement(geo);
@@ -153,7 +152,6 @@ public class ToolCreationDialogD extends Dialog
 			 * (segments[i].isVisible()) addElement(segments[i]); } }
 			 */
 		}
-
 	}
 
 	private static final class InputListModel extends DefaultListModel {
@@ -179,8 +177,7 @@ public class ToolCreationDialogD extends Dialog
 			super.addElement(geo);
 
 			// remove listener from input add combobox before removing geo
-			JComboBox cbListener = removeListeningJComboBox(
-					this.cbInputAddList);
+			JComboBox cbListener = removeListeningJComboBox(this.cbInputAddList);
 			this.cbInputAddList.removeElement(geo);
 			this.cbInputAddList.addListDataListener(cbListener);
 		}
@@ -239,8 +236,7 @@ public class ToolCreationDialogD extends Dialog
 
 			// set macro mode
 			if (newTool.isShowInToolBar()) {
-				int mode = kernel.getMacroID(newTool)
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
+				int mode = kernel.getMacroID(newTool) + EuclidianConstants.MACRO_MODE_ID_OFFSET;
 				appToSave.getGuiManager().addToToolbarDefinition(mode);
 				appToSave.updateToolBar();
 				appToSave.setMode(mode);
@@ -263,23 +259,25 @@ public class ToolCreationDialogD extends Dialog
 	 * @version 2010-06-04
 	 */
 	private void overwriteMacro(Macro macro) {
-		Object[] options = {loc.getMenu("Tool.Replace"),
-				loc.getMenu("Tool.DontReplace")};
-		int returnVal = JOptionPane.showOptionDialog(this,
-				app.getLocalization().getPlain("Tool.ReplaceQuestion",
-						macro.getToolName()),
-				loc.getMenu("Question"), JOptionPane.DEFAULT_OPTION,
-				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+		Object[] options = {loc.getMenu("Tool.Replace"), loc.getMenu("Tool.DontReplace")};
+		int returnVal = JOptionPane.showOptionDialog(
+				this,
+				app.getLocalization().getPlain("Tool.ReplaceQuestion", macro.getToolName()),
+				loc.getMenu("Question"),
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE,
+				null,
+				options,
+				options[1]);
 		if (returnVal == 1) {
 			return;
 		}
 		Kernel kernel = macro.getKernel();
 		AppD appToSave = (AppD) kernel.getApplication();
-		boolean compatible = newTool.getNeededTypesString()
-				.equals(macro.getNeededTypesString());
+		boolean compatible = newTool.getNeededTypesString().equals(macro.getNeededTypesString());
 		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++) {
-			compatible = compatible && macro.getMacroOutput()[i].getClass()
-					.equals(newTool.getMacroOutput()[i].getClass());
+			compatible = compatible
+					&& macro.getMacroOutput()[i].getClass().equals(newTool.getMacroOutput()[i].getClass());
 		}
 		if (compatible) {
 			XMLStringBuilder sb = new XMLStringBuilder();
@@ -303,9 +301,8 @@ public class ToolCreationDialogD extends Dialog
 
 		} else {
 			Log.debug("not compatible");
-			JOptionPane.showMessageDialog(this,
-					app.getLocalization().getMenu("Tool.NotCompatible") + ":\n"
-							+ macro.toString());
+			JOptionPane.showMessageDialog(
+					this, app.getLocalization().getMenu("Tool.NotCompatible") + ":\n" + macro.toString());
 		}
 	}
 
@@ -337,8 +334,7 @@ public class ToolCreationDialogD extends Dialog
 		}
 	}
 
-	private static JComboBox removeListeningJComboBox(
-			DefaultComboBoxModel cbModel) {
+	private static JComboBox removeListeningJComboBox(DefaultComboBoxModel cbModel) {
 		// we need to remove the JComboBox as listener from the cbInputAddList
 		// temporarily to avoid multiple additions to inputList
 		ListDataListener[] listeners = cbModel.getListDataListeners();
@@ -381,8 +377,8 @@ public class ToolCreationDialogD extends Dialog
 		inputList = new InputListModel(cbInputAddList);
 		outputList = new OutputListModel(cbOutputAddList);
 
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
+		TreeSet<GeoElement> sortedSet =
+				app.getKernel().getConstruction().getGeoSetNameDescriptionOrder();
 
 		// lists for combo boxes to select input and output objects
 		// fill combobox models
@@ -425,15 +421,12 @@ public class ToolCreationDialogD extends Dialog
 			getContentPane().add(navPanel, BorderLayout.SOUTH);
 
 			// output and input panel
-			JPanel outputPanel = createInputOutputPanel(loc, outputList,
-					cbOutputAddList, true, false, null);
-			JPanel inputPanel = createInputOutputPanel(loc, inputList,
-					cbInputAddList, true, false, null);
+			JPanel outputPanel =
+					createInputOutputPanel(loc, outputList, cbOutputAddList, true, false, null);
+			JPanel inputPanel = createInputOutputPanel(loc, inputList, cbInputAddList, true, false, null);
 
-			tabbedPane.addTab(loc.getMenu("OutputObjects"), null, outputPanel,
-					null);
-			tabbedPane.addTab(loc.getMenu("InputObjects"), null, inputPanel,
-					null);
+			tabbedPane.addTab(loc.getMenu("OutputObjects"), null, outputPanel, null);
+			tabbedPane.addTab(loc.getMenu("InputObjects"), null, inputPanel, null);
 
 			// name & icon
 			namePanel = new ToolNameIconPanelD(app, false);
@@ -462,16 +455,15 @@ public class ToolCreationDialogD extends Dialog
 		namePanel.setToolName(macro.getToolName());
 		namePanel.setIconFileName(macro.getIconFileName());
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
-			GeoElement el = app.getKernel().lookupLabel(macro.getMacroInput()[i]
-					.getLabel(StringTemplate.defaultTemplate));
+			GeoElement el = app.getKernel()
+					.lookupLabel(macro.getMacroInput()[i].getLabel(StringTemplate.defaultTemplate));
 			if (el != null) {
 				this.inputList.add(0, el);
 			}
 		}
 		for (int i = 0; i < macro.getMacroOutput().length; i++) {
 			GeoElement el = app.getKernel()
-					.lookupLabel(macro.getMacroOutput()[i]
-							.getLabel(StringTemplate.defaultTemplate));
+					.lookupLabel(macro.getMacroOutput()[i].getLabel(StringTemplate.defaultTemplate));
 			if (el != null) {
 				this.outputList.add(0, el);
 			}
@@ -520,23 +512,22 @@ public class ToolCreationDialogD extends Dialog
 			btBack.setEnabled(tab > 0);
 
 			switch (tab) {
-			case 1: // input objects
-				updateInputList();
-				//$FALL-THROUGH$
-			case 0: // output objects
-				btNext.setText(loc.getMenu("Next") + " >");
-				btNext.setEnabled(true);
-				break;
+				case 1: // input objects
+					updateInputList();
+				// $FALL-THROUGH$
+				case 0: // output objects
+					btNext.setText(loc.getMenu("Next") + " >");
+					btNext.setEnabled(true);
+					break;
 
-			case 2: // name panel (finish)
-				if (createTool()) {
-					btNext.setText(loc.getMenu("Finish"));
-					btNext.setEnabled(
-							inputList.size() > 0 && outputList.size() > 0);
-					namePanel.requestFocus();
-				}
-				break;
-			default:
+				case 2: // name panel (finish)
+					if (createTool()) {
+						btNext.setText(loc.getMenu("Finish"));
+						btNext.setEnabled(inputList.size() > 0 && outputList.size() > 0);
+						namePanel.requestFocus();
+					}
+					break;
+				default:
 			}
 		});
 		return btPanel;
@@ -552,10 +543,13 @@ public class ToolCreationDialogD extends Dialog
 	 * @param listModel list model containing the input/output GeoElements
 	 * @return Panel with the list, buttons and comboBox
 	 */
-	public static JPanel createInputOutputPanel(LocalizationD loc,
+	public static JPanel createInputOutputPanel(
+			LocalizationD loc,
 			final DefaultListModel listModel,
-			final DefaultComboBoxModel cbModel, boolean showUpDownButtons,
-			boolean allowMultiple, ActionListener listener) {
+			final DefaultComboBoxModel cbModel,
+			boolean showUpDownButtons,
+			boolean allowMultiple,
+			ActionListener listener) {
 
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -594,8 +588,8 @@ public class ToolCreationDialogD extends Dialog
 		// list to show selected geos
 		JList list = new JList<>(listModel);
 		panel.add(
-				createListUpDownRemovePanel(loc, list, cbAdd, true,
-						showUpDownButtons, allowMultiple, listener),
+				createListUpDownRemovePanel(
+						loc, list, cbAdd, true, showUpDownButtons, allowMultiple, listener),
 				BorderLayout.CENTER);
 
 		// renderer to show long description of geos in list and combobox
@@ -617,16 +611,19 @@ public class ToolCreationDialogD extends Dialog
 	 * if null)
 	 * @return Panel with the list, buttons and comboBox
 	 */
-	public static JPanel createListUpDownRemovePanel(LocalizationD loc,
-			final JList list, final JComboBox cbAdd, boolean showRemoveButton,
-			boolean showUpDownButtons, final boolean allowMultiple,
+	public static JPanel createListUpDownRemovePanel(
+			LocalizationD loc,
+			final JList list,
+			final JComboBox cbAdd,
+			boolean showRemoveButton,
+			boolean showUpDownButtons,
+			final boolean allowMultiple,
 			ActionListener listener) {
 		JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
 
 		JPanel listPanel = new JPanel(new BorderLayout(5, 3));
 		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setBorder(
-				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		scrollPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		if (cbAdd != null) {
 			listPanel.add(cbAdd, BorderLayout.NORTH);
 		}
@@ -635,8 +632,7 @@ public class ToolCreationDialogD extends Dialog
 
 		// buttons on the right
 		JPanel outputButtonPanel = new JPanel();
-		BoxLayout outputButtonPanelLayout = new BoxLayout(outputButtonPanel,
-				BoxLayout.Y_AXIS);
+		BoxLayout outputButtonPanelLayout = new BoxLayout(outputButtonPanel, BoxLayout.Y_AXIS);
 		outputButtonPanel.setLayout(outputButtonPanelLayout);
 
 		final JButton btUp = new JButton("\u25b2");
@@ -690,18 +686,15 @@ public class ToolCreationDialogD extends Dialog
 				NameDescriptionComparator comparator = new NameDescriptionComparator();
 				for (int i = selIndices.length - 1; i >= 0; i--) {
 					if (cbAdd != null) {
-						DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd
-								.getModel();
+						DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd.getModel();
 
 						if (!allowMultiple) {
 							// take from list and insert sorted into
 							// add-combobox
-							GeoElement geo = (GeoElement) listModel
-									.elementAt(selIndices[i]);
+							GeoElement geo = (GeoElement) listModel.elementAt(selIndices[i]);
 							int k = 0;
 							for (; k < cbModel.getSize(); k++) {
-								GeoElement cbGeo = (GeoElement) cbModel
-										.getElementAt(k);
+								GeoElement cbGeo = (GeoElement) cbModel.getElementAt(k);
 								if (comparator.compare(geo, cbGeo) <= 0) {
 									break;
 								}
@@ -737,16 +730,15 @@ public class ToolCreationDialogD extends Dialog
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		int tab = tabbedPane.getSelectedIndex();
 		switch (tab) {
-		case 0: // output objects
-			outputList.addElement(geo);
-			break;
+			case 0: // output objects
+				outputList.addElement(geo);
+				break;
 
-		case 1: // input objects
-			inputList.addElement(geo);
-			break;
-		default:
+			case 1: // input objects
+				inputList.addElement(geo);
+				break;
+			default:
 		}
-
 	}
 
 	/**
@@ -765,7 +757,9 @@ public class ToolCreationDialogD extends Dialog
 		 * the Jlabel each time we're called.
 		 */
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value, // value
+		public Component getListCellRendererComponent(
+				JList list,
+				Object value, // value
 				// to
 				// display
 				int index, // cell index
@@ -798,5 +792,4 @@ public class ToolCreationDialogD extends Dialog
 			return this;
 		}
 	}
-
 }

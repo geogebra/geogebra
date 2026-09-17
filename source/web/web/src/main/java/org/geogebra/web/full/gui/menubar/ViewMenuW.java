@@ -69,22 +69,21 @@ public final class ViewMenuW extends Submenu {
 	 *            localization
 	 */
 	private void initRefreshActions(Localization loc) {
-		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("Refresh"),
-				new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("Refresh"), new MenuCommand(app) {
 
-					@Override
-					void doExecute() {
-						app.refreshViews();
-					}
-				}));
-		addItem(MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("RecomputeAllViews"),
-				new MenuCommand(app) {
+			@Override
+			void doExecute() {
+				app.refreshViews();
+			}
+		}));
+		addItem(
+				MainMenu.getMenuBarHtmlEmptyIcon(loc.getMenu("RecomputeAllViews"), new MenuCommand(app) {
 
 					@Override
 					void doExecute() {
 						app.getKernel().updateConstruction(true);
-				}
-		}));
+					}
+				}));
 	}
 
 	/**
@@ -105,15 +104,15 @@ public final class ViewMenuW extends Submenu {
 			addToMenu(e);
 		}
 		Localization loc = app.getLocalization();
-		inputBarItem = new GCheckBoxMenuItem(AppResources.INSTANCE.empty(),
+		inputBarItem = new GCheckBoxMenuItem(
+				AppResources.INSTANCE.empty(),
 				"InputField",
 				new MenuCommand(app) {
 
 					@Override
 					void doExecute() {
 						app.persistWidthAndHeight();
-						app.getAppletParameters()
-								.setAttribute("showAlgebraInput", "true");
+						app.getAppletParameters().setAttribute("showAlgebraInput", "true");
 
 						app.setShowAlgebraInput(true, false);
 						app.setInputPosition(
@@ -124,13 +123,10 @@ public final class ViewMenuW extends Submenu {
 						app.updateSplitPanelHeight();
 
 						app.updateCenterPanelAndViews();
-						if (app.getGuiManager() != null
-								&& app.getGuiManager().getLayout() != null) {
-							app.getGuiManager().getLayout().getDockManager()
-									.resizePanels();
+						if (app.getGuiManager() != null && app.getGuiManager().getLayout() != null) {
+							app.getGuiManager().getLayout().getDockManager().resizePanels();
 						}
-						inputBarItem.setSelected(app
-								.getInputPosition() != InputPosition.algebraView);
+						inputBarItem.setSelected(app.getInputPosition() != InputPosition.algebraView);
 
 						Timer timer = new Timer() {
 							@Override
@@ -141,24 +137,26 @@ public final class ViewMenuW extends Submenu {
 						};
 						timer.schedule(0);
 					}
-				}, app);
+				},
+				app);
 		addItem(inputBarItem.getMenuItem());
-		consProtNav = new GCheckBoxMenuItem(AppResources.INSTANCE.empty(), "NavigationBar",
+		consProtNav = new GCheckBoxMenuItem(
+				AppResources.INSTANCE.empty(),
+				"NavigationBar",
 				new MenuCommand(app) {
 
-			@Override
-			void doExecute() {
-				if (consProtNav.isSelected()) {
-					app.setShowConstructionProtocolNavigation(false);
-				} else {
-					int id = app.getActiveEuclidianView().getViewID();
-					app.setShowConstructionProtocolNavigation(true, id);
-					app.getGuiManager()
-							.updateCheckBoxesForShowConstructionProtocolNavigation(
-									id);
-				}
-			}
-				}, app);
+					@Override
+					void doExecute() {
+						if (consProtNav.isSelected()) {
+							app.setShowConstructionProtocolNavigation(false);
+						} else {
+							int id = app.getActiveEuclidianView().getViewID();
+							app.setShowConstructionProtocolNavigation(true, id);
+							app.getGuiManager().updateCheckBoxesForShowConstructionProtocolNavigation(id);
+						}
+					}
+				},
+				app);
 		addItem(consProtNav.getMenuItem());
 
 		addSeparator();
@@ -196,11 +194,10 @@ public final class ViewMenuW extends Submenu {
 	public void update() {
 		for (Entry<Integer, GCheckBoxMenuItem> entry : this.items.entrySet()) {
 			int viewID = entry.getKey();
-			entry.getValue().setSelected(
-					app.getGuiManager().showView(viewID));
+			entry.getValue().setSelected(app.getGuiManager().showView(viewID));
 		}
-		boolean linearInput = app.showAlgebraInput()
-				&& app.getInputPosition() != InputPosition.algebraView;
+		boolean linearInput =
+				app.showAlgebraInput() && app.getInputPosition() != InputPosition.algebraView;
 		inputBarItem.setSelected(linearInput);
 		consProtNav.setSelected(app.showConsProtNavigation());
 	}

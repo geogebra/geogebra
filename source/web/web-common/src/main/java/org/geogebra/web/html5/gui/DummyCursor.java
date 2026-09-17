@@ -37,6 +37,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 	protected AppW app;
 	/** text field */
 	protected HasKeyboardTF textField;
+
 	private boolean dummyActive = false;
 	private final TextArea textArea;
 
@@ -69,17 +70,17 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 			}
 		}
 		switch (code) {
-		case GWTKeycodes.KEY_BACKSPACE:
-			textField.onBackSpace();
-			break;
-		case GWTKeycodes.KEY_LEFT:
-			onArrowLeft();
-			break;
-		case GWTKeycodes.KEY_RIGHT:
-			onArrowRight();
-			break;
-		default:
-			break;
+			case GWTKeycodes.KEY_BACKSPACE:
+				textField.onBackSpace();
+				break;
+			case GWTKeycodes.KEY_LEFT:
+				onArrowLeft();
+				break;
+			case GWTKeycodes.KEY_RIGHT:
+				onArrowRight();
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -112,7 +113,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 
 	/**
 	 * adds a dummy cursor at a specified position
-	 * 
+	 *
 	 * @param caretPos
 	 *            position to add the dummy cursor at
 	 */
@@ -147,7 +148,7 @@ public class DummyCursor implements FocusHandler, BlurHandler {
 	/**
 	 * enables the ggb keyboard, sets textfield to readonly to prevent native
 	 * keyboard
-	 * 
+	 *
 	 */
 	public void enableGGBKeyboard() {
 		if (app.isWhiteboardActive()) {

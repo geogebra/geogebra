@@ -27,14 +27,13 @@ public class ImageManagerCommon extends ImageManager {
 	private final HashMap<String, MyImage> externalImages = new HashMap<>();
 
 	@Override
-	public void addExternalImage(String filename0, String urlBase64) {
-	}
+	public void addExternalImage(String filename0, String urlBase64) {}
 
 	@Override
 	public void addExternalImage(@NonNull MyImage image, @NonNull String path) {
 		externalImages.put(path, image);
 	}
-	
+
 	@Override
 	public @Nullable MyImage getExternalImage(@NonNull String path) {
 		return externalImages.get(path);

@@ -32,8 +32,8 @@ public class ExtrudeConverter implements CoordConverter {
 	private double[] tmp;
 
 	@Override
-	public double translationToValue(Coords direction, Coords rwTransVec,
-			double startValue, EuclidianView view) {
+	public double translationToValue(
+			Coords direction, Coords rwTransVec, double startValue, EuclidianView view) {
 		return snap(direction.dotproduct3(rwTransVec) + startValue, view);
 	}
 
@@ -42,8 +42,8 @@ public class ExtrudeConverter implements CoordConverter {
 		double g = view.getGridDistances(0);
 		double valRound = Kernel.roundToScale(val, g);
 		if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-				|| (Math.abs(valRound - val) < g * view.getEuclidianController()
-						.getPointCapturingPercentage())) {
+				|| (Math.abs(valRound - val)
+						< g * view.getEuclidianController().getPointCapturingPercentage())) {
 			return valRound;
 		}
 		return val;
@@ -55,16 +55,25 @@ public class ExtrudeConverter implements CoordConverter {
 	}
 
 	@Override
-	public void updateTranslation(Coords startPoint3D, Coords direction,
-			Coords rayOrigin, Coords rayDirection, Coords translationVec3D) {
+	public void updateTranslation(
+			Coords startPoint3D,
+			Coords direction,
+			Coords rayOrigin,
+			Coords rayDirection,
+			Coords translationVec3D) {
 		if (project1 == null) {
 			project1 = new Coords(4);
 			project2 = new Coords(4);
 			lineCoords = new double[2];
 			tmp = new double[4];
 		}
-		CoordMatrixUtil.nearestPointsFromTwoLines(startPoint3D,
-				direction, rayOrigin, rayDirection, project1.val, project2.val,
+		CoordMatrixUtil.nearestPointsFromTwoLines(
+				startPoint3D,
+				direction,
+				rayOrigin,
+				rayDirection,
+				project1.val,
+				project2.val,
 				lineCoords,
 				tmp);
 
@@ -75,5 +84,4 @@ public class ExtrudeConverter implements CoordConverter {
 			translationVec3D.setSub3(project1, startPoint3D);
 		}
 	}
-
 }

@@ -9,5 +9,4 @@ public class CommandBeginGroup extends Command {
 		tp.processLBrace();
 		return false;
 	}
-
 }

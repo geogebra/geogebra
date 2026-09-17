@@ -30,7 +30,7 @@ public class Rationalization {
 	 * @return the rationalized fraction.
 	 */
 	public @Nullable ExpressionValue getResolution(@NonNull ExpressionNode node) {
-        RationalizableFraction fraction = new RationalizableFraction(node);
-        return fraction.simplify();
-    }
+		RationalizableFraction fraction = new RationalizableFraction(node);
+		return fraction.simplify();
+	}
 }

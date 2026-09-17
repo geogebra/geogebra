@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * POST Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFPostTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */

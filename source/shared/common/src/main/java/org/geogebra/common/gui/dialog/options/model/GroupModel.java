@@ -55,7 +55,6 @@ public class GroupModel extends OptionsModel {
 		for (OptionsModel model : models) {
 			model.updateProperties();
 		}
-
 	}
 
 	public void add(OptionsModel model) {
@@ -66,5 +65,4 @@ public class GroupModel extends OptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	}
-
 }

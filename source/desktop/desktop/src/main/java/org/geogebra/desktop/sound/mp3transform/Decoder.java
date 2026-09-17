@@ -1,19 +1,19 @@
 /*
- * This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU Library General Public License as published
- *   by the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU Library General Public License for more details.
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- *   You should have received a copy of the GNU Library General Public
- *   License along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *----------------------------------------------------------------------
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
+
 package org.geogebra.desktop.sound.mp3transform;
 
 import java.io.IOException;
@@ -42,8 +42,7 @@ public class Decoder {
 	private SourceDataLine line;
 	private final byte[] buffer = new byte[BUFFER_SIZE * 2];
 
-	private void decodeFrame(Header header, Bitstream stream)
-			throws IOException {
+	private void decodeFrame(Header header, Bitstream stream) throws IOException {
 		if (!initialized) {
 			double scaleFactor = 32700.0f;
 			int mode = header.mode();
@@ -55,15 +54,13 @@ public class Decoder {
 			initialized = true;
 		}
 		if (l3decoder == null) {
-			l3decoder = new Layer3Decoder(stream, header, filter1, filter2,
-					this);
+			l3decoder = new Layer3Decoder(stream, header, filter1, filter2, this);
 		}
 		l3decoder.decodeFrame();
 		writeBuffer();
 	}
 
-	protected void initOutputBuffer(SourceDataLine line1,
-			int numberOfChannels) {
+	protected void initOutputBuffer(SourceDataLine line1, int numberOfChannels) {
 		this.line = line1;
 		channels = numberOfChannels;
 		for (int i = 0; i < channels; i++) {
@@ -75,8 +72,7 @@ public class Decoder {
 		int p = bufferPointer[channel];
 		for (int i = 0; i < 32; i++) {
 			double sample = f[i];
-			int s = (int) ((sample > 32767.0f) ? 32767
-					: ((sample < -32768.0f) ? -32768 : sample));
+			int s = (int) ((sample > 32767.0f) ? 32767 : ((sample < -32768.0f) ? -32768 : sample));
 			buffer[p] = (byte) (s >> 8);
 			buffer[p + 1] = (byte) (s & 0xff);
 			p += 4;
@@ -128,18 +124,19 @@ public class Decoder {
 					break;
 				}
 				if (channels == 0) {
-					int channels1 = (header
-							.mode() == Header.MODE_SINGLE_CHANNEL)
-							? 1 : 2;
+					int channels1 = (header.mode() == Header.MODE_SINGLE_CHANNEL) ? 1 : 2;
 					float sampleRate = header.frequency();
 					int sampleSize = 16;
 					AudioFormat format = new AudioFormat(
-							AudioFormat.Encoding.PCM_SIGNED, sampleRate,
-							sampleSize, channels1, channels1 * (sampleSize / 8),
-							sampleRate, true);
+							AudioFormat.Encoding.PCM_SIGNED,
+							sampleRate,
+							sampleSize,
+							channels1,
+							channels1 * (sampleSize / 8),
+							sampleRate,
+							true);
 					// big endian
-					SourceDataLine.Info info = new DataLine.Info(
-							SourceDataLine.class, format);
+					SourceDataLine.Info info = new DataLine.Info(SourceDataLine.class, format);
 					line1 = (SourceDataLine) AudioSystem.getLine(info);
 					if (BENCHMARK) {
 						initOutputBuffer(null, channels1);
@@ -164,8 +161,7 @@ public class Decoder {
 					break;
 				}
 				// TODO should not write directly
-				Log.debug("Error at: " + name + " Frame: " + frame + " Error: "
-						+ e.toString());
+				Log.debug("Error at: " + name + " Frame: " + frame + " Error: " + e.toString());
 				// e.printStackTrace();
 			} finally {
 				stream.closeFrame();
@@ -180,5 +176,4 @@ public class Decoder {
 			line1.close();
 		}
 	}
-
 }

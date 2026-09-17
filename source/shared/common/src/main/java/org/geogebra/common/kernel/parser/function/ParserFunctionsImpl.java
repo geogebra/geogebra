@@ -101,10 +101,9 @@ class ParserFunctionsImpl implements ParserFunctions {
 	public void updateLocale(Localization loc) {
 		localizedReferences = new FunctionReferences();
 
-		for (FunctionReference reference: translatables) {
+		for (FunctionReference reference : translatables) {
 			String localized = loc.getFunction(reference.name, reference.size != 1);
-			localizedReferences.put(reference.size, localized, reference.operation,
-					reference.arguments);
+			localizedReferences.put(reference.size, localized, reference.operation, reference.arguments);
 		}
 	}
 
@@ -134,16 +133,15 @@ class ParserFunctionsImpl implements ParserFunctions {
 		TreeSet<String> completions = new TreeSet<>();
 		EnumSet<Operation> ops = EnumSet.noneOf(Operation.class);
 		localizedReferences.getCompletions(prefix, completions, ops, operationFilter);
-		OperationFilter internalFilter = op ->
-				(operationFilter == null || operationFilter.isAllowed(op)) && !ops.contains(op);
-		references.getCompletions(prefix, completions, EnumSet.noneOf(Operation.class),
-				internalFilter);
+		OperationFilter internalFilter =
+				op -> (operationFilter == null || operationFilter.isAllowed(op)) && !ops.contains(op);
+		references.getCompletions(prefix, completions, EnumSet.noneOf(Operation.class), internalFilter);
 		return new ArrayList<>(completions);
 	}
 
 	@Override
 	public String getInternal(Localization localization, String string) {
-		for (FunctionReference reference: translatables) {
+		for (FunctionReference reference : translatables) {
 			if (localization.getFunction(reference.name).equals(string)) {
 				return reference.name;
 			}
@@ -153,7 +151,7 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 	@Override
 	public boolean isTranslatableFunction(String string) {
-		for (FunctionReference reference: translatables) {
+		for (FunctionReference reference : translatables) {
 			if (reference.name.equals(string)) {
 				return true;
 			}

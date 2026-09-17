@@ -18,7 +18,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 /**
  * Class that manages text rendering
- * 
+ *
  * @author Mathieu
  *
  */
@@ -29,19 +29,18 @@ public class PlotterText {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param manager
 	 *            openGL manager
 	 */
 	public PlotterText(Manager manager) {
 
 		this.manager = manager;
-
 	}
 
 	/**
 	 * draws a rectangle
-	 * 
+	 *
 	 * @param x
 	 *            vertex x-coord
 	 * @param y
@@ -53,8 +52,7 @@ public class PlotterText {
 	 * @param height
 	 *            height
 	 */
-	public void rectangle(double x, double y, double z, double width,
-			double height) {
+	public void rectangle(double x, double y, double z, double width, double height) {
 
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
@@ -73,12 +71,11 @@ public class PlotterText {
 		manager.vertexInt(x, y + height, z);
 
 		manager.endGeometry();
-
 	}
 
 	/**
 	 * Draw rectangle outline
-	 * 
+	 *
 	 * @param x
 	 *            vertex x-coord
 	 * @param y
@@ -92,8 +89,8 @@ public class PlotterText {
 	 * @param lineWidth
 	 *            bounds line width
 	 */
-	public void rectangleBounds(double x, double y, double z, double width,
-			double height, double lineWidth) {
+	public void rectangleBounds(
+			double x, double y, double z, double width, double height, double lineWidth) {
 
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		double w = lineWidth / 2;
@@ -151,7 +148,5 @@ public class PlotterText {
 		manager.vertexInt(x + width - w, y + height - w, z);
 
 		manager.endGeometry();
-
 	}
-
 }

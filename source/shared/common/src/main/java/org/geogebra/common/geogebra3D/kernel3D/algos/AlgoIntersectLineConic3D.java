@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -44,14 +44,13 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	 * @param c
 	 *            conic
 	 */
-	AlgoIntersectLineConic3D(Construction cons, String label, GeoLineND g,
-			GeoConicND c) {
+	AlgoIntersectLineConic3D(Construction cons, String label, GeoLineND g, GeoConicND c) {
 		this(cons, g, c);
 		LabelManager.setLabels(label, P);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param labels
@@ -61,8 +60,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	 * @param c
 	 *            conic
 	 */
-	AlgoIntersectLineConic3D(Construction cons, String[] labels, GeoLineND g,
-			GeoConicND c) {
+	AlgoIntersectLineConic3D(Construction cons, String[] labels, GeoLineND g, GeoConicND c) {
 		this(cons, g, c);
 		LabelManager.setLabels(labels, P);
 	}
@@ -78,7 +76,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param g
@@ -91,7 +89,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return line input
 	 */
 	GeoLineND getLine() {

@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.common.BaseUnitTest.hasValue;
@@ -70,26 +70,23 @@ class CommandsTest extends CommandTestSetup {
 		t("quad:y^2=1-z", "y^(2) = 1 - z");
 		GeoQuadric3D quad = (GeoQuadric3D) lookup("quad");
 		quad.setEquationForm(QuadraticEquationRepresentable.Form.IMPLICIT);
-		assertThat(quad, hasValue("y" + Unicode.SUPERSCRIPT_2 + " + 0z"
-				+ Unicode.SUPERSCRIPT_2 + " + z = 1"));
+		assertThat(
+				quad, hasValue("y" + Unicode.SUPERSCRIPT_2 + " + 0z" + Unicode.SUPERSCRIPT_2 + " + z = 1"));
 	}
 
 	@Test
 	void operationSequence() {
-		assertEquals("1" + Unicode.ELLIPSIS + "2",
-				StringUtil.preprocessForParser("1..2", false));
+		assertEquals("1" + Unicode.ELLIPSIS + "2", StringUtil.preprocessForParser("1..2", false));
 		t("3.2..7.999", "{3, 4, 5, 6, 7, 8}");
 		t("-3.2..3.2", "{-3, -2, -1, 0, 1, 2, 3}");
 		t("3.2..-2", "{3, 2, 1, 0, -1, -2}");
 		t("seqa=2*(1..5)", "{2, 4, 6, 8, 10}");
 		assertEquals(
-				"<expression label=\"seqa\" exp=\"(2 * (1" + Unicode.ELLIPSIS
-						+ "5))\"/>",
+				"<expression label=\"seqa\" exp=\"(2 * (1" + Unicode.ELLIPSIS + "5))\"/>",
 				app.getGgbApi().getXML("seqa").split("\n")[0]);
 		t("seqa=(1..3)+3", "{4, 5, 6}");
 		assertEquals(
-				"<expression label=\"seqa\" exp=\"(1" + Unicode.ELLIPSIS
-						+ "3) + 3\"/>",
+				"<expression label=\"seqa\" exp=\"(1" + Unicode.ELLIPSIS + "3) + 3\"/>",
 				app.getGgbApi().getXML("seqa").split("\n")[0]);
 	}
 
@@ -142,17 +139,20 @@ class CommandsTest extends CommandTestSetup {
 	void piecewiseIntegration() {
 		t("f(x):=x^2", "x^(2)");
 		t("g(x):=1/x", "1 / x");
-		t("h(x):=If(0<x<=2,x^2, x>2, 1/x)",
+		t(
+				"h(x):=If(0<x<=2,x^2, x>2, 1/x)",
 				"If[0 < x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x]");
-		t("h2(x):=If(x<=2,x^2, x>2, 1/x)",
-				"If[x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x]");
-		t("h3(x):=If(0<x<=2,f(x), x>2, g(x))",
+		t("h2(x):=If(x<=2,x^2, x>2, 1/x)", "If[x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x]");
+		t(
+				"h3(x):=If(0<x<=2,f(x), x>2, g(x))",
 				"If[0 < x " + Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x]");
-		t("h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))", "If[0 < x "
-				+ Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x]");
-		t("h5(x):=If(x>=2,x^2, x<2, 1/x)",
+		t(
+				"h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))",
+				"If[0 < x " + Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x]");
+		t(
+				"h5(x):=If(x>=2,x^2, x<2, 1/x)",
 				"If[x " + Unicode.GREATER_EQUAL + " 2, x^(2), x < 2, 1 / x]");
-		for (String cmd : new String[] { "Integral", "NIntegral" }) {
+		for (String cmd : new String[] {"Integral", "NIntegral"}) {
 			tRound(cmd + "(h(x),1,3)", eval("-ln(2) + ln(3) + 7 / 3"));
 			tRound(cmd + "(h2(x),1,3)", eval("-ln(2) + ln(3) + 7 / 3"));
 			tRound(cmd + "(h3(x),1,3)", eval("-ln(2) + ln(3) + 7 / 3"));
@@ -172,12 +172,10 @@ class CommandsTest extends CommandTestSetup {
 		t("e2:y=z", "y = z");
 		t("SetValue(e1,?)");
 		t("SetValue(e2,?)");
-		t("g:Intersect(e1,e2)", "X = (NaN, NaN, NaN) + "
-				+ Unicode.lambda + " (NaN, NaN, NaN)");
+		t("g:Intersect(e1,e2)", "X = (NaN, NaN, NaN) + " + Unicode.lambda + " (NaN, NaN, NaN)");
 		t("SetValue(e1,x=z)");
 		t("SetValue(e2,y=z)");
-		t("g", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (1, 1, 1)");
+		t("g", "X = (0, 0, 0) + " + Unicode.lambda + " (1, 1, 1)");
 	}
 
 	@Test
@@ -189,33 +187,38 @@ class CommandsTest extends CommandTestSetup {
 		t("g:AngleBisector(e1,e2)", "X = (?, ?, ?)", "X = (?, ?, ?)");
 		t("SetValue(e1,X = (0, 0, 0) + t (1, 0, 0))");
 		t("SetValue(e2,X = (0, 0, 0) + t (0, 1, 0))");
-		t("g", "X = (0, 0, 0) + "
-				+ Unicode.lambda + " (1, -1, 0)");
+		t("g", "X = (0, 0, 0) + " + Unicode.lambda + " (1, -1, 0)");
 	}
 
 	@Test
 	void intersectConicConicSymmetric() {
-		intersectSym("7x y + 3x - 9y = -820", "-7x^2 - 7y^2 - 4x + 14y = -1220",
+		intersectSym(
+				"7x y + 3x - 9y = -820",
+				"-7x^2 - 7y^2 - 4x + 14y = -1220",
 				"{(-10, 10), (-9.21683, 10.77766)}");
-		intersectSym("-9x² + 20x + 2y = -1106", "5x y + 6x - 2y = 96",
+		intersectSym(
+				"-9x² + 20x + 2y = -1106",
+				"5x y + 6x - 2y = 96",
 				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
-		intersectSym("-10x y + 8x + 7y = -270", "7x^2 + 7y^2 + 6x + 4y = 564",
-				"{(-9.26094, -1.96681), (-2.07704, -9.12423),"
-						+ " (5.88084, 6.11961), (6, 6)}");
-		intersectSym("5x y - 8x + 2y = 240", "-3 x^2 + 14x y - 6x + 6y = 643",
-				"{(7, 8)}");
-		intersectSym("4y² - 9x + y = 66", "-9 x² - 9y² - 4x - 2y = -920",
-				"{(8, -6), (8.01745, 5.75334)}");
-		intersectSym("-4x² - 4y² + 9x - 9y = -405", "x² - 2x - 12y = -108",
-				"{(0, 9), (2.09298, 9.01622)}");
-		intersectSym("2x y - 2x - 9y = -108", "-5x y + 5y² + 6x + 7y = 724",
+		intersectSym(
+				"-10x y + 8x + 7y = -270",
+				"7x^2 + 7y^2 + 6x + 4y = 564",
+				"{(-9.26094, -1.96681), (-2.07704, -9.12423)," + " (5.88084, 6.11961), (6, 6)}");
+		intersectSym("5x y - 8x + 2y = 240", "-3 x^2 + 14x y - 6x + 6y = 643", "{(7, 8)}");
+		intersectSym(
+				"4y² - 9x + y = 66", "-9 x² - 9y² - 4x - 2y = -920", "{(8, -6), (8.01745, 5.75334)}");
+		intersectSym(
+				"-4x² - 4y² + 9x - 9y = -405", "x² - 2x - 12y = -108", "{(0, 9), (2.09298, 9.01622)}");
+		intersectSym(
+				"2x y - 2x - 9y = -108",
+				"-5x y + 5y² + 6x + 7y = 724",
 				"{(-0.34925, 11.20776), (463.84925, 0.89224), (10, -8)}");
-		intersectSym("-9x² + 20x + 2y = -1106", "5x y + 6x - 2y = 96",
+		intersectSym(
+				"-9x² + 20x + 2y = -1106",
+				"5x y + 6x - 2y = 96",
 				"{(-10, -3), (0.36626, -556.05895), (12.25596, 0.37895)}");
-		intersectSym("-x² + 6x + 20y = -291", "-x y - x + 2y = -83",
-				"{(-7, -10), (22, 3.05)}");
-		intersectSym("-4x y + 2x - 7y = -88", "x² + y² + 2x + 8y = 3",
-				"{(-5, -6)}");
+		intersectSym("-x² + 6x + 20y = -291", "-x y - x + 2y = -83", "{(-7, -10), (22, 3.05)}");
+		intersectSym("-4x y + 2x - 7y = -88", "x² + y² + 2x + 8y = 3", "{(-5, -6)}");
 	}
 
 	private void intersectSym(String in1, String in2, String expected) {
@@ -225,34 +228,39 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void intersectConicConic() {
-		tRound("{Intersect(x y + 6x -5y = 158, x y = 128)}",
+		tRound(
+				"{Intersect(x y + 6x -5y = 158, x y = 128)}",
 				"{(-8.12623, -15.75147), (13.12623, 9.75147)}");
-		tRound("{Intersect( 7y² + 2x + 14y = 3 , -6y² - 20x = 7 )}",
+		tRound(
+				"{Intersect( 7y² + 2x + 14y = 3 , -6y² - 20x = 7 )}",
 				"{(-2.11538, -2.42582), (-0.36704, 0.23832)}");
-		tRound("{Intersect( -5x² - 9x + 9y = 0 , 2x² - 12x + 14y = 7 )}",
+		tRound(
+				"{Intersect( -5x² - 9x + 9y = 0 , 2x² - 12x + 14y = 7 )}",
 				"{(0.75, 1.0625), (-0.95455, -0.44835)}");
-		tRound("{Intersect[-7x y - 10x - 7y = 10, 2x y - 9x + 2y = 9]}",
-				"{(?, ?)}");
-		tRound("{Intersect[x y - x + 3y = -15, x² + y² - 12x - 2y = 143]}",
+		tRound("{Intersect[-7x y - 10x - 7y = 10, 2x y - 9x + 2y = 9]}", "{(?, ?)}");
+		tRound(
+				"{Intersect[x y - x + 3y = -15, x² + y² - 12x - 2y = 143]}",
 				"{(-6, 7), (-1.3923, -10.19615), (19.3923, 0.19615)}");
 		tRound("{Intersect[-7x y - 10x - 7y = 10, 2x y - 9x + 2y = 9]}", "{(?, ?)}");
 		tRound("{Intersect(-4x y + 2x - 7y = -88, x² + y² + 2x + 8y = 3)}", "{(-5, -6)}");
-		tRound("{Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)}",
-				"{(-7, -10), (22, 3.05)}");
-		tRound("{Intersect(-7x² - 10x + 18y = 118, -5x² - 5y² - 7x - 3y = -272)}",
+		tRound("{Intersect(-x² + 6x + 20y = -291, -x y - x + 2y = -83)}", "{(-7, -10), (22, 3.05)}");
+		tRound(
+				"{Intersect(-7x² - 10x + 18y = 118, -5x² - 5y² - 7x - 3y = -272)}",
 				"{(-2, 7), (0.57571, 7.00428)}");
-		tRound("{Intersect(4y² + 3x - 6y = 13, -7x y - 2x + 8y = -32)}",
+		tRound(
+				"{Intersect(4y² + 3x - 6y = 13, -7x y - 2x + 8y = -32)}",
 				"{(-2.14218, -1.5779), (5.08096, 0.79219), (3, 2)}");
 		tRound("{Intersect[ x² - 6x - 2y = -11, x² + y² - 6x - 4y = -12]}", "{(3, 1)}");
 		// intersect very flat parabola (nearly parallel lines) with a circle
-		tRound("{Intersect[ -9y² - 2x + 8y = -992, 5x² + 5y² - 9x + 6y = 566]}",
+		tRound(
+				"{Intersect[ -9y² - 2x + 8y = -992, 5x² + 5y² - 9x + 6y = 566]}",
 				"{(-3.99989, -10.10585), (6, -10)}");
 	}
 
 	@Test
 	void intersectConicConicInOnePoint() {
-		tRound("{Intersect[(x + 3.04)^2 + (y + 0.11)^2 = 144,"
-						+ "(x - 4.16)^2 + (y + 0.11)^2 = 23.04]}",
+		tRound(
+				"{Intersect[(x + 3.04)^2 + (y + 0.11)^2 = 144," + "(x - 4.16)^2 + (y + 0.11)^2 = 23.04]}",
 				"{(8.96, -0.11)}");
 	}
 
@@ -307,10 +315,12 @@ class CommandsTest extends CommandTestSetup {
 	}
 
 	private void ti(String in, String out) {
-		testSyntax(in.replace("i", Unicode.IMAGINARY + ""),
+		testSyntax(
+				in.replace("i", Unicode.IMAGINARY + ""),
 				AlgebraTestHelper.getMatchers(out.replace("i", Unicode.IMAGINARY + "")),
 				app,
-				ap, StringTemplate.xmlTemplate);
+				ap,
+				StringTemplate.xmlTemplate);
 	}
 
 	@Test
@@ -342,9 +352,11 @@ class CommandsTest extends CommandTestSetup {
 		t("pix", "(pi * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
-		t("f(" + Unicode.theta_STRING + ")=sin " + Unicode.theta_STRING,
+		t(
+				"f(" + Unicode.theta_STRING + ")=sin " + Unicode.theta_STRING,
 				"sin(" + Unicode.theta_STRING + ")");
-		t("f(" + Unicode.theta_STRING + ")=sin" + Unicode.theta_STRING,
+		t(
+				"f(" + Unicode.theta_STRING + ")=sin" + Unicode.theta_STRING,
 				"sin(" + Unicode.theta_STRING + ")");
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
@@ -358,8 +370,7 @@ class CommandsTest extends CommandTestSetup {
 	}
 
 	private String eval(String string) {
-		return ap.evaluateToGeoElement(string, true)
-				.toValueString(StringTemplate.editTemplate);
+		return ap.evaluateToGeoElement(string, true).toValueString(StringTemplate.editTemplate);
 	}
 
 	private void platonicTest(String string, int deg, String[] dodeca) {
@@ -405,14 +416,14 @@ class CommandsTest extends CommandTestSetup {
 	void testShorthandIntersect() {
 		t("x=2*y=3*z", "X = (0, 0, 0) + " + Unicode.lambda + " (6, 3, 2)");
 		t("(x=2y,2y=3z)", "X = (0, 0, 0) + " + Unicode.lambda + " (6, 3, 2)");
-		tRound("x-1=y+2=z-6", "X = (-2.33333, -5.33333, 2.66667) + "
-				+ Unicode.lambda + " (1, 1, 1)");
-		tRound("(x-1)/3=(y+2)/2=5(z-6)", "X = (-60.47239, -42.9816, 1.90184) + "
-				+ Unicode.lambda + " (2.5, 1.66667, 0.16667)");
-		tRound("1-x=y+2=z-6", "X = (4.33333, -5.33333, 2.66667) + "
-				+ Unicode.lambda + " (1, -1, -1)");
-		tRound("x+x-1=y+y+2=z-6+z", "X = (-1.16667, -2.66667, 1.33333) + "
-				+ Unicode.lambda + " (4, 4, 4)");
+		tRound("x-1=y+2=z-6", "X = (-2.33333, -5.33333, 2.66667) + " + Unicode.lambda + " (1, 1, 1)");
+		tRound(
+				"(x-1)/3=(y+2)/2=5(z-6)",
+				"X = (-60.47239, -42.9816, 1.90184) + " + Unicode.lambda + " (2.5, 1.66667, 0.16667)");
+		tRound("1-x=y+2=z-6", "X = (4.33333, -5.33333, 2.66667) + " + Unicode.lambda + " (1, -1, -1)");
+		tRound(
+				"x+x-1=y+y+2=z-6+z",
+				"X = (-1.16667, -2.66667, 1.33333) + " + Unicode.lambda + " (4, 4, 4)");
 	}
 
 	@Test
@@ -441,19 +452,16 @@ class CommandsTest extends CommandTestSetup {
 		tRound("Roots[sin(x),-1,4]", "(0, 0)", "(3.14159, 0)");
 		tRound("A", "(0, 0)");
 		tRound("B", "(3.14159, 0)");
-		tRound("A = Roots[sin(x),-1,4.2]",
-				"(0, 0)", "(3.14159, 0)");
+		tRound("A = Roots[sin(x),-1,4.2]", "(0, 0)", "(3.14159, 0)");
 		tRound("A", "(0, 0)");
 		tRound("Object[\"B\"]", "(3.14159, 0)");
 	}
 
-	private void prob(String cmd, String params, String pdf,
-			String cdf) {
+	private void prob(String cmd, String params, String pdf, String cdf) {
 		prob(cmd, params, pdf, cdf, -5);
 	}
 
-	private void prob(String cmd, String params, String pdf, String cdf,
-			int skip) {
+	private void prob(String cmd, String params, String pdf, String cdf, int skip) {
 		app.getKernel().getConstruction().setFileLoading(false);
 		tRound("cdf1=" + cmd + "(" + params + ",x)", unicode(cdf));
 		app.getKernel().getConstruction().setFileLoading(true);
@@ -462,21 +470,18 @@ class CommandsTest extends CommandTestSetup {
 		tRound("pdf=" + cmd + "(" + params + ",x,false)", unicode(pdf));
 		tRound("cdf=" + cmd + "(" + params + ",x,true)", unicode(cdf));
 		for (int i = -1; i < 5; i++) {
-			t("cdf(" + i + ")==" + cmd + "(" + params + "," + i + ",true)",
-					"true");
+			t("cdf(" + i + ")==" + cmd + "(" + params + "," + i + ",true)", "true");
 			if (i == skip) {
-				t("!IsDefined(pdf(" + i + ")) && !IsDefined(" + cmd + "("
-						+ params + "," + i + ",false))", "true");
-			} else {
-				t("pdf(" + i + ")==" + cmd + "(" + params + "," + i + ",false)",
+				t(
+						"!IsDefined(pdf(" + i + ")) && !IsDefined(" + cmd + "(" + params + "," + i + ",false))",
 						"true");
-
+			} else {
+				t("pdf(" + i + ")==" + cmd + "(" + params + "," + i + ",false)", "true");
 			}
 		}
 	}
 
-	private void intProb(String cmd, String args, String val, String pf,
-			String cdf) {
+	private void intProb(String cmd, String args, String val, String pf, String cdf) {
 		t("ZoomIn[0,0,100,100]");
 		tRound(cmd + "(" + args + "," + val + ",false)", pf);
 		tRound(cmd + "(" + args + "," + val + ",true)", cdf);
@@ -557,11 +562,12 @@ class CommandsTest extends CommandTestSetup {
 		tpm("xpm(pm2)", "{x + 2, x - (-2)}");
 		t("mul=4", "4");
 		tpm("prod=pm mul 3", "{12, -12}");
-		assertEquals("(" + Unicode.PLUSMINUS + "mul) * 3",
+		assertEquals(
+				"(" + Unicode.PLUSMINUS + "mul) * 3",
 				lookup("prod").getDefinition(StringTemplate.editTemplate));
 		tpm("prod2=pm sqrt 4", "{2, -2}");
-		assertEquals(Unicode.PLUSMINUS + "sqrt(4)",
-				lookup("prod2").getDefinition(StringTemplate.editTemplate));
+		assertEquals(
+				Unicode.PLUSMINUS + "sqrt(4)", lookup("prod2").getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test
@@ -605,16 +611,15 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void numIntTest() {
-		t("F(t,x)=NIntegral(sin(x)+sin(t-x), x)",
-				"NIntegral[sin(x) + sin(t - x), x]");
+		t("F(t,x)=NIntegral(sin(x)+sin(t-x), x)", "NIntegral[sin(x) + sin(t - x), x]");
 		((FunctionalNVar) lookup("F")).setSecret(null);
-		assertEquals("-cos(x) - (-cos(t - x))",
-				lookup("F").toValueString(StringTemplate.testTemplate));
+		assertEquals("-cos(x) - (-cos(t - x))", lookup("F").toValueString(StringTemplate.testTemplate));
 	}
 
 	@Test
 	void testPointsFromList() {
-		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
+		t(
+				"Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");
 	}
 
@@ -639,7 +644,9 @@ class CommandsTest extends CommandTestSetup {
 		t("Angle[ x+y=17, x=4 ]", "315*" + DEGREE_STRING);
 		t("Angle[ (1,1) ]", "45*" + DEGREE_STRING);
 		t("Angle[ (1,1), (3,1/3), (2,1/2) ]", "8.972626614896395*" + DEGREE_STRING);
-		t("Angle[ (1,1), (4,1/4), 30" + DEGREE_STRING + " ]", "30*" + DEGREE_STRING,
+		t(
+				"Angle[ (1,1), (4,1/4), 30" + DEGREE_STRING + " ]",
+				"30*" + DEGREE_STRING,
 				"(1.026923788646684, -0.600480947161671)");
 		tRound("Angle[ Segment[(1,1),(2,1/2)], x+y=17 ]", "341.56505" + DEGREE_STRING);
 		t("Angle((1, -1, 0),(0, 0, 0),(-1, -1, 0), zAxis)", "270*" + DEGREE_STRING);
@@ -648,11 +655,13 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdAngularBisector() {
-		t("anbisA=AngleBisector[ x+y=17, x=4 ]", "0.9238795325112867x + "
-						+ "0.3826834323650897y = 8.670402750791315" ,
+		t(
+				"anbisA=AngleBisector[ x+y=17, x=4 ]",
+				"0.9238795325112867x + " + "0.3826834323650897y = 8.670402750791315",
 				"-0.3826834323650897x + 0.9238795325112867y = 10.47970019318637");
-		t("anbisB=AngleBisector[ (1,1),(2,1/2),(3,1/3) ]", "-0.9509826718461247x +"
-				+ " 0.3092441718907662y = -1.7473432577468664");
+		t(
+				"anbisB=AngleBisector[ (1,1),(2,1/2),(3,1/3) ]",
+				"-0.9509826718461247x +" + " 0.3092441718907662y = -1.7473432577468664");
 	}
 
 	@Test
@@ -669,10 +678,10 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdApplyMatrix() {
 		t("ApplyMatrix[ {{1,2},{3,4}}, Polygon[(1,1),(2,1/2),4] ]", "2.5");
-		t("ApplyMatrix[ {{2,0,0},{0,3,0},{0,0,4}}, Sphere((0,0,1),1) ]",
+		t(
+				"ApplyMatrix[ {{2,0,0},{0,3,0},{0,0,4}}, Sphere((0,0,1),1) ]",
 				"0.25x² + 0.1111111111111111y² + 0.0625z² - 0.5z = 0");
-		tRound("Coefficients[ApplyMatrix[ {{0,1},{-1,0}}, 2x+y+0z=1 ]] * sqrt(5)",
-				"{-1, 2, 0, 1}");
+		tRound("Coefficients[ApplyMatrix[ {{0,1},{-1,0}}, 2x+y+0z=1 ]] * sqrt(5)", "{-1, 2, 0, 1}");
 	}
 
 	@Test
@@ -705,10 +714,14 @@ class CommandsTest extends CommandTestSetup {
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(2,0),(0,2)]]", "false");
-		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
-				+ "Polygon((1,4),(-1,4),(0,0),(2,0),(2,3)))", "true");
-		t("AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
-				+ "Polygon((2,3),(2,0),(0,0),(-1,4),(1,4)))", "true");
+		t(
+				"AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+						+ "Polygon((1,4),(-1,4),(0,0),(2,0),(2,3)))",
+				"true");
+		t(
+				"AreCongruent(Polygon((0,0),(2,0),(2,3),(1,4),(-1,4)),"
+						+ "Polygon((2,3),(2,0),(0,0),(-1,4),(1,4)))",
+				"true");
 	}
 
 	@Test
@@ -734,7 +747,8 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdAttachCopyToView() {
 		t("AttachCopyToView[(1,1),1]", StringTemplate.editTemplate, "(1, 1)");
-		t("AttachCopyToView[(1,1), 2, (2,1/2), (3,1/3), (123,0), (0,123)]",
+		t(
+				"AttachCopyToView[(1,1), 2, (2,1/2), (3,1/3), (123,0), (0,123)]",
 				"(0.6200000000000008, 13.680000000000005)");
 	}
 
@@ -769,8 +783,9 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdBarycenter() {
-		t("Barycenter[{(1,1),(2,1/2),(3,1/3)},{42,4,13}]", "(1.5084745762711864,"
-				+ " 0.8192090395480226)");
+		t(
+				"Barycenter[{(1,1),(2,1/2),(3,1/3)},{42,4,13}]",
+				"(1.5084745762711864," + " 0.8192090395480226)");
 	}
 
 	@Test
@@ -797,8 +812,7 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdBottom() {
-		t("Bottom[Cone[x^2+y^2=9,4]]",
-				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)");
+		t("Bottom[Cone[x^2+y^2=9,4]]", "X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)");
 	}
 
 	@Test
@@ -817,9 +831,12 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdCauchy() {
-		prob("Cauchy", "2,1", "abs(1) / ((1^2 + (x - 2)^2) " + Unicode.pi + ")",
-				"tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING
-						+ "((x - 2) / abs(1)) / " + Unicode.pi + " + 0.5");
+		prob(
+				"Cauchy",
+				"2,1",
+				"abs(1) / ((1^2 + (x - 2)^2) " + Unicode.pi + ")",
+				"tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "((x - 2) / abs(1)) / " + Unicode.pi
+						+ " + 0.5");
 	}
 
 	@Test
@@ -852,7 +869,10 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdChiSquared() {
-		prob("ChiSquared", "2", "If(x < 0, 0, (" + Unicode.EULER_STRING
+		prob(
+				"ChiSquared",
+				"2",
+				"If(x < 0, 0, (" + Unicode.EULER_STRING
 						+ "^((-x) / 2) x^(2 / 2 - 1)) / (2^(2 / 2) gamma(2 / 2)))",
 				"If(x < 0, 0, gamma(2 / 2, x / 2) / gamma(2 / 2))");
 	}
@@ -861,8 +881,7 @@ class CommandsTest extends CommandTestSetup {
 	void cmdChiSquaredTest() {
 		tRound("ChiSquaredTest[{{1, 2, 1}, {3, 2, 3}}]", "{0.68729, 0.75}");
 		tRound("ChiSquaredTest[{1, 2, 3, 4}, {3, 2, 4, 2}]", "{0.31011, 3.58333}");
-		tRound("ChiSquaredTest[{{1, 2, 1}, {3, 2, 3}}, {{2, 3, 2}, {4, 2, 3}}]",
-				"{0.45309, 1.58333}");
+		tRound("ChiSquaredTest[{{1, 2, 1}, {3, 2, 3}}, {{2, 3, 2}, {4, 2, 3}}]", "{0.45309, 1.58333}");
 		tRound("ChiSquaredTest[{1, 2, 3, 4}, {3, 2, 4, 2},3]", "{0.31011, 3.58333}");
 		tRound("ChiSquaredTest[{1, 2, 3, 4}, {3, 2, 4, 2},2]", "{0.16668, 3.58333}");
 	}
@@ -876,10 +895,10 @@ class CommandsTest extends CommandTestSetup {
 	void cmdCircle() {
 		t("Circle[ (1,1), 42 ]", "(x - 1)² + (y - 1)² = 1764");
 		t("Circle[ (1,1),(2,1/2) ]", "(x - 1)² + (y - 1)² = 1.2500000000000002");
-		t("Circle[ (1,1),(2,1/2),(3,1/3) ]", "(x - 3.083333333333333)² + (y -"
-				+ " 3.916666666666666)² = 12.847222222222216");
-		t("Circle[ (1,1), Segment[(1,1),(2,1/2)] ]", "(x - 1)² + (y - 1)² "
-				+ "= 1.2500000000000002");
+		t(
+				"Circle[ (1,1),(2,1/2),(3,1/3) ]",
+				"(x - 3.083333333333333)² + (y -" + " 3.916666666666666)² = 12.847222222222216");
+		t("Circle[ (1,1), Segment[(1,1),(2,1/2)] ]", "(x - 1)² + (y - 1)² " + "= 1.2500000000000002");
 	}
 
 	@Test
@@ -911,12 +930,11 @@ class CommandsTest extends CommandTestSetup {
 		areEqual("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
 		areEqual("Conic[ {42,4,13,50,5,7} ]", "42x² + 50x y + 4y² + 5x + 7y = -13");
 		areEqual("Conic[ {2, 3, -1, 4, 2, -3} ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
-		areEqual("Conic[ (1,1),(2,1/2),(3,1/3),(4,1/4),(5,1/5) ]",
-				"2.56x y = 2.56");
-		areEqual("Conic[ (0, -4), (2, 4), (3,1), (-2,3), (-3,-1)]",
+		areEqual("Conic[ (1,1),(2,1/2),(3,1/3),(4,1/4),(5,1/5) ]", "2.56x y = 2.56");
+		areEqual(
+				"Conic[ (0, -4), (2, 4), (3,1), (-2,3), (-3,-1)]",
 				"-151x² + 37xy - 14x - 72y² + 42y + 1320 = 0");
 		areEqual("Conic[ 2, 3, -1, 4, 2, -3 ]", "2x² + 4x y + 3y² + 2x - 3y = 1");
-
 	}
 
 	private void areEqual(String command1, String command2) {
@@ -926,14 +944,13 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void testConic5() {
 		GeoPoint[] points = {
-				newPoint(-0.25558616768332837, 0),
-				newPoint(-0.24401517687241298, 0.09869574035418058),
-				newPoint(-0.31884715907669187, 0.16407854720571086),
-				newPoint(-0.4410243233086352, 0.14553384365563557),
-				newPoint(-0.35858986503875784, -0.06827447415125582)
+			newPoint(-0.25558616768332837, 0),
+			newPoint(-0.24401517687241298, 0.09869574035418058),
+			newPoint(-0.31884715907669187, 0.16407854720571086),
+			newPoint(-0.4410243233086352, 0.14553384365563557),
+			newPoint(-0.35858986503875784, -0.06827447415125582)
 		};
-		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.getKernel().getConstruction(),
-				points);
+		AlgoConicFivePoints algo = new AlgoConicFivePoints(app.getKernel().getConstruction(), points);
 		GeoConicND conic = algo.getConic();
 		assertThat(conic, isDefined());
 	}
@@ -949,7 +966,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdComplexRoot() {
-		tRound("Sort({ComplexRoot(x^6 + 7x^3 - 8)})",
+		tRound(
+				"Sort({ComplexRoot(x^6 + 7x^3 - 8)})",
 				complex("{-2 + 0i, -0.5 - 0.86603i,"
 						+ " -0.5 + 0.86603i, 1 - 1.73205i, 1 + 0i, 1 + 1.73205i}"));
 		t("ComplexRoot( x^2 )", complex("0i"));
@@ -963,29 +981,27 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdConvexHull() {
-		t("ConvexHull[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"ConvexHull[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"ConvexHull[{(1, 1), (2, 2), (3, 3), (4, 1 / 4), (5, 1 / 5)}]");
 	}
 
 	@Test
 	void cmdCone() {
-		tRound("Cone[x^2+y^2=9,4]",
-				eval("12*pi"), "X = (0, 0, 4)",
+		tRound("Cone[x^2+y^2=9,4]", eval("12*pi"), "X = (0, 0, 4)", eval("pi*15"));
+		tRound(
+				"Cone[(0,0,0),(0,0,4),3]",
+				eval("12*pi"),
+				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
 				eval("pi*15"));
-		tRound("Cone[(0,0,0),(0,0,4),3]", eval("12*pi"),
-				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)", eval("pi*15"));
-		tRound("Cone[(0,0,0),Vector[(0,0,4)],pi/4]",
-				indices("x^2 + y^2 - 1z^2 = 0"));
+		tRound("Cone[(0,0,0),Vector[(0,0,4)],pi/4]", indices("x^2 + y^2 - 1z^2 = 0"));
 	}
 
 	@Test
 	void cmdConeInfinite() {
-		tRound("InfiniteCone[(1,1),(1,1,2),45deg]",
-				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
-		tRound("InfiniteCone[(1,1),Vector[(0,0,2)],45deg]",
-				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
-		tRound("InfiniteCone[(1,1),xAxis,45deg]",
-				indices("-1x^2 + y^2 + z^2 + 2x - 2y = 0"));
+		tRound("InfiniteCone[(1,1),(1,1,2),45deg]", indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
+		tRound("InfiniteCone[(1,1),Vector[(0,0,2)],45deg]", indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
+		tRound("InfiniteCone[(1,1),xAxis,45deg]", indices("-1x^2 + y^2 + z^2 + 2x - 2y = 0"));
 	}
 
 	@Test
@@ -998,14 +1014,14 @@ class CommandsTest extends CommandTestSetup {
 				+ column + "\\hline \\text{F}&1&1&2\\\\" + pct
 				+ "\\hline \\text{M}&0&1&1\\\\" + pctM
 				+ "\\hline \\hline \\text{Total}&1&2&3\\\\\\hline \\end{array}";
-		t("ContingencyTable[ {\"M\",\"F\",\"F\"},{\"R\",\"R\",\"L\"}]",
+		t(
+				"ContingencyTable[ {\"M\",\"F\",\"F\"},{\"R\",\"R\",\"L\"}]",
 				table.replace(column, "").replace(pct, "").replace(pctM, ""));
-		t("ContingencyTable[ {\"M\",\"F\",\"F\"},{\"R\",\"R\",\"L\"} ,\"|\"]",
-				table);
-		t("ContingencyTable[ {\"F\",\"M\"},{\"L\",\"R\"},{{1,1},{0,1}} ]",
+		t("ContingencyTable[ {\"M\",\"F\",\"F\"},{\"R\",\"R\",\"L\"} ,\"|\"]", table);
+		t(
+				"ContingencyTable[ {\"F\",\"M\"},{\"L\",\"R\"},{{1,1},{0,1}} ]",
 				table.replace(column, "").replace(pct, "").replace(pctM, ""));
-		t("ContingencyTable[ {\"F\",\"M\"},{\"L\",\"R\"},{{1,1},{0,1}},\"|\"]",
-				table);
+		t("ContingencyTable[ {\"F\",\"M\"},{\"L\",\"R\"},{{1,1},{0,1}},\"|\"]", table);
 	}
 
 	@Test
@@ -1019,46 +1035,114 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdCube() {
-		t("Cube[(0,0,0),(0,0,2)]",
-				"8", "(2, 0, 0)", "(0, 2, 0)", "(0, 2, 2)",
-				"(2, 2, 2)", "(2, 2, 0)", "4", "4", "4", "4", "4", "4",
-				"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+		t(
+				"Cube[(0,0,0),(0,0,2)]",
+				"8",
+				"(2, 0, 0)",
+				"(0, 2, 0)",
+				"(0, 2, 2)",
+				"(2, 2, 2)",
+				"(2, 2, 0)",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
 				"2");
-		t("Cube[(0,0,0),(0,2,0),(0,2,2)]",
-				"8", "(0, 0, 2)", "(2, 0, 0)", "(2, 2, 0)",
-				"(2, 2, 2)", "(2, 0, 2)", "4", "4", "4", "4", "4", "4",
-				"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+		t(
+				"Cube[(0,0,0),(0,2,0),(0,2,2)]",
+				"8",
+				"(0, 0, 2)",
+				"(2, 0, 0)",
+				"(2, 2, 0)",
+				"(2, 2, 2)",
+				"(2, 0, 2)",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
 				"2");
-		t("Cube[(0,0,0),(0,0,2),xAxis]",
-				"8", "(0, -2, 2)", "(0, -2, 0)", "(2, 0, 0)",
-				"(2, 0, 2)", "(2, -2, 2)", "(2, -2, 0)", "4", "4", "4",
-				"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
-				"2", "2", "2", "2");
+		t(
+				"Cube[(0,0,0),(0,0,2),xAxis]",
+				"8",
+				"(0, -2, 2)",
+				"(0, -2, 0)",
+				"(2, 0, 0)",
+				"(2, 0, 2)",
+				"(2, -2, 2)",
+				"(2, -2, 0)",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2");
 	}
 
 	@Test
 	void cmdCylinder() {
-		tRound("Cylinder[x^2+y^2=9,4]", eval("36*pi"),
-				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24"));
-		tRound("Cylinder[(0,0,0),(0,0,4),3]", eval("36*pi"),
+		tRound(
+				"Cylinder[x^2+y^2=9,4]",
+				eval("36*pi"),
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)",
+				eval("pi*24"));
+		tRound(
+				"Cylinder[(0,0,0),(0,0,4),3]",
+				eval("36*pi"),
 				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
-				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)", eval("pi*24"));
-		tRound("Cylinder[(0,0,0),Vector[(0,0,4)],1]",
-				indices("x^2 + y^2 + 0z^2 = 1"));
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)",
+				eval("pi*24"));
+		tRound("Cylinder[(0,0,0),Vector[(0,0,4)],1]", indices("x^2 + y^2 + 0z^2 = 1"));
 	}
 
 	@Test
 	void cmdCylinderInfinite() {
-		tRound("InfiniteCylinder[(1,1),(1,1,2),1]",
-				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
-		tRound("InfiniteCylinder[(1,1),Vector[(0,0,2)],1]",
-				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
+		tRound("InfiniteCylinder[(1,1),(1,1,2),1]", indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
+		tRound("InfiniteCylinder[(1,1),Vector[(0,0,2)],1]", indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
 		tRound("InfiniteCylinder[xAxis,1]", indices("y^2 + z^2 = 1"));
 	}
 
 	@Test
 	void cmdClasses() {
-		t("Classes[ {2,3,4}, 42 ]",
+		t(
+				"Classes[ {2,3,4}, 42 ]",
 				"{2, 2.0476190476190474, 2.0952380952380953, 2.142857142857143,"
 						+ " 2.1904761904761907, 2.238095238095238, 2.2857142857142856,"
 						+ " 2.3333333333333335, 2.380952380952381, 2.4285714285714284,"
@@ -1080,9 +1164,11 @@ class CommandsTest extends CommandTestSetup {
 	void cmdClosestPoint() {
 		t("ClosestPoint[ x^2+y^2=1, (1,1) ]", "(0.7071067811865476, 0.7071067811865475)");
 		t("ZoomIn(-5,-5,5,5)");
-		t("ClosestPoint[ x⁴ + 2x² y² - 4x² + 3.6x + y⁴ - 4y² = 0.81, (0.55708, -0.2547)]",
+		t(
+				"ClosestPoint[ x⁴ + 2x² y² - 4x² + 3.6x + y⁴ - 4y² = 0.81, (0.55708, -0.2547)]",
 				"(0.5416458135538293, -0.12427455943331392)");
-		t("ClosestPoint[ x⁴ + 2x² y² - 4x² + 3.6x + y⁴ - 4y² = 0.81, (0.55708, 0.20383)]",
+		t(
+				"ClosestPoint[ x⁴ + 2x² y² - 4x² + 3.6x + y⁴ - 4y² = 0.81, (0.55708, 0.20383)]",
 				"(0.547622890963136, 0.12372237646614026)");
 		t("ClosestPoint[ Polygon[(1,1),(2,1/2),(3,1/3)], (1,1) ]", "(1, 1)");
 		t("ClosestPoint[ xAxis, yAxis ]", "(0, 0)");
@@ -1136,8 +1222,7 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdCovariance() {
 		t("Covariance[ {1,2,3,4,5}, {1,2,3,4,5} ]", "2");
-		t("Covariance[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"-0.6699999999999999");
+		t("Covariance[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", "-0.6699999999999999");
 	}
 
 	@Test
@@ -1167,7 +1252,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdCubic() {
-		t("Cubic[ (1,1),(2,1/2),(3,1/3),42 ]",
+		t(
+				"Cubic[ (1,1),(2,1/2),(3,1/3),42 ]",
 				"-12817.721707818935x^3 - 86298.35010859629x^2 y + 122469.63661217807x^2 -"
 						+ " 129048.41967687852x y^2 + 481421.6333812809x y - 371104.61727442464x "
 						+ "+ 653.9626105014759y^3 + 256970.21097996994y^2 - 616987.5503638929y ="
@@ -1176,13 +1262,14 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdContinuedFraction() {
-		t("ContinuedFraction[(sqrt(5)-1)/2]",
+		t(
+				"ContinuedFraction[(sqrt(5)-1)/2]",
 				"0+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+"
 						+ "\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}"
 						+ "{1+\\frac{1}{1+\\frac{1}{1+\\cdots}}}}}}}}}}}}}}");
-		t("ContinuedFraction[(sqrt(5)-1)/2,true]",
-				"[0;1,1,1,1,1,1,1,1,1,1,1,1,1,1,\\ldots]");
-		t("ContinuedFraction[(sqrt(5)-1)/2,10]",
+		t("ContinuedFraction[(sqrt(5)-1)/2,true]", "[0;1,1,1,1,1,1,1,1,1,1,1,1,1,1,\\ldots]");
+		t(
+				"ContinuedFraction[(sqrt(5)-1)/2,10]",
 				"0+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}"
 						+ "{1+\\frac{1}{1+\\frac{1}{1+\\frac{1}{1+\\cdots}}}}}}}}}");
 		t("ContinuedFraction[(sqrt(5)-1)/2,10,true]", "[0;1,1,1,1,1,1,1,1,1,\\ldots]");
@@ -1224,7 +1311,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdDelauneyTriangulation() {
-		t("DelaunayTriangulation[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"DelaunayTriangulation[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"DelauneyTriangulation[{(1, 1), (2, 2), (3, 3), (4, 1 / 4), (5, 1 / 5)}]");
 	}
 
@@ -1300,15 +1388,39 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdDifference() {
-		tRound("diff_{1}=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
-				"3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)",
-				"(0, 0)", "(2, 0)", "1", "1", "1", "2", "2", "1");
+		tRound(
+				"diff_{1}=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)]]",
+				"3", "(2, 1)", "(1, 1)", "(1, 2)", "(0, 2)", "(0, 0)", "(2, 0)", "1", "1", "1", "2", "2",
+				"1");
 		assertNotNull(app.getKernel().lookupLabel("diff_{1}"));
-		tRound("symDiff=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
-				"3", "3", "(3, 3)", "(1, 3)", "(1, 2)", "(2, 2)",
-				"(2, 1)", "(3, 1)", "(2, 1)", "(1, 1)", "(1, 2)",
-				"(0, 2)", "(0, 0)", "(2, 0)", "2", "1", "1", "1", "1",
-				"2", "1", "1", "1", "2", "2", "1");
+		tRound(
+				"symDiff=Difference[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),(3,3),(1,3)], true]",
+				"3",
+				"3",
+				"(3, 3)",
+				"(1, 3)",
+				"(1, 2)",
+				"(2, 2)",
+				"(2, 1)",
+				"(3, 1)",
+				"(2, 1)",
+				"(1, 1)",
+				"(1, 2)",
+				"(0, 2)",
+				"(0, 0)",
+				"(2, 0)",
+				"2",
+				"1",
+				"1",
+				"1",
+				"1",
+				"2",
+				"1",
+				"1",
+				"1",
+				"2",
+				"2",
+				"1");
 		assertNotNull(app.getKernel().lookupLabel("symDiff_{1}"));
 	}
 
@@ -1349,20 +1461,68 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdDodecahedron() {
-		String[] dodeca = new String[] { "7.66312", "(1.30902, 0.95106, 0)",
-				"(0.5, 1.53884, 0)", "(-0.30902, -0.42533, 0.85065)",
-				"(1.30902, -0.42533, 0.85065)", "(1.80902, 1.11352, 0.85065)",
-				"(0.5, 2.06457, 0.85065)", "(-0.80902, 1.11352, 0.85065)",
-				"(-0.80902, 0.26287, 1.37638)", "(0.5, -0.68819, 1.37638)",
-				"(1.80902, 0.26287, 1.37638)", "(1.30902, 1.80171, 1.37638)",
-				"(-0.30902, 1.80171, 1.37638)", "(-0.30902, 0.42533, 2.22703)",
-				"(0.5, -0.16246, 2.22703)", "(1.30902, 0.42533, 2.22703)",
-				"(1, 1.37638, 2.22703)", "(0, 1.37638, 2.22703)", "1.72048",
-				"1.72048", "1.72048", "1.72048", "1.72048", "1.72048",
-				"1.72048", "1.72048", "1.72048", "1.72048", "1.72048",
-				"1.72048", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1",
-				"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1",
-				"1", "1", "1", "1", "1", "1", "1" };
+		String[] dodeca = new String[] {
+			"7.66312",
+			"(1.30902, 0.95106, 0)",
+			"(0.5, 1.53884, 0)",
+			"(-0.30902, -0.42533, 0.85065)",
+			"(1.30902, -0.42533, 0.85065)",
+			"(1.80902, 1.11352, 0.85065)",
+			"(0.5, 2.06457, 0.85065)",
+			"(-0.80902, 1.11352, 0.85065)",
+			"(-0.80902, 0.26287, 1.37638)",
+			"(0.5, -0.68819, 1.37638)",
+			"(1.80902, 0.26287, 1.37638)",
+			"(1.30902, 1.80171, 1.37638)",
+			"(-0.30902, 1.80171, 1.37638)",
+			"(-0.30902, 0.42533, 2.22703)",
+			"(0.5, -0.16246, 2.22703)",
+			"(1.30902, 0.42533, 2.22703)",
+			"(1, 1.37638, 2.22703)",
+			"(0, 1.37638, 2.22703)",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1.72048",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1"
+		};
 		platonicTest("Dodecahedron", 108, dodeca);
 	}
 
@@ -1378,10 +1538,8 @@ class CommandsTest extends CommandTestSetup {
 		t("ZoomIn(0,0,16,12)");
 		t("DotPlot[ {1,1,1,2} ]", "{(1, 1), (1, 2), (1, 3), (2, 1)}");
 		t("DotPlot[ {1,1,1,2},2 ]", "{(1, 2), (1, 4), (1, 6), (2, 2)}");
-		t("DotPlot[ {1,1,1,2}, true]",
-				"{(1, 0.1), (1, 0.3), (1, 0.5), (2, 0.1)}");
-		t("DotPlot[ {1,1,1,2}, true, 5 ]",
-				"{(1, 0.1), (1, 1.1), (1, 2.1), (2, 0.1)}");
+		t("DotPlot[ {1,1,1,2}, true]", "{(1, 0.1), (1, 0.3), (1, 0.5), (2, 0.1)}");
+		t("DotPlot[ {1,1,1,2}, true, 5 ]", "{(1, 0.1), (1, 1.1), (1, 2.1), (2, 0.1)}");
 	}
 
 	@Test
@@ -1404,12 +1562,15 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdEllipse() {
-		t("Ellipse[ (1,1),(2,1/2),(3,1/3) ]",
+		t(
+				"Ellipse[ (1,1),(2,1/2),(3,1/3) ]",
 				"34.98700805481898x² + 4x y + 37.98700805481898y² - 107.96102416445694x - "
 						+ "62.98051208222847y = -21.77272535465181");
-		t("Ellipse[ (3,1/3), (3,1/3), 4 ]",
+		t(
+				"Ellipse[ (3,1/3), (3,1/3), 4 ]",
 				"256x² + 256y² - 1536x - 170.66666666666666y = 1763.5555555555557");
-		t("Ellipse[ (3,1/3), (3,1/3), Segment[(1,1),(2,1/2)] ]",
+		t(
+				"Ellipse[ (3,1/3), (3,1/3), Segment[(1,1),(2,1/2)] ]",
 				"20.000000000000004x² + 20.000000000000004y² - 120.00000000000003x - "
 						+ "13.333333333333336y = -157.22222222222226");
 	}
@@ -1421,9 +1582,10 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdErlang() {
-		prob("Erlang", "2,1",
-				"If(x < 0, 0, (" + Unicode.EULER_STRING
-						+ "^(-(1x)) x^(2 - 1) * 1^2) / (2 - 1)!)",
+		prob(
+				"Erlang",
+				"2,1",
+				"If(x < 0, 0, (" + Unicode.EULER_STRING + "^(-(1x)) x^(2 - 1) * 1^2) / (2 - 1)!)",
 				"If(x < 0, 0, gamma(2, 1x) / (2 - 1)!)");
 	}
 
@@ -1440,7 +1602,9 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdExponential() {
-		prob("Exponential", "2",
+		prob(
+				"Exponential",
+				"2",
 				"If(x < 0, 0, 2" + Unicode.EULER_STRING + "^(-(2x)))",
 				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(2x)))");
 	}
@@ -1466,13 +1630,10 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdExtremum() {
 		t("ZoomIn[-5,-5,5,5]");
-		tRound("Extremum[ sin(x), 1, 7 ]",
-				"(1.5708, 1)", "(4.71239, -1)");
+		tRound("Extremum[ sin(x), 1, 7 ]", "(1.5708, 1)", "(4.71239, -1)");
 		tRound("Extremum[ x^3-3x ]", "(-1, 2)", "(1, -2)");
-		tRound("Extremum[ nroot(x^(3) - 3x, 3) ]",
-				"(-1, 1.25992)", "(1, -1.25992)");
-		tRound("Extremum[ If(0<x<2, x^(3) - 3x) ]",
-				"(?, ?)", "(1, -2)");
+		tRound("Extremum[ nroot(x^(3) - 3x, 3) ]", "(-1, 1.25992)", "(1, -1.25992)");
+		tRound("Extremum[ If(0<x<2, x^(3) - 3x) ]", "(?, ?)", "(1, -2)");
 		// TODO t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
 	}
 
@@ -1490,7 +1651,9 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdFDistribution() {
-		prob("FDistribution", "2,1",
+		prob(
+				"FDistribution",
+				"2,1",
 				"If(x < 0, 0, (1^(1 / 2) (2x)^(2 / 2)) / "
 						+ "(beta(2 / 2, 1 / 2) x (2x + 1)^(2 / 2 + 1 / 2)))",
 				"If(x < 0, 0, betaRegularized(2 / 2, 1 / 2, (2x) / (2x + 1)))",
@@ -1535,71 +1698,76 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdFit() {
-		tRound("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]",
-				unicode("1x^2 + 0x + 1 * 1"));
-		tRound("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
+		tRound("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]", unicode("1x^2 + 0x + 1 * 1"));
+		tRound(
+				"Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
 				unicode("3y + 0x y + 0x^2 y - 2 * 1 + 0x + 1x^2"));
 		t("a=Slider[0,10]", "0");
 		t("b=Slider[0,10]", "0");
 		t("c=Slider[0,10]", "0");
-		tRound("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
-				unicode("1x^2 + 0x + 1"));
-		tRound("Fit[ {(0,1),(1,2),(2,5)},?*x^2+?*x+? ]",
-				unicode("1x^2 + 0x + 1"));
+		tRound("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]", unicode("1x^2 + 0x + 1"));
+		tRound("Fit[ {(0,1),(1,2),(2,5)},?*x^2+?*x+? ]", unicode("1x^2 + 0x + 1"));
 		// for APPS-2451
-		t("Translate[Fit[ {(0,0),(1,4)}, {x} ],(1,1)]",
-				"(4 * (x - 1)) + 1");
+		t("Translate[Fit[ {(0,0),(1,4)}, {x} ],(1,1)]", "(4 * (x - 1)) + 1");
 	}
 
 	@Test
 	void cmdFitExp() {
-		t("FitExp[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"FitExp[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"(3.8524166362194783 * exp((-0.5298317366548038 * x)))");
 	}
 
 	@Test
 	void cmdFitGrowth() {
-		t("FitGrowth[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"FitGrowth[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"(3.8524166362194783 * 0.5887040186524746^(x))");
 	}
 
 	@Test
 	void cmdFitLineX() {
-		t("FitLineX[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"FitLineX[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"y = -1.7259701492537307x + 6.467910447761192");
 	}
 
 	@Test
 	void cmdFitLineY() {
-		t("FitLine[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"FitLine[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"y = -0.33500000000000013x + 2.2950000000000004");
 	}
 
 	@Test
 	void cmdFitLog() {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
-		t("FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.printDecimals(
-						ExpressionNodeConstants.StringType.GEOGEBRA, 13, false),
+		t(
+				"FitLog[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+				StringTemplate.printDecimals(ExpressionNodeConstants.StringType.GEOGEBRA, 13, false),
 				"1.7791376753367 - 0.5108496281734ln(x)");
 	}
 
 	@Test
 	void cmdFitLogistic() {
-		t("FitLogistic[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"FitLogistic[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"1.0000000000001077 / (1 + (4.575485271998105E-17 * exp((7.81108 * x))))");
 	}
 
 	@Test
 	void cmdFitPow() {
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision instead
-		t("FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", StringTemplate.maxPrecision,
+		t(
+				"FitPow[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+				StringTemplate.maxPrecision,
 				"2.11729141837616x^-1.03491792057186");
 	}
 
 	@Test
 	void cmdFitSin() {
-		tRound("FitSin[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
-				"1.4496 + 1.41446sin(1.46525x - 2.11343)");
+		tRound(
+				"FitSin[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", "1.4496 + 1.41446sin(1.46525x - 2.11343)");
 	}
 
 	@Test
@@ -1609,9 +1777,9 @@ class CommandsTest extends CommandTestSetup {
 		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 2 ]", "x^(2)");
 		t("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 3 ]", "x^(2)");
 		// this one falls back to Polynomial()
-		tRound("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 4 ]",
-				unicode("0x^3 + x^2 + 0x"));
-		tRound("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ]",
+		tRound("FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16)}, 4 ]", unicode("0x^3 + x^2 + 0x"));
+		tRound(
+				"FitPoly[ {(0,0),(1,1),(2,4),(3,9),(4,16),(5,25)}, 4 ]",
 				unicode("0x^4 + 0x^3 + x^2 + 0x + 0"));
 		t("FitPoly[ Function({0,4,0,1,4,9,16}), 1 ]", "(4 * x) - 2");
 	}
@@ -1619,8 +1787,7 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdFitImplicit() {
 		t("FitImplicit[{(0,0),(0,1),(0,2),(0,3)},2]", "?");
-		t("FitImplicit[{(0,0),(0,1),(0,2),(0,3),(3,0),(4,0),(5,0)},2]",
-				"-x y = 0");
+		t("FitImplicit[{(0,0),(0,1),(0,2),(0,3),(3,0),(4,0),(5,0)},2]", "-x y = 0");
 	}
 
 	@Test
@@ -1664,29 +1831,36 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdFrequencyTable() {
-		t("FrequencyTable[ false, {1,2,3,4,5}, {2,3,4}]",
+		t(
+				"FrequencyTable[ false, {1,2,3,4,5}, {2,3,4}]",
 				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
 						+ "}2&0\\\\ 2\\text{ \\leq x < }3&1\\\\ 3\\text{ \\leq x < }4&1\\\\ 4"
 						+ "\\text{ \\leq x \\leq }5&1\\\\ \\end{array}");
-		t("FrequencyTable[ false, {1,2,3,4,5}, {2,3,4}, true , 4 ]",
+		t(
+				"FrequencyTable[ false, {1,2,3,4,5}, {2,3,4}, true , 4 ]",
 				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
 						+ "}2&0\\\\ 2\\text{ \\leq x < }3&4\\\\ 3\\text{ \\leq x < }4&4\\\\ 4"
 						+ "\\text{ \\leq x \\leq }5&4\\\\ \\end{array}");
-		t("FrequencyTable[ false, {2,3,4}]",
+		t(
+				"FrequencyTable[ false, {2,3,4}]",
 				"\\begin{array}{c|c}Value&\\text{Frequency} \\\\\\hline 2&1\\\\ 3&1\\\\ 4&1"
 						+ "\\\\ \\end{array}");
-		t("FrequencyTable[ {1,2,3,4,5}, {2,3,4} ]",
+		t(
+				"FrequencyTable[ {1,2,3,4,5}, {2,3,4} ]",
 				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
 						+ "}2&0\\\\ 2\\text{ \\leq x < }3&1\\\\ 3\\text{ \\leq x < }4&1\\\\ 4"
 						+ "\\text{ \\leq x \\leq }5&1\\\\ \\end{array}");
-		t("FrequencyTable[ {1,2,3,4,5}, {2,3,4}, true , 4 ]",
+		t(
+				"FrequencyTable[ {1,2,3,4,5}, {2,3,4}, true , 4 ]",
 				"\\begin{array}{c|c}Interval&\\text{Frequency} \\\\\\hline 1\\text{ \\leq x < "
 						+ "}2&0\\\\ 2\\text{ \\leq x < }3&4\\\\ 3\\text{ \\leq x < }4&4\\\\ 4"
 						+ "\\text{ \\leq x \\leq }5&4\\\\ \\end{array}");
-		t("FrequencyTable[ {2,3,4} ]",
+		t(
+				"FrequencyTable[ {2,3,4} ]",
 				"\\begin{array}{c|c}Value&\\text{Frequency} \\\\\\hline "
 						+ "2&1\\\\ 3&1\\\\ 4&1\\\\ \\end{array}");
-		t("FrequencyTable[ {\"m\",\"n\",\"o\"} ]",
+		t(
+				"FrequencyTable[ {\"m\",\"n\",\"o\"} ]",
 				"\\begin{array}{c|c}Value&\\text{Frequency} \\\\\\hline "
 						+ "m&1\\\\ n&1\\\\ o&1\\\\ \\end{array}");
 	}
@@ -1712,18 +1886,20 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdGamma() {
-		prob("Gamma", "2,1",
-				"If(x < 0, 0, (x^(2 - 1) " + Unicode.EULER_STRING
-						+ "^(-(x / 1))) / (1^2 gamma(2)))",
+		prob(
+				"Gamma",
+				"2,1",
+				"If(x < 0, 0, (x^(2 - 1) " + Unicode.EULER_STRING + "^(-(x / 1))) / (1^2 gamma(2)))",
 				"If(x < 0, 0, gamma(2, x / 1) / gamma(2))");
 	}
 
 	@Test
 	void cmdBetaDist() {
-		prob("BetaDist", "2,1",
+		prob(
+				"BetaDist",
+				"2,1",
 				"If(0 < x < 1, (x^(2 - 1) (1 - x)^(1 - 1)) / beta(2, 1), 0)",
-				"If(0 < x < 1, betaRegularized(2, 1, x), If(x "
-						+ Unicode.LESS_EQUAL + " 0, 0, 1))");
+				"If(0 < x < 1, betaRegularized(2, 1, x), If(x " + Unicode.LESS_EQUAL + " 0, 0, 1))");
 	}
 
 	@Test
@@ -1774,18 +1950,22 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdHull() {
-		t("Hull[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} , 0.05 ]",
+		t(
+				"Hull[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} , 0.05 ]",
 				"ConvexHull[{(1, 1), (2, 2), (3, 3), (4, 1 / 4), (5, 1 / 5)}]");
 	}
 
 	@Test
 	void cmdHyperbola() {
-		t("Hyperbola[ (1,1),(2,1/2),(3,1/3) ]",
+		t(
+				"Hyperbola[ (1,1),(2,1/2),(3,1/3) ]",
 				"0.7907697229588069x² + 4x y + 3.790769722958807y² - 5.37230916887642x -"
 						+ " 11.68615458443821y = -8.474188225595094");
-		t("Hyperbola[ (3,1/3), (3,1/3), 4 ]",
+		t(
+				"Hyperbola[ (3,1/3), (3,1/3), 4 ]",
 				"256x² + 256y² - 1536x - 170.66666666666666y = 1763.5555555555557");
-		t("Hyperbola[ (3,1/3), (3,1/3), Segment[(1,1),(2,1/2)] ]",
+		t(
+				"Hyperbola[ (3,1/3), (3,1/3), Segment[(1,1),(2,1/2)] ]",
 				"20.000000000000004x² + 20.000000000000004y² - 120.00000000000003x - "
 						+ "13.333333333333336y = -157.22222222222226");
 	}
@@ -1797,18 +1977,68 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdIcosahedron() {
-		String[] dodeca = new String[] { "2.18169",
-				"(-0.30902, 0.75576, 0.57735)", "(0.5, -0.6455, 0.57735)",
-				"(1.30902, 0.75576, 0.57735)", "(0.5, 1.22285, 0.93417)",
-				"(-0.30902, -0.17841, 0.93417)", "(1.30902, -0.17841, 0.93417)",
-				"(0, 0.57735, 1.51152)", "(0.5, -0.28868, 1.51152)",
-				"(1, 0.57735, 1.51152)", "0.43301", "0.43301", "0.43301",
-				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
-				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
-				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
-				"0.43301", "0.43301", "1", "1", "1", "1", "1", "1", "1", "1",
-				"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1",
-				"1", "1", "1", "1", "1", "1", "1", "1", "1" };
+		String[] dodeca = new String[] {
+			"2.18169",
+			"(-0.30902, 0.75576, 0.57735)",
+			"(0.5, -0.6455, 0.57735)",
+			"(1.30902, 0.75576, 0.57735)",
+			"(0.5, 1.22285, 0.93417)",
+			"(-0.30902, -0.17841, 0.93417)",
+			"(1.30902, -0.17841, 0.93417)",
+			"(0, 0.57735, 1.51152)",
+			"(0.5, -0.28868, 1.51152)",
+			"(1, 0.57735, 1.51152)",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1"
+		};
 		platonicTest("Icosahedron", 60, dodeca);
 	}
 
@@ -1831,7 +2061,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdImplicitCurve() {
-		t("ImplicitCurve[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"ImplicitCurve[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"0.11111111111111115x^2 + 2.111111111111111x y - 1.0000000000000002x -"
 						+ " 2.2222222222222223y^2 + y = 0");
 		t("ImplicitCurve[ x*y ]", "x y = 0");
@@ -1839,7 +2070,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdIncircle() {
-		t("Incircle[ (1,1),(2,1/2),(3,1/3) ]",
+		t(
+				"Incircle[ (1,1),(2,1/2),(3,1/3) ]",
 				"(x - 2.0245848862665516)² + (y - 0.575603044305899)² = 0.006180493369736152");
 	}
 
@@ -1871,32 +2103,45 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdIntersectRegion() {
-		t("IntersectRegion[ Polygon[(1,1),(2,1/2),(3,1/3)], Polygon[(1,1),(2,1/2),(3,1/3)] ]",
-				"0.16666666666666652", "(1, 1)", "(2, 0.5)", "(3, 0.3333333333333333)",
-				"1.118033988749895", "1.0137937550497031", "2.1081851067789197");
+		t(
+				"IntersectRegion[ Polygon[(1,1),(2,1/2),(3,1/3)], Polygon[(1,1),(2,1/2),(3,1/3)] ]",
+				"0.16666666666666652",
+				"(1, 1)",
+				"(2, 0.5)",
+				"(3, 0.3333333333333333)",
+				"1.118033988749895",
+				"1.0137937550497031",
+				"2.1081851067789197");
 	}
 
 	@Test
 	void cmdInteriorAngles() {
-		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
-				deg("90"), deg("90"), deg("90"), deg("270"),
-				deg("90"), deg("90"));
-		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(0,1),(0,0))]",
-				"?", deg("90"), deg("90"), deg("90"),
+		t(
+				"InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
+				deg("90"),
+				deg("90"),
+				deg("90"),
+				deg("270"),
+				deg("90"),
+				deg("90"));
+		t(
+				"InteriorAngles[Polygon((0,0),(2,0),(2,1),(0,1),(0,0))]",
+				"?",
+				deg("90"),
+				deg("90"),
+				deg("90"),
 				"?");
 	}
 
 	@Test
 	void cmdIntersect() {
 		t("ZoomIn(-5,-5,5,5)");
-		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", false, "(4, 3)",
-				"(-4, -3)");
+		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", false, "(4, 3)", "(-4, -3)");
 		intersect("x=y", "x+y=2", true, "(1, 1)");
 		intersect("x=y", "x^2+y^2=2", true, "(1, 1)", "(-1, -1)");
 		intersect("x=y", "x^4+y^4=2", false, "(1, 1)", "(-1, -1)");
 		intersect("x^4+y^4=2", "(x-2)^4+y^4=2", false, "(1, -1)", "(1, 1)");
-		intersect("x^2+y^2=2", "x^4+y^4=2", false, "(-1, -1)", "(-1, 1)",
-				"(1, -1)", "(1, 1)");
+		intersect("x^2+y^2=2", "x^4+y^4=2", false, "(-1, -1)", "(-1, 1)", "(1, -1)", "(1, 1)");
 		intersect("x", "x^4+y^4=2", false, "(-1, -1)", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
 		tRound("{Intersect(x^2+y^2=25, x y=12)}", "{(-4, -3), (-3, -4), (3, 4), (4, 3)}");
@@ -1906,49 +2151,68 @@ class CommandsTest extends CommandTestSetup {
 		intersect("x", "(2,2)", false, "(2, 2)");
 		intersect("x=y", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
 		intersect("x^2=y^2", "(x-1)^2+1", true, false, "(1, 1)", "(2, 2)");
-		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", false, true,
-				"(3, 3)", "(-1, -1)");
-		intersect("x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, true,
-				"(-1, 1)", eval("(sqrt(3), 3)"));
-		intersect("x^2", "Polygon((-1,-2),(-1,3),(5,3))", false, true,
-				"(-1, 1)", eval("(sqrt(3), 3)"));
-		intersect("PolyLine((1,-2),(1,4),(5,3))",
-				"PolyLine((-1,-2),(-1,3),(5,3))", false, "(1, 3)", "(5, 3)");
-		intersect("PolyLine((1,-2),(1,4),(5,3))",
-				"Polygon((-1,-2),(-1,3),(5,3))", false, "(1, 3)",
-				"(1, -0.33333)", "(5, 3)", "(5, 3)");
-		intersect("Polygon((1,-2),(1,4),(5,3))",
-				"Polygon((-1,-2),(-1,3),(5,3))", false, "(1, 3)",
-				"(1, -0.33333)", "(5, 3)", "(5, 3)", "(5, 3)", "(5, 3)");
-		intersect("(x+1)^4+(y-3)^4=1", "PolyLine((-1,-2),(-1,3),(5,3))", false,
-				"(-1, 2)", "(0, 3)");
-		intersect("(x+1)^2+(y-3)^2=1", "PolyLine((-1,-2),(-1,3),(5,3))", false,
-				"(-1, 2)", "(0, 3)");
-		intersect("(x+1)^2+(y-3)^2=1", "Polygon((-1,-2),(-1,3),(5,3))", false,
-				"(-1, 2)", "(0, 3)");
+		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", false, true, "(3, 3)", "(-1, -1)");
+		intersect(
+				"x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, true, "(-1, 1)", eval("(sqrt(3), 3)"));
+		intersect("x^2", "Polygon((-1,-2),(-1,3),(5,3))", false, true, "(-1, 1)", eval("(sqrt(3), 3)"));
+		intersect(
+				"PolyLine((1,-2),(1,4),(5,3))",
+				"PolyLine((-1,-2),(-1,3),(5,3))",
+				false,
+				"(1, 3)",
+				"(5, 3)");
+		intersect(
+				"PolyLine((1,-2),(1,4),(5,3))",
+				"Polygon((-1,-2),(-1,3),(5,3))",
+				false,
+				"(1, 3)",
+				"(1, -0.33333)",
+				"(5, 3)",
+				"(5, 3)");
+		intersect(
+				"Polygon((1,-2),(1,4),(5,3))",
+				"Polygon((-1,-2),(-1,3),(5,3))",
+				false,
+				"(1, 3)",
+				"(1, -0.33333)",
+				"(5, 3)",
+				"(5, 3)",
+				"(5, 3)",
+				"(5, 3)");
+		intersect("(x+1)^4+(y-3)^4=1", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, 2)", "(0, 3)");
+		intersect("(x+1)^2+(y-3)^2=1", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, 2)", "(0, 3)");
+		intersect("(x+1)^2+(y-3)^2=1", "Polygon((-1,-2),(-1,3),(5,3))", false, "(-1, 2)", "(0, 3)");
 		intersect("x^2+1", "x^3-x+2", true, "(-1, 2)", "(1, 2)");
 
 		// function with removable discontinuity
 		intersect("(x ln(x + 1)) / (exp(2x) - 1)", "xAxis", false, "(?, ?)");
-		intersect("Curve(t,-t^4+2 t^2+0.25 t+5,t,-10,10)", "0.1x - 0.96y=-3.9156",
-				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
-		intersect("-x^4+2 x^2+0.25 x+5", "0.1x - 0.96y=-3.9156",
-				false, "(-1.51783, 3.92064)", "(1.57047, 4.24234)");
-		intersect("Spline({(1,0),(1,1),(0,1)},3)", "x=y",
-				false, "(1, 1)");
-		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4",
-				false, "(0, 2, 0)", "(?, ?, ?)");
+		intersect(
+				"Curve(t,-t^4+2 t^2+0.25 t+5,t,-10,10)",
+				"0.1x - 0.96y=-3.9156",
+				false,
+				"(-1.51783, 3.92064)",
+				"(1.57047, 4.24234)");
+		intersect(
+				"-x^4+2 x^2+0.25 x+5",
+				"0.1x - 0.96y=-3.9156",
+				false,
+				"(-1.51783, 3.92064)",
+				"(1.57047, 4.24234)");
+		intersect("Spline({(1,0),(1,1),(0,1)},3)", "x=y", false, "(1, 1)");
+		intersect("Segment((0,0),(0,5))", "x^2+y^2+z^2=4", false, "(0, 2, 0)", "(?, ?, ?)");
 	}
 
 	@Test
 	void testIntersectCurves3D() {
-		tRound("Intersect(Curve(v,v,pi/4,v,0,4),Curve(cos(u),sin(u),u,u,0,6),1,1)",
+		tRound(
+				"Intersect(Curve(v,v,pi/4,v,0,4),Curve(cos(u),sin(u),u,u,0,6),1,1)",
 				"(0.70711, 0.70711, 0.7854)");
 	}
 
 	@Test
 	void cmdIntersectConic() {
-		t("IntersectConic[x+z=0, x^2+y^2+z^2=1]",
+		t(
+				"IntersectConic[x+z=0, x^2+y^2+z^2=1]",
 				"X = (0, 0, 0) + (0.7071067811865476 sin(t), cos(t), -0.7071067811865476 sin(t))");
 		t("IntersectConic[x^2+y^2+(z-1)^2=0, x^2+y^2+z^2=0]", "?");
 	}
@@ -1956,35 +2220,59 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdIntersectPath() {
 		// 3D
-		t("IntersectPath[x+y+z=1,x+y-z=1]",
-				"X = (1, 0, 0) + " + Unicode.lambda + " (-2, 2, 0)");
-		tRound("IntersectPath[x^2+y^2+z^2=4,x+y-z=1]",
+		t("IntersectPath[x+y+z=1,x+y-z=1]", "X = (1, 0, 0) + " + Unicode.lambda + " (-2, 2, 0)");
+		tRound(
+				"IntersectPath[x^2+y^2+z^2=4,x+y-z=1]",
 				"X = (0.33333, 0.33333, -0.33333) + (-1.35401 cos(t) - 0.78174 sin(t),"
 						+ " 1.35401 cos(t) - 0.78174 sin(t), -1.56347 sin(t))");
-		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],Polygon[(1,1),(3,1),4]]",
-				"1", "(2, 2, 0)", "(1, 2, 0)", "(1, 1, 0)",
-				"(2, 1, 0)", "1", "1", "1", "1");
+		tRound(
+				"IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],Polygon[(1,1),(3,1),4]]",
+				"1",
+				"(2, 2, 0)",
+				"(1, 2, 0)",
+				"(1, 1, 0)",
+				"(2, 1, 0)",
+				"1",
+				"1",
+				"1",
+				"1");
 		tRound("IntersectPath[Polygon[(0,0),(2,0),4],x+y=3]", eval("sqrt(2)"));
 		// 2D
-		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],x+y=3]",
-				eval("sqrt(2)"));
-		tRound("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
-				"1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)", "1",
-				"1", "1", "1");
-		tRound("IntersectPath[Polygon[(1,-2),(3,-2),(3,0)],"
+		tRound("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],x+y=3]", eval("sqrt(2)"));
+		tRound(
+				"IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
+				"1",
+				"(2, 2)",
+				"(1, 2)",
+				"(1, 1)",
+				"(2, 1)",
+				"1",
+				"1",
+				"1",
+				"1");
+		tRound(
+				"IntersectPath[Polygon[(1,-2),(3,-2),(3,0)],"
 						+ "Polygon[Intersect[x=1,xAxis],(1,-2),(3,-2),(3,0)]]",
-				"2", "(3, 0)", "(1, -2)", "(3, -2)", "2.82843", "2", "2");
-		tRound("IntersectPath[Polygon[(0,0),(4,0),4],(x-2)^2+(y-2)^2=5]",
-				"2", "2", "2", "2");
-		tRound("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]",
-				eval("sqrt(8)"));
-		tRound("IntersectPath[Segment[(0,0),(2,2)],(x-2)^2+(y-2)^2=2]",
-				eval("sqrt(2)"));
-		tRound("IntersectPath[Segment[(1.5,1.5),(2,2)],(x-2)^2+(y-2)^2=2]",
-				eval("sqrt(.5)"));
-		tRound("IntersectPath[Cube[(0,0),(sqrt(2),0),(sqrt(2),sqrt(2))],x+y+z=sqrt(2)]",
-				"1.73205", "(1.41421, 0, 0)", "(0, 1.41421, 0)",
-				"(0, 0, 1.41421)", "2", "2", "2");
+				"2",
+				"(3, 0)",
+				"(1, -2)",
+				"(3, -2)",
+				"2.82843",
+				"2",
+				"2");
+		tRound("IntersectPath[Polygon[(0,0),(4,0),4],(x-2)^2+(y-2)^2=5]", "2", "2", "2", "2");
+		tRound("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]", eval("sqrt(8)"));
+		tRound("IntersectPath[Segment[(0,0),(2,2)],(x-2)^2+(y-2)^2=2]", eval("sqrt(2)"));
+		tRound("IntersectPath[Segment[(1.5,1.5),(2,2)],(x-2)^2+(y-2)^2=2]", eval("sqrt(.5)"));
+		tRound(
+				"IntersectPath[Cube[(0,0),(sqrt(2),0),(sqrt(2),sqrt(2))],x+y+z=sqrt(2)]",
+				"1.73205",
+				"(1.41421, 0, 0)",
+				"(0, 1.41421, 0)",
+				"(0, 0, 1.41421)",
+				"2",
+				"2",
+				"2");
 	}
 
 	@Test
@@ -2197,8 +2485,7 @@ class CommandsTest extends CommandTestSetup {
 		t("IsInRegion[(0,0,0),Polygon[(0,0,1),(1,0,0),(0,1,0)]]", "false");
 		t("IsInRegion[(1/3,1/3,1/3),Polygon[(0,0,1),(1,0,0),(0,1,0)]]", "true");
 		// move the centroid a bit in z-axis, it should no longer be inside
-		t("IsInRegion[(1/3,1/3,1/2),Polygon[(0,0,1),(1,0,0),(0,1,0)]]",
-				"false");
+		t("IsInRegion[(1/3,1/3,1/2),Polygon[(0,0,1),(1,0,0),(0,1,0)]]", "false");
 		t("IsInRegion[ (1,1), x^2+y^2=1 ]", "false");
 	}
 
@@ -2259,12 +2546,12 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdLaTeX() {
 		t("FormulaText[ Polygon[(1,1),(2,1/2),4] ]", "1.25");
-		t("FormulaText[ Polygon[(1,1),(2,1/2),4], false ]",
-				"Polygon\\left(\\left(1,\\;1 \\right), "
-						+ "\\left(2,\\;\\frac{1}{2} \\right), 4 \\right)");
-		t("FormulaText[ Polygon[(1,1),(2,1/2),4], false, false ]",
-				"Polygon\\left(\\left(1,\\;1 \\right), \\left(2,\\;"
-						+ "\\frac{1}{2} \\right), 4 \\right)");
+		t(
+				"FormulaText[ Polygon[(1,1),(2,1/2),4], false ]",
+				"Polygon\\left(\\left(1,\\;1 \\right), " + "\\left(2,\\;\\frac{1}{2} \\right), 4 \\right)");
+		t(
+				"FormulaText[ Polygon[(1,1),(2,1/2),4], false, false ]",
+				"Polygon\\left(\\left(1,\\;1 \\right), \\left(2,\\;" + "\\frac{1}{2} \\right), 4 \\right)");
 	}
 
 	@Test
@@ -2345,7 +2632,8 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdLocus() {
 		t("Locus[ x+y, Point[x^2+y^2=1] ]", "Locus[x + y, Point[x^(2) + y^(2) = 1]]");
-		t("Locus[ SlopeField[ x/y ], Point[x^2+y^2=1] ]",
+		t(
+				"Locus[ SlopeField[ x/y ], Point[x^2+y^2=1] ]",
 				"Locus[SlopeField[x / y], Point[x^(2) + y^(2) = 1]]");
 
 		t("P=Point(xAxis)", "(0, 0)");
@@ -2359,7 +2647,9 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdLogistic() {
-		prob("Logistic", "2,1",
+		prob(
+				"Logistic",
+				"2,1",
 				Unicode.EULER_STRING + "^(-((x - 2) / abs(1))) / (("
 						+ Unicode.EULER_STRING
 						+ "^(-((x - 2) / abs(1))) + 1)^2 abs(1))",
@@ -2368,12 +2658,13 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdLogNormal() {
-		prob("LogNormal", "2,1",
+		prob(
+				"LogNormal",
+				"2,1",
 				"If(x " + Unicode.LESS_EQUAL + " 0, 0, " + Unicode.EULER_STRING
 						+ "^(-((ln(x) - 2)^2 / (1^2 * 2))) / (abs(1) sqrt(2"
 						+ Unicode.pi + ") x))",
-				"If(x " + Unicode.LESS_EQUAL
-						+ " 0, 0, erf((ln(x) - 2) / (sqrt(2) abs(1))) * 0.5 + 0.5)");
+				"If(x " + Unicode.LESS_EQUAL + " 0, 0, erf((ln(x) - 2) / (sqrt(2) abs(1))) * 0.5 + 0.5)");
 	}
 
 	@Test
@@ -2476,13 +2767,15 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdMinimumSpanningTree() {
-		t("MinimumSpanningTree[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"MinimumSpanningTree[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"MinimumSpanningTree[{(1, 1), (2, 2), (3, 3), (4, 1 / 4), (5, 1 / 5)}]");
 	}
 
 	@Test
 	void cmdMirror() {
-		t("Reflect[ Polygon[(1,1),(2,1/2),4], x^2+y^2=1 ]",
+		t(
+				"Reflect[ Polygon[(1,1),(2,1/2),4], x^2+y^2=1 ]",
 				"((1 / ((1 + (0.5 * abs(t)) + (-0.25 * abs(t - 1)) + (-0.7499999999999999 *"
 						+ " abs(t - 2)) + (0.24999999999999978 * abs(t - 3)) + (t *"
 						+ " (-0.2500000000000001)) + 1)^(2) + (1 + (-0.25 * abs(t)) +"
@@ -2499,7 +2792,8 @@ class CommandsTest extends CommandTestSetup {
 		t("Reflect[ Polygon[(1,1),(2,1/2),4], x+y=17 ]", "1.25");
 		t("Reflect[ Polygon[(1,1),(2,1/2),4], (1,1) ]", "1.25");
 		// 3D object and 3D mirror - same plane
-		t("Reflect[ Polygon[(2.5,6,0), (3.5,7,0), (1,-1,0)], "
+		t(
+				"Reflect[ Polygon[(2.5,6,0), (3.5,7,0), (1,-1,0)], "
 						+ "(3.54, 5.37, 0) + (3*cos(t), 3*sin(t), 0) ]",
 				"((9 / ((2.5 + (0.5 * abs(t)) + (-1.75 * abs(t - 1)) + (2 * abs(t - 2)) "
 						+ "+ (t * 0.75) - 2.25 - 3.54)^(2) + (6 + (0.5 * abs(t)) "
@@ -2513,14 +2807,16 @@ class CommandsTest extends CommandTestSetup {
 						+ "+ (-4.5 * abs(t - 1)) + (7.5 * abs(t - 2)) + (t * 3.5) - 10.5 - 5.37)) "
 						+ "+ 5.37, (t * 0))");
 		// 3D object and 3D mirror - different planes
-		t("IsDefined[Reflect[(1,0,1) + (cos(t), 2*sin(t), 0), (0,0,0) + (2*cos(t), 2*sin(t), 0)]]",
+		t(
+				"IsDefined[Reflect[(1,0,1) + (cos(t), 2*sin(t), 0), (0,0,0) + (2*cos(t), 2*sin(t), 0)]]",
 				"false");
 		// 3D object and 2D mirror - same plane
 		t("Reflect[(6,0,0), (0,0) + (3*cos(t), 3*sin(t))]", "(1.5, 0, 0)");
 		// 3D object and 2D mirror - different planes
 		t("IsDefined[Reflect[(0,0,1), (0,0) + (2*cos(t), 2*sin(t))]]", "false");
 		// 2D object and 3D mirror - different planes
-		t("IsDefined[Reflect[ImplicitCurve[x^2 + y^2 - 1], (0,0,1) + (2*cos(t), 2*sin(t), 0)]]",
+		t(
+				"IsDefined[Reflect[ImplicitCurve[x^2 + y^2 - 1], (0,0,1) + (2*cos(t), 2*sin(t), 0)]]",
 				"false");
 		// 2D object and 3D mirror - same plane
 		tRound("Reflect[(3,0), (1,1,0) + (2*cos(t), 2*sin(t), 0)]", "(2.6, 0.2)");
@@ -2531,23 +2827,18 @@ class CommandsTest extends CommandTestSetup {
 		t("e:x-z=0", "x - z = 0");
 		t("Reflect[Vector[(0,1)],e]", "(0, 1, 0)");
 		tRound("Reflect[Curve[(t,t^3),t,0,5],e]", unicode("(0t, t^3, 1t)"));
-		tRound("Reflect[y=x^2,e]",
-				unicode("X = (0, 0, 0) + (0, 0.25 t^2, -0.5 t)"));
+		tRound("Reflect[y=x^2,e]", unicode("X = (0, 0, 0) + (0, 0.25 t^2, -0.5 t)"));
 		tRound("Reflect[Polygon[(0,0),(0,1),4],e]", "1");
 		t("Reflect[Polyline[(0,0),(0,1),(1,1)],e]", "2");
-		t("Reflect[Line[(0,0),(0,1)],e]",
-				"X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
+		t("Reflect[Line[(0,0),(0,1)],e]", "X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
 		tRound("Reflect[x+y,e]", "(0u + 1 (u + v), v, 1u + 0 (u + v))");
 		t("Reflect[(1,0),e]", "(0, 0, 1)");
 		t("Reflect[x^3+y^3=0,e]", "?");
 		t("picT=ToolImage[2]");
 		t("Reflect[picT,e]", "picT'");
-		tRound("Reflect[xAxis,e]",
-				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 0, 1)"));
-		tRound("Reflect[yAxis,e]",
-				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)"));
-		tRound("Reflect[zAxis,e]",
-				unicode("X = (0, 0, 0) + " + Unicode.lambda + " (1, 0, 0)"));
+		tRound("Reflect[xAxis,e]", unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 0, 1)"));
+		tRound("Reflect[yAxis,e]", unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)"));
+		tRound("Reflect[zAxis,e]", unicode("X = (0, 0, 0) + " + Unicode.lambda + " (1, 0, 0)"));
 	}
 
 	@Test
@@ -2587,19 +2878,69 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdNet() {
-		tRound("Net[Cube[(0,0,2),(0,0,0)],1]",
-				"24", "(0, 0, 2)", "(0, 0, 0)", "(2, 0, 0)",
-				"(2, 0, 2)", "(0, 0, 4)", "(2, 0, 4)", "(2, 0, 6)",
-				"(0, 0, 6)", "(-2, 0, 2)", "(-2, 0, 0)", "(0, 0, -2)",
-				"(2, 0, -2)", "(4, 0, 0)", "(4, 0, 2)", "4", "4", "4",
-				"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
-				"2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+		tRound(
+				"Net[Cube[(0,0,2),(0,0,0)],1]",
+				"24",
+				"(0, 0, 2)",
+				"(0, 0, 0)",
+				"(2, 0, 0)",
+				"(2, 0, 2)",
+				"(0, 0, 4)",
+				"(2, 0, 4)",
+				"(2, 0, 6)",
+				"(0, 0, 6)",
+				"(-2, 0, 2)",
+				"(-2, 0, 0)",
+				"(0, 0, -2)",
+				"(2, 0, -2)",
+				"(4, 0, 0)",
+				"(4, 0, 2)",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"4",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
+				"2",
 				"2");
-		t("Net[Tetrahedron[(0,0,1),(0,1,0),(1,0,0)],Segment[(0,0,1),(0,1,0)]]",
-				"NaN", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
-				"(NaN, NaN, NaN)", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
-				"(NaN, NaN, NaN)", "NaN", "NaN", "NaN", "NaN", "NaN",
-				"NaN", "NaN", "NaN", "NaN", "NaN", "NaN", "NaN",
+		t(
+				"Net[Tetrahedron[(0,0,1),(0,1,0),(1,0,0)],Segment[(0,0,1),(0,1,0)]]",
+				"NaN",
+				"(NaN, NaN, NaN)",
+				"(NaN, NaN, NaN)",
+				"(NaN, NaN, NaN)",
+				"(NaN, NaN, NaN)",
+				"(NaN, NaN, NaN)",
+				"(NaN, NaN, NaN)",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
+				"NaN",
 				"NaN");
 	}
 
@@ -2607,10 +2948,10 @@ class CommandsTest extends CommandTestSetup {
 	void cmdNIntegral() {
 		t("NIntegral[x^2,-1,1]", "0.6666666666666666");
 		t("NIntegral[x^2]", "NIntegral[x^(2)]");
-		t("G(x)=NIntegral(x/x^2, 1, 0, 10)",
-				"NIntegral[x / x^(2), 1, 0, 10]");
+		t("G(x)=NIntegral(x/x^2, 1, 0, 10)", "NIntegral[x / x^(2), 1, 0, 10]");
 		tRound("G(4)-ln(4)", "0");
-		t("G1(x)=NIntegral(If(x==0,0,sin(x^2)/x^2), 0, 0, 10)",
+		t(
+				"G1(x)=NIntegral(If(x==0,0,sin(x^2)/x^2), 0, 0, 10)",
 				"NIntegral[If[x ≟ 0, 0, sin(x^(2)) / x^(2)], 0, 0, 10]");
 		tRound("G1(4)", "1.2609");
 		AlgebraTestHelper.shouldFail("Nintegral[exp(x),x,0,1]", "x", app);
@@ -2665,10 +3006,10 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdNormal() {
-		prob("Normal", "2,1",
-				Unicode.EULER_STRING
-						+ "^((-(x - 2)^2) / (1^2 * 2)) / (abs(1) sqrt(2"
-						+ Unicode.pi + "))",
+		prob(
+				"Normal",
+				"2,1",
+				Unicode.EULER_STRING + "^((-(x - 2)^2) / (1^2 * 2)) / (abs(1) sqrt(2" + Unicode.pi + "))",
 				"(erf((x - 2) / (abs(1) sqrt(2))) + 1) / 2");
 		tRound("Normal(0, 1, -1, 1)", "0.68269");
 		tRound("Normal(0, 1, -1, -2)", "?");
@@ -2676,7 +3017,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdNormalQuantilePlot() {
-		t("NormalQuantilePlot[ {2,3,4}]",
+		t(
+				"NormalQuantilePlot[ {2,3,4}]",
 				"{(2, -0.8193286198336103), (3, 0), (4, 0.8193286198336103), 2.8284271247461903}");
 		t("Slope(Element(NormalQuantilePlot[ {2,3,4}],4))", "1");
 	}
@@ -2690,7 +3032,8 @@ class CommandsTest extends CommandTestSetup {
 		t("b = 3", "3");
 		t("y1'(t, y1, y2) = y2", "y2");
 		t("y2'(t, y1, y2) = (-g) / l sin(y1)", "(((-9.8)) / 2 * sin(y1))");
-		t("nint=NSolveODE({y1', y2'}, 0, {a, b}, 20)",
+		t(
+				"nint=NSolveODE({y1', y2'}, 0, {a, b}, 20)",
 				"NSolveODE[{y1', y2'}, 0, {a, b}, 20]",
 				"NSolveODE[{y1', y2'}, 0, {a, b}, 20]");
 
@@ -2700,7 +3043,8 @@ class CommandsTest extends CommandTestSetup {
 		// undefined testcase
 		t("yu1'(t, y1, y2) = ?", "NaN");
 		t("yu2'(t, y1, y2) = ?", "NaN");
-		t("NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
+		t(
+				"NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
 				"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
 				"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]");
 	}
@@ -2718,11 +3062,32 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdOctahedron() {
-		String[] dodeca = new String[] { "0.4714", "(0, 0.57735, 0.8165)",
-				"(0.5, -0.28868, 0.8165)", "(1, 0.57735, 0.8165)", "0.43301",
-				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
-				"0.43301", "0.43301", "1", "1", "1", "1", "1", "1", "1", "1",
-				"1", "1", "1", "1" };
+		String[] dodeca = new String[] {
+			"0.4714",
+			"(0, 0.57735, 0.8165)",
+			"(0.5, -0.28868, 0.8165)",
+			"(1, 0.57735, 0.8165)",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1"
+		};
 		platonicTest("Octahedron", 60, dodeca);
 	}
 
@@ -2738,8 +3103,7 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdOsculatingCircle() {
-		tRound("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]",
-				"x² + y² + 2x + 1y = -1");
+		tRound("OsculatingCircle[ (-1, 0), Conic[{1, 1, 1, 2, 2, 3}] ]", "x² + y² + 2x + 1y = -1");
 		t("OsculatingCircle[ (0, 0), x^2 ]", "x² + y² - y = 0");
 		t("OsculatingCircle[ (1,1), (x - 2)² + (y - 3)² = 4 ]", "?");
 	}
@@ -2751,20 +3115,21 @@ class CommandsTest extends CommandTestSetup {
 		t("PerpendicularLine[ (1,2), Segment[(1,6),(6,1)] ]", "-x + y = 1");
 		t("PerpendicularLine[ (1,2),Vector[(1,3)]]", "-x - 3y = -7");
 		// 3D
-		t("PerpendicularLine[ (1,2,0), x+y=7 ]",
-				"X = (1, 2, 0) + " + Unicode.lambda + " (1, 1, 0)");
-		t("PerpendicularLine[ (1,2,0), Segment[(1,6),(6,1)] ]",
+		t("PerpendicularLine[ (1,2,0), x+y=7 ]", "X = (1, 2, 0) + " + Unicode.lambda + " (1, 1, 0)");
+		t(
+				"PerpendicularLine[ (1,2,0), Segment[(1,6),(6,1)] ]",
 				"X = (1, 2, 0) + " + Unicode.lambda + " (-5, -5, 0)");
-		t("PerpendicularLine[ (1,2,0),Vector[(1,3)]]",
+		t(
+				"PerpendicularLine[ (1,2,0),Vector[(1,3)]]",
 				"X = (1, 2, 0) + " + Unicode.lambda + " (3, -1, 0)");
-		t("PerpendicularLine[(1,1,1),z=0]",
-				"X = (1, 1, 1) + " + Unicode.lambda + " (0, 0, -1)");
-		t("PerpendicularLine[(1,1,1),y=0,xOyPlane]",
+		t("PerpendicularLine[(1,1,1),z=0]", "X = (1, 1, 1) + " + Unicode.lambda + " (0, 0, -1)");
+		t(
+				"PerpendicularLine[(1,1,1),y=0,xOyPlane]",
 				"X = (1, 1, 1) + " + Unicode.lambda + " (0, 1, 0)");
-		tRound("PerpendicularLine[(1,1,1),y=0,space]",
+		tRound(
+				"PerpendicularLine[(1,1,1),y=0,space]",
 				"X = (1, 1, 1) + " + Unicode.lambda + " (0, 0.70711, 0.70711)");
-		t("PerpendicularLine[x=1,y=1]",
-				"X = (1, 1, 0) + " + Unicode.lambda + " (0, 0, 1)");
+		t("PerpendicularLine[x=1,y=1]", "X = (1, 1, 0) + " + Unicode.lambda + " (0, 0, 1)");
 	}
 
 	@Test
@@ -2799,8 +3164,7 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdParametricDerivative() {
-		t("ParametricDerivative[Curve[t^2,sin(t),t,-7,7]]",
-				"(t^(2), cos(t) / ((2 * t)))");
+		t("ParametricDerivative[Curve[t^2,sin(t),t,-7,7]]", "(t^(2), cos(t) / ((2 * t)))");
 	}
 
 	@Test
@@ -2874,7 +3238,8 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdPenStroke() {
 		t("PenStroke()", "PenStrokeBezier[]");
-		t("PenStroke[(1,1),(2,2)]",
+		t(
+				"PenStroke[(1,1),(2,2)]",
 				"PenStrokeBezier[1.0000E0,1.0000E0,1,2.0000E0,2.0000E0,0,NaN,NaN,0]");
 	}
 
@@ -2961,8 +3326,12 @@ class CommandsTest extends CommandTestSetup {
 	void cmdPolygon() {
 		t("Polygon[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]", "3.4499999999999997");
 		t("Polygon[ (1,1),(2,1/2), 42 ]", "175.14095339471965");
-		t("Polygon[ (1,1), (2,1/2), (3,1/3) ]", "0.16666666666666652",
-				"1.118033988749895", "1.0137937550497031", "2.1081851067789197");
+		t(
+				"Polygon[ (1,1), (2,1/2), (3,1/3) ]",
+				"0.16666666666666652",
+				"1.118033988749895",
+				"1.0137937550497031",
+				"2.1081851067789197");
 	}
 
 	@Test
@@ -2976,8 +3345,7 @@ class CommandsTest extends CommandTestSetup {
 		t("Polynomial[ sin(x) ]", "?");
 		t("Polynomial[ 1*x^2-1*x+1 ]", "x^(2) - x + 1");
 		t("Polynomial[ -x*(x+1)*(x-1) ]", "(-x^(3)) + x");
-		t("Polynomial[ (2x+3)^3 ]",
-				"(8 * x^(3)) + (36 * x^(2)) + (54 * x) + 27");
+		t("Polynomial[ (2x+3)^3 ]", "(8 * x^(3)) + (36 * x^(2)) + (54 * x) + 27");
 		t("Polynomial[ {(1,1),(-1,1),(0,0) } ]", "x^(2)");
 		t("Polynomial[ {(1,0),(-1,2),(0,0) } ]", "x^(2) - x");
 	}
@@ -2992,7 +3360,8 @@ class CommandsTest extends CommandTestSetup {
 		t("Polynomial[x+y-z]", "?");
 		t("Polynomial[0x+0y-1]", "-1");
 		t("Polynomial(sin(x) + y)", "?");
-		t("Polynomial(x^2 y^2 + x^3 + x^2 y + y^3 + x*y + 1)",
+		t(
+				"Polynomial(x^2 y^2 + x^3 + x^2 y + y^3 + x*y + 1)",
 				"(x^(2) * y^(2)) + x^(3) + (x^(2) * y) + y^(3) + (x * y) + 1");
 	}
 
@@ -3003,20 +3372,60 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdPrism() {
-		tRound("Prism[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
-				"0.5", "(1, 0, 1)", "(0, 1, 1)", "0.5", "1",
-				eval("sqrt(2)"), "1", "0.5", "1", eval("sqrt(2)"), "1",
-				"1", "1", "1", "1", eval("sqrt(2)"), "1");
-		tRound("Prism[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
-				"0.5", "(1, 0, 1)", "(0, 1, 1)", "1",
-				eval("sqrt(2)"), "1", "0.5", "1", "1", "1", "1",
-				eval("sqrt(2)"), "1");
-		tRound("Prism[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
-				"72", "(-3, 0, 4)", "(0, -3, 4)", "(3, 0, 4)",
-				"(0, 3, 4)", eval("12sqrt(2)"), eval("12sqrt(2)"),
-				eval("12sqrt(2)"), eval("12sqrt(2)"), "18", "4", "4",
-				"4", "4", eval("3sqrt(2)"), eval("3sqrt(2)"),
-				eval("3sqrt(2)"), eval("3sqrt(2)"));
+		tRound(
+				"Prism[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
+				"0.5",
+				"(1, 0, 1)",
+				"(0, 1, 1)",
+				"0.5",
+				"1",
+				eval("sqrt(2)"),
+				"1",
+				"0.5",
+				"1",
+				eval("sqrt(2)"),
+				"1",
+				"1",
+				"1",
+				"1",
+				"1",
+				eval("sqrt(2)"),
+				"1");
+		tRound(
+				"Prism[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
+				"0.5",
+				"(1, 0, 1)",
+				"(0, 1, 1)",
+				"1",
+				eval("sqrt(2)"),
+				"1",
+				"0.5",
+				"1",
+				"1",
+				"1",
+				"1",
+				eval("sqrt(2)"),
+				"1");
+		tRound(
+				"Prism[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
+				"72",
+				"(-3, 0, 4)",
+				"(0, -3, 4)",
+				"(3, 0, 4)",
+				"(0, 3, 4)",
+				eval("12sqrt(2)"),
+				eval("12sqrt(2)"),
+				eval("12sqrt(2)"),
+				eval("12sqrt(2)"),
+				"18",
+				"4",
+				"4",
+				"4",
+				"4",
+				eval("3sqrt(2)"),
+				eval("3sqrt(2)"),
+				eval("3sqrt(2)"),
+				eval("3sqrt(2)"));
 	}
 
 	@Test
@@ -3033,16 +3442,40 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdPyramid() {
-		tRound("Pyramid[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
-				eval("1/6"), "0.5", "0.5", eval("sqrt(3)/2"),
-				"0.5", "1", eval("sqrt(2)"), "1", "1", eval("sqrt(2)"),
+		tRound(
+				"Pyramid[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]",
+				eval("1/6"),
+				"0.5",
+				"0.5",
+				eval("sqrt(3)/2"),
+				"0.5",
+				"1",
+				eval("sqrt(2)"),
+				"1",
+				"1",
+				eval("sqrt(2)"),
 				eval("sqrt(2)"));
-		tRound("Pyramid[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
-				eval("1/6"), "0.5", eval("sqrt(3)/2"), "0.5",
-				"1", eval("sqrt(2)"), eval("sqrt(2)"));
-		tRound("Pyramid[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
-				"24", "(0, 0, 4)", "9.60469", "9.60469",
-				"9.60469", "9.60469", "5", "5", "5", "5");
+		tRound(
+				"Pyramid[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]",
+				eval("1/6"),
+				"0.5",
+				eval("sqrt(3)/2"),
+				"0.5",
+				"1",
+				eval("sqrt(2)"),
+				eval("sqrt(2)"));
+		tRound(
+				"Pyramid[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
+				"24",
+				"(0, 0, 4)",
+				"9.60469",
+				"9.60469",
+				"9.60469",
+				"9.60469",
+				"5",
+				"5",
+				"5",
+				"5");
 	}
 
 	@Test
@@ -3099,15 +3532,15 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdRandomUniform() {
 		t("RandomUniform[ 42, 50 ]", "47.820509440262946");
-		t("RandomUniform[ 42, 50, 4 ]",
+		t(
+				"RandomUniform[ 42, 50, 4 ]",
 				"{47.46578777407876, 44.469755642661276, 44.21662792059309, 47.324391614356585}");
 	}
 
 	@Test
 	void cmdRandomPointIn() {
 		t("RandomPointIn[x^2+y^2=1]", "(-0.3474733560756662, -0.7789903380982214)");
-		t("RandomPointIn[Polygon[(0,0),(1,0),(0,1)]]",
-				"(0.30871945533265976, 0.27707849007413665)");
+		t("RandomPointIn[Polygon[(0,0),(1,0),(0,1)]]", "(0.30871945533265976, 0.27707849007413665)");
 		t("RandomPointIn[0,0,1,1]", "(0, 1)");
 	}
 
@@ -3142,14 +3575,12 @@ class CommandsTest extends CommandTestSetup {
 		t("RandomPolynomial[5,-1,1]", "(-x^(5)) - x + 1");
 		t("RandomPolynomial[5,-1,1]", "(-x^(5)) + x^(4) + x^(3) + x^(2) - x");
 		t("RandomPolynomial[5,-1,1]", "x^(5) + x^(4) - x^(3) - 1");
-		t("RandomPolynomial[5,-2,2]",
-				"(2 * x^(5)) + (2 * x^(3)) - (2 * x^(2)) + 1");
-		t("RandomPolynomial[5,-3,3]",
-				"(2 * x^(5)) - x^(4) - (3 * x^(3)) + (2 * x^(2)) + 3");
-		t("RandomPolynomial[5,-5,4]",
+		t("RandomPolynomial[5,-2,2]", "(2 * x^(5)) + (2 * x^(3)) - (2 * x^(2)) + 1");
+		t("RandomPolynomial[5,-3,3]", "(2 * x^(5)) - x^(4) - (3 * x^(3)) + (2 * x^(2)) + 3");
+		t(
+				"RandomPolynomial[5,-5,4]",
 				"(-5 * x^(5)) - (4 * x^(4)) + (4 * x^(3)) - (2 * x^(2)) - (5 * x) - 5");
-		t("RandomPolynomial[5,-2,5]",
-				"x^(5) + (5 * x^(4)) - x^(3) + (4 * x) + 1");
+		t("RandomPolynomial[5,-2,5]", "x^(5) + (5 * x^(4)) - x^(3) + (4 * x) + 1");
 	}
 
 	@Test
@@ -3175,7 +3606,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdResidualPlot() {
-		t("ResidualPlot[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)}, sin(x) ]",
+		t(
+				"ResidualPlot[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)}, sin(x) ]",
 				"{(1, 0.1585290151921035), (2, 1.0907025731743183), (3, 2.8588799919401326), "
 						+ "(4, 1.0068024953079282), (5, 1.1589242746631385)}");
 	}
@@ -3188,8 +3620,7 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdReadText() {
 		ScreenReaderAdapter screenReader = Mockito.spy(ScreenReaderAdapter.class);
-		((EuclidianViewNoGui) app.getActiveEuclidianView())
-				.setScreenReader(screenReader);
+		((EuclidianViewNoGui) app.getActiveEuclidianView()).setScreenReader(screenReader);
 		t("SetActiveView(1)");
 		t("ReadText(\"Can anybody hear me?\")");
 		verify(screenReader).readDelayed("Can anybody hear me?");
@@ -3203,15 +3634,12 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdRename() {
 		t("Rename[ 6*7, \"a\" ]");
-		assertEquals(
-				"42", lookup("a").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("42", lookup("a").toValueString(StringTemplate.defaultTemplate));
 		t("Rename[ a, \"b\" ]");
-		assertEquals(
-				"42", lookup("b").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("42", lookup("b").toValueString(StringTemplate.defaultTemplate));
 		assertNull(lookup("a"));
 		t("Rename[ b, \"  cc  d  \" ]");
-		assertEquals(
-				"42", lookup("cc").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("42", lookup("cc").toValueString(StringTemplate.defaultTemplate));
 		assertNull(lookup("b"));
 		AlgebraTestHelper.shouldFail("Rename[ cc, \"\" ]", "Illegal", app);
 		assertNotNull(lookup("cc"));
@@ -3223,13 +3651,13 @@ class CommandsTest extends CommandTestSetup {
 		assertNotNull(lookup("cc"));
 		t("Rename[ cc, \"A_\" ]");
 		assertNull(lookup("cc"));
-		assertEquals(
-				"42", lookup("A").toValueString(StringTemplate.defaultTemplate));
+		assertEquals("42", lookup("A").toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	void cmdReflect3D() {
-		t("Reflect[sin(x)+sin(y), x+y+z=0]",
+		t(
+				"Reflect[sin(x)+sin(y), x+y+z=0]",
 				"((0.33333333333333337 * u) + (-0.6666666666666666 * v) +"
 						+ " (-0.6666666666666666 * (sin(u) + sin(v))), (-0.6666666666666666 * u) + "
 						+ "(0.33333333333333337 * v) + (-0.6666666666666666 * (sin(u) + sin(v))), "
@@ -3268,8 +3696,7 @@ class CommandsTest extends CommandTestSetup {
 		t("Root[ x^3-3x^2+3x-1 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), 1.3 ]", "(1, 0)");
 		tRound("Root[ sin(x*pi), -3,3 ]", "(0, 0)");
-		t("Root[9x^4 - x^2 ]", "(-0.3333333333333333, 0)", "(0, 0)",
-				"(0.3333333333333333, 0)");
+		t("Root[9x^4 - x^2 ]", "(-0.3333333333333333, 0)", "(0, 0)", "(0.3333333333333333, 0)");
 		t("Root[x^4-4x^2]", "(-2, 0)", "(0, 0)", "(2, 0)");
 		t("a:=4/5", "0.8");
 		t("Root(a)", "(NaN, NaN)");
@@ -3301,8 +3728,11 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdRoots() {
 		t("ZoomIn(-10,-2,20,2)"); // makes the test deterministic
-		t("Roots[ sin(x), 4, 13 ]",
-				"(6.283185305816606, 0)", "(9.424777959654795, 0)", "(12.566370613845491, 0)");
+		t(
+				"Roots[ sin(x), 4, 13 ]",
+				"(6.283185305816606, 0)",
+				"(9.424777959654795, 0)",
+				"(12.566370613845491, 0)");
 		t("flat(x)=2.00011sin(x/2)-x", "(2.00011 * sin(x / 2)) - x");
 		tRound("Roots(flat,-0.05,0.05)", "(-0.03633, 0)", "(0, 0)", "(0.03633, 0)");
 		tRound("Roots(flat,-0.005,0.005)", "(0, 0)");
@@ -3316,7 +3746,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdRotateText() {
-		t("RotateText[ \"GeoGebra\", 30" + Unicode.DEGREE_STRING + " ]",
+		t(
+				"RotateText[ \"GeoGebra\", 30" + Unicode.DEGREE_STRING + " ]",
 				"\\rotatebox{30.000000000000004}{ \\text{ GeoGebra }  }");
 	}
 
@@ -3589,20 +4020,16 @@ class CommandsTest extends CommandTestSetup {
 	void cmdSetColor() {
 		t("A=(0,0,1)", "(0, 0, 1)");
 		t("SetColor[ A, \"lime\" ]");
-		assertEquals(GeoGebraColorConstants.LIME.toString(),
-				lookup("A").getObjectColor().toString());
+		assertEquals(
+				GeoGebraColorConstants.LIME.toString(), lookup("A").getObjectColor().toString());
 		t("SetColor[ A, \"orange\"^z(A) ]");
-		assertEquals(GColor.ORANGE.toString(),
-				lookup("A").getObjectColor().toString());
+		assertEquals(GColor.ORANGE.toString(), lookup("A").getObjectColor().toString());
 		t("SetColor[ A1, \"orange\"^z(A) ]");
 		t("SetColor[ A, 1, 0, 0 ]");
-		assertEquals(GColor.RED.toString(),
-				lookup("A").getObjectColor().toString());
+		assertEquals(GColor.RED.toString(), lookup("A").getObjectColor().toString());
 		t("SetColor[ A, x(A), y(A), z(A) ]");
-		assertEquals(GColor.BLUE.toString(),
-				lookup("A").getObjectColor().toString());
-		assertEquals("A,A1",
-				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
+		assertEquals(GColor.BLUE.toString(), lookup("A").getObjectColor().toString());
+		assertEquals("A,A1", StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
 		assertEquals(2, app.getKernel().getConstruction().steps());
 	}
 
@@ -3632,46 +4059,40 @@ class CommandsTest extends CommandTestSetup {
 		t("A=(0,0,1)", "(0, 0, 1)");
 		t("SetBackgroundColor[ \"red\" ]");
 		assertEquals(
-				app.getActiveEuclidianView().getBackgroundCommon().toString(),
-				GColor.RED.toString());
+				app.getActiveEuclidianView().getBackgroundCommon().toString(), GColor.RED.toString());
 		t("SetBackgroundColor[ 1, 1, 1 ]");
 		assertEquals(
-				app.getActiveEuclidianView().getBackgroundCommon().toString(),
-				GColor.WHITE.toString());
+				app.getActiveEuclidianView().getBackgroundCommon().toString(), GColor.WHITE.toString());
 		t("SetBackgroundColor[ \"orange\"^z(A) ]");
 		assertEquals(
-				app.getActiveEuclidianView().getBackgroundCommon().toString(),
-				GColor.ORANGE.toString());
+				app.getActiveEuclidianView().getBackgroundCommon().toString(), GColor.ORANGE.toString());
 		t("SetBackgroundColor[ x(A), y(A), z(A) ]");
 		assertEquals(
-				app.getActiveEuclidianView().getBackgroundCommon().toString(),
-				GColor.BLUE.toString());
+				app.getActiveEuclidianView().getBackgroundCommon().toString(), GColor.BLUE.toString());
 		t("SetBackgroundColor[ txt, \"lime\" ]");
-		assertEquals(GeoGebraColorConstants.LIME.toString(),
+		assertEquals(
+				GeoGebraColorConstants.LIME.toString(),
 				lookup("txt").getBackgroundColor().toString());
 		t("SetBackgroundColor[txt, 0, 1, 0 ]");
-		assertEquals(GColor.GREEN.toString(),
-				lookup("txt").getBackgroundColor().toString());
+		assertEquals(GColor.GREEN.toString(), lookup("txt").getBackgroundColor().toString());
 		t("SetBackgroundColor[ txt, x(A), y(A), z(A) ]");
-		assertEquals(GColor.BLUE.toString(),
-				lookup("txt").getBackgroundColor().toString());
+		assertEquals(GColor.BLUE.toString(), lookup("txt").getBackgroundColor().toString());
 		t("SetBackgroundColor[ A1, \"orange\"^z(A) ]");
 		t("SetBackgroundColor[ A1, 0, 1, 1 ]");
-		assertEquals("txt,A,A1",
-				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
+		assertEquals("txt,A,A1", StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
 	}
 
 	@Test
 	void cmdSetLevelOfDetail() {
 		t("a:x+y", "x + y");
-		assertEquals(((GeoFunctionNVar) lookup("a")).getLevelOfDetail(),
-				SurfaceEvaluable.LevelOfDetail.SPEED);
+		assertEquals(
+				((GeoFunctionNVar) lookup("a")).getLevelOfDetail(), SurfaceEvaluable.LevelOfDetail.SPEED);
 		t("SetLevelOfDetail(a,0)");
-		assertEquals(((GeoFunctionNVar) lookup("a")).getLevelOfDetail(),
-				SurfaceEvaluable.LevelOfDetail.SPEED);
+		assertEquals(
+				((GeoFunctionNVar) lookup("a")).getLevelOfDetail(), SurfaceEvaluable.LevelOfDetail.SPEED);
 		t("SetLevelOfDetail(a,1)");
-		assertEquals(((GeoFunctionNVar) lookup("a")).getLevelOfDetail(),
-				SurfaceEvaluable.LevelOfDetail.QUALITY);
+		assertEquals(
+				((GeoFunctionNVar) lookup("a")).getLevelOfDetail(), SurfaceEvaluable.LevelOfDetail.QUALITY);
 	}
 
 	@Test
@@ -3689,7 +4110,8 @@ class CommandsTest extends CommandTestSetup {
 		t("Sequence[ i, i, 3.6, 7.9, 1 ]", "{3.6, 4.6, 5.6, 6.6, 7.6}");
 		t("Sequence[ i, i, 3.2, 7.2, 1 ]", "{3.2, 4.2, 5.2, 6.2, 7.2}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
-		t("Sequence(Angle((0,1,0),(0,0,0),(1,0,0),Vector((0,0,1))),k,1,2)",
+		t(
+				"Sequence(Angle((0,1,0),(0,0,0),(1,0,0),Vector((0,0,1))),k,1,2)",
 				"{270*" + DEGREE_STRING + ", 270*" + DEGREE_STRING + "}");
 	}
 
@@ -3700,15 +4122,22 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdShortestDistance() {
-		t("Perimeter(ShortestDistance({1,2,3,4,5}, (3,1/3), (5,1/5), false ))",
+		t(
+				"Perimeter(ShortestDistance({1,2,3,4,5}, (3,1/3), (5,1/5), false ))",
 				"NaN"); // not even segments
 		t("A=(0, 0)", "(0, 0)");
-		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
-				+ "(2,0), (0,1), false))", "3");
-		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
-				+ "(2,0), (2,0), false))", "0"); // empty path
-		t("Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
-				+ "(2,0), (4,0), false))", "NaN"); // not connected
+		t(
+				"Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+						+ "(2,0), (0,1), false))",
+				"3");
+		t(
+				"Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+						+ "(2,0), (2,0), false))",
+				"0"); // empty path
+		t(
+				"Perimeter(ShortestDistance({Segment(A,(0,1)), Segment(A,(2,0))}, "
+						+ "(2,0), (4,0), false))",
+				"NaN"); // not connected
 	}
 
 	@Test
@@ -3796,9 +4225,11 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdSolveODE() {
-		t("SolveODE[ sin(x)(x), sin(x)(x+42), x^2(x),42, 13, 50, 50, 0.05 ]",
+		t(
+				"SolveODE[ sin(x)(x), sin(x)(x+42), x^2(x),42, 13, 50, 50, 0.05 ]",
 				"SolveODE[(sin(x) * x), (sin(x) * (x + 42)), (x^(2) * x), 42, 13, 50, 50, 0.05]");
-		t("SolveODE[ sin(x)(x), x^2(y), 42, 4, 13, 0.5 ]",
+		t(
+				"SolveODE[ sin(x)(x), x^2(y), 42, 4, 13, 0.5 ]",
 				"SolveODE[(sin(x) * x), (x^(2) * y), 42, 4, 13, 0.5]");
 		t("SolveODE[ x*y, 42, 4, 50, 0.5 ]", "SolveODE[(x * y), 42, 4, 50, 0.5]");
 		t("SolveODE[ -x]", "?");
@@ -3850,8 +4281,7 @@ class CommandsTest extends CommandTestSetup {
 				+ " 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623))";
 		tRound("Spline[{(0,0),(1,1),(3,0)}]", unicode(theSpline));
 		tRound("Spline[{(0,0),(1,1),(3,0)},3]", unicode(theSpline));
-		tRound("Spline[{(0,0),(1,1),(3,0)},3,sqrt(x^2+y^2)]",
-				unicode(theSpline));
+		tRound("Spline[{(0,0),(1,1),(3,0)},3,sqrt(x^2+y^2)]", unicode(theSpline));
 		tRound("Spline[{(0,0),(1,1),(1,1),(3,0)},4]", "?");
 	}
 
@@ -3865,11 +4295,13 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdStemPlot() {
-		t("StemPlot[ {1,2,3,4,5} ]",
+		t(
+				"StemPlot[ {1,2,3,4,5} ]",
 				"{\\begin{tabular}{ll}\\begin{array}{r|ll}1&0 \\\\ 2&0 \\\\ 3&0 \\\\ 4&0"
 						+ " \\\\ 5&0 \\\\ \\end{array} \\\\ \\fbox{\\text{Key: 3|1 means 3.1}} "
 						+ "\\\\ \\end{tabular}}");
-		t("StemPlot[ {1,2,3,4,5}, 0 ]",
+		t(
+				"StemPlot[ {1,2,3,4,5}, 0 ]",
 				"{\\begin{tabular}{ll}\\begin{array}{r|ll}1&0 \\\\ 2&0 \\\\ 3&0 \\\\ 4&0"
 						+ " \\\\ 5&0 \\\\ \\end{array} \\\\ \\fbox{\\text{Key: 3|1 means 3.1}}"
 						+ " \\\\ \\end{tabular}}");
@@ -3931,19 +4363,18 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdSurface() {
-		t("Surface[u*v,u+v,u^2+v^2,u,-1,1,v,1,3]",
-				"((u * v), u + v, u^(2) + v^(2))");
+		t("Surface[u*v,u+v,u^2+v^2,u,-1,1,v,1,3]", "((u * v), u + v, u^(2) + v^(2))");
 		t("Surface[2x,2pi]", "(u, ((2 * u) * cos(v)), ((2 * u) * sin(v)))");
-		t("Surface[2x,2pi,yAxis]",
-				"((u * cos(v)), (2 * u), (u * (-sin(v))))");
+		t("Surface[2x,2pi,yAxis]", "((u * cos(v)), (2 * u), (u * (-sin(v))))");
 
 		t("g3=Surface[(u,v,u),u,-1,1,v,1,3]", "(u, v, u)");
-		assertEquals("\\left(u,\\;v,\\;u \\right)",
+		assertEquals(
+				"\\left(u,\\;v,\\;u \\right)",
 				lookup("g3").toLaTeXString(false, StringTemplate.latexTemplate));
 
 		t("g2=Surface[(u,v),u,-1,1,v,1,3]", "(u, v)");
-		assertEquals("\\left(u,\\;v \\right)",
-				lookup("g2").toLaTeXString(false, StringTemplate.latexTemplate));
+		assertEquals(
+				"\\left(u,\\;v \\right)", lookup("g2").toLaTeXString(false, StringTemplate.latexTemplate));
 	}
 
 	@Test
@@ -3989,37 +4420,31 @@ class CommandsTest extends CommandTestSetup {
 	void cmdTableText() {
 		t("tables=TableText[1..5]", StringContains.containsString("array"));
 		checkSize("tables", 5, 1);
-		t("tableh=TableText[ 1..5, 1..5,\"h\" ]",
-				StringContains.containsString("array"));
+		t("tableh=TableText[ 1..5, 1..5,\"h\" ]", StringContains.containsString("array"));
 		checkSize("tableh", 5, 2);
-		t("tablev=TableText[ {1..5, 1..5},\"v\" ]",
-				StringContains.containsString("array"));
+		t("tablev=TableText[ {1..5, 1..5},\"v\" ]", StringContains.containsString("array"));
 		checkSize("tablev", 2, 5);
-		t("tablesplit=TableText[1..5,\"v\",3]",
-				StringContains.containsString("array"));
+		t("tablesplit=TableText[1..5,\"v\",3]", StringContains.containsString("array"));
 		checkSize("tablesplit", 2, 3);
-		t("tablesplit=TableText[1..5,\"h\",3]",
-				StringContains.containsString("array"));
+		t("tablesplit=TableText[1..5,\"h\",3]", StringContains.containsString("array"));
 		checkSize("tablesplit", 3, 2);
-		t("tables=TableText[{1,2,3}, {4,5}, \"c\", 100]",
-				StringContains.containsString("array"));
+		t("tables=TableText[{1,2,3}, {4,5}, \"c\", 100]", StringContains.containsString("array"));
 		checkSize("tables", 3, 2);
-		t("tables=TableText[{1,2}, {3, 4,5}, \"c\", 100, 120]",
-				StringContains.containsString("array"));
+		t("tables=TableText[{1,2}, {3, 4,5}, \"c\", 100, 120]", StringContains.containsString("array"));
 		checkSize("tables", 3, 2);
-		t("tables=TableText[{{1,2,3}, {4,5}}, \"c\", 100]",
-				StringContains.containsString("array"));
+		t("tables=TableText[{{1,2,3}, {4,5}}, \"c\", 100]", StringContains.containsString("array"));
 		checkSize("tables", 3, 2);
-		t("tables=TableText[{{1,2}, {3,4,5}}, \"c\", 100, 120]",
+		t(
+				"tables=TableText[{{1,2}, {3,4,5}}, \"c\", 100, 120]",
 				StringContains.containsString("array"));
 		checkSize("tables", 3, 2);
 	}
 
 	@Test
 	void cmdTaylorSeries() {
-		t("TaylorPolynomial[ sin(x)^2, pi, 5 ]",
-				"(2 * (x - pi)^(2) / 2!) - (8 * (x - pi)^(4) / 4!)"
-						.replaceAll("pi", "3.141592653589793"));
+		t(
+				"TaylorPolynomial[ sin(x)^2, pi, 5 ]",
+				"(2 * (x - pi)^(2) / 2!) - (8 * (x - pi)^(4) / 4!)".replaceAll("pi", "3.141592653589793"));
 	}
 
 	@Test
@@ -4033,35 +4458,47 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdTangent() {
 		t("Tangent[ x^2+y^2=1, x^2+y^2=1 ]", "?", "?", "?", "?");
-		t("Tangent[ x+y=17, x^2+y^2=1 ]",
-				"x + y = 1.4142135623730951", "x + y = -1.414213562373095");
-		t("Tangent[ 42, sin(x) ]",
-				"y = -0.39998531498835127x + 15.882861681595118");
-		t("Tangent[ Point[Curve[sin(t),cos(t),t,0,3], 0.05], Curve[sin(t),cos(t),t,0,3] ]",
+		t("Tangent[ x+y=17, x^2+y^2=1 ]", "x + y = 1.4142135623730951", "x + y = -1.414213562373095");
+		t("Tangent[ 42, sin(x) ]", "y = -0.39998531498835127x + 15.882861681595118");
+		t(
+				"Tangent[ Point[Curve[sin(t),cos(t),t,0,3], 0.05], Curve[sin(t),cos(t),t,0,3] ]",
 				"y = -0.1511352180582951x + 1.011356442673664");
 		t("Tangent[ (1,1), x^2+y^2=1 ]", "y = 1", "x = 1");
-		t("Tangent[ (1,1), sin(x) ]",
-				"y = 0.5403023058681398x + 0.30116867893975674");
+		t("Tangent[ (1,1), sin(x) ]", "y = 0.5403023058681398x + 0.30116867893975674");
 		// slightly different result on M2 Mac with xmlTemplate, use maxPrecision13 instead
-		t("Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]", StringTemplate.maxPrecision13,
+		t(
+				"Tangent[ (1,1), Spline[{(2,3),(1,4),(2,5),(3,1)}]]",
+				StringTemplate.maxPrecision13,
 				"y = 22.40252712698x - 66.20758138095");
-		t("Tangent[ (0, 1), Curve(cos(z), sin(z), z, 0, π)]",
-				"y = 1");
+		t("Tangent[ (0, 1), Curve(cos(z), sin(z), z, 0, π)]", "y = 1");
 	}
 
 	@Test
 	void cmdTetrahedron() {
-		String[] dodeca = new String[] { "0.11785", "(0.5, 0.28868, 0.8165)",
-				"0.43301", "0.43301", "0.43301", "0.43301", "1", "1", "1", "1",
-				"1", "1" };
+		String[] dodeca = new String[] {
+			"0.11785",
+			"(0.5, 0.28868, 0.8165)",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"0.43301",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1",
+			"1"
+		};
 		platonicTest("Tetrahedron", 60, dodeca);
 	}
 
 	@Test
 	void cmdTDistribution() {
-		prob("TDistribution", "2",
-				"((x^2 / 2 + 1)^(-((2 + 1) / 2)) gamma((2 + 1) / 2)) / (sqrt(2"
-						+ Unicode.pi + ") gamma(2 / 2))",
+		prob(
+				"TDistribution",
+				"2",
+				"((x^2 / 2 + 1)^(-((2 + 1) / 2)) gamma((2 + 1) / 2)) / (sqrt(2" + Unicode.pi
+						+ ") gamma(2 / 2))",
 				"0.5 + (betaRegularized(2 / 2, 0.5, 1) "
 						+ "- betaRegularized(2 / 2, 0.5, 2 / (2 + x^2))) sgn(x) / 2");
 	}
@@ -4079,11 +4516,12 @@ class CommandsTest extends CommandTestSetup {
 		t("Text[ Polygon[(1,1),(2,1/2),4], false ]", "Polygon((1, 1), (2, 1 / 2), 4)");
 		t("Text[ Polygon[(1,1),(2,1/2),4], (1,1) ]", "1.25");
 		t("Text[ Polygon[(1,1),(2,1/2),4], (1,1), false ]", "Polygon((1, 1), (2, 1 / 2), 4)");
-		t("Text[ Polygon[(1,1),(2,1/2),4], (1,1), false, false ] ",
+		t("Text[ Polygon[(1,1),(2,1/2),4], (1,1), false, false ] ", "Polygon((1, 1), (2, 1 / 2), 4)");
+		t(
+				"Text[ Polygon[(1,1),(2,1/2),4], (1,1), false, false, 1 ] ",
 				"Polygon((1, 1), (2, 1 / 2), 4)");
-		t("Text[ Polygon[(1,1),(2,1/2),4], (1,1), false, false, 1 ] ",
-				"Polygon((1, 1), (2, 1 / 2), 4)");
-		t("Text[ Polygon[(1,1),(2,1/2),4], (1,1), false, false, 1, 1 ] ",
+		t(
+				"Text[ Polygon[(1,1),(2,1/2),4], (1,1), false, false, 1, 1 ] ",
 				"Polygon((1, 1), (2, 1 / 2), 4)");
 	}
 
@@ -4101,7 +4539,6 @@ class CommandsTest extends CommandTestSetup {
 	void cmdTMeanEstimate() {
 		t("TMeanEstimate[ {1,2,3,4,5}, 4]", "?");
 		t("TMeanEstimate[ 42, 13, 4, 0.05]", "{41.55743110260425, 42.44256889739575}");
-
 	}
 
 	@Test
@@ -4117,7 +4554,9 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdTriangular() {
-		prob("Triangular", "1,3,2",
+		prob(
+				"Triangular",
+				"1,3,2",
 				"If(x < 1, 0, If(x < 2, (2 (x - 1)) / ((2 - 1) (3 - 1)),"
 						+ " If(x < 3, (2 (x - 3)) / ((2 - 3) (3 - 1)), 0)))",
 				"If(x < 1, 0, If(x < 2, (x - 1)^2 / ((2 - 1) (3 - 1)),"
@@ -4172,15 +4611,16 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdTravelingSalesman() {
-		t("TravelingSalesman[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"TravelingSalesman[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"TravelingSalesman[{(1, 1), (2, 2), (3, 3), (4, 1 / 4), (5, 1 / 5)}]");
 	}
 
 	@Test
 	void cmdTriangleCenter() {
-		t("TriangleCenter[ (1,1),(2,1/2),(3,1/3),42 ]",
-				"(2.0351425014047106, 0.5603546311318476)");
-		t("TriangleCenter[ (-1.2, 2.28),(6.36, 4.77),(2.5, 0.76), 591]",
+		t("TriangleCenter[ (1,1),(2,1/2),(3,1/3),42 ]", "(2.0351425014047106, 0.5603546311318476)");
+		t(
+				"TriangleCenter[ (-1.2, 2.28),(6.36, 4.77),(2.5, 0.76), 591]",
 				"(3.972074828617704, 4.828273764099394)");
 	}
 
@@ -4208,15 +4648,13 @@ class CommandsTest extends CommandTestSetup {
 	@Test
 	void cmdTTest2() {
 		t("TTest2[ {1,2,3,4,5}, {1,2,3,4,5}, \">\", false ]", "{0.5, 0}");
-		t("TTest2[ 13, 4, 13, 50, 42, 4, \">\", false]",
-				"{0.9118882772503653, -1.759451281498666}");
+		t("TTest2[ 13, 4, 13, 50, 42, 4, \">\", false]", "{0.9118882772503653, -1.759451281498666}");
 	}
 
 	@Test
 	void cmdTurningPoint() {
 		t("InflectionPoint[ x^3 ]", "(0, 0)");
-		tRound("InflectionPoint[ If(5<x<7,x^3 * (6-x)^3) ]",
-				"(?, ?)", "(?, ?)", "(?, ?)", "(6, 0)");
+		tRound("InflectionPoint[ If(5<x<7,x^3 * (6-x)^3) ]", "(?, ?)", "(?, ?)", "(?, ?)", "(6, 0)");
 	}
 
 	@Test
@@ -4285,7 +4723,10 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdUniform() {
-		prob("Uniform", "1,2.5", "If(x < 1, 0, If(x < 2.5, (2.5 - 1)^-1, 0))",
+		prob(
+				"Uniform",
+				"1,2.5",
+				"If(x < 1, 0, If(x < 2.5, (2.5 - 1)^-1, 0))",
 				"If(x < 1, 0, If(x < 2.5, (x - 1) / (2.5 - 1), 1))");
 	}
 
@@ -4311,14 +4752,31 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdUnion() {
-		t("join=Union[Polygon[(1,1),(1,0),(0,1)],Polygon[(0,0),(1,0),(0,1)]]",
-				"1", "(1, 0)", "(1, 1)", "(0, 1)", "(0, 0)", "1",
-				"1", "1", "1");
-		t("join=Union[Polygon[(1,1,0),(1,0,0),(0,1,0)],Polygon[(0,0,0),(1,0,0),(0,1,0)]]",
-				"1", "(1, 0, 0)", "(0, 0, 0)", "(0, 1, 0)",
-				"(1, 1, 0)", "1", "1", "1", "1");
+		t(
+				"join=Union[Polygon[(1,1),(1,0),(0,1)],Polygon[(0,0),(1,0),(0,1)]]",
+				"1",
+				"(1, 0)",
+				"(1, 1)",
+				"(0, 1)",
+				"(0, 0)",
+				"1",
+				"1",
+				"1",
+				"1");
+		t(
+				"join=Union[Polygon[(1,1,0),(1,0,0),(0,1,0)],Polygon[(0,0,0),(1,0,0),(0,1,0)]]",
+				"1",
+				"(1, 0, 0)",
+				"(0, 0, 0)",
+				"(0, 1, 0)",
+				"(1, 1, 0)",
+				"1",
+				"1",
+				"1",
+				"1");
 		t("Union[{1,2,3}, {2,2,2,4,4,4}]", "{1, 2, 3, 4}");
-		t("Union[{\"1\",\"2\",\"3\"}, {\"2\",\"2\",\"2\",\"4\",\"4\",\"4\"}]",
+		t(
+				"Union[{\"1\",\"2\",\"3\"}, {\"2\",\"2\",\"2\",\"4\",\"4\",\"4\"}]",
 				"{\"1\", \"2\", \"3\", \"4\"}");
 	}
 
@@ -4365,20 +4823,17 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdVerticalText() {
-		t("VerticalText[ \"GeoGebra\" ]",
-				"\\rotatebox{90.0}{ \\text{ GeoGebra }  }");
-		t("VerticalText[ \"GeoGebra\", (1,1) ]",
-				"\\rotatebox{90.0}{ \\text{ GeoGebra }  }");
+		t("VerticalText[ \"GeoGebra\" ]", "\\rotatebox{90.0}{ \\text{ GeoGebra }  }");
+		t("VerticalText[ \"GeoGebra\", (1,1) ]", "\\rotatebox{90.0}{ \\text{ GeoGebra }  }");
 	}
 
 	@Test
 	void cmdVertex() {
-		t("Vertex[ x^2/9+y^2/4 =1 ]",
-				"(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)");
-		tRound("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
+		t("Vertex[ x^2/9+y^2/4 =1 ]", "(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)");
+		tRound(
+				"Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
 				"{(0, 0), (1, 1), (1.30208, 0.55189)}");
-		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
-				"(0, 0)", "(1, 0)", "(0, 1)");
+		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]", "(0, 0)", "(1, 0)", "(0, 1)");
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)],2 ]", "(1, 0)");
 		t("Vertex[ Segment[(1,0),(0,1)], 1]", "(1, 0)");
 	}
@@ -4391,15 +4846,17 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdVoronoi() {
-		t("Voronoi[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
+		t(
+				"Voronoi[ {(1,1),(2,2),(3,3),(4,1/4),(5,1/5)} ]",
 				"Voronoi[{(1, 1), (2, 2), (3, 3), (4, 1 / 4), (5, 1 / 5)}]");
 	}
 
 	@Test
 	void cmdWeibull() {
-		prob("Weibull", "2,1",
-				"If(x < 0, 0, 2 / 1 (x / 1)^(2 - 1) " + Unicode.EULER_STRING
-						+ "^(-(x / 1)^2))",
+		prob(
+				"Weibull",
+				"2,1",
+				"If(x < 0, 0, 2 / 1 (x / 1)^(2 - 1) " + Unicode.EULER_STRING + "^(-(x / 1)^2))",
 				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(x / 1)^2))");
 	}
 
@@ -4420,8 +4877,10 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void testZipWithText() {
-		t("Zip(Text[A,B,true,true,C,0], A, {\"t1\", \"t2\", \"t3\"}, B, {(0,1),(0,2),(0,3)} , "
-				+ "C, {-1, 0, 1})", "{\"t1\", \"t2\", \"t3\"}");
+		t(
+				"Zip(Text[A,B,true,true,C,0], A, {\"t1\", \"t2\", \"t3\"}, B, {(0,1),(0,2),(0,3)} , "
+						+ "C, {-1, 0, 1})",
+				"{\"t1\", \"t2\", \"t3\"}");
 	}
 
 	@Test
@@ -4520,7 +4979,8 @@ class CommandsTest extends CommandTestSetup {
 
 	@Test
 	void cmdBezierCurve() {
-		t("BezierCurve((0,0),(0,1),(1,1),(1,0))",
+		t(
+				"BezierCurve((0,0),(0,1),(1,1),(1,0))",
 				"((0 * t^(3)) + (0 * ((1 - t) * t^(2))) + (3 * ((1 - t)^(2) * t))"
 						+ " + (1 * (1 - t)^(3)), (0 * t^(3)) + (3 * ((1 - t) * t^(2)))"
 						+ " + (3 * ((1 - t)^(2) * t)) + (0 * (1 - t)^(3)))");

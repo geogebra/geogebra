@@ -61,8 +61,7 @@ public class LocalizationCommon extends LocalizationJre {
 
 	@Override
 	protected ArrayList<Locale> getSupportedLocales() {
-		return getSupportedLocales(
-				app != null && hasAllLanguages());
+		return getSupportedLocales(app != null && hasAllLanguages());
 	}
 
 	@Override

@@ -47,8 +47,10 @@ import org.gwtproject.user.client.ui.ListBox;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.URL;
 
-public final class ToolManagerDialogW extends ComponentDialog implements ToolManagerDialogListener,
-		ToolNameIconPanelW.MacroChangeListener, MultiSelectButtonsPanel.ButtonsListener {
+public final class ToolManagerDialogW extends ComponentDialog
+		implements ToolManagerDialogListener,
+				ToolNameIconPanelW.MacroChangeListener,
+				MultiSelectButtonsPanel.ButtonsListener {
 
 	AppW appw;
 	final LocalizationW loc;
@@ -110,7 +112,6 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 		public void removeItem(int index) {
 			macros.remove(index);
 			super.removeItem(index);
-
 		}
 
 		List<Macro> getSelectedMacros() {
@@ -177,13 +178,18 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 		for (int j = 0; j < selIndexesTemp.size(); j++) {
 			int i = selIndexesTemp.get(j);
 			if (toolList.getMacro(i).isUsed()) {
-				macroNamesNoDel.append("\n")
+				macroNamesNoDel
+						.append("\n")
 						.append(toolList.getMacro(i).getToolOrCommandName())
-						.append(": ").append(toolList.getMacro(i).getNeededTypesString());
+						.append(": ")
+						.append(toolList.getMacro(i).getNeededTypesString());
 				toolList.setItemSelected(j, false);
 			} else {
-				macroNamesDel.append("\n").append(toolList.getMacro(i).getToolOrCommandName())
-						.append(": ").append(toolList.getMacro(i).getNeededTypesString());
+				macroNamesDel
+						.append("\n")
+						.append(toolList.getMacro(i).getToolOrCommandName())
+						.append(": ")
+						.append(toolList.getMacro(i).getNeededTypesString());
 			}
 		}
 		if (macroNamesDel.length() == 0) {
@@ -211,10 +217,8 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 	}
 
 	private void onToolDelete() {
-		final List<Integer> selIndexes = ListBoxApi
-				.getSelectionIndexes(toolList);
-		List<Macro> macros = toolList
-				.getSelectedMacros();
+		final List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
+		List<Macro> macros = toolList.getSelectedMacros();
 		// need this because of removing
 
 		Collections.reverse(selIndexes);
@@ -239,8 +243,8 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 		return new MultiSelectButtonsPanel(this);
 	}
 
-	private StandardButton addStyledButton(SVGResource img, FlowPanel rootPanel,
-			String label, FastClickHandler clickHandler) {
+	private StandardButton addStyledButton(
+			SVGResource img, FlowPanel rootPanel, String label, FastClickHandler clickHandler) {
 		StandardButton btn = BaseWidgetFactory.INSTANCE.newTonalButton(img, label);
 		btn.addFastClickHandler(clickHandler);
 		rootPanel.add(btn);
@@ -257,8 +261,7 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 		toolList.setMultipleSelect(true);
 		toolList.setVisibleItemCount(6);
 
-		FlowPanel centerPanel = LayoutUtilW.panelRow(toolList,
-				createListUpDownRemovePanel());
+		FlowPanel centerPanel = LayoutUtilW.panelRow(toolList, createListUpDownRemovePanel());
 		centerPanel.setStyleName("multiSelectList");
 		panel.add(centerPanel);
 
@@ -266,14 +269,18 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 		toolButtonPanel.addStyleName("toolButtons");
 		panel.add(toolButtonPanel);
 
-		openButton = addStyledButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
-				toolButtonPanel, loc.getMenu("Open"),
-				w -> this.openMacroEditingTab()
-		);
+		openButton = addStyledButton(
+				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+				toolButtonPanel,
+				loc.getMenu("Open"),
+				w -> this.openMacroEditingTab());
 		openButton.setEnabled(false);
 
-		addStyledButton(DefaultMenuIconResources.INSTANCE.save(), toolButtonPanel,
-				loc.getMenu("Save"), w -> this.saveTools());
+		addStyledButton(
+				DefaultMenuIconResources.INSTANCE.save(),
+				toolButtonPanel,
+				loc.getMenu("Save"),
+				w -> this.saveTools());
 
 		// name & icon
 		macroPanel = new ToolNameIconPanelW(appw, this);
@@ -289,11 +296,9 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 
 	private void updateMacroPanel() {
 		Macro selectedMacro = toolList.getSelectedMacro();
-		openButton.setEnabled(
-				!appw.isOpenedForMacroEditing()
+		openButton.setEnabled(!appw.isOpenedForMacroEditing()
 				&& selectedMacro != null
-				&& !appw.storageContainsMacro(selectedMacro.getEditName())
-		);
+				&& !appw.storageContainsMacro(selectedMacro.getEditName()));
 		macroPanel.setMacro(selectedMacro);
 	}
 
@@ -306,8 +311,7 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 			MaterialsManagerI fm = appw.getFileManager();
 			if (fm != null) {
 				URL url = new URL(DomGlobal.location.href);
-				url.searchParams.append(AppW.EDIT_MACRO_URL_PARAM_NAME,
-						selectedMacro.getEditName());
+				url.searchParams.append(AppW.EDIT_MACRO_URL_PARAM_NAME, selectedMacro.getEditName());
 				fm.open(url.toString(), "");
 			}
 		}
@@ -403,10 +407,9 @@ public final class ToolManagerDialogW extends ComponentDialog implements ToolMan
 		} else {
 			Macro selectedMacro = toolList.getSelectedMacro();
 			if (selectedMacro != null) {
-				appw.getGuiManager().removeFromToolbarDefinition(
-						selectedMacro.getKernel().getMacroID(selectedMacro)
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET
-				);
+				appw.getGuiManager()
+						.removeFromToolbarDefinition(selectedMacro.getKernel().getMacroID(selectedMacro)
+								+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 			}
 		}
 		GuiManagerW gm = (GuiManagerW) appw.getGuiManager();

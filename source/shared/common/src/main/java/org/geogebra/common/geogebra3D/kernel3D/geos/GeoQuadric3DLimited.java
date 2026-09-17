@@ -52,19 +52,27 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for limited quadrics (e.g. limited cones, cylinders, ...)
- * 
+ *
  * @author mathieu
- * 
+ *
  */
 public class GeoQuadric3DLimited extends GeoQuadricND
-		implements GeoNumberValue, HasVolume, HasHeight, RotatableND,
-		Translateable, MirrorableAtPlane, Transformable, Dilateable,
-		GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart {
+		implements GeoNumberValue,
+				HasVolume,
+				HasHeight,
+				RotatableND,
+				Translateable,
+				MirrorableAtPlane,
+				Transformable,
+				Dilateable,
+				GeoQuadric3DLimitedInterface,
+				GeoQuadric3DLimitedOrPart {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
 	/** bottom and top of the quadric */
 	private GeoConicND bottom;
+
 	private GeoConic3D top;
 
 	// private GeoPointND bottomPoint, topPoint;
@@ -79,14 +87,14 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	/*
 	 * constructor
-	 * 
+	 *
 	 * @param c
-	 * 
+	 *
 	 * public GeoQuadric3DLimited(Construction c) { this(c, null, null); }
 	 */
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param type
@@ -137,7 +145,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param quadric
 	 *            original
 	 */
@@ -182,7 +190,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	/**
 	 * init the labels
-	 * 
+	 *
 	 * @param labels
 	 *            labels for self, bottom, top, side
 	 */
@@ -221,7 +229,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	/**
 	 * init the labels
-	 * 
+	 *
 	 * @param labels
 	 *            labels for self, top, side
 	 */
@@ -247,7 +255,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// else
 		top.setLabel(labels[1]);
 		side.setLabel(labels[2]);
-
 	}
 
 	@Override
@@ -285,10 +292,10 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 *            bottom parameter
 	 * @param topParameter
 	 *            top parameter
-	 * 
+	 *
 	 */
-	public void setCylinder(Coords origin, Coords direction, double r,
-			double bottomParameter, double topParameter) {
+	public void setCylinder(
+			Coords origin, Coords direction, double r, double bottomParameter, double topParameter) {
 
 		// limits
 		setLimits(bottomParameter, topParameter);
@@ -304,7 +311,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		// set type
 		setType(QUADRIC_CYLINDER);
-
 	}
 
 	/**
@@ -319,8 +325,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * @param topParameter
 	 *            top parameter
 	 */
-	public void setHyperbolicCylinder(Coords origin, Coords direction, double r,
-			double bottomParameter, double topParameter) {
+	public void setHyperbolicCylinder(
+			Coords origin, Coords direction, double r, double bottomParameter, double topParameter) {
 
 		// limits
 		setLimits(bottomParameter, topParameter);
@@ -336,7 +342,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		// set type
 		setType(QUADRIC_HYPERBOLIC_CYLINDER);
-
 	}
 
 	/**
@@ -351,8 +356,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * @param topParameter
 	 *            top parameter
 	 */
-	public void setParabolicCylinder(Coords origin, Coords direction, double r,
-			double bottomParameter, double topParameter) {
+	public void setParabolicCylinder(
+			Coords origin, Coords direction, double r, double bottomParameter, double topParameter) {
 
 		// limits
 		setLimits(bottomParameter, topParameter);
@@ -368,12 +373,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 		// set type
 		setType(QUADRIC_PARABOLIC_CYLINDER);
-
 	}
 
 	/**
 	 * sets the bottom and top values for limits
-	 * 
+	 *
 	 * @param bottomParameter
 	 *            bottom parameter
 	 * @param topParameter
@@ -382,7 +386,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public void setLimits(double bottomParameter, double topParameter) {
 		this.bottomParameter = bottomParameter;
 		this.topParameter = topParameter;
-
 	}
 
 	/**
@@ -404,8 +407,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * @param topParameter
 	 *            top parameter
 	 */
-	public void setCone(Coords origin, Coords direction, double r,
-			double bottomParameter, double topParameter) {
+	public void setCone(
+			Coords origin, Coords direction, double r, double bottomParameter, double topParameter) {
 
 		// limits
 		setLimits(bottomParameter, topParameter);
@@ -451,7 +454,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			top.setTrace(trace);
 		}
 		side.setTrace(trace);
-
 	}
 
 	/** to be able to fill it with an alpha value */
@@ -468,12 +470,10 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			top.setEuclidianVisible(visible);
 		}
 		side.setEuclidianVisible(visible);
-
 	}
 
 	@Override
-	public void setShowObjectCondition(final GeoBoolean cond)
-			throws CircularDefinitionException {
+	public void setShowObjectCondition(final GeoBoolean cond) throws CircularDefinitionException {
 
 		super.setShowObjectCondition(cond);
 
@@ -486,7 +486,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			top.setShowObjectCondition(cond);
 		}
 		side.setShowObjectCondition(cond);
-
 	}
 
 	@Override
@@ -502,7 +501,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			top.updateVisualStyle(prop);
 		}
 		side.updateVisualStyle(prop);
-
 	}
 
 	@Override
@@ -573,7 +571,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		side.updateVisualStyle(GProperty.COLOR);
 
 		getKernel().notifyRepaint();
-
 	}
 
 	@Override
@@ -646,27 +643,26 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		}
 		double pih = Math.PI * Math.abs(topParameter - bottomParameter);
 		switch (type) {
-		default:
-		case QUADRIC_CYLINDER:
-			if (bottom.halfAxes == null) {
-				volume = radius * radius * pih;
-			} else {
-				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih;
-			}
-			break;
-		case QUADRIC_CONE:
-			double h = Math.abs(topParameter - bottomParameter);
+			default:
+			case QUADRIC_CYLINDER:
+				if (bottom.halfAxes == null) {
+					volume = radius * radius * pih;
+				} else {
+					volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih;
+				}
+				break;
+			case QUADRIC_CONE:
+				double h = Math.abs(topParameter - bottomParameter);
 
-			if (bottom.halfAxes == null) {
-				double r = radius * h; // "radius" is the radius value for h = 1
-				volume = r * r * pih / 3;
-			} else {
-				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih
-						/ 3;
-			}
-			break;
-		// default:
-		// volume=Double.NaN;
+				if (bottom.halfAxes == null) {
+					double r = radius * h; // "radius" is the radius value for h = 1
+					volume = r * r * pih / 3;
+				} else {
+					volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih / 3;
+				}
+				break;
+			// default:
+			// volume=Double.NaN;
 		}
 	}
 
@@ -686,14 +682,14 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		switch (type) {
-		case QUADRIC_CYLINDER:
-		case QUADRIC_CONE:
-			return kernel.format(volume, tpl);
-		case QUADRIC_EMPTY:
-			return kernel.format(0, tpl);
-		default:
-			Log.debug("todo-GeoQuadric3DLimited");
-			return "?";
+			case QUADRIC_CYLINDER:
+			case QUADRIC_CONE:
+				return kernel.format(volume, tpl);
+			case QUADRIC_EMPTY:
+				return kernel.format(0, tpl);
+			default:
+				Log.debug("todo-GeoQuadric3DLimited");
+				return "?";
 		}
 	}
 
@@ -736,7 +732,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 */
 	public void setSilentTop() {
 		silentTop = true;
-
 	}
 
 	@Override
@@ -783,8 +778,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	}
 
 	@Override
-	public void rotate(NumberValue r, Coords S,
-			GeoDirectionND orientation) {
+	public void rotate(NumberValue r, Coords S, GeoDirectionND orientation) {
 
 		((GeoConic3D) bottom).rotate(r, S, orientation);
 		top.rotate(r, S, orientation);
@@ -796,7 +790,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	}
 
 	@Override
-	final public boolean isTranslateable() {
+	public final boolean isTranslateable() {
 		return true;
 	}
 
@@ -845,7 +839,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 	}
 
 	// //////////////////////
@@ -866,13 +859,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 	}
 
 	@Override
-	final protected void singlePoint() {
+	protected final void singlePoint() {
 		type = GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
-
 	}
 
 	@Override
@@ -916,7 +907,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 

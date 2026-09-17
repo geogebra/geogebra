@@ -44,8 +44,9 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  * @author Markus
  */
 public class AlgoJoinPointsSegment extends AlgoElement
-		implements AlgoJoinPointsSegmentInterface, SymbolicParametersBotanaAlgo,
-		SymbolicParametersAlgo {
+		implements AlgoJoinPointsSegmentInterface,
+				SymbolicParametersBotanaAlgo,
+				SymbolicParametersAlgo {
 
 	private GeoPoint P; // input
 	private GeoPoint Q; // input
@@ -66,8 +67,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	 * @param Q
 	 *            end point
 	 */
-	public AlgoJoinPointsSegment(Construction cons, GeoPoint P,
-			GeoPoint Q) {
+	public AlgoJoinPointsSegment(Construction cons, GeoPoint P, GeoPoint Q) {
 		this(cons, P, Q, null, true);
 	}
 
@@ -83,8 +83,8 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	 * @param addToConstructionList
 	 *            add to construction?
 	 */
-	public AlgoJoinPointsSegment(Construction cons, GeoPoint P, GeoPoint Q,
-			GeoPolygon poly, boolean addToConstructionList) {
+	public AlgoJoinPointsSegment(
+			Construction cons, GeoPoint P, GeoPoint Q, GeoPolygon poly, boolean addToConstructionList) {
 		super(cons, addToConstructionList);
 
 		// make sure that this helper algorithm is updated right after its
@@ -237,14 +237,13 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("SegmentAB", "Segment %0, %1",
-					P.getLabel(tpl), Q.getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlainDefault("SegmentAB", "Segment %0, %1", P.getLabel(tpl), Q.getLabel(tpl));
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaVars == null) {
 			botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		}
@@ -252,8 +251,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines/segments are only created when a third
 		// point is lying on them, too:
 		return null;
@@ -265,32 +263,27 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			P.getFreeVariables(variables);
 			Q.getFreeVariables(variables);
 			return;
 		}
 		throw new NoSymbolicParametersException();
-
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			int[] degree1 = P.getDegrees(a);
 			int[] degree2 = Q.getDegrees(a);
 			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();
-
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			final HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			BigInteger[] coords1 = P.getExactCoordinates(values);
@@ -321,8 +314,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 
 	@Override
 	public ArrayList<GeoElementND> getFreeInputPoints() {
-		if (poly == null
-				|| !(poly.getParentAlgorithm() instanceof AlgoPolygonRegular)) {
+		if (poly == null || !(poly.getParentAlgorithm() instanceof AlgoPolygonRegular)) {
 			return super.getFreeInputPoints();
 		}
 
@@ -333,5 +325,4 @@ public class AlgoJoinPointsSegment extends AlgoElement
 	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		return view.getFreeInputPoints(this).size() == 2;
 	}
-
 }

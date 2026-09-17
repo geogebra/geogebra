@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Normalize values of a list between 0 and 1.
- * 
+ *
  * @author Oana Niculaescu
  * @version 11-03-2015
  */
-
 public class AlgoNormalize extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -82,11 +81,11 @@ public class AlgoNormalize extends AlgoElement {
 		normalList.setDefined(true);
 		normalList.clear();
 
-		double normalXVal, normalYVal = 0,
+		double normalXVal,
+				normalYVal = 0,
 				xMinVal = Double.POSITIVE_INFINITY,
 				xMaxVal = Double.NEGATIVE_INFINITY;
-		double yMinVal = Double.POSITIVE_INFINITY,
-				yMaxVal = Double.NEGATIVE_INFINITY, xVal, yVal;
+		double yMinVal = Double.POSITIVE_INFINITY, yMaxVal = Double.NEGATIVE_INFINITY, xVal, yVal;
 
 		// get Min and Max values for the list of numbers/points
 		GeoElement geo0 = geoList.get(0);
@@ -175,5 +174,4 @@ public class AlgoNormalize extends AlgoElement {
 
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
-
 }

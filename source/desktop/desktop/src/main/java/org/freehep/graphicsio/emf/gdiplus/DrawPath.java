@@ -9,7 +9,7 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
 /**
  * The DrawPath metafile record represents a call to Graphics.DrawPath, which
  * draws the border of a GraphicsPath object.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: DrawPath.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
@@ -28,8 +28,7 @@ public class DrawPath extends EMFPlusTag {
 	}
 
 	@Override
-	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len) throws IOException {
 		DrawPath tag = new DrawPath();
 		tag.flags = flags;
 		tag.penIndex = emf.readUINT();
@@ -37,8 +36,7 @@ public class DrawPath extends EMFPlusTag {
 	}
 
 	@Override
-	public void write(int tagID, int flags, EMFOutputStream emf)
-			throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
 		emf.writeUINT(penIndex);
 	}
 

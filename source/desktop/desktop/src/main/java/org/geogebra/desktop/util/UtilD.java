@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -49,7 +49,7 @@ public class UtilD {
 
 	/**
 	 * Adds key listener recursively to all subcomponents of container.
-	 * 
+	 *
 	 * @param listener listener
 	 */
 	public static void addKeyListenerToAll(Container cont, KeyListener listener) {
@@ -99,7 +99,7 @@ public class UtilD {
 
 	/**
 	 * Registers dialog for disposal on escape key-press.
-	 * 
+	 *
 	 * @param dialog
 	 *            JDialog to be closed on escape
 	 */
@@ -108,8 +108,7 @@ public class UtilD {
 
 		root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
 				.put(KeyStroke.getKeyStroke("ESCAPE"), "dispose-on-escape");
-		root.getActionMap().put("dispose-on-escape",
-				new DisposeDialogAction(dialog));
+		root.getActionMap().put("dispose-on-escape", new DisposeDialogAction(dialog));
 	}
 
 	/**
@@ -150,9 +149,9 @@ public class UtilD {
 	}
 
 	/**
-	 * 
+	 *
 	 * Writes file as UTF-8
-	 * 
+	 *
 	 * @param s
 	 *            string to write
 	 * @param filename
@@ -160,21 +159,20 @@ public class UtilD {
 	 */
 	public static void writeStringToFile(String s, String filename) {
 		try {
-			try (Writer out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(filename), StandardCharsets.UTF_8))) {
+			try (Writer out = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8))) {
 				out.write(s);
 			}
 		} catch (Exception e) {
 			Log.error("problem writing file " + filename);
 			Log.debug(e);
 		}
-
 	}
 
 	/**
-	 * 
+	 *
 	 * Writes file as UTF-8
-	 * 
+	 *
 	 * @param s
 	 *            string to write
 	 * @param file
@@ -182,8 +180,8 @@ public class UtilD {
 	 */
 	public static void writeStringToFile(String s, File file) {
 		try {
-			try (Writer out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(file), StandardCharsets.UTF_8))) {
+			try (Writer out = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
 				out.write(s);
 			}
 		} catch (Exception e) {
@@ -224,7 +222,7 @@ public class UtilD {
 
 	/**
 	 * Creates a directory
-	 * 
+	 *
 	 * @param prefDir
 	 *            directory
 	 */
@@ -236,7 +234,7 @@ public class UtilD {
 
 	/**
 	 * Deletes a file
-	 * 
+	 *
 	 * @param dest
 	 *            file
 	 */
@@ -245,5 +243,4 @@ public class UtilD {
 			Log.warn("Could not delete " + dest.getAbsolutePath());
 		}
 	}
-
 }

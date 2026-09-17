@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Class for drawing surfaces
- * 
+ *
  * @author matthieu
  *
  */
@@ -32,7 +32,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param a_view3d
 	 *            view
 	 * @param a_geo
@@ -41,7 +41,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	public Drawable3DSurfaces(EuclidianView3D a_view3d, GeoElement a_geo) {
 		super(a_view3d);
 		init(a_geo);
-
 	}
 
 	@Override
@@ -52,19 +51,18 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	/**
 	 * common constructor for previewable
-	 * 
+	 *
 	 * @param a_view3d
 	 *            view
 	 */
 	public Drawable3DSurfaces(EuclidianView3D a_view3d) {
 		super(a_view3d);
 		setPickingType(PickingType.SURFACE);
-
 	}
 
 	/**
 	 * draws the geometry that hides other drawables (for dashed curves)
-	 * 
+	 *
 	 * @param renderer
 	 *            renderer
 	 */
@@ -122,9 +120,9 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	/*
 	 * protected boolean updateForItSelf(){
-	 * 
+	 *
 	 * updateColors();
-	 * 
+	 *
 	 * return true; }
 	 */
 
@@ -176,17 +174,17 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 
 	@Override
-	final protected void setGeometriesVisibility(boolean visible) {
+	protected final void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityWithSurface(visible);
 	}
 
 	@Override
-	final protected void updateGeometriesColor() {
+	protected final void updateGeometriesColor() {
 		updateGeometriesColor(true);
 	}
 
 	@Override
-	final public int getReusableSurfaceIndex() {
+	public final int getReusableSurfaceIndex() {
 		if (shouldBePackedForManager()) {
 			return addToTracesPackingBuffer(getSurfaceIndex());
 		}
@@ -194,7 +192,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 
 	@Override
-	final protected int getReusableGeometryIndex() {
+	protected final int getReusableGeometryIndex() {
 		if (shouldBePackedForManager()) {
 			return addToTracesPackingBuffer(getGeometryIndex());
 		}
@@ -221,16 +219,16 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		}
 	}
 
-    @Override
-    final protected void updateForViewNotVisible() {
-        if (willNeedUpdateOnVisibleAgain()) {
-            setWaitForUpdate();
-        }
-        updateGeometriesVisibility();
-    }
+	@Override
+	protected final void updateForViewNotVisible() {
+		if (willNeedUpdateOnVisibleAgain()) {
+			setWaitForUpdate();
+		}
+		updateGeometriesVisibility();
+	}
 
 	/**
-	 * 
+	 *
 	 * @return true when updated for view and not visible, but will need update
 	 *         when visible again
 	 */

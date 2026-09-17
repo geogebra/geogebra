@@ -31,8 +31,8 @@ public class SuperDevUncaughtExceptionHandler {
 	 * default
 	 */
 	public static void register() {
-		HTMLIFrameElement ifr = Js.uncheckedCast(
-				DomGlobal.document.querySelector("iframe#" + GWT.getModuleName()));
+		HTMLIFrameElement ifr =
+				Js.uncheckedCast(DomGlobal.document.querySelector("iframe#" + GWT.getModuleName()));
 		if (ifr != null) {
 			ifr.contentWindow.addEventListener("error", evt -> {
 				Object javaEx = JsObject.of(evt).nestedGet("error.__java$exception");

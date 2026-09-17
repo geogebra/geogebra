@@ -24,7 +24,7 @@ import org.geogebra.web.shared.components.dialog.DialogData;
 
 /**
  * Dialog to substitute expressions in CAS Input.
- * 
+ *
  * @author balazs.bencze
  *
  */
@@ -35,7 +35,7 @@ public final class CASSubDialogW extends CASSubDialog {
 
 	/**
 	 * Substitute dialog for CAS.
-	 * 
+	 *
 	 * @param casView
 	 *            view
 	 * @param prefix
@@ -47,8 +47,8 @@ public final class CASSubDialogW extends CASSubDialog {
 	 * @param editRow
 	 *            row to edit
 	 */
-	public CASSubDialogW(CASViewW casView, String prefix, String evalText,
-	        String postfix, int editRow) {
+	public CASSubDialogW(
+			CASViewW casView, String prefix, String evalText, String postfix, int editRow) {
 		super(prefix, evalText, postfix, editRow);
 
 		this.casView = casView;
@@ -61,9 +61,11 @@ public final class CASSubDialogW extends CASSubDialog {
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 		initData(cell);
 
-		DialogData dialogData = new DialogData("Substitute", app.getLocalization()
-				.getPlainDefault("RowA", "Row %0", Integer.toString(editRow + 1)),
-				"Cancel", "OK");
+		DialogData dialogData = new DialogData(
+				"Substitute",
+				app.getLocalization().getPlainDefault("RowA", "Row %0", Integer.toString(editRow + 1)),
+				"Cancel",
+				"OK");
 		dialog = new CASSubstituteDialogW(app, dialogData, data);
 		dialog.setOnPositiveAction(() -> apply(ACTION_SUBSTITUTE));
 	}

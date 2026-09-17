@@ -28,8 +28,8 @@ public class NotesOpacityColorProperty extends OpacityProperty {
 	 * @param localization - localization
 	 * @param element - element
 	 */
-	public NotesOpacityColorProperty(Localization localization, GeoElement element) throws
-			NotApplicablePropertyException {
+	public NotesOpacityColorProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
 		super(localization, new FillingStylePropertyDelegate(element));
 	}
 }

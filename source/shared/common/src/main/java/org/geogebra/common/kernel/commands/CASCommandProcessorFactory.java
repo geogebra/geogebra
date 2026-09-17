@@ -44,64 +44,64 @@ public class CASCommandProcessorFactory implements CommandProcessorFactory {
 	public CommandProcessor getProcessor(Commands command, Kernel kernel) {
 		switch (command) {
 
-		// note: Integral(f,a,b) is allowed but not Integral(f)
-		case Integral:
+			// note: Integral(f,a,b) is allowed but not Integral(f)
+			case Integral:
 
-		case IntegralBetween:
-		case NIntegral:
-			return new CmdIntegral(kernel, command);
-		case Derivative:
-		case NDerivative:
-			return new CmdDerivative(kernel, command);
-		case TrigSimplify:
-		case Expand:
-		case Factor:
-		case IFactor:
-			return new CmdCASCommand1Arg(kernel, command);
-		case Simplify:
-			return new CmdSimplify(kernel);
-		case SurdText:
-			return new CmdSurdText(kernel);
-		case ParametricDerivative:
-			return new CmdParametricDerivative(kernel);
-		case TrigExpand:
-			return new CmdTrigExpand(kernel);
-		case TrigCombine:
-			return new CmdTrigCombine(kernel);
-		case Limit:
-			return new CmdLimit(kernel);
-		case LimitBelow:
-			return new CmdLimitBelow(kernel);
-		case LimitAbove:
-			return new CmdLimitAbove(kernel);
-		case Degree:
-			return new CmdDegree(kernel);
-		case Coefficients:
-			return new CmdCoefficients(kernel);
-		case PartialFractions:
-			return new CmdPartialFractions(kernel);
-		case SolveODE:
-			return new CmdSolveODE(kernel);
-		case ImplicitDerivative:
-			return new CmdImplicitDerivative(kernel);
-		case NextPrime:
-			return new CmdNextPreviousPrime(kernel, true);
-		case PreviousPrime:
-			return new CmdNextPreviousPrime(kernel, false);
-		case CompleteSquare:
-			return new CmdCompleteSquare(kernel);
-		case NSolve:
-		case Solve:
-		case NSolutions:
-		case Solutions:
-		case PlotSolve:
-		case CSolve:
-		case CSolutions:
-			return new CmdSolve(kernel, command);
-		case CASLoaded:
-			return new CmdCASLoaded(kernel);
-		default:
-			break;
+			case IntegralBetween:
+			case NIntegral:
+				return new CmdIntegral(kernel, command);
+			case Derivative:
+			case NDerivative:
+				return new CmdDerivative(kernel, command);
+			case TrigSimplify:
+			case Expand:
+			case Factor:
+			case IFactor:
+				return new CmdCASCommand1Arg(kernel, command);
+			case Simplify:
+				return new CmdSimplify(kernel);
+			case SurdText:
+				return new CmdSurdText(kernel);
+			case ParametricDerivative:
+				return new CmdParametricDerivative(kernel);
+			case TrigExpand:
+				return new CmdTrigExpand(kernel);
+			case TrigCombine:
+				return new CmdTrigCombine(kernel);
+			case Limit:
+				return new CmdLimit(kernel);
+			case LimitBelow:
+				return new CmdLimitBelow(kernel);
+			case LimitAbove:
+				return new CmdLimitAbove(kernel);
+			case Degree:
+				return new CmdDegree(kernel);
+			case Coefficients:
+				return new CmdCoefficients(kernel);
+			case PartialFractions:
+				return new CmdPartialFractions(kernel);
+			case SolveODE:
+				return new CmdSolveODE(kernel);
+			case ImplicitDerivative:
+				return new CmdImplicitDerivative(kernel);
+			case NextPrime:
+				return new CmdNextPreviousPrime(kernel, true);
+			case PreviousPrime:
+				return new CmdNextPreviousPrime(kernel, false);
+			case CompleteSquare:
+				return new CmdCompleteSquare(kernel);
+			case NSolve:
+			case Solve:
+			case NSolutions:
+			case Solutions:
+			case PlotSolve:
+			case CSolve:
+			case CSolutions:
+				return new CmdSolve(kernel, command);
+			case CASLoaded:
+				return new CmdCASLoaded(kernel);
+			default:
+				break;
 		}
 		return null;
 	}

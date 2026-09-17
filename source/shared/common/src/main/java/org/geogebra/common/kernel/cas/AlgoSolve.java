@@ -81,26 +81,25 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			solutions.setEuclidianVisible(false);
 		}
 		switch (type) {
-		case CSolve:
-		case CSolutions:
-			solutions.setSymbolicMode(true, false);
-			//$FALL-THROUGH$
-		case PlotSolve:
-			solutions.setTypeStringForXML("point");
-			break;
-		case Solve:
-		case NSolve:
-			solutions.setTypeStringForXML("line");
-			break;
-		default:
-			solutions.setTypeStringForXML("numeric");
+			case CSolve:
+			case CSolutions:
+				solutions.setSymbolicMode(true, false);
+			// $FALL-THROUGH$
+			case PlotSolve:
+				solutions.setTypeStringForXML("point");
+				break;
+			case Solve:
+			case NSolve:
+				solutions.setTypeStringForXML("line");
+				break;
+			default:
+				solutions.setTypeStringForXML("numeric");
 		}
 	}
 
 	@Override
 	protected void setInputOutput() {
-		input = hint == null ? equations.asArray()
-				: new GeoElement[] { equations, hint };
+		input = hint == null ? equations.asArray() : new GeoElement[] {equations, hint};
 		setOnlyOutput(solutions);
 		setDependencies();
 	}
@@ -137,8 +136,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		sb.append("]");
 		try {
 			arbconst.startBlocking();
-			String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-					arbconst);
+			String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(), arbconst);
 
 			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
 			// if we re-evaluate something with arbconst, it will only have
@@ -149,8 +147,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				return;
 			}
 			convertOutputToSameType(raw);
-			if (equations.isGeoList() && raw.size() > 1
-					&& !raw.get(0).isGeoList()) {
+			if (equations.isGeoList() && raw.size() > 1 && !raw.get(0).isGeoList()) {
 				solutions.clear();
 				solutions.add(raw);
 			} else {
@@ -189,8 +186,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			if (!raw.get(i).isDefinitionValid()) {
 				return false;
 			}
-			if (raw.get(i).isGeoList()
-					&& !elementsDefined((GeoList) raw.get(i))) {
+			if (raw.get(i).isGeoList() && !elementsDefined((GeoList) raw.get(i))) {
 				return false;
 			}
 		}
@@ -211,8 +207,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			if (el instanceof GeoList) {
 				showUserForm((GeoList) el, trig);
 
-			}
-			else if (trig) {
+			} else if (trig) {
 				ExpressionValue def = el.getDefinition().unwrap();
 
 				if (def instanceof Equation) {
@@ -235,8 +230,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	private ExpressionValue makeAngle(ExpressionValue rhs) {
 		if (rhs instanceof MyDouble) {
 			((MyDouble) rhs).setAngle();
-		}
-		else if (rhs.isExpressionNode()) {
+		} else if (rhs.isExpressionNode()) {
 			return rhs.traverse(new Traversing() {
 
 				@Override
@@ -244,18 +238,14 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 					if (ev instanceof ExpressionNode) {
 						ExpressionNode en = ev.wrap();
 						if (en.getOperation() == Operation.MULTIPLY
-								&& MyDouble.exactEqual(Math.PI,
-									en.getRight().evaluateDouble())) {
-							MyDouble angle = new MyDouble(kernel,
-									en.getLeft().evaluateDouble() * Math.PI);
+								&& MyDouble.exactEqual(Math.PI, en.getRight().evaluateDouble())) {
+							MyDouble angle = new MyDouble(kernel, en.getLeft().evaluateDouble() * Math.PI);
 							angle.setAngle();
 							return angle;
-
 						}
 					}
 					return ev;
 				}
-
 			});
 		}
 		return rhs;
@@ -267,30 +257,27 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		ExpressionValue definitionObject = null;
 
 		if (equations2.getDefinition() != null) {
-			definitionObject = equations2.getDefinition()
+			definitionObject = equations2
+					.getDefinition()
 					.deepCopy(equations2.getKernel())
 					.traverse(FunctionExpander.newFunctionExpander());
 
-			definition = definitionObject
-					.toValueString(StringTemplate.prefixedDefaultSF);
+			definition = definitionObject.toValueString(StringTemplate.prefixedDefaultSF);
 		} else {
-			definition = equations2
-					.toValueString(StringTemplate.prefixedDefaultSF);
+			definition = equations2.toValueString(StringTemplate.prefixedDefaultSF);
 			try {
-				definitionObject = equations2.getKernel().getParser()
-						.parseGeoGebraExpression(definition);
+				definitionObject = equations2.getKernel().getParser().parseGeoGebraExpression(definition);
 			} catch (ParseException e) {
 				Log.debug(e);
 			}
 		}
 		sb.append(definition);
 
-		if (definitionObject != null)  {
+		if (definitionObject != null) {
 			definitionObject.any(registerUndefinedVariables);
 
 			if (equations2.getKernel().degreesMode()) {
-				return definitionObject.any(DegreeVariableChecker
-						.getInstance());
+				return definitionObject.any(DegreeVariableChecker.getInstance());
 			}
 		}
 
@@ -300,11 +287,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	private void printHint(StringBuilder sb) {
 		String definition;
 		if (hint.getDefinition() != null) {
-			definition = hint.getDefinition()
-					.toValueString(StringTemplate.prefixedDefaultSF);
+			definition = hint.getDefinition().toValueString(StringTemplate.prefixedDefaultSF);
 		} else {
-			definition = hint
-					.toValueString(StringTemplate.prefixedDefaultSF);
+			definition = hint.toValueString(StringTemplate.prefixedDefaultSF);
 		}
 		sb.append(definition);
 	}
@@ -316,7 +301,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Switch between Solve and NSolve and run the update cascade
-	 * 
+	 *
 	 * @return whether this is numeric after the toggle
 	 */
 	public boolean toggleNumeric() {
@@ -328,14 +313,14 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	private static Commands opposite(Commands type2) {
 		switch (type2) {
-		case Solutions:
-			return Commands.NSolutions;
-		case NSolutions:
-			return Commands.Solutions;
-		case NSolve:
-			return Commands.Solve;
-		default:
-			return Commands.NSolve;
+			case Solutions:
+				return Commands.NSolutions;
+			case NSolutions:
+				return Commands.Solutions;
+			case NSolve:
+				return Commands.Solve;
+			default:
+				return Commands.NSolve;
 		}
 	}
 }

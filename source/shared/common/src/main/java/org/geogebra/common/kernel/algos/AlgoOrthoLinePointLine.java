@@ -52,8 +52,8 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 
 	/**
 	 * Creates new AlgoOrthoLinePointLine.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -63,8 +63,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	 * @param l
 	 *            line result should be orthogonal to
 	 */
-	public AlgoOrthoLinePointLine(Construction cons, String label, GeoPoint P,
-			Lineable2D l) {
+	public AlgoOrthoLinePointLine(Construction cons, String label, GeoPoint P, Lineable2D l) {
 		super(cons);
 		this.P = P;
 		this.l = l;
@@ -81,7 +80,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -137,7 +136,6 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 		g.x = normal[0];
 		g.y = normal[1];
 		g.z = normal[2];
-
 	}
 
 	@Override
@@ -146,8 +144,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		if (P != null && l instanceof GeoLine) {
 			P.getFreeVariables(variables);
 			((GeoLine) l).getFreeVariables(variables);
@@ -157,8 +154,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (P != null && l instanceof GeoLine) {
 			int[] degreeP = P.getDegrees(a);
 			int[] degreeL = ((GeoLine) l).getDegrees(a);
@@ -166,16 +162,14 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 			int[] result = new int[3];
 			result[0] = degreeL[1] + degreeP[2];
 			result[1] = degreeL[0] + degreeP[2];
-			result[2] = Math.max(degreeL[0] + degreeP[1],
-					degreeL[1] + degreeP[0]);
+			result[2] = Math.max(degreeL[0] + degreeP[1], degreeL[1] + degreeP[0]);
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && l instanceof GeoLine) {
 			BigInteger[] pP = P.getExactCoordinates(values);
@@ -183,8 +177,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 			BigInteger[] coords = new BigInteger[3];
 			coords[0] = pL[1].multiply(pP[2]).negate();
 			coords[1] = pL[0].multiply(pP[2]);
-			coords[2] = pL[0].multiply(pP[1]).negate()
-					.add(pL[1].multiply(pP[0]));
+			coords[2] = pL[0].multiply(pP[1]).negate().add(pL[1].multiply(pP[0]));
 			return coords;
 		}
 		throw new NoSymbolicParametersException();
@@ -201,8 +194,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 			polynomials = new PPolynomial[3];
 			polynomials[0] = pL[1].multiply(pP[2]).negate();
 			polynomials[1] = pL[0].multiply(pP[2]);
-			polynomials[2] = pL[0].multiply(pP[1]).negate()
-					.add(pL[1].multiply(pP[0]));
+			polynomials[2] = pL[0].multiply(pP[1]).negate().add(pL[1].multiply(pP[0]));
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
@@ -217,8 +209,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (proverAdapter == null) {
 			proverAdapter = new OrthoLinePointLineAdapter();
 		}
@@ -246,9 +237,11 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlainDefault("LineThroughAPerpendicularToB",
-				"Line through %0 perpendicular to %1",
-				P.getLabel(tpl), ((GeoElement) l).getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"LineThroughAPerpendicularToB",
+						"Line through %0 perpendicular to %1",
+						P.getLabel(tpl),
+						((GeoElement) l).getLabel(tpl));
 	}
-
 }

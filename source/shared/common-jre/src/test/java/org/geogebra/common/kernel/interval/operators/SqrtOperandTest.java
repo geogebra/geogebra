@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,8 +31,8 @@ class SqrtOperandTest {
 
 	@Test
 	void sqrtPositiveInfinityShouldBePositiveInfinity() {
-		assertEquals(interval(Double.POSITIVE_INFINITY),
-				evaluator.sqrt(interval(Double.POSITIVE_INFINITY)));
+		assertEquals(
+				interval(Double.POSITIVE_INFINITY), evaluator.sqrt(interval(Double.POSITIVE_INFINITY)));
 	}
 
 	@Test
@@ -56,31 +56,30 @@ class SqrtOperandTest {
 	@Test
 	void inverseOfNegativeSqrtNegativeXShouldConvergeToNegativeInfinity() {
 		Interval x = interval(-3.224503997145689E-14, 0.019999999999967755);
-		assertEquals(Double.POSITIVE_INFINITY,
-				evaluator.inverse(evaluator.sqrt(x.negative())).getLow(), 0);
+		assertEquals(
+				Double.POSITIVE_INFINITY,
+				evaluator.inverse(evaluator.sqrt(x.negative())).getLow(),
+				0);
 	}
 
 	@Test
 	void intervalWithMinusZeroShouldBeUndefined() {
 		Interval x = interval(-0.0, 0.019999999999967755);
-		assertEquals(undefined(),
-				evaluator.inverse(evaluator.sqrt(x.negative()).negative()));
+		assertEquals(undefined(), evaluator.inverse(evaluator.sqrt(x.negative()).negative()));
 	}
 
 	@Test
 	void minusSqrtInverseShouldBeUndefinedAtZero() {
-		assertEquals(undefined(),
-				evaluator.multiply(evaluator.inverse(evaluator.sqrt(zero())),
-						interval(-1)));
+		assertEquals(
+				undefined(), evaluator.multiply(evaluator.inverse(evaluator.sqrt(zero())), interval(-1)));
 	}
 
 	@Test
 	void minusSqrtInverseShouldBeNegativeInfinityAroundZero() {
 		Interval sqrt = evaluator.sqrt(interval(-1E-4, 1E-4));
 		Interval inverse = evaluator.inverse(sqrt);
-		assertEquals(Double.NEGATIVE_INFINITY,
-				evaluator.multiply(inverse,
-						interval(-1)).getLow(), 0);
+		assertEquals(
+				Double.NEGATIVE_INFINITY, evaluator.multiply(inverse, interval(-1)).getLow(), 0);
 	}
 
 	@Test
@@ -88,16 +87,13 @@ class SqrtOperandTest {
 		Interval x = interval(-1E-4, 1E-4);
 		Interval sqrt = evaluator.sqrt(evaluator.inverse(x));
 		Interval inverse = evaluator.inverse(sqrt);
-		assertEquals(interval(-0.01, 0),
-				evaluator.multiply(inverse,
-						interval(-1)));
+		assertEquals(interval(-0.01, 0), evaluator.multiply(inverse, interval(-1)));
 	}
 
 	@Test
 	void sqrtTanX() {
 		Interval tanPiHalf = evaluator.tan(interval(1.5609788497524344, 1.5707963267949026));
-		assertEquals(interval(10.092367961261552, Double.POSITIVE_INFINITY),
-				evaluator.sqrt(tanPiHalf));
+		assertEquals(interval(10.092367961261552, Double.POSITIVE_INFINITY), evaluator.sqrt(tanPiHalf));
 	}
 
 	@Test
@@ -107,8 +103,7 @@ class SqrtOperandTest {
 
 	@Test
 	void sqrtOfMixedInvertedInterval() {
-		assertEquals(interval(3, Double.POSITIVE_INFINITY),
-				evaluator.sqrt(legacyInverted(-4, 9)));
+		assertEquals(interval(3, Double.POSITIVE_INFINITY), evaluator.sqrt(legacyInverted(-4, 9)));
 	}
 
 	@Test

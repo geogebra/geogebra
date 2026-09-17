@@ -28,5 +28,4 @@ public interface SegmentProperties extends GeoElementND {
 	 *            decoration
 	 */
 	void setDecorationType(int value);
-
 }

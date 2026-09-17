@@ -48,7 +48,6 @@ public class FractionBracketRemover implements Traversing {
 	}
 
 	private boolean isFraction(Node argument) {
-		return argument instanceof FunctionNode fn
-				&& fn.getName() == Tag.FRAC;
+		return argument instanceof FunctionNode fn && fn.getName() == Tag.FRAC;
 	}
 }

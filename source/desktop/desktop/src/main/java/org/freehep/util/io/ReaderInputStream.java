@@ -8,10 +8,10 @@ import java.io.Reader;
 /**
  * The ReaderInputStream makes a Reader look like an InputStream so one can use
  * any of the filters. This is not without danger of loosing some data.
- * 
+ *
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ReaderInputStream.java,v 1.3 2008-05-04 12:22:00 murkle Exp $
  */
@@ -21,7 +21,7 @@ public class ReaderInputStream extends InputStream {
 
 	/**
 	 * Creates an InputStream from given Reader.
-	 * 
+	 *
 	 * @param reader
 	 *            reader to read from.
 	 */

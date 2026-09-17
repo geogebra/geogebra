@@ -40,17 +40,22 @@ public class AlignmentPropertyCollection extends AbstractPropertyCollection<Prop
 	 * elements
 	 */
 	public AlignmentPropertyCollection(
-			GeoElementPropertiesFactory propertiesFactory, Localization localization,
-			List<GeoElement> elements) throws NotApplicablePropertyException {
+			GeoElementPropertiesFactory propertiesFactory,
+			Localization localization,
+			List<GeoElement> elements)
+			throws NotApplicablePropertyException {
 		super(localization, "ObjectProperties.Alignment");
 		setProperties(Stream.of(
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new HorizontalAlignmentProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new),
-				propertiesFactory.createOptionalPropertyFacade(elements,
-						element -> new VerticalAlignmentProperty(localization, element),
-						IconsEnumeratedPropertyListFacade::new)
-		).filter(Objects::nonNull).toArray(Property[]::new));
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new HorizontalAlignmentProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new),
+						propertiesFactory.createOptionalPropertyFacade(
+								elements,
+								element -> new VerticalAlignmentProperty(localization, element),
+								IconsEnumeratedPropertyListFacade::new))
+				.filter(Objects::nonNull)
+				.toArray(Property[]::new));
 		if (getProperties().length == 0) {
 			throw new NotApplicablePropertyException(elements.get(0));
 		}

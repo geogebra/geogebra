@@ -50,8 +50,8 @@ public final class ExportStatusPanelBuilder {
 		statusPanel.addStyleName("exportStatusPanel");
 
 		FlowPanel messagePanel = getStatusMessagePanel(ExportStatus.AVAILABLE);
-		StandardButton downloadButton = BaseWidgetFactory.INSTANCE.newFilledButton(
-				"Jetzt herunterladen");
+		StandardButton downloadButton =
+				BaseWidgetFactory.INSTANCE.newFilledButton("Jetzt herunterladen");
 		downloadButton.addFastClickHandler(source -> downloadFiles.run());
 
 		statusPanel.add(getStatusImage(ExportStatus.AVAILABLE));
@@ -59,7 +59,6 @@ public final class ExportStatusPanelBuilder {
 		statusPanel.add(downloadButton);
 
 		return statusPanel;
-
 	}
 
 	/**

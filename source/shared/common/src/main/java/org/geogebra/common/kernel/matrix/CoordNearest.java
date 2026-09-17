@@ -18,7 +18,7 @@ package org.geogebra.common.kernel.matrix;
 
 /**
  * Used to find the nearest point of a given point.
- * 
+ *
  * @author Mathieu
  *
  */
@@ -29,7 +29,7 @@ public class CoordNearest {
 	private Coords currentNearest;
 
 	/**
-	 * 
+	 *
 	 * @param point
 	 *            reference point
 	 */
@@ -41,7 +41,7 @@ public class CoordNearest {
 
 	/**
 	 * check if point p is nearer than current
-	 * 
+	 *
 	 * @param p
 	 *            point
 	 * @return true if p is nearer to reference point
@@ -58,11 +58,10 @@ public class CoordNearest {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return nearest point
 	 */
 	public Coords get() {
 		return currentNearest;
 	}
-
 }

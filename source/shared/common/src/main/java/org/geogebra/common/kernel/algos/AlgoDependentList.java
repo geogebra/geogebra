@@ -45,7 +45,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	/**
 	 * Creates an unlabeled algorithm that takes a list of GeoElements to build
 	 * a Geolist with them.
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param listItems
@@ -53,8 +53,8 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	 * @param isCellRange
 	 *            true for A1:A10
 	 */
-	public AlgoDependentList(Construction cons,
-			ArrayList<? extends GeoElementND> listItems, boolean isCellRange) {
+	public AlgoDependentList(
+			Construction cons, ArrayList<? extends GeoElementND> listItems, boolean isCellRange) {
 		super(cons);
 		this.listItems = listItems;
 		this.isCellRange = isCellRange;
@@ -113,12 +113,11 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 				input[i].remove();
 			}
 		}
-
 	}
 
 	/**
 	 * Returns the list
-	 * 
+	 *
 	 * @return the list as geo
 	 */
 	public GeoList getGeoList() {
@@ -138,13 +137,11 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			// if the siblings are of the same type
 
 			AlgoElement algo = input[i].getParentAlgorithm();
-			if (algo != null && algo.getOutputLength() > 1
-					&& algo.hasSingleOutputType()) {
+			if (algo != null && algo.getOutputLength() > 1 && algo.hasSingleOutputType()) {
 				// all siblings have same type: add them all
 				for (int k = 0; k < algo.getOutputLength(); k++) {
 					GeoElement geo = algo.getOutput(k);
-					if ((geo == input[i] || geo.isDefined())
-							&& !geoList.listContains(geo)) {
+					if ((geo == input[i] || geo.isDefined()) && !geoList.listContains(geo)) {
 						geoList.add(geo);
 					}
 				}
@@ -157,7 +154,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		if (geoList.getDefinition() != null) {
 			return geoList.getDefinition().toString(tpl);
 		}
@@ -199,5 +196,4 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 				&& (geoList.getDefinition().unwrap() instanceof MyList)
 				&& ((MyList) geoList.getDefinition().unwrap()).size() == 0;
 	}
-
 }

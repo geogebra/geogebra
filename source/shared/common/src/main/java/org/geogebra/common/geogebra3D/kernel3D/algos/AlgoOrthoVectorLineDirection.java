@@ -27,9 +27,9 @@ import org.geogebra.common.kernel.matrix.Coords;
 /**
  *
  * @author ggb3D
- * 
+ *
  *         Calculate the ortho vector of a plane (or polygon, ...)
- * 
+ *
  */
 public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 
@@ -43,14 +43,14 @@ public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param label
 	 *            name of point
 	 */
-	AlgoOrthoVectorLineDirection(Construction cons, String label,
-			GeoLineND line, GeoDirectionND direction) {
+	AlgoOrthoVectorLineDirection(
+			Construction cons, String label, GeoLineND line, GeoDirectionND direction) {
 
 		super(cons);
 
@@ -60,16 +60,14 @@ public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 		vector = new GeoVector3D(cons);
 
 		setInputOutput(
-				new GeoElement[] { (GeoElement) line, (GeoElement) direction },
-				new GeoElement[] { vector });
+				new GeoElement[] {(GeoElement) line, (GeoElement) direction}, new GeoElement[] {vector});
 
 		vector.setLabel(label);
-
 	}
 
 	/**
 	 * return the ortho vector
-	 * 
+	 *
 	 * @return the ortho vector
 	 */
 	public GeoVector3D getVector() {
@@ -82,8 +80,7 @@ public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 	@Override
 	public void compute() {
 
-		if (!line.isDefined()
-				|| !direction.isDefined()) {
+		if (!line.isDefined() || !direction.isDefined()) {
 			vector.setUndefined();
 			return;
 		}
@@ -93,7 +90,6 @@ public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 
 		// this way to be consistent with 2D when d2 is xOy plane
 		vector.setCoords(d2.crossProduct4(d1));
-
 	}
 
 	@Override
@@ -107,10 +103,10 @@ public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 	 * (direction instanceof GeoCoordSys2D){ return
 	 * loc.getPlain("VectorPerpendicularToAParallelToB", ((GeoElement)
 	 * line).getLabel(tpl), ((GeoElement) direction).getLabel(tpl)); }
-	 * 
+	 *
 	 * return loc.getPlain("VectorPerpendicularToAB", ((GeoElement)
 	 * line).getLabel(tpl), ((GeoElement) direction).getLabel(tpl));
-	 * 
+	 *
 	 * }
 	 */
 

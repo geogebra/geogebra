@@ -70,12 +70,13 @@ final class HistogramDataPropertyFactory {
 
 	private final @NonNull AlgebraProcessor algebraProcessor;
 	private final @NonNull Localization localization;
-	private final @NonNull Map<GeoElement, HistogramDataController> controllers =
-			new HashMap<>();
+	private final @NonNull Map<GeoElement, HistogramDataController> controllers = new HashMap<>();
 
 	/** Initializes the factory for the given histogram selection. */
-	HistogramDataPropertyFactory(@NonNull AlgebraProcessor algebraProcessor,
-			@NonNull Localization localization, @NonNull List<GeoElement> elements) {
+	HistogramDataPropertyFactory(
+			@NonNull AlgebraProcessor algebraProcessor,
+			@NonNull Localization localization,
+			@NonNull List<GeoElement> elements) {
 		this.algebraProcessor = algebraProcessor;
 		this.localization = localization;
 		for (GeoElement element : elements) {
@@ -88,16 +89,16 @@ final class HistogramDataPropertyFactory {
 	}
 
 	/** Constructs property to change the Histogram input type. */
-	@NonNull NamedEnumeratedProperty<HistogramInputType> createInputTypeProperty(
-			@NonNull GeoElement element) throws NotApplicablePropertyException {
+	@NonNull NamedEnumeratedProperty<HistogramInputType> createInputTypeProperty(@NonNull GeoElement element)
+			throws NotApplicablePropertyException {
 		return new HistogramInputTypeProperty(localization, getController(element));
 	}
 
 	/** Creates the property for editing class boundaries. */
 	@NonNull StringProperty createClassBoundariesProperty(@NonNull GeoElement element)
 			throws NotApplicablePropertyException {
-		return new HistogramClassBoundariesProperty(algebraProcessor, localization,
-				getController(element));
+		return new HistogramClassBoundariesProperty(
+				algebraProcessor, localization, getController(element));
 	}
 
 	/** Creates the property for editing histogram heights. */
@@ -127,8 +128,8 @@ final class HistogramDataPropertyFactory {
 	/** Creates the property for editing the density scale factor. */
 	@NonNull StringProperty createDensityScaleFactorProperty(@NonNull GeoElement element)
 			throws NotApplicablePropertyException {
-		return new HistogramDensityScaleFactorProperty(algebraProcessor, localization,
-				getController(element));
+		return new HistogramDensityScaleFactorProperty(
+				algebraProcessor, localization, getController(element));
 	}
 
 	/**
@@ -141,24 +142,29 @@ final class HistogramDataPropertyFactory {
 		GeoElement[] inputs = algorithm.getInput();
 		return switch (inputs.length) {
 			case 2 ->
-					// Histogram(classBoundaries, heights)
-					inputs[0].isGeoList() && inputs[1].isGeoList();
+				// Histogram(classBoundaries, heights)
+				inputs[0].isGeoList() && inputs[1].isGeoList();
 			case 3 ->
-					// Histogram(classBoundaries, rawData, useDensity)
-					inputs[0].isGeoList() && inputs[1].isGeoList()
-					&& inputs[2].isGeoBoolean();
+				// Histogram(classBoundaries, rawData, useDensity)
+				inputs[0].isGeoList() && inputs[1].isGeoList() && inputs[2].isGeoBoolean();
 			case 4 ->
-					// Histogram(classBoundaries, rawData, useDensity, densityFactor)
-					(inputs[0].isGeoList() && inputs[1].isGeoList()
-					&& inputs[2].isGeoBoolean() && inputs[3].isGeoNumeric())
-					// Histogram(cumulative, classBoundaries, rawData, useDensity)
-					|| (inputs[0].isGeoBoolean() && inputs[1].isGeoList()
-					&& inputs[2].isGeoList() && inputs[3].isGeoBoolean());
+				// Histogram(classBoundaries, rawData, useDensity, densityFactor)
+				(inputs[0].isGeoList()
+								&& inputs[1].isGeoList()
+								&& inputs[2].isGeoBoolean()
+								&& inputs[3].isGeoNumeric())
+						// Histogram(cumulative, classBoundaries, rawData, useDensity)
+						|| (inputs[0].isGeoBoolean()
+								&& inputs[1].isGeoList()
+								&& inputs[2].isGeoList()
+								&& inputs[3].isGeoBoolean());
 			case 5 ->
-					// Histogram(cumulative, classBoundaries, rawData, useDensity, densityFactor)
-					inputs[0].isGeoBoolean() && inputs[1].isGeoList()
-					&& inputs[2].isGeoList() && inputs[3].isGeoBoolean()
-					&& inputs[4].isGeoNumeric();
+				// Histogram(cumulative, classBoundaries, rawData, useDensity, densityFactor)
+				inputs[0].isGeoBoolean()
+						&& inputs[1].isGeoList()
+						&& inputs[2].isGeoList()
+						&& inputs[3].isGeoBoolean()
+						&& inputs[4].isGeoNumeric();
 			default -> false;
 		};
 	}
@@ -203,8 +209,8 @@ final class HistogramDataPropertyFactory {
 		private final @NonNull HistogramData data = new HistogramData();
 		private boolean redefinitionPending;
 
-		private HistogramDataController(@NonNull GeoNumeric histogram,
-				@NonNull AlgoHistogram algoHistogram) {
+		private HistogramDataController(
+				@NonNull GeoNumeric histogram, @NonNull AlgoHistogram algoHistogram) {
 			this.histogram = histogram;
 			this.algoHistogram = algoHistogram;
 		}
@@ -248,72 +254,71 @@ final class HistogramDataPropertyFactory {
 			}
 
 			boolean isRawData = inputs.length > 2;
-			data.inputType = isRawData
-					? HistogramInputType.RAW_DATA : HistogramInputType.HEIGHTS;
+			data.inputType = isRawData ? HistogramInputType.RAW_DATA : HistogramInputType.HEIGHTS;
 			int classBoundariesIndex = inputs[0].isGeoBoolean() ? 1 : 0;
-			data.classBoundaries =
-					CommandRedefineHelper.getInputString(inputs[classBoundariesIndex]);
-			String secondList =
-					CommandRedefineHelper.getInputString(inputs[classBoundariesIndex + 1]);
+			data.classBoundaries = CommandRedefineHelper.getInputString(inputs[classBoundariesIndex]);
+			String secondList = CommandRedefineHelper.getInputString(inputs[classBoundariesIndex + 1]);
 			if (!isRawData) {
 				data.heights = secondList;
 				return;
 			}
 
 			data.rawData = secondList;
-			data.cumulative = classBoundariesIndex == 1
-					&& ((GeoBoolean) inputs[0]).getBoolean();
+			data.cumulative = classBoundariesIndex == 1 && ((GeoBoolean) inputs[0]).getBoolean();
 			int useDensityIndex = classBoundariesIndex + 2;
 			data.useDensity = ((GeoBoolean) inputs[useDensityIndex]).getBoolean();
 			int densityIndex = useDensityIndex + 1;
 			data.densityScaleFactor = densityIndex < inputs.length
-					? CommandRedefineHelper.getInputString(inputs[densityIndex]) : "1";
+					? CommandRedefineHelper.getInputString(inputs[densityIndex])
+					: "1";
 		}
 
 		private void redefineFromData() {
 			String command = algoHistogram.getClassName().getCommand() + "("
 					+ String.join(", ", getCommandParameters()) + ")";
 			GeoNumeric previousHistogram = histogram;
-			RedefineInputHandler handler = new RedefineInputHandler(histogram.getApp(), histogram,
-					histogram.getRedefineString(false, true));
+			RedefineInputHandler handler = new RedefineInputHandler(
+					histogram.getApp(), histogram, histogram.getRedefineString(false, true));
 			redefinitionPending = true;
 			handler.processInput(command, ErrorHelper.silent(), success -> {
 				redefinitionPending = false;
 				GeoElement updatedElement = handler.getGeoElement().toGeoElement();
 				if (!success
 						|| !(updatedElement instanceof GeoNumeric updatedHistogram)
-						|| !(updatedHistogram.getParentAlgorithm()
-								instanceof AlgoHistogram updatedAlgo)) {
+						|| !(updatedHistogram.getParentAlgorithm() instanceof AlgoHistogram updatedAlgo)) {
 					syncFromAlgorithm();
 					return;
 				}
 				histogram = updatedHistogram;
 				algoHistogram = updatedAlgo;
 				if (previousHistogram != updatedHistogram) {
-					redefinitionObservers.forEach(observer -> observer.onGeoElementRedefined(
-							previousHistogram, updatedHistogram));
+					redefinitionObservers.forEach(
+							observer -> observer.onGeoElementRedefined(previousHistogram, updatedHistogram));
 					updatedHistogram.getApp().getSelectionManager().clearSelectedGeos(false, false);
-					updatedHistogram.getApp().getSelectionManager()
-							.addSelectedGeo(updatedHistogram);
+					updatedHistogram.getApp().getSelectionManager().addSelectedGeo(updatedHistogram);
 				}
 			});
 		}
 
 		private @NonNull List<String> getCommandParameters() {
 			if (data.inputType == HistogramInputType.HEIGHTS) {
-				return List.of(data.classBoundaries,
-						data.heights == null ? "" : data.heights);
+				return List.of(data.classBoundaries, data.heights == null ? "" : data.heights);
 			}
 			// Raw-data edits intentionally emit an explicit density factor;
 			// omitted factors default to 1.
 			if (data.cumulative) {
-				return List.of("true", data.classBoundaries,
+				return List.of(
+						"true",
+						data.classBoundaries,
 						data.rawData == null ? "" : data.rawData,
-						Boolean.toString(data.useDensity), data.densityScaleFactor);
+						Boolean.toString(data.useDensity),
+						data.densityScaleFactor);
 			}
-			return List.of(data.classBoundaries,
+			return List.of(
+					data.classBoundaries,
 					data.rawData == null ? "" : data.rawData,
-					Boolean.toString(data.useDensity), data.densityScaleFactor);
+					Boolean.toString(data.useDensity),
+					data.densityScaleFactor);
 		}
 	}
 
@@ -322,12 +327,13 @@ final class HistogramDataPropertyFactory {
 	 * its shared controller.
 	 * @param <T> property value type
 	 */
-	private static abstract class AbstractHistogramProperty<T> extends AbstractValuedProperty<T>
+	private abstract static class AbstractHistogramProperty<T> extends AbstractValuedProperty<T>
 			implements GeoElementDependentProperty {
 
 		protected final @NonNull HistogramDataController controller;
 
-		private AbstractHistogramProperty(@NonNull Localization localization,
+		private AbstractHistogramProperty(
+				@NonNull Localization localization,
 				@NonNull String name,
 				@NonNull HistogramDataController controller) {
 			super(localization, name);
@@ -346,13 +352,15 @@ final class HistogramDataPropertyFactory {
 	}
 
 	/** Base for math-formatted list properties with shared list validation. */
-	private static abstract class AbstractHistogramListProperty
+	private abstract static class AbstractHistogramListProperty
 			extends AbstractHistogramProperty<String> implements StringProperty {
 
 		private final @NonNull AlgebraProcessor algebraProcessor;
 
-		private AbstractHistogramListProperty(@NonNull AlgebraProcessor algebraProcessor,
-				@NonNull Localization localization, @NonNull String name,
+		private AbstractHistogramListProperty(
+				@NonNull AlgebraProcessor algebraProcessor,
+				@NonNull Localization localization,
+				@NonNull String name,
 				@NonNull HistogramDataController controller) {
 			super(localization, name, controller);
 			this.algebraProcessor = algebraProcessor;
@@ -361,7 +369,8 @@ final class HistogramDataPropertyFactory {
 		@Override
 		public @Nullable String validateValue(@NonNull String value) {
 			return value.isEmpty() || algebraProcessor.evaluateToList(value) != null
-					? null : getLocalization().getError("InvalidInput");
+					? null
+					: getLocalization().getError("InvalidInput");
 		}
 
 		@Override
@@ -376,8 +385,8 @@ final class HistogramDataPropertyFactory {
 
 		private final @NonNull HistogramDataController controller;
 
-		private HistogramInputTypeProperty(@NonNull Localization localization,
-				@NonNull HistogramDataController controller) {
+		private HistogramInputTypeProperty(
+				@NonNull Localization localization, @NonNull HistogramDataController controller) {
 			super(localization, "InputType");
 			this.controller = controller;
 			setNamedValues(List.of(
@@ -409,7 +418,8 @@ final class HistogramDataPropertyFactory {
 	private static final class HistogramClassBoundariesProperty
 			extends AbstractHistogramListProperty {
 
-		private HistogramClassBoundariesProperty(@NonNull AlgebraProcessor algebraProcessor,
+		private HistogramClassBoundariesProperty(
+				@NonNull AlgebraProcessor algebraProcessor,
 				@NonNull Localization localization,
 				@NonNull HistogramDataController controller) {
 			super(algebraProcessor, localization, "ListOfClassBoundaries", controller);
@@ -428,8 +438,10 @@ final class HistogramDataPropertyFactory {
 
 	private static final class HistogramHeightsProperty extends AbstractHistogramListProperty {
 
-		private HistogramHeightsProperty(@NonNull AlgebraProcessor algebraProcessor,
-				@NonNull Localization localization, @NonNull HistogramDataController controller) {
+		private HistogramHeightsProperty(
+				@NonNull AlgebraProcessor algebraProcessor,
+				@NonNull Localization localization,
+				@NonNull HistogramDataController controller) {
 			super(algebraProcessor, localization, "ListOfHeights", controller);
 		}
 
@@ -452,8 +464,10 @@ final class HistogramDataPropertyFactory {
 
 	private static final class HistogramRawDataProperty extends AbstractHistogramListProperty {
 
-		private HistogramRawDataProperty(@NonNull AlgebraProcessor algebraProcessor,
-				@NonNull Localization localization, @NonNull HistogramDataController controller) {
+		private HistogramRawDataProperty(
+				@NonNull AlgebraProcessor algebraProcessor,
+				@NonNull Localization localization,
+				@NonNull HistogramDataController controller) {
 			super(algebraProcessor, localization, "ListOfRawData", controller);
 		}
 
@@ -474,11 +488,11 @@ final class HistogramDataPropertyFactory {
 		}
 	}
 
-	private static final class HistogramCumulativeProperty
-			extends AbstractHistogramProperty<Boolean> implements BooleanProperty {
+	private static final class HistogramCumulativeProperty extends AbstractHistogramProperty<Boolean>
+			implements BooleanProperty {
 
-		private HistogramCumulativeProperty(@NonNull Localization localization,
-				@NonNull HistogramDataController controller) {
+		private HistogramCumulativeProperty(
+				@NonNull Localization localization, @NonNull HistogramDataController controller) {
 			super(localization, "Cumulative", controller);
 		}
 
@@ -498,11 +512,11 @@ final class HistogramDataPropertyFactory {
 		}
 	}
 
-	private static final class HistogramUseDensityProperty
-			extends AbstractHistogramProperty<Boolean> implements BooleanProperty {
+	private static final class HistogramUseDensityProperty extends AbstractHistogramProperty<Boolean>
+			implements BooleanProperty {
 
-		private HistogramUseDensityProperty(@NonNull Localization localization,
-				@NonNull HistogramDataController controller) {
+		private HistogramUseDensityProperty(
+				@NonNull Localization localization, @NonNull HistogramDataController controller) {
 			super(localization, "UseDensity", controller);
 		}
 
@@ -527,8 +541,10 @@ final class HistogramDataPropertyFactory {
 
 		private final @NonNull NumericPropertyUtil numericPropertyUtil;
 
-		private HistogramDensityScaleFactorProperty(@NonNull AlgebraProcessor algebraProcessor,
-				@NonNull Localization localization, @NonNull HistogramDataController controller) {
+		private HistogramDensityScaleFactorProperty(
+				@NonNull AlgebraProcessor algebraProcessor,
+				@NonNull Localization localization,
+				@NonNull HistogramDataController controller) {
 			super(localization, "DensityScaleFactor", controller);
 			numericPropertyUtil = new NumericPropertyUtil(algebraProcessor);
 		}
@@ -545,7 +561,8 @@ final class HistogramDataPropertyFactory {
 
 		@Override
 		public @Nullable String validateValue(@NonNull String value) {
-			return numericPropertyUtil.isNumber(value) ? null
+			return numericPropertyUtil.isNumber(value)
+					? null
 					: getLocalization().getError("InvalidInput");
 		}
 

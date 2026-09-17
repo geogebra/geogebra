@@ -61,8 +61,8 @@ class OptionItemList {
 	private void calculateItemDimensions() {
 		int width = maxOfItems(OptionItem::getWidth);
 		int height = maxOfItems(OptionItem::getHeight);
-		maxDimension = AwtFactory.getPrototype().newDimension(width + 2 * HORIZONTAL_PADDING,
-				height + 2 * VERTICAL_PADDING);
+		maxDimension = AwtFactory.getPrototype()
+				.newDimension(width + 2 * HORIZONTAL_PADDING, height + 2 * VERTICAL_PADDING);
 	}
 
 	private int maxOfItems(ToIntFunction<OptionItem> extractor) {
@@ -70,8 +70,7 @@ class OptionItemList {
 	}
 
 	OptionItem at(int x, int y) {
-		return items.stream().filter(item -> item.isHit(x, y)).findFirst()
-				.orElse(null);
+		return items.stream().filter(item -> item.isHit(x, y)).findFirst().orElse(null);
 	}
 
 	int indexOf(OptionItem item) {
@@ -88,9 +87,7 @@ class OptionItemList {
 
 	void updateMaxDimension(int boxWidth) {
 		maxDimension = AwtFactory.getPrototype()
-				.newDimension(
-						Math.max(boxWidth, maxDimension.getWidth()),
-						maxDimension.getHeight());
+				.newDimension(Math.max(boxWidth, maxDimension.getWidth()), maxDimension.getHeight());
 	}
 
 	GDimension getMaxDimension() {

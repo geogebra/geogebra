@@ -55,9 +55,7 @@ public class AlgoIncircle extends AlgoElement implements SymbolicParametersBotan
 	 * @param C
 	 *            vertex
 	 */
-
-	public AlgoIncircle(Construction cons, GeoPointND A, GeoPointND B,
-			GeoPointND C) {
+	public AlgoIncircle(Construction cons, GeoPointND A, GeoPointND B, GeoPointND C) {
 
 		super(cons);
 
@@ -65,8 +63,7 @@ public class AlgoIncircle extends AlgoElement implements SymbolicParametersBotan
 		this.B = B;
 		this.C = C;
 
-		int dim = MyMath.max(A.getDimension(), B.getDimension(),
-				C.getDimension());
+		int dim = MyMath.max(A.getDimension(), B.getDimension(), C.getDimension());
 		circle = kernel.getGeoFactory().newConic(dim, cons);
 		// output
 		incenter = kernel.getGeoFactory().newPoint(dim, cons);
@@ -126,16 +123,19 @@ public class AlgoIncircle extends AlgoElement implements SymbolicParametersBotan
 		} else {
 			circle.setSphereND(incenter, radius);
 		}
-
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("IncircleOfTriangleABC",
-				"Incircle of triangle %0%1%2", A.getLabel(tpl),
-				B.getLabel(tpl), C.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"IncircleOfTriangleABC",
+						"Incircle of triangle %0%1%2",
+						A.getLabel(tpl),
+						B.getLabel(tpl),
+						C.getLabel(tpl));
 	}
 
 	@Override
@@ -147,8 +147,7 @@ public class AlgoIncircle extends AlgoElement implements SymbolicParametersBotan
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaParams == null) {
 			botanaParams = new BotanaIncircle();
 		}

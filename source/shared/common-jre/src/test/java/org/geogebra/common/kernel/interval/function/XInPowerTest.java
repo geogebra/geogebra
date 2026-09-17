@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.interval.function;
 
 import static org.geogebra.common.kernel.interval.IntervalHelper.interval;
@@ -57,7 +57,7 @@ class XInPowerTest extends SamplerTest {
 		List<Interval> expected = new ArrayList<>();
 		List<Interval> actual = new ArrayList<>();
 		int x = -4;
-		for (Double value: values) {
+		for (Double value : values) {
 			expected.add(interval(value));
 			IntervalSet set = connected(x, x);
 			actual.add(function.value(connectedInterval(set)));
@@ -89,8 +89,7 @@ class XInPowerTest extends SamplerTest {
 		GeoFunction geoFunction = add(definition);
 		IntervalNodeFunction nodeFunction = converter.convert(geoFunction);
 		for (double x = -10; x < 10; x += 1E-4) {
-			assertEquals(interval(geoFunction.evaluate(x, 0)),
-					nodeFunction.value(interval(x)));
+			assertEquals(interval(geoFunction.evaluate(x, 0)), nodeFunction.value(interval(x)));
 		}
 	}
 

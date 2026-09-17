@@ -67,16 +67,14 @@ public class SelectAllHandler {
 				selectListElement(array.getChild(0));
 			}
 		} else {
-			editorState.selectSubsequence(editorState.getCurrentNode(), 0,
-					editorState.getCurrentNode().size());
+			editorState.selectSubsequence(
+					editorState.getCurrentNode(), 0, editorState.getCurrentNode().size());
 		}
 	}
 
 	private boolean isCharPlaceholder(Node selectionStart) {
 		return selectionStart instanceof CharPlaceholderNode
-				|| (selectionStart instanceof FunctionNode fn
-		&& isCharPlaceholder(
-				fn.getChild(0)));
+				|| (selectionStart instanceof FunctionNode fn && isCharPlaceholder(fn.getChild(0)));
 	}
 
 	private void selectListElement(SequenceNode sequence) {
@@ -140,9 +138,7 @@ public class SelectAllHandler {
 
 	private int firstSeparatorOnLeft(SequenceNode sequence) {
 		int offset = editorState.getCurrentOffset();
-		int charIndex = isSeparatorAt(sequence, offset)
-				? offset - 1
-				: offset;
+		int charIndex = isSeparatorAt(sequence, offset) ? offset - 1 : offset;
 		while (charIndex > 0 && !isSeparatorAt(sequence, charIndex)) {
 			charIndex--;
 		}

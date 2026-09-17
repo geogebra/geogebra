@@ -33,7 +33,7 @@ public class CmdAreCollinear extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -58,15 +58,12 @@ public class CmdAreCollinear extends CommandProcessor {
 				throw argErr(c, arg[2]);
 			}
 
-			AlgoAreCollinear algo = new AlgoAreCollinear(cons,
-					(GeoPointND) arg[0], (GeoPointND) arg[1],
-					(GeoPointND) arg[2]);
+			AlgoAreCollinear algo =
+					new AlgoAreCollinear(cons, (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2]);
 			algo.getResult().setLabel(c.getLabel());
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argNumErr(c);
-
 	}
-
 }

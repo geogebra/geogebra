@@ -45,8 +45,12 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 	 * @param type
 	 * {@link org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType}
 	 */
-	public DimensionMinMaxProperty(App app, Localization localization, String name,
-			EuclidianViewInterfaceCommon euclidianView, EuclidianOptionsModel.MinMaxType type) {
+	public DimensionMinMaxProperty(
+			App app,
+			Localization localization,
+			String name,
+			EuclidianViewInterfaceCommon euclidianView,
+			EuclidianOptionsModel.MinMaxType type) {
 		super(localization, name);
 		this.app = app;
 		this.euclidianView = euclidianView;
@@ -56,8 +60,7 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 
 	@Override
 	protected void doSetValue(String value) {
-		NumberValue numberValue = app.getKernel().getAlgebraProcessor()
-				.evaluateToNumeric(value, true);
+		NumberValue numberValue = app.getKernel().getAlgebraProcessor().evaluateToNumeric(value, true);
 		if (numberValue == null) {
 			return;
 		}
@@ -65,25 +68,25 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 			euclidianSettings3D.setUpdateScaleOrigin(true);
 		}
 		switch (type) {
-		case maxX:
-			euclidianSettings.setXmaxObject(numberValue, true);
-			break;
-		case maxY:
-			euclidianSettings.setYmaxObject(numberValue, true);
-			break;
-		case minX:
-			euclidianSettings.setXminObject(numberValue, true);
-			break;
-		case minY:
-			euclidianSettings.setYminObject(numberValue, true);
-			break;
-		case minZ:
-			((EuclidianSettings3D) euclidianSettings).setZminObject(numberValue, true);
-			break;
-		case maxZ:
-			((EuclidianSettings3D) euclidianSettings).setZmaxObject(numberValue, true);
-			break;
-		default:
+			case maxX:
+				euclidianSettings.setXmaxObject(numberValue, true);
+				break;
+			case maxY:
+				euclidianSettings.setYmaxObject(numberValue, true);
+				break;
+			case minX:
+				euclidianSettings.setXminObject(numberValue, true);
+				break;
+			case minY:
+				euclidianSettings.setYminObject(numberValue, true);
+				break;
+			case minZ:
+				((EuclidianSettings3D) euclidianSettings).setZminObject(numberValue, true);
+				break;
+			case maxZ:
+				((EuclidianSettings3D) euclidianSettings).setZmaxObject(numberValue, true);
+				break;
+			default:
 		}
 	}
 
@@ -94,17 +97,16 @@ public class DimensionMinMaxProperty extends AbstractValuedProperty<String>
 			case maxX -> euclidianView.getXmaxObject().getLabel(StringTemplate.editTemplate);
 			case minY -> euclidianView.getYminObject().getLabel(StringTemplate.editTemplate);
 			case maxY -> euclidianView.getYmaxObject().getLabel(StringTemplate.editTemplate);
-			case minZ -> ((EuclidianView3D) euclidianView).getZminObject()
-					.getLabel(StringTemplate.editTemplate);
-			case maxZ -> ((EuclidianView3D) euclidianView).getZmaxObject()
-					.getLabel(StringTemplate.editTemplate);
+			case minZ ->
+				((EuclidianView3D) euclidianView).getZminObject().getLabel(StringTemplate.editTemplate);
+			case maxZ ->
+				((EuclidianView3D) euclidianView).getZmaxObject().getLabel(StringTemplate.editTemplate);
 		};
 	}
 
 	@Override
 	public @Nullable String validateValue(String value) {
-		NumberValue numberValue = app.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(value, true);
+		NumberValue numberValue = app.getKernel().getAlgebraProcessor().evaluateToNumeric(value, true);
 		return numberValue == null ? getLocalization().getError("InputError.Enter_a_number") : null;
 	}
 

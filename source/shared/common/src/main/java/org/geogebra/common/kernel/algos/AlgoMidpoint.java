@@ -86,8 +86,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
 
-		getPoint().setCoords((P.inhomX + Q.inhomX) / 2.0d,
-				(P.inhomY + Q.inhomY) / 2.0d, 1.0);
+		getPoint().setCoords((P.inhomX + Q.inhomX) / 2.0d, (P.inhomY + Q.inhomY) / 2.0d, 1.0);
 	}
 
 	@Override
@@ -96,8 +95,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
 		if (P != null && Q != null) {
@@ -109,8 +107,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
 		if (P != null && Q != null) {
@@ -118,10 +115,8 @@ public class AlgoMidpoint extends AlgoMidpointND
 			int[] degreeQ = Q.getDegrees(a);
 
 			int[] result = new int[3];
-			result[0] = Math.max(degreeP[0] + degreeQ[2],
-					degreeQ[0] + degreeP[2]);
-			result[1] = Math.max(degreeP[1] + degreeQ[2],
-					degreeQ[1] + degreeP[2]);
+			result[0] = Math.max(degreeP[0] + degreeQ[2], degreeQ[0] + degreeP[2]);
+			result[1] = Math.max(degreeP[1] + degreeQ[2], degreeQ[1] + degreeP[2]);
 			result[2] = degreeP[2] + degreeQ[2];
 			return result;
 		}
@@ -129,8 +124,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();
@@ -171,8 +165,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -190,10 +183,7 @@ public class AlgoMidpoint extends AlgoMidpointND
 			botanaVars[1] = new PVariable(kernel);
 		}
 
-		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P, Q,
-				botanaVars);
+		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P, Q, botanaVars);
 		return botanaPolynomials;
-
 	}
-
 }

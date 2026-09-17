@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 
 /**
  * tag for VectorValue and Vector3DValue
- * 
+ *
  * @author mathieu
  *
  */
@@ -37,7 +37,7 @@ public interface VectorNDValue extends ExpressionValue {
 	int getDimension();
 
 	/**
-	 * 
+	 *
 	 * @return vector
 	 */
 	GeoVecInterface getVector();
@@ -52,5 +52,4 @@ public interface VectorNDValue extends ExpressionValue {
 	 *            one of Kernel.COORD_* constants
 	 */
 	void setMode(int mode);
-
 }

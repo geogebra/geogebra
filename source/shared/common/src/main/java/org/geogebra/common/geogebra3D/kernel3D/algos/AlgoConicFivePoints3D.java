@@ -91,5 +91,4 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 			conic.setUndefined();
 		}
 	}
-
 }

@@ -114,8 +114,8 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 			main.setStyleName("content");
 			main.addStyleName(Shades.NEUTRAL_900.getFgColName());
 			main.add(new Label("%s"));
-			StandardButton menuButton = new StandardButton(MaterialDesignResources.INSTANCE
-					.more_vert_black(), 24);
+			StandardButton menuButton =
+					new StandardButton(MaterialDesignResources.INSTANCE.more_vert_black(), 24);
 			TestHarness.setAttr(menuButton, "btn_tvHeader3dot");
 			main.add(menuButton);
 			value = main.getElement().getString();
@@ -198,10 +198,9 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 							if (source == null) {
 								return;
 							}
-							contextMenu = new ContextMenuTV(app, view, column,
-									() -> controller.select(selRow, selCol));
-							contextMenu.show(source, 0, source.getClientHeight()
-									+ CONTEXT_MENU_OFFSET);
+							contextMenu =
+									new ContextMenuTV(app, view, column, () -> controller.select(selRow, selCol));
+							contextMenu.show(source, 0, source.getClientHeight() + CONTEXT_MENU_OFFSET);
 						}
 					}
 
@@ -215,15 +214,15 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		reset();
 		addHeadClickHandler((row, column, evt) -> {
 			Element el = Js.uncheckedCast(evt.target);
-			if (el != null && (el.hasClassName("button") || el.getParentNode() != null
-					&& el.getParentElement().hasClassName("button"))) {
+			if (el != null
+					&& (el.hasClassName("button")
+							|| el.getParentNode() != null && el.getParentElement().hasClassName("button"))) {
 				onHeaderClick(el, column);
 			}
 			return false;
 		});
 		addBodyPointerDownHandler((row, column, evt) -> {
-			if (row <= tableModel.getRowCount()
-					&& column <= tableModel.getColumnCount()) {
+			if (row <= tableModel.getRowCount() && column <= tableModel.getColumnCount()) {
 				if (column == tableModel.getColumnCount() || isColumnEditable(column)) {
 					controller.select(row, column);
 					editor.adjustCursor(evt);
@@ -240,8 +239,8 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 			if (!cell.hasClassName("keyboardFocusedCell")) {
 				return false;
 			}
-			TableValuesKeyboardNavigationController.Key key = getNavigationKey(
-					Js.<KeyboardEvent>uncheckedCast(evt).key);
+			TableValuesKeyboardNavigationController.Key key =
+					getNavigationKey(Js.<KeyboardEvent>uncheckedCast(evt).key);
 			if (key == null) {
 				return false;
 			}
@@ -290,7 +289,9 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 			if (!isSelectedCell(row, column)) {
 				return;
 			}
-			if (row < 0 || column < 0 || row >= tableModel.getRowCount()
+			if (row < 0
+					|| column < 0
+					|| row >= tableModel.getRowCount()
 					|| column >= tableModel.getColumnCount()) {
 				controller.deselect();
 				return;
@@ -317,7 +318,9 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	}
 
 	@Nullable Element getCellIfExists(int row, int column) {
-		if (row < 0 || column < 0 || row >= getTable().getRowCount()
+		if (row < 0
+				|| column < 0
+				|| row >= getTable().getRowCount()
 				|| column >= getTable().getColumnCount()) {
 			return null;
 		}
@@ -334,16 +337,16 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 
 	private TableValuesKeyboardNavigationController.Key getNavigationKey(String key) {
 		switch (key) {
-		case "ArrowLeft":
-			return TableValuesKeyboardNavigationController.Key.ARROW_LEFT;
-		case "ArrowRight":
-			return TableValuesKeyboardNavigationController.Key.ARROW_RIGHT;
-		case "ArrowUp":
-			return TableValuesKeyboardNavigationController.Key.ARROW_UP;
-		case "ArrowDown":
-			return TableValuesKeyboardNavigationController.Key.ARROW_DOWN;
-		default:
-			return null;
+			case "ArrowLeft":
+				return TableValuesKeyboardNavigationController.Key.ARROW_LEFT;
+			case "ArrowRight":
+				return TableValuesKeyboardNavigationController.Key.ARROW_RIGHT;
+			case "ArrowUp":
+				return TableValuesKeyboardNavigationController.Key.ARROW_UP;
+			case "ArrowDown":
+				return TableValuesKeyboardNavigationController.Key.ARROW_DOWN;
+			default:
+				return null;
 		}
 	}
 
@@ -416,8 +419,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 			} else {
 				if (!el.hasAttribute("data-listeners")) {
 					el.setAttribute("data-listeners", "true");
-					Dom.addEventListener(el, "animationend",
-							e -> removeAnimationStyleName(el, className));
+					Dom.addEventListener(el, "animationend", e -> removeAnimationStyleName(el, className));
 				}
 			}
 			columnsChange = 0;
@@ -559,8 +561,8 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	protected void reset() {
 		super.reset();
 		transitioning = false;
-		app.invokeLater(() -> controller.select(controller.getSelectedRow(),
-				controller.getSelectedColumn()));
+		app.invokeLater(
+				() -> controller.select(controller.getSelectedRow(), controller.getSelectedColumn()));
 	}
 
 	/**
@@ -609,8 +611,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	}
 
 	@Override
-	public void notifyColumnRemoved(TableValuesModel model,
-			GeoEvaluatable evaluatable, int column) {
+	public void notifyColumnRemoved(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		if (column != tableModel.getColumnCount()) {
 			deleteColumn(column);
 			removedColumnByUser = column;
@@ -621,14 +622,13 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	}
 
 	@Override
-	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		reset();
 	}
 
 	@Override
-	public void notifyCellChanged(TableValuesModel model, GeoEvaluatable evaluatable, int column,
-			int row) {
+	public void notifyCellChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column, int row) {
 		reset();
 	}
 
@@ -664,8 +664,8 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	}
 
 	@Override
-	public void notifyColumnHeaderChanged(TableValuesModel model, GeoEvaluatable evaluatable,
-			int column) {
+	public void notifyColumnHeaderChanged(
+			TableValuesModel model, GeoEvaluatable evaluatable, int column) {
 		refresh();
 	}
 
@@ -687,8 +687,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		if (top - headerHeight < verticalScrollPosition) {
 			getScroller().setVerticalScrollPosition(top - headerHeight);
 		} else if (top - verticalScrollPosition > getScroller().getOffsetHeight() - headerHeight) {
-			getScroller().setVerticalScrollPosition(
-					top - getScroller().getOffsetHeight() + headerHeight);
+			getScroller().setVerticalScrollPosition(top - getScroller().getOffsetHeight() + headerHeight);
 		}
 
 		int left = cell.getOffsetLeft();
@@ -699,7 +698,7 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 		if (left < horizontalScrollPosition) {
 			getScroller().setHorizontalScrollPosition(left);
 		} else if (left + cellWidth > horizontalScrollPosition + scrollerContentWidth) {
-			getScroller().setHorizontalScrollPosition(left +  cellWidth - scrollerContentWidth);
+			getScroller().setHorizontalScrollPosition(left + cellWidth - scrollerContentWidth);
 		}
 	}
 
@@ -743,5 +742,4 @@ public final class StickyValuesTable extends StickyTable<TVRowData> implements T
 	public void selectFirstCell() {
 		controller.select(0, 0);
 	}
-
 }

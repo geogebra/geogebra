@@ -26,13 +26,13 @@ import org.geogebra.common.main.MyError;
 
 /**
  * PathParameter[Point on path]
- * 
+ *
  */
 public class CmdPathParameter extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -46,20 +46,18 @@ public class CmdPathParameter extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isGeoPoint()) {
-				AlgoPathParameter algo = new AlgoPathParameter(cons,
-						(GeoPointND) arg[0]);
-				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isGeoPoint()) {
+					AlgoPathParameter algo = new AlgoPathParameter(cons, (GeoPointND) arg[0]);
+					algo.getResult().setLabel(c.getLabel());
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

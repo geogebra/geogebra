@@ -25,4 +25,4 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(RetentionPolicy.SOURCE)
 @Deprecated
-public @interface MissingDoc { }
+public @interface MissingDoc {}

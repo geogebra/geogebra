@@ -33,31 +33,30 @@ import org.gwtproject.user.client.ui.Widget;
  */
 public final class PlotPanelEuclidianViewW extends EuclidianViewW
 		implements PlotPanelEuclidianViewInterface {
-	
+
 	/**
 	 * default height of the PlotPanelEuclidianViewW
 	 */
 	public static final int DEFAULT_HEIGHT = 300;
-	
+
 	public PlotPanelEuclidianViewCommon commonFields;
-	
+
 	/*************************************************
 	 * Construct the panel
 	 */
 	public PlotPanelEuclidianViewW(Kernel kernel) {
 		super(new PlotPanelEuclidianControllerW(kernel), EVNO_GENERAL, null);
-		
+
 		if (commonFields == null) {
 			setCommonFields();
 		}
-		
+
 		// set preferred size so that updateSize will work and this EV can be
 		// properly initialized
-		setPreferredSize(new Dimension(
-				ProbabilityCalculatorDockPanelW.DEFAULT_WIDTH, DEFAULT_HEIGHT));
+		setPreferredSize(new Dimension(ProbabilityCalculatorDockPanelW.DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		updateSize();
 	}
-	
+
 	private void setCommonFields() {
 		// set fields
 		commonFields = new PlotPanelEuclidianViewCommon(false);
@@ -74,7 +73,7 @@ public final class PlotPanelEuclidianViewW extends EuclidianViewW
 	public void setMode(int mode) {
 		// .... do nothing
 	}
-	
+
 	/** Returns viewID */
 	@Override
 	public int getViewID() {
@@ -87,8 +86,8 @@ public final class PlotPanelEuclidianViewW extends EuclidianViewW
 	@Override
 	public void setViewId(Kernel kernel) {
 		// get viewID from GuiManager
-		commonFields.setViewID(((GuiManagerW) kernel.getApplication().getGuiManager())
-				.assignPlotPanelID(this));
+		commonFields.setViewID(
+				((GuiManagerW) kernel.getApplication().getGuiManager()).assignPlotPanelID(this));
 	}
 
 	@Override
@@ -105,7 +104,7 @@ public final class PlotPanelEuclidianViewW extends EuclidianViewW
 	public void updateSizeKeepDrawables() {
 		super.updateSizeKeepDrawables();
 	}
-	
+
 	/**
 	 * @return panel wrapping the view
 	 */
@@ -117,5 +116,4 @@ public final class PlotPanelEuclidianViewW extends EuclidianViewW
 	public boolean isPlotPanel() {
 		return true;
 	}
-
 }

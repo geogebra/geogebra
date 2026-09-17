@@ -30,7 +30,7 @@ import org.geogebra.common.util.DoubleUtil;
 /**
  *
  * @author ggb3D
- * 
+ *
  */
 public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 
@@ -41,6 +41,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 	// output
 	/** intersection */
 	protected GeoConic3D circle;
+
 	private Coords o = new Coords(3);
 	private Coords v = new Coords(3);
 	private Coords vn1 = new Coords(3);
@@ -48,7 +49,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param labels
@@ -58,8 +59,8 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 	 * @param quadric2
 	 *            second quadric
 	 */
-	AlgoIntersectQuadricsAsCircle(Construction cons, String[] labels,
-			GeoQuadricND quadric1, GeoQuadricND quadric2) {
+	AlgoIntersectQuadricsAsCircle(
+			Construction cons, String[] labels, GeoQuadricND quadric1, GeoQuadricND quadric2) {
 
 		this(cons, quadric1, quadric2);
 		if (labels != null && labels.length > 0) {
@@ -67,12 +68,11 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 		} else {
 			circle.setLabel(null);
 		}
-
 	}
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
-	 * 
+	 *
 	 * @param cons
 	 *            the construction
 	 * @param quadric1
@@ -80,8 +80,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 	 * @param quadric2
 	 *            second quadric
 	 */
-	AlgoIntersectQuadricsAsCircle(Construction cons, GeoQuadricND quadric1,
-			GeoQuadricND quadric2) {
+	AlgoIntersectQuadricsAsCircle(Construction cons, GeoQuadricND quadric1, GeoQuadricND quadric2) {
 
 		super(cons);
 
@@ -91,16 +90,14 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 		circle = new GeoConic3D(cons, true);
 		circle.setCoordSys(new CoordSys(2));
 
-		setInputOutput(new GeoElement[] { quadric1, quadric2 },
-				new GeoElement[] { circle });
+		setInputOutput(new GeoElement[] {quadric1, quadric2}, new GeoElement[] {circle});
 
 		compute();
-
 	}
 
 	/**
 	 * return the intersection
-	 * 
+	 *
 	 * @return the intersection
 	 */
 	public GeoConic3D getConic() {
@@ -122,7 +119,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 
 		if (quadric1.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE
 				&& quadric2.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
-				// intersect sphere / sphere
+			// intersect sphere / sphere
 			Coords o1 = quadric1.getMidpoint3D();
 			double r1 = quadric1.getHalfAxis(0);
 			Coords o2 = quadric2.getMidpoint3D();
@@ -169,15 +166,13 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 			coordSys.addVector(vn1);
 			coordSys.addVector(vn2);
 			coordSys.makeOrthoMatrix(false, false);
-			circle.setSphereND(new Coords(0, 0),
-					Math.sqrt(r1 * r1 - x * x));
+			circle.setSphereND(new Coords(0, 0), Math.sqrt(r1 * r1 - x * x));
 
 			return;
 		}
 
 		// other cases
 		circle.setUndefined();
-
 	}
 
 	@Override
@@ -186,13 +181,12 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(getLoc().getPlain("IntersectionCircleOfAB",
-				quadric1.getLabel(tpl), quadric2.getLabel(tpl)));
+		sb.append(getLoc()
+				.getPlain("IntersectionCircleOfAB", quadric1.getLabel(tpl), quadric2.getLabel(tpl)));
 
 		return sb.toString();
 	}
-
 }

@@ -23,10 +23,10 @@ import org.geogebra.common.util.SpreadsheetTraceSettings;
 
 /**
  * @author Michael Borcherds
- * 
+ *
  *         NumberValue extends SpreadsheetTraceable as all NumberValues can be
  *         traced to spreadsheet
- * 
+ *
  *         default implementations in GeoElement TODO this interface should
  *         extend GeoElementND and should not be extended by NumberValue
  */
@@ -47,5 +47,4 @@ public interface SpreadsheetTraceable extends ExpressionValue {
 	 * @return spreadsheet trace settings
 	 */
 	SpreadsheetTraceSettings getTraceSettings();
-
 }

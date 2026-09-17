@@ -33,7 +33,7 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW, IsWidget 
 
 	/**
 	 * (De)activate autocomplete for comment cells / normal cells
-	 * 
+	 *
 	 * @param b
 	 *            whether to activate autocomplete
 	 */
@@ -46,7 +46,7 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW, IsWidget 
 
 	/**
 	 * Inserts input string, doesn't treat it like autocomplete (no highlight)
-	 * 
+	 *
 	 * @param input
 	 *            input stru=ing
 	 */

@@ -39,8 +39,7 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 	 * @param v
 	 *            direction vector
 	 */
-	public AlgoRayPointVector3D(Construction cons,
-			GeoPointND point, GeoVectorND v) {
+	public AlgoRayPointVector3D(Construction cons, GeoPointND point, GeoVectorND v) {
 		super(cons, point, v);
 	}
 
@@ -55,9 +54,11 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("RayThroughAWithDirectionB",
-				getPoint().getLabel(tpl), getInputParallel().getLabel(tpl));
+	public final String toString(StringTemplate tpl) {
+		return getLoc()
+				.getPlain(
+						"RayThroughAWithDirectionB",
+						getPoint().getLabel(tpl),
+						getInputParallel().getLabel(tpl));
 	}
-
 }

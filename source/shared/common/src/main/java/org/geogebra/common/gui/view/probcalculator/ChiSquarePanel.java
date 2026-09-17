@@ -45,9 +45,9 @@ public abstract class ChiSquarePanel {
 		if (sc.chiSquareData == null) {
 			sc.setChiSqData(3, 3);
 		} else {
-			sc.initComputation(sc.chiSquareData.length - 2,
-					sc.chiSquareData.length > 0 ? sc.chiSquareData[0].length - 2
-							: 0);
+			sc.initComputation(
+					sc.chiSquareData.length - 2,
+					sc.chiSquareData.length > 0 ? sc.chiSquareData[0].length - 2 : 0);
 		}
 	}
 
@@ -66,14 +66,12 @@ public abstract class ChiSquarePanel {
 
 		// column percent for bottom margin
 		for (int r = 0; r < getSc().rows; r++) {
-			getCell(r + 1, getSc().columns + 1).setLabelVisible(3,
-					getSc().showColPercent);
+			getCell(r + 1, getSc().columns + 1).setLabelVisible(3, getSc().showColPercent);
 		}
 
 		// row percent for right margin
 		for (int c = 0; c < getSc().columns; c++) {
-			getCell(getSc().rows + 1, c + 1).setLabelVisible(4,
-					getSc().showRowPercent);
+			getCell(getSc().rows + 1, c + 1).setLabelVisible(4, getSc().showRowPercent);
 		}
 
 		updateCellContent();
@@ -94,22 +92,21 @@ public abstract class ChiSquarePanel {
 		for (int r = 0; r < getSc().rows; r++) {
 			for (int c = 0; c < getSc().columns; c++) {
 				if (getSc().showExpected) {
-					getCell(r + 1, c + 1).setLabelText(1,
-							getStatCalc().format(getSc().expected[r][c]));
+					getCell(r + 1, c + 1).setLabelText(1, getStatCalc().format(getSc().expected[r][c]));
 				}
 				if (getSc().showDiff) {
-					getCell(r + 1, c + 1).setLabelText(2,
-							getStatCalc().format(getSc().diff[r][c]));
+					getCell(r + 1, c + 1).setLabelText(2, getStatCalc().format(getSc().diff[r][c]));
 				}
 				if (getSc().showRowPercent) {
-					getCell(r + 1, c + 1).setLabelText(3, getStatCalc().format(
-							100 * getSc().observed[r][c] / getSc().rowSum[r])
-							+ "%");
+					getCell(r + 1, c + 1)
+							.setLabelText(
+									3, getStatCalc().format(100 * getSc().observed[r][c] / getSc().rowSum[r]) + "%");
 				}
 				if (getSc().showColPercent) {
-					getCell(r + 1, c + 1).setLabelText(4, getStatCalc().format(
-							100 * getSc().observed[r][c] / getSc().columnSum[c])
-							+ "%");
+					getCell(r + 1, c + 1)
+							.setLabelText(
+									4,
+									getStatCalc().format(100 * getSc().observed[r][c] / getSc().columnSum[c]) + "%");
 				}
 			}
 		}
@@ -117,37 +114,31 @@ public abstract class ChiSquarePanel {
 		// column margin
 		if (showColumnMargin) {
 			for (int r = 0; r < getSc().rows; r++) {
-				getCell(r + 1, getSc().columns + 1).setLabelText(0,
-						getStatCalc().format(getSc().rowSum[r]));
+				getCell(r + 1, getSc().columns + 1)
+						.setLabelText(0, getStatCalc().format(getSc().rowSum[r]));
 				if (getSc().showRowPercent) {
-					getCell(r + 1, getSc().columns + 1).setLabelText(3,
-							getStatCalc().format(
-									100 * getSc().rowSum[r] / getSc().total)
-									+ "%");
+					getCell(r + 1, getSc().columns + 1)
+							.setLabelText(3, getStatCalc().format(100 * getSc().rowSum[r] / getSc().total) + "%");
 				}
 			}
 		}
 
 		// bottom margin
 		for (int c = 0; c < getSc().columns; c++) {
-			getCell(getSc().rows + 1, c + 1).setLabelText(0,
-					getStatCalc().format(getSc().columnSum[c]));
+			getCell(getSc().rows + 1, c + 1).setLabelText(0, getStatCalc().format(getSc().columnSum[c]));
 
 			if (getSc().showColPercent) {
-				getCell(getSc().rows + 1, c + 1).setLabelText(4,
-						getStatCalc().format(
-								100 * getSc().columnSum[c] / getSc().total)
-								+ "%");
+				getCell(getSc().rows + 1, c + 1)
+						.setLabelText(
+								4, getStatCalc().format(100 * getSc().columnSum[c] / getSc().total) + "%");
 			}
-
 		}
 
 		// bottom right corner
 		if (showColumnMargin) {
-			getCell(getSc().rows + 1, getSc().columns + 1).setLabelText(0,
-					getStatCalc().format(getSc().total));
+			getCell(getSc().rows + 1, getSc().columns + 1)
+					.setLabelText(0, getStatCalc().format(getSc().total));
 		}
-
 	}
 
 	public StatisticsCalculator getStatCalc() {
@@ -164,7 +155,7 @@ public abstract class ChiSquarePanel {
 
 	/**
 	 * added partly to kill findbugs warning about loc being unused
-	 * 
+	 *
 	 * @param s
 	 *            key
 	 * @return translation
@@ -172,5 +163,4 @@ public abstract class ChiSquarePanel {
 	protected String getMenu(String s) {
 		return loc.getMenu(s);
 	}
-
 }

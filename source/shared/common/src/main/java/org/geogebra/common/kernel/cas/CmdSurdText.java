@@ -33,7 +33,7 @@ public class CmdSurdText extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -48,43 +48,38 @@ public class CmdSurdText extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0] instanceof GeoNumberValue) {
 
-			if (arg[0] instanceof GeoNumberValue) {
+					AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(), (GeoNumberValue) arg[0], null);
 
-				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], null);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[0].isGeoPoint()) {
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[0].isGeoPoint()) {
+					AlgoSurdTextPoint algo = new AlgoSurdTextPoint(cons, c.getLabel(), (GeoPointND) arg[0]);
 
-				AlgoSurdTextPoint algo = new AlgoSurdTextPoint(cons,
-						c.getLabel(), (GeoPointND) arg[0]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
+				throw argErr(c, arg[0]);
 
-			throw argErr(c, arg[0]);
+			case 2:
+				boolean ok0;
+				if ((ok0 = arg[0] instanceof GeoNumberValue) && arg[1].isGeoList()) {
 
-		case 2:
+					AlgoSurdText algo =
+							new AlgoSurdText(cons, c.getLabel(), (GeoNumberValue) arg[0], (GeoList) arg[1]);
 
-			boolean ok0;
-			if ((ok0 = arg[0] instanceof GeoNumberValue)
-					&& arg[1].isGeoList()) {
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
 
-				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoList) arg[1]);
+				throw argErr(c, arg[ok0 ? 0 : 1]);
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-
-			throw argErr(c, arg[ok0 ? 0 : 1]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

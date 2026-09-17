@@ -27,7 +27,7 @@ import org.jspecify.annotations.NonNull;
 
 /**
  * @author judit
- * 
+ *
  */
 public class FocusListenerW implements FocusHandler, BlurHandler {
 
@@ -38,8 +38,7 @@ public class FocusListenerW implements FocusHandler, BlurHandler {
 	 * @param listener
 	 *            delegate
 	 */
-	public FocusListenerW(@NonNull FocusListenerDelegate listener,
-			ScrollableSuggestBox textField) {
+	public FocusListenerW(@NonNull FocusListenerDelegate listener, ScrollableSuggestBox textField) {
 		this.delegate = listener;
 		this.textField = textField;
 	}

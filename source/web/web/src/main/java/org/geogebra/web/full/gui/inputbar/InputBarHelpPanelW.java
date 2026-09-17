@@ -47,7 +47,7 @@ import elemental2.core.JsString;
 
 /**
  * @author G. Sturr
- * 
+ *
  */
 public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, BooleanRenderable {
 	private final AppW app;
@@ -100,8 +100,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 		pnlButton.add(btnOnlineHelp);
 
 		// create close button
-		btnClose = BaseWidgetFactory.INSTANCE.newTextButton(
-				app.getLocalization().getMenu("Close"));
+		btnClose = BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization().getMenu("Close"));
 		btnClose.addFastClickHandler(event -> hide());
 		pnlButton.add(btnClose);
 
@@ -176,13 +175,12 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 		if (getSelectedCommand() == null) {
 			app.getGuiManager().openHelp(ManualPage.INPUT_BAR, null);
 
-		} else if (getSelectedCommand().equals(
-				app.getLocalization().getMenu("MathematicalFunctions"))) {
+		} else if (getSelectedCommand()
+				.equals(app.getLocalization().getMenu("MathematicalFunctions"))) {
 			app.getGuiManager().openHelp(ManualPage.OPERATORS, null);
 
 		} else {
-			app.getGuiManager()
-					.openHelp(ManualPage.COMMAND, app.getReverseCommand(getSelectedCommand()));
+			app.getGuiManager().openHelp(ManualPage.COMMAND, app.getReverseCommand(getSelectedCommand()));
 		}
 	}
 
@@ -197,12 +195,12 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	 * @return local command name
 	 */
 	public String getSelectedCommand() {
-		if (indexTree == null || indexTree.getSelectedItem() == null
+		if (indexTree == null
+				|| indexTree.getSelectedItem() == null
 				|| indexTree.getSelectedItem().getChildCount() > 0) {
 			return null;
 		}
-		return indexTree.getSelectedItem().getWidget().getElement()
-				.getInnerText();
+		return indexTree.getSelectedItem().getWidget().getElement().getInnerText();
 	}
 
 	@Override
@@ -217,15 +215,14 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 
 	/**
 	 * Adjusts the panel size relative to the current application panel size
-	 * 
+	 *
 	 * @param maxOffsetHeight
 	 *            max height
 	 */
 	public void updateGUI(int maxOffsetHeight) {
 		showOnlineHelpButton(!GlobalScope.isExamActive(app) && app.showMenuBar());
 		int height = maxOffsetHeight - 60;
-		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
-				.getOffsetWidth() - 60;
+		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent().getOffsetWidth() - 60;
 
 		int w = (int) Math.min(700, width);
 		sp.setPixelSize(w, height);
@@ -237,8 +234,8 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	 * @return pixel width
 	 */
 	public int getPreferredWidth(double scale) {
-		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
-				.getOffsetWidth() * scale - 60;
+		double width =
+				((GuiManagerW) app.getGuiManager()).getRootComponent().getOffsetWidth() * scale - 60;
 		return (int) Math.min(700, width);
 	}
 
@@ -255,27 +252,23 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 
 		itmFunction = new InputHelpTreeItem();
 		itmFunction.setWidget(new TreeItemButton(
-				app.getLocalization().getMenu("MathematicalFunctions"),
-				itmFunction, false));
+				app.getLocalization().getMenu("MathematicalFunctions"), itmFunction, false));
 		indexTree.addItem(itmFunction);
 
 		InputHelpTreeItem itmAllCommands = new InputHelpTreeItem();
-		itmAllCommands.setWidget(new TreeItemButton(app.getLocalization()
-				.getMenu("AllCommands"), itmAllCommands, false));
+		itmAllCommands.setWidget(
+				new TreeItemButton(app.getLocalization().getMenu("AllCommands"), itmAllCommands, false));
 
 		addCmdNames(itmAllCommands, getAllCommandsTreeSet());
 		indexTree.addItem(itmAllCommands);
 
 		for (int index = 0; index < hp.getCategoriesCount(); index++) {
-			TreeSet<String> cmdNames = InputBarHelpPanel.getCommandTreeMap(app,
-					comparator, index);
+			TreeSet<String> cmdNames = InputBarHelpPanel.getCommandTreeMap(app, comparator, index);
 
 			if (cmdNames != null) {
-				String cmdSetName = app.getKernel().getAlgebraProcessor()
-						.getSubCommandSetName(index);
+				String cmdSetName = app.getKernel().getAlgebraProcessor().getSubCommandSetName(index);
 				TreeItem itmCmdSet = new InputHelpTreeItem();
-				itmCmdSet.setWidget(
-						new TreeItemButton(cmdSetName, itmCmdSet, false));
+				itmCmdSet.setWidget(new TreeItemButton(cmdSetName, itmCmdSet, false));
 				// add command set branch to tree
 				indexTree.addItem(itmCmdSet);
 				// add command names to this branch
@@ -296,8 +289,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 
 	private final class TreeItemButton extends InlineLabel {
 
-		private TreeItemButton(String text, final TreeItem item,
-				final boolean isLeaf) {
+		private TreeItemButton(String text, final TreeItem item, final boolean isLeaf) {
 			super(text);
 			addStyleName("inputHelp-treeItem");
 
@@ -323,7 +315,6 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 			super.setWidget(newWidget);
 			this.addStyleName("inputHelp-treeItem");
 		}
-
 	}
 
 	// =================================================================
@@ -332,11 +323,10 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 
 	/**
 	 * Javascript comparator for different locales.
-	 * 
+	 *
 	 * TODO: handle accented characters
 	 */
-	private static class LocaleSensitiveComparator
-			implements Comparator<String> {
+	private static class LocaleSensitiveComparator implements Comparator<String> {
 
 		protected LocaleSensitiveComparator() {
 			// avoid synth access warning
@@ -362,18 +352,17 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	private void updateDetailPanel() {
 		syntaxPanel.clear();
 		if (getSelectedCommand() == null) {
-			
+
 			lblSyntax.setText("");
-			
+
 			return;
 		}
 
 		lblSyntax.setText(getSelectedCommand());
 		ArrayList<Widget> rows;
-		if (getSelectedCommand().equals(
-				app.getLocalization().getMenu("MathematicalFunctions"))) {
+		if (getSelectedCommand().equals(app.getLocalization().getMenu("MathematicalFunctions"))) {
 			rows = functionTableHTML();
-			
+
 			syntaxPanel.removeStyleName("inputHelp-cmdSyntax");
 			syntaxPanel.addStyleName("inputHelp-functionTable");
 
@@ -393,7 +382,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 
 		// internal name of selected command
 		String cmd = app.getReverseCommand(getSelectedCommand());
-		
+
 		Localization loc = app.getLocalization();
 
 		String syntaxBasic = loc.getCommandSyntax(cmd);
@@ -409,7 +398,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 				Label headCAS = new Label(loc.getMenu("Type.CAS") + ":");
 				headCAS.addStyleName("inputHelp-headerCAS");
 				ret.add(headCAS);
-			
+
 				String syntaxCAS = loc.getCommandSyntaxCAS(cmd);
 				formattedHTMLString(ret, syntaxCAS, true);
 			}
@@ -424,14 +413,14 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 	 * Converts a java string to a SafeHTML string with newline characters
 	 * replaced by paragraph tags. This tag is required for the hanging indent
 	 * css style used to format syntax descriptions.
-	 * 
+	 *
 	 * @param cas
 	 *            whether to format it as CAS syntax
 	 * @param ret
 	 *            list of labels
 	 */
 	private void formattedHTMLString(ArrayList<Widget> ret, String s, boolean cas) {
-		String[]lines = s.split("\n");
+		String[] lines = s.split("\n");
 		for (String line : lines) {
 			Label syntax = syntaxLabel(line);
 			if (cas) {
@@ -440,7 +429,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 			ret.add(syntax);
 		}
 	}
-	
+
 	private Label syntaxLabel(String line) {
 		Label syntax = new Label(line);
 		final String fLine = line;
@@ -450,7 +439,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 			insertText(fLine);
 		});
 		return syntax;
-    }
+	}
 
 	/**
 	 * @param text
@@ -501,8 +490,7 @@ public final class InputBarHelpPanelW extends FlowPanel implements SetLabels, Bo
 				continue;
 			}
 			for (int j = 0; j < group.getChildCount(); j++) {
-				if (group.getChild(j).getElement().getInnerText()
-						.equalsIgnoreCase(currentCommand)) {
+				if (group.getChild(j).getElement().getInnerText().equalsIgnoreCase(currentCommand)) {
 					group.setState(true);
 					indexTree.setSelectedItem(group.getChild(j), false);
 					updateDetailPanel();

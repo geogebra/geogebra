@@ -57,23 +57,20 @@ import elemental2.dom.WheelEvent;
  * Web version of Euclidian controller
  *
  */
-public class EuclidianControllerW extends EuclidianController implements
-		IsEuclidianController, DropHandler {
+public class EuclidianControllerW extends EuclidianController
+		implements IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
 	private CreateToolImage toolImageW;
 
 	@Override
-	protected void showSpecialPointPopup(
-			final ArrayList<GeoElement> previewPoints) {
+	protected void showSpecialPointPopup(final ArrayList<GeoElement> previewPoints) {
 		if (!app.getConfig().hasPreviewPoints()) {
 			return;
 		}
-		final PreviewPointPopup popup = new PreviewPointPopup(
-				(AppW) getApplication(), previewPoints);
-		popup.setPopupPositionAndShow(
-				(offsetWidth, offsetHeight) ->
-						popup.positionPopup(offsetWidth, offsetHeight, previewPoints));
+		final PreviewPointPopup popup = new PreviewPointPopup((AppW) getApplication(), previewPoints);
+		popup.setPopupPositionAndShow((offsetWidth, offsetHeight) ->
+				popup.positionPopup(offsetWidth, offsetHeight, previewPoints));
 	}
 
 	@Override
@@ -134,8 +131,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			// #plotpanelevno
 			// probably both are Okay not changing the toolbar to full Graphics
 			// view toolbar
-			((GuiManagerInterfaceW) app.getGuiManager())
-					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
+			((GuiManagerInterfaceW) app.getGuiManager()).setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
 		} else {
 			if (EuclidianConstants.isMoveOrSelectionMode(mode)
 					|| mode == EuclidianConstants.MODE_TRANSLATE_VIEW
@@ -173,8 +169,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	private void handleHitForComboBox(Hits hits) {
 		GeoElement hit = hits.get(0);
-		if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox()
-				&& !hit.isGeoBoolean()) {
+		if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox() && !hit.isGeoBoolean()) {
 			GeoElement geo = chooseGeo(hits, true);
 			if (geo != null) {
 				runScriptsIfNeeded(geo);
@@ -212,12 +207,10 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
-	        Hits hits) {
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, Hits hits) {
 		if (app.isUnbundledOrWhiteboard()) {
-			ArrayList<GeoElement> geos = selectedGeos1 != null
-					&& selectedGeos1.isEmpty() ? getAppSelectedGeos()
-					: selectedGeos1;
+			ArrayList<GeoElement> geos =
+					selectedGeos1 != null && selectedGeos1.isEmpty() ? getAppSelectedGeos() : selectedGeos1;
 			app.getGuiManager().showPopupMenu(geos, getView(), mouseLoc);
 		} else {
 			super.showPopupMenuChooseGeo(selectedGeos1, hits);
@@ -243,13 +236,13 @@ public class EuclidianControllerW extends EuclidianController implements
 			return;
 		}
 		ArrayList<String> list = new ArrayList<>();
-		list.add(geo.isLabelSet() ? geo.getLabelSimple() : "\""
-				+ geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplate) + "\"");
+		list.add(
+				geo.isLabelSet()
+						? geo.getLabelSimple()
+						: "\"" + geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate) + "\"");
 		String text = EuclidianView.getDraggedLabels(list);
 
-		GeoElementND[] ret = app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand(text, true);
+		GeoElementND[] ret = app.getKernel().getAlgebraProcessor().processAlgebraCommand(text, true);
 
 		if (ret != null && ret[0] instanceof TextValue) {
 			GeoText geo0 = (GeoText) ret[0];
@@ -258,8 +251,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			int x = event.getNativeEvent().getClientX();
 			int y = event.getNativeEvent().getClientY();
 
-			geo0.setRealWorldLoc(getView().toRealWorldCoordX(x),
-					getView().toRealWorldCoordY(y));
+			geo0.setRealWorldLoc(getView().toRealWorldCoordX(x), getView().toRealWorldCoordY(y));
 			geo0.updateRepaint();
 		}
 	}
@@ -295,26 +287,25 @@ public class EuclidianControllerW extends EuclidianController implements
 	 * @return whether selected geos should have quick style bar
 	 */
 	private boolean selectedGeoShouldHaveQuickStyleBar() {
-		return !getAppSelectedGeos().isEmpty() && getAppSelectedGeos().stream()
-				.noneMatch(f -> f.isMeasurementTool() || f.isSpotlight() || f.isGeoInputBox());
+		return !getAppSelectedGeos().isEmpty()
+				&& getAppSelectedGeos().stream()
+						.noneMatch(f -> f.isMeasurementTool() || f.isSpotlight() || f.isGeoInputBox());
 	}
 
 	@Override
 	public void onPointerEventMove(PointerEvent event) {
-		//disable pointer events for the zoom panel when dragging something over it
+		// disable pointer events for the zoom panel when dragging something over it
 		if (draggingOccurred) {
-			((EuclidianViewW) getView())
-					.getDockPanel().enableZoomPanelEvents(false);
+			((EuclidianViewW) getView()).getDockPanel().enableZoomPanelEvents(false);
 		}
 		mtg.onMouseMoveNow(event, System.currentTimeMillis(), true);
 	}
 
 	@Override
 	public void onPointerEventEnd(PointerEvent event) {
-		//enable pointer events for the zoom panel again after dragging something over it
+		// enable pointer events for the zoom panel again after dragging something over it
 		if (draggingOccurred) {
-			((EuclidianViewW) getView())
-					.getDockPanel().enableZoomPanelEvents(true);
+			((EuclidianViewW) getView()).getDockPanel().enableZoomPanelEvents(true);
 		}
 		mtg.onPointerEventEnd(event);
 	}
@@ -355,10 +346,9 @@ public class EuclidianControllerW extends EuclidianController implements
 	public MyImage getRotationImage() {
 		HTMLImageElement img = Dom.createImage();
 		SVGResource rotateIcon = ((AppW) app).isUsingFontAwesome()
-			? DefaultGeneralIconResources.INSTANCE.rotate_arrow_fontawesome()
-			: DefaultGeneralIconResources.INSTANCE.rotate_arrow();
-		img.src =  rotateIcon.getSafeUri().asString();
+				? DefaultGeneralIconResources.INSTANCE.rotate_arrow_fontawesome()
+				: DefaultGeneralIconResources.INSTANCE.rotate_arrow();
+		img.src = rotateIcon.getSafeUri().asString();
 		return new MyImageW(img, true);
 	}
 }
-

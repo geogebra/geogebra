@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -36,12 +36,11 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 		implements IconsEnumeratedProperty<HorizontalAlignment> {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_ALIGNMENT_LEFT, PropertyResource.ICON_ALIGNMENT_CENTER,
-			PropertyResource.ICON_ALIGNMENT_RIGHT
+		PropertyResource.ICON_ALIGNMENT_LEFT,
+		PropertyResource.ICON_ALIGNMENT_CENTER,
+		PropertyResource.ICON_ALIGNMENT_RIGHT
 	};
-	private static final String[] rawLabels = {
-			"stylebar.Left", "stylebar.Center", "stylebar.Right"
-	};
+	private static final String[] rawLabels = {"stylebar.Left", "stylebar.Center", "stylebar.Right"};
 
 	private final GeoElementDelegate delegate;
 
@@ -54,9 +53,8 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.HorizontalAlign");
 		delegate = new TextFormatterDelegate(element);
-		setValues(List.of(HorizontalAlignment.LEFT,
-				HorizontalAlignment.CENTER,
-				HorizontalAlignment.RIGHT));
+		setValues(
+				List.of(HorizontalAlignment.LEFT, HorizontalAlignment.CENTER, HorizontalAlignment.RIGHT));
 	}
 
 	@Override
@@ -73,7 +71,8 @@ public class HorizontalAlignmentProperty extends AbstractEnumeratedProperty<Hori
 	protected void doSetValue(HorizontalAlignment value) {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
 		HasTextFormat formatter = element.getFormatter();
-		if (getLocalization() != null && formatter != null
+		if (getLocalization() != null
+				&& formatter != null
 				&& value != formatter.getHorizontalAlignment()) {
 			formatter.setHorizontalAlignment(value);
 		}

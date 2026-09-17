@@ -30,7 +30,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * Implements {@link JSONObject#toString} and {@link JSONArray#toString}. Most
  * application developers should use those methods directly and disregard this
  * API. For example:
- * 
+ *
  * <pre>
  * JSONObject object = ...
  * String json = object.toString();
@@ -176,8 +176,7 @@ public class JSONStringer {
 	 */
 	JSONStringer open(Scope empty, String openBracket) throws JSONException {
 		if (stack.isEmpty() && out.length() > 0) {
-			throw new JSONException(
-					"Nesting problem: multiple top-level roots");
+			throw new JSONException("Nesting problem: multiple top-level roots");
 		}
 		beforeValue();
 		stack.add(empty);
@@ -189,8 +188,7 @@ public class JSONStringer {
 	 * Closes the current scope by appending any necessary whitespace and the
 	 * given bracket.
 	 */
-	JSONStringer close(Scope empty, Scope nonempty, String closeBracket)
-			throws JSONException {
+	JSONStringer close(Scope empty, Scope nonempty, String closeBracket) throws JSONException {
 		Scope context = peek();
 		if (context != nonempty && context != empty) {
 			throw new JSONException("Nesting problem");
@@ -242,8 +240,7 @@ public class JSONStringer {
 			return this;
 		}
 		beforeValue();
-		if (value == null || value instanceof Boolean
-				|| value == JSONObject.NULL) {
+		if (value == null || value instanceof Boolean || value == JSONObject.NULL) {
 			out.append(value);
 		} else if (value instanceof Number) {
 			out.append(JSONObject.numberToString((Number) value));
@@ -309,34 +306,34 @@ public class JSONStringer {
 			 * (U+0000 through U+001F)."
 			 */
 			switch (c) {
-			case '"':
-			case '\\':
-			case '/':
-				out.append('\\').append(c);
-				break;
-			case '\t':
-				out.append("\\t");
-				break;
-			case '\b':
-				out.append("\\b");
-				break;
-			case '\n':
-				out.append("\\n");
-				break;
-			case '\r':
-				out.append("\\r");
-				break;
-			case '\f':
-				out.append("\\f");
-				break;
-			default:
-				if (c <= 0x1F) {
-					out.append(StringUtil.toJavaString(c + ""));
-					// out.append(String.format("\\u%04x", (int) c));
-				} else {
-					out.append(c);
-				}
-				break;
+				case '"':
+				case '\\':
+				case '/':
+					out.append('\\').append(c);
+					break;
+				case '\t':
+					out.append("\\t");
+					break;
+				case '\b':
+					out.append("\\b");
+					break;
+				case '\n':
+					out.append("\\n");
+					break;
+				case '\r':
+					out.append("\\r");
+					break;
+				case '\f':
+					out.append("\\f");
+					break;
+				default:
+					if (c <= 0x1F) {
+						out.append(StringUtil.toJavaString(c + ""));
+						// out.append(String.format("\\u%04x", (int) c));
+					} else {
+						out.append(c);
+					}
+					break;
 			}
 		}
 		out.append("\"");
@@ -420,8 +417,7 @@ public class JSONStringer {
 	 * contains no data.
 	 */
 	@Override
-	@SuppressFBWarnings(value = "NP_TOSTRING_COULD_RETURN_NULL",
-			justification = "API specifies this")
+	@SuppressFBWarnings(value = "NP_TOSTRING_COULD_RETURN_NULL", justification = "API specifies this")
 	public String toString() {
 		return out.length() == 0 ? null : out.toString();
 	}

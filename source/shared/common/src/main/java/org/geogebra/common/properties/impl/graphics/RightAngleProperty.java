@@ -41,8 +41,7 @@ public class RightAngleProperty extends AbstractNamedEnumeratedProperty<Integer>
 				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE, "Off"),
 				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, "\u25a1"),
 				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT, "\u25CF"),
-				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L, "\u2335")
-		));
+				entry(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L, "\u2335")));
 	}
 
 	@Override

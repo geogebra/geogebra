@@ -38,11 +38,9 @@ public class DrawImageResizable extends DrawImage implements HasTransformation {
 	 * @param view view
 	 * @param geoImage image
 	 */
-	public DrawImageResizable(EuclidianView view,
-			GeoImage geoImage) {
+	public DrawImageResizable(EuclidianView view, GeoImage geoImage) {
 		super(view, geoImage);
-		transformableRectangle =
-				new TransformableRectangle(view, geoImage, true);
+		transformableRectangle = new TransformableRectangle(view, geoImage, true);
 	}
 
 	@Override
@@ -65,8 +63,7 @@ public class DrawImageResizable extends DrawImage implements HasTransformation {
 		transformableRectangle.fromPoints(points);
 	}
 
-	private void updateImageCrop(GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
+	private void updateImageCrop(GPoint2D p, EuclidianBoundingBoxHandler handler) {
 		geoImage.ensureCropBox();
 		MyImage image = geoImage.getFillImage();
 		int minWidth = Math.min(IMG_CROP_THRESHOLD, image.getWidth());
@@ -83,71 +80,55 @@ public class DrawImageResizable extends DrawImage implements HasTransformation {
 		double newWidth;
 		double newHeight;
 		switch (handler) {
-		case BOTTOM:
-			newHeight = MyMath.clamp(event.y - cropTop,
-					minHeight, imageHeight - cropTop);
-			cropBoxRelative.setFrame(cropLeft, cropTop,
-					cropBoxRelative.getWidth(), newHeight);
-			break;
-		case TOP:
-			newHeight = MyMath.clamp(cropBottom - event.y,
-					minHeight, cropBottom);
-			cropBoxRelative.setFrame(cropLeft, cropBottom - newHeight,
-					cropBoxRelative.getWidth(), newHeight);
-			break;
-		case LEFT:
-			newWidth = MyMath.clamp(cropRight - event.x,
-					minWidth, cropRight);
-			cropBoxRelative.setFrame(cropRight - newWidth, cropTop,
-					newWidth, cropBoxRelative.getHeight());
-			break;
-		case RIGHT:
-			newWidth = MyMath.clamp(event.x - cropLeft,
-					minWidth, imageWidth - cropLeft);
-			cropBoxRelative.setFrame(cropBoxRelative.getX(), cropBoxRelative.getY(),
-					newWidth, cropBoxRelative.getHeight());
-			break;
-		case BOTTOM_RIGHT:
-			newWidth = MyMath.clamp(event.x - cropLeft,
-					minWidth, imageWidth - cropLeft);
-			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight, imageHeight - cropTop);
-			cropBoxRelative.setFrame(cropLeft, cropTop,
-					newWidth, newHeight);
-			break;
-		case BOTTOM_LEFT:
-			newWidth = MyMath.clamp(cropRight - event.x,
-					minWidth, cropRight);
-			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight, imageHeight - cropTop);
-			cropBoxRelative.setFrame(cropRight - newWidth , cropTop,
-					newWidth, newHeight);
-			break;
-		case TOP_RIGHT:
-			newWidth = MyMath.clamp(event.x - cropLeft,
-					minWidth, imageWidth - cropLeft);
-			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight, cropBottom);
-			cropBoxRelative.setFrame(cropLeft, cropBottom - newHeight,
-					newWidth, newHeight);
-			break;
-		case TOP_LEFT:
-			newWidth = MyMath.clamp(cropRight - event.x,
-					minWidth, cropRight);
-			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight, cropBottom);
-			cropBoxRelative.setFrame(cropRight - newWidth , cropBottom - newHeight,
-					newWidth, newHeight);
-			break;
-		default:
-			break;
+			case BOTTOM:
+				newHeight = MyMath.clamp(event.y - cropTop, minHeight, imageHeight - cropTop);
+				cropBoxRelative.setFrame(cropLeft, cropTop, cropBoxRelative.getWidth(), newHeight);
+				break;
+			case TOP:
+				newHeight = MyMath.clamp(cropBottom - event.y, minHeight, cropBottom);
+				cropBoxRelative.setFrame(
+						cropLeft, cropBottom - newHeight, cropBoxRelative.getWidth(), newHeight);
+				break;
+			case LEFT:
+				newWidth = MyMath.clamp(cropRight - event.x, minWidth, cropRight);
+				cropBoxRelative.setFrame(
+						cropRight - newWidth, cropTop, newWidth, cropBoxRelative.getHeight());
+				break;
+			case RIGHT:
+				newWidth = MyMath.clamp(event.x - cropLeft, minWidth, imageWidth - cropLeft);
+				cropBoxRelative.setFrame(
+						cropBoxRelative.getX(), cropBoxRelative.getY(), newWidth, cropBoxRelative.getHeight());
+				break;
+			case BOTTOM_RIGHT:
+				newWidth = MyMath.clamp(event.x - cropLeft, minWidth, imageWidth - cropLeft);
+				newHeight = MyMath.clamp(originalRatio * newWidth, minHeight, imageHeight - cropTop);
+				cropBoxRelative.setFrame(cropLeft, cropTop, newWidth, newHeight);
+				break;
+			case BOTTOM_LEFT:
+				newWidth = MyMath.clamp(cropRight - event.x, minWidth, cropRight);
+				newHeight = MyMath.clamp(originalRatio * newWidth, minHeight, imageHeight - cropTop);
+				cropBoxRelative.setFrame(cropRight - newWidth, cropTop, newWidth, newHeight);
+				break;
+			case TOP_RIGHT:
+				newWidth = MyMath.clamp(event.x - cropLeft, minWidth, imageWidth - cropLeft);
+				newHeight = MyMath.clamp(originalRatio * newWidth, minHeight, cropBottom);
+				cropBoxRelative.setFrame(cropLeft, cropBottom - newHeight, newWidth, newHeight);
+				break;
+			case TOP_LEFT:
+				newWidth = MyMath.clamp(cropRight - event.x, minWidth, cropRight);
+				newHeight = MyMath.clamp(originalRatio * newWidth, minHeight, cropBottom);
+				cropBoxRelative.setFrame(cropRight - newWidth, cropBottom - newHeight, newWidth, newHeight);
+				break;
+			default:
+				break;
 		}
 		geoImage.update();
 	}
 
 	@Override
 	public GRectangle2D getBoundsForStylebarPosition() {
-		if (geoImage.isCropped() && view.getBoundingBox() != null
+		if (geoImage.isCropped()
+				&& view.getBoundingBox() != null
 				&& !view.getBoundingBox().isCropBox()) {
 			return transformableRectangle.getBounds();
 		}
@@ -155,8 +136,7 @@ public class DrawImageResizable extends DrawImage implements HasTransformation {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
+	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		if (boundingBox.isCropBox()) {
 			geoImage.setCropped(true);
 			transformableRectangle.updateAspectRatio(geoImage, handler);

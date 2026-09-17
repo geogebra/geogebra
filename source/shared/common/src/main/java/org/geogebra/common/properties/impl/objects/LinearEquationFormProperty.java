@@ -43,25 +43,17 @@ public class LinearEquationFormProperty extends AbstractNamedEnumeratedProperty<
 			throws NotApplicablePropertyException {
 		super(localization, "Equation");
 		delegate = new LinearEquationFormDelegate(element);
-		setNamedValues(
-				List.of(
-						entry(LinearEquationRepresentable.Form.IMPLICIT.rawValue,
-								"ImplicitLineEquation"),
-						entry(LinearEquationRepresentable.Form.EXPLICIT.rawValue,
-								"ExplicitLineEquation"),
-						entry(LinearEquationRepresentable.Form.PARAMETRIC.rawValue,
-								"ParametricForm"),
-						entry(LinearEquationRepresentable.Form.GENERAL.rawValue,
-								"GeneralLineEquation"),
-						entry(LinearEquationRepresentable.Form.USER.rawValue,
-								"InputForm")
-				));
+		setNamedValues(List.of(
+				entry(LinearEquationRepresentable.Form.IMPLICIT.rawValue, "ImplicitLineEquation"),
+				entry(LinearEquationRepresentable.Form.EXPLICIT.rawValue, "ExplicitLineEquation"),
+				entry(LinearEquationRepresentable.Form.PARAMETRIC.rawValue, "ParametricForm"),
+				entry(LinearEquationRepresentable.Form.GENERAL.rawValue, "GeneralLineEquation"),
+				entry(LinearEquationRepresentable.Form.USER.rawValue, "InputForm")));
 	}
 
 	@Override
 	protected void doSetValue(Integer value) {
-		LinearEquationRepresentable.Form equationForm =
-				LinearEquationRepresentable.Form.valueOf(value);
+		LinearEquationRepresentable.Form equationForm = LinearEquationRepresentable.Form.valueOf(value);
 		GeoElement element = delegate.getElement();
 		if (equationForm != null && element instanceof LinearEquationRepresentable) {
 			((LinearEquationRepresentable) element).setEquationForm(equationForm);

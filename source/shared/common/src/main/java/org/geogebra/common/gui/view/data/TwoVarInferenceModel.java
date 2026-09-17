@@ -74,8 +74,7 @@ public class TwoVarInferenceModel {
 		 * @param columns number of columns
 		 * @param columnNames column names
 		 */
-		void setStatTable(int rows, String[] rowNames, int columns,
-				String[] columnNames);
+		void setStatTable(int rows, String[] rowNames, int columns, String[] columnNames);
 
 		/**
 		 * @param value value
@@ -106,12 +105,11 @@ public class TwoVarInferenceModel {
 		 * @param idx hypothesis index
 		 */
 		void selectAltHyp(int idx);
-
 	}
 
 	/**
 	 * Construct a TwoVarInference panel
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param listener
@@ -159,45 +157,42 @@ public class TwoVarInferenceModel {
 		ArrayList<String> list = new ArrayList<>();
 
 		switch (selectedInference) {
-		default:
-			// do nothing
-			break;
-		case StatisticsModel.INFER_T_TEST_2MEANS:
-		case StatisticsModel.INFER_T_TEST_PAIRED:
+			default:
+				// do nothing
+				break;
+			case StatisticsModel.INFER_T_TEST_2MEANS:
+			case StatisticsModel.INFER_T_TEST_PAIRED:
+				if (selectedInference == StatisticsModel.INFER_T_TEST_PAIRED) {
+					list.add(loc.getMenu("MeanDifference"));
+				} else {
+					list.add(loc.getMenu("fncInspector.Difference"));
+				}
 
-			if (selectedInference == StatisticsModel.INFER_T_TEST_PAIRED) {
-				list.add(loc.getMenu("MeanDifference"));
-			} else {
-				list.add(loc.getMenu("fncInspector.Difference"));
-			}
+				list.add(loc.getMenu("PValue"));
+				list.add(loc.getMenu("TStatistic"));
+				list.add(loc.getMenu("StandardError.short"));
+				list.add(loc.getMenu("DegreesOfFreedom.short"));
+				break;
 
-			list.add(loc.getMenu("PValue"));
-			list.add(loc.getMenu("TStatistic"));
-			list.add(loc.getMenu("StandardError.short"));
-			list.add(loc.getMenu("DegreesOfFreedom.short"));
-			break;
+			case StatisticsModel.INFER_T_INT_2MEANS:
+			case StatisticsModel.INFER_T_INT_PAIRED:
+				if (selectedInference == StatisticsModel.INFER_T_INT_PAIRED) {
+					list.add(loc.getMenu("MeanDifference"));
+				} else {
+					list.add(loc.getMenu("fncInspector.Difference"));
+				}
 
-		case StatisticsModel.INFER_T_INT_2MEANS:
-		case StatisticsModel.INFER_T_INT_PAIRED:
-
-			if (selectedInference == StatisticsModel.INFER_T_INT_PAIRED) {
-				list.add(loc.getMenu("MeanDifference"));
-			} else {
-				list.add(loc.getMenu("fncInspector.Difference"));
-			}
-
-			list.add(loc.getMenu("MarginOfError.short"));
-			list.add(loc.getMenu("LowerLimit"));
-			list.add(loc.getMenu("UpperLimit"));
-			list.add(loc.getMenu("StandardError.short"));
-			list.add(loc.getMenu("DegreesOfFreedom.short"));
-			break;
+				list.add(loc.getMenu("MarginOfError.short"));
+				list.add(loc.getMenu("LowerLimit"));
+				list.add(loc.getMenu("UpperLimit"));
+				list.add(loc.getMenu("StandardError.short"));
+				list.add(loc.getMenu("DegreesOfFreedom.short"));
+				break;
 		}
 
 		String[] columnNames = new String[list.size()];
 		list.toArray(columnNames);
 		listener.setStatTable(1, null, columnNames.length, columnNames);
-
 	}
 
 	/**
@@ -211,46 +206,44 @@ public class TwoVarInferenceModel {
 		}
 
 		switch (selectedInference) {
-		default:
-			// do nothing
-			break;
-		case StatisticsModel.INFER_T_TEST_2MEANS:
-		case StatisticsModel.INFER_T_TEST_PAIRED:
+			default:
+				// do nothing
+				break;
+			case StatisticsModel.INFER_T_TEST_2MEANS:
+			case StatisticsModel.INFER_T_TEST_PAIRED:
+				if (selectedInference == StatisticsModel.INFER_T_TEST_PAIRED) {
+					listener.setFormattedValueAt(meanDifference, 0, 0);
+				} else {
+					listener.setFormattedValueAt(diffMeans, 0, 0);
+				}
 
-			if (selectedInference == StatisticsModel.INFER_T_TEST_PAIRED) {
-				listener.setFormattedValueAt(meanDifference, 0, 0);
-			} else {
-				listener.setFormattedValueAt(diffMeans, 0, 0);
-			}
+				listener.setFormattedValueAt(P, 0, 1);
+				listener.setFormattedValueAt(t, 0, 2);
+				listener.setFormattedValueAt(se, 0, 3);
+				listener.setFormattedValueAt(df, 0, 4);
+				break;
 
-			listener.setFormattedValueAt(P, 0, 1);
-			listener.setFormattedValueAt(t, 0, 2);
-			listener.setFormattedValueAt(se, 0, 3);
-			listener.setFormattedValueAt(df, 0, 4);
-			break;
+			case StatisticsModel.INFER_T_INT_2MEANS:
+			case StatisticsModel.INFER_T_INT_PAIRED:
+				if (selectedInference == StatisticsModel.INFER_T_INT_PAIRED) {
+					listener.setFormattedValueAt(meanDifference, 0, 0);
+				} else {
+					listener.setFormattedValueAt(diffMeans, 0, 0);
+				}
 
-		case StatisticsModel.INFER_T_INT_2MEANS:
-		case StatisticsModel.INFER_T_INT_PAIRED:
+				listener.setFormattedValueAt(me, 0, 1);
+				listener.setFormattedValueAt(lower, 0, 2);
+				listener.setFormattedValueAt(upper, 0, 3);
+				listener.setFormattedValueAt(se, 0, 4);
+				listener.setFormattedValueAt(df, 0, 5);
 
-			if (selectedInference == StatisticsModel.INFER_T_INT_PAIRED) {
-				listener.setFormattedValueAt(meanDifference, 0, 0);
-			} else {
-				listener.setFormattedValueAt(diffMeans, 0, 0);
-			}
-
-			listener.setFormattedValueAt(me, 0, 1);
-			listener.setFormattedValueAt(lower, 0, 2);
-			listener.setFormattedValueAt(upper, 0, 3);
-			listener.setFormattedValueAt(se, 0, 4);
-			listener.setFormattedValueAt(df, 0, 5);
-
-			break;
+				break;
 		}
 	}
 
 	/**
 	 * Evaluate
-	 * 
+	 *
 	 * @return whether evaluation was successful
 	 **/
 	public boolean evaluate() {
@@ -259,16 +252,14 @@ public class TwoVarInferenceModel {
 
 		GeoList dataCollection = listener.getDataSelected();
 
-		GeoList dataList1 = (GeoList) dataCollection
-				.get(listener.getSelectedDataIndex(0));
+		GeoList dataList1 = (GeoList) dataCollection.get(listener.getSelectedDataIndex(0));
 		double[] sample1 = DataAnalysisController.getValueArray(dataList1);
 		SummaryStatistics stats1 = new SummaryStatistics();
 		for (int i = 0; i < sample1.length; i++) {
 			stats1.addValue(sample1[i]);
 		}
 
-		GeoList dataList2 = (GeoList) dataCollection
-				.get(listener.getSelectedDataIndex(1));
+		GeoList dataList2 = (GeoList) dataCollection.get(listener.getSelectedDataIndex(1));
 		double[] sample2 = DataAnalysisController.getValueArray(dataList2);
 		SummaryStatistics stats2 = new SummaryStatistics();
 		for (int i = 0; i < sample2.length; i++) {
@@ -288,73 +279,69 @@ public class TwoVarInferenceModel {
 		try {
 
 			switch (selectedInference) {
-			default:
-				// do nothing
-				break;
-			case StatisticsModel.INFER_T_TEST_2MEANS:
-			case StatisticsModel.INFER_T_INT_2MEANS:
+				default:
+					// do nothing
+					break;
+				case StatisticsModel.INFER_T_TEST_2MEANS:
+				case StatisticsModel.INFER_T_INT_2MEANS:
 
-				// get statistics
-				mean1 = StatUtils.mean(sample1);
-				mean2 = StatUtils.mean(sample2);
-				diffMeans = mean1 - mean2;
-				n1 = stats1.getN();
-				n2 = stats2.getN();
-				double v1 = stats1.getVariance();
-				double v2 = stats2.getVariance();
-				df = getDegreeOfFreedom(v1, v2, n1, n2, isPooled());
+					// get statistics
+					mean1 = StatUtils.mean(sample1);
+					mean2 = StatUtils.mean(sample2);
+					diffMeans = mean1 - mean2;
+					n1 = stats1.getN();
+					n2 = stats2.getN();
+					double v1 = stats1.getVariance();
+					double v2 = stats2.getVariance();
+					df = getDegreeOfFreedom(v1, v2, n1, n2, isPooled());
 
-				if (isPooled()) {
-					double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
-							/ (n1 + n2 - 2);
-					se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-				} else {
-					se = Math.sqrt((v1 / n1) + (v2 / n2));
-				}
+					if (isPooled()) {
+						double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2) / (n1 + n2 - 2);
+						se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
+					} else {
+						se = Math.sqrt((v1 / n1) + (v2 / n2));
+					}
 
-				// get confidence interval
-				tDist = new TDistribution(df);
-				tCritical = tDist.inverseCumulativeProbability(
-						(getConfLevel() + 1d) / 2);
-				me = tCritical * se;
-				upper = diffMeans + me;
-				lower = diffMeans - me;
+					// get confidence interval
+					tDist = new TDistribution(df);
+					tCritical = tDist.inverseCumulativeProbability((getConfLevel() + 1d) / 2);
+					me = tCritical * se;
+					upper = diffMeans + me;
+					lower = diffMeans - me;
 
-				// get test results
-				if (isPooled()) {
-					t = tTestImpl.homoscedasticT(sample1, sample2);
-					P = tTestImpl.homoscedasticTTest(sample1, sample2);
-				} else {
-					t = tTestImpl.t(sample1, sample2);
-					P = tTestImpl.tTest(sample1, sample2);
-				}
-				P = adjustedPValue(P, t, tail);
+					// get test results
+					if (isPooled()) {
+						t = tTestImpl.homoscedasticT(sample1, sample2);
+						P = tTestImpl.homoscedasticTTest(sample1, sample2);
+					} else {
+						t = tTestImpl.t(sample1, sample2);
+						P = tTestImpl.tTest(sample1, sample2);
+					}
+					P = adjustedPValue(P, t, tail);
 
-				break;
+					break;
 
-			case StatisticsModel.INFER_T_TEST_PAIRED:
-			case StatisticsModel.INFER_T_INT_PAIRED:
+				case StatisticsModel.INFER_T_TEST_PAIRED:
+				case StatisticsModel.INFER_T_INT_PAIRED:
 
-				// get statistics
-				n1 = sample1.length;
-				meanDifference = StatUtils.meanDifference(sample1, sample2);
-				se = Math.sqrt(StatUtils.varianceDifference(sample1, sample2,
-						meanDifference) / n1);
-				df = n1 - 1;
+					// get statistics
+					n1 = sample1.length;
+					meanDifference = StatUtils.meanDifference(sample1, sample2);
+					se = Math.sqrt(StatUtils.varianceDifference(sample1, sample2, meanDifference) / n1);
+					df = n1 - 1;
 
-				tDist = new TDistribution(df);
-				tCritical = tDist.inverseCumulativeProbability(
-						(getConfLevel() + 1d) / 2);
-				me = tCritical * se;
-				upper = meanDifference + me;
-				lower = meanDifference - me;
+					tDist = new TDistribution(df);
+					tCritical = tDist.inverseCumulativeProbability((getConfLevel() + 1d) / 2);
+					me = tCritical * se;
+					upper = meanDifference + me;
+					lower = meanDifference - me;
 
-				// get test results
-				t = meanDifference / se;
-				P = 2.0 * tDist.cumulativeProbability(-Math.abs(t));
-				P = adjustedPValue(P, t, tail);
+					// get test results
+					t = meanDifference / se;
+					P = 2.0 * tDist.cumulativeProbability(-Math.abs(t));
+					P = adjustedPValue(P, t, tail);
 
-				break;
+					break;
 			}
 
 		} catch (RuntimeException e) {
@@ -378,8 +365,7 @@ public class TwoVarInferenceModel {
 	 *            tail type
 	 * @return new p value
 	 */
-	public static double adjustedPValue(double p, double testStatistic,
-			String tail) {
+	public static double adjustedPValue(double p, double testStatistic, String tail) {
 
 		// two sided test
 		if (tail.equals(tail_two)) {
@@ -395,7 +381,7 @@ public class TwoVarInferenceModel {
 	/**
 	 * Computes approximate degrees of freedom for 2-sample t-estimate. (code
 	 * from Apache commons, TTest class)
-	 * 
+	 *
 	 * @param v1
 	 *            first sample variance
 	 * @param v2
@@ -408,21 +394,21 @@ public class TwoVarInferenceModel {
 	 *            whether pooled data is used
 	 * @return approximate degrees of freedom
 	 */
-	public double getDegreeOfFreedom(double v1, double v2, double size1, double size2,
-			boolean dataPooled) {
+	public double getDegreeOfFreedom(
+			double v1, double v2, double size1, double size2, boolean dataPooled) {
 
 		if (dataPooled) {
 			return size1 + size2 - 2;
 		}
-		return (v1 / size1 + v2 / size2) * (v1 / size1 + v2 / size2)
-				/ (v1 * v1 / (size1 * size1 * (size1 - 1d))
-						+ v2 * v2 / (size2 * size2 * (size2 - 1d)));
+		return (v1 / size1 + v2 / size2)
+				* (v1 / size1 + v2 / size2)
+				/ (v1 * v1 / (size1 * size1 * (size1 - 1d)) + v2 * v2 / (size2 * size2 * (size2 - 1d)));
 	}
 
 	/**
 	 * Computes margin of error for 2-sample t-estimate; this is the half-width
 	 * of the confidence interval
-	 * 
+	 *
 	 * @param v1
 	 *            first sample variance
 	 * @param v2
@@ -439,26 +425,22 @@ public class TwoVarInferenceModel {
 	 * @throws ArithmeticException
 	 *             when parameters are out f range
 	 */
-	public double getMarginOfError(double v1, double size1, double v2, double size2,
-			double confidenceLevel, boolean dataPooled) throws ArithmeticException {
+	public double getMarginOfError(
+			double v1, double size1, double v2, double size2, double confidenceLevel, boolean dataPooled)
+			throws ArithmeticException {
 
 		if (dataPooled) {
 
-			double pooledVariance = ((size1 - 1) * v1 + (size2 - 1) * v2)
-					/ (size1 + size2 - 2);
+			double pooledVariance = ((size1 - 1) * v1 + (size2 - 1) * v2) / (size1 + size2 - 2);
 			double se1 = Math.sqrt(pooledVariance * (1d / size1 + 1d / size2));
-			tDist = new TDistribution(
-					getDegreeOfFreedom(v1, v2, size1, size2, dataPooled));
+			tDist = new TDistribution(getDegreeOfFreedom(v1, v2, size1, size2, dataPooled));
 			double a = tDist.inverseCumulativeProbability((confidenceLevel + 1d) / 2);
 			return a * se1;
-
 		}
 		double stdE = Math.sqrt((v1 / size1) + (v2 / size2));
-		tDist = new TDistribution(
-				getDegreeOfFreedom(v1, v2, size1, size2, dataPooled));
+		tDist = new TDistribution(getDegreeOfFreedom(v1, v2, size1, size2, dataPooled));
 		double a = tDist.inverseCumulativeProbability((confidenceLevel + 1d) / 2);
 		return a * stdE;
-
 	}
 
 	public void setSelectedInference(int value) {
@@ -530,7 +512,6 @@ public class TwoVarInferenceModel {
 			listener.selectAltHyp(0);
 		} else {
 			listener.selectAltHyp(2);
-
 		}
 	}
 }

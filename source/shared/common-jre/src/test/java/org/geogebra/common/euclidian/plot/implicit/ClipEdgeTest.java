@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,8 +31,7 @@ class ClipEdgeTest {
 
 	@BeforeEach
 	void setup() {
-		EuclidianViewBounds bounds = new EuclidianViewBoundsRWSCMock(-10, 10, -10, 10,
-				1000, 1000);
+		EuclidianViewBounds bounds = new EuclidianViewBoundsRWSCMock(-10, 10, -10, 10, 1000, 1000);
 		rect = new ClipRect(bounds, 0);
 		eps = new ClipEpsilon(1e-9, 1e-9);
 	}
@@ -47,9 +46,9 @@ class ClipEdgeTest {
 
 	@Test
 	void testCwCorner() {
-		assertPointEquals(-10, 10, ClipEdge.LEFT.cwCorner(rect));    // left -> top-left
-		assertPointEquals(10, 10, ClipEdge.TOP.cwCorner(rect));      // top  -> top-right
-		assertPointEquals(10, -10, ClipEdge.RIGHT.cwCorner(rect));   // right-> bottom-right
+		assertPointEquals(-10, 10, ClipEdge.LEFT.cwCorner(rect)); // left -> top-left
+		assertPointEquals(10, 10, ClipEdge.TOP.cwCorner(rect)); // top  -> top-right
+		assertPointEquals(10, -10, ClipEdge.RIGHT.cwCorner(rect)); // right-> bottom-right
 		assertPointEquals(-10, -10, ClipEdge.BOTTOM.cwCorner(rect)); // bottom-> bottom-left
 	}
 
@@ -75,7 +74,7 @@ class ClipEdgeTest {
 	@Test
 	void intersectSegmentHitsTopAtCenter() {
 		// Vertical segment crossing y = ymax at x = 0 -> TOP at its midpoint (t=0.5)
-		MyPoint point1 = new MyPoint(0, 12);  // above
+		MyPoint point1 = new MyPoint(0, 12); // above
 		MyPoint point2 = new MyPoint(0, -12); // below
 		EdgeHit hit = ClipEdge.TOP.intersectSegment(rect, point1, point2, 7, eps);
 

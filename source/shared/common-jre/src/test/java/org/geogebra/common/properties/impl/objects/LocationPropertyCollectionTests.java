@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -36,10 +36,9 @@ class LocationPropertyCollectionTests extends BaseAppTestSetup {
 	void testTogglingGraphicsViewVisibility() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoPoint point = evaluateGeoElement("A = (0, 0)");
-		LocationPropertyCollection locationPropertyCollection = new LocationPropertyCollection(
-				propertiesFactory, getLocalization(), List.of(point));
-		BooleanProperty graphicsViewLocationProperty =
-				locationPropertyCollection.getProperties()[1];
+		LocationPropertyCollection locationPropertyCollection =
+				new LocationPropertyCollection(propertiesFactory, getLocalization(), List.of(point));
+		BooleanProperty graphicsViewLocationProperty = locationPropertyCollection.getProperties()[1];
 
 		graphicsViewLocationProperty.setValue(false);
 		assertFalse(graphicsViewLocationProperty.getValue());
@@ -54,10 +53,9 @@ class LocationPropertyCollectionTests extends BaseAppTestSetup {
 	void testTogglingGraphics3DViewVisibility() {
 		setupApp(SuiteSubApp.G3D);
 		GeoPoint point = evaluateGeoElement("A = (0, 0)");
-		LocationPropertyCollection locationPropertyCollection = new LocationPropertyCollection(
-				propertiesFactory, getLocalization(), List.of(point));
-		BooleanProperty graphicsView3DLocationProperty =
-				locationPropertyCollection.getProperties()[3];
+		LocationPropertyCollection locationPropertyCollection =
+				new LocationPropertyCollection(propertiesFactory, getLocalization(), List.of(point));
+		BooleanProperty graphicsView3DLocationProperty = locationPropertyCollection.getProperties()[3];
 
 		graphicsView3DLocationProperty.setValue(false);
 		assertFalse(graphicsView3DLocationProperty.getValue());

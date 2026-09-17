@@ -40,9 +40,12 @@ public class ColorObjectModel extends OptionsModel {
 	public interface IColorObjectListener extends PropertyListener {
 
 		@MissingDoc
-		void updateChooser(boolean equalObjColor,
-				boolean equalObjColorBackground, boolean allFillable,
-				boolean hasBackground, boolean hasAlpha);
+		void updateChooser(
+				boolean equalObjColor,
+				boolean equalObjColorBackground,
+				boolean allFillable,
+				boolean hasBackground,
+				boolean hasAlpha);
 
 		@MissingDoc
 		void updatePreview(GColor col, double alpha);
@@ -51,9 +54,8 @@ public class ColorObjectModel extends OptionsModel {
 		boolean isBackgroundColorSelected();
 
 		@MissingDoc
-		void updateNoBackground(GeoElement geo, GColor col, double alpha,
-				boolean updateAlphaOnly, boolean allFillable);
-
+		void updateNoBackground(
+				GeoElement geo, GColor col, double alpha, boolean updateAlphaOnly, boolean allFillable);
 	}
 
 	public ColorObjectModel(App app) {
@@ -105,27 +107,27 @@ public class ColorObjectModel extends OptionsModel {
 			if (geo0.getBackgroundColor() == null) {
 				// test for all null background color
 				for (int i = 1; i < getGeosLength(); i++) {
-				temp = getGeoAt(i);
-				if (temp.getBackgroundColor() != null) {
-				equalObjColorBackground = false;
-				break;
-				}
+					temp = getGeoAt(i);
+					if (temp.getBackgroundColor() != null) {
+						equalObjColorBackground = false;
+						break;
+					}
 				}
 			} else {
 				// test for all same background color
 				for (int i = 1; i < getGeosLength(); i++) {
-				temp = getGeoAt(i);
-				// same background color
-				if (!geo0.getBackgroundColor().equals(temp.getBackgroundColor())) {
-				equalObjColorBackground = false;
-				break;
-				}
+					temp = getGeoAt(i);
+					// same background color
+					if (!geo0.getBackgroundColor().equals(temp.getBackgroundColor())) {
+						equalObjColorBackground = false;
+						break;
+					}
 				}
 			}
 		}
 
-		listener.updateChooser(equalObjColor, equalObjColorBackground,
-				allFillable, hasBackground, hasOpacity(geo0));
+		listener.updateChooser(
+				equalObjColor, equalObjColorBackground, allFillable, hasBackground, hasOpacity(geo0));
 	}
 
 	protected boolean hasOpacity(GeoElement geo) {
@@ -139,8 +141,7 @@ public class ColorObjectModel extends OptionsModel {
 	/**
 	 * Sets color of selected GeoElements
 	 */
-	private void updateColor(GColor col, double alpha,
-			boolean updateAlphaOnly) {
+	private void updateColor(GColor col, double alpha, boolean updateAlphaOnly) {
 		if (col == null || getGeos() == null) {
 			return;
 		}
@@ -154,12 +155,10 @@ public class ColorObjectModel extends OptionsModel {
 			if (hasBackground && listener.isBackgroundColorSelected()) {
 				geo.setBackgroundColor(col);
 			} else {
-				listener.updateNoBackground(geo, col, alpha, updateAlphaOnly,
-						allFillable);
+				listener.updateNoBackground(geo, col, alpha, updateAlphaOnly, allFillable);
 			}
 
 			geo.updateVisualStyle(GProperty.COLOR);
-
 		}
 		kernel.notifyRepaint();
 	}
@@ -234,7 +233,6 @@ public class ColorObjectModel extends OptionsModel {
 			geo.updateVisualStyle(GProperty.COLOR);
 		}
 		kernel.notifyRepaint();
-
 	}
 
 	public boolean isSequentialColor() {
@@ -266,7 +264,6 @@ public class ColorObjectModel extends OptionsModel {
 
 	public ChartStyle getChartStyle() {
 		return isBarChart() ? ((ChartStyleGeo) getGeoAt(0)).getStyle() : null;
-
 	}
 
 	public boolean isBarChart() {
@@ -282,8 +279,7 @@ public class ColorObjectModel extends OptionsModel {
 		boolean updateAlphaOnly = color == null;
 		if (idx == ALL_BARS) {
 			GeoElement geo = getGeoAt(0);
-			for (int numBar = 1; numBar < getBarChartIntervals()
-					+ 1; numBar++) {
+			for (int numBar = 1; numBar < getBarChartIntervals() + 1; numBar++) {
 				if (!updateAlphaOnly) {
 					algo.setBarColor(null, numBar);
 				}
@@ -300,7 +296,6 @@ public class ColorObjectModel extends OptionsModel {
 			kernel.notifyRepaint();
 			app.getUndoManager().storeUndoInfo();
 			return;
-
 		}
 
 		if (!updateAlphaOnly) {

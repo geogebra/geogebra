@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2008, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -7,7 +7,7 @@
  * "license.txt" or
  * http://jung.sourceforge.net/license.txt for a description.
  * Created on Jun 7, 2008
- * 
+ *
  */
 package edu.uci.ics.jung.algorithms.metrics;
 
@@ -34,13 +34,12 @@ public class Metrics {
 	 * </ul>
 	 * <b>Note</b>: This algorithm treats its argument as an undirected graph;
 	 * edge direction is ignored.
-	 * 
+	 *
 	 * @param graph
 	 *            the graph whose clustering coefficients are to be calculated
 	 * @see "The structure and function of complex networks, M.E.J. Newman, aps.arxiv.org/abs/cond-mat/0303516"
 	 */
-	public static <V, E> Map<V, Double> clusteringCoefficients(
-			Graph<V, E> graph) {
+	public static <V, E> Map<V, Double> clusteringCoefficients(Graph<V, E> graph) {
 		Map<V, Double> coefficients = new HashMap<V, Double>();
 
 		for (V v : graph.getVertices()) {
@@ -49,8 +48,7 @@ public class Metrics {
 				coefficients.put(v, 0.0);
 			} else {
 				// how many of v's neighbors are connected to each other?
-				ArrayList<V> neighbors = new ArrayList<V>(
-						graph.getNeighbors(v));
+				ArrayList<V> neighbors = new ArrayList<V>(graph.getNeighbors(v));
 				double edge_count = 0;
 				for (int i = 0; i < n; i++) {
 					V w = neighbors.get(i);

@@ -20,9 +20,9 @@ import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 
 /**
  * @author G. Sturr
- * 
+ *
  *         Settings for DataAnalysisView displays
- * 
+ *
  */
 public class StatPanelSettings extends PlotSettings {
 
@@ -63,7 +63,10 @@ public class StatPanelSettings extends PlotSettings {
 	 * Moodes of coordinate transformations.
 	 */
 	public enum CoordMode {
-		STANDTOSTAND(0), LOGTOSTAND(1), STANDTOLOG(2), LOGTOLOG(3);
+		STANDTOSTAND(0),
+		LOGTOSTAND(1),
+		STANDTOLOG(2),
+		LOGTOLOG(3);
 		private final int mode;
 
 		CoordMode(int mode) {
@@ -267,27 +270,26 @@ public class StatPanelSettings extends PlotSettings {
 	public void setCoordMode(CoordMode coordMode) {
 		this.coordMode = coordMode;
 		switch (coordMode) {
-		case STANDTOSTAND:
-			this.logXAxis = false;
-			this.logYAxis = false;
-			break;
-		case LOGTOSTAND:
-			this.logXAxis = true;
-			this.logYAxis = false;
-			break;
-		case STANDTOLOG:
-			this.logXAxis = false;
-			this.logYAxis = true;
-			break;
-		case LOGTOLOG:
-			this.logXAxis = true;
-			this.logYAxis = true;
-			break;
+			case STANDTOSTAND:
+				this.logXAxis = false;
+				this.logYAxis = false;
+				break;
+			case LOGTOSTAND:
+				this.logXAxis = true;
+				this.logYAxis = false;
+				break;
+			case STANDTOLOG:
+				this.logXAxis = false;
+				this.logYAxis = true;
+				break;
+			case LOGTOLOG:
+				this.logXAxis = true;
+				this.logYAxis = true;
+				break;
 		}
 	}
 
 	public CoordMode getCoordMode() {
 		return coordMode;
 	}
-
 }

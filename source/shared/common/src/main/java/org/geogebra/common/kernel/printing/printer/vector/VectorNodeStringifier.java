@@ -30,75 +30,81 @@ import org.geogebra.common.kernel.printing.printer.expression.ValueExpressionPri
  */
 public class VectorNodeStringifier {
 
-    private final PrintableVector vector;
+	private final PrintableVector vector;
 
-    private final Map<VectorPrintingMode, ? extends Printer> printerMap;
-    private Printer activePrinter;
+	private final Map<VectorPrintingMode, ? extends Printer> printerMap;
+	private Printer activePrinter;
 
-    private ExpressionPrinter defaultExpressionPrinter;
-    private ExpressionPrinter valueExpressionPrinter;
+	private ExpressionPrinter defaultExpressionPrinter;
+	private ExpressionPrinter valueExpressionPrinter;
 
-    /**
-     * @param vector vector
-     * @param printerMap map of the printers
-     */
-    public VectorNodeStringifier(PrintableVector vector,
-                                 Map<VectorPrintingMode, ? extends Printer> printerMap) {
-        this.vector = vector;
-        this.printerMap = printerMap;
-        initPrinters();
-        initExpressionPrinters();
-    }
+	/**
+	 * @param vector vector
+	 * @param printerMap map of the printers
+	 */
+	public VectorNodeStringifier(
+			PrintableVector vector, Map<VectorPrintingMode, ? extends Printer> printerMap) {
+		this.vector = vector;
+		this.printerMap = printerMap;
+		initPrinters();
+		initExpressionPrinters();
+	}
 
-    private void initPrinters() {
-        activePrinter = printerMap.get(VectorPrintingMode.Polar);
-    }
+	private void initPrinters() {
+		activePrinter = printerMap.get(VectorPrintingMode.Polar);
+	}
 
-    private void initExpressionPrinters() {
-        defaultExpressionPrinter = new DefaultExpressionPrinter();
-        valueExpressionPrinter = new ValueExpressionPrinter();
-    }
+	private void initExpressionPrinters() {
+		defaultExpressionPrinter = new DefaultExpressionPrinter();
+		valueExpressionPrinter = new ValueExpressionPrinter();
+	}
 
-    /**
-     * Get definition string representation.
-     * @param tpl template
-     * @return definition string
-     */
-    public String toString(StringTemplate tpl) {
-        return printVector(activePrinter, defaultExpressionPrinter, vector, tpl);
-    }
+	/**
+	 * Get definition string representation.
+	 * @param tpl template
+	 * @return definition string
+	 */
+	public String toString(StringTemplate tpl) {
+		return printVector(activePrinter, defaultExpressionPrinter, vector, tpl);
+	}
 
-    private String printVector(Printer activePrinter, ExpressionPrinter coordPrinter,
-            PrintableVector vector, StringTemplate tpl) {
-        return activePrinter.print(coordPrinter.print(vector.getX(), tpl),
-                coordPrinter.print(vector.getY(), tpl),
-                vector.getZ() == null ? "0" : coordPrinter.print(vector.getZ(), tpl),
-                vector, tpl, vector.getLocalization());
-    }
+	private String printVector(
+			Printer activePrinter,
+			ExpressionPrinter coordPrinter,
+			PrintableVector vector,
+			StringTemplate tpl) {
+		return activePrinter.print(
+				coordPrinter.print(vector.getX(), tpl),
+				coordPrinter.print(vector.getY(), tpl),
+				vector.getZ() == null ? "0" : coordPrinter.print(vector.getZ(), tpl),
+				vector,
+				tpl,
+				vector.getLocalization());
+	}
 
-    /**
-     * Get definition string representation.
-     * @param tpl template
-     * @param mode printing mode
-     * @return definition string
-     */
-    public String toString(StringTemplate tpl, VectorPrintingMode mode) {
-        return printVector(printerMap.get(mode), defaultExpressionPrinter, vector, tpl);
-    }
+	/**
+	 * Get definition string representation.
+	 * @param tpl template
+	 * @param mode printing mode
+	 * @return definition string
+	 */
+	public String toString(StringTemplate tpl, VectorPrintingMode mode) {
+		return printVector(printerMap.get(mode), defaultExpressionPrinter, vector, tpl);
+	}
 
-    /**
-     * Get vector's value string representation.
-     * @param tpl string template
-     * @return value string
-     */
-    public String toValueString(StringTemplate tpl) {
-        return printVector(activePrinter, valueExpressionPrinter, vector, tpl);
-    }
+	/**
+	 * Get vector's value string representation.
+	 * @param tpl string template
+	 * @return value string
+	 */
+	public String toValueString(StringTemplate tpl) {
+		return printVector(activePrinter, valueExpressionPrinter, vector, tpl);
+	}
 
-    /**
-     * @param printingMode printing mode
-     */
-    public void setPrintingMode(VectorPrintingMode printingMode) {
-        activePrinter = printerMap.get(printingMode);
-    }
+	/**
+	 * @param printingMode printing mode
+	 */
+	public void setPrintingMode(VectorPrintingMode printingMode) {
+		activePrinter = printerMap.get(printingMode);
+	}
 }

@@ -51,31 +51,31 @@ public class GraphingTest {
 
 	@Test
 	public void equationFormInitialized() {
-		GeoElementND line = app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand("2x + 4 = 6", false)[0];
+		GeoElementND line =
+				app.getKernel().getAlgebraProcessor().processAlgebraCommand("2x + 4 = 6", false)[0];
 		assertEquals("2x + 4 = 6", line.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	public void noEquationDragging() {
-		assertTrue("should not allow dragging equations",
+		assertTrue(
+				"should not allow dragging equations",
 				app.getSettings().getAlgebra().isEquationChangeByDragRestricted());
 	}
 
 	@Test
 	public void syntaxesShouldBeFiltered() {
-		AppMocker.mockLocalization(key ->
-				"Invert.Syntax".equals(key) ? "[ <function> ]\n[ <matrix> ]" : key);
-		assertEquals(1, app.getAutocompleteProvider()
-				.getSyntaxes("Invert").size());
+		AppMocker.mockLocalization(
+				key -> "Invert.Syntax".equals(key) ? "[ <function> ]\n[ <matrix> ]" : key);
+		assertEquals(1, app.getAutocompleteProvider().getSyntaxes("Invert").size());
 	}
 
 	@Test
 	public void openKeyboardShouldNotInitializeOpenFileView() {
-		app.showKeyboard(((DockPanelW) app.getLayout()
-				.getDockManager().getPanel(App.VIEW_ALGEBRA)).getKeyboardListener(), true);
+		app.showKeyboard(
+				((DockPanelW) app.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
+						.getKeyboardListener(),
+				true);
 		assertThat(app.getGuiManager().isOpenFileViewLoaded(), equalTo(false));
 	}
-
 }
-

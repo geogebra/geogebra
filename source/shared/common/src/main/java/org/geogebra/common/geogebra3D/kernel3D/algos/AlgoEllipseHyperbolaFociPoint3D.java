@@ -27,21 +27,25 @@ import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 
-public class AlgoEllipseHyperbolaFociPoint3D
-		extends AlgoEllipseHyperbolaFociPointND {
+public class AlgoEllipseHyperbolaFociPoint3D extends AlgoEllipseHyperbolaFociPointND {
 	private GeoPoint A2d;
 	private GeoPoint B2d;
 	private GeoPoint C2d;
 	private Coords project;
 
-	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C,
-			GeoDirectionND orientation, final int type) {
+	public AlgoEllipseHyperbolaFociPoint3D(
+			Construction cons,
+			String label,
+			GeoPointND A,
+			GeoPointND B,
+			GeoPointND C,
+			GeoDirectionND orientation,
+			final int type) {
 		super(cons, label, A, B, C, orientation, type);
 	}
 
-	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C, final int type) {
+	public AlgoEllipseHyperbolaFociPoint3D(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoPointND C, final int type) {
 		this(cons, label, A, B, C, null, type);
 	}
 
@@ -88,8 +92,7 @@ public class AlgoEllipseHyperbolaFociPoint3D
 	 *            point on ellipse coords
 	 * @return true if coord sys is possible
 	 */
-	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc,
-			Coords Cc) {
+	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc, Coords Cc) {
 
 		// set the coord sys
 		cs.addPoint(Ac);
@@ -130,5 +133,4 @@ public class AlgoEllipseHyperbolaFociPoint3D
 	protected void initCoords() {
 		project = new Coords(4);
 	}
-
 }

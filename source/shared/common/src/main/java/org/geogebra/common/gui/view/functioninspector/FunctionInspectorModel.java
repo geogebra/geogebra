@@ -81,7 +81,10 @@ public class FunctionInspectorModel {
 	 * TODO just use colors directly.
 	 */
 	public enum Colors {
-		GEO, GEO2, EVEN_ROW, GRID
+		GEO,
+		GEO2,
+		EVEN_ROW,
+		GRID
 	}
 
 	// column types
@@ -138,6 +141,7 @@ public class FunctionInspectorModel {
 	 * Default number format
 	 */
 	private int printFigures = -1;
+
 	private int printDecimals = 4;
 
 	/**
@@ -149,8 +153,7 @@ public class FunctionInspectorModel {
 		void updateXYTable(boolean isTable);
 
 		@MissingDoc
-		void updateInterval(ArrayList<String> property,
-				ArrayList<String> value);
+		void updateInterval(ArrayList<String> property, ArrayList<String> value);
 
 		@MissingDoc
 		void setXYValueAt(Double value, int row, int col);
@@ -188,7 +191,7 @@ public class FunctionInspectorModel {
 
 	/**
 	 * Constructs a model for FunctionInspector view.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param selectedGeo
@@ -196,8 +199,8 @@ public class FunctionInspectorModel {
 	 * @param listener
 	 *            model listener
 	 */
-	public FunctionInspectorModel(App app, GeoFunction selectedGeo,
-			IFunctionInspectorListener listener) {
+	public FunctionInspectorModel(
+			App app, GeoFunction selectedGeo, IFunctionInspectorListener listener) {
 
 		this.app = app;
 		loc = app.getLocalization();
@@ -270,8 +273,8 @@ public class FunctionInspectorModel {
 	 * @param isTable
 	 *            whether to show points
 	 */
-	public void updatePoints(boolean isTangent, boolean isOscCircle,
-			boolean isXYSegments, boolean isTable) {
+	public void updatePoints(
+			boolean isTangent, boolean isOscCircle, boolean isXYSegments, boolean isTable) {
 
 		tangentLine.setEuclidianVisible(isTangent);
 		tangentLine.update();
@@ -291,7 +294,7 @@ public class FunctionInspectorModel {
 	 * Updates the tab panels and thus the entire GUI. Also updates the active
 	 * EV to hide/show temporary GeoElements associated with the
 	 * FunctionInspector (e.g. points, integral)
-	 * 
+	 *
 	 * @param isInterval
 	 *            whether interval tab is active
 	 */
@@ -389,12 +392,12 @@ public class FunctionInspectorModel {
 
 		property.add(loc.getCommand("Min"));
 		values.add("(" + format(xMinInt) + " , " + format(yMinInt) + ")");
-		Double[] min = { xMinInt, yMinInt };
+		Double[] min = {xMinInt, yMinInt};
 		value2.add(min);
 
 		property.add(loc.getCommand("Max"));
 		values.add("(" + format(xMaxInt) + " , " + format(yMaxInt) + ")");
-		Double[] max = { xMaxInt, yMaxInt };
+		Double[] max = {xMaxInt, yMaxInt};
 		value2.add(max);
 
 		property.add(null);
@@ -402,10 +405,8 @@ public class FunctionInspectorModel {
 		value2.add(null);
 
 		// calculate roots
-		ExpressionNode low = new ExpressionNode(kernel, lowPoint,
-				Operation.XCOORD, null);
-		ExpressionNode high = new ExpressionNode(kernel, highPoint,
-				Operation.XCOORD, null);
+		ExpressionNode low = new ExpressionNode(kernel, lowPoint, Operation.XCOORD, null);
+		ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);
 		AlgoDependentNumber xLow = new AlgoDependentNumber(cons, low, false);
 		cons.removeFromConstructionList(xLow);
 		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
@@ -416,9 +417,8 @@ public class FunctionInspectorModel {
 		if (selectedGeo.isPolynomialFunction(false)) {
 			roots = new AlgoRootsPolynomial(cons, selectedGeo);
 		} else {
-			roots = new AlgoRoots(cons, selectedGeo,
-					(GeoNumeric) xLow.getOutput(0),
-					(GeoNumeric) xHigh.getOutput(0));
+			roots = new AlgoRoots(
+					cons, selectedGeo, (GeoNumeric) xLow.getOutput(0), (GeoNumeric) xHigh.getOutput(0));
 		}
 
 		cons.removeFromConstructionList(roots);
@@ -434,8 +434,7 @@ public class FunctionInspectorModel {
 			GeoPoint p = (GeoPoint) rootGeos[i];
 			if (p.isDefined()) {
 				double rt = p.inhomX;
-				if (DoubleUtil.isGreaterEqual(rt, xMin)
-						&& DoubleUtil.isGreaterEqual(xMax, rt)) {
+				if (DoubleUtil.isGreaterEqual(rt, xMin) && DoubleUtil.isGreaterEqual(xMax, rt)) {
 					root = rt;
 					count++;
 				}
@@ -443,18 +442,18 @@ public class FunctionInspectorModel {
 		}
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (count) {
-		case 0:
-			values.add(loc.getMenu("fncInspector.NoRoots"));
-			value2.add(null);
-			break;
-		case 1:
-			values.add(kernel.format(root, tpl));
-			Double[] r = { root };
-			value2.add(r);
-			break;
-		default:
-			values.add(loc.getMenu("fncInspector.MultipleRoots"));
-			value2.add(null);
+			case 0:
+				values.add(loc.getMenu("fncInspector.NoRoots"));
+				value2.add(null);
+				break;
+			case 1:
+				values.add(kernel.format(root, tpl));
+				Double[] r = {root};
+				value2.add(r);
+				break;
+			default:
+				values.add(loc.getMenu("fncInspector.MultipleRoots"));
+				value2.add(null);
 		}
 		// get the table
 
@@ -465,25 +464,25 @@ public class FunctionInspectorModel {
 		final double integral = ((GeoNumeric) integralGeo).getDouble();
 		property.add(loc.getCommand("Integral"));
 		values.add(format(integral));
-		Double[] in = { integral };
+		Double[] in = {integral};
 		value2.add(in);
 
 		final double area = ((GeoNumeric) areaGeo).getDouble();
 		property.add(loc.getCommand("Area"));
 		values.add(format(area));
-		Double[] a = { area };
+		Double[] a = {area};
 		value2.add(a);
 
 		final double mean = integral / (xMax - xMin);
 		property.add(loc.getCommand("Mean"));
 		values.add(format(mean));
-		Double[] m = { mean };
+		Double[] m = {mean};
 		value2.add(m);
 
 		final double length = ((GeoNumeric) lengthGeo).getDouble();
 		property.add(loc.getCommand("Length"));
 		values.add(format(length));
-		Double[] l = { length };
+		Double[] l = {length};
 		value2.add(l);
 
 		listener.updateInterval(property, values);
@@ -501,11 +500,9 @@ public class FunctionInspectorModel {
 		StringTemplate highPrecision;
 		// override the default decimal place setting
 		if (getPrintDecimals() >= 0) {
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					getPrintDecimals(), false);
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, getPrintDecimals(), false);
 		} else {
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
-					getPrintFigures(), false);
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, getPrintFigures(), false);
 		}
 
 		String result = app.getKernel().format(x, highPrecision);
@@ -516,7 +513,7 @@ public class FunctionInspectorModel {
 	/**
 	 * Updates the XYTable with the coordinates of the current sample points and
 	 * any related values (e.g. derivative, difference)
-	 * 
+	 *
 	 * @param rowCount
 	 *            row count
 	 * @param isTable
@@ -558,7 +555,6 @@ public class FunctionInspectorModel {
 			// collect x, y points into the copy arrays
 			xArray[0] = x;
 			yArray[0] = y;
-
 		}
 
 		xyTableCopyList.add(xArray);
@@ -584,92 +580,81 @@ public class FunctionInspectorModel {
 
 			int columnType = extraColumnList.get(column - 2);
 			switch (columnType) {
-
-			case COL_DERIVATIVE:
-				for (int row = 0; row < rowCount; row++) {
-					String str = (String) listener.getXYValueAt(row, 0);
-					if (!"".equals(str)) {
-						double x = Double.parseDouble(str);
-						double d = derivative.value(x);
-						// + "(" + x + ")");
-						listener.setXYValueAt(d, row, column);
-						copyArray[row] = d;
+				case COL_DERIVATIVE:
+					for (int row = 0; row < rowCount; row++) {
+						String str = (String) listener.getXYValueAt(row, 0);
+						if (!"".equals(str)) {
+							double x = Double.parseDouble(str);
+							double d = derivative.value(x);
+							// + "(" + x + ")");
+							listener.setXYValueAt(d, row, column);
+							copyArray[row] = d;
+						}
 					}
-				}
-				break;
+					break;
 
-			case COL_DERIVATIVE2:
-				for (int row = 0; row < rowCount; row++) {
-					String str = (String) listener.getXYValueAt(row, 0);
-					if (!"".equals(str)) {
-						double x = Double.parseDouble(str);
-						double d2 = derivative2.value(x);
-						listener.setXYValueAt(d2, row, column);
-						copyArray[row] = d2;
+				case COL_DERIVATIVE2:
+					for (int row = 0; row < rowCount; row++) {
+						String str = (String) listener.getXYValueAt(row, 0);
+						if (!"".equals(str)) {
+							double x = Double.parseDouble(str);
+							double d2 = derivative2.value(x);
+							listener.setXYValueAt(d2, row, column);
+							copyArray[row] = d2;
+						}
 					}
-				}
-				break;
+					break;
 
-			case COL_CURVATURE:
+				case COL_CURVATURE:
+					for (int row = 0; row < rowCount; row++) {
+						String str1 = (String) listener.getXYValueAt(row, 0);
+						String str2 = (String) listener.getXYValueAt(row, 1);
 
-				for (int row = 0; row < rowCount; row++) {
-					String str1 = (String) listener.getXYValueAt(row, 0);
-					String str2 = (String) listener.getXYValueAt(row, 1);
+						if (!"".equals(str1) && !"".equals(str2)) {
+							double x = Double.parseDouble(str1);
+							double y = Double.parseDouble(str2);
 
-					if (!"".equals(str1) && !"".equals(str2)) {
-						double x = Double.parseDouble(str1);
-						double y = Double.parseDouble(str2);
+							MyVecNode vec =
+									new MyVecNode(kernel, new MyDouble(kernel, x), new MyDouble(kernel, y));
 
-						MyVecNode vec = new MyVecNode(kernel,
-								new MyDouble(kernel, x),
-								new MyDouble(kernel, y));
+							ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
+							point.setForcePoint();
 
-						ExpressionNode point = new ExpressionNode(kernel, vec,
-								Operation.NO_OPERATION, null);
-						point.setForcePoint();
+							AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
+							cons.removeFromConstructionList(pointAlgo);
 
-						AlgoDependentPoint pointAlgo = new AlgoDependentPoint(
-								cons, point, false);
-						cons.removeFromConstructionList(pointAlgo);
+							AlgoCurvature curvature =
+									new AlgoCurvature(cons, (GeoPoint) pointAlgo.getOutput(0), selectedGeo);
+							cons.removeFromConstructionList(curvature);
 
-						AlgoCurvature curvature = new AlgoCurvature(cons,
-								(GeoPoint) pointAlgo.getOutput(0), selectedGeo);
-						cons.removeFromConstructionList(curvature);
+							double c = ((GeoNumeric) curvature.getOutput(0)).getDouble();
 
-						double c = ((GeoNumeric) curvature.getOutput(0))
-								.getDouble();
-
-						// double c = evaluateExpression(
-						// "Curvature[ (" + x + "," + y + ")," +
-						// selectedGeo.getLabel() + "]");
-						listener.setXYValueAt(c, row, column);
-						copyArray[row] = c;
+							// double c = evaluateExpression(
+							// "Curvature[ (" + x + "," + y + ")," +
+							// selectedGeo.getLabel() + "]");
+							listener.setXYValueAt(c, row, column);
+							copyArray[row] = c;
+						}
 					}
-				}
-				break;
+					break;
 
-			case COL_DIFFERENCE:
+				case COL_DIFFERENCE:
+					for (int row = 1; row < rowCount; row++) {
+						String prevValue = (String) listener.getXYValueAt(row - 1, column - 1);
+						String xValue = (String) listener.getXYValueAt(row, column - 1);
 
-				for (int row = 1; row < rowCount; row++) {
-					String prevValue = (String) listener.getXYValueAt(row - 1,
-							column - 1);
-					String xValue = (String) listener.getXYValueAt(row,
-							column - 1);
+						if (!prevValue.isEmpty() && !xValue.isEmpty()) {
+							double prev = Double.parseDouble(prevValue);
+							double x = Double.parseDouble(xValue);
 
-					if (!prevValue.isEmpty() && !xValue.isEmpty()) {
-						double prev = Double.parseDouble(prevValue);
-						double x = Double.parseDouble(xValue);
-
-						listener.setXYValueAt(x - prev, row, column);
-						copyArray[row] = x - prev;
-					} else {
-						listener.setXYValueAt(null, row, column);
-						copyArray[row] = null;
+							listener.setXYValueAt(x - prev, row, column);
+							copyArray[row] = x - prev;
+						} else {
+							listener.setXYValueAt(null, row, column);
+							copyArray[row] = null;
+						}
 					}
-
-				}
-				break;
-
+					break;
 			}
 
 			xyTableCopyList.add(copyArray);
@@ -730,8 +715,7 @@ public class FunctionInspectorModel {
 	 * @return whether all helper geos exist
 	 */
 	public boolean isValid() {
-		return !(selectedGeo == null || testPoint == null || lowPoint == null
-				|| highPoint == null);
+		return !(selectedGeo == null || testPoint == null || lowPoint == null || highPoint == null);
 	}
 
 	/**
@@ -742,20 +726,14 @@ public class FunctionInspectorModel {
 	 */
 	public void update(GeoElement geo, boolean isPoints) {
 		if (selectedGeo.equals(geo)) {
-			listener.setGeoName(
-					selectedGeo.toString(StringTemplate.defaultTemplate));
-		}
-
-		else if (isPoints && testPoint.equals(geo)) {
+			listener.setGeoName(selectedGeo.toString(StringTemplate.defaultTemplate));
+		} else if (isPoints && testPoint.equals(geo)) {
 			double[] coords = new double[3];
 			testPoint.getCoords(coords);
 			this.start = coords[0];
 			listener.changeTableSelection();
-		}
-
-		else if (!isPoints && (lowPoint.equals(geo) || highPoint.equals(geo))) {
-			listener.updateHighAndLow(lowPoint.x > highPoint.x,
-					lowPoint.equals(geo));
+		} else if (!isPoints && (lowPoint.equals(geo) || highPoint.equals(geo))) {
+			listener.updateHighAndLow(lowPoint.x > highPoint.x, lowPoint.equals(geo));
 		}
 	}
 
@@ -765,14 +743,15 @@ public class FunctionInspectorModel {
 
 	private double getStartX() {
 		GPoint mouse = activeEV.getEuclidianController().getMouseLoc();
-		int mouseX = mouse == null ? activeEV.getWidth() / 2
+		int mouseX = mouse == null
+				? activeEV.getWidth() / 2
 				: activeEV.getEuclidianController().getMouseLoc().getX();
 		return activeEV.toRealWorldCoordX(mouseX);
 	}
 
 	/**
 	 * Sets the function to be inspected and updates the entire GUI
-	 * 
+	 *
 	 * @param geo
 	 *            The function to be inspected
 	 */
@@ -787,8 +766,7 @@ public class FunctionInspectorModel {
 		start = getStartX();
 
 		// initial step = EV grid step
-		step = 0.25 * kernel.getApplication().getActiveEuclidianView()
-				.getGridDistances()[0];
+		step = 0.25 * kernel.getApplication().getActiveEuclidianView().getGridDistances()[0];
 		listener.setStepText("" + step);
 
 		defineDisplayGeos();
@@ -804,7 +782,6 @@ public class FunctionInspectorModel {
 		lowPoint.updateCascade();
 		highPoint.updateCascade();
 		activeEV = app.getActiveEuclidianView();
-
 	}
 
 	/**
@@ -835,8 +812,8 @@ public class FunctionInspectorModel {
 		// create XY table geos
 		// ========================================
 		// test point
-		AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, f,
-				(activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
+		AlgoPointOnPath pAlgo =
+				new AlgoPointOnPath(cons, f, (activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
 		cons.removeFromConstructionList(pAlgo);
 		testPoint = (GeoPoint) pAlgo.getOutput(0);
 		testPoint.setObjColor(listener.getColor(Colors.GEO));
@@ -845,19 +822,15 @@ public class FunctionInspectorModel {
 		pointTabGeoList.add(testPoint);
 
 		// X segment
-		ExpressionNode xcoord = new ExpressionNode(kernel, testPoint,
-				Operation.XCOORD, null);
-		MyVecNode vec = new MyVecNode(kernel, xcoord,
-				new MyDouble(kernel, 0.0));
-		ExpressionNode point = new ExpressionNode(kernel, vec,
-				Operation.NO_OPERATION, null);
+		ExpressionNode xcoord = new ExpressionNode(kernel, testPoint, Operation.XCOORD, null);
+		MyVecNode vec = new MyVecNode(kernel, xcoord, new MyDouble(kernel, 0.0));
+		ExpressionNode point = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
 		point.setForcePoint();
-		AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point,
-				false);
+		AlgoDependentPoint pointAlgo = new AlgoDependentPoint(cons, point, false);
 		cons.removeFromConstructionList(pointAlgo);
 
-		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgo.getOutput(0), null, false);
+		AlgoJoinPointsSegment seg1 =
+				new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint) pointAlgo.getOutput(0), null, false);
 		// cons.removeFromConstructionList(seg1);
 		xSegment = seg1.getOutput(0);
 		xSegment.setSelectionAllowed(false);
@@ -869,19 +842,15 @@ public class FunctionInspectorModel {
 		pointTabGeoList.add(xSegment);
 
 		// Y segment
-		ExpressionNode ycoord = new ExpressionNode(kernel, testPoint,
-				Operation.YCOORD, null);
-		MyVecNode vecy = new MyVecNode(kernel, new MyDouble(kernel, 0.0),
-				ycoord);
-		ExpressionNode pointy = new ExpressionNode(kernel, vecy,
-				Operation.NO_OPERATION, null);
+		ExpressionNode ycoord = new ExpressionNode(kernel, testPoint, Operation.YCOORD, null);
+		MyVecNode vecy = new MyVecNode(kernel, new MyDouble(kernel, 0.0), ycoord);
+		ExpressionNode pointy = new ExpressionNode(kernel, vecy, Operation.NO_OPERATION, null);
 		pointy.setForcePoint();
-		AlgoDependentPoint pointAlgoy = new AlgoDependentPoint(cons, pointy,
-				false);
+		AlgoDependentPoint pointAlgoy = new AlgoDependentPoint(cons, pointy, false);
 		cons.removeFromConstructionList(pointAlgoy);
 
-		AlgoJoinPointsSegment seg2 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgoy.getOutput(0), null, false);
+		AlgoJoinPointsSegment seg2 =
+				new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint) pointAlgoy.getOutput(0), null, false);
 		// cons.removeFromConstructionList(seg2);
 
 		ySegment = seg2.getOutput(0);
@@ -894,8 +863,7 @@ public class FunctionInspectorModel {
 		pointTabGeoList.add(ySegment);
 
 		// tangent line
-		AlgoTangentFunctionPoint tangent = new AlgoTangentFunctionPoint(cons,
-				testPoint, f);
+		AlgoTangentFunctionPoint tangent = new AlgoTangentFunctionPoint(cons, testPoint, f);
 		cons.removeFromConstructionList(tangent);
 		tangentLine = tangent.getOutput(0);
 		tangentLine.setSelectionAllowed(false);
@@ -913,16 +881,14 @@ public class FunctionInspectorModel {
 		pointTabGeoList.add(oscCircle);
 
 		// derivative
-		AlgoDerivative deriv = new AlgoDerivative(cons, f, true,
-				new EvalInfo(false));
+		AlgoDerivative deriv = new AlgoDerivative(cons, f, true, new EvalInfo(false));
 		cons.removeFromConstructionList(deriv);
 		derivative = (GeoFunction) deriv.getOutput(0);
 		derivative.setEuclidianVisible(false);
 		hiddenGeoList.add(derivative);
 
 		// 2nd derivative
-		AlgoDerivative deriv2 = new AlgoDerivative(cons, derivative, true,
-				new EvalInfo(false));
+		AlgoDerivative deriv2 = new AlgoDerivative(cons, derivative, true, new EvalInfo(false));
 		cons.removeFromConstructionList(deriv2);
 		derivative2 = (GeoFunction) deriv2.getOutput(0);
 		derivative2.setEuclidianVisible(false);
@@ -944,8 +910,8 @@ public class FunctionInspectorModel {
 		// ================================================
 
 		// interval points
-		AlgoPointOnPath pxAlgo = new AlgoPointOnPath(cons, f,
-				(2 * activeEV.getXmin() + activeEV.getXmax()) / 3, 0);
+		AlgoPointOnPath pxAlgo =
+				new AlgoPointOnPath(cons, f, (2 * activeEV.getXmin() + activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pxAlgo);
 		lowPoint = (GeoPoint) pxAlgo.getOutput(0);
 		lowPoint.setEuclidianVisible(false);
@@ -954,8 +920,8 @@ public class FunctionInspectorModel {
 		lowPoint.setLayer(f.getLayer() + 1);
 		intervalTabGeoList.add(lowPoint);
 
-		AlgoPointOnPath pyAlgo = new AlgoPointOnPath(cons, f,
-				(activeEV.getXmin() + 2 * activeEV.getXmax()) / 3, 0);
+		AlgoPointOnPath pyAlgo =
+				new AlgoPointOnPath(cons, f, (activeEV.getXmin() + 2 * activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pyAlgo);
 		highPoint = (GeoPoint) pyAlgo.getOutput(0);
 		highPoint.setEuclidianVisible(false);
@@ -964,10 +930,8 @@ public class FunctionInspectorModel {
 		highPoint.setLayer(f.getLayer() + 1);
 		intervalTabGeoList.add(highPoint);
 
-		ExpressionNode low = new ExpressionNode(kernel, lowPoint,
-				Operation.XCOORD, null);
-		ExpressionNode high = new ExpressionNode(kernel, highPoint,
-				Operation.XCOORD, null);
+		ExpressionNode low = new ExpressionNode(kernel, lowPoint, Operation.XCOORD, null);
+		ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);
 
 		FunctionVariable x = new FunctionVariable(kernel);
 		ExpressionNode fx = x.wrap();
@@ -979,8 +943,7 @@ public class FunctionInspectorModel {
 		AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, high, false);
 		cons.removeFromConstructionList(xHigh);
 
-		AlgoDependentFunction interval = new AlgoDependentFunction(cons,
-				new Function(expr, x), false);
+		AlgoDependentFunction interval = new AlgoDependentFunction(cons, new Function(expr, x), false);
 
 		functionInterval = interval.getOutput(0);
 		functionInterval.setSelectionAllowed(false);
@@ -990,9 +953,13 @@ public class FunctionInspectorModel {
 		functionInterval.setLayer(f.getLayer() + 1);
 		intervalTabGeoList.add(functionInterval);
 
-		AlgoIntegralDefinite inte = new AlgoIntegralDefinite(cons, selectedGeo,
+		AlgoIntegralDefinite inte = new AlgoIntegralDefinite(
+				cons,
+				selectedGeo,
 				(GeoNumberValue) xLow.getOutput(0),
-				(GeoNumberValue) xHigh.getOutput(0), null, false);
+				(GeoNumberValue) xHigh.getOutput(0),
+				null,
+				false);
 		cons.removeFromConstructionList(inte);
 		integralGeo = inte.getOutput(0);
 		integralGeo.setSelectionAllowed(false);
@@ -1000,27 +967,28 @@ public class FunctionInspectorModel {
 		integralGeo.setObjColor(listener.getColor(Colors.GEO));
 		intervalTabGeoList.add(integralGeo);
 
-		ExpressionNode en = new ExpressionNode(kernel, selectedGeo,
-				Operation.ABS, null);
-		AlgoDependentFunction funAlgo = new AlgoDependentFunction(cons,
-				(Function) en.evaluate(StringTemplate.defaultTemplate), false);
+		ExpressionNode en = new ExpressionNode(kernel, selectedGeo, Operation.ABS, null);
+		AlgoDependentFunction funAlgo = new AlgoDependentFunction(
+				cons, (Function) en.evaluate(StringTemplate.defaultTemplate), false);
 
 		// the antiderivative of a function containing the absolute function
 		// might be difficult to find if it exists at all. Therefore the
 		// definite integral is calculated numerically.
-		AlgoIntegralDefinite area = new AlgoIntegralDefinite(cons,
+		AlgoIntegralDefinite area = new AlgoIntegralDefinite(
+				cons,
 				(GeoFunction) funAlgo.getOutput(0),
 				(GeoNumberValue) xLow.getOutput(0),
-				(GeoNumberValue) xHigh.getOutput(0), null, true);
+				(GeoNumberValue) xHigh.getOutput(0),
+				null,
+				true);
 		cons.removeFromConstructionList(area);
 		areaGeo = area.getOutput(0);
 		areaGeo.setSelectionAllowed(false);
 		areaGeo.setEuclidianVisible(false);
 		intervalTabGeoList.add(areaGeo);
 
-		AlgoLengthFunction len = new AlgoLengthFunction(cons, selectedGeo,
-				(GeoNumeric) xLow.getOutput(0),
-				(GeoNumeric) xHigh.getOutput(0));
+		AlgoLengthFunction len = new AlgoLengthFunction(
+				cons, selectedGeo, (GeoNumeric) xLow.getOutput(0), (GeoNumeric) xHigh.getOutput(0));
 		cons.removeFromConstructionList(len);
 		lengthGeo = len.getOutput(0);
 		hiddenGeoList.add(lengthGeo);
@@ -1028,8 +996,7 @@ public class FunctionInspectorModel {
 		minPoint = new GeoPoint(cons);
 		minPoint.setEuclidianVisible(false);
 		minPoint.setPointSize(4);
-		minPoint.setPointStyle(
-				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
+		minPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
 		minPoint.setObjColor(listener.getColor(Colors.GEO).darker());
 		minPoint.setLayer(f.getLayer() + 1);
 		minPoint.setFixed(true);
@@ -1038,8 +1005,7 @@ public class FunctionInspectorModel {
 		maxPoint = new GeoPoint(cons);
 		maxPoint.setEuclidianVisible(false);
 		maxPoint.setPointSize(4);
-		maxPoint.setPointStyle(
-				EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
+		maxPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
 		maxPoint.setObjColor(listener.getColor(Colors.GEO).darker());
 		maxPoint.setLayer(f.getLayer() + 1);
 		maxPoint.setFixed(true);
@@ -1139,8 +1105,7 @@ public class FunctionInspectorModel {
 	public void copyPointsToSpreadsheet(int colCount, int rowCount) {
 		GeoElement geo;
 
-		int targetColumn = app.getSpreadsheetTableModel()
-				.getHighestUsedColumn();
+		int targetColumn = app.getSpreadsheetTableModel().getHighestUsedColumn();
 
 		for (int c = 0; c < colCount; c++) {
 			targetColumn++;
@@ -1167,8 +1132,7 @@ public class FunctionInspectorModel {
 	 */
 	public void copyIntervalsToSpreadsheet(int colCount, int rowCount) {
 		GeoElement geo;
-		int targetColumn = app.getSpreadsheetTableModel()
-				.getHighestUsedColumn();
+		int targetColumn = app.getSpreadsheetTableModel().getHighestUsedColumn();
 		for (int c = 0; c < colCount; c++) {
 			targetColumn++;
 			for (int row = 0; row < rowCount; row++) {
@@ -1216,8 +1180,7 @@ public class FunctionInspectorModel {
 	 * @return localized column names for interval tab
 	 */
 	public String[] getIntervalColumnNames() {
-		String[] names = { loc.getMenu("fncInspector.Property"),
-				loc.getMenu("fncInspector.Value") };
+		String[] names = {loc.getMenu("fncInspector.Property"), loc.getMenu("fncInspector.Value")};
 		return names;
 	}
 
@@ -1239,7 +1202,7 @@ public class FunctionInspectorModel {
 
 	/**
 	 * TODO check compatibility with RoundingProperty
-	 * 
+	 *
 	 * @param index
 	 *            selected index in rounding menu
 	 */
@@ -1257,5 +1220,4 @@ public class FunctionInspectorModel {
 	public double getInitialX() {
 		return getStartX();
 	}
-
 }

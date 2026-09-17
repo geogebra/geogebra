@@ -45,7 +45,7 @@ public class DynamicCaptionModel extends CommonOptionsModel<String> {
 	public List<String> getChoices(Localization loc) {
 		choices.clear();
 		choices.add("");
-		for (GeoElement geo: construction.getGeoSetConstructionOrder()) {
+		for (GeoElement geo : construction.getGeoSetConstructionOrder()) {
 			if (geo.isGeoText()) {
 				choices.add(geo.getLabelSimple());
 			}
@@ -84,7 +84,8 @@ public class DynamicCaptionModel extends CommonOptionsModel<String> {
 		}
 
 		String textLabel = caption.getLabelSimple();
-		int index = StringUtil.empty(textLabel) ? 0 :getChoices(app.getLocalization()).indexOf(textLabel);
+		int index =
+				StringUtil.empty(textLabel) ? 0 : getChoices(app.getLocalization()).indexOf(textLabel);
 		getListener().setSelectedIndex(index);
 	}
 }

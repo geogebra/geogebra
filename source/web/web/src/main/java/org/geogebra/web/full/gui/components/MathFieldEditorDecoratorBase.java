@@ -42,9 +42,7 @@ public class MathFieldEditorDecoratorBase {
 	 * @param backgroundColor {@link GColor}
 	 */
 	protected void setBackgroundColor(GColor backgroundColor) {
-		GColor color = backgroundColor != null
-				? backgroundColor
-				: GColor.WHITE;
+		GColor color = backgroundColor != null ? backgroundColor : GColor.WHITE;
 		String cssColor = StringUtil.toHtmlColor(color);
 		style.setBackgroundColor(cssColor);
 	}
@@ -55,8 +53,7 @@ public class MathFieldEditorDecoratorBase {
 	 * @param foregroundColor {@link GColor}
 	 */
 	protected void setForegroundColor(GColor foregroundColor) {
-		mathField
-				.setForegroundColor(StringUtil.toHtmlColor(foregroundColor));
+		mathField.setForegroundColor(StringUtil.toHtmlColor(foregroundColor));
 	}
 
 	/**
@@ -103,5 +100,4 @@ public class MathFieldEditorDecoratorBase {
 	protected void setHeight(double value) {
 		style.setHeight(value, Unit.PX);
 	}
-
 }

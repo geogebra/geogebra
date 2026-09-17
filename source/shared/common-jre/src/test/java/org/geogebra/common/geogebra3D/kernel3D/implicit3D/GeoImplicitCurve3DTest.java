@@ -38,8 +38,10 @@ class GeoImplicitCurve3DTest extends BaseUnitTest {
 	@Issue("APPS-5381")
 	void shouldReplaceLocalVariables() {
 		GeoList seq = add("l1=Sequence(Translate[0=x*y+cos(x+2*k)-1,Vector((0,0,k))],k,1,2)");
-		assertThat(seq, hasValue("{(0 - (x y + cos(x + 2 * 1) - 1) = 0,z = 1),"
-				+ " (0 - (x y + cos(x + 2 * 2) - 1) = 0,z = 2)}"));
+		assertThat(
+				seq,
+				hasValue("{(0 - (x y + cos(x + 2 * 1) - 1) = 0,z = 1),"
+						+ " (0 - (x y + cos(x + 2 * 2) - 1) = 0,z = 2)}"));
 	}
 
 	@Test
@@ -63,5 +65,4 @@ class GeoImplicitCurve3DTest extends BaseUnitTest {
 		nonPoly.setToImplicit();
 		assertThat(nonPoly.isLaTeXDrawableGeo(), equalTo(true));
 	}
-
 }

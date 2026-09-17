@@ -25,9 +25,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Selected index of a GeoList object.
- * 
+ *
  */
-
 public class AlgoSelectedIndex extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -35,7 +34,7 @@ public class AlgoSelectedIndex extends AlgoElement {
 
 	/**
 	 * Creates new selected index algo
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -71,7 +70,7 @@ public class AlgoSelectedIndex extends AlgoElement {
 
 	/**
 	 * Returns the selected index
-	 * 
+	 *
 	 * @return the selected index
 	 */
 	public GeoElement getElement() {
@@ -87,5 +86,4 @@ public class AlgoSelectedIndex extends AlgoElement {
 
 		index.setValue(geoList.getSelectedIndex() + 1);
 	}
-
 }

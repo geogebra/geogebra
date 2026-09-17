@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Polynomial remainder
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoPolynomialDivision extends AlgoElement {
@@ -51,8 +51,7 @@ public class AlgoPolynomialDivision extends AlgoElement {
 	 * @param f2
 	 *            divisor function
 	 */
-	public AlgoPolynomialDivision(Construction cons, String label,
-			GeoFunction f1, GeoFunction f2) {
+	public AlgoPolynomialDivision(Construction cons, String label, GeoFunction f1, GeoFunction f2) {
 		super(cons);
 		this.f1 = f1;
 		this.f2 = f2;
@@ -99,12 +98,11 @@ public class AlgoPolynomialDivision extends AlgoElement {
 		}
 
 		nonCASDivision(kernel, f1, f2, g, h);
-
 	}
 
 	/**
 	 * divide f1 by f2 and return result in g = div, h = mod
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param f1
@@ -116,15 +114,13 @@ public class AlgoPolynomialDivision extends AlgoElement {
 	 * @param h
 	 *            mod result (or null)
 	 */
-	public static void nonCASDivision(Kernel kernel, GeoFunction f1,
-			GeoFunction f2, GeoFunction g, GeoFunction h) {
+	public static void nonCASDivision(
+			Kernel kernel, GeoFunction f1, GeoFunction f2, GeoFunction g, GeoFunction h) {
 		Function fun1 = f1.getFunction();
 		Function fun2 = f2.getFunction();
 
-		PolyFunction poly1 = fun1.expandToPolyFunction(
-				fun1.getFunctionExpression(), false, true);
-		PolyFunction poly2 = fun2.expandToPolyFunction(
-				fun2.getFunctionExpression(), false, true);
+		PolyFunction poly1 = fun1.expandToPolyFunction(fun1.getFunctionExpression(), false, true);
+		PolyFunction poly2 = fun2.expandToPolyFunction(fun2.getFunctionExpression(), false, true);
 		if (poly1 == null || poly2 == null) {
 			setUndefined(g, h);
 			return;
@@ -135,7 +131,7 @@ public class AlgoPolynomialDivision extends AlgoElement {
 		int n = divisor.length;
 
 		if (m < n) {
-			setFunction(g, new double[] { 0 });
+			setFunction(g, new double[] {0});
 
 			if (h != null) {
 				h.set(f1);
@@ -169,7 +165,6 @@ public class AlgoPolynomialDivision extends AlgoElement {
 			divisor = divisor2;
 			n = divisor.length;
 			lead = divisor[n - 1];
-
 		}
 
 		double[] div = new double[m - n + 1];
@@ -207,17 +202,14 @@ public class AlgoPolynomialDivision extends AlgoElement {
 		if (h2 != null) {
 			h2.setUndefined();
 		}
-
 	}
 
 	private static void setFunction(GeoFunction g2, double[] div) {
 		if (g2 != null) {
-			Function divPolyFun = AlgoPolynomialFromCoordinates
-					.buildPolyFunctionExpression(g2.getKernel(), div);
+			Function divPolyFun =
+					AlgoPolynomialFromCoordinates.buildPolyFunctionExpression(g2.getKernel(), div);
 			g2.setDefined(true);
 			g2.setFunction(divPolyFun);
 		}
-
 	}
-
 }

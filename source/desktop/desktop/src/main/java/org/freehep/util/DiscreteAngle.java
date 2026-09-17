@@ -47,8 +47,7 @@ public class DiscreteAngle {
 
 		while (i.hasNext()) {
 			Double cur = (Double) i.next();
-			double cutoff = (cur.doubleValue() - prev.doubleValue()) / 2.0
-					+ prev.doubleValue();
+			double cutoff = (cur.doubleValue() - prev.doubleValue()) / 2.0 + prev.doubleValue();
 			if (angle <= cutoff) {
 				return prev.doubleValue();
 			}
@@ -69,7 +68,7 @@ public class DiscreteAngle {
 	 * Removes a discrete angle from the set.
 	 */
 	public boolean removeAngle(double angle) {
-		for (Iterator i = angles.iterator(); i.hasNext();) {
+		for (Iterator i = angles.iterator(); i.hasNext(); ) {
 			Double r = (Double) i.next();
 			if (r.doubleValue() == angle) {
 				return removeAngle(r);
@@ -89,7 +88,7 @@ public class DiscreteAngle {
 	public String toString() {
 		StringBuffer s = new StringBuffer();
 		s.append("Angles: ");
-		for (Iterator i = angles.iterator(); i.hasNext();) {
+		for (Iterator i = angles.iterator(); i.hasNext(); ) {
 			Double r = (Double) i.next();
 			s.append(r.doubleValue());
 			if (i.hasNext()) {
@@ -120,6 +119,5 @@ public class DiscreteAngle {
 		Log.debug("186 results in " + da.getAngle(186));
 		Log.debug("231 results in " + da.getAngle(231));
 		Log.debug("359 results in " + da.getAngle(359));
-
 	}
 }

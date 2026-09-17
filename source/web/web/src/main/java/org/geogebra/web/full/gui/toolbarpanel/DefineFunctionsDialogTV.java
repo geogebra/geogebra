@@ -63,8 +63,12 @@ public final class DefineFunctionsDialogTV extends ComponentDialog {
 	private boolean onBlur(ComponentInputField field, boolean enter) {
 		field.resetInputField();
 		boolean success = controller.defineFunctions(fieldF.getText(), fieldG.getText());
-		setErrorState(field, field.equals(fieldF) ? controller.hasFDefinitionErrorOccurred()
-				: controller.hasGDefinitionErrorOccurred(), enter);
+		setErrorState(
+				field,
+				field.equals(fieldF)
+						? controller.hasFDefinitionErrorOccurred()
+						: controller.hasGDefinitionErrorOccurred(),
+				enter);
 		return success;
 	}
 
@@ -77,8 +81,8 @@ public final class DefineFunctionsDialogTV extends ComponentDialog {
 	}
 
 	private ComponentInputField addFunctionRow(String functionLbl) {
-		ComponentInputField inputField = new ComponentInputField((AppW) app, null, functionLbl,
-				null, null, null, false, true);
+		ComponentInputField inputField =
+				new ComponentInputField((AppW) app, null, functionLbl, null, null, null, false, true);
 		addDialogContent(inputField);
 
 		return inputField;

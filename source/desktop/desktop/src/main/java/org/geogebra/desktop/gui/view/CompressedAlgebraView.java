@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -33,11 +33,10 @@ import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
  * Set and after the time slice it will handle them to its attached view.
  * (Multiple updates of the same GeoElement in a time slice are only handled
  * down to the extends AlgebraView once at the end of the time slice.)
- * 
+ *
  * @author Lucas Binter
  */
-public class CompressedAlgebraView extends AlgebraViewD
-		implements CompressedView {
+public class CompressedAlgebraView extends AlgebraViewD implements CompressedView {
 	private static final long serialVersionUID = 6383245533545749844L;
 
 	private int ups;
@@ -60,8 +59,7 @@ public class CompressedAlgebraView extends AlgebraViewD
 	 *            the updates per second handled down to the extended
 	 *            AlgebraView
 	 */
-	public CompressedAlgebraView(AlgebraControllerD algCtrl,
-			int updatesPerSecond) {
+	public CompressedAlgebraView(AlgebraControllerD algCtrl, int updatesPerSecond) {
 		this(algCtrl, updatesPerSecond, updatesPerSecond);
 	}
 
@@ -74,8 +72,8 @@ public class CompressedAlgebraView extends AlgebraViewD
 	 * @param repaintsPerSecond
 	 *            the maximum repaints per second rate
 	 */
-	public CompressedAlgebraView(AlgebraControllerD algCtrl,
-			int updatesPerSecond, int repaintsPerSecond) {
+	public CompressedAlgebraView(
+			AlgebraControllerD algCtrl, int updatesPerSecond, int repaintsPerSecond) {
 		super(algCtrl);
 		ups = updatesPerSecond;
 		rps = repaintsPerSecond;
@@ -84,8 +82,7 @@ public class CompressedAlgebraView extends AlgebraViewD
 		repaintTimer = new Timer(1000 / rps, null);
 		repaintTimer.setRepeats(false);
 		updateSet = new HashSet<>();
-		updateListener = new CompressedUpdateListener(this, updateTimer,
-				updateSet, lock);
+		updateListener = new CompressedUpdateListener(this, updateTimer, updateSet, lock);
 		updateTimer.addActionListener(updateListener);
 		repaintListener = new CompressedRepaintListener(this);
 		repaintTimer.addActionListener(repaintListener);
@@ -93,7 +90,7 @@ public class CompressedAlgebraView extends AlgebraViewD
 	}
 
 	@Override
-	final public void update(GeoElement geo) {
+	public final void update(GeoElement geo) {
 		if (updateTimer.isRunning()) {
 			lock.lock();
 			try {
@@ -113,17 +110,17 @@ public class CompressedAlgebraView extends AlgebraViewD
 	}
 
 	@Override
-	final public void updateVisualStyle(GeoElement geo, GProperty prop) {
+	public final void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
 	}
 
 	@Override
-	final public void repaintView() {
+	public final void repaintView() {
 		repaint();
 	}
 
 	@Override
-	final public void repaintNow() {
+	public final void repaintNow() {
 		if (needRepaint) {
 			super.repaint();
 		}
@@ -131,7 +128,7 @@ public class CompressedAlgebraView extends AlgebraViewD
 	}
 
 	@Override
-	final public void repaint() {
+	public final void repaint() {
 		if (repaintTimer == null) {
 			// needed because of null pointer error (Constructor)
 			repaintNow();
@@ -146,5 +143,4 @@ public class CompressedAlgebraView extends AlgebraViewD
 			repaintNow();
 		}
 	}
-
 }

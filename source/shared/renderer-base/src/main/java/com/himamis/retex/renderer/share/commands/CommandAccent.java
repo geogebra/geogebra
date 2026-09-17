@@ -16,5 +16,4 @@ public class CommandAccent extends Command2A {
 			return new AccentSetAtom(b, a);
 		}
 	}
-
 }

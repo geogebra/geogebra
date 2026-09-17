@@ -55,8 +55,7 @@ public class ProbabilityXAxis {
 		GeoPoint p = (GeoPoint) algo.getOutput(0);
 		p.setObjColor(ProbabilityCalculatorView.COLOR_POINT);
 		p.setPointSize(4);
-		p.setPointStyle(
-				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
+		p.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
 		p.setLayer(5);
 		return p;
 	}

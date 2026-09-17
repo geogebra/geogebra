@@ -39,7 +39,7 @@ public abstract class AbstractProperty implements Property {
 		this.localization = localization;
 		this.name = name;
 	}
-	
+
 	@Override
 	public String getName() {
 		return localization.getMenu(name);

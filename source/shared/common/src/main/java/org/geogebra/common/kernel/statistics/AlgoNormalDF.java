@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,7 +31,7 @@ import org.geogebra.editor.share.util.Unicode;
 
 /**
  * algorithm for Normal[0,1,x]
- * 
+ *
  * @author Michael
  */
 public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
@@ -51,8 +51,8 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoNormalDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			BooleanValue cumulative) {
+	public AlgoNormalDF(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, BooleanValue cumulative) {
 		super(cons);
 		this.mean = a;
 		this.sd = b;
@@ -122,12 +122,13 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 			div2 = div2.square().multiply(2);
 
 			ExpressionNode sqrt2pi = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING)
-					.wrap().multiplyR(2).sqrt();
+					.wrap()
+					.multiplyR(2)
+					.sqrt();
 
 			div = sqrt2pi.multiply(div.abs());
 
-			en = en.subtract(mean).square().reverseSign().divide(div2).exp()
-					.divide(div);
+			en = en.subtract(mean).square().reverseSign().divide(div2).exp().divide(div);
 
 			// old hack:
 			// return kernelA.getAlgebraProcessor().processAlgebraCommand(
@@ -139,7 +140,5 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 		tempFun.initFunction();
 
 		ret.setFunction(tempFun);
-
 	}
-
 }

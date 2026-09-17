@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.kernel.geos;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -35,14 +35,12 @@ class PointFromSequenceTest extends BaseUnitTest {
 
 	@Test
 	void testPointSequence() {
-		point = add("Point(Sequence(Sequence((i, j), i, 1, 10, 0.1)"
-				+ ", j, 1, 10, 0.1))");
+		point = add("Point(Sequence(Sequence((i, j), i, 1, 10, 0.1)" + ", j, 1, 10, 0.1))");
 		point.set(newPoint(2.9, 7.6));
 		GeoPoint expected = newPoint(3, 7.6);
 		point.set(expected);
 		kernel.updateConstruction();
-		assertArrayEquals(expected.getCoords().get(), point.getCoords().get(),
-				Kernel.MAX_PRECISION);
+		assertArrayEquals(expected.getCoords().get(), point.getCoords().get(), Kernel.MAX_PRECISION);
 	}
 
 	private GeoPoint newPoint(double x, double y) {
@@ -59,9 +57,7 @@ class PointFromSequenceTest extends BaseUnitTest {
 
 	private void pointShouldBe(double x, double y) {
 		GeoPoint expected = newPoint(x, y);
-		assertArrayEquals(expected.getCoords().get(), point.getCoords().get(),
-				Kernel.MAX_PRECISION);
-
+		assertArrayEquals(expected.getCoords().get(), point.getCoords().get(), Kernel.MAX_PRECISION);
 	}
 
 	private void simplePathWithStep(double step) {
@@ -99,5 +95,4 @@ class PointFromSequenceTest extends BaseUnitTest {
 		kernel.updateConstruction();
 		pointShouldBe(3.4, 3.4);
 	}
-
 }

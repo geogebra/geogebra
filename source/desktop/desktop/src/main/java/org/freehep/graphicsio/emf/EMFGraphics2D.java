@@ -75,8 +75,7 @@ import org.freehep.util.UserProperties;
  * @author Mark Donszelmann
  * @version $Id: EMFGraphics2D.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
-public class EMFGraphics2D extends AbstractVectorGraphicsIO
-		implements EMFConstants {
+public class EMFGraphics2D extends AbstractVectorGraphicsIO implements EMFConstants {
 	public static final String version = "$Revision: 1.5 $";
 
 	private EMFHandleManager handleManager;
@@ -122,16 +121,14 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 */
 	private static final String rootKey = EMFGraphics2D.class.getName();
 
-	public static final String TRANSPARENT = rootKey + "."
-			+ PageConstants.TRANSPARENT;
+	public static final String TRANSPARENT = rootKey + "." + PageConstants.TRANSPARENT;
 
-	public static final String BACKGROUND = rootKey + "."
-			+ PageConstants.BACKGROUND;
+	public static final String BACKGROUND = rootKey + "." + PageConstants.BACKGROUND;
 
-	public static final String BACKGROUND_COLOR = rootKey + "."
-			+ PageConstants.BACKGROUND_COLOR;
+	public static final String BACKGROUND_COLOR = rootKey + "." + PageConstants.BACKGROUND_COLOR;
 
 	private static final UserProperties defaultProperties = new UserProperties();
+
 	static {
 		defaultProperties.setProperty(TRANSPARENT, true);
 		defaultProperties.setProperty(BACKGROUND, false);
@@ -155,13 +152,11 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =========================================================================
 	 * =======
 	 */
-	public EMFGraphics2D(File file, Dimension size)
-			throws FileNotFoundException {
+	public EMFGraphics2D(File file, Dimension size) throws FileNotFoundException {
 		this(new FileOutputStream(file), size);
 	}
 
-	public EMFGraphics2D(File file, Component component)
-			throws FileNotFoundException {
+	public EMFGraphics2D(File file, Component component) throws FileNotFoundException {
 		this(new FileOutputStream(file), component);
 	}
 
@@ -173,8 +168,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 
 	public EMFGraphics2D(OutputStream os, Component component) {
 		super(component, false);
-		this.imageBounds = new Rectangle(0, 0, getSize().width,
-				getSize().height);
+		this.imageBounds = new Rectangle(0, 0, getSize().width, getSize().height);
 		init(os);
 	}
 
@@ -188,8 +182,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		initProperties(defaultProperties);
 	}
 
-	protected EMFGraphics2D(EMFGraphics2D graphics,
-			boolean doRestoreOnDispose) {
+	protected EMFGraphics2D(EMFGraphics2D graphics, boolean doRestoreOnDispose) {
 		super(graphics, doRestoreOnDispose);
 		// Create a graphics context from a given graphics context.
 		// This constructor is used by the system to clone a given graphics
@@ -235,8 +228,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		if (!isDeviceIndependent()) {
 			producer += " " + version.substring(1, version.length() - 1);
 		}
-		os = new EMFOutputStream(ros, imageBounds, handleManager, getCreator(),
-				producer, device);
+		os = new EMFOutputStream(ros, imageBounds, handleManager, getCreator(), producer, device);
 		pathConstructor = new EMFPathConstructor(os, imageBounds);
 
 		Point orig = new Point(imageBounds.x, imageBounds.y);
@@ -250,7 +242,6 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		os.writeTag(new SetTextAlign(TA_BASELINE));
 		os.writeTag(new SetTextColor(getColor()));
 		os.writeTag(new SetPolyFillMode(EMFConstants.WINDING));
-
 	}
 
 	@Override
@@ -258,8 +249,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		super.writeGraphicsState();
 		// write a special matrix here to scale all written coordinates by a
 		// factor of TWIPS
-		AffineTransform n = AffineTransform.getScaleInstance(1.0 / TWIPS,
-				1.0 / TWIPS);
+		AffineTransform n = AffineTransform.getScaleInstance(1.0 / TWIPS, 1.0 / TWIPS);
 		os.writeTag(new SetWorldTransform(n));
 	}
 
@@ -274,8 +264,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		} else {
 			os.writeTag(new SetBkMode(BKG_OPAQUE));
-			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+			setBackground(getComponent() != null ? getComponent().getBackground() : Color.WHITE);
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		}
 	}
@@ -283,7 +272,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	@Override
 	public void writeTrailer() throws IOException {
 		// delete any remaining objects
-		for (;;) {
+		for (; ; ) {
 			int handle = handleManager.highestHandleInUse();
 			if (handle < 0) {
 				break;
@@ -348,8 +337,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 			os.writeTag(new DeleteObject(handleManager.freeHandle(penHandle)));
 		}
 		if (brushHandle != 0) {
-			os.writeTag(
-					new DeleteObject(handleManager.freeHandle(brushHandle)));
+			os.writeTag(new DeleteObject(handleManager.freeHandle(brushHandle)));
 		}
 		os.writeTag(new RestoreDC());
 	}
@@ -361,8 +349,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * =======
 	 */
 	/* 5.1.4. shapes */
-	Point[] points = new Point[] { new Point(0, 0), new Point(0, 0),
-			new Point(0, 0), new Point(0, 0) };
+	Point[] points = new Point[] {new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
 
 	Color invisible = new Color(0, 0, 0, 0);
 
@@ -408,30 +395,36 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	/* 5.2. Images */
 	@Override
 	public void copyArea(int x, int y, int width, int height, int dx, int dy) {
-		writeWarning(getClass()
-				+ ": copyArea(int, int, int, int, int, int) not implemented.");
+		writeWarning(getClass() + ": copyArea(int, int, int, int, int, int) not implemented.");
 		// Mostly unimplemented.
 	}
 
 	// NOTE: does not use writeGraphicsSave and writeGraphicsRestore since these
 	// delete pen and brush
 	@Override
-	protected void writeImage(RenderedImage image, AffineTransform xform,
-			Color bkg) throws IOException {
+	protected void writeImage(RenderedImage image, AffineTransform xform, Color bkg)
+			throws IOException {
 		os.writeTag(new SaveDC());
 
-		AffineTransform imageTransform = new AffineTransform(1.0, 0.0, 0.0,
-				-1.0, 0.0, image.getHeight());
+		AffineTransform imageTransform =
+				new AffineTransform(1.0, 0.0, 0.0, -1.0, 0.0, image.getHeight());
 		imageTransform.preConcatenate(xform);
 		writeTransform(imageTransform);
 
-		os.writeTag(new AlphaBlend(imageBounds, toUnit(0), toUnit(0),
-				toUnit(image.getWidth()), toUnit(image.getHeight()),
-				new AffineTransform(), image, bkg));
+		os.writeTag(new AlphaBlend(
+				imageBounds,
+				toUnit(0),
+				toUnit(0),
+				toUnit(image.getWidth()),
+				toUnit(image.getHeight()),
+				new AffineTransform(),
+				image,
+				bkg));
 		os.writeTag(new RestoreDC());
 	}
 
-	private final static Properties replaceFonts = new Properties();
+	private static final Properties replaceFonts = new Properties();
+
 	static {
 		replaceFonts.setProperty("Symbol", "Arial Unicode MS");
 		replaceFonts.setProperty("ZapfDingbats", "Arial Unicode MS");
@@ -439,8 +432,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 
 	/* 5.3. Strings */
 	@Override
-	public void writeString(String string, double x, double y)
-			throws IOException {
+	public void writeString(String string, double x, double y) throws IOException {
 
 		Color color;
 		Paint paint = getPaint();
@@ -480,10 +472,8 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 			fontName = replaceFonts.getProperty(fontName, fontName);
 			String windowsFontName = FontUtilities.getWindowsFontName(fontName);
 
-			unitFont = new Font(windowsFontName, font.getStyle(),
-					font.getSize());
-			unitFont = unitFont
-					.deriveFont(font.getSize2D() * UNITS_PER_PIXEL * TWIPS);
+			unitFont = new Font(windowsFontName, font.getStyle(), font.getSize());
+			unitFont = unitFont.deriveFont(font.getSize2D() * UNITS_PER_PIXEL * TWIPS);
 			unitFontTable.put(font, unitFont);
 
 			ExtLogFontW logFontW = new ExtLogFontW(unitFont);
@@ -497,9 +487,8 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 
 		int[] widths = new int[string.length()];
 		for (int i = 0; i < widths.length; i++) {
-			double w = unitFont
-					.getStringBounds(string, i, i + 1, getFontRenderContext())
-					.getWidth();
+			double w =
+					unitFont.getStringBounds(string, i, i + 1, getFontRenderContext()).getWidth();
 			widths[i] = (int) w;
 		}
 
@@ -514,8 +503,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		}
 
 		TextW text = new TextW(new Point(0, 0), string, 0, dummy, widths);
-		os.writeTag(new ExtTextOutW(imageBounds, EMFConstants.GM_ADVANCED, 1, 1,
-				text));
+		os.writeTag(new ExtTextOutW(imageBounds, EMFConstants.GM_ADVANCED, 1, 1, text));
 
 		// revert font transformation
 		if (!t.isIdentity()) {
@@ -534,8 +522,11 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 */
 	@Override
 	protected void writeTransform(AffineTransform t) throws IOException {
-		AffineTransform n = new AffineTransform(t.getScaleX(), t.getShearY(),
-				t.getShearX(), t.getScaleY(),
+		AffineTransform n = new AffineTransform(
+				t.getScaleX(),
+				t.getShearY(),
+				t.getShearX(),
+				t.getScaleY(),
 				t.getTranslateX() * UNITS_PER_PIXEL * TWIPS,
 				t.getTranslateY() * UNITS_PER_PIXEL * TWIPS);
 		os.writeTag(new ModifyWorldTransform(n, EMFConstants.MWT_LEFTMULTIPLY));
@@ -545,8 +536,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	protected void writeSetTransform(AffineTransform t) throws IOException {
 		// write a special matrix here to scale all written coordinates by a
 		// factor of TWIPS
-		AffineTransform n = AffineTransform.getScaleInstance(1.0 / TWIPS,
-				1.0 / TWIPS);
+		AffineTransform n = AffineTransform.getScaleInstance(1.0 / TWIPS, 1.0 / TWIPS);
 		os.writeTag(new SetWorldTransform(n));
 		// apply transform
 		writeTransform(t);
@@ -612,24 +602,21 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 
 	@Override
 	protected void writePaint(GradientPaint p) throws IOException {
-		writeWarning(
-				getClass() + ": writePaint(GradientPaint) not implemented.");
+		writeWarning(getClass() + ": writePaint(GradientPaint) not implemented.");
 		// Write out the gradient paint.
 		setColor(PrintColor.mixColor(p.getColor1(), p.getColor2()));
 	}
 
 	@Override
 	protected void writePaint(TexturePaint p) throws IOException {
-		writeWarning(
-				getClass() + ": writePaint(TexturePaint) not implemented.");
+		writeWarning(getClass() + ": writePaint(TexturePaint) not implemented.");
 		// Write out the texture paint.
 		setColor(Color.RED);
 	}
 
 	@Override
 	protected void writePaint(Paint p) throws IOException {
-		writeWarning(getClass() + ": writePaint(Paint) not implemented for "
-				+ p.getClass());
+		writeWarning(getClass() + ": writePaint(Paint) not implemented for " + p.getClass());
 		// Write out the paint.
 		setColor(Color.WHITE);
 	}
@@ -650,16 +637,14 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 */
 	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
-		writeWarning(
-				getClass() + ": getDeviceConfiguration() not implemented.");
+		writeWarning(getClass() + ": getDeviceConfiguration() not implemented.");
 		// Mostly unimplemented
 		return null;
 	}
 
 	@Override
 	public boolean hit(Rectangle rect, Shape s, boolean onStroke) {
-		writeWarning(getClass()
-				+ ": hit(Rectangle, Shape, boolean) not implemented.");
+		writeWarning(getClass() + ": hit(Rectangle, Shape, boolean) not implemented.");
 		// Mostly unimplemented
 		return false;
 	}
@@ -680,20 +665,19 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	 * at least one Unit.
 	 */
 	@Override
-	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints,
-			boolean close) {
+	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints, boolean close) {
 		GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD);
 		if (nPoints > 0) {
 			path.moveTo((float) xPoints[0], (float) yPoints[0]);
 			double lastX = xPoints[0];
 			double lastY = yPoints[0];
-			if (close && (Math.abs(xPoints[nPoints - 1] - lastX) < 1)
+			if (close
+					&& (Math.abs(xPoints[nPoints - 1] - lastX) < 1)
 					&& (Math.abs(yPoints[nPoints - 1] - lastY) < 1)) {
 				nPoints--;
 			}
 			for (int i = 1; i < nPoints; i++) {
-				if ((Math.abs(xPoints[i] - lastX) > 1)
-						|| (Math.abs(yPoints[i] - lastY) > 1)) {
+				if ((Math.abs(xPoints[i] - lastX) > 1) || (Math.abs(yPoints[i] - lastY) > 1)) {
 					path.lineTo((float) xPoints[i], (float) yPoints[i]);
 					lastX = xPoints[i];
 					lastY = yPoints[i];
@@ -713,8 +697,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		boolean eo = EMFPathConstructor.isEvenOdd(shape);
 		if (eo != evenOdd) {
 			evenOdd = eo;
-			os.writeTag(new SetPolyFillMode(
-					(evenOdd) ? EMFConstants.ALTERNATE : EMFConstants.WINDING));
+			os.writeTag(new SetPolyFillMode((evenOdd) ? EMFConstants.ALTERNATE : EMFConstants.WINDING));
 		}
 		os.writeTag(new BeginPath());
 		pathConstructor.addPath(shape);
@@ -731,44 +714,42 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		int style = EMFConstants.PS_GEOMETRIC;
 
 		switch (stroke.getEndCap()) {
-		case BasicStroke.CAP_BUTT:
-			style |= EMFConstants.PS_ENDCAP_FLAT;
-			break;
-		case BasicStroke.CAP_ROUND:
-			style |= EMFConstants.PS_ENDCAP_ROUND;
-			break;
-		case BasicStroke.CAP_SQUARE:
-			style |= EMFConstants.PS_ENDCAP_SQUARE;
-			break;
+			case BasicStroke.CAP_BUTT:
+				style |= EMFConstants.PS_ENDCAP_FLAT;
+				break;
+			case BasicStroke.CAP_ROUND:
+				style |= EMFConstants.PS_ENDCAP_ROUND;
+				break;
+			case BasicStroke.CAP_SQUARE:
+				style |= EMFConstants.PS_ENDCAP_SQUARE;
+				break;
 		}
 
 		switch (stroke.getLineJoin()) {
-		case BasicStroke.JOIN_MITER:
-			style |= EMFConstants.PS_JOIN_MITER;
-			break;
-		case BasicStroke.JOIN_ROUND:
-			style |= EMFConstants.PS_JOIN_ROUND;
-			break;
-		case BasicStroke.JOIN_BEVEL:
-			style |= EMFConstants.PS_JOIN_BEVEL;
-			break;
+			case BasicStroke.JOIN_MITER:
+				style |= EMFConstants.PS_JOIN_MITER;
+				break;
+			case BasicStroke.JOIN_ROUND:
+				style |= EMFConstants.PS_JOIN_ROUND;
+				break;
+			case BasicStroke.JOIN_BEVEL:
+				style |= EMFConstants.PS_JOIN_BEVEL;
+				break;
 		}
 
 		// FIXME int conversion
 		// FIXME phase ignored
 		float[] dashArray = stroke.getDashArray();
 		int[] dash = new int[(dashArray != null) ? dashArray.length : 0];
-		style |= (dash.length == 0) ? EMFConstants.PS_SOLID
-				: EMFConstants.PS_USERSTYLE;
+		style |= (dash.length == 0) ? EMFConstants.PS_SOLID : EMFConstants.PS_USERSTYLE;
 		for (int i = 0; i < dash.length; i++) {
 			dash[i] = toUnit(dashArray[i]);
 		}
 
-		int brushStyle = (color.getAlpha() == 0) ? EMFConstants.BS_NULL
-				: EMFConstants.BS_SOLID;
+		int brushStyle = (color.getAlpha() == 0) ? EMFConstants.BS_NULL : EMFConstants.BS_SOLID;
 
-		ExtLogPen pen = new ExtLogPen(style, toUnit(stroke.getLineWidth()),
-				brushStyle, getPrintColor(color), 0, dash);
+		ExtLogPen pen = new ExtLogPen(
+				style, toUnit(stroke.getLineWidth()), brushStyle, getPrintColor(color), 0, dash);
 		if (penHandle != 0) {
 			os.writeTag(new DeleteObject(penHandle));
 		} else {
@@ -778,8 +759,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		os.writeTag(new SelectObject(penHandle));
 
 		if (!(getStroke() instanceof BasicStroke)
-				|| (((BasicStroke) getStroke()).getMiterLimit() != stroke
-						.getMiterLimit())) {
+				|| (((BasicStroke) getStroke()).getMiterLimit() != stroke.getMiterLimit())) {
 			os.writeTag(new SetMiterLimit(toUnit(stroke.getMiterLimit())));
 		}
 	}
@@ -790,8 +770,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		}
 		brushColor = color;
 
-		int brushStyle = (color.getAlpha() == 0) ? EMFConstants.BS_NULL
-				: EMFConstants.BS_SOLID;
+		int brushStyle = (color.getAlpha() == 0) ? EMFConstants.BS_NULL : EMFConstants.BS_SOLID;
 
 		LogBrush32 brush = new LogBrush32(brushStyle, getPrintColor(color), 0);
 		if (brushHandle != 0) {
@@ -811,5 +790,4 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 	protected void writeDash(float[] dash, float phase) throws IOException {
 		//
 	}
-
 }

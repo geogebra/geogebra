@@ -40,8 +40,8 @@ public class AutocompletionPopupPositioner {
 	 * @param verticalPosition the vertical position of the popup
 	 * @return the frame of the popup
 	 */
-	public Rectangle calculatePopupFrame(Rectangle inputBounds, Size popupSize, Rectangle frame,
-			VerticalPosition verticalPosition) {
+	public Rectangle calculatePopupFrame(
+			Rectangle inputBounds, Size popupSize, Rectangle frame, VerticalPosition verticalPosition) {
 		// Position
 		double x;
 
@@ -76,7 +76,7 @@ public class AutocompletionPopupPositioner {
 		double y;
 		if (verticalPosition == VerticalPosition.BELOW
 				|| (verticalPosition != VerticalPosition.ABOVE
-				&& (requiredHeight <= spaceBelow || spaceBelow > spaceAbove))) {
+						&& (requiredHeight <= spaceBelow || spaceBelow > spaceAbove))) {
 			// Popup below input bar
 			y = inputBounds.getMaxY();
 			// Restrict height to remaining space

@@ -125,7 +125,6 @@ public class Interval {
 			return almostEqual((Interval) o, precision);
 		}
 		return false;
-
 	}
 
 	@Override
@@ -202,7 +201,7 @@ public class Interval {
 	 * @return if interval is undefined.
 	 */
 	public boolean isUndefined() {
-		return  low > high;
+		return low > high;
 	}
 
 	/**
@@ -230,8 +229,7 @@ public class Interval {
 		if (isUndefined() || other.isUndefined()) {
 			return false;
 		}
-		return (low <= other.low && other.low <= high)
-				|| (other.low <= low && low <= other.high);
+		return (low <= other.low && other.low <= high) || (other.low <= low && low <= other.high);
 	}
 
 	/**
@@ -255,9 +253,7 @@ public class Interval {
 	 * @return if interval is zero with a given tolerance specifiedf by delta.
 	 */
 	public boolean isZeroWithDelta(double delta) {
-		return DoubleUtil.isEqual(low, 0, delta)
-				&& DoubleUtil.isEqual(high, 0, delta);
-
+		return DoubleUtil.isEqual(low, 0, delta) && DoubleUtil.isEqual(high, 0, delta);
 	}
 
 	/**
@@ -524,8 +520,7 @@ public class Interval {
 	 * @return if the interval is the unit one.
 	 */
 	public boolean isOne() {
-		return DoubleUtil.isEqual(low, 1, precision)
-				&& DoubleUtil.isEqual(high, 1, precision);
+		return DoubleUtil.isEqual(low, 1, precision) && DoubleUtil.isEqual(high, 1, precision);
 	}
 
 	/**
@@ -533,8 +528,7 @@ public class Interval {
 	 * @return if the interval is the negative unit one.
 	 */
 	public boolean isMinusOne() {
-		return DoubleUtil.isEqual(low, -1, precision)
-				&& DoubleUtil.isEqual(high, -1, precision);
+		return DoubleUtil.isEqual(low, -1, precision) && DoubleUtil.isEqual(high, -1, precision);
 	}
 
 	public boolean isFinite() {
@@ -546,8 +540,7 @@ public class Interval {
 	 * @return true if any of the bounds is infinite but not both.
 	 */
 	public boolean isSemiInfinite() {
-		return (isLowInfinite() && !isHighInfinite())
-				|| (!isLowInfinite() && isHighInfinite());
+		return (isLowInfinite() && !isHighInfinite()) || (!isLowInfinite() && isHighInfinite());
 	}
 
 	/**
@@ -555,8 +548,7 @@ public class Interval {
 	 * @return if interval is a positive infinite singleton.
 	 */
 	public boolean isPositiveInfinity() {
-		return DoubleUtil.isEqual(low, Double.POSITIVE_INFINITY)
-				&& DoubleUtil.isEqual(high, low);
+		return DoubleUtil.isEqual(low, Double.POSITIVE_INFINITY) && DoubleUtil.isEqual(high, low);
 	}
 
 	/**
@@ -564,8 +556,7 @@ public class Interval {
 	 * @return if interval is a negative infinite singleton.
 	 */
 	public boolean isNegativeInfinity() {
-		return DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY)
-				&& DoubleUtil.isEqual(high, low);
+		return DoubleUtil.isEqual(low, Double.NEGATIVE_INFINITY) && DoubleUtil.isEqual(high, low);
 	}
 
 	/**

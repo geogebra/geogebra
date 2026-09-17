@@ -22,5 +22,4 @@ public class CommandBreve2 extends Command1A {
 	public boolean isClosable() {
 		return true;
 	}
-
 }

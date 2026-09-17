@@ -35,9 +35,8 @@ public interface ExtremumFinderI {
 	 *            precision
 	 * @return x
 	 */
-	double findMinimum(double intervalMin, double intervalMax,
-			UnivariateFunction distFun,
-			double minPrecision);
+	double findMinimum(
+			double intervalMin, double intervalMax, UnivariateFunction distFun, double minPrecision);
 
 	/**
 	 * @param intervalMin
@@ -50,7 +49,6 @@ public interface ExtremumFinderI {
 	 *            precision
 	 * @return x
 	 */
-	double findMaximum(double intervalMin, double intervalMax,
-			UnivariateFunction distFun, double minPrecision);
-
+	double findMaximum(
+			double intervalMin, double intervalMax, UnivariateFunction distFun, double minPrecision);
 }

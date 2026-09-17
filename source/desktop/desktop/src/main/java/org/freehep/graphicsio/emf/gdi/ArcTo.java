@@ -11,7 +11,7 @@ import org.freehep.graphicsio.emf.EMFTag;
 
 /**
  * ArcTo TAG.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: ArcTo.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
  */
@@ -33,11 +33,9 @@ public class ArcTo extends EMFTag {
 	}
 
 	@Override
-	public EMFTag read(int tagID, EMFInputStream emf, int len)
-			throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len) throws IOException {
 
-		ArcTo tag = new ArcTo(emf.readRECTL(), emf.readPOINTL(),
-				emf.readPOINTL());
+		ArcTo tag = new ArcTo(emf.readRECTL(), emf.readPOINTL(), emf.readPOINTL());
 		return tag;
 	}
 
@@ -50,8 +48,8 @@ public class ArcTo extends EMFTag {
 
 	@Override
 	public String toString() {
-		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-				+ "  start: " + start + "\n" + "  end: " + end;
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n" + "  start: " + start + "\n"
+				+ "  end: " + end;
 	}
 
 	public Rectangle getBounds() {

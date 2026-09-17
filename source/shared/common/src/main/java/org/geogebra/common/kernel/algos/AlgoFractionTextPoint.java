@@ -33,9 +33,9 @@ public class AlgoFractionTextPoint extends AlgoElement {
 	private GeoPointND p; // input
 	private GeoText text; // output
 
-	private double[] xCoord = { 0, 0 };
-	private double[] yCoord = { 0, 0 };
-	private double[] zCoord = { 0, 0 };
+	private double[] xCoord = {0, 0};
+	private double[] yCoord = {0, 0};
+	private double[] zCoord = {0, 0};
 
 	private StringBuilder sb = new StringBuilder();
 
@@ -45,7 +45,6 @@ public class AlgoFractionTextPoint extends AlgoElement {
 	 * @param p
 	 *            point
 	 */
-
 	public AlgoFractionTextPoint(Construction cons, GeoPointND p) {
 		super(cons);
 		this.p = p;
@@ -88,12 +87,9 @@ public class AlgoFractionTextPoint extends AlgoElement {
 
 			Coords coords = p.getInhomCoords();
 
-			xCoord = AlgoFractionText.decimalToFraction(coords.getX(),
-					Kernel.STANDARD_PRECISION);
-			yCoord = AlgoFractionText.decimalToFraction(coords.getY(),
-					Kernel.STANDARD_PRECISION);
-			zCoord = AlgoFractionText.decimalToFraction(coords.getZ(),
-					Kernel.STANDARD_PRECISION);
+			xCoord = AlgoFractionText.decimalToFraction(coords.getX(), Kernel.STANDARD_PRECISION);
+			yCoord = AlgoFractionText.decimalToFraction(coords.getY(), Kernel.STANDARD_PRECISION);
+			zCoord = AlgoFractionText.decimalToFraction(coords.getZ(), Kernel.STANDARD_PRECISION);
 
 			sb.setLength(0);
 			sb.append("{ \\left( ");
@@ -117,5 +113,4 @@ public class AlgoFractionTextPoint extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
 }

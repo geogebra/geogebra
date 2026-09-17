@@ -1,36 +1,19 @@
 /*
- * 11/19/04 1.0 moved to LGPL.
- * 
- * 11/17/04 Incomplete frames discarded. E.B, javalayer@javazoom.net
+ * GeoGebra - Dynamic Mathematics for Everyone
+ * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
+ * https://www.geogebra.org
  *
- * 12/05/03 ID3v2 tag returned. E.B, javalayer@javazoom.net 
+ * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
+ * may be used under the EUPL 1.2 in compatible projects (see Article 5
+ * and the Appendix of EUPL 1.2 for details).
+ * You may obtain a copy of the licence at:
+ * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
  *
- * 12/12/99 Based on Ibitstream. Exceptions thrown on errors, Temporary removed seek functionality. mdm@techie.com
- *
- * 02/12/99 : Java Conversion by E.B , javalayer@javazoom.net
- *
- * 04/14/97 : Added function prototypes for new syncing and seeking
- * mechanisms. Also made this file portable. Changes made by Jeff Tsay
- *
- *  @(#) ibitstream.h 1.5, last edit: 6/15/94 16:55:34
- *  @(#) Copyright (C) 1993, 1994 Tobias Bading (bading@cs.tu-berlin.de)
- *  @(#) Berlin University of Technology
- *-----------------------------------------------------------------------
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU Library General Public License as published
- *   by the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU Library General Public License for more details.
- *
- *   You should have received a copy of the GNU Library General Public
- *   License along with this program; if not, write to the Free Software
- *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *----------------------------------------------------------------------
+ * Note: The overall GeoGebra software package is free to use for
+ * non-commercial purposes only.
+ * See https://www.geogebra.org/license for full licensing details
  */
+
 package org.geogebra.desktop.sound.mp3transform;
 
 import java.io.EOFException;
@@ -76,13 +59,29 @@ public final class Bitstream {
 	 * Number (0-31, from MSB to LSB) of next bit for getBits()
 	 */
 	private int bitIndex;
+
 	private int syncWord;
 	private boolean singleChMode;
-	private static final int[] BITMASK = { 0, // dummy
-			0x00000001, 0x00000003, 0x00000007, 0x0000000F, 0x0000001F,
-			0x0000003F, 0x0000007F, 0x000000FF, 0x000001FF, 0x000003FF,
-			0x000007FF, 0x00000FFF, 0x00001FFF, 0x00003FFF, 0x00007FFF,
-			0x0000FFFF, 0x0001FFFF };
+	private static final int[] BITMASK = {
+		0, // dummy
+		0x00000001,
+		0x00000003,
+		0x00000007,
+		0x0000000F,
+		0x0000001F,
+		0x0000003F,
+		0x0000007F,
+		0x000000FF,
+		0x000001FF,
+		0x000003FF,
+		0x000007FF,
+		0x00000FFF,
+		0x00001FFF,
+		0x00003FFF,
+		0x00007FFF,
+		0x0000FFFF,
+		0x0001FFFF
+	};
 	private final PushbackInputStream source;
 	private final Header header = new Header();
 	private final byte[] syncBuffer = new byte[4];
@@ -127,7 +126,7 @@ public final class Bitstream {
 
 	/**
 	 * Parse ID3v2 tag header to find out size of ID3v2 frames.
-	 * 
+	 *
 	 * @return size of ID3v2 frames + header
 	 * @throws IOException if stream was closed or I/O error happened
 	 * @author JavaZOOM
@@ -146,7 +145,7 @@ public final class Bitstream {
 
 	/**
 	 * Reads and parses the next frame from the input source.
-	 * 
+	 *
 	 * @return the Header describing details of the frame read, or null if the
 	 *         end of the stream has been reached.
 	 * @throws IOException
@@ -216,7 +215,7 @@ public final class Bitstream {
 	 * Get next 32 bits from bitstream. They are stored in the headerstring.
 	 * syncmod allows Synchro flag ID The returned value is False at the end of
 	 * stream.
-	 * 
+	 *
 	 * @param syncMode
 	 */
 	int syncHeader(byte syncMode) throws IOException {
@@ -246,8 +245,8 @@ public final class Bitstream {
 		if (syncMode == INITIAL_SYNC) {
 			sync = (headerString & 0xFFE00000) == 0xFFE00000; // SZD: MPEG 2.5
 		} else {
-			sync = ((headerString & 0xFFF80C00) == word) && ((headerString
-					& 0x000000C0) == 0x000000C0 == singleChMode);
+			sync = ((headerString & 0xFFF80C00) == word)
+					&& ((headerString & 0x000000C0) == 0x000000C0 == singleChMode);
 		}
 		// filter out invalid sample rate
 		if (sync) {
@@ -299,7 +298,8 @@ public final class Bitstream {
 				b3 = byteRead[k + 3];
 			}
 			frameBuffer[b++] = ((b0 << 24) & 0xFF000000)
-					| ((b1 << 16) & 0x00FF0000) | ((b2 << 8) & 0x0000FF00)
+					| ((b1 << 16) & 0x00FF0000)
+					| ((b2 << 8) & 0x0000FF00)
 					| (b3 & 0x000000FF);
 		}
 		wordPointer = 0;
@@ -320,8 +320,7 @@ public final class Bitstream {
 		}
 		if (sum <= 32) {
 			// all bits contained in *wordpointer
-			returnValue = (frameBuffer[wordPointer] >>> (32 - sum))
-					& BITMASK[numberOfBits];
+			returnValue = (frameBuffer[wordPointer] >>> (32 - sum)) & BITMASK[numberOfBits];
 			bitIndex += numberOfBits;
 			if (bitIndex == 32) {
 				bitIndex = 0;
@@ -332,8 +331,7 @@ public final class Bitstream {
 		int right = frameBuffer[wordPointer] & 0x0000FFFF;
 		wordPointer++;
 		int left = frameBuffer[wordPointer] & 0xFFFF0000;
-		returnValue = ((right << 16) & 0xFFFF0000)
-				| ((left >>> 16) & 0x0000FFFF);
+		returnValue = ((right << 16) & 0xFFFF0000) | ((left >>> 16) & 0x0000FFFF);
 		returnValue >>>= 48 - sum;
 		returnValue &= BITMASK[numberOfBits];
 		bitIndex = sum - 32;
@@ -351,7 +349,7 @@ public final class Bitstream {
 	/**
 	 * Reads the exact number of bytes from the source input stream into a byte
 	 * array.
-	 * 
+	 *
 	 * @param b
 	 *            The byte array to read the specified number of bytes into.
 	 * @param offset
@@ -359,7 +357,7 @@ public final class Bitstream {
 	 *            stored.
 	 * @param length
 	 *            the number of bytes to read.
-	 * 
+	 *
 	 * @exception IOException
 	 *                is thrown if the specified number of bytes could not be
 	 *                read from the stream.

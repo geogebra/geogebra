@@ -30,8 +30,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public class AlgoLinePointLine3D extends AlgoLinePoint {
 
-	public AlgoLinePointLine3D(Construction cons,
-			GeoPointND point, GeoLineND line) {
+	public AlgoLinePointLine3D(Construction cons, GeoPointND point, GeoLineND line) {
 		super(cons, point, (GeoElement) line);
 	}
 
@@ -44,5 +43,4 @@ public class AlgoLinePointLine3D extends AlgoLinePoint {
 	protected Coords getDirection() {
 		return getInputParallel().getMainDirection();
 	}
-
 }

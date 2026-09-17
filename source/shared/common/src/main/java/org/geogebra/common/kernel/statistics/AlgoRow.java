@@ -25,7 +25,7 @@ import org.geogebra.common.spreadsheet.core.SpreadsheetCoords;
 
 /**
  * Returns the Column of a GeoElement.
- * 
+ *
  * @author Michael
  */
 public class AlgoRow extends AlgoElement {
@@ -64,7 +64,7 @@ public class AlgoRow extends AlgoElement {
 
 	/**
 	 * Returns the row number of the cell
-	 * 
+	 *
 	 * @return row number of the cell
 	 */
 	public GeoNumeric getResult() {
@@ -81,5 +81,4 @@ public class AlgoRow extends AlgoElement {
 			num.setUndefined();
 		}
 	}
-
 }

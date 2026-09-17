@@ -96,9 +96,8 @@ public class ParseException extends JMathTeXException {
 		final int line = tp.getLine();
 		final int col = ppos == -1 ? tp.getCol() : tp.getPrevCol();
 		tp.cancelPrevPos();
-		final String[] lines = parseString
-				.substring(0, Math.min(pos + N + 2, parseString.length()))
-				.split("\n");
+		final String[] lines =
+				parseString.substring(0, Math.min(pos + N + 2, parseString.length())).split("\n");
 		final String current = lines[line - 1];
 		final String lineBefore = line >= 2 ? (lines[line - 2] + "\n") : "";
 		String arrow = "~~~^";
@@ -109,15 +108,15 @@ public class ParseException extends JMathTeXException {
 			pre = "";
 			if (col < 4 /* arrow.length */) {
 				switch (col) {
-				case 1:
-					arrow = "^";
-					break;
-				case 2:
-					arrow = "~^";
-					break;
-				case 3:
-					arrow = "~~^";
-					break;
+					case 1:
+						arrow = "^";
+						break;
+					case 2:
+						arrow = "~^";
+						break;
+					case 3:
+						arrow = "~~^";
+						break;
 				}
 			}
 		} else {
@@ -133,10 +132,9 @@ public class ParseException extends JMathTeXException {
 		}
 
 		final String extract = current.substring(start, end);
-		final String whites = getWhites(
-				pre.length() + col - start - arrow.length());
+		final String whites = getWhites(pre.length() + col - start - arrow.length());
 
-		return msg + "\n" + "at line " + line + " and column " + col + ":\n"
-				+ lineBefore + pre + extract + post + "\n" + whites + arrow;
+		return msg + "\n" + "at line " + line + " and column " + col + ":\n" + lineBefore + pre
+				+ extract + post + "\n" + whites + arrow;
 	}
 }

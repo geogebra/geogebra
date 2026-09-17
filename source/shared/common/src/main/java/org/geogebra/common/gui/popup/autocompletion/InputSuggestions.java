@@ -41,8 +41,7 @@ public class InputSuggestions {
 	 * @return if suggestion is prevented for the given editorState
 	 */
 	public boolean isPreventedFor(EditorState editorState) {
-		return isTextInput() || editorState.isInsideQuotes()
-				|| editorState.isInScript();
+		return isTextInput() || editorState.isInsideQuotes() || editorState.isInScript();
 	}
 
 	/**
@@ -50,8 +49,7 @@ public class InputSuggestions {
 	 * @return if the input is text type.
 	 */
 	public boolean isTextInput() {
-		return forceAsText || (geo != null && geo.isGeoText()
-				&& geo.isTextCommand());
+		return forceAsText || (geo != null && geo.isGeoText() && geo.isTextCommand());
 	}
 
 	/**
@@ -69,6 +67,7 @@ public class InputSuggestions {
 	 */
 	public String getCommand(MathField mf) {
 		return mf == null || isPreventedFor(mf.getInternal().getEditorState())
-				? "" : mf.getInternal().getCharactersLeftOfCursor();
+				? ""
+				: mf.getInternal().getCharactersLeftOfCursor();
 	}
 }

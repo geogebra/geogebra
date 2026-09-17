@@ -46,7 +46,7 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 	private Coords tmpCoords1 = new Coords(4);
 
 	/**
-	 * 
+	 *
 	 * @param view3D 3D view
 	 * @param animator animator
 	 */
@@ -55,7 +55,7 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dx
 	 *            translation x in screen coordinates
 	 * @param dy
@@ -119,13 +119,13 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 		view3D.setXZero(xZeroOld + screenTranslateAndScaleDX);
 		view3D.setYZero(yZeroOld + screenTranslateAndScaleDY);
 		view3D.setZZero(zZeroOld + screenTranslateAndScaleDZ);
-		view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(),
-				view3D.getZZero());
+		view3D
+				.getSettings()
+				.updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
 		view3D.setScale(xScaleEnd, yScaleEnd, zScaleEnd);
 		view3D.updateMatrix();
 		view3D.setViewChangedByZoom();
 		view3D.setViewChangedByTranslate();
 		end();
 	}
-
 }

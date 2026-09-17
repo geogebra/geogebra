@@ -46,7 +46,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
 	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 */
-	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+	public DefaultDrawerMenuFactory(
+			GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			LogInOperation logInOperation) {
 		this(platform, version, logInOperation, false);
@@ -60,7 +61,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 * @param createExamEntry whether the factory should create the start exam button
 	 */
-	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+	public DefaultDrawerMenuFactory(
+			GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			LogInOperation logInOperation,
 			boolean createExamEntry) {
@@ -76,14 +78,22 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * @param enableFileFeatures whether to show sign-in related file features
 	 * @param createExamEntry whether the factory should create the start exam button
 	 */
-	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+	public DefaultDrawerMenuFactory(
+			GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			String versionNumber,
 			LogInOperation logInOperation,
 			boolean createExamEntry,
 			boolean enableFileFeatures) {
-		this(platform, version, versionNumber, logInOperation, createExamEntry,
-				enableFileFeatures, false, true);
+		this(
+				platform,
+				version,
+				versionNumber,
+				logInOperation,
+				createExamEntry,
+				enableFileFeatures,
+				false,
+				true);
 	}
 
 	/**
@@ -97,7 +107,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * @param enableFileFeatures whether to show sign-in related file features
 	 * @param isSuiteApp whether it is the Suite app
 	 */
-	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+	public DefaultDrawerMenuFactory(
+			GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			String versionNumber,
 			LogInOperation logInOperation,
@@ -135,8 +146,16 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItem downloadAs = isWeb() ? showDownloadAs() : null;
 		MenuItem printPreview = hasPrintPreview() ? previewPrint() : null;
 		MenuItem exportImage = isSuiteScientific() ? null : exportImage();
-		return new MenuItemGroupImpl(removeNulls(clearConstruction(), openFile, save, saveOffline,
-				share, exportImage, downloadAs, printPreview, startExamMode));
+		return new MenuItemGroupImpl(removeNulls(
+				clearConstruction(),
+				openFile,
+				save,
+				saveOffline,
+				share,
+				exportImage,
+				downloadAs,
+				printPreview,
+				startExamMode));
 	}
 
 	protected MenuItem saveFileOnline() {
@@ -156,8 +175,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	private MenuItemGroup createSecondaryMenuItemGroup(App app) {
 		MenuItem switchCalcItem = createSwitchCalcEntry ? showSwitchCalculator(app) : null;
-		return new MenuItemGroupImpl(removeNulls(switchCalcItem,
-				showSettings(), showHelpAndFeedback()));
+		return new MenuItemGroupImpl(
+				removeNulls(switchCalcItem, showSettings(), showHelpAndFeedback()));
 	}
 
 	private MenuItemGroup createUserGroup() {
@@ -170,10 +189,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private static MenuItemGroup createUserGroup(LogInOperation logInOperation) {
 		if (logInOperation.isLoggedIn()) {
 			GeoGebraTubeUser user = logInOperation.getModel().getLoggedInUser();
-			MenuItem userItem = new ActionableItemImpl(Icon.USER_ICON,
-					user.getUserName(), Action.OPEN_PROFILE_PAGE);
-			MenuItem signOut = new ActionableItemImpl(Icon.SIGN_OUT,
-					"SignOut", Action.SIGN_OUT);
+			MenuItem userItem =
+					new ActionableItemImpl(Icon.USER_ICON, user.getUserName(), Action.OPEN_PROFILE_PAGE);
+			MenuItem signOut = new ActionableItemImpl(Icon.SIGN_OUT, "SignOut", Action.SIGN_OUT);
 			return new MenuItemGroupImpl(userItem, signOut);
 		} else {
 			MenuItem signIn = new ActionableItemImpl(Icon.SIGN_IN, "SignIn", Action.SIGN_IN);
@@ -216,8 +234,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private static MenuItem startExamMode() {
-		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
-				"exam_menu_entry", Action.START_EXAM_MODE);
+		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY, "exam_menu_entry", Action.START_EXAM_MODE);
 	}
 
 	protected static MenuItem share() {
@@ -237,40 +254,43 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	protected MenuItem showHelpAndFeedback() {
-		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
-				"Tutorial", Action.SHOW_TUTORIALS);
-		ActionableItem askQuestion = new ActionableItemImpl(Icon.HELP,
-				"Help", Action.SHOW_FORUM);
-		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
-				"ReportProblem", Action.REPORT_PROBLEM);
-		ActionableItem privacyPolicy = new ActionableItemImpl(Icon.PRIVACY_POLICY,
-				"PrivacyPolicy", Action.SHOW_PRIVACY_POLICY);
-		ActionableItem license = new ActionableItemImpl(Icon.INFO,
-				"AboutLicense", Action.SHOW_LICENSE);
-		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback", versionNumber,
-				tutorials, askQuestion, reportProblem, privacyPolicy, license);
+		ActionableItem tutorials =
+				new ActionableItemImpl(Icon.SCHOOL, "Tutorial", Action.SHOW_TUTORIALS);
+		ActionableItem askQuestion = new ActionableItemImpl(Icon.HELP, "Help", Action.SHOW_FORUM);
+		ActionableItem reportProblem =
+				new ActionableItemImpl(Icon.BUG_REPORT, "ReportProblem", Action.REPORT_PROBLEM);
+		ActionableItem privacyPolicy =
+				new ActionableItemImpl(Icon.PRIVACY_POLICY, "PrivacyPolicy", Action.SHOW_PRIVACY_POLICY);
+		ActionableItem license = new ActionableItemImpl(Icon.INFO, "AboutLicense", Action.SHOW_LICENSE);
+		return new SubmenuItemImpl(
+				Icon.HELP,
+				"HelpAndFeedback",
+				versionNumber,
+				tutorials,
+				askQuestion,
+				reportProblem,
+				privacyPolicy,
+				license);
 	}
 
 	protected MenuItem showDownloadAs() {
-		ActionableItem downloadPng = new ActionableItemImpl(null,
-				"Download.PNGImage", Action.DOWNLOAD_PNG);
+		ActionableItem downloadPng =
+				new ActionableItemImpl(null, "Download.PNGImage", Action.DOWNLOAD_PNG);
 		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage", Action.DOWNLOAD_SVG);
-		ActionableItem pdf = new ActionableItemImpl(null,
-				"Download.PDFDocument", Action.DOWNLOAD_PDF);
+		ActionableItem pdf = new ActionableItemImpl(null, "Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
-		case PROBABILITY:
-			return buildDownloadAs(createDownloadGgb(), downloadPng);
-		case NOTES:
-			return buildDownloadAs(createDownloadSlides(), downloadPng, svg, pdf);
-		case GRAPHING_3D:
-			ActionableItem dae = new ActionableItemImpl(
-					"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
-			ActionableItem html = new ActionableItemImpl(
-					"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-			return buildDownloadAs(createDownloadGgb(), downloadPng,
-					createDownloadStl(), dae, html);
-		default:
-			return buildDownloadAs(createDownloadGgb(), downloadPng, svg, pdf, createDownloadStl());
+			case PROBABILITY:
+				return buildDownloadAs(createDownloadGgb(), downloadPng);
+			case NOTES:
+				return buildDownloadAs(createDownloadSlides(), downloadPng, svg, pdf);
+			case GRAPHING_3D:
+				ActionableItem dae =
+						new ActionableItemImpl("Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
+				ActionableItem html =
+						new ActionableItemImpl("Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
+				return buildDownloadAs(createDownloadGgb(), downloadPng, createDownloadStl(), dae, html);
+			default:
+				return buildDownloadAs(createDownloadGgb(), downloadPng, svg, pdf, createDownloadStl());
 		}
 	}
 
@@ -293,5 +313,4 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	public LogInOperation getLogInOperation() {
 		return logInOperation;
 	}
-
 }

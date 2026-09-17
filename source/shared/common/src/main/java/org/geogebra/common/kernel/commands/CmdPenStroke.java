@@ -53,12 +53,10 @@ public class CmdPenStroke extends CommandProcessor {
 				flat[i] = current.evaluateDouble();
 			} else if (current instanceof MyDouble && i < size - 1) {
 				ExpressionValue next = c.getArgument(i + 1).unwrap();
-				myPoints.add(new MyPoint(current.evaluateDouble(),
-						next.evaluateDouble()));
+				myPoints.add(new MyPoint(current.evaluateDouble(), next.evaluateDouble()));
 				i++;
 			} else if (current instanceof MyVecNode vec) {
-				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
-						vec.getY().evaluateDouble()));
+				myPoints.add(new MyPoint(vec.getX().evaluateDouble(), vec.getY().evaluateDouble()));
 			} else {
 				throw argErr(c, current);
 			}

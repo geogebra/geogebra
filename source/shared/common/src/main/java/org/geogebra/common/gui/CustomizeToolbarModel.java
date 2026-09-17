@@ -27,10 +27,9 @@ public class CustomizeToolbarModel {
 	 * @param toolbarDefinition
 	 *            toolbar definition string (see EuclidianConstants)
 	 * @return vector of menus (vectors of ints) and separators (ints)
-	 * 
+	 *
 	 */
-	public static Vector<Integer> generateToolsVector(
-			String toolbarDefinition) {
+	public static Vector<Integer> generateToolsVector(String toolbarDefinition) {
 		Vector<Integer> vector = new Vector<>();
 		// separator
 		vector.add(ToolBar.SEPARATOR);
@@ -59,5 +58,4 @@ public class CustomizeToolbarModel {
 		}
 		return vector;
 	}
-
 }

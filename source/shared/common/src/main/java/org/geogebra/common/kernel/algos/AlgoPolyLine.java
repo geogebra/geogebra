@@ -32,7 +32,7 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Creates a PolyLine from a given list of points or point array.
- * 
+ *
  * @author Michael Borcherds
  */
 public class AlgoPolyLine extends AlgoElement {
@@ -42,6 +42,7 @@ public class AlgoPolyLine extends AlgoElement {
 	protected GeoList geoList;
 	/** output polyline */
 	protected GeoPolyLine poly;
+
 	private StringBuilder sb;
 
 	/**
@@ -72,8 +73,7 @@ public class AlgoPolyLine extends AlgoElement {
 	 * @param geoList
 	 *            list of vertices of the polygon (alternative to points)
 	 */
-	public AlgoPolyLine(Construction cons, GeoPointND[] points,
-			GeoList geoList) {
+	public AlgoPolyLine(Construction cons, GeoPointND[] points, GeoList geoList) {
 		super(cons);
 		this.points = points;
 		this.geoList = geoList;
@@ -91,7 +91,6 @@ public class AlgoPolyLine extends AlgoElement {
 	protected void createPolyLine() {
 
 		poly = new GeoPolyLine(this.cons, this.points);
-
 	}
 
 	@Override
@@ -106,7 +105,7 @@ public class AlgoPolyLine extends AlgoElement {
 
 	/**
 	 * Update point array of polygon using the given array list
-	 * 
+	 *
 	 * @param pointList
 	 *            new point list
 	 */
@@ -124,7 +123,6 @@ public class AlgoPolyLine extends AlgoElement {
 			points[i] = (GeoPoint) pointList.get(i);
 		}
 		poly.setPoints(points);
-
 	}
 
 	// for AlgoElement
@@ -194,7 +192,7 @@ public class AlgoPolyLine extends AlgoElement {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
 		if (sb == null) {
 			sb = new StringBuilder();

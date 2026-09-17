@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -49,10 +49,10 @@ import javax.swing.text.Document;
  * {@link JTextField} components. A user should prefer one of the static
  * <code>install</code> methods in the {@link AutoCompletion} class over
  * instantiating this class directly.
- * 
+ *
  * @param <T>
  *            The type of the displayed completion options
- * 
+ *
  * @author Julian Lettner
  */
 public class OptionsPopup<T> {
@@ -70,7 +70,7 @@ public class OptionsPopup<T> {
 
 	/**
 	 * Initializes components and registers event listeners.
-	 * 
+	 *
 	 * @param textField
 	 *            The text field
 	 * @param completionProvider
@@ -82,9 +82,11 @@ public class OptionsPopup<T> {
 	 * @param maxPopupRowCount
 	 *            The maximal number of rows for the options popup
 	 */
-	public OptionsPopup(JTextField textField,
+	public OptionsPopup(
+			JTextField textField,
 			CompletionProvider<T> completionProvider,
-			ListCellRenderer listCellRenderer, int maxPopupRowCount) {
+			ListCellRenderer listCellRenderer,
+			int maxPopupRowCount) {
 		this.textField = textField;
 		this.completionProvider = completionProvider;
 		this.maxPopupRowCount = maxPopupRowCount;
@@ -206,8 +208,7 @@ public class OptionsPopup<T> {
 
 	private void updateText() {
 		T option = (T) list.getSelectedValue();
-		String text = option == null ? userInput
-				: completionProvider.toString(option);
+		String text = option == null ? userInput : completionProvider.toString(option);
 		Document d = textField.getDocument();
 		d.removeDocumentListener(documentListener);
 		textField.setText(text);
@@ -220,29 +221,29 @@ public class OptionsPopup<T> {
 		}
 
 		switch (keyEvent.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case VK_ESCAPE: // [ESC]
-			hideOptionsPopup();
-			keyEvent.consume();
-			break;
-		case VK_ENTER: // [ENTER]
-			hideOptionsPopup();
-			textField.selectAll();
-			break;
-		case VK_DOWN: // [DOWN]
-			navigateRelative(+1);
-			break;
-		case VK_UP: // [UP]
-			navigateRelative(-1);
-			break;
-		case VK_PAGE_DOWN: // [PAGE_DOWN]
-			navigateRelative(+maxPopupRowCount - 1);
-			break;
-		case VK_PAGE_UP: // [PAGE_UP]
-			navigateRelative(-maxPopupRowCount + 1);
-			break;
+			default:
+				// do nothing
+				break;
+			case VK_ESCAPE: // [ESC]
+				hideOptionsPopup();
+				keyEvent.consume();
+				break;
+			case VK_ENTER: // [ENTER]
+				hideOptionsPopup();
+				textField.selectAll();
+				break;
+			case VK_DOWN: // [DOWN]
+				navigateRelative(+1);
+				break;
+			case VK_UP: // [UP]
+				navigateRelative(-1);
+				break;
+			case VK_PAGE_DOWN: // [PAGE_DOWN]
+				navigateRelative(+maxPopupRowCount - 1);
+				break;
+			case VK_PAGE_UP: // [PAGE_UP]
+				navigateRelative(-maxPopupRowCount + 1);
+				break;
 		}
 	}
 
@@ -277,5 +278,4 @@ public class OptionsPopup<T> {
 			textField.selectAll();
 		}
 	}
-
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,12 +34,12 @@ class IneqTreeTest extends BaseUnitTest {
 	void ignoreExtraVerticesOr() {
 		GeoFunctionNVar fn = add("(x > 1 || x > 2 + y || x + y > 6) && y > 1");
 		IneqTree ineqs = fn.getIneqs();
-		assertEquals(ExtendedBoolean.UNKNOWN,
-				ineqs.valueAround(1, 1), "Expect UNKNOWN for true vertex");
-		assertEquals(ExtendedBoolean.FALSE,
-				ineqs.valueAround(1, -1), "Expect FALSE for intersection outside");
-		assertEquals(ExtendedBoolean.TRUE,
-				ineqs.valueAround(4, 2), "Expect TRUE for intersection inside");
+		assertEquals(
+				ExtendedBoolean.UNKNOWN, ineqs.valueAround(1, 1), "Expect UNKNOWN for true vertex");
+		assertEquals(
+				ExtendedBoolean.FALSE, ineqs.valueAround(1, -1), "Expect FALSE for intersection outside");
+		assertEquals(
+				ExtendedBoolean.TRUE, ineqs.valueAround(4, 2), "Expect TRUE for intersection inside");
 	}
 
 	@Test

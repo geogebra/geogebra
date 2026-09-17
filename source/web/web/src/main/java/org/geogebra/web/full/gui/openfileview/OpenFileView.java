@@ -72,7 +72,8 @@ public final class OpenFileView extends HeaderFileView
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("fileViewButtonPanel");
 
-		openFileBtn.setImageAndText(MaterialDesignResources.INSTANCE.open_local_file(),
+		openFileBtn.setImageAndText(
+				MaterialDesignResources.INSTANCE.open_local_file(),
 				app.getLocalization().getMenu("OpenFileView.LocalFile"));
 		openFileBtn.setAcceptedFileType(app.getFileExtension());
 		if (app.enableFileFeatures()) {
@@ -99,8 +100,7 @@ public final class OpenFileView extends HeaderFileView
 	}
 
 	private boolean loggedInUserHasGoogleDrive() {
-		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
-				.getLoggedInUser();
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel().getLoggedInUser();
 		return user != null && user.hasGoogleDrive() && app.getLAF().supportsGoogleDrive();
 	}
 
@@ -115,8 +115,7 @@ public final class OpenFileView extends HeaderFileView
 			googleDriveBtn.setVisible(event instanceof LoginEvent && loggedInUserHasGoogleDrive());
 			loadAllMaterials(0);
 		}
-		if (event instanceof LoginEvent
-				&& ((LoginEvent) event).isSuccessful()) {
+		if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
 			common.onLogin((LoginEvent) event);
 		}
 		if (event instanceof LogOutEvent) {
@@ -134,25 +133,25 @@ public final class OpenFileView extends HeaderFileView
 		clearContentPanelAndShowSpinner();
 		LogInOperation loginOperation = app.getLoginOperation();
 		if (loginOperation.isLoggedIn()) {
-			loginOperation.getResourcesAPI().getUsersMaterials(getCallback(),
-					ResourceOrdering.created);
+			loginOperation.getResourcesAPI().getUsersMaterials(getCallback(), ResourceOrdering.created);
 		} else if (!loginOperation.getModel().isLoginStarted()) {
-			loginOperation.getResourcesAPI()
-					.getFeaturedMaterials(getCallback());
+			loginOperation.getResourcesAPI().getFeaturedMaterials(getCallback());
 		}
 	}
 
 	private InfoErrorData getInfoErrorData() {
-		return new InfoErrorData("emptyMaterialList.caption",
-				"emptyMaterialList.info", null, MaterialDesignResources.INSTANCE.search_black());
+		return new InfoErrorData(
+				"emptyMaterialList.caption",
+				"emptyMaterialList.info",
+				null,
+				MaterialDesignResources.INSTANCE.search_black());
 	}
 
 	private MaterialCallbackI getCallback() {
 		return new MaterialCallbackI() {
 
 			@Override
-			public void onLoaded(final List<Material> matList,
-					Pagination meta) {
+			public void onLoaded(final List<Material> matList, Pagination meta) {
 				if (matList.isEmpty()) {
 					common.showEmptyListNotification(getInfoErrorData());
 				} else {
@@ -189,8 +188,7 @@ public final class OpenFileView extends HeaderFileView
 			loadAllMaterials(0);
 		} else {
 			clearContentPanelAndShowSpinner();
-			app.getLoginOperation().getResourcesAPI().search(
-					query, getCallback());
+			app.getLoginOperation().getResourcesAPI().search(query, getCallback());
 		}
 	}
 

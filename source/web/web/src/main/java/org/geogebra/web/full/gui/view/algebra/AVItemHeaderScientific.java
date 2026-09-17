@@ -27,8 +27,7 @@ import org.gwtproject.user.client.ui.SimplePanel;
 /**
  * Header for numbered rows
  */
-public final class AVItemHeaderScientific extends SimplePanel
-		implements AlgebraItemHeader {
+public final class AVItemHeaderScientific extends SimplePanel implements AlgebraItemHeader {
 
 	private final Label number;
 	private NoDragImage warningImage;
@@ -86,5 +85,4 @@ public final class AVItemHeaderScientific extends SimplePanel
 	public void setError(String errorMessage) {
 		// not implemented
 	}
-
 }

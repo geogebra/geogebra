@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Abstract class for all angle algos
- * 
+ *
  * @author mathieu
  *
  */
@@ -36,14 +36,13 @@ public abstract class AlgoAngle extends AlgoElement {
 
 	/**
 	 * default constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
 	public AlgoAngle(Construction c) {
 		super(c);
 		initCoords();
-
 	}
 
 	/**
@@ -55,7 +54,7 @@ public abstract class AlgoAngle extends AlgoElement {
 
 	/**
 	 * Creates new algorithm
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param addToConstructionList
@@ -67,7 +66,7 @@ public abstract class AlgoAngle extends AlgoElement {
 
 	/**
 	 * create a new GeoAngle with interval as default angle
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new GeoAngle
@@ -84,12 +83,12 @@ public abstract class AlgoAngle extends AlgoElement {
 	}
 
 	@Override
-	final public int getRelatedModeID() {
+	public final int getRelatedModeID() {
 		return EuclidianConstants.MODE_ANGLE;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return normal vector
 	 */
 	public Coords getVn() {
@@ -98,7 +97,7 @@ public abstract class AlgoAngle extends AlgoElement {
 
 	/**
 	 * update draw info for 2D drawable
-	 * 
+	 *
 	 * @param m
 	 *            angle apex
 	 * @param firstVec
@@ -107,8 +106,7 @@ public abstract class AlgoAngle extends AlgoElement {
 	 *            2D drawable
 	 * @return true if visible
 	 */
-	public abstract boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable);
+	public abstract boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable);
 
 	/**
 	 * @param drawCoords
@@ -118,18 +116,18 @@ public abstract class AlgoAngle extends AlgoElement {
 	public abstract boolean getCoordsInD3(Coords[] drawCoords);
 
 	/**
-	 * 
+	 *
 	 * @param vertex
 	 *            start point
 	 * @return true if vertex is not correct center for drawing the angle
 	 */
-	static protected boolean centerIsNotDrawable(GeoPointND vertex) {
+	protected static boolean centerIsNotDrawable(GeoPointND vertex) {
 		return vertex == null || !vertex.isDefined() || vertex.isInfinite();
 	}
 
 	/**
 	 * check orientation/vn and update angle value and vn direction if needed
-	 * 
+	 *
 	 * @param vn
 	 *            normal vector computed for drawing
 	 * @param orientation
@@ -139,8 +137,8 @@ public abstract class AlgoAngle extends AlgoElement {
 	 * @param reverse
 	 *            reverse check
 	 */
-	protected static void checkOrientation(Coords vn,
-			GeoDirectionND orientation, GeoAngle a, boolean reverse) {
+	protected static void checkOrientation(
+			Coords vn, GeoDirectionND orientation, GeoAngle a, boolean reverse) {
 		if ((vn.dotproduct(orientation.getDirectionInD3()) < 0) ^ reverse) {
 			double v = 2 * Math.PI - a.getValue();
 			a.setValue(v);
@@ -158,5 +156,4 @@ public abstract class AlgoAngle extends AlgoElement {
 	protected GeoPointND getStartPoint(GeoVectorND v) {
 		return v.getStartPoint() == null ? cons.getOrigin() : v.getStartPoint();
 	}
-
 }

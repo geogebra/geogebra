@@ -30,8 +30,7 @@ import org.jspecify.annotations.NonNull;
  * Utilities for compressing long and noisy stream calls.
  */
 public final class StreamUtils {
-	private StreamUtils() {
-	}
+	private StreamUtils() {}
 
 	/**
 	 * Creates a new stream {@code Stream} from an iterable.
@@ -39,7 +38,7 @@ public final class StreamUtils {
 	 * @return stream of elements from the iterable
 	 * @param <T> the type of iterable elements
 	 */
-	public static<T> Stream<T> streamOf(@NonNull Iterable<T> iterable) {
+	public static <T> Stream<T> streamOf(@NonNull Iterable<T> iterable) {
 		return StreamSupport.stream(iterable.spliterator(), false);
 	}
 
@@ -51,7 +50,7 @@ public final class StreamUtils {
 	 * @return a new set containing the filtered values
 	 * @param <T> the type of the iterable elements
 	 */
-	public static<T> Set<T> filter(@NonNull Iterable<T> iterable, @NonNull Predicate<T> predicate) {
+	public static <T> Set<T> filter(@NonNull Iterable<T> iterable, @NonNull Predicate<T> predicate) {
 		return streamOf(iterable).filter(predicate).collect(Collectors.toSet());
 	}
 
@@ -64,11 +63,11 @@ public final class StreamUtils {
 	 * @param <T> the type of the collection elements
 	 * @param <R> the type of the new set elements
 	 */
-	public static<T, R> Set<R> flatMap(
+	public static <T, R> Set<R> flatMap(
 			@NonNull Collection<T> collection,
-			@NonNull Function<? super T, ? extends Collection<? extends R>> mapper
-	) {
-		return collection.stream().flatMap(element -> mapper.apply(element).stream())
+			@NonNull Function<? super T, ? extends Collection<? extends R>> mapper) {
+		return collection.stream()
+				.flatMap(element -> mapper.apply(element).stream())
 				.collect(Collectors.toSet());
 	}
 }

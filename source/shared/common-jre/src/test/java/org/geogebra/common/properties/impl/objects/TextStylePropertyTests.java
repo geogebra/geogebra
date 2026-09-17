@@ -39,10 +39,11 @@ class TextStylePropertyTests extends BaseAppTestSetup {
 	private final GeoElementPropertiesFactory propertiesFactory = new GeoElementPropertiesFactory();
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"\"abc\"",
-			"Button(\"Press\")",
-	})
+	@ValueSource(
+			strings = {
+				"\"abc\"",
+				"Button(\"Press\")",
+			})
 	void testApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new TextStyleProperty(
@@ -50,28 +51,31 @@ class TextStylePropertyTests extends BaseAppTestSetup {
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"(1, 2)",
-			"a = Slider(-5, 5, 1)",
-	})
+	@ValueSource(
+			strings = {
+				"(1, 2)",
+				"a = Slider(-5, 5, 1)",
+			})
 	void testNonApplicableGeoElements(String expression) {
 		setupApp(SuiteSubApp.GRAPHING);
-		assertThrows(NotApplicablePropertyException.class, () -> new TextStyleProperty(
-				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
+		assertThrows(
+				NotApplicablePropertyException.class,
+				() -> new TextStyleProperty(
+						propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {
-			"a = InputBox()",
-	})
-	void testInputBoxHasOnlySerifTextStyle(String expression)
-			throws NotApplicablePropertyException {
+	@ValueSource(
+			strings = {
+				"a = InputBox()",
+			})
+	void testInputBoxHasOnlySerifTextStyle(String expression) throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		assertDoesNotThrow(() -> new TextStyleProperty(
 				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression))));
 
 		TextStyleProperty textStyleProperty = new TextStyleProperty(
-			propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression)));
+				propertiesFactory, getLocalization(), List.of(evaluateGeoElement(expression)));
 		assertEquals(1, textStyleProperty.getProperties().length);
 		assertEquals("Serif", textStyleProperty.getProperties()[0].getName());
 	}
@@ -80,8 +84,8 @@ class TextStylePropertyTests extends BaseAppTestSetup {
 	void testInlineHasUnderlineTextStyle() throws NotApplicablePropertyException {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoInlineTable table = new GeoInlineTable(getKernel().getConstruction(), new GPoint2D());
-		TextStyleProperty textStyleProperty = new TextStyleProperty(
-				propertiesFactory, getLocalization(), List.of(table));
+		TextStyleProperty textStyleProperty =
+				new TextStyleProperty(propertiesFactory, getLocalization(), List.of(table));
 		assertEquals(3, textStyleProperty.getProperties().length);
 		assertEquals("Underline", textStyleProperty.getProperties()[2].getName());
 	}
@@ -90,8 +94,8 @@ class TextStylePropertyTests extends BaseAppTestSetup {
 	void testTogglingValues() {
 		setupApp(SuiteSubApp.GRAPHING);
 		GeoText geoText = evaluateGeoElement("\"abc\"");
-		TextStyleProperty textStyleProperty = assertDoesNotThrow(() -> new TextStyleProperty(
-				propertiesFactory, getLocalization(), List.of(geoText)));
+		TextStyleProperty textStyleProperty = assertDoesNotThrow(
+				() -> new TextStyleProperty(propertiesFactory, getLocalization(), List.of(geoText)));
 
 		// Bold -> ON
 		textStyleProperty.getProperties()[0].setValue(true);

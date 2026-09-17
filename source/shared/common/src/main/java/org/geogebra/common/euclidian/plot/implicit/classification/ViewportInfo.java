@@ -36,8 +36,16 @@ import org.geogebra.common.awt.GRectangle2D;
  * @param ymax viewport maximum y-coordinate in world space
  * @param absArea absolute viewport area in world-coordinate units
  */
-public record ViewportInfo(int topLeft, int topRight, int bottomLeft, int bottomRight,
-		double xmin, double xmax, double ymin, double ymax, double absArea) {
+public record ViewportInfo(
+		int topLeft,
+		int topRight,
+		int bottomLeft,
+		int bottomRight,
+		double xmin,
+		double xmax,
+		double ymin,
+		double ymax,
+		double absArea) {
 
 	/**
 	 * Creates a viewport snapshot from graph corner vertices and the rectangle that
@@ -51,12 +59,17 @@ public record ViewportInfo(int topLeft, int topRight, int bottomLeft, int bottom
 	 * @return viewport metadata for the current graph build
 	 */
 	static ViewportInfo from(
-			int topLeft, int topRight, int bottomLeft, int bottomRight,
-			GRectangle2D rect) {
+			int topLeft, int topRight, int bottomLeft, int bottomRight, GRectangle2D rect) {
 		double absArea = Math.abs(rect.getWidth() * rect.getHeight());
 		return new ViewportInfo(
-				topLeft, topRight, bottomLeft, bottomRight,
-				rect.getMinX(), rect.getMaxX(), rect.getMinY(), rect.getMaxY(),
+				topLeft,
+				topRight,
+				bottomLeft,
+				bottomRight,
+				rect.getMinX(),
+				rect.getMaxX(),
+				rect.getMinY(),
+				rect.getMaxY(),
 				absArea);
 	}
 
@@ -75,17 +88,30 @@ public record ViewportInfo(int topLeft, int topRight, int bottomLeft, int bottom
 	 * @return viewport metadata for the current graph build
 	 */
 	public static ViewportInfo ofBounds(
-			int topLeft, int topRight, int bottomLeft, int bottomRight,
-			double xmin, double xmax, double ymin, double ymax) {
-		return new ViewportInfo(topLeft, topRight, bottomLeft, bottomRight,
-				xmin, xmax, ymin, ymax,
+			int topLeft,
+			int topRight,
+			int bottomLeft,
+			int bottomRight,
+			double xmin,
+			double xmax,
+			double ymin,
+			double ymax) {
+		return new ViewportInfo(
+				topLeft,
+				topRight,
+				bottomLeft,
+				bottomRight,
+				xmin,
+				xmax,
+				ymin,
+				ymax,
 				Math.abs((xmax - xmin) * (ymax - ymin)));
-		}
+	}
 
-		/**
-		 * @return whether the viewport area can be used for boundary matching
-		 */
-		public boolean hasValidAbsArea() {
-			return Double.isFinite(absArea);
-		}
+	/**
+	 * @return whether the viewport area can be used for boundary matching
+	 */
+	public boolean hasValidAbsArea() {
+		return Double.isFinite(absArea);
+	}
 }

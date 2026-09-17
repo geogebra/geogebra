@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -40,16 +40,17 @@ class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 		namedEnumeratedProperty = new TestNamedEnumeratedProperty(
 				getLocalization(),
 				"Test property",
-				List.of(entry("value1", "_Value One"),
+				List.of(
+						entry("value1", "_Value One"),
 						entry("value2", "_Value Two"),
 						entry("value3", "_Value Three")));
 	}
 
 	@Test
 	void testInitialNamedValues() {
-		assertEquals(List.of("value1", "value2", "value3"),
-				namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "_Value One", "_Value Two", "_Value Three" },
+		assertEquals(List.of("value1", "value2", "value3"), namedEnumeratedProperty.getValues());
+		assertArrayEquals(
+				new String[] {"_Value One", "_Value Two", "_Value Three"},
 				namedEnumeratedProperty.getValueNames());
 	}
 
@@ -61,30 +62,30 @@ class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 
 		namedEnumeratedProperty.addValueFilter(valueFilter1);
 		assertEquals(List.of("value1", "value3"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "_Value One", "_Value Three" },
-				namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(
+				new String[] {"_Value One", "_Value Three"}, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.addValueFilter(valueFilter2);
 		assertEquals(List.of("value1"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "_Value One" }, namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(new String[] {"_Value One"}, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.addValueFilter(valueFilter3);
 		assertEquals(List.of("value1"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "_Value One" }, namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(new String[] {"_Value One"}, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.removeValueFilter(valueFilter1);
 		assertEquals(List.of("value1"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "_Value One" }, namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(new String[] {"_Value One"}, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.removeValueFilter(valueFilter2);
 		assertEquals(List.of("value1", "value3"), namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "_Value One", "_Value Three" },
-				namedEnumeratedProperty.getValueNames());
+		assertArrayEquals(
+				new String[] {"_Value One", "_Value Three"}, namedEnumeratedProperty.getValueNames());
 
 		namedEnumeratedProperty.removeValueFilter(valueFilter3);
-		assertEquals(List.of("value1", "value2", "value3"),
-				namedEnumeratedProperty.getValues());
-		assertArrayEquals(new String[]{ "_Value One", "_Value Two", "_Value Three" },
+		assertEquals(List.of("value1", "value2", "value3"), namedEnumeratedProperty.getValues());
+		assertArrayEquals(
+				new String[] {"_Value One", "_Value Two", "_Value Three"},
 				namedEnumeratedProperty.getValueNames());
 	}
 
@@ -114,9 +115,7 @@ class AbstractNamedEnumeratedPropertyTests extends BaseAppTestSetup {
 		private String value;
 
 		TestNamedEnumeratedProperty(
-				Localization localization,
-				String name,
-				List<Map.Entry<String, String>> namedValues) {
+				Localization localization, String name, List<Map.Entry<String, String>> namedValues) {
 			super(localization, name);
 			value = namedValues.get(0).getKey();
 			setNamedValues(namedValues);

@@ -67,9 +67,8 @@ public class DynamicColorModeProperty extends AbstractValuedProperty<Boolean>
 	static void activateDynamicColorMode(GeoElement geoElement) {
 		AlgebraProcessor algebraProcessor = geoElement.getKernel().getAlgebraProcessor();
 		GColor color = geoElement.getObjectColor();
-		String rgbComponents = color.getRed() / 255f + ","
-				+ color.getGreen() / 255f + ","
-				+ color.getBlue() / 255f;
+		String rgbComponents =
+				color.getRed() / 255f + "," + color.getGreen() / 255f + "," + color.getBlue() / 255f;
 		String listDefinition = geoElement.isFillable()
 				? "{" + rgbComponents + "," + geoElement.getFillColor().getAlpha() / 255f + "}"
 				: "{" + rgbComponents + "}";

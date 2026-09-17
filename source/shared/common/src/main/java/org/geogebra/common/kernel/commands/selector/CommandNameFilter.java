@@ -59,8 +59,7 @@ public final class CommandNameFilter implements CommandFilter {
 	}
 
 	private List<Commands> convertToInternal(Commands[] commands) {
-		return Arrays.stream(commands).map(Commands::englishToInternal)
-				.collect(Collectors.toList());
+		return Arrays.stream(commands).map(Commands::englishToInternal).collect(Collectors.toList());
 	}
 
 	@Override

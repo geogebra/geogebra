@@ -48,7 +48,6 @@ public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
 		super(cons);
 		this.point = point;
 		plane = new GeoPlane3D(cons);
-
 	}
 
 	@Override
@@ -64,12 +63,12 @@ public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
 		return point;
 	}
 
-	abstract protected GeoElement getSecondInput();
+	protected abstract GeoElement getSecondInput();
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PlaneThroughAParallelToB",
-				point.getLabel(tpl), getSecondInput().getLabel(tpl));
-
+		return getLoc()
+				.getPlain(
+						"PlaneThroughAParallelToB", point.getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
 }

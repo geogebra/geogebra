@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Algo for dilate at 3D point
- * 
+ *
  * @author mathieu
  *
  */
@@ -36,7 +36,7 @@ public class AlgoDilate3D extends AlgoDilate {
 
 	/**
 	 * dilate at point
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param A
@@ -46,8 +46,7 @@ public class AlgoDilate3D extends AlgoDilate {
 	 * @param S
 	 *            reference point
 	 */
-	public AlgoDilate3D(Construction cons, GeoElement A, GeoNumberValue r,
-			GeoPointND S) {
+	public AlgoDilate3D(Construction cons, GeoElement A, GeoNumberValue r, GeoPointND S) {
 		super(cons, A, r, S);
 	}
 
@@ -58,8 +57,7 @@ public class AlgoDilate3D extends AlgoDilate {
 
 	@Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if (geo instanceof GeoFunction
-				|| geo instanceof GeoCurveCartesian) {
+		if (geo instanceof GeoFunction || geo instanceof GeoCurveCartesian) {
 			return new GeoCurveCartesian3D(cons);
 		}
 
@@ -74,8 +72,8 @@ public class AlgoDilate3D extends AlgoDilate {
 	@Override
 	protected void setOutGeo() {
 		if (inGeo instanceof GeoFunction /* && mirror.isGeoElement3D() */) {
-			AlgoTransformation3D.toGeoCurveCartesian(kernel,
-					(GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
+			AlgoTransformation3D.toGeoCurveCartesian(
+					kernel, (GeoFunction) inGeo, (GeoCurveCartesian3D) outGeo);
 		} else {
 			super.setOutGeo();
 		}
@@ -85,5 +83,4 @@ public class AlgoDilate3D extends AlgoDilate {
 	protected Coords getPointCoords() {
 		return S.getInhomCoordsInD3();
 	}
-
 }

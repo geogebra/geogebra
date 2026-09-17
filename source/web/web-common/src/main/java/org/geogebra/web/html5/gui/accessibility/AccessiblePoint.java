@@ -50,8 +50,8 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	 * @param view
 	 *            accessibility view
 	 */
-	public AccessiblePoint(GeoPointND point, BaseWidgetFactory widgetFactory,
-			AccessibilityView view) {
+	public AccessiblePoint(
+			GeoPointND point, BaseWidgetFactory widgetFactory, AccessibilityView view) {
 		this.view = view;
 		this.point = point;
 		sliders = new ArrayList<>(3);
@@ -93,7 +93,7 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	}
 
 	private void updateLabel(SliderW range, int index) {
-		String[] labels = { "x coordinate of ", "y coordinate of ", "z coordinate of " };
+		String[] labels = {"x coordinate of ", "y coordinate of ", "z coordinate of "};
 		ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
 		point.addAuralName(sb);
 		AriaHelper.setLabel(range, labels[index] + sb.toString());
@@ -104,17 +104,20 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 		double step = value - oldVal[index];
 		oldVal[index] += step;
 		if (point != null && point.isGeoPoint()) {
-			double[] increments = { 0, 0, 0 };
+			double[] increments = {0, 0, 0};
 			increments[index] = step;
-			kernel.getApplication().getGlobalKeyDispatcher().handleArrowKeyMovement(
-					Collections.singletonList(point.toGeoElement()), increments);
+			kernel
+					.getApplication()
+					.getGlobalKeyDispatcher()
+					.handleArrowKeyMovement(Collections.singletonList(point.toGeoElement()), increments);
 			ScreenReaderBuilder sb = new ScreenReaderBuilder(kernel.getLocalization());
 			if (!point.addAuralCaption(sb)) {
 				point.addAuralLabel(sb);
 			}
-			view.updateValueText(sliders.get(index), value,
-					kernel.getLocalization().getPlain("PointAMovedToB",
-					sb.toString(), getCoords()));
+			view.updateValueText(
+					sliders.get(index),
+					value,
+					kernel.getLocalization().getPlain("PointAMovedToB", sb.toString(), getCoords()));
 		}
 	}
 
@@ -146,5 +149,4 @@ public class AccessiblePoint implements AccessibleWidget, HasSliders {
 	public boolean isCompatible(GeoElement geo) {
 		return true;
 	}
-
 }

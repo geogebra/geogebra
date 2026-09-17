@@ -39,8 +39,7 @@ public class DrawBezierCurve extends DrawParametricCurve {
 	 * @param geo curve
 	 * @param parentAlgorithm curve's parent algorithm
 	 */
-	public DrawBezierCurve(EuclidianView view, ParametricCurve geo,
-			AlgoBezierCurve parentAlgorithm) {
+	public DrawBezierCurve(EuclidianView view, ParametricCurve geo, AlgoBezierCurve parentAlgorithm) {
 		super(view, geo);
 		algo = parentAlgorithm;
 	}
@@ -58,16 +57,16 @@ public class DrawBezierCurve extends DrawParametricCurve {
 	@Override
 	public void updateBoundingBox() {
 		getBoundingBox().setRectangle(AwtFactory.getPrototype().newRectangle(gp.getBounds()));
-		for (int i = 0; i < 4; i ++) {
-			boundingBox.setHandlerFromCenter(i,
+		for (int i = 0; i < 4; i++) {
+			boundingBox.setHandlerFromCenter(
+					i,
 					view.toScreenCoordXd(algo.getPoints()[i].getInhomX()),
 					view.toScreenCoordYd(algo.getPoints()[i].getInhomY()));
 		}
 	}
 
 	@Override
-	public void updateByControlPointMovement(GPoint2D point,
-			ControlPointHandler handler) {
+	public void updateByControlPointMovement(GPoint2D point, ControlPointHandler handler) {
 		GeoPointND updated = algo.getPoints()[handler.id];
 		GeoPointND control = null;
 		double realX = view.toRealWorldCoordX(point.getX());
@@ -93,8 +92,7 @@ public class DrawBezierCurve extends DrawParametricCurve {
 		ArrayList<GPoint2D> points = new ArrayList<>();
 		for (GeoPointND pt : algo.getPoints()) {
 			points.add(
-					new MyPoint(view.toScreenCoordXd(pt.getInhomX()),
-							view.toScreenCoordYd(pt.getInhomY())));
+					new MyPoint(view.toScreenCoordXd(pt.getInhomX()), view.toScreenCoordYd(pt.getInhomY())));
 		}
 		return points;
 	}
@@ -103,8 +101,10 @@ public class DrawBezierCurve extends DrawParametricCurve {
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		int i = 0;
 		for (GeoPointND pt : algo.getPoints()) {
-			pt.setCoords(view.toRealWorldCoordX(points.get(i).getX()),
-					view.toRealWorldCoordY(points.get(i).getY()), 1);
+			pt.setCoords(
+					view.toRealWorldCoordX(points.get(i).getX()),
+					view.toRealWorldCoordY(points.get(i).getY()),
+					1);
 			i++;
 		}
 		algo.update();

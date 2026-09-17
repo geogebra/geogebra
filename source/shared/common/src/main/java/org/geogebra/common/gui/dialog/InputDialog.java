@@ -33,17 +33,14 @@ public abstract class InputDialog implements ErrorHandler {
 	private String initString;
 	private InputHandler inputHandler;
 
-	protected void processInputHandler(String inputText,
-			AsyncOperation<Boolean> callback) {
+	protected void processInputHandler(String inputText, AsyncOperation<Boolean> callback) {
 		getInputHandler().processInput(inputText, this, callback);
 	}
 
 	protected void openProperties(App app, GeoElement geo) {
 		ArrayList<GeoElement> tempArrayList = new ArrayList<>(1);
 		tempArrayList.add(geo);
-		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
-				tempArrayList);
-
+		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, tempArrayList);
 	}
 
 	protected String getInitString() {

@@ -10,16 +10,16 @@ import java.util.NoSuchElementException;
  * Each segment needs to start with "&lt;?xml". If the underlying stream contains
  * just one segment "&lt;xml?" may be left out. Methods hasNext() and next() should
  * be called to retrieve the inputstream for the XMLParser.
- * 
+ *
  * Typical usage:
- * 
+ *
  * <PRE>
- * 
+ *
  * XMLSequence sequence = new XMLSequence(new FileInputStream("file.xml"));
- * 
+ *
  * SAXParserFactory factory = SAXParserFactory.newInstance();
  * XMLReader xmlReader = factory.newSAXParser().getXMLReader();
- * 
+ *
  * while (sequence.hasNext()) {
  * 	InputStream input = sequence.next();
  * 	InputSource source = new InputSource(input);
@@ -27,19 +27,19 @@ import java.util.NoSuchElementException;
  * 	input.close();
  * }
  * sequence.close();
- * 
+ *
  * </PRE>
- * 
+ *
  * IMPORTANT: inherits from InputStream rather than FilterInputStream so that
  * the correct read(byte[], int, int) method is used.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: XMLSequence.java,v 1.3 2008-05-04 12:21:21 murkle Exp $
  */
 public class XMLSequence extends InputStream {
 
 	// xml declaration (lowercase!)
-	private int[] xml = new int[] { '<', '?', 'x', 'm', 'l' };
+	private int[] xml = new int[] {'<', '?', 'x', 'm', 'l'};
 
 	private int xmlIndex;
 
@@ -59,7 +59,7 @@ public class XMLSequence extends InputStream {
 
 	/**
 	 * Create a XML Sequence.
-	 * 
+	 *
 	 * @param input
 	 *            stream to read from
 	 */
@@ -75,7 +75,7 @@ public class XMLSequence extends InputStream {
 
 	/**
 	 * Is another XML segment available.
-	 * 
+	 *
 	 * @return true if another XML segment can be read
 	 */
 	public boolean hasNext() {
@@ -92,7 +92,7 @@ public class XMLSequence extends InputStream {
 
 	/**
 	 * Returns the next XML segment.
-	 * 
+	 *
 	 * @return stream to read next XML segment from.
 	 * @throws IOException
 	 *             if read fails
@@ -106,8 +106,7 @@ public class XMLSequence extends InputStream {
 		}
 
 		if (!readUntilXMLDeclaration()) {
-			throw new NoSuchElementException(
-					getClass() + ": No more sequences.");
+			throw new NoSuchElementException(getClass() + ": No more sequences.");
 		}
 
 		xmlIndex = 0;

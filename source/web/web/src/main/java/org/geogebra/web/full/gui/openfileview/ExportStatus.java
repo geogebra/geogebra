@@ -33,17 +33,17 @@ public enum ExportStatus {
 
 	public static final String DOWNLOAD_ALL = "Alle dateien herunterladen";
 	private final String status;
-	private final static String MESSAGE_PENDING_IN_PROGRESS = "Download wird vorbereitet...";
-	private final static String MESSAGE_AVAILABLE = "Download bereit";
-	private final static String MESSAGE_ERROR = "Download fehlgeschlagen";
-	private final static String HELP_PENDING_IN_PROGRESS = "Der Download aller Tafelbilder"
+	private static final String MESSAGE_PENDING_IN_PROGRESS = "Download wird vorbereitet...";
+	private static final String MESSAGE_AVAILABLE = "Download bereit";
+	private static final String MESSAGE_ERROR = "Download fehlgeschlagen";
+	private static final String HELP_PENDING_IN_PROGRESS = "Der Download aller Tafelbilder"
 			+ " wird vorbereitet und startet in K\u00FCrze automatisch. Die Dauer variiert"
 			+ " abh\u00E4ngig von Gesamtdateigr\u00F6\u00DFe und Verbindungsgeschwindigkeit. Bitte"
 			+ " verlassen Sie diese Seite nicht, bis der Download im Browser abgeschlossen ist.";
-	private final static String HELP_AVAILABLE = "Die ZIP-Datei mit allen "
+	private static final String HELP_AVAILABLE = "Die ZIP-Datei mit allen "
 			+ "Tafelbildern ist jetzt verf\u00FCgbar. Klicken Sie auf die Schaltfl\u00E4che, um den"
 			+ " Download zu starten.";
-	private final static String HELP_ERROR = "Beim Erstellen des Downloads"
+	private static final String HELP_ERROR = "Beim Erstellen des Downloads"
 			+ " ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.";
 
 	ExportStatus(String status) {
@@ -61,17 +61,17 @@ public enum ExportStatus {
 	 */
 	public static ExportStatus getStatus(String status) {
 		switch (status) {
-		case "not_started":
-			return NOT_STARTED;
-		case "pending":
-			return PENDING;
-		case "in_progress":
-			return IN_PROGRESS;
-		case "available":
-			return AVAILABLE;
-		case "error":
-		default:
-			return ERROR;
+			case "not_started":
+				return NOT_STARTED;
+			case "pending":
+				return PENDING;
+			case "in_progress":
+				return IN_PROGRESS;
+			case "available":
+				return AVAILABLE;
+			case "error":
+			default:
+				return ERROR;
 		}
 	}
 
@@ -84,16 +84,17 @@ public enum ExportStatus {
 	 */
 	public static SVGResource getStatusIcon(ExportStatus status) {
 		switch (status) {
-		case PENDING:
-		case IN_PROGRESS:
-		case AVAILABLE:
-			return MaterialDesignResources.INSTANCE.info_black().withFill(
-					GeoGebraColorConstants.MEBIS_PURPLE_A400.toString());
-		case ERROR:
-			return MaterialDesignResources.INSTANCE.error().withFill(GColor.ERROR.toString());
-		case NOT_STARTED:
-		default:
-			return null;
+			case PENDING:
+			case IN_PROGRESS:
+			case AVAILABLE:
+				return MaterialDesignResources.INSTANCE
+						.info_black()
+						.withFill(GeoGebraColorConstants.MEBIS_PURPLE_A400.toString());
+			case ERROR:
+				return MaterialDesignResources.INSTANCE.error().withFill(GColor.ERROR.toString());
+			case NOT_STARTED:
+			default:
+				return null;
 		}
 	}
 
@@ -104,15 +105,15 @@ public enum ExportStatus {
 	 */
 	public static String getStatusMessage(ExportStatus status) {
 		switch (status) {
-		case PENDING:
-		case IN_PROGRESS:
-			return MESSAGE_PENDING_IN_PROGRESS;
-		case AVAILABLE:
-			return MESSAGE_AVAILABLE;
-		case ERROR:
-			return MESSAGE_ERROR;
-		default:
-			return null;
+			case PENDING:
+			case IN_PROGRESS:
+				return MESSAGE_PENDING_IN_PROGRESS;
+			case AVAILABLE:
+				return MESSAGE_AVAILABLE;
+			case ERROR:
+				return MESSAGE_ERROR;
+			default:
+				return null;
 		}
 	}
 
@@ -123,15 +124,15 @@ public enum ExportStatus {
 	 */
 	public static String getStatusHelp(ExportStatus status) {
 		switch (status) {
-		case PENDING:
-		case IN_PROGRESS:
-			return HELP_PENDING_IN_PROGRESS;
-		case AVAILABLE:
-			return HELP_AVAILABLE;
-		case ERROR:
-			return HELP_ERROR;
-		default:
-			return null;
+			case PENDING:
+			case IN_PROGRESS:
+				return HELP_PENDING_IN_PROGRESS;
+			case AVAILABLE:
+				return HELP_AVAILABLE;
+			case ERROR:
+				return HELP_ERROR;
+			default:
+				return null;
 		}
 	}
 }

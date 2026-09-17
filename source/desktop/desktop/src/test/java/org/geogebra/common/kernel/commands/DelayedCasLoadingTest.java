@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -122,8 +122,8 @@ class DelayedCasLoadingTest {
 		assertEquals("eq1:=?", f.getOutput(StringTemplate.testTemplate));
 		active = true;
 		app.getKernel().refreshCASCommands();
-		assertEquals("eq1: 77 / 10 = v * cos(t) + 11 / 5 * v_M",
-				f.getOutput(StringTemplate.testTemplate));
+		assertEquals(
+				"eq1: 77 / 10 = v * cos(t) + 11 / 5 * v_M", f.getOutput(StringTemplate.testTemplate));
 	}
 
 	@Test
@@ -150,7 +150,8 @@ class DelayedCasLoadingTest {
 		active = true;
 		app.getKernel().refreshCASCommands();
 		assertThat(det.getTwinGeo(), hasValue("5x - y - z = 0"));
-		assertThat(app.getKernel().lookupLabel("m1"),
+		assertThat(
+				app.getKernel().lookupLabel("m1"),
 				hasValue("{{x - 1, y - 2, z - 3}, {1, 2, 3}, {0, -1, 1}}"));
 		assertThat(app.getKernel().lookupLabel("eq"), hasValue("5x - y - z = 0"));
 	}
@@ -182,16 +183,13 @@ class DelayedCasLoadingTest {
 	@Test
 	void simplifyShouldTriggerLoad() {
 		GeoFunction f = (GeoFunction) add("f(x)=x+x");
-		Objects.requireNonNull(f.getFunction()).updateCASEvalMap(
-				Map.of("Simplify[x + x]", "(3 * x)"));
+		Objects.requireNonNull(f.getFunction()).updateCASEvalMap(Map.of("Simplify[x + x]", "(3 * x)"));
 		GeoElementND simplified = add("Simplify(f)");
-		assertEquals("3x",
-				simplified.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("3x", simplified.toValueString(StringTemplate.defaultTemplate));
 		assertTrue(casInitialized, "CAS should be loaded");
 		active = true;
 		app.getKernel().refreshCASCommands();
-		assertEquals("2x",
-				simplified.toValueString(StringTemplate.defaultTemplate));
+		assertEquals("2x", simplified.toValueString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
@@ -199,19 +197,22 @@ class DelayedCasLoadingTest {
 	void savedArbitraryConstantShouldBeStoredWithinConstruction() {
 		app.setConfig(new AppConfigCas());
 		app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-		app.setXML("<geogebra><construction>"
-				+ "<expression label=\"f\" exp=\"SolveODE(y&apos; + (2 * y) = 4)\"/>\n"
-				+ "<element type=\"symbolic\" label=\"f\">\n\t<show object=\"true\""
-				+ "label=\"true\"/>\n\t<labelMode val=\"0\"/>\n\t<variables val=\"y\"/>\n"
-				+ "</element>\n<element type=\"numeric\" label=\"c_{1}\">\n\t<value val=\"1\"/>\n"
-				+ "\t<slider min=\"-5\" max=\"5\" absoluteScreenLocation=\"true\" width=\"200\""
-				+ " fixed=\"false\" horizontal=\"true\" showAlgebra=\"true\""
-				+ "arbitraryConstant=\"true\"/>\n\t<show object=\"false\" label=\"true\"/>\n"
-				+ "\t<labelMode val=\"1\"/>\n</element></construction></geogebra>", true);
-		assertEquals(1, app.getKernel().getConstruction().getUnclaimedArbitraryConstants().size());
+		app.setXML(
+				"<geogebra><construction>"
+						+ "<expression label=\"f\" exp=\"SolveODE(y&apos; + (2 * y) = 4)\"/>\n"
+						+ "<element type=\"symbolic\" label=\"f\">\n\t<show object=\"true\""
+						+ "label=\"true\"/>\n\t<labelMode val=\"0\"/>\n\t<variables val=\"y\"/>\n"
+						+ "</element>\n<element type=\"numeric\" label=\"c_{1}\">\n\t<value val=\"1\"/>\n"
+						+ "\t<slider min=\"-5\" max=\"5\" absoluteScreenLocation=\"true\" width=\"200\""
+						+ " fixed=\"false\" horizontal=\"true\" showAlgebra=\"true\""
+						+ "arbitraryConstant=\"true\"/>\n\t<show object=\"false\" label=\"true\"/>\n"
+						+ "\t<labelMode val=\"1\"/>\n</element></construction></geogebra>",
+				true);
+		assertEquals(
+				1, app.getKernel().getConstruction().getUnclaimedArbitraryConstants().size());
 		active = true;
 		app.getKernel().refreshCASCommands();
-		assertArrayEquals(new String[]{"f", "c_{1}"}, app.getGgbApi().getAllObjectNames());
+		assertArrayEquals(new String[] {"f", "c_{1}"}, app.getGgbApi().getAllObjectNames());
 	}
 
 	private GeoElementND add(String s) {
@@ -229,8 +230,7 @@ class DelayedCasLoadingTest {
 		}
 
 		@Override
-		protected String evaluate(String exp, long timeoutMilliseconds)
-				throws Throwable {
+		protected String evaluate(String exp, long timeoutMilliseconds) throws Throwable {
 			return active ? super.evaluate(exp, timeoutMilliseconds) : "?";
 		}
 

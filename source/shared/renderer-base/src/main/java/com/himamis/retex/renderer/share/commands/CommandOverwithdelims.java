@@ -61,8 +61,7 @@ public class CommandOverwithdelims extends Command {
 	protected Atom left;
 	protected Atom right;
 
-	public CommandOverwithdelims() {
-	}
+	public CommandOverwithdelims() {}
 
 	@Override
 	public boolean init(TeXParser tp) {

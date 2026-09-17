@@ -30,7 +30,7 @@ public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
 	private GeoSegmentND segment;
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param segment
@@ -57,10 +57,7 @@ public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("MidpointOfA",
-				segment.getLabel(tpl));
-
+	public final String toString(StringTemplate tpl) {
+		return getLoc().getPlain("MidpointOfA", segment.getLabel(tpl));
 	}
-
 }

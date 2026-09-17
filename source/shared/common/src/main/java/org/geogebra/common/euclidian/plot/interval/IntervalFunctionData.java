@@ -42,7 +42,9 @@ public class IntervalFunctionData {
 	 * @param bounds of the view displaying the function
 	 * @param tuples to store evaluated data
 	 */
-	public IntervalFunctionData(GeoFunction geoFunction, GeoFunctionConverter converter,
+	public IntervalFunctionData(
+			GeoFunction geoFunction,
+			GeoFunctionConverter converter,
 			EuclidianViewBounds bounds,
 			IntervalTupleList tuples) {
 		this(geoFunction, converter, tuples);
@@ -54,8 +56,8 @@ public class IntervalFunctionData {
 	 * @param geoFunction to encapsulate
 	 * @param tuples to store evaluated data
 	 */
-	public IntervalFunctionData(GeoFunction geoFunction, GeoFunctionConverter converter,
-			IntervalTupleList tuples) {
+	public IntervalFunctionData(
+			GeoFunction geoFunction, GeoFunctionConverter converter, IntervalTupleList tuples) {
 		this.geoFunction = geoFunction;
 		this.converter = converter;
 		this.tuples = tuples;

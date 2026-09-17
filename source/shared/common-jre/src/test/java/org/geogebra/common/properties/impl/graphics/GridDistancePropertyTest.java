@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -42,12 +42,9 @@ class GridDistancePropertyTest extends BaseAppTestSetup {
 		evSettings = getApp().getSettings().getEuclidian(1);
 		EuclidianView euclidianView = getApp().getEuclidianView1();
 
-		gridDistX = new GridDistanceProperty(
-				getAlgebraProcessor(), loc, euclidianView, "x", 0);
-		gridDistY = new GridDistanceProperty(
-				getAlgebraProcessor(), loc, euclidianView, "y", 1);
-		gridDistR = new GridDistanceProperty(
-				getAlgebraProcessor(), loc, euclidianView, "r", 0);
+		gridDistX = new GridDistanceProperty(getAlgebraProcessor(), loc, euclidianView, "x", 0);
+		gridDistY = new GridDistanceProperty(getAlgebraProcessor(), loc, euclidianView, "y", 1);
+		gridDistR = new GridDistanceProperty(getAlgebraProcessor(), loc, euclidianView, "r", 0);
 	}
 
 	@Test
@@ -66,8 +63,8 @@ class GridDistancePropertyTest extends BaseAppTestSetup {
 	void shouldBeAvailableWhenFixed() {
 		assertFalse(gridDistX.isEnabled(), "Should be disabled by default");
 		assertFalse(gridDistY.isEnabled(), "Should be disabled by default");
-		GridFixedDistanceProperty fixedDistanceProperty = new GridFixedDistanceProperty(
-				getApp().getLocalization(), evSettings);
+		GridFixedDistanceProperty fixedDistanceProperty =
+				new GridFixedDistanceProperty(getApp().getLocalization(), evSettings);
 		fixedDistanceProperty.setValue(true);
 		assertTrue(gridDistX.isEnabled(), "Should be enabled when fixed");
 		assertTrue(gridDistY.isEnabled(), "Should be enabled when fixed");

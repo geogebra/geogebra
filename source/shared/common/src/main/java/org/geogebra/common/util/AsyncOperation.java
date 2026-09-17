@@ -28,5 +28,4 @@ public interface AsyncOperation<T> {
 	 *            callback parameter
 	 */
 	void callback(T obj);
-
 }

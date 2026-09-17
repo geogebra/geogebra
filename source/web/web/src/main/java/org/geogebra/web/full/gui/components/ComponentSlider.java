@@ -47,8 +47,8 @@ public final class ComponentSlider extends FlowPanel implements ConfigurationUpd
 	private void buildSlider() {
 		Label sliderLabel = BaseWidgetFactory.INSTANCE.newPrimaryText(
 				appW.getLocalization().getMenu(sliderProperty.getLabel()), "sliderLabel");
-		displayValue = BaseWidgetFactory.INSTANCE.newPrimaryText(
-				sliderProperty.getDisplayValue(), "displayValue");
+		displayValue =
+				BaseWidgetFactory.INSTANCE.newPrimaryText(sliderProperty.getDisplayValue(), "displayValue");
 
 		FlowPanel labelDisplayHolder = new FlowPanel();
 		labelDisplayHolder.addStyleName("labelPreviewHolder");
@@ -65,8 +65,7 @@ public final class ComponentSlider extends FlowPanel implements ConfigurationUpd
 		sliderPanel.setStep(sliderProperty.getStep());
 		sliderPanel.setValue((double) sliderProperty.getValue());
 		sliderPanel.addStyleName("slider");
-		sliderPanel.addValueChangeHandler(event ->
-				onInputChange(sliderPanel.getValue()));
+		sliderPanel.addValueChangeHandler(event -> onInputChange(sliderPanel.getValue()));
 		sliderPanel.addInputHandler(() -> onInputChange(sliderPanel.getValue()));
 	}
 

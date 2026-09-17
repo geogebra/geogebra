@@ -66,8 +66,7 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 		GeoElement geo = add("1/2");
 		cycle(geo, DEFINITION, "a = 1 / 2", "more");
 		cycle(geo, VALUE, "a = 0.5", "more");
-		cycle(geo, DEFINITION_AND_VALUE,
-				"a = 1 / 2", "0.5", "FormatFraction", "more");
+		cycle(geo, DEFINITION_AND_VALUE, "a = 1 / 2", "0.5", "FormatFraction", "more");
 		cycle(geo, LINEAR_NOTATION, "a = 1 / 2", "0.5", "FormatFraction", "more");
 	}
 
@@ -89,8 +88,7 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 		cycle(geo, DEFINITION, "A = (1.0, sqrt(4))", "more");
 		cycle(geo, DESCRIPTION, "Point A", "more");
 		cycle(geo, VALUE, "A = (1.0, 2.0)", "more");
-		cycle(geo, DEFINITION_AND_VALUE,
-				"A = (1.0, sqrt(4))", "(1.0, 2.0)", "more");
+		cycle(geo, DEFINITION_AND_VALUE, "A = (1.0, sqrt(4))", "(1.0, 2.0)", "more");
 		cycle(geo, LINEAR_NOTATION, "A = (1.0, sqrt(4))", "(1.0, 2.0)", "more");
 	}
 
@@ -101,10 +99,14 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 		cycle(geo, DEFINITION, "c = Circle(A, 2)", "more");
 		cycle(geo, DESCRIPTION, "c = Circle with center A and radius 2", "more");
 		cycle(geo, VALUE, "c: (x - 1.0)\u00B2 + (y - 1.0)\u00B2 = 4.0", "more");
-		cycle(geo, DEFINITION_AND_VALUE, "c: Circle(A, 2)",
-				"(x - 1.0)\u00B2 + (y - 1.0)\u00B2 = 4.0", "more");
-		cycle(geo, LINEAR_NOTATION, "c: Circle(A, 2)",
-				"(x - 1.0)\u00B2 + (y - 1.0)\u00B2 = 4.0", "more");
+		cycle(
+				geo,
+				DEFINITION_AND_VALUE,
+				"c: Circle(A, 2)",
+				"(x - 1.0)\u00B2 + (y - 1.0)\u00B2 = 4.0",
+				"more");
+		cycle(
+				geo, LINEAR_NOTATION, "c: Circle(A, 2)", "(x - 1.0)\u00B2 + (y - 1.0)\u00B2 = 4.0", "more");
 	}
 
 	@Test
@@ -135,8 +137,7 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 	@Test
 	public void wip() {
 		// work in progress: for debugging
-		cycle(add("1/2 + 3/4"), DESCRIPTION, "a = 1 / 2 + 3 / 4", "1.25",
-				"FormatFraction", "more");
+		cycle(add("1/2 + 3/4"), DESCRIPTION, "a = 1 / 2 + 3 / 4", "1.25", "FormatFraction", "more");
 	}
 
 	private void cycle(GeoElement geo, AlgebraStyle algebraStyle, String... announcements) {
@@ -169,8 +170,8 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 				return;
 			}
 		}
-		fail("Focus did not wrap back to first: firstKey=" + firstKey
-				+ ", currentKey=" + focus.getSelectedKey());
+		fail("Focus did not wrap back to first: firstKey=" + firstKey + ", currentKey="
+				+ focus.getSelectedKey());
 	}
 
 	private void setAlgebraStyle(AlgebraStyle algebraStyle) {
@@ -179,8 +180,7 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 
 	private void createCompositeFor(GeoElement geo, AlgebraStyle algebraStyle) {
 		setAlgebraStyle(algebraStyle);
-		focus = new FocusableCompositeW(getApp().getAccessibilityManager(),
-				() -> true) {
+		focus = new FocusableCompositeW(getApp().getAccessibilityManager(), () -> true) {
 			@Override
 			protected void readDebug(String text) {
 				echo.readText(text);
@@ -188,11 +188,10 @@ public class AVCompositeFocusAssemblerTest extends AddGeosSetup {
 		};
 		boolean ln = LINEAR_NOTATION.equals(algebraStyle);
 		RadioTreeItem item = itemFactory.createAVItem(geo);
-		RadioTreeItemFocusAccess fa = ln ? new LinearNotationFocusAccess(
-				(LinearNotationTreeItem) item)
-		: new RadioTreeItemFocusAccess(item);
-		assembler = new AVCompositeFocusAssembler(focus,
-				getApp().getAccessibilityManager());
+		RadioTreeItemFocusAccess fa = ln
+				? new LinearNotationFocusAccess((LinearNotationTreeItem) item)
+				: new RadioTreeItemFocusAccess(item);
+		assembler = new AVCompositeFocusAssembler(focus, getApp().getAccessibilityManager());
 		assembler.rebuild(fa, AVFocusContributorFactory.forItem(item));
 	}
 }

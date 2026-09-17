@@ -34,8 +34,12 @@ public interface CellRenderer {
 	 * @param g2d graphics
 	 * @param cellBorder cell rectangle, coordinates relative to the graphics
 	 */
-	void draw(@NonNull Object data, double fontSize,
-			int fontStyle, double offsetX, @NonNull GGraphics2D g2d,
+	void draw(
+			@NonNull Object data,
+			double fontSize,
+			int fontStyle,
+			double offsetX,
+			@NonNull GGraphics2D g2d,
 			Rectangle cellBorder);
 
 	/**

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -58,12 +58,10 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testEditorUnicode() {
-		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
-				"((x)/(sqrt(x^(2)+4)))");
-		checker.checkEditorInsert(TestStringUtil.unicode("x^-1"),
-				"x^(-1)");
-		checker.checkEditorInsert("x/(" + Unicode.EULER_STRING + "^x+1)",
-				"((x)/(" + Unicode.EULER_STRING + "^(x)+1))");
+		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"), "((x)/(sqrt(x^(2)+4)))");
+		checker.checkEditorInsert(TestStringUtil.unicode("x^-1"), "x^(-1)");
+		checker.checkEditorInsert(
+				"x/(" + Unicode.EULER_STRING + "^x+1)", "((x)/(" + Unicode.EULER_STRING + "^(x)+1))");
 
 		checker.checkEditorInsert("3*x", "3*x");
 	}
@@ -85,7 +83,8 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void unicodeShouldMerge() {
-		checker.type("\uD835\uDC65"
+		checker
+				.type("\uD835\uDC65"
 						+ "\uD83D\uDD96\uD83C\uDFFD"
 						+ "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66")
 				.checkLength(3);
@@ -134,55 +133,62 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testTrig4() {
-		checker.type("sin(x)^123").checkGGBMath("sin" + Unicode.SUPERSCRIPT_1
-				+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3 + "(x)");
+		checker
+				.type("sin(x)^123")
+				.checkGGBMath(
+						"sin" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3 + "(x)");
 	}
 
 	@Test
 	void testTrig5() {
-		checker.type("sin^2").right(1).type("(x)")
-				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
+		checker.type("sin^2").right(1).type("(x)").checkGGBMath("sin" + Unicode.SUPERSCRIPT_2 + "(x)");
 	}
 
 	@Test
 	void testTrig6() {
-		checker.type("sin^-1").right(1).type("(x)")
+		checker
+				.type("sin^-1")
+				.right(1)
+				.type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test
 	void testFloor() {
-		checker.insert("2 floor(x)")
-				.checkRaw("SequenceNode[2,  , FnFLOOR[SequenceNode[x]]]");
+		checker.insert("2 floor(x)").checkRaw("SequenceNode[2,  , FnFLOOR[SequenceNode[x]]]");
 	}
 
 	@Test
 	void testCeil() {
-		checker.insert("2 ceil(x)")
-				.checkRaw("SequenceNode[2,  , FnCEIL[SequenceNode[x]]]");
+		checker.insert("2 ceil(x)").checkRaw("SequenceNode[2,  , FnCEIL[SequenceNode[x]]]");
 	}
 
 	@Test
 	void testKorean() {
 
 		// tests from https://github.com/clee704/hangul-js/blob/master/spec/hangul-dubeol.spec.js (MIT)
-		checker.checkEditorInsert(convertKoreanTyping("gksrmfdl dks Tjwudy!"),
+		checker.checkEditorInsert(
+				convertKoreanTyping("gksrmfdl dks Tjwudy!"),
 				"\uD55C\uAE00\uC774 \uC548 \uC368\uC838\uC694!");
 		checker.checkEditorInsert(
 				convertKoreanTyping("dkswdk dlTwl dksgdmaus wjdtlsdmf dlfgdmf tneh dlTdjdy."),
 				"\uC549\uC544 \uC788\uC9C0 \uC54A\uC73C\uBA74 \uC815\uC2E0\uC744 "
 						+ "\uC783\uC744 \uC218\uB3C4 \uC788\uC5B4\uC694.");
-		checker.checkEditorInsert(convertKoreanTyping("10dnjf 7dlf dhgn 2tl rhkdhl"),
+		checker.checkEditorInsert(
+				convertKoreanTyping("10dnjf 7dlf dhgn 2tl rhkdhl"),
 				"10\uC6D4 7\uC77C \uC624\uD6C4 2\uC2DC \uACFC\uC678");
-		checker.checkEditorInsert(convertKoreanTyping("rhkfqrnlswwlQkqdlswlrrtdddkzzzl"),
+		checker.checkEditorInsert(
+				convertKoreanTyping("rhkfqrnlswwlQkqdlswlrrtdddkzzzl"),
 				"\uAD07\uADC5\uC9C0\uBE71\uC778\uC9C1\u3133\u3147\u3147\uC55C\u314B\uD0A4");
-		checker.checkEditorInsert(convertKoreanTyping("RhkRRnswEnpsgdnprtkt lhkd kdl s"),
+		checker.checkEditorInsert(
+				convertKoreanTyping("RhkRRnswEnpsgdnprtkt lhkd kdl s"),
 				"\uAF4A\uAFBD\uB6DA\uC6E9\uC0BF \u3163\u3158\u3147 \u314F\uC774 \u3134");
 		checker.checkEditorInsert(
 				convertKoreanTyping("quf qkdqjqdms ek Tjqhkeh dksehldy nn wpqkf ehdhkwntpdy"),
 				"\uBCC4 \uBC29\uBC95\uC740 \uB2E4 \uC368\uBD10\uB3C4 \uC548\uB418\uC694 "
 						+ "\u315C\u315C \uC81C\uBC1C \uB3C4\uC640\uC8FC\uC138\uC694");
-		checker.checkEditorInsert(convertKoreanTyping("wltlrdlsdptj goqhfksmsrj ekgoeh dksTjwlrh"),
+		checker.checkEditorInsert(
+				convertKoreanTyping("wltlrdlsdptj goqhfksmsrj ekgoeh dksTjwlrh"),
 				"\uC9C0\uC2DD\uC778\uC5D0\uC11C \uD574\uBCF4\uB77C\uB294\uAC70 "
 						+ "\uB2E4\uD574\uB3C4 \uC548\uC368\uC9C0\uACE0");
 
@@ -194,10 +200,10 @@ class EditorTypingTest extends BaseExamTestSetup {
 		checker.checkEditorInsert("\u3146\u3161\u3139\u3137\u314F", "\uC4F8\uB2E4");
 		checker.checkEditorInsert("\u3147\u3161\u3163\u3145\u314F", "\uC758\uC0AC");
 		checker.checkEditorInsert("\u3149\u314F\u3139\u3142\u3147\u3161\u3134", "\uC9E7\uC740");
-		checker.checkEditorInsert("\u3137\u314F\u3139\u3131\u3131\u3157\u3131\u3163",
-				"\uB2ED\uACE0\uAE30");
+		checker.checkEditorInsert(
+				"\u3137\u314F\u3139\u3131\u3131\u3157\u3131\u3163", "\uB2ED\uACE0\uAE30");
 		// original, wrong
-		//checker.checkEditorInsertReverse("\uC63D\u314F", "\u3147\u3157\u314C\u314F");
+		// checker.checkEditorInsertReverse("\uC63D\u314F", "\u3147\u3157\u314C\u314F");
 		// fixed
 		checker.checkEditorInsert("\u3147\u3157\u314C\u314F", "\uC624\uD0C0");
 		checker.checkEditorInsert(
@@ -215,8 +221,8 @@ class EditorTypingTest extends BaseExamTestSetup {
 		checker.checkEditorInsert("\u3146\u3161\u3139\u3137\u314F", "\uC4F8\uB2E4");
 		checker.checkEditorInsert("\u3147\u3161\u3163\u3145\u314F", "\uC758\uC0AC");
 		checker.checkEditorInsert("\u3149\u314F\u3139\u3142\u3147\u3161\u3134", "\uC9E7\uC740");
-		checker.checkEditorInsert("\u3137\u314F\u3139\u3131\u3131\u3157\u3131\u3163",
-				"\uB2ED\uACE0\uAE30");
+		checker.checkEditorInsert(
+				"\u3137\u314F\u3139\u3131\u3131\u3157\u3131\u3163", "\uB2ED\uACE0\uAE30");
 		checker.checkEditorInsert("\u3147\u3157\u314C\u314F", "\uC624\uD0C0");
 		checker.checkEditorInsert(
 				"AB\u3145\u314F\u3139\u3131e$@#24sdf\u3132\u3163\u3139\u314B\u314F\u314B"
@@ -285,11 +291,9 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 		checker.checkEditorInsert("\u3131\u314F\u3144", "\uAC12");
 
-		checker.checkEditorInsert("\u314E\u314F\u3134\u3146\u314F\u3147",
-				"\uD55C\uC30D");
+		checker.checkEditorInsert("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
 
-		checker.checkEditorInsert("\u314E\u314F\u3145\u3145\u314F\u3147",
-				"\uD56B\uC0C1");
+		checker.checkEditorInsert("\u314E\u314F\u3145\u3145\u314F\u3147", "\uD56B\uC0C1");
 
 		// small steps
 		checker.checkEditorInsert("\u314E\u314F", "\uD558");
@@ -301,23 +305,18 @@ class EditorTypingTest extends BaseExamTestSetup {
 		checker.checkEditorInsert("\u3131\u3161\u3131", "\uADF9");
 		checker.checkEditorInsert("\u3131\u3161\u3132", "\uADFA");
 		checker.checkEditorInsert("\u3131\u3161\u3131\u3131\u314F", "\uADF9\uAC00");
-		checker.checkEditorInsert("\u3131\u3161\u3131\u3131\u314F\u3142",
-				"\uADF9\uAC11");
-		checker.checkEditorInsert("\u3131\u3161\u3131\u3131\u314F\u3144",
-				"\uADF9\uAC12");
+		checker.checkEditorInsert("\u3131\u3161\u3131\u3131\u314F\u3142", "\uADF9\uAC11");
+		checker.checkEditorInsert("\u3131\u3161\u3131\u3131\u314F\u3144", "\uADF9\uAC12");
 
-		checker.checkEditorInsert("\u314E\u314F\u3134\u3146\u314F\u3147",
-				"\uD55C\uC30D");
+		checker.checkEditorInsert("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
 
 		checker.checkEditorInsert("\u314E\u314F\u3146\u314F\u3147", "\uD558\uC30D");
 
 		checker.checkEditorInsert("\u3134\u3153\u313C\u3147\u3163", "\uB113\uC774");
 		checker.checkEditorInsert("\u3147\u314F\u3136\u3137\u314F", "\uC54A\uB2E4");
-		checker.checkEditorInsert("\u3131\u314F\u3144\u3147\u3161\u3134",
-				"\uAC12\uC740");
+		checker.checkEditorInsert("\u3131\u314F\u3144\u3147\u3161\u3134", "\uAC12\uC740");
 
-		checker.checkEditorInsert("\u3131\u314F\u3144\u3145\u314F\u3134",
-				"\uAC12\uC0B0");
+		checker.checkEditorInsert("\u3131\u314F\u3144\u3145\u314F\u3134", "\uAC12\uC0B0");
 
 		checker.checkEditorInsert(Korean.flattenKorean("\uB098"), "\uB098");
 		checker.checkEditorInsert(Korean.flattenKorean("\uB108"), "\uB108");
@@ -325,26 +324,21 @@ class EditorTypingTest extends BaseExamTestSetup {
 		checker.checkEditorInsert(Korean.flattenKorean("\uBBF8\uBD84"), "\uBBF8\uBD84");
 		checker.checkEditorInsert(Korean.flattenKorean("\uBCA1\uD130"), "\uBCA1\uD130");
 		checker.checkEditorInsert(Korean.flattenKorean("\uC0C1\uC218"), "\uC0C1\uC218");
-		checker.checkEditorInsert(Korean.flattenKorean("\uB2ED\uBA39\uC5B4"),
-				"\uB2ED\uBA39\uC5B4");
+		checker.checkEditorInsert(Korean.flattenKorean("\uB2ED\uBA39\uC5B4"), "\uB2ED\uBA39\uC5B4");
 		checker.checkEditorInsert(Korean.flattenKorean("\uC6EC\uC77C"), "\uC6EC\uC77C");
 		checker.checkEditorInsert(Korean.flattenKorean("\uC801\uBD84"), "\uC801\uBD84");
-		checker.checkEditorInsert(Korean.flattenKorean("\uC288\uD37C\uB9E8"),
-				"\uC288\uD37C\uB9E8");
+		checker.checkEditorInsert(Korean.flattenKorean("\uC288\uD37C\uB9E8"), "\uC288\uD37C\uB9E8");
 		checker.checkEditorInsert(Korean.flattenKorean("\u3138"), "\u1104");
-		checker.checkEditorInsert(Korean.flattenKorean("\uC778\uD14C\uADF8\uB784"),
-				"\uC778\uD14C\uADF8\uB784");
+		checker.checkEditorInsert(
+				Korean.flattenKorean("\uC778\uD14C\uADF8\uB784"), "\uC778\uD14C\uADF8\uB784");
 		checker.checkEditorInsert(Korean.flattenKorean("\u3137"), "\u1103");
 		checker.checkEditorInsert(Korean.flattenKorean("\u3131"), "\u1100");
 		checker.checkEditorInsert(Korean.flattenKorean("\u3134"), "\u1102");
-		checker.checkEditorInsert(Korean.flattenKorean("\uC8FC\uC778\uC7A5"),
-				"\uC8FC\uC778\uC7A5");
+		checker.checkEditorInsert(Korean.flattenKorean("\uC8FC\uC778\uC7A5"), "\uC8FC\uC778\uC7A5");
 		checker.checkEditorInsert(
-				Korean.flattenKorean("\uC774\uC81C\uC880\uC790\uC790"),
-				"\uC774\uC81C\uC880\uC790\uC790");
+				Korean.flattenKorean("\uC774\uC81C\uC880\uC790\uC790"), "\uC774\uC81C\uC880\uC790\uC790");
 		checker.checkEditorInsert(
-				Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
-				"\uC544\uBAA8\uB974\uACA0\uB2E4");
+				Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"), "\uC544\uBAA8\uB974\uACA0\uB2E4");
 
 		checker.checkEditorInsert("\u3146\u1161\u11BC", "\uC30D");
 		checker.checkEditorInsert("\u110A\u1161\u11BC", "\uC30D");
@@ -357,15 +351,11 @@ class EditorTypingTest extends BaseExamTestSetup {
 		// testEditor("\u3132", "\u1101");
 		checker.checkEditorInsert("\u3132\u314F", "\uAE4C");
 
-		checker.checkEditorInsert("\u3131\u3157\u3142\u3131\u3161\u3134",
-				"\uACF1\uADFC");
-		checker.checkEditorInsert("\u3147\u3163\u3142\u3139\u3155\u3131",
-				"\uC785\uB825");
+		checker.checkEditorInsert("\u3131\u3157\u3142\u3131\u3161\u3134", "\uACF1\uADFC");
+		checker.checkEditorInsert("\u3147\u3163\u3142\u3139\u3155\u3131", "\uC785\uB825");
 
-		checker.checkEditorInsert("\u3147\u3157\u314F\u3134\u3139\u315B",
-				"\uC644\uB8CC");
-		checker.checkEditorInsert("\u3131\u3157\u3142\u314E\u314F\u3131\u3163",
-				"\uACF1\uD558\uAE30");
+		checker.checkEditorInsert("\u3147\u3157\u314F\u3134\u3139\u315B", "\uC644\uB8CC");
+		checker.checkEditorInsert("\u3131\u3157\u3142\u314E\u314F\u3131\u3163", "\uACF1\uD558\uAE30");
 
 		// some middle (vowel) characters need doubling (no other way to enter
 		// them)
@@ -438,33 +428,44 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testInverseTrigEditor() {
-		checker.type("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2").checkRaw(
-				"SequenceNode[FnFRAC[SequenceNode[FnAPPLY[SequenceNode[c, o, s, "
+		checker
+				.type("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2")
+				.checkRaw("SequenceNode[FnFRAC[SequenceNode[FnAPPLY[SequenceNode[c, o, s, "
 						+ "FnSUPERSCRIPT[SequenceNode[-, 1]]], SequenceNode[1]]], "
 						+ "SequenceNode[2]]]");
 	}
 
 	@Test
 	void testLogBase() {
-		checker.type("log_2").right(1).type("(4)").checkRaw(
-				"SequenceNode[FnLOG[SequenceNode[2], SequenceNode[4]]]");
+		checker
+				.type("log_2")
+				.right(1)
+				.type("(4)")
+				.checkRaw("SequenceNode[FnLOG[SequenceNode[2], SequenceNode[4]]]");
 	}
 
 	@Test
 	void testLogPower() {
-		checker.type("log_2").right(1)
-				.type("^3").right(1).type("(4").checkRaw(
-				"SequenceNode[FnLOG_POWER[SequenceNode[2], SequenceNode[3], SequenceNode[4]]]");
+		checker
+				.type("log_2")
+				.right(1)
+				.type("^3")
+				.right(1)
+				.type("(4")
+				.checkRaw("SequenceNode[FnLOG_POWER[SequenceNode[2], SequenceNode[3], SequenceNode[4]]]");
 		checker.checkAsciiMath("log(2,4)^(3)");
-		checker.type("log_2").right(1)
-				.type("^3").right(1).type("(4")
+		checker
+				.type("log_2")
+				.right(1)
+				.type("^3")
+				.right(1)
+				.type("(4")
 				.checkLaTeX("\\log_{2}^{3}\\left(4\\right)");
 	}
 
 	@Test
 	void testSlash1() {
-		checker.type("/1").right(1).type("2")
-				.checkAsciiMath("((1)/(2))");
+		checker.type("/1").right(1).type("2").checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
@@ -474,14 +475,12 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testSlash3() {
-		checker.type("12").left(1).type("/")
-				.checkAsciiMath("((1)/())2");
+		checker.type("12").left(1).type("/").checkAsciiMath("((1)/())2");
 	}
 
 	@Test
 	void testDivision1() {
-		checker.type(Unicode.DIVIDE + "1").right(1).type("2")
-				.checkAsciiMath("((1)/(2))");
+		checker.type(Unicode.DIVIDE + "1").right(1).type("2").checkAsciiMath("((1)/(2))");
 	}
 
 	@Test
@@ -491,40 +490,42 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testDivision3() {
-		checker.type("12").left(1).type(Unicode.DIVIDE + "")
-				.checkAsciiMath("((1)/())2");
+		checker.type("12").left(1).type(Unicode.DIVIDE + "").checkAsciiMath("((1)/())2");
 	}
 
 	@Test
 	void testBracketsAroundFunction() {
-		checker.type("ln(x").left(4).type("(")
-				.checkAsciiMath("(ln(x))");
+		checker.type("ln(x").left(4).type("(").checkAsciiMath("(ln(x))");
 	}
 
 	@Test
 	void testBracketsAfterEquals() {
-		checker.type("f(p").right(1)
-				.type("=ln(p*2.72").right(1)
-				.type("+3)").checkAsciiMath("f(p)=(ln(p*2.72)+3)");
+		checker
+				.type("f(p")
+				.right(1)
+				.type("=ln(p*2.72")
+				.right(1)
+				.type("+3)")
+				.checkAsciiMath("f(p)=(ln(p*2.72)+3)");
 	}
 
 	@Test
 	void testBackspace() {
-		checker.type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE)
+		checker
+				.type("8" + Unicode.DIVIDE)
+				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type(Unicode.DIVIDE + "2")
 				.checkAsciiMath("((8)/(2))");
 	}
 
 	@Test
 	void testBackspaceAfterBrackets() {
-		checker.type("x(x+1)").typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("x(x+)");
+		checker.type("x(x+1)").typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("x(x+)");
 	}
 
 	@Test
 	void testBackspaceAfterFraction() {
-		checker.type("12/34").typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("((12)/(3))");
+		checker.type("12/34").typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("((12)/(3))");
 	}
 
 	@Test
@@ -551,18 +552,15 @@ class EditorTypingTest extends BaseExamTestSetup {
 		inputBoxChecker.type("xsinxcosx").checkAsciiMath("xsin(xcos(x))");
 		inputBoxChecker.parse("");
 
-		inputBoxChecker.type("sin^2").right(1).type("a")
-				.checkAsciiMath("sin^(2)(a)");
+		inputBoxChecker.type("sin^2").right(1).type("a").checkAsciiMath("sin^(2)(a)");
 		inputBoxChecker.parse("");
 
-		inputBoxChecker.type("log_3").right(1).type("x")
-				.checkAsciiMath("log(3,x)");
+		inputBoxChecker.type("log_3").right(1).type("x").checkAsciiMath("log(3,x)");
 	}
 
 	@Test
 	void testBackspaceWithBrackets() {
-		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
-				.checkAsciiMath("((8)/(2))");
+		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2").checkAsciiMath("((8)/(2))");
 	}
 
 	@Test
@@ -647,40 +645,64 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testBracketsForSelection() {
-		checker.type("x^2").right(1).type("+1")
+		checker
+				.type("x^2")
+				.right(1)
+				.type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(5)
-				.setModifiers(0).type("(").checkAsciiMath("(x^(2)+1)");
+				.setModifiers(0)
+				.type("(")
+				.checkAsciiMath("(x^(2)+1)");
 	}
 
 	@Test
 	void testBracketsForSelectionSin() {
-		checker.type("sinx^2").right(1).type("+1")
+		checker
+				.type("sinx^2")
+				.right(1)
+				.type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(4)
-				.setModifiers(0).type("(").checkAsciiMath("sin(x^(2)+1)");
+				.setModifiers(0)
+				.type("(")
+				.checkAsciiMath("sin(x^(2)+1)");
 	}
 
 	@Test
 	void testBracketsForSelectionSingleChar() {
-		checker.type("x^2").right(1).type("+1")
+		checker
+				.type("x^2")
+				.right(1)
+				.type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(1)
-				.setModifiers(0).type("(").checkAsciiMath("x^(2)+(1)");
+				.setModifiers(0)
+				.type("(")
+				.checkAsciiMath("x^(2)+(1)");
 	}
 
 	@Test
 	void testBracketsForSelectionAfterScript() {
-		checker.type("x^2").right(1).type("+1")
+		checker
+				.type("x^2")
+				.right(1)
+				.type("+1")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(2)
-				.setModifiers(0).type("(").checkAsciiMath("x^(2)(+1)");
+				.setModifiers(0)
+				.type("(")
+				.checkAsciiMath("x^(2)(+1)");
 	}
 
 	@Test
 	void testCommaInPointEditorWithSelection() {
-		checker.insert("(123,456)").protect()
-				.left(42).setModifiers(KeyEvent.SHIFT_MASK).right(42) // select as far as possible
+		checker
+				.insert("(123,456)")
+				.protect()
+				.left(42)
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.right(42) // select as far as possible
 				.type("7")
 				.checkAsciiMath("(7,456)");
 	}
@@ -688,11 +710,13 @@ class EditorTypingTest extends BaseExamTestSetup {
 	@Test
 	@Issue("APPS-7553")
 	void testBracketsSelectionAtomic() {
-		checker.type("1+(2+3)+4")
+		checker
+				.type("1+(2+3)+4")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(3)
 				.checkSelection("ArrayNode[SequenceNode[2, +, 3]]", "4");
-		checker.type("1+(2+3)+4")
+		checker
+				.type("1+(2+3)+4")
 				.setModifiers(KeyEvent.SHIFT_MASK)
 				.left(3)
 				.right(1)
@@ -702,8 +726,12 @@ class EditorTypingTest extends BaseExamTestSetup {
 	@Test
 	@Issue("APPS-6129")
 	void testCommaPastedIntoEditor() {
-		checker.insert("(123,456)").protect()
-				.left(1).setModifiers(KeyEvent.SHIFT_MASK).left(3) // select 2nd coord
+		checker
+				.insert("(123,456)")
+				.protect()
+				.left(1)
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(3) // select 2nd coord
 				.insert("(7,8)")
 				.setModifiers(0)
 				.left(4)
@@ -713,8 +741,12 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testCommaInPointEditor() {
-		checker.insert("(2,1)").protect().left(42) // go to the left of protected editor
-				.type("3").right(1) // cursor in front of comma
+		checker
+				.insert("(2,1)")
+				.protect()
+				.left(42) // go to the left of protected editor
+				.type("3")
+				.right(1) // cursor in front of comma
 				.type(",4")
 				.checkAsciiMath("(32,41)");
 	}
@@ -722,8 +754,12 @@ class EditorTypingTest extends BaseExamTestSetup {
 	@Test
 	void testPipeInPointEditor() {
 		checker.setAllowAbs(false);
-		checker.insert("(2,1)").protect().left(42) // go to the left of protected editor
-				.type("3").right(1) // cursor in front of comma
+		checker
+				.insert("(2,1)")
+				.protect()
+				.left(42) // go to the left of protected editor
+				.type("3")
+				.right(1) // cursor in front of comma
 				.type("|4")
 				.checkAsciiMath("(32,41)");
 	}
@@ -731,17 +767,24 @@ class EditorTypingTest extends BaseExamTestSetup {
 	@Test
 	void testPipeInPointEditorAustrian() {
 		checker.setAllowAbs(false);
-		checker.insert("(2" + Unicode.verticalLine + "1)").protect()
+		checker
+				.insert("(2" + Unicode.verticalLine + "1)")
+				.protect()
 				.left(42) // go to the left of protected editor
-				.type("3").right(1) // cursor in front of comma
+				.type("3")
+				.right(1) // cursor in front of comma
 				.type("|4")
 				.checkAsciiMath("(32" + Unicode.verticalLine + "41)");
 	}
 
 	@Test
 	void testCommaInMatrixEditor() {
-		checker.insert("{{1,2},{3,4}}").protect().left(42) // go to the left of protected editor
-				.type(",").type(",")
+		checker
+				.insert("{{1,2},{3,4}}")
+				.protect()
+				.left(42) // go to the left of protected editor
+				.type(",")
+				.type(",")
 				.checkAsciiMath("{{1,2},{3,4}}");
 	}
 
@@ -749,7 +792,9 @@ class EditorTypingTest extends BaseExamTestSetup {
 	void testSqrtInPointEditor() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.setForceBracketsAfterFunction();
-		checker.insert("(2,1,0)").protect()
+		checker
+				.insert("(2,1,0)")
+				.protect()
 				.left(5)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("sqrt9")
@@ -761,75 +806,37 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testBracketsInPointEditor() {
-		checker.insert("(2,3,3+4)")
-				.left(8)
-				.type("(")
-				.checkAsciiMath("((2),3,3+4)");
+		checker.insert("(2,3,3+4)").left(8).type("(").checkAsciiMath("((2),3,3+4)");
 
-		checker.insert("(2,3,3+4)")
-				.left(7)
-				.type(")")
-				.checkAsciiMath("(2),3,3+4");
+		checker.insert("(2,3,3+4)").left(7).type(")").checkAsciiMath("(2),3,3+4");
 
-		checker.insert("(2,3,3+4)").protect()
-				.left(7)
-				.type(")")
-				.checkAsciiMath("((2),3,3+4)");
+		checker.insert("(2,3,3+4)").protect().left(7).type(")").checkAsciiMath("((2),3,3+4)");
 
-		checker.insert("(2,3,3+4)")
-				.left(6)
-				.type("(")
-				.checkAsciiMath("(2,(3),3+4)");
+		checker.insert("(2,3,3+4)").left(6).type("(").checkAsciiMath("(2,(3),3+4)");
 
-		checker.insert("(2,3,3+4)")
-				.left(5)
-				.type(")")
-				.checkAsciiMath("(2,3),3+4");
+		checker.insert("(2,3,3+4)").left(5).type(")").checkAsciiMath("(2,3),3+4");
 
-		checker.insert("(2,3,3+4)").protect()
-				.left(5)
-				.type(")")
-				.checkAsciiMath("(2,(3),3+4)");
+		checker.insert("(2,3,3+4)").protect().left(5).type(")").checkAsciiMath("(2,(3),3+4)");
 
-		checker.insert("(2,3,3+4)")
-				.left(4)
-				.type("(")
-				.checkAsciiMath("(2,3,(3+4))");
+		checker.insert("(2,3,3+4)").left(4).type("(").checkAsciiMath("(2,3,(3+4))");
 
-		checker.insert("(2,3,3+4)")
-				.left(1)
-				.type(")")
-				.checkAsciiMath("(2,3,3+4)");
+		checker.insert("(2,3,3+4)").left(1).type(")").checkAsciiMath("(2,3,3+4)");
 
-		checker.insert("(2,3,3+4)").protect()
-				.left(1)
-				.type(")")
-				.checkAsciiMath("(2,3,(3+4))");
+		checker.insert("(2,3,3+4)").protect().left(1).type(")").checkAsciiMath("(2,3,(3+4))");
 
-		checker.insert("(2,3,3+4)")
-				.left(8)
-				.type("[")
-				.checkAsciiMath("([2],3,3+4)");
+		checker.insert("(2,3,3+4)").left(8).type("[").checkAsciiMath("([2],3,3+4)");
 
-		checker.insert("(2,3,3+4)")
-				.left(5)
-				.type("]")
-				.checkAsciiMath("(2,[3],3+4)");
+		checker.insert("(2,3,3+4)").left(5).type("]").checkAsciiMath("(2,[3],3+4)");
 	}
 
 	@Test
 	void testEditorBackspace() {
-		checker.type("ab cd(")
-				.left(3)
-				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("abcd()");
+		checker.type("ab cd(").left(3).typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("abcd()");
 
-		checker.type("a b(")
-				.left(3)
-				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("ab()");
+		checker.type("a b(").left(3).typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("ab()");
 
-		checker.type("1+ N Solve(")
+		checker
+				.type("1+ N Solve(")
 				.left(6)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkAsciiMath("1+ NSolve()");
@@ -837,7 +844,8 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testBackspaceLeavesIndexUnchanged() {
-		checker.type("x^3/2")
+		checker
+				.type("x^3/2")
 				.left(5)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("y")
@@ -846,7 +854,8 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testBackspaceLeavesFraction() {
-		checker.type("1-1/4")
+		checker
+				.type("1-1/4")
 				.left(4)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("+")
@@ -855,43 +864,37 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void testBackspaceLeavesPower() {
-		checker.type("12^34")
-				.left(3)
-				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("1^(34)");
+		checker.type("12^34").left(3).typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("1^(34)");
 	}
 
 	@Test
 	void testBackspaceLeavesPowerOfLetters() {
-		checker.type("e^t")
+		checker
+				.type("e^t")
 				.left(2)
 				.type("-")
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkAsciiMath("e^(t)");
 
-		checker.type("ee^t")
-				.left(2)
-				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("e^(t)");
+		checker.type("ee^t").left(2).typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("e^(t)");
 	}
 
 	@Test
 	void testBackspaceLeavesUnderscoreWithLetters() {
-		checker.type("e_t")
+		checker
+				.type("e_t")
 				.left(2)
 				.type("-")
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.checkAsciiMath("e_{t}");
 
-		checker.type("ee_t")
-				.left(2)
-				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
-				.checkAsciiMath("e_{t}");
+		checker.type("ee_t").left(2).typeKey(JavaKeyCodes.VK_BACK_SPACE).checkAsciiMath("e_{t}");
 	}
 
 	@Test
 	void testBackspaceLeavesSqrt() {
-		checker.type("12-sqrt(45")
+		checker
+				.type("12-sqrt(45")
 				.left(3)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("+")
@@ -900,33 +903,23 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void noCommasPastedInProtectedField() {
-		checker.insert("(2,3,3+4)").protect()
-				.left(3)
-				.insert("5,6")
-				.checkAsciiMath("(2,3,356+4)");
+		checker.insert("(2,3,3+4)").protect().left(3).insert("5,6").checkAsciiMath("(2,3,356+4)");
 	}
 
 	@Test
 	void noCurlyBracesPastedInProtectedField() {
-		checker.insert("(2,3,3+4)").protect()
-				.left(3)
-				.insert("{}")
-				.checkAsciiMath("(2,3,3+4)");
+		checker.insert("(2,3,3+4)").protect().left(3).insert("{}").checkAsciiMath("(2,3,3+4)");
 	}
 
 	@Test
 	void closeBracketShouldMoveCharactersOut() {
-		checker.insert("123456789")
-				.left(6)
-				.type("(")
-				.right(2)
-				.type(")")
-				.checkAsciiMath("123(45)6789");
+		checker.insert("123456789").left(6).type("(").right(2).type(")").checkAsciiMath("123(45)6789");
 	}
 
 	@Test
 	void noMathFunctionFuseForFractions() {
-		checker.type("x+π/2")
+		checker
+				.type("x+π/2")
 				.left(4)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type("-")
@@ -960,76 +953,127 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void collapseSelectionOnArrowLeft() {
-		checker.insert("1+2+3+4").select(3, 5).left(1).type("x")
-				.checkAsciiMath("1+2x+3+4");
+		checker.insert("1+2+3+4").select(3, 5).left(1).type("x").checkAsciiMath("1+2x+3+4");
 	}
 
 	@Test
 	void collapseSelectionOnArrowRight() {
-		checker.insert("1+2+3+4").select(3, 6).right(1).type("x")
-				.checkAsciiMath("1+2+3+x4");
+		checker.insert("1+2+3+4").select(3, 6).right(1).type("x").checkAsciiMath("1+2+3+x4");
 	}
 
 	@Test
 	void shouldNotSerializeEmptyIntPartOfMixedNumber() {
-		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
-				.right(1).type("2").right(1).type("3")
+		checker
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
 				.checkAsciiMath("((2)/(3))");
-		checker.type("1+")
-				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
-				.right(1).type("2").right(1).type("3")
+		checker
+				.type("1+")
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
 				.checkGGBMath("1 + 2 / 3");
 	}
 
 	@Test
 	void shouldNotSerializeMixedNumberIfDisabled() {
 		startExam(ExamType.WTR);
-		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+		checker
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
 				.type("1")
-				.right(1).type("2").right(1).type("3")
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
 				.checkGGBMath("1 * 2 / 3", getApp().getEditorFeatures());
 	}
 
 	@Test
 	void shouldNotSerializeInvalidIntPartOfMixedNumber() {
-		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+		checker
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
 				.type("1+")
-				.right(1).type("2").right(1).type("3")
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
 				.checkGGBMath("1 + 2 / 3");
 	}
 
 	@Test
 	void shouldSerializeValidMixedNumber() {
-		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+		checker
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
 				.type("1")
-				.right(1).type("2").right(1).type("3")
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
 				.checkGGBMath("1" + Unicode.INVISIBLE_PLUS + "2 / 3");
-		checker.type("(")
-				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+		checker
+				.type("(")
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
 				.type("1")
-				.right(1).type("2").right(1).type("3")
-				.right(1).type(",1")
-				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
-				.type("2").right(1).type("3")
-				.checkGGBMath("(1" + Unicode.INVISIBLE_PLUS
-						+ "2 / 3, 1" + Unicode.INVISIBLE_PLUS + "2 / 3)");
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
+				.right(1)
+				.type(",1")
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
+				.type("2")
+				.right(1)
+				.type("3")
+				.checkGGBMath(
+						"(1" + Unicode.INVISIBLE_PLUS + "2 / 3, 1" + Unicode.INVISIBLE_PLUS + "2 / 3)");
 	}
 
 	@Test
 	void shouldNotSerializeMixedNumberMMSRestriction() {
 		startExam(ExamType.MMS); // has FeatureRestriction.DISABLE_MIXED_NUMBERS
-		checker.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+		checker
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
 				.type("5")
-				.right(1).type("1").right(1).type("2")
+				.right(1)
+				.type("1")
+				.right(1)
+				.type("2")
 				.checkGGBMath("5 * 1 / 2", getApp().getEditorFeatures());
 	}
 
 	@Test
 	void shouldSerializeAssignment() {
-		checker.type("a=")
-				.setModifiers(KeyEvent.CTRL_MASK).typeKey(JavaKeyCodes.VK_M).setModifiers(0)
+		checker
+				.type("a=")
+				.setModifiers(KeyEvent.CTRL_MASK)
+				.typeKey(JavaKeyCodes.VK_M)
+				.setModifiers(0)
 				.type("1")
-				.right(1).type("2").right(1).type("3")
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
 				.checkGGBMath("1" + Unicode.INVISIBLE_PLUS + "2 / 3");
 	}
 
@@ -1040,33 +1084,57 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void pointFromKeyboard() {
-		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
-				.checkAsciiMath("$point(1,2)");
+		checker.pressSingleKey("$point:2").type("1").right(1).type("2").checkAsciiMath("$point(1,2)");
 	}
 
 	@Test
 	void vectorFromKeyboard() {
-		checker.pressSingleKey("$vector:2").type("1").right(1).type("2")
-				.checkAsciiMath("$vector(1,2)");
+		checker.pressSingleKey("$vector:2").type("1").right(1).type("2").checkAsciiMath("$vector(1,2)");
 	}
 
 	@Test
 	void vectorFromKeyboardLaTeX() {
-		checker.pressSingleKey("$vector:2").type("1").right(1).type("2")
+		checker
+				.pressSingleKey("$vector:2")
+				.type("1")
+				.right(1)
+				.type("2")
 				.checkLaTeX("\\begin{pmatrix}\\jlminput{1}\\\\\\jlminput{2}\\\\\\end{pmatrix}");
 	}
 
 	@Test
 	void matrixFromKeyboard() {
-		checker.pressSingleKey("$matrix:2:3").type("1").right(1).type("2").right(1).type("3")
-				.right(1).type("4").right(1).type("5").right(1).type("6")
+		checker
+				.pressSingleKey("$matrix:2:3")
+				.type("1")
+				.right(1)
+				.type("2")
+				.right(1)
+				.type("3")
+				.right(1)
+				.type("4")
+				.right(1)
+				.type("5")
+				.right(1)
+				.type("6")
 				.checkAsciiMath("{{1,2,3},{4,5,6}}");
 	}
 
 	@Test
 	void matrixFromKeyboardLaTeX() {
-		checker.pressSingleKey("$matrix:2:3").type("5").right(1).type("-3").right(1).type("0")
-				.right(1).type("1").right(1).type("99").right(1).type("1")
+		checker
+				.pressSingleKey("$matrix:2:3")
+				.type("5")
+				.right(1)
+				.type("-3")
+				.right(1)
+				.type("0")
+				.right(1)
+				.type("1")
+				.right(1)
+				.type("99")
+				.right(1)
+				.type("1")
 				.checkLaTeX("\\begin{pmatrix} \\jlminput{5} & \\jlminput{-3} & \\jlminput{0} "
 						+ "\\\\ \\jlminput{1} & \\jlminput{99} & \\jlminput{1} \\end{pmatrix}");
 	}
@@ -1074,7 +1142,9 @@ class EditorTypingTest extends BaseExamTestSetup {
 	@Test
 	@Issue("APPS-7802")
 	void emptyMatrixFromKeyboardLaTeX() {
-		checker.pressSingleKey("$matrix:2:3").right(1)
+		checker
+				.pressSingleKey("$matrix:2:3")
+				.right(1)
 				.checkLaTeXWithCursor("\\begin{pmatrix} \\jlminput{\\vspace{0.7}} "
 						+ "& \\jlminput{\\jlmcursor{0.9}} & \\jlminput{\\vspace{0.7}} \\\\ "
 						+ "\\jlminput{\\vspace{0.7}} & \\jlminput{\\vspace{0.7}} & "
@@ -1084,15 +1154,13 @@ class EditorTypingTest extends BaseExamTestSetup {
 	@Test
 	@Issue("APPS-7000")
 	void pointToClipboard() {
-		checker.pressSingleKey("$point:2").type("1").right(1).type("2")
-				.checkCopy("(1,2)");
+		checker.pressSingleKey("$point:2").type("1").right(1).type("2").checkCopy("(1,2)");
 	}
 
 	@Test
 	@Issue("APPS-7000")
 	void vectorToClipboard() {
-		checker.pressSingleKey("$vector:2").type("1").right(1).type("3")
-				.checkCopy("(1,3)");
+		checker.pressSingleKey("$vector:2").type("1").right(1).type("3").checkCopy("(1,3)");
 	}
 
 	@Test
@@ -1115,26 +1183,44 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void extendSelection() {
-		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.left(3)
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.checkSelection("4", "6");
-		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.left(3)
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.left(2)
 				.checkSelection("4", "4");
-		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.left(3)
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_HOME)
 				.checkSelection("1", "3");
-		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.left(3)
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_HOME)
 				.right(1)
 				.checkSelection("2", "3");
-		checker.type("123456").left(3).setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.left(3)
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.typeKey(JavaKeyCodes.VK_HOME)
 				.right(1)
 				.checkSelection("2", "3");
-		checker.type("123456").left(6).setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.left(6)
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.typeKey(JavaKeyCodes.VK_HOME)
 				.checkSelectionEmpty();
@@ -1142,34 +1228,39 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void extendSelectionAtEnd() {
-		checker.type("123456").left(6).setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.left(6)
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_HOME)
 				.checkSelectionEmpty();
-		checker.type("123456").setModifiers(KeyEvent.SHIFT_MASK)
+		checker
+				.type("123456")
+				.setModifiers(KeyEvent.SHIFT_MASK)
 				.typeKey(JavaKeyCodes.VK_END)
 				.checkSelectionEmpty();
-		checker.type("1").left(1)
-				.shiftOn().right(1).left(1)
-				.checkSelectionEmpty();
-		checker.type("1")
-				.shiftOn().left(1).right(1)
-				.checkSelectionEmpty();
+		checker.type("1").left(1).shiftOn().right(1).left(1).checkSelectionEmpty();
+		checker.type("1").shiftOn().left(1).right(1).checkSelectionEmpty();
 	}
 
 	@Test
 	void extendSelectionPower() {
-		checker.type("123^4").setModifiers(KeyEvent.SHIFT_MASK).left(3)
+		checker
+				.type("123^4")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(3)
 				.checkSelection("3", "FnSUPERSCRIPT[SequenceNode[4]]");
-		checker.type("123^4").setModifiers(KeyEvent.SHIFT_MASK).left(4)
+		checker
+				.type("123^4")
+				.setModifiers(KeyEvent.SHIFT_MASK)
+				.left(4)
 				.checkSelection("2", "FnSUPERSCRIPT[SequenceNode[4]]");
 	}
 
 	@Test
 	void selectAll() {
-		checker.type("123456").ctrlA().checkSelection("1",
-				"6");
-		checker.type("123456").ctrlA().shiftOn().left(2)
-				.checkSelection("1", "4");
+		checker.type("123456").ctrlA().checkSelection("1", "6");
+		checker.type("123456").ctrlA().shiftOn().left(2).checkSelection("1", "4");
 	}
 
 	@Test
@@ -1183,9 +1274,9 @@ class EditorTypingTest extends BaseExamTestSetup {
 
 	@Test
 	void surdLaTeX() {
-		checker.insert(String.valueOf(Unicode.SQUARE_ROOT))
+		checker
+				.insert(String.valueOf(Unicode.SQUARE_ROOT))
 				.checkLaTeX("\\sqrt{{\\bgcolor{#e6e6eb}\\scalebox{1}[1.6]{\\phantom{g}}}}");
-		checker.insert(Unicode.SQUARE_ROOT + "15-1")
-				.checkLaTeX("\\sqrt{15}-1");
+		checker.insert(Unicode.SQUARE_ROOT + "15-1").checkLaTeX("\\sqrt{15}-1");
 	}
 }

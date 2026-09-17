@@ -71,14 +71,14 @@ public enum BinomialCoefficientsSign {
 		for (BernsteinPolynomial bcoeff : bernsteinCoeffs) {
 			if (bcoeff != null) {
 				switch (bcoeff.getSign()) {
-				case AllPositive:
-					positive++;
-					break;
-				case AllNegative:
-					negative++;
-					break;
-				case None:
-				case Mixed:
+					case AllPositive:
+						positive++;
+						break;
+					case AllNegative:
+						negative++;
+						break;
+					case None:
+					case Mixed:
 				}
 			}
 		}

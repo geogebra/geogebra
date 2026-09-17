@@ -52,5 +52,4 @@ public class AlgoAnglePoint3D extends AlgoAngleElement3D {
 	protected final void setOrigin() {
 		// nothing to do here
 	}
-
 }

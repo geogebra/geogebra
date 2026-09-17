@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,8 +46,11 @@ class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 
 	@Test
 	void testFactorOutNominator() {
-		shouldSimplify("(2 + 2sqrt(2)) / -4", "-((2 + 2sqrt(2))/4)",
-				getSimplifier(), new PositiveDenominator(utils));
+		shouldSimplify(
+				"(2 + 2sqrt(2)) / -4",
+				"-((2 + 2sqrt(2))/4)",
+				getSimplifier(),
+				new PositiveDenominator(utils));
 		shouldSimplify("(-2 - 2sqrt(2)) / 4", "(-2 (1 + sqrt(2))) / 4");
 		shouldSimplify("(2 - 2sqrt(2)) / 4", "(2 (1 - sqrt(2))) / 4");
 	}
@@ -66,14 +69,13 @@ class FactorOutGCDFromSurdTest extends BaseSimplifyTestSetup {
 
 	@Test
 	void testFactorOutFromExpandedForm() {
-		shouldSimplify("(-10 (sqrt(2) + 2) - 4sqrt(3) - 4sqrt(6))",
-				"-10 (sqrt(2) + 2) - 4sqrt(3) - 4sqrt(6)");
+		shouldSimplify(
+				"(-10 (sqrt(2) + 2) - 4sqrt(3) - 4sqrt(6))", "-10 (sqrt(2) + 2) - 4sqrt(3) - 4sqrt(6)");
 	}
 
 	@Test
 	void testShouldBeTheSame() {
-		shouldSimplify("(-5 - 2sqrt(3) + 5sqrt(6) + sqrt(2))",
-				"(-5 - 2sqrt(3) + 5sqrt(6) + sqrt(2))");
+		shouldSimplify("(-5 - 2sqrt(3) + 5sqrt(6) + sqrt(2))", "(-5 - 2sqrt(3) + 5sqrt(6) + sqrt(2))");
 	}
 
 	@Test

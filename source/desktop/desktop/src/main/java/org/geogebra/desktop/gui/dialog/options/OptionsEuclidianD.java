@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -77,14 +77,18 @@ import org.geogebra.editor.share.util.Unicode;
 /**
  * Panel with options for the euclidian view. TODO: optimization: updateGUI()
  * called too often (F.S.)
- * 
+ *
  * revised by G.Sturr 2010-8-15
- * 
+ *
  */
 public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
-		implements OptionPanelD, ActionListener, FocusListener, ItemListener,
-		SetLabels, EuclidianOptionsModel.IBasicTab,
-		EuclidianOptionsModel.IGridTab {
+		implements OptionPanelD,
+				ActionListener,
+				FocusListener,
+				ItemListener,
+				SetLabels,
+				EuclidianOptionsModel.IBasicTab,
+				EuclidianOptionsModel.IGridTab {
 
 	private final GridStyleProperty gridProperty;
 	protected AppD app;
@@ -180,7 +184,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	/***********************************************
 	 * Creates a new dialog for the properties of the Euclidian view.
-	 * 
+	 *
 	 * @param app
 	 *            parent frame
 	 */
@@ -192,8 +196,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		kernel = app.getKernel();
 		this.view = view;
 		model = new EuclidianOptionsModel(app, view);
-		this.gridProperty = new GridStyleProperty(app.getLocalization(),
-				view.getSettings());
+		this.gridProperty = new GridStyleProperty(app.getLocalization(), view.getSettings());
 		view.setOptionPanel(this);
 
 		wrappedPanel = new JPanel();
@@ -214,7 +217,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	/**
 	 * update the view (also for model)
-	 * 
+	 *
 	 * @param view
 	 *            view
 	 */
@@ -320,19 +323,20 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		dimPanel = new JPanel();
 		dimPanel.setLayout(new BoxLayout(dimPanel, BoxLayout.Y_AXIS));
 
-		dimPanel.add(
-				LayoutUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1], tfMaxX));
-		dimPanel.add(
-				LayoutUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3], tfMaxY));
+		dimPanel.add(LayoutUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1], tfMaxX));
+		dimPanel.add(LayoutUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3], tfMaxY));
 		if (getDimension() == 3) {
-			dimPanel.add(
-					LayoutUtil.flowPanel(dimLabel[4], tfMinZ, dimLabel[5], tfMaxZ));
+			dimPanel.add(LayoutUtil.flowPanel(dimLabel[4], tfMinZ, dimLabel[5], tfMaxZ));
 		}
 
 		if (getDimension() == 2) {
 			dimPanel.add(LayoutUtil.flowPanel(axesRatioLabel));
-			dimPanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
-					tfAxesRatioX, new JLabel(" : "), tfAxesRatioY, cbLockRatio));
+			dimPanel.add(LayoutUtil.flowPanel(
+					Box.createHorizontalStrut(20),
+					tfAxesRatioX,
+					new JLabel(" : "),
+					tfAxesRatioY,
+					cbLockRatio));
 		}
 	}
 
@@ -392,14 +396,12 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		// axes options panel
 		axesOptionsPanel = new JPanel();
-		axesOptionsPanel
-				.setLayout(new BoxLayout(axesOptionsPanel, BoxLayout.Y_AXIS));
+		axesOptionsPanel.setLayout(new BoxLayout(axesOptionsPanel, BoxLayout.Y_AXIS));
 		fillAxesOptionsPanel();
 	}
 
 	private static JComboBox<Integer> getLineOptionsCombobox() {
-		final Integer[] iconArray =
-				new Integer[EuclidianStyleConstants.getLineStyleOptionsLength()];
+		final Integer[] iconArray = new Integer[EuclidianStyleConstants.getLineStyleOptionsLength()];
 		for (int i = 0; i < iconArray.length; i++) {
 			iconArray[i] = EuclidianStyleConstants.getLineStyleOptions(i);
 		}
@@ -407,13 +409,13 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	protected void fillAxesOptionsPanel() {
-		axesOptionsPanel.add(LayoutUtil.flowPanel(cbShowAxes,
-				Box.createHorizontalStrut(20), cbBoldAxes));
-		axesOptionsPanel.add(LayoutUtil.flowPanel(color, btAxesColor,
-				Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
+		axesOptionsPanel.add(
+				LayoutUtil.flowPanel(cbShowAxes, Box.createHorizontalStrut(20), cbBoldAxes));
+		axesOptionsPanel.add(LayoutUtil.flowPanel(
+				color, btAxesColor, Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
 
-		axesOptionsPanel.add(LayoutUtil.flowPanel(lblAxisLabelStyle,
-				cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
+		axesOptionsPanel.add(LayoutUtil.flowPanel(
+				lblAxisLabelStyle, cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
 	}
 
 	protected void initMiscPanel() {
@@ -437,7 +439,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		miscPanel = new JPanel();
 		miscPanel.setLayout(new BoxLayout(miscPanel, BoxLayout.Y_AXIS));
 		fillMiscPanel();
-
 	}
 
 	protected void fillMiscPanel() {
@@ -464,7 +465,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	/**
 	 * add dimension panel
-	 * 
+	 *
 	 * @param basicPanel
 	 *            basic panel
 	 */
@@ -491,7 +492,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		// checkbox for grid labels
 		cbGridTickAngle = new NumberComboBox(app, false);
-		for (String angleOption: model.getAngleOptions()) {
+		for (String angleOption : model.getAngleOptions()) {
 			cbGridTickAngle.addItem(angleOption);
 		}
 		cbGridTickAngle.addItemListener(this);
@@ -508,10 +509,14 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.Y_AXIS));
 		addComboGridType();
 		typePanel.add(LayoutUtil.flowPanel(cbGridManualTick));
-		typePanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
-				gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
+		typePanel.add(LayoutUtil.flowPanel(
+				Box.createHorizontalStrut(20),
+				gridLabel1,
+				ncbGridTickX,
+				gridLabel2,
+				ncbGridTickY,
+				gridLabel3,
 				cbGridTickAngle));
-
 	}
 
 	protected void addComboGridType() {
@@ -541,7 +546,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		stylePanel.add(LayoutUtil.flowPanel(cbGridStyle));
 		stylePanel.add(LayoutUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
-
 	}
 
 	private JPanel buildGridPanel() {
@@ -573,23 +577,18 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		tfMinY.removeActionListener(this);
 		tfMaxY.removeActionListener(this);
 		view.updateBoundObjects();
-		tfMinX.setText(
-				view.getXminObject().getLabel(StringTemplate.editTemplate));
-		tfMaxX.setText(
-				view.getXmaxObject().getLabel(StringTemplate.editTemplate));
-		tfMinY.setText(
-				view.getYminObject().getLabel(StringTemplate.editTemplate));
-		tfMaxY.setText(
-				view.getYmaxObject().getLabel(StringTemplate.editTemplate));
+		tfMinX.setText(view.getXminObject().getLabel(StringTemplate.editTemplate));
+		tfMaxX.setText(view.getXmaxObject().getLabel(StringTemplate.editTemplate));
+		tfMinY.setText(view.getYminObject().getLabel(StringTemplate.editTemplate));
+		tfMaxY.setText(view.getYmaxObject().getLabel(StringTemplate.editTemplate));
 		tfMinX.addActionListener(this);
 		tfMaxX.addActionListener(this);
 		tfMinY.addActionListener(this);
 		tfMaxY.addActionListener(this);
-
 	}
 
 	@Override
-	final public void updateBounds() {
+	public final void updateBounds() {
 
 		if (!isSelected) {
 			return;
@@ -610,7 +609,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		}
 		tfAxesRatioX.addActionListener(this);
 		tfAxesRatioY.addActionListener(this);
-
 	}
 
 	@Override
@@ -626,8 +624,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	@Override
-	public void updateGrid(GColor color, boolean isShown, boolean isBold,
-			int gridType) {
+	public void updateGrid(GColor color, boolean isShown, boolean isBold, int gridType) {
 		btGridColor.setForeground(GColorD.getAwtColor(color));
 
 		cbShowGrid.removeActionListener(this);
@@ -666,10 +663,10 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		// cons protocol panel
 		ckShowNavbar.setSelected(isVisible);
-		ckNavPlay.setSelected(((GuiManagerD) app.getGuiManager())
-				.isConsProtNavigationPlayButtonVisible());
-		ckOpenConsProtocol.setSelected(((GuiManagerD) app.getGuiManager())
-				.isConsProtNavigationProtButtonVisible());
+		ckNavPlay.setSelected(
+				((GuiManagerD) app.getGuiManager()).isConsProtNavigationPlayButtonVisible());
+		ckOpenConsProtocol.setSelected(
+				((GuiManagerD) app.getGuiManager()).isConsProtNavigationProtButtonVisible());
 
 		ckNavPlay.setEnabled(isVisible);
 		ckOpenConsProtocol.setEnabled(isVisible);
@@ -708,8 +705,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		dimLabel[1].setText(loc.getMenu("xmax") + ":");
 		dimLabel[2].setText(loc.getMenu("ymin") + ":");
 		dimLabel[3].setText(loc.getMenu("ymax") + ":");
-		axesRatioLabel
-				.setText(loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"));
+		axesRatioLabel.setText(loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"));
 
 		setLabelsForCbView();
 
@@ -720,8 +716,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		yAxisPanel.setLabels();
 
 		// construction protocol panel
-		consProtocolPanel.setBorder(LayoutUtil
-				.titleBorder(loc.getMenu("ConstructionProtocolNavigation")));
+		consProtocolPanel.setBorder(
+				LayoutUtil.titleBorder(loc.getMenu("ConstructionProtocolNavigation")));
 		ckShowNavbar.setText(loc.getMenu("Show"));
 		ckNavPlay.setText(loc.getMenu("PlayButton"));
 		ckOpenConsProtocol.setText(loc.getMenu("ConstructionProtocolButton"));
@@ -765,8 +761,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		dimPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Dimensions")));
 		axesOptionsPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Axes")));
-		miscPanel.setBorder(
-				LayoutUtil.titleBorder(loc.getMenu("Miscellaneous")));
+		miscPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Miscellaneous")));
 
 		cbShowAxes.setText(loc.getMenu("ShowAxes"));
 		cbBoldAxes.setText(loc.getMenu("Bold"));
@@ -791,15 +786,11 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	protected void actionBtBackgroundColor() {
 		if (view == app.getEuclidianView1()) {
-			app.getSettings().getEuclidian(1)
-					.setBackground(getEuclidianBackground(1));
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-				&& app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2)
-					.setBackground(getEuclidianBackground(2));
+			app.getSettings().getEuclidian(1).setBackground(getEuclidianBackground(1));
+		} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == view) {
+			app.getSettings().getEuclidian(2).setBackground(getEuclidianBackground(2));
 		} else if (app.isEuclidianView3D(view)) {
-			app.getSettings().getEuclidian(3)
-					.setBackground(getEuclidianBackground(3));
+			app.getSettings().getEuclidian(3).setBackground(getEuclidianBackground(3));
 		} else {
 			view.setBackground(view.getBackgroundCommon());
 		}
@@ -809,14 +800,12 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		if (source == btBackgroundColor) {
 			actionBtBackgroundColor();
 		} else if (source == btAxesColor) {
-			model.applyAxesColor(
-					GColorD.newColor(((GuiManagerD) app.getGuiManager())
-							.showColorChooser(view.getAxesColor())));
+			model.applyAxesColor(GColorD.newColor(
+					((GuiManagerD) app.getGuiManager()).showColorChooser(view.getAxesColor())));
 
 		} else if (source == btGridColor) {
-			model.applyGridColor(
-					GColorD.newColor(((GuiManagerD) app.getGuiManager())
-							.showColorChooser(view.getGridColor())));
+			model.applyGridColor(GColorD.newColor(
+					((GuiManagerD) app.getGuiManager()).showColorChooser(view.getGridColor())));
 
 		} else if (source == cbTooltips) {
 			model.applyTooltipMode(cbTooltips.getSelectedIndex());
@@ -841,11 +830,9 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		} else if (source == cbAxesStyle) {
 
-			model.applyAxesStyle(
-					(Integer) cbAxesStyle.getSelectedItem()
-							// make sure bold checkbox doesn't change
-							+ (cbBoldAxes.isSelected()
-									? EuclidianStyleConstants.AXES_BOLD : 0));
+			model.applyAxesStyle((Integer) cbAxesStyle.getSelectedItem()
+					// make sure bold checkbox doesn't change
+					+ (cbBoldAxes.isSelected() ? EuclidianStyleConstants.AXES_BOLD : 0));
 		} else if (source == cbAxisLabelBold) {
 			model.setAxisFontBold(cbAxisLabelBold.isSelected());
 
@@ -855,9 +842,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		} else if (source == cbAxisLabelItalic) {
 			model.setAxisFontItalic(cbAxisLabelItalic.isSelected());
 
-		}
-
-		else if (source == cbGridStyle) {
+		} else if (source == cbGridStyle) {
 			Object selectedItem = cbGridStyle.getSelectedItem();
 			if (selectedItem instanceof Integer) {
 				model.applyGridStyle((Integer) selectedItem);
@@ -873,14 +858,18 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		} else if (source == cbLockRatio) {
 			if (cbLockRatio.isSelected()) {
-				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
-						/ parseDouble(tfAxesRatioY.getText()), this);
+				model.applyLockRatio(
+						parseDouble(tfAxesRatioX.getText()) / parseDouble(tfAxesRatioY.getText()), this);
 			} else {
 				model.applyLockRatio(EuclidianSettings.UNSET_LOCK_RATIO, this);
 			}
 
-		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY
-				|| source == tfMinY || source == tfMaxZ || source == tfMinZ) {
+		} else if (source == tfMinX
+				|| source == tfMaxX
+				|| source == tfMaxY
+				|| source == tfMinY
+				|| source == tfMaxZ
+				|| source == tfMinZ) {
 
 			String text = ((JTextField) source).getText();
 			MinMaxType type = null;
@@ -924,13 +913,9 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		if (source == ncbGridTickX) {
 			model.applyGridTicks(ncbGridTickX.getValue(), 0);
-		}
-
-		else if (source == ncbGridTickY) {
+		} else if (source == ncbGridTickY) {
 			model.applyGridTicks(ncbGridTickY.getValue(), 1);
-		}
-
-		else if (source == cbGridTickAngle) {
+		} else if (source == cbGridTickAngle) {
 			model.applyGridTickAngle(cbGridTickAngle.getValue());
 		}
 
@@ -947,12 +932,11 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	public void focusLost(FocusEvent e) {
 		// handle focus changes in text fields
 		doActionPerformed(e.getSource());
-
 	}
 
 	/**
 	 * select the correct tab
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 */
@@ -968,7 +952,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	@Override
 	public void revalidate() {
 		getWrappedPanel().revalidate();
-
 	}
 
 	@Override
@@ -993,7 +976,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	/**
 	 * update font
-	 * 
+	 *
 	 * @param font
 	 *            font
 	 */
@@ -1061,7 +1044,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		ckShowNavbar.setFont(font);
 		ckNavPlay.setFont(font);
 		ckOpenConsProtocol.setFont(font);
-
 	}
 
 	@Override
@@ -1079,8 +1061,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	private void initConsProtocolPanel() {
 
 		consProtocolPanel = new JPanel();
-		consProtocolPanel
-				.setLayout(new BoxLayout(consProtocolPanel, BoxLayout.Y_AXIS));
+		consProtocolPanel.setLayout(new BoxLayout(consProtocolPanel, BoxLayout.Y_AXIS));
 
 		ckShowNavbar = new JCheckBox();
 		ckShowNavbar.addActionListener(showConsProtNavigationAction);
@@ -1092,10 +1073,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		consProtocolPanel.add(LayoutUtil.flowPanel(tab, ckNavPlay));
 
 		ckOpenConsProtocol = new JCheckBox();
-		ckOpenConsProtocol
-				.addActionListener(showConsProtNavigationOpenProtAction);
+		ckOpenConsProtocol.addActionListener(showConsProtNavigationOpenProtAction);
 		consProtocolPanel.add(LayoutUtil.flowPanel(tab, ckOpenConsProtocol));
-
 	}
 
 	Action showConsProtNavigationAction = new AbstractAction() {
@@ -1112,13 +1091,11 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Collection<ConstructionProtocolNavigation> cpns = app
-					.getGuiManager().getAllCPNavigations();
+			Collection<ConstructionProtocolNavigation> cpns = app.getGuiManager().getAllCPNavigations();
 			for (ConstructionProtocolNavigation cpn : cpns) {
 				cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 				// cpn.initGUI();
-				SwingUtilities.updateComponentTreeUI(
-						((ConstructionProtocolNavigationD) cpn).getImpl());
+				SwingUtilities.updateComponentTreeUI(((ConstructionProtocolNavigationD) cpn).getImpl());
 			}
 			app.setUnsaved();
 			updateGUI();
@@ -1131,13 +1108,11 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			Collection<ConstructionProtocolNavigation> cpns = app
-					.getGuiManager().getAllCPNavigations();
+			Collection<ConstructionProtocolNavigation> cpns = app.getGuiManager().getAllCPNavigations();
 			for (ConstructionProtocolNavigation cpn : cpns) {
 				cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 				// cpn.initGUI();
-				SwingUtilities.updateComponentTreeUI(
-						((ConstructionProtocolNavigationD) cpn).getImpl());
+				SwingUtilities.updateComponentTreeUI(((ConstructionProtocolNavigationD) cpn).getImpl());
 			}
 			app.setUnsaved();
 			updateGUI();
@@ -1146,22 +1121,20 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	protected GColor getEuclidianBackground(int viewNumber) {
 		return GColorD.newColor(((GuiManagerD) app.getGuiManager())
-				.showColorChooser(app.getSettings().getEuclidian(viewNumber)
-						.getBackground()));
+				.showColorChooser(app.getSettings().getEuclidian(viewNumber).getBackground()));
 	}
 
 	@Override
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.setEnabled(value);
 		tfAxesRatioY.setEnabled(value);
-		cbLockRatio.setIcon(app.getScaledIcon(value
-				? GuiResourcesD.OBJECT_UNFIXED : GuiResourcesD.OBJECT_FIXED));
-
+		cbLockRatio.setIcon(
+				app.getScaledIcon(value ? GuiResourcesD.OBJECT_UNFIXED : GuiResourcesD.OBJECT_FIXED));
 	}
 
 	@Override
-	public void setMinMaxText(String minX, String maxX, String minY,
-			String maxY, String minZ, String maxZ) {
+	public void setMinMaxText(
+			String minX, String maxX, String minY, String maxY, String minZ, String maxZ) {
 		tfMinX.setText(minX);
 		tfMaxX.setText(maxX);
 		tfMinY.setText(minY);
@@ -1185,12 +1158,10 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		cbAxesStyle.removeActionListener(this);
 		cbAxesStyle.setSelectedIndex(index);
 		cbAxesStyle.addActionListener(this);
-
 	}
 
 	@Override
-	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
-			int gridType) {
+	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks, int gridType) {
 		ncbGridTickX.removeItemListener(this);
 		ncbGridTickY.removeItemListener(this);
 		cbGridTickAngle.removeItemListener(this);
@@ -1223,7 +1194,6 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		ncbGridTickX.addItemListener(this);
 		ncbGridTickY.addItemListener(this);
 		cbGridTickAngle.addItemListener(this);
-
 	}
 
 	@Override
@@ -1250,16 +1220,14 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	}
 
 	@Override
-	public void updateAxisFontStyle(boolean isSerif, boolean isBold,
-			boolean isItalic) {
+	public void updateAxisFontStyle(boolean isSerif, boolean isBold, boolean isItalic) {
 		cbAxisLabelSerif.setSelected(isSerif);
 		cbAxisLabelBold.setSelected(isBold);
 		cbAxisLabelItalic.setSelected(isItalic);
 	}
 
 	@Override
-	public void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle,
-			boolean bold) {
+	public void updateRuler(BackgroundType typeIdx, GColor color, int lineStyle, boolean bold) {
 		// implemented in web
 	}
 }

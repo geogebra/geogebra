@@ -66,8 +66,7 @@ public class ResourcesInjector {
 	 * @param parameters applet parameters (for determining vendor)
 	 */
 	protected void injectResourcesGUI(AppletParameters parameters) {
-		new StyleInjector(GWT.getModuleBaseURL())
-				.inject("css/bundles", "simple-bundle");
+		new StyleInjector(GWT.getModuleBaseURL()).inject("css/bundles", "simple-bundle");
 	}
 
 	/**
@@ -75,14 +74,13 @@ public class ResourcesInjector {
 	 */
 	public static void removeResources() {
 		resourcesInjected = false;
-		NodeList<Element> resources = DomGlobal.document
-				.querySelectorAll("." + StyleInjector.CLASSNAME);
+		NodeList<Element> resources =
+				DomGlobal.document.querySelectorAll("." + StyleInjector.CLASSNAME);
 		for (int i = 0; i < resources.getLength(); i++) {
 			Objects.requireNonNull(resources.getAt(i)).remove();
 		}
 
-		NodeList<Element> scripts = DomGlobal.document
-				.querySelectorAll("script[src$=\"cache.js\"]");
+		NodeList<Element> scripts = DomGlobal.document.querySelectorAll("script[src$=\"cache.js\"]");
 		for (int i = 0; i < scripts.getLength(); i++) {
 			Objects.requireNonNull(scripts.getAt(i)).remove();
 		}

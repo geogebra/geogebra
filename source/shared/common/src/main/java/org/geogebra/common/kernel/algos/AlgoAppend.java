@@ -35,8 +35,8 @@ public class AlgoAppend extends AlgoElement {
 	private static final int ADD_OBJECT_AT_START = 0;
 	private static final int ADD_OBJECT_AT_END = 1;
 
-	private AlgoAppend(Construction cons, String label, GeoList inputList,
-			GeoElement geo, int order) {
+	private AlgoAppend(
+			Construction cons, String label, GeoList inputList, GeoElement geo, int order) {
 		super(cons);
 
 		this.order = order;
@@ -61,10 +61,8 @@ public class AlgoAppend extends AlgoElement {
 	 * @param geo
 	 *            appended element
 	 */
-	public AlgoAppend(Construction cons, String label, GeoList inputList,
-			GeoElement geo) {
+	public AlgoAppend(Construction cons, String label, GeoList inputList, GeoElement geo) {
 		this(cons, label, inputList, geo, ADD_OBJECT_AT_END);
-
 	}
 
 	/**
@@ -77,8 +75,7 @@ public class AlgoAppend extends AlgoElement {
 	 * @param geo
 	 *            prepended element
 	 */
-	public AlgoAppend(Construction cons, String label, GeoElement geo,
-			GeoList inputList) {
+	public AlgoAppend(Construction cons, String label, GeoElement geo, GeoList inputList) {
 		this(cons, label, inputList, geo, ADD_OBJECT_AT_START);
 	}
 
@@ -138,5 +135,4 @@ public class AlgoAppend extends AlgoElement {
 			outputList.add(geo.copyInternal(cons));
 		}
 	}
-
 }

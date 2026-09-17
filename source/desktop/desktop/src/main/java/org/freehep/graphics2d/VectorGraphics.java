@@ -34,14 +34,14 @@ import java.util.Properties;
  * re-declared abstract, since this class inherits from Graphics2D and we would
  * not want to actually or accidentally use any of those methods, except for the
  * ones noted.
- * 
+ *
  * Some int methods need to call their super.methods otherwise the compiler
  * cannot make a distinction if it needs to convert int to doubles or call the
  * super int method.
- * 
+ *
  * Note that many of these routines modify the current transformation matrix. To
  * guard against unintended side effects the following method should be used:
- * 
+ *
  * <pre>
  * <code>
  *  Graphics2D tempGraphics = (Graphics2D) originalGraphics.create();
@@ -52,18 +52,17 @@ import java.util.Properties;
  *  tempGraphics.dispose();
  * </code>
  * </pre>
- * 
+ *
  * where <code>originalGraphics</code> is the original <code>Graphics2D</code>
  * object. Note that <code>dispose</code> must be called when the drawing
  * finishes on <code>tempGraphics</code> and that no drawing should be done on
  * <code>originalGraphics</code> until <code>dispose</code> has been called.
- * 
+ *
  * @author Charles Loomis
  * @author Mark Donszelmann
  * @version $Id: VectorGraphics.java,v 1.7 2009-08-17 21:44:44 murkle Exp $
  */
-public abstract class VectorGraphics extends Graphics2D
-		implements VectorGraphicsConstants {
+public abstract class VectorGraphics extends Graphics2D implements VectorGraphicsConstants {
 
 	public abstract void setProperties(Properties newProperties);
 
@@ -96,8 +95,7 @@ public abstract class VectorGraphics extends Graphics2D
 	public abstract void clipRect(int x, int y, int width, int height);
 
 	@Override
-	public abstract void copyArea(int x, int y, int width, int height, int dx,
-			int dy);
+	public abstract void copyArea(int x, int y, int width, int height, int dx, int dy);
 
 	@Override
 	public abstract Graphics create();
@@ -119,8 +117,7 @@ public abstract class VectorGraphics extends Graphics2D
 	// int width, int height,
 	// boolean raised);
 	@Override
-	public abstract void drawArc(int x, int y, int width, int height,
-			int startAngle, int arcAngle);
+	public abstract void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle);
 
 	// NOTE: implemented in Graphics
 	// public abstract void drawBytes(byte[] data, int offset,
@@ -131,29 +128,45 @@ public abstract class VectorGraphics extends Graphics2D
 	// int length,
 	// int x, int y);
 	@Override
-	public abstract boolean drawImage(Image image, int x, int y,
+	public abstract boolean drawImage(Image image, int x, int y, ImageObserver observer);
+
+	@Override
+	public abstract boolean drawImage(
+			Image image, int x, int y, int width, int height, ImageObserver observer);
+
+	@Override
+	public abstract boolean drawImage(
+			Image image, int x, int y, Color bgColor, ImageObserver observer);
+
+	@Override
+	public abstract boolean drawImage(
+			Image image, int x, int y, int width, int height, Color bgColor, ImageObserver observer);
+
+	@Override
+	public abstract boolean drawImage(
+			Image image,
+			int dx1,
+			int dy1,
+			int dx2,
+			int dy2,
+			int sx1,
+			int sy1,
+			int sx2,
+			int sy2,
 			ImageObserver observer);
 
 	@Override
-	public abstract boolean drawImage(Image image, int x, int y, int width,
-			int height, ImageObserver observer);
-
-	@Override
-	public abstract boolean drawImage(Image image, int x, int y, Color bgColor,
-			ImageObserver observer);
-
-	@Override
-	public abstract boolean drawImage(Image image, int x, int y, int width,
-			int height, Color bgColor, ImageObserver observer);
-
-	@Override
-	public abstract boolean drawImage(Image image, int dx1, int dy1, int dx2,
-			int dy2, int sx1, int sy1, int sx2, int sy2,
-			ImageObserver observer);
-
-	@Override
-	public abstract boolean drawImage(Image image, int dx1, int dy1, int dx2,
-			int dy2, int sx1, int sy1, int sx2, int sy2, Color bgColor,
+	public abstract boolean drawImage(
+			Image image,
+			int dx1,
+			int dy1,
+			int dx2,
+			int dy2,
+			int sx1,
+			int sy1,
+			int sx2,
+			int sy2,
+			Color bgColor,
 			ImageObserver observer);
 
 	@Override
@@ -168,19 +181,17 @@ public abstract class VectorGraphics extends Graphics2D
 	// NOTE implemented in Graphics
 	// public abstract void drawPolygon(Polygon p);
 	@Override
-	public abstract void drawPolyline(int[] xPoints, int[] yPoints,
-			int nPoints);
+	public abstract void drawPolyline(int[] xPoints, int[] yPoints, int nPoints);
 
 	@Override
 	public abstract void drawRect(int x, int y, int width, int height);
 
 	@Override
-	public abstract void drawRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight);
+	public abstract void drawRoundRect(
+			int x, int y, int width, int height, int arcWidth, int arcHeight);
 
 	@Override
-	public abstract void drawString(AttributedCharacterIterator iterator, int x,
-			int y);
+	public abstract void drawString(AttributedCharacterIterator iterator, int x, int y);
 
 	@Override
 	public abstract void drawString(String str, int x, int y);
@@ -190,8 +201,7 @@ public abstract class VectorGraphics extends Graphics2D
 	// int width, int height,
 	// boolean raised);
 	@Override
-	public abstract void fillArc(int x, int y, int width, int height,
-			int startAngle, int arcAngle);
+	public abstract void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle);
 
 	@Override
 	public abstract void fillOval(int x, int y, int width, int height);
@@ -205,8 +215,8 @@ public abstract class VectorGraphics extends Graphics2D
 	public abstract void fillRect(int x, int y, int width, int height);
 
 	@Override
-	public abstract void fillRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight);
+	public abstract void fillRoundRect(
+			int x, int y, int width, int height, int arcWidth, int arcHeight);
 
 	// NOTE: implemented in Graphics
 	// public abstract void finalize();
@@ -277,24 +287,19 @@ public abstract class VectorGraphics extends Graphics2D
 	public abstract void drawGlyphVector(GlyphVector g, float x, float y);
 
 	@Override
-	public abstract void drawImage(BufferedImage img, BufferedImageOp op, int x,
-			int y);
+	public abstract void drawImage(BufferedImage img, BufferedImageOp op, int x, int y);
 
 	@Override
-	public abstract boolean drawImage(Image img, AffineTransform xform,
-			ImageObserver obs);
+	public abstract boolean drawImage(Image img, AffineTransform xform, ImageObserver obs);
 
 	@Override
-	public abstract void drawRenderableImage(RenderableImage img,
-			AffineTransform xform);
+	public abstract void drawRenderableImage(RenderableImage img, AffineTransform xform);
 
 	@Override
-	public abstract void drawRenderedImage(RenderedImage img,
-			AffineTransform xform);
+	public abstract void drawRenderedImage(RenderedImage img, AffineTransform xform);
 
 	@Override
-	public abstract void drawString(AttributedCharacterIterator iterator,
-			float x, float y);
+	public abstract void drawString(AttributedCharacterIterator iterator, float x, float y);
 
 	// NOTE: overridden in Graphics2D
 	// public abstract void drawString(AttributedCharacterIterator iterator, int
@@ -360,8 +365,7 @@ public abstract class VectorGraphics extends Graphics2D
 	public abstract void setPaint(Paint paint);
 
 	@Override
-	public abstract void setRenderingHint(RenderingHints.Key hintKey,
-			Object hintValue);
+	public abstract void setRenderingHint(RenderingHints.Key hintKey, Object hintValue);
 
 	@Override
 	public abstract void setRenderingHints(Map hints);
@@ -387,69 +391,62 @@ public abstract class VectorGraphics extends Graphics2D
 	/*
 	 * =========================================================================
 	 * ============
-	 * 
+	 *
 	 * Methods added to VectorGraphics (alphabetical)
-	 * 
+	 *
 	 * =========================================================================
 	 * ============
 	 */
 
-	public abstract void clearRect(double x, double y, double width,
-			double height);
+	public abstract void clearRect(double x, double y, double width, double height);
 
-	public abstract void clipRect(double x, double y, double width,
-			double height);
+	public abstract void clipRect(double x, double y, double width, double height);
 
-	public abstract Graphics create(double x, double y, double width,
-			double height);
+	public abstract Graphics create(double x, double y, double width, double height);
 
 	/**
 	 * Draws an arc. Uses Arc2D to call draw(Shape).
-	 * 
+	 *
 	 */
-	public abstract void drawArc(double x, double y, double width,
-			double height, double startAngle, double arcAngle);
+	public abstract void drawArc(
+			double x, double y, double width, double height, double startAngle, double arcAngle);
 
 	/**
 	 * Draws a straight line. Uses Line2D to call draw(Shape).
-	 * 
+	 *
 	 */
 	public abstract void drawLine(double x1, double y1, double x2, double y2);
 
 	/**
 	 * Draws an oval. Uses Ellipse2D to call draw(Shape).
-	 * 
+	 *
 	 */
-	public abstract void drawOval(double x, double y, double width,
-			double height);
+	public abstract void drawOval(double x, double y, double width, double height);
 
 	/**
 	 * Draws a polygon. Uses createShape(...) to call draw(Shape).
-	 * 
+	 *
 	 */
-	public abstract void drawPolygon(double[] xPoints, double[] yPoints,
-			int nPoints);
+	public abstract void drawPolygon(double[] xPoints, double[] yPoints, int nPoints);
 
 	/**
 	 * Draws a polyline. Uses createShape(...) to call draw(Shape).
-	 * 
+	 *
 	 */
-	public abstract void drawPolyline(double[] xPoints, double[] yPoints,
-			int nPoints);
+	public abstract void drawPolyline(double[] xPoints, double[] yPoints, int nPoints);
 
 	/**
 	 * Draws a rectangle. Uses Rectangle2D to call draw(Shape).
-	 * 
+	 *
 	 */
-	public abstract void drawRect(double x, double y, double width,
-			double height);
+	public abstract void drawRect(double x, double y, double width, double height);
 
 	/**
 	 * Draws a rounded rectangle. Uses RoundRectangle2D to call draw(Shape).
-	 * 
+	 *
 	 */
-	public abstract void drawRoundRect(double x, double y, double width,
-			double height, double arcWidth, double arcHeight);
+	public abstract void drawRoundRect(
+			double x, double y, double width, double height, double arcWidth, double arcHeight);
 
 	// public abstract void drawSymbol(int x, int y, int size, int symbol);
 	//
@@ -470,21 +467,19 @@ public abstract class VectorGraphics extends Graphics2D
 
 	/**
 	 * Draws a string.
-	 * 
+	 *
 	 */
 	public abstract void drawString(String str, double x, double y);
 
 	public abstract void drawString(TagString str, double x, double y);
 
-	public abstract void drawString(String str, double x, double y,
-			int horizontal, int vertical);
+	public abstract void drawString(String str, double x, double y, int horizontal, int vertical);
 
-	public abstract void drawString(TagString str, double x, double y,
-			int horizontal, int vertical);
+	public abstract void drawString(TagString str, double x, double y, int horizontal, int vertical);
 
 	/**
 	 * Draws a string with a lot of parameters.
-	 * 
+	 *
 	 * @param str
 	 *            text to be drawn
 	 * @param x
@@ -506,13 +501,21 @@ public abstract class VectorGraphics extends Graphics2D
 	 * @param bannerColor
 	 *            color of the banner
 	 */
-	public abstract void drawString(String str, double x, double y,
-			int horizontal, int vertical, boolean framed, Color frameColor,
-			double frameWidth, boolean banner, Color bannerColor);
+	public abstract void drawString(
+			String str,
+			double x,
+			double y,
+			int horizontal,
+			int vertical,
+			boolean framed,
+			Color frameColor,
+			double frameWidth,
+			boolean banner,
+			Color bannerColor);
 
 	/**
 	 * Draws a TagString with a lot of parameters.
-	 * 
+	 *
 	 * @param str
 	 *            Tagged text to be drawn
 	 * @param x
@@ -534,9 +537,17 @@ public abstract class VectorGraphics extends Graphics2D
 	 * @param bannerColor
 	 *            color of the banner
 	 */
-	public abstract void drawString(TagString str, double x, double y,
-			int horizontal, int vertical, boolean framed, Color frameColor,
-			double frameWidth, boolean banner, Color bannerColor);
+	public abstract void drawString(
+			TagString str,
+			double x,
+			double y,
+			int horizontal,
+			int vertical,
+			boolean framed,
+			Color frameColor,
+			double frameWidth,
+			boolean banner,
+			Color bannerColor);
 
 	public abstract void endExport();
 
@@ -544,38 +555,35 @@ public abstract class VectorGraphics extends Graphics2D
 
 	/**
 	 * Fills an arc. Uses Arc2D to call fill(Shape).
-	 * 
+	 *
 	 */
-	public abstract void fillArc(double x, double y, double width,
-			double height, double startAngle, double arcAngle);
+	public abstract void fillArc(
+			double x, double y, double width, double height, double startAngle, double arcAngle);
 
 	/**
 	 * Fills an oval. Uses Ellipse2D to call fill(Shape).
-	 * 
+	 *
 	 */
-	public abstract void fillOval(double x, double y, double width,
-			double height);
+	public abstract void fillOval(double x, double y, double width, double height);
 
 	/**
 	 * Fills a polygon. Uses createShape(...) to call fill(Shape).
-	 * 
+	 *
 	 */
-	public abstract void fillPolygon(double[] xPoints, double[] yPoints,
-			int nPoints);
+	public abstract void fillPolygon(double[] xPoints, double[] yPoints, int nPoints);
 
 	/**
 	 * Fills a rectangle. Uses Rectangle2D to call fill(Shape).
-	 * 
+	 *
 	 */
-	public abstract void fillRect(double x, double y, double width,
-			double height);
+	public abstract void fillRect(double x, double y, double width, double height);
 
 	/**
 	 * Fills a rounded rectangle. Uses RoundRectangle2D to call fill(Shape).
-	 * 
+	 *
 	 */
-	public abstract void fillRoundRect(double x, double y, double width,
-			double height, double arcWidth, double arcHeight);
+	public abstract void fillRoundRect(
+			double x, double y, double width, double height, double arcWidth, double arcHeight);
 
 	public abstract int getColorMode();
 
@@ -585,8 +593,7 @@ public abstract class VectorGraphics extends Graphics2D
 
 	public abstract void printComment(String comment);
 
-	public abstract void setClip(double x, double y, double width,
-			double height);
+	public abstract void setClip(double x, double y, double width, double height);
 
 	public abstract void setColorMode(int colorMode);
 
@@ -646,22 +653,21 @@ public abstract class VectorGraphics extends Graphics2D
 		return (i != null) ? i.intValue() : SYMBOL_PLUS;
 	}
 
-	public static double getYalignment(double y, double ascent, double descent,
-			int alignment) {
+	public static double getYalignment(double y, double ascent, double descent, int alignment) {
 		// vertical alignment
 		switch (alignment) {
-		case TEXT_TOP:
-			y = y + ascent - descent;
-			break;
-		case TEXT_CENTER:
-			y = y + ((ascent + descent) / 2) - descent;
-			break;
-		case TEXT_BOTTOM:
-			y = y - descent;
-			break;
-		case TEXT_BASELINE:
-		default:
-			break;
+			case TEXT_TOP:
+				y = y + ascent - descent;
+				break;
+			case TEXT_CENTER:
+				y = y + ((ascent + descent) / 2) - descent;
+				break;
+			case TEXT_BOTTOM:
+				y = y - descent;
+				break;
+			case TEXT_BASELINE:
+			default:
+				break;
 		}
 		return y;
 	}
@@ -669,15 +675,15 @@ public abstract class VectorGraphics extends Graphics2D
 	public static double getXalignment(double x, double width, int alignment) {
 		// horizontal alignment
 		switch (alignment) {
-		case TEXT_CENTER:
-			x = x - (width / 2);
-			break;
-		case TEXT_RIGHT:
-			x = x - width;
-			break;
-		case TEXT_LEFT:
-		default:
-			break;
+			case TEXT_CENTER:
+				x = x - (width / 2);
+				break;
+			case TEXT_RIGHT:
+				x = x - width;
+				break;
+			case TEXT_LEFT:
+			default:
+				break;
 		}
 		return x;
 	}

@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -23,8 +23,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class TrimmedIntersectionsProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class TrimmedIntersectionsProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 	private final GeoElement element;
 
 	/**
@@ -55,4 +55,3 @@ public class TrimmedIntersectionsProperty extends AbstractValuedProperty<Boolean
 		return element.getShowTrimmedIntersectionLines();
 	}
 }
-

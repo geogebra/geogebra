@@ -44,16 +44,14 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	 * @param bottom
 	 *            quadric bottom
 	 */
-	public AlgoQuadricSide(Construction c, GeoQuadric3DLimited inputQuadric,
-			boolean isHelperAlgo, GeoConicND bottom) {
-		super(c, inputQuadric, null, new AlgoQuadricComputerSide(),
-				!isHelperAlgo);
+	public AlgoQuadricSide(
+			Construction c, GeoQuadric3DLimited inputQuadric, boolean isHelperAlgo, GeoConicND bottom) {
+		super(c, inputQuadric, null, new AlgoQuadricComputerSide(), !isHelperAlgo);
 
 		this.isHelperAlgo = isHelperAlgo;
 		this.bottom = bottom;
 		if (!isHelperAlgo) {
-			setInputOutput(new GeoElement[] { inputQuadric },
-					new GeoElement[] { getQuadric() });
+			setInputOutput(new GeoElement[] {inputQuadric}, new GeoElement[] {getQuadric()});
 		}
 
 		compute();
@@ -87,11 +85,16 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		// compute the quadric
 		getQuadric().setDefined();
 		getQuadric().setType(getInputQuadric().getType());
-		getComputer().setQuadric(getQuadric(), getInputQuadric().getOrigin(),
-				getInputQuadric().getDirection(), eigen, r1, r2);
-		getQuadric().setLimits(
-				getInputQuadric().getBottomParameter(),
-				getInputQuadric().getTopParameter());
+		getComputer()
+				.setQuadric(
+						getQuadric(),
+						getInputQuadric().getOrigin(),
+						getInputQuadric().getDirection(),
+						eigen,
+						r1,
+						r2);
+		getQuadric()
+				.setLimits(getInputQuadric().getBottomParameter(), getInputQuadric().getTopParameter());
 
 		((GeoQuadric3DPart) getQuadric()).calcArea();
 	}
@@ -123,5 +126,4 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	public Commands getClassName() {
 		return Commands.QuadricSide;
 	}
-
 }

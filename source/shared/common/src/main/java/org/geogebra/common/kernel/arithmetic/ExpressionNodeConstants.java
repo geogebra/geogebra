@@ -98,5 +98,4 @@ public interface ExpressionNodeConstants {
 	String strIS_SUBSET_OF_STRICT = String.valueOf(Unicode.IS_SUBSET_OF_STRICT);
 	/** set difference */
 	String strSET_DIFFERENCE = "\\";
-
 }

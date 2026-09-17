@@ -43,5 +43,4 @@ public class GiacNative implements JsPropertyMap<Object> {
 	 */
 	@JsProperty
 	public native Function getCwrap();
-
 }

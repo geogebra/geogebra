@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -23,14 +23,14 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Renderer for algebra view. Add changeable description.
- * 
+ *
  * @author mathieu
- * 
+ *
  */
 public class AlgebraViewCellRenderer extends AlgebraTreeCellRenderer {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -52,28 +52,24 @@ public class AlgebraViewCellRenderer extends AlgebraTreeCellRenderer {
 			text = node.getAlgebraDescription();
 		} else {
 			switch (app.getAlgebraStyle()) {
-			default:
-			case VALUE:
-				text = node.getAlgebraDescription();
-				break;
+				default:
+				case VALUE:
+					text = node.getAlgebraDescription();
+					break;
 
-			case DESCRIPTION:
-				IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
-				geo.addLabelTextOrHTML(geo.getDefinitionDescription(
-						StringTemplate.defaultTemplate), builder);
-				text = builder.toString();
-				break;
+				case DESCRIPTION:
+					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
+					geo.addLabelTextOrHTML(
+							geo.getDefinitionDescription(StringTemplate.defaultTemplate), builder);
+					text = builder.toString();
+					break;
 
-			case DEFINITION:
-				builder = new IndexHTMLBuilder(true);
-				geo.addLabelTextOrHTML(
-						geo.getDefinition(StringTemplate.defaultTemplate),
-						builder);
-				text = builder.toString();
-				break;
-
+				case DEFINITION:
+					builder = new IndexHTMLBuilder(true);
+					geo.addLabelTextOrHTML(geo.getDefinition(StringTemplate.defaultTemplate), builder);
+					text = builder.toString();
+					break;
 			}
-
 		}
 
 		return text;

@@ -68,13 +68,23 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Polygon through given points
- * 
+ *
  * @author Markus Hohenwarter
  */
-public class GeoPolygon extends GeoElement implements GeoNumberValue,
-		GeoSurfaceFinite, Traceable, MatrixTransformable,
-		Mirrorable, Translateable, Dilateable, GeoCoordSys2D, GeoPoly,
-		Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta {
+public class GeoPolygon extends GeoElement
+		implements GeoNumberValue,
+				GeoSurfaceFinite,
+				Traceable,
+				MatrixTransformable,
+				Mirrorable,
+				Translateable,
+				Dilateable,
+				GeoCoordSys2D,
+				GeoPoly,
+				Transformable,
+				SymbolicParametersBotanaAlgo,
+				HasSegments,
+				FromMeta {
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 1000;
@@ -97,6 +107,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/** directed area */
 	protected double area;
+
 	private boolean defined = false;
 	/** @see #wasInitLabelsCalled() */
 	protected boolean initLabelsCalled = false;
@@ -132,7 +143,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * common constructor for 2D.
-	 * 
+	 *
 	 * @param c
 	 *            the construction
 	 * @param points
@@ -144,7 +155,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * common constructor for 3D.
-	 * 
+	 *
 	 * @param c
 	 *            the construction
 	 * @param points
@@ -154,8 +165,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @param createSegments
 	 *            says if the polygon has to creates its edges
 	 */
-	public GeoPolygon(Construction c, GeoPointND[] points, CoordSys cs,
-			boolean createSegments) {
+	public GeoPolygon(Construction c, GeoPointND[] points, CoordSys cs, boolean createSegments) {
 		this(c);
 		this.createSegments = createSegments;
 		setPoints(points, cs, createSegments);
@@ -164,7 +174,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Creates new GeoPolygon
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 */
@@ -174,7 +184,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Creates new GeoPolygon
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param isIntersection
@@ -190,12 +200,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
-
 	}
 
 	/**
 	 * not used for 2D
-	 * 
+	 *
 	 * @param cs
 	 *            GeoCoordSys2D
 	 */
@@ -205,10 +214,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * for 3D stuff (unused here)
-	 * 
+	 *
 	 * @param poly
 	 *            polygon
-	 * 
+	 *
 	 */
 	public void setCoordSys(GeoPolygon poly) {
 		// 3D only
@@ -216,10 +225,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * for 3D stuff (unused here)
-	 * 
+	 *
 	 * @param p
 	 *            polygon
-	 * 
+	 *
 	 */
 	public void setCoordSysAndPoints3D(GeoPolygon p) {
 		// 3D only
@@ -229,7 +238,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * set that this polygon hasn't fixed points length (e.g. for regular
 	 * polygons with slider). Used in getTypeString() to avoid bad type display
 	 * in algebra view, properties view, etc.
-	 * 
+	 *
 	 * @param flag
 	 *            true if not fixed points length
 	 */
@@ -244,20 +253,20 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 
 		switch (getPointsLength()) {
-		case 3:
-			return "Triangle";
+			case 3:
+				return "Triangle";
 
-		case 4:
-			return "Quadrilateral";
+			case 4:
+				return "Quadrilateral";
 
-		case 5:
-			return "Pentagon";
+			case 5:
+				return "Pentagon";
 
-		case 6:
-			return "Hexagon";
+			case 6:
+				return "Hexagon";
 
-		default:
-			return "Polygon";
+			default:
+				return "Polygon";
 		}
 	}
 
@@ -265,25 +274,25 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYGON;
 	}
-	
+
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 
 	/**
 	 * set the vertices to points
-	 * 
+	 *
 	 * @param points
 	 *            the vertices
 	 */
-	final public void setPoints(GeoPointND[] points) {
+	public final void setPoints(GeoPointND[] points) {
 		setPoints(points, null, true);
 	}
 
 	/**
 	 * set the vertices to points (cs is only used for 3D stuff)
-	 * 
+	 *
 	 * @param points
 	 *            the vertices
 	 * @param cs
@@ -302,7 +311,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * return number for points
-	 * 
+	 *
 	 * @return number for points
 	 */
 	public int getPointsLength() {
@@ -314,7 +323,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * return the x-coordinate of the i-th vertex
-	 * 
+	 *
 	 * @param i
 	 *            number of vertex
 	 * @return the x-coordinate
@@ -325,7 +334,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * return the y-coordinate of the i-th vertex
-	 * 
+	 *
 	 * @param i
 	 *            number of vertex
 	 * @return the y-coordinate
@@ -341,7 +350,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * Inits the labels of this polygon, its segments and its points. labels[0]
 	 * for polygon itself, labels[1..n] for segments, labels[n+1..2n-2] for
 	 * points (only used for regular polygon)
-	 * 
+	 *
 	 * @param labels
 	 *            labels of points and segments
 	 */
@@ -388,9 +397,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				for (int k = 0; k < segments.length; k++, i++) {
 					segments[k].setLabel(labels[i]);
 				}
-			}
-
-			else {
+			} else {
 				defaultSegmentLabels();
 			}
 		}
@@ -398,7 +405,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set that init label has been called (or not)
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -409,10 +416,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * Returns whether the method initLabels() was called for this polygon. This
 	 * is important to know whether the segments have gotten labels.
-	 * 
+	 *
 	 * @return true iff the method initLabels() was called for this polygon.
 	 */
-	final public boolean wasInitLabelsCalled() {
+	public final boolean wasInitLabelsCalled() {
 		return initLabelsCalled;
 	}
 
@@ -444,36 +451,31 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * of the point is already used, an indexed label is created.
 	 */
 	private static void setLabel(GeoSegmentND s, GeoPointND p) {
-		if (!p.isLabelSet()
-				|| p.getLabel(StringTemplate.defaultTemplate) == null) {
+		if (!p.isLabelSet() || p.getLabel(StringTemplate.defaultTemplate) == null) {
 			s.setLabel(null);
 		} else {
 			// use lower case of point label as segment label
-			String lowerCaseLabel = p
-					.getLabel(StringTemplate.get(StringType.GEOGEBRA))
-					.toLowerCase(Locale.ROOT);
+			String lowerCaseLabel =
+					p.getLabel(StringTemplate.get(StringType.GEOGEBRA)).toLowerCase(Locale.ROOT);
 
 			// for sides A, B, C use labels a, b, c
 			// or a_1 etc if necessary
 			if (lowerCaseLabel.length() == 1) {
 				char[] label = new char[1];
 				label[0] = lowerCaseLabel.charAt(0);
-				s.setLabel(s.getConstruction().getLabelManager()
-						.getNextIndexedLabel(label));
+				s.setLabel(s.getConstruction().getLabelManager().getNextIndexedLabel(label));
 
 			} else {
 
 				// eg Point is "PtA"
 				// -> opposite Segment is "pta"
-				if (s.getConstruction()
-						.isFreeLabel(lowerCaseLabel)) {
+				if (s.getConstruction().isFreeLabel(lowerCaseLabel)) {
 					s.setLabel(lowerCaseLabel);
 				} else {
 					// fallback: just use next available label
 					s.setLabel(null);
 				}
 			}
-
 		}
 	}
 
@@ -481,7 +483,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * Updates all segments of this polygon for its point array. Note that the
 	 * point array may be changed: this method makes sure that segments are
 	 * reused if possible.
-	 * 
+	 *
 	 * @param cons1
 	 *            construction in which new segments are born
 	 */
@@ -512,8 +514,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			GeoPointND startPoint = points[i];
 			GeoPointND endPoint = points[(i + 1) % getPointsLength()];
 			GeoSegmentND segment = segmentsArray.get(i);
-			AlgoJoinPointsSegmentInterface algo = (AlgoJoinPointsSegmentInterface) segment
-					.getParentAlgorithm();
+			AlgoJoinPointsSegmentInterface algo =
+					(AlgoJoinPointsSegmentInterface) segment.getParentAlgorithm();
 			algo.modifyInputPoints(startPoint, endPoint);
 			algo.compute();
 			segments[i] = segment;
@@ -524,12 +526,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		for (int i = segmentsArray.size(); i < points.length; i++) {
 			GeoPointND startPoint = points[i];
 			GeoPointND endPoint = points[(i + 1) % getPointsLength()];
-			GeoSegmentND segment = createSegment(cons1, startPoint, endPoint,
-					euclidianVisible);
+			GeoSegmentND segment = createSegment(cons1, startPoint, endPoint, euclidianVisible);
 			segment.getParentAlgorithm().setProtectedInput(true); // avoid
-																	// remove by
-																	// other
-																	// algos
+			// remove by
+			// other
+			// algos
 			segmentsArray.add(segment);
 			if (segments != null) {
 				segments[i] = segment;
@@ -540,15 +541,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		for (int i = points.length; i < segmentsArray.size(); i++) {
 			segmentsArray.get(i).setUndefined();
 		}
-
 	}
 
 	/**
 	 * return a segment joining startPoint and endPoint
-	 * 
+	 *
 	 * @param cons1
 	 *            construction of the new segment
-	 * 
+	 *
 	 * @param startPoint
 	 *            the start point
 	 * @param endPoint
@@ -557,8 +557,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            true to make the segment visible
 	 * @return the segment
 	 */
-	public GeoSegmentND createSegment(Construction cons1, GeoPointND startPoint,
-			GeoPointND endPoint, boolean euclidianVisible) {
+	public GeoSegmentND createSegment(
+			Construction cons1, GeoPointND startPoint, GeoPointND endPoint, boolean euclidianVisible) {
 		return createSegmentOwnDimension(cons1, startPoint, endPoint, euclidianVisible);
 	}
 
@@ -566,24 +566,23 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * Create a segment with the same dimension as the polygon
 	 * @return segment
 	 */
-	public GeoSegmentND createSegmentOwnDimension(Construction cons1, GeoPointND startPoint,
-			GeoPointND endPoint, boolean euclidianVisible) {
-		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons1,
-				(GeoPoint) startPoint, (GeoPoint) endPoint, this, false);
+	public GeoSegmentND createSegmentOwnDimension(
+			Construction cons1, GeoPointND startPoint, GeoPointND endPoint, boolean euclidianVisible) {
+		AlgoJoinPointsSegment algoSegment =
+				new AlgoJoinPointsSegment(cons1, (GeoPoint) startPoint, (GeoPoint) endPoint, this, false);
 		return createSegment(algoSegment.getSegment(), euclidianVisible);
 	}
 
 	/**
 	 * ends the creation of the segment
-	 * 
+	 *
 	 * @param segment
 	 *            segment
 	 * @param euclidianVisible
 	 *            true to make the segment visible
 	 * @return the segment modified
 	 */
-	protected GeoSegmentND createSegment(GeoSegmentND segment,
-			boolean euclidianVisible) {
+	protected GeoSegmentND createSegment(GeoSegmentND segment, boolean euclidianVisible) {
 		// refresh color to ensure segments have same color as polygon:
 		segment.setObjColor(getObjectColor());
 		segment.setLineThickness(getLineThickness());
@@ -592,8 +591,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		if (condShowObject != null) {
 			try {
-				segment
-						.setShowObjectCondition(getShowObjectCondition());
+				segment.setShowObjectCondition(getShowObjectCondition());
 			} catch (Exception ignored) {
 				// circular definition
 			}
@@ -633,7 +631,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Factory method for polygons, overridden in 3D
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return new polygon
@@ -684,19 +682,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			setChangeableParent(poly.changeableParent);
 		}
 		updateRegionCS();
-
 	}
 
 	/**
 	 * set points matching geos list, and segments
-	 * 
+	 *
 	 * @param geos
 	 *            input points
 	 */
 	public void setPointsAndSegments(GeoPointND[] geos) {
 		updatePoints(geos);
 		updateSegments(cons);
-
 	}
 
 	private void updatePoints(GeoPointND[] geos) {
@@ -708,13 +704,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				getPoint(i).setDefinition(oldDef);
 			}
 		}
-
 	}
 
 	/**
 	 * set points and segments length to arbitrary value (create new points and
 	 * segments)
-	 * 
+	 *
 	 * @param polyLength
 	 *            length
 	 */
@@ -725,7 +720,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set points length to arbitrary value (create new points)
-	 * 
+	 *
 	 * @param polyLength
 	 *            length
 	 * @param template
@@ -739,8 +734,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		// augment array size if array < polyLength
 		for (int i = pointsArray.size(); i < polyLength; i++) {
-			if (template != null && template.length > i
-					&& template[i] instanceof GeoPoint) {
+			if (template != null && template.length > i && template[i] instanceof GeoPoint) {
 				pointsArray.add((GeoPoint) template[i]);
 			} else {
 				pointsArray.add(new GeoPoint(cons));
@@ -766,7 +760,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * Returns the i-th point of this polygon. Note that this array may change
 	 * dynamically.
-	 * 
+	 *
 	 * @param i
 	 *            number of point
 	 * @return the i-th point
@@ -779,7 +773,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * Returns the points of this polygon as GeoPoints. Note that this array may
 	 * change dynamically.
-	 * 
+	 *
 	 * @return points of this polygon.
 	 */
 	@Override
@@ -789,7 +783,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set the 2D points
-	 * 
+	 *
 	 * @param points
 	 *            2D points
 	 */
@@ -800,30 +794,30 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * Returns the points of this polygon as GeoPointNDs. Note that this array
 	 * may change dynamically.
-	 * 
+	 *
 	 * @return points of this polygon
 	 */
 	@Override
-	final public GeoPointND[] getPointsND() {
+	public final GeoPointND[] getPointsND() {
 		return points;
 	}
 
 	/**
 	 * Returns i-th vertex of this polygon
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th pointt
 	 */
 	@Override
-	final public GeoPointND getPointND(int i) {
+	public final GeoPointND getPointND(int i) {
 		return points[i];
 	}
 
 	/**
 	 * Returns the segments of this polygon. Note that this array may change
 	 * dynamically.
-	 * 
+	 *
 	 * @return segments of this polygon.
 	 */
 	@Override
@@ -833,7 +827,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * sets the segments (used by GeoPolyhedron)
-	 * 
+	 *
 	 * @param segments
 	 *            the segments
 	 */
@@ -855,18 +849,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * Sets this polygon's area . This method should only be called by its
 	 * parent algorithm of type AlgoPolygon
-	 * 
+	 *
 	 * @param area
 	 *            area
 	 */
-	final public void setArea(double area) {
+	public final void setArea(double area) {
 		this.area = area;
 		defined = !(Double.isNaN(area) || Double.isInfinite(area));
 	}
 
 	/**
 	 * Returns undirected area
-	 * 
+	 *
 	 * @return undirected area
 	 */
 	@Override
@@ -886,8 +880,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		System.arraycopy(points, 0, pointsForPolyLine, 0, getPointsLength());
 		pointsForPolyLine[getPointsLength()] = pointsForPolyLine[0];
 
-		GeoPolyLine pl = new GeoPolyLine(this.getConstruction(),
-				pointsForPolyLine);
+		GeoPolyLine pl = new GeoPolyLine(this.getConstruction(), pointsForPolyLine);
 
 		kernel.setSilentMode(false);
 		cons.setSuppressLabelCreation(suppress);
@@ -896,7 +889,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * clockwise=-1 anticlockwise=+1 no area=0
-	 * 
+	 *
 	 * @return orientation of area
 	 */
 	public double getDirection() {
@@ -908,7 +901,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Returns directed area
-	 * 
+	 *
 	 * @return directed area
 	 */
 	public double getAreaWithSign() {
@@ -952,7 +945,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Sets the line opacity for this GeoElement.
-	 * 
+	 *
 	 * @param lineOpacity
 	 *            opacity value between 0 - 255
 	 * @param updateSegments
@@ -973,10 +966,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * Yields true if the area of this polygon is equal to the area of polygon
 	 * p.
-	 * 
+	 *
 	 * @param geo
 	 *            other geo (type check for polygon included)
-	 * 
+	 *
 	 * @return whether the two polygons have the same area
 	 */
 	// this method is the original isEqual, modified 2014-01
@@ -1029,8 +1022,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		if (fPointFound) {
 			boolean sPointFound = false;
 			int step = 1;
-			if (this.getPoint(1).isEqual(
-					g.getPoint((iFirstPoint + step) % gLength))) {
+			if (this.getPoint(1).isEqual(g.getPoint((iFirstPoint + step) % gLength))) {
 				sPointFound = true;
 			} else {
 				step = -1;
@@ -1078,17 +1070,20 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			// two polygon can be congruent when their number of sides are equal
 			// and have the same area
 			if (nrSidesPoly1 == nrSidesPoly2 && this.hasSameArea(polygon)) {
-				Double[] segmentsPoly1 = Arrays.stream(this.getSegments())
-						.map(GeoSegmentND::getLength).toArray(Double[]::new);
+				Double[] segmentsPoly1 =
+						Arrays.stream(this.getSegments()).map(GeoSegmentND::getLength).toArray(Double[]::new);
 				Double[] segmentsPoly2 = Arrays.stream(polygon.getSegments())
-						.map(GeoSegmentND::getLength).toArray(Double[]::new);
+						.map(GeoSegmentND::getLength)
+						.toArray(Double[]::new);
 				AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, this, true);
 				AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, polygon, true);
 				Double[] anglesPoly1 = Arrays.stream(algo1.getAngles())
-						.map(GeoElementND::evaluateDouble).toArray(Double[]::new);
+						.map(GeoElementND::evaluateDouble)
+						.toArray(Double[]::new);
 				Double[] anglesPoly2 = Arrays.stream(algo2.getAngles())
-						.map(GeoElementND::evaluateDouble).toArray(Double[]::new);
-				for (int direction: new int[]{1, -1}) {
+						.map(GeoElementND::evaluateDouble)
+						.toArray(Double[]::new);
+				for (int direction : new int[] {1, -1}) {
 					for (int shift = 0; shift < nrSidesPoly1; shift++) {
 						int angleShift = direction == 1 ? shift : shift + 1;
 						if (isSameValue(segmentsPoly1, segmentsPoly2, shift, direction)
@@ -1126,7 +1121,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Switches visibility of this polygon
-	 * 
+	 *
 	 * @param visible
 	 *            visibility flag
 	 * @param updateSegments
@@ -1160,7 +1155,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set the line type (and eventually the segments)
-	 * 
+	 *
 	 * @param type
 	 *            line type
 	 * @param updateSegments
@@ -1185,7 +1180,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set the hidden line type (and eventually the segments)
-	 * 
+	 *
 	 * @param type
 	 *            line type for hidden lines
 	 * @param updateSegments
@@ -1210,7 +1205,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set the line thickness (and eventually the segments)
-	 * 
+	 *
 	 * @param th
 	 *            new thickness
 	 * @param updateSegments
@@ -1242,12 +1237,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return label + " = " + kernel.format(getArea(), tpl);
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public final String toValueString(StringTemplate tpl) {
 		return kernel.format(getArea(), tpl);
 	}
 
@@ -1260,7 +1255,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	final public double getDouble() {
+	public final double getDouble() {
 		return getArea();
 	}
 
@@ -1368,8 +1363,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		double segParameter = pp.t - index;
 
 		// calc point for given parameter
-		PI.setCoords2D(seg.getPointX(segParameter), seg.getPointY(segParameter),
-				1);
+		PI.setCoords2D(seg.getPointX(segParameter), seg.getPointY(segParameter), 1);
 	}
 
 	int getSegmentLength() {
@@ -1385,13 +1379,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			seg = new GeoSegment(cons);
 		}
 
-		GeoPolyLine.setSegmentPoints(seg, (GeoPoint) points[index],
-				(GeoPoint) points[(index + 1) % getPointsLength()]);
+		GeoPolyLine.setSegmentPoints(
+				seg, (GeoPoint) points[index], (GeoPoint) points[(index + 1) % getPointsLength()]);
 		return seg;
 	}
 
 	@Override
-	final public void pointChanged(GeoPointND PI) {
+	public final void pointChanged(GeoPointND PI) {
 		PI.pointChanged(this);
 	}
 
@@ -1414,14 +1408,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
 		Coords coords = PI.getCoordsInD2();
-		return isInRegion(coords.getX() / coords.getZ(),
-				coords.getY() / coords.getZ());
-
+		return isInRegion(coords.getX() / coords.getZ(), coords.getY() / coords.getZ());
 	}
 
 	/**
 	 * says if the point (x0,y0) is in the region
-	 * 
+	 *
 	 * @param x0
 	 *            x-coord of the point
 	 * @param y0
@@ -1435,7 +1427,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * says if the point (x0,y0) is in the region defined by vertices
-	 * 
+	 *
 	 * @param x0
 	 *            x-coord of the point
 	 * @param y0
@@ -1467,11 +1459,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	final public void regionChanged(GeoPointND P) {
+	public final void regionChanged(GeoPointND P) {
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(P)
-				|| P.getRegionParameters().isNaN()) {
+		if (!getKernel().usePathAndRegionParameters(P) || P.getRegionParameters().isNaN()) {
 			pointChangedForRegion(P);
 			return;
 		}
@@ -1502,7 +1493,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set region coords (x,y) to point PI
-	 * 
+	 *
 	 * @param PI
 	 *            point
 	 * @param x
@@ -1553,26 +1544,24 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @param newp2
 	 *            new 3rd point for region coords
 	 */
-	final public void updateRegionCS(GeoPoint newp0, GeoPoint newp1,
-			GeoPoint newp2) {
+	public final void updateRegionCS(GeoPoint newp0, GeoPoint newp1, GeoPoint newp2) {
 		this.p0 = newp0;
 		this.p1 = newp1;
 		this.p2 = newp2;
 		numCS = 3;
-
 	}
 
 	/**
 	 * update the region coord sys with the 3 first points
 	 */
-	final public void updateRegionCSWithFirstPoints() {
+	public final void updateRegionCSWithFirstPoints() {
 		updateRegionCS(getPoint(0), getPoint(1), getPoint(2));
 	}
 
 	/**
 	 * update the coord sys used for region parameters
 	 */
-	final public void updateRegionCS() {
+	public final void updateRegionCS() {
 		if (getPoints() == null) {
 			return;
 		}
@@ -1588,16 +1577,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		int secondPoint;
 		boolean secondPointFound = false;
-		for (secondPoint = 1; secondPoint < getPoints().length
-				&& !secondPointFound; secondPoint++) {
+		for (secondPoint = 1; secondPoint < getPoints().length && !secondPointFound; secondPoint++) {
 			p1 = getPoint(secondPoint);
-			if (!DoubleUtil.isEqual(p0.inhomX, p1.inhomX,
-					Kernel.STANDARD_PRECISION)) {
+			if (!DoubleUtil.isEqual(p0.inhomX, p1.inhomX, Kernel.STANDARD_PRECISION)) {
 				secondPointFound = true;
-			} else if (!DoubleUtil.isEqual(p0.inhomY, p1.inhomY,
-					Kernel.STANDARD_PRECISION)) {
+			} else if (!DoubleUtil.isEqual(p0.inhomY, p1.inhomY, Kernel.STANDARD_PRECISION)) {
 				secondPointFound = true;
-			// Log.debug(" secondPointFound = " + secondPointFound);
+				// Log.debug(" secondPointFound = " + secondPointFound);
 			}
 		}
 
@@ -1606,8 +1592,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			numCS++;
 			secondPoint--;
 			boolean thirdPointFound = false;
-			for (thirdPoint = getPoints().length - 1; thirdPoint > secondPoint
-					&& !thirdPointFound; thirdPoint--) {
+			for (thirdPoint = getPoints().length - 1;
+					thirdPoint > secondPoint && !thirdPointFound;
+					thirdPoint--) {
 				p2 = getPoint(thirdPoint);
 				if (!GeoPoint.collinear(p0, p1, p2)) {
 					thirdPointFound = true;
@@ -1615,18 +1602,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				}
 			}
 		}
-
 	}
 
 	/**
 	 * returns 1 if the segment ((x1,y1),(x2,y2)) intersects y=0 for x>0, 2 if
 	 * (0,0) is on the segment and -1 otherwise If the segment only touches the
 	 * line for x>0, this touch is counted only if the segment is in y>0.
-	 * 
+	 *
 	 * Segments lying entirely on y=0 are ignored, unless they go through (0,0).
 	 */
-	private static int intersectOx(double px1, double py1, double px2,
-			double py2) {
+	private static int intersectOx(double px1, double py1, double px2, double py2) {
 		double x1 = px1, x2 = px2, y1 = py1, y2 = py2;
 		double eps = Kernel.STANDARD_PRECISION;
 
@@ -1669,8 +1654,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 				return 1;
 			} else if (x1 * y2 + eps < x2 * y1) {
 				return -1;
-			}
-			else {
+			} else {
 				return 2; // angle ~ 0
 			}
 		}
@@ -1722,7 +1706,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Returns the i-th 3D point of this polygon.
-	 * 
+	 *
 	 * @param i
 	 *            number of point
 	 * @return the i-th point
@@ -1733,7 +1717,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * if this is a part of a closed surface
-	 * 
+	 *
 	 * @return if this is a part of a closed surface
 	 */
 	public boolean isPartOfClosedSurface() {
@@ -1742,7 +1726,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * If this is a convex polygon. Also updates the convexOrientation value (even for a triangle)
-	 * 
+	 *
 	 * @return if this is a convex polygon
 	 */
 	public boolean isConvex() {
@@ -1836,7 +1820,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if points orientation are not the same as xOy plane (only
 	 *         used in 2D)
 	 */
@@ -1862,8 +1846,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 
 		if (labelPosition == null) {
-			labelPosition = new Coords(x / getPointsLength(),
-					y / getPointsLength(), z / getPointsLength(), 1);
+			labelPosition =
+					new Coords(x / getPointsLength(), y / getPointsLength(), z / getPointsLength(), 1);
 		} else {
 			labelPosition.setX(x / getPointsLength());
 			labelPosition.setY(y / getPointsLength());
@@ -1892,13 +1876,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
-			Coords willingDirection) {
+	public Coords[] getProjection(Coords oldCoords, Coords willingCoords, Coords willingDirection) {
 
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
+		Coords[] result = new Coords[] {new Coords(4), new Coords(4)};
 		willingCoords.projectPlaneThruVIfPossible(
-				getCoordSys().getMatrixOrthonormal(), oldCoords,
-				willingDirection, result[0], result[1]);
+				getCoordSys().getMatrixOrthonormal(), oldCoords, willingDirection, result[0], result[1]);
 
 		return result;
 	}
@@ -1910,9 +1892,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * @param cp
 	 *            changeable parent
-	 * 
+	 *
 	 */
-	final public void setChangeableParent(ChangeableParent cp) {
+	public final void setChangeableParent(ChangeableParent cp) {
 		changeableParent = cp;
 	}
 
@@ -1944,8 +1926,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a10,
-			double a11) {
+	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		for (int i = 0; i < getPointsLength(); i++) {
 			getPoint(i).matrixTransform(a00, a01, a10, a11);
 		}
@@ -2010,7 +1991,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Returns true iff all vertices are labeled
-	 * 
+	 *
 	 * @return true iff all vertices are labeled
 	 */
 	@Override
@@ -2025,7 +2006,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Returns true iff number of vertices is not volatile
-	 * 
+	 *
 	 * @return true iff number of vertices is not volatile
 	 */
 	@Override
@@ -2035,8 +2016,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			return false;
 		}
 		// polygon[list]
-		return getParentAlgorithm() != null
-				&& getParentAlgorithm().getInput().length >= 3;
+		return getParentAlgorithm() != null && getParentAlgorithm().getInput().length >= 3;
 	}
 
 	@Override
@@ -2046,18 +2026,24 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 
 		for (int i = 0; i < getPointsLength(); i++) {
-			getPointND(i).matrixTransform(a00, a01, a02,
-					a10, a11, a12, a20, a21, a22);
+			getPointND(i).matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
 		}
 
 		calcArea();
 
 		updatePathRegion();
-
 	}
 
 	/**
@@ -2070,12 +2056,11 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 			double sf = algo.getAreaScaleFactor();
 
-			GeoPolygon input = (GeoPolygon) algo.getInput(
-					algoParent.getClassName() == Commands.ApplyMatrix ? 1 : 0);
+			GeoPolygon input =
+					(GeoPolygon) algo.getInput(algoParent.getClassName() == Commands.ApplyMatrix ? 1 : 0);
 			setArea(input.getAreaWithSign() * sf);
 
 			return;
-
 		}
 
 		if (algoParent instanceof PolygonAlgo) {
@@ -2090,7 +2075,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Updates given point's coordinates to centroid of this
-	 * 
+	 *
 	 * @param p
 	 *            centroid
 	 */
@@ -2143,8 +2128,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		name += cons.getLabelManager().getMultiuserSuffix();
 		do {
 			counter++;
-			str = name + kernel.internationalizeDigits(counter + "",
-					StringTemplate.defaultTemplate);
+			str = name + kernel.internationalizeDigits(counter + "", StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
 	}
@@ -2152,7 +2136,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * modify input points. Assume that parent algo is an instance of
 	 * AlgoPolygon
-	 * 
+	 *
 	 * @param newPoints
 	 *            new input points
 	 */
@@ -2162,21 +2146,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaVars(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
 		return null; // Here maybe an exception should be thrown...?
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaPolynomials(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
 		return null; // Here maybe an exception should be thrown...?
 	}
@@ -2200,7 +2180,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	/**
 	 * add the polyhedron has meta geo for this (e.g. parent polyhedron, or
 	 * linked polyhedron)
-	 * 
+	 *
 	 * @param polyhedron
 	 *            polyhedron
 	 */
@@ -2214,7 +2194,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * remove polyhedron as meta for this
-	 * 
+	 *
 	 * @param polyhedron
 	 *            polyhedron
 	 */
@@ -2240,7 +2220,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * set that normal should be reversed for 3D drawing
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -2257,7 +2237,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * Sets the point size (and/or visibility)
-	 * 
+	 *
 	 * @param size
 	 *            new point size
 	 */
@@ -2285,7 +2265,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @return 2D point if 2D polygon, 3D point if 3D polygon
@@ -2305,7 +2285,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return polygon triangulation created for this
 	 */
 	public PolygonTriangulation getPolygonTriangulation() {
@@ -2350,7 +2330,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if normal is reversed
 	 */
 	public boolean hasReverseNormal() {
@@ -2358,7 +2338,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if is a regular polygon
 	 */
 	public boolean isRegular() {
@@ -2419,8 +2399,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 		if (!isDegenerated) {
 			double angle = Math.PI - Math.acos(dot / sqrDist);
-			if (!DoubleUtil.isEqual(angle * lPoints.length,
-					Math.PI * (lPoints.length - 2))) {
+			if (!DoubleUtil.isEqual(angle * lPoints.length, Math.PI * (lPoints.length - 2))) {
 				// e.g. star polygon
 				return false;
 			}

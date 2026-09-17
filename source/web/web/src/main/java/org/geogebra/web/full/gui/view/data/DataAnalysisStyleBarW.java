@@ -81,12 +81,12 @@ public final class DataAnalysisStyleBarW extends StyleBarW {
 		}
 
 		switch (model.getMode()) {
-		case DataAnalysisModel.MODE_ONEVAR:
-		case DataAnalysisModel.MODE_REGRESSION:
-			btnShowData.setVisible(true);
-			break;
-		default:
-			btnShowData.setVisible(false);
+			case DataAnalysisModel.MODE_ONEVAR:
+			case DataAnalysisModel.MODE_REGRESSION:
+				btnShowData.setVisible(true);
+				break;
+			default:
+				btnShowData.setVisible(false);
 		}
 
 		btnShowData.setSelected(model.showDataPanel());

@@ -44,30 +44,30 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0] instanceof GeoCoordSys2D) {
-				GeoElement[] ret = {
-						(GeoElement) kernel.getManager3D().orthogonalVector3D(
-								c.getLabel(), (GeoCoordSys2D) arg[0]) };
-				return ret;
-			}
-			break;
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0] instanceof GeoCoordSys2D) {
+					GeoElement[] ret = {
+						(GeoElement)
+								kernel.getManager3D().orthogonalVector3D(c.getLabel(), (GeoCoordSys2D) arg[0])
+					};
+					return ret;
+				}
+				break;
 
-		case 2:
-			arg = resArgs(c, info);
-			if (arg[0] instanceof GeoLineND
-					&& arg[1] instanceof GeoDirectionND) {
-				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-						.orthogonalVector3D(c.getLabel(), (GeoLineND) arg[0],
-								(GeoDirectionND) arg[1]) };
-				return ret;
-			}
-			break;
-
+			case 2:
+				arg = resArgs(c, info);
+				if (arg[0] instanceof GeoLineND && arg[1] instanceof GeoDirectionND) {
+					GeoElement[] ret = {
+						(GeoElement) kernel
+								.getManager3D()
+								.orthogonalVector3D(c.getLabel(), (GeoLineND) arg[0], (GeoDirectionND) arg[1])
+					};
+					return ret;
+				}
+				break;
 		}
 
 		return super.process(c, info);
 	}
-
 }

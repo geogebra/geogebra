@@ -18,7 +18,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 /**
  * interface for indices buffers
- * 
+ *
  * @author mathieu
  *
  */
@@ -26,7 +26,7 @@ public interface GLBufferIndices {
 
 	/**
 	 * allocate memory if needed
-	 * 
+	 *
 	 * @param length
 	 *            length
 	 */
@@ -34,7 +34,7 @@ public interface GLBufferIndices {
 
 	/**
 	 * set limit to which we use the buffer
-	 * 
+	 *
 	 * @param length
 	 *            limit
 	 */
@@ -42,7 +42,7 @@ public interface GLBufferIndices {
 
 	/**
 	 * put value at current buffer position
-	 * 
+	 *
 	 * @param value
 	 *            value
 	 */
@@ -50,7 +50,7 @@ public interface GLBufferIndices {
 
 	/**
 	 * put value at current buffer position
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @param value
@@ -59,7 +59,7 @@ public interface GLBufferIndices {
 	void put(int index, short value);
 
 	/**
-	 * 
+	 *
 	 * @return value at current buffer position
 	 */
 	short get();
@@ -70,21 +70,21 @@ public interface GLBufferIndices {
 	void rewind();
 
 	/**
-	 * 
+	 *
 	 * @return capacity
 	 */
 	int capacity();
 
 	/**
 	 * set float array
-	 * 
+	 *
 	 * @param ret
 	 *            float array
 	 */
 	void array(short[] ret);
 
 	/**
-	 * 
+	 *
 	 * @return true if empty
 	 */
 	boolean isEmpty();
@@ -96,7 +96,7 @@ public interface GLBufferIndices {
 
 	/**
 	 * reallocate to a bigger size and keep the values
-	 * 
+	 *
 	 * @param size
 	 *            new size
 	 */
@@ -104,7 +104,7 @@ public interface GLBufferIndices {
 
 	/**
 	 * set position where to read
-	 * 
+	 *
 	 * @param newPosition
 	 *            new position
 	 */

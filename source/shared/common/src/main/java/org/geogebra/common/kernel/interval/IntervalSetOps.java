@@ -177,9 +177,7 @@ public final class IntervalSetOps {
 	 * @return {@code true} iff the set is connected and represents zero within {@code delta}
 	 */
 	public static boolean isZero(IntervalSet set, double delta) {
-		return set != null
-				&& set.isConnected()
-				&& connectedInterval(set).isZeroWithDelta(delta);
+		return set != null && set.isConnected() && connectedInterval(set).isZeroWithDelta(delta);
 	}
 
 	/**
@@ -254,9 +252,7 @@ public final class IntervalSetOps {
 	 * @return {@code true} iff the set is connected and strictly positive
 	 */
 	public static boolean isPositive(IntervalSet set) {
-		return set != null
-				&& set.isConnected()
-				&& connectedInterval(set).isPositive();
+		return set != null && set.isConnected() && connectedInterval(set).isPositive();
 	}
 
 	/**
@@ -307,7 +303,7 @@ public final class IntervalSetOps {
 		return set != null
 				&& set.isConnected()
 				&& (connectedInterval(set).isPositiveInfinity()
-				|| connectedInterval(set).isNegativeInfinity());
+						|| connectedInterval(set).isNegativeInfinity());
 	}
 
 	/**

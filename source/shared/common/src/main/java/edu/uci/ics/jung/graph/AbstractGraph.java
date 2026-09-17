@@ -1,7 +1,7 @@
 /*
  * Created on Apr 2, 2006
  *
- * Copyright (c) 2006, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2006, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -22,7 +22,7 @@ import edu.uci.ics.jung.graph.util.Pair;
 /**
  * Abstract implementation of the <code>Graph</code> interface. Designed to
  * simplify implementation of new graph classes.
- * 
+ *
  * @author Joshua O'Madadhain
  */
 @SuppressWarnings("serial")
@@ -34,22 +34,19 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public boolean addEdge(E edge, Collection<? extends V> vertices,
-			EdgeType edgeType) {
+	public boolean addEdge(E edge, Collection<? extends V> vertices, EdgeType edgeType) {
 		if (vertices == null) {
-			throw new IllegalArgumentException(
-					"'vertices' parameter must not be null");
+			throw new IllegalArgumentException("'vertices' parameter must not be null");
 		}
 		if (vertices.size() == 2) {
-			return addEdge(edge, vertices instanceof Pair ? (Pair<V>) vertices
-					: new Pair<V>(vertices), edgeType);
+			return addEdge(
+					edge, vertices instanceof Pair ? (Pair<V>) vertices : new Pair<V>(vertices), edgeType);
 		} else if (vertices.size() == 1) {
 			V vertex = vertices.iterator().next();
 			return addEdge(edge, new Pair<V>(vertex, vertex), edgeType);
 		} else {
 			throw new IllegalArgumentException(
-					"Graph objects connect 1 or 2 vertices; vertices arg has "
-							+ vertices.size());
+					"Graph objects connect 1 or 2 vertices; vertices arg has " + vertices.size());
 		}
 	}
 
@@ -66,7 +63,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	/**
 	 * Adds {@code edge} to this graph with the specified {@code endpoints},
 	 * with the default edge type.
-	 * 
+	 *
 	 * @return {@code} true iff the graph was modified as a result of this call
 	 */
 	public boolean addEdge(E edge, Pair<? extends V> endpoints) {
@@ -76,14 +73,12 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	/**
 	 * Adds {@code edge} to this graph with the specified {@code endpoints} and
 	 * {@code EdgeType}.
-	 * 
+	 *
 	 * @return {@code} true iff the graph was modified as a result of this call
 	 */
-	public abstract boolean addEdge(E edge, Pair<? extends V> endpoints,
-			EdgeType edgeType);
+	public abstract boolean addEdge(E edge, Pair<? extends V> endpoints, EdgeType edgeType);
 
-	protected Pair<V> getValidatedEndpoints(E edge,
-			Pair<? extends V> endpoints) {
+	protected Pair<V> getValidatedEndpoints(E edge, Pair<? extends V> endpoints) {
 		if (edge == null) {
 			throw new IllegalArgumentException("input edge may not be null");
 		}
@@ -92,8 +87,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 			throw new IllegalArgumentException("endpoints may not be null");
 		}
 
-		Pair<V> new_endpoints = new Pair<V>(endpoints.getFirst(),
-				endpoints.getSecond());
+		Pair<V> new_endpoints = new Pair<V>(endpoints.getFirst(), endpoints.getSecond());
 		if (containsEdge(edge)) {
 			Pair<V> existing_endpoints = getEndpoints(edge);
 			if (!existing_endpoints.equals(new_endpoints)) {
@@ -141,8 +135,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	public boolean isNeighbor(V v1, V v2) {
 		if (!containsVertex(v1) || !containsVertex(v2)) {
 			throw new IllegalArgumentException(
-					"At least one of these not in this graph: " + v1 + ", "
-							+ v2);
+					"At least one of these not in this graph: " + v1 + ", " + v2);
 		}
 		return this.getNeighbors(v1).contains(v2);
 	}
@@ -151,8 +144,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	public boolean isIncident(V vertex, E edge) {
 		if (!containsVertex(vertex) || !containsEdge(edge)) {
 			throw new IllegalArgumentException(
-					"At least one of these not in this graph: " + vertex + ", "
-							+ edge);
+					"At least one of these not in this graph: " + vertex + ", " + edge);
 		}
 		return this.getIncidentEdges(vertex).contains(edge);
 	}
@@ -160,8 +152,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	@Override
 	public int getNeighborCount(V vertex) {
 		if (!containsVertex(vertex)) {
-			throw new IllegalArgumentException(
-					vertex + " is not a vertex in this graph");
+			throw new IllegalArgumentException(vertex + " is not a vertex in this graph");
 		}
 		return this.getNeighbors(vertex).size();
 	}
@@ -169,8 +160,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	@Override
 	public int degree(V vertex) {
 		if (!containsVertex(vertex)) {
-			throw new IllegalArgumentException(
-					vertex + " is not a vertex in this graph");
+			throw new IllegalArgumentException(vertex + " is not a vertex in this graph");
 		}
 		return this.getIncidentEdges(vertex).size();
 	}
@@ -197,8 +187,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 		} else if (vertex.equals(second)) {
 			return first;
 		} else {
-			throw new IllegalArgumentException(
-					vertex + " is not incident to " + edge + " in this graph");
+			throw new IllegalArgumentException(vertex + " is not incident to " + edge + " in this graph");
 		}
 	}
 
@@ -215,13 +204,11 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	@Override
 	public Collection<E> findEdgeSet(V v1, V v2) {
 		if (!getVertices().contains(v1)) {
-			throw new IllegalArgumentException(
-					v1 + " is not an element of this graph");
+			throw new IllegalArgumentException(v1 + " is not an element of this graph");
 		}
 
 		if (!getVertices().contains(v2)) {
-			throw new IllegalArgumentException(
-					v2 + " is not an element of this graph");
+			throw new IllegalArgumentException(v2 + " is not an element of this graph");
 		}
 
 		Collection<E> edges = new ArrayList<E>();
@@ -263,5 +250,4 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 		}
 		return sb.toString();
 	}
-
 }

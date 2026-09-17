@@ -38,8 +38,7 @@ public class AlgoLengthLocus extends AlgoElement {
 	 * @param locus
 	 *            locus
 	 */
-	public AlgoLengthLocus(Construction cons, String label,
-			GeoLocusable locus) {
+	public AlgoLengthLocus(Construction cons, String label, GeoLocusable locus) {
 		super(cons);
 		this.locus = locus;
 
@@ -76,5 +75,4 @@ public class AlgoLengthLocus extends AlgoElement {
 			length.setUndefined();
 		}
 	}
-
 }

@@ -42,8 +42,8 @@ public final class LabelValuePanel extends FlowPanel
 	 * @param appW - application
 	 * @param nameProperty - name property
 	 */
-	public LabelValuePanel(AppW appW, StringPropertyListFacade<?> nameProperty,
-			List<GeoElement> geos) {
+	public LabelValuePanel(
+			AppW appW, StringPropertyListFacade<?> nameProperty, List<GeoElement> geos) {
 		super();
 		this.appW = appW;
 		this.nameProperty = nameProperty;
@@ -53,8 +53,8 @@ public final class LabelValuePanel extends FlowPanel
 	}
 
 	private void createDialog() {
-		tfName = new ComponentInputField(appW, null, nameProperty.getRawName(),
-				null, nameProperty.getValue(), null, false, false);
+		tfName = new ComponentInputField(
+				appW, null, nameProperty.getRawName(), null, nameProperty.getValue(), null, false, false);
 		if (geos.size() == 1) {
 			tfName.getTextWidget().setAutoComplete(false);
 			tfName.getTextWidget().enableGGBKeyboard();
@@ -94,5 +94,4 @@ public final class LabelValuePanel extends FlowPanel
 			nameProperty.setValue(tfName.getText());
 		}
 	}
-
 }

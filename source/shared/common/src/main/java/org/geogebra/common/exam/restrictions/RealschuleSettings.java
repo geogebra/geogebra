@@ -41,7 +41,7 @@ public class RealschuleSettings implements RestorableSettings {
 		String[] axesLabels = euclidian.getAxesLabels();
 		xLabel = axesLabels[0];
 		yLabel = axesLabels[1];
-		for (int index: ConstructionDefaults.POINT_INDICES) {
+		for (int index : ConstructionDefaults.POINT_INDICES) {
 			GeoPointND point = (GeoPointND) defaults.getDefaultGeo(index);
 			if (point != null) {
 				pointStyles.put(index, point.getPointStyle());
@@ -58,7 +58,7 @@ public class RealschuleSettings implements RestorableSettings {
 		euclidian.setGridType(gridType);
 		euclidian.setAxisLabel(0, xLabel);
 		euclidian.setAxisLabel(1, yLabel);
-		for (Map.Entry<Integer, Integer> entry: pointStyles.entrySet()) {
+		for (Map.Entry<Integer, Integer> entry : pointStyles.entrySet()) {
 			GeoPointND defaultGeo = (GeoPointND) defaults.getDefaultGeo(entry.getKey());
 			if (defaultGeo != null) {
 				defaultGeo.setPointStyle(entry.getValue());

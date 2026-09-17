@@ -31,7 +31,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -44,27 +44,27 @@ public class CmdUpdateConstruction extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0:
-			app.getKernel().updateConstruction(true);
-			app.setUnsaved();
+			case 0:
+				app.getKernel().updateConstruction(true);
+				app.setUnsaved();
 
-			return new GeoElement[0];
+				return new GeoElement[0];
 
-		case 1:
-			GeoElement[] arg = resArgs(c);
-			if (arg[0] instanceof NumberValue) {
-				double val = arg[0].evaluateDouble();
-				if (DoubleUtil.isInteger(val)) {
-					app.getKernel().updateConstruction(true, (int) val);
-					app.setUnsaved();
-					return arg;
+			case 1:
+				GeoElement[] arg = resArgs(c);
+				if (arg[0] instanceof NumberValue) {
+					double val = arg[0].evaluateDouble();
+					if (DoubleUtil.isInteger(val)) {
+						app.getKernel().updateConstruction(true, (int) val);
+						app.setUnsaved();
+						return arg;
+					}
 				}
-			}
 
-			throw argErr(c, arg[0]);
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

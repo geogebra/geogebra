@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,8 +38,7 @@ public class InputBarCallback implements AsyncOperation<GeoElementND[]> {
 	 * @param input input to be evaluated
 	 * @param oldStep construction step
 	 */
-	public InputBarCallback(App app, AutoCompleteTextFieldD inputField,
-			String input, int oldStep) {
+	public InputBarCallback(App app, AutoCompleteTextFieldD inputField, String input, int oldStep) {
 		this.app = app;
 		this.inputField = inputField;
 		this.input = input;
@@ -51,8 +50,7 @@ public class InputBarCallback implements AsyncOperation<GeoElementND[]> {
 
 		// need label if we type just eg
 		// lnx
-		if (geos != null && geos.length == 1 && geos[0] != null
-				&& !geos[0].isLabelSet()) {
+		if (geos != null && geos.length == 1 && geos[0] != null && !geos[0].isLabelSet()) {
 			geos[0].setLabel(geos[0].getDefaultLabel());
 		}
 
@@ -78,8 +76,7 @@ public class InputBarCallback implements AsyncOperation<GeoElementND[]> {
 			app.getSelectionManager().setSelectedGeos(list);
 		}
 
-		InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
-				oldStep);
+		InputHelper.updateProperties(geos, app.getActiveEuclidianView(), oldStep);
 		if (geos != null) {
 			app.setScrollToShow(false);
 
@@ -89,7 +86,5 @@ public class InputBarCallback implements AsyncOperation<GeoElementND[]> {
 			}
 			inputField.setText(null);
 		}
-
 	}
-
 }

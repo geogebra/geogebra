@@ -23,8 +23,8 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
-public class OutlyingIntersectionsProperty extends AbstractValuedProperty<Boolean> implements
-		BooleanProperty {
+public class OutlyingIntersectionsProperty extends AbstractValuedProperty<Boolean>
+		implements BooleanProperty {
 	private final LimitedPath element;
 
 	/**
@@ -51,4 +51,3 @@ public class OutlyingIntersectionsProperty extends AbstractValuedProperty<Boolea
 		return element.allowOutlyingIntersections();
 	}
 }
-

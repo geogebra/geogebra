@@ -27,7 +27,7 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * angle for three points, oriented
- * 
+ *
  * @author mathieu
  */
 public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D {
@@ -44,14 +44,13 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D {
 	 * @param orientation
 	 *            orientation
 	 */
-	AlgoAngleVectors3DOrientation(Construction cons,
-			GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
+	AlgoAngleVectors3DOrientation(
+			Construction cons, GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
 		super(cons, v, w, orientation);
 	}
 
 	@Override
-	protected void setInput(GeoVectorND v, GeoVectorND w,
-			GeoDirectionND orientation) {
+	protected void setInput(GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
 
 		super.setInput(v, w, orientation);
 		this.orientation = orientation;
@@ -97,9 +96,6 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D {
 		// getw().getLabel(tpl), orientation.getLabel(tpl));
 
 		// clearer just as "angle between u and v"
-		return getLoc().getPlain("AngleBetweenAB", getv().getLabel(tpl),
-				getw().getLabel(tpl));
-
+		return getLoc().getPlain("AngleBetweenAB", getv().getLabel(tpl), getw().getLabel(tpl));
 	}
-
 }

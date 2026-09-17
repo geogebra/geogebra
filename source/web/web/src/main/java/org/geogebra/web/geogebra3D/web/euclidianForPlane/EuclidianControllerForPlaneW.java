@@ -28,7 +28,7 @@ public final class EuclidianControllerForPlaneW extends EuclidianControllerW {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */

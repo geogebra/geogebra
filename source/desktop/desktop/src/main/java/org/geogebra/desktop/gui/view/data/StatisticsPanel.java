@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -41,16 +41,16 @@ import org.geogebra.common.gui.view.data.StatisticsModel.IStatisticsModelListene
 import org.geogebra.desktop.main.AppD;
 
 /**
- * 
+ *
  * Extended JPanel that displays: (1) summary statistics for the current data
  * set (2) interactive panels for performing statistical inference with the
  * current data set
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class StatisticsPanel extends JPanel implements StatPanelInterface,
-		ActionListener, IStatisticsModelListener {
+public class StatisticsPanel extends JPanel
+		implements StatPanelInterface, ActionListener, IStatisticsModelListener {
 	private static final long serialVersionUID = 1L;
 
 	private StatisticsModel model;
@@ -73,7 +73,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 	/*************************************
 	 * Constructor
-	 * 
+	 *
 	 * @param app application
 	 * @param statDialog stats dialog
 	 */
@@ -126,45 +126,41 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 		inferencePanel.removeAll();
 		switch (model.getSelectedMode()) {
+			case StatisticsModel.INFER_Z_TEST:
+			case StatisticsModel.INFER_T_TEST:
+			case StatisticsModel.INFER_Z_INT:
+			case StatisticsModel.INFER_T_INT:
+				inferencePanel.add(getOneVarInferencePanel(), BorderLayout.NORTH);
+				break;
 
-		case StatisticsModel.INFER_Z_TEST:
-		case StatisticsModel.INFER_T_TEST:
-		case StatisticsModel.INFER_Z_INT:
-		case StatisticsModel.INFER_T_INT:
-			inferencePanel.add(getOneVarInferencePanel(), BorderLayout.NORTH);
-			break;
+			case StatisticsModel.INFER_T_TEST_2MEANS:
+			case StatisticsModel.INFER_T_INT_2MEANS:
+				inferencePanel.add(getTwoVarInferencePanel(true), BorderLayout.NORTH);
+				break;
 
-		case StatisticsModel.INFER_T_TEST_2MEANS:
-		case StatisticsModel.INFER_T_INT_2MEANS:
-			inferencePanel.add(getTwoVarInferencePanel(true),
-					BorderLayout.NORTH);
-			break;
+			case StatisticsModel.INFER_T_TEST_PAIRED:
+			case StatisticsModel.INFER_T_INT_PAIRED:
+				inferencePanel.add(getTwoVarInferencePanel(false), BorderLayout.NORTH);
+				break;
 
-		case StatisticsModel.INFER_T_TEST_PAIRED:
-		case StatisticsModel.INFER_T_INT_PAIRED:
-			inferencePanel.add(getTwoVarInferencePanel(false),
-					BorderLayout.NORTH);
-			break;
+			case StatisticsModel.INFER_ANOVA:
+				GridBagConstraints tab = new GridBagConstraints();
+				tab.gridx = 0;
+				tab.gridy = GridBagConstraints.RELATIVE;
+				tab.weightx = 1;
+				tab.insets = new Insets(4, 20, 0, 20);
+				tab.fill = GridBagConstraints.HORIZONTAL;
+				tab.anchor = GridBagConstraints.NORTHWEST;
 
-		case StatisticsModel.INFER_ANOVA:
+				JPanel p = new JPanel(new GridBagLayout());
+				p.add(getAnovaTable(), tab);
+				p.add(getMinMVStatPanel(), tab);
+				inferencePanel.add(p, BorderLayout.CENTER);
 
-			GridBagConstraints tab = new GridBagConstraints();
-			tab.gridx = 0;
-			tab.gridy = GridBagConstraints.RELATIVE;
-			tab.weightx = 1;
-			tab.insets = new Insets(4, 20, 0, 20);
-			tab.fill = GridBagConstraints.HORIZONTAL;
-			tab.anchor = GridBagConstraints.NORTHWEST;
+				break;
 
-			JPanel p = new JPanel(new GridBagLayout());
-			p.add(getAnovaTable(), tab);
-			p.add(getMinMVStatPanel(), tab);
-			inferencePanel.add(p, BorderLayout.CENTER);
-
-			break;
-
-		default:
-			inferencePanel.add(statTable, BorderLayout.CENTER);
+			default:
+				inferencePanel.add(statTable, BorderLayout.CENTER);
 		}
 
 		revalidate();
@@ -235,7 +231,6 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		cbInferenceMode.addActionListener(this);
 		cbInferenceMode.setMaximumRowCount(cbInferenceMode.getItemCount());
 		cbInferenceMode.addActionListener(this);
-
 	}
 
 	@Override
@@ -269,15 +264,12 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source == cbInferenceMode
-				&& cbInferenceMode.getSelectedItem() != null) {
+		if (source == cbInferenceMode && cbInferenceMode.getSelectedItem() != null) {
 
-			model.selectInferenceMode(
-					cbInferenceMode.getSelectedItem().toString());
+			model.selectInferenceMode(cbInferenceMode.getSelectedItem().toString());
 			setInferencePanel();
 			updatePanel();
 		}
-
 	}
 
 	// ============================================================
@@ -296,8 +288,8 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		}
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(
+				JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			String str = (value == null) ? "" : value.toString();
 			if (SEPARATOR.equals(str)) {
 				return separator;
@@ -346,7 +338,5 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	public void updateAnovaTable() {
 		getAnovaTable().updatePanel();
 		getMinMVStatPanel().updatePanel();
-
 	}
-
 }

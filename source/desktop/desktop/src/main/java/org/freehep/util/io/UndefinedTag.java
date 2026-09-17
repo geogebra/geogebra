@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * Tag to hold the data for an Undefined Tag for the TaggedIn/OutputStreams. The
  * data is read in and written as the number of bytes is known.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: UndefinedTag.java,v 1.3 2008-05-04 12:21:42 murkle Exp $
@@ -24,7 +24,7 @@ public class UndefinedTag extends Tag {
 
 	/**
 	 * Create Undefined Tag.
-	 * 
+	 *
 	 * @param tagID
 	 *            undefined tagID
 	 * @param bytes
@@ -41,8 +41,7 @@ public class UndefinedTag extends Tag {
 	}
 
 	@Override
-	public Tag read(int tagID, TaggedInputStream input, int len)
-			throws IOException {
+	public Tag read(int tagID, TaggedInputStream input, int len) throws IOException {
 
 		int[] bytes = input.readUnsignedByte(len);
 		UndefinedTag tag = new UndefinedTag(tagID, bytes);

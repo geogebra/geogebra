@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
  * Generic Action, to be used with the TagIn/OutputStreams. An action can have
  * an ActionCode, a length as well as parameters.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: Action.java,v 1.3 2008-05-04 12:21:44 murkle Exp $
@@ -27,7 +27,7 @@ public abstract class Action {
 
 	/**
 	 * Read an action from the input, with given actioncode and length
-	 * 
+	 *
 	 * @param actionCode
 	 *            decoded actionCode
 	 * @param input
@@ -38,12 +38,12 @@ public abstract class Action {
 	 * @throws IOException
 	 *             if read fails
 	 */
-	public abstract Action read(int actionCode, TaggedInputStream input,
-			int length) throws IOException;
+	public abstract Action read(int actionCode, TaggedInputStream input, int length)
+			throws IOException;
 
 	/**
 	 * Write an action to output
-	 * 
+	 *
 	 * @param actionCode
 	 *            actionCode to use for this action
 	 * @param output
@@ -51,8 +51,7 @@ public abstract class Action {
 	 * @throws IOException
 	 *             if write fails
 	 */
-	public abstract void write(int actionCode, TaggedOutputStream output)
-			throws IOException;
+	public abstract void write(int actionCode, TaggedOutputStream output) throws IOException;
 
 	/**
 	 * @return actionCode
@@ -88,7 +87,7 @@ public abstract class Action {
 
 		/**
 		 * Create a special Action for Unknown Actions, with given action code.
-		 * 
+		 *
 		 * @param actionCode
 		 *            code to be used for Unknown Action.
 		 */
@@ -97,8 +96,7 @@ public abstract class Action {
 		}
 
 		@Override
-		public Action read(int actionCode, TaggedInputStream input, int length)
-				throws IOException {
+		public Action read(int actionCode, TaggedInputStream input, int length) throws IOException {
 
 			Unknown action = new Unknown(actionCode);
 			action.data = input.readUnsignedByte(length);
@@ -106,8 +104,7 @@ public abstract class Action {
 		}
 
 		@Override
-		public void write(int actionCode, TaggedOutputStream output)
-				throws IOException {
+		public void write(int actionCode, TaggedOutputStream output) throws IOException {
 
 			output.writeUnsignedByte(data);
 		}
@@ -117,5 +114,4 @@ public abstract class Action {
 			return super.toString() + " UNKNOWN!, length " + data.length;
 		}
 	}
-
 }

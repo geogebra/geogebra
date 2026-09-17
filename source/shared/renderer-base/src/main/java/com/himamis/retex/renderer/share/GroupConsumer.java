@@ -121,10 +121,8 @@ public class GroupConsumer implements AtomConsumer {
 	}
 
 	@Override
-	public void lbrace(TeXParser tp) {
-	}
+	public void lbrace(TeXParser tp) {}
 
 	@Override
-	public void rbrace(TeXParser tp) {
-	}
+	public void rbrace(TeXParser tp) {}
 }

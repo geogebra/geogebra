@@ -22,7 +22,7 @@ import org.geogebra.common.properties.aliases.BooleanProperty;
 import org.geogebra.common.properties.impl.AbstractValuedProperty;
 
 public class NavigationBarProperty extends AbstractValuedProperty<Boolean>
-	implements BooleanProperty {
+		implements BooleanProperty {
 	private final App app;
 	private final int viewID;
 

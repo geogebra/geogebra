@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 
 /**
  * Translation
- * 
+ *
  */
 public class TransformTranslate extends Transform {
 
@@ -45,5 +45,4 @@ public class TransformTranslate extends Transform {
 		AlgoTranslate algo = new AlgoTranslate(cons, geo, transVec);
 		return algo;
 	}
-
 }

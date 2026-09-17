@@ -24,19 +24,22 @@ import org.geogebra.common.util.DoubleUtil;
  *
  */
 public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationScaleAbstract {
-	
+
 	private double zoomFactorY;
 	private double zoomFactorZ;
 
 	/**
-	 * 
+	 *
 	 * @param view3D 3D view
 	 * @param animator animator
 	 * @param zoomFactorY zoom factor (y over x)
 	 * @param zoomFactorZ zoom factor (z over x)
 	 */
-	EuclidianView3DAnimationAxesRatio(EuclidianView3D view3D, EuclidianView3DAnimator animator,
-			double zoomFactorY, double zoomFactorZ) {
+	EuclidianView3DAnimationAxesRatio(
+			EuclidianView3D view3D,
+			EuclidianView3DAnimator animator,
+			double zoomFactorY,
+			double zoomFactorZ) {
 
 		super(view3D, animator);
 		this.zoomFactorY = zoomFactorY;
@@ -70,7 +73,5 @@ public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationS
 			zScaleEnd = xScaleStart * zoomFactorZ;
 		}
 		animatedScaleTimeFactor = ANIMATION_DURATION;
-
 	}
-
 }

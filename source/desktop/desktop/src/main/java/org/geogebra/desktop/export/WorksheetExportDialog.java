@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -46,7 +46,7 @@ import org.geogebra.desktop.util.UtilD;
 /**
  * Dialog which provides for exporting into an HTML page enriched with an
  * Applet.
- * 
+ *
  * @author Markus Hohenwarter
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
@@ -91,8 +91,10 @@ public class WorksheetExportDialog extends Dialog {
 		cancelButton.addActionListener(e -> setVisible(false));
 
 		JButton helpButton = new JButton(loc.getMenu("Help"));
-		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
+		HelpAction helpAction = new HelpAction(
+				app,
+				app.getScaledIcon(GuiResourcesD.HELP),
+				loc.getMenu("Help"),
 				ManualPage.EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 
@@ -103,8 +105,7 @@ public class WorksheetExportDialog extends Dialog {
 				if (kernelChanged) {
 					app.storeUndoInfo();
 				}
-				GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(
-						app);
+				GeoGebraTubeExportD ggtExport = new GeoGebraTubeExportD(app);
 				ggtExport.uploadWorksheet();
 			});
 			runner.start();
@@ -185,16 +186,14 @@ public class WorksheetExportDialog extends Dialog {
 		});
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(loc.getMenu("Title") + ": "),
-				app.getLocalization().borderWest());
+		p.add(new JLabel(loc.getMenu("Title") + ": "), app.getLocalization().borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		panel.add(p, BorderLayout.NORTH);
 
 		// text areas
 		JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
 		JLabel label = new JLabel(loc.getMenu("TextBeforeConstruction") + ":");
-		textAboveUpload = new InputPanelD(null, app, 5, 40, true,
-				DialogType.TextArea);
+		textAboveUpload = new InputPanelD(null, app, 5, 40, true, DialogType.TextArea);
 		// JScrollPane scrollPane = new JScrollPane(textAbove);
 
 		p = new JPanel(new BorderLayout());
@@ -203,8 +202,7 @@ public class WorksheetExportDialog extends Dialog {
 		centerPanel.add(p, BorderLayout.CENTER);
 
 		label = new JLabel(loc.getMenu("TextAfterConstruction") + ":");
-		textBelowUpload = new InputPanelD(null, app, 8, 40, true,
-				DialogType.TextArea);
+		textBelowUpload = new InputPanelD(null, app, 8, 40, true, DialogType.TextArea);
 
 		p = new JPanel(new BorderLayout());
 		p.add(label, BorderLayout.NORTH);
@@ -237,5 +235,4 @@ public class WorksheetExportDialog extends Dialog {
 		pack();
 		setLocationRelativeTo(app.getMainComponent());
 	}
-
 }

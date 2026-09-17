@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -38,7 +38,7 @@ import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * Algebra view cell renderer
- * 
+ *
  * @author Markus
  */
 public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -73,10 +73,10 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 	 */
 	public void update() {
 		ImageManagerD imageManager = app.getImageManager();
-		iconShown = imageManager.getResponsiveScaledIcon(imageManager.getImageIcon(
-				GuiResourcesD.ALGEBRA_SHOWN), 16);
-		iconHidden = imageManager.getResponsiveScaledIcon(imageManager.getImageIcon(
-				GuiResourcesD.ALGEBRA_HIDDEN), 16);
+		iconShown = imageManager.getResponsiveScaledIcon(
+				imageManager.getImageIcon(GuiResourcesD.ALGEBRA_SHOWN), 16);
+		iconHidden = imageManager.getResponsiveScaledIcon(
+				imageManager.getImageIcon(GuiResourcesD.ALGEBRA_HIDDEN), 16);
 
 		setOpenIcon(app.getScaledIcon(GuiResourcesD.TREE_OPENED));
 		setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSED));
@@ -95,8 +95,13 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 	}
 
 	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value,
-			boolean itemSelected, boolean expanded, boolean leaf, int row,
+	public Component getTreeCellRendererComponent(
+			JTree tree,
+			Object value,
+			boolean itemSelected,
+			boolean expanded,
+			boolean leaf,
+			int row,
 			boolean itemHasFocus) {
 
 		if (value instanceof GeoMutableTreeNode) {
@@ -124,18 +129,24 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 
 			// if enabled, render with LaTeX
 			AlgebraStyle algebraStyle = app.getAlgebraStyle();
-			if (view.isRenderLaTeX() && algebraStyle == AlgebraStyle.VALUE
+			if (view.isRenderLaTeX()
+					&& algebraStyle == AlgebraStyle.VALUE
 					&& geo.isDefined()
 					&& geo.isLaTeXDrawableGeo()) {
-				Font latexFont = new Font(app.getBoldFont().getName(),
-						app.getBoldFont().getStyle(), app.getFontSize() - 1);
-				String latexStr = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplate);
+				Font latexFont = new Font(
+						app.getBoldFont().getName(), app.getBoldFont().getStyle(), app.getFontSize() - 1);
+				String latexStr = geo.getLaTeXAlgebraDescription(true, StringTemplate.latexTemplate);
 				if (latexStr != null) {
 					latexStr = "\\;" + latexStr; // add a little space for the icon
-					app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
-							latexStr, latexFont, false, getForeground(),
-							this.getBackground());
+					app.getDrawEquation()
+							.drawLatexImageIcon(
+									app,
+									latexIcon,
+									latexStr,
+									latexFont,
+									false,
+									getForeground(),
+									this.getBackground());
 					setIcon(ScaledIcon.joinIcons((ScaledIcon) getIcon(), latexIcon, this));
 					setText(" ");
 				}
@@ -164,8 +175,8 @@ public class AlgebraTreeCellRenderer extends DefaultTreeCellRenderer {
 			else {
 				// align all elements, therefore add the space the icon would
 				// normally take as a padding
-				setBorder(BorderFactory.createEmptyBorder(0,
-						getOpenIcon().getIconWidth() + getIconTextGap(), 0, 0));
+				setBorder(BorderFactory.createEmptyBorder(
+						0, getOpenIcon().getIconWidth() + getIconTextGap(), 0, 0));
 				setIcon(null);
 			}
 

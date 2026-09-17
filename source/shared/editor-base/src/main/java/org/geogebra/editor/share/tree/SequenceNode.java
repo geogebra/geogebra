@@ -48,8 +48,7 @@ public class SequenceNode extends InternalNode {
 			return;
 		}
 		Node last = children.get(children.size() - 1);
-		if (last instanceof CharacterNode node
-				&& node.mergeUnicode(mathChar.getUnicodeString())) {
+		if (last instanceof CharacterNode node && node.mergeUnicode(mathChar.getUnicodeString())) {
 			checkModifier(children.size() - 1);
 			return;
 		}
@@ -60,8 +59,7 @@ public class SequenceNode extends InternalNode {
 		if (i > 0) {
 			CharacterNode last = (CharacterNode) children.get(i);
 			Node prev = children.get(i - 1);
-			if (prev instanceof CharacterNode node
-					&& node.mergeUnicode(last.getUnicodeString())) {
+			if (prev instanceof CharacterNode node && node.mergeUnicode(last.getUnicodeString())) {
 				removeChild(i);
 				return true;
 			}
@@ -78,8 +76,7 @@ public class SequenceNode extends InternalNode {
 	public int addChild(int i, CharacterTemplate argument) {
 		if (i > 0 && i <= children.size()) {
 			Node prev = children.get(i - 1);
-			if (prev instanceof CharacterNode node
-					&& node.mergeUnicode(argument.getUnicodeString())) {
+			if (prev instanceof CharacterNode node && node.mergeUnicode(argument.getUnicodeString())) {
 				return checkModifier(i - 1) ? -1 : 0;
 			}
 		}
@@ -110,7 +107,8 @@ public class SequenceNode extends InternalNode {
 	public void removeBrackets() {
 		if (size() == 1 && getChild(0) instanceof ArrayNode) {
 			ArrayNode arg0 = (ArrayNode) getChild(0);
-			if (arg0.size() == 1 && arg0.getChild(0) != null
+			if (arg0.size() == 1
+					&& arg0.getChild(0) != null
 					&& arg0.getOpenDelimiter().getCharacter() == '(') {
 				setChild(0, arg0.getChild(0));
 			}
@@ -118,7 +116,7 @@ public class SequenceNode extends InternalNode {
 		if (size() == 1 && getChild(0) instanceof SequenceNode) {
 			SequenceNode arg0 = (SequenceNode) getChild(0);
 			clearChildren();
-			for (Node child: arg0) {
+			for (Node child : arg0) {
 				addChild(child);
 			}
 		}

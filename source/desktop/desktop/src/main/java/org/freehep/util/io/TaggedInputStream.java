@@ -9,11 +9,11 @@ import java.io.InputStream;
  * tagID and a Length, so that known and unknown tags can be read and written
  * (using the TaggedOutputStream). The stream also allows to read Actions, which
  * again come with a actionCode and a length.
- * 
+ *
  * A set of recognized Tags and Actions can be added to this stream. A concrete
  * implementation of this stream should decode/read the TagHeader. All Concrete
  * tags should be inherited from the Tag class and implement their read methods.
- * 
+ *
  * @author Mark Donszelmann
  * @author Charles Loomis
  * @version $Id: TaggedInputStream.java,v 1.3 2008-05-04 12:22:14 murkle Exp $
@@ -37,7 +37,7 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 
 	/**
 	 * Creates a Tagged Input Stream
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 * @param tagSet
@@ -45,14 +45,13 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 	 * @param actionSet
 	 *            available action set
 	 */
-	public TaggedInputStream(InputStream in, TagSet tagSet,
-			ActionSet actionSet) {
+	public TaggedInputStream(InputStream in, TagSet tagSet, ActionSet actionSet) {
 		this(in, tagSet, actionSet, false);
 	}
 
 	/**
 	 * Creates a Tagged Input Stream
-	 * 
+	 *
 	 * @param in
 	 *            stream to read from
 	 * @param tagSet
@@ -62,8 +61,8 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 	 * @param littleEndian
 	 *            true if stream is little endian
 	 */
-	public TaggedInputStream(InputStream in, TagSet tagSet, ActionSet actionSet,
-			boolean littleEndian) {
+	public TaggedInputStream(
+			InputStream in, TagSet tagSet, ActionSet actionSet, boolean littleEndian) {
 		super(in, littleEndian, 8);
 
 		this.tagSet = tagSet;
@@ -72,7 +71,7 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 
 	/**
 	 * Add tag to tagset
-	 * 
+	 *
 	 * @param tag
 	 *            new tag
 	 */
@@ -82,7 +81,7 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 
 	/**
 	 * Decodes and returns the TagHeader, which includes a TagID and a length.
-	 * 
+	 *
 	 * @return Decoded TagHeader
 	 * @throws IOException
 	 *             if read fails
@@ -91,7 +90,7 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 
 	/**
 	 * Read a tag.
-	 * 
+	 *
 	 * @return read tag
 	 * @throws IOException
 	 *             if read fails
@@ -130,7 +129,7 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 
 	/**
 	 * Add action to action set.
-	 * 
+	 *
 	 * @param action
 	 *            new action
 	 */
@@ -141,7 +140,7 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 	/**
 	 * Decodes and returns the ActionHeader, which includes an actionCode and a
 	 * length.
-	 * 
+	 *
 	 * @return decoded ActionHeader
 	 * @throws IOException
 	 *             if read fails
@@ -150,7 +149,7 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 
 	/**
 	 * Reads action.
-	 * 
+	 *
 	 * @return read action
 	 * @throws IOException
 	 *             if read fails
@@ -176,5 +175,4 @@ public abstract class TaggedInputStream extends ByteCountInputStream {
 		}
 		return action;
 	}
-
 }

@@ -30,23 +30,21 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoUnitVectorVector extends AlgoUnitVector2D {
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVectorVector(Construction cons, VectorNDValue v,
-			boolean normalize) {
+	public AlgoUnitVectorVector(Construction cons, VectorNDValue v, boolean normalize) {
 		super(cons, (GeoElement) v, normalize);
 	}
 
 	@Override
-	final protected void setXY() {
+	protected final void setXY() {
 		x = ((GeoVec3D) inputGeo).x;
 		y = ((GeoVec3D) inputGeo).y;
 	}
 
 	@Override
-	final protected GeoPointND getInputStartPoint() {
+	protected final GeoPointND getInputStartPoint() {
 		if (inputGeo instanceof GeoVector) {
 			return ((GeoVector) inputGeo).getStartPoint();
 		}
 		return null;
 	}
-
 }

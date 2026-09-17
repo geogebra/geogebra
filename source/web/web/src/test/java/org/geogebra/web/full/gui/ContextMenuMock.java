@@ -45,8 +45,7 @@ public class ContextMenuMock {
 	}
 
 	protected GMenuBarMock getMenu(ArrayList<GeoElement> geos) {
-		ContextMenuGeoElementW contextMenu =
-				new ContextMenuGeoElementW(app, geos, factory);
+		ContextMenuGeoElementW contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		return (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 	}
@@ -59,6 +58,5 @@ public class ContextMenuMock {
 	public boolean isMenuChecked(ArrayList<GeoElement> geos, String title) {
 		GMenuBarMock menu = getMenu(geos);
 		return menu.isChecked(title);
-
 	}
 }

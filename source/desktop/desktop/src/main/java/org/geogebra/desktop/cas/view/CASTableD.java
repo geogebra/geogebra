@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -60,20 +60,20 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * @author Quan
- * 
+ *
  */
 public class CASTableD extends JTable implements CASTable {
 
 	private static final long serialVersionUID = 1L;
 
 	/** column of the table containing CAS cells */
-	public final static int COL_CAS_CELLS = 0;
+	public static final int COL_CAS_CELLS = 0;
 
 	/** dash pattern for selection */
-	private final static float[] dash1 = { 2f, 1f };
+	private static final float[] dash1 = {2f, 1f};
 	/** dashed stroke for selection */
-	private final static BasicStroke dashed = new BasicStroke(1.0f,
-			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
+	private static final BasicStroke dashed =
+			new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
 	private CASTableModel tableModel;
 	private Kernel kernel;
@@ -83,6 +83,7 @@ public class CASTableD extends JTable implements CASTable {
 	protected CASViewD view;
 	/** cell editor */
 	CASTableCellEditorD editor;
+
 	private CASTableCellRenderer renderer;
 	private int currentWidth;
 	private boolean rightClick = false;
@@ -98,7 +99,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Constructs a <code>CASTable</code> that displays CAS cells
-	 * 
+	 *
 	 * @param view
 	 *            CASView that accommodates the table
 	 */
@@ -108,8 +109,7 @@ public class CASTableD extends JTable implements CASTable {
 		kernel = app.getKernel();
 
 		setShowGrid(true);
-		setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		setGridColor(GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		setBackground(Color.white);
 
 		tableModel = new CASTableModel();
@@ -169,25 +169,20 @@ public class CASTableD extends JTable implements CASTable {
 		// tableModel listener to resize the column width after row updates
 		// note: this only adjusts column 0
 		tableModel.addTableModelListener(e -> {
-			if (e.getType() == TableModelEvent.UPDATE
-					|| e.getType() == TableModelEvent.DELETE) {
+			if (e.getType() == TableModelEvent.UPDATE || e.getType() == TableModelEvent.DELETE) {
 				TableCellRenderer tableCellRenderer;
 				int prefWidth = 0;
 				// iterate through all rows and get max preferred width
 				for (int r = 0; r < getRowCount(); r++) {
 					tableCellRenderer = getCellRenderer(r, 0);
-					int w = prepareRenderer(tableCellRenderer, r, 0)
-							.getPreferredSize().width;
+					int w = prepareRenderer(tableCellRenderer, r, 0).getPreferredSize().width;
 					prefWidth = Math.max(prefWidth, w);
 				}
 
 				// adjust the width
-				if (prefWidth != getTable().getColumnModel().getColumn(0)
-						.getPreferredWidth()) {
-					getTable().getColumnModel().getColumn(0)
-							.setPreferredWidth(prefWidth);
-					getTable().getColumnModel().getColumn(0)
-							.setMinWidth(prefWidth);
+				if (prefWidth != getTable().getColumnModel().getColumn(0).getPreferredWidth()) {
+					getTable().getColumnModel().getColumn(0).setPreferredWidth(prefWidth);
+					getTable().getColumnModel().getColumn(0).setMinWidth(prefWidth);
 				}
 			}
 		});
@@ -199,15 +194,14 @@ public class CASTableD extends JTable implements CASTable {
 		// this.sizeColumnsToFit(0);
 		// this.setSurrendersFocusOnKeystroke(true);
 
-		this.getSelectionModel()
-				.addListSelectionListener(new SelectionListener(this));
+		this.getSelectionModel().addListSelectionListener(new SelectionListener(this));
 
 		this.setFont(app.getPlainFont());
 	}
 
 	/**
 	 * listen to mouse pressed on table cells, make sure to start editing
-	 * 
+	 *
 	 */
 	protected class CASTableMouseListener extends MouseAdapter {
 
@@ -242,9 +236,8 @@ public class CASTableD extends JTable implements CASTable {
 
 			if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
 				if (!clickedCell.isEmpty() && !clickedCell.isError()) {
-					RowContentPopupMenu popupMenu = new RowContentPopupMenu(app,
-							clickedCell, getEditor(), getTable(),
-							RowContentPopupMenu.Panel.OUTPUT);
+					RowContentPopupMenu popupMenu = new RowContentPopupMenu(
+							app, clickedCell, getEditor(), getTable(), RowContentPopupMenu.Panel.OUTPUT);
 					popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
@@ -267,12 +260,10 @@ public class CASTableD extends JTable implements CASTable {
 						&& clickedCell.showOutput()
 						&& !clickedCell.isOutputEmpty()) {
 					if (!clickedCell.isError()) {
-						getEditor().insertText(
-								view.getRowOutputValue(getClickedRow()));
+						getEditor().insertText(view.getRowOutputValue(getClickedRow()));
 					}
 				} else {
-					getSelectionModel().setSelectionInterval(getClickedRow(),
-							getClickedRow());
+					getSelectionModel().setSelectionInterval(getClickedRow(), getClickedRow());
 					startEditingRow(getClickedRow());
 					return;
 				}
@@ -283,8 +274,7 @@ public class CASTableD extends JTable implements CASTable {
 				// set clickedRow selected
 			} else {
 
-				getSelectionModel().setSelectionInterval(getClickedRow(),
-						getClickedRow());
+				getSelectionModel().setSelectionInterval(getClickedRow(), getClickedRow());
 				startEditingRow(getClickedRow());
 			}
 		}
@@ -300,18 +290,18 @@ public class CASTableD extends JTable implements CASTable {
 			int row = rowAtPoint(e.getPoint());
 			if (row != getOpenRow()
 					&& (row != rollOverRow
-							|| isOutputRollOver != isOutputPanelClicked(
-									e.getPoint())
+							|| isOutputRollOver != isOutputPanelClicked(e.getPoint())
 							|| isAltDown != e.isAltDown())) {
 				rollOverRow = row;
 				isOutputRollOver = isOutputPanelClicked(e.getPoint());
 				isAltDown = e.isAltDown();
 				repaint();
 			}
-			highlight = e.isAltDown() || (isOutputRollOver
-					&& getGeoCasCell(row).showOutput()
-					&& getGeoCasCell(row).getLaTeXOutput() != null
-					&& getGeoCasCell(row).getLaTeXOutput().length() > 0);
+			highlight = e.isAltDown()
+					|| (isOutputRollOver
+							&& getGeoCasCell(row).showOutput()
+							&& getGeoCasCell(row).getLaTeXOutput() != null
+							&& getGeoCasCell(row).getLaTeXOutput().length() > 0);
 			if (isOutputRollOver) {
 				setToolTipText(getGeoCasCell(row).getTooltipText(true, true));
 			} else {
@@ -351,7 +341,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Returns the CAS view which uses this table
-	 * 
+	 *
 	 * @return CAS view
 	 */
 	public CASViewD getCASView() {
@@ -360,7 +350,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Returns whether the output panel of a cell row was clicked.
-	 * 
+	 *
 	 * @param p
 	 *            clicked position in table coordinates
 	 * @return true if output panel of a cell row was clicked
@@ -379,8 +369,7 @@ public class CASTableD extends JTable implements CASTable {
 
 		// get height of input panel in clicked row
 		TableCellRenderer tableCellRenderer = getCellRenderer(row, 0);
-		CASTableCell tableCell = (CASTableCell) prepareRenderer(
-				tableCellRenderer, row, 0);
+		CASTableCell tableCell = (CASTableCell) prepareRenderer(tableCellRenderer, row, 0);
 		int inputAreaHeight = tableCell.getInputPanelHeight();
 
 		// check if we clicked below input area
@@ -410,7 +399,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Returns the cell editor
-	 * 
+	 *
 	 * @return cell editor
 	 */
 	@Override
@@ -420,7 +409,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Inserts a row at selectedRow and starts editing the new row.
-	 * 
+	 *
 	 * @param selectedRow
 	 *            row index
 	 * @param newValue
@@ -429,8 +418,7 @@ public class CASTableD extends JTable implements CASTable {
 	 *            true to start editing
 	 */
 	@Override
-	public void insertRow(final int selectedRow, GeoCasCell newValue,
-			final boolean startEditing) {
+	public void insertRow(final int selectedRow, GeoCasCell newValue, final boolean startEditing) {
 		if (startEditing) {
 			stopEditing();
 		}
@@ -445,8 +433,7 @@ public class CASTableD extends JTable implements CASTable {
 				// we insert below last cell
 				// if last cell is empty, add it to construction list
 				// so its row number will be updated
-				GeoCasCell last = (GeoCasCell) tableModel
-						.getValueAt(selectedRow - 1, COL_CAS_CELLS);
+				GeoCasCell last = (GeoCasCell) tableModel.getValueAt(selectedRow - 1, COL_CAS_CELLS);
 				if (last != null && last.isEmpty()) {
 					kernel.getConstruction().addToConstructionList(last, true);
 				}
@@ -454,10 +441,9 @@ public class CASTableD extends JTable implements CASTable {
 		}
 		// update keys (rows) in arbitrary constant table
 		view.updateAfterInsertArbConstTable(selectedRow);
-		tableModel.insertRow(selectedRow, new Object[] { toInsert });
+		tableModel.insertRow(selectedRow, new Object[] {toInsert});
 		// make sure the row is shown when at the bottom of the viewport
-		getTable().scrollRectToVisible(
-				getTable().getCellRect(selectedRow, 0, false));
+		getTable().scrollRectToVisible(getTable().getCellRect(selectedRow, 0, false));
 
 		// update height of new row
 		if (startEditing) {
@@ -467,14 +453,14 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Puts casCell into given row.
-	 * 
+	 *
 	 * @param row
 	 *            row index (starting from 0)
 	 * @param casCell
 	 *            CAS cell
 	 */
 	@Override
-	final public void setRow(final int row, final GeoCasCell casCell) {
+	public final void setRow(final int row, final GeoCasCell casCell) {
 		if (row < 0) {
 			return;
 		}
@@ -494,7 +480,7 @@ public class CASTableD extends JTable implements CASTable {
 		} else {
 			// add new rows
 			for (int pos = rowCount; pos <= row; pos++) {
-				tableModel.addRow(new Object[] { "" });
+				tableModel.addRow(new Object[] {""});
 			}
 			tableModel.setValueAt(casCell, row, COL_CAS_CELLS);
 		}
@@ -503,11 +489,11 @@ public class CASTableD extends JTable implements CASTable {
 	/**
 	 * Returns the preferred height of a row. The result is equal to the tallest
 	 * cell in the row.
-	 * 
+	 *
 	 * @param rowIndex
 	 *            Row-Index.
 	 * @return The preferred height.
-	 * 
+	 *
 	 * @see "http://www.exampledepot.com/egs/javax.swing.table/RowHeight.html"
 	 */
 	public int getPreferredRowHeight(int rowIndex) {
@@ -535,7 +521,7 @@ public class CASTableD extends JTable implements CASTable {
 	/**
 	 * For each row &gt;= start and &lt; end, the height of a row is set to the
 	 * preferred height of the tallest cell in that row.
-	 * 
+	 *
 	 * @param start
 	 *            start row
 	 * @param end
@@ -555,7 +541,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Updates given row
-	 * 
+	 *
 	 * @param row
 	 *            row to update
 	 */
@@ -599,7 +585,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Delete a row, and set the focus at the right position
-	 * 
+	 *
 	 * @param row
 	 *            row (staring from 0)
 	 */
@@ -611,18 +597,17 @@ public class CASTableD extends JTable implements CASTable {
 		}
 		// update keys (rows) in arbitrary constant table
 		updateAfterDeleteArbConstTable(row);
-
 	}
 
 	/**
 	 * Updates arbitraryConstantTable in construction.
-	 * 
+	 *
 	 * @param row
 	 *            row index (starting from 0) where cell is deleted
 	 */
 	private void updateAfterDeleteArbConstTable(int row) {
-		ArbitraryConstantRegistry arbConst = kernel.getConstruction()
-				.getArbitraryConsTable().remove(row);
+		ArbitraryConstantRegistry arbConst =
+				kernel.getConstruction().getArbitraryConsTable().remove(row);
 		if (arbConst != null) {
 			for (GeoNumeric geoNum : arbConst.getConstList()) {
 				kernel.getConstruction().removeFromConstructionList(geoNum);
@@ -632,16 +617,14 @@ public class CASTableD extends JTable implements CASTable {
 		}
 		if (kernel.getConstruction().getArbitraryConsTable().size() > 0) {
 			// find last row number
-			Integer max = Collections.max(
-					kernel.getConstruction().getArbitraryConsTable().keySet());
+			Integer max =
+					Collections.max(kernel.getConstruction().getArbitraryConsTable().keySet());
 			for (int key = row + 1; key <= max; key++) {
-				ArbitraryConstantRegistry myArbConst = kernel.getConstruction()
-						.getArbitraryConsTable().get(key);
+				ArbitraryConstantRegistry myArbConst =
+						kernel.getConstruction().getArbitraryConsTable().get(key);
 				if (myArbConst != null) {
-					kernel.getConstruction().getArbitraryConsTable()
-							.remove(key);
-					kernel.getConstruction().getArbitraryConsTable()
-							.put(key - 1, myArbConst);
+					kernel.getConstruction().getArbitraryConsTable().remove(key);
+					kernel.getConstruction().getArbitraryConsTable().put(key - 1, myArbConst);
 				}
 			}
 		}
@@ -649,7 +632,7 @@ public class CASTableD extends JTable implements CASTable {
 
 	/**
 	 * Set the focus on the specified row
-	 * 
+	 *
 	 * @param editRow
 	 *            row number (starting from 0)
 	 */
@@ -711,8 +694,7 @@ public class CASTableD extends JTable implements CASTable {
 	public boolean getScrollableTracksViewportWidth() {
 		if (autoResizeMode != AUTO_RESIZE_OFF) {
 			if (getParent() instanceof JViewport) {
-				return getParent()
-						.getWidth() > getPreferredSize().width;
+				return getParent().getWidth() > getPreferredSize().width;
 			}
 		}
 		return false;
@@ -725,8 +707,7 @@ public class CASTableD extends JTable implements CASTable {
 	@Override
 	public Dimension getPreferredSize() {
 		if (getParent() instanceof JViewport) {
-			if (((JViewport) getParent())
-					.getWidth() < super.getPreferredSize().width) {
+			if (((JViewport) getParent()).getWidth() < super.getPreferredSize().width) {
 				return getMinimumSize();
 			}
 		}
@@ -842,25 +823,22 @@ public class CASTableD extends JTable implements CASTable {
 			g2.drawRect(r.x, r.y, r.width - 2, r.height - 2);
 
 			if (isEditing()) {
-				CASTableCell panel = (CASTableCell) getCellRenderer(
-						getSelectedRow(), 0).getTableCellRendererComponent(this,
-								null, false, false, rollOverRow, COL_CAS_CELLS);
+				CASTableCell panel = (CASTableCell) getCellRenderer(getSelectedRow(), 0)
+						.getTableCellRendererComponent(this, null, false, false, rollOverRow, COL_CAS_CELLS);
 				int offset = panel.outputPanel.getY();
 				r.height = r.height - offset;
 				// g2.drawRect(r.x+1,r.y+1,r.width-4,r.height-4);
 				g2.setColor(Color.red);
 				// g2.drawRect(r.x+2,r.y+2,r.width-6,r.height-6);;
 			}
-
 		}
 
 		// shade the all rows except the editing row
 
 		g2.setColor(new Color(0, 100, 100, 15));
 		if (rollOverRow >= 0 && highlight) {
-			CASTableCell rollOverCell = (CASTableCell) getCellRenderer(rollOverRow,
-					COL_CAS_CELLS).getTableCellRendererComponent(this, null,
-							false, false, rollOverRow, COL_CAS_CELLS);
+			CASTableCell rollOverCell = (CASTableCell) getCellRenderer(rollOverRow, COL_CAS_CELLS)
+					.getTableCellRendererComponent(this, null, false, false, rollOverRow, COL_CAS_CELLS);
 
 			int offset = rollOverCell.outputPanel.getY();
 
@@ -898,5 +876,4 @@ public class CASTableD extends JTable implements CASTable {
 	public boolean keepEditing(boolean failure, int rowNum) {
 		return failure;
 	}
-
 }

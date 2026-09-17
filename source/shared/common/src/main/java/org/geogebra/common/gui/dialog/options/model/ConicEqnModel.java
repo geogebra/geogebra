@@ -37,8 +37,13 @@ import org.jspecify.annotations.Nullable;
 public class ConicEqnModel extends MultipleOptionsModel {
 
 	private Localization loc;
-	private int implicitIndex, explicitIndex, specificIndex, parametricIndex,
-			userIndex, vertexformIndex, conicformIndex;
+	private int implicitIndex,
+			explicitIndex,
+			specificIndex,
+			parametricIndex,
+			userIndex,
+			vertexformIndex,
+			conicformIndex;
 
 	/**
 	 * @param app
@@ -175,40 +180,40 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			return;
 		}
 		switch (mode) {
-		case SPECIFIC:
-			if (specificIndex > -1) {
-				getListener().setSelectedIndex(specificIndex);
-			}
-			break;
+			case SPECIFIC:
+				if (specificIndex > -1) {
+					getListener().setSelectedIndex(specificIndex);
+				}
+				break;
 
-		case EXPLICIT:
-			if (explicitIndex > -1) {
-				getListener().setSelectedIndex(explicitIndex);
-			}
-			break;
+			case EXPLICIT:
+				if (explicitIndex > -1) {
+					getListener().setSelectedIndex(explicitIndex);
+				}
+				break;
 
-		case IMPLICIT:
-			getListener().setSelectedIndex(implicitIndex);
-			break;
-		case PARAMETRIC:
-			getListener().setSelectedIndex(parametricIndex);
-			break;
-		case USER:
-			getListener().setSelectedIndex(userIndex);
-			break;
-		case VERTEX:
-			if (vertexformIndex > -1) {
-				getListener().setSelectedIndex(vertexformIndex);
-			}
-			break;
-		case CONICFORM:
-			if (conicformIndex > -1) {
-				getListener().setSelectedIndex(conicformIndex);
-			}
-			break;
+			case IMPLICIT:
+				getListener().setSelectedIndex(implicitIndex);
+				break;
+			case PARAMETRIC:
+				getListener().setSelectedIndex(parametricIndex);
+				break;
+			case USER:
+				getListener().setSelectedIndex(userIndex);
+				break;
+			case VERTEX:
+				if (vertexformIndex > -1) {
+					getListener().setSelectedIndex(vertexformIndex);
+				}
+				break;
+			case CONICFORM:
+				if (conicformIndex > -1) {
+					getListener().setSelectedIndex(conicformIndex);
+				}
+				break;
 
-		default:
-			getListener().setSelectedIndex(-1);
+			default:
+				getListener().setSelectedIndex(-1);
 		}
 	}
 
@@ -226,13 +231,11 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	 *            whether to add "Equation"
 	 * @return for quadrics "Expanded Form", for conics "Equation? a x^2 + ... "
 	 */
-	public static String getImplicitEquation(GeoQuadricND geo0,
-			Localization loc2, boolean prefix) {
+	public static String getImplicitEquation(GeoQuadricND geo0, Localization loc2, boolean prefix) {
 		if (geo0 instanceof GeoQuadric3DInterface) {
 			return loc2.getMenu("ExpandedForm");
 		}
-		return (prefix ? loc2.getMenu("Equation") + ' ' : "")
-						+ loc2.getMenu("ImplicitConicEquation");
+		return (prefix ? loc2.getMenu("Equation") + ' ' : "") + loc2.getMenu("ImplicitConicEquation");
 	}
 
 	@Override
@@ -268,5 +271,4 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		// Not used
 		return 0;
 	}
-
 }

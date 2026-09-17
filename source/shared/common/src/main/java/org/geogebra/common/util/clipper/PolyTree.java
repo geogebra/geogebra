@@ -52,5 +52,4 @@ final class PolyTree extends PolyNode {
 		}
 		return result;
 	}
-
 }

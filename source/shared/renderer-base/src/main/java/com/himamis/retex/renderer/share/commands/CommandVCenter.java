@@ -10,5 +10,4 @@ public class CommandVCenter extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new VCenteredAtom(a);
 	}
-
 }

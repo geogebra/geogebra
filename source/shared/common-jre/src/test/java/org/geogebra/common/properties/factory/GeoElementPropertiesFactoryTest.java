@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -56,8 +56,10 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		GeoPoint onePoint = evaluateGeoElement("(1,1)");
 		PropertiesArray propertiesArray = new GeoElementPropertiesFactory()
-				.createGeoElementProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), List.of(zeroPoint, onePoint));
+				.createGeoElementProperties(
+						getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(),
+						List.of(zeroPoint, onePoint));
 		Property[] pointProperties = propertiesArray.getProperties();
 
 		assertAll(
@@ -69,8 +71,7 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 				() -> assertEquals("Set caption style", pointProperties[5].getName()),
 				() -> assertEquals("Show trace", pointProperties[6].getName()),
 				() -> assertEquals("Fixed", pointProperties[7].getName()),
-				() -> assertEquals("Show in Algebra View", pointProperties[8].getName())
-		);
+				() -> assertEquals("Show in Algebra View", pointProperties[8].getName()));
 	}
 
 	@Test
@@ -78,39 +79,68 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoPoint zeroPoint = evaluateGeoElement("(0,0)");
 		GeoPoint onePoint = evaluateGeoElement("(1,1)");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), getApp().getImageManager(), true,
+				.createProperties(
+						getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(),
+						getApp().getImageManager(),
+						true,
 						List.of(zeroPoint, onePoint));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
-				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Caption", "Label", "Show Object", "Show trace", "Fix Object",
-				"Auxiliary Object"), basicProperties);
+				.map(Property::getName)
+				.collect(Collectors.toList());
+		assertEquals(
+				List.of(
+						"Name",
+						"Caption",
+						"Label",
+						"Show Object",
+						"Show trace",
+						"Fix Object",
+						"Auxiliary Object"),
+				basicProperties);
 	}
 
 	@Test
 	void testAngleProperties() {
 		GeoAngle angle = evaluateGeoElement("Angle[(0,1), (0,0), (1,0)]");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), getApp().getImageManager(), true,
+				.createProperties(
+						getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(),
+						getApp().getImageManager(),
+						true,
 						List.of(angle));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
-				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show Object",
-				"Auxiliary Object"), basicProperties);
+				.map(Property::getName)
+				.collect(Collectors.toList());
+		assertEquals(
+				List.of("Name", "Definition", "Caption", "Label", "Show Object", "Auxiliary Object"),
+				basicProperties);
 	}
 
 	@Test
 	void testNumberProperties() {
 		GeoNumeric number = evaluateGeoElement("a=1.5");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), getApp().getImageManager(), true,
+				.createProperties(
+						getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(),
+						getApp().getImageManager(),
+						true,
 						List.of(number));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
-				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Definition", "Caption", "Label", "Show Object", "Fix Object",
-				"Auxiliary Object"), basicProperties);
+				.map(Property::getName)
+				.collect(Collectors.toList());
+		assertEquals(
+				List.of(
+						"Name",
+						"Definition",
+						"Caption",
+						"Label",
+						"Show Object",
+						"Fix Object",
+						"Auxiliary Object"),
+				basicProperties);
 	}
 
 	@Test
@@ -118,13 +148,18 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 		GeoNumeric numeric1 = evaluateGeoElement("a = 5");
 		GeoNumeric numeric2 = evaluateGeoElement("a = 10");
 		List<PropertiesArray> propertiesArray = new GeoElementPropertiesFactory()
-				.createProperties(getKernel().getAlgebraProcessor(),
-						getApp().getLocalization(), getApp().getImageManager(), true,
+				.createProperties(
+						getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(),
+						getApp().getImageManager(),
+						true,
 						List.of(numeric1, numeric2));
 		List<String> basicProperties = Arrays.stream(propertiesArray.get(0).getProperties())
-				.map(Property::getName).collect(Collectors.toList());
-		assertEquals(List.of("Name", "Caption", "Label", "Show Object", "Fix Object",
-				"Auxiliary Object"), basicProperties);
+				.map(Property::getName)
+				.collect(Collectors.toList());
+		assertEquals(
+				List.of("Name", "Caption", "Label", "Show Object", "Fix Object", "Auxiliary Object"),
+				basicProperties);
 	}
 
 	@Test
@@ -148,14 +183,15 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	void testInlineTableTextProperties() {
 		GeoInlineTable table = new GeoInlineTable(getKernel().getConstruction(), new GPoint2D());
 		try {
-			TextStylePropertyCollection textStylePropertyCollection
-					= new TextStylePropertyCollection(new GeoElementPropertiesFactory(),
-					getLocalization(), List.of(table));
+			TextStylePropertyCollection textStylePropertyCollection = new TextStylePropertyCollection(
+					new GeoElementPropertiesFactory(), getLocalization(), List.of(table));
 			List<String> textStylePropertyNames = Arrays.stream(
-							textStylePropertyCollection.getProperties()).map(Property::getName)
+							textStylePropertyCollection.getProperties())
+					.map(Property::getName)
 					.toList();
-			assertEquals(List.of("Color", "Font", "Font Size", "Text style", "Alignment",
-					"Layout"), textStylePropertyNames);
+			assertEquals(
+					List.of("Color", "Font", "Font Size", "Text style", "Alignment", "Layout"),
+					textStylePropertyNames);
 		} catch (NotApplicablePropertyException e) {
 			throw new AssertionError(e);
 		}
@@ -165,14 +201,14 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	void testInlineTextTextProperties() {
 		GeoInlineText table = new GeoInlineText(getKernel().getConstruction(), new GPoint2D());
 		try {
-			TextStylePropertyCollection textStylePropertyCollection
-					= new TextStylePropertyCollection(new GeoElementPropertiesFactory(),
-					getLocalization(), List.of(table));
+			TextStylePropertyCollection textStylePropertyCollection = new TextStylePropertyCollection(
+					new GeoElementPropertiesFactory(), getLocalization(), List.of(table));
 			List<String> textStylePropertyNames = Arrays.stream(
-							textStylePropertyCollection.getProperties()).map(Property::getName)
+							textStylePropertyCollection.getProperties())
+					.map(Property::getName)
 					.toList();
-			assertEquals(List.of("Color", "Font", "Font Size", "Text style", "Alignment"),
-					textStylePropertyNames);
+			assertEquals(
+					List.of("Color", "Font", "Font Size", "Text style", "Alignment"), textStylePropertyNames);
 		} catch (NotApplicablePropertyException e) {
 			throw new AssertionError(e);
 		}
@@ -181,14 +217,14 @@ class GeoElementPropertiesFactoryTest extends BaseAppTestSetup {
 	private boolean containsLinearEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
 				.anyMatch(property -> property instanceof NamedEnumeratedPropertyListFacade<?, ?>
-						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property)
-						.getFirstProperty() instanceof LinearEquationFormProperty);
+						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property).getFirstProperty()
+								instanceof LinearEquationFormProperty);
 	}
 
 	private boolean containsQuadraticEquationFormProperty(PropertiesArray array) {
 		return Arrays.stream(array.getProperties())
 				.anyMatch(property -> property instanceof NamedEnumeratedPropertyListFacade<?, ?>
-						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property)
-						.getFirstProperty() instanceof QuadraticEquationFormProperty);
+						&& ((NamedEnumeratedPropertyListFacade<?, ?>) property).getFirstProperty()
+								instanceof QuadraticEquationFormProperty);
 	}
 }

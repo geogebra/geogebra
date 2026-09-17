@@ -38,8 +38,8 @@ import org.jspecify.annotations.Nullable;
  * @apiNote This type is not designed to be thread-safe.
  * @param <T> Spreadsheet content data type (in the apps, this is {@code GeoElement}).
  */
-public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
-		TabularDataChangeListener {
+public final class Spreadsheet<T>
+		implements SpreadsheetControllerDelegate, TabularDataChangeListener {
 
 	public final MulticastEvent<String> cellFormatXmlChanged = new MulticastEvent<>();
 	public final MulticastEvent<CellSizes> cellSizesChanged = new MulticastEvent<>();
@@ -76,7 +76,8 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 	 * @param constructionDelegate delegate for creating construction elements
 	 * @param undoProvider undo provider, may be null
 	 */
-	public Spreadsheet(@NonNull TabularData<T> tabularData,
+	public Spreadsheet(
+			@NonNull TabularData<T> tabularData,
 			@NonNull CellRenderableFactory rendererFactory,
 			@Nullable SpreadsheetConstructionDelegate constructionDelegate,
 			@Nullable UndoProvider undoProvider) {
@@ -94,11 +95,11 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		// get notified when number or size of rows/columns changes
 		tabularData.addChangeListener(this);
 
-		styleBarModel = new SpreadsheetStyleBarModel(controller, controller.selectionController,
-				styling);
+		styleBarModel =
+				new SpreadsheetStyleBarModel(controller, controller.selectionController, styling);
 
-		renderer = new SpreadsheetRenderer(controller.getLayout(), rendererFactory,
-				styling, tabularData);
+		renderer =
+				new SpreadsheetRenderer(controller.getLayout(), rendererFactory, styling, tabularData);
 
 		setViewport(new Rectangle(0, 0, 0, 0));
 	}
@@ -221,11 +222,9 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 
 		controller.storeUndoInfo();
 
-		ranges.forEach(range ->
-			range.forEach(renderer::invalidate)
-		);
+		ranges.forEach(range -> range.forEach(renderer::invalidate));
 		notifyRepaintNeeded();
-    }
+	}
 
 	/**
 	 * SpreadsheetSettings -> style bar
@@ -247,14 +246,14 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		renderer.fillRect(graphics, 0, 0, viewport.getWidth(), viewport.getHeight());
 
 		SpreadsheetStatisticsView<?> statisticsView = controller.getStatisticsView();
-		boolean statisticsInputFocused = statisticsView != null
-				&& statisticsView.getFocusedDataRange() != null;
+		boolean statisticsInputFocused =
+				statisticsView != null && statisticsView.getFocusedDataRange() != null;
 		List<TabularRange> visibleSelections = controller.getVisibleSelections();
-		for (TabularRange range: visibleSelections) {
+		for (TabularRange range : visibleSelections) {
 			renderer.drawSelection(range, graphics, viewport);
 		}
 		drawCells(graphics, viewport, !statisticsInputFocused); // on top of selections
-		for (TabularRange range: visibleSelections) {
+		for (TabularRange range : visibleSelections) {
 			renderer.drawSelectionBorder(range, graphics, viewport, false, false);
 		}
 		SpreadsheetReferences statisticsReferences = controller.getStatisticsReferences();
@@ -265,19 +264,18 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		if (editorReferences != null) {
 			drawReferences(graphics, viewport, editorReferences);
 		}
-		SpreadsheetCoords selectedCell = statisticsInputFocused ? null
-				: controller.getLastSelectionUpperLeftCell();
+		SpreadsheetCoords selectedCell =
+				statisticsInputFocused ? null : controller.getLastSelectionUpperLeftCell();
 		if (selectedCell != null) {
-			renderer.drawSelectionBorder(new TabularRange(selectedCell.row, selectedCell.column),
-					graphics, viewport, true, false);
+			renderer.drawSelectionBorder(
+					new TabularRange(selectedCell.row, selectedCell.column), graphics, viewport, true, false);
 		}
-		Point draggingDotLocation = statisticsInputFocused ? null
-				: controller.getDraggingDotLocation();
+		Point draggingDotLocation = statisticsInputFocused ? null : controller.getDraggingDotLocation();
 		if (draggingDotLocation != null) {
 			renderer.drawDraggingDot(draggingDotLocation, graphics);
 		}
-		TabularRange dragPasteSelection = statisticsInputFocused ? null
-				: controller.getDragPasteSelection();
+		TabularRange dragPasteSelection =
+				statisticsInputFocused ? null : controller.getDragPasteSelection();
 		if (dragPasteSelection != null) {
 			renderer.drawSelectionBorder(dragPasteSelection, graphics, viewport, false, true);
 		}
@@ -290,16 +288,16 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 
 	private void drawCells(GGraphics2D graphics, Rectangle viewport, boolean drawSelectionHeaders) {
 		TableLayout layout = controller.getLayout();
-		TableLayout.Portion portion =
-				layout.getLayoutIntersecting(viewport);
+		TableLayout.Portion portion = layout.getLayoutIntersecting(viewport);
 		double offsetX = viewport.getMinX() - layout.getRowHeaderWidth();
 		double offsetY = viewport.getMinY() - layout.getColumnHeaderHeight();
 		drawContentCells(graphics, portion, offsetX, offsetY);
 		renderer.drawHeaderBackgroundAndOutline(graphics, viewport);
 		if (drawSelectionHeaders) {
-			controller.getSelections().forEach(selection ->
-				renderer.drawSelectionHeader(selection, graphics, controller.getViewport())
-			);
+			controller
+					.getSelections()
+					.forEach(selection ->
+							renderer.drawSelectionHeader(selection, graphics, controller.getViewport()));
 		}
 		graphics.translate(-offsetX, 0);
 		graphics.setColor(styling.getGridColor());
@@ -323,14 +321,17 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		}
 		graphics.translate(0, offsetY);
 		graphics.setColor(styling.getHeaderBackgroundColor());
-		renderer.fillRect(graphics, 0, 0,
-				layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
+		renderer.fillRect(graphics, 0, 0, layout.getRowHeaderWidth(), layout.getColumnHeaderHeight());
 
 		drawErrorCells(graphics, portion, viewport, offsetX, offsetY);
 	}
 
-	private void drawErrorCells(GGraphics2D graphics, TableLayout.Portion portion,
-			Rectangle viewport, double offsetX, double offsetY) {
+	private void drawErrorCells(
+			GGraphics2D graphics,
+			TableLayout.Portion portion,
+			Rectangle viewport,
+			double offsetX,
+			double offsetY) {
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
 				if (controller.hasError(row, column)) {
@@ -340,20 +341,24 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		}
 	}
 
-	private void drawContentCells(GGraphics2D graphics, TableLayout.Portion portion,
-			double offsetX, double offsetY) {
+	private void drawContentCells(
+			GGraphics2D graphics, TableLayout.Portion portion, double offsetX, double offsetY) {
 		graphics.translate(-offsetX, -offsetY);
 		for (int column = portion.fromColumn; column <= portion.toColumn; column++) {
 			for (int row = portion.fromRow; row <= portion.toRow; row++) {
-				renderer.drawCell(row, column, graphics,
-						controller.contentAt(row, column), controller.hasError(row, column));
+				renderer.drawCell(
+						row,
+						column,
+						graphics,
+						controller.contentAt(row, column),
+						controller.hasError(row, column));
 			}
 		}
 		graphics.translate(offsetX, offsetY);
 	}
 
-	private void drawReferences(GGraphics2D graphics, Rectangle viewport,
-			@NonNull SpreadsheetReferences references) {
+	private void drawReferences(
+			GGraphics2D graphics, Rectangle viewport, @NonNull SpreadsheetReferences references) {
 		SpreadsheetReferences deduplicatedReferences = references.removingDuplicates();
 		for (int index = 0; index < deduplicatedReferences.cellReferences.size(); index++) {
 			SpreadsheetReference reference = deduplicatedReferences.cellReferences.get(index);
@@ -362,7 +367,9 @@ public final class Spreadsheet<T> implements SpreadsheetControllerDelegate,
 		}
 	}
 
-	private void drawStatisticsReferences(GGraphics2D graphics, Rectangle viewport,
+	private void drawStatisticsReferences(
+			GGraphics2D graphics,
+			Rectangle viewport,
 			@NonNull SpreadsheetReferences statisticsReferences) {
 		SpreadsheetReference focusedReference = statisticsReferences.currentCellReference;
 		for (SpreadsheetReference reference : statisticsReferences.cellReferences) {

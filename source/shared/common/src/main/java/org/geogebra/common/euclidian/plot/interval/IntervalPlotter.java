@@ -42,8 +42,8 @@ public class IntervalPlotter {
 	/**
 	 * Creates a disabled plotter
 	 */
-	public IntervalPlotter(GeoFunctionConverter converter, EuclidianViewBounds bounds,
-			IntervalPathPlotter pathPlotter) {
+	public IntervalPlotter(
+			GeoFunctionConverter converter, EuclidianViewBounds bounds, IntervalPathPlotter pathPlotter) {
 		this.converter = converter;
 		this.evBounds = bounds;
 		this.gp = pathPlotter;

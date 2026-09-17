@@ -38,7 +38,7 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
  * Companion for EuclidianView3D
- * 
+ *
  */
 public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
@@ -77,8 +77,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 			return;
 		}
 
-		if (getView()
-				.getProjection() != EuclidianView3DInterface.PROJECTION_GLASSES) {
+		if (getView().getProjection() != EuclidianView3DInterface.PROJECTION_GLASSES) {
 			return;
 		}
 
@@ -91,15 +90,14 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 		if (getView().getCursor3DType() == EuclidianView3D.CURSOR_DEFAULT) {
 			// if mouse is over nothing, use mouse coords and screen for depth
-			v = new Coords(mouseLoc.x + renderer1.getLeft(),
-					-mouseLoc.y + renderer1.getTop(), 0, 1);
+			v = new Coords(mouseLoc.x + renderer1.getLeft(), -mouseLoc.y + renderer1.getTop(), 0, 1);
 		} else {
 			// if mouse is over an object, use its depth and mouse coords
 			Coords eye = renderer1.getPerspEye();
-			double z = getView().getToScreenMatrix()
-					.mul(getView().getCursor3D().getCoords()).getZ() + 20; // to
-																			// be
-																			// over
+			double z =
+					getView().getToScreenMatrix().mul(getView().getCursor3D().getCoords()).getZ() + 20; // to
+			// be
+			// over
 			double eyeSep = renderer1.getEyeSep(); // TODO eye lateralization
 
 			double x = mouseLoc.x + renderer1.getLeft() + eyeSep - eye.getX();
@@ -107,17 +105,15 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 			double dz = eye.getZ() - z;
 			double coeff = dz / eye.getZ();
 
-			v = new Coords(x * coeff - eyeSep + eye.getX(),
-					y * coeff + eye.getY(), z, 1);
+			v = new Coords(x * coeff - eyeSep + eye.getX(), y * coeff + eye.getY(), z, 1);
 		}
 
 		getView().drawMouseCursor(renderer1, v);
-
 	}
 
 	/**
 	 * Draw 2D cross cursor
-	 * 
+	 *
 	 * @param renderer1
 	 *            renderer
 	 */
@@ -213,8 +209,9 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	 * rotate to default
 	 */
 	public void setDefaultRotAnimation() {
-		getView().setRotAnimation(EuclidianView3DInterface.ANGLE_ROT_OZ,
-				EuclidianView3DInterface.ANGLE_ROT_XOY, false);
+		getView()
+				.setRotAnimation(
+						EuclidianView3DInterface.ANGLE_ROT_OZ, EuclidianView3DInterface.ANGLE_ROT_XOY, false);
 	}
 
 	protected void getXMLForStereo(XMLStringBuilder sb, int eyeDistance, int sep) {
@@ -241,34 +238,33 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	}
 
 	protected boolean moveCursorIsVisible() {
-		if (getView().getEuclidianController()
-				.getMoveMode() != MoveMode.NONE
-				&& getView().getEuclidianController()
-						.getMoveMode() != MoveMode.VIEW) {
+		if (getView().getEuclidianController().getMoveMode() != MoveMode.NONE
+				&& getView().getEuclidianController().getMoveMode() != MoveMode.VIEW) {
 			return false;
 		}
 		return getView().cursorIsTranslateViewCursor()
-				|| getView().getEuclidianController()
-						.getMode() == EuclidianConstants.MODE_TRANSLATE_VIEW;
+				|| getView().getEuclidianController().getMode() == EuclidianConstants.MODE_TRANSLATE_VIEW;
 	}
 
-	protected void drawTranslateViewCursor(Renderer renderer1,
-			EuclidianCursor cursor, GeoPoint3D cursorOnXOYPlane,
+	protected void drawTranslateViewCursor(
+			Renderer renderer1,
+			EuclidianCursor cursor,
+			GeoPoint3D cursorOnXOYPlane,
 			CoordMatrix4x4 cursorMatrix) {
 		switch (cursor) {
-		default:
-		case MOVE:
-			renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
-			getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
-			renderer1.drawCursor(PlotterCursor.Type.CUBE);
-			break;
-		case RESIZE_X:
-		case RESIZE_Y:
-		case RESIZE_Z:
-			renderer1.setMatrix(cursorMatrix);
-			getView().getRenderer().drawCursor(PlotterCursor.Type.ALREADY_Z);
-			renderer1.drawCursor(PlotterCursor.Type.CUBE);
-			break;
+			default:
+			case MOVE:
+				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
+				getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
+				renderer1.drawCursor(PlotterCursor.Type.CUBE);
+				break;
+			case RESIZE_X:
+			case RESIZE_Y:
+			case RESIZE_Z:
+				renderer1.setMatrix(cursorMatrix);
+				getView().getRenderer().drawCursor(PlotterCursor.Type.ALREADY_Z);
+				renderer1.drawCursor(PlotterCursor.Type.CUBE);
+				break;
 		}
 	}
 
@@ -304,10 +300,8 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	protected void getHittingOrigin(GPoint mouse, Coords ret) {
 		getView().getPickPoint(mouse, ret);
-		if (getView()
-				.getProjection() == EuclidianView3DInterface.PROJECTION_PERSPECTIVE
-				|| getView()
-						.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES) {
+		if (getView().getProjection() == EuclidianView3DInterface.PROJECTION_PERSPECTIVE
+				|| getView().getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES) {
 			ret.set4(getView().getRenderer().getPerspEye());
 		}
 		getView().toSceneCoords3D(ret);
@@ -333,10 +327,8 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		} else {
 			pickPoint.setZ(renderer.getVisibleDepth());
 			if (projection == EuclidianView3DInterface.PROJECTION_OBLIQUE) {
-				pickPoint.setX(pickPoint.getX()
-						- pickPoint.getZ() * renderer.getObliqueX());
-				pickPoint.setY(pickPoint.getY()
-						- pickPoint.getZ() * renderer.getObliqueY());
+				pickPoint.setX(pickPoint.getX() - pickPoint.getZ() * renderer.getObliqueX());
+				pickPoint.setY(pickPoint.getY() - pickPoint.getZ() * renderer.getObliqueY());
 			}
 		}
 	}
@@ -365,24 +357,25 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true for some 3D stereo devices
 	 */
 	public boolean useOnlyProjectionGlasses() {
 		return false;
 	}
 
-    @Override
-    public boolean hasMouse() {
-        if (view3D.isXREnabled() && ((EuclidianController3D) view3D.getEuclidianController())
-                .isCurrentModeForCreatingPoint()) {
-            return true;
-        }
-        return super.hasMouse();
-    }
+	@Override
+	public boolean hasMouse() {
+		if (view3D.isXREnabled()
+				&& ((EuclidianController3D) view3D.getEuclidianController())
+						.isCurrentModeForCreatingPoint()) {
+			return true;
+		}
+		return super.hasMouse();
+	}
 
 	/**
-	 * 
+	 *
 	 * @return true if view should draw cursor
 	 */
 	public boolean shouldDrawCursor() {
@@ -402,10 +395,8 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	protected void setMinMaxObjectsInSettings(EuclidianSettings evs) {
 		super.setMinMaxObjectsInSettings(evs);
 		if (evs instanceof EuclidianSettings3D) {
-			((EuclidianSettings3D) evs)
-					.setZminObject(((EuclidianView3D) view).getZminObject(), false);
-			((EuclidianSettings3D) evs)
-					.setZmaxObject(((EuclidianView3D) view).getZmaxObject(), false);
+			((EuclidianSettings3D) evs).setZminObject(((EuclidianView3D) view).getZminObject(), false);
+			((EuclidianSettings3D) evs).setZmaxObject(((EuclidianView3D) view).getZmaxObject(), false);
 		}
 	}
 }

@@ -28,8 +28,7 @@ public class PlayButtonTabber implements FocusableComponent {
 	}
 
 	private boolean isPlayVisible() {
-		return view.getKernel().needToShowAnimationButton()
-				&& view.drawPlayButtonInThisView();
+		return view.getKernel().needToShowAnimationButton() && view.drawPlayButtonInThisView();
 	}
 
 	@Override

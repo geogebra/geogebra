@@ -35,8 +35,8 @@ public final class AVControlsContributor implements FocusContributor {
 	public static final String AV_MORE_KEY = "av.more";
 
 	@Override
-	public void contribute(RadioTreeItemFocusAccess item, FocusableCompositeW focus,
-			AccessibilityManagerInterface am) {
+	public void contribute(
+			RadioTreeItemFocusAccess item, FocusableCompositeW focus, AccessibilityManagerInterface am) {
 		if (item.isInputItem()) {
 			return;
 		}
@@ -45,12 +45,16 @@ public final class AVControlsContributor implements FocusContributor {
 
 		Localization loc = item.geo().getApp().getLocalization();
 		String formatLabelKey = getNextFormatLabelKey(item);
-		addIfExists(focus, am, formatButton, AV_OUTPUT_FORMAT_KEY,
+		addIfExists(
+				focus,
+				am,
+				formatButton,
+				AV_OUTPUT_FORMAT_KEY,
 				() -> formatLabelKey.isEmpty() ? "" : loc.getMenu(formatLabelKey),
 				item::removeItemFocusStyle);
 
-		addIfExists(focus, am, moreButton, AV_MORE_KEY,
-				() -> loc.getMenu("more"), item::removeItemFocusStyle);
+		addIfExists(
+				focus, am, moreButton, AV_MORE_KEY, () -> loc.getMenu("more"), item::removeItemFocusStyle);
 	}
 
 	private static String getNextFormatLabelKey(RadioTreeItemFocusAccess item) {
@@ -61,9 +65,7 @@ public final class AVControlsContributor implements FocusContributor {
 		Set<AlgebraOutputFormatFilter> outputFormatFilters =
 				algebraSettings.getAlgebraOutputFormatFilters();
 		AlgebraOutputFormat nextFormat =
-				AlgebraOutputFormat.getNextFormat(geo, engineering,
-						outputFormatFilters);
+				AlgebraOutputFormat.getNextFormat(geo, engineering, outputFormatFilters);
 		return nextFormat != null ? nextFormat.getScreenReaderLabel() : "";
 	}
-
 }

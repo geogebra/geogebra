@@ -2,18 +2,18 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
- 
+
 package org.geogebra.common.spreadsheet.kernel;
 
 import static org.geogebra.common.BaseUnitTest.hasValue;
@@ -49,8 +49,7 @@ class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTest {
 	@Test
 	void testNumbersInSpreadsheetShouldBeModifiedInCas() {
 		processor.process("7", "A1");
-		assertFalse(lookup("A1")
-				.isLocked(), "Numbers should not be locked in Spreadsheet CAS");
+		assertFalse(lookup("A1").isLocked(), "Numbers should not be locked in Spreadsheet CAS");
 	}
 
 	@Test
@@ -58,8 +57,7 @@ class DefaultSpreadsheetCellProcessorSymbolicTest extends BaseSymbolicTest {
 		processor.process("7", "A1");
 		processor.process("3", "A2");
 		processor.process("A1 + A2", "A3");
-		assertFalse(lookup("A3")
-				.isLocked(), "Numbers should not be locked in Spreadsheet CAS");
+		assertFalse(lookup("A3").isLocked(), "Numbers should not be locked in Spreadsheet CAS");
 	}
 
 	@Test

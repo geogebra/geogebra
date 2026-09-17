@@ -45,8 +45,8 @@ public class AlgoTrigCombine extends AlgoCasBase {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoTrigCombine(Construction cons, String label,
-			CasEvaluableFunction f, GeoFunction target, EvalInfo info) {
+	public AlgoTrigCombine(
+			Construction cons, String label, CasEvaluableFunction f, GeoFunction target, EvalInfo info) {
 		super(cons, f, Commands.TrigCombine, info);
 		this.target = target;
 		setInputOutput();
@@ -57,10 +57,10 @@ public class AlgoTrigCombine extends AlgoCasBase {
 	@Override
 	public void setInputOutput() {
 		if (target != null) {
-			input = new GeoElement[] { f.toGeoElement(), target };
+			input = new GeoElement[] {f.toGeoElement(), target};
 
 		} else {
-			input = new GeoElement[] { f.toGeoElement() };
+			input = new GeoElement[] {f.toGeoElement()};
 		}
 		setOnlyOutput(g);
 		setDependencies();

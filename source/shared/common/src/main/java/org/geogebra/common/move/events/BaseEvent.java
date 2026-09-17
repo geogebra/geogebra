@@ -20,7 +20,7 @@ import org.geogebra.common.move.views.EventRenderable;
 
 /**
  * Base of all Events
- * 
+ *
  * @author gabor
  */
 public abstract class BaseEvent implements GenericEvent<EventRenderable> {
@@ -42,7 +42,6 @@ public abstract class BaseEvent implements GenericEvent<EventRenderable> {
 	/**
 	 * @return the name of the event, or null needed for identify it
 	 */
-
 	public String getName() {
 		return name;
 	}
@@ -51,5 +50,4 @@ public abstract class BaseEvent implements GenericEvent<EventRenderable> {
 	public void fire(EventRenderable target) {
 		target.renderEvent(this);
 	}
-
 }

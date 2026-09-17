@@ -33,7 +33,8 @@ public class MatrixExpressionFilter implements ExpressionFilter {
 		return expression.any(subExpression -> {
 			if (subExpression.evaluatesToList()) {
 				ExpressionValue value = subExpression.evaluate(StringTemplate.defaultTemplate);
-				return value != null && (value.unwrap() instanceof ListValue)
+				return value != null
+						&& (value.unwrap() instanceof ListValue)
 						&& ((ListValue) value.unwrap()).isMatrix();
 			}
 			return false;

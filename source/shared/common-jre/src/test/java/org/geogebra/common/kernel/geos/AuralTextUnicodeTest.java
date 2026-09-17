@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -43,8 +43,8 @@ class AuralTextUnicodeTest extends BaseUnitTest {
 
 	@Override
 	public AppCommon3D createAppCommon() {
-		return new AppCommon3D(new LocalizationCommonUTF(3), new AwtFactoryCommon(),
-				new AppConfigDefault()) {
+		return new AppCommon3D(
+				new LocalizationCommonUTF(3), new AwtFactoryCommon(), new AppConfigDefault()) {
 			@Override
 			public StringTemplate getScreenReaderTemplate() {
 				return StringTemplate.screenReaderUnicode;
@@ -67,8 +67,8 @@ class AuralTextUnicodeTest extends BaseUnitTest {
 
 	private void auralText(String in, String expected) {
 		GeoElement geo = add(in);
-		String aural = geo.getAuralText(new ScreenReaderBuilderDot(getApp().getLocalization()))
-				.split("\\. ")[0];
+		String aural =
+				geo.getAuralText(new ScreenReaderBuilderDot(getApp().getLocalization())).split("\\. ")[0];
 		assertEquals(expected, aural);
 	}
 
@@ -98,12 +98,12 @@ class AuralTextUnicodeTest extends BaseUnitTest {
 		GeoInputBox input = add("ib=InputBox(A)");
 		final MathFieldCommon mf = new MathFieldCommon(new TemplateCatalog(), null);
 		SymbolicEditorCommon editor = new SymbolicEditorCommon(mf, getApp());
-		editor.attach(input, new Rectangle(),
-				LatexRendererSettings.create());
+		editor.attach(input, new Rectangle(), LatexRendererSettings.create());
 		SerializationAdapter adapter = ScreenReader.getSerializationAdapter(getApp());
-		assertThat(ScreenReaderSerializer.fullDescription(editor.getMathFieldInternal().getFormula()
-				.getRootNode(), adapter), equalTo("( 1, 1)"));
-
+		assertThat(
+				ScreenReaderSerializer.fullDescription(
+						editor.getMathFieldInternal().getFormula().getRootNode(), adapter),
+				equalTo("( 1, 1)"));
 	}
 
 	private void auralValue(String in, String expected) {

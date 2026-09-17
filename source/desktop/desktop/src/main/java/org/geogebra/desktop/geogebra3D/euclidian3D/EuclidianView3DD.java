@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -70,34 +70,33 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * 3D view for desktop
- * 
+ *
  * @author mathieu
- * 
+ *
  */
-public class EuclidianView3DD extends EuclidianView3D
-		implements EuclidianViewInterfaceD {
+public class EuclidianView3DD extends EuclidianView3D implements EuclidianViewInterfaceD {
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
+
 	private Component canvas;
 	private boolean exportToClipboard;
 	private File exportFile;
 	private int exportDPI;
 
 	// temp image
-	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
-			BufferedImage.TYPE_INT_RGB).createGraphics();
+	private final Graphics2D g2Dtemp =
+			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB).createGraphics();
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param ec
 	 *            controller
 	 * @param settings
 	 *            settings
 	 */
-	public EuclidianView3DD(EuclidianController3D ec,
-			EuclidianSettings settings) {
+	public EuclidianView3DD(EuclidianController3D ec, EuclidianSettings settings) {
 
 		super(ec, settings);
 
@@ -114,7 +113,6 @@ public class EuclidianView3DD extends EuclidianView3D
 			settingsChanged(es);
 			es.addListener(this);
 		}
-
 	}
 
 	@Override
@@ -126,10 +124,8 @@ public class EuclidianView3DD extends EuclidianView3D
 		getJPanel().add(BorderLayout.CENTER, canvas);
 
 		// register Listener
-		((EuclidianControllerListeners) getEuclidianController())
-				.addListenersTo(canvas);
+		((EuclidianControllerListeners) getEuclidianController()).addListenersTo(canvas);
 		canvas.setFocusable(true);
-
 	}
 
 	@Override
@@ -161,7 +157,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	public void setTransparentCursor() {
 
 		setCursor(((AppD) app).getTransparentCursor());
-
 	}
 
 	// ////////////////////////////
@@ -346,7 +341,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	 */
 	public void addComponentListener(ComponentListener componentListener) {
 		canvas.addComponentListener(componentListener);
-
 	}
 
 	/**
@@ -355,7 +349,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	 */
 	public void setSize(Dimension dimension) {
 		evjpanel.setSize(dimension);
-
 	}
 
 	/**
@@ -367,7 +360,7 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	/**
 	 * Initializes this panel
-	 * 
+	 *
 	 * @param repaint
 	 *            ignored parameter
 	 */
@@ -401,14 +394,14 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	final public GGraphics2D getTempGraphics2D(GFont font) {
+	public final GGraphics2D getTempGraphics2D(GFont font) {
 		g2Dtemp.setFont(GFontD.getAwtFont(font));
 
 		return new GGraphics2DD(g2Dtemp);
 	}
 
 	@Override
-	final protected void setStyleBarMode(int mode) {
+	protected final void setStyleBarMode(int mode) {
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);
 		}
@@ -440,8 +433,7 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	public GBufferedImage getExportImage(double scale, boolean transparency,
-			ExportType exportType)
+	public GBufferedImage getExportImage(double scale, boolean transparency, ExportType exportType)
 			throws OutOfMemoryError {
 		getRenderer().needExportImage(scale, true);
 
@@ -449,8 +441,13 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	public void exportImagePNG(double scale, boolean transparency, int dpi,
-			File file, boolean exportToClipboard0, ExportType exportType) {
+	public void exportImagePNG(
+			double scale,
+			boolean transparency,
+			int dpi,
+			File file,
+			boolean exportToClipboard0,
+			ExportType exportType) {
 
 		exportDPI = dpi;
 		exportFile = file;
@@ -470,8 +467,7 @@ public class EuclidianView3DD extends EuclidianView3D
 		}
 
 		try {
-			BufferedImage img = GBufferedImageD
-					.getAwtBufferedImage(getRenderer().getExportImage());
+			BufferedImage img = GBufferedImageD.getAwtBufferedImage(getRenderer().getExportImage());
 			MyImageIO.write(img, "png", exportDPI, exportFile);
 			if (exportToClipboard) {
 				GraphicExportDialog.sendToClipboard(exportFile);
@@ -479,7 +475,6 @@ public class EuclidianView3DD extends EuclidianView3D
 		} catch (IOException e) {
 			Log.debug(e);
 		}
-
 	}
 
 	@Override
@@ -494,10 +489,8 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	public void exportPaintPre(GGraphics2D g2d, double scale,
-			boolean transparency) {
+	public void exportPaintPre(GGraphics2D g2d, double scale, boolean transparency) {
 		Log.error("exportPaintPre unimplemented");
-
 	}
 
 	@Override
@@ -526,5 +519,4 @@ public class EuclidianView3DD extends EuclidianView3D
 		// TODO Auto-generated method stub
 
 	}
-
 }

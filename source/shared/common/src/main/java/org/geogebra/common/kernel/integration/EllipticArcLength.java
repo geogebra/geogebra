@@ -28,11 +28,12 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 public class EllipticArcLength {
 	/** half axes of the ellipse */
 	double[] halfAxes;
+
 	private UnivariateFunction arcLengthFunction;
 
 	/**
 	 * Creates new elliptic arc length calculator
-	 * 
+	 *
 	 * @param ellipse
 	 *            ellipse
 	 */
@@ -44,7 +45,7 @@ public class EllipticArcLength {
 	/**
 	 * Computes the arc length of an ellipse where a is the start parameter and
 	 * b is the end parameter of the arc in radians.
-	 * 
+	 *
 	 * @param a
 	 *            start param
 	 * @param b
@@ -53,14 +54,10 @@ public class EllipticArcLength {
 	 */
 	public double compute(double a, double b) {
 		if (a <= b) {
-			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, a,
-					b);
+			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, a, b);
 		}
-		return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, 0,
-				Kernel.PI_2)
-				- AlgoIntegralDefinite.numericIntegration(arcLengthFunction, b,
-						a);
-
+		return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, 0, Kernel.PI_2)
+				- AlgoIntegralDefinite.numericIntegration(arcLengthFunction, b, a);
 	}
 
 	/**
@@ -88,8 +85,7 @@ public class EllipticArcLength {
 	 *            minor semiaxis
 	 * @return ellipse circumference using power series
 	 */
-	public static double getEllipseCircumference(double semiMajor,
-			double semiMinor) {
+	public static double getEllipseCircumference(double semiMajor, double semiMinor) {
 		double k = semiMinor / semiMajor;
 		// Gauss-KummerSeries doesn't converge fast so use Cayley in this case
 		// http://help.geogebra.org/topic/inaccurate-circumference-of-ellipse
@@ -134,14 +130,48 @@ public class EllipticArcLength {
 		// http://mathworld.wolfram.com/Gauss-KummerSeries.html
 		// http://oeis.org/A056981
 		// http://oeis.org/A056982
-		double[] a056981 = { 1, 1, 1, 1, 25, 49, 441, 1089, 184041, 511225,
-				5909761, 17631601, 863948449, 2704312009L, 34493775625L,
-				111759833025L, 93990019574025L, 312541206957225L,
-				4201942893536025L, 14258670483605625L, 780804795682244025L };
-		double[] a056982 = { 1, 4, 64, 256, 16384, 65536, 1048576, 4194304,
-				1073741824, 4294967296L, 68719476736L, 274877906944L,
-				17592186044416L, 70368744177664L, 1125899906842624L,
-				4503599627370496L, 4611686018427387904L };
+		double[] a056981 = {
+			1,
+			1,
+			1,
+			1,
+			25,
+			49,
+			441,
+			1089,
+			184041,
+			511225,
+			5909761,
+			17631601,
+			863948449,
+			2704312009L,
+			34493775625L,
+			111759833025L,
+			93990019574025L,
+			312541206957225L,
+			4201942893536025L,
+			14258670483605625L,
+			780804795682244025L
+		};
+		double[] a056982 = {
+			1,
+			4,
+			64,
+			256,
+			16384,
+			65536,
+			1048576,
+			4194304,
+			1073741824,
+			4294967296L,
+			68719476736L,
+			274877906944L,
+			17592186044416L,
+			70368744177664L,
+			1125899906842624L,
+			4503599627370496L,
+			4611686018427387904L
+		};
 
 		double ret = 1;
 		double lastAnswer;
@@ -156,7 +186,6 @@ public class EllipticArcLength {
 			if (MyDouble.exactEqual(lastAnswer, ret)) {
 				break;
 			}
-
 		}
 
 		ret *= (semiMajor + semiMinor) * Math.PI;

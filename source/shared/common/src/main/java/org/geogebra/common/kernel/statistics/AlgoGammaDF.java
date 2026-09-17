@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Normal[0,1,x]
- * 
+ *
  * @author Michael
  */
 public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
@@ -49,8 +49,8 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 	 * @param cumulative
 	 *            cumulative
 	 */
-	public AlgoGammaDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			BooleanValue cumulative) {
+	public AlgoGammaDF(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, BooleanValue cumulative) {
 		super(cons);
 		this.mean = a;
 		this.sd = b;
@@ -123,8 +123,7 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 
 			div = div.multiply(tEn.power(k));
 
-			en = en.reverseSign().exp().multiply(fvEn.power(kEn.subtract(1)))
-					.divide(div);
+			en = en.reverseSign().exp().multiply(fvEn.power(kEn.subtract(1))).divide(div);
 
 			// old hack:
 			// command =
@@ -133,7 +132,5 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 		}
 
 		ret.getFunctionExpression().setRight(en);
-
 	}
-
 }

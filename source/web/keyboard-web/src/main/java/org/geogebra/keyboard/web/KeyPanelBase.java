@@ -48,7 +48,7 @@ public class KeyPanelBase extends FlowPanel {
 
 	/**
 	 * adds the given button to the row with given index.
-	 * 
+	 *
 	 * @param index
 	 *            int
 	 * @param button
@@ -97,8 +97,7 @@ public class KeyPanelBase extends FlowPanel {
 		updatePanelSize();
 	}
 
-	private static void addSecondary(BaseKeyboardButton btn,
-			WeightedButton wb) {
+	private static void addSecondary(BaseKeyboardButton btn, WeightedButton wb) {
 		if (wb.getActionsSize() > 1) {
 			btn.setSecondaryAction(wb.getActionName(1));
 		}
@@ -128,19 +127,17 @@ public class KeyPanelBase extends FlowPanel {
 				} else {
 					button = buttons.get(buttonIndex);
 					if (offset > 0) {
-						button.getElement().getStyle().setMarginLeft(
-								offset * baseSize + margins / 2d, Unit.PX);
+						button.getElement().getStyle().setMarginLeft(offset * baseSize + margins / 2d, Unit.PX);
 					}
-					button.getElement().getStyle().setWidth(
-							wb.getWeight() * baseSize - margins, Unit.PX);
+					button.getElement().getStyle().setWidth(wb.getWeight() * baseSize - margins, Unit.PX);
 					offset = 0;
 					buttonIndex++;
 				}
 			}
-			if (Action.NONE.name().equals(row.getButtons()
-					.get(row.getButtons().size() - 1).getPrimaryActionName())) {
-				button.getElement().getStyle().setMarginRight(
-						offset * baseSize + margins / 2d, Unit.PX);
+			if (Action.NONE
+					.name()
+					.equals(row.getButtons().get(row.getButtons().size() - 1).getPrimaryActionName())) {
+				button.getElement().getStyle().setMarginRight(offset * baseSize + margins / 2d, Unit.PX);
 			}
 		}
 	}

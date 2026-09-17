@@ -26,7 +26,7 @@ import org.geogebra.common.util.URLEncoder;
 
 /**
  * Various util-like factories for common usage
- * 
+ *
  * @author Zoltan Kovacs
  */
 @HasNativeSubclass
@@ -71,7 +71,7 @@ public abstract class UtilFactory {
 	public abstract Prover newProver();
 
 	/**
-	 * 
+	 *
 	 * @return current time in milliseconds
 	 */
 	public abstract double getMillisecondTime();

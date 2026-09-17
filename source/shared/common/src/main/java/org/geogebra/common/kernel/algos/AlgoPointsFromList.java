@@ -66,8 +66,11 @@ public class AlgoPointsFromList extends AlgoElement {
 	 * @param setLabels whether to set point labels
 	 * @param inputList list of numbers
 	 */
-	public AlgoPointsFromList(@NonNull Construction cons, String @Nullable[] labels,
-			boolean setLabels, @NonNull GeoList inputList) {
+	public AlgoPointsFromList(
+			@NonNull Construction cons,
+			String @Nullable [] labels,
+			boolean setLabels,
+			@NonNull GeoList inputList) {
 		super(cons);
 		List<ParsedPoint> parsedPoints = parsePoints(inputList);
 		this.inputList = inputList;
@@ -119,14 +122,19 @@ public class AlgoPointsFromList extends AlgoElement {
 		int updatePointCount = Math.min(parsedPoints.size(), outputPoints.size());
 		for (int index = 0; index < updatePointCount; index++) {
 			// Update coordinates if they are compatible
-			if (outputPoints.get(index).isGeoElement3D()
-					|| parsedPoints.get(index).dimension() == 2) {
+			if (outputPoints.get(index).isGeoElement3D() || parsedPoints.get(index).dimension() == 2) {
 				if (outputPoints.get(index).isGeoElement3D()) {
-					outputPoints.get(index).setCoords(parsedPoints.get(index).x(),
-							parsedPoints.get(index).y(), parsedPoints.get(index).z(), 1);
+					outputPoints
+							.get(index)
+							.setCoords(
+									parsedPoints.get(index).x(),
+									parsedPoints.get(index).y(),
+									parsedPoints.get(index).z(),
+									1);
 				} else {
-					outputPoints.get(index).setCoords(parsedPoints.get(index).x(),
-							parsedPoints.get(index).y(), 1);
+					outputPoints
+							.get(index)
+							.setCoords(parsedPoints.get(index).x(), parsedPoints.get(index).y(), 1);
 				}
 			}
 			// Otherwise mark them as undefined
@@ -168,7 +176,8 @@ public class AlgoPointsFromList extends AlgoElement {
 	private void addOutputPoints(@NonNull List<ParsedPoint> parsedPoints, boolean setLabels) {
 		int oldSize = outputPoints.size();
 		for (int index = oldSize; index < parsedPoints.size(); index++) {
-			GeoPointND point = parsedPoints.get(index).dimension() == 2 ? new GeoPoint(cons)
+			GeoPointND point = parsedPoints.get(index).dimension() == 2
+					? new GeoPoint(cons)
 					: cons.getKernel().getGeoFactory().newPoint(3, cons);
 			point.setCoords(0, 0, 1);
 			outputPoints.add(point);
@@ -206,8 +215,9 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	private static List<ParsedPoint> parseNestedList(@NonNull GeoList list) {
-		if (!list.elements().allMatch(row -> row instanceof GeoList
-				&& ((GeoList) row).elements().allMatch(GeoElement::isGeoNumeric))) {
+		if (!list.elements()
+				.allMatch(row -> row instanceof GeoList
+						&& ((GeoList) row).elements().allMatch(GeoElement::isGeoNumeric))) {
 			return List.of();
 		}
 		return list.elements()
@@ -217,8 +227,11 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	private static ParsedPoint parsedPointOf(@NonNull GeoList row, int dimension) {
-		return new ParsedPoint(coordinateAt(0, row), coordinateAt(1, row),
-				dimension == 3 ? coordinateAt(2, row) : 0, dimension);
+		return new ParsedPoint(
+				coordinateAt(0, row),
+				coordinateAt(1, row),
+				dimension == 3 ? coordinateAt(2, row) : 0,
+				dimension);
 	}
 
 	private static double coordinateAt(int index, @NonNull GeoList row) {
@@ -229,6 +242,5 @@ public class AlgoPointsFromList extends AlgoElement {
 		return geoPointNDs.stream().map(GeoPointND::toGeoElement).toArray(GeoElement[]::new);
 	}
 
-	private record ParsedPoint(double x, double y, double z, int dimension) {
-	}
+	private record ParsedPoint(double x, double y, double z, int dimension) {}
 }

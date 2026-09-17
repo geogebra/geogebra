@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
  * Computes the area of a conic section
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoAreaConic extends AlgoElement {
@@ -36,7 +36,7 @@ public class AlgoAreaConic extends AlgoElement {
 	private GeoNumeric area; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -99,7 +99,7 @@ public class AlgoAreaConic extends AlgoElement {
 			area.setValue(conicPart.getArea());
 			/*
 			 * int partType = conicPart.getConicPartType();
-			 * 
+			 *
 			 * if (partType == GeoConicPart.CONIC_PART_SECTOR) { //
 			 * circumference of sector area.setValue(conicPart.getValue()); }
 			 * else { // area of arc is undefined area.setUndefined(); }
@@ -111,23 +111,22 @@ public class AlgoAreaConic extends AlgoElement {
 		// standard case: area of conic
 		int type = conic.getType();
 		switch (type) {
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			// r is length of one of the half axes
-			double r = conic.getHalfAxis(0);
-			area.setValue(r * r * Math.PI);
-			break;
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+			case GeoConicNDConstants.CONIC_CIRCLE:
+				// r is length of one of the half axes
+				double r = conic.getHalfAxis(0);
+				area.setValue(r * r * Math.PI);
+				break;
 
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			// lengths of the half axes
-			double a = conic.getHalfAxis(0);
-			double b = conic.getHalfAxis(1);
-			area.setValue(a * b * Math.PI);
-			break;
+			case GeoConicNDConstants.CONIC_ELLIPSE:
+				// lengths of the half axes
+				double a = conic.getHalfAxis(0);
+				double b = conic.getHalfAxis(1);
+				area.setValue(a * b * Math.PI);
+				break;
 
-		default:
-			area.setUndefined();
+			default:
+				area.setUndefined();
 		}
 	}
-
 }

@@ -102,7 +102,9 @@ public class TupleNeighbours {
 		if (set.isWhole()) {
 			return Double.POSITIVE_INFINITY;
 		}
-		return set.isInverted() ? invertedGap(set).getHigh() : connectedInterval(set).getHigh();
+		return set.isInverted()
+				? invertedGap(set).getHigh()
+				: connectedInterval(set).getHigh();
 	}
 
 	/**
@@ -219,10 +221,7 @@ public class TupleNeighbours {
 
 	@Override
 	public String toString() {
-		return "TupleNeighbours(\n"
-				+ left + ", \n"
-				+ current + ", \n"
-				+ right + ");";
+		return "TupleNeighbours(\n" + left + ", \n" + current + ", \n" + right + ");";
 	}
 
 	boolean isLeftInverted() {

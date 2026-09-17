@@ -46,8 +46,13 @@ public final class FocusPartAdder {
 	 * @return the widget that was added to the composite, or {@code null} if no widget
 	 * was present
 	 */
-	public static Widget addIfExists(FocusableCompositeW focus, AccessibilityManagerInterface am,
-			Widget widget, String key, Supplier<String> ariaLabel, Runnable onFocusCallback) {
+	public static Widget addIfExists(
+			FocusableCompositeW focus,
+			AccessibilityManagerInterface am,
+			Widget widget,
+			String key,
+			Supplier<String> ariaLabel,
+			Runnable onFocusCallback) {
 		if (widget == null) {
 			return null;
 		}

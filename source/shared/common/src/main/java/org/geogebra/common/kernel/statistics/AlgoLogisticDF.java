@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Logistic[0,1,x]
- * 
+ *
  * @author Michael
  */
 public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
@@ -40,7 +40,7 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 	private GeoFunction ret; // output
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param mean
@@ -50,8 +50,8 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 	 * @param cumulative
 	 *            cumulative?
 	 */
-	public AlgoLogisticDF(Construction cons, GeoNumberValue mean,
-			GeoNumberValue scale, BooleanValue cumulative) {
+	public AlgoLogisticDF(
+			Construction cons, GeoNumberValue mean, GeoNumberValue scale, BooleanValue cumulative) {
 		super(cons);
 		this.mean = mean;
 		this.scale = scale;
@@ -127,7 +127,5 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 		tempFun.initFunction();
 
 		ret.setFunction(tempFun);
-
 	}
-
 }

@@ -31,7 +31,7 @@ import org.freehep.graphics2d.font.CharTable;
  * <li>{@code closeGlyphs}
  * <li>{@code closeEmbedFont}
  * </ul>
- * 
+ *
  * @author Simon Fischer
  * @version $Id: FontEmbedder.java,v 1.4 2009-08-17 21:44:45 murkle Exp $
  */
@@ -52,8 +52,8 @@ public abstract class FontEmbedder extends FontIncluder {
 	 * @param glyphMetrics
 	 *            the metrics of this glyph
 	 */
-	protected abstract void writeGlyph(String unicodeName, Shape glyph,
-			GlyphMetrics glyphMetrics) throws IOException;
+	protected abstract void writeGlyph(String unicodeName, Shape glyph, GlyphMetrics glyphMetrics)
+			throws IOException;
 
 	/** Writes the character widths to the file. */
 	protected abstract void writeWidths(double[] widths) throws IOException;
@@ -62,15 +62,13 @@ public abstract class FontEmbedder extends FontIncluder {
 	 * Called before the glyph loop starts. Does nothing by default but can be
 	 * implemented.
 	 */
-	protected void openGlyphs() throws IOException {
-	}
+	protected void openGlyphs() throws IOException {}
 
 	/**
 	 * Called after the glyph loop ends. Does nothing by default but can be
 	 * implemented.
 	 */
-	protected void closeGlyphs() throws IOException {
-	}
+	protected void closeGlyphs() throws IOException {}
 
 	protected abstract void closeEmbedFont() throws IOException;
 
@@ -114,10 +112,9 @@ public abstract class FontEmbedder extends FontIncluder {
 		// See code marked FONTHACK elsewhere in this file
 		// Create a GlyphVector for this single character.
 		FontRenderContext orig = getContext();
-		FontRenderContext frc = new FontRenderContext(null,
-				orig.isAntiAliased(), orig.usesFractionalMetrics());
-		Shape shape = font.createGlyphVector(frc, new char[] { getUnicode(i) })
-				.getGlyphOutline(0);
+		FontRenderContext frc =
+				new FontRenderContext(null, orig.isAntiAliased(), orig.usesFractionalMetrics());
+		Shape shape = font.createGlyphVector(frc, new char[] {getUnicode(i)}).getGlyphOutline(0);
 		return orig.getTransform().createTransformedShape(shape);
 	}
 
@@ -126,8 +123,7 @@ public abstract class FontEmbedder extends FontIncluder {
 	}
 
 	@Override
-	public void includeFont(Font font, CharTable charTable, String name)
-			throws IOException {
+	public void includeFont(Font font, CharTable charTable, String name) throws IOException {
 
 		glyphs = null;
 		widths = null;
@@ -163,8 +159,10 @@ public abstract class FontEmbedder extends FontIncluder {
 	private static Shape createUndefined() {
 		GeneralPath ud = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 10);
 		ud.append(new Rectangle2D.Double(0, 0, FONT_SIZE, FONT_SIZE), false);
-		ud.append(new Rectangle2D.Double(FONT_SIZE / 20, FONT_SIZE / 20,
-				18 * FONT_SIZE / 20, 18 * FONT_SIZE / 20), false);
+		ud.append(
+				new Rectangle2D.Double(
+						FONT_SIZE / 20, FONT_SIZE / 20, 18 * FONT_SIZE / 20, 18 * FONT_SIZE / 20),
+				false);
 		return ud;
 	}
 }

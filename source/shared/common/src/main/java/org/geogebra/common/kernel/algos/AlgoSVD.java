@@ -72,7 +72,6 @@ public class AlgoSVD extends AlgoElement {
 
 		super.setOnlyOutput(listOfMatrices);
 		setDependencies();
-
 	}
 
 	/**
@@ -124,7 +123,6 @@ public class AlgoSVD extends AlgoElement {
 			listOfMatrices.setUndefined();
 			Log.debug(t);
 		}
-
 	}
 
 	// convert list into matrix
@@ -169,5 +167,4 @@ public class AlgoSVD extends AlgoElement {
 		}
 		return list;
 	}
-
 }

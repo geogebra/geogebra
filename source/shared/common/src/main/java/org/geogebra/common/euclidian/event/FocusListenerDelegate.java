@@ -29,5 +29,4 @@ public interface FocusListenerDelegate {
 
 	@MissingDoc
 	void focusGained();
-
 }

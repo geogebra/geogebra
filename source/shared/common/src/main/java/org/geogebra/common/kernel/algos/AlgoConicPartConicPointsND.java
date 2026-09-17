@@ -35,8 +35,12 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
-	public AlgoConicPartConicPointsND(Construction cons, String label,
-			GeoConicND circle, GeoPointND startPoint, GeoPointND endPoint,
+	public AlgoConicPartConicPointsND(
+			Construction cons,
+			String label,
+			GeoConicND circle,
+			GeoPointND startPoint,
+			GeoPointND endPoint,
 			int type) {
 		super(cons, type);
 		conic = circle;
@@ -66,10 +70,10 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 	/**
 	 * set temp values used for compute
 	 */
-	abstract protected void setTempValues();
+	protected abstract void setTempValues();
 
 	/**
-	 * 
+	 *
 	 * @param cons1
 	 *            construction
 	 * @param partType
@@ -118,25 +122,23 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 		// now take the parameters from the temp points
 		conicPart.set(conic);
 
-		((GeoConicPartND) conicPart).setParameters(getStartParameter(),
-				getEndParameter(), true);
+		((GeoConicPartND) conicPart).setParameters(getStartParameter(), getEndParameter(), true);
 	}
 
 	/**
 	 * compute start and end parameters
 	 */
-	abstract protected void computeParameters();
+	protected abstract void computeParameters();
 
 	/**
-	 * 
+	 *
 	 * @return start parameter value
 	 */
-	abstract protected double getStartParameter();
+	protected abstract double getStartParameter();
 
 	/**
-	 * 
+	 *
 	 * @return end parameter value
 	 */
-	abstract protected double getEndParameter();
-
+	protected abstract double getEndParameter();
 }

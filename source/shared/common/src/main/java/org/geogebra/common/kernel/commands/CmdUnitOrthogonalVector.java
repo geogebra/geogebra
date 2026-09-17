@@ -33,7 +33,7 @@ public class CmdUnitOrthogonalVector extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,26 +47,26 @@ public class CmdUnitOrthogonalVector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0] instanceof GeoLine) {
-				AlgoUnitOrthoVectorLine algo = new AlgoUnitOrthoVectorLine(cons,
-						c.getLabel(), (GeoLine) arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0] instanceof GeoLine) {
+					AlgoUnitOrthoVectorLine algo =
+							new AlgoUnitOrthoVectorLine(cons, c.getLabel(), (GeoLine) arg[0]);
 
-				GeoElement[] ret = { algo.getVector() };
-				return ret;
-			} else if (arg[0] instanceof GeoVec3D) {
+					GeoElement[] ret = {algo.getVector()};
+					return ret;
+				} else if (arg[0] instanceof GeoVec3D) {
 
-				AlgoUnitOrthoVectorVector algo = new AlgoUnitOrthoVectorVector(
-						cons, c.getLabel(), (GeoVec3D) arg[0]);
+					AlgoUnitOrthoVectorVector algo =
+							new AlgoUnitOrthoVectorVector(cons, c.getLabel(), (GeoVec3D) arg[0]);
 
-				GeoElement[] ret = { algo.getVector() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+					GeoElement[] ret = {algo.getVector()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

@@ -43,11 +43,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  * @version 20090730
  */
-
 public abstract class AlgoDistribution extends AlgoElement {
 	/** input: dist. parameter */
 	protected GeoNumberValue a;
@@ -61,6 +60,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	protected GeoBoolean isCumulative;
 	/** output number */
 	protected GeoNumeric num;
+
 	private RealDistribution realDistribution = null;
 
 	// discrete distributions
@@ -85,8 +85,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param d
 	 *            fourth input element
 	 */
-	public AlgoDistribution(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
+	public AlgoDistribution(
+			Construction cons, GeoNumberValue a, GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -111,8 +111,12 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param isCumulative
 	 *            flag for cumulative
 	 */
-	public AlgoDistribution(Construction cons, GeoBoolean isCumulative, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
+	public AlgoDistribution(
+			Construction cons,
+			GeoBoolean isCumulative,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -136,8 +140,12 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param isCumulative
 	 *            flag for cumulative
 	 */
-	public AlgoDistribution(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
+	public AlgoDistribution(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoBoolean isCumulative) {
 		this(cons, isCumulative, a, b, c);
 		compute();
 	}
@@ -156,8 +164,12 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param isCumulative
 	 *            flag for cumulative
 	 */
-	public AlgoDistribution(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d,
+	public AlgoDistribution(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoNumberValue c,
+			GeoNumberValue d,
 			GeoBoolean isCumulative) {
 		super(cons);
 		this.a = a;
@@ -172,7 +184,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a
@@ -182,8 +194,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param list
 	 *            list of values (for binomial)
 	 */
-	public AlgoDistribution(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoList list) {
+	public AlgoDistribution(Construction cons, GeoNumberValue a, GeoNumberValue b, GeoList list) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -196,7 +207,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param a
@@ -204,8 +215,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param list
 	 *            list of values (for poisson)
 	 */
-	public AlgoDistribution(Construction cons, GeoNumberValue a,
-			GeoList list) {
+	public AlgoDistribution(Construction cons, GeoNumberValue a, GeoList list) {
 		super(cons);
 		this.a = a;
 		this.list = list;
@@ -266,8 +276,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 				|| hypergeometric.getNumberOfSuccesses() != param2
 				|| hypergeometric.getPopulationSize() != param
 				|| hypergeometric.getSampleSize() != param3) {
-			hypergeometric = new HypergeometricDistribution(param, param2,
-					param3);
+			hypergeometric = new HypergeometricDistribution(param, param2, param3);
 		}
 
 		return hypergeometric;
@@ -280,9 +289,9 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 *            prob. of success
 	 * @return Pascal distribution
 	 */
-	protected PascalDistribution getPascalDistribution(int param,
-			double param2) {
-		if (pascal == null || pascal.getNumberOfSuccesses() != param
+	protected PascalDistribution getPascalDistribution(int param, double param2) {
+		if (pascal == null
+				|| pascal.getNumberOfSuccesses() != param
 				|| pascal.getProbabilityOfSuccess() != param2) {
 			pascal = new PascalDistribution(param, param2);
 		}
@@ -309,9 +318,9 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 *            prob. of success
 	 * @return binomial distribution
 	 */
-	protected BinomialDistribution getBinomialDistribution(int param,
-			double param2) {
-		if (binomial == null || binomial.getNumberOfTrials() != param
+	protected BinomialDistribution getBinomialDistribution(int param, double param2) {
+		if (binomial == null
+				|| binomial.getNumberOfTrials() != param
 				|| binomial.getProbabilityOfSuccess() != param2) {
 			binomial = new BinomialDistribution(param, param2);
 		}
@@ -327,8 +336,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @return Zipf distribution
 	 */
 	ZipfDistribution getZipfDistribution(int param, double param2) {
-		if (zipf == null || zipf.getNumberOfElements() != param
-				|| zipf.getExponent() != param2) {
+		if (zipf == null || zipf.getNumberOfElements() != param || zipf.getExponent() != param2) {
 			zipf = new ZipfDistribution(param, param2);
 		}
 		return zipf;
@@ -360,33 +368,32 @@ public abstract class AlgoDistribution extends AlgoElement {
 
 	private RealDistribution newDistribution(Dist dist, double param, double param2) {
 		switch (dist) {
-		case GAMMA:
-			return new GammaDistribution(param, param2);
-		case BETA:
-			return new BetaDistribution(param, param2);
-		case CAUCHY:
-			return new CauchyDistribution(param, param2);
-		case F:
-			return new FDistribution(param, param2) {
+			case GAMMA:
+				return new GammaDistribution(param, param2);
+			case BETA:
+				return new BetaDistribution(param, param2);
+			case CAUCHY:
+				return new CauchyDistribution(param, param2);
+			case F:
+				return new FDistribution(param, param2) {
 
-				@Override
-				public double density(double d) {
-					return d < 0 ? 0 : super.density(d);
-				}
-			};
-		case WEIBULL:
-			return new WeibullDistribution(param, param2);
-		case NORMAL:
-			return new NormalDistribution(param, param2);
-		case CHISQUARE:
-			return new ChiSquaredDistribution(param);
-		case STUDENT:
-			return new TDistribution(param);
-		case EXPONENTIAL:
-			return new ExponentialDistribution(1.0 / param);
-		default:
-			throw new IllegalStateException("Invalid distribution");
+					@Override
+					public double density(double d) {
+						return d < 0 ? 0 : super.density(d);
+					}
+				};
+			case WEIBULL:
+				return new WeibullDistribution(param, param2);
+			case NORMAL:
+				return new NormalDistribution(param, param2);
+			case CHISQUARE:
+				return new ChiSquaredDistribution(param);
+			case STUDENT:
+				return new TDistribution(param);
+			case EXPONENTIAL:
+				return new ExponentialDistribution(1.0 / param);
+			default:
+				throw new IllegalStateException("Invalid distribution");
 		}
 	}
-
 }

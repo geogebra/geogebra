@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 /**
  * Algorithm for searching in text or list
- * 
+ *
  * @author Zbynek Konecny
  */
 public class AlgoIndexOf extends AlgoElement {
@@ -39,7 +39,7 @@ public class AlgoIndexOf extends AlgoElement {
 
 	/**
 	 * Creates new index of algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -49,8 +49,7 @@ public class AlgoIndexOf extends AlgoElement {
 	 * @param hayStack
 	 *            GeoList or GeoText in which we want to search
 	 */
-	public AlgoIndexOf(Construction cons, String label, GeoElement needle,
-			GeoElement hayStack) {
+	public AlgoIndexOf(Construction cons, String label, GeoElement needle, GeoElement hayStack) {
 		super(cons);
 
 		this.hayStack = hayStack;
@@ -65,7 +64,7 @@ public class AlgoIndexOf extends AlgoElement {
 
 	/**
 	 * Creates new index of algorithm
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 * @param label
@@ -77,8 +76,12 @@ public class AlgoIndexOf extends AlgoElement {
 	 * @param start
 	 *            start index (1 means "search from beginning")
 	 */
-	public AlgoIndexOf(Construction cons, String label, GeoElement needle,
-			GeoElement hayStack, GeoNumberValue start) {
+	public AlgoIndexOf(
+			Construction cons,
+			String label,
+			GeoElement needle,
+			GeoElement hayStack,
+			GeoNumberValue start) {
 		super(cons);
 
 		this.hayStack = hayStack;
@@ -116,7 +119,7 @@ public class AlgoIndexOf extends AlgoElement {
 
 	/**
 	 * Returns the resulting index
-	 * 
+	 *
 	 * @return the resulting index
 	 */
 	public GeoNumeric getResult() {
@@ -158,5 +161,4 @@ public class AlgoIndexOf extends AlgoElement {
 			}
 		}
 	}
-
 }

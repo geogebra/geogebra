@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
- * 
+ *
  * @author Markus
  */
 public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
@@ -86,8 +86,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 	 */
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircle();
 		}
@@ -95,8 +94,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		// It's OK to return null here since no constraint must be set:
 		return null;
 	}
@@ -121,10 +119,13 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
-		return getLoc().getPlainDefault("CircleThroughAwithCenterB",
-				"Circle through %0 with center %1",
-				getP().getLabel(tpl), getM().getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"CircleThroughAwithCenterB",
+						"Circle through %0 with center %1",
+						getP().getLabel(tpl),
+						getM().getLabel(tpl));
 	}
 }

@@ -72,8 +72,7 @@ public interface CellFormatInterface {
 	 * @param shiftAmount displacement in given direction (must be non-negative)
 	 * @param direction direction of the shift
 	 */
-	void shiftFormats(int startIndex, int shiftAmount,
-			Direction direction);
+	void shiftFormats(int startIndex, int shiftAmount, Direction direction);
 
 	/**
 	 * Set format property of a cell.
@@ -89,5 +88,4 @@ public interface CellFormatInterface {
 	 * @param table spreadsheet table
 	 */
 	void setTable(HasTableSelection table);
-
 }

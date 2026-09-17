@@ -56,8 +56,8 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 *            true for monochrome
 	 * @return base64 encoded PNG
 	 */
-	final public synchronized String getPNGBase64(double exportScale,
-			boolean transparent, double DPI, boolean greyscale) {
+	public final synchronized String getPNGBase64(
+			double exportScale, boolean transparent, double DPI, boolean greyscale) {
 		return getPNGBase64(exportScale, transparent, DPI, false, greyscale);
 	}
 
@@ -65,8 +65,11 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
 	 */
 	@Override
-	final public synchronized String getPNGBase64(double preferredScale,
-			boolean transparent, double DPI, boolean copyToClipboard,
+	public final synchronized String getPNGBase64(
+			double preferredScale,
+			boolean transparent,
+			double DPI,
+			boolean copyToClipboard,
 			boolean greyscale) {
 		double exportScale = preferredScale;
 		EuclidianView ev = app.getActiveEuclidianView();
@@ -79,15 +82,12 @@ public abstract class GgbAPIJre extends GgbAPI {
 
 				if (exportScale == 0 || Double.isNaN(exportScale)) {
 					// calculate so that we get 1:1 scale
-					exportScale = ev.getPrintingScale() * DPI / 2.54
-							/ ev.getXscale();
-
+					exportScale = ev.getPrintingScale() * DPI / 2.54 / ev.getXscale();
 				}
 
 				exportPNGClipboard(transparent, (int) DPI, exportScale, ev);
 			}
 			return "";
-
 		}
 
 		return base64encodePNG(transparent, DPI, exportScale, ev);
@@ -97,7 +97,6 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 * Opens construction given in XML format. May be used for loading
 	 * constructions.
 	 */
-
 	@Override
 	public void setBase64(String base64) {
 		byte[] zipFile;
@@ -108,7 +107,6 @@ public abstract class GgbAPIJre extends GgbAPI {
 			return;
 		}
 		app.loadXML(new ByteArrayZipFile(zipFile));
-
 	}
 
 	/**
@@ -118,8 +116,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 	public String getBase64(boolean includeThumbnail) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			((MyXMLioJre) app.getXMLio()).writeGeoGebraFile(baos,
-					includeThumbnail);
+			((MyXMLioJre) app.getXMLio()).writeGeoGebraFile(baos, includeThumbnail);
 			return Base64.encodeToString(baos.toByteArray(), false);
 		} catch (IOException e) {
 			Log.debug(e);
@@ -147,8 +144,8 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 * @param ev
 	 *            view
 	 */
-	abstract protected void exportPNGClipboard(boolean transparent, int DPI,
-			double exportScale, EuclidianView ev);
+	protected abstract void exportPNGClipboard(
+			boolean transparent, int DPI, double exportScale, EuclidianView ev);
 
 	/**
 	 * @param exportScale
@@ -158,8 +155,8 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 * @param ev
 	 *            view
 	 */
-	abstract protected void exportPNGClipboardDPIisNaN(boolean transparent,
-			double exportScale, EuclidianView ev);
+	protected abstract void exportPNGClipboardDPIisNaN(
+			boolean transparent, double exportScale, EuclidianView ev);
 
 	/**
 	 * @param exportScale
@@ -172,8 +169,8 @@ public abstract class GgbAPIJre extends GgbAPI {
 	 *            view
 	 * @return base64 encoded PNG
 	 */
-	abstract protected String base64encodePNG(boolean transparent, double DPI,
-			double exportScale, EuclidianView ev);
+	protected abstract String base64encodePNG(
+			boolean transparent, double DPI, double exportScale, EuclidianView ev);
 
 	/**
 	 * pops up message dialog with "OK" and "Stop Script"

@@ -32,8 +32,7 @@ class TableUtilTests extends BaseAppTestSetup {
 	void getColumnHeaderForXColumn() {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}");
-		AttributedString columnHeader = TableUtil.getColumnHeader(
-				tableValues.getTableValuesModel(), 0);
+		AttributedString columnHeader = TableUtil.getColumnHeader(tableValues.getTableValuesModel(), 0);
 		assertEquals("x", columnHeader.getRawValue());
 		assertTrue(columnHeader.getAttribute(AttributedString.Attribute.Subscript).isEmpty());
 	}
@@ -42,11 +41,10 @@ class TableUtilTests extends BaseAppTestSetup {
 	void getColumnHeaderForY1Column() {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5, 6, 7, 8}");
-		AttributedString columnHeader = TableUtil.getColumnHeader(
-				tableValues.getTableValuesModel(), 1);
+		AttributedString columnHeader = TableUtil.getColumnHeader(tableValues.getTableValuesModel(), 1);
 		assertEquals("y1", columnHeader.getRawValue());
-		assertEquals(Set.of(new Range(1, 2)),
-				columnHeader.getAttribute(AttributedString.Attribute.Subscript));
+		assertEquals(
+				Set.of(new Range(1, 2)), columnHeader.getAttribute(AttributedString.Attribute.Subscript));
 	}
 
 	@Test
@@ -66,8 +64,8 @@ class TableUtilTests extends BaseAppTestSetup {
 		AttributedString columnHeader = TableUtil.getLabeledColumnHeader(
 				tableValues.getTableValuesModel(), 1, false, getApp().getLocalization());
 		assertEquals("Column y1", columnHeader.getRawValue());
-		assertEquals(Set.of(new Range(8, 9)),
-				columnHeader.getAttribute(AttributedString.Attribute.Subscript));
+		assertEquals(
+				Set.of(new Range(8, 9)), columnHeader.getAttribute(AttributedString.Attribute.Subscript));
 	}
 
 	@Test
@@ -77,8 +75,8 @@ class TableUtilTests extends BaseAppTestSetup {
 		AttributedString columnHeader = TableUtil.getLabeledColumnHeader(
 				tableValues.getTableValuesModel(), 1, true, getApp().getLocalization());
 		assertEquals("Column x y1", columnHeader.getRawValue());
-		assertEquals(Set.of(new Range(10, 11)),
-				columnHeader.getAttribute(AttributedString.Attribute.Subscript));
+		assertEquals(
+				Set.of(new Range(10, 11)), columnHeader.getAttribute(AttributedString.Attribute.Subscript));
 	}
 
 	@Test
@@ -97,7 +95,9 @@ class TableUtilTests extends BaseAppTestSetup {
 		attributedString.add(AttributedString.Attribute.Subscript, new Range(17, 19));
 		attributedString.add(AttributedString.Attribute.Subscript, new Range(20, 21));
 		attributedString.add(AttributedString.Attribute.Subscript, new Range(26, 27));
-		assertEquals("6CO<sub>2</sub> + 6H<sub>2</sub>O → C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>"
-						+ " + 6O<sub>2</sub>", TableUtil.toHtml(attributedString));
+		assertEquals(
+				"6CO<sub>2</sub> + 6H<sub>2</sub>O → C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>"
+						+ " + 6O<sub>2</sub>",
+				TableUtil.toHtml(attributedString));
 	}
 }

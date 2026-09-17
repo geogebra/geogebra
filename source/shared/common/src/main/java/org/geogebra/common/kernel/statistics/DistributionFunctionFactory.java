@@ -47,8 +47,8 @@ public class DistributionFunctionFactory {
 	 *            whether to use &lt; or &lt;=
 	 * @return function If[x &lt; border, 0, 0]
 	 */
-	public static GeoFunction zeroWhenLessThan(ExpressionValue border,
-			Construction cons, boolean sharp) {
+	public static GeoFunction zeroWhenLessThan(
+			ExpressionValue border, Construction cons, boolean sharp) {
 		Kernel kernel = cons.getKernel();
 		FunctionVariable fv = new FunctionVariable(kernel);
 		ExpressionNode en = fv.wrap()

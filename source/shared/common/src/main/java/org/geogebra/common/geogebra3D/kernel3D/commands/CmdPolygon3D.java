@@ -32,33 +32,34 @@ public class CmdPolygon3D extends CmdPolygon {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
 	public CmdPolygon3D(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
-	protected GeoElement[] process(Command c, int n, GeoElement[] arg)
-			throws MyError {
+	protected GeoElement[] process(Command c, int n, GeoElement[] arg) throws MyError {
 
 		if (n == 4) {
 			// regular polygon with direction
-			if (arg[0].isGeoPoint() && arg[1].isGeoPoint()
+			if (arg[0].isGeoPoint()
+					&& arg[1].isGeoPoint()
 					&& arg[2] instanceof GeoNumberValue
 					&& arg[3] instanceof GeoDirectionND) {
-				return regularPolygon(c.getLabels(), (GeoPointND) arg[0],
-						(GeoPointND) arg[1], (GeoNumberValue) arg[2],
+				return regularPolygon(
+						c.getLabels(),
+						(GeoPointND) arg[0],
+						(GeoPointND) arg[1],
+						(GeoNumberValue) arg[2],
 						(GeoDirectionND) arg[3]);
 			}
 		}
 
 		// use super method
 		return super.process(c, n, arg);
-
 	}
 
 	@Override
@@ -71,8 +72,7 @@ public class CmdPolygon3D extends CmdPolygon {
 	}
 
 	@Override
-	protected GeoElement[] polygon(String[] labels, GeoPointND[] points,
-			boolean is3D) {
+	protected GeoElement[] polygon(String[] labels, GeoPointND[] points, boolean is3D) {
 
 		// if one point is 3D, use 3D algo
 		if (is3D) {
@@ -84,8 +84,8 @@ public class CmdPolygon3D extends CmdPolygon {
 	}
 
 	@Override
-	protected GeoElement[] regularPolygon(String[] labels, GeoPointND A,
-			GeoPointND B, GeoNumberValue n) {
+	protected GeoElement[] regularPolygon(
+			String[] labels, GeoPointND A, GeoPointND B, GeoNumberValue n) {
 
 		if (A.isGeoElement3D() || B.isGeoElement3D()) {
 			return regularPolygon(labels, A, B, n, kernel.getXOYPlane());
@@ -94,11 +94,9 @@ public class CmdPolygon3D extends CmdPolygon {
 		return super.regularPolygon(labels, A, B, n);
 	}
 
-	private GeoElement[] regularPolygon(String[] labels, GeoPointND A,
-			GeoPointND B, GeoNumberValue n, GeoDirectionND direction) {
+	private GeoElement[] regularPolygon(
+			String[] labels, GeoPointND A, GeoPointND B, GeoNumberValue n, GeoDirectionND direction) {
 
-		return kernel.getManager3D().regularPolygon(labels, A, B, n,
-				direction);
-
+		return kernel.getManager3D().regularPolygon(labels, A, B, n, direction);
 	}
 }

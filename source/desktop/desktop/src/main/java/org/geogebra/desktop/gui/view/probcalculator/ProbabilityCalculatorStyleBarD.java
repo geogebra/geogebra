@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,9 +34,9 @@ import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * StyleBar for the ProbabilityCalculator view
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
 public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBar
 		implements ActionListener {
@@ -60,8 +60,7 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 	 * @param probCalc
 	 *            probability calculator
 	 */
-	public ProbabilityCalculatorStyleBarD(AppD app,
-			ProbabilityCalculatorViewD probCalc) {
+	public ProbabilityCalculatorStyleBarD(AppD app, ProbabilityCalculatorViewD probCalc) {
 		super(app, probCalc);
 		this.wrappedToolbar = new JToolBar();
 
@@ -97,19 +96,13 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 
 		wrappedToolbar.removeAll();
 
-		btnLineGraph = new ToggleButtonD(
-				getScaledIcon(GuiResourcesD.LINE_GRAPH),
-				iconHeight);
+		btnLineGraph = new ToggleButtonD(getScaledIcon(GuiResourcesD.LINE_GRAPH), iconHeight);
 		btnLineGraph.addActionListener(this);
 
-		btnStepGraph = new ToggleButtonD(
-				getScaledIcon(GuiResourcesD.STEP_GRAPH),
-				iconHeight);
+		btnStepGraph = new ToggleButtonD(getScaledIcon(GuiResourcesD.STEP_GRAPH), iconHeight);
 		btnStepGraph.addActionListener(this);
 
-		btnBarGraph = new ToggleButtonD(
-				getScaledIcon(GuiResourcesD.BAR_GRAPH),
-				iconHeight);
+		btnBarGraph = new ToggleButtonD(getScaledIcon(GuiResourcesD.BAR_GRAPH), iconHeight);
 		btnBarGraph.addActionListener(this);
 
 		ButtonGroup gp = new ButtonGroup();
@@ -118,15 +111,12 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		gp.add(btnStepGraph);
 
 		// create export button
-		btnExport = new ToggleButtonD(
-				getScaledIcon(GuiResourcesD.EXPORT16), iconHeight);
+		btnExport = new ToggleButtonD(getScaledIcon(GuiResourcesD.EXPORT16), iconHeight);
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
 		// create normal overlay button
-		btnNormalOverlay = new ToggleButtonD(
-				getScaledIcon(GuiResourcesD.NORMAL_OVERLAY),
-				iconHeight);
+		btnNormalOverlay = new ToggleButtonD(getScaledIcon(GuiResourcesD.NORMAL_OVERLAY), iconHeight);
 		btnNormalOverlay.setFocusable(false);
 		btnNormalOverlay.addActionListener(this);
 	}
@@ -170,12 +160,9 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 		btnBarGraph.removeActionListener(this);
 		btnNormalOverlay.removeActionListener(this);
 
-		btnLineGraph.setSelected(getProbCalc()
-				.getGraphType() == ProbabilityCalculatorView.GRAPH_LINE);
-		btnStepGraph.setSelected(getProbCalc()
-				.getGraphType() == ProbabilityCalculatorView.GRAPH_STEP);
-		btnBarGraph.setSelected(getProbCalc()
-				.getGraphType() == ProbabilityCalculatorView.GRAPH_BAR);
+		btnLineGraph.setSelected(getProbCalc().getGraphType() == ProbabilityCalculatorView.GRAPH_LINE);
+		btnStepGraph.setSelected(getProbCalc().getGraphType() == ProbabilityCalculatorView.GRAPH_STEP);
+		btnBarGraph.setSelected(getProbCalc().getGraphType() == ProbabilityCalculatorView.GRAPH_BAR);
 
 		btnNormalOverlay.setSelected(getProbCalc().isShowNormalOverlay());
 		btnNormalOverlay.setVisible(getProbCalc().isOverlayDefined());
@@ -201,35 +188,24 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnLineGraph) {
 			if (btnLineGraph.isSelected()) {
-				getProbCalc()
-						.setGraphType(ProbabilityCalculatorView.GRAPH_LINE);
+				getProbCalc().setGraphType(ProbabilityCalculatorView.GRAPH_LINE);
 			}
-		}
-
-		else if (e.getSource() == btnBarGraph) {
+		} else if (e.getSource() == btnBarGraph) {
 			if (btnBarGraph.isSelected()) {
 				getProbCalc().setGraphType(ProbabilityCalculatorView.GRAPH_BAR);
 			}
-		}
-
-		else if (e.getSource() == btnStepGraph) {
+		} else if (e.getSource() == btnStepGraph) {
 			if (btnStepGraph.isSelected()) {
-				getProbCalc()
-						.setGraphType(ProbabilityCalculatorView.GRAPH_STEP);
+				getProbCalc().setGraphType(ProbabilityCalculatorView.GRAPH_STEP);
 			}
-		}
-
-		else if (e.getSource() == btnNormalOverlay) {
+		} else if (e.getSource() == btnNormalOverlay) {
 			getProbCalc().setShowNormalOverlay(btnNormalOverlay.isSelected());
 			getProbCalc().updateAll(false);
-		}
-
-		else if (e.getSource() == btnExport) {
-			JPopupMenu menu = ((ProbabilityCalculatorViewD) getProbCalc())
-					.getPlotPanel().getContextMenu();
-			menu.show(btnExport,
-					-menu.getPreferredSize().width + btnExport.getWidth(),
-					btnExport.getHeight());
+		} else if (e.getSource() == btnExport) {
+			JPopupMenu menu =
+					((ProbabilityCalculatorViewD) getProbCalc()).getPlotPanel().getContextMenu();
+			menu.show(
+					btnExport, -menu.getPreferredSize().width + btnExport.getWidth(), btnExport.getHeight());
 		}
 	}
 
@@ -239,5 +215,4 @@ public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBa
 	public JToolBar getWrappedToolbar() {
 		return wrappedToolbar;
 	}
-
 }

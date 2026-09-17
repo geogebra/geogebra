@@ -56,7 +56,7 @@ public class AccessibilityView implements View {
 	private final Map<GeoElement, AccessibleWidget> widgets;
 	private final AppW app;
 	private AccessibleGraphicsView graphicsView3D;
-	private final static List<String> ALT_TEXT_LABELS =
+	private static final List<String> ALT_TEXT_LABELS =
 			Arrays.asList("altText", "altText1", "altText2", "altText3D");
 
 	/**
@@ -117,7 +117,7 @@ public class AccessibilityView implements View {
 			control = new AccessibleInputBox((GeoInputBox) geo, app);
 		} else if (geo instanceof GeoList && ((GeoList) geo).drawAsComboBox()) {
 			control = new AccessibleDropDown((GeoList) geo, app, this, sliderFactory);
-		} else  {
+		} else {
 			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}
 		return control;
@@ -126,7 +126,7 @@ public class AccessibilityView implements View {
 	private AccessibleWidget getPreviousWidget(GeoElement geo) {
 		AccessibleWidget prevWidget;
 		ArrayList<GeoElement> accessibleGeos = new ArrayList<>();
-		for (String label: ALT_TEXT_LABELS) {
+		for (String label : ALT_TEXT_LABELS) {
 			if (app.getKernel().lookupLabel(label) != null) {
 				accessibleGeos.add(app.getKernel().lookupLabel(label));
 			}
@@ -144,7 +144,8 @@ public class AccessibilityView implements View {
 		if (geo.getLabelSimple() != null && ALT_TEXT_LABELS.contains(geo.getLabelSimple())) {
 			return true;
 		}
-		if (!geo.isEuclidianVisible() || !geo.isSelectionAllowed(null)
+		if (!geo.isEuclidianVisible()
+				|| !geo.isSelectionAllowed(null)
 				|| geo.getLabelSimple() == null) {
 			return false;
 		}
@@ -308,17 +309,17 @@ public class AccessibilityView implements View {
 		Element el = range.getElement();
 		String label = el.getAttribute("aria-label");
 		el.removeAttribute("aria-label");
-		el.setAttribute("aria-valuetext",
+		el.setAttribute(
+				"aria-valuetext",
 				app.getKernel().format(value, StringTemplate.screenReaderAscii) + " " + unit);
-		DomGlobal.setTimeout(ignore -> el.setAttribute("aria-label", label),
-				1000);
+		DomGlobal.setTimeout(ignore -> el.setAttribute("aria-label", label), 1000);
 	}
 
 	/**
 	 * Close all dropdowns
 	 */
 	public void closeAllDropdowns() {
-		for (AccessibleWidget widget: widgets.values()) {
+		for (AccessibleWidget widget : widgets.values()) {
 			if (widget instanceof AccessibleDropDown) {
 				((AccessibleDropDown) widget).close();
 			}

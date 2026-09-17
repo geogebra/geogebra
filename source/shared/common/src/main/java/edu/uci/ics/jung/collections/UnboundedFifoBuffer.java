@@ -52,8 +52,7 @@ import java.util.NoSuchElementException;
  * @version $Revision: 1.1 $ $Date: 2005/10/11 17:05:20 $
  * @since Commons Collections 3.0 (previously in main package v2.1)
  */
-public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
-		implements Buffer<E> {
+public class UnboundedFifoBuffer<E> extends AbstractCollection<E> implements Buffer<E> {
 
 	/**
 	 * The array of objects in the buffer.
@@ -91,8 +90,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 */
 	public UnboundedFifoBuffer(int initialSize) {
 		if (initialSize <= 0) {
-			throw new IllegalArgumentException(
-					"The size must be greater than 0");
+			throw new IllegalArgumentException("The size must be greater than 0");
 		}
 		buffer = (E[]) new Object[initialSize + 1];
 		head = 0;
@@ -140,15 +138,14 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	@Override
 	public boolean add(final E obj) {
 		if (obj == null) {
-			throw new NullPointerException(
-					"Attempted to add null object to buffer");
+			throw new NullPointerException("Attempted to add null object to buffer");
 		}
 
 		if (size() + 1 >= buffer.length) {
 			E[] tmp = (E[]) new Object[((buffer.length - 1) * 2) + 1];
 
 			int j = 0;
-			for (int i = head; i != tail;) {
+			for (int i = head; i != tail; ) {
 				tmp[j] = buffer[i];
 				buffer[i] = null;
 
@@ -260,7 +257,6 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 			@Override
 			public boolean hasNext() {
 				return index != tail;
-
 			}
 
 			@Override
@@ -303,8 +299,6 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 				buffer[tail] = null;
 				index = decrement(index);
 			}
-
 		};
 	}
-
 }

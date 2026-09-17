@@ -46,8 +46,7 @@ public class LayerProperty extends AbstractNamedEnumeratedProperty<Integer> {
 		}
 		this.element = element;
 
-		setValues(IntStream
-				.range(0, EuclidianStyleConstants.MAX_LAYERS + 1)
+		setValues(IntStream.range(0, EuclidianStyleConstants.MAX_LAYERS + 1)
 				.boxed()
 				.collect(Collectors.toUnmodifiableList()));
 	}

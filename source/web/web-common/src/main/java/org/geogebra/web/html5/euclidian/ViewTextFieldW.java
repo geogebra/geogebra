@@ -39,10 +39,9 @@ public class ViewTextFieldW extends ViewTextField {
 		this.euclidianView = euclidianView;
 	}
 
-	private AutoCompleteTextFieldW newAutoCompleteTextField(int length,
-			Drawable drawTextField) {
-		AutoCompleteTextFieldW textFieldW = new AutoCompleteTextFieldW(length,
-				this.euclidianView.getApplication(), drawTextField);
+	private AutoCompleteTextFieldW newAutoCompleteTextField(int length, Drawable drawTextField) {
+		AutoCompleteTextFieldW textFieldW =
+				new AutoCompleteTextFieldW(length, this.euclidianView.getApplication(), drawTextField);
 		return textFieldW;
 	}
 
@@ -73,14 +72,13 @@ public class ViewTextFieldW extends ViewTextField {
 	public void setBoxBounds(GRectangle bounds) {
 		ensureBoxExists();
 		if (box.getParent() != null) {
-			((AbsolutePanel) box.getParent()).setWidgetPosition(box,
-					(int) bounds.getMinX(), (int) bounds.getMinY());
+			((AbsolutePanel) box.getParent())
+					.setWidgetPosition(box, (int) bounds.getMinX(), (int) bounds.getMinY());
 		}
 	}
 
 	@Override
-	public AutoCompleteTextField getTextField(int length,
-			DrawInputBox drawInputBox) {
+	public AutoCompleteTextField getTextField(int length, DrawInputBox drawInputBox) {
 		if (textField == null) {
 			textField = newAutoCompleteTextField(length, drawInputBox);
 			textField.setAutoComplete(false);

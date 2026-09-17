@@ -19,10 +19,7 @@ package org.geogebra.common.kernel.geos;
 /**
  * Interface to unify object types that allow evaluation with CAS commands, like
  * getting the derivative of a GeoFunction or GeoCurveCartesian.
- * 
+ *
  * @author Markus Hohenwarter
  */
-public interface CasEvaluableFunction
-		extends AlgebraicExpression {
-
-}
+public interface CasEvaluableFunction extends AlgebraicExpression {}

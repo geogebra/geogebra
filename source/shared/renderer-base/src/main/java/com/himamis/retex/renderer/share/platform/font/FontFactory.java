@@ -29,8 +29,8 @@ public abstract class FontFactory {
 
 	public abstract Font createFont(String name, int style, int size);
 
-	public abstract TextLayout createTextLayout(String string, Font font,
-			FontRenderContext fontRenderContext);
+	public abstract TextLayout createTextLayout(
+			String string, Font font, FontRenderContext fontRenderContext);
 
 	public abstract TextAttributeProvider createTextAttributeProvider();
 
@@ -39,12 +39,10 @@ public abstract class FontFactory {
 	/**
 	 * overridden in desktop to avoid bad shapes in SVG export
 	 * https://github.com/opencollab/jlatexmath/issues/32
-	 * 
+	 *
 	 * @return scale factor
 	 */
 	public int getFontScaleFactor() {
 		return 1;
-
 	}
-
 }

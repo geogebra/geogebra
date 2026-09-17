@@ -61,8 +61,7 @@ public class CursorOverlay extends FlowPanel {
 		if (offset < 0) {
 			getElement().setScrollLeft(prefix.getOffsetWidth() - scrollPadding);
 		} else if (offset > this.getOffsetWidth() - scrollPadding) {
-			getElement().setScrollLeft(prefix.getOffsetWidth()
-					- this.getOffsetWidth() + scrollPadding);
+			getElement().setScrollLeft(prefix.getOffsetWidth() - this.getOffsetWidth() + scrollPadding);
 		}
 	}
 
@@ -71,8 +70,7 @@ public class CursorOverlay extends FlowPanel {
 	 * @param alignment to set.
 	 */
 	public void setHorizontalAlignment(HorizontalAlignment alignment) {
-		getElement().getStyle().setProperty("justifyContent",
-				alignment.toString());
+		getElement().getStyle().setProperty("justifyContent", alignment.toString());
 	}
 
 	/**

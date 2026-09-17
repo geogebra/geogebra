@@ -27,7 +27,7 @@ import org.geogebra.common.main.MyError;
 
 /**
  * LeftSide[equation] RightSide[equation]
- * 
+ *
  * @author Zbynek Konecny
  *
  */
@@ -35,7 +35,7 @@ public class CmdLeftRightSide extends CommandProcessor {
 	private boolean left;
 
 	/**
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param left
@@ -58,10 +58,8 @@ public class CmdLeftRightSide extends CommandProcessor {
 			throw argErr(c, args[0]);
 		}
 
-		AlgoLeftRightSide algo = new AlgoLeftRightSide(cons, c.getLabel(),
-				args[0], left);
+		AlgoLeftRightSide algo = new AlgoLeftRightSide(cons, c.getLabel(), args[0], left);
 
-		return new GeoElement[] { algo.getResult() };
+		return new GeoElement[] {algo.getResult()};
 	}
-
 }

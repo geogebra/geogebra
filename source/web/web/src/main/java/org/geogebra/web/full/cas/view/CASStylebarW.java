@@ -96,8 +96,7 @@ public final class CASStylebarW extends StyleBarW {
 		addFastClickHandler(btnUseAsText, this::applyUseAsTextKeepEditing);
 		btnUseAsText.addStyleName("btnUseAsText");
 
-		btnTextColor = new ColorPopupMenuButton(app,
-				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+		btnTextColor = new ColorPopupMenuButton(app, ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
@@ -117,8 +116,7 @@ public final class CASStylebarW extends StyleBarW {
 
 			@Override
 			public ImageOrText getButtonIcon() {
-				return new ImageOrText(
-						MaterialDesignResources.INSTANCE.text_color(), 24);
+				return new ImageOrText(MaterialDesignResources.INSTANCE.text_color(), 24);
 			}
 		};
 		btnTextColor.setEnableTable(true);
@@ -133,8 +131,7 @@ public final class CASStylebarW extends StyleBarW {
 				if (geosOK) {
 					GeoElement geo = geos.get(0).getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
-					btnBold.setSelected(style == GFont.BOLD
-							|| style == (GFont.BOLD + GFont.ITALIC));
+					btnBold.setSelected(style == GFont.BOLD || style == (GFont.BOLD + GFont.ITALIC));
 				}
 			}
 		};
@@ -150,8 +147,7 @@ public final class CASStylebarW extends StyleBarW {
 				if (geosOK) {
 					GeoElement geo = geos.get(0).getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
-					btnItalic.setSelected(style == GFont.ITALIC
-							|| style == (GFont.BOLD + GFont.ITALIC));
+					btnItalic.setSelected(style == GFont.ITALIC || style == (GFont.BOLD + GFont.ITALIC));
 				}
 			}
 		};
@@ -250,14 +246,14 @@ public final class CASStylebarW extends StyleBarW {
 	 * @return array of toggle buttons
 	 */
 	private ToggleButton[] newToggleBtnList() {
-		return new ToggleButton[] { btnBold, btnItalic, btnUseAsText };
+		return new ToggleButton[] {btnBold, btnItalic, btnUseAsText};
 	}
 
 	/**
 	 * @return array of popup buttons
 	 */
 	private PopupMenuButtonW[] newPopupBtnList() {
-		return new PopupMenuButtonW[] { btnTextColor };
+		return new PopupMenuButtonW[] {btnTextColor};
 	}
 
 	private void applyTextColor() {
@@ -267,9 +263,9 @@ public final class CASStylebarW extends StyleBarW {
 				GColor color = btnTextColor.getSelectedColor();
 				if (color == null) {
 					app.getSelectionManager().addSelectedGeo(geo);
-					((GuiManagerW) app.getGuiManager()).getPropertiesView(
-							OptionType.OBJECTS).setOptionPanel(
-							OptionType.OBJECTS, 3);
+					((GuiManagerW) app.getGuiManager())
+							.getPropertiesView(OptionType.OBJECTS)
+							.setOptionPanel(OptionType.OBJECTS, 3);
 					app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
 					return;
 				}

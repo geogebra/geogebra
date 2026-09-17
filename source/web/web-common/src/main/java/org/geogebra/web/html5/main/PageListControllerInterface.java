@@ -57,7 +57,7 @@ public interface PageListControllerInterface extends ActionExecutor {
 
 	/**
 	 * Load file that contains multiple slides; if it's a simple file do nothing
-	 * 
+	 *
 	 * @param archiveContent
 	 *            file to open
 	 * @return whether it was a multislide file
@@ -71,7 +71,7 @@ public interface PageListControllerInterface extends ActionExecutor {
 
 	/**
 	 * Select a slide
-	 * 
+	 *
 	 * @param slideID
 	 *            slide identifier
 	 */
@@ -87,7 +87,7 @@ public interface PageListControllerInterface extends ActionExecutor {
 
 	/**
 	 * Move source slide to target index
-	 * 
+	 *
 	 * @param i
 	 *            source
 	 * @param j

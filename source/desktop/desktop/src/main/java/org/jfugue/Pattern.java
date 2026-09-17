@@ -68,7 +68,7 @@ public class Pattern {
 
 	/**
 	 * Instantiates a new pattern using the given music string
-	 * 
+	 *
 	 * @param musicString
 	 *            the music string
 	 */
@@ -91,7 +91,7 @@ public class Pattern {
 	/**
 	 * This constructor creates a new Pattern that contains each of the given
 	 * patterns
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	public Pattern(Pattern... patterns) {
@@ -105,13 +105,12 @@ public class Pattern {
 	 * Creates a Pattern given a MIDI file - do not use. Note the Package scope,
 	 * limiting this method to be called only by JFugue. If you want to load
 	 * MIDI, use Player.loadMidi, which sets the sequence timing correctly.
-	 * 
+	 *
 	 * @param file
 	 * @throws IOException
 	 * @throws InvalidMidiDataException
 	 */
-	static Pattern loadMidi(File file)
-			throws IOException, InvalidMidiDataException {
+	static Pattern loadMidi(File file) throws IOException, InvalidMidiDataException {
 		MidiParser parser = new MidiParser();
 		MusicStringRenderer renderer = new MusicStringRenderer();
 		parser.addParserListener(renderer);
@@ -122,7 +121,7 @@ public class Pattern {
 
 	/**
 	 * Sets the music string kept by this pattern.
-	 * 
+	 *
 	 * @param musicString
 	 *            the music string
 	 */
@@ -133,7 +132,7 @@ public class Pattern {
 
 	/**
 	 * Adds to the music string kept by this pattern.
-	 * 
+	 *
 	 * @param appendString
 	 *            the music string to add
 	 */
@@ -143,7 +142,7 @@ public class Pattern {
 
 	/**
 	 * Returns the music string kept in this pattern
-	 * 
+	 *
 	 * @return the music string
 	 */
 	public String getMusicString() {
@@ -153,7 +152,7 @@ public class Pattern {
 	/**
 	 * Inserts a MusicString before this music string. NOTE - this does not call
 	 * fragmentAdded!
-	 * 
+	 *
 	 * @param musicString
 	 *            the string to insert
 	 */
@@ -164,7 +163,7 @@ public class Pattern {
 
 	/**
 	 * Adds an additional pattern to the end of this pattern.
-	 * 
+	 *
 	 * @param pattern
 	 *            the pattern to add
 	 */
@@ -176,7 +175,7 @@ public class Pattern {
 
 	/**
 	 * Adds a music string to the end of this pattern.
-	 * 
+	 *
 	 * @param musicString
 	 *            the music string to add
 	 */
@@ -186,7 +185,7 @@ public class Pattern {
 
 	/**
 	 * Adds an additional pattern to the end of this pattern.
-	 * 
+	 *
 	 * @param pattern
 	 *            the pattern to add
 	 */
@@ -200,7 +199,7 @@ public class Pattern {
 
 	/**
 	 * Adds a music string to the end of this pattern.
-	 * 
+	 *
 	 * @param musicString
 	 *            the music string to add
 	 */
@@ -210,7 +209,7 @@ public class Pattern {
 
 	/**
 	 * Adds a number of patterns sequentially
-	 * 
+	 *
 	 * @param patterns
 	 *            the music string to add
 	 * @version 4.0
@@ -223,7 +222,7 @@ public class Pattern {
 
 	/**
 	 * Adds a number of patterns sequentially
-	 * 
+	 *
 	 * @param musicStrings
 	 *            the music string to add
 	 * @version 4.0
@@ -238,7 +237,7 @@ public class Pattern {
 	 * Adds an individual element to the pattern. This takes into account the
 	 * possibility that the element may be a sequential or parallel note, in
 	 * which case no space is placed before it.
-	 * 
+	 *
 	 * @param element
 	 *            the element to add
 	 */
@@ -246,8 +245,7 @@ public class Pattern {
 		String elementMusicString = element.getMusicString();
 
 		// Don't automatically add a space if this is a continuing note event
-		if ((elementMusicString.charAt(0) == '+')
-				|| (elementMusicString.charAt(0) == '_')) {
+		if ((elementMusicString.charAt(0) == '+') || (elementMusicString.charAt(0) == '_')) {
 			appendMusicString(elementMusicString);
 		} else {
 			appendMusicString(" ");
@@ -259,7 +257,7 @@ public class Pattern {
 	/**
 	 * Sets the title for this Pattern. As of JFugue 4.0, the title is set as a
 	 * property with the key Pattern.TITLE
-	 * 
+	 *
 	 * @param title
 	 *            the title for this Pattern
 	 */
@@ -270,7 +268,7 @@ public class Pattern {
 	/**
 	 * Returns the title of this Pattern As of JFugue 4.0, the title is set as a
 	 * property with the key Pattern.TITLE
-	 * 
+	 *
 	 * @return the title of this Pattern
 	 */
 	public String getTitle() {
@@ -279,7 +277,7 @@ public class Pattern {
 
 	/**
 	 * Get a property on this pattern, such as "author" or "date".
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	public String getProperty(String key) {
@@ -288,7 +286,7 @@ public class Pattern {
 
 	/**
 	 * Set a property on this pattern, such as "author" or "date".
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	public void setProperty(String key, String value) {
@@ -297,7 +295,7 @@ public class Pattern {
 
 	/**
 	 * Get all properties set on this pattern, such as "author" or "date".
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	public Map<String, String> getProperties() {
@@ -308,7 +306,7 @@ public class Pattern {
 	 * Repeats the music string in this pattern by the given number of times.
 	 * Example: If the pattern is "A B", calling <code>repeat(4)</code> will
 	 * make the pattern "A B A B A B A B".
-	 * 
+	 *
 	 * @version 3.0
 	 */
 	public void repeat(int times) {
@@ -321,13 +319,12 @@ public class Pattern {
 	 * specified once in a repeated pattern. Example: If the pattern is "T0 A B"
 	 * , calling <code>repeat(4, 3)</code> will make the pattern
 	 * "T0 A B A B A B A B".
-	 * 
+	 *
 	 * @version 3.0
 	 */
 	public void repeat(int times, int beginIndex) {
 		String string = getMusicString();
-		repeat(string.substring(0, beginIndex), string.substring(beginIndex),
-				times, null);
+		repeat(string.substring(0, beginIndex), string.substring(beginIndex), times, null);
 	}
 
 	/**
@@ -337,18 +334,19 @@ public class Pattern {
 	 * Example: If the pattern is "T0 A B C", calling
 	 * <code>repeat(4, 3, 5)</code> will make the pattern "T0 A B A B A B A B C"
 	 * .
-	 * 
+	 *
 	 * @version 3.0
 	 */
 	public void repeat(int times, int beginIndex, int endIndex) {
 		String string = getMusicString();
-		repeat(string.substring(0, beginIndex),
-				string.substring(beginIndex, endIndex), times,
+		repeat(
+				string.substring(0, beginIndex),
+				string.substring(beginIndex, endIndex),
+				times,
 				string.substring(endIndex));
 	}
 
-	private void repeat(String header, String repeater, int times,
-			String trailer) {
+	private void repeat(String header, String repeater, int times, String trailer) {
 		StringBuffer buffy = new StringBuffer();
 
 		// Add the header, if it exists
@@ -375,7 +373,7 @@ public class Pattern {
 
 	/**
 	 * Returns a new Pattern that is a subpattern of this pattern.
-	 * 
+	 *
 	 * @return subpattern of this pattern
 	 * @version 3.0
 	 */
@@ -385,7 +383,7 @@ public class Pattern {
 
 	/**
 	 * Returns a new Pattern that is a subpattern of this pattern.
-	 * 
+	 *
 	 * @return subpattern of this pattern
 	 * @version 3.0
 	 */
@@ -406,8 +404,7 @@ public class Pattern {
 
 		Pattern pattern = new Pattern();
 
-		BufferedReader bread = new BufferedReader(
-				new InputStreamReader(new FileInputStream(file)));
+		BufferedReader bread = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 		while (bread.ready()) {
 			String s = bread.readLine();
 			if ((s != null) && (s.length() > 1)) {
@@ -416,8 +413,7 @@ public class Pattern {
 					buffy.append(s);
 				} else {
 					String key = s.substring(1, s.indexOf(':')).trim();
-					String value = s.substring(s.indexOf(':') + 1, s.length())
-							.trim();
+					String value = s.substring(s.indexOf(':') + 1, s.length()).trim();
 					if (key.equalsIgnoreCase(TITLE)) {
 						pattern.setTitle(value);
 					} else {
@@ -434,7 +430,7 @@ public class Pattern {
 
 	/**
 	 * Saves the pattern as a text file
-	 * 
+	 *
 	 * @param file
 	 *            the filename to save under
 	 */
@@ -466,13 +462,11 @@ public class Pattern {
 		}
 		String musicString = getMusicString();
 		while (musicString.length() > 0) {
-			if ((musicString.length() > 80)
-					&& (musicString.indexOf(' ', 80) > -1)) {
+			if ((musicString.length() > 80) && (musicString.indexOf(' ', 80) > -1)) {
 				int indexOf80ColumnSpace = musicString.indexOf(' ', 80);
 				out.write(musicString.substring(0, indexOf80ColumnSpace));
 				out.newLine();
-				musicString = musicString.substring(indexOf80ColumnSpace,
-						musicString.length());
+				musicString = musicString.substring(indexOf80ColumnSpace, musicString.length());
 			} else {
 				out.write(musicString);
 				musicString = "";
@@ -502,7 +496,7 @@ public class Pattern {
 		}
 		String result = buddy.toString();
 		return result.substring(0, result.length() - 2); // Take off the last
-															// semicolon-space
+		// semicolon-space
 	}
 
 	/**
@@ -534,7 +528,7 @@ public class Pattern {
 	 * Changes all timestamp values by the offsetTime passed in. NOTE: This
 	 * method is only useful for patterns that have been converted from a MIDI
 	 * file.
-	 * 
+	 *
 	 * @param offsetTime
 	 */
 	public void offset(long offsetTime) {
@@ -542,8 +536,7 @@ public class Pattern {
 		String[] tokens = getMusicString().split(" ");
 		for (int i = 0; i < tokens.length; i++) {
 			if ((tokens[i].length() > 0) && (tokens[i].charAt(0) == '@')) {
-				String timeNumberString = tokens[i].substring(1,
-						tokens[i].length());
+				String timeNumberString = tokens[i].substring(1, tokens[i].length());
 				if (timeNumberString.indexOf("[") == -1) {
 					long timeNumber = Long.parseLong(timeNumberString);
 					long newTime = timeNumber + offsetTime;
@@ -564,12 +557,11 @@ public class Pattern {
 
 	/**
 	 * Returns an array of strings representing each token in the Pattern.
-	 * 
+	 *
 	 * @return
 	 */
 	public String[] getTokens() {
-		StringTokenizer strtok = new StringTokenizer(musicString.toString(),
-				" \n\t");
+		StringTokenizer strtok = new StringTokenizer(musicString.toString(), " \n\t");
 
 		List<String> list = new ArrayList<String>();
 		while (strtok.hasMoreTokens()) {
@@ -587,7 +579,7 @@ public class Pattern {
 	/**
 	 * Indicates whether the provided musicString is composed of valid elements
 	 * that can be parsed by the Parser.
-	 * 
+	 *
 	 * @param musicString
 	 *            the musicString to test
 	 * @return whether the musicString is valid

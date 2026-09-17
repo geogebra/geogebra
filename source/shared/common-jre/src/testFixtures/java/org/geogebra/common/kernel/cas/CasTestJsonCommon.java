@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -88,8 +88,7 @@ public abstract class CasTestJsonCommon {
 	}
 
 	protected static void addTestcases(String json) throws JSONException {
-		JSONArray testsJSON = new JSONArray(
-				json.substring("var __giac = ".length()));
+		JSONArray testsJSON = new JSONArray(json.substring("var __giac = ".length()));
 		assertNotSame(0, testsJSON.length());
 		int i = 1;
 
@@ -112,13 +111,12 @@ public abstract class CasTestJsonCommon {
 				testcases.put(cat, new ArrayList<>());
 			}
 			if (test.has("round")) {
-				testcases.get(cat).add(new CasTest(test.getString("cmd"),
-						test.getString("round"), null));
+				testcases.get(cat).add(new CasTest(test.getString("cmd"), test.getString("round"), null));
 			} else {
-				testcases.get(cat)
-						.add(new CasTest(test.getString("cmd"),
-								test.getString("result"),
-								test.optString("rounding")));
+				testcases
+						.get(cat)
+						.add(new CasTest(
+								test.getString("cmd"), test.getString("result"), test.optString("rounding")));
 			}
 		}
 	}
@@ -128,12 +126,12 @@ public abstract class CasTestJsonCommon {
 		String marker = "at character ";
 		int pos = msg.indexOf(marker);
 		if (pos > 0) {
-			String characterNo = msg.substring(pos + marker.length(),
-					msg.indexOf(" ", pos + marker.length()));
+			String characterNo =
+					msg.substring(pos + marker.length(), msg.indexOf(" ", pos + marker.length()));
 			int err = Integer.parseInt(characterNo);
 			int sampleLength = 50;
-			fail("JSON parsing error at '" + json.substring(err - sampleLength / 2,
-					err + sampleLength / 2) + "'");
+			fail("JSON parsing error at '"
+					+ json.substring(err - sampleLength / 2, err + sampleLength / 2) + "'");
 		} else {
 			fail(msg);
 		}
@@ -141,7 +139,8 @@ public abstract class CasTestJsonCommon {
 
 	protected static void checkMissingCategories() {
 		for (String key : Ggb2giac.getMap().keySet()) {
-			if (testcases != null && testcases.get(key) == null
+			if (testcases != null
+					&& testcases.get(key) == null
 					&& testcases.get(key.substring(0, key.indexOf("."))) == null
 					&& forCAS(key)
 					&& !"Binomial.2".equals(key)
@@ -154,9 +153,12 @@ public abstract class CasTestJsonCommon {
 	}
 
 	private static boolean forCAS(String key) {
-		return !"Cell.2".equals(key) && !"CellRange.2".equals(key)
-				&& !"Column.1".equals(key) && !"CopyFreeObject.1".equals(key)
-				&& !"Object.1".equals(key) && !"Row.1".equals(key)
+		return !"Cell.2".equals(key)
+				&& !"CellRange.2".equals(key)
+				&& !"Column.1".equals(key)
+				&& !"CopyFreeObject.1".equals(key)
+				&& !"Object.1".equals(key)
+				&& !"Row.1".equals(key)
 				&& !"Segment.2".equals(key);
 	}
 
@@ -184,14 +186,13 @@ public abstract class CasTestJsonCommon {
 		assertEquals("", failures.toString());
 	}
 
-	private static void t(StringBuilder failures, String input,
-			String expectedResult) {
+	private static void t(StringBuilder failures, String input, String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
 		ta(failures, input, validResults, validResults);
 	}
 
-	private static void ta(StringBuilder failures,
-			String input, String[] expectedResult, String... validResults) {
+	private static void ta(
+			StringBuilder failures, String input, String[] expectedResult, String... validResults) {
 		String result;
 
 		try {
@@ -208,16 +209,15 @@ public abstract class CasTestJsonCommon {
 			boolean includesNumericCommand = f.includesNumericCommand();
 			if (f.getValue() == null) {
 				result = f.getOutput(StringTemplate.testTemplate);
-			} else if (f.getValue()
-					.unwrap() instanceof GeoElement) {
-				result = f.getValue()
-						.toValueString(StringTemplate.testTemplateJSON);
+			} else if (f.getValue().unwrap() instanceof GeoElement) {
+				result = f.getValue().toValueString(StringTemplate.testTemplateJSON);
 			} else {
 				result = f.getValue()
 						.traverse(getGGBVectAdder())
-						.toString(includesNumericCommand
-								? StringTemplate.testNumeric
-								: StringTemplate.testTemplateJSON);
+						.toString(
+								includesNumericCommand
+										? StringTemplate.testNumeric
+										: StringTemplate.testTemplateJSON);
 			}
 		} catch (Exception | MyError t) {
 			String sts = stacktrace(t);
@@ -230,20 +230,26 @@ public abstract class CasTestJsonCommon {
 			}
 			try {
 				result = normalizeActual(result);
-				assertThat(result,
-						equalToIgnoreWhitespaces(logger, input,
-								normalizeExpected(expectedResult[i]),
-								validResults));
+				assertThat(
+						result,
+						equalToIgnoreWhitespaces(
+								logger, input, normalizeExpected(expectedResult[i]), validResults));
 				return;
 			} catch (Throwable t) {
 				if (i == expectedResult.length - 1) {
 					Log.debug(t);
-					String expected = expectedResult[0] == null ? "null"
-							: normalizeExpected(expectedResult[0]);
-					failures.append("\n  in: ").append(input)
-							.append("\n exp: ").append(expected)
-							.append("\n out: ").append(result)
-							.append("\n raw: ").append(toRaw(input)).append('\n');
+					String expected =
+							expectedResult[0] == null ? "null" : normalizeExpected(expectedResult[0]);
+					failures
+							.append("\n  in: ")
+							.append(input)
+							.append("\n exp: ")
+							.append(expected)
+							.append("\n out: ")
+							.append(result)
+							.append("\n raw: ")
+							.append(toRaw(input))
+							.append('\n');
 				}
 			}
 		}
@@ -251,7 +257,9 @@ public abstract class CasTestJsonCommon {
 
 	private static String toRaw(String input) {
 		try {
-			return app.getKernel().getParser().parseGeoGebraCAS(input, null)
+			return app.getKernel()
+					.getParser()
+					.parseGeoGebraCAS(input, null)
 					.toString(StringTemplate.giacTemplate);
 		} catch (ParseException e) {
 			Log.debug(e);
@@ -260,27 +268,26 @@ public abstract class CasTestJsonCommon {
 	}
 
 	private static String normalizeActual(String result) {
-		return result.replaceAll("c_[0-9]", "c_0")
+		return result
+				.replaceAll("c_[0-9]", "c_0")
 				.replaceAll("k_[0-9]", "k_0")
 				.replaceAll("c_\\{[0-9]+\\}", "c_0")
 				.replaceAll("k_\\{[0-9]+\\}", "k_0")
-				.replace("arccos", "acos").replace("arctan", "atan")
-				.replace("Wenn(", "If(").replace("arcsin", "asin")
+				.replace("arccos", "acos")
+				.replace("arctan", "atan")
+				.replace("Wenn(", "If(")
+				.replace("arcsin", "asin")
 				.replace("NteWurzel", "nroot");
 	}
 
 	private static String normalizeExpected(String s) {
-		return s.replaceAll("c_[0-9]+", "c_0")
-				.replaceAll("n_[0-9]+", "k_0");
+		return s.replaceAll("c_[0-9]+", "c_0").replaceAll("n_[0-9]+", "k_0");
 	}
 
 	private static Traversing getGGBVectAdder() {
 		return ev -> {
-			if (ev.unwrap() instanceof MyVecNDNode
-					&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {
-				return new Variable(kernel, "ggbvect").wrap()
-						.apply(Operation.FUNCTION, ev);
-
+			if (ev.unwrap() instanceof MyVecNDNode && ((MyVecNDNode) ev.unwrap()).isCASVector()) {
+				return new Variable(kernel, "ggbvect").wrap().apply(Operation.FUNCTION, ev);
 			}
 			return ev;
 		};
@@ -296,9 +303,11 @@ public abstract class CasTestJsonCommon {
 
 		for (int i = 0; i < 10 && i < st.length; i++) {
 			StackTraceElement stElement = st[i];
-			sts.append(stElement.getClassName()).append(":")
+			sts.append(stElement.getClassName())
+					.append(":")
 					.append(stElement.getMethodName())
-					.append(stElement.getLineNumber()).append("\n");
+					.append(stElement.getLineNumber())
+					.append("\n");
 		}
 		return sts.toString();
 	}
@@ -319,7 +328,8 @@ public abstract class CasTestJsonCommon {
 	}
 
 	protected void testCatNoWindows(String category) {
-		String os = System.getProperty("os.version");;
+		String os = System.getProperty("os.version");
+		;
 		if (os != null && StringUtil.toLowerCaseUS(os).startsWith("windows")) {
 			testCat(category);
 		} else {

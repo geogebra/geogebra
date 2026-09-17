@@ -27,8 +27,10 @@ public class CommandNotFoundError extends MyError {
 	 * @param command command
 	 */
 	public CommandNotFoundError(Localization loc, Command command) {
-		super(loc, loc.getError("UnknownCommand") + " : "
-						+ loc.getCommand(command.getName()), Errors.UnknownCommand);
+		super(
+				loc,
+				loc.getError("UnknownCommand") + " : " + loc.getCommand(command.getName()),
+				Errors.UnknownCommand);
 		commandName = command.getName();
 	}
 }

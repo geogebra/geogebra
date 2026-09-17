@@ -73,8 +73,7 @@ public final class EvaluatorExportedApi implements ExportedApi {
 	 */
 	public Object getEditorState() {
 		JsPropertyMap<Object> jsObject = JsPropertyMap.of();
-		ScriptManagerW
-				.addToJsObject(jsObject, evaluatorActivity.getEditorAPI().getEvaluatorValue());
+		ScriptManagerW.addToJsObject(jsObject, evaluatorActivity.getEditorAPI().getEvaluatorValue());
 
 		return jsObject;
 	}
@@ -100,8 +99,8 @@ public final class EvaluatorExportedApi implements ExportedApi {
 	 * @param settings e.g. {transparent: false, type: 'png'}
 	 * @param callback callback that receives the image
 	 */
-	public void exportImage(JsPropertyMap<String> settings,
-			MathFieldExporter.ImageConsumer callback) {
+	public void exportImage(
+			JsPropertyMap<String> settings, MathFieldExporter.ImageConsumer callback) {
 		String type = Js.isTruthy(settings) ? settings.get("type") : null;
 		evaluatorActivity.exportImage(type, Js.isTruthy(settings.get("transparent")), callback);
 	}
@@ -110,8 +109,8 @@ public final class EvaluatorExportedApi implements ExportedApi {
 	 * @param state new editor state
 	 */
 	public void setEditorState(Object state) {
-		String stateString = JsEval.isJSString(state) ? Js.asString(state)
-				: Global.JSON.stringify(state);
+		String stateString =
+				JsEval.isJSString(state) ? Js.asString(state) : Global.JSON.stringify(state);
 		evaluatorActivity.getEditorAPI().setEditorState(stateString);
 	}
 
@@ -136,5 +135,4 @@ public final class EvaluatorExportedApi implements ExportedApi {
 	public void closeKeyboard() {
 		evaluatorActivity.getEditor().forceKeyboardVisibility(false);
 	}
-
 }

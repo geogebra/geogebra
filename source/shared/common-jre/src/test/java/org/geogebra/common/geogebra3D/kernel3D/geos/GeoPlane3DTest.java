@@ -42,8 +42,7 @@ class GeoPlane3DTest extends BaseAppTestSetup {
 	void equationVectorShouldNotChange() {
 		GeoPlane3D plane = evaluateGeoElement("Plane((0,0,0),(-1,0,5),(3,2,-1))");
 		String expectedCoords = new Coords(-10.0, 14.0, -2.0, -0.0).toString();
-		assertEquals(expectedCoords,
-				plane.getCoordSys().getEquationVector().toString());
+		assertEquals(expectedCoords, plane.getCoordSys().getEquationVector().toString());
 		assertEquals("-5x + 7y - z=0", plane.toValueString(StringTemplate.editorTemplate));
 		assertEquals(expectedCoords, plane.getCoordSys().getEquationVector().toString());
 	}

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -72,16 +72,17 @@ import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * View for inspecting selected GeoFunc } else {tions
- * 
+ *
  * @author G. Sturr, 2011-2-12
- * 
+ *
  */
-
 public class FunctionInspectorD extends FunctionInspector
- implements
-		ListSelectionListener, KeyListener,
-		SpecialNumberFormatInterface, ActionListener, WindowFocusListener,
-		FocusListener {
+		implements ListSelectionListener,
+				KeyListener,
+				SpecialNumberFormatInterface,
+				ActionListener,
+				WindowFocusListener,
+				FocusListener {
 
 	// ggb fields
 	private JDialog wrappedDialog;
@@ -90,8 +91,8 @@ public class FunctionInspectorD extends FunctionInspector
 	private static final Color DISPLAY_GEO_COLOR = Color.RED;
 	private static final Color DISPLAY_GEO2_COLOR = Color.RED;
 	private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
-	private static final Color TABLE_GRID_COLOR = GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+	private static final Color TABLE_GRID_COLOR =
+			GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 	// table fields
 	private InspectorTable tableXY;
 	private InspectorTable tableInterval;
@@ -127,7 +128,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 	/**
 	 * Constructs a FunctionInspector
-	 * 
+	 *
 	 * @param app application
 	 * @param selectedGeo selected function
 	 */
@@ -149,7 +150,7 @@ public class FunctionInspectorD extends FunctionInspector
 		wrappedDialog = new Dialog(getAppD().getFrame(), false) {
 			/**
 			 * } else {
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -177,17 +178,15 @@ public class FunctionInspectorD extends FunctionInspector
 	@Override
 	protected void createTabIntervalPanel() {
 		JToolBar intervalTB = new JToolBar(); // JPanel(new
-												// FlowLayout(FlowLayout.LEFT));
+		// FlowLayout(FlowLayout.LEFT));
 		intervalTB.setFloatable(false);
 		intervalTB.add(fldLow);
 		intervalTB.add(lblInterval);
 		intervalTB.add(fldHigh);
 
 		intervalTabPanel = new JPanel(new BorderLayout(5, 5));
-		intervalTabPanel.add(new JScrollPane(tableInterval),
-				BorderLayout.CENTER);
+		intervalTabPanel.add(new JScrollPane(tableInterval), BorderLayout.CENTER);
 		intervalTabPanel.add(intervalTB, BorderLayout.SOUTH);
-
 	}
 
 	@Override
@@ -235,7 +234,6 @@ public class FunctionInspectorD extends FunctionInspector
 		pointTabPanel.add(northPanel, BorderLayout.NORTH);
 		pointTabPanel.add(scroller, BorderLayout.CENTER);
 		pointTabPanel.add(southPanel, BorderLayout.SOUTH);
-
 	}
 
 	@Override
@@ -260,7 +258,8 @@ public class FunctionInspectorD extends FunctionInspector
 		modelInterval.setColumnCount(2);
 		modelInterval.setRowCount(pointCount);
 		tableInterval.setModel(modelInterval);
-		tableInterval.getSelectionModel()
+		tableInterval
+				.getSelectionModel()
 				.addListSelectionListener(e -> getModel().updateIntervalGeoVisibility());
 
 		lblGeoName = new JLabel(getModel().getTitleString());
@@ -304,8 +303,8 @@ public class FunctionInspectorD extends FunctionInspector
 
 		btnHelp = new JButton();
 		btnHelp.addActionListener(e -> {
-			Thread runner = new Thread(() -> ((GuiManagerD) app.getGuiManager())
-					.openHelp(ManualPage.FUNCTION_INSPECTOR_TOOL, null));
+			Thread runner = new Thread(() ->
+					((GuiManagerD) app.getGuiManager()).openHelp(ManualPage.FUNCTION_INSPECTOR_TOOL, null));
 			runner.start();
 		});
 		btnHelp.setFocusable(false);
@@ -315,8 +314,12 @@ public class FunctionInspectorD extends FunctionInspector
 
 	private void createBtnAddColumn() {
 
-		btnAddColumn = new PopupMenuButtonD(getAppD(),
-				getModel().getColumnNames(), -1, 1, new Dimension(0, 18),
+		btnAddColumn = new PopupMenuButtonD(
+				getAppD(),
+				getModel().getColumnNames(),
+				-1,
+				1,
+				new Dimension(0, 18),
 				SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setStandardButton(true);
@@ -342,17 +345,12 @@ public class FunctionInspectorD extends FunctionInspector
 
 		// tool tips
 		btnHelp.setToolTipText(loc.getMenu("ShowOnlineHelp"));
-		btnOscCircle.setToolTipText(
-				loc.getPlainTooltip("fncInspector.showOscCircle"));
-		btnXYSegments.setToolTipText(
-				loc.getPlainTooltip("fncInspector.showXYLines"));
+		btnOscCircle.setToolTipText(loc.getPlainTooltip("fncInspector.showOscCircle"));
+		btnXYSegments.setToolTipText(loc.getPlainTooltip("fncInspector.showXYLines"));
 		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
-		btnTangent.setToolTipText(
-				loc.getPlainTooltip("fncInspector.showTangent"));
-		btnAddColumn
-				.setToolTipText(loc.getPlainTooltip("fncInspector.addColumn"));
-		btnRemoveColumn.setToolTipText(
-				loc.getPlainTooltip("fncInspector.removeColumn"));
+		btnTangent.setToolTipText(loc.getPlainTooltip("fncInspector.showTangent"));
+		btnAddColumn.setToolTipText(loc.getPlainTooltip("fncInspector.addColumn"));
+		btnRemoveColumn.setToolTipText(loc.getPlainTooltip("fncInspector.removeColumn"));
 		fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
 		lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
 
@@ -367,7 +365,6 @@ public class FunctionInspectorD extends FunctionInspector
 		c.add(btnRemoveColumn);
 
 		createOptionsButton();
-
 	}
 
 	// =====================================
@@ -398,7 +395,6 @@ public class FunctionInspectorD extends FunctionInspector
 		isChangingValue = true;
 		getModel().updateIntervalTable();
 		isChangingValue = false;
-
 	}
 
 	/**
@@ -431,7 +427,6 @@ public class FunctionInspectorD extends FunctionInspector
 		modelXY.setColumnCount(modelXY.getColumnCount() - 1);
 		tableXY.setMyCellEditor(0);
 		updateXYTable();
-
 	}
 
 	// ========================================================
@@ -446,17 +441,14 @@ public class FunctionInspectorD extends FunctionInspector
 			doTextFieldActionPerformed((JTextField) source);
 		} else if (source == btnAddColumn) {
 			getModel().addColumn(btnAddColumn.getSelectedIndex());
-		}
-
-		else if (source == btnRemoveColumn) {
+		} else if (source == btnRemoveColumn) {
 			removeColumn();
-		}
-
-		else if (source == btnOscCircle || source == btnTangent
-				|| source == btnTable || source == btnXYSegments) {
+		} else if (source == btnOscCircle
+				|| source == btnTangent
+				|| source == btnTable
+				|| source == btnXYSegments) {
 			updateGUI();
 		}
-
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -466,8 +458,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
-			nv = getKernel().getAlgebraProcessor().evaluateToNumeric(inputText,
-					false);
+			nv = getKernel().getAlgebraProcessor().evaluateToNumeric(inputText, false);
 			double value = nv.getDouble();
 
 			if (source == fldStep) {
@@ -492,7 +483,6 @@ public class FunctionInspectorD extends FunctionInspector
 		} catch (NumberFormatException e) {
 			Log.debug(e);
 		}
-
 	}
 
 	@Override
@@ -556,31 +546,29 @@ public class FunctionInspectorD extends FunctionInspector
 
 		tableXY.getSelectionModel().removeListSelectionListener(this);
 		switch (key) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_UP:
-			if (tableXY.getSelectedRow() == 0) {
+			default:
+				// do nothing
+				break;
+			case KeyEvent.VK_UP:
+				if (tableXY.getSelectedRow() == 0) {
 
-				getModel().stepStartBackward();
-				updateXYTable();
-				updateTestPoint();
-			}
-			break;
+					getModel().stepStartBackward();
+					updateXYTable();
+					updateTestPoint();
+				}
+				break;
 
-		case KeyEvent.VK_DOWN:
-			if (tableXY.getSelectedRow() == tableXY.getRowCount() - 1) {
-				getModel().stepStartForward();
-				updateXYTable();
-				tableXY.changeSelection(tableXY.getRowCount() - 1, 0, false,
-						false);
-				updateTestPoint();
-			}
-			break;
+			case KeyEvent.VK_DOWN:
+				if (tableXY.getSelectedRow() == tableXY.getRowCount() - 1) {
+					getModel().stepStartForward();
+					updateXYTable();
+					tableXY.changeSelection(tableXY.getRowCount() - 1, 0, false, false);
+					updateTestPoint();
+				}
+				break;
 		}
 
 		tableXY.getSelectionModel().addListSelectionListener(this);
-
 	}
 
 	@Override
@@ -633,8 +621,7 @@ public class FunctionInspectorD extends FunctionInspector
 			btnOptions = new PopupMenuButtonD(getAppD());
 			btnOptions.setKeepVisible(true);
 			btnOptions.setStandardButton(true);
-			btnOptions
-					.setFixedIcon(getAppD().getScaledIcon(GuiResourcesD.TOOL));
+			btnOptions.setFixedIcon(getAppD().getScaledIcon(GuiResourcesD.TOOL));
 			btnOptions.setDownwardPopup(true);
 		}
 
@@ -651,21 +638,17 @@ public class FunctionInspectorD extends FunctionInspector
 		btnOptions.addPopupMenuItem(mi);
 
 		// rounding
-		btnOptions.addPopupMenuItem(
-				getMyNumberFormat().createMenuDecimalPlaces());
-
+		btnOptions.addPopupMenuItem(getMyNumberFormat().createMenuDecimalPlaces());
 	}
 
 	@Override
 	protected void doCopyToSpreadsheet() {
 
 		if (tabPanel.getSelectedComponent() == pointTabPanel) {
-			getModel().copyPointsToSpreadsheet(tableXY.getColumnCount(),
-					tableXY.getRowCount());
+			getModel().copyPointsToSpreadsheet(tableXY.getColumnCount(), tableXY.getRowCount());
 		} else {
-			getModel().copyIntervalsToSpreadsheet(
-					tableInterval.getColumnCount(),
-					tableInterval.getRowCount());
+			getModel()
+					.copyIntervalsToSpreadsheet(tableInterval.getColumnCount(), tableInterval.getRowCount());
 		}
 	}
 
@@ -690,12 +673,10 @@ public class FunctionInspectorD extends FunctionInspector
 
 		updateXYTable();
 		updateTestPoint();
-
 	}
 
 	@Override
-	public void updateInterval(ArrayList<String> property,
-			ArrayList<String> value) {
+	public void updateInterval(ArrayList<String> property, ArrayList<String> value) {
 		// load the model with these pairs
 		modelInterval.setRowCount(property.size());
 
@@ -708,11 +689,9 @@ public class FunctionInspectorD extends FunctionInspector
 	@Override
 	public void setXYValueAt(Double value, int row, int col) {
 		if (col < modelXY.getColumnCount() && row < modelXY.getRowCount()) {
-			modelXY.setValueAt(value == null ? null : getModel().format(value),
-					row, col);
+			modelXY.setValueAt(value == null ? null : getModel().format(value), row, col);
 		} else {
-			Log.debug("[FI] Outside of range: " + modelXY.getRowCount() + ", "
-					+ modelXY.getRowCount());
+			Log.debug("[FI] Outside of range: " + modelXY.getRowCount() + ", " + modelXY.getRowCount());
 		}
 	}
 
@@ -749,7 +728,6 @@ public class FunctionInspectorD extends FunctionInspector
 			} else {
 				doTextFieldActionPerformed(fldHigh);
 			}
-
 		}
 
 		updateIntervalFields();
@@ -766,22 +744,21 @@ public class FunctionInspectorD extends FunctionInspector
 	public GColor getColor(Colors id) {
 		Color color;
 		switch (id) {
-		case EVEN_ROW:
-			color = EVEN_ROW_COLOR;
-			break;
-		case GEO:
-			color = DISPLAY_GEO_COLOR;
-			break;
-		case GEO2:
-			color = DISPLAY_GEO2_COLOR;
-			break;
-		case GRID:
-			color = TABLE_GRID_COLOR;
-			break;
-		default:
-			color = Color.black;
-			break;
-
+			case EVEN_ROW:
+				color = EVEN_ROW_COLOR;
+				break;
+			case GEO:
+				color = DISPLAY_GEO_COLOR;
+				break;
+			case GEO2:
+				color = DISPLAY_GEO2_COLOR;
+				break;
+			case GRID:
+				color = TABLE_GRID_COLOR;
+				break;
+			default:
+				color = Color.black;
+				break;
 		}
 		return GColorD.newColor(color);
 	}
@@ -805,7 +782,6 @@ public class FunctionInspectorD extends FunctionInspector
 		tabPanel.addTab("Point", pointTabPanel);
 
 		tabPanel.addChangeListener(evt -> updateTabPanels());
-
 	}
 
 	@Override
@@ -829,9 +805,12 @@ public class FunctionInspectorD extends FunctionInspector
 	protected void updatePointsTab() {
 		tableXY.getSelectionModel().removeListSelectionListener(this);
 
-		getModel().updatePoints(btnTangent.isSelected(),
-				btnOscCircle.isSelected(), btnXYSegments.isSelected(),
-				btnTable.isSelected());
+		getModel()
+				.updatePoints(
+						btnTangent.isSelected(),
+						btnOscCircle.isSelected(),
+						btnXYSegments.isSelected(),
+						btnTable.isSelected());
 
 		tableXY.getSelectionModel().addListSelectionListener(this);
 	}
@@ -870,17 +849,15 @@ public class FunctionInspectorD extends FunctionInspector
 		if (app == null || btnOscCircle == null) {
 			return;
 		}
-		
+
 		getScaledIcon(btnOscCircle, GuiResourcesD.OSCULATING_CIRCLE);
 		getScaledIcon(btnTangent, GuiResourcesD.TANGENT_LINE);
 		getScaledIcon(btnXYSegments, GuiResourcesD.XY_SEGMENTS);
 		getScaledIcon(btnTable, GuiResourcesD.XY_TABLE);
 		getScaledIcon(btnHelp, GuiResourcesD.HELP);
 		if (btnOptions != null) {
-			btnOptions
-					.setFixedIcon(getAppD().getScaledIcon(GuiResourcesD.TOOL));
+			btnOptions.setFixedIcon(getAppD().getScaledIcon(GuiResourcesD.TOOL));
 		}
-
 	}
 
 	private void getScaledIcon(AbstractButton target, GuiResourcesD tool) {

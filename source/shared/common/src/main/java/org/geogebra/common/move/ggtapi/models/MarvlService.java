@@ -45,8 +45,7 @@ public class MarvlService implements Service {
 	}
 
 	@Override
-	public Collection<ResourceAction> getActions(
-			boolean owns, boolean isTeacher) {
+	public Collection<ResourceAction> getActions(boolean owns, boolean isTeacher) {
 		ArrayList<ResourceAction> actions = new ArrayList<>();
 		actions.add(ResourceAction.EDIT);
 		actions.add(ResourceAction.VIEW);

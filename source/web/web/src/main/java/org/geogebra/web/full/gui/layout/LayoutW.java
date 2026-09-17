@@ -36,26 +36,27 @@ import org.geogebra.web.html5.main.AppW;
  * Panel layout for Web
  */
 public final class LayoutW extends Layout {
-	
+
 	private AppWFull app;
 
 	private DockManagerW dockManager;
-	
+
 	/**
 	 * instantiates layout for Web
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
 	public LayoutW(AppWFull app) {
-		initializeDefaultPerspectives(app,
-				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth() < 50
-						? 700 : app.getAppletWidth()));
+		initializeDefaultPerspectives(
+				app,
+				PerspectiveDecoder.landscapeRatio(
+						app, app.getAppletWidth() < 50 ? 700 : app.getAppletWidth()));
 	}
 
 	/**
 	 * Initialize the layout component.
-	 * 
+	 *
 	 * @param appw
 	 *            application
 	 */
@@ -63,7 +64,7 @@ public final class LayoutW extends Layout {
 		if (!initializeCommon(appw)) {
 			return;
 		}
-		
+
 		this.app = appw;
 		this.dockManager = new DockManagerW(this);
 
@@ -78,11 +79,11 @@ public final class LayoutW extends Layout {
 
 	/**
 	 * Add a new dock panel to the list of known panels.
-	 * 
+	 *
 	 * Attention: This method has to be called as early as possible in the
 	 * application life cycle (e.g. before loading a file, before constructing
 	 * the ViewMenu).
-	 * 
+	 *
 	 * @param dockPanel
 	 *            panel
 	 */
@@ -126,15 +127,12 @@ public final class LayoutW extends Layout {
 		if (app.isApplet()) {
 			app.setCustomToolBar();
 
-			app.setShowToolBar(app.getAppletParameters()
-					.getDataParamShowToolBar(false));
-			app.setShowAlgebraInput(app.getAppletParameters()
-					.getDataParamShowAlgebraInput(false), false);
+			app.setShowToolBar(app.getAppletParameters().getDataParamShowToolBar(false));
+			app.setShowAlgebraInput(app.getAppletParameters().getDataParamShowAlgebraInput(false), false);
 		}
 
 		app.setInputPosition(
-				app.getAppletParameters()
-						.getAlgebraPosition(perspective.getInputPosition()), false);
+				app.getAppletParameters().getAlgebraPosition(perspective.getInputPosition()), false);
 		String toolbar3D = "";
 
 		// change the dock panel layout
@@ -143,12 +141,11 @@ public final class LayoutW extends Layout {
 				toolbar3D = dp.getToolbarString();
 			}
 		}
-		dockManager.applyPerspective(perspective.getSplitPaneData(),
-				perspective.getDockPanelData());
+		dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
 
 		app.setMacroViewIds(toolbar3D);
-		boolean linearInput = app.showAlgebraInput()
-				&& app.getInputPosition() != App.InputPosition.algebraView;
+		boolean linearInput =
+				app.showAlgebraInput() && app.getInputPosition() != App.InputPosition.algebraView;
 		if (!app.isIniting()) {
 			app.updateToolBar();
 			app.updateMenubar();
@@ -175,7 +172,7 @@ public final class LayoutW extends Layout {
 		if (app == null) {
 			return null;
 		}
-		
+
 		// return the default perspective in case we're creating new preferences of
 		// a virgin application.
 		EuclidianView ev = app.getEuclidianView1();
@@ -183,10 +180,8 @@ public final class LayoutW extends Layout {
 
 		if (dockManager.getRoot() != null) {
 			// get the information about the split panes
-			DockSplitPaneW.TreeReader spTreeReader = new DockSplitPaneW.TreeReader(
-					app);
-			perspective.setSplitPaneData(
-					spTreeReader.getInfo(dockManager.getRoot()));
+			DockSplitPaneW.TreeReader spTreeReader = new DockSplitPaneW.TreeReader(app);
+			perspective.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
 
 			// get the information about the dock panels
 			DockPanelW[] panels = dockManager.getPanels();
@@ -198,8 +193,7 @@ public final class LayoutW extends Layout {
 				// is updated, so we have to take care of this by ourself
 				if (panels[i].isVisible()) {
 					DockSplitPaneW parent = panels[i].getParentSplitPane();
-					if (parent != null && parent
-							.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
+					if (parent != null && parent.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 						panels[i].setEmbeddedSize(panels[i].getWidth());
 					} else {
 						panels[i].setEmbeddedSize(panels[i].getHeight());
@@ -211,31 +205,29 @@ public final class LayoutW extends Layout {
 			// Sort the dock panels as the entries with the smallest amount of
 			// definition should
 			// be read first by the loading algorithm.
-			Arrays.sort(dockPanelInfo, (o1, o2) -> o2.getEmbeddedDef().length()
-					- o1.getEmbeddedDef().length());
+			Arrays.sort(
+					dockPanelInfo,
+					(o1, o2) -> o2.getEmbeddedDef().length() - o1.getEmbeddedDef().length());
 
 			perspective.setDockPanelData(dockPanelInfo);
 		} else {
 			perspective.setSplitPaneData(
-					getDefaultPerspectives(Perspective.GEOMETRY - 1)
-							.getSplitPaneData());
+					getDefaultPerspectives(Perspective.GEOMETRY - 1).getSplitPaneData());
 			perspective.setDockPanelData(
-					getDefaultPerspectives(Perspective.GEOMETRY - 1)
-							.getDockPanelData());
+					getDefaultPerspectives(Perspective.GEOMETRY - 1).getDockPanelData());
 		}
-		perspective.setToolbarDefinition(app.getGuiManager()
-				.getGeneralToolbarDefinition());
+		perspective.setToolbarDefinition(app.getGuiManager().getGeneralToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
 		perspective.setShowGrid(ev.getShowGrid());
 		perspective.setShowInputPanel(app.showAlgebraInput());
 		perspective.setShowInputPanelCommands(app.showInputHelpToggle());
 		perspective.setInputPosition(app.getInputPosition());
-		
+
 		perspective.setToolBarPosition(app.getToolbarPosition());
-		//perspective.setShowToolBarHelp(app.showToolBarHelp());
-		//perspective.setShowDockBar(app.isShowDockBar());
-		//perspective.setDockBarEast(app.isDockBarEast());
+		// perspective.setShowToolBarHelp(app.showToolBarHelp());
+		// perspective.setShowDockBar(app.isShowDockBar());
+		// perspective.setDockBarEast(app.isDockBarEast());
 
 		perspective.setLabelingStyle(ev.getSettings().getDefaultLabelingStyle());
 
@@ -248,7 +240,7 @@ public final class LayoutW extends Layout {
 	 * @return If just the view associated to viewId is visible
 	 */
 	@Override
-    public boolean isOnlyVisible(int viewId) {
+	public boolean isOnlyVisible(int viewId) {
 
 		DockPanelW[] panels = dockManager.getPanels();
 		boolean foundView = false;
@@ -262,7 +254,7 @@ public final class LayoutW extends Layout {
 					return false;
 				}
 			}
-			
+
 			// abort if any other view is visible
 			else {
 				if (panels[i].isVisible()) {
@@ -270,11 +262,11 @@ public final class LayoutW extends Layout {
 				}
 			}
 		}
-		
+
 		// if we reach this point each other view is invisible, but
 		// if the view wasn't found at all we return false as well
 		return foundView;
-    }
+	}
 
 	/**
 	 * @return application
@@ -303,13 +295,12 @@ public final class LayoutW extends Layout {
 
 	/**
 	 * Initialize perspectives; set panel sizes for given app.
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
 	public void resetPerspectives(AppW app) {
-		initializeDefaultPerspectives(app,
-				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth()));
-
+		initializeDefaultPerspectives(
+				app, PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth()));
 	}
 }

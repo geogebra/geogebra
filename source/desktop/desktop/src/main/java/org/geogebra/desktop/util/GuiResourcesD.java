@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -29,21 +29,17 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	NAV_PLAY_CIRCLE("/org/geogebra/common/icons_play/p24/nav_play_circle.png"),
 
-	NAV_PLAY_HOVER(
-			"/org/geogebra/common/icons_play/p24/nav_play_circle_hover.png"),
+	NAV_PLAY_HOVER("/org/geogebra/common/icons_play/p24/nav_play_circle_hover.png"),
 
 	VIEW_REFRESH("/gui/images/menu-icons/40px/view-refresh.png"),
 
-	NAV_PAUSE_CIRCLE(
-			"/org/geogebra/common/icons_play/p24/nav_pause_circle.png"),
+	NAV_PAUSE_CIRCLE("/org/geogebra/common/icons_play/p24/nav_pause_circle.png"),
 
-	NAV_PAUSE_CIRCLE_HOVER(
-			"/org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png"),
+	NAV_PAUSE_CIRCLE_HOVER("/org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png"),
 
 	NAV_PAUSE("/main/nav_pause.png"),
 
-	MODE_SHOWHIDELABEL(
-			"/org/geogebra/common/icons_toolbar/p64/mode_showhidelabel.png"),
+	MODE_SHOWHIDELABEL("/org/geogebra/common/icons_toolbar/p64/mode_showhidelabel.png"),
 
 	DIALOG_ERROR("/org/geogebra/common/icons/png/web/dialog-error.png"),
 
@@ -161,8 +157,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	DOCUMENT_NEW("/gui/images/64px/document-new.png"),
 
-	MENU_VIEW_CONSTRUCTION_PROTOCOL(
-			"/gui/images/64px/menu_view_construction_protocol.png"),
+	MENU_VIEW_CONSTRUCTION_PROTOCOL("/gui/images/64px/menu_view_construction_protocol.png"),
 
 	MENU_VIEW_GRAPHICS2("/gui/images/64px/menu_view_graphics2.png"),
 
@@ -230,9 +225,9 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	ALGEBRA_SHOWN("/gui/images/64px/algebra_shown.png"),
 
-	ALGEBRA_HIDDEN(
-			"/gui/images/64px/algebra_hidden.png"), STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS(
-					"/gui/images/64px/stylingbar_algebraview_auxiliary_objects.png"),
+	ALGEBRA_HIDDEN("/gui/images/64px/algebra_hidden.png"),
+	STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS(
+			"/gui/images/64px/stylingbar_algebraview_auxiliary_objects.png"),
 
 	STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY(
 			"/gui/images/64px/stylingbar_algebraview_sort_objects_by.png"),
@@ -255,8 +250,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	ARROW_CURSOR_GRABBING("/gui/images/64px/arrow_cursor_grabbing.png"),
 
-	ARROW_CURSOR_GRABBING_ROLLOVER(
-			"/gui/images/64px/arrow_cursor_grabbing_rollover.png"),
+	ARROW_CURSOR_GRABBING_ROLLOVER("/gui/images/64px/arrow_cursor_grabbing_rollover.png"),
 
 	SPREADSHEETTRACE_PAUSE("/gui/images/64px/spreadsheettrace_pause.gif"),
 
@@ -299,8 +293,7 @@ public enum GuiResourcesD implements ImageResourceD {
 	STYLINGBAR_VARIABLE_ANALYSIS_STATISTICS(
 			"/gui/images/64px/stylingbar_variable_analysis_statistics.png"),
 
-	STYLINGBAR_VARIABLE_ANALYSIS_DATA(
-			"/gui/images/64px/stylingbar_variable_analysis_data.png"),
+	STYLINGBAR_VARIABLE_ANALYSIS_DATA("/gui/images/64px/stylingbar_variable_analysis_data.png"),
 
 	FORMAT_JUSTIFY_LEFT("/gui/images/64px/format-justify-left.png"),
 
@@ -328,8 +321,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	VIEW_CLOSE("/gui/images/64px/view_close.png"),
 
-	STYLINGBAR_VARIABLE_ANALYSIS_2PLOT(
-			"/gui/images/64px/stylingbar_variable_analysis_2plot.png"),
+	STYLINGBAR_VARIABLE_ANALYSIS_2PLOT("/gui/images/64px/stylingbar_variable_analysis_2plot.png"),
 
 	LINE_GRAPH("/gui/images/64px/line_graph.png"),
 
@@ -349,8 +341,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	PERSPECTIVES_GEOMETRY("/gui/images/64px/perspectives_geometry.png"),
 
-	PERSPECTIVES_GEOMETRY3D(
-			"/gui/images/64px/perspectives_algebra_3Dgraphics.png"),
+	PERSPECTIVES_GEOMETRY3D("/gui/images/64px/perspectives_algebra_3Dgraphics.png"),
 
 	CORNER1("/gui/images/64px/corner1.png"),
 
@@ -386,8 +377,7 @@ public enum GuiResourcesD implements ImageResourceD {
 	STYLINGBAR_GRAPHICS_SHOW_GRID(
 			"/gui/images/64px/stylingbar_graphicsview_show_or_hide_the_grid.png"),
 
-	STYLINGBAR_GRAPHICS_STANDARDVIEW(
-			"/gui/images/64px/stylingbar_graphicsview_standardview.png"),
+	STYLINGBAR_GRAPHICS_STANDARDVIEW("/gui/images/64px/stylingbar_graphicsview_standardview.png"),
 
 	STYLEBAR_ANGLE_INTERVAL("/gui/images/64px/stylebar_angle_interval.png"),
 
@@ -396,80 +386,78 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	MENU_PIN("/gui/images/64px/menu-pin.png"),
 
-	FOLDER("/gui/images/folder.png"), TEXT_X_GENERIC(
-			"/gui/images/text-x-generic.png"),
+	FOLDER("/gui/images/folder.png"),
+	TEXT_X_GENERIC("/gui/images/text-x-generic.png"),
 
-	STYLEBAR_START_CROWS_FOOT("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_crows_foot.svg"),
+	STYLEBAR_START_CROWS_FOOT(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_crows_foot.svg"),
 
-	STYLEBAR_START_ARROW_OUTLINED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_arrow_outlined.svg"),
+	STYLEBAR_START_ARROW_OUTLINED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_arrow_outlined.svg"),
 
-	STYLEBAR_START_ARROW("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_arrow.svg"),
+	STYLEBAR_START_ARROW(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_arrow.svg"),
 
-	STYLEBAR_START_ARROW_FILLED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_arrow_filled.svg"),
+	STYLEBAR_START_ARROW_FILLED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_arrow_filled.svg"),
 
-	STYLEBAR_START_CIRCLE("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_circle.svg"),
+	STYLEBAR_START_CIRCLE(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_circle.svg"),
 
-	STYLEBAR_START_CIRCLE_OUTLINED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_circle_outlined.svg"),
+	STYLEBAR_START_CIRCLE_OUTLINED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_circle_outlined.svg"),
 
-	STYLEBAR_START_DEFAULT("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_default.svg"),
+	STYLEBAR_START_DEFAULT(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_default.svg"),
 
-	STYLEBAR_START_LINE("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_line.svg"),
+	STYLEBAR_START_LINE(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_line.svg"),
 
-	STYLEBAR_START_SQUARE("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_square.svg"),
+	STYLEBAR_START_SQUARE(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_square.svg"),
 
-	STYLEBAR_START_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_square_outlined.svg"),
+	STYLEBAR_START_SQUARE_OUTLINED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_square_outlined.svg"),
 
-	STYLEBAR_START_DIAMOND_OUTLINED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_diamond_outlined.svg"),
+	STYLEBAR_START_DIAMOND_OUTLINED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_diamond_outlined.svg"),
 
-	STYLEBAR_START_DIAMOND_FILLED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentStart/start_diamond_filled.svg"),
+	STYLEBAR_START_DIAMOND_FILLED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentStart/start_diamond_filled.svg"),
 
-	STYLEBAR_END_CROWS_FOOT("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_crows_foot.svg"),
+	STYLEBAR_END_CROWS_FOOT(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_crows_foot.svg"),
 
-	STYLEBAR_END_ARROW_OUTLINED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_arrow_outlined.svg"),
+	STYLEBAR_END_ARROW_OUTLINED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_arrow_outlined.svg"),
 
-	STYLEBAR_END_ARROW("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_arrow.svg"),
+	STYLEBAR_END_ARROW("/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_arrow.svg"),
 
-	STYLEBAR_END_ARROW_FILLED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_arrow_filled.svg"),
+	STYLEBAR_END_ARROW_FILLED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_arrow_filled.svg"),
 
-	STYLEBAR_END_CIRCLE("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_circle.svg"),
+	STYLEBAR_END_CIRCLE(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_circle.svg"),
 
-	STYLEBAR_END_CIRCLE_OUTLINED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_circle_outlined.svg"),
+	STYLEBAR_END_CIRCLE_OUTLINED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_circle_outlined.svg"),
 
-	STYLEBAR_END_DEFAULT("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_default.svg"),
+	STYLEBAR_END_DEFAULT(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_default.svg"),
 
-	STYLEBAR_END_LINE("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_line.svg"),
+	STYLEBAR_END_LINE("/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_line.svg"),
 
-	STYLEBAR_END_SQUARE("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_square.svg"),
+	STYLEBAR_END_SQUARE(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_square.svg"),
 
-	STYLEBAR_END_SQUARE_OUTLINED("/org/geogebra/common/icons/svg/"
-			+ "web/stylingbar/segmentEnd/end_square_outlined.svg"),
+	STYLEBAR_END_SQUARE_OUTLINED(
+			"/org/geogebra/common/icons/svg/" + "web/stylingbar/segmentEnd/end_square_outlined.svg"),
 
-	STYLEBAR_END_DIAMOND_OUTLINED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_diamond_outlined.svg"),
+	STYLEBAR_END_DIAMOND_OUTLINED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_diamond_outlined.svg"),
 
-	STYLEBAR_END_DIAMOND_FILLED("/org/geogebra/common/icons/svg/web/"
-			+ "stylingbar/segmentEnd/end_diamond_filled.svg"),
+	STYLEBAR_END_DIAMOND_FILLED(
+			"/org/geogebra/common/icons/svg/web/" + "stylingbar/segmentEnd/end_diamond_filled.svg"),
 
 	SPLASH("/org/geogebra/desktop/splash.png");
 

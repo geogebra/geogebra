@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -145,7 +145,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 		if (dataSourceDialog != null) {
 			dataSourceDialog.setLabels();
 		}
-
 	}
 
 	/**
@@ -164,23 +163,20 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Displays the properties dialog
 	 */
 	@Override
-	public void showPropertiesDialog(OptionType type,
-			ArrayList<GeoElement> geos) {
+	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
 
 		if (!app.letShowPropertiesDialog()) {
 			return;
 		}
 
 		// get PropertiesView
-		PropertiesView pv = (PropertiesView) app.getGuiManager()
-				.getPropertiesView();
+		PropertiesView pv = (PropertiesView) app.getGuiManager().getPropertiesView();
 
 		// select geos
 		if (geos != null) {
 			if (app.getSelectionManager().getSelectedGeos().size() == 0) {
 				app.getSelectionManager().addSelectedGeos(geos, true);
 			}
-
 		}
 
 		// set properties option type
@@ -189,9 +185,10 @@ public class DialogManagerD extends DialogManagerMinimal {
 		}
 
 		// show the view
-		app.getGuiManager().setShowView(true,
-				App.VIEW_PROPERTIES);
-		if (geos != null && geos.size() == 1 && geos.get(0).isEuclidianVisible()
+		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+		if (geos != null
+				&& geos.size() == 1
+				&& geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric) {
 			((GuiManagerD) app.getGuiManager()).showPropertiesViewSliderTab();
 		}
@@ -211,8 +208,8 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Displays the rename dialog for geo
 	 */
 	@Override
-	public void showRenameDialog(GeoElement geo, boolean storeUndo,
-			String initText, boolean selectInitText) {
+	public void showRenameDialog(
+			GeoElement geo, boolean storeUndo, String initText, boolean selectInitText) {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
@@ -225,23 +222,29 @@ public class DialogManagerD extends DialogManagerMinimal {
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		// a Chinese friendly version
-		InputDialogD id = new InputDialogD((AppD) app,
-				"<html>" + app.getLocalization().getPlain("NewNameForA",
-						"<b>" + geo.getNameDescription() + "</b>") // eg New
-																		// name
-																		// for
-																		// <b>Segment
-																		// a</b>
+		InputDialogD id = new InputDialogD(
+				(AppD) app,
+				"<html>"
+						+ app.getLocalization()
+								.getPlain("NewNameForA", "<b>" + geo.getNameDescription() + "</b>") // eg New
+						// name
+						// for
+						// <b>Segment
+						// a</b>
 						+ "</html>",
 				getLocalization().getMenu("Rename"),
-				initText, false, handler, false,
-				selectInitText, null);
+				initText,
+				false,
+				handler,
+				false,
+				selectInitText,
+				null);
 		id.setVisible(true);
 	}
 
 	/**
 	 * Displays the redefine dialog for geo
-	 * 
+	 *
 	 * @param allowTextDialog
 	 *            whether text dialog should be used for texts
 	 */
@@ -259,9 +262,14 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	@Override
 	public void createRedefineDialog(GeoElement geo, String str, InputHandler handler) {
-		InputDialogD id = new InputDialogD((AppD) app,
-				geo.getNameDescription(), getLocalization().getMenu("Redefine"),
-				str, true, handler, geo);
+		InputDialogD id = new InputDialogD(
+				(AppD) app,
+				geo.getNameDescription(),
+				getLocalization().getMenu("Redefine"),
+				str,
+				true,
+				handler,
+				geo);
 		id.setVisible(true);
 	}
 
@@ -275,8 +283,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 		try {
 			if (functionInspector == null) {
-				functionInspector = new FunctionInspectorD((AppD) app,
-						function);
+				functionInspector = new FunctionInspectorD((AppD) app, function);
 			} else {
 				functionInspector.insertGeoElement(function);
 			}
@@ -309,8 +316,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	@Override
 	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
 		Point location = new Point(loc.x, loc.y);
-		CheckboxCreationDialog d = new CheckboxCreationDialog((AppD) app,
-				location, bool);
+		CheckboxCreationDialog d = new CheckboxCreationDialog((AppD) app, location, bool);
 		d.setVisible(true);
 	}
 
@@ -318,12 +324,12 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Shows a modal dialog to enter a number or number variable name.
 	 */
 	@Override
-	public void showNumberInputDialog(String title, String message,
-			String initText, AsyncOperation<GeoNumberValue> callback) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app);
-		InputDialogD id = new InputDialogD((AppD) app, message, title,
-				initText, false, handler, true, false, null);
+	public void showNumberInputDialog(
+			String title, String message, String initText, AsyncOperation<GeoNumberValue> callback) {
+		NumberInputHandler handler =
+				new NumberInputHandler(app.getKernel().getAlgebraProcessor(), callback, app);
+		InputDialogD id =
+				new InputDialogD((AppD) app, message, title, initText, false, handler, true, false, null);
 		id.setVisible(true);
 	}
 
@@ -331,77 +337,87 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Shows a modal dialog to enter a number or number variable name.
 	 */
 	@Override
-	public void showNumberInputDialog(String title, String message,
-			String initText, boolean changingSign, String checkBoxText,
+	public void showNumberInputDialog(
+			String title,
+			String message,
+			String initText,
+			boolean changingSign,
+			String checkBoxText,
 			AsyncOperation<GeoNumberValue> callback) {
-		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app);
+		NumberChangeSignInputHandler handler =
+				new NumberChangeSignInputHandler(app.getKernel().getAlgebraProcessor(), callback, app);
 		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(
-				(AppD) app, message, title, initText, handler, changingSign,
-				checkBoxText);
+				(AppD) app, message, title, initText, handler, changingSign, checkBoxText);
 		id.setVisible(true);
 	}
 
 	@Override
-	public void showNumberInputDialogRegularPolygon(String title,
-			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
+	public void showNumberInputDialogRegularPolygon(
+			String title,
+			EuclidianController ec,
+			GeoPointND geoPoint1,
+			GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogRegularPolygonD((AppD) app, ec,
-				title, handler, geoPoint1, geoPoint2, direction);
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogD id = new InputDialogRegularPolygonD(
+				(AppD) app, ec, title, handler, geoPoint1, geoPoint2, direction);
 		id.setVisible(true);
 	}
 
 	@Override
-	public void showNumberInputDialogCirclePointRadius(String title,
-			GeoPointND geoPoint1, EuclidianView view) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogCirclePointRadius((AppD) app, title,
-				handler, (GeoPoint) geoPoint1, app.getKernel());
+	public void showNumberInputDialogCirclePointRadius(
+			String title, GeoPointND geoPoint1, EuclidianView view) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogD id = new InputDialogCirclePointRadius(
+				(AppD) app, title, handler, (GeoPoint) geoPoint1, app.getKernel());
 		id.setVisible(true);
 	}
 
 	@Override
-	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogRotatePointD((AppD) app, title,
-				handler, polys, points, selGeos, ec);
-		id.setVisible(true);
-	}
-
-	@Override
-	public void showNumberInputDialogAngleFixed(String title,
-			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
+	public void showNumberInputDialogRotate(
+			String title,
+			GeoPolygon[] polys,
+			GeoPointND[] points,
+			GeoElement[] selGeos,
 			EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogAngleFixedD((AppD) app, title,
-				handler, segments, points, app.getKernel(), ec);
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogD id =
+				new InputDialogRotatePointD((AppD) app, title, handler, polys, points, selGeos, ec);
 		id.setVisible(true);
 	}
 
 	@Override
-	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
-			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
-
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogDilateD((AppD) app, title, handler,
-				points, selGeos, app.getKernel(), ec);
+	public void showNumberInputDialogAngleFixed(
+			String title,
+			GeoSegmentND[] segments,
+			GeoPointND[] points,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogD id = new InputDialogAngleFixedD(
+				(AppD) app, title, handler, segments, points, app.getKernel(), ec);
 		id.setVisible(true);
 	}
 
 	@Override
-	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPointND startPoint) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogSegmentFixedD((AppD) app, title,
-				handler, startPoint, app.getKernel());
+	public void showNumberInputDialogDilate(
+			String title,
+			GeoPolygon[] polys,
+			GeoPointND[] points,
+			GeoElement[] selGeos,
+			EuclidianController ec) {
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogD id =
+				new InputDialogDilateD((AppD) app, title, handler, points, selGeos, app.getKernel(), ec);
+		id.setVisible(true);
+	}
+
+	@Override
+	public void showNumberInputDialogSegmentFixed(String title, GeoPointND startPoint) {
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogD id =
+				new InputDialogSegmentFixedD((AppD) app, title, handler, startPoint, app.getKernel());
 		id.setVisible(true);
 	}
 
@@ -409,18 +425,18 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Shows a modal dialog to enter an angle or angle variable name.
 	 */
 	@Override
-	public void showAngleInputDialog(String title, String message,
-			String initText, AsyncOperation<GeoNumberValue> callback) {
-		NumberInputHandler handler = new NumberInputHandler(
-				app.getKernel().getAlgebraProcessor(), callback, app);
-		AngleInputDialogD id = new AngleInputDialogD((AppD) app, message, title,
-				initText, false, handler, true);
+	public void showAngleInputDialog(
+			String title, String message, String initText, AsyncOperation<GeoNumberValue> callback) {
+		NumberInputHandler handler =
+				new NumberInputHandler(app.getKernel().getAlgebraProcessor(), callback, app);
+		AngleInputDialogD id =
+				new AngleInputDialogD((AppD) app, message, title, initText, false, handler, true);
 		id.setVisible(true);
 	}
 
 	/**
 	 * Close all open dialogs.
-	 * 
+	 *
 	 */
 	@Override
 	public void closeAll() {
@@ -432,7 +448,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	/**
 	 * Creates a new slider at given location (screen coords).
-	 * 
+	 *
 	 * @return whether a new slider (number) was create or not
 	 */
 	@Override
@@ -449,7 +465,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	/**
 	 * Creates a new JavaScript button at given location (screen coords).
-	 * 
+	 *
 	 * @return whether a new slider (number) was create or not
 	 */
 	@Override
@@ -465,21 +481,19 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public synchronized void initFileChooser() {
 		if (fileChooser == null) {
 			try {
-				setFileChooser(new GeoGebraFileChooser((AppD) app,
-						((AppD) app).getCurrentImagePath())); // non-restricted
+				setFileChooser(new GeoGebraFileChooser(
+						(AppD) app, ((AppD) app).getCurrentImagePath())); // non-restricted
 				fileChooser.addPropertyChangeListener(
-						JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
-						new FileFilterChangedListener());
+						JFileChooser.FILE_FILTER_CHANGED_PROPERTY, new FileFilterChangedListener());
 			} catch (Exception e) {
 				// fix for java.io.IOException: Could not get shell folder ID
 				// list
 				// Java bug
 				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
-				Log.debug(
-						"Error creating GeoGebraFileChooser - using fallback option");
-				setFileChooser(new GeoGebraFileChooser((AppD) app,
-						((AppD) app).getCurrentImagePath(), true)); // restricted
-																	// version
+				Log.debug("Error creating GeoGebraFileChooser - using fallback option");
+				setFileChooser(new GeoGebraFileChooser(
+						(AppD) app, ((AppD) app).getCurrentImagePath(), true)); // restricted
+				// version
 			}
 
 			updateJavaUILanguage();
@@ -502,20 +516,21 @@ public class DialogManagerD extends DialogManagerMinimal {
 		String lang = currentLocale.getLanguage();
 		boolean deleteKeys = false;
 
-		if ("it".equals(lang) || "zh".equals(lang) || "ja".equals(lang)
+		if ("it".equals(lang)
+				|| "zh".equals(lang)
+				|| "ja".equals(lang)
 				|| "de".equals(lang)
 				// || "es".equals(lang) we have our own Spanish translation
 				// || "fr".equals(lang) we have our own French translation
-				|| "ko".equals(lang) || "sv".equals(lang)) {
+				|| "ko".equals(lang)
+				|| "sv".equals(lang)) {
 			// get keys to delete
 			// as Java is localized in these languages already
 			// http://openjdk.java.net/groups/i18n/
-			rbJavaUI = MyResourceBundle
-					.loadSingleBundleFile(LocalizationD.RB_JAVA_UI);
+			rbJavaUI = MyResourceBundle.loadSingleBundleFile(LocalizationD.RB_JAVA_UI);
 			deleteKeys = true;
 		} else {
-			rbJavaUI = MyResourceBundle.createBundle(LocalizationD.RB_JAVA_UI,
-					currentLocale);
+			rbJavaUI = MyResourceBundle.createBundle(LocalizationD.RB_JAVA_UI, currentLocale);
 		}
 		if (rbJavaUI == null) {
 			return;
@@ -577,8 +592,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 				if (selectedFile != null) {
 					fileName = selectedFile.getName();
 				} else {
-					fileName = ((GuiManagerD) app.getGuiManager())
-							.getLastFileNameOfSaveDialog();
+					fileName = ((GuiManagerD) app.getGuiManager()).getLastFileNameOfSaveDialog();
 				}
 
 				// fileName = getFileName(fileName);
@@ -586,11 +600,10 @@ public class DialogManagerD extends DialogManagerMinimal {
 				if (fileName != null && fileName.contains(".")) {
 					fileName = fileName.substring(0, fileName.lastIndexOf("."))
 							+ "."
-							+ ((FileExtensionFilter) getFileChooser().getFileFilter())
-									.getExtension();
+							+ ((FileExtensionFilter) getFileChooser().getFileFilter()).getExtension();
 
-					getFileChooser().setSelectedFile(new File(
-							getFileChooser().getCurrentDirectory(), fileName));
+					getFileChooser()
+							.setSelectedFile(new File(getFileChooser().getCurrentDirectory(), fileName));
 				}
 			}
 		}
@@ -623,11 +636,16 @@ public class DialogManagerD extends DialogManagerMinimal {
 	}
 
 	@Override
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
-			boolean rw) {
-		TextInputDialogD dialog = new TextInputDialogD(app, getLocalization().getMenu("Text"),
-				text, startPoint,
-				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
+		TextInputDialogD dialog = new TextInputDialogD(
+				app,
+				getLocalization().getMenu("Text"),
+				text,
+				startPoint,
+				rw,
+				30,
+				6,
+				app.getMode() == EuclidianConstants.MODE_TEXT);
 		dialog.setVisible(true);
 		return dialog;
 	}

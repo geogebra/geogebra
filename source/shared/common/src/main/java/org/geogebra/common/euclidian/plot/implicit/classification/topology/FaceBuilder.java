@@ -72,22 +72,26 @@ final class FaceBuilder {
 		this.viewportInfo = viewportInfo;
 		long stageStart = ImplicitPlotTimings.start();
 		List<BoundaryCycle> extractedCycles = boundaryCycleExtractor.extract();
-		ImplicitPlotTimings.log("PlanarGraph.extractFaces.extraction", stageStart,
-				"cycles=" + extractedCycles.size());
+		ImplicitPlotTimings.log(
+				"PlanarGraph.extractFaces.extraction", stageStart, "cycles=" + extractedCycles.size());
 		lastExtractedBoundaryCycles = List.copyOf(extractedCycles);
 		stageStart = ImplicitPlotTimings.start();
-		List<BoundaryCycle> canonicalCycles = boundaryCycleNormalizer
-				.canonicalBoundaryCyclesOf(extractedCycles, viewportInfo);
-		ImplicitPlotTimings.log("PlanarGraph.extractFaces.canonicalization", stageStart,
+		List<BoundaryCycle> canonicalCycles =
+				boundaryCycleNormalizer.canonicalBoundaryCyclesOf(extractedCycles, viewportInfo);
+		ImplicitPlotTimings.log(
+				"PlanarGraph.extractFaces.canonicalization",
+				stageStart,
 				"cycles=" + canonicalCycles.size());
 		lastCanonicalBoundaryCycles = List.copyOf(canonicalCycles);
 		stageStart = ImplicitPlotTimings.start();
 		boundaryHierarchyBuilder.build(canonicalCycles);
-		ImplicitPlotTimings.log("PlanarGraph.extractFaces.hierarchy", stageStart,
-				"cycles=" + canonicalCycles.size());
+		ImplicitPlotTimings.log(
+				"PlanarGraph.extractFaces.hierarchy", stageStart, "cycles=" + canonicalCycles.size());
 		stageStart = ImplicitPlotTimings.start();
 		buildFacesFromBoundaryHierarchy(canonicalCycles);
-		ImplicitPlotTimings.log("PlanarGraph.extractFaces.buildFaces", stageStart,
+		ImplicitPlotTimings.log(
+				"PlanarGraph.extractFaces.buildFaces",
+				stageStart,
 				"faces=" + graph.getFaces().size());
 	}
 
@@ -116,8 +120,8 @@ final class FaceBuilder {
 		return boundaryCycleNormalizer.canonicalBoundaryCyclesOf(cycles, null);
 	}
 
-	List<BoundaryCycle> canonicalBoundaryCyclesOf(List<BoundaryCycle> cycles,
-			ViewportInfo viewportInfo) {
+	List<BoundaryCycle> canonicalBoundaryCyclesOf(
+			List<BoundaryCycle> cycles, ViewportInfo viewportInfo) {
 		return boundaryCycleNormalizer.canonicalBoundaryCyclesOf(cycles, viewportInfo);
 	}
 
@@ -132,7 +136,8 @@ final class FaceBuilder {
 	 * Checks that face extraction produced exactly one exterior face.
 	 */
 	void identifyExteriorFace() {
-		long existingExteriorCount = graph.getFaces().stream().filter(Face::isExterior).count();
+		long existingExteriorCount =
+				graph.getFaces().stream().filter(Face::isExterior).count();
 		if (existingExteriorCount != 1) {
 			throw new IllegalStateException(
 					"Expected exactly one exterior face, but found " + existingExteriorCount);
@@ -173,8 +178,8 @@ final class FaceBuilder {
 		}
 	}
 
-	private void addExteriorHoleAndBuildFace(int exteriorFaceId, BoundaryCycle boundary,
-			Map<Integer, BoundaryCycle> byId) {
+	private void addExteriorHoleAndBuildFace(
+			int exteriorFaceId, BoundaryCycle boundary, Map<Integer, BoundaryCycle> byId) {
 		List<Integer> exteriorBoundary = boundaryCycleNormalizer.extractTwinBoundaryCycle(boundary);
 		graph.face(exteriorFaceId).addHoleHalfEdgeId(exteriorBoundary.get(0));
 		assignFaceId(exteriorBoundary, exteriorFaceId);
@@ -182,8 +187,8 @@ final class FaceBuilder {
 		buildFaceFromBoundary(boundary, byId);
 	}
 
-	private void addExteriorHolesForDirectChildren(int exteriorFaceId, BoundaryCycle boundary,
-			Map<Integer, BoundaryCycle> byId) {
+	private void addExteriorHolesForDirectChildren(
+			int exteriorFaceId, BoundaryCycle boundary, Map<Integer, BoundaryCycle> byId) {
 		for (BoundaryCycle child : immediateChildrenOf(boundary, byId)) {
 			validateDirectChild(boundary, child);
 			graph.face(exteriorFaceId).addHoleHalfEdgeId(child.getStartHalfEdgeId());
@@ -219,8 +224,9 @@ final class FaceBuilder {
 		for (BoundaryCycle root : roots) {
 			int cornerCount = boundaryCycleNormalizer.viewportCornerCount(viewportInfo, root);
 			if (cornerCount > bestCornerCount
-					|| (cornerCount == bestCornerCount && best != null
-					&& root.getAbsArea() > best.getAbsArea())) {
+					|| (cornerCount == bestCornerCount
+							&& best != null
+							&& root.getAbsArea() > best.getAbsArea())) {
 				best = root;
 				bestCornerCount = cornerCount;
 			}
@@ -238,15 +244,15 @@ final class FaceBuilder {
 			graph.face(faceId).addHoleHalfEdgeId(child.getStartHalfEdgeId());
 			assignFaceId(child.getHalfEdgeIds(), faceId);
 		}
-		sampleContextsByFaceId.put(faceId,
-				FaceInteriorPointFinder.FaceContext.from(graph, cycle, children));
+		sampleContextsByFaceId.put(
+				faceId, FaceInteriorPointFinder.FaceContext.from(graph, cycle, children));
 		for (BoundaryCycle child : children) {
 			buildFaceFromBoundary(child, byId);
 		}
 	}
 
-	private List<BoundaryCycle> immediateChildrenOf(BoundaryCycle cycle,
-			Map<Integer, BoundaryCycle> byId) {
+	private List<BoundaryCycle> immediateChildrenOf(
+			BoundaryCycle cycle, Map<Integer, BoundaryCycle> byId) {
 		List<BoundaryCycle> children = new ArrayList<>();
 		for (int childId : cycle.getChildIds()) {
 			BoundaryCycle child = byId.get(childId);
@@ -259,10 +265,9 @@ final class FaceBuilder {
 	}
 
 	private void validateDirectChild(BoundaryCycle parent, BoundaryCycle child) {
-		PlanarGraph.Containment containment = classifyPointInPolygon(graph,
-				child.getContainmentProbePoint(), parent);
-		if (containment != PlanarGraph.Containment.INSIDE
-				&& !isBoundaryContained(child, parent)) {
+		PlanarGraph.Containment containment =
+				classifyPointInPolygon(graph, child.getContainmentProbePoint(), parent);
+		if (containment != PlanarGraph.Containment.INSIDE && !isBoundaryContained(child, parent)) {
 			throw new IllegalStateException("Inconsistent boundary hierarchy: child boundary "
 					+ child.getId() + " is not strictly inside parent boundary " + parent.getId());
 		}
@@ -273,8 +278,8 @@ final class FaceBuilder {
 		double[] xCoordinates = child.getXCoordinates(graph);
 		double[] yCoordinates = child.getYCoordinates(graph);
 		for (int i = 0; i < child.size(); i++) {
-			PlanarGraph.Containment containment = classifyPointInPolygon(graph,
-					new GPoint2D(xCoordinates[i], yCoordinates[i]), parent);
+			PlanarGraph.Containment containment =
+					classifyPointInPolygon(graph, new GPoint2D(xCoordinates[i], yCoordinates[i]), parent);
 			if (containment == PlanarGraph.Containment.OUTSIDE) {
 				return false;
 			}
@@ -305,8 +310,7 @@ final class FaceBuilder {
 				continue;
 			}
 			long stageStart = ImplicitPlotTimings.start();
-			FaceInteriorPointFinder.FaceContext context = sampleContextsByFaceId.get(
-					face.getId());
+			FaceInteriorPointFinder.FaceContext context = sampleContextsByFaceId.get(face.getId());
 			if (context == null) {
 				context = createSampleContext(face);
 			}
@@ -318,10 +322,12 @@ final class FaceBuilder {
 			searchElapsed += ImplicitPlotTimings.delta(stageStart);
 			sampledFaces++;
 		}
-		ImplicitPlotTimings.log("PlanarGraph.computeFaceSamplePoints.context",
+		ImplicitPlotTimings.log(
+				"PlanarGraph.computeFaceSamplePoints.context",
 				elapsedStart(contextElapsed),
 				"faces=" + sampledFaces + " holes=" + holes + " edges=" + boundaryEdges);
-		ImplicitPlotTimings.log("PlanarGraph.computeFaceSamplePoints.search",
+		ImplicitPlotTimings.log(
+				"PlanarGraph.computeFaceSamplePoints.search",
 				elapsedStart(searchElapsed),
 				"faces=" + sampledFaces + " holes=" + holes + " edges=" + boundaryEdges);
 	}
@@ -335,24 +341,21 @@ final class FaceBuilder {
 		}
 		FaceInteriorPointFinder.BoundaryPath outerPath =
 				FaceInteriorPointFinder.BoundaryPath.from(graph, outerBoundary);
-		return new FaceInteriorPointFinder.FaceContext(outerPath, holePaths,
-				outerPath.getBoundingBox());
+		return new FaceInteriorPointFinder.FaceContext(
+				outerPath, holePaths, outerPath.getBoundingBox());
 	}
 
-	private MyPoint computeFaceSamplePoint(Face face,
-			FaceInteriorPointFinder.FaceContext context) {
+	private MyPoint computeFaceSamplePoint(Face face, FaceInteriorPointFinder.FaceContext context) {
 		return faceInteriorPointFinder.find(face, context);
 	}
 
-	boolean isPointInsideFace(GPoint2D point, List<Integer> outerBoundary,
-			List<List<Integer>> holeBoundaries) {
-		if (classifyPointInPolygon(graph, point, outerBoundary)
-				!= PlanarGraph.Containment.INSIDE) {
+	boolean isPointInsideFace(
+			GPoint2D point, List<Integer> outerBoundary, List<List<Integer>> holeBoundaries) {
+		if (classifyPointInPolygon(graph, point, outerBoundary) != PlanarGraph.Containment.INSIDE) {
 			return false;
 		}
 		for (List<Integer> holeBoundary : holeBoundaries) {
-			if (classifyPointInPolygon(graph, point, holeBoundary)
-					!= PlanarGraph.Containment.OUTSIDE) {
+			if (classifyPointInPolygon(graph, point, holeBoundary) != PlanarGraph.Containment.OUTSIDE) {
 				return false;
 			}
 		}

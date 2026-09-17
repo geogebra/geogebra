@@ -37,8 +37,8 @@ public class PageContent {
 	 * @return page content
 	 */
 	@JsOverlay
-	public static PageContent of(String xml, String[] allObjectNames, String thumbnail,
-			String title, int order) {
+	public static PageContent of(
+			String xml, String[] allObjectNames, String thumbnail, String title, int order) {
 		PageContent content = new PageContent();
 		content.xml = xml;
 		content.objects = allObjectNames;

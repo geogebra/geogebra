@@ -35,8 +35,9 @@ import org.jspecify.annotations.Nullable;
  * used for pattern-style filling in pie and bar charts.
  */
 public final class ChartSegmentPatternFillStyleProperty extends AbstractEnumeratedProperty<FillType>
-		implements IconsEnumeratedProperty<FillType>, ChartSegmentSelectionDependentProperty,
-		GeoElementDependentProperty {
+		implements IconsEnumeratedProperty<FillType>,
+				ChartSegmentSelectionDependentProperty,
+				GeoElementDependentProperty {
 	private final ChartStyleGeo chartStyleGeo;
 	private final ChartSegmentSelection chartSegmentSelection;
 
@@ -47,8 +48,9 @@ public final class ChartSegmentPatternFillStyleProperty extends AbstractEnumerat
 	 * @param chartSegmentSelection the selection from which to read the selected bar/slice index
 	 * @throws NotApplicablePropertyException if the property is not applicable for the given element
 	 */
-	public ChartSegmentPatternFillStyleProperty(Localization localization, GeoElement geoElement,
-			ChartSegmentSelection chartSegmentSelection) throws NotApplicablePropertyException {
+	public ChartSegmentPatternFillStyleProperty(
+			Localization localization, GeoElement geoElement, ChartSegmentSelection chartSegmentSelection)
+			throws NotApplicablePropertyException {
 		super(localization, "Filling.Pattern");
 		if (!(geoElement instanceof ChartStyleGeo chartStyleGeo)) {
 			throw new NotApplicablePropertyException(geoElement);
@@ -70,21 +72,23 @@ public final class ChartSegmentPatternFillStyleProperty extends AbstractEnumerat
 
 	@Override
 	protected void doSetValue(FillType value) {
-		chartSegmentSelection.forEachSelectedSegment(chartStyleGeo.getIntervals(),
+		chartSegmentSelection.forEachSelectedSegment(
+				chartStyleGeo.getIntervals(),
 				index -> chartStyleGeo.getStyle().setBarFillType(value, index));
 		((GeoElement) chartStyleGeo).updateVisualStyleRepaint(GProperty.HATCHING);
 	}
 
 	@Override
 	public FillType getValue() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-				index -> chartStyleGeo.getStyle().getBarFillType(index));
+		return chartSegmentSelection.getUniformValueOrNull(
+				chartStyleGeo.getIntervals(), index -> chartStyleGeo.getStyle().getBarFillType(index));
 	}
 
 	@Override
 	public boolean isAvailable() {
-		return chartSegmentSelection.getUniformValueOrNull(chartStyleGeo.getIntervals(),
-				index -> FillCategory.fromFillType(chartStyleGeo.getStyle().getBarFillType(index)))
+		return chartSegmentSelection.getUniformValueOrNull(
+						chartStyleGeo.getIntervals(),
+						index -> FillCategory.fromFillType(chartStyleGeo.getStyle().getBarFillType(index)))
 				== FillCategory.PATTERN;
 	}
 

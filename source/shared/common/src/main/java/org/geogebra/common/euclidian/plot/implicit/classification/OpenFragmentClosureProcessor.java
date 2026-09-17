@@ -66,38 +66,52 @@ class OpenFragmentClosureProcessor {
 		orderedViewportVertexIds.clear();
 	}
 
-	private record OpenFragmentClosure(int fragmentId, ClippedFragment fragment,
-			int startVertex, int endVertex, List<Integer> forwardChain,
-			List<Integer> reverseChain, ClosureCandidate forwardCandidate,
-			ClosureCandidate reverseCandidate) {
-	}
+	private record OpenFragmentClosure(
+			int fragmentId,
+			ClippedFragment fragment,
+			int startVertex,
+			int endVertex,
+			List<Integer> forwardChain,
+			List<Integer> reverseChain,
+			ClosureCandidate forwardCandidate,
+			ClosureCandidate reverseCandidate) {}
 
-	private record OpenFragmentClosureCandidate(OpenFragmentChain chain,
-			ClosureCandidate forwardCandidate, ClosureCandidate reverseCandidate,
-			ClosureCandidateScore score, Set<Integer> claimedHalfEdges) {
-	}
+	private record OpenFragmentClosureCandidate(
+			OpenFragmentChain chain,
+			ClosureCandidate forwardCandidate,
+			ClosureCandidate reverseCandidate,
+			ClosureCandidateScore score,
+			Set<Integer> claimedHalfEdges) {}
 
-	private record OpenFragmentClosureSelection(List<OpenFragmentClosureCandidate> candidates,
+	private record OpenFragmentClosureSelection(
+			List<OpenFragmentClosureCandidate> candidates,
 			OpenFragmentClosureCandidate conflictCandidate,
-			OpenFragmentClosureCandidate conflictOwner, int conflictHalfEdge) {
+			OpenFragmentClosureCandidate conflictOwner,
+			int conflictHalfEdge) {
 		private boolean isComplete() {
 			return conflictCandidate == null;
 		}
 	}
 
-	private record ClosureCandidate(List<Integer> arcEdges, double signedArea, double absArea,
-			boolean viewportLike, boolean forwardArc) {
+	private record ClosureCandidate(
+			List<Integer> arcEdges,
+			double signedArea,
+			double absArea,
+			boolean viewportLike,
+			boolean forwardArc) {
 		private boolean isBounded(double epsilon) {
 			return absArea > epsilon && !viewportLike;
 		}
 	}
 
-	private record ClosureCandidateScore(boolean bounded, boolean viewportLike, double absArea,
-			boolean forwardArc) {
-	}
+	private record ClosureCandidateScore(
+			boolean bounded, boolean viewportLike, double absArea, boolean forwardArc) {}
 
-	OpenFragmentClosureProcessor(PlanarGraph graph, FragmentTopologyRegistry fragmentRegistry,
-			EpsilonPolicy epsilonPolicy, VertexCache vertexCache) {
+	OpenFragmentClosureProcessor(
+			PlanarGraph graph,
+			FragmentTopologyRegistry fragmentRegistry,
+			EpsilonPolicy epsilonPolicy,
+			VertexCache vertexCache) {
 		this.graph = graph;
 		this.fragmentRegistry = fragmentRegistry;
 		this.vertexCache = vertexCache;
@@ -117,9 +131,8 @@ class OpenFragmentClosureProcessor {
 		ViewportTopology viewportTopology = input.viewportTopology();
 		List<List<OpenFragmentClosureCandidate>> candidateGroups = new ArrayList<>();
 		for (OpenFragmentChain chain : input.chains()) {
-			List<OpenFragmentClosureCandidate> candidates = createOpenFragmentClosureCandidates(
-					chain, viewportTopology,
-					resultBuilder);
+			List<OpenFragmentClosureCandidate> candidates =
+					createOpenFragmentClosureCandidates(chain, viewportTopology, resultBuilder);
 			candidateGroups.add(candidates);
 		}
 		if (resultBuilder.hasFailures()) {
@@ -128,12 +141,14 @@ class OpenFragmentClosureProcessor {
 		sortClosureCandidateGroups(candidateGroups);
 		OpenFragmentClosureSelection selection = selectClosureCandidates(candidateGroups);
 		if (!selection.isComplete()) {
-			resultBuilder.addFailure(selection.conflictCandidate().chain().fragmentId(),
-					FailureReason.CONFLICT, selection.conflictHalfEdge(),
+			resultBuilder.addFailure(
+					selection.conflictCandidate().chain().fragmentId(),
+					FailureReason.CONFLICT,
+					selection.conflictHalfEdge(),
 					selection.conflictOwner().chain().fragmentId(),
 					edgeKind(selection.conflictHalfEdge()));
-			logOpenFragmentClosureConflict(selection.conflictCandidate(),
-					selection.conflictOwner(), selection.conflictHalfEdge());
+			logOpenFragmentClosureConflict(
+					selection.conflictCandidate(), selection.conflictOwner(), selection.conflictHalfEdge());
 			return resultBuilder.build();
 		}
 		List<OpenFragmentClosure> acceptedClosures = new ArrayList<>();
@@ -150,8 +165,8 @@ class OpenFragmentClosureProcessor {
 			wireClosedWalk(closure.reverseChain(), closure.reverseCandidate().arcEdges());
 		} else if (acceptedClosures.size() > 1) {
 			if (!wireMergedComplementWalk(acceptedClosures, viewportTopology)) {
-				resultBuilder.addFailure(acceptedClosures.get(0).fragmentId(),
-						FailureReason.FAILED_COMPLEMENT_WIRING);
+				resultBuilder.addFailure(
+						acceptedClosures.get(0).fragmentId(), FailureReason.FAILED_COMPLEMENT_WIRING);
 			}
 		}
 		return resultBuilder.build();
@@ -163,8 +178,8 @@ class OpenFragmentClosureProcessor {
 		resultBuilder.setOpenFragments(openFragments.size());
 		List<OpenFragmentChain> chains = new ArrayList<>();
 		for (OpenViewportFragment openFragment : openFragments) {
-			OpenFragmentChain chain = createOpenFragmentChain(openFragment.fragmentId(),
-					openFragment.fragment(), viewportTopology, resultBuilder);
+			OpenFragmentChain chain = createOpenFragmentChain(
+					openFragment.fragmentId(), openFragment.fragment(), viewportTopology, resultBuilder);
 			if (chain != null) {
 				chains.add(chain);
 			}
@@ -172,8 +187,8 @@ class OpenFragmentClosureProcessor {
 		if (resultBuilder.hasFailures()) {
 			return null;
 		}
-		return new OpenFragmentClosureInput(List.copyOf(orderedViewportVertexIds),
-				viewportTopology, chains, openFragments.size());
+		return new OpenFragmentClosureInput(
+				List.copyOf(orderedViewportVertexIds), viewportTopology, chains, openFragments.size());
 	}
 
 	private EdgeKind edgeKind(int halfEdgeId) {
@@ -191,29 +206,32 @@ class OpenFragmentClosureProcessor {
 		target.addAll(source);
 	}
 
-	private OpenFragmentChain createOpenFragmentChain(int fragmentId,
-			ClippedFragment fragment, ViewportTopology viewportTopology, Builder resultBuilder) {
+	private OpenFragmentChain createOpenFragmentChain(
+			int fragmentId,
+			ClippedFragment fragment,
+			ViewportTopology viewportTopology,
+			Builder resultBuilder) {
 		int startVertex = endpointVertexId(fragment.start());
 		int endVertex = endpointVertexId(fragment.end());
 		if (startVertex < 0 || endVertex < 0) {
-			logOpenFragmentClosureSkip("missing or identical endpoint vertices", fragment,
-					startVertex, endVertex);
+			logOpenFragmentClosureSkip(
+					"missing or identical endpoint vertices", fragment, startVertex, endVertex);
 			resultBuilder.addFailure(fragmentId, FailureReason.MISSING_ENDPOINT);
 			return null;
 		}
 		if (startVertex == endVertex) {
-			logOpenFragmentClosureSkip("missing or identical endpoint vertices", fragment,
-					startVertex, endVertex);
+			logOpenFragmentClosureSkip(
+					"missing or identical endpoint vertices", fragment, startVertex, endVertex);
 			resultBuilder.addFailure(fragmentId, FailureReason.IDENTICAL_ENDPOINTS);
 			return null;
 		}
 		int startViewportIndex = viewportTopology.indexOf(startVertex);
 		int endViewportIndex = viewportTopology.indexOf(endVertex);
 		if (startViewportIndex < 0 || endViewportIndex < 0) {
-			logOpenFragmentClosureSkip("endpoint vertex is not on viewport", fragment,
-					startVertex, endVertex);
-			logMissingViewportEndpoint(fragmentId, fragment, startVertex, endVertex,
-					startViewportIndex, endViewportIndex);
+			logOpenFragmentClosureSkip(
+					"endpoint vertex is not on viewport", fragment, startVertex, endVertex);
+			logMissingViewportEndpoint(
+					fragmentId, fragment, startVertex, endVertex, startViewportIndex, endViewportIndex);
 			resultBuilder.addFailure(fragmentId, FailureReason.MISSING_VIEWPORT_ENDPOINT);
 			return null;
 		}
@@ -223,96 +241,118 @@ class OpenFragmentClosureProcessor {
 			forwardChain = fallbackContourChain(fragment, startVertex, endVertex);
 		}
 		if (forwardChain.isEmpty()) {
-			logOpenFragmentClosureSkip("missing contour chain", fragment,
-					startVertex, endVertex);
+			logOpenFragmentClosureSkip("missing contour chain", fragment, startVertex, endVertex);
 			resultBuilder.addFailure(fragmentId, FailureReason.MISSING_CONTOUR_CHAIN);
 			return null;
 		}
 		if (!isContiguousContourChain(forwardChain)) {
-			logOpenFragmentClosureSkip("non-contiguous contour chain", fragment,
-					startVertex, endVertex);
+			logOpenFragmentClosureSkip("non-contiguous contour chain", fragment, startVertex, endVertex);
 			resultBuilder.addFailure(fragmentId, FailureReason.NON_CONTIGUOUS_CONTOUR_CHAIN);
 			return null;
 		}
 		if (graph.halfEdge(forwardChain.get(0)).getOriginVertexId() != startVertex
 				|| graph.halfEdge(forwardChain.get(forwardChain.size() - 1)).getTargetVertexId()
-				!= endVertex) {
-			logOpenFragmentClosureSkip("contour chain endpoint mismatch", fragment,
-					startVertex, endVertex);
+						!= endVertex) {
+			logOpenFragmentClosureSkip(
+					"contour chain endpoint mismatch", fragment, startVertex, endVertex);
 			resultBuilder.addFailure(fragmentId, FailureReason.CONTOUR_CHAIN_ENDPOINT_MISMATCH);
 			return null;
 		}
 		List<Integer> reverseChain = reverseTwinChain(forwardChain);
-		return new OpenFragmentChain(fragmentId, fragment,
+		return new OpenFragmentChain(
+				fragmentId,
+				fragment,
 				new ViewportEndpoint(startVertex, startViewportIndex),
-				new ViewportEndpoint(endVertex, endViewportIndex), forwardChain, reverseChain);
+				new ViewportEndpoint(endVertex, endViewportIndex),
+				forwardChain,
+				reverseChain);
 	}
 
 	private List<OpenFragmentClosureCandidate> createOpenFragmentClosureCandidates(
-			OpenFragmentChain chain,
-			ViewportTopology viewportTopology, Builder resultBuilder) {
+			OpenFragmentChain chain, ViewportTopology viewportTopology, Builder resultBuilder) {
 		int fragmentId = chain.fragmentId();
 		ClippedFragment fragment = chain.fragment();
 		int startVertex = chain.start().vertexId();
 		int endVertex = chain.end().vertexId();
 		List<Integer> forwardChain = chain.forwardChain();
 		List<Integer> reverseChain = chain.reverseChain();
-		ClosureCandidate forwardA = closureCandidate(forwardChain, endVertex, startVertex, true,
-				viewportTopology);
-		ClosureCandidate forwardB = closureCandidate(forwardChain, endVertex, startVertex, false,
-				viewportTopology);
+		ClosureCandidate forwardA =
+				closureCandidate(forwardChain, endVertex, startVertex, true, viewportTopology);
+		ClosureCandidate forwardB =
+				closureCandidate(forwardChain, endVertex, startVertex, false, viewportTopology);
 		List<OpenFragmentClosureCandidate> candidates = new ArrayList<>();
 		addOpenFragmentClosureCandidate(chain, forwardA, viewportTopology, candidates);
 		addOpenFragmentClosureCandidate(chain, forwardB, viewportTopology, candidates);
-		if (candidates.isEmpty() && !hasValidClosureCandidate(forwardA)
+		if (candidates.isEmpty()
+				&& !hasValidClosureCandidate(forwardA)
 				&& !hasValidClosureCandidate(forwardB)) {
-			logOpenFragmentClosureSkip("no non-degenerate viewport closure arc", fragment,
-					startVertex, endVertex);
+			logOpenFragmentClosureSkip(
+					"no non-degenerate viewport closure arc", fragment, startVertex, endVertex);
 			resultBuilder.addFailure(fragmentId, FailureReason.MISSING_FORWARD_CLOSURE_ARC);
 			return candidates;
 		}
 		if (candidates.isEmpty()) {
-			logOpenFragmentClosureSkip("missing reverse viewport closure arc", fragment,
-					startVertex, endVertex);
+			logOpenFragmentClosureSkip(
+					"missing reverse viewport closure arc", fragment, startVertex, endVertex);
 			resultBuilder.addFailure(fragmentId, FailureReason.MISSING_REVERSE_CLOSURE_ARC);
 			return candidates;
 		}
 		sortClosureCandidates(candidates);
-		logOpenFragmentClosureCandidate(fragmentId, fragment, startVertex, endVertex,
-				forwardA, forwardB, candidates.get(0).forwardCandidate(),
-				candidates.get(0).reverseCandidate(), forwardChain.size(), reverseChain.size());
+		logOpenFragmentClosureCandidate(
+				fragmentId,
+				fragment,
+				startVertex,
+				endVertex,
+				forwardA,
+				forwardB,
+				candidates.get(0).forwardCandidate(),
+				candidates.get(0).reverseCandidate(),
+				forwardChain.size(),
+				reverseChain.size());
 		return candidates;
 	}
 
-	private void addOpenFragmentClosureCandidate(OpenFragmentChain chain,
-			ClosureCandidate forwardCandidate, ViewportTopology viewportTopology,
+	private void addOpenFragmentClosureCandidate(
+			OpenFragmentChain chain,
+			ClosureCandidate forwardCandidate,
+			ViewportTopology viewportTopology,
 			List<OpenFragmentClosureCandidate> candidates) {
 		if (!hasValidClosureCandidate(forwardCandidate)) {
 			return;
 		}
-		ClosureCandidate reverseCandidate = closureCandidate(chain.reverseChain(),
-				chain.start().vertexId(), chain.end().vertexId(),
-				forwardCandidate.forwardArc(), viewportTopology);
+		ClosureCandidate reverseCandidate = closureCandidate(
+				chain.reverseChain(),
+				chain.start().vertexId(),
+				chain.end().vertexId(),
+				forwardCandidate.forwardArc(),
+				viewportTopology);
 		if (!hasValidClosureCandidate(reverseCandidate)) {
 			return;
 		}
-		candidates.add(new OpenFragmentClosureCandidate(chain, forwardCandidate,
-				reverseCandidate, score(forwardCandidate),
+		candidates.add(new OpenFragmentClosureCandidate(
+				chain,
+				forwardCandidate,
+				reverseCandidate,
+				score(forwardCandidate),
 				claimedForwardHalfEdges(chain, forwardCandidate)));
 	}
 
 	private boolean hasValidClosureCandidate(ClosureCandidate candidate) {
-		return candidate != null && !candidate.arcEdges().isEmpty()
+		return candidate != null
+				&& !candidate.arcEdges().isEmpty()
 				&& candidate.absArea() > closureAreaEpsilon();
 	}
 
 	private ClosureCandidateScore score(ClosureCandidate candidate) {
-		return new ClosureCandidateScore(candidate.isBounded(closureAreaEpsilon()),
-				candidate.viewportLike(), candidate.absArea(), candidate.forwardArc());
+		return new ClosureCandidateScore(
+				candidate.isBounded(closureAreaEpsilon()),
+				candidate.viewportLike(),
+				candidate.absArea(),
+				candidate.forwardArc());
 	}
 
-	private Set<Integer> claimedForwardHalfEdges(OpenFragmentChain chain,
-			ClosureCandidate forwardCandidate) {
+	private Set<Integer> claimedForwardHalfEdges(
+			OpenFragmentChain chain, ClosureCandidate forwardCandidate) {
 		Set<Integer> claimed = new HashSet<>();
 		addAll(claimed, chain.forwardChain());
 		addAll(claimed, forwardCandidate.arcEdges());
@@ -325,23 +365,22 @@ class OpenFragmentClosureProcessor {
 
 	private void sortClosureCandidateGroups(
 			List<List<OpenFragmentClosureCandidate>> candidateGroups) {
-		candidateGroups.sort(Comparator.comparingInt(
-				openFragmentClosureCandidates -> openFragmentClosureCandidates.get(0).chain()
-						.fragmentId()));
+		candidateGroups.sort(Comparator.comparingInt(openFragmentClosureCandidates ->
+				openFragmentClosureCandidates.get(0).chain().fragmentId()));
 	}
 
-	private int compareClosureCandidates(OpenFragmentClosureCandidate first,
-			OpenFragmentClosureCandidate second) {
+	private int compareClosureCandidates(
+			OpenFragmentClosureCandidate first, OpenFragmentClosureCandidate second) {
 		int scoreComparison = compareClosureCandidateScores(first.score(), second.score());
 		if (scoreComparison != 0) {
 			return scoreComparison;
 		}
-		return Boolean.compare(!first.forwardCandidate().forwardArc(),
-				!second.forwardCandidate().forwardArc());
+		return Boolean.compare(
+				!first.forwardCandidate().forwardArc(), !second.forwardCandidate().forwardArc());
 	}
 
-	private int compareClosureCandidateScores(ClosureCandidateScore first,
-			ClosureCandidateScore second) {
+	private int compareClosureCandidateScores(
+			ClosureCandidateScore first, ClosureCandidateScore second) {
 		int boundedComparison = Boolean.compare(second.bounded(), first.bounded());
 		if (boundedComparison != 0) {
 			return boundedComparison;
@@ -365,14 +404,16 @@ class OpenFragmentClosureProcessor {
 		if (selectClosureCandidates(candidateGroups, 0, selected, claimed, conflictTracker)) {
 			return new OpenFragmentClosureSelection(List.copyOf(selected), null, null, -1);
 		}
-		return new OpenFragmentClosureSelection(List.of(), conflictTracker.candidate,
-				conflictTracker.owner, conflictTracker.halfEdgeId);
+		return new OpenFragmentClosureSelection(
+				List.of(), conflictTracker.candidate, conflictTracker.owner, conflictTracker.halfEdgeId);
 	}
 
 	private boolean selectClosureCandidates(
-			List<List<OpenFragmentClosureCandidate>> candidateGroups, int groupIndex,
+			List<List<OpenFragmentClosureCandidate>> candidateGroups,
+			int groupIndex,
 			List<OpenFragmentClosureCandidate> selected,
-			Map<Integer, OpenFragmentClosureCandidate> claimed, ConflictTracker conflictTracker) {
+			Map<Integer, OpenFragmentClosureCandidate> claimed,
+			ConflictTracker conflictTracker) {
 		if (groupIndex == candidateGroups.size()) {
 			return true;
 		}
@@ -384,8 +425,8 @@ class OpenFragmentClosureProcessor {
 			}
 			claim(candidate, claimed);
 			selected.add(candidate);
-			if (selectClosureCandidates(candidateGroups, groupIndex + 1, selected, claimed,
-					conflictTracker)) {
+			if (selectClosureCandidates(
+					candidateGroups, groupIndex + 1, selected, claimed, conflictTracker)) {
 				return true;
 			}
 			selected.remove(selected.size() - 1);
@@ -394,8 +435,8 @@ class OpenFragmentClosureProcessor {
 		return false;
 	}
 
-	private int firstConflictHalfEdge(OpenFragmentClosureCandidate candidate,
-			Map<Integer, OpenFragmentClosureCandidate> claimed) {
+	private int firstConflictHalfEdge(
+			OpenFragmentClosureCandidate candidate, Map<Integer, OpenFragmentClosureCandidate> claimed) {
 		for (int halfEdgeId : candidate.claimedHalfEdges()) {
 			if (claimed.containsKey(halfEdgeId)) {
 				return halfEdgeId;
@@ -404,15 +445,15 @@ class OpenFragmentClosureProcessor {
 		return -1;
 	}
 
-	private void claim(OpenFragmentClosureCandidate candidate,
-			Map<Integer, OpenFragmentClosureCandidate> claimed) {
+	private void claim(
+			OpenFragmentClosureCandidate candidate, Map<Integer, OpenFragmentClosureCandidate> claimed) {
 		for (int halfEdgeId : candidate.claimedHalfEdges()) {
 			claimed.put(halfEdgeId, candidate);
 		}
 	}
 
-	private void unclaim(OpenFragmentClosureCandidate candidate,
-			Map<Integer, OpenFragmentClosureCandidate> claimed) {
+	private void unclaim(
+			OpenFragmentClosureCandidate candidate, Map<Integer, OpenFragmentClosureCandidate> claimed) {
 		for (int halfEdgeId : candidate.claimedHalfEdges()) {
 			claimed.remove(halfEdgeId);
 		}
@@ -420,9 +461,15 @@ class OpenFragmentClosureProcessor {
 
 	private OpenFragmentClosure toOpenFragmentClosure(OpenFragmentClosureCandidate candidate) {
 		OpenFragmentChain chain = candidate.chain();
-		return new OpenFragmentClosure(chain.fragmentId(), chain.fragment(),
-				chain.start().vertexId(), chain.end().vertexId(), chain.forwardChain(),
-				chain.reverseChain(), candidate.forwardCandidate(), candidate.reverseCandidate());
+		return new OpenFragmentClosure(
+				chain.fragmentId(),
+				chain.fragment(),
+				chain.start().vertexId(),
+				chain.end().vertexId(),
+				chain.forwardChain(),
+				chain.reverseChain(),
+				candidate.forwardCandidate(),
+				candidate.reverseCandidate());
 	}
 
 	private static final class ConflictTracker {
@@ -430,8 +477,10 @@ class OpenFragmentClosureProcessor {
 		private OpenFragmentClosureCandidate owner;
 		private int halfEdgeId = -1;
 
-		private void record(OpenFragmentClosureCandidate candidate,
-				OpenFragmentClosureCandidate owner, int halfEdgeId) {
+		private void record(
+				OpenFragmentClosureCandidate candidate,
+				OpenFragmentClosureCandidate owner,
+				int halfEdgeId) {
 			if (this.candidate == null) {
 				this.candidate = candidate;
 				this.owner = owner;
@@ -444,12 +493,12 @@ class OpenFragmentClosureProcessor {
 		return fragmentRegistry.getForwardContourEdgesBy(fragmentId, List.of());
 	}
 
-	private List<Integer> fallbackContourChain(ClippedFragment fragment, int startVertex,
-			int endVertex) {
-		int forwardStart = outgoingContourHalfEdgeAlongFragment(startVertex,
-				fragment.sourceContourId(), fragment.points(), true);
-		int reverseStart = outgoingContourHalfEdgeAlongFragment(endVertex,
-				fragment.sourceContourId(), fragment.points(), false);
+	private List<Integer> fallbackContourChain(
+			ClippedFragment fragment, int startVertex, int endVertex) {
+		int forwardStart = outgoingContourHalfEdgeAlongFragment(
+				startVertex, fragment.sourceContourId(), fragment.points(), true);
+		int reverseStart = outgoingContourHalfEdgeAlongFragment(
+				endVertex, fragment.sourceContourId(), fragment.points(), false);
 		if (forwardStart < 0 || reverseStart < 0) {
 			return List.of();
 		}
@@ -482,21 +531,23 @@ class OpenFragmentClosureProcessor {
 		return reverse;
 	}
 
-	private ClosureCandidate closureCandidate(List<Integer> contourChain, int fromVertex,
-			int toVertex, boolean forward, ViewportTopology viewportTopology) {
+	private ClosureCandidate closureCandidate(
+			List<Integer> contourChain,
+			int fromVertex,
+			int toVertex,
+			boolean forward,
+			ViewportTopology viewportTopology) {
 		List<Integer> arc = viewportTopology.arc(fromVertex, toVertex, forward);
 		if (arc.isEmpty()) {
 			return null;
 		}
 		double signedArea = closedArea(contourChain, arc);
 		double absArea = Math.abs(signedArea);
-		return new ClosureCandidate(arc, signedArea, absArea, isViewportLikeArea(absArea),
-				forward);
+		return new ClosureCandidate(arc, signedArea, absArea, isViewportLikeArea(absArea), forward);
 	}
 
 	private double closureAreaEpsilon() {
-		return Math.max(
-				AREA_EPSILON_SCALE, Math.abs(viewportInfo.absArea()) * AREA_EPSILON_SCALE);
+		return Math.max(AREA_EPSILON_SCALE, Math.abs(viewportInfo.absArea()) * AREA_EPSILON_SCALE);
 	}
 
 	private boolean isViewportLikeArea(double absArea) {
@@ -504,13 +555,13 @@ class OpenFragmentClosureProcessor {
 		if (!Double.isFinite(viewportAbsArea)) {
 			return false;
 		}
-		double tolerance = Math.max(
-				VIEWPORT_AREA_TOLERANCE_SCALE, viewportAbsArea * VIEWPORT_AREA_TOLERANCE_SCALE);
+		double tolerance =
+				Math.max(VIEWPORT_AREA_TOLERANCE_SCALE, viewportAbsArea * VIEWPORT_AREA_TOLERANCE_SCALE);
 		return Math.abs(absArea - viewportAbsArea) <= tolerance;
 	}
 
-	private void logOpenFragmentClosureSkip(String reason, ClippedFragment fragment,
-			int startVertex, int endVertex) {
+	private void logOpenFragmentClosureSkip(
+			String reason, ClippedFragment fragment, int startVertex, int endVertex) {
 		if (!TOPOLOGY_DEBUG_LOGGING) {
 			return;
 		}
@@ -541,10 +592,17 @@ class OpenFragmentClosureProcessor {
 				+ " reverseArc=" + describeArc(closure.reverseCandidate()));
 	}
 
-	private void logOpenFragmentClosureCandidate(int fragmentId, ClippedFragment fragment,
-			int startVertex, int endVertex, ClosureCandidate forwardA,
-			ClosureCandidate forwardB, ClosureCandidate chosenForward,
-			ClosureCandidate reverse, int forwardChainSize, int reverseChainSize) {
+	private void logOpenFragmentClosureCandidate(
+			int fragmentId,
+			ClippedFragment fragment,
+			int startVertex,
+			int endVertex,
+			ClosureCandidate forwardA,
+			ClosureCandidate forwardB,
+			ClosureCandidate chosenForward,
+			ClosureCandidate reverse,
+			int forwardChainSize,
+			int reverseChainSize) {
 		if (!TOPOLOGY_DEBUG_LOGGING) {
 			return;
 		}
@@ -565,8 +623,8 @@ class OpenFragmentClosureProcessor {
 				+ " reverse=" + describeArc(reverse));
 	}
 
-	private void logOpenFragmentClosureConflict(OpenFragmentClosureCandidate candidate,
-			OpenFragmentClosureCandidate owner, int halfEdgeId) {
+	private void logOpenFragmentClosureConflict(
+			OpenFragmentClosureCandidate candidate, OpenFragmentClosureCandidate owner, int halfEdgeId) {
 		if (!TOPOLOGY_DEBUG_LOGGING) {
 			return;
 		}
@@ -581,8 +639,13 @@ class OpenFragmentClosureProcessor {
 				+ " ownerArc=" + describeArc(owner.forwardCandidate()));
 	}
 
-	private void logMissingViewportEndpoint(int fragmentId, ClippedFragment fragment,
-			int startVertex, int endVertex, int startViewportIndex, int endViewportIndex) {
+	private void logMissingViewportEndpoint(
+			int fragmentId,
+			ClippedFragment fragment,
+			int startVertex,
+			int endVertex,
+			int startViewportIndex,
+			int endViewportIndex) {
 		if (!TOPOLOGY_FAILURE_LOGGING) {
 			return;
 		}
@@ -611,8 +674,7 @@ class OpenFragmentClosureProcessor {
 	}
 
 	private String nearestViewportVertex(FragmentEndpoint endpoint) {
-		if (endpoint == null || endpoint.getPoint() == null
-				|| orderedViewportVertexIds.isEmpty()) {
+		if (endpoint == null || endpoint.getPoint() == null || orderedViewportVertexIds.isEmpty()) {
 			return "n/a";
 		}
 		double bestDistanceSquared = Double.POSITIVE_INFINITY;
@@ -630,8 +692,8 @@ class OpenFragmentClosureProcessor {
 				bestVertexId = vertexId;
 			}
 		}
-		return vertexDescription(bestVertexId) + "@index=" + bestIndex
-				+ ":distanceSquared=" + bestDistanceSquared;
+		return vertexDescription(bestVertexId) + "@index=" + bestIndex + ":distanceSquared="
+				+ bestDistanceSquared;
 	}
 
 	private String summarizeViewportVertices() {
@@ -640,8 +702,8 @@ class OpenFragmentClosureProcessor {
 		}
 		return viewportVertexRange(0, 5) + "...+"
 				+ (orderedViewportVertexIds.size() - 10)
-				+ "..." + viewportVertexRange(orderedViewportVertexIds.size() - 5,
-				orderedViewportVertexIds.size());
+				+ "..."
+				+ viewportVertexRange(orderedViewportVertexIds.size() - 5, orderedViewportVertexIds.size());
 	}
 
 	private String viewportVertexRange(int from, int to) {
@@ -679,8 +741,8 @@ class OpenFragmentClosureProcessor {
 		if (edgeIds.size() <= 8) {
 			return edgeIds.toString();
 		}
-		return edgeIds.subList(0, 4) + "...+" + (edgeIds.size() - 8)
-				+ "..." + edgeIds.subList(edgeIds.size() - 4, edgeIds.size());
+		return edgeIds.subList(0, 4) + "...+" + (edgeIds.size() - 8) + "..."
+				+ edgeIds.subList(edgeIds.size() - 4, edgeIds.size());
 	}
 
 	private double normalizedEndpointPerimeter(FragmentEndpoint endpoint) {
@@ -725,12 +787,11 @@ class OpenFragmentClosureProcessor {
 		for (int i = 0; i < contourChain.size() - 1; i++) {
 			overrideNext(contourChain.get(i), contourChain.get(i + 1));
 		}
-		overrideCycleLinks(contourChain.get(contourChain.size() - 1), arcEdges,
-				contourChain.get(0));
+		overrideCycleLinks(contourChain.get(contourChain.size() - 1), arcEdges, contourChain.get(0));
 	}
 
-	private boolean wireMergedComplementWalk(List<OpenFragmentClosure> closures,
-			ViewportTopology viewportTopology) {
+	private boolean wireMergedComplementWalk(
+			List<OpenFragmentClosure> closures, ViewportTopology viewportTopology) {
 		Map<Integer, OpenFragmentClosure> byEndVertex = new HashMap<>();
 		for (OpenFragmentClosure closure : closures) {
 			byEndVertex.put(closure.endVertex(), closure);
@@ -741,8 +802,7 @@ class OpenFragmentClosureProcessor {
 		appendAll(cycle, first.reverseChain());
 		byEndVertex.remove(first.endVertex());
 		int currentVertex = first.startVertex();
-		int guard = graph.getHalfEdges().size() + orderedViewportVertexIds.size()
-				+ closures.size();
+		int guard = graph.getHalfEdges().size() + orderedViewportVertexIds.size() + closures.size();
 		while ((currentVertex != first.endVertex() || !byEndVertex.isEmpty()) && guard-- > 0) {
 			int viewportEdge = viewportTopology.step(currentVertex, forward);
 			if (viewportEdge < 0) {
@@ -776,8 +836,8 @@ class OpenFragmentClosureProcessor {
 		return vertexCache.find(endpoint.getPoint().x, endpoint.getPoint().y);
 	}
 
-	private int outgoingContourHalfEdgeAlongFragment(int vertexId, int contourId,
-			List<MyPoint> points, boolean atStart) {
+	private int outgoingContourHalfEdgeAlongFragment(
+			int vertexId, int contourId, List<MyPoint> points, boolean atStart) {
 		ExpectedDirection expected = expectedEndpointDirection(points, atStart);
 		if (expected == null) {
 			return -1;
@@ -802,13 +862,13 @@ class OpenFragmentClosureProcessor {
 			if (dot <= 0) {
 				continue;
 			}
-			double error = Math.abs(expected.dx() * dy - expected.dy() * dx)
-					/ (expected.length() * length);
+			double error =
+					Math.abs(expected.dx() * dy - expected.dy() * dx) / (expected.length() * length);
 			if (error > DIRECTION_ERROR_TOLERANCE) {
 				continue;
 			}
-			if (error < bestError || (Math.abs(error - bestError) <= AREA_EPSILON_SCALE
-					&& length < bestLength)) {
+			if (error < bestError
+					|| (Math.abs(error - bestError) <= AREA_EPSILON_SCALE && length < bestLength)) {
 				best = halfEdgeId;
 				bestError = error;
 				bestLength = length;
@@ -837,7 +897,8 @@ class OpenFragmentClosureProcessor {
 	}
 
 	private boolean isMatchingContourHalfEdge(HalfEdge halfEdge, int contourId) {
-		return halfEdge.isActive() && halfEdge.isContourEdge()
+		return halfEdge.isActive()
+				&& halfEdge.isContourEdge()
 				&& halfEdge.getSourceContourId() == contourId;
 	}
 
@@ -856,8 +917,7 @@ class OpenFragmentClosureProcessor {
 		return match;
 	}
 
-	private record ExpectedDirection(double dx, double dy, double length) {
-	}
+	private record ExpectedDirection(double dx, double dy, double length) {}
 
 	private double closedArea(List<Integer> contourChain, List<Integer> arcHalfEdges) {
 		List<GPoint2D> polygon = new ArrayList<>();
@@ -866,8 +926,7 @@ class OpenFragmentClosureProcessor {
 			polygon.add(new GPoint2D(origin.getX(), origin.getY()));
 		}
 		Vertex contourEnd =
-				graph.vertex(graph.halfEdge(contourChain.get(contourChain.size() - 1))
-						.getTargetVertexId());
+				graph.vertex(graph.halfEdge(contourChain.get(contourChain.size() - 1)).getTargetVertexId());
 		polygon.add(new GPoint2D(contourEnd.getX(), contourEnd.getY()));
 		for (int halfEdgeId : arcHalfEdges) {
 			Vertex target = graph.vertex(graph.halfEdge(halfEdgeId).getTargetVertexId());

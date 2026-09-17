@@ -31,7 +31,7 @@ public class CmdFlatten extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -52,10 +52,9 @@ public class CmdFlatten extends CommandProcessor {
 
 		if (arg.isGeoList()) {
 
-			AlgoFlatten algo = new AlgoFlatten(cons, c.getLabel(),
-					(GeoList) arg);
+			AlgoFlatten algo = new AlgoFlatten(cons, c.getLabel(), (GeoList) arg);
 
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
 		}
 		throw argErr(c, arg);

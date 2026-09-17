@@ -69,7 +69,7 @@ import com.google.j2objc.annotations.Weak;
 
 /**
  * Manages default settings for GeoElement objects in a construction.
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class ConstructionDefaults implements SettingListener<LabelSettings> {
@@ -91,8 +91,12 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	public static final int DEFAULT_POINT_COMPLEX = 14;
 	/** default type for free point; not actually stored in map (style bar only) */
 	public static final int DEFAULT_POINT_ALL_BUT_COMPLEX = 15;
-	public static final List<Integer> POINT_INDICES = List.of(DEFAULT_POINT_FREE,
-			DEFAULT_POINT_DEPENDENT, DEFAULT_POINT_ON_PATH, DEFAULT_POINT_IN_REGION,
+
+	public static final List<Integer> POINT_INDICES = List.of(
+			DEFAULT_POINT_FREE,
+			DEFAULT_POINT_DEPENDENT,
+			DEFAULT_POINT_ON_PATH,
+			DEFAULT_POINT_IN_REGION,
 			DEFAULT_POINT_COMPLEX);
 	/** default type for preview point */
 	public static final int DEFAULT_POINT_PREVIEW = 16;
@@ -160,8 +164,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	public static final GColor colPoint = GColor.BLUE;
 
 	/** default color for points with alpha GGB-1916 */
-	public static final GColor colPointAlpha = GColor.newColor(
-			77, 77, 255);
+	public static final GColor colPointAlpha = GColor.newColor(77, 77, 255);
 
 	/** default color for dependent points */
 	public static final GColor colDepPoint = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
@@ -193,7 +196,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	private static final GColor colLine = GColor.BLACK;
 	/** default color for lines in Geometry app */
 	private static final GColor colLineGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
-	
+
 	/** default color for inequalities */
 	private static final GColor colInequality = GColor.BLUE;
 
@@ -316,18 +319,17 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	protected String strDependent = " (dependent)";
 
 	private GColor getLineColor() {
-		return cons.getApplication().isUnbundledGeometry() ? colLineGeometry
-				: colLine;
+		return cons.getApplication().isUnbundledGeometry() ? colLineGeometry : colLine;
 	}
 
 	private GColor getConicColor() {
-		return cons.getApplication().isUnbundledGeometry() ? colConicGeometry
-				: colConic;
+		return cons.getApplication().isUnbundledGeometry() ? colConicGeometry : colConic;
 	}
 
 	/** default color for angles */
 	private GColor colAngle() {
-		return cons.getApplication().isUnbundledOrWhiteboard() ? GColor.BLACK
+		return cons.getApplication().isUnbundledOrWhiteboard()
+				? GColor.BLACK
 				: GeoGebraColorConstants.GGB_GREEN;
 	}
 
@@ -335,14 +337,13 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	 * @return default color for polygons.
 	 */
 	public final GColor getColPolygon() {
-		return cons.getApplication().isUnbundledOrWhiteboard() ? colPolygonG
-				: colPolygon;
+		return cons.getApplication().isUnbundledOrWhiteboard() ? colPolygonG : colPolygon;
 	}
 
 	/**
 	 * Creates a new ConstructionDefaults object to manage the default objects
 	 * of this construction.
-	 * 
+	 *
 	 * @param cons2
 	 *            construction
 	 */
@@ -355,13 +356,13 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 
 	private int getDependentPointSize() {
 		return cons.getApplication().isUnbundledGraphing()
-						? EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT_GRAPHING
-						: EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
+				? EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT_GRAPHING
+				: EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
 	}
 
 	/**
 	 * Returns a set of all default GeoElements used by this construction.
-	 * 
+	 *
 	 * @return set of (integer,geo) pairs
 	 */
 	public Set<Map.Entry<Integer, GeoElement>> getDefaultGeos() {
@@ -369,54 +370,42 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	}
 
 	private void setDefaultLineStyle(GeoElement geo) {
-		if (geo instanceof GeoAngle
-				&& cons.getApplication().isUnbundledGeometry()) {
-			geo.setLineThickness(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS_ANGLE_GEOMETRY);
+		if (geo instanceof GeoAngle && cons.getApplication().isUnbundledGeometry()) {
+			geo.setLineThickness(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS_ANGLE_GEOMETRY);
 		} else {
-			geo.setLineThickness(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
+			geo.setLineThickness(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
 		}
 		if (geo.hasLineOpacity()) {
 			if (cons.getApplication().isUnbundledOrWhiteboard()) {
 				setLineOpacity(geo);
 			} else {
-				geo.setLineOpacity(
-						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
+				geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 			}
 		}
 	}
 
 	private void setLineOpacity(GeoElement geo) {
 		if (geo instanceof GeoAngle) {
-			geo.setLineOpacity(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
+			geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
 		} else if (geo instanceof GeoPolygon) {
-			geo.setLineOpacity(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON);
+			geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON);
 		} else if (geo instanceof GeoConicPart) {
-			geo.setLineOpacity(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
+			geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
 		} else if (cons.getApplication().isUnbundledGeometry()
-				&& (geo instanceof GeoLine || geo instanceof GeoSegment
-						|| geo instanceof GeoRay || geo instanceof GeoVector
+				&& (geo instanceof GeoLine
+						|| geo instanceof GeoSegment
+						|| geo instanceof GeoRay
+						|| geo instanceof GeoVector
 						|| geo instanceof GeoPolyLine
 						|| geo instanceof GeoConic)) {
-			geo.setLineOpacity(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY);
-		} else if (cons.getApplication().isUnbundledGraphing()
-				&& (geo instanceof GeoFunction)) {
-			geo.setLineOpacity(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_FUNCTION_GEOMETRY);
-		} else if (cons.getApplication().isUnbundledGraphing()
-				&& (geo instanceof GeoCurveCartesian)) {
-			geo.setLineOpacity(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_CURVE_GEOMETRY);
+			geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY);
+		} else if (cons.getApplication().isUnbundledGraphing() && (geo instanceof GeoFunction)) {
+			geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_FUNCTION_GEOMETRY);
+		} else if (cons.getApplication().isUnbundledGraphing() && (geo instanceof GeoCurveCartesian)) {
+			geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_CURVE_GEOMETRY);
 		} else {
-			geo.setLineOpacity(
-					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
+			geo.setLineOpacity(EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 		}
-
 	}
 
 	/**
@@ -441,8 +430,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point" + strDependent);
 		depPoint.setObjColor(
-				cons.getApplication().isUnbundledOrWhiteboard()
-						? colDepPointG : colDepPoint);
+				cons.getApplication().isUnbundledOrWhiteboard() ? colDepPointG : colDepPoint);
 		depPoint.setPointSize(dependentPointSize);
 		depPoint.setDefaultGeoType(DEFAULT_POINT_DEPENDENT);
 		defaultGeoElements.put(DEFAULT_POINT_DEPENDENT, depPoint);
@@ -452,8 +440,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		previewPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE);
 		previewPoint.setLocalVariableLabel("Point" + strDependent);
 		previewPoint.setObjColor(
-				cons.getApplication().isUnbundledOrWhiteboard()
-						? colDepPointG : colDepPoint);
+				cons.getApplication().isUnbundledOrWhiteboard() ? colDepPointG : colDepPoint);
 		previewPoint.setPointSize(dependentPointSize);
 		previewPoint.setDefaultGeoType(DEFAULT_POINT_PREVIEW);
 		defaultGeoElements.put(DEFAULT_POINT_PREVIEW, previewPoint);
@@ -464,8 +451,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("PointOn");
 		pathPoint.setObjColor(
-				cons.getApplication().isUnbundledOrWhiteboard()
-						? colPathPointG : colPathPoint);
+				cons.getApplication().isUnbundledOrWhiteboard() ? colPathPointG : colPathPoint);
 		pathPoint.setPointSize(pointSize);
 		pathPoint.setDefaultGeoType(DEFAULT_POINT_ON_PATH);
 		defaultGeoElements.put(DEFAULT_POINT_ON_PATH, pathPoint);
@@ -476,8 +462,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("PointInRegion");
 		regionPoint.setObjColor(
-				cons.getApplication().isUnbundledOrWhiteboard()
-						? colRegionPointG : colRegionPoint);
+				cons.getApplication().isUnbundledOrWhiteboard() ? colRegionPointG : colRegionPoint);
 		regionPoint.setPointSize(pointSize);
 		regionPoint.setDefaultGeoType(DEFAULT_POINT_IN_REGION);
 		defaultGeoElements.put(DEFAULT_POINT_IN_REGION, regionPoint);
@@ -487,8 +472,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		complexPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		complexPoint.setLocalVariableLabel("PointOn");
 		complexPoint.setObjColor(
-				cons.getApplication().isUnbundledOrWhiteboard()
-						? colPointG : colComplexPoint);
+				cons.getApplication().isUnbundledOrWhiteboard() ? colPointG : colComplexPoint);
 		complexPoint.setPointSize(pointSize);
 		complexPoint.setDefaultGeoType(DEFAULT_POINT_COMPLEX);
 		complexPoint.setMode(Kernel.COORD_COMPLEX);
@@ -591,8 +575,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		defaultGeoElements.put(DEFAULT_CONIC, conic);
 
 		// conic sector
-		GeoConicPart conicSector = new GeoConicPart(cons,
-				GeoConicNDConstants.CONIC_PART_SECTOR);
+		GeoConicPart conicSector = new GeoConicPart(cons, GeoConicNDConstants.CONIC_PART_SECTOR);
 		// conicSector.setLocalVariableLabel(app.getPlain("Sector"));
 		conicSector.setLocalVariableLabel("Sector");
 		conicSector.setObjColor(getColPolygon());
@@ -620,8 +603,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		number.setLineOpacity(GeoNumeric.DEFAULT_SLIDER_LINE_OPACITY);
 		number.setDefaultGeoType(DEFAULT_NUMBER);
 		number.setLineThickness(
-				number.isSlider() ? GeoNumeric.DEFAULT_SLIDER_THICKNESS
-						: GeoNumeric.DEFAULT_THICKNESS);
+				number.isSlider() ? GeoNumeric.DEFAULT_SLIDER_THICKNESS : GeoNumeric.DEFAULT_THICKNESS);
 		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL, true);
 		number.setSliderBlobSize(GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		number.setSliderFixed(false);
@@ -658,8 +640,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		// see GeoNumeric.setSliderFromDefault()
 		// angle.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
 		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE, true);
-		angle.setLineTypeHidden(
-				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
+		angle.setLineTypeHidden(EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		if (useNotReflexAngles) { // in Geometry app
 			angle.setAngleStyle(AngleStyle.NOTREFLEX);
 		}
@@ -715,27 +696,26 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		GeoList list = new GeoList(cons);
 		// list.setLocalVariableLabel(app.getPlain("List"));
 		list.setShowAllProperties(true); // show all properties in the defaults
-											// dialog
+		// dialog
 		list.setLocalVariableLabel("List");
 		list.setObjColor(colList);
 		list.setAlphaValue(-1); // wait until we have an element in the list
-								// then we will use the alphaValue of the first
-								// element in the list
-								// see GeoList.setAlphaValue() and
-								// getAlphaValue()
+		// then we will use the alphaValue of the first
+		// element in the list
+		// see GeoList.setAlphaValue() and
+		// getAlphaValue()
 		list.setDefaultGeoType(DEFAULT_LIST);
 		list.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		defaultGeoElements.put(DEFAULT_LIST, list);
 	}
 
 	private GColor getPointColor() {
-		return cons.getApplication().isUnbundledOrWhiteboard() ? colPointG
-				: colPointAlpha;
+		return cons.getApplication().isUnbundledOrWhiteboard() ? colPointG : colPointAlpha;
 	}
 
 	/**
 	 * Returns a default GeoElement of this construction.
-	 * 
+	 *
 	 * @param type
 	 *            use DEFAULT_* constants (e.g. DEFAULT_POINT_FREE)
 	 * @return default geo for given type
@@ -747,7 +727,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	/**
 	 * Adds a key/value pair to defaultGeoElements. (used by
 	 * Euclidian.EuclidianStyleBar to restore a default geo to previous state)
-	 * 
+	 *
 	 * @param defaultType
 	 *            default type
 	 * @param geo
@@ -759,7 +739,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 
 	/**
 	 * return the default type of the GeoElement
-	 * 
+	 *
 	 * @param geo
 	 *            a GeoElement
 	 * @return the default type
@@ -767,12 +747,11 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	public int getDefaultType(GeoElement geo) {
 
 		return getDefaultType(geo, geo.getGeoClassType());
-
 	}
 
 	/**
 	 * return the default type of the geo
-	 * 
+	 *
 	 * @param geo
 	 *            a GeoElement
 	 * @param geoClass
@@ -783,113 +762,112 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 		int type;
 
 		switch (geoClass) {
-		case POINT:
-			GeoPointND p = (GeoPointND) geo;
+			case POINT:
+				GeoPointND p = (GeoPointND) geo;
 
-			if (p.getToStringMode() == Kernel.COORD_COMPLEX) {
-				type = DEFAULT_POINT_COMPLEX;
-			} else if (p.isIndependent()) {
-				type = DEFAULT_POINT_FREE;
-			} else {
-				if (p.isPointOnPath()) {
-					type = DEFAULT_POINT_ON_PATH;
-				} else if (p.hasRegion()) {
-					type = DEFAULT_POINT_IN_REGION;
+				if (p.getToStringMode() == Kernel.COORD_COMPLEX) {
+					type = DEFAULT_POINT_COMPLEX;
+				} else if (p.isIndependent()) {
+					type = DEFAULT_POINT_FREE;
 				} else {
-					type = DEFAULT_POINT_DEPENDENT;
+					if (p.isPointOnPath()) {
+						type = DEFAULT_POINT_ON_PATH;
+					} else if (p.hasRegion()) {
+						type = DEFAULT_POINT_IN_REGION;
+					} else {
+						type = DEFAULT_POINT_DEPENDENT;
+					}
 				}
-			}
-			break;
-
-		case ANGLE:
-			type = DEFAULT_ANGLE;
-			break;
-
-		case BOOLEAN:
-			type = DEFAULT_BOOLEAN;
-			break;
-
-		case CONIC:
-			type = DEFAULT_CONIC;
-			break;
-
-		case CONICPART:
-			GeoConicPartND conicPart = (GeoConicPartND) geo;
-			if (conicPart
-					.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
-				type = DEFAULT_CONIC_SECTOR;
-			} else {
-				type = DEFAULT_CONIC;
-			}
-			break;
-
-		case FUNCTION_NVAR:
-			type = getDefaultTypeForFunctionNVar((GeoFunctionNVar) geo);
-			break;
-		case FUNCTION:
-			if (((GeoFunction) geo).isBooleanFunction()) {
-				type = DEFAULT_INEQUALITY;
-			} else {
-				type = DEFAULT_FUNCTION;
-			}
-			break;
-
-		case IMAGE:
-			type = DEFAULT_IMAGE;
-			break;
-
-		case LIST:
-			type = DEFAULT_LIST;
-			break;
-
-		case LOCUS:
-		case SHAPE_STADIUM:
-			type = DEFAULT_LOCUS;
-			break;
-
-		case NUMERIC:
-			type = DEFAULT_NUMBER;
-			break;
-
-		case POLYGON:
-			type = DEFAULT_POLYGON;
-			break;
-
-		case POLYLINE:
-			type = DEFAULT_POLYLINE;
-			break;
-		case INLINE_TEXT:
-		case TEXT:
-			type = DEFAULT_TEXT;
-			break;
-
-		case VECTOR:
-			type = DEFAULT_VECTOR;
-			break;
-
-		case SEGMENT:
-			type = DEFAULT_SEGMENT;
-			break;
-		case RAY:
-			type = DEFAULT_RAY;
-			break;
-		case CURVE_CARTESIAN:
-			if (cons.getApplication().isUnbundledGraphing()) {
-				type = DEFAULT_CURVE_CARTESIAN;
 				break;
-			} // else: default - no need for break here.
 
-		default:
-			// all object types that are not specifically supported
-			// should get the default values of a line
-			type = DEFAULT_LINE;
+			case ANGLE:
+				type = DEFAULT_ANGLE;
+				break;
+
+			case BOOLEAN:
+				type = DEFAULT_BOOLEAN;
+				break;
+
+			case CONIC:
+				type = DEFAULT_CONIC;
+				break;
+
+			case CONICPART:
+				GeoConicPartND conicPart = (GeoConicPartND) geo;
+				if (conicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
+					type = DEFAULT_CONIC_SECTOR;
+				} else {
+					type = DEFAULT_CONIC;
+				}
+				break;
+
+			case FUNCTION_NVAR:
+				type = getDefaultTypeForFunctionNVar((GeoFunctionNVar) geo);
+				break;
+			case FUNCTION:
+				if (((GeoFunction) geo).isBooleanFunction()) {
+					type = DEFAULT_INEQUALITY;
+				} else {
+					type = DEFAULT_FUNCTION;
+				}
+				break;
+
+			case IMAGE:
+				type = DEFAULT_IMAGE;
+				break;
+
+			case LIST:
+				type = DEFAULT_LIST;
+				break;
+
+			case LOCUS:
+			case SHAPE_STADIUM:
+				type = DEFAULT_LOCUS;
+				break;
+
+			case NUMERIC:
+				type = DEFAULT_NUMBER;
+				break;
+
+			case POLYGON:
+				type = DEFAULT_POLYGON;
+				break;
+
+			case POLYLINE:
+				type = DEFAULT_POLYLINE;
+				break;
+			case INLINE_TEXT:
+			case TEXT:
+				type = DEFAULT_TEXT;
+				break;
+
+			case VECTOR:
+				type = DEFAULT_VECTOR;
+				break;
+
+			case SEGMENT:
+				type = DEFAULT_SEGMENT;
+				break;
+			case RAY:
+				type = DEFAULT_RAY;
+				break;
+			case CURVE_CARTESIAN:
+				if (cons.getApplication().isUnbundledGraphing()) {
+					type = DEFAULT_CURVE_CARTESIAN;
+					break;
+				} // else: default - no need for break here.
+
+			default:
+				// all object types that are not specifically supported
+				// should get the default values of a line
+				type = DEFAULT_LINE;
 		}
 
 		return type;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            function n var
 	 * @return default type for this geo
@@ -905,10 +883,10 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * set geo to max layer used or max layer-1 if all layers used (layer 9
 	 * reserved so that it's always over new objects)
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @param app
@@ -916,8 +894,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	 */
 	private static void setMaxLayerUsed(GeoElement geo, App app) {
 		if (app != null) {
-			int layer = Math.min(EuclidianStyleConstants.MAX_LAYERS - 1,
-					app.getMaxLayerUsed());
+			int layer = Math.min(EuclidianStyleConstants.MAX_LAYERS - 1, app.getMaxLayerUsed());
 
 			geo.setLayer(layer);
 		}
@@ -926,20 +903,20 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	/**
 	 * Sets default color for given geo. Note: this is mostly kept for downward
 	 * compatibility.
-	 * 
+	 *
 	 * @param geo
 	 *            The element which needs new default visual styles
 	 * @param isReset
 	 *            If the visual styles should be reset
 	 */
-	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset) {
+	public final void setDefaultVisualStyles(GeoElement geo, boolean isReset) {
 		setDefaultVisualStyles(geo, isReset, true, true);
 	}
 
 	/**
 	 * Sets default color for given geo. Note: this is mostly kept for downward
 	 * compatibility.
-	 * 
+	 *
 	 * @param geo
 	 *            The element which needs new default visual styles
 	 * @param isReset
@@ -949,8 +926,8 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	 * @param setAuxiliaryProperty
 	 *            if auxiliary property should be set
 	 */
-	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset,
-			boolean setEuclidianVisible, boolean setAuxiliaryProperty) {
+	public final void setDefaultVisualStyles(
+			GeoElement geo, boolean isReset, boolean setEuclidianVisible, boolean setAuxiliaryProperty) {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		// int type = DEFAULT_LINE;
@@ -964,11 +941,10 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 
 		if (defaultGeo != null) {
 			if (!setEuclidianVisible || geo.isGeoNumeric()) { // don't affect
-																// euclidianVisible
-																// for
-																// slider/angle
-				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo,
-						isReset, setAuxiliaryProperty);
+				// euclidianVisible
+				// for
+				// slider/angle
+				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo, isReset, setAuxiliaryProperty);
 			} else {
 				geo.setAllVisualProperties(defaultGeo, isReset, setAuxiliaryProperty);
 			}
@@ -1010,29 +986,29 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 			// else -> no labels
 
 			switch (labelingStyle) {
-			case LABEL_VISIBLE_ALWAYS_ON:
-				geo.setLabelVisible(true);
-				break;
+				case LABEL_VISIBLE_ALWAYS_ON:
+					geo.setLabelVisible(true);
+					break;
 
-			case LABEL_VISIBLE_ALWAYS_OFF:
-				// we want sliders, angles, and checkboxes to be labeled always
-				geo.setLabelVisible(geo.isGeoBoolean() || geo.isGeoNumeric()
-						&& (geo.isGeoAngle() || geo.isIndependent()));
-				break;
+				case LABEL_VISIBLE_ALWAYS_OFF:
+					// we want sliders, angles, and checkboxes to be labeled always
+					geo.setLabelVisible(geo.isGeoBoolean()
+							|| geo.isGeoNumeric() && (geo.isGeoAngle() || geo.isIndependent()));
+					break;
 
-			case LABEL_VISIBLE_POINTS_ONLY:
-				// we want sliders, angles, and checkboxes to be labeled always
-				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric() || geo.isGeoBoolean());
-				break;
+				case LABEL_VISIBLE_POINTS_ONLY:
+					// we want sliders, angles, and checkboxes to be labeled always
+					geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric() || geo.isGeoBoolean());
+					break;
 
-			case LABEL_VISIBLE_USE_DEFAULTS:
-				// override for 3D objects: only points and angles
-				if (geo.isGeoElement3D()) {
-					geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
-				}
-				break;
-			default: // do nothing
-				break;
+				case LABEL_VISIBLE_USE_DEFAULTS:
+					// override for 3D objects: only points and angles
+					if (geo.isGeoElement3D()) {
+						geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
+					}
+					break;
+				default: // do nothing
+					break;
 			}
 		}
 
@@ -1080,7 +1056,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current default line thickness
 	 */
 	public int getDefaultLineThickness() {
@@ -1088,7 +1064,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current default point size
 	 */
 	public int getDefaultPointSize() {
@@ -1096,7 +1072,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current default point size
 	 */
 	public int getDefaultDependentPointSize() {
@@ -1104,7 +1080,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return current default angle size
 	 */
 	public int getDefaultAngleSize() {
@@ -1135,8 +1111,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	 * @param pointSizeDependent
 	 *            new default point size for dependent points
 	 */
-	public void setDefaultPointSize(int pointSizeDraggable,
-			int pointSizeDependent) {
+	public void setDefaultPointSize(int pointSizeDraggable, int pointSizeDependent) {
 
 		this.pointSize = Math.max(pointSizeDraggable, 1);
 		this.dependentPointSize = Math.max(pointSizeDependent, 1);
@@ -1145,20 +1120,18 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 			GeoElement geo = it.next();
 
 			switch (geo.getGeoClassType()) {
-			default:
-				// do nothing
-				break;
-			case POINT:
+				default:
+					// do nothing
+					break;
+				case POINT:
+					((GeoPointND) geo)
+							.setPointSize(geo.isMoveable() ? this.pointSize : this.dependentPointSize);
 
-				((GeoPointND) geo).setPointSize(geo.isMoveable()
-						? this.pointSize
-						: this.dependentPointSize);
+					break;
 
-				break;
-
-			case LIST:
-				((GeoList) geo).setPointSize(this.pointSize);
-				break;
+				case LIST:
+					((GeoList) geo).setPointSize(this.pointSize);
+					break;
 			}
 		}
 	}
@@ -1215,8 +1188,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	@Override
 	public void settingsChanged(LabelSettings settings) {
 		for (GeoElement geo : defaultGeoElements.values()) {
-			if (!cons.getApplication().isUnbundledOrWhiteboard()
-					|| !(geo instanceof GeoAngle)) {
+			if (!cons.getApplication().isUnbundledOrWhiteboard() || !(geo instanceof GeoAngle)) {
 				geo.labelMode = GeoElementND.LABEL_DEFAULT;
 			}
 			geo.setLabelVisible(true);
@@ -1225,7 +1197,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 
 	/**
 	 * save construction defaults
-	 * 
+	 *
 	 * @param sb2d
 	 *            string for 2d geos
 	 * @param sb3d
@@ -1258,12 +1230,11 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 			sb3d.closeTag("defaults");
 			sb3d.closeTag("geogebra");
 		}
-
 	}
 
 	/**
 	 * save construction defaults
-	 * 
+	 *
 	 * @param sb
 	 *            string for all geos
 	 */
@@ -1285,8 +1256,7 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 	 */
 	public void setConstructionDefaults(ConstructionDefaults otherDefaults) {
 		for (GeoElement geo : defaultGeoElements.values()) {
-			GeoElement otherGeo = otherDefaults
-					.getDefaultGeo(geo.getDefaultGeoType());
+			GeoElement otherGeo = otherDefaults.getDefaultGeo(geo.getDefaultGeoType());
 			if (otherGeo != null) {
 				geo.setVisualStyle(otherGeo);
 			}
@@ -1301,5 +1271,4 @@ public class ConstructionDefaults implements SettingListener<LabelSettings> {
 			geo.setLayer(0);
 		}
 	}
-
 }

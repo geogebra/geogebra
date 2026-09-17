@@ -53,11 +53,11 @@ public class HiddenLineStyleProperty extends AbstractNamedEnumeratedProperty<Hid
 			this.transKey = transKey;
 		}
 
-		static @Nullable HiddenLineStyle fromEuclidianStyleConstant(
-				int euclidianStyleConstant) {
+		static @Nullable HiddenLineStyle fromEuclidianStyleConstant(int euclidianStyleConstant) {
 			return Arrays.stream(HiddenLineStyle.values())
 					.filter(lineStyle -> lineStyle.euclidianStyleConstant == euclidianStyleConstant)
-					.findFirst().orElse(null);
+					.findFirst()
+					.orElse(null);
 		}
 	}
 

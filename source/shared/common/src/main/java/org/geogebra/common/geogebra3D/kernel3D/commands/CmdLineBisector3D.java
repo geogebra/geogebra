@@ -39,15 +39,14 @@ public class CmdLineBisector3D extends CmdLineBisector {
 	}
 
 	@Override
-	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
 		// line through point orthogonal to vector
-		if ((ok[0] = arg[0].isGeoSegment())
-				&& (ok[1] = arg[1] instanceof GeoDirectionND)) {
+		if ((ok[0] = arg[0].isGeoSegment()) && (ok[1] = arg[1] instanceof GeoDirectionND)) {
 			GeoElement[] ret = {
-					kernel.getManager3D().lineBisector3D(c.getLabel(),
-							(GeoSegmentND) arg[0], (GeoDirectionND) arg[1]) };
+				kernel.getManager3D().lineBisector3D(c.getLabel(), (GeoSegmentND) arg[0], (GeoDirectionND)
+						arg[1])
+			};
 			return ret;
 		}
 
@@ -57,8 +56,7 @@ public class CmdLineBisector3D extends CmdLineBisector {
 	@Override
 	protected GeoElement lineBisector(String label, GeoSegmentND segment) {
 
-		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientationNoSpace(kernel, app);
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (segment.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();
@@ -68,16 +66,13 @@ public class CmdLineBisector3D extends CmdLineBisector {
 			}
 		}
 
-		return kernel.getManager3D().lineBisector3D(label, segment,
-				orientation);
+		return kernel.getManager3D().lineBisector3D(label, segment, orientation);
 	}
 
 	@Override
-	protected GeoElement lineBisector(String label, GeoPointND a,
-			GeoPointND b) {
+	protected GeoElement lineBisector(String label, GeoPointND a, GeoPointND b) {
 
-		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientationNoSpace(kernel, app);
+		GeoDirectionND orientation = CommandProcessor3D.getCurrentViewOrientationNoSpace(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D() || b.isGeoElement3D()) {
 				orientation = kernel.getXOYPlane();
@@ -91,19 +86,21 @@ public class CmdLineBisector3D extends CmdLineBisector {
 	}
 
 	@Override
-	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
-			throws MyError {
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) throws MyError {
 
-		if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+		if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1].isGeoPoint())
 				&& (ok[2] = arg[2] instanceof GeoDirectionND)) {
 
-			GeoElement[] ret = { kernel.getManager3D().lineBisector3D(
-					c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
-					(GeoDirectionND) arg[2]) };
+			GeoElement[] ret = {
+				kernel
+						.getManager3D()
+						.lineBisector3D(
+								c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoDirectionND) arg[2])
+			};
 			return ret;
 		}
 
 		return null;
 	}
-
 }

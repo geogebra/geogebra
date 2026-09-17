@@ -66,10 +66,19 @@ import org.jspecify.annotations.Nullable;
  * Vector (x, y) is represented by homogeneous coordinates (x, y, 0).
  * @author Markus
  */
-final public class GeoVector extends GeoPointVector implements Path, VectorValue,
-		Translateable, Mirrorable, Dilateable,
-		MatrixTransformable, Transformable, GeoVectorND, SpreadsheetTraceable,
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, HasHeadStyle {
+public final class GeoVector extends GeoPointVector
+		implements Path,
+				VectorValue,
+				Translateable,
+				Mirrorable,
+				Dilateable,
+				MatrixTransformable,
+				Transformable,
+				GeoVectorND,
+				SpreadsheetTraceable,
+				SymbolicParametersAlgo,
+				SymbolicParametersBotanaAlgo,
+				HasHeadStyle {
 
 	private GeoPointND startPoint;
 
@@ -89,7 +98,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 	/**
 	 * Creates new GeoVector
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -110,7 +119,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 	/**
 	 * Creates new GeoVector
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param label
@@ -122,8 +131,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	 * @param z
 	 *            z-coord
 	 */
-	public GeoVector(Construction c, String label, double x, double y,
-			double z) {
+	public GeoVector(Construction c, String label, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor
 		setConstructionDefaults();
 		setLabel(label);
@@ -131,7 +139,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 	/**
 	 * Copy constructor
-	 * 
+	 *
 	 * @param vector
 	 *            vector to copy
 	 */
@@ -222,7 +230,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 	/**
 	 * Sets coords to (x,y,0)
-	 * 
+	 *
 	 * @param v
 	 *            vector (x,y)
 	 */
@@ -235,7 +243,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	/**
 	 * Converts the homogeneous coordinates (x,y,z) of this GeoVec3D to the
 	 * inhomogeneous coordinates (x/z, y/z) of a new GeoVec2D.
-	 * 
+	 *
 	 * @return vector containing inhomogeneous coords
 	 */
 	public GeoVec2D getInhomVec() {
@@ -256,8 +264,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public void setStartPoint(GeoPointND p, int number)
-			throws CircularDefinitionException {
+	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
 		setStartPoint(p);
 	}
 
@@ -386,8 +393,8 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 		if (!(isFinite() && v.isFinite())) {
 			return ExtendedBoolean.FALSE;
 		}
-		return ExtendedBoolean.newExtendedBoolean(DoubleUtil.isEqual(x, v.x)
-				&& DoubleUtil.isEqual(y, v.y));
+		return ExtendedBoolean.newExtendedBoolean(
+				DoubleUtil.isEqual(x, v.x) && DoubleUtil.isEqual(y, v.y));
 	}
 
 	/**
@@ -420,7 +427,6 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	public void mirror(GeoLineND g1) {
 		GeoLine g = (GeoLine) g1;
 		mirrorXY(2.0 * Math.atan2(-g.getX(), g.getY()));
-
 	}
 
 	@Override
@@ -437,24 +443,23 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	/*********************************************************************/
-
 	@Override
 	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
 		switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
-		case Kernel.COORD_STYLE_FRENCH:
-			// no equal sign
-			sbToString.append(": ");
-			break;
+			case Kernel.COORD_STYLE_FRENCH:
+				// no equal sign
+				sbToString.append(": ");
+				break;
 
-		case Kernel.COORD_STYLE_AUSTRIAN:
-			// no equal sign
-			break;
+			case Kernel.COORD_STYLE_AUSTRIAN:
+				// no equal sign
+				break;
 
-		default:
-			sbToString.append(" = ");
+			default:
+				sbToString.append(" = ");
 		}
 
 		// Without toString, there was an InvocationTargetException here
@@ -489,43 +494,40 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 			return sbBuildValueString;
 		}
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			sbBuildValueString.append("(");
-			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
-			sbBuildValueString.append("; ");
-			sbBuildValueString
-					.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
-			sbBuildValueString.append(")");
-			break;
+			case Kernel.COORD_POLAR:
+				sbBuildValueString.append("(");
+				sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
+				sbBuildValueString.append("; ");
+				sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
+				sbBuildValueString.append(")");
+				break;
 
-		case Kernel.COORD_COMPLEX:
-			sbBuildValueString.append(kernel.format(x, tpl));
-			sbBuildValueString.append(" ");
-			kernel.formatSigned(y, sbBuildValueString, tpl);
-			sbBuildValueString.append(Unicode.IMAGINARY);
-			break;
+			case Kernel.COORD_COMPLEX:
+				sbBuildValueString.append(kernel.format(x, tpl));
+				sbBuildValueString.append(" ");
+				kernel.formatSigned(y, sbBuildValueString, tpl);
+				sbBuildValueString.append(Unicode.IMAGINARY);
+				break;
 
-		case Kernel.COORD_CARTESIAN_3D:
-			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, x, y, 0,
-					sbBuildValueString);
-			break;
+			case Kernel.COORD_CARTESIAN_3D:
+				GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sbBuildValueString);
+				break;
 
-		case Kernel.COORD_SPHERICAL:
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0,
-					sbBuildValueString);
-			break;
+			case Kernel.COORD_SPHERICAL:
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sbBuildValueString);
+				break;
 
-		default: // CARTESIAN
-			sbBuildValueString.append("(");
-			sbBuildValueString.append(kernel.format(x, tpl));
-			if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
-				sbBuildValueString.append(" | ");
-			} else {
-				sbBuildValueString.append(", ");
-			}
-			sbBuildValueString.append(kernel.format(y, tpl));
-			sbBuildValueString.append(")");
-			break;
+			default: // CARTESIAN
+				sbBuildValueString.append("(");
+				sbBuildValueString.append(kernel.format(x, tpl));
+				if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
+					sbBuildValueString.append(" | ");
+				} else {
+					sbBuildValueString.append(", ");
+				}
+				sbBuildValueString.append(kernel.format(y, tpl));
+				sbBuildValueString.append(")");
+				break;
 		}
 		return sbBuildValueString;
 	}
@@ -557,7 +559,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 	@Override
 	public double[] getPointAsDouble() {
-		return new double[] { x, y, 0 };
+		return new double[] {x, y, 0};
 	}
 
 	/**
@@ -571,24 +573,24 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			coordStyle(xmlsb, "polar");
-			break;
+			case Kernel.COORD_POLAR:
+				coordStyle(xmlsb, "polar");
+				break;
 
-		case Kernel.COORD_COMPLEX:
-			coordStyle(xmlsb, "complex");
-			break;
+			case Kernel.COORD_COMPLEX:
+				coordStyle(xmlsb, "complex");
+				break;
 
-		case Kernel.COORD_CARTESIAN_3D:
-			coordStyle(xmlsb, "cartesian3d");
-			break;
+			case Kernel.COORD_CARTESIAN_3D:
+				coordStyle(xmlsb, "cartesian3d");
+				break;
 
-		case Kernel.COORD_SPHERICAL:
-			coordStyle(xmlsb, "spherical");
-			break;
+			case Kernel.COORD_SPHERICAL:
+				coordStyle(xmlsb, "spherical");
+				break;
 
-		default:
-			coordStyle(xmlsb, "cartesian");
+			default:
+				coordStyle(xmlsb, "cartesian");
 		}
 		if (getHeadStyle() != VectorHeadStyle.DEFAULT) {
 			getHeadStyleXML(xmlsb);
@@ -687,7 +689,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 	private void initPathSegment() {
 		if (startPoint != null && !startPoint.isGeoElement3D()) { // TODO 3D
-																	// case
+			// case
 			pathStartPoint = (GeoPoint) startPoint;
 		} else {
 			pathStartPoint = new GeoPoint(cons);
@@ -704,8 +706,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 		}
 
 		// update segment
-		pathEndPoint.setCoords(pathStartPoint.inhomX + x,
-				pathStartPoint.inhomY + y, 1.0);
+		pathEndPoint.setCoords(pathStartPoint.inhomX + x, pathStartPoint.inhomY + y, 1.0);
 
 		GeoVec3D.lineThroughPoints(pathStartPoint, pathEndPoint, pathSegment);
 		// length is used in GeoSegment.pointChanged() and
@@ -747,8 +748,14 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	 *            if symbolic
 	 */
 	public static void buildLatexValueStringCoordCartesian3D(
-			Kernel kernel, StringTemplate tpl, double x, double y, double z,
-			StringBuilder sb, GeoVectorND vector, boolean symbolic) {
+			Kernel kernel,
+			StringTemplate tpl,
+			double x,
+			double y,
+			double z,
+			StringBuilder sb,
+			GeoVectorND vector,
+			boolean symbolic) {
 		if (symbolic && vector.getDefinition() != null) {
 			sb.append(getColumnLaTeXfromExpression(vector.getDefinition(), tpl));
 		} else {
@@ -763,9 +770,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		resetStringBuilder();
-		return buildLatexString(kernel, sb, symbolic, tpl, getToStringMode(), x,
-				y,
-				this);
+		return buildLatexString(kernel, sb, symbolic, tpl, getToStringMode(), x, y, this);
 	}
 
 	private void resetStringBuilder() {
@@ -795,55 +800,59 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	 *            vector corresponding to x,y (result depends on parent algo)
 	 * @return content of string builder
 	 */
-	static public String buildLatexString(Kernel kernel, StringBuilder sb,
-			boolean symbolic, StringTemplate tpl, int toStringMode, double x,
-			double y, GeoVectorND vector) {
+	public static String buildLatexString(
+			Kernel kernel,
+			StringBuilder sb,
+			boolean symbolic,
+			StringTemplate tpl,
+			int toStringMode,
+			double x,
+			double y,
+			GeoVectorND vector) {
 		if (!symbolic && !vector.isDefined()) {
 			sb.append("?");
 			return sb.toString();
 		}
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:
-			sb.append("(");
-			sb.append(kernel.format(MyMath.length(x, y), tpl));
-			sb.append("; ");
-			sb.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
-			sb.append(")");
-			break;
+			case Kernel.COORD_POLAR:
+				sb.append("(");
+				sb.append(kernel.format(MyMath.length(x, y), tpl));
+				sb.append("; ");
+				sb.append(kernel.formatAngle(Math.atan2(y, x), null, tpl, false));
+				sb.append(")");
+				break;
 
-		case Kernel.COORD_COMPLEX:
-			sb.append(kernel.format(x, tpl));
-			sb.append(" ");
-			kernel.formatSigned(y, sb, tpl);
-			sb.append(Unicode.IMAGINARY);
-			break;
+			case Kernel.COORD_COMPLEX:
+				sb.append(kernel.format(x, tpl));
+				sb.append(" ");
+				kernel.formatSigned(y, sb, tpl);
+				sb.append(Unicode.IMAGINARY);
+				break;
 
-		case Kernel.COORD_CARTESIAN_3D:
-			buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb,
-					vector, symbolic);
-			break;
+			case Kernel.COORD_CARTESIAN_3D:
+				buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb, vector, symbolic);
+				break;
 
-		case Kernel.COORD_SPHERICAL:
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sb);
-			break;
+			case Kernel.COORD_SPHERICAL:
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sb);
+				break;
 
-		default: // CARTESIAN
-
-			ExpressionNode definition = vector.getDefinition();
-			if (symbolic && definition != null) {
-				return getColumnLaTeXfromExpression(definition, tpl);
-			}
-			String[] inputs = new String[2];
-			inputs[0] = kernel.format(x, tpl);
-			inputs[1] = kernel.format(y, tpl);
-			return LatexVectorPrinter.printLaTeXVector(sb, inputs);
+			default: // CARTESIAN
+				ExpressionNode definition = vector.getDefinition();
+				if (symbolic && definition != null) {
+					return getColumnLaTeXfromExpression(definition, tpl);
+				}
+				String[] inputs = new String[2];
+				inputs[0] = kernel.format(x, tpl);
+				inputs[1] = kernel.format(y, tpl);
+				return LatexVectorPrinter.printLaTeXVector(sb, inputs);
 		}
 
 		return sb.toString();
 	}
 
-	private static String getColumnLaTeXfromExpression(ExpressionNode definition,
-			StringTemplate tpl) {
+	private static String getColumnLaTeXfromExpression(
+			ExpressionNode definition, StringTemplate tpl) {
 		ExpressionValue ev = definition.unwrap();
 		// need to do something different for (xx,yy) and a (1,2) + c
 		if (ev instanceof MyVecNDNode) {
@@ -875,7 +884,6 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 		ret.setY(getY());
 		ret.setZ(getZ());
 		return ret;
-
 	}
 
 	@Override
@@ -895,13 +903,20 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a02, double a10,
-			double a11, double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 		double x1 = a00 * x + a01 * y + a02 * 1;
 		double y1 = a10 * x + a11 * y + a12 * 1;
 		double z1 = a20 * x + a21 * y + a22 * 1;
 		setCoords(x1 / z1, y1 / z1, 0);
-
 	}
 
 	@Override
@@ -914,18 +929,23 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 		resetSpreadsheetColumnHeadings();
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
+				kernel,
+				kernel.getAlgebraProcessor().getXBracket(), // "x("
 				Operation.PLUS,
-				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+				new ExpressionNode(
+						kernel,
+						getNameGeo(), // Name[this]
 						Operation.PLUS,
 						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
-				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
+				kernel,
+				kernel.getAlgebraProcessor().getYBracket(), // "y("
 				Operation.PLUS,
-				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+				new ExpressionNode(
+						kernel,
+						getNameGeo(), // Name[this]
 						Operation.PLUS,
 						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
-
 	}
 
 	@Override
@@ -941,8 +961,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public void addToSpreadsheetTraceList(
-			ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, getInhomVec().getX());
 		spreadsheetTraceList.add(xx);
 		GeoNumeric yy = new GeoNumeric(cons, getInhomVec().getY());
@@ -958,8 +977,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public void getFreeVariables(HashSet<PVariable> variables)
-			throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<PVariable> variables) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersAlgo) {
 			((SymbolicParametersAlgo) algoParent).getFreeVariables(variables);
 			return;
@@ -968,8 +986,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public int[] getDegrees(AbstractProverReciosMethod a)
-			throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getDegrees(a);
 		}
@@ -977,12 +994,10 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public BigInteger[] getExactCoordinates(
-			final HashMap<PVariable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(final HashMap<PVariable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent)
-					.getExactCoordinates(values);
+			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates(values);
 		}
 		throw new NoSymbolicParametersException();
 	}
@@ -996,21 +1011,17 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaVars(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
 		return null;
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent)
-					.getBotanaPolynomials(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
 		throw new NoSymbolicParametersException();
 	}
@@ -1031,8 +1042,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 
 	@Override
 	public ValueType getValueType() {
-		return getToStringMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
-				: ValueType.NONCOMPLEX2D;
+		return getToStringMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX : ValueType.NONCOMPLEX2D;
 	}
 
 	@Override
@@ -1056,8 +1066,7 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	}
 
 	@Override
-	public boolean moveVector(final Coords rwTransVec,
-			final Coords endPosition) {
+	public boolean moveVector(final Coords rwTransVec, final Coords endPosition) {
 		final GeoVector vector = this;
 		if (endPosition != null) {
 			vector.setCoords(endPosition.getX(), endPosition.getY(), 0);
@@ -1092,5 +1101,4 @@ final public class GeoVector extends GeoPointVector implements Path, VectorValue
 	public void setHeadStyle(VectorHeadStyle headStyle) {
 		this.headStyle = headStyle;
 	}
-
 }

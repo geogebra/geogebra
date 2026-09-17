@@ -34,17 +34,15 @@ import org.geogebra.common.main.syntax.Syntax;
 
 public final class IBCommandArgumentFilter implements CommandArgumentFilter {
 	private final Map<Commands, Set<Syntax>> allowedSyntaxesOfRestrictedCommands = Map.of(
-			Integral, Set.of(
-					Syntax.of(Integral, GeoElement::isGeoFunction, isNumber(), isNumber())),
-			Invert, Set.of(
-					Syntax.of(Invert, GeoElement::isMatrix)),
-			Tangent, Set.of(
-					Syntax.of(Tangent, GeoElement::isGeoPoint, GeoElement::isGeoFunction),
-					Syntax.of(Tangent, isNumber(), GeoElement::isGeoFunction)));
+			Integral, Set.of(Syntax.of(Integral, GeoElement::isGeoFunction, isNumber(), isNumber())),
+			Invert, Set.of(Syntax.of(Invert, GeoElement::isMatrix)),
+			Tangent,
+					Set.of(
+							Syntax.of(Tangent, GeoElement::isGeoPoint, GeoElement::isGeoFunction),
+							Syntax.of(Tangent, isNumber(), GeoElement::isGeoFunction)));
 
 	@Override
 	public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
-		Syntax.checkRestrictedSyntaxes(
-				allowedSyntaxesOfRestrictedCommands, command, commandProcessor);
+		Syntax.checkRestrictedSyntaxes(allowedSyntaxesOfRestrictedCommands, command, commandProcessor);
 	}
 }

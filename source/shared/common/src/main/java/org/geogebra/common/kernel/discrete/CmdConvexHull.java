@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * ConvexHull[ &lt; List of Points&gt; ]
- * 
+ *
  * @author Michael
  *
  */
@@ -31,7 +31,7 @@ public class CmdConvexHull extends CmdOneListFunction {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -40,9 +40,8 @@ public class CmdConvexHull extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoConvexHull algo = new AlgoConvexHull(cons, a, b);
 		return algo.getResult();
 	}
-
 }

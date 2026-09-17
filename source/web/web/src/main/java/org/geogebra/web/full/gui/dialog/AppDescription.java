@@ -39,25 +39,20 @@ public final class AppDescription {
 	public static AppDescription get(SuiteSubApp code) {
 		SvgPerspectiveResources res = SvgPerspectiveResources.INSTANCE;
 		switch (code) {
-		case G3D:
-			return new AppDescription(res.menu_icon_graphics3D_transparent(),
-					"GeoGebra3DGrapher.short");
-		case GEOMETRY:
-			return new AppDescription(res.menu_icon_geometry_transparent(),
-					"Geometry");
-		case CAS:
-			return new AppDescription(res.cas_white_bg(),
-					"CAS");
-		case PROBABILITY:
-			return new AppDescription(res.menu_icon_probability_transparent(),
-					"Probability");
-		case SCIENTIFIC:
-			return new AppDescription(MaterialDesignResources.INSTANCE.scientific(),
-					"Scientific");
-		case GRAPHING:
-		default:
-			return new AppDescription(res.menu_icon_algebra_transparent(),
-					"GraphingCalculator.short");
+			case G3D:
+				return new AppDescription(
+						res.menu_icon_graphics3D_transparent(), "GeoGebra3DGrapher.short");
+			case GEOMETRY:
+				return new AppDescription(res.menu_icon_geometry_transparent(), "Geometry");
+			case CAS:
+				return new AppDescription(res.cas_white_bg(), "CAS");
+			case PROBABILITY:
+				return new AppDescription(res.menu_icon_probability_transparent(), "Probability");
+			case SCIENTIFIC:
+				return new AppDescription(MaterialDesignResources.INSTANCE.scientific(), "Scientific");
+			case GRAPHING:
+			default:
+				return new AppDescription(res.menu_icon_algebra_transparent(), "GraphingCalculator.short");
 		}
 	}
 

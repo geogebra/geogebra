@@ -42,10 +42,9 @@ class DrawInputBoxTest extends BaseUnitTest {
 		TextObject textObject = mockTextObjectWithReturn("");
 		emptyInputBox.textObjectUpdated(textObject);
 
-		DrawInputBox inputBoxDrawer
-				= new DrawInputBox(getApp().getActiveEuclidianView(), inputBox);
-		DrawInputBox emptyInputBoxDrawer
-				= new DrawInputBox(getApp().getActiveEuclidianView(), emptyInputBox);
+		DrawInputBox inputBoxDrawer = new DrawInputBox(getApp().getActiveEuclidianView(), inputBox);
+		DrawInputBox emptyInputBoxDrawer =
+				new DrawInputBox(getApp().getActiveEuclidianView(), emptyInputBox);
 
 		int inputBoxHeight = getHeightOfInputBox(inputBoxDrawer, true);
 		int emptyInputBoxHeight = getHeightOfInputBox(emptyInputBoxDrawer, true);
@@ -69,8 +68,7 @@ class DrawInputBoxTest extends BaseUnitTest {
 
 		int symbolicInputBoxHeightFocused = getHeightOfInputBox(inputBoxDrawer, true);
 
-		assertEquals(symbolicInputBoxHeightNotFocused,
-				symbolicInputBoxHeightFocused);
+		assertEquals(symbolicInputBoxHeightNotFocused, symbolicInputBoxHeightFocused);
 	}
 
 	@Test
@@ -103,11 +101,9 @@ class DrawInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBoxNumber = add("InputBox(a)");
 		add("B=(1,1)");
 		add("InputBox(B)");
-		inputBoxNumber
-				.setClickScript(
-						new GgbScript(getApp(), "UpdateConstruction()"));
-		AutoCompleteTextFieldC tf = (AutoCompleteTextFieldC)
-				((DrawInputBox) getDrawable(inputBoxNumber)).getTextField();
+		inputBoxNumber.setClickScript(new GgbScript(getApp(), "UpdateConstruction()"));
+		AutoCompleteTextFieldC tf =
+				(AutoCompleteTextFieldC) ((DrawInputBox) getDrawable(inputBoxNumber)).getTextField();
 		tf.setUsedForInputBox(inputBoxNumber);
 		tf.requestFocus();
 		tf.setText("2");

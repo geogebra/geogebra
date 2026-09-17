@@ -39,7 +39,7 @@ public final class Tempo implements JFugueElement {
 
 	/**
 	 * Creates a new Tempo object, with the specified tempo value (in BPM).
-	 * 
+	 *
 	 * @param tempoInBPM
 	 *            the tempo for this object, in Beats Per Minute
 	 */
@@ -49,7 +49,7 @@ public final class Tempo implements JFugueElement {
 
 	/**
 	 * Sets the value of the tempo for this object.
-	 * 
+	 *
 	 * @param tempoInBPM
 	 *            the tempo for this object
 	 */
@@ -59,7 +59,7 @@ public final class Tempo implements JFugueElement {
 
 	/**
 	 * Returns the value of the tempo for this object.
-	 * 
+	 *
 	 * @return the value of the tempo for this object
 	 */
 	public int getTempo() {
@@ -70,7 +70,7 @@ public final class Tempo implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a Tempo object, the Music String is <code>T</code>
 	 * <i>tempo</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -83,7 +83,7 @@ public final class Tempo implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: Tempo: tempo={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -110,5 +110,4 @@ public final class Tempo implements JFugueElement {
 	public static final int VIVACE = 145;
 	public static final int PRESTO = 180;
 	public static final int PRETISSIMO = 220;
-
 }

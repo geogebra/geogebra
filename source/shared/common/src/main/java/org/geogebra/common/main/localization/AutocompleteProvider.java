@@ -48,12 +48,12 @@ public class AutocompleteProvider {
 	@NonOwning
 	@Weak
 	private final @NonNull App app;
+
 	private final boolean isForClassicCAS;
 	private LocalizedCommandSyntax englishCommandSyntax;
 	private @Nullable OperationFilter operationFilter;
-	private static Map<String, String> functionAliasSyntaxes = Map.of(
-			Commands.nCr.name(), ParserFunctions.COMBINATORIAL_SUFFIX
-	);
+	private static Map<String, String> functionAliasSyntaxes =
+			Map.of(Commands.nCr.name(), ParserFunctions.COMBINATORIAL_SUFFIX);
 
 	/**
 	 * @param app application
@@ -135,8 +135,7 @@ public class AutocompleteProvider {
 
 	private String getSyntaxString(String localizedCommandName) {
 		String internalCommandName = app.getInternalCommand(localizedCommandName);
-		boolean englishOnly = internalCommandName == null
-				&& isFallbackCompletionAllowed();
+		boolean englishOnly = internalCommandName == null && isFallbackCompletionAllowed();
 		if (englishOnly) {
 			internalCommandName = app.englishToInternal(localizedCommandName);
 		}
@@ -148,11 +147,11 @@ public class AutocompleteProvider {
 			LocalizedCommandSyntax commandSyntax = app.getLocalization().getCommandSyntax();
 			syntaxString = commandSyntax.getCommandSyntaxCAS(internalCommandName);
 		} else {
-			LocalizedCommandSyntax commandSyntax = englishOnly
-					? getEnglishCommandSyntax() : app.getLocalization().getCommandSyntax();
+			LocalizedCommandSyntax commandSyntax =
+					englishOnly ? getEnglishCommandSyntax() : app.getLocalization().getCommandSyntax();
 			AlgebraProcessor algebraProcessor = app.getKernel().getAlgebraProcessor();
-			syntaxString = algebraProcessor.getSyntax(commandSyntax, internalCommandName,
-					app.getSettings());
+			syntaxString =
+					algebraProcessor.getSyntax(commandSyntax, internalCommandName, app.getSettings());
 		}
 
 		if (syntaxString == null || syntaxString.isEmpty()) {
@@ -162,8 +161,7 @@ public class AutocompleteProvider {
 		if (syntaxString.endsWith(Localization.syntaxCAS)
 				|| syntaxString.endsWith(Localization.syntaxStr)) {
 			// command not found, check for macros
-			Macro macro = isCas() ? null
-					: app.getKernel().getMacro(internalCommandName);
+			Macro macro = isCas() ? null : app.getKernel().getMacro(internalCommandName);
 			if (macro != null) {
 				return macro.toString();
 			} else {
@@ -204,18 +202,20 @@ public class AutocompleteProvider {
 	 */
 	public Stream<Completion> getCompletions(String curWord) {
 		String prefix = curWord.indexOf('(') > 0 ? curWord.split("\\(")[0] : curWord;
-		List<String> functionResults = app.getParserFunctions()
-				.getCompletions(prefix, operationFilter);
+		List<String> functionResults = app.getParserFunctions().getCompletions(prefix, operationFilter);
 		Stream<Completion> completions = functionResults.stream()
-				.map(function -> new Completion(getMatch(function, prefix),
+				.map(function -> new Completion(
+						getMatch(function, prefix),
 						Collections.singletonList(function),
-						ManualPage.OPERATORS, null));
+						ManualPage.OPERATORS,
+						null));
 
-		List<MatchedString> commandResults = getCommandDictionary()
-				.getCompletions(prefix.toLowerCase(Locale.ROOT));
+		List<MatchedString> commandResults =
+				getCommandDictionary().getCompletions(prefix.toLowerCase(Locale.ROOT));
 		if (commandResults != null) {
 			Stream<Completion> commandCompletions = commandResults.stream()
-					.map(command -> new Completion(command,
+					.map(command -> new Completion(
+							command,
 							getSyntaxes(command.content),
 							ManualPage.COMMAND,
 							app.getInternalCommand(command.content)));
@@ -250,7 +250,10 @@ public class AutocompleteProvider {
 		 * @param helpType help type
 		 * @param helpPage help page
 		 */
-		public Completion(MatchedString match, List<String> syntaxes, ManualPage helpType,
+		public Completion(
+				MatchedString match,
+				List<String> syntaxes,
+				ManualPage helpType,
 				@Nullable String helpPage) {
 			this.match = match;
 			this.syntaxes = syntaxes;

@@ -22,17 +22,16 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * for cylinders
- * 
+ *
  * @author mathieu
  *
  */
 public class AlgoQuadricComputerCylinder extends AlgoQuadricComputer {
 
 	@Override
-	public void setQuadric(GeoQuadric3D quadric, Coords origin,
-			Coords direction, Coords eigen, double r, double r2) {
+	public void setQuadric(
+			GeoQuadric3D quadric, Coords origin, Coords direction, Coords eigen, double r, double r2) {
 		quadric.setCylinder(origin, direction.normalize(), eigen, r, r2);
-
 	}
 
 	@Override
@@ -46,5 +45,4 @@ public class AlgoQuadricComputerCylinder extends AlgoQuadricComputer {
 
 		return v;
 	}
-
 }

@@ -56,26 +56,25 @@ public class GMenuBar extends AriaMenuBar {
 	 */
 	public boolean isLastItemSelected() {
 		return this.getItemIndex(this.getSelectedItem()) == this.getItems().size() + separators - 1;
-    }
-	
+	}
+
 	@Override
 	public void addSeparator() {
-		this.separators  ++;
+		this.separators++;
 		super.addSeparator();
 	}
 
 	/**
 	 * As far as GWT is buggy in the implementation of this, it is necessary to
 	 * have a method to correct that
-	 * 
+	 *
 	 * @param parent
 	 *            top level element
 	 * @param showLeft
 	 *            specifies if submenu should open to the left.
 	 * @return MenuItem
 	 */
-	public Scheduler.ScheduledCommand getSubmenuCommand(AriaMenuItem parent,
-			final boolean showLeft) {
+	public Scheduler.ScheduledCommand getSubmenuCommand(AriaMenuItem parent, final boolean showLeft) {
 
 		return new Scheduler.ScheduledCommand() {
 			private GPopupPanel popup;
@@ -96,27 +95,21 @@ public class GMenuBar extends AriaMenuBar {
 				AriaMenuBar submenu = parent.getSubMenu();
 				if (popup == null) {
 					// popuppanel still not present
-					popup = new GPopupPanel(true, false,
-							app.getAppletFrame(), app);
-					popup.addAutoHidePartner(
-							parent.getElement());
+					popup = new GPopupPanel(true, false, app.getAppletFrame(), app);
+					popup.addAutoHidePartner(parent.getElement());
 
-					submenu.addStyleName(showLeft ? "subMenuLeftSide2"
-							: "subMenuRightSide2");
+					submenu.addStyleName(showLeft ? "subMenuLeftSide2" : "subMenuRightSide2");
 					submenu.selectItem(null);
 					if (showLeft) {
 						popup.addStyleName("subMenuLeftSidePopup");
 					} else {
-						popup.addStyleName(
-								"GeoGebraMenuBar.subMenuRightSidePopup");
+						popup.addStyleName("GeoGebraMenuBar.subMenuRightSidePopup");
 					}
 
 					popup.add(submenu);
-					int left = (int) ((getAbsoluteHorizontalPos(parent,
-							showLeft) - (int) app.getAbsLeft())
+					int left = (int) ((getAbsoluteHorizontalPos(parent, showLeft) - (int) app.getAbsLeft())
 							/ app.getGeoGebraElement().getScaleX());
-					int top = (int) ((parent.getAbsoluteTop()
-							- app.getAbsTop())
+					int top = (int) ((parent.getAbsoluteTop() - app.getAbsTop())
 							/ app.getGeoGebraElement().getScaleY());
 
 					popup.setPopupPosition(left, top);
@@ -145,11 +138,10 @@ public class GMenuBar extends AriaMenuBar {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if menu has no items.
 	 */
 	public boolean isEmpty() {
 		return getItems().isEmpty();
 	}
-
 }

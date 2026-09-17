@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing a 3D ray.
- * 
+ *
  * @author matthieu
  *
  */
@@ -38,7 +38,7 @@ public class DrawRay3D extends DrawCoordSys1D {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param a_view
 	 *            view
 	 * @param ray
@@ -56,7 +56,7 @@ public class DrawRay3D extends DrawCoordSys1D {
 
 	/**
 	 * update when the element is modified
-	 * 
+	 *
 	 * @param updateDrawMinMax
 	 *            update min and max values
 	 */
@@ -76,19 +76,17 @@ public class DrawRay3D extends DrawCoordSys1D {
 		GeoLineND line = (GeoLineND) getGeoElement();
 
 		Coords o = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
-		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension()
-				.sub(o);
+		Coords v = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o);
 
-		double[] minmax = getView3D().getIntervalClippedLarge(
-				new double[] { 0, Double.POSITIVE_INFINITY }, o, v);
+		double[] minmax =
+				getView3D().getIntervalClippedLarge(new double[] {0, Double.POSITIVE_INFINITY}, o, v);
 
 		setDrawMinMax(minmax[0], minmax[1]);
 	}
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByZoom()
-				|| getView3D().viewChangedByTranslate()) {
+		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()) {
 			updateForItSelf();
 		}
 	}
@@ -127,17 +125,14 @@ public class DrawRay3D extends DrawCoordSys1D {
 
 	/**
 	 * Constructor for previewable
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param selectedPoints
 	 *            preview points
 	 */
-	public DrawRay3D(EuclidianView3D a_view3D,
-			ArrayList<GeoPointND> selectedPoints) {
+	public DrawRay3D(EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints) {
 
-		super(a_view3D, selectedPoints,
-				new GeoRay3D(a_view3D.getKernel().getConstruction()));
+		super(a_view3D, selectedPoints, new GeoRay3D(a_view3D.getKernel().getConstruction()));
 	}
-
 }

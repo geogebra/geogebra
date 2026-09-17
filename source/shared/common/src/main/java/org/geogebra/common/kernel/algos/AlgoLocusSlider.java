@@ -42,8 +42,7 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 	 * @param slider
 	 *            slider
 	 */
-	public AlgoLocusSlider(Construction cons, String label, GeoPoint Q,
-			GeoNumeric slider) {
+	public AlgoLocusSlider(Construction cons, String label, GeoPoint Q, GeoNumeric slider) {
 		super(cons, label, Q, slider);
 	}
 
@@ -54,14 +53,12 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 	@Override
 	protected void insertPoint(GeoPointND point, boolean lineTo) {
-		insertPoint(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY,
-				lineTo);
+		insertPoint(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY, lineTo);
 	}
 
 	private void insertPoint(double x, double y, boolean lineTo) {
 		pointCount++;
-		((GeoLocus) locus).insertPoint(x, y, lineTo ? SegmentType.LINE_TO
-				: SegmentType.MOVE_TO);
+		((GeoLocus) locus).insertPoint(x, y, lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO);
 		lastX = x;
 		lastY = y;
 		for (int i = 0; i < lastFarAway.length; i++) {
@@ -70,14 +67,13 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 	}
 
 	protected boolean isFarAway(double x, double y, int i) {
-		return x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
-				|| y < farYmin[i];
+		return x > farXmax[i] || x < farXmin[i] || y > farYmax[i] || y < farYmin[i];
 	}
 
 	@Override
 	protected boolean distanceOK(GeoPointND QND, int i) {
-		final double[] min = { farXmin[i], farYmin[i] };
-		final double[] max = { farXmax[i], farYmax[i] };
+		final double[] min = {farXmin[i], farYmin[i]};
+		final double[] max = {farXmax[i], farYmax[i]};
 		GeoPoint Q = (GeoPoint) QND;
 		// if last point Q' was far away and Q is far away
 		// then the distance is probably OK (return true),
@@ -110,8 +106,8 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 		boolean[] distSmall = new boolean[3];
 		for (int i = 0; i < distSmall.length; i++) {
-			distSmall[i] = Math.abs(Q.inhomX - lastX) < maxXdist[i]
-					&& Math.abs(Q.inhomY - lastY) < maxYdist[i];
+			distSmall[i] =
+					Math.abs(Q.inhomX - lastX) < maxXdist[i] && Math.abs(Q.inhomY - lastY) < maxYdist[i];
 		}
 
 		if (orInsteadOfAnd) {
@@ -164,8 +160,6 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 	@Override
 	protected boolean isFarAway(GeoPointND point, int i) {
-		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY,
-				i);
+		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY, i);
 	}
-
 }

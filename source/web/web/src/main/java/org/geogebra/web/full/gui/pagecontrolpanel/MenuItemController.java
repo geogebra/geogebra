@@ -90,18 +90,21 @@ public final class MenuItemController {
 			String url = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
 			String objects = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE_OBJECTS);
 
-			DomGlobal.fetch(url).then(Response::text).then(text -> {
-				pastePage(pasteAfter, text, objects);
-				return null;
-			}).catch_(err -> {
-				// paste data from previous session -> delete
-				BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
-				BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE_OBJECTS);
-				if (paste != null) {
-					paste.setEnabled(false);
-				}
-				return null;
-			});
+			DomGlobal.fetch(url)
+					.then(Response::text)
+					.then(text -> {
+						pastePage(pasteAfter, text, objects);
+						return null;
+					})
+					.catch_(err -> {
+						// paste data from previous session -> delete
+						BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
+						BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE_OBJECTS);
+						if (paste != null) {
+							paste.setEnabled(false);
+						}
+						return null;
+					});
 		};
 	}
 
@@ -112,9 +115,8 @@ public final class MenuItemController {
 		return () -> {
 			contextMenu.hide();
 			boolean oneSlide = appW.getPageController().getSlideCount() == 1;
-			appW.dispatchEvent(new Event(oneSlide ? EventType.CLEAR_PAGE
-					: EventType.REMOVE_PAGE, null,
-					card.getID()));
+			appW.dispatchEvent(
+					new Event(oneSlide ? EventType.CLEAR_PAGE : EventType.REMOVE_PAGE, null, card.getID()));
 			frame.getPageControlPanel().removePage(card.getPageIndex());
 		};
 	}
@@ -157,8 +159,8 @@ public final class MenuItemController {
 		frame.getPageControlPanel().pastePage(pasteAfter, targetID, text);
 	}
 
-	private Map<String, Object> getPasteJson(PagePreviewCard pasteAfter, String content,
-			String targetId, String objects) {
+	private Map<String, Object> getPasteJson(
+			PagePreviewCard pasteAfter, String content, String targetId, String objects) {
 		Map<String, Object> pasteJson = new HashMap<>();
 		pasteJson.put("argument", targetId);
 		// note: this must be double so that JS can understand it
@@ -174,8 +176,8 @@ public final class MenuItemController {
 	}
 
 	private String getObjectNames(PagePreviewCard card) {
-		return Global.JSON.stringify(ObjectLabelHandler.findObjectNames(
-				card.getFile().get("geogebra.xml").string));
+		return Global.JSON.stringify(
+				ObjectLabelHandler.findObjectNames(card.getFile().get("geogebra.xml").string));
 	}
 
 	/**
@@ -192,12 +194,14 @@ public final class MenuItemController {
 			return;
 		}
 
-		DomGlobal.fetch(slideContent).then(text -> {
-			pasteItem.setEnabled(true);
-			return null;
-		}).catch_(error -> {
-			pasteItem.setEnabled(false);
-			return null;
-		});
+		DomGlobal.fetch(slideContent)
+				.then(text -> {
+					pasteItem.setEnabled(true);
+					return null;
+				})
+				.catch_(error -> {
+					pasteItem.setEnabled(false);
+					return null;
+				});
 	}
 }

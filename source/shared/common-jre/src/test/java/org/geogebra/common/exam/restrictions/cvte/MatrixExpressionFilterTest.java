@@ -41,7 +41,6 @@ class MatrixExpressionFilterTest extends BaseUnitTest {
 		assertFalse(isAllowed("{1,2,3} + {{4,5,6}}"));
 		assertFalse(isAllowed("{{1},{2},{3}} * {{4,5,6}}"));
 		assertFalse(isAllowed("Invert({{1,2}, {3,4}})"));
-
 	}
 
 	private boolean isAllowed(String input) {

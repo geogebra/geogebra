@@ -27,8 +27,7 @@ public interface GeoElementDependentProperty {
 	/** Observer for {@code GeoElement} redefinition events */
 	interface RedefinitionObserver {
 		/** Called when a {@code GeoElement} got redefined to a new {@code GeoElement}). */
-		void onGeoElementRedefined(@NonNull GeoElement originalElement,
-				@NonNull GeoElement newElement);
+		void onGeoElementRedefined(@NonNull GeoElement originalElement, @NonNull GeoElement newElement);
 	}
 
 	/**

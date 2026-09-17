@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -64,9 +64,17 @@ import org.jspecify.annotations.Nullable;
  *
  */
 public class GeoPlane3D extends GeoElement3D
-		implements Functional2Var, ViewCreator, GeoCoords4D, GeoPlaneND,
-		Translateable, Traceable, RotatableND, MirrorableAtPlane,
-		Transformable, Dilateable, MatrixTransformable {
+		implements Functional2Var,
+				ViewCreator,
+				GeoCoords4D,
+				GeoPlaneND,
+				Translateable,
+				Traceable,
+				RotatableND,
+				MirrorableAtPlane,
+				Transformable,
+				Dilateable,
+				MatrixTransformable {
 
 	// values for grid and interactions
 	private double xmin;
@@ -82,8 +90,8 @@ public class GeoPlane3D extends GeoElement3D
 	// grid and plate
 	private boolean plateVisible = true;
 	private double dx = Double.NaN; // distance between two marks on the grid
-									// //TODO use
-							// object
+	// //TODO use
+	// object
 	// properties
 	private double dy = Double.NaN;
 
@@ -99,12 +107,13 @@ public class GeoPlane3D extends GeoElement3D
 	private boolean trace;
 
 	/** string repre of coordinates */
-	private static final String[] VAR_STRING = { "x", "y", "z" };
+	private static final String[] VAR_STRING = {"x", "y", "z"};
+
 	protected Form equationForm = Form.USER;
 
 	/**
 	 * creates an empty plane
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -140,12 +149,10 @@ public class GeoPlane3D extends GeoElement3D
 	 * @param d
 	 *            constant coefficient
 	 */
-	public GeoPlane3D(Construction cons, double a, double b, double c,
-			double d) {
+	public GeoPlane3D(Construction cons, double a, double b, double c, double d) {
 		this(cons);
 
 		setEquation(a, b, c, d);
-
 	}
 
 	/**
@@ -167,8 +174,7 @@ public class GeoPlane3D extends GeoElement3D
 		setEquation(x, y, z, w, false);
 	}
 
-	private void setEquation(double a, double b, double c, double d,
-			boolean makeCoordSys) {
+	private void setEquation(double a, double b, double c, double d, boolean makeCoordSys) {
 
 		if (makeCoordSys || !getCoordSys().isDefined()) {
 			setDefinition(null);
@@ -191,12 +197,10 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
-			Coords willingDirection) {
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
+	public Coords[] getProjection(Coords oldCoords, Coords willingCoords, Coords willingDirection) {
+		Coords[] result = new Coords[] {new Coords(4), new Coords(4)};
 		willingCoords.projectPlaneThruVIfPossible(
-				getCoordSys().getMatrixOrthonormal(), oldCoords,
-				willingDirection, result[0], result[1]);
+				getCoordSys().getMatrixOrthonormal(), oldCoords, willingDirection, result[0], result[1]);
 
 		return result;
 	}
@@ -216,15 +220,13 @@ public class GeoPlane3D extends GeoElement3D
 	public void pointChangedForRegion(GeoPointND P) {
 		P.updateCoords2D();
 		P.updateCoordsFrom2D(false, null);
-
 	}
 
 	@Override
 	public void regionChanged(GeoPointND P) {
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		if (!getKernel().usePathAndRegionParameters(P)
-				|| P.getRegionParameters().isNaN()) {
+		if (!getKernel().usePathAndRegionParameters(P) || P.getRegionParameters().isNaN()) {
 			pointChangedForRegion(P);
 			return;
 		}
@@ -232,7 +234,6 @@ public class GeoPlane3D extends GeoElement3D
 		// pointChangedForRegion(P);
 		RegionParameters rp = P.getRegionParameters();
 		P.setCoords(getPoint(rp.getT1(), rp.getT2(), new Coords(4)), false);
-
 	}
 
 	@Override
@@ -245,7 +246,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	/**
 	 * Sets corners of the plate.
-	 * 
+	 *
 	 * @param x1
 	 *            x-min
 	 * @param y1
@@ -274,7 +275,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	/**
 	 * sets corners of the grid
-	 * 
+	 *
 	 * @param x1
 	 *            x-min
 	 * @param y1
@@ -303,7 +304,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	/**
 	 * set grid distances (between two ticks)
-	 * 
+	 *
 	 * @param dx
 	 *            grid x distance
 	 * @param dy
@@ -481,12 +482,11 @@ public class GeoPlane3D extends GeoElement3D
 			return getDefinition().toValueString(tpl);
 		}
 		canceledEquation.set(getCoordSys().getEquationVector());
-		return buildValueString(tpl, kernel, canceledEquation,
-				!isLabelSet()).toString();
+		return buildValueString(tpl, kernel, canceledEquation, !isLabelSet()).toString();
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 		return label + ": " + toValueString(tpl);
 	}
 
@@ -518,10 +518,9 @@ public class GeoPlane3D extends GeoElement3D
 	 *            whether to force +0z
 	 * @return value as stringbuilder
 	 */
-	static public StringBuilder buildValueString(StringTemplate tpl,
-			Kernel kernel, Coords coords, boolean needsZ) {
-		return kernel.buildImplicitEquation(coords.get(), VAR_STRING,
-				true, needsZ, tpl, true);
+	public static StringBuilder buildValueString(
+			StringTemplate tpl, Kernel kernel, Coords coords, boolean needsZ) {
+		return kernel.buildImplicitEquation(coords.get(), VAR_STRING, true, needsZ, tpl, true);
 	}
 
 	/** to be able to fill it with an alpha value */
@@ -579,8 +578,7 @@ public class GeoPlane3D extends GeoElement3D
 		ExpressionValue ev = definition.unwrap();
 		if (ev instanceof Equation) {
 			return Double.isFinite(((Equation) ev).getLHS().evaluateDouble())
-					&& Double.isFinite(
-							((Equation) ev).getRHS().evaluateDouble());
+					&& Double.isFinite(((Equation) ev).getRHS().evaluateDouble());
 		}
 		return false;
 	}
@@ -642,8 +640,8 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public void createView2D() {
-		euclidianViewForPlane = kernel.getApplication().getCompanion()
-				.createEuclidianViewForPlane(this, true);
+		euclidianViewForPlane =
+				kernel.getApplication().getCompanion().createEuclidianViewForPlane(this, true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
 
@@ -662,8 +660,8 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public boolean hasView2DVisible() {
-		return euclidianViewForPlane != null && kernel.getApplication()
-				.getGuiManager().showView(euclidianViewForPlane.getId());
+		return euclidianViewForPlane != null
+				&& kernel.getApplication().getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 
 	@Override
@@ -675,9 +673,7 @@ public class GeoPlane3D extends GeoElement3D
 			return;
 		}
 
-		kernel.getApplication().getGuiManager().setShowView(flag,
-				euclidianViewForPlane.getId());
-
+		kernel.getApplication().getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
 	}
 
 	@Override
@@ -689,8 +685,7 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public void setEuclidianViewForPlane(
-			EuclidianViewForPlaneCompanionInterface view) {
+	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanionInterface view) {
 		euclidianViewForPlane = view;
 	}
 
@@ -702,11 +697,10 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public double distance(GeoPointND P) {
 		return Math.abs(distanceWithSign(P));
-
 	}
 
 	/**
-	 * 
+	 *
 	 * @param P
 	 *            point
 	 * @return distance from point P to this plane, with sign
@@ -724,7 +718,6 @@ public class GeoPlane3D extends GeoElement3D
 		tmpCoords2.normalize();
 
 		return tmpCoords1.dotproduct(tmpCoords2);
-
 	}
 
 	@Override
@@ -745,11 +738,9 @@ public class GeoPlane3D extends GeoElement3D
 			return 0;
 		}
 
-		tmpCoords1.setSub(P.getCoordSys().getOrigin(),
-				getCoordSys().getOrigin());
+		tmpCoords1.setSub(P.getCoordSys().getOrigin(), getCoordSys().getOrigin());
 
 		return tmpCoords1.dotproduct(tmpCoords2);
-
 	}
 
 	// ///////////////////////////////////
@@ -792,48 +783,44 @@ public class GeoPlane3D extends GeoElement3D
 
 	/**
 	 * rotate the plane
-	 * 
+	 *
 	 * @param rot
 	 *            rotation matrix
 	 * @param center
 	 *            rotation center
 	 */
-	final public void rotate(CoordMatrix rot, Coords center) {
+	public final void rotate(CoordMatrix rot, Coords center) {
 		coordsys.rotate(rot, center);
 		coordsys.makeEquationVector();
 	}
 
 	@Override
-	final public void rotate(NumberValue phiVal) {
+	public final void rotate(NumberValue phiVal) {
 		coordsys.rotate(phiVal.getDouble(), Coords.O);
 		coordsys.makeEquationVector();
 	}
 
 	@Override
-	final public void rotate(NumberValue phiVal, GeoPointND Q) {
+	public final void rotate(NumberValue phiVal, GeoPointND Q) {
 		coordsys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD3());
 		coordsys.makeEquationVector();
 	}
 
-	private void rotate(NumberValue phiVal, Coords center,
-			Coords direction) {
+	private void rotate(NumberValue phiVal, Coords center, Coords direction) {
 		coordsys.rotate(phiVal.getDouble(), center, direction.normalized());
 		coordsys.makeEquationVector();
 	}
 
 	@Override
-	public void rotate(NumberValue phiVal, Coords Q,
-			GeoDirectionND orientation) {
+	public void rotate(NumberValue phiVal, Coords Q, GeoDirectionND orientation) {
 
 		rotate(phiVal, Q, orientation.getDirectionInD3());
-
 	}
 
 	@Override
 	public void mirror(Coords Q) {
 		coordsys.mirror(Q);
 		coordsys.mirrorEquationVector(Q);
-
 	}
 
 	@Override
@@ -843,14 +830,12 @@ public class GeoPlane3D extends GeoElement3D
 
 		coordsys.mirror(point, direction);
 		coordsys.makeEquationVector();
-
 	}
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		coordsys.mirror(plane.getCoordSys());
 		coordsys.makeEquationVector();
-
 	}
 
 	// //////////////////////
@@ -866,7 +851,7 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public final HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 
@@ -949,8 +934,16 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a02, double a10, double a11,
-			double a12, double a20, double a21, double a22) {
+	public void matrixTransform(
+			double a00,
+			double a01,
+			double a02,
+			double a10,
+			double a11,
+			double a12,
+			double a20,
+			double a21,
+			double a22) {
 		CoordMatrix4x4 tmpMatrix4x4 = CoordMatrix4x4.identity();
 
 		tmpMatrix4x4.set(1, 1, a00);
@@ -979,5 +972,4 @@ public class GeoPlane3D extends GeoElement3D
 			equationForm = ((LinearEquationRepresentable) other).getEquationForm();
 		}
 	}
-
 }

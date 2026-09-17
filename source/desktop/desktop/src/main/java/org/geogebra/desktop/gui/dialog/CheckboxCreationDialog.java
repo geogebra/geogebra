@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -50,8 +50,8 @@ import org.geogebra.desktop.main.LocalizationD;
  * Dialog to create a GeoBoolean object (checkbox) that determines the
  * visibility of a list of objects.
  */
-public class CheckboxCreationDialog extends Dialog implements
-		WindowFocusListener, ActionListener, GeoElementSelectionListener {
+public class CheckboxCreationDialog extends Dialog
+		implements WindowFocusListener, ActionListener, GeoElementSelectionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -71,8 +71,7 @@ public class CheckboxCreationDialog extends Dialog implements
 	/**
 	 * Input Dialog for a GeoText object
 	 */
-	public CheckboxCreationDialog(AppD app, Point location,
-			GeoBoolean geoBoolean) {
+	public CheckboxCreationDialog(AppD app, Point location, GeoBoolean geoBoolean) {
 		super(app.getFrame(), false);
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -88,8 +87,8 @@ public class CheckboxCreationDialog extends Dialog implements
 	private void initLists() {
 		// fill combo box with all geos
 		comboModel = new DefaultComboBoxModel<>();
-		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
-				.getGeoSetNameDescriptionOrder();
+		TreeSet<GeoElement> sortedSet =
+				app.getKernel().getConstruction().getGeoSetNameDescriptionOrder();
 
 		// lists for combo boxes to select input and output objects
 		// fill combobox models
@@ -124,8 +123,7 @@ public class CheckboxCreationDialog extends Dialog implements
 		};
 
 		// add all selected geos to list
-		for (int i = 0; i < app.getSelectionManager().getSelectedGeos()
-				.size(); i++) {
+		for (int i = 0; i < app.getSelectionManager().getSelectedGeos().size(); i++) {
 			GeoElement geo = app.getSelectionManager().getSelectedGeos().get(i);
 			listModel.addElement(geo);
 		}
@@ -142,8 +140,8 @@ public class CheckboxCreationDialog extends Dialog implements
 
 		// create caption panel
 		JLabel captionLabel = new JLabel(loc.getMenu("Button.Caption") + ":");
-		String initString = geoBoolean == null ? ""
-				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
+		String initString =
+				geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelD ip = new InputPanelD(initString, app, 15, true, false);
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextFieldD) {
@@ -171,8 +169,8 @@ public class CheckboxCreationDialog extends Dialog implements
 		JPanel optionPane = new JPanel(new BorderLayout(5, 5));
 
 		// create object list
-		JPanel listPanel = ToolCreationDialogD.createInputOutputPanel(loc,
-				listModel, comboModel, false, false, null);
+		JPanel listPanel =
+				ToolCreationDialogD.createInputOutputPanel(loc, listModel, comboModel, false, false, null);
 
 		optionPane.add(captionPanel, BorderLayout.NORTH);
 		optionPane.add(listPanel, BorderLayout.CENTER);
@@ -257,5 +255,4 @@ public class CheckboxCreationDialog extends Dialog implements
 		}
 		super.setVisible(flag);
 	}
-
 }

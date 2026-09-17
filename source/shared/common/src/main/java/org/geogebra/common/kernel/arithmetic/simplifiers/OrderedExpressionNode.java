@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -60,8 +60,7 @@ public final class OrderedExpressionNode extends ExpressionNode {
 		ExpressionNode node = ev.wrap();
 		ExpressionValue left = node.getLeft();
 		ExpressionValue right = node.getRight();
-		if (isAddSubNode(node) && isAtomic(node.getRight())
-				&& node.getRight().evaluateDouble() < 0) {
+		if (isAddSubNode(node) && isAtomic(node.getRight()) && node.getRight().evaluateDouble() < 0) {
 			right = utils.negateAtomic(right);
 			node = utils.newNode(left, Operation.inverse(node.getOperation()), right);
 		}
@@ -69,11 +68,11 @@ public final class OrderedExpressionNode extends ExpressionNode {
 		if (node.isOperation(Operation.PLUS)) {
 			double v = left.evaluateDouble();
 			if (v < right.evaluateDouble() && !(DoubleUtil.isInteger(v) && v > 0)) {
-				return utils.newNode(right.traverse(this::sortOperands),
-						Operation.PLUS, left.traverse(this::sortOperands));
+				return utils.newNode(
+						right.traverse(this::sortOperands), Operation.PLUS, left.traverse(this::sortOperands));
 			}
-			return utils.newNode(left.traverse(this::sortOperands),
-					Operation.PLUS, right.traverse(this::sortOperands));
+			return utils.newNode(
+					left.traverse(this::sortOperands), Operation.PLUS, right.traverse(this::sortOperands));
 		}
 
 		return ev;
@@ -107,5 +106,4 @@ public final class OrderedExpressionNode extends ExpressionNode {
 	public boolean hasNumeratorNegativesOnly() {
 		return isDivNode(this) && isAllNegative(getLeft());
 	}
-
 }

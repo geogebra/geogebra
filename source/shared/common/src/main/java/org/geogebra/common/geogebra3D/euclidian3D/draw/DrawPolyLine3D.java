@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing 1D coord sys (lines, segments, ...)
- * 
+ *
  * @author matthieu
  *
  */
@@ -44,7 +44,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param p
@@ -56,24 +56,21 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	/**
 	 * common constructor for previewable
-	 * 
+	 *
 	 * @param a_view3d
 	 *            view
 	 * @param points
 	 *            preview points
 	 */
-	public DrawPolyLine3D(EuclidianView3D a_view3d,
-			ArrayList<GeoPointND> points) {
+	public DrawPolyLine3D(EuclidianView3D a_view3d, ArrayList<GeoPointND> points) {
 		super(a_view3d);
 		// p.setIsPickable(false);
 		// setGeoElement(p);
 
-		setGeoElement(
-				new GeoPolyLine3D(a_view3d.getKernel().getConstruction()));
+		setGeoElement(new GeoPolyLine3D(a_view3d.getKernel().getConstruction()));
 		this.selectedPoints = points;
 
 		updatePreview();
-
 	}
 
 	/**
@@ -115,8 +112,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(getLineThickness(), (float) getView3D().getScale());
 		// brush.setColor(getGeoElement().getObjectColor());
-		brush.setAffineTexture(
-				(float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
+		brush.setAffineTexture((float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
 		GeoPolyLine p = (GeoPolyLine) getGeoElement();
 		int num = p.getNumPoints();
 		if (num > 0) {
@@ -179,7 +175,6 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		} else {
 			getGeoElement().setEuclidianVisible(false);
 		}
-
 	}
 
 	@Override
@@ -205,5 +200,4 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 			exportToPrinter3D.exportCurve(this, ExportToPrinter3D.Export3DType.CURVE);
 		}
 	}
-
 }

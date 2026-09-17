@@ -174,9 +174,9 @@ public final class InlineTextControllerW implements InlineTextController {
 			@Override
 			public void onInput() {
 				double oldMinHeight = geo.getMinHeight();
-				int actualMinHeight =
-						(int) ((editor.getMinHeight() + 2 * DrawInlineText.PADDING) * geo.getWidth()
-								/ geo.getContentWidth());
+				int actualMinHeight = (int) ((editor.getMinHeight() + 2 * DrawInlineText.PADDING)
+						* geo.getWidth()
+						/ geo.getContentWidth());
 				if (oldMinHeight != actualMinHeight) {
 					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
@@ -214,15 +214,24 @@ public final class InlineTextControllerW implements InlineTextController {
 		}
 	}
 
-	private void storeUndoAction(GeoInline geo, double oldHeight, double oldContentHeight,
-			String oldContent) {
+	private void storeUndoAction(
+			GeoInline geo, double oldHeight, double oldContentHeight, String oldContent) {
 		if (oldContent != null) {
 			String label = geo.getLabelSimple();
-			geo.getConstruction().getUndoManager()
-					.buildAction(ActionType.SET_CONTENT, label, Double.toString(geo.getHeight()),
-							Double.toString(geo.getContentHeight()), geo.getContent())
-					.withUndo(ActionType.SET_CONTENT, label, Double.toString(oldHeight),
-							Double.toString(oldContentHeight), oldContent)
+			geo.getConstruction()
+					.getUndoManager()
+					.buildAction(
+							ActionType.SET_CONTENT,
+							label,
+							Double.toString(geo.getHeight()),
+							Double.toString(geo.getContentHeight()),
+							geo.getContent())
+					.withUndo(
+							ActionType.SET_CONTENT,
+							label,
+							Double.toString(oldHeight),
+							Double.toString(oldContentHeight),
+							oldContent)
 					.withLabels(label)
 					.storeAndNotifyUnsaved();
 		} else {
@@ -291,15 +300,12 @@ public final class InlineTextControllerW implements InlineTextController {
 				onEditorChange(content);
 				geo.updateRepaint();
 				geo.unlockForMultiuser();
-			} else if (lastNonemptyContent != null
-					&& trigger == DrawInline.SuspensionTrigger.BLUR) {
+			} else if (lastNonemptyContent != null && trigger == DrawInline.SuspensionTrigger.BLUR) {
 				geo.setContent(lastNonemptyContent);
-				UndoableDeletionExecutor undoableDeletionExecutor =
-						new UndoableDeletionExecutor();
+				UndoableDeletionExecutor undoableDeletionExecutor = new UndoableDeletionExecutor();
 				undoableDeletionExecutor.delete(geo);
 				undoableDeletionExecutor.storeUndoAction(view.getKernel());
-			} else if (trigger == DrawInline.SuspensionTrigger.BLUR
-					&& !(geo instanceof GeoMindMapNode)) {
+			} else if (trigger == DrawInline.SuspensionTrigger.BLUR && !(geo instanceof GeoMindMapNode)) {
 				// this was added to construction but not to undo stack => just remove
 				geo.remove();
 			}
@@ -375,8 +381,8 @@ public final class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
-				DrawInlineText.PADDING + getValignPadding());
+		GAffineTransform res = AwtFactory.getTranslateInstance(
+				DrawInlineText.PADDING, DrawInlineText.PADDING + getValignPadding());
 		g2.transform(res);
 		g2.setColor(GColor.BLACK);
 		editor.draw(((GGraphics2DWI) g2).getContext());
@@ -384,11 +390,9 @@ public final class InlineTextControllerW implements InlineTextController {
 
 	private int getValignPadding() {
 		if (getVerticalAlignment() == VerticalAlignment.MIDDLE) {
-			return (int) (geo.getContentHeight() - editor.getMinHeight()) / 2
-					- DrawInlineText.PADDING;
+			return (int) (geo.getContentHeight() - editor.getMinHeight()) / 2 - DrawInlineText.PADDING;
 		} else if (getVerticalAlignment() == VerticalAlignment.BOTTOM) {
-			return (int) (geo.getContentHeight() - editor.getMinHeight())
-					- 2 * DrawInlineText.PADDING;
+			return (int) (geo.getContentHeight() - editor.getMinHeight()) - 2 * DrawInlineText.PADDING;
 		} else {
 			return 0;
 		}
@@ -468,5 +472,4 @@ public final class InlineTextControllerW implements InlineTextController {
 	public boolean hasContent() {
 		return isNonemptyDocument(editor.getContent());
 	}
-
 }

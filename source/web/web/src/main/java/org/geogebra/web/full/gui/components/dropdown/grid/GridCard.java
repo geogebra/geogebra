@@ -58,8 +58,9 @@ public final class GridCard extends FlowPanel implements SetLabels {
 		FlowPanel checkMarkPanel = new FlowPanel();
 		checkMarkPanel.addStyleName("checkMarkPanel");
 		SimplePanel checkMark = new SimplePanel();
-		checkMark.getElement().setInnerHTML(MaterialDesignResources
-				.INSTANCE.check_white().getSVG());
+		checkMark
+				.getElement()
+				.setInnerHTML(MaterialDesignResources.INSTANCE.check_white().getSVG());
 		checkMark.addStyleName("checkmark");
 		checkMarkPanel.add(checkMark);
 		imagePanel.add(checkMarkPanel);

@@ -30,8 +30,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Calculates a t-confidence interval estimate of the difference of means.
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoTMean2Estimate extends AlgoElement {
@@ -44,8 +44,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	private GeoNumeric geoN1;
 	private GeoNumeric geoMean2;
 	private GeoNumeric geoSD2;
-	private GeoNumeric
-			geoN2; // input
+	private GeoNumeric geoN2; // input
 	private GeoBoolean geoPooled; // input
 
 	private GeoList result; // output
@@ -79,8 +78,13 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 * @param geoPooled
 	 *            pooled?
 	 */
-	public AlgoTMean2Estimate(Construction cons, String label, GeoList geoList1,
-			GeoList geoList2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
+	public AlgoTMean2Estimate(
+			Construction cons,
+			String label,
+			GeoList geoList1,
+			GeoList geoList2,
+			GeoNumeric geoLevel,
+			GeoBoolean geoPooled) {
 		super(cons);
 		this.geoList1 = geoList1;
 		this.geoList2 = geoList2;
@@ -121,9 +125,15 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 * @param geoPooled
 	 *            pooled?
 	 */
-	public AlgoTMean2Estimate(Construction cons, GeoNumeric geoMean1,
-			GeoNumeric geoSD1, GeoNumeric geoN1, GeoNumeric geoMean2,
-			GeoNumeric geoSD2, GeoNumeric geoN2, GeoNumeric geoLevel,
+	public AlgoTMean2Estimate(
+			Construction cons,
+			GeoNumeric geoMean1,
+			GeoNumeric geoSD1,
+			GeoNumeric geoN1,
+			GeoNumeric geoMean2,
+			GeoNumeric geoSD2,
+			GeoNumeric geoN2,
+			GeoNumeric geoLevel,
 			GeoBoolean geoPooled) {
 		super(cons);
 		this.geoList1 = null;
@@ -194,21 +204,21 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 *            second sample n
 	 * @return approximate degrees of freedom
 	 */
-	private static double getDegreeOfFreedom(double v1, double v2, double n1,
-			double n2, boolean pooled) {
+	private static double getDegreeOfFreedom(
+			double v1, double v2, double n1, double n2, boolean pooled) {
 
 		if (pooled) {
 			return n1 + n2 - 2;
 		}
-		return (v1 / n1 + v2 / n2) * (v1 / n1 + v2 / n2)
-				/ (v1 * v1 / (n1 * n1 * (n1 - 1d))
-						+ v2 * v2 / (n2 * n2 * (n2 - 1d)));
+		return (v1 / n1 + v2 / n2)
+				* (v1 / n1 + v2 / n2)
+				/ (v1 * v1 / (n1 * n1 * (n1 - 1d)) + v2 * v2 / (n2 * n2 * (n2 - 1d)));
 	}
 
 	/**
 	 * Computes margin of error for 2-sample t-estimate; this is the half-width
 	 * of the confidence interval
-	 * 
+	 *
 	 * @param v1
 	 *            first sample variance
 	 * @param v2
@@ -223,24 +233,20 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 * @throws ArithmeticException
 	 *             when computation fails
 	 */
-	private double getMarginOfError(double v1, double size1, double v2, double size2,
-			double confLevel, boolean pool) throws ArithmeticException {
+	private double getMarginOfError(
+			double v1, double size1, double v2, double size2, double confLevel, boolean pool)
+			throws ArithmeticException {
 		if (pool) {
-			double pooledVariance = ((size1 - 1) * v1 + (size2 - 1) * v2)
-					/ (size1 + size2 - 2);
+			double pooledVariance = ((size1 - 1) * v1 + (size2 - 1) * v2) / (size1 + size2 - 2);
 			double se = Math.sqrt(pooledVariance * (1d / size1 + 1d / size2));
-			tDist = new TDistribution(
-					getDegreeOfFreedom(v1, v2, size1, size2, pool));
+			tDist = new TDistribution(getDegreeOfFreedom(v1, v2, size1, size2, pool));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
-
 		}
 		double se = Math.sqrt((v1 / size1) + (v2 / size2));
-		tDist = new TDistribution(
-				getDegreeOfFreedom(v1, v2, size1, size2, pool));
+		tDist = new TDistribution(getDegreeOfFreedom(v1, v2, size1, size2, pool));
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * se;
-
 	}
 
 	@Override
@@ -319,8 +325,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			pooled = geoPooled.getBoolean();
 
 			// validate statistics
-			if (level < 0 || level > 1 || var1 < 0 || n1 < 1 || var2 < 0
-					|| n2 < 1) {
+			if (level < 0 || level > 1 || var1 < 0 || n1 < 1 || var2 < 0 || n2 < 1) {
 				result.setUndefined();
 				return;
 			}
@@ -345,7 +350,5 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			// ArithmeticException
 			Log.debug(e);
 		}
-
 	}
-
 }

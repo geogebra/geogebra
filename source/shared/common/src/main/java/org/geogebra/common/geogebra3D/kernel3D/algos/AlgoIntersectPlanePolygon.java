@@ -45,15 +45,14 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 	 * @param p
 	 *            polygon
 	 */
-	public AlgoIntersectPlanePolygon(Construction c, String[] labels,
-			GeoPlane3D plane, GeoPolygon p) {
+	public AlgoIntersectPlanePolygon(
+			Construction c, String[] labels, GeoPlane3D plane, GeoPolygon p) {
 		super(c, labels, plane, p);
 	}
 
 	@Override
 	protected void setFirstInput(GeoElementND geo) {
 		this.plane = (GeoPlane3D) geo;
-
 	}
 
 	@Override
@@ -70,12 +69,10 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 
 		o1 = intersection[0];
 		d1 = intersection[1];
-
 	}
 
 	@Override
-	protected void intersectionsCoords(HasSegments poly,
-			TreeMap<Double, Coords> newCoords) {
+	protected void intersectionsCoords(HasSegments poly, TreeMap<Double, Coords> newCoords) {
 
 		// intersection line is contained in polygon plane by definition
 		intersectionsCoordsContained(poly, newCoords);
@@ -90,5 +87,4 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 	public Commands getClassName() {
 		return Commands.Intersect;
 	}
-
 }

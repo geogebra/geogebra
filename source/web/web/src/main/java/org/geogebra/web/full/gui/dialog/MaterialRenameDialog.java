@@ -28,8 +28,7 @@ public final class MaterialRenameDialog extends CardRenameDialog {
 	 * @param app app
 	 * @param data dialog transkeys
 	 */
-	public MaterialRenameDialog(AppW app,
-			DialogData data, MaterialCard card) {
+	public MaterialRenameDialog(AppW app, DialogData data, MaterialCard card) {
 		super(app, data);
 		this.card = card;
 		setText(getCardTitle());

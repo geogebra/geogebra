@@ -34,13 +34,13 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 
 	private BotanaCircleThreePoints botanaParams;
 
-	public AlgoConicPartCircumcircle(Construction cons, String label,
-			GeoPoint A, GeoPoint B, GeoPoint C, int type) {
+	public AlgoConicPartCircumcircle(
+			Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C, int type) {
 		super(cons, label, A, B, C, type);
 	}
 
-	public AlgoConicPartCircumcircle(Construction cons, GeoPoint A, GeoPoint B,
-			GeoPoint C, int type) {
+	public AlgoConicPartCircumcircle(
+			Construction cons, GeoPoint A, GeoPoint B, GeoPoint C, int type) {
 		super(cons, A, B, C, type);
 	}
 
@@ -56,31 +56,31 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 
 	/**
 	 * Method for LocusEqu.
-	 * 
+	 *
 	 * @return first point.
 	 */
 	@Override
-	final public GeoPoint getA() {
+	public final GeoPoint getA() {
 		return (GeoPoint) A;
 	}
 
 	/**
 	 * Method for LocusEqu.
-	 * 
+	 *
 	 * @return second point.
 	 */
 	@Override
-	final public GeoPoint getB() {
+	public final GeoPoint getB() {
 		return (GeoPoint) B;
 	}
 
 	/**
 	 * Method for LocusEqu.
-	 * 
+	 *
 	 * @return third point.
 	 */
 	@Override
-	final public GeoPoint getC() {
+	public final GeoPoint getC() {
 		return (GeoPoint) C;
 	}
 
@@ -93,8 +93,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 
 		if (botanaParams == null) {
 			botanaParams = new BotanaCircleThreePoints();
@@ -110,9 +109,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 	@Override
 	protected void computeSinglePoint() {
 		GeoPoint midpoint = getA();
-		GeoConic.setSinglePoint((GeoConic) conicPart, midpoint.inhomX,
-				midpoint.inhomY);
+		GeoConic.setSinglePoint((GeoConic) conicPart, midpoint.inhomX, midpoint.inhomY);
 		super.computeSinglePoint();
 	}
-
 }

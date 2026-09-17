@@ -18,19 +18,19 @@ package org.geogebra.common.kernel.geos.properties;
 
 /**
  * Fill types of elements
- * 
+ *
  * need to be in menu order here
- * 
+ *
  * the order here gives the integer for the XML so new ones MUST be added at the
  * end
- * 
+ *
  * @author Giulliano Bellucci
  */
 public enum FillType {
 
 	/**
 	 * Simple fill (color+opacity)
-	 * 
+	 *
 	 */
 	STANDARD(false),
 	/**

@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * Tab of Table Values View.
- * 
+ *
  * @author laszlo
  */
 public final class TableTab extends ToolbarTab {
@@ -119,8 +119,7 @@ public final class TableTab extends ToolbarTab {
 		if (table == null) {
 			return;
 		}
-		boolean smallScreen = app.getAppletFrame()
-				.shouldHaveSmallScreenLayout();
+		boolean smallScreen = app.getAppletFrame().shouldHaveSmallScreenLayout();
 		DockPanelDecorator decorator = toolbarPanel.getDecorator();
 		if (smallScreen) {
 			decorator.resizeTableSmallScreen(tabHeight, table);
@@ -131,7 +130,7 @@ public final class TableTab extends ToolbarTab {
 
 	/**
 	 * Scroll table view to the corresponding column of the geo.
-	 * 
+	 *
 	 * @param geo
 	 *            to scroll.
 	 */

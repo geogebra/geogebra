@@ -41,8 +41,7 @@ public class AlgoUnion extends AlgoElement {
 	 * @param inputList2
 	 *            second list
 	 */
-	public AlgoUnion(Construction cons, GeoList inputList,
-			GeoList inputList2) {
+	public AlgoUnion(Construction cons, GeoList inputList, GeoList inputList2) {
 		super(cons);
 
 		this.inputList = inputList;
@@ -97,13 +96,12 @@ public class AlgoUnion extends AlgoElement {
 
 		for (int i = 0; i < size2; i++) {
 			addToOutputList(outputList, inputList2.get(i));
-
 		}
 	}
 
 	/**
 	 * checks not already in list
-	 * 
+	 *
 	 * @param outputList
 	 *            output list
 	 * @param geo
@@ -122,5 +120,4 @@ public class AlgoUnion extends AlgoElement {
 			outputList.add(geo.copyInternal(outputList.getConstruction()));
 		}
 	}
-
 }

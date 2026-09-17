@@ -35,7 +35,7 @@ public final class PitchBend implements JFugueElement {
 	/**
 	 * Creates a new Pitch Bend object, with the specified tempo value. Integer
 	 * value = msb * 0x80 + lsb (0x80 hex == 128 dec)
-	 * 
+	 *
 	 * @param lsb
 	 *            the least significant byte for the pitch bend for this object
 	 * @param msb
@@ -60,18 +60,18 @@ public final class PitchBend implements JFugueElement {
 
 	/**
 	 * Returns the value of the pitch bend for this object.
-	 * 
+	 *
 	 * @return the value of the pitch bend for this object
 	 */
 	public byte[] getBend() {
-		return new byte[] { lsb, msb };
+		return new byte[] {lsb, msb};
 	}
 
 	/**
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a PitchBend object, the Music String is <code>&amp;</code>
 	 * <i>int</i> or <code>&amp;</code><i>lsb,msb</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -84,7 +84,7 @@ public final class PitchBend implements JFugueElement {
 
 	/**
 	 * Returns verification string in this format: PitchBend: bend={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -97,5 +97,4 @@ public final class PitchBend implements JFugueElement {
 		buffy.append('}');
 		return buffy.toString();
 	}
-
 }

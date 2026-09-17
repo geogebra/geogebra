@@ -30,41 +30,42 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 
 public final class ContextMenuButtonDeleteCard extends ContextMenuButtonCard {
-    private MaterialCardI card;
+	private MaterialCardI card;
 
-    /**
-     * @param app application
-     * @param card material card
-     */
-    public ContextMenuButtonDeleteCard(AppWFull app, MaterialCardI card) {
-        super(app);
-        this.card = card;
-        initPopup();
-    }
+	/**
+	 * @param app application
+	 * @param card material card
+	 */
+	public ContextMenuButtonDeleteCard(AppWFull app, MaterialCardI card) {
+		super(app);
+		this.card = card;
+		initPopup();
+	}
 
-    @Override
-    protected void initPopup() {
-        super.initPopup();
-        addDeleteItem();
-    }
+	@Override
+	protected void initPopup() {
+		super.initPopup();
+		addDeleteItem();
+	}
 
-    private void addDeleteItem() {
-        SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
-        Set<ContextMenuItemFilter> filters = suiteScope != null
-                ? suiteScope.restrictionsController.getContextMenuItemFilters() : Set.of();
-        for (ContextMenuItem item : ContextMenuFactory.makeMaterialContextMenu(filters)) {
-            wrappedPopup.addItem(new AriaMenuItem(item.getLocalizedTitle(loc),
-                    ImageMap.get(item.getIcon()), this::onDelete));
-        }
-    }
+	private void addDeleteItem() {
+		SuiteScope suiteScope = GlobalScope.getSuiteScope(app);
+		Set<ContextMenuItemFilter> filters = suiteScope != null
+				? suiteScope.restrictionsController.getContextMenuItemFilters()
+				: Set.of();
+		for (ContextMenuItem item : ContextMenuFactory.makeMaterialContextMenu(filters)) {
+			wrappedPopup.addItem(new AriaMenuItem(
+					item.getLocalizedTitle(loc), ImageMap.get(item.getIcon()), this::onDelete));
+		}
+	}
 
-    private void onDelete() {
-        card.onDelete();
-    }
+	private void onDelete() {
+		card.onDelete();
+	}
 
-    @Override
-    protected void show() {
-        super.show();
-        wrappedPopup.show(this, 0, 0);
-    }
+	@Override
+	protected void show() {
+		super.show();
+		wrappedPopup.show(this, 0, 0);
+	}
 }

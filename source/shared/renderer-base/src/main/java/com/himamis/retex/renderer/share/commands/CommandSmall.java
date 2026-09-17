@@ -19,5 +19,4 @@ public class CommandSmall extends CommandStyle {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new MonoScaleAtom(a, 0.9);
 	}
-
 }

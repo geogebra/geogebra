@@ -38,15 +38,19 @@ public class AxisDistancePropertyCollection extends AbstractPropertyCollection<P
 	 * @param axis axis number
 	 * @param euclidianView euclidian view
 	 */
-	public AxisDistancePropertyCollection(App app, Localization localization, EuclidianSettings
-			euclidianSettings, int axis, EuclidianViewInterfaceCommon euclidianView) {
+	public AxisDistancePropertyCollection(
+			App app,
+			Localization localization,
+			EuclidianSettings euclidianSettings,
+			int axis,
+			EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Distance");
 
 		ArrayList<Property> properties = new ArrayList<>();
-		properties.add(new AxisFixedDistanceProperty(localization, euclidianSettings, axis,
-				euclidianView));
-		properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
-				app.getKernel(), "Distance", axis));
+		properties.add(
+				new AxisFixedDistanceProperty(localization, euclidianSettings, axis, euclidianView));
+		properties.add(new AxisDistanceProperty(
+				localization, euclidianSettings, euclidianView, app.getKernel(), "Distance", axis));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

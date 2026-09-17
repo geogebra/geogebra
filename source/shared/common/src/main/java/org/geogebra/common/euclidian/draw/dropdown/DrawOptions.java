@@ -45,8 +45,10 @@ class DrawOptions implements MoveSelector {
 	private boolean visible;
 	private boolean clickStarted;
 
-	DrawOptions(DrawDropDownList drawDropDownList,
-			DropDownModel model, EuclidianView view,
+	DrawOptions(
+			DrawDropDownList drawDropDownList,
+			DropDownModel model,
+			EuclidianView view,
 			OptionScroller scroller) {
 		this.drawDropDownList = drawDropDownList;
 		this.view = view;
@@ -269,8 +271,7 @@ class DrawOptions implements MoveSelector {
 	}
 
 	private void updateHighlighting() {
-		selector.setHighlighted(model.isScrollBoundsValid()
-				? items.get(range.getSelected()) : null);
+		selector.setHighlighted(model.isScrollBoundsValid() ? items.get(range.getSelected()) : null);
 		selector.setKeyboardFocus(true);
 	}
 

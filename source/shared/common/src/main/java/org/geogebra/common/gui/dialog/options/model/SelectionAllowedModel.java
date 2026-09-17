@@ -62,5 +62,4 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 	protected boolean isValidAt(int index) {
 		return true;
 	}
-
 }

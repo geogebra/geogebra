@@ -38,16 +38,29 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 	private final FillableDelegate delegate;
 
 	static final List<FillType> patternFillTypes = List.of(
-			FillType.STANDARD, FillType.HATCH, FillType.CROSSHATCHED, FillType.DOTTED,
-			FillType.HONEYCOMB, FillType.CHESSBOARD, FillType.WEAVING, FillType.BRICK);
+			FillType.STANDARD,
+			FillType.HATCH,
+			FillType.CROSSHATCHED,
+			FillType.DOTTED,
+			FillType.HONEYCOMB,
+			FillType.CHESSBOARD,
+			FillType.WEAVING,
+			FillType.BRICK);
 	static final List<PropertyResource> patternFillTypeIcons = List.of(
 			PropertyResource.ICON_NO_FILLING, PropertyResource.ICON_FILLING_HATCHED,
 			PropertyResource.ICON_FILLING_CROSSHATCHED, PropertyResource.ICON_FILLING_DOTTED,
 			PropertyResource.ICON_FILLING_HONEYCOMB, PropertyResource.ICON_FILLING_CHESSBOARD,
 			PropertyResource.ICON_FILLING_WEAVING, PropertyResource.ICON_FILLING_BRICK);
-	private static final String[] rawLabels = {"Filling.NoPattern", "Filling.Hatch",
-			"Filling.Crosshatch", "Filling.Dotted", "Filling.Honeycomb", "Filling.Chessboard",
-			"Filling.Weaving", "Filling.Brick"};
+	private static final String[] rawLabels = {
+		"Filling.NoPattern",
+		"Filling.Hatch",
+		"Filling.Crosshatch",
+		"Filling.Dotted",
+		"Filling.Honeycomb",
+		"Filling.Chessboard",
+		"Filling.Weaving",
+		"Filling.Brick"
+	};
 
 	/**
 	 * @param localization localization
@@ -65,7 +78,7 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 	public PropertyResource[] getValueIcons() {
 		return patternFillTypeIcons.stream().toArray(PropertyResource[]::new);
 	}
-	
+
 	@Override
 	public @Nullable String[] getToolTipLabels() {
 		return rawLabels;
@@ -85,8 +98,7 @@ public class PatternFillStyleProperty extends AbstractEnumeratedProperty<FillTyp
 
 	@Override
 	public boolean isAvailable() {
-		return FillCategory.fromFillType(delegate.getElement().getFillType())
-				== FillCategory.PATTERN;
+		return FillCategory.fromFillType(delegate.getElement().getFillType()) == FillCategory.PATTERN;
 	}
 
 	@Override

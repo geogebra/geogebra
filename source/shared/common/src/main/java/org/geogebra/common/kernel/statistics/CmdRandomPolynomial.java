@@ -50,10 +50,9 @@ public class CmdRandomPolynomial extends CommandProcessor {
 				throw argErr(c, args[i]);
 			}
 		}
-		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons, c.getLabel(),
-				(GeoNumberValue) args[0], (GeoNumberValue) args[1],
-				(GeoNumberValue) args[2]);
-		return new GeoElement[] { algo.getResult() };
+		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(
+				cons, c.getLabel(), (GeoNumberValue) args[0], (GeoNumberValue) args[1], (GeoNumberValue)
+						args[2]);
+		return new GeoElement[] {algo.getResult()};
 	}
-
 }

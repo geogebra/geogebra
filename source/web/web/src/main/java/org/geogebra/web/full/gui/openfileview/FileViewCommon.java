@@ -138,8 +138,8 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 	}
 
 	private void addExamInfoButton() {
-		examInfoBtn = new IconButton(app, () -> {}, new ImageIconSpec(SharedResources.INSTANCE
-				.info_black()), "exam_log_header");
+		examInfoBtn = new IconButton(
+				app, () -> {}, new ImageIconSpec(SharedResources.INSTANCE.info_black()), "exam_log_header");
 		examInfoBtn.addStyleName("examInfoBtn");
 		examInfoBtn.addFastClickHandler(source -> showExamDialog(examInfoBtn));
 		headerView.add(examInfoBtn);
@@ -150,8 +150,7 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 	}
 
 	private void buildSingInPanel() {
-		SignInControllerI signInController = app.getLAF()
-				.getSignInController(app);
+		SignInControllerI signInController = app.getLAF().getSignInController(app);
 		signInTextButton = getLoginTextButton(signInController);
 		signInTextButton.addStyleName("signIn");
 		getHeader().add(signInTextButton);
@@ -162,8 +161,7 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 		profilePanel = new ProfileAvatar(app);
 		getHeader().add(profilePanel);
 
-		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
-				.getLoggedInUser();
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel().getLoggedInUser();
 		if (user == null) {
 			profilePanel.setVisible(false);
 		} else {
@@ -174,8 +172,8 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 	}
 
 	private StandardButton getLoginTextButton(SignInControllerI signInController) {
-		StandardButton button = BaseWidgetFactory.INSTANCE.newTextButton(
-				app.getLocalization().getMenu("SignIn"));
+		StandardButton button =
+				BaseWidgetFactory.INSTANCE.newTextButton(app.getLocalization().getMenu("SignIn"));
 		button.getElement().setAttribute("type", "button");
 		button.addStyleName("signInButton");
 		button.addFastClickHandler(event -> {
@@ -190,15 +188,14 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 			signInController.login();
 			signInController.initLoginTimer();
 		};
-		IconButton button = new IconButton(app, onClick,
-				new ImageIconSpec(MaterialDesignResources.INSTANCE.login()), "SignIn");
+		IconButton button = new IconButton(
+				app, onClick, new ImageIconSpec(MaterialDesignResources.INSTANCE.login()), "SignIn");
 		button.addStyleName("signInIcon");
 		return button;
 	}
 
 	private void updateSignInButtonsVisibility(boolean smallScreen) {
-		final GeoGebraTubeUser user = app.getLoginOperation().getModel()
-				.getLoggedInUser();
+		final GeoGebraTubeUser user = app.getLoginOperation().getModel().getLoggedInUser();
 		if (user == null && signInIconButton != null && signInTextButton != null) {
 			signInIconButton.setVisible(smallScreen);
 			signInTextButton.setVisible(!smallScreen);
@@ -281,8 +278,7 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 	 * update header style on resize
 	 */
 	public void resizeHeader() {
-		boolean smallScreen = app.getAppletFrame()
-				.hasSmallWindowOrCompactHeader();
+		boolean smallScreen = app.getAppletFrame().hasSmallWindowOrCompactHeader();
 		headerView.resizeTo(smallScreen);
 		if (searchBar != null) {
 			Dom.toggleClass(searchBar, "compact", smallScreen);
@@ -401,8 +397,7 @@ public final class FileViewCommon extends AnimatingPanel implements Persistable 
 	 */
 	public void onLogout() {
 		profilePanel.setVisible(false);
-		boolean isSmallScreen = app.getAppletFrame()
-				.hasSmallWindowOrCompactHeader();
+		boolean isSmallScreen = app.getAppletFrame().hasSmallWindowOrCompactHeader();
 		updateSignInButtonsVisibility(isSmallScreen);
 	}
 

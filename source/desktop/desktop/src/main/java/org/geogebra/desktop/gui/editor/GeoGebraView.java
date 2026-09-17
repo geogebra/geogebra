@@ -2,18 +2,17 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
-// This code has been written initially for Scilab (http://www.scilab.org/).
 
 package org.geogebra.desktop.gui.editor;
 
@@ -87,7 +86,7 @@ public class GeoGebraView extends WrappedPlainView {
 	/**
 	 * The constructor to set this view for an element with a context
 	 * (containing infos such as colors or fonts of the keywords).
-	 * 
+	 *
 	 * @param elem
 	 *            the element to view
 	 * @param lexer
@@ -107,12 +106,12 @@ public class GeoGebraView extends WrappedPlainView {
 	/**
 	 * This method can be used to draw anything you want in the editor (such as
 	 * the line of maximum recommended chars).
-	 * 
+	 *
 	 * @param g
 	 *            the graphics where to draw
 	 * @param a
 	 *            the shape bounding the visible area
-	 *            
+	 *
 	 * (overload paint method in WrappedPlainView)
 	 */
 	@Override
@@ -125,8 +124,8 @@ public class GeoGebraView extends WrappedPlainView {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1,
-			Shape a) throws BadLocationException {
+	public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1, Shape a)
+			throws BadLocationException {
 		Rectangle r = (Rectangle) super.modelToView(p0, b0, p1, b1, a);
 		r.width = ((Rectangle) a).width;
 		return r;
@@ -134,7 +133,7 @@ public class GeoGebraView extends WrappedPlainView {
 
 	/**
 	 * Very important method since we draw the text in this method !!
-	 * 
+	 *
 	 * @param g
 	 *            the graphics where to draw
 	 * @param sx
@@ -158,10 +157,8 @@ public class GeoGebraView extends WrappedPlainView {
 			 * the same method (different way to do antialiasing with LCD screen) as
 			 * the desktop.
 			 */
-			desktopFontHints = (Map<?, ?>) Toolkit.getDefaultToolkit()
-					.getDesktopProperty(DESKTOPHINTS);
-			calculateHeight(g.getFontRenderContext(),
-					context.tokenFont);
+			desktopFontHints = (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty(DESKTOPHINTS);
+			calculateHeight(g.getFontRenderContext(), context.tokenFont);
 			enableDesktopFontHints = desktopFontHints != null;
 		}
 
@@ -239,14 +236,12 @@ public class GeoGebraView extends WrappedPlainView {
 				float w;
 
 				if ((context.tokenAttrib[tok] & 1) != 0) {
-					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(),
-							x, this, mark);
+					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(), x, this, mark);
 					drawLine(g, x, y + 1, x + w, y + 1);
 				}
 
 				if ((context.tokenAttrib[tok] & 2) != 0) {
-					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(),
-							x, this, mark);
+					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(), x, this, mark);
 					drawLine(g, x, y - whiteHeight, x + w, y - whiteHeight);
 				}
 
@@ -260,27 +255,24 @@ public class GeoGebraView extends WrappedPlainView {
 				 */
 
 				switch (tok) {
-				case LexerConstants.WHITE:
-					w = Utilities.getTabbedTextWidth(text,
-							g.getFontMetrics(), x, this, mark);
-					drawLine(g, x + (w - 1) / 2, y - whiteHeight,
-							x + (w + 1) / 2, y - whiteHeight);
-					break;
-				case LexerConstants.TAB:
-					paintTab(text, x, y, g, mark);
-					break;
-				case LexerConstants.UNKNOWN:
-					w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(),
-							x, this, mark);
-					for (int i = 0; i < w; i += 4) {
-						drawLine(g, x + i, y + 2, x + i + 1, y + 2);
-					}
-					for (int i = 2; i < w; i += 4) {
-						drawLine(g, x + i, y + 1, x + i + 1, y + 1);
-					}
-					break;
-				default:
-					break;
+					case LexerConstants.WHITE:
+						w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(), x, this, mark);
+						drawLine(g, x + (w - 1) / 2, y - whiteHeight, x + (w + 1) / 2, y - whiteHeight);
+						break;
+					case LexerConstants.TAB:
+						paintTab(text, x, y, g, mark);
+						break;
+					case LexerConstants.UNKNOWN:
+						w = Utilities.getTabbedTextWidth(text, g.getFontMetrics(), x, this, mark);
+						for (int i = 0; i < w; i += 4) {
+							drawLine(g, x + i, y + 2, x + i + 1, y + 2);
+						}
+						for (int i = 2; i < w; i += 4) {
+							drawLine(g, x + i, y + 1, x + i + 1, y + 1);
+						}
+						break;
+					default:
+						break;
 				}
 
 				x = Utilities.drawTabbedText(text, x, y, g, this, mark);
@@ -299,7 +291,7 @@ public class GeoGebraView extends WrappedPlainView {
 
 	/**
 	 * Draw the selected text.
-	 * 
+	 *
 	 * @param g
 	 *            the graphics where to draw
 	 * @param x
@@ -326,7 +318,7 @@ public class GeoGebraView extends WrappedPlainView {
 	/**
 	 * Used to give the way to represent a tabulation. By default TABVERTICAL is
 	 * used.
-	 * 
+	 *
 	 * @param type
 	 *            must be TABVERTICAL or TABDOUBLECHEVRONS or TABHORIZONTAL If a
 	 *            bad value is given, then nothing will be drawn
@@ -337,7 +329,7 @@ public class GeoGebraView extends WrappedPlainView {
 
 	/**
 	 * Method to paint a tabulation according to the setTabRepresentation.
-	 * 
+	 *
 	 * @param text
 	 *            the segment of text representing a tabulation
 	 * @param x
@@ -354,26 +346,26 @@ public class GeoGebraView extends WrappedPlainView {
 		float w = Utilities.getTabbedTextWidth(text, fm, x, this, start);
 		String tabCharacter = " ";
 		switch (tabType) {
-		case TABVERTICAL:
-			drawLine(g, x, y + 4, x, y + 4 - fm.getHeight());
-			break;
-		case TABDOUBLECHEVRONS:
-			g.drawString("\u00BB", x, y);
-			break;
-		case TABHORIZONTAL:
-			drawLine(g, x, y - whiteHeight, x + w - 1, y - whiteHeight);
-			break;
-		case TABCHARACTER:
-			g.drawString(tabCharacter, x, y);
-			break;
-		default:
+			case TABVERTICAL:
+				drawLine(g, x, y + 4, x, y + 4 - fm.getHeight());
+				break;
+			case TABDOUBLECHEVRONS:
+				g.drawString("\u00BB", x, y);
+				break;
+			case TABHORIZONTAL:
+				drawLine(g, x, y - whiteHeight, x + w - 1, y - whiteHeight);
+				break;
+			case TABCHARACTER:
+				g.drawString(tabCharacter, x, y);
+				break;
+			default:
 		}
 	}
 
 	/**
 	 * Determines the height of a '+' to have the vertical shift to draw a
 	 * line which strokes the text or to draw the mark let by a white.
-	 * 
+	 *
 	 * @param frc
 	 *            a font context
 	 * @param f

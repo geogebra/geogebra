@@ -80,9 +80,16 @@ public class AlgoSlopeField extends AlgoElement {
 	 * @param maxY
 	 *            maxY
 	 */
-	public AlgoSlopeField(Construction cons, String label, Evaluate2Var func,
-			GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX,
-			GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
+	public AlgoSlopeField(
+			Construction cons,
+			String label,
+			Evaluate2Var func,
+			GeoNumeric n,
+			GeoNumeric lengthRatio,
+			GeoNumeric minX,
+			GeoNumeric minY,
+			GeoNumeric maxX,
+			GeoNumeric maxY) {
 		super(cons);
 		this.func = func;
 
@@ -93,10 +100,8 @@ public class AlgoSlopeField extends AlgoElement {
 		this.maxX = maxX;
 		this.maxY = maxY;
 
-		numAlgo = new AlgoNumeratorDenominatorFun(cons, func,
-				Commands.Numerator);
-		denAlgo = new AlgoNumeratorDenominatorFun(cons, func,
-				Commands.Denominator);
+		numAlgo = new AlgoNumeratorDenominatorFun(cons, func, Commands.Numerator);
+		denAlgo = new AlgoNumeratorDenominatorFun(cons, func, Commands.Denominator);
 		cons.removeFromConstructionList(numAlgo);
 		cons.removeFromConstructionList(denAlgo);
 
@@ -118,7 +123,6 @@ public class AlgoSlopeField extends AlgoElement {
 		locus.setLabel(label);
 
 		cons.registerEuclidianViewCE(this);
-
 	}
 
 	@Override
@@ -210,8 +214,7 @@ public class AlgoSlopeField extends AlgoElement {
 			ymin = minY.getDouble();
 			mainView = kernel.getApplication().getEuclidianView1();
 			if (kernel.getApplication().hasEuclidianView2(1)
-					&& kernel.getApplication().getEuclidianView2(1)
-							.isVisibleInThisView(locus)
+					&& kernel.getApplication().getEuclidianView2(1).isVisibleInThisView(locus)
 					&& !mainView.isVisibleInThisView(locus)) {
 				mainView = kernel.getApplication().getEuclidianView2(1);
 			}
@@ -221,25 +224,22 @@ public class AlgoSlopeField extends AlgoElement {
 
 			if (view.isVisibleInThisView(locus)) {
 				mainView = view;
-				xmax = Math.max(xmax,
-						view.toRealWorldCoordX(view.getWidth()));
+				xmax = Math.max(xmax, view.toRealWorldCoordX(view.getWidth()));
 				ymax = Math.max(ymax, view.toRealWorldCoordY(0));
 				xmin = Math.min(xmin, view.toRealWorldCoordX(0));
-				ymin = Math.min(ymin,
-						view.toRealWorldCoordY(view.getHeight()));
+				ymin = Math.min(ymin, view.toRealWorldCoordY(view.getHeight()));
 			}
 			EuclidianView view2 = kernel.getApplication().hasEuclidianView2(1)
-					? kernel.getApplication().getEuclidianView2(1) : null;
+					? kernel.getApplication().getEuclidianView2(1)
+					: null;
 			if (view2 != null && view2.isVisibleInThisView(locus)) {
 				if (mainView == null) {
 					mainView = view2;
 				}
-				xmax = Math.max(xmax,
-						view2.toRealWorldCoordX(view.getWidth()));
+				xmax = Math.max(xmax, view2.toRealWorldCoordX(view.getWidth()));
 				ymax = Math.max(ymax, view2.toRealWorldCoordY(0));
 				xmin = Math.min(xmin, view2.toRealWorldCoordX(0));
-				ymin = Math.min(ymin,
-						view2.toRealWorldCoordY(view.getHeight()));
+				ymin = Math.min(ymin, view2.toRealWorldCoordY(view.getHeight()));
 			}
 		}
 
@@ -261,11 +261,9 @@ public class AlgoSlopeField extends AlgoElement {
 			double xStep = (xmax - xmin) / nD;
 			double yStep = (ymax - ymin) / nD;
 
-			double length = lengthRatio == null ? 0.5
-					: lengthRatio.getDouble();
+			double length = lengthRatio == null ? 0.5 : lengthRatio.getDouble();
 
-			if (length < 0 || length > 1 || Double.isInfinite(length)
-					|| Double.isNaN(length)) {
+			if (length < 0 || length > 1 || Double.isInfinite(length) || Double.isNaN(length)) {
 				length = 0.5;
 			}
 
@@ -300,8 +298,8 @@ public class AlgoSlopeField extends AlgoElement {
 		locus.setDefined(true);
 	}
 
-	private void drawLine(double dx0, double dy0, double length, double xx,
-			double yy, double scaleRatio) {
+	private void drawLine(
+			double dx0, double dy0, double length, double xx, double yy, double scaleRatio) {
 		double dyScaled = dy0 * scaleRatio;
 		double coeff = Math.sqrt(dx0 * dx0 + dyScaled * dyScaled);
 		double dx = dx0 * length / coeff;

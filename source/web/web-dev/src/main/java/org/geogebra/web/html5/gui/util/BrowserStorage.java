@@ -23,7 +23,8 @@ import elemental2.webstorage.Storage;
 import elemental2.webstorage.WebStorageWindow;
 
 public enum BrowserStorage {
-	LOCAL, SESSION;
+	LOCAL,
+	SESSION;
 
 	public static final String COPY_SLIDE = "copyslide";
 	public static final String COPY_SLIDE_OBJECTS = "copyslideObjects";

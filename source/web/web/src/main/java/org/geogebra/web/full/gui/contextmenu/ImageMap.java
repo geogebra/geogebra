@@ -32,16 +32,16 @@ public final class ImageMap {
 			return null;
 		}
 		switch (icon) {
-		case Expression:
-			return MaterialDesignResources.INSTANCE.description();
-		case Text:
-			return MaterialDesignResources.INSTANCE.icon_quote_black();
-		case Image:
-			return MaterialDesignResources.INSTANCE.insert_photo_black();
-		case Help:
-			return SharedResources.INSTANCE.icon_help_black();
-		case Delete:
-			return MaterialDesignResources.INSTANCE.delete_black();
+			case Expression:
+				return MaterialDesignResources.INSTANCE.description();
+			case Text:
+				return MaterialDesignResources.INSTANCE.icon_quote_black();
+			case Image:
+				return MaterialDesignResources.INSTANCE.insert_photo_black();
+			case Help:
+				return SharedResources.INSTANCE.icon_help_black();
+			case Delete:
+				return MaterialDesignResources.INSTANCE.delete_black();
 		}
 		return null;
 	}

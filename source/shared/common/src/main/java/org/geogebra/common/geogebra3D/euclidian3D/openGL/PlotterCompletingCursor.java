@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for "completing task" cursor
- * 
+ *
  * @author ggb3D
  *
  */
@@ -59,13 +59,12 @@ public class PlotterCompletingCursor {
 		for (int i = 0; i <= longitude; i++) {
 			u[i] = (float) Math.cos(i * da) * coeff;
 			v[i] = (float) Math.sin(i * da) * coeff;
-
 		}
 	}
 
 	/**
 	 * common constructor
-	 * 
+	 *
 	 * @param manager
 	 *            geometry manager
 	 */
@@ -216,7 +215,5 @@ public class PlotterCompletingCursor {
 
 		// draw it
 		manager.draw(index);
-
 	}
-
 }

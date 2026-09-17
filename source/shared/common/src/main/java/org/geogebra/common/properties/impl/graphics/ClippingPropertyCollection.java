@@ -31,17 +31,15 @@ public class ClippingPropertyCollection extends AbstractPropertyCollection<Prope
 	 * @param localization localization for the title
 	 * @param euclidianView EV view
 	 */
-	public ClippingPropertyCollection(Localization localization,
-			EuclidianViewInterfaceCommon euclidianView) {
+	public ClippingPropertyCollection(
+			Localization localization, EuclidianViewInterfaceCommon euclidianView) {
 		super(localization, "Clipping");
 
 		ArrayList<Property> properties = new ArrayList<>();
-		properties.add(new UseClippingBooleanProperty(localization,
-				(EuclidianView3D) euclidianView));
-		properties.add(new ShowClippingBooleanProperty(localization,
-				(EuclidianView3D) euclidianView));
-		properties.add(new ClippingBoxSizeProperty(localization,
-				((EuclidianView3D) euclidianView).getSettings()));
+		properties.add(new UseClippingBooleanProperty(localization, (EuclidianView3D) euclidianView));
+		properties.add(new ShowClippingBooleanProperty(localization, (EuclidianView3D) euclidianView));
+		properties.add(
+				new ClippingBoxSizeProperty(localization, ((EuclidianView3D) euclidianView).getSettings()));
 		setProperties(properties.toArray(new Property[0]));
 	}
 }

@@ -40,8 +40,7 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 	 * @param inputList
 	 *            points
 	 */
-	public AlgoTravelingSalesman(Construction cons, String label,
-			GeoList inputList) {
+	public AlgoTravelingSalesman(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList);
 	}
 
@@ -98,7 +97,5 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 
 		locus.setPoints(al);
 		locus.setDefined(true);
-
 	}
-
 }

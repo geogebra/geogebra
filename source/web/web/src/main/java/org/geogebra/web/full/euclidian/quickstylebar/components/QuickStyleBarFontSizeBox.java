@@ -53,14 +53,14 @@ public final class QuickStyleBarFontSizeBox extends FlowPanel implements SetLabe
 	 * @param requestFocusAfterUpdate called before an Enter commit so the rebuilt toolbar can
 	 * focus the font size input
 	 */
-	public QuickStyleBarFontSizeBox(@NonNull AppW app, @NonNull ComboBox property,
-			@NonNull Runnable requestFocusAfterUpdate) {
+	public QuickStyleBarFontSizeBox(
+			@NonNull AppW app, @NonNull ComboBox property, @NonNull Runnable requestFocusAfterUpdate) {
 		this.app = app;
 		this.property = property;
 		this.requestFocusAfterUpdate = requestFocusAfterUpdate;
 		inputTextField = new AutoCompleteTextFieldW(-1, app, false, null);
-		controller = new DropDownComboBoxController(app, property, this, property::getItems,
-				property.getLabel(), this::onClose, null);
+		controller = new DropDownComboBoxController(
+				app, property, this, property::getItems, property.getLabel(), this::onClose, null);
 		controller.getPopup().addStyleName("quickStyleBarFontSizePopup");
 
 		addStyleName("quickStyleBarFontSizeBox");
@@ -126,8 +126,8 @@ public final class QuickStyleBarFontSizeBox extends FlowPanel implements SetLabe
 			});
 		});
 
-		inputTextField.addInputListener(event -> controller.setSelectedOption(
-				controller.possibleSelectedIndex(inputTextField.getText())));
+		inputTextField.addInputListener(event ->
+				controller.setSelectedOption(controller.possibleSelectedIndex(inputTextField.getText())));
 
 		inputTextField.getTextBox().addKeyDownHandler(event -> {
 			if (event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER) {
@@ -258,8 +258,9 @@ public final class QuickStyleBarFontSizeBox extends FlowPanel implements SetLabe
 
 	private void setDataTitleEnabled(boolean enabled) {
 		if (enabled) {
-			inputTextField.getElement().setAttribute("data-title",
-					app.getLocalization().getMenu("FontSize"));
+			inputTextField
+					.getElement()
+					.setAttribute("data-title", app.getLocalization().getMenu("FontSize"));
 		} else {
 			inputTextField.getElement().removeAttribute("data-title");
 		}

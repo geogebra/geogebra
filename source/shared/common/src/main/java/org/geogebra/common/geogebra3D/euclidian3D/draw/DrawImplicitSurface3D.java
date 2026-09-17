@@ -32,24 +32,23 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.MyMath;
 
 /**
- * 
+ *
  * @author Shamshad Alam
  *
  */
 public class DrawImplicitSurface3D extends Drawable3DSurfaces {
-	private final static double[] hitTestParams = new double[] { 0.5, 0.25,
-			0.75, 0.125, 0.375, 0.625, 0.875 };
+	private static final double[] hitTestParams =
+			new double[] {0.5, 0.25, 0.75, 0.125, 0.375, 0.625, 0.875};
 
 	/**
 	 * create a new {@link DrawImplicitSurface3D} object
-	 * 
+	 *
 	 * @param a_view3d
 	 *            {@link EuclidianView3D}
 	 * @param a_geo
 	 *            {@link GeoElement}
 	 */
-	public DrawImplicitSurface3D(EuclidianView3D a_view3d,
-			GeoImplicitSurface a_geo) {
+	public DrawImplicitSurface3D(EuclidianView3D a_view3d, GeoImplicitSurface a_geo) {
 		super(a_view3d, a_geo);
 	}
 
@@ -82,9 +81,17 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 	protected boolean updateForItSelf() {
 		GeoImplicitSurface geo = (GeoImplicitSurface) getGeoElement();
 		EuclidianView3D v3d = getView3D();
-		geo.updateSurface(new double[] { v3d.getXmin(), v3d.getXmax(),
-				v3d.getYmin(), v3d.getYmax(), v3d.getZmin(), v3d.getZmax(),
-				v3d.getXscale(), v3d.getYscale(), v3d.getZscale() });
+		geo.updateSurface(new double[] {
+			v3d.getXmin(),
+			v3d.getXmax(),
+			v3d.getYmin(),
+			v3d.getYmax(),
+			v3d.getZmin(),
+			v3d.getZmax(),
+			v3d.getXscale(),
+			v3d.getYscale(),
+			v3d.getZscale()
+		});
 		GeoTriangulatedSurface3D surf = geo.getSurface3D();
 		SurfaceMover surfaceMover = surf.getSurfaceMover();
 
@@ -103,18 +110,16 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		while (surfaceMover.hasNext()) {
 			Triangle tri = surfaceMover.next();
 			s.triangle(tri.v1, tri.v2, tri.v3, tri.n1, tri.n2, tri.n3);
-        }
-        m.endGeometry(surfaceMover.getTrianglesCount(),
-                TypeElement.TRIANGLES);
-        setSurfaceIndex(s.end());
-        endPacking();
+		}
+		m.endGeometry(surfaceMover.getTrianglesCount(), TypeElement.TRIANGLES);
+		setSurfaceIndex(s.end());
+		endPacking();
 		return true;
 	}
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByTranslate()
-				|| getView3D().viewChangedByZoom()) {
+		if (getView3D().viewChangedByTranslate() || getView3D().viewChangedByZoom()) {
 			setWaitForUpdate();
 		}
 	}
@@ -131,15 +136,14 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 			return false;
 		}
 
-		if (getGeoElement()
-				.getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
+		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
 			return false;
 		}
 
 		GeoImplicitSurface gs = (GeoImplicitSurface) this.getGeoElement();
 		hitting.calculateClippedValues();
 		if (Double.isNaN(hitting.x0)) { // hitting doesn't intersect
-										// clipping box
+			// clipping box
 			return false;
 		}
 		double v0 = gs.evaluateAt(hitting.x0, hitting.y0, hitting.z0);
@@ -150,7 +154,8 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		for (int i = 0; i < hitTestParams.length; i++) {
 			double p = hitTestParams[i];
 			double q = 1 - p;
-			v1 = gs.evaluateAt(hitting.x1 * p + hitting.x0 * q,
+			v1 = gs.evaluateAt(
+					hitting.x1 * p + hitting.x0 * q,
 					hitting.y1 * p + hitting.y0 * q,
 					hitting.z1 * p + hitting.z0 * q);
 			if (MyMath.changedSign(v0, v1)) {
@@ -166,20 +171,20 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		updateForView();
 	}
 
-    @Override
-    public void setWaitForUpdateVisualStyle(GProperty prop) {
-        super.setWaitForUpdateVisualStyle(prop);
-        if (prop == GProperty.LINE_STYLE) {
-            // also update for line width (e.g when translated)
-            setWaitForUpdate();
-        } else if (prop == GProperty.COLOR) {
-            setWaitForUpdateColor();
-        } else if (prop == GProperty.HIGHLIGHT) {
-            setWaitForUpdateColor();
-        } else if (prop == GProperty.VISIBLE) {
-            setWaitForUpdateVisibility();
-        }
-    }
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
+		if (prop == GProperty.LINE_STYLE) {
+			// also update for line width (e.g when translated)
+			setWaitForUpdate();
+		} else if (prop == GProperty.COLOR) {
+			setWaitForUpdateColor();
+		} else if (prop == GProperty.HIGHLIGHT) {
+			setWaitForUpdateColor();
+		} else if (prop == GProperty.VISIBLE) {
+			setWaitForUpdateVisibility();
+		}
+	}
 
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
@@ -190,5 +195,4 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
 	}
-
 }

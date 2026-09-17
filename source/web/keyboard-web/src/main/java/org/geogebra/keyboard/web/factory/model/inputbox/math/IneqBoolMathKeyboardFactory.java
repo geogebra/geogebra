@@ -55,5 +55,4 @@ public class IneqBoolMathKeyboardFactory implements KeyboardModelFactory {
 
 		return mathKeyboard;
 	}
-
 }

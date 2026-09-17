@@ -60,27 +60,23 @@ class OutPt {
 		while (p.getPt().equals(btmPt1.getPt()) && !p.equals(btmPt1)) {
 			p = p.prev;
 		}
-		final double dx1p = Math
-				.abs(DoublePoint.getDeltaX(btmPt1.getPt(), p.getPt()));
+		final double dx1p = Math.abs(DoublePoint.getDeltaX(btmPt1.getPt(), p.getPt()));
 		p = btmPt1.next;
 		while (p.getPt().equals(btmPt1.getPt()) && !p.equals(btmPt1)) {
 			p = p.next;
 		}
-		final double dx1n = Math
-				.abs(DoublePoint.getDeltaX(btmPt1.getPt(), p.getPt()));
+		final double dx1n = Math.abs(DoublePoint.getDeltaX(btmPt1.getPt(), p.getPt()));
 
 		p = btmPt2.prev;
 		while (p.getPt().equals(btmPt2.getPt()) && !p.equals(btmPt2)) {
 			p = p.prev;
 		}
-		final double dx2p = Math
-				.abs(DoublePoint.getDeltaX(btmPt2.getPt(), p.getPt()));
+		final double dx2p = Math.abs(DoublePoint.getDeltaX(btmPt2.getPt(), p.getPt()));
 		p = btmPt2.next;
 		while (p.getPt().equals(btmPt2.getPt()) && p.equals(btmPt2)) {
 			p = p.next;
 		}
-		final double dx2n = Math
-				.abs(DoublePoint.getDeltaX(btmPt2.getPt(), p.getPt()));
+		final double dx2n = Math.abs(DoublePoint.getDeltaX(btmPt2.getPt(), p.getPt()));
 		return dx1p >= dx2p && dx1p >= dx2n || dx1n >= dx2p && dx1n >= dx2n;
 	}
 
@@ -172,5 +168,4 @@ class OutPt {
 			pp1 = pp2;
 		} while (pp1 != this);
 	}
-
 }

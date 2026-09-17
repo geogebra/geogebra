@@ -24,11 +24,11 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
  */
 public class LengthCurve implements UnivariateFunction {
 	private GeoCurveCartesianND c1;
-	private double[] f1eval = new double[] { 0, 0, 0 };
+	private double[] f1eval = new double[] {0, 0, 0};
 
 	/**
 	 * Curve length function for numeric estimation of curve length
-	 * 
+	 *
 	 * @param c1
 	 *            derivative of measured curve
 	 */
@@ -39,7 +39,6 @@ public class LengthCurve implements UnivariateFunction {
 	@Override
 	public double value(double t) {
 		c1.evaluateCurve(t, f1eval);
-		return Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]
-				+ f1eval[2] * f1eval[2]);
+		return Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1] + f1eval[2] * f1eval[2]);
 	}
 }

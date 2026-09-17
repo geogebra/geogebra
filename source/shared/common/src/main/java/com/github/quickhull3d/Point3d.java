@@ -24,13 +24,13 @@ package com.github.quickhull3d;
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -50,7 +50,7 @@ package com.github.quickhull3d;
  * vector is in the the way it is transformed by an affine transformation. Since
  * the transform method is not included in this reduced implementation for
  * QuickHull3D, the difference is purely academic.
- * 
+ *
  * @author John E. Lloyd, Fall 2004
  */
 public class Point3d extends Vector3d {
@@ -58,12 +58,11 @@ public class Point3d extends Vector3d {
 	/**
 	 * Creates a Point3d and initializes it to zero.
 	 */
-	public Point3d() {
-	}
+	public Point3d() {}
 
 	/**
 	 * Creates a Point3d by copying a vector
-	 * 
+	 *
 	 * @param v
 	 *            vector to be copied
 	 */
@@ -73,7 +72,7 @@ public class Point3d extends Vector3d {
 
 	/**
 	 * Creates a Point3d with the supplied element values.
-	 * 
+	 *
 	 * @param x
 	 *            first element
 	 * @param y

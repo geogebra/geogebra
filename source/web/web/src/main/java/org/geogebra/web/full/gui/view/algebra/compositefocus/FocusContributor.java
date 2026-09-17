@@ -35,7 +35,6 @@ public interface FocusContributor {
 	 * @param focus the composite focus container to populate
 	 * @param am the accessibility manager used for focus handling
 	 */
-	void contribute(RadioTreeItemFocusAccess item,
-			FocusableCompositeW focus,
-			AccessibilityManagerInterface am);
+	void contribute(
+			RadioTreeItemFocusAccess item, FocusableCompositeW focus, AccessibilityManagerInterface am);
 }

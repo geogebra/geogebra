@@ -29,7 +29,7 @@ public class CmdSD extends CmdOneListFunction {
 
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -38,15 +38,14 @@ public class CmdSD extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
+	protected final GeoElement doCommand(String a, GeoList b) {
 		AlgoStandardDeviation algo = new AlgoStandardDeviation(cons, b);
 		algo.getResult().setLabel(a);
 		return algo.getResult();
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list,
-			GeoList freq) {
+	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
 		AlgoStandardDeviation algo = new AlgoStandardDeviation(cons, list, freq);
 		algo.getResult().setLabel(a);
 		return algo.getResult();

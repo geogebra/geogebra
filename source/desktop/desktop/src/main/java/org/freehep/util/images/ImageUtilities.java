@@ -20,19 +20,17 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ImageUtilities {
 
-	private ImageUtilities() {
-	}
+	private ImageUtilities() {}
 
-	public static RenderedImage createRenderedImage(Image image,
-			ImageObserver observer, Color bkg) {
+	public static RenderedImage createRenderedImage(Image image, ImageObserver observer, Color bkg) {
 		if ((bkg == null) && (image instanceof RenderedImage)) {
 			return (RenderedImage) image;
 		}
 
 		BufferedImage bufferedImage = new BufferedImage(
-				image.getWidth(observer), image.getHeight(observer),
-				(bkg == null) ? BufferedImage.TYPE_INT_ARGB
-						: BufferedImage.TYPE_INT_RGB);
+				image.getWidth(observer),
+				image.getHeight(observer),
+				(bkg == null) ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
 		Graphics g = bufferedImage.getGraphics();
 		if (bkg == null) {
 			g.drawImage(image, 0, 0, observer);
@@ -42,30 +40,28 @@ public class ImageUtilities {
 		return bufferedImage;
 	}
 
-	public static BufferedImage createBufferedImage(RenderedImage image,
-			ImageObserver observer, Color bkg) {
+	public static BufferedImage createBufferedImage(
+			RenderedImage image, ImageObserver observer, Color bkg) {
 		if (image instanceof BufferedImage) {
 			return (BufferedImage) image;
 		}
 		throw new IllegalArgumentException("not supperted " + image.getClass());
 	}
 
-	public static BufferedImage createBufferedImage(Image image,
-			ImageObserver observer, Color bkg) {
+	public static BufferedImage createBufferedImage(Image image, ImageObserver observer, Color bkg) {
 		if ((bkg == null) && (image instanceof BufferedImage)) {
 			return (BufferedImage) image;
 		}
 		return (BufferedImage) createRenderedImage(image, observer, bkg);
 	}
 
-	public static RenderedImage createRenderedImage(RenderedImage image,
-			Color bkg) {
+	public static RenderedImage createRenderedImage(RenderedImage image, Color bkg) {
 		if (bkg == null) {
 			return image;
 		}
 
-		BufferedImage bufferedImage = new BufferedImage(image.getWidth(),
-				image.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage bufferedImage =
+				new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
 		g.setBackground(bkg);
 		g.clearRect(0, 0, image.getWidth(), image.getHeight());
@@ -73,10 +69,9 @@ public class ImageUtilities {
 		return bufferedImage;
 	}
 
-	public static byte[] getBytes(Image image, Color bkg, String code, int pad,
-			ImageObserver observer) {
-		return getBytes(createRenderedImage(image, observer, bkg), bkg, code,
-				pad);
+	public static byte[] getBytes(
+			Image image, Color bkg, String code, int pad, ImageObserver observer) {
+		return getBytes(createRenderedImage(image, observer, bkg), bkg, code, pad);
 	}
 
 	/**
@@ -93,8 +88,7 @@ public class ImageUtilities {
 	 *            number of bytes to pad the scanline with (1=byte, 2=short,
 	 *            4=int, ...)
 	 */
-	public static byte[] getBytes(RenderedImage image, Color bkg, String code,
-			int pad) {
+	public static byte[] getBytes(RenderedImage image, Color bkg, String code, int pad) {
 		if (pad < 1) {
 			pad = 1;
 		}
@@ -121,8 +115,7 @@ public class ImageUtilities {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 
-				int argb = colorModel
-						.getRGB(raster.getDataElements(x, y, (Object) null));
+				int argb = colorModel.getRGB(raster.getDataElements(x, y, (Object) null));
 				int a = ((argb >> 24) & 0xFF);
 				int r = ((argb >> 16) & 0xFF);
 				int g = ((argb >> 8) & 0xFF);
@@ -142,30 +135,29 @@ public class ImageUtilities {
 
 				for (int i = 0; i < code.length(); i++) {
 					switch (code.charAt(i)) {
-					case 'a':
-					case 'A':
-						bytes[index] = (byte) a;
-						break;
+						case 'a':
+						case 'A':
+							bytes[index] = (byte) a;
+							break;
 
-					case 'r':
-					case 'R':
-						bytes[index] = (byte) r;
-						break;
+						case 'r':
+						case 'R':
+							bytes[index] = (byte) r;
+							break;
 
-					case 'g':
-					case 'G':
-						bytes[index] = (byte) g;
-						break;
+						case 'g':
+						case 'G':
+							bytes[index] = (byte) g;
+							break;
 
-					case 'b':
-					case 'B':
-						bytes[index] = (byte) b;
-						break;
+						case 'b':
+						case 'B':
+							bytes[index] = (byte) b;
+							break;
 
-					default:
-						Log.debug(ImageUtilities.class
-								+ ": Invalid code in '" + code + "'");
-						break;
+						default:
+							Log.debug(ImageUtilities.class + ": Invalid code in '" + code + "'");
+							break;
 					}
 					index++;
 				}

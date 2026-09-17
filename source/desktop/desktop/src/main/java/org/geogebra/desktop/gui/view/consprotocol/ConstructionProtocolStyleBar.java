@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,8 +34,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Stylebar for construction protocol view
  */
-public class ConstructionProtocolStyleBar extends JToolBar
-		implements ActionListener {
+public class ConstructionProtocolStyleBar extends JToolBar implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -52,6 +51,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 	PopupMenuButtonD btnColumns;
 	/** Options button */
 	PopupMenuButtonD btnOptions;
+
 	private JButton btnExport;
 	private JButton btnPrint;
 	private JButton btnHelp;
@@ -64,14 +64,13 @@ public class ConstructionProtocolStyleBar extends JToolBar
 
 	/**
 	 * Helper bar.
-	 * 
+	 *
 	 * @param cpView
 	 *            construction protocol view
 	 * @param app
 	 *            application
 	 */
-	public ConstructionProtocolStyleBar(ConstructionProtocolViewD cpView,
-			AppD app) {
+	public ConstructionProtocolStyleBar(ConstructionProtocolViewD cpView, AppD app) {
 		this.cpView = cpView;
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -97,16 +96,12 @@ public class ConstructionProtocolStyleBar extends JToolBar
 				JCheckBoxMenuItem item;
 				removeAllMenuItems();
 				for (int k = 1; k < cpView.getTableColumns().length; k++) {
-					item = new JCheckBoxMenuItem(
-							cpView.getData().getColumns()[k]
-									.getTranslatedTitle());
+					item = new JCheckBoxMenuItem(cpView.getData().getColumns()[k].getTranslatedTitle());
 					TableColumn column = cpView.getTableColumns()[k];
 					item.setSelected(cpView.isColumnInModel(column));
-					ColumnKeeper colKeeper = cpView.new ColumnKeeper(column,
-							cpView.getData().columns[k]);
+					ColumnKeeper colKeeper = cpView.new ColumnKeeper(column, cpView.getData().columns[k]);
 					item.addActionListener(colKeeper);
 					btnColumns.addPopupMenuItem(item);
-
 				}
 
 				return true;
@@ -114,7 +109,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		};
 		btnColumns.setKeepVisible(true);
 		btnColumns.setStandardButton(true); // mouse clicks over total button
-											// region
+		// region
 		btnColumns.setIcon(app.getScaledIcon(GuiResourcesD.COLUMN_HEADER));
 
 		add(btnColumns);
@@ -130,28 +125,23 @@ public class ConstructionProtocolStyleBar extends JToolBar
 
 			@Override
 			public boolean prepareToShowPopup() {
-				miShowOnlyBreakpoints.setSelected(app.getKernel()
-						.getConstruction().showOnlyBreakpoints());
-				miColorfulConstructionProtocol
-						.setSelected(cpView.getUseColors());
+				miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
+				miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
 				return true;
 			}
 		};
 		btnOptions.setKeepVisible(true);
 		btnOptions.setStandardButton(true); // mouse clicks over total button
-											// region
-		btnOptions
-				.setIcon(app.getScaledIcon(GuiResourcesD.DOCUMENT_PROPERTIES));
+		// region
+		btnOptions.setIcon(app.getScaledIcon(GuiResourcesD.DOCUMENT_PROPERTIES));
 
-		miShowOnlyBreakpoints = new JCheckBoxMenuItem(
-				loc.getMenu("ShowOnlyBreakpoints"));
-		miShowOnlyBreakpoints.setSelected(
-				app.getKernel().getConstruction().showOnlyBreakpoints());
+		miShowOnlyBreakpoints = new JCheckBoxMenuItem(loc.getMenu("ShowOnlyBreakpoints"));
+		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
 		miShowOnlyBreakpoints.addActionListener(e -> cpView.showOnlyBreakpointsAction());
 		btnOptions.addPopupMenuItem(miShowOnlyBreakpoints);
 
-		miColorfulConstructionProtocol = new JCheckBoxMenuItem(
-				loc.getMenu("ColorfulConstructionProtocol"));
+		miColorfulConstructionProtocol =
+				new JCheckBoxMenuItem(loc.getMenu("ColorfulConstructionProtocol"));
 		miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
 		miColorfulConstructionProtocol.addActionListener(
 				e -> cpView.setUseColors(!cpView.getUseColors()));
@@ -170,8 +160,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		addSeparator();
 
 		// print button
-		btnPrint = new JButton(
-				app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW));
+		btnPrint = new JButton(app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW));
 		btnPrint.setToolTipText(loc.getPlainTooltip("Print"));
 		btnPrint.addActionListener(this);
 		add(btnPrint);
@@ -182,9 +171,8 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
 		// btnHelp.setToolTipText(loc.getPlainTooltip("FastHelp"));
 		btnHelp.addActionListener(e -> {
-			Thread runner = new Thread(() ->
-				app.getGuiManager().openHelp(ManualPage.CONSTRUCTION_PROTOCOL, null)
-			);
+			Thread runner =
+					new Thread(() -> app.getGuiManager().openHelp(ManualPage.CONSTRUCTION_PROTOCOL, null));
 			runner.start();
 		});
 		add(btnHelp);
@@ -203,8 +191,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		btnPrint.setToolTipText(loc.getMenuTooltip("Print"));
 		btnHelp.setToolTipText(loc.getMenuTooltip("FastHelp"));
 		miShowOnlyBreakpoints.setText(loc.getMenu("ShowOnlyBreakpoints"));
-		miColorfulConstructionProtocol
-				.setText(loc.getMenu("ColorfulConstructionProtocol"));
+		miColorfulConstructionProtocol.setText(loc.getMenu("ColorfulConstructionProtocol"));
 	}
 
 	/** reset actions and buttons */
@@ -222,10 +209,8 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		if (e.getSource() == btnColumns) {
 			int selIndex = btnColumns.getSelectedIndex();
 			TableColumn column = cpView.getTableColumns()[selIndex];
-			ColumnKeeper colKeeper = cpView.new ColumnKeeper(column,
-					cpView.getData().columns[selIndex]);
+			ColumnKeeper colKeeper = cpView.new ColumnKeeper(column, cpView.getData().columns[selIndex]);
 			colKeeper.actionPerformed(e);
-
 		}
 
 		if (e.getSource() == btnOptions) {

@@ -21,8 +21,7 @@ import org.geogebra.common.main.App;
 
 public class OutlyingIntersectionsModel extends BooleanOptionModel {
 
-	public OutlyingIntersectionsModel(IBooleanOptionListener listener,
-			App app) {
+	public OutlyingIntersectionsModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
 	}
 

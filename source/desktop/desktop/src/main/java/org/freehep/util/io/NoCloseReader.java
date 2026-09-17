@@ -8,7 +8,7 @@ import java.io.Reader;
 /**
  * The NoCloseReader ignores the close so that one can keep reading from the
  * underlying stream.
- * 
+ *
  * @author Mark Donszelmann
  * @version $Id: NoCloseReader.java,v 1.3 2008-05-04 12:21:29 murkle Exp $
  */
@@ -16,7 +16,7 @@ public class NoCloseReader extends BufferedReader {
 
 	/**
 	 * Creates a No Close Reader.
-	 * 
+	 *
 	 * @param reader
 	 *            reader to read from
 	 */
@@ -26,7 +26,7 @@ public class NoCloseReader extends BufferedReader {
 
 	/**
 	 * Creates a No Close Reader.
-	 * 
+	 *
 	 * @param reader
 	 *            reader to read from
 	 * @param size
@@ -37,12 +37,11 @@ public class NoCloseReader extends BufferedReader {
 	}
 
 	@Override
-	public void close() throws IOException {
-	}
+	public void close() throws IOException {}
 
 	/**
 	 * Closes the reader (close is ignored).
-	 * 
+	 *
 	 * @throws IOException
 	 *             if the close fails
 	 */

@@ -86,8 +86,7 @@ public class AppletParameters {
 	}
 
 	private boolean getBoolDataParam(String attr, boolean def) {
-		return (def && !"false".equals(getAttribute(attr)))
-				|| "true".equals(getAttribute(attr));
+		return (def && !"false".equals(getAttribute(attr))) || "true".equals(getAttribute(attr));
 	}
 
 	private String getStringDataParam(String attr, String def) {
@@ -141,7 +140,7 @@ public class AppletParameters {
 	/**
 	 * Determines if the "data-param-enableLabelDrags" article attribute is set
 	 * to true
-	 * 
+	 *
 	 * @return the data-param-enableLabelDrags (default: true)
 	 */
 	public boolean getDataParamEnableLabelDrags() {
@@ -151,7 +150,7 @@ public class AppletParameters {
 	/**
 	 * Determines if the "data-param-enableUndoRedo" article attribute is set to
 	 * true
-	 * 
+	 *
 	 * @return the data-param-enableUndoRedo (default: true)
 	 */
 	public boolean getDataParamEnableUndoRedo() {
@@ -161,7 +160,7 @@ public class AppletParameters {
 	/**
 	 * Determines if the "data-param-enableRightClick" article attribute is set
 	 * to true
-	 * 
+	 *
 	 * @return the data-param-enableRightClick (default: true)
 	 */
 	public boolean getDataParamEnableRightClick() {
@@ -267,7 +266,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the data-param-customToolBar (default: null)
 	 */
 	public String getDataParamCustomToolBar() {
@@ -289,8 +288,8 @@ public class AppletParameters {
 	 * @return input position (top / bottom / AV)
 	 */
 	public InputPosition getAlgebraPosition(InputPosition def) {
-		String pos = getStringDataParam("algebraInputPosition", "")
-				.toLowerCase(Locale.ROOT).trim();
+		String pos =
+				getStringDataParam("algebraInputPosition", "").toLowerCase(Locale.ROOT).trim();
 		if ("top".equals(pos)) {
 			return InputPosition.top;
 		}
@@ -327,7 +326,7 @@ public class AppletParameters {
 
 	/**
 	 * eg "de"
-	 * 
+	 *
 	 * @return the data-param-showResetIcon (default: null)
 	 */
 	public String getDataParamLanguage() {
@@ -336,7 +335,7 @@ public class AppletParameters {
 
 	/**
 	 * eg "AT"
-	 * 
+	 *
 	 * @return the data-param-showResetIcon (default: null)
 	 */
 	public String getDataParamCountry() {
@@ -344,7 +343,7 @@ public class AppletParameters {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the data-param-useBrowserForJS (default: false)
 	 */
 	public boolean getDataParamUseBrowserForJS() {
@@ -445,7 +444,7 @@ public class AppletParameters {
 
 	/**
 	 * Running in screenshot generator mode allows some optimizations
-	 * 
+	 *
 	 * @return whether we are running the applet as screenshot generator
 	 */
 	public boolean getDataParamScreenshotGenerator() {
@@ -485,7 +484,8 @@ public class AppletParameters {
 	 */
 	public String getDataParamAppName() {
 		return getStringDataParam("appName", "classic")
-				.replace("whiteboard", "notes").toLowerCase(Locale.US);
+				.replace("whiteboard", "notes")
+				.toLowerCase(Locale.US);
 	}
 
 	/**
@@ -847,8 +847,7 @@ public class AppletParameters {
 	 * @return whether to run JS in QuickJS sandbox
 	 */
 	public boolean getParamSandbox() {
-		return getBoolDataParam("sandboxJavaScript",
-				getDataParamApp() || Browser.isGeoGebraOrg());
+		return getBoolDataParam("sandboxJavaScript", getDataParamApp() || Browser.isGeoGebraOrg());
 	}
 
 	/**
@@ -864,7 +863,9 @@ public class AppletParameters {
 	 */
 	public List<String> getDataParamCustomToolbox() {
 		return Arrays.stream(getStringDataParam("customToolbox", "").split(","))
-				.map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.collect(Collectors.toList());
 	}
 
 	/**

@@ -1,12 +1,12 @@
 /*
-* Copyright (c) 2003, the JUNG Project and the Regents of the University 
-* of California
-* All rights reserved.
-*
-* This software is open-source under the BSD license; see either
-* "license.txt" or
-* http://jung.sourceforge.net/license.txt for a description.
-*/
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
+ * of California
+ * All rights reserved.
+ *
+ * This software is open-source under the BSD license; see either
+ * "license.txt" or
+ * http://jung.sourceforge.net/license.txt for a description.
+ */
 package edu.uci.ics.jung.algorithms.matrix;
 
 import java.util.Map;
@@ -32,18 +32,18 @@ import java.util.Map;
  * on two graphs, computePathData() should return the products of the weights of
  * a two-edge path, and mergePaths() should add the output of computePathData()
  * to an existing edge (or possibly create such an edge if none exists).
- * 
+ *
  * @author Joshua O'Madadhain
  */
 public interface MatrixElementOperations<E> {
 	/**
 	 * If either e or pathData is null, the effect of mergePaths() is
 	 * implementation-dependent.
-	 * 
+	 *
 	 * @param e
 	 *            (possibly) existing edge in the output graph which represents
 	 *            a path in the input graph(s)
-	 * 
+	 *
 	 * @param pathData
 	 *            data (which represents another path with the same source and
 	 *            destination as e in the input graphs) which is to be merged
@@ -53,7 +53,7 @@ public interface MatrixElementOperations<E> {
 
 	/**
 	 * If either e1 or e2 is null, the Object reference returned should be null.
-	 * 
+	 *
 	 * @param e1
 	 *            first edge from 2-edge path in input graph(s)
 	 * @param e2

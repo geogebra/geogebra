@@ -2,18 +2,17 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
  */
-// This code has been written initially for Scilab (http://www.scilab.org/).
 
 package org.geogebra.desktop.gui.editor;
 
@@ -36,7 +35,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Useful to match opening and closing keywords from left to right or from right
  * to left
- * 
+ *
  * @author Calixte DENIZET
  */
 public class MatchingBlockManager {
@@ -57,7 +56,7 @@ public class MatchingBlockManager {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param doc
 	 *            the doc to highlight
 	 * @param pane
@@ -65,8 +64,7 @@ public class MatchingBlockManager {
 	 * @param lr
 	 *            if true the matching is from left to right
 	 */
-	public MatchingBlockManager(Document doc, GeoGebraEditorPane pane,
-			boolean lr) {
+	public MatchingBlockManager(Document doc, GeoGebraEditorPane pane, boolean lr) {
 		this.doc = doc;
 		this.pane = pane;
 		this.scanner = new MatchingBlockScanner(doc);
@@ -83,14 +81,13 @@ public class MatchingBlockManager {
 	/**
 	 * Set the painter for the matching open/close keywords (such as '('/')' or
 	 * '['/']'). The contents between the matchings is highlighted.
-	 * 
+	 *
 	 * @param filled
 	 *            true if a filled rectangle must be used to highlight
 	 * @param color
 	 *            the color of the painter
 	 **/
-	public void setPainterForOpenClose(boolean filled, boolean included,
-			Color color) {
+	public void setPainterForOpenClose(boolean filled, boolean included, Color color) {
 		this.insideOc = true;
 		this.ocIncluded = included;
 		update();
@@ -100,7 +97,7 @@ public class MatchingBlockManager {
 	/**
 	 * Set the painter for the matching open/close keywords (such as '('/')' or
 	 * '['/']'). The matchings are highlighted.
-	 * 
+	 *
 	 * @param type
 	 *            one of the three values : GeoGebraKeywordsPainter.FILLED
 	 *            GeoGebraKeywordsPainter.UNDERLINED
@@ -120,8 +117,8 @@ public class MatchingBlockManager {
 	 * contents between the matchings is highlighted.
 	 **/
 	public void setPainterForOpenClose() {
-		Parameters param = new Parameters(Color.decode("#40e0d0"), false, false,
-				true, GeoGebraKeywordsPainter.FILLED, true);
+		Parameters param = new Parameters(
+				Color.decode("#40e0d0"), false, false, true, GeoGebraKeywordsPainter.FILLED, true);
 		if (param.inside) {
 			boolean b = param.type == GeoGebraKeywordsPainter.FILLED;
 			setPainterForOpenClose(b, param.included, param.color);
@@ -178,7 +175,7 @@ public class MatchingBlockManager {
 
 	/**
 	 * Search the matching keywords
-	 * 
+	 *
 	 * @param tok
 	 *            the type of the token at the position pos in the document
 	 * @param pos
@@ -207,7 +204,7 @@ public class MatchingBlockManager {
 
 	/**
 	 * Create the highlights
-	 * 
+	 *
 	 * @param mpos
 	 *            the position of the matching keywords
 	 * @param inside
@@ -215,29 +212,27 @@ public class MatchingBlockManager {
 	 * @param hp
 	 *            the painter to use
 	 */
-	private void createHighlights(MatchingBlockScanner.MatchingPositions mpos,
-			boolean inside, boolean included, Highlighter.HighlightPainter hp) {
+	private void createHighlights(
+			MatchingBlockScanner.MatchingPositions mpos,
+			boolean inside,
+			boolean included,
+			Highlighter.HighlightPainter hp) {
 		try {
 			if (!inside) {
 				first = pane.getHighlighter().addHighlight(mpos.firstB, mpos.firstE, hp);
-				second = pane.getHighlighter().addHighlight(mpos.secondB, mpos.secondE,
-						hp);
+				second = pane.getHighlighter().addHighlight(mpos.secondB, mpos.secondE, hp);
 			} else {
 				if (lr) {
 					if (included) {
-						first = pane.getHighlighter().addHighlight(mpos.firstB,
-								mpos.secondE, hp);
+						first = pane.getHighlighter().addHighlight(mpos.firstB, mpos.secondE, hp);
 					} else {
-						first = pane.getHighlighter().addHighlight(mpos.firstE,
-								mpos.secondB, hp);
+						first = pane.getHighlighter().addHighlight(mpos.firstE, mpos.secondB, hp);
 					}
 				} else {
 					if (included) {
-						first = pane.getHighlighter().addHighlight(mpos.secondB,
-								mpos.firstE, hp);
+						first = pane.getHighlighter().addHighlight(mpos.secondB, mpos.firstE, hp);
 					} else {
-						first = pane.getHighlighter().addHighlight(mpos.secondE,
-								mpos.firstB, hp);
+						first = pane.getHighlighter().addHighlight(mpos.secondE, mpos.firstB, hp);
 					}
 				}
 			}
@@ -283,7 +278,7 @@ public class MatchingBlockManager {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param color
 		 *            the color
 		 * @param inside
@@ -293,8 +288,13 @@ public class MatchingBlockManager {
 		 * @param onmouseover
 		 *            a boolean
 		 */
-		public Parameters(Color color, boolean inside, boolean strict,
-				boolean included, int type, boolean onmouseover) {
+		public Parameters(
+				Color color,
+				boolean inside,
+				boolean strict,
+				boolean included,
+				int type,
+				boolean onmouseover) {
 			this.color = color;
 			this.inside = inside;
 			this.type = type;
@@ -307,8 +307,7 @@ public class MatchingBlockManager {
 	/**
 	 * Inner class to highlight matching keywords
 	 */
-	public static class GeoGebraKeywordsPainter
-			extends DefaultHighlighter.DefaultHighlightPainter {
+	public static class GeoGebraKeywordsPainter extends DefaultHighlighter.DefaultHighlightPainter {
 
 		/**
 		 * FILLED
@@ -330,7 +329,7 @@ public class MatchingBlockManager {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param color
 		 *            the color to paint
 		 * @param type
@@ -344,7 +343,7 @@ public class MatchingBlockManager {
 
 		/**
 		 * paintLayer
-		 * 
+		 *
 		 * @param g
 		 *            Graphics
 		 * @param offs0
@@ -360,26 +359,24 @@ public class MatchingBlockManager {
 		 * @return the shape containing the highlighted text
 		 */
 		@Override
-		public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds,
-				JTextComponent c, View view) {
+		public Shape paintLayer(
+				Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c, View view) {
 			try {
-				Rectangle r = (Rectangle) view.modelToView(offs0,
-						Position.Bias.Forward, offs1, Position.Bias.Backward,
-						bounds);
+				Rectangle r = (Rectangle)
+						view.modelToView(offs0, Position.Bias.Forward, offs1, Position.Bias.Backward, bounds);
 				g.setColor(color);
 
 				switch (type) {
-				case UNDERLINED:
-					g.drawLine(r.x, r.y + r.height - 1, r.x + r.width - 1,
-							r.y + r.height - 1);
-					return r;
-				case FRAMED:
-					g.drawRect(r.x, r.y, r.width - 1, r.height - 1);
-					return r;
-				case FILLED:
-				default:
-					g.fillRect(r.x, r.y, r.width, r.height);
-					return r;
+					case UNDERLINED:
+						g.drawLine(r.x, r.y + r.height - 1, r.x + r.width - 1, r.y + r.height - 1);
+						return r;
+					case FRAMED:
+						g.drawRect(r.x, r.y, r.width - 1, r.height - 1);
+						return r;
+					case FILLED:
+					default:
+						g.fillRect(r.x, r.y, r.width, r.height);
+						return r;
 				}
 			} catch (BadLocationException e) {
 				return null;
@@ -399,14 +396,13 @@ public class MatchingBlockManager {
 
 		/**
 		 * Constructor
-		 * 
+		 *
 		 * @param filled
 		 *            if the highlighted rectangle must be filled
 		 * @param color
 		 *            the color to paint
 		 */
-		protected InsideLinePainter(boolean filled, boolean strict,
-				Color color) {
+		protected InsideLinePainter(boolean filled, boolean strict, Color color) {
 			this.filled = filled;
 			this.strict = strict;
 			this.color = color;
@@ -415,7 +411,7 @@ public class MatchingBlockManager {
 		/**
 		 * Implements a strategy to render contents depending on the position of
 		 * these
-		 * 
+		 *
 		 * @param g
 		 *            Graphics
 		 * @param pos0
@@ -428,8 +424,7 @@ public class MatchingBlockManager {
 		 *            the text component where to paint
 		 */
 		@Override
-		public void paint(Graphics g, int pos0, int pos1, Shape bounds,
-				JTextComponent c) {
+		public void paint(Graphics g, int pos0, int pos1, Shape bounds, JTextComponent c) {
 			try {
 				Rectangle alloc = bounds.getBounds();
 				Rectangle p0 = c.modelToView(pos0);
@@ -447,32 +442,24 @@ public class MatchingBlockManager {
 					Element root = doc.getDefaultRootElement();
 					int line0 = root.getElementIndex(pos0);
 					int line1 = root.getElementIndex(pos1);
-					Rectangle r0 = c
-							.modelToView(root.getElement(line0).getEndOffset());
-					Rectangle r1 = c.modelToView(
-							root.getElement(line1).getStartOffset());
+					Rectangle r0 = c.modelToView(root.getElement(line0).getEndOffset());
+					Rectangle r1 = c.modelToView(root.getElement(line1).getStartOffset());
 					if (line0 != line1) {
 						if (!strict) {
 							if (filled) {
 								g.fillRect(p0.x, p0.y, alloc.width, p0.height);
-								g.fillRect(alloc.x, p0.y + p0.height,
-										alloc.width, r0.y - p0.y - p0.height);
+								g.fillRect(alloc.x, p0.y + p0.height, alloc.width, r0.y - p0.y - p0.height);
 
 								if (r1.y != p1.y) {
-									g.fillRect(r1.x, r1.y, alloc.width,
-											r1.height);
+									g.fillRect(r1.x, r1.y, alloc.width, r1.height);
 								}
 								g.fillRect(r1.x, p1.y, p1.x, r1.height);
 							} else {
-								g.drawRect(p0.x, p0.y, alloc.width - 1,
-										p0.height - 1);
-								g.drawRect(alloc.x, p0.y + p0.height,
-										alloc.width - 1,
-										r0.y - p0.y - p0.height - 1);
+								g.drawRect(p0.x, p0.y, alloc.width - 1, p0.height - 1);
+								g.drawRect(alloc.x, p0.y + p0.height, alloc.width - 1, r0.y - p0.y - p0.height - 1);
 
 								if (r1.y != p1.y) {
-									g.drawRect(r1.x, r1.y, alloc.width,
-											r1.height - 1);
+									g.drawRect(r1.x, r1.y, alloc.width, r1.height - 1);
 								}
 								g.drawRect(r1.x, p1.y, p1.x, r1.height - 1);
 							}
@@ -481,8 +468,7 @@ public class MatchingBlockManager {
 						if (filled) {
 							g.fillRect(alloc.x, r0.y, alloc.width, r1.y - r0.y);
 						} else {
-							g.drawRect(alloc.x, r0.y, alloc.width - 1,
-									r1.y - r0.y - 1);
+							g.drawRect(alloc.x, r0.y, alloc.width - 1, r1.y - r0.y - 1);
 						}
 					} else {
 						/*
@@ -493,20 +479,16 @@ public class MatchingBlockManager {
 						if (filled) {
 							g.fillRect(p0.x, p0.y, w, p0.height);
 							if ((p0.y + p0.height) != p1.y) {
-								g.fillRect(alloc.x, p0.y + p0.height,
-										alloc.width, p1.y - (p0.y + p0.height));
+								g.fillRect(alloc.x, p0.y + p0.height, alloc.width, p1.y - (p0.y + p0.height));
 							}
-							g.fillRect(alloc.x, p1.y, p1.x - alloc.x,
-									p1.height);
+							g.fillRect(alloc.x, p1.y, p1.x - alloc.x, p1.height);
 						} else {
 							g.drawRect(p0.x, p0.y, w - 1, p0.height - 1);
 							if ((p0.y + p0.height) != p1.y) {
-								g.drawRect(alloc.x, p0.y + p0.height,
-										alloc.width - 1,
-										p1.y - (p0.y + p0.height) - 1);
+								g.drawRect(
+										alloc.x, p0.y + p0.height, alloc.width - 1, p1.y - (p0.y + p0.height) - 1);
 							}
-							g.drawRect(alloc.x, p1.y, p1.x - alloc.x - 1,
-									p1.height - 1);
+							g.drawRect(alloc.x, p1.y, p1.x - alloc.x - 1, p1.height - 1);
 						}
 					}
 				}
@@ -522,7 +504,7 @@ public class MatchingBlockManager {
 
 		/**
 		 * What to do when the event occurred
-		 * 
+		 *
 		 * @param e
 		 *            the event
 		 */

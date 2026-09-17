@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -32,8 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author Markus
  */
-public abstract class AlgoTangentLineND extends AlgoElement
-		implements TangentAlgo {
+public abstract class AlgoTangentLineND extends AlgoElement implements TangentAlgo {
 
 	protected GeoLineND g; // input
 	protected GeoConicND c; // input
@@ -44,8 +43,7 @@ public abstract class AlgoTangentLineND extends AlgoElement
 	protected GeoPointND[] tangentPoints;
 
 	/** Creates new AlgoTangentLine */
-	protected AlgoTangentLineND(Construction cons, String label, GeoLineND g,
-			GeoConicND c) {
+	protected AlgoTangentLineND(Construction cons, String label, GeoLineND g, GeoConicND c) {
 		this(cons, g, c);
 		LabelManager.setLabels(label, getOutput());
 	}
@@ -60,8 +58,7 @@ public abstract class AlgoTangentLineND extends AlgoElement
 	 * @param c
 	 *            conic
 	 */
-	public AlgoTangentLineND(Construction cons, String[] labels, GeoLineND g,
-			GeoConicND c) {
+	public AlgoTangentLineND(Construction cons, String[] labels, GeoLineND g, GeoConicND c) {
 		this(cons, g, c);
 		LabelManager.setLabels(labels, getOutput());
 	}
@@ -93,12 +90,12 @@ public abstract class AlgoTangentLineND extends AlgoElement
 	/**
 	 * init diameter and direction
 	 */
-	abstract protected void initDiameterAndDirection();
+	protected abstract void initDiameterAndDirection();
 
 	/**
 	 * set tangents
 	 */
-	abstract protected void setTangents();
+	protected abstract void setTangents();
 
 	// for AlgoElement
 	@Override
@@ -146,7 +143,7 @@ public abstract class AlgoTangentLineND extends AlgoElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if tangents will be defined
 	 */
 	protected boolean checkUndefined() {
@@ -183,25 +180,27 @@ public abstract class AlgoTangentLineND extends AlgoElement
 	/**
 	 * update diameter line
 	 */
-	abstract protected void updateDiameterLine();
+	protected abstract void updateDiameterLine();
 
 	/**
 	 * update i-th tangent
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 */
-	abstract protected void updateTangent(int index);
+	protected abstract void updateTangent(int index);
 
-	abstract protected void updateTangentParabola();
+	protected abstract void updateTangentParabola();
 
 	@Override
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("TangentToAParallelToB",
-				"Tangent to %0 parallel to %1", c.getLabel(tpl),
-				g.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"TangentToAParallelToB",
+						"Tangent to %0 parallel to %1",
+						c.getLabel(tpl),
+						g.getLabel(tpl));
 	}
-
 }

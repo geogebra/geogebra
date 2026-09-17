@@ -10,5 +10,4 @@ public class CommandXRightLeftHarpoons extends Command1O1A {
 	public Atom newI(TeXParser tp, Atom a, Atom b) {
 		return new XArrowAtom(b, a, XArrowAtom.Kind.RightLeftHarpoons);
 	}
-
 }

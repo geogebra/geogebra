@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -47,7 +47,7 @@ public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param command
 	 *            IntegralBetween, Integral or NIntegral
 	 * @param kernel
@@ -65,111 +65,121 @@ public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
-			if (arg[0].isRealValuedFunction()) {
-				GeoElement[] ret = {
-						integral(((GeoFunctionable) arg[0]).getGeoFunction(),
-								null, info) };
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			}
-			throw argErr(c, arg[0]);
+			case 1:
+				arg = resArgs(c, info);
+				if (arg[0].isRealValuedFunction()) {
+					GeoElement[] ret = {integral(((GeoFunctionable) arg[0]).getGeoFunction(), null, info)};
+					ret[0].setLabel(c.getLabel());
+					return ret;
+				}
+				throw argErr(c, arg[0]);
 
-		case 2:
-			// Integral[ f(x,y), x]
-			arg = resArgsLocalNumVar(c, 1, 1, -1);
-			if ((ok[0] = arg[0] instanceof CasEvaluableFunction)
-					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { integral((CasEvaluableFunction) arg[0], // function
-						(GeoNumeric) arg[1], info) }; // var
-				ret[0].setLabel(c.getLabel());
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		case 3:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-
-				AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons,
-						c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						isNIntegral());
-
-				return algo.getIntegral().asArray();
-			}
-			throw argErr(c, getBadArg(ok, arg));
-
-		case 4:
-			arg = resArgs(c, info);
-			// difference of two functions
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1].isRealValuedFunction())
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3] instanceof GeoNumberValue
-							&& !(arg[3] instanceof BooleanValue))
-					&& !isNIntegral()) {
-
-				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons,
-						c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
-						((GeoFunctionable) arg[1]).getGeoFunction(),
-						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
-
-				return algo.getIntegral().asArray();
-			}
-			// single function integral with evaluate option
-			else if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3].isGeoBoolean())) {
-
-				AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons,
-						c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						(GeoBoolean) arg[3]);
-
-				return  algo.getIntegral().asArray();
-			} else if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
-				AlgoIntegralNumericInterval algo = new AlgoIntegralNumericInterval(cons,
-						(GeoFunctionable) arg[0], // function
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
-				GeoElement integral = algo.getOutput(0);
-				integral.setLabel(c.getLabel());
-				return integral.asArray();
-			} else {
+			case 2:
+				// Integral[ f(x,y), x]
+				arg = resArgsLocalNumVar(c, 1, 1, -1);
+				if ((ok[0] = arg[0] instanceof CasEvaluableFunction) && (ok[1] = arg[1].isGeoNumeric())) {
+					GeoElement[] ret = {
+						integral(
+								(CasEvaluableFunction) arg[0], // function
+								(GeoNumeric) arg[1],
+								info)
+					}; // var
+					ret[0].setLabel(c.getLabel());
+					return ret;
+				}
 				throw argErr(c, getBadArg(ok, arg));
-			}
 
-		case 5:
-			arg = resArgs(c, info);
-			// difference of two functions with evaluate option
-			if ((ok[0] = arg[0].isRealValuedFunction())
-					&& (ok[1] = arg[1].isRealValuedFunction())
-					&& (ok[2] = arg[2] instanceof GeoNumberValue)
-					&& (ok[3] = (arg[3] instanceof GeoNumberValue)
-							&& (ok[4] = arg[4].isGeoBoolean()))) {
+			case 3:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons,
-						c.getLabel(),
-						((GeoFunctionable) arg[0]).getGeoFunction(),
-						((GeoFunctionable) arg[1]).getGeoFunction(),
-						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
-						(GeoBoolean) arg[4]);
+					AlgoIntegralDefinite algo = new AlgoIntegralDefinite(
+							cons,
+							c.getLabel(),
+							((GeoFunctionable) arg[0]).getGeoFunction(),
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							isNIntegral());
 
-				return algo.getIntegral().asArray();
-			}
-			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+					return algo.getIntegral().asArray();
+				}
+				throw argErr(c, getBadArg(ok, arg));
+
+			case 4:
+				arg = resArgs(c, info);
+				// difference of two functions
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1].isRealValuedFunction())
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumberValue && !(arg[3] instanceof BooleanValue))
+						&& !isNIntegral()) {
+
+					AlgoIntegralFunctions algo = new AlgoIntegralFunctions(
+							cons,
+							c.getLabel(),
+							((GeoFunctionable) arg[0]).getGeoFunction(),
+							((GeoFunctionable) arg[1]).getGeoFunction(),
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3]);
+
+					return algo.getIntegral().asArray();
+				}
+				// single function integral with evaluate option
+				else if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3].isGeoBoolean())) {
+
+					AlgoIntegralDefinite algo = new AlgoIntegralDefinite(
+							cons,
+							c.getLabel(),
+							((GeoFunctionable) arg[0]).getGeoFunction(),
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoBoolean) arg[3]);
+
+					return algo.getIntegral().asArray();
+				} else if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1] instanceof GeoNumberValue)
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
+					AlgoIntegralNumericInterval algo = new AlgoIntegralNumericInterval(
+							cons,
+							(GeoFunctionable) arg[0], // function
+							(GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3]);
+					GeoElement integral = algo.getOutput(0);
+					integral.setLabel(c.getLabel());
+					return integral.asArray();
+				} else {
+					throw argErr(c, getBadArg(ok, arg));
+				}
+
+			case 5:
+				arg = resArgs(c, info);
+				// difference of two functions with evaluate option
+				if ((ok[0] = arg[0].isRealValuedFunction())
+						&& (ok[1] = arg[1].isRealValuedFunction())
+						&& (ok[2] = arg[2] instanceof GeoNumberValue)
+						&& (ok[3] = (arg[3] instanceof GeoNumberValue) && (ok[4] = arg[4].isGeoBoolean()))) {
+
+					AlgoIntegralFunctions algo = new AlgoIntegralFunctions(
+							cons,
+							c.getLabel(),
+							((GeoFunctionable) arg[0]).getGeoFunction(),
+							((GeoFunctionable) arg[1]).getGeoFunction(),
+							(GeoNumberValue) arg[2],
+							(GeoNumberValue) arg[3],
+							(GeoBoolean) arg[4]);
+
+					return algo.getIntegral().asArray();
+				}
+				throw argErr(c, getBadArg(ok, arg));
+			default:
+				throw argNumErr(c);
 		}
 	}
 
@@ -179,7 +189,7 @@ public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 
 	/**
 	 * Integral of function f
-	 * 
+	 *
 	 * @param info
 	 *            evaluation flags
 	 * @param f
@@ -189,8 +199,8 @@ public final class CmdIntegral extends CommandProcessor implements UsesCAS {
 	 * @return integral of given function wrt given variable
 	 */
 	public GeoElement integral(CasEvaluableFunction f, GeoNumeric var, EvalInfo info) {
-		boolean numeric = command == Commands.NIntegral
-				|| !app.getSettings().getCasSettings().isEnabled();
+		boolean numeric =
+				command == Commands.NIntegral || !app.getSettings().getCasSettings().isEnabled();
 		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info, numeric);
 		return algo.getResult();
 	}

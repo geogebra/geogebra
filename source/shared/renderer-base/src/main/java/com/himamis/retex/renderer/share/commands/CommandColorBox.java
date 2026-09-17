@@ -28,5 +28,4 @@ public class CommandColorBox extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new FBoxAtom(a, bg, bg);
 	}
-
 }

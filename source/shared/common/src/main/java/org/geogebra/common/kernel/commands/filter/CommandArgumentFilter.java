@@ -25,7 +25,7 @@ import org.geogebra.common.main.MyError;
  */
 public interface CommandArgumentFilter {
 
-    /**
+	/**
 	 * @param command
 	 *            the command that should be allowed or not
 	 * @param commandProcessor
@@ -33,6 +33,5 @@ public interface CommandArgumentFilter {
 	 * @throws MyError
 	 *             if the command (with the given arguments) is not allowed
 	 */
-	void checkAllowed(Command command, CommandProcessor commandProcessor)
-			throws MyError;
+	void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError;
 }

@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,42 +34,33 @@ import org.geogebra.common.kernel.SegmentType;
  * @apiNote Treat {@code s = 4.0} as equivalent to {@code s = 0.0} for cyclic ordering.
  */
 public enum ClipEdge {
-	TOP(0, -1, 0.0,
-			r -> Double.NaN, ClipRect::getYmax,
-			ClipRect::getXmax, ClipRect::getYmax) {
+	TOP(0, -1, 0.0, r -> Double.NaN, ClipRect::getYmax, ClipRect::getXmax, ClipRect::getYmax) {
 		@Override
 		double edgeParam(MyPoint p, ClipRect r) {
 			return clamp01((p.x - r.getXmin()) / (r.getXmax() - r.getXmin()));
 		}
 	},
 
-	RIGHT(-1, 0, 1.0,
-			ClipRect::getXmax, r -> Double.NaN,
-			ClipRect::getXmax, ClipRect::getYmin) {
+	RIGHT(-1, 0, 1.0, ClipRect::getXmax, r -> Double.NaN, ClipRect::getXmax, ClipRect::getYmin) {
 		@Override
 		double edgeParam(MyPoint p, ClipRect r) {
 			return clamp01((r.getYmax() - p.y) / (r.getYmax() - r.getYmin()));
 		}
 	},
 
-	BOTTOM(0, 1, 2.0,
-			r -> Double.NaN, ClipRect::getYmin,
-			ClipRect::getXmin, ClipRect::getYmin) {
+	BOTTOM(0, 1, 2.0, r -> Double.NaN, ClipRect::getYmin, ClipRect::getXmin, ClipRect::getYmin) {
 		@Override
 		double edgeParam(MyPoint p, ClipRect r) {
 			return clamp01((p.x - r.getXmin()) / (r.getXmax() - r.getXmin()));
 		}
 	},
 
-	LEFT(1, 0, 3.0,
-			ClipRect::getXmin, r -> Double.NaN,
-			ClipRect::getXmin, ClipRect::getYmax) {
+	LEFT(1, 0, 3.0, ClipRect::getXmin, r -> Double.NaN, ClipRect::getXmin, ClipRect::getYmax) {
 		@Override
 		double edgeParam(MyPoint p, ClipRect r) {
 			return clamp01((r.getYmax() - p.y) / (r.getYmax() - r.getYmin()));
 		}
 	};
-
 	private final int nx, ny;
 	private final double sBase;
 	private final ToDoubleFunction<ClipRect> xConstFn;
@@ -91,8 +82,12 @@ public enum ClipEdge {
 	 * direction opposes the CW walk are accounted for by flipping their
 	 * local parameter internally.
 	 */
-	ClipEdge(int nx, int ny, double sBase,
-			ToDoubleFunction<ClipRect> xConstFn, ToDoubleFunction<ClipRect> yConstFn,
+	ClipEdge(
+			int nx,
+			int ny,
+			double sBase,
+			ToDoubleFunction<ClipRect> xConstFn,
+			ToDoubleFunction<ClipRect> yConstFn,
 			ToDoubleFunction<ClipRect> clockwiseCornerXFn,
 			ToDoubleFunction<ClipRect> clockwiseCornerYFn) {
 		this.nx = nx;
@@ -156,8 +151,7 @@ public enum ClipEdge {
 	 * @return the next clockwise corner on the rectangle boundary
 	 */
 	MyPoint cwCorner(ClipRect r) {
-		return new MyPoint(clockwiseCornerXFn.applyAsDouble(r),
-				clockwiseCornerYFn.applyAsDouble(r));
+		return new MyPoint(clockwiseCornerXFn.applyAsDouble(r), clockwiseCornerYFn.applyAsDouble(r));
 	}
 
 	/**
@@ -180,8 +174,7 @@ public enum ClipEdge {
 	 * or {@code null} if no intersection occurs
 	 * @apiNote The returned point is snapped to the rectangle and may coincide with a corner.
 	 */
-	final EdgeHit intersectSegment(ClipRect r, MyPoint A, MyPoint B, int segIndex,
-			ClipEpsilon eps) {
+	final EdgeHit intersectSegment(ClipRect r, MyPoint A, MyPoint B, int segIndex, ClipEpsilon eps) {
 		if (isHorizontal()) {
 			return intersectHorizontal(yConstFn.applyAsDouble(r), this, r, A, B, segIndex, eps);
 		}
@@ -189,8 +182,13 @@ public enum ClipEdge {
 	}
 
 	private static EdgeHit intersectHorizontal(
-			double y0, ClipEdge edge, ClipRect r,
-			MyPoint start, MyPoint end, int segIndex, ClipEpsilon eps) {
+			double y0,
+			ClipEdge edge,
+			ClipRect r,
+			MyPoint start,
+			MyPoint end,
+			int segIndex,
+			ClipEpsilon eps) {
 
 		double tSeg = getTSegment(y0, start.y, end.y, eps);
 		if (Double.isNaN(tSeg)) {
@@ -208,8 +206,13 @@ public enum ClipEdge {
 	}
 
 	private static EdgeHit intersectVertical(
-			double x0, ClipEdge edge, ClipRect r,
-			MyPoint start, MyPoint end, int segIndex, ClipEpsilon eps) {
+			double x0,
+			ClipEdge edge,
+			ClipRect r,
+			MyPoint start,
+			MyPoint end,
+			int segIndex,
+			ClipEpsilon eps) {
 
 		double tSeg = getTSegment(x0, start.x, end.x, eps);
 		if (Double.isNaN(tSeg)) {
@@ -257,9 +260,8 @@ public enum ClipEdge {
 		return clamp01(tSeg);
 	}
 
-		private static EdgeHit newEdgeHit(ClipEdge edge, MyPoint point, ClipRect r, int segIndex,
-			double tSeg,
-			ClipEpsilon eps) {
+	private static EdgeHit newEdgeHit(
+			ClipEdge edge, MyPoint point, ClipRect r, int segIndex, double tSeg, ClipEpsilon eps) {
 		snapToCorners(point, r, eps.corner());
 		double t = edge.edgeParam(point, r);
 		double s = edge.perimeterParamCW(t);
@@ -270,13 +272,9 @@ public enum ClipEdge {
 		final double xmin = r.getXmin(), xmax = r.getXmax();
 		final double ymin = r.getYmin(), ymax = r.getYmax();
 
-		final double sx = near(w.x, xmin, eps) ? xmin
-				: near(w.x, xmax, eps) ? xmax
-				: w.x;
+		final double sx = near(w.x, xmin, eps) ? xmin : near(w.x, xmax, eps) ? xmax : w.x;
 
-		final double sy = near(w.y, ymin, eps) ? ymin
-				: near(w.y, ymax, eps) ? ymax
-				: w.y;
+		final double sy = near(w.y, ymin, eps) ? ymin : near(w.y, ymax, eps) ? ymax : w.y;
 		if (sx != w.x && sy != w.y) {
 			w.x = sx;
 			w.y = sy;
@@ -302,9 +300,13 @@ public enum ClipEdge {
 	 */
 	public MyPoint middlePoint(ClipRect clipRect) {
 		return isHorizontal()
-				? new MyPoint((clipRect.getXmin() + clipRect.getXmax()) * 0.5,
-				yConstFn.applyAsDouble(clipRect), SegmentType.LINE_TO)
-				: new MyPoint(xConstFn.applyAsDouble(clipRect),
-				(clipRect.getYmin() + clipRect.getYmax()) * 0.5, SegmentType.LINE_TO);
+				? new MyPoint(
+						(clipRect.getXmin() + clipRect.getXmax()) * 0.5,
+						yConstFn.applyAsDouble(clipRect),
+						SegmentType.LINE_TO)
+				: new MyPoint(
+						xConstFn.applyAsDouble(clipRect),
+						(clipRect.getYmin() + clipRect.getYmax()) * 0.5,
+						SegmentType.LINE_TO);
 	}
 }

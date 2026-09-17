@@ -31,8 +31,7 @@ import org.geogebra.common.util.TimeFormatAdapter;
 public class FormatFactoryJre extends FormatFactory {
 
 	@Override
-	public ScientificFormatAdapter getScientificFormat(int sigDigit,
-			int maxWidth, boolean sciNote) {
+	public ScientificFormatAdapter getScientificFormat(int sigDigit, int maxWidth, boolean sciNote) {
 		return new ScientificFormat(sigDigit, maxWidth, sciNote);
 	}
 
@@ -49,8 +48,8 @@ public class FormatFactoryJre extends FormatFactory {
 		return new NumberFormat(s, i);
 	}
 
-    @Override
-    public TimeFormatAdapter getTimeFormat() {
-        return new TimeFormat();
-    }
+	@Override
+	public TimeFormatAdapter getTimeFormat() {
+		return new TimeFormat();
+	}
 }

@@ -204,24 +204,24 @@ public enum GeoClass {
 	/**
 	 * name MUST be in ggbtrans/properties
 	 */
-	final public String name;
+	public final String name;
 	/** in XML we need 3d extension */
-	final public String xmlName;
+	public final String xmlName;
 	/** for 3D elements */
-	final public boolean is3D;
-	final private int priority;
-	final private int independentPriority;
+	public final boolean is3D;
+
+	private final int priority;
+	private final int independentPriority;
 	/** for FUNCTION_NVAR: Inequality */
-	static final public String INEQUALITY = "Inequality";
+	public static final String INEQUALITY = "Inequality";
 	/** for FUNCTION_NVAR: MultivariableFunction */
-	static final public String MULTIVARIABLE_FUNCTION = "MultivariableFunction";
+	public static final String MULTIVARIABLE_FUNCTION = "MultivariableFunction";
 
 	GeoClass(String name, int priority, boolean is3D) {
 		this(name, StringUtil.toLowerCaseUS(name), priority, priority, is3D);
 	}
 
-	GeoClass(String name, String xmlName, int priority, int independentPriority,
-			boolean is3D) {
+	GeoClass(String name, String xmlName, int priority, int independentPriority, boolean is3D) {
 		this.name = name;
 		this.priority = priority;
 		this.independentPriority = independentPriority;
@@ -231,7 +231,6 @@ public enum GeoClass {
 
 	GeoClass(String name, String xmlName, int priority, boolean is3D) {
 		this(name, xmlName, priority, priority, is3D);
-
 	}
 
 	/**

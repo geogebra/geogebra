@@ -43,6 +43,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	 * 5-pix-convention)
 	 **/
 	protected static final int MAX_SAMPLES = 400;
+
 	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a 250
 
 	protected GeoPoint[] points; // output in subclass
@@ -64,8 +65,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	 * @param labels output labels
 	 * @param setLabels whether to set labels
 	 */
-	public AlgoGeoPointsFunction(Construction cons, String[] labels,
-			boolean setLabels) {
+	public AlgoGeoPointsFunction(Construction cons, String[] labels, boolean setLabels) {
 		super(cons);
 		this.labels = labels;
 		initLabels = true;
@@ -84,13 +84,10 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	private void updateLabelsFromOld() {
 		if (labels != null && labels.length == 1) {
 			GeoElement old = kernel.lookupLabel(labels[0]);
-			if (old != null && old
-					.getParentAlgorithm() instanceof AlgoGeoPointsFunction) {
-				this.labels = new String[old.getParentAlgorithm()
-						.getOutputLength()];
+			if (old != null && old.getParentAlgorithm() instanceof AlgoGeoPointsFunction) {
+				this.labels = new String[old.getParentAlgorithm().getOutputLength()];
 				for (int i = 0; i < this.labels.length; i++) {
-					this.labels[i] = old.getParentAlgorithm().getOutput(i)
-							.getLabelSimple();
+					this.labels[i] = old.getParentAlgorithm().getOutput(i).getLabelSimple();
 				}
 			}
 		}
@@ -141,8 +138,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		} // for
 	}
 
-	protected final void setPoints(UnivariateFunction evaluatable, double[] curXValues,
-			int number) {
+	protected final void setPoints(UnivariateFunction evaluatable, double[] curXValues, int number) {
 		setPoints(curXValues, getYs(evaluatable, curXValues), number);
 	}
 
@@ -176,8 +172,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 				// check labeling
 				if (!points[i].isLabelSet()) {
 					// use user specified label if we have one
-					String newLabel = (labels != null && i < labels.length)
-							? labels[i] : null;
+					String newLabel = (labels != null && i < labels.length) ? labels[i] : null;
 					points[i].setLabel(newLabel);
 				}
 			}
@@ -255,8 +250,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	}
 
 	protected void updateInterval() {
-		EuclidianViewInterfaceCommon ev = this.kernel.getApplication()
-				.getActiveEuclidianView();
+		EuclidianViewInterfaceCommon ev = this.kernel.getApplication().getActiveEuclidianView();
 
 		left = ev.getXminObject();
 		right = ev.getXmaxObject();
@@ -295,14 +289,11 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		// EuclidianView ev = app.getEuclidianView();
 		double visiblemax = kernel.getViewsXMax(points[0]);
 		double visiblemin = kernel.getViewsXMin(points[0]);
-		double visiblepixs = kernel.getApplication().countPixels(visiblemin,
-				visiblemax);
+		double visiblepixs = kernel.getApplication().countPixels(visiblemin, visiblemax);
 		// debug("Visible pixels: "+visiblepixs);
-		double pixsininterval = visiblepixs * (r - l)
-				/ (visiblemax - visiblemin);
+		double pixsininterval = visiblepixs * (r - l) / (visiblemax - visiblemin);
 		// debug("Pixels in interval: "+pixsininterval);
-		double screenSamples = Math.min(pixsininterval / PIXELS_BETWEEN_SAMPLES,
-				MAX_SAMPLES);
+		double screenSamples = Math.min(pixsininterval / PIXELS_BETWEEN_SAMPLES, MAX_SAMPLES);
 		if (Double.isNaN(screenSamples)) {
 			return MIN_SAMPLES;
 		}

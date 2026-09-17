@@ -20,7 +20,7 @@ public class Slider extends SliderAbstract<Integer> {
 
 	/**
 	 * Create a new slider.
-	 * 
+	 *
 	 * @param min
 	 *            slider min
 	 * @param max
@@ -34,5 +34,4 @@ public class Slider extends SliderAbstract<Integer> {
 	protected Integer convert(String val) {
 		return "".equals(val) ? 0 : Integer.parseInt(val); // empty string happens in Mockito
 	}
-
 }

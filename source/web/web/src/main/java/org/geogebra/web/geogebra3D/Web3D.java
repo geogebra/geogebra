@@ -27,11 +27,9 @@ public final class Web3D extends Web {
 
 	@Override
 	public void onModuleLoad() {
-		Function onReady = (Function) JsObject.of(DomGlobal.window)
-				.nestedGet("web3d.onReady");
+		Function onReady = (Function) JsObject.of(DomGlobal.window).nestedGet("web3d.onReady");
 		if (onReady != null) {
-			onReady.call(DomGlobal.window, "mathApps",
-					new RenderMathApps(getLAF(), getAppletFactory()));
+			onReady.call(DomGlobal.window, "mathApps", new RenderMathApps(getLAF(), getAppletFactory()));
 
 		} else {
 			super.onModuleLoad();

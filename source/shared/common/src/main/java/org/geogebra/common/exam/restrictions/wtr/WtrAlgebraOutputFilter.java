@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public final class WtrAlgebraOutputFilter implements AlgebraOutputFilter {
 
-    private final AngleConversionFilter angleConversionFilter = new AngleConversionFilter();
+	private final AngleConversionFilter angleConversionFilter = new AngleConversionFilter();
 	private final PercentageOutputFilter percentageOutputFilter = new PercentageOutputFilter();
 
 	@Override
@@ -37,6 +37,6 @@ public final class WtrAlgebraOutputFilter implements AlgebraOutputFilter {
 		if (!percentageOutputFilter.isAllowed(element)) {
 			return false;
 		}
-        return true;
+		return true;
 	}
 }

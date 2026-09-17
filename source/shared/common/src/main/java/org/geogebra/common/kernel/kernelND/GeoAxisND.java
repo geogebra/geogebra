@@ -50,10 +50,9 @@ public interface GeoAxisND extends GeoLineND {
 	int getType();
 
 	/**
-	 * 
+	 *
 	 * @param colored
 	 *            iff axis is drawn colored in 3D view
 	 */
 	void setColoredFor3D(boolean colored);
-
 }

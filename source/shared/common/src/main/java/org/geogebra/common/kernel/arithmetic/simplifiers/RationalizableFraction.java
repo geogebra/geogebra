@@ -102,7 +102,8 @@ public final class RationalizableFraction {
 		if (sqrtsInDenominator == 0) {
 			return false;
 		}
-		if (sqrtsInNumerator > 1 || sqrtsInDenominator > 1
+		if (sqrtsInNumerator > 1
+				|| sqrtsInDenominator > 1
 				|| (sqrtsInNumerator + sqrtsInDenominator == 0)) {
 			return false;
 		}
@@ -126,8 +127,7 @@ public final class RationalizableFraction {
 	private ExpressionNode rationalizeFraction() {
 		ExpressionNode copy = utils.deepCopy(root);
 		RationalizeFractionAlgo algo =
-				new RationalizeFractionAlgo(utils, copy.getLeftTree(),
-						copy.getRightTree());
+				new RationalizeFractionAlgo(utils, copy.getLeftTree(), copy.getRightTree());
 		return algo.compute();
 	}
 

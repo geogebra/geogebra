@@ -47,7 +47,8 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5, 6, 7, 8}");
 		tableValues.getStatisticsViewModel().show(Mode.ONE_VARIABLE, 1);
 
-		Content.Statistics content = assertInstanceOf(Content.Statistics.class,
+		Content.Statistics content = assertInstanceOf(
+				Content.Statistics.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		assertEquals(getLocalization().getMenu("1VariableStatistics"), content.title());
 		assertEquals("Column y1", content.header().getRawValue());
@@ -60,12 +61,11 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5}");
 		tableValues.getStatisticsViewModel().show(Mode.ONE_VARIABLE, 1);
 
-		Content.Error content = assertInstanceOf(Content.Error.class,
-				tableValues.getStatisticsViewModel().getContent().get());
+		Content.Error content = assertInstanceOf(
+				Content.Error.class, tableValues.getStatisticsViewModel().getContent().get());
 		assertEquals(getLocalization().getMenu("1VariableStatistics"), content.title());
 		assertEquals("Column y1", content.header().getRawValue());
-		assertEquals(getLocalization().getMenu("StatsDialog.NoDataMsg1VarStats"),
-				content.message());
+		assertEquals(getLocalization().getMenu("StatsDialog.NoDataMsg1VarStats"), content.message());
 	}
 
 	@Test
@@ -74,7 +74,8 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5, 6, 7, 8}");
 		tableValues.getStatisticsViewModel().show(Mode.TWO_VARIABLE, 1);
 
-		Content.Statistics content = assertInstanceOf(Content.Statistics.class,
+		Content.Statistics content = assertInstanceOf(
+				Content.Statistics.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		assertEquals(getLocalization().getMenu("2VariableStatistics"), content.title());
 		assertEquals("Column x y1", content.header().getRawValue());
@@ -87,12 +88,11 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1}", "y_1 = {5}");
 		tableValues.getStatisticsViewModel().show(Mode.TWO_VARIABLE, 1);
 
-		Content.Error content = assertInstanceOf(Content.Error.class,
-				tableValues.getStatisticsViewModel().getContent().get());
+		Content.Error content = assertInstanceOf(
+				Content.Error.class, tableValues.getStatisticsViewModel().getContent().get());
 		assertEquals(getLocalization().getMenu("2VariableStatistics"), content.title());
 		assertEquals("Column x y1", content.header().getRawValue());
-		assertEquals(getLocalization().getMenu("StatsDialog.NoDataMsg2VarStats"),
-				content.message());
+		assertEquals(getLocalization().getMenu("StatsDialog.NoDataMsg2VarStats"), content.message());
 	}
 
 	@Test
@@ -101,7 +101,8 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5, 6, 7, 8}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
 
-		Content.Regression content = assertInstanceOf(Content.Regression.class,
+		Content.Regression content = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		assertEquals(getLocalization().getMenu("Regression"), content.title());
 		assertEquals("Column y1", content.header().getRawValue());
@@ -116,12 +117,14 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5, 6, 7, 8}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
-		Content.Regression initialContent = assertInstanceOf(Content.Regression.class,
+		Content.Regression initialContent = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		List<StatisticGroup> groups = initialContent.groups().get();
 
 		tableValues.getStatisticsViewModel().selectedRegressionIndexChanged(3);
-		Content.Regression content = assertInstanceOf(Content.Regression.class,
+		Content.Regression content = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		assertSame(initialContent, content);
 		assertEquals(3, content.selectedRegressionIndex().get());
@@ -134,7 +137,8 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5, 6, 7, 8}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
 
-		Content.Regression content = assertInstanceOf(Content.Regression.class,
+		Content.Regression content = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		assertNull(lookup("f"));
 		content.plotAction().run();
@@ -147,23 +151,24 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1}", "y_1 = {5}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
 
-		Content.Error content = assertInstanceOf(Content.Error.class,
-				tableValues.getStatisticsViewModel().getContent().get());
+		Content.Error content = assertInstanceOf(
+				Content.Error.class, tableValues.getStatisticsViewModel().getContent().get());
 		assertEquals(getLocalization().getMenu("Regression"), content.title());
 		assertEquals("Column y1", content.header().getRawValue());
-		assertEquals(getLocalization().getMenu("StatsDialog.NoDataMsgRegression"),
-				content.message());
+		assertEquals(getLocalization().getMenu("StatsDialog.NoDataMsgRegression"), content.message());
 	}
 
 	@Test
 	void testShowRegressionInMmsModeDoesNotExposePlotAction() {
 		setupApp(SuiteSubApp.GRAPHING);
-		getApp().getRegressionSpecBuilder().applyRestrictions(
-				Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
+		getApp()
+				.getRegressionSpecBuilder()
+				.applyRestrictions(Set.of(FeatureRestriction.CUSTOM_MMS_REGRESSION_MODELS));
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y_1 = {5, 6, 7, 8}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
 
-		Content.Regression content = assertInstanceOf(Content.Regression.class,
+		Content.Regression content = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		assertNull(content.plotAction());
 	}
@@ -173,13 +178,16 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}");
 		tableValues.getStatisticsViewModel().show(Mode.ONE_VARIABLE, 0);
-		Content.Statistics content = assertInstanceOf(Content.Statistics.class,
+		Content.Statistics content = assertInstanceOf(
+				Content.Statistics.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		List<StatisticGroup> groups = content.groups().get();
 
-		tableValues.getTableValuesModel().set(
-				tableValues.getTableValuesModel().createValue(5), tableValues.getValues(), 0);
-		Content.Statistics refreshedContent = assertInstanceOf(Content.Statistics.class,
+		tableValues
+				.getTableValuesModel()
+				.set(tableValues.getTableValuesModel().createValue(5), tableValues.getValues(), 0);
+		Content.Statistics refreshedContent = assertInstanceOf(
+				Content.Statistics.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		assertSame(content, refreshedContent);
 		assertNotEquals(groups, refreshedContent.groups().get());
@@ -191,7 +199,9 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}", "y = {5, 6, 7, 8}");
 		tableValues.getStatisticsViewModel().show(Mode.ONE_VARIABLE, 1);
 		AtomicInteger updates = new AtomicInteger();
-		Subscription subscription = tableValues.getStatisticsViewModel().getContent()
+		Subscription subscription = tableValues
+				.getStatisticsViewModel()
+				.getContent()
 				.subscribe(view -> {
 					assertNotNull(view);
 					updates.incrementAndGet();
@@ -207,8 +217,8 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 	@Test
 	void testDifferentColumnReplacesContent() {
 		setupApp(SuiteSubApp.GRAPHING);
-		TableValues tableValues = setupTableValues("x = {1, 2, 3, 4}",
-				"y = {5, 6, 7, 8}", "z = {9, 10, 11, 12}");
+		TableValues tableValues =
+				setupTableValues("x = {1, 2, 3, 4}", "y = {5, 6, 7, 8}", "z = {9, 10, 11, 12}");
 		tableValues.getStatisticsViewModel().show(Mode.ONE_VARIABLE, 1);
 		Content initialContent = tableValues.getStatisticsViewModel().getContent().get();
 
@@ -224,16 +234,17 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2}", "y = {3, 4}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
-		Content.Regression content = assertInstanceOf(Content.Regression.class,
+		Content.Regression content = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		tableValues.getStatisticsViewModel().selectedRegressionIndexChanged(4);
 		AtomicInteger updates = new AtomicInteger();
-		Subscription regressionModelsSubscription = content.regressionModels()
-				.subscribe(models -> {
-					updates.incrementAndGet();
-					assertTrue(content.selectedRegressionIndex().get() < models.size());
-				});
-		Subscription selectedRegressionIndexSubscription = content.selectedRegressionIndex()
+		Subscription regressionModelsSubscription = content.regressionModels().subscribe(models -> {
+			updates.incrementAndGet();
+			assertTrue(content.selectedRegressionIndex().get() < models.size());
+		});
+		Subscription selectedRegressionIndexSubscription = content
+				.selectedRegressionIndex()
 				.subscribe(index -> {
 					updates.incrementAndGet();
 					assertTrue(index >= 0 && index < content.regressionModels().get().size());
@@ -254,20 +265,21 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2, 3}", "y = {4, 5, 6}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
-		Content.Regression content = assertInstanceOf(Content.Regression.class,
+		Content.Regression content = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		tableValues.getStatisticsViewModel().selectedRegressionIndexChanged(6);
 		AtomicInteger updates = new AtomicInteger();
-		Subscription selectedRegressionIndexSubscription = content.selectedRegressionIndex()
+		Subscription selectedRegressionIndexSubscription = content
+				.selectedRegressionIndex()
 				.subscribe(index -> {
 					updates.incrementAndGet();
 					assertTrue(index >= 0 && index < content.regressionModels().get().size());
 				});
-		Subscription regressionModelsSubscription = content.regressionModels()
-				.subscribe(models -> {
-					updates.incrementAndGet();
-					assertTrue(content.selectedRegressionIndex().get() < models.size());
-				});
+		Subscription regressionModelsSubscription = content.regressionModels().subscribe(models -> {
+			updates.incrementAndGet();
+			assertTrue(content.selectedRegressionIndex().get() < models.size());
+		});
 
 		TableValuesModel model = tableValues.getTableValuesModel();
 		model.set(model.createEmptyValue(), (GeoList) tableValues.getEvaluatable(1), 2);
@@ -283,14 +295,20 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2}", "y = {3, 4}");
 		tableValues.getStatisticsViewModel().show(Mode.REGRESSION, 1);
-		Content.Regression content = assertInstanceOf(Content.Regression.class,
+		Content.Regression content = assertInstanceOf(
+				Content.Regression.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		List<String> regressionModels = content.regressionModels().get();
 
-		tableValues.getTableValuesModel().set(tableValues.getTableValuesModel().createValue(5),
-				tableValues.getValues(), 2);
-		tableValues.getTableValuesModel().set(tableValues.getTableValuesModel().createValue(6),
-				(GeoList) tableValues.getEvaluatable(1), 2);
+		tableValues
+				.getTableValuesModel()
+				.set(tableValues.getTableValuesModel().createValue(5), tableValues.getValues(), 2);
+		tableValues
+				.getTableValuesModel()
+				.set(
+						tableValues.getTableValuesModel().createValue(6),
+						(GeoList) tableValues.getEvaluatable(1),
+						2);
 
 		assertSame(content, tableValues.getStatisticsViewModel().getContent().get());
 		assertNotEquals(regressionModels, content.regressionModels().get());
@@ -301,13 +319,18 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		TableValues tableValues = setupTableValues("x = {1, 2}", "y = {3, 4}", "z = {5, 6}");
 		tableValues.getStatisticsViewModel().show(Mode.ONE_VARIABLE, 1);
-		Content.Statistics content = assertInstanceOf(Content.Statistics.class,
+		Content.Statistics content = assertInstanceOf(
+				Content.Statistics.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 		AtomicInteger updates = new AtomicInteger();
 		Subscription subscription = content.groups().subscribe(groups -> updates.incrementAndGet());
 
-		tableValues.getTableValuesModel().set(tableValues.getTableValuesModel().createValue(7),
-				(GeoList) tableValues.getEvaluatable(2), 0);
+		tableValues
+				.getTableValuesModel()
+				.set(
+						tableValues.getTableValuesModel().createValue(7),
+						(GeoList) tableValues.getEvaluatable(2),
+						0);
 
 		assertEquals(0, updates.get());
 
@@ -330,11 +353,13 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 		TableValues tableValues = setupTableValues("x = {1}");
 		tableValues.getStatisticsViewModel().show(Mode.ONE_VARIABLE, 0);
 
-		assertInstanceOf(Content.Error.class,
-				tableValues.getStatisticsViewModel().getContent().get());
-		tableValues.getTableValuesModel().set(tableValues.getTableValuesModel().createValue(2),
-				tableValues.getValues(), 1);
-		assertInstanceOf(Content.Statistics.class,
+		assertInstanceOf(
+				Content.Error.class, tableValues.getStatisticsViewModel().getContent().get());
+		tableValues
+				.getTableValuesModel()
+				.set(tableValues.getTableValuesModel().createValue(2), tableValues.getValues(), 1);
+		assertInstanceOf(
+				Content.Statistics.class,
 				tableValues.getStatisticsViewModel().getContent().get());
 	}
 
@@ -346,8 +371,8 @@ class TableValuesStatisticsViewModelTests extends BaseAppTestSetup {
 
 		tableValues.clearValues();
 
-		assertInstanceOf(Content.Error.class,
-				tableValues.getStatisticsViewModel().getContent().get());
+		assertInstanceOf(
+				Content.Error.class, tableValues.getStatisticsViewModel().getContent().get());
 	}
 
 	@Test

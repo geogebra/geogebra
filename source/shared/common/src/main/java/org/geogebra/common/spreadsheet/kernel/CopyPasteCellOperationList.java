@@ -49,7 +49,7 @@ final class CopyPasteCellOperationList {
 	 * @param tabularData TabularData where content is pasted to
 	 */
 	void apply(TabularData<GeoElement> tabularData) {
-		for (CopyPasteCellOperation operation: list) {
+		for (CopyPasteCellOperation operation : list) {
 			operation.apply(tabularData);
 		}
 	}

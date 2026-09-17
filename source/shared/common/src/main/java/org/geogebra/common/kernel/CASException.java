@@ -24,7 +24,7 @@ import org.geogebra.common.main.MyError.Errors;
  * this type (unless you want to use {@link GeoGebraCAS#evaluateRaw(String)}.
  * All CAS exceptions have a translation key that is used to translate the
  * exception into a user-visible error message.
- * 
+ *
  * @author Thomas
  *
  */
@@ -35,7 +35,7 @@ public class CASException extends RuntimeException {
 
 	/**
 	 * Creates new CAS exception
-	 * 
+	 *
 	 * @param message
 	 *            exception message
 	 */
@@ -49,7 +49,7 @@ public class CASException extends RuntimeException {
 
 	/**
 	 * Creates new CAS exception
-	 * 
+	 *
 	 * @param cause
 	 *            Throwable that caused this exception
 	 */
@@ -60,7 +60,7 @@ public class CASException extends RuntimeException {
 	/**
 	 * Returns the Key for this Exception, which can also be used for
 	 * translation.
-	 * 
+	 *
 	 * @return The error key.
 	 */
 	public String getKey() {

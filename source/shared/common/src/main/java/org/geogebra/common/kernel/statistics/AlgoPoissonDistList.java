@@ -25,10 +25,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * 
+ *
  * @author G. Sturr
  */
-
 public class AlgoPoissonDistList extends AlgoDistribution {
 
 	/**
@@ -41,8 +40,7 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 	 * @param b
 	 *            probability of success
 	 */
-	public AlgoPoissonDistList(Construction cons, String label,
-			GeoNumberValue a, GeoList b) {
+	public AlgoPoissonDistList(Construction cons, String label, GeoNumberValue a, GeoList b) {
 		super(cons, a, b);
 		num.setLabel(label);
 	}
@@ -73,8 +71,7 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 
 				double sum = 0;
 				for (int i = 0; i < list.size(); i++) {
-					sum += dist.probability(
-							(int) Math.round(list.get(i).evaluateDouble()));
+					sum += dist.probability((int) Math.round(list.get(i).evaluateDouble()));
 				}
 
 				num.setValue(sum);
@@ -86,5 +83,4 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

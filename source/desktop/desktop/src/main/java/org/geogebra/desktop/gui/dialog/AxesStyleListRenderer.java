@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,9 +36,8 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 
 /**
  * adapted from PointStyleListRenderer
- * 
+ *
  */
-
 @SuppressWarnings("rawtypes")
 public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<Integer> {
 	private static final long serialVersionUID = 1L;
@@ -46,6 +45,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<In
 	 * Number of values
 	 */
 	public static final int MAX_ROW_COUNT = 5;
+
 	private int style = -1;
 
 	private static final int IMG_WIDTH = 32;
@@ -56,8 +56,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<In
 	// for drawing
 	private Line2D.Double tempLine = new Line2D.Double();
 	private GeneralPath gp = new GeneralPath();
-	private static BasicStroke borderStroke = AwtFactoryD.getAwtStroke(EuclidianStatic
-			.getDefaultStroke());
+	private static BasicStroke borderStroke =
+			AwtFactoryD.getAwtStroke(EuclidianStatic.getDefaultStroke());
 
 	/**
 	 * Axis arrows renderer
@@ -68,12 +68,11 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<In
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Integer value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(
+			JList list, Integer value, int index, boolean isSelected, boolean cellHasFocus) {
 
 		// get the selected point style
-		style = value == null ? EuclidianStyleConstants.AXES_LINE_TYPE_FULL
-				: value;
+		style = value == null ? EuclidianStyleConstants.AXES_LINE_TYPE_FULL : value;
 
 		if (isSelected) {
 			setBackground(Color.LIGHT_GRAY);
@@ -107,29 +106,26 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<In
 		g2.draw(tempLine);
 
 		switch (style) {
-		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+				leftArrow(g2);
+				rightArrow(g2);
+				break;
+			default:
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
+				rightArrow(g2);
+				break;
 
-			leftArrow(g2);
-			rightArrow(g2);
-			break;
-		default:
-		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-			rightArrow(g2);
-			break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
+				// just a line
+				// do nothing
+				break;
 
-		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
-			// just a line
-			// do nothing
-			break;
-
-		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
-			filledLeftArrow(g2);
-			filledRightArrow(g2);
-			break;
-		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
-
-			filledRightArrow(g2);
-
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+				filledLeftArrow(g2);
+				filledRightArrow(g2);
+				break;
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
+				filledRightArrow(g2);
 		}
 	}
 
@@ -141,7 +137,6 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<In
 		gp.lineTo(0 + filledArrowLength, IMG_HEIGHT / 2.0 - arrowSize);
 
 		g2.fill(gp);
-		
 	}
 
 	private void filledRightArrow(Graphics2D g2) {
@@ -152,31 +147,25 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer<In
 		gp.lineTo(IMG_WIDTH - filledArrowLength, IMG_HEIGHT / 2.0 - arrowSize);
 
 		g2.fill(gp);
-
 	}
 
 	private void rightArrow(Graphics2D g2) {
 
-		tempLine.setLine(IMG_WIDTH, IMG_HEIGHT / 2.0, IMG_WIDTH - arrowSize,
-				IMG_HEIGHT / 2.0 + arrowSize);
+		tempLine.setLine(
+				IMG_WIDTH, IMG_HEIGHT / 2.0, IMG_WIDTH - arrowSize, IMG_HEIGHT / 2.0 + arrowSize);
 		g2.draw(tempLine);
 
-		tempLine.setLine(IMG_WIDTH, IMG_HEIGHT / 2.0, IMG_WIDTH - arrowSize,
-				IMG_HEIGHT / 2.0 - arrowSize);
+		tempLine.setLine(
+				IMG_WIDTH, IMG_HEIGHT / 2.0, IMG_WIDTH - arrowSize, IMG_HEIGHT / 2.0 - arrowSize);
 		g2.draw(tempLine);
-
 	}
 
 	private void leftArrow(Graphics2D g2) {
 
-		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize,
-				IMG_HEIGHT / 2.0 + arrowSize);
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize, IMG_HEIGHT / 2.0 + arrowSize);
 		g2.draw(tempLine);
 
-		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize,
-				IMG_HEIGHT / 2.0 - arrowSize);
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize, IMG_HEIGHT / 2.0 - arrowSize);
 		g2.draw(tempLine);
-		
 	}
-
 }

@@ -36,7 +36,7 @@ public interface EquationSolverInterface {
 	/**
 	 * Computes all roots of a polynomial using Laguerre's method for degrees &gt;
 	 * 3. The roots are polished and only distinct roots are returned.
-	 * 
+	 *
 	 * @param roots
 	 *            array with the coefficients of the polynomial
 	 * @param multiple
@@ -48,14 +48,13 @@ public interface EquationSolverInterface {
 	/**
 	 * Computes all roots of a polynomial using Laguerre's method for degrees &gt;
 	 * 3. The roots are polished and only distinct roots are returned.
-	 * 
+	 *
 	 * @param real
 	 *            real parts
 	 * @param complex
 	 *            complex parts
-	 * 
+	 *
 	 * @return number of realRoots found
 	 */
 	int polynomialComplexRoots(double[] real, double[] complex);
-
 }

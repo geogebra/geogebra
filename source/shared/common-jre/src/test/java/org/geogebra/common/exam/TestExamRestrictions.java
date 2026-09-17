@@ -57,7 +57,8 @@ final class TestExamRestrictions extends Restrictions {
 	int appliedCount = 0;
 
 	TestExamRestrictions(ExamType examType) {
-		super(Set.of(SuiteSubApp.CAS),
+		super(
+				Set.of(SuiteSubApp.CAS),
 				SuiteSubApp.GRAPHING,
 				Set.of(FeatureRestriction.HIDE_SPECIAL_POINTS),
 				createExpressionFilters(),
@@ -90,17 +91,27 @@ final class TestExamRestrictions extends Restrictions {
 	}
 
 	private static Set<CommandFilter> createCommandFilters() {
-		CommandNameFilter nameFilter = new CommandNameFilter(true,
-				Commands.Derivative, Commands.NDerivative, Commands.Integral,
-				Commands.IntegralSymbolic, Commands.IntegralBetween, Commands.NIntegral,
-				Commands.Solve, Commands.SolveQuartic, Commands.SolveODE, Commands.SolveCubic,
-				Commands.Solutions, Commands.NSolve, Commands.NSolveODE, Commands.NSolutions);
+		CommandNameFilter nameFilter = new CommandNameFilter(
+				true,
+				Commands.Derivative,
+				Commands.NDerivative,
+				Commands.Integral,
+				Commands.IntegralSymbolic,
+				Commands.IntegralBetween,
+				Commands.NIntegral,
+				Commands.Solve,
+				Commands.SolveQuartic,
+				Commands.SolveODE,
+				Commands.SolveCubic,
+				Commands.Solutions,
+				Commands.NSolve,
+				Commands.NSolveODE,
+				Commands.NSolutions);
 		return Set.of(nameFilter);
 	}
 
 	private static Set<ExpressionFilter> createExpressionFilters() {
-		return Set.of(new ComplexExpressionFilter(),
-				new RadianGradianFilter());
+		return Set.of(new ComplexExpressionFilter(), new RadianGradianFilter());
 	}
 
 	private static ToolCollectionFilter createToolCollectionFilter() {
@@ -137,18 +148,19 @@ final class TestExamRestrictions extends Restrictions {
 	}
 
 	private static Map<PropertyKey, PropertyRestriction> createPropertyRestrictions() {
-		return Map.of(PropertyKey.of(AngleUnitProperty.class),
-				new PropertyRestriction(true, value ->
-				value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
+		return Map.of(
+				PropertyKey.of(AngleUnitProperty.class),
+				new PropertyRestriction(
+						true, value -> value != Integer.valueOf(Kernel.ANGLE_DEGREES_MINUTES_SECONDS)));
 	}
 
 	static Set<VisibilityRestriction> createVisibilityRestrictions() {
-		return Set.of(geoElement -> geoElement.isGeoPoint() ? HIDE : IGNORE,
+		return Set.of(
+				geoElement -> geoElement.isGeoPoint() ? HIDE : IGNORE,
 				geoElement -> geoElement.isInequality() ? HIDE : IGNORE);
 	}
 
 	private static Set<DisabledAlgorithms> createDisabledAlgorithms() {
-		return Set.of(DisabledAlgorithms.TangentPointConic,
-				DisabledAlgorithms.TangentLineConic);
+		return Set.of(DisabledAlgorithms.TangentPointConic, DisabledAlgorithms.TangentLineConic);
 	}
 }

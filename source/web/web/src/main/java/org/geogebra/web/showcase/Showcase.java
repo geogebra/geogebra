@@ -70,61 +70,63 @@ public final class Showcase implements EntryPoint {
 		GeoGebraElement ae = GeoGebraElement.as(RootPanel.getBodyElement());
 		AppletParameters params = new AppletParameters("suite");
 		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(ae, params, null);
-		AppW app = new AppWsimple(ae,
-				params, frame, false);
+		AppW app = new AppWsimple(ae, params, frame, false);
 		ComponentCheckbox[] checkbox = {
-				new ComponentCheckbox(app.getLocalization(), true, "Vanilla"),
-				new ComponentCheckbox(app.getLocalization(), false, "Chocolate"),
-				new ComponentCheckbox(app.getLocalization(), true, "Pineapple")
+			new ComponentCheckbox(app.getLocalization(), true, "Vanilla"),
+			new ComponentCheckbox(app.getLocalization(), false, "Chocolate"),
+			new ComponentCheckbox(app.getLocalization(), true, "Pineapple")
 		};
 		checkbox[2].setDisabled(true);
-		ComponentComboBox componentComboBox = new ComponentComboBox(app,
-				"Fruit", Arrays.asList("Apple", "Orange", "Banana"));
-		ComponentDropDown componentDropDown = new ComponentDropDown(app, "Fruit",
-				Arrays.asList("Apple", "Orange", "Banana"), 0);
-		ComponentInfoErrorPanel errorPanel = new ComponentInfoErrorPanel(app.getLocalization(),
-				new InfoErrorData("404", "Content not found"));
+		ComponentComboBox componentComboBox =
+				new ComponentComboBox(app, "Fruit", Arrays.asList("Apple", "Orange", "Banana"));
+		ComponentDropDown componentDropDown =
+				new ComponentDropDown(app, "Fruit", Arrays.asList("Apple", "Orange", "Banana"), 0);
+		ComponentInfoErrorPanel errorPanel = new ComponentInfoErrorPanel(
+				app.getLocalization(), new InfoErrorData("404", "Content not found"));
 		ComponentSwitch componentSwitch = new ComponentSwitch(true, bool -> {});
-		ComponentInputField inputField = new ComponentInputField(app, "Write here",
-				"Name", null, null, null);
-		inputField.addEnterHandler((text) ->
-				inputField.setError(text.length() < 2 ? "Too short" : null), true);
+		ComponentInputField inputField =
+				new ComponentInputField(app, "Write here", "Name", null, null, null);
+		inputField.addEnterHandler(
+				(text) -> inputField.setError(text.length() < 2 ? "Too short" : null), true);
 		ComponentProgressBar progressBar = new ComponentProgressBar(false, true);
 		progressBar.setIndicatorWidth(42);
 		RadioButtonPanel<Integer> radioButtonPanel = new RadioButtonPanel<>(
-					app.getLocalization(), List.of(
-				new RadioButtonData<>("three", 3),
-				new RadioButtonData<>("five", 5),
-				new RadioButtonData<>("seven", 7),
-				new RadioButtonData<>("nine", true, 9)), 5, val -> {});
+				app.getLocalization(),
+				List.of(
+						new RadioButtonData<>("three", 3),
+						new RadioButtonData<>("five", 5),
+						new RadioButtonData<>("seven", 7),
+						new RadioButtonData<>("nine", true, 9)),
+				5,
+				val -> {});
 		RootPanel.get().add(frame);
 		StandardButton showDialog = createDialogButton(app);
 		final boolean[] bool = {true};
-		BooleanProperty booleanProperty = new SimpleBooleanProperty(app.getLocalization(), "",
-				() -> bool[0], b -> bool[0] = b);
+		BooleanProperty booleanProperty =
+				new SimpleBooleanProperty(app.getLocalization(), "", () -> bool[0], b -> bool[0] = b);
 		Checkbox checkBoxProperty = (Checkbox) PropertyView.of(booleanProperty);
-		ComponentExpandableList expandableList = new ComponentExpandableList(app, checkBoxProperty,
-				"Expand me");
+		ComponentExpandableList expandableList =
+				new ComponentExpandableList(app, checkBoxProperty, "Expand me");
 		expandableList.addToContent(new Label("TBD"));
 		StandardButton showSnackBar = newStandardButton("Show Snack Bar");
-		showSnackBar.addFastClickHandler((widget) -> app.getToolTipManager()
-				.showBottomMessage("Success.", app));
+		showSnackBar.addFastClickHandler(
+				(widget) -> app.getToolTipManager().showBottomMessage("Success.", app));
 		StandardButton showToast = getToastButton(app);
 		ComponentTextArea textArea = new ComponentTextArea(app.getLocalization(), "Input");
 		TabData[] data = {
-				new TabData("Checkbox", wrap(checkbox)),
-				new TabData("Combo Box", wrap(componentComboBox)),
-				new TabData("Dialog", wrap(showDialog)),
-				new TabData("Dropdown", wrap(componentDropDown)),
-				new TabData("Expandable List", wrap(expandableList)),
-				new TabData("Info/Error Panel", wrap(errorPanel)),
-				new TabData("Input Field", wrap(inputField)),
-				new TabData("Progress Bar", wrap(progressBar)),
-				new TabData("Text Area", wrap(textArea)),
-				new TabData("Radio Button", wrap(radioButtonPanel)),
-				new TabData("Snack Bar", wrap(showSnackBar)),
-				new TabData("Switch", wrap(componentSwitch)),
-				new TabData("Toast", wrap(showToast)),
+			new TabData("Checkbox", wrap(checkbox)),
+			new TabData("Combo Box", wrap(componentComboBox)),
+			new TabData("Dialog", wrap(showDialog)),
+			new TabData("Dropdown", wrap(componentDropDown)),
+			new TabData("Expandable List", wrap(expandableList)),
+			new TabData("Info/Error Panel", wrap(errorPanel)),
+			new TabData("Input Field", wrap(inputField)),
+			new TabData("Progress Bar", wrap(progressBar)),
+			new TabData("Text Area", wrap(textArea)),
+			new TabData("Radio Button", wrap(radioButtonPanel)),
+			new TabData("Snack Bar", wrap(showSnackBar)),
+			new TabData("Switch", wrap(componentSwitch)),
+			new TabData("Toast", wrap(showToast)),
 		};
 		String hash = DomGlobal.location.hash;
 		ComponentTab tab = new ComponentTab(app, "Showcase", data);
@@ -134,13 +136,16 @@ public final class Showcase implements EntryPoint {
 				((FlowPanel) data[i].getTabPanel()).forEach(child -> child.setVisible(show));
 			}
 			if (selected != null) {
-				DomGlobal.location.hash = data[selected].getTabTitle()
-						.replace(" ", "").toLowerCase(Locale.ROOT);
+				DomGlobal.location.hash =
+						data[selected].getTabTitle().replace(" ", "").toLowerCase(Locale.ROOT);
 			}
 		});
 		if (!hash.isEmpty()) {
 			for (int i = 0; i < data.length; i++) {
-				if (data[i].getTabTitle().replace(" ", "").toLowerCase(Locale.ROOT)
+				if (data[i]
+						.getTabTitle()
+						.replace(" ", "")
+						.toLowerCase(Locale.ROOT)
 						.equals(hash.substring(1))) {
 					tab.switchToTab(i);
 					break;

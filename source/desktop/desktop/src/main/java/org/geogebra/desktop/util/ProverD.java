@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -34,9 +34,9 @@ import com.ogprover.pp.GeoGebraOGPOutputProverProtocol;
 
 /**
  * Implements desktop dependent parts of the Prover.
- * 
+ *
  * @author Zoltan Kovacs
- * 
+ *
  */
 public class ProverD extends Prover {
 
@@ -45,8 +45,7 @@ public class ProverD extends Prover {
 	 */
 	/* This code works in JVM only. */
 	private class ComputeThread implements Runnable {
-		protected ComputeThread() {
-		}
+		protected ComputeThread() {}
 
 		@Override
 		public void run() {
@@ -76,9 +75,7 @@ public class ProverD extends Prover {
 			} catch (InterruptedException e) {
 				return;
 			}
-			if (((System.currentTimeMillis() - startTime) > getTimeout()
-					* 1000L)
-					&& t.isAlive()) {
+			if (((System.currentTimeMillis() - startTime) > getTimeout() * 1000L) && t.isAlive()) {
 				Log.debug("Prover timeout");
 				t.interrupt();
 				// t.join(); //
@@ -102,10 +99,10 @@ public class ProverD extends Prover {
 	@Override
 	protected ProofResult openGeoProver(ProverEngine pe) {
 		Log.debug("OGP is about to run...");
-		String c = simplifiedXML(getConstruction(), statement).replace(
-				"command name=\"ProveDetails\"", "command name=\"Prove\""); // dirty
-																			// hack,
-																			// FIXME
+		String c = simplifiedXML(getConstruction(), statement)
+				.replace("command name=\"ProveDetails\"", "command name=\"Prove\""); // dirty
+		// hack,
+		// FIXME
 		Log.trace("Construction: " + c);
 		// String cd =
 		// statement.getCommandDescription(StringTemplate.ogpTemplate);
@@ -121,17 +118,14 @@ public class ProverD extends Prover {
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
 		}
 		if (pe == ProverEngine.OPENGEOPROVER_AREA) {
-			inputObject
-					.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
+			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
 		}
 		inputObject.setTimeOut(proverSettings.proverTimeout);
 		inputObject.setMaxTerms(proverSettings.getMaxTerms());
 		if (isReturnExtraNDGs()) {
-			inputObject.setReportFormat(
-					GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
+			inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
 		} else {
-			inputObject.setReportFormat(
-					GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
+			inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
 		}
 
 		// OGP API
@@ -141,23 +135,19 @@ public class ProverD extends Prover {
 
 		Log.debug("Prover results");
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS + ": "
-				+ outputObject.getOutputResult(
-						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS));
+				+ outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS));
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG
-				+ ": " + outputObject.getOutputResult(
-						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG));
+				+ ": "
+				+ outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG));
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER + ": "
-				+ outputObject.getOutputResult(
-						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER));
+				+ outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER));
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG
-				+ ": " + outputObject.getOutputResult(
-						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG));
+				+ ": "
+				+ outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG));
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME + ": "
-				+ outputObject.getOutputResult(
-						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME));
+				+ outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME));
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS + ": "
-				+ outputObject.getOutputResult(
-						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
+				+ outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
 
 		// Obtaining NDG conditions:
 		if (isReturnExtraNDGs()) {
@@ -166,8 +156,7 @@ public class ProverD extends Prover {
 				int i = ndgString.indexOf("[");
 				NDGCondition ndg = new NDGCondition();
 				String ndgCommand = ndgString.substring(0, i);
-				String params = ndgString.substring(i + 1,
-						ndgString.length() - 1);
+				String params = ndgString.substring(i + 1, ndgString.length() - 1);
 				String[] paramsArray = params.split(",");
 				GeoElement[] geos = new GeoElement[paramsArray.length];
 				int j = 0;
@@ -198,18 +187,15 @@ public class ProverD extends Prover {
 		// as they are.
 
 		if (outputObject
-				.getOutputResult(
-						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS)
+				.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS)
 				.equals("true")) {
 			if (outputObject
-					.getOutputResult(
-							GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
+					.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
 					.equals("true")) {
 				return ProofResult.TRUE;
 			}
 			if (outputObject
-					.getOutputResult(
-							GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
+					.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
 					.equals("false")) {
 				return ProofResult.FALSE;
 			}
@@ -221,5 +207,4 @@ public class ProverD extends Prover {
 	protected AbstractProverReciosMethod getNewReciosProver() {
 		return new ProverReciosMethodD();
 	}
-
 }

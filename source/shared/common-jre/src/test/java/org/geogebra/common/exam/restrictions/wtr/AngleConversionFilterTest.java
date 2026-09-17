@@ -61,11 +61,8 @@ class AngleConversionFilterTest extends BaseExamTestSetup {
 	@Issue("APPS-6299")
 	void example5() {
 		evaluate("a=1 deg");
-		for (int unit: List.of(
-				Kernel.ANGLE_DEGREES_MINUTES_SECONDS,
-				Kernel.ANGLE_RADIANT,
-				Kernel.ANGLE_DEGREE
-		)) {
+		for (int unit :
+				List.of(Kernel.ANGLE_DEGREES_MINUTES_SECONDS, Kernel.ANGLE_RADIANT, Kernel.ANGLE_DEGREE)) {
 			getKernel().setAngleUnit(unit);
 			assertFalse(filter.isAllowed(evaluate("pi/deg")[0]));
 			assertFalse(filter.isAllowed(evaluate("pi/a")[0]));

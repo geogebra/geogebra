@@ -63,8 +63,8 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	 * @param weighted
 	 *            whether to use Euclidian length
 	 */
-	public AlgoShortestDistance(Construction cons, GeoList inputList,
-			GeoPointND start, GeoPointND end, GeoBoolean weighted) {
+	public AlgoShortestDistance(
+			Construction cons, GeoList inputList, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
 		super(cons);
 		this.inputList = inputList;
 		this.start = start;
@@ -147,8 +147,8 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 				g.addEdge(
 						new TreeLink(seg.getLength(), node1, node2, edgeCount++),
 						node1,
-						node2, EdgeType.UNDIRECTED);
-
+						node2,
+						EdgeType.UNDIRECTED);
 			}
 		}
 
@@ -188,8 +188,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			} else if (n2 == startNode.node || n2 == endNode.node) {
 				n2.id.getInhomCoords(inhomLast);
 			}
-			locus.insertPoint(inhomLast[0], inhomLast[1], inhomLast[2],
-					false);
+			locus.insertPoint(inhomLast[0], inhomLast[1], inhomLast[2], false);
 		}
 		double[] inhom1 = new double[3];
 		double[] inhom2 = new double[3];

@@ -28,11 +28,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Shuffle a list. Adapted from AlgoSort
- * 
+ *
  * @author Michael Borcherds
  * @version 04-01-2008
  */
-
 public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 
 	private GeoList inputList; // input
@@ -110,8 +109,7 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 	private void fill(ArrayList<GeoElement> list) {
 		int listSize = list.size();
 		for (int i = 0; i < listSize; i++) {
-			int pos = (int) Math.floor(
-					kernel.randomNumberGenerator.getRandomNumber() * (listSize - i));
+			int pos = (int) Math.floor(kernel.randomNumberGenerator.getRandomNumber() * (listSize - i));
 			outputList.add(list.get(pos));
 			list.remove(pos);
 		}
@@ -135,8 +133,8 @@ public class AlgoShuffle extends AlgoElement implements SetRandomValue {
 		return false;
 	}
 
-	protected static GeoElement removeFromList(GeoElement geoElement,
-			ArrayList<GeoElement> inputCopy) {
+	protected static GeoElement removeFromList(
+			GeoElement geoElement, ArrayList<GeoElement> inputCopy) {
 		for (int i = 0; i < inputCopy.size(); i++) {
 			if (inputCopy.get(i).isEqual(geoElement)) {
 				return inputCopy.remove(i);

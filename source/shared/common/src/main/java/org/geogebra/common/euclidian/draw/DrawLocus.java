@@ -68,8 +68,7 @@ public class DrawLocus extends Drawable {
 	 * @param locus locus
 	 * @param transformSys coord system of transformed locus
 	 */
-	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus,
-			CoordSys transformSys) {
+	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus, CoordSys transformSys) {
 		this.view = view;
 		this.locus = locus;
 		geo = locus;
@@ -109,8 +108,8 @@ public class DrawLocus extends Drawable {
 			addLabelOffsetEnsureOnScreen(1.0, 1.0, view.getFontLine());
 		}
 
-		drawAndUpdateTraceIfNeeded(geo.isTraceable()
-				&& (geo instanceof Traceable) && ((Traceable) geo).getTrace());
+		drawAndUpdateTraceIfNeeded(
+				geo.isTraceable() && (geo instanceof Traceable) && ((Traceable) geo).getTrace());
 		if (geo.isInverseFill()) {
 			setShape(view.getBoundsArea());
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp.getGeneralPath()));
@@ -148,8 +147,7 @@ public class DrawLocus extends Drawable {
 				GRectangle bounds = gp.getBounds();
 				int padding = BITMAP_PADDING;
 				if (view.getSettings().getLineThicknessScaled()) {
-					padding = (int) Math.ceil(padding * view.getXscale()
-							/ EuclidianView.SCALE_STANDARD);
+					padding = (int) Math.ceil(padding * view.getXscale() / EuclidianView.SCALE_STANDARD);
 				}
 				GRectangle bitmapBounds = getBitmapBounds(bounds, viewBounds, padding);
 				if (bitmapBounds.getWidth() <= 0 || bitmapBounds.getHeight() <= 0) {
@@ -182,16 +180,18 @@ public class DrawLocus extends Drawable {
 	}
 
 	private GBufferedImage makeImage(GGraphics2D g2p, GRectangle bounds) {
-		return AwtFactory.getPrototype().newBufferedImage(
-				(int) bounds.getWidth(), (int) bounds.getHeight(), g2p);
+		return AwtFactory.getPrototype()
+				.newBufferedImage((int) bounds.getWidth(), (int) bounds.getHeight(), g2p);
 	}
 
 	private GRectangle getBitmapBounds(GRectangle bounds, GRectangle viewBounds, int padding) {
 		GRectangle2D rectangle = bounds.createIntersection(viewBounds);
-		return AwtFactory.getPrototype().newRectangle(
-				(int) rectangle.getX(), (int) rectangle.getY(),
-				(int) rectangle.getWidth() + 2 * padding,
-				(int) rectangle.getHeight() + 2 * padding);
+		return AwtFactory.getPrototype()
+				.newRectangle(
+						(int) rectangle.getX(),
+						(int) rectangle.getY(),
+						(int) rectangle.getWidth() + 2 * padding,
+						(int) rectangle.getHeight() + 2 * padding);
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
@@ -232,7 +232,7 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public final void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (isHighlighted()) {
 				drawHighlighted(g2);
@@ -283,15 +283,15 @@ public class DrawLocus extends Drawable {
 		}
 
 		if (geo.isFilled()) {
-			return t.intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold,
-					2 * hitThreshold);
+			return t.intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 		}
 		if (!isVisible || objStroke.getLineWidth() <= 0) {
 			return false;
 		}
 		updateStrokedShape();
-		return strokedShape != null && strokedShape.intersects(x - hitThreshold, y - hitThreshold,
-				2 * hitThreshold, 2 * hitThreshold);
+		return strokedShape != null
+				&& strokedShape.intersects(
+						x - hitThreshold, y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	private GShape getGeneralPath() {
@@ -310,7 +310,7 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public final boolean isInside(GRectangle rect) {
 		return rect.contains(gp.getBounds());
 	}
 
@@ -324,10 +324,11 @@ public class DrawLocus extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public final GRectangle getBounds() {
 		if (!geo.isDefined()
 				|| (!locus.isClosedPath() && geo.getGeoClassType() != GeoClass.PENSTROKE)
-				|| !geo.isEuclidianVisible() || gp == null) {
+				|| !geo.isEuclidianVisible()
+				|| gp == null) {
 			return null;
 		}
 		return gp.getBounds();
@@ -369,8 +370,7 @@ public class DrawLocus extends Drawable {
 	public ArrayList<GPoint2D> toPoints() {
 		ArrayList<GPoint2D> points = new ArrayList<>();
 		for (MyPoint pt : locus.getPoints()) {
-			points.add(
-					new MyPoint(view.toScreenCoordXd(pt.getX()), view.toScreenCoordYd(pt.getY())));
+			points.add(new MyPoint(view.toScreenCoordXd(pt.getX()), view.toScreenCoordYd(pt.getY())));
 		}
 		return points;
 	}
@@ -379,7 +379,8 @@ public class DrawLocus extends Drawable {
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		int i = 0;
 		for (MyPoint pt : locus.getPoints()) {
-			pt.setLocation(view.toRealWorldCoordX(points.get(i).getX()),
+			pt.setLocation(
+					view.toRealWorldCoordX(points.get(i).getX()),
 					view.toRealWorldCoordY(points.get(i).getY()));
 			i++;
 		}

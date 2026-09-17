@@ -52,8 +52,7 @@ public final class MyXMLioCommon extends MyXMLioJre {
 	}
 
 	@Override
-	protected void writeImage(MyImage img, String ext,
-			OutputStream os) throws IOException {
+	protected void writeImage(MyImage img, String ext, OutputStream os) throws IOException {
 		// TODO Auto-generated method stub
 
 	}

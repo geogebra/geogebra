@@ -43,8 +43,8 @@ class DrawSegmentTest extends BaseUnitTest {
 				counter++;
 			}
 		};
-		for (SegmentStyle start: SegmentStyle.values()) {
-			for (SegmentStyle end: SegmentStyle.values()) {
+		for (SegmentStyle start : SegmentStyle.values()) {
+			for (SegmentStyle end : SegmentStyle.values()) {
 				seg.setStartStyle(start);
 				seg.setEndStyle(end);
 				seg.updateVisualStyle(GProperty.COMBINED);

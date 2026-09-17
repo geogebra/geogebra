@@ -50,8 +50,7 @@ public final class SpreadsheetStyleBarModel {
 	 * The style bar's current state.
 	 */
 	public static class State {
-		static final State DISABLED = new State(false, null,
-				DEFAULT_TEXT_ALIGNMENT, null, null);
+		static final State DISABLED = new State(false, null, DEFAULT_TEXT_ALIGNMENT, null, null);
 
 		/** Is true if at least one UI element in the style bar is enabled */
 		@Property("readonly")
@@ -65,6 +64,7 @@ public final class SpreadsheetStyleBarModel {
 		/** Background color of the selected cell. */
 		@Property("readonly")
 		public final @Nullable GColor backgroundColor;
+
 		@Property("readonly")
 		public final @Nullable GColor textColor;
 
@@ -77,14 +77,14 @@ public final class SpreadsheetStyleBarModel {
 		 * @param textColor text color
 		 */
 		@VisibleForTesting
-		State(boolean isEnabled,
+		State(
+				boolean isEnabled,
 				@Nullable Set<SpreadsheetStyling.FontTrait> fontTraits,
 				SpreadsheetStyling.@Nullable TextAlignment textAlignment,
 				@Nullable GColor backgroundColor,
 				@Nullable GColor textColor) {
 			this.isEnabled = isEnabled;
-			this.fontTraits = fontTraits != null
-					? fontTraits : Set.of();
+			this.fontTraits = fontTraits != null ? fontTraits : Set.of();
 			this.textAlignment = textAlignment != null ? textAlignment : DEFAULT_TEXT_ALIGNMENT;
 			this.backgroundColor = backgroundColor;
 			this.textColor = textColor;
@@ -97,8 +97,8 @@ public final class SpreadsheetStyleBarModel {
 		 * @return A copy of the current font traits, modified by adding or removing the given
 		 * trait.
 		 */
-		private Set<SpreadsheetStyling.FontTrait> modifyingFontTraits(boolean adding,
-				SpreadsheetStyling.FontTrait fontTrait) {
+		private Set<SpreadsheetStyling.FontTrait> modifyingFontTraits(
+				boolean adding, SpreadsheetStyling.FontTrait fontTrait) {
 			Set<SpreadsheetStyling.FontTrait> traits = new HashSet<>(fontTraits);
 			if (adding) {
 				traits.add(fontTrait);
@@ -175,8 +175,8 @@ public final class SpreadsheetStyleBarModel {
 	 * @param bold Pass {@code true} to add the font trait, {@code false} to remove.
 	 */
 	public void setBold(boolean bold) {
-		Set<SpreadsheetStyling.FontTrait> newTraits = state.modifyingFontTraits(bold,
-				SpreadsheetStyling.FontTrait.BOLD);
+		Set<SpreadsheetStyling.FontTrait> newTraits =
+				state.modifyingFontTraits(bold, SpreadsheetStyling.FontTrait.BOLD);
 		styling.setFontTraits(newTraits, getSelectedRanges());
 	}
 
@@ -185,8 +185,8 @@ public final class SpreadsheetStyleBarModel {
 	 * @param italic Pass {@code true} to add the font trait, {@code false} to remove.
 	 */
 	public void setItalic(boolean italic) {
-		Set<SpreadsheetStyling.FontTrait> newTraits = state.modifyingFontTraits(italic,
-				SpreadsheetStyling.FontTrait.ITALIC);
+		Set<SpreadsheetStyling.FontTrait> newTraits =
+				state.modifyingFontTraits(italic, SpreadsheetStyling.FontTrait.ITALIC);
 		styling.setFontTraits(newTraits, getSelectedRanges());
 	}
 
@@ -251,10 +251,9 @@ public final class SpreadsheetStyleBarModel {
 			Object content = spreadsheetController.contentAt(row, column);
 			textAlignment = SpreadsheetStyling.getDefaultTextAlignment(content);
 		}
-		GColor backgroundColor = styling.getBackgroundColor(row, column,
-				styling.getDefaultBackgroundColor());
-		GColor textColor = styling.getTextColor(row, column,
-				SpreadsheetStyling.getDefaultTextColor());
+		GColor backgroundColor =
+				styling.getBackgroundColor(row, column, styling.getDefaultBackgroundColor());
+		GColor textColor = styling.getTextColor(row, column, SpreadsheetStyling.getDefaultTextColor());
 		return new State(true, fontTraits, textAlignment, backgroundColor, textColor);
 	}
 

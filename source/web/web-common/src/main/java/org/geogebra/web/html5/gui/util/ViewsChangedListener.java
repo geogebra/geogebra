@@ -26,5 +26,4 @@ public interface ViewsChangedListener {
 	 * method that is called when a view is opened or closed
 	 */
 	void onViewsChanged();
-
 }

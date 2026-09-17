@@ -88,26 +88,16 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, AT);
 
 		row = mathKeyboard.nextRow();
-		addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR,
-				LEFT_FLOOR + "", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.CEIL,
-				LEFT_CEILING + "", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.DEFINITE_INTEGRAL,
-				"$defint", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.SUM,
-				"$sumeq", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.PRODUCT,
-				"$prodeq", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.LIM,
-				"$limeq", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR,
-				"$vec", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.ATOMIC_PRE,
-				"$atomicpre", 1.0f);
-		addConstantInputCommandButton(row, buttonFactory, Resource.ATOMIC_POST,
-				"$atomicpost", 1.0f);
-		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE,
-				Action.BACKSPACE_DELETE);
+		addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR, LEFT_FLOOR + "", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.CEIL, LEFT_CEILING + "", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.DEFINITE_INTEGRAL, "$defint", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.SUM, "$sumeq", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.PRODUCT, "$prodeq", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.LIM, "$limeq", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR, "$vec", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.ATOMIC_PRE, "$atomicpre", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.ATOMIC_POST, "$atomicpost", 1.0f);
+		addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);
 
 		row = mathKeyboard.nextRow();
 		addInputButton(row, buttonFactory, LEFT_SQUARE_BRACKET);
@@ -117,12 +107,9 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addInputButton(row, buttonFactory, MINUTES);
 		addInputButton(row, buttonFactory, SECONDS);
 		addInputButton(row, buttonFactory, AMPERSAND);
-		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW,
-				Action.LEFT_CURSOR);
-		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW,
-				Action.RIGHT_CURSOR);
-		addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER,
-				Action.RETURN_ENTER);
+		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+		addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
 		return mathKeyboard;
 	}

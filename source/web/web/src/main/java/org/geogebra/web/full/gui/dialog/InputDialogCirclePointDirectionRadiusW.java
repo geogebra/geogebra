@@ -47,21 +47,20 @@ public final class InputDialogCirclePointDirectionRadiusW extends InputDialogRad
 	 * @param kernel
 	 *            kernel
 	 */
-	public InputDialogCirclePointDirectionRadiusW(AppW app, DialogData data,
-            NumberInputHandler handler, GeoPointND geoPoint,
-            GeoDirectionND forAxis, Kernel kernel) {
+	public InputDialogCirclePointDirectionRadiusW(
+			AppW app,
+			DialogData data,
+			NumberInputHandler handler,
+			GeoPointND geoPoint,
+			GeoDirectionND forAxis,
+			Kernel kernel) {
 		super(app, data, handler, kernel);
 		this.geoPoint = geoPoint;
 		this.forAxis = forAxis;
-    }
+	}
 
 	@Override
 	protected GeoElement createOutput(GeoNumberValue num) {
-		return kernel.getManager3D().circle3D(
-				null,
-				geoPoint,
-				num,
-				forAxis);
-    }
-
+		return kernel.getManager3D().circle3D(null, geoPoint, num, forAxis);
+	}
 }

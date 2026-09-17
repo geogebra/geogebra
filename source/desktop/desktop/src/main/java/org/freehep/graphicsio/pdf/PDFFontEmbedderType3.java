@@ -14,8 +14,8 @@ import java.io.IOException;
  */
 public class PDFFontEmbedderType3 extends PDFFontEmbedder {
 
-	public PDFFontEmbedderType3(FontRenderContext context, PDFWriter pdf,
-			String reference, PDFRedundanceTracker tracker) {
+	public PDFFontEmbedderType3(
+			FontRenderContext context, PDFWriter pdf, String reference, PDFRedundanceTracker tracker) {
 		super(context, pdf, reference, tracker);
 	}
 
@@ -25,36 +25,32 @@ public class PDFFontEmbedderType3 extends PDFFontEmbedder {
 	}
 
 	@Override
-	protected void addAdditionalEntries(PDFDictionary fontDict)
-			throws IOException {
+	protected void addAdditionalEntries(PDFDictionary fontDict) throws IOException {
 		Rectangle2D boundingBox = getFontBBox();
 		double llx = boundingBox.getX();
 		double lly = boundingBox.getY();
 		double urx = boundingBox.getX() + boundingBox.getWidth();
 		double ury = boundingBox.getY() + boundingBox.getHeight();
-		fontDict.entry("FontBBox", new double[] { llx, lly, urx, ury });
+		fontDict.entry("FontBBox", new double[] {llx, lly, urx, ury});
 
-		fontDict.entry("FontMatrix",
-				new double[] { 1 / FONT_SIZE, 0, 0, 1 / FONT_SIZE, 0, 0 });
+		fontDict.entry("FontMatrix", new double[] {1 / FONT_SIZE, 0, 0, 1 / FONT_SIZE, 0, 0});
 
 		fontDict.entry("CharProcs", pdf.ref(getReference() + "CharProcs"));
 
 		PDFDictionary resources = fontDict.openDictionary("Resources");
-		resources.entry("ProcSet", new Object[] { pdf.name("PDF") });
+		resources.entry("ProcSet", new Object[] {pdf.name("PDF")});
 		fontDict.close(resources);
 	}
 
 	@Override
 	protected void addAdditionalInitDicts() throws IOException {
 		// CharProcs
-		PDFDictionary charProcs = pdf
-				.openDictionary(getReference() + "CharProcs");
+		PDFDictionary charProcs = pdf.openDictionary(getReference() + "CharProcs");
 		// boolean undefined = false;
 		for (int i = 0; i < 256; i++) {
 			String charName = getEncodingTable().toName(i);
 			if (charName != null) {
-				charProcs.entry(charName,
-						pdf.ref(createCharacterReference(charName)));
+				charProcs.entry(charName, pdf.ref(createCharacterReference(charName)));
 			} else {
 				// undefined = true;
 			}
@@ -65,18 +61,19 @@ public class PDFFontEmbedderType3 extends PDFFontEmbedder {
 	}
 
 	@Override
-	protected void writeGlyph(String characterName, Shape glyph,
-			GlyphMetrics glyphMetrics) throws IOException {
+	protected void writeGlyph(String characterName, Shape glyph, GlyphMetrics glyphMetrics)
+			throws IOException {
 
-		PDFStream glyphStream = pdf.openStream(
-				createCharacterReference(characterName),
-				new String[] { "Flate", "ASCII85" });
+		PDFStream glyphStream =
+				pdf.openStream(createCharacterReference(characterName), new String[] {"Flate", "ASCII85"});
 
-		Rectangle2D bounds = glyphMetrics != null ? glyphMetrics.getBounds2D()
-				: glyph.getBounds2D();
-		double advance = glyphMetrics != null ? glyphMetrics.getAdvance()
-				: getUndefinedWidth();
-		glyphStream.glyph(advance, 0, bounds.getX(), bounds.getY(),
+		Rectangle2D bounds = glyphMetrics != null ? glyphMetrics.getBounds2D() : glyph.getBounds2D();
+		double advance = glyphMetrics != null ? glyphMetrics.getAdvance() : getUndefinedWidth();
+		glyphStream.glyph(
+				advance,
+				0,
+				bounds.getX(),
+				bounds.getY(),
 				bounds.getX() + bounds.getWidth(),
 				bounds.getY() + bounds.getHeight());
 

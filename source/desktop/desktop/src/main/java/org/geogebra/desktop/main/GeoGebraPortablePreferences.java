@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -31,18 +31,18 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Class GeoGebraPortablePreferences
- * 
+ *
  * Stores user settings and options as a property file. For use in portable
  * GeoGebra on usb and Cd/DVD.
- * 
+ *
  * This class is returned by GeoGebraPreferences.getPrefs() instead of
  * GeoGebraPreferences itself, if the file preferences.properties exists in the
  * geogebra.jar-folder. This opens up for three modes: - Normal - Portable
  * GeoGebra - Read-only network share or CD/DVD, where we want same setting for
  * all
- * 
+ *
  * geogebra.properties must have one line: is_read_only=true (or false)
- * 
+ *
  * A cleaner implementation would be to rewrite GeoGebraPreferences to an
  * abstract class, as an interface for GeoGebraSystemPreferences and
  * GeoGebraPropertyFile, but as there probably never will be a demand for a
@@ -50,23 +50,23 @@ import org.geogebra.common.util.debug.Log;
  * too many calling classes, by just making this one and do a small rewrite of
  * getPrefs() and add a setPropertyFile() in GeoGebraPreferences which then
  * behaves like a kind of "singleton factory".
- * 
+ *
  * This class implements all the commands of GeoGebraPreferences, but stores in
  * propertyfile given on the commandline: --settingsFile=&lt;path&gt;\
  * &lt;filename&gt; (prefs.properties)
- * 
+ *
  * Options/ToDo: Might as well store: xml in user.xml ggt in macro.bin to avoid
  * escaping "=", b64 encode/decoding and save some time... Also useful to have
  * the xml in a separate file for editing? On the other hand, this is done
  * automatically in Properties, so not really a problem.
- * 
+ *
  * @author Hans-Petter Ulven
  * @version 2010-03-07
  */
 public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
-	private final static String ERROR = "Error?"; // For debugging
-	private final static String COMMENT = "GeoGebra Portable preferences (GeoGebra settings file)";
+	private static final String ERROR = "Error?"; // For debugging
+	private static final String COMMENT = "GeoGebra Portable preferences (GeoGebra settings file)";
 
 	// / --- Properties --- ///
 	// use parent class PROPERTY_FILEPATH private static String path=null;
@@ -80,7 +80,7 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	}
 
 	/** @return Singleton preferences */
-	public synchronized static GeoGebraPreferencesD getPortablePref() {
+	public static synchronized GeoGebraPreferencesD getPortablePref() {
 		if (singleton == null) {
 			singleton = new GeoGebraPortablePreferences();
 			singleton.loadPreferences();
@@ -92,8 +92,7 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		try {
 			File propertyfile = GeoGebraPreferencesD.getFile();
 			if (propertyfile.exists()) {
-				BufferedInputStream fis = new BufferedInputStream(
-						new FileInputStream(propertyfile));
+				BufferedInputStream fis = new BufferedInputStream(new FileInputStream(propertyfile));
 				properties.load(fis);
 				fis.close();
 			} else {
@@ -108,13 +107,12 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	private static void storePreferences() {
 		if (!get("read_only", "false").equals("true")) {
 			try {
-				BufferedOutputStream os = new BufferedOutputStream(
-						new FileOutputStream(GeoGebraPreferencesD.getFile()));
+				BufferedOutputStream os =
+						new BufferedOutputStream(new FileOutputStream(GeoGebraPreferencesD.getFile()));
 				properties.store(os, COMMENT);
 				os.close();
 			} catch (Exception e) {
-				Log.debug("Problem with storing of preferences.properties..."
-						+ e);
+				Log.debug("Problem with storing of preferences.properties..." + e);
 			}
 		}
 	}
@@ -241,8 +239,7 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 		if (!app.is3D()) { // TODO: implement it in Application3D!
 			XMLStringBuilder sb = new XMLStringBuilder();
-			app.getKernel().getConstruction().getConstructionDefaults()
-					.getDefaultsXML(sb);
+			app.getKernel().getConstruction().getConstructionDefaults().getDefaultsXML(sb);
 			String objectPrefsXML = sb.toString();
 
 			set(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
@@ -284,8 +281,7 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			app.setXML(xml, true);
 
 			if (!app.is3D()) { // TODO: implement it in Application3D!
-				String xmlDef = get(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES,
-						factoryDefaultXml);
+				String xmlDef = get(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
 				if (!xmlDef.equals(factoryDefaultXml)) {
 					boolean eda = app.getKernel().getElementDefaultAllowed();
 					app.getKernel().setElementDefaultAllowed(true);
@@ -320,5 +316,4 @@ public final class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	private static void set(String key, String val) {
 		properties.setProperty(key, val);
 	}
-
 }

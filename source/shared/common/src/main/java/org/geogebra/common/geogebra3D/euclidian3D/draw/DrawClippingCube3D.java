@@ -26,17 +26,17 @@ import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for drawing 3D constant planes.
- * 
+ *
  * @author matthieu
  *
  */
 public class DrawClippingCube3D extends Drawable3DCurves {
 
-	final static private int MIN = 0;
-	final static private int MAX = 1;
-	final static private int X = 0;
-	final static private int Y = 1;
-	final static private int Z = 2;
+	private static final int MIN = 0;
+	private static final int MAX = 1;
+	private static final int X = 0;
+	private static final int Y = 1;
+	private static final int Z = 2;
 
 	private double[][] minMax;
 	private double[][] minMaxLarge;
@@ -45,24 +45,24 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	private double[][] minMaxObjects;
 
 	private Coords[] vertices;
-    private Coords[] verticesLarge;
+	private Coords[] verticesLarge;
 
 	private Coords center;
 
-	static private double REDUCTION_LARGE = 0; // (1-1./1)/2
+	private static double REDUCTION_LARGE = 0; // (1-1./1)/2
 
-    /**
-     * enlarging factor from minMax values to minMaxLarge values
-     */
-	final static public double REDUCTION_ENLARGE = 1.5;
+	/**
+	 * enlarging factor from minMax values to minMaxLarge values
+	 */
+	public static final double REDUCTION_ENLARGE = 1.5;
 
-	static private double[] REDUCTION_VALUES = { (1 - 1. / Math.sqrt(3)) / 2, // small
-			(1 - 1. / Math.sqrt(2)) / 2, // medium
-			REDUCTION_LARGE // large
+	private static double[] REDUCTION_VALUES = {
+		(1 - 1. / Math.sqrt(3)) / 2, // small
+		(1 - 1. / Math.sqrt(2)) / 2, // medium
+		REDUCTION_LARGE // large
 	};
 
-	static private double[] INTERIOR_RADIUS_FACTOR = { 1, Math.sqrt(2),
-			Math.sqrt(3) };
+	private static double[] INTERIOR_RADIUS_FACTOR = {1, Math.sqrt(2), Math.sqrt(3)};
 	private double horizontalDiagonal;
 
 	/**
@@ -84,14 +84,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	/**
 	 * Common constructor
-	 * 
+	 *
 	 * @param a_view3D
 	 *            view
 	 * @param clippingCube
 	 *            geo
 	 */
-	public DrawClippingCube3D(EuclidianView3D a_view3D,
-			GeoClippingCube3D clippingCube) {
+	public DrawClippingCube3D(EuclidianView3D a_view3D, GeoClippingCube3D clippingCube) {
 
 		super(a_view3D, clippingCube);
 
@@ -112,15 +111,15 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		clearEnlarge();
 
 		vertices = new Coords[8];
-        verticesLarge = new Coords[8];
+		verticesLarge = new Coords[8];
 		for (int i = 0; i < 8; i++) {
 			vertices[i] = new Coords(0, 0, 0, 1);
-            verticesLarge[i] = new Coords(0, 0, 0, 1);
+			verticesLarge[i] = new Coords(0, 0, 0, 1);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @return big diagonal
 	 */
 	public double getHorizontalDiagonal() {
@@ -159,8 +158,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *
 	 */
 	public void doUpdateMinMax() {
-        EuclidianView3D view = getView3D();
-        Renderer renderer = view.getRenderer();
+		EuclidianView3D view = getView3D();
+		Renderer renderer = view.getRenderer();
 		double halfWidth = renderer.getWidth() / 2.0;
 		double bottom = renderer.getBottom();
 		double top = renderer.getTop();
@@ -182,137 +181,136 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double y0 = -view.getYZero();
 		double z0 = -view.getZZero();
 
-        currentBounds[X][MIN] = -halfWidth / xscale + x0;
-        currentBounds[X][MAX] = halfWidth / xscale + x0;
+		currentBounds[X][MIN] = -halfWidth / xscale + x0;
+		currentBounds[X][MAX] = halfWidth / xscale + x0;
 
-        if (getView3D().getYAxisVertical()) {
-            currentBounds[Y][MIN] = bottom / yscale + y0;
-            currentBounds[Y][MAX] = top / yscale + y0;
-            currentBounds[Z][MIN] = -halfWidth / zscale + z0;
-            currentBounds[Z][MAX] = halfWidth / zscale + z0;
-        } else {
-            currentBounds[Z][MIN] = bottom / zscale + z0;
-            currentBounds[Z][MAX] = top / zscale + z0;
-            currentBounds[Y][MIN] = -halfWidth / yscale + y0;
-            currentBounds[Y][MAX] = halfWidth / yscale + y0;
-        }
+		if (getView3D().getYAxisVertical()) {
+			currentBounds[Y][MIN] = bottom / yscale + y0;
+			currentBounds[Y][MAX] = top / yscale + y0;
+			currentBounds[Z][MIN] = -halfWidth / zscale + z0;
+			currentBounds[Z][MAX] = halfWidth / zscale + z0;
+		} else {
+			currentBounds[Z][MIN] = bottom / zscale + z0;
+			currentBounds[Z][MAX] = top / zscale + z0;
+			currentBounds[Y][MIN] = -halfWidth / yscale + y0;
+			currentBounds[Y][MAX] = halfWidth / yscale + y0;
+		}
 
-        int reductionIndex = ((GeoClippingCube3D) getGeoElement())
-                .getReduction();
-        double rv = 0;
-        if (renderer.reduceForClipping()) {
-            rv = REDUCTION_VALUES[reductionIndex];
-        }
-        double xr = currentBounds[X][MAX] - currentBounds[X][MIN];
-        double yr = currentBounds[Y][MAX] - currentBounds[Y][MIN];
-        double zr = currentBounds[Z][MAX] - currentBounds[Z][MIN];
+		int reductionIndex = ((GeoClippingCube3D) getGeoElement()).getReduction();
+		double rv = 0;
+		if (renderer.reduceForClipping()) {
+			rv = REDUCTION_VALUES[reductionIndex];
+		}
+		double xr = currentBounds[X][MAX] - currentBounds[X][MIN];
+		double yr = currentBounds[Y][MAX] - currentBounds[Y][MIN];
+		double zr = currentBounds[Z][MAX] - currentBounds[Z][MIN];
 
-        if (view.isXREnabled() || view.isUnity()) {
-            for (int i = 0; i < 3; i++) {
-                mayEnlarge(currentBounds[i], minMaxObjects[i]);
-            }
-        }
+		if (view.isXREnabled() || view.isUnity()) {
+			for (int i = 0; i < 3; i++) {
+				mayEnlarge(currentBounds[i], minMaxObjects[i]);
+			}
+		}
 
-        minMax[X][MIN] = currentBounds[X][MIN] + xr * rv;
-        minMax[X][MAX] = currentBounds[X][MAX] - xr * rv;
-        minMax[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
-        minMax[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
-        minMax[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
-        minMax[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
+		minMax[X][MIN] = currentBounds[X][MIN] + xr * rv;
+		minMax[X][MAX] = currentBounds[X][MAX] - xr * rv;
+		minMax[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
+		minMax[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
+		minMax[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
+		minMax[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
 
-        standsOnFloorIfAR(minMax);
+		standsOnFloorIfAR(minMax);
 
-        setVertices();
+		setVertices();
 
-        horizontalDiagonal = renderer.getWidth() * (1 - 2 * rv) * Math.sqrt(2);
+		horizontalDiagonal = renderer.getWidth() * (1 - 2 * rv) * Math.sqrt(2);
 
-        double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
-        double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
-        double w, h, d;
-        if (view.isXREnabled() || view.isUnity()) {
-            w = (currentBounds[X][MAX] - currentBounds[X][MIN]) * xscale;
-            h = (currentBounds[Y][MAX] - currentBounds[Y][MIN]) * yscale;
-            d = (currentBounds[Z][MAX] - currentBounds[Z][MIN]) * zscale;
-        } else {
-            w = renderer.getWidth();
-            h = renderer.getHeight();
-            d = renderer.getVisibleDepth();
-        }
-        frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scaleMin);
+		double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
+		double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
+		double w, h, d;
+		if (view.isXREnabled() || view.isUnity()) {
+			w = (currentBounds[X][MAX] - currentBounds[X][MIN]) * xscale;
+			h = (currentBounds[Y][MAX] - currentBounds[Y][MIN]) * yscale;
+			d = (currentBounds[Z][MAX] - currentBounds[Z][MIN]) * zscale;
+		} else {
+			w = renderer.getWidth();
+			h = renderer.getHeight();
+			d = renderer.getVisibleDepth();
+		}
+		frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scaleMin);
 
-        frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scaleMax);
-        frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR[reductionIndex];
+		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scaleMax);
+		frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR[reductionIndex];
 
-        view.setXYMinMax(minMax);
+		view.setXYMinMax(minMax);
 
-        // minMaxLarge to cut lines
+		// minMaxLarge to cut lines
 
-        rv = REDUCTION_ENLARGE * rv + (1 - REDUCTION_ENLARGE) / 2;
+		rv = REDUCTION_ENLARGE * rv + (1 - REDUCTION_ENLARGE) / 2;
 
-        minMaxLarge[X][MIN] = currentBounds[X][MIN] + xr * rv;
-        minMaxLarge[X][MAX] = currentBounds[X][MAX] - xr * rv;
-        minMaxLarge[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
-        minMaxLarge[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
-        minMaxLarge[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
-        minMaxLarge[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
+		minMaxLarge[X][MIN] = currentBounds[X][MIN] + xr * rv;
+		minMaxLarge[X][MAX] = currentBounds[X][MAX] - xr * rv;
+		minMaxLarge[Y][MIN] = currentBounds[Y][MIN] + yr * rv;
+		minMaxLarge[Y][MAX] = currentBounds[Y][MAX] - yr * rv;
+		minMaxLarge[Z][MIN] = currentBounds[Z][MIN] + zr * rv;
+		minMaxLarge[Z][MAX] = currentBounds[Z][MAX] - zr * rv;
 
-        standsOnFloorIfAR(minMaxLarge);
+		standsOnFloorIfAR(minMaxLarge);
 
-        // update ev 3D depending algos
-        getView3D().updateBounds();
-    }
+		// update ev 3D depending algos
+		getView3D().updateBounds();
+	}
 
-    private void standsOnFloorIfAR(double[][] mm) {
-        EuclidianView3D view = getView3D();
-        if (view.isXREnabled()) {
+	private void standsOnFloorIfAR(double[][] mm) {
+		EuclidianView3D view = getView3D();
+		if (view.isXREnabled()) {
 			mm[Z][MIN] = view.getARMinZ();
-        }
-    }
+		}
+	}
 
 	/**
 	 * @param index index
 	 * @return reduction value
 	 */
-    public double getRV(int index) {
+	public double getRV(int index) {
 		return REDUCTION_VALUES[index];
 	}
 
-    /**
-     * update the x,y,z min/max values
-     *
-     * @return the min/max values
-     */
-    public double[][] updateMinMax() {
-        doUpdateMinMax();
-        return minMax;
-    }
+	/**
+	 * update the x,y,z min/max values
+	 *
+	 * @return the min/max values
+	 */
+	public double[][] updateMinMax() {
+		doUpdateMinMax();
+		return minMax;
+	}
 
-    /**
-     * update the x,y,z min/max values
-     *
-     * @return the min/max values (large)
-     */
-    public double[][] updateMinMaxLarge() {
-        doUpdateMinMax();
-        return minMaxLarge;
-    }
+	/**
+	 * update the x,y,z min/max values
+	 *
+	 * @return the min/max values (large)
+	 */
+	public double[][] updateMinMaxLarge() {
+		doUpdateMinMax();
+		return minMaxLarge;
+	}
 
-    private static void mayEnlarge(double[] v, double[] enlarge) {
+	private static void mayEnlarge(double[] v, double[] enlarge) {
 		if (v[MIN] > enlarge[MIN]) {
 			v[MIN] = enlarge[MIN];
 		}
 		mayEnlargeMax(v, enlarge);
 	}
 
-    private static void mayEnlargeMax(double[] v, double[] enlarge) {
-        if (v[MAX] < enlarge[MAX]) {
-            v[MAX] = enlarge[MAX];
-        }
-    }
+	private static void mayEnlargeMax(double[] v, double[] enlarge) {
+		if (v[MAX] < enlarge[MAX]) {
+			v[MAX] = enlarge[MAX];
+		}
+	}
 
 	/**
 	 * enlarge min/max regarding object coords
-	 * 
+	 *
 	 * @param v
 	 *            object coords
 	 * @return true if bounds need to be updated
@@ -337,11 +335,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * Reset min/max enlarging values for clipping cube
 	 */
 	public void clearEnlarge() {
-        for (int i = 0; i < 3; i++) {
-            minMaxObjects[i][MIN] = Double.POSITIVE_INFINITY;
-            minMaxObjects[i][MAX] = Double.NEGATIVE_INFINITY;
-        }
-    }
+		for (int i = 0; i < 3; i++) {
+			minMaxObjects[i][MIN] = Double.POSITIVE_INFINITY;
+			minMaxObjects[i][MAX] = Double.NEGATIVE_INFINITY;
+		}
+	}
 
 	/**
 	 * @param xmin
@@ -358,8 +356,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *            zmax
 	 * @return updated min/max matrix
 	 */
-	public double[][] updateMinMax(double xmin, double xmax, double ymin, double ymax, double zmin,
-			double zmax) {
+	public double[][] updateMinMax(
+			double xmin, double xmax, double ymin, double ymax, double zmin, double zmax) {
 
 		minMax[0][0] = xmin;
 		minMax[0][1] = xmax;
@@ -400,16 +398,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	/**
 	 * update corner nearest to the eye
-	 * 
+	 *
 	 * @return true if nearest corner has changed
 	 */
 	public boolean updateNearestCorner() {
 		Coords eye = getView3D().getEyePosition();
 		int x, y, z;
-		if (getView3D()
-				.getProjection() == EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC
-				|| getView3D()
-						.getProjection() == EuclidianView3DInterface.PROJECTION_OBLIQUE) {
+		if (getView3D().getProjection() == EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC
+				|| getView3D().getProjection() == EuclidianView3DInterface.PROJECTION_OBLIQUE) {
 			x = eye.getX() > 0 ? 0 : 1;
 			y = eye.getY() > 0 ? 0 : 1;
 			z = eye.getZ() > 0 ? 0 : 1;
@@ -442,10 +438,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 					vertex.setX(minMax[X][x]);
 					vertex.setY(minMax[Y][y]);
 					vertex.setZ(minMax[Z][z]);
-                    vertex = verticesLarge[x + 2 * y + 4 * z];
-                    vertex.setX(minMaxLarge[X][x]);
-                    vertex.setY(minMaxLarge[Y][y]);
-                    vertex.setZ(minMaxLarge[Z][z]);
+					vertex = verticesLarge[x + 2 * y + 4 * z];
+					vertex.setX(minMaxLarge[X][x]);
+					vertex.setY(minMaxLarge[Y][y]);
+					vertex.setZ(minMaxLarge[Z][z]);
 				}
 			}
 		}
@@ -456,7 +452,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            index
 	 * @return i-th vertex
@@ -466,23 +462,23 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return vertices
 	 */
 	public Coords[] getVertices() {
 		return vertices;
 	}
 
-    /**
-     *
-     * @return verticesLarge
-     */
-    public Coords[] getVerticesLarge() {
-        return verticesLarge;
-    }
+	/**
+	 *
+	 * @return verticesLarge
+	 */
+	public Coords[] getVerticesLarge() {
+		return verticesLarge;
+	}
 
 	/**
-	 * 
+	 *
 	 * @return coords of the center point
 	 */
 	public Coords getCenter() {
@@ -490,7 +486,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return x, y, z min-max values
 	 */
 	public double[][] getMinMax() {
@@ -505,8 +501,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minMaxLarge[Z][MIN];
 	}
 
-	private void setVertexWithBorder(int x, int y, int z, double border,
-			Coords c) {
+	private void setVertexWithBorder(int x, int y, int z, double border, Coords c) {
 		Coords v = vertices[x + 2 * y + 4 * z];
 		c.setX(v.getX() + border * (1 - 2 * x) / getView3D().getXscale());
 		c.setY(v.getY() + border * (1 - 2 * y) / getView3D().getYscale());
@@ -532,8 +527,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		brush.start(getReusableGeometryIndex());
 		// use 1.5 factor for border to avoid self clipping
-		border = 1.5 * brush.setThickness(getGeoElement().getLineThickness(),
-				(float) getView3D().getScale());
+		border = 1.5
+				* brush.setThickness(
+						getGeoElement().getLineThickness(), (float) getView3D().getScale());
 		brush.setAffineTexture(0.5f, 0.25f);
 
 		drawSegment(brush, 0, 0, 0, 1, 0, 0);
@@ -560,8 +556,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return true;
 	}
 
-	private void drawSegment(PlotterBrush brush, int x1, int y1, int z1, int x2,
-			int y2, int z2) {
+	private void drawSegment(PlotterBrush brush, int x1, int y1, int z1, int x2, int y2, int z2) {
 
 		setVertexWithBorder(x1, y1, z1, border, tmpCoords1);
 		setVertexWithBorder(x2, y2, z2, border, tmpCoords2);
@@ -596,7 +591,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	/**
 	 * for a line described by (o,v), return the min and max parameters to draw
 	 * the line
-	 * 
+	 *
 	 * @param minmax
 	 *            initial interval
 	 * @param o
@@ -605,8 +600,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *            direction of the line
 	 * @return interval to draw the line
 	 */
-	public double[] getIntervalClippedLarge(double[] minmax, Coords o,
-			Coords v) {
+	public double[] getIntervalClippedLarge(double[] minmax, Coords o, Coords v) {
 
 		for (int i = 1; i <= 3; i++) {
 			double min = (minMaxLarge[i - 1][0] - o.get(i)) / v.get(i);
@@ -620,7 +614,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	/**
 	 * for a line described by (o,v), return the min and max parameters to draw
 	 * the line
-	 * 
+	 *
 	 * @param minmax
 	 *            initial interval
 	 * @param o
@@ -641,7 +635,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	/**
 	 * intersect minmax interval with interval for (o,v)_index between boundsMin
 	 * and boundsMax
-	 * 
+	 *
 	 * @param minmax
 	 *            interval to update
 	 * @param o
@@ -655,8 +649,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * @param boundsMax
 	 *            max for bounds
 	 */
-	public static void updateInterval(double[] minmax, Coords o, Coords v,
-			int index, double boundsMin, double boundsMax) {
+	public static void updateInterval(
+			double[] minmax, Coords o, Coords v, int index, double boundsMin, double boundsMax) {
 		double min = (boundsMin - o.get(index)) / v.get(index);
 		double max = (boundsMax - o.get(index)) / v.get(index);
 		updateInterval(minmax, min, max);
@@ -664,7 +658,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	/**
 	 * return the intersection of intervals [minmax] and [v1,v2]
-	 * 
+	 *
 	 * @param minmax
 	 *            initial interval
 	 * @param v1
@@ -673,8 +667,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *            second value
 	 * @return intersection interval
 	 */
-	private static double[] updateInterval(double[] minmax, double v1,
-			double v2) {
+	private static double[] updateInterval(double[] minmax, double v1, double v2) {
 		double vMin, vMax;
 		if (v1 > v2) {
 			vMax = v1;
@@ -709,5 +702,4 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	protected void setGeometriesVisibility(boolean visible) {
 		setGeometriesVisibilityNoSurface(visible);
 	}
-
 }

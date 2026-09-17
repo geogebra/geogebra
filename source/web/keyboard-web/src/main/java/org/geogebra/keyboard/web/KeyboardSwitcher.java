@@ -120,16 +120,14 @@ public class KeyboardSwitcher extends FlowPanel {
 	}
 
 	protected void addCloseButton() {
-		ToggleButton closeButton = new ToggleButton(KeyboardResources.INSTANCE
-				.keyboard_close_black()) {
+		ToggleButton closeButton = new ToggleButton(KeyboardResources.INSTANCE.keyboard_close_black()) {
 			@Override
 			public void setFocus(boolean focused) {
 				// Do not focus the button
 			}
 		};
 		closeButton.removeStyleName("ToggleButton");
-		closeButton.getElement().setAttribute("aria-label",
-				tabbedkeyboard.locale.getMenu("Close"));
+		closeButton.getElement().setAttribute("aria-label", tabbedkeyboard.locale.getMenu("Close"));
 		closeButton.addStyleName("closeTabbedKeyboardButton");
 		closeButton.getElement().setAttribute("data-test", "closeKeyboardButton");
 		ClickStartHandler.init(closeButton, new ClickStartHandler() {
@@ -151,17 +149,15 @@ public class KeyboardSwitcher extends FlowPanel {
 	}
 
 	private void createMoreButton() {
-		moreButton = new ToggleButton(KeyboardResources.INSTANCE.keyboard_more(),
-				KeyboardResources.INSTANCE.keyboard_more());
-		moreButton.getElement().setAttribute("aria-label",
-				tabbedkeyboard.locale.getMenu("Commands"));
+		moreButton = new ToggleButton(
+				KeyboardResources.INSTANCE.keyboard_more(), KeyboardResources.INSTANCE.keyboard_more());
+		moreButton.getElement().setAttribute("aria-label", tabbedkeyboard.locale.getMenu("Commands"));
 
 		moreButton.removeStyleName("ToggleButton");
 		moreButton.addStyleName("moreKeyboardButton");
 
-		moreButton.addFastClickHandler((source) -> tabbedkeyboard.toggleHelp(moreButton
-						.getAbsoluteLeft() + moreButton.getOffsetWidth(),
-				moreButton.getAbsoluteTop()));
+		moreButton.addFastClickHandler((source) -> tabbedkeyboard.toggleHelp(
+				moreButton.getAbsoluteLeft() + moreButton.getOffsetWidth(), moreButton.getAbsoluteTop()));
 	}
 
 	protected void reset() {

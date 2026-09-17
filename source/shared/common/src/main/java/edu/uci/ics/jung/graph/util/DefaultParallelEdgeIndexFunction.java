@@ -1,7 +1,7 @@
 /*
  * Created on Sep 24, 2005
  *
- * Copyright (c) 2005, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2005, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -23,26 +23,24 @@ import edu.uci.ics.jung.graph.Graph;
  * A class which creates and maintains indices for parallel edges. Parallel
  * edges are defined here to be the collection of edges that are returned by
  * <code>v.findEdgeSet(w)</code> for some <code>v</code> and <code>w</code>.
- * 
+ *
  * <p>
  * At this time, users are responsible for resetting the indices (by calling
  * <code>reset()</code>) if changes to the graph make it appropriate.
  * </p>
- * 
+ *
  * @author Joshua O'Madadhain
  * @author Tom Nelson
  *
  */
-public class DefaultParallelEdgeIndexFunction<V, E>
-		implements EdgeIndexFunction<V, E> {
+public class DefaultParallelEdgeIndexFunction<V, E> implements EdgeIndexFunction<V, E> {
 	protected Map<Context<Graph<V, E>, E>, Integer> edge_index = new HashMap<>();
 
-	private DefaultParallelEdgeIndexFunction() {
-	}
+	private DefaultParallelEdgeIndexFunction() {}
 
 	/**
 	 * Returns an instance of this class.
-	 * 
+	 *
 	 * @param <V>
 	 *            the vertex type
 	 * @param <E>
@@ -60,8 +58,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	@Override
 	public int getIndex(Graph<V, E> graph, E e) {
 
-		Integer index = edge_index
-				.get(Context.<Graph<V, E>, E> getInstance(graph, e));
+		Integer index = edge_index.get(Context.<Graph<V, E>, E>getInstance(graph, e));
 		// edge_index.get(e);
 		if (index == null) {
 			Pair<V> endpoints = graph.getEndpoints(e);
@@ -79,8 +76,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	protected int getIndex(Graph<V, E> graph, E e, V v, V u) {
 		Collection<E> commonEdgeSet = new HashSet<E>(graph.getIncidentEdges(u));
 		commonEdgeSet.retainAll(graph.getIncidentEdges(v));
-		for (Iterator<E> iterator = commonEdgeSet.iterator(); iterator
-				.hasNext();) {
+		for (Iterator<E> iterator = commonEdgeSet.iterator(); iterator.hasNext(); ) {
 			E edge = iterator.next();
 			Pair<V> ep = graph.getEndpoints(edge);
 			V first = ep.getFirst();
@@ -97,13 +93,11 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 		int count = 0;
 		for (E other : commonEdgeSet) {
 			if (e.equals(other) == false) {
-				edge_index.put(
-						Context.<Graph<V, E>, E> getInstance(graph, other),
-						count);
+				edge_index.put(Context.<Graph<V, E>, E>getInstance(graph, other), count);
 				count++;
 			}
 		}
-		edge_index.put(Context.<Graph<V, E>, E> getInstance(graph, e), count);
+		edge_index.put(Context.<Graph<V, E>, E>getInstance(graph, e), count);
 		return count;
 	}
 
@@ -118,13 +112,11 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 		int count = 0;
 		for (E other : commonEdgeSet) {
 			if (e.equals(other) == false) {
-				edge_index.put(
-						Context.<Graph<V, E>, E> getInstance(graph, other),
-						count);
+				edge_index.put(Context.<Graph<V, E>, E>getInstance(graph, other), count);
 				count++;
 			}
 		}
-		edge_index.put(Context.<Graph<V, E>, E> getInstance(graph, e), count);
+		edge_index.put(Context.<Graph<V, E>, E>getInstance(graph, e), count);
 		return count;
 	}
 
@@ -132,7 +124,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	 * Resets the indices for this edge and its parallel edges. Should be
 	 * invoked when an edge parallel to <code>e</code> has been added or
 	 * removed.
-	 * 
+	 *
 	 * @param e edge
 	 */
 	@Override

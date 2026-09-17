@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Command to force e.g Corner[n,1] to create a 3D point even if n!=3
- * 
+ *
  * @author mathieu
  *
  */
@@ -36,11 +36,8 @@ public class CmdVertexForce3D extends CmdVertex3D {
 	}
 
 	@Override
-	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number,
-			GeoNumberValue ev) {
+	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number, GeoNumberValue ev) {
 
 		return cornerOfDrawingPad3D(label, number, ev);
-
 	}
-
 }

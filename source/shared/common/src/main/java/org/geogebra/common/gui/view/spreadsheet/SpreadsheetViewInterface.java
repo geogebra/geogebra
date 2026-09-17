@@ -31,8 +31,7 @@ public interface SpreadsheetViewInterface extends View {
 	String RIGHT_CLASS_RULE = "< x " + Unicode.LESS_EQUAL;
 	String LESS_THAN_OR_EQUAL_TO_X = Unicode.LESS_EQUAL + " X";
 	String GREATER_THAN_OR_EQUAL_TO_X = "X " + Unicode.GREATER_EQUAL;
-	String X_BETWEEN = Unicode.LESS_EQUAL + " X "
-			+ Unicode.LESS_EQUAL;
+	String X_BETWEEN = Unicode.LESS_EQUAL + " X " + Unicode.LESS_EQUAL;
 
 	// x -> Y
 	String X_TO_Y = "X " + Unicode.IMPLIES + " Y";
@@ -84,5 +83,4 @@ public interface SpreadsheetViewInterface extends View {
 	 * @return whether this view is visible
 	 */
 	boolean isShowing();
-
 }

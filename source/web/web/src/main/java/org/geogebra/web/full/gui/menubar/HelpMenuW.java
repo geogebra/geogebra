@@ -75,9 +75,9 @@ public final class HelpMenuW extends Submenu implements BooleanRenderable {
 	private void addTutorialItem(final AppW app, Localization loc) {
 		final String tutorialURL = app.getLocalization().getTutorialURL(app.getConfig());
 		if (!StringUtil.empty(tutorialURL)) {
-			tutorials = addItem(
-					MainMenu.getMenuBarItem(MaterialDesignResources.INSTANCE.tutorial_black(),
-							loc.getMenu("Tutorials"),
+			tutorials = addItem(MainMenu.getMenuBarItem(
+					MaterialDesignResources.INSTANCE.tutorial_black(),
+					loc.getMenu("Tutorials"),
 					new MenuCommand(app) {
 
 						@Override
@@ -89,10 +89,9 @@ public final class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addManualItem(final AppW app, Localization loc) {
-		manual = addItem(
-				MainMenu.getMenuBarItem(
-						MaterialDesignResources.INSTANCE.manual_black(),
-						loc.getMenu("Manual"),
+		manual = addItem(MainMenu.getMenuBarItem(
+				MaterialDesignResources.INSTANCE.manual_black(),
+				loc.getMenu("Manual"),
 				new MenuCommand(app) {
 
 					@Override
@@ -103,11 +102,8 @@ public final class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addForumItem(final AppW app, Localization loc) {
-		forum = addItem(
-				MainMenu.getMenuBarItem(
-						SharedResources.INSTANCE.icon_help_black(),
-						loc.getMenu("Help"),
-				new MenuCommand(app) {
+		forum = addItem(MainMenu.getMenuBarItem(
+				SharedResources.INSTANCE.icon_help_black(), loc.getMenu("Help"), new MenuCommand(app) {
 
 					@Override
 					void doExecute() {
@@ -117,10 +113,9 @@ public final class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addReportBugItem(final AppW app, Localization loc) {
-		bug = addItem(
-				MainMenu.getMenuBarItem(
-						MaterialDesignResources.INSTANCE.bug_report_black(),
-						loc.getMenu("ReportBug"),
+		bug = addItem(MainMenu.getMenuBarItem(
+				MaterialDesignResources.INSTANCE.bug_report_black(),
+				loc.getMenu("ReportBug"),
 				new MenuCommand(app) {
 
 					@Override
@@ -131,19 +126,22 @@ public final class HelpMenuW extends Submenu implements BooleanRenderable {
 	}
 
 	private void addAboutItem() {
-		about = addItem("AboutLicense", new ShowLicenseAction(),
+		about = addItem(
+				"AboutLicense",
+				new ShowLicenseAction(),
 				new ImageIconSpec(MaterialDesignResources.INSTANCE.info_black()));
 	}
 
 	private void addPrivacyItem() {
-		privacy = addItem("PrivacyPolicy", new ShowPrivacyPolicyAction(),
+		privacy = addItem(
+				"PrivacyPolicy",
+				new ShowPrivacyPolicyAction(),
 				new ImageIconSpec(DefaultMenuIconResources.INSTANCE.privacyPolicy()));
 	}
 
 	private void addVersionNumber(AppW appW) {
 		String versionNr = GeoGebraConstants.getVersionString6();
-		String versionStr = appW.getLocalization().getPlainDefault("VersionA",
-				"Version %0", versionNr);
+		String versionStr = appW.getLocalization().getPlainDefault("VersionA", "Version %0", versionNr);
 		Label version = BaseWidgetFactory.INSTANCE.newDisabledText(versionStr, "versionNr");
 		add(version);
 	}

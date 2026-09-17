@@ -34,8 +34,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  *
  * @author Markus
  */
-public class AlgoJoinPointsRay extends AlgoElement
-		implements SymbolicParametersBotanaAlgo {
+public class AlgoJoinPointsRay extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
 	private GeoPoint P; // input
 	private GeoPoint Q; // input
@@ -44,8 +43,7 @@ public class AlgoJoinPointsRay extends AlgoElement
 	private PVariable[] botanaVars;
 
 	/** Creates new AlgoJoinPoints */
-	public AlgoJoinPointsRay(Construction cons, String label, GeoPoint P,
-			GeoPoint Q) {
+	public AlgoJoinPointsRay(Construction cons, String label, GeoPoint P, GeoPoint Q) {
 		super(cons);
 		this.P = P;
 		this.Q = Q;
@@ -70,7 +68,7 @@ public class AlgoJoinPointsRay extends AlgoElement
 
 	/**
 	 * @author Tam
-	 * 
+	 *
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
@@ -120,18 +118,16 @@ public class AlgoJoinPointsRay extends AlgoElement
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlainDefault("RayThroughAB", "Ray through %0, %1",
-				P.getLabel(tpl), Q.getLabel(tpl));
-
+		return getLoc()
+				.getPlainDefault("RayThroughAB", "Ray through %0, %1", P.getLabel(tpl), Q.getLabel(tpl));
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PVariable[] getBotanaVars(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaVars != null) {
 			return botanaVars;
 		}
@@ -140,8 +136,7 @@ public class AlgoJoinPointsRay extends AlgoElement
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		return null;
 	}
 }

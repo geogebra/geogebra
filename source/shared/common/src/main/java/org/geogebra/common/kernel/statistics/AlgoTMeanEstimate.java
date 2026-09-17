@@ -29,8 +29,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Calculates a one sample t-confidence interval estimate of a mean.
- * 
- * 
+ *
+ *
  * @author G. Sturr
  */
 public class AlgoTMeanEstimate extends AlgoElement {
@@ -61,8 +61,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 	 * @param geoLevel
 	 *            confidence level
 	 */
-	public AlgoTMeanEstimate(Construction cons, String label, GeoList geoList,
-			GeoNumeric geoLevel) {
+	public AlgoTMeanEstimate(Construction cons, String label, GeoList geoList, GeoNumeric geoLevel) {
 		super(cons);
 		this.geoList = geoList;
 		this.geoLevel = geoLevel;
@@ -89,8 +88,12 @@ public class AlgoTMeanEstimate extends AlgoElement {
 	 * @param geoLevel
 	 *            confidence level
 	 */
-	public AlgoTMeanEstimate(Construction cons, GeoNumeric geoMean,
-			GeoNumeric geoSD, GeoNumeric geoN, GeoNumeric geoLevel) {
+	public AlgoTMeanEstimate(
+			Construction cons,
+			GeoNumeric geoMean,
+			GeoNumeric geoSD,
+			GeoNumeric geoN,
+			GeoNumeric geoLevel) {
 		super(cons);
 		this.geoList = null;
 		this.geoLevel = geoLevel;
@@ -143,8 +146,8 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		return me;
 	}
 
-	private static double getMarginOfError(double sd, double n,
-			double confLevel) throws ArithmeticException {
+	private static double getMarginOfError(double sd, double n, double confLevel)
+			throws ArithmeticException {
 		TDistribution tDist = new TDistribution(n - 1);
 		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * sd / Math.sqrt(n);
@@ -215,5 +218,4 @@ public class AlgoTMeanEstimate extends AlgoElement {
 			Log.debug(e);
 		}
 	}
-
 }

@@ -28,9 +28,9 @@ import org.gwtproject.user.client.ui.InlineLabel;
 
 /**
  * Adds a menu item with a checkmark on its end.
- * 
+ *
  * @author laszlo
- * 
+ *
  */
 public final class GCollapseMenuItem {
 
@@ -58,9 +58,13 @@ public final class GCollapseMenuItem {
 	 * @param wrappedPopup
 	 *            The command to run.
 	 */
-	public GCollapseMenuItem(SVGResource icon, String title, String expandUrl,
+	public GCollapseMenuItem(
+			SVGResource icon,
+			String title,
+			String expandUrl,
 			String collapseUrl,
-			boolean expanded, final GPopupMenuW wrappedPopup) {
+			boolean expanded,
+			final GPopupMenuW wrappedPopup) {
 		this.icon = icon;
 		this.title = title;
 		imgExpand = new NoDragImage(expandUrl);
@@ -75,14 +79,13 @@ public final class GCollapseMenuItem {
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
 		this.parentMenu = wrappedPopup;
-		menuItem = new AriaMenuItem(itemPanel,
-				this::toggle);
+		menuItem = new AriaMenuItem(itemPanel, this::toggle);
 		setExpanded(expanded);
 	}
 
 	/**
 	 * Sets the item checked/unchecked.
-	 * 
+	 *
 	 * @param value
 	 *            to set.
 	 */
@@ -92,16 +95,12 @@ public final class GCollapseMenuItem {
 		itemPanel.add(new NoDragImage(icon, 24));
 		itemPanel.add(new InlineLabel(title));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
-		menuItem.getElement().setAttribute("aria-expanded",
-				String.valueOf(expanded));
+		menuItem.getElement().setAttribute("aria-expanded", String.valueOf(expanded));
 		if (items.getElement().getParentElement() != null) {
-			items.getElement().getParentElement().getStyle()
-					.setProperty("listStyle", "none");
-			items.getElement().getParentElement().setAttribute("aria-hidden",
-					String.valueOf(!expanded));
+			items.getElement().getParentElement().getStyle().setProperty("listStyle", "none");
+			items.getElement().getParentElement().setAttribute("aria-hidden", String.valueOf(!expanded));
 		}
-		menuItem.getElement().setAttribute("aria-label",
-				title + (value ? " expanded" : " collapsed"));
+		menuItem.getElement().setAttribute("aria-label", title + (value ? " expanded" : " collapsed"));
 		updateItems();
 
 		items.getElement().setTabIndex(-1);
@@ -116,7 +115,7 @@ public final class GCollapseMenuItem {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The standard menu item with checkmark.
 	 */
 	public AriaMenuItem getMenuItem() {
@@ -124,7 +123,7 @@ public final class GCollapseMenuItem {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return if the menu is expanded or not.
 	 */
 	public boolean isExpanded() {
@@ -150,7 +149,7 @@ public final class GCollapseMenuItem {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param item
 	 *            to add.
 	 */

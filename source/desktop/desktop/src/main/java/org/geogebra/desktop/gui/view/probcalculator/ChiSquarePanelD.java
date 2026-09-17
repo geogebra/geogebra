@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -48,12 +48,11 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Panel for Chi Square and Goodness of Fit Tests
- * 
+ *
  * @author G. Sturr
- * 
+ *
  */
-public class ChiSquarePanelD extends ChiSquarePanel
-		implements ActionListener, SetLabels {
+public class ChiSquarePanelD extends ChiSquarePanel implements ActionListener, SetLabels {
 
 	// ======================================
 	// GUI components
@@ -95,7 +94,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			cell[0][1].setLabelText(0, getMenu("ObservedCount"));
 			cell[0][2].setLabelText(0, getMenu("ExpectedCount"));
 		}
-
 	}
 
 	private void createGUI() {
@@ -145,17 +143,15 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		cbColumns.setSelectedItem("" + getSc().columns);
 		cbColumns.addActionListener(this);
 		cbColumns.setMaximumRowCount(12);
-
 	}
 
 	private void createControlPanel() {
 
 		pnlControl = new JPanel();
 		pnlControl.setLayout(new BoxLayout(pnlControl, BoxLayout.Y_AXIS));
-		pnlControl.add(wrappedPanel.add(
-				LayoutUtil.flowPanel(lblRows, cbRows, lblColumns, cbColumns)));
-		pnlControl.add(wrappedPanel.add(LayoutUtil.flowPanel(ckRowPercent,
-				ckColPercent, ckExpected, ckChiDiff)));
+		pnlControl.add(wrappedPanel.add(LayoutUtil.flowPanel(lblRows, cbRows, lblColumns, cbColumns)));
+		pnlControl.add(
+				wrappedPanel.add(LayoutUtil.flowPanel(ckRowPercent, ckColPercent, ckExpected, ckChiDiff)));
 	}
 
 	private void createCountPanel() {
@@ -207,7 +203,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			cell[0][1].setMarginCell(true);
 			cell[0][2].setMarginCell(true);
 		}
-
 	}
 
 	/**
@@ -232,7 +227,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			cbColumns.removeActionListener(this);
 			cbColumns.setSelectedItem("2");
 			cbColumns.addActionListener(this);
-
 		}
 
 		createCountPanel();
@@ -245,11 +239,12 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	 * Update collection
 	 */
 	public void updateCollection() {
-		getSc().setChiSqData(
-				Integer.parseInt((String) cbRows.getSelectedItem()),
-				getSc().getSelectedProcedure() == Procedure.GOF_TEST ? 2
-						: Integer.parseInt(
-								(String) cbColumns.getSelectedItem()));
+		getSc()
+				.setChiSqData(
+						Integer.parseInt((String) cbRows.getSelectedItem()),
+						getSc().getSelectedProcedure() == Procedure.GOF_TEST
+								? 2
+								: Integer.parseInt((String) cbColumns.getSelectedItem()));
 	}
 
 	private void updateShowFlags() {
@@ -268,19 +263,19 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			updateGUI();
 		}
 
-		if (source == ckExpected || source == ckChiDiff
-				|| source == ckRowPercent || source == ckColPercent) {
+		if (source == ckExpected
+				|| source == ckChiDiff
+				|| source == ckRowPercent
+				|| source == ckColPercent) {
 			updateShowFlags();
 			updateVisibility();
 		}
-
 	}
 
 	/**
 	 * Class ChiSquareCell: extended JPanel to hold cell components
 	 */
-	public class ChiSquareCellD extends ChiSquareCell
-			implements ActionListener, FocusListener {
+	public class ChiSquareCellD extends ChiSquareCell implements ActionListener, FocusListener {
 
 		private final JPanel wrappedCellPanel;
 
@@ -308,8 +303,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			super(sc);
 			this.wrappedCellPanel = new JPanel();
 			wrappedCellPanel.setOpaque(true);
-			wrappedCellPanel.setLayout(
-					new BoxLayout(this.wrappedCellPanel, BoxLayout.Y_AXIS));
+			wrappedCellPanel.setLayout(new BoxLayout(this.wrappedCellPanel, BoxLayout.Y_AXIS));
 
 			fldInput = new MyTextFieldD((AppD) statCalc.getApp());
 			fldInput.addActionListener(this);
@@ -331,9 +325,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			fldInput.setColumns(columns);
 
 			// force a minimum width for margin cells
-			wrappedCellPanel.add(Box
-					.createHorizontalStrut(fldInput.getPreferredSize().width));
-
+			wrappedCellPanel.add(Box.createHorizontalStrut(fldInput.getPreferredSize().width));
 		}
 
 		/**
@@ -384,24 +376,20 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			fldInput.setVisible(false);
 
 			if (isMarginCell()) {
-				wrappedCellPanel
-						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+				wrappedCellPanel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				setLabelVisible(0, true);
 
 			} else if (isHeaderCell()) {
-				wrappedCellPanel
-						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+				wrappedCellPanel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				fldInput.setVisible(true);
-				fldInput.setBackground(GColorD.getAwtColor(
-						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+				fldInput.setBackground(
+						GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
 			} else {
 				fldInput.setVisible(true);
-				wrappedCellPanel.setBorder(
-						BorderFactory.createLineBorder(Color.GRAY, 1));
+				wrappedCellPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 				fldInput.setBackground(GColorD.getAwtColor(GColor.WHITE));
 			}
-
 		}
 
 		private void updateCellData() {
@@ -432,7 +420,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		public JPanel getWrappedPanel() {
 			return wrappedCellPanel;
 		}
-
 	}
 
 	/**
@@ -446,5 +433,4 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	protected ChiSquareCell getCell(int i, int j) {
 		return cell[i][j];
 	}
-
 }

@@ -60,8 +60,8 @@ public class DrawAudio extends DrawWidget {
 	private static final GColor PLAY_COLOR = GColor.TEXT_PRIMARY;
 	private static final GColor TIME_COLOR = GColor.TEXT_PRIMARY;
 	private static final GColor SLIDER_STROKE_COLOR = GColor.TEXT_PRIMARY;
-	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(SLIDER_THICKNESS,
-			EuclidianStyleConstants.LINE_TYPE_FULL);
+	private static final GBasicStroke SLIDER_STROKE =
+			EuclidianStatic.getStroke(SLIDER_THICKNESS, EuclidianStyleConstants.LINE_TYPE_FULL);
 
 	private final GeoAudio geoAudio;
 
@@ -114,8 +114,7 @@ public class DrawAudio extends DrawWidget {
 
 		int size = 2 * PLAY_SIZE;
 		int margin = (int) (getHeight() / 2 - PLAY_SIZE);
-		playRect = AwtFactory.getPrototype().newRectangle(0, margin,
-				size + PLAY_LEFT_PADDING, size);
+		playRect = AwtFactory.getPrototype().newRectangle(0, margin, size + PLAY_LEFT_PADDING, size);
 
 		// NPE in Classic 5 on file loading
 		updateSlider();
@@ -127,8 +126,8 @@ public class DrawAudio extends DrawWidget {
 		GGraphics2D g2 = view.getTempGraphics2D(font);
 		duration = geoAudio.getDuration();
 		String textAll = getElapsedTime(duration, duration);
-		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll,
-				font, g2.getFontRenderContext());
+		GTextLayout txtLayout =
+				AwtFactory.getPrototype().newTextLayout(textAll, font, g2.getFontRenderContext());
 		int x = TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
 
 		double d = geoAudio.getDuration();
@@ -136,14 +135,14 @@ public class DrawAudio extends DrawWidget {
 		if (!Double.isFinite(param) || param < 0) {
 			param = 0;
 		}
-		sliderLeft = (int) (x + txtLayout.getBounds().getWidth()
-				+ 2 * BLOB_RADIUS) + MARGIN_AFTER_TEXT_X;
+		sliderLeft =
+				(int) (x + txtLayout.getBounds().getWidth() + 2 * BLOB_RADIUS) + MARGIN_AFTER_TEXT_X;
 		sliderWidth = (int) (getWidth() - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS));
 		int middle = (int) (getHeight() / 2);
 
 		updateDot(sliderLeft + sliderWidth * param, middle);
-		AwtFactory.getPrototype().newRectangle(sliderLeft, middle - SLIDER_AREA_WIDTH,
-				sliderLeft, 2 * SLIDER_AREA_WIDTH);
+		AwtFactory.getPrototype()
+				.newRectangle(sliderLeft, middle - SLIDER_AREA_WIDTH, sliderLeft, 2 * SLIDER_AREA_WIDTH);
 		line.setLine(sliderLeft, middle, sliderLeft + sliderWidth, middle);
 	}
 
@@ -241,13 +240,12 @@ public class DrawAudio extends DrawWidget {
 		String text = getElapsedTime(currTime, duration);
 		String textAll = getElapsedTime(duration, duration);
 
-		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll, font,
-				g2.getFontRenderContext());
+		GTextLayout txtLayout =
+				AwtFactory.getPrototype().newTextLayout(textAll, font, g2.getFontRenderContext());
 		int x = TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
 		int y = (int) (getHeight() + txtLayout.getBounds().getHeight()) / 2;
 
-		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-				x, y, false, null, null);
+		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text, x, y, false, null, null);
 	}
 
 	private static String getElapsedTime(int current, int all) {
@@ -312,7 +310,7 @@ public class DrawAudio extends DrawWidget {
 
 	/**
 	 * Returns true iff the movable point was hit
-	 * 
+	 *
 	 * @param x
 	 *            coordinate
 	 * @param y
@@ -321,7 +319,7 @@ public class DrawAudio extends DrawWidget {
 	 *            threshold
 	 * @return true iff the movable point was hit
 	 */
-	final public boolean isBlobHit(int x, int y, int hitThreshold) {
+	public final boolean isBlobHit(int x, int y, int hitThreshold) {
 		int r = hitThreshold + Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
@@ -330,7 +328,7 @@ public class DrawAudio extends DrawWidget {
 
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
-	 * 
+	 *
 	 * @param x
 	 *            mouse x-coord
 	 * @param y
@@ -346,7 +344,7 @@ public class DrawAudio extends DrawWidget {
 
 	/**
 	 * Returns true if the slider line was hit, false for fixed sliders
-	 * 
+	 *
 	 * @param x
 	 *            mouse x-coord
 	 * @param y
@@ -411,11 +409,10 @@ public class DrawAudio extends DrawWidget {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the width of the time slider.
 	 */
 	public double getSliderWidth() {
 		return sliderWidth;
 	}
-
 }

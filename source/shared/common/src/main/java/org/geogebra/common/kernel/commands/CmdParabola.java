@@ -30,7 +30,7 @@ public class CmdParabola extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -39,29 +39,27 @@ public class CmdParabola extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
-			if ((ok[0] = arg[0].isGeoPoint())
-					&& (ok[1] = arg[1].isGeoLine())) {
-				GeoElement[] ret = { parabola(c.getLabel(), (GeoPointND) arg[0],
-						(GeoLineND) arg[1]) };
-				return ret;
-			}
-			throw argErr(c, getBadArg(ok, arg));
+			case 2:
+				arg = resArgs(c, info);
+				if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoLine())) {
+					GeoElement[] ret = {parabola(c.getLabel(), (GeoPointND) arg[0], (GeoLineND) arg[1])};
+					return ret;
+				}
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param label
 	 *            label
 	 * @param a

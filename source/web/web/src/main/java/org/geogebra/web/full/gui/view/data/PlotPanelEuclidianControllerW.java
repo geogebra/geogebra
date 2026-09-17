@@ -26,7 +26,7 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 
 /**
  * @author gabor
- * 
+ *
  * EuclidianController for plot panel in web
  *
  */
@@ -43,17 +43,14 @@ public final class PlotPanelEuclidianControllerW extends EuclidianControllerW {
 	public void showDrawingPadPopup(GPoint mouse) {
 		// do nothing
 	}
-	
+
 	@Override
-	public boolean wrapMouseWheelMoved(int x, int y, double delta,
-			boolean shiftOrMeta, boolean alt) {
+	public boolean wrapMouseWheelMoved(int x, int y, double delta, boolean shiftOrMeta, boolean alt) {
 		return false; // scrolling disabled
 	}
 
 	@Override
-	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
-			Hits hits) {
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, Hits hits) {
 		// kill menu in plot panel
 	}
-
 }

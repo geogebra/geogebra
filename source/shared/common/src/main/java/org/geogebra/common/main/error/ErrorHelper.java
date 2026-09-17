@@ -31,7 +31,7 @@ import org.geogebra.common.util.debug.Log;
 public class ErrorHelper {
 	/**
 	 * Converts exception to string and sends it to error handler
-	 * 
+	 *
 	 * @param e
 	 *            exception
 	 * @param app
@@ -39,8 +39,7 @@ public class ErrorHelper {
 	 * @param handler
 	 *            handler
 	 */
-	public static void handleException(Exception e, App app,
-			ErrorHandler handler) {
+	public static void handleException(Exception e, App app, ErrorHandler handler) {
 
 		if (handler == null) {
 			return;
@@ -71,7 +70,6 @@ public class ErrorHelper {
 		} else {
 			handler.showError(loc.getInvalidInputError());
 		}
-
 	}
 
 	/**
@@ -82,20 +80,21 @@ public class ErrorHelper {
 	 * @param handler
 	 *            error handler
 	 */
-	public static void handleCommandError(Localization loc, String localCommand,
-			ErrorHandler handler) {
+	public static void handleCommandError(
+			Localization loc, String localCommand, ErrorHandler handler) {
 		String cmd = loc.getReverseCommand(localCommand);
-		handler.showCommandError(cmd, loc.getInvalidInputError()
+		handler.showCommandError(
+				cmd,
+				loc.getInvalidInputError()
 						+ ":\n"
 						+ localCommand + "\n\n"
 						+ loc.getMenu("Syntax") + ":\n"
 						+ loc.getCommandSyntax(cmd));
-
 	}
 
 	/**
 	 * Forwards error to error handler
-	 * 
+	 *
 	 * @param e
 	 *            error
 	 * @param cmd
@@ -105,8 +104,7 @@ public class ErrorHelper {
 	 * @param handler
 	 *            handler
 	 */
-	public static void handleError(MyError e, String cmd, Localization loc,
-			ErrorHandler handler) {
+	public static void handleError(MyError e, String cmd, Localization loc, ErrorHandler handler) {
 		if (handler instanceof ErrorLogger) {
 			((ErrorLogger) handler).log(e);
 		} else {
@@ -114,8 +112,7 @@ public class ErrorHelper {
 		}
 
 		if (e.getCommandName() != null) {
-			String internal = loc
-					.getReverseCommand(e.getCommandName());
+			String internal = loc.getReverseCommand(e.getCommandName());
 			handler.showCommandError(internal, e.getLocalizedMessage());
 		} else {
 			handler.showError(e.getLocalizedMessage());
@@ -134,8 +131,7 @@ public class ErrorHelper {
 	 * @param handler
 	 *            error handler
 	 */
-	public static void handleInvalidInput(String str, Localization loc,
-			ErrorHandler handler) {
+	public static void handleInvalidInput(String str, Localization loc, ErrorHandler handler) {
 		if (loc != null) {
 			handler.showError(loc.getInvalidInputError() + ":\n" + str);
 		} else {
@@ -173,8 +169,7 @@ public class ErrorHelper {
 		}
 
 		@Override
-		public boolean onUndefinedVariables(String string,
-				AsyncOperation<String[]> callback) {
+		public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
 			return false;
 		}
 

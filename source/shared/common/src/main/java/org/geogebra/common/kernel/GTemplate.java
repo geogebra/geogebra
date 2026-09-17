@@ -38,5 +38,4 @@ public class GTemplate {
 	public Kernel getKernel() {
 		return kernel;
 	}
-
 }

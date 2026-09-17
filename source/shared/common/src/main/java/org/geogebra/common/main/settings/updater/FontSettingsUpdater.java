@@ -31,6 +31,7 @@ public class FontSettingsUpdater {
 
 	@Weak
 	private App app;
+
 	private FontSettings fontSettings;
 
 	/**

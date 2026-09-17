@@ -52,5 +52,4 @@ public class CmdLocus3D extends CmdLocus {
 		}
 		return super.locus(label, p, slider);
 	}
-
 }

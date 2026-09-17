@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 class FontPropertyTest {
 	@Test
 	void testDropdownFamiliesDefined() {
-		for (FontProperty.FontFamily family: FontProperty.FontFamily.values()) {
+		for (FontProperty.FontFamily family : FontProperty.FontFamily.values()) {
 			assertNotNull(family.getFontFamilyForDropdown());
 		}
 	}

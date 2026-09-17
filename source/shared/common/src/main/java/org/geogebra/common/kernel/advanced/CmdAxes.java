@@ -32,7 +32,7 @@ public class CmdAxes extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -41,25 +41,24 @@ public class CmdAxes extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+	public final GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			arg = resArgs(c, info);
+			case 1:
+				arg = resArgs(c, info);
 
-			// asymptotes to conic/quadric
-			if (arg[0] instanceof GeoQuadricND) {
-				AlgoAxesQuadricND algo = kernel.getAlgoDispatcher().axesConic((GeoQuadricND) arg[0],
-						c.getLabels());
-				return (GeoElement[]) algo.getAxes();
+				// asymptotes to conic/quadric
+				if (arg[0] instanceof GeoQuadricND) {
+					AlgoAxesQuadricND algo =
+							kernel.getAlgoDispatcher().axesConic((GeoQuadricND) arg[0], c.getLabels());
+					return (GeoElement[]) algo.getAxes();
+				}
+				throw argErr(c, arg[0]);
 
-			}
-			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

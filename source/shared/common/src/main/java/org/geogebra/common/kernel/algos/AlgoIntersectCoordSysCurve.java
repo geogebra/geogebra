@@ -2,7 +2,7 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
@@ -31,11 +31,12 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 	/** curve */
 	protected GeoCurveCartesianND curve;
+
 	private Solution soln;
 	protected OutputHandler<GeoPointND> outputPoints; // output
 
 	/**
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 */
@@ -61,8 +62,8 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 			if (soln == null) {
 				soln = new Solution();
 			}
-			AlgoRootsPolynomial.calcRootsMultiple(geoFun.getFunction(),
-					0, soln, kernel.getEquationSolver());
+			AlgoRootsPolynomial.calcRootsMultiple(
+					geoFun.getFunction(), 0, soln, kernel.getEquationSolver());
 			soln.sortAndMakeUnique();
 			roots = soln.curRoots;
 			outputSize = soln.curRealRoots;
@@ -71,9 +72,8 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 		if (roots == null || outputSize == 0) {
 			// polynomial method hasn't worked
 			// solve a x(t) + b y(t) + c = 0 (for t)
-			roots = AlgoRoots.findRoots(geoFun.getFunction(),
-					curve.getMinParameter(),
-					curve.getMaxParameter(), 100);
+			roots = AlgoRoots.findRoots(
+					geoFun.getFunction(), curve.getMinParameter(), curve.getMaxParameter(), 100);
 
 			outputSize = roots == null || roots.length == 0 ? 1 : roots.length;
 		}
@@ -86,11 +86,9 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 		if (roots != null && roots.length > 0) {
 			for (index = 0; index < outputSize; index++) {
 				double paramVal = roots[index];
-				GeoPointND point = getOutputPoints()
-						.getElement(index);
+				GeoPointND point = getOutputPoints().getElement(index);
 
-				if (paramVal < curve.getMinParameter()
-						|| paramVal > curve.getMaxParameter()) {
+				if (paramVal < curve.getMinParameter() || paramVal > curve.getMaxParameter()) {
 					// intersection is not on the curve
 					point.setUndefined();
 				} else {
@@ -107,11 +105,10 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 		for (; index < getOutputPoints().size(); index++) {
 			getOutputPoints().getElement(index).setUndefined();
 		}
-
 	}
 
-	void getCoordsBySubstitution(FunctionVariable fv, double paramVal, GeoPointND point,
-			GeoCurveCartesianND curve1) {
+	void getCoordsBySubstitution(
+			FunctionVariable fv, double paramVal, GeoPointND point, GeoCurveCartesianND curve1) {
 		ExpressionNode xFun = curve1.getFun(0).getExpression();
 		ExpressionNode yFun = curve1.getFun(1).getExpression();
 		double z = 0;
@@ -136,7 +133,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param point
 	 *            output point
 	 * @param param
@@ -144,8 +141,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 	 * @param fv
 	 *            function variable
 	 */
-	protected final void updatePoint(GeoPointND point, double param,
-			FunctionVariable fv) {
+	protected final void updatePoint(GeoPointND point, double param, FunctionVariable fv) {
 
 		ExpressionNode xFun = curve.getFun(0).getExpression();
 		ExpressionNode yFun = curve.getFun(1).getExpression();
@@ -186,5 +182,4 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 			});
 		}
 	}
-
 }

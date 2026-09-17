@@ -32,15 +32,15 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
 /**
- * 
+ *
  * @author Markus
  */
 public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 		implements SymbolicParametersBotanaAlgo {
 	private BotanaEllipseHyperbolaLength botanaParams;
 
-	protected AlgoConicFociLength(Construction cons, String label, GeoPointND A, GeoPointND B,
-			GeoNumberValue a) {
+	protected AlgoConicFociLength(
+			Construction cons, String label, GeoPointND A, GeoPointND B, GeoNumberValue a) {
 		super(cons, label, A, B, a, null);
 	}
 
@@ -81,8 +81,7 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 	}
 
 	@Override
-	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
-			throws NoSymbolicParametersException {
+	public PPolynomial[] getBotanaPolynomials(GeoElementND geo) throws NoSymbolicParametersException {
 		if (botanaParams == null) {
 			botanaParams = new BotanaEllipseHyperbolaLength();
 		}
@@ -90,20 +89,24 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
 		if (conic.isEllipse() || conic.isCircle()) {
-			return getLoc().getPlainDefault(
-					"EllipseWithFociABandFirstAxisLengthC",
-					"Ellipse with foci %0, %1 and first axis' length %2",
-					A.getLabel(tpl), B.getLabel(tpl),
-					a.toGeoElement().getLabel(tpl));
+			return getLoc()
+					.getPlainDefault(
+							"EllipseWithFociABandFirstAxisLengthC",
+							"Ellipse with foci %0, %1 and first axis' length %2",
+							A.getLabel(tpl),
+							B.getLabel(tpl),
+							a.toGeoElement().getLabel(tpl));
 		}
 
-		return getLoc().getPlainDefault(
-				"HyperbolaWithFociABandFirstAxisLengthC",
-				"Hyperbola with foci %0, %1 and first axis' length %2",
-				A.getLabel(tpl), B.getLabel(tpl),
-				a.toGeoElement().getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"HyperbolaWithFociABandFirstAxisLengthC",
+						"Hyperbola with foci %0, %1 and first axis' length %2",
+						A.getLabel(tpl),
+						B.getLabel(tpl),
+						a.toGeoElement().getLabel(tpl));
 	}
 }

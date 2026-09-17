@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Algorithm for coefficients of a conic
- * 
+ *
  * @author Michael Borcherds
  */
 public abstract class AlgoEquationCoefficients extends AlgoElement {
@@ -43,8 +43,7 @@ public abstract class AlgoEquationCoefficients extends AlgoElement {
 	 * @param eqn
 	 *            equation
 	 */
-	public AlgoEquationCoefficients(Construction cons, String label,
-			GeoElementND eqn, int dim) {
+	public AlgoEquationCoefficients(Construction cons, String label, GeoElementND eqn, int dim) {
 		super(cons);
 		this.eqn = eqn;
 
@@ -59,7 +58,7 @@ public abstract class AlgoEquationCoefficients extends AlgoElement {
 
 	/**
 	 * Constructor for extending algos
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 */
@@ -88,7 +87,7 @@ public abstract class AlgoEquationCoefficients extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-		
+
 		g.setDefined(true);
 		extractCoefficients();
 	}
@@ -105,5 +104,4 @@ public abstract class AlgoEquationCoefficients extends AlgoElement {
 	public GeoList getResult() {
 		return g;
 	}
-
 }

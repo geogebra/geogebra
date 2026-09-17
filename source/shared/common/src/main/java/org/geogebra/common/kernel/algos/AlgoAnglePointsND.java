@@ -26,11 +26,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * 
+ *
  * @author Markus
  */
-public abstract class AlgoAnglePointsND extends AlgoAngle
-		implements DrawInformationAlgo {
+public abstract class AlgoAnglePointsND extends AlgoAngle implements DrawInformationAlgo {
 	/** first leg */
 	protected GeoPointND leg1N;
 	/** vertex */
@@ -52,8 +51,8 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 	 * @param orientation
 	 *            orientation for 3D or null
 	 */
-	public AlgoAnglePointsND(Construction cons, GeoPointND A, GeoPointND B,
-			GeoPointND C, GeoDirectionND orientation) {
+	public AlgoAnglePointsND(
+			Construction cons, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		super(cons);
 		setInput(A, B, C, orientation);
 		angle = newGeoAngle(cons);
@@ -65,7 +64,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 
 	/**
 	 * set input
-	 * 
+	 *
 	 * @param A
 	 *            first point
 	 * @param B
@@ -75,8 +74,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 	 * @param orientation
 	 *            orientation (can be null)
 	 */
-	protected void setInput(GeoPointND A, GeoPointND B, GeoPointND C,
-			GeoDirectionND orientation) {
+	protected void setInput(GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 
 		this.leg1N = A;
 		this.vertexN = B;
@@ -85,7 +83,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 
 	/**
 	 * used as a helper algo (for AlgoAnglePolygon)
-	 * 
+	 *
 	 * @param cons
 	 *            construction
 	 */
@@ -97,7 +95,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 
 	/**
 	 * set the points
-	 * 
+	 *
 	 * @param A
 	 *            leg
 	 * @param B
@@ -121,12 +119,10 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 	 * @param cons
 	 *            construction
 	 */
-	public AlgoAnglePointsND(GeoPointND A, GeoPointND B, GeoPointND C,
-			Construction cons) {
+	public AlgoAnglePointsND(GeoPointND A, GeoPointND B, GeoPointND C, Construction cons) {
 		super(cons);
 		this.cons = cons;
 		setABC(A, B, C);
-
 	}
 
 	/**
@@ -144,7 +140,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 
 	/**
 	 * For copy constructor
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param addToConstructionList
@@ -205,14 +201,17 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 		// vertexN.getLabel(tpl), leg2N.getLabel(tpl),
 		// algoAnglePoly.getPolygon().getNameDescription());
 		// }
-		return getLoc().getPlainDefault("AngleBetweenABC",
-				"Angle between %0, %1, %2", leg1N.getLabel(tpl),
-				vertexN.getLabel(tpl), leg2N.getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"AngleBetweenABC",
+						"Angle between %0, %1, %2",
+						leg1N.getLabel(tpl),
+						vertexN.getLabel(tpl),
+						leg2N.getLabel(tpl));
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec,
-			DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
 		Coords v = drawable.getCoordsInView(vertexN);
 		if (!drawable.inView(v)) {
 			return false;
@@ -255,13 +254,11 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 		secondVecScreen[0] -= vertexScreen[0];
 		secondVecScreen[1] -= vertexScreen[1];
 
-		drawable.setMaxRadius(0.5 * Math.sqrt(Math.min(
-				firstVecScreen[0] * firstVecScreen[0]
-						+ firstVecScreen[1] * firstVecScreen[1],
-				secondVecScreen[0] * secondVecScreen[0]
-						+ secondVecScreen[1] * secondVecScreen[1])));
+		drawable.setMaxRadius(0.5
+				* Math.sqrt(Math.min(
+						firstVecScreen[0] * firstVecScreen[0] + firstVecScreen[1] * firstVecScreen[1],
+						secondVecScreen[0] * secondVecScreen[0] + secondVecScreen[1] * secondVecScreen[1])));
 		return true;
-
 	}
 
 	@Override
@@ -273,5 +270,4 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 
 		return true;
 	}
-
 }

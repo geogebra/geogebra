@@ -75,7 +75,7 @@ public final class Controller implements JFugueElement {
 
 	/**
 	 * Sets the index of the controller event for this object.
-	 * 
+	 *
 	 * @param index
 	 *            the index of the controller
 	 */
@@ -85,7 +85,7 @@ public final class Controller implements JFugueElement {
 
 	/**
 	 * Returns the index of the controller event for this object.
-	 * 
+	 *
 	 * @return the index of the controller
 	 */
 	public byte getIndex() {
@@ -94,7 +94,7 @@ public final class Controller implements JFugueElement {
 
 	/**
 	 * Sets the value of the controller event for this object.
-	 * 
+	 *
 	 * @param value
 	 *            the byte value used to set the controller
 	 */
@@ -104,7 +104,7 @@ public final class Controller implements JFugueElement {
 
 	/**
 	 * Returns the value of the controller event for this object.
-	 * 
+	 *
 	 * @return the value of the controller
 	 */
 	public byte getValue() {
@@ -115,7 +115,7 @@ public final class Controller implements JFugueElement {
 	 * Returns the Music String representing this element and all of its
 	 * settings. For a Controller object, the Music String is <code>X</code>
 	 * <i>index</i>=<i>value</i>
-	 * 
+	 *
 	 * @return the Music String for this element
 	 */
 	@Override
@@ -131,7 +131,7 @@ public final class Controller implements JFugueElement {
 	/**
 	 * Returns verification string in this format: Controller: index={#},
 	 * value={#}
-	 * 
+	 *
 	 * @version 4.0
 	 */
 	@Override
@@ -282,5 +282,4 @@ public final class Controller implements JFugueElement {
 	public static final byte ON = 127;
 	public static final byte OFF = 0;
 	public static final byte DEFAULT = 64;
-
 }

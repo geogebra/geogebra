@@ -24,9 +24,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Dilation
- * 
+ *
  * @author Zbynek
- * 
+ *
  */
 public class TransformDilate extends Transform {
 
@@ -54,8 +54,7 @@ public class TransformDilate extends Transform {
 	 * @param center
 	 *            dilation center
 	 */
-	public TransformDilate(Construction cons, GeoNumberValue ratio,
-			GeoPointND center) {
+	public TransformDilate(Construction cons, GeoNumberValue ratio, GeoPointND center) {
 		this.ratio = ratio;
 		this.center = center;
 		this.cons = cons;
@@ -66,5 +65,4 @@ public class TransformDilate extends Transform {
 		AlgoDilate algo = new AlgoDilate(cons, geo, ratio, center);
 		return algo;
 	}
-
 }

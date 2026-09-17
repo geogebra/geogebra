@@ -10,5 +10,4 @@ public class CommandVPhantom extends Command1A {
 	public Atom newI(TeXParser tp, Atom a) {
 		return new PhantomAtom(a, false, true, true);
 	}
-
 }

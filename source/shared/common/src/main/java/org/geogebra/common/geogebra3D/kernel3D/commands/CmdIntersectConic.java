@@ -48,34 +48,31 @@ public class CmdIntersectConic extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
-			arg = resArgs(c, info);
+			case 2:
+				arg = resArgs(c, info);
 
-			// between 2 quadrics
-			if ((ok[0] = isQuadric(arg[0]))
-					&& (ok[1] = isQuadric(arg[1]))) {
-				GeoElement[] ret = kernel.getManager3D().intersectAsCircle(
-						c.getLabels(), (GeoQuadricND) arg[0],
-						(GeoQuadricND) arg[1]);
-				return ret;
-			}
+				// between 2 quadrics
+				if ((ok[0] = isQuadric(arg[0])) && (ok[1] = isQuadric(arg[1]))) {
+					GeoElement[] ret = kernel
+							.getManager3D()
+							.intersectAsCircle(c.getLabels(), (GeoQuadricND) arg[0], (GeoQuadricND) arg[1]);
+					return ret;
+				}
 
-			// intersection plane/quadric
-			GeoElement ret = CmdIntersectPath.processQuadricPlane(kernel, c,
-					arg, ok);
-			if (ret != null) {
-				return new GeoElement[] { ret };
-			}
+				// intersection plane/quadric
+				GeoElement ret = CmdIntersectPath.processQuadricPlane(kernel, c, arg, ok);
+				if (ret != null) {
+					return new GeoElement[] {ret};
+				}
 
-			throw argErr(c, getBadArg(ok, arg));
+				throw argErr(c, getBadArg(ok, arg));
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 
 	protected static boolean isQuadric(GeoElement geo) {
-		return geo instanceof GeoQuadric3D
-				|| geo instanceof GeoQuadric3DLimited;
+		return geo instanceof GeoQuadric3D || geo instanceof GeoQuadric3DLimited;
 	}
 }

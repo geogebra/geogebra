@@ -45,8 +45,7 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	@Override
 	public final void updateNavigationBar() {
 		if (app.getShowCPNavNeedsUpdate(id)) {
-			app.setShowConstructionProtocolNavigation(
-					app.showConsProtNavigation(id), id);
+			app.setShowConstructionProtocolNavigation(app.showConsProtNavigation(id), id);
 		}
 		if (app.showConsProtNavigation(id) && consProtNav == null) {
 			this.addNavigationBar();
@@ -77,8 +76,7 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 
 	@Override
 	public int navHeight() {
-		if (this.consProtNav != null
-				&& this.consProtNav.getImpl().getOffsetHeight() != 0) {
+		if (this.consProtNav != null && this.consProtNav.getImpl().getOffsetHeight() != 0) {
 			return this.consProtNav.getImpl().getOffsetHeight();
 		}
 		return 30;
@@ -88,14 +86,14 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	 * Add construction navigation bar.
 	 */
 	public final void addNavigationBar() {
-		consProtNav = (ConstructionProtocolNavigationW) app.getGuiManager()
-				.getConstructionProtocolNavigation(id);
+		consProtNav =
+				(ConstructionProtocolNavigationW) app.getGuiManager().getConstructionProtocolNavigation(id);
 		consProtNav.getImpl().addStyleName("consProtNav");
 		if (innerPanel == null) {
 			loadComponent();
 		}
 		innerPanel.add(consProtNav.getImpl()); // may be invisible, but
-													// made
+		// made
 		// visible later
 		updateNavigationBar();
 	}

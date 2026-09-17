@@ -1,7 +1,7 @@
 /*
  * Created on Jul 8, 2007
  *
- * Copyright (c) 2007, the JUNG Project and the Regents of the University 
+ * Copyright (c) 2007, the JUNG Project and the Regents of the University
  * of California
  * All rights reserved.
  *
@@ -27,7 +27,7 @@ public class VEPair<V, E> {
 
 	/**
 	 * Creates an instance with the specified vertex and edge
-	 * 
+	 *
 	 * @param v
 	 *            the vertex to add
 	 * @param e

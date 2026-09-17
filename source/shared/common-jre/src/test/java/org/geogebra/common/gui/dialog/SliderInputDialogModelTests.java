@@ -41,8 +41,8 @@ class SliderInputDialogModelTests extends BaseAppTestSetup {
 	@BeforeEach
 	void setUp() {
 		setupApp(SuiteSubApp.GRAPHING);
-		model = new SliderInputDialogModel(getApp(), getApp().getActiveEuclidianView(),
-				getLocalization(), getKernel(), 100, 100);
+		model = new SliderInputDialogModel(
+				getApp(), getApp().getActiveEuclidianView(), getLocalization(), getKernel(), 100, 100);
 	}
 
 	@Test
@@ -102,8 +102,7 @@ class SliderInputDialogModelTests extends BaseAppTestSetup {
 		String error = model.validateField(SliderType.NUMBER, Field.NAME, name);
 		assertAll(
 				() -> assertNotNull(error),
-				() -> assertEquals(previousName,
-						model.getLastValidField(SliderType.NUMBER, Field.NAME)));
+				() -> assertEquals(previousName, model.getLastValidField(SliderType.NUMBER, Field.NAME)));
 	}
 
 	@ParameterizedTest

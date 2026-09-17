@@ -40,16 +40,15 @@ import org.geogebra.common.util.StringUtil;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * 
+ *
  * @author Markus Hohenwarter
  */
-
-public class MyDouble extends ValidExpression
-		implements NumberValue {
+public class MyDouble extends ValidExpression implements NumberValue {
 	/**
 	 * Euler-Mascheroni constant
 	 */
 	public static final double EULER_GAMMA = 0.577215664901532860605;
+
 	private double val;
 	private int angleDim = 0;
 
@@ -74,7 +73,7 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * Creates new MyDouble
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param x
@@ -163,22 +162,21 @@ public class MyDouble extends ValidExpression
 		}
 
 		return ret;
-
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public final String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
 
 	@Override
-	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+	public final String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
 	/**
 	 * Switches to angle mode (to use degrees)
-	 * 
+	 *
 	 * @return reference to self
 	 */
 	public MyDouble setAngle() {
@@ -206,7 +204,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return random MyDouble
 	 */
-	final public MyDouble random() {
+	public final MyDouble random() {
 		set(kernel.randomNumberGenerator.getRandomNumber());
 		angleDim = 0;
 		return this;
@@ -214,7 +212,7 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * c = a + b
-	 * 
+	 *
 	 * @param a
 	 *            1st summand
 	 * @param b
@@ -229,7 +227,7 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * c = a - b
-	 * 
+	 *
 	 * @param a
 	 *            subtrahend
 	 * @param b
@@ -246,9 +244,9 @@ public class MyDouble extends ValidExpression
 	 * c = a * b
 	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
 	 * /Symbols/ShowAll.html
-	 * 
+	 *
 	 * https://tinyurl.com/ComplexMultiply
-	 * 
+	 *
 	 * @param a
 	 *            1st factor
 	 * @param b
@@ -269,13 +267,13 @@ public class MyDouble extends ValidExpression
 	}
 
 	protected static boolean isNumberImprecise(NumberValue numberValue) {
-		return !Double.isFinite(numberValue.getDouble()) || numberValue instanceof ValidExpression
-				&& ((ValidExpression) numberValue).isImprecise();
+		return !Double.isFinite(numberValue.getDouble())
+				|| numberValue instanceof ValidExpression && ((ValidExpression) numberValue).isImprecise();
 	}
 
 	/**
 	 * c = a / b
-	 * 
+	 *
 	 * @param a
 	 *            dividend
 	 * @param b
@@ -295,7 +293,7 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * c = pow(a,b)
-	 * 
+	 *
 	 * @param a
 	 *            base
 	 * @param b
@@ -315,7 +313,7 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * Like Math.pow, but Infinity ^ 0 -&gt; NaN
-	 * 
+	 *
 	 * @param a
 	 *            base
 	 * @param b
@@ -341,7 +339,7 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * c = -pow(-a,b)
-	 * 
+	 *
 	 * @param a
 	 *            base
 	 * @param b
@@ -349,8 +347,7 @@ public class MyDouble extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	public static void powDoubleSgnChange(MyDouble a, MyDouble b,
-			MyDouble c) {
+	public static void powDoubleSgnChange(MyDouble a, MyDouble b, MyDouble c) {
 		c.angleDim = b.angleDim > 0 ? 0 : a.angleDim;
 		c.set(-pow(-a.val, b.val));
 	}
@@ -358,7 +355,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return cos(this)
 	 */
-	final public MyDouble cos() {
+	public final MyDouble cos() {
 		set(Math.cos(val));
 		angleDim = 0;
 		checkZero();
@@ -368,7 +365,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return sin(this)
 	 */
-	final public MyDouble sin() {
+	public final MyDouble sin() {
 		boolean large = Math.abs(val) > 0.1;
 
 		set(Math.sin(val));
@@ -391,10 +388,10 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * Tangens function
-	 * 
+	 *
 	 * @return tangens of value
 	 */
-	final public MyDouble tan() {
+	public final MyDouble tan() {
 		boolean large = Math.abs(val) > 0.1;
 
 		// Math.tan() gives a very large number for tan(pi/2)
@@ -417,7 +414,7 @@ public class MyDouble extends ValidExpression
 	 * @param deg
 	 *            whether result should be degrees
 	 */
-	final public MyDouble acos(boolean deg) {
+	public final MyDouble acos(boolean deg) {
 		makeAngle(deg);
 		set(MyMath.acos(val));
 		return this;
@@ -428,7 +425,7 @@ public class MyDouble extends ValidExpression
 	 * @param deg
 	 *            whether result should be degrees
 	 */
-	final public MyDouble asin(boolean deg) {
+	public final MyDouble asin(boolean deg) {
 		makeAngle(deg);
 		set(MyMath.asin(val));
 		return this;
@@ -439,7 +436,7 @@ public class MyDouble extends ValidExpression
 	 * @param deg
 	 *            whether result should be degrees
 	 */
-	final public MyDouble atan(boolean deg) {
+	public final MyDouble atan(boolean deg) {
 		makeAngle(deg);
 		set(Math.atan(val));
 		return this;
@@ -452,7 +449,7 @@ public class MyDouble extends ValidExpression
 	 *            whether result should be degrees
 	 * @return atan2(this,y)
 	 */
-	final public MyDouble atan2(NumberValue y, boolean deg) {
+	public final MyDouble atan2(NumberValue y, boolean deg) {
 		makeAngle(deg);
 		set(Math.atan2(val, y.getDouble()));
 		return this;
@@ -465,7 +462,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return log(this)
 	 */
-	final public MyDouble log() {
+	public final MyDouble log() {
 		set(Math.log(val));
 		angleDim = 0;
 		return this;
@@ -476,7 +473,7 @@ public class MyDouble extends ValidExpression
 	 *            logarithm base
 	 * @return log_base(this)
 	 */
-	final public MyDouble log(NumberValue base) {
+	public final MyDouble log(NumberValue base) {
 		set(Math.log(val) / Math.log(base.getDouble()));
 		angleDim = 0;
 		return this;
@@ -485,7 +482,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return erf(this)
 	 */
-	final public MyDouble erf() {
+	public final MyDouble erf() {
 		set(MyMath2.erf(0.0, 1.0, val));
 		angleDim = 0;
 		return this;
@@ -496,7 +493,7 @@ public class MyDouble extends ValidExpression
 	 *            order
 	 * @return polygamma(this,order)
 	 */
-	final public MyDouble polygamma(NumberValue order) {
+	public final MyDouble polygamma(NumberValue order) {
 		set(MyMath2.polyGamma(order, val));
 		angleDim = 0;
 		return this;
@@ -506,7 +503,7 @@ public class MyDouble extends ValidExpression
 	 * @param branch 0 or -1
 	 * @return LambertW(this)
 	 */
-	final public MyDouble lambertW(double branch) {
+	public final MyDouble lambertW(double branch) {
 		if (DoubleUtil.isEqual(branch, 0)) {
 			set(LambertW.branch0(val));
 		} else if (DoubleUtil.isEqual(branch, -1)) {
@@ -521,7 +518,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return psi(this)
 	 */
-	final public MyDouble psi() {
+	public final MyDouble psi() {
 		set(MyMath2.psi(val));
 		angleDim = 0;
 		return this;
@@ -530,7 +527,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return log_10(this)
 	 */
-	final public MyDouble log10() {
+	public final MyDouble log10() {
 		set(Math.log(val) / MyMath.LOG10);
 		angleDim = 0;
 		return this;
@@ -539,7 +536,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return log_2(this)
 	 */
-	final public MyDouble log2() {
+	public final MyDouble log2() {
 		set(Math.log(val) / MyMath.LOG2);
 		angleDim = 0;
 		return this;
@@ -548,7 +545,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return exp(this)
 	 */
-	final public MyDouble exp() {
+	public final MyDouble exp() {
 		set(Math.exp(val));
 		angleDim = 0;
 		return this;
@@ -557,7 +554,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return sqrt(this)
 	 */
-	final public MyDouble sqrt() {
+	public final MyDouble sqrt() {
 		set(Math.sqrt(val));
 		angleDim = 0;
 		return this;
@@ -566,7 +563,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return cbrt(this)
 	 */
-	final public MyDouble cbrt() {
+	public final MyDouble cbrt() {
 		set(MyMath.cbrt(val));
 		angleDim = 0;
 		return this;
@@ -576,14 +573,14 @@ public class MyDouble extends ValidExpression
 	 * @param a
 	 *            difference to be added to value
 	 */
-	final public void add(double a) {
+	public final void add(double a) {
 		set(val + a);
 	}
 
 	/**
 	 * @return abs(this)
 	 */
-	final public MyDouble abs() {
+	public final MyDouble abs() {
 		set(Math.abs(val));
 		return this;
 	}
@@ -593,13 +590,12 @@ public class MyDouble extends ValidExpression
 	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return floor(this)
 	 */
-	final public MyDouble floor(int angleUnit) {
+	public final MyDouble floor(int angleUnit) {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise floor(60degrees) gives
 		// 59degrees
 		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
-			set(Kernel.PI_180 * Math
-					.floor(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
+			set(Kernel.PI_180 * Math.floor(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
 			setPrecise(Math.floor(DoubleUtil.checkInteger(val)));
@@ -616,12 +612,11 @@ public class MyDouble extends ValidExpression
 	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return ceil(this)
 	 */
-	final public MyDouble ceil(int angleUnit) {
+	public final MyDouble ceil(int angleUnit) {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise ceil(241deg) fails
 		if (angleDim == 1 && Kernel.angleUnitUsesDegrees(angleUnit)) {
-			set(Kernel.PI_180 * Math
-					.ceil(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
+			set(Kernel.PI_180 * Math.ceil(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
 			setPrecise(Math.ceil(DoubleUtil.checkInteger(val)));
@@ -634,21 +629,21 @@ public class MyDouble extends ValidExpression
 	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return round(this)
 	 */
-	final public MyDouble round(int angleUnit) {
+	public final MyDouble round(int angleUnit) {
 		doRound(0, angleUnit);
 		return this;
 	}
 
 	/**
 	 * For 12.34 round(1) rounds to 1 DP (yields 12.3), round(-1) yields 10
-	 * 
+	 *
 	 * @param digits
 	 *            number of digits
 	 * @param angleUnit
 	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return rounded value
 	 */
-	final public MyDouble round(double digits, int angleUnit) {
+	public final MyDouble round(double digits, int angleUnit) {
 		if (!DoubleUtil.isInteger(digits)) {
 			set(Double.NaN);
 		}
@@ -668,7 +663,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return sgn(this)
 	 */
-	final public MyDouble sgn() {
+	public final MyDouble sgn() {
 		set(MyMath.sgn(val));
 		angleDim = 0;
 		return this;
@@ -677,7 +672,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return cosh(this)
 	 */
-	final public MyDouble cosh() {
+	public final MyDouble cosh() {
 		set(MyMath.cosh(val));
 		angleDim = 0;
 		return this;
@@ -686,7 +681,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return sinh(this)
 	 */
-	final public MyDouble sinh() {
+	public final MyDouble sinh() {
 		set(MyMath.sinh(val));
 		angleDim = 0;
 		return this;
@@ -695,7 +690,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return tanh(this)
 	 */
-	final public MyDouble tanh() {
+	public final MyDouble tanh() {
 		set(MyMath.tanh(val));
 		angleDim = 0;
 		return this;
@@ -704,7 +699,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return acosh(this)
 	 */
-	final public MyDouble acosh() {
+	public final MyDouble acosh() {
 		set(MyMath.acosh(val));
 		angleDim = 0;
 		return this;
@@ -713,7 +708,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return asinh(this)
 	 */
-	final public MyDouble asinh() {
+	public final MyDouble asinh() {
 		set(MyMath.asinh(val));
 		angleDim = 0;
 		return this;
@@ -722,7 +717,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return csc(this)
 	 */
-	final public MyDouble csc() {
+	public final MyDouble csc() {
 		set(MyMath.csc(val));
 		angleDim = 0;
 		return this;
@@ -731,7 +726,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return sec(this)
 	 */
-	final public MyDouble sec() {
+	public final MyDouble sec() {
 		set(MyMath.sec(val));
 		angleDim = 0;
 		return this;
@@ -740,7 +735,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return cot(this)
 	 */
-	final public MyDouble cot() {
+	public final MyDouble cot() {
 		set(MyMath.cot(val));
 		angleDim = 0;
 		return this;
@@ -749,7 +744,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return csch(this)
 	 */
-	final public MyDouble csch() {
+	public final MyDouble csch() {
 		set(MyMath.csch(val));
 		angleDim = 0;
 		return this;
@@ -758,7 +753,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return sech(this)
 	 */
-	final public MyDouble sech() {
+	public final MyDouble sech() {
 		set(MyMath.sech(val));
 		angleDim = 0;
 		return this;
@@ -767,7 +762,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return coth(this)
 	 */
-	final public MyDouble coth() {
+	public final MyDouble coth() {
 		set(MyMath.coth(val));
 		angleDim = 0;
 		return this;
@@ -776,7 +771,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return atanh(this)
 	 */
-	final public MyDouble atanh() {
+	public final MyDouble atanh() {
 		set(MyMath.atanh(val));
 		angleDim = 0;
 		return this;
@@ -785,7 +780,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return atanh(this)
 	 */
-	final public MyDouble cosineIntegral() {
+	public final MyDouble cosineIntegral() {
 		set(MyMath2.ci(val));
 		angleDim = 0;
 		return this;
@@ -794,7 +789,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return atanh(this)
 	 */
-	final public MyDouble sineIntegral() {
+	public final MyDouble sineIntegral() {
 		set(MyMath2.si(val));
 		angleDim = 0;
 		return this;
@@ -803,7 +798,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return atanh(this)
 	 */
-	final public MyDouble expIntegral() {
+	public final MyDouble expIntegral() {
 		set(MyMath2.ei(val));
 		angleDim = 0;
 		return this;
@@ -812,7 +807,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return this!
 	 */
-	final public MyDouble factorial() {
+	public final MyDouble factorial() {
 		set(MyMath2.factorial(val));
 		angleDim = 0;
 		return this;
@@ -821,7 +816,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * @return gamma(this)
 	 */
-	final public MyDouble gamma() {
+	public final MyDouble gamma() {
 		set(MyMath2.gamma(val));
 		angleDim = 0;
 		return this;
@@ -831,7 +826,7 @@ public class MyDouble extends ValidExpression
 	 *
 	 * @return dirac(this)
 	 */
-	final public MyDouble dirac() {
+	public final MyDouble dirac() {
 		set(val == 0 ? Double.POSITIVE_INFINITY : 0);
 		angleDim = 0;
 		return this;
@@ -841,7 +836,7 @@ public class MyDouble extends ValidExpression
 	 *
 	 * @return heaviside(this)
 	 */
-	final public MyDouble heaviside() {
+	public final MyDouble heaviside() {
 		set(val < 0 ? 0 : 1);
 		angleDim = 0;
 		return this;
@@ -852,10 +847,10 @@ public class MyDouble extends ValidExpression
 	 *            function to evaluate
 	 * @return value of lt(this)
 	 */
-	final public MyDouble apply(Evaluatable lt) {
+	public final MyDouble apply(Evaluatable lt) {
 		set(lt.value(val));
 		angleDim = 0; // want function to return numbers eg f(x) = sin(x),
-						// f(45^o)
+		// f(45^o)
 		return this;
 	}
 
@@ -885,17 +880,17 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	final public boolean isLeaf() {
+	public final boolean isLeaf() {
 		return true;
 	}
 
 	@Override
-	final public double getDouble() {
+	public final double getDouble() {
 		return val;
 	}
 
 	@Override
-	final public GeoElement toGeoElement(Construction cons) {
+	public final GeoElement toGeoElement(Construction cons) {
 		return new GeoNumeric(cons, val);
 	}
 
@@ -905,13 +900,13 @@ public class MyDouble extends ValidExpression
 	}
 
 	@Override
-	final public boolean contains(ExpressionValue ev) {
+	public final boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 
 	/**
 	 * parse eg 3.45645% -&gt; 3.45645/100
-	 * 
+	 *
 	 * @param app
 	 *            application for showing errors
 	 * @param str
@@ -1091,8 +1086,7 @@ public class MyDouble extends ValidExpression
 	 *         (fractionalPart(-0.6)=-0.6)
 	 */
 	public ExpressionValue fractionalPart() {
-		return new MyDouble(kernel,
-				val > 0 ? val - Math.floor(val) : val - Math.ceil(val));
+		return new MyDouble(kernel, val > 0 ? val - Math.floor(val) : val - Math.ceil(val));
 	}
 
 	/**
@@ -1120,7 +1114,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * #5149 Double.toString(x) gives e not E in GWT (2.7 at least) (important
 	 * as GeoGebra parses 1e2 as 1 * e * 2)
-	 * 
+	 *
 	 * @param x
 	 *            x
 	 * @return x as String
@@ -1138,7 +1132,7 @@ public class MyDouble extends ValidExpression
 
 	/**
 	 * #5149 may not be needed, but best to be safe
-	 * 
+	 *
 	 * @param bd
 	 *            number
 	 * @return bd as String with e replaced by E
@@ -1164,7 +1158,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * 
+	 *
 	 * @param col
 	 *            color component
 	 * @return col transformed from double[0,1] to int[0,255] but truncated if
@@ -1175,7 +1169,7 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * 
+	 *
 	 * @param col
 	 *            color component
 	 * @return col truncated to the range int[0,255]
@@ -1188,13 +1182,12 @@ public class MyDouble extends ValidExpression
 		}
 
 		return col;
-
 	}
 
 	/**
 	 * Compares two numbers for EXACT equality [without causing a FindBugs
 	 * warning]. In most cases you should use Kernel.isEqual()
-	 * 
+	 *
 	 * @param a
 	 *            first number
 	 * @param b
@@ -1208,7 +1201,7 @@ public class MyDouble extends ValidExpression
 	/**
 	 * works for positive and negative numbers see
 	 * http://findbugs.sourceforge.net/bugDescriptions.html#IM_BAD_CHECK_FOR_ODD
-	 * 
+	 *
 	 * @param i
 	 *            tested number
 	 * @return true if i is odd
@@ -1216,7 +1209,7 @@ public class MyDouble extends ValidExpression
 	public static boolean isOdd(int i) {
 		return (i % 2) != 0;
 	}
-	
+
 	@Override
 	public double evaluateDouble() {
 		return getDouble();

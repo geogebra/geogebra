@@ -38,6 +38,7 @@ public class RoundingIndexProperty extends AbstractNamedEnumeratedProperty<Integ
 
 	@Weak
 	private App app;
+
 	private final RoundingOptions roundingOptions;
 	private int figuresIndex;
 
@@ -90,8 +91,7 @@ public class RoundingIndexProperty extends AbstractNamedEnumeratedProperty<Integ
 	 *            whether to skip the separator between DP and SF
 	 * @return position in rounding menu regarding current kernel settings
 	 */
-	final public int getMenuDecimalPosition(Kernel kernel,
-			boolean skipSeparator) {
+	public final int getMenuDecimalPosition(Kernel kernel, boolean skipSeparator) {
 		int pos = -1;
 
 		if (kernel.useSignificantFigures) {

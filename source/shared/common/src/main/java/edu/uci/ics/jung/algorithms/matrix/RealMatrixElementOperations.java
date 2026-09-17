@@ -1,12 +1,12 @@
 /*
-* Copyright (c) 2003, the JUNG Project and the Regents of the University 
-* of California
-* All rights reserved.
-*
-* This software is open-source under the BSD license; see either
-* "license.txt" or
-* http://jung.sourceforge.net/license.txt for a description.
-*/
+ * Copyright (c) 2003, the JUNG Project and the Regents of the University
+ * of California
+ * All rights reserved.
+ *
+ * This software is open-source under the BSD license; see either
+ * "license.txt" or
+ * http://jung.sourceforge.net/license.txt for a description.
+ */
 package edu.uci.ics.jung.algorithms.matrix;
 
 import java.util.HashMap;
@@ -15,11 +15,10 @@ import java.util.Map;
 /**
  * Implements the basic matrix operations on double-precision values. Assumes
  * that the edges have a MutableDouble value.
- * 
+ *
  * @author Joshua O'Madadhain
  */
-public class RealMatrixElementOperations<E>
-		implements MatrixElementOperations<E> {
+public class RealMatrixElementOperations<E> implements MatrixElementOperations<E> {
 	private Map<E, Number> edgeData = new HashMap<E, Number>();
 
 	/**
@@ -42,9 +41,7 @@ public class RealMatrixElementOperations<E>
 
 		} else {
 			edgeData.put(e, ed.doubleValue() + pd.doubleValue());
-
 		}
-
 	}
 
 	/**

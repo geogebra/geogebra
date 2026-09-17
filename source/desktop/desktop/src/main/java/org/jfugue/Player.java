@@ -72,24 +72,23 @@ public class Player {
 		try {
 			// Get default sequencer.
 			setSequencer(MidiSystem.getSequencer(connected)); // use non
-																// connected
-																// sequencer so
-																// no copy of
-																// live
-																// synthesizer
-																// will be
-																// created.
+			// connected
+			// sequencer so
+			// no copy of
+			// live
+			// synthesizer
+			// will be
+			// created.
 		} catch (MidiUnavailableException e) {
 			throw new JFugueException(
-					JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED_WITH_EXCEPTION
-							+ e.getMessage());
+					JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED_WITH_EXCEPTION + e.getMessage());
 		}
 		initParser();
 	}
 
 	/**
 	 * Creates a new Player instance using a Sequencer that you have provided.
-	 * 
+	 *
 	 * @param sequencer
 	 *            The Sequencer to send the MIDI events
 	 */
@@ -101,7 +100,7 @@ public class Player {
 	/**
 	 * Creates a new Player instance using a Sequencer obtained from the
 	 * Synthesizer that you have provided.
-	 * 
+	 *
 	 * @param synth
 	 *            The Synthesizer you want to use for this Player.
 	 */
@@ -126,8 +125,7 @@ public class Player {
 
 	private void openSequencer() {
 		if (getSequencer() == null) {
-			throw new JFugueException(
-					JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED);
+			throw new JFugueException(JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED);
 		}
 
 		// Open the sequencer, if it is not already open
@@ -136,15 +134,14 @@ public class Player {
 				getSequencer().open();
 			} catch (MidiUnavailableException e) {
 				throw new JFugueException(
-						JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED_WITH_EXCEPTION
-								+ e.getMessage());
+						JFugueException.SEQUENCER_DEVICE_NOT_SUPPORTED_WITH_EXCEPTION + e.getMessage());
 			}
 		}
 	}
 
 	/**
 	 * Plays a pattern by setting up a Renderer and feeding the pattern to it.
-	 * 
+	 *
 	 * @param pattern
 	 *            the pattern to play
 	 * @see MidiRenderer
@@ -156,7 +153,7 @@ public class Player {
 
 	/**
 	 * Plays a pattern by setting up a Renderer and feeding the pattern to it.
-	 * 
+	 *
 	 * @param rhythm
 	 *            the pattern to play
 	 * @see MidiRenderer
@@ -169,7 +166,7 @@ public class Player {
 
 	/**
 	 * Plays a MIDI Sequence
-	 * 
+	 *
 	 * @param sequence
 	 *            the Sequence to play
 	 * @throws JFugueException
@@ -184,8 +181,7 @@ public class Player {
 		try {
 			getSequencer().setSequence(sequence);
 		} catch (Exception e) {
-			throw new JFugueException(
-					JFugueException.ERROR_PLAYING_MUSIC + e.getMessage());
+			throw new JFugueException(JFugueException.ERROR_PLAYING_MUSIC + e.getMessage());
 		}
 
 		setStarted(true);
@@ -212,7 +208,7 @@ public class Player {
 	/**
 	 * Plays a string of music. Be sure to call player.close() after play() has
 	 * returned.
-	 * 
+	 *
 	 * @param musicString
 	 *            the MusicString (JFugue-formatted string) to play
 	 * @version 3.0
@@ -221,8 +217,7 @@ public class Player {
 		if (musicString.indexOf(".mid") > 0) {
 			// If the user tried to call this method with "filename.mid" or
 			// "filename.midi", throw the following exception
-			throw new JFugueException(
-					JFugueException.PLAYS_STRING_NOT_FILE_EXC);
+			throw new JFugueException(JFugueException.PLAYS_STRING_NOT_FILE_EXC);
 		}
 
 		Pattern pattern = new Pattern(musicString);
@@ -232,15 +227,14 @@ public class Player {
 	/**
 	 * Plays a MIDI file, without doing any conversions to MusicStrings. Be sure
 	 * to call player.close() after play() has returned.
-	 * 
+	 *
 	 * @param file
 	 *            the MIDI file to play
 	 * @throws IOException
 	 * @throws InvalidMidiDataException
 	 * @version 3.0
 	 */
-	public void playMidiDirectly(File file)
-			throws IOException, InvalidMidiDataException {
+	public void playMidiDirectly(File file) throws IOException, InvalidMidiDataException {
 		Sequence sequence = MidiSystem.getSequence(file);
 		play(sequence);
 	}
@@ -248,15 +242,14 @@ public class Player {
 	/**
 	 * Plays a URL that contains a MIDI sequence. Be sure to call player.close()
 	 * after play() has returned.
-	 * 
+	 *
 	 * @param url
 	 *            the URL to play
 	 * @throws IOException
 	 * @throws InvalidMidiDataException
 	 * @version 3.0
 	 */
-	public void playMidiDirectly(URL url)
-			throws IOException, InvalidMidiDataException {
+	public void playMidiDirectly(URL url) throws IOException, InvalidMidiDataException {
 		Sequence sequence = MidiSystem.getSequence(url);
 		play(sequence);
 	}
@@ -267,8 +260,7 @@ public class Player {
 		play(anticipator, sequence, sequence2, offset);
 	}
 
-	public void play(Anticipator anticipator, Sequence sequence,
-			Sequence sequence2, long offset) {
+	public void play(Anticipator anticipator, Sequence sequence, Sequence sequence2, long offset) {
 		anticipator.play(sequence);
 
 		if (offset > 0) {
@@ -292,8 +284,7 @@ public class Player {
 				MidiSystem.getSynthesizer().close();
 			}
 		} catch (MidiUnavailableException e) {
-			throw new JFugueException(
-					JFugueException.GENERAL_ERROR + e.getMessage());
+			throw new JFugueException(JFugueException.GENERAL_ERROR + e.getMessage());
 		}
 	}
 
@@ -353,7 +344,7 @@ public class Player {
 
 	/**
 	 * Saves the MIDI data from a pattern into a file.
-	 * 
+	 *
 	 * @param pattern
 	 *            the pattern to save
 	 * @param file
@@ -373,7 +364,7 @@ public class Player {
 
 	/**
 	 * Saves the MIDI data from a MusicString into a file.
-	 * 
+	 *
 	 * @param musicString
 	 *            the MusicString to save
 	 * @param file
@@ -404,8 +395,7 @@ public class Player {
 	 * @throws InvalidMidiDataException
 	 *             If there is a problem obtaining MIDI resources
 	 */
-	public Pattern loadMidi(File file)
-			throws IOException, InvalidMidiDataException {
+	public Pattern loadMidi(File file) throws IOException, InvalidMidiDataException {
 		MidiFileFormat format = MidiSystem.getMidiFileFormat(file);
 		this.sequenceTiming = format.getDivisionType();
 		this.resolution = format.getResolution();
@@ -440,7 +430,7 @@ public class Player {
 	/**
 	 * Returns the sequencer containing the MIDI data from a pattern that has
 	 * been parsed.
-	 * 
+	 *
 	 * @return the Sequencer from the pattern that was recently parsed
 	 */
 	public Sequencer getSequencer() {
@@ -454,7 +444,7 @@ public class Player {
 
 	/**
 	 * Returns the sequence containing the MIDI data from the given pattern.
-	 * 
+	 *
 	 * @return the Sequence from the given pattern
 	 */
 	public Sequence getSequence(Pattern pattern) {
@@ -478,24 +468,24 @@ public class Player {
 	 * @throws MidiUnavailableException
 	 * @version 4.0
 	 */
-	public static Sequencer getSequencerConnectedToSynthesizer(
-			Synthesizer synth) throws MidiUnavailableException {
+	public static Sequencer getSequencerConnectedToSynthesizer(Synthesizer synth)
+			throws MidiUnavailableException {
 		Sequencer sequencer = MidiSystem.getSequencer(false); // Get Sequencer
-																// which is not
-																// connected to
-																// new
-																// Synthesizer.
+		// which is not
+		// connected to
+		// new
+		// Synthesizer.
 		sequencer.open();
 		if (!synth.isOpen()) {
 			synth.open();
 		}
 		sequencer.getTransmitter().setReceiver(synth.getReceiver()); // Connect
-																		// the
-																		// Synthesizer
-																		// to
-																		// our
-																		// synthesizer
-																		// instance.
+		// the
+		// Synthesizer
+		// to
+		// our
+		// synthesizer
+		// instance.
 		return sequencer;
 	}
 }

@@ -44,24 +44,20 @@ public final class PointStylePopup extends PopupMenuButtonW {
 	 *            whether slider for size should be used
 	 * @return point style popup
 	 */
-	public static PointStylePopup create(AppW app, int mode,
-			boolean hasSlider) {
-		
+	public static PointStylePopup create(AppW app, int mode, boolean hasSlider) {
+
 		pointStyleMap.clear();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 		}
 
-		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianView
-				.getPointStyleLength()];
+		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianView.getPointStyleLength()];
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
-			pointStyleIcons[i] = GeoGebraIconW
-					.createPointStyleIcon(EuclidianView.getPointStyle(i));
+			pointStyleIcons[i] = GeoGebraIconW.createPointStyleIcon(EuclidianView.getPointStyle(i));
 		}
 
-		PointStylePopup popup = new PointStylePopup(app, pointStyleIcons, 2,
-				SelectionTable.MODE_ICON, true,
-				hasSlider);
+		PointStylePopup popup =
+				new PointStylePopup(app, pointStyleIcons, 2, SelectionTable.MODE_ICON, true, hasSlider);
 		popup.mode = mode;
 		return popup;
 	}
@@ -80,8 +76,13 @@ public final class PointStylePopup extends PopupMenuButtonW {
 	 * @param hasSlider
 	 *            whether size slider is used
 	 */
-	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows, SelectionTable tableMode,
-			boolean hasTable, boolean hasSlider) {
+	public PointStylePopup(
+			AppW app,
+			ImageOrText[] data,
+			Integer rows,
+			SelectionTable tableMode,
+			boolean hasTable,
+			boolean hasSlider) {
 		super(app, data, rows, -1, tableMode, hasTable, hasSlider);
 		getMyPopup().addStyleName("pointSizeSlider");
 		euclidian3D = false;
@@ -113,13 +114,12 @@ public final class PointStylePopup extends PopupMenuButtonW {
 	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
-			return GeoGebraIconW
-					.createPointStyleIcon(EuclidianView
-							.getPointStyle(this.getSelectedIndex()));
+			return GeoGebraIconW.createPointStyleIcon(
+					EuclidianView.getPointStyle(this.getSelectedIndex()));
 		}
 		return new ImageOrText();
 	}
-	
+
 	@Override
 	public int getSliderValue() {
 		int val = super.getSliderValue();

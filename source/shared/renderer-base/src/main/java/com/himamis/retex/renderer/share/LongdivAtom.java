@@ -57,13 +57,11 @@ public class LongdivAtom extends VRowAtom {
 		setHalign(TeXConstants.Align.RIGHT);
 		setVtop(true);
 		String[] res = makeResults(divisor, dividend);
-		Atom rule = new RuleAtom(new TeXLength(Unit.EX, 0.),
-				new TeXLength(Unit.EX, 2.6),
-				new TeXLength(Unit.EX, 0.5));
+		Atom rule = new RuleAtom(
+				new TeXLength(Unit.EX, 0.), new TeXLength(Unit.EX, 2.6), new TeXLength(Unit.EX, 0.5));
 		for (int i = 0; i < res.length; ++i) {
 			if (i % 2 == 0) {
-				final RowAtom ra = TeXParser.getAtomForLatinStr(res[i],
-						new RowAtom(), tp.isMathMode());
+				final RowAtom ra = TeXParser.getAtomForLatinStr(res[i], new RowAtom(), tp.isMathMode());
 				ra.add(rule);
 				if (i == 0) {
 					append(ra);
@@ -76,20 +74,17 @@ public class LongdivAtom extends VRowAtom {
 				Atom big = new BigDelimiterAtom(rparen, 1);
 				Atom ph = new PhantomAtom(big, false, true, true);
 				RowAtom ra = new RowAtom(ph);
-				Atom raised = new RaiseAtom(big,
-						new TeXLength(Unit.X8, 3.5),
-						TeXLength.getZero(), TeXLength.getZero());
+				Atom raised = new RaiseAtom(
+						big, new TeXLength(Unit.X8, 3.5), TeXLength.getZero(), TeXLength.getZero());
 				ra.add(new SmashedAtom(raised));
 				ra.add(TeXParser.getAtomForLatinStr(res[i], tp.isMathMode()));
 				Atom a = new OverlinedAtom(ra);
-				RowAtom ra1 = TeXParser.getAtomForLatinStr(div, new RowAtom(),
-						tp.isMathMode());
+				RowAtom ra1 = TeXParser.getAtomForLatinStr(div, new RowAtom(), tp.isMathMode());
 				ra1.add(new SpaceAtom(TeXConstants.Muskip.THIN));
 				ra1.add(a);
 				append(ra1);
 			} else {
-				final RowAtom ra = TeXParser.getAtomForLatinStr(res[i],
-						new RowAtom(), tp.isMathMode());
+				final RowAtom ra = TeXParser.getAtomForLatinStr(res[i], new RowAtom(), tp.isMathMode());
 				ra.add(rule);
 				append(ra);
 			}

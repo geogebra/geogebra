@@ -129,17 +129,17 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis"));
 
 		switch (sc.getSelectedProcedure()) {
-		case ZMEAN2_TEST:
-		case TMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_CI:
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-			lblSampleHeader1.setText(loc.getMenu("Sample1"));
-			break;
+			case ZMEAN2_TEST:
+			case TMEAN2_TEST:
+			case ZMEAN2_CI:
+			case TMEAN2_CI:
+			case ZPROP2_TEST:
+			case ZPROP2_CI:
+				lblSampleHeader1.setText(loc.getMenu("Sample1"));
+				break;
 
-		default:
-			lblSampleHeader1.setText(loc.getMenu("Sample"));
+			default:
+				lblSampleHeader1.setText(loc.getMenu("Sample"));
 		}
 
 		lblSampleHeader2.setText(loc.getMenu("Sample2"));
@@ -158,31 +158,30 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 
 	private void setHypParameterLabel() {
 		switch (sc.getSelectedProcedure()) {
-		case ZMEAN_TEST:
-		case TMEAN_TEST:
-			fldNullHyp.updateLabel("HypothesizedMean.short");
-			break;
-		case ZMEAN2_TEST:
-		case TMEAN2_TEST:
-			fldNullHyp.updateLabel("DifferenceOfMeans.short");
-			break;
-		case ZPROP_TEST:
-			fldNullHyp.updateLabel("HypothesizedProportion.short");
-			break;
-		case ZPROP2_TEST:
-			fldNullHyp.updateLabel("DifferenceOfProportions.short");
-			break;
-		default:
-			fldNullHyp.updateLabel("");
+			case ZMEAN_TEST:
+			case TMEAN_TEST:
+				fldNullHyp.updateLabel("HypothesizedMean.short");
+				break;
+			case ZMEAN2_TEST:
+			case TMEAN2_TEST:
+				fldNullHyp.updateLabel("DifferenceOfMeans.short");
+				break;
+			case ZPROP_TEST:
+				fldNullHyp.updateLabel("HypothesizedProportion.short");
+				break;
+			case ZPROP2_TEST:
+				fldNullHyp.updateLabel("DifferenceOfProportions.short");
+				break;
+			default:
+				fldNullHyp.updateLabel("");
 		}
 	}
 
 	private void initStatisticalTest() {
-		PropertyView statisticalTestProperty = PropertyView.of(
-				new StatisticalTestTypeProperty(loc, sc));
+		PropertyView statisticalTestProperty =
+				PropertyView.of(new StatisticalTestTypeProperty(loc, sc));
 		if (statisticalTestProperty instanceof PropertyView.Dropdown dropdown) {
-			statisticalTest = new ComponentDropDown((AppW) app,
-					dropdown.getPropertyName(), dropdown);
+			statisticalTest = new ComponentDropDown((AppW) app, dropdown.getPropertyName(), dropdown);
 			statisticalTest.addChangeHandler(() -> {
 				this.panelChiSquare.updateCollection();
 				updateGUI();
@@ -191,8 +190,8 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 		}
 	}
 
-	private void updateFieldLabelAndVisibility(TextObject textObject, String label,
-			boolean visibility) {
+	private void updateFieldLabelAndVisibility(
+			TextObject textObject, String label, boolean visibility) {
 		textObject.updateLabel(label);
 		textObject.setVisible(visibility);
 	}
@@ -204,51 +203,51 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 		}
 
 		switch (sc.getSelectedProcedure()) {
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
-			updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[1], strSigma, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
-			break;
-		case TMEAN_TEST:
-		case TMEAN_CI:
-			updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[1], strSD, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
-			break;
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
-			updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[1], strSigma, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[0], strMean, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[1], strSigma, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[2], strN, true);
-			break;
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
-			updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[1], strSD, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[0], strMean, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[1], strSD, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[2], strN, true);
-			break;
-		case ZPROP_TEST:
-		case ZPROP_CI:
-			updateFieldLabelAndVisibility(fldSampleStat1[0], strSuccesses, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[1], strN, true);
-			break;
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-			updateFieldLabelAndVisibility(fldSampleStat1[0], strSuccesses, true);
-			updateFieldLabelAndVisibility(fldSampleStat1[1], strN, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[0], strSuccesses, true);
-			updateFieldLabelAndVisibility(fldSampleStat2[1], strN, true);
-			break;
-		default:
-			// do nothing
-			break;
+			case ZMEAN_TEST:
+			case ZMEAN_CI:
+				updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[1], strSigma, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
+				break;
+			case TMEAN_TEST:
+			case TMEAN_CI:
+				updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[1], strSD, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
+				break;
+			case ZMEAN2_TEST:
+			case ZMEAN2_CI:
+				updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[1], strSigma, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[0], strMean, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[1], strSigma, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[2], strN, true);
+				break;
+			case TMEAN2_TEST:
+			case TMEAN2_CI:
+				updateFieldLabelAndVisibility(fldSampleStat1[0], strMean, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[1], strSD, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[2], strN, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[0], strMean, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[1], strSD, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[2], strN, true);
+				break;
+			case ZPROP_TEST:
+			case ZPROP_CI:
+				updateFieldLabelAndVisibility(fldSampleStat1[0], strSuccesses, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[1], strN, true);
+				break;
+			case ZPROP2_TEST:
+			case ZPROP2_CI:
+				updateFieldLabelAndVisibility(fldSampleStat1[0], strSuccesses, true);
+				updateFieldLabelAndVisibility(fldSampleStat1[1], strN, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[0], strSuccesses, true);
+				updateFieldLabelAndVisibility(fldSampleStat2[1], strN, true);
+				break;
+			default:
+				// do nothing
+				break;
 		}
 	}
 
@@ -271,14 +270,14 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
 		switch (sc.getSelectedProcedure()) {
-		case CHISQ_TEST:
-		case GOF_TEST:
-			panelChiSquare.getWrappedPanel().setVisible(true);
-			panelChiSquare.updateGUI();
-			break;
-		default:
-			setInputPanelLayout();
-			panelBasicProcedures.setVisible(true);
+			case CHISQ_TEST:
+			case GOF_TEST:
+				panelChiSquare.getWrappedPanel().setVisible(true);
+				panelChiSquare.updateGUI();
+				break;
+			default:
+				setInputPanelLayout();
+				panelBasicProcedures.setVisible(true);
 		}
 	}
 
@@ -322,33 +321,33 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 		}
 
 		switch (sc.getSelectedProcedure()) {
-		case ZMEAN_TEST:
-		case ZMEAN2_TEST:
-		case TMEAN_TEST:
-		case TMEAN2_TEST:
-		case ZPROP_TEST:
-		case ZPROP2_TEST:
-			panelTestAndCI.add(lblNull);
-			panelTestAndCI.add((Widget) fldNullHyp);
-			panelTestAndCI.add(new LineBreak());
-			panelTestAndCI.add(lblTailType);
-			panelTestAndCI.add(tailRadioButtonPanel);
-			panelTestAndCI.add(new LineBreak());
-			panelTestAndCI.add(ckPooled);
-			break;
-		case ZMEAN_CI:
-		case ZMEAN2_CI:
-		case TMEAN_CI:
-		case TMEAN2_CI:
-		case ZPROP_CI:
-		case ZPROP2_CI:
-			panelTestAndCI.add((Widget) fldConfLevel);
-			panelTestAndCI.add(new LineBreak());
-			panelTestAndCI.add(ckPooled);
-			break;
-		default:
-			// do nothing
-			break;
+			case ZMEAN_TEST:
+			case ZMEAN2_TEST:
+			case TMEAN_TEST:
+			case TMEAN2_TEST:
+			case ZPROP_TEST:
+			case ZPROP2_TEST:
+				panelTestAndCI.add(lblNull);
+				panelTestAndCI.add((Widget) fldNullHyp);
+				panelTestAndCI.add(new LineBreak());
+				panelTestAndCI.add(lblTailType);
+				panelTestAndCI.add(tailRadioButtonPanel);
+				panelTestAndCI.add(new LineBreak());
+				panelTestAndCI.add(ckPooled);
+				break;
+			case ZMEAN_CI:
+			case ZMEAN2_CI:
+			case TMEAN_CI:
+			case TMEAN2_CI:
+			case ZPROP_CI:
+			case ZPROP2_CI:
+				panelTestAndCI.add((Widget) fldConfLevel);
+				panelTestAndCI.add(new LineBreak());
+				panelTestAndCI.add(ckPooled);
+				break;
+			default:
+				// do nothing
+				break;
 		}
 
 		if (forceZeroHypothesis()) {
@@ -397,15 +396,17 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 		bodyText = new StringBuilder();
 
 		ckPooled = new ComponentCheckbox(loc, false, "Pooled", selected -> {
-					sc.pooled = selected;
-					updateResult(true);
-				});
+			sc.pooled = selected;
+			updateResult(true);
+		});
 		ckPooled.addStyleName("ckPooled");
 
 		initStatisticalTest();
 
-		tailRadioButtonPanel = new RadioButtonPanel<>(loc,
-				Arrays.asList(newRadioButtonData(StatisticsCollection.tail_left),
+		tailRadioButtonPanel = new RadioButtonPanel<>(
+				loc,
+				Arrays.asList(
+						newRadioButtonData(StatisticsCollection.tail_left),
 						newRadioButtonData(StatisticsCollection.tail_right),
 						newRadioButtonData(StatisticsCollection.tail_two)),
 				StatisticsCollection.tail_two,
@@ -434,8 +435,8 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 	}
 
 	private TextObject buildTextField(String label) {
-		ComponentInputField textField = new ComponentInputField((AppW) app, "", loc.getMenu(label),
-				"", "");
+		ComponentInputField textField =
+				new ComponentInputField((AppW) app, "", loc.getMenu(label), "", "");
 		textField.addDomHandler(this, KeyUpEvent.getType());
 		textField.addDomHandler(this, BlurEvent.getType());
 		addInsertHandler(textField.getTextWidget(), this::doTextFieldActionPerformed);
@@ -459,8 +460,7 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 	public void onKeyUp(KeyUpEvent event) {
 		if (event.getNativeKeyCode() != KeyCodes.KEY_LEFT
 				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) {
-			doTextFieldActionPerformed(
-					event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
+			doTextFieldActionPerformed(event.getNativeKeyCode() == KeyCodes.KEY_ENTER);
 		}
 	}
 
@@ -469,8 +469,8 @@ public final class StatisticsCalculatorW extends StatisticsCalculator
 	 * @param field - text field
 	 * @param handler - on input
 	 */
-	public static void addInsertHandler(final AutoCompleteTextFieldW field,
-			Consumer<Boolean> handler) {
+	public static void addInsertHandler(
+			final AutoCompleteTextFieldW field, Consumer<Boolean> handler) {
 		field.enableGGBKeyboard();
 		field.addInsertHandler(text -> {
 			handler.accept(false);

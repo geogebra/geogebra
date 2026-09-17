@@ -25,7 +25,7 @@ import jsinterop.base.JsPropertyMap;
 
 @JsType(isNative = true, name = "window", namespace = JsPackage.GLOBAL)
 public final class FileSystemAPI {
-	private FileSystemAPI() { }
+	private FileSystemAPI() {}
 
 	public static native Promise<FileSystemFileHandle> showSaveFilePicker(JsPropertyMap<?> options);
 

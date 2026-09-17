@@ -57,8 +57,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 	 */
 	protected void avoidDoubleTangentPoint() {
 		GeoPointND[] points = getIntersectionPoints();
-		if (!points[1].isLabelSet()
-				&& points[0].isEqual(points[1])) {
+		if (!points[1].isLabelSet() && points[0].isEqual(points[1])) {
 			points[1].setUndefined();
 		}
 	}
@@ -110,7 +109,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 	 * Sets the index-th intersection point to the coords of p. This is needed
 	 * when loading constructions from a file to make sure the intersection
 	 * points remain at their saved positions.
-	 * 
+	 *
 	 * @param index
 	 *            index
 	 * @param p
@@ -161,35 +160,36 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 
 	/**
 	 * set destination coords equals to source coords
-	 * 
+	 *
 	 * @param destination
 	 *            destination point
 	 * @param source
 	 *            source point
 	 */
-	abstract protected void setCoords(GeoPointND destination,
-			GeoPointND source);
+	protected abstract void setCoords(GeoPointND destination, GeoPointND source);
 	// points[index].setCoords(p);
 
 	/**
 	 * Returns true if setIntersectionPoint was called for index-th point.
-	 * 
+	 *
 	 * @param index
 	 *            index of point
 	 * @return true if setIntersectionPoint was called for index-th point.
 	 */
 	protected boolean didSetIntersectionPoint(int index) {
-		return didSetIntersectionPointArray != null
-				&& didSetIntersectionPointArray[index];
+		return didSetIntersectionPointArray != null && didSetIntersectionPointArray[index];
 	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlainDefault("IntersectionPointOfAB",
-				"Intersection point of %0, %1",
-				input[0].getLabel(tpl), input[1].getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"IntersectionPointOfAB",
+						"Intersection point of %0, %1",
+						input[0].getLabel(tpl),
+						input[1].getLabel(tpl));
 	}
 
 	@Override
@@ -211,5 +211,4 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 			setPrintedInXML(false);
 		}
 	}
-
 }

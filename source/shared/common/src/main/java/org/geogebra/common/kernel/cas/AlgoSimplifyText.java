@@ -25,7 +25,7 @@ import org.geogebra.editor.share.util.Unicode;
 
 /**
  * Parses the input as a function, simplifies it and returns as text
- * 
+ *
  * @author Michael
  */
 public class AlgoSimplifyText extends AlgoElement {
@@ -124,5 +124,4 @@ public class AlgoSimplifyText extends AlgoElement {
 
 		text.setTextString(ret);
 	}
-
 }

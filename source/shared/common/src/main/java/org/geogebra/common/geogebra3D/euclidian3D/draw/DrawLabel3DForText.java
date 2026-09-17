@@ -31,7 +31,7 @@ import org.jspecify.annotations.NonNull;
 
 /**
  * class for drawing texts
- * 
+ *
  * @author mathieu
  *
  */
@@ -45,35 +45,67 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	final protected GRectangle getBounds(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
+	protected final GRectangle getBounds(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
 		if (geo.isLaTeX()) {
-			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					measuringGraphics, geo, measuringGraphics, cpt.font(), GColor.BLACK,
-					GColor.WHITE, cpt.text(), 0, 0,
-					geo.isSerifFont(), getCallBack(),
+			EuclidianStatic.drawMultilineLaTeX(
+					view.getApplication(),
+					measuringGraphics,
+					geo,
+					measuringGraphics,
+					cpt.font(),
+					GColor.BLACK,
+					GColor.WHITE,
+					cpt.text(),
+					0,
+					0,
+					geo.isSerifFont(),
+					getCallBack(),
 					bounds);
 		} else {
-			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
-					cpt.text(), measuringGraphics, bounds, cpt.font(),
-					geo.isSerifFont(), 0, 0, DrawText.DEFAULT_MARGIN);
+			EuclidianStatic.drawIndexedMultilineString(
+					view.getApplication(),
+					cpt.text(),
+					measuringGraphics,
+					bounds,
+					cpt.font(),
+					geo.isSerifFont(),
+					0,
+					0,
+					DrawText.DEFAULT_MARGIN);
 		}
 		return bounds;
 	}
 
 	@Override
-	final protected GBufferedImage draw(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
+	protected final GBufferedImage draw(@NonNull CaptionText cpt, GGraphics2D measuringGraphics) {
 		GBufferedImage bimg = createBufferedImage();
 		GGraphics2D g2d = createGraphics2D(bimg, cpt);
 
 		if (geo.isLaTeX()) {
-			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-					measuringGraphics, geo, g2d, cpt.font(), GColor.BLACK, GColor.WHITE,
-					cpt.text(), 0, 0, geo.isSerifFont(),
-					getCallBack(), null);
+			EuclidianStatic.drawMultilineLaTeX(
+					view.getApplication(),
+					measuringGraphics,
+					geo,
+					g2d,
+					cpt.font(),
+					GColor.BLACK,
+					GColor.WHITE,
+					cpt.text(),
+					0,
+					0,
+					geo.isSerifFont(),
+					getCallBack(),
+					null);
 		} else {
-			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
-					cpt.text(), g2d, AwtFactory.getPrototype().newRectangle(),
-					g2d.getFont(), geo.isSerifFont(), 0, 0,
+			EuclidianStatic.drawIndexedMultilineString(
+					view.getApplication(),
+					cpt.text(),
+					g2d,
+					AwtFactory.getPrototype().newRectangle(),
+					g2d.getFont(),
+					geo.isSerifFont(),
+					0,
+					0,
 					DrawText.DEFAULT_MARGIN);
 		}
 
@@ -110,9 +142,16 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		}
 
 		int old = highLightIndex;
-		highLightIndex = renderer.getGeometryManager().rectangleBounds(drawX,
-				drawY, drawZ, width / getFontScale(), height / getFontScale(),
-				highLightIndex, Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH);
+		highLightIndex = renderer
+				.getGeometryManager()
+				.rectangleBounds(
+						drawX,
+						drawY,
+						drawZ,
+						width / getFontScale(),
+						height / getFontScale(),
+						highLightIndex,
+						Drawable.UI_ELEMENT_HIGHLIGHT_WIDTH);
 		renderer.getGeometryManager().remove(old);
 	}
 
@@ -134,10 +173,10 @@ public class DrawLabel3DForText extends DrawLabel3D {
 				return;
 			}
 
-			drawX = (int) (origin.getX() - drawable.getView3D().getWidth() / 2.0
-					+ xOffset2 / getFontScale());
-			drawY = (int) (drawable.getView3D().getHeight() / 2.0
-					- origin.getY() + yOffset2 / getFontScale());
+			drawX =
+					(int) (origin.getX() - drawable.getView3D().getWidth() / 2.0 + xOffset2 / getFontScale());
+			drawY = (int)
+					(drawable.getView3D().getHeight() / 2.0 - origin.getY() + yOffset2 / getFontScale());
 			drawZ = 0;
 
 		} else {
@@ -150,5 +189,4 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		super.removeFromGL();
 		view.getRenderer().getGeometryManager().remove(highLightIndex);
 	}
-
 }

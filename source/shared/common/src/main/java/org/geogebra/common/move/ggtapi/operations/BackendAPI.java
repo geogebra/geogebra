@@ -113,8 +113,14 @@ public interface BackendAPI {
 	 * @param type - material type
 	 * @param isMultiuser - should set to multiuser shared
 	 */
-	void uploadMaterial(String tubeID, String visibility, String filename, String base64,
-			MaterialCallbackI cb, MaterialType type, boolean isMultiuser);
+	void uploadMaterial(
+			String tubeID,
+			String visibility,
+			String filename,
+			String base64,
+			MaterialCallbackI cb,
+			MaterialType type,
+			boolean isMultiuser);
 
 	/**
 	 * @param student
@@ -127,5 +133,4 @@ public interface BackendAPI {
 	 * @return whether anonymous user can open shared links
 	 */
 	boolean anonymousOpen();
-
 }

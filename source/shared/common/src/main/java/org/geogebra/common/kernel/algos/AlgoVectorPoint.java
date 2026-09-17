@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  * Vector v = P - (0, 0)
- * 
+ *
  * @author Markus
  */
 public class AlgoVectorPoint extends AlgoElement {
@@ -126,5 +126,4 @@ public class AlgoVectorPoint extends AlgoElement {
 		v2D.y = ((GeoPoint) P).inhomY;
 		v2D.z = 0.0;
 	}
-
 }

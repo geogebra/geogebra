@@ -80,8 +80,7 @@ public class ExpandAndFactorOutGCD implements SimplifyNode {
 
 	private ExpressionNode multiplyOneTag(ExpressionNode node) {
 		boolean tagLeft = ExpressionValueUtils.isAddSubNode(node.getLeft());
-		SurdAddition
-				tag = new SurdAddition(tagLeft ? node.getLeftTree() : node.getRightTree(), utils);
+		SurdAddition tag = new SurdAddition(tagLeft ? node.getLeftTree() : node.getRightTree(), utils);
 		ExpressionValue ev = tagLeft ? node.getRight() : node.getLeft();
 		return tag.multiply(ev).wrap();
 	}
@@ -128,12 +127,11 @@ public class ExpandAndFactorOutGCD implements SimplifyNode {
 		ExpressionNode product = multiplyExpressionValues(a, b).wrap();
 		ExpressionNode result =
 				product.isOperation(Operation.MULTIPLY) ? utils.reduceProduct(product) : product;
-		if (isSqrtNode(result.getRight())
-				&& isSqrtNode(result.getLeftTree().getRight())) {
+		if (isSqrtNode(result.getRight()) && isSqrtNode(result.getLeftTree().getRight())) {
 			ExpressionValue sqrt1 = result.getRight();
 			ExpressionValue sqrt2 = result.getLeftTree().getRight();
-			double radicand = sqrt1.wrap().getLeft().evaluateDouble()
-					* sqrt2.wrap().getLeft().evaluateDouble();
+			double radicand =
+					sqrt1.wrap().getLeft().evaluateDouble() * sqrt2.wrap().getLeft().evaluateDouble();
 			double multiplier = result.wrap().getLeftTree().getLeft().evaluateDouble();
 			ExpressionNode sqrtProduct = utils.getSurdsOrSame(utils.newSqrt(radicand)).wrap();
 			result = multiplier == 1 ? sqrtProduct : utils.multiplyR(sqrtProduct, multiplier);
@@ -151,8 +149,8 @@ public class ExpandAndFactorOutGCD implements SimplifyNode {
 		ExpressionValue product;
 
 		if (a.isOperation(Operation.SQRT) && b.isOperation(Operation.SQRT)) {
-			double v = a.wrap().getLeftTree().evaluateDouble()
-					* b.wrap().getLeftTree().evaluateDouble();
+			double v =
+					a.wrap().getLeftTree().evaluateDouble() * b.wrap().getLeftTree().evaluateDouble();
 			ExpressionNode sqrtNode = utils.newSqrt(v);
 			product = utils.getSurdsOrSame(sqrtNode).wrap();
 		} else {

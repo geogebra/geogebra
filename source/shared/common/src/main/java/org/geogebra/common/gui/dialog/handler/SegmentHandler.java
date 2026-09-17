@@ -47,18 +47,17 @@ public class SegmentHandler {
 	 * @param callback
 	 *            success callback
 	 */
-	public void doSegmentFixedAsync(String text,
-			final NumberInputHandler inputHandler, ErrorHandler eh,
+	public void doSegmentFixedAsync(
+			String text,
+			final NumberInputHandler inputHandler,
+			ErrorHandler eh,
 			final AsyncOperation<Boolean> callback) {
 		// avoid labeling of num
 		inputHandler.processInput(text, eh, ok -> {
 			if (ok) {
-				DialogManager.doSegmentFixed(kernel, point,
-						inputHandler.getNum());
+				DialogManager.doSegmentFixed(kernel, point, inputHandler.getNum());
 			}
 			callback.callback(ok);
 		});
-
 	}
-
 }

@@ -63,15 +63,16 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 			double contentWidth = table.getContentWidth();
 			double contentHeight = table.getContentHeight();
 			tableController.update();
-			tableController.setTransform(table.getAngle(),
-					table.getWidth() / contentWidth, table.getHeight() / contentHeight);
+			tableController.setTransform(
+					table.getAngle(), table.getWidth() / contentWidth, table.getHeight() / contentHeight);
 		}
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (geo.isEuclidianVisible() && tableController != null
-			&& rectangle.getDirectTransform() != null) {
+		if (geo.isEuclidianVisible()
+				&& tableController != null
+				&& rectangle.getDirectTransform() != null) {
 			GAffineTransform tr =
 					rectangle.scaleForZoom(table.getContentWidth(), table.getContentHeight());
 			tableController.draw(g2, tr);

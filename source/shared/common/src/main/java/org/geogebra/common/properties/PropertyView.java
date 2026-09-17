@@ -175,10 +175,15 @@ public abstract class PropertyView {
 	}
 
 	public abstract static class PropertyBackedView<T extends Property> extends PropertyView
-			implements PropertyValueObserver<Object>, EuclidianView3DInterface.Listener,
-			GeoElementDependentProperty.RedefinitionObserver, ProbabilityCalculatorView.Listener,
-			ValueFilter.Observer, ChartSegmentSelection.Listener, SettingListener, EventListener,
-			EuclidianViewInterfaceCommon.DimensionListener {
+			implements PropertyValueObserver<Object>,
+					EuclidianView3DInterface.Listener,
+					GeoElementDependentProperty.RedefinitionObserver,
+					ProbabilityCalculatorView.Listener,
+					ValueFilter.Observer,
+					ChartSegmentSelection.Listener,
+					SettingListener,
+					EventListener,
+					EuclidianViewInterfaceCommon.DimensionListener {
 		protected final @NonNull T property;
 		private boolean previousAvailability;
 		private @Nullable List<GeoElement> dependentGeoElements;
@@ -218,8 +223,8 @@ public abstract class PropertyView {
 						.map(p -> (GeoElementDependentProperty) p)
 						.forEach(p -> p.addRedefinitionObserver(this));
 				if (dependentGeoElements != null) {
-					dependentGeoElements.forEach(element -> element.getApp()
-							.getEventDispatcher().addEventListener(this));
+					dependentGeoElements.forEach(
+							element -> element.getApp().getEventDispatcher().addEventListener(this));
 				}
 			}
 			if (property instanceof ValuedProperty<?> valuedProperty) {
@@ -254,8 +259,8 @@ public abstract class PropertyView {
 						dependentProperty.getChartSegmentSelection().unregisterListener(this));
 			}
 			if (dependentGeoElements != null) {
-				dependentGeoElements.forEach(element -> element.getApp()
-						.getEventDispatcher().removeEventListener(this));
+				dependentGeoElements.forEach(
+						element -> element.getApp().getEventDispatcher().removeEventListener(this));
 				dependentGeoElements = null;
 			}
 			if (property instanceof ValuedProperty<?> valuedProperty) {
@@ -267,8 +272,8 @@ public abstract class PropertyView {
 		}
 
 		@Override
-		public void onGeoElementRedefined(@NonNull GeoElement originalElement,
-				@NonNull GeoElement newElement) {
+		public void onGeoElementRedefined(
+				@NonNull GeoElement originalElement, @NonNull GeoElement newElement) {
 			if (dependentGeoElements == null) {
 				return;
 			}
@@ -403,7 +408,8 @@ public abstract class PropertyView {
 			fontFamilies = Map.of();
 		}
 
-		Dropdown(NamedEnumeratedProperty<?> namedEnumeratedProperty,
+		Dropdown(
+				NamedEnumeratedProperty<?> namedEnumeratedProperty,
 				Map<Integer, FontProperty.FontFamily> fontFamilies) {
 			super(namedEnumeratedProperty);
 			this.fontFamilies = fontFamilies;
@@ -553,7 +559,7 @@ public abstract class PropertyView {
 	 * {@code PropertyView} responsible for setting, retrieving, and validating the value of a
 	 * {@link StringProperty} depending on whether the user is currently editing.
 	 */
-	public abstract sealed static class ValidatablePropertyBackedView<T extends StringProperty>
+	public abstract static sealed class ValidatablePropertyBackedView<T extends StringProperty>
 			extends PropertyBackedView<T> {
 		private String value;
 		private String errorMessage;
@@ -595,8 +601,8 @@ public abstract class PropertyView {
 		 */
 		public void setValue(@NonNull String newValue) {
 			boolean valueShouldUpdate = !Objects.equals(value, newValue);
-			boolean errorMessageShouldUpdate = !Objects.equals(errorMessage,
-					property.validateValue(newValue));
+			boolean errorMessageShouldUpdate =
+					!Objects.equals(errorMessage, property.validateValue(newValue));
 			if (!valueShouldUpdate && !errorMessageShouldUpdate) {
 				return;
 			}
@@ -888,7 +894,10 @@ public abstract class PropertyView {
 		 * in a sequence.
 		 */
 		public enum OrdinalPosition {
-			First, InBetween, Last, Alone,
+			First,
+			InBetween,
+			Last,
+			Alone,
 		}
 
 		ExpandableList(PropertyCollection<?> propertyCollection, List<PropertyView> propertyViews) {
@@ -929,8 +938,7 @@ public abstract class PropertyView {
 
 		@Override
 		public boolean isVisible() {
-			return propertyViews.stream()
-					.anyMatch(PropertyView::isVisible);
+			return propertyViews.stream().anyMatch(PropertyView::isVisible);
 		}
 
 		@Override
@@ -952,8 +960,8 @@ public abstract class PropertyView {
 		private final List<PropertyView> propertyViews;
 		private final int contentSpacing;
 
-		RelatedPropertyViewCollection(@Nullable String title,
-				@NonNull List<PropertyView> propertyViews, int contentSpacing) {
+		RelatedPropertyViewCollection(
+				@Nullable String title, @NonNull List<PropertyView> propertyViews, int contentSpacing) {
 			this.title = title;
 			this.propertyViews = propertyViews;
 			this.contentSpacing = contentSpacing;
@@ -983,8 +991,7 @@ public abstract class PropertyView {
 
 		@Override
 		public boolean isVisible() {
-			return propertyViews.stream()
-					.anyMatch(PropertyView::isVisible);
+			return propertyViews.stream().anyMatch(PropertyView::isVisible);
 		}
 
 		@Override
@@ -1004,8 +1011,7 @@ public abstract class PropertyView {
 		/**
 		 * Representation of a single toggleable icon used in {@code MultiSelectionIconRow}.
 		 */
-		public static final class ToggleableIcon
-				extends PropertyBackedView<ToggleableIconProperty> {
+		public static final class ToggleableIcon extends PropertyBackedView<ToggleableIconProperty> {
 			ToggleableIcon(@NonNull ToggleableIconProperty property) {
 				super(property);
 			}
@@ -1044,7 +1050,8 @@ public abstract class PropertyView {
 				PropertyCollection<ToggleableIconProperty> toggleableIconPropertyCollection) {
 			this.toggleableIconPropertyCollection = toggleableIconPropertyCollection;
 			this.toggleableIcons = Arrays.stream(toggleableIconPropertyCollection.getProperties())
-					.map(ToggleableIcon::new).collect(Collectors.toList());
+					.map(ToggleableIcon::new)
+					.collect(Collectors.toList());
 		}
 
 		/**
@@ -1111,12 +1118,13 @@ public abstract class PropertyView {
 		private final List<String> tabTitles;
 		private final List<List<PropertyView>> tabContents;
 
-		TabList(NamedEnumeratedProperty<?> namedEnumeratedProperty,
+		TabList(
+				NamedEnumeratedProperty<?> namedEnumeratedProperty,
 				List<? extends PropertyCollection<?>> propertyCollections) {
 			super(namedEnumeratedProperty);
 			this.tabTitles = List.of(namedEnumeratedProperty.getValueNames());
-			this.tabContents = propertyCollections.stream()
-					.map(PropertyView::propertyViewListOf).toList();
+			this.tabContents =
+					propertyCollections.stream().map(PropertyView::propertyViewListOf).toList();
 		}
 
 		/**
@@ -1167,10 +1175,10 @@ public abstract class PropertyView {
 		DimensionRatioEditor(DimensionRatioProperty dimensionRatioProperty) {
 			super((BooleanProperty) dimensionRatioProperty.getProperties()[2]);
 			this.dimensionRatioProperty = dimensionRatioProperty;
-			this.leadingTextField = new PropertyView.TextField(
-					(StringProperty) dimensionRatioProperty.getProperties()[0]);
-			this.trailingTextField = new PropertyView.TextField(
-					(StringProperty) dimensionRatioProperty.getProperties()[1]);
+			this.leadingTextField =
+					new PropertyView.TextField((StringProperty) dimensionRatioProperty.getProperties()[0]);
+			this.trailingTextField =
+					new PropertyView.TextField((StringProperty) dimensionRatioProperty.getProperties()[1]);
 		}
 
 		/**
@@ -1228,12 +1236,13 @@ public abstract class PropertyView {
 		private final List<List<PropertyView>> pageContents;
 		private int selectedTabIndex;
 
-		TabbedPageSelector(@NonNull String title,
-				@NonNull List<PropertiesArray> pagePropertyArrays, int initialSelectedTabIndex) {
+		TabbedPageSelector(
+				@NonNull String title,
+				@NonNull List<PropertiesArray> pagePropertyArrays,
+				int initialSelectedTabIndex) {
 			this.title = title;
-			this.tabTitles = pagePropertyArrays.stream()
-					.map(PropertiesArray::getName)
-					.collect(Collectors.toList());
+			this.tabTitles =
+					pagePropertyArrays.stream().map(PropertiesArray::getName).collect(Collectors.toList());
 			this.pageContents = pagePropertyArrays.stream()
 					.map(PropertyViewFactory::propertyViewListOf)
 					.collect(Collectors.toList());
@@ -1291,7 +1300,8 @@ public abstract class PropertyView {
 	public static final class ButtonWithIcon extends PropertyBackedView<ActionableIconProperty> {
 		/** The possible style options to display the button with. */
 		public enum Style {
-			BORDERLESS, OUTLINED,
+			BORDERLESS,
+			OUTLINED,
 		}
 
 		ButtonWithIcon(ActionableIconProperty property) {
@@ -1370,8 +1380,8 @@ public abstract class PropertyView {
 	/**
 	 * A row of action buttons, each with a text and an action triggered when tapped.
 	 */
-	public static final class ActionableButtonRow extends
-			PropertyBackedView<ActionablePropertyCollection<?>> {
+	public static final class ActionableButtonRow
+			extends PropertyBackedView<ActionablePropertyCollection<?>> {
 		private final ActionablePropertyCollection<?> actionablePropertyCollection;
 
 		ActionableButtonRow(ActionablePropertyCollection<?> actionablePropertyCollection) {
@@ -1407,8 +1417,7 @@ public abstract class PropertyView {
 		 * @return the style name for the given index
 		 */
 		public @NonNull String getStyleName(int index) {
-			ActionableProperty actionableProperty =
-					actionablePropertyCollection.getProperties()[index];
+			ActionableProperty actionableProperty = actionablePropertyCollection.getProperties()[index];
 			if (actionableProperty instanceof SaveSettingsAction) {
 				return "materialFilledButton";
 			} else if (actionableProperty instanceof RestoreSettingsAction) {
@@ -1454,7 +1463,8 @@ public abstract class PropertyView {
 	public static final class ImagePicker extends PropertyBackedView<ImageProperty> {
 		/** Horizontal alignment for the image picker button. */
 		public enum ButtonAlignment {
-			CENTER, START
+			CENTER,
+			START
 		}
 
 		ImagePicker(@NonNull ImageProperty property) {
@@ -1534,8 +1544,7 @@ public abstract class PropertyView {
 		/** Item to be displayed in sequence in the row. */
 		public sealed interface Item permits Item.Text, Item.InputField {
 			/** Editable text input item. */
-			final class InputField extends ValidatablePropertyBackedView<StringProperty>
-					implements Item {
+			final class InputField extends ValidatablePropertyBackedView<StringProperty> implements Item {
 				private final StringProperty stringProperty;
 
 				InputField(StringProperty stringProperty) {
@@ -1559,8 +1568,7 @@ public abstract class PropertyView {
 			super(property);
 			lowerBoundInputField = new Item.InputField(property.getLowerBoundProperty());
 			upperBoundInputField = new Item.InputField(property.getUpperBoundProperty());
-			probabilityResultInputField = new Item.InputField(
-					property.getProbabilityResultProperty());
+			probabilityResultInputField = new Item.InputField(property.getProbabilityResultProperty());
 		}
 
 		@Override
@@ -1583,37 +1591,39 @@ public abstract class PropertyView {
 		 */
 		public @NonNull List<Item> getItems() {
 			return switch (property.getMode()) {
-				case ProbabilityCalculatorView.PROB_LEFT -> List.of(
-						new Item.Text(property.getProbabilityExpressionPrefix() + "X " + LEQ + " "),
-						upperBoundInputField,
-						new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
-						probabilityResultInputField);
-				case ProbabilityCalculatorView.PROB_RIGHT -> List.of(
-						new Item.Text(property.getProbabilityExpressionPrefix()),
-						lowerBoundInputField,
-						new Item.Text(" " + LEQ + " X"
-								+ property.getProbabilityExpressionSuffix() + " = "),
-						probabilityResultInputField);
-				case ProbabilityCalculatorView.PROB_TWO_TAILED -> List.of(
-						new Item.Text(property.getProbabilityExpressionPrefix() + "X " + LEQ + " "),
-						lowerBoundInputField,
-						new Item.Text(property.getProbabilityExpressionSuffix() + " + "
-								+ property.getProbabilityExpressionPrefix() + "X " + GEQ + " "),
-						upperBoundInputField,
-						new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
-						new Item.Text(property.getLeftProbability()),
-						new Item.Text("+"),
-						new Item.Text(property.getRightProbability()),
-						new Item.Text("="),
-						new Item.Text(property.getTotalProbability(), "Probability"));
-				default -> List.of(
-						new Item.Text(property.getProbabilityExpressionPrefix()),
-						lowerBoundInputField,
-						new Item.Text(" " + LEQ + " X " + LEQ + " "),
-						upperBoundInputField,
-						new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
-						new Item.Text(property.getProbabilityResultProperty().getValue(),
-								"Probability"));
+				case ProbabilityCalculatorView.PROB_LEFT ->
+					List.of(
+							new Item.Text(property.getProbabilityExpressionPrefix() + "X " + LEQ + " "),
+							upperBoundInputField,
+							new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
+							probabilityResultInputField);
+				case ProbabilityCalculatorView.PROB_RIGHT ->
+					List.of(
+							new Item.Text(property.getProbabilityExpressionPrefix()),
+							lowerBoundInputField,
+							new Item.Text(" " + LEQ + " X" + property.getProbabilityExpressionSuffix() + " = "),
+							probabilityResultInputField);
+				case ProbabilityCalculatorView.PROB_TWO_TAILED ->
+					List.of(
+							new Item.Text(property.getProbabilityExpressionPrefix() + "X " + LEQ + " "),
+							lowerBoundInputField,
+							new Item.Text(property.getProbabilityExpressionSuffix() + " + "
+									+ property.getProbabilityExpressionPrefix() + "X " + GEQ + " "),
+							upperBoundInputField,
+							new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
+							new Item.Text(property.getLeftProbability()),
+							new Item.Text("+"),
+							new Item.Text(property.getRightProbability()),
+							new Item.Text("="),
+							new Item.Text(property.getTotalProbability(), "Probability"));
+				default ->
+					List.of(
+							new Item.Text(property.getProbabilityExpressionPrefix()),
+							lowerBoundInputField,
+							new Item.Text(" " + LEQ + " X " + LEQ + " "),
+							upperBoundInputField,
+							new Item.Text(property.getProbabilityExpressionSuffix() + " = "),
+							new Item.Text(property.getProbabilityResultProperty().getValue(), "Probability"));
 			};
 		}
 	}
@@ -1634,12 +1644,13 @@ public abstract class PropertyView {
 			return new GroupedIconButtonRow((AbstractPropertyCollection<?>) property);
 		} else if (property instanceof DynamicColorSpaceProperty
 				|| (property instanceof NamedEnumeratedPropertyListFacade<?, ?> facade
-				&& (facade.getFirstProperty() instanceof DynamicColorSpaceProperty
-				|| facade.getFirstProperty() instanceof FillCategoryProperty
-				|| facade.getFirstProperty() instanceof ChartSegmentFillCategoryProperty))) {
+						&& (facade.getFirstProperty() instanceof DynamicColorSpaceProperty
+								|| facade.getFirstProperty() instanceof FillCategoryProperty
+								|| facade.getFirstProperty() instanceof ChartSegmentFillCategoryProperty))) {
 			return new ConnectedButtonGroup((NamedEnumeratedProperty<?>) property);
 		} else if (property instanceof ScriptPropertyCollection scriptPropertyCollection) {
-			return new TabList(scriptPropertyCollection.getScriptEventSelectionProperty(),
+			return new TabList(
+					scriptPropertyCollection.getScriptEventSelectionProperty(),
 					scriptPropertyCollection.getScriptEventPropertyCollections());
 		} else if (property instanceof NamedEnumeratedProperty<?> namedEnumeratedProperty) {
 			return createDropdown(namedEnumeratedProperty);
@@ -1649,7 +1660,8 @@ public abstract class PropertyView {
 			return new ImagePicker(imagePropertyListFacade);
 		} else if (property instanceof StringProperty stringProperty) {
 			return stringProperty.isDisplayedAsTextArea()
-					? new TextArea(stringProperty) : new TextField(stringProperty);
+					? new TextArea(stringProperty)
+					: new TextField(stringProperty);
 		} else if (property instanceof IconsEnumeratedProperty<?> iconsEnumeratedProperty) {
 			return new SingleSelectionIconRow(iconsEnumeratedProperty);
 		} else if (property instanceof RangeProperty<?>) {
@@ -1658,8 +1670,8 @@ public abstract class PropertyView {
 				|| property instanceof AxisCrossPropertyCollection
 				|| property instanceof AxisUnitPropertyCollection
 				|| property instanceof SliderTrackColorPropertyCollection) {
-			return new RelatedPropertyViewCollection(null,
-					propertyViewListOf((PropertyCollection<?>) property), 0);
+			return new RelatedPropertyViewCollection(
+					null, propertyViewListOf((PropertyCollection<?>) property), 0);
 		} else if (property instanceof NavigationBarPropertiesCollection collection) {
 			return new RelatedPropertyViewCollection(null, propertyViewListOf(collection), 16);
 		} else if (property instanceof ChartDataPropertyCollection collection) {
@@ -1667,15 +1679,15 @@ public abstract class PropertyView {
 		} else if (property instanceof ClippingPropertyCollection
 				|| property instanceof LocationPropertyCollection
 				|| property instanceof AlgebraViewVisibilityPropertyCollection) {
-			return new RelatedPropertyViewCollection(property.getName(),
-					propertyViewListOf((PropertyCollection<?>) property), 4);
+			return new RelatedPropertyViewCollection(
+					property.getName(), propertyViewListOf((PropertyCollection<?>) property), 4);
 		} else if (property instanceof PropertyCollection<?> propertyCollection
 				&& propertyCollection.getProperties()[0] instanceof ToggleableIconProperty) {
 			return new MultiSelectionIconRow((PropertyCollection<ToggleableIconProperty>) property);
 		} else if (property instanceof BackgroundColorPropertyCollection
 				|| property instanceof ARRatioPropertyCollection) {
-			return new RelatedPropertyViewCollection(null,
-					propertyViewListOf((PropertyCollection<?>) property), 8);
+			return new RelatedPropertyViewCollection(
+					null, propertyViewListOf((PropertyCollection<?>) property), 8);
 		} else if (property instanceof ActionableIconPropertyCollection actionableIconProperty) {
 			return new IconButtonRow(actionableIconProperty);
 		} else if (property instanceof ColorProperty colorProperty) {
@@ -1691,14 +1703,15 @@ public abstract class PropertyView {
 					(GridDistanceProperty) propertyCollection.getProperties()[3];
 			GridAngleProperty gridAngleProperty =
 					(GridAngleProperty) propertyCollection.getProperties()[4];
-			return new RelatedPropertyViewCollection(null, List.of(
-					new Checkbox(gridFixedDistanceProperty),
-					new HorizontalSplitView(
-							new ComboBox(gridDistancePropertyX),
-							new ComboBox(gridDistancePropertyY)),
-					new HorizontalSplitView(
-							new ComboBox(gridDistancePropertyR),
-							new ComboBox(gridAngleProperty))), 0);
+			return new RelatedPropertyViewCollection(
+					null,
+					List.of(
+							new Checkbox(gridFixedDistanceProperty),
+							new HorizontalSplitView(
+									new ComboBox(gridDistancePropertyX), new ComboBox(gridDistancePropertyY)),
+							new HorizontalSplitView(
+									new ComboBox(gridDistancePropertyR), new ComboBox(gridAngleProperty))),
+					0);
 		} else if (property instanceof Dimension2DPropertiesCollection propertyCollection) {
 			DimensionRatioProperty dimensionRatioProperty =
 					(DimensionRatioProperty) propertyCollection.getProperties()[0];
@@ -1710,15 +1723,20 @@ public abstract class PropertyView {
 					(DimensionMinMaxProperty) propertyCollection.getProperties()[3];
 			DimensionMinMaxProperty dimensionPropertyMaxY =
 					(DimensionMinMaxProperty) propertyCollection.getProperties()[4];
-			return new ExpandableList(propertyCollection, List.of(
-					new DimensionRatioEditor(dimensionRatioProperty),
-					new RelatedPropertyViewCollection(property.getName(), List.of(
-							new HorizontalSplitView(
-									new TextField(dimensionPropertyMinX),
-									new TextField(dimensionPropertyMaxX)),
-							new HorizontalSplitView(
-									new TextField(dimensionPropertyMinY),
-									new TextField(dimensionPropertyMaxY))), 10)));
+			return new ExpandableList(
+					propertyCollection,
+					List.of(
+							new DimensionRatioEditor(dimensionRatioProperty),
+							new RelatedPropertyViewCollection(
+									property.getName(),
+									List.of(
+											new HorizontalSplitView(
+													new TextField(dimensionPropertyMinX),
+													new TextField(dimensionPropertyMaxX)),
+											new HorizontalSplitView(
+													new TextField(dimensionPropertyMinY),
+													new TextField(dimensionPropertyMaxY))),
+									10)));
 		} else if (property instanceof Dimension3DPropertiesCollection propertyCollection) {
 			DimensionMinMaxProperty dimensionPropertyMinX = propertyCollection.getProperties()[0];
 			DimensionMinMaxProperty dimensionPropertyMaxX = propertyCollection.getProperties()[1];
@@ -1726,16 +1744,16 @@ public abstract class PropertyView {
 			DimensionMinMaxProperty dimensionPropertyMaxY = propertyCollection.getProperties()[3];
 			DimensionMinMaxProperty dimensionPropertyMinZ = propertyCollection.getProperties()[4];
 			DimensionMinMaxProperty dimensionPropertyMaxZ = propertyCollection.getProperties()[5];
-			return new RelatedPropertyViewCollection(property.getName(), List.of(
-					new HorizontalSplitView(
-							new TextField(dimensionPropertyMinX),
-							new TextField(dimensionPropertyMaxX)),
-					new HorizontalSplitView(
-							new TextField(dimensionPropertyMinY),
-							new TextField(dimensionPropertyMaxY)),
-					new HorizontalSplitView(
-							new TextField(dimensionPropertyMinZ),
-							new TextField(dimensionPropertyMaxZ))), 10);
+			return new RelatedPropertyViewCollection(
+					property.getName(),
+					List.of(
+							new HorizontalSplitView(
+									new TextField(dimensionPropertyMinX), new TextField(dimensionPropertyMaxX)),
+							new HorizontalSplitView(
+									new TextField(dimensionPropertyMinY), new TextField(dimensionPropertyMaxY)),
+							new HorizontalSplitView(
+									new TextField(dimensionPropertyMinZ), new TextField(dimensionPropertyMaxZ))),
+					10);
 		} else if (property instanceof AbsoluteScreenPositionPropertyCollection collection) {
 			return new HorizontalSplitView(
 					new TextField(collection.getProperties()[0]),
@@ -1744,8 +1762,8 @@ public abstract class PropertyView {
 			return new ActionableButtonRow(propertyCollection);
 		} else if (property instanceof ActionableIconProperty actionableIconProperty) {
 			return new ButtonWithIcon(actionableIconProperty);
-		} else if (property instanceof ProbabilityResultValuesProperty
-				probabilityResultValuesProperty) {
+		} else if (property
+				instanceof ProbabilityResultValuesProperty probabilityResultValuesProperty) {
 			return new ProbabilityResultRow(probabilityResultValuesProperty);
 		} else if (property instanceof PropertyCollection<?> propertyCollection) {
 			return new ExpandableList(propertyCollection, propertyViewListOf(propertyCollection));

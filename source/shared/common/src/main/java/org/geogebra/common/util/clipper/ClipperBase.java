@@ -23,9 +23,9 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public abstract class ClipperBase implements Clipper {
-	private final static double LOW_RANGE = 0x3FFFFFFF;
+	private static final double LOW_RANGE = 0x3FFFFFFF;
 
-	private final static double HI_RANGE = 0x3FFFFFFFFFFFFFFFL;
+	private static final double HI_RANGE = 0x3FFFFFFFFFFFFFFFL;
 
 	protected LocalMinima minimaList;
 
@@ -58,8 +58,7 @@ public abstract class ClipperBase implements Clipper {
 	/**
 	 * modified to be compatible with double
 	 */
-	private static void initEdge(Edge e, Edge eNext, Edge ePrev,
-			DoublePoint pt) {
+	private static void initEdge(Edge e, Edge eNext, Edge ePrev, DoublePoint pt) {
 		e.next = eNext;
 		e.prev = ePrev;
 		e.setCurrent(new DoublePoint(pt));
@@ -86,12 +85,15 @@ public abstract class ClipperBase implements Clipper {
 	 */
 	private static void rangeTest(DoublePoint Pt) {
 
-		if (Pt.getX() > LOW_RANGE || Pt.getY() > LOW_RANGE
-				|| -Pt.getX() > LOW_RANGE || -Pt.getY() > LOW_RANGE) {
-			if (Pt.getX() > HI_RANGE || Pt.getY() > HI_RANGE
-					|| -Pt.getX() > HI_RANGE || -Pt.getY() > HI_RANGE) {
-				throw new IllegalStateException(
-						"Coordinate outside allowed range");
+		if (Pt.getX() > LOW_RANGE
+				|| Pt.getY() > LOW_RANGE
+				|| -Pt.getX() > LOW_RANGE
+				|| -Pt.getY() > LOW_RANGE) {
+			if (Pt.getX() > HI_RANGE
+					|| Pt.getY() > HI_RANGE
+					|| -Pt.getX() > HI_RANGE
+					|| -Pt.getY() > HI_RANGE) {
+				throw new IllegalStateException("Coordinate outside allowed range");
 			}
 		}
 	}
@@ -106,9 +108,9 @@ public abstract class ClipperBase implements Clipper {
 	}
 
 	protected ClipperBase(boolean preserveCollinear) // constructor (nb: no
-														// external
-														// instantiation)
-	{
+				// external
+				// instantiation)
+			{
 		this.preserveCollinear = preserveCollinear;
 		minimaList = null;
 		currentLM = null;
@@ -120,8 +122,7 @@ public abstract class ClipperBase implements Clipper {
 	public boolean addPath(Path pg, PolyType polyType, boolean Closed) {
 
 		if (!Closed && polyType == PolyType.CLIP) {
-			throw new IllegalStateException(
-					"AddPath: Open paths must be subject.");
+			throw new IllegalStateException("AddPath: Open paths must be subject.");
 		}
 
 		int highI = pg.size() - 1;
@@ -150,22 +151,19 @@ public abstract class ClipperBase implements Clipper {
 		rangeTest(pg.get(0));
 		rangeTest(pg.get(highI));
 		initEdge(edges1.get(0), edges1.get(1), edges1.get(highI), pg.get(0));
-		initEdge(edges1.get(highI), edges1.get(0), edges1.get(highI - 1),
-				pg.get(highI));
+		initEdge(edges1.get(highI), edges1.get(0), edges1.get(highI - 1), pg.get(highI));
 		for (int i = highI - 1; i >= 1; --i) {
 			rangeTest(pg.get(i));
-			initEdge(edges1.get(i), edges1.get(i + 1), edges1.get(i - 1),
-					pg.get(i));
+			initEdge(edges1.get(i), edges1.get(i + 1), edges1.get(i - 1), pg.get(i));
 		}
 		Edge eStart = edges1.get(0);
 
 		// 2. Remove duplicate vertices, and (when closed) collinear edges ...
 
 		Edge e = eStart, eLoopStop = eStart;
-		for (;;) {
+		for (; ; ) {
 			// nb: allows matching start and end points when not Closed ...
-			if (e.getCurrent().equals(e.next.getCurrent())
-					&& (Closed || !e.next.equals(eStart))) {
+			if (e.getCurrent().equals(e.next.getCurrent()) && (Closed || !e.next.equals(eStart))) {
 				if (e == e.next) {
 					break;
 				}
@@ -179,11 +177,10 @@ public abstract class ClipperBase implements Clipper {
 			if (e.prev == e.next) {
 				break; // only two vertices
 			} else if (Closed
-					&& Point.slopesEqual(e.prev.getCurrent(), e.getCurrent(),
-							e.next.getCurrent())
+					&& Point.slopesEqual(e.prev.getCurrent(), e.getCurrent(), e.next.getCurrent())
 					&& (!isPreserveCollinear()
-							|| !Point.isPt2BetweenPt1AndPt3(e.prev.getCurrent(),
-									e.getCurrent(), e.next.getCurrent()))) {
+							|| !Point.isPt2BetweenPt1AndPt3(
+									e.prev.getCurrent(), e.getCurrent(), e.next.getCurrent()))) {
 				// Collinear edges are allowed for open paths but in closed
 				// paths
 				// the default is to merge adjacent collinear edges into a
@@ -268,7 +265,7 @@ public abstract class ClipperBase implements Clipper {
 			e = e.next;
 		}
 
-		for (;;) {
+		for (; ; ) {
 			e = e.findNextLocMin();
 			if (e == EMin) {
 				break;
@@ -324,7 +321,6 @@ public abstract class ClipperBase implements Clipper {
 			}
 		}
 		return true;
-
 	}
 
 	@Override
@@ -453,8 +449,7 @@ public abstract class ClipperBase implements Clipper {
 					&& result.next.outIdx != Edge.SKIP) {
 				result = result.next;
 			}
-			if (equalsEdgeHorizontal(result.deltaX)
-					&& result.next.outIdx != Edge.SKIP) {
+			if (equalsEdgeHorizontal(result.deltaX) && result.next.outIdx != Edge.SKIP) {
 				// nb: at the top of a bound, horizontals are added to the bound
 				// only when the preceding edge attaches to the horizontal's
 				// left vertex
@@ -465,20 +460,21 @@ public abstract class ClipperBase implements Clipper {
 					Horz = Horz.prev;
 				}
 				// TODO handle equality?
-				if (Horz.prev.getTop().getX() > result.next.getTop()
-						.getX()) {
+				if (Horz.prev.getTop().getX() > result.next.getTop().getX()) {
 					result = Horz.prev;
 				}
 			}
 			while (e != result) {
 				e.nextInLML = e.next;
-				if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+				if (equalsEdgeHorizontal(e.deltaX)
+						&& e != EStart
 						&& e.getBot().getX() != e.prev.getTop().getX()) {
 					e.reverseHorizontal();
 				}
 				e = e.next;
 			}
-			if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+			if (equalsEdgeHorizontal(e.deltaX)
+					&& e != EStart
 					&& e.getBot().getX() != e.prev.getTop().getX()) {
 				e.reverseHorizontal();
 			}
@@ -488,29 +484,29 @@ public abstract class ClipperBase implements Clipper {
 					&& result.prev.outIdx != Edge.SKIP) {
 				result = result.prev;
 			}
-			if (equalsEdgeHorizontal(result.deltaX)
-					&& result.prev.outIdx != Edge.SKIP) {
+			if (equalsEdgeHorizontal(result.deltaX) && result.prev.outIdx != Edge.SKIP) {
 				Horz = result;
 				while (equalsEdgeHorizontal(Horz.next.deltaX)) {
 					Horz = Horz.next;
 				}
 				if (Horz.next.getTop().getX() == result.prev.getTop().getX()) {
 					result = Horz.next;
-				} else if (Horz.next.getTop().getX() > result.prev.getTop()
-						.getX()) {
+				} else if (Horz.next.getTop().getX() > result.prev.getTop().getX()) {
 					result = Horz.next;
 				}
 			}
 
 			while (e != result) {
 				e.nextInLML = e.prev;
-				if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+				if (equalsEdgeHorizontal(e.deltaX)
+						&& e != EStart
 						&& e.getBot().getX() != e.next.getTop().getX()) {
 					e.reverseHorizontal();
 				}
 				e = e.prev;
 			}
-			if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+			if (equalsEdgeHorizontal(e.deltaX)
+					&& e != EStart
 					&& e.getBot().getX() != e.next.getTop().getX()) {
 				e.reverseHorizontal();
 			}
@@ -563,5 +559,4 @@ public abstract class ClipperBase implements Clipper {
 			lm = lm.next;
 		}
 	}
-
 }

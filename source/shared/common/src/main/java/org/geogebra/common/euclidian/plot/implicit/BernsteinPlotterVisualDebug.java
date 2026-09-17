@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.MyPoint;
  * <p><strong>NOTE:</strong> this class is intended for development only
  * and must not be included in production releases.</p>
  */
-
 final class BernsteinPlotterVisualDebug implements VisualDebug {
 	private final EuclidianViewBounds bounds;
 	private List<BernsteinPlotCell> cells;
@@ -64,7 +63,7 @@ final class BernsteinPlotterVisualDebug implements VisualDebug {
 
 	private void drawEdgePoints(GGraphics2D g2) {
 		g2.setColor(GColor.BLUE);
-		for (MyPoint p: edgePoints) {
+		for (MyPoint p : edgePoints) {
 			double sx = bounds.toScreenCoordXd(p.x);
 			double sy = bounds.toScreenCoordYd(p.y);
 			int r = 5;
@@ -85,8 +84,9 @@ final class BernsteinPlotterVisualDebug implements VisualDebug {
 	@SuppressWarnings("unused")
 	private boolean found(BernsteinPlotCell cell) {
 		BernsteinBoundingBox box = cell.boundingBox;
-		return  box.y2() > 0.86 && box.y1() < 0.95
-		 && cell.getMarchingConfig() == BernsteinMarchingConfig.T0110;
+		return box.y2() > 0.86
+				&& box.y1() < 0.95
+				&& cell.getMarchingConfig() == BernsteinMarchingConfig.T0110;
 	}
 
 	@SuppressWarnings("unused")

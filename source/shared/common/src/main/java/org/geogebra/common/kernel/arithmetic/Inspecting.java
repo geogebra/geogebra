@@ -40,8 +40,7 @@ public interface Inspecting {
 	 * @return {@code true} if the expression contains operations &lt; ,&lt;=, &gt;, &gt;=
 	 */
 	static boolean isInequality(ExpressionValue value) {
-		return value.isExpressionNode()
-				&& ((ExpressionNode) value).getOperation().isInequality();
+		return value.isExpressionNode() && ((ExpressionNode) value).getOperation().isInequality();
 	}
 
 	/**
@@ -68,8 +67,7 @@ public interface Inspecting {
 		if (value.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) value;
 			if (en.getOperation() == Operation.DIVIDE) {
-				return en.getRightTree().evaluatesToNDVector()
-						&& en.getLeftTree().evaluatesToNDVector();
+				return en.getRightTree().evaluatesToNDVector() && en.getLeftTree().evaluatesToNDVector();
 			}
 		}
 		return false;
@@ -88,9 +86,12 @@ public interface Inspecting {
 			return false;
 		}
 		GeoElement geo = (GeoElement) value;
-		return !geo.isIndependent() || geo.isLabelSet()
-				|| geo.isLocalVariable() || value instanceof GeoDummyVariable
-				|| geo.isGeoCasCell() || geo.isRandomGeo();
+		return !geo.isIndependent()
+				|| geo.isLabelSet()
+				|| geo.isLocalVariable()
+				|| value instanceof GeoDummyVariable
+				|| geo.isGeoCasCell()
+				|| geo.isRandomGeo();
 	}
 
 	/**

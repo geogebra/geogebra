@@ -22,5 +22,4 @@ import org.geogebra.common.properties.EnumeratedProperty;
 /**
  * A property whose value is a color.
  */
-public interface ColorProperty extends EnumeratedProperty<GColor> {
-}
+public interface ColorProperty extends EnumeratedProperty<GColor> {}

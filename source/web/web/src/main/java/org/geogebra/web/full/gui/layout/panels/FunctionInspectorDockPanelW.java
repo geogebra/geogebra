@@ -24,12 +24,12 @@ import org.gwtproject.user.client.ui.Widget;
 
 /**
  * @author gabor
- * 
+ *
  * FunctionInspector dockpanel for Web
  *
  */
 public final class FunctionInspectorDockPanelW extends DockPanelW {
-	
+
 	/**
 	 * default width of this panel
 	 */
@@ -40,7 +40,8 @@ public final class FunctionInspectorDockPanelW extends DockPanelW {
 	 * Creates panel
 	 */
 	public FunctionInspectorDockPanelW(AppWFull app) {
-		super(App.VIEW_FUNCTION_INSPECTOR, // view id
+		super(
+				App.VIEW_FUNCTION_INSPECTOR, // view id
 				null, // toolbar string
 				true); // style bar?
 		this.app = app;
@@ -56,7 +57,7 @@ public final class FunctionInspectorDockPanelW extends DockPanelW {
 	protected Widget loadStyleBar() {
 		return null;
 	}
-	
+
 	@Override
 	public boolean isStyleBarEmpty() {
 		return true;
@@ -66,5 +67,4 @@ public final class FunctionInspectorDockPanelW extends DockPanelW {
 	protected ResourcePrototype getViewIcon() {
 		return null;
 	}
-
 }

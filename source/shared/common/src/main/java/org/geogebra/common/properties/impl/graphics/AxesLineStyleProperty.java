@@ -29,12 +29,13 @@ import org.jspecify.annotations.Nullable;
 public class AxesLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 		implements IconsEnumeratedProperty<Integer> {
 	private EuclidianSettings euclidianSettings;
-	private PropertyResource[] icons = new PropertyResource[]{
-			PropertyResource.ICON_AXES_LINE_TYPE_ARROW,
-			PropertyResource.ICON_AXES_LINE_TYPE_ARROW_FILLED,
-			PropertyResource.ICON_AXES_LINE_TYPE_TWO_ARROWS,
-			PropertyResource.ICON_AXES_LINE_TYPE_TWO_ARROWS_FILLED,
-			PropertyResource.ICON_AXES_LINE_TYPE_FULL};
+	private PropertyResource[] icons = new PropertyResource[] {
+		PropertyResource.ICON_AXES_LINE_TYPE_ARROW,
+		PropertyResource.ICON_AXES_LINE_TYPE_ARROW_FILLED,
+		PropertyResource.ICON_AXES_LINE_TYPE_TWO_ARROWS,
+		PropertyResource.ICON_AXES_LINE_TYPE_TWO_ARROWS_FILLED,
+		PropertyResource.ICON_AXES_LINE_TYPE_FULL
+	};
 
 	/**
 	 * Creates a property for axes line style
@@ -44,7 +45,8 @@ public class AxesLineStyleProperty extends AbstractEnumeratedProperty<Integer>
 	public AxesLineStyleProperty(Localization localization, EuclidianSettings euclidianSettings) {
 		super(localization, "LineStyle");
 		this.euclidianSettings = euclidianSettings;
-		setValues(List.of(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
+		setValues(List.of(
+				EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
 				EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,
 				EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
 				EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED,

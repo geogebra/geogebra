@@ -21,9 +21,9 @@ import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class describing 1D, 2D and 3D coordinate systems.
- * 
+ *
  * @author ggb3D
- * 
+ *
  */
 public class CoordSys {
 	/**
@@ -33,9 +33,8 @@ public class CoordSys {
 
 	static {
 		Identity3D = new CoordSys(2);
-		Identity3D.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
+		Identity3D.makeCoordSys(new double[] {0, 0, 1, 0}); // equation z=0
 		Identity3D.makeOrthoMatrix(true, true);
-
 	}
 
 	/**
@@ -47,7 +46,7 @@ public class CoordSys {
 		XOY = new CoordSys(2);
 
 		// equation z=0
-		XOY.getEquationVector().set(new double[] { 0, 0, 1, 0 });
+		XOY.getEquationVector().set(new double[] {0, 0, 1, 0});
 		XOY.addPoint(Coords.O);
 		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VX);
 		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VY);
@@ -58,7 +57,7 @@ public class CoordSys {
 	private final CoordMatrix matrix;
 	private final int dimension;
 	private int madeCoordSys;
-    private boolean vxIsZero;
+	private boolean vxIsZero;
 	private CoordMatrix4x4 matrixOrthonormal;
 	private CoordMatrix4x4 drawingMatrix;
 	private CoordMatrix tempMatrix3x3;
@@ -70,7 +69,7 @@ public class CoordSys {
 	private final Coords[] vectors;
 
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
-	static private final int spaceDimension = 3;
+	private static final int spaceDimension = 3;
 
 	private final Coords tmpCoords1 = new Coords(4);
 	private final Coords tmpCoords2 = new Coords(4);
@@ -79,7 +78,7 @@ public class CoordSys {
 
 	/**
 	 * create a coord sys
-	 * 
+	 *
 	 * @param dimension
 	 *            number of vectors of the coord sys
 	 */
@@ -103,7 +102,7 @@ public class CoordSys {
 
 	/**
 	 * Copy from other system.
-	 * 
+	 *
 	 * @param cs
 	 *            other system
 	 */
@@ -118,10 +117,10 @@ public class CoordSys {
 		if (drawingMatrix == null) {
 			drawingMatrix = new CoordMatrix4x4();
 		}
-        drawingMatrix.set(cs.drawingMatrix);
-        equationVector.set(cs.equationVector);
-        madeCoordSys = cs.madeCoordSys;
-        vxIsZero = cs.vxIsZero;
+		drawingMatrix.set(cs.drawingMatrix);
+		equationVector.set(cs.equationVector);
+		madeCoordSys = cs.madeCoordSys;
+		vxIsZero = cs.vxIsZero;
 	}
 
 	public CoordMatrix getMatrix() {
@@ -213,7 +212,7 @@ public class CoordSys {
 
 	/**
 	 * Convert from this system to the global coord system.
-	 * 
+	 *
 	 * @param x
 	 *            x coord in this system
 	 * @param y
@@ -223,14 +222,13 @@ public class CoordSys {
 	 * @return result
 	 */
 	public Coords getPoint(double x, double y, Coords result) {
-		result.setAdd(matrixOrthonormal.getOrigin(),
-				getVector(x, y, tmpCoords2));
+		result.setAdd(matrixOrthonormal.getOrigin(), getVector(x, y, tmpCoords2));
 		return result;
 	}
 
 	/**
 	 * Set result to x*vx + y*vy
-	 * 
+	 *
 	 * @param coords2D
 	 *            coords (x,y) in this system
 	 * @param result
@@ -238,13 +236,12 @@ public class CoordSys {
 	 * @return result
 	 */
 	public Coords getPointFromOriginVectors(Coords coords2D, Coords result) {
-		return getPointFromOriginVectors(coords2D.getX(), coords2D.getY(),
-				result);
+		return getPointFromOriginVectors(coords2D.getX(), coords2D.getY(), result);
 	}
 
 	/**
 	 * Set result to o+x*vx + y*vy
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -260,7 +257,7 @@ public class CoordSys {
 
 	/**
 	 * deprecated use {@link #getPoint(double, double, Coords)} instead
-	 * 
+	 *
 	 * @return global coords
 	 */
 	public Coords getPoint(double x, double y) {
@@ -269,7 +266,7 @@ public class CoordSys {
 
 	/**
 	 * deprecated use {@link #getPoint(double, double, double, Coords)} instead
-	 * 
+	 *
 	 * @return global coords
 	 */
 	public Coords getPoint(double x, double y, double z) {
@@ -315,9 +312,9 @@ public class CoordSys {
 	}
 
 	/**
-	 * 
+	 *
 	 * deprecated use {@link #getPoint(double, Coords)} instead
-	 * 
+	 *
 	 * @return global coords
 	 */
 	public Coords getPoint(double x) {
@@ -326,7 +323,7 @@ public class CoordSys {
 
 	/**
 	 * Computes O + x Vx
-	 * 
+	 *
 	 * @param x
 	 *            single coordinate within the system
 	 * @param result
@@ -338,14 +335,13 @@ public class CoordSys {
 	}
 
 	/**
-	 * 
+	 *
 	 * deprecated use {@link #getVector(Coords, Coords)} instead
-	 * 
+	 *
 	 * @param coords2D
 	 *            coords in this coord system
 	 * @return global coords
 	 */
-
 	public Coords getVector(Coords coords2D) {
 		return getVector(coords2D.getX(), coords2D.getY());
 	}
@@ -363,17 +359,16 @@ public class CoordSys {
 
 	/**
 	 * deprecated use {@link #getVector(double, double, Coords)} instead
-	 * 
+	 *
 	 * @return global coords
 	 */
 	public Coords getVector(double x, double y) {
-		return matrixOrthonormal.getVx().mul(x)
-				.add(matrixOrthonormal.getVy().mul(y));
+		return matrixOrthonormal.getVx().mul(x).add(matrixOrthonormal.getVy().mul(y));
 	}
 
 	/**
 	 * Get vector from origin to given point.
-	 * 
+	 *
 	 * @param x
 	 *            x-coord in this system
 	 * @param y
@@ -383,14 +378,15 @@ public class CoordSys {
 	 * @return result
 	 */
 	public Coords getVector(double x, double y, Coords result) {
-		result.setAdd(result.setMul(matrixOrthonormal.getVx(), x),
+		result.setAdd(
+				result.setMul(matrixOrthonormal.getVx(), x),
 				tmpCoords1.setMul(matrixOrthonormal.getVy(), y));
 		return result;
 	}
 
 	/**
 	 * Set result to x*vx + y*vy
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
@@ -421,7 +417,7 @@ public class CoordSys {
 	 *         and the original point in plane coords
 	 */
 	public Coords[] getNormalProjection(Coords coords) {
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
+		Coords[] result = new Coords[] {new Coords(4), new Coords(4)};
 		coords.projectPlane(this.getMatrixOrthonormal(), result[0], result[1]);
 		return result;
 	}
@@ -431,7 +427,7 @@ public class CoordSys {
 
 	/**
 	 * set how much the coord sys is made
-	 * 
+	 *
 	 * @param i
 	 *            value of made coord sys
 	 */
@@ -456,7 +452,7 @@ public class CoordSys {
 
 	/**
 	 * return how much the coord sys is made
-	 * 
+	 *
 	 * @return how much the coord sys is made
 	 */
 	public int getMadeCoordSys() {
@@ -468,29 +464,27 @@ public class CoordSys {
 	 */
 	public void completeCoordSys2D() {
 		switch (getMadeCoordSys()) {
-		default:
-			// do nothing
-			break;
-		case 0:
-			addVectorWithoutCheckMadeCoordSys(Coords.VX);
-			addVectorWithoutCheckMadeCoordSys(Coords.VY);
-			break;
-		case 1:
-			Coords vx = getVx();
-			if (DoubleUtil.isZero(vx.getX())) {
-				addVectorWithoutCheckMadeCoordSys(
-						new Coords(0, -vx.getZ(), vx.getY(), 0));
-			} else {
-				addVectorWithoutCheckMadeCoordSys(
-						new Coords(-vx.getY(), vx.getX(), 0, 0));
-			}
-			break;
+			default:
+				// do nothing
+				break;
+			case 0:
+				addVectorWithoutCheckMadeCoordSys(Coords.VX);
+				addVectorWithoutCheckMadeCoordSys(Coords.VY);
+				break;
+			case 1:
+				Coords vx = getVx();
+				if (DoubleUtil.isZero(vx.getX())) {
+					addVectorWithoutCheckMadeCoordSys(new Coords(0, -vx.getZ(), vx.getY(), 0));
+				} else {
+					addVectorWithoutCheckMadeCoordSys(new Coords(-vx.getY(), vx.getX(), 0, 0));
+				}
+				break;
 		}
 	}
 
 	/**
 	 * return if the coord sys is made
-	 * 
+	 *
 	 * @return if the coord sys is made
 	 */
 	public boolean isMadeCoordSys() {
@@ -499,10 +493,10 @@ public class CoordSys {
 
 	/**
 	 * Try to add the point described by p to complete the coord sys.
-	 * 
+	 *
 	 * @param p
 	 *            a point (x,y,z,1)
-	 * 
+	 *
 	 */
 	public void addPoint(Coords p) {
 		if (isMadeCoordSys()) {
@@ -521,10 +515,10 @@ public class CoordSys {
 
 	/**
 	 * Try to add the vector described by v to complete the coord sys.
-	 * 
+	 *
 	 * @param v
 	 *            a vector (x,y,z,1)
-	 * 
+	 *
 	 */
 	public void addVector(Coords v) {
 		if (isMadeCoordSys()) {
@@ -535,38 +529,38 @@ public class CoordSys {
 
 	/**
 	 * Try to add the vector described by v to complete the coord sys.
-	 * 
+	 *
 	 * @param v
 	 *            a vector (x,y,z,1)
-	 * 
+	 *
 	 */
 	public void addVectorWithoutCheckMadeCoordSys(Coords v) {
 		switch (getMadeCoordSys()) {
-		default:
-			// do nothing
-			break;
-		case 0: // add first vector
-            setVx(v);
-            // check if v==0
-            if (!DoubleUtil.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {
-                setMadeCoordSys(1);
-                vxIsZero = false;
-            } else {
-                vxIsZero = true;
-            }
-			break;
-		case 1: // add second vector
-			// // calculate normal vector to check if v1 depends to vx
-			// Coords vn = getVx().crossProduct(v);
-			// // check if vn==0
-			// if (!Kernel.isEqual(vn.norm(), 0,
-			// Kernel.STANDARD_PRECISION)) {
-			if (getVx().isLinearIndependent(v)) {
-				setVy(v);
-				getVz().setCrossProduct4(getVx(), getVy());
-				setMadeCoordSys(2);
-			}
-			break;
+			default:
+				// do nothing
+				break;
+			case 0: // add first vector
+				setVx(v);
+				// check if v==0
+				if (!DoubleUtil.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {
+					setMadeCoordSys(1);
+					vxIsZero = false;
+				} else {
+					vxIsZero = true;
+				}
+				break;
+			case 1: // add second vector
+				// // calculate normal vector to check if v1 depends to vx
+				// Coords vn = getVx().crossProduct(v);
+				// // check if vn==0
+				// if (!Kernel.isEqual(vn.norm(), 0,
+				// Kernel.STANDARD_PRECISION)) {
+				if (getVx().isLinearIndependent(v)) {
+					setVy(v);
+					getVz().setCrossProduct4(getVx(), getVy());
+					setMadeCoordSys(2);
+				}
+				break;
 		}
 
 		// Log.debug("v[" + getMadeCoordSys() + "]=\n"
@@ -588,7 +582,7 @@ public class CoordSys {
 	/**
 	 * check if two of the x, y, z coeff are equal to 0, and if the other is
 	 * negative, then change signs
-	 * 
+	 *
 	 */
 	private void checkEquationVectorHasJustOneNegativeCoeff() {
 
@@ -610,12 +604,11 @@ public class CoordSys {
 		if (zeros == 2 && negative) {
 			equationVector.mulInside(-1);
 		}
-
 	}
 
 	/**
 	 * set equation vector
-	 * 
+	 *
 	 * @param a
 	 *            x coeff
 	 * @param b
@@ -625,8 +618,7 @@ public class CoordSys {
 	 * @param d
 	 *            w coeff
 	 */
-	final public void setEquationVector(double a, double b, double c,
-			double d) {
+	public final void setEquationVector(double a, double b, double c, double d) {
 		equationVector.setX(a);
 		equationVector.setY(b);
 		equationVector.setZ(c);
@@ -637,20 +629,23 @@ public class CoordSys {
 
 	/**
 	 * set equation vector corresponding to (m-o).n = 0
-	 * 
+	 *
 	 * @param o
 	 *            origin
 	 * @param n
 	 *            normal point
 	 */
 	public void setEquationVector(Coords o, Coords n) {
-		setEquationVector(n.getX(), n.getY(), n.getZ(), -(n.getX() * o.getX()
-				+ n.getY() * o.getY() + n.getZ() * o.getZ()));
+		setEquationVector(
+				n.getX(),
+				n.getY(),
+				n.getZ(),
+				-(n.getX() * o.getX() + n.getY() * o.getY() + n.getZ() * o.getZ()));
 	}
 
 	/**
 	 * set equation vector
-	 * 
+	 *
 	 * @param cA
 	 *            first point
 	 * @param cB
@@ -674,7 +669,7 @@ public class CoordSys {
 
 	/**
 	 * creates the coord sys from the equation, e.g. ax+by+cz+d=0 for planes
-	 * 
+	 *
 	 * @param a
 	 *            x coefficient
 	 * @param b
@@ -683,7 +678,7 @@ public class CoordSys {
 	 *            z coefficient
 	 * @param d
 	 *            constant
-	 * 
+	 *
 	 */
 	public void makeCoordSys(double a, double b, double c, double d) {
 		resetCoordSys();
@@ -695,7 +690,7 @@ public class CoordSys {
 
 	/**
 	 * creates the coord sys from the equation, e.g. ax+by+cz+d=0 for planes
-	 * 
+	 *
 	 * @param vals
 	 *            coefficients
 	 */
@@ -739,15 +734,14 @@ public class CoordSys {
 
 	/**
 	 * makes an orthonormal matrix describing this coord sys
-	 * 
+	 *
 	 * @param projectOrigin
 	 *            if true, origin of the coord sys is the projection of 0
 	 * @param firstVectorParallelToXOY
 	 *            says if the first vector has to be parallel to xOy
 	 * @return true if it's possible
 	 */
-	public boolean makeOrthoMatrix(boolean projectOrigin,
-			boolean firstVectorParallelToXOY) {
+	public boolean makeOrthoMatrix(boolean projectOrigin, boolean firstVectorParallelToXOY) {
 
 		if (!isMadeCoordSys()) {
 			if (dimension == 1) {
@@ -755,12 +749,11 @@ public class CoordSys {
 				if (getMadeCoordSys() == 0) {
 					matrixOrthonormal.setOrigin(getOrigin());
 				}
-                if (!hasZeroVx()) {
-                    getVx().set(0);
-                }
+				if (!hasZeroVx()) {
+					getVx().set(0);
+				}
 			}
 			return false;
-
 		}
 
 		// if the coord sys is made, the drawing matrix is updated
@@ -783,8 +776,9 @@ public class CoordSys {
 			}
 
 			// sets orthonormal matrix
-			matrixOrthonormal.set(new Coords[] { getVx().normalized(),
-					getVy().normalized(), getVz().normalized(), tmpCoords1 });
+			matrixOrthonormal.set(
+					new Coords[] {getVx().normalized(), getVy().normalized(), getVz().normalized(), tmpCoords1
+					});
 
 			return true;
 		}
@@ -826,13 +820,17 @@ public class CoordSys {
 			Coords.O.projectPlane(getMatrixOrthonormal(), tmpCoords3);
 
 			if (projectOrigin) { // recompute origin for ortho and drawing
-									// matrix
+				// matrix
 				matrixOrthonormal.setOrigin(tmpCoords3);
 			}
 
-			CoordMatrix4x4.createOrthoToDirection(tmpCoords3,
-					matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1,
-					tmpCoords2, drawingMatrix);
+			CoordMatrix4x4.createOrthoToDirection(
+					tmpCoords3,
+					matrixOrthonormal.getVz(),
+					CoordMatrix4x4.VZ,
+					tmpCoords1,
+					tmpCoords2,
+					drawingMatrix);
 			return true;
 		}
 
@@ -863,7 +861,7 @@ public class CoordSys {
 
 	/**
 	 * set simple coord sys with m for origin
-	 * 
+	 *
 	 * @param m
 	 *            origin point
 	 */
@@ -886,7 +884,7 @@ public class CoordSys {
 
 	/**
 	 * translate the coord sys (matrix orthonormal and drawing matrix)
-	 * 
+	 *
 	 * @param v
 	 *            translation vector
 	 */
@@ -904,12 +902,11 @@ public class CoordSys {
 			Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
 			drawingMatrix.setOrigin(tmpCoords3);
 		}
-
 	}
 
 	/**
 	 * translate equation vector
-	 * 
+	 *
 	 * @param v
 	 *            translation vector
 	 */
@@ -919,7 +916,7 @@ public class CoordSys {
 
 	/**
 	 * translate equation vector
-	 * 
+	 *
 	 * @param eqV
 	 *            plane equation vector
 	 * @param v
@@ -933,7 +930,7 @@ public class CoordSys {
 	 * transform the matrix orthonormal to fit transform represented by m.
 	 * Compute {a,b,c} to perform inside coordsys transformation (which keep
 	 * orthonormal matrix) : new x = a*x new y = b*x + c*y
-	 * 
+	 *
 	 * @param m
 	 *            matrix of transformation
 	 * @return {a,b,c} for inside coordsys transformation
@@ -950,26 +947,24 @@ public class CoordSys {
 		if (vn.isZero()) { // vx, vy not independent
 			if (vx.isZero()) {
 				if (vy.isZero()) { // all to 0
-					ret = new double[] { 0, 0, 0 };
+					ret = new double[] {0, 0, 0};
 					CoordMatrix4x4.identity(matrixOrthonormal);
 					matrixOrthonormal.setOrigin(o);
 				} else { // vy != 0
 					vy.calcNorm();
 					double l = vy.getNorm();
-					ret = new double[] { 0, 0, l };
-					CoordMatrix4x4.createOrthoToDirection(o, vy.mul(1 / l),
-							CoordMatrix4x4.VY, tmpCoords1, tmpCoords2,
-							matrixOrthonormal);
+					ret = new double[] {0, 0, l};
+					CoordMatrix4x4.createOrthoToDirection(
+							o, vy.mul(1 / l), CoordMatrix4x4.VY, tmpCoords1, tmpCoords2, matrixOrthonormal);
 				}
 			} else { // vx != 0
 				vx.calcNorm();
 				double l = vx.getNorm();
 				vx = vx.mul(1 / l);
 				double a = vy.dotproduct(vx); // vy maybe not 0
-				ret = new double[] { l, a, 0 };
-				CoordMatrix4x4.createOrthoToDirection(o, vx, CoordMatrix4x4.VX,
-						tmpCoords1, tmpCoords2, matrixOrthonormal);
-
+				ret = new double[] {l, a, 0};
+				CoordMatrix4x4.createOrthoToDirection(
+						o, vx, CoordMatrix4x4.VX, tmpCoords1, tmpCoords2, matrixOrthonormal);
 			}
 		} else { // none are 0
 
@@ -980,12 +975,11 @@ public class CoordSys {
 			Coords vyn = vn.crossProduct4(vx);
 			double a = vy.dotproduct(vx);
 			double b = vy.dotproduct(vyn);
-			ret = new double[] { l, a, b };
+			ret = new double[] {l, a, b};
 			matrixOrthonormal.setVx(vx);
 			matrixOrthonormal.setVy(vyn);
 			matrixOrthonormal.setVz(vn);
 			matrixOrthonormal.setOrigin(o);
-
 		}
 
 		// set original origin and vectors
@@ -1004,19 +998,26 @@ public class CoordSys {
 	private void setDrawingMatrixFromMatrixOrthonormal(Coords vx) {
 
 		Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
-		CoordMatrix4x4.createOrthoToDirection(tmpCoords3,
-				matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, vx, tmpCoords1,
-				tmpCoords2, drawingMatrix);
-
+		CoordMatrix4x4.createOrthoToDirection(
+				tmpCoords3,
+				matrixOrthonormal.getVz(),
+				CoordMatrix4x4.VZ,
+				vx,
+				tmpCoords1,
+				tmpCoords2,
+				drawingMatrix);
 	}
 
 	private void setDrawingMatrixFromMatrixOrthonormal() {
 
 		Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
-		CoordMatrix4x4.createOrthoToDirection(tmpCoords3,
-				matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1,
-				tmpCoords2, drawingMatrix);
-
+		CoordMatrix4x4.createOrthoToDirection(
+				tmpCoords3,
+				matrixOrthonormal.getVz(),
+				CoordMatrix4x4.VZ,
+				tmpCoords1,
+				tmpCoords2,
+				drawingMatrix);
 	}
 
 	/**
@@ -1034,7 +1035,7 @@ public class CoordSys {
 
 	/**
 	 * rotate by phi around center, parallel to xOy plane
-	 * 
+	 *
 	 * @param phi
 	 *            angle
 	 * @param center
@@ -1052,8 +1053,7 @@ public class CoordSys {
 		// set multiplication matrix
 		matrixOrthonormal = tempMatrix3x3.mul3x3(matrixOrthonormal);
 		// set origin matrix
-		matrixOrthonormal
-				.setOrigin(tempMatrix3x3.mul(o.sub(center)).add(center));
+		matrixOrthonormal.setOrigin(tempMatrix3x3.mul(o.sub(center)).add(center));
 		matrixOrthonormal.set(4, 4, 1);
 
 		// set original origin and vectors
@@ -1069,7 +1069,7 @@ public class CoordSys {
 
 	/**
 	 * rotate the 3x3 inside matrix
-	 * 
+	 *
 	 * @param rot
 	 *            rotation matrix
 	 * @param center
@@ -1083,12 +1083,12 @@ public class CoordSys {
 		Coords vx = matrixOrthonormal.getVx();
 		Coords vz = new Coords(4);
 		vz.setValues(rot.mul(matrixOrthonormal.getVz()), 3);
-		CoordMatrix4x4.createOrthoToDirection(newOrigin, vz, CoordMatrix4x4.VZ,
-				vx, tmpCoords1, tmpCoords2, matrixOrthonormal);
+		CoordMatrix4x4.createOrthoToDirection(
+				newOrigin, vz, CoordMatrix4x4.VZ, vx, tmpCoords1, tmpCoords2, matrixOrthonormal);
 
 		/*
 		 * matrixOrthonormal = rot.mul3x3(matrixOrthonormal);
-		 * 
+		 *
 		 * //set origin matrix Coords newOrigin =
 		 * rot.mul(o.sub(center)).add(center);
 		 * matrixOrthonormal.setOrigin(newOrigin); matrixOrthonormal.set(4,4,
@@ -1109,7 +1109,7 @@ public class CoordSys {
 
 	/**
 	 * rotate by phi around axis through center and parallel to direction
-	 * 
+	 *
 	 * @param phi
 	 *            angle
 	 * @param center
@@ -1146,7 +1146,7 @@ public class CoordSys {
 
 	/**
 	 * dilate at point
-	 * 
+	 *
 	 * @param r
 	 *            ratio
 	 * @param point
@@ -1183,7 +1183,7 @@ public class CoordSys {
 
 	/**
 	 * dilate equation vector
-	 * 
+	 *
 	 * @param r
 	 *            ratio
 	 * @param point
@@ -1191,12 +1191,11 @@ public class CoordSys {
 	 */
 	public void dilateEquationVector(double r, Coords point) {
 		translateEquationVector(point.mul(1 - r));
-
 	}
 
 	/**
 	 * mirror the coord sys at point
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -1215,12 +1214,11 @@ public class CoordSys {
 			getVz().mulInside(-1);
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
-
 	}
 
 	/**
 	 * mirror equation vector at point
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -1230,7 +1228,7 @@ public class CoordSys {
 
 	/**
 	 * mirror the coord sys at line defined by point, direction
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 * @param direction
@@ -1238,8 +1236,7 @@ public class CoordSys {
 	 */
 	public void mirror(Coords point, Coords direction) {
 		// origin projected on the line
-		matrixOrthonormal.getOrigin().projectLine(point, direction, tmpCoords1,
-				null);
+		matrixOrthonormal.getOrigin().projectLine(point, direction, tmpCoords1, null);
 
 		// get projection values
 		double x = 2 * matrixOrthonormal.getVx().dotproduct(direction);
@@ -1270,7 +1267,7 @@ public class CoordSys {
 
 	/**
 	 * mirror the coord sys at plane
-	 * 
+	 *
 	 * @param cs
 	 *            coord sys representing the plane
 	 */
@@ -1290,8 +1287,7 @@ public class CoordSys {
 		matrixOrthonormal.addToVy(tmpCoords2.setMul(vn, y));
 		matrixOrthonormal.addToVz(tmpCoords2.setMul(vn, z));
 		// translate origin matrix
-		matrixOrthonormal.setOrigin(
-				tmpCoords2.setSub(tmpCoords2.setMul(tmpCoords1, 2), o));
+		matrixOrthonormal.setOrigin(tmpCoords2.setSub(tmpCoords2.setMul(tmpCoords1, 2), o));
 
 		// set original origin and vectors
 		setOrigin(matrixOrthonormal.getOrigin());
@@ -1310,29 +1306,32 @@ public class CoordSys {
 
 	/**
 	 * update this to new coord sys with continuity
-	 * 
+	 *
 	 * @param coordsys
 	 *            new coord sys
 	 */
 	public void updateContinuous(CoordSys coordsys) {
-		matrixOrthonormal.getOrigin()
-				.projectPlane(coordsys.getMatrixOrthonormal(), tmpCoords1);
+		matrixOrthonormal.getOrigin().projectPlane(coordsys.getMatrixOrthonormal(), tmpCoords1);
 		Coords vz = coordsys.getMatrixOrthonormal().getVz();
 		if (matrixOrthonormal.getVz().dotproduct(vz) < 0) {
 			vz.mulInside3(-1);
 		}
 
-		CoordMatrix4x4.createOrthoToDirection(tmpCoords1, vz, CoordMatrix4x4.VZ,
-				matrixOrthonormal.getVx(), tmpCoords2, tmpCoords3,
+		CoordMatrix4x4.createOrthoToDirection(
+				tmpCoords1,
+				vz,
+				CoordMatrix4x4.VZ,
+				matrixOrthonormal.getVx(),
+				tmpCoords2,
+				tmpCoords3,
 				matrixOrthonormal);
 
 		setFromMatrixOrthonormal();
-
 	}
 
 	/**
 	 * update to contain point
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -1346,12 +1345,12 @@ public class CoordSys {
 
 	/**
 	 * update this to contain point and vector with continuity
-	 * 
+	 *
 	 * @param point
 	 *            point to be contained
 	 * @param vector
 	 *            vector to be contained
-	 * 
+	 *
 	 */
 	public void updateContinuousPointVx(Coords point, Coords vector) {
 		tmpCoords2.setCrossProduct4(matrixOrthonormal.getVz(), vector);
@@ -1359,9 +1358,14 @@ public class CoordSys {
 		tmpCoords3.setW(0);
 		tmpCoords3.normalize();
 
-		CoordMatrix4x4.createOrthoToDirection(matrixOrthonormal.getOrigin(),
-				tmpCoords3, CoordMatrix4x4.VZ, matrixOrthonormal.getVx(),
-				tmpCoords2, tmpCoords4, matrixOrthonormal);
+		CoordMatrix4x4.createOrthoToDirection(
+				matrixOrthonormal.getOrigin(),
+				tmpCoords3,
+				CoordMatrix4x4.VZ,
+				matrixOrthonormal.getVx(),
+				tmpCoords2,
+				tmpCoords4,
+				matrixOrthonormal);
 
 		updateToContainPoint(point);
 	}
@@ -1385,10 +1389,10 @@ public class CoordSys {
 	/**
 	 * return the (v1, v2, o) parametric matrix of this plane, ie each point of
 	 * the plane is (v1, v2, o)*(a,b,1) for some a, b value
-	 * 
+	 *
 	 * @param parametricMatrix
 	 *            output matrix
-	 * 
+	 *
 	 * @return the (v1, v2, o) parametric matrix of this plane
 	 */
 	public CoordMatrix getParametricMatrix(CoordMatrix parametricMatrix) {
@@ -1402,14 +1406,14 @@ public class CoordSys {
 
 	/**
 	 * set coord sys for equation x=v
-	 * 
+	 *
 	 * @param value
 	 *            x coefficient
 	 */
 	public void setXequal(double value) {
 		resetCoordSys();
 		// equation x=0
-		equationVector.set(new double[] { 1, 0, 0, -value });
+		equationVector.set(new double[] {1, 0, 0, -value});
 		origin.setX(value);
 		origin.setY(0);
 		origin.setZ(0);
@@ -1433,7 +1437,7 @@ public class CoordSys {
 
 	/**
 	 * set coord sys for equation ax+by+d=0 (b!=0)
-	 * 
+	 *
 	 * @param a
 	 *            x coefficient
 	 * @param b
@@ -1444,7 +1448,7 @@ public class CoordSys {
 	public void setYequal(double a, double b, double d) {
 		resetCoordSys();
 		// equation ax+by+d=0
-		equationVector.set(new double[] { a, b, 0, d });
+		equationVector.set(new double[] {a, b, 0, d});
 		origin.setX(0);
 		origin.setY(-d / b);
 		origin.setZ(0);
@@ -1468,7 +1472,7 @@ public class CoordSys {
 
 	/**
 	 * set coord sys for equation ax+by+cz+d=0 (c!=0)
-	 * 
+	 *
 	 * @param a
 	 *            x coefficient
 	 * @param b
@@ -1481,7 +1485,7 @@ public class CoordSys {
 	public void setZequal(double a, double b, double c, double d) {
 		resetCoordSys();
 		// equation ax+by+d=0
-		equationVector.set(new double[] { a, b, c, d });
+		equationVector.set(new double[] {a, b, c, d});
 		origin.setX(0);
 		origin.setY(0);
 		origin.setZ(-d / c);
@@ -1503,12 +1507,11 @@ public class CoordSys {
 		makeOrthoMatrix(false, false);
 	}
 
-    /**
-     *
-     * @return true if Vx is zero vector
-     */
-    public boolean hasZeroVx() {
-        return vxIsZero;
-    }
-
+	/**
+	 *
+	 * @return true if Vx is zero vector
+	 */
+	public boolean hasZeroVx() {
+		return vxIsZero;
+	}
 }

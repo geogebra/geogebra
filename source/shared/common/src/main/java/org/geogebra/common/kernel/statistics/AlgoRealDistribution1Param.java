@@ -24,10 +24,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 
 /**
- * 
+ *
  * @author Michael Borcherds
  */
-
 public class AlgoRealDistribution1Param extends AlgoDistribution {
 
 	private final ProbabilityCalculatorSettings.Dist command;
@@ -40,8 +39,12 @@ public class AlgoRealDistribution1Param extends AlgoDistribution {
 	 * @param b
 	 *            variable value
 	 */
-	public AlgoRealDistribution1Param(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoBoolean cumulative, ProbabilityCalculatorSettings.Dist command) {
+	public AlgoRealDistribution1Param(
+			Construction cons,
+			GeoNumberValue a,
+			GeoNumberValue b,
+			GeoBoolean cumulative,
+			ProbabilityCalculatorSettings.Dist command) {
 		super(cons, cumulative, a, b, (GeoNumberValue) null);
 		this.command = command;
 		compute();
@@ -67,5 +70,4 @@ public class AlgoRealDistribution1Param extends AlgoDistribution {
 			num.setUndefined();
 		}
 	}
-
 }

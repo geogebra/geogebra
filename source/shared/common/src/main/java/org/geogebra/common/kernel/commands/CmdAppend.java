@@ -30,7 +30,7 @@ public class CmdAppend extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -45,28 +45,25 @@ public class CmdAppend extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 2:
+			case 2:
+				if (arg[0].isGeoList()) {
 
-			if (arg[0].isGeoList()) {
+					AlgoAppend algo = new AlgoAppend(cons, c.getLabel(), (GeoList) arg[0], arg[1]);
 
-				AlgoAppend algo = new AlgoAppend(cons, c.getLabel(),
-						(GeoList) arg[0], arg[1]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else if (arg[1].isGeoList()) {
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else if (arg[1].isGeoList()) {
+					AlgoAppend algo = new AlgoAppend(cons, c.getLabel(), arg[0], (GeoList) arg[1]);
 
-				AlgoAppend algo = new AlgoAppend(cons, c.getLabel(), arg[0],
-						(GeoList) arg[1]);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				} else {
+					throw argErr(c, arg[0]);
+				}
 
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			} else {
-				throw argErr(c, arg[0]);
-			}
-
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
 }

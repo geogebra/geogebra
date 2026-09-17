@@ -50,8 +50,7 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 
 	@BeforeEach
 	void setupDefaultDrawerMenuFactoryTest() {
-		AuthenticationModel baseModel = Mockito.mock(
-				AuthenticationModel.class, Answers.RETURNS_MOCKS);
+		AuthenticationModel baseModel = Mockito.mock(AuthenticationModel.class, Answers.RETURNS_MOCKS);
 		logInOperation = Mockito.mock(LogInOperation.class, Answers.CALLS_REAL_METHODS);
 		logInOperation.setModel(baseModel);
 	}
@@ -61,8 +60,7 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 		setupGraphingApp();
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.GRAPHING, logInOperation);
+				GeoGebraConstants.Platform.WEB, GeoGebraConstants.Version.GRAPHING, logInOperation);
 		assertBasicProperties(factory, 3, 8, 2, 1);
 	}
 
@@ -71,8 +69,7 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 		setupGraphingApp();
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(true);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.GRAPHING, logInOperation);
+				GeoGebraConstants.Platform.WEB, GeoGebraConstants.Version.GRAPHING, logInOperation);
 		assertBasicProperties(factory, 3, 8, 2, 2);
 	}
 
@@ -80,8 +77,7 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	void testScientificIosExam() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.IOS,
-				GeoGebraConstants.Version.SCIENTIFIC, null, true);
+				GeoGebraConstants.Platform.IOS, GeoGebraConstants.Version.SCIENTIFIC, null, true);
 		assertBasicProperties(factory, 2, 2, 2);
 	}
 
@@ -89,8 +85,7 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	void testGraphingIosExam() {
 		setupGraphingApp();
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.IOS,
-				GeoGebraConstants.Version.GRAPHING, null, true);
+				GeoGebraConstants.Platform.IOS, GeoGebraConstants.Version.GRAPHING, null, true);
 		assertBasicProperties(factory, 2, 5, 2);
 	}
 
@@ -100,7 +95,9 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 		Mockito.when(logInOperation.isLoggedIn()).thenReturn(false);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.ANDROID,
-				GeoGebraConstants.Version.GRAPHING, logInOperation, true);
+				GeoGebraConstants.Version.GRAPHING,
+				logInOperation,
+				true);
 		assertBasicProperties(factory, 3, 6, 2, 1);
 	}
 
@@ -108,13 +105,12 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	void testScientificWeb() {
 		setupApp(SuiteSubApp.SCIENTIFIC);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
-				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.SCIENTIFIC, null);
+				GeoGebraConstants.Platform.WEB, GeoGebraConstants.Version.SCIENTIFIC, null);
 		assertBasicProperties(factory, 2, 1, 2);
 	}
 
-	private void assertBasicProperties(DrawerMenuFactory factory, int numberOfGroups,
-			int... subgroupItemCounts) {
+	private void assertBasicProperties(
+			DrawerMenuFactory factory, int numberOfGroups, int... subgroupItemCounts) {
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
 		assertNotNull(menu.getTitle());
 		List<MenuItemGroup> groups = menu.getMenuItemGroups();
@@ -133,17 +129,24 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	@Test
 	void testEnableFileFeatureDisabled() {
 		setupGraphingApp();
-		Action[] fileFeatureEnabledActions = { Action.SHOW_SEARCH_VIEW, Action.SAVE_FILE,
-				Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT};
+		Action[] fileFeatureEnabledActions = {
+			Action.SHOW_SEARCH_VIEW, Action.SAVE_FILE, Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT
+		};
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.GRAPHING, null, null, false, false);
+				GeoGebraConstants.Version.GRAPHING,
+				null,
+				null,
+				false,
+				false);
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
 
 		for (MenuItemGroup menuItemGroup : menu.getMenuItemGroups()) {
 			List<MenuItem> menuItems = menuItemGroup.getMenuItems();
-			assertThat(menuItems, not(CoreMatchers.<MenuItem>hasItem(
-					hasProperty("action", is(in(fileFeatureEnabledActions))))));
+			assertThat(
+					menuItems,
+					not(CoreMatchers.<MenuItem>hasItem(
+							hasProperty("action", is(in(fileFeatureEnabledActions))))));
 		}
 	}
 
@@ -152,12 +155,19 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
-				GeoGebraConstants.Version.SUITE, null, null, false, false, true, true);
+				GeoGebraConstants.Version.SUITE,
+				null,
+				null,
+				false,
+				false,
+				true,
+				true);
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
 		MenuItemGroup group = menu.getMenuItemGroups().get(1);
 
 		// Contains Switch calculator above the settings item
-		assertThat(group.getMenuItems(),
+		assertThat(
+				group.getMenuItems(),
 				containsInRelativeOrder(
 						hasProperty("action", is(Action.SWITCH_CALCULATOR)),
 						hasProperty("action", is(Action.SHOW_SETTINGS))));
@@ -168,7 +178,13 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.SUITE, null, null, false, false, true, true);
+				GeoGebraConstants.Version.SUITE,
+				null,
+				null,
+				false,
+				false,
+				true,
+				true);
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
 		MenuItem item = menu.getMenuItemGroups().get(1).getMenuItems().get(2);
 
@@ -179,17 +195,25 @@ class DefaultDrawerMenuFactoryTest extends BaseAppTestSetup {
 	@Test
 	void testPartnerHasNoHelpAndFeedback() {
 		setupApp(SuiteSubApp.GRAPHING);
-		Action[] helpAndFeedbackActions = { Action.SHOW_TUTORIALS,
-				Action.SHOW_FORUM, Action.REPORT_PROBLEM, Action.SHOW_LICENSE};
+		Action[] helpAndFeedbackActions = {
+			Action.SHOW_TUTORIALS, Action.SHOW_FORUM, Action.REPORT_PROBLEM, Action.SHOW_LICENSE
+		};
 		DrawerMenuFactory factory = new ExternalDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.SUITE, null, null, false, false, true, true);
+				GeoGebraConstants.Version.SUITE,
+				null,
+				null,
+				false,
+				false,
+				true,
+				true);
 		DrawerMenu menu = factory.createDrawerMenu(getApp());
 
 		for (MenuItemGroup menuItemGroup : menu.getMenuItemGroups()) {
 			List<MenuItem> menuItems = menuItemGroup.getMenuItems();
-			assertThat(menuItems, not(CoreMatchers.hasItem(
-					hasProperty("action", is(in(helpAndFeedbackActions))))));
+			assertThat(
+					menuItems,
+					not(CoreMatchers.hasItem(hasProperty("action", is(in(helpAndFeedbackActions))))));
 		}
 	}
 }

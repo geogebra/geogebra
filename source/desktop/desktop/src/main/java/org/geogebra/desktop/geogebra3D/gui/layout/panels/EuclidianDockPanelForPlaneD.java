@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -39,9 +39,9 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	 * @param view
 	 *            view for plane
 	 */
-	public EuclidianDockPanelForPlaneD(AppD app, EuclidianViewForPlaneD view,
-			int viewId) {
-		super(viewId, // view id
+	public EuclidianDockPanelForPlaneD(AppD app, EuclidianViewForPlaneD view, int viewId) {
+		super(
+				viewId, // view id
 				"GraphicsViewForPlaneA", // view title
 				ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
 				true, // style bar?
@@ -53,7 +53,6 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 		view.getCompanion().setDockPanel(this);
 
 		setEmbeddedSize(300);
-
 	}
 
 	@Override
@@ -62,7 +61,7 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return view
 	 */
 	public EuclidianViewForPlaneD getView() {
@@ -71,8 +70,7 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 
 	@Override
 	protected String getPlainTitle() {
-		return app.getLocalization().getPlain(getViewTitle(),
-				view.getTranslatedFromPlaneString());
+		return app.getLocalization().getPlain(getViewTitle(), view.getTranslatedFromPlaneString());
 	}
 
 	@Override
@@ -92,14 +90,20 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 
 	@Override
 	public DockPanelData createInfo() {
-		return new DockPanelData(id, toolbarString, visible, openInFrame,
-				showStyleBar, new GRectangleD(frameBounds), embeddedDef,
-				embeddedSize, view.getFromPlaneString());
+		return new DockPanelData(
+				id,
+				toolbarString,
+				visible,
+				openInFrame,
+				showStyleBar,
+				new GRectangleD(frameBounds),
+				embeddedDef,
+				embeddedSize,
+				view.getFromPlaneString());
 	}
 
 	@Override
 	public boolean hasPlane() {
 		return false;
 	}
-
 }

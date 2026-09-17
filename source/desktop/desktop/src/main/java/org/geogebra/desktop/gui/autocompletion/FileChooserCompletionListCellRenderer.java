@@ -2,13 +2,13 @@
  * GeoGebra - Dynamic Mathematics for Everyone
  * Copyright (c) GeoGebra GmbH, Altenbergerstr. 69, 4040 Linz, Austria
  * https://www.geogebra.org
- * 
+ *
  * This file is licensed by GeoGebra GmbH under the EUPL 1.2 licence and
  * may be used under the EUPL 1.2 in compatible projects (see Article 5
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -36,16 +36,14 @@ import org.geogebra.desktop.util.ImageResourceD;
 /**
  * A simple list cell renderer derived from {@link DefaultListCellRenderer}.
  * Sets icons on the returned labels depending on the file extension.
- * 
+ *
  * @author Julian Lettner
  */
-public class FileChooserCompletionListCellRenderer
-		extends DefaultListCellRenderer {
+public class FileChooserCompletionListCellRenderer extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	private static final Icon DIRECTORY_ICON = loadIcon(GuiResourcesD.FOLDER);
-	private static final Icon UNKNOWN_FILE_ICON = loadIcon(
-			GuiResourcesD.TEXT_X_GENERIC);
+	private static final Icon UNKNOWN_FILE_ICON = loadIcon(GuiResourcesD.TEXT_X_GENERIC);
 
 	// Most of these Icons are from the the tango! icon set:
 	// http://tango.freedesktop.org/
@@ -64,13 +62,13 @@ public class FileChooserCompletionListCellRenderer
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(
+			JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		// Assumes that the values are of type 'File'
 		File file = (File) value;
 		// Cast is safe, DefaultListCellRenderer will always return a label
-		JLabel label = (JLabel) super.getListCellRendererComponent(list,
-				file.getName(), index, isSelected, cellHasFocus);
+		JLabel label = (JLabel)
+				super.getListCellRendererComponent(list, file.getName(), index, isSelected, cellHasFocus);
 		label.setIcon(getIcon(file));
 
 		return label;
@@ -92,8 +90,8 @@ public class FileChooserCompletionListCellRenderer
 	}
 
 	private static Icon loadIcon(ImageResourceD iconImage) {
-		URL iconUrl = FileChooserCompletionListCellRenderer.class
-				.getResource("/org/geogebra/desktop" + iconImage.getFilename());
+		URL iconUrl = FileChooserCompletionListCellRenderer.class.getResource(
+				"/org/geogebra/desktop" + iconImage.getFilename());
 		if (iconUrl == null) {
 			Log.debug("Could not load icon: " + iconImage);
 			return new ImageIcon();

@@ -37,9 +37,7 @@ public class AlgoFirstLocus extends AlgoFirst {
 	 * @param n
 	 *            number of points
 	 */
-	public AlgoFirstLocus(Construction cons, String label,
-			GeoLocusable inputLocus,
-			GeoNumeric n) {
+	public AlgoFirstLocus(Construction cons, String label, GeoLocusable inputLocus, GeoNumeric n) {
 		super(cons, label, inputLocus.toGeoElement(), n);
 	}
 
@@ -51,14 +49,12 @@ public class AlgoFirstLocus extends AlgoFirst {
 	@Override
 	public final void compute() {
 
-		ArrayList<? extends MyPoint> points = ((GeoLocusable) inputList)
-				.getPoints();
+		ArrayList<? extends MyPoint> points = ((GeoLocusable) inputList).getPoints();
 
 		size = points.size();
 		int outsize = n == null ? 1 : (int) n.getDouble();
 
-		if (!inputList.isDefined() || size == 0 || outsize < 0
-				|| outsize > size) {
+		if (!inputList.isDefined() || size == 0 || outsize < 0 || outsize > size) {
 			outputList.setUndefined();
 			return;
 		}
@@ -95,7 +91,5 @@ public class AlgoFirstLocus extends AlgoFirst {
 				outputList.addPoint(mp.x, mp.y, 1.0, null);
 			}
 		}
-
 	}
-
 }

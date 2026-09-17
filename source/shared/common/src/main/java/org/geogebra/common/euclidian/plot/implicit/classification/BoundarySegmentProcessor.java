@@ -28,10 +28,10 @@ import org.geogebra.common.kernel.MyPoint;
 final class BoundarySegmentProcessor {
 	private final EpsilonPolicy epsilonPolicy;
 
-	private record BoundaryBuildData(List<BoundarySegment> segments,
-									 FragmentBounds[] fragmentBounds,
-									 boolean[] fragmentPairMayIntersect) {
-	}
+	private record BoundaryBuildData(
+			List<BoundarySegment> segments,
+			FragmentBounds[] fragmentBounds,
+			boolean[] fragmentPairMayIntersect) {}
 
 	BoundarySegmentProcessor(EpsilonPolicy epsilonPolicy) {
 		this.epsilonPolicy = epsilonPolicy;
@@ -40,8 +40,8 @@ final class BoundarySegmentProcessor {
 	List<BoundarySegment> process(List<ClippedFragment> fragments) {
 		BoundaryBuildData buildData = buildBoundarySegments(fragments);
 		List<BoundarySegment> segments = buildData.segments;
-		splitBoundarySegmentsAtIntersections(segments, buildData.fragmentBounds,
-				buildData.fragmentPairMayIntersect);
+		splitBoundarySegmentsAtIntersections(
+				segments, buildData.fragmentBounds, buildData.fragmentPairMayIntersect);
 		return segments;
 	}
 
@@ -62,17 +62,24 @@ final class BoundarySegmentProcessor {
 				}
 				bounds.include(start.x, start.y);
 				bounds.include(end.x, end.y);
-				segments.add(new BoundarySegment(fragmentId, fragment.sourceContourId(),
-						segmentIndex, segmentCount, fragment.closed(), start, end));
+				segments.add(new BoundarySegment(
+						fragmentId,
+						fragment.sourceContourId(),
+						segmentIndex,
+						segmentCount,
+						fragment.closed(),
+						start,
+						end));
 			}
 			fragmentBounds[fragmentId] = bounds;
 		}
-		return new BoundaryBuildData(segments, fragmentBounds,
-				buildFragmentPairMatrix(fragmentBounds));
+		return new BoundaryBuildData(segments, fragmentBounds, buildFragmentPairMatrix(fragmentBounds));
 	}
 
-	private void splitBoundarySegmentsAtIntersections(List<BoundarySegment> segments,
-			FragmentBounds[] fragmentBounds, boolean[] fragmentPairMayIntersect) {
+	private void splitBoundarySegmentsAtIntersections(
+			List<BoundarySegment> segments,
+			FragmentBounds[] fragmentBounds,
+			boolean[] fragmentPairMayIntersect) {
 		if (segments.size() < 2) {
 			for (BoundarySegment segment : segments) {
 				segment.normalize(epsilonPolicy.getIntersection());
@@ -102,8 +109,7 @@ final class BoundarySegmentProcessor {
 							}
 							seenByCurrentSegment[otherIndex] = stamp;
 							BoundarySegment other = segments.get(otherIndex);
-							if (shouldProcessPair(other, segment, fragmentBounds,
-									fragmentPairMayIntersect)) {
+							if (shouldProcessPair(other, segment, fragmentBounds, fragmentPairMayIntersect)) {
 								addIntersectionParams(other, segment);
 							}
 						}
@@ -126,8 +132,7 @@ final class BoundarySegmentProcessor {
 		boolean[] mayIntersect = new boolean[fragmentCount * fragmentCount];
 		for (int i = 0; i < fragmentCount; i++) {
 			for (int j = i; j < fragmentCount; j++) {
-				boolean overlaps = i == j
-						|| boundingBoxesOverlap(fragmentBounds[i], fragmentBounds[j]);
+				boolean overlaps = i == j || boundingBoxesOverlap(fragmentBounds[i], fragmentBounds[j]);
 				mayIntersect[i * fragmentCount + j] = overlaps;
 				mayIntersect[j * fragmentCount + i] = overlaps;
 			}
@@ -152,18 +157,24 @@ final class BoundarySegmentProcessor {
 		return (((long) cellX) << 32) ^ (cellY & 0xffffffffL);
 	}
 
-	private boolean shouldProcessPair(BoundarySegment segment1, BoundarySegment segment2,
-			FragmentBounds[] fragmentBounds, boolean[] fragmentPairMayIntersect) {
-		if (!fragmentPairMayIntersect(segment1.fragmentId, segment2.fragmentId,
-				fragmentBounds.length, fragmentPairMayIntersect)) {
+	private boolean shouldProcessPair(
+			BoundarySegment segment1,
+			BoundarySegment segment2,
+			FragmentBounds[] fragmentBounds,
+			boolean[] fragmentPairMayIntersect) {
+		if (!fragmentPairMayIntersect(
+				segment1.fragmentId,
+				segment2.fragmentId,
+				fragmentBounds.length,
+				fragmentPairMayIntersect)) {
 			return false;
 		}
 
 		return !segment1.isAdjacent(segment2) && boundingBoxesOverlap(segment1, segment2);
 	}
 
-	private boolean fragmentPairMayIntersect(int fragmentId1, int fragmentId2, int fragmentCount,
-			boolean[] fragmentPairMayIntersect) {
+	private boolean fragmentPairMayIntersect(
+			int fragmentId1, int fragmentId2, int fragmentCount, boolean[] fragmentPairMayIntersect) {
 		return fragmentPairMayIntersect[fragmentId1 * fragmentCount + fragmentId2];
 	}
 
@@ -172,19 +183,15 @@ final class BoundarySegmentProcessor {
 			return false;
 		}
 		double eps = epsilonPolicy.getIntersection();
-		boolean xOverlap = bounds1.minX <= bounds2.maxX + eps
-				&& bounds2.minX <= bounds1.maxX + eps;
-		boolean yOverlap = bounds1.minY <= bounds2.maxY + eps
-				&& bounds2.minY <= bounds1.maxY + eps;
+		boolean xOverlap = bounds1.minX <= bounds2.maxX + eps && bounds2.minX <= bounds1.maxX + eps;
+		boolean yOverlap = bounds1.minY <= bounds2.maxY + eps && bounds2.minY <= bounds1.maxY + eps;
 		return xOverlap && yOverlap;
 	}
 
 	private boolean boundingBoxesOverlap(BoundarySegment segment1, BoundarySegment segment2) {
 		double eps = epsilonPolicy.getIntersection();
-		boolean xOverlap = segment1.minX <= segment2.maxX + eps
-				&& segment2.minX <= segment1.maxX + eps;
-		boolean yOverlap = segment1.minY <= segment2.maxY + eps
-				&& segment2.minY <= segment1.maxY + eps;
+		boolean xOverlap = segment1.minX <= segment2.maxX + eps && segment2.minX <= segment1.maxX + eps;
+		boolean yOverlap = segment1.minY <= segment2.maxY + eps && segment2.minY <= segment1.maxY + eps;
 		return xOverlap && yOverlap;
 	}
 

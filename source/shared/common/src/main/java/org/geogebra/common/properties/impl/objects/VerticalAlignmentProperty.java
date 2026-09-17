@@ -36,12 +36,11 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 		implements IconsEnumeratedProperty<VerticalAlignment> {
 
 	private static final PropertyResource[] icons = {
-			PropertyResource.ICON_ALIGNMENT_TOP, PropertyResource.ICON_ALIGNMENT_MIDDLE,
-			PropertyResource.ICON_ALIGNMENT_BOTTOM
+		PropertyResource.ICON_ALIGNMENT_TOP,
+		PropertyResource.ICON_ALIGNMENT_MIDDLE,
+		PropertyResource.ICON_ALIGNMENT_BOTTOM
 	};
-	private static final String[] rawLabels = {
-			"stylebar.Top", "stylebar.Middle", "stylebar.Bottom"
-	};
+	private static final String[] rawLabels = {"stylebar.Top", "stylebar.Middle", "stylebar.Bottom"};
 
 	private final GeoElementDelegate delegate;
 
@@ -53,9 +52,7 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.VerticalAlign");
 		delegate = new TextFormatterDelegate(element);
-		setValues(List.of(VerticalAlignment.TOP,
-				VerticalAlignment.MIDDLE,
-				VerticalAlignment.BOTTOM));
+		setValues(List.of(VerticalAlignment.TOP, VerticalAlignment.MIDDLE, VerticalAlignment.BOTTOM));
 	}
 
 	@Override
@@ -72,7 +69,8 @@ public class VerticalAlignmentProperty extends AbstractEnumeratedProperty<Vertic
 	protected void doSetValue(VerticalAlignment value) {
 		HasTextFormatter element = (HasTextFormatter) delegate.getElement();
 		HasTextFormat formatter = element.getFormatter();
-		if (getLocalization() != null && formatter != null
+		if (getLocalization() != null
+				&& formatter != null
 				&& value != formatter.getVerticalAlignment()) {
 			formatter.setVerticalAlignment(value);
 		}

@@ -74,8 +74,8 @@ public class CurveBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	private void connectHandlers(int from, int to, GGraphics2D g2) {
-		line.setLine(handlerCenterX[from], handlerCenterY[from],
-				handlerCenterX[to], handlerCenterY[to]);
+		line.setLine(
+				handlerCenterX[from], handlerCenterY[from], handlerCenterX[to], handlerCenterY[to]);
 		g2.draw(line);
 	}
 
@@ -100,8 +100,7 @@ public class CurveBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	@Override
-	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y,
-			int hitThreshold) {
+	public @NonNull ShapeManipulationHandler getHitHandler(int x, int y, int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 		if (hit >= 0) {
 			return new ControlPointHandler(hit);

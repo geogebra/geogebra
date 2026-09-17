@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Parametric derivative of a curve c. The parametric derivative of a curve c(t)
  * = (x(t), y(t)) is defined as (x(t), y'(t)/x'(t)).
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
@@ -42,14 +42,12 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 	 * @param curve
 	 *            curve
 	 */
-	public AlgoParametricDerivative(Construction cons, String label,
-			GeoCurveCartesian curve) {
+	public AlgoParametricDerivative(Construction cons, String label, GeoCurveCartesian curve) {
 		this(cons, curve);
 		paramDeriv.setLabel(label);
 	}
 
-	private AlgoParametricDerivative(Construction cons,
-			GeoCurveCartesian curve) {
+	private AlgoParametricDerivative(Construction cons, GeoCurveCartesian curve) {
 		super(cons);
 		this.curve = curve;
 		paramDeriv = (GeoCurveCartesian) curve.copyInternal(cons);
@@ -80,7 +78,7 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 	}
 
 	@Override
-	final public void compute() {
+	public final void compute() {
 		if (!curve.isDefined()) {
 			paramDeriv.setUndefined();
 			return;
@@ -92,10 +90,12 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public final String toString(StringTemplate tpl) {
 
-		return getLoc().getPlainDefault("ParametricDerivativeOfA",
-				"Parametric Derivative of %0",
-				curve.toGeoElement().getLabel(tpl));
+		return getLoc()
+				.getPlainDefault(
+						"ParametricDerivativeOfA",
+						"Parametric Derivative of %0",
+						curve.toGeoElement().getLabel(tpl));
 	}
 }

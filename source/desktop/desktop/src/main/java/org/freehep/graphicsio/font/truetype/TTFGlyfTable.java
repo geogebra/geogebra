@@ -8,7 +8,7 @@ import java.io.IOException;
 
 /**
  * GLYPH Table.
- * 
+ *
  * @author Simon Fischer
  * @version $Id: TTFGlyfTable.java,v 1.5 2009-08-17 21:44:45 murkle Exp $
  */
@@ -41,8 +41,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 		@Override
 		public String toString() {
-			return "[" + getType() + "] (" + xMin + "," + yMin + "):(" + xMax
-					+ "," + yMax + ")";
+			return "[" + getType() + "] (" + xMin + "," + yMin + "):(" + xMax + "," + yMax + ")";
 		}
 
 		public String toDetailedString() {
@@ -107,8 +106,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 				instructions[i] = ttf.readByte();
 			}
 
-			int numberOfPoints = endPtsOfContours[endPtsOfContours.length - 1]
-					+ 1;
+			int numberOfPoints = endPtsOfContours[endPtsOfContours.length - 1] + 1;
 			flags = new int[numberOfPoints];
 			xCoordinates = new int[numberOfPoints];
 			yCoordinates = new int[numberOfPoints];
@@ -168,8 +166,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 		@Override
 		public String toString() {
-			String str = super.toString() + ", " + numberOfContours
-					+ " contours, endPts={";
+			String str = super.toString() + ", " + numberOfContours + " contours, endPts={";
 			for (int i = 0; i < numberOfContours; i++) {
 				str += (i == 0 ? "" : ",") + endPtsOfContours[i];
 			}
@@ -196,8 +193,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 			int p = 0;
 			for (int i = 0; i < endPtsOfContours.length; i++) {
 				int startIndex = p++;
-				shape.moveTo(xCoordinates[startIndex],
-						yCoordinates[startIndex]);
+				shape.moveTo(xCoordinates[startIndex], yCoordinates[startIndex]);
 				boolean lastOnCurve = true;
 				while (p <= endPtsOfContours[i]) {
 
@@ -205,9 +201,8 @@ public class TTFGlyfTable extends TTFVersionTable {
 						if (lastOnCurve) {
 							shape.lineTo(xCoordinates[p], yCoordinates[p]);
 						} else {
-							shape.quadTo(xCoordinates[p - 1],
-									yCoordinates[p - 1], xCoordinates[p],
-									yCoordinates[p]);
+							shape.quadTo(
+									xCoordinates[p - 1], yCoordinates[p - 1], xCoordinates[p], yCoordinates[p]);
 						}
 						lastOnCurve = true;
 					} else {
@@ -223,8 +218,11 @@ public class TTFGlyfTable extends TTFVersionTable {
 					p++;
 				}
 				if (!onCurve[p - 1]) {
-					shape.quadTo(xCoordinates[p - 1], yCoordinates[p - 1],
-							xCoordinates[startIndex], yCoordinates[startIndex]);
+					shape.quadTo(
+							xCoordinates[p - 1],
+							yCoordinates[p - 1],
+							xCoordinates[startIndex],
+							yCoordinates[startIndex]);
 				} else if ((xCoordinates[p - 1] != xCoordinates[startIndex])
 						|| (yCoordinates[p - 1] != yCoordinates[startIndex])) {
 					shape.closePath();
@@ -288,8 +286,7 @@ public class TTFGlyfTable extends TTFVersionTable {
 				if (ttf.flagBit(ARGS_XY)) {
 					t.translate(arg1, arg2);
 				} else {
-					System.err.println(
-							"TTFGlyfTable: ARGS_ARE_POINTS not implemented.");
+					System.err.println("TTFGlyfTable: ARGS_ARE_POINTS not implemented.");
 				}
 
 				if (ttf.flagBit(SCALE)) {
@@ -300,12 +297,10 @@ public class TTFGlyfTable extends TTFVersionTable {
 					double scaleY = ttf.readF2Dot14();
 					t.scale(scaleX, scaleY);
 				} else if (ttf.flagBit(TWO_BY_TWO)) {
-					System.err.println(
-							"TTFGlyfTable: WE_HAVE_A_TWO_BY_TWO not implemented.");
+					System.err.println("TTFGlyfTable: WE_HAVE_A_TWO_BY_TWO not implemented.");
 				}
 
-				GeneralPath appendGlyph = (GeneralPath) getGlyph(glyphIndex)
-						.getShape().clone();
+				GeneralPath appendGlyph = (GeneralPath) getGlyph(glyphIndex).getShape().clone();
 				appendGlyph.transform(t);
 				shape.append(appendGlyph, false);
 			}
@@ -315,7 +310,6 @@ public class TTFGlyfTable extends TTFVersionTable {
 		public String toString() {
 			return super.toString() + ", " + noComponents + " components";
 		}
-
 	}
 
 	// --------------------------------------------------------------------------------
@@ -342,14 +336,12 @@ public class TTFGlyfTable extends TTFVersionTable {
 					try {
 						getGlyph(i);
 					} catch (IOException e) {
-						System.err.println("While reading glyph #" + i
-								+ " (offset " + offsets[i] + "):");
+						System.err.println("While reading glyph #" + i + " (offset " + offsets[i] + "):");
 						e.printStackTrace();
 					}
 				}
 			}
 		}
-
 	}
 
 	public Glyph getGlyph(int i) throws IOException {

@@ -25,14 +25,14 @@ import org.geogebra.common.main.MyError;
 
 /**
  * RemoveUndefined[ &lt;List&gt; ]
- * 
+ *
  * @author Michael Borcherds
  * @version 2008-03-06
  */
 public class CmdRemoveUndefined extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -47,20 +47,17 @@ public class CmdRemoveUndefined extends CommandProcessor {
 		arg = resArgs(c, info);
 
 		switch (n) {
-		case 1:
+			case 1:
+				if (arg[0].isGeoList()) {
 
-			if (arg[0].isGeoList()) {
+					AlgoRemoveUndefined algo = new AlgoRemoveUndefined(cons, c.getLabel(), (GeoList) arg[0]);
 
-				AlgoRemoveUndefined algo = new AlgoRemoveUndefined(cons,
-						c.getLabel(), (GeoList) arg[0]);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(c, arg[0]);
-		default:
-			throw argNumErr(c);
+					GeoElement[] ret = {algo.getResult()};
+					return ret;
+				}
+				throw argErr(c, arg[0]);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

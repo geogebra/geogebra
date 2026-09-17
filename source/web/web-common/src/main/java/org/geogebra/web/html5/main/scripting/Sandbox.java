@@ -58,7 +58,6 @@ public class Sandbox {
 		if (QuickJS.get() == null) {
 
 			return new Promise<>((resolve, reject) -> {
-
 				GWT.runAsync(QuickJS.class, new RunAsyncCallback() {
 					@Override
 					public void onFailure(Throwable throwable) {

@@ -42,8 +42,7 @@ public interface IsEuclidianController extends LongTouchHandler {
 	 * @param pointerEventType pointer event type
 	 * @param pointerDown whether this was triggered by pointer down event
 	 */
-	void setDefaultEventType(PointerEventType pointerEventType,
-			boolean pointerDown);
+	void setDefaultEventType(PointerEventType pointerEventType, boolean pointerDown);
 
 	/**
 	 * Handle touch move event for two pointers.

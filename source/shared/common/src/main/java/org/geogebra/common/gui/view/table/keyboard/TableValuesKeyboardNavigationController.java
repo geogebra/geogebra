@@ -53,7 +53,13 @@ public final class TableValuesKeyboardNavigationController {
 	 * Keys handled by navigation controller.
 	 */
 	public enum Key {
-		ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ARROW_DOWN, RETURN, CONTEXT_MENU, COPY;
+		ARROW_LEFT,
+		ARROW_RIGHT,
+		ARROW_UP,
+		ARROW_DOWN,
+		RETURN,
+		CONTEXT_MENU,
+		COPY;
 	}
 
 	@NonOwning
@@ -62,6 +68,7 @@ public final class TableValuesKeyboardNavigationController {
 
 	@NonOwning
 	private final @NonNull TableValues tableValuesView;
+
 	@NonOwning
 	private final @NonNull TableValuesModel tableValuesModel;
 
@@ -77,7 +84,8 @@ public final class TableValuesKeyboardNavigationController {
 	 * @param delegate The delegate (can be null here, but must be supplied through
 	 * the public writable field before use).
 	 */
-	public TableValuesKeyboardNavigationController(@NonNull TableValues tableValuesView,
+	public TableValuesKeyboardNavigationController(
+			@NonNull TableValues tableValuesView,
 			TableValuesKeyboardNavigationControllerDelegate delegate) {
 		this.tableValuesView = tableValuesView;
 		this.tableValuesModel = tableValuesView.getTableValuesModel();
@@ -137,11 +145,12 @@ public final class TableValuesKeyboardNavigationController {
 	 * different color in the UI, for example.
 	 */
 	public boolean isColumnEditable(int column) {
-		return !isReadonly && (tableValuesModel.isColumnEditable(column)
-				|| (tableValuesModel.allowsAddingColumns()
-				&& column == tableValuesModel.getColumnCount()));
+		return !isReadonly
+				&& (tableValuesModel.isColumnEditable(column)
+						|| (tableValuesModel.allowsAddingColumns()
+								&& column == tableValuesModel.getColumnCount()));
 	}
-	
+
 	/**
 	 * Select a cell.
 	 * @param row the row index to select, or -1 to clear any selection.
@@ -196,7 +205,7 @@ public final class TableValuesKeyboardNavigationController {
 			}
 		}
 	}
-	
+
 	/**
 	 * Clear (remove) any selection.
 	 *
@@ -222,27 +231,27 @@ public final class TableValuesKeyboardNavigationController {
 			return; // see apiNote
 		}
 		switch (key) {
-		case ARROW_LEFT:
-			handleArrowLeft();
-			break;
-		case ARROW_RIGHT:
-			handleArrowRight();
-			break;
-		case ARROW_UP:
-			handleArrowUp();
-			break;
-		case ARROW_DOWN:
-			handleArrowDown();
-			break;
-		case RETURN:
-			handleArrowDown();
-			break;
-		case CONTEXT_MENU:
-			handleContextMenu();
-			break;
-		case COPY:
-			handleCopy();
-			break;
+			case ARROW_LEFT:
+				handleArrowLeft();
+				break;
+			case ARROW_RIGHT:
+				handleArrowRight();
+				break;
+			case ARROW_UP:
+				handleArrowUp();
+				break;
+			case ARROW_DOWN:
+				handleArrowDown();
+				break;
+			case RETURN:
+				handleArrowDown();
+				break;
+			case CONTEXT_MENU:
+				handleContextMenu();
+				break;
+			case COPY:
+				handleCopy();
+				break;
 		}
 	}
 
@@ -287,8 +296,7 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	private void handleArrowDown() {
-		if (!isColumnEditable(selectedColumn)
-				&& selectedRow == tableValuesModel.getRowCount() - 1) {
+		if (!isColumnEditable(selectedColumn) && selectedRow == tableValuesModel.getRowCount() - 1) {
 			return;
 		}
 		if (isEditingPlaceholderColumn()) {
@@ -325,7 +333,8 @@ public final class TableValuesKeyboardNavigationController {
 	}
 
 	private int findNavigableColumn(int column, int direction) {
-		for (int index = column + direction; index >= 0 && index < getMaxColumnIndex();
+		for (int index = column + direction;
+				index >= 0 && index < getMaxColumnIndex();
 				index += direction) {
 			if (isCellNavigable(selectedRow, index)) {
 				return index;

@@ -31,14 +31,12 @@ public class CmdPointIn3D extends CmdPointIn {
 	 */
 	public CmdPointIn3D(Kernel kernel) {
 		super(kernel);
-
 	}
 
 	@Override
 	protected GeoElement[] pointIn(String label, Region region) {
 		if (region.isRegion3D()) {
-			GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-					.point3DIn(label, region, false) };
+			GeoElement[] ret = {(GeoElement) kernel.getManager3D().point3DIn(label, region, false)};
 			return ret;
 		}
 

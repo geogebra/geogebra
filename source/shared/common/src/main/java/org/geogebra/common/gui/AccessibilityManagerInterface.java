@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
- * 
+ *
  * @author Laszlo
  *
  */
@@ -45,7 +45,7 @@ public interface AccessibilityManagerInterface {
 
 	/**
 	 * Focus algebra input
-	 * 
+	 *
 	 * @param force
 	 *            force to open AV tab if not active
 	 * @param forceFade
@@ -56,7 +56,7 @@ public interface AccessibilityManagerInterface {
 
 	/**
 	 * Focus the geo specified.
-	 * 
+	 *
 	 * @param geo
 	 *            to focus.
 	 */
@@ -66,7 +66,7 @@ public interface AccessibilityManagerInterface {
 	 * Use this method to set an anchor you like to give the focus back to. For
 	 * example setting a button as a focus anchor that opens a popup, closing it
 	 * can give back the focus to the button.
-	 * 
+	 *
 	 * @param anchor
 	 *            to give back the focus.
 	 */
@@ -74,7 +74,7 @@ public interface AccessibilityManagerInterface {
 
 	/**
 	 * Get the anchor.
-	 * 
+	 *
 	 * @return anchor to give back the focus.
 	 */
 	FocusableComponent getAnchor();

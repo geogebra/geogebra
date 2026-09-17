@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  */
 public class ProtectiveAlgebraOutputFilter implements AlgebraOutputFilter {
 
-    private FunctionAndEquationFilter functionAndEquationFilter = new FunctionAndEquationFilter();
+	private FunctionAndEquationFilter functionAndEquationFilter = new FunctionAndEquationFilter();
 
 	/**
 	 * Checks whether the geo element's output is allowed.
@@ -33,5 +33,5 @@ public class ProtectiveAlgebraOutputFilter implements AlgebraOutputFilter {
 	@Override
 	public boolean isAllowed(GeoElementND geoElement) {
 		return functionAndEquationFilter.isAllowed(geoElement);
-    }
+	}
 }

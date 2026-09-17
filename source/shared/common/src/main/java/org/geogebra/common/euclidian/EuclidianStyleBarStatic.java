@@ -54,10 +54,8 @@ import org.jspecify.annotations.Nullable;
 
 public class EuclidianStyleBarStatic {
 
-	public final static String[] bracketArray = { "\u00D8", "{ }", "( )", "[ ]",
-			"| |", "|| ||" };
-	private final static String[] bracketArray2 = { "\u00D8", "{ }", "( )",
-			"[ ]", "||", "||||" };
+	public static final String[] bracketArray = {"\u00D8", "{ }", "( )", "[ ]", "| |", "|| ||"};
+	private static final String[] bracketArray2 = {"\u00D8", "{ }", "( )", "[ ]", "||", "||||"};
 
 	/**
 	 * @param geos
@@ -68,8 +66,8 @@ public class EuclidianStyleBarStatic {
 	 *            view
 	 * @return new geo if redefinition was needed
 	 */
-	public static @Nullable GeoElement applyFixPosition(List<GeoElement> geos,
-			boolean flag, EuclidianViewInterfaceCommon ev) {
+	public static @Nullable GeoElement applyFixPosition(
+			List<GeoElement> geos, boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
 		App app = geos.get(0).getKernel().getApplication();
 
@@ -83,8 +81,7 @@ public class EuclidianStyleBarStatic {
 			// problem with ghost geos
 			if (!geo.isLabelSet()) {
 				Log.warn(
-						"applyFixPosition() called with a geo with label not set: "
-								+ geo.getLabelSimple());
+						"applyFixPosition() called with a geo with label not set: " + geo.getLabelSimple());
 				continue;
 			}
 
@@ -92,20 +89,17 @@ public class EuclidianStyleBarStatic {
 			app.getSelectionManager().addSelectedGeo(geo, false, false);
 
 			if (geo.isGeoSegment()) {
-				if (geo.getParentAlgorithm() != null
-						&& geo.getParentAlgorithm().getInput().length == 3) {
+				if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm().getInput().length == 3) {
 					// segment is output from a Polygon
 					continue;
 				}
 			}
 
 			if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
-				AlgoAttachCopyToView algo = (AlgoAttachCopyToView) geo
-						.getParentAlgorithm();
+				AlgoAttachCopyToView algo = (AlgoAttachCopyToView) geo.getParentAlgorithm();
 
 				if (!flag) {
-					GeoElement geo0 = redefineGeo(geo,
-							getDefinitionString(algo.getInput()[0]));
+					GeoElement geo0 = redefineGeo(geo, getDefinitionString(algo.getInput()[0]));
 
 					if (i == 0) {
 						ret = geo0;
@@ -117,19 +111,15 @@ public class EuclidianStyleBarStatic {
 
 				geo.setEuclidianVisible(true);
 				geo.updateRepaint();
-			} else if (geo instanceof AbsoluteScreenLocateable
-					&& !geo.isGeoList()) {
-				AbsoluteScreenLocationModel
-						.setAbsolute((AbsoluteScreenLocateable) geo, flag, ev);
+			} else if (geo instanceof AbsoluteScreenLocateable && !geo.isGeoList()) {
+				AbsoluteScreenLocationModel.setAbsolute((AbsoluteScreenLocateable) geo, flag, ev);
 			} else if (geo.isPinnable()) {
 				Kernel kernelA = app.getKernel();
 
 				GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
 				GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
-				GeoPoint screenCorner1 = new GeoPoint(
-						kernelA.getConstruction());
-				GeoPoint screenCorner3 = new GeoPoint(
-						kernelA.getConstruction());
+				GeoPoint screenCorner1 = new GeoPoint(kernelA.getConstruction());
+				GeoPoint screenCorner3 = new GeoPoint(kernelA.getConstruction());
 
 				int viewNo = 1;
 
@@ -142,8 +132,8 @@ public class EuclidianStyleBarStatic {
 				}
 
 				// "false" here so that pinning works for eg polygons
-				GeoElement geo0 = redefineGeo(geo, "AttachCopyToView["
-						+ getDefinitionString(geo) + "," + viewNo + "]");
+				GeoElement geo0 =
+						redefineGeo(geo, "AttachCopyToView[" + getDefinitionString(geo) + "," + viewNo + "]");
 
 				if (i == 0) {
 					ret = geo0;
@@ -173,8 +163,8 @@ public class EuclidianStyleBarStatic {
 	 *            view
 	 * @return first geo or null if not fixable
 	 */
-	public static GeoElement applyFixObject(List<GeoElement> geos,
-			boolean flag, EuclidianViewInterfaceCommon ev) {
+	public static GeoElement applyFixObject(
+			List<GeoElement> geos, boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
 
 		App app = geos.get(0).getKernel().getApplication();
@@ -196,10 +186,8 @@ public class EuclidianStyleBarStatic {
 			// problem with ghost geos
 			if (!geo.isLabelSet()) {
 				Log.warn(
-						"applyFixPosition() called with a geo with label not set: "
-								+ geo.getLabelSimple());
+						"applyFixPosition() called with a geo with label not set: " + geo.getLabelSimple());
 				continue;
-
 			}
 
 			// put again labelled geo into selection
@@ -213,7 +201,6 @@ public class EuclidianStyleBarStatic {
 				Log.debug("not fixable");
 				return null;
 			}
-
 		}
 
 		app.getSelectionManager().updateSelection();
@@ -228,12 +215,10 @@ public class EuclidianStyleBarStatic {
 		// everything else
 		if ("".equals(definitionStr)) {
 			// "false" here so that pinning works for eg polygons
-			definitionStr = geo.getFormulaString(StringTemplate.maxPrecision,
-					false);
+			definitionStr = geo.getFormulaString(StringTemplate.maxPrecision, false);
 		}
 
 		return definitionStr;
-
 	}
 
 	/**
@@ -251,9 +236,9 @@ public class EuclidianStyleBarStatic {
 		final App app = geo.getKernel().getApplication();
 		Box<GeoElementND> newGeo = new Box<>(null);
 		try {
-			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,
-					true, true, app.getDefaultErrorHandler(),
-					newGeo1 -> {
+			app.getKernel()
+					.getAlgebraProcessor()
+					.changeGeoElement(geo, cmdtext, true, true, app.getDefaultErrorHandler(), newGeo1 -> {
 						newGeo.value = newGeo1;
 						if (newGeo1 != null) {
 							app.doAfterRedefine(newGeo1);
@@ -274,20 +259,20 @@ public class EuclidianStyleBarStatic {
 
 	/**
 	 * check geos for "label style" button
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 * @return true if "label style" button applies on all geos
 	 */
-
 	public static GeoElement checkGeosForCaptionStyle(List<GeoElement> geos) {
 		if (geos.size() <= 0) {
 			return null;
 		}
 
 		for (GeoElement current : geos) {
-			if (current.isLabelShowable() || current.isGeoAngle() || (current.isGeoNumeric()
-					&& current.isLockedPosition())) {
+			if (current.isLabelShowable()
+					|| current.isGeoAngle()
+					|| (current.isGeoNumeric() && current.isLockedPosition())) {
 				return current;
 			}
 		}
@@ -309,8 +294,12 @@ public class EuclidianStyleBarStatic {
 	 * @param app
 	 *            application
 	 */
-	public static void applyTableTextFormat(List<GeoElement> geos,
-			String justify, boolean hSelected, boolean vSelected, int index,
+	public static void applyTableTextFormat(
+			List<GeoElement> geos,
+			String justify,
+			boolean hSelected,
+			boolean vSelected,
+			int index,
 			App app) {
 		String arg = justify;
 		if (hSelected) {
@@ -336,16 +325,13 @@ public class EuclidianStyleBarStatic {
 			cmdText.append("TableText[");
 			for (int j = 0; j < input.length; j++) {
 				if (input[j] instanceof GeoList) {
-					cmdText.append(input[j]
-							.getFormulaString(StringTemplate.defaultTemplate,
-									false));
+					cmdText.append(input[j].getFormulaString(StringTemplate.defaultTemplate, false));
 					cmdText.append(",");
 				}
 			}
 			cmdText.append("\"");
 			cmdText.append(arg);
-			cmdText.append(
-					((AlgoTableText) geo.getParentAlgorithm()).getAlignment());
+			cmdText.append(((AlgoTableText) geo.getParentAlgorithm()).getAlignment());
 			cmdText.append("\"]");
 
 			// use the new cmd to redefine the geo and save it to a list.
@@ -366,8 +352,7 @@ public class EuclidianStyleBarStatic {
 	 *            index
 	 * @return success
 	 */
-	public static boolean applyCaptionStyle(List<GeoElement> geos,
-			int mode, int index) {
+	public static boolean applyCaptionStyle(List<GeoElement> geos, int mode, int index) {
 
 		boolean needUndo = false;
 
@@ -375,8 +360,9 @@ public class EuclidianStyleBarStatic {
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo.isLabelShowable() || geo.isGeoAngle() || (geo.isGeoNumeric()
-					&& geo.isLockedPosition())) {
+			if (geo.isLabelShowable()
+					|| geo.isGeoAngle()
+					|| (geo.isGeoNumeric() && geo.isLockedPosition())) {
 				geo.setLabelModeFromStylebar(index);
 			}
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);
@@ -396,15 +382,14 @@ public class EuclidianStyleBarStatic {
 	 *            line thickness
 	 * @return success
 	 */
-	public static boolean applyLineStyle(int lineStyleIndex, int lineSize, App app,
-			List<GeoElement> geos) {
+	public static boolean applyLineStyle(
+			int lineStyleIndex, int lineSize, App app, List<GeoElement> geos) {
 		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
 		boolean needUndo = false;
 
 		for (GeoElement geo : geos) {
 			boolean thicknessChanged = geo.getLineThickness() != lineSize;
-			if (geo.getLineType() != lineStyle
-					|| thicknessChanged) {
+			if (geo.getLineType() != lineStyle || thicknessChanged) {
 				geo.setLineType(lineStyle);
 				geo.setLineThickness(lineSize);
 				geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
@@ -424,16 +409,15 @@ public class EuclidianStyleBarStatic {
 	 *            point size
 	 * @return success
 	 */
-	public static boolean applyPointStyle(List<GeoElement> geos,
-			int pointStyleSelIndex, int pointSize) {
+	public static boolean applyPointStyle(
+			List<GeoElement> geos, int pointStyleSelIndex, int pointSize) {
 		int pointStyle = EuclidianView.getPointStyle(pointStyleSelIndex);
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof PointProperties) {
 				if (((PointProperties) geo).getPointSize() != pointSize
-						|| (((PointProperties) geo)
-								.getPointStyle() != pointStyle)) {
+						|| (((PointProperties) geo).getPointStyle() != pointStyle)) {
 					((PointProperties) geo).setPointSize(pointSize);
 					((PointProperties) geo).setPointStyle(pointStyle);
 					geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
@@ -462,8 +446,7 @@ public class EuclidianStyleBarStatic {
 			// (includes texts since MOW-441)
 			if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
 				geo.setAlphaValue(alpha);
-			} else if (geo.getObjectColor() != color
-					|| geo.getAlphaValue() != alpha) {
+			} else if (geo.getObjectColor() != color || geo.getAlphaValue() != alpha) {
 				geo.setObjColor(color);
 				// if we change alpha for functions, hit won't work properly
 				if (geo.isFillable() && geo.getAlphaValue() != alpha) {
@@ -490,15 +473,13 @@ public class EuclidianStyleBarStatic {
 	 *            opacity
 	 * @return success
 	 */
-	public static boolean applyBgColor(List<GeoElement> geos, GColor color,
-			double alpha) {
+	public static boolean applyBgColor(List<GeoElement> geos, GColor color, double alpha) {
 		boolean needUndo = false;
 
 		for (GeoElement geo : geos) {
 			// if text geo, then apply background color
 			if (geo instanceof TextStyle || geo instanceof GeoFormula) {
-				if (geo.getBackgroundColor() != color
-						|| geo.getAlphaValue() != alpha) {
+				if (geo.getBackgroundColor() != color || geo.getAlphaValue() != alpha) {
 					geo.setBackgroundColor(color);
 
 					geo.updateVisualStyleRepaint(GProperty.COLOR_BG);
@@ -518,8 +499,7 @@ public class EuclidianStyleBarStatic {
 	 *            bits to add to font style
 	 * @return success
 	 */
-	public static boolean applyFontStyle(List<GeoElement> geos, int mask,
-			boolean add) {
+	public static boolean applyFontStyle(List<GeoElement> geos, int mask, boolean add) {
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++) {
@@ -559,16 +539,15 @@ public class EuclidianStyleBarStatic {
 	 *            text size index
 	 * @return success
 	 */
-	public static boolean applyTextSize(List<GeoElement> geos,
-			int textSizeIndex) {
+	public static boolean applyTextSize(List<GeoElement> geos, int textSizeIndex) {
 		boolean needUndo = false;
 		// transform indices to the range -4, // .. , 4
 		double fontSize = GeoText.getRelativeFontSize(textSizeIndex);
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo instanceof TextProperties && ((TextProperties) geo)
-					.getFontSizeMultiplier() != fontSize) {
+			if (geo instanceof TextProperties
+					&& ((TextProperties) geo).getFontSizeMultiplier() != fontSize) {
 				((TextProperties) geo).setFontSizeMultiplier(fontSize);
 				geo.updateVisualStyleRepaint(GProperty.FONT);
 				needUndo = true;
@@ -637,129 +616,94 @@ public class EuclidianStyleBarStatic {
 	 */
 	public static HashMap<Integer, Integer> createDefaultMap() {
 		HashMap<Integer, Integer> defaultGeoMap = new HashMap<>();
-		defaultGeoMap.put(EuclidianConstants.MODE_POINT,
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_POINT, ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_COMPLEX_NUMBER, ConstructionDefaults.DEFAULT_POINT_COMPLEX);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_POINT_ON_OBJECT,
 				ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX);
-		defaultGeoMap.put(EuclidianConstants.MODE_COMPLEX_NUMBER,
-				ConstructionDefaults.DEFAULT_POINT_COMPLEX);
-		defaultGeoMap.put(EuclidianConstants.MODE_POINT_ON_OBJECT,
-				ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX);
-		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECT,
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
-		defaultGeoMap.put(EuclidianConstants.MODE_MIDPOINT,
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_INTERSECT, ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_MIDPOINT, ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_JOIN,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_SEGMENT,
-				ConstructionDefaults.DEFAULT_SEGMENT);
-		defaultGeoMap.put(EuclidianConstants.MODE_SEGMENT_FIXED,
-				ConstructionDefaults.DEFAULT_SEGMENT);
-		defaultGeoMap.put(EuclidianConstants.MODE_RAY,
-				ConstructionDefaults.DEFAULT_RAY);
-		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR,
-				ConstructionDefaults.DEFAULT_VECTOR);
-		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR_FROM_POINT,
-				ConstructionDefaults.DEFAULT_VECTOR);
+		defaultGeoMap.put(EuclidianConstants.MODE_JOIN, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_SEGMENT, ConstructionDefaults.DEFAULT_SEGMENT);
+		defaultGeoMap.put(EuclidianConstants.MODE_SEGMENT_FIXED, ConstructionDefaults.DEFAULT_SEGMENT);
+		defaultGeoMap.put(EuclidianConstants.MODE_RAY, ConstructionDefaults.DEFAULT_RAY);
+		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR, ConstructionDefaults.DEFAULT_VECTOR);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_VECTOR_FROM_POINT, ConstructionDefaults.DEFAULT_VECTOR);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_PARALLEL,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_LINE_BISECTOR,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_ANGULAR_BISECTOR,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_TANGENTS,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_POLAR_DIAMETER,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_FITLINE,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_CREATE_LIST,
-				ConstructionDefaults.DEFAULT_LIST);
-		defaultGeoMap.put(EuclidianConstants.MODE_LOCUS,
-				ConstructionDefaults.DEFAULT_LOCUS);
+		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_PARALLEL, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_LINE_BISECTOR, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_ANGULAR_BISECTOR, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_TANGENTS, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_POLAR_DIAMETER, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_FITLINE, ConstructionDefaults.DEFAULT_LINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_CREATE_LIST, ConstructionDefaults.DEFAULT_LIST);
+		defaultGeoMap.put(EuclidianConstants.MODE_LOCUS, ConstructionDefaults.DEFAULT_LOCUS);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_REGULAR_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_RIGID_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_POLYLINE,
-				ConstructionDefaults.DEFAULT_POLYLINE);
+		defaultGeoMap.put(EuclidianConstants.MODE_POLYGON, ConstructionDefaults.DEFAULT_POLYGON);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_REGULAR_POLYGON, ConstructionDefaults.DEFAULT_POLYGON);
+		defaultGeoMap.put(EuclidianConstants.MODE_RIGID_POLYGON, ConstructionDefaults.DEFAULT_POLYGON);
+		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR_POLYGON, ConstructionDefaults.DEFAULT_POLYGON);
+		defaultGeoMap.put(EuclidianConstants.MODE_POLYLINE, ConstructionDefaults.DEFAULT_POLYLINE);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_TWO_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_COMPASSES,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_SEMICIRCLE,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS,
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CIRCLE_TWO_POINTS, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CIRCLE_POINT_RADIUS, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(EuclidianConstants.MODE_COMPASSES, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CIRCLE_THREE_POINTS, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(EuclidianConstants.MODE_SEMICIRCLE, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS,
 				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
 		defaultGeoMap.put(
 				EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS,
 				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_PARABOLA,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CONIC_FIVE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_ELLIPSE_THREE_POINTS, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(EuclidianConstants.MODE_PARABOLA, ConstructionDefaults.DEFAULT_CONIC);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CONIC_FIVE_POINTS, ConstructionDefaults.DEFAULT_CONIC);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_ANGLE,
-				ConstructionDefaults.DEFAULT_ANGLE);
-		defaultGeoMap.put(EuclidianConstants.MODE_ANGLE_FIXED,
-				ConstructionDefaults.DEFAULT_ANGLE);
+		defaultGeoMap.put(EuclidianConstants.MODE_ANGLE, ConstructionDefaults.DEFAULT_ANGLE);
+		defaultGeoMap.put(EuclidianConstants.MODE_ANGLE_FIXED, ConstructionDefaults.DEFAULT_ANGLE);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_DISTANCE,
-				ConstructionDefaults.DEFAULT_TEXT);
-		defaultGeoMap.put(EuclidianConstants.MODE_AREA,
-				ConstructionDefaults.DEFAULT_TEXT);
-		defaultGeoMap.put(EuclidianConstants.MODE_SLOPE,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_RELATION,
-				ConstructionDefaults.DEFAULT_LIST);
+		defaultGeoMap.put(EuclidianConstants.MODE_DISTANCE, ConstructionDefaults.DEFAULT_TEXT);
+		defaultGeoMap.put(EuclidianConstants.MODE_AREA, ConstructionDefaults.DEFAULT_TEXT);
+		defaultGeoMap.put(EuclidianConstants.MODE_SLOPE, ConstructionDefaults.DEFAULT_POLYGON);
+		defaultGeoMap.put(EuclidianConstants.MODE_RELATION, ConstructionDefaults.DEFAULT_LIST);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_LINE,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_POINT,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_CIRCLE,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_ROTATE_BY_ANGLE,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_DILATE_FROM_POINT,
-				ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_LINE, ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_POINT, ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_CIRCLE, ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_ROTATE_BY_ANGLE, ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_TRANSLATE_BY_VECTOR, ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_DILATE_FROM_POINT, ConstructionDefaults.DEFAULT_NONE);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_TEXT,
-				ConstructionDefaults.DEFAULT_TEXT);
-		defaultGeoMap.put(EuclidianConstants.MODE_SLIDER,
-				ConstructionDefaults.DEFAULT_NUMBER);
-		defaultGeoMap.put(EuclidianConstants.MODE_IMAGE,
-				ConstructionDefaults.DEFAULT_IMAGE);
+		defaultGeoMap.put(EuclidianConstants.MODE_TEXT, ConstructionDefaults.DEFAULT_TEXT);
+		defaultGeoMap.put(EuclidianConstants.MODE_SLIDER, ConstructionDefaults.DEFAULT_NUMBER);
+		defaultGeoMap.put(EuclidianConstants.MODE_IMAGE, ConstructionDefaults.DEFAULT_IMAGE);
 
-		defaultGeoMap.put(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
-				ConstructionDefaults.DEFAULT_BOOLEAN);
-		defaultGeoMap.put(EuclidianConstants.MODE_BUTTON_ACTION,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_TEXTFIELD_ACTION,
-				ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX, ConstructionDefaults.DEFAULT_BOOLEAN);
+		defaultGeoMap.put(EuclidianConstants.MODE_BUTTON_ACTION, ConstructionDefaults.DEFAULT_NONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_TEXTFIELD_ACTION, ConstructionDefaults.DEFAULT_NONE);
 
 		return defaultGeoMap;
 	}
@@ -797,7 +741,7 @@ public class EuclidianStyleBarStatic {
 
 	/**
 	 * check geos for "fix position" button
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 * @return true if "fix position" button applies on all geos
@@ -813,20 +757,18 @@ public class EuclidianStyleBarStatic {
 			}
 
 			if (geo.isGeoSegment()) {
-				if (geo.getParentAlgorithm() != null
-						&& geo.getParentAlgorithm().getInput().length == 3) {
+				if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm().getInput().length == 3) {
 					// segment is output from a Polygon
 					return false;
 				}
 			}
-
 		}
 		return true;
 	}
 
 	/**
 	 * check geos for "fix object" button
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 * @return true if "fix object" button applies on all geos
@@ -846,7 +788,7 @@ public class EuclidianStyleBarStatic {
 
 	/**
 	 * check geos for "angle interval" button
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 * @return true if "angle interval" button applies on all geos
@@ -858,7 +800,8 @@ public class EuclidianStyleBarStatic {
 
 		for (GeoElement geo : geos) {
 			if ((geo.isDefaultGeo() || !geo.isIndependent())
-					&& (geo instanceof AngleProperties) && !geo.isGeoList()
+							&& (geo instanceof AngleProperties)
+							&& !geo.isGeoList()
 					|| OptionsModel.isAngleList(geo)) {
 
 				return geo;
@@ -869,15 +812,15 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if the "fix position" button should be fixed for geo
 	 */
-	static public boolean checkSelectedFixPosition(GeoElement geo) {
+	public static boolean checkSelectedFixPosition(GeoElement geo) {
 		if (geo instanceof AbsoluteScreenLocateable && !geo.isGeoList()) {
-			AbsoluteScreenLocateable locateable = (AbsoluteScreenLocateable) geo
-					.getGeoElementForPropertiesDialog();
+			AbsoluteScreenLocateable locateable =
+					(AbsoluteScreenLocateable) geo.getGeoElementForPropertiesDialog();
 			return locateable.isAbsoluteScreenLocActive();
 		}
 
@@ -885,12 +828,12 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if the "fix object" button should be fixed for geo
 	 */
-	static public boolean checkSelectedFixObject(GeoElement geo) {
+	public static boolean checkSelectedFixObject(GeoElement geo) {
 		return geo.isLocked();
 	}
 
@@ -901,16 +844,14 @@ public class EuclidianStyleBarStatic {
 	 *            angle interval index
 	 * @return success
 	 */
-	public static boolean applyAngleInterval(List<GeoElement> geos,
-			int index) {
+	public static boolean applyAngleInterval(List<GeoElement> geos, int index) {
 
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof AngleProperties) {
-				if (((AngleProperties) geo).getAngleStyle()
-						.getXmlVal() != index) {
+				if (((AngleProperties) geo).getAngleStyle().getXmlVal() != index) {
 					((AngleProperties) geo).setAngleStyle(index);
 					geo.updateVisualStyleRepaint(GProperty.ANGLE_INTERVAL);
 					needUndo = true;
@@ -921,7 +862,7 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo giving the label mode
 	 * @param app
@@ -934,38 +875,36 @@ public class EuclidianStyleBarStatic {
 			// check if default geo use default label
 			if (geo.getLabelMode() == GeoElementND.LABEL_DEFAULT) {
 				// label visibility
-				LabelVisibility labelingStyle = app == null
-						? LabelVisibility.UseDefaults
-						: app.getCurrentLabelingStyle();
+				LabelVisibility labelingStyle =
+						app == null ? LabelVisibility.UseDefaults : app.getCurrentLabelingStyle();
 
 				// automatic labelling:
 				// if algebra window open -> all labels
 				// else -> no labels
 
 				switch (labelingStyle) {
-				case AlwaysOn:
-				case UseDefaults:
-				default:
-					if (geo.isGeoNumeric()) {
-						return GeoElementND.LABEL_NAME_VALUE + 1;
-					}
-					return GeoElementND.LABEL_NAME + 1;
-
-				case AlwaysOff:
-					if (geo.isGeoNumeric()) {
+					case AlwaysOn:
+					case UseDefaults:
+					default:
+						if (geo.isGeoNumeric()) {
+							return GeoElementND.LABEL_NAME_VALUE + 1;
+						}
 						return GeoElementND.LABEL_NAME + 1;
-					}
-					return 0;
 
-				case PointsOnly:
-					if (geo.isGeoNumeric()) {
-						return GeoElementND.LABEL_NAME_VALUE + 1;
-					}
-					if (geo.isGeoPoint()) {
-						return GeoElementND.LABEL_NAME + 1;
-					}
-					return 0;
+					case AlwaysOff:
+						if (geo.isGeoNumeric()) {
+							return GeoElementND.LABEL_NAME + 1;
+						}
+						return 0;
 
+					case PointsOnly:
+						if (geo.isGeoNumeric()) {
+							return GeoElementND.LABEL_NAME_VALUE + 1;
+						}
+						if (geo.isGeoPoint()) {
+							return GeoElementND.LABEL_NAME + 1;
+						}
+						return 0;
 				}
 			}
 
@@ -976,7 +915,6 @@ public class EuclidianStyleBarStatic {
 
 			// shift for GeoElement.LABEL_DEFAULT_NAME, etc.
 			return geo.getLabelMode() - 4;
-
 		}
 
 		if (!geo.getLabelVisible()) {
@@ -985,5 +923,4 @@ public class EuclidianStyleBarStatic {
 
 		return geo.getLabelMode() + 1;
 	}
-
 }

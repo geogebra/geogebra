@@ -28,7 +28,7 @@ import org.geogebra.common.main.MyError;
 public class CmdName extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -42,18 +42,17 @@ public class CmdName extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
-			// Name[ <GeoElement> ]
-			arg = resArgs(c, info);
+			case 1:
+				// Name[ <GeoElement> ]
+				arg = resArgs(c, info);
 
-			AlgoName algo = new AlgoName(cons, c.getLabel(), arg[0]);
+				AlgoName algo = new AlgoName(cons, c.getLabel(), arg[0]);
 
-			GeoElement[] ret = { algo.getGeoText() };
-			return ret;
+				GeoElement[] ret = {algo.getGeoText()};
+				return ret;
 
-		default:
-			throw argNumErr(c);
+			default:
+				throw argNumErr(c);
 		}
 	}
-
 }

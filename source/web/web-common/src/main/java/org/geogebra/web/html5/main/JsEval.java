@@ -27,14 +27,13 @@ import jsinterop.base.JsPropertyMap;
 
 public class JsEval {
 	/**
-	 * 
+	 *
 	 * @param script
 	 *            script to execute
 	 * @param api
 	 *            applet API
 	 */
-	public static void evalScriptNative(String script,
-			GgbAPI api) {
+	public static void evalScriptNative(String script, GgbAPI api) {
 		JsPropertyMap<Object> wnd = JsObject.of(DomGlobal.window);
 		Object oldAlert = wnd.get("alert");
 		wnd.set("alert", (JsConsumer<String>) api::showTooltip);

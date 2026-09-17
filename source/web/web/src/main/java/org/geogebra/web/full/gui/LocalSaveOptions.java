@@ -56,10 +56,8 @@ public final class LocalSaveOptions {
 
 	private String getSuggestedName() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
-		return (StringUtil.empty(consTitle)
-				? app.getLocalization().getMenu("Untitled")
-				: consTitle
-		) + mimeType.dotExtension();
+		return (StringUtil.empty(consTitle) ? app.getLocalization().getMenu("Untitled") : consTitle)
+				+ mimeType.dotExtension();
 	}
 
 	private JsArray<Object> getAcceptedMimeTypes() {
@@ -70,5 +68,4 @@ public final class LocalSaveOptions {
 		types.set("accept", mimeTypes);
 		return JsArray.of(types);
 	}
-
 }

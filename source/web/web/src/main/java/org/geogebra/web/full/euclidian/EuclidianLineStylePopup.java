@@ -35,8 +35,7 @@ public final class EuclidianLineStylePopup extends LineStylePopup {
 	 *            application
 	 */
 	public EuclidianLineStylePopup(AppW app) {
-		super(app, LineStylePopup.getLineStyleIcons(), -1, 5,
-				SelectionTable.MODE_ICON, true, true);
+		super(app, LineStylePopup.getLineStyleIcons(), -1, 5, SelectionTable.MODE_ICON, true, true);
 		model = new LineStyleModel(app);
 		this.setKeepVisible(false);
 	}

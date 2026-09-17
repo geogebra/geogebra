@@ -47,14 +47,13 @@ public class SymbolicUtil {
 		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
 		return topLevelCommand != null
 				&& (Commands.Solve.getCommand().equals(topLevelCommand.getName())
-				|| Commands.NSolve.getCommand().equals(topLevelCommand.getName()));
+						|| Commands.NSolve.getCommand().equals(topLevelCommand.getName()));
 	}
 
 	private static boolean isNumericOfSolve(GeoSymbolic symbolic) {
 		ExpressionNode definition = symbolic.getDefinition();
 		if (definition.getLeft() instanceof Command
-				&& Commands.Numeric.getCommand()
-				.equals(((Command) definition.getLeft()).getName())) {
+				&& Commands.Numeric.getCommand().equals(((Command) definition.getLeft()).getName())) {
 			Command firstCommand = (Command) definition.getLeft();
 			if (firstCommand.getArgumentNumber() > 0
 					&& firstCommand.getArgument(0).getLeft() instanceof Command) {
@@ -78,7 +77,8 @@ public class SymbolicUtil {
 		String textOriginal = getValueString(symbolic);
 		String textOpposite = getValueString(opposite);
 
-		return !containsUndefinedOrIsEmpty(symbolic) && !containsUndefinedOrIsEmpty(opposite)
+		return !containsUndefinedOrIsEmpty(symbolic)
+				&& !containsUndefinedOrIsEmpty(opposite)
 				&& !textOriginal.equals(textOpposite);
 	}
 
@@ -102,8 +102,7 @@ public class SymbolicUtil {
 		}
 
 		// Return true for empty list
-		if (v instanceof MyList
-				&& ((MyList) v).size() == 0) {
+		if (v instanceof MyList && ((MyList) v).size() == 0) {
 			return true;
 		}
 
@@ -116,8 +115,8 @@ public class SymbolicUtil {
 	}
 
 	private static GeoSymbolic getOpposite(GeoSymbolic symbolic) {
-		GeoSymbolic opposite = new GeoSymbolic(symbolic.getConstruction(),
-				symbolic.getDefinition().deepCopy(symbolic.getKernel()));
+		GeoSymbolic opposite = new GeoSymbolic(
+				symbolic.getConstruction(), symbolic.getDefinition().deepCopy(symbolic.getKernel()));
 		toggleNumericSolve(opposite);
 		return opposite;
 	}
@@ -155,11 +154,11 @@ public class SymbolicUtil {
 	public static void toggleNumericSolve(GeoSymbolic symbolic) {
 		Command topLevelCommand = symbolic.getDefinition().getTopLevelCommand();
 		boolean isNSolve = Commands.NSolve.getCommand().equals(topLevelCommand.getName());
-		Commands opposite = isNSolve
-				? Commands.Solve : Commands.NSolve;
+		Commands opposite = isNSolve ? Commands.Solve : Commands.NSolve;
 
 		topLevelCommand.setName(opposite.getCommand());
-		if (isNSolve && topLevelCommand.getArgumentNumber() == 2
+		if (isNSolve
+				&& topLevelCommand.getArgumentNumber() == 2
 				&& topLevelCommand.getArgument(1).unwrap() instanceof Equation) {
 			ExpressionNode eqn = topLevelCommand.removeLastArgument();
 			symbolic.setExcludedEquation(eqn);
@@ -170,8 +169,7 @@ public class SymbolicUtil {
 	}
 
 	private static void toggleNumericWrap(GeoSymbolic symbolic) {
-		boolean isNumeric = symbolic.getDefinition()
-				.isTopLevelCommand(Commands.Numeric.getCommand());
+		boolean isNumeric = symbolic.getDefinition().isTopLevelCommand(Commands.Numeric.getCommand());
 		if (isNumeric) {
 			unwrapFromNumeric(symbolic);
 		} else {
@@ -214,7 +212,6 @@ public class SymbolicUtil {
 
 			geo.updateRepaint();
 			return hasSymbolicGeo.isSymbolicMode();
-
 		}
 		return false;
 	}
@@ -258,8 +255,7 @@ public class SymbolicUtil {
 	 * @return Whether the element has the engineering notation mode activated
 	 */
 	public static boolean isEngineeringNotationMode(GeoElement geo) {
-		return geo instanceof HasSymbolicMode
-				&& ((HasSymbolicMode) geo).isEngineeringNotationMode();
+		return geo instanceof HasSymbolicMode && ((HasSymbolicMode) geo).isEngineeringNotationMode();
 	}
 
 	/**
@@ -267,7 +263,8 @@ public class SymbolicUtil {
 	 * @return true if numeric approximation should be calculated
 	 */
 	public static boolean shouldComputeNumericValue(ExpressionValue expression) {
-		if (expression != null && expression.isNumberValue()
+		if (expression != null
+				&& expression.isNumberValue()
 				&& !(expression.unwrap() instanceof BooleanValue)) {
 			ExpressionValue unwrapped = expression.unwrap();
 			if (expression.wrap().containsGeoDummyVariable()) {

@@ -24,11 +24,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Length of a GeoList object.
- * 
+ *
  * @author Markus Hohenwarter
  * @version 15-07-2007
  */
-
 public class AlgoListLength extends AlgoElement {
 
 	private GeoList geoList; // input
@@ -76,5 +75,4 @@ public class AlgoListLength extends AlgoElement {
 			length.setUndefined();
 		}
 	}
-
 }

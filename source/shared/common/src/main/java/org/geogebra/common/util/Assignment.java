@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.Kernel;
 
 /**
  * @author Christoph
- * 
+ *
  */
 public abstract class Assignment {
 
@@ -82,8 +82,8 @@ public abstract class Assignment {
 	protected Kernel kernel;
 
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @param kernel
 	 *            Kernel
 	 */
@@ -96,7 +96,7 @@ public abstract class Assignment {
 
 	/**
 	 * Exhaustive Testing of the Assignment
-	 * 
+	 *
 	 * @return {@link Result} of the check
 	 */
 	public abstract Result checkAssignment();
@@ -105,7 +105,7 @@ public abstract class Assignment {
 	 * Get the fraction for the current state of the assignment. Don't forget to
 	 * call checkAssignment() or checkExercise() prior to getFraction() if you
 	 * want to update the Result.
-	 * 
+	 *
 	 * @return the fraction for the current state of the assignment;
 	 *         if the user specified a fraction it will be returned otherwise 1
 	 *         for Result.CORRECT 0 else
@@ -122,7 +122,7 @@ public abstract class Assignment {
 
 	/**
 	 * Gives the hint for the actual state for this {@link GeoAssignment}
-	 * 
+	 *
 	 * @return the hint for current {@link Result}
 	 */
 	public String getHint() {
@@ -183,7 +183,7 @@ public abstract class Assignment {
 
 	/**
 	 * Sets the Hint for a particular Result.
-	 * 
+	 *
 	 * @param res
 	 *            the {@link Result}
 	 * @param hint
@@ -210,7 +210,7 @@ public abstract class Assignment {
 	/**
 	 * Not all {@link Result}s might be suitable for a specific type of
 	 * Assignment
-	 * 
+	 *
 	 * @return the the Results which are meaningful for the type of Assignment
 	 */
 	public abstract Result[] possibleResults();
@@ -229,7 +229,7 @@ public abstract class Assignment {
 
 	/**
 	 * If construction changes the assignment may become invalid
-	 * 
+	 *
 	 * @return true if the assignment is valid
 	 */
 	public abstract boolean isValid();

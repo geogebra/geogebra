@@ -150,22 +150,22 @@ public interface AppConfig extends Restrictable, Serializable {
 	boolean isEnableStructures();
 
 	/**
-	 * 
+	 *
 	 * @return the toolbar type of the current app.
 	 */
 	AppType getToolbarType();
 
-    /**
-     *
-     * @return true if grid is shown at start on the active (main) euclidian view
-     */
+	/**
+	 *
+	 * @return true if grid is shown at start on the active (main) euclidian view
+	 */
 	boolean showGridOnFileNew();
 
-    /**
-     *
-     * @return true if axes are shown at start on the active (main) euclidian view
-     */
-    boolean showAxesOnFileNew();
+	/**
+	 *
+	 * @return true if axes are shown at start on the active (main) euclidian view
+	 */
+	boolean showAxesOnFileNew();
 
 	/**
 	 * @return whether table view is available

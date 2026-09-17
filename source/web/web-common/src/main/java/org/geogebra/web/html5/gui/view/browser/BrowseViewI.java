@@ -79,5 +79,4 @@ public interface BrowseViewI {
 	 * @param callback called after saving is finished (or canceled)
 	 */
 	void closeAndSave(AsyncOperation<Boolean> callback);
-
 }

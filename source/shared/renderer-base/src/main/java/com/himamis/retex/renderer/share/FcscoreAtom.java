@@ -62,8 +62,7 @@ public class FcscoreAtom extends Atom implements HasCharacter {
 	public Box createBox(TeXEnvironment env) {
 		final double factor = 12 * Unit.MU.getFactor(env);
 
-		return new FcscoreBox(N == 5 ? 4 : N, factor * 1., factor * 0.07,
-				factor * 0.125, N == 5);
+		return new FcscoreBox(N == 5 ? 4 : N, factor * 1., factor * 0.07, factor * 0.125, N == 5);
 	}
 
 	public static Atom get(final int n) {

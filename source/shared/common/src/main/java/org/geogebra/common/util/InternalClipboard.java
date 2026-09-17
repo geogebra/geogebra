@@ -8,7 +8,7 @@
  * and the Appendix of EUPL 1.2 for details).
  * You may obtain a copy of the licence at:
  * https://interoperable-europe.ec.europa.eu/collection/eupl/eupl-text-eupl-12
- * 
+ *
  * Note: The overall GeoGebra software package is free to use for
  * non-commercial purposes only.
  * See https://www.geogebra.org/license for full licensing details
@@ -78,8 +78,7 @@ public class InternalClipboard {
 
 		// create geosLocal and geosToHide
 		ArrayList<ConstructionElement> geosLocal = new ArrayList<>();
-		HashSet<Group> selectedGroups = new HashSet<>(app
-				.getSelectionManager().getSelectedGroups());
+		HashSet<Group> selectedGroups = new HashSet<>(app.getSelectionManager().getSelectedGroups());
 		for (GeoElement geo : geos) {
 			if (!(geo instanceof GeoEmbed && ((GeoEmbed) geo).isGraspableMath())) {
 				geosLocal.add(geo);
@@ -193,8 +192,7 @@ public class InternalClipboard {
 				if (consElements.containsAll(ac) && !consElements.contains(ale)) {
 					consElements.add(ale);
 					for (GeoElement geoElement : ale.getOutput()) {
-						if (!ret.contains(geoElement)
-								&& !consElements.contains(geoElement)) {
+						if (!ret.contains(geoElement) && !consElements.contains(geoElement)) {
 							ret.add(geoElement);
 						}
 					}
@@ -213,8 +211,8 @@ public class InternalClipboard {
 	 * were actually hidden...
 	 * @param consElements construction elements
 	 */
-	private static void beforeSavingToXML(ArrayList<ConstructionElement> consElements,
-			ArrayList<ConstructionElement> geosToHide) {
+	private static void beforeSavingToXML(
+			ArrayList<ConstructionElement> consElements, ArrayList<ConstructionElement> geosToHide) {
 
 		copiedXmlLabels.clear();
 
@@ -247,8 +245,8 @@ public class InternalClipboard {
 	 * labels and also show the GeoElements in geosToShow
 	 * @param consElements construction elements
 	 */
-	private static void afterSavingToXML(ArrayList<ConstructionElement> consElements,
-			ArrayList<ConstructionElement> geosToShow) {
+	private static void afterSavingToXML(
+			ArrayList<ConstructionElement> consElements, ArrayList<ConstructionElement> geosToShow) {
 
 		ConstructionElement geo;
 		String label;
@@ -259,8 +257,7 @@ public class InternalClipboard {
 				if (label != null && label.length() >= CopyPaste.labelPrefix.length()) {
 					if (label.startsWith(CopyPaste.labelPrefix)) {
 						try {
-							((GeoElement) geo).setLabelSimple(
-									label.substring(CopyPaste.labelPrefix.length()));
+							((GeoElement) geo).setLabelSimple(label.substring(CopyPaste.labelPrefix.length()));
 						} catch (Exception e) {
 							Log.debug(e);
 						}
@@ -277,8 +274,11 @@ public class InternalClipboard {
 		}
 	}
 
-	private static void print(StringBuilder textToSave, Map<String, String> copiedImages,
-			String prefix, EscapeFunction fn) {
+	private static void print(
+			StringBuilder textToSave,
+			Map<String, String> copiedImages,
+			String prefix,
+			EscapeFunction fn) {
 		for (Map.Entry<String, String> image : copiedImages.entrySet()) {
 			textToSave.append(prefix);
 			textToSave.append(" ");
@@ -325,8 +325,8 @@ public class InternalClipboard {
 	 * @param copiedXmlLabels labels of copied elements
 	 * @param copiedXml copied XML
 	 */
-	public static void pasteGeoGebraXMLInternal(App app,
-			List<String> copiedXmlLabels, String copiedXml) {
+	public static void pasteGeoGebraXMLInternal(
+			App app, List<String> copiedXmlLabels, String copiedXml) {
 		app.getKernel().notifyPaste(copiedXml);
 
 		// it turned out to be necessary for e.g. handleLabels
@@ -356,13 +356,12 @@ public class InternalClipboard {
 			app.setActiveView(App.VIEW_EUCLIDIAN2);
 		}
 
-		Set<String> duplicateLabels = copiedXmlLabels
-				.stream()
+		Set<String> duplicateLabels = copiedXmlLabels.stream()
 				.map(label -> label.substring(CopyPaste.labelPrefix.length()))
 				.collect(Collectors.toSet());
 
-		ArrayList<GeoElement> createdElements = CopyPaste.handleLabels(
-				app, copiedXmlLabels, duplicateLabels, false);
+		ArrayList<GeoElement> createdElements =
+				CopyPaste.handleLabels(app, copiedXmlLabels, duplicateLabels, false);
 
 		app.setBlockUpdateScripts(scriptsBlocked);
 		app.getActiveEuclidianView().invalidateDrawableList();
@@ -373,10 +372,14 @@ public class InternalClipboard {
 			ArrayList<GeoElement> movable = new ArrayList<>();
 			ArrayList<GeoMindMapNode> mindMaps = new ArrayList<>();
 			for (GeoElement created : createdElements) {
-				if (created.isGeoPolygon() || created instanceof GeoPolyLine
-						|| created.isGeoConic() || created instanceof GeoLocusStroke
-						|| created instanceof GeoWidget || created instanceof GeoImage
-						|| created instanceof GeoInline || created instanceof GeoStadium
+				if (created.isGeoPolygon()
+						|| created instanceof GeoPolyLine
+						|| created.isGeoConic()
+						|| created instanceof GeoLocusStroke
+						|| created instanceof GeoWidget
+						|| created instanceof GeoImage
+						|| created instanceof GeoInline
+						|| created instanceof GeoStadium
 						|| created instanceof GeoCurveCartesian) {
 					shapes.add(created);
 				}
@@ -398,8 +401,10 @@ public class InternalClipboard {
 			double boxCenterX = boundingBoxRectangle.getX() + boundingBoxRectangle.getWidth() / 2;
 			double boxCenterY = boundingBoxRectangle.getY() + boundingBoxRectangle.getHeight() / 2;
 
-			Coords coords = new Coords(ev.getInvXscale() * (viewCenterX - boxCenterX),
-					ev.getInvYscale() * (boxCenterY - viewCenterY), 0);
+			Coords coords = new Coords(
+					ev.getInvXscale() * (viewCenterX - boxCenterX),
+					ev.getInvYscale() * (boxCenterY - viewCenterY),
+					0);
 
 			MoveGeos.moveObjects(movable, coords, null, null, ev);
 			mindMapPaster.joinToTarget(mindMaps);
@@ -414,8 +419,8 @@ public class InternalClipboard {
 
 	private static boolean groupedWithMindMap(GeoElement created) {
 		Group parentGroup = created.getParentGroup();
-		return parentGroup != null && parentGroup.stream()
-				.anyMatch(geo -> geo instanceof GeoMindMapNode);
+		return parentGroup != null
+				&& parentGroup.stream().anyMatch(geo -> geo instanceof GeoMindMapNode);
 	}
 
 	/**

@@ -40,19 +40,20 @@ import com.google.j2objc.annotations.Weak;
  * and register with the application's event dispatcher (via
  * app.getEventDispatcher().addEventListener(...)). It will then obtain events
  * via the sendEvent() method.
- * 
+ *
  * EventDispatcher registers itself as a view so it can listen to most event
  * types and forward them to listeners. Click events are handled differently
  * because they are not part of the View interface (the clicked GeoElement is
  * responsible for relaying the event to the event dispatcher)
- * 
+ *
  * @author arno
- * 
+ *
  */
 public class EventDispatcher implements ClientView {
 
 	@Weak
 	private App app;
+
 	private final List<EventListener> listeners = new ArrayList<>();
 	protected boolean listenersEnabled = true;
 
@@ -69,7 +70,7 @@ public class EventDispatcher implements ClientView {
 
 	/**
 	 * Add a new EventListener object
-	 * 
+	 *
 	 * @param listener
 	 *            the object that wants to receive notifications of events
 	 */
@@ -99,14 +100,13 @@ public class EventDispatcher implements ClientView {
 
 	/**
 	 * Dispatch an event to all registered event listeners
-	 * 
+	 *
 	 * @param evt
 	 *            the event to be dispatched
 	 */
 	public void dispatchEvent(Event evt) {
 		if (listenersEnabled) {
-			boolean affectsSelfGeo = app.getKernel().getConstruction() != null
-					&& evt.target != null;
+			boolean affectsSelfGeo = app.getKernel().getConstruction() != null && evt.target != null;
 			if (affectsSelfGeo) {
 				app.getKernel().getConstruction().setSelfGeo(evt.target);
 			}
@@ -153,7 +153,7 @@ public class EventDispatcher implements ClientView {
 
 	/**
 	 * Convenience method for dispatching an event
-	 * 
+	 *
 	 * @param evtType
 	 *            the type of the event
 	 * @param geo
@@ -170,7 +170,7 @@ public class EventDispatcher implements ClientView {
 
 	/**
 	 * Convenience method for dispatching an event
-	 * 
+	 *
 	 * @param evtType
 	 *            the type of the event
 	 * @param geo
@@ -265,7 +265,6 @@ public class EventDispatcher implements ClientView {
 	@Override
 	public void setMode(int mode, ModeSetter m) {
 		this.dispatchEvent(new Event(EventType.SET_MODE, null, mode + ""));
-
 	}
 
 	@Override
@@ -366,7 +365,7 @@ public class EventDispatcher implements ClientView {
 				updated.addAll(Arrays.asList(algo.getOutput()));
 			}
 		}
-		for (GeoElement el: updated) {
+		for (GeoElement el : updated) {
 			if (el.isLabelSet()) {
 				dispatchEvent(new Event(EventType.UPDATE, el));
 			}
@@ -378,7 +377,7 @@ public class EventDispatcher implements ClientView {
 	 */
 	public List<ScriptType> availableTypes() {
 		return Arrays.stream(ScriptType.values())
-				.filter(t -> !disabledScriptTypes.contains(t)).collect(Collectors.toList());
+				.filter(t -> !disabledScriptTypes.contains(t))
+				.collect(Collectors.toList());
 	}
-
 }

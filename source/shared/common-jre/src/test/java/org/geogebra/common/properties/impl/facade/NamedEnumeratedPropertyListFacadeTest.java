@@ -36,16 +36,22 @@ class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 	@Test
 	void getValuesAndIndicesMatchForElementsWithSameValues() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty property1 = new ScriptEventSelectionProperty(
-				getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
-		ScriptEventSelectionProperty property2 = new ScriptEventSelectionProperty(
-				getLocalization(), evaluateGeoElement("B = (3, 4)"), true);
+		ScriptEventSelectionProperty property1 =
+				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
+		ScriptEventSelectionProperty property2 =
+				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("B = (3, 4)"), true);
 		NamedEnumeratedPropertyListFacade<ScriptEventSelectionProperty, ScriptEvent> facade =
 				new NamedEnumeratedPropertyListFacade<>(List.of(property1, property2));
 
-		assertIterableEquals(List.of(ScriptEvent.OnClick, ScriptEvent.OnUpdate,
-				ScriptEvent.OnDragEnd, ScriptEvent.GlobalJavascript), facade.getValues());
-		assertArrayEquals(new String[]{"OnClick", "OnUpdate", "OnDragEnd", "GlobalJavaScript"},
+		assertIterableEquals(
+				List.of(
+						ScriptEvent.OnClick,
+						ScriptEvent.OnUpdate,
+						ScriptEvent.OnDragEnd,
+						ScriptEvent.GlobalJavascript),
+				facade.getValues());
+		assertArrayEquals(
+				new String[] {"OnClick", "OnUpdate", "OnDragEnd", "GlobalJavaScript"},
 				facade.getValueNames());
 		assertEquals(0, facade.getIndex());
 
@@ -59,17 +65,18 @@ class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 	@Test
 	void getValuesAndIndicesMatchForElementsWithPartialOverlap() {
 		setupApp(SuiteSubApp.GRAPHING);
-		ScriptEventSelectionProperty pointProperty = new ScriptEventSelectionProperty(
-				getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
+		ScriptEventSelectionProperty pointProperty =
+				new ScriptEventSelectionProperty(getLocalization(), evaluateGeoElement("A = (1, 2)"), true);
 		ScriptEventSelectionProperty sliderProperty = new ScriptEventSelectionProperty(
 				getLocalization(), evaluateGeoElement("a = Slider(-5, 5, 1)"), true);
 		NamedEnumeratedPropertyListFacade<ScriptEventSelectionProperty, ScriptEvent> facade =
 				new NamedEnumeratedPropertyListFacade<>(List.of(pointProperty, sliderProperty));
 
-		assertIterableEquals(List.of(ScriptEvent.OnUpdate, ScriptEvent.OnDragEnd,
-				ScriptEvent.GlobalJavascript), facade.getValues());
-		assertArrayEquals(new String[]{"OnUpdate", "OnDragEnd", "GlobalJavaScript"},
-				facade.getValueNames());
+		assertIterableEquals(
+				List.of(ScriptEvent.OnUpdate, ScriptEvent.OnDragEnd, ScriptEvent.GlobalJavascript),
+				facade.getValues());
+		assertArrayEquals(
+				new String[] {"OnUpdate", "OnDragEnd", "GlobalJavaScript"}, facade.getValueNames());
 		assertEquals(-1, facade.getIndex());
 
 		facade.setIndex(0);
@@ -90,11 +97,8 @@ class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 		setupApp(SuiteSubApp.GRAPHING);
 		NamedEnumeratedPropertyListFacade<TestNamedEnumeratedProperty, String> facade =
 				new NamedEnumeratedPropertyListFacade<>(List.of(
-						new TestNamedEnumeratedProperty(getLocalization(),
-								List.of("_one", "_two")),
-						new TestNamedEnumeratedProperty(getLocalization(),
-								List.of("_three", "_four"))
-				));
+						new TestNamedEnumeratedProperty(getLocalization(), List.of("_one", "_two")),
+						new TestNamedEnumeratedProperty(getLocalization(), List.of("_three", "_four"))));
 
 		assertIterableEquals(List.of(), facade.getValues());
 		assertArrayEquals(new String[0], facade.getValueNames());
@@ -108,7 +112,8 @@ class NamedEnumeratedPropertyListFacadeTest extends BaseAppTestSetup {
 
 		TestNamedEnumeratedProperty(Localization localization, List<String> values) {
 			super(localization, "Test");
-			setNamedValues(values.stream().map(valueName -> entry(valueName, valueName)).toList());
+			setNamedValues(
+					values.stream().map(valueName -> entry(valueName, valueName)).toList());
 			value = values.get(0);
 		}
 
